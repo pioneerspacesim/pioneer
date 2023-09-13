@@ -13,6 +13,10 @@ public:
 };
 
 class StarSystemLegacyGeneratorBase : public StarSystemGeneratorStage {
+public:
+	static void PickAtmosphere(SystemBody *sbody);
+	static void PickRings(SystemBodyData *sbody, bool forceRings = false);
+
 protected:
 	struct StarTypeInfo {
 		int mass[2]; // min,max % sol for stars, unused for planets
@@ -22,8 +26,6 @@ protected:
 	static const fixed starMetallicities[];
 	static const StarTypeInfo starTypeInfo[];
 
-	void PickAtmosphere(SystemBody *sbody);
-	void PickRings(SystemBody *sbody, bool forceRings = false);
 	fixedf<48> CalcHillRadius(SystemBody *sbody) const;
 };
 

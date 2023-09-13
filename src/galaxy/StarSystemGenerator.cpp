@@ -274,7 +274,6 @@ void StarSystemLegacyGeneratorBase::PickAtmosphere(SystemBody *sbody)
 		} else {
 			sbody->m_atmosColor = Color::BLANK;
 		}
-		sbody->m_atmosDensity = sbody->GetVolatileGas();
 		//Output("| Atmosphere :\n|      red   : [%f] \n|      green : [%f] \n|      blue  : [%f] \n", r, g, b);
 		//Output("-------------------------------\n");
 		break;
@@ -293,7 +292,7 @@ static const unsigned char RANDOM_RING_COLORS[][4] = {
 	{ 207, 122, 98, 217 }	// brown dwarf-like
 };
 
-void StarSystemLegacyGeneratorBase::PickRings(SystemBody *sbody, bool forceRings)
+void StarSystemLegacyGeneratorBase::PickRings(SystemBodyData *sbody, bool forceRings)
 {
 	sbody->m_rings.minRadius = fixed();
 	sbody->m_rings.maxRadius = fixed();
@@ -301,16 +300,16 @@ void StarSystemLegacyGeneratorBase::PickRings(SystemBody *sbody, bool forceRings
 
 	bool bHasRings = forceRings;
 	if (!bHasRings) {
-		Random ringRng(sbody->GetSeed() + 965467);
+		Random ringRng(sbody->m_seed + 965467);
 		// today's forecast:
-		if (sbody->GetType() == SystemBody::TYPE_PLANET_GAS_GIANT) {
+		if (sbody->m_type == SystemBody::TYPE_PLANET_GAS_GIANT) {
 			// 50% chance of rings
 			bHasRings = ringRng.Double() < 0.5;
-		} else if (sbody->GetType() == SystemBody::TYPE_PLANET_TERRESTRIAL) {
+		} else if (sbody->m_type == SystemBody::TYPE_PLANET_TERRESTRIAL) {
 			// 10% chance of rings
 			bHasRings = ringRng.Double() < 0.1;
 		}
-		/*else if (sbody->GetType() == SystemBody::TYPE_PLANET_ASTEROID)
+		/*else if (sbody->m_type == SystemBody::TYPE_PLANET_ASTEROID)
 		{
 			// 1:10 (10%) chance of rings
 			bHasRings = ringRng.Double() < 0.1;
@@ -318,7 +317,7 @@ void StarSystemLegacyGeneratorBase::PickRings(SystemBody *sbody, bool forceRings
 	}
 
 	if (bHasRings) {
-		Random ringRng(sbody->GetSeed() + 965467);
+		Random ringRng(sbody->m_seed + 965467);
 
 		// today's forecast: 50% chance of rings
 		double rings_die = ringRng.Double();
@@ -390,59 +389,24 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 	// replaces gravpoint mass by sum of masses of its children
 	// the code goes here to cover also planetary gravpoints (gravpoints that are not rootBody)
 	if (parent->GetType() == SystemBody::TYPE_GRAVPOINT) {
-		fixed mass(0);
-
-		for (std::vector<CustomSystemBody *>::const_iterator i = children.begin(); i != children.end(); ++i) {
-			const CustomSystemBody *csbody = *i;
-
-			if (csbody->type >= SystemBody::TYPE_STAR_MIN && csbody->type <= SystemBody::TYPE_STAR_MAX)
-				mass += csbody->mass;
-			else
-				mass += csbody->mass / SUN_MASS_TO_EARTH_MASS;
-		}
-
-		parent->m_mass = mass;
+		parent->m_mass = fixed(0);
 	}
 
 	for (std::vector<CustomSystemBody *>::const_iterator i = children.begin(); i != children.end(); ++i) {
 		const CustomSystemBody *csbody = *i;
 
 		SystemBody *kid = system->NewBody();
-		kid->m_type = csbody->type;
 		kid->m_parent = parent;
-		kid->m_seed = csbody->seed;
-		kid->m_radius = csbody->radius;
-		kid->m_aspectRatio = csbody->aspectRatio;
-		kid->m_averageTemp = csbody->averageTemp;
-		kid->m_name = csbody->name;
 		kid->m_isCustomBody = true;
 
-		kid->m_mass = csbody->mass;
-		// obsolete adjustment, probably existed because of denominator precision problems, see LuaFixed.cpp
-		//		if (kid->GetType() == SystemBody::TYPE_PLANET_ASTEROID) kid->m_mass /= 100000;
+		*kid = csbody->bodyData;
 
-		kid->m_metallicity = csbody->metallicity;
-		//multiple of Earth's surface density
-		kid->m_volatileGas = csbody->volatileGas; // * fixed(1225, 1000); // XXX breaks round-trip from custom system definitions
-		kid->m_volatileLiquid = csbody->volatileLiquid;
-		kid->m_volatileIces = csbody->volatileIces;
-		kid->m_volcanicity = csbody->volcanicity;
-		kid->m_atmosOxidizing = csbody->atmosOxidizing;
-		kid->m_life = csbody->life;
-		kid->m_space_station_type = csbody->spaceStationType;
-		kid->m_rotationPeriod = csbody->rotationPeriod;
-		kid->m_rotationalPhaseAtStart = csbody->rotationalPhaseAtStart;
-		kid->m_eccentricity = csbody->eccentricity;
-		kid->m_orbitalOffset = csbody->orbitalOffset;
-		kid->m_orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
-		kid->m_argOfPeriapsis = csbody->argOfPeriapsis;
-		kid->m_axialTilt = csbody->axialTilt;
-		kid->m_inclination = csbody->inclination;
-		kid->m_semiMajorAxis = csbody->semiMajorAxis;
-
-		if (csbody->heightMapFilename.length() > 0) {
-			kid->m_heightMapFilename = csbody->heightMapFilename;
-			kid->m_heightMapFractal = csbody->heightMapFractal;
+		// parent gravpoint mass = sum of masses of its children
+		if (parent->GetType() == SystemBody::TYPE_GRAVPOINT) {
+			if (kid->m_type >= SystemBody::TYPE_STAR_MIN && kid->m_type <= SystemBody::TYPE_STAR_MAX)
+				parent->m_mass += kid->m_mass;
+			else
+				parent->m_mass += kid->m_mass / SUN_MASS_TO_EARTH_MASS;
 		}
 
 		kid->SetOrbitFromParameters();
@@ -452,11 +416,11 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 			if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
 				fixed lowestOrbit = fixed().FromDouble(parent->CalcAtmosphereParams().atmosRadius + 500000.0 / EARTH_RADIUS);
 				if (kid->GetOrbit().GetSemiMajorAxis() < lowestOrbit.ToDouble()) {
-					Error("%s's orbit is too close to its parent (%.2f/%.2f)", csbody->name.c_str(), kid->GetOrbit().GetSemiMajorAxis(), lowestOrbit.ToFloat());
+					Error("%s's orbit is too close to its parent (%.2f/%.2f)", kid->m_name.c_str(), kid->GetOrbit().GetSemiMajorAxis(), lowestOrbit.ToFloat());
 				}
 			} else {
 				if (kid->GetOrbit().GetSemiMajorAxis() < 1.2 * parent->GetRadius()) {
-					Error("%s's orbit is too close to its parent", csbody->name.c_str());
+					Error("%s's orbit is too close to its parent", kid->m_name.c_str());
 				}
 			}
 		}
@@ -468,25 +432,6 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		parent->m_children.push_back(kid);
 
 		PickAtmosphere(kid);
-
-		// pick or specify rings
-		switch (csbody->ringStatus) {
-		case CustomSystemBody::WANT_NO_RINGS:
-			kid->m_rings.minRadius = fixed();
-			kid->m_rings.maxRadius = fixed();
-			break;
-		case CustomSystemBody::WANT_RINGS:
-			PickRings(kid, true);
-			break;
-		case CustomSystemBody::WANT_RANDOM_RINGS:
-			PickRings(kid, false);
-			break;
-		case CustomSystemBody::WANT_CUSTOM_RINGS:
-			kid->m_rings.minRadius = csbody->ringInnerRadius;
-			kid->m_rings.maxRadius = csbody->ringOuterRadius;
-			kid->m_rings.baseColor = csbody->ringColor;
-			break;
-		}
 
 		CustomGetKidsOf(system, kid, csbody->children, outHumanInfestedness);
 	}
@@ -513,20 +458,14 @@ bool StarSystemCustomGenerator::ApplyToSystem(Random &rng, RefCountedPtr<StarSys
 		return false;
 
 	system->SetCustom(true, true);
+
 	const CustomSystemBody *csbody = customSys->sBody;
+
 	SystemBody *rootBody = system->NewBody();
-	rootBody->m_type = csbody->type;
+	*rootBody = csbody->bodyData;
 	rootBody->m_parent = 0;
-	rootBody->m_seed = csbody->seed;
-	rootBody->m_radius = csbody->radius;
-	rootBody->m_aspectRatio = csbody->aspectRatio;
-	rootBody->m_mass = csbody->mass;
-	rootBody->m_averageTemp = csbody->averageTemp;
-	rootBody->m_name = csbody->name;
 	rootBody->m_isCustomBody = true;
 
-	rootBody->m_rotationalPhaseAtStart = csbody->rotationalPhaseAtStart;
-	rootBody->m_orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
 	system->SetRootBody(rootBody);
 
 	int humanInfestedness = 0;
@@ -539,6 +478,7 @@ bool StarSystemCustomGenerator::ApplyToSystem(Random &rng, RefCountedPtr<StarSys
 		}
 	}
 
+	(void) countedStars;
 	assert(countedStars == system->GetNumStars());
 	return true;
 }

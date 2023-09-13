@@ -15,6 +15,7 @@
 #include "FileSystem.h"
 #include "Polit.h"
 #include "core/Log.h"
+#include "galaxy/StarSystemGenerator.h"
 #include "galaxy/SystemBody.h"
 #include "lua/LuaConstants.h"
 #include "lua/LuaFixed.h"
@@ -61,8 +62,8 @@ static int l_csb_new(lua_State *L)
 	*csbptr = new CustomSystemBody;
 	luaL_setmetatable(L, LuaCustomSystemBody_TypeName);
 
-	(*csbptr)->name = name;
-	(*csbptr)->type = static_cast<SystemBody::BodyType>(type);
+	(*csbptr)->bodyData.m_name = name;
+	(*csbptr)->bodyData.m_type = static_cast<SystemBody::BodyType>(type);
 
 	return 1;
 }
@@ -84,18 +85,19 @@ static double *getDoubleOrFixed(lua_State *L, int which)
 }
 
 // Used when the value MUST not be NEGATIVE but can be Zero, for life, etc
-#define CSB_FIELD_SETTER_FIXED(luaname, fieldname)                                                                                        \
-	static int l_csb_##luaname(lua_State *L)                                                                                              \
-	{                                                                                                                                     \
-		CustomSystemBody *csb = l_csb_check(L, 1);                                                                                        \
-		double *value = getDoubleOrFixed(L, 2);                                                                                           \
-		if (value == nullptr)                                                                                                             \
-			return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2));                                   \
-		if (*value < 0.0)                                                                                                                 \
-			Output("Error: Custom system definition: Value cannot be negative (%lf) for %s : %s\n", *value, csb->name.c_str(), #luaname); \
-		csb->fieldname = fixed::FromDouble(*value);                                                                                       \
-		lua_settop(L, 1);                                                                                                                 \
-		return 1;                                                                                                                         \
+#define CSB_FIELD_SETTER_FIXED(luaname, fieldname)                                                      \
+	static int l_csb_##luaname(lua_State *L)                                                            \
+	{                                                                                                   \
+		CustomSystemBody *csb = l_csb_check(L, 1);                                                      \
+		double *value = getDoubleOrFixed(L, 2);                                                         \
+		if (value == nullptr)                                                                           \
+			return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2)); \
+		if (*value < 0.0)                                                                               \
+			Output("Error: Custom system definition: Value cannot be negative (%lf) for %s : %s\n",     \
+				*value, csb->bodyData.m_name.c_str(), #luaname);                                        \
+		csb->fieldname = fixed::FromDouble(*value);                                                     \
+		lua_settop(L, 1);                                                                               \
+		return 1;                                                                                       \
 	}
 
 #define CSB_FIELD_SETTER_REAL(luaname, fieldname)  \
@@ -128,22 +130,22 @@ static double *getDoubleOrFixed(lua_State *L, int which)
 		return 1;                                   \
 	}
 
-CSB_FIELD_SETTER_FIXED(radius, radius)
-CSB_FIELD_SETTER_FIXED(mass, mass)
-CSB_FIELD_SETTER_INT(temp, averageTemp)
-CSB_FIELD_SETTER_FIXED(semi_major_axis, semiMajorAxis)
-CSB_FIELD_SETTER_FIXED(eccentricity, eccentricity)
-CSB_FIELD_SETTER_FIXED(inclination, inclination)
-CSB_FIELD_SETTER_FIXED(rotation_period, rotationPeriod)
-CSB_FIELD_SETTER_FIXED(axial_tilt, axialTilt)
-CSB_FIELD_SETTER_FIXED(metallicity, metallicity)
-CSB_FIELD_SETTER_FIXED(volcanicity, volcanicity)
-CSB_FIELD_SETTER_FIXED(atmos_density, volatileGas)
-CSB_FIELD_SETTER_FIXED(atmos_oxidizing, atmosOxidizing)
-CSB_FIELD_SETTER_FIXED(ocean_cover, volatileLiquid)
-CSB_FIELD_SETTER_FIXED(ice_cover, volatileIces)
-CSB_FIELD_SETTER_FIXED(life, life)
-CSB_FIELD_SETTER_STRING(space_station_type, spaceStationType)
+CSB_FIELD_SETTER_FIXED(radius, bodyData.m_radius)
+CSB_FIELD_SETTER_FIXED(mass, bodyData.m_mass)
+CSB_FIELD_SETTER_INT(temp, bodyData.m_averageTemp)
+CSB_FIELD_SETTER_FIXED(semi_major_axis, bodyData.m_semiMajorAxis)
+CSB_FIELD_SETTER_FIXED(eccentricity, bodyData.m_eccentricity)
+CSB_FIELD_SETTER_FIXED(inclination, bodyData.m_inclination)
+CSB_FIELD_SETTER_FIXED(rotation_period, bodyData.m_rotationPeriod)
+CSB_FIELD_SETTER_FIXED(axial_tilt, bodyData.m_axialTilt)
+CSB_FIELD_SETTER_FIXED(metallicity, bodyData.m_metallicity)
+CSB_FIELD_SETTER_FIXED(volcanicity, bodyData.m_volcanicity)
+CSB_FIELD_SETTER_FIXED(atmos_density, bodyData.m_volatileGas)
+CSB_FIELD_SETTER_FIXED(atmos_oxidizing, bodyData.m_atmosOxidizing)
+CSB_FIELD_SETTER_FIXED(ocean_cover, bodyData.m_volatileLiquid)
+CSB_FIELD_SETTER_FIXED(ice_cover, bodyData.m_volatileIces)
+CSB_FIELD_SETTER_FIXED(life, bodyData.m_life)
+CSB_FIELD_SETTER_STRING(space_station_type, bodyData.m_spaceStationType)
 
 #undef CSB_FIELD_SETTER_FIXED
 #undef CSB_FIELD_SETTER_FLOAT
@@ -154,7 +156,7 @@ static int l_csb_radius_km(lua_State *L)
 	CustomSystemBody *csb = l_csb_check(L, 1);
 	double value = luaL_checknumber(L, 2);
 	// earth mean radiusMean radius = 6371.0 km (source: wikipedia)
-	csb->radius = (value / 6371.0);
+	csb->bodyData.m_radius = (value / 6371.0);
 	lua_settop(L, 1);
 	return 1;
 }
@@ -162,7 +164,7 @@ static int l_csb_radius_km(lua_State *L)
 static int l_csb_seed(lua_State *L)
 {
 	CustomSystemBody *csb = l_csb_check(L, 1);
-	csb->seed = luaL_checkunsigned(L, 2);
+	csb->bodyData.m_seed = luaL_checkunsigned(L, 2);
 	csb->want_rand_seed = false;
 	lua_settop(L, 1);
 	return 1;
@@ -174,7 +176,7 @@ static int l_csb_orbital_offset(lua_State *L)
 	double *value = getDoubleOrFixed(L, 2);
 	if (value == nullptr)
 		return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2));
-	csb->orbitalOffset = fixed::FromDouble(*value);
+	csb->bodyData.m_orbitalOffset = fixed::FromDouble(*value);
 	csb->want_rand_offset = false;
 	lua_settop(L, 1);
 	return 1;
@@ -188,7 +190,7 @@ static int l_csb_orbital_phase_at_start(lua_State *L)
 		return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2));
 	if ((*value < 0.0) || (*value > double(2.0 * M_PI)))
 		return luaL_error(L, "Error: Custom system definition: Orbital phase at game start must be between 0 and 2 PI radians (including 0 but not 2 PI).");
-	csb->orbitalPhaseAtStart = fixed::FromDouble(*value);
+	csb->bodyData.m_orbitalPhaseAtStart = fixed::FromDouble(*value);
 	csb->want_rand_phase = false;
 	lua_settop(L, 1);
 	return 1;
@@ -202,7 +204,7 @@ static int l_csb_rotational_phase_at_start(lua_State *L)
 		return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2));
 	if ((*value < 0.0) || (*value > double(2.0 * M_PI)))
 		return luaL_error(L, "Error: Custom system definition: Rotational phase at start must be between 0 and 2 PI radians (including 0 but not 2 PI).\n The rotational phase is the phase of the body's spin about it's axis at game start.");
-	csb->rotationalPhaseAtStart = fixed::FromDouble(*value);
+	csb->bodyData.m_rotationalPhaseAtStart = fixed::FromDouble(*value);
 	lua_settop(L, 1);
 	return 1;
 }
@@ -216,8 +218,8 @@ static int l_csb_height_map(lua_State *L)
 		return luaL_error(L, "invalid terrain fractal type");
 	}
 
-	csb->heightMapFilename = FileSystem::JoinPathBelow("heightmaps", fname);
-	csb->heightMapFractal = fractal;
+	csb->bodyData.m_heightMapFilename = FileSystem::JoinPathBelow("heightmaps", fname);
+	csb->bodyData.m_heightMapFractal = fractal;
 	lua_settop(L, 1);
 	return 1;
 }
@@ -236,11 +238,11 @@ static int l_csb_rings(lua_State *L)
 		double *value = getDoubleOrFixed(L, 2);
 		if (value == nullptr)
 			return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2));
-		csb->ringInnerRadius = fixed::FromDouble(*value);
+		csb->bodyData.m_rings.minRadius = fixed::FromDouble(*value);
 		value = getDoubleOrFixed(L, 3);
 		if (value == nullptr)
 			return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 3));
-		csb->ringOuterRadius = fixed::FromDouble(*value);
+		csb->bodyData.m_rings.maxRadius = fixed::FromDouble(*value);
 		luaL_checktype(L, 4, LUA_TTABLE);
 		Color4f col;
 		lua_rawgeti(L, 4, 1);
@@ -251,7 +253,7 @@ static int l_csb_rings(lua_State *L)
 		col.b = luaL_checknumber(L, -1);
 		lua_rawgeti(L, 4, 4);
 		col.a = luaL_optnumber(L, -1, 0.85); // default alpha value
-		csb->ringColor = col;
+		csb->bodyData.m_rings.baseColor = col;
 	}
 	lua_settop(L, 1);
 	return 1;
@@ -272,12 +274,12 @@ static int l_csb_aspect_ratio(lua_State *L)
 	double *value = getDoubleOrFixed(L, 2);
 	if (value == nullptr)
 		return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2));
-	csb->aspectRatio = fixed::FromDouble(*value);
-	if (csb->aspectRatio < fixed(1, 1)) {
+	csb->bodyData.m_aspectRatio = fixed::FromDouble(*value);
+	if (csb->bodyData.m_aspectRatio < fixed(1, 1)) {
 		return luaL_error(
 			L, "Error: Custom system definition: Equatorial to Polar radius ratio cannot be less than 1.");
 	}
-	if (csb->aspectRatio > fixed(10000, 1)) {
+	if (csb->bodyData.m_aspectRatio > fixed(10000, 1)) {
 		return luaL_error(
 			L, "Error: Custom system definition: Equatorial to Polar radius ratio cannot be greater than 10000.0.");
 	}
@@ -317,49 +319,6 @@ static luaL_Reg LuaCustomSystemBody_meta[] = {
 	{ "__gc", &l_csb_gc },
 	{ 0, 0 }
 };
-
-void CustomSystemBody::LoadFromJson(const Json &obj)
-{
-	// XXX: this is copied from SystemBody::LoadFromJson because this architecture is a bit of a mess
-	seed = obj["seed"];
-	name = obj.value<std::string>("name", "");
-
-	int typeVal = EnumStrings::GetValue("BodyType", obj.value<std::string>("type", "GRAVPOINT").c_str());
-	type = SystemBody::BodyType(typeVal);
-
-	radius = obj.value<fixed>("radius", 0);
-	aspectRatio = obj.value<fixed>("aspectRatio", 0);
-	mass = obj.value<fixed>("mass", 0);
-	rotationPeriod = obj.value<fixed>("rotationPeriod", 0);
-	rotationalPhaseAtStart = obj.value<fixed>("rotationPhase", 0);
-	// humanActivity = obj.value<fixed>("humanActivity", 0);
-	semiMajorAxis = obj.value<fixed>("semiMajorAxis", 0);
-	eccentricity = obj.value<fixed>("eccentricity", 0);
-	orbitalOffset = obj.value<fixed>("orbitalOffset", 0);
-	orbitalPhaseAtStart = obj.value<fixed>("orbitalPhase", 0);
-	axialTilt = obj.value<fixed>("axialTilt", 0);
-	inclination = obj.value<fixed>("inclination", 0);
-	argOfPeriapsis = obj.value<fixed>("argOfPeriapsis", 0);
-	averageTemp = obj.value<uint32_t>("averageTemp", 0);
-	// isCustomBody = obj.value<bool>("isCustom", false);
-
-	metallicity = obj.value<fixed>("metallicity", 0);
-	volatileGas = obj.value<fixed>("volatileGas", 0);
-	volatileLiquid = obj.value<fixed>("volatileLiquid", 0);
-	volatileIces = obj.value<fixed>("volatileIces", 0);
-	volcanicity = obj.value<fixed>("volcanicity", 0);
-	atmosOxidizing = obj.value<fixed>("atmosOxidizing", 0);
-	atmosDensity = obj.value<double>("atmosDensity", 0);
-	atmosColor = obj.value<Color>("atmosColor", 0);
-	life = obj.value<fixed>("life", 0);
-	population = obj.value<fixed>("population", 0);
-	agricultural = obj.value<fixed>("agricultural", 0);
-
-	spaceStationType = obj.value<std::string>("spaceStationType", "");
-
-	heightMapFilename = obj.value<std::string>("heightMapFilename", "");
-	heightMapFractal = obj.value<uint32_t>("heightMapFractal", 0);
-}
 
 // ------- CustomSystem --------
 
@@ -570,7 +529,7 @@ static unsigned count_stars(CustomSystemBody *csb)
 	if (!csb)
 		return 0;
 	unsigned count = 0;
-	if (csb->type >= SystemBody::TYPE_STAR_MIN && csb->type <= SystemBody::TYPE_STAR_MAX)
+	if (csb->bodyData.m_type >= SystemBody::TYPE_STAR_MIN && csb->bodyData.m_type <= SystemBody::TYPE_STAR_MAX)
 		++count;
 	for (CustomSystemBody *child : csb->children)
 		count += count_stars(child);
@@ -581,7 +540,7 @@ static int l_csys_bodies(lua_State *L)
 {
 	CustomSystem *cs = l_csys_check(L, 1);
 	CustomSystemBody **primary_ptr = l_csb_check_ptr(L, 2);
-	int primary_type = (*primary_ptr)->type;
+	int primary_type = (*primary_ptr)->bodyData.m_type;
 	luaL_checktype(L, 3, LUA_TTABLE);
 
 	if ((primary_type < SystemBody::TYPE_STAR_MIN || primary_type > SystemBody::TYPE_STAR_MAX) && primary_type != SystemBody::TYPE_GRAVPOINT)
@@ -864,14 +823,14 @@ const CustomSystem *CustomSystemsDatabase::LoadSystemFromJSON(std::string_view f
 			sys->bodies.emplace_back(new CustomSystemBody());
 
 			CustomSystemBody *body = sys->bodies.back();
-			body->LoadFromJson(bodynode);
+			body->bodyData.LoadFromJson(bodynode);
 
 			if (bodynode.count("children")) {
 
 				for (const Json &childIndex : bodynode["children"]) {
 					if (childIndex >= numBodies) {
 						Log::Warning("Body {} in system {} has out-of-range child index {}",
-							body->name, filename, childIndex.get<uint32_t>());
+							body->bodyData.m_name, filename, childIndex.get<uint32_t>());
 						continue;
 					}
 
@@ -954,28 +913,43 @@ void CustomSystemsDatabase::RunLuaSystemSanityChecks(CustomSystem *csys)
 
 		// Generate the body's seed if missing
 		if (body->want_rand_seed) {
-			_init[0] = hash_32_fnv1a(body->name.data(), body->name.size());
-			body->seed = rand.Int32();
+			_init[0] = hash_32_fnv1a(body->bodyData.m_name.data(), body->bodyData.m_name.size());
+			body->bodyData.m_seed = rand.Int32();
 		}
 
-		if (body->volatileGas != 0)
-			body->volatileGas *= fixed(1225, 1000); // lua volatile gas treated as 1.0 = 1.225kg/m^3
+		if (body->bodyData.m_volatileGas != 0)
+			body->bodyData.m_volatileGas *= fixed(1225, 1000); // lua volatile gas treated as 1.0 = 1.225kg/m^3
 
-		if (!(body->want_rand_offset || body->want_rand_phase || body->want_rand_arg_periapsis))
+		bool wantRings = body->ringStatus == CustomSystemBody::WANT_RANDOM_RINGS || body->ringStatus == CustomSystemBody::WANT_RINGS;
+
+		if (!(body->want_rand_offset || body->want_rand_phase || body->want_rand_arg_periapsis || wantRings))
 			continue;
 
 		// Generate body orbit parameters from its seed
-		_init[0] = body->seed;
+		_init[0] = body->bodyData.m_seed;
 		rand.seed(_init, 5);
 
 		if (body->want_rand_offset)
-			body->orbitalOffset = fixed::FromDouble(rand.Double(2 * M_PI));
+			body->bodyData.m_orbitalOffset = fixed::FromDouble(rand.Double(2 * M_PI));
 
 		if (body->want_rand_phase)
-			body->orbitalPhaseAtStart = fixed::FromDouble(rand.Double(2 * M_PI));
+			body->bodyData.m_orbitalPhaseAtStart = fixed::FromDouble(rand.Double(2 * M_PI));
 
 		if (body->want_rand_arg_periapsis)
-			body->argOfPeriapsis = fixed::FromDouble(rand.Double(2 * M_PI));
+			body->bodyData.m_argOfPeriapsis = fixed::FromDouble(rand.Double(2 * M_PI));
+
+		if (wantRings) {
+			// pick or specify rings
+			switch (body->ringStatus) {
+			case CustomSystemBody::WANT_RINGS:
+				StarSystemLegacyGeneratorBase::PickRings(&body->bodyData, true);
+				break;
+			case CustomSystemBody::WANT_RANDOM_RINGS:
+				StarSystemLegacyGeneratorBase::PickRings(&body->bodyData, false);
+				break;
+			default: break;
+			}
+		}
 
 	}
 }
@@ -1008,17 +982,11 @@ void CustomSystem::SanityChecks()
 }
 
 CustomSystemBody::CustomSystemBody() :
-	aspectRatio(fixed(1, 1)),
-	averageTemp(1),
 	want_rand_offset(true),
-	want_rand_arg_periapsis(true),
 	want_rand_phase(true),
-	inclination(0.0),
-	longitude(0.0),
-	volatileGas(0),
-	ringStatus(WANT_RANDOM_RINGS),
-	seed(0),
-	want_rand_seed(true)
+	want_rand_arg_periapsis(true),
+	want_rand_seed(true),
+	ringStatus(WANT_RANDOM_RINGS)
 {
 }
 
@@ -1033,38 +1001,38 @@ CustomSystemBody::~CustomSystemBody()
 
 static void checks(CustomSystemBody &csb)
 {
-	if (csb.name.empty()) {
-		Error("custom system with name not set!\n");
+	if (csb.bodyData.m_name.empty()) {
+		Error("custom system body with name not set!\n");
 		// throw an exception? Then it can be "catch" *per file*...
 	}
-	if (csb.radius <= 0 && csb.mass <= 0) {
-		if (csb.type != SystemBody::TYPE_STARPORT_ORBITAL &&
-			csb.type != SystemBody::TYPE_STARPORT_SURFACE &&
-			csb.type != SystemBody::TYPE_GRAVPOINT) Error("custom system body '%s' with both radius ans mass left undefined!", csb.name.c_str());
+	if (csb.bodyData.m_radius <= 0 && csb.bodyData.m_mass <= 0) {
+		if (csb.bodyData.m_type != SystemBody::TYPE_STARPORT_ORBITAL &&
+			csb.bodyData.m_type != SystemBody::TYPE_STARPORT_SURFACE &&
+			csb.bodyData.m_type != SystemBody::TYPE_GRAVPOINT) Error("custom system body '%s' with both radius ans mass left undefined!", csb.bodyData.m_name.c_str());
 	}
-	if (csb.radius <= 0 && csb.type != SystemBody::TYPE_STARPORT_ORBITAL &&
-		csb.type != SystemBody::TYPE_STARPORT_SURFACE &&
-		csb.type != SystemBody::TYPE_GRAVPOINT) {
-		Output("Warning: 'radius' is %f for body '%s'\n", csb.radius.ToFloat(), csb.name.c_str());
+	if (csb.bodyData.m_radius <= 0 && csb.bodyData.m_type != SystemBody::TYPE_STARPORT_ORBITAL &&
+		csb.bodyData.m_type != SystemBody::TYPE_STARPORT_SURFACE &&
+		csb.bodyData.m_type != SystemBody::TYPE_GRAVPOINT) {
+		Output("Warning: 'radius' is %f for body '%s'\n", csb.bodyData.m_radius.ToFloat(), csb.bodyData.m_name.c_str());
 	}
-	if (csb.mass <= 0 && csb.type != SystemBody::TYPE_STARPORT_ORBITAL &&
-		csb.type != SystemBody::TYPE_STARPORT_SURFACE &&
-		csb.type != SystemBody::TYPE_GRAVPOINT) {
-		Output("Warning: 'mass' is %f for body '%s'\n", csb.mass.ToFloat(), csb.name.c_str());
+	if (csb.bodyData.m_mass <= 0 && csb.bodyData.m_type != SystemBody::TYPE_STARPORT_ORBITAL &&
+		csb.bodyData.m_type != SystemBody::TYPE_STARPORT_SURFACE &&
+		csb.bodyData.m_type != SystemBody::TYPE_GRAVPOINT) {
+		Output("Warning: 'mass' is %f for body '%s'\n", csb.bodyData.m_mass.ToFloat(), csb.bodyData.m_name.c_str());
 	}
-	if (csb.averageTemp <= 0 && csb.type != SystemBody::TYPE_STARPORT_ORBITAL &&
-		csb.type != SystemBody::TYPE_STARPORT_SURFACE &&
-		csb.type != SystemBody::TYPE_GRAVPOINT) {
-		Output("Warning: 'averageTemp' is %i for body '%s'\n", csb.averageTemp, csb.name.c_str());
+	if (csb.bodyData.m_averageTemp <= 0 && csb.bodyData.m_type != SystemBody::TYPE_STARPORT_ORBITAL &&
+		csb.bodyData.m_type != SystemBody::TYPE_STARPORT_SURFACE &&
+		csb.bodyData.m_type != SystemBody::TYPE_GRAVPOINT) {
+		Output("Warning: 'averageTemp' is %i for body '%s'\n", csb.bodyData.m_averageTemp, csb.bodyData.m_name.c_str());
 	}
-	if (csb.type == SystemBody::TYPE_STAR_S_BH ||
-		csb.type == SystemBody::TYPE_STAR_IM_BH ||
-		csb.type == SystemBody::TYPE_STAR_SM_BH) {
-		double schwarzschild = 2 * csb.mass.ToDouble() * ((G * SOL_MASS) / (LIGHT_SPEED * LIGHT_SPEED));
+	if (csb.bodyData.m_type == SystemBody::TYPE_STAR_S_BH ||
+		csb.bodyData.m_type == SystemBody::TYPE_STAR_IM_BH ||
+		csb.bodyData.m_type == SystemBody::TYPE_STAR_SM_BH) {
+		double schwarzschild = 2 * csb.bodyData.m_mass.ToDouble() * ((G * SOL_MASS) / (LIGHT_SPEED * LIGHT_SPEED));
 		schwarzschild /= SOL_RADIUS;
-		if (csb.radius < schwarzschild) {
+		if (csb.bodyData.m_radius < schwarzschild) {
 			Output("Warning: Blackhole radius defaulted to Schwarzschild radius (%f Sol radii)\n", schwarzschild);
-			csb.radius = schwarzschild;
+			csb.bodyData.m_radius = schwarzschild;
 		}
 	}
 }
