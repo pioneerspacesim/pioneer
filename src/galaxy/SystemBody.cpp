@@ -8,17 +8,12 @@
 #include "Game.h"
 #include "JsonUtils.h"
 #include "Lang.h"
-#include "Pi.h"
-#include "enum_table.h"
 #include "utils.h"
 
-SystemBody::SystemBody(const SystemPath &path, StarSystem *system) :
-	m_parent(nullptr),
-	m_path(path),
+SystemBodyData::SystemBodyData() :
+	m_type(SystemBodyType::TYPE_GRAVPOINT),
 	m_seed(0),
 	m_aspectRatio(1, 1),
-	m_orbMin(0),
-	m_orbMax(0),
 	m_rotationalPhaseAtStart(0),
 	m_semiMajorAxis(0),
 	m_eccentricity(0),
@@ -26,22 +21,12 @@ SystemBody::SystemBody(const SystemPath &path, StarSystem *system) :
 	m_axialTilt(0),
 	m_inclination(0),
 	m_averageTemp(0),
-	m_type(TYPE_GRAVPOINT),
-	m_isCustomBody(false),
-	m_heightMapFractal(0),
-	m_atmosDensity(0.0),
-	m_system(system)
+	m_heightMapFractal(0)
 {
 }
 
-void SystemBody::SaveToJson(Json &out)
+void SystemBodyData::SaveToJson(Json &out)
 {
-	// NOTE: we intentionally do not store information about parent/children/path
-	// CustomSystem will be responsible for serializing the whole-system state
-
-	// XXX: if you change anything in this function, ensure you update
-	// CustomSystemBody::LoadFromJson as well
-
 	out["seed"] = m_seed;
 	out["name"] = m_name;
 	out["type"] = EnumStrings::GetString("BodyType", m_type);
@@ -60,21 +45,30 @@ void SystemBody::SaveToJson(Json &out)
 	out["inclination"] = m_inclination;
 	out["argOfPeriapsis"] = m_argOfPeriapsis;
 	out["averageTemp"] = m_averageTemp;
-	out["isCustom"] = m_isCustomBody;
 
 	out["metallicity"] = m_metallicity;
-	out["volatileGas"] = m_volatileGas;
+	out["volcanicity"] = m_volcanicity;
 	out["volatileLiquid"] = m_volatileLiquid;
 	out["volatileIces"] = m_volatileIces;
-	out["volcanicity"] = m_volcanicity;
+	out["atmosDensity"] = m_volatileGas;
 	out["atmosOxidizing"] = m_atmosOxidizing;
-	out["atmosDensity"] = m_atmosDensity;
 	out["atmosColor"] = m_atmosColor;
 	out["life"] = m_life;
+
 	out["population"] = m_population;
 	out["agricultural"] = m_agricultural;
 
-	out["spaceStationType"] = m_space_station_type;
+	bool hasRings = m_rings.maxRadius != 0;
+	out["hasRings"] = hasRings;
+
+	if (hasRings) {
+		out["ringsMinRadius"] = m_rings.minRadius;
+		out["ringsMaxRadius"] = m_rings.maxRadius;
+		out["ringsBaseColor"] = m_rings.baseColor;
+	}
+
+	if (!m_spaceStationType.empty())
+		out["spaceStationType"] = m_spaceStationType;
 
 	if (!m_heightMapFilename.empty()) {
 		out["heightMapFilename"] = m_heightMapFilename;
@@ -82,15 +76,13 @@ void SystemBody::SaveToJson(Json &out)
 	}
 }
 
-void SystemBody::LoadFromJson(const Json &obj)
+void SystemBodyData::LoadFromJson(const Json &obj)
 {
-	// NOTE: we intentionally do not load parent/children/path in this function
-
 	m_seed = obj.value<uint32_t>("seed", 0);
 	m_name = obj.value<std::string>("name", "");
 
 	int type = EnumStrings::GetValue("BodyType", obj.value<std::string>("type", "GRAVPOINT").c_str());
-	m_type = BodyType(type);
+	m_type = SystemBodyType::BodyType(type);
 
 	m_radius = obj.value<fixed>("radius", 0);
 	m_aspectRatio = obj.value<fixed>("aspectRatio", 0);
@@ -106,24 +98,38 @@ void SystemBody::LoadFromJson(const Json &obj)
 	m_inclination = obj.value<fixed>("inclination", 0);
 	m_argOfPeriapsis = obj.value<fixed>("argOfPeriapsis", 0);
 	m_averageTemp = obj.value<uint32_t>("averageTemp", 0);
-	m_isCustomBody = obj.value<bool>("isCustom", false);
 
 	m_metallicity = obj.value<fixed>("metallicity", 0);
-	m_volatileGas = obj.value<fixed>("volatileGas", 0);
+	m_volcanicity = obj.value<fixed>("volcanicity", 0);
 	m_volatileLiquid = obj.value<fixed>("volatileLiquid", 0);
 	m_volatileIces = obj.value<fixed>("volatileIces", 0);
-	m_volcanicity = obj.value<fixed>("volcanicity", 0);
+	m_volatileGas = obj.value<fixed>("atmosDensity", 0);
 	m_atmosOxidizing = obj.value<fixed>("atmosOxidizing", 0);
-	m_atmosDensity = obj.value<double>("atmosDensity", 0);
 	m_atmosColor = obj.value<Color>("atmosColor", 0);
 	m_life = obj.value<fixed>("life", 0);
+
 	m_population = obj.value<fixed>("population", 0);
 	m_agricultural = obj.value<fixed>("agricultural", 0);
 
-	m_space_station_type = obj.value<std::string>("spaceStationType", "");
+	if (obj.value<bool>("hasRings", false)) {
+		m_rings.minRadius = obj.value<fixed>("ringsMinRadius", 0);
+		m_rings.maxRadius = obj.value<fixed>("ringsMaxRadius", 0);
+		m_rings.baseColor = obj.value<Color>("ringsBaseColor", {});
+	}
+
+	m_spaceStationType = obj.value<std::string>("spaceStationType", "");
 
 	m_heightMapFilename = obj.value<std::string>("heightMapFilename", "");
 	m_heightMapFractal = obj.value<uint32_t>("heightMapFractal", 0);
+}
+
+SystemBody::SystemBody(const SystemPath &path, StarSystem *system) :
+	m_parent(nullptr),
+	m_system(system),
+	m_path(path),
+	m_orbMin(0),
+	m_orbMax(0)
+{
 }
 
 void SystemBody::SetOrbitFromParameters()
@@ -823,7 +829,7 @@ void SystemBody::Dump(FILE *file, const char *indent) const
 			m_volatileLiquid.ToDouble() * 100.0, m_volatileIces.ToDouble() * 100.0);
 		fprintf(file, "%s\tlife %.2f\n", indent, m_life.ToDouble() * 100.0);
 		fprintf(file, "%s\tatmosphere oxidizing=%.2f, color=(%hhu,%hhu,%hhu,%hhu), density=%.6f\n", indent,
-			m_atmosOxidizing.ToDouble() * 100.0, m_atmosColor.r, m_atmosColor.g, m_atmosColor.b, m_atmosColor.a, m_atmosDensity);
+			m_atmosOxidizing.ToDouble() * 100.0, m_atmosColor.r, m_atmosColor.g, m_atmosColor.b, m_atmosColor.a, m_volatileGas.ToDouble());
 		fprintf(file, "%s\trings minRadius=%.2f, maxRadius=%.2f, color=(%hhu,%hhu,%hhu,%hhu)\n", indent, m_rings.minRadius.ToDouble() * 100.0,
 			m_rings.maxRadius.ToDouble() * 100.0, m_rings.baseColor.r, m_rings.baseColor.g, m_rings.baseColor.b, m_rings.baseColor.a);
 		fprintf(file, "%s\thuman activity %.2f, population %.0f, agricultural %.2f\n", indent, m_humanActivity.ToDouble() * 100.0,
@@ -850,7 +856,7 @@ void SystemBody::ClearParentAndChildPointers()
 	m_children.clear();
 }
 
-SystemBody *SystemBody::GetNearestJumpable()
+SystemBody *SystemBody::GetNearestJumpable(double atTime)
 {
 	PROFILE_SCOPED()
 	if (IsJumpable()) return this;
@@ -874,7 +880,7 @@ SystemBody *SystemBody::GetNearestJumpable()
 			// if the body has a zero orbit or it is a surface port - we assume that
 			// it is at the same point with the parent, just don't touch pos
 			if (!is_zero_general(s->GetOrbit().GetSemiMajorAxis()) && s->GetType() != SystemBody::TYPE_STARPORT_SURFACE)
-				pos += s->GetOrbit().OrbitalPosAtTime(Pi::game->GetTime());
+				pos += s->GetOrbit().OrbitalPosAtTime(atTime);
 			if (s->IsJumpable())
 				jumpables.emplace_back(s, pos);
 			else if (s == this) // the current body is definitely not jumpable, otherwise we would not be here

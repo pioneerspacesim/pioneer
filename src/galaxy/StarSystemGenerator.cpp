@@ -213,11 +213,11 @@ void StarSystemLegacyGeneratorBase::PickAtmosphere(SystemBody *sbody)
 	case SystemBody::TYPE_PLANET_GAS_GIANT:
 
 		sbody->m_atmosColor = Color(255, 255, 255, 3);
-		sbody->m_atmosDensity = 14.0;
+		// NOTE: realistic generation for gas giant atmospheres needed elsewhere
+		// sbody->m_atmosDensity = 14.0;
 		break;
 	case SystemBody::TYPE_PLANET_ASTEROID:
 		sbody->m_atmosColor = Color::BLANK;
-		sbody->m_atmosDensity = 0.0;
 		break;
 	default:
 	case SystemBody::TYPE_PLANET_TERRESTRIAL:
