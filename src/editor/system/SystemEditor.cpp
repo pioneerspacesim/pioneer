@@ -36,6 +36,10 @@
 #include "imgui/imgui.h"
 
 #include "portable-file-dialogs/pfd.h"
+// PFD pulls in windows headers sadly
+#undef RegisterClass
+#undef min
+#undef max
 
 #include <chrono>
 #include <cstdlib>
