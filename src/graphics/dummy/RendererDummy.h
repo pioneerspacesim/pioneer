@@ -34,6 +34,8 @@ namespace Graphics {
 		virtual int GetMaximumNumberAASamples() const override final { return 0; }
 		virtual bool GetNearFarRange(float &near_, float &far_) const override final { return true; }
 
+		virtual void SetVSyncEnabled(bool) override {}
+
 		virtual bool BeginFrame() override final { return true; }
 		virtual bool EndFrame() override final { return true; }
 		virtual bool SwapBuffers() override final { return true; }
