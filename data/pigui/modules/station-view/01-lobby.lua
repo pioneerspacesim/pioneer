@@ -129,7 +129,7 @@ local refuelInternalTank = function (delta)
 
 	Game.player:AddMoney(-total)
 	local commodityChangeAmount = mass < 0 and math.floor(mass) or math.ceil(mass)
-	station:AddCommodityStock(Commodities.hydrogen, commodityChangeAmount)
+	station:AddCommodityStock(Commodities.hydrogen, -commodityChangeAmount)
 	Game.player:SetFuelPercent(fuel)
 end
 
