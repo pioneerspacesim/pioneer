@@ -31,26 +31,6 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build-vs-solution:
-    runs-on: windows-2019
-
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        path: pioneer
-
-    - name: Checkout pioneer-thirdparty
-      uses: actions/checkout@v3
-      with:
-        repository: pioneerspacesim/pioneer-thirdparty
-        path: pioneer-thirdparty
-
-    - name: Build VS Solution
-      shell: cmd
-      run: |
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        cd pioneer
-        msbuild win32\vs2019\pioneer.sln /property:Configuration=Release
 
   build-msvc:
     runs-on: windows-2019
@@ -117,29 +97,36 @@ jobs:
         sudo apt-fast update
         sudo apt-fast install -y ${{ env.packages }}
 
+    - name: Setup CMake
+      run: |
+        cp scripts/CMakeBuildPresetsCI.json CMakeUserPresets.json
+        cmake --preset linux-x64-release
+
     - name: Build GCC
-      run: ./bootstrap cmake && make -C build
+      run: cmake --build ./build --target all
 
     - name: Build Pioneer Data
-      run: make -C build build-data
+      run: cmake --build ./build --target build-data
 
     - name: Run Tests
       run: ./build/unittest
 
     - name: Build Release
-      run: ./scripts/build-travis.sh
+      run: |
+        cmake --build ./build --target install
+        ./scripts/package-release.sh
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
         name: Linux-Artifacts
-        path: release/zip/*.tar.gz
+        path: release/pioneer-linux-x64-release-*.tar.gz
 
     - name: Upload Release Files
       uses: softprops/action-gh-release@v1
       if: ${{ github.event_name == 'release' }}
       with:
-        files: release/zip/pioneer-*.tar.gz
+        files: release/pioneer-linux-x64-release-*.tar.gz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -157,16 +144,17 @@ jobs:
         sudo apt-fast update
         sudo apt-fast install -y clang-8 ${{ env.packages }}
 
-    - name: Build Clang
+    - name: Setup CMake
       run: |
+        cp scripts/CMakeBuildPresetsCI.json CMakeUserPresets.json
         export CC=clang CXX=clang++
-        ./bootstrap cmake && make -C build
+        cmake --preset linux-x64-release
+
+    - name: Build Clang
+      run: cmake --build ./build --target all
 
     - name: Build Pioneer Data
-      run: make -C build build-data
+      run: cmake --build ./build --target build-data
 
     - name: Run Tests
       run: ./build/unittest
-
-    - name: Build Release
-      run: ./scripts/build-travis.sh

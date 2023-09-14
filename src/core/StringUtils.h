@@ -128,7 +128,7 @@ struct SplitString {
 		using reference = std::string_view;
 
 		// "end" iterator
-		iter() : m_str(), m_parent(nullptr) {};
+		iter() : m_parent(nullptr), m_str() {};
 		// "live" iterator
 		iter(SplitString *parent) :
 			m_parent(parent),

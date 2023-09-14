@@ -1,0 +1,119 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"editor.insertSpaces": false,
+		"editor.detectIndentation": false,
+		"editor.tabSize": 4,
+		"files.exclude": {},
+		"files.trimFinalNewlines": true,
+		"files.trimTrailingWhitespace": true,
+		"files.insertFinalNewline": true,
+		"Lua.diagnostics.disable": [
+			"empty-block"
+		],
+		"Lua.runtime.path": [
+			"?.lua",
+			"?/init.lua",
+			"data/libs/?.lua",
+			"data/libs/?/init.lua",
+			"data/?.lua",
+			"data/?/init.lua"
+		],
+		"Lua.runtime.plugin": "",
+		"Lua.workspace.library": [
+			"data/meta"
+		],
+		"Lua.runtime.special": {
+			"package.reimport": "require"
+		},
+		"Lua.runtime.version": "Lua 5.2",
+		"Lua.diagnostics.globals": [
+			"f",
+			"fixed",
+			"v",
+			"CustomSystem",
+			"CustomSystemBody",
+			"Faction",
+			"Color",
+		],
+		"Lua.workspace.checkThirdParty": false,
+		"cmake.configureOnOpen": true,
+		"cmake.buildTask": false,
+		"cmake.debugConfig": {
+			"cwd": "${workspaceFolder}"
+		},
+		"cmake.buildDirectory": "${workspaceFolder}/build",
+		"cmake.exportCompileCommandsFile": true
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"type": "cmake",
+				"label": "Build Pioneer",
+				"command": "build",
+				"targets": [
+					"all"
+				],
+				"preset": "${command:cmake.activeBuildPresetName}",
+				"group": {
+					"kind": "build",
+					"isDefault": true
+				},
+				"problemMatcher": [],
+				"detail": "Build Pioneer with current CMake settings"
+			},
+			{
+				"type": "cmake",
+				"label": "Build Data",
+				"command": "build",
+				"targets": [
+					"build-data"
+				],
+				"preset": "${command:cmake.activeBuildPresetName}",
+				"problemMatcher": [],
+				"detail": "Build SGM model cache"
+			},
+			{
+				"label": "Run Unit Tests",
+				"type": "process",
+				"command": "${command:cmake.buildDirectory}/unittest",
+				"group": {
+					"kind": "test",
+					"isDefault": true
+				},
+				"dependsOn": [
+					"Build Pioneer"
+				],
+				"problemMatcher": []
+			},
+		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Debug",
+				"type": "cppdbg",
+				"request": "launch",
+				"program": "${command:cmake.buildDirectory}/pioneer",
+				"args": [],
+				"environment": [],
+				"cwd": "${workspaceRoot}",
+			},
+			{
+				"name": "Debug (Model Editor)",
+				"type": "cppdbg",
+				"request": "launch",
+				"program": "${command:cmake.buildDirectory}/editor",
+				"args": [ "--mv" ],
+				"environment": [],
+				"cwd": "${workspaceRoot}",
+			},
+		]
+	}
+}

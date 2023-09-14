@@ -1,0 +1,42 @@
+{
+	"version": 2,
+	"configurePresets": [
+		{
+			"name": "linux-x64-release",
+			"displayName": "Linux x64 Release",
+			"description": "in-place installation target; Opt=yes; Profiler=no",
+			"binaryDir": "${sourceDir}/build/",
+			"generator": "Unix Makefiles",
+			"cacheVariables": {
+				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+				"PIONEER_INSTALL_INPLACE": "1",
+				"CMAKE_BUILD_TYPE": "RelWithDebInfo"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Linux"
+					]
+				}
+			}
+		},
+		{
+			"name": "linux-x64-release-global",
+			"displayName": "Linux x64 Release",
+			"description": "global installation target; Opt=yes; Profiler=no",
+			"binaryDir": "${sourceDir}/build/",
+			"generator": "Unix Makefiles",
+			"cacheVariables": {
+				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+				"CMAKE_BUILD_TYPE": "RelWithDebInfo"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Linux"
+					]
+				}
+			}
+		}
+	]
+}

@@ -114,6 +114,7 @@ PerfInfo::CounterInfo &PerfInfo::GetCounter(CounterType ct)
 	case COUNTER_FPS: return m_fpsCounter;
 	case COUNTER_PHYS: return m_physCounter;
 	case COUNTER_PIGUI: return m_piguiCounter;
+	default: assert(0);
 	}
 }
 

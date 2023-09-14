@@ -584,7 +584,7 @@ void Instance::BakeFont(PiFont &font)
 
 	// Set the ImGui font name for debugging purposes
 	std::string name = fmt::format("{}:{}", font.name(), font.pixelsize());
-	strncpy(config.Name, name.c_str(), 40);
+	strncpy(config.Name, name.c_str(), 39);
 
 	// The main face of the font should go first in the list, because:
 	//
