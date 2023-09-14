@@ -1,9 +1,23 @@
+September 2023
+  * New Features
+    * Add Model Viewer Widget (#5613)
+
+  * Internal Changes
+    * Build directly from the CMake config on windows with Visual Studio 2019 (#5624)
+    * Expand ModManager, add System Editor prerequisites (#5623)
+
+  * Fixes
+    * Ignore x-axis only mouse wheel events (#5627)
+    * (Partial) Fix for rounding error in lobby's +/-10% buttons (#5628)
+
 August 2023
   * New Features
     * Add New Game interface to customize starting parameters (#5561)
     * Added icon to indicate up/down camera view (#5600)
 
   * Internal Changes
+    * Editor Binary and Prerequisites (#5611)
+    * build: include <cstdint> explicitly (#5616)
     * Upgrade IMGUI to v1.89.8 (#5599)
     * C++ i18n APIs use std::string_view to reduce string copies (#5605)
     * Better support for loading GTLF model sources (#5606)
@@ -11,6 +25,10 @@ August 2023
     * Improve compilation times by ~30% (#5309)
     * Re-architect System Map to use object tracks (#5607)
     * Load SVG icons into pigui fonts for better rendering (#5608)
+    * Disable runtime floating point exceptions (#5610)
+
+  * Fixes
+    * Fixes after sector map refactoring and new start menu added (#5612)
 
 July 2023
   * New Features
