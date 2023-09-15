@@ -573,10 +573,8 @@ void StarSystem::DumpToJson(Json &obj)
 	for (size_t idx = 0; idx < m_numStars; idx++)
 		out_types.push_back(EnumStrings::GetString("BodyType", m_stars[idx]->GetType()));
 
-	obj["sectorX"] = m_path.sectorX;
-	obj["sectorY"] = m_path.sectorY;
-	obj["sectorZ"] = m_path.sectorZ;
-	obj["pos"] = m_pos;
+	obj["sector"] = Json::array({ m_path.sectorX, m_path.sectorY, m_path.sectorZ });
+	obj["pos"] = Json::array({ m_pos.x, m_pos.y, m_pos.z });
 
 	obj["seed"] = m_seed;
 	obj["explored"] = m_explored == ExplorationState::eEXPLORED_AT_START;

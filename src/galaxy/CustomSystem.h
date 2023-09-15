@@ -101,7 +101,7 @@ public:
 	void LoadAllLuaSystems();
 	const CustomSystem *LoadSystem(std::string_view filepath);
 
-	CustomSystem *LoadSystemFromJSON(std::string_view filename, const Json &systemdef);
+	CustomSystem *LoadSystemFromJSON(std::string_view filename, const Json &systemdef, bool mergeWithGalaxy = true);
 
 	typedef std::vector<const CustomSystem *> SystemList;
 	// XXX this is not as const-safe as it should be

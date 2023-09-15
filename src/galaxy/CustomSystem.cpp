@@ -642,16 +642,21 @@ void CustomSystem::LoadFromJson(const Json &systemdef)
 		primaryType[starIdx++] = SystemBody::BodyType(EnumStrings::GetValue("BodyType", type.get<std::string>().c_str()));
 	}
 
-	sectorX = systemdef["sectorX"];
-	sectorY = systemdef["sectorY"];
-	sectorZ = systemdef["sectorZ"];
+	const Json &sector = systemdef["sector"];
+	sectorX = sector[0].get<int32_t>();
+	sectorZ = sector[1].get<int32_t>();
+	sectorY = sector[2].get<int32_t>();
 
-	pos = systemdef["pos"];
-	seed = systemdef["seed"];
+	const Json &position = systemdef["pos"];
+	pos.x = sector[0].get<float>();
+	pos.y = sector[1].get<float>();
+	pos.z = sector[2].get<float>();
+
+	seed = systemdef.value<uint32_t>("seed", 0);
 	explored = systemdef.value<bool>("explored", true);
 	lawlessness = systemdef.value<fixed>("lawlessness", 0);
 
-	want_rand_seed = false;
+	want_rand_seed = !systemdef.count("seed");
 	want_rand_explored = !systemdef.count("explored");
 	want_rand_lawlessness = !systemdef.count("lawlessness");
 
@@ -678,11 +683,8 @@ void CustomSystem::SaveToJson(Json &obj)
 
 	obj["numStars"] = numStars;
 
-	obj["sectorX"] = sectorX;
-	obj["sectorY"] = sectorY;
-	obj["sectorZ"] = sectorZ;
-
-	obj["pos"] = pos;
+	obj["sector"] = Json::array({ sectorX, sectorY, sectorZ });
+	obj["pos"] = Json::array({ pos.x, pos.y, pos.z });
 	obj["seed"] = seed;
 
 	if (!want_rand_explored)
@@ -760,18 +762,37 @@ void CustomSystemsDatabase::Load()
 
 	LoadAllLuaSystems();
 
-	auto enumerator = FileSystem::FileEnumerator(FileSystem::gameDataFiles, m_customSysDirectory, FileSystem::FileEnumerator::Recurse);
-	for (auto &file : enumerator) {
+	// Load Json array files containing random-fill system definitions
+	std::string partialPath = FileSystem::JoinPathBelow(m_customSysDirectory, "partial");
+	for (auto &file : FileSystem::gameDataFiles.Recurse(partialPath)) {
 		if (!ends_with_ci(file.GetPath(), ".json"))
 			continue;
 
-		PROFILE_SCOPED_DESC("Load Custom System File")
-
+		PROFILE_SCOPED_DESC("Load Partial System List")
 		const Json fileData = JsonUtils::LoadJsonDataFile(file.GetPath());
-		CustomSystem *sys = LoadSystemFromJSON(file.GetPath(), fileData);
+		for (const Json &sysdef : fileData) {
+			if (!sysdef.is_object())
+				continue;
 
-		SystemPath path(sys->sectorX, sys->sectorY, sys->sectorZ);
-		AddCustomSystem(path, sys);
+			LoadSystemFromJSON(file.GetPath(), sysdef);
+		}
+	}
+
+	// Load top-level custom system defines
+	for (auto &file : FileSystem::gameDataFiles.Enumerate(m_customSysDirectory, 0)) {
+		if (!ends_with_ci(file.GetPath(), ".json"))
+			continue;
+
+		LoadSystemFromJSON(file.GetPath(), JsonUtils::LoadJsonDataFile(file.GetPath()));
+	}
+
+	// Load all complete custom system definitions
+	std::string customPath = FileSystem::JoinPathBelow(m_customSysDirectory, "custom");
+	for (auto &file : FileSystem::gameDataFiles.Recurse(customPath)) {
+		if (!ends_with_ci(file.GetPath(), ".json"))
+			continue;
+
+		LoadSystemFromJSON(file.GetPath(), JsonUtils::LoadJsonDataFile(file.GetPath()));
 	}
 }
 
@@ -813,7 +834,7 @@ const CustomSystem *CustomSystemsDatabase::LoadSystem(std::string_view filepath)
 	return m_sectorMap[m_lastAddedSystem.first][m_lastAddedSystem.second];
 }
 
-CustomSystem *CustomSystemsDatabase::LoadSystemFromJSON(std::string_view filename, const Json &systemdef)
+CustomSystem *CustomSystemsDatabase::LoadSystemFromJSON(std::string_view filename, const Json &systemdef, bool mergeWithGalaxy)
 {
 	PROFILE_SCOPED()
 
@@ -826,8 +847,8 @@ CustomSystem *CustomSystemsDatabase::LoadSystemFromJSON(std::string_view filenam
 		// Validate number of stars
 		constexpr int MAX_STARS = COUNTOF(sys->primaryType);
 		if (sys->numStars > MAX_STARS) {
-			Log::Warning("Custom system {} defines {} stars of {} max! Extra stars will not be used in Sector generation.",
-				filename, sys->numStars, MAX_STARS);
+			Log::Warning("Custom system {} ({}) defines {} stars of {} max! Extra stars will not be used in Sector generation.",
+				sys->name, filename, sys->numStars, MAX_STARS);
 			sys->numStars = MAX_STARS;
 		}
 
@@ -839,10 +860,28 @@ CustomSystem *CustomSystemsDatabase::LoadSystemFromJSON(std::string_view filenam
 			} else {
 				sys->faction = GetGalaxy()->GetFactions()->GetFaction(factionName);
 				if (sys->faction->idx == Faction::BAD_FACTION_IDX) {
-					Log::Warning("Unknown faction {} for custom system {}.", factionName, filename);
+					Log::Warning("Unknown faction {} for custom system {} ({}).", factionName, sys->name, filename);
 					sys->faction = nullptr;
 				}
 			}
+		}
+
+		if (sys->want_rand_seed) {
+			Random rand = {
+				hash_32_fnv1a(sys->name.data(), sys->name.size()),
+				uint32_t(sys->sectorX), uint32_t(sys->sectorY), uint32_t(sys->sectorZ), UNIVERSE_SEED
+			};
+
+			sys->seed = rand.Int32();
+			sys->want_rand_seed = false;
+		}
+
+		// Partially-defined system, return as-is
+		if (!systemdef.count("bodies")) {
+			if (mergeWithGalaxy)
+				AddCustomSystem(SystemPath(sys->sectorX, sys->sectorY, sys->sectorZ), sys);
+
+			return sys;
 		}
 
 		size_t numBodies = systemdef["bodies"].size();
@@ -860,8 +899,8 @@ CustomSystem *CustomSystemsDatabase::LoadSystemFromJSON(std::string_view filenam
 
 				for (const Json &childIndex : bodynode["children"]) {
 					if (childIndex >= numBodies) {
-						Log::Warning("Body {} in system {} has out-of-range child index {}",
-							body->bodyData.m_name, filename, childIndex.get<uint32_t>());
+						Log::Warning("Body {} in system {} ({}) has out-of-range child index {}",
+							body->bodyData.m_name, sys->name, filename, childIndex.get<uint32_t>());
 						continue;
 					}
 
@@ -882,6 +921,9 @@ CustomSystem *CustomSystemsDatabase::LoadSystemFromJSON(std::string_view filenam
 			}
 
 		}
+
+		if (mergeWithGalaxy)
+			AddCustomSystem(SystemPath(sys->sectorX, sys->sectorY, sys->sectorZ), sys);
 
 		return sys;
 
@@ -923,14 +965,14 @@ void CustomSystemsDatabase::AddCustomSystem(const SystemPath &path, CustomSystem
 		if (system->name != csys->name)
 			continue;
 
-		// Partially-defined systems are ignored if there is a fully-defined
-		// system with the same name
+		// Partially-defined systems are ignored if there is an existing
+		// system already loaded with that name in that sector
 		if (csys->IsRandom()) {
 			delete csys;
 			return;
 		}
 
-		// Fully-defined custom systems override partially-defined systems
+		// Fully-defined custom systems override existing systems
 		csys->systemIndex = system->systemIndex;
 		m_lastAddedSystem = SystemIndex(path, csys->systemIndex);
 
