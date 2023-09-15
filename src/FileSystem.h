@@ -269,6 +269,11 @@ namespace FileSystem {
 			return FileEnumerator(*this, path, enumeratorFlags);
 		}
 
+		virtual FileEnumerator Recurse(const std::string &path, int enumeratorFlags = 0)
+		{
+			return FileEnumerator(*this, path, FileEnumerator::Recurse | enumeratorFlags);
+		}
+
 		bool IsTrusted() const { return m_trusted; }
 
 	protected:
