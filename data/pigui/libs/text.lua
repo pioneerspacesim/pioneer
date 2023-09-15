@@ -109,6 +109,26 @@ function ui.textAligned(text, alignment)
 	ui.text(text)
 end
 
+--
+-- Function: ui.textAlignedColored
+--
+-- Draw the given text aligned to the specific proportion of the available
+-- content region.
+--
+-- Parameters:
+--   text      - string, the text to draw
+--   alignment - number, controls alignment of the text. 0.5 is centered,
+--               1.0 is right aligned.
+--	 color     - An ImColor each element between 0-255
+--
+function ui.textAlignedColored(text, alignment, color)
+	local size = pigui.CalcTextSize(text).x
+	local cw = ui.getContentRegion().x
+
+	ui.addCursorPos(Vector2((cw - size) * alignment, 0))
+	ui.textColored(color,text)
+end
+
 local EARTH_MASS = 5.9742e24
 local SOL_MASS = 1.98892e30
 
