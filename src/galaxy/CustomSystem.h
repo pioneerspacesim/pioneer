@@ -51,6 +51,8 @@ public:
 
 	std::string name;
 	std::vector<std::string> other_names;
+	uint64_t nameHash;
+
 	CustomSystemBody *sBody;
 	// TODO: this holds system body objects when loaded from Json
 	// This depends on serialized body order being exactly the same as
@@ -95,9 +97,11 @@ public:
 
 	void Load();
 
+
+	void LoadAllLuaSystems();
 	const CustomSystem *LoadSystem(std::string_view filepath);
 
-	const CustomSystem *LoadSystemFromJSON(std::string_view filename, const Json &systemdef);
+	CustomSystem *LoadSystemFromJSON(std::string_view filename, const Json &systemdef);
 
 	typedef std::vector<const CustomSystem *> SystemList;
 	// XXX this is not as const-safe as it should be

@@ -7,6 +7,8 @@
 #include "SystemPath.h"
 #include "core/FNV1a.h"
 #include "core/LZ4Format.h"
+#include "core/Log.h"
+#include "core/StringUtils.h"
 
 #include "../gameconsts.h"
 #include "EnumStrings.h"
@@ -14,13 +16,14 @@
 #include "Factions.h"
 #include "FileSystem.h"
 #include "Polit.h"
-#include "core/Log.h"
 #include "galaxy/StarSystemGenerator.h"
 #include "galaxy/SystemBody.h"
 #include "lua/LuaConstants.h"
 #include "lua/LuaFixed.h"
 #include "lua/LuaUtils.h"
 #include "lua/LuaVector.h"
+
+#include "profiler/Profiler.h"
 
 #include <map>
 
@@ -381,7 +384,9 @@ static int l_csys_new(lua_State *L)
 	luaL_setmetatable(L, LuaCustomSystem_TypeName);
 
 	(*csptr)->name = name;
+	(*csptr)->nameHash = hash_64_fnv1a((*csptr)->name.data(), (*csptr)->name.size());
 	(*csptr)->numStars = numStars;
+
 	assert(numStars <= 4);
 	for (unsigned i = 0; i < numStars; ++i)
 		(*csptr)->primaryType[i] = static_cast<SystemBody::BodyType>(starTypes[i]);
@@ -621,6 +626,7 @@ static luaL_Reg LuaCustomSystem_meta[] = {
 void CustomSystem::LoadFromJson(const Json &systemdef)
 {
 	name = systemdef["name"].get<std::string>();
+	nameHash = hash_64_fnv1a(name.data(), name.size());
 
 	if (systemdef.count("otherNames") && systemdef["otherNames"].is_array()) {
 		for (const Json &name : systemdef["otherNames"])
@@ -750,6 +756,29 @@ lua_State *CustomSystemsDatabase::CreateLoaderState()
 
 void CustomSystemsDatabase::Load()
 {
+	PROFILE_SCOPED()
+
+	LoadAllLuaSystems();
+
+	auto enumerator = FileSystem::FileEnumerator(FileSystem::gameDataFiles, m_customSysDirectory, FileSystem::FileEnumerator::Recurse);
+	for (auto &file : enumerator) {
+		if (!ends_with_ci(file.GetPath(), ".json"))
+			continue;
+
+		PROFILE_SCOPED_DESC("Load Custom System File")
+
+		const Json fileData = JsonUtils::LoadJsonDataFile(file.GetPath());
+		CustomSystem *sys = LoadSystemFromJSON(file.GetPath(), fileData);
+
+		SystemPath path(sys->sectorX, sys->sectorY, sys->sectorZ);
+		AddCustomSystem(path, sys);
+	}
+}
+
+void CustomSystemsDatabase::LoadAllLuaSystems()
+{
+	PROFILE_SCOPED()
+
 	assert(!s_activeCustomSystemsDatabase);
 	s_activeCustomSystemsDatabase = this;
 	lua_State *L = CreateLoaderState();
@@ -784,8 +813,10 @@ const CustomSystem *CustomSystemsDatabase::LoadSystem(std::string_view filepath)
 	return m_sectorMap[m_lastAddedSystem.first][m_lastAddedSystem.second];
 }
 
-const CustomSystem *CustomSystemsDatabase::LoadSystemFromJSON(std::string_view filename, const Json &systemdef)
+CustomSystem *CustomSystemsDatabase::LoadSystemFromJSON(std::string_view filename, const Json &systemdef)
 {
+	PROFILE_SCOPED()
+
 	CustomSystem *sys = new CustomSystem();
 
 	try {
@@ -852,9 +883,6 @@ const CustomSystem *CustomSystemsDatabase::LoadSystemFromJSON(std::string_view f
 
 		}
 
-		SystemPath path(sys->sectorX, sys->sectorY, sys->sectorZ, 0, 0);
-		AddCustomSystem(path, sys);
-
 		return sys;
 
 	} catch (Json::out_of_range &e) {
@@ -885,9 +913,35 @@ const CustomSystemsDatabase::SystemList &CustomSystemsDatabase::GetCustomSystems
 
 void CustomSystemsDatabase::AddCustomSystem(const SystemPath &path, CustomSystem *csys)
 {
-	csys->systemIndex = m_sectorMap[path].size();
+	SystemList &sectorSystems = m_sectorMap[path];
+
+	for (const CustomSystem *&system : sectorSystems) {
+		if (system->nameHash != csys->nameHash)
+			continue;
+
+		// Ensure no hash collisions occur
+		if (system->name != csys->name)
+			continue;
+
+		// Partially-defined systems are ignored if there is a fully-defined
+		// system with the same name
+		if (csys->IsRandom()) {
+			delete csys;
+			return;
+		}
+
+		// Fully-defined custom systems override partially-defined systems
+		csys->systemIndex = system->systemIndex;
+		m_lastAddedSystem = SystemIndex(path, csys->systemIndex);
+
+		delete system;
+		system = csys;
+		return;
+	}
+
+	csys->systemIndex = sectorSystems.size();
 	m_lastAddedSystem = SystemIndex(path, csys->systemIndex);
-	m_sectorMap[path].push_back(csys);
+	sectorSystems.push_back(csys);
 }
 
 void CustomSystemsDatabase::RunLuaSystemSanityChecks(CustomSystem *csys)
@@ -958,6 +1012,7 @@ CustomSystem::CustomSystem() :
 	sBody(nullptr),
 	numStars(0),
 	seed(0),
+	nameHash(0),
 	want_rand_seed(true),
 	want_rand_explored(true),
 	faction(nullptr),
