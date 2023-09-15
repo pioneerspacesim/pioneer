@@ -70,8 +70,7 @@ namespace JsonUtils {
 		if (out.is_null() || !with_merge) return out;
 
 		for (auto info : FileSystem::gameDataFiles.LookupAll(filename + ".patch")) {
-			Json patch = LoadJson(info.Read());
-			if (!patch.is_null()) out.merge_patch(patch);
+			ApplyJsonPatch(out, LoadJson(info.Read()), info.GetPath());
 		}
 
 		return out;
@@ -105,6 +104,25 @@ namespace JsonUtils {
 		} catch (gzip::DecompressionFailedException) {
 			return nullptr;
 		}
+	}
+
+	bool ApplyJsonPatch(Json &inObject, const Json &patchObject, const std::string &filename)
+	{
+		if (!inObject.is_object() || !patchObject.is_object())
+			return false;
+
+		for (auto &field : patchObject.items()) {
+			if (starts_with(field.key(), "$")) {
+				// JSON pointer patch object
+				Json::json_pointer ptr(field.key().substr(1));
+				inObject[ptr].merge_patch(field.value());
+			} else {
+				// "Regular" JSON merge-patch object
+				inObject[field.key()].merge_patch(field.value());
+			}
+		}
+
+		return true;
 	}
 } // namespace JsonUtils
 
