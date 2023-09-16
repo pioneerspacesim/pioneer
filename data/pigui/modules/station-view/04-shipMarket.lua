@@ -161,14 +161,16 @@ end
 
 local FormatAndCompareShips = {}
 
-local get_color_for_compare = function (a, b)
+local get_color_and_mod_string_for_compare = function (str, a, b)
 	compare = a-b
 	if compare == 0 then
-		return styleColors.white
+		return { str, styleColors.white, " " }
 	elseif compare < 0 then
-		return styleColors.warning_300
+		-- note a preceeding 3 per en space as no column padding
+		-- this is unicode point 2004
+		return { str, styleColors.warning_300, " ↓" }
 	else
-		return styleColors.success_300
+		return { str,  styleColors.success_300, " ↑" }
 	end
 end
 
@@ -176,7 +178,7 @@ function FormatAndCompareShips:get_hyperdrive_tuple()
 	local hyperdrive_str = self.def.hyperdriveClass > 0 and
 		Equipment.hyperspace["hyperdrive_" .. self.def.hyperdriveClass]:GetName() or l.NONE
 	
-	return { hyperdrive_str, get_color_for_compare( self.def.hyperdriveClass, self.b.def.hyperdriveClass ) }
+	return get_color_and_mod_string_for_compare( hyperdrive_str, self.def.hyperdriveClass, self.b.def.hyperdriveClass )
 end
 
 function FormatAndCompareShips:get_value( key )
@@ -188,28 +190,28 @@ function FormatAndCompareShips:get_value( key )
 end
 
 function FormatAndCompareShips:get_tonnage_tuple( key )
-	return { Format.MassTonnes(self:get_value(key)), get_color_for_compare( self:get_value(key), self.b:get_value(key) ) }
+	return get_color_and_mod_string_for_compare( Format.MassTonnes(self:get_value(key)), self:get_value(key), self.b:get_value(key) )
 end
 
 function FormatAndCompareShips:get_accel_tuple( thrustKey, massKey, multiplier)
 	local accelA = multiplier * self.def.linearThrust[thrustKey] / (-9.81*1000*(self:get_value(massKey)))
 	local accelB = multiplier * self.b.def.linearThrust[thrustKey] / (-9.81*1000*(self.b:get_value(massKey)))
-	return { Format.AccelG(accelA), get_color_for_compare( accelA, accelB ) }
+	return get_color_and_mod_string_for_compare( Format.AccelG(accelA), accelA, accelB )
 end
 
 function FormatAndCompareShips:get_deltav_tuple(massNumeratorKey, massDenominatorKey)
 	local deltavA = self.def.effectiveExhaustVelocity * math.log( self:get_value(massNumeratorKey), self.b:get_value(massDenominatorKey) )
 	local deltavB = self.b.def.effectiveExhaustVelocity * math.log( self.b:get_value(massNumeratorKey), self.b:get_value(massDenominatorKey) )
 	
-	return { string.format("%d km/s", deltavA / 1000), get_color_for_compare( deltavA, deltavB ) }
+	return get_color_and_mod_string_for_compare( string.format("%d km/s", deltavA / 1000), deltavA, deltavB )
 end
 
 function FormatAndCompareShips:get_unformated_tuple(key)
-	return { self:get_value(key), get_color_for_compare( self:get_value(key),  self.b:get_value(key) ) }
+	return get_color_and_mod_string_for_compare( self:get_value(key), self:get_value(key),  self.b:get_value(key) )
 end
 
 function FormatAndCompareShips:get_equip_slot_tuple(key)	
-	return { self.def.equipSlotCapacity[key], get_color_for_compare( self.def.equipSlotCapacity[key], self.b.def.equipSlotCapacity[key] ) }
+	return get_color_and_mod_string_for_compare( self.def.equipSlotCapacity[key], self.def.equipSlotCapacity[key], self.b.def.equipSlotCapacity[key] )
 end
 
 function FormatAndCompareShips:get_yes_no_equip_slot_tuple(key)
@@ -223,7 +225,7 @@ function FormatAndCompareShips:get_yes_no_equip_slot_tuple(key)
 		error("argument to yes_no not 0 or 1")
 	end
 
-	return { yes_no, get_color_for_compare( self.def.equipSlotCapacity[key], self.b.def.equipSlotCapacity[key] ) }
+	return get_color_and_mod_string_for_compare( yes_no, self.def.equipSlotCapacity[key], self.b.def.equipSlotCapacity[key] )
 end
 
 function FormatAndCompareShips:get_atmos_pressure_limit_tuple()
@@ -236,7 +238,7 @@ function FormatAndCompareShips:get_atmos_pressure_limit_tuple()
 	else
 		atmoSlot = string.format("%d atm", self.def.atmosphericPressureLimit)
 	end
-	return { atmoSlot, get_color_for_compare( self.def.atmosphericPressureLimit, self.b.def.atmosphericPressureLimit ) }	
+	return get_color_and_mod_string_for_compare( atmoSlot, self.def.atmosphericPressureLimit, self.b.def.atmosphericPressureLimit )
 end
 
 function FormatAndCompareShips:new(def,b)
@@ -334,12 +336,14 @@ local tradeMenu = function()
 				ui.child("ShipSpecs", Vector2(0, 0), function()
 					ui.withStyleVars({ CellPadding = Vector2(8, 4) }, function()
 
-						if not ui.beginTable("specs", 4) then return end
+						if not ui.beginTable("specs", 6, {"NoPadInnerX"} ) then return end
 
 						ui.tableSetupColumn("name1")
 						ui.tableSetupColumn("body1")
+						ui.tableSetupColumn("indicator1", {"WidthFixed"})
 						ui.tableSetupColumn("name2")
 						ui.tableSetupColumn("body2")
+						ui.tableSetupColumn("indicator2", {"WidthFixed"})
 
 						for _, item in ipairs(shipInfoTable) do
 							ui.tableNextRow()
@@ -351,10 +355,18 @@ local tradeMenu = function()
 							ui.textAlignedColored(item[2][1], 1.0, item[2][2])
 
 							ui.tableSetColumnIndex(2)
-							ui.textColored(styleColors.gray_300, item[3])
+							-- this is an em space (unicode point 2003)
+							-- as we don't have and column padding
+							ui.textColored(item[2][2],item[2][3] .. " ")
 
 							ui.tableSetColumnIndex(3)
+							ui.textColored(styleColors.gray_300, item[3])
+
+							ui.tableSetColumnIndex(4)
 							ui.textAlignedColored(item[4][1], 1.0, item[4][2])
+
+							ui.tableSetColumnIndex(5)
+							ui.textColored(item[2][2],item[4][3])
 						end
 
 						ui.endTable()
