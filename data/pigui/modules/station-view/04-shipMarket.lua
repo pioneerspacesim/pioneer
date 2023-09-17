@@ -161,27 +161,53 @@ end
 
 local FormatAndCompareShips = {}
 
-local get_color_and_mod_string_for_compare = function (str, a, b)
+function FormatAndCompareShips:compare_and_draw_column(desc, str, a, b)
 	compare = a-b
-	if compare == 0 then
-		return { str, styleColors.white, " " }
-	elseif compare < 0 then
+	color = styleColors.white
+	indicator = " "
+	if compare < 0 then
+		color = styleColors.warning_300
 		-- note a preceeding 3 per en space as no column padding
 		-- this is unicode point 2004
-		return { str, styleColors.warning_300, " ↓" }
+		indicator = " ↓"
+	elseif compare > 0 then
+		color = styleColors.success_300
+		-- note a preceeding 3 per en space as no column padding
+		-- this is unicode point 2004
+		indicator = " ↑"
+	end
+
+	if self.column == 0 then
+		ui.tableNextRow()
+	end
+
+	ui.tableSetColumnIndex(0 + self.column)
+	ui.textColored(styleColors.gray_300, desc)
+
+	ui.tableSetColumnIndex(1 + self.column)
+	ui.textAlignedColored(str, 1.0, color)
+
+	ui.tableSetColumnIndex(2 + self.column)
+
+	if self.column == 0 then
+		-- this is an em space (unicode point 2003)
+		-- as we don't have and column padding
+		ui.textColored(color,indicator .. " ")
+		self.column = 3
 	else
-		return { str,  styleColors.success_300, " ↑" }
+		ui.textColored(color,indicator)
+		self.column = 0
 	end
 end
 
-function FormatAndCompareShips:get_hyperdrive_tuple()
+function FormatAndCompareShips:draw_hyperdrive_cell(desc)
 	local hyperdrive_str = self.def.hyperdriveClass > 0 and
 		Equipment.hyperspace["hyperdrive_" .. self.def.hyperdriveClass]:GetName() or l.NONE
-	
-	return get_color_and_mod_string_for_compare( hyperdrive_str, self.def.hyperdriveClass, self.b.def.hyperdriveClass )
+
+	self:compare_and_draw_column( desc, hyperdrive_str, self.def.hyperdriveClass, self.b.def.hyperdriveClass )
 end
 
-function FormatAndCompareShips:get_value( key )
+function FormatAndCompareShips:get_value(key)
 	v = self[key]
 	if nil == v then
 		v = self.def[key]
@@ -189,32 +215,31 @@ function FormatAndCompareShips:get_value( key )
 	return v
 end
 
-function FormatAndCompareShips:get_tonnage_tuple( key )
-	return get_color_and_mod_string_for_compare( Format.MassTonnes(self:get_value(key)), self:get_value(key), self.b:get_value(key) )
+function FormatAndCompareShips:draw_tonnage_cell(desc, key)
+	self:compare_and_draw_column( desc, Format.MassTonnes(self:get_value(key)), self:get_value(key), self.b:get_value(key) )
 end
 
-function FormatAndCompareShips:get_accel_tuple( thrustKey, massKey, multiplier)
+function FormatAndCompareShips:draw_accel_cell(desc, thrustKey, massKey, multiplier)
 	local accelA = multiplier * self.def.linearThrust[thrustKey] / (-9.81*1000*(self:get_value(massKey)))
 	local accelB = multiplier * self.b.def.linearThrust[thrustKey] / (-9.81*1000*(self.b:get_value(massKey)))
-	return get_color_and_mod_string_for_compare( Format.AccelG(accelA), accelA, accelB )
+	self:compare_and_draw_column( desc, Format.AccelG(accelA), accelA, accelB )
 end
 
-function FormatAndCompareShips:get_deltav_tuple(massNumeratorKey, massDenominatorKey)
+function FormatAndCompareShips:draw_deltav_cell(desc, massNumeratorKey, massDenominatorKey)
 	local deltavA = self.def.effectiveExhaustVelocity * math.log( self:get_value(massNumeratorKey), self.b:get_value(massDenominatorKey) )
-	local deltavB = self.b.def.effectiveExhaustVelocity * math.log( self.b:get_value(massNumeratorKey), self.b:get_value(massDenominatorKey) )
-	
-	return get_color_and_mod_string_for_compare( string.format("%d km/s", deltavA / 1000), deltavA, deltavB )
+	local deltavB = self.b.def.effectiveExhaustVelocity * math.log( self.b:get_value(massNumeratorKey), self.b:get_value(massDenominatorKey) )	
+	self:compare_and_draw_column( desc, string.format("%d km/s", deltavA / 1000), deltavA, deltavB )
 end
 
-function FormatAndCompareShips:get_unformated_tuple(key)
-	return get_color_and_mod_string_for_compare( self:get_value(key), self:get_value(key),  self.b:get_value(key) )
+function FormatAndCompareShips:draw_unformated_cell(desc, key)
+	self:compare_and_draw_column( desc, self:get_value(key), self:get_value(key),  self.b:get_value(key) )
 end
 
-function FormatAndCompareShips:get_equip_slot_tuple(key)	
-	return get_color_and_mod_string_for_compare( self.def.equipSlotCapacity[key], self.def.equipSlotCapacity[key], self.b.def.equipSlotCapacity[key] )
+function FormatAndCompareShips:draw_equip_slot_cell(desc, key)
+	self:compare_and_draw_column( desc, self.def.equipSlotCapacity[key], self.def.equipSlotCapacity[key], self.b.def.equipSlotCapacity[key] )
 end
 
-function FormatAndCompareShips:get_yes_no_equip_slot_tuple(key)
+function FormatAndCompareShips:draw_yes_no_equip_slot_cell(desc, key)
 	binary = self.def.equipSlotCapacity[key]
 	yes_no = "unknown"
 	if binary == 1 then
@@ -225,10 +250,10 @@ function FormatAndCompareShips:get_yes_no_equip_slot_tuple(key)
 		error("argument to yes_no not 0 or 1")
 	end
 
-	return get_color_and_mod_string_for_compare( yes_no, self.def.equipSlotCapacity[key], self.b.def.equipSlotCapacity[key] )
+	self:compare_and_draw_column( desc, yes_no, self.def.equipSlotCapacity[key], self.b.def.equipSlotCapacity[key] )
 end
 
-function FormatAndCompareShips:get_atmos_pressure_limit_tuple()
+function FormatAndCompareShips:draw_atmos_pressure_limit_cell(desc)
 
 	local atmoSlot
 	if self.def.equipSlotCapacity.atmo_shield > 0 then
@@ -238,13 +263,14 @@ function FormatAndCompareShips:get_atmos_pressure_limit_tuple()
 	else
 		atmoSlot = string.format("%d atm", self.def.atmosphericPressureLimit)
 	end
-	return get_color_and_mod_string_for_compare( atmoSlot, self.def.atmosphericPressureLimit, self.b.def.atmosphericPressureLimit )
+	self:compare_and_draw_column( desc, atmoSlot, self.def.atmosphericPressureLimit, self.b.def.atmosphericPressureLimit )
 end
 
 function FormatAndCompareShips:new(def,b)
 	o = {}
 	setmetatable( o, self )
 	self.__index = self
+	o.column = 0
 	o.emptyMass = def.hullMass + def.fuelTankMass
 	o.fullMass = def.hullMass + def.capacity + def.fuelTankMass
 	o.massAtCapacity = def.hullMass + def.capacity
@@ -299,40 +325,6 @@ local tradeMenu = function()
 
 				local shipFormatAndCompare = FormatAndCompareShips:new( def, FormatAndCompareShips:new( ShipDef[Game.player.shipId], nil ) )
 
-				local shipInfoTable = {
-					{
-						l.HYPERDRIVE_FITTED, shipFormatAndCompare:get_hyperdrive_tuple(),
-						l.CARGO_SPACE, shipFormatAndCompare:get_tonnage_tuple( "cargoCapacity" )
-					}, {
-						l.FORWARD_ACCEL_FULL, shipFormatAndCompare:get_accel_tuple( "FORWARD", "fullMass", 1 ),
-						l.WEIGHT_FULLY_LOADED, shipFormatAndCompare:get_tonnage_tuple( "fullMass" )
-					}, {
-						l.FORWARD_ACCEL_EMPTY, shipFormatAndCompare:get_accel_tuple( "FORWARD", "emptyMass", 1 ),
-						l.WEIGHT_EMPTY, shipFormatAndCompare:get_tonnage_tuple( "hullMass" )
-					}, {
-						l.REVERSE_ACCEL_EMPTY, shipFormatAndCompare:get_accel_tuple( "REVERSE", "emptyMass", -1 ),
-						l.CAPACITY, shipFormatAndCompare:get_tonnage_tuple( "capacity" )
-					}, {
-						l.REVERSE_ACCEL_FULL, shipFormatAndCompare:get_accel_tuple( "REVERSE", "fullMass", -1 ),
-						l.FUEL_WEIGHT, shipFormatAndCompare:get_tonnage_tuple( "fuelTankMass" )
-					}, {
-						l.DELTA_V_EMPTY, shipFormatAndCompare:get_deltav_tuple( "emptyMass", "hullMass"),
-						l.MINIMUM_CREW, shipFormatAndCompare:get_unformated_tuple( "minCrew" )
-					}, {
-						l.DELTA_V_FULL, shipFormatAndCompare:get_deltav_tuple( "fullMass", "massAtCapacity"),
-						l.MAXIMUM_CREW, shipFormatAndCompare:get_unformated_tuple( "maxCrew" )
-					}, {
-						l.DELTA_V_MAX, shipFormatAndCompare:get_deltav_tuple( "fullMass", "hullMass"),
-						l.MISSILE_MOUNTS, shipFormatAndCompare:get_equip_slot_tuple( "missile" )
-					}, {
-						l.ATMOSPHERIC_SHIELDING, shipFormatAndCompare:get_yes_no_equip_slot_tuple( "atmo_shield" ),
-						l.ATMO_PRESS_LIMIT, shipFormatAndCompare:get_atmos_pressure_limit_tuple()
-					}, {
-						l.SCOOP_MOUNTS, shipFormatAndCompare:get_equip_slot_tuple( "scoop" ),
-						l.PASSENGER_CABIN_CAPACITY, shipFormatAndCompare:get_equip_slot_tuple( "cabin" )
-					},
-				}
-
 				ui.child("ShipSpecs", Vector2(0, 0), function()
 					ui.withStyleVars({ CellPadding = Vector2(8, 4) }, function()
 
@@ -345,29 +337,26 @@ local tradeMenu = function()
 						ui.tableSetupColumn("body2")
 						ui.tableSetupColumn("indicator2", {"WidthFixed"})
 
-						for _, item in ipairs(shipInfoTable) do
-							ui.tableNextRow()
-
-							ui.tableSetColumnIndex(0)
-							ui.textColored(styleColors.gray_300, item[1])
-
-							ui.tableSetColumnIndex(1)
-							ui.textAlignedColored(item[2][1], 1.0, item[2][2])
-
-							ui.tableSetColumnIndex(2)
-							-- this is an em space (unicode point 2003)
-							-- as we don't have and column padding
-							ui.textColored(item[2][2],item[2][3] .. " ")
-
-							ui.tableSetColumnIndex(3)
-							ui.textColored(styleColors.gray_300, item[3])
-
-							ui.tableSetColumnIndex(4)
-							ui.textAlignedColored(item[4][1], 1.0, item[4][2])
-
-							ui.tableSetColumnIndex(5)
-							ui.textColored(item[2][2],item[4][3])
-						end
+						shipFormatAndCompare:draw_hyperdrive_cell( l.HYPERDRIVE_FITTED )
+						shipFormatAndCompare:draw_tonnage_cell( l.CARGO_SPACE, "cargoCapacity" )
+						shipFormatAndCompare:draw_accel_cell( l.FORWARD_ACCEL_FULL, "FORWARD", "fullMass", 1 )
+						shipFormatAndCompare:draw_tonnage_cell( l.WEIGHT_FULLY_LOADED, "fullMass" )
+						shipFormatAndCompare:draw_accel_cell( l.FORWARD_ACCEL_EMPTY, "FORWARD", "emptyMass", 1 )
+						shipFormatAndCompare:draw_tonnage_cell( l.WEIGHT_EMPTY, "hullMass" )
+						shipFormatAndCompare:draw_accel_cell( l.REVERSE_ACCEL_EMPTY, "REVERSE", "emptyMass", -1 )
+						shipFormatAndCompare:draw_tonnage_cell( l.CAPACITY, "capacity" )
+						shipFormatAndCompare:draw_accel_cell( l.REVERSE_ACCEL_FULL, "REVERSE", "fullMass", -1 )
+						shipFormatAndCompare:draw_tonnage_cell( l.FUEL_WEIGHT, "fuelTankMass" )
+						shipFormatAndCompare:draw_deltav_cell( l.DELTA_V_EMPTY, "emptyMass", "hullMass")
+						shipFormatAndCompare:draw_unformated_cell( l.MINIMUM_CREW, "minCrew" )
+						shipFormatAndCompare:draw_deltav_cell( l.DELTA_V_FULL, "fullMass", "massAtCapacity")
+						shipFormatAndCompare:draw_unformated_cell( l.MAXIMUM_CREW, "maxCrew" )
+						shipFormatAndCompare:draw_deltav_cell( l.DELTA_V_MAX, "fullMass", "hullMass")
+						shipFormatAndCompare:draw_equip_slot_cell( l.MISSILE_MOUNTS, "missile" )
+						shipFormatAndCompare:draw_yes_no_equip_slot_cell( l.ATMOSPHERIC_SHIELDING, "atmo_shield" )
+						shipFormatAndCompare:draw_atmos_pressure_limit_cell( l.ATMO_PRESS_LIMIT ) 
+						shipFormatAndCompare:draw_equip_slot_cell( l.SCOOP_MOUNTS, "scoop" )
+						shipFormatAndCompare:draw_equip_slot_cell( l.PASSENGER_CABIN_CAPACITY, "cabin" )
 
 						ui.endTable()
 
