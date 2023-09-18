@@ -1008,6 +1008,10 @@ Event.Register("onGameStart", function ()
 
 		visited = loaded_data.visited or {}
 		police = loaded_data.police
+		
+		for station,_ in pairs(visited) do
+			createCommodityStock(station)
+		end
 
 		for station,list in pairs(loaded_data.shipsOnSale) do
 			shipsOnSale[station] = {}
