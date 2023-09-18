@@ -64,13 +64,18 @@ inline void ShipCockpit::resetInternalCameraController()
 
 void ShipCockpit::Update(const Player *player, float timeStep)
 {
-	m_transform = matrix4x4d::Identity();
-
+	//Check if current view is exterior since we don't need to update cockpit
+	//because player can't see it
+	if (Pi::game->GetWorldView()->shipView->IsExteriorView())
+	{
+		return;
+	}
 	if (m_icc == nullptr) {
 		// I don't know where to put this
 		resetInternalCameraController();
 	}
 
+	m_transform = matrix4x4d::Identity();
 	double rotX;
 	double rotY;
 	m_icc->getRots(rotX, rotY);
