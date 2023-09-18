@@ -161,6 +161,21 @@ end
 
 local FormatAndCompareShips = {}
 
+function FormatAndCompareShips:beginTable()
+	if not ui.beginTable("specs", 6, {"NoPadInnerX"} ) then
+		return false
+	end
+
+	ui.tableSetupColumn("name1")
+	ui.tableSetupColumn("body1")
+	ui.tableSetupColumn("indicator1", {"WidthFixed"})
+	ui.tableSetupColumn("name2")
+	ui.tableSetupColumn("body2")
+	ui.tableSetupColumn("indicator2", {"WidthFixed"})
+
+	return true
+end
+
 function FormatAndCompareShips:compare_and_draw_column(desc, str, a, b)
 	compare = a-b
 	color = styleColors.white
@@ -328,14 +343,7 @@ local tradeMenu = function()
 				ui.child("ShipSpecs", Vector2(0, 0), function()
 					ui.withStyleVars({ CellPadding = Vector2(8, 4) }, function()
 
-						if not ui.beginTable("specs", 6, {"NoPadInnerX"} ) then return end
-
-						ui.tableSetupColumn("name1")
-						ui.tableSetupColumn("body1")
-						ui.tableSetupColumn("indicator1", {"WidthFixed"})
-						ui.tableSetupColumn("name2")
-						ui.tableSetupColumn("body2")
-						ui.tableSetupColumn("indicator2", {"WidthFixed"})
+						if not shipFormatAndCompare:beginTable() then return end
 
 						shipFormatAndCompare:draw_hyperdrive_cell( l.HYPERDRIVE_FITTED )
 						shipFormatAndCompare:draw_tonnage_cell( l.CARGO_SPACE, "cargoCapacity" )
