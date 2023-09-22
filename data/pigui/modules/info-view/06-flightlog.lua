@@ -147,8 +147,6 @@ function SystemPathIterator()
 end
 
 local ui_formatter = {}
-local text_formatter = {}
-
 function ui_formatter:headerText(title, text, wrap)
 	-- Title text is gray, followed by the variable text:
 	if not text then return end
@@ -160,6 +158,13 @@ function ui_formatter:headerText(title, text, wrap)
 	else
 		ui.text(text)
 	end
+end
+
+local text_formatter = {}
+
+function text_formatter:open( file )
+	self.file = file
+	return self
 end
 
 function text_formatter:write( string )
@@ -189,6 +194,44 @@ end
 function text_formatter:separator()
 	self.file:write( "\n----------------------------------------------\n\n" )
 end
+
+local html_formatter = {}
+
+function html_formatter:write( string )
+	self.file:write( string )
+	return self
+end
+
+function html_formatter:open( file )
+	self.file = file
+	self.file:write( "<html>\n" )
+	return self
+end
+
+function html_formatter:newline()
+	self.file:write( "<br>\n" )
+	return self
+end
+
+function html_formatter:close()
+	self.file:write( "</html>" )
+	self.file:close()
+end
+
+function html_formatter:headerText(title, text, wrap)
+	-- Title text is gray, followed by the variable text:
+	if not text then return end
+	self:write( "<b>" ):write( string.gsub(title, ":", "") ):write( ": </b>" )
+
+	-- TODO wrap?
+	self:write( text ):newline()
+	return self
+end
+
+function html_formatter:separator()
+	self.file:write( "\n<hr>\n" )
+end
+
 
 entering_text_custom = false
 entering_text_system = false
@@ -330,6 +373,7 @@ local export_player_info = true
 local export_custom_log = true
 local export_station_log = true
 local export_system_log = true
+local export_html = true
 
 local function exportLogs()
 	-- TODO localize?
@@ -339,18 +383,28 @@ local function exportLogs()
 
 	local base_save_name = player.name
 
-	local log_filename = FileSystem.JoinPath( foldername, base_save_name .. '.log' )
+	local formatter
+	local extension
+	if export_html then
+		formatter = html_formatter
+		extension = '.html'
+	else
+		formatter = text_formatter
+		extension = '.log'
+	end
 
-	text_formatter.file = io.open( log_filename, "w" )
+	local log_filename = FileSystem.JoinPath( foldername, base_save_name .. extension )
+
+	formatter:open( io.open( log_filename, "w" ) )
 
 	if export_player_info then
-		text_formatter:headerText( l.NAME_PERSON, player.name )
+		formatter:headerText( l.NAME_PERSON, player.name )
 		-- TODO: localize
-		text_formatter:headerText( "Title", player.title )
-		text_formatter:headerText( l.RATING, l[player:GetCombatRating()] )
-		text_formatter:headerText( l.KILLS,  string.format('%d',player.killcount) )
-		text_formatter:separator()
-		text_formatter:newline()
+		formatter:headerText( "Title", player.title )
+		formatter:headerText( l.RATING, l[player:GetCombatRating()] )
+		formatter:headerText( l.KILLS,  string.format('%d',player.killcount) )
+		formatter:separator()
+		formatter:newline()
 	end
 
 	all_entries = {}
@@ -380,15 +434,15 @@ local function exportLogs()
 	table.sort( all_entries, sortf )
 
 	for i, entry in ipairs(all_entries) do
-		entry:write_header(text_formatter)
-		entry:write_details(text_formatter)
+		entry:write_header(formatter)
+		entry:write_details(formatter)
 		if #entry.entry > 0 then
-			text_formatter:headerText(l.ENTRY, entry.entry, true)
+			formatter:headerText(l.ENTRY, entry.entry, true)
 		end
-		text_formatter:separator()
+		formatter:separator()
 	end
 
-	text_formatter:close()
+	formatter:close()
 
 end
 
@@ -397,10 +451,12 @@ local function displayExportOptions()
 	local c
 	local flight_log = true;
 
+	c,export_player_info = checkbox(l.PERSONAL_INFORMATION, export_player_info)
 	c,export_custom_log = checkbox(l.LOG_CUSTOM, export_custom_log)
 	c,export_station_log = checkbox(l.LOG_STATION, export_station_log)
 	c,export_system_log = checkbox(l.LOG_SYSTEM, export_system_log)
-	c,export_player_info = checkbox(l.PERSONAL_INFORMATION, export_player_info)
+	c,export_html = checkbox("HTML", export_html)
+
 
 	ui.separator()
 	ui.spacing()
@@ -439,6 +495,7 @@ local function drawFlightHistory()
 				displayLog(renderSystemLog)
 			end },
 
+			-- TODO localize
 		{	name = "Export",
 			draw = function()
 				displayExportOptions()
