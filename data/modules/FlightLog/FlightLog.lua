@@ -13,310 +13,144 @@ local Event = require 'Event'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
 
+local utils = require 'utils'
+
+local Character = require 'Character'
+
+local FlightLogEntry = require 'modules.FlightLog.FlightLogEntries'
+
 -- default values (private)
-local FlightLogSystemQueueLength = 1000
-local FlightLogStationQueueLength = 1000
+---@type integer
+local MaxTotalNonCustomElements = 3000
 
 -- private data - the log itself
-local FlightLogSystem = {}
-local FlightLogStation = {}
-local FlightLogCustom = {}
+---@type FlightLogEntry.Base[]
+local FlightLogData = {}
 
-local FlightLog
-FlightLog = {
+local FlightLog = {}
+
+---How many default (so without custom elements) entries are there?
+---@type integer
+local NonCustomElementCount = 0
+
+---@praram count integer The amount to alter the count of default elements by
+local function AdjustNonCustomElementCount( count )
+	NonCustomElementCount = NonCustomElementCount + count
+end
+
+FlightLogEntry.Base.non_custom_count_change = AdjustNonCustomElementCount
+
+--- If there are two system events back to back, starting at first_index
+--- entering and leaving the same system, it will put them together
+--- as a single system event
+---
+---@param first_index integer The index of the first element in the array (so the latest event) to collapse
+---@return boolean true if the two were collapesed.
+local function ConsiderCollapseSystemEventPair( first_index )
+
+	if #FlightLogData < 2 then return false end
+
+	local second = FlightLogData[first_index]
+	local first = FlightLogData[first_index+1]
+
+	if ( second:IsCustom() ) then return false end
+	if ( second:GetType() ~= "System" ) then return false end
+	---@cast second SystemLogEntry
+
+	-- is the latest one actually an arrival event, or already collapsed.
+	if ( second.arrtime ~= nil ) then return fale end
+
+	if ( first:IsCustom() ) then return false end
+	if ( first:GetType() ~= "System" ) then return false end
+	---@cast first SystemLogEntry
+
+	-- is the first one actually a departure event or already collapsed
+	if ( first.deptime ~= nil ) then return false end
+
+	if ( first.systemp ~= second.systemp ) then return false end
+
+	second.arrtime = first.arrtime
+	table.remove( FlightLogData, first_index+1 )
+
+	AdjustNonCustomElementCount( -1 )
+
+	return true
+end
+
+
+-- This will run through the array of events and if there are two system events
+-- back to back, entering and leaving the same system, it will put them together
+-- as a single system event
+local function CollapseSystemEvents()
+	for i = #FlightLogData-1, 1, -1 do
+		ConsiderCollapseSystemEventPair( i )
+	end
+end
+
+-- This will run through the array of events and remove any non custom ones
+-- if we have exceeded our maximum size, until that maximum size is reattained.
+local function TrimLogSize()
+	if NonCustomElementCount > MaxTotalNonCustomElements then
+		CollapseSystemEvents()
+
+		if NonCustomElementCount > MaxTotalNonCustomElements then
+			for i = #FlightLogData, 1, -1 do
+				local v = FlightLogData[i]
+				if not v:IsCustom() then
+					table.remove( FlightLogData, i )
+					AdjustNonCustomElementCount( -1 )
+					if i > 1 then
+						ConsiderCollapseSystemEventPair( i-1 )
+					end
+
+					if NonCustomElementCount <= MaxTotalNonCustomElements then 
+						return
+					end
+				end
+			end	
+		end
+	end
+end
 
 --
 -- Group: Methods
 --
-
+-- Method: AddEntry
 --
--- Method: GetSystemPaths
---
--- Returns an iterator returning a SystemPath object for each system visited
--- by the player, backwards in turn, starting with the most recent. If count
--- is specified, returns no more than that many systems.
---
--- > iterator = FlightLog.GetSystemPaths(count)
+-- Adds an entry to the flightlog
 --
 -- Parameters:
---
---   count - Optional. The maximum number of systems to return.
---
--- Return:
---
---   iterator - A function which will generate the paths from the log, returning
---              one each time it is called until it runs out, after which it
---              returns nil. It also returns, as secondary and tertiary values,
---              the game times at shich the system was entered and left.
---
--- Example:
---
--- Print the names and departure times of the last five systems visited by
--- the player
---
--- > for systemp,arrtime,deptime,entry in FlightLog.GetSystemPaths(5) do
--- >   print(systemp:GetStarSystem().name, Format.Date(deptime))
--- > end
+--   entry - The entry to add to the list
+---@param entry FlightLogEntry.Base
+function FlightLog.AddEntry(entry)
+	table.insert(FlightLogData, 1, entry )
 
-	GetSystemPaths = function (maximum)
-		local counter = 0
-		maximum = maximum or FlightLogSystemQueueLength
-		return function ()
-			if counter < maximum then
-				counter = counter + 1
-				if FlightLogSystem[counter] then
-					return FlightLogSystem[counter][1],
-						   FlightLogSystem[counter][2],
-						   FlightLogSystem[counter][3],
-						   FlightLogSystem[counter][4]
-				end
-			end
-			return nil, nil, nil, nil
-		end
-	end,
+	if not entry:IsCustom() then 
+		AdjustNonCustomElementCount( 1 )
+	end
 
+	if not ConsiderCollapseSystemEventPair(1) then
+		TrimLogSize() 
+	end
+end
 
+-- Method: RemoveEntry
 --
--- Method: UpdateSystemEntry
---
--- Update the free text field in system log.
---
--- > UpdateSystemEntry(index, entry)
+-- Removes an entry from the flightlog
 --
 -- Parameters:
---
---   index - Index in log, 1 being most recent (current) system
---   entry - New text string to insert instead
---
--- Example:
---
--- Replace the second most recent system record, i.e. the previously
--- visited system.
---
--- > UpdateSystemEntry(2, "At Orion's shoulder, I see attackships on fire")
---
+--   entry - The entry to remove from the list
+---@param entry FlightLogEntry.Base
+function FlightLog:RemoveEntry(entry)
+	if not entry:IsCustom() then
+		AdjustNonCustomElementCount( -1 )
+	end
+	local index = utils.remove_elem( FlightLogData, entry )
+	if index > 1 then
+		ConsiderCollapseSystemEventPair( index-1 )
+	end
+end
 
-	UpdateSystemEntry = function (index, entry)
-		FlightLogSystem[index][4] = entry
-	end,
-
---
--- Method: GetStationPaths
---
--- Returns an iterator returning a SystemPath object for each station visited
--- by the player, backwards in turn, starting with the most recent. If count
--- is specified, returns no more than that many stations.
---
--- > iterator = FlightLog.GetStationPaths(count)
---
--- Parameters:
---
---   count - Optional. The maximum number of systems to return.
---
--- Return:
---
---   iterator - A function which will generate the paths from the log, returning
---              one each time it is called until it runs out, after which it
---              returns nil. It also returns, as two additional value, the game
---              time at which the player docked, and palyer's financial balance.
---
--- Example:
---
--- Print the names and arrival times of the last five stations visited by
--- the player
---
--- > for systemp, deptime, money, entry in FlightLog.GetStationPaths(5) do
--- >   print(systemp:GetSystemBody().name, Format.Date(deptime))
--- > end
-
-	GetStationPaths = function (maximum)
-		local counter = 0
-		maximum = maximum or FlightLogStationQueueLength
-		return function ()
-			if counter < maximum then
-				counter = counter + 1
-				if FlightLogStation[counter] then
-					return FlightLogStation[counter][1],
-						   FlightLogStation[counter][2],
-						   FlightLogStation[counter][3],
-						   FlightLogStation[counter][4]
-				end
-			end
-			return nil, nil, nil, nil
-		end
-	end,
-
---
--- Method: UpdateStationEntry
---
--- Update the free text field in station log.
---
--- > UpdateStationEntry(index, entry)
---
--- Parameters:
---
---   index - Index in log, 1 being most recent station docked with
---   entry - New text string to insert instead
---
--- Example:
---
--- Replace note for the second most recent station docked with
---
--- > UpdateStationEntry(2, "This was a smelly station")
---
-
-	UpdateStationEntry = function (index, entry)
-		FlightLogStation[index][4] = entry
-	end,
-
---
--- Method: GetPreviousSystemPath
---
--- Returns a SystemPath object that points to the star system where the
--- player was before jumping to this one. If none is on record (such as
--- before any hyperjumps have been made) it returns nil.
---
--- > path = FlightLog.GetPreviousSystemPath()
---
--- Return:
---
---   path - a SystemPath object
---
--- Availability:
---
---   alpha 20
---
--- Status:
---
---   experimental
---
-
-	GetPreviousSystemPath = function ()
-		if FlightLogSystem[2] then
-			return FlightLogSystem[2][1]
-		else return nil end
-	end,
-
---
--- Method: GetPreviousStationPath
---
--- Returns a SystemPath object that points to the starport most recently
--- visited. If the player is currently docked, then the starport prior to
--- the present one (which might be the same one, if the player launches
--- and lands in the same port). If none is on record (such as before the
--- player has ever launched) it returns nil.
---
--- > path = FlightLog.GetPreviousStationPath()
---
--- Return:
---
---   path - a SystemPath object
---
--- Availability:
---
---   alpha 20
---
--- Status:
---
---   experimental
---
-
-	GetPreviousStationPath = function ()
-		if FlightLogStation[1] then
-			return FlightLogStation[1][1]
-		else return nil end
-	end,
-
-
-
---
--- Method: GetCustomEntry
---
--- Returns an iterator returning custom entries for each system the
--- player has created a custom log entry for, backwards in turn,
--- starting with the most recent. If count is specified, returns no
--- more than that many entries.
---
--- > iterator = FlightLog.GetCustomEntry(count)
---
--- Parameters:
---
---   count - Optional. The maximum number of entries to return.
---
--- Return:
---
---   iterator - A function which will generate the entries from the
---              log, returning one each time it is called until it
---              runs out, after which it returns nil. Each entry
---              consists of the system's path, date, money, location,
---              text; 'location' being an text array with flight state
---              and appropriate additional information.
-
---
--- Example:
---
--- > for systemp, date, money, location, entry in FlightLog.GetCustomEntry(5) do
--- >   print(location[1], location[2], Format.Date(deptime))
--- > end
---
-
-	GetCustomEntry = function (maximum)
-		local counter = 0
-		maximum = maximum or #FlightLogCustom
-		return function ()
-			if counter < maximum then
-				counter = counter + 1
-				if FlightLogCustom[counter] then
-					return FlightLogCustom[counter][1], --path
-						   FlightLogCustom[counter][2], --time
-						   FlightLogCustom[counter][3], --money
-						   FlightLogCustom[counter][4], --location
-						   FlightLogCustom[counter][5]  --manual entry
-				end
-			end
-			return nil, nil, nil, nil, nil
-		end
-	end,
-
---
--- Method: UpdateCustomEntry
---
--- Update the free text field with new entry. Allows the player to
--- change the original text entry.
---
--- > FlightLog.GetCustomEntry(index, entry)
---
--- Parameters:
---
---   index - Position in log, 1 being most recent
---   entry - String of new text to replace the original with
---
--- Example:
---
--- > FlightLog.UpdateCustomEntry(2, "Earth is an overrated spot")
---
-
-	UpdateCustomEntry = function (index, entry)
-		FlightLogCustom[index][5] = entry
-	end,
-
---
--- Method: DeleteCustomEntry
---
--- Remove an entry.
---
--- > FlightLog.DeleteCustomEntry(index)
---
--- Parameters:
---
---   index - Position in log to remove, 1 being most recent
---
-
-	DeleteCustomEntry = function (index)
-		table.remove(FlightLogCustom, index)
-	end,
-
---
 -- Method: MakeCustomEntry
 --
 -- Create a custom entry. A set of information is automatically
@@ -336,75 +170,115 @@ FlightLog = {
 --
 --   text - Text to accompany the log
 --
+---@param text string?
+function FlightLog:MakeCustomEntry(text)
+	text = text or ""
+	local location = ""
+	local state = Game.player:GetFlightState()
+	local path = ""
 
-	MakeCustomEntry = function (text)
-		text = text or ""
-		local location = ""
-		local state = Game.player:GetFlightState()
-		local path = ""
-
-		if state == "DOCKED" then
-			local station = Game.player:GetDockedWith()
-			local parent_body = station.path:GetSystemBody().parent.name
-			location = {station.type, station.label, parent_body}
-			path = Game.system.path
-		elseif state == "DOCKING" or state == "UNDOCKING" then
-			location = {state, Game.player:FindNearestTo("SPACESTATION").label}
-			path = Game.system.path
-		elseif state == "FLYING" then
-			if Game.player.frameBody then
-				location = {state, Game.player.frameBody.label}
-			else
-				location = {state, Game.system.name} -- if orbiting a system barycenter, there will be no frame object
-			end
-			path = Game.system.path
-		elseif state == "LANDED" then
-			path = Game.system.path
-			local alt, vspd, lat, long = Game.player:GetGPS()
-			if not (lat and long) then
-				lat, long = "nil", "nil"
-			end
-			location = {state, Game.player:FindNearestTo("PLANET").label, lat, long}
-		elseif state == "JUMPING" or state == "HYPERSPACE" then
-			--if in hyperspace, there's no Game.system
-			local spath, sysname = Game.player:GetHyperspaceDestination()
-			path = spath
-			location = {state, sysname}
+	if state == "DOCKED" then
+		local station = Game.player:GetDockedWith()
+		local parent_body = station.path:GetSystemBody().parent.name
+		location = {station.type, station.label, parent_body}
+		path = Game.system.path
+	elseif state == "DOCKING" or state == "UNDOCKING" then
+		location = {state, Game.player:FindNearestTo("SPACESTATION").label}
+		path = Game.system.path
+	elseif state == "FLYING" then
+		if Game.player.frameBody then
+			location = {state, Game.player.frameBody.label}
+		else
+			location = {state, Game.system.name} -- if orbiting a system barycenter, there will be no frame object
 		end
+		path = Game.system.path
+	elseif state == "LANDED" then
+		path = Game.system.path
+		local alt, vspd, lat, long = Game.player:GetGPS()
+		if not (lat and long) then
+			lat, long = "nil", "nil"
+		end
+		location = {state, Game.player:FindNearestTo("PLANET").label, lat, long}
+	elseif state == "JUMPING" or state == "HYPERSPACE" then
+		--if in hyperspace, there's no Game.system
+		local spath, sysname = Game.player:GetHyperspaceDestination()
+		path = spath
+		location = {state, sysname}
+	end
 
-		table.insert(FlightLogCustom,1,
-			{path, Game.time, Game.player:GetMoney(), location, text})
-	end,
+	FlightLog.AddEntry( FlightLogEntry.Custom.New( path, Game.time, Game.player:GetMoney(), location, text ) )
+end
 
-}
+
+
+-- Method: GetLogEntries
+--
+-- Example:
+--
+-- > for entry in FlightLog.GetLogEntries( { "Custom", "System", "Station" ) do
+-- >   print( entry.GetType(), entry.entry )
+-- > end
+--
+-- Parameters:
+--
+--    types - A table where keys are log types to include and the value is a boolean, set to true to include that type
+--    maximum  - An optional integer, with the maximum number of entries to include
+--    earliest_first - An optional boolean to say if the log should be ordered in chronological order or reverse chronological order
+-- 
+-- Returns:
+--
+--    An iterator function that when called repeatedly returns the next entry or nil when complete
+--
+---@param types table<string,boolean>?
+---@param maximum integer?
+---@param earliest_first boolean?
+--- 
+---@return fun():FlightLogEntry.Base
+function FlightLog:GetLogEntries(types, maximum, earliest_first)
+
+	local counter = 0
+	maximum = maximum or #FlightLogData
+	return function ()
+		while counter < maximum do
+			counter = counter + 1
+
+			local v
+			if earliest_first then
+				v = FlightLogData[(#FlightLogData+1) - counter]				
+			else
+				v = FlightLogData[counter]
+			end			
+			-- TODO: Can we map the types to serialization indexes and check these
+			-- as they may be faster than the  manipulation comapare stuff.
+			if nil == types or types[ v:GetType() ] then
+				return v
+			end
+		end
+		return nil
+	end
+end
 
 -- LOGGING
 
 -- onLeaveSystem
 local AddSystemDepartureToLog = function (ship)
 	if not ship:IsPlayer() then return end
-	FlightLogSystem[1][3] = Game.time
-	while #FlightLogSystem > FlightLogSystemQueueLength do
-		table.remove(FlightLogSystem,FlightLogSystemQueueLength + 1)
-	end
+	
+	FlightLog.AddEntry( FlightLogEntry.System.New( Game.system.path, nil, Game.time, nil ) )
 end
 
 -- onEnterSystem
 local AddSystemArrivalToLog = function (ship)
 	if not ship:IsPlayer() then return end
-	table.insert(FlightLogSystem,1,{Game.system.path,Game.time,nil,""})
-	while #FlightLogSystem > FlightLogSystemQueueLength do
-		table.remove(FlightLogSystem,FlightLogSystemQueueLength + 1)
-	end
+
+	FlightLog.AddEntry( FlightLogEntry.System.New( Game.system.path, Game.time, nil, nil ) )
 end
 
 -- onShipDocked
 local AddStationToLog = function (ship, station)
 	if not ship:IsPlayer() then return end
-	table.insert(FlightLogStation,1,{station.path, Game.time, Game.player:GetMoney(), ""})
-	while #FlightLogStation > FlightLogStationQueueLength do
-		table.remove(FlightLogStation,FlightLogStationQueueLength + 1)
-	end
+
+	FlightLog.AddEntry( FlightLogEntry.Station.New( station.path, Game.time, Game.player:GetMoney(), nil ) )
 end
 
 -- LOADING AND SAVING
@@ -412,27 +286,65 @@ end
 local loaded_data
 
 local onGameStart = function ()
-	if loaded_data and loaded_data.Version >= 1 then
-		FlightLogSystem = loaded_data.System
-		FlightLogStation = loaded_data.Station
-		FlightLogCustom = loaded_data.Custom
-	else
-		table.insert(FlightLogSystem,1,{Game.system.path,nil,nil,""})
+
+	if loaded_data and loaded_data.Version == 1 then
+
+		for _, v in pairs( loaded_data.System ) do		
+
+			local data = { systemp = v[1], arrtime = v[2], deptime = nil, entry = v[4] }
+			if ( data.arrtime ~= nil ) then
+				-- entry
+				table.insert(FlightLogData, FlightLogEntry.System.Unserialize( data ))
+			end
+			data.arrtime = nil
+			data.deptime = v[3]
+			if (data.deptime ~= nil) then
+				-- exit
+				table.insert(FlightLogData, FlightLogEntry.System.Unserialize( data ))
+			end
+		end
+
+		for _, v in pairs( loaded_data.Station ) do
+			local data = { systemp = v[1], deptime = v[2], money = v[3], entry = v[4] }
+			table.insert(FlightLogData, FlightLogEntry.Station.Unserialize(data))
+		end
+		
+		for _, v in pairs( loaded_data.Custom ) do
+			local data = { systemp = v[1], time = v[2], money = v[3], location = v[4], entry = v[5] }
+			table.insert(FlightLogData, FlightLogEntry.Custom.Unserialize(data))
+		end
+
+		local function sortf( a, b )
+			return a.sort_date > b.sort_date
+		end
+	
+		table.sort( FlightLogData, sortf )
+
+		CollapseSystemEvents()
+
+	elseif loaded_data and loaded_data.Version > 1 then
+		FlightLogData = loaded_data.Data
 	end
+
+	NonCustomElementCount = 0
+	for _, e in pairs(FlightLogData) do
+		if not e:IsCustom() then
+			AdjustNonCustomElementCount( 1 )
+		end
+	end
+
 	loaded_data = nil
 end
 
 local onGameEnd = function ()
-	FlightLogSystem = {}
-	FlightLogStation = {}
-	FlightLogCustom = {}
+	FlightLogData = {}
+	NonCustomElementCount = 0
 end
 
 local serialize = function ()
-	return { System = FlightLogSystem,
-			 Station = FlightLogStation,
-			 Custom = FlightLogCustom,
-			 Version = 1 -- version for backwards compatibility
+	return { 
+		Data = FlightLogData,
+		Version = 2 -- version for backwards compatibility
 	}
 end
 
