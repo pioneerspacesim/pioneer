@@ -151,6 +151,49 @@ static int l_filesystem_join_path(lua_State *l)
 	}
 }
 
+
+/*
+ * Function: MakeUserDataDirectory
+ *
+ * > local path = FileSystem.MakeUserDataDirectory( dir_name )
+ *
+ * Creating the given directory if it's missing, returning the name
+ * full name of the directory
+ *
+ * Availability:
+ *
+ *   ????
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_filesystem_make_user_directory(lua_State* l)
+{
+	try {
+		std::string dir = luaL_checkstring(l, 1);
+
+		FileSystem::userFiles.MakeDirectory(dir);
+
+		FileSystem::FileInfo f = FileSystem::userFiles.Lookup(dir);
+
+		if (f.IsDir())
+		{
+			std::string fullDirName = f.GetAbsolutePath();
+			lua_pushlstring(l, fullDirName.c_str(), fullDirName.size());
+			return 1;
+		} else
+		{
+			lua_pushlstring(l, "", 1 );
+			return 0;
+		}
+	}
+	catch (const std::invalid_argument&) {
+		luaL_error(l, "unable to create directory");
+		return 0;
+	}
+}
+
 void LuaFileSystem::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -160,6 +203,7 @@ void LuaFileSystem::Register()
 	static const luaL_Reg l_methods[] = {
 		{ "ReadDirectory", l_filesystem_read_dir },
 		{ "JoinPath", l_filesystem_join_path },
+		{ "MakeUserDataDirectory", l_filesystem_make_user_directory },
 		{ 0, 0 }
 	};
 

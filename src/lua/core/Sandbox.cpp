@@ -6,6 +6,7 @@
 #include "LuaUtils.h"
 #include "core/Log.h"
 #include "utils.h"
+#include "FileSystem.h"
 
 static int l_d_null_userdata(lua_State *L)
 {
@@ -104,6 +105,25 @@ static int l_log_warning(lua_State *L)
 	return 0;
 }
 
+static lua_CFunction l_original_io_open = nullptr;
+
+static int l_patched_io_open(lua_State* L)
+{
+	std::string path = lua_tostring(L, 1);
+	path = FileSystem::NormalisePath(path);
+
+	std::string userDir = FileSystem::GetUserDir();
+	// TODO: should we add a file separator here?
+	
+	if (path.rfind(userDir, 0) == 0)
+	{
+		// path starts with the userDir, we're good to go
+		return l_original_io_open(L);
+	}
+	luaL_error(L, "attempt to access filesystem outside of the user data folder");
+	return 0;
+}
+
 static const luaL_Reg STANDARD_LIBS[] = {
 	{ "_G", luaopen_base },
 	{ LUA_COLIBNAME, luaopen_coroutine },
@@ -112,6 +132,7 @@ static const luaL_Reg STANDARD_LIBS[] = {
 	{ LUA_BITLIBNAME, luaopen_bit32 },
 	{ LUA_MATHLIBNAME, luaopen_math },
 	{ LUA_DBLIBNAME, luaopen_debug },
+	{ LUA_IOLIBNAME, luaopen_io },
 	{ "util", luaopen_utils },
 	{ "package", luaopen_import },
 	{ 0, 0 }
@@ -164,6 +185,26 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_setglobal(L, "logWarning");
 	lua_pushcfunction(L, l_log_verbose);
 	lua_setglobal(L, "logVerbose");
+
+	// IO library adjustments
+	lua_getglobal(L, LUA_IOLIBNAME);
+
+	lua_getfield(L, -1, "open");
+	assert(lua_iscfunction(L, -1));
+	l_original_io_open = lua_tocfunction(L, -1);
+
+	lua_pop(L, 1); // pop the io table
+	lua_getglobal(L, LUA_IOLIBNAME);
+
+	// patch io.open so we can check the path
+	lua_pushcfunction(L, l_patched_io_open);
+	lua_setfield(L, -2, "open");
+
+	// remove io.popen as we don't want people running apps
+	lua_pushnil(L);
+	lua_setfield(L, -2, "popen");
+
+	lua_pop(L, 1); // pop the io table
 
 	// standard library adjustments (math library)
 	lua_getglobal(L, LUA_MATHLIBNAME);
