@@ -40,7 +40,7 @@ namespace FileSystem {
 		}
 
 		std::wstring path(appdata_path);
-		path += L"/Pioneer";
+		path += L"\\Pioneer";
 
 		if (!PathFileExistsW(path.c_str())) {
 			if (SHCreateDirectoryExW(0, path.c_str(), 0) != ERROR_SUCCESS) {
