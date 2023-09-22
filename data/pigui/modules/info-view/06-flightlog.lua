@@ -8,6 +8,8 @@ local FlightLog = require 'FlightLog'
 local Format = require 'Format'
 local Color = _G.Color
 local Vector2 = _G.Vector2
+local FileSystem = require 'FileSystem'
+local Character = require 'Character'
 
 local pionillium = ui.fonts.pionillium
 local icons = ui.theme.icons
@@ -24,8 +26,131 @@ local function formatDate(date)
 	return date and Format.Date(date) or nil
 end
 
--- Title text is gray, followed by the variable text:
-local function headerText(title, text, wrap)
+-- Based on flight state, compose a reasonable string for location
+local function composeLocationString(location)
+	return string.interp(l["FLIGHTLOG_"..location[1]],
+		{ primary_info = location[2],
+			secondary_info = location[3] or "",
+			tertiary_info = location[4] or "",})
+end
+
+
+function CustomEntryIterator()
+	local generator = FlightLog.GetCustomEntry()
+
+	local function my_generator()
+		local systemp, time, money, location, entry = generator()
+		if systemp ~= nil then
+			local entry = {
+				type = "custom",
+				systemp = systemp,
+				time = time,
+				money = money,
+				location = location,
+				entry = entry,
+				sort_date = time
+			}
+
+			function entry:write_header( formatter )
+				formatter:write( l.LOG_CUSTOM ):write(":"):newline()
+			end
+
+			function entry:write_details( formatter )
+				formatter:headerText(l.DATE, formatDate(self.time))
+				formatter:headerText(l.LOCATION, composeLocationString(self.location))
+				formatter:headerText(l.IN_SYSTEM, ui.Format.SystemPath(self.systemp))
+				formatter:headerText(l.ALLEGIANCE, self.systemp:GetStarSystem().faction.name)
+				formatter:headerText(l.CASH, Format.Money(self.money))
+			end
+
+			return entry
+		end
+		return nil
+	end
+
+	return my_generator
+end
+
+function StationPathIterator()
+	local generator = FlightLog.GetStationPaths()
+
+	local function my_generator()
+		local systemp, deptime, money, entry = generator()
+		if systemp ~= nil then
+			local entry = {
+				type = "station",
+				systemp = systemp,
+				deptime = deptime,
+				money = money,
+				entry = entry,
+				sort_date = deptime
+			}
+
+			function entry:write_header( formatter )
+				formatter:write( l.LOG_STATION ):write(":"):newline()
+			end
+
+			function entry:write_details( formatter )
+				local station_type = "FLIGHTLOG_" .. self.systemp:GetSystemBody().type
+				formatter:headerText(l.DATE, formatDate(self.deptime))
+				formatter:headerText(l.STATION, string.interp(l[station_type],
+					{	primary_info = self.systemp:GetSystemBody().name,
+						secondary_info = self.systemp:GetSystemBody().parent.name }))
+				-- formatter:headerText(l.LOCATION, self.systemp:GetSystemBody().parent.name)
+				formatter:headerText(l.IN_SYSTEM, ui.Format.SystemPath(self.systemp))
+				formatter:headerText(l.ALLEGIANCE, self.systemp:GetStarSystem().faction.name)
+				formatter:headerText(l.CASH, Format.Money(self.money))
+			end
+			return entry
+		end
+		return nil
+	end
+
+	return my_generator
+end
+
+function SystemPathIterator()
+	local generator = FlightLog.GetSystemPaths()
+
+	local function my_generator()
+		local systemp, arrtime, deptime, entry = generator()
+		if systemp ~= nil then
+			local entry = {
+				type = "system",
+				systemp = systemp,
+				arrtime = arrtime,
+				deptime = deptime,
+				entry = entry,
+				sort_date = arrtime
+			}
+
+			if nil == entry.sort_date then
+				entry.sort_date = entry.deptime
+			end
+
+			function entry:write_header( formatter )
+				formatter:write( l.LOG_SYSTEM ):write(":"):newline()
+			end
+
+			function entry:write_details( formatter )
+				formatter:headerText(l.ARRIVAL_DATE, formatDate(self.arrtime))
+				formatter:headerText(l.DEPARTURE_DATE, formatDate(self.deptime))
+				formatter:headerText(l.IN_SYSTEM, ui.Format.SystemPath(self.systemp))
+				formatter:headerText(l.ALLEGIANCE, self.systemp:GetStarSystem().faction.name)
+			end
+			return entry
+		end
+		return nil
+	end
+
+	return my_generator
+end
+
+local ui_formatter = {}
+local text_formatter = {}
+
+function ui_formatter:headerText(title, text, wrap)
+	-- Title text is gray, followed by the variable text:
 	if not text then return end
 	ui.textColored(gray, string.gsub(title, ":", "") .. ":")
 	ui.sameLine()
@@ -37,15 +162,42 @@ local function headerText(title, text, wrap)
 	end
 end
 
+function text_formatter:write( string )
+	self.file:write( string )
+	return self
+end
 
-local entering_text_custom = false
-local entering_text_system = false
-local entering_text_station = false
+function text_formatter:newline()
+	self.file:write( "\n" )
+	return self
+end
+
+function text_formatter:close()
+	self.file:close()
+end
+
+function text_formatter:headerText(title, text, wrap)
+	-- Title text is gray, followed by the variable text:
+	if not text then return end
+	self:write( string.gsub(title, ":", "") ):write( ": " )
+
+	-- TODO wrap?
+	self:write( text ):newline()
+	return self
+end
+
+function text_formatter:separator()
+	self.file:write( "\n----------------------------------------------\n\n" )
+end
+
+entering_text_custom = false
+entering_text_system = false
+entering_text_station = false
 
 -- Display Entry text, and Edit button, to update flightlog
-local function inputText(entry, counter, entering_text, log, str, clicked)
+function inputText(entry, counter, entering_text, log, str, clicked)
 	if #entry > 0 then
-		headerText(l.ENTRY, entry, true)
+		ui_formatter:headerText(l.ENTRY, entry, true)
 	end
 
 	if clicked or entering_text == counter then
@@ -64,28 +216,16 @@ local function inputText(entry, counter, entering_text, log, str, clicked)
 	return entering_text
 end
 
--- Based on flight state, compose a reasonable string for location
-local function composeLocationString(location)
-	return string.interp(l["FLIGHTLOG_"..location[1]],
-		{ primary_info = location[2],
-			secondary_info = location[3] or "",
-			tertiary_info = location[4] or "",})
-end
-
-local function renderCustomLog()
+local function renderCustomLog( formatter )
 	local counter = 0
 	local was_clicked = false
-	for systemp, time, money, location, entry in FlightLog.GetCustomEntry() do
+	for entry in CustomEntryIterator() do
 		counter = counter + 1
 
-		headerText(l.DATE, formatDate(time))
-		headerText(l.LOCATION, composeLocationString(location))
-		headerText(l.IN_SYSTEM, ui.Format.SystemPath(systemp))
-		headerText(l.ALLEGIANCE, systemp:GetStarSystem().faction.name)
-		headerText(l.CASH, Format.Money(money))
+		entry:write_details( formatter )
 
 		::input::
-		entering_text_custom = inputText(entry, counter,
+		entering_text_custom = inputText(entry.entry, counter,
 			entering_text_custom, FlightLog.UpdateCustomEntry, "custom", was_clicked)
 		ui.nextColumn()
 
@@ -110,23 +250,16 @@ local function renderCustomLog()
 end
 
 -- See comments on previous function
-local function renderStationLog()
+local function renderStationLog( formatter )
 	local counter = 0
 	local was_clicked = false
-	for systemp, deptime, money, entry in FlightLog.GetStationPaths() do
+	for entry in StationPathIterator() do
 		counter = counter + 1
 
-		local station_type = "FLIGHTLOG_" .. systemp:GetSystemBody().type
-		headerText(l.DATE, formatDate(deptime))
-		headerText(l.STATION, string.interp(l[station_type],
-			{ primary_info = systemp:GetSystemBody().name, secondary_info = systemp:GetSystemBody().parent.name }))
-		-- headerText(l.LOCATION, systemp:GetSystemBody().parent.name)
-		headerText(l.IN_SYSTEM, ui.Format.SystemPath(systemp))
-		headerText(l.ALLEGIANCE, systemp:GetStarSystem().faction.name)
-		headerText(l.CASH, Format.Money(money))
+		entry:write_details( formatter )
 
 		::input::
-		entering_text_station = inputText(entry, counter,
+		entering_text_station = inputText(entry.entry, counter,
 			entering_text_station, FlightLog.UpdateStationEntry, "station", was_clicked)
 		ui.nextColumn()
 
@@ -142,19 +275,16 @@ local function renderStationLog()
 end
 
 -- See comments on previous function
-local function renderSystemLog()
+local function renderSystemLog( formatter )
 	local counter = 0
 	local was_clicked = false
-	for systemp, arrtime, deptime, entry in FlightLog.GetSystemPaths() do
+	for entry in SystemPathIterator() do
 		counter = counter + 1
 
-		headerText(l.ARRIVAL_DATE, formatDate(arrtime))
-		headerText(l.DEPARTURE_DATE, formatDate(deptime))
-		headerText(l.IN_SYSTEM, ui.Format.SystemPath(systemp))
-		headerText(l.ALLEGIANCE, systemp:GetStarSystem().faction.name)
+		entry:write_details( formatter )
 
 		::input::
-		entering_text_system = inputText(entry, counter,
+		entering_text_system = inputText(entry.entry, counter,
 			entering_text_system, FlightLog.UpdateSystemEntry, "sys", was_clicked)
 		ui.nextColumn()
 
@@ -176,9 +306,111 @@ local function displayLog(logFn)
 	ui.columns(2, "##flightLogColumns", false)
 	ui.setColumnWidth(0, width - iconSize.x)
 
-	logFn()
+	logFn(ui_formatter)
 	ui.columns(1)
 end
+
+local function checkbox(label, checked, tooltip)
+--	local color = colors.buttonBlue
+--	local changed, ret
+--	ui.withStyleColors({["Button"]=color,["ButtonHovered"]=color:tint(0.1),["CheckMark"]=color:tint(0.2)},function()
+--		changed, ret = ui.checkbox(label, checked)
+--	end)
+--	if ui.isItemHovered() and tooltip then
+--		Engine.pigui.SetTooltip(tooltip) -- bypass the mouse check, Game.player isn't valid yet
+--	end
+	
+	changed, ret = ui.checkbox(label, checked)
+	
+	
+	return changed, ret
+end
+
+local export_player_info = true
+local export_custom_log = true
+local export_station_log = true
+local export_system_log = true
+
+local function exportLogs()
+	-- TODO localize?
+	local foldername = FileSystem.MakeUserDataDirectory( "player_logs" )
+
+    local player = Character.persistent.player
+
+	local base_save_name = player.name
+
+	local log_filename = FileSystem.JoinPath( foldername, base_save_name .. '.log' )
+
+	text_formatter.file = io.open( log_filename, "w" )
+
+	if export_player_info then
+		text_formatter:headerText( l.NAME_PERSON, player.name )
+		-- TODO: localize
+		text_formatter:headerText( "Title", player.title )
+		text_formatter:headerText( l.RATING, l[player:GetCombatRating()] )
+		text_formatter:headerText( l.KILLS,  string.format('%d',player.killcount) )
+		text_formatter:separator()
+		text_formatter:newline()
+	end
+
+	all_entries = {}
+
+	if export_custom_log then
+		for entry in CustomEntryIterator() do
+			table.insert( all_entries, entry )
+		end
+	end
+
+	if export_station_log then
+		for entry in StationPathIterator() do
+			table.insert( all_entries, entry )
+		end
+	end
+
+	if export_system_log then
+		for entry in SystemPathIterator() do
+			table.insert( all_entries, entry )
+		end
+	end
+
+	local function sortf( a, b )
+		return a.sort_date < b.sort_date
+	end
+
+	table.sort( all_entries, sortf )
+
+	for i, entry in ipairs(all_entries) do
+		entry:write_header(text_formatter)
+		entry:write_details(text_formatter)
+		if #entry.entry > 0 then
+			text_formatter:headerText(l.ENTRY, entry.entry, true)
+		end
+		text_formatter:separator()
+	end
+
+	text_formatter:close()
+
+end
+
+local function displayExportOptions()
+	ui.spacing()
+	local c
+	local flight_log = true;
+
+	c,export_custom_log = checkbox(l.LOG_CUSTOM, export_custom_log)
+	c,export_station_log = checkbox(l.LOG_STATION, export_station_log)
+	c,export_system_log = checkbox(l.LOG_SYSTEM, export_system_log)
+	c,export_player_info = checkbox(l.PERSONAL_INFORMATION, export_player_info)
+
+	ui.separator()
+	ui.spacing()
+
+	if ui.button(l.SAVE) then
+		exportLogs()
+	end
+
+end
+
 
 local function drawFlightHistory()
 	ui.tabBarFont("#flightlog", {
@@ -187,7 +419,7 @@ local function drawFlightHistory()
 			draw = function()
 				ui.spacing()
 				-- input field for custom log:
-				headerText(l.LOG_NEW, "")
+				ui_formatter:headerText(l.LOG_NEW, "")
 				ui.sameLine()
 				local text, changed = ui.inputText("##inputfield", "", {"EnterReturnsTrue"})
 				if changed then
@@ -205,6 +437,11 @@ local function drawFlightHistory()
 		{	name = l.LOG_SYSTEM,
 			draw = function()
 				displayLog(renderSystemLog)
+			end },
+
+		{	name = "Export",
+			draw = function()
+				displayExportOptions()
 			end }
 
 	}, pionillium.heading)
