@@ -39,17 +39,8 @@ function CustomEntryIterator()
 	local generator = FlightLog.GetCustomEntry()
 
 	local function my_generator()
-		local systemp, time, money, location, entry = generator()
-		if systemp ~= nil then
-			local entry = {
-				type = "custom",
-				systemp = systemp,
-				time = time,
-				money = money,
-				location = location,
-				entry = entry,
-				sort_date = time
-			}
+		local entry = generator()
+		if entry ~= nil then
 
 			function entry:write_header( formatter )
 				formatter:write( l.LOG_CUSTOM ):write(":"):newline()
@@ -75,17 +66,8 @@ function StationPathIterator()
 	local generator = FlightLog.GetStationPaths()
 
 	local function my_generator()
-		local systemp, deptime, money, entry = generator()
-		if systemp ~= nil then
-			local entry = {
-				type = "station",
-				systemp = systemp,
-				deptime = deptime,
-				money = money,
-				entry = entry,
-				sort_date = deptime
-			}
-
+		local entry = generator()
+		if entry ~= nil then
 			function entry:write_header( formatter )
 				formatter:write( l.LOG_STATION ):write(":"):newline()
 			end
@@ -113,21 +95,8 @@ function SystemPathIterator()
 	local generator = FlightLog.GetSystemPaths()
 
 	local function my_generator()
-		local systemp, arrtime, deptime, entry = generator()
-		if systemp ~= nil then
-			local entry = {
-				type = "system",
-				systemp = systemp,
-				arrtime = arrtime,
-				deptime = deptime,
-				entry = entry,
-				sort_date = arrtime
-			}
-
-			if nil == entry.sort_date then
-				entry.sort_date = entry.deptime
-			end
-
+		local entry = generator()
+		if entry ~= nil then
 			function entry:write_header( formatter )
 				formatter:write( l.LOG_SYSTEM ):write(":"):newline()
 			end
@@ -238,19 +207,19 @@ entering_text_system = false
 entering_text_station = false
 
 -- Display Entry text, and Edit button, to update flightlog
-function inputText(entry, counter, entering_text, log, str, clicked)
-	if #entry > 0 then
-		ui_formatter:headerText(l.ENTRY, entry, true)
+function inputText(entry, counter, entering_text, str, clicked)
+	if #entry.entry > 0 then
+		ui_formatter:headerText(l.ENTRY, entry.entry, true)
 	end
 
 	if clicked or entering_text == counter then
 		ui.spacing()
 		ui.pushItemWidth(-1.0)
-		local updated_entry, return_pressed = ui.inputText("##" ..str..counter, entry, {"EnterReturnsTrue"})
+		local updated_entry, return_pressed = ui.inputText("##" ..str..counter, entry.entry, {"EnterReturnsTrue"})
 		ui.popItemWidth()
 		entering_text = counter
 		if return_pressed then
-			log(counter, updated_entry)
+			entry:UpdateEntry(updated_entry)
 			entering_text = -1
 		end
 	end
@@ -268,8 +237,8 @@ local function renderCustomLog( formatter )
 		entry:write_details( formatter )
 
 		::input::
-		entering_text_custom = inputText(entry.entry, counter,
-			entering_text_custom, FlightLog.UpdateCustomEntry, "custom", was_clicked)
+		entering_text_custom = inputText(entry, counter,
+			entering_text_custom, "custom", was_clicked)
 		ui.nextColumn()
 
 		was_clicked = false
@@ -302,8 +271,8 @@ local function renderStationLog( formatter )
 		entry:write_details( formatter )
 
 		::input::
-		entering_text_station = inputText(entry.entry, counter,
-			entering_text_station, FlightLog.UpdateStationEntry, "station", was_clicked)
+		entering_text_station = inputText(entry, counter,
+			entering_text_station, "station", was_clicked)
 		ui.nextColumn()
 
 		was_clicked = false
@@ -327,8 +296,8 @@ local function renderSystemLog( formatter )
 		entry:write_details( formatter )
 
 		::input::
-		entering_text_system = inputText(entry.entry, counter,
-			entering_text_system, FlightLog.UpdateSystemEntry, "sys", was_clicked)
+		entering_text_system = inputText(entry, counter,
+			entering_text_system, "sys", was_clicked)
 		ui.nextColumn()
 
 		was_clicked = false
