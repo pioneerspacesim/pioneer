@@ -22,6 +22,126 @@ local FlightLogSystem = {}
 local FlightLogStation = {}
 local FlightLogCustom = {}
 
+-- a generic log entry:
+LogEntry = {
+	-- the index of the entry from the list which it came
+	index = 0,
+	-- a date that can be used to sort entries on TODO: remove this
+	sort_date = 0,
+	-- the entry text associated with this log entry
+	entry = "",
+	-- the type this logentry is
+	type = "unknown",
+	-- call this function to update the entry - will always be overloaded
+	UpdateEntry = function ( self, entry ) end,
+	new = function ( self, o )
+		setmetatable( o, self )
+		self.__index = self
+		return o
+	end
+}
+
+-- a system log entry:
+SystemLogEntry = LogEntry:new( {
+	type = "system",
+	-- the systemp for this system entered
+	systemp = nil,
+	-- arrival time for the the system (can be nil if we started the game here)
+	arrtime = nil,
+	-- departure time for the system (can be nil if still in system)
+	deptime = nil,
+
+	new = function ( self, index, systemp, arrtime, deptime, entry )
+		o = {
+			index = index,
+			systemp = systemp,
+			arrtime = arrtime,
+			deptime = deptime,
+			entry = entry
+		}
+		setmetatable( o, self )
+		self.__index = self
+
+		if nil == arrtime then
+			o.sort_date = deptime
+		else
+			o.sort_date = arrtime
+		end
+
+		return o
+	end,
+
+	UpdateEntry = function ( self, entry )
+		FlightLogSystem[self.index][4] = entry
+		self.entry = entry
+	end
+} )
+
+-- a custom log entry:
+CustomLogEntry = LogEntry:new( {
+	type = "custom",
+	-- the systemp for this system entered
+	systemp = nil,
+	-- time of the log entry
+	time = nil,
+	-- money the player had at time of entry
+	money = nil,
+	-- location of the entry
+	location = nil,
+
+	new = function ( self, index, systemp, time, money, location, entry )
+		o = {
+			index = index,
+			systemp = systemp,
+			time = time,
+			money = money,
+			location = location,
+			entry = entry,
+			sort_date = time
+		}
+		setmetatable( o, self )
+		self.__index = self
+
+		return o
+	end,
+
+	UpdateEntry = function ( self, entry )
+		FlightLogCustom[self.index][5] = entry
+		self.entry = entry
+	end
+} )
+	
+-- a station log entry:
+StationLogEntry = LogEntry:new( {
+	type = "station",
+	-- the systemp for this system entered
+	systemp = nil,
+	-- time of the log entry
+	deptime = nil,
+	-- money the player had at time of entry
+	money = nil,
+
+	new = function ( self, index, systemp, deptime, money, entry )
+		o = {
+			index = index,
+			systemp = systemp,
+			deptime = deptime,
+			money = money,
+			entry = entry,
+			sort_date = deptime
+		}
+		setmetatable( o, self )
+		self.__index = self
+
+		return o
+	end,
+
+	UpdateEntry = function ( self, entry )
+		FlightLogStation[self.index][4] = entry
+		self.entry = entry
+	end
+} )
+
 local FlightLog
 FlightLog = {
 
@@ -32,7 +152,7 @@ FlightLog = {
 --
 -- Method: GetSystemPaths
 --
--- Returns an iterator returning a SystemPath object for each system visited
+-- Returns an iterator returning a SystemLogEntry object for each system visited
 -- by the player, backwards in turn, starting with the most recent. If count
 -- is specified, returns no more than that many systems.
 --
@@ -54,8 +174,8 @@ FlightLog = {
 -- Print the names and departure times of the last five systems visited by
 -- the player
 --
--- > for systemp,arrtime,deptime,entry in FlightLog.GetSystemPaths(5) do
--- >   print(systemp:GetStarSystem().name, Format.Date(deptime))
+-- > for entry in FlightLog.GetSystemPaths(5) do
+-- >   print(entry.systemp:GetStarSystem().name, Format.Date(entry.deptime))
 -- > end
 
 	GetSystemPaths = function (maximum)
@@ -65,45 +185,26 @@ FlightLog = {
 			if counter < maximum then
 				counter = counter + 1
 				if FlightLogSystem[counter] then
-					return FlightLogSystem[counter][1],
-						   FlightLogSystem[counter][2],
-						   FlightLogSystem[counter][3],
-						   FlightLogSystem[counter][4]
+
+				local entry = SystemLogEntry:new(
+					counter,
+					FlightLogSystem[counter][1],
+					FlightLogSystem[counter][2],
+					FlightLogSystem[counter][3],
+					FlightLogSystem[counter][4] )
+
+				return entry
+
 				end
 			end
-			return nil, nil, nil, nil
+			return nil
 		end
-	end,
-
-
---
--- Method: UpdateSystemEntry
---
--- Update the free text field in system log.
---
--- > UpdateSystemEntry(index, entry)
---
--- Parameters:
---
---   index - Index in log, 1 being most recent (current) system
---   entry - New text string to insert instead
---
--- Example:
---
--- Replace the second most recent system record, i.e. the previously
--- visited system.
---
--- > UpdateSystemEntry(2, "At Orion's shoulder, I see attackships on fire")
---
-
-	UpdateSystemEntry = function (index, entry)
-		FlightLogSystem[index][4] = entry
 	end,
 
 --
 -- Method: GetStationPaths
 --
--- Returns an iterator returning a SystemPath object for each station visited
+-- Returns an iterator returning a StationLogEntry object for each station visited
 -- by the player, backwards in turn, starting with the most recent. If count
 -- is specified, returns no more than that many stations.
 --
@@ -115,18 +216,17 @@ FlightLog = {
 --
 -- Return:
 --
---   iterator - A function which will generate the paths from the log, returning
---              one each time it is called until it runs out, after which it
---              returns nil. It also returns, as two additional value, the game
---              time at which the player docked, and palyer's financial balance.
+--   iterator - A function which will generate the StationLogEntry from the log,
+--              returning one each time it is called until it runs out, after
+--              which it returns nil. 
 --
 -- Example:
 --
 -- Print the names and arrival times of the last five stations visited by
 -- the player
 --
--- > for systemp, deptime, money, entry in FlightLog.GetStationPaths(5) do
--- >   print(systemp:GetSystemBody().name, Format.Date(deptime))
+-- > for entry in FlightLog.GetStationPaths(5) do
+-- >   print(entry.systemp:GetSystemBody().name, Format.Date(entry.deptime))
 -- > end
 
 	GetStationPaths = function (maximum)
@@ -136,10 +236,12 @@ FlightLog = {
 			if counter < maximum then
 				counter = counter + 1
 				if FlightLogStation[counter] then
-					return FlightLogStation[counter][1],
-						   FlightLogStation[counter][2],
-						   FlightLogStation[counter][3],
-						   FlightLogStation[counter][4]
+					return StationLogEntry:new(
+						counter,
+						FlightLogStation[counter][1],
+						FlightLogStation[counter][2],
+						FlightLogStation[counter][3],
+						FlightLogStation[counter][4] )
 				end
 			end
 			return nil, nil, nil, nil
@@ -232,10 +334,9 @@ FlightLog = {
 --
 -- Method: GetCustomEntry
 --
--- Returns an iterator returning custom entries for each system the
--- player has created a custom log entry for, backwards in turn,
--- starting with the most recent. If count is specified, returns no
--- more than that many entries.
+-- Returns an iterator returning a CustomLogEntry, backwards in turn,
+-- starting with the most recent for each log entry the player has made.
+-- If count is specified, returns no more than that many entries.
 --
 -- > iterator = FlightLog.GetCustomEntry(count)
 --
@@ -247,16 +348,13 @@ FlightLog = {
 --
 --   iterator - A function which will generate the entries from the
 --              log, returning one each time it is called until it
---              runs out, after which it returns nil. Each entry
---              consists of the system's path, date, money, location,
---              text; 'location' being an text array with flight state
---              and appropriate additional information.
-
+--              runs out, after which it returns nil. Each entry is
+--				a CustomLogEntry
 --
 -- Example:
 --
--- > for systemp, date, money, location, entry in FlightLog.GetCustomEntry(5) do
--- >   print(location[1], location[2], Format.Date(deptime))
+-- > for entry in FlightLog.GetCustomEntry(5) do
+-- >   print(entry.location[1], entry.location[2], Format.Date(entry.deptime))
 -- > end
 --
 
@@ -267,14 +365,17 @@ FlightLog = {
 			if counter < maximum then
 				counter = counter + 1
 				if FlightLogCustom[counter] then
-					return FlightLogCustom[counter][1], --path
-						   FlightLogCustom[counter][2], --time
-						   FlightLogCustom[counter][3], --money
-						   FlightLogCustom[counter][4], --location
-						   FlightLogCustom[counter][5]  --manual entry
+					return CustomLogEntry:new(
+						counter,
+						FlightLogCustom[counter][1], --path
+						FlightLogCustom[counter][2], --time
+						FlightLogCustom[counter][3], --money
+						FlightLogCustom[counter][4], --location
+						FlightLogCustom[counter][5]  --manual entry
+					)
 				end
 			end
-			return nil, nil, nil, nil, nil
+			return
 		end
 	end,
 
