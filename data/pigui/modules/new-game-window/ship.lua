@@ -427,15 +427,15 @@ local function findEquipmentType(eqTypeID)
 	assert(false, "Wrong Equipment ID: " .. tostring(eqTypeID))
 end
 
-local function findEquipmentPath(eqType)
+local function findEquipmentPath(eqKey)
 	for _, eq_list in pairs({ 'misc', 'laser', 'hyperspace' }) do
 		for id, obj in pairs(Equipment[eq_list]) do
-			if obj == eqType then
+			if obj.l10n_key == eqKey then
 				return eq_list, id
 			end
 		end
 	end
-	assert(false, "Wrong Equipment ID: " .. tostring(eqType))
+	assert(false, "Wrong Equipment ID: " .. tostring(eqKey))
 end
 
 local function hasSlotClass(eqTypeID, slotClass)
@@ -717,7 +717,7 @@ function ShipEquip:fromStartVariant(variant)
 	eq_value.misc = {}
 	for _, entry in pairs(variant.equipment) do
 		local eq, amount = table.unpack(entry)
-		local eq_list, id = findEquipmentPath(eq)
+		local eq_list, id = findEquipmentPath(eq.l10n_key)
 		if eq_list == 'misc' then
 			self:addMiscEntry(id)
 		elseif eq_list == 'laser' then
