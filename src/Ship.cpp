@@ -1265,10 +1265,10 @@ void Ship::StaticUpdate(const float timeStep)
 				 *
 				 * fuel_scoop_cap = area, m^2. rate = kg^2/(m*s^3) = (Pa*kg)/s^2
 				 */
-				const double hydrogen_density = 0.00000333;
+				const double hydrogen_density = 0.0002;
 				if ((m_stats.free_capacity) && (dot > 0.90) && speed_times_density > (100.0 * 0.3)) {
 					const double rate = speed_times_density * hydrogen_density * double(m_stats.fuel_scoop_cap);
-					m_hydrogenScoopedAccumulator += rate * Pi::game->GetTimeAccelRate();
+					m_hydrogenScoopedAccumulator += rate * timeStep;
 					if (m_hydrogenScoopedAccumulator > 1) {
 						const double scoopedTons = floor(m_hydrogenScoopedAccumulator);
 						LuaEvent::Queue("onShipScoopFuel", this, p, scoopedTons);
