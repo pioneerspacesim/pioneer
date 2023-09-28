@@ -27,8 +27,14 @@ function CargoManager:Constructor(ship)
 	self.usedCargoMass = 0
 
 	-- Initialize property variables on owning ship for backwards compatibility
-	ship:setprop("totalCargo", self:GetTotalSpace())
-	ship:setprop("usedCargo", 0)
+	-- don't initialize them if they're already created after first save
+	if not self.ship:hasprop("totalCargo") then
+		ship:setprop("totalCargo", self:GetTotalSpace())
+	end
+	
+	if not self.ship:hasprop("usedCargo") then
+		ship:setprop("usedCargo", 0)
+	end
 
 	-- TODO: stored commodities should be represented as array of { name, count, meta } entries
 	-- to allow for e.g. tracking stolen/scooped cargo, or special mission-related cargoes
@@ -99,7 +105,7 @@ end
 function CargoManager:AddCommodity(type, count)
 	-- TODO: use a cargo volume metric with variable mass instead of fixed 1m^3 == 1t
 	local required_space = (type.mass or 1) * (count or 1)
-
+	
 	if self:GetFreeSpace() < required_space then
 		return false
 	end
@@ -245,6 +251,7 @@ end
 function CargoManager:Unserialize()
 	setmetatable(self, CargoManager.meta)
 	self.listeners = {}
+	
 	return self
 end
 

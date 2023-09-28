@@ -677,7 +677,7 @@ void Ship::UpdateLuaStats()
 	m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 	int hyperclass = p.Get("hyperclass_cap");
 	if (hyperclass) {
-		std::tie(m_stats.hyperspace_range_max, m_stats.hyperspace_range) =
+		std::tie(m_stats.hyperspace_range, m_stats.hyperspace_range_max) =
 			LuaObject<Ship>::CallMethod<double, double>(this, "GetHyperspaceRange");
 	}
 
