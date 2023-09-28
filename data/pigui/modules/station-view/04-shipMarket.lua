@@ -182,15 +182,6 @@ end
 
 function FormatAndCompareShips:compare_and_draw_column(desc, str, a, b)
 	compare = a-b
-	color = nil
-	icon_i = nil
-	if compare < 0 then
-		color = ui.theme.colors.shipmarketCompareWorse
-		icon_i = ui.theme.icons.shipmarket_compare_worse
-	elseif compare > 0 then
-		color = styleColors.success_300 -- ui.theme.colors.shipmarketCompareBetter
-		icon_i = ui.theme.icons.shipmarket_compare_better
-	end
 
 	if self.column == 0 then
 		ui.tableNextRow()
@@ -200,17 +191,20 @@ function FormatAndCompareShips:compare_and_draw_column(desc, str, a, b)
 	ui.textColored(styleColors.gray_300, desc)
 
 	ui.tableSetColumnIndex(1 + self.column)
-	if color ~= nil then
-		ui.textAlignedColored(str, 1.0, color)
+
+	if compare < 0 then
+		ui.textAlignedColored(str, 1.0, ui.theme.colors.shipmarketCompareWorse)
+		ui.tableSetColumnIndex(2 + self.column)
+		ui.icon( ui.theme.icons.shipmarket_compare_worse, Vector2(ui.getTextLineHeight()), ui.theme.colors.shipmarketCompareWorse)		
+		
+	elseif compare > 0 then
+		ui.textAlignedColored(str, 1.0,  ui.theme.colors.shipmarketCompareBetter)
+		ui.tableSetColumnIndex(2 + self.column)
+		ui.icon( ui.theme.icons.shipmarket_compare_better, Vector2(ui.getTextLineHeight()), ui.theme.colors.shipmarketCompareBetter)			
 	else
 		ui.textAligned(str, 1.0)
-	end
-
-	ui.tableSetColumnIndex(2 + self.column)
-	if icon_i ~= nil then
-		ui.icon( icon_i, Vector2(ui.getTextLineHeight()), color )		
-	else
-		ui.dummy( Vector2(ui.getTextLineHeight()) )
+		ui.tableSetColumnIndex(2 + self.column)
+		ui.dummy( Vector2(ui.getTextLineHeight()) )		
 	end
 
 	if self.column == 0 then
