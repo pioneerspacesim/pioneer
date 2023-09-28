@@ -13,6 +13,9 @@ local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
 local CommodityType= require 'CommodityType'
 
 local ui = require 'pigui'
+
+local utils = require 'utils'
+
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local styleColors = ui.theme.styleColors
@@ -159,16 +162,17 @@ local function buyShip (mkt, sos)
 	mkt.popup:open()
 end
 
-local FormatAndCompareShips = {}
+local FormatAndCompareShips = utils.class("ui.ShipMarket.FormatAndCompareShips")
 
 function FormatAndCompareShips:beginTable()
-	if not ui.beginTable("specs", 6, {"NoPadInnerX"} ) then
+	if not ui.beginTable("specs", 7 ) then
 		return false
 	end
 
 	ui.tableSetupColumn("name1")
 	ui.tableSetupColumn("body1")
 	ui.tableSetupColumn("indicator1", {"WidthFixed"})
+	ui.tableSetupColumn("gap", {"WidthFixed"})
 	ui.tableSetupColumn("name2")
 	ui.tableSetupColumn("body2")
 	ui.tableSetupColumn("indicator2", {"WidthFixed"})
@@ -178,18 +182,14 @@ end
 
 function FormatAndCompareShips:compare_and_draw_column(desc, str, a, b)
 	compare = a-b
-	color = styleColors.white
-	indicator = " "
+	color = nil
+	icon_i = nil
 	if compare < 0 then
-		color = styleColors.warning_300
-		-- note a preceeding 3 per en space as no column padding
-		-- this is unicode point 2004
-		indicator = " ↓"
+		color = ui.theme.colors.shipmarketCompareWorse
+		icon_i = ui.theme.icons.shipmarket_compare_worse
 	elseif compare > 0 then
-		color = styleColors.success_300
-		-- note a preceeding 3 per en space as no column padding
-		-- this is unicode point 2004
-		indicator = " ↑"
+		color = styleColors.success_300 -- ui.theme.colors.shipmarketCompareBetter
+		icon_i = ui.theme.icons.shipmarket_compare_better
 	end
 
 	if self.column == 0 then
@@ -200,17 +200,22 @@ function FormatAndCompareShips:compare_and_draw_column(desc, str, a, b)
 	ui.textColored(styleColors.gray_300, desc)
 
 	ui.tableSetColumnIndex(1 + self.column)
-	ui.textAlignedColored(str, 1.0, color)
+	if color ~= nil then
+		ui.textAlignedColored(str, 1.0, color)
+	else
+		ui.textAligned(str, 1.0)
+	end
 
 	ui.tableSetColumnIndex(2 + self.column)
+	if icon_i ~= nil then
+		ui.icon( icon_i, Vector2(ui.getTextLineHeight()), color )		
+	else
+		ui.dummy( Vector2(ui.getTextLineHeight()) )
+	end
 
 	if self.column == 0 then
-		-- this is an em space (unicode point 2003)
-		-- as we don't have and column padding
-		ui.textColored(color,indicator .. " ")
-		self.column = 3
+		self.column = 4
 	else
-		ui.textColored(color,indicator)
 		self.column = 0
 	end
 end
@@ -281,17 +286,14 @@ function FormatAndCompareShips:draw_atmos_pressure_limit_cell(desc)
 	self:compare_and_draw_column( desc, atmoSlot, self.def.atmosphericPressureLimit, self.b.def.atmosphericPressureLimit )
 end
 
-function FormatAndCompareShips:new(def,b)
-	o = {}
-	setmetatable( o, self )
-	self.__index = self
-	o.column = 0
-	o.emptyMass = def.hullMass + def.fuelTankMass
-	o.fullMass = def.hullMass + def.capacity + def.fuelTankMass
-	o.massAtCapacity = def.hullMass + def.capacity
-	o.cargoCapacity = def.equipSlotCapacity["cargo"]
-	o.def = def
-	o.b = b
+function FormatAndCompareShips:Constructor(def, b)
+	self.column = 0
+	self.emptyMass = def.hullMass + def.fuelTankMass
+	self.fullMass = def.hullMass + def.capacity + def.fuelTankMass
+	self.massAtCapacity = def.hullMass + def.capacity
+	self.cargoCapacity = def.equipSlotCapacity["cargo"]
+	self.def = def
+	self.b = b
 	return o
 end
 
@@ -338,10 +340,11 @@ local tradeMenu = function()
 				modelSpinner:setSize(Vector2(spinnerWidth, spinnerWidth / 2.5))
 				modelSpinner:draw()
 
-				local shipFormatAndCompare = FormatAndCompareShips:new( def, FormatAndCompareShips:new( ShipDef[Game.player.shipId], nil ) )
+				local currentShip = FormatAndCompareShips.New( ShipDef[Game.player.shipId], nil )
+				local shipFormatAndCompare = FormatAndCompareShips.New( def, currentShip )
 
 				ui.child("ShipSpecs", Vector2(0, 0), function()
-					ui.withStyleVars({ CellPadding = Vector2(8, 4) }, function()
+					ui.withStyleVars({ CellPadding = Vector2(3,4) }, function()
 
 						if not shipFormatAndCompare:beginTable() then return end
 
