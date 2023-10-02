@@ -27,11 +27,17 @@
 #include "SpaceStation.h"
 #include "Star.h"
 
+// For LuaFlags<ObjectType>
+#include "enum_table.h"
+#include "pigui/LuaFlags.h"
+
 namespace PiGui {
 	// Declared in LuaPiGuiInternal.h
 	extern bool first_body_is_more_important_than(Body *, Body *);
 	extern int pushOnScreenPositionDirection(lua_State *l, vector3d position);
 } // namespace PiGui
+
+static LuaFlags<ObjectType> s_bodyFlags(ENUM_PhysicsObjectType);
 
 /*
  * Class: Body
@@ -841,6 +847,16 @@ static int l_body_set_ang_velocity(lua_State *l)
 	Body *b = LuaObject<Body>::CheckFromLua(1);
 	b->SetAngVelocity(LuaPull<vector3d>(l, 2));
 	return 0;
+}
+
+void pi_lua_generic_pull(lua_State *l, int index, ObjectType &objectType)
+{
+	objectType = s_bodyFlags.LookupEnum(l, index);
+}
+
+void pi_lua_generic_push(lua_State *l, ObjectType bodyType)
+{
+	lua_pushstring(l, EnumStrings::GetString("PhysicsObjectType", static_cast<int>(bodyType)));
 }
 
 template <>

@@ -2,6 +2,8 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaSpace.h"
+#include "Body.h"
+#include "LuaBody.h"
 #include "CargoBody.h"
 #include "Frame.h"
 #include "Game.h"
@@ -956,6 +958,7 @@ static int l_space_get_bodies(lua_State *l)
 
 	lua_newtable(l);
 
+	int idx = 1;
 	for (Body *b : Pi::game->GetSpace()->GetBodies()) {
 		if (filter) {
 			lua_pushvalue(l, 1);
@@ -977,7 +980,79 @@ static int l_space_get_bodies(lua_State *l)
 			lua_pop(l, 1);
 		}
 
-		lua_pushinteger(l, lua_rawlen(l, -1) + 1);
+		lua_pushinteger(l, idx++);
+		LuaObject<Body>::PushToLua(b);
+		lua_rawset(l, -3);
+	}
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
+/*
+ * Function: GetBodiesNear
+ *
+ * Get all the <Body> objects within a specified distance from another body
+ * that match the specified filter
+ *
+ * bodies = Space.GetBodiesNear(body, dist, [type])
+ *
+ * Parameters:
+ *
+ *   body - the reference body for distance
+ *
+ *   dist - the maximum distance from the reference body another body can be
+ *
+ *   type - optional - a PhysicsObjectType enum value
+ *          (one of Constants.PhysicsObjectType) acting as a filter on the type
+ *          of the returned bodies
+ *
+ * Return:
+ *
+ *   bodies - an array containing zero or more <Body> objects that matched the
+ *            filter
+ *
+ * Example:
+ *
+ * > -- get all stations within 50,000m
+ * > local stations = Space.GetBodiesNear(Game.player, 50000, "SPACE_STATION")
+ *
+ * Availability:
+ *
+ *   Oct. 2023
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_space_get_bodies_near(lua_State *l)
+{
+	if (!Pi::game) {
+		luaL_error(l, "Game is not started");
+		return 0;
+	}
+
+	LUA_DEBUG_START(l);
+
+	Body *body = LuaPull<Body *>(l, 1);
+	double dist = LuaPull<double>(l, 2);
+	double distSqr = dist * dist;
+
+	ObjectType filterBodyType = LuaPull<ObjectType>(l, 3, ObjectType::BODY);
+	bool filter = filterBodyType != ObjectType::BODY;
+
+	lua_newtable(l);
+
+	int idx = 1;
+	for (Body *b : Pi::game->GetSpace()->GetBodiesMaybeNear(body, dist)) {
+		if (filter && !b->IsType(filterBodyType))
+			continue;
+
+		if (b->GetPositionRelTo(body).LengthSqr() > distSqr)
+			continue;
+
+		lua_pushinteger(l, idx++);
 		LuaObject<Body>::PushToLua(b);
 		lua_rawset(l, -3);
 	}
@@ -1036,6 +1111,7 @@ void LuaSpace::Register()
 
 		{ "GetBody", l_space_get_body },
 		{ "GetBodies", l_space_get_bodies },
+		{ "GetBodiesNear", l_space_get_bodies_near },
 
 		{ "DbgDumpFrames", l_space_dump_frames },
 		{ 0, 0 }
