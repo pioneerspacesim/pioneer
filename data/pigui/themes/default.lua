@@ -573,8 +573,8 @@ theme.icons = {
 	equip_trade_computer = 301,
 	equip_autopilot = 302,
 	equip_hyperdrive = 303,
-	shipmarket_compare_better = 240,
-	shipmarket_compare_worse = 241,
+	shipmarket_compare_better = 38,
+	shipmarket_compare_worse = 40,
 
 	-- TODO: manual / autopilot
 	-- dummy, until actually defined correctly
