@@ -13,6 +13,8 @@ local Event = require 'Event'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
 
+local utils = require 'utils'
+
 -- default values (private)
 local FlightLogSystemQueueLength = 1000
 local FlightLogStationQueueLength = 1000
@@ -23,124 +25,75 @@ local FlightLogStation = {}
 local FlightLogCustom = {}
 
 -- a generic log entry:
-LogEntry = {
+LogEntry = utils.class("FlightLog.LogEntry")
+
+function LogEntry:Constructor( type, index, sort_date, entry )
 	-- the index of the entry from the list which it came
-	index = 0,
+	self.index = index
 	-- a date that can be used to sort entries on TODO: remove this
-	sort_date = 0,
+	self.sort_date = sort_date
 	-- the entry text associated with this log entry
-	entry = "",
+	self.entry = entry
 	-- the type this logentry is
-	type = "unknown",
-	-- call this function to update the entry - will always be overloaded
-	UpdateEntry = function ( self, entry ) end,
-	new = function ( self, o )
-		setmetatable( o, self )
-		self.__index = self
-		return o
+	self.type = type
+end
+
+SystemLogEntry = utils.class("FlightLog.SystemLogEntry", LogEntry)
+
+function SystemLogEntry:Constructor( index, systemp, arrtime, deptime, entry )
+
+	if nil == arrtime then
+		sort_date = deptime
+	else
+		sort_date = arrtime
 	end
-}
 
--- a system log entry:
-SystemLogEntry = LogEntry:new( {
-	type = "system",
-	-- the systemp for this system entered
-	systemp = nil,
-	-- arrival time for the the system (can be nil if we started the game here)
-	arrtime = nil,
-	-- departure time for the system (can be nil if still in system)
-	deptime = nil,
+	LogEntry.Constructor( self, "system", index, sort_date, entry )
 
-	new = function ( self, index, systemp, arrtime, deptime, entry )
-		o = {
-			index = index,
-			systemp = systemp,
-			arrtime = arrtime,
-			deptime = deptime,
-			entry = entry
-		}
-		setmetatable( o, self )
-		self.__index = self
+	self.systemp = systemp
+	self.arrtime = arrtime
+	self.deptime = deptime
 
-		if nil == arrtime then
-			o.sort_date = deptime
-		else
-			o.sort_date = arrtime
-		end
+end
 
-		return o
-	end,
-
-	UpdateEntry = function ( self, entry )
-		FlightLogSystem[self.index][4] = entry
-		self.entry = entry
-	end
-} )
+function SystemLogEntry:UpdateEntry( entry )
+	FlightLogSystem[self.index][4] = entry
+	self.entry = entry
+end
 
 -- a custom log entry:
-CustomLogEntry = LogEntry:new( {
-	type = "custom",
-	-- the systemp for this system entered
-	systemp = nil,
-	-- time of the log entry
-	time = nil,
-	-- money the player had at time of entry
-	money = nil,
-	-- location of the entry
-	location = nil,
+CustomLogEntry = utils.class("FlightLog.CustomLogEntry", LogEntry)
 
-	new = function ( self, index, systemp, time, money, location, entry )
-		o = {
-			index = index,
-			systemp = systemp,
-			time = time,
-			money = money,
-			location = location,
-			entry = entry,
-			sort_date = time
-		}
-		setmetatable( o, self )
-		self.__index = self
+function CustomLogEntry:Constructor( index, systemp, time, money, location, entry  )
+	LogEntry.Constructor( self, "custom", index, time, entry )
 
-		return o
-	end,
+	self.systemp = systemp
+	self.time = time
+	self.money = money
+	self.location = location
+end
 
-	UpdateEntry = function ( self, entry )
-		FlightLogCustom[self.index][5] = entry
-		self.entry = entry
-	end
-} )
-	
+function CustomLogEntry:UpdateEntry( entry )
+	FlightLogCustom[self.index][5] = entry
+	self.entry = entry
+end
+
+
 -- a station log entry:
-StationLogEntry = LogEntry:new( {
-	type = "station",
-	-- the systemp for this system entered
-	systemp = nil,
-	-- time of the log entry
-	deptime = nil,
-	-- money the player had at time of entry
-	money = nil,
+StationLogEntry = utils.class("FlightLog.StationLogEntry", LogEntry)
 
-	new = function ( self, index, systemp, deptime, money, entry )
-		o = {
-			index = index,
-			systemp = systemp,
-			deptime = deptime,
-			money = money,
-			entry = entry,
-			sort_date = deptime
-		}
-		setmetatable( o, self )
-		self.__index = self
+function StationLogEntry:Constructor( index, systemp, deptime, money, entry   )
+	LogEntry.Constructor( self, "station", index, deptime, entry )
 
-		return o
-	end,
+	self.systemp = systemp
+	self.deptime = deptime
+	self.money = money
+end
 
-	UpdateEntry = function ( self, entry )
-		FlightLogStation[self.index][4] = entry
-		self.entry = entry
-	end
-} )
+function StationLogEntry:UpdateEntry( entry )
+	FlightLogStation[self.index][4] = entry
+	self.entry = entry
+end
 
 local FlightLog
 FlightLog = {
@@ -186,7 +139,7 @@ FlightLog = {
 				counter = counter + 1
 				if FlightLogSystem[counter] then
 
-				local entry = SystemLogEntry:new(
+				local entry = SystemLogEntry.New(
 					counter,
 					FlightLogSystem[counter][1],
 					FlightLogSystem[counter][2],
@@ -236,7 +189,7 @@ FlightLog = {
 			if counter < maximum then
 				counter = counter + 1
 				if FlightLogStation[counter] then
-					return StationLogEntry:new(
+					return StationLogEntry.New(
 						counter,
 						FlightLogStation[counter][1],
 						FlightLogStation[counter][2],
@@ -365,7 +318,7 @@ FlightLog = {
 			if counter < maximum then
 				counter = counter + 1
 				if FlightLogCustom[counter] then
-					return CustomLogEntry:new(
+					return CustomLogEntry.New(
 						counter,
 						FlightLogCustom[counter][1], --path
 						FlightLogCustom[counter][2], --time
