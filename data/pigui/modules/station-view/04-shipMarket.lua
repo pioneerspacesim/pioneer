@@ -288,7 +288,6 @@ function FormatAndCompareShips:Constructor(def, b)
 	self.cargoCapacity = def.equipSlotCapacity["cargo"]
 	self.def = def
 	self.b = b
-	return o
 end
 
 
