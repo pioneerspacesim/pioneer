@@ -34,10 +34,8 @@ static void _push_json_to_lua(lua_State *l, Json &obj)
 	case Json::value_t::array: {
 		lua_newtable(l);
 		size_t size = obj.size();
-		lua_pushinteger(l, size);
-		lua_setfield(l, -2, "n");
 		for (size_t idx = 0; idx < size; idx++) {
-			lua_pushinteger(l, idx);
+			lua_pushinteger(l, idx + 1);
 			_push_json_to_lua(l, obj[idx]);
 			lua_settable(l, -3);
 		}
