@@ -15,6 +15,15 @@ local Serializer = require 'Serializer'
 
 local utils = require 'utils'
 
+local Character = require 'Character'
+
+
+-- required for formatting / localisation
+local ui = require 'pigui'
+local Lang = require 'Lang'
+local l = Lang.GetResource("ui-core")
+-- end of formating / localisation stuff
+
 -- default values (private)
 local FlightLogSystemQueueLength = 1000
 local FlightLogStationQueueLength = 1000
@@ -25,20 +34,95 @@ local FlightLogStation = {}
 local FlightLogCustom = {}
 
 -- a generic log entry:
-LogEntry = utils.class("FlightLog.LogEntry")
+LogEntry = utils.class("FlightLog.LogEntry.Base")
 
-function LogEntry:Constructor( type, index, sort_date, entry )
+function LogEntry:GetType()
+	local full_type = self.Class().meta.class
+	return string.sub( full_type, #"FlightLog.LogEntry."+1, #full_type )
+end
+
+-- return true if this has a modifiable entry field
+function LogEntry:HasEntry()
+	return true
+end
+
+
+-- return true if this has a Delete() method
+function LogEntry:SupportsDelete()
+	return false
+end
+
+function LogEntry:Constructor( index, sort_date, entry )
 	-- the index of the entry from the list which it came
 	self.index = index
 	-- a date that can be used to sort entries on TODO: remove this
 	self.sort_date = sort_date
 	-- the entry text associated with this log entry
 	self.entry = entry
-	-- the type this logentry is
-	self.type = type
+	self.type = self:GetType()
 end
 
-SystemLogEntry = utils.class("FlightLog.SystemLogEntry", LogEntry)
+-- return the name for this log entry type
+function LogEntry:GetLocalizedName()
+	return "Error"
+end
+
+-- return an array of key value pairs, the key being localized and the
+-- value being formatted appropriately.
+function LogEntry:GetDataPairs()
+	return { "ERROR", "This should never be seen" }
+end
+
+function LogEntry:UpdateEntry( entry )
+	self.entry = entry
+end
+
+-- convenience helper function
+-- Sometimes date is empty, e.g. departure date prior to departure
+-- TODO: maybe not return this at all then!
+function LogEntry.formatDate(date)
+	return date and Format.Date(date) or nil
+end
+
+-- Based on flight state, compose a reasonable string for location
+function LogEntry.composeLocationString(location)
+	return string.interp(l["FLIGHTLOG_"..location[1]],
+		{ primary_info = location[2],
+			secondary_info = location[3] or "",
+			tertiary_info = location[4] or "",})
+end
+
+CurrentStatusLogEntry = utils.class("FilghtLog.LogEntry.CurrentStatus", LogEntry )
+
+function CurrentStatusLogEntry:HasEntry()
+	return false
+end
+
+
+function CurrentStatusLogEntry:Constructor()
+	LogEntry.Constructor( self, 0, Game.time, "" )
+end
+
+function CurrentStatusLogEntry:GetLocalizedName()
+	return l.PERSONAL_INFORMATION;
+end
+
+-- return an array of key value pairs, the key being localized and the
+-- value being formatted appropriately.
+function CurrentStatusLogEntry:GetDataPairs()
+
+    local player = Character.persistent.player
+
+	return {
+		{ l.NAME_PERSON, player.name },
+		-- TODO: localize
+		{ "Title", player.title },
+		{ l.RATING, l[player:GetCombatRating()] },
+		{ l.KILLS,  string.format('%d',player.killcount) }
+	}
+end
+
+SystemLogEntry = utils.class("FlightLog.LogEntry.System", LogEntry)
 
 function SystemLogEntry:Constructor( index, systemp, arrtime, deptime, entry )
 
@@ -48,7 +132,7 @@ function SystemLogEntry:Constructor( index, systemp, arrtime, deptime, entry )
 		sort_date = arrtime
 	end
 
-	LogEntry.Constructor( self, "system", index, sort_date, entry )
+	LogEntry.Constructor( self, index, sort_date, entry )
 
 	self.systemp = systemp
 	self.arrtime = arrtime
@@ -56,16 +140,31 @@ function SystemLogEntry:Constructor( index, systemp, arrtime, deptime, entry )
 
 end
 
+function SystemLogEntry:GetLocalizedName()
+	return l.LOG_SYSTEM;
+end
+
+-- return an array of key value pairs, the key being localized and the
+-- value being formatted appropriately.
+function SystemLogEntry:GetDataPairs()
+	return {
+		{ l.ARRIVAL_DATE, self.formatDate(self.arrtime) },
+		{ l.DEPARTURE_DATE, self.formatDate(self.deptime) },
+		{ l.IN_SYSTEM, ui.Format.SystemPath(self.systemp) },
+		{ l.ALLEGIANCE, self.systemp:GetStarSystem().faction.name }
+	}
+end
+
 function SystemLogEntry:UpdateEntry( entry )
+	LogEntry.UpdateEntry( self, entry )
 	FlightLogSystem[self.index][4] = entry
-	self.entry = entry
 end
 
 -- a custom log entry:
-CustomLogEntry = utils.class("FlightLog.CustomLogEntry", LogEntry)
+CustomLogEntry = utils.class("FlightLog.LogEntry.Custom", LogEntry)
 
 function CustomLogEntry:Constructor( index, systemp, time, money, location, entry  )
-	LogEntry.Constructor( self, "custom", index, time, entry )
+	LogEntry.Constructor( self, index, time, entry )
 
 	self.systemp = systemp
 	self.time = time
@@ -73,26 +172,79 @@ function CustomLogEntry:Constructor( index, systemp, time, money, location, entr
 	self.location = location
 end
 
+function CustomLogEntry:GetLocalizedName()
+	return l.LOG_CUSTOM;
+end
+
+-- return an array of key value pairs, the key being localized and the
+-- value being formatted appropriately.
+function CustomLogEntry:GetDataPairs()
+	return {
+		{ l.DATE, self.formatDate(self.time) },
+		{ l.LOCATION, self.composeLocationString(self.location) },
+		{ l.IN_SYSTEM, ui.Format.SystemPath(self.systemp) },
+		{ l.ALLEGIANCE, self.systemp:GetStarSystem().faction.name },
+		{ l.CASH, Format.Money(self.money) }
+	}
+end
+
+
 function CustomLogEntry:UpdateEntry( entry )
+	LogEntry.UpdateEntry( self, entry )
 	FlightLogCustom[self.index][5] = entry
-	self.entry = entry
+end
+
+-- return true if this has a Delete() method
+function CustomLogEntry:SupportsDelete()
+	return true
+end
+
+function CustomLogEntry:Delete()
+	table.remove(FlightLogCustom, index)
+
+	-- TODO: now all the indexes are wrong.
+	-- we should do away with them all!
 end
 
 
 -- a station log entry:
-StationLogEntry = utils.class("FlightLog.StationLogEntry", LogEntry)
+StationLogEntry = utils.class("FlightLog.LogEntry.Station", LogEntry)
 
 function StationLogEntry:Constructor( index, systemp, deptime, money, entry   )
-	LogEntry.Constructor( self, "station", index, deptime, entry )
+	LogEntry.Constructor( self, index, deptime, entry )
 
 	self.systemp = systemp
 	self.deptime = deptime
 	self.money = money
 end
 
+function StationLogEntry:GetLocalizedName()
+	return l.LOG_STATION;
+end
+
+-- return an array of key value pairs, the key being localized and the
+-- value being formatted appropriately.
+function StationLogEntry:GetDataPairs()
+
+	local station_type = "FLIGHTLOG_" .. self.systemp:GetSystemBody().type
+
+
+	return {
+		{ l.DATE, self.formatDate(self.deptime) },
+		{ l.STATION, string.interp(l[station_type],
+		{	primary_info = self.systemp:GetSystemBody().name,
+			secondary_info = self.systemp:GetSystemBody().parent.name }) },
+--		{ l.LOCATION, self.systemp:GetSystemBody().parent.name },
+		{ l.IN_SYSTEM, ui.Format.SystemPath(self.systemp) },
+		{ l.ALLEGIANCE, self.systemp:GetStarSystem().faction.name },
+		{ l.CASH, Format.Money(self.money) },
+	}
+end
+
+
 function StationLogEntry:UpdateEntry( entry )
+	LogEntry.UpdateEntry( self, entry )
 	FlightLogStation[self.index][4] = entry
-	self.entry = entry
 end
 
 local FlightLog
@@ -101,7 +253,6 @@ FlightLog = {
 --
 -- Group: Methods
 --
-
 --
 -- Method: GetSystemPaths
 --
@@ -431,6 +582,83 @@ FlightLog = {
 	end,
 
 }
+
+--
+-- Method: GetLogEntries
+--
+-- Parameters:
+--
+--   types - An array of the types we want to fetch, nil if all of them
+--   maximum - the maximum number of results to return
+-- Return:
+--
+--   iterator - A function which will generate the entries from the
+--              log, returning one each time it is called until it
+--              runs out, after which it returns nil. Each entry is
+--				a child class of LogEntry
+--
+-- Example:
+--
+-- > for entry in FlightLog.GetLogEntries( { "Custom", "System", "Station" ) do
+-- >   print( entry.GetType(), entry.entry )
+-- > end
+function FlightLog:GetLogEntries(types, maximum)
+
+	-- TODO: actually just store a list of all of them as they are at startup
+	local type_set = utils.set.New(types)
+
+	local all_entries = {}
+
+	if nil == types or type_set:contains( 'Custom' ) then			
+		for entry in self.GetCustomEntry() do
+			table.insert( all_entries, entry )
+		end
+	end
+
+	if nil == types or type_set:contains( 'Station' ) then			
+		for entry in self.GetStationPaths() do
+			table.insert( all_entries, entry )
+		end
+	end
+
+	if nil == types or type_set:contains( 'System' ) then			
+		for entry in self.GetSystemPaths() do
+			table.insert( all_entries, entry )
+		end
+	end
+
+
+
+	local function sortf( a, b )
+		return a.sort_date > b.sort_date
+	end
+
+
+
+	table.sort( all_entries, sortf )
+
+	-- note regardless of sort order, current status always comes first.
+	local currentStatus = nil
+	if nil == types or type_set:contains( "CurrentStatus" ) then
+		currentStatus = CurrentStatusLogEntry.New()
+	end
+
+	local counter = 0
+	maximum = maximum or #all_entries
+	return function ()
+		if currentStatus then
+			t = currentStatus
+			currentStatus = nil
+			return t
+		end
+		if counter < maximum then
+			counter = counter + 1
+			return all_entries[counter]
+		end
+		return nil
+	end
+end
+
 
 -- LOGGING
 
