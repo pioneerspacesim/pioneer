@@ -26,6 +26,7 @@ local include_player_info = true
 local include_custom_log = true
 local include_station_log = true
 local include_system_log = true
+local earliest_first = false
 local export_html = true
 
 local function getIncludedSet()
@@ -38,13 +39,12 @@ local function getIncludedSet()
 	return o;
 end
 
-
 function writeLogEntry( entry, formatter, write_header )
 	if write_header then
 		formatter:write( entry:GetLocalizedName() ):newline()
 	end
 
-	for _, pair in pairs( entry:GetDataPairs() ) do
+	for _, pair in pairs( entry:GetDataPairs( earliest_first ) ) do
 		formatter:headerText( pair[1], pair[2] )
 	end
 end
@@ -150,14 +150,14 @@ entering_text = false
 
 -- Display Entry text, and Edit button, to update flightlog
 function inputText(entry, counter, entering_text, str, clicked)
-	if #entry.entry > 0 then
-		ui_formatter:headerText(l.ENTRY, entry.entry, true)
+	if entry:HasEntry() then
+		ui_formatter:headerText(l.ENTRY, entry:GetEntry(), true)
 	end
 
 	if clicked or entering_text == counter then
 		ui.spacing()
 		ui.pushItemWidth(-1.0)
-		local updated_entry, return_pressed = ui.inputText("##" ..str..counter, entry.entry, {"EnterReturnsTrue"})
+		local updated_entry, return_pressed = ui.inputText("##" ..str..counter, entry:GetEntry(), {"EnterReturnsTrue"})
 		ui.popItemWidth()
 		entering_text = counter
 		if return_pressed then
@@ -184,12 +184,12 @@ local function renderLog( formatter )
 
 	local counter = 0
 	local was_clicked = false
-	for entry in FlightLog:GetLogEntries(getIncludedSet()) do
+	for entry in FlightLog:GetLogEntries(getIncludedSet(), nil, earliest_first ) do
 	 	counter = counter + 1
 	
 		 writeLogEntry( entry, formatter, true )
 
-		 if entry:HasEntry() then
+		 if entry:CanHaveEntry() then
 			::input::
 			entering_text = inputText(entry, counter,
 				entering_text, "custom", was_clicked)
@@ -258,12 +258,12 @@ local function exportLogs()
 
 	formatter:open( io.open( log_filename, "w" ) )
 
-	for entry in FlightLog:GetLogEntries(getIncludedSet()) do
+	for entry in FlightLog:GetLogEntries(getIncludedSet(),nil, earliest_first) do
 
 		writeLogEntry(entry, formatter, true)
 
-		if #entry.entry > 0 then
-			formatter:headerText(l.ENTRY, entry.entry, true)
+		if (entry:HasEntry()) then
+			formatter:headerText(l.ENTRY, entry:GetEntry(), true)
 		end
 		formatter:separator()
 	end
@@ -281,6 +281,7 @@ local function displayFilterOptions()
 	c,include_custom_log = checkbox(l.LOG_CUSTOM, include_custom_log)
 	c,include_station_log = checkbox(l.LOG_STATION, include_station_log)
 	c,include_system_log = checkbox(l.LOG_SYSTEM, include_system_log)
+	c,earliest_first = checkbox("Reverse Order", earliest_first)
 	ui.spacing()
 	ui.separator()
 	ui.spacing()

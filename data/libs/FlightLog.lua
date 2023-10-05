@@ -17,7 +17,6 @@ local utils = require 'utils'
 
 local Character = require 'Character'
 
-
 -- required for formatting / localisation
 local ui = require 'pigui'
 local Lang = require 'Lang'
@@ -25,66 +24,143 @@ local l = Lang.GetResource("ui-core")
 -- end of formating / localisation stuff
 
 -- default values (private)
-local FlightLogSystemQueueLength = 1000
-local FlightLogStationQueueLength = 1000
+---@type integer
+local MaxTotalDefaultElements = 3000
+-- how many default (so not custom) elements do we have
+---@type integer
+local TotalDefaultElements = 0
 
 -- private data - the log itself
-local FlightLogSystem = {}
-local FlightLogStation = {}
-local FlightLogCustom = {}
+---@type LogEntry[]
+local FlightLogData = {}
 
--- a generic log entry:
+---@class LogEntry
+---A generic log entry:
+---@field protected sort_date number Seconds since the epoch in game time, used to sort when loading old style
+---@field protected entry string User entered text associated with the entry
+---@field protected always_custom boolean|nil Is this always treated as a custom entry (so not auto deleted)
 LogEntry = utils.class("FlightLog.LogEntry.Base")
 
+---@return string Description of this type
 function LogEntry:GetType()
 	local full_type = self.Class().meta.class
 	return string.sub( full_type, #"FlightLog.LogEntry."+1, #full_type )
 end
 
--- return true if this has a modifiable entry field
-function LogEntry:HasEntry()
+---@return boolean true if this is considered to have an entry
+function LogEntry:CanHaveEntry()
 	return true
 end
 
+---@return boolean true if this has an entry
+function LogEntry:HasEntry()
+	return self.entry and #self.entry > 0
+end
 
--- return true if this has a Delete() method
+---@return string The user provided entry or an empty string if there isn't one.
+function LogEntry:GetEntry()
+	if not self.entry then return "" end
+	return self.entry
+end
+
+---@return boolean true if this has a Delete() method
 function LogEntry:SupportsDelete()
 	return false
 end
 
-function LogEntry:Constructor( index, sort_date, entry )
-	-- the index of the entry from the list which it came
-	self.index = index
-	-- a date that can be used to sort entries on TODO: remove this
-	self.sort_date = sort_date
-	-- the entry text associated with this log entry
-	self.entry = entry
-	self.type = self:GetType()
+
+---@return boolean True if this log entry should be considered custom and so not auto deleted
+function LogEntry:IsCustom()
+	if self.always_custom then return true end
+
+	if not self.entry then return false end
+	if self.entry == "" then return false end
+	return true
 end
 
--- return the name for this log entry type
+-- The serialization table is an array
+-- the elements of the array are a key-value pair
+-- the key is the serialization index (so the type this log entry is)
+-- the value is an array of data, to construct the table from.
+---@param table table<integer, any[]>
+---@return nil
+function LogEntry:AddToSerializationTable( table )
+	local v = {}
+	v[self.GetSerializationIndex()] = self:GetSerializationElements()
+	table[#table+1] = v
+end
+
+---@return integer A unique integer for this specific type
+function LogEntry.GetSerializationIndex()
+	return -1
+end
+
+---@return any[] An array of the elements as they will be serialized
+function LogEntry:GetSerializationElements()
+	return {}
+end
+
+
+---@return string The name for this log entry type
 function LogEntry:GetLocalizedName()
 	return "Error"
 end
 
--- return an array of key value pairs, the key being localized and the
--- value being formatted appropriately.
-function LogEntry:GetDataPairs()
-	return { "ERROR", "This should never be seen" }
+---@param earliest_first boolean set to true if your sort order is to show the earlist first dates
+---@return table<string, string>[] An array of key value pairs, the key being localized and the value being formatted appropriately.
+function LogEntry:GetDataPairs( earliest_first )
+	return { { "ERROR", "This should never be seen" } }
 end
 
+---@param entry string A user provided description of the event.
+---If non nil/empty this will cause the entry to be considered custom and not automatically deleted
+---@return nil
 function LogEntry:UpdateEntry( entry )
+
+	if self:IsCustom() then
+		TotalDefaultElements = TotalDefaultElements-1
+	end
+
+	if entry and #entry == 0 then entry = nil end
 	self.entry = entry
+
+	if self:IsCustom() then
+		TotalDefaultElements = TotalDefaultElements+1
+	end
+
 end
 
--- convenience helper function
--- Sometimes date is empty, e.g. departure date prior to departure
--- TODO: maybe not return this at all then!
+---@param sort_date number The date to sort by (from epoch)
+---@param entry string|nil The user entered custom test for this entry
+---@param always_custom boolean Is this always treated as a custom entry
+function LogEntry:Constructor( sort_date, entry, always_custom )
+	-- a date that can be used to sort entries on TODO: remove this
+	self.sort_date = sort_date
+	-- the entry text associated with this log entry
+	if entry and #entry == 0 then entry = nil end
+	self.entry = entry
+	self.always_custom = always_custom
+	if self:IsCustom() then
+		TotalDefaultElements = TotalDefaultElements+1
+	end
+end
+
+
+--- convenience helper function
+--- Sometimes date is empty, e.g. departure date prior to departure
+--- TODO: maybe not return this at all then!
+---
+---@param date number The date since the epoch
+---
+---@return string  The date formatted
 function LogEntry.formatDate(date)
 	return date and Format.Date(date) or nil
 end
 
--- Based on flight state, compose a reasonable string for location
+--- Based on flight state, compose a reasonable string for location
+--- TODO: consider a class to represent, construct, store and format this
+---@param location string[] Array of string info, the first one is the  
+---@return string The formatted composite location.
 function LogEntry.composeLocationString(location)
 	return string.interp(l["FLIGHTLOG_"..location[1]],
 		{ primary_info = location[2],
@@ -92,25 +168,27 @@ function LogEntry.composeLocationString(location)
 			tertiary_info = location[4] or "",})
 end
 
+---@class CurrentStatusLogEngtry : LogEntry
+--- Does not have any members, it grabs the current status live whenever requested
 CurrentStatusLogEntry = utils.class("FilghtLog.LogEntry.CurrentStatus", LogEntry )
 
-function CurrentStatusLogEntry:HasEntry()
+---@return boolean true if this is considered to have an entry
+function CurrentStatusLogEntry:CanHaveEntry()
 	return false
 end
 
-
 function CurrentStatusLogEntry:Constructor()
-	LogEntry.Constructor( self, 0, Game.time, "" )
+	LogEntry.Constructor( self, Game.time, nil, true )
 end
 
+---@return string The name for this log entry type
 function CurrentStatusLogEntry:GetLocalizedName()
 	return l.PERSONAL_INFORMATION;
 end
 
--- return an array of key value pairs, the key being localized and the
--- value being formatted appropriately.
-function CurrentStatusLogEntry:GetDataPairs()
-
+---@param earliest_first boolean set to true if your sort order is to show the earlist first dates
+---@return table<string, string>[] An array of key value pairs, the key being localized and the value being formatted appropriately.
+function CurrentStatusLogEntry:GetDataPairs( earliest_first )
     local player = Character.persistent.player
 
 	return {
@@ -122,17 +200,27 @@ function CurrentStatusLogEntry:GetDataPairs()
 	}
 end
 
+---@class SystemLogEntry : LogEntry
+---@field systemp SystemPath 	The system in question
+---@field arrtime number|nil	The time of arrival in the system, nil if this is an exit log
+---@field depime number|nil	The time of leaving the system, nil if this is an entry log
 SystemLogEntry = utils.class("FlightLog.LogEntry.System", LogEntry)
 
-function SystemLogEntry:Constructor( index, systemp, arrtime, deptime, entry )
 
+---@param systemp SystemPath 	The system in question
+---@param arrtime number|nil	The time of arrival in the system, nil if this is an exit log
+---@param depime number|nil	The time of leaving the system, nil if this is an entry log
+---@param entry string The user entered custom test for this entry
+function SystemLogEntry:Constructor( systemp, arrtime, deptime, entry )
+
+	local sort_date
 	if nil == arrtime then
 		sort_date = deptime
 	else
 		sort_date = arrtime
 	end
 
-	LogEntry.Constructor( self, index, sort_date, entry )
+	LogEntry.Constructor( self, sort_date, entry )
 
 	self.systemp = systemp
 	self.arrtime = arrtime
@@ -140,31 +228,71 @@ function SystemLogEntry:Constructor( index, systemp, arrtime, deptime, entry )
 
 end
 
+---@return integer A unique integer for this specific type
+function SystemLogEntry.GetSerializationIndex()
+	return 0
+end
+
+---@return any[] An array of the elements as they will be serialized
+function SystemLogEntry:GetSerializationElements()
+	return { self.systemp, self.arrtime, self.deptime, self.entry }
+end
+
+--- A static function to create an entry from the elements that have been serialized
+--- For the latest version will be the opposite of GetSerializationElements()
+---@param elem 		any[] 				An array of elements used to construct
+---@param version 	integer				The version to read
+---@return 			SystemLogEntry		The newly created entry
+function SystemLogEntry.CreateFromSerializationElements( elem, version )
+	return SystemLogEntry.New( elem[1], elem[2], elem[3], elem[4] )
+end
+
+---@return string The name for this log entry type
 function SystemLogEntry:GetLocalizedName()
 	return l.LOG_SYSTEM;
 end
 
--- return an array of key value pairs, the key being localized and the
--- value being formatted appropriately.
-function SystemLogEntry:GetDataPairs()
-	return {
-		{ l.ARRIVAL_DATE, self.formatDate(self.arrtime) },
-		{ l.DEPARTURE_DATE, self.formatDate(self.deptime) },
-		{ l.IN_SYSTEM, ui.Format.SystemPath(self.systemp) },
-		{ l.ALLEGIANCE, self.systemp:GetStarSystem().faction.name }
-	}
+---@param earliest_first boolean set to true if your sort order is to show the earlist first dates
+---@return table<string, string>[] An array of key value pairs, the key being localized and the value being formatted appropriately.
+function SystemLogEntry:GetDataPairs( earliest_first )
+	local o = {} ---@type table<string, string>[]
+
+	if ( earliest_first ) then
+		if self.arrtime then
+			o[#o+1] = { l.ARRIVAL_DATE, self.formatDate(self.arrtime) }
+		end
+		if self.deptime then
+			o[#o+1] = { l.DEPARTURE_DATE, self.formatDate(self.deptime) }
+		end
+	else
+		if self.deptime then
+			o[#o+1] = { l.DEPARTURE_DATE, self.formatDate(self.deptime) }
+		end		
+		if self.arrtime then
+			o[#o+1] = { l.ARRIVAL_DATE, self.formatDate(self.arrtime) }
+		end
+	end
+	o[#o+1] = { l.IN_SYSTEM, ui.Format.SystemPath(self.systemp) }
+	o[#o+1] = { l.ALLEGIANCE, self.systemp:GetStarSystem().faction.name }
+
+	return o
 end
 
-function SystemLogEntry:UpdateEntry( entry )
-	LogEntry.UpdateEntry( self, entry )
-	FlightLogSystem[self.index][4] = entry
-end
-
--- a custom log entry:
+---@class CustomLogEntry : LogEntry
+---@field systemp 	SystemPath	The system the player is in when the log was written
+---@field time		number		The game time the log was made, relative to the epoch
+---@field money		integer		The amount of money the player has
+---@field location	string[]	A number of string elements that can be compsed to create a localized description of the location.  See composeLocationString
 CustomLogEntry = utils.class("FlightLog.LogEntry.Custom", LogEntry)
 
-function CustomLogEntry:Constructor( index, systemp, time, money, location, entry  )
-	LogEntry.Constructor( self, index, time, entry )
+
+---@param systemp SystemPath 	The system in question
+---@param time		number		The game time the log was made, relative to the epoch
+---@param money		integer		The amount of money the player has
+---@param location	string[]	A number of string elements that can be compsed to create a localized description of the location.  See composeLocationString
+---@param entry string The user entered custom test for this entry
+function CustomLogEntry:Constructor( systemp, time, money, location, entry )
+	LogEntry.Constructor( self, time, entry, true )
 
 	self.systemp = systemp
 	self.time = time
@@ -172,13 +300,32 @@ function CustomLogEntry:Constructor( index, systemp, time, money, location, entr
 	self.location = location
 end
 
+---@return integer A unique integer for this specific type
+function CustomLogEntry.GetSerializationIndex()
+	return 1
+end
+
+---@return any[] An array of the elements as they will be serialized
+function CustomLogEntry:GetSerializationElements()
+	return { self.systemp, self.time, self.money, self.location, self.entry }
+end
+
+--- A static function to create an entry from the elements that have been serialized
+--- For the latest version will be the opposite of GetSerializationElements()
+---@param elem 		any[] 	An array of elements used to construct
+---@param version 	integer	The version to read
+function CustomLogEntry.CreateFromSerializationElements( elem, version )
+	return CustomLogEntry.New( elem[1], elem[2], elem[3], elem[4], elem[5] )
+end
+
+---@return string The name for this log entry type
 function CustomLogEntry:GetLocalizedName()
 	return l.LOG_CUSTOM;
 end
 
--- return an array of key value pairs, the key being localized and the
--- value being formatted appropriately.
-function CustomLogEntry:GetDataPairs()
+---@param earliest_first boolean set to true if your sort order is to show the earlist first dates
+---@return table<string, string>[] An array of key value pairs, the key being localized and the value being formatted appropriately.
+function CustomLogEntry:GetDataPairs( earliest_first )
 	return {
 		{ l.DATE, self.formatDate(self.time) },
 		{ l.LOCATION, self.composeLocationString(self.location) },
@@ -188,64 +335,76 @@ function CustomLogEntry:GetDataPairs()
 	}
 end
 
-
-function CustomLogEntry:UpdateEntry( entry )
-	LogEntry.UpdateEntry( self, entry )
-	FlightLogCustom[self.index][5] = entry
-end
-
--- return true if this has a Delete() method
+---@return boolean true if this has a Delete() method
 function CustomLogEntry:SupportsDelete()
 	return true
 end
 
+---Delete this entry
+---@return nil
 function CustomLogEntry:Delete()
-	table.remove(FlightLogCustom, index)
-
-	-- TODO: now all the indexes are wrong.
-	-- we should do away with them all!
+	TotalDefaultElements = TotalDefaultElements - 1
+	utils.remove_elem( FlightLogData, self )
 end
 
-
--- a station log entry:
+---@class StationLogEntry : LogEntry
+---@field systemp 	SystemPath	The system the player is in when the log was written
+---@field time		deptime		The game time the log was made, on departure from teh system, relative to the epoch
+---@field money		integer		The amount of money the player has
 StationLogEntry = utils.class("FlightLog.LogEntry.Station", LogEntry)
 
-function StationLogEntry:Constructor( index, systemp, deptime, money, entry   )
-	LogEntry.Constructor( self, index, deptime, entry )
+---@param systemp 	SystemPath	The system the player is in when the log was written
+---@param time		deptime		The game time the log was made, on departure from teh system, relative to the epoch
+---@param money		integer		The amount of money the player has
+---@param entry string The user entered custom test for this entry
+function StationLogEntry:Constructor( systemp, deptime, money, entry )
+	LogEntry.Constructor( self, deptime, entry )
 
 	self.systemp = systemp
 	self.deptime = deptime
 	self.money = money
 end
 
+---@return integer A unique integer for this specific type
+function StationLogEntry.GetSerializationIndex()
+	return 2
+end
+
+---@return any[] An array of the elements as they will be serialized
+function StationLogEntry:GetSerializationElements()
+	return { self.systemp, self.deptime, self.money, self.entry }
+end
+
+--- A static function to create an entry from the elements that have been serialized
+--- For the latest version will be the opposite of GetSerializationElements()
+---@param elem 		any[] 	An array of elements used to construct
+---@param version 	integer	The version to read
+function StationLogEntry.CreateFromSerializationElements( elem, version )
+	return StationLogEntry.New( elem[1], elem[2], elem[3], elem[4] )
+end
+
+---@return string The name for this log entry type
 function StationLogEntry:GetLocalizedName()
 	return l.LOG_STATION;
 end
 
--- return an array of key value pairs, the key being localized and the
--- value being formatted appropriately.
-function StationLogEntry:GetDataPairs()
+---@param earliest_first boolean set to true if your sort order is to show the earlist first dates
+---@return table<string, string>[] An array of key value pairs, the key being localized and the value being formatted appropriately.
+function StationLogEntry:GetDataPairs( earliest_first )
 
 	local station_type = "FLIGHTLOG_" .. self.systemp:GetSystemBody().type
-
 
 	return {
 		{ l.DATE, self.formatDate(self.deptime) },
 		{ l.STATION, string.interp(l[station_type],
 		{	primary_info = self.systemp:GetSystemBody().name,
 			secondary_info = self.systemp:GetSystemBody().parent.name }) },
---		{ l.LOCATION, self.systemp:GetSystemBody().parent.name },
 		{ l.IN_SYSTEM, ui.Format.SystemPath(self.systemp) },
 		{ l.ALLEGIANCE, self.systemp:GetStarSystem().faction.name },
 		{ l.CASH, Format.Money(self.money) },
 	}
 end
 
-
-function StationLogEntry:UpdateEntry( entry )
-	LogEntry.UpdateEntry( self, entry )
-	FlightLogStation[self.index][4] = entry
-end
 
 local FlightLog
 FlightLog = {
@@ -254,273 +413,6 @@ FlightLog = {
 -- Group: Methods
 --
 --
--- Method: GetSystemPaths
---
--- Returns an iterator returning a SystemLogEntry object for each system visited
--- by the player, backwards in turn, starting with the most recent. If count
--- is specified, returns no more than that many systems.
---
--- > iterator = FlightLog.GetSystemPaths(count)
---
--- Parameters:
---
---   count - Optional. The maximum number of systems to return.
---
--- Return:
---
---   iterator - A function which will generate the paths from the log, returning
---              one each time it is called until it runs out, after which it
---              returns nil. It also returns, as secondary and tertiary values,
---              the game times at shich the system was entered and left.
---
--- Example:
---
--- Print the names and departure times of the last five systems visited by
--- the player
---
--- > for entry in FlightLog.GetSystemPaths(5) do
--- >   print(entry.systemp:GetStarSystem().name, Format.Date(entry.deptime))
--- > end
-
-	GetSystemPaths = function (maximum)
-		local counter = 0
-		maximum = maximum or FlightLogSystemQueueLength
-		return function ()
-			if counter < maximum then
-				counter = counter + 1
-				if FlightLogSystem[counter] then
-
-				local entry = SystemLogEntry.New(
-					counter,
-					FlightLogSystem[counter][1],
-					FlightLogSystem[counter][2],
-					FlightLogSystem[counter][3],
-					FlightLogSystem[counter][4] )
-
-				return entry
-
-				end
-			end
-			return nil
-		end
-	end,
-
---
--- Method: GetStationPaths
---
--- Returns an iterator returning a StationLogEntry object for each station visited
--- by the player, backwards in turn, starting with the most recent. If count
--- is specified, returns no more than that many stations.
---
--- > iterator = FlightLog.GetStationPaths(count)
---
--- Parameters:
---
---   count - Optional. The maximum number of systems to return.
---
--- Return:
---
---   iterator - A function which will generate the StationLogEntry from the log,
---              returning one each time it is called until it runs out, after
---              which it returns nil. 
---
--- Example:
---
--- Print the names and arrival times of the last five stations visited by
--- the player
---
--- > for entry in FlightLog.GetStationPaths(5) do
--- >   print(entry.systemp:GetSystemBody().name, Format.Date(entry.deptime))
--- > end
-
-	GetStationPaths = function (maximum)
-		local counter = 0
-		maximum = maximum or FlightLogStationQueueLength
-		return function ()
-			if counter < maximum then
-				counter = counter + 1
-				if FlightLogStation[counter] then
-					return StationLogEntry.New(
-						counter,
-						FlightLogStation[counter][1],
-						FlightLogStation[counter][2],
-						FlightLogStation[counter][3],
-						FlightLogStation[counter][4] )
-				end
-			end
-			return nil, nil, nil, nil
-		end
-	end,
-
---
--- Method: UpdateStationEntry
---
--- Update the free text field in station log.
---
--- > UpdateStationEntry(index, entry)
---
--- Parameters:
---
---   index - Index in log, 1 being most recent station docked with
---   entry - New text string to insert instead
---
--- Example:
---
--- Replace note for the second most recent station docked with
---
--- > UpdateStationEntry(2, "This was a smelly station")
---
-
-	UpdateStationEntry = function (index, entry)
-		FlightLogStation[index][4] = entry
-	end,
-
---
--- Method: GetPreviousSystemPath
---
--- Returns a SystemPath object that points to the star system where the
--- player was before jumping to this one. If none is on record (such as
--- before any hyperjumps have been made) it returns nil.
---
--- > path = FlightLog.GetPreviousSystemPath()
---
--- Return:
---
---   path - a SystemPath object
---
--- Availability:
---
---   alpha 20
---
--- Status:
---
---   experimental
---
-
-	GetPreviousSystemPath = function ()
-		if FlightLogSystem[2] then
-			return FlightLogSystem[2][1]
-		else return nil end
-	end,
-
---
--- Method: GetPreviousStationPath
---
--- Returns a SystemPath object that points to the starport most recently
--- visited. If the player is currently docked, then the starport prior to
--- the present one (which might be the same one, if the player launches
--- and lands in the same port). If none is on record (such as before the
--- player has ever launched) it returns nil.
---
--- > path = FlightLog.GetPreviousStationPath()
---
--- Return:
---
---   path - a SystemPath object
---
--- Availability:
---
---   alpha 20
---
--- Status:
---
---   experimental
---
-
-	GetPreviousStationPath = function ()
-		if FlightLogStation[1] then
-			return FlightLogStation[1][1]
-		else return nil end
-	end,
-
-
-
---
--- Method: GetCustomEntry
---
--- Returns an iterator returning a CustomLogEntry, backwards in turn,
--- starting with the most recent for each log entry the player has made.
--- If count is specified, returns no more than that many entries.
---
--- > iterator = FlightLog.GetCustomEntry(count)
---
--- Parameters:
---
---   count - Optional. The maximum number of entries to return.
---
--- Return:
---
---   iterator - A function which will generate the entries from the
---              log, returning one each time it is called until it
---              runs out, after which it returns nil. Each entry is
---				a CustomLogEntry
---
--- Example:
---
--- > for entry in FlightLog.GetCustomEntry(5) do
--- >   print(entry.location[1], entry.location[2], Format.Date(entry.deptime))
--- > end
---
-
-	GetCustomEntry = function (maximum)
-		local counter = 0
-		maximum = maximum or #FlightLogCustom
-		return function ()
-			if counter < maximum then
-				counter = counter + 1
-				if FlightLogCustom[counter] then
-					return CustomLogEntry.New(
-						counter,
-						FlightLogCustom[counter][1], --path
-						FlightLogCustom[counter][2], --time
-						FlightLogCustom[counter][3], --money
-						FlightLogCustom[counter][4], --location
-						FlightLogCustom[counter][5]  --manual entry
-					)
-				end
-			end
-			return
-		end
-	end,
-
---
--- Method: UpdateCustomEntry
---
--- Update the free text field with new entry. Allows the player to
--- change the original text entry.
---
--- > FlightLog.GetCustomEntry(index, entry)
---
--- Parameters:
---
---   index - Position in log, 1 being most recent
---   entry - String of new text to replace the original with
---
--- Example:
---
--- > FlightLog.UpdateCustomEntry(2, "Earth is an overrated spot")
---
-
-	UpdateCustomEntry = function (index, entry)
-		FlightLogCustom[index][5] = entry
-	end,
-
---
--- Method: DeleteCustomEntry
---
--- Remove an entry.
---
--- > FlightLog.DeleteCustomEntry(index)
---
--- Parameters:
---
---   index - Position in log to remove, 1 being most recent
---
-
-	DeleteCustomEntry = function (index)
-		table.remove(FlightLogCustom, index)
-	end,
-
 --
 -- Method: MakeCustomEntry
 --
@@ -577,8 +469,7 @@ FlightLog = {
 			location = {state, sysname}
 		end
 
-		table.insert(FlightLogCustom,1,
-			{path, Game.time, Game.player:GetMoney(), location, text})
+		table.insert(FlightLogData,1, CustomLogEntry.New( path, Game.time, Game.player:GetMoney(), location, text ) )
 	end,
 
 }
@@ -602,40 +493,10 @@ FlightLog = {
 -- > for entry in FlightLog.GetLogEntries( { "Custom", "System", "Station" ) do
 -- >   print( entry.GetType(), entry.entry )
 -- > end
-function FlightLog:GetLogEntries(types, maximum)
+function FlightLog:GetLogEntries(types, maximum, earliest_first)
 
 	-- TODO: actually just store a list of all of them as they are at startup
 	local type_set = utils.set.New(types)
-
-	local all_entries = {}
-
-	if nil == types or type_set:contains( 'Custom' ) then			
-		for entry in self.GetCustomEntry() do
-			table.insert( all_entries, entry )
-		end
-	end
-
-	if nil == types or type_set:contains( 'Station' ) then			
-		for entry in self.GetStationPaths() do
-			table.insert( all_entries, entry )
-		end
-	end
-
-	if nil == types or type_set:contains( 'System' ) then			
-		for entry in self.GetSystemPaths() do
-			table.insert( all_entries, entry )
-		end
-	end
-
-
-
-	local function sortf( a, b )
-		return a.sort_date > b.sort_date
-	end
-
-
-
-	table.sort( all_entries, sortf )
 
 	-- note regardless of sort order, current status always comes first.
 	local currentStatus = nil
@@ -644,18 +505,90 @@ function FlightLog:GetLogEntries(types, maximum)
 	end
 
 	local counter = 0
-	maximum = maximum or #all_entries
+	maximum = maximum or #FlightLogData
 	return function ()
 		if currentStatus then
-			t = currentStatus
+			local t = currentStatus
 			currentStatus = nil
 			return t
 		end
-		if counter < maximum then
+		while counter < maximum do
 			counter = counter + 1
-			return all_entries[counter]
+
+			local v
+			if earliest_first then
+				v = FlightLogData[(#FlightLogData+1) - counter]				
+			else
+				v = FlightLogData[counter]
+			end			
+			-- TODO: Can we map the types to serialization indexes and check these
+			-- as they may be faster than the string manipulation comapare stuff.
+			if nil == types or type_set:contains( v:GetType() ) then
+				return v
+			end
 		end
 		return nil
+	end
+end
+
+--- If there are two system eventsm back to back, starting at first_index
+--- entering and leaving the same system, it will put them together
+--- as a single system event
+---
+---@param first_index integer The index of the first element in the array (so the latest event) to collapse
+local function ConsiderCollapseSystemEventPair( first_index )
+	-- TODO: make this global (ideally const, but our Lua version doesn't support that)
+	local system_idx = SystemLogEntry.GetSerializationIndex(); ---@type integer
+
+	local second = FlightLogData[first_index] 
+	local first = FlightLogData[first_index+1]
+
+	if ( second:IsCustom() ) then return end
+	if ( second.GetSerializationIndex() ~= system_idx ) then return end
+	---@cast second SystemLogEntry
+
+	-- is the latest one actually an arrival event, or already collapsed.
+	if ( second.arrtime ~= nil ) then return end
+
+--	local first = FlightLogData[first_index+1]
+	if ( first:IsCustom() ) then return end
+	if ( first.GetSerializationIndex() ~= system_idx ) then return end
+	---@cast first SystemLogEntry
+
+	-- is the first one actually a departure event or already collapsed
+	if ( first.deptime ~= nil ) then return end
+
+	if ( first.systemp ~= second.systemp ) then return end
+
+	second.arrtime = first.arrtime
+	table.remove( FlightLogData, first_index+1 )
+
+end
+
+-- This will run through the array of events and if there are two system events
+-- back to back, entering and leaving the same system, it will put them together
+-- as a single system event
+local function CollapseSystemEvents()
+	for i = #FlightLogData-1, 1, -1 do
+		ConsiderCollapseSystemEventPair( i )
+	end
+end
+
+-- This will run through the array of events and remove any non custom ones
+-- if we have exceeded our maximum size, until that maximum size is reattained.
+local function TrimLogSize()
+	if TotalDefaultElements > MaxTotalDefaultElements then
+		CollapseSystemEvents()
+		while TotalDefaultElements > MaxTotalDefaultElements do
+			for i = #FlightLogData, 1, -1 do
+				local v = FlightLogData[i]
+				if not v:IsCustom() then
+					table.remove( FlightLogData, i )
+					TotalDefaultElements = TotalDefaultElements-1
+				end
+			end	
+		end
+		CollapseSystemEvents()
 	end
 end
 
@@ -665,28 +598,26 @@ end
 -- onLeaveSystem
 local AddSystemDepartureToLog = function (ship)
 	if not ship:IsPlayer() then return end
-	FlightLogSystem[1][3] = Game.time
-	while #FlightLogSystem > FlightLogSystemQueueLength do
-		table.remove(FlightLogSystem,FlightLogSystemQueueLength + 1)
-	end
+	
+	table.insert( FlightLogData, 1, SystemLogEntry.New( Game.system.path, nil, Game.time, nil ) );
+	ConsiderCollapseSystemEventPair( 1 )
+	TrimLogSize()
 end
 
 -- onEnterSystem
 local AddSystemArrivalToLog = function (ship)
 	if not ship:IsPlayer() then return end
-	table.insert(FlightLogSystem,1,{Game.system.path,Game.time,nil,""})
-	while #FlightLogSystem > FlightLogSystemQueueLength do
-		table.remove(FlightLogSystem,FlightLogSystemQueueLength + 1)
-	end
+
+	table.insert( FlightLogData, 1, SystemLogEntry.New( Game.system.path, Game.time, nil, nil ) );
+	TrimLogSize()
 end
 
 -- onShipDocked
 local AddStationToLog = function (ship, station)
 	if not ship:IsPlayer() then return end
-	table.insert(FlightLogStation,1,{station.path, Game.time, Game.player:GetMoney(), ""})
-	while #FlightLogStation > FlightLogStationQueueLength do
-		table.remove(FlightLogStation,FlightLogStationQueueLength + 1)
-	end
+
+	table.insert( FlightLogData, 1, StationLogEntry.New( station.path, Game.time, Game.player:GetMoney(), nil ) );
+	TrimLogSize()
 end
 
 -- LOADING AND SAVING
@@ -694,27 +625,72 @@ end
 local loaded_data
 
 local onGameStart = function ()
-	if loaded_data and loaded_data.Version >= 1 then
-		FlightLogSystem = loaded_data.System
-		FlightLogStation = loaded_data.Station
-		FlightLogCustom = loaded_data.Custom
-	else
-		table.insert(FlightLogSystem,1,{Game.system.path,nil,nil,""})
+
+	if loaded_data and loaded_data.Version == 1 then
+
+		for _, v in pairs( loaded_data.System ) do		
+			local entryLog = SystemLogEntry.CreateFromSerializationElements( { v[1], v[2], nil, v[4] }, 1 )
+			local exitLog = SystemLogEntry.CreateFromSerializationElements( { v[1], nil, v[3], v[4] }, 1 )
+
+			if (exitLog.deptime ~= nil) then
+				FlightLogData[#FlightLogData+1]	= exitLog
+			end
+			if (entryLog.arrtime ~= nil) then
+				FlightLogData[#FlightLogData+1]	= entryLog
+			end
+		end
+
+		for _, v in pairs( loaded_data.Station ) do
+			FlightLogData[#FlightLogData+1] = StationLogEntry.CreateFromSerializationElements( v, 1 ) 		
+		end
+		
+		for _, v in pairs( loaded_data.Custom ) do
+			FlightLogData[#FlightLogData+1] = CustomLogEntry.CreateFromSerializationElements( v, 1 )		
+		end
+
+		local function sortf( a, b )
+			return a.sort_date > b.sort_date
+		end
+	
+		table.sort( FlightLogData, sortf )
+
+		CollapseSystemEvents()
+
+	elseif loaded_data and loaded_data.Version > 1 then
+
+		local loader_funcs = {}
+		loader_funcs[SystemLogEntry.GetSerializationIndex()] = SystemLogEntry.CreateFromSerializationElements
+		loader_funcs[StationLogEntry.GetSerializationIndex()] = StationLogEntry.CreateFromSerializationElements
+		loader_funcs[CustomLogEntry.GetSerializationIndex()] = CustomLogEntry.CreateFromSerializationElements
+	
+		for _, p in pairs( loaded_data.Data ) do
+			for type, v in pairs(p) do
+				local lf = loader_funcs[type]
+				local val = lf(v, loaded_data.Version);
+				FlightLogData[#FlightLogData+1] = val
+			end
+		end
 	end
 	loaded_data = nil
 end
 
 local onGameEnd = function ()
-	FlightLogSystem = {}
-	FlightLogStation = {}
-	FlightLogCustom = {}
+	FlightLogData = {}
+	TotalDefaultElements = 0
 end
 
 local serialize = function ()
-	return { System = FlightLogSystem,
-			 Station = FlightLogStation,
-			 Custom = FlightLogCustom,
-			 Version = 1 -- version for backwards compatibility
+
+	local source = FlightLogData
+	local SaveData = {}
+
+	for _, v in pairs( source ) do
+		v:AddToSerializationTable( SaveData )
+	end
+
+	return { 
+		Data = SaveData,
+		Version = 2 -- version for backwards compatibility
 	}
 end
 
