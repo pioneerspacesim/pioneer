@@ -330,6 +330,8 @@ private:
 
 	std::string m_shipName;
 
+	double m_hydrogenScoopedAccumulator = 0;
+
 public:
 	// FIXME: these methods are deprecated; all calls should use the propulsion object directly.
 	void ClearAngThrusterState() { m_propulsion->ClearAngThrusterState(); }
