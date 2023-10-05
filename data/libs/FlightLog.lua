@@ -23,6 +23,10 @@ local Lang = require 'Lang'
 local l = Lang.GetResource("ui-core")
 -- end of formating / localisation stuff
 
+---@type boolean|nil  If true then we've just started a game so don't record the first docking callback
+local skip_first_docking = nil
+
+
 -- default values (private)
 ---@type integer
 local MaxTotalDefaultElements = 3000
@@ -474,6 +478,11 @@ FlightLog = {
 
 }
 
+
+
+function FlightLog.SkipFirstDocking()
+	skip_first_docking = true
+end
 --
 -- Method: GetLogEntries
 --
@@ -616,6 +625,13 @@ end
 local AddStationToLog = function (ship, station)
 	if not ship:IsPlayer() then return end
 
+	-- could check the game time and see if it's the same as the last custom event
+	-- and there is nothing else in the list and avoud the phantom 'first docking'
+	-- that way too.
+	if skip_first_docking then
+		skip_first_docking = nil
+		return
+	end
 	table.insert( FlightLogData, 1, StationLogEntry.New( station.path, Game.time, Game.player:GetMoney(), nil ) );
 	TrimLogSize()
 end

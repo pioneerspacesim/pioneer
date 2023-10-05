@@ -170,6 +170,7 @@ local function startGame(gameParams)
 
 	-- XXX horrible hack here to avoid paying a spawn-in docking fee
 	player:setprop("is_first_spawn", true)
+	FlightLog.SkipFirstDocking()
 	FlightLog.MakeCustomEntry(gameParams.player.log)
 
 	if gameParams.autoExec then
