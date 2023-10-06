@@ -5,11 +5,10 @@ local ui = require 'pigui'
 local InfoView = require 'pigui.views.info-view'
 local Lang = require 'Lang'
 local FlightLog = require 'modules.FlightLog.FlightLog'
+local FlightLogExporter = require 'modules.FlightLog.FlightLogExporter'
 local Format = require 'Format'
 local Color = _G.Color
 local Vector2 = _G.Vector2
-local FileSystem = require 'FileSystem'
-local Character = require 'Character'
 
 local pionillium = ui.fonts.pionillium
 local icons = ui.theme.icons
@@ -21,8 +20,6 @@ local l = Lang.GetResource("ui-core")
 local iconSize = ui.rescaleUI(Vector2(28, 28))
 local buttonSpaceSize = iconSize
 
-
-local include_player_info = true
 local include_custom_log = true
 local include_station_log = true
 local include_system_log = true
@@ -30,12 +27,10 @@ local earliest_first = false
 local export_html = true
 
 local function getIncludedSet()
-	o = {}
-	if include_player_info then table.insert(o, "CurrentStatus") end
-	if include_custom_log then table.insert(o, "Custom") end
-	if include_station_log then table.insert(o, "Station") end
-	if include_system_log then table.insert(o, "System") end
-
+	local o = {}
+	if include_custom_log then o["Custom"] = true end
+	if include_station_log then o["Station"] = true end
+	if include_system_log then o["System"] = true end
 	return o;
 end
 
@@ -72,78 +67,6 @@ end
 function ui_formatter:newline()
 	ui.text( "" )
 	return self
-end
-
-local text_formatter = {}
-
-function text_formatter:open( file )
-	self.file = file
-	return self
-end
-
-function text_formatter:write( string )
-	self.file:write( string )
-	return self
-end
-
-function text_formatter:newline()
-	self.file:write( "\n" )
-	return self
-end
-
-function text_formatter:close()
-	self.file:close()
-end
-
-function text_formatter:headerText(title, text, wrap)
-	-- Title text is gray, followed by the variable text:
-	if not text then return end
-	self:write( string.gsub(title, ":", "") ):write( ": " )
-
-	-- TODO wrap?
-	self:write( text ):newline()
-	return self
-end
-
-function text_formatter:separator()
-	self.file:write( "\n----------------------------------------------\n\n" )
-end
-
-local html_formatter = {}
-
-function html_formatter:write( string )
-	self.file:write( string )
-	return self
-end
-
-function html_formatter:open( file )
-	self.file = file
-	self.file:write( "<html>\n" )
-	return self
-end
-
-function html_formatter:newline()
-	self.file:write( "<br>\n" )
-	return self
-end
-
-function html_formatter:close()
-	self.file:write( "</html>" )
-	self.file:close()
-end
-
-function html_formatter:headerText(title, text, wrap)
-	-- Title text is gray, followed by the variable text:
-	if not text then return end
-	self:write( "<b>" ):write( string.gsub(title, ":", "") ):write( ": </b>" )
-
-	-- TODO wrap?
-	self:write( text ):newline()
-	return self
-end
-
-function html_formatter:separator()
-	self.file:write( "\n<hr>\n" )
 end
 
 entering_text = false
@@ -236,48 +159,11 @@ local function checkbox(label, checked, tooltip)
 	return changed, ret
 end
 
-local function exportLogs()
-	-- TODO localize?
-	local foldername = FileSystem.MakeUserDataDirectory( "player_logs" )
-
-    local player = Character.persistent.player
-
-	local base_save_name = player.name
-
-	local formatter
-	local extension
-	if export_html then
-		formatter = html_formatter
-		extension = '.html'
-	else
-		formatter = text_formatter
-		extension = '.log'
-	end
-
-	local log_filename = FileSystem.JoinPath( foldername, base_save_name .. extension )
-
-	formatter:open( io.open( log_filename, "w" ) )
-
-	for entry in FlightLog:GetLogEntries(getIncludedSet(),nil, earliest_first) do
-
-		writeLogEntry(entry, formatter, true)
-
-		if (entry:HasEntry()) then
-			formatter:headerText(l.ENTRY, entry:GetEntry(), true)
-		end
-		formatter:separator()
-	end
-
-	formatter:close()
-
-end
-
 local function displayFilterOptions()
 	ui.spacing()
 	local c
 	local flight_log = true;
 
-	c,include_player_info = checkbox(l.PERSONAL_INFORMATION, include_player_info)
 	c,include_custom_log = checkbox(l.LOG_CUSTOM, include_custom_log)
 	c,include_station_log = checkbox(l.LOG_STATION, include_station_log)
 	c,include_system_log = checkbox(l.LOG_SYSTEM, include_system_log)
@@ -290,7 +176,7 @@ local function displayFilterOptions()
 	ui.spacing()
 
 	if ui.button(l.SAVE) then
-		exportLogs()
+		FlightLogExporter.Export( getIncludedSet(), earliest_first, true, export_html)
 	end
 
 end

@@ -104,44 +104,24 @@ FlightLog = {
 function FlightLog.SkipFirstDocking()
 	skip_first_docking = true
 end
---
--- Method: GetLogEntries
---
--- Parameters:
---
---   types - An array of the types we want to fetch, nil if all of them
---   maximum - the maximum number of results to return
--- Return:
---
---   iterator - A function which will generate the entries from the
---              log, returning one each time it is called until it
---              runs out, after which it returns nil. Each entry is
---				a child class of LogEntry
---
--- Example:
---
--- > for entry in FlightLog.GetLogEntries( { "Custom", "System", "Station" ) do
--- >   print( entry.GetType(), entry.entry )
--- > end
+
+--- Method: GetLogEntries
+---@param types table[string,boolean]|nil  Keys are log types to include, set the boolean to true for the ones you want
+---@param maximum integer|nil              Maximum number of entries to include
+---@param earliest_first boolean|nil       Should the log start with the oldest entry or the most recent
+--- 
+---@return function():FlightLogEntry.Base  An iterator function that when called repeatedly returns the next entry or nil when complete
+---
+--- Example:
+---
+--- > for entry in FlightLog.GetLogEntries( { "Custom", "System", "Station" ) do
+--- >   print( entry.GetType(), entry.entry )
+--- > end
 function FlightLog:GetLogEntries(types, maximum, earliest_first)
-
-	-- TODO: actually just store a list of all of them as they are at startup
-	local type_set = utils.set.New(types)
-
-	-- note regardless of sort order, current status always comes first.
-	local currentStatus = nil
-	if nil == types or type_set:contains( "CurrentStatus" ) then
-		currentStatus = FlightLogEntry.CurrentStatus.New()
-	end
 
 	local counter = 0
 	maximum = maximum or #FlightLogData
 	return function ()
-		if currentStatus then
-			local t = currentStatus
-			currentStatus = nil
-			return t
-		end
 		while counter < maximum do
 			counter = counter + 1
 
@@ -153,7 +133,7 @@ function FlightLog:GetLogEntries(types, maximum, earliest_first)
 			end			
 			-- TODO: Can we map the types to serialization indexes and check these
 			-- as they may be faster than the string manipulation comapare stuff.
-			if nil == types or type_set:contains( v:GetType() ) then
+			if nil == types or types[ v:GetType() ] then
 				return v
 			end
 		end

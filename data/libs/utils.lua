@@ -780,44 +780,6 @@ utils.getFromIntervals = function(array, value)
 	return array[utils.getIndexFromIntervals(array, value)][1]
 end
 
--- a simple set class
-utils.set = utils.class( "utils.set" )
-
--- Constructor
--- Build a set
--- Parameters:
---
---   array - an array, every element of which will be added to the set.  If not provided the set starts empty
---   number - some value in intervals
-function utils.set:Constructor( array )
-	self.set = {}
-	if nil ~= array then
-		for _, value in pairs( array ) do		
-			self.set[value] = true
-		end		
-	end
-end
-
-function utils.set:add( value )
-	self.set[value] = true
-end
-
-function utils.set:remove( value )
-	self.set[value] = nil
-end
-
-function utils.set:contains( value )
-	return self.set[value] ~= nil
-end
-
-function utils.set:to_array()
-	local array = {}
-	for v, _ in pairs( self.set ) do
-		array[#array+1] = v
-	end
-	return array
-end	
-
 return utils
 
 
