@@ -19,6 +19,7 @@
 #include "Ship.h"
 #include "Space.h"
 #include "SpaceStation.h"
+#include "profiler/Profiler.h"
 #include "ship/PrecalcPath.h"
 
 /*
@@ -968,6 +969,8 @@ static int l_space_get_num_bodies(lua_State *l)
  */
 static int l_space_get_bodies(lua_State *l)
 {
+	PROFILE_SCOPED()
+
 	if (!Pi::game) {
 		luaL_error(l, "Game is not started");
 		return 0;
@@ -1033,6 +1036,8 @@ static int l_space_get_bodies(lua_State *l)
  */
 static int l_space_get_bodies_near(lua_State *l)
 {
+	PROFILE_SCOPED()
+
 	if (!Pi::game) {
 		luaL_error(l, "Game is not started");
 		return 0;
