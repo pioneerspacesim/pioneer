@@ -71,12 +71,12 @@ end
 -- the elements of the array are a key-value pair
 -- the key is the serialization index (so the type this log entry is)
 -- the value is an array of data, to construct the table from.
----@param table table<integer, any[]>
+---@param out table<integer, any[]>
 ---@return nil
-function FlightLogEntry.Base:AddToSerializationTable( table )
+function FlightLogEntry.Base:AddToSerializationTable( out )
 	local v = {}
 	v[self.GetSerializationIndex()] = self:GetSerializationElements()
-	table[#table+1] = v
+	table.insert(out, v)
 end
 
 ---@return integer A unique integer for this specific type
@@ -248,21 +248,21 @@ function FlightLogEntry.System:GetDataPairs( earliest_first )
 
 	if ( earliest_first ) then
 		if self.arrtime then
-			o[#o+1] = { l.ARRIVAL_DATE, self.formatDate(self.arrtime) }
+			table.insert(o, { l.ARRIVAL_DATE, self.formatDate(self.arrtime) })
 		end
 		if self.deptime then
-			o[#o+1] = { l.DEPARTURE_DATE, self.formatDate(self.deptime) }
+			table.insert(o, { l.DEPARTURE_DATE, self.formatDate(self.deptime) })
 		end
 	else
 		if self.deptime then
-			o[#o+1] = { l.DEPARTURE_DATE, self.formatDate(self.deptime) }
+			table.insert(o, { l.DEPARTURE_DATE, self.formatDate(self.deptime) })
 		end		
 		if self.arrtime then
-			o[#o+1] = { l.ARRIVAL_DATE, self.formatDate(self.arrtime) }
+			table.insert(o, { l.ARRIVAL_DATE, self.formatDate(self.arrtime) })
 		end
 	end
-	o[#o+1] = { l.IN_SYSTEM, ui.Format.SystemPath(self.systemp) }
-	o[#o+1] = { l.ALLEGIANCE, self.systemp:GetStarSystem().faction.name }
+	table.insert(o, { l.IN_SYSTEM, ui.Format.SystemPath(self.systemp) })
+	table.insert(o, { l.ALLEGIANCE, self.systemp:GetStarSystem().faction.name })
 
 	return o
 end

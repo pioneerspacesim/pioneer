@@ -270,19 +270,19 @@ local onGameStart = function ()
 			local exitLog = FlightLogEntry.System.CreateFromSerializationElements( { v[1], nil, v[3], v[4] }, 1 )
 
 			if (exitLog.deptime ~= nil) then
-				FlightLogData[#FlightLogData+1]	= exitLog
+				table.insert(FlightLogData, exitLog)
 			end
 			if (entryLog.arrtime ~= nil) then
-				FlightLogData[#FlightLogData+1]	= entryLog
+				table.insert(FlightLogData, entryLog)
 			end
 		end
 
 		for _, v in pairs( loaded_data.Station ) do
-			FlightLogData[#FlightLogData+1] = FlightLogEntry.Station.CreateFromSerializationElements( v, 1 ) 		
+			table.insert(FlightLogData, FlightLogEntry.Station.CreateFromSerializationElements( v, 1 ))
 		end
 		
 		for _, v in pairs( loaded_data.Custom ) do
-			FlightLogData[#FlightLogData+1] = FlightLogEntry.Custom.CreateFromSerializationElements( v, 1 )		
+			table.insert(FlightLogData, FlightLogEntry.Custom.CreateFromSerializationElements( v, 1 ))
 		end
 
 		local function sortf( a, b )
@@ -304,7 +304,7 @@ local onGameStart = function ()
 			for type, v in pairs(p) do
 				local lf = loader_funcs[type]
 				local val = lf(v, loaded_data.Version);
-				FlightLogData[#FlightLogData+1] = val
+				table.insert(FlightLogData, val)
 			end
 		end
 	end

@@ -31,10 +31,10 @@ local export_html = true
 
 local function getIncludedSet()
 	o = {}
-	if include_player_info then o[#o+1] = "CurrentStatus" end
-	if include_custom_log then o[#o+1] = "Custom" end
-	if include_station_log then o[#o+1] = "Station" end
-	if include_system_log then o[#o+1] = "System" end
+	if include_player_info then table.insert(o, "CurrentStatus") end
+	if include_custom_log then table.insert(o, "Custom") end
+	if include_station_log then table.insert(o, "Station") end
+	if include_system_log then table.insert(o, "System") end
 
 	return o;
 end
