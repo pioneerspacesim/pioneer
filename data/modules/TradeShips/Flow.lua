@@ -108,7 +108,7 @@ Flow.calculateSystemParams = function()
 	if system.population == 0 then return nil end
 
 	-- all ports in the system
-	local ports = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
+	local ports = Space.GetBodies("SpaceStation")
 	-- check if the current system can be traded in
 	if #ports == 0 then return nil end
 

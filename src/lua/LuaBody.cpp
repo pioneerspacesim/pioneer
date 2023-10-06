@@ -37,7 +37,20 @@ namespace PiGui {
 	extern int pushOnScreenPositionDirection(lua_State *l, vector3d position);
 } // namespace PiGui
 
-static LuaFlags<ObjectType> s_bodyFlags(ENUM_PhysicsObjectType);
+static LuaFlags<ObjectType> s_bodyFlags ({
+	{ "Body", ObjectType::BODY },
+	{ "ModelBody", ObjectType::MODELBODY },
+	{ "Ship", ObjectType::SHIP },
+	{ "Player", ObjectType::PLAYER },
+	{ "SpaceStation", ObjectType::SPACESTATION },
+	{ "TerrainBody", ObjectType::TERRAINBODY },
+	{ "Planet", ObjectType::PLANET },
+	{ "Star", ObjectType::STAR },
+	{ "CargoBody", ObjectType::CARGOBODY },
+	{ "Projectile", ObjectType::PROJECTILE },
+	{ "Missile", ObjectType::MISSILE },
+	{ "HyperspaceCloud", ObjectType::HYPERSPACECLOUD }
+});
 
 /*
  * Class: Body
@@ -924,4 +937,6 @@ void LuaObject<Body>::RegisterClass()
 	LuaObjectBase::RegisterSerializer("CargoBody", body_serializers);
 	LuaObjectBase::RegisterSerializer("Missile", body_serializers);
 	LuaObjectBase::RegisterSerializer("HyperspaceCloud", body_serializers);
+
+	s_bodyFlags.Register(Lua::manager->GetLuaState(), "Constants.ObjectType");
 }

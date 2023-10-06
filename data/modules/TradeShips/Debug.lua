@@ -108,7 +108,7 @@ debugView.registerTab('debug-trade-ships', function()
 			ui.sameLine()
 			property("Lawlessness", string.format("%.4f", Game.system.lawlessness))
 			ui.sameLine()
-			property("Total bodies in space", #Space.GetBodies())
+			property("Total bodies in space", Space.GetNumBodies())
 		end
 
 		if ui.collapsingHeader("Stations") then

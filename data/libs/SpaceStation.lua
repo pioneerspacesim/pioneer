@@ -941,7 +941,7 @@ function SpaceStation:UnlockAdvert (ref)
 end
 
 local function updateSystem ()
-	local stations = Space.GetBodies(function (b) return b.superType == "STARPORT" end)
+	local stations = Space.GetBodies("SpaceStation")
 	for i, station in ipairs(stations) do
 		-- updateStationMarket(station)
 		Economy.UpdateStationMarket(station:GetSystemBody())

@@ -19,7 +19,7 @@ local spawnShips = function ()
 		return
 	end
 
-	local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") and not body.isGroundStation end)
+	local stations = utils.filter_array(Space.GetBodies("SpaceStation"), function (body) return not body.isGroundStation end)
 	if #stations == 0 then
 		return
 	end
