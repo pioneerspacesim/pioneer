@@ -64,8 +64,8 @@ local function getSaveTooltip(name)
 	else
 		ret = ret .. "\n" .. lc.SHIP .. ": " .. lc.UNKNOWN
 	end
-	
-	
+
+
 	if stats.flight_state then
 		ret = ret .. "\n"..lui.FLIGHT_STATE..": "
 		ret = ret .. (rawget(lc, string.upper(stats.flight_state)) or
@@ -75,7 +75,7 @@ local function getSaveTooltip(name)
 
 	if stats.docked_at then ret = ret .. "\n"..lui.DOCKED_AT..": " .. stats.docked_at end
 	if stats.frame then ret = ret .. "\n"..lui.VICINITY_OF..": " .. stats.frame end
-    
+
 	saveFileCache[name].ret = ret
 	return ret
 end
@@ -84,7 +84,7 @@ local function shouldDisplayThisSave(f)
     if(string.len(searchSave) < minSearchTextLength) then
 	   return true
 	end
-	
+
 	return not caseSensitive and  string.find(string.lower(f.name), string.lower(searchSave), 1, true) ~= nil or
 	string.find(f.name, searchSave, 1, true) ~= nil
 end
@@ -94,9 +94,9 @@ local function displaySave(f)
 	   selectedSave = f.name
 	   saveIsValid = pcall(Game.SaveGameStats, f.name)
 	end
-	if Engine.pigui.IsItemHovered() then
-		local tooltip = getSaveTooltip(f.name)
-		Engine.pigui.SetTooltip(tooltip)
+
+	if ui.isItemHovered("ForTooltip") then
+		ui.setTooltip(getSaveTooltip(f.name))
 	end
 
 	ui.nextColumn()
@@ -170,24 +170,24 @@ end
 ui.saveLoadWindow = ModalWindow.New("LoadGame", function()
 	local saving = ui.saveLoadWindow.mode == "SAVE"
 	local searchTextSize = ui.calcTextSize(searchText, pionillium.medium.name, pionillium.medium.size)
-	
+
 	local txt_width = winSize.x - (ui.getWindowPadding().x + optionButtonSize.x + ui.getItemSpacing().x) * 2
-	
+
 	drawSearchHeader(txt_width)
-	
+
 	ui.separator()
-	
+
 	local saveFilesSearchHeaderHeight = (searchTextSize.y * 2 + ui.getItemSpacing().y * 2 + ui.getWindowPadding().y * 2)
 	local saveFilesChildWindowHeight = (optionButtonSize.y + (saving and searchTextSize.y or 0) + ui.getItemSpacing().y * 2 + ui.getWindowPadding().y * 2)
-	
+
 	local saveFilesChildWindowSize = Vector2(0, (winSize.y - saveFilesChildWindowHeight) - saveFilesSearchHeaderHeight)
-	
+
 	ui.child("savefiles", saveFilesChildWindowSize, function()
 		showSaveFiles()
 	end)
 
 	ui.separator()
-	
+
 	-- a little padding just before the window border, so that the cancel button will not be cut out
 	txt_width = txt_width / 1.03
 	if saving then

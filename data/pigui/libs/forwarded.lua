@@ -45,6 +45,7 @@ ui.selectable = pigui.Selectable
 ui.progressBar = pigui.ProgressBar
 ui.plotHistogram = pigui.PlotHistogram
 ui.setTooltip = pigui.SetTooltip
+ui.setItemTooltip = pigui.SetItemTooltip
 ui.addCircle = pigui.AddCircle
 ui.addCircleFilled = pigui.AddCircleFilled
 ui.addRect = pigui.AddRect ---@type fun(a: Vector2, b: Vector2, col: Color, rounding: number, edges: integer, thickness: number)

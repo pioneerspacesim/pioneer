@@ -93,9 +93,11 @@ static Type parse_imgui_flags(lua_State *l, int index, LuaFlags<Type> &lookupTab
 		theFlags = static_cast<Type>(lua_tointeger(l, index));
 	} else if (lua_istable(l, index)) {
 		theFlags = lookupTable.LookupTable(l, index);
+	} else if (lua_isstring(l, index)) {
+		theFlags = lookupTable.LookupEnum(l, index);
 	} else {
 		luaL_traceback(l, l, NULL, 1);
-		Error("Expected a table or integer, got %s.\n%s\n", luaL_typename(l, index), lua_tostring(l, -1));
+		Error("Expected a table, string, or integer, got %s.\n%s\n", luaL_typename(l, index), lua_tostring(l, -1));
 	}
 	return theFlags;
 }
@@ -383,7 +385,8 @@ static LuaFlags<ImGuiHoveredFlags_> imguiHoveredFlagsTable = {
 	{ "AllowWhenBlockedByActiveItem", ImGuiHoveredFlags_AllowWhenBlockedByActiveItem },
 	{ "AllowWhenOverlapped", ImGuiHoveredFlags_AllowWhenOverlapped },
 	{ "AllowWhenDisabled", ImGuiHoveredFlags_AllowWhenDisabled },
-	{ "RectOnly", ImGuiHoveredFlags_RectOnly }
+	{ "RectOnly", ImGuiHoveredFlags_RectOnly },
+	{ "ForTooltip", ImGuiHoveredFlags_ForTooltip }
 };
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiHoveredFlags_ &theflags)
@@ -1740,7 +1743,8 @@ static int l_pigui_end_child(lua_State *l)
 static int l_pigui_is_item_hovered(lua_State *l)
 {
 	PROFILE_SCOPED()
-	LuaPush(l, ImGui::IsItemHovered());
+	int flags = LuaPull<ImGuiHoveredFlags_>(l, 1, ImGuiHoveredFlags_None);
+	LuaPush(l, ImGui::IsItemHovered(flags));
 	return 1;
 }
 
@@ -1858,6 +1862,14 @@ static int l_pigui_set_tooltip(lua_State *l)
 	PROFILE_SCOPED()
 	std::string text = LuaPull<std::string>(l, 1);
 	ImGui::SetTooltip("%s", text.c_str());
+	return 0;
+}
+
+static int l_pigui_set_item_tooltip(lua_State *l)
+{
+	PROFILE_SCOPED()
+	std::string text = LuaPull<std::string>(l, 1);
+	ImGui::SetItemTooltip("%s", text.c_str());
 	return 0;
 }
 
@@ -3299,6 +3311,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "PopFont", l_pigui_pop_font },
 		{ "CalcTextSize", l_pigui_calc_text_size },
 		{ "SetTooltip", l_pigui_set_tooltip },
+		{ "SetItemTooltip", l_pigui_set_item_tooltip },
 		{ "BeginTooltip", l_pigui_begin_tooltip },
 		{ "EndTooltip", l_pigui_end_tooltip },
 		{ "Checkbox", l_pigui_checkbox },
