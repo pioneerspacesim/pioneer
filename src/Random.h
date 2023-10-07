@@ -246,23 +246,21 @@ public:
 		return o;
 	}
 
-	// interval (-1,1)
-	// triangle distribution at p=1
-	// increasing steepness of normal distribution at p > 1
-	inline fixed SFixed(int p)
+	// Returns an approximation of a normal distribution in the bounded interval
+	// (-1, 1)
+	inline fixed NormFixed()
 	{
-		fixed o = Fixed();
-		o -= Fixed();
-		while (--p > 0)
-			o *= (fixed(1, 4) + Fixed() * fixed(3, 4));
-		return o;
+		// Because addition is fully commutative, the compiler can order these
+		// Fixed() calls in any order it wants without changing the result
+		fixed o = Fixed() + Fixed() + Fixed();
+		return o * fixed(10, 15) - fixed(1, 1);
 	}
 
-	// interval (mean - stddev, mean + stddev)
-	// this is not a true gaussian distribution
-	inline fixed NormFixed(fixed mean, fixed stddev)
+	// interval (mean - maxdev, mean + maxdev)
+	// this is an approximation of a gaussian distribution with cross-platform determinism
+	inline fixed NormFixed(fixed mean, fixed maxdev)
 	{
-		return mean + SFixed(2) * stddev;
+		return mean + maxdev * NormFixed();
 	}
 
 	const pcg32 &GetPCG() const { return mPCG; }

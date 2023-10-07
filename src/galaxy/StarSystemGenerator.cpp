@@ -365,7 +365,7 @@ fixedf<48> StarSystemLegacyGeneratorBase::CalcHillRadius(SystemBody *sbody) cons
 	using fixedp = fixedf<48>;
 
 	if (sbody->GetSuperType() <= SystemBody::SUPERTYPE_STAR) {
-		return fixed();
+		return fixedp();
 	} else {
 		// playing with precision since these numbers get small
 		// masses in earth masses
@@ -905,7 +905,7 @@ fixed StarSystemRandomGenerator::CalcBodySatelliteShellDensity(Random &rand, Sys
 			discMax = 100 * rand.NFixed(2); // rand-splitting again
 			discMax *= fixed::SqrtOf(fixed(1, 2) + fixed(8, 1) * rand.Fixed());
 		} else {
-			discMax = 100 * rand.SFixed(2).Abs() * fixed::SqrtOf(primary->GetMassAsFixed());
+			discMax = 100 * rand.NormFixed().Abs() * fixed::SqrtOf(primary->GetMassAsFixed());
 		}
 
 		// having limited discMin by bin-separation/fake roche, and
@@ -1063,7 +1063,7 @@ SystemBody *StarSystemRandomGenerator::MakeBodyInOrbitSlice(Random &rand, StarSy
 		}
 
 		// periapsis, apoapsis = closest, farthest distance in orbit
-		fixed periapsis = min_slice + slice_bump * rand.SFixed(2).Abs();
+		fixed periapsis = min_slice + slice_bump * rand.NormFixed().Abs();
 
 		if (periapsis > discMax)
 			return nullptr;
@@ -1124,9 +1124,10 @@ SystemBody *StarSystemRandomGenerator::MakeBodyInOrbitSlice(Random &rand, StarSy
 	// longitude of ascending node
 	planet->m_orbitalOffset = rand.Fixed() * 2 * FIXED_PI;
 	// inclination in the hemisphere above the equator, low probability of high-inclination orbits
-	planet->m_inclination = rand.SFixed(5).Abs() * FIXED_PI * fixed(1, 2);
+	fixed incl_scale = rand.Fixed() * fixed(666, 1000);
+	planet->m_inclination = rand.NormFixed().Abs() * incl_scale * FIXED_PI * fixed(1, 2);
 	// argument of periapsis, interval -PI .. PI
-	planet->m_argOfPeriapsis = rand.SFixed(1) * FIXED_PI;
+	planet->m_argOfPeriapsis = rand.NormFixed() * FIXED_PI;
 
 	// rare chance of reversed orbit
 	if (rand.Fixed() < fixed(1, 20))
