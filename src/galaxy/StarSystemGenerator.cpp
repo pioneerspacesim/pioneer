@@ -386,11 +386,10 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 	const std::vector<CustomSystemBody *> &children, int *outHumanInfestedness)
 {
 	PROFILE_SCOPED()
-	// replaces gravpoint mass by sum of masses of its children
-	// the code goes here to cover also planetary gravpoints (gravpoints that are not rootBody)
-	if (parent->GetType() == SystemBody::TYPE_GRAVPOINT) {
+
+	// gravpoints have no mass, but we sum the masses of its children instead
+	if (parent->GetType() == SystemBody::TYPE_GRAVPOINT)
 		parent->m_mass = fixed(0);
-	}
 
 	for (std::vector<CustomSystemBody *>::const_iterator i = children.begin(); i != children.end(); ++i) {
 		const CustomSystemBody *csbody = *i;
@@ -403,7 +402,7 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 
 		// parent gravpoint mass = sum of masses of its children
 		if (parent->GetType() == SystemBody::TYPE_GRAVPOINT) {
-			if (kid->m_type >= SystemBody::TYPE_STAR_MIN && kid->m_type <= SystemBody::TYPE_STAR_MAX)
+			if (kid->GetSuperType() == SystemBody::SUPERTYPE_STAR)
 				parent->m_mass += kid->m_mass;
 			else
 				parent->m_mass += kid->m_mass / SUN_MASS_TO_EARTH_MASS;
@@ -861,7 +860,7 @@ static fixed mass_from_disk_area(fixed a, fixed b, fixed max)
 
 static fixed get_disc_density(SystemBody *primary, fixed discMin, fixed discMax, fixed percentOfPrimaryMass)
 {
-	discMax = std::max(discMax, discMin);
+	discMax = std::max(discMax, discMin + fixed(1, 100)); // avoid divide-by-zero
 	fixed total = mass_from_disk_area(discMin, discMax, discMax);
 	return primary->GetMassInEarths() * percentOfPrimaryMass / total;
 }
@@ -966,11 +965,6 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 	if (discMin > discMax || discDensity <= 0)
 		return; // can't make planets here, outside of Hill radius
 
-	// random density averaging 1/2 the maximum mass distribution
-	// discDensity *= rand.NormFixed(2, fixed(1, 2), fixed(1, 2));
-
-	//fixed discDensity = 20*rand.NFixed(4);
-
 	// Output("Around %s: Range %f -> %f AU, Density %g\n", primary->GetName().c_str(), discMin.ToDouble(), discMax.ToDouble(), discDensity.ToDouble());
 
 	fixed flatJump = parentSuperType == SystemBody::SUPERTYPE_STAR ?
@@ -1058,7 +1052,7 @@ SystemBody *StarSystemRandomGenerator::MakeBodyInOrbitSlice(Random &rand, StarSy
 		// Increment the initial periapsis range by a value that falls off the
 		// further towards the disc edge we are if orbiting a star
 		if (primary->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
-			fixed bump_factor = (fixed(1, 1) - min_slice / max_slice);
+			fixed bump_factor = (fixed(1, 1) - min_slice / discMax);
 			slice_bump += bump_factor * bump_factor * min_slice;
 		}
 
@@ -1105,11 +1099,8 @@ SystemBody *StarSystemRandomGenerator::MakeBodyInOrbitSlice(Random &rand, StarSy
 
 	if (mass.v < 0) { // hack around overflow
 		Output("WARNING: planetary mass has overflowed! (child %d of %s)\n", primary->GetNumChildren(), primary->GetName().c_str());
-		// mass = fixed(Sint64(0x7fFFffFFffFFffFFull));
-		fflush(Log::GetLog()->GetLogFileHandle());
+		mass = fixed(Sint64(0x7fFFffFFffFFffFFull));
 	}
-
-	assert(mass >= 0);
 
 	SystemBody *planet = system->NewBody();
 	planet->m_semiMajorAxis = semiMajorAxis;
@@ -1757,12 +1748,11 @@ void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<Galaxy> galaxy, RefC
 
 	RefCountedPtr<const Sector> sec = galaxy->GetSector(path);
 	const CustomSystem *customSystem = sec->m_systems[path.systemIndex].GetCustomSystem();
-	SysPolit sysPolit;
-	sysPolit.govType = Polit::GOV_INVALID;
+	SysPolit sysPolit = system->GetSysPolit();
 
-	/* from custom system definition */
-	if (customSystem)
-		sysPolit.govType = customSystem->govType;
+	/* sysPolit should already be populated from custom system definition */
+	if (!customSystem)
+		sysPolit.govType = Polit::GOV_INVALID;
 
 	if (sysPolit.govType == Polit::GOV_INVALID) {
 		if (path == SystemPath(0, 0, 0, 0)) {
@@ -1782,6 +1772,7 @@ void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<Galaxy> galaxy, RefC
 
 	if (!customSystem || customSystem->want_rand_lawlessness)
 		sysPolit.lawlessness = Polit::GetBaseLawlessness(sysPolit.govType) * rand.Fixed();
+
 	system->SetSysPolit(sysPolit);
 }
 
