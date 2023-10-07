@@ -17,6 +17,59 @@
  * will get a Lua error.
  */
 
+FileSystem::FileSource* get_filesytem_for_root(LuaFileSystem::Root root)
+{
+	FileSystem::FileSource* fs = nullptr;
+	switch (root) {
+	case LuaFileSystem::ROOT_USER:
+		fs = &FileSystem::userFiles;
+		break;
+
+	case LuaFileSystem::ROOT_DATA:
+		fs = &FileSystem::gameDataFiles;
+		break;
+
+	default:
+		assert(0); // can't happen
+	}
+	return fs;
+}
+
+std::string LuaFileSystem::lua_path_to_fs_path(lua_State* l, const char* root_name, const char* path, const char* access)
+{
+	const LuaFileSystem::Root root = static_cast<LuaFileSystem::Root>(LuaConstants::GetConstant(l, "FileSystemRoot", root_name));
+
+	if (root == LuaFileSystem::ROOT_DATA)
+	{
+		// check the acces mode is allowed:
+
+		// default mode is read only
+		if (access[0] != 0)
+		{
+			if (access[0] != 'r' || access[1] != 0)
+			{
+				// we are requesting an access mode not allowed for the user folder
+				// as you can't write there.
+				luaL_error(l, "'%s' is not valid for opening a file in root '%s'", access, root_name);
+				return "";
+			}
+		}
+	}
+
+	FileSystem::FileSource* fs = get_filesytem_for_root(root);
+	assert(fs);
+
+	try
+	{
+		return std::move(fs->Lookup(path).GetAbsolutePath());
+	}
+	catch (std::invalid_argument e)
+	{
+		luaL_error(l, "'%s' is not valid for opening a file in root '%s' - Is the file location within the root?", path, root_name);
+		return "";
+	}
+}
+
 static void push_date_time(lua_State *l, const Time::DateTime &dt)
 {
 	int year, month, day, hour, minute, second;
@@ -65,20 +118,7 @@ static int l_filesystem_read_dir(lua_State *l)
 	if (lua_gettop(l) > 1)
 		path = luaL_checkstring(l, 2);
 
-	FileSystem::FileSource *fs = nullptr;
-	switch (root) {
-	case LuaFileSystem::ROOT_USER:
-		fs = &FileSystem::userFiles;
-		break;
-
-	case LuaFileSystem::ROOT_DATA:
-		fs = &FileSystem::gameDataFiles;
-		break;
-
-	default:
-		assert(0); // can't happen
-		return 0;
-	}
+	FileSystem::FileSource* fs = get_filesytem_for_root(root);
 
 	assert(fs);
 
@@ -157,8 +197,8 @@ static int l_filesystem_join_path(lua_State *l)
  *
  * > local path = FileSystem.MakeUserDataDirectory( dir_name )
  *
- * Creating the given directory if it's missing, returning the name
- * full name of the directory
+ * Creating the given directory if it's missing, returning a boolean
+ * indicating success
  *
  * Availability:
  *
@@ -177,20 +217,13 @@ static int l_filesystem_make_user_directory(lua_State* l)
 
 		FileSystem::FileInfo f = FileSystem::userFiles.Lookup(dir);
 
-		if (f.IsDir())
-		{
-			std::string fullDirName = f.GetAbsolutePath();
-			lua_pushlstring(l, fullDirName.c_str(), fullDirName.size());
-			return 1;
-		} else
-		{
-			lua_pushlstring(l, "", 1 );
-			return 0;
-		}
+		lua_pushboolean(l, f.IsDir());
+		return 1;
 	}
 	catch (const std::invalid_argument&) {
-		luaL_error(l, "unable to create directory");
-		return 0;
+		luaL_error(l, "unable to create directory the argument is invalid");
+		lua_pushboolean(l, 0);
+		return 1;
 	}
 }
 

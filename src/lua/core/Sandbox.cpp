@@ -7,6 +7,7 @@
 #include "core/Log.h"
 #include "utils.h"
 #include "FileSystem.h"
+#include "LuaFileSystem.h"
 
 static int l_d_null_userdata(lua_State *L)
 {
@@ -109,19 +110,29 @@ static lua_CFunction l_original_io_open = nullptr;
 
 static int l_patched_io_open(lua_State* L)
 {
-	std::string path = lua_tostring(L, 1);
-	path = FileSystem::NormalisePath(path);
-
-	std::string userDir = FileSystem::GetUserDir();
-	// TODO: should we add a file separator here?
-	
-	if (path.rfind(userDir, 0) == 0)
+	if (lua_gettop(L) != 3)
 	{
-		// path starts with the userDir, we're good to go
-		return l_original_io_open(L);
+		luaL_error(L, "Wrong number of arguments for io.open().  You should be using FileSystem.Open() instead");
+		return 0;
 	}
-	luaL_error(L, "attempt to access filesystem outside of the user data folder");
-	return 0;
+	const char* path_arg = lua_tostring(L, 1);
+	const char* access_arg = lua_tostring(L, 2);
+	const char* root_arg = lua_tostring(L, 3);
+
+	std::string path = LuaFileSystem::lua_path_to_fs_path(L, root_arg, path_arg, access_arg);
+
+	if (path.length() == 0)
+	{
+		luaL_error(L, "attempt to access filesystem in an invalid user folder location");
+		return 0;
+	}
+
+	lua_pushstring(L, path.c_str());
+	lua_replace(L, 1);
+
+	const int rv = l_original_io_open(L);
+
+	return rv;
 }
 
 static const luaL_Reg STANDARD_LIBS[] = {

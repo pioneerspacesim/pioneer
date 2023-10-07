@@ -86,8 +86,8 @@ local Exporter = {}
 ---@param player_info    boolean                    Should the log include the current player status at the top?
 ---@param export_html    boolean                    true for HTML, false for plain text
 function Exporter.Export( included_types, earliest_first, player_info, export_html )
-	
-	local foldername = FileSystem.MakeUserDataDirectory( "player_logs" )
+
+	FileSystem.MakeUserDataDirectory( "player_logs" )
 
     local player = Character.persistent.player
 
@@ -103,9 +103,9 @@ function Exporter.Export( included_types, earliest_first, player_info, export_ht
 		extension = '.log'
 	end
 
-	local log_filename = FileSystem.JoinPath( foldername, base_save_name .. extension )
+	local log_filename = FileSystem.JoinPath( "player_logs", base_save_name .. extension )
 
-	formatter:open( io.open( log_filename, "w" ) )
+	formatter:open( FileSystem.Open( "USER", log_filename, "w" ) )
 
     if player_info then
         formatter:headerText( l.NAME_PERSON, player.name )

@@ -4,6 +4,10 @@
 #ifndef _LUAFILESYSTEM_H
 #define _LUAFILESYSTEM_H
 
+#include <string>
+
+struct lua_State;
+
 namespace LuaFileSystem {
 	void Register();
 
@@ -11,6 +15,10 @@ namespace LuaFileSystem {
 		ROOT_USER,
 		ROOT_DATA
 	};
+
+	// will throw lua errors if not allowed
+	// and return an empty string
+	std::string lua_path_to_fs_path(lua_State* l, const char* root, const char* path, const char* access);
 } // namespace LuaFileSystem
 
 #endif
