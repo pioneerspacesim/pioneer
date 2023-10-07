@@ -21,6 +21,7 @@ local Defs = require 'pigui.modules.new-game-window.defs'
 local Layout = require 'pigui.modules.new-game-window.layout'
 local Crew = require 'pigui.modules.new-game-window.crew'
 local StartVariants = require 'pigui.modules.new-game-window.start-variants'
+local FlightLogParam = require 'pigui.modules.new-game-window.flight-log'
 local Game = require 'Game'
 
 local profileCombo = { items = {}, selected = 0 }
@@ -168,7 +169,30 @@ local function startGame(gameParams)
 
 	-- XXX horrible hack here to avoid paying a spawn-in docking fee
 	player:setprop("is_first_spawn", true)
-	FlightLog.MakeCustomEntry(gameParams.player.log)
+
+	for _, entry in ipairs(gameParams.flightlog.Custom) do
+		if FlightLog.InsertCustomEntry(entry) then
+			-- ok then
+		elseif entry.text then
+			-- allow a custom log entry containing only text
+			-- because when starting a new game we only have text
+			FlightLog.MakeCustomEntry(entry.text)
+		else
+			logWarning("Wrong entry for the custom flight log")
+		end
+	end
+
+	for _, entry in ipairs(gameParams.flightlog.System) do
+		if not FlightLog.InsertSystemEntry(entry) then
+			logWarning("Wrong entry for the system flight log")
+		end
+	end
+
+	for _, entry in ipairs(gameParams.flightlog.Station) do
+		if not FlightLog.InsertStationEntry(entry) then
+			logWarning("Wrong entry for the station flight log")
+		end
+	end
 
 	if gameParams.autoExec then
 		gameParams.autoExec()
@@ -235,7 +259,7 @@ NewGameWindow = ModalWindow.New("New Game", function()
 			profileCombo.selected = ret
 			if profileCombo.actions[ret + 1] == 'DO_UNLOCK' then
 				Layout.setLock(false)
-				Crew.Player.Log.value = "Custom start of the game - for the purpose of debugging or cheat."
+				FlightLogParam.value.Custom = {{ text = "Custom start of the game - for the purpose of debugging or cheat." }}
 			else
 				setStartVariant(StartVariants.item(ret + 1))
 				updateParams()

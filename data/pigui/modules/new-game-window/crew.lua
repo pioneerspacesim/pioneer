@@ -43,21 +43,6 @@ function PlayerChar:isValid()
 end
 
 --
--- player log
---
--- value: string
---
-local PlayerLog = GameParam.New(lui.LOG_CUSTOM, "player.log")
-
-function PlayerLog:fromStartVariant(variant)
-	self.value = variant.logmsg
-end
-
-function PlayerLog:isValid()
-	return true
-end
-
---
 -- player money
 --
 -- value: number
@@ -426,7 +411,6 @@ Crew.Player = {
 	Money = PlayerMoney,
 	Reputation = PlayerReputation,
 	Rating = PlayerRating,
-	Log = PlayerLog
 }
 
 return Crew

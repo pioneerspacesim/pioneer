@@ -9,7 +9,8 @@ local ui = require 'pigui.baseui'
 local pigui = Engine.pigui
 local Vector2 = _G.Vector2
 
-local lc = Lang.GetResource("core");
+local lc = Lang.GetResource("core")
+local lui = Lang.GetResource("ui-core")
 
 -- get a fractional font factor
 local font_factor = ui.rescaleFraction(1, Vector2(1920, 1080))
@@ -336,7 +337,11 @@ ui.Format = {
 		end
 	end,
 	SystemPath = function(path)
-		return path:GetStarSystem().name.." ("..path.sectorX..", "..path.sectorY..", "..path.sectorZ..")"
+		local sectorString = "("..path.sectorX..", "..path.sectorY..", "..path.sectorZ..")"
+		if path:IsSectorPath() then
+			return lui.UNKNOWN_LOCATION_IN_SECTOR_X:interp{ sector = sectorString }
+		end
+		return path:GetStarSystem().name.." "..sectorString
 	end
 }
 

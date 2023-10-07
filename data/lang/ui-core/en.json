@@ -2307,6 +2307,14 @@
     "description": "",
     "message": "Type"
   },
+  "UNKNOWN_FACTION": {
+    "description": "For entry in the flight log",
+    "message": "Unknown faction"
+  },
+  "UNKNOWN_LOCATION_IN_SECTOR_X": {
+    "description": "For entry in the flight log",
+    "message": "Unknown location in sector {sector}"
+  },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
     "message": "Unlawful weapons discharge"

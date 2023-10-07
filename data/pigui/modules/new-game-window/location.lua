@@ -213,6 +213,11 @@ function Location:initMap()
 	end
 end
 
+function Location:getGalaxy()
+	if not self.map then self:initMap() end
+	return self.galaxy
+end
+
 function Location:draw()
 
 	if not self.map then return end
