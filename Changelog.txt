@@ -1,3 +1,9 @@
+October 2023
+  * Fixes
+    * Fix for glued cockpit (#5631)
+    * Fix for commodity market in stock and demand reset (#5633)
+    * Fuel scooping rework (#5609)
+
 September 2023
   * New Features
     * Add Model Viewer Widget (#5613)
@@ -5,10 +11,12 @@ September 2023
   * Internal Changes
     * Build directly from the CMake config on windows with Visual Studio 2019 (#5624)
     * Expand ModManager, add System Editor prerequisites (#5623)
+    * Remove Visual Studio solution, improve new-contributor experience (#5626)
 
   * Fixes
     * Ignore x-axis only mouse wheel events (#5627)
     * (Partial) Fix for rounding error in lobby's +/-10% buttons (#5628)
+    * (Update) Fix for rounding error in lobby (#5630)
 
 August 2023
   * New Features
