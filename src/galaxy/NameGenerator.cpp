@@ -27,7 +27,8 @@ namespace FrontierNames {
 		"in", "ti", "qu", "so",
 		"ed", "ess", "ex", "io",
 		"ce", "ze", "fa", "ay",
-		"wa", "de", "ack", "gre"
+		"wa", "de", "ack", "gre",
+		"le", "du", "do", "ne"
 	};
 	static const unsigned int SYS_NAME_FRAGS = ((unsigned int)(sizeof(sys_names) / sizeof(char *)));
 
@@ -53,6 +54,7 @@ namespace HybridNames {
 		"ed", "ess", "ex", "io",
 		"ce", "ze", "fa", "ay",
 		"wa", "de", "ack", "gre",
+		"le", "du", "do", "ne",
 
 		//Doomdark-esque additions
 		"img", "or", "ir", "dol",
@@ -91,7 +93,7 @@ namespace HybridNames {
 namespace Doomdark {
 	static const char *Prefixes[] = {
 		"img", "dol", "lor", "ush", "mor", "tal", "car", "ulf", "as", "tor", "ob", "f", "gl",
-		"s", "th", "gan", "mal", "im", "var", "hag", "zar", "anv", "ber", "kah", "ash"
+		"s", "th", "gan", "mal", "im", "var", "hag", "zar", "anv", "ber", "kah", "ash", "du"
 	};
 	static const unsigned int PREFIX_FRAGS = ((unsigned int)(sizeof(Prefixes) / sizeof(char *)));
 
@@ -101,7 +103,7 @@ namespace Doomdark {
 	static const unsigned int MIDWORD_FRAGS = ((unsigned int)(sizeof(Midwords) / sizeof(char *)));
 
 	static const char *Suffixes[] = {
-		"orn", "il", "iel", "im", "uk", "ium", "ia", "eon", "ay", "ak", "arg", "and", "ane", "esh", "ad", "un"
+		"orn", "il", "iel", "im", "uk", "ium", "ia", "eon", "ay", "ak", "arg", "and", "ane", "esh", "ad", "un", "ne"
 	};
 	static const unsigned int SUFFIX_FRAGS = ((unsigned int)(sizeof(Suffixes) / sizeof(char *)));
 
