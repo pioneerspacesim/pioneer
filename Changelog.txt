@@ -1,8 +1,19 @@
 October 2023
+  * New Features
+    * Ship market comparison colors (#5632)
+    * Search bar for save/load window and crashes fix (#5634)
+    * ScanManager improvements and ship properties fixes (#5635)
+
+  * Internal Changes
+    * Improve random system generation, load custom systems from JSON (#5622)
+
   * Fixes
     * Fix for glued cockpit (#5631)
     * Fix for commodity market in stock and demand reset (#5633)
     * Fuel scooping rework (#5609)
+    * Fix Scans not resuming on game continue (#5577)
+    * Fix disappearing fuel after save and load (#5534)
+    * Fix ship info screen showing wrong cargo capacity and usage (#5557)
 
 September 2023
   * New Features
