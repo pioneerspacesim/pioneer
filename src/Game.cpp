@@ -375,17 +375,17 @@ bool Game::UpdateTimeAccel()
 
 					vector3d toBody = m_player->GetPosition() - b->GetPositionRelTo(m_player->GetFrame());
 					double dist = toBody.Length();
-					double rad = b->GetPhysRadius();
+					double rad = std::max(b->GetPhysRadius(), 10000.0);
 
 					if (dist < 1000.0) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
 					} else if (dist < std::min(rad + 0.0001 * AU, rad * 1.1)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
-					} else if (dist < std::min(rad + 0.001 * AU, rad * 5.0)) {
+					} else if (dist < std::min(rad + 0.001 * AU, rad * 2.5)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_100X);
-					} else if (dist < std::min(rad + 0.01 * AU, rad * 10.0)) {
+					} else if (dist < std::min(rad + 0.01 * AU, rad * 5.0)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1000X);
-					} else if (dist < std::min(rad + 0.1 * AU, rad * 1000.0)) {
+					} else if (dist < std::min(rad + 0.1 * AU, rad * 500.0)) {
 						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10000X);
 					}
 				}
