@@ -756,9 +756,11 @@ static FrameId MakeFramesFor(const double at_time, SystemBody *sbody, Body *b, F
 
 	if ((supertype == SystemBody::SUPERTYPE_GAS_GIANT) ||
 		(supertype == SystemBody::SUPERTYPE_ROCKY_PLANET)) {
-		// for planets we want an non-rotating frame for a few radii
+		// for planets we want an non-rotating frame covering its Hill radius
 		// and a rotating frame with no radius to contain attached objects
-		double frameRadius = std::max(4.0 * sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance() * 1.05);
+		double hillRadius = sbody->GetSemiMajorAxis() * (1.0 - sbody->GetEccentricity()) * pow(sbody->GetMass() / (3.0 * sbody->GetParent()->GetMass()), 1.0 / 3.0);
+		double frameRadius = std::max(hillRadius, sbody->GetMaxChildOrbitalDistance() * 1.05);
+		frameRadius = std::max(sbody->GetRadius() * 4.0, frameRadius);
 		FrameId orbFrameId = Frame::CreateFrame(fId,
 			sbody->GetName().c_str(),
 			Frame::FLAG_HAS_ROT,
