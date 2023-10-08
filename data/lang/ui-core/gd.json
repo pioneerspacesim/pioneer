@@ -131,6 +131,10 @@
     "description": "t for tonne",
     "message": "{amount}t ’ga chleachdadh"
   },
+  "CASE_SENSITIVE": {
+    "description": "",
+    "message": "Case-sensitive"
+  },
   "CASH": {
     "description": "",
     "message": "Airgead"
@@ -1910,10 +1914,6 @@
   "SAVE": {
     "description": "",
     "message": "Sàbhail"
-  },
-  "CASE_SENSITIVE": {
-    "description": "",
-    "message": "Case-sensitive"
   },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
