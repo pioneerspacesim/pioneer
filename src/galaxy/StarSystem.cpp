@@ -4,7 +4,7 @@
 #include "StarSystem.h"
 
 #include "Galaxy.h"
-#include "Json.h"
+#include "JsonUtils.h"
 #include "Sector.h"
 
 #include "EnumStrings.h"
@@ -557,4 +557,59 @@ void StarSystem::Dump(FILE *file, const char *indent, bool suppressSectorData) c
 		m_rootBody->Dump(file, buf);
 	}
 	fprintf(file, "%s}\n", indent);
+}
+
+void StarSystem::DumpToJson(Json &obj)
+{
+	obj["name"] = m_name;
+
+	if (!m_other_names.empty())  {
+		Json &out_names = obj["otherNames"] = Json::array();
+		for (auto &name : m_other_names)
+			out_names.push_back(name);
+	}
+
+	Json &out_types = obj["stars"] = Json::array();
+	for (size_t idx = 0; idx < m_numStars; idx++)
+		out_types.push_back(EnumStrings::GetString("BodyType", m_stars[idx]->GetType()));
+
+	obj["sector"] = Json::array({ m_path.sectorX, m_path.sectorY, m_path.sectorZ });
+	obj["pos"] = Json::array({ m_pos.x, m_pos.y, m_pos.z });
+
+	obj["seed"] = m_seed;
+	obj["explored"] = m_explored == ExplorationState::eEXPLORED_AT_START;
+
+	obj["lawlessness"] = m_polit.lawlessness;
+
+	if (m_polit.govType != Polit::GOV_INVALID)
+		obj["govType"] = EnumStrings::GetString("PolitGovType", m_polit.govType);
+
+	obj["shortDesc"] = m_shortDesc;
+	obj["longDesc"] = m_longDesc;
+
+	if (m_faction)
+		obj["faction"] = m_faction->name;
+
+	Json &bodies = obj["bodies"] = Json::array();
+
+	for (RefCountedPtr<SystemBody> &body : m_bodies) {
+
+		Json bodyObj = Json::object();
+
+		body->SaveToJson(bodyObj);
+
+		// bodyIndex is (at least informally) guaranteed to be the index in m_bodies
+		if (body->GetParent())
+			bodyObj["parent"] = body->GetParent()->GetPath().bodyIndex;
+
+		if (body->HasChildren()) {
+			Json &children = bodyObj["children"] = Json::array();
+
+			for (SystemBody *child : body->GetChildren())
+				children.push_back(child->GetPath().bodyIndex);
+		}
+
+		bodies.emplace_back(std::move(bodyObj));
+
+	}
 }

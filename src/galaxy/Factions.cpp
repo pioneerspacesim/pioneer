@@ -451,6 +451,8 @@ static void RegisterFactionsAPI(lua_State *L)
 
 void FactionsDatabase::Init()
 {
+	PROFILE_SCOPED()
+
 	assert(!s_activeFactionsDatabase);
 	s_activeFactionsDatabase = this;
 
@@ -491,6 +493,8 @@ void FactionsDatabase::Init()
 
 void FactionsDatabase::PostInit()
 {
+	PROFILE_SCOPED()
+
 	assert(m_initialized);
 	assert(m_galaxy->IsInitialized());
 	SetHomeSectors();
@@ -792,7 +796,6 @@ Faction::Faction(Galaxy *galaxy) :
 
 void FactionsDatabase::Octsapling::Add(const Faction *faction)
 {
-	PROFILE_SCOPED()
 	/*  The general principle here is to put the faction in every octbox cell that a system
 	    that is a member of that faction could be in. This should let us cut the number
 		of factions that have to be checked by GetNearestFaction, by eliminating right off
@@ -874,7 +877,6 @@ void FactionsDatabase::Octsapling::PruneDuplicates(const int bx, const int by, c
 
 const std::vector<const Faction *> &FactionsDatabase::Octsapling::CandidateFactions(const Sector::System *sys) const
 {
-	PROFILE_SCOPED()
 	/* answer the factions that we've put in the same octobox cell as the one the
 	   system would go in. This part happens every time we do GetNearest faction
 	   so *is* performance criticale.e

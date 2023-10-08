@@ -13,6 +13,10 @@ public:
 };
 
 class StarSystemLegacyGeneratorBase : public StarSystemGeneratorStage {
+public:
+	static void PickAtmosphere(SystemBody *sbody);
+	static void PickRings(SystemBodyData *sbody, bool forceRings = false);
+
 protected:
 	struct StarTypeInfo {
 		int mass[2]; // min,max % sol for stars, unused for planets
@@ -22,22 +26,31 @@ protected:
 	static const fixed starMetallicities[];
 	static const StarTypeInfo starTypeInfo[];
 
-	void PickAtmosphere(SystemBody *sbody);
-	void PickRings(SystemBody *sbody, bool forceRings = false);
-	fixed CalcHillRadius(SystemBody *sbody) const;
+	fixedf<48> CalcHillRadius(SystemBody *sbody) const;
 };
 
 class StarSystemCustomGenerator : public StarSystemLegacyGeneratorBase {
 public:
 	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config);
 
+	// returns true if the system is custom, false if the contents should be randomly generated
+	bool ApplyToSystem(Random &rng, RefCountedPtr<StarSystem::GeneratorAPI> system, const CustomSystem *customSys);
+
 private:
-	void CustomGetKidsOf(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *parent, const std::vector<CustomSystemBody *> &children, int *outHumanInfestedness, Random &rand);
+	void CustomGetKidsOf(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *parent, const std::vector<CustomSystemBody *> &children, int *outHumanInfestedness);
 };
 
 class StarSystemRandomGenerator : public StarSystemLegacyGeneratorBase {
 public:
+	static constexpr uint32_t BODY_SATELLITE_SALT = 0xf5123a90;
+
 	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config);
+
+	// Calculate the min, max distances from the primary where satellites should be generated
+	// Returns the mass density of a 2d slice through the center of the shell
+	fixed CalcBodySatelliteShellDensity(Random &rand, SystemBody *primary, fixed &discMin, fixed &discMax);
+	SystemBody *MakeBodyInOrbitSlice(Random &rand, StarSystem::GeneratorAPI *system, SystemBody *primary, fixed min, fixed max, fixed discMax, fixed discDensity);
+	void PickPlanetType(SystemBody *sbody, Random &rand);
 
 private:
 	void MakePlanetsAround(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *primary, Random &rand);
@@ -48,7 +61,6 @@ private:
 
 	int CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, fixed albedo, fixed greenhouse);
 	const SystemBody *FindStarAndTrueOrbitalRange(const SystemBody *planet, fixed &orbMin_, fixed &orbMax_) const;
-	void PickPlanetType(SystemBody *sbody, Random &rand);
 };
 
 class PopulateStarSystemGenerator : public StarSystemLegacyGeneratorBase {

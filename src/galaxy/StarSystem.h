@@ -46,6 +46,8 @@ public:
 	static void ToJson(Json &jsonObj, StarSystem *);
 	static RefCountedPtr<StarSystem> FromJson(RefCountedPtr<Galaxy> galaxy, const Json &jsonObj);
 	const SystemPath &GetPath() const { return m_path; }
+	const vector3f &GetPosition() const { return m_pos; }
+
 	const std::string &GetShortDescription() const { return m_shortDesc; }
 	const std::string &GetLongDescription() const { return m_longDesc; }
 	unsigned GetNumStars() const { return m_numStars; }
@@ -94,6 +96,10 @@ public:
 
 	void Dump(FILE *file, const char *indent = "", bool suppressSectorData = false) const;
 
+	// Dump all information about this system to JSON format suitable for
+	// loading as a custom system
+	void DumpToJson(Json &obj);
+
 	const RefCountedPtr<Galaxy> m_galaxy;
 
 protected:
@@ -121,6 +127,7 @@ private:
 	std::string GetStarTypes(SystemBody *body);
 
 	SystemPath m_path;
+	vector3f m_pos;
 	unsigned m_numStars;
 	std::string m_name;
 	std::vector<std::string> m_other_names;
@@ -168,6 +175,7 @@ public:
 		m_isCustom = isCustom;
 		m_hasCustomBodies = hasCustomBodies;
 	}
+	void SetPosition(const vector3f &pos) { m_pos = pos; }
 	void SetNumStars(int numStars) { m_numStars = numStars; }
 	void SetRootBody(RefCountedPtr<SystemBody> rootBody) { m_rootBody = rootBody; }
 	void SetRootBody(SystemBody *rootBody) { m_rootBody.Reset(rootBody); }

@@ -12,6 +12,8 @@
 
 #include <assert.h>
 #include <cmath>
+#include <cstdint>
+#include <initializer_list>
 
 #include "RefCounted.h"
 #include "fixed.h"
@@ -55,6 +57,12 @@ public:
 		seed(reinterpret_cast<const Uint32 *>(seeds), length * 2);
 	}
 
+	// Construct a new generator given an array of 32-bit seeds.
+	Random(std::initializer_list<uint32_t> seeds)
+	{
+		seed(seeds);
+	}
+
 	//
 	// Seed functions
 	//
@@ -71,6 +79,11 @@ public:
 	void seed(const Uint64 *const seeds, size_t length)
 	{
 		seed(reinterpret_cast<const Uint32 *>(seeds), length * 2);
+	}
+
+	// Seed using an initializer_list of 32-bit integers
+	void seed(std::initializer_list<uint32_t> list) {
+		seed(&*list.begin(), list.size());
 	}
 
 	// Seed using a single 32-bit integer
@@ -231,6 +244,23 @@ public:
 		while (--p > 0)
 			o *= Fixed();
 		return o;
+	}
+
+	// Returns an approximation of a normal distribution in the bounded interval
+	// (-1, 1)
+	inline fixed NormFixed()
+	{
+		// Because addition is fully commutative, the compiler can order these
+		// Fixed() calls in any order it wants without changing the result
+		fixed o = Fixed() + Fixed() + Fixed();
+		return o * fixed(10, 15) - fixed(1, 1);
+	}
+
+	// interval (mean - maxdev, mean + maxdev)
+	// this is an approximation of a gaussian distribution with cross-platform determinism
+	inline fixed NormFixed(fixed mean, fixed maxdev)
+	{
+		return mean + maxdev * NormFixed();
 	}
 
 	const pcg32 &GetPCG() const { return mPCG; }

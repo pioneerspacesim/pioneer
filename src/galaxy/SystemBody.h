@@ -6,6 +6,7 @@
 
 #include "Color.h"
 #include "IterationProxy.h"
+#include "JsonFwd.h"
 #include "Orbit.h"
 #include "RefCounted.h"
 #include "fixed.h"
@@ -17,11 +18,11 @@ class StarSystem;
 
 struct AtmosphereParameters;
 
-class SystemBody : public RefCounted {
+// Enum scoped access pattern base class
+// Allows access to e.g. SystemBody::TYPE_GRAVPOINT
+class SystemBodyType {
 public:
-	SystemBody(const SystemPath &path, StarSystem *system);
-
-	enum BodyType { // <enum scope='SystemBody' prefix=TYPE_ public>
+	enum BodyType : uint32_t { // <enum scope='SystemBodyType' prefix=TYPE_ public>
 		TYPE_GRAVPOINT = 0,
 		TYPE_BROWN_DWARF = 1, //  L+T Class Brown Dwarfs
 		TYPE_WHITE_DWARF = 2,
@@ -71,13 +72,74 @@ public:
 										  // XXX need larger atmosphereless thing
 	};
 
-	enum BodySuperType { // <enum scope='SystemBody' prefix=SUPERTYPE_ public>
+	enum BodySuperType : uint32_t { // <enum scope='SystemBodyType' prefix=SUPERTYPE_ public>
 		SUPERTYPE_NONE = 0,
 		SUPERTYPE_STAR = 1,
 		SUPERTYPE_ROCKY_PLANET = 2,
 		SUPERTYPE_GAS_GIANT = 3,
 		SUPERTYPE_STARPORT = 4,
 	};
+};
+
+/**
+ * Base class containing only static data parameters for SystemBody
+ *
+ * All "runtime" data parameters are generated in SystemBody.cpp or StarSystemGenerator.cpp
+ */
+class SystemBodyData {
+public:
+	SystemBodyData();
+
+	void SaveToJson(Json &out);
+	void LoadFromJson(const Json &obj);
+
+	std::string m_name;
+	SystemBodyType::BodyType m_type = SystemBodyType::TYPE_GRAVPOINT;
+
+	Uint32 m_seed;                  // Planet.cpp can use to generate terrain
+	fixed m_radius;					// in earth radii for planets, sol radii for stars. equatorial radius in case of bodies which are flattened at the poles
+	fixed m_aspectRatio;			// ratio between equatorial and polar radius for bodies with eqatorial bulges
+	fixed m_mass;					// earth masses if planet, solar masses if star
+	fixed m_rotationPeriod;			// in days
+	fixed m_rotationalPhaseAtStart; // 0 to 2 pi
+	fixed m_humanActivity;			// 0 - 1
+	fixed m_semiMajorAxis;			// in AUs
+	fixed m_eccentricity;           // 0 - 1
+	fixed m_orbitalOffset;          // 0 to 2 pi in radians, counterclockwise (long. of ascending node)
+	fixed m_orbitalPhaseAtStart;    // 0 to 2 pi in radians, counterclockwise (true anomaly at epoch)
+	fixed m_axialTilt;			    // in radians
+	fixed m_inclination;		    // in radians, for surface bodies = latitude
+	fixed m_argOfPeriapsis;         // in radians, counterclockwise
+	int m_averageTemp;              // surface temperature in degrees Kelvin
+
+	/* composition */
+	fixed m_metallicity;	// (crust) 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)
+	fixed m_volcanicity;	// 0 = none, 1.0 = fucking volcanic
+	fixed m_volatileLiquid; // 1.0 = 100% ocean cover (earth = 70%)
+	fixed m_volatileIces;	// 1.0 = 100% ice cover (earth = 3%)
+	fixed m_volatileGas;	// 1.225 = earth atmosphere density, kg/m^3
+	fixed m_atmosOxidizing; // 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
+	fixed m_life;			// 0.0 = dead, 1.0 = teeming
+
+	/* economy type stuff */
+	fixed m_population;
+	fixed m_agricultural;
+
+	RingStyle m_rings;
+	Color m_atmosColor;
+
+	std::string m_heightMapFilename;
+	unsigned int m_heightMapFractal;
+
+	std::string m_spaceStationType;
+};
+
+class SystemBody : public RefCounted, public SystemBodyType, protected SystemBodyData {
+public:
+	class EditorAPI; // Allows editor API limited access to data members without rewriting entire class
+
+public:
+	SystemBody(const SystemPath &path, StarSystem *system);
 
 	const SystemPath &GetPath() const { return m_path; }
 	SystemBody *GetParent() const { return m_parent; }
@@ -86,7 +148,7 @@ public:
 	bool IsMoon() const { return GetSuperType() == SUPERTYPE_ROCKY_PLANET && !IsPlanet(); }
 	// We allow hyperjump to any star of the system
 	bool IsJumpable() const { return GetSuperType() == SUPERTYPE_STAR; }
-	SystemBody *GetNearestJumpable();
+	SystemBody *GetNearestJumpable(double atTime);
 
 	bool HasChildren() const { return !m_children.empty(); }
 	Uint32 GetNumChildren() const { return static_cast<Uint32>(m_children.size()); }
@@ -98,7 +160,7 @@ public:
 	inline const std::string &GetName() const { return m_name; }
 	std::string GetAstroDescription() const;
 	const char *GetIcon() const;
-	BodyType GetType() const { return m_type; }
+	BodyType GetType() const { return BodyType(m_type); }
 	BodySuperType GetSuperType() const;
 	bool IsCustomBody() const { return m_isCustomBody; }
 	bool IsCoOrbitalWith(const SystemBody *other) const; //this and other form a binary pair
@@ -162,6 +224,7 @@ public:
 	double GetSemiMajorAxis() const { return m_semiMajorAxis.ToDouble(); }
 	fixed GetSemiMajorAxisAsFixed() const { return m_semiMajorAxis; }
 	fixed GetInclinationAsFixed() const { return m_inclination; }
+	fixed GetArgOfPeriapsisAsFixed() const { return m_argOfPeriapsis; }
 	void SetOrbitPlane(const matrix3x3d &orient) { m_orbit.SetPlane(orient); }
 
 	int GetAverageTemp() const { return m_averageTemp; }
@@ -207,11 +270,25 @@ public:
 		return Color(200, 200, 200, 255);
 	}
 
+	// Returns color, density in kg/m^3 at sea level
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const
 	{
 		*outColor = m_atmosColor;
-		*outDensity = m_atmosDensity;
+		*outDensity = m_volatileGas.ToDouble();
 	}
+
+	double GetAtmSurfaceDensity() const { return m_volatileGas.ToDouble(); }
+	double GetAtmSurfacePressure() const { return m_atmosPressure; }
+	double GetAtmRadius() const { return m_atmosRadius; }
+
+	// Calculate atmosphere pressure at given altitude (atm)
+	double GetAtmPressure(double altitude) const;
+
+	// Calculate atmosphere average temperature at given altitude (deg)
+	double GetAtmAverageTemp(double altitude) const;
+
+	// Calculate atmosphere density at given altitude and pressure (kg/m^3)
+	double GetAtmDensity(double altitude, double pressure) const;
 
 	AtmosphereParameters CalcAtmosphereParams() const;
 
@@ -221,7 +298,7 @@ public:
 
 	StarSystem *GetStarSystem() const { return m_system; }
 
-	const std::string &GetSpaceStationType() const { return m_space_station_type; }
+	const std::string &GetSpaceStationType() const { return m_spaceStationType; }
 
 private:
 	friend class StarSystem;
@@ -230,57 +307,33 @@ private:
 	friend class StarSystemCustomGenerator;
 	friend class StarSystemRandomGenerator;
 	friend class PopulateStarSystemGenerator;
+	friend class CustomSystemsDatabase;
+
+	// Copy-assignment operator from another instance of SystemBodyData
+	SystemBody &operator=(const SystemBodyData &rhs)
+	{
+		*static_cast<SystemBodyData *>(this) = rhs;
+		return *this;
+	}
+
+	void SetOrbitFromParameters();
+	void SetAtmFromParameters();
 
 	void ClearParentAndChildPointers();
 
 	SystemBody *m_parent;				  // these are only valid if the StarSystem
 	std::vector<SystemBody *> m_children; // that create them still exists
+	StarSystem *m_system;
 
 	SystemPath m_path;
 	Orbit m_orbit;
-	Uint32 m_seed; // Planet.cpp can use to generate terrain
-	std::string m_name;
-	fixed m_radius;					// in earth radii for planets, sol radii for stars. equatorial radius in case of bodies which are flattened at the poles
-	fixed m_aspectRatio;			// ratio between equatorial and polar radius for bodies with eqatorial bulges
-	fixed m_mass;					// earth masses if planet, solar masses if star
-	fixed m_orbMin, m_orbMax;		// periapsism, apoapsis in AUs
-	fixed m_rotationPeriod;			// in days
-	fixed m_rotationalPhaseAtStart; // 0 to 2 pi
-	fixed m_humanActivity;			// 0 - 1
-	fixed m_semiMajorAxis;			// in AUs
-	fixed m_eccentricity;
-	fixed m_orbitalOffset;
-	fixed m_orbitalPhaseAtStart; // 0 to 2 pi
-	fixed m_axialTilt;			 // in radians
-	fixed m_inclination;		 // in radians, for surface bodies = latitude
-	int m_averageTemp;
-	BodyType m_type;
+	fixed m_orbMin, m_orbMax; // periapsism, apoapsis in AUs
 	bool m_isCustomBody;
 
-	/* composition */
-	fixed m_metallicity;	// (crust) 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)
-	fixed m_volatileGas;	// 1.0 = earth atmosphere density
-	fixed m_volatileLiquid; // 1.0 = 100% ocean cover (earth = 70%)
-	fixed m_volatileIces;	// 1.0 = 100% ice cover (earth = 3%)
-	fixed m_volcanicity;	// 0 = none, 1.0 = fucking volcanic
-	fixed m_atmosOxidizing; // 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
-	fixed m_life;			// 0.0 = dead, 1.0 = teeming
-
-	RingStyle m_rings;
-
-	/* economy type stuff */
-	fixed m_population;
-	fixed m_agricultural;
-
-	std::string m_heightMapFilename;
-	unsigned int m_heightMapFractal;
-
-	Color m_atmosColor;
-	double m_atmosDensity;
-
-	StarSystem *m_system;
-
-	std::string m_space_station_type;
+	// atmosphere surface pressure, unit: atm
+	double m_atmosPressure;
+	// atmosphere radius at 0.01atm, unit: meters
+	double m_atmosRadius;
 };
 
 #endif // SYSTEMBODY_H

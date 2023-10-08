@@ -33,6 +33,8 @@ namespace JsonUtils {
 	Json LoadJsonDataFile(const std::string &filename, bool with_merge = true);
 	// Loads an optionally-gzipped, optionally-CBOR encoded JSON file from the specified source.
 	Json LoadJsonSaveFile(const std::string &filename, FileSystem::FileSource &source);
+	// Patches a Json object with an extended Merge-Patch object
+	bool ApplyJsonPatch(Json &inObject, const Json &patch, const std::string &filename);
 } // namespace JsonUtils
 
 // To-JSON functions. These are called explicitly, and are passed a reference to the object to fill.

@@ -6,18 +6,14 @@
 #include "AtmosphereParameters.h"
 #include "EnumStrings.h"
 #include "Game.h"
+#include "JsonUtils.h"
 #include "Lang.h"
-#include "Pi.h"
-#include "enum_table.h"
 #include "utils.h"
 
-SystemBody::SystemBody(const SystemPath &path, StarSystem *system) :
-	m_parent(nullptr),
-	m_path(path),
+SystemBodyData::SystemBodyData() :
+	m_type(SystemBodyType::TYPE_GRAVPOINT),
 	m_seed(0),
 	m_aspectRatio(1, 1),
-	m_orbMin(0),
-	m_orbMax(0),
 	m_rotationalPhaseAtStart(0),
 	m_semiMajorAxis(0),
 	m_eccentricity(0),
@@ -25,12 +21,221 @@ SystemBody::SystemBody(const SystemPath &path, StarSystem *system) :
 	m_axialTilt(0),
 	m_inclination(0),
 	m_averageTemp(0),
-	m_type(TYPE_GRAVPOINT),
-	m_isCustomBody(false),
-	m_heightMapFractal(0),
-	m_atmosDensity(0.0),
-	m_system(system)
+	m_heightMapFractal(0)
 {
+}
+
+void SystemBodyData::SaveToJson(Json &out)
+{
+	out["seed"] = m_seed;
+	out["name"] = m_name;
+	out["type"] = EnumStrings::GetString("BodyType", m_type);
+
+	out["radius"] = m_radius;
+	out["aspectRatio"] = m_aspectRatio;
+	out["mass"] = m_mass;
+	out["rotationPeriod"] = m_rotationPeriod;
+	out["rotationPhase"] = m_rotationalPhaseAtStart;
+	out["humanActivity"] = m_humanActivity;
+	out["semiMajorAxis"] = m_semiMajorAxis;
+	out["eccentricity"] = m_eccentricity;
+	out["orbitalOffset"] = m_orbitalOffset;
+	out["orbitalPhase"] = m_orbitalPhaseAtStart;
+	out["axialTilt"] = m_axialTilt;
+	out["inclination"] = m_inclination;
+	out["argOfPeriapsis"] = m_argOfPeriapsis;
+	out["averageTemp"] = m_averageTemp;
+
+	out["metallicity"] = m_metallicity;
+	out["volcanicity"] = m_volcanicity;
+	out["volatileLiquid"] = m_volatileLiquid;
+	out["volatileIces"] = m_volatileIces;
+	out["atmosDensity"] = m_volatileGas;
+	out["atmosOxidizing"] = m_atmosOxidizing;
+	out["atmosColor"] = m_atmosColor;
+	out["life"] = m_life;
+
+	out["population"] = m_population;
+	out["agricultural"] = m_agricultural;
+
+	bool hasRings = m_rings.maxRadius != 0;
+	out["hasRings"] = hasRings;
+
+	if (hasRings) {
+		out["ringsMinRadius"] = m_rings.minRadius;
+		out["ringsMaxRadius"] = m_rings.maxRadius;
+		out["ringsBaseColor"] = m_rings.baseColor;
+	}
+
+	if (!m_spaceStationType.empty())
+		out["spaceStationType"] = m_spaceStationType;
+
+	if (!m_heightMapFilename.empty()) {
+		out["heightMapFilename"] = m_heightMapFilename;
+		out["heightMapFractal"] = m_heightMapFractal;
+	}
+}
+
+void SystemBodyData::LoadFromJson(const Json &obj)
+{
+	m_seed = obj.value<uint32_t>("seed", 0);
+	m_name = obj.value<std::string>("name", "");
+
+	int type = EnumStrings::GetValue("BodyType", obj.value<std::string>("type", "GRAVPOINT").c_str());
+	m_type = SystemBodyType::BodyType(type);
+
+	m_radius = obj.value<fixed>("radius", 0);
+	m_aspectRatio = obj.value<fixed>("aspectRatio", 0);
+	m_mass = obj.value<fixed>("mass", 0);
+	m_rotationPeriod = obj.value<fixed>("rotationPeriod", 0);
+	m_rotationalPhaseAtStart = obj.value<fixed>("rotationPhase", 0);
+	m_humanActivity = obj.value<fixed>("humanActivity", 0);
+	m_semiMajorAxis = obj.value<fixed>("semiMajorAxis", 0);
+	m_eccentricity = obj.value<fixed>("eccentricity", 0);
+	m_orbitalOffset = obj.value<fixed>("orbitalOffset", 0);
+	m_orbitalPhaseAtStart = obj.value<fixed>("orbitalPhase", 0);
+	m_axialTilt = obj.value<fixed>("axialTilt", 0);
+	m_inclination = obj.value<fixed>("inclination", 0);
+	m_argOfPeriapsis = obj.value<fixed>("argOfPeriapsis", 0);
+	m_averageTemp = obj.value<uint32_t>("averageTemp", 0);
+
+	m_metallicity = obj.value<fixed>("metallicity", 0);
+	m_volcanicity = obj.value<fixed>("volcanicity", 0);
+	m_volatileLiquid = obj.value<fixed>("volatileLiquid", 0);
+	m_volatileIces = obj.value<fixed>("volatileIces", 0);
+	m_volatileGas = obj.value<fixed>("atmosDensity", 0);
+	m_atmosOxidizing = obj.value<fixed>("atmosOxidizing", 0);
+	m_atmosColor = obj.value<Color>("atmosColor", 0);
+	m_life = obj.value<fixed>("life", 0);
+
+	m_population = obj.value<fixed>("population", 0);
+	m_agricultural = obj.value<fixed>("agricultural", 0);
+
+	if (obj.value<bool>("hasRings", false)) {
+		m_rings.minRadius = obj.value<fixed>("ringsMinRadius", 0);
+		m_rings.maxRadius = obj.value<fixed>("ringsMaxRadius", 0);
+		m_rings.baseColor = obj.value<Color>("ringsBaseColor", {});
+	}
+
+	m_spaceStationType = obj.value<std::string>("spaceStationType", "");
+
+	m_heightMapFilename = obj.value<std::string>("heightMapFilename", "");
+	m_heightMapFractal = obj.value<uint32_t>("heightMapFractal", 0);
+}
+
+SystemBody::SystemBody(const SystemPath &path, StarSystem *system) :
+	m_parent(nullptr),
+	m_system(system),
+	m_path(path),
+	m_orbMin(0),
+	m_orbMax(0)
+{
+}
+
+void SystemBody::SetOrbitFromParameters()
+{
+	// Cannot orbit if no parent to orbit around
+	if (!m_parent) {
+		m_orbit = {};
+		m_orbMin = 0;
+		m_orbMax = 0;
+
+		return;
+	}
+
+	if (m_parent->GetType() == SystemBody::TYPE_GRAVPOINT) // generalize Kepler's law to multiple stars
+		m_orbit.SetShapeAroundBarycentre(m_semiMajorAxis.ToDouble() * AU, m_parent->GetMass(), GetMass(), m_eccentricity.ToDouble());
+	else
+		m_orbit.SetShapeAroundPrimary(m_semiMajorAxis.ToDouble() * AU, m_parent->GetMass(), m_eccentricity.ToDouble());
+
+	m_orbit.SetPhase(m_orbitalPhaseAtStart.ToDouble());
+
+	if (GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
+		double longitude = m_orbitalOffset.ToDouble();
+		double latitude = m_inclination.ToDouble();
+
+		m_orbit.SetPlane(matrix3x3d::RotateY(longitude) * matrix3x3d::RotateX(-0.5 * M_PI + latitude));
+	} else {
+		// NOTE: rotate -Y == counter-clockwise parameterization of longitude of ascending node
+		m_orbit.SetPlane(
+			matrix3x3d::RotateY(-m_orbitalOffset.ToDouble()) *
+			matrix3x3d::RotateX(-0.5 * M_PI + m_inclination.ToDouble()) *
+			matrix3x3d::RotateZ(m_argOfPeriapsis.ToDouble()));
+	}
+
+	// perihelion and aphelion (in AUs)
+	m_orbMin = m_semiMajorAxis - m_eccentricity * m_semiMajorAxis;
+	m_orbMax = 2 * m_semiMajorAxis - m_orbMin;
+}
+
+// TODO: a more detailed atmospheric simulation should replace this
+double GetSpecificHeat(SystemBody::BodySuperType superType)
+{
+	if (superType == SystemBody::SUPERTYPE_GAS_GIANT)
+		return 12950.0; // constant pressure specific heat, for a combination of hydrogen and helium
+	else
+		return 1000.5; // constant pressure specific heat, for the combination of gasses that make up air
+}
+
+// TODO: a more detailed atmospheric simulation should replace this
+double GetMolarMass(SystemBody::BodySuperType superType)
+{
+	if (superType == SystemBody::SUPERTYPE_GAS_GIANT)
+		return 0.0023139903; // molar mass, for a combination of hydrogen and helium
+	else
+		// XXX using earth's molar mass of air...
+		return 0.02897;
+}
+
+double SystemBody::GetAtmPressure(double altitude) const
+{
+	const double gasMolarMass = GetMolarMass(GetSuperType());
+	const double surfaceGravity_g = CalcSurfaceGravity();
+	const double lapseRate_L = surfaceGravity_g / GetSpecificHeat(GetSuperType()); // deg/m
+	const double surfaceTemperature_T0 = GetAverageTemp();	//K
+
+	return m_atmosPressure * pow((1 - lapseRate_L * altitude / surfaceTemperature_T0),
+		(surfaceGravity_g * gasMolarMass / (GAS_CONSTANT_R * lapseRate_L))); // in ATM since p0 was in ATM
+}
+
+double SystemBody::GetAtmDensity(double altitude, double pressure) const
+{
+	double gasMolarMass = GetMolarMass(GetSuperType());
+	double aerialTemp = GetAtmAverageTemp(altitude);
+
+	return (pressure / (PA_2_ATMOS * GAS_CONSTANT_R * aerialTemp)) * gasMolarMass;
+}
+
+double SystemBody::GetAtmAverageTemp(double altitude) const
+{
+	// temperature at height
+	const double lapseRate_L = CalcSurfaceGravity() / GetSpecificHeat(GetSuperType()); // deg/m
+	return double(GetAverageTemp()) - lapseRate_L * altitude;
+}
+
+void SystemBody::SetAtmFromParameters()
+{
+	double gasMolarMass = GetMolarMass(GetSuperType());
+
+	double surfaceDensity = GetAtmSurfaceDensity() / gasMolarMass; // kg / m^3, convert to moles/m^3
+	double surfaceTemperature_T0 = GetAverageTemp(); //K
+
+	// surface pressure
+	//P = density*R*T=(n/V)*R*T
+	m_atmosPressure = PA_2_ATMOS * ((surfaceDensity) * GAS_CONSTANT_R * surfaceTemperature_T0); // in atmospheres
+
+	double surfaceGravity_g = CalcSurfaceGravity();
+	const double lapseRate_L = surfaceGravity_g / GetSpecificHeat(GetSuperType()); // deg/m
+
+	if (m_atmosPressure < 0.002)
+		m_atmosRadius = 0; // no meaningful radius for atmosphere
+	else {
+		//*outPressure = p0*(1-l*h/T0)^(g*M/(R*L);
+		// want height for pressure 0.001 atm:
+		// h = (1 - exp(RL/gM * log(P/p0))) * T0 / l
+		double RLdivgM = (GAS_CONSTANT_R * lapseRate_L) / (surfaceGravity_g * GetMolarMass(GetSuperType()));
+		m_atmosRadius = (1.0 - exp(RLdivgM * log(0.001 / m_atmosPressure))) * surfaceTemperature_T0 / lapseRate_L;
+	}
 }
 
 bool SystemBody::HasAtmosphere() const
@@ -594,7 +799,7 @@ double SystemBody::CalcSurfaceGravity() const
 {
 	double r = GetRadius();
 	if (r > 0.0) {
-		return G * GetMass() / pow(r, 2);
+		return G * GetMass() / (r * r);
 	} else {
 		return 0.0;
 	}
@@ -611,8 +816,8 @@ void SystemBody::Dump(FILE *file, const char *indent) const
 		m_orbit.GetOrbitalPhaseAtStart());
 	fprintf(file, "%s\torbit a=%.6f, e=%.6f, orbMin=%.6f, orbMax=%.6f\n", indent, m_semiMajorAxis.ToDouble(), m_eccentricity.ToDouble(),
 		m_orbMin.ToDouble(), m_orbMax.ToDouble());
-	fprintf(file, "%s\t\toffset=%.6f, phase=%.6f, inclination=%.6f\n", indent, m_orbitalOffset.ToDouble(), m_orbitalPhaseAtStart.ToDouble(),
-		m_inclination.ToDouble());
+	fprintf(file, "%s\t\toffset=%.6f, phase=%.6f, inclination=%.6f, argument=%.6f\n", indent, m_orbitalOffset.ToDouble(), m_orbitalPhaseAtStart.ToDouble(),
+		m_inclination.ToDouble(), m_argOfPeriapsis.ToDouble());
 	if (m_type != TYPE_GRAVPOINT) {
 		fprintf(file, "%s\tseed %u\n", indent, m_seed);
 		fprintf(file, "%s\tradius %.6f, aspect %.6f\n", indent, m_radius.ToDouble(), m_aspectRatio.ToDouble());
@@ -624,7 +829,7 @@ void SystemBody::Dump(FILE *file, const char *indent) const
 			m_volatileLiquid.ToDouble() * 100.0, m_volatileIces.ToDouble() * 100.0);
 		fprintf(file, "%s\tlife %.2f\n", indent, m_life.ToDouble() * 100.0);
 		fprintf(file, "%s\tatmosphere oxidizing=%.2f, color=(%hhu,%hhu,%hhu,%hhu), density=%.6f\n", indent,
-			m_atmosOxidizing.ToDouble() * 100.0, m_atmosColor.r, m_atmosColor.g, m_atmosColor.b, m_atmosColor.a, m_atmosDensity);
+			m_atmosOxidizing.ToDouble() * 100.0, m_atmosColor.r, m_atmosColor.g, m_atmosColor.b, m_atmosColor.a, m_volatileGas.ToDouble());
 		fprintf(file, "%s\trings minRadius=%.2f, maxRadius=%.2f, color=(%hhu,%hhu,%hhu,%hhu)\n", indent, m_rings.minRadius.ToDouble() * 100.0,
 			m_rings.maxRadius.ToDouble() * 100.0, m_rings.baseColor.r, m_rings.baseColor.g, m_rings.baseColor.b, m_rings.baseColor.a);
 		fprintf(file, "%s\thuman activity %.2f, population %.0f, agricultural %.2f\n", indent, m_humanActivity.ToDouble() * 100.0,
@@ -651,7 +856,7 @@ void SystemBody::ClearParentAndChildPointers()
 	m_children.clear();
 }
 
-SystemBody *SystemBody::GetNearestJumpable()
+SystemBody *SystemBody::GetNearestJumpable(double atTime)
 {
 	PROFILE_SCOPED()
 	if (IsJumpable()) return this;
@@ -675,7 +880,7 @@ SystemBody *SystemBody::GetNearestJumpable()
 			// if the body has a zero orbit or it is a surface port - we assume that
 			// it is at the same point with the parent, just don't touch pos
 			if (!is_zero_general(s->GetOrbit().GetSemiMajorAxis()) && s->GetType() != SystemBody::TYPE_STARPORT_SURFACE)
-				pos += s->GetOrbit().OrbitalPosAtTime(Pi::game->GetTime());
+				pos += s->GetOrbit().OrbitalPosAtTime(atTime);
 			if (s->IsJumpable())
 				jumpables.emplace_back(s, pos);
 			else if (s == this) // the current body is definitely not jumpable, otherwise we would not be here

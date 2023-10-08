@@ -700,7 +700,8 @@ static int l_sbody_attr_children(lua_State *l)
 
 static int l_sbody_attr_nearest_jumpable(lua_State *l)
 {
-	LuaObject<SystemBody>::PushToLua(LuaObject<SystemBody>::CheckFromLua(1)->GetNearestJumpable());
+	double time = Pi::game->GetTime();
+	LuaObject<SystemBody>::PushToLua(LuaObject<SystemBody>::CheckFromLua(1)->GetNearestJumpable(time));
 	return 1;
 }
 

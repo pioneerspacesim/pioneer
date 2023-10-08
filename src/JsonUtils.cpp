@@ -70,8 +70,7 @@ namespace JsonUtils {
 		if (out.is_null() || !with_merge) return out;
 
 		for (auto info : FileSystem::gameDataFiles.LookupAll(filename + ".patch")) {
-			Json patch = LoadJson(info.Read());
-			if (!patch.is_null()) out.merge_patch(patch);
+			ApplyJsonPatch(out, LoadJson(info.Read()), info.GetPath());
 		}
 
 		return out;
@@ -105,6 +104,25 @@ namespace JsonUtils {
 		} catch (gzip::DecompressionFailedException) {
 			return nullptr;
 		}
+	}
+
+	bool ApplyJsonPatch(Json &inObject, const Json &patchObject, const std::string &filename)
+	{
+		if (!inObject.is_object() || !patchObject.is_object())
+			return false;
+
+		for (auto &field : patchObject.items()) {
+			if (starts_with(field.key(), "$")) {
+				// JSON pointer patch object
+				Json::json_pointer ptr(field.key().substr(1));
+				inObject[ptr].merge_patch(field.value());
+			} else {
+				// "Regular" JSON merge-patch object
+				inObject[field.key()].merge_patch(field.value());
+			}
+		}
+
+		return true;
 	}
 } // namespace JsonUtils
 
@@ -538,22 +556,22 @@ void from_json(const Json &obj, fixed &f)
 	else {
 		std::string str = obj;
 		// must have at least f1/1, though can be f1234567/135758548 etc.
-		if (str.size() < 4 || obj[0] != 'f')
+		if (str.size() < 4 || str[0] != 'f')
 			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
 
 		char *next_str = const_cast<char *>(str.c_str()) + 1;
-		int64_t numerator = std::strtol(next_str, &next_str, 10);
+		int64_t integer = std::strtol(next_str, &next_str, 10);
 
 		// handle cases: f/34, f1356, f14+4
-		if (numerator == 0 || next_str == nullptr || size_t(next_str - str.c_str()) >= str.size() || *next_str++ != '/')
+		if (next_str == nullptr || size_t(next_str - str.c_str()) >= str.size() || *next_str++ != '/')
 			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
 
-		int64_t denominator = std::strtol(next_str, &next_str, 10);
+		int64_t fractional = std::strtol(next_str, &next_str, 10);
 		// handle cases f1345/7684gfrty; fixed numbers should not have any garbage data involved
 		if (next_str != str.c_str() + str.size())
 			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
 
-		f = fixed(numerator, denominator);
+		f = fixed(integer << f.FRAC | fractional);
 	}
 }
 
