@@ -81,11 +81,12 @@ function Body:DistanceTo(otherBody) end
 
 --- Get the body's position relative to its parent frame.
 ---
---- If the parent is a TerrainBody, altitude will be the height above terrain in meters.
+--- If the parent is a TerrainBody, altitude will be the height above terrain or sea level in meters.
+---@param boolean? terrainRelative
 ---@return number latitude the latitude of the body in radians
 ---@return number longitude the longitude of the body in radians
----@return number? altitude altitude above the ground in meters
-function Body:GetGroundPosition() end
+---@return number? altitude altitude above the ground or sea level in meters
+function Body:GetGroundPosition(terrainRelative) end
 
 --- Find the nearest object of a <Constants.PhysicsObjectType> type
 ---@param type PhysicsObjectType
@@ -104,11 +105,12 @@ function Body:GetPositionRelTo(other) end
 
 --- Get the body's altitude relative to another body.
 ---
---- Returns height above terrain if the other body is a TerrainBody or
+--- Returns height above terrain or sea level if the other body is a TerrainBody or
 --- distance between bodies otherwise.
 ---@param other Body
+---@param boolean? terrainRelative
 ---@return number altitude
-function Body:GetAltitudeRelTo(other) end
+function Body:GetAltitudeRelTo(other, terrainRelative) end
 
 ---@return number
 function Body:GetPhysicalRadius() end

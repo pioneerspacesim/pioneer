@@ -35,6 +35,13 @@ const struct EnumItem ENUM_PhysicsObjectType[] = {
 	{ 0, 0 },
 };
 
+const struct EnumItem ENUM_AltitudeType[] = {
+	{ "DEFAULT", int(AltitudeType::DEFAULT) },
+	{ "SEA_LEVEL", int(AltitudeType::SEA_LEVEL) },
+	{ "ABOVE_TERRAIN", int(AltitudeType::ABOVE_TERRAIN) },
+	{ 0, 0 },
+};
+
 const struct EnumItem ENUM_ShipAIError[] = {
 	{ "NONE", int(Ship::AIERROR_NONE) },
 	{ "GRAV_TOO_HIGH", int(Ship::AIERROR_GRAV_TOO_HIGH) },
@@ -308,6 +315,7 @@ const struct EnumItem ENUM_ShipControllerFlightControlState[] = {
 
 const struct EnumTable ENUM_TABLES[] = {
 	{ "PhysicsObjectType", ENUM_PhysicsObjectType },
+	{ "AltitudeType", ENUM_AltitudeType },
 	{ "ShipAIError", ENUM_ShipAIError },
 	{ "ShipFlightState", ENUM_ShipFlightState },
 	{ "ShipJumpStatus", ENUM_ShipJumpStatus },
@@ -338,6 +346,7 @@ const struct EnumTable ENUM_TABLES[] = {
 
 const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "PhysicsObjectType", ENUM_PhysicsObjectType },
+	{ "AltitudeType", ENUM_AltitudeType },
 	{ "ShipAIError", ENUM_ShipAIError },
 	{ "ShipFlightState", ENUM_ShipFlightState },
 	{ "ShipJumpStatus", ENUM_ShipJumpStatus },

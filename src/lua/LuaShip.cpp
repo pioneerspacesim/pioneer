@@ -171,7 +171,6 @@ static int l_ship_get_ship_class(lua_State *l)
  *
  *  experimental
  */
-
 static int l_ship_set_hull_percent(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -262,7 +261,6 @@ static int l_ship_set_fuel_percent(lua_State *l)
  *
  * 	experimental
  */
-
 static int l_ship_explode(lua_State *l)
 {
 	LUA_DEBUG_START(l);
