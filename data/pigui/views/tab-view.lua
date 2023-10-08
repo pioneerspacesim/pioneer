@@ -84,7 +84,7 @@ function PiGuiTabView:SwitchTo(id)
 	print("View not found:", id)
 end
 
-local staticButtonFlags = ui.WindowFlags {"NoResize", "NoTitleBar", "NoMove", "NoFocusOnAppearing", "NoScrollbar"}
+local staticButtonFlags = ui.WindowFlags {"NoResize", "NoTitleBar", "NoMove", "NoFocusOnAppearing", "NoScrollbar", "NoScrollWithMouse"}
 local vCenter = Vector2(0.5, 0.5)
 local mainWindowFlags = ui.WindowFlags {"NoResize", "NoTitleBar"}
 
