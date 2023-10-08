@@ -47,7 +47,6 @@ static int l_player_is_player(lua_State *l)
  *
  *   stable
  */
-
 static int l_get_nav_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
@@ -74,7 +73,6 @@ static int l_get_nav_target(lua_State *l)
  *
  *   stable
  */
-
 static int l_set_nav_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
@@ -147,7 +145,6 @@ static int l_change_cruise_speed(lua_State *l)
  *
  *   stable
  */
-
 static int l_get_combat_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
@@ -174,7 +171,6 @@ static int l_get_combat_target(lua_State *l)
  *
  *   stable
  */
-
 static int l_set_combat_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
@@ -202,7 +198,6 @@ static int l_set_combat_target(lua_State *l)
  *
  *   stable
  */
-
 static int l_get_hyperspace_target(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -234,7 +229,6 @@ static int l_get_hyperspace_target(lua_State *l)
  *
  *   stable
  */
-
 static int l_set_hyperspace_target(lua_State *l)
 {
 	LuaObject<Player>::CheckFromLua(1);
@@ -280,7 +274,6 @@ static int l_get_mouse_direction(lua_State *l)
  *
  *   stable
  */
-
 static int l_get_is_mouse_active(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -303,7 +296,6 @@ static int l_get_is_mouse_active(lua_State *l)
  *
  *   stable
  */
-
 static int l_get_max_delta_v(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -327,7 +319,6 @@ static int l_get_max_delta_v(lua_State *l)
  *
  *   stable
  */
-
 static int l_get_current_delta_v(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -350,7 +341,6 @@ static int l_get_current_delta_v(lua_State *l)
  *
  *   stable
  */
-
 static int l_get_remaining_delta_v(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -416,7 +406,6 @@ static int l_get_acceleration(lua_State *l)
  *
  *   stable
  */
-
 static int l_get_distance_to_zero_v(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -443,7 +432,6 @@ static int l_get_distance_to_zero_v(lua_State *l)
  *
  *   stable
  */
-
 static int l_get_maneuver_time(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -466,7 +454,6 @@ static int l_get_maneuver_time(lua_State *l)
  *
  *   stable
  */
-
 static int l_get_maneuver_velocity(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -494,7 +481,6 @@ static int l_get_maneuver_velocity(lua_State *l)
  *
  *   stable
  */
-
 static int l_get_heading_pitch_roll(lua_State *l)
 {
 	//  Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -573,65 +559,6 @@ static int l_toggle_rotation_damping(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
 	player->GetPlayerController()->ToggleRotationDamping();
-	return 0;
-}
-
-/*
- * Function: GetGPS()
- *
- * Get altitude, speed, and position of player's ship
- *
- * Example:
- *
- * > alt, vspd, lat, long = player:GetGPS()
- *
- * Returns:
- *
- *   alt - altitude
- *
- *   vspd - vertical speed
- *
- *   latitude - latitude
- *
- *   longitude - longitude
- *
- */
-static int l_get_gps(lua_State *l)
-{
-	Player *player = LuaObject<Player>::CheckFromLua(1);
-	vector3d pos = Pi::player->GetPosition();
-	double center_dist = pos.Length();
-	FrameId playerFrameId = player->GetFrame();
-	Frame *playerFrame = Frame::GetFrame(playerFrameId);
-	if (playerFrameId.valid()) {
-		Body *astro = Frame::GetFrame(playerFrameId)->GetBody();
-		if (astro && astro->IsType(ObjectType::TERRAINBODY)) {
-			TerrainBody *terrain = static_cast<TerrainBody *>(astro);
-			if (!playerFrame->IsRotFrame())
-				playerFrame = Frame::GetFrame(playerFrame->GetRotFrame());
-			vector3d surface_pos = pos.Normalized();
-			double radius = terrain->GetSystemBody()->GetRadius();
-			if (center_dist <= 3.0 * terrain->GetMaxFeatureRadius()) {
-				radius = terrain->GetTerrainHeight(surface_pos);
-			}
-			double altitude = center_dist - radius;
-			vector3d velocity = player->GetVelocity();
-			double vspeed = velocity.Dot(surface_pos);
-			if (fabs(vspeed) < 0.05) vspeed = 0.0; // Avoid alternating between positive/negative zero
-
-			//			RefreshHeadingPitch();
-
-			if (altitude < 0) altitude = 0;
-			LuaPush(l, altitude);
-			LuaPush(l, vspeed);
-			const float lat = RAD2DEG(asin(surface_pos.y));
-			const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
-			LuaPush(l, lat);
-			LuaPush(l, lon);
-			return 4;
-			//				}
-		}
-	}
 	return 0;
 }
 
@@ -883,7 +810,6 @@ void LuaObject<Player>::RegisterClass()
 		{ "GetMouseDirection", l_get_mouse_direction },
 		{ "GetRotationDamping", l_get_rotation_damping },
 		{ "SetRotationDamping", l_set_rotation_damping },
-		{ "GetGPS", l_get_gps },
 		{ "ToggleRotationDamping", l_toggle_rotation_damping },
 		{ "GetAlertState", l_get_alert_state },
 		{ "GetLowThrustPower", l_get_low_thrust_power },

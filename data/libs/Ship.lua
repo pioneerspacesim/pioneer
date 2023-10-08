@@ -668,6 +668,40 @@ function Ship:OnScoopCargo(cargoType)
 	return success
 end
 
+
+--
+-- Method: GetGPS
+--
+-- Get altitude, speed, and position of a ship
+--
+-- > alt, vspd, lat, long = ship:GetGPS()
+--
+-- Returns:
+--
+--   alt - altitude
+--
+--   vspd - vertical speed
+--
+--   lat - latitude
+--
+--   lon - longitude
+--
+-- Availability:
+--
+--   November, 2023
+--
+-- Status:
+--
+--   experimental
+--
+function Ship:GetGPS()
+   local lat, lon, altitude = self:GetGroundPosition()
+   local vspd = self:GetVelocityRelTo(self.frameBody):dot(self:GetPositionRelTo(self.frameBody):normalized())
+   lat = math.rad2deg(lat)
+   lon = math.rad2deg(lon)
+   return altitude, vspd, lat, lon
+end
+
 --
 -- Method: Enroll
 --

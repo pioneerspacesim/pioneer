@@ -17,6 +17,7 @@ struct EnumTable {
 };
 
 extern const struct EnumItem ENUM_PhysicsObjectType[];
+extern const struct EnumItem ENUM_AltitudeType[];
 extern const struct EnumItem ENUM_ShipAIError[];
 extern const struct EnumItem ENUM_ShipFlightState[];
 extern const struct EnumItem ENUM_ShipJumpStatus[];

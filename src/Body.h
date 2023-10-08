@@ -43,6 +43,13 @@ enum class ObjectType { // <enum name=PhysicsObjectType scope='ObjectType' publi
 	HYPERSPACECLOUD // <enum skip>
 };
 
+enum class AltitudeType { // <enum name=AltitudeType scope='AltitudeType' public>
+	//SEA_LEVEL if distant, ABOVE_TERRAIN otherwise
+	DEFAULT,
+	SEA_LEVEL,
+	ABOVE_TERRAIN
+};
+
 #define OBJDEF(__thisClass, __parentClass, __TYPE)                                  \
 	static constexpr ObjectType StaticType() { return ObjectType::__TYPE; }         \
 	static constexpr ObjectType SuperType() { return __parentClass::StaticType(); } \
@@ -175,6 +182,7 @@ public:
 	vector3d GetInterpPositionRelTo(FrameId relToId) const;
 	vector3d GetInterpPositionRelTo(const Body *relTo) const;
 	matrix3x3d GetInterpOrientRelTo(FrameId relToId) const;
+	double GetAltitudeRelTo(const Body* relTo, AltitudeType altType = AltitudeType::DEFAULT);
 
 	// should set m_interpolatedTransform to the smoothly interpolated value
 	// (interpolated by 0 <= alpha <=1) between the previous and current physics tick
