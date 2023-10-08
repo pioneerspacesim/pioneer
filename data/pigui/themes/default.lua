@@ -229,6 +229,9 @@ theme.colors = {
 
 	equipScreenHighlight    = styleColors.gray_300,
 	equipScreenBgText       = styleColors.gray_400,
+
+	shipmarketCompareBetter = styleColors.success_300,
+	shipmarketCompareWorse  = styleColors.warning_300,
 }
 
 -- ImGui global theming styles
@@ -570,6 +573,8 @@ theme.icons = {
 	equip_trade_computer = 301,
 	equip_autopilot = 302,
 	equip_hyperdrive = 303,
+	shipmarket_compare_better = 38,
+	shipmarket_compare_worse = 40,
 
 	-- TODO: manual / autopilot
 	-- dummy, until actually defined correctly

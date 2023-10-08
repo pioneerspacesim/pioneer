@@ -13,6 +13,9 @@ local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
 local CommodityType= require 'CommodityType'
 
 local ui = require 'pigui'
+
+local utils = require 'utils'
+
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local styleColors = ui.theme.styleColors
@@ -159,14 +162,164 @@ local function buyShip (mkt, sos)
 	mkt.popup:open()
 end
 
-local yes_no = function (binary)
-	if binary == 1 then
-		return l.YES
-	elseif binary == 0 then
-		return l.NO
-	else error("argument to yes_no not 0 or 1")
+local FormatAndCompareShips = utils.class("ui.ShipMarket.FormatAndCompareShips")
+
+function FormatAndCompareShips:beginTable()
+	if not ui.beginTable("specs", 7 ) then
+		return false
+	end
+
+	ui.tableSetupColumn("name1")
+	ui.tableSetupColumn("body1")
+	ui.tableSetupColumn("indicator1", {"WidthFixed"})
+	ui.tableSetupColumn("gap", {"WidthFixed"})
+	ui.tableSetupColumn("name2")
+	ui.tableSetupColumn("body2")
+	ui.tableSetupColumn("indicator2", {"WidthFixed"})
+
+	return true
+end
+
+---@param desc       string        Description of the item being drawn
+---@param a	         number        The value for the new ship
+---@param b          number        The value for the old shio
+---@param fmt_a      function|nil  A function that takes a and formats it to a string, if required
+---@param fmt_b      function|nil  A function that takes b and formats it to a string, if nil then fmt_a is used
+function FormatAndCompareShips:compare_and_draw_column(desc, a, b, fmt_a, fmt_b)
+	local compare = a-b
+
+	if self.column == 0 then
+		ui.tableNextRow()
+	end
+
+	fmt_b = fmt_b and fmt_b or fmt_a
+
+	ui.tableSetColumnIndex(0 + self.column)
+	ui.textColored(styleColors.gray_300, desc)
+
+	ui.tableSetColumnIndex(1 + self.column)
+
+	local new_str = fmt_a and fmt_a( a ) or a
+
+	if compare < 0 then
+		local old_str = fmt_b and fmt_b( b ) or b
+		ui.withTooltip( l.CURRENT_SHIP .. ": " .. old_str, function ()
+			ui.textAlignedColored(new_str, 1.0, ui.theme.colors.shipmarketCompareWorse)
+			ui.tableSetColumnIndex(2 + self.column)
+			ui.icon( ui.theme.icons.shipmarket_compare_worse, Vector2(ui.getTextLineHeight()), ui.theme.colors.shipmarketCompareWorse)
+		end )
+	elseif compare > 0 then
+		local old_str = fmt_b and fmt_b( b ) or b
+		ui.withTooltip( l.CURRENT_SHIP .. ": " .. old_str, function ()
+			ui.textAlignedColored(new_str, 1.0,  ui.theme.colors.shipmarketCompareBetter)
+			ui.tableSetColumnIndex(2 + self.column)
+			ui.icon( ui.theme.icons.shipmarket_compare_better, Vector2(ui.getTextLineHeight()), ui.theme.colors.shipmarketCompareBetter)			
+		end )
+	else
+		ui.textAligned(new_str, 1.0)
+		ui.tableSetColumnIndex(2 + self.column)
+		ui.dummy( Vector2(ui.getTextLineHeight()) )		
+	end
+
+	if self.column == 0 then
+		self.column = 4
+	else
+		self.column = 0
 	end
 end
+
+function FormatAndCompareShips:draw_hyperdrive_cell(desc)
+
+	local function fmt( v )
+		return v > 0 and
+			Equipment.hyperspace["hyperdrive_" .. v]:GetName() or l.NONE
+	end
+
+	self:compare_and_draw_column( desc, self.def.hyperdriveClass, self.b.def.hyperdriveClass, fmt )
+end
+
+function FormatAndCompareShips:get_value(key)
+	local v = self[key]
+	if nil == v then
+		v = self.def[key]
+	end
+	return v
+end
+
+function FormatAndCompareShips:draw_tonnage_cell(desc, key)
+	self:compare_and_draw_column( desc, self:get_value(key), self.b:get_value(key), Format.MassTonnes )
+end
+
+function FormatAndCompareShips:draw_accel_cell(desc, thrustKey, massKey )
+	local accelA = self.def.linearThrust[thrustKey] / (9.8106*1000*(self:get_value(massKey)))
+	local accelB = self.b.def.linearThrust[thrustKey] / (9.8106*1000*(self.b:get_value(massKey)))
+	self:compare_and_draw_column( desc, accelA, accelB, Format.AccelG )
+end
+
+function FormatAndCompareShips:draw_deltav_cell(desc, massNumeratorKey, massDenominatorKey)
+	local deltavA = self.def.effectiveExhaustVelocity * math.log( self:get_value(massNumeratorKey) / self.b:get_value(massDenominatorKey) )
+	local deltavB = self.b.def.effectiveExhaustVelocity * math.log( self.b:get_value(massNumeratorKey) / self.b:get_value(massDenominatorKey) )	
+
+	local function fmt( v )
+		return string.format("%d km/s", v / 1000)
+	end
+
+	self:compare_and_draw_column( desc, deltavA, deltavB, fmt )
+end
+
+function FormatAndCompareShips:draw_unformated_cell(desc, key)
+	self:compare_and_draw_column( desc, self:get_value(key),  self.b:get_value(key) )
+end
+
+function FormatAndCompareShips:draw_equip_slot_cell(desc, key)
+	self:compare_and_draw_column( desc, self.def.equipSlotCapacity[key], self.b.def.equipSlotCapacity[key] )
+end
+
+function FormatAndCompareShips:draw_yes_no_equip_slot_cell(desc, key)
+
+	local function fmt( v ) return v==1 and l.YES or l.NO end
+
+	self:compare_and_draw_column( desc, self.def.equipSlotCapacity[key], self.b.def.equipSlotCapacity[key], fmt )
+end
+
+function FormatAndCompareShips:draw_atmos_pressure_limit_cell(desc)
+
+
+	local function fmt( def )
+		local atmoSlot
+		if def.equipSlotCapacity.atmo_shield > 0 then
+			atmoSlot = string.format("%d(+%d/+%d) atm", def.atmosphericPressureLimit,
+			def.atmosphericPressureLimit * (Equipment.misc.atmospheric_shielding.capabilities.atmo_shield - 1),
+			def.atmosphericPressureLimit * (Equipment.misc.heavy_atmospheric_shielding.capabilities.atmo_shield - 1) )
+		else
+			atmoSlot = string.format("%d atm", def.atmosphericPressureLimit)
+		end
+		return atmoSlot
+	end
+
+	local function fmt_a( v )
+		return fmt( self.def )
+	end
+
+	local function fmt_b( v )
+		return fmt( self.b.def )
+	end
+
+	-- multiply the values by 1000 and then add on if there is capacity for atmo_shielding so that the compare takes that into account
+	-- however, note the formatting ignores the passed in value and therefore displays correctly.
+	self:compare_and_draw_column( desc, self.def.atmosphericPressureLimit*1000+self.def.equipSlotCapacity.atmo_shield, self.b.def.atmosphericPressureLimit*1000+self.b.def.equipSlotCapacity.atmo_shield, fmt_a, fmt_b )
+end
+
+function FormatAndCompareShips:Constructor(def, b)
+	self.column = 0
+	self.emptyMass = def.hullMass + def.fuelTankMass
+	self.fullMass = def.hullMass + def.capacity + def.fuelTankMass
+	self.massAtCapacity = def.hullMass + def.capacity
+	self.cargoCapacity = def.equipSlotCapacity["cargo"]
+	self.def = def
+	self.b = b
+end
+
 
 local tradeMenu = function()
 	if(selectedItem) then
@@ -210,87 +363,34 @@ local tradeMenu = function()
 				modelSpinner:setSize(Vector2(spinnerWidth, spinnerWidth / 2.5))
 				modelSpinner:draw()
 
-				local hyperdrive_str = selectedItem.def.hyperdriveClass > 0 and
-					Equipment.hyperspace["hyperdrive_" .. selectedItem.def.hyperdriveClass]:GetName() or l.NONE
-
-				local emptyMass = def.hullMass + def.fuelTankMass
-				local fullMass = def.hullMass + def.capacity + def.fuelTankMass
-				local forwardAccelEmpty =  def.linearThrust.FORWARD / (-9.81*1000*(emptyMass))
-				local forwardAccelFull  =  def.linearThrust.FORWARD / (-9.81*1000*(fullMass))
-				local reverseAccelEmpty = -def.linearThrust.REVERSE / (-9.81*1000*(emptyMass))
-				local reverseAccelFull  = -def.linearThrust.REVERSE / (-9.81*1000*(fullMass))
-				local deltav = def.effectiveExhaustVelocity * math.log((emptyMass) / def.hullMass)
-				local deltav_f = def.effectiveExhaustVelocity * math.log((fullMass) / (def.hullMass + def.capacity))
-				local deltav_m = def.effectiveExhaustVelocity * math.log((fullMass) / def.hullMass)
-
-				local atmoSlot
-				if def.equipSlotCapacity["atmo_shield"] > 0 then
-					atmoSlot = string.format("%d(+%d/+%d) atm", def.atmosphericPressureLimit,
-						def.atmosphericPressureLimit * (Equipment.misc.atmospheric_shielding.capabilities.atmo_shield - 1),
-						def.atmosphericPressureLimit * (Equipment.misc.heavy_atmospheric_shielding.capabilities.atmo_shield - 1) )
-				else
-					atmoSlot = string.format("%d atm", def.atmosphericPressureLimit)
-				end
-
-				local shipInfoTable = {
-					{
-						l.HYPERDRIVE_FITTED, hyperdrive_str,
-						l.CARGO_SPACE, Format.MassTonnes(def.equipSlotCapacity["cargo"])
-					}, {
-						l.FORWARD_ACCEL_FULL, Format.AccelG(forwardAccelFull),
-						l.WEIGHT_FULLY_LOADED, Format.MassTonnes(fullMass)
-					}, {
-						l.FORWARD_ACCEL_EMPTY, Format.AccelG(forwardAccelEmpty),
-						l.WEIGHT_EMPTY,  Format.MassTonnes(def.hullMass)
-					}, {
-						l.REVERSE_ACCEL_EMPTY, Format.AccelG(reverseAccelEmpty),
-						l.CAPACITY, Format.MassTonnes(def.capacity)
-					}, {
-						l.REVERSE_ACCEL_FULL, Format.AccelG(reverseAccelFull),
-						l.FUEL_WEIGHT, Format.MassTonnes(def.fuelTankMass)
-					}, {
-						l.DELTA_V_EMPTY, string.format("%d km/s", deltav / 1000),
-						l.MINIMUM_CREW, def.minCrew
-					}, {
-						l.DELTA_V_FULL, string.format("%d km/s", deltav_f / 1000),
-						l.MAXIMUM_CREW, def.maxCrew
-					}, {
-						l.DELTA_V_MAX, string.format("%d km/s", deltav_m / 1000),
-						l.MISSILE_MOUNTS, def.equipSlotCapacity["missile"]
-					}, {
-						l.ATMOSPHERIC_SHIELDING, yes_no(def.equipSlotCapacity["atmo_shield"]),
-						l.ATMO_PRESS_LIMIT, atmoSlot
-					}, {
-						l.SCOOP_MOUNTS, def.equipSlotCapacity["scoop"],
-						l.PASSENGER_CABIN_CAPACITY, def.equipSlotCapacity["cabin"]
-					},
-				}
+				local currentShip = FormatAndCompareShips.New( ShipDef[Game.player.shipId], nil )
+				local shipFormatAndCompare = FormatAndCompareShips.New( def, currentShip )
 
 				ui.child("ShipSpecs", Vector2(0, 0), function()
-					ui.withStyleVars({ CellPadding = Vector2(8, 4) }, function()
+					ui.withStyleVars({ CellPadding = Vector2(3,4) }, function()
 
-						if not ui.beginTable("specs", 4) then return end
+						if not shipFormatAndCompare:beginTable() then return end
 
-						ui.tableSetupColumn("name1")
-						ui.tableSetupColumn("body1")
-						ui.tableSetupColumn("name2")
-						ui.tableSetupColumn("body2")
-
-						for _, item in ipairs(shipInfoTable) do
-							ui.tableNextRow()
-
-							ui.tableSetColumnIndex(0)
-							ui.textColored(styleColors.gray_300, item[1])
-
-							ui.tableSetColumnIndex(1)
-							ui.textAligned(item[2], 1.0)
-
-							ui.tableSetColumnIndex(2)
-							ui.textColored(styleColors.gray_300, item[3])
-
-							ui.tableSetColumnIndex(3)
-							ui.textAligned(item[4], 1.0)
-						end
+						shipFormatAndCompare:draw_hyperdrive_cell( l.HYPERDRIVE_FITTED )
+						shipFormatAndCompare:draw_tonnage_cell( l.CARGO_SPACE, "cargoCapacity" )
+						shipFormatAndCompare:draw_accel_cell( l.FORWARD_ACCEL_FULL, "FORWARD", "fullMass" )
+						shipFormatAndCompare:draw_tonnage_cell( l.WEIGHT_FULLY_LOADED, "fullMass" )
+						shipFormatAndCompare:draw_accel_cell( l.FORWARD_ACCEL_EMPTY, "FORWARD", "emptyMass" )
+						shipFormatAndCompare:draw_tonnage_cell( l.WEIGHT_EMPTY, "hullMass" )
+						shipFormatAndCompare:draw_accel_cell( l.REVERSE_ACCEL_EMPTY, "REVERSE", "emptyMass" )
+						shipFormatAndCompare:draw_tonnage_cell( l.CAPACITY, "capacity" )
+						shipFormatAndCompare:draw_accel_cell( l.REVERSE_ACCEL_FULL, "REVERSE", "fullMass" )
+						shipFormatAndCompare:draw_tonnage_cell( l.FUEL_WEIGHT, "fuelTankMass" )
+						shipFormatAndCompare:draw_deltav_cell( l.DELTA_V_EMPTY, "emptyMass", "hullMass")
+						shipFormatAndCompare:draw_unformated_cell( l.MINIMUM_CREW, "minCrew" )
+						shipFormatAndCompare:draw_deltav_cell( l.DELTA_V_FULL, "fullMass", "massAtCapacity")
+						shipFormatAndCompare:draw_unformated_cell( l.MAXIMUM_CREW, "maxCrew" )
+						shipFormatAndCompare:draw_deltav_cell( l.DELTA_V_MAX, "fullMass", "hullMass")
+						shipFormatAndCompare:draw_equip_slot_cell( l.MISSILE_MOUNTS, "missile" )
+						shipFormatAndCompare:draw_yes_no_equip_slot_cell( l.ATMOSPHERIC_SHIELDING, "atmo_shield" )
+						shipFormatAndCompare:draw_atmos_pressure_limit_cell( l.ATMO_PRESS_LIMIT ) 
+						shipFormatAndCompare:draw_equip_slot_cell( l.SCOOP_MOUNTS, "scoop" )
+						shipFormatAndCompare:draw_equip_slot_cell( l.PASSENGER_CABIN_CAPACITY, "cabin" )
 
 						ui.endTable()
 
