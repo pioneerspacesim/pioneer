@@ -208,7 +208,7 @@ local function drawShipRepair()
 				else
 					ui.text(getRepairMessage(damageToRepair, repair_cost))
 					ui.pushItemWidth(widgetSizes.gaugeWidth)
-					damageToRepair = ui.sliderInt("", damageToRepair, 1, damage, "%d%%")
+					damageToRepair = ui.sliderInt("##damageToRepair", damageToRepair, 1, damage, "%d%%")
 					repair_cost = getRepairCost(damageToRepair, shipDef)
 
 					if  ui.button(l.PAY, widgetSizes.buttonSize) then
