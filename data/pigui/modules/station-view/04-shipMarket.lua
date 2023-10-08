@@ -184,7 +184,7 @@ end
 ---@param a	         number        The value for the new ship
 ---@param b          number        The value for the old shio
 ---@param fmt_a      function|nil  A function that takes a and formats it to a string, if required
----@param fmt_a      function|nil  A function that takes b and formats it to a string, if nil then fmt_a is used
+---@param fmt_b      function|nil  A function that takes b and formats it to a string, if nil then fmt_a is used
 function FormatAndCompareShips:compare_and_draw_column(desc, a, b, fmt_a, fmt_b)
 	local compare = a-b
 
@@ -203,14 +203,14 @@ function FormatAndCompareShips:compare_and_draw_column(desc, a, b, fmt_a, fmt_b)
 
 	if compare < 0 then
 		local old_str = fmt_b and fmt_b( b ) or b
-		ui.withTooltip( old_str, function ()
+		ui.withTooltip( l.CURRENT_SHIP .. ": " .. old_str, function ()
 			ui.textAlignedColored(new_str, 1.0, ui.theme.colors.shipmarketCompareWorse)
 			ui.tableSetColumnIndex(2 + self.column)
 			ui.icon( ui.theme.icons.shipmarket_compare_worse, Vector2(ui.getTextLineHeight()), ui.theme.colors.shipmarketCompareWorse)
 		end )
 	elseif compare > 0 then
 		local old_str = fmt_b and fmt_b( b ) or b
-		ui.withTooltip( old_str, function ()
+		ui.withTooltip( l.CURRENT_SHIP .. ": " .. old_str, function ()
 			ui.textAlignedColored(new_str, 1.0,  ui.theme.colors.shipmarketCompareBetter)
 			ui.tableSetColumnIndex(2 + self.column)
 			ui.icon( ui.theme.icons.shipmarket_compare_better, Vector2(ui.getTextLineHeight()), ui.theme.colors.shipmarketCompareBetter)			
@@ -250,13 +250,9 @@ function FormatAndCompareShips:draw_tonnage_cell(desc, key)
 	self:compare_and_draw_column( desc, self:get_value(key), self.b:get_value(key), Format.MassTonnes )
 end
 
-function FormatAndCompareShips:draw_accel_cell(desc, thrustKey, massKey, multiplier, inverse)
-	local accelA = multiplier * self.def.linearThrust[thrustKey] / (-9.81*1000*(self:get_value(massKey)))
-	local accelB = multiplier * self.b.def.linearThrust[thrustKey] / (-9.81*1000*(self.b:get_value(massKey)))
-	if inverse then
-		accelA = -accelA
-		accelB = -accelB
-	end
+function FormatAndCompareShips:draw_accel_cell(desc, thrustKey, massKey )
+	local accelA = self.def.linearThrust[thrustKey] / (9.8106*1000*(self:get_value(massKey)))
+	local accelB = self.b.def.linearThrust[thrustKey] / (9.8106*1000*(self.b:get_value(massKey)))
 	self:compare_and_draw_column( desc, accelA, accelB, Format.AccelG )
 end
 
@@ -281,17 +277,7 @@ end
 
 function FormatAndCompareShips:draw_yes_no_equip_slot_cell(desc, key)
 
-	local function fmt( v )
-		local yes_no = "unknown"
-		if v == 1 then
-			yes_no = l.YES
-		elseif v == 0 then
-			yes_no = l.NO
-		else
-			error("argument to yes_no not 0 or 1")
-		end
-		return yes_no
-	end
+	local function fmt( v ) return v==1 and l.YES or l.NO end
 
 	self:compare_and_draw_column( desc, self.def.equipSlotCapacity[key], self.b.def.equipSlotCapacity[key], fmt )
 end
@@ -387,13 +373,13 @@ local tradeMenu = function()
 
 						shipFormatAndCompare:draw_hyperdrive_cell( l.HYPERDRIVE_FITTED )
 						shipFormatAndCompare:draw_tonnage_cell( l.CARGO_SPACE, "cargoCapacity" )
-						shipFormatAndCompare:draw_accel_cell( l.FORWARD_ACCEL_FULL, "FORWARD", "fullMass", 1, true )
+						shipFormatAndCompare:draw_accel_cell( l.FORWARD_ACCEL_FULL, "FORWARD", "fullMass" )
 						shipFormatAndCompare:draw_tonnage_cell( l.WEIGHT_FULLY_LOADED, "fullMass" )
-						shipFormatAndCompare:draw_accel_cell( l.FORWARD_ACCEL_EMPTY, "FORWARD", "emptyMass", 1, true )
+						shipFormatAndCompare:draw_accel_cell( l.FORWARD_ACCEL_EMPTY, "FORWARD", "emptyMass" )
 						shipFormatAndCompare:draw_tonnage_cell( l.WEIGHT_EMPTY, "hullMass" )
-						shipFormatAndCompare:draw_accel_cell( l.REVERSE_ACCEL_EMPTY, "REVERSE", "emptyMass", -1 )
+						shipFormatAndCompare:draw_accel_cell( l.REVERSE_ACCEL_EMPTY, "REVERSE", "emptyMass" )
 						shipFormatAndCompare:draw_tonnage_cell( l.CAPACITY, "capacity" )
-						shipFormatAndCompare:draw_accel_cell( l.REVERSE_ACCEL_FULL, "REVERSE", "fullMass", -1 )
+						shipFormatAndCompare:draw_accel_cell( l.REVERSE_ACCEL_FULL, "REVERSE", "fullMass" )
 						shipFormatAndCompare:draw_tonnage_cell( l.FUEL_WEIGHT, "fuelTankMass" )
 						shipFormatAndCompare:draw_deltav_cell( l.DELTA_V_EMPTY, "emptyMass", "hullMass")
 						shipFormatAndCompare:draw_unformated_cell( l.MINIMUM_CREW, "minCrew" )
