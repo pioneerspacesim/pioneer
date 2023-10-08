@@ -91,6 +91,11 @@ local crewTasks = {
 	end,
 
 	DESTROY_ENEMY_SHIP = function ()
+		local crewMember = checkPilotLockout() and testCrewMember('piloting')
+		if not crewMember then
+			pilotLockout()
+			return (l.THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP)
+		end
 		if Game.player.flightState ~= 'FLYING'
 		then
 			return (({
@@ -104,18 +109,17 @@ local crewTasks = {
 		elseif not Game.player:GetCombatTarget() then
 			return (l.YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER)
 		else
-			local crewMember = checkPilotLockout() and testCrewMember('piloting')
-			if not crewMember then
-				pilotLockout()
-				return (l.THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP)
-			else
-				Game.player:AIKill(Game.player:GetCombatTarget())
-				return (l.PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME:interp({name = crewMember.name}))
-			end
+			Game.player:AIKill(Game.player:GetCombatTarget())
+			return (l.PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME:interp({name = crewMember.name}))
 		end
 	end,
 
 	DOCK_AT_CURRENT_TARGET = function ()
+		local crewMember = checkPilotLockout() and testCrewMember('piloting')
+		if not crewMember then
+			pilotLockout()
+			return (l.THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP)
+		end
 		local target = Game.player:GetNavTarget()
 		if Game.player.flightState ~= 'FLYING'
 		then
@@ -130,14 +134,8 @@ local crewTasks = {
 		elseif not (target and target:isa('SpaceStation')) then
 			return (l.YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER)
 		else
-			local crewMember = checkPilotLockout() and testCrewMember('piloting')
-			if not crewMember then
-				pilotLockout()
-				return (l.THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP)
-			else
-				Game.player:AIDockWith(target)
-				return (l.PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME:interp({name = crewMember.name}))
-			end
+			Game.player:AIDockWith(target)
+			return (l.PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME:interp({name = crewMember.name}))
 		end
 	end
 }
