@@ -1911,6 +1911,10 @@
     "description": "",
     "message": "Kaydet"
   },
+  "CASE_SENSITIVE": {
+    "description": "",
+    "message": "Case-sensitive"
+  },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
     "message": "Toplayıcı bağlantıları"

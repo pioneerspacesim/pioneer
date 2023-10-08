@@ -338,6 +338,7 @@ end
 -- end)
 
 debugView.registerTab("Commodity Price", function()
+  if Game.player == nil then return end
   if ui.beginTabItem("Commodity Price") then
     main()
     ui.endTabItem()

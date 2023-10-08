@@ -1911,6 +1911,10 @@
     "description": "",
     "message": "Сохранение"
   },
+  "CASE_SENSITIVE": {
+    "description": "",
+    "message": "Чувст. к регистру"
+  },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
     "message": "Крепления для заборника"
