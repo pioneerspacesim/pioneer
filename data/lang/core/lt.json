@@ -411,6 +411,10 @@
     "description": "",
     "message": "Ekvatorinio ir poliarinio spindulio santykis"
   },
+  "ESCAPE_VELOCITY": {
+    "description": "",
+    "message": "Escape velocity"
+  },
   "EXACT_MATCH_X": {
     "description": "",
     "message": "Tikslus atitikmuo: %system"
@@ -782,6 +786,10 @@
   "MASS_N_TONNES": {
     "description": "",
     "message": "Masė: %{mass}t"
+  },
+  "MEAN_DENSITY": {
+    "description": "",
+    "message": "Mean density"
   },
   "MEDICINES": {
     "description": "",

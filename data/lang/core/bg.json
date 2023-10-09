@@ -411,6 +411,10 @@
     "description": "",
     "message": "Съотношение на екваториалния към полярния радиус"
   },
+  "ESCAPE_VELOCITY": {
+    "description": "",
+    "message": "Escape velocity"
+  },
   "EXACT_MATCH_X": {
     "description": "",
     "message": "Точно съвпадение: %system"
@@ -782,6 +786,10 @@
   "MASS_N_TONNES": {
     "description": "",
     "message": "Маса: %{mass} т."
+  },
+  "MEAN_DENSITY": {
+    "description": "",
+    "message": "Mean density"
   },
   "MEDICINES": {
     "description": "",

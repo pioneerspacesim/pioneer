@@ -411,6 +411,10 @@
     "description": "",
     "message": "Cóimheas idir an ga meánchiorclach agus an ga molach"
   },
+  "ESCAPE_VELOCITY": {
+    "description": "",
+    "message": "Escape velocity"
+  },
   "EXACT_MATCH_X": {
     "description": "",
     "message": "Meaitseáil chruinn: %system"
@@ -782,6 +786,10 @@
   "MASS_N_TONNES": {
     "description": "",
     "message": "Mais: %{mass}t"
+  },
+  "MEAN_DENSITY": {
+    "description": "",
+    "message": "Mean density"
   },
   "MEDICINES": {
     "description": "",

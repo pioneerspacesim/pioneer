@@ -305,7 +305,7 @@
   },
   "FLAVOUR_4_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Dh’fhaighnich am paidhleat am faigh e {unit} tunna(ichean) dhe {cargo}."
+    "message": "The pilot is asking for {unit} tons of {cargo}. {high_gravity}"
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -426,6 +426,22 @@
   "FULL_PASSENGERS": {
     "description": "",
     "message": "Tha a h-uile cèibinn làn. Chan eil barrachd rùm airson taistealaich ann."
+  },
+  "HIGHGRAVITY_0": {
+    "description": "",
+    "message": "The surface gravity on {planet} is {gravity} g. Please take this into consideration."
+  },
+  "HIGHGRAVITY_1": {
+    "description": "",
+    "message": "You should know that {planet} is {gravity} g."
+  },
+  "HIGHGRAVITY_2": {
+    "description": "",
+    "message": "You will land and take off in {gravity} g."
+  },
+  "HIGHGRAVITY_3": {
+    "description": "",
+    "message": "{planet} is {gravity} g."
   },
   "HOW_FAR": {
     "description": "",

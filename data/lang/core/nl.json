@@ -411,6 +411,10 @@
     "description": "",
     "message": "Equatoriaal naar polair radius ratio"
   },
+  "ESCAPE_VELOCITY": {
+    "description": "",
+    "message": "Escape velocity"
+  },
   "EXACT_MATCH_X": {
     "description": "",
     "message": "Exacte match: %system"
@@ -782,6 +786,10 @@
   "MASS_N_TONNES": {
     "description": "",
     "message": "Massa: %{mass}t"
+  },
+  "MEAN_DENSITY": {
+    "description": "",
+    "message": "Mean density"
   },
   "MEDICINES": {
     "description": "",

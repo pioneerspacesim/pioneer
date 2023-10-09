@@ -299,6 +299,10 @@
     "description": "For hyperjump planner",
     "message": "Huidige brandstof:"
   },
+  "CURRENT_SHIP": {
+    "description": "For tooltip comparing current ship specs to one in the shipyard",
+    "message": "Current Ship"
+  },
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
     "message": "Huidig systeem"

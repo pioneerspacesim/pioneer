@@ -299,6 +299,10 @@
     "description": "For hyperjump planner",
     "message": "当前燃料:"
   },
+  "CURRENT_SHIP": {
+    "description": "For tooltip comparing current ship specs to one in the shipyard",
+    "message": "Current Ship"
+  },
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
     "message": "当前星系"

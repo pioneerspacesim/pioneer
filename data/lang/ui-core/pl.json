@@ -299,6 +299,10 @@
     "description": "For hyperjump planner",
     "message": "Stan paliwa:"
   },
+  "CURRENT_SHIP": {
+    "description": "For tooltip comparing current ship specs to one in the shipyard",
+    "message": "Aktualny statek"
+  },
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
     "message": "Aktualny system"
@@ -1253,7 +1257,7 @@
   },
   "LAWFULNESS": {
     "description": "Character parameter",
-    "message": "Lawfulness"
+    "message": "Praworządność"
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1549,7 +1553,7 @@
   },
   "NOTORIETY": {
     "description": "Character parameter",
-    "message": "Notoriety"
+    "message": "Zła sława"
   },
   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
     "description": "",

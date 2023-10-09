@@ -133,7 +133,7 @@
   },
   "CASE_SENSITIVE": {
     "description": "",
-    "message": "Case-sensitive"
+    "message": "Различаване на главните и малките букви"
   },
   "CASH": {
     "description": "",
@@ -298,6 +298,10 @@
   "CURRENT_FUEL": {
     "description": "For hyperjump planner",
     "message": "Текущо гориво:"
+  },
+  "CURRENT_SHIP": {
+    "description": "For tooltip comparing current ship specs to one in the shipyard",
+    "message": "Текущ кораб"
   },
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",

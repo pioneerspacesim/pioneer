@@ -7,6 +7,14 @@
     "description": "",
     "message": "Thoir am fireach ort ri àm"
   },
+  "ADVICE_11_BODYTEXT": {
+    "description": "",
+    "message": "Make sure you know the surface gravity of a planet before you even think of landing on it."
+  },
+  "ADVICE_11_HEADLINE": {
+    "description": "A reference to the song 'The Harder They Come', by Jimmy Cliff",
+    "message": "The harder the g, the harder the fall"
+  },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
     "message": "Nuair a thilleas tu gu stèisean, bi air d’ fhaiceall mu ionadan malairt neònach nach aithnich thu is cha bhi thu ann an staing leis an lagh."

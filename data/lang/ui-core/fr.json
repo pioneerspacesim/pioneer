@@ -133,7 +133,7 @@
   },
   "CASE_SENSITIVE": {
     "description": "",
-    "message": "Case-sensitive"
+    "message": "Sensible à la casse"
   },
   "CASH": {
     "description": "",
@@ -298,6 +298,10 @@
   "CURRENT_FUEL": {
     "description": "For hyperjump planner",
     "message": "Carburant actuel:"
+  },
+  "CURRENT_SHIP": {
+    "description": "For tooltip comparing current ship specs to one in the shipyard",
+    "message": "Vaisseau utilisé"
   },
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
