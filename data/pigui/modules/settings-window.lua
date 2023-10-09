@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
+local Event = require 'Event'
 local Input = require 'Input'
 local Game = require 'Game'
 local Lang = require 'Lang'
@@ -680,12 +681,12 @@ ui.optionsWindow = ModalWindow.New("Options", function()
 			Engine.SetStarFieldStarSizeFactor(starFieldStarSizeFactor/100)
 			needBackgroundStarRefresh = false
 		end
-		if Game.player then
-			Game.SetTimeAcceleration("1x")
-			Input.EnableBindings();
-		end
 		if selectedJoystick then
 			Input.SaveJoystickConfig(selectedJoystick)
+		end
+		if Game.player then
+		    Game.SetTimeAcceleration("1x")
+		    Event.Queue("onPauseMenuClosed")
 		end
 	end)
 
