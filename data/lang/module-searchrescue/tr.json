@@ -305,7 +305,7 @@
   },
   "FLAVOUR_4_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "The pilot is asking for {unit} tons of {cargo}. {high_gravity}"
+    "message": "Pilot {unit} ton kadar {cargo} istiyor. {high_gravity}"
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -429,19 +429,19 @@
   },
   "HIGHGRAVITY_0": {
     "description": "",
-    "message": "The surface gravity on {planet} is {gravity} g. Please take this into consideration."
+    "message": "{planet} yüzeyi üzerinde kütleçekimi {gravity} g. Lütfen bunu dikkate alın."
   },
   "HIGHGRAVITY_1": {
     "description": "",
-    "message": "You should know that {planet} is {gravity} g."
+    "message": "{planet} kütleçekiminin {gravity} g olduğunu bilmelisin."
   },
   "HIGHGRAVITY_2": {
     "description": "",
-    "message": "You will land and take off in {gravity} g."
+    "message": "{gravity} g altında iniş ve kalkış yapman gerekecek."
   },
   "HIGHGRAVITY_3": {
     "description": "",
-    "message": "{planet} is {gravity} g."
+    "message": "{planet} kütleçekimi {gravity} g."
   },
   "HOW_FAR": {
     "description": "",

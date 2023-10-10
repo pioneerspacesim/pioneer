@@ -9,11 +9,11 @@
   },
   "ADVICE_11_BODYTEXT": {
     "description": "",
-    "message": "Make sure you know the surface gravity of a planet before you even think of landing on it."
+    "message": "Bizonyosodjon meg a célbolygó felszíni gravitációjáról, mielőtt megkísérli a leszállást. "
   },
   "ADVICE_11_HEADLINE": {
     "description": "A reference to the song 'The Harder They Come', by Jimmy Cliff",
-    "message": "The harder the g, the harder the fall"
+    "message": "Nagy gravitáció, nagy zuhanás."
   },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",

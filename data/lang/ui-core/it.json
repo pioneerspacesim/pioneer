@@ -301,7 +301,7 @@
   },
   "CURRENT_SHIP": {
     "description": "For tooltip comparing current ship specs to one in the shipyard",
-    "message": "Current Ship"
+    "message": "Nave Attuale"
   },
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",

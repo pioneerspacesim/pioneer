@@ -413,7 +413,7 @@
   },
   "ESCAPE_VELOCITY": {
     "description": "",
-    "message": "Escape velocity"
+    "message": "Втора космическа скорост"
   },
   "EXACT_MATCH_X": {
     "description": "",
@@ -789,7 +789,7 @@
   },
   "MEAN_DENSITY": {
     "description": "",
-    "message": "Mean density"
+    "message": "Средна плътност"
   },
   "MEDICINES": {
     "description": "",
