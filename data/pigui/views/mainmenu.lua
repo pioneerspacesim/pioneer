@@ -128,9 +128,10 @@ local function showMainMenu()
 	if not hasMusicList then
 		hasMusicList = true
 		MusicPlayer.rebuildSongList()
-		MusicPlayer.playRandomSongFromCategory("menu", true)
 	end
-
+	
+	MusicPlayer.playRandomSongFromCategory("menu", true)
+	
 	local showContinue = canContinue()
 	local buttons = 4
 
