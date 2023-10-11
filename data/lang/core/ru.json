@@ -1753,7 +1753,7 @@
   },
   "UNIT_EARTH_GRAVITY": {
     "description": "Acceleration unit: one earth gravity (g)",
-    "message": "г"
+    "message": "g"
   },
   "UNIT_GIGATONNES": {
     "description": "Mass unit: one gigatonne",
