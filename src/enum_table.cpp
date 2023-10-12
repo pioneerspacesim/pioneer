@@ -245,12 +245,6 @@ const struct EnumItem ENUM_DetailLevel[] = {
 	{ 0, 0 },
 };
 
-const struct EnumItem ENUM_FileSystemRoot[] = {
-	{ "USER", int(LuaFileSystem::ROOT_USER) },
-	{ "DATA", int(LuaFileSystem::ROOT_DATA) },
-	{ 0, 0 },
-};
-
 const struct EnumItem ENUM_PiGuiFaceFlags[] = {
 	{ "RAND", int(PiGui::Face::RAND) },
 	{ "MALE", int(PiGui::Face::MALE) },
@@ -333,7 +327,6 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "BodyType", ENUM_BodyType },
 	{ "BodySuperType", ENUM_BodySuperType },
 	{ "DetailLevel", ENUM_DetailLevel },
-	{ "FileSystemRoot", ENUM_FileSystemRoot },
 	{ "PiGuiFaceFlags", ENUM_PiGuiFaceFlags },
 	{ "ModelDebugFlags", ENUM_ModelDebugFlags },
 	{ "CruiseDirection", ENUM_CruiseDirection },
@@ -364,7 +357,6 @@ const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "BodyType", ENUM_BodyType },
 	{ "BodySuperType", ENUM_BodySuperType },
 	{ "DetailLevel", ENUM_DetailLevel },
-	{ "FileSystemRoot", ENUM_FileSystemRoot },
 	{ "PiGuiFaceFlags", ENUM_PiGuiFaceFlags },
 	{ "ModelDebugFlags", ENUM_ModelDebugFlags },
 	{ "CruiseDirection", ENUM_CruiseDirection },

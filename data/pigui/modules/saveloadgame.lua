@@ -130,7 +130,8 @@ local function displaySave(f)
 end
 
 local function showSaveFiles()
-	local ok, files, _ = pcall(FileSystem.ReadDirectory, "USER","savefiles")
+	-- TODO: This is reading the files of disc every frame, think about refactoring to not do this.
+	local ok, files, _ = pcall(FileSystem.ReadDirectory, "user://savefiles")
 	if not ok then
 		print('Error: ' .. files)
 		saveFileCache = {}
