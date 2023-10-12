@@ -6,7 +6,7 @@ local FileSystem = require 'FileSystem'
 local max_autosaves = 9
 
 local function PickNextAutosave()
-	local ok, files, _ = pcall(FileSystem.ReadDirectory, 'USER', 'savefiles')
+	local ok, files, _ = pcall(FileSystem.ReadDirectory, 'user://savefiles')
 	if not ok then
 		print('Error picking auto-save')
 		return '_autosave1'

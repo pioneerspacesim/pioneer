@@ -250,13 +250,6 @@ Constants.DetailLevel = {
 	[5] = "VERY_HIGH",
 }
 
--- A <Constants.FileSystemRoot> string
----@enum FileSystemRoot
-Constants.FileSystemRoot = {
-	[1] = "USER",
-	[2] = "DATA",
-}
-
 -- A <Constants.PiGuiFaceFlags> string
 ---@enum PiGuiFaceFlags
 Constants.PiGuiFaceFlags = {

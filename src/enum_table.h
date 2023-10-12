@@ -35,7 +35,6 @@ extern const struct EnumItem ENUM_PolitGovType[];
 extern const struct EnumItem ENUM_BodyType[];
 extern const struct EnumItem ENUM_BodySuperType[];
 extern const struct EnumItem ENUM_DetailLevel[];
-extern const struct EnumItem ENUM_FileSystemRoot[];
 extern const struct EnumItem ENUM_PiGuiFaceFlags[];
 extern const struct EnumItem ENUM_ModelDebugFlags[];
 extern const struct EnumItem ENUM_CruiseDirection[];

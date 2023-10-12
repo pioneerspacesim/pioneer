@@ -4,13 +4,13 @@
 #ifndef _LUAFILESYSTEM_H
 #define _LUAFILESYSTEM_H
 
+#include "lua/Lua.h"
+
 namespace LuaFileSystem {
 	void Register();
 
-	enum Root { // <enum scope='LuaFileSystem' name=FileSystemRoot prefix=ROOT_ public>
-		ROOT_USER,
-		ROOT_DATA
-	};
+	void register_raw_io_open_function(lua_CFunction open);
+	int l_patched_io_open(lua_State* L);
 } // namespace LuaFileSystem
 
 #endif
