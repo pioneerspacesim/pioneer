@@ -14,6 +14,9 @@ October 2023
     * Fix Scans not resuming on game continue (#5577)
     * Fix disappearing fuel after save and load (#5534)
     * Fix ship info screen showing wrong cargo capacity and usage (#5557)
+    * Fix for "Assertion failed!" in the "Ship Repairs" window (#5640)
+    * Wording change for commands in the "Crew Roster" window (#5641)
+    * Fix constant planet density vs radius ratio (#5592)
 
 September 2023
   * New Features
