@@ -3,11 +3,12 @@
 
 #include "LuaSpace.h"
 #include "Body.h"
-#include "LuaBody.h"
 #include "CargoBody.h"
+#include "EnumStrings.h"
 #include "Frame.h"
 #include "Game.h"
 #include "HyperspaceCloud.h"
+#include "LuaBody.h"
 #include "LuaManager.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
@@ -97,6 +98,27 @@ static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SystemPath *path, double du
 	ship->SetFlightState(Ship::HYPERSPACE);
 
 	return cloud;
+}
+
+// sb - central systembody, pos - absolute coordinates of given object
+static vector3d _orbital_velocity_random_direction(const SystemBody *sb, const vector3d &pos)
+{
+	// If we got a zero mass of central body - there is no orbit
+	if (sb->GetMass() < 0.01)
+		return vector3d(0.0);
+	// calculating basis from radius - vector
+	vector3d k = pos.Normalized();
+	vector3d i;
+	if (std::fabs(k.z) > 0.999999)	 // very vertical = z
+		i = vector3d(1.0, 0.0, 0.0); // second ort = x
+	else
+		i = k.Cross(vector3d(0.0, 0.0, 1.0)).Normalized();
+	vector3d j = k.Cross(i);
+	// generating random 2d direction and putting it into basis
+	vector3d randomOrthoDirection = MathUtil::RandomPointOnCircle(1.0) * matrix3x3d::FromVectors(i, j, k).Transpose();
+	// calculate the value of the orbital velocity
+	double orbitalVelocity = sqrt(G * sb->GetMass() / pos.Length());
+	return randomOrthoDirection * orbitalVelocity;
 }
 
 /*
@@ -230,7 +252,6 @@ extern double MaxEffectRad(const Body *body, Propulsion *prop);
  *
  *   experimental
  */
-
 static int l_space_put_ship_on_route(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -272,7 +293,7 @@ static int l_space_put_ship_on_route(lua_State *l)
 			// target is above the effective radius of obstructor - rotate the ship's position
 			// around the target position, so that the obstructor's "effective radius" does not cross the path
 			// direction obstructor -> target
-			const vector3d z = targpos/targAlt;
+			const vector3d z = targpos / targAlt;
 			// the axis around which the position of the ship will rotate
 			const vector3d y = z.Cross(shippos).NormalizedSafe();
 			// just the third axis of this basis
@@ -292,12 +313,68 @@ static int l_space_put_ship_on_route(lua_State *l)
 				ship->SetPosition(safe2 + targpos);
 		} else {
 			// target below the effective radius of obstructor. Position the ship direct above the target
-			ship->SetPosition(targpos + targpos/targAlt * targdist);
+			ship->SetPosition(targpos + targpos / targAlt * targdist);
 		}
 		// update velocity direction
 		ship->SetVelocity((targpos - ship->GetPosition()).Normalized() * pp.getVel() + targetbody->GetVelocityRelTo(ship->GetFrame()));
 	}
 	LUA_DEBUG_END(l, 1);
+	return 0;
+}
+
+/*
+ * Method: PutShipIntoOrbit
+ *
+ * Puts ship into orbit of target body with SystemBody.
+ *
+ * > Space.PutShipIntoOrbit(ship, target)
+ *
+ * Parameters:
+ *
+ *   ship - a <Ship> object to be moved
+ *
+ *   target - the <Star> or <Planet> to orbit
+ *
+ * Availability:
+ *
+ *  October 2023
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_put_ship_into_orbit(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	Body *b = LuaObject<Body>::CheckFromLua(2);
+	const SystemBody *sbody = b->GetSystemBody();
+	if (!sbody) {
+		return luaL_error(l, "the target body doesn't have a system body");
+	}
+	if (!sbody->GetMass()) {
+		return luaL_error(l, "the target body has zero mass");
+	}
+	if (!b->GetPhysRadius()) {
+		return luaL_error(l, "the target body has a zero physical radius");
+	}
+	Ship::FlightState currentState = s->GetFlightState();
+	if (currentState != Ship::FlightState::FLYING) {
+		return luaL_error(l, "the ship is not in the \"FLYING\" state. Current state: \"%s\"",
+			EnumStrings::GetString("ShipFlightState", currentState));
+	}
+	// calculations are borrowed from Space::GetHyperspaceExitParams
+	// calculate distance to primary body relative to body's mass and radius
+	const double max_orbit_vel = 100e3;
+	double dist = G * sbody->GetMass() / (max_orbit_vel * max_orbit_vel);
+	// ensure an absolute minimum and an absolute maximum distance
+	// the minimum distance from the center of the body should not be less than the radius of the body
+	// use physical radius, because radius of sbody can be a lot less than physical radius
+	double radius = b->GetPhysRadius();
+	dist = Clamp(dist, radius * 1.1, std::max(radius * 1.1, 100 * AU));
+	vector3d pos{ MathUtil::RandomPointOnSphere(dist) };
+	s->SetFrame(b->GetFrame());
+	s->SetPosition(pos);
+	s->SetVelocity(_orbital_velocity_random_direction(sbody, s->GetPosition()));
 	return 0;
 }
 
@@ -701,27 +778,6 @@ static int l_space_spawn_ship_landed_near(lua_State *l)
 	return 1;
 }
 
-// sb - central systembody, pos - absolute coordinates of given object
-static vector3d _orbital_velocity_random_direction(const SystemBody *sb, const vector3d &pos)
-{
-	// If we got a zero mass of central body - there is no orbit
-	if (sb->GetMass() < 0.01)
-		return vector3d(0.0);
-	// calculating basis from radius - vector
-	vector3d k = pos.Normalized();
-	vector3d i;
-	if (std::fabs(k.z) > 0.999999)	 // very vertical = z
-		i = vector3d(1.0, 0.0, 0.0); // second ort = x
-	else
-		i = k.Cross(vector3d(0.0, 0.0, 1.0)).Normalized();
-	vector3d j = k.Cross(i);
-	// generating random 2d direction and putting it into basis
-	vector3d randomOrthoDirection = MathUtil::RandomPointOnCircle(1.0) * matrix3x3d::FromVectors(i, j, k).Transpose();
-	// calculate the value of the orbital velocity
-	double orbitalVelocity = sqrt(G * sb->GetMass() / pos.Length());
-	return randomOrthoDirection * orbitalVelocity;
-}
-
 /*
  * Function: SpawnCargoNear
  *
@@ -1118,6 +1174,7 @@ void LuaSpace::Register()
 		{ "SpawnCargoNear", l_space_spawn_cargo_near },
 		{ "SpawnShipOrbit", l_space_spawn_ship_orbit },
 		{ "PutShipOnRoute", l_space_put_ship_on_route },
+		{ "PutShipIntoOrbit", l_put_ship_into_orbit },
 
 		{ "GetBody", l_space_get_body },
 		{ "GetNumBodies", l_space_get_num_bodies },

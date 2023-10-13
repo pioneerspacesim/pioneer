@@ -55,7 +55,7 @@ local statuses = {
 }
 
 debugView.registerTab('debug-trade-ships', function()
-	if not Core.ships and not Core.params then return end
+	if not Core.ships and not Core.params or not Game.system then return end
 	if not ui.beginTabItem("Tradeships") then return end
 
 	local function property(key, value)
