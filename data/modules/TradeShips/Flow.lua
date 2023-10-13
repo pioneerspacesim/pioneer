@@ -494,6 +494,47 @@ Flow.spawnInitialShips = function()
 	return ships_in_space
 end
 
+Flow.setPlayerAsTraderDocked = function()
+	local ship = Game.player
+	--if player is not a trader
+	if Core.ships[ship] then
+		print("Flow.setPlayerAsTraderDocked: player is already a trader")
+		return
+	end
+	--if player is currently docked
+	if ship.flightState ~= 'DOCKED' then
+		print("Flow.setPlayerAsTraderDocked: can't set player as docked trader when player is not currently docked")
+		return
+	end
+	local dockedStation = ship:GetDockedWith()
+	Core.ships[ship] = { ts_error = "OK", status = 'docked', starport = dockedStation, ship_name = Game.player.shipId }
+	Trader.assignTask(ship, Game.time + utils.deviation(Core.params.port_params[Core.ships[ship].starport].time * 3600, 0.8), 'doUndock')
+end
+
+Flow.setPlayerAsTraderInbound = function()
+	local ship = Game.player
+	--if player is not a trader
+	if Core.ships[ship] then
+		print("Flow.setPlayerAsTraderInbound: player is already a trader")
+		return
+	end
+	-- Space.PutShipOnRoute will teleport player to star's surface when player is docked. We don't want that
+	if ship.flightState ~= 'FLYING' then
+		print("Flow.setPlayerAsTraderInbound: can't set player as inbound trader when player is not currently flying")
+		return
+	end
+	-- if there's any station in the system
+	local nearestStation = ship:FindNearestTo("SPACESTATION")
+	if not nearestStation then
+		print("Flow.setPlayerAsTraderInbound: no nearby station is found to set player as inbound trader")
+		return
+	end
+	Core.ships[ship] = { ts_error = "OK", status = 'inbound', starport = nearestStation, ship_name = Game.player.shipId }
+	Space.PutShipIntoOrbit(ship, Game.system:GetStars()[1].body)
+	Space.PutShipOnRoute(ship, Core.ships[ship].starport, Engine.rand:Number(0.0, 0.999))-- don't generate at the destination
+	ship:AIDockWith(Core.ships[ship].starport)
+end
+
 Flow.run = function()
 	local ship_name = utils.chooseEqual(Core.params.ship_names)
 	local cloud = utils.chooseEqual(Core.params.hyper_routes[ship_name])
