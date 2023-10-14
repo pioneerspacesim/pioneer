@@ -380,12 +380,28 @@ void SystemEditor::RegisterMenuActions()
 
 	m_menuBinder->AddAction("New", {
 		"New System", ImGuiKey_N | ImGuiKey_ModCtrl,
-		sigc::mem_fun(this, &SystemEditor::ActivateNewSystemDialog)
+		[&]() {
+			if (HasUnsavedChanges()) {
+				m_unsavedFileModal = m_app->PushModal<UnsavedFileModal>();
+				m_pendingFileReq = FileRequest_New;
+				return;
+			}
+
+			ActivateNewSystemDialog();
+		}
 	});
 
 	m_menuBinder->AddAction("Open", {
 		"Open File", ImGuiKey_O | ImGuiKey_ModCtrl,
-		sigc::mem_fun(this, &SystemEditor::ActivateOpenDialog)
+		[&]() {
+			if (HasUnsavedChanges()) {
+				m_unsavedFileModal = m_app->PushModal<UnsavedFileModal>();
+				m_pendingFileReq = FileRequest_Open;
+				return;
+			}
+
+			ActivateOpenDialog();
+		}
 	});
 
 	m_menuBinder->AddAction("Save", {
@@ -457,7 +473,8 @@ void SystemEditor::RegisterMenuActions()
 	m_menuBinder->EndGroup();
 
 	m_menuBinder->AddAction("Sort", {
-		"Sort Bodies", {},
+		"Sort Bodies", ImGuiKey_None,
+		[&]() { return m_system.Valid(); },
 		[&]() { m_pendingOp.type = BodyRequest::TYPE_Resort; }
 	});
 
@@ -496,12 +513,6 @@ void SystemEditor::OnSaveComplete(bool success)
 
 void SystemEditor::ActivateOpenDialog()
 {
-	if (HasUnsavedChanges()) {
-		m_unsavedFileModal = m_app->PushModal<UnsavedFileModal>();
-		m_pendingFileReq = FileRequest_Open;
-		return;
-	}
-
 	// FIXME: need to handle loading files outside of game data dir
 	m_openFile.reset(new pfd::open_file(
 		"Open Custom System File",
@@ -531,12 +542,6 @@ void SystemEditor::ActivateSaveDialog()
 
 void SystemEditor::ActivateNewSystemDialog()
 {
-	if (HasUnsavedChanges()) {
-		m_unsavedFileModal = m_app->PushModal<UnsavedFileModal>();
-		m_pendingFileReq = FileRequest_New;
-		return;
-	}
-
 	m_newSystemModal = m_app->PushModal<NewSystemModal>(this, &m_newSystemPath);
 }
 
@@ -615,12 +620,10 @@ void SystemEditor::Update(float deltaTime)
 void SystemEditor::HandlePendingFileRequest()
 {
 	if (m_pendingFileReq == FileRequest_New) {
-		ClearSystem();
 		ActivateNewSystemDialog();
 	}
 
 	if (m_pendingFileReq == FileRequest_Open) {
-		ClearSystem();
 		ActivateOpenDialog();
 	}
 

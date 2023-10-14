@@ -79,8 +79,10 @@ NewSystemModal::NewSystemModal(EditorApp *app, SystemEditor *editor, SystemPath 
 
 void NewSystemModal::Draw()
 {
-	ImVec2 windSize = ImVec2(ImGui::GetMainViewport()->Size.x * 0.5, -1);
-	ImGui::SetNextWindowSizeConstraints(windSize, windSize);
+	ImVec2 vpSize = ImGui::GetMainViewport()->Size;
+	ImVec2 windSize = ImVec2(vpSize.x * 0.5, vpSize.y * 0.333);
+	ImVec2 windSizeMax = ImVec2(vpSize.x * 0.5, vpSize.y * 0.5);
+	ImGui::SetNextWindowSizeConstraints(windSize, windSizeMax);
 
 	Modal::Draw();
 }
@@ -89,9 +91,9 @@ void NewSystemModal::DrawInternal()
 {
 	if (Draw::LayoutHorizontal("Sector", 3, ImGui::GetFontSize())) {
 		bool changed = false;
-		changed |= ImGui::InputInt("X", &m_path->sectorX, 0, 0);
-		changed |= ImGui::InputInt("Y", &m_path->sectorY, 0, 0);
-		changed |= ImGui::InputInt("Z", &m_path->sectorZ, 0, 0);
+		changed |= ImGui::InputInt("X", &m_path->sectorX, 1, 0);
+		changed |= ImGui::InputInt("Y", &m_path->sectorY, 1, 0);
+		changed |= ImGui::InputInt("Z", &m_path->sectorZ, 1, 0);
 
 		if (changed)
 			m_path->systemIndex = 0;
@@ -127,6 +129,17 @@ void NewSystemModal::DrawInternal()
 		ImGui::CloseCurrentPopup();
 	}
 
+	ImGui::SetItemTooltip("Create a new empty system in this sector.");
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Edit Selected")) {
+		m_editor->LoadSystem(m_path->SystemOnly());
+		ImGui::CloseCurrentPopup();
+	}
+
+	ImGui::SetItemTooltip("Load the selected system as a template.");
+
 	ImGui::EndGroup();
 
 	ImGui::SameLine();
@@ -139,13 +152,6 @@ void NewSystemModal::DrawInternal()
 
 		ImGui::AlignTextToFramePadding();
 		ImGui::TextUnformatted(system.GetName().c_str());
-
-		ImGui::SameLine();
-		ImGui::SameLine(0.f, ImGui::GetContentRegionAvail().x - ImGui::GetFrameHeight());
-		if (ImGui::Button(EICON_FORWARD1)) {
-			m_editor->LoadSystem(m_path->SystemOnly());
-			ImGui::CloseCurrentPopup();
-		}
 
 		ImGui::PopFont();
 
