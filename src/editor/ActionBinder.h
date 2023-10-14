@@ -32,6 +32,23 @@ namespace Editor {
 			action(f)
 		{}
 
+		template<typename Functor>
+		ActionEntry(std::string_view label, const char *icon, ImGuiKeyChord shortcut, Functor f) :
+			label(label),
+			fontIcon(icon),
+			shortcut(shortcut),
+			action(f)
+		{}
+
+		template<typename Predicate, typename Functor>
+		ActionEntry(std::string_view label, const char *icon, ImGuiKeyChord shortcut, Predicate p, Functor f) :
+			label(label),
+			fontIcon(icon),
+			shortcut(shortcut),
+			predicate(p),
+			action(f)
+		{}
+
 		std::string label;
 		const char *fontIcon;
 		ImGuiKeyChord shortcut;
