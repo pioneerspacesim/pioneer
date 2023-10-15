@@ -1668,13 +1668,21 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 			// I like to think that we'd fill several "shells" of orbits at once rather than fill one and move out further
 			static const Uint32 MAX_ORBIT_SHELLS = 3;
 			fixed shells[MAX_ORBIT_SHELLS];
+			fixed shellIncl[MAX_ORBIT_SHELLS];
+
 			if (innerOrbit != orbMaxS) {
 				shells[0] = innerOrbit;											 // low
 				shells[1] = innerOrbit + ((orbMaxS - innerOrbit) * fixed(1, 2)); // med
 				shells[2] = orbMaxS;											 // high
+
+				shellIncl[0] = rand.NormFixed() * FIXED_PI;
+				shellIncl[1] = rand.NormFixed() * FIXED_PI;
+				shellIncl[2] = rand.NormFixed() * FIXED_PI;
 			} else {
 				shells[0] = shells[1] = shells[2] = innerOrbit;
+				shellIncl[0] = shellIncl[1] = shellIncl[2] = rand.NormFixed() * FIXED_PI;
 			}
+
 			Uint32 orbitIdx = 0;
 			double orbitSlt = 0.0;
 			const double orbitSeparation = (NumToMake > 1) ? ((M_PI * 2.0) / double(NumToMake - 1)) : M_PI;
@@ -1682,6 +1690,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 			for (Uint32 i = 0; i < NumToMake; i++) {
 				// Pick the orbit we've currently placing a station into.
 				const fixed currOrbit = shells[orbitIdx];
+				const fixed currOrbitIncl = shells[orbitIdx];
 				++orbitIdx;
 				if (orbitIdx >= MAX_ORBIT_SHELLS) // wrap it
 				{
@@ -1706,7 +1715,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 				// slightly random min/max orbital distance
 				sp->m_eccentricity = rand.NormFixed().Abs() * fixed(1, 8);
 				// perturb the orbital plane to avoid all stations falling in line with each other
-				sp->m_inclination = rand.NormFixed() * fixed(1, 4) * FIXED_PI;
+				sp->m_inclination = currOrbitIncl + rand.NormFixed() * fixed(1, 4) * FIXED_PI;
 				// station spacing around the primary body
 				sp->m_argOfPeriapsis = rand.Fixed() * FIXED_PI * 2;
 				// TODO: no axial tilt for stations / axial tilt in general is strangely modeled
