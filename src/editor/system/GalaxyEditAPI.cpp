@@ -584,6 +584,14 @@ void SystemBody::EditorAPI::EditStarportProperties(SystemBody *body, UndoSystem 
 	}
 
 	EditEconomicProperties(body, undo);
+
+	ImGui::SeparatorText("Misc. Properties");
+
+	ImGui::InputText("Model Name", &body->m_spaceStationType);
+	if (Draw::UndoHelper("Edit Station Model Name", undo))
+		AddUndoSingleValue(undo, &body->m_spaceStationType);
+
+	Draw::HelpMarker("Model name (without extension) to use for this starport.\nA random model is chosen if not specified.");
 }
 
 void SystemBody::EditorAPI::EditBodyName(SystemBody *body, Random &rng, LuaNameGen *nameGen, UndoSystem *undo)
@@ -742,6 +750,18 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSy
 	Draw::InputFixedSlider("Life", &body->m_life);
 	if (Draw::UndoHelper("Edit Life", undo))
 		AddUndoSingleValue(undo, &body->m_life);
+
+	ImGui::InputText("HMap Path", &body->m_heightMapFilename);
+	if (Draw::UndoHelper("Edit Heightmap Path", undo))
+		AddUndoSingleValue(undo, &body->m_heightMapFilename);
+
+	Draw::HelpMarker("Path to a custom heightmap file for this body, relative to the game's data directory.");
+
+	ImGui::SliderInt("HMap Fractal", reinterpret_cast<int *>(&body->m_heightMapFractal), 0, 1, "%d", ImGuiSliderFlags_AlwaysClamp);
+	if (Draw::UndoHelper("Edit Heightmap Fractal", undo))
+		AddUndoSingleValue(undo, &body->m_heightMapFractal);
+
+	Draw::HelpMarker("Fractal type index for use with a custom heightmap file.");
 
 	if (Draw::DerivedValues("Surface Parameters")) {
 		ImGui::BeginDisabled();

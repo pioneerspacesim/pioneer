@@ -18,7 +18,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 	// special case for heightmaps
 	// XXX this is terrible but will do for now until we get a unified
 	// heightmap setup. if you add another height fractal, remember to change
-	// the check in CustomSystem::l_height_map
+	// the check in CustomSystem::l_height_map / SystemBodyData::LoadFromJson
 	if (!body->GetHeightMapFilename().empty()) {
 		const GeneratorInstancer choices[] = {
 			InstanceGenerator<TerrainHeightMapped, TerrainColorEarthLikeHeightmapped>,
