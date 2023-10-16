@@ -325,7 +325,7 @@ private:
 	void SetOrbitFromParameters();
 	void SetAtmFromParameters();
 
-	void ClearParentAndChildPointers();
+	void Orphan();
 
 	SystemBody *m_parent;				  // these are only valid if the StarSystem
 	std::vector<SystemBody *> m_children; // that create them still exists
