@@ -438,7 +438,10 @@ void Space::RebuildSystemBodyIndex()
 
 void Space::AddBody(Body *b)
 {
-	m_bodies.push_back(b);
+#ifndef NDEBUG
+	assert(!m_processingFinalizationQueue);
+#endif
+	m_assignedBodies.emplace_back(b, BodyAssignation::CREATE);
 }
 
 void Space::RemoveBody(Body *b)
@@ -1073,22 +1076,26 @@ void Space::UpdateBodies()
 	m_processingFinalizationQueue = true;
 #endif
 
-	// removing or deleting bodies from space
+	// adding, removing or deleting bodies from space
 	for (const auto &b : m_assignedBodies) {
-		auto remove_iterator = m_bodies.end();
-		for (auto it = m_bodies.begin(); it != m_bodies.end(); ++it) {
-			if (*it != b.first)
-				(*it)->NotifyRemoved(b.first);
-			else
-				remove_iterator = it;
-		}
-		if (remove_iterator != m_bodies.end()) {
-			*remove_iterator = m_bodies.back();
-			m_bodies.pop_back();
-			if (b.second == BodyAssignation::KILL)
-				delete b.first;
-			else
-				b.first->SetFrame(FrameId::Invalid);
+		if (b.second == BodyAssignation::CREATE) {
+			m_bodies.push_back(b.first);
+		} else {
+			auto remove_iterator = m_bodies.end();
+			for (auto it = m_bodies.begin(); it != m_bodies.end(); ++it) {
+				if (*it != b.first)
+					(*it)->NotifyRemoved(b.first);
+				else
+					remove_iterator = it;
+			}
+			if (remove_iterator != m_bodies.end()) {
+				*remove_iterator = m_bodies.back();
+				m_bodies.pop_back();
+				if (b.second == BodyAssignation::KILL)
+					delete b.first;
+				else
+					b.first->SetFrame(FrameId::Invalid);
+			}
 		}
 	}
 
