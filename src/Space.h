@@ -105,6 +105,12 @@ public:
 	//it is not designed to be called in each game loop!
 	std::vector<BodyDist> BodiesInAngle(const Body *b, const vector3d &offset, const vector3d &dir, double cosOfMaxAngle) const;
 
+	// Don't call this unless you really have to
+	// A bit of a hack but required so we can add a player
+	// into space as we emerge from hyperspace
+	// and then find stuff.
+	void UpdateBodies();
+
 private:
 	void GenSectorCache(RefCountedPtr<Galaxy> galaxy, const SystemPath *here);
 	void UpdateStarSystemCache(const SystemPath *here);
@@ -112,7 +118,6 @@ private:
 	// make sure SystemBody* is in Pi::currentSystem
 	FrameId GetFrameWithSystemBody(const SystemBody *b) const;
 
-	void UpdateBodies();
 
 	void CollideFrame(FrameId fId);
 
@@ -128,10 +133,11 @@ private:
 	// all the bodies we know about
 	std::vector<Body *> m_bodies;
 
-	// bodies that were removed/killed this timestep and need pruning at the end
+	// bodies that were removed/killed/added this timestep and need pruning/adding at the end
 	enum class BodyAssignation {
 		KILL = 0,
-		REMOVE = 1
+		REMOVE = 1,
+		CREATE = 2
 	};
 
 	std::vector<std::pair<Body *, BodyAssignation>> m_assignedBodies;
