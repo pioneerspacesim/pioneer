@@ -3,9 +3,13 @@ October 2023
     * Ship market comparison colors (#5632)
     * Search bar for save/load window and crashes fix (#5634)
     * ScanManager improvements and ship properties fixes (#5635)
+    * Improve realism of randomly-generated systems (#5622)
+    * Sensibly generate high-gravity planets (#5592)
+    * Implement graphical editor for creating custom systems (#5625)
 
   * Internal Changes
-    * Improve random system generation, load custom systems from JSON (#5622)
+    * Load custom systems from JSON, deprecate lua-based custom systems (#5622)
+    * Window VSync mode can be changed without restart (#5625)
 
   * Fixes
     * Fix for glued cockpit (#5631)
@@ -17,6 +21,10 @@ October 2023
     * Fix for "Assertion failed!" in the "Ship Repairs" window (#5640)
     * Wording change for commands in the "Crew Roster" window (#5641)
     * Fix constant planet density vs radius ratio (#5592)
+    * Fix main menu music not playing after exiting to main menu (#5645)
+    * Fix incorrect time acceleration after closing pause menu (#5646)
+    * Fix absurd number of spaceports generated on high-population worlds (#5625)
+    * Fix surface ports being generated on a single "orbital line" around the body (#5625)
 
 September 2023
   * New Features
@@ -29,8 +37,7 @@ September 2023
 
   * Fixes
     * Ignore x-axis only mouse wheel events (#5627)
-    * (Partial) Fix for rounding error in lobby's +/-10% buttons (#5628)
-    * (Update) Fix for rounding error in lobby (#5630)
+    * Fix for rounding error in lobby's +/-10% buttons (#5628, #5630)
 
 August 2023
   * New Features
