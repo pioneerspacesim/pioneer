@@ -509,6 +509,9 @@ void SystemMapViewport::AddBodyTrack(const SystemBody *b, const vector3d &offset
 
 void SystemMapViewport::RenderBody(const SystemBody *b, const vector3d &position, const matrix4x4f &trans)
 {
+	if (b->GetSuperType() == SystemBody::SUPERTYPE_STARPORT)
+		return;
+
 	const double radius = b->GetRadius();
 
 	matrix4x4f invRot = trans;

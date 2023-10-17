@@ -4,11 +4,14 @@
 #include "EditorApp.h"
 
 #include "EditorDraw.h"
+#include "Modal.h"
 
 #include "FileSystem.h"
 #include "Lang.h"
 #include "ModManager.h"
 #include "ModelViewer.h"
+#include "SDL_keycode.h"
+#include "EnumStrings.h"
 
 #include "argh/argh.h"
 #include "core/IniConfig.h"
@@ -17,7 +20,7 @@
 #include "lua/Lua.h"
 #include "graphics/opengl/RendererGL.h"
 
-#include "SDL_keycode.h"
+#include "system/SystemEditor.h"
 
 using namespace Editor;
 
@@ -53,6 +56,21 @@ void EditorApp::Initialize(argh::parser &cmdline)
 		SetAppName("ModelViewer");
 		return;
 	}
+
+	if (cmdline["--system"]) {
+		std::string systemPath = cmdline[1];
+
+		RefCountedPtr<SystemEditor> systemEditor(new SystemEditor(this));
+
+		if (!systemPath.empty()) {
+			systemPath = FileSystem::JoinPathBelow(FileSystem::GetDataDir(), systemPath);
+			systemEditor->LoadSystemFromDisk(systemPath);
+		}
+
+		QueueLifecycle(systemEditor);
+		SetAppName("SystemEditor");
+		return;
+	}
 }
 
 void EditorApp::AddLoadingTask(TaskSet::Handle handle)
@@ -63,6 +81,11 @@ void EditorApp::AddLoadingTask(TaskSet::Handle handle)
 void EditorApp::SetAppName(std::string_view name)
 {
 	m_appName = name;
+}
+
+void EditorApp::PushModalInternal(Modal *modal)
+{
+	m_modalStack.push_back(RefCountedPtr<Modal>(modal));
 }
 
 void EditorApp::OnStartup()
@@ -78,8 +101,8 @@ void EditorApp::OnStartup()
 	cfg.Read(FileSystem::userFiles, "editor.ini");
 	cfg.Save(); // write defaults if the file doesn't exist
 
+	EnumStrings::Init();
 	Lua::Init();
-
 	ModManager::Init();
 
 	ModManager::LoadMods(&cfg);
@@ -127,6 +150,18 @@ void EditorApp::PreUpdate()
 
 void EditorApp::PostUpdate()
 {
+	// Clean up finished modals
+	for (int idx = int(m_modalStack.size()) - 1; idx >= 0; --idx) {
+		if (m_modalStack[idx]->Ready())
+			m_modalStack.erase(m_modalStack.begin() + idx);
+	}
+
+	// Draw modals after cleaning, to ensure application has all of frame+1
+	// to process modal results
+	for (auto &modal : m_modalStack) {
+		modal->Draw();
+	}
+
 	GetRenderer()->ClearDepthBuffer();
 	GetPiGui()->Render();
 

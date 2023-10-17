@@ -2,6 +2,7 @@
 list(APPEND EDITOR_SRC_FOLDERS
 	${CMAKE_CURRENT_SOURCE_DIR}
 	mfd/
+	system/
 )
 
 # Creates variables EDITOR_CXX_FILES and EDITOR_HXX_FILES

@@ -2,9 +2,17 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "EditorDraw.h"
-#include "UndoSystem.h"
+
+#include "Color.h"
+#include "EnumStrings.h"
+
+#include "UndoStepType.h"
+#include "editor/EditorIcons.h"
+#include "editor/UndoSystem.h"
 
 #include "imgui/imgui.h"
+
+#include "fmt/format.h"
 
 using namespace Editor;
 
@@ -92,6 +100,70 @@ void Draw::EndLayout()
 	ImGui::Spacing();
 }
 
+void Draw::BeginHorizontalBar()
+{
+	ImGui::BeginGroup();
+	ImGui::GetCurrentWindow()->DC.LayoutType = ImGuiLayoutType_Horizontal;
+}
+
+void Draw::EndHorizontalBar()
+{
+	ImGui::GetCurrentWindow()->DC.LayoutType = ImGuiLayoutType_Vertical;
+	ImGui::EndGroup();
+}
+
+void Draw::ShowUndoDebugWindow(UndoSystem *undo, bool *p_open)
+{
+	if (!ImGui::Begin("Undo Stack", p_open, 0)) {
+		ImGui::End();
+		return;
+	}
+
+	ImGui::AlignTextToFramePadding();
+	ImGui::Text("Undo Depth: %ld", undo->GetEntryDepth());
+
+	if (ImGui::IsKeyDown(ImGuiKey_LeftAlt) && undo->GetEntryDepth()) {
+		ImGui::SameLine(ImGui::GetContentRegionAvail().x - ImGui::GetStyle().WindowPadding.x * 2.f, 0.f);
+
+		// Get out of jail free card to fix a broken undo state
+		if (ImGui::Button("X")) {
+			undo->ResetEntry();
+			while (undo->GetEntryDepth() > 0)
+				undo->EndEntry();
+		}
+	}
+
+	ImGui::Separator();
+
+	size_t numEntries = undo->GetNumEntries();
+	size_t currentIdx = undo->GetCurrentEntry();
+	size_t selectedIdx = currentIdx;
+
+	if (ImGui::Selectable("<Initial State>", currentIdx == 0))
+		selectedIdx = 0;
+
+	for (size_t idx = 0; idx < numEntries; idx++)
+	{
+		const UndoEntry *entry = undo->GetEntry(idx);
+
+		bool isSelected = currentIdx == idx + 1;
+		std::string label = fmt::format("{}##{}", entry->GetName(), idx);
+
+		if (ImGui::Selectable(label.c_str(), isSelected))
+			selectedIdx = idx + 1;
+	}
+
+	ImGui::End();
+
+	// If we selected an earlier history entry, undo to that point
+	for (; currentIdx > selectedIdx; --currentIdx)
+		undo->Undo();
+
+	// If we selected a later history entry, redo to that point
+	for (; currentIdx < selectedIdx; ++currentIdx)
+		undo->Redo();
+}
+
 bool Draw::UndoHelper(std::string_view label, UndoSystem *undo)
 {
 	if (ImGui::IsItemDeactivated()) {
@@ -135,6 +207,27 @@ bool Draw::ComboUndoHelper(std::string_view label, const char *preview, UndoSyst
 	return ComboUndoHelper(label, label.data(), preview, undo);
 }
 
+void Draw::EditEnum(std::string_view label, const char *name, const char *ns, int *val, size_t val_max, UndoSystem *undo)
+{
+	size_t selected = size_t(*val);
+	const char *preview = EnumStrings::GetString(ns, selected);
+	if (!preview)
+		preview = "<invalid>";
+
+	if (ComboUndoHelper(label, name, preview, undo)) {
+		if (ImGui::IsWindowAppearing())
+			AddUndoSingleValue(undo, val);
+
+		for (size_t idx = 0; idx <= val_max; ++idx) {
+			const char *name = EnumStrings::GetString(ns, idx);
+			if (name && ImGui::Selectable(name, selected == idx))
+				*val = int(idx);
+		}
+
+		ImGui::EndCombo();
+	}
+}
+
 bool Draw::MenuButton(const char *label)
 {
 	ImVec2 screenPos = ImGui::GetCursorScreenPos();
@@ -166,4 +259,109 @@ bool Draw::ToggleButton(const char *label, bool *value, ImVec4 activeColor)
 		*value = !*value;
 
 	return changed;
+}
+
+bool Draw::ColorEdit3(const char *label, Color *color)
+{
+	Color4f _c = color->ToColor4f();
+	bool changed = ImGui::ColorEdit3(label, &_c[0]);
+	*color = Color(_c);
+	return changed;
+}
+
+Draw::DragDropTarget Draw::HierarchyDragDrop(const char *type, ImGuiID targetID, void *data, void *outData, size_t dataSize)
+{
+	ImGuiContext &g = *ImGui::GetCurrentContext();
+
+	ImU32 col_highlight = ImGui::GetColorU32(ImGuiCol_ButtonHovered);
+	ImU32 col_trans = ImGui::GetColorU32(ImGuiCol_ButtonHovered, 0.f);
+
+	Draw::DragDropTarget ret = DragDropTarget::DROP_NONE;
+
+	ImGui::PushID(targetID);
+
+	if (ImGui::BeginDragDropSource()) {
+		ImGui::SetDragDropPayload(type, data, dataSize);
+		ImGui::EndDragDropSource();
+	}
+
+	ImVec2 min = ImGui::GetItemRectMin();
+	ImVec2 max = ImGui::GetItemRectMax();
+	float halfHeight = ImGui::GetItemRectSize().y * 0.4f;
+	float text_offset = g.FontSize + ImGui::GetStyle().FramePadding.x * 2.f;
+	float inner_x = ImGui::GetCursorScreenPos().x + text_offset;
+
+	ImGuiID beforeTarget = ImGui::GetID("##drop_before");
+	ImGuiID afterTarget = ImGui::GetID("##drop_after");
+	ImGuiID innerTarget = ImGui::GetID("##drop-in");
+
+	ImRect beforeRect(min.x, min.y, max.x, min.y + halfHeight);
+	ImRect afterRect(min.x, max.y - halfHeight, max.x, max.y);
+	ImRect innerRect(inner_x, min.y, max.x, max.y);
+
+	if (ImGui::BeginDragDropTargetCustom(beforeRect, beforeTarget)) {
+		const ImGuiPayload *payload = ImGui::AcceptDragDropPayload(type, ImGuiDragDropFlags_AcceptBeforeDelivery | ImGuiDragDropFlags_AcceptNoDrawDefaultRect);
+		if (payload && payload->Preview) {
+			ImGui::GetWindowDrawList()->AddRectFilledMultiColor(beforeRect.Min, beforeRect.Max, col_highlight, col_highlight, col_trans, col_trans);
+		}
+
+		if (payload && payload->Delivery) {
+			assert(size_t(payload->DataSize) == dataSize);
+			memcpy(outData, payload->Data, payload->DataSize);
+
+			ret = DragDropTarget::DROP_BEFORE;
+		}
+
+		ImGui::EndDragDropTarget();
+	}
+
+	if (ImGui::BeginDragDropTargetCustom(afterRect, afterTarget)) {
+		const ImGuiPayload *payload = ImGui::AcceptDragDropPayload(type, ImGuiDragDropFlags_AcceptBeforeDelivery | ImGuiDragDropFlags_AcceptNoDrawDefaultRect);
+		if (payload && payload->Preview) {
+			ImGui::GetWindowDrawList()->AddRectFilledMultiColor(afterRect.Min, afterRect.Max, col_trans, col_trans, col_highlight, col_highlight);
+		}
+
+		if (payload && payload->Delivery) {
+			assert(size_t(payload->DataSize) == dataSize);
+			memcpy(outData, payload->Data, payload->DataSize);
+
+			ret = DragDropTarget::DROP_AFTER;
+		}
+
+		ImGui::EndDragDropTarget();
+	}
+
+	if (ImGui::BeginDragDropTargetCustom(innerRect, innerTarget)) {
+		const ImGuiPayload *payload = ImGui::AcceptDragDropPayload(type, ImGuiDragDropFlags_AcceptBeforeDelivery | ImGuiDragDropFlags_AcceptNoDrawDefaultRect);
+		if (payload && payload->Preview) {
+			ImGui::GetWindowDrawList()->AddRectFilledMultiColor(innerRect.Min, innerRect.Max, col_trans, col_highlight, col_highlight, col_trans);
+		}
+
+		if (payload && payload->Delivery) {
+			assert(size_t(payload->DataSize) == dataSize);
+			memcpy(outData, payload->Data, payload->DataSize);
+
+			ret = DragDropTarget::DROP_CHILD;
+		}
+
+		ImGui::EndDragDropTarget();
+	}
+
+	ImGui::PopID();
+	return ret;
+}
+
+void Draw::HelpMarker(const char* desc, bool same_line)
+{
+	if (same_line)
+		ImGui::SameLine(ImGui::GetContentRegionAvail().x /*- ImGui::GetFontSize()*/);
+
+    ImGui::TextDisabled(EICON_INFO);
+    if (ImGui::BeginItemTooltip())
+    {
+        ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+        ImGui::TextUnformatted(desc);
+        ImGui::PopTextWrapPos();
+        ImGui::EndTooltip();
+    }
 }

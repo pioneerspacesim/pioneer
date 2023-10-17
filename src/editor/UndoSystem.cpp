@@ -4,6 +4,9 @@
 #include "UndoSystem.h"
 #include "utils.h"
 
+#define XXH_INLINE_ALL
+#include "lz4/xxhash.h"
+
 #include <cassert>
 
 using namespace Editor;
@@ -33,6 +36,7 @@ bool UndoEntry::HasChanged() const
 
 UndoSystem::UndoSystem() :
 	m_openUndoDepth(0),
+	m_entryId(0),
 	m_doing(false)
 {
 }
@@ -62,6 +66,15 @@ const UndoEntry *UndoSystem::GetEntry(size_t stackIdx) const
 		return m_redoStack.rbegin()[stackIdx].get();
 
 	return nullptr;
+}
+
+size_t UndoSystem::GetStateHash()
+{
+	size_t hash = "UndoState"_hash;
+	for (auto &entry_ptr : m_undoStack)
+		hash = XXH64(&entry_ptr->m_id, sizeof(size_t), hash);
+
+	return hash;
 }
 
 void UndoSystem::Undo()
@@ -102,6 +115,8 @@ void UndoSystem::Clear()
 	m_openUndoEntry.reset();
 	m_openUndoDepth = 0;
 
+	m_entryId = 0;
+
 	m_redoStack.clear();
 	m_undoStack.clear();
 }
@@ -116,6 +131,7 @@ void UndoSystem::BeginEntry(std::string_view name)
 
 	m_openUndoEntry.reset(new UndoEntry());
 	m_openUndoEntry->m_name = name;
+	m_openUndoEntry->m_id = ++m_entryId;
 }
 
 void UndoSystem::ResetEntry()

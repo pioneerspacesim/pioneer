@@ -68,6 +68,8 @@ namespace Graphics {
 		int GetWindowHeight() const { return m_height; }
 		virtual int GetMaximumNumberAASamples() const = 0;
 
+		virtual void SetVSyncEnabled(bool enabled) = 0;
+
 		//get supported minimum for z near and maximum for z far values
 		virtual bool GetNearFarRange(float &near_, float &far_) const = 0;
 

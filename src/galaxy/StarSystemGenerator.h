@@ -73,7 +73,7 @@ private:
 	void SetEconType(RefCountedPtr<StarSystem::GeneratorAPI> system);
 
 	void PopulateAddStations(SystemBody *sbody, StarSystem::GeneratorAPI *system);
-	void PositionSettlementOnPlanet(SystemBody *sbody, std::vector<double> &prevOrbits);
+	void PositionSettlementOnPlanet(SystemBody *sbody, std::vector<fixed> &prevOrbits);
 	void PopulateStage1(SystemBody *sbody, StarSystem::GeneratorAPI *system, fixed &outTotalPop);
 };
 

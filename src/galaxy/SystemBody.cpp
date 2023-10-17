@@ -117,10 +117,16 @@ void SystemBodyData::LoadFromJson(const Json &obj)
 		m_rings.baseColor = obj.value<Color>("ringsBaseColor", {});
 	}
 
+	// NOTE: the following parameters should be replaced with entries
+	// in a PropertyMap owned by the system body
 	m_spaceStationType = obj.value<std::string>("spaceStationType", "");
 
+	// HACK: this is to support the current / legacy heightmap fractal system
+	// Should be replaced with PropertyMap entries and validation moved to Terrain.cpp
 	m_heightMapFilename = obj.value<std::string>("heightMapFilename", "");
 	m_heightMapFractal = obj.value<uint32_t>("heightMapFractal", 0);
+
+	m_heightMapFractal = std::min(m_heightMapFractal, uint32_t(1));
 }
 
 SystemBody::SystemBody(const SystemPath &path, StarSystem *system) :

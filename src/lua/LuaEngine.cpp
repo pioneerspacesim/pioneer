@@ -20,6 +20,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "Random.h"
+#include "SDL_video.h"
 #include "WorldView.h"
 #include "buildopts.h"
 #include "core/OS.h"
@@ -419,9 +420,12 @@ static int l_engine_set_vsync_enabled(lua_State *l)
 {
 	if (lua_isnone(l, 1))
 		return luaL_error(l, "SetVSyncEnabled takes one boolean argument");
+
 	const bool vsync = lua_toboolean(l, 1);
 	Pi::config->SetInt("VSync", (vsync ? 1 : 0));
 	Pi::config->Save();
+
+	Pi::renderer->SetVSyncEnabled(vsync);
 	return 0;
 }
 

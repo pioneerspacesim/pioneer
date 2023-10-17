@@ -28,7 +28,6 @@
 
 #include "SDL_keycode.h"
 
-#define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 
@@ -47,18 +46,6 @@ namespace {
 		v.z = sin(DEG2RAD(yaw)) * cos(DEG2RAD(pitch));
 		return v;
 	}
-}
-
-namespace ImGui {
-
-	static bool ColorEdit3(const char *label, Color &color)
-	{
-		Color4f _c = color.ToColor4f();
-		bool changed = ColorEdit3(label, &_c[0]);
-		color = Color(_c);
-		return changed;
-	}
-
 }
 
 // ─── Setup ───────────────────────────────────────────────────────────────────
@@ -762,9 +749,9 @@ void ModelViewerWidget::DrawMenus()
 				SetRandomColors();
 
 			bool valuesChanged = false;
-			valuesChanged |= ImGui::ColorEdit3("##Color 1", m_colors[0]);
-			valuesChanged |= ImGui::ColorEdit3("##Color 2", m_colors[1]);
-			valuesChanged |= ImGui::ColorEdit3("##Color 3", m_colors[2]);
+			valuesChanged |= Draw::ColorEdit3("##Color 1", &m_colors[0]);
+			valuesChanged |= Draw::ColorEdit3("##Color 2", &m_colors[1]);
+			valuesChanged |= Draw::ColorEdit3("##Color 3", &m_colors[2]);
 
 			if (valuesChanged)
 				m_model->SetColors(m_colors);

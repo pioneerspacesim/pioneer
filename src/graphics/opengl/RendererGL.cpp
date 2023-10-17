@@ -126,7 +126,7 @@ namespace Graphics {
 		SDL_SetWindowTitle(window, vs.title);
 		SDL_ShowCursor(0);
 
-		SDL_GL_SetSwapInterval((vs.vsync != 0) ? 1 : 0);
+		SDL_GL_SetSwapInterval((vs.vsync != 0) ? -1 : 0);
 
 		return new RendererOGL(window, vs, glContext);
 	}
@@ -463,6 +463,11 @@ namespace Graphics {
 		near_ = m_minZNear;
 		far_ = m_maxZFar;
 		return true;
+	}
+
+	void RendererOGL::SetVSyncEnabled(bool enabled)
+	{
+		SDL_GL_SetSwapInterval(enabled ? -1 : 0);
 	}
 
 	bool RendererOGL::BeginFrame()

@@ -56,6 +56,8 @@ namespace Graphics {
 		virtual int GetMaximumNumberAASamples() const override final;
 		virtual bool GetNearFarRange(float &near_, float &far_) const override final;
 
+		virtual void SetVSyncEnabled(bool) override;
+
 		virtual bool BeginFrame() override final;
 		virtual bool EndFrame() override final;
 		virtual bool SwapBuffers() override final;

@@ -34,10 +34,13 @@ public:
 	virtual ~UndoStep() = default;
 
 	// Execute an undo step (replace application state with stored state)
-	virtual void Undo() = 0;
+	virtual void Undo() { Swap(); }
 
 	// Execute a redo step (replace stored state with application state)
-	virtual void Redo() = 0;
+	virtual void Redo() { Swap(); }
+
+	// Helper method to allow state changes in a single function
+	virtual void Swap() {};
 
 	// Optimization step: entries for which none of the steps represent a
 	// change in state will not be added to the undo stack
@@ -66,6 +69,7 @@ private:
 	bool HasChanged() const;
 
 	StringName m_name;
+	size_t m_id;
 	std::vector<std::unique_ptr<UndoStep>> m_steps;
 };
 
@@ -120,6 +124,9 @@ public:
 	// Return a pointer to the given undo entry if stackIdx < GetNumEntries().
 	const UndoEntry *GetEntry(size_t stackIdx) const;
 
+	// Calculate a hash value used to describe the current undo state
+	size_t GetStateHash();
+
 	bool CanUndo() const { return !m_undoStack.empty(); }
 	bool CanRedo() const { return !m_redoStack.empty(); }
 
@@ -159,6 +166,7 @@ private:
 
 	std::unique_ptr<UndoEntry> m_openUndoEntry;
 	size_t m_openUndoDepth;
+	size_t m_entryId;
 
 	bool m_doing;
 };
