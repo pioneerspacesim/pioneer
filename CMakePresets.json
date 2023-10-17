@@ -75,6 +75,7 @@
 			"binaryDir": "${sourceDir}/build/",
 			"generator": "Unix Makefiles",
 			"cacheVariables": {
+				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
 				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
 				"CMAKE_BUILD_TYPE": "Debug",
 				"PROFILER_ENABLED": "1"
@@ -94,6 +95,7 @@
 			"binaryDir": "${sourceDir}/build/",
 			"generator": "Unix Makefiles",
 			"cacheVariables": {
+				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
 				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
 				"CMAKE_BUILD_TYPE": "RelWithDebInfo",
 				"PROFILER_ENABLED": "1"
@@ -113,6 +115,7 @@
 			"binaryDir": "${sourceDir}/build/",
 			"generator": "Unix Makefiles",
 			"cacheVariables": {
+				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
 				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
 				"CMAKE_BUILD_TYPE": "RelWithDebInfo"
 			},
@@ -131,6 +134,7 @@
 			"binaryDir": "${sourceDir}/build/",
 			"generator": "Unix Makefiles",
 			"cacheVariables": {
+				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
 				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
 				"CMAKE_BUILD_TYPE": "Debug",
 				"CMAKE_C_COMPILER": "/usr/bin/clang",
@@ -152,6 +156,7 @@
 			"binaryDir": "${sourceDir}/build/",
 			"generator": "Unix Makefiles",
 			"cacheVariables": {
+				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
 				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
 				"CMAKE_BUILD_TYPE": "RelWithDebInfo",
 				"CMAKE_C_COMPILER": "/usr/bin/clang",
@@ -173,6 +178,7 @@
 			"binaryDir": "${sourceDir}/build/",
 			"generator": "Unix Makefiles",
 			"cacheVariables": {
+				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
 				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
 				"CMAKE_BUILD_TYPE": "RelWithDebInfo",
 				"CMAKE_C_COMPILER": "/usr/bin/clang",
