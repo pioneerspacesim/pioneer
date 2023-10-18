@@ -15,6 +15,8 @@ namespace Graphics {
 				case RenderTarget::READ: return GL_READ_FRAMEBUFFER;
 				case RenderTarget::DRAW: return GL_DRAW_FRAMEBUFFER;
 				case RenderTarget::BOTH: return GL_FRAMEBUFFER;
+				// default value is never reached, calm down -Werror=return-type
+				default: return 42;
 			}
 		}
 
