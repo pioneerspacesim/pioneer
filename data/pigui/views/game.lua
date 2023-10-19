@@ -270,7 +270,6 @@ end)
 Event.Register("onPauseMenuOpen", function()
 	lastTimeAcceleration = Game.GetTimeAcceleration() ~= Game.GetRequestedTimeAcceleration() and Game.GetRequestedTimeAcceleration() or Game.GetTimeAcceleration()
 	Game.SetTimeAcceleration("paused")
-	Input.EnableBindings(false)
 end)
 
 Event.Register("onPauseMenuClosed", function()
@@ -297,14 +296,7 @@ ui.registerHandler('game', function(delta_t)
 
 		-- TODO: dispatch escape key to views and let them handle it
 		if currentView == "world" and ui.escapeKeyReleased(true) then
-			if not ui.optionsWindow.isOpen then
-				ui.optionsWindow:open()
-				Event.Queue("onPauseMenuOpen")
-			else
-				ui.optionsWindow:close()
-				Game.SetTimeAcceleration("1x")
-				Event.Queue("onPauseMenuClosed")
-			end
+			ui.optionsWindow:changeState()
 		end
 
 		callModules('modal')

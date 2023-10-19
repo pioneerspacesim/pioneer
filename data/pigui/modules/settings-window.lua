@@ -101,7 +101,9 @@ local function optionTextButton(label, tooltip, enabled, callback)
 		button = ui.button(label, optionButtonSize, variant, tooltip)
 	end)
 	if button then
-		callback(button)
+		if enabled then
+			callback(button)
+		end
 	end
 end --mainButton
 
@@ -278,7 +280,6 @@ local captureBindingWindow
 local bindState = nil -- state, to capture the key combination
 captureBindingWindow = ModalWindow.New("CaptureBinding", function()
 	local info = keyCaptureBind
-
 	ui.text(bindManager.localizeBindingId(info.id))
 	ui.text(lui.PRESS_A_KEY_OR_CONTROLLER_BUTTON)
 
@@ -684,15 +685,11 @@ ui.optionsWindow = ModalWindow.New("Options", function()
 		if selectedJoystick then
 			Input.SaveJoystickConfig(selectedJoystick)
 		end
-		if Game.player then
-		    Game.SetTimeAcceleration("1x")
-		    Event.Queue("onPauseMenuClosed")
-		end
 	end)
 
 	if Game.player then
 		ui.sameLine()
-		optionTextButton(lui.SAVE, nil, true, function()
+		optionTextButton(lui.SAVE, nil, Game.player.flightState ~= 'HYPERSPACE', function()
 			ui.saveLoadWindow.mode = "SAVE"
 			ui.saveLoadWindow:open()
 		end)
@@ -700,7 +697,6 @@ ui.optionsWindow = ModalWindow.New("Options", function()
 		ui.sameLine()
 		optionTextButton(lui.END_GAME, nil, true, function()
 			ui.optionsWindow:close()
-			Input.EnableBindings();
 			Game.EndGame()
 		end)
 	end
@@ -710,9 +706,29 @@ end, function (_, drawPopupFn)
 	ui.withStyleColors({ PopupBg = ui.theme.colors.modalBackground }, drawPopupFn)
 end)
 
+function ui.optionsWindow:changeState()
+    if not self.isOpen then
+		self:open()
+	else
+		self:close()
+	end
+end
+
+function ui.optionsWindow:open()
+	ModalWindow.open(self)
+	if Game.player then
+		Input.EnableBindings(false)
+		Event.Queue("onPauseMenuOpen")
+	end
+end
+
 function ui.optionsWindow:close()
 	if not captureBindingWindow.isOpen then
 		ModalWindow.close(self)
+		if Game.player then
+			Game.SetTimeAcceleration("1x")
+			Event.Queue("onPauseMenuClosed")
+		end
 	end
 end
 
