@@ -10,6 +10,8 @@
 
 #include <memory>
 
+struct Aabb;
+
 namespace Graphics {
 	class Renderer;
 
@@ -281,6 +283,15 @@ namespace Graphics {
 		};
 
 		Axes3D *GetAxes3DDrawable(Graphics::Renderer *r);
+
+		//------------------------------------------------------------
+
+		// axis-aligned bounding box visualizer
+
+		class AABB {
+		public:
+			static void DrawVertices(Graphics::VertexArray &va, const matrix4x4f &transform, const Aabb &aabb, Color color);
+		};
 
 	} // namespace Drawables
 
