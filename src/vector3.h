@@ -15,6 +15,8 @@
 template <typename T>
 class alignas(sizeof(T)) vector3 {
 public:
+	using element_type = T;
+
 	T x, y, z;
 
 	// Constructor definitions are outside class declaration to enforce that
@@ -113,6 +115,15 @@ public:
 	{
 		return vector3(scalar / a.x, scalar / a.y, scalar / a.z);
 	}
+
+	// component-wise ALL-less-than
+	auto operator<(const vector3 &b) const { return x < b.x && y < b.y && z < b.z; }
+	// component-wise ALL-less-equal
+	auto operator<=(const vector3 &b) const { return x <= b.x && y <= b.y && z <= b.z; }
+	// component-wise ALL-greater-than
+	auto operator>(const vector3 &b) const { return x > b.x && y > b.y && z > b.z; }
+	// component-wise ALL-greater-equal
+	auto operator>=(const vector3 &b) const { return x >= b.x && y >= b.y && z >= b.z; }
 
 	vector3 Cross(const vector3 &b) const { return vector3(y * b.z - z * b.y, z * b.x - x * b.z, x * b.y - y * b.x); }
 	T Dot(const vector3 &b) const { return x * b.x + y * b.y + z * b.z; }
@@ -283,6 +294,22 @@ inline vector3<double>::vector3(const double vals[3]) :
 	y(vals[1]),
 	z(vals[2])
 {}
+
+// max() overload for use with C++ ADL
+template<typename T>
+vector3<T> max(const vector3<T> &lhs, const vector3<T> &rhs)
+{
+	using std::max; // support max(T) overloads
+	return vector3<T>(max(lhs.x, rhs.x), max(lhs.y, rhs.y), max(lhs.z, rhs.z));
+}
+
+// min() overload for use with C++ ADL
+template<typename T>
+vector3<T> min(const vector3<T> &lhs, const vector3<T> &rhs)
+{
+	using std::min; // support min(T) overloads
+	return vector3<T>(min(lhs.x, rhs.x), min(lhs.y, rhs.y), min(lhs.z, rhs.z));
+}
 
 #pragma pack()
 

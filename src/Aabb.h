@@ -14,6 +14,24 @@ struct Aabb {
 		max(-DBL_MAX, -DBL_MAX, -DBL_MAX),
 		radius(0.1)
 	{}
+	// Fast constructor for pre-conditioned values
+	// Should only be used when _min < _max for all {x,y,z}
+	Aabb(const vector3d &_min, const vector3d &_max, float rad) :
+		min(_min),
+		max(_max),
+		radius(rad)
+	{}
+	void Update(const Aabb &b)
+	{
+		max.x = std::max(max.x, b.max.x);
+		max.y = std::max(max.y, b.max.y);
+		max.z = std::max(max.z, b.max.z);
+		min.x = std::min(min.x, b.min.x);
+		min.y = std::min(min.y, b.min.y);
+		min.z = std::min(min.z, b.min.z);
+		radius = std::max(radius, b.radius);
+	}
+
 	void Update(const vector3d &p)
 	{
 		if (max.x < p.x) max.x = p.x;
@@ -42,9 +60,7 @@ struct Aabb {
 	}
 	bool Intersects(const Aabb &o) const
 	{
-		return (min.x < o.max.x) && (max.x > o.min.x) &&
-			(min.y < o.max.y) && (max.y > o.min.y) &&
-			(min.z < o.max.z) && (max.z > o.min.z);
+		return min < o.max && max > o.min;
 	}
 	// returns maximum point radius, usually smaller than max radius of bounding box
 	double GetRadius() const { return radius; }
