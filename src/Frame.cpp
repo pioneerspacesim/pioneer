@@ -12,7 +12,7 @@
 #include "utils.h"
 
 std::vector<Frame> Frame::s_frames;
-std::vector<CollisionSpace> Frame::s_collisionSpaces;
+std::vector<CollisionSpace *> Frame::s_collisionSpaces;
 
 Frame::Frame(const Dummy &d, FrameId parent, const char *label, unsigned int flags, double radius) :
 	m_parent(parent),
@@ -33,8 +33,8 @@ Frame::Frame(const Dummy &d, FrameId parent, const char *label, unsigned int fla
 
 	ClearMovement();
 
-	s_collisionSpaces.emplace_back();
-	m_collisionSpace = s_collisionSpaces.size() - 1;
+	m_collisionSpace.reset(new CollisionSpace());
+	s_collisionSpaces.emplace_back(m_collisionSpace.get());
 	// TODO: this hacks around TraceRay being called on an uninitialized collision space and crashing
 	// Need to further evaluate the impact of this and whether it should be called in the CollisionSpace constructor instead
 	// FIXME: this causes a crash when resizing the collisionSpace array because a collision space double-frees when move constructing
@@ -58,7 +58,7 @@ Frame::Frame(const Dummy &d, FrameId parent) :
 	m_label("camera"),
 	m_radius(0.0),
 	m_flags(FLAG_ROTATING),
-	m_collisionSpace(-1)
+	m_collisionSpace(nullptr)
 {
 	if (!d.madeWithFactory)
 		Error("Frame ctor called directly!\n");
@@ -88,7 +88,7 @@ Frame::Frame(Frame &&other) noexcept :
 	m_label(std::move(other.m_label)),
 	m_radius(other.m_radius),
 	m_flags(other.m_flags),
-	m_collisionSpace(other.m_collisionSpace),
+	m_collisionSpace(other.m_collisionSpace.release()),
 	m_rootVel(other.m_rootVel),
 	m_rootPos(other.m_rootPos),
 	m_rootOrient(other.m_rootOrient),
@@ -119,7 +119,7 @@ Frame &Frame::operator=(Frame &&other)
 	m_label = std::move(other.m_label);
 	m_radius = other.m_radius;
 	m_flags = other.m_flags;
-	m_collisionSpace = other.m_collisionSpace;
+	m_collisionSpace.reset(other.m_collisionSpace.release());
 	m_rootVel = other.m_rootVel;
 	m_rootPos = other.m_rootPos;
 	m_rootOrient = other.m_rootOrient;
@@ -301,9 +301,13 @@ void Frame::CollideFrames(void (*callback)(CollisionContact *))
 {
 	PROFILE_SCOPED()
 
-	std::for_each(begin(s_collisionSpaces), end(s_collisionSpaces), [&](CollisionSpace &cs) {
-		cs.Collide(callback);
-	});
+	for (auto &frame : s_frames) {
+		if (!frame.m_collisionSpace)
+			continue;
+
+		PROFILE_SCOPED_DESC(frame.m_label.c_str())
+		frame.m_collisionSpace->Collide(callback);
+	}
 }
 
 void Frame::RemoveChild(FrameId fId)
@@ -317,21 +321,18 @@ void Frame::RemoveChild(FrameId fId)
 		m_children.erase(it);
 }
 
-void Frame::AddGeom(Geom *g) { s_collisionSpaces.at(m_collisionSpace).AddGeom(g); }
-void Frame::RemoveGeom(Geom *g) { s_collisionSpaces.at(m_collisionSpace).RemoveGeom(g); }
-void Frame::AddStaticGeom(Geom *g) { s_collisionSpaces.at(m_collisionSpace).AddStaticGeom(g); }
-void Frame::RemoveStaticGeom(Geom *g) { s_collisionSpaces.at(m_collisionSpace).RemoveStaticGeom(g); }
+void Frame::AddGeom(Geom *g) { m_collisionSpace->AddGeom(g); }
+void Frame::RemoveGeom(Geom *g) { m_collisionSpace->RemoveGeom(g); }
+void Frame::AddStaticGeom(Geom *g) { m_collisionSpace->AddStaticGeom(g); }
+void Frame::RemoveStaticGeom(Geom *g) { m_collisionSpace->RemoveStaticGeom(g); }
 void Frame::SetPlanetGeom(double radius, Body *obj)
 {
-	s_collisionSpaces.at(m_collisionSpace).SetSphere(vector3d(0, 0, 0), radius, static_cast<void *>(obj));
+	m_collisionSpace->SetSphere(vector3d(0, 0, 0), radius, static_cast<void *>(obj));
 }
 
 CollisionSpace *Frame::GetCollisionSpace() const
 {
-	if (m_collisionSpace >= 0)
-		return &s_collisionSpaces[m_collisionSpace];
-	else
-		return nullptr;
+	return m_collisionSpace.get();
 }
 
 // doesn't consider stasis velocity
