@@ -12,6 +12,8 @@ October 2023
     * Window VSync mode can be changed without restart (#5625)
 
   * Fixes
+    * Disable scrolling for tab-view and character info (#5642)
+    * Fix failed build for ALT Linux, by calming down -Werror=return-type (#5649)
     * Fix for glued cockpit (#5631)
     * Fix for commodity market in stock and demand reset (#5633)
     * Fuel scooping rework (#5609)
