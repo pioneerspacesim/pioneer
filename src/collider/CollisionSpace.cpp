@@ -3,11 +3,13 @@
 
 #include "CollisionSpace.h"
 
+#include "BVHTree.h"
 #include "CollisionContact.h"
 #include "Geom.h"
 #include "GeomTree.h"
+#include "profiler/Profiler.h"
 
-#include "../utils.h"
+#include <algorithm>
 
 /* volnode!!!!!!!!!!! */
 struct BvhNode {
@@ -25,6 +27,8 @@ struct BvhNode {
 		kids[0] = 0;
 		geomStart = 0;
 	}
+
+	bool IsLeaf() const { return geomStart != nullptr; }
 
 	bool CollideRay(const vector3d &start, const vector3d &invDir, isect_t *isect)
 	{
@@ -171,7 +175,7 @@ void BvhTree::CollideGeom(Geom *g, const Aabb &geomAabb, int minMailboxValue, vo
 
 void BvhTree::BuildNode(BvhNode *node, const std::list<Geom *> &a_geoms, int &outGeomPos, int maxHeight)
 {
-	PROFILE_SCOPED()
+	// PROFILE_SCOPED()
 	const int numGeoms = a_geoms.size();
 	// make aabb from spheres
 	// XXX suboptimal for static objects, as they have fixed rotation so
@@ -237,14 +241,15 @@ void BvhTree::BuildNode(BvhNode *node, const std::list<Geom *> &a_geoms, int &ou
 
 int CollisionSpace::s_nextHandle = 1;
 
-CollisionSpace::CollisionSpace()
+CollisionSpace::CollisionSpace() :
+	m_staticObjectTree(nullptr),
+	m_dynamicObjectTree(nullptr),
+	m_duringCollision(false)
 {
 	PROFILE_SCOPED()
 	sphere.radius = 0;
 	m_needStaticGeomRebuild = true;
 	m_oldGeomsNumber = 0;
-	m_staticObjectTree = nullptr;
-	m_dynamicObjectTree = nullptr;
 }
 
 CollisionSpace::~CollisionSpace()
@@ -257,27 +262,52 @@ CollisionSpace::~CollisionSpace()
 void CollisionSpace::AddGeom(Geom *geom)
 {
 	PROFILE_SCOPED()
+	assert(!m_duringCollision);
+
 	m_geoms.push_back(geom);
+	m_geomVec.push_back(geom);
 }
 
 void CollisionSpace::RemoveGeom(Geom *geom)
 {
 	PROFILE_SCOPED()
+	assert(!m_duringCollision);
 	m_geoms.remove(geom);
+
+	auto iter = std::find(m_geomVec.begin(), m_geomVec.end(), geom);
+	if (iter == m_geomVec.end())
+		return;
+
+	if (m_geomVec.size() > 1)
+		std::swap(*iter, m_geomVec.back());
+	m_geomVec.pop_back();
 }
 
 void CollisionSpace::AddStaticGeom(Geom *geom)
 {
 	PROFILE_SCOPED()
+	assert(!m_duringCollision);
+
 	m_staticGeoms.push_back(geom);
+	m_staticGeomVec.push_back(geom);
 	m_needStaticGeomRebuild = true;
 }
 
 void CollisionSpace::RemoveStaticGeom(Geom *geom)
 {
 	PROFILE_SCOPED()
+	assert(!m_duringCollision);
+
 	m_staticGeoms.remove(geom);
 	m_needStaticGeomRebuild = true;
+
+	auto iter = std::find(m_staticGeomVec.begin(), m_staticGeomVec.end(), geom);
+	if (iter == m_staticGeomVec.end())
+		return;
+
+	if (m_staticGeomVec.size() > 1)
+		std::swap(*iter, m_staticGeomVec.back());
+	m_staticGeomVec.pop_back();
 }
 
 void CollisionSpace::CollideRaySphere(const vector3d &start, const vector3d &dir, isect_t *isect)
@@ -441,44 +471,255 @@ void CollisionSpace::CollideGeoms(Geom *a, int minMailboxValue, void (*callback)
 	}
 }
 
+void CollisionSpace::CollideGeom(Geom *a, Geom *b, void (*callback)(CollisionContact *))
+{
+	PROFILE_SCOPED()
+
+	if (!a->IsEnabled() || !b->IsEnabled())
+		return;
+
+	if (a->GetGroup() && a->GetGroup() == b->GetGroup())
+		return;
+
+	vector3d pos1 = a->GetPosition();
+	vector3d pos2 = b->GetPosition();
+	double r1 = a->GetGeomTree()->GetRadius();
+	double r2 = b->GetGeomTree()->GetRadius();
+
+	if ((pos1 - pos2).Length() <= (r1 + r2)) {
+		a->Collide(b, callback);
+	}
+}
+
+double CollisionSpace::CalcSAH(BvhTree *tree) const
+{
+	if (!tree || !tree->m_root)
+		return 0.0;
+
+	double outSAH = 0.0;
+	auto *rootNode = tree->m_root;
+	std::vector<BvhNode *> m_nodeStack = { rootNode };
+
+	while (!m_nodeStack.empty()) {
+		auto *node = m_nodeStack.back();
+		m_nodeStack.pop_back();
+
+		if (!node->IsLeaf() && node->kids[0])
+			m_nodeStack.push_back(node->kids[0]);
+		if (!node->IsLeaf() && node->kids[1])
+			m_nodeStack.push_back(node->kids[1]);
+
+		// surface area = 2 * width * depth * height
+		vector3d size = node->aabb.max - node->aabb.min;
+		double area = 2.f * size.x * size.y * size.z;
+
+		// Cost function according to https://users.aalto.fi/~laines9/publications/aila2013hpg_paper.pdf Eq. 1
+		if (node->IsLeaf())
+			outSAH += node->numGeoms * area;
+		else
+			outSAH += 1.2 * area;
+	}
+
+	vector3d rootSize = rootNode->aabb.max - rootNode->aabb.min;
+	float rootArea = 2.f * rootSize.x * rootSize.y * rootSize.z;
+
+	// Perform 1 / Aroot * ( SAH sums )
+	outSAH /= rootArea;
+
+	// Remove the (normalized) SAH cost of the root node from the result
+	// The SAH metric doesn't include the cost of the root node
+	outSAH -= 1.f;
+
+	return outSAH;
+}
+
+double CollisionSpace::CalcSAH(SingleBVHTree *tree) const
+{
+	return tree ? tree->CalculateSAH() : 0.0;
+}
+
+// ===================================================================
+
 void CollisionSpace::RebuildObjectTrees()
 {
 	PROFILE_SCOPED()
-	if (m_needStaticGeomRebuild) {
-		if (m_staticObjectTree) delete m_staticObjectTree;
-		m_staticObjectTree = new BvhTree(m_staticGeoms);
-	}
-	if (m_oldGeomsNumber < m_geoms.size()) {
-		// Have more geoms: rebuild completely (ask more memory)
-		if (m_dynamicObjectTree) delete m_dynamicObjectTree;
-		m_dynamicObjectTree = new BvhTree(m_geoms);
-	} else {
-		// Same number or less (no needs for more memory)
-		if (m_dynamicObjectTree)
-			m_dynamicObjectTree->Refresh(m_geoms);
-		else
-			m_dynamicObjectTree = new BvhTree(m_geoms);
-	}
 
-	m_oldGeomsNumber = m_geoms.size();
+	{
+		PROFILE_SCOPED_DESC("Rebuild Old Trees")
+
+		if (m_needStaticGeomRebuild) {
+			if (m_staticObjectTree) delete m_staticObjectTree;
+			m_staticObjectTree = new BvhTree(m_staticGeoms);
+		}
+		if (m_oldGeomsNumber < m_geoms.size()) {
+			// Have more geoms: rebuild completely (ask more memory)
+			if (m_dynamicObjectTree) delete m_dynamicObjectTree;
+			m_dynamicObjectTree = new BvhTree(m_geoms);
+		} else {
+			// Same number or less (no needs for more memory)
+			if (m_dynamicObjectTree)
+				m_dynamicObjectTree->Refresh(m_geoms);
+			else
+				m_dynamicObjectTree = new BvhTree(m_geoms);
+		}
+
+		m_oldGeomsNumber = m_geoms.size();
+	}
+	{
+		PROFILE_SCOPED_DESC("Rebuild New Trees")
+
+		if (!m_staticObjectTree2) {
+			m_staticObjectTree2.reset(new SingleBVHTree());
+		}
+
+		if (!m_dynamicObjectTree2) {
+			m_dynamicObjectTree2.reset(new SingleBVHTree());
+		}
+
+		if (m_needStaticGeomRebuild) {
+			std::vector<AABBd> staticAabbs;
+			m_enabledStaticGeoms = SortEnabledGeoms(m_staticGeomVec);
+
+			RebuildBVHTree(m_staticObjectTree2.get(), m_enabledStaticGeoms, m_staticGeomVec, staticAabbs);
+		}
+
+		m_enabledDynGeoms = SortEnabledGeoms(m_geomVec);
+		RebuildBVHTree(m_dynamicObjectTree2.get(), m_enabledDynGeoms, m_geomVec, m_geomAabbs);
+	}
 
 	m_needStaticGeomRebuild = false;
+}
+
+uint32_t CollisionSpace::SortEnabledGeoms(std::vector<Geom *> &geoms)
+{
+	PROFILE_SCOPED()
+
+	if (geoms.empty())
+		return 0;
+
+	// Simple O(n) sort algorithm
+	// Sort geoms according to enabled state (group all enabled geoms at start of array)
+	uint32_t startIdx = 0;
+	uint32_t endIdx = geoms.size() - 1;
+
+	while (startIdx <= endIdx && endIdx) {
+		if (geoms[startIdx]->IsEnabled()) {
+			startIdx++;
+		} else {
+			std::swap(geoms[startIdx], geoms[endIdx]);
+			endIdx--;
+		}
+	}
+
+	return startIdx;
+}
+
+void CollisionSpace::RebuildBVHTree(SingleBVHTree *tree, uint32_t numGeoms, const std::vector<Geom *> &geoms, std::vector<AABBd> &aabbs)
+{
+	PROFILE_SCOPED()
+	assert(numGeoms < INT32_MAX);
+
+	if (numGeoms == 0)
+		return;
+
+	aabbs.resize(0);
+	aabbs.reserve(numGeoms);
+
+	AABBd bounds = AABBd();
+
+	for (size_t idx = 0; idx < numGeoms; idx++) {
+		const Geom *geom = geoms[idx];
+
+		// treat geoms as spheres and create a worst-case AABB around them
+		vector3d pos = geom->GetPosition();
+		double radius = geom->GetGeomTree()->GetRadius();
+
+		AABBd aabb { {pos - radius }, { pos + radius } };
+
+		aabbs.push_back(aabb);
+		bounds.Update(aabb);
+	}
+
+	tree->Build(bounds, aabbs.data(), aabbs.size());
 }
 
 void CollisionSpace::Collide(void (*callback)(CollisionContact *))
 {
 	PROFILE_SCOPED()
+	m_duringCollision = true;
+
 	RebuildObjectTrees();
 
-	int mailboxMin = 0;
-	for (std::list<Geom *>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
-		(*i)->SetMailboxIndex(mailboxMin++);
+	{
+		PROFILE_SCOPED_DESC("Mailbox Collision")
+
+		int mailboxMin = 0;
+		for (std::list<Geom *>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
+			(*i)->SetMailboxIndex(mailboxMin++);
+		}
+
+		/* This mailbox nonsense is so: after collision(a,b), we will not
+		* attempt collision(b,a) */
+		mailboxMin = 1;
+		for (std::list<Geom *>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i, mailboxMin++) {
+			CollideGeoms(*i, mailboxMin, callback);
+		}
 	}
 
-	/* This mailbox nonsense is so: after collision(a,b), we will not
-	 * attempt collision(b,a) */
-	mailboxMin = 1;
-	for (std::list<Geom *>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i, mailboxMin++) {
-		CollideGeoms(*i, mailboxMin, callback);
+	{
+		PROFILE_SCOPED_DESC("BVHTree2 Collision")
+		std::vector<Intersection> static_isect;
+		std::vector<Intersection> dyn_isect;
+
+		static_isect.reserve(32);
+		dyn_isect.reserve(32);
+
+		bool hasStatic = m_enabledStaticGeoms > 0;
+
+		for (uint32_t idx = 0; idx < m_enabledDynGeoms; idx++) {
+			Geom *g = m_geomVec[idx];
+			if (!g->IsEnabled())
+				continue;
+
+			const AABBd &aabb = m_geomAabbs[idx];
+
+			if (hasStatic)
+				m_staticObjectTree2->ComputeOverlap(idx, aabb, static_isect);
+			m_dynamicObjectTree2->ComputeOverlap(idx, aabb, dyn_isect);
+		}
+
+		// No mailbox test needed for colliding a dynamic geom against static geoms
+		for (const Intersection &isect : static_isect) {
+			CollideGeom(m_geomVec[isect.first], m_staticGeomVec[isect.second], callback);
+		}
+
+		// Simple mailbox test to ensure every valid collision is only processed once
+		for (const Intersection &isect : dyn_isect) {
+			if (isect.first >= isect.second)
+				continue;
+
+			CollideGeom(m_geomVec[isect.first], m_geomVec[isect.second], callback);
+		}
+
+		CollidePlanet(callback);
+	}
+
+	m_duringCollision = false;
+}
+
+void CollisionSpace::CollidePlanet(void (*callback)(CollisionContact *))
+{
+	PROFILE_SCOPED()
+
+	// If this collision space exists for a planet, collide all dynamic geoms
+	// against the planet
+	if (sphere.radius > 0.0) {
+		for (uint32_t idx = 0; idx < m_geomVec.size(); idx++) {
+			Geom *g = m_geomVec[idx];
+			if (!g->IsEnabled())
+				continue;
+
+			g->CollideSphere(sphere, callback);
+		}
 	}
 }
