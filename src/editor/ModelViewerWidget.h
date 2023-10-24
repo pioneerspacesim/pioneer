@@ -89,6 +89,8 @@ namespace Editor
 
 		const matrix4x4f &GetModelViewMat() const { return m_modelViewMat; }
 
+		// Extend to render in-world using Graphics::Renderer
+		UIDelegate &GetUIExtPostRender() { return m_extPostRender; }
 		// Extend to render on top of the viewport surface using ImDrawList
 		UIDelegate &GetUIExtOverlay() { return m_extOverlay; }
 		// Extend to add additional viewport menu buttons
@@ -105,8 +107,7 @@ namespace Editor
 
 		bool OnCloseRequested() override { return true; };
 
-		virtual void PostRender() {};
-
+		UIDelegate m_extPostRender;
 		UIDelegate m_extOverlay;
 		UIDelegate m_extMenus;
 		UIDelegate m_extViewportControls;

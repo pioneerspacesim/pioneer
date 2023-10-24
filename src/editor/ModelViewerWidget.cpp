@@ -484,7 +484,7 @@ void ModelViewerWidget::OnRender(Graphics::Renderer *r)
 	}
 
 	// Render any extra effects
-	PostRender();
+	m_extPostRender();
 
 	// helper rendering
 	if (m_options.showLandingPad) {
