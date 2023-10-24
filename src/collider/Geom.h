@@ -34,17 +34,19 @@ public:
 	inline void SetGroup(int g) { m_group = g; }
 	inline int GetGroup() const { return m_group; }
 
-	matrix4x4d m_animTransform;
-
 private:
 	void CollideEdgesWithTrisOf(int &maxContacts, const Geom *b, const matrix4x4d &transTo, void (*callback)(CollisionContact *)) const;
 	void CollideEdgesTris(int &maxContacts, const BVHNode *edgeNode, const matrix4x4d &transToB,
 		const Geom *b, const BVHNode *btriNode, void (*callback)(CollisionContact *)) const;
 
 	// double-buffer position so we can keep previous position
-	matrix4x4d m_orient, m_invOrient;
 	vector3d m_pos;
 	const GeomTree *m_geomtree;
+	matrix4x4d m_orient, m_invOrient;
+public:
+	matrix4x4d m_animTransform;
+
+private:
 	void *m_data;
 	int m_group;
 	int m_mailboxIndex; // used to avoid duplicate collisions
