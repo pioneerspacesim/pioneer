@@ -1,0 +1,49 @@
+name: "Upload Linux Artifacts"
+description: "Manage generating and uploading release artifacts for linux builds"
+
+inputs:
+  artifact_name:
+    description: "Name of generated artifact"
+    required: true
+  build_slug:
+    description: "platform-arch-build-flags"
+    required: true
+  token:
+    description: "access token for uploading to releases"
+    default: ""
+  upload_release:
+    description: "should the binary be uploaded to a tagged release?"
+    default: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install
+      shell: bash
+      run: cmake --build ./build --target install
+
+    - name: Package Artifact
+      shell: bash
+      env:
+        BUILD_SLUG: ${{ inputs.build_slug }}
+      run: |
+        cd out/install/
+        tar -czf "pioneer-$BUILD_SLUG-$(date +%Y%m%d).tar.gz" "pioneer-$BUILD_SLUG"
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ inputs.artifact_name }}
+        path: ${{ format('out/install/pioneer-{0}-*.tar.gz', inputs.build_slug) }}
+
+    - name: Build Release
+      shell: bash
+      run: ./scripts/package-release.sh
+
+    - name: Upload Release Files
+      uses: softprops/action-gh-release@v1
+      if: ${{ github.event_name == 'release' && inputs.upload_release }}
+      with:
+        files: release/pioneer-linux-x64-*.tar.gz
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}

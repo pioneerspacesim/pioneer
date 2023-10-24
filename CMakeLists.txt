@@ -53,6 +53,24 @@ if (APPLE)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu")
 endif(APPLE)
 
+option(USE_SSE42 "Compile for SSE4.2 compatible microarchitectures (enables optimizations)" ON)
+
+if (USE_SSE42)
+	if (NOT MSVC)
+		add_compile_options("-msse4.2" "-mlzcnt" "-mpopcnt")
+	endif()
+endif (USE_SSE42)
+
+option(USE_AVX2 "Compile for AVX2 compatible microarchitectures (Haswell and newer)" OFF)
+
+if (USE_AVX2)
+	if (MSVC)
+		add_compile_options("/arch:AVX2")
+	else()
+		add_compile_options("-mavx2")
+	endif()
+endif(USE_AVX2)
+
 option(USE_LLD_LINKER "Use the LLVM lld linker instead of gcc's linker" OFF)
 if (CMAKE_COMPILER_IS_GNUCXX)
 	add_compile_options(

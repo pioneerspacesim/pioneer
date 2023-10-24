@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Package a build and prepare it for upload to Github.
 
@@ -9,7 +10,7 @@ fi
 
 mkdir release
 
-mv out/install/linux-x64-release "release/pioneer-linux-x64-$TAG_NAME"
+mv out/install/pioneer-linux-x64-release "release/pioneer-linux-x64-$TAG_NAME"
 cd release
 
 tar -czf "pioneer-linux-x64-$TAG_NAME.tar.gz" "pioneer-linux-x64-$TAG_NAME"
