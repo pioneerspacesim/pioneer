@@ -177,7 +177,7 @@ double BVHTree::CalculateSAH() const
 
 		// surface area = 2 * width * depth * height
 		vector3d size = node->aabb.max - node->aabb.min;
-		double area = 2.f * size.x * size.y * size.z;
+		double area = 2.0 * size.x * size.y * size.z;
 
 		// Cost function according to https://users.aalto.fi/~laines9/publications/aila2013hpg_paper.pdf Eq. 1
 		if (node->IsLeaf())
@@ -187,14 +187,14 @@ double BVHTree::CalculateSAH() const
 	}
 
 	vector3d rootSize = m_root->aabb.max - m_root->aabb.min;
-	float rootArea = 2.f * rootSize.x * rootSize.y * rootSize.z;
+	double rootArea = 2.0 * rootSize.x * rootSize.y * rootSize.z;
 
 	// Perform 1 / Aroot * ( SAH sums )
 	outSAH /= rootArea;
 
 	// Remove the (normalized) SAH cost of the root node from the result
 	// The SAH metric doesn't include the cost of the root node
-	outSAH -= 1.f;
+	outSAH -= 1.0;
 
 	return outSAH;
 }
@@ -391,21 +391,21 @@ double SingleBVHTree::CalculateSAH() const
 
 		// surface area = 2 * width * depth * height
 		vector3d size = node->aabb.max - node->aabb.min;
-		double area = 2.f * size.x * size.y * size.z;
+		double area = 2.0 * size.x * size.y * size.z;
 
 		// Cost function according to https://users.aalto.fi/~laines9/publications/aila2013hpg_paper.pdf Eq. 1
 		outSAH += (node->kids[0] ? 1.2 : 1.0) * area;
 	}
 
 	vector3d rootSize = rootNode->aabb.max - rootNode->aabb.min;
-	float rootArea = 2.f * rootSize.x * rootSize.y * rootSize.z;
+	double rootArea = 2.0 * rootSize.x * rootSize.y * rootSize.z;
 
 	// Perform 1 / Aroot * ( SAH sums )
 	outSAH /= rootArea;
 
 	// Remove the (normalized) SAH cost of the root node from the result
 	// The SAH metric doesn't include the cost of the root node
-	outSAH -= 1.f;
+	outSAH -= 1.0;
 
 	return outSAH;
 }
