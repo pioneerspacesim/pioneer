@@ -430,6 +430,18 @@ install(FILES ${install_txt} DESTINATION ${PIONEER_INSTALL_DATADIR})
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/licenses
 	DESTINATION ${PIONEER_INSTALL_DATADIR})
 
+if(APPIMAGE_BUILD)
+    set(PIONEER_EXECUTABLE init_pioneer.sh)
+    set(PIONEER_SH_FILE ${CMAKE_BINARY_DIR}/init_pioneer.sh)
+    configure_file(init_pioneer.sh.cmakein ${PIONEER_SH_FILE} @ONLY)
+    install(FILES ${PIONEER_SH_FILE}
+        DESTINATION ${CMAKE_INSTALL_BINDIR}
+        PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE
+    )
+else(APPIMAGE_BUILD)
+    set(PIONEER_EXECUTABLE ${CMAKE_INSTALL_FULL_BINDIR}/pioneer)
+endif(APPIMAGE_BUILD)
+
 if (WIN32)
 	configure_file(pioneer.iss.cmakein pioneer.iss @ONLY)
 	file(GLOB win_libs ../pioneer-thirdparty/win32/bin/${MSVC_ARCH}/vs2019/*.dll)
