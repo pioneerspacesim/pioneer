@@ -1627,6 +1627,38 @@
     "description": "",
     "message": "System orbit view"
   },
+  "SYSTEM_SECURITY_TOOLTIP": {
+    "description": "Describes how safe or dangerous a star system is",
+    "message": "System security:"
+  },
+  "SYSTEM_SECURITY_1": {
+    "description": "Describes how safe or dangerous a star system is",
+    "message": "Safe"
+  },
+  "SYSTEM_SECURITY_2": {
+    "description": "Describes how safe or dangerous a star system is",
+    "message": "Harmless"
+  },
+  "SYSTEM_SECURITY_3": {
+    "description": "Describes how safe or dangerous a star system is",
+    "message": "Mostly Harmless"
+  },
+  "SYSTEM_SECURITY_4": {
+    "description": "Describes how safe or dangerous a star system is",
+    "message": "Somewhat Dangerous"
+  },
+  "SYSTEM_SECURITY_5": {
+    "description": "Describes how safe or dangerous a star system is",
+    "message": "Dangerous"
+  },
+  "SYSTEM_SECURITY_6": {
+    "description": "Describes how safe or dangerous a star system is",
+    "message": "Very Dangerous"
+  },
+  "SYSTEM_SECURITY_7": {
+    "description": "Describes how safe or dangerous a star system is",
+    "message": "Deadly"
+  },
   "SYSTEM_TYPE": {
     "description": "",
     "message": "System type:"

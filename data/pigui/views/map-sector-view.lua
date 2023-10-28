@@ -18,6 +18,7 @@ local ui = require 'pigui'
 local layout = require 'pigui.libs.window-layout'
 
 local player = nil
+local sytleColors = ui.theme.styleColors
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
@@ -44,8 +45,10 @@ local draw_out_range_labels = false
 local draw_uninhabited_labels = true
 local automatic_system_selection = true
 
-local function textIcon(icon, tooltip)
-	ui.icon(icon, Vector2(ui.getTextLineHeight()), svColor.FONT, tooltip)
+local function textIcon(icon, tooltip, color)
+	if nil == color then color = svColor.FONT end
+	
+	ui.icon(icon, Vector2(ui.getTextLineHeight()), color, tooltip)
 	ui.sameLine()
 end
 
@@ -123,6 +126,28 @@ local function calc_star_dist(star)
 	return dist
 end
 
+local function rate_lawlessness(system)
+	if system.lawlessness < 1.0/7.0 then
+		return icons.empty, lc.SYSTEM_SECURITY_1, sytleColors.success_500
+	end
+	if system.lawlessness < 2.0/7.0 then
+		return icons.empty, lc.SYSTEM_SECURITY_2, sytleColors.success_500
+	end
+	if system.lawlessness < 3.0/7.0 then
+		return icons.empty, lc.SYSTEM_SECURITY_3, sytleColors.success_500
+	end
+	if system.lawlessness < 4.0/7.0 then
+		return icons.alert1, lc.SYSTEM_SECURITY_4, sytleColors.danger_100
+	end
+	if system.lawlessness < 5.0/7.0 then
+		return icons.alert1, lc.SYSTEM_SECURITY_5, sytleColors.danger_500
+	end
+	if system.lawlessness < 6.0/7.0 then
+		return icons.alert1, lc.SYSTEM_SECURITY_6, sytleColors.danger_500
+	end
+	return icons.alert1, lc.SYSTEM_SECURITY_7, sytleColors.danger_500
+end
+
 function Windows.systemInfo:Show()
 	local label = lc.SELECTED_SYSTEM
 	local current_systempath = sectorView:GetCurrentSystemPath()
@@ -170,6 +195,18 @@ function Windows.systemInfo:Show()
 			ui.textWrapped(starsystem.shortDescription)
 
 			ui.spacing()
+
+			ui.withTooltip(lc.SYSTEM_SECURITY_TOOLTIP, function()
+				local icon, desc, color = rate_lawlessness(starsystem)
+				textIcon(icon, nil, color)
+				if nil == color then
+					ui.textWrapped( desc )
+				else
+					ui.textColored( color, desc )					
+				end
+--				ui.textWrapped( "lln: " .. starsystem.lawlessness)
+			end)
+
 			ui.withTooltip(lc.GOVERNMENT_TYPE, function()
 				textIcon(icons.language)
 				ui.textWrapped(starsystem.govDescription)
