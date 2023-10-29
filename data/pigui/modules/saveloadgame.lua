@@ -89,15 +89,40 @@ local function shouldDisplayThisSave(f)
 	string.find(f.name, searchSave, 1, true) ~= nil
 end
 
+
+local function closeAndClearCache()
+	ui.saveLoadWindow:close()
+	ui.saveLoadWindow.mode = nil
+	saveFileCache = {}
+	searchSave = ""
+end
+
+local function closeAndLoadOrSave()
+	if selectedSave ~= nil and selectedSave ~= '' then
+		if ui.saveLoadWindow.mode == "LOAD" and saveIsValid then
+			Game.LoadGame(selectedSave)
+			closeAndClearCache()
+		elseif ui.saveLoadWindow.mode == "SAVE" then
+			Game.SaveGame(selectedSave)
+			closeAndClearCache()
+		end
+	end
+end
+
+
 local function displaySave(f)
-	if ui.selectable(f.name, f.name == selectedSave, {"SpanAllColumns", "DontClosePopups"}) then
-	   selectedSave = f.name
-	   saveIsValid = pcall(Game.SaveGameStats, f.name)
+	if ui.selectable(f.name, f.name == selectedSave, {"SpanAllColumns", "DontClosePopups", "AllowDoubleClick"}) then
+		selectedSave = f.name
+	 	saveIsValid = pcall(Game.SaveGameStats, f.name)
+	 	if ui.isMouseDoubleClicked(0) then
+			closeAndLoadOrSave()	
+		end
 	end
 
 	if ui.isItemHovered("ForTooltip") then
 		ui.setTooltip(getSaveTooltip(f.name))
 	end
+
 
 	ui.nextColumn()
 	ui.text(Format.Date(f.mtime.timestamp))
@@ -118,26 +143,6 @@ local function showSaveFiles()
 			end
 		end
 		ui.columns(1,"",false)
-	end
-end
-
-local function closeAndClearCache()
-	ui.saveLoadWindow:close()
-	ui.saveLoadWindow.mode = nil
-	saveFileCache = {}
-	popupOpened = false
-	searchSave = ""
-end
-
-local function closeAndLoadOrSave()
-	if selectedSave ~= nil and selectedSave ~= '' then
-		if ui.saveLoadWindow.mode == "LOAD" and saveIsValid then
-			Game.LoadGame(selectedSave)
-			closeAndClearCache()
-		elseif ui.saveLoadWindow.mode == "SAVE" then
-			Game.SaveGame(selectedSave)
-			closeAndClearCache()
-		end
 	end
 end
 
