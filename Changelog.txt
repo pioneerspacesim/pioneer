@@ -6,10 +6,14 @@ October 2023
     * Improve realism of randomly-generated systems (#5622)
     * Sensibly generate high-gravity planets (#5592)
     * Implement graphical editor for creating custom systems (#5625)
+    * Allow double click on an item to load the saved game (#5652)
 
   * Internal Changes
     * Load custom systems from JSON, deprecate lua-based custom systems (#5622)
     * Window VSync mode can be changed without restart (#5625)
+    * Restructured & reworked Pause button code (#5650)
+    * Added Appimage build script (#5620)
+    * Fix undefined behavior in space bodies deferred addition (#5648)
 
   * Fixes
     * Disable scrolling for tab-view and character info (#5642)
