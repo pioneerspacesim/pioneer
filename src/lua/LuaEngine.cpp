@@ -1035,6 +1035,43 @@ static int l_browse_user_folders(lua_State *l)
 	return 0;
 }
 
+
+static int l_engine_set_difficulty(lua_State* l)
+{
+	int difficulty = LuaPull<int>(l, 1);
+	difficulty = std::max(0, difficulty);
+	difficulty = std::min(100, difficulty);
+	if (Pi::game)
+	{
+		Pi::game->SetDifficulty(difficulty/100.0);
+	}
+	int old_difficulty = Pi::config->Int("Difficulty", 50);
+	if (old_difficulty != difficulty)
+	{
+		Pi::config->SetInt("Difficulty", difficulty);
+		Pi::config->Save();
+	}
+
+	return 0;
+}
+
+// Return the difficulty of the current game, if there is one, else the saved, configured difficulty
+static int l_engine_get_difficulty(lua_State* l)
+{
+	int difficulty;
+	if (Pi::game)
+	{
+		// add 0.5 to ensure rounding
+		difficulty = (int)(Pi::game->GetDifficulty()*100.0 + 0.5);
+	}
+	else
+	{
+		difficulty = Pi::config->Int("Difficulty", 50);
+	}
+	LuaPush(l, difficulty);
+	return 1;
+}
+
 void LuaEngine::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -1126,6 +1163,9 @@ void LuaEngine::Register()
 		{ "GetEnumValue", l_engine_get_enum_value },
 
 		{ "RequestProfileFrame", l_engine_request_profile_frame },
+		{ "SetDifficulty", l_engine_set_difficulty },
+		{ "GetDifficulty", l_engine_get_difficulty },
+
 		{ 0, 0 }
 	};
 

@@ -355,6 +355,10 @@
     "description": "tooltip description in settings menu",
     "message": "Lower gives better performance, at cost of visual aesthetics"
   },
+  "DIFFICULTY": {
+    "description": "Label next to the slider that allows the player to set the difficulty of the game",
+    "message": "Difficulty"
+  },
   "DISABLE_SCREENSHOT_INFO": {
     "description": "",
     "message": "Disable Screenshot Info"
@@ -658,6 +662,10 @@
   "GAME_TIME": {
     "description": "",
     "message": "Game time"
+  },  
+  "GAMEPLAY": {
+    "description": "The tooltip for the settings/options tab for changing gameplay related options",
+    "message": "Gameplay"
   },
   "GENERAL_CREW": {
     "description": "",

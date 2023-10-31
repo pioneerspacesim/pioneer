@@ -420,6 +420,15 @@ static int l_game_attr_paused(lua_State *l)
 	return 1;
 }
 
+static int l_game_attr_difficulty(lua_State* l)
+{
+	if (Pi::game)
+		lua_pushnumber(l, Pi::game->GetDifficulty());
+	else
+		lua_pushnumber(l, 0.5);
+	return 1;
+}
+
 /*
  * Function: InHyperspace
  *
@@ -678,6 +687,7 @@ void LuaGame::Register()
 		{ "sectorView", l_game_attr_sectorview },
 		{ "time", l_game_attr_time },
 		{ "paused", l_game_attr_paused },
+		{ "difficulty", l_game_attr_difficulty },
 		{ 0, 0 }
 	};
 
