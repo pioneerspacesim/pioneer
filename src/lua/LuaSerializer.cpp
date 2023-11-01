@@ -462,14 +462,17 @@ void LuaSerializer::SaveComponents(Json &jsonObj, Space *space)
 
 	// Note: this loop relies on the ordering and contents of Space::m_bodies not changing
 	// between when bodies were serialized and when this function is called.
+	// Space should not do update, because it invalidates m_bodyIndex vector.
 
 	for (size_t idx = 0; idx < bodies.size(); idx++) {
-		Body *body = space->GetBodies()[idx];
+		// First index of m_bodyIndex is reserved to
+		// nullptr or bad index
+		Body *body = space->GetBodyByIndex(idx + 1);
 
 		// Serialize lua components
 		Json luaComponentsObj = Json::object();
 		if (!LuaObjectBase::SerializeComponents(body, luaComponentsObj))
-			break;
+			continue;
 
 		if (!luaComponentsObj.empty()) {
 			bodies[idx]["lua_components"] = luaComponentsObj;
@@ -485,8 +488,7 @@ void LuaSerializer::LoadComponents(const Json &jsonObj, Space *space)
 
 	// Note: this loop relies on the ordering and contents of Space::m_bodies not changing
 	// between when bodies were deserialized and when this function is called.
-	// Space::GetBodyByIndex cannot be used to lookup bodies as it can be different from the
-	// index into the JSON bodies array when loading.
+	// Space should not do update, because it invalidates m_bodyIndex vector.
 
 	for (size_t idx = 0; idx < bodies.size(); idx++) {
 		const Json &bodyObj = bodies[idx];
@@ -494,7 +496,9 @@ void LuaSerializer::LoadComponents(const Json &jsonObj, Space *space)
 		if (bodyObj.count("lua_components") != 0) {
 			const Json &luaComponents = bodyObj["lua_components"];
 			if (luaComponents.is_object() && !luaComponents.empty()) {
-				Body *body = space->GetBodies()[idx];
+				// First index of m_bodyIndex is reserved to
+				// nullptr or bad index
+				Body *body = space->GetBodyByIndex(idx + 1);
 
 				// Ensure we've registered the body object in Lua
 				LuaObject<Body>::PushToLua(body);

@@ -262,8 +262,11 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, doub
 
 	try {
 		Json bodyArray = spaceObj["bodies"].get<Json::array_t>();
-		for (Uint32 i = 0; i < bodyArray.size(); i++)
+		for (Uint32 i = 0; i < bodyArray.size(); i++) {
+			if(bodyArray[i].count("is_not_in_space") > 0)
+				continue;
 			m_bodies.push_back(Body::FromJson(bodyArray[i], this));
+		}
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
@@ -348,8 +351,23 @@ void Space::ToJson(Json &jsonObj)
 	spaceObj["frame"] = frameObj;
 
 	Json bodyArray = Json::array(); // Create JSON array to contain body data.
-	for (Body *b : m_bodies) {
+	for (size_t i = 0; i < m_bodyIndex.size() - 1; i++) {
+		// First index of m_bodyIndex is reserved to
+		// nullptr or bad index
+		Body* b = m_bodyIndex[i + 1];
 		Json bodyArrayEl({}); // Create JSON object to contain body.
+		if (!b->IsInSpace()) {
+			bodyArrayEl["is_not_in_space"] = true;
+			// Append empty body object to array.
+			// The only working example right now is ship in hyperspace
+			// which is loaded through HyperspaceCloud class, so
+			// there is no need to load it a second time.
+			// FIXME: This is done to save it's lua components which is otherwise won't save.
+			// This needs a better way to handle this case.
+			// Described in depth: https://github.com/pioneerspacesim/pioneer/pull/5657#issuecomment-1818188703
+			bodyArray.push_back(bodyArrayEl);
+			continue;
+		}
 		b->ToJson(bodyArrayEl, this);
 		bodyArray.push_back(bodyArrayEl); // Append body object to array.
 	}
