@@ -652,8 +652,8 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSy
 
 		ImGui::BeginDisabled();
 
-		double surfaceGrav = body->CalcSurfaceGravity();
-		ImGui::InputDouble("Surface Gravity", &surfaceGrav, 0, 0, "%.4fg");
+		double surfaceGrav = body->CalcSurfaceGravity() / 9.8066; // compute g-force
+		ImGui::InputDouble("Surface Gravity", &surfaceGrav, 0, 0, "%.4f g");
 
 		ImGui::EndDisabled();
 
