@@ -807,7 +807,7 @@ function Windows.objectInfo:Show()
 				{ name = lc.RADIUS, icon = icons.body_radius,
 					value = (not starport) and ui.Format.Distance(body.radius) or nil },
 				{ name = lc.SURFACE_GRAVITY, icon = icons.body_radius,
-					value = (not starport) and ui.Format.Speed(body.gravity, true).." ("..ui.Format.Gravity(body.gravity / 9.8066)..")" or nil },
+					value = (not starport) and ui.Format.Speed(body.gravity, true).." ("..ui.Format.Gravity(body.gravity / 9.80665)..")" or nil },
 				{ name = lc.ESCAPE_VELOCITY, icon = icons.body_radius,
 					value = (not starport) and ui.Format.Speed(body.escapeVelocity , true) or nil },
 				{ name = lc.MEAN_DENSITY, icon = icons.body_radius,
