@@ -87,12 +87,10 @@ StartVariants.register({
 	colors     = { Color('E17F00'), Color('FFFFFF'), Color('FF7F00') }
 })
 
--- pass avalable space rect
-local function updateLayout(contentRegion)
-	Layout.updateLayout(contentRegion)
-
+-- synchronize parameter views with updated values
+local function updateParams()
 	for _, tab in ipairs(Layout.Tabs) do
-		tab:updateLayout()
+		if tab.updateParams then tab:updateParams() end
 	end
 end
 
@@ -222,7 +220,7 @@ local function drawBottomButtons()
 end
 
 -- wait a few frames, and then calculate the static layout (updateLayout)
-local initFrames = 3
+local initFrames = 2
 
 NewGameWindow = ModalWindow.New("New Game", function()
 
@@ -240,13 +238,8 @@ NewGameWindow = ModalWindow.New("New Game", function()
 				Crew.Player.Log.value = "Custom start of the game - for the purpose of debugging or cheat."
 			else
 				setStartVariant(StartVariants.item(ret + 1))
+				updateParams()
 			end
-			-- since setStartVariant can be called outside the ImGui frame, we
-			-- can't update the interface inside it. But we do not want to
-			-- check for data changes every frame, so we explicitly call the
-			-- update of the interface, while the amount of free space (content
-			-- region) is already known and does not change
-			updateLayout(Defs.contentRegion)
 		end
 
 		ui.separator()
@@ -257,7 +250,8 @@ NewGameWindow = ModalWindow.New("New Game", function()
 					-- consider the height of bottom buttons
 					drawBottomButtons()
 					-- at this point getContentRegion() exactly returns the size of the available space
-					updateLayout(ui.getContentRegion())
+					Layout.updateLayout(ui.getContentRegion())
+					updateParams()
 				end
 				initFrames = initFrames - 1
 			else

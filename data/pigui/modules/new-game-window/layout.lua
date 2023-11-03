@@ -35,7 +35,7 @@ function Layout.updateLayout(contentRegion)
 	Defs.updateLayoutValues(contentRegion)
 
 	for _, tab in ipairs(Layout.Tabs) do
-		tab:updateLayout()
+		if tab.updateLayout then tab:updateLayout() end
 	end
 end
 

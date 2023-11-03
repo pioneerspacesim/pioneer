@@ -201,7 +201,6 @@ function Location:updateLayout()
 		width = Defs.contentRegion.x - mapLayout.width - ui.getItemSpacing().x
 	}
 	if not self.map then self:initMap() end
-	self:setPath(self.value.path)
 end
 
 function Location:initMap()
@@ -282,6 +281,10 @@ end
 
 function Location:isValid()
 	return self.bodySelected and true or false
+end
+
+function Location:updateParams()
+	self:setPath(self.value.path)
 end
 
 Location.Time = Time

@@ -396,9 +396,11 @@ function Crew:updateLayout()
 		})
 	end
 
-	self:updateTableItems()
-
 	self.list.style.size = Vector2(namesWidth, Defs.contentRegion.y)
+end
+
+function Crew:updateParams()
+	self:updateTableItems()
 end
 
 function Crew:draw()
@@ -407,11 +409,6 @@ function Crew:draw()
 		ui.sameLine()
 		self:drawMember(self.list.selectedItem)
 	end
-end
-
-function Crew:setLock(lock)
-	GameParam.setLock(self, lock)
-	self:updateTableItems()
 end
 
 function Crew:fromStartVariant(variant)
