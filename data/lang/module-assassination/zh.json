@@ -73,7 +73,7 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Wanted: Someone to kill {target} from the {system} system."
+    "message": "悬赏: 请干掉在 {system} 星系的 {target}."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
@@ -97,7 +97,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "{target} is tragically no longer wanted in the {system} system. Removal specialist needed."
+    "message": "不幸的是, {target} 的存在污染了 {system} 星系的空气. 这里需要一位清洁专家."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
@@ -121,7 +121,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Contract killer needed to eliminate {target}."
+    "message": "受雇的杀手需要处理掉 {target}."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
@@ -145,7 +145,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Discreet operator needed to ensure fatal retirement of {target}."
+    "message": "沉稳的执行人一定得让 {target} 彻底退休."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
@@ -169,7 +169,7 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Some admirers wish {target} dead. Qualified termination experts apply within."
+    "message": "一些狂热崇拜者希望听到 {target} 的死讯. 欢迎合格的终结者来申请这份工作."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",

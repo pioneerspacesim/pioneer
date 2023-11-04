@@ -305,7 +305,7 @@
   },
   "FLAVOUR_4_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "The pilot is asking for {unit} tons of {cargo}. {high_gravity}"
+    "message": "飞行员需要 {unit} 吨的 {cargo}. {high_gravity}"
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -429,19 +429,19 @@
   },
   "HIGHGRAVITY_0": {
     "description": "",
-    "message": "The surface gravity on {planet} is {gravity} g. Please take this into consideration."
+    "message": "{planet} 的地表重力达到了 {gravity} g. 请慎重考虑这个信息."
   },
   "HIGHGRAVITY_1": {
     "description": "",
-    "message": "You should know that {planet} is {gravity} g."
+    "message": "你应该清楚 {planet} 的重力达到了 {gravity} g."
   },
   "HIGHGRAVITY_2": {
     "description": "",
-    "message": "You will land and take off in {gravity} g."
+    "message": "你将在 {gravity} g (重力)的环境中降落和起飞."
   },
   "HIGHGRAVITY_3": {
     "description": "",
-    "message": "{planet} is {gravity} g."
+    "message": "{planet} 的重力是 {gravity} g."
   },
   "HOW_FAR": {
     "description": "",

@@ -133,7 +133,7 @@
   },
   "CASE_SENSITIVE": {
     "description": "",
-    "message": "Case-sensitive"
+    "message": "区分大小写"
   },
   "CASH": {
     "description": "",
@@ -165,11 +165,11 @@
   },
   "CHARACTER": {
     "description": "",
-    "message": "Character"
+    "message": "角色"
   },
   "CHARISMA": {
     "description": "Character parameter",
-    "message": "Charisma"
+    "message": "魅力"
   },
   "CHIEF_MECHANIC": {
     "description": "",
@@ -301,7 +301,7 @@
   },
   "CURRENT_SHIP": {
     "description": "For tooltip comparing current ship specs to one in the shipyard",
-    "message": "Current Ship"
+    "message": "当前飞船"
   },
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
@@ -341,7 +341,7 @@
   },
   "DEMAND": {
     "description": "Column label for commodity demand at a market.",
-    "message": "Demand"
+    "message": "需求"
   },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
@@ -465,7 +465,7 @@
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
-    "message": "Engineering"
+    "message": "工程"
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
@@ -1177,11 +1177,11 @@
   },
   "INTELLIGENCE": {
     "description": "Character parameter",
-    "message": "Intelligence"
+    "message": "才智"
   },
   "INTERSTELLAR_TRADE_AVG": {
     "description": "Label displaying commodity flow at a per-system level",
-    "message": "Interstellar Trade:"
+    "message": "星际贸易:"
   },
   "INVERT_MOUSE_Y": {
     "description": "",
@@ -1257,7 +1257,7 @@
   },
   "LAWFULNESS": {
     "description": "Character parameter",
-    "message": "Lawfulness"
+    "message": "合法性"
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1333,7 +1333,7 @@
   },
   "LUCK": {
     "description": "Character parameter",
-    "message": "Luck"
+    "message": "幸运"
   },
   "LY": {
     "description": "Light year",
@@ -1449,11 +1449,11 @@
   },
   "MODEL": {
     "description": "3d model of the ship",
-    "message": "Model"
+    "message": "模型"
   },
   "MONEY": {
     "description": "",
-    "message": "Money"
+    "message": "货币"
   },
   "MORE_INFO": {
     "description": "",
@@ -1501,7 +1501,7 @@
   },
   "NAVIGATION": {
     "description": "Crew skill",
-    "message": "Navigation"
+    "message": "导航"
   },
   "NAVIGATOR": {
     "description": "",
@@ -1513,7 +1513,7 @@
   },
   "NEW_GAME": {
     "description": "Main menu item",
-    "message": "New game"
+    "message": "新游戏"
   },
   "NEW_PAINTJOB_APPLIED": {
     "description": "Paintshop popup",
@@ -1553,7 +1553,7 @@
   },
   "NOTORIETY": {
     "description": "Character parameter",
-    "message": "Notoriety"
+    "message": "臭名昭著"
   },
   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
     "description": "",
@@ -1565,7 +1565,7 @@
   },
   "NO_AVAILABLE_DATA": {
     "description": "Message displaying no stored data available",
-    "message": "No data available"
+    "message": "无可用数据"
   },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
@@ -1721,7 +1721,7 @@
   },
   "PILOTING": {
     "description": "Crew skill",
-    "message": "Piloting"
+    "message": "导航"
   },
   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
     "description": "",
@@ -1945,7 +1945,7 @@
   },
   "SELECT_START_PROFILE": {
     "description": "Combo box for selecting the starting position",
-    "message": "Select start profile:"
+    "message": "用于选择起始位置的组合框"
   },
   "SELL": {
     "description": "Commodities and equipment prices",
@@ -2017,11 +2017,11 @@
   },
   "SHIP_NAME": {
     "description": "",
-    "message": "Ship name"
+    "message": "飞船名称"
   },
   "SHIP_PARAMETERS": {
     "description": "",
-    "message": "Ship parameters"
+    "message": "飞船参数"
   },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
@@ -2037,7 +2037,7 @@
   },
   "SOME_PARAMETERS_ARE_NOT_OK": {
     "description": "Diagnostics at game start",
-    "message": "Some parameters are not OK:"
+    "message": "某些参数尚未准备就绪："
   },
   "SOUND": {
     "description": "",
@@ -2045,7 +2045,7 @@
   },
   "STANDARD_GAME_START_TIME": {
     "description": "Standard game start time, current moment + 1200 years",
-    "message": "Standard game start time"
+    "message": "标准游戏开始时间"
   },
   "START_AT_BARNARDS_STAR": {
     "description": "",
@@ -2073,7 +2073,7 @@
   },
   "START_GAME": {
     "description": "Button",
-    "message": "Start game"
+    "message": "开始游戏"
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
@@ -2129,7 +2129,7 @@
   },
   "SUMMARY": {
     "description": "Tab item in the start game menu",
-    "message": "Summary"
+    "message": "摘要"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
@@ -2221,7 +2221,7 @@
   },
   "TRADING_AT": {
     "description": "Indicates the current system for inspecting commodities.",
-    "message": "At {system}:"
+    "message": "在 {system}:"
   },
   "TRADING_FROM": {
     "description": "Indicates the source system of a commodity trade.",

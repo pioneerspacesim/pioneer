@@ -133,7 +133,7 @@
   },
   "DO_I_NEED_SPECIAL_EQUIPMENT": {
     "description": "",
-    "message": "Do I need any special equipment?"
+    "message": "我需要什么特殊设备吗?"
   },
   "FAILUREMSG_1": {
     "description": "",
@@ -365,7 +365,7 @@
   },
   "TARGET_AREA_REACHED": {
     "description": "",
-    "message": "Target area reached. Start data logging."
+    "message": "已到达目标区域. 开始记录数据日志."
   },
   "TIME_LIMIT": {
     "description": "",
@@ -381,6 +381,6 @@
   },
   "YOU_NEED_A_RADAR": {
     "description": "",
-    "message": "Yes, you need a radar! If you agree, I will program your ship's computer to record the radar data we need. The data will be transferred to me next you come back."
+    "message": "是的, 你需要一台雷达! 若你同意, 我将给你的飞船电脑编写程序, 让它记录咱们需要的雷达数据. 这些数据将在你归来后传输给我."
   }
 }

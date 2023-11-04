@@ -93,7 +93,7 @@
   },
   "FLAVOUR_7_MESSAGE": {
     "description": "",
-    "message": "Those brave men and women of the {POLICE} who have dedicated their lives to keeping {SYSTEM} safe need your support!"
+    "message": "那些毕生致力于维护 {SYSTEM} 安全的勇敢 {POLICE} 男女, 需要您的支持!"
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
@@ -101,11 +101,11 @@
   },
   "FLAVOUR_8_DESC": {
     "description": "",
-    "message": "Support the veterans of our armed forces."
+    "message": "支持我们军队的退伍军人."
   },
   "FLAVOUR_8_MESSAGE": {
     "description": "",
-    "message": "The brave soldiers of the {MILITARY} place themselves in harm's way for you!"
+    "message": "{MILITARY} 的勇敢士兵为了您的平静生活, 将自身置于险地!"
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
@@ -113,11 +113,11 @@
   },
   "FLAVOUR_9_DESC": {
     "description": "",
-    "message": "Support the fight against poverty in the {FACTION}."
+    "message": "支持 {FACTION} 派系消除贫困."
   },
   "FLAVOUR_9_MESSAGE": {
     "description": "",
-    "message": "We empower families in the {FACTION} to create a better future for all."
+    "message": "我们 {FACTION} 赋予家庭权力, 为了所有人创造更美好的未来."
   },
   "SALES_PITCH": {
     "description": "",

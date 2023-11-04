@@ -89,15 +89,15 @@
   },
   "NO_LONGER_AVAILABLE_0": {
     "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
-    "message": "Sorry, it has just been sold!"
+    "message": "抱歉, 它已经被卖出去了!"
   },
   "NO_LONGER_AVAILABLE_1": {
     "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
-    "message": "It seems like my colleague just sold it to another customer. Sorry!"
+    "message": "我的同事好像刚刚将它卖给另一位客户. 十分抱歉!"
   },
   "NO_LONGER_AVAILABLE_2": {
     "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
-    "message": "I've changed my mind, it's not for sale anymore."
+    "message": "我改主意了, 这玩意现在是非卖品."
   },
   "REPEAT_OFFER": {
     "description": "",

@@ -9,11 +9,11 @@
   },
   "ADVICE_11_BODYTEXT": {
     "description": "",
-    "message": "Make sure you know the surface gravity of a planet before you even think of landing on it."
+    "message": "在你考虑着陆之前，一定要搞清楚行星的表面引力。"
   },
   "ADVICE_11_HEADLINE": {
     "description": "A reference to the song 'The Harder They Come', by Jimmy Cliff",
-    "message": "The harder the g, the harder the fall"
+    "message": "g 越重, 膝盖就越痛 (g, 重力加速度)"
   },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
