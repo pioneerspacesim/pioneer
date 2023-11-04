@@ -8,7 +8,7 @@
 
 #include <SDL_image.h>
 
-void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint8 *bytes, int width, int height, int stride, int bytes_per_pixel)
+void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint8 *bytes, int width, int height, int stride, int bytes_per_pixel, bool strip_alpha)
 {
 	// Set up the pixel format color masks for RGB(A) byte arrays.
 	Uint32 rmask, gmask, bmask, amask;
@@ -24,23 +24,57 @@ void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint
 	bmask = 0x00ff0000;
 	amask = (bytes_per_pixel == 3) ? 0 : 0xff000000;
 #endif
+	int dest_bpp = bytes_per_pixel;
+	if (strip_alpha)
+	{
+		if (amask == 0)
+		{
+			strip_alpha = false;
+		}
+		else
+		{
+			amask = 0;
+			dest_bpp--;
+		}
+	}
 
 	// create a surface
 	//SDL_Surface *surface = SDL_CreateRGBSurfaceFrom((void*)bytes, width, height, bytes_per_pixel * 8, width * bytes_per_pixel, rmask, gmask, bmask, amask);
-	SDL_Surface *surface = SDL_CreateRGBSurface(0, width, height, bytes_per_pixel * 8, rmask, gmask, bmask, amask);
+	SDL_Surface *surface = SDL_CreateRGBSurface(0, width, height, dest_bpp * 8, rmask, gmask, bmask, amask);
 
-	// flip the image vertically
-	int srcy = height - 1;
-	for (int y = 0; y < height; y++)
+	// flip the image vertically and copy to destination surface
+	if (!strip_alpha)
 	{
-		for (int x = 0; x < stride; x++) {
-			const int src_index = (srcy * stride) + x;
-			const int dst_index = (y * stride) + x;
-			for (int channel = 0; channel < bytes_per_pixel; channel++) {
-				(static_cast<Uint8 *>(surface->pixels))[dst_index + channel] = bytes[src_index + channel];
+		// optimized pass when not stripping alpha.
+		for (int y = 0; y < height; ++y)
+		{
+			Uint8 *dest = static_cast<Uint8*>(surface->pixels) + (height - (y+1)) * surface->pitch;
+			const Uint8 *source = bytes + y * stride;
+			memcpy(dest, source, stride);
+		}
+	}
+	else
+	{
+		for (int y = 0; y < height; ++y)
+		{
+			Uint8 *dest = static_cast<Uint8*>(surface->pixels) + (height - (y+1)) * surface->pitch;
+			const Uint8  *source = bytes + y * stride;
+			for (int x = 0; x < width; ++x)
+			{
+				// We could assume bpp is 4/3 here and just do:
+				//*dest = *source++;
+				//*dest = *source++;
+				//*dest = *source++;
+				//++source;
+
+				for (int channel = 0; channel < dest_bpp; ++channel)
+				{
+					dest[channel] = source[channel];
+				}
+				source += bytes_per_pixel;
+				dest += dest_bpp;
 			}
 		}
-		srcy--;
 	}
 
 	// do the actual saving
@@ -58,7 +92,7 @@ void write_screenshot(const Graphics::ScreendumpState &sd, const char *destFile)
 	FileSystem::userFiles.MakeDirectory(dir);
 	const std::string fname = FileSystem::JoinPathBelow(dir, destFile);
 
-	write_png(FileSystem::userFiles, fname, sd.pixels.get(), sd.width, sd.height, sd.stride, sd.bpp);
+	write_png(FileSystem::userFiles, fname, sd.pixels.get(), sd.width, sd.height, sd.stride, sd.bpp, true);
 
 	Output("Screenshot %s saved\n", fname.c_str());
 }
