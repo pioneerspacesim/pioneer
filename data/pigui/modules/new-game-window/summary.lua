@@ -33,7 +33,7 @@ function Summary:draw()
 	local player = Crew.Player.Char.value
 
 	ui.child("leftside", Vector2(layout.leftWidth, Defs.contentRegion.y), function()
-		local player_member = Crew.Player.Char.crewEntry
+		local player_member = Crew.Player.Char
 		Crew:initMemberFace(player_member)
 		ui.child("face", Vector2(layout.picsize, layout.picsize), function()
 			player_member.face:renderFaceDisplay()

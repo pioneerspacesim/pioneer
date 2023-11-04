@@ -19,7 +19,6 @@ local laser = Equipment.laser
 
 local Defs = require 'pigui.modules.new-game-window.defs'
 local Layout = require 'pigui.modules.new-game-window.layout'
-local Crew = require 'pigui.modules.new-game-window.crew'
 local StartVariants = require 'pigui.modules.new-game-window.start-variants'
 local FlightLogParam = require 'pigui.modules.new-game-window.flight-log'
 local Game = require 'Game'
@@ -136,12 +135,9 @@ local function startGame(gameParams)
 
 	-- Generate crew for the starting ship
 	for _, member in ipairs(gameParams.crew) do
-		member.char.contract = {
-			wage = member.wage,
-			payday = gameParams.time + 604800, -- in a week
-			outstanding = 0
-		}
-		player:Enroll(member.char)
+		member.contract.payday = gameParams.time + 604800 -- in a week
+		member.contract.outstanding = 0
+		player:Enroll(member)
 	end
 
 	local eqSections = {

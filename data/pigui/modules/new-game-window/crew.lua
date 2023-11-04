@@ -25,13 +25,10 @@ local PlayerChar = GameParam.New(lui.CHARACTER, "player.char")
 PlayerChar.value = Character.New({ title = lui.COMMANDER })
 PlayerChar.value.player = true
 PlayerChar.face = false
-PlayerChar.crewEntry = { valueRef = { char = PlayerChar.value }}
 
 function PlayerChar:random()
-	self.value.char = Character.New()
-	self.value.char:RollNew(true)
-	self.face = PiGuiFace.New(self.value.char, nil, false)
-	self.face.style.showCharInfo = false
+	self.value = Character.New()
+	self.value:RollNew(true)
 end
 
 function PlayerChar:fromStartVariant(variant)
@@ -167,17 +164,15 @@ end
 --
 -- Crew
 --
--- value: see below
+-- value: array of Character (excluding player)
 --
 Crew = GameParam.New(lui.CREW, "crew")
 
 local function createCrewMember()
 	local char = Character.New()
 	char:RollNew(true)
-	return {
-		char = char,
-		wage = 100,
-	}
+	char.contract = { wage = 100 }
+	return char
 end
 
 Crew.value = {
@@ -205,25 +200,25 @@ local function crewTraits(lock, char, tableWidth)
 end
 
 function Crew:removeMember(member)
-	for k, v in pairs(self.value) do
-		if v == member.valueRef then
+	for k, testMember in ipairs(self.value) do
+		if member == testMember then
 			table.remove(self.value, k)
 			-- remember that there is no player in self.value
 			self.currentChar = #self.value > k and k + 1 or k
 			break
 		end
 	end
-	self:updateTableItems()
+	self:fillCrewListTable()
 end
 
-function Crew:initMemberFace(member)
-	if member.face then return end
-	member.face = PiGuiFace.New(member.valueRef.char, nil, false)
-	member.face.style.showCharInfo = false
+function Crew:initMemberFace(memberEntry)
+	if memberEntry.face then return end
+	memberEntry.face = PiGuiFace.New(memberEntry.value, nil, false)
+	memberEntry.face.style.showCharInfo = false
 end
 
 local function isCrewMemberValid(member)
-	return #member.char.name > 0 and member.wage > 0
+	return #member.name > 0 and member.contract.wage > 0
 end
 
 function Crew:isValid()
@@ -236,25 +231,23 @@ end
 
 local buttonLayout = {}
 
-function Crew:drawMember(member)
+function Crew:drawMember(memberEntry)
 
-	self:initMemberFace(member)
+	self:initMemberFace(memberEntry)
 
 	local faceGenButtonsSize = PiGuiFace.getFaceGenButtonsSize()
 	local crewPictureSize = faceGenButtonsSize.y
 
 	-- common lock for the whole crew except for the player
-	local lock, valid
-	if member.valueRef.char.player then
+	local lock
+	if memberEntry.value.player then
 		lock = PlayerChar.lock
-		valid = PlayerChar:isValid()
 	else
 		lock = self.lock
-		valid = member:isValid()
 	end
 
 	if not lock then
-		member.face:renderFaceGenButtons(true)
+		memberEntry.face:renderFaceGenButtons(true)
 	else
 		ui.dummy(faceGenButtonsSize)
 	end
@@ -262,7 +255,7 @@ function Crew:drawMember(member)
 	ui.sameLine()
 
 	ui.child("Face", Vector2(crewPictureSize, crewPictureSize), {}, function()
-		member.face:renderFaceDisplay()
+		memberEntry.face:renderFaceDisplay()
 	end)
 
 	ui.sameLine()
@@ -275,26 +268,27 @@ function Crew:drawMember(member)
 	ui.child("character_params", Vector2(0, crewPictureSize), function()
 		Widgets.verticalCenter(self.layout, function()
 			Widgets.alignLabel(lui.NAME_PERSON, self.layout, function()
-				local txt, changed = Widgets.inputText(lock, valid, "##charname" .. tostring(member), tostring(member.valueRef.char.name), function()
-					member.valueRef.char.name = NameGen.FullName(member.valueRef.char.female)
+				local txt, changed = Widgets.inputText(lock, memberEntry:isValid(), "##charname" .. tostring(memberEntry), tostring(memberEntry.value.name), function()
+					memberEntry.value.name = NameGen.FullName(memberEntry.value.female)
 				end)
 				if changed then
-					member.valueRef.char.name = txt
+					memberEntry.value.name = txt
 				end
 			end)
-			if member.valueRef.char.player then
+			if memberEntry.value.player then
 				PlayerMoney:draw()
 				PlayerRating:draw()
 				PlayerReputation:draw()
 			else
+				local member = memberEntry.value
 				Widgets.alignLabel(lui.WAGE, self.layout, function()
-					local value, changed = Widgets.incrementDrag(lock, "##crewwage", member.valueRef.wage, 1, 0, 100000, Format.Money(member.valueRef.wage, false))
+					local value, changed = Widgets.incrementDrag(lock, "##crewwage", member.contract.wage, 1, 0, 100000, Format.Money(member.contract.wage, false))
 					if changed then
-						member.valueRef.wage = value
+						member.contract.wage = value
 					end
 				end)
 				ui.text("")
-				crewTraits(lock, member.valueRef.char, self.layout.width)
+				crewTraits(lock, member, self.layout.width)
 				if not lock then
 					ui.text("")
 					buttonLayout.width = self.layout.width
@@ -316,23 +310,70 @@ function Crew:drawMember(member)
 	end)
 end
 
--- the function can run outside the imgui frame
-function Crew:updateTableItems()
-	if not self.list then return end
-	self.list.items = { PlayerChar.crewEntry }
-	for _,v in pairs(self.value) do
-		local crewMemberEntry = {
-			valueRef = v,
-			lock = true,
-			valid = true,
-			isValid = function(selfInternal) return isCrewMemberValid(selfInternal.valueRef) end
+function Crew:initCrewListTable(namesWidth)
+	-- visual table to display a flat list including the player and the rest of
+	-- the crew
+	-- item (memberEntry):
+	--     isValid - function(memberEntry) -> boolean
+	--     value -   Character or string 'ADD_NEW_CHARACTER' for '+' item
+	--     face -    PiGuiFace
+	--
+	--     such an interface for an item allows you to put a PlayerChar directly,
+	--     and also create an element referencing the crew member using the 'value' key
+	--
+	self.list = Table.New("CrewListTable", false, {
+		columnCount = 1,
+		initTable = function(selfInternal)
+			ui.setColumnWidth(0, namesWidth)
+		end,
+		renderItem = function(selfInternal, memberEntry, key)
+			if memberEntry.value == 'ADD_NEW_CHARACTER' then ui.text("+") ui.nextColumn() return end
+
+			ui.withFont(Defs.mainFont, function()
+				ui.text(memberEntry.value.name)
+			end)
+
+			ui.withFont(Defs.subFont, function()
+				ui.text(memberEntry.value.title or lui.GENERAL_CREW)
+			end)
+
+			ui.nextColumn()
+		end,
+		onClickItem = function(selfInternal, memberEntry, key)
+			self.currentChar = key
+			if memberEntry.value == 'ADD_NEW_CHARACTER' then
+				table.insert(self.value, createCrewMember())
+				self:fillCrewListTable()
+			else
+				selfInternal.selectedItem = memberEntry
+			end
+		end,
+		iterator = ipairs
+	})
+end
+
+function Crew:fillCrewListTable()
+
+	assert(self.list)
+
+	self.list.items = { PlayerChar }
+	for _, member in ipairs(self.value) do
+		local memberEntry = {
+			isValid = function(entry) return isCrewMemberValid(entry.value) end,
+			value = member
 		}
-		self:initMemberFace(crewMemberEntry)
-		table.insert(self.list.items, crewMemberEntry)
+		table.insert(self.list.items, memberEntry)
 	end
+
+	-- create faces, including player's
+	for _, memberEntry in pairs(self.list.items) do
+		memberEntry.face = PiGuiFace.New(memberEntry.value, nil, false)
+		memberEntry.face.style.showCharInfo = false
+	end
+
 	if not self.lock then
 		-- "+" element
-		table.insert(self.list.items, { addNewCharacter = true })
+		table.insert(self.list.items, { value = 'ADD_NEW_CHARACTER' })
 	end
 	self.list.selectedItem = self.list.items[self.currentChar]
 end
@@ -345,47 +386,13 @@ function Crew:updateLayout()
 	end)
 
 	if not self.list then
-		self.list = Table.New("CrewListTable", false, {
-			columnCount = 1,
-			initTable = function(selfInternal)
-				ui.setColumnWidth(0, namesWidth)
-			end,
-			renderItem = function(selfInternal, item, key)
-				if item.addNewCharacter then ui.text("+") ui.nextColumn() return end
-
-				local spacing = ui.getItemSpacing()
-				ui.withStyleVars({ItemSpacing = spacing}, function()
-					ui.withFont(Defs.mainFont, function()
-						ui.text(item.valueRef.char.name)
-					end)
-
-					ui.withFont(Defs.subFont, function()
-						ui.text(item.valueRef.char.title or lui.GENERAL_CREW)
-					end)
-
-					ui.nextColumn()
-				end)
-			end,
-			onClickItem = function(selfInternal, item, key)
-				if item.addNewCharacter then
-					table.insert(self.value, createCrewMember())
-					self.currentChar = key
-					selfInternal.selectedItem = self.value[#self.value - 1]
-					self:updateLayout()
-				else
-					self.currentChar = key
-					selfInternal.selectedItem = item
-				end
-			end,
-			iterator = ipairs
-		})
+		self:initCrewListTable(namesWidth)
 	end
-
 	self.list.style.size = Vector2(namesWidth, Defs.contentRegion.y)
 end
 
 function Crew:updateParams()
-	self:updateTableItems()
+	self:fillCrewListTable()
 end
 
 function Crew:draw()
