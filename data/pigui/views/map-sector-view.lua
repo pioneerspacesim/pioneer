@@ -127,25 +127,19 @@ local function calc_star_dist(star)
 end
 
 local function rate_lawlessness(system)
-	if system.lawlessness < 1.0/7.0 then
-		return icons.empty, lc.SYSTEM_SECURITY_1, sytleColors.success_500
+	if system.lawlessness < 1.0/5.0 then
+		return icons.security_shield, lc.SYSTEM_SECURITY_1, sytleColors.success_500
 	end
-	if system.lawlessness < 2.0/7.0 then
-		return icons.empty, lc.SYSTEM_SECURITY_2, sytleColors.success_500
+	if system.lawlessness < 2.0/5.0 then
+		return icons.security_towel, lc.SYSTEM_SECURITY_2, sytleColors.success_500
 	end
-	if system.lawlessness < 3.0/7.0 then
-		return icons.empty, lc.SYSTEM_SECURITY_3, sytleColors.success_500
+	if system.lawlessness < 3.0/5.0 then
+		return icons.security_thumb_down, lc.SYSTEM_SECURITY_3, sytleColors.danger_300
 	end
-	if system.lawlessness < 4.0/7.0 then
-		return icons.alert1, lc.SYSTEM_SECURITY_4, sytleColors.danger_100
+	if system.lawlessness < 4.0/5.0 then
+		return icons.security_pistol, lc.SYSTEM_SECURITY_4, sytleColors.danger_500
 	end
-	if system.lawlessness < 5.0/7.0 then
-		return icons.alert1, lc.SYSTEM_SECURITY_5, sytleColors.danger_500
-	end
-	if system.lawlessness < 6.0/7.0 then
-		return icons.alert1, lc.SYSTEM_SECURITY_6, sytleColors.danger_500
-	end
-	return icons.alert1, lc.SYSTEM_SECURITY_7, sytleColors.danger_500
+	return icons.security_skull, lc.SYSTEM_SECURITY_5, sytleColors.danger_500
 end
 
 function Windows.systemInfo:Show()

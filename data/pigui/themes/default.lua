@@ -532,9 +532,9 @@ theme.icons = {
 	circ_clear_flwtarget = 266,
 	speed_limiter = 267,
 	deltav = 268,
-	paintspray = 269,
-	-- EMPTY = 270,
-	-- EMPTY = 271,
+	security_shield = 269,
+	security_towel = 270,
+	security_thumb_down = 271,
 	-- eighteenth row
 	equip_cargo_scoop = 272,
 	equip_fuel_scoop = 273,
@@ -549,8 +549,8 @@ theme.icons = {
 	equip_dual_pulsecannon = 282,
 	equip_dual_pulsecannon_rapid = 283,
 	equip_dual_mining_laser = 284,
-	-- EMPTY = 285,
-	-- EMPTY = 286,
+	security_pistol = 285,
+	security_skull = 286,
 	-- EMPTY = 287,
 	-- nineteenth row
 	equip_missile_unguided = 288,

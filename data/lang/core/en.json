@@ -1637,25 +1637,17 @@
   },
   "SYSTEM_SECURITY_2": {
     "description": "Describes how safe or dangerous a star system is",
-    "message": "Harmless"
+    "message": "Mostly Harmless"
   },
   "SYSTEM_SECURITY_3": {
     "description": "Describes how safe or dangerous a star system is",
-    "message": "Mostly Harmless"
+    "message": "Dangerous"
   },
   "SYSTEM_SECURITY_4": {
     "description": "Describes how safe or dangerous a star system is",
-    "message": "Somewhat Dangerous"
-  },
-  "SYSTEM_SECURITY_5": {
-    "description": "Describes how safe or dangerous a star system is",
-    "message": "Dangerous"
-  },
-  "SYSTEM_SECURITY_6": {
-    "description": "Describes how safe or dangerous a star system is",
     "message": "Very Dangerous"
   },
-  "SYSTEM_SECURITY_7": {
+  "SYSTEM_SECURITY_5": {
     "description": "Describes how safe or dangerous a star system is",
     "message": "Deadly"
   },
