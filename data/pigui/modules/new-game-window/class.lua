@@ -124,6 +124,8 @@ local function startGame(gameParams)
 
 	-- setup player character
 	local PlayerCharacter = gameParams.player.char
+	PlayerCharacter.reputation = gameParams.player.reputation
+	PlayerCharacter.killcount = gameParams.player.kills
 	-- Gave the player a missions table (for Misssions.lua)
 	PlayerCharacter.missions = {}
 	-- Insert the player character into the persistent character

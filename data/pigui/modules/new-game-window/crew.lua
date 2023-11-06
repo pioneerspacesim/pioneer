@@ -89,8 +89,6 @@ for _, v in ipairs(Character.reputations) do
 	table.insert(PlayerReputation.names, lui[v[1]])
 end
 
-PlayerReputation.selected = utils.getIndexFromIntervals(Character.reputations, PlayerReputation.value)
-
 function PlayerReputation:draw()
 	Widgets.alignLabel(lui.REPUTATION, self.layout, function()
 		local changed, ret = Widgets.combo(self.lock, "##reputation", self.selected - 1, self.names)
@@ -115,29 +113,34 @@ function PlayerReputation:isValid()
 end
 
 --
--- player combat rating
+-- player combat killcount
 --
 -- value: number
 --
-local PlayerRating = GameParam.New(lui.RATING, "player.rating")
+local PlayerKills = GameParam.New(lui.KILLS, "player.kills")
 
-PlayerRating.value = 0
+PlayerKills.value = 0
 
 -- create an array of levels corresponding to the given name of the interval
 -- the element must be less than its value -> greater than or equal to the previous value
-PlayerRating.values = { Character.combatRatings[2][2] - 5 }
+PlayerKills.values = { Character.combatRatings[2][2] - 5 }
 for i = 2, #Character.combatRatings do
-	table.insert(PlayerRating.values, Character.combatRatings[i][2])
+	table.insert(PlayerKills.values, Character.combatRatings[i][2])
 end
 
-PlayerRating.names = {}
+PlayerKills.names = {}
 for _, v in ipairs(Character.combatRatings) do
-	table.insert(PlayerRating.names, lui[v[1]])
+	table.insert(PlayerKills.names, lui[v[1]])
 end
 
-PlayerRating.selected = utils.getIndexFromIntervals(Character.combatRatings, PlayerRating.value)
-
-function PlayerRating:draw()
+function PlayerKills:draw()
+	Widgets.alignLabel(lui.KILLS, Crew.layout, function()
+		local value, changed = Widgets.incrementDrag(self.lock, "##playerkills", self.value, 1, 0, 1e15, '%.0f')
+		if changed then
+			self.value = value
+			self.selected = utils.getIndexFromIntervals(Character.combatRatings, self.value)
+		end
+	end)
 	Widgets.alignLabel(lui.RATING, Crew.layout, function()
 		local changed, ret = Widgets.combo(self.lock, "##combatrating", self.selected - 1, self.names)
 		if changed then
@@ -147,16 +150,16 @@ function PlayerRating:draw()
 	end)
 end
 
-function PlayerRating:random()
+function PlayerKills:random()
 	self.value = utils.chooseEqual(self.values)
 end
 
-function PlayerRating:fromStartVariant(variant)
-	PlayerRating.value = 0
-	PlayerRating:setLock(true)
+function PlayerKills:fromStartVariant(variant)
+	PlayerKills.value = 0
+	PlayerKills:setLock(true)
 end
 
-function PlayerRating:isValid()
+function PlayerKills:isValid()
 	return self.value >= 0 and self.value < 10000
 end
 
@@ -277,7 +280,7 @@ function Crew:drawMember(memberEntry)
 			end)
 			if memberEntry.value.player then
 				PlayerMoney:draw()
-				PlayerRating:draw()
+				PlayerKills:draw()
 				PlayerReputation:draw()
 			else
 				local member = memberEntry.value
@@ -393,6 +396,8 @@ end
 
 function Crew:updateParams()
 	self:fillCrewListTable()
+	PlayerReputation.selected = utils.getIndexFromIntervals(Character.reputations, PlayerReputation.value)
+	PlayerKills.selected = utils.getIndexFromIntervals(Character.combatRatings, PlayerKills.value)
 end
 
 function Crew:draw()
@@ -417,7 +422,7 @@ Crew.Player = {
 	Char = PlayerChar,
 	Money = PlayerMoney,
 	Reputation = PlayerReputation,
-	Rating = PlayerRating,
+	Kills = PlayerKills,
 }
 
 return Crew

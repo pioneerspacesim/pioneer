@@ -15,7 +15,7 @@ Layout.UpdateOrder = {
 	Crew.Player.Char,
 	Crew.Player.Money,
 	Crew.Player.Reputation,
-	Crew.Player.Rating,
+	Crew.Player.Kills,
 	Crew,
 	Ship.Type,
 	Ship.Name,
