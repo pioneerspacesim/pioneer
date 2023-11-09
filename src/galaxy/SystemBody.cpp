@@ -197,11 +197,12 @@ double SystemBody::GetAtmPressure(double altitude) const
 {
 	const double gasMolarMass = GetMolarMass(GetSuperType());
 	const double surfaceGravity_g = CalcSurfaceGravity();
-	const double lapseRate_L = surfaceGravity_g / GetSpecificHeat(GetSuperType()); // deg/m
+	const double specificHeat = GetSpecificHeat(GetSuperType());
+	const double lapseRate_L = surfaceGravity_g / specificHeat; // deg/m
 	const double surfaceTemperature_T0 = GetAverageTemp();	//K
 
 	return m_atmosPressure * pow((1 - lapseRate_L * altitude / surfaceTemperature_T0),
-		(surfaceGravity_g * gasMolarMass / (GAS_CONSTANT_R * lapseRate_L))); // in ATM since p0 was in ATM
+		(specificHeat * gasMolarMass / GAS_CONSTANT_R)); // in ATM since p0 was in ATM
 }
 
 double SystemBody::GetAtmDensity(double altitude, double pressure) const
