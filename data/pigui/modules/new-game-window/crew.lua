@@ -32,7 +32,7 @@ function PlayerChar:random()
 end
 
 function PlayerChar:fromStartVariant(variant)
-	self:setLock(false)
+	self.lock = true
 end
 
 function PlayerChar:isValid()
@@ -59,7 +59,7 @@ end
 
 function PlayerMoney:fromStartVariant(variant)
 	PlayerMoney.value = variant.money
-	PlayerMoney:setLock(true)
+	PlayerMoney.lock = true
 end
 
 function PlayerMoney:isValid()
@@ -105,7 +105,7 @@ end
 
 function PlayerReputation:fromStartVariant(variant)
 	PlayerReputation.value = 0
-	PlayerReputation:setLock(true)
+	PlayerReputation.lock = true
 end
 
 function PlayerReputation:isValid()
@@ -121,6 +121,10 @@ local PlayerKills = GameParam.New(lui.KILLS, "player.kills")
 
 PlayerKills.value = 0
 
+-- We don’t want to show the kill counter to a new player at all, but if this
+-- is a save recovery, we will show it, but it will be locked
+PlayerKills.showKills = true
+
 -- create an array of levels corresponding to the given name of the interval
 -- the element must be less than its value -> greater than or equal to the previous value
 PlayerKills.values = { Character.combatRatings[2][2] - 5 }
@@ -134,13 +138,15 @@ for _, v in ipairs(Character.combatRatings) do
 end
 
 function PlayerKills:draw()
-	Widgets.alignLabel(lui.KILLS, Crew.layout, function()
-		local value, changed = Widgets.incrementDrag(self.lock, "##playerkills", self.value, 1, 0, 1e15, '%.0f')
-		if changed then
-			self.value = value
-			self.selected = utils.getIndexFromIntervals(Character.combatRatings, self.value)
-		end
-	end)
+	if not self.lock or self.showKills then
+		Widgets.alignLabel(lui.KILLS, Crew.layout, function()
+			local value, changed = Widgets.incrementDrag(self.lock, "##playerkills", self.value, 1, 0, 1e15, '%.0f')
+			if changed then
+				self.value = value
+				self.selected = utils.getIndexFromIntervals(Character.combatRatings, self.value)
+			end
+		end)
+	end
 	Widgets.alignLabel(lui.RATING, Crew.layout, function()
 		local changed, ret = Widgets.combo(self.lock, "##combatrating", self.selected - 1, self.names)
 		if changed then
@@ -155,8 +161,9 @@ function PlayerKills:random()
 end
 
 function PlayerKills:fromStartVariant(variant)
-	PlayerKills.value = 0
-	PlayerKills:setLock(true)
+	self.value = 0
+	self.lock = true
+	self.showKills = false
 end
 
 function PlayerKills:isValid()
@@ -414,7 +421,7 @@ function Crew:fromStartVariant(variant)
 --		createCrewMember()
 	}
 	Crew.currentChar = 1
-	Crew:setLock(true)
+	Crew.lock = true
 end
 
 Crew.TabName = lui.CREW

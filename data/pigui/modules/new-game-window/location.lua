@@ -92,7 +92,7 @@ end
 function Time:fromStartVariant(variant)
 	self.value = 0
 	self.standard = true
-	self:setLock(true)
+	self.lock = true
 end
 
 function Time:isValid()
@@ -281,7 +281,7 @@ function Location:fromStartVariant(variant)
 		path = variant.location,
 		state = State.UNKNOWN
 	}
-	self:setLock(true)
+	self.lock = true
 end
 
 function Location:isValid()

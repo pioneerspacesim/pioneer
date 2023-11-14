@@ -25,10 +25,6 @@ function GameParam:fromSaveGame(saveGame)    assert(false, tostring(self.name) .
 function GameParam:fromStartVariant(variant) assert(false, tostring(self.name) .. ":fromStartVariant() Should be overridden.") end
 
 
-function GameParam:setLock(value)
-	self.lock = value
-end
-
 function GameParam:isEmpty()
 	return not self.value
 end

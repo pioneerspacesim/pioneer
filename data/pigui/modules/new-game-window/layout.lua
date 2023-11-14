@@ -42,7 +42,7 @@ end
 
 function Layout.setLock(lock)
 	for _, param in ipairs(Layout.UpdateOrder) do
-		param:setLock(lock)
+		param.lock = lock
 	end
 end
 

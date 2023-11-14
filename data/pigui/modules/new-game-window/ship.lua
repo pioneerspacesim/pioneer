@@ -72,7 +72,7 @@ end
 
 function ShipType:fromStartVariant(variant)
 	self:setShipID(variant.shipType)
-	self:setLock(true)
+	self.lock = true
 end
 
 function ShipType:isValid()
@@ -99,7 +99,7 @@ end
 
 function ShipName:fromStartVariant(variant)
 	self.value = ShipNames.generateRandom()
-	self:setLock(false)
+	self.lock = false
 end
 
 function ShipName:isValid()
@@ -126,7 +126,7 @@ end
 
 function ShipLabel:fromStartVariant(--[[variant]])
 	self.value = ShipObject.MakeRandomLabel()
-	self:setLock(true)
+	self.lock = false
 end
 
 function ShipLabel:isValid()
@@ -153,7 +153,7 @@ end
 
 function ShipFuel:fromStartVariant(--[[variant]])
 	self.value = 100
-	self:setLock(true)
+	self.lock = true
 end
 
 function ShipFuel:isValid()
@@ -220,7 +220,7 @@ function ShipModel:fromStartVariant(variant)
 	end
 	self.value.pattern = variant.pattern
 	self:updateModel()
-	self:setLock(true)
+	self.lock = true
 end
 
 function ShipModel:isValid()
@@ -321,7 +321,7 @@ function ShipCargo:fromStartVariant(variant)
 		self.value[entry[1].name] = entry[2]
 	end
 	self:updateDrawItems()
-	self:setLock(true)
+	self.lock = true
 end
 --
 -- to_remove: table { x1 = true, ... }
@@ -735,7 +735,7 @@ function ShipEquip:fromStartVariant(variant)
 		end
 	end
 	self:update()
-	self:setLock(true)
+	self.lock = true
 end
 
 function ShipEquip:isValid()
