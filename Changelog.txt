@@ -1,3 +1,11 @@
+November 2023
+  * Internal Changes
+    * Lua Constant autocomplete support (#5663)
+    * Simplify SystemBody::GetAtmPressure (#5662)
+
+  * Fixes
+    * Correct value of g-force in system editor (#5658)
+
 October 2023
   * New Features
     * Ship market comparison colors (#5632)
