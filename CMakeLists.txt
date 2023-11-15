@@ -458,8 +458,8 @@ if (UNIX AND NOT PIONEER_INSTALL_INPLACE)
 	install(FILES ${PIONEER_DESKTOP_FILE}
 		DESTINATION ${CMAKE_INSTALL_DATADIR}/applications
 	)
-	install(FILES metadata/net.pioneerspacesim.Pioneer.appdata.xml
-		DESTINATION ${CMAKE_INSTALL_DATADIR}/appdata
+	install(FILES metadata/net.pioneerspacesim.Pioneer.metainfo.xml
+		DESTINATION ${CMAKE_INSTALL_DATADIR}/metainfo
 	)
 
 	foreach(_i IN ITEMS 16 22 24 32 40 48 64 128 256)
