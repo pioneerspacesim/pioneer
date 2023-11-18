@@ -668,12 +668,18 @@ static int l_body_get_ground_position(lua_State *l)
 		lua_pushnil(l);
 		return 1;
 	}
+	Body* astro = f->GetBody(); // null
+	if (!astro)
+	{
+		lua_pushnil(l);
+		return 1;
+	}
+
 	vector3d pos = b->GetPosition();
 	double latitude = atan2(pos.y, sqrt(pos.x * pos.x + pos.z * pos.z));
 	double longitude = atan2(pos.x, pos.z);
 	lua_pushnumber(l, latitude);
 	lua_pushnumber(l, longitude);
-	Body *astro = f->GetBody();
 	double altitude = b->GetAltitudeRelTo(astro, altType);
 	lua_pushnumber(l, altitude);
 	return 3;
