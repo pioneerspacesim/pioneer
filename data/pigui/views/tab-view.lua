@@ -109,6 +109,10 @@ function PiGuiTabView.renderTabView(self)
 		WindowPadding = self.windowPadding,
 	}
 
+	if(tab.windows) then
+		tab.windows:display()
+	end	
+
 	if (tab.showView) then
 		ui.withStyleColorsAndVars(styleColors, styleVars, function()
 			ui.setNextWindowPos(self.viewWindowPos, "Always")
