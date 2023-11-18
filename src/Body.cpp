@@ -261,9 +261,13 @@ vector3d Body::GetVelocityRelTo(const Body *relTo) const
 
 double Body::GetAltitudeRelTo(const Body* relTo, AltitudeType altType)
 {
+	if (!relTo)
+	{
+		return 0.0;
+	}
 	vector3d pos = GetPositionRelTo(relTo);
 	double center_dist = pos.Length();
-	if (relTo && relTo->IsType(ObjectType::TERRAINBODY)) {
+	if (relTo->IsType(ObjectType::TERRAINBODY)) {
 		const TerrainBody* terrain = static_cast<const TerrainBody*>(relTo);
 		vector3d surface_pos = pos.Normalized();
 		double radius;
