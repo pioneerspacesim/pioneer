@@ -70,8 +70,8 @@ Sfx::Sfx(const Json &jsonObj)
 	try {
 		Json sfxObj = jsonObj["sfx"];
 
-		m_pos = jsonObj["pos"];
-		m_vel = jsonObj["vel"];
+		m_pos = sfxObj["pos"];
+		m_vel = sfxObj["vel"];
 		m_age = sfxObj["age"];
 		m_type = sfxObj["type"];
 	} catch (Json::type_error &) {
