@@ -38,6 +38,8 @@ runs:
 
     - name: Build Release
       shell: bash
+      env:
+        BUILD_SLUG: ${{ inputs.build_slug }}
       run: ./scripts/package-release.sh
 
     - name: Upload Release Files
