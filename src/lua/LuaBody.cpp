@@ -395,8 +395,7 @@ static int l_body_get_altitude_rel_to(lua_State *l)
 	Body *b = LuaObject<Body>::CheckFromLua(1);
 	const Body *other = LuaObject<Body>::CheckFromLua(2);
 	AltitudeType altType = AltitudeType::DEFAULT;
-	if (!lua_isnoneornil(l, 3))
-	{
+	if (!lua_isnoneornil(l, 3)) {
 		bool terrainRelative = lua_toboolean(l, 3);
 		altType = terrainRelative ? AltitudeType::ABOVE_TERRAIN : AltitudeType::SEA_LEVEL;
 	}
@@ -491,8 +490,7 @@ static int l_body_attr_frame_body(lua_State *l)
 
 	Frame *f = Frame::GetFrame(b->GetFrame());
 
-	if (!f)
-	{
+	if (!f) {
 		lua_pushnil(l);
 		return 1;
 	}
@@ -526,8 +524,7 @@ static int l_body_attr_frame_rotating(lua_State *l)
 	}
 
 	Frame *f = Frame::GetFrame(b->GetFrame());
-	if (!f)
-	{
+	if (!f) {
 		lua_pushnil(l);
 		return 1;
 	}
@@ -650,8 +647,7 @@ static int l_body_get_ground_position(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
 	AltitudeType altType = AltitudeType::DEFAULT;
-	if (!lua_isnoneornil(l, 2))
-	{
+	if (!lua_isnoneornil(l, 2)) {
 		bool terrainRelative = lua_toboolean(l, 2);
 		altType = terrainRelative ? AltitudeType::ABOVE_TERRAIN : AltitudeType::SEA_LEVEL;
 	}
@@ -663,17 +659,21 @@ static int l_body_get_ground_position(lua_State *l)
 
 	Frame *f = Frame::GetFrame(b->GetFrame());
 
-	if (!f)
-	{
+	if (!f) {
 		lua_pushnil(l);
 		return 1;
 	}
+	Body *astro = f->GetBody();
+	if (!astro) {
+		lua_pushnil(l);
+		return 1;
+	}
+
 	vector3d pos = b->GetPosition();
 	double latitude = atan2(pos.y, sqrt(pos.x * pos.x + pos.z * pos.z));
 	double longitude = atan2(pos.x, pos.z);
 	lua_pushnumber(l, latitude);
 	lua_pushnumber(l, longitude);
-	Body *astro = f->GetBody();
 	double altitude = b->GetAltitudeRelTo(astro, altType);
 	lua_pushnumber(l, altitude);
 	return 3;

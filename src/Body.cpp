@@ -7,8 +7,8 @@
 #include "CargoBody.h"
 #include "Frame.h"
 #include "GameSaveError.h"
-#include "JsonUtils.h"
 #include "HyperspaceCloud.h"
+#include "JsonUtils.h"
 #include "Missile.h"
 #include "Planet.h"
 #include "Player.h"
@@ -259,21 +259,21 @@ vector3d Body::GetVelocityRelTo(const Body *relTo) const
 	return GetVelocityRelTo(relTo->m_frame) - relTo->GetVelocityRelTo(relTo->m_frame);
 }
 
-double Body::GetAltitudeRelTo(const Body* relTo, AltitudeType altType)
+double Body::GetAltitudeRelTo(const Body *relTo, AltitudeType altType)
 {
+	if (!relTo) {
+		return 0.0;
+	}
 	vector3d pos = GetPositionRelTo(relTo);
 	double center_dist = pos.Length();
-	if (relTo && relTo->IsType(ObjectType::TERRAINBODY)) {
-		const TerrainBody* terrain = static_cast<const TerrainBody*>(relTo);
+	if (relTo->IsType(ObjectType::TERRAINBODY)) {
+		const TerrainBody *terrain = static_cast<const TerrainBody *>(relTo);
 		vector3d surface_pos = pos.Normalized();
 		double radius;
-		if (altType != AltitudeType::DEFAULT)
-		{
+		if (altType != AltitudeType::DEFAULT) {
 			radius = altType == AltitudeType::SEA_LEVEL ? terrain->GetSystemBody()->GetRadius() :
-				terrain->GetTerrainHeight(surface_pos);
-		}
-		else
-		{
+														  terrain->GetTerrainHeight(surface_pos);
+		} else {
 			radius = terrain->GetSystemBody()->GetRadius();
 			if (center_dist <= 3.0 * terrain->GetMaxFeatureRadius()) {
 				radius = terrain->GetTerrainHeight(surface_pos);
@@ -283,8 +283,7 @@ double Body::GetAltitudeRelTo(const Body* relTo, AltitudeType altType)
 		if (altitude < 0)
 			altitude = 0;
 		return altitude;
-	}
-	else {
+	} else {
 		return center_dist;
 	}
 }

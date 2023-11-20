@@ -695,6 +695,7 @@ end
 --   experimental
 --
 function Ship:GetGPS()
+   if not self.frameBody then return end
    local lat, lon, altitude = self:GetGroundPosition()
    local vspd = self:GetVelocityRelTo(self.frameBody):dot(self:GetPositionRelTo(self.frameBody):normalized())
    lat = math.rad2deg(lat)
