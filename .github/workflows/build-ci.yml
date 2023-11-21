@@ -111,24 +111,47 @@ jobs:
     - name: Run Tests
       run: ./build/unittest
 
-    - name: Build Release
+    - name: Generate Artifacts
+      uses: ./.github/actions/upload-linux
+      with:
+        artifact_name: Linux 64-bit
+        build_slug: linux-x64-release
+        token: ${{ secrets.GITHUB_TOKEN }}
+        upload_release: true
+
+  build-gcc-avx:
+    runs-on: ubuntu-20.04
+
+    steps:
+    # Checkout the repository as $GITHUB_WORKSPACE
+    - uses: actions/checkout@v3
+
+    - name: Install Dependencies
       run: |
-        cmake --build ./build --target install
-        ./scripts/package-release.sh
+        sudo apt-fast update
+        sudo apt-fast install -y ${{ env.packages }}
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: Linux-Artifacts
-        path: release/pioneer-linux-x64-release-*.tar.gz
+    - name: Setup CMake
+      run: |
+        cp scripts/CMakeBuildPresetsCI.json CMakeUserPresets.json
+        cmake --preset linux-x64-release-avx
 
-    - name: Upload Release Files
-      uses: softprops/action-gh-release@v1
-      if: ${{ github.event_name == 'release' }}
+    - name: Build GCC
+      run: cmake --build ./build --target all
+
+    - name: Build Pioneer Data
+      run: cmake --build ./build --target build-data
+
+    - name: Run Tests
+      run: ./build/unittest
+
+    - name: Generate Artifacts
+      uses: ./.github/actions/upload-linux
       with:
-        files: release/pioneer-linux-x64-release-*.tar.gz
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        artifact_name: Linux 64-bit (AVX2 enabled)
+        build_slug: linux-x64-release-avx
+        token: ${{ secrets.GITHUB_TOKEN }}
+        upload_release: true
 
   build-clang:
     runs-on: ubuntu-20.04

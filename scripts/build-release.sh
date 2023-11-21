@@ -54,10 +54,7 @@ mkdir -p release/zip
 
 echo "Bundling output..."
 
-TAG_NAME=$(git describe HEAD)
-if [ -z "$TAG_NAME" ]; then
-	TAG_NAME=$(date +%Y%m%d)
-fi
+TAG_NAME=$(git describe --tags --exact-match HEAD || date +%Y%m%d)
 
 if [ "$BUILD_TYPE" == "mxe" ]; then
     zip -r "release/zip/pioneer-$TAG_NAME-mxe.zip" release/* -x *release/zip*
