@@ -3,8 +3,17 @@ November 2023
     * Lua Constant autocomplete support (#5663)
     * Simplify SystemBody::GetAtmPressure (#5662)
 
+  * Internal Changes
+    * Improve Simplex Noise Performance (#5661)
+    * Build with SSE4 / AVX, fix build artifact generation (#5651)
+    * Lua io and FileSystem uri changes (#5638)
+    * LuaBody/Player/Ship function changes (#5643)
+    * Update AppStream destination and filename (#5664)
+
   * Fixes
     * Correct value of g-force in system editor (#5658)
+    * Fix assertion failed in Sfx::Sfx(const Json &jsonObj) (#5668)
+    * Fix crash in l_body_get_ground_position if there is no body to get (#5665)
 
 October 2023
   * New Features
