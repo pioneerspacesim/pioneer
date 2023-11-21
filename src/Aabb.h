@@ -6,6 +6,8 @@
 
 #include "vector3.h"
 
+#include <algorithm> // for std::min / std::max
+
 struct Aabb {
 	vector3d min, max;
 	double radius;
@@ -65,5 +67,58 @@ struct Aabb {
 	// returns maximum point radius, usually smaller than max radius of bounding box
 	double GetRadius() const { return radius; }
 };
+
+// SIMD-capable AABB type without additional overhead
+template<typename Vec3>
+struct AABB {
+	using Number = typename Vec3::element_type;
+
+	Vec3 min, max;
+
+	static AABB Invalid()
+	{
+		return AABB{ Vec3(DBL_MAX, DBL_MAX, DBL_MAX), Vec3(-DBL_MAX, -DBL_MAX, -DBL_MAX) };
+	}
+
+	void Update(const AABB &rhs)
+	{
+		using std::max;
+		using std::min;
+
+		this->max = max(this->max, rhs.max);
+		this->min = min(this->min, rhs.min);
+	}
+
+	void Update(const Vec3 &point)
+	{
+		using std::max;
+		using std::min;
+
+		this->max = max(this->max, point);
+		this->min = min(this->min, point);
+	}
+
+	auto IntersectsRay(const Vec3 &start, const Vec3 &inv_dir, Number dist) const
+	{
+		using std::min;
+		using std::max;
+
+		Vec3 l1 = (this->min - start) * inv_dir;
+		Vec3 l2 = (this->max - start) * inv_dir;
+
+		Vec3 vmin = min(l1, l2);
+		Vec3 vmax = max(l1, l2);
+
+		double lmin = max(vmin.x, max(vmin.y, vmin.z));
+		double lmax = min(vmax.x, min(vmax.y, vmax.z));
+
+		return ((lmax >= 0.f) & (lmax >= lmin) & (lmin < dist));
+	}
+
+	auto IsIn(Vec3 point) const { return point >= min && point <= max; }
+	auto Intersects(const AABB &rhs) const { return min < rhs.max && max > rhs.min; }
+};
+
+using AABBd = AABB<vector3d>;
 
 #endif /* _AABB_H */
