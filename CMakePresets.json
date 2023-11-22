@@ -1,5 +1,5 @@
 {
-	"version": 2,
+	"version": 3,
 	"configurePresets": [
 		{
 			"name": "x64-Debug",
@@ -73,7 +73,6 @@
 			"displayName": "Linux x64 Debug",
 			"description": "Use system compiler; Profiler=yes",
 			"binaryDir": "${sourceDir}/build/",
-			"generator": "Unix Makefiles",
 			"cacheVariables": {
 				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
 				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
@@ -93,7 +92,6 @@
 			"displayName": "Linux x64 Profiling",
 			"description": "Use system compiler; Profiler=yes",
 			"binaryDir": "${sourceDir}/build/",
-			"generator": "Unix Makefiles",
 			"cacheVariables": {
 				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
 				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
@@ -113,7 +111,6 @@
 			"displayName": "Linux x64 Release",
 			"description": "Use system compiler; Profiler=no",
 			"binaryDir": "${sourceDir}/build/",
-			"generator": "Unix Makefiles",
 			"cacheVariables": {
 				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
 				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
@@ -132,7 +129,6 @@
 			"displayName": "Linux x64 Debug (Clang)",
 			"description": "CC=clang CXX=clang++; Profiler=yes",
 			"binaryDir": "${sourceDir}/build/",
-			"generator": "Unix Makefiles",
 			"cacheVariables": {
 				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
 				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
@@ -154,7 +150,6 @@
 			"displayName": "Linux x64 Profiling (Clang)",
 			"description": "CC=clang CXX=clang++; Profiler=yes",
 			"binaryDir": "${sourceDir}/build/",
-			"generator": "Unix Makefiles",
 			"cacheVariables": {
 				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
 				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
@@ -176,7 +171,6 @@
 			"displayName": "Linux x64 Release (Clang)",
 			"description": "CC=clang CXX=clang++; Profiler=no",
 			"binaryDir": "${sourceDir}/build/",
-			"generator": "Unix Makefiles",
 			"cacheVariables": {
 				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
 				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
