@@ -6,6 +6,7 @@
 #include "Aabb.h"
 #include "MathUtil.h"
 #include "core/Log.h"
+#include "core/macros.h"
 #include "profiler/Profiler.h"
 
 const int MAX_SPLITPOS_RETRIES = 15;
@@ -326,7 +327,7 @@ void SingleBVHTree::ComputeOverlap(uint32_t nodeId, const AABBd &nodeAabb, std::
 	PROFILE_SCOPED()
 
 	int32_t stackLevel = 0;
-	uint32_t stack[m_treeHeight + 1];
+	uint32_t *stack = stackalloc(uint32_t, m_treeHeight + 1);
 	// Push the root node
 	stack[stackLevel++] = 0;
 
@@ -352,7 +353,7 @@ void SingleBVHTree::TraceRay(const vector3d &start, const vector3d &inv_dir, dou
 	PROFILE_SCOPED()
 
 	int32_t stackLevel = 0;
-	uint32_t stack[m_treeHeight + 1];
+	uint32_t *stack = stackalloc(uint32_t, m_treeHeight + 1);
 	stack[stackLevel++] = 0;
 
 	while (stackLevel > 0) {
