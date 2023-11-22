@@ -20,9 +20,9 @@
 #include "scenegraph/Animation.h"
 #include "scenegraph/Label3D.h"
 #include "scenegraph/MatrixTransform.h"
-#include "scenegraph/Tag.h"
 #include "scenegraph/NodeVisitor.h"
 #include "scenegraph/StaticGeometry.h"
+#include "scenegraph/Tag.h"
 #include "utils.h"
 
 namespace SceneGraph {

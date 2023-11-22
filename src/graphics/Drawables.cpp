@@ -876,12 +876,12 @@ namespace Graphics {
 			Graphics::VertexArray va = Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
 			// Generate two triangles for the grid plane
-			va.Add(vector3f( grid_size.x, 0, -grid_size.y), vector2f( grid_size.x, -grid_size.y));
-			va.Add(vector3f(-grid_size.x, 0,  grid_size.y), vector2f(-grid_size.x,  grid_size.y));
+			va.Add(vector3f(grid_size.x, 0, -grid_size.y), vector2f(grid_size.x, -grid_size.y));
+			va.Add(vector3f(-grid_size.x, 0, grid_size.y), vector2f(-grid_size.x, grid_size.y));
 			va.Add(vector3f(-grid_size.x, 0, -grid_size.y), vector2f(-grid_size.x, -grid_size.y));
-			va.Add(vector3f( grid_size.x, 0, -grid_size.y), vector2f( grid_size.x, -grid_size.y));
-			va.Add(vector3f( grid_size.x, 0,  grid_size.y), vector2f( grid_size.x,  grid_size.y));
-			va.Add(vector3f(-grid_size.x, 0,  grid_size.y), vector2f(-grid_size.x,  grid_size.y));
+			va.Add(vector3f(grid_size.x, 0, -grid_size.y), vector2f(grid_size.x, -grid_size.y));
+			va.Add(vector3f(grid_size.x, 0, grid_size.y), vector2f(grid_size.x, grid_size.y));
+			va.Add(vector3f(-grid_size.x, 0, grid_size.y), vector2f(-grid_size.x, grid_size.y));
 
 			GridData data = {};
 			data.thin_color = m_minorColor.ToColor4f();

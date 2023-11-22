@@ -172,7 +172,8 @@ private:
 	struct Dummy {
 		Dummy() :
 			madeWithFactory(false)
-		{}
+		{
+		}
 		bool madeWithFactory;
 	};
 

@@ -272,7 +272,7 @@ void CollisionSpace::RebuildBVHTree(SingleBVHTree *tree, uint32_t numGeoms, cons
 		vector3d pos = geom->GetPosition();
 		double radius = geom->GetGeomTree()->GetRadius();
 
-		AABBd aabb { {pos - radius }, { pos + radius } };
+		AABBd aabb{ { pos - radius }, { pos + radius } };
 
 		aabbs.push_back(aabb);
 		bounds.Update(aabb);

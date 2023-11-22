@@ -4,11 +4,11 @@
 #ifndef _COLLISION_SPACE
 #define _COLLISION_SPACE
 
-#include "../vector3.h"
 #include "../Aabb.h"
+#include "../vector3.h"
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 class Geom;
 class SingleBVHTree;

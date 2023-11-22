@@ -227,76 +227,88 @@ inline vector3<float>::vector3(const vector2f &v, float t) :
 	x(v.x),
 	y(v.y),
 	z(t)
-{}
+{
+}
 template <>
 inline vector3<float>::vector3(const vector3<double> &v) :
 	x(float(v.x)),
 	y(float(v.y)),
 	z(float(v.z))
-{}
+{
+}
 template <>
 inline vector3<double>::vector3(const vector3<float> &v) :
 	x(v.x),
 	y(v.y),
 	z(v.z)
-{}
+{
+}
 template <>
 inline vector3<double>::vector3(const vector2f &v, double t) :
 	x(v.x),
 	y(v.y),
 	z(t)
-{}
+{
+}
 template <>
 inline vector3<float>::vector3(float val) :
 	x(val),
 	y(val),
 	z(val)
-{}
+{
+}
 template <>
 inline vector3<double>::vector3(double val) :
 	x(val),
 	y(val),
 	z(val)
-{}
+{
+}
 template <>
 inline vector3<float>::vector3(float _x, float _y, float _z) :
 	x(_x),
 	y(_y),
 	z(_z)
-{}
+{
+}
 template <>
 inline vector3<double>::vector3(double _x, double _y, double _z) :
 	x(_x),
 	y(_y),
 	z(_z)
-{}
+{
+}
 template <>
 inline vector3<float>::vector3(const float vals[3]) :
 	x(vals[0]),
 	y(vals[1]),
 	z(vals[2])
-{}
+{
+}
 template <>
 inline vector3<float>::vector3(const double vals[3]) :
 	x(float(vals[0])),
 	y(float(vals[1])),
 	z(float(vals[2]))
-{}
+{
+}
 template <>
 inline vector3<double>::vector3(const float vals[3]) :
 	x(vals[0]),
 	y(vals[1]),
 	z(vals[2])
-{}
+{
+}
 template <>
 inline vector3<double>::vector3(const double vals[3]) :
 	x(vals[0]),
 	y(vals[1]),
 	z(vals[2])
-{}
+{
+}
 
 // max() overload for use with C++ ADL
-template<typename T>
+template <typename T>
 vector3<T> max(const vector3<T> &lhs, const vector3<T> &rhs)
 {
 	using std::max; // support max(T) overloads
@@ -304,7 +316,7 @@ vector3<T> max(const vector3<T> &lhs, const vector3<T> &rhs)
 }
 
 // min() overload for use with C++ ADL
-template<typename T>
+template <typename T>
 vector3<T> min(const vector3<T> &lhs, const vector3<T> &rhs)
 {
 	using std::min; // support min(T) overloads

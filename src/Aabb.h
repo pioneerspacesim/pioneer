@@ -15,14 +15,16 @@ struct Aabb {
 		min(DBL_MAX, DBL_MAX, DBL_MAX),
 		max(-DBL_MAX, -DBL_MAX, -DBL_MAX),
 		radius(0.1)
-	{}
+	{
+	}
 	// Fast constructor for pre-conditioned values
 	// Should only be used when _min < _max for all {x,y,z}
 	Aabb(const vector3d &_min, const vector3d &_max, float rad) :
 		min(_min),
 		max(_max),
 		radius(rad)
-	{}
+	{
+	}
 	void Update(const Aabb &b)
 	{
 		max.x = std::max(max.x, b.max.x);
@@ -69,7 +71,7 @@ struct Aabb {
 };
 
 // SIMD-capable AABB type without additional overhead
-template<typename Vec3>
+template <typename Vec3>
 struct AABB {
 	using Number = typename Vec3::element_type;
 
@@ -100,8 +102,8 @@ struct AABB {
 
 	auto IntersectsRay(const Vec3 &start, const Vec3 &inv_dir, Number dist) const
 	{
-		using std::min;
 		using std::max;
+		using std::min;
 
 		Vec3 l1 = (this->min - start) * inv_dir;
 		Vec3 l2 = (this->max - start) * inv_dir;

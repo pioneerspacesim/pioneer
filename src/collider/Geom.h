@@ -43,6 +43,7 @@ private:
 	vector3d m_pos;
 	const GeomTree *m_geomtree;
 	matrix4x4d m_orient, m_invOrient;
+
 public:
 	matrix4x4d m_animTransform;
 
