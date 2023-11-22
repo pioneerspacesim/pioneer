@@ -19,8 +19,7 @@ jobs:
   clang-format-check:
     timeout-minutes: 5
 
-    # Ubuntu 18.04 at the time of writing includes clang-format-9 as default
-    runs-on: [ubuntu-20.04]
+    runs-on: ubuntu-latest
 
     # We want to check all changed files between the pull-request base and the head of the pull request
     env:
