@@ -28,6 +28,7 @@ env:
     libassimp-dev
     libsdl2-dev
     libsdl2-image-dev
+    ninja-build
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -100,7 +101,7 @@ jobs:
     - name: Setup CMake
       run: |
         cp scripts/CMakeBuildPresetsCI.json CMakeUserPresets.json
-        cmake --preset linux-x64-release
+        cmake -G Ninja --preset linux-x64-release
 
     - name: Build GCC
       run: cmake --build ./build --target all
@@ -134,7 +135,7 @@ jobs:
     - name: Setup CMake
       run: |
         cp scripts/CMakeBuildPresetsCI.json CMakeUserPresets.json
-        cmake --preset linux-x64-release-avx
+        cmake -G Ninja --preset linux-x64-release-avx
 
     - name: Build GCC
       run: cmake --build ./build --target all
@@ -171,7 +172,7 @@ jobs:
       run: |
         cp scripts/CMakeBuildPresetsCI.json CMakeUserPresets.json
         export CC=clang CXX=clang++
-        cmake --preset linux-x64-release
+        cmake -G Ninja --preset linux-x64-release
 
     - name: Build Clang
       run: cmake --build ./build --target all
