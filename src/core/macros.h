@@ -37,3 +37,14 @@
 template <typename T, size_t N>
 char (&COUNTOF_Helper(T (&array)[N]))[N];
 #define COUNTOF(array) (sizeof(COUNTOF_Helper(array)))
+
+// Helper to implement stack-based variable-length arrays in a crossplatform way
+// Avoids a heap allocation for std::vector in "hot" code
+
+#ifdef _MSC_VER
+#include <malloc.h>
+#define stackalloc(T, n) reinterpret_cast<T *>(_alloca(sizeof(T) * n))
+#else
+#include <alloca.h>
+#define stackalloc(T, n) reinterpret_cast<T *>(alloca(sizeof(T) * n))
+#endif

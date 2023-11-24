@@ -20,9 +20,9 @@
 #include "scenegraph/Animation.h"
 #include "scenegraph/Label3D.h"
 #include "scenegraph/MatrixTransform.h"
-#include "scenegraph/Tag.h"
 #include "scenegraph/NodeVisitor.h"
 #include "scenegraph/StaticGeometry.h"
+#include "scenegraph/Tag.h"
 #include "utils.h"
 
 namespace SceneGraph {
@@ -577,35 +577,7 @@ namespace SceneGraph {
 	{
 		PROFILE_SCOPED()
 
-		const vector3f verts[16] = {
-			transform * vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
-			transform * vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
-			transform * vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
-			transform * vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
-			transform * vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
-			transform * vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
-			transform * vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
-			transform * vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
-
-			transform * vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
-			transform * vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
-			transform * vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
-			transform * vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
-			transform * vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
-			transform * vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
-			transform * vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
-			transform * vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
-		};
-
-		for (unsigned int i = 0; i < 7; i++) {
-			lines.Add(verts[i], color);
-			lines.Add(verts[i + 1], color);
-		}
-
-		for (unsigned int i = 8; i < 15; i++) {
-			lines.Add(verts[i], color);
-			lines.Add(verts[i + 1], color);
-		}
+		Graphics::Drawables::AABB::DrawVertices(lines, transform, aabb, color);
 	}
 
 	static void AddClipSphereVisualizer(float radius, Color color, Graphics::VertexArray &lines)

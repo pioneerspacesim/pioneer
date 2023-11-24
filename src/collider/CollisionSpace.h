@@ -4,10 +4,15 @@
 #ifndef _COLLISION_SPACE
 #define _COLLISION_SPACE
 
+#include "../Aabb.h"
 #include "../vector3.h"
-#include <list>
+
+#include <memory>
+#include <vector>
 
 class Geom;
+class SingleBVHTree;
+
 struct isect_t;
 struct CollisionContact;
 
@@ -17,13 +22,9 @@ struct Sphere {
 	void *userData;
 };
 
-class BvhTree;
-
 /*
  * Collision spaces have a bunch of geoms and at most one sphere (for a planet).
  */
-// FIXME: CollisionSpace is NOT MOVE/COPY CONSTRUCTIBLE once RebuildObjectTrees
-// has been called. It will cause a double-free due to owning pointers being moved-by-copy.
 class CollisionSpace {
 public:
 	CollisionSpace();
@@ -43,6 +44,9 @@ public:
 	void FlagRebuildObjectTrees() { m_needStaticGeomRebuild = true; }
 	void RebuildObjectTrees();
 
+	const SingleBVHTree *GetDynamicTree() const { return m_dynamicObjectTree.get(); }
+	const SingleBVHTree *GetStaticTree() const { return m_staticObjectTree.get(); }
+
 	// Geoms with the same handle will not be collision tested against each other
 	// should be used for geoms that are part of the same body
 	// could also be used for autopiloted groups and LRCs near stations
@@ -54,16 +58,30 @@ public:
 	}
 
 private:
-	void CollideGeoms(Geom *a, int minMailboxValue, void (*callback)(CollisionContact *));
+	using Intersection = std::pair<uint32_t, uint32_t>;
+
 	void CollideRaySphere(const vector3d &start, const vector3d &dir, isect_t *isect);
-	std::list<Geom *> m_geoms;
-	std::list<Geom *> m_staticGeoms;
-	bool m_needStaticGeomRebuild;
-	BvhTree *m_staticObjectTree;
-	BvhTree *m_dynamicObjectTree;
+	uint32_t SortEnabledGeoms(std::vector<Geom *> &geoms);
+	void RebuildBVHTree(SingleBVHTree *tree, uint32_t numEnabled, const std::vector<Geom *> &geoms, std::vector<AABBd> &aabbs);
+
+	void CollideGeom(Geom *a, Geom *b, void (*callback)(CollisionContact *));
+	void CollidePlanet(void (*callback)(CollisionContact *));
+	void TraceRayGeom(Geom *g, const vector3d &start, const vector3d &dir, double len, CollisionContact *c);
+
+	std::unique_ptr<SingleBVHTree> m_staticObjectTree;
+	std::unique_ptr<SingleBVHTree> m_dynamicObjectTree;
+
+	std::vector<Geom *> m_staticGeoms;
+	std::vector<Geom *> m_geoms;
+
+	uint32_t m_enabledStaticGeoms;
+	uint32_t m_enabledDynGeoms;
+
+	std::vector<AABBd> m_geomAabbs;
 	Sphere sphere;
 
-	uint32_t m_oldGeomsNumber;
+	bool m_needStaticGeomRebuild;
+	bool m_duringCollision;
 
 	static int s_nextHandle;
 };

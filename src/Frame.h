@@ -155,7 +155,7 @@ private:
 	std::string m_label;
 	double m_radius;
 	int m_flags;
-	int m_collisionSpace;
+	std::unique_ptr<CollisionSpace> m_collisionSpace;
 
 	vector3d m_rootVel; // velocity, position and orient relative to root frame
 	vector3d m_rootPos; // updated by UpdateOrbitRails
@@ -166,13 +166,14 @@ private:
 	int m_astroBodyIndex; // deserialisation
 
 	static std::vector<Frame> s_frames;
-	static std::vector<CollisionSpace> s_collisionSpaces;
+	static std::vector<CollisionSpace *> s_collisionSpaces;
 
 	// A trick in order to avoid a direct call of ctor or dtor: use factory methods instead
 	struct Dummy {
 		Dummy() :
 			madeWithFactory(false)
-		{}
+		{
+		}
 		bool madeWithFactory;
 	};
 

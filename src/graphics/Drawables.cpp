@@ -3,6 +3,7 @@
 
 #include "Drawables.h"
 
+#include "Aabb.h"
 #include "MathUtil.h"
 #include "Texture.h"
 #include "TextureBuilder.h"
@@ -875,12 +876,12 @@ namespace Graphics {
 			Graphics::VertexArray va = Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
 			// Generate two triangles for the grid plane
-			va.Add(vector3f( grid_size.x, 0, -grid_size.y), vector2f( grid_size.x, -grid_size.y));
-			va.Add(vector3f(-grid_size.x, 0,  grid_size.y), vector2f(-grid_size.x,  grid_size.y));
+			va.Add(vector3f(grid_size.x, 0, -grid_size.y), vector2f(grid_size.x, -grid_size.y));
+			va.Add(vector3f(-grid_size.x, 0, grid_size.y), vector2f(-grid_size.x, grid_size.y));
 			va.Add(vector3f(-grid_size.x, 0, -grid_size.y), vector2f(-grid_size.x, -grid_size.y));
-			va.Add(vector3f( grid_size.x, 0, -grid_size.y), vector2f( grid_size.x, -grid_size.y));
-			va.Add(vector3f( grid_size.x, 0,  grid_size.y), vector2f( grid_size.x,  grid_size.y));
-			va.Add(vector3f(-grid_size.x, 0,  grid_size.y), vector2f(-grid_size.x,  grid_size.y));
+			va.Add(vector3f(grid_size.x, 0, -grid_size.y), vector2f(grid_size.x, -grid_size.y));
+			va.Add(vector3f(grid_size.x, 0, grid_size.y), vector2f(grid_size.x, grid_size.y));
+			va.Add(vector3f(-grid_size.x, 0, grid_size.y), vector2f(-grid_size.x, grid_size.y));
 
 			GridData data = {};
 			data.thin_color = m_minorColor.ToColor4f();
@@ -994,6 +995,39 @@ namespace Graphics {
 				s_axes = new Axes3D(r);
 			}
 			return s_axes;
+		}
+
+		void AABB::DrawVertices(Graphics::VertexArray &va, const matrix4x4f &transform, const Aabb &aabb, Color color)
+		{
+			const vector3f verts[16] = {
+				transform * vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
+				transform * vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
+				transform * vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
+				transform * vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
+				transform * vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
+				transform * vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
+				transform * vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
+				transform * vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
+
+				transform * vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
+				transform * vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
+				transform * vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
+				transform * vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
+				transform * vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
+				transform * vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
+				transform * vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
+				transform * vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
+			};
+
+			for (unsigned int i = 0; i < 7; i++) {
+				va.Add(verts[i], color);
+				va.Add(verts[i + 1], color);
+			}
+
+			for (unsigned int i = 8; i < 15; i++) {
+				va.Add(verts[i], color);
+				va.Add(verts[i + 1], color);
+			}
 		}
 
 	} // namespace Drawables
