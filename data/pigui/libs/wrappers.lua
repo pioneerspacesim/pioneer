@@ -603,6 +603,36 @@ function ui.tabBarFont(id, items, font, ...)
 end
 
 --
+-- Function: ui.tabItem
+--
+-- ui.tabItem(label, [tooltip], function)
+--
+--
+-- Example:
+--
+-- > ui.tabItem("Test", "This Does Something", function() ... end)
+--
+-- Parameters:
+--   label   - string, Display label and unique ID for the tab.
+--   tooltip - string?, Tooltip to display when hovering the tab.
+--   fun     - function, Body code of the tab item
+--
+function ui.tabItem(label, tooltip, fun)
+	if not fun then
+		fun = tooltip
+		tooltip = nil
+	end
+
+	local open = pigui.BeginTabItem(label)
+	if tooltip then ui.setItemTooltip(tooltip) end
+	if not open then return end
+
+	fun()
+
+	pigui.EndTabItem()
+end
+
+--
 -- Function: ui.withFont
 --
 -- ui.withFont(name, size, fun)

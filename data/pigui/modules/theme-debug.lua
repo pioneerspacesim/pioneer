@@ -13,22 +13,24 @@ for name in pairs(styleColors) do table.insert(sortedStyleColors, name) end
 table.sort(sortedColors)
 table.sort(sortedStyleColors)
 
-debugView.registerTab('debug-theme-colors', function()
-	if not ui.beginTabItem("Theme Colors") then return end
-	ui.text("Palette Colors")
-	ui.separator()
-	for _, name in ipairs(sortedStyleColors) do
-		local changed, ncolor = ui.colorEdit(name, styleColors[name], { "NoAlpha" })
-		-- if we're changing semantic colors, we want to update all uses of the color object
-		if changed then styleColors[name](ncolor.r, ncolor.g, ncolor.b) end
-	end
+debugView.registerTab('debug-theme-colors', {
+	icon = ui.theme.icons.view_internal,
+	label = "Theme Colors",
+	draw = function()
+		ui.text("Palette Colors")
+		ui.separator()
+		for _, name in ipairs(sortedStyleColors) do
+			local changed, ncolor = ui.colorEdit(name, styleColors[name], { "NoAlpha" })
+			-- if we're changing semantic colors, we want to update all uses of the color object
+			if changed then styleColors[name](ncolor.r, ncolor.g, ncolor.b) end
+		end
 
-	ui.newLine()
-	ui.text("Semantic Colors")
-	ui.separator()
-	for _, name in ipairs(sortedColors) do
-		local changed, color = ui.colorEdit(name, colors[name])
-		if changed then colors[name] = color end
+		ui.newLine()
+		ui.text("Semantic Colors")
+		ui.separator()
+		for _, name in ipairs(sortedColors) do
+			local changed, color = ui.colorEdit(name, colors[name])
+			if changed then colors[name] = color end
+		end
 	end
-	ui.endTabItem()
-end)
+})
