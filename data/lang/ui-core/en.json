@@ -1291,6 +1291,30 @@
     "description": "",
     "message": "Load"
   },
+  "DELETE": {
+    "description": "",
+    "message": "Delete"
+  },
+  "DELETE_SAVE_CONFIRMATION": {
+    "description": "",
+    "message": "Are you sure you want to delete this save?"
+  },
+  "COULD_NOT_DELETE_SAVE": {
+    "description": "",
+    "message": "Could not delete save"
+  },
+  "SAVE_DELETED_SUCCESSFULLY": {
+    "description": "",
+    "message": "Save deleted successfully"
+  },
+  "SELECTED_SAVE_DOESNT_EXISTS": {
+    "description": "",
+    "message": "Selected save doesn't exists"
+  },
+  "SELECTED_SAVE_IS_NOT_A_VALID_SAVE": {
+    "description": "",
+    "message": "Selected save is not a valid save"
+  },
   "LOAD_GAME": {
     "description": "",
     "message": "Load game"

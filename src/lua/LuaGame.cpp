@@ -66,7 +66,7 @@ static int l_game_start_game(lua_State *l)
 
 	const auto path = LuaPull<SystemPath>(l, 1);
 	const auto time = LuaPull<double>(l, 2);
-	const auto shipType = LuaPull<const char*>(l, 3);
+	const auto shipType = LuaPull<const char *>(l, 3);
 
 	Pi::StartGame(new Game(path, time, shipType));
 	return 0;
@@ -94,7 +94,7 @@ static int l_game_start_game(lua_State *l)
  */
 static int l_game_savegame_stats(lua_State *l)
 {
-	std::string filename = LuaPull<std::string>(l, 1);
+	const std::string filename = LuaPull<std::string>(l, 1);
 
 	try {
 		Json rootNode = Game::LoadGameToJson(filename);
@@ -120,18 +120,16 @@ static int l_game_savegame_stats(lua_State *l)
 		}
 
 		return 1;
-	} catch (CouldNotOpenFileException &e) {
+	} catch (const CouldNotOpenFileException &e) {
 		const std::string message = stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", filename));
 		lua_pushlstring(l, message.c_str(), message.size());
 		return lua_error(l);
 	} catch (const Json::type_error &) {
-		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
-		return 0;
+		return luaL_error(l, Lang::GAME_LOAD_CORRUPT);
 	} catch (const Json::out_of_range &) {
 		return luaL_error(l, Lang::GAME_LOAD_CORRUPT);
-	} catch (SavedGameCorruptException) {
-		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
-		return 0;
+	} catch (const SavedGameCorruptException &) {
+		return luaL_error(l, Lang::GAME_LOAD_CORRUPT);
 	}
 }
 
@@ -158,21 +156,20 @@ static int l_game_savegame_stats(lua_State *l)
 static int l_game_load_game(lua_State *l)
 {
 	if (Pi::game) {
-		luaL_error(l, "can't load a game while a game is already running");
-		return 0;
+		return luaL_error(l, "can't load a game while a game is already running");
 	}
 
 	const std::string filename(luaL_checkstring(l, 1));
 
 	try {
 		Pi::StartGame(Game::LoadGame(filename));
-	} catch (SavedGameCorruptException) {
-		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
-	} catch (SavedGameWrongVersionException) {
-		luaL_error(l, Lang::GAME_LOAD_WRONG_VERSION);
-	} catch (CouldNotOpenFileException) {
+	} catch (const SavedGameCorruptException &) {
+		return luaL_error(l, Lang::GAME_LOAD_CORRUPT);
+	} catch (const SavedGameWrongVersionException &) {
+		return luaL_error(l, Lang::GAME_LOAD_WRONG_VERSION);
+	} catch (const CouldNotOpenFileException &) {
 		const std::string msg = stringf(Lang::GAME_LOAD_CANNOT_OPEN, formatarg("filename", filename));
-		luaL_error(l, msg.c_str());
+		return luaL_error(l, msg.c_str());
 	}
 
 	return 0;
@@ -206,7 +203,7 @@ static int l_game_can_load_game(lua_State *l)
 {
 	const std::string filename(luaL_checkstring(l, 1));
 
-	bool success = Game::CanLoadGame(filename);
+	const bool success = Game::CanLoadGame(filename);
 	lua_pushboolean(l, success);
 
 	return 1;
@@ -243,23 +240,56 @@ static int l_game_save_game(lua_State *l)
 	}
 
 	const std::string filename(luaL_checkstring(l, 1));
-	const std::string path = FileSystem::JoinPathBelow(Pi::GetSaveDir(), filename);
+	std::string path;
 
 	try {
+		path = FileSystem::JoinPathBelow(Pi::GetSaveDir(), filename);
 		Game::SaveGame(filename, Pi::game);
 		lua_pushlstring(l, path.c_str(), path.size());
 		return 1;
-	} catch (CannotSaveInHyperspace) {
+	} catch (const CannotSaveInHyperspace &) {
 		return luaL_error(l, "%s", Lang::CANT_SAVE_IN_HYPERSPACE);
-	} catch (CannotSaveDeadPlayer) {
+	} catch (const CannotSaveDeadPlayer &) {
 		return luaL_error(l, "%s", Lang::CANT_SAVE_DEAD_PLAYER);
-	} catch (CouldNotOpenFileException) {
+	} catch (const CouldNotOpenFileException &) {
 		const std::string message = stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path));
 		lua_pushlstring(l, message.c_str(), message.size());
 		return lua_error(l);
-	} catch (CouldNotWriteToFileException) {
+	} catch (const CouldNotWriteToFileException &) {
 		return luaL_error(l, "%s", Lang::GAME_SAVE_CANNOT_WRITE);
+	} catch (const std::invalid_argument &) {
+		return luaL_error(l, "%s", Lang::GAME_SAVE_INVALID_NAME);
 	}
+}
+
+/*
+ * Function: DeleteSave
+ *
+ * Deletes save with specified file name.
+ *
+ * > Game.DeleteSave(filename)
+ *
+ * Parameters:
+ *
+ *   filename - Filename to delete. The file will be checked at 'savefiles'
+ *              directory in the user's game directory.
+ * Return:
+ *
+ *   bool - is save deleted successfully
+ *
+ * Availability:
+ *
+ *   November 2023
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_game_delete_save(lua_State *l)
+{
+	const std::string filename(luaL_checkstring(l, 1));
+	lua_pushboolean(l, Game::DeleteSave(filename));
+	return 1;
 }
 
 /*
@@ -650,6 +680,7 @@ void LuaGame::Register()
 		{ "LoadGame", l_game_load_game },
 		{ "CanLoadGame", l_game_can_load_game },
 		{ "SaveGame", l_game_save_game },
+		{ "DeleteSave", l_game_delete_save },
 		{ "EndGame", l_game_end_game },
 		{ "InHyperspace", l_game_in_hyperspace },
 		{ "SaveGameStats", l_game_savegame_stats },

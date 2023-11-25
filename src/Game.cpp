@@ -10,8 +10,8 @@
 #include "FileSystem.h"
 #include "GameLog.h"
 #include "GameSaveError.h"
-#include "JsonUtils.h"
 #include "HyperspaceCloud.h"
+#include "JsonUtils.h"
 #include "MathUtil.h"
 #include "collider/CollisionSpace.h"
 #include "core/GZipFormat.h"
@@ -767,7 +767,8 @@ Game::Views::Views() :
 	m_deathView(nullptr),
 	m_spaceStationView(nullptr),
 	m_infoView(nullptr)
-{}
+{
+}
 
 void Game::Views::SetRenderer(Graphics::Renderer *r)
 {
@@ -921,12 +922,28 @@ Game *Game::LoadGame(const std::string &filename)
 
 bool Game::CanLoadGame(const std::string &filename)
 {
-	auto file = FileSystem::userFiles.ReadFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
-	if (!file)
+	FILE *f;
+	try {
+		f = FileSystem::userFiles.OpenReadStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
+	} catch (const std::invalid_argument &) {
+		return false;
+	}
+	if (!f)
 		return false;
 
+	fclose(f);
 	return true;
-	// file data is freed here
+}
+
+bool Game::DeleteSave(const std::string &filename)
+{
+	std::string filePath;
+	try {
+		filePath = FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename);
+	} catch (const std::invalid_argument &) {
+		return false;
+	}
+	return FileSystem::userFiles.RemoveFile(filePath);
 }
 
 void Game::SaveGame(const std::string &filename, Game *game)
@@ -940,12 +957,21 @@ void Game::SaveGame(const std::string &filename, Game *game)
 	if (game->GetPlayer()->IsDead())
 		throw CannotSaveDeadPlayer();
 
-	if (!FileSystem::userFiles.MakeDirectory(Pi::SAVE_DIR_NAME)) {
+	if (!FileSystem::userFiles.MakeDirectory(Pi::SAVE_DIR_NAME))
+		throw CouldNotOpenFileException();
+
+	if (!FileSystem::IsValidFilename(filename))
+		throw std::invalid_argument(filename);
+	FILE *f;
+	try {
+		f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
+	} catch (const std::invalid_argument &) {
 		throw CouldNotOpenFileException();
 	}
+	if (!f)
+		throw CouldNotOpenFileException();
 
 	game->m_space->UpdateBodies();
-
 	Json rootNode;
 	game->ToJson(rootNode); // Encode the game data as JSON and give to the root value.
 	std::vector<uint8_t> jsonData;
@@ -953,10 +979,6 @@ void Game::SaveGame(const std::string &filename, Game *game)
 		PROFILE_SCOPED_DESC("json.to_cbor");
 		jsonData = Json::to_cbor(rootNode); // Convert the JSON data to CBOR.
 	}
-
-	FileSystem::userFiles.MakeDirectory(Pi::SAVE_DIR_NAME);
-	FILE *f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
-	if (!f) throw CouldNotOpenFileException();
 
 	try {
 		// Compress the CBOR data.
