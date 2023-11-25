@@ -38,6 +38,7 @@ namespace FileSystem {
 
 	std::string GetUserDir();
 	std::string GetDataDir();
+	bool IsValidFilename(const std::string &fileName);
 
 	/// Makes a string safe for use as a file name
 	/// warning: this mapping is non-injective, that is,
@@ -194,7 +195,6 @@ namespace FileSystem {
 		virtual ~FileDataMalloc() { std::free(m_data); }
 	};
 
-
 	class FileEnumerator {
 	public:
 		enum Flags {
@@ -304,6 +304,8 @@ namespace FileSystem {
 		FILE *OpenReadStream(const std::string &path);
 		// similar to fopen(path, "wb")
 		FILE *OpenWriteStream(const std::string &path, int flags = 0);
+		bool RemoveFile(const std::string &relativePath);
+		bool IsChildOfRoot(const std::string &path);
 	};
 
 	class FileSourceUnion : public FileSource {
