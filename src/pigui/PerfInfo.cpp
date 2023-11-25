@@ -37,6 +37,8 @@
 // using namespace PiGui;
 using PerfInfo = PiGui::PerfInfo;
 
+static constexpr double scale_MB = 1024.0 * 1024.0;
+
 struct PerfInfo::ImGuiState {
 	bool perfWindowOpen = true;
 	bool updatePause = false;
@@ -58,6 +60,8 @@ PerfInfo::PerfInfo() :
 	m_fpsCounter.history.fill(0.0);
 	m_physCounter.history.fill(0.0);
 	m_piguiCounter.history.fill(0.0);
+	m_procMemCounter.history.fill(0.0);
+	m_luaMemCounter.history.fill(0.0);
 }
 
 PerfInfo::~PerfInfo()
@@ -118,6 +122,8 @@ PerfInfo::CounterInfo &PerfInfo::GetCounter(CounterType ct)
 	case COUNTER_FPS: return m_fpsCounter;
 	case COUNTER_PHYS: return m_physCounter;
 	case COUNTER_PIGUI: return m_piguiCounter;
+	case COUNTER_PROCMEM: return m_procMemCounter;
+	case COUNTER_LUAMEM: return m_luaMemCounter;
 	// default value is never reached, calm down -Werror=return-type
 	default: return m_fpsCounter;
 	}
@@ -142,7 +148,7 @@ void PerfInfo::UpdateCounter(CounterType ct, float deltaTime)
 
 	// Drop the oldest frame, make room for the new frame.
 	std::move(counter.history.begin() + 1, counter.history.end(), counter.history.begin());
-	counter.history[NUM_FRAMES - 1] = deltaTime * 1e3;
+	counter.history[NUM_FRAMES - 1] = deltaTime;
 
 	float timeAccum = 0;
 	counter.max = 0.f;
@@ -157,14 +163,18 @@ void PerfInfo::UpdateCounter(CounterType ct, float deltaTime)
 
 void PerfInfo::Update(float deltaTime)
 {
-	UpdateCounter(COUNTER_FPS, deltaTime);
+	UpdateCounter(COUNTER_FPS, deltaTime * 1e3);
 
 	lastUpdateTime += deltaTime;
-	if (lastUpdateTime > 1.0) {
-		lastUpdateTime = fmod(lastUpdateTime, 1.0);
+	constexpr double update_rate = 0.5;
+	if (lastUpdateTime > update_rate) {
+		lastUpdateTime = fmod(lastUpdateTime, update_rate);
 
 		lua_mem = ::Lua::manager->GetMemoryUsage();
 		process_mem = GetMemoryInfo();
+
+		UpdateCounter(COUNTER_PROCMEM, process_mem.currentMemSize * 1.0e-3);
+		UpdateCounter(COUNTER_LUAMEM, double(lua_mem) / scale_MB);
 	}
 }
 
@@ -193,8 +203,6 @@ namespace ImGui {
 	}
 } // namespace ImGui
 
-static constexpr double scale_MB = 1024.0 * 1024.0;
-
 void PerfInfo::Draw()
 {
 	if (m_state->perfWindowOpen)
@@ -214,27 +222,83 @@ void PerfInfo::Draw()
 		ImGui::ShowStackToolWindow(&m_state->stackToolOpen);
 }
 
+static const char *s_rendererIcon = "\uF082";
+static const char *s_worldIcon = "\uF092";
+static const char *s_perfIcon = "\uF0F0";
+
+bool BeginDebugTab(const char *icon, const char *label)
+{
+	bool ret = ImGui::BeginTabItem(icon);
+	ImGui::SetItemTooltip("%s", label);
+
+	if (ret) {
+		ImGui::BeginChild(label, ImVec2(0, 0), false,
+			ImGuiWindowFlags_NoSavedSettings |
+			ImGuiWindowFlags_HorizontalScrollbar |
+			ImGuiWindowFlags_NoBackground);
+	}
+
+	return ret;
+}
+
+void EndDebugTab()
+{
+	ImGui::EndChild();
+	ImGui::EndTabItem();
+}
+
+void PerfInfo::DrawCounter(CounterType ct, const char *label, float min, float max, float height)
+{
+	CounterInfo &counter = GetCounter(ct);
+
+	if (min == 0.0 && max == 0.0) {
+		int l2min = floor(log2(counter.min));
+		int l2max = ceil(log2(counter.max));
+
+		min = pow(2.0, l2min);
+		max = pow(2.0, l2max);
+	}
+
+	ImGui::PlotLines(label, counter.history.data(), counter.history.size(), 0, nullptr, min, max, { 0.f, height });
+}
+
 void PerfInfo::DrawPerfWindow()
 {
-	if (ImGui::Begin("Performance", nullptr, ImGuiWindowFlags_NoNav)) {
-		ImGui::Text("%.1f fps (%.1f ms) %.1f physics ups (%.1f ms/u)", framesThisSecond, m_fpsCounter.average, physFramesThisSecond, m_physCounter.average);
-		ImGui::PlotLines("Frame Time (ms)", m_fpsCounter.history.data(), m_fpsCounter.history.size(), 0, nullptr, 2.0, 33.0, { 0, 45 });
-		ImGui::PlotLines("Update Time (ms)", m_physCounter.history.data(), m_physCounter.history.size(), 0, nullptr, 0.0, 10.0, { 0, 25 });
-		ImGui::PlotLines("Pigui Time (ms)", m_piguiCounter.history.data(), m_piguiCounter.history.size(), 0, nullptr, 0.0, 5.0, { 0, 25 });
-		if (ImGui::Button(m_state->updatePause ? "Unpause" : "Pause")) {
-			SetUpdatePause(!m_state->updatePause);
-		}
+	// Draw headline counter
+	std::string perf_text = fmt::format("Debug Tools | {:.1f} fps ({:.1f} ms)###Performance",
+		framesThisSecond, m_fpsCounter.average);
 
-		if (process_mem.currentMemSize)
-			ImGui::Text("%.1f MB process memory usage (%.1f MB peak)", (process_mem.currentMemSize * 1e-3), (process_mem.peakMemSize * 1e-3));
-		ImGui::Text("%.3f MB Lua memory usage", double(lua_mem) / scale_MB);
+	if (ImGui::Begin(perf_text.c_str(), nullptr, ImGuiWindowFlags_NoNav)) {
+
+		ImVec4 color = ImVec4(1, 1, 1, 1);
+		if (m_fpsCounter.average > 16.7)
+			color = ImVec4(1.0, 0.6, 0.4, 1);
+		if (m_fpsCounter.average > 33.4)
+			color = ImVec4(1.0, 0.4, 0.4, 1);
+
+		ImGui::PushStyleColor(ImGuiCol_Text, color);
+		ImGui::Text("frame: %.1f ms | physics: %.1f ms | gui: %.1f ms",
+			m_fpsCounter.average, m_physCounter.average, m_piguiCounter.average);
+		ImGui::PopStyleColor();
+
+		ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
+		DrawCounter(COUNTER_FPS, "#ft1", 8.0, 33.3, 30);
+
 		ImGui::Spacing();
 
 		if (ImGui::BeginTabBar("PerfInfoTabs")) {
-			if (ImGui::BeginTabItem("Renderer")) {
+
+			if (BeginDebugTab(s_rendererIcon, "Renderer Stats")) {
 				DrawRendererStats();
+				ImGui::Spacing();
 				DrawImGuiStats();
-				ImGui::EndTabItem();
+
+				EndDebugTab();
+			}
+
+			if (BeginDebugTab(s_perfIcon, "Performance")) {
+				DrawPerformanceStats();
+				EndDebugTab();
 			}
 
 			if (false && ImGui::BeginTabItem("Input")) {
@@ -242,10 +306,11 @@ void PerfInfo::DrawPerfWindow()
 				ImGui::EndTabItem();
 			}
 
-			if (Pi::game) {
-				if (Pi::player->GetFlightState() != Ship::HYPERSPACE && ImGui::BeginTabItem("WorldView")) {
+			if (Pi::game && Pi::player->GetFlightState() != Ship::HYPERSPACE) {
+				if (BeginDebugTab(s_worldIcon, "WorldView Stats")) {
+
 					DrawWorldViewStats();
-					ImGui::EndTabItem();
+					EndDebugTab();
 				}
 			}
 
@@ -256,8 +321,44 @@ void PerfInfo::DrawPerfWindow()
 	}
 
 	ImGui::End();
+}
 
-	PiGui::RunHandler(Pi::GetFrameTime(), "debug");
+void PerfInfo::DrawPerformanceStats()
+{
+	ImGui::SeparatorText("Frame Stats");
+
+	ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x);
+
+	ImGui::Text("Frame Time: %.1f ms (%.1f fps)", m_fpsCounter.average, framesThisSecond);
+	DrawCounter(COUNTER_FPS, "##framet", 2.0, 33.0, 45);
+
+	ImGui::Text("Update Time: %.1f ms (%.1f ups)", m_physCounter.average, physFramesThisSecond);
+	DrawCounter(COUNTER_PHYS, "##physt", 0.0, 10.0, 45);
+
+	ImGui::Text("PiGui Time: %.1f ms", m_piguiCounter.average);
+	DrawCounter(COUNTER_PIGUI, "##guit", 0.0, 5.0, 45);
+
+	ImGui::PopItemWidth();
+
+	if (ImGui::Button(m_state->updatePause ? "Unpause" : "Pause")) {
+		SetUpdatePause(!m_state->updatePause);
+	}
+
+	ImGui::Spacing();
+
+	ImGui::SeparatorText("Memory Usage");
+
+	ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x);
+
+	ImGui::Text("%.1f MB process memory usage", (process_mem.currentMemSize * 1e-3));
+	if (process_mem.peakMemSize > 0.0)
+		ImGui::Text("%.1f MB peak process memory", (process_mem.peakMemSize * 1e-3));
+	DrawCounter(COUNTER_PROCMEM, "##procmem", 0, 0, 45);
+
+	ImGui::Text("%.3f MB Lua memory usage", double(lua_mem) / scale_MB);
+	DrawCounter(COUNTER_LUAMEM, "##luamem", 0, 0, 25);
+
+	ImGui::PopItemWidth();
 }
 
 void PerfInfo::DrawRendererStats()
@@ -297,7 +398,7 @@ void PerfInfo::DrawRendererStats()
 	const Uint32 numCachedTextures = numTex2ds + numTexCubemaps + numTexArray2ds;
 	const Uint32 cachedTextureMemUsage = tex2dMemUsage + texCubeMemUsage + texArray2dMemUsage;
 
-	ImGui::Text("Renderer:");
+	ImGui::SeparatorText("Renderer");
 	ImGui::Text("%u Draw calls, %u CommandList flushes",
 		numDrawCalls, numCmdListFlushes);
 
@@ -323,7 +424,7 @@ void PerfInfo::DrawRendererStats()
 	ImGui::Text("%u cached render states", numRenderStates);
 	ImGui::Text("%u cached textures, using %.3f MB VRAM", numCachedTextures, double(cachedTextureMemUsage) / scale_MB);
 
-	if (ImGui::Button("Open Texture Cache Visualizer"))
+	if (ImGui::Button("Open Texture Cache Viewer"))
 		m_state->textureCacheViewerOpen = true;
 
 	if (ImGui::Button("Reload Shaders"))
@@ -336,6 +437,8 @@ void PerfInfo::DrawRendererStats()
 
 void PerfInfo::DrawWorldViewStats()
 {
+	ImGui::SeparatorText("World View");
+
 	vector3d pos = Pi::player->GetPosition();
 	vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
 
@@ -487,9 +590,9 @@ void PerfInfo::DrawInputDebug()
 
 void PerfInfo::DrawImGuiStats()
 {
-	ImGui::NewLine();
+	ImGui::SeparatorText("ImGui Stats");
+
 	auto &io = ImGui::GetIO();
-	ImGui::Text("ImGui stats:");
 	ImGui::Text("%d verts, %d tris", io.MetricsRenderVertices, io.MetricsRenderIndices / 3);
 	ImGui::Text("%d active windows (%d visible)", io.MetricsActiveWindows, io.MetricsRenderWindows);
 	ImGui::Text("%d current allocations", io.MetricsActiveAllocations);

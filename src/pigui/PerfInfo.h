@@ -18,7 +18,9 @@ namespace PiGui {
 		enum CounterType {
 			COUNTER_FPS,
 			COUNTER_PHYS,
-			COUNTER_PIGUI
+			COUNTER_PIGUI,
+			COUNTER_PROCMEM,
+			COUNTER_LUAMEM,
 		};
 
 		// Information about the current process memory usage in KB.
@@ -26,6 +28,15 @@ namespace PiGui {
 			size_t currentMemSize;
 			size_t peakMemSize;
 		};
+
+		static const int NUM_FRAMES = 60;
+		struct CounterInfo {
+			std::array<float, NUM_FRAMES> history;
+			float average = 0.;
+			float min = 0.;
+			float max = 0.;
+		};
+
 		struct ImGuiState;
 
 		void Draw();
@@ -45,25 +56,24 @@ namespace PiGui {
 		void DrawTextureCache();
 		void DrawTextureInspector();
 
+		void DrawPerformanceStats();
 		void DrawRendererStats();
 		void DrawWorldViewStats();
 		void DrawImGuiStats();
 		void DrawInputDebug();
 		void DrawStatList(const Perf::Stats::FrameInfo &fi);
 
-		static const int NUM_FRAMES = 60;
-		struct CounterInfo {
-			std::array<float, NUM_FRAMES> history;
-			float average = 0.;
-			float min = 0.;
-			float max = 0.;
-		};
-
+		void DrawCounter(CounterType ct, const char *label, float min, float max, float height);
 		CounterInfo &GetCounter(CounterType ct);
 
+		// Per-frame counters
 		CounterInfo m_fpsCounter;
 		CounterInfo m_physCounter;
 		CounterInfo m_piguiCounter;
+
+		// Per-second counters
+		CounterInfo m_procMemCounter;
+		CounterInfo m_luaMemCounter;
 
 		MemoryInfo process_mem;
 		size_t lua_mem = 0;
