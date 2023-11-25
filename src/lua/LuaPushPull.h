@@ -11,8 +11,13 @@
 #include <string>
 #include <tuple>
 #include <cstdint>
+#include <type_traits>
 
-inline void pi_lua_generic_push(lua_State *l, bool value) { lua_pushboolean(l, value); }
+// Prevent automatic conversion of pointer values to boolean (never what we want when pushing values to lua)
+// sadly requires type_traits so compile times suffer
+template<typename T, typename = std::enable_if_t<std::is_same_v<T, bool>>>
+inline void pi_lua_generic_push(lua_State *l, T value) { lua_pushboolean(l, value); }
+
 inline void pi_lua_generic_push(lua_State *l, int32_t value) { lua_pushinteger(l, value); }
 inline void pi_lua_generic_push(lua_State *l, int64_t value) { lua_pushinteger(l, value); }
 inline void pi_lua_generic_push(lua_State *l, uint32_t value) { lua_pushinteger(l, value); }
@@ -23,7 +28,7 @@ inline void pi_lua_generic_push(lua_State *l, const std::string &value)
 {
 	lua_pushlstring(l, value.c_str(), value.size());
 }
-inline void pi_lua_generic_push(lua_State *l, std::string_view &value)
+inline void pi_lua_generic_push(lua_State *l, const std::string_view &value)
 {
 	lua_pushlstring(l, value.data(), value.size());
 }
@@ -73,6 +78,16 @@ inline Type LuaPull(lua_State *l, int index, Type defaultVal)
 	if (lua_gettop(l) >= index && !lua_isnil(l, index))
 		pi_lua_generic_pull(l, index, value);
 	return value;
+}
+
+// Push a list of arguments to the stack and return the number of elements pushed
+template <typename ...Args>
+int LuaPushMultiple(lua_State *l, Args ...args)
+{
+	// comma operator has defined evaluation order so args[1] will be
+	// evaluated before args[2] etc...
+	(..., LuaPush<Args>(l, args));
+	return sizeof...(args);
 }
 
 inline bool pi_lua_strict_pull(lua_State *l, int index, bool &out)
