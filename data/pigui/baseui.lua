@@ -7,6 +7,9 @@ local pigui = Engine.pigui
 local ui = require 'pigui.libs.forwarded'
 ui.rescaleUI = require 'pigui.libs.rescale-ui'
 
+---@type EventQueue
+ui.Events = pigui.event_queue
+
 --
 -- Function: ui.rescaleFraction
 --

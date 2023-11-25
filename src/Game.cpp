@@ -18,6 +18,7 @@
 #include "galaxy/Economy.h"
 #include "lua/LuaEvent.h"
 #include "lua/LuaSerializer.h"
+#include "pigui/LuaPiGui.h"
 #if WITH_OBJECTVIEWER
 #include "ObjectViewerView.h"
 #endif
@@ -880,9 +881,11 @@ void Game::EmitPauseState(bool paused)
 	if (paused) {
 		// Notify UI that time is paused.
 		LuaEvent::Queue("onGamePaused");
+		LuaEvent::Queue(PiGui::GetEventQueue(), "onGamePaused");
 	} else {
 		// Notify the UI that time is running again.
 		LuaEvent::Queue("onGameResumed");
+		LuaEvent::Queue(PiGui::GetEventQueue(), "onGameResumed");
 	}
 	LuaEvent::Emit();
 }

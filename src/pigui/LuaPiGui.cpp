@@ -35,6 +35,7 @@ static std::vector<std::pair<std::string, int>> m_keycodes = {
 static LuaRef m_handlers;
 static LuaRef m_themes;
 static LuaRef m_keys;
+static LuaRef m_eventQueue;
 
 namespace PiGui {
 
@@ -42,14 +43,18 @@ namespace PiGui {
 
 		void Init()
 		{
+			LUA_DEBUG_START(l);
+
 			LuaObject<PiGui::Instance>::RegisterClass();
 
 			lua_State *l = ::Lua::manager->GetLuaState();
 			lua_newtable(l);
 			m_handlers = LuaRef(l, -1);
+			lua_pop(l, 1);
 
 			lua_newtable(l);
 			m_themes = LuaRef(l, -1);
+			lua_pop(l, 1);
 
 			lua_newtable(l);
 			m_keys = LuaRef(l, -1);
@@ -58,11 +63,19 @@ namespace PiGui {
 				keys.Set(p.first, p.second);
 			}
 
+			pi_lua_import(l, "Event");
+
+			// Create a new event table and store it for UI use
+			m_eventQueue = LuaTable(l, -1).Call<LuaRef>("New");
+			lua_pop(l, 1);
+
 			LuaObject<PiGui::Image>::RegisterClass();
 			LuaObject<PiGui::Face>::RegisterClass();
 			LuaObject<PiGui::ModelSpinner>::RegisterClass();
 			LuaObject<PiGui::RadarWidget>::RegisterClass();
 			RegisterSandbox();
+
+			LUA_DEBUG_END(l, 0);
 		}
 
 		void Uninit()
@@ -70,6 +83,7 @@ namespace PiGui {
 			m_handlers.Unref();
 			m_themes.Unref();
 			m_keys.Unref();
+			m_eventQueue.Unref();
 		}
 
 	} // namespace Lua
@@ -77,6 +91,15 @@ namespace PiGui {
 	LuaRef GetHandlers() { return m_handlers; }
 	LuaRef GetKeys() { return m_keys; }
 	LuaRef GetThemes() { return m_themes; }
+	LuaRef GetEventQueue() { return m_eventQueue; }
+
+	void EmitEvents()
+	{
+		PROFILE_SCOPED()
+
+		ScopedTable queue(GetEventQueue());
+		queue.Call("_Emit");
+	}
 
 	void RunHandler(double delta, std::string handler)
 	{

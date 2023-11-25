@@ -614,6 +614,7 @@ void StartupScreen::Update(float deltaTime)
 	}
 
 	Pi::pigui->NewFrame();
+	PiGui::EmitEvents();
 	PiGui::RunHandler(GetProgress(), "init");
 	Pi::pigui->Render();
 }
@@ -684,6 +685,7 @@ void MainMenu::Update(float deltaTime)
 	Pi::intro->Draw(deltaTime);
 
 	Pi::pigui->NewFrame();
+	PiGui::EmitEvents();
 	PiGui::RunHandler(deltaTime, "mainMenu");
 
 	perfInfoDisplay->Update(deltaTime);
@@ -1037,6 +1039,7 @@ void GameLoop::Update(float deltaTime)
 			Pi::luaConsole->Draw();
 		else {
 			Pi::GetView()->DrawPiGui();
+			PiGui::EmitEvents();
 			PiGui::RunHandler(deltaTime, "game");
 		}
 	}
@@ -1101,6 +1104,9 @@ void GameLoop::Update(float deltaTime)
 
 void GameLoop::End()
 {
+	// Process any pending UI events
+	PiGui::EmitEvents();
+
 	// When Pi::game goes, so too goes the death view.
 	Pi::SetView(0);
 
