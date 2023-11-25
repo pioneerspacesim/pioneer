@@ -61,13 +61,12 @@
 static int l_game_start_game(lua_State *l)
 {
 	if (Pi::game) {
-		luaL_error(l, "can't start a new game while a game is already running");
-		return 0;
+		return luaL_error(l, "can't start a new game while a game is already running");
 	}
 
-	auto path = LuaPull<SystemPath>(l, 1);
-	auto time = LuaPull<double>(l, 2);
-	auto shipType = LuaPull<const char*>(l, 3);
+	const auto path = LuaPull<SystemPath>(l, 1);
+	const auto time = LuaPull<double>(l, 2);
+	const auto shipType = LuaPull<const char*>(l, 3);
 
 	Pi::StartGame(new Game(path, time, shipType));
 	return 0;
@@ -416,7 +415,7 @@ static int l_game_attr_paused(lua_State *l)
 	if (!Pi::game)
 		lua_pushboolean(l, 1);
 	else
-		lua_pushboolean(l, Pi::game->IsPaused() ? 1 : 0);
+		lua_pushboolean(l, Pi::game->IsPaused());
 	return 1;
 }
 
@@ -499,7 +498,7 @@ static int l_game_switch_view(lua_State *l)
 	return 0;
 }
 
-static void pushTimeAccel(lua_State *l, Game::TimeAccel accel)
+static int pushTimeAccel(lua_State *l, const Game::TimeAccel accel)
 {
 	switch (accel) {
 	case Game::TIMEACCEL_PAUSED: lua_pushstring(l, "paused"); break;
@@ -509,28 +508,28 @@ static void pushTimeAccel(lua_State *l, Game::TimeAccel accel)
 	case Game::TIMEACCEL_1000X: lua_pushstring(l, "1000x"); break;
 	case Game::TIMEACCEL_10000X: lua_pushstring(l, "10000x"); break;
 	case Game::TIMEACCEL_HYPERSPACE: lua_pushstring(l, "hyperspace"); break;
-	default: break; // TODO error
+	default:
+		return luaL_error(l, "TimeAccel value of \"%d\" is outside of Game::TimeAccel enum", accel);
 	}
+	return 1;
 }
 
 static int l_game_get_time_acceleration(lua_State *l)
 {
-	Game::TimeAccel accel = Pi::game->GetTimeAccel();
-	pushTimeAccel(l, accel);
-	return 1;
+	const Game::TimeAccel accel = Pi::game->GetTimeAccel();
+	return pushTimeAccel(l, accel);
 }
 
 static int l_game_get_requested_time_acceleration(lua_State *l)
 {
-	Game::TimeAccel accel = Pi::game->GetRequestedTimeAccel();
-	pushTimeAccel(l, accel);
-	return 1;
+	const Game::TimeAccel accel = Pi::game->GetRequestedTimeAccel();
+	return pushTimeAccel(l, accel);
 }
 
 static int l_game_set_time_acceleration(lua_State *l)
 {
-	std::string accel = LuaPull<std::string>(l, 1);
-	bool force = LuaPull<bool>(l, 2);
+	const std::string accel = LuaPull<std::string>(l, 1);
+	const bool force = LuaPull<bool>(l, 2);
 	Game::TimeAccel a = Game::TIMEACCEL_PAUSED;
 	if (!accel.compare("paused"))
 		a = Game::TIMEACCEL_PAUSED;
@@ -546,14 +545,15 @@ static int l_game_set_time_acceleration(lua_State *l)
 		a = Game::TIMEACCEL_10000X;
 	else if (!accel.compare("hyperspace"))
 		a = Game::TIMEACCEL_HYPERSPACE;
-	// else TODO error
+	else
+		return luaL_error(l, "Unknown time acceleration %s", accel.c_str());
 	Pi::game->RequestTimeAccel(a, force);
 	return 0;
 }
 
 static int l_game_get_date_time(lua_State *l)
 {
-	Time::DateTime t(Pi::game->GetTime());
+	const Time::DateTime t(Pi::game->GetTime());
 	int year, month, day, hour, minute, second;
 	t.GetDateParts(&year, &month, &day);
 	t.GetTimeParts(&hour, &minute, &second);
@@ -570,7 +570,7 @@ static int l_game_set_view(lua_State *l)
 {
 	if (!Pi::game)
 		return luaL_error(l, "can't set view when no game is running");
-	std::string target = luaL_checkstring(l, 1);
+	const std::string target = luaL_checkstring(l, 1);
 	if (!target.compare("world")) {
 		Pi::SetView(Pi::game->GetWorldView());
 	} else if (!target.compare("space_station")) {
@@ -584,7 +584,7 @@ static int l_game_set_view(lua_State *l)
 	} else if (!target.compare("system")) {
 		Pi::SetView(Pi::game->GetSystemView());
 	} else {
-		// TODO else error
+		return luaL_error(l, "Unknown view %s", target.c_str());
 	}
 	return 0;
 }
@@ -603,7 +603,7 @@ static int l_game_get_world_cam_type(lua_State *l)
 
 static int l_game_set_world_cam_type(lua_State *l)
 {
-	std::string cam = luaL_checkstring(l, 1);
+	const std::string cam = luaL_checkstring(l, 1);
 	if (!cam.compare("internal"))
 		Pi::game->GetWorldView()->shipView->SetCamType(ShipViewController::CAM_INTERNAL);
 	else if (!cam.compare("external"))
@@ -612,9 +612,8 @@ static int l_game_set_world_cam_type(lua_State *l)
 		Pi::game->GetWorldView()->shipView->SetCamType(ShipViewController::CAM_SIDEREAL);
 	else if (!cam.compare("flyby"))
 		Pi::game->GetWorldView()->shipView->SetCamType(ShipViewController::CAM_FLYBY);
-	else {
-		// TODO else error
-	}
+	else
+		return luaL_error(l, "Unknown world cam type %s", cam.c_str());
 	return 0;
 }
 
@@ -626,8 +625,8 @@ static int l_game_get_hyperspace_travelled_percentage(lua_State *l)
 
 static int l_game_get_parts_from_date_time(lua_State *l)
 {
-	double time = LuaPull<double>(l, 1);
-	Time::DateTime t(time);
+	const double time = LuaPull<double>(l, 1);
+	const Time::DateTime t(time);
 	int year, month, day, hour, minute, second;
 	t.GetDateParts(&year, &month, &day);
 	t.GetTimeParts(&hour, &minute, &second);
