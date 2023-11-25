@@ -78,7 +78,7 @@ struct ImportInfo {
 /**
 * Returns path of last element in the lua stack
 */
-static std::string get_caller(lua_State *L)
+static std::string get_caller(lua_State *L, int depth = 1)
 {
 	// XXX: Extraneous copy
 	assert(L);
@@ -88,7 +88,7 @@ static std::string get_caller(lua_State *L)
 	lua_Debug ar;
 
 	// if have stack and caller in the stack
-	if (lua_getstack(L, 1, &ar) && lua_getinfo(L, "S", &ar) && ar.source) {
+	if (lua_getstack(L, depth, &ar) && lua_getinfo(L, "S", &ar) && ar.source) {
 		int start = 0;
 		int end = strlen(ar.source);
 
@@ -446,9 +446,9 @@ static std::string make_module_name(lua_State *L, int idx)
 	return name;
 }
 
-static std::string get_caller_module_name(lua_State *L)
+static std::string get_caller_module_name(lua_State *L, int depth = 1)
 {
-	std::string caller = get_caller(L);
+	std::string caller = get_caller(L, depth);
 	std::string_view sv(caller);
 	if (ends_with(sv, ".lua"))
 		sv.remove_suffix(4);
@@ -482,7 +482,8 @@ static int l_reimport_package(lua_State *L)
 
 static int l_get_module_name(lua_State *L)
 {
-	lua_pushstring(L, get_caller_module_name(L).c_str());
+	int depth = luaL_optinteger(L, 1, 1);
+	lua_pushstring(L, get_caller_module_name(L, depth > 1 ? depth : 1).c_str());
 	return 1;
 }
 
@@ -557,6 +558,9 @@ int luaopen_import(lua_State *L)
 
 	lua_pushcfunction(L, l_get_module_name);
 	lua_setfield(L, package_table, "thisModule");
+
+	lua_pushcfunction(L, l_get_module_name);
+	lua_setfield(L, package_table, "modulename");
 
 	LUA_DEBUG_END(L, 1);
 	return 1;
