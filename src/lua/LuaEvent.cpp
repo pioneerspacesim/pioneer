@@ -6,16 +6,19 @@
 #include "LuaObject.h"
 #include "LuaUtils.h"
 
+#include "core/Log.h"
+
 namespace LuaEvent {
+
+	static LuaRef s_eventTable;
 
 	static bool _get_method_onto_stack(lua_State *l, const char *method)
 	{
 		LUA_DEBUG_START(l);
-
-		int top = lua_gettop(l);
-
-		if (!pi_lua_import(l, "Event"))
+		if (!s_eventTable.IsValid())
 			return false;
+
+		s_eventTable.PushCopyToStack();
 
 		lua_getfield(l, -1, method);
 		if (!lua_isfunction(l, -1)) {
@@ -24,12 +27,29 @@ namespace LuaEvent {
 			return false;
 		}
 
-		lua_insert(l, top + 1);
-		lua_settop(l, top + 1);
-
+		lua_replace(l, -2);
 		LUA_DEBUG_END(l, 1);
 
 		return true;
+	}
+
+	void Init()
+	{
+		lua_State *l = Lua::manager->GetLuaState();
+
+		if (!pi_lua_import(l, "Event")) {
+			Log::Error("Could not load lua Event queue implementation!");
+			return;
+		}
+
+		s_eventTable = LuaRef(l, -1);
+
+		lua_pop(l, 1);
+	}
+
+	void Uninit()
+	{
+		s_eventTable.Unref();
 	}
 
 	void Clear()
@@ -52,19 +72,9 @@ namespace LuaEvent {
 		LUA_DEBUG_END(l, 0);
 	}
 
-	void QueueInternal(const char *event, const ArgsBase &args)
+	LuaRef &GetEventQueue()
 	{
-		lua_State *l = Lua::manager->GetLuaState();
-
-		LUA_DEBUG_START(l);
-		if (!_get_method_onto_stack(l, "Queue")) return;
-
-		int top = lua_gettop(l);
-		lua_pushstring(l, event);
-		args.PrepareStack(l);
-		pi_lua_protected_call(l, lua_gettop(l) - top, 0);
-
-		LUA_DEBUG_END(l, 0);
+		return s_eventTable;
 	}
 
 } // namespace LuaEvent

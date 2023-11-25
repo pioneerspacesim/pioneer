@@ -103,6 +103,8 @@ namespace Lua {
 		LuaObject<LuaSerializer>::RegisterClass();
 		LuaObject<LuaTimer>::RegisterClass();
 
+		LuaEvent::Init();
+
 		LuaConstants::Register(Lua::manager->GetLuaState());
 		LuaLang::Register();
 		LuaEconomy::Register();
@@ -139,6 +141,8 @@ namespace Lua {
 
 	void UninitModules()
 	{
+		LuaEvent::Uninit();
+
 		delete Pi::luaNameGen;
 
 		delete Pi::luaSerializer;
