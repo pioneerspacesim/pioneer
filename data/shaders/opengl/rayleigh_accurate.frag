@@ -19,11 +19,21 @@ void main(void)
 	vec3 eyenorm = normalize(varyingEyepos.xyz);
 	vec3 specularHighlight = vec3(0.0);
 
+	float terrainNear, terrainFar;
+
 	sphereEntryExitDist(skyNear, skyFar, geosphereCenter, varyingEyepos.xyz, geosphereRadius * geosphereAtmosTopRad);
+	sphereEntryExitDist(terrainNear, terrainFar, geosphereCenter, varyingEyepos.xyz, geosphereRadius);
 
 	// a&b scaled so length of 1.0 means planet surface.
 	vec3 a = (skyNear * eyenorm - geosphereCenter) * geosphereInvRadius;
 	vec3 b = (skyFar * eyenorm - geosphereCenter) * geosphereInvRadius;
+
+	// far > 0.0 means intersection with planet surface
+	// clip atmosphere ray against planet surface so we're not rendering "behind" geosphere
+	if (terrainFar > 0.0) {
+		skyFar = terrainNear;
+		b = (terrainNear * eyenorm - geosphereCenter) * geosphereInvRadius;
+	}
 
 	vec4 atmosDiffuse = vec4(0.0);
 
@@ -43,7 +53,7 @@ void main(void)
 #endif
 
 	atmosDiffuse.a = 1.0;
-	frag_color = (atmosDiffuse *
-		vec4(specularHighlight.rgb, 1.0) * 20
-		);
+	vec4 color = atmosDiffuse *
+		vec4(specularHighlight.rgb, 1.0) * 20;
+	frag_color = (1 - exp(-color));
 }
