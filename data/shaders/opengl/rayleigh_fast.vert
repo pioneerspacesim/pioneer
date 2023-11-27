@@ -15,17 +15,18 @@ void main(void)
 	varyingEyepos = uViewMatrix * a_vertex;
 
     // compute incident light from each light source
-	float skyNear, skyFar;
 	vec3 eyenorm = normalize(varyingEyepos.xyz);
 	vec3 specularHighlight = vec3(0.0);
 
-	sphereEntryExitDist(skyNear, skyFar, geosphereCenter, varyingEyepos.xyz, geosphereRadius * geosphereAtmosTopRad);
+	vec2 skyDist = raySphereIntersect(geosphereCenter, eyenorm, geosphereAtmosTopRad);
+	skyDist *= geosphereRadius;
+
 #if (NUM_LIGHTS > 0)
-	vec3 surfaceNorm = normalize(skyNear * eyenorm - geosphereCenter);
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		vec3 lightDir = normalize(vec3(uLight[i].position));
 
-		specularHighlight += computeIncidentLight(lightDir, eyenorm, geosphereCenter, skyNear, skyFar) * INV_NUM_LIGHTS;
+		vec3 sphereCenter = geosphereCenter * geosphereRadius;
+		specularHighlight += computeIncidentLight(lightDir, eyenorm, sphereCenter, skyDist.x, skyDist.y) * INV_NUM_LIGHTS;
 	}
 #endif
 

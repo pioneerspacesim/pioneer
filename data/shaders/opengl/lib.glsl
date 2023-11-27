@@ -1,6 +1,18 @@
 // Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+// Simple ray-sphere intersection test, assuming ray starts at origin and rayDir is pre-normalized.
+// Returns distance to first and second intersections in {x, y} or 0.0 if no intersection.
+vec2 raySphereIntersect(in vec3 sphereCenter, in vec3 rayDir, in float radius)
+{
+	vec3 v = -sphereCenter;
+	float b = -dot(v, rayDir);
+	float det = (b * b) - dot(v, v) + (radius * radius);
+	float sdet = sqrt(det);
+
+	return det > 0.0 ? max(vec2(b - sdet, b + sdet), vec2(0.0)) : vec2(0.0);
+}
+
 #ifdef FRAGMENT_SHADER
 
 struct Surface {
@@ -43,18 +55,6 @@ void BlinnPhongDirectionalLight(in Light light, in float intensity, in Surface s
 	vec3 H = normalize(L + V); // halfway vector
 	diffuse += surf.color.xyz * light.diffuse.xyz * intensity * max(dot(L, surf.normal), 0.0);
 	specular += surf.specular * light.specular.xyz * intensity * pow(max(dot(H, surf.normal), 0.0), surf.shininess);
-}
-
-// Simple ray-sphere intersection test, assuming ray starts at origin and rayDir is pre-normalized.
-// Returns distance to first and second intersections in {x, y} or 0.0 if no intersection.
-vec2 raySphereIntersect(in vec3 sphereCenter, in vec3 rayDir, in float radius)
-{
-	vec3 v = -sphereCenter;
-	float b = -dot(v, rayDir);
-	float det = (b * b) - dot(v, v) + (radius * radius);
-	float sdet = sqrt(det);
-
-	return det > 0.0 ? max(vec2(b - sdet, b + sdet), vec2(0.0)) : vec2(0.0);
 }
 
 // Used by: geosphere shaders
