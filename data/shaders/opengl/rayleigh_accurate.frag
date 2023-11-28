@@ -46,7 +46,7 @@ void main(void)
 		vec3 lightDir = normalize(vec3(uLight[i].position));
 
 		float uneclipsed = clamp(calcUneclipsedSky(eclipse, NumShadows, a, b, lightDir), 0.0, 1.0);
-		CalcPlanetDiffuse(atmosDiffuse, uLight[i], lightDir, surfaceNorm, uneclipsed);
+		CalcPlanetDiffuse(atmosDiffuse, toLinear(uLight[i].diffuse), lightDir, surfaceNorm, uneclipsed);
 
 		// Convert from radius-relative to real coordinates
 		vec3 center = geosphereCenter * geosphereRadius;
@@ -59,5 +59,6 @@ void main(void)
 	vec4 color = atmosDiffuse *
 		vec4(specularHighlight.rgb, 1.0) * 20;
 
-	frag_color = (1 - exp(-color));
+	frag_color = toSRGB(1 - exp(-color));
+
 }

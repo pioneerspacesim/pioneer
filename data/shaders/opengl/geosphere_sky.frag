@@ -37,13 +37,17 @@ void main(void)
 		vec3 L = normalize(vec3(uLight[i].position));
 		float uneclipsed = clamp(calcUneclipsedSky(eclipse, NumShadows, a, b, L), 0.0, 1.0);
 
-		CalcPlanetDiffuse(atmosDiffuse, uLight[i], L, surfaceNorm, uneclipsed);
+		CalcPlanetDiffuse(atmosDiffuse, toLinear(uLight[i].diffuse), L, surfaceNorm, uneclipsed);
 
 		// Calculate Specular Highlight (halo around the light source)
 		specularHighlight += pow(max(dot(L, eyenorm), 0.0), 64.0) * uneclipsed * INV_NUM_LIGHTS;
 
 	}
 #endif
+
+	// Tonemap in sRGB space to match existing visuals
+	atmosDiffuse = toSRGB(atmosDiffuse);
+	atmosDiffuse = 1.0 - exp(-atmosDiffuse);
 
 	//calculate sunset tone red when passing through more atmosphere, clamp everything.
 	float atmpower = (atmosDiffuse.r+atmosDiffuse.g+atmosDiffuse.b)/3.0;

@@ -1,6 +1,8 @@
 // Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "sRGB.glsl"
+
 // Simple ray-sphere intersection test, assuming ray starts at origin and rayDir is pre-normalized.
 // Returns distance to first and second intersections in {x, y} or 0.0 if no intersection.
 vec2 raySphereIntersect(in vec3 sphereCenter, in vec3 rayDir, in float radius)

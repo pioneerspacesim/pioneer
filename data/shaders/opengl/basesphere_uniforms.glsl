@@ -39,14 +39,14 @@ layout(std140) uniform BaseSphereData {
 // L: light -> surface vector (normalized)
 // N: surface normal
 // V: surface position relative to the unit-sphere planet
-void CalcPlanetDiffuse(inout vec4 diff, in Light light, in vec3 L, in vec3 N, in float uneclipsed)
+void CalcPlanetDiffuse(inout vec4 diff, in vec4 color, in vec3 L, in vec3 N, in float uneclipsed)
 {
 	float nDotVP  = max(0.0, dot(N, L));
 	float nnDotVP = max(0.0, dot(N, -L));
 
 	//need backlight to increase horizon, attempts to model light propagating towards terminator
 	float clampedCosine = (nDotVP + 0.5 * clamp(1.0 - nnDotVP * 4.0, 0, 1) * INV_NUM_LIGHTS);
-	diff += light.diffuse * uneclipsed * 0.5 * clampedCosine;
+	diff += color * uneclipsed * 0.5 * clampedCosine;
 }
 
 // Common code to calculate the specular light term for a planet's surface

@@ -27,7 +27,7 @@ void main(void)
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		vec3 L = normalize(uLight[i].position.xyz);
 		float uneclipsed = clamp(calcUneclipsed(eclipse, NumShadows, V, L), 0.0, 1.0);
-		CalcPlanetDiffuse(diff, uLight[i], L, tnorm, uneclipsed);
+		CalcPlanetDiffuse(diff, uLight[i].diffuse, L, tnorm, uneclipsed);
 	}
 
 	float ldprod=0.0;
