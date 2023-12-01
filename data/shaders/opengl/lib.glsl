@@ -15,6 +15,28 @@ vec2 raySphereIntersect(in vec3 sphereCenter, in vec3 rayDir, in float radius)
 	return det > 0.0 ? max(vec2(b - sdet, b + sdet), vec2(0.0)) : vec2(0.0);
 }
 
+// ray starts at origin, rayDir and axis are pre-normalized
+// Returns distance to first and second intersections in {x, y} or 0.0 if no intersection.
+vec2 rayCylinderIntersect(in vec3 rayDir, in vec3 cylinderCenter, in vec3 axis, in float radius)
+{
+    // tangent vectors (parallel to axis)
+    vec3 tray = axis * dot(rayDir, axis);
+    vec3 tcenter = axis * dot(cylinderCenter, axis);
+
+    // normal vectors (perpendicular to axis)
+    vec3 nray = rayDir - tray;
+    vec3 ncenter = cylinderCenter - tcenter;
+
+    // coefficient to move from projection to actual 3d space
+    // e.g. if angle between axis and tray = 30deg, actual intersect should be doubled
+    float scale = length(nray);
+
+    // intersection given in main plane projection
+    vec2 intersect = raySphereIntersect(ncenter, normalize(nray), radius);
+
+    return (scale == 0.f) ? vec2(0.f) : intersect / scale;
+}
+
 #ifdef FRAGMENT_SHADER
 
 struct Surface {

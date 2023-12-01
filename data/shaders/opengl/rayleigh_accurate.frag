@@ -18,15 +18,7 @@ void main(void)
 	vec3 eyenorm = normalize(varyingEyepos.xyz);
 	vec3 specularHighlight = vec3(0.0);
 
-	vec2 atmosDist  = raySphereIntersect(geosphereCenter, eyenorm, geosphereAtmosTopRad);
-	vec2 groundDist = raySphereIntersect(geosphereCenter, eyenorm, 1.0);
-
-	// far > 0.0 means intersection with planet surface
-	// clip atmosphere ray against planet surface so we're not rendering "behind" geosphere
-	if (groundDist.y > 0.0) {
-		atmosDist.y = groundDist.x;
-	}
-
+    vec2 atmosDist  = raySphereIntersect(geosphereCenter, eyenorm, geosphereAtmosTopRad);
 	// Invalid ray, skip shading this pixel
 	// (can improve performance when spatially coherent)
 	if (atmosDist.x == 0.0 && atmosDist.y == 0.0) {
