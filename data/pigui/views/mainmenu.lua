@@ -195,6 +195,7 @@ local function showMainMenu()
 
 	callModules('mainMenu')
 	callModules('modal')
+	callModules('ui-timer')
 end -- showMainMenu
 
 ui.registerHandler('mainMenu', showMainMenu)
