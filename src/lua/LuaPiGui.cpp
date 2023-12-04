@@ -625,7 +625,7 @@ static int l_pigui_begin(lua_State *l)
  *
  *   stable
  */
-static int l_pigui_get_time(lua_State* l)
+static int l_pigui_get_time(lua_State *l)
 {
 	lua_pushnumber(l, ImGui::GetTime());
 	return 1;
@@ -2803,7 +2803,7 @@ static int l_pigui_color_edit(lua_State *l)
 	const auto lua_flags = LuaPull<ImGuiColorEditFlags_>(l, 3, ImGuiColorEditFlags_None);
 
 	const auto flags = ImGuiColorEditFlags_InputRGB | ImGuiColorEditFlags_NoDragDrop;
-	bool ok = ImGui::ColorEdit4(lbl, &color.r, flags | lua_flags );
+	bool ok = ImGui::ColorEdit4(lbl, &color.r, flags | lua_flags);
 	LuaPush(l, ok);
 	LuaPush(l, Color(color));
 
@@ -2903,12 +2903,12 @@ static int l_pigui_drag_int_4(lua_State *l)
 
 static int l_pigui_increment_drag(lua_State *l)
 {
-	const char *label = LuaPull<const char*>(l, 1);
+	const char *label = LuaPull<const char *>(l, 1);
 	double value = LuaPull<double>(l, 2);
 	float v_speed = LuaPull<float>(l, 3);
 	double v_min = LuaPull<double>(l, 4);
 	double v_max = LuaPull<double>(l, 5);
-	const char* format = LuaPull<const char*>(l, 6);
+	const char *format = LuaPull<const char *>(l, 6);
 	// optional bool - auto false if empty
 	bool drawProgressBar = LuaPull<bool>(l, 7);
 
@@ -3167,7 +3167,7 @@ static int l_pigui_table_set_column_index(lua_State *l)
 
 static int l_pigui_table_setup_column(lua_State *l)
 {
-	ImGuiContext* g = ImGui::GetCurrentContext();
+	ImGuiContext *g = ImGui::GetCurrentContext();
 
 	if (g == NULL || g->CurrentTable == NULL)
 		return luaL_error(l, "Cannot call tableSetupColumn() outside of a beginTable() / endTable() pair");
@@ -3270,7 +3270,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 	static const luaL_Reg l_methods[] = {
 		{ "Begin", l_pigui_begin },
 		{ "End", l_pigui_end },
-		{ "GetTime", l_pigui_get_time},
+		{ "GetTime", l_pigui_get_time },
 		{ "PushClipRectFullScreen", l_pigui_push_clip_rect_full_screen },
 		{ "PopClipRect", l_pigui_pop_clip_rect },
 		{ "PushClipRect", l_pigui_push_clip_rect },
