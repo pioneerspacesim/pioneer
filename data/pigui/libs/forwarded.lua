@@ -26,6 +26,7 @@ ui.setNextWindowSizeConstraints = pigui.SetNextWindowSizeConstraints ---@type fu
 -- Forwarded as-is for use in complicated layout primitives without introducing additional scopes
 ui.beginGroup = pigui.BeginGroup
 ui.endGroup = pigui.EndGroup
+ui.getTime = pigui.GetTime
 
 ui.dummy = pigui.Dummy
 ui.newLine = pigui.NewLine

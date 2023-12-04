@@ -615,6 +615,23 @@ static int l_pigui_begin(lua_State *l)
 }
 
 /*
+ * Function: GetTime
+ *
+ * Gets imgui internal time
+ *
+ * > local currentTime = ui.getTime()
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_pigui_get_time(lua_State* l)
+{
+	lua_pushnumber(l, ImGui::GetTime());
+	return 1;
+}
+
+/*
  * Function: columns
  *
  * Initiates drawing of a table with n columns
@@ -3253,6 +3270,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 	static const luaL_Reg l_methods[] = {
 		{ "Begin", l_pigui_begin },
 		{ "End", l_pigui_end },
+		{ "GetTime", l_pigui_get_time},
 		{ "PushClipRectFullScreen", l_pigui_push_clip_rect_full_screen },
 		{ "PopClipRect", l_pigui_pop_clip_rect },
 		{ "PushClipRect", l_pigui_push_clip_rect },
