@@ -20,14 +20,14 @@ local mapLayout, timeLayout, pathLayout
 -- time
 --
 -- value: number, game time, 0 means 3200-01-01 00:00:00
+-- value < 0 means "standard" time is taken - 1200 years from now
 --
 local Time = GameParam.New(lui.GAME_TIME, "time")
 Time.value = 0
 
-Time.standard = false
-
 function Time:pseudoDateTime()
-	local year, month, day, hour, minute, second = util.gameTimeToTimeParts(self.value)
+	local time = self.value >= 0 and self.value or util.standardGameStartTime()
+	local year, month, day, hour, minute, second = util.gameTimeToTimeParts(time)
 	return year * 10000 + month * 100 + day, hour * 10000 + minute * 100 + second
 end
 
@@ -52,7 +52,7 @@ function Time:draw()
 		ui.sameLine()
 		local pdate, ptime = self:pseudoDateTime()
 		ui.nextItemWidth(timeLayout.dateWidth)
-		local lockBecauseStandard = self.standard or self.lock
+		local lockBecauseStandard = self.value < 0 or self.lock
 		local val_date, ch_date = Widgets.incrementDrag(lockBecauseStandard, "##startdate", pdate, 1, 0, 4000000000, formatPseudoValue(pdate, "-"))
 		ui.sameLine()
 		ui.text("-")
@@ -78,28 +78,26 @@ function Time:draw()
 			-- seconds and days can be negative, but I don’t want to remove assertions in the function for other cases
 			self.value = util.timePartsToGameTime(year, month, 1, hour, minute, 0) + 86400 * (day - 1) + second
 		end
-		if self.standard then
-			self.value = util.standardGameStartTime()
-		end
-		local ch,value = ui.checkbox(lui.STANDARD_GAME_START_TIME, self.standard)
+		local ch, checked = ui.checkbox(lui.STANDARD_GAME_START_TIME, self.value < 0)
 		if ch and (not self.lock) then
-			self.standard = value
+			if checked then
+				self.value = -1
+			else
+				self.value = util.standardGameStartTime()
+			end
 		end
 		ui.endGroup()
 	end)
 end
 
 function Time:fromStartVariant(variant)
-	self.value = 0
-	self.standard = true
+	self.value = -1
 	self.lock = true
 end
 
 function Time:isValid()
-	if self.standard then
-		self.value = util.standardGameStartTime()
-	end
-	return self.value >= 0
+	-- more negative time is something weird
+	return self.value >= -2
 end
 
 --

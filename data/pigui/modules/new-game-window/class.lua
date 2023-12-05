@@ -104,7 +104,11 @@ end
 local function startGame(gameParams)
 
 	-- space, ship in dock / orbit
-	Game.StartGame(gameParams.location.path, gameParams.time, gameParams.ship.type)
+	local startTime = gameParams.time
+	if startTime < 0 then
+		startTime = util.standardGameStartTime()
+	end
+	Game.StartGame(gameParams.location.path, startTime, gameParams.ship.type)
 	local player = Game.player
 
 	player:SetLabel(gameParams.ship.label)
@@ -137,7 +141,7 @@ local function startGame(gameParams)
 
 	-- Generate crew for the starting ship
 	for _, member in ipairs(gameParams.crew) do
-		member.contract.payday = gameParams.time + 604800 -- in a week
+		member.contract.payday = startTime + 604800 -- in a week
 		member.contract.outstanding = 0
 		player:Enroll(member)
 	end
