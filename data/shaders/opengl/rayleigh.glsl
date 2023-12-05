@@ -13,6 +13,11 @@ void scatter(out vec2 density, const in vec3 orig, const in vec3 center)
 	float height = height(orig, center);
 
 	density = -height / baricStep;
+
+	// earth atmospheric density: 1.225 kg/m^3, divided by 1e5
+	// 1/1.225e-5 = 81632.65306
+	float earthDensities = geosphereAtmosFogDensity * 81632.65306f;
+	density /= earthDensities;
 }
 
 void findClosestHeight(out float h, out float t, const in vec3 orig, const in vec3 dir, const in vec3 center)
@@ -44,10 +49,14 @@ float predictDensityOut(const in float atmosphereHeight, const in float height, 
 	if (height > atmosphereHeight)
 		return 0.f;
 
-	if (height < 0)
-		return k;
+	// earth atmospheric density: 1.225 kg/m^3, divided by 1e5
+	// 1/1.225e-5 = 81632.65306
+	float earthDensities = geosphereAtmosFogDensity * 81632.65306f;
 
-	return k * exp(-height * b);
+	if (height < 0)
+		return k / earthDensities;
+
+	return k * exp(-height * b) / earthDensities;
 }
 
 // predict in-scattering rate: from 0 to 1
