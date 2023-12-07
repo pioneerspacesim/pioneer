@@ -155,6 +155,7 @@ Game::Game(const Json &jsonObj) :
 
 	// Preparing the Lua stuff
 	Pi::luaSerializer->InitTableRefs();
+	Pi::luaSerializer->LoadPersistent(jsonObj);
 
 	GalacticEconomy::LoadFromJson(jsonObj);
 
@@ -210,6 +211,7 @@ void Game::ToJson(Json &jsonObj)
 	PROFILE_SCOPED()
 	// preparing the lua serializer
 	Pi::luaSerializer->InitTableRefs();
+	Pi::luaSerializer->SavePersistent(jsonObj);
 
 	// version
 	jsonObj["version"] = s_saveVersion;
