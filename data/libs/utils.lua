@@ -403,6 +403,53 @@ utils.class = function (name, baseClass)
 	return new_class
 end
 
+local _proto = {}
+
+_proto.__clone = function(self) end
+
+function _proto:clone(mixin)
+	local new = { __index = self }
+	setmetatable(new, new)
+
+	new:__clone()
+
+	if mixin then
+		table.merge(new, mixin)
+	end
+
+	return new
+end
+
+-- Simple Self/iolang style prototype chains
+-- Can be used with lua serialization as long as no functions are set anywhere
+-- but on the base prototype returned from utils.proto
+utils.proto = function(classname)
+	local newProto = _proto:clone()
+
+	newProto.class = classname
+
+	function newProto:Serialize()
+		local out = table.copy(self)
+
+		-- Cannot serialize functions, so references to the base prototype are
+		-- not serialized
+		if out.__index == newProto then
+			out.__index = nil
+		end
+
+		return out
+	end
+
+	-- If a prototype doesn't have a serialized __index field, it referred to
+	-- this base prototype originally
+	function newProto:Unserialize()
+		self.__index = self.__index or newProto
+		return setmetatable(self, self)
+	end
+
+	return newProto
+end
+
 --
 -- Function: print_r
 --

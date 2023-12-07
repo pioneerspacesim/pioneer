@@ -74,5 +74,39 @@ table.copy = function(t)
 	return ret
 end
 
+-- Copy values from table b into a
+--
+-- Does not copy metatable nor recurse into the table.
+-- Pass an optional predicate to transform the keys and values before assignment.
+---@generic K, V
+---@param a table
+---@param b table<K, V>
+---@param predicate nil|fun(k: K, v: V): any, any
+---@return table
+table.merge = function(a, b, predicate)
+	for k, v in pairs(b) do
+		if predicate then k, v = predicate(k, v) end
+		a[k] = v
+	end
+	return a
+end
+
+-- Append array b to array a
+--
+-- Does not copy metatable nor recurse into the table.
+-- Pass an optional predicate to transform the keys and values before assignment.
+---@generic T
+---@param a table
+---@param b T[]
+---@param predicate nil|fun(v: T): any
+---@return table
+table.append = function(a, b, predicate)
+	for _, v in ipairs(b) do
+		if predicate then v = predicate(v) end
+		table.insert(a, v)
+	end
+	return a
+end
+
 -- make import break. you should never import this file
 return nil
