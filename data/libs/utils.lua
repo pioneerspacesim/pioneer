@@ -171,6 +171,7 @@ function utils.filter_table(table, predicate)
 	end
 	return t
 end
+
 --
 -- Function: filter_array
 --
@@ -185,10 +186,26 @@ end
 ---@param predicate fun(v: T): boolean
 function utils.filter_array(array, predicate)
 	local t = {}
-	for i, v in ipairs(array) do
+	for _, v in ipairs(array) do
 		if predicate(v) then table.insert(t, v) end
 	end
 	return t
+end
+
+-- Function: to_array
+--
+-- Filters the values of the given table and converts them to an array.
+-- Key iteration order is undefined (uses pairs() internally).
+---@generic K, V
+---@param t table<K, V>
+---@param predicate fun(v: V): boolean
+---@return V[]
+utils.to_array = function(t, predicate)
+	local out = {}
+	for _, v in pairs(t) do
+		if predicate(v) then table.insert(out, v) end
+	end
+	return out
 end
 
 --
@@ -401,6 +418,53 @@ utils.class = function (name, baseClass)
 	end
 
 	return new_class
+end
+
+local _proto = {}
+
+_proto.__clone = function(self) end
+
+function _proto:clone(mixin)
+	local new = { __index = self }
+	setmetatable(new, new)
+
+	new:__clone()
+
+	if mixin then
+		table.merge(new, mixin)
+	end
+
+	return new
+end
+
+-- Simple Self/iolang style prototype chains
+-- Can be used with lua serialization as long as no functions are set anywhere
+-- but on the base prototype returned from utils.proto
+utils.proto = function(classname)
+	local newProto = _proto:clone()
+
+	newProto.class = classname
+
+	function newProto:Serialize()
+		local out = table.copy(self)
+
+		-- Cannot serialize functions, so references to the base prototype are
+		-- not serialized
+		if out.__index == newProto then
+			out.__index = nil
+		end
+
+		return out
+	end
+
+	-- If a prototype doesn't have a serialized __index field, it referred to
+	-- this base prototype originally
+	function newProto:Unserialize()
+		self.__index = self.__index or newProto
+		return setmetatable(self, self)
+	end
+
+	return newProto
 end
 
 --
