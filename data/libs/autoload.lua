@@ -56,9 +56,10 @@ string.interp = function (s, t)
 	end))
 end
 
--- allow using string.interp via "s" % { t }
 ---@class string
 ---@operator mod(table): string
+
+-- allow using string.interp via "s" % { t }
 getmetatable("").__mod = string.interp
 
 -- make a simple shallow copy of the passed-in table
