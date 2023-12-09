@@ -489,17 +489,20 @@ utils.print_r = function(t)
 			if type(t) == "table" then
 				for key, val in pairs(t) do
 					local string_key = tostring(key)
+					local string_val = tostring(val)
 
-					if type(val) == "table" then
-						write(indent, '[%s] => %s {', string_key, tostring(t))
+					if type(val) == "table" and not print_r_cache[string_val] then
+						write(indent, '[%s] => %s {', string_key, string_val)
 
 						sub_print_r(val, indent + string.len(string_key) + 8)
 
 						write(indent + string.len(string_key) + 6, "}")
+					elseif type(val) == "table" then
+						write(indent, "[%s] => *%s", string_key, string_val)
 					elseif (type(val)=="string") then
-						write(indent, "[%s] => '%s'", string_key, val)
+						write(indent, "[%s] => '%s'", string_key, string_val)
 					else
-						write(indent, "[%s] => %s", string_key, tostring(val))
+						write(indent, "[%s] => %s", string_key, string_val)
 					end
 				end
 			else
