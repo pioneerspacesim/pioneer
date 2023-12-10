@@ -30,16 +30,13 @@ void main(void)
 	vec3 a = atmosDist.x * eyenorm - geosphereCenter;
 	vec3 b = atmosDist.y * eyenorm - geosphereCenter;
 
-	vec4 atmosDiffuse = vec4(0.0);
 	float AU = 149598000000.0;
 
 #if (NUM_LIGHTS > 0)
-	vec3 surfaceNorm = normalize(atmosDist.x * eyenorm - geosphereCenter);
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		vec3 lightDir = normalize(vec3(uLight[i].position));
 
 		float uneclipsed = clamp(calcUneclipsedSky(eclipse, NumShadows, a, b, lightDir), 0.0, 1.0);
-		CalcPlanetDiffuse(atmosDiffuse, toLinear(uLight[i].diffuse), lightDir, surfaceNorm, uneclipsed);
 
 		// Convert from radius-relative to real coordinates
 		vec3 center = geosphereCenter * geosphereRadius;
@@ -47,13 +44,11 @@ void main(void)
 		vec3 lightPosAU = uLight[i].position.xyz / AU;
 		float intensity = 1.f / dot(lightPosAU, lightPosAU); // magic to avoid calculating length and then squaring it
 
-		specularHighlight += computeIncidentLight(lightDir, eyenorm, center, atmosDist) * intensity;
+		specularHighlight += computeIncidentLight(lightDir, eyenorm, center, atmosDist, toLinear(uLight[i].diffuse), uneclipsed) * intensity;
 	}
 #endif
 
-	atmosDiffuse.a = 1.0;
-	vec4 color = atmosDiffuse *
-		vec4(specularHighlight.rgb, 1.0) * 20;
+	vec4 color = vec4(specularHighlight.rgb, 1.0) * 20;
 
 	frag_color = toSRGB(1 - exp(-color));
 

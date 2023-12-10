@@ -111,7 +111,7 @@ void skipRay(inout vec2 opticalDepth, const in vec3 dir, const in vec2 boundarie
 	}
 }
 
-void processRay(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, const in vec3 sunDirection, const in vec3 dir, const in vec2 boundaries, const in vec3 center)
+void processRay(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, const in vec3 sunDirection, const in vec3 dir, const in vec2 boundaries, const in vec3 center, const in vec4 diffuse, const in float uneclipsed)
 {
 	if (boundaries.y == boundaries.x)
 		return;
@@ -141,13 +141,17 @@ void processRay(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, const
 		opticalDepthLight.x = predictDensityInOut(samplePositionLight, sunDirection, sampleGeoCenter, geosphereRadius, atmosphereHeight, coefficientsR);
 		opticalDepthLight.y = predictDensityInOut(samplePositionLight, sunDirection, sampleGeoCenter, geosphereRadius, atmosphereHeight, coefficientsM);
 
+		vec3 surfaceNorm = -normalize(sampleGeoCenter);
+		vec4 atmosDiffuse = vec4(0.f);
+		CalcPlanetDiffuse(atmosDiffuse, diffuse, sunDirection, surfaceNorm, uneclipsed);
+
 		vec3 tau = -(betaR * (opticalDepth.x + opticalDepthLight.x) + betaM * 1.1f * (opticalDepth.y + opticalDepthLight.y));
 		vec3 tauR = tau + vec3(density.x);
 		vec3 tauM = tau + vec3(density.y);
 		vec3 attenuationR = exp(tauR) * segmentLength;
 		vec3 attenuationM = exp(tauM) * segmentLength;
-		sumR += attenuationR;
-		sumM += attenuationM;
+		sumR += attenuationR * atmosDiffuse.xyz;
+		sumM += attenuationM * atmosDiffuse.xyz;
 		tCurrent += segmentLength;
 	}
 }
@@ -174,7 +178,7 @@ vec4 segmentSubtraction(const in vec2 a, const in vec2 b)
 	return c;
 }
 
-vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const in vec3 center, const in vec2 atmosDist)
+vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const in vec3 center, const in vec2 atmosDist, const in vec4 diffuse, const in float uneclipsed)
 {
 	vec3 betaR = vec3(3.8e-6f, 13.5e-6f, 33.1e-6f);
 	vec3 betaM = vec3(21e-6f);
@@ -221,10 +225,9 @@ vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const i
 	vec3 sumM = vec3(0.f);
 	vec2 opticalDepth = vec2(0.f);
 
-	processRay(sumR, sumM, opticalDepth, sunDirection, dir, atmosphere_minus_shadow.xy, center);
+	processRay(sumR, sumM, opticalDepth, sunDirection, dir, atmosphere_minus_shadow.xy, center, diffuse, uneclipsed);
 	skipRay(opticalDepth, dir, atmosphere_minus_shadow.yz, center);
-	processRay(sumR, sumM, opticalDepth, sunDirection, dir, atmosphere_minus_shadow.zw, center);
-
+	processRay(sumR, sumM, opticalDepth, sunDirection, dir, atmosphere_minus_shadow.zw, center, diffuse, uneclipsed);
 
 	float mu = dot(dir, sunDirection); // mu in the paper which is the cosine of the angle between the sun direction and the ray direction
 	float phaseR = 3.f / (16.f * 3.141592) * (1 + mu * mu);
