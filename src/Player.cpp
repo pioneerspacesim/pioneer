@@ -27,34 +27,12 @@
 static Sound::Event s_soundUndercarriage;
 static Sound::Event s_soundHyperdrive;
 
-static int onEquipChangeListener(lua_State *l)
-{
-	Player *p = LuaObject<Player>::GetFromLua(lua_upvalueindex(1));
-	p->onChangeEquipment.emit();
-	return 0;
-}
-
-static void registerEquipChangeListener(Player *player)
-{
-	lua_State *l = Lua::manager->GetLuaState();
-	LUA_DEBUG_START(l);
-
-	LuaObject<Player>::PushToLua(player);
-	lua_pushcclosure(l, onEquipChangeListener, 1);
-	LuaRef lr(Lua::manager->GetLuaState(), -1);
-	ScopedTable(player->GetEquipSet()).CallMethod("AddListener", lr);
-	lua_pop(l, 1);
-
-	LUA_DEBUG_END(l, 0);
-}
-
 Player::Player(const ShipType::Id &shipId) :
 	Ship(shipId)
 {
 	SetController(new PlayerShipController());
 	InitCockpit();
 	m_fixedGuns->SetShouldUseLeadCalc(true);
-	registerEquipChangeListener(this);
 	m_atmosAccel = vector3d(0.0f, 0.0f, 0.0f);
 }
 
@@ -63,13 +41,11 @@ Player::Player(const Json &jsonObj, Space *space) :
 {
 	InitCockpit();
 	m_fixedGuns->SetShouldUseLeadCalc(true);
-	registerEquipChangeListener(this);
 }
 
 void Player::SetShipType(const ShipType::Id &shipId)
 {
 	Ship::SetShipType(shipId);
-	registerEquipChangeListener(this);
 	InitCockpit();
 }
 
@@ -316,7 +292,7 @@ void Player::StaticUpdate(const float timeStep)
 	bool playCreak = false;
 
 	// play creaking sfx if the acceleration along the Y axis (up/down directions) is higher than 1g
-	// and the rate of change of acceleration is more than 2.5 m s-3 
+	// and the rate of change of acceleration is more than 2.5 m s-3
 	if ((abs(m_atmosAccel.Dot(Player::m_interpOrient.VectorY()))) > 10 && abs(m_atmosJerk.Dot(Player::m_interpOrient.VectorY())) > 2.5) {
 		playCreak = true;
 	}
