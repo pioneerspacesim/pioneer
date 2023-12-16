@@ -293,8 +293,8 @@ public:
 	double GetAtmDensity(double altitude, double pressure) const;
 
 	// for rayleigh scattering
-	double ComputeDensity(const double radius, const double atmosphereHeight, const double h, const double baricStep) const;
-	vector3f GetCoefficients(const double radius, const double atmHeight, const double baricStep) const;
+	double ComputeDensity(const double radius, const double atmosphereHeight, const double h, const double scaleHeight) const;
+	vector3f GetCoefficients(const double radius, const double atmHeight, const double scaleHeight) const;
 
 	AtmosphereParameters CalcAtmosphereParams() const;
 

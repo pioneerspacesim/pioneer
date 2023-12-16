@@ -262,37 +262,48 @@ bool SystemBody::IsScoopable() const
 	return false;
 }
 
+// this is a reduced version of original Rayleigh scattering function used to compute density once per planet
+// (at least it meant not to be once per frame) given:
+// planet radius, height of atmosphere (not its radius), length of perpendicular between ray and planet center, lapse rate at which density fades out by rate of e
+// this function is used in GetCoefficients
 // all input units are in km
-double SystemBody::ComputeDensity(const double radius, const double atmosphereHeight, const double h, const double baricStep) const
+double SystemBody::ComputeDensity(const double radius, const double atmosphereHeight, const double h, const double scaleHeight) const
 {
-        int numSamples = 16;
-        double totalHeight = radius + atmosphereHeight;
-        double minHeight = radius + h;
-        double tmax = sqrt(totalHeight*totalHeight - minHeight*minHeight); // maximum t
-        double tmin = -tmax;
-        double length = tmax - tmin;
-        double step = length / numSamples;
+	int numSamples = 16;
+	double totalHeight = radius + atmosphereHeight;
+	double minHeight = radius + h;
+	double tmax = sqrt(totalHeight * totalHeight - minHeight * minHeight); // maximum t
+	double tmin = -tmax;
+	double length = tmax - tmin;
+	double step = length / numSamples;
 
-        double density = 0.0;
-        for (int i = 0; i < numSamples; ++i) {
-                double t = tmin + step * (i + 0.5);
-                double h = sqrt(minHeight*minHeight + t*t) - radius;
-                density += step * exp(-h / baricStep);
-        }
+	double density = 0.0;
+	for (int i = 0; i < numSamples; ++i) {
+		double t = tmin + step * (i + 0.5);
+		double h = sqrt(minHeight * minHeight + t * t) - radius;
+		density += step * exp(-h / scaleHeight);
+	}
 
-        return density;
+	return density;
 }
 
+// these coefficients are to be passed into shaders, meant to accelerate scattering computation per-pixel
+// instead of sampling each one (which I suspect is VERY SLOW)
 // all input units are in km
-vector3f SystemBody::GetCoefficients(const double radius, const double atmHeight, const double baricStep) const
+vector3f SystemBody::GetCoefficients(const double radius, const double atmHeight, const double scaleHeight) const
 {
 	float k, b, c;
-	k = ComputeDensity(radius, atmHeight, 0.f, baricStep);
-	b = log(k / ComputeDensity(radius, atmHeight, 1.f, baricStep));
 
+	// compute full out-scattering densities at 0 and 1 km heights
+	// k = density at 0 km
+	// b = log(density0km / density1km) - log is used to multiply it by actual height
+	k = ComputeDensity(radius, atmHeight, 0.f, scaleHeight);
+	b = log(k / ComputeDensity(radius, atmHeight, 1.f, scaleHeight));
+
+	// compute c - erf coefficient, which adjusts slope of erf near t=0 to match actual in-scattering
 	float erf1_minus_erf0 = 0.421463;
-	float sHeight = sqrt(radius*radius + 1.f) - radius;
-	float c1 = exp(-sHeight / baricStep);
+	float sHeight = sqrt(radius * radius + 1.f) - radius;
+	float c1 = exp(-sHeight / scaleHeight);
 	float c2 = k * erf1_minus_erf0;
 	c = c1 / c2;
 	return vector3f(k, b, c);
@@ -358,8 +369,9 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 
 	const float radiusPlanet_in_km = radiusPlanet_in_m / 1000;
 	const float atmosHeight_in_km = radiusPlanet_in_km * (params.atmosRadius - 1);
-	params.rayleighCoefficients = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, 7994);
-	params.mieCoefficients      = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, 1200);
+	params.rayleighCoefficients = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, atmosScaleHeight);
+	params.mieCoefficients = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, atmosScaleHeight / 6.66); // 7994 / 1200 = 6.61
+	params.scaleHeight = vector2f(atmosScaleHeight, atmosScaleHeight / 6.66);
 
 	return params;
 }

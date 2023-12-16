@@ -24,8 +24,9 @@ layout(std140) uniform BaseSphereData {
 	float geosphereAtmosFogDensity;		// atmospheric density scalar
 	float geosphereAtmosInvScaleHeight; // 1.0 / (atmosphere scale height) in planet radii
 	vec4 atmosColor;
-	vec3 coefficientsR;
-	vec3 coefficientsM;
+	vec3 coefficientsR;			// coefficients for approximating the Rayleigh contribution
+	vec3 coefficientsM;			// coefficients for approximating the Mie contribution
+	vec2 scaleHeight;			// height for (R, M) in km, at which density will be reduced by e
 
 	// Eclipse data
 	Eclipse eclipse;

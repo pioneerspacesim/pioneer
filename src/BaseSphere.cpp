@@ -21,6 +21,7 @@ struct BaseSphereDataBlock {
 	Color4f atmosColor;
 	alignas(16) vector3f coefficientsR;
 	alignas(16) vector3f coefficientsM;
+	alignas(16) vector2f scaleHeight;
 
 	// Eclipse struct data
 	alignas(16) vector3f shadowCentreX;
@@ -30,7 +31,7 @@ struct BaseSphereDataBlock {
 	alignas(16) vector3f lrad;
 	alignas(16) vector3f sdivlrad;
 };
-static_assert(sizeof(BaseSphereDataBlock) == 176, "");
+static_assert(sizeof(BaseSphereDataBlock) == 192, "");
 
 BaseSphere::BaseSphere(const SystemBody *body) :
 	m_sbody(body),
@@ -101,6 +102,7 @@ void BaseSphere::SetMaterialParameters(const matrix4x4d &trans, const float radi
 	matData.atmosColor = ap.atmosCol.ToColor4f();
 	matData.coefficientsR = ap.rayleighCoefficients;
 	matData.coefficientsM = ap.mieCoefficients;
+	matData.scaleHeight = ap.scaleHeight;
 
 	// we handle up to three shadows at a time
 	auto it = shadows.cbegin(), itEnd = shadows.cend();

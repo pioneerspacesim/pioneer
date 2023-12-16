@@ -8,11 +8,9 @@ float height(const in vec3 orig, const in vec3 center)
 
 void scatter(out vec2 density, const in vec3 orig, const in vec3 center)
 {
-	vec2 baricStep = vec2(7994.f, 1200.f);
-
 	float height = height(orig, center);
 
-	density = -height / baricStep;
+	density = -height / scaleHeight;
 
 	// earth atmospheric density: 1.225 kg/m^3, divided by 1e5
 	// 1/1.225e-5 = 81632.65306
@@ -20,6 +18,20 @@ void scatter(out vec2 density, const in vec3 orig, const in vec3 center)
 	density /= earthDensities;
 }
 
+// orig: ray origin
+// dir: ray direction
+// center: planet center
+// returns (h, t): h = length of perpendicular from center to ray
+//                 t = distance left from perpendicular to origin along the ray
+//                     (negative means perpendicular left behind)
+/*
+ *     t>0      H        t<0       dir
+ * ----*--------*--------*----------->
+ *              |
+ *              |
+ *              |
+ *              * O
+ */
 void findClosestHeight(out float h, out float t, const in vec3 orig, const in vec3 dir, const in vec3 center)
 {
 	vec3 radiusVector = center - orig;
@@ -29,7 +41,7 @@ void findClosestHeight(out float h, out float t, const in vec3 orig, const in ve
 	t = dot(tangent, dir);
 }
 
-// error function
+// error function approx., used in predictDensityIn
 float erf(const in float x)
 {
 	float a = 0.14001228904;
@@ -75,6 +87,16 @@ float predictDensityIn(const in float radius, const in float atmosphereHeight, c
 	}
 }
 
+// predict "scattering density" along the ray
+// sample: starting point of the ray
+// dir:    direction of ray
+// center: relative position of planet center
+// radius: planet radius
+// atmosphereHeight: max height of atmosphere, bigger height means no atmosphere there
+// coefficients: pre-computed (k, b, c) for:
+//     k * exp(-height * b) for out-scattering density: k = density along the ray tangent to planet surface
+//                                                      b = height at which density reduces by e
+//     erf(c * t) for in-scattering density: c = density derivative per 1 km along the ray, assuming: k = 1, height = 0, t = 0 at tangent point
 float predictDensityInOut(const in vec3 sample, const in vec3 dir, const in vec3 center, const in float radius, const in float atmosphereHeight, const in vec3 coefficients)
 {
     float h, t;
