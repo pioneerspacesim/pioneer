@@ -15,6 +15,17 @@ local laser           = EquipTypes.laser
 local hyperspace      = EquipTypes.hyperspace
 local misc            = EquipTypes.misc
 
+EquipTypes.new = {}
+
+function EquipTypes.Get(id)
+	return EquipTypes.new[id]
+end
+
+function EquipTypes.Register(id, type)
+	EquipTypes.new[id] = type
+	type.id = id
+end
+
 -- Constants: EquipSlot
 --
 -- Equipment slots. Every equipment item has a corresponding
