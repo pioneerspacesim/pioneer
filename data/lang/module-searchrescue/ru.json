@@ -305,7 +305,7 @@
   },
   "FLAVOUR_4_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "The pilot is asking for {unit} tons of {cargo}. {high_gravity}"
+    "message": "Пилот запрашивает {unit} тонны {cargo}. {high_gravity}"
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -429,19 +429,19 @@
   },
   "HIGHGRAVITY_0": {
     "description": "",
-    "message": "The surface gravity on {planet} is {gravity} g. Please take this into consideration."
+    "message": "Поверхностная гравитация на планете {planet} равна {gravity} g. Пожалуйста, примите это во внимание."
   },
   "HIGHGRAVITY_1": {
     "description": "",
-    "message": "You should know that {planet} is {gravity} g."
+    "message": "Вы должны знать, что гравитация {planet} равна {gravity} g."
   },
   "HIGHGRAVITY_2": {
     "description": "",
-    "message": "You will land and take off in {gravity} g."
+    "message": "Вы приземлитесь и взлетите с {gravity} g."
   },
   "HIGHGRAVITY_3": {
     "description": "",
-    "message": "{planet} is {gravity} g."
+    "message": "У планеты {planet} гравитация {gravity} g."
   },
   "HOW_FAR": {
     "description": "",

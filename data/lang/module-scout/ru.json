@@ -41,7 +41,7 @@
   },
   "ADTEXT_2_INTRO": {
     "description": "",
-    "message": "Привет! \nЯ {name}. Я заплачу {cash} за картографирование {systembody} в {system}, на расстоянии {dist}."
+    "message": "Привет! \nЯ {name}. Я заплачу {cash} за составление карт {systembody} в {system}, на расстоянии {dist}."
   },
   "ADTEXT_2_SUCCESSMSG": {
     "description": "",
@@ -209,7 +209,7 @@
   },
   "ADTITLE_5": {
     "description": "",
-    "message": "КОНТРАКТ НА КАРТОГРАФИРОВАНИЕ"
+    "message": "КОНТРАКТ НА СОСТАВЛЕНИЕ КАРТ"
   },
   "ADTITLE_6": {
     "description": "",
