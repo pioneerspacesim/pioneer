@@ -1,5 +1,14 @@
 # Setup script for Pioneer installation paths
 
+if (WIN32)
+	# We don't want a 'bin' folder on Windows
+	# Setup the variables we use from GNUInstallDirs on unix platforms
+	set(CMAKE_INSTALL_BINDIR ${CMAKE_INSTALL_PREFIX})
+	set(CMAKE_INSTALL_DATADIR ${CMAKE_INSTALL_PREFIX})
+else()
+	include(GNUInstallDirs)
+endif()
+
 option(PIONEER_INSTALL_INPLACE "Should an in-place install be generated" OFF)
 
 if (NOT PIONEER_INSTALL_DATADIR)
@@ -11,11 +20,6 @@ if (NOT PIONEER_INSTALL_BINDIR)
 	set(PIONEER_INSTALL_BINDIR ${CMAKE_INSTALL_BINDIR} CACHE PATH
 		"Path where Pioneer's executables will be installed" FORCE)
 endif (NOT PIONEER_INSTALL_BINDIR)
-
-# We don't want a 'bin' folder on Windows
-if (WIN32)
-	set(CMAKE_INSTALL_BINDIR ${CMAKE_INSTALL_PREFIX})
-endif (WIN32)
 
 # If doing an in-place installation, everything is installed in the root of the prefix
 if (PIONEER_INSTALL_INPLACE)
