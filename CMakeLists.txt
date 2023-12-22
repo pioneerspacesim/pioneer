@@ -11,7 +11,6 @@ if(POLICY CMP0072)
 	cmake_policy(SET CMP0072 NEW)
 endif()
 
-include(GNUInstallDirs)
 include(cmake/InstallPioneer.cmake)
 
 if (MINGW)
@@ -453,7 +452,7 @@ if(APPIMAGE_BUILD)
     set(PIONEER_SH_FILE ${CMAKE_BINARY_DIR}/init_pioneer.sh)
     configure_file(init_pioneer.sh.cmakein ${PIONEER_SH_FILE} @ONLY)
     install(FILES ${PIONEER_SH_FILE}
-        DESTINATION ${CMAKE_INSTALL_BINDIR}
+        DESTINATION ${PIONEER_INSTALL_BINDIR}
         PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE
     )
 else(APPIMAGE_BUILD)
