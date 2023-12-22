@@ -17,6 +17,8 @@ local ui = require 'pigui'
 local ModalWindow = require 'pigui.libs.modal-win'
 local MessageBox = require 'pigui.libs.message-box'
 local UITimer = require 'pigui.libs.ui-timer'
+local NewGameWindow = require 'pigui.modules.new-game-window.class'
+local msgbox = require 'pigui.libs.message-box'
 
 local optionButtonSize = ui.rescaleUI(Vector2(100, 32))
 local winSize = Vector2(ui.screenWidth * 0.4, ui.screenHeight * 0.6)
@@ -99,6 +101,9 @@ local function shouldDisplayThisSave(f)
 	string.find(f.name, searchSave, 1, true) ~= nil
 end
 
+local function wantRecovery()
+	return ui.ctrlHeld() or not saveIsValid
+end
 
 local function closeAndClearCache()
 	ui.saveLoadWindow:close()
@@ -116,10 +121,17 @@ local function closeAndLoadOrSave()
 	if selectedSave ~= nil and selectedSave ~= '' then
 		local success, err
 		if ui.saveLoadWindow.mode == "LOAD" then
-		    if saveIsValid then
+			if not wantRecovery() then
 				success, err = pcall(Game.LoadGame, selectedSave)
 			else
-				MessageBox.OK(lui.SELECTED_SAVE_IS_NOT_A_VALID_SAVE)
+				-- recover
+				local ok, report = NewGameWindow.restoreSaveGame(selectedSave)
+				if (ok) then
+					closeAndClearCache()
+					NewGameWindow.mode = 'RECOVER'
+					NewGameWindow:open()
+				end
+				msgbox.OK(report)
 			end
 		elseif ui.saveLoadWindow.mode == "SAVE" then
 			success, err = pcall(Game.SaveGame, selectedSave)
@@ -127,7 +139,7 @@ local function closeAndLoadOrSave()
 			logWarning("Unknown saveLoadWindow mode: " .. ui.saveLoadWindow.mode)
 		end
 		if success ~= nil then
-		    if not success then
+			if not success then
 				MessageBox.OK(errText .. err)
 			else
 				closeAndClearCache()
@@ -229,7 +241,7 @@ end
 local function drawOptionButtons(txt_width, saving)
 	-- for vertical center alignment
 	local txt_hshift = math.max(0, (optionButtonSize.y - ui.getFrameHeight()) / 2)
-	local mode = saving and lui.SAVE or lui.LOAD
+	local mode = saving and lui.SAVE or wantRecovery() and lui.RECOVER or lui.LOAD
 	ui.sameLine(txt_width + ui.getWindowPadding().x + ui.getItemSpacing().x)
 	ui.addCursorPos(Vector2(0, saving and -txt_hshift or txt_hshift))
 	optionTextButton(mode, ((saving and (selectedSave ~= nil and selectedSave ~= '')) or (not saving and saveInList)), closeAndLoadOrSave)

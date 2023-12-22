@@ -133,6 +133,25 @@ static int l_game_savegame_stats(lua_State *l)
 	}
 }
 
+
+/*
+ * Function: CurrentSaveVersion
+ *
+ * Returns the current version of the game save file format.
+ *
+ * > Game.CurrentSaveVersion()
+ *
+ * Return:
+ *
+ *   number
+ *
+ */
+static int l_game_current_save_version(lua_State *l)
+{
+	LuaPush(l, Game::CurrentSaveVersion());
+	return 1;
+}
+
 /*
  * Function: LoadGame
  *
@@ -684,6 +703,7 @@ void LuaGame::Register()
 		{ "EndGame", l_game_end_game },
 		{ "InHyperspace", l_game_in_hyperspace },
 		{ "SaveGameStats", l_game_savegame_stats },
+		{ "CurrentSaveVersion", l_game_current_save_version },
 
 		{ "SwitchView", l_game_switch_view },
 		{ "CurrentView", l_game_current_view },

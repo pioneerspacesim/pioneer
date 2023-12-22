@@ -8,6 +8,7 @@ local Lang = require 'Lang'
 local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
 
+local Helpers = require 'pigui.modules.new-game-window.helpers'
 local Widgets = require 'pigui.modules.new-game-window.widgets'
 local SectorMap = require 'SectorMap'
 local SystemPath = require 'SystemPath'
@@ -99,6 +100,15 @@ function Time:isValid()
 	-- more negative time is something weird
 	return self.value >= -2
 end
+
+Time.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		local time, errorString = Helpers.getByPath(saveGame, "time")
+		if errorString then return nil, errorString end
+		return time
+	end
+}}
 
 --
 -- location
@@ -199,11 +209,11 @@ function Location:updateLayout()
 		width = Defs.contentRegion.x - mapLayout.width - ui.getItemSpacing().x
 	}
 	if not self.map then self:initMap() end
+	self.map:SetSize(Vector2(mapLayout.width, mapLayout.height))
 end
 
 function Location:initMap()
 	self.map = SectorMap(function (path) self:onClickSystem(path) end)
-	self.map:SetSize(Vector2(mapLayout.width, mapLayout.height))
 	self.galaxy = self.map:GetGalaxy()
 	self.overview = SystemOverviewWidget.New()
 	self.overview.onBodySelected = function(_, sbody, _)
@@ -289,6 +299,79 @@ end
 function Location:updateParams()
 	self:setPath(self.value.path)
 end
+
+---@param id number
+---@param frame table
+---@return number?
+local function getSystemBodyIndexForFrameID(id, frame)
+	if id == frame.frameId then
+		return frame.index_for_system_body
+	end
+	if not frame.child_frames then
+		return nil
+	end
+	for _, childFrame in pairs(frame.child_frames) do
+		local sbi = getSystemBodyIndexForFrameID(id, childFrame)
+		if sbi then return sbi end
+	end
+end
+
+Location.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+
+		local system, errorString = Helpers.getByPath(saveGame, "space/star_system")
+		if errorString then return nil, errorString end
+
+		local path = SystemPath.New(system.sector_x, system.sector_y, system.sector_z, system.system_index)
+		local sector = Location:getGalaxy():GetSector(path.sectorX, path.sectorY, path.sectorZ)
+		if path.systemIndex >= #sector then
+			return nil, "Bad system index"
+		end
+
+		-- the indices of the bodies and the corresponding system bodies
+		-- (Space::m_bodyIndex and Space::m_sbodyIndex) turn out to be the same
+		local dockedTo
+		dockedTo, errorString = Helpers.getPlayerShipParameter(saveGame, "ship/index_for_body_docked_with")
+		if errorString then return nil, errorString end
+
+		if dockedTo ~= 0 then
+			-- All we have in the save doc is the index of the physical body
+			-- with which the player was docked when saving. This index is
+			-- created when space is serialized. In order to get a system path
+			-- from this, it would be necessary to initialize the space,
+			-- establishing connections between physical and system bodies.
+			-- Fortunately, in this version, indexing during serialization
+			-- occurs in such a way that physical body index is 1 greater than
+			-- the index of the body in the corresponding system path
+			dockedTo = dockedTo - 1
+			local starSystem = Location:getGalaxy():GetStarSystem(path)
+			if dockedTo >= starSystem.numberOfBodies then
+				return nil, lui.SYSTEM_BODY_INDEX_IS_OUT_OF_RANGE
+			end
+			local bodyPath = SystemPath.New(path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, dockedTo)
+			local systemBody = starSystem:GetBodyByPath(bodyPath)
+			if systemBody.isStation then
+				return { path = bodyPath, state = State.DOCKED }
+			else
+				return nil, lui.DOCKED_TO_A_BODY_THAT_IS_NOT_A_STATION
+			end
+		end
+
+		local frameID, frameTree
+		frameID, errorString = Helpers.getPlayerShipParameter(saveGame, "body/index_for_frame")
+		frameTree, errorString = Helpers.getByPath(saveGame, "space/frame")
+		if errorString then return nil, errorString end
+
+		local systemBodyIndex = getSystemBodyIndexForFrameID(frameID, frameTree)
+		if not systemBodyIndex then
+			return nil, lui.COULD_NOT_FIND_SYSTEM_BODY_FOR_FRAME
+		end
+
+		local bodyPath = SystemPath.New(path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, systemBodyIndex - 1)
+		return { path = bodyPath, state = State.ORBIT }
+	end
+}}
 
 Location.Time = Time
 Location.TabName = lui.LOCATION

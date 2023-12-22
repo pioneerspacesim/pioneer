@@ -8,6 +8,10 @@
 #include "LuaUtils.h"
 #include "Pi.h"
 
+/*
+ * Interface: Json
+ */
+
 // Do a simple JSON->Lua translation.
 static void _push_json_to_lua(lua_State *l, Json &obj)
 {
@@ -51,11 +55,53 @@ static void _push_json_to_lua(lua_State *l, Json &obj)
 	}
 }
 
+/*
+ * Function: LoadJson
+ *
+ * Load a JSON file from the game's data sources, optionally applying all
+ * files with the the name <filename>.patch as Json Merge Patch (RFC 7386) files
+ *
+ * > doc = Json.LoadJson(fileName)
+ *
+ * Parameters:
+ *
+ *   fileName - string
+ *
+ * Returns:
+ *
+ *   doc - table
+ */
 static int l_load_json(lua_State *l)
 {
 	std::string filename = luaL_checkstring(l, 1);
 
 	Json data = JsonUtils::LoadJsonDataFile(filename);
+	if (data.is_null())
+		return luaL_error(l, "Error loading JSON file %s.", filename.c_str());
+
+	_push_json_to_lua(l, data);
+
+	return 1;
+}
+
+/*
+ * Function: LoadSaveFile
+ *
+ * > gameDoc = Json.LoadSaveFile(fileName)
+ *
+ * Parameters:
+ *
+ *   fileName - string, File will be loaded from the 'savefiles' directory in the user's game directory.
+ *
+ * Returns:
+ *
+ *   gameDoc - table, corresponding to the json SaveGame document
+ */
+static int l_load_save_file(lua_State *l)
+{
+	std::string filename = luaL_checkstring(l, 1);
+
+	Json data = JsonUtils::LoadJsonSaveFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename), FileSystem::userFiles);
 	if (data.is_null())
 		return luaL_error(l, "Error loading JSON file %s.", filename.c_str());
 
@@ -72,6 +118,7 @@ void LuaJson::Register()
 
 	static const luaL_Reg l_methods[] = {
 		{ "LoadJson", l_load_json },
+		{ "LoadSaveFile", l_load_save_file },
 		{ NULL, NULL }
 	};
 

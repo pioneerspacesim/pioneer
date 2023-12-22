@@ -12,6 +12,7 @@ local NameGen = require 'NameGen'
 local Format = require 'Format'
 local Defs = require 'pigui.modules.new-game-window.defs'
 local Widgets = require 'pigui.modules.new-game-window.widgets'
+local Helpers = require 'pigui.modules.new-game-window.helpers'
 local Table = require 'pigui.libs.table'
 
 local Crew
@@ -32,12 +33,24 @@ function PlayerChar:random()
 end
 
 function PlayerChar:fromStartVariant(variant)
-	self.lock = true
+	self.lock = false
 end
 
 function PlayerChar:isValid()
 	return #self.value.name > 0 and #self.value.name < 50
 end
+
+PlayerChar.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		local player, errorString = Helpers.getByPath(saveGame, {
+			"lua_modules_json/Characters/PersistentCharacters/player",
+			"lua_modules_json/ShipClass/$1/#1"
+		})
+		if errorString then return nil, errorString end
+		return Character.Unserialize(player)
+	end
+}}
 
 --
 -- player money
@@ -65,6 +78,13 @@ end
 function PlayerMoney:isValid()
 	return self.value >= 0
 end
+
+PlayerMoney.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		return Helpers.getByPath(saveGame, "lua_modules_json/Player/cash")
+	end
+}}
 
 --
 -- player reputation
@@ -111,6 +131,16 @@ end
 function PlayerReputation:isValid()
 	return self.value > -20 and self.value < 1000
 end
+
+PlayerReputation.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		return Helpers.getByPath(saveGame, {
+			"lua_modules_json/Characters/PersistentCharacters/player/reputation",
+			"lua_modules_json/ShipClass/$1/#1/reputation"
+		})
+	end
+}}
 
 --
 -- player combat killcount
@@ -170,6 +200,21 @@ function PlayerKills:isValid()
 	return self.value >= 0 and self.value < 10000
 end
 
+function PlayerKills:fromSaveGame(saveGame)
+	self.showKills = true
+	return GameParam.fromSaveGame(self, saveGame)
+end
+
+PlayerKills.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		return Helpers.getByPath(saveGame, {
+			"lua_modules_json/Characters/PersistentCharacters/player/killcount",
+			"lua_modules_json/ShipClass/$1/#1/killcount"
+		})
+	end
+}}
+
 
 --
 -- Crew
@@ -193,6 +238,7 @@ Crew.value = {
 
 Crew.currentChar = 1
 Crew.list = false
+Crew.listItems = {}
 Crew.layout = {}
 
 local function crewTraits(lock, char, tableWidth)
@@ -364,28 +410,29 @@ end
 
 function Crew:fillCrewListTable()
 
-	assert(self.list)
-
-	self.list.items = { PlayerChar }
+	self.listItems = { PlayerChar }
 	for _, member in ipairs(self.value) do
 		local memberEntry = {
 			isValid = function(entry) return isCrewMemberValid(entry.value) end,
 			value = member
 		}
-		table.insert(self.list.items, memberEntry)
+		table.insert(self.listItems, memberEntry)
 	end
 
 	-- create faces, including player's
-	for _, memberEntry in pairs(self.list.items) do
+	for _, memberEntry in pairs(self.listItems) do
 		memberEntry.face = PiGuiFace.New(memberEntry.value, nil, false)
 		memberEntry.face.style.showCharInfo = false
 	end
 
 	if not self.lock then
 		-- "+" element
-		table.insert(self.list.items, { value = 'ADD_NEW_CHARACTER' })
+		table.insert(self.listItems, { value = 'ADD_NEW_CHARACTER' })
 	end
-	self.list.selectedItem = self.list.items[self.currentChar]
+	if (self.list) then
+		self.list.items = self.listItems
+		self.list.selectedItem = self.listItems[self.currentChar]
+	end
 end
 
 function Crew:updateLayout()
@@ -397,6 +444,7 @@ function Crew:updateLayout()
 
 	if not self.list then
 		self:initCrewListTable(namesWidth)
+		self:fillCrewListTable()
 	end
 	self.list.style.size = Vector2(namesWidth, Defs.contentRegion.y)
 end
@@ -423,6 +471,21 @@ function Crew:fromStartVariant(variant)
 	Crew.currentChar = 1
 	Crew.lock = true
 end
+
+Crew.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		local crew, errorString = Helpers.getByPath(saveGame, "lua_modules_json/ShipClass/$1")
+		if errorString then return nil, errorString end
+		local value = {}
+		-- the first element is the player - it is a separate parameter
+		for i = 2, #crew do
+			local char = Character.Unserialize(crew[i])
+			table.insert(value, char)
+		end
+		return value
+	end
+}}
 
 Crew.TabName = lui.CREW
 Crew.Player = {

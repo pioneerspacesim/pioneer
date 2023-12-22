@@ -178,6 +178,7 @@ local function showMainMenu()
 
 			mainTextButton(lui.NEW_GAME, nil, true, function()
 				NewGameWindow:setDebugMode(ui.ctrlHeld())
+				NewGameWindow.mode = 'NEW_GAME'
 				NewGameWindow:open();
 			end)
 

@@ -20,12 +20,12 @@ local textTable = require 'pigui.libs.text-table'
 local Defs = require 'pigui.modules.new-game-window.defs'
 local GameParam = require 'pigui.modules.new-game-window.game-param'
 local Widgets = require 'pigui.modules.new-game-window.widgets'
+local Helpers = require 'pigui.modules.new-game-window.helpers'
 local Crew = require 'pigui.modules.new-game-window.crew'
 
 local layout = {}
 local ShipModel = {}
 local ShipSummary = {}
-
 
 --
 -- ship type
@@ -67,7 +67,6 @@ function ShipType:setShipID(shipID)
 	assert(index, "unknown ship ID: " .. tostring(shipID))
 	ShipType.value = shipID
 	self.selected = index - 1
-	ShipModel:updateModel()
 end
 
 function ShipType:fromStartVariant(variant)
@@ -78,6 +77,15 @@ end
 function ShipType:isValid()
 	return self.value and self.idMap[self.value]
 end
+
+ShipType.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		local shipID, errorString = Helpers.getPlayerShipParameter(saveGame, "model_body/model_name")
+		if errorString then return nil, errorString end
+		return shipID
+	end
+}}
 
 
 --
@@ -107,6 +115,15 @@ function ShipName:isValid()
 	return self.value and #self.value > 0 and #self.value < 50
 end
 
+ShipName.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		local shipName, errorString = Helpers.getPlayerShipParameter(saveGame, "ship/name")
+		if errorString then return nil, errorString end
+		return shipName
+	end
+}}
+
 
 --
 -- ship label (registration number)
@@ -134,6 +151,15 @@ function ShipLabel:isValid()
 	return self.value and string.match(self.value, "^%u%u%-%d%d%d%d$")
 end
 
+ShipLabel.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		local shipLabel, errorString = Helpers.getPlayerShipParameter(saveGame, "body/label")
+		if errorString then return nil, errorString end
+		return shipLabel
+	end
+}}
+
 
 --
 -- ship fuel
@@ -160,6 +186,15 @@ function ShipFuel:isValid()
 	return self.value and self.value >= 0 and self.value <= 100
 end
 
+ShipFuel.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		local shipFuel, errorString = Helpers.getPlayerShipParameter(saveGame, "ship/thruster_fuel")
+		if errorString then return nil, errorString end
+		return math.ceil(shipFuel * 100)
+	end
+}}
+
 
 --
 -- ship model
@@ -177,10 +212,10 @@ ShipModel.skin = false
 ShipModel.numPatterns = 1
 
 function ShipModel:updateModel()
-	if not self.skin then return end
 	local modelName = ShipDef[ShipType.value].modelName
 	local model = Engine.GetModel(modelName)
 	self.numPatterns = model.numPatterns
+	if not self.skin then return end
 	local c = self.value.colors
 	self.skin:SetColors({ primary = c[1], secondary = c[2], trim = c[3] })
 	self.spinner:setModel(modelName, self.skin, self.value.pattern)
@@ -208,7 +243,6 @@ function ShipModel:colorPicker(colorNumber)
 	local changed, color = ui.colorEdit("##edit_model_color_" .. tostring(colorNumber), self.value.colors[colorNumber], { "NoAlpha", "NoInputs" })
 	if changed then
 		self.value.colors[colorNumber] = color
-		local colorNames = { "primary", "secondary", "trim" }
 		self:updateModel()
 	end
 end
@@ -219,7 +253,6 @@ function ShipModel:fromStartVariant(variant)
 		self.value.colors[k] = v
 	end
 	self.value.pattern = variant.pattern
-	self:updateModel()
 	self.lock = true
 end
 
@@ -227,6 +260,26 @@ function ShipModel:isValid()
 	return self.numPatterns == 0 or self.value.pattern <= self.numPatterns
 end
 
+ShipModel.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		local pattern, errorString = Helpers.getPlayerShipParameter(saveGame, "model_body/model/cur_pattern_index")
+		if errorString then return nil, errorString end
+		local jsonColors
+		jsonColors, errorString = Helpers.getPlayerShipParameter(saveGame, "ship/model_skin/colors")
+		if errorString then return nil, errorString end
+		if not jsonColors then return nil, "Colors are empty" end
+		local colors = {}
+		for i = 1, 3 do
+			local color = jsonColors[i]
+			if not color or #color ~= 4 then
+				return nil, "Wrong skin color"
+			end
+			table.insert(colors, Color(table.unpack(color)))
+		end
+		return { pattern = pattern + 1, colors = colors }
+	end
+}}
 
 --
 -- ship cargo
@@ -346,6 +399,19 @@ function ShipCargo:isValid()
 	ShipSummary:prepareAndValidateParamList()
 	return ShipSummary.cargo.valid
 end
+
+ShipCargo.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		local cargo, errorString = Helpers.getPlayerShipParameter(saveGame, "lua_components/CargoManager/commodities")
+		if errorString then return nil, errorString end
+		local result = {}
+		for k, v in pairs(cargo) do
+			result[k] = v.count
+		end
+		return result
+	end
+}}
 
 
 --
@@ -492,17 +558,17 @@ function ShipEquip:removeHyperdrive()
 end
 
 -- adding 1 item, without breaking the alphabetical order
-function ShipEquip:addMiscEntry(newID)
-	for i, entry in ipairs(self.value.misc) do
+local function addMiscEntry(miscTable, newID)
+	for i, entry in ipairs(miscTable) do
 		if newID < entry.id then
-			table.insert(self.value.misc, i, { id = newID, amount = 1 })
-			newID = nil
-			break
+			table.insert(miscTable, i, { id = newID, amount = 1 })
+			return
+		elseif newID == entry.id then
+			entry.amount = entry.amount + 1
+			return
 		end
 	end
-	if newID then
-		table.insert(self.value.misc, { id = newID, amount = 1 })
-	end
+	table.insert(miscTable, { id = newID, amount = 1 })
 end
 
 local function addToTable(tbl, key, count)
@@ -697,7 +763,7 @@ function ShipEquip:draw()
 				end
 			end
 			if not occupied then
-				self:addMiscEntry(newID)
+				addMiscEntry(self.value.misc, newID)
 				self:update()
 			end
 		end
@@ -719,7 +785,7 @@ function ShipEquip:fromStartVariant(variant)
 		local eq, amount = table.unpack(entry)
 		local eq_list, id = findEquipmentPath(eq.l10n_key)
 		if eq_list == 'misc' then
-			self:addMiscEntry(id)
+			addMiscEntry(eq_value.misc, id)
 		elseif eq_list == 'laser' then
 			for _ = 1, amount do
 				if not eq_value.laser_front then
@@ -742,6 +808,78 @@ function ShipEquip:isValid()
 	ShipSummary:prepareAndValidateParamList()
 	return ShipSummary.equip.valid
 end
+
+---@param unitBase table where to find the equipment unit
+---@param unitPath string
+---@param eqTable table with IDs, can be subtable
+---@param eqTableSectionPath string
+---@return string? id
+---@return string? errorString
+local function findSavedEquipmentID(unitBase, unitPath, eqTable, eqTableSectionPath)
+	local entry, errorString = Helpers.getByPath(unitBase, unitPath)
+	-- missing entry is acceptable
+	if errorString then return nil end
+	if entry then
+		local eqSection
+		eqSection, errorString = Helpers.getByPath(eqTable, eqTableSectionPath)
+		if errorString then return nil, errorString end
+		assert(eqSection)
+		for id, eq in pairs(eqSection) do
+			if eq == entry then return id end
+		end
+	end
+end
+
+ShipEquip.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		-- a table with all possible equipment is located directly in the saveGame
+		-- The ship's equipment set stores refs to this table items, and the
+		-- string IDs of the equipment are only in this table
+		local eqTable, errorString = Helpers.getByPath(saveGame, "lua_modules_json/Equipment")
+		if errorString then return nil, errorString end
+		assert(eqTable)
+
+		local eqTableMisc
+		eqTableMisc, errorString = Helpers.getByPath(eqTable, "misc")
+		if errorString then return nil, errorString end
+		assert(eqTableMisc)
+
+		-- table with slots
+		local eqSet
+		eqSet, errorString = Helpers.getPlayerShipParameter(saveGame, "ship/equipSet/lua_ref_json/slots")
+		if errorString then return nil, errorString end
+
+		local engine, laser_front, laser_rear
+
+		local misc = {}
+		for slotName, slot in pairs(eqSet) do
+			if slotName == 'engine' then
+				engine, errorString = findSavedEquipmentID(slot, "#1", eqTable, "hyperspace")
+			elseif slotName == 'laser_front' then
+				laser_front, errorString = findSavedEquipmentID(slot, "#1", eqTable, "laser")
+			elseif slotName == 'laser_rear' then
+				laser_rear, errorString = findSavedEquipmentID(slot, "#1", eqTable, "laser")
+			elseif #slot > 0 then
+				for _, unit in ipairs(slot) do
+					local entry
+					entry, errorString = findSavedEquipmentID(unit, "", eqTableMisc, "")
+					if entry then
+						addMiscEntry(misc, entry)
+					end
+				end
+			end
+			if errorString then return nil, errorString end
+		end
+
+		return {
+			engine = engine,
+			laser_front = laser_front,
+			laser_rear = laser_rear,
+			misc = misc
+		}
+	end
+}}
 
 
 --
@@ -927,10 +1065,18 @@ local function updateLayout()
 	ShipSummary.valueWidth = ui.calcTextSize("-3000t / 3000t-").x -- to update
 end
 
+local function updateParams()
+	ShipType:setShipID(ShipType.value)
+	ShipModel:updateModel()
+	ShipCargo:updateDrawItems()
+	ShipEquip:update()
+end
+
 return {
 	TabName = lui.SHIP,
 	draw = draw,
 	updateLayout = updateLayout,
+	updateParams = updateParams,
 	Type = ShipType,
 	Name = ShipName,
 	Label = ShipLabel,

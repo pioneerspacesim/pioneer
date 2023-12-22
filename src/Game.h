@@ -45,6 +45,7 @@ public:
 	// (or LoadGame/SaveGame should be somewhere else entirely)
 	static void SaveGame(const std::string &filename, Game *game);
 	static bool DeleteSave(const std::string &filename);
+	static int CurrentSaveVersion();
 
 	// start docked in station referenced by path or nearby to body if it is no station
 	Game(const SystemPath &path, const double startDateTime, const char *shipType = "kanara");

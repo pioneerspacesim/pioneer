@@ -19,8 +19,10 @@ local laser = Equipment.laser
 
 local Defs = require 'pigui.modules.new-game-window.defs'
 local Layout = require 'pigui.modules.new-game-window.layout'
+local Recovery = require 'pigui.modules.new-game-window.recovery'
 local StartVariants = require 'pigui.modules.new-game-window.start-variants'
 local FlightLogParam = require 'pigui.modules.new-game-window.flight-log'
+local Helpers = require 'pigui.modules.new-game-window.helpers'
 local Game = require 'Game'
 
 local profileCombo = { items = {}, selected = 0 }
@@ -244,6 +246,12 @@ local function drawBottomButtons()
 	end
 end
 
+local function hasNameInArray(param, array)
+	for _, v in pairs(array) do
+		if v.name == param.name then return true end
+	end
+end
+
 -- wait a few frames, and then calculate the static layout (updateLayout)
 local initFrames = 2
 
@@ -252,19 +260,23 @@ NewGameWindow = ModalWindow.New("New Game", function()
 	ui.withFont(Defs.mainFont, function()
 
 		ui.alignTextToFramePadding()
-		ui.text(lui.SELECT_START_PROFILE)
-
-		ui.sameLine()
-		local changed, ret = ui.combo("##starttype", profileCombo.selected, profileCombo.items)
-		if changed then
-			profileCombo.selected = ret
-			if profileCombo.actions[ret + 1] == 'DO_UNLOCK' then
-				Layout.setLock(false)
-				FlightLogParam.value.Custom = {{ text = "Custom start of the game - for the purpose of debugging or cheat." }}
-			else
-				setStartVariant(StartVariants.item(ret + 1))
+		if NewGameWindow.mode == 'RECOVER' then
+			ui.text(lui.RECOVER_SAVEGAME)
+		else
+			ui.text(lui.SELECT_START_PROFILE)
+			ui.sameLine()
+			local changed, ret = ui.combo("##starttype", profileCombo.selected, profileCombo.items)
+			if changed then
+				profileCombo.selected = ret
+				local action = profileCombo.actions[ret + 1]
+				if action == 'DO_UNLOCK' then
+					Layout.setLock(false)
+					FlightLogParam.value.Custom = {{ text = "Custom start of the game - for the purpose of debugging or cheat." }}
+				else
+					setStartVariant(StartVariants.item(ret + 1))
+				end
+				updateParams()
 			end
-			updateParams()
 		end
 
 		ui.separator()
@@ -298,6 +310,55 @@ end, function (_, drawPopupFn)
 	ui.withStyleColors({ PopupBg = ui.theme.colors.modalBackground }, drawPopupFn)
 end)
 
+function NewGameWindow.restoreSaveGame(selectedSave)
+	local saveGame = Recovery.loadDoc(selectedSave)
+	if type(saveGame) == 'table' then
+
+		local paramErrors = {}
+
+		local report = lui.ATTEMPTING_TO_RECOVER_GAME_PROGRESS_FROM_SAVE_X:interp{ save = selectedSave }
+		-- first variant as default value
+		setStartVariant(StartVariants.item(1))
+		-- except for clearing the log
+		FlightLogParam:fromStartVariant({})
+		report = report .. "\n\n" .. string.format(lui.FILE_SAVEGAME_VERSION, tostring(saveGame.version))
+		report = report .. "\n" .. string.format(lui.CURRENT_SAVEGAME_VERSION, tostring(Game.CurrentSaveVersion()))
+		for _, param in ipairs(Layout.UpdateOrder) do
+			local paramErrorString = param:fromSaveGame(saveGame)
+			-- could not be restored - we will give the
+			-- player the opportunity to edit it himself
+			if paramErrorString then
+				table.insert(paramErrors, { name = param.name, string = paramErrorString })
+				param.lock = false
+			else
+				param.lock = true
+			end
+		end
+		updateParams()
+		for _, param in ipairs(Layout.UpdateOrder) do
+			if not param:isValid() and not hasNameInArray(param, paramErrors)  then
+				table.insert(paramErrors, { name = param.name, string = lui.RECOVERED_BUT_NOT_VALID })
+				param.lock = false
+			end
+		end
+		if #paramErrors > 0 then
+			table.sort(paramErrors, function(x1, x2) return x1.name < x2.name end)
+			report = report .. "\n\n" .. lui.THERE_WERE_ERRORS_IN_RECOVERY .. "\n"
+			for _, err in ipairs(paramErrors) do
+				report = report .. "\n" .. err.name .. ": " .. err.string
+			end
+			report = report .. "\n\n" .. lui.UNSUCCESSFULLY_RECOVERED_PARAMETERS_ARE_NOW_UNLOCKED_PLEASE_SET_THEM_MANUALLY
+		else
+			report = report .. "\n\n" .. lui.ALL_PARAMETERS_WERE_RECOVERED_SUCCESSFULLY
+		end
+		return true, report
+	else
+		assert(type(saveGame) == 'string')
+		local errorString = saveGame
+		return false, lui.AN_ERROR_HAS_OCCURRED .. '\n' .. errorString
+	end
+end
+
 function NewGameWindow:buildProfileCombo()
 	profileCombo.items = {}
 	profileCombo.actions = {}
@@ -319,9 +380,10 @@ NewGameWindow:setDebugMode(false)
 
 local firstOpen = true
 function NewGameWindow:open()
-	if firstOpen or not self.debugMode then
+	if (firstOpen or not self.debugMode) and self.mode ~= 'RECOVER' then
 		firstOpen = false
 		setStartVariant(StartVariants.item(1))
+		updateParams()
 		profileCombo.selected = 0
 	end
 	if self.debugMode then

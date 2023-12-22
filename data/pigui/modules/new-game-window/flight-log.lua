@@ -5,10 +5,12 @@ local ui = require 'pigui'
 local Lang = require 'Lang'
 local lui = Lang.GetResource("ui-core")
 local Format = require 'Format'
+local SystemPath = require 'SystemPath'
 
 local Defs = require 'pigui.modules.new-game-window.defs'
 local GameParam = require 'pigui.modules.new-game-window.game-param'
 local Location = require 'pigui.modules.new-game-window.location'
+local Helpers = require 'pigui.modules.new-game-window.helpers'
 
 local FlightLog = GameParam.New(lui.FLIGHT_LOG, "flightlog")
 
@@ -24,9 +26,7 @@ function FlightLog:fromStartVariant(variant)
 	self.value.System = {}
 	self.value.Station = {}
 	self.value.Custom = {
-		{
-			text = variant.logmsg
-		}
+		variant.logmsg and { text = variant.logmsg }
 	}
 end
 
@@ -140,8 +140,103 @@ function FlightLog:draw()
 	end)
 end
 
+-- an invalid body path will be read as a system path only
+-- an invalid system path will be read as a sector path only
+local function systemPathFromTable(t)
+
+	-- something is completely wrong
+	if not t or #t ~= 5 then return nil end
+
+	local path = SystemPath.New(t[1], t[2], t[3], t[4], t[5])
+
+	if path:IsSectorPath() then return path end
+
+	local system = Location:getGalaxy():GetStarSystem(path)
+	if not system then
+		return SystemPath:SectorOnly()
+	end
+	if path:IsSystemPath() then return path end
+
+	local paths = system:GetBodyPaths()
+	if t[5] >= #paths then
+		return path:SystemOnly()
+	end
+
+	local systembody = system:GetBodyByPath(path)
+	if systembody.superType ~= 'STARPORT' then
+		return path:SystemOnly()
+	end
+
+	return path
+end
+
+FlightLog.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+
+		local value = { Custom = {}, System = {}, Station = {} }
+
+		local custom, errorString = Helpers.getByPath(saveGame, "lua_modules_json/FlightLog/Custom")
+		if errorString then return nil, errorString end
+		assert(custom)
+		for _, entry in ipairs(custom) do
+			local parsed = {}
+			if entry then
+				parsed.time = entry[2]
+				local loc = entry[4]
+				parsed.location = loc and { loc[1], loc[2], loc[3] }
+				parsed.path = systemPathFromTable(entry[1].inner)
+				parsed.money = entry[3]
+				parsed.text = entry[5]
+			end
+			if not entry or not parsed.time or not parsed.location or not parsed.path or not parsed.money or not parsed.text then
+				return nil, lui.UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT
+			end
+			table.insert(value.Custom, parsed)
+		end
+
+		local system
+		system, errorString = Helpers.getByPath(saveGame, "lua_modules_json/FlightLog/System")
+		if errorString then return nil, errorString end
+		assert(system)
+		for _, entry in ipairs(system) do
+			local parsed = {}
+			if entry then
+				parsed.arrtime = entry[2]
+				parsed.deptime = entry[3]
+				parsed.path = systemPathFromTable(entry[1].inner)
+				parsed.text = entry[4]
+			end
+			if not entry or not parsed.path then
+				return nil, lui.UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT
+			end
+			table.insert(value.System, parsed)
+		end
+
+		local station
+		station, errorString = Helpers.getByPath(saveGame, "lua_modules_json/FlightLog/Station")
+		if errorString then return nil, errorString end
+		assert(station)
+		for _, entry in ipairs(station) do
+			local parsed = {}
+			if entry then
+				parsed.time = entry[2]
+				parsed.path = systemPathFromTable(entry[1].inner)
+				parsed.money = entry[3]
+				parsed.text = entry[4]
+			end
+			if not entry or not parsed.time or not parsed.path or not parsed.money then
+				return nil, lui.UNKNOWN_STATION_LOG_ENTRY_FORMAT
+			end
+			table.insert(value.Station, parsed)
+		end
+
+		return value
+	end
+}}
+
 FlightLog.updateLayout = false
-FlightLog.updateView = false
+FlightLog.updateParams = false
 
 function FlightLog:isValid()
 	return true

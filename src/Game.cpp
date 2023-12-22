@@ -995,3 +995,8 @@ void Game::SaveGame(const std::string &filename, Game *game)
 
 	Pi::GetApp()->RequestProfileFrame("SaveGame");
 }
+
+int Game::CurrentSaveVersion()
+{
+	return s_saveVersion;
+}
