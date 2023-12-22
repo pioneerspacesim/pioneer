@@ -5,6 +5,13 @@ if (WIN32)
 	# Setup the variables we use from GNUInstallDirs on unix platforms
 	set(CMAKE_INSTALL_BINDIR ${CMAKE_INSTALL_PREFIX})
 	set(CMAKE_INSTALL_DATADIR ${CMAKE_INSTALL_PREFIX})
+
+	# Don't create a <PREFIX>/pioneer subfolder to hold the data
+	set(PIONEER_INSTALL_DATADIR ${CMAKE_INSTALL_DATADIR} CACHE PATH
+		"Path where pioneer's data/ folder will be installed")
+
+	set(PIONEER_DATA_DIR ${PIONEER_INSTALL_DATADIR} CACHE PATH
+		"Runtime path to load game data from")
 else()
 	include(GNUInstallDirs)
 endif()
