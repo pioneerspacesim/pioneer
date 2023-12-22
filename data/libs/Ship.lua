@@ -35,6 +35,10 @@ function Ship:Constructor()
 	Event.Queue('onShipCreated', self)
 end
 
+function Ship:OnShipTypeChanged()
+	-- immediately update any needed components or properties
+end
+
 -- class method
 function Ship.MakeRandomLabel ()
 	local letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

@@ -91,8 +91,6 @@ Ship::Ship(const ShipType::Id &shipId) :
 	m_aiMessage = AIERROR_NONE;
 	m_decelerating = false;
 
-	InitEquipSet();
-
 	SetModel(m_type->modelName.c_str());
 	SetupShields();
 
@@ -191,7 +189,7 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 		p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
 
 		// TODO: object components
-		m_equipSet.LoadFromJson(shipObj["equipSet"]);
+		// m_equipSet.LoadFromJson(shipObj["equipSet"]);
 
 		m_controller = 0;
 		const ShipController::Type ctype = shipObj["controller_type"];
@@ -298,7 +296,7 @@ void Ship::SaveToJson(Json &jsonObj, Space *space)
 	shipObj["hyperspace_jump_sound"] = m_hyperspace.sounds.jump_sound;
 
 	m_fixedGuns->SaveToJson(shipObj, space);
-	m_equipSet.SaveToJson(shipObj["equipSet"]);
+	// m_equipSet.SaveToJson(shipObj["equipSet"]);
 
 	shipObj["ecm_recharge"] = m_ecmRecharge;
 	shipObj["ship_type_id"] = m_type->id;
@@ -320,24 +318,6 @@ void Ship::SaveToJson(Json &jsonObj, Space *space)
 	shipObj["name"] = m_shipName;
 
 	jsonObj["ship"] = shipObj; // Add ship object to supplied object.
-}
-
-void Ship::InitEquipSet()
-{
-	lua_State *l = Lua::manager->GetLuaState();
-
-	LUA_DEBUG_START(l);
-
-	pi_lua_import(l, "EquipSet");
-	LuaTable es_class(l, -1);
-
-	LuaTable slots = LuaTable(l).LoadMap(GetShipType()->slots.begin(), GetShipType()->slots.end());
-	m_equipSet = es_class.Call<LuaRef>("New", slots);
-
-	UpdateEquipStats();
-
-	lua_pop(l, 2);
-	LUA_DEBUG_END(l, 0);
 }
 
 void Ship::InitMaterials()
@@ -1602,9 +1582,6 @@ void Ship::SetShipId(const ShipType::Id &shipId)
 
 void Ship::SetShipType(const ShipType::Id &shipId)
 {
-	// clear all equipment so that any relevant capability properties (or other data) is wiped
-	ScopedTable(m_equipSet).CallMethod("Clear", this);
-
 	SetShipId(shipId);
 	SetModel(m_type->modelName.c_str());
 	SetupShields();
@@ -1615,7 +1592,8 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 	onFlavourChanged.emit();
 	if (IsType(ObjectType::PLAYER))
 		Pi::game->GetWorldView()->shipView->GetCameraController()->Reset();
-	InitEquipSet();
+
+	LuaObject<Ship>::CallMethod(this, "OnShipTypeChanged");
 
 	LuaEvent::Queue("onShipTypeChanged", this);
 }

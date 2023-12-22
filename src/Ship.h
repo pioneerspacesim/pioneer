@@ -137,8 +137,6 @@ public:
 	int GetWheelTransition() const { return m_wheelTransition; }
 	bool SpawnCargo(CargoBody *c_body) const;
 
-	LuaRef GetEquipSet() const { return m_equipSet; }
-
 	virtual bool IsInSpace() const override { return (m_flightState != HYPERSPACE); }
 
 	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
@@ -273,8 +271,6 @@ protected:
 		LuaRef checks; // A Lua function to check all the conditions before the jump
 		HyperdriveSoundsTable sounds;
 	} m_hyperspace;
-
-	LuaRef m_equipSet;
 
 	Propulsion *m_propulsion;
 	FixedGuns *m_fixedGuns;

@@ -1659,13 +1659,6 @@ static int l_ship_update_equip_stats(lua_State *l)
 	return 0;
 }
 
-static int l_ship_attr_equipset(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	s->GetEquipSet().PushCopyToStack();
-	return 1;
-}
-
 template <>
 const char *LuaObject<Ship>::s_type = "Ship";
 
@@ -1756,7 +1749,6 @@ void LuaObject<Ship>::RegisterClass()
 	};
 
 	const luaL_Reg l_attrs[] = {
-		{ "equipSet", l_ship_attr_equipset },
 		{ 0, 0 }
 	};
 
