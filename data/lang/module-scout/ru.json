@@ -13,7 +13,7 @@
   },
   "ADTEXT_1": {
     "description": "The Galactic Geographical Society is comparable to National Geographical society. But in space!",
-    "message": "Необходимо выполнить геодезическую съемку объекта в системе {system}"
+    "message": "Необходимо картировать объект в системе {system}"
   },
   "ADTEXT_1_FAILMSG": {
     "description": "",
