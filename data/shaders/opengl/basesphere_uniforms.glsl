@@ -32,8 +32,6 @@ layout(std140) uniform BaseSphereData {
 	Eclipse eclipse;
 };
 
-#ifdef FRAGMENT_SHADER
-
 // NOTE: you must include attributes.glsl first!
 
 // Common code to calculate the diffuse light term for a planet's surface
@@ -49,6 +47,8 @@ void CalcPlanetDiffuse(inout vec4 diff, in vec4 color, in vec3 L, in vec3 N, in 
 	float clampedCosine = (nDotVP + 0.5 * clamp(1.0 - nnDotVP * 4.0, 0, 1) * INV_NUM_LIGHTS);
 	diff += color * uneclipsed * 0.5 * clampedCosine;
 }
+
+#ifdef FRAGMENT_SHADER
 
 // Common code to calculate the specular light term for a planet's surface
 // L: light -> surface vector (normalized)

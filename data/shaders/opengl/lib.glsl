@@ -37,17 +37,6 @@ vec2 rayCylinderIntersect(in vec3 rayDir, in vec3 cylinderCenter, in vec3 axis, 
     return (scale == 0.f) ? vec2(0.f) : intersect / scale;
 }
 
-#ifdef FRAGMENT_SHADER
-
-struct Surface {
-	vec4 color;
-	vec3 specular;
-	float shininess;
-	vec3 normal;
-	vec3 emissive;
-	float ambientOcclusion;
-};
-
 // Phase functions
 // https://www.scratchapixel.com/lessons/procedural-generation-virtual-worlds/simulating-sky/simulating-colors-of-the-sky.html
 float miePhaseFunction(const float g, const float mu)
@@ -65,6 +54,17 @@ float rayleighPhaseFunction(const float mu)
 	 */
 	return 3.f / (16.f * 3.141592) * (1 + mu * mu);
 }
+
+#ifdef FRAGMENT_SHADER
+
+struct Surface {
+	vec4 color;
+	vec3 specular;
+	float shininess;
+	vec3 normal;
+	vec3 emissive;
+	float ambientOcclusion;
+};
 
 
 // Currently used by: hopefully everything
