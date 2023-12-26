@@ -214,7 +214,9 @@ char *CommandList::SetupMaterialData(OGL::Material *mat)
 	const Shader *s = mat->GetShader();
 
 	char *alloc = AllocDrawData(s);
-	memcpy(alloc, mat->m_pushConstants.get(), s->GetConstantStorageSize());
+	if (mat->m_pushConstants) {
+		memcpy(alloc, mat->m_pushConstants.get(), s->GetConstantStorageSize());
+	}
 
 	BufferBinding<UniformBuffer> *buffers = getBufferBindings(s, alloc);
 	for (size_t index = 0; index < s->GetNumBufferBindings(); index++) {
