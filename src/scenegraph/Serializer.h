@@ -149,7 +149,7 @@ namespace Serializer {
 				throw std::out_of_range("Serializer::Reader encountered truncated stream.");
 #endif
 
-			out = *reinterpret_cast<const T *>(m_at);
+			std::memcpy(&out, m_at, sizeof(T)); // use memcpy to handle unaligned reads
 			m_at += sizeof(T);
 		}
 
