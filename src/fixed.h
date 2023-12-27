@@ -149,34 +149,39 @@ public:
 	}
 	friend fixedf operator/(const fixedf &a, const fixedf &b)
 	{
-		// 128-bit divided by 64-bit, to make sure high bits are not lost
-		Sint64 quotient_hi = a.v >> (64 - FRAC);
-		Uint64 quotient_lo = a.v << FRAC;
-		Sint64 d = b.v;
-		int isneg = 0;
-		Sint64 remainder = 0;
-
-		if (d < 0) {
-			d = -d;
-			isneg = 1;
+		Uint64 abs_a = a.v, abs_b = b.v;
+		bool is_neg = false;
+		if (a.v < 0) {
+			abs_a = -abs_a;
+			is_neg = !is_neg;
 		}
-
+		if (b.v < 0) {
+			abs_b = -abs_b;
+			is_neg = !is_neg;
+		}
+		// 128-bit divided by 64-bit, to make sure high bits are not lost
+		Uint64 quotient_hi = abs_a >> (64 - FRAC);
+		Uint64 quotient_lo = abs_a << FRAC;
+		Uint64 remainder = 0;
 		for (int i = 0; i < 128; i++) {
 			Uint64 sbit = (Uint64(1) << 63) & quotient_hi;
+			// The most significant bit of remainder is 0 because abs_b <= (Uint64(1) << 63)
 			remainder <<= 1;
-			if (sbit) remainder |= 1;
+			if (sbit) {
+				remainder |= 1;
+			}
 			// shift quotient left 1
 			{
 				quotient_hi <<= 1;
 				if (quotient_lo & (Uint64(1) << 63)) quotient_hi |= 1;
 				quotient_lo <<= 1;
 			}
-			if (remainder >= d) {
-				remainder -= d;
+			if (remainder >= abs_b) {
+				remainder -= abs_b;
 				quotient_lo |= 1;
 			}
 		}
-		return (isneg ? -Sint64(quotient_lo) : quotient_lo);
+		return is_neg ? -quotient_lo : quotient_lo;
 	}
 	friend bool operator==(const fixedf &a, const fixedf &b) { return a.v == b.v; }
 	friend bool operator!=(const fixedf &a, const fixedf &b) { return a.v != b.v; }
