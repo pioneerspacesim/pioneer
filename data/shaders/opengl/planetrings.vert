@@ -6,6 +6,7 @@
 
 out vec2 texCoord0;
 out vec4 texCoord1;
+out vec4 varyingEyepos;
 
 void main(void)
 {
@@ -13,4 +14,5 @@ void main(void)
 
 	texCoord0 = a_uv0.xy;
 	texCoord1 = a_vertex;
+	varyingEyepos = uViewMatrix * a_vertex;
 }
