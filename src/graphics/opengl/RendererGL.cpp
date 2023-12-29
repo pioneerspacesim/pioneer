@@ -49,9 +49,9 @@ namespace Graphics {
 		Uint32 winFlags = 0;
 
 		winFlags |= SDL_WINDOW_OPENGL;
-		// We'd like a context that implements OpenGL 3.2 to allow creation of multisampled textures
+		// We'd like a context that implements OpenGL 3.1 to allow creation of multisampled textures
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 		// Request core profile as we're uninterested in old fixed-function API
 		// also cannot initialise 3.x context on OSX with anything but CORE profile
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -180,9 +180,9 @@ namespace Graphics {
 		if (vs.enableDebugMessages)
 			GLDebug::Enable();
 
-		if (!glewIsSupported("GL_VERSION_3_2")) {
+		if (!glewIsSupported("GL_VERSION_3_1")) {
 			Error(
-				"Pioneer can not run on your graphics card as it does not appear to support OpenGL 3.2\n"
+				"Pioneer can not run on your graphics card as it does not appear to support OpenGL 3.1\n"
 				"Please check to see if your GPU driver vendor has an updated driver - or that drivers are installed correctly.");
 		}
 
