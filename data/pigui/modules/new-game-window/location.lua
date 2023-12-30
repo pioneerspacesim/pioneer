@@ -137,7 +137,7 @@ function Location:setPath(path)
 
 	self.value.path = path
 
-	self.sysCombo = { systems = self.galaxy:GetSector(path.sectorX, path.sectorY, path.sectorZ), labels = {}, selected = 0 }
+	self.sysCombo = { systems = self:getGalaxy():GetSector(path.sectorX, path.sectorY, path.sectorZ), labels = {}, selected = 0 }
 	for _, system in ipairs(self.sysCombo.systems) do
 		table.insert(self.sysCombo.labels, system.name)
 	end

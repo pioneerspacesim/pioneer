@@ -263,8 +263,8 @@ NewGameWindow = ModalWindow.New("New Game", function()
 				FlightLogParam.value.Custom = {{ text = "Custom start of the game - for the purpose of debugging or cheat." }}
 			else
 				setStartVariant(StartVariants.item(ret + 1))
-				updateParams()
 			end
+			updateParams()
 		end
 
 		ui.separator()
@@ -317,6 +317,18 @@ end
 
 NewGameWindow:setDebugMode(false)
 
-setStartVariant(StartVariants.item(1))
+local firstOpen = true
+function NewGameWindow:open()
+	if firstOpen or not self.debugMode then
+		firstOpen = false
+		setStartVariant(StartVariants.item(1))
+		profileCombo.selected = 0
+	end
+	if self.debugMode then
+		profileCombo.selected = #profileCombo.items - 1
+		Layout.setLock(false)
+	end
+	ModalWindow.open(self)
+end
 
 return NewGameWindow
