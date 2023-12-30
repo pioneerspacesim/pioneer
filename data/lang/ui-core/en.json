@@ -359,6 +359,10 @@
     "description": "Time of departure, used in flight log",
     "message": "Departure date"
   },
+  "DESCRIPTION": {
+    "description": "Start game parameter, e.g. 'This is an easy start from Cydonia'",
+    "message": "Description"
+  },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
     "message": "Destroy enemy ship"

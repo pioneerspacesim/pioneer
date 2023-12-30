@@ -26,7 +26,8 @@ Layout.UpdateOrder = {
 	Ship.Fuel,
 	Location,
 	Location.Time,
-	FlightLog
+	FlightLog,
+	Summary.Description
 }
 
 Layout.Tabs = { Summary, Crew, Ship, Location, FlightLog }

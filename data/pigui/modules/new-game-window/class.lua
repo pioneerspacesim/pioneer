@@ -98,7 +98,6 @@ local function setStartVariant(variant)
 	for _, param in ipairs(Layout.UpdateOrder) do
 		param:fromStartVariant(variant)
 	end
-	Defs.currentStartVariant = variant
 end
 
 local function startGame(gameParams)
