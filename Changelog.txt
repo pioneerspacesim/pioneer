@@ -1,3 +1,7 @@
+December 2023
+  * Fixes
+    * Fix installed directory structure on Windows (#5686)
+
 November 2023
   * Internal Changes
     * Lua Constant autocomplete support (#5663)
@@ -5,15 +9,18 @@ November 2023
 
   * Internal Changes
     * Improve Simplex Noise Performance (#5661)
+    * Improve CI Setup and Performance (#5670)
     * Build with SSE4 / AVX, fix build artifact generation (#5651)
     * Lua io and FileSystem uri changes (#5638)
     * LuaBody/Player/Ship function changes (#5643)
     * Update AppStream destination and filename (#5664)
+    * Improve BVH Broadphase Performance (#5669)
 
   * Fixes
     * Correct value of g-force in system editor (#5658)
     * Fix assertion failed in Sfx::Sfx(const Json &jsonObj) (#5668)
     * Fix crash in l_body_get_ground_position if there is no body to get (#5665)
+    * Fix lua components corruption on save (#5657)
 
 October 2023
   * New Features
