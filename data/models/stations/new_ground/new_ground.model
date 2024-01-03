@@ -2,45 +2,44 @@
 # The original mesh and textures are available from here for free:
 # http://www.scifi3d.com/details.asp?intGenreID=10&intCatID=17&key=85
 #
-# The original mesh required a lot of cleanup and was very high-poly for game usage
-# so had to be simplified and in many cases outright deleted to get it down to budget.
-# The upper and lower desking were recreated, polygon winding issues resolved and re-UV'd.
+# The original mesh required a lot of cleanup.
 #
-# New textures and materials were made by me and new geometry for the 4 lifts.
+# New textures were made by Keeper1st
 
-material rim
-diffuse 1.0 1.0 1.0
+material pads
+diffuse 0.9 0.9 0.9
 specular 0.5 0.5 0.5
-tex_diff Steelplt.dds
+tex_diff pad_diff.dds
+tex_spec pad_spec.dds
+tex_glow pad_glow.dds
+tex_norm pad_norm.dds
 
-material column
-diffuse 1.0 1.0 1.0
+material building
+diffuse 0.9 0.9 0.9
 specular 0.5 0.5 0.5
-tex_diff LiftColumn.dds
-tex_glow LiftColumn_illum.dds
+tex_diff building_diff.dds
+tex_spec building_spec.dds
+tex_glow building_glow.dds
+tex_norm building_norm.dds
 
-material lamp_glow
-diffuse 1.0 1.0 1.0
+material Glass
+diffuse 0.9 0.9 0.9
 specular 0.5 0.5 0.5
-tex_diff LiftColumn.dds
-tex_glow LiftColumn_illum.dds
+opacity 60
+tex_diff building_diff.dds
+tex_spec building_spec.dds
+tex_glow building_glow.dds
+tex_norm building_norm.dds
 
-material pad
-diffuse 1.0 1.0 1.0
-specular 0.5 0.5 0.5
-tex_diff c_metall.dds
 
-material m4plat_lift_column
-diffuse 1.0 1.0 1.0
-specular 0.5 0.5 0.5
-tex_diff LiftColumn.dds
-tex_glow LiftColumn_illum.dds
+lod 500
+mesh new_ground_hi.dae
+mesh new_ground_landing.dae
 
-lod 300
-mesh landPad6_mesh_lores.dae
+lod 200
+mesh new_ground_mid.dae
 
-lod 2000
-mesh landPad6_docking.dae
-mesh landPad6_mesh.dae
+lod 50
+mesh new_ground_lo.dae
 
-collision landPad6_collision.dae
+collision new_ground_coll.dae
