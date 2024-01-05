@@ -54,7 +54,7 @@ endif(APPLE)
 
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm" OR CMAKE_SYSTEM_PROCESSOR MATCHES "aarch")
     # maybe for performance we can add options here?
-    # add_compile_options (""-mfloat-abi=hardfp" "-mfpu=neon") 
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mcpu=cortex-a76 -ffast-math")
 else()
     option(USE_SSE42 "Compile for SSE4.2 compatible microarchitectures (enables optimizations)" ON)
 
