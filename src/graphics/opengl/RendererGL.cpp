@@ -51,7 +51,14 @@ namespace Graphics {
 		winFlags |= SDL_WINDOW_OPENGL;
 		// We'd like a context that implements OpenGL 3.1 to allow creation of multisampled textures
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+#if (defined(__arm__) || defined(__aarch64__) || defined(__PPC64__) || defined(__riscv))
+		// on Arm and other platforms we attempt to create an OpenGL 3.1 context as this is what Raspberry Pi 4 & 5 currently support
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+#else
+		// x86/x64 we use newer OpenGL
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+#endif
+		
 		// Request core profile as we're uninterested in old fixed-function API
 		// also cannot initialise 3.x context on OSX with anything but CORE profile
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -180,11 +187,20 @@ namespace Graphics {
 		if (vs.enableDebugMessages)
 			GLDebug::Enable();
 
+#if (defined(__arm__) || defined(__aarch64__) || defined(__PPC64__) || defined(__riscv))
+		// on Arm and other platforms we attempt to create an OpenGL 3.1 context as this is what Raspberry Pi 4 & 5 currently support
 		if (!glewIsSupported("GL_VERSION_3_1")) {
 			Error(
-				"Pioneer can not run on your graphics card as it does not appear to support OpenGL 3.1\n"
+				"Pioneer can not run on your device (Raspberry Pi?) as it does not appear to support OpenGL 3.1"
+		}
+#else
+		// x86/x64 we use newer OpenGL
+		if (!glewIsSupported("GL_VERSION_3_2")) {
+			Error(
+				"Pioneer can not run on your graphics card as it does not appear to support OpenGL 3.2\n"
 				"Please check to see if your GPU driver vendor has an updated driver - or that drivers are installed correctly.");
 		}
+#endif
 
 		if (!glewIsSupported("GL_EXT_texture_compression_s3tc")) {
 			if (glewIsSupported("GL_ARB_texture_compression")) {
