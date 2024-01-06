@@ -11,6 +11,7 @@ local Timer = require 'Timer'
 local Engine = require 'Engine'
 local Format = require 'Format'
 local Mission = require 'Mission'
+local MissionUtils = require 'modules.MissionUtils'
 local ShipDef = require 'ShipDef'
 local Character = require 'Character'
 local Equipment = require 'Equipment'
@@ -479,7 +480,9 @@ local makeAdvert = function (station)
 	local planet = planets[Engine.rand:Integer(1, #planets)]
 	local dist = station:DistanceTo(Space.GetBody(planet:GetSystemBody().index))
 	local flavour = flavours[Engine.rand:Integer(1, #flavours)]
-	local due = Game.time + mission_time * (1 + dist / max_dist) * Engine.rand:Number(0.8, 1.2)
+	local time = Engine.rand:Number(mission_time)
+	local due = time + MissionUtils.TravelTimeLocal(dist) * Engine.rand:Number(0.9, 1.1)
+	local timeout = due/2 + Game.time -- timeout after half of the travel time
 	local reward
 
 	if flavour.reward < 0 then
@@ -488,6 +491,7 @@ local makeAdvert = function (station)
 		reward = flavour.reward * (1 + dist / max_dist) * Engine.rand:Number(0.75, 1.25)
 	end
 	reward = utils.round(reward, 50)
+	due = utils.round(due + Game.time, 3600)
 
 	if #flavour.cargo_type > 0 and dist < max_dist and station:DistanceTo(Space.GetBody(star.index)) < max_dist then
 		local ad = {
@@ -502,6 +506,7 @@ local makeAdvert = function (station)
 			reward            = math.ceil(reward),
 			amount            = flavour.amount,
 			due               = due,
+			timeout           = timeout,
 			return_to_station = flavour.return_to_station,
 			deliver_to_ship   = flavour.deliver_to_ship,
 			ship_label        = flavour.deliver_to_ship and Ship.MakeRandomLabel() or nil
@@ -530,7 +535,7 @@ end
 
 local onUpdateBB = function (station)
 	for ref, ad in pairs(ads) do
-		if ad.due < Game.time + 5*24*60*60 then -- five day timeout
+		if ad.timeout < Game.time then
 			ad.station:RemoveAdvert(ref)
 		end
 	end
