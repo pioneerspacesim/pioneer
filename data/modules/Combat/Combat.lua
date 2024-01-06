@@ -9,6 +9,7 @@ local Comms = require 'Comms'
 local Event = require 'Event'
 local Timer = require 'Timer'
 local Mission = require 'Mission'
+local MissionUtils = require 'modules.MissionUtils'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
@@ -21,9 +22,6 @@ local utils = require 'utils'
 local l = Lang.GetResource("module-combat")
 local lc = Lang.GetResource 'core'
 
--- typical time for travel to a planet in a system 1ly away and back
-local typical_hyperspace_time = 2 * 24 * 60 * 60
-local typical_travel_time = 24 * 24 * 60 *60
 -- typical reward for a mission to a system 1ly away
 local typical_reward = 100
 
@@ -223,7 +221,7 @@ local placeAdvert = function (station, ad)
 end
 
 local makeAdvert = function (station)
-	local flavour, location, dist, reward, due, org
+	local flavour, location, dist, reward, due, org, time, timeout
 	local risk = Engine.rand:Number(0.2, 1)
 	local dedication = Engine.rand:Number(0.1, 1)
 	local urgency = Engine.rand:Number(1)
@@ -243,7 +241,10 @@ local makeAdvert = function (station)
 	dist = location:DistanceTo(Game.system)
 	reward = math.ceil(dist * typical_reward * (1 + dedication)^2 * (1 + risk) * (1 + urgency) * Engine.rand:Number(0.8, 1.2))
 	reward = utils.round(reward, 100)
-	due = Game.time + typical_travel_time * Engine.rand:Number(0.9, 1.1) + dist * typical_hyperspace_time * (1.5 - urgency) * Engine.rand:Number(0.9, 1.1)
+	time = Engine.rand:Number(21*24*60*60, 28*24*60*60)
+	due = time + MissionUtils.TravelTime(dist, location) * 2 * (1.5 - urgency)
+	timeout = due/2 + Game.time -- timeout after half of the travel time
+	due = utils.round(due + Game.time, 3600)
 
 	if Engine.rand:Number(1) > 0.5 then
 		local nearbysystems = location:GetStarSystem():GetNearbySystems(10)
@@ -270,6 +271,7 @@ local makeAdvert = function (station)
 		urgency     = urgency,
 		reward      = reward,
 		due         = due,
+		timeout     = timeout,
 	}
 
 	placeAdvert(station, ad)
@@ -284,7 +286,7 @@ end
 
 local onUpdateBB = function (station)
 	for ref, ad in pairs(ads) do
-		if ad.due < Game.time + 5*60*60*24 then -- five day timeout
+		if ad.timeout < Game.time then
 			ad.station:RemoveAdvert(ref)
 		end
 	end

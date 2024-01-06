@@ -173,5 +173,59 @@ function MissionUtils.GetNearbyStationPaths(system, range_ly, system_filter, sta
 	return nearby_stations
 end
 
+-- Function: TravelTimeLocal
+--
+-- Returns a standardized travel time to a local target
+--
+-- Example:
+--
+-- > travel_time = MissionUtils.TravelTimeLocal(distance)
+--
+-- Parameters:
+--
+--   distance - the distance to the target in meters
+--
+-- Returns:
+--
+--   the travel time in seconds
+--
+function MissionUtils.TravelTimeLocal(distance)
+	return distance/AU * 2*Days
+end
+
+--
+-- Function: TravelTime
+--
+-- Returns a standardized hyperspace travel time
+--
+-- Example:
+--
+-- > travel_time = MissionUtils.TravelTime(distance, location)
+--
+-- Parameters:
+--
+--   distance - the distance to the target system in light years
+--
+--   location - optional, the location in the target system
+--              must be a station or planet
+--
+-- Returns:
+--
+--   the travel time in seconds
+--
+function MissionUtils.TravelTime(distance, location)
+	local ltt
+
+	if location then
+		local sbody = location:GetSystemBody()
+		-- find the primary planet orbiting the star or gravpoint to calculate the local travel time
+		while sbody.parent and sbody.parent.superType ~= 'STAR' do sbody = sbody.parent end
+		ltt = MissionUtils.TravelTimeLocal((sbody.periapsis+sbody.apoapsis)/2)
+	else
+		ltt = MissionUtils.TravelTimeLocal(AU)
+	end
+
+	return distance * 1.75*Days + ltt
+end
 
 return MissionUtils
