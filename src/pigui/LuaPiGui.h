@@ -19,12 +19,18 @@ namespace PiGui {
 	// Get a table of key name to SDL-keycode mappings
 	LuaRef GetKeys();
 
+	// Get the EventQueue to be used for UI events
+	LuaRef GetEventQueue();
+
 	namespace Lua {
 		void RegisterSandbox();
 
 		void Init();
 		void Uninit();
 	} // namespace Lua
+
+	// Emit all queued UI events
+	void EmitEvents();
 
 	// Run a lua PiGui handler.
 	void RunHandler(double delta, std::string handler = "GAME");

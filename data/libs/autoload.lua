@@ -49,9 +49,9 @@ string.interp = function (s, t)
 	local i = 0
 	return (s:gsub('(%b{})', function(w)
 		if #w > 2 then
-			return t[w:sub(2, -2)] or w
+			return tostring(t[w:sub(2, -2)]) or w
 		else
-			i = i + 1; return t[i] or w
+			i = i + 1; return tostring(t[i]) or w
 		end
 	end))
 end

@@ -32,6 +32,17 @@ package.core = {}
 ---@param name string? dot-qualified name of the package to trigger reimport for
 package.reimport = function(name) end
 
+--- Get the module name of the file where this function is called
+---@return string moduleName
+package.thisModule = function() end
+
+--- Get the module name of the function N stack levels above package.modulename
+--- in the execution stack. Note: tail calls may affect the accuracy of this
+--- function.
+---@param index integer number of stack levels above package.modulename(), minimum 1
+---@return string moduleName
+package.modulename = function(index) end
+
 --- Log the specified string at the Warning semantic level
 function logWarning(string) end
 
