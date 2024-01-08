@@ -244,7 +244,6 @@ namespace Graphics {
 		};
 
 		virtual bool Screendump(ScreendumpState &sd) { return false; }
-		virtual bool FrameGrab(ScreendumpState &sd) { return false; }
 
 		Stats &GetStats() { return m_stats; }
 

@@ -1190,30 +1190,4 @@ namespace Graphics {
 		return true;
 	}
 
-	bool RendererOGL::FrameGrab(ScreendumpState &sd)
-	{
-		int w, h;
-		SDL_GetWindowSize(m_window, &w, &h);
-		sd.width = w;
-		sd.height = h;
-		sd.bpp = 4; // XXX get from window
-
-		sd.stride = (4 * sd.width);
-
-		sd.pixels.reset(new Uint8[sd.stride * sd.height]);
-
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glPixelStorei(GL_PACK_ALIGNMENT, 4); // never trust defaults
-		glReadBuffer(GL_FRONT);
-		glReadPixels(0, 0, sd.width, sd.height, GL_RGBA, GL_UNSIGNED_BYTE, sd.pixels.get());
-		glFinish();
-
-		// this might harmlessly error if we're in a single buffered mode,
-		// however in double buffered mode it makes the window in window screens
-		// such as ones that show the ship within a menu (F3) work correctly
-		// as GL_BACK is the default.
-		glReadBuffer(GL_BACK);
-		return true;
-	}
-
 } // namespace Graphics

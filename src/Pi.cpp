@@ -1094,6 +1094,11 @@ void GameLoop::Update(float deltaTime)
 	if (Pi::isRecordingVideo && (Pi::ffmpegFile != nullptr)) {
 		Graphics::ScreendumpState sd;
 		Pi::renderer->FrameGrab(sd);
+		// note: FrameGrab looked slightly buggy and now Screendump will do the same thing but without alpha channel
+		// so it might need some work to ressurect this and add back in the alpha channel.
+		// Also worth noting, this possibly isn't the right way to do things as it can introduce a stall of the GPU/CPU
+		// interaction.  Much better to write/copy using GPU to a chain of offscreen render targets and pull data back from them
+		// meaning what we write to the video may be a frame or two old, but that's acceptable for better performance.
 		fwrite(sd.pixels.get(), sizeof(uint32_t) * Pi::renderer->GetWindowWidth() * Pi::renderer->GetWindowHeight(), 1, Pi::ffmpegFile);
 	}
 #endif
