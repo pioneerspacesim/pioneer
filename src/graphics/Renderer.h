@@ -19,9 +19,9 @@ struct SDL_Window;
 namespace Graphics {
 
 	/*
-	* Renderer base class. A Renderer draws points, lines, triangles.
-	* It is also used to create render states, materials and vertex/index buffers.
-	*/
+	 * Renderer base class. A Renderer draws points, lines, triangles.
+	 * It is also used to create render states, materials and vertex/index buffers.
+	 */
 
 	class IndexBuffer;
 	class InstanceBuffer;
@@ -221,7 +221,8 @@ namespace Graphics {
 		public:
 			MatrixTicket(Renderer *r) :
 				MatrixTicket(r, r->GetTransform())
-			{}
+			{
+			}
 
 			MatrixTicket(Renderer *r, const matrix4x4f &newMat) :
 				m_renderer(r)

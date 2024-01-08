@@ -13,7 +13,7 @@
 #include <stack>
 #include <unordered_map>
 
-typedef void* SDL_GLContext;
+typedef void *SDL_GLContext;
 
 namespace Graphics {
 
