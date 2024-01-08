@@ -57,7 +57,7 @@
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "Market header when buying items",
-    "message": "Available For Purchase"
+    "message": "Διαθέσιμο για αγορά."
   },
   "AVERAGE": {
     "description": "",
@@ -113,7 +113,7 @@
   },
   "CARGO_CAPACITY": {
     "description": "Label to show a ship's total cargo space.",
-    "message": "Cargo Capacity"
+    "message": "Χωρητικότητα φορτίου"
   },
   "CARGO_SPACE": {
     "description": "",
@@ -1957,7 +1957,7 @@
   },
   "SENSORS": {
     "description": "Crew skill",
-    "message": "Sensors"
+    "message": "Αισθητήρες"
   },
   "SENSORS_AND_DEFENCE": {
     "description": "",

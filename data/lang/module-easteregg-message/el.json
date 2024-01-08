@@ -1,26 +1,26 @@
 {
   "FLAVOUR_0_BODY": {
     "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC",
-    "message": "Just ring 36 24 36, I'm always home. I deal in:\n - Concrete shoes,\n - Cyanide,\n - TNT,\n - Neck ties,\n - Contracts,\n - High voltage,\n\n ...or just make a social call."
+    "message": "Απλώς καλέστε στο 36 24 36. Θα με βρείτε όλες τις ώρες, ασχολούμαι με: τσιμεντένια παπούτσια, κυανίδιο, ΤΝΤ, κρεμάλες, συμβόλαια, υψηλή τάση....ή απλώς μπορούμε να κουτσομπολέψουμε."
   },
   "FLAVOUR_0_DESC": {
     "description": "Second line for an easter-egg AC/DC song title reference.",
-    "message": "If you're having trouble, call me any time."
+    "message": "Αν έχεις προβλήματα, κάλεσέ με όποτε να' ναι."
   },
   "FLAVOUR_0_TITLE": {
     "description": "The 'all caps' title should probably not be translated, as it's an AC/DC song title reference. Either way, it's a very rare 'Easter egg'",
-    "message": "DIRTY DEEDS DONE DIRT CHEAP"
+    "message": "Κάνω βρώμικες δουλειές, ζητώ βρωμερά χαμηλή αμοιβή."
   },
   "FLAVOUR_1_BODY": {
     "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to https://en.wikipedia.org/wiki/867-5309/Jenny",
-    "message": "You don't know me, but call me; 867-5309 / Jenny"
+    "message": "-Μπορεί να μη γνωριζόμαστε, αλλά κάλεσέ με στο: 867-5309. Τζέννυ."
   },
   "FLAVOUR_1_DESC": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",
-    "message": "Everyone needs a listening ear once in a while."
+    "message": "Κατά καιρούς, όλοι χρειαζόμαστε κάποιον να του τα πούμε."
   },
   "FLAVOUR_1_TITLE": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",
-    "message": "NEED SOMEONE TO TURN TO?"
+    "message": "Χρειάζεστε κάποιον να μιλήσετε;"
   }
 }

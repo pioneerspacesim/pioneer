@@ -13,19 +13,19 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Qualified pilot needed for clandestine assignment: Pay {cash}."
+    "message": "Ζητείται αναγνωρισμένος πιλότος για μυστική αποστολή. Αμοιβή (cash)."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "Ship and crew wanted for a combat mission in the {system} system."
+    "message": "Ζητείται σκάφος και πλήρωμα για μια αποστολή μάχης στο σύστημα (system)."
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "Need qualified mercenary with well-equipped ship. Mission details available on request."
+    "message": "Ζητείται  αναγνωρισμένος μισθοφόρος με καλά εξοπλισμένο σκάφος. Πληροφορίες για την αποστολή κατόπιν αιτήματος."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "{org} seeks fearless mercenary for a mission to the {system} system. Will pay {cash}."
+    "message": "Ο (org) ζητάει έναν ατρόμητο μισθοφόρο για αποστολή στο σύστημα (system). Αμοιβή (cash)."
   },
   "ADTEXT_5": {
     "description": "",
@@ -33,23 +33,23 @@
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "RELIABLE PILOT WANTED"
+    "message": "ΖΗΤΕΙΤΑΙ ΑΞΙΟΠΙΣΤΟΣ ΠΙΛΟΤΟΣ"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "CHALLENGE RESOLUTION"
+    "message": "ΕΠΙΛΥΣΗ ΔΙΑΦΟΡΩΝ"
   },
   "ADTITLE_3": {
     "description": "",
-    "message": "COMBAT FLIGHT"
+    "message": "ΑΠΟΣΤΟΛΗ ΜΑΧΗΣ"
   },
   "ADTITLE_4": {
     "description": "",
-    "message": "FEARLESS MERCENARY WANTED"
+    "message": "ΖΗΤΕΙΤΑΙ ΑΤΡΟΜΗΤΟΣ ΜΙΣΘΟΦΟΡΟΣ"
   },
   "ADTITLE_5": {
     "description": "",
-    "message": "AUTHORIZED COMBAT MISSION"
+    "message": "ΕΞΟΥΣΙΟΔΟΤΗΜΕΝΗ ΑΠΟΣΤΟΛΗ ΜΑΧΗΣ"
   },
   "AGENT": {
     "description": "Secret Service Agent",
@@ -133,7 +133,7 @@
   },
   "DO_I_NEED_SPECIAL_EQUIPMENT": {
     "description": "",
-    "message": "Do I need any special equipment?"
+    "message": "Χρειάζομαι ειδικό εξοπλισμό;"
   },
   "FAILUREMSG_1": {
     "description": "",
@@ -365,7 +365,7 @@
   },
   "TARGET_AREA_REACHED": {
     "description": "",
-    "message": "Target area reached. Start data logging."
+    "message": "Άφιξη στη περιοχή-στόχος. Έναρξη καταγραφής δεδομένων."
   },
   "TIME_LIMIT": {
     "description": "",
@@ -381,6 +381,6 @@
   },
   "YOU_NEED_A_RADAR": {
     "description": "",
-    "message": "Yes, you need a radar! If you agree, I will program your ship's computer to record the radar data we need. The data will be transferred to me next you come back."
+    "message": "Ναι, χρειάζεσαι ραντάρ! Αν συμφωνείς, θα προγραμματίσουμε τον υπολογιστή του σκάφους σου ώστε το ραντάρ να καταγράψει τα δεδομένα που χρειαζόμαστε. Θα μεταφερθούν σε εμένα όταν επιστρέψεις."
   }
 }
