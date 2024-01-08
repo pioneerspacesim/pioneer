@@ -48,9 +48,9 @@
 
 #include "galaxy/GalaxyGenerator.h"
 
-#include "graphics/Renderer.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
+#include "graphics/Renderer.h"
 #include "graphics/opengl/RendererGL.h"
 
 #include "core/GuiApplication.h"
@@ -70,8 +70,8 @@
 #include "sound/Sound.h"
 #include "sound/SoundMusic.h"
 
-#include "versioningInfo.h"
 #include "profiler/Profiler.h"
+#include "versioningInfo.h"
 
 #include <SDL.h>
 
@@ -140,7 +140,8 @@ class StartupScreen : public Application::Lifecycle {
 public:
 	StartupScreen() :
 		Lifecycle(true)
-	{}
+	{
+	}
 
 	std::unique_ptr<JobSet> asyncStartupQueue;
 	std::unique_ptr<JobSet> currentStepQueue;
