@@ -8,6 +8,7 @@
 
 #include <SDL_image.h>
 
+namespace {
 void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint8 *bytes, int width, int height, int stride, int bytes_per_pixel, bool strip_alpha)
 {
 	// Set up the pixel format color masks for RGB(A) byte arrays.
@@ -39,7 +40,6 @@ void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint
 	}
 
 	// create a surface
-	//SDL_Surface *surface = SDL_CreateRGBSurfaceFrom((void*)bytes, width, height, bytes_per_pixel * 8, width * bytes_per_pixel, rmask, gmask, bmask, amask);
 	SDL_Surface *surface = SDL_CreateRGBSurface(0, width, height, dest_bpp * 8, rmask, gmask, bmask, amask);
 
 	// flip the image vertically and copy to destination surface
@@ -85,6 +85,7 @@ void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint
 	SDL_FreeSurface(surface);
 	surface = nullptr;
 }
+} //namespace
 
 void write_screenshot(const Graphics::ScreendumpState &sd, const char *destFile)
 {
