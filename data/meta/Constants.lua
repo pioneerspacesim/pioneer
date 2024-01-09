@@ -30,6 +30,14 @@ Constants.PhysicsObjectType = {
 	[9] = "MISSILE",
 }
 
+-- A <Constants.AltitudeType> string
+---@enum AltitudeType
+Constants.AltitudeType = {
+	[1] = "DEFAULT",
+	[2] = "SEA_LEVEL",
+	[3] = "ABOVE_TERRAIN",
+}
+
 -- A <Constants.ShipAIError> string
 ---@enum ShipAIError
 Constants.ShipAIError = {
@@ -109,6 +117,38 @@ Constants.DockingRefusedReason = {
 	[1] = "ClearanceAlreadyGranted",
 	[2] = "TooFarFromStation",
 	[3] = "NoBaysAvailable",
+}
+
+-- A <Constants.DockStage> string
+---@enum DockStage
+Constants.DockStage = {
+	[1] = "NONE",
+	[2] = "MANUAL",
+	[3] = "DOCK_STAGES_BEGIN",
+	[4] = "CLEARANCE_GRANTED",
+	[5] = "DOCK_ANIMATION_NONE",
+	[6] = "DOCK_ANIMATION_1",
+	[7] = "DOCK_ANIMATION_2",
+	[8] = "DOCK_ANIMATION_3",
+	[9] = "DOCK_ANIMATION_MAX",
+	[10] = "TOUCHDOWN",
+	[11] = "LEVELING",
+	[12] = "REPOSITION",
+	[13] = "JUST_DOCK",
+	[14] = "DOCK_STAGES_END",
+	[15] = "DOCKED",
+	[16] = "UNDOCK_STAGES_BEGIN",
+	[17] = "UNDOCK_BEGIN",
+	[18] = "UNDOCK_ANIMATION_NONE",
+	[19] = "UNDOCK_ANIMATION_1",
+	[20] = "UNDOCK_ANIMATION_2",
+	[21] = "UNDOCK_ANIMATION_3",
+	[22] = "UNDOCK_ANIMATION_MAX",
+	[23] = "UNDOCK_END",
+	[24] = "LEAVE",
+	[25] = "UNDOCK_STAGES_END",
+	[26] = "APPROACH1",
+	[27] = "APPROACH2",
 }
 
 -- A <Constants.ProjectableTypes> string

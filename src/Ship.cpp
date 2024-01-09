@@ -35,6 +35,7 @@
 #include "lua/LuaUtils.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/Tag.h"
+#include "scenegraph/CollisionGeometry.h"
 #include "ship/PlayerShipController.h"
 
 static const float TONS_HULL_PER_SHIELD = 10.f;
@@ -523,12 +524,11 @@ bool Ship::OnDamage(Body *attacker, float kgDamage, const CollisionContact &cont
 
 bool Ship::OnCollision(Body *b, Uint32 flags, double relVel)
 {
-	// Collision with SpaceStation docking surface is
+	// Collision with SpaceStation docking or entrance surface is
 	// completely handled by SpaceStations, you only
 	// need to return a "true" value in order to trigger
 	// a bounce in Space::OnCollision
-	// NOTE: 0x10 is a special flag set on docking surfaces
-	if (b->IsType(ObjectType::SPACESTATION) && (flags & 0x10)) {
+	if (b->IsType(ObjectType::SPACESTATION) && (flags & (SceneGraph::CollisionGeometry::DOCKING | SceneGraph::CollisionGeometry::ENTRANCE))) {
 		return true;
 	}
 
@@ -898,13 +898,22 @@ void Ship::Blastoff()
 
 	assert(f->GetBody()->IsType(ObjectType::PLANET));
 
-	const double planetRadius = 2.0 + static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
-	SetVelocity(vector3d(0, 0, 0));
-	SetAngVelocity(vector3d(0, 0, 0));
-	SetFlightState(FLYING);
+	if (ManualDocking()) {
+		if (!IsType(ObjectType::PLAYER)) {
+			Log::Warning("It wasn't the player's ship that tried to take off without an autopilot!");
+			return;
+		}
+		auto p = static_cast<Player*>(this);
+		p->DoFixspeedTakeoff();
+	} else {
+		const double planetRadius = 2.0 + static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
+		SetVelocity(vector3d(0, 0, 0));
+		SetAngVelocity(vector3d(0, 0, 0));
+		SetFlightState(FLYING);
 
-	SetPosition(up * planetRadius - GetAabb().min.y * up);
-	SetThrusterState(1, 1.0); // thrust upwards
+		SetPosition(up * planetRadius - GetAabb().min.y * up);
+		SetThrusterState(1, 1.0); // thrust upwards
+	}
 
 	LuaEvent::Queue("onShipTakeOff", this, f->GetBody());
 }

@@ -367,3 +367,28 @@ vector3d Player::GetManeuverVelocity() const
 	}
 	return vector3d(0, 0, 0);
 }
+
+void Player::DoFixspeedTakeoff(SpaceStation *from)
+{
+	auto con = GetPlayerController();
+	con->SetCruiseDirection(PlayerShipController::CRUISE_UP);
+	SetFlightState(Ship::FLYING);
+	GetPlayerController()->SetFlightControlState(CONTROL_FIXSPEED);
+	double curSpeed = con->GetCruiseSpeed();
+	double wantSpeed = 2; // m/s
+	con->ChangeCruiseSpeed(wantSpeed - curSpeed);
+
+	// special preparations for launch in a rotating orbital
+	if (from && !from->IsGroundStation()) {
+		SetFollowTarget(from);
+		con->SetFollowMode(PlayerShipController::FOLLOW_ORI);
+		auto pPos = GetPosition();
+		SetAngVelocity(from->GetAngVelocity());
+
+		// some actions to avoid collision with the pad at start with a margin
+		SetPosition(GetPosition() + GetOrient().VectorY() * 0.01);
+		auto tangent = from->GetAngVelocity().Cross(pPos);
+		auto radial = GetOrient().VectorY() * 0.05;
+		SetVelocity(tangent + radial);
+	}
+}

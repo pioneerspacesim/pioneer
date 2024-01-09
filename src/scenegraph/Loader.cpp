@@ -1012,15 +1012,11 @@ namespace SceneGraph {
 		//special names after collision_
 		if (nodename.length() > 10) {
 			//landing pads
-			if (nodename.length() >= 14 && nodename.substr(10, 3) == "pad") {
-				const std::string pad = nodename.substr(13);
-				const int padID = atoi(pad.c_str()) - 1;
-				if (padID < 240) {
-					return 0x10 + padID;
-				}
-			} else if (nodename.length() >= 14 && nodename.substr(10, 4) == "port") {
-				// entrance port
-				return 0x10;
+			if (nodename.length() >= 13 && std::string_view{ nodename }.substr(10, 3) == "pad") {
+				return SceneGraph::CollisionGeometry::DOCKING;
+			//entrance
+			} else if (nodename.length() >= 14 && std::string_view{ nodename }.substr(10, 4) == "port") {
+				return SceneGraph::CollisionGeometry::ENTRANCE;
 			}
 		}
 		//anything else is static collision

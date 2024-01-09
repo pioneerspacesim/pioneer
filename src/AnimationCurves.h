@@ -58,6 +58,13 @@ namespace AnimationCurves {
 		return 0.5 * (1.0 - std::cos(p * M_PI));
 	}
 
+	// easing from https://github.com/Michaelangel007/easing#tldr-shut-up-and-show-me-the-code
+	// p should go from 0.0 to 1.0
+	inline float OutSineEasing(float p)
+	{
+		return std::sin(p * M_PI * 0.5);
+	}
+
 	// Based on http://blog.moagrius.com/actionscript/jsas-understanding-easing/
 	// and observations from Godot Engine and Star Citizen
 	// This supports four different easing functions encoded in a single float:
