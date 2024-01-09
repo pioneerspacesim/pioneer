@@ -1,3 +1,17 @@
+January 2024
+  * New Features
+    * Newground station cleanup and new textures (#5704)
+    * Docking with orbital in manual mode (#5619)
+
+  * Internal Changes
+    * Re-add the galaxy dump function (#5676)
+    * Refactor Event Queues (#5671)
+    * Add Space.GetBodiesNear(), ProximityQuery module (#5637)
+    * Fix undefined behaviour in CommandBufferGL.cpp (#5694)
+
+  * Fixes
+    * Avoid misaligned read when loading SGM files (#5692)
+
 December 2023
   * Fixes
     * Fix installed directory structure on Windows (#5686)
