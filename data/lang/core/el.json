@@ -1029,7 +1029,7 @@
   },
   "N_ATMOSPHERE": {
     "description": "",
-    "message": "nitrogen atmosphere"
+    "message": "ατμόσφαιρα αζώτου"
   },
   "N_CELSIUS": {
     "description": "",
@@ -1069,7 +1069,7 @@
   },
   "O2_ATMOSPHERE": {
     "description": "",
-    "message": "oxygen atmosphere"
+    "message": "ατμόσφαιρα οξυγόνου"
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
@@ -1085,7 +1085,7 @@
   },
   "ORBITAL_PERIOD": {
     "description": "",
-    "message": "Orbital period"
+    "message": "τροχιακή περίοδος"
   },
   "ORBITAL_STARPORT": {
     "description": "",
@@ -1453,7 +1453,7 @@
   },
   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
     "description": "",
-    "message": "Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}"
+    "message": "Σταθερό σύστημα με %bodycount κύρια % [body(s)] και %portcount %[starport(s)]"
   },
   "STARPORT": {
     "description": "",

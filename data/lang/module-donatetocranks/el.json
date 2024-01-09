@@ -1,7 +1,7 @@
 {
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "ΣΥΝΔΡΑΜΕΤΕ!"
   },
   "FLAVOUR_0_DESC": {
     "description": "",
@@ -13,11 +13,11 @@
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "DONATE"
+    "message": "ΣΥΝΔΡΑΜΕΤΕ"
   },
   "FLAVOUR_1_DESC": {
     "description": "",
-    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
+    "message": "Οι Φρουροί του Ελεύθερου Πνεύματος ταπεινά ζητάει την συνδρομή σας για να υποστηρίξουμε τα μοναστήρια μας."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
@@ -25,11 +25,11 @@
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "FEELING GENEROUS?"
+    "message": "ΑΙΣΘΑΝΕΣΤΕ ΓΕΝΝΑΙΟΔΩΡΟΙ"
   },
   "FLAVOUR_2_DESC": {
     "description": "",
-    "message": "War Orphan's Support needs your help to keep up its essential work."
+    "message": "H Υπηρεσία Υποστήριξης Ορφανών Πολέμου χρειάζεται την βοήθειά σας για να συνεχίσει την ουσιαστική της δουλειά."
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
@@ -37,11 +37,11 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "CONTRIBUTE"
+    "message": "ΣΥΝΕΙΣΦΕΡΕΤΕ"
   },
   "FLAVOUR_3_DESC": {
     "description": "",
-    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+    "message": "Οι Φίλοι του Γαλαξία χρειάζονται τα χρήματά σας για την καμπάνια \"Απαγόρευση των στρατιωτικών κινητήρων\"."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
@@ -49,11 +49,11 @@
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "ΣΥΝΔΡΑΜΕΤΕ!"
   },
   "FLAVOUR_4_DESC": {
     "description": "",
-    "message": "Save our species. Stop the carnage of newly settled worlds."
+    "message": "Σώστε τα είδη. Ας σταματήσουμε τη σφαγή στους πρόσφατα αποικισθέντες κόσμους."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
@@ -61,11 +61,11 @@
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "SUPPORT FREEDOM!"
+    "message": "ΥΠΟΣΤΗΡΙΞΤΕ ΤΗΝ ΕΛΕΥΘΕΡΙΑ!"
   },
   "FLAVOUR_5_DESC": {
     "description": "",
-    "message": "Stop the great injustice of proprietary software controlling your ship."
+    "message": "Ένα ιδιόκτητο λογισμικό θα πιλοτάρει το σκάφος σας; Δώστε τέλος στην αδικία."
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",
@@ -73,51 +73,51 @@
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "VETERANS DAY!"
+    "message": "ΗΜΕΡΑ ΤΩΝ ΒΕΤΕΡΑΝΩΝ!"
   },
   "FLAVOUR_6_DESC": {
     "description": "",
-    "message": "Support the veterans of the {MILITARY}."
+    "message": "Υποστηρίξτε τους βετεράνους της (MILITARY)"
   },
   "FLAVOUR_6_MESSAGE": {
     "description": "",
-    "message": "The {MILITARY}. You can always count on them.\nCan they count on you?"
+    "message": "H (MILITARY). Μπορείς πάντα να βασιστείς πάνω τους. Μπορούν αυτοί να βασιστούν πάνω σου;"
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "DO THEY HAVE YOUR SUPPORT?"
+    "message": "ΕΧΟΥΝ ΤΗΝ ΥΠΟΣΤΗΡΙΞΗ ΣΟΥ;"
   },
   "FLAVOUR_7_DESC": {
     "description": "",
-    "message": "Support the veterans of the {POLICE}."
+    "message": "Υποστηρίξτε τους βετεράνους της (POLICE)"
   },
   "FLAVOUR_7_MESSAGE": {
     "description": "",
-    "message": "Those brave men and women of the {POLICE} who have dedicated their lives to keeping {SYSTEM} safe need your support!"
+    "message": "Αυτοί οι γενναίοι άνδρες και γυναίκες της (POLICE) που έχουν αφιερώσει τη ζωή τους στην ασφάλεια αυτού του συστήματος, χρειάζονται την υποστήριξή σας!"
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
-    "message": "SUPPORT OUR VETERANS!"
+    "message": "ΥΠΟΣΤΗΡΙΞΤΕ ΤΟΥΣ ΒΕΤΕΡΑΝΟΥΣ ΜΑΣ!"
   },
   "FLAVOUR_8_DESC": {
     "description": "",
-    "message": "Support the veterans of our armed forces."
+    "message": "Υποστηρίξτε τους βετεράνους των ενόπλων δυνάμεών μας."
   },
   "FLAVOUR_8_MESSAGE": {
     "description": "",
-    "message": "The brave soldiers of the {MILITARY} place themselves in harm's way for you!"
+    "message": "Οι γενναίοι στρατιώτες της (MILITARY) βάζουν τον εαυτό τους σε κίνδυνο για εσένα!"
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
-    "message": "END POVERTY!"
+    "message": "ΒΑΛΤΕ ΤΕΛΟΣ ΣΤΗ ΦΤΩΧΕΙΑ!"
   },
   "FLAVOUR_9_DESC": {
     "description": "",
-    "message": "Support the fight against poverty in the {FACTION}."
+    "message": "Υποστηρίξτε τη μάχη κατά της φτώχειας στην (FACTION)"
   },
   "FLAVOUR_9_MESSAGE": {
     "description": "",
-    "message": "We empower families in the {FACTION} to create a better future for all."
+    "message": "Ενισχύουμε οικογένειες στην (FACTION) για να δημιουργήσουν ένα καλύτερο μέλλον για όλους."
   },
   "SALES_PITCH": {
     "description": "",

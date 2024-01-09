@@ -157,7 +157,7 @@
   },
   "CHANGE_COLOR": {
     "description": "Paintshop button",
-    "message": "Change Color"
+    "message": "Αλλαγή χρώματος"
   },
   "CHANGE_PATTERN": {
     "description": "Paintshop button",
@@ -165,7 +165,7 @@
   },
   "CHARACTER": {
     "description": "",
-    "message": "Character"
+    "message": "Χαρακτήρας"
   },
   "CHARISMA": {
     "description": "Character parameter",
@@ -205,7 +205,7 @@
   },
   "COLOR": {
     "description": "",
-    "message": "Color"
+    "message": "Χρώμα"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -509,7 +509,7 @@
   },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
-    "message": "Factions"
+    "message": "Φατρίες"
   },
   "FAILED": {
     "description": "When failed mission",
@@ -765,7 +765,7 @@
   },
   "HUD_BUTTON_DISABLE_AUTOPILOT": {
     "description": "Tooltip for button",
-    "message": "Disable autopilot"
+    "message": "Κατάργηση αυτόματου πιλότου"
   },
   "HUD_BUTTON_DISABLE_CRUISE": {
     "description": "Tooltip for button",
@@ -985,7 +985,7 @@
   },
   "HUD_FOLLOW_TARGET": {
     "description": "Tooltip for followed target's name in reticule",
-    "message": "Follow target"
+    "message": "Ακολουθήστε τον στόχο"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
@@ -1181,7 +1181,7 @@
   },
   "INTERSTELLAR_TRADE_AVG": {
     "description": "Label displaying commodity flow at a per-system level",
-    "message": "Interstellar Trade:"
+    "message": "Διαστρικό εμπόριο"
   },
   "INVERT_MOUSE_Y": {
     "description": "",
@@ -1333,7 +1333,7 @@
   },
   "LUCK": {
     "description": "Character parameter",
-    "message": "Luck"
+    "message": "Τύχη"
   },
   "LY": {
     "description": "Light year",
@@ -1501,7 +1501,7 @@
   },
   "NAVIGATION": {
     "description": "Crew skill",
-    "message": "Navigation"
+    "message": "Πλοήγηση"
   },
   "NAVIGATOR": {
     "description": "",
@@ -1513,7 +1513,7 @@
   },
   "NEW_GAME": {
     "description": "Main menu item",
-    "message": "New game"
+    "message": "Νέο παιχνίδι"
   },
   "NEW_PAINTJOB_APPLIED": {
     "description": "Paintshop popup",
@@ -1565,7 +1565,7 @@
   },
   "NO_AVAILABLE_DATA": {
     "description": "Message displaying no stored data available",
-    "message": "No data available"
+    "message": "Δεν υπάρχουν διαθέσιμα δεδομένα"
   },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
@@ -1673,19 +1673,19 @@
   },
   "PAINTSHOP_WELCOME_0": {
     "description": "Welcome message to the paintshop.",
-    "message": "Welcome! We will paint your ship pretty!"
+    "message": "Καλως ήρθατε! Θα κάνουμε ένα πολύ ωραίο βάψιμο στο σκάφος σας!"
   },
   "PAINTSHOP_WELCOME_1": {
     "description": "Welcome message to the paintshop.",
-    "message": "Hi there! Looking for a change in aesthetics?"
+    "message": "Γεια σου. Ψάχνεις για μια αισθητική αλλαγή;"
   },
   "PAINTSHOP_WELCOME_2": {
     "description": "Welcome message to the paintshop.",
-    "message": "We can't make your ship fly fast, but we can make it fly in style!"
+    "message": "Δεν μπορούμε να κάνουμε το σκάφος σας να πετάει γρήγορα, μπορούμε όμως να το κάνουμε να πετάει με στυλ."
   },
   "PAINTSHOP_WELCOME_3": {
     "description": "Welcome message to the paintshop.",
-    "message": "Welcome, traveller. Please take your time and let out your creativity."
+    "message": "Καλως ήρθες ταξιδιώτη. Χαλάρωσε, και εξωτερίκευσε τη δημιουργικότητά σου."
   },
   "PAINTSHOP_WELCOME_4": {
     "description": "Welcome message to the paintshop.",
@@ -2073,7 +2073,7 @@
   },
   "START_GAME": {
     "description": "Button",
-    "message": "Start game"
+    "message": "¨Εναρξη παιχνιδιού"
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
@@ -2129,7 +2129,7 @@
   },
   "SUMMARY": {
     "description": "Tab item in the start game menu",
-    "message": "Summary"
+    "message": "Σύνοψη"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
@@ -2141,7 +2141,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Tech level"
+    "message": "Τεχνολογικό επίπεδο"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -2253,7 +2253,7 @@
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Unoccupied Passenger Cabins"
+    "message": "Κενές καμπίνες επιβατών"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",
