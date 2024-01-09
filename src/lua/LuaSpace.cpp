@@ -2,6 +2,8 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaSpace.h"
+#include "Body.h"
+#include "LuaBody.h"
 #include "CargoBody.h"
 #include "Frame.h"
 #include "Game.h"
@@ -17,6 +19,7 @@
 #include "Ship.h"
 #include "Space.h"
 #include "SpaceStation.h"
+#include "profiler/Profiler.h"
 #include "ship/PrecalcPath.h"
 
 /*
@@ -904,20 +907,45 @@ static int l_space_get_body(lua_State *l)
 }
 
 /*
+ * Function: GetNumBodies
+ *
+ * Get the total number of bodies simulated in the current Space
+ *
+ * bodies = #Space.GetNumBodies()
+ *
+ * Return:
+ *
+ *   num - the number of bodies currently existing in Space
+ *
+ * Availability:
+ *
+ *   Oct. 2023
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_space_get_num_bodies(lua_State *l)
+{
+	if (!Pi::game) {
+		return luaL_error(l, "Game is not started!");
+	}
+
+	LuaPush(l, Pi::game->GetSpace()->GetNumBodies());
+	return 1;
+}
+
+/*
  * Function: GetBodies
  *
- * Get all the <Body> objects that match the specified filter
+ * Get all the <Body> objects that match the specified filter type
  *
- * bodies = Space.GetBodies(filter)
+ * bodies = Space.GetBodies([type])
  *
  * Parameters:
  *
- *   filter - an option function. If specificed the function will be called
- *            once for each body with the <Body> object as the only parameter.
- *            If the filter function returns true then the <Body> will be
- *            included in the array returned by <GetBodies>, otherwise it will
- *            be omitted. If no filter function is specified then all bodies
- *            are returned.
+ *   type - an optional Body classname acting as a filter on the type of the
+ *          returned bodies
  *
  * Return:
  *
@@ -927,13 +955,13 @@ static int l_space_get_body(lua_State *l)
  * Example:
  *
  * > -- get all the ground-based stations
- * > local stations = Space.GetBodies(function (body)
+ * > local stations = utils.filter_array(Space.GetBodies("SpaceStation"), function(body)
  * >     return body.type == "STARPORT_SURFACE"
  * > end)
  *
  * Availability:
  *
- *   alpha 10
+ *   Oct. 2023
  *
  * Status:
  *
@@ -941,6 +969,8 @@ static int l_space_get_body(lua_State *l)
  */
 static int l_space_get_bodies(lua_State *l)
 {
+	PROFILE_SCOPED()
+
 	if (!Pi::game) {
 		luaL_error(l, "Game is not started");
 		return 0;
@@ -948,36 +978,91 @@ static int l_space_get_bodies(lua_State *l)
 
 	LUA_DEBUG_START(l);
 
-	bool filter = false;
-	if (lua_gettop(l) >= 1) {
-		luaL_checktype(l, 1, LUA_TFUNCTION); // any type of function
-		filter = true;
-	}
+	ObjectType filterBodyType = LuaPull<ObjectType>(l, 1, ObjectType::BODY);
+	bool filter = filterBodyType != ObjectType::BODY;
 
 	lua_newtable(l);
 
+	int idx = 1;
 	for (Body *b : Pi::game->GetSpace()->GetBodies()) {
-		if (filter) {
-			lua_pushvalue(l, 1);
-			LuaObject<Body>::PushToLua(b);
-			if (int ret = lua_pcall(l, 1, 1, 0)) {
-				const char *errmsg("Unknown error");
-				if (ret == LUA_ERRRUN)
-					errmsg = lua_tostring(l, -1);
-				else if (ret == LUA_ERRMEM)
-					errmsg = "memory allocation failure";
-				else if (ret == LUA_ERRERR)
-					errmsg = "error in error handler function";
-				luaL_error(l, "Error in filter function: %s", errmsg);
-			}
-			if (!lua_toboolean(l, -1)) {
-				lua_pop(l, 1);
-				continue;
-			}
-			lua_pop(l, 1);
-		}
+		if (filter && !b->IsType(filterBodyType))
+			continue;
 
-		lua_pushinteger(l, lua_rawlen(l, -1) + 1);
+		lua_pushinteger(l, idx++);
+		LuaObject<Body>::PushToLua(b);
+		lua_rawset(l, -3);
+	}
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
+/*
+ * Function: GetBodiesNear
+ *
+ * Get all the <Body> objects within a specified distance from another body
+ * that match the specified filter
+ *
+ * bodies = Space.GetBodiesNear(body, dist, [type])
+ *
+ * Parameters:
+ *
+ *   body - the reference body for distance
+ *
+ *   dist - the maximum distance from the reference body another body can be
+ *
+ *   type - optional - a PhysicsObjectType enum value
+ *          (one of Constants.PhysicsObjectType) acting as a filter on the type
+ *          of the returned bodies
+ *
+ * Return:
+ *
+ *   bodies - an array containing zero or more <Body> objects that matched the
+ *            filter
+ *
+ * Example:
+ *
+ * > -- get all stations within 50,000m
+ * > local stations = Space.GetBodiesNear(Game.player, 50000, "SPACE_STATION")
+ *
+ * Availability:
+ *
+ *   Oct. 2023
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_space_get_bodies_near(lua_State *l)
+{
+	PROFILE_SCOPED()
+
+	if (!Pi::game) {
+		luaL_error(l, "Game is not started");
+		return 0;
+	}
+
+	LUA_DEBUG_START(l);
+
+	Body *body = LuaPull<Body *>(l, 1);
+	double dist = LuaPull<double>(l, 2);
+	double distSqr = dist * dist;
+
+	ObjectType filterBodyType = LuaPull<ObjectType>(l, 3, ObjectType::BODY);
+	bool filter = filterBodyType != ObjectType::BODY;
+
+	lua_newtable(l);
+
+	int idx = 1;
+	for (Body *b : Pi::game->GetSpace()->GetBodiesMaybeNear(body, dist)) {
+		if (filter && !b->IsType(filterBodyType))
+			continue;
+
+		if (b->GetPositionRelTo(body).LengthSqr() > distSqr)
+			continue;
+
+		lua_pushinteger(l, idx++);
 		LuaObject<Body>::PushToLua(b);
 		lua_rawset(l, -3);
 	}
@@ -1035,7 +1120,9 @@ void LuaSpace::Register()
 		{ "PutShipOnRoute", l_space_put_ship_on_route },
 
 		{ "GetBody", l_space_get_body },
+		{ "GetNumBodies", l_space_get_num_bodies },
 		{ "GetBodies", l_space_get_bodies },
+		{ "GetBodiesNear", l_space_get_bodies_near },
 
 		{ "DbgDumpFrames", l_space_dump_frames },
 		{ 0, 0 }

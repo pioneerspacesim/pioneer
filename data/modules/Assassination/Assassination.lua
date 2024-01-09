@@ -388,7 +388,7 @@ local onShipUndocked = function (ship, station)
 	for ref,mission in pairs(missions) do
 		if mission.status == 'ACTIVE' and
 		   mission.ship == ship then
-			planets = Space.GetBodies(function (body) return body:isa("Planet") end)
+			planets = Space.GetBodies("Planet")
 			if #planets == 0 then
 				ship:AIFlyTo(station)
 				mission.shipstate = 'outbound'

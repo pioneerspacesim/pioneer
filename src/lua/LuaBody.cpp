@@ -27,11 +27,30 @@
 #include "SpaceStation.h"
 #include "Star.h"
 
+// For LuaFlags<ObjectType>
+#include "enum_table.h"
+#include "pigui/LuaFlags.h"
+
 namespace PiGui {
 	// Declared in LuaPiGuiInternal.h
 	extern bool first_body_is_more_important_than(Body *, Body *);
 	extern int pushOnScreenPositionDirection(lua_State *l, vector3d position);
 } // namespace PiGui
+
+static LuaFlags<ObjectType> s_bodyFlags ({
+	{ "Body", ObjectType::BODY },
+	{ "ModelBody", ObjectType::MODELBODY },
+	{ "Ship", ObjectType::SHIP },
+	{ "Player", ObjectType::PLAYER },
+	{ "SpaceStation", ObjectType::SPACESTATION },
+	{ "TerrainBody", ObjectType::TERRAINBODY },
+	{ "Planet", ObjectType::PLANET },
+	{ "Star", ObjectType::STAR },
+	{ "CargoBody", ObjectType::CARGOBODY },
+	{ "Projectile", ObjectType::PROJECTILE },
+	{ "Missile", ObjectType::MISSILE },
+	{ "HyperspaceCloud", ObjectType::HYPERSPACECLOUD }
+});
 
 /*
  * Class: Body
@@ -843,6 +862,16 @@ static int l_body_set_ang_velocity(lua_State *l)
 	return 0;
 }
 
+void pi_lua_generic_pull(lua_State *l, int index, ObjectType &objectType)
+{
+	objectType = s_bodyFlags.LookupEnum(l, index);
+}
+
+void pi_lua_generic_push(lua_State *l, ObjectType bodyType)
+{
+	lua_pushstring(l, EnumStrings::GetString("PhysicsObjectType", static_cast<int>(bodyType)));
+}
+
 template <>
 const char *LuaObject<Body>::s_type = "Body";
 
@@ -908,4 +937,6 @@ void LuaObject<Body>::RegisterClass()
 	LuaObjectBase::RegisterSerializer("CargoBody", body_serializers);
 	LuaObjectBase::RegisterSerializer("Missile", body_serializers);
 	LuaObjectBase::RegisterSerializer("HyperspaceCloud", body_serializers);
+
+	s_bodyFlags.Register(Lua::manager->GetLuaState(), "Constants.ObjectType");
 }

@@ -111,7 +111,7 @@ static Type parse_imgui_enum(lua_State *l, int index, LuaFlags<Type> lookupTable
 		return static_cast<Type>(lua_tointeger(l, index));
 	else {
 		luaL_traceback(l, l, NULL, 1);
-		Error("Expected a table or integer, got %s.\n%s\n", luaL_typename(l, index), lua_tostring(l, -1));
+		Error("Expected a string or integer, got %s.\n%s\n", luaL_typename(l, index), lua_tostring(l, -1));
 	}
 	return static_cast<Type>(0);
 }
