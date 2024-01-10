@@ -185,7 +185,7 @@ jobs:
 
   build-appimage:
     runs-on: ubuntu-20.04
-
+    if: ${{github.event_name == 'release'}}
     steps:
     # Checkout the repository as $GITHUB_WORKSPACE
     - uses: actions/checkout@v3
