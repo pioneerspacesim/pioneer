@@ -78,15 +78,20 @@ Game::Game(const SystemPath &path, const double startDateTime, const char *shipT
 
 	m_space->AddBody(m_player.get());
 
-	m_player->SetFrame(b->GetFrame());
-
 	if (b->GetType() == ObjectType::SPACESTATION) {
+		m_player->SetFrame(b->GetFrame());
 		m_player->SetDockedWith(static_cast<SpaceStation *>(b), 0);
 	} else {
+		auto f = Frame::GetFrame(b->GetFrame());
+		if (f->IsRotFrame()) {
+			m_player->SetFrame(f->GetParent());
+		} else {
+			m_player->SetFrame(b->GetFrame());
+		}
 		// random orbit
 		// Taken from: LuaSpace.cpp, _orbital_velocity_random_direction()
 		const SystemBody *sbody = b->GetSystemBody();
-		vector3d pos{ MathUtil::RandomPointOnSphere(1.2 * sbody->GetRadius()) };
+		vector3d pos{ MathUtil::RandomPointOnSphere(1.2 * b->GetPhysRadius()) };
 		// calculating basis from radius - vector
 		vector3d k = pos.Normalized();
 		vector3d i;
