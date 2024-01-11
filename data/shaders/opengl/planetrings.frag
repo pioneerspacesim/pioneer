@@ -28,11 +28,11 @@ void main(void)
 
 			// second term: diffuse mie (scattering through ring)
 			float g = 0.76f;
-			float phaseThrough = 3.f / (8.f * 3.141592) * ((1.f - g * g) * (1.f + mu * mu)) / ((2.f + g * g) * pow(1.f + g * g - 2.f * g * mu, 1.5f));
+			float phaseThrough = miePhaseFunction(g, mu);
 
 			// third term: reflect mie (imitate albedo >= 1.0)
 			float muRev = dot(-normalize(vec3(uLight[i].position)), eyenorm);
-			float phaseReflect = 3.f / (8.f * 3.141592) * ((1.f - g * g) * (1.f + muRev * muRev)) / ((2.f + g * g) * pow(1.f + g * g - 2.f * g * muRev, 1.5f));
+			float phaseReflect = miePhaseFunction(g, muRev);
 
 			col = col + texCol * (diffuse + phaseThrough + phaseReflect) * uLight[i].diffuse;
 		}
