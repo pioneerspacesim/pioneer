@@ -4,6 +4,12 @@ project(pioneer LANGUAGES CXX)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 17)
 
+set(PROJECT_VERSION 20230203-dev
+	CACHE STRING "Version identifier for current compiled build")
+
+set(PROJECT_VERSION_INFO ""
+	CACHE STRING "Additional version information (optional)")
+
 # If both libGL.so and libOpenGL.so are found, default to the latter
 # (former is a legacy name).
 # Set OpenGL_GL_PREFERENCE=LEGACY to force it to use the former.
@@ -118,7 +124,9 @@ if (GIT_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.git)
 	)
 endif()
 
-string(TIMESTAMP PROJECT_VERSION "%Y%m%d")
+if(DEFINED PROJECT_VERSION_GIT)
+	string(JOIN " " PROJECT_VERSION_INFO ${PROJECT_VERSION_GIT} ${PROJECT_VERSION_INFO})
+endif()
 
 if (MINGW)
 	# Enable PRIxYY macros on MinGW
