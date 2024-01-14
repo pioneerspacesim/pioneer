@@ -497,7 +497,7 @@
   },
   "GAME_SAVE_INVALID_NAME": {
     "description": "",
-    "message": "This saved game file could not be written because of a invalid name."
+    "message": "Érvénytelen név, a file nem menthető."
   },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",

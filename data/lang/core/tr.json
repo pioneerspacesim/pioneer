@@ -497,7 +497,7 @@
   },
   "GAME_SAVE_INVALID_NAME": {
     "description": "",
-    "message": "This saved game file could not be written because of a invalid name."
+    "message": "Bu oyun kayıt dosyası geçersiz bir isme sahip olduğu için yazılamadı."
   },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
