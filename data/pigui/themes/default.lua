@@ -230,8 +230,8 @@ theme.colors = {
 	equipScreenHighlight    = styleColors.gray_300,
 	equipScreenBgText       = styleColors.gray_400,
 
-	shipmarketCompareBetter = styleColors.success_300,
-	shipmarketCompareWorse  = styleColors.warning_300,
+	compareBetter = styleColors.success_300,
+	compareWorse  = styleColors.warning_300,
 }
 
 -- ImGui global theming styles

@@ -204,16 +204,16 @@ function FormatAndCompareShips:compare_and_draw_column(desc, a, b, fmt_a, fmt_b)
 	if compare < 0 then
 		local old_str = fmt_b and fmt_b( b ) or b
 		ui.withTooltip( l.CURRENT_SHIP .. ": " .. old_str, function ()
-			ui.textAlignedColored(new_str, 1.0, ui.theme.colors.shipmarketCompareWorse)
+			ui.textAlignedColored(new_str, 1.0, ui.theme.colors.compareWorse)
 			ui.tableSetColumnIndex(2 + self.column)
-			ui.icon( ui.theme.icons.shipmarket_compare_worse, Vector2(ui.getTextLineHeight()), ui.theme.colors.shipmarketCompareWorse)
+			ui.icon( ui.theme.icons.shipmarket_compare_worse, Vector2(ui.getTextLineHeight()), ui.theme.colors.compareWorse)
 		end )
 	elseif compare > 0 then
 		local old_str = fmt_b and fmt_b( b ) or b
 		ui.withTooltip( l.CURRENT_SHIP .. ": " .. old_str, function ()
-			ui.textAlignedColored(new_str, 1.0,  ui.theme.colors.shipmarketCompareBetter)
+			ui.textAlignedColored(new_str, 1.0,  ui.theme.colors.compareBetter)
 			ui.tableSetColumnIndex(2 + self.column)
-			ui.icon( ui.theme.icons.shipmarket_compare_better, Vector2(ui.getTextLineHeight()), ui.theme.colors.shipmarketCompareBetter)			
+			ui.icon( ui.theme.icons.shipmarket_compare_better, Vector2(ui.getTextLineHeight()), ui.theme.colors.compareBetter)
 		end )
 	else
 		ui.textAligned(new_str, 1.0)
