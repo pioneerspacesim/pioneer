@@ -763,8 +763,11 @@ static int l_engine_get_realistic_scattering(lua_State *l)
 static int l_engine_set_realistic_scattering(lua_State *l)
 {
 	const int scattering = luaL_checkinteger(l, 1);
-	Pi::config->SetInt("RealisticScattering", scattering);
-	Pi::config->Save();
+	if (scattering != Pi::config->Int("RealisticScattering")) {
+		Pi::config->SetInt("RealisticScattering", scattering);
+		Pi::config->Save();
+		Pi::OnChangeDetailLevel();
+	}
 	return 0;
 }
 

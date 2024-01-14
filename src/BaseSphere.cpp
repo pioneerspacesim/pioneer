@@ -119,7 +119,8 @@ void BaseSphere::SetMaterialParameters(const matrix4x4d &trans, const float radi
 	// FIXME: these two should share the same buffer data instead of making two separate allocs
 	m_surfaceMaterial->SetBufferDynamic(s_baseSphereData, &matData);
 	m_surfaceMaterial->SetPushConstant(s_numShadows, int(shadows.size()));
-	if (ap.atmosDensity > 0.0) {
+
+	if (m_atmosphereMaterial.Valid() && ap.atmosDensity > 0.0) {
 		m_atmosphereMaterial->SetBufferDynamic(s_baseSphereData, &matData);
 		m_atmosphereMaterial->SetPushConstant(s_numShadows, int(shadows.size()));
 	}

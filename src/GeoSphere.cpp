@@ -83,6 +83,11 @@ void GeoSphere::OnChangeDetailLevel()
 		// reinit the terrain with the new settings
 		(*i)->m_terrain.Reset(Terrain::InstanceTerrain((*i)->GetSystemBody()));
 		print_info((*i)->GetSystemBody(), (*i)->m_terrain.Get());
+
+		// Reload the atmosphere material (scattering option)
+		if ((*i)->m_atmosphereMaterial.Valid()) {
+			(*i)->CreateAtmosphereMaterial();
+		}
 	}
 }
 
@@ -398,7 +403,8 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	//XXX no need to calculate AP every frame
 	auto ap = GetSystemBody()->CalcAtmosphereParams();
 	SetMaterialParameters(trans, radius, shadows, ap);
-	if (ap.atmosDensity > 0.0) {
+
+	if (m_atmosphereMaterial.Valid() && ap.atmosDensity > 0.0) {
 		// make atmosphere sphere slightly bigger than required so
 		// that the edges of the pixel shader atmosphere jizz doesn't
 		// show ugly polygonal angles
@@ -490,29 +496,32 @@ void GeoSphere::SetUpMaterials()
 		m_surfaceMaterial->SetTexture("texture1"_hash, m_texLo.Get());
 	}
 
-	{
-		Graphics::RenderStateDesc rsd;
-		// atmosphere is blended over the background
-		rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
-		rsd.cullMode = Graphics::CULL_FRONT;
-		rsd.depthWrite = false;
+	CreateAtmosphereMaterial();
+}
 
-		Graphics::MaterialDescriptor skyDesc;
-		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
-		skyDesc.lighting = true;
-		skyDesc.quality |= Graphics::HAS_ECLIPSES;
+void GeoSphere::CreateAtmosphereMaterial()
+{
+	Graphics::RenderStateDesc rsd;
+	// atmosphere is blended over the background
+	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
+	rsd.cullMode = Graphics::CULL_FRONT;
+	rsd.depthWrite = false;
 
-		const int scattering = Pi::config->Int("RealisticScattering");
-		switch (scattering) {
-		case 1:
-			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_fast", skyDesc, rsd));
-			break;
-		case 2:
-			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_accurate", skyDesc, rsd));
-			break;
-		default:
-			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("geosphere_sky", skyDesc, rsd));
-			break;
-		}
+	Graphics::MaterialDescriptor skyDesc;
+	skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
+	skyDesc.lighting = true;
+	skyDesc.quality |= Graphics::HAS_ECLIPSES;
+
+	const int scattering = Pi::config->Int("RealisticScattering");
+	switch (scattering) {
+	case 1:
+		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_fast", skyDesc, rsd));
+		break;
+	case 2:
+		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_accurate", skyDesc, rsd));
+		break;
+	default:
+		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("geosphere_sky", skyDesc, rsd));
+		break;
 	}
 }
