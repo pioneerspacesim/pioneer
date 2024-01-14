@@ -1008,7 +1008,7 @@ Event.Register("onGameStart", function ()
 
 		visited = loaded_data.visited or {}
 		police = loaded_data.police
-		
+
 		for station,_ in pairs(visited) do
 			createCommodityStock(station)
 		end
@@ -1029,6 +1029,12 @@ Event.Register("onGameStart", function ()
 		end
 
 		loaded_data = nil
+	end
+
+	local station = Game.player:GetDockedWith()
+
+	if station and station:isa("SpaceStation") and not visited[station] then
+		createStationData(station)
 	end
 
 	Timer:CallEvery(3600, updateSystem)
