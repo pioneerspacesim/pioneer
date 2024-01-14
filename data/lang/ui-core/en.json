@@ -515,6 +515,10 @@
     "description": "For player reputation",
     "message": "Experienced"
   },
+  "EXPERIMENTAL": {
+    "description": "Indicates feature/option is experimental",
+    "message": "Experimental"
+  },
   "EXPERT": {
     "description": "For player reputation",
     "message": "Expert"
