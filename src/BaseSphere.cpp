@@ -80,8 +80,8 @@ void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,
 	renderer->SetTransform(matrix4x4f(modelView * matrix4x4d::ScaleMatrix(rad) * invrot));
 
 	if (!m_atmos)
-		m_atmos.reset(new Drawables::Sphere3D(renderer, mat, 4, 1.0f, ATTRIB_POSITION));
-	m_atmos->Draw(renderer);
+		m_atmos.reset(new Drawables::Sphere3D(renderer, 4, 1.0f, ATTRIB_POSITION));
+	m_atmos->Draw(renderer, mat.Get());
 
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_ATMOSPHERES, 1);
 }

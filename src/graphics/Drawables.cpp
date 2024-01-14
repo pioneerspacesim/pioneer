@@ -568,19 +568,18 @@ namespace Graphics {
 
 		//------------------------------------------------------------
 
-		Sphere3D::Sphere3D(Renderer *renderer, RefCountedPtr<Material> mat, int subdivs, float scale, AttributeSet attribs)
+		Sphere3D::Sphere3D(Renderer *renderer, int subdivs, float scale, AttributeSet attribs)
 		{
 			PROFILE_SCOPED()
 			assert(attribs.HasAttrib(ATTRIB_POSITION));
 
-			m_material = mat;
 			m_sphereMesh.reset(Icosphere::Generate(renderer, subdivs, scale, attribs));
 		}
 
-		void Sphere3D::Draw(Renderer *r)
+		void Sphere3D::Draw(Renderer *r, Material *mat)
 		{
 			PROFILE_SCOPED()
-			r->DrawMesh(m_sphereMesh.get(), m_material.Get());
+			r->DrawMesh(m_sphereMesh.get(), mat);
 		}
 
 		//------------------------------------------------------------

@@ -151,14 +151,11 @@ namespace Graphics {
 		class Sphere3D {
 		public:
 			//subdivisions must be 0-4
-			Sphere3D(Renderer *, RefCountedPtr<Material> material, int subdivisions = 0, float scale = 1.f, AttributeSet attribs = (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0));
-			void Draw(Renderer *r);
-
-			RefCountedPtr<Material> GetMaterial() const { return m_material; }
+			Sphere3D(Renderer *, int subdivisions = 0, float scale = 1.f, AttributeSet attribs = (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0));
+			void Draw(Renderer *r, Material *m);
 
 		private:
 			std::unique_ptr<MeshObject> m_sphereMesh;
-			RefCountedPtr<Material> m_material;
 		};
 		//------------------------------------------------------------
 
