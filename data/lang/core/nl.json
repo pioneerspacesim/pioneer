@@ -495,6 +495,10 @@
     "description": "",
     "message": "Dit opgeslagen spelbestand kon niet beschreven worden vanwege een systeemfout."
   },
+  "GAME_SAVE_INVALID_NAME": {
+    "description": "",
+    "message": "This saved game file could not be written because of a invalid name."
+  },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
     "message": "Algemeen zicht beheer"

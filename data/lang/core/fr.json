@@ -495,6 +495,10 @@
     "description": "",
     "message": "Impossible d'écrire la sauvegarde à cause d'une erreur système."
   },
+  "GAME_SAVE_INVALID_NAME": {
+    "description": "",
+    "message": "This saved game file could not be written because of a invalid name."
+  },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
     "message": "Contrôles de vue généraux"

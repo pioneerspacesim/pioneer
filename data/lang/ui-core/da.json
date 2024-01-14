@@ -263,6 +263,10 @@
     "description": "",
     "message": "Styringsindstillinger"
   },
+  "COULD_NOT_DELETE_SAVE": {
+    "description": "",
+    "message": "Could not delete save"
+  },
   "COULD_NOT_LOAD_GAME": {
     "description": "",
     "message": "Kunne ikke åbne spillet:"
@@ -322,6 +326,14 @@
   "DECREASE": {
     "description": "Decrease something.",
     "message": "Decrease"
+  },
+  "DELETE": {
+    "description": "",
+    "message": "Delete"
+  },
+  "DELETE_SAVE_CONFIRMATION": {
+    "description": "",
+    "message": "Are you sure you want to delete this save?"
   },
   "DELTA_V": {
     "description": "",
@@ -1919,6 +1931,10 @@
     "description": "",
     "message": "Gem"
   },
+  "SAVE_DELETED_SUCCESSFULLY": {
+    "description": "",
+    "message": "Save deleted successfully"
+  },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
     "message": "Scoop mounts"
@@ -1930,6 +1946,14 @@
   "SELECT": {
     "description": "",
     "message": "Vælg"
+  },
+  "SELECTED_SAVE_DOESNT_EXISTS": {
+    "description": "",
+    "message": "Selected save doesn't exists"
+  },
+  "SELECTED_SAVE_IS_NOT_A_VALID_SAVE": {
+    "description": "",
+    "message": "Selected save is not a valid save"
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",

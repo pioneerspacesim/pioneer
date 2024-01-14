@@ -495,6 +495,10 @@
     "description": "",
     "message": "Não foi possível gravar o jogo porque ocorreu um erro de sistema."
   },
+  "GAME_SAVE_INVALID_NAME": {
+    "description": "",
+    "message": "This saved game file could not be written because of a invalid name."
+  },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
     "message": "General View Controls"

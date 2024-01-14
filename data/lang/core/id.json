@@ -495,6 +495,10 @@
     "description": "",
     "message": "Permainan ini tidak dapat disimpan karena masalah sistem."
   },
+  "GAME_SAVE_INVALID_NAME": {
+    "description": "",
+    "message": "This saved game file could not be written because of a invalid name."
+  },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
     "message": "Kontrol Tampilan Umum"

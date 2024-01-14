@@ -495,6 +495,10 @@
     "description": "",
     "message": "Этот сохраненный файл игры не может быть записан из-за системной ошибки."
   },
+  "GAME_SAVE_INVALID_NAME": {
+    "description": "",
+    "message": "This saved game file could not be written because of a invalid name."
+  },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
     "message": "Управление камерой"

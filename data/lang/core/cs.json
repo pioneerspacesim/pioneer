@@ -495,6 +495,10 @@
     "description": "",
     "message": "Tento soubor nelze zapsat z důvodu systémové chyby."
   },
+  "GAME_SAVE_INVALID_NAME": {
+    "description": "",
+    "message": "This saved game file could not be written because of a invalid name."
+  },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
     "message": "Ovládací prvky celkového pohledu"

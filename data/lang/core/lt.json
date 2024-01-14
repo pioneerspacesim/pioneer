@@ -495,6 +495,10 @@
     "description": "",
     "message": "Ši žaidimo išsaugojimo rinkmena negali būti įrašyta dėl sistemos klaidos,"
   },
+  "GAME_SAVE_INVALID_NAME": {
+    "description": "",
+    "message": "This saved game file could not be written because of a invalid name."
+  },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
     "message": "Bendras Vaizdo Valdymas"

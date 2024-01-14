@@ -495,6 +495,10 @@
     "description": "",
     "message": "Bu oyun kayıt dosyası bir sistem hatası nedeniyle yazılamadı."
   },
+  "GAME_SAVE_INVALID_NAME": {
+    "description": "",
+    "message": "This saved game file could not be written because of a invalid name."
+  },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
     "message": "Genel Görünüm Kontrolleri"
