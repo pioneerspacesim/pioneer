@@ -48,6 +48,10 @@ function Game.SaveGameStats(filename) end
 ---@param filename string
 function Game.SaveGame(filename) end
 
+--- Delete savefile with specified filename.
+---@param filename string
+function Game.DeleteSave(filename) end
+
 --- End the current game and return to the main menu.
 function Game.EndGame() end
 

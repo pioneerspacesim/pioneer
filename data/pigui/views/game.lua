@@ -300,6 +300,7 @@ ui.registerHandler('game', function(delta_t)
 		end
 
 		callModules('modal')
+		callModules('ui-timer')
 
 		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
 			gameView.debugReload()

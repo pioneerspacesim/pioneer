@@ -15,6 +15,8 @@ local Color = _G.Color
 
 local ui = require 'pigui'
 local ModalWindow = require 'pigui.libs.modal-win'
+local MessageBox = require 'pigui.libs.message-box'
+local UITimer = require 'pigui.libs.ui-timer'
 
 local optionButtonSize = ui.rescaleUI(Vector2(100, 32))
 local winSize = Vector2(ui.screenWidth * 0.4, ui.screenHeight * 0.6)
@@ -22,11 +24,17 @@ local pionillium = ui.fonts.pionillium
 
 local searchText = lc.SEARCH .. ':'
 local saveText = lui.SAVE .. ':'
+local errText = lui.ERROR .. ': '
 local caseSensitiveText = lui.CASE_SENSITIVE
 
 local saveFileCache = {}
 local selectedSave
 local saveIsValid = true
+local saveInList
+local showDeleteResult = false
+local successDeleteSaveResult = false
+local timerName = "displaySuccessfulResult"
+local dissapearTime = 3.0
 
 local minSearchTextLength = 1
 local searchSave = ""
@@ -35,11 +43,13 @@ local caseSensitive = false
 local function optionTextButton(label, enabled, callback)
 	local variant = not enabled and ui.theme.buttonColors.disabled or nil
 	local button
-	ui.withFont(pionillium.medium.name, pionillium.medium.size, function()
+	ui.withFont(pionillium.medium, function()
 		button = ui.button(label, optionButtonSize, variant)
 	end)
 	if button then
-		callback(button)
+		if enabled and callback then
+			callback(button)
+		end
 	end
 end
 
@@ -94,17 +104,34 @@ local function closeAndClearCache()
 	ui.saveLoadWindow:close()
 	ui.saveLoadWindow.mode = nil
 	saveFileCache = {}
+	popupOpened = false
+	saveInList = false
+	selectedSave = ""
 	searchSave = ""
+	UITimer.deleteTimer(timerName)
+	showDeleteResult = false
 end
 
 local function closeAndLoadOrSave()
 	if selectedSave ~= nil and selectedSave ~= '' then
-		if ui.saveLoadWindow.mode == "LOAD" and saveIsValid then
-			Game.LoadGame(selectedSave)
-			closeAndClearCache()
+		local success, err
+		if ui.saveLoadWindow.mode == "LOAD" then
+		    if saveIsValid then
+				success, err = pcall(Game.LoadGame, selectedSave)
+			else
+				MessageBox.OK(lui.SELECTED_SAVE_IS_NOT_A_VALID_SAVE)
+			end
 		elseif ui.saveLoadWindow.mode == "SAVE" then
-			Game.SaveGame(selectedSave)
-			closeAndClearCache()
+			success, err = pcall(Game.SaveGame, selectedSave)
+		else
+			logWarning("Unknown saveLoadWindow mode: " .. ui.saveLoadWindow.mode)
+		end
+		if success ~= nil then
+		    if not success then
+				MessageBox.OK(errText .. err)
+			else
+				closeAndClearCache()
+			end
 		end
 	end
 end
@@ -113,16 +140,15 @@ end
 local function displaySave(f)
 	if ui.selectable(f.name, f.name == selectedSave, {"SpanAllColumns", "DontClosePopups", "AllowDoubleClick"}) then
 		selectedSave = f.name
-	 	saveIsValid = pcall(Game.SaveGameStats, f.name)
-	 	if ui.isMouseDoubleClicked(0) then
-			closeAndLoadOrSave()	
+		saveIsValid = pcall(Game.SaveGameStats, f.name)
+		if ui.isMouseDoubleClicked(0) then
+			closeAndLoadOrSave()
 		end
 	end
 
 	if ui.isItemHovered("ForTooltip") then
 		ui.setTooltip(getSaveTooltip(f.name))
 	end
-
 
 	ui.nextColumn()
 	ui.text(Format.Date(f.mtime.timestamp))
@@ -138,17 +164,57 @@ local function showSaveFiles()
 	else
 		table.sort(files, function(a,b) return (a.mtime.timestamp > b.mtime.timestamp) end)
 		ui.columns(2,"##saved_games",true)
+		local wasInList = false
 		for _,f in pairs(files) do
 		    if(shouldDisplayThisSave(f)) then
 				displaySave(f)
+				if not wasInList and (f.name == selectedSave) then
+					wasInList = true
+				end
 			end
 		end
-		ui.columns(1,"",false)
+		saveInList = wasInList
 	end
 end
 
+local function deleteSave()
+	successDeleteSaveResult = Game.DeleteSave(selectedSave)
+	showDeleteResult = true
+	if successDeleteSaveResult then
+		UITimer.createTimer(timerName, dissapearTime, function()
+			showDeleteResult = false
+		end)
+	else
+		return
+	end
+	selectedSave = ''
+end
+
+local function showDeleteSaveResult(saving)
+	if successDeleteSaveResult then
+		local textSize = ui.calcTextSize(lui.SAVE_DELETED_SUCCESSFULLY, pionillium.small)
+		if saving then
+			ui.sameLine(ui.getContentRegion().x - textSize.x)
+		else
+			local txt_hshift = math.max(0, (optionButtonSize.y - ui.getFrameHeight() + textSize.y) / 2)
+			ui.sameLine(ui.getContentRegion().x - textSize.x - (ui.getItemSpacing().x + ui.getWindowPadding().x + optionButtonSize.x * 3.2))
+			ui.addCursorPos(Vector2(0, txt_hshift))
+		end
+		ui.withFont(pionillium.small, function()
+			ui.text(lui.SAVE_DELETED_SUCCESSFULLY)
+		end)
+	else
+		MessageBox.OK(lui.COULD_NOT_DELETE_SAVE)
+		showDeleteResult = false
+	end
+end
+
+local function showDeleteConfirmation()
+	MessageBox.OK_CANCEL(lui.DELETE_SAVE_CONFIRMATION, deleteSave)
+end
+
 local function drawSearchHeader(txt_width)
-	ui.withFont(pionillium.medium.name, pionillium.medium.size, function()
+	ui.withFont(pionillium.medium, function()
 		ui.text(searchText)
 		ui.nextItemWidth(txt_width, 0)
 		searchSave, _ = ui.inputText("##searchSave", searchSave, {})
@@ -161,13 +227,15 @@ local function drawSearchHeader(txt_width)
 end
 
 local function drawOptionButtons(txt_width, saving)
-
 	-- for vertical center alignment
 	local txt_hshift = math.max(0, (optionButtonSize.y - ui.getFrameHeight()) / 2)
 	local mode = saving and lui.SAVE or lui.LOAD
 	ui.sameLine(txt_width + ui.getWindowPadding().x + ui.getItemSpacing().x)
 	ui.addCursorPos(Vector2(0, saving and -txt_hshift or txt_hshift))
-	optionTextButton(mode, selectedSave ~= nil and selectedSave ~= '' and saveIsValid, closeAndLoadOrSave)
+	optionTextButton(mode, ((saving and (selectedSave ~= nil and selectedSave ~= '')) or (not saving and saveInList)), closeAndLoadOrSave)
+	ui.sameLine()
+	ui.addCursorPos(Vector2(0, saving and -txt_hshift or txt_hshift))
+	optionTextButton(lui.DELETE, saveInList, showDeleteConfirmation)
 	ui.sameLine()
 	ui.addCursorPos(Vector2(0, saving and -txt_hshift or txt_hshift))
 	optionTextButton(lui.CANCEL, true, closeAndClearCache)
@@ -194,17 +262,23 @@ ui.saveLoadWindow = ModalWindow.New("LoadGame", function()
 
 	ui.separator()
 
-	-- a little padding just before the window border, so that the cancel button will not be cut out
-	txt_width = txt_width / 1.03
+	-- a padding just before the window border, so that the cancel button will not be cut out
+	txt_width = txt_width / 1.38
 	if saving then
-		ui.withFont(pionillium.medium.name, pionillium.medium.size, function()
+		ui.withFont(pionillium.medium, function()
 			ui.text(saveText)
+			if showDeleteResult then
+				showDeleteSaveResult(saving)
+			end
 			ui.nextItemWidth(txt_width, 0)
 			selectedSave = ui.inputText("##saveFileName", selectedSave or "", {})
 		end)
+	else
+		if showDeleteResult then
+			showDeleteSaveResult(saving)
+		end
 	end
 	drawOptionButtons(txt_width, saving)
-
 end, function (_, drawPopupFn)
 	ui.setNextWindowSize(winSize, "Always")
 	ui.setNextWindowPosCenter('Always')
