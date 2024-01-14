@@ -57,7 +57,7 @@ local styleColors = {
 	accent_700		= Color "06318E",
 
 	success_100		= Color "CAF8A8",
-	success_300		= Color "77EE21",
+	success_300		= Color "D6A8F8",
 	success_500		= Color "5ACC0A",
 	success_700		= Color "317005",
 	success_900		= Color "102502",
@@ -73,6 +73,10 @@ local styleColors = {
 	danger_500		= Color "C51010",
 	danger_700		= Color "8C0606",
 	danger_900		= Color "2C0505",
+	
+	compare_worse   = Color "FFA431",
+	compare_better  = Color "33B2E2",
+		
 }
 
 theme.styleColors = styleColors
@@ -230,8 +234,8 @@ theme.colors = {
 	equipScreenHighlight    = styleColors.gray_300,
 	equipScreenBgText       = styleColors.gray_400,
 
-	shipmarketCompareBetter = styleColors.success_300,
-	shipmarketCompareWorse  = styleColors.warning_300,
+	shipmarketCompareBetter = styleColors.compare_better,
+	shipmarketCompareWorse  = styleColors.compare_worse,
 }
 
 -- ImGui global theming styles
