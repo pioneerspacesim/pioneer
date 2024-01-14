@@ -52,6 +52,7 @@ The Pioneer Developers are:
 * Gaz Davidson
 * Georgi Georgiev
 * Gernot
+* Gisteron
 * Gliese852
 * HeadHunter
 * Jan Olsina
@@ -100,6 +101,7 @@ The Pioneer Developers are:
 * Rob Williamson
 * Robert Norris
 * Robert Pallier
+* Ron O'Dell aka Keeper1st
 * Roland Mas
 * Sal Borrelli
 * Sean Bailey
