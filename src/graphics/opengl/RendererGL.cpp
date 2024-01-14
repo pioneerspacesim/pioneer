@@ -2,8 +2,8 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "RendererGL.h"
-#include "RefCounted.h"
 #include "MathUtil.h"
+#include "RefCounted.h"
 #include "SDL_video.h"
 #include "StringF.h"
 
@@ -1089,8 +1089,8 @@ namespace Graphics {
 		if (desc.colorFormat != TEXTURE_NONE && desc.depthFormat != TEXTURE_NONE && !rt->CheckStatus()) {
 			GLuint status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 			Log::Error("Unable to create complete render target. (Error: {})\n"
-				"Does your graphics driver support multisample anti-aliasing?\n"
-				"If this issue persists, try setting AntiAliasingMode=0 in your config file.\n",
+					   "Does your graphics driver support multisample anti-aliasing?\n"
+					   "If this issue persists, try setting AntiAliasingMode=0 in your config file.\n",
 				gl_framebuffer_error_to_string(status));
 		}
 
@@ -1170,40 +1170,23 @@ namespace Graphics {
 		SDL_GetWindowSize(m_window, &w, &h);
 		sd.width = w;
 		sd.height = h;
-		sd.bpp = 4; // XXX get from window
+		sd.bpp = 3;
 
-		// pad rows to 4 bytes, which is the default row alignment for OpenGL
-		sd.stride = ((sd.bpp * sd.width) + 3) & ~3;
-
-		sd.pixels.reset(new Uint8[sd.stride * sd.height]);
-
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glPixelStorei(GL_PACK_ALIGNMENT, 4); // never trust defaults
-		glReadBuffer(GL_FRONT);
-		glReadPixels(0, 0, sd.width, sd.height, GL_RGBA, GL_UNSIGNED_BYTE, sd.pixels.get());
-		glFinish();
-
-		return true;
-	}
-
-	bool RendererOGL::FrameGrab(ScreendumpState &sd)
-	{
-		int w, h;
-		SDL_GetWindowSize(m_window, &w, &h);
-		sd.width = w;
-		sd.height = h;
-		sd.bpp = 4; // XXX get from window
-
-		sd.stride = (4 * sd.width);
+		sd.stride = (sd.bpp * sd.width);
 
 		sd.pixels.reset(new Uint8[sd.stride * sd.height]);
 
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glPixelStorei(GL_PACK_ALIGNMENT, 4); // never trust defaults
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+		glPixelStorei(GL_PACK_ALIGNMENT, 1);
 		glReadBuffer(GL_FRONT);
-		glReadPixels(0, 0, sd.width, sd.height, GL_RGBA, GL_UNSIGNED_BYTE, sd.pixels.get());
+		glReadPixels(0, 0, sd.width, sd.height, GL_RGB, GL_UNSIGNED_BYTE, sd.pixels.get());
 		glFinish();
 
+		// this might harmlessly error if we're in a single buffered mode,
+		// however in double buffered mode it makes the window in window screens
+		// such as ones that show the ship within a menu (F3) work correctly
+		// as GL_BACK is the default.
+		glReadBuffer(GL_BACK);
 		return true;
 	}
 

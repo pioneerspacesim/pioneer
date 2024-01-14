@@ -385,28 +385,6 @@ bool GasGiant::OnAddGPUGenResult(const SystemPath &path, GasGiantJobs::SGPUGenRe
 	return false;
 }
 
-#define DUMP_TO_TEXTURE 0
-
-#if DUMP_TO_TEXTURE
-#include "FileSystem.h"
-#include "PngWriter.h"
-#include "graphics/opengl/TextureGL.h"
-void textureDump(const char *destFile, const int width, const int height, const Color *buf)
-{
-	const std::string dir = "generated_textures";
-	FileSystem::userFiles.MakeDirectory(dir);
-	const std::string fname = FileSystem::JoinPathBelow(dir, destFile);
-
-	// pad rows to 4 bytes, which is the default row alignment for OpenGL
-	//const int stride = (3*width + 3) & ~3;
-	const int stride = width * 4;
-
-	write_png(FileSystem::userFiles, fname, &buf[0].r, width, height, stride, 4);
-
-	printf("texture %s saved\n", fname.c_str());
-}
-#endif
-
 bool GasGiant::AddTextureFaceResult(GasGiantJobs::STextureFaceResult *res)
 {
 	bool result = false;
@@ -445,14 +423,6 @@ bool GasGiant::AddTextureFaceResult(GasGiantJobs::STextureFaceResult *res)
 		tcd.negZ = m_jobColorBuffers[5].get();
 		m_surfaceTexture->Update(tcd, dataSize, Graphics::TEXTURE_RGBA_8888);
 
-#if DUMP_TO_TEXTURE
-		for (int iFace = 0; iFace < NUM_PATCHES; iFace++) {
-			char filename[1024];
-			snprintf(filename, 1024, "%s%d.png", GetSystemBody()->GetName().c_str(), iFace);
-			textureDump(filename, uvDims, uvDims, m_jobColorBuffers[iFace].get());
-		}
-#endif
-
 		// cleanup the temporary color buffer storage
 		for (int i = 0; i < NUM_PATCHES; i++) {
 			m_jobColorBuffers[i].reset();
@@ -478,21 +448,6 @@ bool GasGiant::AddGPUGenResult(GasGiantJobs::SGPUGenResult *res)
 #ifndef NDEBUG
 	const Sint32 uvDims = res->data().uvDims;
 	assert(uvDims > 0 && uvDims <= 4096);
-#endif
-
-#if DUMP_TO_TEXTURE
-	for (int iFace = 0; iFace < NUM_PATCHES; iFace++) {
-		std::unique_ptr<Color, FreeDeleter> buffer(static_cast<Color *>(malloc(uvDims * uvDims * 4)));
-		Graphics::Texture *pTex = res->data().texture.Get();
-		Graphics::TextureGL *pGLTex = static_cast<Graphics::TextureGL *>(pTex);
-		pGLTex->Bind();
-		glGetTexImage(GL_TEXTURE_CUBE_MAP_POSITIVE_X + iFace, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer.get());
-		pGLTex->Unbind();
-
-		char filename[1024];
-		snprintf(filename, 1024, "%s%d.png", GetSystemBody()->GetName().c_str(), iFace);
-		textureDump(filename, uvDims, uvDims, buffer.get());
-	}
 #endif
 
 	// tidyup

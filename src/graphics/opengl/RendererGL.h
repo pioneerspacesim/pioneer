@@ -13,7 +13,7 @@
 #include <stack>
 #include <unordered_map>
 
-typedef void* SDL_GLContext;
+typedef void *SDL_GLContext;
 
 namespace Graphics {
 
@@ -117,7 +117,6 @@ namespace Graphics {
 		virtual bool ReloadShaders() override final;
 
 		virtual bool Screendump(ScreendumpState &sd) override final;
-		virtual bool FrameGrab(ScreendumpState &sd) override final;
 
 		bool DrawMeshInternal(OGL::MeshObject *, PrimitiveType type);
 		bool DrawMeshInstancedInternal(OGL::MeshObject *, OGL::InstanceBuffer *, PrimitiveType type);
