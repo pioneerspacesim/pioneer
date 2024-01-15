@@ -6,6 +6,8 @@ local Engine = require 'Engine'
 local Game = require 'Game'
 local utils = require 'utils'
 local pigui = Engine.pigui
+
+---@class ui
 local ui = require 'pigui.libs.forwarded'
 
 --
