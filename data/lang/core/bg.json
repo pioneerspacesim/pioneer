@@ -497,7 +497,7 @@
   },
   "GAME_SAVE_INVALID_NAME": {
     "description": "",
-    "message": "This saved game file could not be written because of a invalid name."
+    "message": "Запазената игра не може да бъде записана, поради невалидно име."
   },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
