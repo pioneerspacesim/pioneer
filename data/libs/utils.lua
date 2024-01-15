@@ -371,8 +371,8 @@ utils.inherits = function (baseClass, name)
 	new_class.meta = { __index = new_class, class=name }
 
 	-- generic constructor
-	function new_class.New(args)
-		local newinst = base_class.New(args)
+	function new_class.New(...)
+		local newinst = base_class.New(...)
 		setmetatable( newinst, new_class.meta )
 		return newinst
 	end
@@ -404,17 +404,22 @@ end
 -- Wrapper for utils.inherits that manages creating new class instances and
 -- calling the constructor.
 --
-utils.class = function (name, baseClass)
-	local new_class = utils.inherits(baseClass, name)
+utils.class = function (name, base_class)
+	base_class = base_class or object
+	local new_class = utils.inherits(base_class, name)
 
 	new_class.New = function(...)
 		local instance = setmetatable( {}, new_class.meta )
 
-		if new_class.Constructor then
-			new_class.Constructor(instance, ...)
-		end
+		new_class.Constructor(instance, ...)
 
 		return instance
+	end
+
+	new_class.Constructor = function(self, ...)
+		if base_class.Constructor then
+			base_class.Constructor(self, ...)
+		end
 	end
 
 	return new_class
