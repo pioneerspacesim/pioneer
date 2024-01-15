@@ -1011,6 +1011,13 @@ static int l_pigui_get_window_padding(lua_State *l)
 	return 1;
 }
 
+static int l_pigui_get_item_rect(lua_State *l)
+{
+	LuaPush(l, ImGui::GetItemRectMin());
+	LuaPush(l, ImGui::GetItemRectMax());
+	return 2;
+}
+
 static int l_pigui_add_window_padding(lua_State *l)
 {
 	ImVec2 padding = LuaPull<ImVec2>(l, 1);
@@ -3368,6 +3375,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "GetItemSpacing", l_pigui_get_item_spacing },
 		{ "GetWindowPadding", l_pigui_get_window_padding },
 		{ "AddWindowPadding", l_pigui_add_window_padding },
+		{ "GetItemRect", l_pigui_get_item_rect },
 		{ "InputText", l_pigui_input_text },
 		{ "Combo", l_pigui_combo },
 		{ "ListBox", l_pigui_listbox },
