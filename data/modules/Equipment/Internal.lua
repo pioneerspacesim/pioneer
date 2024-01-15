@@ -6,6 +6,7 @@ local Equipment = require 'Equipment'
 
 local EquipType = EquipTypes.EquipType
 local SensorType = EquipTypes.SensorType
+local CabinType = EquipTypes.CabinType
 
 --===============================================
 -- Computer Modules
@@ -14,7 +15,7 @@ local SensorType = EquipTypes.SensorType
 Equipment.Register("misc.autopilot", EquipType.New {
 	l10n_key="AUTOPILOT",
 	price=1400, purchasable=true, tech_level=1,
-	slot = { type="computer", size=1 },
+	slot = { type="computer.autopilot", size=1 },
 	mass=0.2, volume=0.5, capabilities = { set_speed=1, autopilot=1 },
 	icon_name="equip_autopilot"
 })
@@ -153,7 +154,7 @@ Equipment.Register("misc.multi_scoop", EquipType.New {
 -- Slot-less equipment
 --===============================================
 
-Equipment.Register("misc.cabin", EquipType.New {
+Equipment.Register("misc.cabin", CabinType.New {
 	l10n_key="UNOCCUPIED_CABIN",
 	price=1350, purchasable=true, tech_level=1,
 	mass=1, volume=5, capabilities={ cabin=1 },

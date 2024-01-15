@@ -33,12 +33,22 @@ local misc = {}
 --
 --
 ---@class EquipType
+---@field id string
+---@field mass number
+---@field volume number
+---@field slot { type: string, size: integer, hardpoint: boolean } | nil
+---@field capabilities table<string, number>?
+---@field purchasable boolean
+---@field icon_name string?
+---@field tech_level integer | "MILITARY"
 ---@field transient table
 ---@field slots table -- deprecated
+---@field __proto EquipType?
 local EquipType = utils.inherits(nil, "EquipType")
 
 ---@return EquipType
 function EquipType.New (specs)
+	---@class EquipType
 	local obj = {}
 	for i,v in pairs(specs) do
 		obj[i] = v
@@ -55,6 +65,19 @@ function EquipType.New (specs)
 		obj.slots = {obj.slots}
 	end
 
+	if obj.slot and not obj.slot.hardpoint then
+		obj.slot.hardpoint = false
+	end
+
+	if not obj.tech_level then
+		obj.tech_level = 1
+	end
+
+	if not obj.icon_name then
+		obj.icon_name = "equip_generic"
+	end
+
+	-- TODO: remove all usage of obj.capabilities, transition to explicit volume for equipment
 	-- fixup old capabilities system to explicitly specified mass/volume
 	if obj.capabilities and obj.capabilities.mass then
 		obj.mass = obj.capabilities.mass
@@ -66,6 +89,10 @@ function EquipType.New (specs)
 	return obj
 end
 
+-- Override this with a function returning an equipment instance appropriate for the passed ship
+-- (E.g. for equipment with mass/volume/cost dependent on the specific ship hull)
+EquipType.SpecializeForShip = nil ---@type nil | fun(self: self, ship: Ship): EquipType
+
 function EquipType._createTransient(obj)
 	local l = Lang.GetResource(obj.l10n_resource)
 	obj.transient = {
@@ -74,8 +101,30 @@ function EquipType._createTransient(obj)
 	}
 end
 
+---@param ship Ship
+---@param slot ShipDef.Slot?
+function EquipType:OnInstall(ship, slot)
+	-- Override this for any custom installation logic needed
+	-- (e.g. mounting weapons)
+end
+
+---@param ship Ship
+---@param slot ShipDef.Slot?
+function EquipType:OnRemove(ship, slot)
+	-- Override this for any custom uninstallation logic needed
+end
+
 function EquipType.isProto(inst)
 	return not rawget(inst, "__proto")
+end
+
+function EquipType:GetPrototype()
+	return rawget(self, "__proto") or self
+end
+
+---@return EquipType
+function EquipType:Instance()
+	return setmetatable({ __proto = self }, self.meta)
 end
 
 -- Patch an EquipType class to support a prototype-based equipment system
@@ -245,6 +294,9 @@ function LaserType:Uninstall(ship, num, slot)
 end
 
 -- Single drive type, no support for slave drives.
+---@class Equipment.HyperdriveType : EquipType
+---@field fuel CommodityType
+---@field byproduct CommodityType?
 local HyperdriveType = utils.inherits(EquipType, "HyperdriveType")
 
 function HyperdriveType:GetMaximumRange(ship)
@@ -385,17 +437,32 @@ local SensorType = utils.inherits(EquipType, "SensorType")
 -- NOTE: all code related to managing a body scanner is implemented in the ScanManager component
 local BodyScannerType = utils.inherits(SensorType, "BodyScannerType")
 
+---@class Equipment.CabinType : EquipType
+---@field passenger Character?
+local CabinType = utils.inherits(EquipType, "Equipment.CabinType")
+
+function CabinType:OnRemove(ship, slot)
+	EquipType.OnRemove(self, ship, slot)
+
+	if self.passenger then
+		logWarning("Removing passenger cabin with passenger onboard!")
+		ship:setprop("cabin_occupied_cap", ship["cabin_occupied_cap"] - 1)
+	end
+end
+
 Serializer:RegisterClass("LaserType", LaserType)
 Serializer:RegisterClass("EquipType", EquipType)
 Serializer:RegisterClass("HyperdriveType", HyperdriveType)
 Serializer:RegisterClass("SensorType", SensorType)
 Serializer:RegisterClass("BodyScannerType", BodyScannerType)
+Serializer:RegisterClass("Equipment.CabinType", CabinType)
 
 EquipType:SetupPrototype()
 LaserType:SetupPrototype()
 HyperdriveType:SetupPrototype()
 SensorType:SetupPrototype()
 BodyScannerType:SetupPrototype()
+CabinType:SetupPrototype()
 
 return {
 	laser			= laser,
@@ -405,5 +472,6 @@ return {
 	LaserType		= LaserType,
 	HyperdriveType	= HyperdriveType,
 	SensorType		= SensorType,
-	BodyScannerType	= BodyScannerType
+	BodyScannerType	= BodyScannerType,
+	CabinType       = CabinType,
 }
