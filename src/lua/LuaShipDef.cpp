@@ -298,7 +298,7 @@ void LuaShipDef::Register()
 		if (!lua_getmetatable(l, -1)) {
 			lua_newtable(l);
 		}
-		pi_lua_import(l, "EquipSet");
+		pi_lua_import(l, "EquipSetCompat");
 		luaL_getsubtable(l, -1, "default");
 		lua_setfield(l, -3, "__index");
 		lua_pop(l, 1);
