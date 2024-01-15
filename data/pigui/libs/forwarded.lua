@@ -93,6 +93,7 @@ ui.getWindowPadding = pigui.GetWindowPadding ---@type fun(): Vector2
 -- Add extra window padding after beginning a window.
 -- WARNING: this must only be called at "top-level" window scope (e.g. not in a Group or Columns etc.)
 ui.addWindowPadding = pigui.AddWindowPadding ---@type fun(padding: Vector2)
+ui.getItemRect = pigui.GetItemRect ---@type fun(): Vector2, Vector2 -- return min, max corners of last item bounding box
 
 ui.getTargetsNearby = pigui.GetTargetsNearby
 ui.getProjectedBodies = pigui.GetProjectedBodies
