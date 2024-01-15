@@ -15,6 +15,7 @@ local laser           = EquipTypes.laser
 local hyperspace      = EquipTypes.hyperspace
 local misc            = EquipTypes.misc
 
+---@type table<string, EquipType>
 EquipTypes.new = {}
 
 function EquipTypes.Get(id)
@@ -24,6 +25,8 @@ end
 function EquipTypes.Register(id, type)
 	EquipTypes.new[id] = type
 	type.id = id
+
+	Serializer:RegisterPersistent("Equipment." .. id, type)
 end
 
 -- Constants: EquipSlot
@@ -434,28 +437,5 @@ laser.large_plasma_accelerator = LaserType.New({
 	}, purchasable=true, tech_level=12,
 	icon_name="equip_plasma_accelerator"
 })
-
-local serialize = function()
-	local ret = {}
-	for _,k in ipairs{"laser", "hyperspace", "misc"} do
-		local tmp = {}
-		for kk, vv in pairs(EquipTypes[k]) do
-			tmp[kk] = vv
-		end
-		ret[k] = tmp
-	end
-	return ret
-end
-
-local unserialize = function (data)
-	for _,k in ipairs{"laser", "hyperspace", "misc"} do
-		local tmp = EquipTypes[k]
-		for kk, vv in pairs(data[k]) do
-			tmp[kk] = vv
-		end
-	end
-end
-
-Serializer:Register("Equipment", serialize, unserialize)
 
 return EquipTypes
