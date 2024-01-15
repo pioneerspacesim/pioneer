@@ -4,7 +4,9 @@
 local Engine = require 'Engine'
 local pigui = Engine.pigui
 
+---@class ui
 local ui = require 'pigui.libs.forwarded'
+
 ui.rescaleUI = require 'pigui.libs.rescale-ui'
 
 ---@type EventQueue

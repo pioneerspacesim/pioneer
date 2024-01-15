@@ -1,6 +1,7 @@
 -- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+---@class ui
 local ui = require 'pigui.baseui'
 local Vector2 = _G.Vector2
 

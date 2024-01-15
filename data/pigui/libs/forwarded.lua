@@ -6,6 +6,7 @@
 local Engine = require 'Engine'
 local pigui = Engine.pigui
 
+---@class ui
 local ui = {}
 
 ui.calcTextAlignment = pigui.CalcTextAlignment
@@ -137,12 +138,12 @@ ui.beginTabItem = pigui.BeginTabItem
 ui.endTabItem = pigui.EndTabItem
 ui.endTabBar = pigui.EndTabBar
 
-ui.beginTable = pigui.BeginTable
+ui.beginTable = pigui.BeginTable ---@type fun(id: string, columns: integer, flags: any)
 ui.endTable = pigui.EndTable
 ui.tableNextRow = pigui.TableNextRow
 ui.tableNextColumn = pigui.TableNextColumn
 ui.tableSetColumnIndex = pigui.TableSetColumnIndex
-ui.tableSetupColumn = pigui.TableSetupColumn
+ui.tableSetupColumn = pigui.TableSetupColumn ---@type fun(id: string, flags: any)
 ui.tableSetupScrollFreeze = pigui.TableSetupScrollFreeze
 ui.tableHeadersRow = pigui.TableHeadersRow
 ui.tableHeader = pigui.TableHeader

@@ -1,8 +1,12 @@
 -- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 local Engine = require 'Engine'
-local ui = require 'pigui.baseui'
 local pigui = Engine.pigui
+
+---@class ui
+local ui = require 'pigui.baseui'
+
+---@alias ui.Icon integer
 
 local iconsX = 16
 local iconsY = 19

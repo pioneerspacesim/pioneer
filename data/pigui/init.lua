@@ -6,6 +6,7 @@
 -- aren't available later...
 local Player = require 'Player'
 
+---@class ui
 local ui = require 'pigui.baseui'
 
 require 'pigui.libs.text'
