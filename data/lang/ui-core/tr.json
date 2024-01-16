@@ -1949,7 +1949,7 @@
   },
   "SELECTED_SAVE_DOESNT_EXISTS": {
     "description": "",
-    "message": "Selected save doesn't exist"
+    "message": "Seçilen kayıt mevcut değil"
   },
   "SELECTED_SAVE_IS_NOT_A_VALID_SAVE": {
     "description": "",
