@@ -2,8 +2,13 @@ January 2024
   * New Features
     * Newground station cleanup and new textures (#5704)
     * Docking with orbital in manual mode (#5619)
+    * Add delete button in save/load window (#5674)
+    * System overview icon upscale and update (#5540)
+    * Make ship market comparison colors colorblind friendly (#5715)
+    * Unify / re-balance mission travel time implementation (#5707)
 
   * Internal Changes
+    * Release will now also build an AppImage (#5682)
     * Re-add the galaxy dump function (#5676)
     * Refactor Event Queues (#5671)
     * Add Space.GetBodiesNear(), ProximityQuery module (#5637)
@@ -11,6 +16,7 @@ January 2024
 
   * Fixes
     * Avoid misaligned read when loading SGM files (#5692)
+    * Remove transparent backgrounds from screenshots (#5660)
 
 December 2023
   * Fixes
@@ -20,8 +26,6 @@ November 2023
   * Internal Changes
     * Lua Constant autocomplete support (#5663)
     * Simplify SystemBody::GetAtmPressure (#5662)
-
-  * Internal Changes
     * Improve Simplex Noise Performance (#5661)
     * Improve CI Setup and Performance (#5670)
     * Build with SSE4 / AVX, fix build artifact generation (#5651)
