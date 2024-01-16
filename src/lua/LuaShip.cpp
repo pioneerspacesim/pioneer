@@ -1858,44 +1858,42 @@ void LuaObject<Ship>::RegisterClass()
  *   experimental
  *
  *
+ * Attribute: loadedMass
+ *
+ * Mass of all contents of the ship, including equipment and cargo, but
+ * excluding hull and thruster fuel mass.
+ *
+ * Status:
+ *
+ *   stable
+ *
+ *
  * Attribute: staticMass
  *
  * Mass of the ship including hull, equipment and cargo, but excluding
  * thruster fuel mass. Measured in tonnes.
  *
- * Availability:
- *
- *   November 2013
- *
  * Status:
  *
- *   experimental
- *
- *
- * Attribute: usedCapacity
- *
- * Hull capacity used by equipment and cargo. Measured in tonnes.
- *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
+ *   stable
  *
  *
  * Attribute: usedCargo
  *
- * Hull capacity used by cargo only (not equipment). Measured in tonnes.
- *
- * Availability:
- *
- *   November 2013
+ * Hull capacity used by cargo only (not equipment). Measured in cargo units.
  *
  * Status:
  *
- *   experimental
+ *   stable
+ *
+ *
+ * Attribute: totalCargo
+ *
+ * Hull capacity available for cargo (not equipment). Measured in cargo units.
+ *
+ * Status:
+ *
+ *   stable
  *
  *
  * Attribute: freeCapacity
