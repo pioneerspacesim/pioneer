@@ -25,9 +25,8 @@ local function displayTargetScannerFor(target, offset)
 	local class = target:GetShipType()
 	local label = target.label
 	local engine = target:GetEquip('engine', 1)
-	local stats = target:GetStats()
-	local mass = stats.staticMass
-	local cargo = stats.usedCargo
+	local mass = target.staticMass
+	local cargo = target.usedCargo
 	if engine then
 		engine = engine:GetName()
 	else
@@ -81,8 +80,7 @@ local function displayTargetScanner()
 			local arrival = target:IsArrival()
 			local ship = target:GetShip()
 			if ship then
-				local stats = ship:GetStats()
-				local mass = stats.staticMass
+				local mass = ship.staticMass
 				local path,destName = ship:GetHyperspaceDestination()
 				local date = target:GetDueDate()
 				local dueDate = ui.Format.Datetime(date)
