@@ -844,17 +844,19 @@ function Windows.objectInfo:Show()
 			self.data = data
 
 		elseif obj.ref:IsShip() then -- physical body
+			---@cast body Ship
 			-- TODO: the advanced target scanner should add additional data here,
 			-- but we really do not want to hardcode that here. there should be
 			-- some kind of hook that the target scanner can hook into to display
 			-- more info here.
 			-- This is what should be inserted:
 			table.insert(data, { name = luc.SHIP_TYPE, value = body:GetShipType() })
-			if player:GetEquipCountOccupied('target_scanner') > 0 or player:GetEquipCountOccupied('advanced_target_scanner') > 0 then
-				local hd = body:GetEquip("engine", 1)
+			if (player["target_scanner_level_cap"] or 0) > 0 then
+				local hd = body:GetInstalledHyperdrive()
 				table.insert(data, { name = luc.HYPERDRIVE, value = hd and hd:GetName() or lc.NO_HYPERDRIVE })
-				table.insert(data, { name = luc.MASS, value = Format.MassTonnes(body:GetStats().staticMass) })
-				table.insert(data, { name = luc.CARGO, value = Format.MassTonnes(body:GetStats().usedCargo) })
+				table.insert(data, { name = luc.MASS, value = Format.MassTonnes(body.staticMass) })
+				-- FIXME: this should use a separate cargoMass property
+				table.insert(data, { name = luc.CARGO, value = Format.MassTonnes(body.usedCargo) })
 			end
 		else
 			data = {}

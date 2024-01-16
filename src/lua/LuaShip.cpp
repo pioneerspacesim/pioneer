@@ -1088,43 +1088,6 @@ static int l_ship_get_velocity(lua_State *l)
 	return 1;
 }
 
-/* Method: GetStats
- *
- * Return some ship stats.
- *
- * Returns:
- *
- *    Return a table containing:
- *          - usedCapacity
- *          - usedCargo
- *          - freeCapacity
- *          - staticMass
- *          - hullMassLeft
- *          - hyperspaceRange
- *          - hyperspaceRangeMax
- *          - shieldMass
- *          - shieldMassLeft
- *          - fuelTankMassLeft
- *
- */
-static int l_ship_get_stats(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	LuaTable t(l, 0, 10);
-	const shipstats_t &stats = s->GetStats();
-	t.Set("usedCapacity", stats.used_capacity);
-	t.Set("usedCargo", stats.used_cargo);
-	t.Set("freeCapacity", stats.free_capacity);
-	t.Set("staticMass", stats.static_mass);
-	t.Set("hullMassLeft", stats.hull_mass_left);
-	t.Set("hyperspaceRange", stats.hyperspace_range);
-	t.Set("hyperspaceRangeMax", stats.hyperspace_range_max);
-	t.Set("shieldMass", stats.shield_mass);
-	t.Set("shieldMassLeft", stats.shield_mass_left);
-	t.Set("fuelTankMassLeft", stats.fuel_tank_mass_left);
-	return 1;
-}
-
 /*
  * Method: GetPosition
  *
@@ -1731,7 +1694,6 @@ void LuaObject<Ship>::RegisterClass()
 		{ "GetFlightState", l_ship_get_flight_state },
 		{ "GetCruiseSpeed", l_ship_get_cruise_speed },
 		{ "GetFollowTarget", l_ship_get_follow_target },
-		{ "GetStats", l_ship_get_stats },
 
 		{ "GetHyperspaceCountdown", l_ship_get_hyperspace_countdown },
 		{ "IsHyperspaceActive", l_ship_is_hyperspace_active },
