@@ -179,7 +179,8 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	angThrust = angThrust * 0.5f;
 
 	hullMass = data.value("hull_mass", 100);
-	capacity = data.value("capacity", 0);
+	capacity = data.value("capacity", 0.0);
+	cargo = data.value("cargo", 0);
 	fuelTankMass = data.value("fuel_tank_mass", 5);
 
 	for (Json::iterator slot = data["slots"].begin(); slot != data["slots"].end(); ++slot) {
