@@ -622,17 +622,16 @@ void Ship::UpdateEquipStats()
 {
 	PropertyMap &p = Properties();
 
-	m_stats.used_capacity = p.Get("mass_cap");
-	m_stats.used_cargo = 0;
+	m_stats.loaded_mass = p.Get("mass_cap");
+	m_stats.static_mass = m_stats.loaded_mass + m_type->hullMass;
 
-	m_stats.free_capacity = m_type->capacity - m_stats.used_capacity;
-	m_stats.static_mass = m_stats.used_capacity + m_type->hullMass;
+	m_stats.free_capacity = m_type->capacity - p.Get("equipVolume").get_integer();
+	// m_stats.free_capacity = m_type->capacity - m_stats.loaded_mass;
 
-	p.Set("usedCapacity", m_stats.used_capacity);
-	p.Set("freeCapacity", m_stats.free_capacity);
-
-	p.Set("totalMass", m_stats.static_mass);
+	p.Set("loadedMass", m_stats.loaded_mass);
 	p.Set("staticMass", m_stats.static_mass);
+
+	p.Set("freeCapacity", m_stats.free_capacity);
 
 	float shield_cap = p.Get("shield_cap");
 	m_stats.shield_mass = TONS_HULL_PER_SHIELD * shield_cap;
