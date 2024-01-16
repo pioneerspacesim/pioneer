@@ -36,7 +36,7 @@ namespace Graphics {
 }
 
 struct shipstats_t {
-	int used_capacity;
+	int loaded_mass;
 	int used_cargo;
 	int free_capacity;
 	int static_mass;	  // cargo, equipment + hull
@@ -282,7 +282,6 @@ private:
 	void SetShipId(const ShipType::Id &shipId);
 	void EnterHyperspace();
 	void InitMaterials();
-	void InitEquipSet();
 
 	bool m_invulnerable;
 
