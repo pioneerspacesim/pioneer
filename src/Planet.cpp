@@ -156,9 +156,9 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	{
 		Color *row;
 		row = buf.get();
-		std::fill_n(row, RING_TEXTURE_WIDTH, Color::BLACK);
+		std::fill_n(row, RING_TEXTURE_WIDTH, Color::BLANK);
 		row = buf.get() + (RING_TEXTURE_LENGTH - 1) * RING_TEXTURE_WIDTH;
-		std::fill_n(row, RING_TEXTURE_WIDTH, Color::BLACK);
+		std::fill_n(row, RING_TEXTURE_WIDTH, Color::BLANK);
 	}
 
 	const vector3f texSize(RING_TEXTURE_WIDTH, RING_TEXTURE_LENGTH, 0.0f);

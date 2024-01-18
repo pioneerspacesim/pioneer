@@ -12,6 +12,25 @@ struct Surface {
 	float ambientOcclusion;
 };
 
+// Phase functions
+// https://www.scratchapixel.com/lessons/procedural-generation-virtual-worlds/simulating-sky/simulating-colors-of-the-sky.html
+float miePhaseFunction(const float g, const float mu)
+{
+	/*
+	 * Mie phase function:
+	 */
+	return 3.f / (8.f * 3.141592) * ((1.f - g * g) * (1.f + mu * mu)) / ((2.f + g * g) * pow(1.f + g * g - 2.f * g * mu, 1.5f));
+}
+
+float rayleighPhaseFunction(const float mu)
+{
+	/*
+	 * Rayleigh phase function:
+	 */
+	return 3.f / (16.f * 3.141592) * (1 + mu * mu);
+}
+
+
 // Currently used by: hopefully everything
 // Evaluates a standard blinn-phong diffuse+specular, with the addition of a
 // light intensity term to scale the lighting contribution based on (pre-calculated)
