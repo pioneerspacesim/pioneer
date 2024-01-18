@@ -922,7 +922,7 @@ end
 function ShipSummary:prepareAndValidateParamList()
 	local def = ShipDef[ShipType.value]
 	local usedSlots = ShipEquip.usedSlots
-	local freeCargo = math.min(def.equipSlotCapacity.cargo, def.capacity - ShipEquip.mass)
+	local freeCargo = def.cargo
 	self.cargo.valid = true
 	self.equip.valid = true
 	local eq_n_cargo = { valid = true }
