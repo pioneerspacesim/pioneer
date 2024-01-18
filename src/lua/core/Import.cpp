@@ -24,42 +24,42 @@
 #endif
 
 /**
-*	We use Lua's require() functionality, but with a twist.
-*
-*	When specifying a module name to `require()`, beginning the module name
-*	with a separator (`.`) is syntactic sugar for prepending the source
-*	directory of the calling file to the module name, forming a system of
-*	relative name lookup.
-*
-*	Relative name lookup cannot ascend levels in the filesystem, nor can it be
-*	used to exit the virtual filesystem. It's merely a shorthand to implicitly
-*	specify the module name of the calling file as a prefix to the module name
-*	passed to `require()`. This is done as follows:
-*
-*		-- when called from myname/modname/mod-load.lua
-*		require '.module-A'
-*		-- this call is transformed into:
-*		require 'myname.modname.module-A'
-*
-*	Once the full module name has been established, it is run through several
-*	levels of lookup. First, the module name is tested against the import
-*	cache, then against the list of modules registered by C++ code. Finally,
-*	it is converted into a file path and tested against the filesystem to
-*	load a lua file from disk.
-*
-*	Filesystem lookup follows the usual rules; a file in a mod overrides files
-*	earlier in the mod load order, and the overriden files cannot be loaded
-*	from disk. If there is a C++ module with a specific name, it overrides all
-*	Lua files with that name.
-*
-*	The `package.core` object stores C++ modules for convenience. Access
-*	is by standard Lua notation - `package.core.PiGui.Modules.ModelSpinner`
-*	works just fine, as does `require 'PiGui.Modules.ModelSpinner'`.
-*
-*	The `package.reimport(name)` function purges the cache for a specific
-*	module name and repeats the loading process - useful for when a file
-*	changes on disk as part of development.
-*/
+ *	We use Lua's require() functionality, but with a twist.
+ *
+ *	When specifying a module name to `require()`, beginning the module name
+ *	with a separator (`.`) is syntactic sugar for prepending the source
+ *	directory of the calling file to the module name, forming a system of
+ *	relative name lookup.
+ *
+ *	Relative name lookup cannot ascend levels in the filesystem, nor can it be
+ *	used to exit the virtual filesystem. It's merely a shorthand to implicitly
+ *	specify the module name of the calling file as a prefix to the module name
+ *	passed to `require()`. This is done as follows:
+ *
+ *		-- when called from myname/modname/mod-load.lua
+ *		require '.module-A'
+ *		-- this call is transformed into:
+ *		require 'myname.modname.module-A'
+ *
+ *	Once the full module name has been established, it is run through several
+ *	levels of lookup. First, the module name is tested against the import
+ *	cache, then against the list of modules registered by C++ code. Finally,
+ *	it is converted into a file path and tested against the filesystem to
+ *	load a lua file from disk.
+ *
+ *	Filesystem lookup follows the usual rules; a file in a mod overrides files
+ *	earlier in the mod load order, and the overriden files cannot be loaded
+ *	from disk. If there is a C++ module with a specific name, it overrides all
+ *	Lua files with that name.
+ *
+ *	The `package.core` object stores C++ modules for convenience. Access
+ *	is by standard Lua notation - `package.core.PiGui.Modules.ModelSpinner`
+ *	works just fine, as does `require 'PiGui.Modules.ModelSpinner'`.
+ *
+ *	The `package.reimport(name)` function purges the cache for a specific
+ *	module name and repeats the loading process - useful for when a file
+ *	changes on disk as part of development.
+ */
 
 // The cache table that stores file path -> module return value mappings
 static const char *IMPORT_CACHE_NAME = "Imports";
@@ -76,8 +76,8 @@ struct ImportInfo {
 };
 
 /**
-* Returns path of last element in the lua stack
-*/
+ * Returns path of last element in the lua stack
+ */
 static std::string get_caller(lua_State *L, int depth = 1)
 {
 	// XXX: Extraneous copy
@@ -114,13 +114,13 @@ static std::string get_caller(lua_State *L, int depth = 1)
 }
 
 /**
-* Generate a lua module name from a given input path.
-* If the path contains a directory component containing a separator (period)
-* this function will return an empty string, as lua module names cannot contain
-* a non-separating period.
-* This function discards the trailing component of the directory path. If you
-* wish to retain it, ensure the path string ends with '/'.
-*/
+ * Generate a lua module name from a given input path.
+ * If the path contains a directory component containing a separator (period)
+ * this function will return an empty string, as lua module names cannot contain
+ * a non-separating period.
+ * This function discards the trailing component of the directory path. If you
+ * wish to retain it, ensure the path string ends with '/'.
+ */
 static std::string path_to_module(std::string path)
 {
 	std::string module_name;
