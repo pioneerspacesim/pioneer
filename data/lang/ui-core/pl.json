@@ -133,7 +133,7 @@
   },
   "CASE_SENSITIVE": {
     "description": "",
-    "message": "Case-sensitive"
+    "message": "Uwzględniaj wielkość znaków"
   },
   "CASH": {
     "description": "",
@@ -265,7 +265,7 @@
   },
   "COULD_NOT_DELETE_SAVE": {
     "description": "",
-    "message": "Could not delete save"
+    "message": "Nie można było usunąć zapisu gry"
   },
   "COULD_NOT_LOAD_GAME": {
     "description": "",
@@ -329,11 +329,11 @@
   },
   "DELETE": {
     "description": "",
-    "message": "Delete"
+    "message": "Usuń"
   },
   "DELETE_SAVE_CONFIRMATION": {
     "description": "",
-    "message": "Are you sure you want to delete this save?"
+    "message": "Czy na pewno chcesz usunąć ten zapis gry?"
   },
   "DELTA_V": {
     "description": "",
@@ -1933,7 +1933,7 @@
   },
   "SAVE_DELETED_SUCCESSFULLY": {
     "description": "",
-    "message": "Save deleted successfully"
+    "message": "Zapis gry usunięty pomyślnie"
   },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
@@ -1949,11 +1949,11 @@
   },
   "SELECTED_SAVE_DOESNT_EXISTS": {
     "description": "",
-    "message": "Selected save doesn't exist"
+    "message": "Wybrany zapis gry nie istnieje"
   },
   "SELECTED_SAVE_IS_NOT_A_VALID_SAVE": {
     "description": "",
-    "message": "Selected save is not a valid save"
+    "message": "Wybrany zapis gry nie jest nieprawidłowym zapisem gry"
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",

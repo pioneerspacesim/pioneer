@@ -497,7 +497,7 @@
   },
   "GAME_SAVE_INVALID_NAME": {
     "description": "",
-    "message": "This saved game file could not be written because of a invalid name."
+    "message": "Ten plik zapisu gry nie mógł być zapisany z powodu nieprawidłowej nazwy."
   },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
