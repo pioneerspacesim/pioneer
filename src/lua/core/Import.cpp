@@ -146,7 +146,7 @@ static std::string path_to_module(std::string path)
 		end = path.find_first_of('/', start);
 	}
 
-	if (module_name.back() == '.')
+	if (!module_name.empty() && module_name.back() == '.')
 		module_name.pop_back();
 
 	return module_name;
