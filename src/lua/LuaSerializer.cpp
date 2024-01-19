@@ -133,18 +133,18 @@ void LuaSerializer::pickle_json(lua_State *l, int to_serialize, Json &out, const
 		lua_pushinteger(l, ptr); // ptr
 
 		lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs"); // ptr reftable
-		lua_pushvalue(l, -2); // ptr reftable ptr
-		lua_rawget(l, -2); // ptr reftable ???
+		lua_pushvalue(l, -2);										 // ptr reftable ptr
+		lua_rawget(l, -2);											 // ptr reftable ???
 
 		out["ref"] = ptr;
 
 		if (!lua_isnil(l, -1)) {
 			lua_pop(l, 3); // [empty]
 		} else {
-			lua_pushvalue(l, -3); // ptr reftable nil ptr
+			lua_pushvalue(l, -3);			// ptr reftable nil ptr
 			lua_pushvalue(l, to_serialize); // ptr reftable nil ptr table
-			lua_rawset(l, -4); // ptr reftable nil
-			lua_pop(l, 3); // [empty]
+			lua_rawset(l, -4);				// ptr reftable nil
+			lua_pop(l, 3);					// [empty]
 
 			Json inner = Json::array();
 
@@ -182,7 +182,8 @@ void LuaSerializer::pickle_json(lua_State *l, int to_serialize, Json &out, const
 			out = obj;
 		else
 			Log::Error("Lua serializer '{}' tried to serialize an invalid object\n"
-				"The save file may be invalid.\n", key.c_str());
+					   "The save file may be invalid.\n",
+				key.c_str());
 
 		lua_pop(l, 1);
 		break;
@@ -259,10 +260,10 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json &value)
 				lua_newtable(l);
 
 				lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs"); // [t] [refs]
-				lua_pushinteger(l, ptr); // [t] [refs] [key]
-				lua_pushvalue(l, -3); // [t] [refs] [key] [t]
-				lua_rawset(l, -3); // [t] [refs]
-				lua_pop(l, 1); // [t]
+				lua_pushinteger(l, ptr);									 // [t] [refs] [key]
+				lua_pushvalue(l, -3);										 // [t] [refs] [key] [t]
+				lua_rawset(l, -3);											 // [t] [refs]
+				lua_pop(l, 1);												 // [t]
 
 				const Json &inner = value["table"];
 				if (inner.size() % 2 != 0) {
@@ -278,8 +279,8 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json &value)
 			} else {
 				// Reference to a previously-pickled table.
 				lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs"); // [refs]
-				lua_pushinteger(l, ptr); // [refs] [key]
-				lua_rawget(l, -2); // [refs] [out]
+				lua_pushinteger(l, ptr);									 // [refs] [key]
+				lua_rawget(l, -2);											 // [refs] [out]
 
 				if (lua_isnil(l, -1))
 					throw SavedGameCorruptException();
@@ -306,7 +307,7 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json &value)
 							luaL_error(l, "No Unserialize method found for class '%s'\n", cl);
 						} else {
 							lua_insert(l, -3); // [klass.Unserialize] [t] [klass]
-							lua_pop(l, 1); // [klass.Unserialize] [t]
+							lua_pop(l, 1);	   // [klass.Unserialize] [t]
 
 							pi_lua_protected_call(l, 1, 1); // [t]
 							if (lua_isnil(l, -1)) {
@@ -317,10 +318,10 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json &value)
 							// NOTE: recursive references to the original table will not be affected,
 							// only references in tables deserialized later.
 							lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs"); // [t] [refs]
-							lua_pushinteger(l, ptr); // [t] [refs] [key]
-							lua_pushvalue(l, -3); // [t] [refs] [key] [t]
-							lua_rawset(l, -3); // [t] [refs]
-							lua_pop(l, 1); // [t]
+							lua_pushinteger(l, ptr);									 // [t] [refs] [key]
+							lua_pushvalue(l, -3);										 // [t] [refs] [key] [t]
+							lua_rawset(l, -3);											 // [t] [refs]
+							lua_pop(l, 1);												 // [t]
 						}
 					}
 				}
@@ -384,12 +385,12 @@ void LuaSerializer::ToJson(Json &jsonObj)
 
 	lua_pushnil(l);
 	while (lua_next(l, -2) != 0) {
-		lua_pushinteger(l, 1); // 1, fntable, key
-		lua_gettable(l, -2); // fn, fntable, key
+		lua_pushinteger(l, 1);			// 1, fntable, key
+		lua_gettable(l, -2);			// fn, fntable, key
 		pi_lua_protected_call(l, 0, 1); // table, fntable, key
-		lua_pushvalue(l, -3); // key, table, fntable, key
-		lua_insert(l, -2); // table, key, fntable, key
-		lua_settable(l, savetable); // fntable, key
+		lua_pushvalue(l, -3);			// key, table, fntable, key
+		lua_insert(l, -2);				// table, key, fntable, key
+		lua_settable(l, savetable);		// fntable, key
 		lua_pop(l, 1);
 	}
 
