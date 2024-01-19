@@ -423,14 +423,18 @@ void LuaSerializer::LoadPersistent(const Json &json)
 		std::string id = item["persistId"].get<std::string>();
 
 		lua_pushinteger(l, item["ref"].get<lua_Integer>());
-		lua_getfield(l, -2, id.c_str()); // reftable, persist, ptr, value
+		lua_getfield(l, -2, id.c_str()); // reftable, persist, ptr, pvalue
+
+		// We must unpickle the saved persistent object, because it may contain
+		// "trapped" serialized representations of non-persistent tables
+		unpickle_json(l, item);
 
 		// No valid persistent value (mismatch in serialization!)
-		if (lua_isnil(l, -1)) {
+		if (lua_isnil(l, -2)) {
 			Log::Warning("Restoring missing persistent object '{}' from savefile", id);
-			lua_pop(l, 1); // reftable, persistent
-
-			unpickle_json(l, item); // reftable, persist, ptr, value
+			lua_replace(l, -2); // reftable, persistent, ptr, svalue
+		} else {
+			lua_pop(l, 1); // reftable, persistent, ptr, pvalue
 		}
 
 		// All references to the prior saved value are replaced with the persistent object
