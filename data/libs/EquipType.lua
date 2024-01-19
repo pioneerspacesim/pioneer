@@ -4,10 +4,8 @@
 local utils = require 'utils'
 local Serializer = require 'Serializer'
 local Lang = require 'Lang'
-local ShipDef = require 'ShipDef'
 
 local Game = package.core['Game']
-local Space = package.core['Space']
 
 local laser = {}
 local hyperspace = {}
@@ -23,7 +21,8 @@ local misc = {}
 --          the object in a language-agnostic way
 --  * l10n_resource: where to look up the aforementioned key. If not specified,
 --          the system assumes "equipment-core"
---  * capabilities: a table of string->int, having at least "mass" as a valid key
+--  * capabilities: a table of string->number properties to set on the ship object.
+--          All keys will be suffixed with _cap for namespacing/convience reasons.
 --
 -- All specs are copied directly within the object (even those I know nothing about),
 -- but it is a shallow copy. This is particularly important for the capabilities, as
@@ -39,6 +38,7 @@ local misc = {}
 ---@field slot { type: string, size: integer, hardpoint: boolean } | nil
 ---@field capabilities table<string, number>?
 ---@field purchasable boolean
+---@field price number
 ---@field icon_name string?
 ---@field tech_level integer | "MILITARY"
 ---@field transient table
@@ -75,6 +75,10 @@ function EquipType.New (specs)
 
 	if not obj.icon_name then
 		obj.icon_name = "equip_generic"
+	end
+
+	if not obj.purchasable then
+		obj.price = obj.price or 0
 	end
 
 	-- TODO: remove all usage of obj.capabilities, transition to explicit volume for equipment
@@ -236,61 +240,27 @@ function EquipType:GetDescription()
 	return self.transient.description
 end
 
-local function __ApplyMassLimit(ship, capabilities, num)
-	if num <= 0 then return 0 end
-	-- we need to use mass_cap directly (not, eg, ship.freeCapacity),
-	-- because ship.freeCapacity may not have been updated when Install is called
-	-- (see implementation of EquipSet:Set)
-	local avail_mass = ShipDef[ship.shipId].capacity - (ship.mass_cap or 0)
-	local item_mass = capabilities.mass or 0
-	if item_mass > 0 then
-		num = math.min(num, math.floor(avail_mass / item_mass))
-	end
-	return num
-end
-
-local function __ApplyCapabilities(ship, capabilities, num, factor)
-	if num <= 0 then return 0 end
-	factor = factor or 1
-	for k,v in pairs(capabilities) do
-		local full_name = k.."_cap"
-		local prev = (ship:hasprop(full_name) and ship[full_name]) or 0
-		ship:setprop(full_name, (factor*v*num)+prev)
-	end
-	return num
-end
-
-function EquipType:Install(ship, num, slot)
-	local caps = self.capabilities
-	num = __ApplyMassLimit(ship, caps, num)
-	return __ApplyCapabilities(ship, caps, num, 1)
-end
-
-function EquipType:Uninstall(ship, num, slot)
-	return __ApplyCapabilities(ship, self.capabilities, num, -1)
-end
-
 -- Base type for weapons
+---@class EquipType.LaserType : EquipType
+---@field laser_stats table
 local LaserType = utils.inherits(EquipType, "LaserType")
 
-function LaserType:Install(ship, num, slot)
-	if num > 1 then num = 1 end -- FIXME: support installing multiple lasers (e.g., in the "cargo" slot?)
-	if LaserType.Super().Install(self, ship, 1, slot) < 1 then return 0 end
-	local prefix = slot..'_'
-	for k,v in pairs(self.laser_stats) do
-		ship:setprop(prefix..k, v)
+---@param ship Ship
+---@param slot ShipDef.Slot
+function LaserType:OnInstall(ship, slot)
+	for k, v in ipairs(self.laser_stats) do
+		-- TODO: allow installing more than one laser
+		ship:setprop('laser_front_' .. k, v)
 	end
-	return 1
 end
 
-function LaserType:Uninstall(ship, num, slot)
-	if num > 1 then num = 1 end -- FIXME: support uninstalling multiple lasers (e.g., in the "cargo" slot?)
-	if LaserType.Super().Uninstall(self, ship, 1) < 1 then return 0 end
-	local prefix = (slot or "laser_front").."_"
-	for k,v in pairs(self.laser_stats) do
-		ship:unsetprop(prefix..k)
+---@param ship Ship
+---@param slot ShipDef.Slot
+function LaserType:OnUninstall(ship, slot)
+	for k, v in ipairs(self.laser_stats) do
+		-- TODO: allow installing more than one laser
+		ship:setprop('laser_front_' .. k, nil)
 	end
-	return 1
 end
 
 -- Single drive type, no support for slave drives.
