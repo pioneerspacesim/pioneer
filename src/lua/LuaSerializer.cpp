@@ -85,7 +85,7 @@ void LuaSerializer::pickle_json(lua_State *l, int to_serialize, Json &out, const
 
 			lua_getfield(l, -1, cl);
 			if (lua_isnil(l, -1))
-				luaL_error(l, "No Serialize method found for class '%s'\n", cl);
+				luaL_error(l, "Class '%s' not registered for serialization\n", cl);
 
 			lua_getfield(l, -1, "Serialize");
 			if (lua_isnil(l, -1))
@@ -580,7 +580,7 @@ int LuaSerializer::l_register(lua_State *l)
  *
  * Example:
  *
- * > Serializer.RegisterClass("MyClass", MyClass)
+ * > Serializer:RegisterClass("MyClass", MyClass)
  *
  * Parameters:
  *
