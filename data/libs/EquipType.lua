@@ -457,6 +457,7 @@ LaserType:SetupPrototype()
 HyperdriveType:SetupPrototype()
 SensorType:SetupPrototype()
 BodyScannerType:SetupPrototype()
+CabinType:SetupPrototype()
 
 return {
 	laser			= laser,
