@@ -406,6 +406,18 @@ local BodyScannerType = utils.inherits(SensorType, "BodyScannerType")
 ---@field passenger Character?
 local CabinType = utils.inherits(EquipType, "Equipment.CabinType")
 
+---@param passenger Character
+function CabinType:AddPassenger(passenger)
+	self.passenger = passenger
+	self.icon_name = "equip_cabin_occupied"
+end
+
+---@param passenger Character
+function CabinType:RemovePassenger(passenger)
+	self.passenger = nil
+	self.icon_name = "equip_cabin_empty"
+end
+
 function CabinType:OnRemove(ship, slot)
 	EquipType.OnRemove(self, ship, slot)
 
