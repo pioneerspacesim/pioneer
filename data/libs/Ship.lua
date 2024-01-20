@@ -15,6 +15,7 @@ local CargoManager = require 'CargoManager'
 local CommodityType = require 'CommodityType'
 local Character = require 'Character'
 local Comms = require 'Comms'
+local EquipSet = require 'EquipSet'
 
 local l = Lang.GetResource("ui-core")
 
@@ -26,6 +27,7 @@ local l = Lang.GetResource("ui-core")
 
 function Ship:Constructor()
 	self:SetComponent('CargoManager', CargoManager.New(self))
+	self:SetComponent('EquipSet', EquipSet.New(self))
 
 	-- Timers cannot be started in ship constructors before Game is fully set,
 	-- so trigger a lazy event to setup gameplay timers.
@@ -55,50 +57,21 @@ local CrewRoster = {}
 -- Group: Methods
 --
 
--- Method: GetEquipSlotCapacity
+-- Method: GetInstalledHyperdrive
 --
--- Get the maximum number of a particular type of equipment this ship can
--- hold. This is the number of items that can be held, not the mass.
--- <AddEquip> will take care of ensuring the hull capacity is not exceeded.
+-- Return the ship's installed hyperdrive equipment item if present.
 --
--- > capacity = shiptype:GetEquipSlotCapacity(slot)
---
--- Parameters:
---
---   slot - a <Constants.EquipSlot> string for the wanted equipment type
---
--- Returns:
---
---   capacity - the maximum capacity of the equipment slot
---
--- Availability:
---
---  alpha 10
+-- > if ship:GetInstalledHyperdrive() then HyperdriveOverloadAndExplode(ship) end
 --
 -- Status:
 --
---  experimental
+--   stable
 --
-function Ship:GetEquipSlotCapacity(slot)
-	return self.equipSet:SlotSize(slot)
-end
-
--- Method: GetEquipCountOccupied
---
--- Return the number of item in a given slot
---
--- > if ship:GetEquipCountOccupied("engine") > 1 then HyperdriveOverLoadAndExplode(ship) end
---
--- Availability:
---
---  TBA
---
--- Status:
---
---  experimental
---
-function Ship:GetEquipCountOccupied(slot)
-	return self.equipSet:OccupiedSpace(slot)
+---@return Equipment.HyperdriveType? hyperdrive
+function Ship:GetInstalledHyperdrive()
+	---@type Equipment.HyperdriveType[]
+	local drives = self:GetComponent("EquipSet"):GetInstalledOfType("hyperdrive")
+	return drives[1]
 end
 
 -- Method: CountEquip
@@ -402,7 +375,7 @@ end
 --  experimental
 --
 Ship.HyperjumpTo = function (self, path, is_legal)
-	local engine = self:GetEquip("engine", 1)
+	local engine = self:GetInstalledHyperdrive()
 	local wheels = self:GetWheelState()
 	if not engine then
 		return "NO_DRIVE"
@@ -443,7 +416,7 @@ Ship.GetHyperspaceDetails = function (self, source, destination)
 		source = Game.system.path
 	end
 
-	local engine = self:GetEquip("engine", 1)
+	local engine = self:GetInstalledHyperdrive()
 	if not engine then
 		return "NO_DRIVE", 0, 0, 0
 	elseif source:IsSameSystem(destination) then
@@ -467,7 +440,7 @@ Ship.GetHyperspaceDetails = function (self, source, destination)
 end
 
 Ship.GetHyperspaceRange = function (self)
-	local engine = self:GetEquip("engine", 1)
+	local engine = self:GetInstalledHyperdrive()
 	if not engine then
 		return 0, 0
 	end
@@ -503,27 +476,18 @@ end
 --
 --   experimental
 --
-function Ship:FireMissileAt(which_missile, target)
-	local missile_object = false
-	if type(which_missile) == "number" then
-		local missile_equip = self:GetEquip("missile", which_missile)
-		if missile_equip then
-			missile_object = self:SpawnMissile(missile_equip.missile_type)
-			if missile_object ~= nil then
-				self:SetEquip("missile", which_missile)
-			end
-		end
-	else
-		for i,m in pairs(self:GetEquip("missile")) do
-			if (which_missile == m) or (which_missile == "any") then
-				missile_object = self:SpawnMissile(m.missile_type)
-				if missile_object ~= nil then
-					self:SetEquip("missile", i)
-					break
-				end
-			end
-		end
+---@param missile EquipType
+function Ship:FireMissileAt(missile, target)
+	local equipSet = self:GetComponent("EquipSet")
+
+	if missile == "any" then
+		missile = equipSet:GetInstalledOfType("missile")[1]
 	end
+
+	-- FIXME: handle multiple-count missile mounts
+	equipSet:Remove(missile)
+
+	local missile_object = self:SpawnMissile(missile.missile_type)
 
 	if missile_object then
 		if target then
@@ -958,7 +922,7 @@ local onEnterSystem = function (ship)
 			end
 		end
 	end
-	local engine = ship:GetEquip("engine", 1)
+	local engine = ship:GetInstalledHyperdrive()
 	if engine then
 		engine:OnLeaveHyperspace(ship)
 	end

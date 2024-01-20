@@ -13,7 +13,6 @@
 ---
 ---@field shipId string
 ---@field shipName string
----@field equipSet EquipSet
 ---
 ---@field flightState ShipFlightState
 ---@field alertStatus ShipAlertStatus
@@ -29,14 +28,18 @@
 --- Remaining fuel mass in tons
 ---@field fuelMassLeft number
 ---
----@field usedCapacity number
+--- Currently used equipment volume
+---@field equipVolume number
+--- Total equipment volume
+---@field totalVolume number
+---
 ---@field freeCapacity number
 ---
 ---@field usedCargo number
 ---@field totalCargo number
 ---
----@field staticMass number
----@field totalMass number
+---@field loadedMass number Mass of the equipment and cargo onboard the ship
+---@field staticMass number Hull mass + loaded mass
 ---
 ---@field hyperspaceRange number
 ---@field maxHyperspaceRange number
@@ -115,3 +118,10 @@ function Ship:GetShieldsPercent() end
 -- Sets the thruster fuel tank of the ship to the given percentage of its maximum.
 ---@param percent number
 function Ship:SetFuelPercent(percent) end
+
+-- Update ship properties after changing ship equipment or cargo
+function Ship:UpdateEquipStats() end
+
+-- Get the starport this ship is docked with, if any
+---@return SpaceStation?
+function Ship:GetDockedWith() end
