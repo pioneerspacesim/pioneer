@@ -236,14 +236,14 @@ uint32_t CollisionSpace::SortEnabledGeoms(std::vector<Geom *> &geoms)
 	// Simple O(n) sort algorithm
 	// Sort geoms according to enabled state (group all enabled geoms at start of array)
 	uint32_t startIdx = 0;
-	uint32_t endIdx = geoms.size() - 1;
+	uint32_t endIdx = geoms.size();
 
-	while (startIdx <= endIdx && endIdx) {
+	while (startIdx < endIdx) {
 		if (geoms[startIdx]->IsEnabled()) {
 			startIdx++;
 		} else {
-			std::swap(geoms[startIdx], geoms[endIdx]);
 			endIdx--;
+			std::swap(geoms[startIdx], geoms[endIdx]);
 		}
 	}
 
