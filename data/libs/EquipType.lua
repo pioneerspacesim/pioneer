@@ -292,7 +292,7 @@ end
 -- if the destination is out of range, returns: distance
 -- if the specified jump is invalid, returns nil
 function HyperdriveType:CheckJump(ship, source, destination)
-	if ship:GetEquip('engine', 1) ~= self or source:IsSameSystem(destination) then
+	if ship:GetInstalledHyperdrive() ~= self or source:IsSameSystem(destination) then
 		return nil
 	end
 	local distance = source:DistanceTo(destination)
@@ -355,18 +355,13 @@ local HYPERDRIVE_SOUNDS_MILITARY = {
 
 function HyperdriveType:HyperjumpTo(ship, destination)
 	-- First off, check that this is the primary engine.
-	local engines = ship:GetEquip('engine')
-	local primary_index = 0
-	for i,e in ipairs(engines) do
-		if e == self then
-			primary_index = i
-			break
-		end
-	end
-	if primary_index == 0 then
+	-- NOTE: this enforces the constraint that only one hyperdrive may be installed on a ship
+	local engine = ship:GetInstalledHyperdrive()
+	if engine ~= self then
 		-- wrong ship
 		return "WRONG_SHIP"
 	end
+
 	local distance, fuel_use, duration = self:CheckDestination(ship, destination)
 	if not distance then
 		return "OUT_OF_RANGE"
