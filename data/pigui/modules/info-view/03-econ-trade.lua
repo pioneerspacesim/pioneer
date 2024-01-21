@@ -7,7 +7,7 @@ local Lang = require 'Lang'
 local Game = require 'Game'
 local ShipDef = require 'ShipDef'
 local StationView = require 'pigui.views.station-view'
-local Format = require 'Format'
+local Passengers = require 'Passengers'
 local Commodities = require 'Commodities'
 local CommodityType = require 'CommodityType'
 
@@ -175,9 +175,10 @@ end
 -- Gauge bar for used/free cabins
 local function gauge_cabins()
 	local player = Game.player
-	local cabins_total = player:GetEquipCountOccupied("cabin")
-	local cabins_free = player.cabin_cap or 0
-	local cabins_used = cabins_total - cabins_free
+	local cabins_free = Passengers.CountFreeCabins(player)
+	local cabins_used = Passengers.CountOccupiedCabins(player)
+	local cabins_total = cabins_used + cabins_free
+
 	gauge_bar(cabins_used, string.format('%%i %s / %i %s', l.USED, cabins_free, l.FREE),
 		0, cabins_total, icons.personal)
 end
@@ -288,7 +289,7 @@ InfoView:registerView({
 		end)
 
 		shipDef = ShipDef[Game.player.shipId]
-		hyperdrive = table.unpack(Game.player:GetEquip("engine")) or nil
+		hyperdrive = Game.player:GetInstalledHyperdrive()
 		hyperdrive_fuel = hyperdrive and hyperdrive.fuel or Commodities.hydrogen
 	end,
 

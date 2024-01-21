@@ -115,7 +115,7 @@ local function buildJumpRouteList()
 	-- if we are not in the system, then we are in hyperspace, we start building the route from the jump target
 	local start = Game.system and Game.system.path or player:GetHyperspaceDestination()
 
-	local drive = table.unpack(player:GetEquip("engine")) or nil
+	local drive = player:GetInstalledHyperdrive()
 	local fuel_type = drive and drive.fuel or Commodities.hydrogen
 
 	local cur_fuel = player:GetComponent('CargoManager'):CountCommodity(fuel_type)
@@ -307,7 +307,7 @@ function hyperJumpPlanner.display()
 		textIconSize = ui.calcTextSize("H")
 		textIconSize.x = textIconSize.y -- make square
 	end
-	local drive = table.unpack(Game.player:GetEquip("engine")) or nil
+	local drive = Game.player:GetInstalledHyperdrive()
 	local fuel_type = drive and drive.fuel or Commodities.hydrogen
 	current_system = Game.system -- will be nil during the hyperjump
 	current_path = Game.system and current_system.path -- will be nil during the hyperjump
@@ -321,7 +321,7 @@ function hyperJumpPlanner.setSectorView(sv)
 end
 
 function hyperJumpPlanner.onPlayerCargoChanged(comm, count)
-	local drive = table.unpack(Game.player:GetEquip("engine")) or nil
+	local drive = Game.player:GetInstalledHyperdrive()
 	local fuel_type = drive and drive.fuel or Commodities.hydrogen
 
 	if comm.name == fuel_type.name then
