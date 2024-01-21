@@ -171,6 +171,7 @@ function utils.filter_table(table, predicate)
 	end
 	return t
 end
+
 --
 -- Function: filter_array
 --
@@ -185,10 +186,26 @@ end
 ---@param predicate fun(v: T): boolean
 function utils.filter_array(array, predicate)
 	local t = {}
-	for i, v in ipairs(array) do
+	for _, v in ipairs(array) do
 		if predicate(v) then table.insert(t, v) end
 	end
 	return t
+end
+
+-- Function: to_array
+--
+-- Filters the values of the given table and converts them to an array.
+-- Key iteration order is undefined (uses pairs() internally).
+---@generic K, V
+---@param t table<K, V>
+---@param predicate fun(v: V): boolean
+---@return V[]
+utils.to_array = function(t, predicate)
+	local out = {}
+	for _, v in pairs(t) do
+		if predicate(v) then table.insert(out, v) end
+	end
+	return out
 end
 
 --
