@@ -91,19 +91,19 @@ local function manufacturerIcon (manufacturer)
 	end
 end
 
-
-local tradeInValue = function(shipDef)
-	local value = shipDef.basePrice * shipSellPriceReduction * Game.player.hullPercent/100
+---@param ship Ship
+local tradeInValue = function(ship)
+	local shipDef = ShipDef[ship.shipId]
+	local value = shipDef.basePrice * shipSellPriceReduction * ship.hullPercent/100
 
 	if shipDef.hyperdriveClass > 0 then
 		value = value - Equipment.hyperspace["hyperdrive_" .. shipDef.hyperdriveClass].price * equipSellPriceReduction
 	end
 
-	for _, t in pairs({Equipment.misc, Equipment.hyperspace, Equipment.laser}) do
-		for _, e in pairs(t) do
-			local n = Game.player:CountEquip(e)
-			value = value + n * e.price * equipSellPriceReduction
-		end
+	local equipment = ship:GetComponent("EquipSet"):GetInstalledEquipment()
+	for _, e in ipairs(equipment) do
+		local n = e.count or 1
+		value = value + n * e.price * equipSellPriceReduction
 	end
 
 	return math.ceil(value)
@@ -114,7 +114,7 @@ local function buyShip (mkt, sos)
 	local station = player:GetDockedWith()
 	local def = sos.def
 
-	local cost = def.basePrice - tradeInValue(ShipDef[Game.player.shipId])
+	local cost = def.basePrice - tradeInValue(Game.player)
 	if math.floor(cost) ~= cost then
 		error("Ship price non-integer value.")
 	end
@@ -218,7 +218,7 @@ function FormatAndCompareShips:compare_and_draw_column(desc, a, b, fmt_a, fmt_b)
 	else
 		ui.textAligned(new_str, 1.0)
 		ui.tableSetColumnIndex(2 + self.column)
-		ui.dummy( Vector2(ui.getTextLineHeight()) )		
+		ui.dummy( Vector2(ui.getTextLineHeight()) )
 	end
 
 	if self.column == 0 then
@@ -258,7 +258,7 @@ end
 
 function FormatAndCompareShips:draw_deltav_cell(desc, massNumeratorKey, massDenominatorKey)
 	local deltavA = self.def.effectiveExhaustVelocity * math.log( self:get_value(massNumeratorKey) / self.b:get_value(massDenominatorKey) )
-	local deltavB = self.b.def.effectiveExhaustVelocity * math.log( self.b:get_value(massNumeratorKey) / self.b:get_value(massDenominatorKey) )	
+	local deltavB = self.b.def.effectiveExhaustVelocity * math.log( self.b:get_value(massNumeratorKey) / self.b:get_value(massDenominatorKey) )
 
 	local function fmt( v )
 		return string.format("%d km/s", v / 1000)
@@ -341,7 +341,7 @@ local tradeMenu = function()
 				ui.withFont(pionillium.heading, function()
 					ui.text(l.PRICE..": "..Format.Money(selectedItem.def.basePrice, false))
 					ui.sameLine()
-					ui.text(l.AFTER_TRADE_IN..": "..Format.Money(selectedItem.def.basePrice - tradeInValue(ShipDef[Game.player.shipId]), false))
+					ui.text(l.AFTER_TRADE_IN..": "..Format.Money(selectedItem.def.basePrice - tradeInValue(Game.player), false))
 				end)
 
 				ui.nextColumn()
@@ -388,7 +388,7 @@ local tradeMenu = function()
 						shipFormatAndCompare:draw_deltav_cell( l.DELTA_V_MAX, "fullMass", "hullMass")
 						shipFormatAndCompare:draw_equip_slot_cell( l.MISSILE_MOUNTS, "missile" )
 						shipFormatAndCompare:draw_yes_no_equip_slot_cell( l.ATMOSPHERIC_SHIELDING, "atmo_shield" )
-						shipFormatAndCompare:draw_atmos_pressure_limit_cell( l.ATMO_PRESS_LIMIT ) 
+						shipFormatAndCompare:draw_atmos_pressure_limit_cell( l.ATMO_PRESS_LIMIT )
 						shipFormatAndCompare:draw_equip_slot_cell( l.SCOOP_MOUNTS, "scoop" )
 						shipFormatAndCompare:draw_equip_slot_cell( l.PASSENGER_CABIN_CAPACITY, "cabin" )
 
