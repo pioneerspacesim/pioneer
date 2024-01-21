@@ -316,6 +316,7 @@ add_subdirectory(src/lua)
 
 if (WIN32)
 	string(TIMESTAMP BUILD_YEAR "%Y")
+	string(TIMESTAMP BUILD_DATE "%Y%m%d")
 	set(RESOURCES ${CMAKE_BINARY_DIR}/pioneer.rc)
 	configure_file(pioneer.rc.cmakein ${RESOURCES} @ONLY)
 endif()
