@@ -352,6 +352,9 @@ end
 function hyperJumpPlanner.onGameStart()
 	-- get notified when the player buys hydrogen
 	Game.player:GetComponent('CargoManager'):AddListener('hyperjump-planner', hyperJumpPlanner.onPlayerCargoChanged)
+	-- we may have just loaded a jump route list, so lets build it fresh now
+	buildJumpRouteList()
+
 end
 
 function hyperJumpPlanner.onGameEnd()
