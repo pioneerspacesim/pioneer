@@ -513,10 +513,15 @@ end
 --
 -- Remove the given value element from the passed array table
 --
+-- Returns the index that the element was removed from or nil if it wasn't removed
 utils.remove_elem = function(t, val)
 	for i = #t, 1, -1 do
-		if t[i] == val then table.remove(t, i) end
+		if t[i] == val then
+			table.remove(t, i)
+			return i
+		end
 	end
+	return nil
 end
 
 --
