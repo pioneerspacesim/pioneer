@@ -340,6 +340,10 @@ ui.Format = {
 			return string.format("%d%s%s", number, res, deci)
 		end
 	end,
+	-- Format a volume quantity in cubic meters
+	Volume = function(number, places)
+		return ui.Format.Number(number, places or 1) .. lc.UNIT_CUBIC_METERS
+	end,
 	SystemPath = function(path)
 		local sectorString = "("..path.sectorX..", "..path.sectorY..", "..path.sectorZ..")"
 		if path:IsSectorPath() then
