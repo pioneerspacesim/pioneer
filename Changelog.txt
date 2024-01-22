@@ -6,6 +6,8 @@ January 2024
     * System overview icon upscale and update (#5540)
     * Make ship market comparison colors colorblind friendly (#5715)
     * Unify / re-balance mission travel time implementation (#5707)
+    * Stop TradeShips from performing illegal Hyperjumps (#5647)
+    * Improve planet rings shaders (#5708)
 
   * Internal Changes
     * Release will now also build an AppImage (#5682)
@@ -13,10 +15,13 @@ January 2024
     * Refactor Event Queues (#5671)
     * Add Space.GetBodiesNear(), ProximityQuery module (#5637)
     * Fix undefined behaviour in CommandBufferGL.cpp (#5694)
+    * Hardcode the project version, for packagers (#5713)
+    * Lua serializer comment error tweak (#5718)
 
   * Fixes
     * Avoid misaligned read when loading SGM files (#5692)
     * Remove transparent backgrounds from screenshots (#5660)
+    * Fix assert on startup when calling back on an empty string (#5717)
 
 December 2023
   * Fixes
