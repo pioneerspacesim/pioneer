@@ -11,6 +11,7 @@ on:
     paths:
     - 'src/**.cpp'
     - 'src/**.h'
+    - '**/CMakeLists.txt'
   release:
     types: [published]
 
