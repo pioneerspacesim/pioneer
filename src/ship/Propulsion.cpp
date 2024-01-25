@@ -61,6 +61,8 @@ Propulsion::Propulsion()
 	m_reserveFuel = 0.0;
 	m_fuelStateChange = false;
 	m_linThrusters = vector3d(0, 0, 0);
+	m_linThrustersTarget = vector3d(0, 0, 0);
+	m_maxJerk = 9.8; // g/s
 	m_angThrusters = vector3d(0, 0, 0);
 	m_smodel = nullptr;
 	m_dBody = nullptr;
@@ -150,15 +152,15 @@ vector3d Propulsion::ClampLinThrusterState(const vector3d &levels) const
 void Propulsion::SetLinThrusterState(int axis, double level)
 {
 	if (m_thrusterFuel <= 0.f) level = 0.0;
-	m_linThrusters[axis] = ClampLinThrusterState(axis, level);
+	m_linThrustersTarget[axis] = ClampLinThrusterState(axis, level);
 }
 
 void Propulsion::SetLinThrusterState(const vector3d &levels)
 {
 	if (m_thrusterFuel <= 0.f) {
-		m_linThrusters = vector3d(0.0);
+		m_linThrustersTarget = vector3d(0.0);
 	} else {
-		m_linThrusters = ClampLinThrusterState(levels);
+		m_linThrustersTarget = ClampLinThrusterState(levels);
 	}
 }
 
@@ -216,6 +218,22 @@ void Propulsion::UpdateFuel(const float timeStep)
 	FuelState lastState = GetFuelState();
 	m_thrusterFuel -= timeStep * (totalThrust * fuelUseRate);
 	FuelState currentState = GetFuelState();
+
+	// smooth thrust
+	const double mass = m_dBody->GetMass();
+	vector3d diffThrusters = m_linThrustersTarget - m_linThrusters;
+	vector3d diffThrust = diffThrusters * GetThrustUncapped(diffThrusters);
+	vector3d diffAcceleration = diffThrust / mass;
+
+	// how much time left to get desired thrust levels
+	double timeLeft = diffAcceleration.Length() / m_maxJerk;
+
+	if (timeLeft > timeStep) {
+		m_linThrusters += diffThrusters * (timeStep / timeLeft);
+//		Output("acceleration: time left %lf/%lf seconds\n", timeStep, timeLeft);
+	} else {
+		m_linThrusters = m_linThrustersTarget;
+	}
 
 	if (currentState != lastState)
 		m_fuelStateChange = true;
