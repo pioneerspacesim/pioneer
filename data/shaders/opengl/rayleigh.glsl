@@ -68,6 +68,21 @@ float predictDensityIn(const in float radius, const in float atmosphereHeight, c
 	}
 }
 
+float predictDensityInOut(const in vec3 sample, const in vec3 dir, const in vec3 center, const in float radius, const in float atmosphereHeight, const in vec3 coefficients)
+{
+    float h, t;
+    findClosestHeight(h, t, sample, dir, center);
+    h -= radius;
+
+    float opticalDepth = 0.f;
+    // find out-scattering density
+    opticalDepth = predictDensityOut(atmosphereHeight, h, coefficients.x, coefficients.y);
+
+    // apply in-scattering filter
+    opticalDepth *= predictDensityIn(radius, atmosphereHeight, h, coefficients.z, t);
+    return opticalDepth;
+}
+
 vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const in vec3 center, const in vec2 atmosDist)
 {
 	vec3 betaR = vec3(3.8e-6f, 13.5e-6f, 33.1e-6f);
@@ -91,17 +106,6 @@ vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const i
 	float g = 0.76f;
 	float phaseM = 3.f / (8.f * 3.141592) * ((1.f - g * g) * (1.f + mu * mu)) / ((2.f + g * g) * pow(1.f + g * g - 2.f * g * mu, 1.5f));
 
-	float kR, bR, cR;
-	float kM, bM, cM;
-
-	kR = coefficientsR.x;
-	bR = coefficientsR.y;
-	cR = coefficientsR.z;
-
-	kM = coefficientsM.x;
-	bM = coefficientsM.y;
-	cM = coefficientsM.z;
-
 	for (int i = 0; i < numSamples; ++i) {
 		vec3 samplePosition = vec3(tCurrent + segmentLength * 0.5f) * dir;
 		float hr, hm;
@@ -113,17 +117,8 @@ vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const i
 		float opticalDepthLightR = 0, opticalDepthLightM = 0;
 		vec3 samplePositionLight = samplePosition;
 
-		float hl, tl;
-		findClosestHeight(hl, tl, samplePositionLight, sunDirection, center);
-		hl -= earthRadius;
-
-		// find out-scattering density
-		opticalDepthLightR = predictDensityOut(atmosphereHeight, hl, kR, bR);
-		opticalDepthLightM = predictDensityOut(atmosphereHeight, hl, kM, bM);
-
-		// apply in-scattering filter
-		opticalDepthLightR *= predictDensityIn(earthRadius, atmosphereHeight, hl, cR, tl);
-		opticalDepthLightM *= predictDensityIn(earthRadius, atmosphereHeight, hl, cM, tl);
+		opticalDepthLightR = predictDensityInOut(samplePositionLight, sunDirection, sampleGeoCenter, earthRadius, atmosphereHeight, coefficientsR);
+		opticalDepthLightM = predictDensityInOut(samplePositionLight, sunDirection, sampleGeoCenter, earthRadius, atmosphereHeight, coefficientsM);
 
 		vec3 tau = -(betaR * (opticalDepthR + opticalDepthLightR) + betaM * 1.1f * (opticalDepthM + opticalDepthLightM));
 		vec3 tauR = tau + vec3(hr);
