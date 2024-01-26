@@ -196,6 +196,7 @@ local function startGame(gameParams)
 			logWarning("Wrong entry for the station flight log")
 		end
 	end
+	FlightLog.OrganizeEntries()
 
 	if gameParams.autoExec then
 		gameParams.autoExec()

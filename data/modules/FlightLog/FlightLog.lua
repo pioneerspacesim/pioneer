@@ -364,6 +364,17 @@ local AddStationToLog = function (ship, station)
 	FlightLog.AddEntry( FlightLogEntry.Station.New( station.path, Game.time, Game.player:GetMoney(), nil ) )
 end
 
+function FlightLog.OrganizeEntries()
+
+	local function sortf( a, b )
+		return a.sort_date > b.sort_date
+	end
+
+	table.sort( FlightLogData, sortf )
+
+	CollapseSystemEvents()
+end
+
 -- LOADING AND SAVING
 
 local loaded_data
@@ -397,13 +408,7 @@ local onGameStart = function ()
 			table.insert(FlightLogData, FlightLogEntry.Custom.Unserialize(data))
 		end
 
-		local function sortf( a, b )
-			return a.sort_date > b.sort_date
-		end
-
-		table.sort( FlightLogData, sortf )
-
-		CollapseSystemEvents()
+		FlightLog.OrganizeEntries()
 
 	elseif loaded_data and loaded_data.Version > 1 then
 		FlightLogData = loaded_data.Data
