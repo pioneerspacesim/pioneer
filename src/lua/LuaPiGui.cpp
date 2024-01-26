@@ -901,6 +901,14 @@ static int l_pigui_set_next_window_pos(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_set_next_window_collapsed(lua_State *l)
+{
+	const bool collapsed = LuaPull<bool>(l, 1, true);
+	PROFILE_SCOPED()
+	ImGui::SetNextWindowCollapsed(collapsed);
+	return 0;
+}
+
 static int l_pigui_set_next_window_focus(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -3292,6 +3300,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "SetNextWindowPos", l_pigui_set_next_window_pos },
 		{ "SetNextWindowSize", l_pigui_set_next_window_size },
 		{ "SetNextWindowSizeConstraints", l_pigui_set_next_window_size_constraints },
+		{ "SetNextWindowCollapsed", l_pigui_set_next_window_collapsed },
 		{ "SetNextWindowFocus", l_pigui_set_next_window_focus },
 		{ "SetWindowFocus", l_pigui_set_window_focus },
 		{ "GetKeyBinding", l_pigui_get_keybinding },

@@ -22,6 +22,8 @@ ui.getWindowContentSize = pigui.GetWindowContentSize ---@type fun(name: string):
 ui.setNextWindowPos = pigui.SetNextWindowPos ---@type fun(pos: Vector2, cond: string, pivot: Vector2?)
 ui.setNextWindowSize = pigui.SetNextWindowSize ---@type fun(size: Vector2, cond: string)
 ui.setNextWindowSizeConstraints = pigui.SetNextWindowSizeConstraints ---@type fun(min: Vector2, max: Vector2)
+--- Collapse or expand the next window
+ui.setNextWindowCollapsed = pigui.SetNextWindowCollapsed ---@type fun(collapse: boolean?)
 
 -- Forwarded as-is for use in complicated layout primitives without introducing additional scopes
 ui.beginGroup = pigui.BeginGroup
