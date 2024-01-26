@@ -230,9 +230,8 @@ vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const i
 	processRay(sumR, sumM, opticalDepth, sunDirection, dir, atmosphere_minus_shadow.zw, center, diffuse, uneclipsed);
 
 	float mu = dot(dir, sunDirection); // mu in the paper which is the cosine of the angle between the sun direction and the ray direction
-	float phaseR = 3.f / (16.f * 3.141592) * (1 + mu * mu);
-	float g = 0.76f;
-	float phaseM = 3.f / (8.f * 3.141592) * ((1.f - g * g) * (1.f + mu * mu)) / ((2.f + g * g) * pow(1.f + g * g - 2.f * g * mu, 1.5f));
+	float phaseR = rayleighPhaseFunction(mu);
+	float phaseM = miePhaseFunction(0.76f, mu);
 
 	vec3 ret = (sumR * betaR * phaseR + sumM * betaM * phaseM);
 	return ret;
