@@ -108,6 +108,7 @@ vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const i
 
 	for (int i = 0; i < numSamples; ++i) {
 		vec3 samplePosition = vec3(tCurrent + segmentLength * 0.5f) * dir;
+
 		float hr, hm;
 		scatter(hr, hm, samplePosition, center);
 		opticalDepthR += exp(hr) * segmentLength;
@@ -116,6 +117,15 @@ vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const i
 		// light optical depth
 		float opticalDepthLightR = 0, opticalDepthLightM = 0;
 		vec3 samplePositionLight = samplePosition;
+
+		// if light ray intersects planet, continue
+		vec3 sampleGeoCenter = center - samplePosition;
+		vec2 groundLightDist = raySphereIntersect(sampleGeoCenter, sunDirection, geosphereRadius);
+		if (groundLightDist.x > 0.f) {
+			// light ray intersects
+			tCurrent += segmentLength;
+			continue;
+		}
 
 		opticalDepthLightR = predictDensityInOut(samplePositionLight, sunDirection, sampleGeoCenter, earthRadius, atmosphereHeight, coefficientsR);
 		opticalDepthLightM = predictDensityInOut(samplePositionLight, sunDirection, sampleGeoCenter, earthRadius, atmosphereHeight, coefficientsM);
