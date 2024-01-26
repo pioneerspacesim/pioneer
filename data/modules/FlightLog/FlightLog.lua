@@ -103,11 +103,11 @@ local function TrimLogSize()
 						ConsiderCollapseSystemEventPair( i-1 )
 					end
 
-					if NonCustomElementCount <= MaxTotalNonCustomElements then 
+					if NonCustomElementCount <= MaxTotalNonCustomElements then
 						return
 					end
 				end
-			end	
+			end
 		end
 	end
 end
@@ -125,12 +125,12 @@ end
 function FlightLog.AddEntry(entry)
 	table.insert(FlightLogData, 1, entry )
 
-	if not entry:IsCustom() then 
+	if not entry:IsCustom() then
 		AdjustNonCustomElementCount( 1 )
 	end
 
 	if not ConsiderCollapseSystemEventPair(1) then
-		TrimLogSize() 
+		TrimLogSize()
 	end
 end
 
@@ -171,7 +171,7 @@ end
 --   text - Text to accompany the log
 --
 ---@param text string?
-function FlightLog:MakeCustomEntry(text)
+function FlightLog.MakeCustomEntry(text)
 	text = text or ""
 	local location = ""
 	local state = Game.player:GetFlightState()
@@ -224,7 +224,7 @@ end
 --    types - A table where keys are log types to include and the value is a boolean, set to true to include that type
 --    maximum  - An optional integer, with the maximum number of entries to include
 --    earliest_first - An optional boolean to say if the log should be ordered in chronological order or reverse chronological order
--- 
+--
 -- Returns:
 --
 --    An iterator function that when called repeatedly returns the next entry or nil when complete
@@ -232,7 +232,7 @@ end
 ---@param types table<string,boolean>?
 ---@param maximum integer?
 ---@param earliest_first boolean?
---- 
+---
 ---@return fun():FlightLogEntry.Base
 function FlightLog:GetLogEntries(types, maximum, earliest_first)
 
@@ -244,10 +244,10 @@ function FlightLog:GetLogEntries(types, maximum, earliest_first)
 
 			local v
 			if earliest_first then
-				v = FlightLogData[(#FlightLogData+1) - counter]				
+				v = FlightLogData[(#FlightLogData+1) - counter]
 			else
 				v = FlightLogData[counter]
-			end			
+			end
 			-- TODO: Can we map the types to serialization indexes and check these
 			-- as they may be faster than the  manipulation comapare stuff.
 			if nil == types or types[ v:GetType() ] then
@@ -263,7 +263,7 @@ end
 -- onLeaveSystem
 local AddSystemDepartureToLog = function (ship)
 	if not ship:IsPlayer() then return end
-	
+
 	FlightLog.AddEntry( FlightLogEntry.System.New( Game.system.path, nil, Game.time, nil ) )
 end
 
@@ -289,7 +289,7 @@ local onGameStart = function ()
 
 	if loaded_data and loaded_data.Version == 1 then
 
-		for _, v in pairs( loaded_data.System ) do		
+		for _, v in pairs( loaded_data.System ) do
 
 			local data = { systemp = v[1], arrtime = v[2], deptime = nil, entry = v[4] }
 			if ( data.arrtime ~= nil ) then
@@ -308,7 +308,7 @@ local onGameStart = function ()
 			local data = { systemp = v[1], deptime = v[2], money = v[3], entry = v[4] }
 			table.insert(FlightLogData, FlightLogEntry.Station.Unserialize(data))
 		end
-		
+
 		for _, v in pairs( loaded_data.Custom ) do
 			local data = { systemp = v[1], time = v[2], money = v[3], location = v[4], entry = v[5] }
 			table.insert(FlightLogData, FlightLogEntry.Custom.Unserialize(data))
@@ -317,7 +317,7 @@ local onGameStart = function ()
 		local function sortf( a, b )
 			return a.sort_date > b.sort_date
 		end
-	
+
 		table.sort( FlightLogData, sortf )
 
 		CollapseSystemEvents()
@@ -342,7 +342,7 @@ local onGameEnd = function ()
 end
 
 local serialize = function ()
-	return { 
+	return {
 		Data = FlightLogData,
 		Version = 2 -- version for backwards compatibility
 	}
