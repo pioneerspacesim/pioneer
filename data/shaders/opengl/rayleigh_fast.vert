@@ -19,14 +19,13 @@ void main(void)
 	vec3 specularHighlight = vec3(0.0);
 
 	vec2 skyDist = raySphereIntersect(geosphereCenter, eyenorm, geosphereAtmosTopRad);
-	skyDist *= geosphereRadius;
 
 #if (NUM_LIGHTS > 0)
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		vec3 lightDir = normalize(vec3(uLight[i].position));
 
 		vec3 sphereCenter = geosphereCenter * geosphereRadius;
-		specularHighlight += computeIncidentLight(lightDir, eyenorm, sphereCenter, skyDist.x, skyDist.y) * INV_NUM_LIGHTS;
+		specularHighlight += computeIncidentLight(lightDir, eyenorm, sphereCenter, skyDist) * INV_NUM_LIGHTS;
 	}
 #endif
 

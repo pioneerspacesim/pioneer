@@ -50,10 +50,8 @@ void main(void)
 
 		// Convert from radius-relative to real coordinates
 		vec3 center = geosphereCenter * geosphereRadius;
-		float skyNear = atmosDist.x * geosphereRadius;
-		float skyFar = atmosDist.y * geosphereRadius;
 
-		specularHighlight += computeIncidentLight(lightDir, eyenorm, center, skyNear, skyFar) * INV_NUM_LIGHTS;
+		specularHighlight += computeIncidentLight(lightDir, eyenorm, center, atmosDist) * INV_NUM_LIGHTS;
 	}
 #endif
 
