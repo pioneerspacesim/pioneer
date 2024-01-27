@@ -1327,6 +1327,18 @@
     "description": "Label tab for showing custom logged events",
     "message": "Личен дневник"
   },
+  "LOG_EARLIEST_FIRST": {
+    "description": "Show the log entries in chronological order, earliest first",
+    "message": "Възходящ ред"
+  },
+  "LOG_EXPORT": {
+    "description": "Export the log",
+    "message": "Експортиране"
+  },
+  "LOG_HTML": {
+    "description": "Export the log as HTML or not",
+    "message": "HTML"
+  },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
     "message": "Нова записка"

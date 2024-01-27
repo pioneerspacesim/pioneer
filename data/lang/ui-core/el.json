@@ -1327,6 +1327,18 @@
     "description": "Label tab for showing custom logged events",
     "message": "Προσαρμοσμένο ημερολόγιο"
   },
+  "LOG_EARLIEST_FIRST": {
+    "description": "Show the log entries in chronological order, earliest first",
+    "message": "Order earliest first"
+  },
+  "LOG_EXPORT": {
+    "description": "Export the log",
+    "message": "Export"
+  },
+  "LOG_HTML": {
+    "description": "Export the log as HTML or not",
+    "message": "HTML"
+  },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
     "message": "Νέα καταχώριση"
