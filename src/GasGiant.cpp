@@ -707,7 +707,19 @@ void GasGiant::SetUpMaterials()
 		rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
 		rsd.cullMode = Graphics::CULL_NONE;
 		rsd.depthWrite = false;
-		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("geosphere_sky", skyDesc, rsd));
+
+		const int scattering = Pi::config->Int("RealisticScattering");
+		switch (scattering) {
+		case 1:
+			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_fast", skyDesc, rsd));
+			break;
+		case 2:
+			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_accurate", skyDesc, rsd));
+			break;
+		default:
+			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("geosphere_sky", skyDesc, rsd));
+			break;
+		}
 	}
 }
 

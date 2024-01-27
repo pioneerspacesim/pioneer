@@ -648,8 +648,8 @@ void SectorMap::Draw3D()
 	if (!m_sphereParams.empty()) {
 		for (const auto& s : m_sphereParams) {
 			m_context.renderer->SetTransform(s.trans);
-			m_sphere->GetMaterial()->diffuse = s.color;
-			m_sphere->Draw(m_context.renderer);
+			m_fresnelMat->diffuse = s.color;
+			m_sphere->Draw(m_context.renderer, m_fresnelMat.Get());
 		}
 	}
 }
@@ -1208,7 +1208,7 @@ void SectorMap::Update(float frameTime)
 		Graphics::MaterialDescriptor matdesc;
 		m_fresnelMat.Reset(m_context.renderer->CreateMaterial("fresnel_sphere", matdesc, rsd));
 		m_fresnelMat->diffuse = Color::WHITE;
-		m_sphere.reset(new Graphics::Drawables::Sphere3D(m_context.renderer, m_fresnelMat, 4, 1.0f));
+		m_sphere.reset(new Graphics::Drawables::Sphere3D(m_context.renderer, 4, 1.0f));
 	}
 	m_sphereParams.clear();
 	m_lineVerts->Clear();

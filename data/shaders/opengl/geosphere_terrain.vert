@@ -24,7 +24,7 @@ void main(void)
 	varyingNormal = normalize(normalMatrix() * a_normal);
 
 	texCoord0 = a_uv0.xy;
-	dist = abs(varyingEyepos.z);
+	dist = length(varyingEyepos);
 
 #ifdef TERRAIN_WITH_LAVA
 	varyingEmission = material.emission;

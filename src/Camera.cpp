@@ -129,8 +129,6 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 	// IsRotFrame check prevents double counting
 	if (body && !frame->IsRotFrame() && (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)) {
 		vector3d lpos = frame->GetPositionRelTo(camFrame->GetId());
-		const double dist = lpos.Length() / AU;
-		lpos *= 1.0 / dist; // normalize
 
 		const Color &col = StarSystem::starRealColors[body->GetType()];
 

@@ -165,6 +165,16 @@ local function showVideoOptions()
 	local gpuJobs = Engine.GetGpuJobsEnabled()
 	local disableScreenshotInfo = Engine.GetDisableScreenshotInfo()
 
+	-- Scattering is still an experimental feature
+	local experimental = "[" .. lui.EXPERIMENTAL .. "] "
+	local scatteringLabels = {
+		lui.SCATTERING_OLD,
+		experimental .. lui.RAYLEIGH_FAST,
+		experimental .. lui.RAYLEIGH_ACCURATE
+	}
+
+	local realisticScattering = Engine.GetRealisticScattering()
+
 	local cityDetail = keyOf(detailLabels,keyOf(detailLevels, Engine.GetCityDetailLevel()))-1
 	local displayNavTunnels = Engine.GetDisplayNavTunnels()
 	local displaySpeedLines = Engine.GetDisplaySpeedLines()
@@ -185,6 +195,11 @@ local function showVideoOptions()
 	if c then
 		local aa = aaModes[aaLabels[selectedAA+1]]
 		Engine.SetMultisampling(aa)
+	end
+
+	c,scattering = combo(lui.REALISTIC_SCATTERING, realisticScattering, scatteringLabels, lui.REALISTIC_SCATTERING_DESC)
+	if c then
+		Engine.SetRealisticScattering(scattering)
 	end
 
 	ui.columns(2,"video_checkboxes",false)

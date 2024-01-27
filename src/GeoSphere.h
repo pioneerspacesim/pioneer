@@ -101,6 +101,7 @@ private:
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
 
 	virtual void SetUpMaterials() override;
+	void CreateAtmosphereMaterial();
 
 	RefCountedPtr<Graphics::Texture> m_texHi;
 	RefCountedPtr<Graphics::Texture> m_texLo;

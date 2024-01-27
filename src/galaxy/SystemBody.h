@@ -292,6 +292,10 @@ public:
 	// Calculate atmosphere density at given altitude and pressure (kg/m^3)
 	double GetAtmDensity(double altitude, double pressure) const;
 
+	// for rayleigh scattering
+	double ComputeDensity(const double radius, const double atmosphereHeight, const double h, const double scaleHeight) const;
+	vector3f GetCoefficients(const double radius, const double atmHeight, const double scaleHeight) const;
+
 	AtmosphereParameters CalcAtmosphereParams() const;
 
 	bool IsScoopable() const;

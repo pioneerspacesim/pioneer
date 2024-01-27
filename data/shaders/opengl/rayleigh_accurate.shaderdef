@@ -1,0 +1,13 @@
+## Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+## Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+Shader rayleigh_accurate
+
+Buffer LightData binding=0
+Buffer DrawData binding=1
+Buffer BaseSphereData binding=2
+
+PushConstant int NumShadows binding=0
+
+Vertex "rayleigh_accurate.vert"
+Fragment "rayleigh_accurate.frag"
