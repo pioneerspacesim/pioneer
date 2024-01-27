@@ -143,8 +143,8 @@ function ScanManager:Constructor(ship)
 	---@type ScanManager.SensorData[]
 	self.sensors = {}
 	-- The currently activated sensor that will be used for this scan
-	---@type ScanManager.SensorData
-	self.activeSensor = {}
+	---@type ScanManager.SensorData?
+	self.activeSensor = nil
 
 	-- is the ship's current position within viable scan parameters?
 	self.withinParameters = false
@@ -221,8 +221,8 @@ function ScanManager:UpdateSensorEquipInfo()
 
 end
 
----@param ScanData scan
----@return Body
+---@param scan ScanData?
+---@return Body?
 function ScanManager:GetScanBodyByType(scan)
 	scan = scan or self.activeScan
 	assert(scan, "ScanManager:GetScanBodyByType: Error: scan was nil")
@@ -231,17 +231,17 @@ function ScanManager:GetScanBodyByType(scan)
 end
 
 ---@param body Body
----@param ScanData scan
+---@param scan ScanData?
 ---@return number altitude
 ---@return number resolution
 function ScanManager:GetBodyState(body, scan)
 	scan = scan or self.activeScan
 	assert(scan, "ScanManager:GetBodyState: Error: scan was nil")
 	assert(self.scanMap[scan.id], "ScanManager:GetBodyState: Error: scan doesn't belong to current ScanManager")
+	assert(self.activeSensor, "ScanManager:GetBodyState(): have an active scan without an onboard sensor")
 
 	local altitude
 	local radius = body:GetSystemBody().radius
-	local sensor = self.activeSensor
 
 	if scan.orbital then
 		-- altitude above sea-level
@@ -252,7 +252,7 @@ function ScanManager:GetBodyState(body, scan)
 	end
 
 	-- calculate effective resolution in meters/sample at this altitude
-	local resolution = sensor.resolutionMs * altitude
+	local resolution = self.activeSensor.resolutionMs * altitude
 	return altitude, resolution
 end
 
@@ -274,6 +274,8 @@ function ScanManager:GetState()
 
 	if self.activeScan then
 		local body = self:GetScanBodyByType()
+		assert(body)
+
 		local altitude, resolution = self:GetBodyState(body)
 		local isInRange = resolution <= self.activeScan.minResolution
 
@@ -444,7 +446,7 @@ function ScanManager:CanScanBeActivated(id)
 	if body.path ~= scan.bodyPath then
 		return false
 	end
-	
+
 	if scan.orbital then
 		local altitude, resolution = self:GetBodyState(body, scan)
 		if(resolution > (scan.minResolution * 1.10)) then
@@ -523,7 +525,7 @@ function ScanManager:OnEnteredFrame(body)
 end
 
 -- Start the scanner callback
----@param force boolean
+---@param force boolean?
 ---@package
 function ScanManager:StartScanCallback(force)
 	local updateRate = self.activeScan.orbital and ORBITAL_SCAN_UPDATE_RATE or SURFACE_SCAN_UPDATE_RATE
@@ -533,7 +535,7 @@ function ScanManager:StartScanCallback(force)
 
 	-- Don't queue a new scan callback if we're already running one at the right frequency
 	-- Force this check if this function was called from ScanManager:Unserialize() because
-	-- callback is not yet setted up 
+	-- callback is not yet setted up
 	if updateRate == self.activeCallback and not force then
 		return
 	end
@@ -568,7 +570,7 @@ function ScanManager:OnUpdateScan(scan)
 	local radius = body:GetSystemBody().radius
 	local altitude, resolution = self:GetBodyState(body)
 	local currentScanPos = self.ship:GetPositionRelTo(body):normalized()
-	
+
 	if scan.orbital then
 		if(resolution > (scan.minResolution * 1.10)) then
 			self:ClearActiveScan()
@@ -578,8 +580,8 @@ function ScanManager:OnUpdateScan(scan)
 
 	-- Determine if we're currently in range to record scan data
 	local withinParams = resolution <= scan.minResolution and altitude > self.activeSensor.minAltitude
-	
-	
+
+
 
 	-- Use great-arc distance to calculate the amount of scan coverage in square meters
 	-- distance = Δσ * radius = arctan( |n1 ⨯ n2| / n1 · n2 ) * radius
