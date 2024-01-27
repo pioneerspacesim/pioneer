@@ -170,9 +170,6 @@ local function startGame(gameParams)
 		cargoMgr:AddCommodity(Commodities[id], amount)
 	end
 
-	-- XXX horrible hack here to avoid paying a spawn-in docking fee
-	player:setprop("is_first_spawn", true)
-
 	for _, entry in ipairs(gameParams.flightlog.Custom) do
 		if FlightLog.InsertCustomEntry(entry) then
 			-- ok then
