@@ -446,6 +446,7 @@ end})
 
 Event.Register("onGameStart", onGameStart)
 Event.Register("onEnterSystem", function()
+	hyperJumpPlanner.onEnterSystem()
 	hyperspaceDetailsCache = {}
 end)
 
@@ -454,18 +455,17 @@ Event.Register("onGameEnd", function()
 	searchString = ""
 	systemPaths = nil
 	leftBarMode = "SEARCH"
+
+	hyperJumpPlanner.onGameEnd()
 end)
 
--- events moved from hyperJumpPlanner
-Event.Register("onGameEnd", hyperJumpPlanner.onGameEnd)
-Event.Register("onEnterSystem", hyperJumpPlanner.onEnterSystem)
-Event.Register("onShipEquipmentChanged", hyperJumpPlanner.onShipEquipmentChanged)
+Event.Register("onShipEquipmentChanged", function(ship, ...)
+	if ship:IsPlayer() then hyperspaceDetailsCache = {} end
+	hyperJumpPlanner.onShipEquipmentChanged(ship, ...)
+end)
 
-local function clearHyperspaceCache(ship)
-	if ship and ship == player then hyperspaceDetailsCache = {} end
-end
-
-Event.Register("onShipEquipmentChanged", clearHyperspaceCache)
-Event.Register("onShipTypeChanged", clearHyperspaceCache)
+Event.Register("onShipTypeChanged", function(ship, ...)
+	if ship:IsPlayer() then hyperspaceDetailsCache = {} end
+end)
 
 return {}

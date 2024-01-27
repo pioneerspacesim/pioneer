@@ -50,6 +50,7 @@ function Event:Register(name, module, func)
 	for _, cb in ipairs(self.callbacks[name]) do
 		-- Update registered callback
 		if cb.module == module then
+			logWarning("Module {} overwriting event callback {}" % { module, func })
 			cb.func = func
 			return
 		end
