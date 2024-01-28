@@ -96,9 +96,9 @@ public:
 
 		if (dist > sv.m_playerHyperspaceRange) {
 			if (sv.m_drawOutRangeLabels) {
-				return DisplayModes::HIDE_LABEL;
-			} else {
 				return DisplayModes::SHADOW_LABEL;
+			} else {
+				return DisplayModes::HIDE_LABEL;
 			}
 		}
 		return DisplayModes::DEFAULT;
