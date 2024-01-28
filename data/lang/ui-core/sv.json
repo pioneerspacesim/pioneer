@@ -515,6 +515,10 @@
     "description": "For player reputation",
     "message": "Erfaren"
   },
+  "EXPERIMENTAL": {
+    "description": "Indicates feature/option is experimental",
+    "message": "Experimental"
+  },
   "EXPERT": {
     "description": "For player reputation",
     "message": "Expert"
@@ -1329,7 +1333,7 @@
   },
   "LOG_EARLIEST_FIRST": {
     "description": "Show the log entries in chronological order, earliest first",
-    "message": "Order earliest first"
+    "message": "Visa äldst inlägg först"
   },
   "LOG_EXPORT": {
     "description": "Export the log",
@@ -1835,6 +1839,22 @@
     "description": "",
     "message": "Betyg:"
   },
+  "RAYLEIGH_ACCURATE": {
+    "description": "",
+    "message": "Rayleigh/Mie (accurate, per-pixel)"
+  },
+  "RAYLEIGH_FAST": {
+    "description": "",
+    "message": "Rayleigh/Mie (fast, per-vertex)"
+  },
+  "REALISTIC_SCATTERING": {
+    "description": "",
+    "message": "Spridning"
+  },
+  "REALISTIC_SCATTERING_DESC": {
+    "description": "",
+    "message": "Välj spridning vid rendering av atmosfärer. (Rayleigh/Mie rekommenderas inte utan en kraftigare dator)"
+  },
   "REAR_WEAPON": {
     "description": "",
     "message": "Bakre vapen"
@@ -1946,6 +1966,10 @@
   "SAVE_DELETED_SUCCESSFULLY": {
     "description": "",
     "message": "Save deleted successfully"
+  },
+  "SCATTERING_OLD": {
+    "description": "",
+    "message": "Legacy"
   },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",

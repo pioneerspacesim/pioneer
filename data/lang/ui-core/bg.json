@@ -515,6 +515,10 @@
     "description": "For player reputation",
     "message": "Опитен"
   },
+  "EXPERIMENTAL": {
+    "description": "Indicates feature/option is experimental",
+    "message": "Експериментално"
+  },
   "EXPERT": {
     "description": "For player reputation",
     "message": "Експерт"
@@ -1835,6 +1839,22 @@
     "description": "",
     "message": "Ранг:"
   },
+  "RAYLEIGH_ACCURATE": {
+    "description": "",
+    "message": "Рейли/Мие (високо качество)"
+  },
+  "RAYLEIGH_FAST": {
+    "description": "",
+    "message": "Рейли/Мие (ниско качество)"
+  },
+  "REALISTIC_SCATTERING": {
+    "description": "",
+    "message": "Разсейване"
+  },
+  "REALISTIC_SCATTERING_DESC": {
+    "description": "",
+    "message": "Изберете разсейването при визуализиране на атмосферата. (Рейли/Мие понижава производителността)"
+  },
   "REAR_WEAPON": {
     "description": "",
     "message": "Задно оръжие"
@@ -1946,6 +1966,10 @@
   "SAVE_DELETED_SUCCESSFULLY": {
     "description": "",
     "message": "Записът е изтрит"
+  },
+  "SCATTERING_OLD": {
+    "description": "",
+    "message": "Обикновено"
   },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
