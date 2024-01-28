@@ -469,9 +469,9 @@ ui.registerModule("game", { id = 'map-sector-view', draw = function()
 end})
 
 Event.Register("onGameStart", onGameStart)
-Event.Register("onEnterSystem", function()
-	hyperJumpPlanner.onEnterSystem()
-	hyperspaceDetailsCache = {}
+Event.Register("onEnterSystem", function(ship)
+	hyperJumpPlanner.onEnterSystem(ship)
+	if ship:IsPlayer() then hyperspaceDetailsCache = {} end
 end)
 
 -- reset cached data
