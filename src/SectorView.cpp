@@ -3,16 +3,12 @@
 
 #include "SectorView.h"
 
-#include <assert.h>
-#include <cmath>
-#include <sstream>
 #include "AnimationCurves.h"
 #include "Game.h"
 #include "GameSaveError.h"
 #include "Input.h"
 #include "Json.h"
 #include "JsonUtils.h"
-#include "lua/LuaObject.h"
 #include "MathUtil.h"
 #include "Pi.h"
 #include "Player.h"
@@ -24,9 +20,13 @@
 #include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
+#include "lua/LuaObject.h"
 #include "lua/LuaRef.h"
 #include "lua/LuaTable.h"
 #include "matrix4x4.h"
+#include <assert.h>
+#include <cmath>
+#include <sstream>
 
 #include <unordered_set>
 
@@ -73,8 +73,10 @@ void SectorView::InputBinding::RegisterBindings()
 // callbacks for the SectorMap
 class SectorView::SectorMapCallbacks : public SectorMapContext::Callbacks {
 	SectorView &sv;
+
 public:
-	SectorMapCallbacks(SectorView &sv) : sv(sv) {}
+	SectorMapCallbacks(SectorView &sv) :
+		sv(sv) {}
 
 	void OnClickLabel(const SystemPath &clickedLabel) override
 	{
@@ -96,9 +98,9 @@ public:
 
 		if (dist > sv.m_playerHyperspaceRange) {
 			if (sv.m_drawOutRangeLabels) {
-				return DisplayModes::HIDE_LABEL;
-			} else {
 				return DisplayModes::SHADOW_LABEL;
+			} else {
+				return DisplayModes::HIDE_LABEL;
 			}
 		}
 		return DisplayModes::DEFAULT;
@@ -139,7 +141,6 @@ SectorView::SectorView(Game *game) :
 	m_detailBoxVisible = DETAILBOX_INFO;
 
 	InitObject();
-
 }
 
 SectorView::SectorView(const Json &jsonObj, Game *game) :
@@ -195,7 +196,7 @@ void SectorView::InitObject()
 		});
 	m_onViewReset =
 		InputBindings.mapViewReset->onPressed.connect([&]() {
-				m_map->ResetView();
+			m_map->ResetView();
 		});
 }
 
@@ -242,7 +243,7 @@ void SectorView::Draw3D()
 	// prior to modelview transformation, rotate in the opposite direction so
 	// that the billboard is always facing the camera
 	matrix4x4f rot = modelview;
-   	rot.ClearToRotOnly();
+	rot.ClearToRotOnly();
 	rot = rot.Inverse();
 	// move this disk 0.03 light years further so that it does not overlap the star, and selected indicator and hyperspace target indicator
 	m_map->AddStarBillboard(trans * rot, vector3f(0.f, 0.f, -0.03f), Color(0, 0, 204), 1.5f);
@@ -272,7 +273,6 @@ void SectorView::Draw3D()
 
 	// actually rendering
 	m_map->Draw3D();
-
 }
 
 void SectorView::DrawPiGui()
@@ -641,7 +641,6 @@ void SectorView::Update()
 	}
 
 	m_playerHyperspaceRange = LuaObject<Player>::CallMethod<float>(Pi::player, "GetHyperspaceRange");
-
 }
 
 void SectorView::ResetView()
