@@ -517,7 +517,7 @@
   },
   "EXPERIMENTAL": {
     "description": "Indicates feature/option is experimental",
-    "message": "Experimental"
+    "message": "Eksperymentalne"
   },
   "EXPERT": {
     "description": "For player reputation",
@@ -1333,11 +1333,11 @@
   },
   "LOG_EARLIEST_FIRST": {
     "description": "Show the log entries in chronological order, earliest first",
-    "message": "Order earliest first"
+    "message": "Według najstarszego"
   },
   "LOG_EXPORT": {
     "description": "Export the log",
-    "message": "Export"
+    "message": "Eksportuj"
   },
   "LOG_HTML": {
     "description": "Export the log as HTML or not",
@@ -1969,7 +1969,7 @@
   },
   "SCATTERING_OLD": {
     "description": "",
-    "message": "Legacy"
+    "message": "Spadek"
   },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",

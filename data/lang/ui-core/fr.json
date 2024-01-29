@@ -517,7 +517,7 @@
   },
   "EXPERIMENTAL": {
     "description": "Indicates feature/option is experimental",
-    "message": "Experimental"
+    "message": "Expérimental"
   },
   "EXPERT": {
     "description": "For player reputation",
@@ -1841,19 +1841,19 @@
   },
   "RAYLEIGH_ACCURATE": {
     "description": "",
-    "message": "Rayleigh/Mie (accurate, per-pixel)"
+    "message": "Rayleigh/Mie (précis, par pixel)"
   },
   "RAYLEIGH_FAST": {
     "description": "",
-    "message": "Rayleigh/Mie (fast, per-vertex)"
+    "message": "Rayleigh/Mie (rapide, par vertex)"
   },
   "REALISTIC_SCATTERING": {
     "description": "",
-    "message": "Scattering"
+    "message": "Dispersion"
   },
   "REALISTIC_SCATTERING_DESC": {
     "description": "",
-    "message": "Select scattering when rendering atmospheres. (Rayleigh/Mie is not recommended for low-end PCs)"
+    "message": "Choisir dispersion lors du rendu de l'atmosphère (Rayleigh/Mie pas recommandé pour des PC peu puissants)"
   },
   "REAR_WEAPON": {
     "description": "",
@@ -1969,7 +1969,7 @@
   },
   "SCATTERING_OLD": {
     "description": "",
-    "message": "Legacy"
+    "message": "Ancien mode de fonctionnement"
   },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
