@@ -112,7 +112,7 @@ void EditorApp::OnStartup()
 	numThreads = numThreads ? numThreads : std::max(OS::GetNumCores() - 1, 1U);
 	GetTaskGraph()->SetWorkerThreads(numThreads);
 
-	Lang::Resource &res(Lang::GetResource("core", cfg.String("Lang")));
+	Lang::Resource &res(Lang::GetResource("core", cfg.String("Lang", "en")));
 	Lang::MakeCore(res);
 
 	Graphics::RendererOGL::RegisterRenderer();
