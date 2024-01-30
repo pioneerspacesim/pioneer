@@ -483,10 +483,10 @@ static int l_sbody_attr_metallicity(lua_State *l)
 }
 
 /*
- * Attribute: volatileGas
+ * Attribute: atmosDensity
  *
- * Returns the measure of volatile gas present in the atmosphere of the body
- * 0.0 = no atmosphere, 1.0 = earth atmosphere density, 4.0+ ~= venus
+ * Returns the atmospheric density at "surface level" of the body
+ * 0.0 = no atmosphere, 1.225 = earth atmosphere density, 64+ ~= venus
  *
  * Availability:
  *
@@ -496,10 +496,10 @@ static int l_sbody_attr_metallicity(lua_State *l)
  *
  *   experimental
  */
-static int l_sbody_attr_volatileGas(lua_State *l)
+static int l_sbody_attr_atmosDensity(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
-	lua_pushnumber(l, sbody->GetVolatileGas());
+	lua_pushnumber(l, sbody->GetAtmSurfaceDensity());
 	return 1;
 }
 
@@ -521,6 +521,26 @@ static int l_sbody_attr_atmosOxidizing(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
 	lua_pushnumber(l, sbody->GetAtmosOxidizing());
+	return 1;
+}
+
+/*
+ * Attribute: surfacePressure
+ *
+ * The pressure of the atmosphere at the surface of the body (atm).
+ *
+ * Availability:
+ *
+ *   2024
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_sbody_attr_surfacePressure(lua_State *l)
+{
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	lua_pushnumber(l, sbody->GetAtmSurfacePressure());
 	return 1;
 }
 
@@ -810,8 +830,9 @@ void LuaObject<SystemBody>::RegisterClass()
 		{ "axialTilt", l_sbody_attr_axial_tilt },
 		{ "averageTemp", l_sbody_attr_average_temp },
 		{ "metallicity", l_sbody_attr_metallicity },
-		{ "volatileGas", l_sbody_attr_volatileGas },
+		{ "atmosDensity", l_sbody_attr_atmosDensity },
 		{ "atmosOxidizing", l_sbody_attr_atmosOxidizing },
+		{ "surfacePressure", l_sbody_attr_surfacePressure },
 		{ "volatileLiquid", l_sbody_attr_volatileLiquid },
 		{ "volatileIces", l_sbody_attr_volatileIces },
 		{ "volcanicity", l_sbody_attr_volcanicity },
