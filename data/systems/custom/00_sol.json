@@ -1106,8 +1106,8 @@
 				255,
 				3
 			],
-			"atmosDensity": "f1/4281008650",
-			"atmosOxidizing": "f0/3435973836",
+			"atmosDensity": "f1/1305670057",
+			"atmosOxidizing": "f0/780903168",
 			"averageTemp": 165,
 			"axialTilt": "f0/234629479",
 			"children": [
@@ -1863,8 +1863,8 @@
 				255,
 				3
 			],
-			"atmosDensity": "f0/0",
-			"atmosOxidizing": "f0/0",
+			"atmosDensity": "f1/2319282339",
+			"atmosOxidizing": "f0/317241888",
 			"averageTemp": 134,
 			"axialTilt": "f0/2003720761",
 			"children": [
@@ -2244,8 +2244,8 @@
 				255,
 				3
 			],
-			"atmosDensity": "f0/0",
-			"atmosOxidizing": "f0/0",
+			"atmosDensity": "f3/1803886264",
+			"atmosOxidizing": "f0/170822560",
 			"averageTemp": 76,
 			"axialTilt": "f1/3034018070",
 			"children": [
@@ -2438,8 +2438,8 @@
 				255,
 				3
 			],
-			"atmosDensity": "f0/0",
-			"atmosOxidizing": "f0/0",
+			"atmosDensity": "f3/2873333121",
+			"atmosOxidizing": "f0/73209672",
 			"averageTemp": 72,
 			"axialTilt": "f0/2122909538",
 			"children": [
@@ -2745,9 +2745,9 @@
 	"longDesc": "Sol is a fine joint",
 	"name": "Sol",
 	"pos": [
-		0.00800000037997961,
-		0.00800000037997961,
-		0.00800000037997961
+		0.0,
+		0.0,
+		0.0
 	],
 	"sector": [
 		0,
