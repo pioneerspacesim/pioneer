@@ -927,12 +927,13 @@ void SystemBody::Dump(FILE *file, const char *indent) const
 	fprintf(file, "%s}\n", indent);
 }
 
-void SystemBody::ClearParentAndChildPointers()
+void SystemBody::Orphan()
 {
 	PROFILE_SCOPED()
 	for (std::vector<SystemBody *>::iterator i = m_children.begin(); i != m_children.end(); ++i)
-		(*i)->ClearParentAndChildPointers();
+		(*i)->Orphan();
 	m_parent = 0;
+	m_system = 0;
 	m_children.clear();
 }
 

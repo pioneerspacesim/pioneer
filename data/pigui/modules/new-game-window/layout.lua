@@ -6,6 +6,7 @@ local Crew = require 'pigui.modules.new-game-window.crew'
 local Ship = require 'pigui.modules.new-game-window.ship'
 local Location = require 'pigui.modules.new-game-window.location'
 local Summary = require 'pigui.modules.new-game-window.summary'
+local FlightLog = require 'pigui.modules.new-game-window.flight-log'
 
 local Layout = {}
 
@@ -14,8 +15,7 @@ Layout.UpdateOrder = {
 	Crew.Player.Char,
 	Crew.Player.Money,
 	Crew.Player.Reputation,
-	Crew.Player.Rating,
-	Crew.Player.Log,
+	Crew.Player.Kills,
 	Crew,
 	Ship.Type,
 	Ship.Name,
@@ -25,23 +25,25 @@ Layout.UpdateOrder = {
 	Ship.Equip,
 	Ship.Fuel,
 	Location,
-	Location.Time
+	Location.Time,
+	FlightLog,
+	Summary.Description
 }
 
-Layout.Tabs = { Summary, Crew, Ship, Location }
+Layout.Tabs = { Summary, Crew, Ship, Location, FlightLog }
 
 function Layout.updateLayout(contentRegion)
 
 	Defs.updateLayoutValues(contentRegion)
 
 	for _, tab in ipairs(Layout.Tabs) do
-		tab:updateLayout()
+		if tab.updateLayout then tab:updateLayout() end
 	end
 end
 
 function Layout.setLock(lock)
 	for _, param in ipairs(Layout.UpdateOrder) do
-		param:setLock(lock)
+		param.lock = lock
 	end
 end
 

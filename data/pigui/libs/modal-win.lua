@@ -56,7 +56,10 @@ local function drawModals(idx)
 		win:outerHandler(function ()
 			if ui.beginPopupModal(win.name, win.flags) then
 				win:innerHandler()
-				drawModals(idx+1)
+				-- modal could close in handler
+				if win.isOpen then
+					drawModals(idx+1)
+				end
 				ui.endPopup()
 			end
 		end)

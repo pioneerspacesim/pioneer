@@ -27,7 +27,7 @@ const char *LuaObject<Galaxy>::s_type = "Galaxy";
  *
  * Return:
  *
- *   systems - array of objects of type 'System'
+ *   systems - array of objects of type 'StarSystem'
  *
  */
 static int l_galaxy_get_sector(lua_State *l)
@@ -44,11 +44,49 @@ static int l_galaxy_get_sector(lua_State *l)
 	return 1;
 }
 
+/*
+ * Method: GetStarSystem
+ *
+ * Get a star system for the system that path points to, return nil if system
+ * index is out of range for this sector
+ *
+ * > system = galaxy:GetStarSystem(path)
+ *
+ * Parameters:
+ *
+ *   path - the <SystemPath>
+ *
+ * Return:
+ *
+ *   system? - the <StarSystem>
+ *
+ */
+static int l_galaxy_get_star_system(lua_State *l)
+{
+	auto galaxy = LuaObject<Galaxy>::CheckFromLua(1);
+	auto path = LuaObject<SystemPath>::CheckFromLua(2);
+
+	if (path->IsSectorPath()) {
+		return luaL_error(l, "Galaxy:GetStarSystem() path argument does not refer to a system");
+	}
+
+	RefCountedPtr<const Sector> sector = galaxy->GetSector(SystemPath(path->sectorX, path->sectorY, path->sectorZ));
+	if (path->systemIndex >= sector->m_systems.size()) {
+		lua_pushnil(l);
+		return 1;
+	}
+
+	RefCountedPtr<StarSystem> s = galaxy->GetStarSystem(path);
+	LuaObject<StarSystem>::PushToLua(s.Get());
+	return 1;
+}
+
 template <>
 void LuaObject<Galaxy>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
 		{ "GetSector", l_galaxy_get_sector },
+		{ "GetStarSystem", l_galaxy_get_star_system },
 		{ 0, 0 }
 	};
 

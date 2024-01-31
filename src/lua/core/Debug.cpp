@@ -184,7 +184,7 @@ std::string _pi_lua_table_tostring(lua_State *l, int idx, int indent, int recurs
 // Return a debug representation of the given lua value
 std::string pi_lua_tostring(lua_State *l, int idx, int indent, int recurseTable)
 {
-	lua_checkstack(l, 1);
+	lua_checkstack(l, 4);
 
 	int type = lua_type(l, idx);
 

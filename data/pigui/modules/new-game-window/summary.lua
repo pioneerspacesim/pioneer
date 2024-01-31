@@ -7,6 +7,7 @@ local Ship = require 'pigui.modules.new-game-window.ship'
 local Defs = require 'pigui.modules.new-game-window.defs'
 local Format = require 'Format'
 local Widgets = require 'pigui.modules.new-game-window.widgets'
+local GameParam = require 'pigui.modules.new-game-window.game-param'
 local ShipDef = require 'ShipDef'
 local Lang = require 'Lang'
 local lui = Lang.GetResource("ui-core")
@@ -15,6 +16,23 @@ local leq = Lang.GetResource("equipment-core")
 local Summary = {}
 
 local layout = {}
+
+local Description = GameParam.New(lui.DESCRIPTION, "description")
+
+function Description:fromStartVariant(variant)
+	self.value = variant.desc
+end
+
+function Description:isValid()
+	return true
+end
+
+function Description:fromSaveGame(saveGame)
+	self.value = lui.RECOVER_SAVEGAME
+end
+
+---@type string
+Description.value = ""
 
 function Summary:updateLayout()
 	layout.picsize = Defs.mainFont.size * 12
@@ -33,7 +51,7 @@ function Summary:draw()
 	local player = Crew.Player.Char.value
 
 	ui.child("leftside", Vector2(layout.leftWidth, Defs.contentRegion.y), function()
-		local player_member = Crew.Player.Char.crewEntry
+		local player_member = Crew.Player.Char
 		Crew:initMemberFace(player_member)
 		ui.child("face", Vector2(layout.picsize, layout.picsize), function()
 			player_member.face:renderFaceDisplay()
@@ -63,9 +81,8 @@ function Summary:draw()
 	ui.child("rightside", Vector2(layout.rightWidth - Defs.scrollWidth, Defs.contentRegion.y), function()
 
 		ui.text("")
-		local startDesc = Defs.currentStartVariant.desc
-		if startDesc and startDesc ~= "" then
-			ui.textWrapped(startDesc)
+		if Description.value and Description.value ~= "" then
+			ui.textWrapped(Description.value)
 			ui.text("")
 		end
 		Widgets.alignLabel(lui.HYPERDRIVE, layout.shipParam, function()
@@ -99,5 +116,6 @@ function Summary:draw()
 end
 
 Summary.TabName = lui.SUMMARY
+Summary.Description = Description
 
 return Summary

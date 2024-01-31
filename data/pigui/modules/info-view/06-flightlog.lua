@@ -30,7 +30,7 @@ local function writeLogEntry( entry, formatter, write_header )
 		formatter:write( entry:GetLocalizedName() ):newline()
 	end
 
-	for _, pair in pairs( entry:GetDataPairs( earliestFirst ) ) do
+	for _, pair in ipairs( entry:GetDataPairs( earliestFirst ) ) do
 		formatter:headerText( pair[1], pair[2] )
 	end
 end

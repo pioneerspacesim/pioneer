@@ -148,15 +148,15 @@ static int l_sbody_attr_parent(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
 
-	// sbody->parent is 0 as it was cleared by the acquirer. we need to go
-	// back to the starsystem proper to get what we need.
-	RefCountedPtr<StarSystem> s = Pi::game->GetGalaxy()->GetStarSystem(sbody->GetPath());
-	SystemBody *live_sbody = s->GetBodyByPath(sbody->GetPath());
-
-	if (!live_sbody->GetParent())
-		return 0;
-
-	LuaObject<SystemBody>::PushToLua(live_sbody->GetParent());
+	if (!sbody->GetStarSystem()) {
+		// orphan, its system has already been deleted, but SystemPath remains
+		// we'll make a new one just like it
+		RefCountedPtr<StarSystem> s = Pi::game->GetGalaxy()->GetStarSystem(sbody->GetPath());
+		sbody = s->GetBodyByPath(sbody->GetPath());
+		LuaObject<SystemBody>::PushToLua(sbody->GetParent());
+	} else {
+		LuaObject<SystemBody>::PushToLua(sbody->GetParent());
+	}
 	return 1;
 }
 

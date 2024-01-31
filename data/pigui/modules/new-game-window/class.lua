@@ -19,8 +19,10 @@ local laser = Equipment.laser
 
 local Defs = require 'pigui.modules.new-game-window.defs'
 local Layout = require 'pigui.modules.new-game-window.layout'
-local Crew = require 'pigui.modules.new-game-window.crew'
+local Recovery = require 'pigui.modules.new-game-window.recovery'
 local StartVariants = require 'pigui.modules.new-game-window.start-variants'
+local FlightLogParam = require 'pigui.modules.new-game-window.flight-log'
+local Helpers = require 'pigui.modules.new-game-window.helpers'
 local Game = require 'Game'
 
 local profileCombo = { items = {}, selected = 0 }
@@ -87,12 +89,10 @@ StartVariants.register({
 	colors     = { Color('E17F00'), Color('FFFFFF'), Color('FF7F00') }
 })
 
--- pass avalable space rect
-local function updateLayout(contentRegion)
-	Layout.updateLayout(contentRegion)
-
+-- synchronize parameter views with updated values
+local function updateParams()
 	for _, tab in ipairs(Layout.Tabs) do
-		tab:updateLayout()
+		if tab.updateParams then tab:updateParams() end
 	end
 end
 
@@ -100,13 +100,16 @@ local function setStartVariant(variant)
 	for _, param in ipairs(Layout.UpdateOrder) do
 		param:fromStartVariant(variant)
 	end
-	Defs.currentStartVariant = variant
 end
 
 local function startGame(gameParams)
 
 	-- space, ship in dock / orbit
-	Game.StartGame(gameParams.location.path, gameParams.time, gameParams.ship.type)
+	local startTime = gameParams.time
+	if startTime < 0 then
+		startTime = util.standardGameStartTime()
+	end
+	Game.StartGame(gameParams.location.path, startTime, gameParams.ship.type)
 	local player = Game.player
 
 	player:SetLabel(gameParams.ship.label)
@@ -126,6 +129,8 @@ local function startGame(gameParams)
 
 	-- setup player character
 	local PlayerCharacter = gameParams.player.char
+	PlayerCharacter.reputation = gameParams.player.reputation
+	PlayerCharacter.killcount = gameParams.player.kills
 	-- Gave the player a missions table (for Misssions.lua)
 	PlayerCharacter.missions = {}
 	-- Insert the player character into the persistent character
@@ -137,12 +142,9 @@ local function startGame(gameParams)
 
 	-- Generate crew for the starting ship
 	for _, member in ipairs(gameParams.crew) do
-		member.char.contract = {
-			wage = member.wage,
-			payday = gameParams.time + 604800, -- in a week
-			outstanding = 0
-		}
-		player:Enroll(member.char)
+		member.contract.payday = startTime + 604800 -- in a week
+		member.contract.outstanding = 0
+		player:Enroll(member)
 	end
 
 	local eqSections = {
@@ -168,9 +170,30 @@ local function startGame(gameParams)
 		cargoMgr:AddCommodity(Commodities[id], amount)
 	end
 
-	-- XXX horrible hack here to avoid paying a spawn-in docking fee
-	player:setprop("is_first_spawn", true)
-	FlightLog.MakeCustomEntry(gameParams.player.log)
+	for _, entry in ipairs(gameParams.flightlog.Custom) do
+		if FlightLog.InsertCustomEntry(entry) then
+			-- ok then
+		elseif entry.text then
+			-- allow a custom log entry containing only text
+			-- because when starting a new game we only have text
+			FlightLog.MakeCustomEntry(entry.text)
+		else
+			logWarning("Wrong entry for the custom flight log")
+		end
+	end
+
+	for _, entry in ipairs(gameParams.flightlog.System) do
+		if not FlightLog.InsertSystemEntry(entry) then
+			logWarning("Wrong entry for the system flight log")
+		end
+	end
+
+	for _, entry in ipairs(gameParams.flightlog.Station) do
+		if not FlightLog.InsertStationEntry(entry) then
+			logWarning("Wrong entry for the station flight log")
+		end
+	end
+	FlightLog.OrganizeEntries()
 
 	if gameParams.autoExec then
 		gameParams.autoExec()
@@ -221,32 +244,37 @@ local function drawBottomButtons()
 	end
 end
 
+local function hasNameInArray(param, array)
+	for _, v in pairs(array) do
+		if v.name == param.name then return true end
+	end
+end
+
 -- wait a few frames, and then calculate the static layout (updateLayout)
-local initFrames = 3
+local initFrames = 2
 
 NewGameWindow = ModalWindow.New("New Game", function()
 
 	ui.withFont(Defs.mainFont, function()
 
 		ui.alignTextToFramePadding()
-		ui.text(lui.SELECT_START_PROFILE)
-
-		ui.sameLine()
-		local changed, ret = ui.combo("##starttype", profileCombo.selected, profileCombo.items)
-		if changed then
-			profileCombo.selected = ret
-			if profileCombo.actions[ret + 1] == 'DO_UNLOCK' then
-				Layout.setLock(false)
-				Crew.Player.Log.value = "Custom start of the game - for the purpose of debugging or cheat."
-			else
-				setStartVariant(StartVariants.item(ret + 1))
+		if NewGameWindow.mode == 'RECOVER' then
+			ui.text(lui.RECOVER_SAVEGAME)
+		else
+			ui.text(lui.SELECT_START_PROFILE)
+			ui.sameLine()
+			local changed, ret = ui.combo("##starttype", profileCombo.selected, profileCombo.items)
+			if changed then
+				profileCombo.selected = ret
+				local action = profileCombo.actions[ret + 1]
+				if action == 'DO_UNLOCK' then
+					Layout.setLock(false)
+					FlightLogParam.value.Custom = {{ text = "Custom start of the game - for the purpose of debugging or cheat." }}
+				else
+					setStartVariant(StartVariants.item(ret + 1))
+				end
+				updateParams()
 			end
-			-- since setStartVariant can be called outside the ImGui frame, we
-			-- can't update the interface inside it. But we do not want to
-			-- check for data changes every frame, so we explicitly call the
-			-- update of the interface, while the amount of free space (content
-			-- region) is already known and does not change
-			updateLayout(Defs.contentRegion)
 		end
 
 		ui.separator()
@@ -257,7 +285,8 @@ NewGameWindow = ModalWindow.New("New Game", function()
 					-- consider the height of bottom buttons
 					drawBottomButtons()
 					-- at this point getContentRegion() exactly returns the size of the available space
-					updateLayout(ui.getContentRegion())
+					Layout.updateLayout(ui.getContentRegion())
+					updateParams()
 				end
 				initFrames = initFrames - 1
 			else
@@ -279,6 +308,55 @@ end, function (_, drawPopupFn)
 	ui.withStyleColors({ PopupBg = ui.theme.colors.modalBackground }, drawPopupFn)
 end)
 
+function NewGameWindow.restoreSaveGame(selectedSave)
+	local saveGame = Recovery.loadDoc(selectedSave)
+	if type(saveGame) == 'table' then
+
+		local paramErrors = {}
+
+		local report = lui.ATTEMPTING_TO_RECOVER_GAME_PROGRESS_FROM_SAVE_X:interp{ save = selectedSave }
+		-- first variant as default value
+		setStartVariant(StartVariants.item(1))
+		-- except for clearing the log
+		FlightLogParam:fromStartVariant({})
+		report = report .. "\n\n" .. string.format(lui.FILE_SAVEGAME_VERSION, tostring(saveGame.version))
+		report = report .. "\n" .. string.format(lui.CURRENT_SAVEGAME_VERSION, tostring(Game.CurrentSaveVersion()))
+		for _, param in ipairs(Layout.UpdateOrder) do
+			local paramErrorString = param:fromSaveGame(saveGame)
+			-- could not be restored - we will give the
+			-- player the opportunity to edit it himself
+			if paramErrorString then
+				table.insert(paramErrors, { name = param.name, string = paramErrorString })
+				param.lock = false
+			else
+				param.lock = true
+			end
+		end
+		updateParams()
+		for _, param in ipairs(Layout.UpdateOrder) do
+			if not param:isValid() and not hasNameInArray(param, paramErrors)  then
+				table.insert(paramErrors, { name = param.name, string = lui.RECOVERED_BUT_NOT_VALID })
+				param.lock = false
+			end
+		end
+		if #paramErrors > 0 then
+			table.sort(paramErrors, function(x1, x2) return x1.name < x2.name end)
+			report = report .. "\n\n" .. lui.THERE_WERE_ERRORS_IN_RECOVERY .. "\n"
+			for _, err in ipairs(paramErrors) do
+				report = report .. "\n" .. err.name .. ": " .. err.string
+			end
+			report = report .. "\n\n" .. lui.UNSUCCESSFULLY_RECOVERED_PARAMETERS_ARE_NOW_UNLOCKED_PLEASE_SET_THEM_MANUALLY
+		else
+			report = report .. "\n\n" .. lui.ALL_PARAMETERS_WERE_RECOVERED_SUCCESSFULLY
+		end
+		return true, report
+	else
+		assert(type(saveGame) == 'string')
+		local errorString = saveGame
+		return false, lui.AN_ERROR_HAS_OCCURRED .. '\n' .. errorString
+	end
+end
+
 function NewGameWindow:buildProfileCombo()
 	profileCombo.items = {}
 	profileCombo.actions = {}
@@ -298,6 +376,19 @@ end
 
 NewGameWindow:setDebugMode(false)
 
-setStartVariant(StartVariants.item(1))
+local firstOpen = true
+function NewGameWindow:open()
+	if (firstOpen or not self.debugMode) and self.mode ~= 'RECOVER' then
+		firstOpen = false
+		setStartVariant(StartVariants.item(1))
+		updateParams()
+		profileCombo.selected = 0
+	end
+	if self.debugMode then
+		profileCombo.selected = #profileCombo.items - 1
+		Layout.setLock(false)
+	end
+	ModalWindow.open(self)
+end
 
 return NewGameWindow

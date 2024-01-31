@@ -207,6 +207,22 @@ function FlightLogEntry.System:GetLocalizedName()
 	return l.LOG_SYSTEM;
 end
 
+local function asFaction(path)
+	if path:IsSectorPath() then return l.UNKNOWN_FACTION end
+	return path:GetStarSystem().faction.name
+end
+
+local function asStation(path)
+	if not path:IsBodyPath() then return l.NO_AVAILABLE_DATA end
+	local system = path:GetStarSystem()
+	local systembody = system:GetBodyByPath(path)
+	local station_type = "FLIGHTLOG_" .. systembody.type
+	return string.interp(l[station_type], {
+		primary_info = systembody.name,
+		secondary_info = systembody.parent.name
+	})
+end
+
 ---@param earliest_first boolean set to true if your sort order is to show the earlist first dates
 ---@return table<string, string>[] An array of key value pairs, the key being localized and the value being formatted appropriately.
 function FlightLogEntry.System:GetDataPairs( earliest_first )
@@ -222,13 +238,13 @@ function FlightLogEntry.System:GetDataPairs( earliest_first )
 	else
 		if self.deptime then
 			table.insert(o, { l.DEPARTURE_DATE, self.formatDate(self.deptime) })
-		end		
+		end
 		if self.arrtime then
 			table.insert(o, { l.ARRIVAL_DATE, self.formatDate(self.arrtime) })
 		end
 	end
 	table.insert(o, { l.IN_SYSTEM, ui.Format.SystemPath(self.systemp) })
-	table.insert(o, { l.ALLEGIANCE, self.systemp:GetStarSystem().faction.name })
+	table.insert(o, { l.ALLEGIANCE, asFaction(self.systemp) })
 
 	return o
 end
@@ -281,7 +297,7 @@ function FlightLogEntry.Custom:GetDataPairs( earliest_first )
 		{ l.DATE, self.formatDate(self.time) },
 		{ l.LOCATION, self.composeLocationString(self.location) },
 		{ l.IN_SYSTEM, ui.Format.SystemPath(self.systemp) },
-		{ l.ALLEGIANCE, self.systemp:GetStarSystem().faction.name },
+		{ l.ALLEGIANCE, asFaction(self.systemp) },
 		{ l.CASH, Format.Money(self.money) }
 	}
 end
@@ -341,15 +357,11 @@ end
 ---@return table<string, string>[] An array of key value pairs, the key being localized and the value being formatted appropriately.
 function FlightLogEntry.Station:GetDataPairs( earliest_first )
 
-	local station_type = "FLIGHTLOG_" .. self.systemp:GetSystemBody().type
-
 	return {
 		{ l.DATE, self.formatDate(self.deptime) },
-		{ l.STATION, string.interp(l[station_type],
-		{	primary_info = self.systemp:GetSystemBody().name,
-			secondary_info = self.systemp:GetSystemBody().parent.name }) },
+		{ l.STATION, asStation(self.systemp) },
 		{ l.IN_SYSTEM, ui.Format.SystemPath(self.systemp) },
-		{ l.ALLEGIANCE, self.systemp:GetStarSystem().faction.name },
+		{ l.ALLEGIANCE, asFaction(self.systemp) },
 		{ l.CASH, Format.Money(self.money) },
 	}
 end
