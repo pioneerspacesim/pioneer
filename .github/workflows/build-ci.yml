@@ -12,6 +12,8 @@ on:
     - 'src/**.cpp'
     - 'src/**.h'
     - '**/CMakeLists.txt'
+    - '.github/workflows/build-ci.yml'
+    - '.github/actions/*/action.yml'
   release:
     types: [published]
 
