@@ -40,6 +40,10 @@ jobs:
     runs-on: windows-2019
 
     steps:
+    - name: Install Dependencies
+      run: |
+        choco install gawk -y
+
     - uses: actions/checkout@v4
       with:
         path: pioneer
@@ -53,11 +57,12 @@ jobs:
     - name: Build MSVC
       shell: cmd
       run: |
+        echo $(echo "${{ github.ref }}" | awk -F "/" "/pull/ { print \"PR#\"$3 } /heads/ { print $3 }")
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         cd pioneer
         mkdir build
         cd build
-        cmake .. -G Ninja -DCMAKE_INSTALL_PREFIX="C:/Program Files/Pioneer" -DPIONEER_DATA_DIR="C:/Program Files/Pioneer/data" -DCMAKE_BUILD_TYPE:STRING=Release -DGIT_EXECUTABLE="c:/Program Files/Git/cmd/git.exe"
+        cmake .. -G Ninja -DCMAKE_INSTALL_PREFIX="C:/Program Files/Pioneer" -DPIONEER_DATA_DIR="C:/Program Files/Pioneer/data" -DCMAKE_BUILD_TYPE:STRING=Release -DGIT_EXECUTABLE="c:/Program Files/Git/cmd/git.exe" -DPROJECT_VERSION_INFO="${{ github.ref }}"
         cmake --build .
 
     - name: Build Pioneer Data
@@ -104,7 +109,7 @@ jobs:
     - name: Setup CMake
       run: |
         cp scripts/CMakeBuildPresetsCI.json CMakeUserPresets.json
-        cmake -G Ninja --preset linux-x64-release
+        cmake -G Ninja --preset linux-x64-release -DPROJECT_VERSION_INFO=$(echo "${{ github.ref }}" | awk -F '/' '/pull/ { print "PR#"$3 } /heads/ { print $3 }')
 
     - name: Build GCC
       run: cmake --build ./build --target all
@@ -138,7 +143,7 @@ jobs:
     - name: Setup CMake
       run: |
         cp scripts/CMakeBuildPresetsCI.json CMakeUserPresets.json
-        cmake -G Ninja --preset linux-x64-release-avx
+        cmake -G Ninja --preset linux-x64-release-avx -DPROJECT_VERSION_INFO=$(echo "${{ github.ref }}" | awk -F '/' '/pull/ { print "PR#"$3 } /heads/ { print $3 }')
 
     - name: Build GCC
       run: cmake --build ./build --target all
@@ -175,7 +180,7 @@ jobs:
       run: |
         cp scripts/CMakeBuildPresetsCI.json CMakeUserPresets.json
         export CC=clang CXX=clang++
-        cmake -G Ninja --preset linux-x64-release
+        cmake -G Ninja --preset linux-x64-release -DPROJECT_VERSION_INFO=$(echo "${{ github.ref }}" | awk -F '/' '/pull/ { print "PR#"$3 } /heads/ { print $3 }')
 
     - name: Build Clang
       run: cmake --build ./build --target all
