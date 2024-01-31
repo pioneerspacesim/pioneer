@@ -709,6 +709,12 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 		sbody->m_radius = fixed(rand.Int32(starTypeInfo[sbody->GetType()].radius[0], starTypeInfo[sbody->GetType()].radius[1]), 100);
 	} else if (sbody->GetMassAsFixed() > 6) {
 		sbody->m_type = SystemBody::TYPE_PLANET_GAS_GIANT;
+		// Generate a random "surface" density for gas giants roughly fitted to real-life estimation of Jupiter at "cloud deck" level
+		// The bounds are derived from real-world density-at-1-bar data for the outer gas giants with an
+		// approximation factor for density at cloud deck level of `3e * density @ 1 bar`
+		sbody->m_volatileGas = rand.NormFixed(fixed(1050, 1000), fixed(8000, 1000)).Abs();
+		// Most gas giant atmospheres contain an incredibly small or negligible proportion of oxidizing elements / water ice
+		sbody->m_atmosOxidizing = rand.NormFixed(fixed(0, 1), fixed(300, 1000)).Abs();
 	} else if (sbody->GetMassAsFixed() > fixed(1, 12000)) {
 		sbody->m_type = SystemBody::TYPE_PLANET_TERRESTRIAL;
 
@@ -822,6 +828,8 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 		sbody->m_rotationPeriod = (1 - lambda) * sbody->GetRotationPeriodAsFixed() + lambda * sbody->GetOrbit().Period() / 3600 / 24;
 		sbody->m_axialTilt = (1 - lambda) * sbody->GetAxialTiltAsFixed() + lambda * sbody->GetInclinationAsFixed();
 	} // else .. nothing happens to the satellite
+
+	sbody->SetAtmFromParameters();
 
 	PickAtmosphere(sbody);
 	PickRings(sbody);

@@ -518,9 +518,12 @@ void SystemBody::EditorAPI::EditOrbitalParameters(SystemBody *body, UndoSystem *
 				body->GetParent()->GetMass(),
 				-orbit_time_at_start).Length() / 1000.0;
 
-			ImGui::InputDouble("Orbital Velocity (AP)", &orbit_vel_ap, 0.0, 0.0, "%.2f km/s");
-			ImGui::InputDouble("Orbital Velocity (PE)", &orbit_vel_pe, 0.0, 0.0, "%.2f km/s");
+			ImGui::InputDouble("Orbital Vel. (AP)", &orbit_vel_ap, 0.0, 0.0, "%.2f km/s");
+			ImGui::InputDouble("Orbital Vel. (PE)", &orbit_vel_pe, 0.0, 0.0, "%.2f km/s");
 		}
+
+		double escape_velocity = body->CalcEscapeVelocity();
+		ImGui::InputDouble("Escape Velocity", &escape_velocity, 0.0, 0.0, "%0.2f km/s");
 
 		ImGui::EndDisabled();
 	}
@@ -720,7 +723,7 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSy
 	bool gasGiant = body->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT;
 
 	bodyChanged |= Draw::InputFixedSlider("Atm. Density", &body->m_volatileGas,
-		0.0, gasGiant ? 50.0 : 1.225, "%.3f kg/m³", 0);
+		0.0, gasGiant ? 2.0 : 1.225, "%.3f kg/m³", 0);
 	if (Draw::UndoHelper("Edit Atmosphere Density", undo))
 		AddUndoSingleValueClosure(undo, &body->m_volatileGas, updateBodyDerived);
 

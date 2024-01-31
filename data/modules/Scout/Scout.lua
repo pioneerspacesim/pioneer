@@ -330,7 +330,7 @@ local function calcSurfaceScanMission(sBody, difficulty, reward)
 
 	-- Calculate parameters which make approaching the body to scan it more difficult
 	local bodyDifficulty = (1 + sBody.gravity / EARTH_G)
-		* (1 + math.max(math.log(sBody.volatileGas), 0.0) * 0.5)
+		* (1 + math.max(math.log(sBody.atmosDensity), 0.0) * 0.5)
 		* (1 + sBody.eccentricity * 0.5)
 
 	local bodyReward = 1
