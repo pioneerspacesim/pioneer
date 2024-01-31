@@ -55,6 +55,7 @@ namespace Editor {
 		Graphics::Renderer *m_renderer;
 
 		std::vector<RefCountedPtr<Modal>> m_modalStack;
+		std::unique_ptr<IniConfig> m_editorCfg;
 
 		std::string m_appName;
 	};
