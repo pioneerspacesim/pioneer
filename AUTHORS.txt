@@ -78,6 +78,7 @@ The Pioneer Developers are:
 * Marcel Tulloh
 * Marcus de Roos
 * Maxim aka Max5377
+* McPain
 * Michele Botticelli
 * Michele Fanti
 * Miha Vitorovič

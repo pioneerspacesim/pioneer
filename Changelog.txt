@@ -1,6 +1,7 @@
 January 2024
   * New Features
     * Newground station cleanup and new textures (#5704)
+    * Add a function to recover old versions of saves (#5706)
     * Docking with orbital in manual mode (#5619)
     * Add delete button in save/load window (#5674)
     * System overview icon upscale and update (#5540)
@@ -10,6 +11,7 @@ January 2024
     * Improve planet rings shaders (#5708)
     * Update/rework of the flightlog (#5666)
     * Realistic Rayleigh/Mie atmospheric scattering (#5617)
+    * Save and load the current planned hyperjump in the save file (#5721)
 
   * Internal Changes
     * Release will now also build an AppImage (#5682)
@@ -27,6 +29,8 @@ January 2024
     * Fix assert on startup when calling back on an empty string (#5717)
     * Fix orbital / surface scan missions being unable to be completed (#5724)
     * Fix player being unable to collide with Stations if only ship in Frame (#5720)
+    * Crash from hyperjump-planner indexing local ship (nil) #5725
+    * Fix missing gas giant atmospheres (#5728)
 
 December 2023
   * Fixes
