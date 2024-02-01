@@ -51,13 +51,13 @@
     "description": "Base external pressure limit of a ship (without atmo shield)",
     "message": "Atmo. pressure limit"
   },
-  "ATTEMPT_TO_REPAIR_HULL": {
-    "description": "",
-    "message": "Attempt to repair hull"
-  },
   "ATTEMPTING_TO_RECOVER_GAME_PROGRESS_FROM_SAVE_X": {
     "description": "Message when restoring savegame",
     "message": "Attempting to recover game progress from save: {save}"
+  },
+  "ATTEMPT_TO_REPAIR_HULL": {
+    "description": "",
+    "message": "Attempt to repair hull"
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
@@ -1915,6 +1915,10 @@
     "description": "Saveload menu button",
     "message": "Recover"
   },
+  "RECOVERED_BUT_NOT_VALID": {
+    "description": "Message when restoring savegame",
+    "message": "Recovered but not valid"
+  },
   "RECOVER_SAVEGAME": {
     "description": "",
     "message": "Recover savegame"
@@ -1978,10 +1982,6 @@
   "RESET_PREVIEW": {
     "description": "Paintshop button",
     "message": "Reset Preview"
-  },
-  "RECOVERED_BUT_NOT_VALID": {
-    "description": "Message when restoring savegame",
-    "message": "Recovered but not valid"
   },
   "RETURN_TO_GAME": {
     "description": "",
