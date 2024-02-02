@@ -37,17 +37,22 @@ local pickup_factor = 2
 -- the maximum price of the custom cargo
 local max_price = 300
 
-local custom_cargo = require 'modules.CargoRun.CargoTypes'
+local custom_cargo = {}
 
 -- Each branch should have a probability weight proportional to its size
 local custom_cargo_weight_sum = 0
-for branch,branch_array in pairs(custom_cargo) do
-	custom_cargo[branch].weight = #branch_array.goods
-	custom_cargo_weight_sum = custom_cargo_weight_sum + #branch_array.goods
-end
 
 local ads = {}
 local missions = {}
+
+local setDefaultCustomCargo = function()
+	custom_cargo_weight_sum = 0
+	custom_cargo = require 'modules.CargoRun.CargoTypes'
+	for branch,branch_array in pairs(custom_cargo) do
+		custom_cargo[branch].weight = #branch_array.goods
+		custom_cargo_weight_sum = custom_cargo_weight_sum + #branch_array.goods
+	end	
+end
 
 local isQualifiedFor = function(reputation, ad)
 	return
@@ -781,6 +786,8 @@ local onGameStart = function ()
 		custom_cargo = loaded_data.custom_cargo
 		custom_cargo_weight_sum = loaded_data.custom_cargo_weight_sum
 		loaded_data = nil
+	else
+		setDefaultCustomCargo()
 	end
 end
 
@@ -788,6 +795,11 @@ local onGameEnd = function ()
 	nearbysystems = nil
 	pirate_ships = {}
 	escort_ships = {}
+
+	ads = {}
+	missions = {}
+	custom_cargo = {}
+	custom_cargo_weight_sum = 0
 end
 
 local buildMissionDescription = function(mission)
