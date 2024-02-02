@@ -688,7 +688,7 @@ static int l_body_get_ground_position(lua_State *l)
 		return 1;
 	}
 
-	vector3d pos = b->GetPosition();
+	vector3d pos = b->GetPositionRelTo(astro);
 	double latitude = atan2(pos.y, sqrt(pos.x * pos.x + pos.z * pos.z));
 	double longitude = atan2(pos.x, pos.z);
 	lua_pushnumber(l, latitude);

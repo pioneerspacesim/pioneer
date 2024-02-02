@@ -1,5 +1,5 @@
 {
-	"version": 3,
+	"version": 2,
 	"configurePresets": [
 		{
 			"name": "x64-Debug",
@@ -72,6 +72,7 @@
 			"name": "x64-Linux-Debug",
 			"displayName": "Linux x64 Debug",
 			"description": "Use system compiler; Profiler=yes",
+			"generator": "Ninja",
 			"binaryDir": "${sourceDir}/build/",
 			"cacheVariables": {
 				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
@@ -91,6 +92,7 @@
 			"name": "x64-Linux-Profiler",
 			"displayName": "Linux x64 Profiling",
 			"description": "Use system compiler; Profiler=yes",
+			"generator": "Ninja",
 			"binaryDir": "${sourceDir}/build/",
 			"cacheVariables": {
 				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
@@ -110,6 +112,7 @@
 			"name": "x64-Linux-RelWithDebInfo",
 			"displayName": "Linux x64 Release",
 			"description": "Use system compiler; Profiler=no",
+			"generator": "Ninja",
 			"binaryDir": "${sourceDir}/build/",
 			"cacheVariables": {
 				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
@@ -128,6 +131,7 @@
 			"name": "x64-Linux-Debug-Clang",
 			"displayName": "Linux x64 Debug (Clang)",
 			"description": "CC=clang CXX=clang++; Profiler=yes",
+			"generator": "Ninja",
 			"binaryDir": "${sourceDir}/build/",
 			"cacheVariables": {
 				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
@@ -149,6 +153,7 @@
 			"name": "x64-Linux-Profiler-Clang",
 			"displayName": "Linux x64 Profiling (Clang)",
 			"description": "CC=clang CXX=clang++; Profiler=yes",
+			"generator": "Ninja",
 			"binaryDir": "${sourceDir}/build/",
 			"cacheVariables": {
 				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
@@ -170,6 +175,7 @@
 			"name": "x64-Linux-RelWithDebInfo-Clang",
 			"displayName": "Linux x64 Release (Clang)",
 			"description": "CC=clang CXX=clang++; Profiler=no",
+			"generator": "Ninja",
 			"binaryDir": "${sourceDir}/build/",
 			"cacheVariables": {
 				"CMAKE_EXPORT_COMPILE_COMMANDS": true,

@@ -92,33 +92,34 @@ void EditorApp::OnStartup()
 {
 	Log::GetLog()->SetLogFile("editor.txt");
 
-	IniConfig cfg;
-	cfg.SetInt("ScrWidth", 1600);
-	cfg.SetInt("ScrHeight", 900);
-	cfg.SetInt("VSync", 1);
-	cfg.SetInt("AntiAliasingMode", 4);
+	m_editorCfg.reset(new IniConfig());
 
-	cfg.Read(FileSystem::userFiles, "editor.ini");
-	cfg.Save(); // write defaults if the file doesn't exist
+	m_editorCfg->SetInt("ScrWidth", 1600);
+	m_editorCfg->SetInt("ScrHeight", 900);
+	m_editorCfg->SetInt("VSync", 1);
+	m_editorCfg->SetInt("AntiAliasingMode", 4);
+
+	m_editorCfg->Read(FileSystem::userFiles, "editor.ini");
+	m_editorCfg->Save(); // write defaults if the file doesn't exist
 
 	EnumStrings::Init();
 	Lua::Init();
 	ModManager::Init();
 
-	ModManager::LoadMods(&cfg);
+	ModManager::LoadMods(m_editorCfg.get());
 
 	// get threads up
-	Uint32 numThreads = cfg.Int("WorkerThreads");
+	Uint32 numThreads = m_editorCfg->Int("WorkerThreads");
 	numThreads = numThreads ? numThreads : std::max(OS::GetNumCores() - 1, 1U);
 	GetTaskGraph()->SetWorkerThreads(numThreads);
 
-	Lang::Resource &res(Lang::GetResource("core", cfg.String("Lang")));
+	Lang::Resource &res(Lang::GetResource("core", m_editorCfg->String("Lang", "en")));
 	Lang::MakeCore(res);
 
 	Graphics::RendererOGL::RegisterRenderer();
 
-	m_renderer = StartupRenderer(&cfg);
-	StartupInput(&cfg);
+	m_renderer = StartupRenderer(m_editorCfg.get());
+	StartupInput(m_editorCfg.get());
 
 	StartupPiGui();
 
@@ -140,6 +141,8 @@ void EditorApp::OnShutdown()
 	ShutdownPiGui();
 	ShutdownRenderer();
 	ShutdownInput();
+
+	m_editorCfg.reset();
 }
 
 void EditorApp::PreUpdate()
