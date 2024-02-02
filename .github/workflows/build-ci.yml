@@ -57,8 +57,8 @@ jobs:
     - name: Build MSVC
       shell: cmd
       run: |        
-        for /f %%i in ('echo "${{ github.ref }}" | awk -F "/" "/pull/ { print \"PR#\"$3 } /heads/ { print $3 }"') do set PROJECT_VERSION_INFO=%%i
-        echo %PROJECT_VERSION_INFO%
+        for /f %%i in ('echo "${{ github.ref }}" ^| awk -F "/" "/pull/ { print \"PR#\"$3 } /heads/ { print $3 }"') do set PROJECT_VERSION_INFO=%%i
+        echo "Project Version: %PROJECT_VERSION_INFO%"
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         cd pioneer
         mkdir build
@@ -143,6 +143,7 @@ jobs:
 
     - name: Setup CMake
       run: |
+        echo "Project Version: $(echo "${{ github.ref }}" | awk -F '/' '/pull/ { print "PR#"$3 } /heads/ { print $3 }')"
         cp scripts/CMakeBuildPresetsCI.json CMakeUserPresets.json
         cmake -G Ninja --preset linux-x64-release-avx -DPROJECT_VERSION_INFO=$(echo "${{ github.ref }}" | awk -F '/' '/pull/ { print "PR#"$3 } /heads/ { print $3 }')
 
