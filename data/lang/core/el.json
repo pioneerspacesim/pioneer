@@ -41,7 +41,7 @@
   },
   "APOAPSIS_DISTANCE": {
     "description": "",
-    "message": "Apoapsis distance"
+    "message": "Απόαψη"
   },
   "AR_ATMOSPHERE": {
     "description": "",
@@ -497,7 +497,7 @@
   },
   "GAME_SAVE_INVALID_NAME": {
     "description": "",
-    "message": "This saved game file could not be written because of a invalid name."
+    "message": "Αδυναμία αποθήκευσης λόγω ακατάλληλου ονόματος αρχείου."
   },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
@@ -1149,11 +1149,11 @@
   },
   "PLANET_CONTAINING_LIQUID_WATER": {
     "description": "",
-    "message": "\" planet containing liquid water\""
+    "message": "πλανήτης που περιέχει νερό σε υγρή μορφή"
   },
   "PLANET_WITH_SOME_ICE": {
     "description": "",
-    "message": "\" planet with some ice\""
+    "message": "πλανήτης με παρουσία πάγου"
   },
   "PLANNED_ECONOMY": {
     "description": "",
@@ -1357,7 +1357,7 @@
   },
   "SET_MAXIMUM_SPEED_LIMIT": {
     "description": "Speed limiter tooltip.",
-    "message": "Set maximum speed limit"
+    "message": "Ορίσατε ανώτατο όριο ταχύτητας"
   },
   "SET_NAVTARGET_TO": {
     "description": "",
@@ -1697,7 +1697,7 @@
   },
   "TINY": {
     "description": "Adjective used to describe the size of an object.",
-    "message": "Tiny"
+    "message": "Μικροσκοπικός"
   },
   "TOGGLE_EQUIPMENT_VIEW": {
     "description": "Tooltip for the Equipment View button",
@@ -1777,7 +1777,7 @@
   },
   "UNIT_KILOMETERS_PER_SECOND": {
     "description": "Speed unit: one kilometer per second",
-    "message": "km/s"
+    "message": "χλμ/ω"
   },
   "UNIT_KILOTONNES": {
     "description": "Mass unit: one kilotonne",
@@ -1797,7 +1797,7 @@
   },
   "UNIT_METERS_PER_SECOND": {
     "description": "Speed unit: one meter per second",
-    "message": "m/s"
+    "message": "μ/δ"
   },
   "UNIT_MILLION_METERS": {
     "description": "Distance unit: one million meters",

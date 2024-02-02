@@ -9,7 +9,7 @@
   },
   "CLEARANCE_DENIED_TOO_FAR": {
     "description": "Shown if player requests docking too far away from station",
-    "message": "Заявката е отхвърлена. Вашият кораб е твърде далеч и не може да бъде разпознат."
+    "message": "Заявката е отхвърлена. Вашият кораб е твърде далеч и не може да бъде проверен."
   },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",

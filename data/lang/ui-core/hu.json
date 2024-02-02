@@ -21,7 +21,7 @@
   },
   "ALL_PARAMETERS_WERE_RECOVERED_SUCCESSFULLY": {
     "description": "Message when restoring savegame",
-    "message": "All parameters were recovered successfully."
+    "message": "Minden paraméter sikeresen visszaállítva."
   },
   "ALL_UP_WEIGHT": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "ATTEMPTING_TO_RECOVER_GAME_PROGRESS_FROM_SAVE_X": {
     "description": "Message when restoring savegame",
-    "message": "Attempting to recover game progress from save: {save}"
+    "message": "Kísérlet a játék állapot visszaállítására ebből a mentésből: {save}"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -109,11 +109,11 @@
   },
   "CANT_FIND_PATH": {
     "description": "Message when restoring savegame, file path",
-    "message": "Can't find path: %s"
+    "message": "Elérési út nem található: %s"
   },
   "CANT_FIND_PLAYERS_SHIP_IN_SPACE": {
     "description": "Message when restoring savegame",
-    "message": "Can't find player's ship in space"
+    "message": "Nem található a játékos hajójának térbeli pozíciója"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -285,7 +285,7 @@
   },
   "COULD_NOT_FIND_SYSTEM_BODY_FOR_FRAME": {
     "description": "Message when restoring savegame",
-    "message": "Could not find system body for frame"
+    "message": "Az égitest vagy referencia pont nem található"
   },
   "COULD_NOT_LOAD_GAME": {
     "description": "",
@@ -293,7 +293,7 @@
   },
   "COULD_NOT_READ_THE_SAVE_VERSION": {
     "description": "Message when restoring savegame",
-    "message": "Could not read the save version"
+    "message": "Nem olvasható a mentés verziója"
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -329,7 +329,7 @@
   },
   "CURRENT_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
-    "message": "Current savegame version: %s"
+    "message": "Jelenlegi mentés verzió: %s"
   },
   "CURRENT_SHIP": {
     "description": "For tooltip comparing current ship specs to one in the shipyard",
@@ -389,7 +389,7 @@
   },
   "DESCRIPTION": {
     "description": "Start game parameter, e.g. 'This is an easy start from Cydonia'",
-    "message": "Description"
+    "message": "Leírás"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -441,7 +441,7 @@
   },
   "DOCKED_TO_A_BODY_THAT_IS_NOT_A_STATION": {
     "description": "Message when restoring savegame",
-    "message": "Docked to a body that is not a station"
+    "message": "Nem állomás égitesthez dokkolva"
   },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
@@ -537,7 +537,7 @@
   },
   "ERROR_APPLYING_PATCH": {
     "description": "Message when restoring savegame",
-    "message": "Error applying patch"
+    "message": "Hiba a patch alkalmazásakor"
   },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
@@ -621,7 +621,7 @@
   },
   "FILE_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
-    "message": "File savegame version: %s"
+    "message": "File mentés verziója: %s"
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
@@ -1533,7 +1533,7 @@
   },
   "MORE_THAN_ONE_PLAYERS_SHIP_FOUND_IN_SPACE": {
     "description": "Message when restoring savegame",
-    "message": "More than one player's ship found in space"
+    "message": "Több játékos hajó is található a térben"
   },
   "MOSTLY_HARMLESS": {
     "description": "",
@@ -1773,7 +1773,7 @@
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",
-    "message": "Path found but verification failed: %s"
+    "message": "Érvényes elérési út, de az ellenőrzés sikertelen: %s"
   },
   "PATTERN": {
     "description": "Ship painting pattern.",
@@ -1913,15 +1913,15 @@
   },
   "RECOVER": {
     "description": "Saveload menu button",
-    "message": "Recover"
+    "message": "Visszaállítás"
   },
   "RECOVERED_BUT_NOT_VALID": {
     "description": "Message when restoring savegame",
-    "message": "Recovered but not valid"
+    "message": "Visszaállítva, de érvénytelen"
   },
   "RECOVER_SAVEGAME": {
     "description": "",
-    "message": "Recover savegame"
+    "message": "Mentés visszaállítása"
   },
   "REFUEL": {
     "description": "",
@@ -2257,7 +2257,7 @@
   },
   "SYSTEM_BODY_INDEX_IS_OUT_OF_RANGE": {
     "description": "Message when restoring savegame",
-    "message": "System body index is out of range"
+    "message": "Égitest index tarományon kívül"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
@@ -2285,7 +2285,7 @@
   },
   "THERE_WERE_ERRORS_IN_RECOVERY": {
     "description": "Message when restoring savegame",
-    "message": "There were errors in recovery:"
+    "message": "Visszaállítási hibák:"
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
@@ -2381,23 +2381,23 @@
   },
   "UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",
-    "message": "Unknown custom log entry format"
+    "message": "Ismeretlen saját naplóbejegyzés formátum"
   },
   "UNKNOWN_FACTION": {
     "description": "For entry in the flight log",
-    "message": "Unknown faction"
+    "message": "Ismeretlen frakció"
   },
   "UNKNOWN_LOCATION_IN_SECTOR_X": {
     "description": "For entry in the flight log",
-    "message": "Unknown location in sector {sector}"
+    "message": "Ismeretlen pozíció {sector} szektorban"
   },
   "UNKNOWN_STATION_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",
-    "message": "Unknown station log entry format"
+    "message": "Ismeretlen állomás-napló bejegyzés formátum"
   },
   "UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",
-    "message": "Unknown system log entry format"
+    "message": "Ismeretlen rendszer-napló bejegyzés formátum"
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
@@ -2417,7 +2417,7 @@
   },
   "UNSUCCESSFULLY_RECOVERED_PARAMETERS_ARE_NOW_UNLOCKED_PLEASE_SET_THEM_MANUALLY": {
     "description": "Message when restoring savegame",
-    "message": "Unsuccessfully recovered parameters are now unlocked, please set them manually."
+    "message": "A vissza nem állítható paraméterek szabadon beállíthatóak."
   },
   "UP_ACCEL": {
     "description": "",

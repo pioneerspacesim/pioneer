@@ -21,7 +21,7 @@
   },
   "ALL_PARAMETERS_WERE_RECOVERED_SUCCESSFULLY": {
     "description": "Message when restoring savegame",
-    "message": "All parameters were recovered successfully."
+    "message": "Alla parametrar återställdes framgångsrikt."
   },
   "ALL_UP_WEIGHT": {
     "description": "",
@@ -113,7 +113,7 @@
   },
   "CANT_FIND_PLAYERS_SHIP_IN_SPACE": {
     "description": "Message when restoring savegame",
-    "message": "Can't find player's ship in space"
+    "message": "Kan inte hitta spelarens skepp i rymden"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -357,7 +357,7 @@
   },
   "DELETE": {
     "description": "",
-    "message": "Delete"
+    "message": "Radera"
   },
   "DELETE_SAVE_CONFIRMATION": {
     "description": "",
@@ -389,7 +389,7 @@
   },
   "DESCRIPTION": {
     "description": "Start game parameter, e.g. 'This is an easy start from Cydonia'",
-    "message": "Description"
+    "message": "Beskrivning"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -441,7 +441,7 @@
   },
   "DOCKED_TO_A_BODY_THAT_IS_NOT_A_STATION": {
     "description": "Message when restoring savegame",
-    "message": "Docked to a body that is not a station"
+    "message": "Dockad vid en kropp som inte är en station"
   },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
@@ -557,7 +557,7 @@
   },
   "EXPERIMENTAL": {
     "description": "Indicates feature/option is experimental",
-    "message": "Experimental"
+    "message": "Experimentell"
   },
   "EXPERT": {
     "description": "For player reputation",
@@ -1381,7 +1381,7 @@
   },
   "LOG_EXPORT": {
     "description": "Export the log",
-    "message": "Export"
+    "message": "Exportera"
   },
   "LOG_HTML": {
     "description": "Export the log as HTML or not",
@@ -1533,7 +1533,7 @@
   },
   "MORE_THAN_ONE_PLAYERS_SHIP_FOUND_IN_SPACE": {
     "description": "Message when restoring savegame",
-    "message": "More than one player's ship found in space"
+    "message": "Mer än en spelares skepp hittades i rymden "
   },
   "MOSTLY_HARMLESS": {
     "description": "",
@@ -1893,11 +1893,11 @@
   },
   "RAYLEIGH_ACCURATE": {
     "description": "",
-    "message": "Rayleigh/Mie (accurate, per-pixel)"
+    "message": "Rayleigh/Mie (exakt, per pixel)"
   },
   "RAYLEIGH_FAST": {
     "description": "",
-    "message": "Rayleigh/Mie (fast, per-vertex)"
+    "message": "Rayleigh/Mie (snabb, per vertex)"
   },
   "REALISTIC_SCATTERING": {
     "description": "",
@@ -1913,7 +1913,7 @@
   },
   "RECOVER": {
     "description": "Saveload menu button",
-    "message": "Recover"
+    "message": "Återställ"
   },
   "RECOVERED_BUT_NOT_VALID": {
     "description": "Message when restoring savegame",
@@ -2385,11 +2385,11 @@
   },
   "UNKNOWN_FACTION": {
     "description": "For entry in the flight log",
-    "message": "Unknown faction"
+    "message": "Okänd fraktion"
   },
   "UNKNOWN_LOCATION_IN_SECTOR_X": {
     "description": "For entry in the flight log",
-    "message": "Unknown location in sector {sector}"
+    "message": "Okänd plats i sektor {sector}"
   },
   "UNKNOWN_STATION_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",
