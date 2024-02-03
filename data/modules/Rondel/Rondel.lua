@@ -142,8 +142,8 @@ local onEnterSystem = function (player)
 	if not system.path:IsSameSystem(rondel_syspath) then return end
 
 	local tolerance = 1
-	local hyperdrive = Game.player:GetEquip('engine',1)
-	if hyperdrive.fuel == Commodities.military_fuel then
+	local hyperdrive = Game.player:GetInstalledHyperdrive()
+	if hyperdrive and hyperdrive.fuel == Commodities.military_fuel then
 		tolerance = 0.5
 	end
 
