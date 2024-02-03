@@ -10,7 +10,8 @@
 	"price": 46614,
 	"hull_mass": 18,
 	"atmospheric_pressure_limit": 3.2,
-	"capacity": 30,
+	"capacity": 32,
+	"cargo": 16,
 	"slots": {
 		"engine": 1,
 		"cabin": 1,
@@ -18,6 +19,64 @@
 		"missile": 10,
 		"shield": 3,
 		"cargo": 16
+	},
+	"equipment_slots": {
+		"laser_front": {
+			"type": "weapon",
+			"size": 2,
+			"size_min": 1,
+			"i18n_key": "HARDPOINT_LASER_FRONT",
+			"tag": "tag_laser_front",
+			"gimbal": [ 5, 5 ],
+			"hardpoint": true
+		},
+		"missile_bay": {
+			"type": "missile",
+			"size": 2,
+			"size_min": 1,
+			"count": 5,
+			"i18n_key": "HARDPOINT_MISSILE_BAY",
+			"tag": "tag_missile_launch",
+			"hardpoint": true,
+			"default": "missile.guided_s2"
+		},
+		"utility_1": {
+			"type": "utility",
+			"size": 1,
+			"tag": "tag_utility_1",
+			"hardpoint": true
+		},
+		"utility_2": {
+			"type": "utility",
+			"size": 1,
+			"tag": "tag_utility_2",
+			"hardpoint": true
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"size": 2,
+			"size_min": 1
+		},
+		"shield_1": {
+			"type": "shield",
+			"size": 1,
+			"tag": "tag_shield_1"
+		},
+		"shield_2": {
+			"type": "shield",
+			"size": 1,
+			"tag": "tag_shield_2"
+		},
+		"engine": {
+			"type": "engine",
+			"size": 2,
+			"count": 2
+		},
+		"thruster": {
+			"type": "thruster",
+			"size": 1,
+			"count": 12
+		}
 	},
 	"roles": ["mercenary", "merchant", "pirate"],
 	"effective_exhaust_velocity": 12600000,
