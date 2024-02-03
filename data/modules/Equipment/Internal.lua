@@ -83,7 +83,7 @@ Equipment.Register("misc.hull_autorepair", EquipType.New {
 	l10n_key="HULL_AUTOREPAIR", slots="hull_autorepair",
 	price=16000, purchasable=true, tech_level="MILITARY",
 	slot = { type="hull.autorepair", size=4 },
-	mass=30, volume=40, capabilities={mass=40, hull_autorepair=1},
+	mass=30, volume=40, capabilities={ hull_autorepair=1 },
 	icon_name="repairs"
 })
 
