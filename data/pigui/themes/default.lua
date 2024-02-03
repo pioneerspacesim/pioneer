@@ -41,6 +41,8 @@ local styleColors = {
 	primary_500		= Color "6771AD",
 	primary_600		= Color "4F5992",
 	primary_700		= Color "3D4471",
+	primary_800		= Color "1B1B46",
+	primary_900		= Color "0F0F2A",
 
 	background_500	= Color "41418B",
 	background_600	= Color "343474",
@@ -60,7 +62,7 @@ local styleColors = {
 	success_300		= Color "77EE21",
 	success_500		= Color "5ACC0A",
 	success_700		= Color "317005",
-	success_900		= Color "102502",
+	success_900		= Color "173503",
 
 	warning_100		= Color "FFD391",
 	warning_300		= Color "FFA431",
@@ -80,6 +82,11 @@ theme.styleColors = styleColors
 theme.buttonColors = {
 	default = {
 		normal  = styleColors.primary_700,
+		hovered = styleColors.primary_600,
+		active  = styleColors.primary_500
+	},
+	dark = {
+		normal  = styleColors.primary_800,
 		hovered = styleColors.primary_600,
 		active  = styleColors.primary_500
 	},
