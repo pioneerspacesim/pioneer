@@ -133,7 +133,8 @@ local onChat = function (form, ref, option)
 		end
 
 	elseif option == 5 then
-		if not Game.player:GetEquip('radar', 1) then
+		local radar = Game.player:GetComponent("EquipSet"):GetInstalledOfType("sensor.radar")[1]
+		if not radar then
 			form:SetMessage(l.RADAR_NOT_INSTALLED)
 			form:RemoveNavButton()
 			return

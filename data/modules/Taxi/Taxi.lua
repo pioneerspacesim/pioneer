@@ -4,17 +4,16 @@
 local Engine = require 'Engine'
 local Lang = require 'Lang'
 local Game = require 'Game'
-local Space = require 'Space'
 local Comms = require 'Comms'
 local Event = require 'Event'
 local Mission = require 'Mission'
 local MissionUtils = require 'modules.MissionUtils'
+local Passengers = require 'Passengers'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
+local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
 local ShipDef = require 'ShipDef'
-local Ship = require 'Ship'
-local eq = require 'Equipment'
 local utils = require 'utils'
 
 -- Get the language resource
@@ -108,16 +107,14 @@ local passengers = 0
 
 local add_passengers = function (group)
 	for i = 1, group do
-		Game.player:RemoveEquip(eq.misc.cabin, 1)
-		Game.player:AddEquip(eq.misc.cabin_occupied, 1)
+		Passengers.EmbarkPassenger(Game.player, group[i])
 	end
 	passengers = passengers + group
 end
 
 local remove_passengers = function (group)
 	for i = 1, group do
-		Game.player:RemoveEquip(eq.misc.cabin_occupied, 1)
-		Game.player:AddEquip(eq.misc.cabin, 1)
+		Passengers.DisembarkPassenger(Game.player, group[i])
 	end
 	passengers = passengers - group
 end
@@ -183,17 +180,23 @@ local onChat = function (form, ref, option)
 		form:SetMessage(howmany)
 
 	elseif option == 3 then
-		if not Game.player.cabin_cap or Game.player.cabin_cap < ad.group then
+		if Passengers.CountFreeCabins(Game.player) < ad.group then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP)
 			form:RemoveNavButton()
 			return
 		end
 
-		add_passengers(ad.group)
-
 		form:RemoveAdvertOnClose()
 
 		ads[ref] = nil
+
+		local group = {}
+
+		for i = 1, ad.group do
+			table.insert(group, Character.New())
+		end
+
+		add_passengers(group)
 
 		local mission = {
 			type	 = "Taxi",
@@ -202,12 +205,12 @@ local onChat = function (form, ref, option)
 			location = ad.location,
 			risk	 = ad.risk,
 			reward	 = ad.reward,
-			due	 = ad.due,
-			group	 = ad.group,
+			due      = ad.due,
+			group	 = group,
 			flavour	 = ad.flavour
 		}
 
-		table.insert(missions,Mission.New(mission))
+		table.insert(missions, Mission.New(mission))
 
 		form:SetMessage(l.EXCELLENT)
 
@@ -358,27 +361,7 @@ local onEnterSystem = function (player)
 				ships = ships-1
 
 				if Engine.rand:Number(1) <= risk then
-					local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
-					local default_drive = eq.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
-
-					local max_laser_size = shipdef.capacity - default_drive.capabilities.mass
-					local laserdefs = utils.build_array(utils.filter(
-						function (k,l) return l:IsValidSlot('laser_front') and l.capabilities.mass <= max_laser_size and l.l10n_key:find("PULSECANNON") end,
-						pairs(eq.laser)
-					))
-					local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
-
-					ship = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
-					ship:SetLabel(Ship.MakeRandomLabel())
-					ship:AddEquip(default_drive)
-					ship:AddEquip(laserdef)
-					ship:AddEquip(eq.misc.shield_generator, math.ceil(risk * 3))
-					if Engine.rand:Number(2) <= risk then
-						ship:AddEquip(eq.misc.laser_cooling_booster)
-					end
-					if Engine.rand:Number(3) <= risk then
-						ship:AddEquip(eq.misc.shield_energy_booster)
-					end
+					ship = ShipBuilder.MakeGenericPirateNear(Game.player, risk, 50, 100)
 					ship:AIKill(Game.player)
 				end
 			end
@@ -427,17 +410,22 @@ local onShipDocked = function (player, station)
 	end
 end
 
+---@param player Player
 local onShipUndocked = function (player, station)
 	if not player:IsPlayer() then return end
-	local current_passengers = Game.player:GetEquipCountOccupied("cabin")-(Game.player.cabin_cap or 0)
-	if current_passengers >= passengers then return end -- nothing changed, good
 
 	for ref,mission in pairs(missions) do
-		remove_passengers(mission.group)
+        local numPassengers = Passengers.CheckEmbarked(player, mission.group)
 
-		Comms.ImportantMessage(l.HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS, mission.client.name)
-		mission:Remove()
-		missions[ref] = nil
+        -- Lost a passenger somewhere along the way
+        -- maybe we sold the equipment module with them inside?
+        if numPassengers < #mission.group then
+            remove_passengers(mission.group)
+
+            Comms.ImportantMessage(l.HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS, mission.client.name)
+            mission:Remove()
+            missions[ref] = nil
+        end
 	end
 end
 
@@ -495,7 +483,7 @@ local buildMissionDescription = function(mission)
 	desc.details = {
 		{ l.FROM, ui.Format.SystemPath(mission.start) },
 		{ l.TO, ui.Format.SystemPath(mission.location) },
-		{ l.GROUP_DETAILS, string.interp(flavours[mission.flavour].howmany, {group = mission.group}) },
+		{ l.GROUP_DETAILS, string.interp(flavours[mission.flavour].howmany, {group = #mission.group}) },
 		{ l.DEADLINE, ui.Format.Date(mission.due) },
 		{ l.DANGER, flavours[mission.flavour].danger },
 		{ l.DISTANCE, dist.." "..lc.UNIT_LY }

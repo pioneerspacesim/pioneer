@@ -392,7 +392,7 @@ local onChat = function (form, ref, option)
 		form:SetMessage(string.interp(l["HOW_MUCH_TIME_" .. ad.id], { star = ad.star:GetSystemBody().name, date = Format.Date(ad.due) }))
 
 	elseif option == 3 then
-		if ad.reward > 0 and player:CountEquip(Equipment.misc.cargo_scoop) == 0 and player:CountEquip(Equipment.misc.multi_scoop) == 0 then
+		if ad.reward > 0 and (player["cargo_scoop_cap"] or 0) == 0 then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_A_SCOOP)
 			form:RemoveNavButton()
 			return
