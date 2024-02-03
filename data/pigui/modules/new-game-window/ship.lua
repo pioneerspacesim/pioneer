@@ -454,11 +454,12 @@ ShipEquip.lists = {
 }
 -- fill and sort equipment lists
 for slot, tbl in pairs(ShipEquip.lists) do
-	for k, _ in pairs(Equipment[slot]) do
-		if not hiddenIDs[k] then
-			table.insert(tbl, k)
-		end
-	end
+	-- FIXME: convert to use new equipment API
+	-- for k, _ in pairs(Equipment[slot]) do
+	-- 	if not hiddenIDs[k] then
+	-- 		table.insert(tbl, k)
+	-- 	end
+	-- end
 end
 
 for _, v in pairs(ShipEquip.lists) do
@@ -493,30 +494,35 @@ ShipEquip.value = {
 -- utils
 
 local function findEquipmentType(eqTypeID)
-	for _, eq_list in pairs({ 'misc', 'laser', 'hyperspace' }) do
-		if Equipment[eq_list][eqTypeID] then
-			return Equipment[eq_list][eqTypeID]
-		end
-	end
-	assert(false, "Wrong Equipment ID: " .. tostring(eqTypeID))
+	-- FIXME: convert to new equipment APIs
+	-- for _, eq_list in pairs({ 'misc', 'laser', 'hyperspace' }) do
+	-- 	if Equipment[eq_list][eqTypeID] then
+	-- 		return Equipment[eq_list][eqTypeID]
+	-- 	end
+	-- end
+	-- assert(false, "Wrong Equipment ID: " .. tostring(eqTypeID))
+	return nil
 end
 
 local function findEquipmentPath(eqKey)
-	for _, eq_list in pairs({ 'misc', 'laser', 'hyperspace' }) do
-		for id, obj in pairs(Equipment[eq_list]) do
-			if obj.l10n_key == eqKey then
-				return eq_list, id
-			end
-		end
-	end
-	assert(false, "Wrong Equipment ID: " .. tostring(eqKey))
+	-- FIXME: convert to new equipment APIs
+	-- for _, eq_list in pairs({ 'misc', 'laser', 'hyperspace' }) do
+	-- 	for id, obj in pairs(Equipment[eq_list]) do
+	-- 		if obj.l10n_key == eqKey then
+	-- 			return eq_list, id
+	-- 		end
+	-- 	end
+	-- end
+	-- assert(false, "Wrong Equipment ID: " .. tostring(eqKey))
+	return nil
 end
 
 local function hasSlotClass(eqTypeID, slotClass)
-	local eqType = findEquipmentType(eqTypeID)
-	for _, slot in pairs(eqType.slots) do
-		if slotClass[slot] then return true end
-	end
+	-- FIXME: convert to new equipment APIs
+	-- local eqType = findEquipmentType(eqTypeID)
+	-- for _, slot in pairs(eqType.slots) do
+	-- 	if slotClass[slot] then return true end
+	-- end
 	return false
 end
 
@@ -534,17 +540,20 @@ end
 
 function ShipEquip:getHyperDriveClass()
 	if not self.value.engine then return 0 end
-	local drive = Equipment.hyperspace[self.value.engine]
-	return drive.capabilities.hyperclass
+	-- FIXME: convert to new equipment APIs
+	-- local drive = Equipment.hyperspace[self.value.engine]
+	-- return drive.capabilities.hyperclass
+	return 0
 end
 
 function ShipEquip:getThrusterUpgradeLevel()
-	for _, eq_entry in pairs(self.value.misc) do
-		local eq = Equipment.misc[eq_entry.id]
-		if eq.capabilities.thruster_power then
-			return eq.capabilities.thruster_power
-		end
-	end
+	-- FIXME: convert to new equipment APIs
+	-- for _, eq_entry in pairs(self.value.misc) do
+	-- 	local eq = Equipment.misc[eq_entry.id]
+	-- 	if eq.capabilities.thruster_power then
+	-- 		return eq.capabilities.thruster_power
+	-- 	end
+	-- end
 	return 0
 end
 
@@ -555,7 +564,8 @@ function ShipEquip:setDefaultHyperdrive()
 	else
 		local driveID = "hyperdrive_" .. drive_class
 		local index = utils.indexOf(self.lists.hyperspace, driveID)
-		assert(index, "unknown drive ID: " .. tostring(driveID))
+		-- FIXME: convert to new equipment API
+		--assert(index, "unknown drive ID: " .. tostring(driveID))
 		self.value.engine = driveID
 	end
 	self:update()
@@ -650,7 +660,7 @@ function ShipEquip:update()
 			local slot = section_id
 			addToTable(self.usedSlots, slot, 1)
 			self:addToSummary(eqType, 1)
-			self.mass = self.mass + eqType.capabilities.mass
+			--self.mass = self.mass + eqType.capabilities.mass
 		end
 	end
 
@@ -659,7 +669,7 @@ function ShipEquip:update()
 		local slot = eqType.slots[1] -- misc always has one slot
 		addToTable(self.usedSlots, slot, entry.amount)
 		self:addToSummary(eqType, entry.amount)
-		self.mass = self.mass + eqType.capabilities.mass * entry.amount
+		--self.mass = self.mass + eqType.capabilities.mass * entry.amount
 	end
 end
 
