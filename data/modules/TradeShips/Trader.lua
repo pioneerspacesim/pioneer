@@ -123,7 +123,7 @@ Trader.doOrbit = function (ship)
 end
 
 local getSystem = function (ship)
-	local max_range = ship:GetEquip('engine', 1):GetMaximumRange(ship)
+	local max_range = ship:GetInstalledHyperdrive():GetMaximumRange(ship)
 	max_range = math.min(max_range, 30)
 	local min_range = max_range / 2;
 	local systems_in_range = Game.system:GetNearbySystems(min_range)
@@ -216,7 +216,7 @@ local function isAtmo(starport)
 end
 
 local function canAtmo(ship)
-	return ship:CountEquip(e.misc.atmospheric_shielding) ~= 0
+	return (ship["atmo_shield_cap"] or 0) > 0
 end
 
 Trader.isStarportAcceptableForShip = function(starport, ship)
@@ -244,7 +244,7 @@ Trader.getNearestStarport = function(ship, current)
 end
 
 Trader.addFuel = function (ship)
-	local drive = ship:GetEquip('engine', 1)
+	local drive = ship:GetInstalledHyperdrive()
 
 	-- a drive must be installed
 	if not drive then

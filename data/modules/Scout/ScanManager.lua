@@ -162,8 +162,8 @@ end
 ---@package
 -- Register an equipment listener on the player's ship
 function ScanManager:SetupShipEquipListener()
-	self.ship.equipSet:AddListener(function(slot)
-		if slot == "sensor" then
+	self.ship:GetComponent("EquipSet"):AddListener(function(_, equip, slot)
+		if equip.slot and equip.slot.type:match("utility.scanner.planet") then
 			self:UpdateSensorEquipInfo()
 		end
 	end)
@@ -175,11 +175,12 @@ end
 -- Scan the ship's equipment and determine its sensor capabilities
 -- Note: this function completely rebuilds the list of sensors when a sensor equipment item is changed on the ship
 function ScanManager:UpdateSensorEquipInfo()
-	local equip = self.ship.equipSet
+	local equip = self.ship:GetComponent("EquipSet")
 
 	self.sensors = {}
 
-	local sensors = equip:Get("sensor")
+	local sensors = equip:GetInstalledOfType("utility.scanner.planet")
+
 	if #sensors == 0 then
 		self.activeSensor = nil
 		self:ClearActiveScan()
@@ -444,7 +445,7 @@ function ScanManager:CanScanBeActivated(id)
 	if body.path ~= scan.bodyPath then
 		return false
 	end
-	
+
 	if scan.orbital then
 		local altitude, resolution = self:GetBodyState(body, scan)
 		if(resolution > (scan.minResolution * 1.10)) then
@@ -533,7 +534,7 @@ function ScanManager:StartScanCallback(force)
 
 	-- Don't queue a new scan callback if we're already running one at the right frequency
 	-- Force this check if this function was called from ScanManager:Unserialize() because
-	-- callback is not yet setted up 
+	-- callback is not yet setted up
 	if updateRate == self.activeCallback and not force then
 		return
 	end
@@ -568,7 +569,7 @@ function ScanManager:OnUpdateScan(scan)
 	local radius = body:GetSystemBody().radius
 	local altitude, resolution = self:GetBodyState(body)
 	local currentScanPos = self.ship:GetPositionRelTo(body):normalized()
-	
+
 	if scan.orbital then
 		if(resolution > (scan.minResolution * 1.10)) then
 			self:ClearActiveScan()
@@ -578,8 +579,8 @@ function ScanManager:OnUpdateScan(scan)
 
 	-- Determine if we're currently in range to record scan data
 	local withinParams = resolution <= scan.minResolution and altitude > self.activeSensor.minAltitude
-	
-	
+
+
 
 	-- Use great-arc distance to calculate the amount of scan coverage in square meters
 	-- distance = Δσ * radius = arctan( |n1 ⨯ n2| / n1 · n2 ) * radius
