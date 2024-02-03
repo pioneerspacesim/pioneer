@@ -74,34 +74,6 @@ function Ship:GetInstalledHyperdrive()
 	return drives[1]
 end
 
--- Method: CountEquip
---
--- Get the number of a given equipment item in a given equipment slot
---
--- > count = ship:CountEquip(item, slot)
---
--- Parameters:
---
---   item - an Equipment type object (e.g., require 'Equipment'.misc.radar)
---
---   slot - the slot name (e.g., "radar")
---
--- Return:
---
---   count - the number of the given item in the slot
---
--- Availability:
---
---  TBA
---
--- Status:
---
---  experimental
---
-function Ship:CountEquip(item, slot)
-	return self.equipSet:Count(item, slot)
-end
-
 --
 -- Method: AddEquip
 --
@@ -133,156 +105,31 @@ end
 --
 -- Status:
 --
---   experimental
+--   deprecated
 --
+---@deprecated
 function Ship:AddEquip(item, count, slot)
+	-- NOTE: this function only remains to ensure legacy "fire and forget"
+	-- ship equipment codepaths remain functional. New code should interact
+	-- directly without EquipSet instead
 	assert(not count or count == 1)
-	local ret = self.equipSet:Add(self, item(), count, slot)
-	if ret > 0 then
+	assert(not slot)
+
+	local equipSet = self:GetComponent("EquipSet")
+	if not item:isProto() then
+		item = item:Instance()
+	end
+
+	local slotHandle = item.slot and equipSet:GetFreeSlotForEquip(item)
+	local ok = equipSet:Install(item, slotHandle)
+
+	if ok then
 		Event.Queue("onShipEquipmentChanged", self, item)
 	end
-	return ret
+
+	return ok and 1 or 0
 end
 
---
--- Method: GetEquip
---
--- Get a list of equipment in a given equipment slot
---
--- > equip = ship:GetEquip(slot, index)
--- > equiplist = ship:GetEquip(slot)
---
--- Parameters:
---
---   slot  - a slot name string (e.g., "autopilot")
---
---   index - optional. The equipment position in the slot to fetch. If
---           specified the item at that position in the slot will be returned,
---           otherwise a table containing all items in the slot will be
---           returned instead.
---
--- Return:
---
---   equip - when index is specified, an equipment type object for the
---           item, or nil
---
---   equiplist - when index is not specified, a table which has slot indexes
---               as keys and equipment type objects as values.
---               WARNING: although slot indexes are integers, this table is
---               not guaranteed to contain a contiguous set of entries, so you
---               should iterate over it with pairs(), not ipairs().
---
--- Availability:
---
---  alpha 10
---
--- Status:
---
---  experimental
---
-Ship.GetEquip = function (self, slot, index)
-	return self.equipSet:Get(slot, index)
-end
-
---
--- Method: GetEquipFree
---
--- Get the amount of free space in a given equipment slot
---
--- > free = ship:GetEquipFree(slot)
---
--- Parameters:
---
---   slot - a slot name (e.g., "autopilot")
---
--- Return:
---
---   free - the number of item spaces left in this slot
---
--- Availability:
---
---  alpha 10
---
--- Status:
---
---  experimental
---
-Ship.GetEquipFree = function (self, slot)
-	return self.equipSet:FreeSpace(slot)
-end
-
---
--- Method: SetEquip
---
--- Overwrite a single item of equipment in a given equipment slot
---
--- > ship:SetEquip(slot, index, equip)
---
--- Parameters:
---
---   slot - a slot name (e.g., "laser_front")
---
---   index - the position to store the item in
---
---   item - an equipment type object (e.g., Equipment.laser.large_plasma_accelerator)
---
--- Example:
---
--- > -- add a laser to the rear laser mount
--- > ship:SetEquip("laser_rear", 1, Equipment.laser.pulsecannon_4mw)
---
--- Availability:
---
---  alpha 10
---
--- Status:
---
---  experimental
---
-Ship.SetEquip = function (self, slot, index, item)
-	self.equipSet:Set(self, slot, index, item)
-	Event.Queue("onShipEquipmentChanged", self)
-end
-
---
--- Method: RemoveEquip
---
--- Remove one or more of a given equipment type from its appropriate equipment slot
---
--- > num_removed = ship:RemoveEquip(item, count, slot)
---
--- Parameters:
---
---   item - an equipment type object (e.g., Equipment.misc.autopilot)
---
---   count - optional. The number of this item to remove. Defaults to 1.
---
---   slot - optional. The slot to remove the Equipment in, if other than default.
---
--- Return:
---
---   num_removed - the number of items removed
---
--- Example:
---
--- > ship:RemoveEquip(Equipment.hyperspace.hyperdrive_2)
---
--- Availability:
---
---  alpha 10
---
--- Status:
---
---  experimental
---
-
-Ship.RemoveEquip = function (self, item, count, slot)
-	local ret = self.equipSet:Remove(self, item, count, slot)
-	if ret > 0 then
-		Event.Queue("onShipEquipmentChanged", self, item)
-	end
-	return ret
-end
 
 --
 -- Method: IsHyperjumpAllowed
