@@ -64,7 +64,7 @@ local pirateProduction = {
 ---@param rand Rand
 function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand)
 
-	local addEquip = function(equip, slot)
+	local addEquipToPlan = function(equip, slot)
 		shipPlan.slots[slot.id] = equip
 		shipPlan.freeVolume = shipPlan.freeVolume - equip.volume
 		shipPlan.equipMass = shipPlan.equipMass + equip.volume
@@ -99,7 +99,7 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand)
 
 		for _, slot in ipairs(slots) do
 			if EquipSet.CompatibleWithSlot(equip, slot) and shipPlan.freeVolume >= equip.volume then
-				addEquip(equip, slot)
+				addEquipToPlan(equip, slot)
 			end
 
 			numInstalled = numInstalled + 1
@@ -146,7 +146,7 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand)
 			if rule.pick == "random" then
 				-- Select a random item from the list
 				local equip = compatible[rand:Integer(1, #compatible)]
-				addEquip(equip, slot)
+				addEquipToPlan(equip, slot)
 			else
 				-- Sort equipment items by size; heavier items of the same size
 				-- class first. Assume the largest and heaviest item is the best,
@@ -155,7 +155,7 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand)
 					return a.slot.size > b.slot.size or (a.slot.size == b.slot.size and a.mass > b.mass)
 				end)
 
-				addEquip(compatible[1], slot)
+				addEquipToPlan(compatible[1], slot)
 			end
 
 			numInstalled = numInstalled + 1
@@ -212,6 +212,18 @@ end
 ---@param ship Ship
 ---@param shipPlan table
 function ShipBuilder.ApplyPlan(ship, shipPlan)
+
+	local equipSet = ship:GetComponent('EquipSet')
+
+	for name, proto in pairs(shipPlan.slots) do
+		local slot = equipSet:GetSlotHandle(name)
+		assert(slot)
+
+		equipSet:Install(proto(), slot)
+	end
+
+	-- TODO: loose equipment
+
 end
 
 ---@param player Ship
@@ -229,14 +241,11 @@ function ShipBuilder.MakeGenericPirateNear(player, risk, nearDist, farDist)
 	local ship = Space.SpawnShipNear(plan.shipId, player, nearDist or 50, farDist or 100)
 	ship:SetLabel(Ship.MakeRandomLabel())
 
+	ShipBuilder.ApplyPlan(ship, plan)
+
+	-- TODO: handle risk/difficulty-based installation of equipment as part of
+	-- the loadout rules
 	local equipSet = ship:GetComponent('EquipSet')
-
-	for name, proto in pairs(plan.slots) do
-		local slot = equipSet:GetSlotHandle(name)
-		assert(slot)
-
-		equipSet:Install(proto(), slot)
-	end
 
 	if Engine.rand:Number(2) <= risk then
 		equipSet:Install(Equipment.Get("misc.laser_cooling_booster"))
