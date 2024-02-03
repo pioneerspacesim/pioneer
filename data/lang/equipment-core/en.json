@@ -446,5 +446,85 @@
   "WEAPONS": {
     "description": "Category name of weapon-related equipment",
     "message": "Weapons"
+  },
+  "THRUSTERS_DEFAULT": {
+	"description": "",
+	"message": "Default Thrusters"
+  },
+  "PROJECTILE_SPEED": {
+	"description": "Stat name for weapon projectile speeds",
+	"message": "Projectile Speed"
+  },
+  "STAT_VOLUME": {
+	"description": "",
+	"message": "Volume"
+  },
+  "STAT_WEIGHT": {
+	"description": "",
+	"message": "Weight"
+  },
+  "STAT_POWER_DRAW": {
+	"description": "",
+	"message": "Power Draw"
+  },
+  "COMPUTER_MODULES": {
+	"description": "Category name of computer-related equipment",
+	"message": "Computer Modules"
+  },
+  "HULL_MOUNTS": {
+	"description": "Category name for hull-mounted equipment",
+	"message": "Hull Mounts"
+  },
+  "HARDPOINT_LASER_FRONT": {
+	"description": "Name for the 'Laser Front' equipment hardpoint",
+	"message": "Laser Front"
+  },
+  "HARDPOINT_MISSILE_BAY": {
+	"description": "Name for the 'Missile Bay' equipment hardpoint",
+	"message": "Missile Bay"
+  },
+  "HARDPOINT_UTILITY": {
+	"description": "",
+	"message": "Utility"
+  },
+  "SLOT_SENSOR": {
+	"description": "",
+	"message": "Sensor"
+  },
+  "SLOT_COMPUTER": {
+	"description": "",
+	"message": "Computer"
+  },
+  "SLOT_SHIELD": {
+	"description": "",
+	"message": "Shield"
+  },
+  "SLOT_SHIELD_LEFT": {
+	"description": "",
+	"message": "Shield L"
+  },
+  "SLOT_SHIELD_RIGHT": {
+	"description": "",
+	"message": "Shield R"
+  },
+  "SLOT_HULL": {
+	"description": "",
+	"message": "Hull"
+  },
+  "SLOT_HYPERDRIVE": {
+	"description": "",
+	"message": "Hyperdrive"
+  },
+  "SLOT_ENGINE": {
+	"description": "",
+	"message": "Engines"
+  },
+  "SLOT_THRUSTER": {
+	"description": "",
+	"message": "Thrusters"
+  },
+  "MISC_EQUIPMENT": {
+	"description": "Category header for miscellaneous equipment",
+	"message": "Miscellaneous"
   }
 }
