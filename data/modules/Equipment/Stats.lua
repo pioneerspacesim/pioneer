@@ -21,7 +21,6 @@ local EquipType = EquipTypes.EquipType
 ---@alias EquipType.UI.Stats { [1]:string, [2]:ui.Icon, [3]:any, [4]:(fun(v: any):string), [5]:boolean? }
 
 local format_integrity = function(v) return string.format("%d%%", v * 100) end
-local format_volume = function(v) return string.format("%.1f%s³", v, lc.UNIT_METERS) end
 local format_mass = function(v) return ui.Format.Mass(v * 1000, 1) end
 local format_power = function(v) return string.format("%.1f KW", v) end
 
@@ -32,7 +31,7 @@ function EquipType:GetDetailedStats()
 
 	return {
 		{ le.EQUIPMENT_INTEGRITY, icons.repairs, equipHealth, format_integrity },
-		{ le.STAT_VOLUME, icons.square, self.volume, format_volume, true },
+		{ le.STAT_VOLUME, icons.square, self.volume, ui.Format.Volume, true },
 		{ le.STAT_WEIGHT, icons.hull, self.mass, format_mass, true },
 		{ le.STAT_POWER_DRAW, icons.ecm, powerDraw, format_power, true }
 	}
@@ -41,7 +40,7 @@ end
 ---@return table[]
 function EquipType:GetItemCardStats()
 	return {
-		{ icons.square, format_volume(self.volume) },
+		{ icons.square, ui.Format.Volume(self.volume) },
 		{ icons.hull, format_mass(self.mass) },
 		{ icons.ecm, format_power(0) },
 		{ icons.repairs, format_integrity(1) }
