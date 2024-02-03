@@ -33,8 +33,8 @@ Trader.addEquip = function (ship)
 	local size_factor = ship.freeCapacity ^ 2 / 2000000
 
 	if Engine.rand:Number(1) - 0.1 < lawlessness then
-		local num = math.floor(math.sqrt(ship.freeCapacity / 50)) -
-			ship:CountEquip(e.misc.shield_generator)
+		local num = math.floor(math.sqrt(ship.freeCapacity / 50)) --[[ -
+			ship:CountEquip(e.misc.shield_generator) ]]
 		for i = 1, num do
 			ship:AddEquip(e.misc.shield_generator)
 		end
