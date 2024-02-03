@@ -1,7 +1,6 @@
 -- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Equipment = require 'Equipment'
 local Event = require 'Event'
 local Game = require 'Game'
 local Lang = require 'Lang'
@@ -13,7 +12,6 @@ local Vector2 = Vector2
 local ui = require 'pigui'
 local l = Lang.GetResource("ui-core")
 
-local fonts = ui.fonts
 local textTable = require 'pigui.libs.text-table'
 
 local equipmentWidget = require 'pigui.libs.ship-equipment'.New("ShipInfo")
@@ -59,12 +57,11 @@ local function shipStats()
 			})
 		},
 		false,
-		{ l.WEIGHT_EMPTY..":",  string.format("%dt", player.staticMass - player.usedCapacity) },
-		{ l.CAPACITY_USED..":", string.format("%dt (%dt "..l.FREE..")", player.usedCapacity,  player.freeCapacity) },
-		{ l.CARGO_SPACE..":", string.format("%dt (%dt "..l.MAX..")", player.totalCargo, shipDef.equipSlotCapacity.cargo) },
-		{ l.CARGO_SPACE_USED..":", string.format("%dt (%dt "..l.FREE..")", player.usedCargo, player.totalCargo - player.usedCargo) },
-		{ l.FUEL_WEIGHT..":",   string.format("%dt (%dt "..l.MAX..")", player.fuelMassLeft, shipDef.fuelTankMass ) },
-		{ l.ALL_UP_WEIGHT..":", string.format("%dt", mass_with_fuel ) },
+		{ l.WEIGHT_EMPTY..":",     string.format("%dt", player.staticMass - player.loadedMass) },
+		{ l.CAPACITY_USED..":",    string.format("%s (%s "..l.MAX..")", ui.Format.Volume(player.equipVolume), ui.Format.Volume(player.totalVolume) ) },
+		{ l.CARGO_SPACE_USED..":", string.format("%dcu (%dcu "..l.MAX..")", player.usedCargo, player.totalCargo) },
+		{ l.FUEL_WEIGHT..":",      string.format("%.1ft (%.1ft "..l.MAX..")", player.fuelMassLeft, shipDef.fuelTankMass ) },
+		{ l.ALL_UP_WEIGHT..":",    string.format("%dt", mass_with_fuel ) },
 		false,
 		{ l.FRONT_WEAPON..":", frontWeapon and frontWeapon:GetName() or l.NONE },
 		{ l.REAR_WEAPON..":",  rearWeapon and rearWeapon:GetName() or l.NONE },
