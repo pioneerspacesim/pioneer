@@ -126,6 +126,11 @@ function EquipType:GetPrototype()
 	return rawget(self, "__proto") or self
 end
 
+---@return EquipType
+function EquipType:Instance()
+	return setmetatable({ __proto = self }, self.meta)
+end
+
 -- Patch an EquipType class to support a prototype-based equipment system
 -- `equipProto = EquipType.New({ ... })` to create an equipment prototype
 -- `equipInst = equipProto()` to create a new instance based on the created prototype
