@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 ---@class SpaceStation : ModelBody
+---@field techLevel integer
 local SpaceStation = package.core['SpaceStation']
 
 local Economy     = require 'Economy'
@@ -1008,7 +1009,7 @@ Event.Register("onGameStart", function ()
 
 		visited = loaded_data.visited or {}
 		police = loaded_data.police
-		
+
 		for station,_ in pairs(visited) do
 			createCommodityStock(station)
 		end
