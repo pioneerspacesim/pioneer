@@ -111,7 +111,6 @@ void SystemEditorViewport::OnDraw()
 	// Then draw "under" the GUI elements so we can use ImGui::IsItemHovered et al.
 	for (auto &group : groups) {
 		ImVec2 itempos = { group.screenpos.x, group.screenpos.y };
-		ImVec2 iconSize = { ImGui::GetFontSize(), ImGui::GetFontSize() };
 
 		// Simple screen clipping rejection test
 		if (!screen_rect.Contains(itempos))

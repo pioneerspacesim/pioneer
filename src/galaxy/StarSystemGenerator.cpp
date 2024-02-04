@@ -1692,8 +1692,6 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 			}
 
 			Uint32 orbitIdx = 0;
-			double orbitSlt = 0.0;
-			const double orbitSeparation = (NumToMake > 1) ? ((M_PI * 2.0) / double(NumToMake - 1)) : M_PI;
 
 			for (Uint32 i = 0; i < NumToMake; i++) {
 				// Pick the orbit we've currently placing a station into.
@@ -1703,7 +1701,6 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 				if (orbitIdx >= MAX_ORBIT_SHELLS) // wrap it
 				{
 					orbitIdx = 0;
-					orbitSlt += 1.0;
 				}
 
 				// Begin creation of the new station

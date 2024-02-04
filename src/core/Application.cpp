@@ -199,7 +199,9 @@ void Application::Run()
 
 		EndFrame();
 
+#ifdef PIONEER_PROFILER
 		const bool profileReset = (m_activeLifecycle && !m_activeLifecycle->m_profilerAccumulate);
+#endif
 
 		if (m_activeLifecycle->m_endLifecycle || !m_applicationRunning) {
 			EndLifecycle();

@@ -56,7 +56,7 @@ static int l_csb_new(lua_State *L)
 	const char *name = luaL_checkstring(L, 2);
 	int type = LuaConstants::GetConstantFromArg(L, "BodyType", 3);
 
-	if (type < SystemBody::TYPE_GRAVPOINT || type > SystemBody::TYPE_MAX) {
+	if (type < int(SystemBody::TYPE_GRAVPOINT) || type > int(SystemBody::TYPE_MAX)) {
 		return luaL_error(L, "body '%s' does not have a valid type", name);
 	}
 
@@ -354,7 +354,7 @@ static unsigned interpret_star_types(int *starTypes, lua_State *L, int idx)
 		lua_rawgeti(L, -1, i + 1);
 		if (lua_type(L, -1) == LUA_TSTRING) {
 			ty = LuaConstants::GetConstantFromArg(L, "BodyType", -1);
-			if ((ty < SystemBody::TYPE_STAR_MIN || ty > SystemBody::TYPE_STAR_MAX) && ty != SystemBody::TYPE_GRAVPOINT) {
+			if ((ty < int(SystemBody::TYPE_STAR_MIN) || ty > int(SystemBody::TYPE_STAR_MAX)) && ty != SystemBody::TYPE_GRAVPOINT) {
 				luaL_error(L, "system star %d does not have a valid star type", i + 1);
 				// unreachable (longjmp in luaL_error)
 			}
@@ -548,9 +548,9 @@ static int l_csys_bodies(lua_State *L)
 	int primary_type = (*primary_ptr)->bodyData.m_type;
 	luaL_checktype(L, 3, LUA_TTABLE);
 
-	if ((primary_type < SystemBody::TYPE_STAR_MIN || primary_type > SystemBody::TYPE_STAR_MAX) && primary_type != SystemBody::TYPE_GRAVPOINT)
+	if ((primary_type < int(SystemBody::TYPE_STAR_MIN) || primary_type > int(SystemBody::TYPE_STAR_MAX)) && primary_type != SystemBody::TYPE_GRAVPOINT)
 		return luaL_error(L, "first body does not have a valid star type");
-	if (primary_type != cs->primaryType[0] && primary_type != SystemBody::TYPE_GRAVPOINT)
+	if (primary_type != int(cs->primaryType[0]) && primary_type != SystemBody::TYPE_GRAVPOINT)
 		return luaL_error(L, "first body type does not match the system's primary star type");
 
 	cs->bodies.push_back(*primary_ptr);
@@ -1051,10 +1051,10 @@ void CustomSystemsDatabase::RunLuaSystemSanityChecks(CustomSystem *csys)
 }
 
 CustomSystem::CustomSystem() :
+	nameHash(0),
 	sBody(nullptr),
 	numStars(0),
 	seed(0),
-	nameHash(0),
 	want_rand_seed(true),
 	want_rand_explored(true),
 	faction(nullptr),

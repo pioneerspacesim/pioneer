@@ -93,9 +93,9 @@ private:
 
 SystemEditor::SystemEditor(EditorApp *app) :
 	m_app(app),
-	m_undo(new UndoSystem()),
 	m_system(nullptr),
 	m_systemInfo(),
+	m_undo(new UndoSystem()),
 	m_selectedBody(nullptr),
 	m_contextBody(nullptr),
 	m_pendingOp(),
