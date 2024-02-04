@@ -135,8 +135,8 @@ static JoystickInfo loadJoystick(SDL_Joystick *joystick, const IniConfig *config
 
 	std::array<char, 33> joystickGUIDName;
 	SDL_JoystickGetGUIDString(state.guid, joystickGUIDName.data(), joystickGUIDName.size());
-	Output("Found joystick '%s' (GUID: %s)\n", SDL_JoystickName(state.joystick), joystickGUIDName.data());
-	Output("  - %ld axes, %ld buttons, %ld hats\n", state.axes.size(), state.buttons.size(), state.hats.size());
+	Log::Info("Found joystick '{}' (GUID: {})\n", SDL_JoystickName(state.joystick), joystickGUIDName.data());
+	Log::Info("  - {} axes, {} buttons, {} hats\n", state.axes.size(), state.buttons.size(), state.hats.size());
 
 	std::string joystickName = "Joystick." + std::string(joystickGUIDName.data());
 
@@ -148,7 +148,7 @@ static JoystickInfo loadJoystick(SDL_Joystick *joystick, const IniConfig *config
 		}
 
 		loadAxisConfig(config->String(joystickName, axisName, ""), state.axes[i]);
-		Output("  - axis %ld: deadzone %.2f, curve: %.2f, half-axis mode: %b\n",
+		Log::Info("  - axis {}: deadzone {:.2f}, curve: {:.2f}, half-axis mode: {}\n",
 			i, state.axes[i].deadzone, state.axes[i].curve, state.axes[i].zeroToOne);
 	}
 	return state;
