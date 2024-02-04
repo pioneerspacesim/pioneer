@@ -7,8 +7,11 @@ name: Clang Format
 on:
   pull_request:
     paths:
-    - 'src/**.cpp'
-    - 'src/**.h'
+    #- 'src/**.cpp'
+    #- 'src/**.h'
+    # Disable clang-format workflow until it will obey its own config and
+    # stop aligning function parameters with the opening parenthesis
+    .clang-format
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-format
