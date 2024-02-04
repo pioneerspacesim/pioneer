@@ -150,9 +150,11 @@ public:
 
 	// Add an undo step to the active undo entry
 	template<typename T, typename ...Args>
-	void AddUndoStep(Args&& ...args)
+	T *AddUndoStep(Args&& ...args)
 	{
-		AddUndoStep(new T(std::forward<Args>(args)...));
+		T *step = new T(std::forward<Args>(args)...);
+		AddUndoStep(step);
+		return step;
 	}
 
 	// End the current undo entry
