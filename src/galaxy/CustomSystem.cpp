@@ -648,9 +648,9 @@ void CustomSystem::LoadFromJson(const Json &systemdef)
 	sectorY = sector[2].get<int32_t>();
 
 	const Json &position = systemdef["pos"];
-	pos.x = sector[0].get<float>();
-	pos.y = sector[1].get<float>();
-	pos.z = sector[2].get<float>();
+	pos.x = position[0].get<float>();
+	pos.y = position[1].get<float>();
+	pos.z = position[2].get<float>();
 
 	seed = systemdef.value<uint32_t>("seed", 0);
 	explored = systemdef.value<bool>("explored", true);
