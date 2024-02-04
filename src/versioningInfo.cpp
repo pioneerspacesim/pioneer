@@ -39,7 +39,8 @@ void OutputVersioningInfo()
 	Output("LibCurl Version: %s", LIBCURL_VERSION);
 #endif
 
-	Output("GLEW dynamic version: %s\n", glewGetString(GLEW_VERSION));
+	// glewGetString returns unsigned, fmt uses signed
+	Output("GLEW dynamic version: %s\n", reinterpret_cast<const char *>(glewGetString(GLEW_VERSION)));
 	Output("--------------------\n");
 	Output("\n");
 }

@@ -580,7 +580,7 @@ static int l_get_alert_state(lua_State *l)
 		LuaPush(l, "ship-firing");
 		break;
 	default:
-		Error("Unknown alert state %i", state);
+		Error("Unknown alert state %i", int(state));
 	}
 	return 1;
 }

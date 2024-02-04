@@ -2126,7 +2126,7 @@ bool PiGui::first_body_is_more_important_than(Body *body, Body *other)
 	else if (b == ObjectType::PROJECTILE)
 		result = false;
 	else
-		Error("don't know how to compare %i and %i\n", a, b);
+		Error("don't know how to compare %i and %i\n", int(a), int(b));
 
 	return result;
 }

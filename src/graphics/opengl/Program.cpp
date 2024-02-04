@@ -45,7 +45,7 @@ namespace Graphics {
 
 			if (status == GL_FALSE) {
 				Log::Error("Error compiling shader: {}:\n {}\n OpenGL vendor: {}\nOpenGL renderer string: {}",
-					filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
+					filename, infoLog, glstr_to_str(glGetString(GL_VENDOR)), glstr_to_str(glGetString(GL_RENDERER)));
 				return false;
 			}
 
