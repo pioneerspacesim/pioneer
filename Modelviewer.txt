@@ -1,2 +1,0 @@
-The model viewer has been ported over to the editor, and can now be accessed with the same parameter as before:
-editor -mv <model>
