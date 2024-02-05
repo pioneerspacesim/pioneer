@@ -2,18 +2,19 @@ Editor has two distinct modes accessed via command line parameters:
 - System editor used for star system editing
 - Model viewer used for model inspection
 Without any parameters, the editor will not start.
+The editor logs to ~/.pioneer/editor.txt on Linux and Documents/Pioneer/editor.txt on Windows.
 	
 		System editor
-		~~~~~~~~~~~~
+		~~~~~~~~~~~~~
 		
 This is a gui tool for editing and authoring json formatted star systems.
 
 Usage:
 ~~~~~~
-editor -system
+editor --system
 
 Mouse controls:
-~~~~~~~~
+~~~~~~~~~~~~~~~
 <MMB> 			- rotate view
 <Mouse wheel> 	- zoom view
 <LMB>			- select body
@@ -24,7 +25,7 @@ Mouse controls:
 
 
 Menus:
-~~~~~~~~
+~~~~~~
 File - commonly used file operations
 	New system 	- create a blank system (ctrl+N)
 	Open file 	- open an existing system.json (ctrl+O)
@@ -40,11 +41,11 @@ Edit
 Windows - misc tools and shortcut reference
 
 Outliner:
-~~~~~~~~
+~~~~~~~~~
 The left side panel shows the hierarchical structure of the system. The list is collapsible, and bodies can be selected either here or in the system view itself. The order of bodies can be customized, but that will not affect their distance from their parent body.
 
 Right panel:
-~~~~~~~~
+~~~~~~~~~~~~
 You can edit the properties of the selected body in the panel on the right side. These are common astronomical and orbital parameters. For further information, the wikipedia article on orbital elements can be a good starting point.
 Some parameters allow for unit switching (km, AU, light seconds for example) for more intuitive editing.
 If the system from the outliner, its overall properties can be customized, such as its name, short and long description, galactic coordinates government, faction alignment.
@@ -61,16 +62,8 @@ end-user use.
 
 Usage:
 ~~~~~~
-editor -mv <model>
+editor --mv
 
-<model>		- name of the model defined in lua
-
-	Example:
-	./editor -mv interdictor
-		- will load the model interdictor
-
-	./editor -mv
-		- will launch modelviewer, showing a list of available models on the right
 
 Keyboard commands:
 ~~~~~~~~~~~~~~~~~~
