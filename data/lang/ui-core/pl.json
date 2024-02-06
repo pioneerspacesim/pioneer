@@ -21,7 +21,7 @@
   },
   "ALL_PARAMETERS_WERE_RECOVERED_SUCCESSFULLY": {
     "description": "Message when restoring savegame",
-    "message": "All parameters were recovered successfully."
+    "message": "Wszystkie parametry poprawnie przywrócone"
   },
   "ALL_UP_WEIGHT": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "ATTEMPTING_TO_RECOVER_GAME_PROGRESS_FROM_SAVE_X": {
     "description": "Message when restoring savegame",
-    "message": "Attempting to recover game progress from save: {save}"
+    "message": "Próba odzyskania postępu z pliku zapisu: {save}"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -109,11 +109,11 @@
   },
   "CANT_FIND_PATH": {
     "description": "Message when restoring savegame, file path",
-    "message": "Can't find path: %s"
+    "message": "Nie można odnaleźć scieżki: %s"
   },
   "CANT_FIND_PLAYERS_SHIP_IN_SPACE": {
     "description": "Message when restoring savegame",
-    "message": "Can't find player's ship in space"
+    "message": "Nie można znaleźć statku gracza w przestrzeni"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -389,7 +389,7 @@
   },
   "DESCRIPTION": {
     "description": "Start game parameter, e.g. 'This is an easy start from Cydonia'",
-    "message": "Description"
+    "message": "Opis"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",

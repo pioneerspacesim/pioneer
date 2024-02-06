@@ -21,7 +21,7 @@
   },
   "ALL_PARAMETERS_WERE_RECOVERED_SUCCESSFULLY": {
     "description": "Message when restoring savegame",
-    "message": "All parameters were recovered successfully."
+    "message": "Все параметры успешно восстановлены."
   },
   "ALL_UP_WEIGHT": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "ATTEMPTING_TO_RECOVER_GAME_PROGRESS_FROM_SAVE_X": {
     "description": "Message when restoring savegame",
-    "message": "Attempting to recover game progress from save: {save}"
+    "message": "Попытка восстановить игровой прогресс из сохранения: {save}"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -109,11 +109,11 @@
   },
   "CANT_FIND_PATH": {
     "description": "Message when restoring savegame, file path",
-    "message": "Can't find path: %s"
+    "message": "Путь не найден: %s"
   },
   "CANT_FIND_PLAYERS_SHIP_IN_SPACE": {
     "description": "Message when restoring savegame",
-    "message": "Can't find player's ship in space"
+    "message": "Корабль игрока в космосе не найден"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -281,11 +281,11 @@
   },
   "COULD_NOT_DELETE_SAVE": {
     "description": "",
-    "message": "Could not delete save"
+    "message": "Не удалось удалить сохранение"
   },
   "COULD_NOT_FIND_SYSTEM_BODY_FOR_FRAME": {
     "description": "Message when restoring savegame",
-    "message": "Could not find system body for frame"
+    "message": "Не удалось найти тело системы для точки отсчёта."
   },
   "COULD_NOT_LOAD_GAME": {
     "description": "",
@@ -293,7 +293,7 @@
   },
   "COULD_NOT_READ_THE_SAVE_VERSION": {
     "description": "Message when restoring savegame",
-    "message": "Could not read the save version"
+    "message": "Не удалось прочитать сохраненную версию"
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -329,7 +329,7 @@
   },
   "CURRENT_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
-    "message": "Current savegame version: %s"
+    "message": "Текущая версия сохранения: %s"
   },
   "CURRENT_SHIP": {
     "description": "For tooltip comparing current ship specs to one in the shipyard",
@@ -357,11 +357,11 @@
   },
   "DELETE": {
     "description": "",
-    "message": "Delete"
+    "message": "Удаление"
   },
   "DELETE_SAVE_CONFIRMATION": {
     "description": "",
-    "message": "Are you sure you want to delete this save?"
+    "message": "Вы уверены, что хотите удалить это сохранение?"
   },
   "DELTA_V": {
     "description": "",
@@ -389,7 +389,7 @@
   },
   "DESCRIPTION": {
     "description": "Start game parameter, e.g. 'This is an easy start from Cydonia'",
-    "message": "Description"
+    "message": "Описание"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -441,7 +441,7 @@
   },
   "DOCKED_TO_A_BODY_THAT_IS_NOT_A_STATION": {
     "description": "Message when restoring savegame",
-    "message": "Docked to a body that is not a station"
+    "message": "Пристыкован к объекту, которой не является станцией"
   },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
@@ -537,7 +537,7 @@
   },
   "ERROR_APPLYING_PATCH": {
     "description": "Message when restoring savegame",
-    "message": "Error applying patch"
+    "message": "Ошибка используемого пути"
   },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
@@ -557,7 +557,7 @@
   },
   "EXPERIMENTAL": {
     "description": "Indicates feature/option is experimental",
-    "message": "Experimental"
+    "message": "Экспериментально"
   },
   "EXPERT": {
     "description": "For player reputation",
@@ -621,7 +621,7 @@
   },
   "FILE_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
-    "message": "File savegame version: %s"
+    "message": "Версия файла сохранения игры: %s"
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
@@ -1377,11 +1377,11 @@
   },
   "LOG_EARLIEST_FIRST": {
     "description": "Show the log entries in chronological order, earliest first",
-    "message": "Order earliest first"
+    "message": "Сначала ранние"
   },
   "LOG_EXPORT": {
     "description": "Export the log",
-    "message": "Export"
+    "message": "Экспорт"
   },
   "LOG_HTML": {
     "description": "Export the log as HTML or not",
@@ -1533,7 +1533,7 @@
   },
   "MORE_THAN_ONE_PLAYERS_SHIP_FOUND_IN_SPACE": {
     "description": "Message when restoring savegame",
-    "message": "More than one player's ship found in space"
+    "message": "В космосе найдено более одного корабля игрока"
   },
   "MOSTLY_HARMLESS": {
     "description": "",
@@ -1773,7 +1773,7 @@
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",
-    "message": "Path found but verification failed: %s"
+    "message": "Путь найден, но проверка не удалась: %s"
   },
   "PATTERN": {
     "description": "Ship painting pattern.",
@@ -1893,19 +1893,19 @@
   },
   "RAYLEIGH_ACCURATE": {
     "description": "",
-    "message": "Rayleigh/Mie (accurate, per-pixel)"
+    "message": "Рэлеевское/Ми (точно, попиксельно)"
   },
   "RAYLEIGH_FAST": {
     "description": "",
-    "message": "Rayleigh/Mie (fast, per-vertex)"
+    "message": "Рэлеевское/Ми (быстро, повершинно)"
   },
   "REALISTIC_SCATTERING": {
     "description": "",
-    "message": "Scattering"
+    "message": "Рассеяние"
   },
   "REALISTIC_SCATTERING_DESC": {
     "description": "",
-    "message": "Select scattering when rendering atmospheres. (Rayleigh/Mie is not recommended for low-end PCs)"
+    "message": "Выберите рассеяние при рендеринге атмосферы. (Рэлеевское/Ми не рекомендуется использовать на слабых ПК)"
   },
   "REAR_WEAPON": {
     "description": "",
@@ -1913,15 +1913,15 @@
   },
   "RECOVER": {
     "description": "Saveload menu button",
-    "message": "Recover"
+    "message": "Восстановление"
   },
   "RECOVERED_BUT_NOT_VALID": {
     "description": "Message when restoring savegame",
-    "message": "Recovered but not valid"
+    "message": "Восстановлено, но недействительно"
   },
   "RECOVER_SAVEGAME": {
     "description": "",
-    "message": "Recover savegame"
+    "message": "Восстановление сохранения"
   },
   "REFUEL": {
     "description": "",
@@ -2029,11 +2029,11 @@
   },
   "SAVE_DELETED_SUCCESSFULLY": {
     "description": "",
-    "message": "Save deleted successfully"
+    "message": "Сохранение успешно удалено"
   },
   "SCATTERING_OLD": {
     "description": "",
-    "message": "Legacy"
+    "message": "Наследие"
   },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
@@ -2049,11 +2049,11 @@
   },
   "SELECTED_SAVE_DOESNT_EXISTS": {
     "description": "",
-    "message": "Selected save doesn't exist"
+    "message": "Выбранное сохранение не существует"
   },
   "SELECTED_SAVE_IS_NOT_A_VALID_SAVE": {
     "description": "",
-    "message": "Selected save is not a valid save"
+    "message": "Выбранное сохранение не является действительным сохранением."
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",
@@ -2257,7 +2257,7 @@
   },
   "SYSTEM_BODY_INDEX_IS_OUT_OF_RANGE": {
     "description": "Message when restoring savegame",
-    "message": "System body index is out of range"
+    "message": "Индекс тела системы выходит за пределы допустимого диапазона"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
@@ -2285,7 +2285,7 @@
   },
   "THERE_WERE_ERRORS_IN_RECOVERY": {
     "description": "Message when restoring savegame",
-    "message": "There were errors in recovery:"
+    "message": "Возникшие в восстановлении ошибки:"
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
@@ -2381,23 +2381,23 @@
   },
   "UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",
-    "message": "Unknown custom log entry format"
+    "message": "Неизвестный формат записи журнала"
   },
   "UNKNOWN_FACTION": {
     "description": "For entry in the flight log",
-    "message": "Unknown faction"
+    "message": "Неизвестная фракция"
   },
   "UNKNOWN_LOCATION_IN_SECTOR_X": {
     "description": "For entry in the flight log",
-    "message": "Unknown location in sector {sector}"
+    "message": "Неизвестное местоположение в секторе {sector}"
   },
   "UNKNOWN_STATION_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",
-    "message": "Unknown station log entry format"
+    "message": "Неизвестный формат записи журнала станции"
   },
   "UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",
-    "message": "Unknown system log entry format"
+    "message": "Неизвестный формат записи системного журнала"
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
@@ -2417,7 +2417,7 @@
   },
   "UNSUCCESSFULLY_RECOVERED_PARAMETERS_ARE_NOW_UNLOCKED_PLEASE_SET_THEM_MANUALLY": {
     "description": "Message when restoring savegame",
-    "message": "Unsuccessfully recovered parameters are now unlocked, please set them manually."
+    "message": "Неудачно восстановленные параметры теперь разблокированы, установите их вручную."
   },
   "UP_ACCEL": {
     "description": "",
