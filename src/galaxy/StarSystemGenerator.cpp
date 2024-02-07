@@ -1285,12 +1285,12 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 
 	SystemBody *star[4];
 	SystemBody *centGrav1(0), *centGrav2(0);
-	const std::string systemName = sec->m_systems[system->GetPath().systemIndex].GetName();
+	const std::string systemName = secSys.GetName();
 
 	const int numStars = secSys.GetNumStars();
 	assert((numStars >= 1) && (numStars <= 4));
 	if (numStars == 1) {
-		SystemBody::BodyType type = sec->m_systems[system->GetPath().systemIndex].GetStarType(0);
+		SystemBody::BodyType type = secSys.GetStarType(0);
 		star[0] = MakeSystemBody(system, 0, systemName, nullptr);
 		star[0]->m_orbMin = fixed();
 		star[0]->m_orbMax = fixed();
@@ -1303,12 +1303,12 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 		centGrav1->m_type = SystemBody::TYPE_GRAVPOINT;
 		system->SetRootBody(centGrav1);
 
-		SystemBody::BodyType type = sec->m_systems[system->GetPath().systemIndex].GetStarType(0);
+		SystemBody::BodyType type = secSys.GetStarType(0);
 		star[0] = MakeSystemBody(system, centGrav1, systemName, "A");
 		MakeStarOfType(star[0], type, rng);
 
 		star[1] = MakeSystemBody(system, centGrav1, systemName, "B");
-		MakeStarOfTypeLighterThan(star[1], sec->m_systems[system->GetPath().systemIndex].GetStarType(1), star[0]->GetMassAsFixed(), rng);
+		MakeStarOfTypeLighterThan(star[1], secSys.GetStarType(1), star[0]->GetMassAsFixed(), rng);
 
 		centGrav1->m_mass = star[0]->GetMassAsFixed() + star[1]->GetMassAsFixed();
 		centGrav1->m_children.push_back(star[0]);
@@ -1330,7 +1330,7 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 				star[2] = MakeSystemBody(system, 0, systemName, "C");
 				star[2]->m_orbMin = 0;
 				star[2]->m_orbMax = 0;
-				MakeStarOfTypeLighterThan(star[2], sec->m_systems[system->GetPath().systemIndex].GetStarType(2), star[0]->GetMassAsFixed(), rng);
+				MakeStarOfTypeLighterThan(star[2], secSys.GetStarType(2), star[0]->GetMassAsFixed(), rng);
 				centGrav2 = star[2];
 				system->SetNumStars(3);
 			} else {
@@ -1339,10 +1339,10 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 				centGrav2->m_orbMax = 0;
 
 				star[2] = MakeSystemBody(system, centGrav2, systemName, "C");
-				MakeStarOfTypeLighterThan(star[2], sec->m_systems[system->GetPath().systemIndex].GetStarType(2), star[0]->GetMassAsFixed(), rng);
+				MakeStarOfTypeLighterThan(star[2], secSys.GetStarType(2), star[0]->GetMassAsFixed(), rng);
 
 				star[3] = MakeSystemBody(system, centGrav2, systemName, "D");
-				MakeStarOfTypeLighterThan(star[3], sec->m_systems[system->GetPath().systemIndex].GetStarType(3), star[2]->GetMassAsFixed(), rng);
+				MakeStarOfTypeLighterThan(star[3], secSys.GetStarType(3), star[2]->GetMassAsFixed(), rng);
 
 				// Separate stars by 0.2 radii for each, so that their planets don't bump into the other star
 				const fixed minDist2 = (fixed(12, 10) * star[2]->GetRadiusAsFixed() + fixed(12, 10) * star[3]->GetRadiusAsFixed()) * AU_SOL_RADIUS;
