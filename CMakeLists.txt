@@ -449,7 +449,9 @@ list(APPEND install_txt
 	"Changelog.txt"
 	"Modelviewer.txt"
 	"Quickstart.txt"
-	"README.md")
+	"README.md"
+	"NEWS.md"
+	)
 
 install(FILES ${install_txt} DESTINATION ${PIONEER_INSTALL_DATADIR})
 

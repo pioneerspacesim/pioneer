@@ -19,6 +19,7 @@ Table of Contents
 4 Faster startup
   4.1 precompile models
 5 Installing Pioneer
+6 For Packagers
 
 
 1 How to compile Pioneer
@@ -322,3 +323,20 @@ If you are creating an installed version of Pioneer, you will need to
 ensure that you precompile the model files as described in 4.1 before
 running the install step, as installed versions do not package the model
 source files and depend on the *.sgm files for efficient loading of assets.
+
+
+
+6 Packagers
+===========
+
+CMake build scripts were re-organized in the 2024-02-03 release: added CMake
+Presets, and introduced a new `PROJECT_VERSION_INFO` variable to better
+identify the contents and version number of the build when triaging issues.
+For Windows and Linux developers using Visual Studio, VSCode with the CMake
+extension, or any IDE that supports CMake Presets, compiling the game should
+now be only a few clicks away.
+
+Distribution packagers that build Pioneer without Git repository information
+available (or apply patches in a way that changes the git commit hash) are
+encouraged to set the PROJECT_VERSION_INFO CMake variable to a value that
+clearly identifies the source version the package is built from.
