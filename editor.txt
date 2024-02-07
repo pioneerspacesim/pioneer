@@ -1,0 +1,100 @@
+Editor has two distinct modes accessed via command line parameters:
+- System editor used for star system editing
+- Model viewer used for model inspection
+Without any parameters, the editor will not start.
+The editor logs to ~/.pioneer/editor.txt on Linux and Documents/Pioneer/editor.txt on Windows.
+	
+		System editor
+		~~~~~~~~~~~~~
+		
+This is a gui tool for editing and authoring json formatted star systems.
+
+Usage:
+~~~~~~
+editor --system
+
+Mouse controls:
+~~~~~~~~~~~~~~~
+<MMB> 			- rotate view
+<Mouse wheel> 	- zoom view
+<LMB>			- select body
+<double LMB>	- center on body
+<RMB>			- Edit context menu
+<shift>			- faster navigation
+<ctrl>			- slower navigation
+
+
+Menus:
+~~~~~~
+File - commonly used file operations
+	New system 	- create a blank system (ctrl+N)
+	Open file 	- open an existing system.json (ctrl+O)
+	Save		- save the system as a system.json (ctrl+S)
+	Save As 	- save the system to another name (ctrl+shift+S)
+	Quit		- Close the editor (ctrl+Q)
+Edit
+	Center on body 	- center view on selected body (double click)
+	Add Child		- Add a child body to the selected object (ctrl+A)
+	Add Sibling		- Add a sibling body to the selected object (ctrl+shift+A)
+	Delete Body		- Deletes the selected body (ctrl+W)
+	Sort Bodies		- Sort bodies in the outliner according to Semi-Mayor Axis
+Windows - misc tools and shortcut reference
+
+Outliner:
+~~~~~~~~~
+The left side panel shows the hierarchical structure of the system. The list is collapsible, and bodies can be selected either here or in the system view itself. The order of bodies can be customized, but that will not affect their distance from their parent body.
+
+Right panel:
+~~~~~~~~~~~~
+You can edit the properties of the selected body in the panel on the right side. These are common astronomical and orbital parameters. For further information, the wikipedia article on orbital elements can be a good starting point.
+Some parameters allow for unit switching (km, AU, light seconds for example) for more intuitive editing.
+If the system from the outliner, its overall properties can be customized, such as its name, short and long description, galactic coordinates government, faction alignment.
+Systems are placed in a 8*8*8 lightyears sector of the galaxy, indicated by three integer coordinates, and its position is then preciesely placed within that sector via its position coordinates. The origin point of the sector coordinate system is Sol.
+
+
+
+		Model Viewer
+		~~~~~~~~~~~~
+
+This is a simple tool to view a game model using the game's rendering engine.
+It's main purpose is to test and debug models, and generally isn't for
+end-user use.
+
+Usage:
+~~~~~~
+editor --mv
+
+
+Keyboard commands:
+~~~~~~~~~~~~~~~~~~
+
+<cursor keys>		- Rotate the camera
+<hold RMB>			- Rotate the camera
+<Mouse wheel>		- Zoom
+<ESC>			- Exit model viewer, prompt for new name or ESC to Quit.
+
+Menus:
+~~~~~~~~
+There are a number of menus and other options on the top-left of the window:
+
+Options: Toggles for several view overlays like collision mesh, tags, etc.
+Model: Option to switch animation channels. Animation timeline and playback controls can be found at the bottom of the window.
+Ship: Options to show ship features like thrusters, shields, weapons
+	Show shields
+	Linear thrust:
+		Left/Right
+		Up/Down
+		Forward/Backward
+	Angular thrust:
+		Pitch Up/Pitch Down
+		Yaw Left/Yaw Right
+		Roll Left/Roll Right
+	Reset thrusters
+	Attach test guns
+Grid toggles and grid scale
+Lightig presets (all are attached to the camera)
+	Front light - light shines approx from the camera
+	Two-point 	- Two point lighting setup
+	Backlight	- Light shines from the opposide side from the camera
+The right side panels allow for examining the model hierarchy and show the model parser log.
+
