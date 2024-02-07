@@ -45,6 +45,7 @@ public:
 	static constexpr uint32_t BODY_SATELLITE_SALT = 0xf5123a90;
 
 	SystemBody *MakeSystemBody(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *parent, const std::string &systemName, const char *bodySuffix);
+	SystemBody *MakeGravFor(RefCountedPtr<StarSystem::GeneratorAPI> system, const std::string &systemName, SystemBody *body1, SystemBody *body2);
 
 	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config);
 
