@@ -1261,6 +1261,19 @@ void StarSystemRandomGenerator::MakeBinaryPair(SystemBody *a, SystemBody *b, fix
 	b->m_orbMax = orbMax;
 }
 
+SystemBody* StarSystemRandomGenerator::MakeSystemBody(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *parent, const std::string &systemName, const char *bodySuffix)
+{
+	SystemBody *newBody = system->NewBody();
+	newBody->m_parent = parent;
+	newBody->m_name = systemName;
+	if (bodySuffix != nullptr) {
+		newBody->m_name += " ";
+		newBody->m_name += bodySuffix;
+	}
+
+	return newBody;
+}
+
 bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
 {
 	PROFILE_SCOPED()
@@ -1277,9 +1290,7 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 	assert((numStars >= 1) && (numStars <= 4));
 	if (numStars == 1) {
 		SystemBody::BodyType type = sec->m_systems[system->GetPath().systemIndex].GetStarType(0);
-		star[0] = system->NewBody();
-		star[0]->m_parent = 0;
-		star[0]->m_name = sec->m_systems[system->GetPath().systemIndex].GetName();
+		star[0] = MakeSystemBody(system, 0, sec->m_systems[system->GetPath().systemIndex].GetName(), nullptr);
 		star[0]->m_orbMin = fixed();
 		star[0]->m_orbMax = fixed();
 
@@ -1287,21 +1298,15 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 		system->SetRootBody(star[0]);
 		system->SetNumStars(1);
 	} else {
-		centGrav1 = system->NewBody();
+		centGrav1 = MakeSystemBody(system, 0, sec->m_systems[system->GetPath().systemIndex].GetName(), "A,B");
 		centGrav1->m_type = SystemBody::TYPE_GRAVPOINT;
-		centGrav1->m_parent = 0;
-		centGrav1->m_name = sec->m_systems[system->GetPath().systemIndex].GetName() + " A,B";
 		system->SetRootBody(centGrav1);
 
 		SystemBody::BodyType type = sec->m_systems[system->GetPath().systemIndex].GetStarType(0);
-		star[0] = system->NewBody();
-		star[0]->m_name = sec->m_systems[system->GetPath().systemIndex].GetName() + " A";
-		star[0]->m_parent = centGrav1;
+		star[0] = MakeSystemBody(system, centGrav1, sec->m_systems[system->GetPath().systemIndex].GetName(), "A");
 		MakeStarOfType(star[0], type, rng);
 
-		star[1] = system->NewBody();
-		star[1]->m_name = sec->m_systems[system->GetPath().systemIndex].GetName() + " B";
-		star[1]->m_parent = centGrav1;
+		star[1] = MakeSystemBody(system, centGrav1, sec->m_systems[system->GetPath().systemIndex].GetName(), "B");
 		MakeStarOfTypeLighterThan(star[1], sec->m_systems[system->GetPath().systemIndex].GetStarType(1), star[0]->GetMassAsFixed(), rng);
 
 		centGrav1->m_mass = star[0]->GetMassAsFixed() + star[1]->GetMassAsFixed();
@@ -1321,27 +1326,21 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 			}
 			// 3rd and maybe 4th star
 			if (numStars == 3) {
-				star[2] = system->NewBody();
-				star[2]->m_name = sec->m_systems[system->GetPath().systemIndex].GetName() + " C";
+				star[2] = MakeSystemBody(system, 0, sec->m_systems[system->GetPath().systemIndex].GetName(), "C");
 				star[2]->m_orbMin = 0;
 				star[2]->m_orbMax = 0;
 				MakeStarOfTypeLighterThan(star[2], sec->m_systems[system->GetPath().systemIndex].GetStarType(2), star[0]->GetMassAsFixed(), rng);
 				centGrav2 = star[2];
 				system->SetNumStars(3);
 			} else {
-				centGrav2 = system->NewBody();
+				centGrav2 = MakeSystemBody(system, 0, sec->m_systems[system->GetPath().systemIndex].GetName(), "C,D");
 				centGrav2->m_type = SystemBody::TYPE_GRAVPOINT;
-				centGrav2->m_name = sec->m_systems[system->GetPath().systemIndex].GetName() + " C,D";
 				centGrav2->m_orbMax = 0;
 
-				star[2] = system->NewBody();
-				star[2]->m_name = sec->m_systems[system->GetPath().systemIndex].GetName() + " C";
-				star[2]->m_parent = centGrav2;
+				star[2] = MakeSystemBody(system, centGrav2, sec->m_systems[system->GetPath().systemIndex].GetName(), "C");
 				MakeStarOfTypeLighterThan(star[2], sec->m_systems[system->GetPath().systemIndex].GetStarType(2), star[0]->GetMassAsFixed(), rng);
 
-				star[3] = system->NewBody();
-				star[3]->m_name = sec->m_systems[system->GetPath().systemIndex].GetName() + " D";
-				star[3]->m_parent = centGrav2;
+				star[3] = MakeSystemBody(system, centGrav2, sec->m_systems[system->GetPath().systemIndex].GetName(), "D");
 				MakeStarOfTypeLighterThan(star[3], sec->m_systems[system->GetPath().systemIndex].GetStarType(3), star[2]->GetMassAsFixed(), rng);
 
 				// Separate stars by 0.2 radii for each, so that their planets don't bump into the other star
@@ -1352,10 +1351,8 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 				centGrav2->m_children.push_back(star[3]);
 				system->SetNumStars(4);
 			}
-			SystemBody *superCentGrav = system->NewBody();
+			SystemBody *superCentGrav = MakeSystemBody(system, 0, sec->m_systems[system->GetPath().systemIndex].GetName(), nullptr);
 			superCentGrav->m_type = SystemBody::TYPE_GRAVPOINT;
-			superCentGrav->m_parent = 0;
-			superCentGrav->m_name = sec->m_systems[system->GetPath().systemIndex].GetName();
 			centGrav1->m_parent = superCentGrav;
 			centGrav2->m_parent = superCentGrav;
 			system->SetRootBody(superCentGrav);
