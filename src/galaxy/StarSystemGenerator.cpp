@@ -1261,10 +1261,9 @@ void StarSystemRandomGenerator::MakeBinaryPair(SystemBody *a, SystemBody *b, fix
 	b->m_orbMax = orbMax;
 }
 
-SystemBody* StarSystemRandomGenerator::MakeSystemBody(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *parent, const std::string &systemName, const char *bodySuffix)
+SystemBody* StarSystemRandomGenerator::MakeSystemBody(RefCountedPtr<StarSystem::GeneratorAPI> system, const std::string &systemName, const char *bodySuffix)
 {
 	SystemBody *newBody = system->NewBody();
-	newBody->m_parent = parent;
 	newBody->m_name = systemName;
 	if (bodySuffix != nullptr) {
 		newBody->m_name += " ";
@@ -1274,15 +1273,19 @@ SystemBody* StarSystemRandomGenerator::MakeSystemBody(RefCountedPtr<StarSystem::
 	return newBody;
 }
 
-SystemBody* StarSystemRandomGenerator::MakeGravFor(RefCountedPtr<StarSystem::GeneratorAPI> system, const std::string &systemName, SystemBody * const body1, SystemBody * const body2)
+SystemBody* StarSystemRandomGenerator::MakeGravFor(RefCountedPtr<StarSystem::GeneratorAPI> system, const std::string &systemName, SystemBody * body1, SystemBody * body2)
 {
 	const std::string suffix1 = body1->m_name.substr(systemName.size() + 1);
 	const std::string suffix2 = body2->m_name.substr(systemName.size() + 1);
 	const std::string suffixGrav = suffix1 + ',' + suffix2;
 
-	SystemBody *grav = MakeSystemBody(system, 0, systemName, suffixGrav.c_str());
+	SystemBody *grav = MakeSystemBody(system, systemName, suffixGrav.c_str());
 	grav->m_type = SystemBody::TYPE_GRAVPOINT;
 	grav->m_mass = body1->GetMassAsFixed() + body2->GetMassAsFixed();
+
+	body1->m_parent = grav;
+	body2->m_parent = grav;
+
 	grav->m_children.push_back(body1);
 	grav->m_children.push_back(body2);
 
@@ -1306,7 +1309,7 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 	assert((numStars >= 1) && (numStars <= 4));
 	if (numStars == 1) {
 		SystemBody::BodyType type = secSys.GetStarType(0);
-		star[0] = MakeSystemBody(system, 0, systemName, nullptr);
+		star[0] = MakeSystemBody(system, systemName, nullptr);
 		star[0]->m_orbMin = fixed();
 		star[0]->m_orbMax = fixed();
 
@@ -1315,10 +1318,10 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 		system->SetNumStars(1);
 	} else {
 		SystemBody::BodyType type = secSys.GetStarType(0);
-		star[0] = MakeSystemBody(system, centGrav1, systemName, "A");
+		star[0] = MakeSystemBody(system, systemName, "A");
 		MakeStarOfType(star[0], type, rng);
 
-		star[1] = MakeSystemBody(system, centGrav1, systemName, "B");
+		star[1] = MakeSystemBody(system, systemName, "B");
 		MakeStarOfTypeLighterThan(star[1], secSys.GetStarType(1), star[0]->GetMassAsFixed(), rng);
 
 		centGrav1 = MakeGravFor(system, systemName, star[0], star[1]);
@@ -1338,17 +1341,17 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 			}
 			// 3rd and maybe 4th star
 			if (numStars == 3) {
-				star[2] = MakeSystemBody(system, 0, systemName, "C");
+				star[2] = MakeSystemBody(system, systemName, "C");
 				star[2]->m_orbMin = 0;
 				star[2]->m_orbMax = 0;
 				MakeStarOfTypeLighterThan(star[2], secSys.GetStarType(2), star[0]->GetMassAsFixed(), rng);
 				centGrav2 = star[2];
 				system->SetNumStars(3);
 			} else {
-				star[2] = MakeSystemBody(system, centGrav2, systemName, "C");
+				star[2] = MakeSystemBody(system, systemName, "C");
 				MakeStarOfTypeLighterThan(star[2], secSys.GetStarType(2), star[0]->GetMassAsFixed(), rng);
 
-				star[3] = MakeSystemBody(system, centGrav2, systemName, "D");
+				star[3] = MakeSystemBody(system, systemName, "D");
 				MakeStarOfTypeLighterThan(star[3], secSys.GetStarType(3), star[2]->GetMassAsFixed(), rng);
 
 				centGrav2 = MakeGravFor(system, systemName, star[2], star[3]);
@@ -1361,8 +1364,6 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 			}
 			SystemBody *superCentGrav = MakeGravFor(system, systemName, centGrav1, centGrav2);
 			superCentGrav->m_name = systemName;
-			centGrav1->m_parent = superCentGrav;
-			centGrav2->m_parent = superCentGrav;
 			system->SetRootBody(superCentGrav);
 			const fixed minDistSuper = star[0]->m_orbMax + star[2]->m_orbMax;
 			MakeBinaryPair(centGrav1, centGrav2, 4 * minDistSuper, rng);
