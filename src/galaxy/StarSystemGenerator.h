@@ -44,8 +44,10 @@ class StarSystemRandomGenerator : public StarSystemLegacyGeneratorBase {
 public:
 	static constexpr uint32_t BODY_SATELLITE_SALT = 0xf5123a90;
 
-	SystemBody *MakeSystemBody(RefCountedPtr<StarSystem::GeneratorAPI> system, const std::string &systemName, const char *bodySuffix);
+	SystemBody *MakeSystemBody(RefCountedPtr<StarSystem::GeneratorAPI> system, const std::string &systemName, const std::string &bodySuffix);
 	SystemBody *MakeGravFor(RefCountedPtr<StarSystem::GeneratorAPI> system, const std::string &systemName, SystemBody *body1, SystemBody *body2);
+	std::string GetStarNameFromId(const int id);
+	SystemBody *PlaceStars(Random &rng, RefCountedPtr<StarSystem::GeneratorAPI> system, const Sector::System &secSys, const int offset, const int numStars, const fixed maxMass);
 
 	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config);
 
@@ -57,6 +59,7 @@ public:
 
 private:
 	void MakePlanetsAround(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *primary, Random &rand);
+	void MakePlanetsAroundChildrenGravs(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *primary, Random &rand);
 	void MakeRandomStar(SystemBody *sbody, Random &rand);
 	void MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type, Random &rand);
 	void MakeStarOfTypeLighterThan(SystemBody *sbody, SystemBody::BodyType type, fixed maxMass, Random &rand);
