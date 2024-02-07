@@ -1261,11 +1261,11 @@ void StarSystemRandomGenerator::MakeBinaryPair(SystemBody *a, SystemBody *b, fix
 	b->m_orbMax = orbMax;
 }
 
-SystemBody* StarSystemRandomGenerator::MakeSystemBody(RefCountedPtr<StarSystem::GeneratorAPI> system, const std::string &systemName, const char *bodySuffix)
+SystemBody* StarSystemRandomGenerator::MakeSystemBody(RefCountedPtr<StarSystem::GeneratorAPI> system, const std::string &systemName, const std::string &bodySuffix)
 {
 	SystemBody *newBody = system->NewBody();
 	newBody->m_name = systemName;
-	if (bodySuffix != nullptr) {
+	if (!bodySuffix.empty()) {
 		newBody->m_name += " ";
 		newBody->m_name += bodySuffix;
 	}
@@ -1279,7 +1279,7 @@ SystemBody* StarSystemRandomGenerator::MakeGravFor(RefCountedPtr<StarSystem::Gen
 	const std::string suffix2 = body2->m_name.substr(systemName.size() + 1);
 	const std::string suffixGrav = suffix1 + ',' + suffix2;
 
-	SystemBody *grav = MakeSystemBody(system, systemName, suffixGrav.c_str());
+	SystemBody *grav = MakeSystemBody(system, systemName, suffixGrav);
 	grav->m_type = SystemBody::TYPE_GRAVPOINT;
 	grav->m_mass = body1->GetMassAsFixed() + body2->GetMassAsFixed();
 
@@ -1292,6 +1292,91 @@ SystemBody* StarSystemRandomGenerator::MakeGravFor(RefCountedPtr<StarSystem::Gen
 	return grav;
 }
 
+std::string StarSystemRandomGenerator::GetStarNameFromId(const int id)
+{
+	// UGLY HACK
+	assert((id >= 0) && (id < 26));
+	char buf[16];
+	snprintf(buf, sizeof(buf), "%c", 'A' + id);
+	return buf;
+}
+
+SystemBody* StarSystemRandomGenerator::PlaceStars(Random &rng, RefCountedPtr<StarSystem::GeneratorAPI> system, const Sector::System &secSys, const int offset, const int numStars, const fixed maxMass = fixed())
+{
+	const std::string systemName = secSys.GetName();
+	SystemBody *body;
+
+	if (numStars == 1) {
+		// We have only one star in the system, make it root
+
+		SystemBody::BodyType type = secSys.GetStarType(0);
+		body = MakeSystemBody(system, systemName, GetStarNameFromId(offset));
+
+		if (maxMass != 0) {
+			MakeStarOfTypeLighterThan(body, type, maxMass, rng);
+		} else {
+			MakeStarOfType(body, type, rng);
+		}
+		system->AddStar(body);
+	} else if (numStars == 2) {
+		// Two stars. Binary system is the only option
+
+		SystemBody *bodies[2];
+
+		for (int i = 0; i < 2; i++) {
+			SystemBody::BodyType type = secSys.GetStarType(i);
+			bodies[i] = MakeSystemBody(system, systemName, GetStarNameFromId(offset + i));
+			if (i == 0) {
+				if (maxMass != 0) {
+					MakeStarOfTypeLighterThan(bodies[i], secSys.GetStarType(i), maxMass, rng);
+				} else {
+					MakeStarOfType(bodies[i], type, rng);
+				}
+			} else {
+				MakeStarOfTypeLighterThan(bodies[i], secSys.GetStarType(i), bodies[0]->GetMassAsFixed(), rng);
+			}
+
+			system->AddStar(bodies[i]);
+		}
+
+		body = MakeGravFor(system, systemName, bodies[0], bodies[1]);
+
+		// Separate stars by 0.2 radii for each, so that their planets don't bump into the other star
+		const fixed minDist = fixed(12, 10) * (bodies[0]->GetRadiusAsFixed() + bodies[1]->GetRadiusAsFixed()) * AU_SOL_RADIUS;
+
+		MakeBinaryPair(bodies[0], bodies[1], minDist, rng);
+	} else {
+		SystemBody *bodies[2];
+
+		const int chooseL = rng.Int32(numStars - 1) + 1; // for numStars = 3 choose [1, 2]
+		const int chooseR = numStars - chooseL;
+
+		bodies[0] = PlaceStars(rng, system, secSys, offset,           chooseL, 0);
+		bodies[1] = PlaceStars(rng, system, secSys, offset + chooseL, chooseR, bodies[0]->GetMassAsFixed());
+
+		body = MakeGravFor(system, systemName, bodies[0], bodies[1]);
+
+		const fixed minDist = bodies[0]->m_orbMax + bodies[1]->m_orbMax;
+		MakeBinaryPair(bodies[0], bodies[1], 4 * minDist, rng);
+	}
+
+	return body;
+}
+
+void StarSystemRandomGenerator::MakePlanetsAroundChildrenGravs(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *primary, Random &rand)
+{
+	if (primary->m_type != SystemBody::TYPE_GRAVPOINT) {
+		return;
+	}
+
+	MakePlanetsAround(system, primary, rand);
+
+	for (std::vector<SystemBody *>::const_iterator i = primary->m_children.cbegin(); i != primary->m_children.cend(); ++i) {
+		SystemBody *child = *i;
+		MakePlanetsAroundChildrenGravs(system, child, rand);
+	}
+}
+
 bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
 {
 	PROFILE_SCOPED()
@@ -1301,92 +1386,28 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 	if (config->isCustomOnly)
 		return true;
 
-	SystemBody *star[4];
-	SystemBody *centGrav1(0), *centGrav2(0);
 	const std::string systemName = secSys.GetName();
 
 	const int numStars = secSys.GetNumStars();
 	assert((numStars >= 1) && (numStars <= 4));
-	if (numStars == 1) {
-		SystemBody::BodyType type = secSys.GetStarType(0);
-		star[0] = MakeSystemBody(system, systemName, nullptr);
-		star[0]->m_orbMin = fixed();
-		star[0]->m_orbMax = fixed();
 
-		MakeStarOfType(star[0], type, rng);
-		system->SetRootBody(star[0]);
-		system->SetNumStars(1);
-	} else {
-		SystemBody::BodyType type = secSys.GetStarType(0);
-		star[0] = MakeSystemBody(system, systemName, "A");
-		MakeStarOfType(star[0], type, rng);
-
-		star[1] = MakeSystemBody(system, systemName, "B");
-		MakeStarOfTypeLighterThan(star[1], secSys.GetStarType(1), star[0]->GetMassAsFixed(), rng);
-
-		centGrav1 = MakeGravFor(system, systemName, star[0], star[1]);
-		system->SetRootBody(centGrav1);
-
-		// Separate stars by 0.2 radii for each, so that their planets don't bump into the other star
-		const fixed minDist1 = (fixed(12, 10) * star[0]->GetRadiusAsFixed() + fixed(12, 10) * star[1]->GetRadiusAsFixed()) * AU_SOL_RADIUS;
-	try_that_again_guvnah:
-		MakeBinaryPair(star[0], star[1], minDist1, rng);
-
-		system->SetNumStars(2);
-
-		if (numStars > 2) {
-			if (star[0]->m_orbMax > fixed(100, 1)) {
-				// reduce to < 100 AU...
-				goto try_that_again_guvnah;
-			}
-			// 3rd and maybe 4th star
-			if (numStars == 3) {
-				star[2] = MakeSystemBody(system, systemName, "C");
-				star[2]->m_orbMin = 0;
-				star[2]->m_orbMax = 0;
-				MakeStarOfTypeLighterThan(star[2], secSys.GetStarType(2), star[0]->GetMassAsFixed(), rng);
-				centGrav2 = star[2];
-				system->SetNumStars(3);
-			} else {
-				star[2] = MakeSystemBody(system, systemName, "C");
-				MakeStarOfTypeLighterThan(star[2], secSys.GetStarType(2), star[0]->GetMassAsFixed(), rng);
-
-				star[3] = MakeSystemBody(system, systemName, "D");
-				MakeStarOfTypeLighterThan(star[3], secSys.GetStarType(3), star[2]->GetMassAsFixed(), rng);
-
-				centGrav2 = MakeGravFor(system, systemName, star[2], star[3]);
-				centGrav2->m_orbMax = 0;
-
-				// Separate stars by 0.2 radii for each, so that their planets don't bump into the other star
-				const fixed minDist2 = (fixed(12, 10) * star[2]->GetRadiusAsFixed() + fixed(12, 10) * star[3]->GetRadiusAsFixed()) * AU_SOL_RADIUS;
-				MakeBinaryPair(star[2], star[3], minDist2, rng);
-				system->SetNumStars(4);
-			}
-			SystemBody *superCentGrav = MakeGravFor(system, systemName, centGrav1, centGrav2);
-			superCentGrav->m_name = systemName;
-			system->SetRootBody(superCentGrav);
-			const fixed minDistSuper = star[0]->m_orbMax + star[2]->m_orbMax;
-			MakeBinaryPair(centGrav1, centGrav2, 4 * minDistSuper, rng);
-		}
-	}
+	SystemBody *root = PlaceStars(rng, system, secSys, 0, numStars);
+	system->SetRootBody(root);
+	system->SetNumStars(numStars);
+	root->m_name = systemName;
+	root->m_orbMin = fixed();
+	root->m_orbMax = fixed();
 
 	// used in MakeShortDescription
 	// XXX except this does not reflect the actual mining happening in this system
 	system->SetMetallicity(starMetallicities[system->GetRootBody()->GetType()]);
 
-	// store all of the stars first ...
-	for (uint32_t i = 0; i < system->GetNumStars(); i++) {
-		system->AddStar(star[i]);
-	}
 	// ... because we need them when making planets to calculate surface temperatures
 	for (auto *s : system->GetStars()) {
 		MakePlanetsAround(system, s, rng);
 	}
 
-	if (system->GetNumStars() > 1)
-		MakePlanetsAround(system, centGrav1, rng);
-	if (system->GetNumStars() == 4)
-		MakePlanetsAround(system, centGrav2, rng);
+	MakePlanetsAroundChildrenGravs(system, root, rng);
 
 		// an example export of generated system, can be removed during the merge
 		//char filename[500];
