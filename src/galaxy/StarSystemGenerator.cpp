@@ -1274,6 +1274,21 @@ SystemBody* StarSystemRandomGenerator::MakeSystemBody(RefCountedPtr<StarSystem::
 	return newBody;
 }
 
+SystemBody* StarSystemRandomGenerator::MakeGravFor(RefCountedPtr<StarSystem::GeneratorAPI> system, const std::string &systemName, SystemBody * const body1, SystemBody * const body2)
+{
+	const std::string suffix1 = body1->m_name.substr(systemName.size() + 1);
+	const std::string suffix2 = body2->m_name.substr(systemName.size() + 1);
+	const std::string suffixGrav = suffix1 + ',' + suffix2;
+
+	SystemBody *grav = MakeSystemBody(system, 0, systemName, suffixGrav.c_str());
+	grav->m_type = SystemBody::TYPE_GRAVPOINT;
+	grav->m_mass = body1->GetMassAsFixed() + body2->GetMassAsFixed();
+	grav->m_children.push_back(body1);
+	grav->m_children.push_back(body2);
+
+	return grav;
+}
+
 bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
 {
 	PROFILE_SCOPED()
@@ -1299,10 +1314,6 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 		system->SetRootBody(star[0]);
 		system->SetNumStars(1);
 	} else {
-		centGrav1 = MakeSystemBody(system, 0, systemName, "A,B");
-		centGrav1->m_type = SystemBody::TYPE_GRAVPOINT;
-		system->SetRootBody(centGrav1);
-
 		SystemBody::BodyType type = secSys.GetStarType(0);
 		star[0] = MakeSystemBody(system, centGrav1, systemName, "A");
 		MakeStarOfType(star[0], type, rng);
@@ -1310,9 +1321,9 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 		star[1] = MakeSystemBody(system, centGrav1, systemName, "B");
 		MakeStarOfTypeLighterThan(star[1], secSys.GetStarType(1), star[0]->GetMassAsFixed(), rng);
 
-		centGrav1->m_mass = star[0]->GetMassAsFixed() + star[1]->GetMassAsFixed();
-		centGrav1->m_children.push_back(star[0]);
-		centGrav1->m_children.push_back(star[1]);
+		centGrav1 = MakeGravFor(system, systemName, star[0], star[1]);
+		system->SetRootBody(centGrav1);
+
 		// Separate stars by 0.2 radii for each, so that their planets don't bump into the other star
 		const fixed minDist1 = (fixed(12, 10) * star[0]->GetRadiusAsFixed() + fixed(12, 10) * star[1]->GetRadiusAsFixed()) * AU_SOL_RADIUS;
 	try_that_again_guvnah:
@@ -1334,33 +1345,27 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 				centGrav2 = star[2];
 				system->SetNumStars(3);
 			} else {
-				centGrav2 = MakeSystemBody(system, 0, systemName, "C,D");
-				centGrav2->m_type = SystemBody::TYPE_GRAVPOINT;
-				centGrav2->m_orbMax = 0;
-
 				star[2] = MakeSystemBody(system, centGrav2, systemName, "C");
 				MakeStarOfTypeLighterThan(star[2], secSys.GetStarType(2), star[0]->GetMassAsFixed(), rng);
 
 				star[3] = MakeSystemBody(system, centGrav2, systemName, "D");
 				MakeStarOfTypeLighterThan(star[3], secSys.GetStarType(3), star[2]->GetMassAsFixed(), rng);
 
+				centGrav2 = MakeGravFor(system, systemName, star[2], star[3]);
+				centGrav2->m_orbMax = 0;
+
 				// Separate stars by 0.2 radii for each, so that their planets don't bump into the other star
 				const fixed minDist2 = (fixed(12, 10) * star[2]->GetRadiusAsFixed() + fixed(12, 10) * star[3]->GetRadiusAsFixed()) * AU_SOL_RADIUS;
 				MakeBinaryPair(star[2], star[3], minDist2, rng);
-				centGrav2->m_mass = star[2]->GetMassAsFixed() + star[3]->GetMassAsFixed();
-				centGrav2->m_children.push_back(star[2]);
-				centGrav2->m_children.push_back(star[3]);
 				system->SetNumStars(4);
 			}
-			SystemBody *superCentGrav = MakeSystemBody(system, 0, systemName, nullptr);
-			superCentGrav->m_type = SystemBody::TYPE_GRAVPOINT;
+			SystemBody *superCentGrav = MakeGravFor(system, systemName, centGrav1, centGrav2);
+			superCentGrav->m_name = systemName;
 			centGrav1->m_parent = superCentGrav;
 			centGrav2->m_parent = superCentGrav;
 			system->SetRootBody(superCentGrav);
 			const fixed minDistSuper = star[0]->m_orbMax + star[2]->m_orbMax;
 			MakeBinaryPair(centGrav1, centGrav2, 4 * minDistSuper, rng);
-			superCentGrav->m_children.push_back(centGrav1);
-			superCentGrav->m_children.push_back(centGrav2);
 		}
 	}
 
