@@ -45,7 +45,7 @@ public:
 	static constexpr uint32_t BODY_SATELLITE_SALT = 0xf5123a90;
 
 	SystemBody *MakeSystemBody(RefCountedPtr<StarSystem::GeneratorAPI> system, const std::string &systemName, const std::string &bodySuffix);
-	SystemBody *MakeGravFor(RefCountedPtr<StarSystem::GeneratorAPI> system, const std::string &systemName, SystemBody *body1, SystemBody *body2);
+	SystemBody *MakeGravPointForBodies(RefCountedPtr<StarSystem::GeneratorAPI> system, const std::string &systemName, SystemBody *body1, SystemBody *body2);
 	std::string GetStarNameFromId(const int id);
 	SystemBody *PlaceStars(Random &rng, RefCountedPtr<StarSystem::GeneratorAPI> system, const Sector::System &secSys, const int offset, const int numStars, const fixed maxMass);
 

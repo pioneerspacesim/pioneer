@@ -1273,7 +1273,7 @@ SystemBody* StarSystemRandomGenerator::MakeSystemBody(RefCountedPtr<StarSystem::
 	return newBody;
 }
 
-SystemBody* StarSystemRandomGenerator::MakeGravFor(RefCountedPtr<StarSystem::GeneratorAPI> system, const std::string &systemName, SystemBody * body1, SystemBody * body2)
+SystemBody* StarSystemRandomGenerator::MakeGravPointForBodies(RefCountedPtr<StarSystem::GeneratorAPI> system, const std::string &systemName, SystemBody * body1, SystemBody * body2)
 {
 	const std::string suffix1 = body1->m_name.substr(systemName.size() + 1);
 	const std::string suffix2 = body2->m_name.substr(systemName.size() + 1);
@@ -1339,7 +1339,7 @@ SystemBody* StarSystemRandomGenerator::PlaceStars(Random &rng, RefCountedPtr<Sta
 			system->AddStar(bodies[i]);
 		}
 
-		body = MakeGravFor(system, systemName, bodies[0], bodies[1]);
+		body = MakeGravPointForBodies(system, systemName, bodies[0], bodies[1]);
 
 		// Separate stars by 0.2 radii for each, so that their planets don't bump into the other star
 		const fixed minDist = fixed(12, 10) * (bodies[0]->GetRadiusAsFixed() + bodies[1]->GetRadiusAsFixed()) * AU_SOL_RADIUS;
@@ -1354,7 +1354,7 @@ SystemBody* StarSystemRandomGenerator::PlaceStars(Random &rng, RefCountedPtr<Sta
 		bodies[0] = PlaceStars(rng, system, secSys, offset,           chooseL, 0);
 		bodies[1] = PlaceStars(rng, system, secSys, offset + chooseL, chooseR, bodies[0]->GetMassAsFixed());
 
-		body = MakeGravFor(system, systemName, bodies[0], bodies[1]);
+		body = MakeGravPointForBodies(system, systemName, bodies[0], bodies[1]);
 
 		const fixed minDist = bodies[0]->m_orbMax + bodies[1]->m_orbMax;
 		MakeBinaryPair(bodies[0], bodies[1], 4 * minDist, rng);
