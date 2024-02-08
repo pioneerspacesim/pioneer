@@ -1345,6 +1345,7 @@ SystemBody* StarSystemRandomGenerator::PlaceStars(Random &rng, RefCountedPtr<Sta
 		const fixed minDist = fixed(12, 10) * (bodies[0]->GetRadiusAsFixed() + bodies[1]->GetRadiusAsFixed()) * AU_SOL_RADIUS;
 
 		MakeBinaryPair(bodies[0], bodies[1], minDist, rng);
+		body->m_orbMax = bodies[0]->m_orbMax + bodies[1]->m_orbMax;
 	} else {
 		SystemBody *bodies[2];
 
@@ -1358,6 +1359,7 @@ SystemBody* StarSystemRandomGenerator::PlaceStars(Random &rng, RefCountedPtr<Sta
 
 		const fixed minDist = bodies[0]->m_orbMax + bodies[1]->m_orbMax;
 		MakeBinaryPair(bodies[0], bodies[1], 4 * minDist, rng);
+		body->m_orbMax = minDist;
 	}
 
 	return body;
