@@ -274,12 +274,8 @@ bool SectorRandomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 		}
 		//Output("%d: %d%\n", sx, sy);
 
-		if (s.m_numStars > 1) {
-			s.m_starType[1] = SystemBody::BodyType(rng.Int32(SystemBody::TYPE_STAR_MIN, s.m_starType[0]));
-			if (s.m_numStars > 2) {
-				s.m_starType[2] = SystemBody::BodyType(rng.Int32(SystemBody::TYPE_STAR_MIN, s.m_starType[0]));
-				s.m_starType[3] = SystemBody::BodyType(rng.Int32(SystemBody::TYPE_STAR_MIN, s.m_starType[2]));
-			}
+		for (int i = 1; i < s.m_numStars; i++) {
+			s.m_starType[i] = SystemBody::BodyType(rng.Int32(SystemBody::TYPE_STAR_MIN, s.m_starType[i - 1]));
 		}
 
 		if ((s.m_starType[0] <= SystemBody::TYPE_STAR_A) && (rng.Int32(10) == 0)) {
