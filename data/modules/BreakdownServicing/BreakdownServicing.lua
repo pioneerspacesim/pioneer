@@ -114,6 +114,7 @@ local onChat = function (form, ref, option)
 	local pricesuggestion = string.interp(ad.price, {
 		drive = hyperdrive and hyperdrive:GetName() or lui.NONE,
 		price = Format.Money(price),
+		lasttime = lastServiceMessage(hyperdrive),
 	})
 
 	if not hyperdrive then
@@ -134,9 +135,7 @@ local onChat = function (form, ref, option)
 		form:SetFace(ad.mechanic)
 		-- Replace token with details of last service (which might have
 		-- been seconds ago)
-		form:SetMessage(string.interp(message, {
-			lasttime = lastServiceMessage(hyperdrive),
-		}))
+		form:SetMessage(message)
 		if not hyperdrive then
 			-- er, do nothing, I suppose.
 		elseif Game.player:GetMoney() < price then
