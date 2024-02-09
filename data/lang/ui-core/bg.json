@@ -149,7 +149,7 @@
   },
   "CASE_SENSITIVE": {
     "description": "",
-    "message": "Различаване на главните и малките букви"
+    "message": "Регистър на текста"
   },
   "CASH": {
     "description": "",
@@ -2173,7 +2173,7 @@
   },
   "START_AT_BARNARDS_STAR": {
     "description": "",
-    "message": "Стартиране от звездата на Барнард"
+    "message": "Звездата на Барнард"
   },
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
@@ -2181,7 +2181,7 @@
   },
   "START_AT_MARS": {
     "description": "",
-    "message": "Стартиране от Марс"
+    "message": "Марс"
   },
   "START_AT_MARS_DESC": {
     "description": "",
@@ -2189,7 +2189,7 @@
   },
   "START_AT_NEW_HOPE": {
     "description": "New Hope is an in game location",
-    "message": "Стартиране от Нова надежда"
+    "message": "Нова надежда"
   },
   "START_AT_NEW_HOPE_DESC": {
     "description": "",

@@ -41,7 +41,7 @@
   },
   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
     "description": "",
-    "message": "Предложить должность на корабле с указанной зарплатой"
+    "message": "Предложить должность с указанной зарплатой"
   },
   "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
     "description": "",

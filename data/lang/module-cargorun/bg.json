@@ -145,7 +145,7 @@
   },
   "DELIVER_TO": {
     "description": "Deliver to this location",
-    "message": "Достави до:"
+    "message": "Доставяне до:"
   },
   "DENY_1": {
     "description": "",
@@ -425,7 +425,7 @@
   },
   "PICKUP_FROM": {
     "description": "from a location",
-    "message": "Превозете товара от:"
+    "message": "Превозване на товара от:"
   },
   "PIRATE_GRIPES_1": {
     "description": "",

@@ -365,19 +365,19 @@
   },
   "DELTA_V": {
     "description": "",
-    "message": "Дельта-v"
+    "message": "Дельта-V"
   },
   "DELTA_V_EMPTY": {
     "description": "Delta-v capacity of a ship with no cargo or upgrades",
-    "message": "Дельта-v (пустой)"
+    "message": "Дельта-V (пустой)"
   },
   "DELTA_V_FULL": {
     "description": "Delta-v capacity of a ship with maximum cargo",
-    "message": "Дельта-v (полный)"
+    "message": "Дельта-V (полный)"
   },
   "DELTA_V_MAX": {
     "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
-    "message": "Дельта-v (макс.)"
+    "message": "Дельта-V (максимум)"
   },
   "DEMAND": {
     "description": "Column label for commodity demand at a market.",
@@ -681,11 +681,11 @@
   },
   "FORWARD_ACCEL_EMPTY": {
     "description": "",
-    "message": "Ускорение вперёд (пустой)"
+    "message": "Ускор. вперёд (пустой)"
   },
   "FORWARD_ACCEL_FULL": {
     "description": "",
-    "message": "Ускорение вперёд (полный)"
+    "message": "Ускор. вперёд (полный)"
   },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
@@ -1185,7 +1185,7 @@
   },
   "HYPERDRIVE_FITTED": {
     "description": "",
-    "message": "Гиперпривод установлен:"
+    "message": "Гиперпривод"
   },
   "HYPERJUMP_ROUTE": {
     "description": "",
@@ -1253,7 +1253,7 @@
   },
   "IN_STOCK": {
     "description": "",
-    "message": "На складе"
+    "message": "Наличие"
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
@@ -1377,7 +1377,7 @@
   },
   "LOG_EARLIEST_FIRST": {
     "description": "Show the log entries in chronological order, earliest first",
-    "message": "Сначала ранние"
+    "message": "В хронологическом порядке"
   },
   "LOG_EXPORT": {
     "description": "Export the log",
@@ -1677,7 +1677,7 @@
   },
   "N_UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "{quantity} Свободных Пассажирских Кают"
+    "message": "Свободно пассажирских кают: {quantity} "
   },
   "OCCUPIED_PASSENGER_CABINS": {
     "description": "",
@@ -1769,7 +1769,7 @@
   },
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
-    "message": "Вместимость пассажирской каюты"
+    "message": "Вместимость кают"
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",
@@ -1929,7 +1929,7 @@
   },
   "REFUEL_FULL": {
     "description": "",
-    "message": "Дозаправить полностью"
+    "message": "Дозаправить"
   },
   "REGISTRATION_NUMBER": {
     "description": "",
@@ -1981,7 +1981,7 @@
   },
   "RESET_PREVIEW": {
     "description": "Paintshop button",
-    "message": "Сбросить предварительный просмотр"
+    "message": "Сбросить предпросмотр"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1993,11 +1993,11 @@
   },
   "REVERSE_ACCEL_EMPTY": {
     "description": "",
-    "message": "Ускорение назад (пустой)"
+    "message": "Ускор. назад (пустой)"
   },
   "REVERSE_ACCEL_FULL": {
     "description": "",
-    "message": "Ускорение назад (полный)"
+    "message": "Ускор. назад (полный)"
   },
   "REWARD": {
     "description": "",
@@ -2077,7 +2077,7 @@
   },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
-    "message": "Продавать оборудованные"
+    "message": "Продать снаряжение"
   },
   "SENSORS": {
     "description": "Crew skill",
@@ -2149,7 +2149,7 @@
   },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
-    "message": "Судоремонтный и покрасочный цех"
+    "message": "Цех покраски и ремонта"
   },
   "SHIP_TYPE": {
     "description": "",
@@ -2457,11 +2457,11 @@
   },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",
-    "message": "Посетите покрасочный цех"
+    "message": "Посетить покрасочный цех"
   },
   "VISIT_REPAIR_SERVICES": {
     "description": "Ship Repair tab button.",
-    "message": "Посетите ремонтные услуги"
+    "message": "Посетить ремонтный цех"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",
@@ -2481,7 +2481,7 @@
   },
   "WEIGHT_FULLY_LOADED": {
     "description": "",
-    "message": "Масса при полной загрузке"
+    "message": "Полная масса"
   },
   "WE_ARE_IN_HYPERSPACE_COMMANDER": {
     "description": "",

@@ -177,11 +177,11 @@
   },
   "NERVE_GAS": {
     "description": "",
-    "message": " Нервно-паралитический газ"
+    "message": "Химическое оружие"
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Обычно считается оружием массового уничтожения, избегаемым даже военными в большинстве систем, и, следовательно, незаконным в большинстве систем."
+    "message": "Обычно считается оружием массового уничтожения. Избегается в большинстве систем даже военными, и, следовательно, является незаконным."
   },
   "PLASTICS": {
     "description": "",
