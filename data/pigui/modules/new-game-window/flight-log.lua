@@ -233,6 +233,44 @@ FlightLog.reader = Helpers.versioned {{
 
 		return value
 	end
+
+}, {
+
+	version = 90,
+	fnc = function(saveGame)
+
+		local function entryWithSafeSystemPath(entry)
+			local parsed = {}
+			for k,v in pairs(entry) do
+				if k == 'systemp' then
+					parsed.path = systemPathFromTable(entry.systemp.inner)
+				else
+					parsed[k] = v
+				end
+			end
+			return parsed
+		end
+
+		local value = { Custom = {}, System = {}, Station = {} }
+
+		local logData, errorString = Helpers.getByPath(saveGame, "lua_modules_json/FlightLog/Data")
+		if errorString then return nil, errorString end
+
+		for _, entry in ipairs(logData) do
+			local entryType = saveGame.type_names[entry]
+
+			if entryType == 'FlightLogEntry.Custom' then
+				table.insert(value.Custom, entryWithSafeSystemPath(entry))
+			elseif entryType == 'FlightLogEntry.System' then
+				table.insert(value.System, entryWithSafeSystemPath(entry))
+			elseif entryType == 'FlightLogEntry.Station' then
+				table.insert(value.Station, entryWithSafeSystemPath(entry))
+			else
+				return nil, lui.UNKNOWN_STATION_LOG_ENTRY_FORMAT
+			end
+		end
+		return value
+	end
 }}
 
 FlightLog.updateLayout = false
