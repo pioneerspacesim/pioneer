@@ -173,10 +173,10 @@ local function startGame(gameParams)
 	for _, entry in ipairs(gameParams.flightlog.Custom) do
 		if FlightLog.InsertCustomEntry(entry) then
 			-- ok then
-		elseif entry.text then
+		elseif entry.entry then
 			-- allow a custom log entry containing only text
 			-- because when starting a new game we only have text
-			FlightLog.MakeCustomEntry(entry.text)
+			FlightLog.MakeCustomEntry(entry.entry)
 		else
 			logWarning("Wrong entry for the custom flight log")
 		end

@@ -26,7 +26,7 @@ function FlightLog:fromStartVariant(variant)
 	self.value.System = {}
 	self.value.Station = {}
 	self.value.Custom = {
-		variant.logmsg and { text = variant.logmsg }
+		variant.logmsg and { entry = variant.logmsg }
 	}
 end
 
@@ -86,22 +86,22 @@ local entryTemplates = {
 		{ id = "path",     label = lui.IN_SYSTEM,      render = asPath },
 		{ id = "path",     label = lui.ALLEGIANCE,     render = asFaction },
 		{ id = "money",    label = lui.CASH,           render = Format.Money },
-		{ id = "text",     label = lui.ENTRY,          render = tostring, wrap = true },
+		{ id = "entry",    label = lui.ENTRY,          render = tostring, wrap = true },
 	},
 	System = {
 		{ id = "arrtime",  label = lui.ARRIVAL_DATE,   render = Format.Date },
 		{ id = "deptime",  label = lui.DEPARTURE_DATE, render = Format.Date },
 		{ id = "path",     label = lui.IN_SYSTEM,      render = asPath },
 		{ id = "path",     label = lui.ALLEGIANCE,     render = asFaction },
-		{ id = "text",     label = lui.ENTRY,          render = tostring, wrap = true },
+		{ id = "entry",    label = lui.ENTRY,          render = tostring, wrap = true },
 	},
 	Station = {
-		{ id = "time",     label = lui.DATE,           render = Format.Date },
+		{ id = "deptime",  label = lui.DATE,           render = Format.Date },
 		{ id = "path",     label = lui.STATION,        render = asStation },
 		{ id = "path",     label = lui.IN_SYSTEM,      render = asPath },
 		{ id = "path",     label = lui.ALLEGIANCE,     render = asFaction },
 		{ id = "money",    label = lui.CASH,           render = Format.Money },
-		{ id = "text",     label = lui.ENTRY,          render = tostring, wrap = true },
+		{ id = "entry",    label = lui.ENTRY,          render = tostring, wrap = true },
 	},
 }
 
@@ -187,9 +187,9 @@ FlightLog.reader = Helpers.versioned {{
 				parsed.location = loc and { loc[1], loc[2], loc[3] }
 				parsed.path = systemPathFromTable(entry[1].inner)
 				parsed.money = entry[3]
-				parsed.text = entry[5]
+				parsed.entry = entry[5]
 			end
-			if not entry or not parsed.time or not parsed.location or not parsed.path or not parsed.money or not parsed.text then
+			if not entry or not parsed.time or not parsed.location or not parsed.path or not parsed.money or not parsed.entry then
 				return nil, lui.UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT
 			end
 			table.insert(value.Custom, parsed)
@@ -205,7 +205,7 @@ FlightLog.reader = Helpers.versioned {{
 				parsed.arrtime = entry[2]
 				parsed.deptime = entry[3]
 				parsed.path = systemPathFromTable(entry[1].inner)
-				parsed.text = entry[4]
+				parsed.entry = entry[4]
 			end
 			if not entry or not parsed.path then
 				return nil, lui.UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT
@@ -220,10 +220,10 @@ FlightLog.reader = Helpers.versioned {{
 		for _, entry in ipairs(station) do
 			local parsed = {}
 			if entry then
-				parsed.time = entry[2]
+				parsed.deptime = entry[2]
 				parsed.path = systemPathFromTable(entry[1].inner)
 				parsed.money = entry[3]
-				parsed.text = entry[4]
+				parsed.entry = entry[4]
 			end
 			if not entry or not parsed.time or not parsed.path or not parsed.money then
 				return nil, lui.UNKNOWN_STATION_LOG_ENTRY_FORMAT
