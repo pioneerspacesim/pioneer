@@ -39,19 +39,19 @@
 
 	<screenshots>
 		<screenshot type="default">
-			<image type="source">https://pioneerspacesim.net/assets/ss10.png</image>
+			<image type="source">https://github.com/pioneerspacesim/pioneer-hugo/tree/master/static/carousel/ss1.png</image>
 		</screenshot>
 		<screenshot>
-			<image type="source">https://pioneerspacesim.net/assets/ss2.png</image>
+			<image type="source">https://github.com/pioneerspacesim/pioneer-hugo/tree/master/static/carousel/ss2.png</image>
 		</screenshot>
 		<screenshot>
-			<image type="source">https://pioneerspacesim.net/assets/ss5.png</image>
+			<image type="source">https://github.com/pioneerspacesim/pioneer-hugo/tree/master/static/carousel/ss3.png</image>
 		</screenshot>
 		<screenshot>
-			<image type="source">https://pioneerspacesim.net/assets/ss7.png</image>
+			<image type="source">https://github.com/pioneerspacesim/pioneer-hugo/tree/master/static/carousel/ss4.png</image>
 		</screenshot>
 		<screenshot>
-			<image type="source">https://pioneerspacesim.net/assets/ss8.png</image>
+			<image type="source">https://github.com/pioneerspacesim/pioneer-hugo/tree/master/static/carousel/ss5.png</image>
 		</screenshot>
 	</screenshots>
 
