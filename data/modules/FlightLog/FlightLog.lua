@@ -226,12 +226,12 @@ end
 --   time - Game date
 --   money - Financial balance at time of record creation
 --   location - Array, with two strings: flight state, and relevant additional string
---   text - Free text string
+--   entry - Free text string
 --
 ---@param entry table
 function FlightLog.InsertCustomEntry(entry)
-	if entry.path and entry.time and entry.money and entry.location and entry.text then
-		FlightLog.AddEntry( FlightLogEntry.Custom.New( entry.path, entry.time, entry.money, entry.location, entry.text ) )
+	if entry.path and entry.time and entry.money and entry.location and entry.entry then
+		FlightLog.AddEntry( FlightLogEntry.Custom.New( entry.path, entry.time, entry.money, entry.location, entry.entry ) )
 		return true
 	else
 		return false
@@ -254,12 +254,12 @@ end
 --   path - System path, pointing to player's current system
 --   arrtime - Game date, arrival
 --   deptime - Game date, departure (optional)
---   text - Free text string (optional)
+--   entry - Free text string (optional)
 --
 ---@param entry table
 function FlightLog.InsertSystemEntry(entry)
 	if entry.path and (entry.arrtime or entry.deptime) then
-		FlightLog.AddEntry( FlightLogEntry.System.New( entry.path, entry.arrtime, entry.deptime, entry.text or "" ) )
+		FlightLog.AddEntry( FlightLogEntry.System.New( entry.path, entry.arrtime, entry.deptime, entry.entry or "" ) )
 		return true
 	else
 		return false
@@ -280,14 +280,14 @@ end
 -- Entry:
 --
 --   path - System path
---   arrtime - Game date, arrival
+--   deptime - Game date, _arrival_
 --   money - Financial balance at time of record creation
---   text - Free text string (optional)
+--   entry - Free text string (optional)
 --
 ---@param entry table
 function FlightLog.InsertStationEntry(entry)
-	if entry.path and entry.time and entry.money then
-		FlightLog.AddEntry( FlightLogEntry.Station.New( entry.path, entry.time, entry.money, entry.text or "" ) )
+	if entry.path and entry.deptime and entry.money then
+		FlightLog.AddEntry( FlightLogEntry.Station.New( entry.path, entry.deptime, entry.money, entry.entry or "" ) )
 		return true
 	else
 		return false
