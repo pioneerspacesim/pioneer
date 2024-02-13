@@ -39,19 +39,19 @@
 
 	<screenshots>
 		<screenshot type="default">
-			<image type="source">https://github.com/pioneerspacesim/pioneer-hugo/tree/master/static/carousel/ss1.png</image>
+			<image type="source">https://pioneerspacesim.net/carousel/in-flight.jpg</image>
 		</screenshot>
 		<screenshot>
-			<image type="source">https://github.com/pioneerspacesim/pioneer-hugo/tree/master/static/carousel/ss2.png</image>
+			<image type="source">https://pioneerspacesim.net/carousel/gas-giant.jpg</image>
 		</screenshot>
 		<screenshot>
-			<image type="source">https://github.com/pioneerspacesim/pioneer-hugo/tree/master/static/carousel/ss3.png</image>
+			<image type="source">https://pioneerspacesim.net/carousel/new-hope.jpg</image>
 		</screenshot>
 		<screenshot>
-			<image type="source">https://github.com/pioneerspacesim/pioneer-hugo/tree/master/static/carousel/ss4.png</image>
+			<image type="source">https://pioneerspacesim.net/carousel/dark.jpg</image>
 		</screenshot>
 		<screenshot>
-			<image type="source">https://github.com/pioneerspacesim/pioneer-hugo/tree/master/static/carousel/ss5.png</image>
+			<image type="source">https://pioneerspacesim.net/carousel/station-landing.jpg</image>
 		</screenshot>
 	</screenshots>
 
