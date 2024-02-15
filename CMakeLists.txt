@@ -447,9 +447,11 @@ install(DIRECTORY data/models/
 list(APPEND install_txt
 	"AUTHORS.txt"
 	"Changelog.txt"
-	"Modelviewer.txt"
+	"editor.txt"
 	"Quickstart.txt"
-	"README.md")
+	"README.md"
+	"NEWS.md"
+	)
 
 install(FILES ${install_txt} DESTINATION ${PIONEER_INSTALL_DATADIR})
 
