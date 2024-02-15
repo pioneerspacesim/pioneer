@@ -8,4 +8,6 @@
 
 #include <GL/glew.h>
 
+inline const char *glstr_to_str(const GLubyte *str) { return reinterpret_cast<const char *>(str); }
+
 #endif

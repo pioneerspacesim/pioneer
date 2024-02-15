@@ -4,7 +4,7 @@
 #pragma once
 
 #include "DateTime.h"
-#include <fmt/format.h>
+#include <fmt/core.h>
 #include <fmt/printf.h>
 #include <sigc++/signal.h>
 #include <string_view>

@@ -148,10 +148,7 @@ public:
 	const std::vector<InputFrame *> &GetInputFrames() { return m_inputFrames; }
 
 	// Check if a specific input frame is currently on the stack.
-	bool HasInputFrame(InputFrame *frame)
-	{
-		return std::count(m_inputFrames.begin(), m_inputFrames.end(), frame) > 0;
-	}
+	bool HasInputFrame(InputFrame *frame);
 
 	// Remove an arbitrary input frame from the input stack.
 	void RemoveInputFrame(InputFrame *frame);

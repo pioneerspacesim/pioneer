@@ -155,7 +155,6 @@ void StarSystem::EditorAPI::ReorderBodyIndex(StarSystem *system)
 
 void StarSystem::EditorAPI::ReorderBodyHierarchy(StarSystem *system)
 {
-	size_t index = 0;
 	std::vector<std::pair<SystemBody *, size_t>> orderStack {
 		{ system->GetRootBody().Get(), 0 }
 	};

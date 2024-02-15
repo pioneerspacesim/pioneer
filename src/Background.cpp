@@ -250,7 +250,7 @@ namespace Background {
 
 	struct StarQueryInfo {
 		const SystemPath *systemPath;
-		int32_t numStars;
+		uint32_t numStars;
 		int32_t sectorMin;
 		int32_t sectorMax;
 		int32_t visibleRadiusSqr;

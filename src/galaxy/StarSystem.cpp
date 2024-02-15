@@ -386,7 +386,7 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body)
 	// find the body type index so we can lookup the name
 	const char *pBodyTypeName = nullptr;
 	for (int bodyTypeIdx = 0; ENUM_BodyType[bodyTypeIdx].name != 0; bodyTypeIdx++) {
-		if (ENUM_BodyType[bodyTypeIdx].value == body->GetType()) {
+		if (ENUM_BodyType[bodyTypeIdx].value == int(body->GetType())) {
 			pBodyTypeName = ENUM_BodyType[bodyTypeIdx].name;
 			break;
 		}
@@ -471,7 +471,7 @@ std::string StarSystem::GetStarTypes(SystemBody *body)
 
 	if (body->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 		for (bodyTypeIdx = 0; ENUM_BodyType[bodyTypeIdx].name != 0; bodyTypeIdx++) {
-			if (ENUM_BodyType[bodyTypeIdx].value == body->GetType())
+			if (ENUM_BodyType[bodyTypeIdx].value == int(body->GetType()))
 				break;
 		}
 

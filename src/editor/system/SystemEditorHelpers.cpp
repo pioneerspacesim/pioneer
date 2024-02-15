@@ -141,8 +141,6 @@ bool Draw::InputFixedDegrees(const char *str, fixed *val, double val_min, double
 
 bool Draw::InputFixedDistance(const char *str, fixed *val, ImGuiInputTextFlags flags)
 {
-	ImGuiStyle &style = ImGui::GetStyle();
-
 	ImGui::BeginGroup();
 	ImGui::PushID(str);
 
@@ -187,8 +185,6 @@ bool Draw::InputFixedDistance(const char *str, fixed *val, ImGuiInputTextFlags f
 
 bool Draw::InputFixedMass(const char *str, fixed *val, bool is_solar, ImGuiInputTextFlags flags)
 {
-	ImGuiStyle &style = ImGui::GetStyle();
-
 	ImGui::BeginGroup();
 	ImGui::PushID(str);
 
@@ -243,8 +239,6 @@ bool Draw::InputFixedMass(const char *str, fixed *val, bool is_solar, ImGuiInput
 
 bool Draw::InputFixedRadius(const char *str, fixed *val, bool is_solar, ImGuiInputTextFlags flags)
 {
-	ImGuiStyle &style = ImGui::GetStyle();
-
 	ImGui::BeginGroup();
 	ImGui::PushID(str);
 

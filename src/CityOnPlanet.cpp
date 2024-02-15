@@ -151,7 +151,7 @@ void CityOnPlanet::LoadBuildingType(std::string_view key, const Json &buildingDe
 	}
 
 	Log::Verbose("\tLoaded city building {} ({}x{}c, atm: {}, arl: {}, kind: {}, idleAnim: {})",
-		key, out.cellSize[0], out.cellSize[1], out.rarityAtmo, out.rarityAirless, out.buildingKind, out.idleAnimation != nullptr);
+		key, out.cellSize[0], out.cellSize[1], out.rarityAtmo, out.rarityAirless, int(out.buildingKind), out.idleAnimation != nullptr);
 }
 
 void CityOnPlanet::LoadCityFlavour(const FileSystem::FileInfo &file)

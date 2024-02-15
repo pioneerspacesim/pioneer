@@ -172,7 +172,7 @@ namespace Graphics {
 		glewExperimental = true;
 		GLenum glew_err;
 		if ((glew_err = glewInit()) != GLEW_OK)
-			Error("GLEW initialisation failed: %s", glewGetErrorString(glew_err));
+			Error("GLEW initialisation failed: %s", glstr_to_str(glewGetErrorString(glew_err)));
 
 		// pump this once as glewExperimental is necessary but spews a single error
 		glGetError();

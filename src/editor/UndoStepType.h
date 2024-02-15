@@ -19,8 +19,8 @@ namespace Editor {
 	public:
 		template<typename ...Args>
 		UndoClosure(ClosureType &&closure, Args ...args) :
-			m_onUpdate(closure),
-			T(args...)
+			T(args...),
+			m_onUpdate(closure)
 		{}
 
 		void Swap() override {
@@ -60,7 +60,6 @@ namespace Editor {
 			m_dataRef(data),
 			m_state(newValue)
 		{
-			std::swap(m_state, *m_dataRef);
 		}
 
 		void Swap() override { std::swap(*m_dataRef, m_state); }
@@ -84,7 +83,7 @@ namespace Editor {
 	template<typename T>
 	inline void AddUndoSingleValue(UndoSystem *s, T *dataRef, const T &newValue)
 	{
-		s->AddUndoStep<UndoSingleValueStep<T>>(dataRef, newValue);
+		s->AddUndoStep<UndoSingleValueStep<T>>(dataRef, newValue)->Swap();
 	}
 
 	template<typename T, typename UpdateClosure>
@@ -96,7 +95,7 @@ namespace Editor {
 	template<typename T, typename UpdateClosure>
 	inline void AddUndoSingleValueClosure(UndoSystem *s, T *dataRef, const T &newValue, UpdateClosure closure)
 	{
-		s->AddUndoStep<UndoClosure<UpdateClosure, UndoSingleValueStep<T>>>(std::move(closure), dataRef, newValue);
+		s->AddUndoStep<UndoClosure<UpdateClosure, UndoSingleValueStep<T>>>(std::move(closure), dataRef, newValue)->Swap();
 	}
 
 	// ========================================================================
@@ -120,11 +119,11 @@ namespace Editor {
 		{
 		}
 
+		// Convenience constructor to allow updating the value in a single call
 		UndoGetSetValueStep(Obj *data, const ValueType &newValue) :
 			m_dataRef(data),
 			m_state(newValue)
 		{
-			Swap();
 		}
 
 		// two-way swap with opaque setter/getter functions
@@ -154,7 +153,7 @@ namespace Editor {
 	inline void AddUndoGetSetValue(UndoSystem *s, Obj *dataRef, const T &newValue)
 	{
 		using ValueType = decltype((dataRef->*GetterFn)());
-		s->AddUndoStep<UndoGetSetValueStep<GetterFn, SetterFn, ValueType, Obj>>(dataRef, newValue);
+		s->AddUndoStep<UndoGetSetValueStep<GetterFn, SetterFn, ValueType, Obj>>(dataRef, newValue)->Swap();
 	}
 
 	template<auto GetterFn, auto SetterFn, typename Obj, typename UpdateClosure>
@@ -168,7 +167,7 @@ namespace Editor {
 	inline void AddUndoGetSetValueClosure(UndoSystem *s, Obj *dataRef, const T &newValue, UpdateClosure &&closure)
 	{
 		using ValueType = decltype((dataRef->*GetterFn)());
-		s->AddUndoStep<UndoClosure<UpdateClosure, UndoGetSetValueStep<GetterFn, SetterFn, ValueType, Obj>>>(std::move(closure), dataRef, newValue);
+		s->AddUndoStep<UndoClosure<UpdateClosure, UndoGetSetValueStep<GetterFn, SetterFn, ValueType, Obj>>>(std::move(closure), dataRef, newValue)->Swap();
 	}
 
 	// ========================================================================
@@ -195,7 +194,7 @@ namespace Editor {
 			m_idx(insertIdx),
 			m_insert(true)
 		{
-			Swap();
+			// NOTE: the transaction is not yet committed until Swap() is called (for compatibility with UndoClosure)
 		}
 
 		UndoVectorStep(Container *container, size_t removeIdx) :
@@ -204,7 +203,7 @@ namespace Editor {
 			m_idx(removeIdx),
 			m_insert(false)
 		{
-			Swap();
+			// NOTE: the transaction is not yet committed until Swap() is called (for compatibility with UndoClosure)
 		}
 
 		void Swap() override
@@ -272,7 +271,7 @@ namespace Editor {
 		if (idx == size_t(-1))
 			idx = containerRef->size();
 
-		s->AddUndoStep<UndoVectorStep<T>>(containerRef, value, idx);
+		s->AddUndoStep<UndoVectorStep<T>>(containerRef, value, idx)->Swap();
 	}
 
 	template<typename T>
@@ -281,7 +280,7 @@ namespace Editor {
 		if (idx == size_t(-1))
 			idx = containerRef->size() - 1;
 
-		s->AddUndoStep<UndoVectorStep<T>>(containerRef, idx);
+		s->AddUndoStep<UndoVectorStep<T>>(containerRef, idx)->Swap();
 	}
 
 	template<typename T>
@@ -296,13 +295,13 @@ namespace Editor {
 	template<typename T, typename UpdateClosure, typename Value = typename T::value_type>
 	inline void AddUndoVectorInsertClosure(UndoSystem *s, T *containerRef, const Value &value, size_t idx, UpdateClosure closure)
 	{
-		s->AddUndoStep<UndoClosure<UpdateClosure, UndoVectorStep<T>>>(std::move(closure), containerRef, value, idx);
+		s->AddUndoStep<UndoClosure<UpdateClosure, UndoVectorStep<T>>>(std::move(closure), containerRef, value, idx)->Swap();
 	}
 
 	template<typename T, typename UpdateClosure>
 	inline void AddUndoVectorEraseClosure(UndoSystem *s, T *containerRef, size_t idx, UpdateClosure closure)
 	{
-		s->AddUndoStep<UndoClosure<UpdateClosure, UndoVectorStep<T>>>(std::move(closure), containerRef, idx);
+		s->AddUndoStep<UndoClosure<UpdateClosure, UndoVectorStep<T>>>(std::move(closure), containerRef, idx)->Swap();
 	}
 
 	template<typename T, typename UpdateClosure>
