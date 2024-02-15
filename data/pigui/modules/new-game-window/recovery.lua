@@ -30,7 +30,7 @@ local fixupDoc = Helpers.versioned {{
 
 		local refs = {}
 
-		local typeNames = {}
+		local typeTables = {}
 
 		local function unpickle(tbl)
 			local result = {}
@@ -61,10 +61,15 @@ local fixupDoc = Helpers.versioned {{
 
 			local result = {}
 			if tbl.ref then
-				cache[tbl.ref] = result
 				if tbl.lua_class then
-					typeNames[result] = tbl.lua_class
+					local typeTable = typeTables[tbl.lua_class]
+					if not typeTable then
+						typeTable = { class = tbl.lua_class }
+						typeTables[tbl.lua_class] = typeTable
+					end
+					setmetatable(result, typeTable)
 				end
+				cache[tbl.ref] = result
 				tbl = refs[tbl.ref]
 			else
 				cache[tbl] = result
@@ -100,8 +105,6 @@ local fixupDoc = Helpers.versioned {{
 			print("fixupDoc failed: " .. tostring(countAfter) .. " of " .. tostring(countBefore) .. " refs were not resolved.")
 			return nil
 		end
-
-		gameDoc.type_names = typeNames
 
 		return gameDoc
 	end

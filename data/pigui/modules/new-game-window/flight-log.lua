@@ -257,7 +257,7 @@ FlightLog.reader = Helpers.versioned {{
 		if errorString then return nil, errorString end
 
 		for _, entry in ipairs(logData) do
-			local entryType = saveGame.type_names[entry]
+			local entryType = Helpers.getLuaClass(entry)
 
 			if entryType == 'FlightLogEntry.Custom' then
 				table.insert(value.Custom, entryWithSafeSystemPath(entry))
