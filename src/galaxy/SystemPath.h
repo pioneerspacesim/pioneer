@@ -85,7 +85,7 @@ public:
 	{
 		const Sint32 x = b.sectorX - a.sectorX;
 		const Sint32 y = b.sectorY - a.sectorY;
-		const Sint32 z = b.sectorZ - b.sectorZ;
+		const Sint32 z = b.sectorZ - a.sectorZ;
 		return sqrt(x * x + y * y + z * z); // sqrt is slow
 	}
 
@@ -93,7 +93,7 @@ public:
 	{
 		const Sint32 x = b.sectorX - a.sectorX;
 		const Sint32 y = b.sectorY - a.sectorY;
-		const Sint32 z = b.sectorZ - b.sectorZ;
+		const Sint32 z = b.sectorZ - a.sectorZ;
 		return (x * x + y * y + z * z); // return the square of the distance
 	}
 

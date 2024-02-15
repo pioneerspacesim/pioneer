@@ -105,6 +105,20 @@ public:
 		r[7] = cell[6];
 		r[8] = cell[10];
 	}
+	// matrix4x4 is column-major
+	// but it seems more natural to write the matrix by row
+	template <std::size_t N>
+	static matrix4x4 FromRowMajor(const T (&a)[N])
+	{
+		static_assert(N == 16, "Incorrect number of elements specified");
+		matrix4x4 m;
+		auto &c = m.cell;
+		c[0] = a[0];  c[4] = a[1];  c[8]  = a[2];  c[12] = a[3];
+		c[1] = a[4];  c[5] = a[5];  c[9]  = a[6];  c[13] = a[7];
+		c[2] = a[8];  c[6] = a[9];  c[10] = a[10]; c[14] = a[11];
+		c[3] = a[12]; c[7] = a[13]; c[11] = a[14]; c[15] = a[15];
+		return m;
+	}
 	static matrix4x4 Identity()
 	{
 		matrix4x4 m = matrix4x4(0.0);
