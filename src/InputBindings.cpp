@@ -7,6 +7,7 @@
 #include "SDL_joystick.h"
 #include "utils.h"
 
+#include <ostream>
 #include <regex>
 
 using namespace InputBindings;

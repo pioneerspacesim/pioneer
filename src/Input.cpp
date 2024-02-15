@@ -349,6 +349,11 @@ void ClearInputFrameState(InputFrame *frame)
 	}
 }
 
+bool Manager::HasInputFrame(InputFrame *frame)
+{
+	return std::count(m_inputFrames.begin(), m_inputFrames.end(), frame) > 0;
+}
+
 void Manager::RemoveInputFrame(InputFrame *frame)
 {
 	auto it = std::find(m_inputFrames.begin(), m_inputFrames.end(), frame);
