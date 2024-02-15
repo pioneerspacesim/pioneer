@@ -39,23 +39,24 @@
 
 	<screenshots>
 		<screenshot type="default">
-			<image type="source">https://pioneerspacesim.net/assets/ss10.png</image>
+			<image type="source">https://pioneerspacesim.net/carousel/in-flight.jpg</image>
 		</screenshot>
 		<screenshot>
-			<image type="source">https://pioneerspacesim.net/assets/ss2.png</image>
+			<image type="source">https://pioneerspacesim.net/carousel/gas-giant.jpg</image>
 		</screenshot>
 		<screenshot>
-			<image type="source">https://pioneerspacesim.net/assets/ss5.png</image>
+			<image type="source">https://pioneerspacesim.net/carousel/new-hope.jpg</image>
 		</screenshot>
 		<screenshot>
-			<image type="source">https://pioneerspacesim.net/assets/ss7.png</image>
+			<image type="source">https://pioneerspacesim.net/carousel/dark.jpg</image>
 		</screenshot>
 		<screenshot>
-			<image type="source">https://pioneerspacesim.net/assets/ss8.png</image>
+			<image type="source">https://pioneerspacesim.net/carousel/station-landing.jpg</image>
 		</screenshot>
 	</screenshots>
 
 	<releases>
+        <release version="20240203" date="2024-02-03" />
 		<release version="20190203" date="2019-02-03" />
 		<release version="20180203" date="2018-02-03" />
 	</releases>
