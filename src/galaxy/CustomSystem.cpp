@@ -1018,7 +1018,9 @@ void CustomSystemsDatabase::RunLuaSystemSanityChecks(CustomSystem *csys)
 
 		bool wantRings = body->ringStatus == CustomSystemBody::WANT_RANDOM_RINGS || body->ringStatus == CustomSystemBody::WANT_RINGS;
 
-		if (!(body->want_rand_offset || body->want_rand_phase || body->want_rand_arg_periapsis || wantRings))
+		bool wantAtm = body->bodyData.m_type == SystemBodyType::TYPE_PLANET_GAS_GIANT && body->bodyData.m_volatileGas == fixed(0);
+
+		if (!(body->want_rand_offset || body->want_rand_phase || body->want_rand_arg_periapsis || wantRings || wantAtm))
 			continue;
 
 		// Generate body orbit parameters from its seed
@@ -1045,6 +1047,12 @@ void CustomSystemsDatabase::RunLuaSystemSanityChecks(CustomSystem *csys)
 				break;
 			default: break;
 			}
+		}
+
+		if (wantAtm) {
+			// Taken from StarSystemRandomGenerator::PickPlanetType
+			body->bodyData.m_volatileGas = rand.NormFixed(fixed(1050, 1000), fixed(8000, 1000)).Abs();
+			body->bodyData.m_atmosOxidizing = rand.NormFixed(fixed(0, 1), fixed(300, 1000)).Abs();
 		}
 
 	}
