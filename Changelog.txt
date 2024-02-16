@@ -1,4 +1,22 @@
-February 2024
+February 2024 (dev)
+  * Internal Changes
+    * Fix MSVC CI build on non-PR refs (#5733)
+    * Update libfmt, fix compilation warnings and invalid JSON CustomSystem position (#5759)
+    * Add documentation to make life for package maintainers easier (#5749)
+    * Fixed broken screenshots links (#5761)
+    * Adding editor.txt, removing ModelViewer.txt to document new editor (#5737)
+
+  * Fixes
+    * Local missions should list distances in AU rather than Ly (#5756)
+    * Fix star background generation (#5758)
+    * Fix path of pioneer executable (#5743)
+    * Fix 'nil' in hyperdrive Maintenance BBS advert (#5754)
+    * Generate atmospheres for gas giants also in legacy custom systems (#5766)
+    * Fix "bad argument" error in SearchRescue.lua in custom systems (#5769)
+    * Fix crash when deleting a flightlog entry (#5768)
+    * Fix projectile and beam weapons not able to hit, frame sync (#5767)
+
+Pioneer 2024-02-03 Release
   * New Features
     * Add new music tracks by diduuz (#5727)
 
