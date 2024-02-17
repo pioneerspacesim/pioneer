@@ -116,7 +116,7 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double
 	isect_result.reserve(8);
 
 	if (m_enabledStaticGeoms > 0) {
-		m_staticObjectTree->TraceRay(start, dir, len, isect_result);
+		m_staticObjectTree->TraceRay(start, invDir, len, isect_result);
 
 		for (uint32_t &idx : isect_result) {
 			Geom *g = m_staticGeoms[idx];
@@ -127,7 +127,7 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double
 	}
 
 	if (m_enabledDynGeoms > 0) {
-		m_dynamicObjectTree->TraceRay(start, dir, len, isect_result);
+		m_dynamicObjectTree->TraceRay(start, invDir, len, isect_result);
 
 		for (uint32_t &idx : isect_result) {
 			Geom *g = m_geoms[idx];
