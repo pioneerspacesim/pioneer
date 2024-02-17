@@ -1076,7 +1076,7 @@ void Space::TimeStep(float step)
 	// https://github.com/pioneerspacesim/pioneer/issues/5695
 	//
 	// THIS IS A HACK/WORKAROUND until a more proper solution can be found
-	for (size_t i = 0, e = m_bodies.size(); i != e; ++i) {
+	for (size_t i = 0; i < m_bodies.size(); ++i) {
 		auto b = m_bodies[i];
 		b->StaticUpdate(step);
 	}
