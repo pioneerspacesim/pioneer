@@ -113,9 +113,9 @@ local function renderLog( formatter )
 			ui.nextColumn()
 		end
 
-		if entry:SupportsDelete() then
+		if entry:CanBeRemoved() then
 			if ui.iconButton(icons.trashcan, buttonSpaceSize, l.REMOVE .. "##custom" .. counter) then
-				entry:Delete()
+				FlightLog:RemoveEntry( entry )
 				-- if we were already in edit mode, reset it, or else it carries over to next iteration
 				entering_text = false
 			end

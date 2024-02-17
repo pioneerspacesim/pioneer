@@ -49,8 +49,8 @@ function FlightLogEntry.Base:GetEntry()
 	return self.entry
 end
 
----@return boolean true if this has a Delete() method
-function FlightLogEntry.Base:SupportsDelete()
+---@return boolean true if this can be removed from the flightlog method
+function FlightLogEntry.Base:CanBeRemoved()
 	return false
 end
 
@@ -303,15 +303,8 @@ function FlightLogEntry.Custom:GetDataPairs( earliest_first )
 end
 
 ---@return boolean true if this has a Delete() method
-function FlightLogEntry.Custom:SupportsDelete()
+function FlightLogEntry.Custom:CanBeRemoved()
 	return true
-end
-
----Delete this entry
----@return nil
-function FlightLogEntry.Custom:Delete()
-	FlightLogEntry.TotalDefaultElements = FlightLogEntry.TotalDefaultElements - 1
-	utils.remove_elem( FlightLogData, self )
 end
 
 ---@class FlightLogEntry.Station : FlightLogEntry.Base
