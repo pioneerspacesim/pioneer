@@ -799,8 +799,11 @@ static FrameId MakeFramesFor(const double at_time, SystemBody *sbody, Body *b, F
 		rotFrame->SetBodies(sbody, b);
 
 		matrix3x3d rotMatrix = matrix3x3d::RotateX(sbody->GetAxialTilt());
-		double angSpeed = 2.0 * M_PI / sbody->GetRotationPeriod();
-		rotFrame->SetAngSpeed(angSpeed);
+
+		if (sbody->GetRotationPeriod() > 0.0) {
+			double angSpeed = 2.0 * M_PI / sbody->GetRotationPeriod();
+			rotFrame->SetAngSpeed(angSpeed);
+		}
 
 		if (sbody->HasRotationPhase())
 			rotMatrix = rotMatrix * matrix3x3d::RotateY(sbody->GetRotationPhaseAtStart());
