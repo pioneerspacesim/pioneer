@@ -69,8 +69,6 @@ Game::Game(const SystemPath &path, const double startDateTime, const char *shipT
 
 	m_space.reset(new Space(this, m_galaxy, path));
 
-	m_space->UpdateBodies();
-
 	Body *b = m_space->FindBodyForPath(&path);
 	assert(b);
 
@@ -533,8 +531,6 @@ void Game::SwitchToNormalSpace()
 	m_player->SetFrame(m_space->GetRootFrame());
 	m_space->AddBody(m_player.get());
 
-	m_space->UpdateBodies();
-
 	// place it
 	vector3d pos, vel;
 	m_space->GetHyperspaceExitParams(m_hyperspaceSource, m_hyperspaceDest, pos, vel);
@@ -975,8 +971,6 @@ void Game::SaveGame(const std::string &filename, Game *game)
 	}
 	if (!f)
 		throw CouldNotOpenFileException();
-
-	game->m_space->UpdateBodies();
 	Json rootNode;
 	game->ToJson(rootNode); // Encode the game data as JSON and give to the root value.
 	std::vector<uint8_t> jsonData;

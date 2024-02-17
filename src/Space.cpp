@@ -18,9 +18,9 @@
 #include "SpaceStation.h"
 #include "Star.h"
 #include "SystemView.h"
-#include "core/Log.h"
 #include "collider/CollisionContact.h"
 #include "collider/CollisionSpace.h"
+#include "core/Log.h"
 #include "galaxy/Galaxy.h"
 #include "graphics/Graphics.h"
 #include "lua/LuaEvent.h"
@@ -263,7 +263,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, doub
 	try {
 		Json bodyArray = spaceObj["bodies"].get<Json::array_t>();
 		for (Uint32 i = 0; i < bodyArray.size(); i++) {
-			if(bodyArray[i].count("is_not_in_space") > 0)
+			if (bodyArray[i].count("is_not_in_space") > 0)
 				continue;
 			m_bodies.push_back(Body::FromJson(bodyArray[i], this));
 		}
@@ -354,7 +354,7 @@ void Space::ToJson(Json &jsonObj)
 	for (size_t i = 0; i < m_bodyIndex.size() - 1; i++) {
 		// First index of m_bodyIndex is reserved to
 		// nullptr or bad index
-		Body* b = m_bodyIndex[i + 1];
+		Body *b = m_bodyIndex[i + 1];
 		Json bodyArrayEl({}); // Create JSON object to contain body.
 		if (!b->IsInSpace()) {
 			bodyArrayEl["is_not_in_space"] = true;
@@ -456,10 +456,7 @@ void Space::RebuildSystemBodyIndex()
 
 void Space::AddBody(Body *b)
 {
-#ifndef NDEBUG
-	assert(!m_processingFinalizationQueue);
-#endif
-	m_assignedBodies.emplace_back(b, BodyAssignation::CREATE);
+	m_bodies.push_back(b);
 }
 
 void Space::RemoveBody(Body *b)
@@ -1071,9 +1068,18 @@ void Space::TimeStep(float step)
 		b->UpdateFrame();
 
 	// AI acts here, then move all bodies and frames
-	for (Body *b : m_bodies)
+	// NOTE: The AI can add bodies here so we can't use an iterator
+	// this restores the previous version where only the initial list is
+	// updated unless the bodies vector reallocated where anything could
+	// have happened
+	// alternative fixes to delay addition caused
+	// https://github.com/pioneerspacesim/pioneer/issues/5695
+	//
+	// THIS IS A HACK/WORKAROUND until a more proper solution can be found
+	for (size_t i = 0; i < m_bodies.size(); ++i) {
+		auto b = m_bodies[i];
 		b->StaticUpdate(step);
-
+	}
 	Frame::UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
 	for (Body *b : m_bodies)
@@ -1094,26 +1100,22 @@ void Space::UpdateBodies()
 	m_processingFinalizationQueue = true;
 #endif
 
-	// adding, removing or deleting bodies from space
+	// removing or deleting bodies from space
 	for (const auto &b : m_assignedBodies) {
-		if (b.second == BodyAssignation::CREATE) {
-			m_bodies.push_back(b.first);
-		} else {
-			auto remove_iterator = m_bodies.end();
-			for (auto it = m_bodies.begin(); it != m_bodies.end(); ++it) {
-				if (*it != b.first)
-					(*it)->NotifyRemoved(b.first);
-				else
-					remove_iterator = it;
-			}
-			if (remove_iterator != m_bodies.end()) {
-				*remove_iterator = m_bodies.back();
-				m_bodies.pop_back();
-				if (b.second == BodyAssignation::KILL)
-					delete b.first;
-				else
-					b.first->SetFrame(FrameId::Invalid);
-			}
+		auto remove_iterator = m_bodies.end();
+		for (auto it = m_bodies.begin(); it != m_bodies.end(); ++it) {
+			if (*it != b.first)
+				(*it)->NotifyRemoved(b.first);
+			else
+				remove_iterator = it;
+		}
+		if (remove_iterator != m_bodies.end()) {
+			*remove_iterator = m_bodies.back();
+			m_bodies.pop_back();
+			if (b.second == BodyAssignation::KILL)
+				delete b.first;
+			else
+				b.first->SetFrame(FrameId::Invalid);
 		}
 	}
 
