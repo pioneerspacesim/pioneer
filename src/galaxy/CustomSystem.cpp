@@ -644,8 +644,8 @@ void CustomSystem::LoadFromJson(const Json &systemdef)
 
 	const Json &sector = systemdef["sector"];
 	sectorX = sector[0].get<int32_t>();
-	sectorZ = sector[1].get<int32_t>();
-	sectorY = sector[2].get<int32_t>();
+	sectorY = sector[1].get<int32_t>();
+	sectorZ = sector[2].get<int32_t>();
 
 	const Json &position = systemdef["pos"];
 	pos.x = position[0].get<float>();
