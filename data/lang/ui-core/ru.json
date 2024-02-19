@@ -17,7 +17,7 @@
   },
   "ALLEGIANCE": {
     "description": "",
-    "message": "Лояльность:"
+    "message": "Принадлежит:"
   },
   "ALL_PARAMETERS_WERE_RECOVERED_SUCCESSFULLY": {
     "description": "Message when restoring savegame",
