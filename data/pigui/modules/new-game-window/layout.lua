@@ -6,7 +6,7 @@ local Crew = require 'pigui.modules.new-game-window.crew'
 local Ship = require 'pigui.modules.new-game-window.ship'
 local Location = require 'pigui.modules.new-game-window.location'
 local Summary = require 'pigui.modules.new-game-window.summary'
-local FlightLog = require 'pigui.modules.new-game-window.flight-log'
+local FlightLogTab = require 'pigui.modules.new-game-window.flight-log-tab'
 
 local Layout = {}
 
@@ -26,11 +26,11 @@ Layout.UpdateOrder = {
 	Ship.Fuel,
 	Location,
 	Location.Time,
-	FlightLog,
+	FlightLogTab,
 	Summary.Description
 }
 
-Layout.Tabs = { Summary, Crew, Ship, Location, FlightLog }
+Layout.Tabs = { Summary, Crew, Ship, Location, FlightLogTab }
 
 function Layout.updateLayout(contentRegion)
 

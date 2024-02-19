@@ -12,17 +12,17 @@ local GameParam = require 'pigui.modules.new-game-window.game-param'
 local Location = require 'pigui.modules.new-game-window.location'
 local Helpers = require 'pigui.modules.new-game-window.helpers'
 
-local FlightLog = GameParam.New(lui.FLIGHT_LOG, "flightlog")
+local FlightLogTab = GameParam.New(lui.FLIGHT_LOG, "flightlog")
 
-FlightLog.value = {
+FlightLogTab.value = {
 	Custom = {},
 	System = {},
 	Station = {}
 }
 
-FlightLog.version = 1
+FlightLogTab.version = 1
 
-function FlightLog:fromStartVariant(variant)
+function FlightLogTab:fromStartVariant(variant)
 	self.value.System = {}
 	self.value.Station = {}
 	self.value.Custom = {
@@ -114,7 +114,7 @@ local function renderEntry(template, entry)
 	end
 end
 
-function FlightLog:draw()
+function FlightLogTab:draw()
 	local h = ui.getCursorPos().y
 	local changed, newValue = ui.combo("##select_log", cbCurrentValue, cbValues)
 	if changed then cbCurrentValue = newValue end
@@ -170,7 +170,7 @@ local function systemPathFromTable(t)
 	return path
 end
 
-FlightLog.reader = Helpers.versioned {{
+FlightLogTab.reader = Helpers.versioned {{
 	version = 89,
 	fnc = function(saveGame)
 
@@ -273,13 +273,13 @@ FlightLog.reader = Helpers.versioned {{
 	end
 }}
 
-FlightLog.updateLayout = false
-FlightLog.updateParams = false
+FlightLogTab.updateLayout = false
+FlightLogTab.updateParams = false
 
-function FlightLog:isValid()
+function FlightLogTab:isValid()
 	return true
 end
 
-FlightLog.TabName = lui.FLIGHT_LOG
+FlightLogTab.TabName = lui.FLIGHT_LOG
 
-return FlightLog
+return FlightLogTab

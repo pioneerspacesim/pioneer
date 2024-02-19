@@ -21,7 +21,7 @@ local Defs = require 'pigui.modules.new-game-window.defs'
 local Layout = require 'pigui.modules.new-game-window.layout'
 local Recovery = require 'pigui.modules.new-game-window.recovery'
 local StartVariants = require 'pigui.modules.new-game-window.start-variants'
-local FlightLogParam = require 'pigui.modules.new-game-window.flight-log'
+local FlightLogParam = require 'pigui.modules.new-game-window.flight-log-tab'
 local Helpers = require 'pigui.modules.new-game-window.helpers'
 local Game = require 'Game'
 
