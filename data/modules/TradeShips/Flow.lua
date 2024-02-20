@@ -485,9 +485,10 @@ Flow.spawnInitialShips = function()
 			local ship = Space.SpawnShipDocked(params.id, params.port)
 			-- if can't spawn - just skip
 			if ship then
-				Core.ships[ship] = { ts_error = "OK", status = 'docked', starport	= params.port, ship_name = params.id }
+				Core.ships[ship] = { ts_error = "OK", status = 'docked', starport = params.port, ship_name = params.id }
 				ship:SetLabel(Ship.MakeRandomLabel())
 				Trader.addEquip(ship)
+				Trader.assignTask(ship, Game.time + utils.deviation(Core.params.port_params[params.port].time * 3600, 0.8), 'doUndock')
 			end
 		end
 	end
