@@ -12,6 +12,8 @@
 #define EICON_SPACE_STATION u8"\uF063"
 #define EICON_SURFACE_STATION u8"\uF073"
 
+#define EICON_SYSTEM_EDITOR u8"\uF08E"
+
 #define EICON_STOP u8"\uF054"
 #define EICON_PAUSE u8"\uF055"
 #define EICON_PLAY u8"\uF056"
