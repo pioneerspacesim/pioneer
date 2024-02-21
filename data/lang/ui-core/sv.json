@@ -201,7 +201,7 @@
   },
   "CLEAN": {
     "description": "Legal status of player",
-    "message": "Rensa"
+    "message": "Ren"
   },
   "CLEAR": {
     "description": "Clear an option in game settings/options menu",
