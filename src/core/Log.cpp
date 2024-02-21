@@ -15,6 +15,11 @@
 #include <fmt/format.h>
 #include <fmt/printf.h>
 
+#ifdef _MSC_VER
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#endif
+
 namespace Log {
 	Logger s_defaultLog;
 
@@ -85,6 +90,20 @@ void Log::Logger::LogLevel(Severity sv, std::string_view message)
 void Log::Logger::WriteLog(Time::DateTime time, Severity sv, std::string_view msg)
 {
 	std::string &svName = s_severityNames.at(sv);
+
+#ifdef _MSC_VER
+	// TODO: unicode.., max_severity etc.
+	const static int BUFFER_SIZE = 1024;
+	char buffer[BUFFER_SIZE];
+	const char* m = msg.data();
+	if (!msg.empty() && msg.back() == '\n')
+		snprintf(buffer, BUFFER_SIZE - 1, "%s %.*s", svName.c_str(), msg.size(), msg.data());
+	else
+		snprintf(buffer, BUFFER_SIZE - 1, "%s %.*s\n", svName.c_str(), msg.size(), msg.data());
+
+	OutputDebugStringA(buffer);
+#endif
+
 
 	/* Don't output to the console on Windows
 	   Builds on /subsystem:WINDOWS will not usually have a console

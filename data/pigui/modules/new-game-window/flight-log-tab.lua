@@ -12,160 +12,93 @@ local GameParam = require 'pigui.modules.new-game-window.game-param'
 local Location = require 'pigui.modules.new-game-window.location'
 local Helpers = require 'pigui.modules.new-game-window.helpers'
 
+local FlightLog = require 'modules.FlightLog.FlightLog'
+
+-- TODO: move this into the pygui space - probably!
+local FlightLogRenderer = require 'modules.FlightLog.FlightLogRenderer'
+
+
 local FlightLogTab = GameParam.New(lui.FLIGHT_LOG, "flightlog")
 
-FlightLogTab.value = {
-	Custom = {},
-	System = {},
-	Station = {}
-}
-
 FlightLogTab.version = 1
+FlightLogTab.exclude_on_recovery = true
 
 function FlightLogTab:fromStartVariant(variant)
-	self.value.System = {}
-	self.value.Station = {}
-	self.value.Custom = {
-		variant.logmsg and { entry = variant.logmsg }
-	}
-end
-
--- Title text is gray, followed by the variable text:
-local function headerText(title, text, wrap)
-	if not text then return end
-	ui.textColored(ui.theme.colors.grey, string.gsub(title, ":", "") .. ":")
-	ui.sameLine()
-	if wrap then
-		ui.textWrapped(text)
-	else
-		ui.text(text)
-	end
-end
-
-local function asFaction(path)
-	if path:IsSectorPath() then return lui.UNKNOWN_FACTION end
-	return Location:getGalaxy():GetStarSystem(path).faction.name
-end
-
-local function asStation(path)
-	if not path:IsBodyPath() then return lui.NO_AVAILABLE_DATA end
-	local system = Location:getGalaxy():GetStarSystem(path)
-	local systembody = system:GetBodyByPath(path)
-	local station_type = "FLIGHTLOG_" .. systembody.type
-	return string.interp(lui[station_type], {
-		primary_info = systembody.name,
-		secondary_info = systembody.parent.name
-	})
-end
-
-local function asPath(path)
-	local sectorString = "(" .. path.sectorX .. ", " .. path.sectorY .. ", " .. path.sectorZ .. ")"
-	if path:IsSectorPath() then
-		return lui.UNKNOWN_LOCATION_IN_SECTOR_X:interp{ sector = sectorString }
-	end
-	local system = Location:getGalaxy():GetStarSystem(path)
-	return system.name .. " " .. sectorString
-end
-
--- Based on flight state, compose a reasonable string for location
-local function composeLocationString(location)
-	return string.interp(lui["FLIGHTLOG_"..location[1]], {
-		primary_info = location[2],
-		secondary_info = location[3] or "",
-		tertiary_info = location[4] or "",
-	})
-end
-
-local cbCurrentValue = 0
-local cbValues = { lui.LOG_CUSTOM, lui.LOG_SYSTEM, lui.LOG_STATION }
-local sections = { [0] = "Custom", [1] = "System", [2] = "Station" }
-local entryTemplates = {
-	Custom = {
-		{ id = "time",     label = lui.DATE,           render = Format.Date },
-		{ id = "location", label = lui.LOCATION,       render = composeLocationString },
-		{ id = "path",     label = lui.IN_SYSTEM,      render = asPath },
-		{ id = "path",     label = lui.ALLEGIANCE,     render = asFaction },
-		{ id = "money",    label = lui.CASH,           render = Format.Money },
-		{ id = "entry",    label = lui.ENTRY,          render = tostring, wrap = true },
-	},
-	System = {
-		{ id = "arrtime",  label = lui.ARRIVAL_DATE,   render = Format.Date },
-		{ id = "deptime",  label = lui.DEPARTURE_DATE, render = Format.Date },
-		{ id = "path",     label = lui.IN_SYSTEM,      render = asPath },
-		{ id = "path",     label = lui.ALLEGIANCE,     render = asFaction },
-		{ id = "entry",    label = lui.ENTRY,          render = tostring, wrap = true },
-	},
-	Station = {
-		{ id = "deptime",  label = lui.DATE,           render = Format.Date },
-		{ id = "path",     label = lui.STATION,        render = asStation },
-		{ id = "path",     label = lui.IN_SYSTEM,      render = asPath },
-		{ id = "path",     label = lui.ALLEGIANCE,     render = asFaction },
-		{ id = "money",    label = lui.CASH,           render = Format.Money },
-		{ id = "entry",    label = lui.ENTRY,          render = tostring, wrap = true },
-	},
-}
-
-local function renderEntry(template, entry)
-	for _, param in ipairs(template) do
-		local value = entry[param.id]
-		if value and value ~= "" then -- do not show an empty entry too
-			headerText(param.label, param.render(value), param.wrap)
-		end
+	if ( variant.logmsg ) then 
+		 FlightLog.MakeCustomEntry( variant.logmsg )
 	end
 end
 
 function FlightLogTab:draw()
 	local h = ui.getCursorPos().y
-	local changed, newValue = ui.combo("##select_log", cbCurrentValue, cbValues)
-	if changed then cbCurrentValue = newValue end
 
-	local section = sections[cbCurrentValue]
-	local entries = self.value[section]
+	--TODO WE MUST ADD THE FILTERING OPTIONS SOMEHOW?
 
-	ui.separator()
+	-- local changed, newValue = ui.combo("##select_log", cbCurrentValue, cbValues)
+	-- if changed then cbCurrentValue = newValue end
+
+	-- local section = sections[cbCurrentValue]
+	-- local entries = self.value[section]
+
+	-- ui.separator()
 
 	h = ui.getCursorPos().y - h
 	ui.child("flightlog", Vector2(Defs.contentRegion.x, Defs.contentRegion.y - h), function()
-		if #entries == 0 then
-			ui.text(lui.NONE)
-			return
-		end
-		-- draw separators only between elements
-		local sep = function() end
-		for _, entry in ipairs(entries) do
-			sep()
-			renderEntry(entryTemplates[section], entry)
-			sep = ui.separator
-		end
+		FlightLogRenderer.drawFlightHistory( false )
 	end)
+end
+
+local function logPathWarning( path, msg )
+	local si = path.systemIndex or "nil"
+	local bi = path.bodyIndex or "nil"
+	logWarning( msg .. "  [" .. path.sectorX .. "," .. path.sectorY .. "," .. path.sectorZ .. ":" .. si .. ":" .. bi  .. "]" )
 end
 
 -- an invalid body path will be read as a system path only
 -- an invalid system path will be read as a sector path only
 local function systemPathFromTable(t)
+	if not t then 
+		logWarning( "No object found to fetch a path from" )	
+		return nil
+	end
+	t = t.inner	
 
 	-- something is completely wrong
-	if not t or #t ~= 5 then return nil end
+	if not t or #t ~= 5 then 
+		logWarning( "Inner path object is missing or too small" )	
+		return nil 
+	end
 
 	local path = SystemPath.New(t[1], t[2], t[3], t[4], t[5])
 
-	if path:IsSectorPath() then return path end
+	if path:IsSectorPath() then 
+		logPathWarning( path, "Returning sector path" )	
+		return path 
+	end
 
 	local system = Location:getGalaxy():GetStarSystem(path)
 	if not system then
+		logPathWarning( path, "Reducing system path to sector path" )	
 		return SystemPath:SectorOnly()
 	end
-	if path:IsSystemPath() then return path end
+	if path:IsSystemPath() then
+		logPathWarning( path, "Returning system path" )	
+		return path 
+	end
 
 	local paths = system:GetBodyPaths()
 	if t[5] >= #paths then
+		logPathWarning( path, "Returning body path as system path" )	
 		return path:SystemOnly()
 	end
 
 	local systembody = system:GetBodyByPath(path)
 	if systembody.superType ~= 'STARPORT' then
+		logPathWarning( path, "Returning body path as system path as it's not a starport" )	
 		return path:SystemOnly()
 	end
+
+	logPathWarning( path, "Returning path" )
 
 	return path
 end
@@ -174,64 +107,12 @@ FlightLogTab.reader = Helpers.versioned {{
 	version = 89,
 	fnc = function(saveGame)
 
-		local value = { Custom = {}, System = {}, Station = {} }
-
-		local custom, errorString = Helpers.getByPath(saveGame, "lua_modules_json/FlightLog/Custom")
+		local data, errorString = Helpers.getByPath(saveGame, "lua_modules_json/FlightLog")
 		if errorString then return nil, errorString end
-		assert(custom)
-		for _, entry in ipairs(custom) do
-			local parsed = {}
-			if entry then
-				parsed.time = entry[2]
-				local loc = entry[4]
-				parsed.location = loc and { loc[1], loc[2], loc[3] }
-				parsed.path = systemPathFromTable(entry[1].inner)
-				parsed.money = entry[3]
-				parsed.entry = entry[5]
-			end
-			if not entry or not parsed.time or not parsed.location or not parsed.path or not parsed.money or not parsed.entry then
-				return nil, lui.UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT
-			end
-			table.insert(value.Custom, parsed)
-		end
 
-		local system
-		system, errorString = Helpers.getByPath(saveGame, "lua_modules_json/FlightLog/System")
-		if errorString then return nil, errorString end
-		assert(system)
-		for _, entry in ipairs(system) do
-			local parsed = {}
-			if entry then
-				parsed.arrtime = entry[2]
-				parsed.deptime = entry[3]
-				parsed.path = systemPathFromTable(entry[1].inner)
-				parsed.entry = entry[4]
-			end
-			if not entry or not parsed.path then
-				return nil, lui.UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT
-			end
-			table.insert(value.System, parsed)
-		end
+		FlightLog.ParseSavedData( data, systemPathFromTable, Helpers.getLuaClass )
 
-		local station
-		station, errorString = Helpers.getByPath(saveGame, "lua_modules_json/FlightLog/Station")
-		if errorString then return nil, errorString end
-		assert(station)
-		for _, entry in ipairs(station) do
-			local parsed = {}
-			if entry then
-				parsed.deptime = entry[2]
-				parsed.path = systemPathFromTable(entry[1].inner)
-				parsed.money = entry[3]
-				parsed.entry = entry[4]
-			end
-			if not entry or not parsed.time or not parsed.path or not parsed.money then
-				return nil, lui.UNKNOWN_STATION_LOG_ENTRY_FORMAT
-			end
-			table.insert(value.Station, parsed)
-		end
-
-		return value
+		return {}
 	end
 
 }, {
@@ -239,37 +120,13 @@ FlightLogTab.reader = Helpers.versioned {{
 	version = 90,
 	fnc = function(saveGame)
 
-		local function entryWithSafeSystemPath(entry)
-			local parsed = {}
-			for k,v in pairs(entry) do
-				if k == 'systemp' then
-					parsed.path = systemPathFromTable(entry.systemp.inner)
-				else
-					parsed[k] = v
-				end
-			end
-			return parsed
-		end
-
-		local value = { Custom = {}, System = {}, Station = {} }
-
-		local logData, errorString = Helpers.getByPath(saveGame, "lua_modules_json/FlightLog/Data")
+		local data, errorString = Helpers.getByPath(saveGame, "lua_modules_json/FlightLog")
 		if errorString then return nil, errorString end
 
-		for _, entry in ipairs(logData) do
-			local entryType = Helpers.getLuaClass(entry)
+		FlightLog.ParseSavedData( data, systemPathFromTable, Helpers.getLuaClass )
 
-			if entryType == 'FlightLogEntry.Custom' then
-				table.insert(value.Custom, entryWithSafeSystemPath(entry))
-			elseif entryType == 'FlightLogEntry.System' then
-				table.insert(value.System, entryWithSafeSystemPath(entry))
-			elseif entryType == 'FlightLogEntry.Station' then
-				table.insert(value.Station, entryWithSafeSystemPath(entry))
-			else
-				return nil, lui.UNKNOWN_STATION_LOG_ENTRY_FORMAT
-			end
-		end
-		return value
+		return {}
+
 	end
 }}
 

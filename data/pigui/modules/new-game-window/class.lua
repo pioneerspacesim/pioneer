@@ -96,9 +96,11 @@ local function updateParams()
 	end
 end
 
-local function setStartVariant(variant)
+local function setStartVariant(variant, is_recovering)
 	for _, param in ipairs(Layout.UpdateOrder) do
-		param:fromStartVariant(variant)
+		if not is_recovering or not param.exclude_on_recovery then
+			param:fromStartVariant(variant)
+		end
 	end
 end
 
@@ -169,31 +171,6 @@ local function startGame(gameParams)
 	for id, amount in pairs(gameParams.ship.cargo) do
 		cargoMgr:AddCommodity(Commodities[id], amount)
 	end
-
-	for _, entry in ipairs(gameParams.flightlog.Custom) do
-		if FlightLog.InsertCustomEntry(entry) then
-			-- ok then
-		elseif entry.entry then
-			-- allow a custom log entry containing only text
-			-- because when starting a new game we only have text
-			FlightLog.MakeCustomEntry(entry.entry)
-		else
-			logWarning("Wrong entry for the custom flight log")
-		end
-	end
-
-	for _, entry in ipairs(gameParams.flightlog.System) do
-		if not FlightLog.InsertSystemEntry(entry) then
-			logWarning("Wrong entry for the system flight log")
-		end
-	end
-
-	for _, entry in ipairs(gameParams.flightlog.Station) do
-		if not FlightLog.InsertStationEntry(entry) then
-			logWarning("Wrong entry for the station flight log")
-		end
-	end
-	FlightLog.OrganizeEntries()
 
 	if gameParams.autoExec then
 		gameParams.autoExec()
@@ -269,7 +246,7 @@ NewGameWindow = ModalWindow.New("New Game", function()
 				local action = profileCombo.actions[ret + 1]
 				if action == 'DO_UNLOCK' then
 					Layout.setLock(false)
-					FlightLogParam.value.Custom = {{ text = "Custom start of the game - for the purpose of debugging or cheat." }}
+					FlightLog.MakeCustomEntry( "Custom start of the game - for the purpose of debugging or cheat." )
 				else
 					setStartVariant(StartVariants.item(ret + 1))
 				end
@@ -316,9 +293,7 @@ function NewGameWindow.restoreSaveGame(selectedSave)
 
 		local report = lui.ATTEMPTING_TO_RECOVER_GAME_PROGRESS_FROM_SAVE_X:interp{ save = selectedSave }
 		-- first variant as default value
-		setStartVariant(StartVariants.item(1))
-		-- except for clearing the log
-		FlightLogParam:fromStartVariant({})
+		setStartVariant(StartVariants.item(1),true)
 		report = report .. "\n\n" .. string.format(lui.FILE_SAVEGAME_VERSION, tostring(saveGame.version))
 		report = report .. "\n" .. string.format(lui.CURRENT_SAVEGAME_VERSION, tostring(Game.CurrentSaveVersion()))
 		for _, param in ipairs(Layout.UpdateOrder) do

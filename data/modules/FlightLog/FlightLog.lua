@@ -19,6 +19,10 @@ local Character = require 'Character'
 
 local FlightLogEntry = require 'modules.FlightLog.FlightLogEntries'
 
+local function logInfo( msg )
+	logWarning( "FlightLog: " .. msg )
+end
+
 -- default values (private)
 ---@type integer
 local MaxTotalNonCustomElements = 3000
@@ -209,91 +213,6 @@ function FlightLog.MakeCustomEntry(text)
 	FlightLog.AddEntry( FlightLogEntry.Custom.New( path, Game.time, Game.player:GetMoney(), location, text ) )
 end
 
---
--- Method: InsertCustomEntry
---
--- Insert an element into custom flight log with all required fields
---
--- > FlightLog.InsertCustomEntry(entry)
---
--- Parameters:
---
---   entry - table
---
--- Entry:
---
---   path - System path
---   time - Game date
---   money - Financial balance at time of record creation
---   location - Array, with two strings: flight state, and relevant additional string
---   entry - Free text string
---
----@param entry table
-function FlightLog.InsertCustomEntry(entry)
-	if entry.path and entry.time and entry.money and entry.location and entry.entry then
-		FlightLog.AddEntry( FlightLogEntry.Custom.New( entry.path, entry.time, entry.money, entry.location, entry.entry ) )
-		return true
-	else
-		return false
-	end
-end
-
---
--- Method: InsertSystemEntry
---
--- Insert an element into system flight log with all required fields
---
--- > FlightLog.InsertSystemEntry(entry)
---
--- Parameters:
---
---   entry - table
---
--- Entry:
---
---   path - System path, pointing to player's current system
---   arrtime - Game date, arrival
---   deptime - Game date, departure (optional)
---   entry - Free text string (optional)
---
----@param entry table
-function FlightLog.InsertSystemEntry(entry)
-	if entry.path and (entry.arrtime or entry.deptime) then
-		FlightLog.AddEntry( FlightLogEntry.System.New( entry.path, entry.arrtime, entry.deptime, entry.entry or "" ) )
-		return true
-	else
-		return false
-	end
-end
-
---
--- Method: InsertStationEntry
---
--- Insert an element into station flight log with all required fields
---
--- > FlightLog.InsertStationEntry(entry)
---
--- Parameters:
---
---   entry - table
---
--- Entry:
---
---   path - System path
---   deptime - Game date, _arrival_
---   money - Financial balance at time of record creation
---   entry - Free text string (optional)
---
----@param entry table
-function FlightLog.InsertStationEntry(entry)
-	if entry.path and entry.deptime and entry.money then
-		FlightLog.AddEntry( FlightLogEntry.Station.New( entry.path, entry.deptime, entry.money, entry.entry or "" ) )
-		return true
-	else
-		return false
-	end
-end
-
 -- Method: GetLogEntries
 --
 -- Example:
@@ -341,6 +260,111 @@ function FlightLog:GetLogEntries(types, maximum, earliest_first)
 	end
 end
 
+local entryRecoveryLookup = {
+	["FlightLogEntry.Custom"] = FlightLogEntry.Custom.Unserialize,
+	["FlightLogEntry.System"] = FlightLogEntry.System.Unserialize,
+	["FlightLogEntry.Station"] = FlightLogEntry.Station.Unserialize
+}
+
+local function recoverEntry( entry, pathFixup, classLookup )
+	local class = classLookup( entry );
+	local unserializer = entryRecoveryLookup[class]
+	if unserializer == nil then
+		logWarning( "Flightlig unserialozer for " .. class .. " not found" )		
+	else
+		logInfo( "Found unserializer for " .. class )
+	end
+	if unserializer == nil then return nil end
+	return unserializer( entry, pathFixup )
+end
+
+--- @param loaded_data	table						The data to load
+--- @param pathFixup	func(table):SystemPath		Optional function to fixup invalid system paths
+--- @param classLookup  func(table):string			Lookup for classname.
+--- @return boolean									Did we succesfully read the data?
+function FlightLog.ParseSavedData(loaded_data, pathFixup, classLookup)
+
+
+	if loaded_data == nil then return false end
+
+	if loaded_data.Version == 1 then
+
+		logInfo( "Parsing Save Data v1")
+		FlightLogData = {}
+
+		for _, v in pairs( loaded_data.System ) do
+
+			local systempath = pathFixup ~= nil and pathFixup( v[1] ) or v[1]
+
+			local data = { systemp = systempath, arrtime = v[2], deptime = nil, entry = v[4] }
+			if ( data.arrtime ~= nil ) then
+				-- entry
+				table.insert(FlightLogData, FlightLogEntry.System.Unserialize( data ))
+			end
+			data.arrtime = nil
+			data.deptime = v[3]
+			if (data.deptime ~= nil) then
+				-- exit
+				table.insert(FlightLogData, FlightLogEntry.System.Unserialize( data ))
+			end
+		end
+
+		for _, v in pairs( loaded_data.Station ) do
+
+			local systempath = pathFixup ~= nil and pathFixup( v[1] ) or v[1]
+
+			local data = { systemp = systempath, deptime = v[2], money = v[3], entry = v[4] }
+			table.insert(FlightLogData, FlightLogEntry.Station.Unserialize(data))
+		end
+
+		for _, v in pairs( loaded_data.Custom ) do
+
+			local systempath = pathFixup ~= nil and pathFixup( v[1] ) or v[1]
+
+			local data = { systemp = systempath, time = v[2], money = v[3], location = v[4], entry = v[5] }
+			table.insert(FlightLogData, FlightLogEntry.Custom.Unserialize(data))
+		end
+
+		local function sortf( a, b )
+			return a.sort_date > b.sort_date
+		end
+	
+		table.sort( FlightLogData, sortf )
+	
+		CollapseSystemEvents()
+	
+	elseif loaded_data.Version > 1 then
+		if classLookup == nil then
+			logInfo( "Parsing Save Data v2 - no recovery with " .. #loaded_data.Data .. " elements" )
+			
+			--- simple path, it's loaded, we don't need to lookup classes and unserialize.
+			FlightLogData = loaded_data.Data
+		else
+			logInfo( "Parsing Save Data v2 - recovery with " .. #loaded_data.Data .. " elements" )
+			--- we're doing some recovery right now...
+			--- TODO: do we pass through the pathfixup here and do above too, right off the bat?
+			FlightLogData = {}
+			for _, e in pairs( loaded_data.Data ) do
+				local recovered = recoverEntry( e, pathFixup, classLookup )
+				if recovered ~= nil then
+					table.insert( FlightLogData, recovered )
+				end
+			end
+		end		
+	end
+
+
+	NonCustomElementCount = 0
+	for _, e in pairs(FlightLogData) do
+		if not e:IsCustom() then
+			AdjustNonCustomElementCount( 1 )
+		end
+	end
+
+	logInfo( "Finished loading data with  " .. #FlightLogData .. " elements and " .. NonCustomElementCount .. " non custom elements" )
+
+end
+
 -- LOGGING
 
 -- onLeaveSystem
@@ -364,67 +388,22 @@ local AddStationToLog = function (ship, station)
 	FlightLog.AddEntry( FlightLogEntry.Station.New( station.path, Game.time, Game.player:GetMoney(), nil ) )
 end
 
-function FlightLog.OrganizeEntries()
-
-	local function sortf( a, b )
-		return a.sort_date > b.sort_date
-	end
-
-	table.sort( FlightLogData, sortf )
-
-	CollapseSystemEvents()
-end
 
 -- LOADING AND SAVING
 
-local loaded_data
+local loaded_data = nil
 
 local onGameStart = function ()
 
-	if loaded_data and loaded_data.Version == 1 then
-
-		for _, v in pairs( loaded_data.System ) do
-
-			local data = { systemp = v[1], arrtime = v[2], deptime = nil, entry = v[4] }
-			if ( data.arrtime ~= nil ) then
-				-- entry
-				table.insert(FlightLogData, FlightLogEntry.System.Unserialize( data ))
-			end
-			data.arrtime = nil
-			data.deptime = v[3]
-			if (data.deptime ~= nil) then
-				-- exit
-				table.insert(FlightLogData, FlightLogEntry.System.Unserialize( data ))
-			end
-		end
-
-		for _, v in pairs( loaded_data.Station ) do
-			local data = { systemp = v[1], deptime = v[2], money = v[3], entry = v[4] }
-			table.insert(FlightLogData, FlightLogEntry.Station.Unserialize(data))
-		end
-
-		for _, v in pairs( loaded_data.Custom ) do
-			local data = { systemp = v[1], time = v[2], money = v[3], location = v[4], entry = v[5] }
-			table.insert(FlightLogData, FlightLogEntry.Custom.Unserialize(data))
-		end
-
-		FlightLog.OrganizeEntries()
-
-	elseif loaded_data and loaded_data.Version > 1 then
-		FlightLogData = loaded_data.Data
+	if loaded_data then
+		FlightLog.ParseSavedData( loaded_data )
 	end
-
-	NonCustomElementCount = 0
-	for _, e in pairs(FlightLogData) do
-		if not e:IsCustom() then
-			AdjustNonCustomElementCount( 1 )
-		end
-	end
-
 	loaded_data = nil
 end
 
 local onGameEnd = function ()
+
+	logInfo( "Game end, clearing the logs" )
 	FlightLogData = {}
 	NonCustomElementCount = 0
 end

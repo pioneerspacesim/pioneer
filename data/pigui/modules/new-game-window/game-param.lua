@@ -18,6 +18,7 @@ function GameParam:Constructor(name, path)
 	self.value = nil
 	self.hidden = false
 	self.noName = false
+	self.exclude_on_recovery = false
 end
 
 function GameParam:isValid()                 assert(false, tostring(self.name) .. ":isValid() should be overridden.") end

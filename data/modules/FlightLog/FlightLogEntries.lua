@@ -11,17 +11,15 @@ local Serializer = require 'Serializer'
 
 local Character = require 'Character'
 
+local Location = require 'pigui.modules.new-game-window.location'
+
 -- required for formatting / localisation
 local ui = require 'pigui'
 local Lang = require 'Lang'
 local l = Lang.GetResource("ui-core")
 -- end of formating / localisation stuff
 
-FlightLogEntry = {}
-
--- how many default (so not custom) elements do we have
----@type integer
-FlightLogEntry.TotalDefaultElements = 0
+local FlightLogEntry = {}
 
 ---@class FlightLogEntry.Base
 ---A generic log entry:
@@ -30,8 +28,11 @@ FlightLogEntry.TotalDefaultElements = 0
 ---@field protected always_custom boolean?	 	Is this always treated as a custom entry (so not auto deleted)
 FlightLogEntry.Base = utils.class("FlightLogEntry")
 
+---@type func(integer)
+FlightLogEntry.Base.non_custom_count_change = nil;
+
 ---@return string Description of this type
-function FlightLogEntry.Base:GetType() end
+function FlightLogEntry.Base:GetType() assert(false, tostring(self.class) .. ":GetType() should be overridden.") end
 
 ---@return boolean true if this is considered to have an entry
 function FlightLogEntry.Base:CanHaveEntry()
@@ -61,15 +62,11 @@ function FlightLogEntry.Base:IsCustom()
 end
 
 ---@return string The name for this log entry type
-function FlightLogEntry.Base:GetLocalizedName()
-	return "Error"
-end
+function FlightLogEntry.Base:GetLocalizedName() assert(false, tostring(self.class) .. ":GetLocalizedName() should be overridden.") end
 
 ---@param earliest_first boolean set to true if your sort order is to show the earlist first dates
 ---@return table<string, string>[] An array of key value pairs, the key being localized and the value being formatted appropriately.
-function FlightLogEntry.Base:GetDataPairs( earliest_first )
-	return { { "ERROR", "This should never be seen" } }
-end
+function FlightLogEntry.Base:GetDataPairs( earliest_first ) assert(false, tostring(self.class) .. ":GetDataPairs() should be overridden.") end
 
 ---@param entry string A user provided description of the event.
 ---If non nil/empty this will cause the entry to be considered custom and not automatically deleted
@@ -77,14 +74,14 @@ end
 function FlightLogEntry.Base:UpdateEntry( entry )
 
 	if self:IsCustom() then
-		FlightLogEntry.TotalDefaultElements = FlightLogEntry.TotalDefaultElements-1
+		self.non_custom_count_change( -1 )
 	end
 
 	if entry and #entry == 0 then entry = nil end
 	self.entry = entry
 
 	if self:IsCustom() then
-		FlightLogEntry.TotalDefaultElements = FlightLogEntry.TotalDefaultElements+1
+		self.non_custom_count_change( 1 )
 	end
 
 end
@@ -99,9 +96,6 @@ function FlightLogEntry.Base:Constructor( sort_date, entry, always_custom )
 	if entry and #entry == 0 then entry = nil end
 	self.entry = entry
 	self.always_custom = always_custom
-	if self:IsCustom() then
-		FlightLogEntry.TotalDefaultElements = FlightLogEntry.TotalDefaultElements+1
-	end
 end
 
 
@@ -170,7 +164,6 @@ function FlightLogEntry.System:GetType()
 	return "System"
 end
 
-
 ---@param systemp SystemPath 	The system in question
 ---@param arrtime number|nil	The time of arrival in the system, nil if this is an exit log
 ---@param depime number|nil	The time of leaving the system, nil if this is an entry log
@@ -196,8 +189,10 @@ function FlightLogEntry.System:Serialize()
 	return { systemp = self.systemp, arrtime = self.arrtime, deptime = self.deptime, entry = self.entry }
 end
 
-function FlightLogEntry.System.Unserialize( data )
-	return FlightLogEntry.System.New(data.systemp, data.arrtime, data.deptime, data.entry )
+function FlightLogEntry.System.Unserialize( data, pathFixup )
+	local systemp = pathFixup ~= nil and pathFixup( data.systemp ) or data.systemp
+
+	return FlightLogEntry.System.New(systemp, data.arrtime, data.deptime, data.entry )
 end
 
 Serializer:RegisterClass("FlightLogEntry.System", FlightLogEntry.System)
@@ -207,20 +202,49 @@ function FlightLogEntry.System:GetLocalizedName()
 	return l.LOG_SYSTEM;
 end
 
+-- local function asFaction(path)
+-- 	if path:IsSectorPath() then return l.UNKNOWN_FACTION end
+-- 	return path:GetStarSystem().faction.name
+-- end
+
+-- local function asStation(path)
+-- 	if not path:IsBodyPath() then return l.NO_AVAILABLE_DATA end
+-- 	local system = path:GetStarSystem()
+-- 	local systembody = system:GetBodyByPath(path)
+-- 	local station_type = "FLIGHTLOG_" .. systembody.type
+-- 	return string.interp(l[station_type], {
+-- 		primary_info = systembody.name,
+-- 		secondary_info = systembody.parent.name
+-- 	})
+-- end
+
+-- local function asSystem(path)
+-- 	return ui.Format.SystemPath(path)
+-- end
+
 local function asFaction(path)
-	if path:IsSectorPath() then return l.UNKNOWN_FACTION end
-	return path:GetStarSystem().faction.name
+    if path:IsSectorPath() then return l.UNKNOWN_FACTION end
+    return Location:getGalaxy():GetStarSystem(path).faction.name
 end
 
 local function asStation(path)
-	if not path:IsBodyPath() then return l.NO_AVAILABLE_DATA end
-	local system = path:GetStarSystem()
-	local systembody = system:GetBodyByPath(path)
-	local station_type = "FLIGHTLOG_" .. systembody.type
-	return string.interp(l[station_type], {
-		primary_info = systembody.name,
-		secondary_info = systembody.parent.name
-	})
+    if not path:IsBodyPath() then return l.NO_AVAILABLE_DATA end
+    local system = Location:getGalaxy():GetStarSystem(path)
+    local systembody = system:GetBodyByPath(path)
+    local station_type = "FLIGHTLOG_" .. systembody.type
+    return string.interp(l[station_type], {
+        primary_info = systembody.name,
+        secondary_info = systembody.parent.name
+    })
+end
+
+local function asSystem(path)
+    local sectorString = "(" .. path.sectorX .. ", " .. path.sectorY .. ", " .. path.sectorZ .. ")"
+    if path:IsSectorPath() then
+        return l.UNKNOWN_LOCATION_IN_SECTOR_X:interp{ sector = sectorString }
+    end
+    local system = Location:getGalaxy():GetStarSystem(path)
+    return system.name .. " " .. sectorString
 end
 
 ---@param earliest_first boolean set to true if your sort order is to show the earlist first dates
@@ -243,7 +267,7 @@ function FlightLogEntry.System:GetDataPairs( earliest_first )
 			table.insert(o, { l.ARRIVAL_DATE, self.formatDate(self.arrtime) })
 		end
 	end
-	table.insert(o, { l.IN_SYSTEM, ui.Format.SystemPath(self.systemp) })
+	table.insert(o, { l.IN_SYSTEM, asSystem(self.systemp) })
 	table.insert(o, { l.ALLEGIANCE, asFaction(self.systemp) })
 
 	return o
@@ -279,8 +303,9 @@ function FlightLogEntry.Custom:Serialize()
 	return { systemp = self.systemp, time = self.time, money = self.money, location = self.location, entry = self.entry }
 end
 
-function FlightLogEntry.Custom.Unserialize( data )
-	return FlightLogEntry.Custom.New( data.systemp, data.time, data.money, data.location, data.entry )
+function FlightLogEntry.Custom.Unserialize( data, pathFixup )
+	local systemp = pathFixup ~= nil and pathFixup( data.systemp ) or data.systemp
+	return FlightLogEntry.Custom.New( systemp, data.time, data.money, data.location, data.entry )
 end
 
 Serializer:RegisterClass("FlightLogEntry.Custom", FlightLogEntry.Custom)
@@ -296,7 +321,7 @@ function FlightLogEntry.Custom:GetDataPairs( earliest_first )
 	return {
 		{ l.DATE, self.formatDate(self.time) },
 		{ l.LOCATION, self.composeLocationString(self.location) },
-		{ l.IN_SYSTEM, ui.Format.SystemPath(self.systemp) },
+		{ l.IN_SYSTEM, asSystem(self.systemp) },
 		{ l.ALLEGIANCE, asFaction(self.systemp) },
 		{ l.CASH, Format.Money(self.money) }
 	}
@@ -305,13 +330,6 @@ end
 ---@return boolean true if this has a Delete() method
 function FlightLogEntry.Custom:SupportsDelete()
 	return true
-end
-
----Delete this entry
----@return nil
-function FlightLogEntry.Custom:Delete()
-	FlightLogEntry.TotalDefaultElements = FlightLogEntry.TotalDefaultElements - 1
-	utils.remove_elem( FlightLogData, self )
 end
 
 ---@class FlightLogEntry.Station : FlightLogEntry.Base
@@ -324,6 +342,7 @@ FlightLogEntry.Station = utils.class("FlightLogEntry.Station", FlightLogEntry.Ba
 function FlightLogEntry.Station:GetType() 
 	return "Station"
 end
+
 
 ---@param systemp 	SystemPath	The system the player is in when the log was written
 ---@param time		deptime		The game time the log was made, on departure from teh system, relative to the epoch
@@ -341,8 +360,9 @@ function FlightLogEntry.Station:Serialize()
 	return { systemp = self.systemp, deptime = self.deptime, money = self.money, entry = self.entry }
 end
 
-function FlightLogEntry.Station.Unserialize( data )
-	return FlightLogEntry.Station.New( data.systemp, data.deptime, data.money, data.entry )
+function FlightLogEntry.Station.Unserialize( data, pathFixup )
+	local systemp = pathFixup ~= nil and pathFixup( data.systemp ) or data.systemp
+	return FlightLogEntry.Station.New( systemp, data.deptime, data.money, data.entry )
 end
 
 Serializer:RegisterClass("FlightLogEntry.Station", FlightLogEntry.Station)
@@ -360,7 +380,7 @@ function FlightLogEntry.Station:GetDataPairs( earliest_first )
 	return {
 		{ l.DATE, self.formatDate(self.deptime) },
 		{ l.STATION, asStation(self.systemp) },
-		{ l.IN_SYSTEM, ui.Format.SystemPath(self.systemp) },
+		{ l.IN_SYSTEM, asSystem(self.systemp) },
 		{ l.ALLEGIANCE, asFaction(self.systemp) },
 		{ l.CASH, Format.Money(self.money) },
 	}
