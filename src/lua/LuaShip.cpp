@@ -1325,6 +1325,28 @@ static int l_ship_get_thruster_state(lua_State *l)
 	return 1;
 }
 
+/* Method: GetThrusterAcceleration
+ *
+ * Returns maximum acceleration in one of 6 directions
+ *
+ * Parameters:
+ *
+ *   direction - number, the <ShipTypeThruster> enum value
+ *
+ * Returns:
+ *
+ *   acceleration - number, m/s/s
+ *
+ */
+static int l_ship_get_thruster_acceleration(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	auto direction = Thruster(LuaPull<int>(l, 2));
+	double acc = s->GetComponent<Propulsion>()->GetAccel(direction);
+	LuaPush(l, acc);
+	return 1;
+}
+
 /*
  * Group: AI methods
  *
@@ -1706,6 +1728,7 @@ void LuaObject<Ship>::RegisterClass()
 		{ "GetVelocity", l_ship_get_velocity },
 		{ "GetPosition", l_ship_get_position },
 		{ "GetThrusterState", l_ship_get_thruster_state },
+		{ "GetThrusterAcceleration", l_ship_get_thruster_acceleration },
 
 		{ "IsDocked", l_ship_is_docked },
 		{ "IsLanded", l_ship_is_landed },
