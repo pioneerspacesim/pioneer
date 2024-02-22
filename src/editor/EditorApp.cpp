@@ -4,6 +4,8 @@
 #include "EditorApp.h"
 
 #include "EditorDraw.h"
+#include "EditorIcons.h"
+#include "MathUtil.h"
 #include "Modal.h"
 
 #include "FileSystem.h"
@@ -17,6 +19,7 @@
 #include "core/IniConfig.h"
 #include "core/OS.h"
 #include "graphics/Graphics.h"
+#include "imgui/imgui.h"
 #include "lua/Lua.h"
 #include "graphics/opengl/RendererGL.h"
 
@@ -71,6 +74,8 @@ void EditorApp::Initialize(argh::parser &cmdline)
 		SetAppName("SystemEditor");
 		return;
 	}
+
+	QueueLifecycle(RefCountedPtr<Application::Lifecycle>(new EditorWelcomeScreen(this)));
 }
 
 void EditorApp::AddLoadingTask(TaskSet::Handle handle)
@@ -231,4 +236,82 @@ void LoadingPhase::Update(float dt)
 	if (runningTasks.size() == 0 && m_app->GetTime() >= minRuntime) {
 		RequestEndLifecycle();
 	}
+}
+
+// ============================================================================
+//  Welcome Screen
+// ============================================================================
+
+static inline ImVec4 operator*(const ImVec4& lhs, const float& rhs)   { return ImVec4(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs, lhs.w * rhs); }
+
+ImVec2 CalcEditorModeButtonSize(const char *label, float iconSize)
+{
+	ImVec2 textSize = ImGui::CalcTextSize(label, nullptr, false, iconSize);
+	return ImVec2(iconSize, iconSize + ImGui::GetStyle().ItemSpacing.y + textSize.y) + ImGui::GetStyle().FramePadding * 2.f;
+}
+
+bool DrawEditorModeButton(const char *label, const char *icon, float iconSize, PiGui::Instance *pigui)
+{
+	ImGuiStyle &style = ImGui::GetStyle();
+
+	ImVec2 size = CalcEditorModeButtonSize(label, iconSize);
+	ImVec2 pos = ImGui::GetCursorScreenPos();
+	ImVec2 padding = style.FramePadding;
+
+	bool clicked = ImGui::InvisibleButton(label, size);
+	bool hovered = ImGui::IsItemHovered();
+	float timer = ImGui::GetCurrentContext()->HoveredIdTimer;
+
+	ImColor regular = style.Colors[ImGuiCol_Text];
+	ImColor active = style.Colors[ImGuiCol_ButtonHovered];
+	ImColor col = hovered ? ImColor(ImLerp<ImVec4>(regular, active, std::min(1.f, timer * 8.f))) : regular;
+
+	ImDrawList *dl = ImGui::GetWindowDrawList();
+
+	dl->AddRect(pos, pos + size, ImColor(style.Colors[ImGuiCol_FrameBg]), style.FrameRounding, 0, 2.f);
+
+	ImGui::PushFont(pigui->GetFont("icons", iconSize));
+	dl->AddText(pos + padding, col, icon);
+	ImGui::PopFont();
+
+	ImVec2 textSize = ImGui::CalcTextSize(label, nullptr, false, iconSize);
+	ImVec2 textOffset = ImVec2(
+		(iconSize - textSize.x) / 2.f,
+		iconSize + style.ItemSpacing.y);
+
+	dl->AddText(nullptr, 0, pos + padding + textOffset, regular, label, nullptr, textSize.x);
+
+	return clicked;
+}
+
+void EditorWelcomeScreen::Update(float dt)
+{
+	Draw::BeginHostWindow("##fullscreen");
+
+	PiGui::Instance *pigui = m_app->GetPiGui();
+
+	float iconSize = 128;
+	int numButtons = 2;
+	ImVec2 size = CalcEditorModeButtonSize("Model Viewer", iconSize);
+
+	ImGui::SetCursorPos((ImGui::GetWindowSize() - ImVec2(size.x * numButtons + ImGui::GetStyle().ItemSpacing.x, size.y)) / 2.f);
+	ImGui::BeginGroup();
+
+	if (DrawEditorModeButton("Model Viewer", EICON_SURFACE_STATION, iconSize, pigui)) {
+		m_app->QueueLifecycle(RefCountedPtr<ModelViewer>(new ModelViewer(m_app, Lua::manager)));
+		m_app->SetAppName("Model Viewer");
+		RequestEndLifecycle();
+	}
+
+	ImGui::SameLine();
+
+	if (DrawEditorModeButton("System Editor", EICON_SYSTEM_EDITOR, iconSize, pigui)) {
+		m_app->QueueLifecycle(RefCountedPtr<SystemEditor>(new SystemEditor(m_app)));
+		m_app->SetAppName("System Editor");
+		RequestEndLifecycle();
+	}
+
+	ImGui::EndGroup();
+
+	ImGui::End();
 }

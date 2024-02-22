@@ -75,4 +75,18 @@ namespace Editor {
 		float minRuntime = 1.f;
 	};
 
+	class EditorWelcomeScreen : public Application::Lifecycle {
+	public:
+		EditorWelcomeScreen(EditorApp *app) :
+			Application::Lifecycle(),
+			m_app(app)
+		{}
+
+	protected:
+		void Update(float dt) override;
+
+	private:
+		EditorApp *m_app;
+	};
+
 } // namespace Editor

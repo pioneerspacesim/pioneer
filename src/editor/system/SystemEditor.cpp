@@ -422,6 +422,8 @@ void SystemEditor::RegisterMenuActions()
 			if (HasUnsavedChanges()) {
 				m_unsavedFileModal = m_app->PushModal<UnsavedFileModal>();
 				m_pendingFileReq = FileRequest_Quit;
+			} else {
+				RequestEndLifecycle();
 			}
 		}
 	});
