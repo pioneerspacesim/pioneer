@@ -52,7 +52,6 @@ public:
 	void OnCockpitActivated();
 
 	virtual void StaticUpdate(const float timeStep) override;
-	sigc::signal<void> onChangeEquipment;
 	virtual vector3d GetManeuverVelocity() const;
 	virtual int GetManeuverTime() const;
 

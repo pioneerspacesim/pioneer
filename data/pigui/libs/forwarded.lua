@@ -6,6 +6,7 @@
 local Engine = require 'Engine'
 local pigui = Engine.pigui
 
+---@class ui
 local ui = {}
 
 ui.calcTextAlignment = pigui.CalcTextAlignment
@@ -93,6 +94,7 @@ ui.getWindowPadding = pigui.GetWindowPadding ---@type fun(): Vector2
 -- Add extra window padding after beginning a window.
 -- WARNING: this must only be called at "top-level" window scope (e.g. not in a Group or Columns etc.)
 ui.addWindowPadding = pigui.AddWindowPadding ---@type fun(padding: Vector2)
+ui.getItemRect = pigui.GetItemRect ---@type fun(): Vector2, Vector2 -- return min, max corners of last item bounding box
 
 ui.getTargetsNearby = pigui.GetTargetsNearby
 ui.getProjectedBodies = pigui.GetProjectedBodies
@@ -136,12 +138,12 @@ ui.beginTabItem = pigui.BeginTabItem
 ui.endTabItem = pigui.EndTabItem
 ui.endTabBar = pigui.EndTabBar
 
-ui.beginTable = pigui.BeginTable
+ui.beginTable = pigui.BeginTable ---@type fun(id: string, columns: integer, flags: any)
 ui.endTable = pigui.EndTable
 ui.tableNextRow = pigui.TableNextRow
 ui.tableNextColumn = pigui.TableNextColumn
 ui.tableSetColumnIndex = pigui.TableSetColumnIndex
-ui.tableSetupColumn = pigui.TableSetupColumn
+ui.tableSetupColumn = pigui.TableSetupColumn ---@type fun(id: string, flags: any)
 ui.tableSetupScrollFreeze = pigui.TableSetupScrollFreeze
 ui.tableHeadersRow = pigui.TableHeadersRow
 ui.tableHeader = pigui.TableHeader

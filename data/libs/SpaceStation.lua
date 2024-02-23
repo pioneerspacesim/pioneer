@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 ---@class SpaceStation : ModelBody
+---@field techLevel integer
 local SpaceStation = package.core['SpaceStation']
 
 local Economy     = require 'Economy'

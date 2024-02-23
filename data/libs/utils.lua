@@ -171,6 +171,7 @@ function utils.filter_table(table, predicate)
 	end
 	return t
 end
+
 --
 -- Function: filter_array
 --
@@ -185,10 +186,26 @@ end
 ---@param predicate fun(v: T): boolean
 function utils.filter_array(array, predicate)
 	local t = {}
-	for i, v in ipairs(array) do
+	for _, v in ipairs(array) do
 		if predicate(v) then table.insert(t, v) end
 	end
 	return t
+end
+
+-- Function: to_array
+--
+-- Filters the values of the given table and converts them to an array.
+-- Key iteration order is undefined (uses pairs() internally).
+---@generic K, V
+---@param t table<K, V>
+---@param predicate fun(v: V): boolean
+---@return V[]
+utils.to_array = function(t, predicate)
+	local out = {}
+	for _, v in pairs(t) do
+		if predicate(v) then table.insert(out, v) end
+	end
+	return out
 end
 
 --
@@ -354,8 +371,8 @@ utils.inherits = function (baseClass, name)
 	new_class.meta = { __index = new_class, class=name }
 
 	-- generic constructor
-	function new_class.New(args)
-		local newinst = base_class.New(args)
+	function new_class.New(...)
+		local newinst = base_class.New(...)
 		setmetatable( newinst, new_class.meta )
 		return newinst
 	end
@@ -387,20 +404,72 @@ end
 -- Wrapper for utils.inherits that manages creating new class instances and
 -- calling the constructor.
 --
-utils.class = function (name, baseClass)
-	local new_class = utils.inherits(baseClass, name)
+utils.class = function (name, base_class)
+	base_class = base_class or object
+	local new_class = utils.inherits(base_class, name)
 
 	new_class.New = function(...)
 		local instance = setmetatable( {}, new_class.meta )
 
-		if new_class.Constructor then
-			new_class.Constructor(instance, ...)
-		end
+		new_class.Constructor(instance, ...)
 
 		return instance
 	end
 
+	new_class.Constructor = function(self, ...)
+		if base_class.Constructor then
+			base_class.Constructor(self, ...)
+		end
+	end
+
 	return new_class
+end
+
+local _proto = {}
+
+_proto.__clone = function(self) end
+
+function _proto:clone(mixin)
+	local new = { __index = self }
+	setmetatable(new, new)
+
+	new:__clone()
+
+	if mixin then
+		table.merge(new, mixin)
+	end
+
+	return new
+end
+
+-- Simple Self/iolang style prototype chains
+-- Can be used with lua serialization as long as no functions are set anywhere
+-- but on the base prototype returned from utils.proto
+utils.proto = function(classname)
+	local newProto = _proto:clone()
+
+	newProto.class = classname
+
+	function newProto:Serialize()
+		local out = table.copy(self)
+
+		-- Cannot serialize functions, so references to the base prototype are
+		-- not serialized
+		if out.__index == newProto then
+			out.__index = nil
+		end
+
+		return out
+	end
+
+	-- If a prototype doesn't have a serialized __index field, it referred to
+	-- this base prototype originally
+	function newProto:Unserialize()
+		self.__index = self.__index or newProto
+		return setmetatable(self, self)
+	end
+
+	return newProto
 end
 
 --
@@ -425,17 +494,20 @@ utils.print_r = function(t)
 			if type(t) == "table" then
 				for key, val in pairs(t) do
 					local string_key = tostring(key)
+					local string_val = tostring(val)
 
-					if type(val) == "table" then
-						write(indent, '[%s] => %s {', string_key, tostring(t))
+					if type(val) == "table" and not print_r_cache[string_val] then
+						write(indent, '[%s] => %s {', string_key, string_val)
 
 						sub_print_r(val, indent + string.len(string_key) + 8)
 
 						write(indent + string.len(string_key) + 6, "}")
+					elseif type(val) == "table" then
+						write(indent, "[%s] => *%s", string_key, string_val)
 					elseif (type(val)=="string") then
-						write(indent, "[%s] => '%s'", string_key, val)
+						write(indent, "[%s] => '%s'", string_key, string_val)
 					else
-						write(indent, "[%s] => %s", string_key, tostring(val))
+						write(indent, "[%s] => %s", string_key, string_val)
 					end
 				end
 			else

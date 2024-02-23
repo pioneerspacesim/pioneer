@@ -5,9 +5,11 @@ local Format = require 'Format'
 local Input = require 'Input'
 local Lang = require 'Lang'
 local Game = require 'Game'
-local ui = require 'pigui.baseui'
 local pigui = Engine.pigui
 local Vector2 = _G.Vector2
+
+---@class ui
+local ui = require 'pigui.baseui'
 
 local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
@@ -102,6 +104,8 @@ end
 --   alignment - number, controls alignment of the text. 0.5 is centered,
 --               1.0 is right aligned.
 --
+---@param text string
+---@param alignment number
 function ui.textAligned(text, alignment)
 	local size = pigui.CalcTextSize(text).x
 	local cw = ui.getContentRegion().x
@@ -335,6 +339,10 @@ ui.Format = {
 			end
 			return string.format("%d%s%s", number, res, deci)
 		end
+	end,
+	-- Format a volume quantity in cubic meters
+	Volume = function(number, places)
+		return ui.Format.Number(number, places or 1) .. lc.UNIT_CUBIC_METERS
 	end,
 	SystemPath = function(path)
 		local sectorString = "("..path.sectorX..", "..path.sectorY..", "..path.sectorZ..")"
