@@ -436,7 +436,13 @@ namespace Background {
 	void Starfield::Fill(Random &rand, const SystemPath *const systemPath, RefCountedPtr<Galaxy> galaxy)
 	{
 		PROFILE_SCOPED()
+
+		m_pointSprites.reset(new Graphics::Drawables::PointSprites);
+
 		const Uint32 NUM_BG_STARS = MathUtil::mix(BG_STAR_MIN, BG_STAR_MAX, Pi::GetAmountBackgroundStars());
+		// user doesn't want to see stars
+		if (NUM_BG_STARS == BG_STAR_MIN) return;
+
 		const float brightnessApparentSizeFactor = Pi::GetStarFieldStarSizeFactor() / 7.0;
 		// dividing by 7 to make sure that 100% star size isn't too big to clash with UI elements
 
@@ -451,8 +457,6 @@ namespace Background {
 			m_animMesh.reset(m_renderer->CreateMeshObject(vtxBuffer));
 		}
 
-		m_pointSprites.reset(new Graphics::Drawables::PointSprites);
-
 		assert(sizeof(StarVert) == 16);
 
 		StarInfo stars;
@@ -466,10 +470,6 @@ namespace Background {
 			PROFILE_SCOPED_DESC("Pick Stars from Galaxy")
 
 			TaskGraph *graph = Pi::GetApp()->GetTaskGraph();
-
-			// We want the main thread to participate in this work as well,
-			// but don't split the number of stars too much that we have visible brightness "patches"
-			const uint32_t numTasks = std::min(graph->GetNumWorkerThreads() + 1, 8U);
 
 			// judging by the current sector generator, maximum average number
 			// of stars in a sector is 6
@@ -488,10 +488,15 @@ namespace Background {
 			info.colorMax = Color((Uint8)(m_rMax * 255), (Uint8)(m_gMax * 255), (Uint8)(m_rMax * 255));
 			info.brightnessFactor = brightnessApparentSizeFactor;
 
+			// We want the main thread to participate in this work as well,
+			// but don't split the number of stars too much that we have visible brightness "patches"
+			// also we want a piece of at least size 1
+			const uint32_t numTasks = std::min({ graph->GetNumWorkerThreads() + 1, 8U, uint32_t(info.sectorMax - info.sectorMin) });
+
 			TaskSet *sampleStarsTaskSet = new TaskSet();
 
 			int32_t starsLeft = NUM_BG_STARS;
-			const double realRadius = info.sectorMax + 0.5;
+			const double realRadius = info.sectorMax;
 			const double realDensity = NUM_BG_STARS / (M_PI / 0.75 * realRadius * realRadius * realRadius);
 
 			std::vector<StarInfo> taskStars(numTasks);
@@ -499,20 +504,24 @@ namespace Background {
 
 			// Split the visible area of the galaxy up into separate tasks
 			uint32_t current = 0;
-			int32_t range_step = (info.sectorMax - info.sectorMin) / numTasks;
+			// divide the ball more evenly into tasks, when the number of tasks
+			// is comparable to the diameter of the ball (in sectors)
+			float range_step = (info.sectorMax - info.sectorMin) / (float)numTasks;
+
 			for (size_t i = 0; i < numTasks; i++) {
 				int32_t starsLimit;
-				uint32_t end = current + range_step;
+				uint32_t end = std::max(uint32_t(range_step * (i + 1)), current + 1);
 				if (i + 1 == numTasks) {
 					end = (info.sectorMax - info.sectorMin);
 					starsLimit = starsLeft;
 				} else {
-					starsLimit = realDensity * task_spherical_segment_volume(current, end + 1, realRadius);
+					starsLimit = realDensity * task_spherical_segment_volume(current, end, realRadius);
 					starsLeft -= starsLimit;
 				}
 
-				sampleStarsTaskSet->AddTask(new SampleStarsTask(galaxy, info, starsLimit, taskStars[i], taskMedians[i], { current, end }));
-				current = end + 1;
+				// in the task the loop runs from current to end inclusive
+				sampleStarsTaskSet->AddTask(new SampleStarsTask(galaxy, info, starsLimit, taskStars[i], taskMedians[i], { current, end - 1 }));
+				current = end;
 			}
 
 			// We can't make progress until all stars are gathered, so run the
