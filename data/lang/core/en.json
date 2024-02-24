@@ -1751,6 +1751,10 @@
     "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
     "message": "AU"
   },
+  "UNIT_CUBIC_METERS": {
+    "description": "Volume unit: cubic meter",
+    "message": "m³"
+  },
   "UNIT_DAYS": {
     "description": "Duration unit: one 24-hour day",
     "message": "d"
@@ -1834,10 +1838,6 @@
   "UNIT_WEEKS": {
     "description": "Duration unit: one 7-day week",
     "message": "w"
-  },
-  "UNIT_CUBIC_METERS": {
-	"description": "Volume unit: cubic meter",
-	"message": "m³"
   },
   "UNKNOWN": {
     "description": "",
