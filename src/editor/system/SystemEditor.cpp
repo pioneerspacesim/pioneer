@@ -148,6 +148,8 @@ void SystemEditor::NewSystem(SystemPath path)
 
 	// mark current file as unsaved
 	m_lastSavedUndoStack = size_t(-1);
+
+	m_viewport->SetSystem(m_system);
 }
 
 bool SystemEditor::LoadSystemFromDisk(const std::string &absolutePath)

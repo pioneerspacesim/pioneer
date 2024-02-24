@@ -103,8 +103,6 @@ private:
 	void DrawBodyProperties();
 	void DrawSystemProperties();
 
-	void EditName(const char *undo_label, std::string *name);
-
 	void DrawUndoDebug();
 
 	UndoSystem *GetUndo() { return m_undo.get(); }
