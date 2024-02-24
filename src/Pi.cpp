@@ -350,7 +350,7 @@ void Pi::App::OnStartup()
 	Pi::detail.cities = config->Int("DetailCities");
 
 	Graphics::RendererOGL::RegisterRenderer();
-	Pi::renderer = StartupRenderer(Pi::config);
+	Pi::renderer = StartupRenderer(Pi::config, false, config->Int("DebugWindowResize"));
 
 	Pi::rng.IncRefCount(); // so nothing tries to free it
 	Pi::rng.seed(time(0));

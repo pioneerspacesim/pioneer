@@ -123,7 +123,7 @@ void EditorApp::OnStartup()
 
 	Graphics::RendererOGL::RegisterRenderer();
 
-	m_renderer = StartupRenderer(m_editorCfg.get());
+	m_renderer = StartupRenderer(m_editorCfg.get(), false, true);
 	StartupInput(m_editorCfg.get());
 
 	StartupPiGui();
@@ -194,7 +194,7 @@ void LoadingPhase::Update(float dt)
 {
 	constexpr const char *loadingMessage = "Loading...";
 
-	const ImVec2 winSize = { float(Graphics::GetScreenWidth()), float(Graphics::GetScreenHeight()) };
+	const ImVec2 winSize = ImGui::GetMainViewport()->Size;
 	const ImVec2 textSize = ImGui::CalcTextSize(loadingMessage);
 
 	ImGui::SetNextWindowBgAlpha(0.0);
