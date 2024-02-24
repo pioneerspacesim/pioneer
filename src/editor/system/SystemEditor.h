@@ -76,6 +76,8 @@ private:
 	void LoadSystemFromGalaxy(RefCountedPtr<StarSystem> system);
 	void ClearSystem();
 
+	void OnFilepathChanged();
+
 	void RegisterMenuActions();
 
 	bool HasUnsavedChanges();
