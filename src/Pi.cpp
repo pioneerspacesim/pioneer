@@ -661,7 +661,8 @@ void StartupScreen::End()
 
 void MainMenu::Start()
 {
-	Pi::intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
+	// TODO: just calculate this at draw time inside Intro
+	Pi::intro = new Intro(Pi::renderer, Pi::renderer->GetWindowWidth(), Pi::renderer->GetWindowHeight());
 	if (m_skipMenu) {
 		Output("Loading new game immediately!\n");
 		Pi::StartGame(new Game(m_startPath, 0.0));
@@ -1152,7 +1153,8 @@ void GameLoop::End()
 
 void TombstoneLoop::Start()
 {
-	tombstone.reset(new Tombstone(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
+	// TODO: just calculate this at draw time inside Tombstone
+	tombstone.reset(new Tombstone(Pi::renderer, Pi::renderer->GetWindowWidth(), Pi::renderer->GetWindowHeight()));
 	startTime = Pi::GetApp()->GetTime();
 }
 

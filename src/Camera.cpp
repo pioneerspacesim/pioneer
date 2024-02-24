@@ -175,7 +175,8 @@ void Camera::Update()
 		attrs.bodyFlags = b->GetFlags();
 
 		// approximate pixel width (disc diameter) of body on screen
-		const float pixSize = Graphics::GetScreenHeight() * 2.0 * rad / (attrs.camDist * Graphics::GetFovFactor());
+		// FIXME: this should reference a property set on the camera instead of querying the window size
+		const float pixSize = m_renderer->GetWindowHeight() * 2.0 * rad / (attrs.camDist * Graphics::GetFovFactor());
 
 		// terrain objects are visible from distance but might not have any discernable features
 		if (b->IsType(ObjectType::TERRAINBODY)) {

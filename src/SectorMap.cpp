@@ -523,8 +523,8 @@ void SectorMap::InitDefaults()
 
 	m_sectorCache = m_context.galaxy->NewSectorSlaveCache();
 	InputBindings.RegisterBindings();
-	m_size.x = Graphics::GetScreenWidth();
-	m_size.y = Graphics::GetScreenHeight();
+	m_size.x = m_context.renderer->GetWindowWidth();
+	m_size.y = m_context.renderer->GetWindowHeight();
 }
 
 void SectorMap::InitObject()
@@ -1066,7 +1066,9 @@ void SectorMap::DrawFarSectors(const matrix4x4f &modelview)
 
 	// always draw the stars, slightly altering their size for different different resolutions, so they still look okay
 	if (m_farstars.size() > 0) {
-		m_farstarsPoints.SetData(m_context.renderer, m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], modelview, 0.25f * (Graphics::GetScreenHeight() / 720.f));
+		// TODO: this should query screen DPI instead of platform window height
+		float sizeFactor = 0.25f * (m_context.renderer->GetWindowHeight() / 720.f);
+		m_farstarsPoints.SetData(m_context.renderer, m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], modelview, sizeFactor);
 		m_farstarsPoints.Draw(m_context.renderer, m_farStarsMat.Get());
 	}
 

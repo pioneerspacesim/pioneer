@@ -40,7 +40,7 @@ ObjectViewerView::ObjectViewerView() :
 	Pi::renderer->GetNearFarRange(znear, zfar);
 
 	const float fovY = Pi::config->Float("FOVVertical");
-	m_cameraContext.Reset(new CameraContext(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
+	m_cameraContext.Reset(new CameraContext(Pi::renderer->GetWindowWidth(), Pi::renderer->GetWindowHeight(), fovY, znear, zfar));
 	m_camera.reset(new Camera(m_cameraContext, Pi::renderer));
 
 	m_cameraContext->SetCameraFrame(Pi::player->GetFrame());
@@ -148,11 +148,13 @@ void ObjectViewerView::DrawInfoWindow()
 	std::string infoLabel = fmt::format("View dist: {} Object: {}",
 		format_distance(viewingDist), m_targetBody->GetLabel());
 
+	ImVec2 vpSize = ImGui::GetMainViewport()->Size;
+
 	float xpos = ImGui::GetStyle().WindowPadding.x * 2;
-	float ypos = Graphics::GetScreenHeight() - (ImGui::GetTextLineHeightWithSpacing() * 5 + ImGui::GetFrameHeightWithSpacing());
+	float ypos = vpSize.y - (ImGui::GetTextLineHeightWithSpacing() * 5 + ImGui::GetFrameHeightWithSpacing());
 
 	ImGui::SetNextWindowPos({ xpos, ypos });
-	ImGui::SetNextWindowSize({ Graphics::GetScreenWidth() - xpos, Graphics::GetScreenHeight() - ypos });
+	ImGui::SetNextWindowSize({ vpSize.x - xpos, vpSize.y - ypos });
 	ImGui::Begin("ObjectViewerView#Info", nullptr, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDecoration);
 
 	ImGui::TextUnformatted(infoLabel.c_str());
@@ -174,11 +176,13 @@ namespace ImGui {
 
 void ObjectViewerView::DrawControlsWindow()
 {
-	float xpos = Graphics::GetScreenWidth() - Graphics::GetScreenWidth() / 5.0;
+	ImVec2 vpSize = ImGui::GetMainViewport()->Size;
+
+	float xpos = vpSize.x - vpSize.x / 5.0;
 	float ypos = ImGui::GetStyle().WindowPadding.y;
 
 	ImGui::SetNextWindowPos({ xpos, ypos });
-	ImGui::SetNextWindowSize({ Graphics::GetScreenWidth() - xpos, Graphics::GetScreenHeight() - ypos });
+	ImGui::SetNextWindowSize({ vpSize.x - xpos, vpSize.y - ypos });
 	ImGui::Begin("ObjectViewerView#Controls", nullptr, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDecoration);
 
 	if (m_isTerrainBody) {
