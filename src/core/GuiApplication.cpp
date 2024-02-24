@@ -35,6 +35,7 @@ void GuiApplication::BeginFrame()
 	m_renderer->ClearScreen();
 
 	m_renderer->BeginFrame();
+	m_input->NewFrame();
 }
 
 void GuiApplication::EndFrame()
@@ -90,11 +91,6 @@ void GuiApplication::PollEvents()
 {
 	PROFILE_SCOPED()
 	SDL_Event event;
-
-	// FIXME: input state is right before handling updates because
-	// legacy UI code needs to run before input does.
-	// When HandleEvents() is moved to BeginFrame / PreUpdate, this call should go with it
-	m_input->NewFrame();
 
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_QUIT) {

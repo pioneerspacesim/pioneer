@@ -931,6 +931,11 @@ void GameLoop::Update(float deltaTime)
 	frame_time_real = deltaTime * 1e3; // convert to ms
 	frame_stat++;
 
+	// Read events into internal structures and into imgui structures,
+	// dispatch will be performed after the imgui frame, so that imgui can add
+	// something based on clicks on widgets
+	Pi::GetApp()->PollEvents();
+
 #ifdef ENABLE_SERVER_AGENT
 	Pi::serverAgent->ProcessResponses();
 #endif
@@ -1009,15 +1014,6 @@ void GameLoop::Update(float deltaTime)
 	// This may cause future issues if graphic resources are deleted while in-flight, but OpenGL is
 	// capable of handling that eventuality and it prevents application-scope crashes
 	Pi::renderer->FlushCommandBuffers();
-
-	// FIXME: Handling events at the moment must be after view->Draw3D and before
-	// Gui::Draw so that labels drawn to screen can have mouse events correctly
-	// detected. Gui::Draw wipes memory of label positions.
-
-	// Read events into internal structures and into imgui structures,
-	// dispatch will be performed after the imgui frame, so that imgui can add
-	// something based on clicks on widgets
-	Pi::GetApp()->PollEvents();
 
 #ifdef REMOTE_LUA_REPL
 	Pi::luaConsole->HandleTCPDebugConnections();
