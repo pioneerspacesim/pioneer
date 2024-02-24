@@ -154,6 +154,7 @@ void Camera::Update()
 		BodyAttrs attrs;
 		attrs.body = b;
 		attrs.billboard = false; // false by default
+		attrs.calcAtmosphereLighting = false; // false by default
 
 		// If the body wishes to be excluded from the draw, skip it.
 		if (b->GetFlags() & Body::FLAG_DRAW_EXCLUDE)
