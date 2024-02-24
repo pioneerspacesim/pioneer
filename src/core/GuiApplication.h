@@ -44,7 +44,7 @@ protected:
 
 	// TODO: unify config handling, possibly make the config an Application member
 	// Call this from your OnStartup() method
-	Graphics::Renderer *StartupRenderer(IniConfig *config, bool hidden = false);
+	Graphics::Renderer *StartupRenderer(IniConfig *config, bool hidden = false, bool resizable = false);
 
 	// Call this from your OnStartup() method
 	Input::Manager *StartupInput(IniConfig *config);
@@ -80,6 +80,7 @@ protected:
 
 private:
 	Graphics::RenderTarget *CreateRenderTarget(const Graphics::Settings &settings);
+	void OnWindowResized();
 
 	RefCountedPtr<PiGui::Instance> m_pigui;
 	std::unique_ptr<Input::Manager> m_input;

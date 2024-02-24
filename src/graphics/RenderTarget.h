@@ -27,12 +27,12 @@ namespace Graphics {
 			numSamples(_samples)
 		{}
 
-		const Uint16 width;
-		const Uint16 height;
-		const TextureFormat colorFormat;
-		const TextureFormat depthFormat;
-		const bool allowDepthTexture;
-		const Uint16 numSamples;
+		Uint16 width;
+		Uint16 height;
+		TextureFormat colorFormat;
+		TextureFormat depthFormat;
+		bool allowDepthTexture;
+		Uint16 numSamples;
 	};
 
 	class RenderTarget {

@@ -7,6 +7,7 @@
 #include "OS.h"
 
 #include "SDL.h"
+#include "SDL_video.h"
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/RenderState.h"
@@ -30,7 +31,7 @@ void GuiApplication::BeginFrame()
 	PROFILE_SCOPED()
 
 	m_renderer->SetRenderTarget(m_renderTarget.get());
-	m_renderer->SetViewport({ 0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight() });
+	m_renderer->SetViewport({ 0, 0, m_renderer->GetWindowWidth(), m_renderer->GetWindowHeight() });
 	m_renderer->ClearScreen();
 
 	m_renderer->BeginFrame();
@@ -57,6 +58,34 @@ Graphics::RenderTarget *GuiApplication::CreateRenderTarget(const Graphics::Setti
 	return m_renderer->CreateRenderTarget(rtDesc);
 }
 
+void GuiApplication::OnWindowResized()
+{
+	// Let the renderer determine the new size of the backbuffer
+	m_renderer->OnWindowResized();
+
+	// Check to see if we need to resize the render target (events are flushed after BeginFrame)
+	Graphics::RenderTargetDesc rtDesc = m_renderTarget->GetDesc();
+	int width = m_renderer->GetWindowWidth();
+	int height = m_renderer->GetWindowHeight();
+
+	// To avoid a one-frame delay, we need to recreate the render target now, rather than next frame
+	if (width != m_renderTarget->GetDesc().width || height != m_renderTarget->GetDesc().height) {
+		// Flush all commands using the prior render target
+		m_renderer->FlushCommandBuffers();
+		m_renderer->SetRenderTarget(nullptr);
+
+		// Copy the existing render target settings (MSAA etc.) and resize
+		rtDesc.width = width;
+		rtDesc.height = height;
+		m_renderTarget.reset(m_renderer->CreateRenderTarget(rtDesc));
+
+		// Setup the new render target for rendering
+		m_renderer->SetRenderTarget(m_renderTarget.get());
+		m_renderer->SetViewport({ 0, 0, width, height });
+		m_renderer->ClearScreen();
+	}
+}
+
 void GuiApplication::PollEvents()
 {
 	PROFILE_SCOPED()
@@ -70,6 +99,10 @@ void GuiApplication::PollEvents()
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_QUIT) {
 			RequestQuit();
+		}
+
+		if (event.type == SDL_WINDOWEVENT && (event.window.event == SDL_WINDOWEVENT_RESIZED)) {
+			OnWindowResized();
 		}
 
 		m_pigui->ProcessEvent(&event);
@@ -125,7 +158,7 @@ void GuiApplication::SetupProfiler(IniConfig *config)
 	SetProfileTrace(profileTraces);
 }
 
-Graphics::Renderer *GuiApplication::StartupRenderer(IniConfig *config, bool hidden)
+Graphics::Renderer *GuiApplication::StartupRenderer(IniConfig *config, bool hidden, bool resizable)
 {
 	PROFILE_SCOPED()
 
@@ -149,6 +182,7 @@ Graphics::Renderer *GuiApplication::StartupRenderer(IniConfig *config, bool hidd
 	videoSettings.width = config->Int("ScrWidth");
 	videoSettings.height = config->Int("ScrHeight");
 	videoSettings.fullscreen = (config->Int("StartFullscreen") != 0);
+	videoSettings.canBeResized = resizable;
 	videoSettings.hidden = hidden;
 	videoSettings.requestedSamples = config->Int("AntiAliasingMode");
 	videoSettings.vsync = (config->Int("VSync") != 0);

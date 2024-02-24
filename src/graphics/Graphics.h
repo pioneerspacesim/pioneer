@@ -32,6 +32,7 @@ namespace Graphics {
 		bool useAnisotropicFiltering;
 		bool enableDebugMessages;
 		bool gl3ForwardCompatible;
+		bool canBeResized;
 		int vsync;
 		int requestedSamples;
 		int height;
@@ -80,8 +81,8 @@ namespace Graphics {
 	class Material;
 	extern Material *vtxColorMaterial;
 
-	int GetScreenWidth();
-	int GetScreenHeight();
+	[[deprecated]] int GetScreenWidth();
+	[[deprecated]] int GetScreenHeight();
 
 	float GetFov();
 	void SetFov(float);
