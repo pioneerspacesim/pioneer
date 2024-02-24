@@ -226,12 +226,12 @@ end
 --   time - Game date
 --   money - Financial balance at time of record creation
 --   location - Array, with two strings: flight state, and relevant additional string
---   text - Free text string
+--   entry - Free text string
 --
 ---@param entry table
 function FlightLog.InsertCustomEntry(entry)
-	if entry.path and entry.time and entry.money and entry.location and entry.text then
-		FlightLog.AddEntry( FlightLogEntry.Custom.New( entry.path, entry.time, entry.money, entry.location, entry.text ) )
+	if entry.path and entry.time and entry.money and entry.location and entry.entry then
+		FlightLog.AddEntry( FlightLogEntry.Custom.New( entry.path, entry.time, entry.money, entry.location, entry.entry ) )
 		return true
 	else
 		return false
@@ -254,12 +254,12 @@ end
 --   path - System path, pointing to player's current system
 --   arrtime - Game date, arrival
 --   deptime - Game date, departure (optional)
---   text - Free text string (optional)
+--   entry - Free text string (optional)
 --
 ---@param entry table
 function FlightLog.InsertSystemEntry(entry)
 	if entry.path and (entry.arrtime or entry.deptime) then
-		FlightLog.AddEntry( FlightLogEntry.System.New( entry.path, entry.arrtime, entry.deptime, entry.text or "" ) )
+		FlightLog.AddEntry( FlightLogEntry.System.New( entry.path, entry.arrtime, entry.deptime, entry.entry or "" ) )
 		return true
 	else
 		return false
@@ -280,14 +280,14 @@ end
 -- Entry:
 --
 --   path - System path
---   arrtime - Game date, arrival
+--   deptime - Game date, _arrival_
 --   money - Financial balance at time of record creation
---   text - Free text string (optional)
+--   entry - Free text string (optional)
 --
 ---@param entry table
 function FlightLog.InsertStationEntry(entry)
-	if entry.path and entry.time and entry.money then
-		FlightLog.AddEntry( FlightLogEntry.Station.New( entry.path, entry.time, entry.money, entry.text or "" ) )
+	if entry.path and entry.deptime and entry.money then
+		FlightLog.AddEntry( FlightLogEntry.Station.New( entry.path, entry.deptime, entry.money, entry.entry or "" ) )
 		return true
 	else
 		return false
@@ -381,36 +381,7 @@ local loaded_data
 
 local onGameStart = function ()
 
-	if loaded_data and loaded_data.Version == 1 then
-
-		for _, v in pairs( loaded_data.System ) do
-
-			local data = { systemp = v[1], arrtime = v[2], deptime = nil, entry = v[4] }
-			if ( data.arrtime ~= nil ) then
-				-- entry
-				table.insert(FlightLogData, FlightLogEntry.System.Unserialize( data ))
-			end
-			data.arrtime = nil
-			data.deptime = v[3]
-			if (data.deptime ~= nil) then
-				-- exit
-				table.insert(FlightLogData, FlightLogEntry.System.Unserialize( data ))
-			end
-		end
-
-		for _, v in pairs( loaded_data.Station ) do
-			local data = { systemp = v[1], deptime = v[2], money = v[3], entry = v[4] }
-			table.insert(FlightLogData, FlightLogEntry.Station.Unserialize(data))
-		end
-
-		for _, v in pairs( loaded_data.Custom ) do
-			local data = { systemp = v[1], time = v[2], money = v[3], location = v[4], entry = v[5] }
-			table.insert(FlightLogData, FlightLogEntry.Custom.Unserialize(data))
-		end
-
-		FlightLog.OrganizeEntries()
-
-	elseif loaded_data and loaded_data.Version > 1 then
+	if loaded_data then
 		FlightLogData = loaded_data.Data
 	end
 
@@ -432,7 +403,6 @@ end
 local serialize = function ()
 	return {
 		Data = FlightLogData,
-		Version = 2 -- version for backwards compatibility
 	}
 end
 

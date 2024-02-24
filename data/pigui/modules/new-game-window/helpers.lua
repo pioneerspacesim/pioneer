@@ -191,4 +191,29 @@ function Helpers.getPlayerShipParameter(saveGame, paramPath)
 	return param
 end
 
+--
+-- Function: Helpers.getLuaClass
+--
+-- Retrieves the value of the 'class' field from the metatable. It should have
+-- been there when the save was unpickled.
+--
+-- Example:
+--
+-- > local entryType = Helpers.getLuaClass(entry)
+--
+-- Parameters:
+--
+--   tbl - table
+--
+-- Returns:
+--
+--   typename - string?
+--
+---@param tbl table
+---@return string? typename
+function Helpers.getLuaClass(tbl)
+	local typeTable = getmetatable(tbl)
+	if typeTable then return typeTable.class end
+end
+
 return Helpers

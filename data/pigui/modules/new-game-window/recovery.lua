@@ -30,6 +30,8 @@ local fixupDoc = Helpers.versioned {{
 
 		local refs = {}
 
+		local typeTables = {}
+
 		local function unpickle(tbl)
 			local result = {}
 			tbl = tbl.table
@@ -59,6 +61,14 @@ local fixupDoc = Helpers.versioned {{
 
 			local result = {}
 			if tbl.ref then
+				if tbl.lua_class then
+					local typeTable = typeTables[tbl.lua_class]
+					if not typeTable then
+						typeTable = { class = tbl.lua_class }
+						typeTables[tbl.lua_class] = typeTable
+					end
+					setmetatable(result, typeTable)
+				end
 				cache[tbl.ref] = result
 				tbl = refs[tbl.ref]
 			else

@@ -26,7 +26,7 @@ function FlightLog:fromStartVariant(variant)
 	self.value.System = {}
 	self.value.Station = {}
 	self.value.Custom = {
-		variant.logmsg and { text = variant.logmsg }
+		variant.logmsg and { entry = variant.logmsg }
 	}
 end
 
@@ -86,22 +86,22 @@ local entryTemplates = {
 		{ id = "path",     label = lui.IN_SYSTEM,      render = asPath },
 		{ id = "path",     label = lui.ALLEGIANCE,     render = asFaction },
 		{ id = "money",    label = lui.CASH,           render = Format.Money },
-		{ id = "text",     label = lui.ENTRY,          render = tostring, wrap = true },
+		{ id = "entry",    label = lui.ENTRY,          render = tostring, wrap = true },
 	},
 	System = {
 		{ id = "arrtime",  label = lui.ARRIVAL_DATE,   render = Format.Date },
 		{ id = "deptime",  label = lui.DEPARTURE_DATE, render = Format.Date },
 		{ id = "path",     label = lui.IN_SYSTEM,      render = asPath },
 		{ id = "path",     label = lui.ALLEGIANCE,     render = asFaction },
-		{ id = "text",     label = lui.ENTRY,          render = tostring, wrap = true },
+		{ id = "entry",    label = lui.ENTRY,          render = tostring, wrap = true },
 	},
 	Station = {
-		{ id = "time",     label = lui.DATE,           render = Format.Date },
+		{ id = "deptime",  label = lui.DATE,           render = Format.Date },
 		{ id = "path",     label = lui.STATION,        render = asStation },
 		{ id = "path",     label = lui.IN_SYSTEM,      render = asPath },
 		{ id = "path",     label = lui.ALLEGIANCE,     render = asFaction },
 		{ id = "money",    label = lui.CASH,           render = Format.Money },
-		{ id = "text",     label = lui.ENTRY,          render = tostring, wrap = true },
+		{ id = "entry",    label = lui.ENTRY,          render = tostring, wrap = true },
 	},
 }
 
@@ -187,9 +187,9 @@ FlightLog.reader = Helpers.versioned {{
 				parsed.location = loc and { loc[1], loc[2], loc[3] }
 				parsed.path = systemPathFromTable(entry[1].inner)
 				parsed.money = entry[3]
-				parsed.text = entry[5]
+				parsed.entry = entry[5]
 			end
-			if not entry or not parsed.time or not parsed.location or not parsed.path or not parsed.money or not parsed.text then
+			if not entry or not parsed.time or not parsed.location or not parsed.path or not parsed.money or not parsed.entry then
 				return nil, lui.UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT
 			end
 			table.insert(value.Custom, parsed)
@@ -205,7 +205,7 @@ FlightLog.reader = Helpers.versioned {{
 				parsed.arrtime = entry[2]
 				parsed.deptime = entry[3]
 				parsed.path = systemPathFromTable(entry[1].inner)
-				parsed.text = entry[4]
+				parsed.entry = entry[4]
 			end
 			if not entry or not parsed.path then
 				return nil, lui.UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT
@@ -220,17 +220,55 @@ FlightLog.reader = Helpers.versioned {{
 		for _, entry in ipairs(station) do
 			local parsed = {}
 			if entry then
-				parsed.time = entry[2]
+				parsed.deptime = entry[2]
 				parsed.path = systemPathFromTable(entry[1].inner)
 				parsed.money = entry[3]
-				parsed.text = entry[4]
+				parsed.entry = entry[4]
 			end
-			if not entry or not parsed.time or not parsed.path or not parsed.money then
+			if not entry or not parsed.deptime or not parsed.path or not parsed.money then
 				return nil, lui.UNKNOWN_STATION_LOG_ENTRY_FORMAT
 			end
 			table.insert(value.Station, parsed)
 		end
 
+		return value
+	end
+
+}, {
+
+	version = 90,
+	fnc = function(saveGame)
+
+		local function entryWithSafeSystemPath(entry)
+			local parsed = {}
+			for k,v in pairs(entry) do
+				if k == 'systemp' then
+					parsed.path = systemPathFromTable(entry.systemp.inner)
+				else
+					parsed[k] = v
+				end
+			end
+			return parsed
+		end
+
+		local value = { Custom = {}, System = {}, Station = {} }
+
+		local logData, errorString = Helpers.getByPath(saveGame, "lua_modules_json/FlightLog/Data")
+		if errorString then return nil, errorString end
+
+		for _, entry in ipairs(logData) do
+			local entryType = Helpers.getLuaClass(entry)
+
+			if entryType == 'FlightLogEntry.Custom' then
+				table.insert(value.Custom, entryWithSafeSystemPath(entry))
+			elseif entryType == 'FlightLogEntry.System' then
+				table.insert(value.System, entryWithSafeSystemPath(entry))
+			elseif entryType == 'FlightLogEntry.Station' then
+				table.insert(value.Station, entryWithSafeSystemPath(entry))
+			else
+				return nil, lui.UNKNOWN_STATION_LOG_ENTRY_FORMAT
+			end
+		end
 		return value
 	end
 }}
