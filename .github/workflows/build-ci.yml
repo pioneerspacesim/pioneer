@@ -82,10 +82,12 @@ jobs:
         cmake --build . --target win-installer
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Windows-Artifacts
         path: pioneer/pioneer-*-win.exe
+        retention-days: 14
+        compression-level: 0 # contains a pre-compressed self-extracting archive...
 
     - name: Upload Release Files
       uses: softprops/action-gh-release@v1
