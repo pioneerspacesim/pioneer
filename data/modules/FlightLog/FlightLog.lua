@@ -381,36 +381,7 @@ local loaded_data
 
 local onGameStart = function ()
 
-	if loaded_data and loaded_data.Version == 1 then
-
-		for _, v in pairs( loaded_data.System ) do
-
-			local data = { systemp = v[1], arrtime = v[2], deptime = nil, entry = v[4] }
-			if ( data.arrtime ~= nil ) then
-				-- entry
-				table.insert(FlightLogData, FlightLogEntry.System.Unserialize( data ))
-			end
-			data.arrtime = nil
-			data.deptime = v[3]
-			if (data.deptime ~= nil) then
-				-- exit
-				table.insert(FlightLogData, FlightLogEntry.System.Unserialize( data ))
-			end
-		end
-
-		for _, v in pairs( loaded_data.Station ) do
-			local data = { systemp = v[1], deptime = v[2], money = v[3], entry = v[4] }
-			table.insert(FlightLogData, FlightLogEntry.Station.Unserialize(data))
-		end
-
-		for _, v in pairs( loaded_data.Custom ) do
-			local data = { systemp = v[1], time = v[2], money = v[3], location = v[4], entry = v[5] }
-			table.insert(FlightLogData, FlightLogEntry.Custom.Unserialize(data))
-		end
-
-		FlightLog.OrganizeEntries()
-
-	elseif loaded_data and loaded_data.Version > 1 then
+	if loaded_data then
 		FlightLogData = loaded_data.Data
 	end
 
@@ -432,7 +403,6 @@ end
 local serialize = function ()
 	return {
 		Data = FlightLogData,
-		Version = 2 -- version for backwards compatibility
 	}
 end
 
