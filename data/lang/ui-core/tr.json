@@ -408,7 +408,7 @@
     "message": "Ekran görüntüsü modunda (HUD modu kapatıldığında), sistem koordinatları da dahil bütün gösterilen bilgiyi gizle."
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Gidebilirsin"
   },
   "DISPLAY_HUD_TRAILS": {

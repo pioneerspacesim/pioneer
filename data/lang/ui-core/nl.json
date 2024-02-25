@@ -408,7 +408,7 @@
     "message": "Verberg alle getoonde info, inclusief stelselcoördinaten, wanneer in screenshotmodus (wissel HUD-modus)"
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Ontsla"
   },
   "DISPLAY_HUD_TRAILS": {

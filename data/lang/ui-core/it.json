@@ -408,7 +408,7 @@
     "message": "Quando in modalità screenshot (modo commutazione HUD), nascondi tutte le info mostrate, comprese le coordinate del sistema."
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Licenzia"
   },
   "DISPLAY_HUD_TRAILS": {

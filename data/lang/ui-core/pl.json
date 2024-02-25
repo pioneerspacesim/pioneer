@@ -408,7 +408,7 @@
     "message": "Ukryj wszystkie wyświetlane informacje, włącznie z współrzędnymi systemu, podczas trybu zrzutu ekranu (przełącz tryb interfejsu)"
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Zwolnij"
   },
   "DISPLAY_HUD_TRAILS": {

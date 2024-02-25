@@ -408,7 +408,7 @@
     "message": "Cacher toutes les informations dans le mode capture d'écran (réglage mode HUD), y compris les coordonnées du système."
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Renvoyer"
   },
   "DISPLAY_HUD_TRAILS": {

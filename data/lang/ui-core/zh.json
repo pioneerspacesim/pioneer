@@ -408,7 +408,7 @@
     "message": "在屏幕截图模式(切换HUD模式)下隐藏所有显示的信息，包括系统坐标。"
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "解散"
   },
   "DISPLAY_HUD_TRAILS": {

@@ -408,7 +408,7 @@
     "message": "Oculta toda la información mostrada, incluyendo las coordenadas del sistema mientras esté en el modo de Captura de Pantalla (cambiar el modo HUD)."
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Despedir"
   },
   "DISPLAY_HUD_TRAILS": {

@@ -408,7 +408,7 @@
     "message": "Hide all displayed info, including system coordinates, when in screenshot mode (toggle HUD mode)."
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Dispensar"
   },
   "DISPLAY_HUD_TRAILS": {

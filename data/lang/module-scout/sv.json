@@ -5,7 +5,7 @@
   },
   "ADDITIONAL_INFORMATION_ORBITAL": {
     "description": "Note. 'orbital scanner' is the name of an equipment, that should be translated the same as the equipment",
-    "message": "Du behöver en orbital scanner monterad på ditt skepp. När du är vid kroppen i fråga, aktivera skannern och kretsa inom den maximala höjden tills skanningen är klar. Skicka sedan uppgifterna till mig."
+    "message": "You will need an orbital scanner fitted to your ship. Once you're at the body in question, activate the scanner, and orbit within the maximum altitude until the scan is complete. Then deliver the data to me."
   },
   "ADDITIONAL_INFORMATION_SURFACE": {
     "description": "Note. 'surface scanner' is the name of an equipment, that should be translated the same as the equipment",
@@ -89,7 +89,7 @@
   },
   "ADTEXT_4_WHYSOMUCH": {
     "description": "'High impact journals' is a recognized term for journals like Nature and Science, yielding many citations.",
-    "message": "Jag hoppas att dessa nya data, med vackra bilder och kartor, kommer att öka mina chanser att få min artikel publicerad i någon tidskrift med hög impact."
+    "message": "I'm hoping this new data, with pretty pictures and maps, will increase my chances of getting my article published in some high impact journal."
   },
   "ADTEXT_5": {
     "description": "",

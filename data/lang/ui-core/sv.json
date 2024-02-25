@@ -408,7 +408,7 @@
     "message": "Dölj all visad information, inklusive systemkoordinater, i skärmbildsläge (växla HUD-läge)."
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Avskeda"
   },
   "DISPLAY_HUD_TRAILS": {

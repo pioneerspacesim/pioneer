@@ -1292,7 +1292,7 @@
     "message": "Bruscar"
   },
   "SCOOP": {
-    "description": "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+    "description": "Is followed by a number, representing scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
     "message": "Scúp"
   },
   "SCREENSHOT_FILENAME_TEMPLATE": {

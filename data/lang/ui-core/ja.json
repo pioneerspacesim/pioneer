@@ -408,7 +408,7 @@
     "message": "スクリーンショットモード時に星系座標を含むすべての表示されている情報を隠す。(HUDモードを切り替え)"
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "解雇する"
   },
   "DISPLAY_HUD_TRAILS": {

@@ -408,7 +408,7 @@
     "message": "Kikapcsolt HUD-on megjelenő információk (rendszer neve és koordinátái)"
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Elbocsájt"
   },
   "DISPLAY_HUD_TRAILS": {

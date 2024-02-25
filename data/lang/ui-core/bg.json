@@ -408,7 +408,7 @@
     "message": "Режимът на снимане скрива графичния потребителски интерфейс."
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Отхвърляне"
   },
   "DISPLAY_HUD_TRAILS": {

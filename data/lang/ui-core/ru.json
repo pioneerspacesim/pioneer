@@ -408,7 +408,7 @@
     "message": "Скрыть всю отображаемую информацию в режиме скриншота, включая системные координаты (переключить режим HUD). "
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Уволить"
   },
   "DISPLAY_HUD_TRAILS": {

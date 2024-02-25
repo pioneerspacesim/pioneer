@@ -408,7 +408,7 @@
     "message": "Απόκρυψη όλων των εμφανιζόμενων πληροφοριών, συμπεριλαμβανομένων των συντεταγμένων του συστήματος, όταν βρίσκεστε σε λειτουργία στιγμιότυπου οθόνης (εναλλαγή της λειτουργίας HUD)."
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Απολύεστε"
   },
   "DISPLAY_HUD_TRAILS": {

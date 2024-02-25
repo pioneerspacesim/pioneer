@@ -408,7 +408,7 @@
     "message": "Falaich gach fiosrachadh a tha ’ga shealltainn, a’ gabhail a-staigh co-chomharran nan siostaman, nuair a bhios glacadh-sgrìn ’ga thogail (toglaich modh an t-seallaidh fiosrachaidh)."
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Leig seachad"
   },
   "DISPLAY_HUD_TRAILS": {

@@ -5,7 +5,7 @@
   },
   "ADDITIONAL_INFORMATION_ORBITAL": {
     "description": "Note. 'orbital scanner' is the name of an equipment, that should be translated the same as the equipment",
-    "message": "Θα χρειαστεί να εγκαταστήσετε στο σκάφος σας έναν από-τροχιάς σαρωτή. Μόλις προσεγγίσετε το σώμα-στόχο, ενεργοποιήστε τον σαρωτή και μπείτε σε τροχιά, φτάνει να βρίσκεστε μέσα στο επιτρεπτό μέγιστο υψόμετρο. Μείνετε εκεί μέχρι να ολοκληρωθεί η σάρωση και κατόπιν παραδώστε μου τα δεδομένα."
+    "message": "You will need an orbital scanner fitted to your ship. Once you're at the body in question, activate the scanner, and orbit within the maximum altitude until the scan is complete. Then deliver the data to me."
   },
   "ADDITIONAL_INFORMATION_SURFACE": {
     "description": "Note. 'surface scanner' is the name of an equipment, that should be translated the same as the equipment",
@@ -89,7 +89,7 @@
   },
   "ADTEXT_4_WHYSOMUCH": {
     "description": "'High impact journals' is a recognized term for journals like Nature and Science, yielding many citations.",
-    "message": "Ελπίζω ότι αυτά τα δεδομένα θα δώσουν ωραίες εικόνες και χάρτες ώστε να αυξήσω τις πιθανότητές να δημοσιευθεί το άρθρο μου σε κάποιο περιοδικό με μεγάλο συντελεστή απήχησης."
+    "message": "I'm hoping this new data, with pretty pictures and maps, will increase my chances of getting my article published in some high impact journal."
   },
   "ADTEXT_5": {
     "description": "",

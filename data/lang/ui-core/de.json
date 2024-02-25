@@ -408,7 +408,7 @@
     "message": "Blende alle Infotexte und HUDs im Screenshot-Modus aus, inklusive der Anzeige der Systemkoordinaten."
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Entlassen"
   },
   "DISPLAY_HUD_TRAILS": {
