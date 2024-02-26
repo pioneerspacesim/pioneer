@@ -76,6 +76,8 @@ private:
 	void LoadSystemFromGalaxy(RefCountedPtr<StarSystem> system);
 	void ClearSystem();
 
+	void OnFilepathChanged();
+
 	void RegisterMenuActions();
 
 	bool HasUnsavedChanges();
@@ -100,8 +102,6 @@ private:
 
 	void DrawBodyProperties();
 	void DrawSystemProperties();
-
-	void EditName(const char *undo_label, std::string *name);
 
 	void DrawUndoDebug();
 

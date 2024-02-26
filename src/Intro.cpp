@@ -74,8 +74,8 @@ Intro::Intro(Graphics::Renderer *r, int width, int height) :
 
 	m_modelIndex = 0;
 
-	const int w = Graphics::GetScreenWidth();
-	const int h = Graphics::GetScreenHeight();
+	const int w = r->GetWindowWidth();
+	const int h = r->GetWindowHeight();
 
 	// double-width viewport, centred, then offset 1/6th to centre on the left
 	// 2/3rds of the screen, to the left of the menu
@@ -162,7 +162,7 @@ void Intro::Draw(float deltaTime)
 	m_renderer->ClearDepthBuffer();
 	m_background->Draw(brot);
 
-	m_renderer->SetViewport({ m_spinnerLeft, 0, m_spinnerWidth, Graphics::GetScreenHeight() });
+	m_renderer->SetViewport({ m_spinnerLeft, 0, m_spinnerWidth, m_renderer->GetWindowHeight() });
 	m_renderer->SetPerspectiveProjection(75, m_spinnerRatio, 1.f, 10000.f);
 
 	matrix4x4f trans =

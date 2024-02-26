@@ -26,24 +26,25 @@
 using namespace Graphics;
 
 namespace {
-	float SizeToPixels(const vector3f &trans, const float size)
+	float SizeToPixels(int screenHeight, const vector3f &trans, const float size)
 	{
 		//some hand-tweaked scaling, to make the lights seem larger from distance (final size is in pixels)
 		// gl_PointSize = pixels_per_radian * point_diameter / distance( camera, pointcenter );
-		const float pixrad = Clamp(Graphics::GetScreenHeight() / trans.Length(), 0.1f, 50.0f);
+		// FIXME: this should reference a camera object instead of querying the window height
+		const float pixrad = Clamp(screenHeight / trans.Length(), 0.1f, 50.0f);
 		return (size * Graphics::GetFovFactor()) * pixrad;
 	}
 
-	float GetParticleSpeed(SFX_TYPE t, const vector3f &pos, const Sfx &inst)
+	float GetParticleSpeed(int screenHeight, SFX_TYPE t, const vector3f &pos, const Sfx &inst)
 	{
 		switch (t) {
 		case TYPE_NONE: assert(false);
 		case TYPE_EXPLOSION:
-			return SizeToPixels(pos, inst.m_speed);
+			return SizeToPixels(screenHeight, pos, inst.m_speed);
 		case TYPE_DAMAGE:
-			return SizeToPixels(pos, 20.f);
+			return SizeToPixels(screenHeight, pos, 20.f);
 		case TYPE_SMOKE:
-			return Clamp(SizeToPixels(pos, (inst.m_speed * inst.m_age)), 0.1f, 50.0f);
+			return Clamp(SizeToPixels(screenHeight, pos, (inst.m_speed * inst.m_age)), 0.1f, 50.0f);
 		default:
 			return 0.f;
 		}
@@ -252,6 +253,7 @@ void SfxManager::Cleanup()
 void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId)
 {
 	Frame *f = Frame::GetFrame(fId);
+	int screenHeight = renderer->GetWindowHeight();
 
 	PROFILE_SCOPED()
 	if (f->m_sfx) {
@@ -289,7 +291,7 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId)
 				const vector3f pos(ftran * inst.m_pos);
 				// pack UV offset and particle size in normal attribute
 				const vector2f offset = CalculateOffset(SFX_TYPE(t), inst);
-				const float speed = GetParticleSpeed(SFX_TYPE(t), pos, inst);
+				const float speed = GetParticleSpeed(screenHeight, SFX_TYPE(t), pos, inst);
 
 				pointArray.Add(pos, vector3f(offset, Clamp(speed, 0.1f, FLT_MAX)));
 			}

@@ -58,6 +58,8 @@ namespace Graphics {
 
 		virtual void SetVSyncEnabled(bool) override;
 
+		virtual void OnWindowResized() override;
+
 		virtual bool BeginFrame() override final;
 		virtual bool EndFrame() override final;
 		virtual bool SwapBuffers() override final;

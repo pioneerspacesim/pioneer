@@ -251,7 +251,8 @@ Manager::Manager(IniConfig *config, SDL_Window *window) :
 	m_capturingMouse(false),
 	joystickEnabled(true),
 	mouseYInvert(false),
-	m_enableBindings(true)
+	m_enableBindings(true),
+	m_frameListChanged(false)
 {
 	joystickEnabled = (m_config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (m_config->Int("InvertMouseY")) ? true : false;

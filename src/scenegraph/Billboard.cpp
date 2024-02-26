@@ -48,7 +48,8 @@ namespace SceneGraph {
 		PROFILE_SCOPED()
 
 		//some hand-tweaked scaling, to make the lights seem larger from distance (final size is in pixels)
-		const float pixrad = Clamp(Graphics::GetScreenHeight() / trans.GetTranslate().Length(), 1.0f, 15.0f);
+		// FIXME: this should reference a camera object instead of querying the window height
+		const float pixrad = Clamp(m_renderer->GetWindowHeight() / trans.GetTranslate().Length(), 1.0f, 15.0f);
 		const float size = (m_size * Graphics::GetFovFactor()) * pixrad;
 		m_bbVA.Add(trans * vector3f(0.0f), vector3f(m_colorUVoffset, size));
 	}

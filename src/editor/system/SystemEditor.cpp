@@ -148,6 +148,8 @@ void SystemEditor::NewSystem(SystemPath path)
 
 	// mark current file as unsaved
 	m_lastSavedUndoStack = size_t(-1);
+
+	m_viewport->SetSystem(m_system);
 }
 
 bool SystemEditor::LoadSystemFromDisk(const std::string &absolutePath)
@@ -227,13 +229,10 @@ bool SystemEditor::LoadSystemFromFile(const FileSystem::FileInfo &file)
 			ok = LoadCustomSystem(csys);
 	}
 
-	if (ok) {
-		std::string windowTitle = fmt::format("System Editor - {}", m_filepath);
-		SDL_SetWindowTitle(m_app->GetRenderer()->GetSDLWindow(), windowTitle.c_str());
-	} else {
+	if (!ok)
 		m_filepath.clear();
-	}
 
+	OnFilepathChanged();
 
 	return ok;
 }
@@ -353,7 +352,7 @@ void SystemEditor::ClearSystem()
 	m_filepath.clear();
 	m_newSystemPath.systemIndex = 0;
 
-	SDL_SetWindowTitle(m_app->GetRenderer()->GetSDLWindow(), "System Editor");
+	OnFilepathChanged();
 }
 
 // Here to avoid needing to drag in the Galaxy header in SystemEditor.h
@@ -483,6 +482,16 @@ void SystemEditor::RegisterMenuActions()
 	m_menuBinder->EndGroup();
 }
 
+void SystemEditor::OnFilepathChanged()
+{
+	if (m_filepath.empty()) {
+		SDL_SetWindowTitle(m_app->GetRenderer()->GetSDLWindow(), "System Editor");
+	} else {
+		std::string windowTitle = fmt::format("System Editor - {}", m_filepath);
+		SDL_SetWindowTitle(m_app->GetRenderer()->GetSDLWindow(), windowTitle.c_str());
+	}
+}
+
 bool SystemEditor::HasUnsavedChanges()
 {
 	return (m_system && GetUndo()->GetStateHash() != m_lastSavedUndoStack);
@@ -584,10 +593,17 @@ void SystemEditor::Update(float deltaTime)
 		if (!filePath.empty()) {
 			Log::Info("SaveFile: {}", filePath);
 
+			// Ensure we're saving JSON files on Windows
+			if (!ends_with_ci(filePath, ".json")) {
+				filePath += ".json";
+			}
+
 			// Update current file path and directory from new "save-as" path
 			if (WriteSystem(filePath)) {
 				m_filepath = filePath;
 				m_filedir = filePath.substr(0, filePath.find_last_of("/\\"));
+
+				OnFilepathChanged();
 			}
 		} else {
 			// Signal cancellation/failure to save

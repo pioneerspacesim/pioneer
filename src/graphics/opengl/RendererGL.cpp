@@ -90,6 +90,9 @@ namespace Graphics {
 		if (!vs.hidden && vs.fullscreen) // TODO: support for borderless fullscreen and changing window size
 			winFlags |= SDL_WINDOW_FULLSCREEN;
 
+		if (vs.canBeResized)
+			winFlags |= SDL_WINDOW_RESIZABLE;
+
 		window = SDL_CreateWindow(name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, vs.width, vs.height, winFlags);
 		if (!window)
 			return false;
@@ -468,6 +471,11 @@ namespace Graphics {
 	void RendererOGL::SetVSyncEnabled(bool enabled)
 	{
 		SDL_GL_SetSwapInterval(enabled ? -1 : 0);
+	}
+
+	void RendererOGL::OnWindowResized()
+	{
+		SDL_GL_GetDrawableSize(m_window, &m_width, &m_height);
 	}
 
 	bool RendererOGL::BeginFrame()

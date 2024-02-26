@@ -36,19 +36,8 @@ namespace Graphics {
 
 	static bool initted = false;
 	Material *vtxColorMaterial;
-	static int width, height;
 	static float g_fov = 85.f;
 	static float g_fovFactor = 1.f;
-
-	int GetScreenWidth()
-	{
-		return width;
-	}
-
-	int GetScreenHeight()
-	{
-		return height;
-	}
 
 	float GetFov()
 	{
@@ -102,14 +91,6 @@ namespace Graphics {
 		if (renderer == nullptr) {
 			Error("Failed to set video mode: %s", SDL_GetError());
 			return nullptr;
-		}
-
-		if (vs.rendererType == Graphics::RENDERER_DUMMY) {
-			width = vs.width;
-			height = vs.height;
-		} else {
-			width = renderer->GetWindowWidth();
-			height = renderer->GetWindowHeight();
 		}
 
 		Output("Initialized %s\n", renderer->GetName());

@@ -350,7 +350,7 @@ void Pi::App::OnStartup()
 	Pi::detail.cities = config->Int("DetailCities");
 
 	Graphics::RendererOGL::RegisterRenderer();
-	Pi::renderer = StartupRenderer(Pi::config);
+	Pi::renderer = StartupRenderer(Pi::config, false, config->Int("DebugWindowResize"));
 
 	Pi::rng.IncRefCount(); // so nothing tries to free it
 	Pi::rng.seed(time(0));
@@ -661,7 +661,8 @@ void StartupScreen::End()
 
 void MainMenu::Start()
 {
-	Pi::intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
+	// TODO: just calculate this at draw time inside Intro
+	Pi::intro = new Intro(Pi::renderer, Pi::renderer->GetWindowWidth(), Pi::renderer->GetWindowHeight());
 	if (m_skipMenu) {
 		Output("Loading new game immediately!\n");
 		Pi::StartGame(new Game(m_startPath, 0.0));
@@ -930,6 +931,11 @@ void GameLoop::Update(float deltaTime)
 	frame_time_real = deltaTime * 1e3; // convert to ms
 	frame_stat++;
 
+	// Read events into internal structures and into imgui structures,
+	// dispatch will be performed after the imgui frame, so that imgui can add
+	// something based on clicks on widgets
+	Pi::GetApp()->PollEvents();
+
 #ifdef ENABLE_SERVER_AGENT
 	Pi::serverAgent->ProcessResponses();
 #endif
@@ -1008,15 +1014,6 @@ void GameLoop::Update(float deltaTime)
 	// This may cause future issues if graphic resources are deleted while in-flight, but OpenGL is
 	// capable of handling that eventuality and it prevents application-scope crashes
 	Pi::renderer->FlushCommandBuffers();
-
-	// FIXME: Handling events at the moment must be after view->Draw3D and before
-	// Gui::Draw so that labels drawn to screen can have mouse events correctly
-	// detected. Gui::Draw wipes memory of label positions.
-
-	// Read events into internal structures and into imgui structures,
-	// dispatch will be performed after the imgui frame, so that imgui can add
-	// something based on clicks on widgets
-	Pi::GetApp()->PollEvents();
 
 #ifdef REMOTE_LUA_REPL
 	Pi::luaConsole->HandleTCPDebugConnections();
@@ -1152,7 +1149,8 @@ void GameLoop::End()
 
 void TombstoneLoop::Start()
 {
-	tombstone.reset(new Tombstone(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
+	// TODO: just calculate this at draw time inside Tombstone
+	tombstone.reset(new Tombstone(Pi::renderer, Pi::renderer->GetWindowWidth(), Pi::renderer->GetWindowHeight()));
 	startTime = Pi::GetApp()->GetTime();
 }
 

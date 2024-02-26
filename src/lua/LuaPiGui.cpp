@@ -20,6 +20,7 @@
 #include "Space.h"
 #include "WorldView.h"
 #include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
 #include "imgui/backends/imgui_impl_sdl2.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
@@ -139,8 +140,10 @@ void pi_lua_generic_push(lua_State *l, const ImVec2 &vec)
 int PiGui::pushOnScreenPositionDirection(lua_State *l, vector3d position)
 {
 	PROFILE_SCOPED()
-	const int width = Graphics::GetScreenWidth();
-	const int height = Graphics::GetScreenHeight();
+
+	// TODO: query ImGui viewport or WorldView instead?
+	const int width = Pi::renderer->GetWindowWidth();
+	const int height = Pi::renderer->GetWindowHeight();
 	vector3d direction = (position - vector3d(width / 2.0, height / 2.0, 0)).Normalized();
 	if (vector3d(0, 0, 0) == position || position.x < 0 || position.y < 0 || position.x > width || position.y > height || position.z > 0) {
 		LuaPush<bool>(l, false);
@@ -2045,8 +2048,10 @@ PiGui::TScreenSpace lua_world_space_to_screen_space(const Body *body)
 {
 	PROFILE_SCOPED()
 	const vector3d p = Pi::game->GetWorldView()->WorldSpaceToScreenSpace(body);
-	const int width = Graphics::GetScreenWidth();
-	const int height = Graphics::GetScreenHeight();
+
+	// TODO: query ImGui viewport or WorldView instead?
+	const int width = Pi::renderer->GetWindowWidth();
+	const int height = Pi::renderer->GetWindowHeight();
 	const vector3d direction = (p - vector3d(width / 2.0, height / 2.0, 0)).Normalized();
 	if (vector3d(0, 0, 0) == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
 		return PiGui::TScreenSpace(false, vector2d(0, 0), direction * (p.z > 0 ? -1 : 1));
@@ -2410,13 +2415,15 @@ static int l_attr_event_queue(lua_State *l)
 
 static int l_attr_screen_height(lua_State *l)
 {
-	LuaPush<int>(l, Graphics::GetScreenHeight());
+	// TODO: query ImGui viewport instead?
+	LuaPush<int>(l, Pi::renderer->GetWindowHeight());
 	return 1;
 }
 
 static int l_attr_screen_width(lua_State *l)
 {
-	LuaPush<int>(l, Graphics::GetScreenWidth());
+	// TODO: query ImGui viewport instead?
+	LuaPush<int>(l, Pi::renderer->GetWindowWidth());
 	return 1;
 }
 

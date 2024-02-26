@@ -63,6 +63,8 @@ namespace Graphics {
 		virtual bool SupportsInstancing() = 0;
 
 		SDL_Window *GetSDLWindow() const { return m_window; }
+		virtual void OnWindowResized() {};
+
 		float GetDisplayAspect() const { return static_cast<float>(m_width) / static_cast<float>(m_height); }
 		int GetWindowWidth() const { return m_width; }
 		int GetWindowHeight() const { return m_height; }
