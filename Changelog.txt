@@ -1,10 +1,16 @@
 February 2024 (dev)
+  * New Features
+    * Editor Welcome Screen: don't require command line argument (#5772)
+
   * Internal Changes
     * Fix MSVC CI build on non-PR refs (#5733)
     * Update libfmt, fix compilation warnings and invalid JSON CustomSystem position (#5759)
     * Add documentation to make life for package maintainers easier (#5749)
     * Fixed broken screenshots links (#5761)
     * Adding editor.txt, removing ModelViewer.txt to document new editor (#5737)
+    * Misc cleanup, fixes, and Lua function library improvements (#5773)
+    * Update Github Upload-Artifact action for Windows CI (#5781)
+    * Add a recovery reader for the v90 flight log (#5763)
 
   * Fixes
     * Local missions should list distances in AU rather than Ly (#5756)
@@ -15,6 +21,8 @@ February 2024 (dev)
     * Fix "bad argument" error in SearchRescue.lua in custom systems (#5769)
     * Fix crash when deleting a flightlog entry (#5768)
     * Fix projectile and beam weapons not able to hit, frame sync (#5767)
+    * Don't crash when there are few background stars (#5778)
+    * Fix spelling / grammar in English language files (#5780)
 
 Pioneer 2024-02-03 Release
   * New Features
