@@ -1292,13 +1292,9 @@ SystemBody* StarSystemRandomGenerator::MakeGravPointForBodies(RefCountedPtr<Star
 	return grav;
 }
 
-std::string StarSystemRandomGenerator::GetStarNameFromId(const int id)
+char StarSystemRandomGenerator::GetStarSuffixFromOffset(const int offsetId) const
 {
-	// UGLY HACK
-	assert((id >= 0) && (id < 26));
-	char buf[16];
-	snprintf(buf, sizeof(buf), "%c", 'A' + id);
-	return buf;
+	return 'A' + Clamp(offsetId, 0, 26);
 }
 
 SystemBody* StarSystemRandomGenerator::PlaceStars(Random &rng, RefCountedPtr<StarSystem::GeneratorAPI> system, const Sector::System &secSys, const int offset, const int numStars, const fixed maxMass = fixed())
@@ -1310,7 +1306,8 @@ SystemBody* StarSystemRandomGenerator::PlaceStars(Random &rng, RefCountedPtr<Sta
 		// We have only one star in the system, make it root
 
 		SystemBody::BodyType type = secSys.GetStarType(0);
-		body = MakeSystemBody(system, systemName, GetStarNameFromId(offset));
+		const std::string suffix(1, GetStarSuffixFromOffset(offset));
+		body = MakeSystemBody(system, systemName, suffix);
 
 		if (maxMass != 0) {
 			MakeStarOfTypeLighterThan(body, type, maxMass, rng);
@@ -1325,7 +1322,8 @@ SystemBody* StarSystemRandomGenerator::PlaceStars(Random &rng, RefCountedPtr<Sta
 
 		for (int i = 0; i < 2; i++) {
 			SystemBody::BodyType type = secSys.GetStarType(i);
-			bodies[i] = MakeSystemBody(system, systemName, GetStarNameFromId(offset + i));
+			const std::string suffix(1, GetStarSuffixFromOffset(offset + i));
+			bodies[i] = MakeSystemBody(system, systemName, suffix);
 			if (i == 0) {
 				if (maxMass != 0) {
 					MakeStarOfTypeLighterThan(bodies[i], secSys.GetStarType(i), maxMass, rng);

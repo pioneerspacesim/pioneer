@@ -46,7 +46,7 @@ public:
 
 	SystemBody *MakeSystemBody(RefCountedPtr<StarSystem::GeneratorAPI> system, const std::string &systemName, const std::string &bodySuffix);
 	SystemBody *MakeGravPointForBodies(RefCountedPtr<StarSystem::GeneratorAPI> system, const std::string &systemName, SystemBody *body1, SystemBody *body2);
-	std::string GetStarNameFromId(const int id);
+	char GetStarSuffixFromOffset(const int offsetId) const;
 	SystemBody *PlaceStars(Random &rng, RefCountedPtr<StarSystem::GeneratorAPI> system, const Sector::System &secSys, const int offset, const int numStars, const fixed maxMass);
 
 	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config);
