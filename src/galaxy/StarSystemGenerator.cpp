@@ -1294,7 +1294,8 @@ SystemBody* StarSystemRandomGenerator::MakeGravPointForBodies(RefCountedPtr<Star
 
 char StarSystemRandomGenerator::GetStarSuffixFromOffset(const int offsetId) const
 {
-	return 'A' + Clamp(offsetId, 0, 26);
+	assert((offsetId >= 0) && (offsetId <= 25));
+	return 'A' + Clamp(offsetId, 0, 25);
 }
 
 SystemBody* StarSystemRandomGenerator::PlaceStars(Random &rng, RefCountedPtr<StarSystem::GeneratorAPI> system, const Sector::System &secSys, const int offset, const int numStars, const fixed maxMass = fixed())
