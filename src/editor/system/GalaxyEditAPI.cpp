@@ -548,11 +548,16 @@ void SystemBody::EditorAPI::EditOrbitalParameters(SystemBody *body, UndoSystem *
 
 void SystemBody::EditorAPI::EditEconomicProperties(SystemBody *body, UndoSystem *undo)
 {
+	ImGui::SeparatorText("Economic Parameters");
+
 	// TODO: system generation currently ignores these fields of a system body
 	// and overwrites them with randomly-rolled values.
-	return;
+	ImGui::BeginDisabled();
 
-	ImGui::SeparatorText("Economic Parameters");
+	ImGui::PushTextWrapPos(ImGui::GetContentRegionAvail().x);
+	ImGui::TextColored(ImVec4(0.8, 0.8, 0.8, 1.0), "These fields are currently overwritten when the system is loaded.");
+	ImGui::PopTextWrapPos();
+	ImGui::Spacing();
 
 	ImGui::InputFixed("Population", &body->m_population);
 	if (Draw::UndoHelper("Edit Population", undo))
@@ -561,6 +566,8 @@ void SystemBody::EditorAPI::EditEconomicProperties(SystemBody *body, UndoSystem 
 	ImGui::InputFixed("Agricultural Activity", &body->m_agricultural);
 	if (Draw::UndoHelper("Edit Agricultural Activity", undo))
 		AddUndoSingleValue(undo, &body->m_agricultural);
+
+	ImGui::EndDisabled();
 }
 
 void SystemBody::EditorAPI::EditStarportProperties(SystemBody *body, UndoSystem *undo)
