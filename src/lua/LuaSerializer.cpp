@@ -391,7 +391,8 @@ void LuaSerializer::SavePersistent(Json &json)
 		std::string id = LuaPull<std::string>(l, -2);
 
 		// Serialize all registered persistent objects as a "backup" version
-		// (This will populate the PiSerializerTableRefs cache)
+		// This will populate the table identity cache to avoid persistent
+		// objects being serialized twice.
 		entry["persistId"] = id;
 		pickle_json(l, -1, entry, id);
 
@@ -418,21 +419,36 @@ void LuaSerializer::LoadPersistent(const Json &json)
 	int idx_reftable = lua_gettop(l);
 
 	luaL_getsubtable(l, LUA_REGISTRYINDEX, NS_PERSISTENT);
+	int idx_persist = lua_gettop(l);
 
 	for (const auto &item : persist) {
 		std::string id = item["persistId"].get<std::string>();
 
 		lua_pushinteger(l, item["ref"].get<lua_Integer>());
-		lua_getfield(l, -2, id.c_str()); // reftable, persist, ptr, pvalue
+		lua_getfield(l, idx_persist, id.c_str()); // reftable, persist, ptr, pvalue
 
-		// We must unpickle the saved persistent object, because it may contain
-		// "trapped" serialized representations of non-persistent tables
+		// Serialization order is first-in first-out - because persistent objects
+		// are serialized before all other objects, their serialized representation
+		// may contain the definition of "common subtables" referred to by other
+		// objects not serialized in the persistent table.
+		// Thus, (as a rule) we must always unserialize every object that was
+		// initially serialized, in serialization order, to populate the reference
+		// table and avoid any potential dangling references to serialized tables.
 		unpickle_json(l, item);
 
 		// No valid persistent value (mismatch in serialization!)
 		if (lua_isnil(l, -2)) {
 			Log::Warning("Restoring missing persistent object '{}' from savefile", id);
 			lua_replace(l, -2); // reftable, persistent, ptr, svalue
+
+			// Write this back to the persistent table so it will be included
+			// if the file is re-saved.
+			// TODO: because the Lua state is shared across save/load cycles,
+			// this value will "leak" into newly-started games. This is not
+			// something that can be feasibly addressed except by creating new
+			// lua_States on starting a new game.
+			lua_pushvalue(l, -1); // reftable, persistent, ptr, svalue, svalue
+			lua_setfield(l, idx_persist, id.c_str());
 		} else {
 			lua_pop(l, 1); // reftable, persistent, ptr, pvalue
 		}
