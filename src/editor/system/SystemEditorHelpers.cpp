@@ -131,7 +131,6 @@ bool Draw::InputFixedDegrees(const char *str, fixed *val, double val_min, double
 	double val_d = RAD2DEG(val->ToDouble());
 
 	bool changed = ImGui::SliderScalar(str, ImGuiDataType_Double, &val_d, &val_min, &val_max, "%.3f°", ImGuiSliderFlags_NoRoundToFormat);
-	// bool changed = ImGui::InputDouble(str, &val_d, 1.0, 10.0, "%.3f°", flags | ImGuiInputTextFlags_EnterReturnsTrue);
 	// delay one frame before writing back the value for the undo system to push a value
 	if (changed && !ImGui::IsItemActivated())
 		*val = fixed::FromDouble(DEG2RAD(val_d));
@@ -170,7 +169,7 @@ bool Draw::InputFixedDistance(const char *str, fixed *val, ImGuiInputTextFlags f
 
 	ImGui::SameLine(0.f, 1.f);
 	Draw::SubtractItemWidth();
-	bool changed = ImGui::InputDouble(str, &val_d, val_step, val_step * 10.0, distance_formats[unit_type], flags | ImGuiInputTextFlags_EnterReturnsTrue);
+	bool changed = ImGui::InputDouble(str, &val_d, val_step, val_step * 10.0, distance_formats[unit_type], flags);
 	if (changed)
 		*val = fixed::FromDouble(val_d / distance_multipliers[unit_type]);
 
@@ -218,7 +217,7 @@ bool Draw::InputFixedMass(const char *str, fixed *val, bool is_solar, ImGuiInput
 
 	ImGui::SameLine(0.f, 1.f);
 	Draw::SubtractItemWidth();
-	bool changed = ImGui::InputDouble(str, &val_d, val_step, val_step * 10.0, mass_formats[unit_type], flags | ImGuiInputTextFlags_EnterReturnsTrue);
+	bool changed = ImGui::InputDouble(str, &val_d, val_step, val_step * 10.0, mass_formats[unit_type], flags);
 
 	if (is_solar && unit_type != MASS_SOLS)
 		val_d /= unit_type == MASS_EARTH ? SOL_TO_EARTH_MASS : SOL_MASS_PT;
@@ -272,7 +271,7 @@ bool Draw::InputFixedRadius(const char *str, fixed *val, bool is_solar, ImGuiInp
 
 	ImGui::SameLine(0.f, 1.f);
 	Draw::SubtractItemWidth();
-	bool changed = ImGui::InputDouble(str, &val_d, val_step, val_step * 10.0, radius_formats[unit_type], flags | ImGuiInputTextFlags_EnterReturnsTrue);
+	bool changed = ImGui::InputDouble(str, &val_d, val_step, val_step * 10.0, radius_formats[unit_type], flags);
 
 	if (is_solar && unit_type != RADIUS_SOLS)
 		val_d /= unit_type == RADIUS_EARTH ? SOL_TO_EARTH_MASS : SOL_RADIUS_KM;
