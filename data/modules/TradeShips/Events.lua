@@ -305,6 +305,13 @@ local onShipDestroyed = function (ship, attacker)
 end
 Event.Register("onShipDestroyed", onShipDestroyed)
 
+local onShipOutOfFuel = function (ship)
+	if not Core.ships[ship] then return end
+	-- we don't want to bother yet
+	Core.ships[ship] = nil
+	ship:Explode()
+end
+Event.Register("onShipOutOfFuel", onShipOutOfFuel)
 
 local onGameEnd = function ()
 	-- drop the references for our data so Lua can free them

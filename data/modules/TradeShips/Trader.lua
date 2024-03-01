@@ -212,9 +212,14 @@ local function canAtmo(ship)
 	return ship:CountEquip(e.misc.atmospheric_shielding) ~= 0
 end
 
+local THRUSTER_UP = Engine.GetEnumValue('ShipTypeThruster', 'UP')
+
 Trader.isStarportAcceptableForShip = function(starport, ship)
-	return canAtmo(ship) or not isAtmo(starport)
-	-- TODO add a check to see if the ship has enough engine power to handle gravity
+	if not isAtmo(starport) then return true end
+	if not canAtmo(ship) then return false end
+	local bellyThrust = ship:GetThrusterAcceleration(THRUSTER_UP)
+	local portGravity = starport.path:GetSystemBody().parent.gravity
+	return bellyThrust > portGravity
 end
 
 Trader.getNearestStarport = function(ship, current)

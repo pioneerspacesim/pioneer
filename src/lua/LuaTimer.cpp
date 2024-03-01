@@ -82,7 +82,10 @@ void LuaTimer::Tick()
 		}
 
 		lua_getfield(l, -1, "every");
-		double next = call.at + lua_tonumber(l, -1);
+		double every = lua_tonumber(l, -1);
+		// will take into account that we could skip the appointed time,
+		// but will maintain the original "alignment"
+		double next = now + every - fmod(now - call.at, every);
 		lua_pop(l, 1);
 
 		lua_pushnumber(l, next); // [ cb, next ]
