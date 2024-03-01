@@ -18,7 +18,7 @@ tex_spec coronatrix_spec.dds
 tex_norm coronatrix_norm.png
 tex_glow coronatrix_glow.dds
 
-material Coronatrix_parts
+material Coronatrix-parts
 diffuse 1.0 1.0 1.0
 specular 0.4 0.4 0.4
 shininess 80
