@@ -25,4 +25,11 @@ function Serializer:Register(key, serialize, unserialize) end
 ---@param class table
 function Serializer:RegisterClass(key, class) end
 
+-- Register a table as a "persistent" value. All references to the saved
+-- instance of that table will be transparently replaced across savegames to
+-- maintain table instance identity.
+---@param key string
+---@param value table
+function Serializer:RegisterPersistent(key, value) end
+
 return Serializer

@@ -13,6 +13,13 @@
 #include "core/Log.h"
 #include "profiler/Profiler.h"
 
+// Well-known names of various serialization-related caches stored in the
+// Lua Registry
+static const char *NS_REFTABLE = "PiSerializerTableRefs";
+static const char *NS_CLASSES = "PiSerializerClasses";
+static const char *NS_CALLBACKS = "PiSerializerCallbacks";
+static const char *NS_PERSISTENT = "PiSerializerPersistent";
+
 // every module can save one object. that will usually be a table.  we call
 // each serializer in turn and capture its return value we build a table like
 // so:
@@ -81,7 +88,7 @@ void LuaSerializer::pickle_json(lua_State *l, int to_serialize, Json &out, const
 
 			out["lua_class"] = cl;
 
-			lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerClasses");
+			lua_getfield(l, LUA_REGISTRYINDEX, NS_CLASSES);
 
 			lua_getfield(l, -1, cl);
 			if (lua_isnil(l, -1))
@@ -132,9 +139,9 @@ void LuaSerializer::pickle_json(lua_State *l, int to_serialize, Json &out, const
 		lua_Integer ptr = lua_Integer(lua_topointer(l, to_serialize));
 		lua_pushinteger(l, ptr); // ptr
 
-		lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs"); // ptr reftable
-		lua_pushvalue(l, -2);										 // ptr reftable ptr
-		lua_rawget(l, -2);											 // ptr reftable ???
+		lua_getfield(l, LUA_REGISTRYINDEX, NS_REFTABLE); // ptr reftable
+		lua_pushvalue(l, -2);							 // ptr reftable ptr
+		lua_rawget(l, -2);								 // ptr reftable ???
 
 		out["ref"] = ptr;
 
@@ -259,11 +266,11 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json &value)
 			if (value.count("table")) {
 				lua_newtable(l);
 
-				lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs"); // [t] [refs]
-				lua_pushinteger(l, ptr);									 // [t] [refs] [key]
-				lua_pushvalue(l, -3);										 // [t] [refs] [key] [t]
-				lua_rawset(l, -3);											 // [t] [refs]
-				lua_pop(l, 1);												 // [t]
+				lua_getfield(l, LUA_REGISTRYINDEX, NS_REFTABLE); // [t] [refs]
+				lua_pushinteger(l, ptr);						 // [t] [refs] [key]
+				lua_pushvalue(l, -3);							 // [t] [refs] [key] [t]
+				lua_rawset(l, -3);								 // [t] [refs]
+				lua_pop(l, 1);									 // [t]
 
 				const Json &inner = value["table"];
 				if (inner.size() % 2 != 0) {
@@ -278,9 +285,9 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json &value)
 				LUA_DEBUG_CHECK(l, 1);
 			} else {
 				// Reference to a previously-pickled table.
-				lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs"); // [refs]
-				lua_pushinteger(l, ptr);									 // [refs] [key]
-				lua_rawget(l, -2);											 // [refs] [out]
+				lua_getfield(l, LUA_REGISTRYINDEX, NS_REFTABLE); // [refs]
+				lua_pushinteger(l, ptr);						 // [refs] [key]
+				lua_rawget(l, -2);								 // [refs] [out]
 
 				if (lua_isnil(l, -1))
 					throw SavedGameCorruptException();
@@ -294,7 +301,7 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json &value)
 				const char *cl = value["lua_class"].get_ref<const std::string &>().c_str();
 				// If this was a full definition (not just a reference) then run the class's unserialiser function.
 				if (value.count("table")) {
-					lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerClasses");
+					lua_getfield(l, LUA_REGISTRYINDEX, NS_CLASSES);
 					lua_pushstring(l, cl);
 					lua_gettable(l, -2);
 					lua_remove(l, -2);
@@ -317,11 +324,11 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json &value)
 							// Update the TableRefs cache with the new value
 							// NOTE: recursive references to the original table will not be affected,
 							// only references in tables deserialized later.
-							lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs"); // [t] [refs]
-							lua_pushinteger(l, ptr);									 // [t] [refs] [key]
-							lua_pushvalue(l, -3);										 // [t] [refs] [key] [t]
-							lua_rawset(l, -3);											 // [t] [refs]
-							lua_pop(l, 1);												 // [t]
+							lua_getfield(l, LUA_REGISTRYINDEX, NS_REFTABLE); // [t] [refs]
+							lua_pushinteger(l, ptr);						 // [t] [refs] [key]
+							lua_pushvalue(l, -3);							 // [t] [refs] [key] [t]
+							lua_rawset(l, -3);								 // [t] [refs]
+							lua_pop(l, 1);									 // [t]
 						}
 					}
 				}
@@ -345,8 +352,9 @@ void LuaSerializer::InitTableRefs()
 	lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializer");
 
 	lua_newtable(l);
-	lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");
+	lua_setfield(l, LUA_REGISTRYINDEX, NS_REFTABLE);
 
+	// NOTE: this is depended on by LuaRef.cpp
 	lua_newtable(l);
 	lua_setfield(l, LUA_REGISTRYINDEX, "PiLuaRefLoadTable");
 }
@@ -359,10 +367,99 @@ void LuaSerializer::UninitTableRefs()
 	lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializer");
 
 	lua_pushnil(l);
-	lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");
+	lua_setfield(l, LUA_REGISTRYINDEX, NS_REFTABLE);
 
 	lua_pushnil(l);
 	lua_setfield(l, LUA_REGISTRYINDEX, "PiLuaRefLoadTable");
+}
+
+void LuaSerializer::SavePersistent(Json &json)
+{
+	lua_State *l = Lua::manager->GetLuaState();
+	LUA_DEBUG_START(l);
+
+	// NOTE: this must be an array for consistent deserialization order
+	Json persist = Json::array();
+
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, NS_PERSISTENT);
+	lua_pushnil(l);
+
+	while (lua_next(l, -2)) {
+		Json entry = Json::object();
+
+		// persistent, id, value
+		std::string id = LuaPull<std::string>(l, -2);
+
+		// Serialize all registered persistent objects as a "backup" version
+		// This will populate the table identity cache to avoid persistent
+		// objects being serialized twice.
+		entry["persistId"] = id;
+		pickle_json(l, -1, entry, id);
+
+		persist.push_back(std::move(entry));
+
+		lua_pop(l, 1);
+	}
+
+	lua_pop(l, 1);
+
+	json["lua_persistent_json"] = std::move(persist);
+
+	LUA_DEBUG_END(l, 0);
+}
+
+void LuaSerializer::LoadPersistent(const Json &json)
+{
+	lua_State *l = Lua::manager->GetLuaState();
+	LUA_DEBUG_START(l);
+
+	const Json &persist = json["lua_persistent_json"];
+
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, NS_REFTABLE);
+	int idx_reftable = lua_gettop(l);
+
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, NS_PERSISTENT);
+	int idx_persist = lua_gettop(l);
+
+	for (const auto &item : persist) {
+		std::string id = item["persistId"].get<std::string>();
+
+		lua_pushinteger(l, item["ref"].get<lua_Integer>());
+		lua_getfield(l, idx_persist, id.c_str()); // reftable, persist, ptr, pvalue
+
+		// Serialization order is first-in first-out - because persistent objects
+		// are serialized before all other objects, their serialized representation
+		// may contain the definition of "common subtables" referred to by other
+		// objects not serialized in the persistent table.
+		// Thus, (as a rule) we must always unserialize every object that was
+		// initially serialized, in serialization order, to populate the reference
+		// table and avoid any potential dangling references to serialized tables.
+		unpickle_json(l, item);
+
+		// No valid persistent value (mismatch in serialization!)
+		if (lua_isnil(l, -2)) {
+			Log::Warning("Restoring missing persistent object '{}' from savefile", id);
+			lua_replace(l, -2); // reftable, persistent, ptr, svalue
+
+			// Write this back to the persistent table so it will be included
+			// if the file is re-saved.
+			// TODO: because the Lua state is shared across save/load cycles,
+			// this value will "leak" into newly-started games. This is not
+			// something that can be feasibly addressed except by creating new
+			// lua_States on starting a new game.
+			lua_pushvalue(l, -1); // reftable, persistent, ptr, svalue, svalue
+			lua_setfield(l, idx_persist, id.c_str());
+		} else {
+			lua_pop(l, 1); // reftable, persistent, ptr, pvalue
+		}
+
+		// All references to the prior saved value are replaced with the persistent object
+		lua_settable(l, idx_reftable);
+	}
+
+	lua_pop(l, 2);
+
+	LUA_DEBUG_END(l, 0);
 }
 
 void LuaSerializer::ToJson(Json &jsonObj)
@@ -375,13 +472,7 @@ void LuaSerializer::ToJson(Json &jsonObj)
 	lua_newtable(l);
 	int savetable = lua_gettop(l);
 
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
-	if (lua_isnil(l, -1)) {
-		lua_pop(l, 1);
-		lua_newtable(l);
-		lua_pushvalue(l, -1);
-		lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
-	}
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, NS_CALLBACKS);
 
 	lua_pushnil(l);
 	while (lua_next(l, -2) != 0) {
@@ -398,7 +489,7 @@ void LuaSerializer::ToJson(Json &jsonObj)
 
 	Json pickled;
 	pickle_json(l, savetable, pickled);
-	jsonObj["lua_modules_json"] = pickled;
+	jsonObj["lua_modules_json"] = std::move(pickled);
 
 	lua_pop(l, 1);
 
@@ -428,13 +519,7 @@ void LuaSerializer::FromJson(const Json &jsonObj)
 	if (!lua_istable(l, -1)) throw SavedGameCorruptException();
 	int savetable = lua_gettop(l);
 
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
-	if (lua_isnil(l, -1)) {
-		lua_pop(l, 1);
-		lua_newtable(l);
-		lua_pushvalue(l, -1);
-		lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
-	}
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, NS_CALLBACKS);
 
 	lua_pushnil(l);
 	while (lua_next(l, -2) != 0) {
@@ -525,7 +610,7 @@ void LuaSerializer::LoadComponents(const Json &jsonObj, Space *space)
  *
  * Example:
  *
- * > Serializer.Register("MyModule", function() return {} end, function(data) ... end)
+ * > Serializer:Register("MyModule", function() return {} end, function(data) ... end)
  *
  * Parameters:
  *
@@ -544,13 +629,7 @@ int LuaSerializer::l_register(lua_State *l)
 	luaL_checktype(l, 3, LUA_TFUNCTION); // any type of function
 	luaL_checktype(l, 4, LUA_TFUNCTION); // any type of function
 
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
-	if (lua_isnil(l, -1)) {
-		lua_pop(l, 1);
-		lua_newtable(l);
-		lua_pushvalue(l, -1);
-		lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
-	}
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, NS_CALLBACKS);
 
 	lua_newtable(l);
 
@@ -605,13 +684,7 @@ int LuaSerializer::l_register_class(lua_State *l)
 		return luaL_error(l, "Serializer class '%s' has no 'Unserialize' method", key.c_str());
 	lua_pop(l, 2);
 
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerClasses");
-	if (lua_isnil(l, -1)) {
-		lua_pop(l, 1);
-		lua_newtable(l);
-		lua_pushvalue(l, -1);
-		lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerClasses");
-	}
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, NS_CLASSES);
 
 	lua_pushvalue(l, 3);
 	lua_setfield(l, -2, key.c_str());
@@ -619,6 +692,33 @@ int LuaSerializer::l_register_class(lua_State *l)
 	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
+
+	return 0;
+}
+
+/*
+ * Function: RegisterPersistent
+ *
+ * Register the given table as a "persistent value" which should not
+ * be serialized but instead have references to it in a saved game replaced
+ * with the value stored under the same ID at load-time.
+ *
+ * The passed value must be able to be serialized into a saved game, as the
+ * value will be loaded from the savefile to maintain backwards compatibility
+ * if no persistent object is registered with that ID at load time.
+ *
+ * Parameters:
+ *   key - string, unique ID of the table to serialize
+ *   value - table, persistent value to store
+ */
+int LuaSerializer::l_register_persistent(lua_State *l)
+{
+	luaL_checktype(l, 2, LUA_TSTRING);
+	luaL_checktype(l, 3, LUA_TTABLE);
+
+	lua_getfield(l, LUA_REGISTRYINDEX, NS_PERSISTENT);
+	lua_replace(l, 1);
+	lua_settable(l, -3);
 
 	return 0;
 }
@@ -636,8 +736,15 @@ void LuaObject<LuaSerializer>::RegisterClass()
 	static const luaL_Reg l_methods[] = {
 		{ "Register", LuaSerializer::l_register },
 		{ "RegisterClass", LuaSerializer::l_register_class },
+		{ "RegisterPersistent", LuaSerializer::l_register_persistent },
 		{ 0, 0 }
 	};
+
+	lua_newtable(l);
+	lua_setfield(l, LUA_REGISTRYINDEX, NS_PERSISTENT);
+
+	lua_newtable(l);
+	lua_setfield(l, LUA_REGISTRYINDEX, NS_CLASSES);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
 	LuaObjectBase::CreateObject(l_methods, 0, 0);

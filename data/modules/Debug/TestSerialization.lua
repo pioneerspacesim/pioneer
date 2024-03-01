@@ -44,3 +44,33 @@ end
 Serializer:RegisterClass('TestClass', testClass)
 Serializer:Register('TestSerialization', serialize, unserialize)
 --]]
+
+--[[
+local persistentClass = utils.inherits(nil, 'TestClassPersistent')
+
+local persistentInstance = persistentClass.New()
+
+function persistentClass:Unserialize()
+	print("Unserialized a persistent object")
+
+	return setmetatable(self, persistentClass.meta)
+end
+
+Serializer:RegisterPersistent('TestPersistentObject', persistentInstance)
+
+local function serialize()
+	local test_data = {
+		instance = persistentInstance
+	}
+	return test_data
+end
+
+local function unserialize(data)
+	print(persistentInstance)
+	print(data.instance)
+	print(persistentInstance == data.instance)
+end
+
+Serializer:RegisterClass('TestClassPersistent', persistentClass)
+Serializer:Register('TestSerialization2', serialize, unserialize)
+--]]
