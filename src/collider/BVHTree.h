@@ -62,20 +62,19 @@ private:
 };
 
 /*
- * Single-node binary-tree Bounding Volume Hierarchy tree.
- *
- * Uses a top-down construction heuristic to produce a "full" binary tree (i.e.
- * each node either is a leaf or is guaranteed to have two child nodes.)
+ * Base class for BVH trees with a single leaf per node.
  */
-class SingleBVHTree {
+class SingleBVHTreeBase {
 public:
 	struct Node {
 		AABBd aabb;
 		uint32_t kids[2];
 		uint32_t leafIndex;
+		uint32_t treeHeight;
 	};
 
-	SingleBVHTree();
+	SingleBVHTreeBase();
+	virtual ~SingleBVHTreeBase();
 
 	void Clear();
 
@@ -95,19 +94,73 @@ public:
 	uint32_t GetHeight() const { return m_treeHeight; }
 	double CalculateSAH() const;
 
-private:
+protected:
 	struct SortKey {
 		vector3f center;
 		uint32_t index;
 	};
 
-	void BuildNode(Node *node, SortKey *keys, uint32_t numKeys, AABBd *objAabbs, uint32_t height);
-	uint32_t Partition(SortKey *keys, uint32_t numKeys, const AABBd &aabb, AABBd *objAabbs);
+	vector3f ToSortSpace(vector3d point) const { return vector3f((point - m_boundsCenter) * m_inv_scale_factor); }
+
+	// Override in final for specific tree construction behavior without vfunction call overhead
+	virtual void BuildNode(Node *node, SortKey *keys, uint32_t numKeys, const AABBd *objAabbs, uint32_t height) = 0;
 
 	std::vector<Node> m_nodes;
 	uint32_t m_treeHeight;
 	vector3d m_boundsCenter;
 	double m_inv_scale_factor;
+};
+
+
+/*
+ * Single-node binary-tree Bounding Volume Hierarchy tree.
+ *
+ * Uses a top-down construction heuristic to produce a "full" binary tree (i.e.
+ * each node either is a leaf or is guaranteed to have two child nodes.)
+ *
+ * This tree should be used when rebuild speed is more important than maximal
+ * query performance of the resulting tree (though it is quite fast to query).
+ */
+class SingleBVHTree final : public SingleBVHTreeBase {
+public:
+	SingleBVHTree() {};
+	~SingleBVHTree() {};
+
+protected:
+	virtual void BuildNode(Node *node, SortKey *keys, uint32_t numKeys, const AABBd *objAabbs, uint32_t height) override final;
+	uint32_t Partition(SortKey *keys, uint32_t numKeys, const AABBd &aabb, const AABBd *objAabbs);
+};
+
+/*
+ * Single-node binary Bounding Volume Hierarchy tree built using a binned
+ * Surface Area Heuristic construction metric.
+ *
+ * This tree is intended to be used when BVH query performance is of absolute
+ * importance and building can be amortized or done only once during the
+ * program lifetime.
+ *
+ * Provides a SAH improvement of up to 2x over the SingleBVHTree implementation,
+ * but at a significantly higher rebuild cost.
+ */
+class BinnedAreaBVHTree final : public SingleBVHTreeBase {
+public:
+	BinnedAreaBVHTree() {};
+
+protected:
+	struct SortBin {
+		AABBd bounds = {};
+		uint32_t objCount = 0;
+	};
+
+	// 12 bins to sort triangles into provides a decent quality to performance
+	// tradeoff, especially as this is run once for each axis.
+	// This provides split lines at 1/2, 1/3, 1/4, and 1/6ths, which has been
+	// experimentally shown to provide a better SAH for human-authored models.
+	static constexpr size_t NUM_BINS = 12;
+
+	virtual void BuildNode(Node *node, SortKey *keys, uint32_t numKeys, const AABBd *objAabbs, uint32_t height) override final;
+	uint32_t Partition(SortKey *keys, uint32_t numKeys, const AABBd &aabb, const AABBd *objAabbs);
+	float FindPivot(SortKey *keys, uint32_t numKeys, const AABBd &aabb, const AABBd *objAabbs, uint32_t axis, float &outCost) const;
 };
 
 #endif /* _BVHTREE_H */
