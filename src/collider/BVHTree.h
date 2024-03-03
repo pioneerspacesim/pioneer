@@ -83,12 +83,12 @@ public:
 	void Build(const AABBd &bounds, AABBd *objAabbs, uint32_t numObjs);
 
 	// Return a pointer to the node at the given index
-	const Node *GetNode(uint32_t index) const { return m_nodes.data() + index; }
+	inline const Node *GetNode(uint32_t index) const { return m_nodes.data() + index; }
 
 	// Compute a list of { objId, leafIndex } intersections and add it to the passed array
-	void ComputeOverlap(uint32_t objId, const AABBd &objAabb, std::vector<std::pair<uint32_t, uint32_t>> &out_isect) const;
+	void ComputeOverlap(uint32_t objId, const AABBd &objAabb, std::vector<std::pair<uint32_t, uint32_t>> &out_isect, uint32_t startNode = 0) const;
 	// Trace a ray through this AABB and add the list of intersected leaves to the passed array
-	void TraceRay(const vector3d &start, const vector3d &inv_dir, double len, std::vector<uint32_t> &out_isect) const;
+	void TraceRay(const vector3d &start, const vector3d &inv_dir, double len, std::vector<uint32_t> &out_isect, uint32_t startNode = 0) const;
 
 	size_t GetNumNodes() const { return m_nodes.size(); }
 	uint32_t GetHeight() const { return m_treeHeight; }

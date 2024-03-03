@@ -252,14 +252,14 @@ void SingleBVHTreeBase::Build(const AABBd &bounds, AABBd *objAabbs, uint32_t num
 	BuildNode(&m_nodes.emplace_back(), sortKeys.data(), numObjs, objAabbs, 0);
 }
 
-void SingleBVHTreeBase::ComputeOverlap(uint32_t nodeId, const AABBd &nodeAabb, std::vector<std::pair<uint32_t, uint32_t>> &out_isect) const
+void SingleBVHTreeBase::ComputeOverlap(uint32_t nodeId, const AABBd &nodeAabb, std::vector<std::pair<uint32_t, uint32_t>> &out_isect, uint32_t startNode) const
 {
 	PROFILE_SCOPED()
 
 	int32_t stackLevel = 0;
 	uint32_t *stack = stackalloc(uint32_t, m_treeHeight + 1);
 	// Push the root node
-	stack[stackLevel++] = 0;
+	stack[stackLevel++] = startNode;
 
 	while (stackLevel > 0) {
 		const SingleBVHTreeBase::Node *node = &m_nodes[stack[--stackLevel]];
@@ -278,13 +278,13 @@ void SingleBVHTreeBase::ComputeOverlap(uint32_t nodeId, const AABBd &nodeAabb, s
 	}
 }
 
-void SingleBVHTreeBase::TraceRay(const vector3d &start, const vector3d &inv_dir, double len, std::vector<uint32_t> &out_isect) const
+void SingleBVHTreeBase::TraceRay(const vector3d &start, const vector3d &inv_dir, double len, std::vector<uint32_t> &out_isect, uint32_t startNode) const
 {
-	PROFILE_SCOPED()
+	// PROFILE_SCOPED() // Called often, only enable when needed
 
 	int32_t stackLevel = 0;
 	uint32_t *stack = stackalloc(uint32_t, m_treeHeight + 1);
-	stack[stackLevel++] = 0;
+	stack[stackLevel++] = startNode;
 
 	while (stackLevel > 0) {
 		uint32_t nodeIdx = stack[--stackLevel];
