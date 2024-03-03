@@ -22,9 +22,6 @@ struct isect_t {
 
 class SingleBVHTreeBase;
 
-class BVHTree;
-struct BVHNode;
-
 class GeomTree {
 public:
 	GeomTree(const int numVerts, const int numTris, const std::vector<vector3f> &vertices, const std::vector<Uint32> indices, const std::vector<Uint32> triFlags);
@@ -34,11 +31,12 @@ public:
 	~GeomTree();
 
 	const Aabb &GetAabb() const { return m_aabb; }
+
 	// dir should be unit length,
 	// isect.dist should be ray length
 	// isect.triIdx should be -1 unless repeat calls with same isect_t
 	void TraceRay(const vector3f &start, const vector3f &dir, isect_t *isect) const;
-	void TraceRay(const BVHNode *startNode, const vector3f &a_origin, const vector3f &a_dir, isect_t *isect) const;
+
 	vector3f GetTriNormal(int triIdx) const;
 	Uint32 GetTriFlag(int triIdx) const { return m_triFlags[triIdx]; }
 	double GetRadius() const { return m_radius; }
@@ -60,11 +58,8 @@ public:
 	}
 	int GetNumEdges() const { return m_numEdges; }
 
-	BVHTree *GetTriTree() const { return m_triTree.get(); }
-	BVHTree *GetEdgeTree() const { return m_edgeTree.get(); }
-
-	SingleBVHTreeBase *GetTriTree2() const { return m_triTree2.get(); }
-	SingleBVHTreeBase *GetEdgeTree2() const { return m_edgeTree2.get(); }
+	SingleBVHTreeBase *GetTriTree() const { return m_triTree.get(); }
+	SingleBVHTreeBase *GetEdgeTree() const { return m_edgeTree.get(); }
 
 	const std::vector<vector3f> &GetVertices() const { return m_vertices; }
 	const Uint32 *GetIndices() const { return &m_indices[0]; }
@@ -82,19 +77,12 @@ private:
 	double m_radius;
 	Aabb m_aabb;
 
-	// Edge AABBs
-	std::vector<Aabb> m_aabbs;
-
-	std::unique_ptr<BVHTree> m_triTree;
-	std::unique_ptr<BVHTree> m_edgeTree;
-
-	std::unique_ptr<SingleBVHTreeBase> m_triTree2;
-	std::unique_ptr<SingleBVHTreeBase> m_edgeTree2;
+	std::unique_ptr<SingleBVHTreeBase> m_triTree;
+	std::unique_ptr<SingleBVHTreeBase> m_edgeTree;
 	std::unique_ptr<AABBd[]> m_triAABBs;
 	std::unique_ptr<AABBd[]> m_edgeAABBs;
 
 	std::vector<Edge> m_edges;
-
 	std::vector<vector3f> m_vertices;
 	std::vector<Uint32> m_indices;
 	std::vector<Uint32> m_triFlags;

@@ -26,8 +26,6 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 	PROFILE_SCOPED()
 
 	assert(static_cast<int>(vertices.size()) == m_numVertices);
-	Profiler::Timer timer;
-	timer.Start();
 
 	m_aabb.min = vector3d(FLT_MAX, FLT_MAX, FLT_MAX);
 	m_aabb.max = vector3d(-FLT_MAX, -FLT_MAX, -FLT_MAX);
@@ -92,28 +90,9 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 	}
 	m_radius = sqrt(m_radius);
 
-	{
-		Aabb *aabbs = new Aabb[activeTris.size()];
-		for (Uint32 i = 0; i < activeTris.size(); i++) {
-			const vector3d v1 = vector3d(m_vertices[m_indices[activeTris[i] + 0]]);
-			const vector3d v2 = vector3d(m_vertices[m_indices[activeTris[i] + 1]]);
-			const vector3d v3 = vector3d(m_vertices[m_indices[activeTris[i] + 2]]);
-			aabbs[i].min = aabbs[i].max = v1;
-			aabbs[i].Update(v2);
-			aabbs[i].Update(v3);
-		}
-
-		//int t = SDL_GetTicks();
-		m_triTree.reset(new BVHTree(activeTris.size(), &activeTris[0], aabbs));
-		delete[] aabbs;
-	}
-	//Output("Tri tree of %d tris build in %dms\n", activeTris.size(), SDL_GetTicks() - t);
-
 	m_numEdges = edges.size();
 	m_edges.resize(m_numEdges);
-	// to build Edge bvh tree with.
-	m_aabbs.resize(m_numEdges);
-	int *edgeIdxs = new int[m_numEdges];
+	m_edgeAABBs.reset(new AABBd[m_numEdges]);
 
 	int pos = 0;
 	typedef EdgeType::iterator MapPairIter;
@@ -133,20 +112,24 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 		m_edges[pos].len = len;
 		m_edges[pos].dir = dir;
 
-		edgeIdxs[pos] = pos;
-		m_aabbs[pos].min = m_aabbs[pos].max = vector3d(v1);
-		m_aabbs[pos].Update(vector3d(v2));
+		// Build list of AABBs for edge BVH tree
+		AABBd edgeAabb = AABBd::Invalid();
+		edgeAabb.Update(vector3d(v1));
+		edgeAabb.Update(vector3d(v2));
+		m_edgeAABBs[pos] = edgeAabb;
 	}
 
-	//t = SDL_GetTicks();
-	m_edgeTree.reset(new BVHTree(m_numEdges, edgeIdxs, &m_aabbs[0]));
-	delete[] edgeIdxs;
-	//Output("Edge tree of %d edges build in %dms\n", m_numEdges, SDL_GetTicks() - t);
-
+	// Compute the bounds for edge/triangle BVH tree
 	AABBd bounds = AABBd { m_aabb.min, m_aabb.max};
 
 	{
-		PROFILE_SCOPED_DESC("Create Tri Tree 2");
+		PROFILE_SCOPED_DESC("GeomTree::CreateEdgeTree");
+		m_edgeTree.reset(new BinnedAreaBVHTree());
+		m_edgeTree->Build(bounds, m_edgeAABBs.get(), m_numEdges);
+	}
+
+	{
+		PROFILE_SCOPED_DESC("GeomTree::CreateTriTree");
 
 		m_triAABBs.reset(new AABBd[m_numTris]);
 		for (size_t i = 0; i < m_numTris; i++) {
@@ -160,29 +143,9 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 			m_triAABBs.get()[i] = aabb;
 		}
 
-		m_triTree2.reset(new BinnedAreaBVHTree());
-		m_triTree2->Build(bounds, m_triAABBs.get(), m_numTris);
+		m_triTree.reset(new BinnedAreaBVHTree());
+		m_triTree->Build(bounds, m_triAABBs.get(), m_numTris);
 	}
-
-	{
-		PROFILE_SCOPED_DESC("Create Edge Tree 2");
-
-		m_edgeAABBs.reset(new AABBd[m_numEdges]);
-		for (size_t i = 0; i < m_numEdges; i++) {
-			const vector3d v0 = vector3d(m_vertices[m_edges[i].v1i]);
-			const vector3d v1 = vector3d(m_vertices[m_edges[i].v2i]);
-
-			AABBd aabb = { v0, v0 };
-			aabb.Update(v1);
-			m_edgeAABBs.get()[i] = aabb;
-		}
-
-		m_edgeTree2.reset(new BinnedAreaBVHTree());
-		m_edgeTree2->Build(bounds, m_edgeAABBs.get(), m_numEdges);
-	}
-
-	timer.Stop();
-	//Output(" - - GeomTree::GeomTree took: %lf milliseconds\n", timer.millicycles());
 }
 
 GeomTree::GeomTree(Serializer::Reader &rd)
@@ -197,10 +160,22 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 	m_aabb.min = rd.Vector3d();
 	m_aabb.radius = rd.Double();
 
-	const Uint32 numAabbs = rd.Int32();
-	m_aabbs.resize(numAabbs);
-	for (Uint32 iAabb = 0; iAabb < numAabbs; ++iAabb) {
-		rd >> m_aabbs[iAabb];
+	AABBd bounds = AABBd { m_aabb.min, m_aabb.max};
+
+	{
+		PROFILE_SCOPED_DESC("GeomTree::CreateEdgeTree");
+
+		Aabb _oldAabb;
+		const Uint32 numAabbs = rd.Int32();
+		m_edgeAABBs.reset(new AABBd[numAabbs]);
+
+		for (Uint32 iAabb = 0; iAabb < numAabbs; ++iAabb) {
+			rd >> _oldAabb;
+			m_edgeAABBs.get()[iAabb] = AABBd { _oldAabb.min, _oldAabb.max };
+		}
+
+		m_edgeTree.reset(new BinnedAreaBVHTree());
+		m_edgeTree->Build(bounds, m_edgeAABBs.get(), m_numEdges);
 	}
 
 	{
@@ -229,48 +204,9 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 	}
 
 	{
-		PROFILE_SCOPED_DESC("Create Tri Tree");
+		PROFILE_SCOPED_DESC("GeomTree::CreateTriTree");
 
-		// activeTris = tris we are still trying to put into leaves
-		std::vector<int> activeTris;
-		activeTris.reserve(m_numTris);
-		for (int i = 0; i < m_numTris; i++) {
-			activeTris.push_back(i * 3);
-		}
-
-		// regenerate the aabb data
-		Aabb *aabbs = new Aabb[activeTris.size()];
-		for (Uint32 i = 0; i < activeTris.size(); i++) {
-			const vector3d v1 = vector3d(m_vertices[m_indices[activeTris[i] + 0]]);
-			const vector3d v2 = vector3d(m_vertices[m_indices[activeTris[i] + 1]]);
-			const vector3d v3 = vector3d(m_vertices[m_indices[activeTris[i] + 2]]);
-			aabbs[i].min = aabbs[i].max = v1;
-			aabbs[i].Update(v2);
-			aabbs[i].Update(v3);
-		}
-		m_triTree.reset(new BVHTree(activeTris.size(), &activeTris[0], aabbs));
-		delete[] aabbs;
-	}
-
-	{
-		PROFILE_SCOPED_DESC("Create Edge Tree");
-
-		//
-		int *edgeIdxs = new int[m_numEdges];
-		memset(edgeIdxs, 0, sizeof(int) * m_numEdges);
-		for (int i = 0; i < m_numEdges; i++) {
-			edgeIdxs[i] = i;
-		}
-
-		m_edgeTree.reset(new BVHTree(m_numEdges, edgeIdxs, &m_aabbs[0]));
-		delete[] edgeIdxs;
-	}
-
-	AABBd bounds = AABBd { m_aabb.min, m_aabb.max};
-
-	{
-		PROFILE_SCOPED_DESC("Create Tri Tree 2");
-
+		// TODO: triangle AABBs should be written to the SGM file similarly to edge AABBs
 		m_triAABBs.reset(new AABBd[m_numTris]);
 		for (size_t i = 0; i < m_numTris; i++) {
 			const vector3d v0 = vector3d(m_vertices[m_indices[i * 3 + 0]]);
@@ -283,81 +219,18 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 			m_triAABBs.get()[i] = aabb;
 		}
 
-		m_triTree2.reset(new BinnedAreaBVHTree());
-		m_triTree2->Build(bounds, m_triAABBs.get(), m_numTris);
+		m_triTree.reset(new BinnedAreaBVHTree());
+		m_triTree->Build(bounds, m_triAABBs.get(), m_numTris);
 	}
-
-	{
-		PROFILE_SCOPED_DESC("Create Edge Tree 2");
-
-		m_edgeAABBs.reset(new AABBd[m_numEdges]);
-		for (size_t i = 0; i < m_numEdges; i++) {
-			const vector3d v0 = vector3d(m_vertices[m_edges[i].v1i]);
-			const vector3d v1 = vector3d(m_vertices[m_edges[i].v2i]);
-
-			AABBd aabb = { v0, v0 };
-			aabb.Update(v1);
-			m_edgeAABBs.get()[i] = aabb;
-		}
-
-		m_edgeTree2.reset(new BinnedAreaBVHTree());
-		m_edgeTree2->Build(bounds, m_edgeAABBs.get(), m_numEdges);
-	}
-}
-
-static bool SlabsRayAabbTest(const BVHNode *n, const vector3f &start, const vector3f &invDir, isect_t *isect)
-{
-	// PROFILE_SCOPED()
-	float
-		l1 = (n->aabb.min.x - start.x) * invDir.x,
-		l2 = (n->aabb.max.x - start.x) * invDir.x,
-		lmin = std::min(l1, l2),
-		lmax = std::max(l1, l2);
-
-	l1 = (n->aabb.min.y - start.y) * invDir.y;
-	l2 = (n->aabb.max.y - start.y) * invDir.y;
-	lmin = std::max(std::min(l1, l2), lmin);
-	lmax = std::min(std::max(l1, l2), lmax);
-
-	l1 = (n->aabb.min.z - start.z) * invDir.z;
-	l2 = (n->aabb.max.z - start.z) * invDir.z;
-	lmin = std::max(std::min(l1, l2), lmin);
-	lmax = std::min(std::max(l1, l2), lmax);
-
-	return ((lmax >= 0.f) & (lmax >= lmin) & (lmin < isect->dist));
 }
 
 void GeomTree::TraceRay(const vector3f &start, const vector3f &dir, isect_t *isect) const
 {
-	TraceRay(m_triTree->GetRoot(), start, dir, isect);
-}
+	std::vector<uint32_t> tri_isect;
+	m_triTree->TraceRay(vector3d(start), vector3d(1.f / dir), FLT_MAX, tri_isect);
 
-void GeomTree::TraceRay(const BVHNode *currnode, const vector3f &a_origin, const vector3f &a_dir, isect_t *isect) const
-{
-	// PROFILE_SCOPED()
-	BVHNode *stack[32];
-	int stackpos = -1;
-	const vector3f invDir( // avoid division by zero please
-		is_zero_exact(a_dir.x) ? 0.0f : (1.0f / a_dir.x),
-		is_zero_exact(a_dir.y) ? 0.0f : (1.0f / a_dir.y),
-		is_zero_exact(a_dir.z) ? 0.0f : (1.0f / a_dir.z));
-
-	for (;;) {
-		while (!currnode->IsLeaf()) {
-			if (!SlabsRayAabbTest(currnode, a_origin, invDir, isect)) goto pop_bstack;
-
-			stackpos++;
-			stack[stackpos] = currnode->kids[1];
-			currnode = currnode->kids[0];
-		}
-		// triangle intersection jizz
-		for (int i = 0; i < currnode->numTris; i++) {
-			RayTriIntersect(1, a_origin, &a_dir, currnode->triIndicesStart[i], isect);
-		}
-	pop_bstack:
-		if (stackpos < 0) break;
-		currnode = stack[stackpos];
-		stackpos--;
+	for (uint32_t triIdx : tri_isect) {
+		RayTriIntersect(1, start, &dir, triIdx * 3, isect);
 	}
 }
 
@@ -413,9 +286,14 @@ void GeomTree::Save(Serializer::Writer &wr) const
 	wr.Vector3d(m_aabb.min);
 	wr.Double(m_aabb.radius);
 
+	// TODO: the entire edge and triangle BVH should be written to disk and
+	// loaded in future SGM versions rather than being re-computed on each load
+
 	wr.Int32(m_numEdges);
 	for (Sint32 iAabb = 0; iAabb < m_numEdges; ++iAabb) {
-		wr << m_aabbs[iAabb];
+		AABBd &aabb = m_edgeAABBs.get()[iAabb];
+		// Write back an old-style min-max-radius Aabb for compatibility with old SGM versions
+		wr << aabb.min << aabb.max << double(0.0);
 	}
 
 	for (Sint32 iEdge = 0; iEdge < m_numEdges; ++iEdge) {

@@ -8,59 +8,6 @@
 #include "../vector3.h"
 #include <vector>
 
-struct BVHNode {
-	Aabb aabb;
-
-	/* if triIndicesStart == 0 then not leaf,
-	 * kids[] valid */
-	int numTris;
-	int *triIndicesStart;
-
-	BVHNode *kids[2];
-
-	BVHNode() :
-		numTris(0),
-		triIndicesStart(nullptr)
-	{
-		kids[0] = nullptr;
-		kids[1] = nullptr;
-	}
-	bool IsLeaf() const
-	{
-		return triIndicesStart != nullptr;
-	}
-};
-
-class BVHTree {
-public:
-	typedef int objPtr_t;
-	BVHTree(const int numObjs, const objPtr_t *objPtrs, const Aabb *objAabbs);
-	~BVHTree()
-	{
-		delete[] m_objPtrAlloc;
-		delete[] m_bvhNodes;
-	}
-	BVHNode *GetRoot() { return m_root; }
-	size_t GetNumNodes() const { return m_nodeAllocPos; }
-	double CalculateSAH() const;
-
-private:
-	void BuildNode(BVHNode *node,
-		const objPtr_t *objPtrs,
-		const Aabb *objAabbs,
-		std::vector<objPtr_t> &activeObjIdxs);
-	void MakeLeaf(BVHNode *node, const objPtr_t *objPtrs, std::vector<objPtr_t> &objs);
-	BVHNode *AllocNode();
-	BVHNode *m_root;
-	objPtr_t *m_objPtrAlloc;
-	size_t m_objPtrAllocPos;
-	size_t m_objPtrAllocMax;
-
-	BVHNode *m_bvhNodes;
-	size_t m_nodeAllocPos;
-	size_t m_nodeAllocMax;
-};
-
 /*
  * Base class for BVH trees with a single leaf per node.
  */
