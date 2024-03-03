@@ -24,6 +24,7 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 	m_triFlags(triFlags)
 {
 	PROFILE_SCOPED()
+
 	assert(static_cast<int>(vertices.size()) == m_numVertices);
 	Profiler::Timer timer;
 	timer.Start();
@@ -142,6 +143,44 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 	delete[] edgeIdxs;
 	//Output("Edge tree of %d edges build in %dms\n", m_numEdges, SDL_GetTicks() - t);
 
+	AABBd bounds = AABBd { m_aabb.min, m_aabb.max};
+
+	{
+		PROFILE_SCOPED_DESC("Create Tri Tree 2");
+
+		m_triAABBs.reset(new AABBd[m_numTris]);
+		for (size_t i = 0; i < m_numTris; i++) {
+			const vector3d v0 = vector3d(m_vertices[m_indices[i * 3 + 0]]);
+			const vector3d v1 = vector3d(m_vertices[m_indices[i * 3 + 1]]);
+			const vector3d v2 = vector3d(m_vertices[m_indices[i * 3 + 2]]);
+
+			AABBd aabb = { v0, v0 };
+			aabb.Update(v1);
+			aabb.Update(v2);
+			m_triAABBs.get()[i] = aabb;
+		}
+
+		m_triTree2.reset(new BinnedAreaBVHTree());
+		m_triTree2->Build(bounds, m_triAABBs.get(), m_numTris);
+	}
+
+	{
+		PROFILE_SCOPED_DESC("Create Edge Tree 2");
+
+		m_edgeAABBs.reset(new AABBd[m_numEdges]);
+		for (size_t i = 0; i < m_numEdges; i++) {
+			const vector3d v0 = vector3d(m_vertices[m_edges[i].v1i]);
+			const vector3d v1 = vector3d(m_vertices[m_edges[i].v2i]);
+
+			AABBd aabb = { v0, v0 };
+			aabb.Update(v1);
+			m_edgeAABBs.get()[i] = aabb;
+		}
+
+		m_edgeTree2.reset(new BinnedAreaBVHTree());
+		m_edgeTree2->Build(bounds, m_edgeAABBs.get(), m_numEdges);
+	}
+
 	timer.Stop();
 	//Output(" - - GeomTree::GeomTree took: %lf milliseconds\n", timer.millicycles());
 }
@@ -189,35 +228,81 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 		m_triFlags[iTri] = rd.Int32();
 	}
 
-	// activeTris = tris we are still trying to put into leaves
-	std::vector<int> activeTris;
-	activeTris.reserve(m_numTris);
-	for (int i = 0; i < m_numTris; i++) {
-		activeTris.push_back(i * 3);
+	{
+		PROFILE_SCOPED_DESC("Create Tri Tree");
+
+		// activeTris = tris we are still trying to put into leaves
+		std::vector<int> activeTris;
+		activeTris.reserve(m_numTris);
+		for (int i = 0; i < m_numTris; i++) {
+			activeTris.push_back(i * 3);
+		}
+
+		// regenerate the aabb data
+		Aabb *aabbs = new Aabb[activeTris.size()];
+		for (Uint32 i = 0; i < activeTris.size(); i++) {
+			const vector3d v1 = vector3d(m_vertices[m_indices[activeTris[i] + 0]]);
+			const vector3d v2 = vector3d(m_vertices[m_indices[activeTris[i] + 1]]);
+			const vector3d v3 = vector3d(m_vertices[m_indices[activeTris[i] + 2]]);
+			aabbs[i].min = aabbs[i].max = v1;
+			aabbs[i].Update(v2);
+			aabbs[i].Update(v3);
+		}
+		m_triTree.reset(new BVHTree(activeTris.size(), &activeTris[0], aabbs));
+		delete[] aabbs;
 	}
 
-	// regenerate the aabb data
-	Aabb *aabbs = new Aabb[activeTris.size()];
-	for (Uint32 i = 0; i < activeTris.size(); i++) {
-		const vector3d v1 = vector3d(m_vertices[m_indices[activeTris[i] + 0]]);
-		const vector3d v2 = vector3d(m_vertices[m_indices[activeTris[i] + 1]]);
-		const vector3d v3 = vector3d(m_vertices[m_indices[activeTris[i] + 2]]);
-		aabbs[i].min = aabbs[i].max = v1;
-		aabbs[i].Update(v2);
-		aabbs[i].Update(v3);
-	}
-	m_triTree.reset(new BVHTree(activeTris.size(), &activeTris[0], aabbs));
-	delete[] aabbs;
+	{
+		PROFILE_SCOPED_DESC("Create Edge Tree");
 
-	//
-	int *edgeIdxs = new int[m_numEdges];
-	memset(edgeIdxs, 0, sizeof(int) * m_numEdges);
-	for (int i = 0; i < m_numEdges; i++) {
-		edgeIdxs[i] = i;
+		//
+		int *edgeIdxs = new int[m_numEdges];
+		memset(edgeIdxs, 0, sizeof(int) * m_numEdges);
+		for (int i = 0; i < m_numEdges; i++) {
+			edgeIdxs[i] = i;
+		}
+
+		m_edgeTree.reset(new BVHTree(m_numEdges, edgeIdxs, &m_aabbs[0]));
+		delete[] edgeIdxs;
 	}
 
-	m_edgeTree.reset(new BVHTree(m_numEdges, edgeIdxs, &m_aabbs[0]));
-	delete[] edgeIdxs;
+	AABBd bounds = AABBd { m_aabb.min, m_aabb.max};
+
+	{
+		PROFILE_SCOPED_DESC("Create Tri Tree 2");
+
+		m_triAABBs.reset(new AABBd[m_numTris]);
+		for (size_t i = 0; i < m_numTris; i++) {
+			const vector3d v0 = vector3d(m_vertices[m_indices[i * 3 + 0]]);
+			const vector3d v1 = vector3d(m_vertices[m_indices[i * 3 + 1]]);
+			const vector3d v2 = vector3d(m_vertices[m_indices[i * 3 + 2]]);
+
+			AABBd aabb = { v0, v0 };
+			aabb.Update(v1);
+			aabb.Update(v2);
+			m_triAABBs.get()[i] = aabb;
+		}
+
+		m_triTree2.reset(new BinnedAreaBVHTree());
+		m_triTree2->Build(bounds, m_triAABBs.get(), m_numTris);
+	}
+
+	{
+		PROFILE_SCOPED_DESC("Create Edge Tree 2");
+
+		m_edgeAABBs.reset(new AABBd[m_numEdges]);
+		for (size_t i = 0; i < m_numEdges; i++) {
+			const vector3d v0 = vector3d(m_vertices[m_edges[i].v1i]);
+			const vector3d v1 = vector3d(m_vertices[m_edges[i].v2i]);
+
+			AABBd aabb = { v0, v0 };
+			aabb.Update(v1);
+			m_edgeAABBs.get()[i] = aabb;
+		}
+
+		m_edgeTree2.reset(new BinnedAreaBVHTree());
+		m_edgeTree2->Build(bounds, m_edgeAABBs.get(), m_numEdges);
+	}
 }
 
 static bool SlabsRayAabbTest(const BVHNode *n, const vector3f &start, const vector3f &invDir, isect_t *isect)

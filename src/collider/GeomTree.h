@@ -20,6 +20,8 @@ struct isect_t {
 	float dist;
 };
 
+class SingleBVHTreeBase;
+
 class BVHTree;
 struct BVHNode;
 
@@ -61,14 +63,17 @@ public:
 	BVHTree *GetTriTree() const { return m_triTree.get(); }
 	BVHTree *GetEdgeTree() const { return m_edgeTree.get(); }
 
+	SingleBVHTreeBase *GetTriTree2() const { return m_triTree2.get(); }
+	SingleBVHTreeBase *GetEdgeTree2() const { return m_edgeTree2.get(); }
+
 	const std::vector<vector3f> &GetVertices() const { return m_vertices; }
 	const Uint32 *GetIndices() const { return &m_indices[0]; }
 	const Uint32 *GetTriFlags() const { return &m_triFlags[0]; }
 	int GetNumVertices() const { return m_numVertices; }
 	int GetNumTris() const { return m_numTris; }
 
-private:
 	void RayTriIntersect(int numRays, const vector3f &origin, const vector3f *dirs, int triIdx, isect_t *isects) const;
+private:
 
 	int m_numVertices;
 	int m_numEdges;
@@ -76,10 +81,17 @@ private:
 
 	double m_radius;
 	Aabb m_aabb;
+
+	// Edge AABBs
 	std::vector<Aabb> m_aabbs;
 
 	std::unique_ptr<BVHTree> m_triTree;
 	std::unique_ptr<BVHTree> m_edgeTree;
+
+	std::unique_ptr<SingleBVHTreeBase> m_triTree2;
+	std::unique_ptr<SingleBVHTreeBase> m_edgeTree2;
+	std::unique_ptr<AABBd[]> m_triAABBs;
+	std::unique_ptr<AABBd[]> m_edgeAABBs;
 
 	std::vector<Edge> m_edges;
 
