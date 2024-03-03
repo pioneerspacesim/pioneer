@@ -820,7 +820,7 @@ namespace Graphics {
 		// If we don't have one, make one
 		if (iter == s_DynamicDrawBufferMap.end()) {
 			auto desc = VertexBufferDesc::FromAttribSet(v->GetAttributeSet());
-			desc.numVertices = DYNAMIC_DRAW_BUFFER_SIZE / desc.stride;
+			desc.numVertices = std::max(v->GetNumVerts(), DYNAMIC_DRAW_BUFFER_SIZE / desc.stride);
 			desc.usage = BUFFER_USAGE_DYNAMIC;
 
 			size_t stateHash = m_renderStateCache->CacheVertexDesc(desc);
