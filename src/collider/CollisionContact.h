@@ -14,9 +14,9 @@ struct CollisionContact {
 	double distance; // distance travelled to hit point
 	double timestep;
 	int triIdx;
-	void *userData1, *userData2;
 	int geomFlag;
-	
+	void *userData1, *userData2;
+
 	// default ctor
 	CollisionContact() :
 		depth(0),
