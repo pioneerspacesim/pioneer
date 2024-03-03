@@ -557,7 +557,7 @@ static Color get_color(int colorBase)
 void ModelViewer::BuildGeomTreeVisualizer(Graphics::VertexArray &va, SingleBVHTreeBase *bvh, int colIndexBase)
 {
 	uint32_t stackLevel = 0;
-	uint32_t stack[bvh->GetHeight() + 1];
+	uint32_t *stack = stackalloc(uint32_t, bvh->GetHeight() + 1);
 	// Push the root node
 	stack[stackLevel++] = 0;
 
