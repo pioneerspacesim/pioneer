@@ -189,7 +189,7 @@ namespace InputBindings {
 		// NOTE: sigc::signals cannot be copied, this function is for convenience to copy bindings only
 		Axis &operator=(const Axis &rhs);
 
-		bool IsActive() { return m_value != 0.0 || positive.IsActive() || negative.IsActive(); }
+		bool IsActive() { return m_value != 0.0; }
 		float GetValue() { return m_value; }
 		// if we want to set the value of the axis, for example from the UI slider
 		// must be remembered separately, because m_value is overwritten by data from the joystick
