@@ -138,7 +138,6 @@ CSB_FIELD_SETTER_FIXED(mass, bodyData.m_mass)
 CSB_FIELD_SETTER_INT(temp, bodyData.m_averageTemp)
 CSB_FIELD_SETTER_FIXED(semi_major_axis, bodyData.m_semiMajorAxis)
 CSB_FIELD_SETTER_FIXED(eccentricity, bodyData.m_eccentricity)
-CSB_FIELD_SETTER_FIXED(inclination, bodyData.m_inclination)
 CSB_FIELD_SETTER_FIXED(rotation_period, bodyData.m_rotationPeriod)
 CSB_FIELD_SETTER_FIXED(axial_tilt, bodyData.m_axialTilt)
 CSB_FIELD_SETTER_FIXED(metallicity, bodyData.m_metallicity)
@@ -181,6 +180,17 @@ static int l_csb_orbital_offset(lua_State *L)
 		return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2));
 	csb->bodyData.m_orbitalOffset = fixed::FromDouble(*value);
 	csb->want_rand_offset = false;
+	lua_settop(L, 1);
+	return 1;
+}
+
+static int l_csb_inclination(lua_State *L)
+{
+	CustomSystemBody *csb = l_csb_check(L, 1);
+	double *value = getDoubleOrFixed(L, 2);
+	if (value == nullptr)
+		return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2));
+	csb->bodyData.m_inclination = fixed::FromDouble(*value);
 	lua_settop(L, 1);
 	return 1;
 }
