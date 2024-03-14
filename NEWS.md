@@ -2,6 +2,65 @@ These release announcement notes includes notable changes relevant to the end pl
 
 
 
+# Pioneer 2023-03-14
+
+This is a bug fix release to compliment the February release. Most noticeable bug, now fixed, was that weapons firing were out of sync making combat exceedingly difficult.
+
+
+### System editor launching
+The February release also included a system editor, but many did not realize it had to be launched [from the command line](https://wiki.pioneerspacesim.net/wiki/Custom_Systems) with proper arguments to specify if you want the model editor or the system editor. There is now a graphical option to select which. The editor window is now resizable as well.
+
+
+### Gas giant atmosphere / scooping
+Some bugs are like roaches - and refuse to go away. We thought the missing atmospheres were fixed but turns out the February release only fixed the procedurally generated planets, not the scripted ones (i.e. the 20 core systems), causing fuel scooping on gas giants in these systems (like Jupiter and Saturn) to not work.
+
+
+### Zombie traders
+If you stayed in a system for a long time you might have noticed performance issues. This was due to several issues with trade ships causing them to accumulate, which have now been fixed.
+
+
+## Major changes and new features
+* Editor Welcome Screen: don't require command line argument (#5772)
+* Resizable Editor Window (#5779)
+
+## Bugfixes / Tweaks
+* Fix projectile and beam weapons not able to hit, frame sync (#5767)
+* Fix the accumulation of zombie traders and some other unnecessary things (#5783)
+* Local missions should list distances in AU rather than Ly (#5756)
+* System Editor Fixes (#5787)
+* Generate atmospheres for gas giants also in legacy custom systems (#5766)
+* Minor model fixes (Lodos, Coronatrix) (#5782)
+* Adding landing spike to Mola Ramsayi collision mesh (#5785)
+* Fix star background generation (#5758)
+* Fix path of pioneer executable (#5743)
+* Fix 'nil' in hyperdrive Maintenance BBS advert (#5754)
+* Fix "bad argument" error in SearchRescue.lua in custom systems (#5769)
+* Fix crash when deleting a flightlog entry (#5768)
+* Don't crash when there are few background stars (#5778)
+* Fix spelling / grammar in English language files (#5780)
+* Fix that sometimes ships get stuck the moment they start to dock (#5127)
+* Consider InputBindings::Axis active only if it's value is non-zero (#5795)
+* Fix incorrect position of starports (#5793)
+* Fix system editor loading body parameter wrongly from .json file (#5792)
+* Fix incorrect city locations (#5744)
+* Fix hyperjump streaks falling down (#5770, #5794)
+* Fix invalid binary orbits (#5764, #5794)
+* Fix negative commodity demand (#5784, #5794)
+* Improve collision mesh to Natrix (#5796)
+
+## Internal Changes
+* Add documentation to make life for package maintainers easier (#5749)
+* Adding editor.txt, removing ModelViewer.txt to document new editor (#5737)
+* Fix MSVC CI build on non-PR refs (#5733)
+* Update libfmt, fix compilation warnings and invalid JSON CustomSystem position (#5759)
+* Fixed broken screenshots links (#5761)
+* Misc cleanup, fixes, and Lua function library improvements (#5773)
+* Update Github Upload-Artifact action for Windows CI (#5781)
+* Add a recovery reader for the v90 flight log (#5763)
+* Add Lua "Persistent Object" Serialization (#5774)
+
+
+
 # Pioneer 2024-02-03
 
 https://github.com/pioneerspacesim/pioneer/assets/4182678/25acaa21-61d7-4032-8a2d-023096ea3af1

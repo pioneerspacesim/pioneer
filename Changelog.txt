@@ -1,4 +1,4 @@
-March 2024
+Pioneer 2024-03-14 Release
   * Internal Changes
     * Add Lua "Persistent Object" Serialization (#5774)
 
@@ -6,6 +6,14 @@ March 2024
     * Minor model fixes (Lodos, Coronatrix) (#5782)
     * Fix the accumulation of zombie traders and some other unnecessary things (#5783)
     * System Editor Fixes (#5787)
+    * Consider InputBindings::Axis active only if it's value is non-zero (#5795)
+    * Fix incorrect position of starports (#5793)
+    * Fix system editor loading body parameter wrongly from .json file (#5792)
+    * Fix incorrect city locations (#5744)
+    * Fix hyperjump streaks falling down (#5770, #5794)
+    * Fix invalid binary orbits (#5764, #5794)
+    * Fix negative commodity demand (#5784, #5794)
+    * Improve collision mesh to Natrix (#5796)
 
 February 2024 (dev)
   * New Features
