@@ -560,13 +560,13 @@ void from_json(const Json &obj, fixed &f)
 			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
 
 		char *next_str = const_cast<char *>(str.c_str()) + 1;
-		int64_t integer = std::strtol(next_str, &next_str, 10);
+		int64_t integer = std::strtoll(next_str, &next_str, 10);
 
 		// handle cases: f/34, f1356, f14+4
 		if (next_str == nullptr || size_t(next_str - str.c_str()) >= str.size() || *next_str++ != '/')
 			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
 
-		int64_t fractional = std::strtol(next_str, &next_str, 10);
+		int64_t fractional = std::strtoll(next_str, &next_str, 10);
 		// handle cases f1345/7684gfrty; fixed numbers should not have any garbage data involved
 		if (next_str != str.c_str() + str.size())
 			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
