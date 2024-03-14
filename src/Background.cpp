@@ -618,7 +618,9 @@ namespace Background {
 
 			const Sint32 numStars = buffer->GetDesc().numVertices / 2;
 
-			const vector3d pz = Pi::player->GetOrient().VectorZ(); //back vector
+			const vector3d oz = Pi::player->GetOrient().VectorZ(); //back vector in Y-up space
+			const vector3d pz = vector3d(oz.z, oz.x, oz.y); // back vector rotated into Z-up space
+
 			for (int i = 0; i < numStars; i++) {
 				vector3f v = m_hyperVtx[numStars * 2 + i] + vector3f(pz * hyperspaceProgress * mult);
 				const Color &c = m_hyperCol[numStars * 2 + i];

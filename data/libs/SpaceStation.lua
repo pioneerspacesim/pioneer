@@ -418,9 +418,11 @@ function SpaceStation:AddCommodityStock(itemType, amount)
 	local market = self:GetCommodityMarket(itemType)
 
 	if amount < 0 then
-		market[1] = market[1] + amount
+		-- Buying from market - reduce commodity stock
+		market[1] = math.max(market[1] + amount, 0)
 	else
-		market[2] = market[2] - amount
+		-- Selling to market - reduce commodity demand
+		market[2] = math.max(market[2] - amount, 0)
 	end
 
 	Economy.UpdateCommodityPriceMod(assert(self:GetSystemBody()), itemType.name, market)

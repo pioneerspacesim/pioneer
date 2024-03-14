@@ -391,8 +391,17 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 	PROFILE_SCOPED()
 
 	// gravpoints have no mass, but we sum the masses of its children instead
-	if (parent->GetType() == SystemBody::TYPE_GRAVPOINT)
+	if (parent->GetType() == SystemBody::TYPE_GRAVPOINT) {
 		parent->m_mass = fixed(0);
+
+		// parent gravpoint mass = sum of masses of its children
+		for (const auto *child : children) {
+			if (child->bodyData.m_type > SystemBody::TYPE_GRAVPOINT && child->bodyData.m_type <= SystemBody::TYPE_STAR_MAX)
+				parent->m_mass += child->bodyData.m_mass;
+			else
+				parent->m_mass += child->bodyData.m_mass / SUN_MASS_TO_EARTH_MASS;
+		}
+	}
 
 	for (std::vector<CustomSystemBody *>::const_iterator i = children.begin(); i != children.end(); ++i) {
 		const CustomSystemBody *csbody = *i;
@@ -401,15 +410,8 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		kid->m_parent = parent;
 		kid->m_isCustomBody = true;
 
+		// Copy all system body parameters from the custom system body
 		*kid = csbody->bodyData;
-
-		// parent gravpoint mass = sum of masses of its children
-		if (parent->GetType() == SystemBody::TYPE_GRAVPOINT) {
-			if (kid->GetSuperType() == SystemBody::SUPERTYPE_STAR)
-				parent->m_mass += kid->m_mass;
-			else
-				parent->m_mass += kid->m_mass / SUN_MASS_TO_EARTH_MASS;
-		}
 
 		kid->SetOrbitFromParameters();
 		kid->SetAtmFromParameters();
