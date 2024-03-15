@@ -413,6 +413,10 @@ void LuaSerializer::LoadPersistent(const Json &json)
 	lua_State *l = Lua::manager->GetLuaState();
 	LUA_DEBUG_START(l);
 
+	// Old savefile with no persistent table.
+	if (!json.count("lua_persistent_json"))
+		return;
+
 	const Json &persist = json["lua_persistent_json"];
 
 	luaL_getsubtable(l, LUA_REGISTRYINDEX, NS_REFTABLE);
