@@ -218,20 +218,25 @@ local speed_limiter = (function()
 			end
 
 			-- aux buttons
-			ui.sameLine()
 			local buttonSize = smallButtonSize + Vector2(mainButtonFramePadding * 2, mainButtonFramePadding * 2)
-			ui.addCursorPos(-Vector2(buttonSize.x * 3, buttonSize.y + txt_shift))
-			if ui.mainMenuButton(icons.frame_away, lui.SET_TO_ZERO .. "##speed_limiter_set_zero", semi_transp, smallButtonSize) then
-				player:SetSpeedLimit(0)
-			end
-			ui.sameLine(0,0)
-			if ui.mainMenuButton(icons.manual_flight, lui.SET_TO_CURRENT_VELOCITY .. "##speed_limiter_set_current", semi_transp, smallButtonSize) then
-				player:SetSpeedLimit(player:GetVelocity():length())
-			end
-			ui.sameLine(0,0)
-			if ui.mainMenuButton(icons.deltav, lui.SET_TO_45PERCENT_OF_DELTAV .. "##speed_limiter_set_45dv", semi_transp, smallButtonSize) then
-				player:SetSpeedLimit(player:GetMaxDeltaV() * 0.45)
-			end
+			local buttonVOffset = ui.getCursorPos().y - full_height - buttonSize.y - txt_shift
+			ui.setCursorPos(Vector2(ui.getContentRegion().x - buttonSize.x * 3, buttonVOffset))
+
+			ui.group(function()
+				if ui.mainMenuButton(icons.frame_away, lui.SET_TO_ZERO .. "##speed_limiter_set_zero", semi_transp, smallButtonSize) then
+					player:SetSpeedLimit(0)
+				end
+				ui.sameLine(0, 0)
+				if ui.mainMenuButton(icons.manual_flight, lui.SET_TO_CURRENT_VELOCITY .. "##speed_limiter_set_current", semi_transp, smallButtonSize) then
+					player:SetSpeedLimit(player:GetVelocity():length())
+				end
+				ui.sameLine(0, 0)
+				if ui.mainMenuButton(icons.deltav, lui.SET_TO_45PERCENT_OF_DELTAV .. "##speed_limiter_set_45dv", semi_transp, smallButtonSize) then
+					player:SetSpeedLimit(player:GetMaxDeltaV() * 0.45)
+				end
+
+			end)
+
 		end
 	end
 	reset() -- reset vars on creation
@@ -258,7 +263,7 @@ local function displayAutoPilotWindow()
 		end)
 end
 
-ui.registerModule("game", { id = "autopilot-window", draw = displayAutoPilotWindow })
+ui.registerModule("game", { id = "autopilot-window", draw = displayAutoPilotWindow, debugReload = function() package.reimport() end })
 Event.Register("onGameStart", speed_limiter.reset)
 
 return {}
