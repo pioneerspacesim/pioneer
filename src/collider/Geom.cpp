@@ -71,7 +71,7 @@ void Geom::CollideSphere(Sphere &sphere, void (*callback)(CollisionContact *)) c
 std::vector<CollisionContact> Geom::Collide(Geom *b) const
 {
 	PROFILE_SCOPED()
-	int max_contacts = MAX_CONTACTS;
+	size_t max_contacts = MAX_CONTACTS;
 	matrix4x4d transTo;
 
 	std::vector<CollisionContact> contacts;
@@ -108,7 +108,7 @@ static AABBd rotateAaabb(const AABBd &a, const matrix4x4d transA)
  * Intersect this Geom's edge BVH tree with geom b's triangle BVH tree.
  * Generate collision contacts.
  */
-void Geom::CollideEdgesWithTrisOf(std::vector<CollisionContact> &contacts, int maxContacts, const Geom *b, const matrix4x4d &transTo) const
+void Geom::CollideEdgesWithTrisOf(std::vector<CollisionContact> &contacts, size_t maxContacts, const Geom *b, const matrix4x4d &transTo) const
 {
 	PROFILE_SCOPED()
 	struct stackobj {
@@ -197,6 +197,8 @@ void Geom::CollideEdgeTris(std::vector<CollisionContact> &contacts, const matrix
 	isect.triIdx = -1;
 
 	isect_buf.clear();
+	// Taking the reciprocal of the direction computes the inverse of the vector.
+	// Division by zero is intended and correct in this situation.
 	b->GetGeomTree()->GetTriTree()->TraceRay(v1, 1.0 / dir, edge.len, isect_buf, triNode);
 
 	// TODO
@@ -211,7 +213,7 @@ void Geom::CollideEdgeTris(std::vector<CollisionContact> &contacts, const matrix
 		return;
 
 	// in world coords
-	CollisionContact contact;
+	CollisionContact contact = {};
 	contact.pos = b->GetTransform() * (v1 + dir * double(isect.dist));
 	contact.normal = vector3d(b->m_geomtree->GetTriNormal(isect.triIdx));
 	contact.normal = b->GetTransform().ApplyRotationOnly(contact.normal);

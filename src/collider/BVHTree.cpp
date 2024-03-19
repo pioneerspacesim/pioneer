@@ -44,7 +44,7 @@ void SingleBVHTreeBase::Build(const AABBd &bounds, AABBd *objAabbs, uint32_t num
 	m_nodes.reserve(2 * numObjs + 1);
 
 	// compute a remapping term to express object positions with highest precision using single floating point
-	// use the average of the bounding volue to remap into [-1 .. 1] space
+	// use the average of the bounding volume to remap into [-1 .. 1] space
 	m_boundsCenter = (bounds.max + bounds.min) * 0.5;
 	vector3d inv_scale = 1.0 / (bounds.max - m_boundsCenter);
 	m_inv_scale_factor = (inv_scale.x + inv_scale.y + inv_scale.z) / 3.0;
@@ -324,7 +324,7 @@ float BinnedAreaBVHTree::FindPivot(SortKey *keys, uint32_t numKeys, const AABBd 
 		bins[bin_idx].bounds.Update(objAabbs[keys[i].index]);
 	}
 
-	constexpr size_t NUM_PLANES = NUM_BINS - 1;
+	constexpr int NUM_PLANES = NUM_BINS - 1;
 
 	float planeCost[NUM_PLANES];
 	float bestCost = FLT_MAX;

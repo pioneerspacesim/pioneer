@@ -227,7 +227,8 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 void GeomTree::TraceRay(const vector3f &start, const vector3f &dir, isect_t *isect) const
 {
 	std::vector<uint32_t> tri_isect;
-	m_triTree->TraceRay(vector3d(start), vector3d(1.f / dir), FLT_MAX, tri_isect);
+	// Division by zero is intended and produces correct results in this case
+	m_triTree->TraceRay(vector3d(start), 1.0 / vector3d(dir), FLT_MAX, tri_isect);
 
 	for (uint32_t triIdx : tri_isect) {
 		RayTriIntersect(1, start, &dir, triIdx * 3, isect);
