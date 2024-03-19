@@ -124,7 +124,7 @@ struct AABB {
 	auto SurfaceArea() const
 	{
 		Vec3 size = max - min;
-		return Number(2.0) * size.x * size.y * size.z;
+		return Number(2.0) * (size.x * size.y + size.x * size.z + size.y * size.z);
 	}
 };
 

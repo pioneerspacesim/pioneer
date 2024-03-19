@@ -131,8 +131,7 @@ double SingleBVHTreeBase::CalculateSAH() const
 		outSAH += (node->kids[0] ? 1.2 : 1.0) * node->aabb.SurfaceArea();
 	}
 
-	vector3d rootSize = rootNode->aabb.max - rootNode->aabb.min;
-	double rootArea = 2.0 * rootSize.x * rootSize.y * rootSize.z;
+	double rootArea = rootNode->aabb.SurfaceArea();
 
 	// Perform 1 / Aroot * ( SAH sums )
 	outSAH /= rootArea;
@@ -325,9 +324,9 @@ float BinnedAreaBVHTree::FindPivot(SortKey *keys, uint32_t numKeys, const AABBd 
 		bins[bin_idx].bounds.Update(objAabbs[keys[i].index]);
 	}
 
-	constexpr size_t MAX_BIN = NUM_BINS - 1;
+	constexpr size_t NUM_PLANES = NUM_BINS - 1;
 
-	float planeCost[MAX_BIN];
+	float planeCost[NUM_PLANES];
 	float bestCost = FLT_MAX;
 	float pivot = 0.0;
 
@@ -337,16 +336,16 @@ float BinnedAreaBVHTree::FindPivot(SortKey *keys, uint32_t numKeys, const AABBd 
 	uint32_t rightSum = 0;
 
 	// Calculate the left-side SAH cost of each splitting plane
-	for (int i = 0; i < MAX_BIN; i++) {
+	for (int i = 0; i < NUM_PLANES; i++) {
 		leftSum += bins[i].objCount;
 		leftBox.Update(bins[i].bounds);
 		planeCost[i] = leftSum * leftBox.SurfaceArea();
 	}
 
 	// Calculate the right-side SAH cost of each splitting plane
-	for (int i = MAX_BIN - 1; i >= 0; i--) {
-		rightSum += bins[i].objCount;
-		rightBox.Update(bins[i].bounds);
+	for (int i = NUM_PLANES - 1; i >= 0; i--) {
+		rightSum += bins[i + 1].objCount;
+		rightBox.Update(bins[i + 1].bounds);
 		planeCost[i] += rightSum * rightBox.SurfaceArea();
 
 		if (planeCost[i] < bestCost) {
