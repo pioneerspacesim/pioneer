@@ -23,9 +23,9 @@ struct CollisionContact {
 		distance(0),
 		timestep(0),
 		triIdx(-1),
+		geomFlag(0),
 		userData1(nullptr),
-		userData2(nullptr),
-		geomFlag(0)
+		userData2(nullptr)
 	{}
 
 	// ctor for collision with terrain

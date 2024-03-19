@@ -37,7 +37,7 @@ public:
 
 private:
 	// Note: these functions could easily be made static and extracted into a separate collision system
-	void CollideEdgesWithTrisOf(std::vector<CollisionContact> &contacts, int maxContacts, const Geom *b, const matrix4x4d &transTo) const;
+	void CollideEdgesWithTrisOf(std::vector<CollisionContact> &contacts, size_t maxContacts, const Geom *b, const matrix4x4d &transTo) const;
 	void CollideEdgeTris(std::vector<CollisionContact> &contacts, const matrix4x4d &transToB, const Geom *b, uint32_t edgeIdx, uint32_t triIdx, std::vector<uint32_t> &isect_buf) const;
 
 	// double-buffer position so we can keep previous position
