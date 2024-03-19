@@ -131,8 +131,7 @@ double SingleBVHTreeBase::CalculateSAH() const
 		outSAH += (node->kids[0] ? 1.2 : 1.0) * node->aabb.SurfaceArea();
 	}
 
-	vector3d rootSize = rootNode->aabb.max - rootNode->aabb.min;
-	double rootArea = 2.0 * rootSize.x * rootSize.y * rootSize.z;
+	double rootArea = rootNode->aabb.SurfaceArea();
 
 	// Perform 1 / Aroot * ( SAH sums )
 	outSAH /= rootArea;
