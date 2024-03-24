@@ -1005,11 +1005,11 @@
   },
   "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
     "description": "Tooltip: Distance to the surface of the frame of reference.",
-    "message": "Distance du cadre de référence par rapport à la surface"
+    "message": "Distance jusqu'à la surface du cadre de référence"
   },
   "HUD_DISTANCE_TO_SURFACE_OF_TARGET": {
     "description": "Tooltip: Distance to the surface of the target.",
-    "message": "Distance de la cible par rapport à la surface"
+    "message": "Distance jusqu'à la surface de la cible"
   },
   "HUD_DURATION_OF_MANEUVER_BURN": {
     "description": "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
