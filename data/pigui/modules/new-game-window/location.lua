@@ -316,6 +316,26 @@ local function getSystemBodyIndexForFrameID(id, frame)
 	end
 end
 
+-- traverse the system bodies tree depth-first, as happens when assigning
+-- indexes during serialization
+local function enumerateSystemBodies(starSystem)
+
+	local rootBody = starSystem.rootSystemBody
+	local result = {}
+	local stack = { rootBody }
+
+	repeat
+		local sbody = table.remove(stack)
+		table.insert(result, sbody)
+		local children = sbody.children
+		for i = #children, 1, -1 do
+			table.insert(stack, children[i])
+		end
+	until #stack == 0
+
+	return result
+end
+
 Location.reader = Helpers.versioned {{
 	version = 89,
 	fnc = function(saveGame)
@@ -329,30 +349,25 @@ Location.reader = Helpers.versioned {{
 			return nil, "Bad system index"
 		end
 
-		-- the indices of the bodies and the corresponding system bodies
-		-- (Space::m_bodyIndex and Space::m_sbodyIndex) turn out to be the same
-		local dockedTo
-		dockedTo, errorString = Helpers.getPlayerShipParameter(saveGame, "ship/index_for_body_docked_with")
+		local starSystem = Location:getGalaxy():GetStarSystem(path)
+		local systemBodies = enumerateSystemBodies(starSystem)
+
+		local dockedToBody
+		dockedToBody, errorString = Helpers.getPlayerShipParameter(saveGame, "ship/index_for_body_docked_with")
 		if errorString then return nil, errorString end
 
-		if dockedTo ~= 0 then
-			-- All we have in the save doc is the index of the physical body
-			-- with which the player was docked when saving. This index is
-			-- created when space is serialized. In order to get a system path
-			-- from this, it would be necessary to initialize the space,
-			-- establishing connections between physical and system bodies.
-			-- Fortunately, in this version, indexing during serialization
-			-- occurs in such a way that physical body index is 1 greater than
-			-- the index of the body in the corresponding system path
-			dockedTo = dockedTo - 1
-			local starSystem = Location:getGalaxy():GetStarSystem(path)
-			if dockedTo >= starSystem.numberOfBodies then
+		if dockedToBody ~= 0 then
+
+			local dockedToSystemBody
+			dockedToSystemBody, errorString = Helpers.getByPath(saveGame, "space/bodies/#" .. tostring(dockedToBody) .. "/space_station/index_for_system_body")
+			if errorString then return nil, errorString end
+
+			if dockedToSystemBody > #systemBodies then
 				return nil, lui.SYSTEM_BODY_INDEX_IS_OUT_OF_RANGE
 			end
-			local bodyPath = SystemPath.New(path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, dockedTo)
-			local systemBody = starSystem:GetBodyByPath(bodyPath)
-			if systemBody.isStation then
-				return { path = bodyPath, state = State.DOCKED }
+			local spaceStation = systemBodies[dockedToSystemBody]
+			if spaceStation.isStation then
+				return { path = spaceStation.path, state = State.DOCKED }
 			else
 				return nil, lui.DOCKED_TO_A_BODY_THAT_IS_NOT_A_STATION
 			end
@@ -367,9 +382,11 @@ Location.reader = Helpers.versioned {{
 		if not systemBodyIndex then
 			return nil, lui.COULD_NOT_FIND_SYSTEM_BODY_FOR_FRAME
 		end
+		if systemBodyIndex > #systemBodies then
+			return nil, lui.SYSTEM_BODY_INDEX_IS_OUT_OF_RANGE
+		end
 
-		local bodyPath = SystemPath.New(path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, systemBodyIndex - 1)
-		return { path = bodyPath, state = State.ORBIT }
+		return { path = systemBodies[systemBodyIndex].path, state = State.ORBIT }
 	end
 }}
 
