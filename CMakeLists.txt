@@ -258,6 +258,8 @@ find_package(Threads REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED)
 
+set(FMT_INSTALL OFF CACHE BOOL "Enable install of libfmt" FORCE)
+
 add_subdirectory(contrib/lz4)
 add_subdirectory(contrib/fmt)
 
