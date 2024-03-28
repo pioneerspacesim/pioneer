@@ -45,7 +45,7 @@
   },
   "BIND_CONTROL_LANDING_GEAR": {
     "description": "Axis description",
-    "message": "Raise / Lower Landing Gear"
+    "message": "升起/降低起落架"
   },
   "BIND_CYCLE_CAMERA_MODE": {
     "description": "Descriptive name for the CycleCameraMode action.",
@@ -117,7 +117,7 @@
   },
   "BIND_MAP_VIEW_ZOOM": {
     "description": "Axis binding",
-    "message": "Map Zoom"
+    "message": "地图缩放"
   },
   "BIND_MAP_WARP_TO_CURRENT_SYSTEM": {
     "description": "Descriptive name for the MapWarpToCurrentSystem action.",
@@ -181,7 +181,7 @@
   },
   "BIND_TOGGLE_LANDING_GEAR": {
     "description": "Action description",
-    "message": "Toggle Landing Gear"
+    "message": "切换起落架"
   },
   "BIND_TOGGLE_LUA_CONSOLE": {
     "description": "Descriptive name for the ToggleLuaConsole action.",
@@ -213,15 +213,15 @@
   },
   "CURRENT_VALUE": {
     "description": "",
-    "message": "Current value:"
+    "message": "当前值："
   },
   "CURVE": {
     "description": "",
-    "message": "Curve"
+    "message": "曲线"
   },
   "DEADZONE": {
     "description": "",
-    "message": "Deadzone"
+    "message": "死区"
   },
   "DIRECTION": {
     "description": "Direction",
@@ -233,7 +233,7 @@
   },
   "GROUP_LANDING_CONTROL": {
     "description": "Group label for landing-related inputs",
-    "message": "Landing Control"
+    "message": "着陆控制"
   },
   "GROUP_MANUAL_CONTROL": {
     "description": "Header for the ManualControl input group.",
@@ -260,7 +260,7 @@
   },
   "HALF_AXIS_MODE": {
     "description": "",
-    "message": "Half-Axis mode"
+    "message": "半轴模式"
   },
   "HAT": {
     "description": "Hat switch: Is the top button on a joystick",
@@ -296,15 +296,15 @@
   },
   "NUM_AXES": {
     "description": "",
-    "message": "Number of axes:"
+    "message": "轴数："
   },
   "NUM_BUTTONS": {
     "description": "",
-    "message": "Number of buttons:"
+    "message": "按钮数："
   },
   "NUM_HATS": {
     "description": "",
-    "message": "Number of hats:"
+    "message": "帽子数："
   },
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",

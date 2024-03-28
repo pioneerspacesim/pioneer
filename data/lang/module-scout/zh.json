@@ -1,259 +1,259 @@
 {
   "ACTIVE_SCAN_TOOLTIP": {
     "description": "",
-    "message": "Data is currently being collected for this scan."
+    "message": "这次扫描正在收集数据。"
   },
   "ADDITIONAL_INFORMATION_ORBITAL": {
     "description": "Note. 'orbital scanner' is the name of an equipment, that should be translated the same as the equipment",
-    "message": "You will need an orbital scanner fitted to your ship. Once you're at the body in question, activate the scanner, and orbit within the maximum altitude until the scan is complete. Then deliver the data to me."
+    "message": "你将需要为你的飞船配备一个轨道扫描仪。一旦你到达了问题的天体，激活扫描仪，并在最大高度内绕行，直到扫描完成。然后把数据交给我。"
   },
   "ADDITIONAL_INFORMATION_SURFACE": {
     "description": "Note. 'surface scanner' is the name of an equipment, that should be translated the same as the equipment",
-    "message": "You will need a surface scanner fitted to your ship. Once you're at the body in question, activate the scanner, and fly at low altitude until the scan is complete. Then deliver the data to me."
+    "message": "你将需要为你的飞船配备一个地表扫描仪。一旦你到达了问题的天体，激活扫描仪，并在低海拔飞行，直到扫描完成。然后把数据交给我。"
   },
   "ADTEXT_1": {
     "description": "The Galactic Geographical Society is comparable to National Geographical society. But in space!",
-    "message": "Mapping of body in the {system} system wanted"
+    "message": "需求{system}内天体的制图"
   },
   "ADTEXT_1_FAILMSG": {
     "description": "",
-    "message": "No payment will be made, since you failed to deliver on time."
+    "message": "由于你未能按时交货，不会有任何报酬。"
   },
   "ADTEXT_1_INTRO": {
     "description": "GGS=Galactic Geographical Society",
-    "message": "Hello! \nMy name is {name}, and I'm with the GGS. We are interested in updating the map for {systembody} in {system}, ({dist}) for which we will pay {cash}."
+    "message": "你好！\n我是{name}，我来自GGS。我们想更新{system}中的{systembody}的地图，（距离{dist}），我们愿意支付{cash}。"
   },
   "ADTEXT_1_SUCCESSMSG": {
     "description": "",
-    "message": "Thanks for the information. Agreed amount was transferred to your account."
+    "message": "感谢你的信息。报酬已转至你的帐户。"
   },
   "ADTEXT_1_WHYSOMUCH": {
     "description": "",
-    "message": "It is our standard reward for these services."
+    "message": "这是我们对这些服务的标准报酬。"
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "Contract for pilot to {system}"
+    "message": "飞行员去{system}的合同"
   },
   "ADTEXT_2_FAILMSG": {
     "description": "",
-    "message": "You did not hold up your end of the contract."
+    "message": "你没有履行你的合同。"
   },
   "ADTEXT_2_INTRO": {
     "description": "",
-    "message": "Hello! \nI'm {name}. I'll pay {cash} for the mapping of {systembody} in {system}, {dist} distant."
+    "message": "你好！\n我是{name}。我愿意支付{cash}来制作{system}中的{systembody}的地图，距离为{dist}。"
   },
   "ADTEXT_2_SUCCESSMSG": {
     "description": "",
-    "message": "I have received the data, and I'm transferring the money now."
+    "message": "我已经收到了数据，现在正在转账。"
   },
   "ADTEXT_2_WHYSOMUCH": {
     "description": "",
-    "message": "High quality maps must be generated from low altitude. Payment is accordingly."
+    "message": "高质量的地图必须在低海拔生成。才有相应的支付。"
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "For {system} system"
+    "message": "来自{system}系统"
   },
   "ADTEXT_3_FAILMSG": {
     "description": "",
-    "message": "Your incompetence will cost you your life some day."
+    "message": "你的无能有一天会要了你的命。"
   },
   "ADTEXT_3_INTRO": {
     "description": "",
-    "message": "Greetings. You may call me {name}. I am willing to pay {cash} for a thorough scan of {systembody} in {system} located some {dist} from here. It is imperative the data must be delivered to a privately-disclosed location."
+    "message": "您好。你可以叫我{name}。我愿意支付{cash}来对{system}中的{systembody}进行彻底的扫描，距离为{dist}。数据必须送到私下透露的地点。"
   },
   "ADTEXT_3_SUCCESSMSG": {
     "description": "",
-    "message": "Map has been received, and is being processed. Your payment has been transferred."
+    "message": "地图已收到，并正在处理。你的报酬已经转账。"
   },
   "ADTEXT_3_WHYSOMUCH": {
     "description": "",
-    "message": "I'm expecting high yield on this investment, if I find what I'm looking for, which is why I need you to fly extra low."
+    "message": "我期待这次投资能带来高回报，我需要你飞得更低些。来找到我要找的东西。"
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "In {system} system needed for the sake of science"
+    "message": "这是为了科学研究而需要在{system}星系中进行的。"
   },
   "ADTEXT_4_FAILMSG": {
     "description": "",
-    "message": "There's no way I'll ever get my PhD now! Thanks a lot for ruining my life!"
+    "message": "现在我肯定拿不到博士学位了! 谢谢你毁了我的生活!"
   },
   "ADTEXT_4_INTRO": {
     "description": "",
-    "message": "Hi! \nMy name is {name}, and I'm doing some research for my PhD on the {system} system, {dist} from here. I need to get some additional data for {systembody} in form of updated maps, or my supervisor will kill me. I will pay {cash} to any pilot that can deliver this information to me in time, preferably yesterday, as I'm stressed out of my mind."
+    "message": "你好！\n我叫{name}，我正在进行关于{system}系统的博士研究，距离我们{dist}。我需要获取{systembody}的一些额外数据，形式是更新的地图，否则我的导师会杀了我。我会支付{cash}给任何能及时为我提供这些信息的飞行员，最好是昨天，因为我已经快被压力压垮了。"
   },
   "ADTEXT_4_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you! This new data will hopefully help my revolutionary research."
+    "message": "谢谢你！这些新数据希望能帮助我的革命性研究。"
   },
   "ADTEXT_4_WHYSOMUCH": {
     "description": "'High impact journals' is a recognized term for journals like Nature and Science, yielding many citations.",
-    "message": "I'm hoping this new data, with pretty pictures and maps, will increase my chances of getting my article published in some high impact journal."
+    "message": "我渴望这些新数据，如果有了美丽的图片和地图，将增加我在一些高影响力期刊上发表文章的机会。"
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "Mapping of planet in {system} system"
+    "message": "需要在{system}系统中绘制行星地图。"
   },
   "ADTEXT_5_FAILMSG": {
     "description": "",
-    "message": "You need to learn that information has an expiration date. I will not pay you one dime."
+    "message": "你需要明白，信息是会过期的。我不会付你一分钱。"
   },
   "ADTEXT_5_INTRO": {
     "description": "",
-    "message": "Hello! \nMy name is {name}. Information is my business and I'll pay {cash} for a mapping of {systembody} in {system} which is {dist} from our present location."
+    "message": "你好！我叫{name}。情报是我的生意，我愿意支付{cash}来绘制{system}系统中距离我们现在位置{dist}的{systembody}的地图。"
   },
   "ADTEXT_5_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you for your effort. Payment has been made in full."
+    "message": "感谢你的努力。报酬已全额支付。"
   },
   "ADTEXT_5_WHYSOMUCH": {
     "description": "",
-    "message": "You can not put a high enough price on information these days"
+    "message": "如今，你无法对情报标价太高。"
   },
   "ADTEXT_6": {
     "description": "",
-    "message": "Our system administration need help to update the maps for {systembody}"
+    "message": "我们的系统管理需要帮助更新{systembody}的地图。"
   },
   "ADTEXT_6_FAILMSG": {
     "description": "",
-    "message": "We will make note of your much too late arrival in our records."
+    "message": "我们会在记录中标注你的到达过于迟了。"
   },
   "ADTEXT_6_INTRO": {
     "description": "",
-    "message": "My name is {name}, I'm with the administration of {system}. We need to update our files and are willing to award you with {cash} for updating our information on {systembody}."
+    "message": "我叫{name}，我在{system}的行政部门。我们需要更新我们的档案，愿意支付{cash}来更新我们关于{systembody}的信息。"
   },
   "ADTEXT_6_SUCCESSMSG": {
     "description": "",
-    "message": "Your payment is being transferred."
+    "message": "你的报酬已经转账。"
   },
   "ADTEXT_6_WHYSOMUCH": {
     "description": "",
-    "message": "Working for the government has its benefits."
+    "message": "为政府工作有其好处。"
   },
   "ADTEXT_7": {
     "description": "",
-    "message": "Urgent data needed for {systembody}"
+    "message": "急需{systembody}的数据。"
   },
   "ADTEXT_7_FAILMSG": {
     "description": "",
-    "message": "You show up first now? You have failed my family, and you will be responsible for what happens to us next!"
+    "message": "你现在才出现？你让我的家族失望了，你将对我们接下来发生的事负责！"
   },
   "ADTEXT_7_INTRO": {
     "description": "",
-    "message": "Hello! \nI am {name}, and my family is in urgent need to find more land, before we're kicked out of our current prospecting territory. We will pay {cash} for good survey data on {systembody}."
+    "message": "你好！\n我是{name}，我的家族迫切需要找到更多的土地，否则我们会被赶出我们当前勘查的领土。我们愿意为好的{systembody}调查数据支付{cash}。"
   },
   "ADTEXT_7_SUCCESSMSG": {
     "description": "",
-    "message": "We appreciate the quick work, pilot. The money has been transferred."
+    "message": "我们对飞行员的工作速度表示赞赏。钱款已经转账。"
   },
   "ADTEXT_7_WHYSOMUCH": {
     "description": "",
-    "message": "Time is money."
+    "message": "时间就是金钱。"
   },
   "ADTEXT_8": {
     "description": "",
-    "message": "Update of data for {systembody} needed"
+    "message": "需要更新{systembody}的数据。"
   },
   "ADTEXT_8_FAILMSG": {
     "description": "",
-    "message": "You fail to appreciate the fine art of maps, and timely delivery of agreed upon date!"
+    "message": "你没能领会到地图的精细艺术，以及及时交货的重要性!"
   },
   "ADTEXT_8_INTRO": {
     "description": "",
-    "message": "Hi! \nI'm with the geographical society, and we need to update our maps of {systembody}. We are willing to pay {cash} for a pilot willing to fly lower than our previous."
+    "message": "你好！\n我在地理学会工作，我们需要更新我们的{systembody}地图。我们愿意支付{cash}给愿意飞得比我们以前飞得更低的飞行员。"
   },
   "ADTEXT_8_SUCCESSMSG": {
     "description": "",
-    "message": "Another map to the collection. Please find our appreciation reflected in your bank account."
+    "message": "又一张地图加入到收藏中。请在你的银行账户中看到我们对你的赞赏。"
   },
   "ADTEXT_8_WHYSOMUCH": {
     "description": "",
-    "message": "The worlds must be documented and mapped, in ever finer and greater detail."
+    "message": "世界必须被记录绘制成地图，细节将会越来越丰富。"
   },
   "ADTEXT_9": {
     "description": "",
-    "message": "Will pay for fast delivery of data on {systembody} in {system}"
+    "message": "支付给可快速提供{system}的{systembody}的数据的人。"
   },
   "ADTEXT_9_FAILMSG": {
     "description": "",
-    "message": "You're late! Now this is of no use to us, since it has already been claimed. Another opportunity lost. Like tears in rain."
+    "message": "你迟到了！现在这对我们来说没有价值，因为它已经被别人占了先机。像雨中的泪水一样。"
   },
   "ADTEXT_9_INTRO": {
     "description": "",
-    "message": "Hi! \nI'm {name}. Me and my family need a detailed survey of {systembody} in {system}, before anyone else claims it. We will pay {cash} for a fast pilot. We'll message you with the delivery location once you have the data."
+    "message": "你好！\n我是{name}。我和我的家族需要在别人占领之前对{system}的{systembody}进行详细的调查。我们会给速度快的飞行员支付{cash}，一旦你有了数据，我们会向你发送交付地点的消息。"
   },
   "ADTEXT_9_SUCCESSMSG": {
     "description": "",
-    "message": "Your punctuality and discretion is appreciated."
+    "message": "我们很感激你的守时和谨慎。"
   },
   "ADTEXT_9_WHYSOMUCH": {
     "description": "'scooped' as in missing an exclusive unique opportunity, before someone else gets to it first",
-    "message": "We do not want to be scooped on this possible acquisition"
+    "message": "我们不想在这次可能的收购上被抢风头。"
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "THE GALACTIC GEOGRAPHICAL SOCIETY"
+    "message": "银河地理学会"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "CARTOGRAPHER NEEDED"
+    "message": "需要制图员"
   },
   "ADTITLE_3": {
     "description": "",
-    "message": "PLANETARY MAPPING NEEDED"
+    "message": "需要行星地图"
   },
   "ADTITLE_4": {
     "description": "",
-    "message": "MAPPING"
+    "message": "绘制地图"
   },
   "ADTITLE_5": {
     "description": "",
-    "message": "CARTOGRAPHY CONTRACT"
+    "message": "制图合同"
   },
   "ADTITLE_6": {
     "description": "",
-    "message": "MAP UPDATE"
+    "message": "更新地图"
   },
   "ADTITLE_7": {
     "description": "",
-    "message": "MAP UPDATE"
+    "message": "更新地图"
   },
   "ADTITLE_8": {
     "description": "",
-    "message": "CARTOGRAPHY ORDER"
+    "message": "制图订单"
   },
   "ADTITLE_9": {
     "description": "",
-    "message": "MAPPING"
+    "message": "绘制地图"
   },
   "AN_ORBITAL_SCAN": {
     "description": "",
-    "message": "an Orbital scan"
+    "message": "轨道扫描"
   },
   "AVAILABLE_SCAN_TOOLTIP": {
     "description": "",
-    "message": "This scan can be activated to begin collecting data."
+    "message": "这个扫描可以被激活来开始收集数据。"
   },
   "A_SURFACE_SCAN": {
     "description": "",
-    "message": "a Surface scan"
+    "message": "表面扫描"
   },
   "COMPLETED_SCANS": {
     "description": "Button text for completed scans",
-    "message": "{} Completed"
+    "message": "{} 已完成"
   },
   "COMPLETED_SCAN_TOOLTIP": {
     "description": "",
-    "message": "This scan is complete and ready to be delivered."
+    "message": "扫描已完成，准备好被交付。"
   },
   "COMPUTER": {
     "description": "The ship on board computer",
-    "message": "Computer"
+    "message": "计算机"
   },
   "COVERAGE": {
     "description": "",
-    "message": "Required Coverage:"
+    "message": "所需覆盖范围："
   },
   "DANGER": {
     "description": "",
@@ -265,7 +265,7 @@
   },
   "DESTINATION": {
     "description": "",
-    "message": "Destination:"
+    "message": "目的地："
   },
   "DISTANCE": {
     "description": "",
@@ -273,27 +273,27 @@
   },
   "DISTANCE_REACHED_ORBITAL": {
     "description": "",
-    "message": "DISTANCE REACHED. MAPPING. Remain within orbit parameters until scan completed."
+    "message": "已达到距离。正在制图。请在扫描完成前保持在轨道参数之内。"
   },
   "DISTANCE_REACHED_SURFACE": {
     "description": "",
-    "message": "DISTANCE REACHED. MAPPING. Remain below altitude ceiling until scan completed."
+    "message": "已达到距离。正在制图。请在扫描完成前保持在高度上限以下。"
   },
   "DROP_OFF_DATA": {
     "description": "",
-    "message": "Drop off data at {location} before {date}"
+    "message": "请在{date}之前将数据交给{location}"
   },
   "EXCELLENT_I_AWAIT_YOUR_REPORT": {
     "description": "",
-    "message": "Excellent. I will await your report."
+    "message": "很好。我会等待你的答复。"
   },
   "HOW_DOES_IT_WORK": {
     "description": "",
-    "message": "How does it work?"
+    "message": "它是如何工作的？"
   },
   "HUD_SCAN_PROGRESS": {
     "description": "",
-    "message": "Current Scan Progress"
+    "message": "当前扫描进度"
   },
   "INVALID_SCANNER": {
     "description": "Shown when a scan altitude cannot be calculated",
@@ -301,43 +301,43 @@
   },
   "MAPPING": {
     "description": "As in cartography",
-    "message": "Mapping"
+    "message": "正在绘制地图中"
   },
   "MAPPING_COMPLETED": {
     "description": "",
-    "message": "MAPPING COMPLETED. Data saved."
+    "message": "绘制已完成。数据已保存。"
   },
   "MAPPING_INTERRUPTED_ORBITAL": {
     "description": "",
-    "message": "MAPPING INTERRUPTED. Too far from target. Orbit correction needed."
+    "message": "绘制地图中断。距离目标太远。需要修正轨道。"
   },
   "MAPPING_INTERRUPTED_SURFACE": {
     "description": "",
-    "message": "MAPPING INTERRUPTED. Too far from target. Flight ceiling correction needed."
+    "message": "绘制地图中断。距离目标太远。需要调整飞行高度。"
   },
   "MAPPING_PAUSED": {
     "description": "",
-    "message": "MAPPING SUSPENDED. Data incomplete. Further mapping required."
+    "message": "绘制地图暂停。数据不完整。需要进一步的制图。"
   },
   "NO_ACTIVE_SCAN": {
     "description": "Displayed to indicate no scans are active",
-    "message": "NO ACTIVE SCAN"
+    "message": "扫描没有激活"
   },
   "NO_ACTIVE_SCAN_TOOLTIP": {
     "description": "",
-    "message": "Select an available scan to begin collecting data."
+    "message": "请选择一个可用的扫描来开始收集数据。"
   },
   "NO_AVAILABLE_SCANNER": {
     "description": "",
-    "message": "NO AVAILABLE SENSOR"
+    "message": "无可用感应器"
   },
   "NO_AVAILABLE_SCANNER_TOOLTIP": {
     "description": "",
-    "message": "No scan-capable sensors are installed on this ship."
+    "message": "这艘飞船上没有安装可以扫描的传感器。"
   },
   "OBJECTIVE": {
     "description": "",
-    "message": "Objective:"
+    "message": "目标："
   },
   "OK_AGREED": {
     "description": "",
@@ -345,95 +345,95 @@
   },
   "ORBITAL_SCAN": {
     "description": "",
-    "message": "Orbital Scan"
+    "message": "轨道扫描"
   },
   "PENDING_SCANS": {
     "description": "Button text for pending scans",
-    "message": "{} Pending"
+    "message": "{} 待进行"
   },
   "PENDING_SCAN_TOOLTIP": {
     "description": "",
-    "message": "This scan cannot be started yet."
+    "message": "这次扫描尚未开始。"
   },
   "PLEASE_HAVE_THE_DATA_BACK_BEFORE": {
     "description": "",
-    "message": "Please have the data back before {date}"
+    "message": "请在{date}之前将数据送回"
   },
   "REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
-    "message": "Can you please repeat the original request?"
+    "message": "你可以重复一下最初的请求吗？"
   },
   "RESOLUTION": {
     "description": "",
-    "message": "Required Resolution:"
+    "message": "所需的分辨率："
   },
   "SCAN_DETAILS": {
     "description": "",
-    "message": "You need to perform {type} of {body}. \n\nThe scan must include {coverage} of the body with a data resolution of at most {resolution} meters / sample.\n\nYou'll need to fly at a specific altitude determined by your scanning equipment to accomplish this."
+    "message": "你需要对{body}进行{type}。\n\n扫描必须包括{coverage}，数据分辨率最多为每样本{resolution}米。\n\n你需要按照你的扫描设备确定的特定高度飞行来完成这个任务。"
   },
   "SCAN_MANAGER": {
     "description": "",
-    "message": "Scan Manager"
+    "message": "扫描管理器"
   },
   "SCAN_MAXIMUM_ALTITUDE": {
     "description": "Tooltip for scan max. altitude parameter",
-    "message": "Maximum Scanning Altitude"
+    "message": "最大扫描高度"
   },
   "SCAN_MAXIMUM_SPATIAL_RESOLUTION": {
     "description": "Tooltip for scan max. resolution parameter",
-    "message": "Maximum Accepted Resolution (meters / sample)"
+    "message": "最大接受的分辨率（米/样本）"
   },
   "SCAN_TARGET_COVERAGE": {
     "description": "Tooltip for scan target coverage parameter",
-    "message": "Required Target Coverage"
+    "message": "所需的目标覆盖范围"
   },
   "SCOUT": {
     "description": "",
-    "message": "Scout"
+    "message": "侦察员"
   },
   "STATE_INACTIVE": {
     "description": "",
-    "message": "INACTIVE"
+    "message": "未激活"
   },
   "STATE_MIN_ALTITUDE": {
     "description": "",
-    "message": "MINIMUM ALTITUDE"
+    "message": "最低高度"
   },
   "STATE_NO_SENSORS": {
     "description": "",
-    "message": "NO SENSOR"
+    "message": "无传感器"
   },
   "STATE_OUT_OF_RANGE": {
     "description": "",
-    "message": "OUT OF RANGE"
+    "message": "超出范围"
   },
   "STATE_SCANNING": {
     "description": "",
-    "message": "SCANNING"
+    "message": "正在扫描"
   },
   "STORED_SCAN_DATA": {
     "description": "",
-    "message": "Stored Scan Data:"
+    "message": "储存的扫描数据："
   },
   "SURFACE_SCAN": {
     "description": "",
-    "message": "Surface Scan"
+    "message": "表面扫描"
   },
   "SUSPENDED": {
     "description": "",
-    "message": "Suspended"
+    "message": "暂停"
   },
   "TARGET_BODY": {
     "description": "",
-    "message": "Target Body:"
+    "message": "目标体："
   },
   "WHAT_DATA_DO_YOU_NEED": {
     "description": "",
-    "message": "What data do you need?"
+    "message": "你需要什么数据？"
   },
   "WHEN_DO_YOU_NEED_THE_DATA": {
     "description": "",
-    "message": "When do you need the data?"
+    "message": "你什么时候需要数据？"
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",
@@ -441,6 +441,6 @@
   },
   "YOU_WILL_BE_PAID_ON_MY_BEHALF_AT_NEW_DESTINATION": {
     "description": "",
-    "message": "You will be paid on my behalf at the NEW DESTINATION"
+    "message": "我会在新的目的地，支付你的报酬。"
   }
 }

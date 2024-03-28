@@ -497,7 +497,7 @@
   },
   "GAME_SAVE_INVALID_NAME": {
     "description": "",
-    "message": "This saved game file could not be written because of a invalid name."
+    "message": "该保存的游戏因为无效的名字而无法被写入。"
   },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",

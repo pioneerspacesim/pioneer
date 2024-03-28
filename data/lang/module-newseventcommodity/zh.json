@@ -9,7 +9,7 @@
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "GALACTIC REPORT"
+    "message": "银河报道"
   },
   "ADTITLE_3": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "The system wide power outage wreaks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as the producer has run out of raw material."
+    "message": "系统范围内的电力中断令{system}系统遭受重创 ({sectorx}, {sectory}, {sectorz})。由于生产商已经用完了原材料，消费者们排队去购买最后一批Trapperware以替换他们的冰箱，"
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",

@@ -21,7 +21,7 @@
   },
   "ALL_PARAMETERS_WERE_RECOVERED_SUCCESSFULLY": {
     "description": "Message when restoring savegame",
-    "message": "All parameters were recovered successfully."
+    "message": "所有参数已成功恢复。"
   },
   "ALL_UP_WEIGHT": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "ATTEMPTING_TO_RECOVER_GAME_PROGRESS_FROM_SAVE_X": {
     "description": "Message when restoring savegame",
-    "message": "Attempting to recover game progress from save: {save}"
+    "message": "正在尝试从保存：{save}中恢复游戏进度。"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -109,11 +109,11 @@
   },
   "CANT_FIND_PATH": {
     "description": "Message when restoring savegame, file path",
-    "message": "Can't find path: %s"
+    "message": "找不到路径：%s"
   },
   "CANT_FIND_PLAYERS_SHIP_IN_SPACE": {
     "description": "Message when restoring savegame",
-    "message": "Can't find player's ship in space"
+    "message": "在太空中没有找到玩家的飞船"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -281,11 +281,11 @@
   },
   "COULD_NOT_DELETE_SAVE": {
     "description": "",
-    "message": "Could not delete save"
+    "message": "无法删除保存的数据"
   },
   "COULD_NOT_FIND_SYSTEM_BODY_FOR_FRAME": {
     "description": "Message when restoring savegame",
-    "message": "Could not find system body for frame"
+    "message": "无法找到系统主体"
   },
   "COULD_NOT_LOAD_GAME": {
     "description": "",
@@ -293,7 +293,7 @@
   },
   "COULD_NOT_READ_THE_SAVE_VERSION": {
     "description": "Message when restoring savegame",
-    "message": "Could not read the save version"
+    "message": "无法读取保存版本"
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -329,7 +329,7 @@
   },
   "CURRENT_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
-    "message": "Current savegame version: %s"
+    "message": "无法读取保存版本：%s"
   },
   "CURRENT_SHIP": {
     "description": "For tooltip comparing current ship specs to one in the shipyard",
@@ -357,11 +357,11 @@
   },
   "DELETE": {
     "description": "",
-    "message": "Delete"
+    "message": "删除"
   },
   "DELETE_SAVE_CONFIRMATION": {
     "description": "",
-    "message": "Are you sure you want to delete this save?"
+    "message": "你确定想要删除这个保存的数据吗？"
   },
   "DELTA_V": {
     "description": "",
@@ -389,7 +389,7 @@
   },
   "DESCRIPTION": {
     "description": "Start game parameter, e.g. 'This is an easy start from Cydonia'",
-    "message": "Description"
+    "message": "描述"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -441,7 +441,7 @@
   },
   "DOCKED_TO_A_BODY_THAT_IS_NOT_A_STATION": {
     "description": "Message when restoring savegame",
-    "message": "Docked to a body that is not a station"
+    "message": "停靠到的主体并非一座空间站"
   },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
@@ -537,7 +537,7 @@
   },
   "ERROR_APPLYING_PATCH": {
     "description": "Message when restoring savegame",
-    "message": "Error applying patch"
+    "message": "应用补丁时出错"
   },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
@@ -557,7 +557,7 @@
   },
   "EXPERIMENTAL": {
     "description": "Indicates feature/option is experimental",
-    "message": "Experimental"
+    "message": "实验性的"
   },
   "EXPERT": {
     "description": "For player reputation",
@@ -621,7 +621,7 @@
   },
   "FILE_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
-    "message": "File savegame version: %s"
+    "message": "文件保存的游戏版本：%s"
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
@@ -1377,11 +1377,11 @@
   },
   "LOG_EARLIEST_FIRST": {
     "description": "Show the log entries in chronological order, earliest first",
-    "message": "Order earliest first"
+    "message": "按时间先后顺序排序"
   },
   "LOG_EXPORT": {
     "description": "Export the log",
-    "message": "Export"
+    "message": "导出"
   },
   "LOG_HTML": {
     "description": "Export the log as HTML or not",
@@ -1533,7 +1533,7 @@
   },
   "MORE_THAN_ONE_PLAYERS_SHIP_FOUND_IN_SPACE": {
     "description": "Message when restoring savegame",
-    "message": "More than one player's ship found in space"
+    "message": "在太空中发现了多艘玩家的飞船"
   },
   "MOSTLY_HARMLESS": {
     "description": "",
@@ -1773,7 +1773,7 @@
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",
-    "message": "Path found but verification failed: %s"
+    "message": "找到了路径，但验证失败：%s"
   },
   "PATTERN": {
     "description": "Ship painting pattern.",
@@ -1893,19 +1893,19 @@
   },
   "RAYLEIGH_ACCURATE": {
     "description": "",
-    "message": "Rayleigh/Mie (accurate, per-pixel)"
+    "message": "Rayleigh/Mie（精确，每像素数）"
   },
   "RAYLEIGH_FAST": {
     "description": "",
-    "message": "Rayleigh/Mie (fast, per-vertex)"
+    "message": "Rayleigh/Mie （快速，每顶点数）"
   },
   "REALISTIC_SCATTERING": {
     "description": "",
-    "message": "Scattering"
+    "message": "大气散射"
   },
   "REALISTIC_SCATTERING_DESC": {
     "description": "",
-    "message": "Select scattering when rendering atmospheres. (Rayleigh/Mie is not recommended for low-end PCs)"
+    "message": "在渲染大气时选择散射。(对于低端PC来说，不建议选择Rayleigh/Mie)"
   },
   "REAR_WEAPON": {
     "description": "",
@@ -1913,15 +1913,15 @@
   },
   "RECOVER": {
     "description": "Saveload menu button",
-    "message": "Recover"
+    "message": "恢复"
   },
   "RECOVERED_BUT_NOT_VALID": {
     "description": "Message when restoring savegame",
-    "message": "Recovered but not valid"
+    "message": "已恢复但无效"
   },
   "RECOVER_SAVEGAME": {
     "description": "",
-    "message": "Recover savegame"
+    "message": "恢复保存游戏"
   },
   "REFUEL": {
     "description": "",
@@ -2029,11 +2029,11 @@
   },
   "SAVE_DELETED_SUCCESSFULLY": {
     "description": "",
-    "message": "Save deleted successfully"
+    "message": "保存已成功删除"
   },
   "SCATTERING_OLD": {
     "description": "",
-    "message": "Legacy"
+    "message": "旧版"
   },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
@@ -2049,11 +2049,11 @@
   },
   "SELECTED_SAVE_DOESNT_EXISTS": {
     "description": "",
-    "message": "Selected save doesn't exist"
+    "message": "所选保存并不存在"
   },
   "SELECTED_SAVE_IS_NOT_A_VALID_SAVE": {
     "description": "",
-    "message": "Selected save is not a valid save"
+    "message": "所选保存并非一个有效的保存"
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",
@@ -2257,7 +2257,7 @@
   },
   "SYSTEM_BODY_INDEX_IS_OUT_OF_RANGE": {
     "description": "Message when restoring savegame",
-    "message": "System body index is out of range"
+    "message": "系统主体索引超出范围"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
@@ -2285,7 +2285,7 @@
   },
   "THERE_WERE_ERRORS_IN_RECOVERY": {
     "description": "Message when restoring savegame",
-    "message": "There were errors in recovery:"
+    "message": "在恢复过程中出现错误："
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
@@ -2381,23 +2381,23 @@
   },
   "UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",
-    "message": "Unknown custom log entry format"
+    "message": "未知的自定义日志条目格式"
   },
   "UNKNOWN_FACTION": {
     "description": "For entry in the flight log",
-    "message": "Unknown faction"
+    "message": "未知的派别"
   },
   "UNKNOWN_LOCATION_IN_SECTOR_X": {
     "description": "For entry in the flight log",
-    "message": "Unknown location in sector {sector}"
+    "message": "未知扇区{sector}中的位置"
   },
   "UNKNOWN_STATION_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",
-    "message": "Unknown station log entry format"
+    "message": "未知的空间站日志条目格式"
   },
   "UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",
-    "message": "Unknown system log entry format"
+    "message": "未知的系统日志条目格式"
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
@@ -2417,7 +2417,7 @@
   },
   "UNSUCCESSFULLY_RECOVERED_PARAMETERS_ARE_NOW_UNLOCKED_PLEASE_SET_THEM_MANUALLY": {
     "description": "Message when restoring savegame",
-    "message": "Unsuccessfully recovered parameters are now unlocked, please set them manually."
+    "message": "未成功回收的参数现已解锁，请手动设置。"
   },
   "UP_ACCEL": {
     "description": "",
