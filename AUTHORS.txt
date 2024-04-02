@@ -55,6 +55,7 @@ The Pioneer Developers are:
 * Gisteron
 * Gliese852
 * HeadHunter
+* hexagon-recursion (and his imaginary friend Alice Smith)
 * Jan Olsina
 * jmf
 * Jeremy List
