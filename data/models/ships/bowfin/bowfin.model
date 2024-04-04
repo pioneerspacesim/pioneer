@@ -24,7 +24,7 @@ lod 300
 mesh bowfin_hi.dae
 mesh bowfin_shield.dae
 
-lod 50
+lod 100
 mesh bowfin_med.dae
 
 lod 10
