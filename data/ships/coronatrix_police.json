@@ -1,6 +1,6 @@
 {
-	"model": "coronatrix",
-	"name": "Coronatrix Police",
+	"model": "coronatrix_police",
+	"name": "Coronatrix (Police)",
 	"cockpit": "coronatrix_cockpit",
 	"manufacturer": "opli",
 	"ship_class": "light_courier",
