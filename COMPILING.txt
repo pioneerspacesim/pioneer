@@ -28,7 +28,7 @@ Table of Contents
 
 Pioneer is known to build on the following platforms and build systems:
 
-Linux: CMake with GCC 4.9+ or Clang 6+
+Linux: CMake with GCC 9+ or Clang 7+
 Windows: Microsoft Visual C++ 2019 (Community or Pro)
          CMake with MSYS2 (and MinGW-w64)
 OS X: XCode 4 or Homebrew or CMake

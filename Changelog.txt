@@ -1,3 +1,15 @@
+April 2024
+  * Internal Changes
+    * Documented minimal compiler version needed updating (#5810)
+
+  * Fixes
+    * Police Coronatrix texture fix (#5816)
+
+March 2024
+  * Fixes
+    * Fix backwards save compatibility with v90 saves (#5798)
+    * Fix speed limiter button positions overlapping (#5802)
+
 Pioneer 2024-03-14 Release
   * Internal Changes
     * Add Lua "Persistent Object" Serialization (#5774)
