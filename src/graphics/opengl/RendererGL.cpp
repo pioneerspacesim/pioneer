@@ -173,8 +173,19 @@ namespace Graphics {
 	{
 		PROFILE_SCOPED()
 		glewExperimental = true;
-		GLenum glew_err;
-		if ((glew_err = glewInit()) != GLEW_OK)
+
+		const char *sdl_driver = SDL_GetCurrentVideoDriver();
+		Log::Info("SDL video driver used: {}", sdl_driver);
+
+		GLenum glew_err = glewInit();
+#ifdef GLEW_ERROR_NO_GLX_DISPLAY
+		if (glew_err == GLEW_ERROR_NO_GLX_DISPLAY
+		    && (!strcmp(sdl_driver, "wayland") || !strcmp(sdl_driver, "KMSDRM"))) {
+			Log::Info("Ignoring GLEW_ERROR_NO_GLX_DISPLAY as the video backend does not support GLX.");
+			glew_err = GLEW_OK;
+		}
+#endif
+		if (glew_err != GLEW_OK)
 			Error("GLEW initialisation failed: %s", glstr_to_str(glewGetErrorString(glew_err)));
 
 		// pump this once as glewExperimental is necessary but spews a single error
