@@ -1194,6 +1194,7 @@ local placeAdvert = function (station, ad)
 		description = desc,
 		icon        = "searchrescue",
 		due         = ad.due,
+		dist        = (ad.flavour.loctype == 'CLOSE_PLANET' or ad.flavour.loctype == 'CLOSE_SPACE') and ad.dist,
 		reward      = ad.reward,
 		location    = ad.location,
 		onChat      = onChat,
