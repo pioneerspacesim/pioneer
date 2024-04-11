@@ -2167,7 +2167,7 @@ local buildMissionDescription = function(mission)
 	end
 
 	desc.client = mission.client
-	desc.location = mission.location
+	desc.location = mission.target or mission.location
 
 	-- default to place-of-assistance reward
 	local paymentAddress = l.PLACE_OF_ASSISTANCE
