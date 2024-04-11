@@ -1990,8 +1990,8 @@ local onCreateBB = function (station)
 	local closestplanets = findClosestPlanets()
 
 	-- force ad creation for debugging
-	local num = 3
-	for _ = 1,num do
+	-- local num = 3
+	-- for _ = 1,num do
 		-- makeAdvert(station, 1, closestplanets)
 		-- makeAdvert(station, 2, closestplanets)
 		-- makeAdvert(station, 3, closestplanets)
@@ -1999,7 +1999,7 @@ local onCreateBB = function (station)
 		-- makeAdvert(station, 5, closestplanets)
 		-- makeAdvert(station, 6, closestplanets)
 		-- makeAdvert(station, 7, closestplanets)
-	end
+	-- end
 
 	if triggerAdCreation() then makeAdvert(station, nil, closestplanets) end
 end
