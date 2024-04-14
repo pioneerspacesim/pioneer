@@ -215,6 +215,10 @@ namespace SceneGraph {
 
 		Model *model = new Model(m_renderer, def.name);
 		m_model = model;
+
+		// Copy bounds directly (TODO: Some post-processing could be done!)
+		m_model->m_bounds = def.boundsDefs;
+
 		bool patternsUsed = false;
 
 		m_thrustersRoot.Reset(new Group(m_renderer));

@@ -51,3 +51,7 @@ mesh station_ring_2-10k.dae
 
 collision station_hub_A_coll.dae	
 collision station_ring_2-5k10k_coll.dae
+
+bound_thick_line interior tag_interior1 tag_interior2 70
+bound_thick_line interior tag_interior2 tag_interior3 120
+bound_thick_line interior tag_interior3 tag_interior4 70

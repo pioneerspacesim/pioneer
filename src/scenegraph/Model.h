@@ -66,6 +66,7 @@
 #include "Pattern.h"
 #include "graphics/Drawables.h"
 #include "graphics/Material.h"
+#include "LoaderDefinitions.h"
 #include <stdexcept>
 
 namespace SceneGraph {
@@ -182,6 +183,9 @@ namespace SceneGraph {
 		};
 		void SetDebugFlags(Uint32 flags);
 
+		// If distance > 0 it means you are outside bound, otherwise you are inside
+		float DistanceFromPointToBound(const std::string& name, vector3f point);
+
 	private:
 		Model(const Model &);
 
@@ -213,6 +217,8 @@ namespace SceneGraph {
 
 		std::unique_ptr<Graphics::MeshObject> m_debugMesh;
 		std::unique_ptr<Graphics::Material> m_debugLineMat;
+
+		std::vector<BoundDefinition> m_bounds;
 	};
 
 } // namespace SceneGraph

@@ -903,3 +903,18 @@ double SpaceStation::GetUndockAnimStageDuration(int bay, DockStage stage) const
 	return stageLength / averageVelocity;
 }
 
+bool SpaceStation::CalcInteriorLighting(const Body *b, Color4ub &sLight, double& sIntense) const
+{
+	bool any_inside = false;
+	vector3d b_point = b->GetPositionRelTo(this);
+	float dist = GetModel()->DistanceFromPointToBound("interior", vector3f(b_point));
+
+	// TODO: Tweak this depending on ship size and so on...
+	if(dist < 20.0f) {
+		sIntense = std::max(std::min((20.0f - dist) / 20.0f, 1.0f), 0.0f);
+		sLight = Color(255, 255, 255).Shade(0.5f);
+		return true;
+	}
+
+	return false;
+}

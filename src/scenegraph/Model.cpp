@@ -62,7 +62,8 @@ namespace SceneGraph {
 		m_activeAnimations(0),
 		m_curPatternIndex(model.m_curPatternIndex),
 		m_curPattern(model.m_curPattern),
-		m_debugFlags(0)
+		m_debugFlags(0),
+		m_bounds(model.m_bounds)
 	{
 		//selective copying of node structure
 		NodeCopyCache cache;
@@ -674,6 +675,32 @@ namespace SceneGraph {
 		} else {
 			m_debugMesh.reset();
 		}
+	}
+	float Model::DistanceFromPointToBound(const std::string &name, vector3f point)
+	{
+		float min_dist = INFINITY;
+
+		for(const auto& bound : m_bounds) {
+			if(bound.for_bound != name)
+				continue;
+
+			if(bound.type == BoundDefinition::THICK_LINE) {
+				// Point-line distance
+				const auto& start = FindTagByName(bound.tags[0])->GetGlobalTransform().GetTranslate();
+				const auto& end = FindTagByName(bound.tags[1])->GetGlobalTransform().GetTranslate();
+				float segmentDist2 = (end - start).LengthSqr();
+				float t = std::max(0.0f, std::min(1.0f, (point - start).Dot(end - start) / segmentDist2));
+				vector3f projectedPoint = start + t * (end - start);
+
+				float dist = (float)(point-projectedPoint).Length() - bound.params[0];
+
+				if(min_dist > dist) {
+					min_dist = dist;
+				}
+			}
+		}
+
+		return min_dist;
 	}
 
 } // namespace SceneGraph
