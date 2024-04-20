@@ -485,7 +485,7 @@
   },
   "GAME_LOAD_WRONG_VERSION": {
     "description": "",
-    "message": "Cette sauvegarde ne peut être chargée : elle vient d'une autre  version de Pioneer"
+    "message": "Cette sauvegarde ne peut être chargée car elle vient d'une autre version de Pioneer."
   },
   "GAME_SAVED_TO": {
     "description": "",
