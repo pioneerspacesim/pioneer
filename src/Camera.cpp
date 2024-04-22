@@ -557,11 +557,14 @@ void Camera::PrincipalShadows(const Body *b, const int n, std::vector<Shadow> &s
 }
 void Camera::CalcInteriorLighting(const Body* b, Color4ub &sLight, double &sFac) const
 {
-	for(const auto& ss : m_spaceStations)
-	{
-		SpaceStation* as_ss = (SpaceStation*)ss;
-		// Only one of these calls will do anything
-		if(as_ss->CalcInteriorLighting(b, sLight, sFac))
+	for(const auto& ss : m_spaceStations) {
+		const SpaceStation* as_ss = static_cast<SpaceStation *>(ss);
+		const double distance2 = as_ss->GetPositionRelTo(b).LengthSqr();
+		const double maxClip = b->GetClipRadius() + ss->GetClipRadius();
+
+		// This short-circuits for efficient checking. Only one station may actually set
+		// lighting values in CalcInteriorLighting, which is why we return as soon as that happens
+		if (distance2 < maxClip * maxClip && as_ss->CalcInteriorLighting(b, sLight, sFac))
 			return;
 	}
 }
@@ -599,6 +602,6 @@ void Camera::PrepareLighting(const Body *b, bool doAtmosphere, bool doInteriors)
 
 void Camera::RestoreLighting() const
 {
-	m_renderer->SetAmbientColor(Color(255, 255, 255));
+	m_renderer->SetAmbientColor(Color::WHITE);
 	m_renderer->SetLightIntensity(m_lightSources.size(), oldLightIntensities.data());
 }

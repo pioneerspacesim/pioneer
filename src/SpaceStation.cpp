@@ -909,10 +909,12 @@ bool SpaceStation::CalcInteriorLighting(const Body *b, Color4ub &sLight, double&
 	vector3d b_point = b->GetPositionRelTo(this);
 	float dist = GetModel()->DistanceFromPointToBound("interior", vector3f(b_point));
 
-	// TODO: Tweak this depending on ship size and so on...
-	if(dist < 20.0f) {
-		sIntense = std::max(std::min((20.0f - dist) / 20.0f, 1.0f), 0.0f);
-		sLight = Color(255, 255, 255).Shade(0.5f);
+	// This number can be tweaked to make fading more / less gradual,
+	// it could depend on ship size but this value feels good on all current ships
+	const float bRadius = 30.0f;
+	if(dist - bRadius < 0.0f) {
+		sIntense = std::max(std::min((bRadius - dist) / bRadius, 1.0f), 0.0f);
+		sLight = Color::GRAY;
 		return true;
 	}
 
