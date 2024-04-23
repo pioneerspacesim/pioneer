@@ -10,5 +10,6 @@
 #cmakedefine01 WITH_DEVKEYS
 #cmakedefine01 HAS_FPE_OPS
 #cmakedefine REMOTE_LUA_REPL
+#cmakedefine PIONEER_TARGET_RASPBERRY_PI 
 
 #endif /* BUILDOPTS_H */

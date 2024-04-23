@@ -77,7 +77,6 @@
 				"CMAKE_EXPORT_COMPILE_COMMANDS": true,
 				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
 				"CMAKE_BUILD_TYPE": "Debug",
-				"PROFILER_ENABLED": "1"
 			},
 			"vendor": {
 				"microsoft.com/VisualStudioSettings/CMake/1.0": {
@@ -135,7 +134,6 @@
 				"CMAKE_BUILD_TYPE": "Debug",
 				"CMAKE_C_COMPILER": "/usr/bin/clang",
 				"CMAKE_CXX_COMPILER": "/usr/bin/clang++",
-				"PROFILER_ENABLED": "1"
 			},
 			"vendor": {
 				"microsoft.com/VisualStudioSettings/CMake/1.0": {

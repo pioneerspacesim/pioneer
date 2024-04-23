@@ -54,7 +54,9 @@ endif(APPLE)
 
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm" OR CMAKE_SYSTEM_PROCESSOR MATCHES "aarch")
     # maybe for performance we can add options here?
+    if(PIONEER_TARGET_RASPBERRY_PI)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mcpu=cortex-a76 -ffast-math")
+    endif(PIONEER_TARGET_RASPBERRY_PI)
 else()
     option(USE_SSE42 "Compile for SSE4.2 compatible microarchitectures (enables optimizations)" ON)
 
@@ -73,7 +75,7 @@ else()
 		    add_compile_options("-mavx2")
 	    endif()
     endif(USE_AVX2)
-endif(${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm")
+endif(CMAKE_SYSTEM_PROCESSOR MATCHES "arm" OR CMAKE_SYSTEM_PROCESSOR MATCHES "aarch")
 
 option(USE_LLD_LINKER "Use the LLVM lld linker instead of gcc's linker" OFF)
 if (CMAKE_COMPILER_IS_GNUCXX)
