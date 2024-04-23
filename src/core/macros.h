@@ -45,6 +45,10 @@ char (&COUNTOF_Helper(T (&array)[N]))[N];
 #include <malloc.h>
 #define stackalloc(T, n) reinterpret_cast<T *>(_alloca(sizeof(T) * n))
 #else
+#ifdef __FreeBSD__
+#include <stdlib.h>
+#else
 #include <alloca.h>
+#endif
 #define stackalloc(T, n) reinterpret_cast<T *>(alloca(sizeof(T) * n))
 #endif
