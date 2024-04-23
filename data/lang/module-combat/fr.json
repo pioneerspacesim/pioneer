@@ -25,7 +25,7 @@
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "{org} recherche des mercenaire pour une mission dans le système {system}. Rémunération de {cash}."
+    "message": "{org} recherche un mercenaire sans peur pour une mission dans le système {system}. Rémunération de {cash}."
   },
   "ADTEXT_5": {
     "description": "",
