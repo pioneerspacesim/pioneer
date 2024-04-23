@@ -8,6 +8,7 @@
 #include "vector2.h"
 #include <math.h>
 #include <stdio.h>
+#include <algorithm>
 
 // Need this pragma due to operator[] implementation.
 #pragma pack(4)
