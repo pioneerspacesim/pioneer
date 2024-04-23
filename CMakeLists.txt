@@ -408,7 +408,7 @@ if(MSVC)
 endif(MSVC)
 
 if (CMAKE_CROSSCOMPILING)
-	find_program(MODELCOMPILER modelcompiler DOC "modelcompiler executable for the host")
+	find_program(MODELCOMPILER pioneer-modelcompiler DOC "modelcompiler executable for the host")
 else (CMAKE_CROSSCOMPILING)
 	set(MODELCOMPILER $<TARGET_FILE:modelcompiler>)
 endif (CMAKE_CROSSCOMPILING)
