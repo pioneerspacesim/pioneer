@@ -336,6 +336,7 @@ add_source_folders(UNITTEST UNITTEST_SRC_FOLDERS)
 add_executable(${PROJECT_NAME} WIN32 src/main.cpp ${RESOURCES})
 add_executable(unittest ${UNITTEST_CXX_FILES})
 add_executable(modelcompiler src/modelcompiler.cpp)
+set_target_properties(modelcompiler PROPERTIES OUTPUT_NAME pioneer-modelcompiler)
 add_executable(savegamedump
 	src/savegamedump.cpp
 	src/JsonUtils.cpp
@@ -345,6 +346,7 @@ add_executable(savegamedump
 	src/Lang.cpp
 	${FILESYSTEM_CXX_FILES}
 )
+set_target_properties(savegamedump PROPERTIES OUTPUT_NAME pioneer-savegamedump)
 
 find_program(NATURALDOCS NAMES naturaldocs)
 if (NATURALDOCS)
