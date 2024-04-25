@@ -271,21 +271,9 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 		return; // nothing below this patch is visible
 
 	// only want to horizon cull patches that can actually be over the horizon!
+	if (IsOverHorizon(campos))
 	{
-		const vector3d camDir(campos - m_centroid);
-		const vector3d camDirNorm(camDir.Normalized());
-		const vector3d cenDir(m_centroid.Normalized());
-		const double dotProd = camDirNorm.Dot(cenDir);
-
-		if (dotProd < 0.25 && (camDir.LengthSqr() > (m_clipRadius * m_clipRadius))) {
-			SSphere obj;
-			obj.m_centre = m_centroid;
-			obj.m_radius = m_clipRadius;
-
-			if (!s_sph.HorizonCulling(campos, obj)) {
-				return; // nothing below this patch is visible
-			}
-		}
+		return;
 	}
 
 	if (m_kids[0]) {
@@ -346,21 +334,8 @@ void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustu
 				return; // nothing below this patch is visible
 
 			// only want to horizon cull patches that can actually be over the horizon!
-			{
-				const vector3d camDir(campos - m_centroid);
-				const vector3d camDirNorm(camDir.Normalized());
-				const vector3d cenDir(m_centroid.Normalized());
-				const double dotProd = camDirNorm.Dot(cenDir);
-
-				if (dotProd < 0.25 && (camDir.LengthSqr() > (m_clipRadius * m_clipRadius))) {
-					SSphere obj;
-					obj.m_centre = m_centroid;
-					obj.m_radius = m_clipRadius;
-
-					if (!s_sph.HorizonCulling(campos, obj)) {
-						return; // nothing below this patch is visible
-					}
-				}
+			if (IsOverHorizon(campos)) {
+				return;
 			}
 
 			// we can see this patch so submit the jobs!
@@ -469,4 +444,21 @@ void GeoPatch::ReceiveJobHandle(Job::Handle job)
 {
 	assert(!m_job.HasJob());
 	m_job = static_cast<Job::Handle &&>(job);
+}
+
+bool GeoPatch::IsOverHorizon(const vector3d &camPos)
+{
+	const vector3d camDir(camPos - m_centroid);
+	const vector3d camDirNorm(camDir.Normalized());
+	const vector3d cenDir(m_centroid.Normalized());
+	const double dotProd = camDirNorm.Dot(cenDir);
+
+	if (dotProd < 0.25 && (camDir.LengthSqr() > (m_clipRadius * m_clipRadius))) {
+		// return the result of the Horizon Culling test, inverted to match naming semantic
+		// eg: HC returns true==visible, but this method returns true==hidden
+		return !s_sph.HorizonCulling(camPos, SSphere(m_centroid, m_clipRadius));
+	}
+
+	// not over the horizon
+	return false;
 }

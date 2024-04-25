@@ -94,6 +94,8 @@ public:
 private:
 	static const int NUM_KIDS = 4;
 
+	bool IsOverHorizon(const vector3d &camPos);
+
 	RefCountedPtr<GeoPatchContext> m_ctx;
 	const vector3d m_v0, m_v1, m_v2, m_v3;
 	std::unique_ptr<double[]> m_heights;
