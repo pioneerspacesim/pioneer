@@ -56,6 +56,7 @@ struct Color4f {
 	static const Color4f GRAY;
 	static const Color4f STEELBLUE;
 	static const Color4f BLANK;
+	static const Color4f CYAN;
 };
 
 namespace {
@@ -162,6 +163,7 @@ struct Color4ub {
 	static const Color4ub STEELBLUE;
 	static const Color4ub BLANK;
 	static const Color4ub PINK;
+	static const Color4ub CYAN;
 };
 
 struct Color3ub {
@@ -207,6 +209,8 @@ struct Color3ub {
 	static const Color3ub YELLOW;
 	static const Color3ub STEELBLUE;
 	static const Color3ub BLANK;
+	static const Color3ub PINK;
+	static const Color3ub CYAN;
 };
 
 typedef Color4ub Color;
