@@ -246,15 +246,15 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		m_colors.reset();
 
 #ifdef DEBUG_BOUNDING_SPHERES
-		RefCountedPtr<Graphics::Material> mat(Pi::renderer->CreateMaterial("unlit", Graphics::MaterialDescriptor(), Graphics::RenderStateDesc()));
+		m_matboundsphere.Reset(Pi::renderer->CreateMaterial("unlit", Graphics::MaterialDescriptor(), Graphics::RenderStateDesc()));
 		switch (m_depth) {
-		case 0: mat->diffuse = Color::WHITE; break;
-		case 1: mat->diffuse = Color::RED; break;
-		case 2: mat->diffuse = Color::GREEN; break;
-		case 3: mat->diffuse = Color::BLUE; break;
-		default: mat->diffuse = Color::BLACK; break;
+		case 0: m_matboundsphere->diffuse = Color::WHITE; break;
+		case 1: m_matboundsphere->diffuse = Color::RED; break;
+		case 2: m_matboundsphere->diffuse = Color::GREEN; break;
+		case 3: m_matboundsphere->diffuse = Color::BLUE; break;
+		default: m_matboundsphere->diffuse = Color::PINK; break;
 		}
-		m_boundsphere.reset(new Graphics::Drawables::Sphere3D(Pi::renderer, mat, 1, m_clipRadius));
+		m_boundsphere.reset(new Graphics::Drawables::Sphere3D(Pi::renderer, 1, m_clipRadius));
 #endif
 	}
 }
@@ -266,23 +266,25 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 	PROFILE_SCOPED()
 	// must update the VBOs to calculate the clipRadius...
 	UpdateVBOs(renderer);
-	// ...before doing the furstum culling that relies on it.
+	// ...before doing the frustum culling that relies on it.
 	if (!frustum.TestPoint(m_clipCentroid, m_clipRadius))
 		return; // nothing below this patch is visible
 
 	// only want to horizon cull patches that can actually be over the horizon!
-	const vector3d camDir(campos - m_clipCentroid);
-	const vector3d camDirNorm(camDir.Normalized());
-	const vector3d cenDir(m_clipCentroid.Normalized());
-	const double dotProd = camDirNorm.Dot(cenDir);
+	{
+		const vector3d camDir(campos - m_centroid);
+		const vector3d camDirNorm(camDir.Normalized());
+		const vector3d cenDir(m_centroid.Normalized());
+		const double dotProd = camDirNorm.Dot(cenDir);
 
-	if (dotProd < 0.25 && (camDir.LengthSqr() > (m_clipRadius * m_clipRadius))) {
-		SSphere obj;
-		obj.m_centre = m_clipCentroid;
-		obj.m_radius = m_clipRadius;
+		if (dotProd < 0.25 && (camDir.LengthSqr() > (m_clipRadius * m_clipRadius))) {
+			SSphere obj;
+			obj.m_centre = m_centroid;
+			obj.m_radius = m_clipRadius;
 
-		if (!s_sph.HorizonCulling(campos, obj)) {
-			return; // nothing below this patch is visible
+			if (!s_sph.HorizonCulling(campos, obj)) {
+				return; // nothing below this patch is visible
+			}
 		}
 	}
 
@@ -310,7 +312,7 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 #ifdef DEBUG_BOUNDING_SPHERES
 		if (m_boundsphere.get()) {
 			renderer->SetWireFrameMode(true);
-			m_boundsphere->Draw(renderer);
+			m_boundsphere->Draw(renderer, m_matboundsphere.Get());
 			renderer->SetWireFrameMode(false);
 		}
 #endif
@@ -344,18 +346,20 @@ void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustu
 				return; // nothing below this patch is visible
 
 			// only want to horizon cull patches that can actually be over the horizon!
-			const vector3d camDir(campos - m_clipCentroid);
-			const vector3d camDirNorm(camDir.Normalized());
-			const vector3d cenDir(m_clipCentroid.Normalized());
-			const double dotProd = camDirNorm.Dot(cenDir);
+			{
+				const vector3d camDir(campos - m_centroid);
+				const vector3d camDirNorm(camDir.Normalized());
+				const vector3d cenDir(m_centroid.Normalized());
+				const double dotProd = camDirNorm.Dot(cenDir);
 
-			if (dotProd < 0.25 && (camDir.LengthSqr() > (m_clipRadius * m_clipRadius))) {
-				SSphere obj;
-				obj.m_centre = m_clipCentroid;
-				obj.m_radius = m_clipRadius;
+				if (dotProd < 0.25 && (camDir.LengthSqr() > (m_clipRadius * m_clipRadius))) {
+					SSphere obj;
+					obj.m_centre = m_centroid;
+					obj.m_radius = m_clipRadius;
 
-				if (!s_sph.HorizonCulling(campos, obj)) {
-					return; // nothing below this patch is visible
+					if (!s_sph.HorizonCulling(campos, obj)) {
+						return; // nothing below this patch is visible
+					}
 				}
 			}
 
