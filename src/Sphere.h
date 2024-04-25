@@ -15,6 +15,10 @@ struct SSphere {
 	SSphere(const double rad) :
 		m_centre(vector3d(0.0)),
 		m_radius(rad) {}
+	SSphere(const vector3d &centre, const double rad) :
+		m_centre(centre),
+		m_radius(rad) {}
+
 	vector3d m_centre;
 	double m_radius;
 
