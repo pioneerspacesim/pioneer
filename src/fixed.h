@@ -6,6 +6,7 @@
 
 #include <SDL_stdinc.h>
 #include <cassert>
+#include <cstdlib>
 
 template <int FRAC_BITS>
 class fixedf {
