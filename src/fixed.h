@@ -149,16 +149,8 @@ public:
 	}
 	friend fixedf operator/(const fixedf &a, const fixedf &b)
 	{
-		Uint64 abs_a = a.v, abs_b = b.v;
-		bool is_neg = false;
-		if (a.v < 0) {
-			abs_a = -abs_a;
-			is_neg = !is_neg;
-		}
-		if (b.v < 0) {
-			abs_b = -abs_b;
-			is_neg = !is_neg;
-		}
+		Uint64 abs_a = std::abs(a.v), abs_b = std::abs(b.v);
+		bool is_neg = int(a.v < 0) ^ int(b.v < 0);
 		// 128-bit divided by 64-bit, to make sure high bits are not lost
 		Uint64 quotient_hi = abs_a >> (64 - FRAC);
 		Uint64 quotient_lo = abs_a << FRAC;

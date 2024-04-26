@@ -1,7 +1,7 @@
 // Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include <limits>
+#include <cstdint>
 #include "doctest.h"
 #include "fixed.h"
 
@@ -27,10 +27,10 @@ TEST_CASE("Fixed")
 		// 0x40000000.00000000 / 0x40000000.00000001 == 0x00000000.ffffffff (because we round down)
 		// There used to be a bug causing this to produce an incorrect result
 		CHECK(fixed(0x40000000'00000000) / fixed(0x40000000'00000001) == fixed(0x00000000'ffffffff));
-		// fixed(INT_MIN) / fixed(INT_MIN) used to trigger a signed int overflow
-		Sint64 min = std::numeric_limits<Sint64>::min();
-		CHECK(fixed(min) / fixed(min) == fixed(1, 1));
-		// fixed(INT_MIN) / -1.0 used to trigger a signed int overflow
-		CHECK(fixed(min) / fixed(-1'00000000) == fixed(min) / fixed(-1'00000000));
+		// There used to be an edge case that triggered a signed int overflow when negating
+		// the final output if the truncation to 64 bits and conversio to Sint64 produced INT64_MIN
+		// because -INT64_MIN is undefined behavour
+		// Example: 0x00000000.80000000 / -0x00000000.00000001
+		CHECK(fixed(0x80000000) / fixed(-1) == fixed(INT64_MIN));
 	}
 }
