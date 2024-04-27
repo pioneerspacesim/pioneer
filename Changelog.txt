@@ -1,9 +1,16 @@
 April 2024
   * Internal Changes
     * Documented minimal compiler version needed updating (#5810)
+    * Include stdlib.h instead of alloca.h for alloca(3) on FreeBSD (#5827)
+    * Include <algorithm> for std::max (#5828)
+    * Do not install libfmt by default (#5808)
+    * Renderer: Support running under Wayland (#5817)
 
   * Fixes
     * Police Coronatrix texture fix (#5816)
+    * Fix loud white nosie after mouse steering (#5812)
+    * Fix location recovery in save files (#5801)
+    * Use variable "dist" (SAR mission) for the distance in the BB if specified (#5818)
 
 March 2024
   * Fixes
