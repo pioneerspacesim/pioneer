@@ -68,6 +68,7 @@ DynamicBody::DynamicBody(const Json &jsonObj, Space *space) :
 	}
 
 	// fix saves with nans
+	// SAVEBUMP: This can be removed starting with save version 91
 	if (std::isnan(m_angVel.x) || std::isnan(m_angVel.y) || std::isnan(m_angVel.z)) {
 		m_angVel = vector3d(0.0);
 	}
