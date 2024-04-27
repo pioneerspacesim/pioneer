@@ -125,7 +125,7 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 						local alt = Game.player:GetAltitudeRelTo(item.location)
 						ui.text(ui.Format.Distance(alt))
 					elseif Game.system and item.location:IsSameSystem(Game.system.path) then
-						local alt = Game.player:GetAltitudeRelTo(Space.GetBody(item.location.bodyIndex))
+						local alt = item.dist or Game.player:GetAltitudeRelTo(Space.GetBody(item.location.bodyIndex))
 						ui.text(ui.Format.Distance(alt))
 					else
 						local playerSystem = Game.system or Game.player:GetHyperspaceTarget()

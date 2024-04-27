@@ -1194,6 +1194,7 @@ local placeAdvert = function (station, ad)
 		description = desc,
 		icon        = "searchrescue",
 		due         = ad.due,
+		dist        = (ad.flavour.loctype == 'CLOSE_PLANET' or ad.flavour.loctype == 'CLOSE_SPACE') and ad.dist,
 		reward      = ad.reward,
 		location    = ad.location,
 		onChat      = onChat,
@@ -1989,8 +1990,8 @@ local onCreateBB = function (station)
 	local closestplanets = findClosestPlanets()
 
 	-- force ad creation for debugging
-	local num = 3
-	for _ = 1,num do
+	-- local num = 3
+	-- for _ = 1,num do
 		-- makeAdvert(station, 1, closestplanets)
 		-- makeAdvert(station, 2, closestplanets)
 		-- makeAdvert(station, 3, closestplanets)
@@ -1998,7 +1999,7 @@ local onCreateBB = function (station)
 		-- makeAdvert(station, 5, closestplanets)
 		-- makeAdvert(station, 6, closestplanets)
 		-- makeAdvert(station, 7, closestplanets)
-	end
+	-- end
 
 	if triggerAdCreation() then makeAdvert(station, nil, closestplanets) end
 end
@@ -2166,7 +2167,7 @@ local buildMissionDescription = function(mission)
 	end
 
 	desc.client = mission.client
-	desc.location = mission.location
+	desc.location = mission.target or mission.location
 
 	-- default to place-of-assistance reward
 	local paymentAddress = l.PLACE_OF_ASSISTANCE
