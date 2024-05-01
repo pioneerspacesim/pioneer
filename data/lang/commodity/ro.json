@@ -61,11 +61,11 @@
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Fertilizers are crucial for growing crops at an industrial scale, allowing mono-cultures, and yielding higher dividends than possible using plain dirt. This often comes with an ecological cost, not evident at the onset."
+    "message": "Îngrășămintele sunt cruciale pentru creșterea culturilor la scară industrială permițând monoculturile și producând mult mai mult decât ar fi posibil folosind sol normal. Asta deseori vine cu un cost ecologic, nu foarte evident la început."
   },
   "FRUIT_AND_VEG": {
     "description": "",
-    "message": "Fruit & vegetables"
+    "message": "Fructe & vegetale"
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
