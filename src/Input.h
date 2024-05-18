@@ -7,7 +7,7 @@
 #include "InputBindings.h"
 
 #include "SDL_joystick.h"
-
+#include <algorithm>
 #include <array>
 #include <vector>
 #include <map>
