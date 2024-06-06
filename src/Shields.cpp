@@ -43,35 +43,6 @@ namespace {
 	}
 } // namespace
 
-//used to find the accumulated transform of a MatrixTransform
-class MatrixAccumVisitor : public SceneGraph::NodeVisitor {
-public:
-	MatrixAccumVisitor(const std::string &name_) :
-		outMat(matrix4x4f::Identity()),
-		m_accumMat(matrix4x4f::Identity()),
-		m_name(name_)
-	{
-	}
-
-	virtual void ApplyMatrixTransform(SceneGraph::MatrixTransform &mt) override
-	{
-		if (mt.GetName() == m_name) {
-			outMat = m_accumMat * mt.GetTransform();
-		} else {
-			const matrix4x4f prevAcc = m_accumMat;
-			m_accumMat = m_accumMat * mt.GetTransform();
-			mt.Traverse(*this);
-			m_accumMat = prevAcc;
-		}
-	}
-
-	matrix4x4f outMat;
-
-private:
-	matrix4x4f m_accumMat;
-	std::string m_name;
-};
-
 //static
 bool Shields::s_initialised = false;
 
@@ -139,6 +110,9 @@ void Shields::ReparentShieldNodes(SceneGraph::Model *model)
 			Group *shieldGroup = new Group(renderer);
 			shieldGroup->SetName(s_shieldGroupName);
 
+			// Find the accumulated transform from the root to our node
+			matrix4x4f globalTransform = mt->CalcGlobalTransform();
+
 			// go through all of this MatrixTransforms children to extract all of the shield meshes
 			for (Uint32 iChild = 0; iChild < NumChildren; ++iChild) {
 				Node *node = mt->GetChildAt(iChild);
@@ -153,19 +127,17 @@ void Shields::ReparentShieldNodes(SceneGraph::Model *model)
 						rMesh.material = GetGlobalShieldMaterial();
 					}
 
-					// find the accumulated transform from the root to our node
-					MatrixAccumVisitor mav(mt->GetName());
-					model->GetRoot()->Accept(mav);
+					// dettach node from current location in the scenegraph...
+					mt->RemoveChild(node);
 
 					// set our nodes transformation to be the accumulated transform
-					MatrixTransform *sg_transform_parent = new MatrixTransform(renderer, mav.outMat);
+					MatrixTransform *sg_transform_parent = new MatrixTransform(renderer, globalTransform);
 					std::stringstream nodeStream;
 					nodeStream << iChild << s_matrixTransformName;
 					sg_transform_parent->SetName(nodeStream.str());
-					sg_transform_parent->AddChild(sg.Get());
 
-					// dettach node from current location in the scenegraph...
-					mt->RemoveChild(node);
+					// Attach node to new accumulated transform
+					sg_transform_parent->AddChild(node);
 
 					// attach new transform node which parents the our shields mesh to the shield group.
 					shieldGroup->AddChild(sg_transform_parent);
