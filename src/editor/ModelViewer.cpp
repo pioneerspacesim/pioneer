@@ -381,6 +381,8 @@ void ModelViewer::OnModelLoaded()
 {
 	SceneGraph::Model *model = m_modelWindow->GetModel();
 
+	Shields::ReparentShieldNodes(model);
+
 	ResetThrusters();
 
 	m_shields.reset(new Shields(model));
