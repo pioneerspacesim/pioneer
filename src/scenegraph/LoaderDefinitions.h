@@ -87,7 +87,12 @@ namespace SceneGraph {
 
 		static BoundDefinition create_capsule(const std::string &for_b, const std::string &start,
 			const std::string &end, const double rad) {
-			BoundDefinition out = {.type = CAPSULE, .startTag = start, .endTag = end, .radius = rad, .forBound = for_b};
+			BoundDefinition out;
+			out.type = CAPSULE;
+			out.startTag = start;
+			out.endTag = end;
+			out.radius = rad;
+			out.forBound = for_b;
 			return out;
 		}
 

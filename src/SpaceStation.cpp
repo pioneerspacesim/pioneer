@@ -905,9 +905,8 @@ double SpaceStation::GetUndockAnimStageDuration(int bay, DockStage stage) const
 
 bool SpaceStation::CalcInteriorLighting(const Body *b, Color4ub &sLight, double& sIntense) const
 {
-	bool any_inside = false;
-	vector3d b_point = b->GetPositionRelTo(this);
-	float dist = GetModel()->DistanceFromPointToBound("interior", vector3f(b_point));
+	vector3d bPoint = b->GetPositionRelTo(this);
+	const float dist = GetModel()->DistanceFromPointToBound("interior", vector3f(bPoint));
 
 	// This number can be tweaked to make fading more / less gradual,
 	// it could depend on ship size but this value feels good on all current ships
