@@ -82,6 +82,18 @@ namespace SceneGraph {
 			std::runtime_error(str.c_str()) {}
 	};
 
+	struct RunTimeBoundDefinition {
+		BoundDefinition boundDef;
+		// Resolved tags to avoid looking up each frame
+		Tag* startTag;
+		Tag* endTag;
+		// Construct from a scene graph bound definition and a model
+		// Note: The constructor doesn't add ourselves to the model, simply resolves the tags!
+		explicit RunTimeBoundDefinition(Model* in_model, const BoundDefinition& bdef);
+		// Copy a RunTimeBoundDefinition from another model, updating tags
+		explicit RunTimeBoundDefinition(const RunTimeBoundDefinition& copied, Model* new_model);
+	};
+
 	typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material>>> MaterialContainer;
 	typedef std::vector<Animation *> AnimationContainer;
 
@@ -218,7 +230,7 @@ namespace SceneGraph {
 		std::unique_ptr<Graphics::MeshObject> m_debugMesh;
 		std::unique_ptr<Graphics::Material> m_debugLineMat;
 
-		std::vector<BoundDefinition> m_bounds;
+		std::vector<RunTimeBoundDefinition> m_bounds;
 	};
 
 } // namespace SceneGraph

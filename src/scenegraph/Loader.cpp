@@ -216,8 +216,9 @@ namespace SceneGraph {
 		Model *model = new Model(m_renderer, def.name);
 		m_model = model;
 
-		// Copy bounds directly (TODO: Some post-processing could be done!)
-		m_model->m_bounds = def.boundsDefs;
+		for(const BoundDefinition& bdef : def.boundsDefs) {
+			m_model->m_bounds.push_back(RunTimeBoundDefinition(m_model, bdef));
+		}
 
 		bool patternsUsed = false;
 

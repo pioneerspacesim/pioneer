@@ -37,6 +37,17 @@ namespace SceneGraph {
 		std::string label;
 	};
 
+	RunTimeBoundDefinition::RunTimeBoundDefinition(Model *in_model, const BoundDefinition &bdef)
+	{
+		boundDef = bdef;
+		// Resolve the tags
+		startTag = in_model->FindTagByName(boundDef.startTag);
+		endTag = in_model->FindTagByName(boundDef.endTag);
+	}
+	RunTimeBoundDefinition::RunTimeBoundDefinition(const RunTimeBoundDefinition &copied, Model *new_model)
+		: RunTimeBoundDefinition(new_model, copied.boundDef)
+	{}
+
 	Model::Model(Graphics::Renderer *r, const std::string &name) :
 		m_boundingRadius(10.f),
 		m_renderer(r),
@@ -62,8 +73,7 @@ namespace SceneGraph {
 		m_activeAnimations(0),
 		m_curPatternIndex(model.m_curPatternIndex),
 		m_curPattern(model.m_curPattern),
-		m_debugFlags(0),
-		m_bounds(model.m_bounds)
+		m_debugFlags(0)
 	{
 		//selective copying of node structure
 		NodeCopyCache cache;
@@ -97,6 +107,11 @@ namespace SceneGraph {
 			Node *node = m_root->FindNode(tag->GetName());
 			assert(node->GetNodeFlags() & NODE_TAG);
 			m_tags.push_back(static_cast<Tag *>(node));
+		}
+
+		// and so do bounds
+		for(const RunTimeBoundDefinition& bd : model.m_bounds) {
+			m_bounds.push_back(RunTimeBoundDefinition(bd, this));
 		}
 
 		UpdateTagTransforms();
@@ -676,31 +691,38 @@ namespace SceneGraph {
 			m_debugMesh.reset();
 		}
 	}
+
+
+	// Note that this is essentially a signed distance field!
 	float Model::DistanceFromPointToBound(const std::string &name, vector3f point)
 	{
-		float min_dist = INFINITY;
+		float minDist = INFINITY;
 
 		for(const auto& bound : m_bounds) {
-			if(bound.for_bound != name)
+			if(bound.boundDef.forBound != name)
 				continue;
 
-			if(bound.type == BoundDefinition::THICK_LINE) {
-				// Point-line distance
-				const auto& start = FindTagByName(bound.tags[0])->GetGlobalTransform().GetTranslate();
-				const auto& end = FindTagByName(bound.tags[1])->GetGlobalTransform().GetTranslate();
+			const auto& start = bound.startTag->GetGlobalTransform().GetTranslate();
+			const auto& end = bound.endTag->GetGlobalTransform().GetTranslate();
+			float dist;
+
+			if(bound.boundDef.type == BoundDefinition::CAPSULE) {
+				// Point-line distance (this naturally results in a rounded end-cap)
 				float segmentDist2 = (end - start).LengthSqr();
-				float t = std::max(0.0f, std::min(1.0f, (point - start).Dot(end - start) / segmentDist2));
-				vector3f projectedPoint = start + t * (end - start);
+				// Position along the line, clamped from 0 to 1
+				const float t = (point - start).Dot(end - start) / segmentDist2;
+				const float tc = std::max(0.0f, std::min(1.0f, t));
+				// This point always lies on the line (start, end)
+				vector3f projectedPoint = start + tc * (end - start);
+				dist = (point-projectedPoint).Length() - bound.boundDef.radius;
+			}
 
-				float dist = (float)(point-projectedPoint).Length() - bound.params[0];
-
-				if(min_dist > dist) {
-					min_dist = dist;
-				}
+			if(dist < minDist) {
+				minDist = dist;
 			}
 		}
 
-		return min_dist;
+		return minDist;
 	}
 
 } // namespace SceneGraph

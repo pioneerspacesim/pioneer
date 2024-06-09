@@ -72,22 +72,22 @@ namespace SceneGraph {
 
 	struct BoundDefinition {
 		enum Type {
-			// tags[0] = start tags[1] = end params[0] = radius
-			THICK_LINE
+			// Capsule (cylinder with rounded end-caps)
+			// startTag, endTag define the endpoints of the central line of the cylinder
+			// radius defines both the radius of the cylinder and the radius of the endcaps
+			CAPSULE,
 		};
-
 		Type type;
-		std::string for_bound;
-		std::string tags[3];
-		double params[2];
+		std::string startTag;
+		std::string endTag;
+		double radius;
 
-		static BoundDefinition create_thick_line(std::string for_b, std::string start, std::string end, double rad) {
-			BoundDefinition out;
-			out.type = THICK_LINE;
-			out.for_bound = for_b;
-			out.tags[0] = start;
-			out.tags[1] = end;
-			out.params[0] = rad;
+		// What boundary does this bound definition refer to?
+		std::string forBound;
+
+		static BoundDefinition create_capsule(const std::string &for_b, const std::string &start,
+			const std::string &end, const double rad) {
+			BoundDefinition out = {.type = CAPSULE, .startTag = start, .endTag = end, .radius = rad, .forBound = for_b};
 			return out;
 		}
 
