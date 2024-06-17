@@ -68,6 +68,7 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	manufacturer = data.value("manufacturer", "");
 	modelName = data.value("model", "");
 	cockpitName = data.value("cockpit", "");
+	shieldName = data.value("shield_model", modelName + "_shield");
 
 	linThrust[THRUSTER_REVERSE] = data.value("reverse_thrust", 0.0f);
 	linThrust[THRUSTER_FORWARD] = data.value("forward_thrust", 0.0f);

@@ -29,11 +29,16 @@ struct ShipType {
 	////////
 	Tag tag;
 	Id id;
+
 	std::string name;
 	std::string shipClass;
 	std::string manufacturer;
+
+	// Model information
 	std::string modelName;
 	std::string cockpitName;
+	std::string shieldName;
+
 	float linThrust[THRUSTER_MAX];
 	float angThrust;
 	float linAccelerationCap[THRUSTER_MAX];
