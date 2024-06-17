@@ -327,8 +327,8 @@ source files and depend on the *.sgm files for efficient loading of assets.
 
 
 
-6 Packagers
-===========
+6 For Packagers
+===============
 
 Pioneer provides a set of CMake Presets for use when packaging the game for
 distribution by third party packagers. These presets are found in
