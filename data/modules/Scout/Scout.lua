@@ -205,6 +205,16 @@ local onChat = function (form, ref, option)
 			system     = ui.Format.SystemPath(ad.location:SystemOnly()),
 			dist       = format_dist(ad),
 		})
+
+		if not ad.orbital and (sbody.surfacePressure > 0.5 or sbody.gravity > 4.5) then
+			introtext = introtext .. "\n\n" .. l.SURFACE_SCAN_DETAILS % {
+				pressure = ui.Format.Pressure(sbody.surfacePressure),
+				gravity = ui.Format.Gravity(sbody.gravity / EARTH_G)
+			}
+
+			introtext = introtext .. "\n\n" .. l.SURFACE_SCAN_WARNING
+		end
+
 		form:SetMessage(introtext)
 
 	elseif option == 1 then
@@ -214,12 +224,15 @@ local onChat = function (form, ref, option)
 		form:SetMessage(string.interp(l.PLEASE_HAVE_THE_DATA_BACK_BEFORE, {date = Format.Date(ad.due)}))
 
 	elseif option == 4 then
-		form:SetMessage(string.interp(l.SCAN_DETAILS, {
+
+		local details = l.SCAN_DETAILS % {
 			coverage = format_coverage(ad.orbital, ad.coverage),
 			resolution = string.format("%.1f", ad.resolution),
 			body = ad.location:GetSystemBody().name,
 			type = ad.orbital and l.AN_ORBITAL_SCAN or l.A_SURFACE_SCAN
-		}))
+		}
+
+		form:SetMessage(details)
 
 	elseif option == 5 then
 		form:SetMessage(ad.orbital and l.ADDITIONAL_INFORMATION_ORBITAL or l.ADDITIONAL_INFORMATION_SURFACE)
@@ -371,8 +384,15 @@ local filterBodySurface = function(station, sBody)
 		return false
 	end
 
-	-- filter out bodies unless at least 100km in diameter
-	if sBody.radius < 50000 then
+	-- filter out bodies unless at least 200km in diameter
+	if sBody.radius < 100000 then
+		return false
+	end
+
+	-- filter out bodies with extreme atmospheric pressures
+	-- most ships won't be able to scan these planets even with heavy atmospheric shielding
+	-- TODO: allow surface scans on high-pressure planets as special high-reward mission type
+	if sBody.surfacePressure > 60.0 then
 		return false
 	end
 
