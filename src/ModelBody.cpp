@@ -299,10 +299,7 @@ void ModelBody::MoveGeoms(const matrix4x4d &m, const vector3d &p)
 
 void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	matrix4x4d m2 = GetInterpOrient();
-	m2.SetTranslate(GetInterpPosition());
-
-	m_model->Render(matrix4x4f(viewTransform * m2));
+	m_model->Render(matrix4x4f(viewTransform * GetInterpMatrix()));
 }
 
 void ModelBody::TimeStepUpdate(const float timestep)
