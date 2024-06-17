@@ -87,7 +87,6 @@ ModelBody::ModelBody(const Json &jsonObj, Space *space) :
 	}
 
 	m_model->LoadFromJson(modelBodyObj);
-	m_shields->LoadFromJson(modelBodyObj);
 }
 
 ModelBody::~ModelBody()
@@ -109,7 +108,6 @@ void ModelBody::SaveToJson(Json &jsonObj, Space *space)
 	modelBodyObj["is_colliding"] = m_colliding;
 	modelBodyObj["model_name"] = m_modelName;
 	m_model->SaveToJson(modelBodyObj);
-	m_shields->SaveToJson(modelBodyObj);
 
 	jsonObj["model_body"] = modelBodyObj; // Add model body object to supplied object.
 }
@@ -198,8 +196,6 @@ void ModelBody::SetModel(const char *modelName)
 		m_model->SetAnimationActive(m_model->FindAnimationIndex(m_idleAnimation), true);
 
 	SetClipRadius(m_model->GetDrawClipRadius());
-
-	m_shields.reset(new Shields(m_model));
 
 	RebuildCollisionMesh();
 }
