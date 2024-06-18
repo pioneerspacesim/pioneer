@@ -711,9 +711,9 @@ local createTargetShip = function (mission)
 	end
 
 	-- set ship looks (label, skin, pattern)
-	ship:SetLabel(mission.shiplabel)
 	local skin = ModelSkin.New():SetRandomColors(rand):SetDecal(shipdef.manufacturer)
 	ship:SetSkin(skin)
+	ship:SetLabel(mission.shiplabel)
 	local model = Engine.GetModel(shipdef.modelName)
 	local pattern
 	if model.numPatterns <= 1 then
