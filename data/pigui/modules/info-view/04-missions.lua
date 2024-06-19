@@ -101,7 +101,7 @@ local function makeMissionRows()
 			locationName = mission.location:GetSystemBody().name .. ", " .. locationName
 		end
 
-		local playerSystem = Game.system or Game.player:GetHyperspaceTarget()
+		local playerSystem = Game.system or Game.player:GetHyperspaceTarget():GetStarSystem()
 		local days = math.max(0, (mission.due - Game.time) / (24*60*60))
 
 		-- Use AU for interplanetary, LY for interstellar distances
