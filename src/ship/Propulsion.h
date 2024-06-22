@@ -131,6 +131,9 @@ private:
 	// Used to calculate max linear thrust by limiting the thruster levels
 	float m_linAccelerationCap[THRUSTER_MAX];
 
+	vector3d m_linThrustersTarget; // 0.0-1.0, target thruster levels
+	float m_maxJerk;
+
 	// Fuel
 	int m_fuelTankMass;
 	double m_thrusterFuel; // 0.0-1.0, remaining fuel
