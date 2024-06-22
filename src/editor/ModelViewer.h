@@ -23,6 +23,8 @@ namespace SceneGraph {
 	class Tag;
 }
 
+class SingleBVHTreeBase;
+
 namespace Editor {
 
 class EditorApp;
@@ -69,6 +71,12 @@ private:
 	void ResetThrusters();
 	void Screenshot();
 	void SaveModelToBinary();
+
+	// Draw additional debug overlays
+	void OnPostRender();
+	void BuildGeomTreeVisualizer(Graphics::VertexArray &va, SingleBVHTreeBase *bvh, int colIndexBase);
+
+	void ExtendMenuBar();
 
 	void SetupLayout(ImGuiID dockspaceID);
 	void DrawModelSelector();
@@ -118,6 +126,10 @@ private:
 	bool m_showShields = false;
 	bool m_showUI = true;
 	bool m_metricsWindow = false;
+
+	bool m_showStaticCollTriBVH = false;
+	bool m_showStaticCollEdgeBVH = false;
+	bool m_showDynamicCollMesh = false;
 };
 
 } // namespace Editor

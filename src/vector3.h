@@ -150,6 +150,15 @@ public:
 		}
 	}
 
+	// Compute the reciprocal of the vector (1.0 / v), avoiding division by zero
+	vector3 ReciprocalSafe() const
+	{
+		return vector3(
+			x == 0.0 ? 0.0 : 1.0 / x,
+			y == 0.0 ? 0.0 : 1.0 / y,
+			z == 0.0 ? 0.0 : 1.0 / z);
+	}
+
 	void Print() const { printf("v(%f,%f,%f)\n", x, y, z); }
 
 	/* Rotate this vector about point o, in axis defined by v. */
