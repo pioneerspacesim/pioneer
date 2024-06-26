@@ -37,6 +37,17 @@ namespace SceneGraph {
 		std::string label;
 	};
 
+	RunTimeBoundDefinition::RunTimeBoundDefinition(Model *in_model, const BoundDefinition &bdef)
+	{
+		boundDef = bdef;
+		// Resolve the tags
+		startTag = in_model->FindTagByName(boundDef.startTag);
+		endTag = in_model->FindTagByName(boundDef.endTag);
+	}
+	RunTimeBoundDefinition::RunTimeBoundDefinition(const RunTimeBoundDefinition &copied, Model *new_model)
+		: RunTimeBoundDefinition(new_model, copied.boundDef)
+	{}
+
 	Model::Model(Graphics::Renderer *r, const std::string &name) :
 		m_boundingRadius(10.f),
 		m_renderer(r),
@@ -96,6 +107,11 @@ namespace SceneGraph {
 			Node *node = m_root->FindNode(tag->GetName());
 			assert(node->GetNodeFlags() & NODE_TAG);
 			m_tags.push_back(static_cast<Tag *>(node));
+		}
+
+		// and so do bounds
+		for(const RunTimeBoundDefinition& bd : model.m_bounds) {
+			m_bounds.push_back(RunTimeBoundDefinition(bd, this));
 		}
 
 		UpdateTagTransforms();
@@ -674,6 +690,39 @@ namespace SceneGraph {
 		} else {
 			m_debugMesh.reset();
 		}
+	}
+
+
+	// Note that this is essentially a signed distance field!
+	float Model::DistanceFromPointToBound(const std::string &name, vector3f point)
+	{
+		float minDist = INFINITY;
+
+		for(const auto& bound : m_bounds) {
+			if(bound.boundDef.forBound != name)
+				continue;
+
+			const auto& start = bound.startTag->GetGlobalTransform().GetTranslate();
+			const auto& end = bound.endTag->GetGlobalTransform().GetTranslate();
+			float dist;
+
+			if(bound.boundDef.type == BoundDefinition::CAPSULE) {
+				// Point-line distance (this naturally results in a rounded end-cap)
+				float segmentDist2 = (end - start).LengthSqr();
+				// Position along the line, clamped from 0 to 1
+				const float t = (point - start).Dot(end - start) / segmentDist2;
+				const float tc = std::max(0.0f, std::min(1.0f, t));
+				// This point always lies on the line (start, end)
+				vector3f projectedPoint = start + tc * (end - start);
+				dist = (point-projectedPoint).Length() - bound.boundDef.radius;
+			}
+
+			if(dist < minDist) {
+				minDist = dist;
+			}
+		}
+
+		return minDist;
 	}
 
 } // namespace SceneGraph
