@@ -17,4 +17,22 @@ package.core["Player"] = Player
 
 -- TODO: document methods as required
 
+---@return Body?
+function Player:GetNavTarget() end
+
+---@param body Body?
+function Player:SetNavTarget(body) end
+
+---@return Body?
+function Player:GetCombatTarget() end
+
+---@param target Body?
+function Player:SetCombatTarget(target) end
+
+---@return SystemPath?
+function Player:GetHyperspaceTarget() end
+
+---@param target SystemPath
+function Player:SetHyperspaceTarget(target) end
+
 return Player
