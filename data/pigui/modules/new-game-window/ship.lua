@@ -99,7 +99,7 @@ ShipName.layout = {}
 function ShipName:draw()
 	Widgets.alignLabel(lui.SHIP_NAME, self.layout, function()
 		local txt, changed = Widgets.inputText(self.lock, self:isValid(), "##shipname", self.value, function()
-			self.value = ShipNames.generateRandom()
+			return ShipNames.generateRandom()
 		end)
 		if changed then self.value = txt end
 	end)
@@ -135,9 +135,12 @@ ShipLabel.value = ""
 function ShipLabel:draw()
 	Widgets.oneLiner(lui.REGISTRATION_NUMBER, self.layout, function()
 		local txt, changed = Widgets.inputText(self.lock, self:isValid(), "##ShipLabel", self.value, function()
-			self.value = ShipObject.MakeRandomLabel()
+			return ShipObject.MakeRandomLabel()
 		end)
-		if changed then self.value = txt end
+		if changed then
+			self.value = txt
+			ShipModel:updateModel()
+		end
 	end)
 end
 
@@ -218,6 +221,7 @@ function ShipModel:updateModel()
 	if not self.skin then return end
 	local c = self.value.colors
 	self.skin:SetColors({ primary = c[1], secondary = c[2], trim = c[3] })
+	self.skin:SetLabel(ShipLabel.value)
 	self.spinner:setModel(modelName, self.skin, self.value.pattern)
 end
 

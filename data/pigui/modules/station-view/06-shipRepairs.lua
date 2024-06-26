@@ -141,7 +141,7 @@ local function changeColor()
 	local player = Game.player
 	local shipDef = ShipDef[player.shipId]
 	local newColor = reformatColor(previewColors)
-	previewSkin = ModelSkin.New():SetColors(newColor):SetDecal(shipDef.manufacturer)
+	previewSkin = ModelSkin.New():SetColors(newColor):SetDecal(shipDef.manufacturer):SetLabel(player.label)
 	refreshModelSpinner()
 end
 

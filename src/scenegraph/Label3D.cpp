@@ -52,6 +52,8 @@ namespace SceneGraph {
 	{
 		//regenerate geometry
 		m_geometry->Clear();
+		m_textMesh.reset();
+
 		if (!text.empty()) {
 			m_font->GetGeometry(*m_geometry, text, vector2f(0.f));
 

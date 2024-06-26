@@ -109,7 +109,10 @@ Widgets.inputText = function(lock, valid, id, text, randomFnc)
 				local txt, changed = ui.inputText(id, text)
 				ui.sameLine()
 				if ui.iconButton(ui.theme.icons.random, Vector2(size, size), tostring(id) .. "_random_button") then
-					randomFnc()
+					local newtxt = randomFnc()
+					if newtxt and newtxt ~= txt then
+						txt, changed = newtxt, true
+					end
 				end
 				return txt, changed
 			else

@@ -325,7 +325,7 @@ function Crew:drawMember(memberEntry)
 		Widgets.verticalCenter(self.layout, function()
 			Widgets.alignLabel(lui.NAME_PERSON, self.layout, function()
 				local txt, changed = Widgets.inputText(lock, memberEntry:isValid(), "##charname" .. tostring(memberEntry), tostring(memberEntry.value.name), function()
-					memberEntry.value.name = NameGen.FullName(memberEntry.value.female)
+					return NameGen.FullName(memberEntry.value.female)
 				end)
 				if changed then
 					memberEntry.value.name = txt

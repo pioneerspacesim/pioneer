@@ -125,6 +125,7 @@ local function startGame(gameParams)
 	local skin = ModelSkin.New()
 	skin:SetColors({ primary = colors[1], secondary = colors[2], trim = colors[3] })
 	skin:SetDecal(shipDef.manufacturer)
+	skin:SetLabel(gameParams.ship.label)
 	player:SetSkin(skin)
 
 	-- setup player character
