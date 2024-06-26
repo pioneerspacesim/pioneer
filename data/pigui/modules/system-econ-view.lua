@@ -86,7 +86,7 @@ function SystemEconView.buildCommodityList(sys, otherSys)
 		local otherLegal = otherSys and otherSys:IsCommodityLegal(name)
 
 		local tab = {
-			info.l10n_key,
+			lcomm[info.l10n_key],
 			legal and sys:GetCommodityBasePriceAlterations(name),
 			otherSys and otherLegal and otherSys:GetCommodityBasePriceAlterations(name)
 		}
@@ -117,7 +117,7 @@ function SystemEconView.buildStationCommodityList(system, station, otherStation)
 		local otherPrice = otherStation and otherStation:GetCommodityPrice(item)
 
 		local tab = {
-			item.l10n_key,
+			lcomm[item.l10n_key],
 			legal and SystemEconView.GetPricemod(item, price) - systemPrice,
 			legal and otherPrice and SystemEconView.GetPricemod(item, otherPrice) - systemPrice
 		}
@@ -154,7 +154,7 @@ end
 
 local function drawCommodityTooltip(info, thisSystem, otherSystem)
 	ui.customTooltip(function()
-		ui.withFont(pionillium.heading, function() ui.text(lcomm[info[1]]) end)
+		ui.withFont(pionillium.heading, function() ui.text(info[1]) end)
 
 		local profit = getProfitabilityInfo(info[2], info[3])
 		if otherSystem and profit then
@@ -186,7 +186,7 @@ function SystemEconView:drawCommodityList(commList, illegalList, thisSystem, oth
 	ui.child("CommodityList", Vector2(0, 0), ui.WindowFlags{"NoScrollbar"}, function()
 		for _, info in ipairs(commList) do
 			ui.group(function()
-				ui.text(lcomm[info[1]])
+				ui.text(info[1])
 				ui.sameLine(width - iconWidth * 3)
 
 				drawIcon(otherSystem and getProfitabilityInfo(info[2], info[3]), iconSize)
@@ -219,7 +219,7 @@ function SystemEconView:drawCommodityList(commList, illegalList, thisSystem, oth
 
 		for _, info in ipairs(illegalList) do
 			ui.group(function()
-				ui.text(lcomm[info[1]])
+				ui.text(info[1])
 				ui.sameLine(width - iconWidth * 2, 0)
 
 				-- only display illegal icon if the commodity is actually legal in the other system
