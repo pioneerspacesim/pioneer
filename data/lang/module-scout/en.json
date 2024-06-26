@@ -449,6 +449,6 @@
   },
   "SURFACE_SCAN_WARNING": {
 	"description": "Warning reminder to player",
-	"message": "Please ensure your ship is capable of operating at the body's surface before accepting the contract."
+	"message": "Please ensure your ship is capable of operating at the target body's surface before accepting the contract."
   }
 }
