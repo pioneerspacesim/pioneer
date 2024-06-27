@@ -1,3 +1,11 @@
+June 2024
+  * Fixes
+    * Fix so .desktop file points to correct installed path (#5847)
+    * Sort commodity names by translated string (#5846)
+    * Improve surface scan missions on high-pressure worlds (#5841)
+    * Fix lots of missing ship labels (#5842)
+    * Fix mission list error when opened during hyperspace (#5843)
+
 May 2024
   * Internal Changes
     * Add missing algorithm include / copy_new complaint (#5833)
