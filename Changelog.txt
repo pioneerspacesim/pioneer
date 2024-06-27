@@ -1,3 +1,12 @@
+July 2024
+  * Fixes
+    * Fix bad placeholders in translated strings (#5852)
+    * Fix DLLs not being installed on Windows builds (#5850)
+    * Fix News Events not modifying commodity demand (#5859)
+    * Fix custom systems with zero stars (#5858)
+    * Fixing Coronatrix label naming (#5855)
+    * Fix Military Drive 2 not for sale & tweaks (#5856)
+
 June 2024
   * Fixes
     * Fix so .desktop file points to correct installed path (#5847)
@@ -7,6 +16,10 @@ June 2024
     * Fix mission list error when opened during hyperspace (#5843)
 
 May 2024
+  * Fixes
+    * Fixing misalligned little parts of the Xylophis cockpit (#5834)
+    * Removing stray triangles from Bluenose (#5835)
+
   * Internal Changes
     * Add missing algorithm include / copy_new complaint (#5833)
 
@@ -23,6 +36,7 @@ April 2024
     * Fix loud white nosie after mouse steering (#5812)
     * Fix location recovery in save files (#5801)
     * Use variable "dist" (SAR mission) for the distance in the BB if specified (#5818)
+    * Fixing flipping landing gear animation of Bowfin (#5814)
 
 March 2024
   * Fixes
