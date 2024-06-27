@@ -1,8 +1,47 @@
 These release announcement notes includes notable changes relevant to the end player sourced and elaborated on from Changelog.txt. It does not include internal changes to code, refactoring, build system changes listed in said file.
 
 
+# Pioneer 2024-07-10
+This is the second bug-fix release since the February release. The most notable bug that made it into previous bug fix release was a save compatibility issue where the game did not allow the player to load saves from the previous version (the player could circumvent the bug by force loading the save, by holding down Ctrl-key when clicking Load).
 
-# Pioneer 2023-03-14
+Another notable fix is the loud white noise-bug, that some have encountered.
+
+For those playing a localized non-English version, we have identified and fixed hundreds of broken strings in the following languages: Brazilian Portuguese (pt_BR), Chinese (zh), Czech (cs), Danish (da), Dutch (nl) French (fr), German (de), Hungarian (hu), Italian (it), Polish (pl), Portuguese (pt), Russian (ru), Spanish (es), and Swedish (sv). Unfortunately, the fix also accidentally marked all languages as translated, over on the transifex project page. This will be addressed shortly.
+
+After this release, we will return our focus on merging new features. Brave pilots daring bugs while enjoying latest new features are encouraged to keep an eye on master branch, and report any encountered bugs.
+
+## Bugfixes / Tweaks
+* Fix backwards save compatibility with v90 saves (#5798)
+* Fix loud white noise after mouse steering (#5812)
+* Fix bad placeholders in translated strings (#5852)
+* Improve surface scan missions on high-pressure worlds (#5841)
+* Fix mission list error when opened during hyperspace (#5843)
+* Fix location recovery in save files (#5801)
+* Use variable "dist" (SAR mission) for the distance in the BB if specified (#5818)
+* Fix speed limiter button positions overlapping (#5802)
+* Fix News Events not modifying commodity demand (#5859)
+* Sort commodity names by translated string (#5846)
+* Fix custom systems with zero stars (#5858)
+* Fix Military Drive 2 not for sale & tweaks (#5856)
+* Fix lots of missing ship labels (#5842)
+* Fixing misaligned little parts of the Xylophis cockpit (#5834)
+* Removing stray triangles from Bluenose (#5835)
+* Fixing flipping landing gear animation of Bowfin (#5814)
+* Police Coronatrix texture fix (#5816)
+* Fixing Coronatrix label naming (#5855)
+* Fix so .desktop file points to correct installed path (#5847)
+* Fix DLLs not being installed on Windows builds (#5850)
+
+## Internal Changes
+* Add missing algorithm include / copy_new complaint (#5833)
+* Documented minimal compiler version needed updating (#5810)
+* Include stdlib.h instead of alloca.h for alloca(3) on FreeBSD (#5827)
+* Include <algorithm> for std::max (#5828)
+* Do not install libfmt by default (#5808)
+* Renderer: Support running under Wayland (#5817)
+
+
+# Pioneer 2024-03-14
 
 This is a bug fix release to compliment the February release. Most noticeable bug, now fixed, was that weapons firing were out of sync making combat exceedingly difficult.
 
