@@ -133,7 +133,7 @@
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
-    "message": "Удобно ли е да повторите Вашата заявка?"
+    "message": "Удобно ли е да повторите първоначалната заявка?"
   },
   "DANGER": {
     "description": "the risk level",

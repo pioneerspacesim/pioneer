@@ -421,11 +421,11 @@
   },
   "SURFACE_SCAN_DETAILS": {
     "description": "Additional warning information about a surface scan target",
-    "message": "The target has a surface pressure of {pressure} with a gravitational force of {gravity} at the surface."
+    "message": "L'obiettivo ha una pressione sulla superfice di {pressure} con gravità {gravity}."
   },
   "SURFACE_SCAN_WARNING": {
     "description": "Warning reminder to player",
-    "message": "Please ensure your ship is capable of operating at the target body's surface before accepting the contract."
+    "message": "Si prega di verificare che la propria nave sia in grado di operare sulla superficie del corpo celeste di destinazione, prima di accettare il contratto."
   },
   "SUSPENDED": {
     "description": "",
