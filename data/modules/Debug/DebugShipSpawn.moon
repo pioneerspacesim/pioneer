@@ -111,13 +111,21 @@ ship_equip = {
 }
 
 set_player_ship_type = (shipType) ->
-	item_types = { Equipment.misc, Equipment.laser, Equipment.hyperspace }
-	equip = [item for type in *item_types for _, item in pairs(type) for i=1, Game.player\CountEquip item]
+	-- NOTE: this does not preserve installed items as there's no clear A->B
+	-- mapping for how to handle different slots between ships
+	-- Instead, refund the purchase price of all installed equipment
+
+	equipSet = Game.player\GetComponent "EquipSet"
+	items = equipSet\GetInstalledEquipment!
+	returnedMoney = 0
+
+	for i, item in ipairs items
+		returnedMoney += item.price
 
 	with Game.player
 		\SetShipType shipType
-		\AddEquip item for item in *equip
 		\UpdateEquipStats!
+		\AddMoney returnedMoney
 
 ship_spawn_debug_window = ->
     ui.child 'ship_list', Vector2(150, 0), draw_ship_types

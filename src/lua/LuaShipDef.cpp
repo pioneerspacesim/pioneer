@@ -3,7 +3,9 @@
 
 #include "LuaShipDef.h"
 #include "EnumStrings.h"
+#include "JsonUtils.h"
 #include "Lua.h"
+#include "LuaJson.h"
 #include "LuaUtils.h"
 #include "ShipType.h"
 
@@ -249,6 +251,7 @@ void LuaShipDef::Register()
 		pi_lua_settable(l, "tag", EnumStrings::GetString("ShipTypeTag", st.tag));
 		pi_lua_settable(l, "angularThrust", st.angThrust);
 		pi_lua_settable(l, "capacity", st.capacity);
+		pi_lua_settable(l, "cargo", st.cargo);
 		pi_lua_settable(l, "hullMass", st.hullMass);
 		pi_lua_settable(l, "fuelTankMass", st.fuelTankMass);
 		pi_lua_settable(l, "basePrice", st.baseprice);
@@ -268,7 +271,7 @@ void LuaShipDef::Register()
 		pi_lua_readonly_table_proxy(l, -1);
 		lua_setfield(l, -3, "linearThrust");
 		lua_pop(l, 1);
-		
+
 		lua_newtable(l);
 		for (int t = Thruster::THRUSTER_REVERSE; t < Thruster::THRUSTER_MAX; t++)
 			pi_lua_settable(l, EnumStrings::GetString("ShipTypeThruster", t), st.linAccelerationCap[t]);
@@ -285,7 +288,7 @@ void LuaShipDef::Register()
 		if (!lua_getmetatable(l, -1)) {
 			lua_newtable(l);
 		}
-		pi_lua_import(l, "EquipSet");
+		pi_lua_import(l, "EquipSetCompat");
 		luaL_getsubtable(l, -1, "default");
 		lua_setfield(l, -3, "__index");
 		lua_pop(l, 1);
@@ -301,6 +304,10 @@ void LuaShipDef::Register()
 		pi_lua_readonly_table_proxy(l, -1);
 		lua_setfield(l, -3, "roles");
 		lua_pop(l, 1);
+
+		Json data = JsonUtils::LoadJsonDataFile(st.definitionPath);
+		LuaJson::PushToLua(l, data);
+		lua_setfield(l, -2, "raw");
 
 		pi_lua_readonly_table_proxy(l, -1);
 		lua_setfield(l, -3, iter.first.c_str());

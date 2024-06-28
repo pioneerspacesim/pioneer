@@ -128,34 +128,17 @@ local ship_equip = {
 }
 local set_player_ship_type
 set_player_ship_type = function(shipType)
-  local item_types = {
-    Equipment.misc,
-    Equipment.laser,
-    Equipment.hyperspace
-  }
-  local equip
-  do
-    local _accum_0 = { }
-    local _len_0 = 1
-    for _index_0 = 1, #item_types do
-      local type = item_types[_index_0]
-      for _, item in pairs(type) do
-        for i = 1, Game.player:CountEquip(item) do
-          _accum_0[_len_0] = item
-          _len_0 = _len_0 + 1
-        end
-      end
-    end
-    equip = _accum_0
+  local equipSet = Game.player:GetComponent("EquipSet")
+  local items = equipSet:GetInstalledEquipment()
+  local returnedMoney = 0
+  for i, item in ipairs(items) do
+    returnedMoney = returnedMoney + item.price
   end
   do
     local _with_0 = Game.player
     _with_0:SetShipType(shipType)
-    for _index_0 = 1, #equip do
-      local item = equip[_index_0]
-      _with_0:AddEquip(item)
-    end
     _with_0:UpdateEquipStats()
+    _with_0:AddMoney(returnedMoney)
     return _with_0
   end
 end

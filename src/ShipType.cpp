@@ -71,6 +71,8 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	}
 
 	id = _id;
+	definitionPath = path;
+
 	name = data.value("name", "");
 	shipClass = data.value("ship_class", "");
 	manufacturer = data.value("manufacturer", "");
@@ -184,7 +186,8 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	angThrust = angThrust * 0.5f;
 
 	hullMass = data.value("hull_mass", 100);
-	capacity = data.value("capacity", 0);
+	capacity = data.value("capacity", 0.0);
+	cargo = data.value("cargo", 0);
 	fuelTankMass = data.value("fuel_tank_mass", 5);
 
 	for (Json::iterator slot = data["slots"].begin(); slot != data["slots"].end(); ++slot) {

@@ -45,7 +45,8 @@ struct ShipType {
 	bool isDirectionColorDefined[THRUSTER_MAX];
 	double thrusterUpgrades[4];
 	double atmosphericPressureLimit;
-	int capacity; // tonnes
+	float capacity; // m3
+	int cargo; // cargo units ~ m3
 	int hullMass;
 	float effectiveExhaustVelocity; // velocity at which the propellant escapes the engines
 	int fuelTankMass; //full fuel tank mass, on top of hullMass
@@ -67,6 +68,8 @@ struct ShipType {
 
 	int hyperdriveClass;
 	int minCrew, maxCrew; // XXX really only for Lua, but needs to be declared in the ship def
+
+	std::string definitionPath;
 	///////
 
 	// percentage (ie, 0--100) of tank used per second at full thrust

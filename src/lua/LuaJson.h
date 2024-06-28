@@ -4,8 +4,15 @@
 #ifndef PI_LUA_JSON_H
 #define PI_LUA_JSON_H
 
+#include "JsonFwd.h"
+#include "Lua.h"
+
 namespace LuaJson {
+
 	void Register();
+
+	void PushToLua(lua_State *l, const Json &data);
+
 }
 
 #endif

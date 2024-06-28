@@ -65,7 +65,7 @@
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "Market header when buying items",
-    "message": "Available For Purchase"
+    "message": "Available For Purchase:"
   },
   "AVERAGE": {
     "description": "",
@@ -1957,7 +1957,7 @@
   },
   "REPLACE_EQUIPMENT_WITH": {
     "description": "Market header when replacing equipped items",
-    "message": "Replace Equipment With"
+    "message": "Replace Equipment With:"
   },
   "REPUTATION": {
     "description": "",
@@ -2538,5 +2538,21 @@
   "ZOOM": {
     "description": "Label for a zoom (magnification) control bar.",
     "message": "Zoom"
+  },
+  "SELECTED": {
+	"description": "Label indicating the following item is selected",
+	"message": "Selected"
+  },
+  "INSTALLED": {
+	"description": "Label indicating something is installed",
+	"message": "Installed"
+  },
+  "SELL_EQUIP": {
+	"description": "Button text to sell installed equipment. May used in a singular or plural context.",
+	"message": "Sell {name}"
+  },
+  "BUY_EQUIP": {
+	"description": "Button text to buy selected equipment. May used in a singular or plural context.",
+	"message": "Buy {name}"
   }
 }

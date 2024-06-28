@@ -39,6 +39,7 @@ local Serializer = require 'Serializer'
 local Character = require 'Character'
 local Commodities = require 'Commodities'
 local Equipment = require 'Equipment'
+local Passengers = require 'Passengers'
 local ShipDef = require 'ShipDef'
 local Ship = require 'Ship'
 local utils = require 'utils'
@@ -407,20 +408,12 @@ end
 
 local passengersPresent = function (ship)
 	-- Check if any passengers are present on the ship.
-	if ship:CountEquip(Equipment.misc.cabin_occupied) > 0 then
-		return true
-	else
-		return false
-	end
+	return Passengers.CountOccupiedCabins(ship) > 0
 end
 
 local passengerSpace = function (ship)
 	-- Check if the ship has space for passengers.
-	if ship:CountEquip(Equipment.misc.cabin) > 0 then
-		return true
-	else
-		return false
-	end
+	return Passengers.CountFreeCabins(ship) > 0
 end
 
 local cargoPresent = function (ship, item)
@@ -454,18 +447,16 @@ local removeCrew = function (ship)
 	return crew_member
 end
 
-local addPassenger = function (ship)
+local addPassenger = function (ship, passenger)
 	-- Add a passenger to the supplied ship.
 	if not passengerSpace(ship) then return end
-	ship:RemoveEquip(Equipment.misc.cabin, 1)
-	ship:AddEquip(Equipment.misc.cabin_occupied, 1)
+	Passengers.EmbarkPassenger(ship, passenger)
 end
 
-local removePassenger = function (ship)
+local removePassenger = function (ship, passenger)
 	-- Remove a passenger from the supplied ship.
 	if not passengersPresent(ship) then return end
-	ship:RemoveEquip(Equipment.misc.cabin_occupied, 1)
-	ship:AddEquip(Equipment.misc.cabin, 1)
+	Passengers.DisembarkPassenger(ship, passenger)
 end
 
 local addCargo = function (ship, item)
@@ -478,26 +469,16 @@ local removeCargo = function (ship, item)
 	ship:GetComponent('CargoManager'):RemoveCommodity(item, 1)
 end
 
-local passEquipmentRequirements = function (requirements)
-	-- Check if player ship passes equipment requirements for this mission.
-	if requirements == {} then return true end
-	for equipment,amount in pairs(requirements) do
-		if Game.player:CountEquip(equipment) < amount then return false end
-	end
-	return true
-end
-
 local isQualifiedFor = function(ad)
 	-- Return if player is qualified for this mission. Used for example by ads to determine if they are
 	-- enabled or disabled for selection on the banter board of if certain missions can be accepted.
 	-- TODO: enable reputation based qualifications
 
 	-- collect equipment requirements per mission flavor
-	local requirements = {}
 	local empty_cabins = ad.pickup_crew + ad.deliver_crew + ad.pickup_pass + ad.deliver_pass
-	if empty_cabins > 0 then requirements[Equipment.misc.cabin] = empty_cabins end
-	if not passEquipmentRequirements(requirements) then return false end
-	return true
+	local avail_cabins = Passengers.CountFreeCabins(Game.player)
+
+	return avail_cabins >= empty_cabins
 end
 
 -- extended mission functions
@@ -691,7 +672,7 @@ end
 
 local createTargetShip = function (mission)
 	-- Create the target ship to be search for.
-	local ship
+	local ship ---@type Ship
 	local shipdef = shipdefFromName(mission.shipdef_name)
 
 	-- set rand with unique ship seed
@@ -733,10 +714,10 @@ local createTargetShip = function (mission)
 		for i = 9, 1, -1 do
 			table.insert(drives, Equipment.hyperspace['hyperdrive_'..tostring(i)])
 		end
-		table.sort(drives, function (a,b) return a.capabilities.mass < b.capabilities.mass end)
+		table.sort(drives, function (a,b) return a.mass < b.mass end)
 		for i = #drives, 1, -1 do
 			local test_drive = drives[i]
-			if shipdef.capacity / 10 > test_drive.capabilities.mass then
+			if shipdef.capacity / 10 > test_drive.mass then
 				drive = test_drive
 			end
 		end
@@ -744,14 +725,22 @@ local createTargetShip = function (mission)
 	if not drive then drive = drives[1] end
 	ship:AddEquip(drive)
 
-	-- load passengers
-	if mission.pickup_pass > 0 then
-		ship:AddEquip(Equipment.misc.cabin_occupied, mission.pickup_pass)
+	local equipSet = ship:GetComponent("EquipSet")
+	local cabinType = Equipment.Get("misc.cabin")
+
+	for i = 1, math.max(mission.deliver_pass, mission.pickup_pass) do
+		local cabin = cabinType:Instance()
+		local installed = equipSet:Install(cabin)
+		assert(installed, "Not enough space in mission ship for all passengers!")
+
+		if mission.return_pass[i] then
+			Passengers.EmbarkPassenger(ship, mission.return_pass[i])
+		end
 	end
 
 	-- add hydrogen for hyperjumping even for refueling missoins - to reserve the space
 	-- for refueling missions it is removed later
-	local drive = ship:GetEquip('engine', 1)
+	local drive = ship:GetInstalledHyperdrive()
 	local hypfuel = drive.capabilities.hyperclass ^ 2  -- fuel for max range
 	ship:GetComponent('CargoManager'):AddCommodity(drive.fuel or Commodities.hydrogen, hypfuel)
 
@@ -937,10 +926,15 @@ local onChat = function (form, ref, option)
 			deliver_pass_check = "NOT",
 			deliver_comm_check = {},
 			target_destroyed   = "NOT",
+			return_pass        = {},
 			cargo_pass         = {},
 			cargo_comm         = {},
 			searching          = false    -- makes sure only one search is active for this mission (function "searchForTarget")
 		}
+
+		for _ = 1, ad.pickup_pass do
+			table.insert(mission.return_pass, Character.New())
+		end
 
 		-- create target ship if in the same systems, otherwise create when jumping there
 		if mission.flavour.loctype ~= "FAR_SPACE" then
@@ -951,14 +945,14 @@ local onChat = function (form, ref, option)
 		if ad.deliver_crew > 0 then
 			for _ = 1, ad.deliver_crew do
 				local passenger = Character.New()
-				addPassenger(Game.player)
+				addPassenger(Game.player, passenger)
 				table.insert(mission.cargo_pass, passenger)
 			end
 		end
 		if ad.deliver_pass > 0 then
 			for _ = 1, ad.deliver_pass do
 				local passenger = Character.New()
-				addPassenger(Game.player)
+				addPassenger(Game.player, passenger)
 				table.insert(mission.cargo_pass, passenger)
 			end
 		end
@@ -1111,9 +1105,9 @@ local flyToNearbyStation =  function (ship)
 	-- closest system that does have a station.
 
 	-- check if ship has atmo shield and limit to vacuum starports if not
-	local vacuum = false
-	if ship:CountEquip(Equipment.misc.atmospheric_shielding) == 0 then
-		vacuum = true
+	local vacuum = true
+	if (ship["atmo_shield_cap"] or 0) > 1 then
+		vacuum = false
 	end
 
 	local nearbysystems
@@ -1514,9 +1508,10 @@ local closeMission = function (mission)
 
 	-- clear player cargo
 	-- TODO: what to do if player got rid of mission commodity cargo in between (sold?)
-	for _ = 1, arraySize(mission.cargo_pass) do
-		removePassenger(Game.player)
+	for i, passenger in ipairs(mission.cargo_pass) do
+		removePassenger(Game.player, passenger)
 	end
+
 	for commodity,_ in pairs(mission.cargo_comm) do
 		for _ = 1, mission.cargo_comm[commodity] do
 			removeCargo(Game.player, commodity)
@@ -1560,7 +1555,7 @@ local pickupCrew = function (mission)
 	-- pickup crew
 	else
 		local crew_member = removeCrew(mission.target)
-		addPassenger(Game.player)
+		addPassenger(Game.player, crew_member)
 		table.insert(mission.cargo_pass, crew_member)
 		local boardedtxt = string.interp(l.BOARDED_PASSENGER, {name = crew_member.name})
 		Comms.ImportantMessage(boardedtxt)
@@ -1598,9 +1593,9 @@ local pickupPassenger = function (mission)
 
 	-- pickup passenger
 	else
-		local passenger = Character.New()
-		removePassenger(mission.target)
-		addPassenger(Game.player)
+		local passenger = table.remove(mission.return_pass)
+		removePassenger(mission.target, passenger)
+		addPassenger(Game.player, passenger)
 		table.insert(mission.cargo_pass, passenger)
 		local boardedtxt = string.interp(l.BOARDED_PASSENGER, {name = passenger.name})
 		Comms.ImportantMessage(boardedtxt)
@@ -1673,7 +1668,7 @@ local deliverCrew = function (mission)
 	-- transfer crew
 	else
 		local crew_member = table.remove(mission.cargo_pass, 1)
-		removePassenger(Game.player)
+		removePassenger(Game.player, crew_member)
 		addCrew(mission.target, crew_member)
 		mission.crew_num = mission.crew_num + 1
 		local deliverytxt = string.interp(l.DELIVERED_PASSENGER, {name = crew_member.name})
@@ -1708,8 +1703,8 @@ local deliverPassenger = function (mission)
 	-- transfer passenger
 	else
 		local passenger = table.remove(mission.cargo_pass, 1)
-		removePassenger(Game.player)
-		addPassenger(mission.target)
+		removePassenger(Game.player, passenger)
+		addPassenger(mission.target, passenger)
 		local deliverytxt = string.interp(l.DELIVERED_PASSENGER, {name = passenger.name})
 		Comms.ImportantMessage(deliverytxt)
 
@@ -2097,7 +2092,7 @@ local onShipDocked = function (ship, station)
 				ship:SetFuelPercent(100)
 
 				-- add hydrogen for hyperjumping
-				local drive = ship:GetEquip('engine', 1)
+				local drive = ship:GetInstalledHyperdrive()
 				if drive then
 					---@type CargoManager
 					local cargoMgr = ship:GetComponent('CargoManager')
