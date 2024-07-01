@@ -2357,7 +2357,7 @@
   },
   "TRADING_FROM": {
     "description": "Indicates the source system of a commodity trade.",
-    "message": "Depuis {système}:"
+    "message": "Depuis {system}:"
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
@@ -2365,7 +2365,7 @@
   },
   "TRADING_TO": {
     "description": "Indicates the destination system of a commodity trade.",
-    "message": "Vers {système}:"
+    "message": "Vers {system}:"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
