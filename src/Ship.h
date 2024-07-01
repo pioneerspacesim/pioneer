@@ -277,6 +277,9 @@ protected:
 	Propulsion *m_propulsion;
 	FixedGuns *m_fixedGuns;
 
+	// TODO: convert Shields to follow the component interface
+	std::unique_ptr<Shields> m_shields;
+
 private:
 	float GetECMRechargeTime();
 	void DoThrusterSounds() const;
@@ -285,6 +288,7 @@ private:
 	void UpdateAlertState();
 	void UpdateFuel(float timeStep);
 	void SetShipId(const ShipType::Id &shipId);
+	void SetupShields();
 	void EnterHyperspace();
 	void InitMaterials();
 	void InitEquipSet();
@@ -298,6 +302,8 @@ private:
 	shipstats_t m_stats;
 	const ShipType *m_type;
 	SceneGraph::ModelSkin m_skin;
+
+	std::unique_ptr<SceneGraph::Model> m_shieldModel;
 
 	Sound::Event m_beamLaser[2];
 

@@ -35,7 +35,7 @@ namespace SceneGraph {
 
 	Node *StaticGeometry::Clone(NodeCopyCache *cache)
 	{
-		return this; //geometries are shared
+		return new StaticGeometry(*this, cache); // geometries cannot be shared if material overriding is supported. See Shields.cpp
 	}
 
 	void StaticGeometry::Accept(NodeVisitor &nv)
