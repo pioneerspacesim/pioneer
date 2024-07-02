@@ -434,6 +434,12 @@ endif(MODELCOMPILER)
 install(TARGETS ${PROJECT_NAME} editor modelcompiler savegamedump
 	RUNTIME DESTINATION ${PIONEER_INSTALL_BINDIR}
 )
+
+if (MSVC)
+	file(GLOB win_libs ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/bin/${MSVC_ARCH}/vs2019/*.dll)
+	install(FILES ${win_libs} DESTINATION ${PIONEER_INSTALL_BINDIR})
+endif (MSVC)
+
 install(DIRECTORY data/
 	DESTINATION ${PIONEER_INSTALL_DATADIR}/data
 	REGEX "/models" EXCLUDE
@@ -441,6 +447,7 @@ install(DIRECTORY data/
 	PATTERN "listdata.*" EXCLUDE
 	PATTERN "Makefile.am" EXCLUDE
 )
+
 install(DIRECTORY data/models/
 	DESTINATION ${PIONEER_INSTALL_DATADIR}/data/models
 	FILES_MATCHING PATTERN "*.sgm" PATTERN "*.dds" PATTERN "*.png"

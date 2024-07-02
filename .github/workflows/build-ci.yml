@@ -14,6 +14,7 @@ on:
     - '**/CMakeLists.txt'
     - '.github/workflows/build-ci.yml'
     - '.github/actions/*/action.yml'
+    - 'cmake/*.cmake'
   release:
     types: [published]
 
