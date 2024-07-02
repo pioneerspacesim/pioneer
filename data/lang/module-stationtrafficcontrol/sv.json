@@ -41,7 +41,7 @@
   },
   "YOU_ARE_ENTERING_STATION_SPACE_3": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playedrShipLabel}, detta är station {station} rymdfartskontroll. Du är nu i vårt reglerade område."
+    "message": "{playerShipLabel}, detta är station {station} rymdfartskontroll. Du är nu i vårt reglerade område."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_4": {
     "description": "",

@@ -9,7 +9,7 @@
   },
   "FLAVOUR_0_PRICE": {
     "description": "",
-    "message": "\nMotor: {drive}\nService: {price}\nGaranti: 18 months\n{lasttime}"
+    "message": "\nMotor: {drive}\nService: {price}\nGaranti: 18 månader\n{lasttime}"
   },
   "FLAVOUR_0_RESPONSE": {
     "description": "",
