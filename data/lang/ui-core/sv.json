@@ -1825,7 +1825,7 @@
   },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
-    "message": "Oj, något gick fel här! Vänligen rapportera stegen för att återskapa felet, utdataloggen och din sparade fil till Pioneers problemlösare på GitHub.\n Du hittar din utdatalogg på: {path}/output.txt\n\n\nOops, something went wrong here! Please report the steps to reproduce this error, the output log, and your save file to the Pioneer issue tracker on GitHub.\nYou can find your output log at: {path}/output.txt"
+    "message": "Oj, något gick fel här! Vänligen rapportera stegen för att återskapa felet, utdataloggen och din sparade fil till Pioneers problemlösare på GitHub.\n Du hittar din utdatalogg på: {path}/output.txt"
   },
   "POLICE": {
     "description": "",

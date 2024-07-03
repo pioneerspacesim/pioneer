@@ -81,7 +81,7 @@
   },
   "HAS_BEEN_FITTED_TO_YOUR_SHIP": {
     "description": "",
-    "message": "{equipment] wurde im Schiff eingebaut."
+    "message": "{equipment} wurde im Schiff eingebaut."
   },
   "HOW_DO_I_FITT_IT": {
     "description": "Regarding installing a component on the ship",

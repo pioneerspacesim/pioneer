@@ -525,15 +525,15 @@
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
-    "message": "Antinormál irány tartása"
+    "message": "{target} antinormál irány tartása"
   },
   "HEADING_LOCK_BACKWARD": {
     "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-    "message": "Retrográd irány tartása"
+    "message": "{target} retrográd irány tartása"
   },
   "HEADING_LOCK_FORWARD": {
     "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-    "message": "Prográd irány tartása"
+    "message": "{target} prográd irány tartása"
   },
   "HEADING_LOCK_KILLROT": {
     "description": "",
@@ -541,15 +541,15 @@
   },
   "HEADING_LOCK_NORMAL": {
     "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-    "message": "Normál irány tartása"
+    "message": "{target} normál irány tartása"
   },
   "HEADING_LOCK_RADIALLY_INWARD": {
     "description": "Autopilot direction, relative to orbit (face towards planet)",
-    "message": "Befelé sugárirány tartása"
+    "message": "{target} befelé sugárirány tartása"
   },
   "HEADING_LOCK_RADIALLY_OUTWARD": {
     "description": "Autopilot direction, relative to orbit (face away from palent)",
-    "message": "Kifelé sugárirány tartása"
+    "message": "{target} kifelé sugárirány tartása"
   },
   "HEAVY_INDUSTRY": {
     "description": "",
@@ -745,7 +745,7 @@
   },
   "LONGITUDE": {
     "description": "Short for longitude",
-    "message": "Long:"
+    "message": "Hossz.:"
   },
   "LONGITUDE_EAST_ABBREV": {
     "description": "Abbreviation letter for longitude 'east'",
@@ -1021,7 +1021,7 @@
   },
   "NUMBER_HOURS": {
     "description": "",
-    "message": "%hours{f.2} óra"
+    "message": "%hours{f.1} óra"
   },
   "NUMBER_LY": {
     "description": "",
@@ -1217,7 +1217,7 @@
   },
   "RECENTLY_EXPLORED_SYSTEM": {
     "description": "",
-    "message": "Felderítve: "
+    "message": "Felderíve: %date"
   },
   "REQUEST_DOCKING_CLEARANCE": {
     "description": "",

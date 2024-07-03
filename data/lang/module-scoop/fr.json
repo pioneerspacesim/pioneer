@@ -89,7 +89,7 @@
   },
   "HOW_MUCH_TIME_ARMS_DEALER": {
     "description": "",
-    "message": "Mon associé est en orbite autour de [star] pour éviter d'être détecté. L'idéal serait que vous le rejoigniez avant le [date]."
+    "message": "Mon associé est en orbite autour de [star] pour éviter d'être détecté. L'idéal serait que vous le rejoigniez avant le {date}."
   },
   "HOW_MUCH_TIME_ILLEGAL_GOODS": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "HOW_MUCH_TIME_RESCUE": {
     "description": "",
-    "message": "Ce serait parfait si vous pouviez y être avant le [date]."
+    "message": "Ce serait parfait si vous pouviez y être avant le {date}."
   },
   "INTROTEXT_ARMS_DEALER": {
     "description": "",

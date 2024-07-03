@@ -53,7 +53,7 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "Det är nu man mot maskin i {system}-systemet ({sector}, {sector}, {sector}), sedan \"beteendefel\" gör att konsumenter tappar tron på robottjänare."
+    "message": "Det är nu man mot maskin i {system}-systemet ({sectorx}, {sectory}, {sectorz}), sedan \"beteendefel\" gör att konsumenter tappar tron på robottjänare."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "Under den stora ångmässan i {system}-systemet ({sectorx}, {sectory}, {sectorz}) slutade ett försök till det galaktiska rekordet i den största traktordragningstävlingen i kaos då en av de tävlande tappade kontrollen över sitt redskap, och alla andra deltagares maskiner förstördes. Administrationen säger att det kan innebära slutet för de lokala bönderna."
+    "message": "Under den stora ångmässan i {system} systemet ({sectorx}, {sectory}, {sectorz}) slutade ett försök till det galaktiska rekordet i den största traktordragningstävlingen i kaos då en av de tävlande tappade kontrollen över sitt redskap, och alla andra deltagares maskiner förstördes. Administrationen säger att det kan innebära slutet för de lokala bönderna."
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -177,7 +177,7 @@
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
-    "message": "NYHETER {date}: Glädjefylld Quibblefestival i {system] systemet."
+    "message": "NYHETER {date}: Glädjefylld Quibblefestival i {system} systemet."
   },
   "FLAVOUR_6_NEWSBODY": {
     "description": "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
@@ -185,7 +185,7 @@
   },
   "FLAVOUR_7_HEADLINE": {
     "description": "",
-    "message": "NYHETER {datum}: Industrin avstannar helt i {system} systemet."
+    "message": "NYHETER {date}: Industrin avstannar helt i {system} systemet."
   },
   "FLAVOUR_7_NEWSBODY": {
     "description": "Imply demand of INDUSTRIAL_MACHINERY.",

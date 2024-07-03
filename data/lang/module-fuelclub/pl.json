@@ -17,7 +17,7 @@
   },
   "FLAVOUR_0_MEMBER_INTRO": {
     "description": "",
-    "message": "Zakup paliwa i utylizacja odpadów radioaktywnych."
+    "message": "Zakup paliwa i utylizacja odpadów {radioactives}."
   },
   "FLAVOUR_0_NONMEMBER_INTRO": {
     "description": "",
@@ -121,7 +121,7 @@
   },
   "WHAT_CONDITIONS_APPLY": {
     "description": "",
-    "message": "Jakie warunki obowiązują przy utylizacji odpadów radioaktywnych?"
+    "message": "Jakie warunki obowiązują przy utylizacji odpadów {radioactives}?"
   },
   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
     "description": "",

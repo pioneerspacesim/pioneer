@@ -217,7 +217,7 @@
   },
   "GRATEFUL_GREETING_2": {
     "description": "",
-    "message": "Bien le bonjour et bienvenue! Vous ne devriez pas avoir de mal à écouler votre cargaison de [cargo] sur notre système."
+    "message": "Bien le bonjour et bienvenue! Vous ne devriez pas avoir de mal à écouler votre cargaison de {cargo} sur notre système."
   },
   "GRATEFUL_GREETING_3": {
     "description": "",

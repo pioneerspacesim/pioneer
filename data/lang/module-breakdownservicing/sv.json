@@ -61,7 +61,7 @@
   },
   "FLAVOUR_2_RESPONSE": {
     "description": "",
-    "message": "Motorn är nu färdigservad. Tack för att du använder dig av {proprietor}."
+    "message": "Service slutförd. Tack för din beställning."
   },
   "FLAVOUR_2_TITLE": {
     "description": "",

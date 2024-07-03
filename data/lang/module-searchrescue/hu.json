@@ -165,7 +165,7 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "A helyi forgalomirányítás jelentése alapján egy hajó lezuhant bplanet} bolygón. Segítségnyújtás szükséges."
+    "message": "A helyi forgalomirányítás jelentése alapján egy hajó lezuhant {planet} bolygón. Segítségnyújtás szükséges."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
