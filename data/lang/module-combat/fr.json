@@ -181,7 +181,7 @@
   },
   "HARVESTING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "A l'aide ! Nous avons reçu un appel de détresse d'un de nos transporteur en orbite autour de {area} dans le système {system} ({sectorx}, {sectory}, {sectorz}). L'appel a été interrompu, donc nous craignons le pire. La distance jusqu'à {système} est de {dist} al. La paie est de {cash}."
+    "message": "A l'aide ! Nous avons reçu un appel de détresse d'un de nos transporteur en orbite autour de {area} dans le système {system} ({sectorx}, {sectory}, {sectorz}). L'appel a été interrompu, donc nous craignons le pire. La distance jusqu'à {system} est de {dist} al. La paie est de {cash}."
   },
   "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",

@@ -17,39 +17,39 @@
   },
   "FLAVOUR_0_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: Praga espalhada no sistema {sistema}. Número de mortos cresce."
+    "message": "NOTÍCIAS {date}: Praga espalhada no sistema {system}. Número de mortos cresce."
   },
   "FLAVOUR_0_NEWSBODY": {
     "description": "Imply high demand for MEDICINE commodity.",
-    "message": "Pragas de colheita vivem no sistema {sistema} ({setorx}, {setory}, {setorz}). Oficiais clamam por ajuda médica."
+    "message": "Pragas de colheita vivem no sistema {system} ({sectorx}, {sectory}, {sectorz}). Oficiais clamam por ajuda médica."
   },
   "FLAVOUR_10_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: A sobrevivência contínua e ameaçadora da companhia no sistema {sistema}."
+    "message": "NOTÍCIAS {date}: A sobrevivência contínua e ameaçadora da companhia no sistema {system}."
   },
   "FLAVOUR_10_NEWSBODY": {
     "description": "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-    "message": "Prekall Inc. quer monopolizar o ar através de {sistema} ({setorx}, {setory}, {setorz}). Respire fundo, pode ser a última vez que você faz isso de graça."
+    "message": "Prekall Inc. quer monopolizar o ar através de {system} ({sectorx}, {sectory}, {sectorz}). Respire fundo, pode ser a última vez que você faz isso de graça."
   },
   "FLAVOUR_11_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: Desaparecimento misterioso de gado no sistema {sistema}."
+    "message": "NOTÍCIAS {date}: Desaparecimento misterioso de gado no sistema {system}."
   },
   "FLAVOUR_11_NEWSBODY": {
     "description": "Imply high demand of ANIMAL_MEAT.",
-    "message": "Como num passe de mágica, os fazendeiros no sistema {sistema} ({setorx}, {setory}, {setorz}), acordaram com os estábulos vazios. \"É o maior roubo de gado do século\", reportou a polícia."
+    "message": "Como num passe de mágica, os fazendeiros no sistema {system} ({sectorx}, {sectory}, {sectorz}), acordaram com os estábulos vazios. \"É o maior roubo de gado do século\", reportou a polícia."
   },
   "FLAVOUR_12_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: Queda na infraestrutura devido a avaria dos computadores no sistema {sistema}."
+    "message": "NOTÍCIAS {date}: Queda na infraestrutura devido a avaria dos computadores no sistema {system}."
   },
   "FLAVOUR_12_NEWSBODY": {
     "description": "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
-    "message": "Um asqueroso vírus fez com que os HDs de todos os computadores da Nachosoft no sistema {sistema} ({setorx}, {setory}, {setorz}) derretessem. As unidades defeituosas servem como excelentes pesos de papel, dizem os cientistas tecnológicos."
+    "message": "Um asqueroso vírus fez com que os HDs de todos os computadores da Nachosoft no sistema {system} ({sectorx}, {sectory}, {sectorz}) derretessem. As unidades defeituosas servem como excelentes pesos de papel, dizem os cientistas tecnológicos."
   },
   "FLAVOUR_13_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: Revolta de robôs no sistema {sistema}."
+    "message": "NOTÍCIAS {date}: Revolta de robôs no sistema {system}."
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
@@ -65,15 +65,15 @@
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: Polícia invade sindicato criminoso no sistema {sistema}, principais líderes presos."
+    "message": "NOTÍCIAS {date}: Polícia invade sindicato criminoso no sistema {system}, principais líderes presos."
   },
   "FLAVOUR_15_NEWSBODY": {
     "description": "Imply high demand of NARCOTICS.",
-    "message": "O administrador no sistema {sistema} ({setorx}, {setory}, {setorz}) espera diminuição no crime, já que as drogas não estão mais disponíveis, desde a prisão de diversos mafiosos."
+    "message": "O administrador no sistema {system} ({sectorx}, {sectory}, {sectorz}) espera diminuição no crime, já que as drogas não estão mais disponíveis, desde a prisão de diversos mafiosos."
   },
   "FLAVOUR_16_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: Acidente sério durante a {sistema} Grande Feira Anual do Vapor."
+    "message": "NOTÍCIAS {date}: Acidente sério durante a {system} Grande Feira Anual do Vapor."
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
@@ -81,63 +81,63 @@
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: Novos ricos encontrados no sistema {sistema}."
+    "message": "NOTÍCIAS {date}: Novos ricos encontrados no sistema {system}."
   },
   "FLAVOUR_17_NEWSBODY": {
     "description": "Imply vast abundance of METAL_ORE.",
-    "message": "Mineiros no sistema {sistema} ({setorx}, {setory}, {setorz}) descobriram um vasto depósito de minério de proporções nunca antes vistas."
+    "message": "Mineiros no sistema {system} ({sectorx}, {sectory}, {sectorz}) descobriram um vasto depósito de minério de proporções nunca antes vistas."
   },
   "FLAVOUR_18_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: Reforma econômica no sistema {sistema} foi um grande sucesso."
+    "message": "NOTÍCIAS {date}: Reforma econômica no sistema {system} foi um grande sucesso."
   },
   "FLAVOUR_18_NEWSBODY": {
     "description": "Imply vast demand of CONSUMER_GOODS.",
-    "message": "Os volantes estão girando ainda mais rápido no sistema {sistema} ({setorx}, {setory}, {setorz}), pois os consumidores têm mais dinheiro para gastar."
+    "message": "Os volantes estão girando ainda mais rápido no sistema {system} ({sectorx}, {sectory}, {sectorz}), pois os consumidores têm mais dinheiro para gastar."
   },
   "FLAVOUR_19_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: Está chovendo ouro no sistema {sistema}."
+    "message": "NOTÍCIAS {date}: Está chovendo ouro no sistema {system}."
   },
   "FLAVOUR_19_NEWSBODY": {
     "description": "Imply vast abundance of PRECIOUS_METALS.",
-    "message": "Um homem no sistema {sistema} ({setorx}, {setory}, {setorz}) herdou uma invenção de seu tio falecido, permitindo-lhe transformar qualquer sólido em ouro e platina. Economistas esperam uma desestabilização da economia no sistema, a não ser que a máquina quebre logo."
+    "message": "Um homem no sistema {system} ({sectorx}, {sectory}, {sectorz}) herdou uma invenção de seu tio falecido, permitindo-lhe transformar qualquer sólido em ouro e platina. Economistas esperam uma desestabilização da economia no sistema, a não ser que a máquina quebre logo."
   },
   "FLAVOUR_1_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: Conflito aumenta no sistema {sistema}."
+    "message": "NOTÍCIAS {date}: Conflito aumenta no sistema {system}."
   },
   "FLAVOUR_1_NEWSBODY": {
     "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
-    "message": "O interminável conflito no sistema {sistema} ({setorx}, {setory}, {setorz}) aumenta conforme os exércitos se empenham no combate aberto completo."
+    "message": "O interminável conflito no sistema {system} ({sectorx}, {sectory}, {sectorz}) aumenta conforme os exércitos se empenham no combate aberto completo."
   },
   "FLAVOUR_20_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: A colheita de algas gigantes no sistema {sistema} bate novo recorde."
+    "message": "NOTÍCIAS {date}: A colheita de algas gigantes no sistema {system} bate novo recorde."
   },
   "FLAVOUR_20_NEWSBODY": {
     "description": "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-    "message": "Como o {sistema} ({setorx}, {setory}, {setorz}) entra numa fase favorável para as algas amarelas encontradas na atmosfera de um gigante local, a colheita foi excepcionalmente boa para a empresa de fertilizantes Soylent Yellow Inc."
+    "message": "Como o {system} ({sectorx}, {sectory}, {sectorz}) entra numa fase favorável para as algas amarelas encontradas na atmosfera de um gigante local, a colheita foi excepcionalmente boa para a empresa de fertilizantes Soylent Yellow Inc."
   },
   "FLAVOUR_21_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: Tratado assinado no sistema {sistema} para mais conflitos \"humanos\"."
+    "message": "NOTÍCIAS {date}: Tratado assinado no sistema {system} para mais conflitos \"humanos\"."
   },
   "FLAVOUR_21_NEWSBODY": {
     "description": "Imply vast abundance of NERVE_GAS.",
-    "message": "Apesar de que as partes conflitantes no sistema {sistema} ({setorx}, {setory}, {setorz}) não assinaram um cessar fogo oficial, elas concordaram em parar de usar armas químicas."
+    "message": "Apesar de que as partes conflitantes no sistema {system} ({sectorx}, {sectory}, {sectorz}) não assinaram um cessar fogo oficial, elas concordaram em parar de usar armas químicas."
   },
   "FLAVOUR_22_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {datas}: Polícia em greve no sistema {sistema}. Cidadãos deixados para se defender sozinhos."
+    "message": "NOTÍCIAS {date}: Polícia em greve no sistema {system}. Cidadãos deixados para se defender sozinhos."
   },
   "FLAVOUR_22_NEWSBODY": {
     "description": "Imply high demand of HAND_WEAPONS.",
-    "message": "Em um protesto contra a diminuição de pessoal no sistema {sistema} ({setorx}, {setory}, {setorz}) a polícia se recusou a trabalhar. Enquanto isso, civis formam grupo vigilante e armam-se com forcados e armas de fogo, preparando-se para o pior."
+    "message": "Em um protesto contra a diminuição de pessoal no sistema {system} ({sectorx}, {sectory}, {sectorz}) a polícia se recusou a trabalhar. Enquanto isso, civis formam grupo vigilante e armam-se com forcados e armas de fogo, preparando-se para o pior."
   },
   "FLAVOUR_23_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: Grande abertura da nova fábrica no sistema {sistema}."
+    "message": "NOTÍCIAS {date}: Grande abertura da nova fábrica no sistema {system}."
   },
   "FLAVOUR_23_NEWSBODY": {
     "description": "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
@@ -145,31 +145,31 @@
   },
   "FLAVOUR_2_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: Seca em {sistema}. Plantação arruinada."
+    "message": "NOTÍCIAS {date}: Seca em {system}. Plantação arruinada."
   },
   "FLAVOUR_2_NEWSBODY": {
     "description": "Hint there will be high demand of GRAIN.",
-    "message": "Seca severa arruinou a plantação no sistema {sistema} ({setorx}, {setory}, {setorz}). Teme-se a inanição no sistema."
+    "message": "Seca severa arruinou a plantação no sistema {system} ({sectorx}, {sectory}, {sectorz}). Teme-se a inanição no sistema."
   },
   "FLAVOUR_3_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: Estilo de vida vegano ganha seguidores no sistema {sistema}."
+    "message": "NOTÍCIAS {date}: Estilo de vida vegano ganha seguidores no sistema {system}."
   },
   "FLAVOUR_3_NEWSBODY": {
     "description": "Imply high demand of FRUIT_AND_VEG.",
-    "message": "Administração do sistema {sistema} ({setorx}, {setory}, {setorz}) quer aumentar importação para aproveitar a demanda que surge por tudo que é verde."
+    "message": "Administração do sistema {system} ({sectorx}, {sectory}, {sectorz}) quer aumentar importação para aproveitar a demanda que surge por tudo que é verde."
   },
   "FLAVOUR_4_HEADLINE": {
     "description": "About mob rivals competing for selling drugs",
-    "message": "NOTÍCIAS {data}: Guerra contra as drogas no sistema {sistema}. Mandantes da lei lutam para reaver o controle."
+    "message": "NOTÍCIAS {date}: Guerra contra as drogas no sistema {system}. Mandantes da lei lutam para reaver o controle."
   },
   "FLAVOUR_4_NEWSBODY": {
     "description": "Imply high abundance of NARCOTICS.",
-    "message": "O mercado foi inundado pelas drogas baratas no sistema {sistema} ({setorx}, {setory}, {setorz}), enquanto os senhores da droga rivais competem para aumentar seu poder."
+    "message": "O mercado foi inundado pelas drogas baratas no sistema {system} ({sectorx}, {sectory}, {sectorz}), enquanto os senhores da droga rivais competem para aumentar seu poder."
   },
   "FLAVOUR_5_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: Rebelião de escravos no sistema {sistema}. A agricultura estagna."
+    "message": "NOTÍCIAS {date}: Rebelião de escravos no sistema {system}. A agricultura estagna."
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
@@ -177,35 +177,35 @@
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
-    "message": "NOTÍCIA {data}: Festival Alegre das Bagatelas no sistema {sistema}."
+    "message": "NOTÍCIA {date}: Festival Alegre das Bagatelas no sistema {system}."
   },
   "FLAVOUR_6_NEWSBODY": {
     "description": "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
-    "message": "As celebrações alcoólicas no sistema {sistema} ({setorx}, {setory}, {setorz}) vão continuar, pois eles honram a criaturinha peluda."
+    "message": "As celebrações alcoólicas no sistema {system} ({sectorx}, {sectory}, {sectorz}) vão continuar, pois eles honram a criaturinha peluda."
   },
   "FLAVOUR_7_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: A indústria está estagnada no sistema {sistema}."
+    "message": "NOTÍCIAS {date}: A indústria está estagnada no sistema {system}."
   },
   "FLAVOUR_7_NEWSBODY": {
     "description": "Imply demand of INDUSTRIAL_MACHINERY.",
-    "message": "Antiga negligência na manutenção das máquinas causa paralisação industrial no sistema {sistema} ({setorx}, {setory}, {setorz})."
+    "message": "Antiga negligência na manutenção das máquinas causa paralisação industrial no sistema {system} ({sectorx}, {sectory}, {sectorz})."
   },
   "FLAVOUR_8_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: Acidente em mina reportado desde o sistema {sistema}."
+    "message": "NOTÍCIAS {date}: Acidente em mina reportado desde o sistema {system}."
   },
   "FLAVOUR_8_NEWSBODY": {
     "description": "Imply high demand of MINING_MACHINERY.",
-    "message": "Uma mina desmoronou no sistema {sistema} ({setorx}, {setory}, {setorz}), matando centenas de trabalhadores e destruindo maquinário vital para a economia."
+    "message": "Uma mina desmoronou no sistema {system} ({sectorx}, {sectory}, {sectorz}), matando centenas de trabalhadores e destruindo maquinário vital para a economia."
   },
   "FLAVOUR_9_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: Mania de moda no sistema {sistema}."
+    "message": "NOTÍCIAS {date}: Mania de moda no sistema {system}."
   },
   "FLAVOUR_9_NEWSBODY": {
     "description": "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
-    "message": "A última tendência no sistema {sistema} ({setorx}, {setory}, {setorz}) reza que animais de estimação reais e vivos são a última moda."
+    "message": "A última tendência no sistema {system} ({sectorx}, {sectory}, {sectorz}) reza que animais de estimação reais e vivos são a última moda."
   },
   "GRATEFUL_GREETING_0": {
     "description": "",
@@ -213,23 +213,23 @@
   },
   "GRATEFUL_GREETING_1": {
     "description": "",
-    "message": "Sua chegada é tão benvinda quanto o seu carregamento de {carga}."
+    "message": "Sua chegada é tão benvinda quanto o seu carregamento de {cargo}."
   },
   "GRATEFUL_GREETING_2": {
     "description": "",
-    "message": "Saudações e boas vindas! Você não deve encontrar problemas para vender {carga} aqui."
+    "message": "Saudações e boas vindas! Você não deve encontrar problemas para vender {cargo} aqui."
   },
   "GRATEFUL_GREETING_3": {
     "description": "",
-    "message": "Benvindo! Finalmente um pouco de {carga}."
+    "message": "Benvindo! Finalmente um pouco de {cargo}."
   },
   "GRATEFUL_GREETING_4": {
     "description": "",
-    "message": "Como nós esperamos por um pouco de {carga}."
+    "message": "Como nós esperamos por um pouco de {cargo}."
   },
   "GRATEFUL_GREETING_5": {
     "description": "",
-    "message": "Benvindo! Seu carregamento de {carga} vai ser vendido rapidamente aqui."
+    "message": "Benvindo! Seu carregamento de {cargo} vai ser vendido rapidamente aqui."
   },
   "NEWSPAPER_CIW": {
     "description": "",
@@ -289,22 +289,22 @@
   },
   "TITLE_0": {
     "description": "",
-    "message": "Relato recente de {jornal}."
+    "message": "Relato recente de {newspaper}."
   },
   "TITLE_1": {
     "description": "",
-    "message": "Notícias de {jornal}."
+    "message": "Notícias de {newspaper}."
   },
   "TITLE_2": {
     "description": "",
-    "message": "Relato de {jornal}."
+    "message": "Relato de {newspaper}."
   },
   "TITLE_3": {
     "description": "",
-    "message": "As últimas de {jornal}."
+    "message": "As últimas de {newspaper}."
   },
   "TITLE_4": {
     "description": "",
-    "message": "Notas de {jornal}."
+    "message": "Notas de {newspaper}."
   }
 }

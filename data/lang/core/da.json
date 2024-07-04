@@ -1109,7 +1109,7 @@
   },
   "OVER_N_MILLION": {
     "description": "",
-    "message": "Over %poulation millioner"
+    "message": "Over %population millioner"
   },
   "PASSENGER_CABIN": {
     "description": "",
@@ -1457,7 +1457,7 @@
   },
   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
     "description": "",
-    "message": "Stabilt system med %bodycount større %{body(r)} og %portcount %{starport(e)}"
+    "message": "Stabilt system med %bodycount større %{body(s)} og %portcount %{starport(s)}"
   },
   "STARPORT": {
     "description": "",

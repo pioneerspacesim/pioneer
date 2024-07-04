@@ -53,7 +53,7 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "现在{system}星系（{sectorx}，{sectorz}，{sectorz}）中机器人与人类产生对抗，因为“行为故障”导致家庭消费者对机器人仆人失去信心。"
+    "message": "现在{system}星系（{sectorx}，{sectory}，{sectorz}）中机器人与人类产生对抗，因为“行为故障”导致家庭消费者对机器人仆人失去信心。"
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "在{system}星系（{sectorx}，{sectorz}，{sectorz}）的大型蒸汽集市期间，一次试图在最大的拖拉机牵引比赛中打破银河系纪录的尝试以一名参赛者失去对他的装置的控制，摧毁了所有其他参赛者的机器而告终。政府称这可能会给当地农民带来厄运。"
+    "message": "在{system}星系（{sectorx}，{sectory}，{sectorz}）的大型蒸汽集市期间，一次试图在最大的拖拉机牵引比赛中打破银河系纪录的尝试以一名参赛者失去对他的装置的控制，摧毁了所有其他参赛者的机器而告终。政府称这可能会给当地农民带来厄运。"
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",

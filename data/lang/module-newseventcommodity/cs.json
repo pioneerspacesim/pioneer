@@ -121,11 +121,11 @@
   },
   "FLAVOUR_21_HEADLINE": {
     "description": "",
-    "message": "ZPRÁVY {date}: Smlouva za více \"humánní\" válčení podepsána v systému {systému}."
+    "message": "ZPRÁVY {date}: Smlouva za více \"humánní\" válčení podepsána v systému {system}."
   },
   "FLAVOUR_21_NEWSBODY": {
     "description": "Imply vast abundance of NERVE_GAS.",
-    "message": "Přestože konfliktní strany v systému {systém} ({sectorx}, {sectory}, {sectorz}) nepodepsaly oficiální příměří, dohodly se přestat používat chemické zbraně."
+    "message": "Přestože konfliktní strany v systému {system} ({sectorx}, {sectory}, {sectorz}) nepodepsaly oficiální příměří, dohodly se přestat používat chemické zbraně."
   },
   "FLAVOUR_22_HEADLINE": {
     "description": "",

@@ -181,7 +181,7 @@
   },
   "ADTEXT_9_INTRO": {
     "description": "",
-    "message": "Salve!\nSono {name}. Io e la mia famiglia abbiamo bisogno di un prosetto di {systembody} in {system}, prima che qualcun altro lo rivendichi. Pagheremo {cache} per un pilota molto veloce. Le manderemo un messaggio con il luogo di consegna, una volta ottenuti i dati."
+    "message": "Salve!\nSono {name}. Io e la mia famiglia abbiamo bisogno di un prosetto di {systembody} in {system}, prima che qualcun altro lo rivendichi. Pagheremo {cash} per un pilota molto veloce. Le manderemo un messaggio con il luogo di consegna, una volta ottenuti i dati."
   },
   "ADTEXT_9_SUCCESSMSG": {
     "description": "",

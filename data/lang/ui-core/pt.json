@@ -1665,11 +1665,11 @@
   },
   "N_LIGHT_YEARS_N_MAX": {
     "description": "",
-    "message": "{alcance} anos-luz ({Alcancemáximo} máximo)"
+    "message": "{range} anos-luz ({maxRange} máximo)"
   },
   "N_OCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "{quantidade} Cabines de Passageiros Ocupadas"
+    "message": "{quantity} Cabines de Passageiros Ocupadas"
   },
   "N_SHIELD_GENERATORS": {
     "description": "",

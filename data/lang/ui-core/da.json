@@ -1633,7 +1633,7 @@
   },
   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
     "description": "",
-    "message": "Ikke nok {metallegering} til at reparere"
+    "message": "Ikke nok {alloy} til at reparere"
   },
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",

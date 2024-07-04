@@ -1041,7 +1041,7 @@
   },
   "N_DAYS": {
     "description": "",
-    "message": "%dias{f.1} dias"
+    "message": "%days{f.1} dias"
   },
   "N_DEGREES": {
     "description": "",

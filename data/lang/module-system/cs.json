@@ -17,7 +17,7 @@
   },
   "DISCOVERED_HIDDEN_BASES": {
     "description": "",
-    "message": "Objevili jste {portcount} skrytých {základen}!"
+    "message": "Objevili jste {portcount} skrytých {bases}!"
   },
   "EXPLORED_SYSTEM": {
     "description": "",

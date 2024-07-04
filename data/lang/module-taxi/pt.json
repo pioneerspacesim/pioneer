@@ -157,7 +157,7 @@
   },
   "FLAVOUR_10_INTROTEXT": {
     "description": "",
-    "message": "Meu nome é {nome}.Eu quero uma passagem rápida para  {system} ({sectorx}, {sectory}, {sectorz}) sistema, a uma distância de {dist} ly. Pagamento {dinheiro}."
+    "message": "Meu nome é {name}.Eu quero uma passagem rápida para  {system} ({sectorx}, {sectory}, {sectorz}) sistema, a uma distância de {dist} ly. Pagamento {cash}."
   },
   "FLAVOUR_10_SUCCESSMSG": {
     "description": "",
@@ -229,7 +229,7 @@
   },
   "FLAVOUR_12_INTROTEXT": {
     "description": "",
-    "message": "Meu nome é {nome}. Preciso de uma passagem para {sistema} ({sectorx}, {sectory}, {sectorz}) sistema, a distançia de  {dist} ly. Vai pagar {dinheiro}."
+    "message": "Meu nome é {name}. Preciso de uma passagem para {system} ({sectorx}, {sectory}, {sectorz}) sistema, a distançia de  {dist} ly. Vai pagar {cash}."
   },
   "FLAVOUR_12_SUCCESSMSG": {
     "description": "",
@@ -337,7 +337,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "Oi, eu sou {nome} e eu preciso de passagem para  {system} ({sectorx}, {sectory}, {sectorz}) sistema, a uma distância de {dist} ly. Vou pagar {dinheiro}."
+    "message": "Oi, eu sou {name} e eu preciso de passagem para  {system} ({sectorx}, {sectory}, {sectorz}) sistema, a uma distância de {dist} ly. Vou pagar {cash}."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -373,7 +373,7 @@
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "Oi, eu sou {nome} e eu preciso de passagem para {system} ({sectorx}, {sectory}, {sectorz}) sistema, a uma distância de {dist} ly. Vou pagar {dinheiro}."
+    "message": "Oi, eu sou {name} e eu preciso de passagem para {system} ({sectorx}, {sectory}, {sectorz}) sistema, a uma distância de {dist} ly. Vou pagar {cash}."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
@@ -409,7 +409,7 @@
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "Oi, eu sou {nome} e eu preciso de passagem para {system} ({sectorx}, {sectory}, {sectorz}) sistema, a uma distância de {dist} ly. Vou pagar {dinheiro}."
+    "message": "Oi, eu sou {name} e eu preciso de passagem para {system} ({sectorx}, {sectory}, {sectorz}) sistema, a uma distância de {dist} ly. Vou pagar {cash}."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
@@ -445,7 +445,7 @@
   },
   "FLAVOUR_6_INTROTEXT": {
     "description": "",
-    "message": "Oi, eu sou {nome} e eu preciso de passagem para  {system} ({sectorx}, {sectory}, {sectorz}) sistema, a uma distância de {dist} ly. Vou pagar {dinheiro}."
+    "message": "Oi, eu sou {name} e eu preciso de passagem para  {system} ({sectorx}, {sectory}, {sectorz}) sistema, a uma distância de {dist} ly. Vou pagar {cash}."
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
@@ -481,7 +481,7 @@
   },
   "FLAVOUR_7_INTROTEXT": {
     "description": "",
-    "message": "Oi, Meu nome é {nome} e eu preciso de passagem para {system} ({sectorx}, {sectory}, {sectorz}) sistema, a uma distância de {dist} ly. Vou pagar {dinheiro}."
+    "message": "Oi, Meu nome é {name} e eu preciso de passagem para {system} ({sectorx}, {sectory}, {sectorz}) sistema, a uma distância de {dist} ly. Vou pagar {cash}."
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
@@ -597,11 +597,11 @@
   },
   "PIRATE_TAUNTS_0": {
     "description": "",
-    "message": "Irás-te arrepender de negociar com {cliente}"
+    "message": "Irás-te arrepender de negociar com {client}"
   },
   "PIRATE_TAUNTS_1": {
     "description": "",
-    "message": "Tens o {cliente} a bordo? É uma má ideia."
+    "message": "Tens o {client} a bordo? É uma má ideia."
   },
   "PIRATE_TAUNTS_2": {
     "description": "",

@@ -93,11 +93,11 @@
   },
   "CABIN_FREE": {
     "description": "Free capacity for passengers",
-    "message": "{quantia} livre"
+    "message": "{amount} livre"
   },
   "CABIN_USED": {
     "description": "Passengers using cabins",
-    "message": "{quantia} usada"
+    "message": "{amount} usada"
   },
   "CANCEL": {
     "description": "",
@@ -141,11 +141,11 @@
   },
   "CARGO_T_FREE": {
     "description": "t for tonne",
-    "message": "{quantia}t livre"
+    "message": "{amount}t livre"
   },
   "CARGO_T_USED": {
     "description": "t for tonne",
-    "message": "{quantia}t usada"
+    "message": "{amount}t usada"
   },
   "CASE_SENSITIVE": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "CASH_N": {
     "description": "",
-    "message": "Dinheiro: {dinheiro}"
+    "message": "Dinheiro: {money}"
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
@@ -1173,7 +1173,7 @@
   },
   "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
     "description": "",
-    "message": "Fuselagem reparada por {nome}, agora em {Percentualreparo}%"
+    "message": "Fuselagem reparada por {name}, agora em {repairPercent}%"
   },
   "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE": {
     "description": "",
@@ -1637,7 +1637,7 @@
   },
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
-    "message": "{equipamento} não é suportado neste modelo de nave"
+    "message": "{equipment} não é suportado neste modelo de nave"
   },
   "NO_AVAILABLE_DATA": {
     "description": "Message displaying no stored data available",
@@ -1677,7 +1677,7 @@
   },
   "N_UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "{quantidade} Cabines de Passageiros Desocupadas"
+    "message": "{quantity} Cabines de Passageiros Desocupadas"
   },
   "OCCUPIED_PASSENGER_CABINS": {
     "description": "",
@@ -1785,7 +1785,7 @@
   },
   "PAY_FINE_OF_N": {
     "description": "",
-    "message": "Pagar multa de {quantia}"
+    "message": "Pagar multa de {amount}"
   },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1805,7 +1805,7 @@
   },
   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
     "description": "",
-    "message": "Assento do piloto agora é ocupado por {nome}"
+    "message": "Assento do piloto agora é ocupado por {name}"
   },
   "PIRACY": {
     "description": "",
@@ -1953,7 +1953,7 @@
   },
   "REPAIR_X_HULL_DAMAGE_FOR_X": {
     "description": "",
-    "message": "Reparar {dano}% dano na fuselagem por {preço}"
+    "message": "Reparar {damage}% dano na fuselagem por {price}"
   },
   "REPLACE_EQUIPMENT_WITH": {
     "description": "Market header when replacing equipped items",
@@ -2505,7 +2505,7 @@
   },
   "YOUR_HULL_IS_AT_X_INTEGRITY": {
     "description": "",
-    "message": "Sua fuselagem está {valor}% íntegra."
+    "message": "Sua fuselagem está {value}% íntegra."
   },
   "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION": {
     "description": "",

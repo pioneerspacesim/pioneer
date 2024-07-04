@@ -5,7 +5,7 @@
   },
   "MSG_10": {
     "description": "",
-    "message": "Bitte drücke {nein}, um noch ein paar produktive Stunden zu verschwenden. Bitte, bitte?"
+    "message": "Bitte drücke {no}, um noch ein paar produktive Stunden zu verschwenden. Bitte, bitte?"
   },
   "MSG_11": {
     "description": "",
@@ -81,7 +81,7 @@
   },
   "MSG_8": {
     "description": "",
-    "message": "Ich bin mir sicher, dass du {nein} klickst und weiterspielst. Du tust es."
+    "message": "Ich bin mir sicher, dass du {no} klickst und weiterspielst. Du tust es."
   },
   "MSG_9": {
     "description": "",

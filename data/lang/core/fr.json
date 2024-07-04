@@ -1037,7 +1037,7 @@
   },
   "N_CELSIUS": {
     "description": "",
-    "message": "%température °C"
+    "message": "%temperature °C"
   },
   "N_DAYS": {
     "description": "",
