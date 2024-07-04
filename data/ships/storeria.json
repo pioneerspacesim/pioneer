@@ -2,6 +2,7 @@
 	"model": "storeria",
 	"name": "Storeria",
 	"cockpit": "",
+	"shield_model": "storeria_shield",
 	"manufacturer": "opli",
 	"ship_class": "medium_freighter",
 	"min_crew": 1,

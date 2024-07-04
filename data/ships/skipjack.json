@@ -2,6 +2,7 @@
 	"model": "skipjack",
 	"name": "Skipjack",
 	"cockpit": " ",
+	"shield_model": "skipjack_shield",
 	"manufacturer": "kaluri",
 	"ship_class": "medium_courier",
 	"min_crew": 2,

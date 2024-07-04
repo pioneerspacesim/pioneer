@@ -2,6 +2,7 @@
 	"model": "wave",
 	"name": "Wave",
 	"cockpit": "",
+	"shield_model": "wave_shield",
 	"manufacturer": "auronox",
 	"ship_class": "medium_fighter",
 	"min_crew": 1,

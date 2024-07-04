@@ -2,6 +2,7 @@
 	"model": "sinonatrix",
 	"name": "Sinonatrix",
 	"cockpit": "sinonatrix_cockpit",
+	"shield_model": "sinonatrix_shield",
 	"manufacturer": "opli",
 	"ship_class": "light_courier",
 	"min_crew": 1,

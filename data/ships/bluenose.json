@@ -2,6 +2,7 @@
 	"model": "bluenose",
 	"name": "Bluenose",
 	"cockpit": " ",
+	"shield_model": "bluenose_shield",
 	"manufacturer": "kaluri",
 	"ship_class": "medium_freighter",
 	"min_crew": 2,

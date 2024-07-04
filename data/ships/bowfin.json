@@ -2,6 +2,7 @@
 	"model": "bowfin",
 	"name": "Bowfin",
 	"cockpit": "",
+	"shield_model": "bowfin_shield",
 	"manufacturer": "kaluri",
 	"ship_class": "light_fighter",
 	"min_crew": 1,

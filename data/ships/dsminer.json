@@ -2,6 +2,7 @@
 	"model": "dsminer",
 	"name": "Deep Space Miner",
 	"cockpit": " ",
+	"shield_model": "dsminer_shield",
 	"manufacturer": "haber",
 	"ship_class": "heavy_freighter",
 	"min_crew": 5,

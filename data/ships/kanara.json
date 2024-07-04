@@ -2,6 +2,7 @@
 	"model": "kanara",
 	"name": "Kanara (Police)",
 	"cockpit": "",
+	"shield_model": "kanara_shield",
 	"manufacturer": "mandarava_csepel",
 	"ship_class": "light_fighter",
 	"min_crew": 1,

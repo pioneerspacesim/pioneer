@@ -2,6 +2,7 @@
 	"model": "natrix",
 	"name": "Natrix",
 	"cockpit": "",
+	"shield_model": "natrix_shield",
 	"manufacturer": "opli",
 	"ship_class": "medium_freighter",
 	"min_crew": 1,
