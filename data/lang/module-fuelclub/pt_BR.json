@@ -21,7 +21,7 @@
   },
   "FLAVOUR_0_NONMEMBER_INTRO": {
     "description": "",
-    "message": "{nome do clube} é uma organização independente dedicada a proporcionar descontos no combustível de naves estelares para seus membros. Divisões podem ser encontradas pela galáxia. Os benefícios de ser membro incluem:"
+    "message": "{clubname} é uma organização independente dedicada a proporcionar descontos no combustível de naves estelares para seus membros. Divisões podem ser encontradas pela galáxia. Os benefícios de ser membro incluem:"
   },
   "FLAVOUR_0_TITLE": {
     "description": "Title of the BBS advertisement",
@@ -29,7 +29,7 @@
   },
   "FLAVOUR_0_WELCOME": {
     "description": "",
-    "message": "Benvindo a {nome do clube}"
+    "message": "Benvindo a {clubname}"
   },
   "FLAVOUR_1_CLUBNAME": {
     "description": "Fuel club for the Federation faction",
@@ -93,11 +93,11 @@
   },
   "LIST_BENEFITS_DISPOSAL": {
     "description": "",
-    "message": "{radioativos}, descarte gratuito (as condições de aplicam)"
+    "message": "{radioactives}, descarte gratuito (as condições de aplicam)"
   },
   "LIST_BENEFITS_FUEL": {
     "description": "",
-    "message": "{combustível} com desconto."
+    "message": "{fuel} com desconto."
   },
   "LIST_BENEFITS_FUEL_INTRO": {
     "description": "",
@@ -109,7 +109,7 @@
   },
   "LIST_BENEFITS_JOIN": {
     "description": "",
-    "message": "Junte-se agora! Anuidade custa somente {taxa_anuidade}"
+    "message": "Junte-se agora! Anuidade custa somente {membership_fee}"
   },
   "REFUEL_FREE": {
     "description": "",
@@ -117,11 +117,11 @@
   },
   "WE_WILL_ONLY_DISPOSE_OF": {
     "description": "",
-    "message": "Vamos descartar as mesmas toneladas de {radioativos} quanto as toneladas que você comprou de {combustível_militar} de nós."
+    "message": "Vamos descartar as mesmas toneladas de {radioactives} quanto as toneladas que você comprou de {military_fuel} de nós."
   },
   "WHAT_CONDITIONS_APPLY": {
     "description": "",
-    "message": "Que condições se aplicam a descarte de {radioativos}?"
+    "message": "Que condições se aplicam a descarte de {radioactives}?"
   },
   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
     "description": "",
@@ -129,10 +129,10 @@
   },
   "YOU_ARE_NOW_A_MEMBER": {
     "description": "",
-    "message": "Agora você é um membro. Seu cadastro vai expirar em {data_vencimento}."
+    "message": "Agora você é um membro. Seu cadastro vai expirar em {expiry_date}."
   },
   "YOU_MUST_BUY": {
     "description": "",
-    "message": "Você deve comprar nosso {combustível_militar} antes que peguemos seus {radioativos}"
+    "message": "Você deve comprar nosso {military_fuel} antes que peguemos seus {radioactives}"
   }
 }

@@ -1197,7 +1197,7 @@
   },
   "PRESSURE_N_ATMOSPHERES": {
     "description": "",
-    "message": "P: %pressure{f-2} atm"
+    "message": "P: %pressure{f.2} atm"
   },
   "QUADRUPLE_SYSTEM": {
     "description": "",

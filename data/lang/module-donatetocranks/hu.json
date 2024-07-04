@@ -93,7 +93,7 @@
   },
   "FLAVOUR_7_MESSAGE": {
     "description": "",
-    "message": "A {POLICE} bátor férfiainak és nőinek, akik az életüket tették {system} védelmezésére, szükségük van a támogatására."
+    "message": "A {POLICE} bátor férfiainak és nőinek, akik az életüket tették {SYSTEM} védelmezésére, szükségük van a támogatására."
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",

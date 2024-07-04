@@ -57,15 +57,15 @@
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
-    "message": "Ik ben erg teleurgesteld om te horen dat {doelwit} nog steeds leeft. Onnodig om te zeggen dat je geen betaling ontvangt"
+    "message": "Ik ben erg teleurgesteld om te horen dat {target} nog steeds leeft. Onnodig om te zeggen dat je geen betaling ontvangt"
   },
   "FLAVOUR_0_FAILUREMSG2": {
     "description": "",
-    "message": "{doelwit}'s verwijdering was niet gedaan bij jou. Geen betaling deze keer"
+    "message": "{target}'s verwijdering was niet gedaan bij jou. Geen betaling deze keer"
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Hey, ik ben {naam}. Ik betaal je {geld} om af te komen van {doelwit}"
+    "message": "Hey, ik ben {name}. Ik betaal je {cash} om af te komen van {target}"
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
@@ -81,7 +81,7 @@
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "Ik hoor dat {doelwit} gezond is. Dit bezeert mij"
+    "message": "Ik hoor dat {target} gezond is. Dit bezeert mij"
   },
   "FLAVOUR_1_FAILUREMSG2": {
     "description": "",
@@ -89,11 +89,11 @@
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "Ik moet {doelwit} uit het plaatje hebben. Ik betaal je {geld} om dit te doen"
+    "message": "Ik moet {target} uit het plaatje hebben. Ik betaal je {cash} om dit te doen"
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
-    "message": "Ik ben bedroeft om te horen over {doelwit}'s ondergang. Je bent volledig betaalt "
+    "message": "Ik ben bedroeft om te horen over {target}'s ondergang. Je bent volledig betaalt "
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
@@ -113,7 +113,7 @@
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "Ik ben {naam}, en ik betaal je {geld} om {doelwit} te elimineren "
+    "message": "Ik ben {name}, en ik betaal je {cash} om {target} te elimineren "
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
@@ -129,7 +129,7 @@
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
-    "message": "Je zal boeten om niet {doelwit} gelimineerd te hebben!"
+    "message": "Je zal boeten om niet {target} gelimineerd te hebben!"
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",
@@ -137,11 +137,11 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "Het {doelwit} moest vermindert worden tot ruimte stof. Ik betaal je {geld} om dit te doen"
+    "message": "Het {target} moest vermindert worden tot ruimte stof. Ik betaal je {cash} om dit te doen"
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "{doelwit} is dood. Hier is je beloning"
+    "message": "{target} is dood. Hier is je beloning"
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
@@ -153,7 +153,7 @@
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
-    "message": "{doelwit} ademt nog steeds en ik geef geen geld aan jou"
+    "message": "{target} ademt nog steeds en ik geef geen geld aan jou"
   },
   "FLAVOUR_4_FAILUREMSG2": {
     "description": "",
@@ -161,7 +161,7 @@
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "Voor {geld} bemoedigen we om {doelwit} te stoppen met werken onmiddelijk"
+    "message": "Voor {cash} bemoedigen we om {target} te stoppen met werken onmiddelijk"
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
@@ -189,7 +189,7 @@
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
-    "message": "Bericht van {doelwit}'s einde carriere blij gekregen. Hier is je {geld}"
+    "message": "Bericht van {target}'s einde carriere blij gekregen. Hier is je {cash}"
   },
   "HOW_SOON_MUST_IT_BE_DONE": {
     "description": "",

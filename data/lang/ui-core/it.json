@@ -2241,7 +2241,7 @@
   },
   "STATION_ORBIT": {
     "description": "Information shown in the station loby",
-    "message": "Siamo nell'orbita di {parent_body} con un periodo di rivoluzione di {orbit_peiod} giorni."
+    "message": "Siamo nell'orbita di {parent_body} con un periodo di rivoluzione di {orbit_period} giorni."
   },
   "STATION_TECH_TOO_LOW": {
     "description": "",

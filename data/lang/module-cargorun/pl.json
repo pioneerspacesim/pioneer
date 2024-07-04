@@ -413,7 +413,7 @@
   },
   "OFFER": {
     "description": "",
-    "message": "Transport {amount}t za {amount}"
+    "message": "Transport {amount}t za {reward}"
   },
   "OK_AGREED": {
     "description": "",

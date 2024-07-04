@@ -305,7 +305,7 @@
   },
   "INTROTEXT_2": {
     "description": "{name} is the full name of a person",
-    "message": "Salve! {Name} Servizi Trasporto vi richiede di consegnare {cargoname} a {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), lontano {dist} AL. Pagheremo {cash} per consegna completa e sicura."
+    "message": "Salve! {name} Servizi Trasporto vi richiede di consegnare {cargoname} a {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), lontano {dist} AL. Pagheremo {cash} per consegna completa e sicura."
   },
   "INTROTEXT_3": {
     "description": "",

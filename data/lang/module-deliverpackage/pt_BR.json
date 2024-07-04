@@ -69,7 +69,7 @@
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Olá, sou {nome}. Lhe pagarei {dinheiro} se você entregar um pacotinho para {porto estelar} no sistema {sistema} ({setorx}, {setory}, {setorz}), a uma distância de {distância} anos-luz."
+    "message": "Olá, sou {name}. Lhe pagarei {cash} se você entregar um pacotinho para {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}), a uma distância de {dist} anos-luz."
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "Olá. Sou {nome}. Estou disposto a pagar {dinheiro} por uma nave para carregar um pacote de {porto estelar} no sistema {sistema} ({setorx}, {setory}, {setorz}), a uma distância de {distância} anos-luz."
+    "message": "Olá. Sou {name}. Estou disposto a pagar {cash} por uma nave para carregar um pacote de {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}), a uma distância de {dist} anos-luz."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "Olá. Sou {nome}. Estou disposto a pagar {dinheiro} por uma nave para carregar um pacote de {porto estelar} no sistema {sistema} ({setorx}, {setory}, {setorz}), a uma distância de {distância} anos-luz."
+    "message": "Olá. Sou {name}. Estou disposto a pagar {cash} por uma nave para carregar um pacote de {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}), a uma distância de {dist} anos-luz."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "Olá. Sou {nome}. Estou disposto a pagar {dinheiro} por uma nave para carregar um pacote de {porto estelar} no sistema {sistema} ({setorx}, {setory}, {setorz}), a uma distância de {distância} anos-luz."
+    "message": "Olá. Sou {name}. Estou disposto a pagar {cash} por uma nave para carregar um pacote de {starport} no sistema {system} ({sectorx}, {sectory}, {sectorz}), a uma distância de {dist} anos-luz."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -165,7 +165,7 @@
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "Saudações. Esta é uma mensagem automática de Bedford e {nome} Serviços de Entrega. Pagamos {dinheiro} pela corrida de {porto estelar} no sistema {sistema}, ({setorx}, {setory}, {setorz}), a uma distância de {distância} anos-luz."
+    "message": "Saudações. Esta é uma mensagem automática de Bedford e {name} Serviços de Entrega. Pagamos {cash} pela corrida de {starport} no sistema {system}, ({sectorx}, {sectory}, {sectorz}), a uma distância de {dist} anos-luz."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
@@ -189,7 +189,7 @@
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "Prazer em conhecê-lo. Sou {nome} e estou disposto a pagar {dinheiro} para alguém com uma nave, para me ajudar a levar meus pertences para {porto estelar}. Sem pressa, são só sobras de uma mudança de casa."
+    "message": "Prazer em conhecê-lo. Sou {name} e estou disposto a pagar {cash} para alguém com uma nave, para me ajudar a levar meus pertences para {starport}. Sem pressa, são só sobras de uma mudança de casa."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "FLAVOUR_6_INTROTEXT": {
     "description": "",
-    "message": "Olá. Sou {nome} e pagarei {dinheiro} por uma nave para entregar este pacote para {porto estelar}."
+    "message": "Olá. Sou {name} e pagarei {cash} por uma nave para entregar este pacote para {starport}."
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "FLAVOUR_7_INTROTEXT": {
     "description": "",
-    "message": "Olá. Precisamos que estes caixotes sejam entregues a {porto estelar} o quanto antes. Pagamento padrão para a entrega é {dinheiro}."
+    "message": "Olá. Precisamos que estes caixotes sejam entregues a {starport} o quanto antes. Pagamento padrão para a entrega é {cash}."
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
@@ -261,7 +261,7 @@
   },
   "FLAVOUR_8_INTROTEXT": {
     "description": "",
-    "message": "Meu nome é {nome} e preciso que este item seja entregue a um amigo em {porto estelar} rapidamente, lhe pagarei {dinheiro} créditos se você conseguir levar isso lá em um tempo razoável."
+    "message": "Meu nome é {name} e preciso que este item seja entregue a um amigo em {starport} rapidamente, lhe pagarei {cash} créditos se você conseguir levar isso lá em um tempo razoável."
   },
   "FLAVOUR_8_SUCCESSMSG": {
     "description": "",
@@ -285,7 +285,7 @@
   },
   "FLAVOUR_9_INTROTEXT": {
     "description": "",
-    "message": "Saudações, estamos atrasados com a entrega de nossa produção e precisamos que seja entregue em {porto estelar} urgentemente. Lhe pagaremos {dinheiro} pelo incômodo."
+    "message": "Saudações, estamos atrasados com a entrega de nossa produção e precisamos que seja entregue em {starport} urgentemente. Lhe pagaremos {cash} pelo incômodo."
   },
   "FLAVOUR_9_SUCCESSMSG": {
     "description": "",
@@ -321,7 +321,7 @@
   },
   "PIRATE_TAUNTS_0": {
     "description": "",
-    "message": "Você vai se arrepender de {cliente}"
+    "message": "Você vai se arrepender de {client}"
   },
   "PIRATE_TAUNTS_1": {
     "description": "",
@@ -329,7 +329,7 @@
   },
   "PIRATE_TAUNTS_2": {
     "description": "",
-    "message": "Você está trabalhando para {cliente}? Que má ideia."
+    "message": "Você está trabalhando para {client}? Que má ideia."
   },
   "PIRATE_TAUNTS_3": {
     "description": "",
@@ -345,7 +345,7 @@
   },
   "PIRATE_TAUNTS_6": {
     "description": "",
-    "message": "Diga ao meu velho amigo {cliente} que nos vemos no inferno!"
+    "message": "Diga ao meu velho amigo {client} que nos vemos no inferno!"
   },
   "PIRATE_TAUNTS_7": {
     "description": "",
@@ -353,7 +353,7 @@
   },
   "PIRATE_TAUNTS_8": {
     "description": "",
-    "message": "Você não vai a {local} hoje!"
+    "message": "Você não vai a {location} hoje!"
   },
   "PIRATE_TAUNTS_9": {
     "description": "",

@@ -649,7 +649,7 @@
   },
   "FLIGHTLOG_LANDED": {
     "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
-    "message": "登陆到{primary},位于({secondary_info}, {tertiary_info})"
+    "message": "登陆到{primary_info},位于({secondary_info}, {tertiary_info})"
   },
   "FLIGHTLOG_STARPORT_ORBITAL": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",

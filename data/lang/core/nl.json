@@ -1217,7 +1217,7 @@
   },
   "RECENTLY_EXPLORED_SYSTEM": {
     "description": "",
-    "message": "Dit stelsel is verkend op %datum"
+    "message": "Dit stelsel is verkend op %date"
   },
   "REQUEST_DOCKING_CLEARANCE": {
     "description": "",

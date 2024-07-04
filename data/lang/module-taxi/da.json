@@ -157,7 +157,7 @@
   },
   "FLAVOUR_10_INTROTEXT": {
     "description": "",
-    "message": "Mit navn er {name}. Jeg søger hurtig transport til systemet {system} ({sectorX}, {sectorY}, {sectorZ}), en afstand på {dist} ly. Betaler {cash}."
+    "message": "Mit navn er {name}. Jeg søger hurtig transport til systemet {system} ({sectorx}, {sectory}, {sectorz}), en afstand på {dist} ly. Betaler {cash}."
   },
   "FLAVOUR_10_SUCCESSMSG": {
     "description": "",
@@ -193,7 +193,7 @@
   },
   "FLAVOUR_11_INTROTEXT": {
     "description": "",
-    "message": "Mit navn er {name}. Jeg har brug for hurtig transport til {system} ({sectorX}, {sectorY}, {sectorZ}), på en afstand af {dist} ly. Jeg vil betale dig {cash}."
+    "message": "Mit navn er {name}. Jeg har brug for hurtig transport til {system} ({sectorx}, {sectory}, {sectorz}), på en afstand af {dist} ly. Jeg vil betale dig {cash}."
   },
   "FLAVOUR_11_SUCCESSMSG": {
     "description": "",
@@ -265,7 +265,7 @@
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "Hej. Jeg hedder {name} og jeg har brug for et lift til en lille gruppe til systemet {system} ({sectorX}, {sectorY}, {sectorZ}), en afstand på {dist} ly. Betaler {cash}."
+    "message": "Hej. Jeg hedder {name} og jeg har brug for et lift til en lille gruppe til systemet {system} ({sectorx}, {sectory}, {sectorz}), en afstand på {dist} ly. Betaler {cash}."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
@@ -517,7 +517,7 @@
   },
   "FLAVOUR_8_INTROTEXT": {
     "description": "",
-    "message": "Mit navn er {name}. Jeg har brug for hurtig transport til {system} ({sectorX}, {sectorY}, {sectorZ}), på en afstand af {dist} ly. Jeg vil betale dig {cash}."
+    "message": "Mit navn er {name}. Jeg har brug for hurtig transport til {system} ({sectorx}, {sectory}, {sectorz}), på en afstand af {dist} ly. Jeg vil betale dig {cash}."
   },
   "FLAVOUR_8_SUCCESSMSG": {
     "description": "",
@@ -553,7 +553,7 @@
   },
   "FLAVOUR_9_INTROTEXT": {
     "description": "",
-    "message": "Mit navn er {name}. Jeg har brug for hurtig transport til {system} ({sectorX}, {sectorY}, {sectorZ}), på en afstand af {dist} ly. Jeg vil betale dig {cash}."
+    "message": "Mit navn er {name}. Jeg har brug for hurtig transport til {system} ({sectorx}, {sectory}, {sectorz}), på en afstand af {dist} ly. Jeg vil betale dig {cash}."
   },
   "FLAVOUR_9_SUCCESSMSG": {
     "description": "",

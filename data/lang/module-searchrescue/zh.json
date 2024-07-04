@@ -181,7 +181,7 @@
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "{starport}空中交通管制需要您立即帮助响应{planet}类型星舰在{planet}上的坠落着陆。 生命支持系统的状况未知。 该船已通过{starport} 星际站保险投保，并在紧急响应报销中享受{cash}保障。"
+    "message": "{starport}空中交通管制需要您立即帮助响应{ship}类型星舰在{planet}上的坠落着陆。 生命支持系统的状况未知。 该船已通过{starport} 星际站保险投保，并在紧急响应报销中享受{cash}保障。"
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
@@ -273,7 +273,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "收到求救信号：飞船搁浅并在{行星}上耗尽燃料。"
+    "message": "收到求救信号：飞船搁浅并在{planet}上耗尽燃料。"
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
@@ -365,7 +365,7 @@
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
-    "message": "最后的已知位置是{system} [{sector}，{secretary}，{sector}]系统中{planet}的附近，距离这里{dist}光年。"
+    "message": "最后的已知位置是{planet} [{system}，{sectorx}，{sectory}]系统中{sectorz}的附近，距离这里{dist}光年。"
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
@@ -401,7 +401,7 @@
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
-    "message": "您将在{system} 星系[{sector}，{secretary}，{sector}]中找到该船，距离这里{dist}光年。 它停靠在{planet}的轨道上。"
+    "message": "您将在{system} 星系[{sectorx}，{sectory}，{sectorz}]中找到该船，距离这里{dist}光年。 它停靠在{planet}的轨道上。"
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",

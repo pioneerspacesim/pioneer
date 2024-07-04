@@ -37,7 +37,7 @@
   },
   "FLAVOUR_11_NEWSBODY": {
     "description": "Imply high demand of ANIMAL_MEAT.",
-    "message": "Como si de un golpe de un poder superior se tratara, los agricultores del sistema {sistema} ({sectorx}, {sectory}, {sectorz}) despertaron para vaciar los graneros. \"Es el robo de ganado del siglo\", informa la policía."
+    "message": "Como si de un golpe de un poder superior se tratara, los agricultores del sistema {system} ({sectorx}, {sectory}, {sectorz}) despertaron para vaciar los graneros. \"Es el robo de ganado del siglo\", informa la policía."
   },
   "FLAVOUR_12_HEADLINE": {
     "description": "",

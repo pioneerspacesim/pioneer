@@ -1005,7 +1005,7 @@
   },
   "NUMBER_G": {
     "description": "",
-    "message": "%aceleração{f.1} G"
+    "message": "%acceleration{f.1} G"
   },
   "NUMBER_GROUP_MIN": {
     "description": "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",

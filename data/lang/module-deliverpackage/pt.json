@@ -321,7 +321,7 @@
   },
   "PIRATE_TAUNTS_0": {
     "description": "",
-    "message": "Irás-te arrepender de negociar com {cliente}"
+    "message": "Irás-te arrepender de negociar com {client}"
   },
   "PIRATE_TAUNTS_1": {
     "description": "",
