@@ -9,7 +9,6 @@ tex_glow skipjack_glow.dds
 
 lod 300
 mesh skipjack_hi.dae
-mesh skipjack_shield.dae
 
 lod 100
 mesh skipjack_med.dae

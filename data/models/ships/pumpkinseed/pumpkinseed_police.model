@@ -14,7 +14,6 @@ mesh pumpkinseed_2med.dae
 
 lod 300
 mesh pumpkinseed_1hi.dae
-mesh pumpkinseed_shield.dae
 
 collision pumpkinseed_collision.dae
 

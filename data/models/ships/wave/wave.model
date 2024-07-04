@@ -24,7 +24,6 @@ mesh wave-mq.dae
 
 lod 1000
 mesh wave.dae
-mesh wave_shield.dae
 anim gear_down 0 85
 
 collision wave_coll.dae
