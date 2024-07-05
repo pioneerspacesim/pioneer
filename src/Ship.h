@@ -36,7 +36,7 @@ namespace Graphics {
 }
 
 struct shipstats_t {
-	int used_capacity;
+	int loaded_mass;
 	int used_cargo;
 	int free_capacity;
 	int static_mass;	  // cargo, equipment + hull
@@ -136,8 +136,6 @@ public:
 	float GetWheelState() const { return m_wheelState; }
 	int GetWheelTransition() const { return m_wheelTransition; }
 	bool SpawnCargo(CargoBody *c_body) const;
-
-	LuaRef GetEquipSet() const { return m_equipSet; }
 
 	virtual bool IsInSpace() const override { return (m_flightState != HYPERSPACE); }
 
@@ -272,8 +270,6 @@ protected:
 		HyperdriveSoundsTable sounds;
 	} m_hyperspace;
 
-	LuaRef m_equipSet;
-
 	Propulsion *m_propulsion;
 	FixedGuns *m_fixedGuns;
 
@@ -287,7 +283,6 @@ private:
 	void SetShipId(const ShipType::Id &shipId);
 	void EnterHyperspace();
 	void InitMaterials();
-	void InitEquipSet();
 
 	bool m_invulnerable;
 

@@ -27,6 +27,16 @@ local Game = require 'Game'
 
 local profileCombo = { items = {}, selected = 0 }
 
+local equipment2 = {
+	computer_1  = "misc.autopilot",
+	laser_front = "laser.pulsecannon_1mw",
+	shield      = "shield.basic_s1",
+	sensor      = "sensor.radar",
+	hull_mod    = "hull.atmospheric_shielding",
+	hyperdrive  = "hyperspace.hyperdrive_2",
+	thruster    = "misc.thrusters_default"
+}
+
 StartVariants.register({
 	name       = lui.START_AT_MARS,
 	desc       = lui.START_AT_MARS_DESC,
@@ -153,6 +163,9 @@ local function startGame(gameParams)
 		laser_rear = 'laser',
 		laser_front = 'laser'
 	}
+
+	if not equipment2 then
+
 	for _, slot in pairs({ 'engine', 'laser_rear', 'laser_front' }) do
 		local eqSection = eqSections[slot]
 		local eqEntry = gameParams.ship.equipment[slot]
@@ -163,6 +176,31 @@ local function startGame(gameParams)
 
 	for _,equip in pairs(gameParams.ship.equipment.misc) do
 		player:AddEquip(Equipment.misc[equip.id], equip.amount)
+	end
+
+	else
+
+	local equipSet = player:GetComponent("EquipSet")
+	player:UpdateEquipStats()
+
+	for _, item in ipairs(equipment2) do
+		local proto = Equipment.Get(item)
+		if not equipSet:Install(proto()) then
+			print("Couldn't install equipment item {} in misc. cargo space" % { proto:GetName() })
+		end
+	end
+
+	for slot, item in pairs(equipment2) do
+		local proto = Equipment.Get(item)
+		-- print("Installing equipment {} (proto: {}) into slot {}" % { item, proto, slot })
+		if type(slot) == "string" then
+			local slotHandle = equipSet:GetSlotHandle(slot)
+			if not equipSet:Install(proto(), slotHandle) then
+				print("Couldn't install equipment item {} into slot {}" % { proto:GetName(), slot })
+			end
+		end
+	end
+
 	end
 
 	---@type CargoManager

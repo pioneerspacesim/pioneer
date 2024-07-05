@@ -1,33 +1,34 @@
 -- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Equipment = require 'Equipment'
 local Event = require 'Event'
 local Game = require 'Game'
 local Lang = require 'Lang'
 local ShipDef = require 'ShipDef'
 local InfoView = require 'pigui.views.info-view'
+local Passengers = require 'Passengers'
 local Vector2 = Vector2
 
 local ui = require 'pigui'
 local l = Lang.GetResource("ui-core")
 
-local fonts = ui.fonts
 local textTable = require 'pigui.libs.text-table'
 
 local equipmentWidget = require 'pigui.libs.ship-equipment'.New("ShipInfo")
 
 local function shipStats()
 	local player = Game.player
+	local equipSet = player:GetComponent("EquipSet")
 
 	-- Taken directly from ShipInfo.lua.
 	local shipDef       =  ShipDef[player.shipId]
 	local shipLabel     =  player:GetLabel()
-	local hyperdrive    =  table.unpack(player:GetEquip("engine"))
-	local frontWeapon   =  table.unpack(player:GetEquip("laser_front"))
-	local rearWeapon    =  table.unpack(player:GetEquip("laser_rear"))
-	local cabinEmpty    =  player:CountEquip(Equipment.misc.cabin, "cabin")
-	local cabinOccupied =  player:CountEquip(Equipment.misc.cabin_occupied, "cabin")
+	local hyperdrive    =  equipSet:GetInstalledOfType("hyperdrive")[1]
+	local frontWeapon   =  equipSet:GetInstalledOfType("weapon")[1]
+	local rearWeapon    =  equipSet:GetInstalledOfType("weapon")[2]
+	local cabinEmpty    =  Passengers.CountFreeCabins(player)
+	local cabinOccupied =  Passengers.CountOccupiedCabins(player)
+	local cabinMaximum  =  shipDef.equipSlotCapacity.cabin
 
 	hyperdrive =  hyperdrive  or nil
 	frontWeapon = frontWeapon or nil
@@ -39,7 +40,7 @@ local function shipStats()
 	local bwd_acc = player:GetAcceleration("reverse")
 	local up_acc = player:GetAcceleration("up")
 
-	local atmo_shield = table.unpack(player:GetEquip("atmo_shield")) or nil
+	local atmo_shield = equipSet:GetInstalledOfType("hull.atmo_shield")[1]
 	local atmo_shield_cap = 1
 	if atmo_shield then
 		atmo_shield_cap = atmo_shield.capabilities.atmo_shield
@@ -56,12 +57,11 @@ local function shipStats()
 			})
 		},
 		false,
-		{ l.WEIGHT_EMPTY..":",  string.format("%dt", player.staticMass - player.usedCapacity) },
-		{ l.CAPACITY_USED..":", string.format("%dt (%dt "..l.FREE..")", player.usedCapacity,  player.freeCapacity) },
-		{ l.CARGO_SPACE..":", string.format("%dt (%dt "..l.MAX..")", player.totalCargo, shipDef.equipSlotCapacity.cargo) },
-		{ l.CARGO_SPACE_USED..":", string.format("%dt (%dt "..l.FREE..")", player.usedCargo, player.totalCargo - player.usedCargo) },
-		{ l.FUEL_WEIGHT..":",   string.format("%dt (%dt "..l.MAX..")", player.fuelMassLeft, shipDef.fuelTankMass ) },
-		{ l.ALL_UP_WEIGHT..":", string.format("%dt", mass_with_fuel ) },
+		{ l.WEIGHT_EMPTY..":",     string.format("%dt", player.staticMass - player.loadedMass) },
+		{ l.CAPACITY_USED..":",    string.format("%s (%s "..l.MAX..")", ui.Format.Volume(player.equipVolume), ui.Format.Volume(player.totalVolume) ) },
+		{ l.CARGO_SPACE_USED..":", string.format("%dcu (%dcu "..l.MAX..")", player.usedCargo, player.totalCargo) },
+		{ l.FUEL_WEIGHT..":",      string.format("%.1ft (%.1ft "..l.MAX..")", player.fuelMassLeft, shipDef.fuelTankMass ) },
+		{ l.ALL_UP_WEIGHT..":",    string.format("%dt", mass_with_fuel ) },
 		false,
 		{ l.FRONT_WEAPON..":", frontWeapon and frontWeapon:GetName() or l.NONE },
 		{ l.REAR_WEAPON..":",  rearWeapon and rearWeapon:GetName() or l.NONE },
@@ -76,13 +76,13 @@ local function shipStats()
 		{ l.CREW_CABINS..":",                 shipDef.maxCrew },
 		{ l.UNOCCUPIED_PASSENGER_CABINS..":", cabinEmpty },
 		{ l.OCCUPIED_PASSENGER_CABINS..":",   cabinOccupied },
-		{ l.PASSENGER_CABIN_CAPACITY..":",    shipDef.equipSlotCapacity.cabin},
+		{ l.PASSENGER_CABIN_CAPACITY..":",    cabinMaximum },
 		false,
-		{ l.MISSILE_MOUNTS..":",            shipDef.equipSlotCapacity.missile},
-		{ l.SCOOP_MOUNTS..":",              shipDef.equipSlotCapacity.scoop},
+		{ l.MISSILE_MOUNTS..":",        shipDef.equipSlotCapacity.missile},
+		{ l.SCOOP_MOUNTS..":",          shipDef.equipSlotCapacity.scoop},
 		false,
-		{ l.ATMOSPHERIC_SHIELDING..":",     shipDef.equipSlotCapacity.atmo_shield > 0 and l.YES or l.NO },
-		{ l.ATMO_PRESS_LIMIT..":", string.format("%d atm", shipDef.atmosphericPressureLimit * atmo_shield_cap) },
+		{ l.ATMOSPHERIC_SHIELDING..":", shipDef.equipSlotCapacity.atmo_shield > 0 and l.YES or l.NO },
+		{ l.ATMO_PRESS_LIMIT..":",      string.format("%d atm", shipDef.atmosphericPressureLimit * atmo_shield_cap) },
 	})
 end
 

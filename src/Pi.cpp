@@ -675,6 +675,9 @@ void MainMenu::Start()
 
 	perfInfoDisplay->ClearCounter(PiGui::PerfInfo::COUNTER_PHYS);
 	perfInfoDisplay->ClearCounter(PiGui::PerfInfo::COUNTER_PIGUI);
+
+	LuaEvent::Queue("onEnterMainMenu");
+	LuaEvent::Emit();
 }
 
 void MainMenu::Update(float deltaTime)

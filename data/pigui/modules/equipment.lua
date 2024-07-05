@@ -60,7 +60,7 @@ local function displayECM(uiPos)
 	player = Game.player
 	local current_view = Game.CurrentView()
 	if current_view == "world" then
-		local ecms = player:GetEquip('ecm')
+		local ecms = player:GetComponent("EquipSet"):GetInstalledOfType("utility.ecm")
 		for i,ecm in ipairs(ecms) do
 			local size, clicked = iconEqButton(uiPos, icons[ecm.ecm_type], false, mainIconSize, "ECM", not player:IsECMReady(), mainBackgroundColor, mainForegroundColor, mainHoverColor, mainPressedColor, lec[ecm.hover_message])
 			uiPos.y = uiPos.y + size.y + 10
@@ -81,37 +81,42 @@ local function getMissileIcon(missile)
 	end
 end
 
-local function fireMissile(index)
+local function fireMissile(missile)
 	if not player:GetCombatTarget() then
 		Game.AddCommsLogLine(lc.SELECT_A_TARGET, "", 1)
 	else
-		player:FireMissileAt(index, player:GetCombatTarget())
+		player:FireMissileAt(missile, player:GetCombatTarget())
 	end
 end
 
 local function displayMissiles(uiPos)
 	player = Game.player
 	local current_view = Game.CurrentView()
+
 	if current_view == "world" then
-		local missiles = player:GetEquip('missile')
+
+		local missiles = player:GetComponent("EquipSet"):GetInstalledOfType("missile")
 		local count = {}
 		local types = {}
-		local index = {}
+
 		for i,missile in ipairs(missiles) do
 			count[missile.missile_type] = (count[missile.missile_type] or 0) + 1
 			types[missile.missile_type] = missile
-			index[missile.missile_type] = i
 		end
+
 		for t,missile in pairs(types) do
 			local c = count[t]
 			local size,clicked = iconEqButton(uiPos, getMissileIcon(missile), true, mainWideIconSize, c, c == 0, mainBackgroundColor, mainForegroundColor, mainHoverColor, mainPressedColor, lec[missile.l10n_key])
 			uiPos.y = uiPos.y + size.y + 10
+
 			if clicked then
-				print("firing missile " .. t .. ", " .. index[t])
-				fireMissile(index[t])
+				print("firing missile " .. t)
+				fireMissile(missile)
 			end
 		end
+
 	end
+
 	return uiPos
 end
 

@@ -33,9 +33,12 @@ Trader.addEquip = function (ship)
 	local size_factor = ship.freeCapacity ^ 2 / 2000000
 
 	if Engine.rand:Number(1) - 0.1 < lawlessness then
-		local num = math.floor(math.sqrt(ship.freeCapacity / 50)) -
-			ship:CountEquip(e.misc.shield_generator)
-		if num > 0 then ship:AddEquip(e.misc.shield_generator, num) end
+		local num = math.floor(math.sqrt(ship.freeCapacity / 50)) --[[ -
+			ship:CountEquip(e.misc.shield_generator) ]]
+		for i = 1, num do
+			ship:AddEquip(e.misc.shield_generator)
+		end
+
 		if ship_type.equipSlotCapacity.energy_booster > 0 and
 			Engine.rand:Number(1) + 0.5 - size_factor < lawlessness then
 			ship:AddEquip(e.misc.shield_energy_booster)
@@ -120,7 +123,7 @@ Trader.doOrbit = function (ship)
 end
 
 local getSystem = function (ship)
-	local max_range = ship:GetEquip('engine', 1):GetMaximumRange(ship)
+	local max_range = ship:GetInstalledHyperdrive():GetMaximumRange(ship)
 	max_range = math.min(max_range, 30)
 	local min_range = max_range / 2;
 	local systems_in_range = Game.system:GetNearbySystems(min_range)
@@ -209,7 +212,7 @@ local function isAtmo(starport)
 end
 
 local function canAtmo(ship)
-	return ship:CountEquip(e.misc.atmospheric_shielding) ~= 0
+	return (ship["atmo_shield_cap"] or 0) > 0
 end
 
 local THRUSTER_UP = Engine.GetEnumValue('ShipTypeThruster', 'UP')
@@ -242,7 +245,7 @@ Trader.getNearestStarport = function(ship, current)
 end
 
 Trader.addFuel = function (ship)
-	local drive = ship:GetEquip('engine', 1)
+	local drive = ship:GetInstalledHyperdrive()
 
 	-- a drive must be installed
 	if not drive then

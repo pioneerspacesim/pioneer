@@ -55,6 +55,7 @@ local Serializer = require 'Serializer'
 local utils = require 'utils'
 
 local Character;
+---@class Character
 Character = {
 
 --
