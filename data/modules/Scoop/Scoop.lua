@@ -93,14 +93,15 @@ local spoiled_food = CommodityType.RegisterCommodity("spoiled_food", {
 	purchasable = false
 })
 
-local unknown = CommodityType.RegisterCommodity("unknown", {
-	l10n_key = "UNKNOWN",
-	l10n_resource = "module-scoop",
-	price = -5,
-	icon_name = "Default",
-	mass = 1,
-	purchasable = false
-})
+-- -- Unclear what player should do with "Unknown" cargo -> disable for now
+-- local unknown = CommodityType.RegisterCommodity("unknown", {
+--	l10n_key = "UNKNOWN",
+--	l10n_resource = "module-scoop",
+--	price = -5,
+--	icon_name = "Default",
+--	mass = 1,
+--	purchasable = false
+-- })
 
 local rescue_capsules = {
 	rescue_capsule
@@ -115,7 +116,7 @@ local weapons = {
 local waste = {
 	toxic_waste,
 	spoiled_food,
-	unknown,
+	-- unknown,
 	Commodities.radioactives,
 	Commodities.rubbish
 }
