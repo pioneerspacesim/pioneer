@@ -18,6 +18,7 @@ end
 local Comms = require 'Comms'
 local debugView = require 'pigui.views.debug'
 local ui = require 'pigui'
+local Economy = require 'Economy'
 local Engine = require 'Engine'
 local Lang = require 'Lang'
 local Game = require 'Game'
@@ -326,6 +327,7 @@ local onLeaveSystem = function (ship)
 	timeInHyperspace = Game.time
 end
 
+local cache = nil
 
 local onShipDocked = function (ship, station)
 	if not ship:IsPlayer() then return end
@@ -352,22 +354,53 @@ local onShipDocked = function (ship, station)
 			end
 
 			local price = station:GetCommodityPrice(cargo_item)
-			local stock = station:GetCommodityStock(cargo_item)
+			local flow, affinity = Economy.GetStationFlowParams(station, cargo_item)
+			local stock, demand = Economy.GetCommodityStockFromFlow(cargo_item, flow, affinity)
 
-			local newPrice, newStock
+			-- Store original stats for commodity, to reset to later
+			cache = {commodity = cargo_item, price=price, stock = stock, demand = demand}
+
+			-- How close to finish? Linear decrease from 1.0 at start -> 0 at end of event
+			local progress = (n.expires - Game.time) / (n.expires - n.date)
+
+			local newPrice, newStock, newDemand
 			if n.multiplier > 0 then
-				newPrice = n.multiplier * price -- increase price
-				newStock = 0 -- remove all stock
+				newPrice = n.multiplier * price                             -- increase price
+				newStock = 0                                                -- remove all stock
+				newDemand = demand * math.ceil(1 + progress*n.multiplier)   -- demand
 			elseif n.multiplier < 0 then
 				newPrice = math.ceil(price / (1 + math.abs(n.multiplier)))  -- dump price
-				newStock = math.ceil(math.abs(n.multiplier * stock))  -- spam stock
-			else
-				error("multiplier should probably not be 0.")
+				newStock = math.ceil(math.abs(n.multiplier * stock))        -- spam stock
+				newDemand = 0                                               -- station does not buy it
 			end
-			-- print("--- NewsEvent: cargo:", cargo_item:GetName(), "price:", newPrice, "stock:", newStock)
+			-- print("--- NewsEvent old:", cargo_item:GetName(), "price:", price, "stock:", stock, "demand:", demand)
+			-- print("--- NewsEvent new:", cargo_item:GetName(), "price:", newPrice, "stock:", newStock, "demand", newDemand)
+
 			station:SetCommodityPrice(cargo_item, newPrice)
-			station:SetCommodityStock(cargo_item, newStock)
+			station:SetCommodityStock(cargo_item, newStock, newDemand)
 		end
+	end
+end
+
+
+-- Reset when we leave the station. With current implementation of
+-- economy, it would gradually have returned to equilibrium in 12
+-- weeks time.
+local onShipUndocked = function (ship, station)
+	if not ship:IsPlayer() then return end
+
+	if cache then
+		station:SetCommodityPrice(cache.commodity, cache.price)
+		station:SetCommodityStock(cache.commodity, cache.stock, cache.demand)
+
+		-- print("Reset price, stock, demand: ")
+		-- local price = station:GetCommodityPrice(cache.commodity)
+		-- print("\tprice:", price)
+		-- local flow, affinity = Economy.GetStationFlowParams(station, cache.commodity)
+		-- local stock, demand = Economy.GetCommodityStockFromFlow(cache.commodity, flow, affinity)
+		-- print("\tstock", stock)
+		-- print("\tdemand", demand)
+		cache = nil
 	end
 end
 
@@ -417,6 +450,7 @@ Event.Register("onCreateBB", onCreateBB)
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onLeaveSystem", onLeaveSystem)
 Event.Register("onShipDocked", onShipDocked)
+Event.Register("onShipUndocked", onShipUndocked)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 
