@@ -6,18 +6,20 @@
 #include "GameSaveError.h"
 #include "JsonUtils.h"
 #include "Ship.h"
-#include "core/StringUtils.h"
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/Types.h"
 #include "graphics/UniformBuffer.h"
-#include "scenegraph/FindNodeVisitor.h"
+#include "scenegraph/NodeVisitor.h"
 #include "scenegraph/MatrixTransform.h"
 #include "scenegraph/StaticGeometry.h"
 #include "scenegraph/Node.h"
 
-#include <sstream>
 #include <SDL_timer.h>
+
+REGISTER_COMPONENT_TYPE(Shields) {
+	BodyComponentDB::RegisterComponent<Shields>("Shields");
+}
 
 namespace {
 	static constexpr size_t MAX_SHIELD_HITS = 8;
@@ -33,8 +35,7 @@ namespace {
 
 	static RefCountedPtr<Graphics::Material> s_matShield;
 	static RefCountedPtr<Graphics::UniformBuffer> s_matUniformBuffer;
-	static const std::string s_shieldGroupName("Shields");
-	static const std::string s_matrixTransformName("_accMtx4");
+
 	static const size_t s_shieldDataName = "ShieldData"_hash;
 	static const size_t s_numHitsName = "NumHits"_hash;
 
@@ -88,73 +89,6 @@ void Shields::Init(Graphics::Renderer *renderer)
 	s_initialised = true;
 }
 
-void Shields::ReparentShieldNodes(SceneGraph::Model *model)
-{
-	using namespace SceneGraph;
-	assert(s_initialised);
-
-	// HACK: don't reparent shield nodes in dedicated shield models
-	// Combined ship-shield models are deprecated and will be removed.
-	if (ends_with_ci(model->GetName(), "_shield"))
-		return;
-
-	Graphics::Renderer *renderer = model->GetRenderer();
-
-	//This will find all matrix transforms meant for shields.
-	SceneGraph::FindNodeVisitor shieldFinder(SceneGraph::FindNodeVisitor::MATCH_NAME_ENDSWITH, "_shield");
-	model->GetRoot()->Accept(shieldFinder);
-
-	//Move shield geometry to same level as the LODs
-	for (Node *node : shieldFinder.GetResults()) {
-		MatrixTransform *mt = dynamic_cast<MatrixTransform *>(node);
-		if (mt == nullptr)
-			continue;
-
-		const Uint32 NumChildren = mt->GetNumChildren();
-		if (NumChildren > 0) {
-			// Group to contain all of the shields we might find
-			Group *shieldGroup = new Group(renderer);
-			shieldGroup->SetName(s_shieldGroupName);
-
-			// Find the accumulated transform from the root to our node
-			matrix4x4f globalTransform = mt->CalcGlobalTransform();
-
-			// go through all of this MatrixTransforms children to extract all of the shield meshes
-			for (Uint32 iChild = 0; iChild < NumChildren; ++iChild) {
-				Node *node = mt->GetChildAt(iChild);
-				assert(node);
-				if (node) {
-					RefCountedPtr<StaticGeometry> sg(dynamic_cast<StaticGeometry *>(node));
-					assert(sg.Valid());
-					sg->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
-
-					for (Uint32 iMesh = 0; iMesh < sg->GetNumMeshes(); ++iMesh) {
-						StaticGeometry::Mesh &rMesh = sg->GetMeshAt(iMesh);
-						rMesh.material = GetGlobalShieldMaterial();
-					}
-
-					// dettach node from current location in the scenegraph...
-					mt->RemoveChild(node);
-
-					// set our nodes transformation to be the accumulated transform
-					MatrixTransform *sg_transform_parent = new MatrixTransform(renderer, globalTransform);
-					std::stringstream nodeStream;
-					nodeStream << iChild << s_matrixTransformName;
-					sg_transform_parent->SetName(nodeStream.str());
-
-					// Attach node to new accumulated transform
-					sg_transform_parent->AddChild(node);
-
-					// attach new transform node which parents the our shields mesh to the shield group.
-					shieldGroup->AddChild(sg_transform_parent);
-				}
-			}
-
-			model->GetRoot()->AddChild(shieldGroup);
-		}
-	}
-}
-
 void Shields::Uninit()
 {
 	assert(s_initialised);
@@ -172,24 +106,32 @@ struct ShieldNodeAccumulator : SceneGraph::NodeVisitor {
 	std::vector<SceneGraph::StaticGeometry *> nodes;
 };
 
-Shields::Shields(SceneGraph::Model *model) :
+Shields::Shields() :
 	m_enabled(false)
 {
 	using namespace SceneGraph;
 	assert(s_initialised);
+}
+
+Shields::~Shields()
+{
+}
+
+
+void Shields::ApplyModel(SceneGraph::Model *model)
+{
+	assert(model);
 
 	// Clone the global material and use a per-model instance
 	Graphics::Renderer *r = model->GetRenderer();
 	Graphics::Material *globalShield = GetGlobalShieldMaterial().Get();
 	m_shieldMaterial.Reset(r->CloneMaterial(globalShield, globalShield->GetDescriptor(), r->GetMaterialRenderState(globalShield)));
 
-	// Find all shield geometry nodes (parented to the Shields group)
-	SceneGraph::Group *shieldGroup = static_cast<SceneGraph::Group *>(model->GetRoot()->FindNode(s_shieldGroupName));
-	if (!shieldGroup)
-		return;
-
+	// Find all static geometry nodes in the shield model
 	ShieldNodeAccumulator accum = {};
-	shieldGroup->Accept(accum);
+	model->GetRoot()->Accept(accum);
+
+	m_shields.clear();
 
 	for (SceneGraph::StaticGeometry *shieldGeom : accum.nodes) {
 		// Update node materials
@@ -198,7 +140,7 @@ Shields::Shields(SceneGraph::Model *model) :
 		for (uint32_t iMesh = 0; iMesh < shieldGeom->GetNumMeshes(); ++iMesh) {
 			// NOTE: model instances must contain unique StaticGeometry nodes for this to function.
 			// Sharing of StaticGeometry nodes between instances is forbidden.
-			StaticGeometry::Mesh &rMesh = shieldGeom->GetMeshAt(iMesh);
+			SceneGraph::StaticGeometry::Mesh &rMesh = shieldGeom->GetMeshAt(iMesh);
 			rMesh.material = m_shieldMaterial;
 		}
 
@@ -207,8 +149,10 @@ Shields::Shields(SceneGraph::Model *model) :
 	}
 }
 
-Shields::~Shields()
+void Shields::ClearModel()
 {
+	m_shields.clear();
+	m_shieldMaterial.Reset();
 }
 
 void Shields::SaveToJson(Json &jsonObj)
@@ -277,11 +221,10 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 		return;
 	}
 
-	ShieldData renderData{};
-
 	// setup the render params
-	// FIXME: don't use a static variable to hold all of this
-	if (shieldStrength > 0.0f) {
+	if (shieldStrength > 0.0f && m_shieldMaterial) {
+		ShieldData renderData{};
+
 		Uint32 numHits = std::min(m_hits.size(), MAX_SHIELD_HITS);
 		for (Uint32 i = 0; i < numHits; ++i) {
 			const Hits &hit = m_hits[i];

@@ -276,9 +276,7 @@ protected:
 
 	Propulsion *m_propulsion;
 	FixedGuns *m_fixedGuns;
-
-	// TODO: convert Shields to follow the component interface
-	std::unique_ptr<Shields> m_shields;
+	Shields *m_shields;
 
 private:
 	float GetECMRechargeTime();
