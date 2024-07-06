@@ -59,6 +59,7 @@ Ship::Ship(const ShipType::Id &shipId) :
 	*/
 	m_propulsion = AddComponent<Propulsion>();
 	m_fixedGuns = AddComponent<FixedGuns>();
+	m_shields = AddComponent<Shields>();
 	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
 	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
 
@@ -126,6 +127,7 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 {
 	m_propulsion = AddComponent<Propulsion>();
 	m_fixedGuns = AddComponent<FixedGuns>();
+	m_shields = AddComponent<Shields>();
 
 	try {
 		Json shipObj = jsonObj["ship"];
@@ -175,6 +177,9 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 		m_curAICmd = 0;
 		m_curAICmd = AICommand::LoadFromJson(shipObj);
 		m_aiMessage = AIError(shipObj["ai_message"]);
+
+		// NOTE: needs to happen before shield data is loaded from JSON
+		SetupShields();
 
 		PropertyMap &p = Properties();
 		Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
@@ -1581,10 +1586,10 @@ void Ship::SetupShields()
 
 	if (sm) {
 		m_shieldModel.reset(sm->MakeInstance());
-		m_shields.reset(new Shields(m_shieldModel.get()));
+		m_shields->ApplyModel(m_shieldModel.get());
 	} else {
 		m_shieldModel.reset();
-		m_shields.reset(new Shields(GetModel()));
+		m_shields->ClearModel();
 	}
 }
 

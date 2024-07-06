@@ -71,11 +71,14 @@ void ModelViewer::Start()
 	Log::GetLog()->printCallback.connect(sigc::mem_fun(this, &ModelViewer::AddLog));
 
 	m_modelWindow->OnAppearing();
+
+	m_shields.reset(new Shields());
 }
 
 void ModelViewer::End()
 {
 	ClearModel();
+	m_shields.reset();
 
 	Shields::Uninit();
 	NavLights::Uninit();
@@ -133,7 +136,7 @@ void ModelViewer::UpdateShield()
 		m_shieldIsHit = false;
 	}
 
-	if (m_modelWindow->GetModel() && m_shields) {
+	if (m_modelWindow->GetModel()) {
 		m_shields->SetEnabled(m_showShields || m_shieldIsHit);
 
 		//Calculate the impact's radius dependent on time
@@ -181,7 +184,7 @@ void ModelViewer::AddLog(Time::DateTime, Log::Severity sv, std::string_view line
 
 void ModelViewer::ClearModel()
 {
-	m_shields.reset();
+	m_shields->ClearModel();
 	m_shieldModel.reset();
 
 	m_modelIsShip = false;
@@ -421,16 +424,10 @@ void ModelViewer::OnModelLoaded()
 
 		try {
 			shieldModel = loader.LoadModel(shipType->shieldName);
-		} catch (SceneGraph::LoadingError &e) {}
 
-		if (!shieldModel) {
-			// Legacy fallback path
-			Shields::ReparentShieldNodes(model);
-			m_shields.reset(new Shields(model));
-		} else {
 			m_shieldModel.reset(shieldModel);
-			m_shields.reset(new Shields(m_shieldModel.get()));
-		}
+			m_shields->ApplyModel(m_shieldModel.get());
+		} catch (SceneGraph::LoadingError &e) {}
 
 	}
 

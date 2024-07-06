@@ -64,7 +64,6 @@ void ModelSpinner::SetModel(SceneGraph::Model *model, const SceneGraph::ModelSki
 	m_model.reset(model->MakeInstance());
 	skin.Apply(m_model.get());
 	m_model->SetPattern(pattern);
-	m_shields.reset(new Shields(model));
 	// m_model->SetDebugFlags(SceneGraph::Model::DEBUG_BBOX);
 }
 
