@@ -23,7 +23,6 @@ local Event = require 'Event'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Commodities = require 'Commodities'
-local Equipment = require 'Equipment'
 
 local l = Lang.GetResource("module-newseventcommodity")
 
@@ -42,76 +41,76 @@ local maxIndexOfGreetings = 5
 local flavours = {
 	{                                           -- flavour 0 in en.json
 		cargo = Commodities.medicines.name, -- which commodity is affected
-		demand = 4,                             -- change in price (and stock)
+		multiplier = 4,                             -- change in price (and stock)
 	}, {
 		cargo = Commodities.battle_weapons.name,       --1
-		demand = 4,
+		multiplier = 4,
 	}, {
 		cargo = Commodities.grain.name,                --2
-		demand = 10,
+		multiplier = 10,
 	}, {
 		cargo = Commodities.fruit_and_veg.name,        --3
-		demand = 6,
+		multiplier = 6,
 	}, {
 		cargo = Commodities.narcotics.name,            --4
-		demand = -4,
+		multiplier = -4,
 	}, {
 		cargo = Commodities.slaves.name,               --5
-		demand = 7,
+		multiplier = 7,
 	}, {
 		cargo = Commodities.liquor.name,               --6
-		demand = 3,
+		multiplier = 3,
 	}, {
 		cargo = Commodities.industrial_machinery.name, --7
-		demand = 6,
+		multiplier = 6,
 	}, {
 		cargo = Commodities.mining_machinery.name,     --8
-		demand = 6,
+		multiplier = 6,
 	}, {
 		cargo = Commodities.live_animals.name,         --9
-		demand = 3,
+		multiplier = 3,
 	}, {
 		cargo = Commodities.air_processors.name,       --10
-		demand = 5,
+		multiplier = 5,
 	}, {
 		cargo = Commodities.animal_meat.name,          --11
-		demand = 3,
+		multiplier = 3,
 	}, {
 		cargo = Commodities.computers.name,            --12
-		demand = 3,
+		multiplier = 3,
 	}, {
 		cargo = Commodities.robots.name,               --13
-		demand = -4,
+		multiplier = -4,
 	}, {
 		cargo = Commodities.plastics.name,             --14
-		demand = 3,
+		multiplier = 3,
 	}, {
 		cargo = Commodities.narcotics.name,            --15
-		demand = 4,
+		multiplier = 4,
 	}, {
 		cargo = Commodities.farm_machinery.name,       --16
-		demand = 5,
+		multiplier = 5,
 	}, {
 		cargo = Commodities.metal_ore.name,            --17
-		demand = -10,
+		multiplier = -10,
 	}, {
 		cargo = Commodities.consumer_goods.name,       --18
-		demand = 3,
+		multiplier = 3,
 	}, {
 		cargo = Commodities.precious_metals.name,      --19
-		demand = -3,
+		multiplier = -3,
 	}, {
 		cargo = Commodities.fertilizer.name,           --20
-		demand = -3,
+		multiplier = -3,
 	}, {
 		cargo = Commodities.nerve_gas.name,            --21
-		demand = -4,
+		multiplier = -4,
 	}, {
 		cargo = Commodities.hand_weapons.name,         --22
-		demand = 3,
+		multiplier = 3,
 	}, {
 		cargo = Commodities.metal_alloys.name,         --23
-		demand = 3,
+		multiplier = 3,
 	}
 }
 
@@ -229,7 +228,7 @@ local createNewsEvent = function (timeInHyper)
 		cargo   = cargo,    -- relevant cargo
 		expires = expires,  -- expiration date of NEWS in seconds
 		date    = date,     -- timestamp, i.e. "publication date"
-		demand  = flavours[flavour].demand,
+		multiplier  = flavours[flavour].multiplier,
 	}
 
 	-- add headline from flavour, and more info to be displayed
@@ -344,7 +343,7 @@ local onShipDocked = function (ship, station)
 			-- send a grateful greeting from the station if the player cargo is right
 			local cargo_item = Commodities[n.cargo]
 
-			if ship:GetComponent('CargoManager'):CountCommodity(cargo_item) > 0 and n.demand > 0 then
+			if ship:GetComponent('CargoManager'):CountCommodity(cargo_item) > 0 and n.multiplier > 0 then
 				local greeting = string.interp(l["GRATEFUL_GREETING_"..Engine.rand:Integer(0,maxIndexOfGreetings)],
 					{cargo = cargo_item:GetName()})
 				Comms.Message(greeting)
@@ -354,14 +353,14 @@ local onShipDocked = function (ship, station)
 			local stock = station:GetCommodityStock(cargo_item)
 
 			local newPrice, newStock
-			if n.demand > 0 then
-				newPrice = n.demand * price -- increase price
+			if n.multiplier > 0 then
+				newPrice = n.multiplier * price -- increase price
 				newStock = 0 -- remove all stock
-			elseif n.demand < 0 then
-				newPrice = math.ceil(price / (1 + math.abs(n.demand)))  -- dump price
-				newStock = math.ceil(math.abs(n.demand * stock))  -- spam stock
+			elseif n.multiplier < 0 then
+				newPrice = math.ceil(price / (1 + math.abs(n.multiplier)))  -- dump price
+				newStock = math.ceil(math.abs(n.multiplier * stock))  -- spam stock
 			else
-				error("demand should probably not be 0.")
+				error("multiplier should probably not be 0.")
 			end
 			-- print("--- NewsEvent: cargo:", cargo_item:GetName(), "price:", newPrice, "stock:", newStock)
 			station:SetCommodityPrice(cargo_item, newPrice)
