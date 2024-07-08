@@ -16,6 +16,8 @@ local copyTable = function(T)
 end
 
 local Comms = require 'Comms'
+local debugView = require 'pigui.views.debug'
+local ui = require 'pigui'
 local Engine = require 'Engine'
 local Lang = require 'Lang'
 local Game = require 'Game'
@@ -26,11 +28,14 @@ local Commodities = require 'Commodities'
 
 local l = Lang.GetResource("module-newseventcommodity")
 
-local maxDist = 50          -- for spawning news (ly)
+local maxDist = 50          -- max distance for spawning news (ly)
 local minTime = 15768000    -- no news the first 6 months of a new game (sec)
 
 -- to spawn a new event per hyperjump, provided no other news.
 local eventProbability = 1/20
+
+-- don't allow too many news at the same time:
+local maxNumberNews = 3
 
 -- max index of flavoured variants
 local maxIndexOfIndNewspapers = 10
@@ -303,9 +308,6 @@ local onEnterSystem = function (player)
 	-- remove old news before making new
 	checkOldNews()
 
-	-- don't allow too many news at the same time:
-	local maxNumberNews = 3
-
 	timeInHyperspace = Game.time - timeInHyperspace
 
 	-- create a news event with low probability
@@ -419,3 +421,57 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 
 Serializer:Register("NewsEventCommodity", serialize, unserialize)
+
+
+debugView.registerTab(
+	"News", function ()
+		if Game.player == nil then return end
+		if not ui.beginTabItem("News") then return end
+
+
+		if ui.button("Make News", Vector2(100, 0)) then
+			createNewsEvent(0)
+		end
+		ui.sameLine()
+		ui.text("Radius: " .. maxDist .. " ly. (Usually no News before: " .. Format.DateOnly(minTime) ..")")
+		ui.sameLine()
+		ui.text("and max simultaneous news events: " .. maxNumberNews)
+
+		for _ ,n in pairs(news) do
+			local system_name = n.syspath:GetStarSystem().name
+			local commodity_name = Commodities[n.cargo]:GetName()
+
+			local distance = 0
+			if Game.system then
+				distance = n.syspath:DistanceTo(Game.system)
+			end
+
+			local header = commodity_name .. "\t" .. system_name .. "\t" .. string.format("%.2f", distance) .. " ly"
+
+			if ui.collapsingHeader(header, {}) then
+				local headline = string.interp(
+					flavours[n.flavour].headline, {
+						system = system_name,
+						cargo = commodity_name,
+						date  = Format.DateOnly(n.date),
+				})
+				ui.text(headline)
+
+				local newsbody = string.interp(
+					flavours[n.flavour].newsbody,
+					{
+						system   = n.syspath:GetStarSystem().name,
+						sectorx  = n.syspath.sectorX,
+						sectory  = n.syspath.sectorY,
+						sectorz  = n.syspath.sectorZ,
+				})
+				ui.textWrapped(newsbody)
+
+				ui.text("Flavour idx: " .. n.flavour)
+				ui.text("Price multiplier: " .. n.multiplier .. " on cargo: " .. n.cargo)
+				ui.text("Start: " .. Format.DateOnly(n.date))
+				ui.text("End: " .. Format.DateOnly(n.expires))
+				ui.separator()
+			end
+		end
+end)
