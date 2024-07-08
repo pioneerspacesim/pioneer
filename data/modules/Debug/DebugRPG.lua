@@ -7,7 +7,6 @@ local ui = require 'pigui'
 local debugView = require 'pigui.views.debug'
 local Commodities = require 'Commodities'
 local amount = 1000
-local selected = 0
 
 local Legal = require "Legal"
 local utils = require "utils"
@@ -16,7 +15,7 @@ local l = Lang.GetResource("ui-core")
 
 -- build list of all crime types:
 local crime_types = {}
-for k, v in pairs(Legal.CrimeType) do
+for k, _ in pairs(Legal.CrimeType) do
 	table.insert(crime_types, k)
 end
 
@@ -41,7 +40,7 @@ end
 
 debugView.registerTab("RPG-debug-view", function()
 	if Game.player == nil then return end
-    if not ui.beginTabItem("RPG") then return end
+	if not ui.beginTabItem("RPG") then return end
 		ui.text("State: " .. Game.player:GetFlightState())
 
 		-- Reputation
@@ -70,7 +69,6 @@ debugView.registerTab("RPG-debug-view", function()
 		end
 		ui.separator()
 
-		local rows = 10
 		if ui.collapsingHeader("Crime", {}) then
 
 			ui.text("ADD CRIMINAL CHARGES:")
