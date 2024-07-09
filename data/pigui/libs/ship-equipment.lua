@@ -118,7 +118,7 @@ local hasTech = function (station, e)
 
 	if type(equip_tech_level) == "string" then
 		if equip_tech_level == "MILITARY" then
-			return station.techLevel == 11
+			equip_tech_level = 11
 		else
 			error("Unknown tech level:\t"..equip_tech_level)
 		end
