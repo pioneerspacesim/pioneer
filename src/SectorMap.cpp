@@ -1024,10 +1024,13 @@ void SectorMap::DrawNearSector(const int sx, const int sy, const int sz, const m
 		// draw star blob itself
 		systrans.Rotate(DEG2RAD(-m_rotZ), 0, 0, 1);
 		systrans.Rotate(DEG2RAD(-m_rotX), 1, 0, 0);
-		systrans.Scale((StarSystem::starScale[(*i).GetStarType(0)]));
+
+		// fallback to M-class star scaling if the system doesn't have any stars (degenerate case)
+		SystemBodyType::BodyType starType = (*i).GetNumStars() > 0 ? (*i).GetStarType(0) : SystemBodyType::TYPE_STAR_M;
+		systrans.Scale((StarSystem::starScale[starType]));
 		m_context.renderer->SetTransform(systrans);
 
-		const Uint8 *col = StarSystem::starColors[(*i).GetStarType(0)];
+		const Uint8 *col = StarSystem::starColors[starType];
 		AddStarBillboard(systrans, vector3f(0.f), Color(col[0], col[1], col[2], 255), 0.5f);
 
 		// add label
