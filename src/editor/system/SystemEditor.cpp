@@ -252,6 +252,9 @@ bool SystemEditor::WriteSystem(const std::string &filepath)
 
 	Json systemdef = Json::object();
 
+	// Generate the list of stars in this system
+	StarSystem::EditorAPI::GenerateStarList(m_system.Get());
+
 	m_system->DumpToJson(systemdef);
 
 	if (m_systemInfo.randomFaction)

@@ -229,6 +229,7 @@ StarSystem::StarSystem(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, Sta
 	m_exploredTime(0.0),
 	m_econType(GalacticEconomy::InvalidEconomyId),
 	m_seed(0),
+	m_pos(0.0),
 	m_tradeLevel(GalacticEconomy::Commodities().size() + 1, 0),
 	m_commodityLegal(GalacticEconomy::Commodities().size() + 1, true),
 	m_cache(cache)

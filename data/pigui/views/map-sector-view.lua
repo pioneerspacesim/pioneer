@@ -41,7 +41,7 @@ local buttonState = {
 	[false]       = ui.theme.buttonColors.transparent
 }
 
-local settings = 
+local settings =
 {
 	draw_vertical_lines=false,
 	draw_out_range_labels=false,
@@ -75,7 +75,7 @@ local onGameStart = function ()
 	hyperspaceDetailsCache = {}
 
 	-- apply any data loaded earlier
-	if loaded_data then	
+	if loaded_data then
 		if loaded_data.jump_targets then
 			local targets = loaded_data.jump_targets
 			for _, target in pairs( loaded_data.jump_targets) do
@@ -172,7 +172,8 @@ function Windows.systemInfo:Show()
 			starsystem.numberOfStars == 1 and starsystem.rootSystemBody.astroDescription or "",
 			lc.BINARY_SYSTEM,
 			lc.TRIPLE_SYSTEM,
-			lc.QUADRUPLE_SYSTEM
+			lc.QUADRUPLE_SYSTEM,
+			[0] = lui.AN_ERROR_HAS_OCCURRED
 		}
 
 		-- description

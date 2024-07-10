@@ -4,6 +4,7 @@
 #include "Background.h"
 
 #include "FileSystem.h"
+#include "FloatComparison.h"
 #include "Game.h"
 #include "GameConfig.h"
 #include "MathUtil.h"
@@ -317,7 +318,9 @@ namespace Background {
 								Color col = StarSystem::starRealColors[ss->GetStarType(i)];
 								colorSystemSum += vector3f(col.r, col.g, col.b) * StarSystem::starLuminosities[ss->GetStarType(i)];
 							}
-							colorSystemSum /= luminositySystemSum;
+
+							if (!is_zero_exact(luminositySystemSum))
+								colorSystemSum /= luminositySystemSum;
 
 							Color col(colorSystemSum.x, colorSystemSum.y, colorSystemSum.z);
 							col.r = Clamp(col.r, info.colorMin.r, info.colorMax.r);
@@ -327,6 +330,9 @@ namespace Background {
 
 							// use a logarithmic scala for brightness since this looks more natural to the human eye
 							float brightness = log(luminositySystemSum / (4 * M_PI * distance.Length() * distance.Length()));
+
+							// handle zero-brightness systems (no stars)
+							brightness = is_zero_exact(luminositySystemSum) ? 0.0 : brightness;
 
 							stars.pos.push_back(distance.Normalized() * 1000.0f);
 							stars.color.push_back(col);
