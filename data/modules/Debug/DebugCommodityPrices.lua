@@ -4,9 +4,6 @@
 
 local Game = require "Game"
 local ui = require 'pigui'
-local Engine = require "Engine"
-local Rand = require "Rand"
-local Format = require "Format"
 local debugView = require 'pigui.views.debug'
 local Format = require 'Format'
 local Commodities = require 'Commodities'
@@ -15,8 +12,7 @@ local Commodities = require 'Commodities'
 local radius = 20
 local N = 0
 local commodities = nil
-local include_illegal, changed = false, false
-
+local include_illegal = false
 
 -- Create class to document our commodity
 local Commodity = {}
@@ -60,19 +56,20 @@ end
 -- compute average price seen
 function Commodity:mean()
 	local sum = 0
-	for k, v in pairs(self.prices) do
+	for _, v in pairs(self.prices) do
 		sum = sum + v
 	end
+
 	return sum / #self.prices
 end
 
 function Commodity:std()
 	local std = 0
 	local mean = self:mean()
-	for k, v in pairs(self.prices) do
+	for _, v in pairs(self.prices) do
 		std = std + (v - mean)^2
 	end
-	return std / #self.prices
+	return math.sqrt(std / #self.prices)
 end
 
 -- compute media price seen
@@ -108,7 +105,7 @@ function Commodity:get_bins(n_bins)
 		table.insert(self.price_bins, 0)
 	end
 
-	for key, val in pairs(self.prices) do
+	for _, val in pairs(self.prices) do
 		for i=1,#self.price_bins do
 			if xaxis[i] <= val and val < xaxis[i+1] then
 				self.price_bins[i] = self.price_bins[i] + 1
@@ -121,21 +118,6 @@ function Commodity:get_bins(n_bins)
 end
 
 
-
-local findNearbyStations = function (station, minDist)
-	local nearbystations = {}
-	for _,s in ipairs(Game.system:GetStationPaths()) do
-		if s ~= station.path then
-			local dist = station:DistanceTo(Space.GetBody(s.bodyIndex))
-			if dist >= minDist then
-				table.insert(nearbystations, { s, dist })
-			end
-		end
-	end
-	return nearbystations
-end
-
-
 local build_nearby_systems = function (dist, display)
 	local max_dist = dist or 30
 	local display = display or false
@@ -143,7 +125,7 @@ local build_nearby_systems = function (dist, display)
 	local nearbysystems = Game.system:GetNearbySystems(max_dist, function (s) return #s:GetStationPaths() > 0 end)
 
 	if display then
-		for key, sys in pairs(nearbysystems) do
+		for _, sys in pairs(nearbysystems) do
 			ui.text(sys.name)
 			ui.sameLine()
 			ui.text(sys:DistanceTo(Game.system))
@@ -306,7 +288,7 @@ local function main()
 	local station = Game.player:GetDockedWith()
 
 	-- HEADER
-	changed, include_illegal = ui.checkbox("Include Illegal goods", include_illegal)
+	_, include_illegal = ui.checkbox("Include Illegal goods", include_illegal)
 
 	if ui.button("scan", Vector2(0,0)) then
 		commodities, N = scan_systems(radius)
@@ -331,11 +313,6 @@ local function main()
 	ui.columns(1)
 end
 
-
--- debugView.registerTab('debug-commodity-prices', function()
---     if not ui.beginTabItem("CommodityPrices") then return end
--- 	main()
--- end)
 
 debugView.registerTab("Commodity Price", function()
   if Game.player == nil then return end
