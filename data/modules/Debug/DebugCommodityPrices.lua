@@ -4,6 +4,7 @@
 
 local Game = require "Game"
 local ui = require 'pigui'
+local Economy = require 'Economy'
 local debugView = require 'pigui.views.debug'
 local Format = require 'Format'
 local Commodities = require 'Commodities'
@@ -13,16 +14,18 @@ local radius = 20
 local N = 0
 local commodities = nil
 local include_illegal = false
+local include_only_purchasable = true
 
 -- Create class to document our commodity
 local Commodity = {}
 Commodity.__index = Commodity
 
-function Commodity.new (o, name, baseprice)
+function Commodity.new (o, name, id_name, baseprice)
 	-- o = o or {}
 	local self = setmetatable({}, Commodity)
 	-- self.__index = self
-	self.name = name		    -- name of commodity
+	self.name = name			-- name of commodity
+	self.id_name = id_name		-- key of commodity
 	self.max = 0				-- max price for this commodity
 	self.min = 1e9				-- min price for this commodity
 	self.prices = {}			-- table of every price for this commodity
@@ -159,22 +162,21 @@ local scan_systems = function(dist)
 			-- include goods if legal, or if we've chosen to include it
 			local include = include_illegal or sys:IsCommodityLegal(comm.name)
 
-			-- TODO: also include negative products, right?
-			-- if comm.price > 0 then
+			if include_only_purchasable then
+				include = include and comm.purchasable
+			end
 
-				local name = comm:GetName()
-				local price = getprice(comm, sys)
+			local name = comm:GetName()
+			local price = getprice(comm, sys)
 
-				if not commodities[name] then
-					commodities[name] = Commodity:new(name, comm.price)
-					print(name, comm.price)
-				end
+			if include and not commodities[name] then
+				commodities[name] = Commodity:new(name, comm.name, comm.price)
+			end
 
-				-- if interesting, get name, and check price
-				if include then
-					commodities[name]:add_price(price, sys)
-				end
-			-- end
+			-- if interesting, get name, and check price
+			if include then
+				commodities[name]:add_price(price, sys)
+			end
 		end
 	end
 	return commodities, #nearby_systems
@@ -242,53 +244,104 @@ local function show_system_info(min, sys, str)
 	ui.text("Distance:\t " .. dist .. " ly")
 	ui.text("Faction:\t " .. sys.faction.name)
 	ui.text("Government:\t " .. string.lower(sys.govtype):gsub("^%l", string.upper)) -- PolitGovType
-	ui.text("") 	-- PolitEcon
 
 	-- Add from C++ side, E.g:
 	-- System type: Mining colony
 	-- Government type: Earth Federation Democrac
 	-- Economy type: capitalist
-	ui.text("")
 end
 
-local function show_details_on_commodity(commodities, clicked)
-	if not clicked then
+local function show_details_on_commodity(commodities, selected)
+	if not selected then
 		return
 	end
-	ui.text(string.upper(clicked))
-	local c = commodities[clicked]
+	ui.text(string.upper(selected))
+	local c = commodities[selected]
 
-	ui.text("Current system:\t " .. Game.system.name)
-	ui.text("Baseprice:\t " .. Format.Money(c.baseprice))
-	ui.text("Median price:\t " .. Format.Money(c:median()))
-	ui.text("Average price:\t " .. Format.Money(c:mean()))
-	ui.text("Standard deviation:\t " .. string.format("%.2f", c:std()))
-	ui.text("")
+	-- If previous click was non-purchasalbe item followed by
+	-- filtering them out, 'clicked' value will no longer be in
+	-- 'commodities'
+	if not c then
+		return
+	end
 
-	show_system_info(c.min, c.minsys, "Lowest")
-	show_system_info(c.max, c.maxsys, "Highest")
+	local purchasable = Commodities[c.id_name].purchasable
 
-	local diff = c.max - c.min
-	ui.text("Absolute price difference/spread:\t " .. Format.Money(diff))
-	ui.text("Relative price difference:\t " .. string.format("%.2f", 100*diff/c.min) .. " %")
-	local dist = string.format("%.2f", c.minsys:DistanceTo(c.maxsys))
-	ui.text("Distance between mininum and maximum systems:\t " .. dist .. " ly")
+	ui.text("Current system:\t" .. Game.system.name)
+	ui.text("Tag:\t" .. c.id_name)
+	ui.text("Purchasable:\t" .. tostring(purchasable))
+	ui.text("Baseprice:\t" .. Format.Money(c.baseprice))
+	if not purchasable then return purchasable end
+	ui.text("Median price:\t" .. Format.Money(c:median()))
+	ui.text("Average price:\t" .. Format.Money(c:mean()))
+	ui.text("Standard deviation:\t" .. string.format("%.2f", c:std()))
 
-	local data = c:get_bins()
-	local y_max = math.max(table.unpack(data))
-	ui.dummy(Vector2(0,50))
+	if ui.collapsingHeader("Lowest", {"DefaultOpen"}) then
+		show_system_info(c.min, c.minsys, "Lowest")
+	end
+	if ui.collapsingHeader("Highest", {"DefaultOpen"}) then
+		show_system_info(c.max, c.maxsys, "Highest")
+	end
 
-	ui.plotHistogram("##price distribution", data, #data, 0, "", 0, y_max, Vector2(400, 100))
-	ui.text("Min: " .. Format.Money(c.min))
-	ui.text("Max: " .. Format.Money(c.max))
+	if ui.collapsingHeader("Difference", {"DefaultOpen"}) then
+		local diff = c.max - c.min
+		ui.text("Absolute price difference/spread:\t " .. Format.Money(diff))
+		ui.text("Relative price difference:\t " .. string.format("%.2f", 100*diff/c.min) .. " %")
+		local dist = string.format("%.2f", c.minsys:DistanceTo(c.maxsys))
+		ui.text("Distance between mininum and maximum systems:\t " .. dist .. " ly")
+
+		local data = c:get_bins()
+		local y_max = math.max(table.unpack(data))
+		ui.dummy(Vector2(0,50))
+
+		ui.plotHistogram("##price distribution", data, #data, 0, "", 0, y_max, Vector2(400, 100))
+		ui.text("Min: " .. Format.Money(c.min))
+		ui.text("Max: " .. Format.Money(c.max))
+	end
+	return purchasable
 end
+
+
+local function station_economy(commodities, clicked, station)
+	if not clicked or not station then
+		return
+	end
+	-- random selection, element 4 out of my ass
+	local cargo_item = commodities[clicked]
+	cargo_item = Commodities[cargo_item.id_name]
+
+	local flow, affinity = Economy.GetStationFlowParams(station, cargo_item)
+
+	local equilibrium_stock, equilibrium_demand = Economy.GetCommodityStockFromFlow(cargo_item, flow, affinity)
+
+	local price = station:GetCommodityPrice(cargo_item)
+	local stock = station:GetCommodityStock(cargo_item)
+	local demand = station:GetCommodityDemand(cargo_item)
+
+	ui.text("\nAt station: " .. station.label)
+	ui.text("Local price " .. price)
+	ui.text("Local stock " .. stock)
+	ui.text("Local demand: " .. demand)
+	ui.text("Local flow: " .. flow)
+	ui.text("Local affinity: " .. affinity)
+	ui.text("equilibrium_stock: " .. equilibrium_stock)
+	ui.text("equilibrium_demand: " .. equilibrium_demand)
+
+	-- Just stub for experiment with changing market prices
+	local mod = 2
+	if ui.button("Double", Vector2(100, 0)) then
+		station:SetCommodityPrice(cargo_item, mod*price)
+		station:SetCommodityStock(cargo_item, mod*stock, mod*demand)
+	end
+end
+
 
 
 local function main()
-	local station = Game.player:GetDockedWith()
 
 	-- HEADER
 	_, include_illegal = ui.checkbox("Include Illegal goods", include_illegal)
+	_, include_only_purchasable = ui.checkbox("Include only purcasalbe goods", include_only_purchasable)
 
 	if ui.button("scan", Vector2(0,0)) then
 		commodities, N = scan_systems(radius)
@@ -309,15 +362,20 @@ local function main()
 
 	-- COLUMN 2
 	ui.nextColumn()
-	show_details_on_commodity(commodities, clicked)
+	local purchasable = show_details_on_commodity(commodities, clicked)
+
+	local station = Game.player:GetDockedWith() or false
+	if station and purchasable and ui.collapsingHeader("Station economy", {"DefaultOpen"}) then
+		station_economy(commodities, clicked, station)
+	end
 	ui.columns(1)
 end
 
 
-debugView.registerTab("Commodity Price", function()
+debugView.registerTab("Commodities", function()
   if Game.player == nil then return end
-  if ui.beginTabItem("Commodity Price") then
-    main()
-    ui.endTabItem()
+  if ui.beginTabItem("Commodities") then
+	main()
+	ui.endTabItem()
   end
 end)
