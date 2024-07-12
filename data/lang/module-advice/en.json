@@ -15,6 +15,14 @@
     "description": "A reference to the song 'The Harder They Come', by Jimmy Cliff",
     "message": "The harder the g, the harder the fall"
   },
+  "ADVICE_12_BODYTEXT": {
+    "description": "",
+    "message": "There are rumours of pirates operating from an old decommissioned bulkcarrier which they've converted into a space station, somewhere in the Cassiopeiae constellation."
+  },
+  "ADVICE_12_HEADLINE": {
+    "description": "",
+    "message": "Rumors of a Pirate Base"
+  },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
     "message": "As you return to a station, be wary of those alternative market places you do not recognize, and you will stay out of trouble with the law."

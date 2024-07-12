@@ -33,6 +33,7 @@ local travellers_advice_indices = {481, -- tame black market
 								   52,  -- service ship
 								   248, -- change faction
 								   171, -- the harder the g
+								   420,  -- pirate system hint
 }
 
 -- Hold all different types of advice/rumours available:
