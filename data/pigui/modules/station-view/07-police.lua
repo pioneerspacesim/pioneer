@@ -11,6 +11,7 @@ local utils = require "utils"
 local PiGuiFace = require 'pigui.libs.face'
 local Format = require "Format"
 local Character = require "Character"
+local Commodities = require 'Commodities'
 local l = Lang.GetResource("ui-core")
 
 local ModalWindow = require 'pigui.libs.modal-win'
@@ -148,6 +149,16 @@ local function drawPolice()
 				end
 				if ui.beginTabItem(l.LEGAL_RULES_AND_REGULATIONS) then
 					drawRulesAndRegulations()
+					ui.endTabItem()
+				end
+
+				if ui.beginTabItem(l.ILLEGAL_IN_SYSTEM) then
+
+					for key, comm in pairs(Commodities) do
+						if not Game.system:IsCommodityLegal(comm.name) then
+							ui.text(comm:GetName())
+						end
+					end
 					ui.endTabItem()
 				end
 				ui.endTabBar()
