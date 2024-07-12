@@ -36,6 +36,7 @@ local travellers_advice_indices = {481, -- tame black market
 								   203, -- the billie bounce
 								   194, -- running on fumes
 								   49,	-- a clear way out
+								   420,  -- pirate system hint
 }
 
 -- Hold all different types of advice/rumours available:
