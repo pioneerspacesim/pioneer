@@ -36,7 +36,7 @@ CustomSystem:new('Alpha Columbae',{'STAR_B_GIANT'}):add_to_sector(27,-3,-19,v(0.
 CustomSystem:new('Alpha Muscae',{'STAR_B_GIANT'}):add_to_sector(-3,13,-36,v(0.802,0.43,0.295))
 CustomSystem:new('Gamma Cygni',{'STAR_F_SUPER_GIANT'}):add_to_sector(-119,-85,123,v(0.717,0.451,0.114))
 CustomSystem:new('Zeta Centauri',{'STAR_B'}):add_to_sector(-16,28,-36,v(0.247,0.554,0.673))
-CustomSystem:new('Polaris',{'STAR_F'}):add_to_sector(0,-1,53,v(0.426,0.453,0.925))
+CustomSystem:new('Polaris',{'STAR_F'}):other_names({"Alpha Ursae Minoris", "North Star"}):add_to_sector(0,-1,53,v(0.426,0.453,0.925))
 CustomSystem:new('Delta Corvi',{'STAR_B'}):add_to_sector(-2,10,-4,v(0.631,0.443,0.877))
 CustomSystem:new('Delta Cassiopeiae',{'STAR_A'}):add_to_sector(2,-6,10,v(0.256,0.259,0.787))
 CustomSystem:new('57 Andromedae',{'STAR_B'}):add_to_sector(16,-29,29,v(0.879,0.88,0.875))
