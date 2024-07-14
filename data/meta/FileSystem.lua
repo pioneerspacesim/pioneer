@@ -10,8 +10,8 @@
 local FileSystem = {}
 
 ---@param path string The directory to read the contents of.
----@return string[] files  A list of files as full paths from the root
----@return string[] dirs   A list of dirs as full paths from the root
+---@return table[] files  A list of files as full paths from the root
+---@return table[] dirs   A list of dirs as full paths from the root
 ---
 --- Example:
 ---  > local files, dirs = FileSystem.ReadDirectory("user://savefiles")
@@ -40,7 +40,7 @@ function FileSystem.MakeDirectory( dir_name ) end
 --- > f = FileSystem.Open( "user://my_file.txt", "w" )
 --- > f:write( "file contents" )
 --- > f:close()
---- 
+---
 ---@param filename string   The name of the file to open, must start either user:// or data://
 ---@param mode string|nil   The mode to open the file in, defaults to read only. Only user location files can be written
 ---@return file             A lua io file
