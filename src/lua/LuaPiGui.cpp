@@ -1206,6 +1206,43 @@ static int l_pigui_button(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: invisibleButton
+ *
+ * Create an invisible button for use with custom display code
+ *
+ * > clicked = ui.invisibleButton(id, vec_size)
+ *
+ * Example:
+ *
+ * > local pos, size = ui.getCursorScreenPos(), Vector2(100, 50)
+ * > local x = 0
+ * > if ui.invisibleButton("Custom Button Area", size) then
+ * >     x = 42
+ * > end
+ * >
+ * > ui.addRectFilled(pos, size, ...)
+ *
+ * Parameters:
+ *
+ *   id       - string, identifier for the button.
+ *   vec_size - Vector2, size of button
+ *
+ * Return:
+ *
+ *   clicked - bool, true if button was clicked, else false
+ *
+ */
+static int l_pigui_invisible_button(lua_State *l)
+{
+	PROFILE_SCOPED()
+	std::string id = LuaPull<std::string>(l, 1);
+	ImVec2 size = LuaPull<ImVec2>(l, 2);
+	bool ret = ImGui::InvisibleButton(id.c_str(), size);
+	LuaPush<bool>(l, ret);
+	return 1;
+}
+
 static int l_pigui_thrust_indicator(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -3335,6 +3372,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "TextColored", l_pigui_text_colored },
 		{ "SetScrollHereY", l_pigui_set_scroll_here_y },
 		{ "Button", l_pigui_button },
+		{ "InvisibleButton", l_pigui_invisible_button },
 		{ "Selectable", l_pigui_selectable },
 		{ "BeginGroup", l_pigui_begin_group },
 		{ "SetCursorPos", l_pigui_set_cursor_pos },
