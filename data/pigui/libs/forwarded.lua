@@ -159,7 +159,7 @@ ui.TableColumnFlags = pigui.TableColumnFlags
 
 -- Wrapped in buttons.lua
 -- ui.button = pigui.Button
-ui.invisibleButton = pigui.InvisibleButton ---@type fun(id: string, size: Vector2)
+ui.invisibleButton = pigui.InvisibleButton ---@type fun(id: string, size: Vector2, flags: table|string?)
 
 --
 -- Function: ui.clearMouse

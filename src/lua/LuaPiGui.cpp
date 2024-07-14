@@ -159,18 +159,18 @@ int PiGui::pushOnScreenPositionDirection(lua_State *l, vector3d position)
 	return 4;
 }
 
+void pi_lua_generic_pull(lua_State *l, int index, ImColor &color)
+{
+	Color tr = LuaPull<Color>(l, index);
+	color = ImColor(tr.r, tr.g, tr.b, tr.a);
+}
+
 static LuaFlags<ImGuiSelectableFlags_> imguiSelectableFlagsTable = {
 	{ "DontClosePopups", ImGuiSelectableFlags_DontClosePopups },
 	{ "SpanAllColumns", ImGuiSelectableFlags_SpanAllColumns },
 	{ "AllowDoubleClick", ImGuiSelectableFlags_AllowDoubleClick },
 	{ "AllowItemOverlap", ImGuiSelectableFlags_AllowItemOverlap }
 };
-
-void pi_lua_generic_pull(lua_State *l, int index, ImColor &color)
-{
-	Color tr = LuaPull<Color>(l, index);
-	color = ImColor(tr.r, tr.g, tr.b, tr.a);
-}
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiSelectableFlags_ &theflags)
 {
@@ -181,6 +181,30 @@ int l_pigui_check_selectable_flags(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TTABLE);
 	ImGuiSelectableFlags_ fl = imguiSelectableFlagsTable.LookupTable(l, 1);
+	lua_pushinteger(l, fl);
+	return 1;
+}
+
+// Can't use ImGuiButtonFlags_ here, as PressedOnClick etc. are in the ImGuiButtonFlagsPrivate_ enum instead
+static LuaFlags<ImGuiButtonFlags> imguiButtonFlagsTable = {
+	{ "MouseButtonLeft", ImGuiButtonFlags_MouseButtonLeft },
+	{ "MouseButtonRight", ImGuiButtonFlags_MouseButtonRight },
+	{ "MouseButtonMiddle", ImGuiButtonFlags_MouseButtonMiddle },
+	{ "PressedOnClick", ImGuiButtonFlags_PressedOnClick },
+	{ "PressedOnClickRelease", ImGuiButtonFlags_PressedOnClickRelease },
+	{ "PressedOnDoubleClick", ImGuiButtonFlags_PressedOnDoubleClick },
+	{ "Repeat", ImGuiButtonFlags_Repeat },
+};
+
+void pi_lua_generic_pull(lua_State *l, int index, ImGuiButtonFlags_ &theflags)
+{
+	theflags = static_cast<ImGuiButtonFlags_>(parse_imgui_flags(l, index, imguiButtonFlagsTable));
+}
+
+int l_pigui_check_button_flags(lua_State *l)
+{
+	luaL_checktype(l, 1, LUA_TTABLE);
+	ImGuiButtonFlags_ fl = static_cast<ImGuiButtonFlags_>(imguiButtonFlagsTable.LookupTable(l, 1));
 	lua_pushinteger(l, fl);
 	return 1;
 }
@@ -1238,7 +1262,8 @@ static int l_pigui_invisible_button(lua_State *l)
 	PROFILE_SCOPED()
 	std::string id = LuaPull<std::string>(l, 1);
 	ImVec2 size = LuaPull<ImVec2>(l, 2);
-	bool ret = ImGui::InvisibleButton(id.c_str(), size);
+	ImGuiButtonFlags flags = LuaPull<ImGuiButtonFlags_>(l, 3);
+	bool ret = ImGui::InvisibleButton(id.c_str(), size, flags);
 	LuaPush<bool>(l, ret);
 	return 1;
 }
@@ -3478,6 +3503,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "DisableMouseFacing", l_pigui_disable_mouse_facing },
 		{ "SetMouseButtonState", l_pigui_set_mouse_button_state },
 		{ "SelectableFlags", l_pigui_check_selectable_flags },
+		{ "ButtonFlags", l_pigui_check_button_flags },
 		{ "TreeNodeFlags", l_pigui_check_tree_node_flags },
 		{ "InputTextFlags", l_pigui_check_input_text_flags },
 		{ "WindowFlags", l_pigui_check_window_flags },
@@ -3524,6 +3550,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 	lua_State *l = Lua::manager->GetLuaState();
 
 	imguiSelectableFlagsTable.Register(l, "ImGuiSelectableFlags");
+	imguiButtonFlagsTable.Register(l, "ImGuiButtonFlags");
 	imguiTreeNodeFlagsTable.Register(l, "ImGuiTreeNodeFlags");
 	imguiInputTextFlagsTable.Register(l, "ImGuiInputTextFlags");
 	imguiSetCondTable.Register(l, "ImGuiCond");
