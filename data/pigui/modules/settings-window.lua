@@ -50,11 +50,7 @@ local function combo(label, selected, items, tooltip)
 end
 
 local function checkbox(label, checked, tooltip)
-	local color = colors.buttonBlue
-	local changed, ret
-	ui.withStyleColors({["Button"]=color,["ButtonHovered"]=color:tint(0.1),["CheckMark"]=color:tint(0.2)},function()
-		changed, ret = ui.checkbox(label, checked)
-	end)
+	local changed, ret = ui.checkbox(label, checked)
 	if ui.isItemHovered() and tooltip then
 		Engine.pigui.SetTooltip(tooltip) -- bypass the mouse check, Game.player isn't valid yet
 	end
@@ -62,16 +58,11 @@ local function checkbox(label, checked, tooltip)
 end
 
 local function slider(lbl, value, min, max, tooltip)
-	local color = colors.buttonBlue
-	local oldval = value
-	local ret
-	ui.withStyleColors({["SliderGrab"]=color,["ButtonHovered"]=color:tint(0.1),["SliderGrabActive"]=color:tint(0.2)},function()
-		ret = ui.sliderInt(lbl, value, min, max)
-	end)
+	local ret = ui.sliderInt(lbl, value, min, max)
 	if ui.isItemHovered() and tooltip then
 		Engine.pigui.SetTooltip(tooltip) -- bypass the mouse check, Game.player isn't valid yet
 	end
-	return oldval~=ret,ret
+	return value ~= ret, ret
 end
 
 local function keyOf(t, value)
@@ -588,7 +579,7 @@ local function showJoystickList(id)
 
 	local status = connected and linput.CONNECTED or linput.NOT_CONNECTED
 	ui.sameLine()
-	ui.textColored(ui.theme.colors.grey, Input.GetJoystickName(id) .. ", " .. status)
+	ui.textColored(ui.theme.colors.fontDim, Input.GetJoystickName(id) .. ", " .. status)
 end
 
 local function showControlsOptions()

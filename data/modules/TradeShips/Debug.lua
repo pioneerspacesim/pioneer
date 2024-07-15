@@ -59,7 +59,7 @@ debugView.registerTab('debug-trade-ships', function()
 	if not ui.beginTabItem("Tradeships") then return end
 
 	local function property(key, value)
-		ui.withStyleColors({["Text"] = ui.theme.colors.blueFrame}, function()
+		ui.withStyleColors({["Text"] = ui.theme.colors.fontDark}, function()
 			ui.text(key)
 		end)
 		ui.sameLine()

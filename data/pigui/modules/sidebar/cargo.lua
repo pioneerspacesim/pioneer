@@ -48,7 +48,7 @@ local function transfer_button(icon, tooltip, enabled)
 	if enabled then
 		return ui.iconButton(icon, size, tooltip, nil, nil, 0)
 	else
-		ui.iconButton(icon, size, tooltip, buttonColors.disabled, colors.grey)
+		ui.iconButton(icon, size, tooltip, buttonColors.disabled, colors.fontDim)
 	end
 end
 
