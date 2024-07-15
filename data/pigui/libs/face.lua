@@ -110,7 +110,7 @@ local iconSize = Vector2(font.size * 2.3, font.size * 2.3)
 local buttonSize = iconSize
 local function faceGenButton(self, feature)
 	local bg_style = ui.theme.buttonColors.transparent
-	local fg_color = ui.theme.colors.grey
+	local fg_color = ui.theme.colors.fontDim
 	if ui.iconButton(ui.theme.icons.time_backward_1x, buttonSize, "##<" .. feature.id, bg_style, fg_color) then
 		self:changeFeature(feature.id, -1, feature.callback)
 	end

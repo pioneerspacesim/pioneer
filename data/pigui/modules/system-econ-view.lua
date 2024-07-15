@@ -343,7 +343,7 @@ function SystemEconView:drawPriceList(key, prices)
 		drawIcon(profit, iconSize)
 
 		ui.tableSetColumnIndex(2)
-		ui.textColored(ui.theme.styleColors.gray_200, price)
+		ui.text(price)
 	end
 
 	ui.endTable()
@@ -388,7 +388,7 @@ function SystemEconView:drawSystemFinder()
 
 			ui.withFont(pionillium.heading, function()
 				local price = ui.Format.Money(self.savedMarket[key])
-				ui.textColored(ui.theme.styleColors.gray_200, commName)
+				ui.text(commName)
 				ui.sameLine(ui.getContentRegion().x - ui.calcTextSize(price).x)
 				ui.text(price)
 			end)
@@ -410,7 +410,7 @@ function SystemEconView:drawSystemFinder()
 
 				local idx = self:drawPriceList(key, entries)
 				if idx then
-					Game.sectorView:GotoSystemPath(entries[idx][3])
+					Game.sectorView:SwitchToPath(entries[idx][3])
 				end
 
 			elseif self.compareMode == CompareMode.ByStation then

@@ -33,7 +33,7 @@ end
 -- Title text is gray, followed by the variable text:
 local function headerText(title, text, wrap)
 	if not text then return end
-	ui.textColored(ui.theme.colors.grey, string.gsub(title, ":", "") .. ":")
+	ui.textColored(ui.theme.colors.fontDim, string.gsub(title, ":", "") .. ":")
 	ui.sameLine()
 	if wrap then
 		ui.textWrapped(text)

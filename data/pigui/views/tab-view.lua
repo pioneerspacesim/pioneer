@@ -118,8 +118,8 @@ function PiGuiTabView.renderTabView(self)
 	end
 
 	local styleColors = {
-		["WindowBg"] = colors.blueBackground,
-		["Border"] = colors.blueFrame,
+		["WindowBg"] = colors.windowBackground,
+		["Border"] = colors.windowFrame,
 	}
 	local styleVars = {
 		WindowRounding = 0,
@@ -129,7 +129,7 @@ function PiGuiTabView.renderTabView(self)
 
 	if(tab.windows) then
 		tab.windows:display()
-	end	
+	end
 
 	if (tab.showView) then
 		ui.withStyleColorsAndVars(styleColors, styleVars, function()

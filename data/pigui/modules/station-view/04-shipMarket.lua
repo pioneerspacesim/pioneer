@@ -18,7 +18,6 @@ local utils = require 'utils'
 
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
-local styleColors = ui.theme.styleColors
 local l = Lang.GetResource("ui-core")
 local Vector2 = _G.Vector2
 
@@ -195,7 +194,7 @@ function FormatAndCompareShips:compare_and_draw_column(desc, a, b, fmt_a, fmt_b)
 	fmt_b = fmt_b and fmt_b or fmt_a
 
 	ui.tableSetColumnIndex(0 + self.column)
-	ui.textColored(styleColors.gray_300, desc)
+	ui.textColored(ui.theme.colors.fontDim, desc)
 
 	ui.tableSetColumnIndex(1 + self.column)
 
@@ -218,7 +217,7 @@ function FormatAndCompareShips:compare_and_draw_column(desc, a, b, fmt_a, fmt_b)
 	else
 		ui.textAligned(new_str, 1.0)
 		ui.tableSetColumnIndex(2 + self.column)
-		ui.dummy( Vector2(ui.getTextLineHeight()) )		
+		ui.dummy( Vector2(ui.getTextLineHeight()) )
 	end
 
 	if self.column == 0 then
@@ -258,7 +257,7 @@ end
 
 function FormatAndCompareShips:draw_deltav_cell(desc, massNumeratorKey, massDenominatorKey)
 	local deltavA = self.def.effectiveExhaustVelocity * math.log( self:get_value(massNumeratorKey) / self.b:get_value(massDenominatorKey) )
-	local deltavB = self.b.def.effectiveExhaustVelocity * math.log( self.b:get_value(massNumeratorKey) / self.b:get_value(massDenominatorKey) )	
+	local deltavB = self.b.def.effectiveExhaustVelocity * math.log( self.b:get_value(massNumeratorKey) / self.b:get_value(massDenominatorKey) )
 
 	local function fmt( v )
 		return string.format("%d km/s", v / 1000)
@@ -388,7 +387,7 @@ local tradeMenu = function()
 						shipFormatAndCompare:draw_deltav_cell( l.DELTA_V_MAX, "fullMass", "hullMass")
 						shipFormatAndCompare:draw_equip_slot_cell( l.MISSILE_MOUNTS, "missile" )
 						shipFormatAndCompare:draw_yes_no_equip_slot_cell( l.ATMOSPHERIC_SHIELDING, "atmo_shield" )
-						shipFormatAndCompare:draw_atmos_pressure_limit_cell( l.ATMO_PRESS_LIMIT ) 
+						shipFormatAndCompare:draw_atmos_pressure_limit_cell( l.ATMO_PRESS_LIMIT )
 						shipFormatAndCompare:draw_equip_slot_cell( l.SCOOP_MOUNTS, "scoop" )
 						shipFormatAndCompare:draw_equip_slot_cell( l.PASSENGER_CABIN_CAPACITY, "cabin" )
 
