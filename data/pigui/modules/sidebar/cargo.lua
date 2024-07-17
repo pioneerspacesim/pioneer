@@ -53,6 +53,10 @@ local function transfer_button(icon, tooltip, enabled)
 end
 
 local function transfer_buttons(amount, min, max, tooltip_reduce, tooltip_increase)
+	if transfer_button(icons.time_backward_10x, tooltip_reduce .. "##all", amount > min) then
+		amount = min
+	end
+	ui.sameLine(0, 2)
 	if transfer_button(icons.time_backward_1x, tooltip_reduce, amount > min) then
 		amount = amount - 1
 	end
@@ -60,7 +64,10 @@ local function transfer_buttons(amount, min, max, tooltip_reduce, tooltip_increa
 	if transfer_button(icons.time_forward_1x, tooltip_increase, amount < max) then
 		amount = amount + 1
 	end
-
+	ui.sameLine(0, 2)
+	if transfer_button(icons.time_forward_10x, tooltip_increase .. "##all", amount < max) then
+		amount = max
+	end
 	return amount
 end
 
