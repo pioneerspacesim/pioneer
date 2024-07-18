@@ -20,8 +20,8 @@ function FileSystem.ReadDirectory(path) end
 --- Join the passed arguments into a path, correctly handling separators and .
 --- and .. special dirs.
 ---
----@param arg string[]  A list of path elements to be joined
----@return string       The joined path elements
+---@param ... string  A list of path elements to be joined
+---@return string path The joined path elements
 function FileSystem.JoinPath( ... ) end
 
 ---@param dir_name string The name of the folder to create
@@ -40,10 +40,10 @@ function FileSystem.MakeDirectory( dir_name ) end
 --- > f = FileSystem.Open( "user://my_file.txt", "w" )
 --- > f:write( "file contents" )
 --- > f:close()
---- 
+---
 ---@param filename string   The name of the file to open, must start either user:// or data://
----@param mode string|nil   The mode to open the file in, defaults to read only. Only user location files can be written
----@return file             A lua io file
-function FileSystem.Open( filename ) end
+---@param mode string?      The mode to open the file in, defaults to read only. Only user location files can be written
+---@return file* file        A lua io file
+function FileSystem.Open( filename, mode ) end
 
 return FileSystem

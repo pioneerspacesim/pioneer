@@ -281,15 +281,17 @@ class EnumData:
     def write_meta_decl(s, fl):
         id = s.ident()
         fl.write('-- A <Constants.' + id + '> string\n')
-        fl.write('---@enum ' + id + '\n')
-        fl.write('Constants.' + id + ' = {\n')
+        fl.write('---@enum (key) ' + id + '\n')
+        fl.write('local ' + id + ' = {\n')
         index = 1
         for item in s.items:
             if item.skip: continue
-            id = item.name if item.name is not None else item.identifier
-            fl.write("\t[" + str(index) + "] = \"" + id + "\",\n" )
+            item_id = item.name if item.name is not None else item.identifier
+            fl.write("\t" + item_id + " = " + str(index) + ",\n" )
             index += 1
         fl.write("}\n\n")
+        fl.write('---@type ' + id + '[]\n')
+        fl.write('Constants.' + id + ' = {}\n\n')
 
 RX_ENUM_TAG = re.compile(r'<\s*enum((?:\s+[a-zA-Z_]+(?:=(\w+|\'[^\']*\'|"[^"]*"))?)*)\s*>')
 RX_ENUM_ATTR = re.compile(r'([a-zA-Z_]+)(?:=(\w+|\'[^\']*\'|"[^"]*"))?')

@@ -82,7 +82,7 @@ function Body:DistanceTo(otherBody) end
 --- Get the body's position relative to its parent frame.
 ---
 --- If the parent is a TerrainBody, altitude will be the height above terrain or sea level in meters.
----@param boolean? terrainRelative
+---@param terrainRelative boolean?
 ---@return number latitude the latitude of the body in radians
 ---@return number longitude the longitude of the body in radians
 ---@return number? altitude altitude above the ground or sea level in meters
@@ -108,7 +108,7 @@ function Body:GetPositionRelTo(other) end
 --- Returns height above terrain or sea level if the other body is a TerrainBody or
 --- distance between bodies otherwise.
 ---@param other Body
----@param boolean? terrainRelative
+---@param terrainRelative boolean?
 ---@return number altitude
 function Body:GetAltitudeRelTo(other, terrainRelative) end
 
