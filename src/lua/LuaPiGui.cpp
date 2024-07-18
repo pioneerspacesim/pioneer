@@ -382,6 +382,7 @@ static LuaFlags<ImGuiWindowFlags_> imguiWindowFlagsTable = {
 	{ "NoBackground", ImGuiWindowFlags_NoBackground },
 	{ "NoSavedSettings", ImGuiWindowFlags_NoSavedSettings },
 	{ "NoInputs", ImGuiWindowFlags_NoInputs },
+	{ "NoDecoration", ImGuiWindowFlags_NoDecoration },
 	{ "MenuBar", ImGuiWindowFlags_MenuBar },
 	{ "HorizontalScrollbar", ImGuiWindowFlags_HorizontalScrollbar },
 	{ "NoFocusOnAppearing", ImGuiWindowFlags_NoFocusOnAppearing },
@@ -411,6 +412,7 @@ static LuaFlags<ImGuiHoveredFlags_> imguiHoveredFlagsTable = {
 	{ "AnyWindow", ImGuiHoveredFlags_AnyWindow },
 	{ "AllowWhenBlockedByPopup", ImGuiHoveredFlags_AllowWhenBlockedByPopup },
 	{ "AllowWhenBlockedByActiveItem", ImGuiHoveredFlags_AllowWhenBlockedByActiveItem },
+	{ "AllowWhenOverlappedByItem", ImGuiHoveredFlags_AllowWhenOverlappedByItem },
 	{ "AllowWhenOverlapped", ImGuiHoveredFlags_AllowWhenOverlapped },
 	{ "AllowWhenDisabled", ImGuiHoveredFlags_AllowWhenDisabled },
 	{ "RectOnly", ImGuiHoveredFlags_RectOnly },
@@ -1616,7 +1618,8 @@ static int l_pigui_add_text(lua_State *l)
 	ImVec2 center = LuaPull<ImVec2>(l, 1);
 	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 2).Value);
 	std::string text = LuaPull<std::string>(l, 3);
-	draw_list->AddText(center, color, text.c_str());
+	double wrapWidth = LuaPull<double>(l, 4, 0.0);
+	draw_list->AddText(nullptr, 0.0f, center, color, text.c_str(), nullptr, wrapWidth);
 	return 0;
 }
 
@@ -1996,6 +1999,7 @@ static int l_pigui_pop_font(lua_State *l)
  * Parameters:
  *
  *   text - The text we want dimensions of
+ *   wrapWidth - The maximum length of a line of text before wrapping. Defaults to -1.
  *
  * Returns:
  *
@@ -2006,7 +2010,8 @@ static int l_pigui_calc_text_size(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string text = LuaPull<std::string>(l, 1);
-	ImVec2 size = ImGui::CalcTextSize(text.c_str());
+	double wrapWidth = LuaPull<double>(l, 2, -1.0);
+	ImVec2 size = ImGui::CalcTextSize(text.c_str(), nullptr, false, wrapWidth);
 	LuaPush<vector2d>(l, vector2d(size.x, size.y));
 	return 1;
 }
