@@ -125,7 +125,17 @@ theme.buttonColors = {
 		normal = styleColors.transparent,
 		hovered = styleColors.panel_700,
 		active = styleColors.primary_600,
-	}
+	},
+	card = {
+		normal = styleColors.primary_900,
+		hovered = styleColors.primary_800,
+		active = styleColors.primary_700
+	},
+	card_selected = {
+		normal = styleColors.primary_800,
+		hovered = styleColors.primary_700,
+		active = styleColors.primary_600
+	},
 }
 
 theme.colors = {
