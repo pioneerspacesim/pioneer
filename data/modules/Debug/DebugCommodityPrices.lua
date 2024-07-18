@@ -244,6 +244,7 @@ local function show_system_info(min, sys, str)
 	ui.text("Distance:\t " .. dist .. " ly")
 	ui.text("Faction:\t " .. sys.faction.name)
 	ui.text("Government:\t " .. string.lower(sys.govtype):gsub("^%l", string.upper)) -- PolitGovType
+	ui.spacing()
 
 	-- Add from C++ side, E.g:
 	-- System type: Mining colony
@@ -258,7 +259,7 @@ local function show_details_on_commodity(commodities, selected)
 	ui.text(string.upper(selected))
 	local c = commodities[selected]
 
-	-- If previous click was non-purchasalbe item followed by
+	-- If previous click was non-purchasable item followed by
 	-- filtering them out, 'clicked' value will no longer be in
 	-- 'commodities'
 	if not c then
@@ -276,6 +277,8 @@ local function show_details_on_commodity(commodities, selected)
 	ui.text("Average price:\t" .. Format.Money(c:mean()))
 	ui.text("Standard deviation:\t" .. string.format("%.2f", c:std()))
 
+	ui.spacing()
+
 	if ui.collapsingHeader("Lowest", {"DefaultOpen"}) then
 		show_system_info(c.min, c.minsys, "Lowest")
 	end
@@ -292,12 +295,15 @@ local function show_details_on_commodity(commodities, selected)
 
 		local data = c:get_bins()
 		local y_max = math.max(table.unpack(data))
-		ui.dummy(Vector2(0,50))
+		-- ui.dummy(Vector2(0,50))
 
 		ui.plotHistogram("##price distribution", data, #data, 0, "", 0, y_max, Vector2(400, 100))
 		ui.text("Min: " .. Format.Money(c.min))
 		ui.text("Max: " .. Format.Money(c.max))
+
+		ui.spacing()
 	end
+
 	return purchasable
 end
 
@@ -318,7 +324,7 @@ local function station_economy(commodities, clicked, station)
 	local stock = station:GetCommodityStock(cargo_item)
 	local demand = station:GetCommodityDemand(cargo_item)
 
-	ui.text("\nAt station: " .. station.label)
+	ui.text("At station: " .. station.label)
 	ui.text("Local price " .. price)
 	ui.text("Local stock " .. stock)
 	ui.text("Local demand: " .. demand)
@@ -341,7 +347,7 @@ local function main()
 
 	-- HEADER
 	_, include_illegal = ui.checkbox("Include Illegal goods", include_illegal)
-	_, include_only_purchasable = ui.checkbox("Include only purcasalbe goods", include_only_purchasable)
+	_, include_only_purchasable = ui.checkbox("Include only purchasable goods", include_only_purchasable)
 
 	if ui.button("scan", Vector2(0,0)) then
 		commodities, N = scan_systems(radius)
