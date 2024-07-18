@@ -198,6 +198,7 @@ theme.colors = {
 	lightBlackBackground	= styleColors.panel_900:opacity(0.80), --black:opacity(0.40),
 	windowBackground		= styleColors.panel_900,
 	windowFrame				= styleColors.panel_700,
+	notificationBackground	= styleColors.panel_800,
 	modalBackground			= styleColors.panel_900,
 	tableBackground			= styleColors.primary_900,
 	tableHighlight			= styleColors.primary_800,
@@ -240,6 +241,10 @@ theme.colors = {
 	alertYellow				= styleColors.warning_300,
 	alertRed				= styleColors.danger_500,
 	hyperspaceInfo			= styleColors.success_300,
+
+	notificationInfo		= styleColors.gray_500,
+	notificationGame		= styleColors.primary_500,
+	notificationError		= styleColors.danger_700,
 
 	econProfit				= styleColors.success_500,
 	econLoss				= styleColors.danger_300,

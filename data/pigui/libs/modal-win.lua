@@ -64,6 +64,12 @@ local function drawModals(idx)
 			end
 		end)
 	end
+
+	if idx == #modalStack + 1 then
+		for _,v in ipairs(ui.getModules('notification')) do
+			v.draw()
+		end
+	end
 end
 
 ui.registerModule('modal', function()
