@@ -6,6 +6,7 @@
 #include "PiGui.h"
 
 // For ImRect
+#include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 
 int PiGui::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int mouse_button, const std::vector<ImTextureID> &tex_ids, const std::vector<std::pair<ImVec2, ImVec2>> &uvs, const std::vector<ImU32> &colors, const std::vector<const char *> &tooltips, unsigned int size, unsigned int padding)
@@ -19,11 +20,16 @@ int PiGui::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int 
 	static InputBindings::Axis *horizontalSelection = Pi::input->GetAxisBinding("BindRadialHorizontalSelection");
 	static InputBindings::Axis *verticalSelection = Pi::input->GetAxisBinding("BindRadialVerticalSelection");
 
+	ImColor bgCol = ImGui::GetColorU32(ImGuiCol_PopupBg);
+	ImColor itemBgCol = ImGui::GetColorU32(ImGuiCol_Button);
+	ImColor itemHoveredCol = ImGui::GetColorU32(ImGuiCol_ButtonHovered);
+
 	// FIXME: Missing a call to query if Popup is open so we can move the PushStyleColor inside the BeginPopupBlock (e.g. IsPopupOpen() in imgui.cpp)
 	// FIXME: Our PathFill function only handle convex polygons, so we can't have items spanning an arc too large else inner concave edge artifact is too visible, hence the ImMax(7,items_count)
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0, 0, 0, 0));
 	ImGui::PushStyleColor(ImGuiCol_PopupBg, ImVec4(0, 0, 0, 0));
 	ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 0));
+
 	if (ImGui::BeginPopup(popup_id)) {
 
 		// the radial menu can be called either by a mouse click or by holding a certain key
@@ -49,7 +55,7 @@ int PiGui::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int 
 		ImDrawList *draw_list = ImGui::GetWindowDrawList();
 		draw_list->PushClipRectFullScreen();
 		draw_list->PathArcTo(center, (RADIUS_MIN + RADIUS_MAX) * 0.5f, 0.0f, IM_PI * 2.0f * 0.99f); // FIXME: 0.99f look like full arc with closed thick stroke has a bug now
-		draw_list->PathStroke(ImColor(18, 44, 67, 210), true, RADIUS_MAX - RADIUS_MIN);
+		draw_list->PathStroke(bgCol, true, RADIUS_MAX - RADIUS_MIN);
 
 		const float item_arc_span = 2 * IM_PI / ImMax<int>(ITEMS_MIN, tex_ids.size());
 		float drag_angle = atan2f(drag_delta.y, drag_delta.x);
@@ -63,8 +69,8 @@ int PiGui::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int 
 			const float inner_spacing = style.ItemInnerSpacing.x / RADIUS_MIN / 2;
 			const float item_inner_ang_min = item_arc_span * (item_n - 0.5f + inner_spacing);
 			const float item_inner_ang_max = item_arc_span * (item_n + 0.5f - inner_spacing);
-			const float item_outer_ang_min = item_arc_span * (item_n - 0.5f + inner_spacing * (RADIUS_MIN / RADIUS_MAX));
-			const float item_outer_ang_max = item_arc_span * (item_n + 0.5f - inner_spacing * (RADIUS_MIN / RADIUS_MAX));
+			const float item_outer_ang_min = item_arc_span * (item_n - 0.5f + inner_spacing * (RADIUS_MIN / RADIUS_MAX) * 2.0);
+			const float item_outer_ang_max = item_arc_span * (item_n + 0.5f - inner_spacing * (RADIUS_MIN / RADIUS_MAX) * 2.0);
 
 			bool hovered = false;
 			if (drag_dist2 >= RADIUS_INTERACT_MIN * RADIUS_INTERACT_MIN) {
@@ -76,14 +82,14 @@ int PiGui::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int 
 			int arc_segments = static_cast<int>((64 * item_arc_span / (2 * IM_PI))) + 1;
 			draw_list->_PathArcToN(center, RADIUS_MAX - border_inout, item_outer_ang_min, item_outer_ang_max, arc_segments);
 			draw_list->_PathArcToN(center, RADIUS_MIN + border_inout, item_inner_ang_max, item_inner_ang_min, arc_segments);
-			draw_list->PathFillConvex(hovered ? ImColor(102, 147, 189) : selected ? ImColor(48, 81, 111) : ImColor(48, 81, 111));
+			draw_list->PathFillConvex(hovered ? itemHoveredCol : itemBgCol);
 
 			if (hovered) {
 				// draw outer / inner extra segments
 				draw_list->PathArcTo(center, RADIUS_MAX - border_thickness, item_outer_ang_min, item_outer_ang_max, arc_segments);
-				draw_list->PathStroke(ImColor(102, 147, 189), false, border_thickness);
+				draw_list->PathStroke(itemHoveredCol, false, border_thickness);
 				draw_list->PathArcTo(center, RADIUS_MIN + border_thickness, item_outer_ang_min, item_outer_ang_max, arc_segments);
-				draw_list->PathStroke(ImColor(102, 147, 189), false, border_thickness);
+				draw_list->PathStroke(itemHoveredCol, false, border_thickness);
 			}
 			ImVec2 text_size = ImVec2(size, size);
 			ImVec2 text_pos = ImVec2(
