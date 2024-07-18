@@ -17,6 +17,8 @@ ui.pointOnClock = pigui.pointOnClock
 ui.screenWidth = pigui.screen_width
 ui.screenHeight = pigui.screen_height
 
+ui.bringWindowToDisplayFront = pigui.bringWindowToDisplayFront ---@type fun()
+
 -- Return the size of the specified window's contents from last frame (without padding/decoration)
 -- Returns {0,0} if the window hasn't been submitted during the lifetime of the program
 ui.getWindowContentSize = pigui.GetWindowContentSize ---@type fun(name: string): Vector2

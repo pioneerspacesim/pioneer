@@ -665,6 +665,31 @@ static int l_pigui_begin(lua_State *l)
 }
 
 /*
+ * Function: bringWindowToDisplayFront
+ *
+ * Internal call to move the window to the top of the display order.
+ *
+ * Note that the window still follows regular interaction rules, and may be
+ * blocked by a modal window rendering underneath it. To render a window on top
+ * of a modal, it must be submitted within that modal's begin()/end() block.
+ * (See data/pigui/libs/modal-win.lua).
+ *
+ * Availability:
+ *
+ *   2024-07
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_pigui_bring_window_to_display_front(lua_State *l)
+{
+	PROFILE_SCOPED()
+	ImGui::BringWindowToDisplayFront(ImGui::GetCurrentWindow());
+	return 0;
+}
+
+/*
  * Function: GetTime
  *
  * Gets imgui internal time
@@ -3439,6 +3464,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 	static const luaL_Reg l_methods[] = {
 		{ "Begin", l_pigui_begin },
 		{ "End", l_pigui_end },
+		{ "BringWindowToDisplayFront", l_pigui_bring_window_to_display_front },
 		{ "GetTime", l_pigui_get_time },
 		{ "PushClipRectFullScreen", l_pigui_push_clip_rect_full_screen },
 		{ "PopClipRect", l_pigui_pop_clip_rect },
