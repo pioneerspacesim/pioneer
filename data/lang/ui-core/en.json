@@ -288,8 +288,16 @@
     "message": "Could not find system body for frame"
   },
   "COULD_NOT_LOAD_GAME": {
-    "description": "",
+    "description": "Label indicating a specific file could not be loaded",
     "message": "Could not load game: "
+  },
+  "COULD_NOT_LOAD_SAVE_FILES": {
+    "description": "Label indicating the list of save files could not be loaded",
+    "message": "Could not load save files"
+  },
+  "COULD_NOT_SAVE_GAME": {
+    "description": "Label indicating a specific file could not be saved",
+    "message": "Could not save game: "
   },
   "COULD_NOT_READ_THE_SAVE_VERSION": {
     "description": "Message when restoring savegame",
@@ -2026,6 +2034,14 @@
   "SAVE": {
     "description": "",
     "message": "Save"
+  },
+  "SAVED_GAMES": {
+    "description": "Header for save/load window",
+    "message": "Saved Games"
+  },
+  "SAVE_AS": {
+    "description": "",
+    "message": "Save As"
   },
   "SAVE_DELETED_SUCCESSFULLY": {
     "description": "",
