@@ -46,7 +46,6 @@ function ModalWindow:close(...)
 	for i=#modalStack, self.stackIdx, -1 do
 		modalStack[i].stackIdx = -1
 		modalStack[i].isOpen = false
-		ui.closeCurrentPopup()
 		table.remove(modalStack, i)
 	end
 
@@ -78,6 +77,8 @@ local function drawModals(idx)
 				-- modal could close in handler
 				if win.isOpen then
 					drawModals(idx+1)
+				else
+					ui.closeCurrentPopup()
 				end
 				ui.endPopup()
 			end
