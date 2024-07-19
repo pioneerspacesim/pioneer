@@ -545,7 +545,7 @@ local function showJoystickInfo(id)
 			size.x = size.x * 0.5 * value
 		end
 
-		ui.addRectFilled(pos, pos + size, colors.primary, 0, 0)
+		ui.addRectFilled(pos, pos + size, colors.primaryLight, 0, 0)
 		ui.newLine()
 
 		-- Draw axis details

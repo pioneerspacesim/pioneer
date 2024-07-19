@@ -65,13 +65,15 @@ local styleColors = {
 	primary_800		= Color "383C71",
 	primary_900		= Color "2C2D58",
 
-	accent_100		= Color "9DBEE7",
-	accent_200		= Color "6DA6EE",
-	accent_300		= Color "3C8CF1",
-	accent_400		= Color "2881F1",
-	accent_500		= Color "1770EE",
-	accent_600		= Color "0F4FC7",
-	accent_700		= Color "06318E",
+	accent_100		= Color "BBDDFF",
+	accent_200		= Color "8FC8FF",
+	accent_300		= Color "62B2FF",
+	accent_400		= Color "40A1FF",
+	accent_500		= Color "2491FF",
+	accent_600		= Color "2882F1",
+	accent_700		= Color "2870DD",
+	accent_800		= Color "275FCB",
+	accent_900		= Color "253FAB",
 
 	success_100		= Color "CAF8A8",
 	success_300		= Color "77EE21",
@@ -85,11 +87,10 @@ local styleColors = {
 	warning_700		= Color "894400",
 	warning_900		= Color "401F00",
 
-	danger_100		= Color "EC6C6C",
-	danger_300		= Color "FF2A2A",
-	danger_500		= Color "C51010",
-	danger_700		= Color "8C0606",
-	danger_900		= Color "2C0505",
+	danger_300		= Color "EB3737",
+	danger_500		= Color "AD1F1F",
+	danger_700		= Color "8F1416",
+	danger_900		= Color "790606",
 
 }
 
@@ -167,6 +168,22 @@ theme.colors = {
 
 	overlayWindowBg         = styleColors.panel_900:opacity(0.90),
 
+	-- Foundational color styles. If an element doesn't have a specific
+	-- semantic color, it should use one of these.
+	uiPrimary				= styleColors.primary_700,
+	uiPrimaryDark			= styleColors.primary_900,
+	uiPrimaryLight			= styleColors.primary_500,
+	uiBackground			= styleColors.panel_900,
+	uiSurface				= styleColors.panel_800,
+	uiError					= styleColors.danger_900,
+
+	unknown					= styleColors.unknown, -- used as an invalid color
+	transparent				= styleColors.transparent,
+
+	font					= styleColors.gray_100,
+	fontDim					= styleColors.gray_400,
+	fontDark				= styleColors.gray_600,
+
 	-- FIXME: this color is primarily used to tint buttons by rendering over top of the frame color.
 	-- This is atrocious for obvious reasons. Refactor button / frame rendering to draw an independent frame border.
 	lightBlueBackground		= styleColors.primary_700:opacity(0.10),
@@ -203,21 +220,13 @@ theme.colors = {
 	SliderGrab				= styleColors.primary_500,
 	SliderGrabActive		= styleColors.primary_400,
 
-	unknown					= styleColors.unknown, -- used as an invalid color
-	transparent				= styleColors.transparent,
-
-	font					= styleColors.gray_100,
-	fontDim					= styleColors.gray_400,
-	fontDark				= styleColors.gray_600,
-
 	white					= styleColors.white,
 	lightGrey				= styleColors.gray_300,
 	grey					= styleColors.gray_500,
 	darkGrey				= styleColors.panel_900,
 	black					= styleColors.black,
-	primary					= styleColors.primary_500,
-	lightPrimary			= styleColors.primary_300,
-	darkPrimary				= styleColors.primary_700,
+
+	-- Semantic color names for specific parts of the UI with defined meaning
 
 	alertYellow				= styleColors.warning_300,
 	alertRed				= styleColors.danger_500,
@@ -251,7 +260,7 @@ theme.colors = {
 	radarCloud				= styleColors.primary_200,
 	radarCombatTarget		= styleColors.danger_500,
 	radarMissile			= styleColors.danger_300,
-	radarPlayerMissile		= styleColors.accent_400,
+	radarPlayerMissile		= styleColors.accent_500,
 	radarNavTarget			= styleColors.success_500,
 	radarShip				= styleColors.warning_500,
 	radarStation			= styleColors.accent_300,
@@ -262,15 +271,15 @@ theme.colors = {
 	systemMapObject			= styleColors.gray_300,
 	systemMapPlanner		= styleColors.primary_500,
 	systemMapPlannerOrbit	= styleColors.primary_500,
-	systemMapPlayer			= styleColors.accent_300,
-	systemMapPlayerOrbit	= styleColors.accent_300,
+	systemMapPlayer			= styleColors.accent_400,
+	systemMapPlayerOrbit	= styleColors.accent_400,
 	systemMapShip			= styleColors.gray_300,
 	systemMapShipOrbit		= styleColors.accent_700,
 	systemMapSelectedShipOrbit = styleColors.warning_500,
 	systemMapSystemBody		= styleColors.primary_100:shade(0.5),
 	systemMapSystemBodyIcon	= styleColors.gray_300,
 	systemMapSystemBodyOrbit = styleColors.success_500,
-	systemMapLagrangePoint	= styleColors.accent_200,
+	systemMapLagrangePoint	= styleColors.accent_300,
 
 	systemAtlasLabel        = styleColors.gray_300,
 	systemAtlasLabelActive  = styleColors.gray_200,
