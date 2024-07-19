@@ -65,6 +65,13 @@ local styleColors = {
 	primary_800		= Color "383C71",
 	primary_900		= Color "2C2D58",
 
+	-- "Alternate" primary colors with significantly more saturation for use
+	-- as small foreground elements like checkmarks and grabs.
+
+	primary_300a	= Color "697ED3",
+	primary_500a	= Color "4C5AA4",
+	primary_700a	= Color "3A4688",
+
 	accent_100		= Color "BBDDFF",
 	accent_200		= Color "8FC8FF",
 	accent_300		= Color "62B2FF",
@@ -202,7 +209,7 @@ theme.colors = {
 	Button					= theme.buttonColors.default.normal,
 	ButtonHovered			= theme.buttonColors.default.hovered,
 	ButtonActive			= theme.buttonColors.default.active,
-	CheckMark				= styleColors.primary_400,
+	CheckMark				= styleColors.primary_300a,
 	PopupBg					= styleColors.panel_900,
 	ModalWindowDimBg		= styleColors.black:opacity(0.35),
 	FrameBg					= styleColors.panel_800,
@@ -217,8 +224,8 @@ theme.colors = {
 	HeaderActive			= styleColors.primary_700,
 	HeaderHovered			= styleColors.primary_600,
 
-	SliderGrab				= styleColors.primary_500,
-	SliderGrabActive		= styleColors.primary_400,
+	SliderGrab				= styleColors.primary_500a,
+	SliderGrabActive		= styleColors.primary_300a,
 
 	white					= styleColors.white,
 	lightGrey				= styleColors.gray_300,
