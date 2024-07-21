@@ -106,7 +106,7 @@ local function makeMissionRows()
 
 		-- Use AU for interplanetary, LY for interstellar distances
 		local dist, dist_display
-		if mission.location:IsSameSystem(playerSystem.path) then
+		if mission.location:IsSameSystem(playerSystem.path) and not Game.InHyperspace() then
 			if mission.location:IsBodyPath() then
 				local body = mission.location:GetSystemBody().body
 				dist = Game.player:GetPositionRelTo(body):length()
