@@ -44,9 +44,9 @@ static inline vector2f LoadLightColorUVoffset(const std::string &spec)
 	return vector2f(v[0], v[1]);
 }
 
-NavLights::LightBulb::LightBulb(Uint8 _group, Uint8 _mask, Uint8 _color, SceneGraph::Billboard *_bb) :
-	group(_group),
+NavLights::LightBulb::LightBulb(Uint8 _group, Uint32 _mask, Uint8 _color, SceneGraph::Billboard *_bb) :
 	mask(_mask),
+	group(_group),
 	color(_color),
 	billboard(_bb)
 {
@@ -127,21 +127,21 @@ NavLights::NavLights(SceneGraph::Model *model, float period) :
 		assert(mt);
 		Billboard *bblight = new Billboard(m_billboardTris, renderer, BILLBOARD_SIZE);
 		Uint32 group = 0;
-		Uint8 mask = 0xff; //always on
+		Uint32 mask = 0xffffffff; //always on
 		Uint8 color = NAVLIGHT_BLUE;
 
 		if (mt->GetName().substr(9, 3) == "red") {
-			mask = 0x0f;
+			mask = 0x0000a000;
 			color = NAVLIGHT_RED;
 		} else if (mt->GetName().substr(9, 5) == "green") {
-			mask = 0xf0;
+			mask = 0xa0000000;
 			color = NAVLIGHT_GREEN;
 		} else if (mt->GetName().substr(9, 3) == "pad") {
 			//group by pad number
 			// due to this problem: http://stackoverflow.com/questions/15825254/why-is-scanfhhu-char-overwriting-other-variables-when-they-are-local
 			// where MSVC is still using a C89 compiler the format identifier %hhu is not recognised. Therefore I've switched to Uint32 for group.
 			PiVerify(1 == sscanf(mt->GetName().c_str(), "navlight_pad%u", &group));
-			mask = 0xf8;
+			mask = 0xfffff000;
 		}
 		bblight->SetColorUVoffset(get_color(color));
 
@@ -190,8 +190,8 @@ void NavLights::Update(float time)
 
 	m_time += time;
 
-	const int phase((fmod(m_time, m_period) / m_period) * 8);
-	const Uint8 mask = 1 << phase;
+	const int phase((fmod(m_time, m_period) / m_period) * 32);
+	const Uint32 mask = 1 << phase;
 
 	for (const auto &pair : m_groupLights) {
 		for (const LightBulb &light : pair.second) {
