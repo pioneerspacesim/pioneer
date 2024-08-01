@@ -11,6 +11,7 @@ local utils = require "utils"
 local PiGuiFace = require 'pigui.libs.face'
 local Format = require "Format"
 local Character = require "Character"
+local Commodities = require 'Commodities'
 local l = Lang.GetResource("ui-core")
 
 local ModalWindow = require 'pigui.libs.modal-win'
@@ -104,6 +105,23 @@ local function outstanding_fines()
 	end
 end
 
+local function drawRulesAndRegulations()
+	local station = Game.player:GetDockedWith()
+
+	local header = string.interp(l.LEGAL_RULES, {
+		distance = Format.Distance(station.lawEnforcedRange),
+	})
+	ui.text(header)
+	ui.text("")
+
+	local lawlessness = Game.system.lawlessness
+
+	for k,v in pairs(Legal.CrimeType) do
+		ui.text(v.name .. ":\t")
+		ui.sameLine()
+		ui.text(Format.Money(Legal:fine(k, lawlessness)))
+	end
+end
 
 local function drawPolice()
 	local intro_txt = string.interp(l.THIS_IS_FACTION_POLICE,
@@ -118,22 +136,41 @@ local function drawPolice()
 				ui.text(intro_txt)
 			end)
 
+			if (ui.beginTabBar("tabs")) then
+				if ui.beginTabItem(l.CRIMINAL_RECORD) then
+					-- 1. If outstanding fines, show list & offer to pay
+					outstanding_fines()
+
+					ui.dummy(widgetSizes.dummySpaceMedium)
+
+					-- 2 If old payed fines, show grayd out list
+					crime_record()
+					ui.endTabItem()
+				end
+				if ui.beginTabItem(l.LEGAL_RULES_AND_REGULATIONS) then
+					drawRulesAndRegulations()
+					ui.endTabItem()
+				end
+
+				if ui.beginTabItem(l.ILLEGAL_IN_SYSTEM) then
+
+					for key, comm in pairs(Commodities) do
+						if not Game.system:IsCommodityLegal(comm.name) then
+							ui.text(comm:GetName())
+						end
+					end
+					ui.endTabItem()
+				end
+				ui.endTabBar()
+			end
+
 			ui.newLine()
-
-			-- 1. If outstanding fines, show list & offer to pay
-			outstanding_fines()
-
-			ui.dummy(widgetSizes.dummySpaceMedium)
-
-			-- 2 If old payed fines, show grayd out list
-			crime_record()
 		end)
 
 		ui.sameLine()
 		if(face ~= nil) then face:render() end
 	end)
 end
-
 
 StationView:registerView({
 	id = "police",
