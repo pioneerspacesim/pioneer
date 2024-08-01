@@ -1,4 +1,18 @@
+August 2024
+  * Fixes
+    * Fix crash in mission list in hyper space when combat mission (#5872)
+
 July 2024
+  * New Features
+    * Add "jettison all" buttons to cargo sidebar menu (#5867)
+    * Add Easter egg. Story about time traveler  (#5864)
+
+  * Internal Changes
+    * Fix debug commodities tab (#5861)
+    * News Event: debug can also remove adverts (#5862)
+    * Improve Lua type checking for string enums (PR #5869
+
+Pioneer 2024-07-10 Release
   * Fixes
     * Fix bad placeholders in translated strings (#5852)
     * Fix DLLs not being installed on Windows builds (#5850)
