@@ -15,6 +15,7 @@ const Color4f Color4f::YELLOW = Color4f(1.0f, 1.0f, 0.0f, 1.0f);
 const Color4f Color4f::GRAY = Color4f(0.5f, 0.5f, 0.5f, 1.f);
 const Color4f Color4f::STEELBLUE = Color4f(0.27f, 0.51f, 0.71f, 1.f);
 const Color4f Color4f::BLANK = Color4f(0.0f, 0.0f, 0.0f, 0.0f);
+const Color4f Color4f::CYAN = Color4f(0.0f, 1.0f, 1.0f, 1.0f);
 
 const Color4ub Color::BLACK = Color(0, 0, 0, 255);
 const Color4ub Color::WHITE = Color(255, 255, 255, 255);
@@ -26,6 +27,7 @@ const Color4ub Color::GRAY = Color(128, 128, 128, 255);
 const Color4ub Color::STEELBLUE = Color(68, 130, 181, 255);
 const Color4ub Color::BLANK = Color(0, 0, 0, 0);
 const Color4ub Color::PINK = Color(252, 15, 192, 255); // debug pink
+const Color4ub Color::CYAN = Color(0, 255, 255, 255);
 
 const Color3ub Color3ub::BLACK = Color3ub(0, 0, 0);
 const Color3ub Color3ub::WHITE = Color3ub(255, 255, 255);
@@ -35,6 +37,8 @@ const Color3ub Color3ub::BLUE = Color3ub(0, 0, 255);
 const Color3ub Color3ub::YELLOW = Color3ub(255, 255, 0);
 const Color3ub Color3ub::STEELBLUE = Color3ub(68, 130, 181);
 const Color3ub Color3ub::BLANK = Color3ub(0, 0, 0);
+const Color3ub Color3ub::PINK = Color3ub(252, 15, 192); // debug pink
+const Color3ub Color3ub::CYAN = Color3ub(0, 255, 255);
 
 float Color4f::GetLuminance() const
 {
