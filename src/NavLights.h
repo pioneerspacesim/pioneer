@@ -29,9 +29,9 @@ public:
 	};
 
 	struct LightBulb {
-		LightBulb(Uint8 group, Uint8 mask, Uint8 color, SceneGraph::Billboard *bb);
+		LightBulb(Uint8 group, Uint32 mask, Uint8 color, SceneGraph::Billboard *bb);
+		Uint32 mask; //bitmask: 00001111 light on half the period, 11111111 light on the entire period etc...
 		Uint8 group;
-		Uint8 mask; //bitmask: 00001111 light on half the period, 11111111 light on the entire period etc...
 		Uint8 color;
 		SceneGraph::Billboard *billboard;
 	};
