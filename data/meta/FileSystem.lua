@@ -10,8 +10,8 @@
 local FileSystem = {}
 
 ---@param path string The directory to read the contents of.
----@return string[] files  A list of files as full paths from the root
----@return string[] dirs   A list of dirs as full paths from the root
+---@return table[] files  A list of files as full paths from the root
+---@return table[] dirs   A list of dirs as full paths from the root
 ---
 --- Example:
 ---  > local files, dirs = FileSystem.ReadDirectory("user://savefiles")

@@ -62,8 +62,7 @@ end --mainTextButton
 local function confirmQuit()
 	ui.setNextWindowPosCenter('Always')
 
-	ui.withStyleColorsAndVars({WindowBg = colors.blueBackground:opacity(0.70)}, {WindowPadding = quitPadding}, function()
-		-- TODO: this window should be ShowBorders
+	ui.withStyleColorsAndVars({WindowBg = colors.modalBackground}, {WindowPadding = quitPadding}, function()
 		ui.window("MainMenuQuitConfirm", {"NoTitleBar", "NoResize", "AlwaysAutoResize"}, function()
 			local w = dialogButtonSize.x * 0.6
 			local fullW = w * 3 + dialogButtonSize.x * 2
@@ -129,9 +128,9 @@ local function showMainMenu()
 		hasMusicList = true
 		MusicPlayer.rebuildSongList()
 	end
-	
+
 	MusicPlayer.playRandomSongFromCategory("menu", true)
-	
+
 	local showContinue = canContinue()
 	local buttons = 4
 

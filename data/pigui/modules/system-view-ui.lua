@@ -57,7 +57,7 @@ local svColor = {
 	PLANNER_ORBIT = colors.systemMapPlannerOrbit,
 	PLAYER = colors.systemMapPlayer,
 	PLAYER_ORBIT = colors.systemMapPlayerOrbit,
-	SELECTED = ui.theme.styleColors.gray_200,
+	SELECTED = ui.theme.colors.font,
 	SELECTED_SHIP_ORBIT = colors.systemMapSelectedShipOrbit,
 	SHIP = colors.systemMapShip,
 	SHIP_ORBIT = colors.systemMapShipOrbit,
@@ -73,17 +73,17 @@ local colorset = ui.theme.buttonColors
 
 local buttonState = {
 	SHIPS_OFF     = { icon = icons.ships_no_orbits,    state = colorset.transparent },
-	SHIPS_ON      = { icon = icons.ships_no_orbits,    state = colorset.semi_transparent },
+	SHIPS_ON      = { icon = icons.ships_no_orbits,    state = colorset.dark },
 	SHIPS_ORBITS  = { icon = icons.ships_with_orbits },
 	LAG_OFF       = { icon = icons.lagrange_no_text,   state = colorset.transparent },
-	LAG_ICON      = { icon = icons.lagrange_no_text,   state = colorset.semi_transparent },
+	LAG_ICON      = { icon = icons.lagrange_no_text,   state = colorset.dark },
 	LAG_ICONTEXT  = { icon = icons.lagrange_with_text },
 	GRID_OFF      = { icon = icons.toggle_grid,        state = colorset.transparent },
-	GRID_ON       = { icon = icons.toggle_grid,        state = colorset.semi_transparent },
+	GRID_ON       = { icon = icons.toggle_grid,        state = colorset.dark },
 	GRID_AND_LEGS = { icon = icons.toggle_grid },
 	[true]        = {                                  state = colorset.default },
 	[false]       = {                                  state = colorset.transparent },
-	DISABLED      = {                                  state = colorset.semi_transparent }
+	DISABLED      = {                                  state = colorset.dark }
 }
 
 local ship_drawing,  nextShipDrawings = loop3items("SHIPS_OFF", "SHIPS_ON", "SHIPS_ORBITS")

@@ -29,9 +29,11 @@ ScanCard.detailFields = 3
 ScanCard.rounding = 1
 ScanCard.iconSize = sizes.leadIconSize
 
-ScanCard.backgroundColor = ui.theme.styleColors.gray_800
-ScanCard.hoveredColor = ui.theme.styleColors.gray_700
-ScanCard.selectedColor = ui.theme.styleColors.primary_600
+ScanCard.colors = {
+	normal = ui.theme.buttonColors.deselected.normal,
+	hovered = ui.theme.buttonColors.deselected.hovered,
+	active = ui.theme.colors.tableSelection
+}
 
 function ScanCard:drawTooltip(data, isHighlighted)
 	if data.scan.complete then

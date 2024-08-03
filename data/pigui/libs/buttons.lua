@@ -8,6 +8,23 @@ local Vector2 = _G.Vector2
 local ui = require 'pigui.baseui'
 
 --
+-- Function: ui.getButtonColor
+--
+-- Return a color from the passed button style color object, based on the given
+-- state flags for the button.
+--
+-- > color = ui.getButtonColor(variant, isHovered, isActive)
+--
+function ui.getButtonColor(variant, hovered, active)
+	if active then
+		return variant.active
+	end
+
+	return (active and variant.active)
+		or hovered and variant.hovered or variant.normal
+end
+
+--
 -- Function: ui.withButtonColors
 --
 -- > ui.withButtonColors(variant, fnc)

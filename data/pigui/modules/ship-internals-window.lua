@@ -20,8 +20,8 @@ local mainButtonFramePadding = ui.theme.styles.MainButtonPadding
 
 local show_thrust_slider = false
 
-local gauge_bg = colors.grey
-local gauge_fg = colors.lightGrey
+local gauge_bg = colors.gaugeThrustDark
+local gauge_fg = colors.gaugeThrustLight
 local function button_lowThrustPower()
 	local thrust = player:GetLowThrustPower()
 	local winpos = ui.getWindowPos()
@@ -36,10 +36,8 @@ local function button_lowThrustPower()
 
 		ui.window("ThrustSliderWindow", {"NoTitleBar", "NoResize"},
 			function()
-				ui.withStyleColors({["SliderGrab"] =colors.white, ["SliderGrabActive"]=colors.buttonBlue},function()
-					local new_thrust = ui.vSliderInt('###ThrustLowPowerSlider',Vector2(mainButtonSize.x + 1 + 2 * mainButtonFramePadding,100), thrust*100,0,100)
-					player:SetLowThrustPower(new_thrust/100)
-				end)
+				local new_thrust = ui.vSliderInt('###ThrustLowPowerSlider',Vector2(mainButtonSize.x + 1 + 2 * mainButtonFramePadding,100), thrust*100,0,100)
+				player:SetLowThrustPower(new_thrust/100)
 			end)
 	end
 	if ui.isItemHovered() then

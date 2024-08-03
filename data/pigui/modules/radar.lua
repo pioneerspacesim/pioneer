@@ -41,7 +41,7 @@ local function getColorFor(item)
 	elseif body:IsCargoContainer() then
 		return colors.radarCargo
 	end
-	return colors.grey
+	return colors.radarUnknown
 end
 
 -- display the 2D radar
@@ -142,8 +142,14 @@ local function display3DRadar(center, size)
 		end
 	end
 
-	-- draw the radar plane itself
-	radar:Draw()
+	ui.withStyleColors({
+		FrameBg = colors.radarBackground,
+		FrameBgActive = colors.radarFrame,
+	}, function()
+		-- draw the radar plane itself
+		radar:Draw()
+	end)
+
 
 	-- draw targets above the plane
 	for k, v in pairs(targets) do

@@ -86,9 +86,9 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 		end
 
 		if (adActive(item.__ref, item)) then
-			adTextColor = colors.white
+			adTextColor = colors.font
 		else
-			adTextColor = colors.grey
+			adTextColor = colors.fontDim
 		end
 
 		ui.withFont(pionillium.title, function()
