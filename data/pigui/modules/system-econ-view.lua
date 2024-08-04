@@ -224,9 +224,9 @@ function SystemEconView:drawCommodityList(commList, illegalList, thisSystem, oth
 
 				-- only display illegal icon if the commodity is actually legal in the other system
 				if otherSystem and (info[2] or info[3]) then
-					drawIcon(SystemEconView.ClassifyPrice(info[2]), iconSize)
-					ui.sameLine(0, 0)
 					drawIcon(SystemEconView.ClassifyPrice(info[3]), iconSize)
+					ui.sameLine(0, 0)
+					drawIcon(SystemEconView.ClassifyPrice(info[2]), iconSize)
 				end
 			end)
 
