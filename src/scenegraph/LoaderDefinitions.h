@@ -7,6 +7,7 @@
  * Data strcutrures used by Loader
  */
 #include "Color.h"
+#include "../vector3.h"
 
 #include <string>
 #include <vector>
@@ -69,12 +70,41 @@ namespace SceneGraph {
 		bool loop;
 	};
 
+	struct BoundDefinition {
+		enum Type {
+			// Capsule (cylinder with rounded end-caps)
+			// startTag, endTag define the endpoints of the central line of the cylinder
+			// radius defines both the radius of the cylinder and the radius of the endcaps
+			CAPSULE,
+		};
+		Type type;
+		std::string startTag;
+		std::string endTag;
+		double radius;
+
+		// What boundary does this bound definition refer to?
+		std::string forBound;
+
+		static BoundDefinition create_capsule(const std::string &for_b, const std::string &start,
+			const std::string &end, const double rad) {
+			BoundDefinition out;
+			out.type = CAPSULE;
+			out.startTag = start;
+			out.endTag = end;
+			out.radius = rad;
+			out.forBound = for_b;
+			return out;
+		}
+
+	};
+
 	struct ModelDefinition {
 		std::string name;
 		std::vector<LodDefinition> lodDefs;
 		std::vector<MaterialDefinition> matDefs;
 		std::vector<std::string> collisionDefs;
 		std::vector<AnimDefinition> animDefs;
+		std::vector<BoundDefinition> boundsDefs;
 	};
 
 } // namespace SceneGraph

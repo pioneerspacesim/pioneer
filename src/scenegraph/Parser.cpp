@@ -180,6 +180,19 @@ namespace SceneGraph {
 					throw ParseError("Animation start/end frames seem wrong");
 				m_model->animDefs.push_back(AnimDefinition(animName, startFrame, endFrame, loopMode));
 				return true;
+			} else if (match(token, "bound")) {
+				std::string kind, bound_name, start, end;
+				double r;
+				if(!(ss >> kind && ss >> bound_name && ss >> start && ss >> end && ss >> r)) {
+					throw ParseError("Malformed boundary");
+				}
+				if(match(kind, "capsule")) {
+					m_model->boundsDefs.push_back(BoundDefinition::create_capsule(bound_name, start, end, r));
+				}
+				else {
+					throw ParseError("Unknown boundary kind");
+				}
+				return true;
 			} else {
 				if (m_isMaterial) {
 					//material definition in progress, check known parameters

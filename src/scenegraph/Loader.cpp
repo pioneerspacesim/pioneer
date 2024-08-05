@@ -215,6 +215,11 @@ namespace SceneGraph {
 
 		Model *model = new Model(m_renderer, def.name);
 		m_model = model;
+
+		for(const BoundDefinition& bdef : def.boundsDefs) {
+			m_model->m_bounds.push_back(RunTimeBoundDefinition(m_model, bdef));
+		}
+
 		bool patternsUsed = false;
 
 		m_thrustersRoot.Reset(new Group(m_renderer));
