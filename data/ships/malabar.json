@@ -2,6 +2,7 @@
 	"model": "malabar",
 	"name": "Malabar",
 	"cockpit": "",
+	"shield_model": "malabar_shield",
 	"manufacturer": "mandarava_csepel",
 	"ship_class": "heavy_passenger_transport",
 	"min_crew": 1,

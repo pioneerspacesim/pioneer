@@ -2,6 +2,7 @@
 	"model": "pumpkinseed_police",
 	"name": "Pumpkinseed (Police)",
 	"cockpit": "",
+	"shield_model": "pumpkinseed_shield",
 	"manufacturer": "kaluri",
 	"ship_class": "light_fighter",
 	"min_crew": 1,

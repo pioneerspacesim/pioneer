@@ -39,4 +39,3 @@ mesh sinonatrix_low.dae
 anim gear_down 1 100
 
 collision sinonatrix_coll.dae
-mesh sinonatrix_shld.dae

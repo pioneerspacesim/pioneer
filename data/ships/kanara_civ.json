@@ -2,6 +2,7 @@
 	"model": "kanara_civ",
 	"name": "Kanara (Civilian)",
 	"cockpit": " ",
+	"shield_model": "kanara_shield",
 	"manufacturer": "mandarava_csepel",
 	"ship_class": "light_fighter",
 	"min_crew": 1,
