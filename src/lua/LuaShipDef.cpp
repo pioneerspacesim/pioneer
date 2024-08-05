@@ -228,6 +228,16 @@
  *   experimental
  */
 
+/*
+ * Attribute: shieldModelName
+ *
+ * Name for the shield model of this ship. Can be useful for debug purposes to determine the shield model used by the ship.
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
 void LuaShipDef::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -245,6 +255,7 @@ void LuaShipDef::Register()
 		pi_lua_settable(l, "shipClass", st.shipClass.c_str());
 		pi_lua_settable(l, "manufacturer", st.manufacturer.c_str());
 		pi_lua_settable(l, "modelName", st.modelName.c_str());
+		pi_lua_settable(l, "shieldModelName", st.shieldName.c_str());
 		pi_lua_settable(l, "cockpitName", st.cockpitName.c_str());
 		pi_lua_settable(l, "tag", EnumStrings::GetString("ShipTypeTag", st.tag));
 		pi_lua_settable(l, "angularThrust", st.angThrust);
@@ -268,7 +279,7 @@ void LuaShipDef::Register()
 		pi_lua_readonly_table_proxy(l, -1);
 		lua_setfield(l, -3, "linearThrust");
 		lua_pop(l, 1);
-		
+
 		lua_newtable(l);
 		for (int t = Thruster::THRUSTER_REVERSE; t < Thruster::THRUSTER_MAX; t++)
 			pi_lua_settable(l, EnumStrings::GetString("ShipTypeThruster", t), st.linAccelerationCap[t]);

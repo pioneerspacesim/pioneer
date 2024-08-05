@@ -8,7 +8,7 @@
 #include "NavLights.h"
 #include "PngWriter.h"
 #include "Random.h"
-#include "SDL_keycode.h"
+#include "ShipType.h"
 
 #include "core/Log.h"
 
@@ -19,10 +19,13 @@
 #include "scenegraph/BinaryConverter.h"
 #include "scenegraph/DumpVisitor.h"
 #include "scenegraph/FindNodeVisitor.h"
+#include "scenegraph/Model.h"
 #include "scenegraph/SceneGraph.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
+
+#include <SDL_keycode.h>
 
 using namespace Editor;
 
@@ -47,6 +50,7 @@ ModelViewer::ModelViewer(EditorApp *app, LuaManager *lm) :
 
 	m_modelWindow->GetUIExtOverlay().connect(sigc::mem_fun(this, &ModelViewer::DrawTagNames));
 	m_modelWindow->GetUIExtMenu().connect(sigc::mem_fun(this, &ModelViewer::DrawShipControls));
+	m_modelWindow->GetUIExtPostRender().connect(sigc::mem_fun(this, &ModelViewer::RenderModelExtras));
 
 	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
@@ -59,6 +63,7 @@ void ModelViewer::Start()
 {
 	NavLights::Init(m_renderer);
 	Shields::Init(m_renderer);
+	ShipType::Init();
 
 	UpdateModelList();
 	UpdateDecalList();
@@ -66,11 +71,14 @@ void ModelViewer::Start()
 	Log::GetLog()->printCallback.connect(sigc::mem_fun(this, &ModelViewer::AddLog));
 
 	m_modelWindow->OnAppearing();
+
+	m_shields.reset(new Shields());
 }
 
 void ModelViewer::End()
 {
 	ClearModel();
+	m_shields.reset();
 
 	Shields::Uninit();
 	NavLights::Uninit();
@@ -176,7 +184,13 @@ void ModelViewer::AddLog(Time::DateTime, Log::Severity sv, std::string_view line
 
 void ModelViewer::ClearModel()
 {
-	m_shields.reset();
+	m_shields->ClearModel();
+	m_shieldModel.reset();
+
+	m_modelIsShip = false;
+	m_modelHasShields = false;
+	m_modelHasThrusters = false;
+
 	m_modelWindow->ClearModel();
 	m_modelName.clear();
 
@@ -383,19 +397,49 @@ void ModelViewer::OnModelLoaded()
 
 	ResetThrusters();
 
-	m_shields.reset(new Shields(model));
 	SceneGraph::DumpVisitor d(model);
 	model->GetRoot()->Accept(d);
 	Log::Verbose("{}", d.GetModelStatistics());
 
+	// Find a shipdef that uses this model to determine if this is a ship model
+	const ShipType *shipType = nullptr;
+	for (const auto &pair : ShipType::types) {
+		if (pair.second.modelName == model->GetName()) {
+			shipType = &pair.second;
+			break;
+		}
+	}
+
+	m_modelIsShip = shipType != nullptr;
+
 	SceneGraph::FindNodeVisitor visitor(SceneGraph::FindNodeVisitor::MATCH_NAME_STARTSWITH, "thruster_");
 	model->GetRoot()->Accept(visitor);
-	m_modelIsShip = !visitor.GetResults().empty();
+	m_modelHasThrusters = !visitor.GetResults().empty();
 
-	m_shields.reset(new Shields(model));
+	// Find the correct shield mesh for the ship, or fall back to legacy shield code
+	if (shipType) {
+
+		SceneGraph::Loader loader(m_renderer);
+		SceneGraph::Model *shieldModel = nullptr;
+
+		try {
+			shieldModel = loader.LoadModel(shipType->shieldName);
+
+			m_shieldModel.reset(shieldModel);
+			m_shields->ApplyModel(m_shieldModel.get());
+		} catch (SceneGraph::LoadingError &e) {}
+
+	}
 
 	m_modelSupportsDecals = model->SupportsDecals();
 	m_modelHasShields = m_shields.get() && m_shields->GetFirstShieldMesh();
+}
+
+void ModelViewer::RenderModelExtras()
+{
+	if (m_shieldModel && m_modelHasShields) {
+		m_shieldModel->Render(m_modelWindow->GetModelViewMat());
+	}
 }
 
 void ModelViewer::DrawModelSelector()
@@ -519,7 +563,7 @@ void ModelViewer::DrawModelHierarchy()
 
 void ModelViewer::DrawShipControls()
 {
-	bool showMenu = m_modelIsShip || m_modelHasShields || m_modelSupportsDecals;
+	bool showMenu = m_modelIsShip || m_modelHasShields || m_modelHasThrusters || m_modelSupportsDecals;
 
 	if (!showMenu || !Draw::MenuButton("Ship"))
 		return;
@@ -555,7 +599,7 @@ void ModelViewer::DrawShipControls()
 		ImGui::Spacing();
 	}
 
-	if (m_modelIsShip) {
+	if (m_modelHasThrusters) {
 		bool valuesChanged = false;
 		ImGui::TextUnformatted("Linear Thrust");
 		ImGui::Spacing();
@@ -585,7 +629,9 @@ void ModelViewer::DrawShipControls()
 			m_modelWindow->GetModel()->SetThrust(m_linearThrust, m_angularThrust);
 
 		ImGui::Spacing();
+	}
 
+	if (m_modelIsShip) {
 		ImGui::SeparatorText("Weapons");
 		ImGui::Spacing();
 

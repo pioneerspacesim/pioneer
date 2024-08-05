@@ -179,6 +179,8 @@ public:
 	// Interpolated between physics ticks.
 	const matrix3x3d &GetInterpOrient() const { return m_interpOrient; }
 	vector3d GetInterpPosition() const { return m_interpPos; }
+	matrix4x4d GetInterpMatrix() const { return matrix4x4d(GetInterpOrient(), GetInterpPosition()); }
+
 	vector3d GetInterpPositionRelTo(FrameId relToId) const;
 	vector3d GetInterpPositionRelTo(const Body *relTo) const;
 	matrix3x3d GetInterpOrientRelTo(FrameId relToId) const;

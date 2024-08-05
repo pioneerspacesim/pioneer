@@ -59,6 +59,7 @@ Ship::Ship(const ShipType::Id &shipId) :
 	*/
 	m_propulsion = AddComponent<Propulsion>();
 	m_fixedGuns = AddComponent<FixedGuns>();
+	m_shields = AddComponent<Shields>();
 	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
 	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
 
@@ -93,6 +94,8 @@ Ship::Ship(const ShipType::Id &shipId) :
 	InitEquipSet();
 
 	SetModel(m_type->modelName.c_str());
+	SetupShields();
+
 	// Setting thrusters colors
 	if (m_type->isGlobalColorDefined) GetModel()->SetThrusterColor(m_type->globalThrusterColor);
 	for (int i = 0; i < THRUSTER_MAX; i++) {
@@ -124,6 +127,7 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 {
 	m_propulsion = AddComponent<Propulsion>();
 	m_fixedGuns = AddComponent<FixedGuns>();
+	m_shields = AddComponent<Shields>();
 
 	try {
 		Json shipObj = jsonObj["ship"];
@@ -174,6 +178,9 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 		m_curAICmd = AICommand::LoadFromJson(shipObj);
 		m_aiMessage = AIError(shipObj["ai_message"]);
 
+		// NOTE: needs to happen before shield data is loaded from JSON
+		SetupShields();
+
 		PropertyMap &p = Properties();
 		Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
 		Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
@@ -195,6 +202,8 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 		m_controller->LoadFromJson(shipObj);
 
 		m_navLights->LoadFromJson(shipObj);
+
+		m_shields->LoadFromJson(shipObj);
 
 		m_shipName = shipObj["name"].get<std::string>();
 		Properties().Set("shipName", m_shipName);
@@ -305,6 +314,8 @@ void Ship::SaveToJson(Json &jsonObj, Space *space)
 	m_controller->SaveToJson(shipObj, space);
 
 	m_navLights->SaveToJson(shipObj);
+
+	m_shields->SaveToJson(shipObj);
 
 	shipObj["name"] = m_shipName;
 
@@ -494,7 +505,7 @@ bool Ship::OnDamage(Body *attacker, float kgDamage, const CollisionContact &cont
 		mtx.SetTranslate(GetPosition());
 		const matrix4x4d invmtx = mtx.Inverse();
 		const vector3d localPos = invmtx * contactData.pos;
-		GetShields()->AddHit(localPos);
+		m_shields->AddHit(localPos);
 
 		m_stats.hull_mass_left -= dam;
 		Properties().Set("hullMassLeft", m_stats.hull_mass_left);
@@ -610,7 +621,7 @@ bool Ship::DoDamage(float kgDamage)
 			rnd.Double() * 2.0 - 1.0,
 			rnd.Double() * 2.0 - 1.0,
 			rnd.Double() * 2.0 - 1.0);
-		GetShields()->AddHit(randPos * (GetPhysRadius() * 0.75));
+		m_shields->AddHit(randPos * (GetPhysRadius() * 0.75));
 
 		m_stats.hull_mass_left -= dam;
 		Properties().Set("hullMassLeft", m_stats.hull_mass_left);
@@ -1468,12 +1479,16 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	// This has to be done per-model with a shield and just before it's rendered
 	const bool shieldsVisible = m_shieldCooldown > 0.01f && m_stats.shield_mass_left > (m_stats.shield_mass / 100.0f);
-	GetShields()->SetEnabled(shieldsVisible);
-	GetShields()->Update(m_shieldCooldown, 0.01f * GetPercentShields());
+	m_shields->SetEnabled(shieldsVisible);
+	m_shields->Update(m_shieldCooldown, 0.01f * GetPercentShields());
 
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 	RenderModel(renderer, camera, viewCoords, viewTransform);
 	m_navLights->Render(renderer);
+
+	if (m_shieldModel && shieldsVisible)
+		m_shieldModel->Render(matrix4x4f(viewTransform * GetInterpMatrix()));
+
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_SHIPS, 1);
 
 	if (m_ecmRecharge > 0.0f) {
@@ -1564,6 +1579,20 @@ void Ship::OnEnterSystem()
 	m_hyperspaceCloud = 0;
 }
 
+void Ship::SetupShields()
+{
+	// TODO: remove the fallback path once all shields are extracted to their own models
+	SceneGraph::Model *sm = Pi::FindModel(m_type->shieldName, false);
+
+	if (sm) {
+		m_shieldModel.reset(sm->MakeInstance());
+		m_shields->ApplyModel(m_shieldModel.get());
+	} else {
+		m_shieldModel.reset();
+		m_shields->ClearModel();
+	}
+}
+
 void Ship::SetShipId(const ShipType::Id &shipId)
 {
 	m_type = &ShipType::types[shipId];
@@ -1578,6 +1607,8 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 
 	SetShipId(shipId);
 	SetModel(m_type->modelName.c_str());
+	SetupShields();
+
 	m_skin.SetDecal(m_type->manufacturer);
 	m_skin.Apply(GetModel());
 	Init();

@@ -1,0 +1,3 @@
+Diagnostics:
+  Includes:
+    IgnoreHeader: src/JsonUtils.h # clangd can't see ADL-used functions inside template instantiations, i.e. to_json and from_json

@@ -1,15 +1,7 @@
 // Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#define ALLOW_LUA_SHIP_DEF 0
-
 #include "ShipType.h"
-#if ALLOW_LUA_SHIP_DEF
-#include "LuaTable.h"
-#include "LuaUtils.h"
-#include "LuaVector.h"
-#include "lua/LuaConstants.h"
-#endif
 #include "FileSystem.h"
 #include "JsonUtils.h"
 #include "Lang.h"
@@ -76,6 +68,7 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	manufacturer = data.value("manufacturer", "");
 	modelName = data.value("model", "");
 	cockpitName = data.value("cockpit", "");
+	shieldName = data.value("shield_model", modelName + "_shield");
 
 	linThrust[THRUSTER_REVERSE] = data.value("reverse_thrust", 0.0f);
 	linThrust[THRUSTER_FORWARD] = data.value("forward_thrust", 0.0f);
@@ -234,177 +227,6 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	hyperdriveClass = data.value("hyperdrive_class", 1);
 }
 
-#if ALLOW_LUA_SHIP_DEF
-static std::string s_currentShipFile;
-int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *list)
-{
-	if (s_currentShipFile.empty())
-		return luaL_error(L, "ship file contains multiple ship definitions");
-
-	Json data;
-
-	ShipType s;
-	s.tag = tag;
-	s.id = s_currentShipFile;
-
-	LUA_DEBUG_START(L);
-	LuaTable t(L, -1);
-
-	s.name = t.Get("name", "");
-	s.shipClass = t.Get("ship_class", "unknown");
-	s.manufacturer = t.Get("manufacturer", "unknown");
-	s.modelName = t.Get("model", "");
-
-	data["name"] = s.name;
-	data["ship_class"] = s.shipClass;
-	data["manufacturer"] = s.manufacturer;
-	data["model"] = s.modelName;
-
-	s.cockpitName = t.Get("cockpit", "");
-	s.linThrust[ShipType::THRUSTER_REVERSE] = t.Get("reverse_thrust", 0.0f);
-	s.linThrust[ShipType::THRUSTER_FORWARD] = t.Get("forward_thrust", 0.0f);
-	s.linThrust[ShipType::THRUSTER_UP] = t.Get("up_thrust", 0.0f);
-	s.linThrust[ShipType::THRUSTER_DOWN] = t.Get("down_thrust", 0.0f);
-	s.linThrust[ShipType::THRUSTER_LEFT] = t.Get("left_thrust", 0.0f);
-	s.linThrust[ShipType::THRUSTER_RIGHT] = t.Get("right_thrust", 0.0f);
-	s.angThrust = t.Get("angular_thrust", 0.0f);
-
-	s.linAccelerationCap[ShipType::THRUSTER_REVERSE] = t.Get("reverse_acceleration_cap", INFINITY);
-	s.linAccelerationCap[ShipType::THRUSTER_FORWARD] = t.Get("forward_acceleration_cap", INFINITY);
-	s.linAccelerationCap[ShipType::THRUSTER_UP] = t.Get("up_acceleration_cap", INFINITY);
-	s.linAccelerationCap[ShipType::THRUSTER_DOWN] = t.Get("down_acceleration_cap", INFINITY);
-	s.linAccelerationCap[ShipType::THRUSTER_LEFT] = t.Get("left_acceleration_cap", INFINITY);
-	s.linAccelerationCap[ShipType::THRUSTER_RIGHT] = t.Get("right_acceleration_cap", INFINITY);
-
-	data["cockpit"] = s.cockpitName;
-	data["reverse_thrust"] = s.linThrust[ShipType::THRUSTER_REVERSE];
-	data["forward_thrust"] = s.linThrust[ShipType::THRUSTER_FORWARD];
-	data["up_thrust"] = s.linThrust[ShipType::THRUSTER_UP];
-	data["down_thrust"] = s.linThrust[ShipType::THRUSTER_DOWN];
-	data["left_thrust"] = s.linThrust[ShipType::THRUSTER_LEFT];
-	data["right_thrust"] = s.linThrust[ShipType::THRUSTER_RIGHT];
-	data["angular_thrust"] = s.angThrust;
-
-	data["reverse_acceleration_cap"] = s.linAccelerationCap[ShipType::THRUSTER_REVERSE];
-	data["forward_acceleration_cap"] = s.linAccelerationCap[ShipType::THRUSTER_FORWARD];
-	data["up_acceleration_cap"] = s.linAccelerationCap[ShipType::THRUSTER_UP];
-	data["down_acceleration_cap"] = s.linAccelerationCap[ShipType::THRUSTER_DOWN];
-	data["left_acceleration_cap"] = s.linAccelerationCap[ShipType::THRUSTER_LEFT];
-	data["right_acceleration_cap"] = s.linAccelerationCap[ShipType::THRUSTER_RIGHT];
-
-	// angthrust fudge (XXX: why?)
-	s.angThrust = s.angThrust / 2;
-
-	s.capacity = t.Get("capacity", 0);
-	s.hullMass = t.Get("hull_mass", 100);
-	s.fuelTankMass = t.Get("fuel_tank_mass", 5);
-
-	data["capacity"] = s.capacity;
-	data["hull_mass"] = s.hullMass;
-	data["fuel_tank_mass"] = s.fuelTankMass;
-
-	LuaTable slot_table = t.Sub("slots");
-	if (slot_table.GetLua()) {
-		s.slots = slot_table.GetMap<std::string, int>();
-	}
-	lua_pop(L, 1);
-
-	{
-		const auto it = s.slots.find("engine");
-		if (it != s.slots.end()) {
-			it->second = Clamp(it->second, 0, 1);
-		}
-	}
-
-	for (auto slot : s.slots) {
-		data["slots"][slot.first] = slot.second;
-	}
-
-	// fuel_use_rate can be given in two ways
-	float thruster_fuel_use = 0;
-	s.effectiveExhaustVelocity = t.Get("effective_exhaust_velocity", -1.0f);
-	thruster_fuel_use = t.Get("thruster_fuel_use", -1.0f);
-
-	data["effective_exhaust_velocity"] = s.effectiveExhaustVelocity;
-	data["thruster_fuel_use"] = thruster_fuel_use;
-
-	if (s.effectiveExhaustVelocity < 0 && thruster_fuel_use < 0) {
-		// default value of v_c is used
-		s.effectiveExhaustVelocity = 55000000;
-	} else if (s.effectiveExhaustVelocity < 0 && thruster_fuel_use >= 0) {
-		// v_c undefined and thruster fuel use defined -- use it!
-		s.effectiveExhaustVelocity = GetEffectiveExhaustVelocity(s.fuelTankMass, thruster_fuel_use, s.linThrust[ShipType::THRUSTER_FORWARD]);
-	} else {
-		if (thruster_fuel_use >= 0)
-			Output("Warning: Both thruster_fuel_use and effective_exhaust_velocity defined for %s, using effective_exhaust_velocity.\n", s.modelName.c_str());
-	}
-
-	s.baseprice = t.Get("price", 0.0);
-
-	s.minCrew = t.Get("min_crew", 1);
-	s.maxCrew = t.Get("max_crew", 1);
-
-	s.hyperdriveClass = t.Get("hyperdrive_class", 1);
-
-	data["price"] = s.baseprice;
-	data["min_crew"] = s.minCrew;
-	data["max_crew"] = s.maxCrew;
-	data["hyperdrive_class"] = s.hyperdriveClass;
-
-	Json::StyledWriter writer;
-	const std::string saveMe = writer.write(data);
-
-	const std::string path("ships/" + s_currentShipFile + ".json");
-	FileSystem::FileSourceFS newFS(FileSystem::GetDataDir());
-	FILE *f = newFS.OpenWriteStream(path);
-	if (!f) {
-		Output("couldn't open file for writing '%s'\n", path.c_str());
-		abort();
-	}
-	fwrite(saveMe.data(), saveMe.length(), 1, f);
-	fclose(f);
-
-	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0);
-
-	//sanity check
-	if (s.name.empty())
-		return luaL_error(L, "Ship has no name");
-
-	if (s.modelName.empty())
-		return luaL_error(L, "Missing model name in ship");
-
-	if (s.minCrew < 1 || s.maxCrew < 1 || s.minCrew > s.maxCrew)
-		return luaL_error(L, "Invalid values for min_crew and max_crew");
-
-	const std::string &id = s_currentShipFile;
-	typedef std::map<std::string, const ShipType>::iterator iter;
-	std::pair<iter, bool> result = ShipType::types.insert(std::make_pair(id, s));
-	if (result.second)
-		list->push_back(s_currentShipFile);
-	else
-		return luaL_error(L, "Ship '%s' was already defined by a different file", id.c_str());
-	s_currentShipFile.clear();
-
-	return 0;
-}
-
-int define_ship(lua_State *L)
-{
-	return _define_ship(L, ShipType::TAG_SHIP, &ShipType::player_ships);
-}
-
-int define_static_ship(lua_State *L)
-{
-	return _define_ship(L, ShipType::TAG_STATIC_SHIP, &ShipType::static_ships);
-}
-
-int define_missile(lua_State *L)
-{
-	return _define_ship(L, ShipType::TAG_MISSILE, &ShipType::missile_ships);
-}
-#endif
-
 void ShipType::Init()
 {
 	PROFILE_SCOPED()
@@ -441,55 +263,6 @@ void ShipType::Init()
 			}
 		}
 	}
-
-#if ALLOW_LUA_SHIP_DEF
-	lua_State *l = luaL_newstate();
-
-	LUA_DEBUG_START(l);
-
-	luaL_requiref(l, "_G", &luaopen_base, 1);
-	luaL_requiref(l, LUA_DBLIBNAME, &luaopen_debug, 1);
-	luaL_requiref(l, LUA_MATHLIBNAME, &luaopen_math, 1);
-	lua_pop(l, 3);
-
-	LuaConstants::Register(l);
-	LuaVector::Register(l);
-	LUA_DEBUG_CHECK(l, 0);
-
-	// provide shortcut vector constructor: v = vector.new
-	lua_getglobal(l, LuaVector::LibName);
-	lua_getfield(l, -1, "new");
-	assert(lua_iscfunction(l, -1));
-	lua_setglobal(l, "v");
-	lua_pop(l, 1); // pop the vector library table
-
-	LUA_DEBUG_CHECK(l, 0);
-
-	// register ship definition functions
-	lua_register(l, "define_ship", define_ship);
-	lua_register(l, "define_static_ship", define_static_ship);
-	lua_register(l, "define_missile", define_missile);
-
-	LUA_DEBUG_CHECK(l, 0);
-
-	// load all ship definitions
-	namespace fs = FileSystem;
-	for (fs::FileEnumerator files(fs::gameDataFiles, "ships", fs::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
-		const fs::FileInfo &info = files.Current();
-		if (ends_with_ci(info.GetPath(), ".lua")) {
-			const std::string name = info.GetName();
-			s_currentShipFile = name.substr(0, name.size() - 4);
-			if (ShipType::types.find(s_currentShipFile) == ShipType::types.end()) {
-				pi_lua_dofile(l, info.GetPath());
-				s_currentShipFile.clear();
-			}
-		}
-	}
-
-	LUA_DEBUG_END(l, 0);
-
-	lua_close(l);
-#endif
 
 	//remove unbuyable ships from player ship list
 	ShipType::player_ships.erase(
