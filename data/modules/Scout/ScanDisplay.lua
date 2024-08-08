@@ -262,7 +262,7 @@ function scanDisplay:drawTitle()
 
 	-- Draw debug display button
 	if self.showDebug or (ui.shiftHeld() and ui.altHeld()) then
-		local buttonSize = Vector2(ui.getLineHeight() - ui.theme.styles.MainButtonPadding * 2)
+		local buttonSize = Vector2(ui.getLineHeight())
 
 		ui.addCursorPos(Vector2(ui.getContentRegion().x - buttonSize.x * 1.5, 0))
 		if ui.mainMenuButton(icons.alert1, "Debug Display", false, buttonSize) then

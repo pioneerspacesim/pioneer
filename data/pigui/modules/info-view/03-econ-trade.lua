@@ -31,9 +31,9 @@ local hyperdrive_fuel
 
 local jettison = function (item)
 	local enabled = Game.player.flightState == "FLYING"
-	local tooltip = l.JETTISON .. "##".. item:GetName()
+	local variant = enabled and ui.theme.buttonColors.default or ui.theme.buttonColors.disabled
 
-	local button = ui.iconButton(icons.cargo_crate_illegal, buttonSpaceSize, tooltip)
+	local button = ui.iconButton("Jettison " .. item:GetName(), icons.cargo_crate_illegal, l.JETTISON, variant)
 
 	if button and enabled then
 		Game.player:Jettison(item)
@@ -78,10 +78,12 @@ local function cargolist ()
 
 		-- count
 		ui.tableNextColumn()
+		ui.alignTextToFramePadding()
 		ui.text(entry.count .. "t")
 
 		-- name
 		ui.tableNextColumn()
+		ui.alignTextToFramePadding()
 		ui.text(entry.commodity:GetName())
 
 		-- jettison button

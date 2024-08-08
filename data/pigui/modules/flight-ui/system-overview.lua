@@ -14,12 +14,6 @@ local lui = Lang.GetResource("ui-core");
 
 local height_fraction = 1.6
 
-local style = {
-	buttonSize = ui.theme.styles.MainButtonSize,
-	buttonPadding = ui.theme.styles.MainButtonPadding,
-	innerSpacing = ui.theme.styles.ItemInnerSpacing,
-}
-
 local systemOverview = require 'pigui.modules.system-overview-window'.New()
 systemOverview.shouldDisplayPlayerDistance = true
 

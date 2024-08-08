@@ -11,7 +11,6 @@ local player = nil
 local icons = ui.theme.icons
 
 local mainButtonSize = ui.theme.styles.MainButtonSize
-local mainButtonFramePadding = ui.theme.styles.MainButtonPadding
 
 local next_cam_type = { ["internal"] = "external", ["external"] = "sidereal", ["sidereal"] = "internal", ["flyby"] = "internal" }
 local cam_tooltip = { ["internal"] = lui.HUD_BUTTON_INTERNAL_VIEW, ["external"] = lui.HUD_BUTTON_EXTERNAL_VIEW, ["sidereal"] = lui.HUD_BUTTON_SIDEREAL_VIEW, ["flyby"] = lui.HUD_BUTTON_FLYBY_VIEW }
@@ -106,8 +105,8 @@ local function displayFxWindow()
 	if ui.optionsWindow.isOpen then return end
 	player = Game.player
 	local current_view = Game.CurrentView()
-	local window_width = (mainButtonSize.x + mainButtonFramePadding * 2) * 6 + ui.getItemSpacing().x * 5 + ui.getWindowPadding().x * 2
-	local window_height = mainButtonSize.y + mainButtonFramePadding * 2 + ui.getWindowPadding().y * 2
+	local window_width = mainButtonSize.x * 6 + ui.getItemSpacing().x * 5 + ui.getWindowPadding().x * 2
+	local window_height = mainButtonSize.y + ui.getWindowPadding().y * 2
 	ui.setNextWindowSize(Vector2(window_width, window_height), "Always")
 	local aux = Vector2(ui.screenWidth / 2 - window_width / 2, 0)
 	ui.setNextWindowPos(aux , "Always")

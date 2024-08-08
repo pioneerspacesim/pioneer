@@ -183,6 +183,7 @@ theme.colors = {
 	uiBackground			= styleColors.panel_900,
 	uiSurface				= styleColors.panel_800,
 	uiError					= styleColors.danger_900,
+	uiForeground			= styleColors.gray_500,
 
 	unknown					= styleColors.unknown, -- used as an invalid color
 	transparent				= styleColors.transparent,
@@ -644,6 +645,8 @@ theme.icons = {
 	equip_trade_computer = 301,
 	equip_autopilot = 302,
 	equip_hyperdrive = 303,
+	increase_1 = 315,
+	increase_2 = 316,
 	shipmarket_compare_better = 38,
 	shipmarket_compare_worse = 40,
 

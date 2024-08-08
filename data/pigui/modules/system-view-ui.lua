@@ -877,7 +877,7 @@ end
 function systemViewLayout:onUpdateWindowConstraints(w)
 	-- resizing, aligning windows - static
 	w.systemName.pos.x = ui.screenWidth * 0.5
-	w.systemName.pos.y = styles.MainButtonSize.y + (styles.MainButtonPadding + styles.WindowPadding.y) * 2 -- matches fx-window.lua
+	w.systemName.pos.y = styles.MainButtonSize.y + styles.WindowPadding.y * 2 -- matches fx-window.lua
 	w.systemName.size.x = 0 -- adaptive width
 
 	w.edgeButtons.size.y = 0 -- adaptive height
