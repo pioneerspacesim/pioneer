@@ -10,11 +10,10 @@ local icons = ui.theme.icons
 local Vector2 = _G.Vector2
 local timefont = ui.fonts.pionillium.large
 local button_size = ui.theme.styles.MainButtonSize
-local frame_padding = ui.theme.styles.MainButtonPadding
 -- names of the keys in lang/core/
 local months = {"MONTH_JAN", "MONTH_FEB", "MONTH_MAR", "MONTH_APR", "MONTH_MAY", "MONTH_JUN", "MONTH_JUL", "MONTH_AUG", "MONTH_SEP", "MONTH_OCT", "MONTH_NOV", "MONTH_DEC"}
 
-local window_height = timefont.size + button_size.y + frame_padding * 2 + ui.getItemSpacing().y + ui.getWindowPadding().y * 2
+local window_height = timefont.size + button_size.y + ui.getItemSpacing().y + ui.getWindowPadding().y * 2
 
 local function displayTimeWindow()
 	-- HACK: Don't display the time window if we're in a bespoke view
@@ -51,9 +50,9 @@ local function displayTimeWindow()
 	ui.withFont(timefont.name, timefont.size, function()
 		text_size = ui.calcTextSize(date)
 	end)
-	local buttons_width = (button_size.x + frame_padding * 2) * 6 + ui.getItemSpacing().x * 5
+	local buttons_width = button_size.x * 6 + ui.getItemSpacing().x * 5
 	local window_width = math.max(text_size.x, buttons_width) + ui.getWindowPadding().x * 2
-	window_height = timefont.size + button_size.y + frame_padding * 2 + ui.getItemSpacing().y + ui.getWindowPadding().y * 2
+	window_height = timefont.size + button_size.y + ui.getItemSpacing().y + ui.getWindowPadding().y * 2
 	local window_size = Vector2(window_width, window_height)
 	ui.timeWindowSize = window_size
 	ui.setNextWindowSize(window_size, "Always")

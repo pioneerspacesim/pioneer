@@ -182,17 +182,17 @@ function SystemOverviewWidget:drawControlButtons()
 	local buttonSize = self.buttonSize or styles.MainButtonSize
 
 	if self.shouldDisplayPlayerDistance then
-		if ui.mainMenuButton(icons.distance, lui.TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE, self.shouldSortByPlayerDistance, buttonSize) then
+		if ui.iconButton("sort_by_dist", icons.distance, lui.TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE, self.shouldSortByPlayerDistance, buttonSize) then
 			self.shouldSortByPlayerDistance = not self.shouldSortByPlayerDistance
 		end
 		ui.sameLine()
 	end
 
-	if ui.mainMenuButton(icons.moon, lui.TOGGLE_OVERVIEW_SHOW_MOONS, self.shouldShowMoons, buttonSize) then
+	if ui.iconButton("show_moons", icons.moon, lui.TOGGLE_OVERVIEW_SHOW_MOONS, self.shouldShowMoons, buttonSize) then
 		self.shouldShowMoons = not self.shouldShowMoons
 	end
 	ui.sameLine()
-	if ui.mainMenuButton(icons.filter_stations, lui.TOGGLE_OVERVIEW_SHOW_STATIONS, self.shouldShowStations, buttonSize) then
+	if ui.iconButton("show_stations", icons.filter_stations, lui.TOGGLE_OVERVIEW_SHOW_STATIONS, self.shouldShowStations, buttonSize) then
 		self.shouldShowStations = not self.shouldShowStations
 	end
 end
@@ -246,7 +246,7 @@ function SystemOverviewWidget:displaySidebarTitle(system)
 	local button_width = (ui.getLineHeight() + spacing.x) * numButtons - spacing.x
 
 	local pos = ui.getCursorPos() + Vector2(ui.getContentRegion().x - button_width, 0)
-	self.buttonSize = Vector2(ui.getLineHeight() - styles.MainButtonPadding * 2)
+	self.buttonSize = Vector2(ui.getLineHeight())
 
 	if system then
 		ui.text(system.name)

@@ -21,7 +21,6 @@ local icons = ui.theme.icons
 local pionillium = ui.fonts.pionillium
 
 local mainButtonSize = ui.theme.styles.MainButtonSize
-local mainButtonFramePadding = ui.theme.styles.MainButtonPadding
 local optionButtonSize = ui.rescaleUI(Vector2(100, 32))
 local bindingButtonSize = ui.rescaleUI(Vector2(142, 32))
 
@@ -493,15 +492,13 @@ local function showJoystickInfo(id)
 	local joystick = Input.GetJoystick(id)
 
 	ui.withFont(pionillium.heading, function()
-		local buttonSize = Vector2(ui.getTextLineHeightWithSpacing())
-
-		if ui.iconButton(icons.time_backward_1x, buttonSize, lui.GO_BACK .. "##" .. id) then
+		if ui.iconButton("Back", icons.decrease_1, lui.GO_BACK) then
 			Input.SaveJoystickConfig(selectedJoystick)
 			selectedJoystick = nil
 		end
 
 		ui.sameLine()
-		ui.alignTextToLineHeight()
+		ui.alignTextToFramePadding()
 		ui.text(joystick.name)
 	end)
 
@@ -536,7 +533,7 @@ local function showJoystickInfo(id)
 		pos.y = pos.y + ui.getItemSpacing().y * 0.5
 
 		local size = Vector2(width - ui.getItemSpacing().x, ui.getTextLineHeight())
-		ui.addRectFilled(pos, pos + size, colors.darkGrey, 0, 0)
+		ui.addRectFilled(pos, pos + size, colors.uiBackground, 0, 0)
 
 		if isHalfAxis then
 			size.x = size.x * value
@@ -545,7 +542,7 @@ local function showJoystickInfo(id)
 			size.x = size.x * 0.5 * value
 		end
 
-		ui.addRectFilled(pos, pos + size, colors.primaryLight, 0, 0)
+		ui.addRectFilled(pos, pos + size, colors.uiForeground, 0, 0)
 		ui.newLine()
 
 		-- Draw axis details
@@ -563,10 +560,10 @@ end
 
 local function showJoystickList(id)
 	local connected = Input.IsJoystickConnected(id)
-	local buttonSize = Vector2(ui.getTextLineHeightWithSpacing())
+	local buttonSize = Vector2(ui.getFrameHeight())
 
 	if connected then
-		if ui.iconButton(icons.pencil, buttonSize, lui.EDIT .. "##" .. id) then
+		if ui.iconButton("Edit" .. id, icons.pencil, lui.EDIT) then
 			selectedJoystick = id
 		end
 	else
@@ -670,7 +667,7 @@ ui.optionsWindow = ModalWindow.New("Options", function()
 	ui.separator()
 
 	-- I count the separator as two item spacings
-	local other_height = mainButtonSize.y + mainButtonFramePadding * 2 + optionButtonSize.y  + ui.getItemSpacing().y * 4 + ui.getWindowPadding().y * 2
+	local other_height = mainButtonSize.y + optionButtonSize.y  + ui.getItemSpacing().y * 4 + ui.getWindowPadding().y * 2
 	ui.child("options_tab", Vector2(-1, optionsWinSize.y - other_height), function()
 		optionsTabs[showTab]()
 	end)

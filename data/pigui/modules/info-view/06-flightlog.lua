@@ -19,7 +19,6 @@ local gray = Color(145, 145, 145)
 local l = Lang.GetResource("ui-core")
 
 local iconSize = ui.rescaleUI(Vector2(28, 28))
-local buttonSpaceSize = iconSize
 
 local earliestFirst = true
 local exportHtml = true
@@ -60,7 +59,7 @@ function ui_formatter:newline()
 	return self
 end
 
-	
+
 local entering_text = false
 
 -- Display Entry text, and Edit button, to update flightlog
@@ -98,7 +97,9 @@ local function renderLog( formatter )
 	local counter = 0
 	for entry in FlightLog:GetLogEntries(includedSet, nil, earliestFirst ) do
 	 	counter = counter + 1
-	
+		local id = "##custom" .. counter
+		local iconSize = ui.theme.styles.MainButtonSize
+
 		 writeLogEntry( entry, formatter, true )
 
 		 if entry:CanHaveEntry() then
@@ -106,7 +107,7 @@ local function renderLog( formatter )
 				entering_text, "custom")
 			ui.nextColumn()
 
-			if ui.iconButton(icons.pencil, buttonSpaceSize, l.EDIT .. "##custom"..counter) then
+			if ui.iconButton("Edit" .. id, icons.pencil, l.EDIT) then
 				entering_text = counter
 			end
 		else
@@ -114,7 +115,7 @@ local function renderLog( formatter )
 		end
 
 		if entry:CanBeRemoved() then
-			if ui.iconButton(icons.trashcan, buttonSpaceSize, l.REMOVE .. "##custom" .. counter) then
+			if ui.iconButton("Remove" .. id, icons.trashcan, l.REMOVE) then
 				FlightLog:RemoveEntry( entry )
 				-- if we were already in edit mode, reset it, or else it carries over to next iteration
 				entering_text = false
@@ -134,7 +135,7 @@ local Windows = {
 local flightlogWindowsLayout = layout.New(Windows)
 flightlogWindowsLayout.mainFont = pionillium.medium
 
-Windows.exportButtonWindow.anchors = { ui.anchor.right,  ui.anchor.bottom } 
+Windows.exportButtonWindow.anchors = { ui.anchor.right,  ui.anchor.bottom }
 
 --- start with this window collapsed
 Windows.exportButtonWindow:Collapse()
@@ -197,7 +198,7 @@ local function drawScreen()
 	ui.child( "FlightLogConfig", function()
 		ui.withFont(pionillium.body, function()
 			displayFilterOptions()
-		end) 
+		end)
 	end)
 
 --	exportButtonWindow.Show()
@@ -211,8 +212,8 @@ InfoView:registerView({
 	showView = true,
 	draw = drawScreen,
 	refresh = function() end,
-	debugReload = function() 
-		package.reimport() 
+	debugReload = function()
+		package.reimport()
 	end,
 	windows = flightlogWindowsLayout
 })
