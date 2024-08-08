@@ -213,6 +213,8 @@ namespace PiGui {
 
 	void ThrustIndicator(const std::string &id_string, const ImVec2 &size, const ImVec4 &thrust, const ImVec4 &velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg);
 
+	bool GlyphButton(const char *id_str, const char *glyph, const ImVec2 &size, ImGuiButtonFlags flags);
+
 	// we need to know if the change was made by direct input or the change was
 	// made by mouse movement, to successfully serve values such as YYYY-MM-DD
 	// when changing with the mouse, we get some internal delta value and add
