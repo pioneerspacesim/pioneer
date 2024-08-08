@@ -312,8 +312,10 @@ theme.styles = rescaleUI {
 	ButtonPadding = Vector2(8, 6),
 	ItemSpacing = Vector2(8, 6),
 	ItemInnerSpacing = Vector2(4, 4),
-	MainButtonSize = Vector2(32, 32),
-	SmallButtonSize = Vector2(24, 24),
+	MainButtonSize = Vector2(38, 38),
+	SmallButtonSize = Vector2(30, 30),
+	IconButtonPadding = Vector2(3, 3),
+	InlineIconPadding = Vector2(2, 2),
 	MainButtonPadding = 3
 }
 
