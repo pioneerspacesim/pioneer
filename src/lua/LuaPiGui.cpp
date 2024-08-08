@@ -1224,8 +1224,44 @@ static int l_pigui_button(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string text = LuaPull<std::string>(l, 1);
-	ImVec2 size = LuaPull<ImVec2>(l, 2);
+	ImVec2 size = LuaPull<ImVec2>(l, 2, ImVec2(0, 0));
 	bool ret = ImGui::Button(text.c_str(), size);
+	LuaPush<bool>(l, ret);
+	return 1;
+}
+/*
+ * Function: glyphButton
+ *
+ * Create a button displaying an icon glyph
+ *
+ * > clicked = ui.glyphButton(id, glyph, vec_size)
+ *
+ * Example:
+ *
+ * > local x = 0
+ * > if ui.glyphButton("PushMe", icons.push_me, Vector2(100,0)) then
+ * >     x = 42
+ * > end
+ *
+ * Parameters:
+ *
+ *   id - string, unique identifier for button
+ *   glyph - string, icon glyph character on button
+ *   vec_size - Vector2, size of button
+ *
+ * Return:
+ *
+ *   clicked - bool, true if button was clicked, else false
+ *
+ */
+static int l_pigui_glyph_button(lua_State *l)
+{
+	PROFILE_SCOPED()
+	const char *id = LuaPull<const char *>(l, 1);
+	const char *text = LuaPull<const char *>(l, 2);
+	ImVec2 size = LuaPull<ImVec2>(l, 3, ImVec2(0, 0));
+	ImGuiButtonFlags_ flags = LuaPull<ImGuiButtonFlags_>(l, 4, ImGuiButtonFlags_None);
+	bool ret = PiGui::GlyphButton(id, text, size, flags);
 	LuaPush<bool>(l, ret);
 	return 1;
 }
@@ -3397,6 +3433,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "TextColored", l_pigui_text_colored },
 		{ "SetScrollHereY", l_pigui_set_scroll_here_y },
 		{ "Button", l_pigui_button },
+		{ "GlyphButton", l_pigui_glyph_button },
 		{ "InvisibleButton", l_pigui_invisible_button },
 		{ "Selectable", l_pigui_selectable },
 		{ "BeginGroup", l_pigui_begin_group },
