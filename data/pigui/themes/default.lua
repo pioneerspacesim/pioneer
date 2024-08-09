@@ -362,7 +362,7 @@ theme.icons = {
 	asteroid_hollow = 36,
 	current_height = 37,
 	current_periapsis = 38,
-	current_line = 39,
+	-- UNUSED current_line = 39,
 	current_apoapsis = 40,
 	eta = 41,
 	altitude = 42,
@@ -538,7 +538,7 @@ theme.icons = {
 	apoapsis = 201,
 	reset_view = 202,
 	toggle_grid = 203,
-	plus = 204,
+	-- UNUSED plus = 204,
 	-- EMPTY = 205
 	decrease = 206,
 	increase = 207,
@@ -559,7 +559,8 @@ theme.icons = {
 	chart = 224,
 	binder = 225,
 	-- navtarget = 226,		-- duplicate of 121
-	ships_no_orbits = 227,	-- duplicate of 52
+	-- ships_no_orbits = 227,	-- duplicate of 52
+	ships_no_orbits = 52,
 	ships_with_orbits = 228,
 	lagrange_no_text = 229,
 	lagrange_with_text = 230,
@@ -604,9 +605,9 @@ theme.icons = {
 	circ_clear_flwtarget = 266,
 	speed_limiter = 267,
 	deltav = 268,
-	paintspray = 269,
-	-- EMPTY = 270,
-	-- EMPTY = 271,
+	filesystem = 269,
+	filesystem_save = 270,
+	filesystem_load = 271,
 	-- eighteenth row
 	equip_cargo_scoop = 272,
 	equip_fuel_scoop = 273,
@@ -621,9 +622,9 @@ theme.icons = {
 	equip_dual_pulsecannon = 282,
 	equip_dual_pulsecannon_rapid = 283,
 	equip_dual_mining_laser = 284,
-	-- EMPTY = 285,
-	-- EMPTY = 286,
-	-- EMPTY = 287,
+	filesystem_delete = 285,
+	case_sensitive = 286,
+	delete_object = 287,
 	-- nineteenth row
 	equip_missile_unguided = 288,
 	equip_missile_guided = 289,
@@ -645,10 +646,29 @@ theme.icons = {
 	equip_trade_computer = 301,
 	equip_autopilot = 302,
 	equip_hyperdrive = 303,
+
+	-- twentieth row
+	plus = 304,
+	minus = 305,
+	cross = 306,
+	decrease_max_thick = 307,
+	decrease_thick = 308,
+	increase_thick = 309,
+	increase_max_thick = 310,
+	decrease_min = 311,
+	decrease_2 = 312,
+	decrease_1 = 313,
+	stop = 314,
 	increase_1 = 315,
 	increase_2 = 316,
+	increase_max = 317,
+
 	shipmarket_compare_better = 38,
 	shipmarket_compare_worse = 40,
+
+	circle_lg = 6,
+	circle_md = 51,
+	circle_sm = 110,
 
 	-- TODO: manual / autopilot
 	-- dummy, until actually defined correctly
