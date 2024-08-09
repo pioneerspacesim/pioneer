@@ -356,7 +356,7 @@ function ShipCargo:draw()
 		end
 
 		ui.tableNextColumn()
-		if not self.lock and ui.iconButton("##cargoremove" .. v.id, ui.theme.icons.retrograde, nil, nil, Vector2(Defs.removeWidth, Defs.removeWidth)) then
+		if not self.lock and ui.iconButton("##cargoremove" .. v.id, ui.theme.icons.cross, nil, nil, Vector2(Defs.removeWidth, Defs.removeWidth)) then
 			self.value[v.id] = nil
 			self:updateDrawItems()
 		end
@@ -737,7 +737,7 @@ function ShipEquip:draw()
 		ui.alignTextToFramePadding()
 		ui.text(tostring(eqType.capabilities.mass * v.amount)..'t')
 		ui.tableNextColumn()
-		if not self.lock and ui.iconButton("##eqremove" .. v.id, ui.theme.icons.retrograde, nil, nil, Vector2(Defs.removeWidth, Defs.removeWidth)) then
+		if not self.lock and ui.iconButton("##eqremove" .. v.id, ui.theme.icons.cross, nil, nil, Vector2(Defs.removeWidth, Defs.removeWidth)) then
 			table.remove(self.value.misc, i)
 			self:update()
 		end

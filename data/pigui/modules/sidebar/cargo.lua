@@ -55,11 +55,11 @@ local function transfer_buttons(amount, min, max, tooltip_reduce, tooltip_increa
 		amount = min
 	end
 	ui.sameLine(0, 2)
-	if transfer_button(icons.decrease_1_thick, tooltip_reduce, amount > min) then
+	if transfer_button(icons.decrease_thick, tooltip_reduce, amount > min) then
 		amount = amount - 1
 	end
 	ui.sameLine(0, 2)
-	if transfer_button(icons.increase_1_thick, tooltip_increase, amount < max) then
+	if transfer_button(icons.increase_thick, tooltip_increase, amount < max) then
 		amount = amount + 1
 	end
 	ui.sameLine(0, 2)
@@ -272,7 +272,9 @@ function module:drawBody()
 
 	else
 		ui.alignTextToButtonPadding()
-		ui.textAligned(lui.NO_CARGO, 0.5)
+		ui.withStyleColors({ Text = colors.fontDim }, function()
+			ui.textAligned(lui.NO_CARGO, 0.5)
+		end)
 	end
 
 	ui.separator()

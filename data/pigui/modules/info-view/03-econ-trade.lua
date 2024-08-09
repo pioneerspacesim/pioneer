@@ -78,12 +78,12 @@ local function cargolist ()
 
 		-- count
 		ui.tableNextColumn()
-		ui.alignTextToFramePadding()
+		ui.alignTextToButtonPadding()
 		ui.text(entry.count .. "t")
 
 		-- name
 		ui.tableNextColumn()
-		ui.alignTextToFramePadding()
+		ui.alignTextToButtonPadding()
 		ui.text(entry.commodity:GetName())
 
 		-- jettison button

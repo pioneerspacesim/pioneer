@@ -221,8 +221,8 @@ function ui.mainMenuButton(icon, tooltip, variant, size)
 		variant = ui.theme.buttonColors.selected
 	end
 
-	local tt, id = string.match(tooltip, "^(.+)##(.+)$")
-	return ui.iconButton(id or tooltip, icon, tt or tooltip, variant, size or ui.theme.styles.MainButtonSize)
+	local tt = string.match(tooltip, "^(.+)##.+$")
+	return ui.iconButton(tooltip, icon, tt or tooltip, variant, size or ui.theme.styles.MainButtonSize)
 end
 
 --

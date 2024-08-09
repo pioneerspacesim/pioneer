@@ -105,14 +105,14 @@ function PiGuiFace:changeFeature(featureId, amt, callback)
 end
 
 local font = ui.fonts.pionillium.medium
-local iconSize = Vector2(font.size * 2.3, font.size * 2.3)
+local iconSize = ui.theme.styles.MainButtonSize
 local buttonSize = iconSize
 
 local function faceGenButton(self, feature)
 	local bg_variant = ui.theme.buttonColors.transparent
 	local icon_size = ui.theme.styles.MainButtonSize
 
-	ui.withStyleColors({ Text = colors.fontDim }, function()
+	ui.withStyleColors({ Text = colors.fontDark }, function()
 		ui.withID(feature.id, function()
 			if ui.iconButton("<<", ui.theme.icons.decrease_1, nil, bg_variant, icon_size) then
 				self:changeFeature(feature.id, -1, feature.callback)
