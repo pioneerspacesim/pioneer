@@ -17,6 +17,8 @@
 #include "lua/Lua.h"
 #include "lua/LuaManager.h"
 #include "scenegraph/Model.h"
+#include "JsonUtils.h"
+#include "FileSystem.h"
 
 #include <fmt/core.h>
 #include <imgui/imgui.h>
@@ -404,6 +406,32 @@ void PerfInfo::DrawWorldViewStats()
 
 			if (system)
 				system->Dump(Log::GetLog()->GetLogFileHandle());
+		}
+
+		if (ImGui::Button("Dump System-Editor JSON")) {
+			SystemPath path = Pi::game->GetSectorView()->GetSelected();
+			RefCountedPtr<StarSystem> system = Pi::game->GetGalaxy()->GetStarSystem(path);
+
+			if (system) {
+				char fileName[1024];
+				sprintf(fileName, "%s.json", system->GetName().c_str());
+				const std::string fname = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), fileName);
+				FILE *f = fopen(fname.c_str(), "w");
+
+				if (f) {
+					Json systemdef = Json::object();
+
+					system->DumpToJson(systemdef);
+
+					// required otherwise the system editor crashes when trying to load it
+					systemdef["comment"] = system->GetName();
+
+					std::string jsonData = systemdef.dump(1, '\t');
+
+					fwrite(jsonData.data(), 1, jsonData.size(), f);
+					fclose(f);
+				}
+			}
 		}
 	}
 
