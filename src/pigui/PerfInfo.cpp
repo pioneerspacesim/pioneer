@@ -413,9 +413,7 @@ void PerfInfo::DrawWorldViewStats()
 			RefCountedPtr<StarSystem> system = Pi::game->GetGalaxy()->GetStarSystem(path);
 
 			if (system) {
-				char fileName[1024];
-				sprintf(fileName, "%s.json", system->GetName().c_str());
-				const std::string fname = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), fileName);
+				const std::string fname = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), fmt::format("{}.json", system->GetName()));
 				FILE *f = fopen(fname.c_str(), "w");
 
 				if (f) {
