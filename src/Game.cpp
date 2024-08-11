@@ -39,6 +39,7 @@ static const int s_saveVersion = 90;
 Game::Game(const SystemPath &path, const double startDateTime, const char *shipType) :
 	m_galaxy(GalaxyGenerator::Create()),
 	m_time(startDateTime),
+	m_playedDuration(0),
 	m_state(State::NORMAL),
 	m_wantHyperspace(false),
 	m_hyperspaceProgress(0),
@@ -106,6 +107,9 @@ Game::Game(const SystemPath &path, const double startDateTime, const char *shipT
 		m_player->SetPosition(pos);
 		m_player->SetVelocity(randomOrthoDirection * orbitalVelocity);
 	}
+
+	// Record when we started playing this save so we can determine how long it's been played this session
+	m_sessionStartTimestamp = std::chrono::steady_clock::now().time_since_epoch().count();
 
 	CreateViews();
 
@@ -189,6 +193,10 @@ Game::Game(const Json &jsonObj) :
 		for (Uint32 i = 0; i < hyperspaceCloudArray.size(); i++) {
 			m_hyperspaceClouds.push_back(static_cast<HyperspaceCloud *>(Body::FromJson(hyperspaceCloudArray[i], 0)));
 		}
+
+		const Json &gameInfo = jsonObj["game_info"];
+		m_playedDuration = gameInfo.value("duration", 0.0);
+
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
@@ -204,6 +212,8 @@ Game::Game(const Json &jsonObj) :
 	Pi::luaSerializer->FromJson(jsonObj);
 
 	Pi::luaSerializer->UninitTableRefs();
+
+	m_sessionStartTimestamp = std::chrono::steady_clock::now().time_since_epoch().count();
 
 	EmitPauseState(IsPaused());
 
@@ -267,9 +277,32 @@ void Game::ToJson(Json &jsonObj)
 	Json gameInfo = Json::object();
 	float credits = LuaObject<Player>::CallMethod<float>(Pi::player, "GetMoney");
 
+	// Get the player's character name
+	// TODO: add an easier way to get the player's character object once player+ship are split more firmly
+	pi_lua_import(Lua::manager->GetLuaState(), "Character");
+	LuaTable characters(Lua::manager->GetLuaState(), -1);
+
+	std::string character_name = characters.Sub("persistent").Sub("player").Get<std::string>("name");
+	gameInfo["character"] = character_name;
+
+	// Remove the Character table
+	lua_pop(Lua::manager->GetLuaState(), 1);
+
+	// Determine how long we've been playing this save (since we created or loaded it)
+	std::chrono::steady_clock::duration start_time(m_sessionStartTimestamp);
+	auto playtime_duration = std::chrono::steady_clock::now().time_since_epoch() - start_time;
+
+	auto playtime_this_session = std::chrono::duration_cast<std::chrono::seconds>(playtime_duration).count();
+
+	gameInfo["duration"] = m_playedDuration + playtime_this_session;
+
+	// Information about the player's ship
+	gameInfo["shipHull"] = Pi::player->GetShipType()->name;
+	gameInfo["shipName"] = Pi::player->GetShipName();
+
 	gameInfo["system"] = Pi::game->GetSpace()->GetStarSystem()->GetName();
 	gameInfo["credits"] = credits;
-	gameInfo["ship"] = Pi::player->GetShipType()->modelName;
+	gameInfo["ship"] = Pi::player->GetShipType()->id;
 	if (Pi::player->IsDocked()) {
 		gameInfo["docked_at"] = Pi::player->GetDockedWith()->GetSystemBody()->GetName();
 	}

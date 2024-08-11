@@ -164,6 +164,9 @@ private:
 	std::unique_ptr<Space> m_space;
 	double m_time;
 
+	int64_t m_sessionStartTimestamp;
+	double m_playedDuration;
+
 	enum class State {
 		NORMAL,
 		HYPERSPACE,
