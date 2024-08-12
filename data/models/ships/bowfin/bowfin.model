@@ -22,7 +22,6 @@ tex_spec bowfin_spec.dds
 
 lod 300
 mesh bowfin_hi.dae
-mesh bowfin_shield.dae
 
 lod 100
 mesh bowfin_med.dae

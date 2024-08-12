@@ -39,4 +39,3 @@ mesh coronatrix_low.dae
 anim gear_down 1 100
 
 collision coronatrix_coll.dae
-mesh coronatrix_shield.dae

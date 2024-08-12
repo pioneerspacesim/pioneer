@@ -10,7 +10,6 @@ tex_spec molamola_spec.dds
 
 lod 300
 mesh molamola_1hi.dae
-mesh molamola_shield.dae
 
 lod 100
 mesh molamola_2med.dae

@@ -11,7 +11,6 @@ tex_norm molaramsayi_norm.dds
 
 lod 300
 mesh molaramsayi_hi.dae
-mesh molaramsayi_shield.dae
 
 lod 50
 mesh molaramsayi_med.dae

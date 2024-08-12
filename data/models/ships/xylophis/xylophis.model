@@ -36,4 +36,3 @@ mesh xylophis_low.dae
 anim gear_down 0 70
 
 collision xylophis_coll.dae
-mesh xylophis_shield.dae

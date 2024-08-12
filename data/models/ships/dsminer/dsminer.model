@@ -10,7 +10,6 @@ shininess 80
 
 lod 1000
 mesh dsminer_hi.dae
-mesh dsminer_shield.dae
 
 lod 100
 mesh dsminer_med.dae

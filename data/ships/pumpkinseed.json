@@ -2,6 +2,7 @@
 	"model": "pumpkinseed",
 	"name": "Pumpkinseed",
 	"cockpit": " ",
+	"shield_model": "pumpkinseed_shield",
 	"manufacturer": "kaluri",
 	"ship_class": "light_courier",
 	"min_crew": 1,

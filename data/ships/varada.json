@@ -2,6 +2,7 @@
 	"model": "varada",
 	"name": "Varada",
 	"cockpit": " ",
+	"shield_model": "varada_shield",
 	"manufacturer": "mandarava_csepel",
 	"ship_class": "light_courier",
 	"min_crew": 1,

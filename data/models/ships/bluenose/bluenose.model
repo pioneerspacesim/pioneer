@@ -9,7 +9,6 @@ tex_norm bluenose_norm.png
 
 lod 300
 mesh bluenose_hi.dae
-mesh bluenose_shield.dae
 
 lod 100
 mesh bluenose_med.dae
