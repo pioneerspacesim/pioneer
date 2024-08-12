@@ -133,41 +133,6 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         upload_release: true
 
-  build-gcc-avx:
-    runs-on: ubuntu-20.04
-
-    steps:
-    # Checkout the repository as $GITHUB_WORKSPACE
-    - uses: actions/checkout@v4
-
-    - name: Install Dependencies
-      run: |
-        sudo apt-fast update
-        sudo apt-fast install -y ${{ env.packages }}
-
-    - name: Setup CMake
-      run: |
-        echo "Project Version: $(echo "${{ github.ref }}" | awk -F '/' '/pull/ { print "PR#"$3 } /heads/ { print $3 }')"
-        cp scripts/CMakeBuildPresetsCI.json CMakeUserPresets.json
-        cmake -G Ninja --preset linux-x64-release-avx -DPROJECT_VERSION_INFO=$(echo "${{ github.ref }}" | awk -F '/' '/pull/ { print "PR#"$3 } /heads/ { print $3 }')
-
-    - name: Build GCC
-      run: cmake --build ./build --target all
-
-    - name: Build Pioneer Data
-      run: cmake --build ./build --target build-data
-
-    - name: Run Tests
-      run: ./build/unittest
-
-    - name: Generate Artifacts
-      uses: ./.github/actions/upload-linux
-      with:
-        artifact_name: Linux 64-bit (AVX2 enabled)
-        build_slug: linux-x64-release-avx
-        token: ${{ secrets.GITHUB_TOKEN }}
-        upload_release: true
-
   build-clang:
     runs-on: ubuntu-20.04
 
