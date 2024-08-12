@@ -222,7 +222,7 @@ bool SystemEditor::LoadSystemFromFile(const FileSystem::FileInfo &file)
 			ok = LoadCustomSystem(csys);
 
 		if (ok)
-			m_systemInfo.comment = data["comment"];
+			m_systemInfo.comment = data.value("comment", "");
 	} else if (ends_with_ci(file.GetPath(), ".lua")) {
 		const CustomSystem *csys = m_systemLoader->LoadSystem(file.GetPath());
 		if (csys)

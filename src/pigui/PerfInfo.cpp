@@ -421,9 +421,6 @@ void PerfInfo::DrawWorldViewStats()
 
 					system->DumpToJson(systemdef);
 
-					// required otherwise the system editor crashes when trying to load it
-					systemdef["comment"] = system->GetName();
-
 					std::string jsonData = systemdef.dump(1, '\t');
 
 					fwrite(jsonData.data(), 1, jsonData.size(), f);
