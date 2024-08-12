@@ -2,8 +2,8 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelCache.h"
-#include "Shields.h"
-#include "scenegraph/SceneGraph.h"
+#include "scenegraph/Loader.h"
+#include "scenegraph/Model.h"
 
 ModelCache::ModelCache(Graphics::Renderer *r) :
 	m_renderer(r)
@@ -23,7 +23,6 @@ SceneGraph::Model *ModelCache::FindModel(const std::string &name)
 		try {
 			SceneGraph::Loader loader(m_renderer);
 			SceneGraph::Model *m = loader.LoadModel(name);
-			Shields::ReparentShieldNodes(m);
 			m_models[name] = m;
 			return m;
 		} catch (SceneGraph::LoadingError &) {

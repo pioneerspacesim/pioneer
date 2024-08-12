@@ -52,8 +52,6 @@ public:
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
 
-	Shields *GetShields() const { return m_shields.get(); }
-
 private:
 	void RebuildCollisionMesh();
 	void DeleteGeoms();
@@ -69,7 +67,6 @@ private:
 	SceneGraph::Model *m_model;
 	std::vector<Geom *> m_dynGeoms;
 	SceneGraph::Animation *m_idleAnimation;
-	std::unique_ptr<Shields> m_shields;
 };
 
 #endif /* _MODELBODY_H */

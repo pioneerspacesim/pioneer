@@ -53,6 +53,8 @@ protected:
 private:
 	void AddLog(Time::DateTime, Log::Severity, std::string_view line);
 
+	void RenderModelExtras();
+
 	void UpdateModelList();
 	void UpdateDecalList();
 	void UpdateShield();
@@ -106,9 +108,11 @@ private:
 
 	bool m_modelIsShip = false;
 	bool m_modelHasShields = false;
+	bool m_modelHasThrusters = false;
 
 	std::unique_ptr<Shields> m_shields;
 	std::unique_ptr<SceneGraph::Model> m_gunModel;
+	std::unique_ptr<SceneGraph::Model> m_shieldModel;
 
 	bool m_screenshotQueued = false;
 	bool m_shieldIsHit = false;
