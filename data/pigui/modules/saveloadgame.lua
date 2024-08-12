@@ -47,7 +47,7 @@ local SaveGameEntry = utils.proto()
 SaveGameEntry.name = ""
 SaveGameEntry.character = lc.UNKNOWN
 SaveGameEntry.shipName = ""
-SaveGameEntry.shipClass = lc.UNKNOWN
+SaveGameEntry.shipHull = lc.UNKNOWN
 SaveGameEntry.credits = 0
 SaveGameEntry.locationName = lc.UNKNOWN
 SaveGameEntry.gameTime = 0
@@ -70,6 +70,8 @@ SaveLoadWindow.selectedFile = nil
 SaveLoadWindow.searchStr = ""
 SaveLoadWindow.savePath = ""
 SaveLoadWindow.entryCache = {}
+SaveLoadWindow.caseSensitive = false
+SaveLoadWindow.showAutosaves = false
 
 --==============================================================================
 
@@ -89,9 +91,9 @@ local function drawSaveEntryDetails(entry)
 		ui.icon(icons.ships_no_orbits, iconSize, iconColor)
 		ui.sameLine()
 		if #entry.shipName > 0 then
-			ui.text(entry.shipClass .. ": " .. entry.shipName)
+			ui.text(entry.shipHull .. ": " .. entry.shipName)
 		else
-			ui.text(entry.shipClass)
+			ui.text(entry.shipHull)
 		end
 
 		ui.icon(icons.money, iconSize, iconColor)
@@ -211,22 +213,23 @@ local function makeEntryForSave(file)
 		name = file.name,
 		compatible = compatible,
 		isAutosave = file.name:sub(1, 1) == "_",
-		-- character = lc.UNKNOWN -- No information about the pilot available
+		character = saveInfo.character,
 		timestamp = file.mtime.timestamp,
 		gameTime = saveInfo.time,
-		-- duration = 0, -- No duration information available
+		duration = saveInfo.duration,
 		locationName = location,
 		credits = saveInfo.credits,
-		-- shipName = lc.UNKNOWN, -- No information about the name of the ship available, either,
+		shipName = saveInfo.shipName,
+		shipHull = saveInfo.shipHull,
 	})
 
-	-- The saved ship name is the name of the *model* not the shipdef for some dumb reason
-	-- We treat the two as interchangeable for now
-	if saveInfo.ship then
+	-- Old saves store only the name of the ship's *model* file for some dumb reason
+	-- Treat the model name as the ship id and otherwise ignore it if we have proper data
+	if not saveInfo.shipHull then
 		local shipDef = ShipDef[saveInfo.ship]
 
 		if shipDef then
-			saveEntry.shipClass = shipDef.name
+			saveEntry.shipHull = shipDef.name
 		end
 	end
 
@@ -241,6 +244,10 @@ end
 
 function SaveLoadWindow:makeFilteredList()
 	local shouldShow = function(f)
+		if not self.showAutosaves and f.name:sub(1, 1) == "_" then
+			return false
+		end
+
 		if #self.searchStr < minSearchTextLength then
 			return true
 		end
@@ -365,6 +372,14 @@ end
 
 function SaveLoadWindow:onSetCaseSensitive(cs)
 	self.caseSensitive = cs
+
+	if #self.searchStr >= minSearchTextLength then
+		self:makeFilteredList()
+	end
+end
+
+function SaveLoadWindow:onSetShowAutosaves(sa)
+	self.showAutosaves = sa
 	self:makeFilteredList()
 end
 
@@ -379,6 +394,9 @@ function SaveLoadWindow:drawSearchHeader()
 	ui.sameLine(0, style.windowPadding.x)
 	ui.icon(icons.search_lens, Vector2(headingFont.size), colors.font, lc.SEARCH)
 
+	local icon_size = Vector2(headingFont.size)
+	local icon_size_spacing = icon_size.x + ui.getItemSpacing().x
+
 	-- Draw search bar text entry
 	ui.withFont(bodyFont, function()
 		local height = ui.getFrameHeight()
@@ -386,7 +404,7 @@ function SaveLoadWindow:drawSearchHeader()
 		ui.sameLine()
 		ui.addCursorPos(Vector2(0, (ui.getLineHeight() - height) / 2.0))
 
-		ui.nextItemWidth(ui.getContentRegion().x - (headingFont.size + ui.getItemSpacing().x))
+		ui.nextItemWidth(ui.getContentRegion().x - (icon_size_spacing * 2))
 		local searchStr, changed = ui.inputText("##searchStr", self.searchStr, {})
 
 		if changed then
@@ -394,11 +412,19 @@ function SaveLoadWindow:drawSearchHeader()
 		end
 	end)
 
-	-- Draw case-sensitive toggle
-	local color = self.caseSensitive and ui.theme.buttonColors.default or ui.theme.buttonColors.transparent
 	ui.sameLine()
-	if ui.iconButton(icons.autopilot_fly_to, Vector2(ui.getLineHeight()), lui.CASE_SENSITIVE, color) then
+
+	-- Draw case-sensitive toggle
+	local case_sens_variant = not self.caseSensitive and ui.theme.buttonColors.transparent
+	if ui.iconButton("case_sensitive", icons.case_sensitive, lui.CASE_SENSITIVE, case_sens_variant, icon_size) then
 		self:message("onSetCaseSensitive", not self.caseSensitive)
+	end
+
+	ui.sameLine()
+
+	local autosave_variant = not self.showAutosaves and ui.theme.buttonColors.transparent
+	if ui.iconButton("show_autosaves", icons.view_internal, lui.SHOW_AUTOSAVES, autosave_variant, icon_size) then
+		self:message("onSetShowAutosaves", not self.showAutosaves)
 	end
 end
 
