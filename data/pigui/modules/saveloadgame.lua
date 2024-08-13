@@ -439,14 +439,18 @@ function SaveLoadWindow:drawSaveFooter()
 		ui.sameLine()
 		ui.nextItemWidth(ui.getContentRegion().x - buttonWidths)
 
-		local savePath, changed
+		local savePath, confirmed
 
 		ui.withStyleVars({ FramePadding = ui.theme.styles.ButtonPadding }, function()
-			savePath, changed = ui.inputText("##savePath", self.savePath, {})
+			savePath, confirmed = ui.inputText("##savePath", self.savePath, { "EnterReturnsTrue" })
 		end)
 
-		if changed then
+		if savePath ~= self.savePath then
 			self:message("onSavePathChanged", savePath)
+		end
+
+		if confirmed then
+			self:message("saveToFilePath")
 		end
 	else
 		ui.dummy(Vector2(ui.getContentRegion().x - buttonWidths, 0))
