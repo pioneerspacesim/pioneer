@@ -97,7 +97,7 @@ local onShipFiring = function (ship)
 	if ship.shipId ~= police.id then
 		for i = 1, #patrol do
 			if ship:DistanceTo(patrol[i]) <= lawEnforcedRange then
-				Comms.ImportantMessage(string.interp(l_ui_core.X_CANNOT_BE_TOLERATED_HERE, { crime = l_ui_core.UNLAWFUL_WEAPONS_DISCHARGE }, patrol[i].label))
+				Comms.ImportantMessage(string.interp(l_ui_core.X_CANNOT_BE_TOLERATED_HERE, { crime = l_ui_core.UNLAWFUL_WEAPONS_DISCHARGE }), patrol[i].label)
 				attackShip(ship)
 				break
 			end
@@ -144,7 +144,7 @@ local onEnterSystem = function (player)
 		Comms.ImportantMessage(string.interp(l["RESPECT_THE_LAW_" .. Engine.rand:Integer(1, getNumberOfFlavours("RESPECT_THE_LAW"))], { system = system.name }), ship.label)
 	else
 		if fine > maxFineTolerated then
-			Comms.ImportantMessage(string.interp(l["OUTLAW_DETECTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("OUTLAW_DETECTED"))], { ship_label = player.label }, ship.label))
+			Comms.ImportantMessage(string.interp(l["OUTLAW_DETECTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("OUTLAW_DETECTED"))], { ship_label = player.label }), ship.label)
 			showMercy = false
 			attackShip(player)
 		else
@@ -173,8 +173,8 @@ local onEnterSystem = function (player)
 		for _, enemy in ipairs(ships) do
 			if enemy.shipId ~= police.id and enemy:GetCurrentAICommand() == "CMD_KILL" then
 				if not piracy then
-					Comms.ImportantMessage(string.interp(l_ui_core.X_CANNOT_BE_TOLERATED_HERE, { crime = l_ui_core.PIRACY }, patrol[1].label))
-					Comms.ImportantMessage(string.interp(l["RESTRICTIONS_WITHDRAWN_" .. Engine.rand:Integer(1, getNumberOfFlavours("RESTRICTIONS_WITHDRAWN"))], { ship_label = player.label }, patrol[1].label))
+					Comms.ImportantMessage(string.interp(l_ui_core.X_CANNOT_BE_TOLERATED_HERE, { crime = l_ui_core.PIRACY }), patrol[1].label)
+					Comms.ImportantMessage(string.interp(l["RESTRICTIONS_WITHDRAWN_" .. Engine.rand:Integer(1, getNumberOfFlavours("RESTRICTIONS_WITHDRAWN"))], { ship_label = player.label }), patrol[1].label)
 					piracy = true
 				end
 				attackShip(enemy)
@@ -182,7 +182,7 @@ local onEnterSystem = function (player)
 			end
 		end
 		if piracy and not target then
-			Comms.ImportantMessage(string.interp(l["RESTRICTIONS_ESTABLISHED_" .. Engine.rand:Integer(1, getNumberOfFlavours("RESTRICTIONS_ESTABLISHED"))], { ship_label = player.label }, patrol[1].label))
+			Comms.ImportantMessage(string.interp(l["RESTRICTIONS_ESTABLISHED_" .. Engine.rand:Integer(1, getNumberOfFlavours("RESTRICTIONS_ESTABLISHED"))], { ship_label = player.label }), patrol[1].label)
 			piracy = false
 		end
 	end)
