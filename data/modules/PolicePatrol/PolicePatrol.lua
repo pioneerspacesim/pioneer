@@ -20,6 +20,8 @@ local l_ui_core = Lang.GetResource("ui-core")
 -- Fine at which police will hunt down outlaw player
 -- This is a copy from CrimeTracking.lua.
 local maxFineTolerated = 300
+--   The distance, in meters, at which the police patrol upholds the law
+local lawEnforcedRange = 4000000
 
 local getNumberOfFlavours = function (str)
 	local num = 1
@@ -46,27 +48,32 @@ end
 local patrol = {}
 local showMercy = true
 local piracy = false
+local target = nil
 
 local attackShip = function (ship)
 	for i = 1, #patrol do
-		piracy = true
 		patrol[i]:AIKill(ship)
 	end
+	target = ship
 end
 
 local onShipDestroyed = function (ship, attacker)
 	if ship:IsPlayer() or attacker == nil then return end
 
-	for i = 1, #patrol do
-		if patrol[i] == ship then
-			table.remove(patrol, i)
-			if attacker:isa("Ship") and attacker:IsPlayer() then
-				showMercy = false
+	if ship == target then
+		target = nil
+	else
+		for i = 1, #patrol do
+			if patrol[i] == ship then
+				table.remove(patrol, i)
+				if attacker:isa("Ship") and attacker:IsPlayer() then
+					showMercy = false
+				end
+				break
+			elseif patrol[i] == attacker then
+				Comms.ImportantMessage(l["TARGET_DESTROYED_" .. Engine.rand:Integer(1, getNumberOfFlavours("TARGET_DESTROYED"))], attacker.label)
+				break
 			end
-			break
-		elseif patrol[i] == attacker then
-			Comms.ImportantMessage(l["TARGET_DESTROYED_" .. Engine.rand:Integer(1, getNumberOfFlavours("TARGET_DESTROYED"))], attacker.label)
-			break
 		end
 	end
 end
@@ -78,35 +85,22 @@ local onShipHit = function (ship, attacker)
 	-- Support all police, not only the patrol
 	local police = ShipDef[Game.system.faction.policeShip]
 	if ship.shipId == police.id and attacker.shipId ~= police.id then
+		piracy = true
 		attackShip(attacker)
 	end
 end
 
 local onShipFiring = function (ship)
-	if piracy then return end
+	if piracy or target then return end
 
 	local police = ShipDef[Game.system.faction.policeShip]
 	if ship.shipId ~= police.id then
 		for i = 1, #patrol do
-			if ship:DistanceTo(patrol[i]) <= 4000000 then
-				Comms.ImportantMessage(string.interp(l_ui_core.X_CANNOT_BE_TOLERATED_HERE, { crime = l_ui_core.PIRACY }, patrol[i].label))
+			if ship:DistanceTo(patrol[i]) <= lawEnforcedRange then
+				Comms.ImportantMessage(string.interp(l_ui_core.X_CANNOT_BE_TOLERATED_HERE, { crime = l_ui_core.UNLAWFUL_WEAPONS_DISCHARGE }), patrol[i].label)
 				attackShip(ship)
 				break
 			end
-		end
-	end
-end
-
-local onAICompleted = function (ship, ai_error)
-	if not piracy or ai_error ~= 'NONE' then return end
-
-	for i = 1, #patrol do
-		if patrol[i] == ship then
-			-- Ships which act in self-defence have 5 seconds to cease fire
-			Timer:CallAt(Game.time + 5, function ()
-				piracy = false
-			end)
-			break
 		end
 	end
 end
@@ -118,10 +112,10 @@ local onJettison = function (ship, cargo)
 		local manifest = ship:GetComponent('CargoManager').commodities
 		if not hasIllegalGoods(manifest) then
 			Comms.ImportantMessage(l.TAKE_A_HIKE, patrol[1].label)
-			piracy = false
 			for i = 1, #patrol do
 				patrol[i]:CancelAI()
 			end
+			target = nil
 		end
 	end
 end
@@ -150,7 +144,7 @@ local onEnterSystem = function (player)
 		Comms.ImportantMessage(string.interp(l["RESPECT_THE_LAW_" .. Engine.rand:Integer(1, getNumberOfFlavours("RESPECT_THE_LAW"))], { system = system.name }), ship.label)
 	else
 		if fine > maxFineTolerated then
-			Comms.ImportantMessage(string.interp(l["OUTLAW_DETECTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("OUTLAW_DETECTED"))], { ship_label = player.label }, ship.label))
+			Comms.ImportantMessage(string.interp(l["OUTLAW_DETECTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("OUTLAW_DETECTED"))], { ship_label = player.label }), ship.label)
 			showMercy = false
 			attackShip(player)
 		else
@@ -169,6 +163,29 @@ local onEnterSystem = function (player)
 			end)
 		end
 	end
+
+	local police = ShipDef[system.faction.policeShip]
+	Timer:CallEvery(15, function ()
+		if not Game.system or #patrol == 0 then return true end
+		if target then return false end
+
+		local ships = Space.GetBodiesNear(patrol[1], lawEnforcedRange, "Ship")
+		for _, enemy in ipairs(ships) do
+			if enemy.shipId ~= police.id and enemy:GetCurrentAICommand() == "CMD_KILL" then
+				if not piracy then
+					Comms.ImportantMessage(string.interp(l_ui_core.X_CANNOT_BE_TOLERATED_HERE, { crime = l_ui_core.PIRACY }), patrol[1].label)
+					Comms.ImportantMessage(string.interp(l["RESTRICTIONS_WITHDRAWN_" .. Engine.rand:Integer(1, getNumberOfFlavours("RESTRICTIONS_WITHDRAWN"))], { ship_label = player.label }), patrol[1].label)
+					piracy = true
+				end
+				attackShip(enemy)
+				break
+			end
+		end
+		if piracy and not target then
+			Comms.ImportantMessage(string.interp(l["RESTRICTIONS_ESTABLISHED_" .. Engine.rand:Integer(1, getNumberOfFlavours("RESTRICTIONS_ESTABLISHED"))], { ship_label = player.label }), patrol[1].label)
+			piracy = false
+		end
+	end)
 end
 
 local onLeaveSystem = function (ship)
@@ -176,6 +193,7 @@ local onLeaveSystem = function (ship)
 		patrol = {}
 		showMercy = true
 		piracy = false
+		target = nil
 	end
 end
 
@@ -187,6 +205,7 @@ local onGameStart = function ()
 		patrol = loaded_data.patrol
 		showMercy = loaded_data.showMercy
 		piracy = loaded_data.piracy
+		target = loaded_data.target
 		loaded_data = nil
 	end
 end
@@ -195,10 +214,11 @@ local onGameEnd = function ()
 	patrol = {}
 	showMercy = true
 	piracy = false
+	target = nil
 end
 
 local serialize = function ()
-	return { patrol = patrol, showMercy = showMercy, piracy = piracy }
+	return { patrol = patrol, showMercy = showMercy, piracy = piracy, target = target }
 end
 
 local unserialize = function (data)
@@ -210,7 +230,6 @@ Event.Register("onLeaveSystem", onLeaveSystem)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onShipHit", onShipHit)
 Event.Register("onShipFiring", onShipFiring)
-Event.Register("onAICompleted", onAICompleted)
 Event.Register("onJettison", onJettison)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
