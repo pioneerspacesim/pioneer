@@ -885,7 +885,8 @@ void SystemMapViewport::HandleInput(float ft)
 	Input::Manager *inputMgr = m_app->GetInput();
 
 	// to capture mouse when button was pressed and release when released
-	if (inputMgr->MouseButtonState(SDL_BUTTON_MIDDLE) != m_rotateWithMouseButton) {
+	const int mouseButton = (inputMgr->IsMiddleMouseButton() ? SDL_BUTTON_LEFT : SDL_BUTTON_MIDDLE);
+	if (inputMgr->MouseButtonState(mouseButton) != m_rotateWithMouseButton) {
 		m_rotateWithMouseButton = !m_rotateWithMouseButton;
 		inputMgr->SetCapturingMouse(m_rotateWithMouseButton);
 	}

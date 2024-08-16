@@ -251,11 +251,13 @@ Manager::Manager(IniConfig *config, SDL_Window *window) :
 	m_capturingMouse(false),
 	joystickEnabled(true),
 	mouseYInvert(false),
+	noMiddleMouseButton(false), // Which means a middle mouse button is expected by default
 	m_enableBindings(true),
 	m_frameListChanged(false)
 {
 	joystickEnabled = (m_config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (m_config->Int("InvertMouseY")) ? true : false;
+	noMiddleMouseButton = (m_config->Int("noMiddleMouseButton")) ? true : false;
 
 	Input::InitJoysticks(m_config);
 }
@@ -509,6 +511,15 @@ void Manager::SetMouseYInvert(bool state)
 {
 	mouseYInvert = state;
 	m_config->SetInt("InvertMouseY", mouseYInvert);
+}
+
+void Manager::SetMiddleMouseButton(bool state)
+{
+	noMiddleMouseButton = state;
+	if (m_enableConfigSaving) {
+		m_config->SetInt("noMiddleMouseButton", noMiddleMouseButton);
+		m_config->Save();
+	}
 }
 
 void Manager::GetMousePosition(int position[2])

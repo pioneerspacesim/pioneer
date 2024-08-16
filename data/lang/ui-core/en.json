@@ -1419,6 +1419,14 @@
     "description": "",
     "message": "Invert Mouse Y"
   },
+  "NO_MIDDLE_MOUSE_BUTTON": {
+    "description": "",
+    "message": "No middle mouse button available"
+  },
+  "NO_MIDDLE_MOUSE_BUTTON_DESC": {
+    "description": "",
+    "message": "Use left mouse button to grab/spin objects when there is no middle mouse button available"
+  },
   "IN_CARGO_HOLD": {
     "description": "",
     "message": "In cargo hold"

@@ -574,12 +574,16 @@ local function showControlsOptions()
 	ui.text(lui.CONTROL_OPTIONS)
 
 	local mouseYInvert = Input.GetMouseYInverted()
+	local middleMouseButton = Input.IsMiddleMouseButton()
 	local joystickEnabled = Input.GetJoystickEnabled()
 	binding_pages = Input.GetBindingPages()
 	local c
 
 	c,mouseYInvert = checkbox(lui.INVERT_MOUSE_Y, mouseYInvert)
 	if c then Input.SetMouseYInverted(mouseYInvert) end
+
+	c,middleMouseButton = checkbox(lui.NO_MIDDLE_MOUSE_BUTTON, middleMouseButton, lui.NO_MIDDLE_MOUSE_BUTTON_DESC)
+	if c then Input.SetMiddleMouseButton(middleMouseButton) end
 
 	c,joystickEnabled = checkbox(lui.ENABLE_JOYSTICK, joystickEnabled)
 	if c then Input.SetJoystickEnabled(joystickEnabled) end
