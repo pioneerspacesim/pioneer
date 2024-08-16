@@ -273,7 +273,8 @@ void ShipViewController::Update()
 	Pi::input->GetMouseMotion(mouseMotion);
 
 	// external camera mouselook
-	bool mouse_down = Pi::input->MouseButtonState(SDL_BUTTON_MIDDLE);
+	const int mouseButton = (Pi::input->IsMiddleMouseButton() ? SDL_BUTTON_LEFT : SDL_BUTTON_MIDDLE);
+	bool mouse_down = Pi::input->MouseButtonState(mouseButton);
 	if (mouse_down && !headtracker_input_priority) {
 		if (!m_mouseActive) {
 			m_mouseActive = true;
