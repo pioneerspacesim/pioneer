@@ -191,7 +191,7 @@ public:
 	bool IsMouseYInvert() { return mouseYInvert; }
 	void SetMouseYInvert(bool state);
 
-	bool IsMiddleMouseButton() { return noMiddleMouseButton; }
+	bool EmulateMiddleMouseButton() { return noMiddleMouseButton; }
 	void SetMiddleMouseButton(bool state);
 
 	bool IsMouseButtonPressed(int button) { return mouseButton[button] == 1; }
