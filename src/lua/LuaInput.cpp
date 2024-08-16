@@ -566,7 +566,7 @@ static int l_input_set_mouse_y_inverted(lua_State *l)
 }
 
 
-static int l_input_is_middle_mouse_button(lua_State *l)
+static int l_input_emulate_middle_mouse_button(lua_State *l)
 {
 	lua_pushboolean(l, Pi::input->IsMiddleMouseButton());
 	return 1;
@@ -734,7 +734,7 @@ void LuaInput::Register()
 		{ "SaveBinding", l_input_save_binding },
 		{ "GetMouseYInverted", l_input_get_mouse_y_inverted },
 		{ "SetMouseYInverted", l_input_set_mouse_y_inverted },
-		{ "IsMiddleMouseButton", l_input_is_middle_mouse_button },
+		{ "EmulateMiddleMouseButton", l_input_emulate_middle_mouse_button },
 		{ "SetMiddleMouseButton", l_input_set_middle_mouse_button },
 		{ "GetJoystickEnabled", l_input_get_joystick_enabled },
 		{ "SetJoystickEnabled", l_input_set_joystick_enabled },
