@@ -888,7 +888,7 @@ static int l_input_set_mouse_y_inverted(lua_State *l)
 
 static int l_input_emulate_middle_mouse_button(lua_State *l)
 {
-	lua_pushboolean(l, Pi::input->IsMiddleMouseButton());
+	lua_pushboolean(l, Pi::input->EmulateMiddleMouseButton());
 	return 1;
 }
 
