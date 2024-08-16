@@ -138,7 +138,7 @@ void ModelSpinner::DrawPiGui()
 
 	const ImGuiIO &io = ImGui::GetIO();
 	bool hovered = ImGui::IsItemHovered();
-	const int mouseButton = (Pi::input->IsMiddleMouseButton() ? 0 : 2); // 0 : 2 = ImGui mouse button Left and Middle.
+	const int mouseButton = (Pi::input->EmulateMiddleMouseButton() ? 0 : 2); // 0 : 2 = ImGui mouse button Left and Middle.
 	if (hovered && ImGui::IsMouseDown(mouseButton)) {
 		m_rot.x -= 0.005 * io.MouseDelta.y;
 		m_rot.y -= 0.005 * io.MouseDelta.x;

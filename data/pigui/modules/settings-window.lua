@@ -574,7 +574,7 @@ local function showControlsOptions()
 	ui.text(lui.CONTROL_OPTIONS)
 
 	local mouseYInvert = Input.GetMouseYInverted()
-	local middleMouseButton = Input.IsMiddleMouseButton()
+	local middleMouseButton = Input.EmulateMiddleMouseButton()
 	local joystickEnabled = Input.GetJoystickEnabled()
 	binding_pages = Input.GetBindingPages()
 	local c
