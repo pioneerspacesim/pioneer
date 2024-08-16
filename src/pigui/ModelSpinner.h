@@ -71,6 +71,9 @@ namespace PiGui {
 		// Shoulde we spinne?
 		bool m_spinning;
 
+		// Is there a middle mouse button?
+		bool m_middleMouseButton;
+
 		// After the user manually rotates the model, hold that orientation for
 		// a second to let them look at it. Assumes Update() is called every
 		// frame while visible.

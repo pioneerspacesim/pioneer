@@ -193,6 +193,9 @@ public:
 	bool IsMouseYInvert() { return mouseYInvert; }
 	void SetMouseYInvert(bool state);
 
+	bool IsMiddleMouseButton() { return noMiddleMouseButton; }
+	void SetMiddleMouseButton(bool state);
+
 	bool IsMouseButtonPressed(int button) { return mouseButton[button] == 1; }
 	bool IsMouseButtonReleased(int button) { return mouseButton[button] == 4; }
 
@@ -248,6 +251,7 @@ private:
 
 	bool joystickEnabled;
 	bool mouseYInvert;
+	bool noMiddleMouseButton;
 
 	std::map<std::string, BindingPage> bindingPages;
 	std::map<std::string, InputBindings::Action> actionBindings;
