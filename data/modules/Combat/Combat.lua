@@ -304,7 +304,6 @@ local onShipDestroyed = function (ship, attacker)
 				table.remove(mission.mercenaries, i)
 				if not mission.complete and (#mission.mercenaries == 0 or mission.dedication <= ARMEDRECON) then
 					mission.complete = true
-					mission.status = "COMPLETED"
 					Comms.ImportantMessage(l.MISSION_COMPLETE)
 				end
 				if attacker and attacker:isa("Ship") and attacker:IsPlayer() then
@@ -321,7 +320,6 @@ local missionTimer = function (mission)
 		if mission.complete or Game.time > mission.due then return true end -- already complete or too late
 		if Game.player.frameBody and Game.player.frameBody.path == mission.location then
 			mission.complete = true
-			mission.status = "COMPLETED"
 			Comms.ImportantMessage(l.MISSION_COMPLETE)
 			return true
 		else
