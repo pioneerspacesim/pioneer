@@ -475,3 +475,15 @@ bool Draw::GlyphButton(const char *str_id, const char *glyph, const ImVec2 &size
 
     return pressed;
 }
+
+void Draw::BeginHorizontalGroup()
+{
+	ImGui::BeginGroup();
+	ImGui::GetCurrentWindow()->DC.LayoutType = ImGuiLayoutType_Horizontal;
+}
+
+void Draw::EndHorizontalGroup()
+{
+	ImGui::GetCurrentWindow()->DC.LayoutType = ImGuiLayoutType_Vertical;
+	ImGui::EndGroup();
+}

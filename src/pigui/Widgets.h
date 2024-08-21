@@ -31,4 +31,9 @@ namespace PiGui::Draw {
 	enum class DragChangeMode : unsigned { NOT_CHANGED, CHANGED, CHANGED_BY_TYPING };
 	DragChangeMode IncrementDrag(const char *label, double &v, float v_speed, const double v_min, const double v_max, const char *format, bool draw_progress_bar);
 
+	// Begin a horizontal layout block. Internally, this creates a new group.
+	void BeginHorizontalGroup();
+	// End a horizontal layout block. Internally, this closes the group.
+	void EndHorizontalGroup();
+
 } // namespace PiGui::Draw

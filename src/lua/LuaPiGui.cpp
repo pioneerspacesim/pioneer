@@ -1781,6 +1781,20 @@ static int l_pigui_end_group(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_begin_horizontal_group(lua_State *l)
+{
+	PROFILE_SCOPED()
+	PiGui::Draw::BeginHorizontalGroup();
+	return 0;
+}
+
+static int l_pigui_end_horizontal_group(lua_State *l)
+{
+	PROFILE_SCOPED()
+	PiGui::Draw::EndHorizontalGroup();
+	return 0;
+}
+
 /*
  * Function: separator
  *
@@ -3466,14 +3480,16 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "GlyphButton", l_pigui_glyph_button },
 		{ "InvisibleButton", l_pigui_invisible_button },
 		{ "Selectable", l_pigui_selectable },
-		{ "BeginGroup", l_pigui_begin_group },
 		{ "SetCursorPos", l_pigui_set_cursor_pos },
 		{ "GetCursorPos", l_pigui_get_cursor_pos },
 		{ "AddCursorPos", l_pigui_add_cursor_pos },
 		{ "SetCursorScreenPos", l_pigui_set_cursor_screen_pos },
 		{ "GetCursorScreenPos", l_pigui_get_cursor_screen_pos },
 		{ "AddCursorScreenPos", l_pigui_add_cursor_screen_pos },
+		{ "BeginGroup", l_pigui_begin_group },
 		{ "EndGroup", l_pigui_end_group },
+		{ "BeginHorizontalGroup", l_pigui_begin_horizontal_group },
+		{ "EndHorizontalGroup", l_pigui_end_horizontal_group },
 		{ "SameLine", l_pigui_same_line },
 		{ "Separator", l_pigui_separator },
 		{ "IsItemHovered", l_pigui_is_item_hovered },

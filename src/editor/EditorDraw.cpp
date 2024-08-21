@@ -100,18 +100,6 @@ void Draw::EndLayout()
 	ImGui::Spacing();
 }
 
-void Draw::BeginHorizontalBar()
-{
-	ImGui::BeginGroup();
-	ImGui::GetCurrentWindow()->DC.LayoutType = ImGuiLayoutType_Horizontal;
-}
-
-void Draw::EndHorizontalBar()
-{
-	ImGui::GetCurrentWindow()->DC.LayoutType = ImGuiLayoutType_Vertical;
-	ImGui::EndGroup();
-}
-
 void Draw::ShowUndoDebugWindow(UndoSystem *undo, bool *p_open)
 {
 	if (!ImGui::Begin("Undo Stack", p_open, 0)) {

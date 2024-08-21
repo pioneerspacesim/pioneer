@@ -43,12 +43,6 @@ namespace Editor::Draw {
 	// End a horizontal layout block
 	void EndLayout();
 
-	// Setup horizontal layout for a button bar
-	void BeginHorizontalBar();
-
-	// End a horizontal layout block
-	void EndHorizontalBar();
-
 	// Show a window to debug the state of the passed undo system
 	void ShowUndoDebugWindow(UndoSystem *undo, bool *p_open = nullptr);
 
