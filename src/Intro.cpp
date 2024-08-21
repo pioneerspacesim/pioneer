@@ -16,18 +16,13 @@
 
 class PiRngWrapper {
 public:
-	PiRngWrapper(size_t maxValue) :
-		maxVal(maxValue) {}
 	typedef unsigned int result_type;
 	static constexpr unsigned int min() { return 0; }
 	static constexpr unsigned int max() { return std::numeric_limits<uint32_t>::max(); }
 	unsigned int operator()()
 	{
-		return Pi::rng.Int32(maxVal);
+		return Pi::rng.Int32();
 	}
-
-private:
-	const int32_t maxVal;
 };
 
 Intro::Intro(Graphics::Renderer *r, int width, int height) :
@@ -70,7 +65,7 @@ Intro::Intro(Graphics::Renderer *r, int width, int height) :
 		m_models.push_back(model);
 	}
 
-	std::shuffle(m_models.begin(), m_models.end(), PiRngWrapper(m_models.size()));
+	std::shuffle(m_models.begin(), m_models.end(), PiRngWrapper());
 
 	m_modelIndex = 0;
 
