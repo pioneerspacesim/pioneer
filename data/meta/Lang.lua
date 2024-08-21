@@ -21,4 +21,9 @@ function Resource:get(key) end
 ---@param langCode string?
 function Lang.GetResource(name, langCode) return Resource end
 
+--- Return the list of translated languages for the given resource
+---@param resource string
+---@return string[]
+function Lang.GetAvailableLanguages(resource) end
+
 return Lang

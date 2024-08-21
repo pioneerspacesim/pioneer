@@ -286,6 +286,8 @@ end
 --
 --   nil
 --
+---@overload fun(id, fun)
+---@overload fun(id, size, fun)
 function ui.child(id, size, flags, fun)
 	if flags == nil and fun == nil then -- size is optional
 		fun = size

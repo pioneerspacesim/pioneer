@@ -254,20 +254,28 @@ InfoView:registerView({
 	draw = function()
 		ui.withStyleVars({ItemSpacing = itemSpacing}, function()
 			ui.withFont(pionillium.body, function()
-				local spacing = itemSpacing.x * 3
-				local sizex = (ui.getColumnWidth() - spacing) / 2
-				local sizey = ui.getContentRegion().y - StationView.style.height
+				ui.horizontalGroup(function()
+					local spacing = itemSpacing.x + ui.getWindowPadding().x
+					local region = ui.getContentRegion()
+					local sizex = region.x / 2 - spacing
+					local sizey = region.y - StationView.style.height
 
-				ui.child("leftpanel", Vector2(sizex, sizey), function()
-					drawEconTrade()
-				end)
+					ui.child("leftpanel", Vector2(sizex, sizey), function()
+						drawEconTrade()
+					end)
 
-				ui.sameLine(0, spacing)
+					-- add innner padding
+					ui.sameLine(0, spacing)
 
-				ui.child("rightpanel", Vector2(sizex, sizey), function()
-					ui.withFont(orbiteer.heading, function() ui.text(l.CARGO) end)
-					gauge_cargo()
-					cargolist()
+					ui.separator()
+					-- add innner padding
+					ui.sameLine(0, spacing)
+
+					ui.child("rightpanel", Vector2(sizex, sizey), function()
+						ui.withFont(orbiteer.heading, function() ui.text(l.CARGO) end)
+						gauge_cargo()
+						cargolist()
+					end)
 				end)
 			end)
 		end)

@@ -371,22 +371,19 @@ end
 local function showLanguageOptions()
 	local langs = Lang.GetAvailableLanguages("core")
 
-	ui.withFont(pionillium.large, function()
-		ui.text(lui.LANGUAGE_RESTART_GAME_TO_APPLY)
+	ui.withFont(pionillium.heading, function()
+		ui.text(lui.LANGUAGE_RESTART_GAME_TO_APPLY .. ":")
 	end)
 
-	local clicked
-	for _,lang in pairs(langs) do
-		ui.withFont(pionillium.large, function()
-			if ui.selectable(Lang.GetResource("core",lang).LANG_NAME, Lang.currentLanguage==lang, {}) then
-				clicked = lang
+	ui.withFont(pionillium.body, function()
+		ui.child("##LanguageList", Vector2(0, 0), function()
+			for _, lang in ipairs(langs) do
+				if ui.selectable(Lang.GetResource("core",lang).LANG_NAME, Lang.currentLanguage==lang, {}) then
+					Lang.SetCurrentLanguage(lang)
+				end
 			end
 		end)
-	end
-
-	if clicked then
-		Lang.SetCurrentLanguage(clicked)
-	end
+	end)
 end
 
 local function actionBinding(info)
@@ -648,20 +645,22 @@ local optionsTabs = {
 }
 
 ui.optionsWindow = ModalWindow.New("Options", function()
-	mainButton(icons.view_sidereal, lui.VIDEO, showTab=='video', function()
-		showTab = 'video'
-	end)
-	ui.sameLine()
-	mainButton(icons.sound, lui.SOUND, showTab=='sound', function()
-		showTab = 'sound'
-	end)
-	ui.sameLine()
-	mainButton(icons.language, lui.LANGUAGE, showTab=='language', function()
-		showTab = 'language'
-	end)
-	ui.sameLine()
-	mainButton(icons.controls, lui.CONTROLS, showTab=='controls', function()
-		showTab = 'controls'
+	ui.horizontalGroup(function()
+		mainButton(icons.view_sidereal, lui.VIDEO, showTab=='video', function()
+			showTab = 'video'
+		end)
+
+		mainButton(icons.sound, lui.SOUND, showTab=='sound', function()
+			showTab = 'sound'
+		end)
+
+		mainButton(icons.language, lui.LANGUAGE, showTab=='language', function()
+			showTab = 'language'
+		end)
+
+		mainButton(icons.controls, lui.CONTROLS, showTab=='controls', function()
+			showTab = 'controls'
+		end)
 	end)
 
 	ui.separator()
