@@ -3,12 +3,18 @@
 
 #include "Input.h"
 #include "Pi.h"
-#include "PiGui.h"
+
+#include "Widgets.h"
 
 // For ImRect
+#include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 
-int PiGui::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int mouse_button, const std::vector<ImTextureID> &tex_ids, const std::vector<std::pair<ImVec2, ImVec2>> &uvs, const std::vector<ImU32> &colors, const std::vector<const char *> &tooltips, unsigned int size, unsigned int padding)
+#include <profiler/Profiler.h>
+
+using namespace PiGui;
+
+int Draw::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int mouse_button, const std::vector<ImTextureID> &tex_ids, const std::vector<std::pair<ImVec2, ImVec2>> &uvs, const std::vector<ImU32> &colors, const std::vector<const char *> &tooltips, unsigned int size, unsigned int padding)
 {
 	PROFILE_SCOPED()
 	// return:
@@ -19,11 +25,16 @@ int PiGui::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int 
 	static InputBindings::Axis *horizontalSelection = Pi::input->GetAxisBinding("BindRadialHorizontalSelection");
 	static InputBindings::Axis *verticalSelection = Pi::input->GetAxisBinding("BindRadialVerticalSelection");
 
+	ImColor bgCol = ImGui::GetColorU32(ImGuiCol_PopupBg);
+	ImColor itemBgCol = ImGui::GetColorU32(ImGuiCol_Button);
+	ImColor itemHoveredCol = ImGui::GetColorU32(ImGuiCol_ButtonHovered);
+
 	// FIXME: Missing a call to query if Popup is open so we can move the PushStyleColor inside the BeginPopupBlock (e.g. IsPopupOpen() in imgui.cpp)
 	// FIXME: Our PathFill function only handle convex polygons, so we can't have items spanning an arc too large else inner concave edge artifact is too visible, hence the ImMax(7,items_count)
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0, 0, 0, 0));
 	ImGui::PushStyleColor(ImGuiCol_PopupBg, ImVec4(0, 0, 0, 0));
 	ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 0));
+
 	if (ImGui::BeginPopup(popup_id)) {
 
 		// the radial menu can be called either by a mouse click or by holding a certain key
@@ -49,7 +60,7 @@ int PiGui::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int 
 		ImDrawList *draw_list = ImGui::GetWindowDrawList();
 		draw_list->PushClipRectFullScreen();
 		draw_list->PathArcTo(center, (RADIUS_MIN + RADIUS_MAX) * 0.5f, 0.0f, IM_PI * 2.0f * 0.99f); // FIXME: 0.99f look like full arc with closed thick stroke has a bug now
-		draw_list->PathStroke(ImColor(18, 44, 67, 210), true, RADIUS_MAX - RADIUS_MIN);
+		draw_list->PathStroke(bgCol, true, RADIUS_MAX - RADIUS_MIN);
 
 		const float item_arc_span = 2 * IM_PI / ImMax<int>(ITEMS_MIN, tex_ids.size());
 		float drag_angle = atan2f(drag_delta.y, drag_delta.x);
@@ -63,8 +74,8 @@ int PiGui::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int 
 			const float inner_spacing = style.ItemInnerSpacing.x / RADIUS_MIN / 2;
 			const float item_inner_ang_min = item_arc_span * (item_n - 0.5f + inner_spacing);
 			const float item_inner_ang_max = item_arc_span * (item_n + 0.5f - inner_spacing);
-			const float item_outer_ang_min = item_arc_span * (item_n - 0.5f + inner_spacing * (RADIUS_MIN / RADIUS_MAX));
-			const float item_outer_ang_max = item_arc_span * (item_n + 0.5f - inner_spacing * (RADIUS_MIN / RADIUS_MAX));
+			const float item_outer_ang_min = item_arc_span * (item_n - 0.5f + inner_spacing * (RADIUS_MIN / RADIUS_MAX) * 2.0);
+			const float item_outer_ang_max = item_arc_span * (item_n + 0.5f - inner_spacing * (RADIUS_MIN / RADIUS_MAX) * 2.0);
 
 			bool hovered = false;
 			if (drag_dist2 >= RADIUS_INTERACT_MIN * RADIUS_INTERACT_MIN) {
@@ -76,14 +87,14 @@ int PiGui::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int 
 			int arc_segments = static_cast<int>((64 * item_arc_span / (2 * IM_PI))) + 1;
 			draw_list->_PathArcToN(center, RADIUS_MAX - border_inout, item_outer_ang_min, item_outer_ang_max, arc_segments);
 			draw_list->_PathArcToN(center, RADIUS_MIN + border_inout, item_inner_ang_max, item_inner_ang_min, arc_segments);
-			draw_list->PathFillConvex(hovered ? ImColor(102, 147, 189) : selected ? ImColor(48, 81, 111) : ImColor(48, 81, 111));
+			draw_list->PathFillConvex(hovered ? itemHoveredCol : itemBgCol);
 
 			if (hovered) {
 				// draw outer / inner extra segments
 				draw_list->PathArcTo(center, RADIUS_MAX - border_thickness, item_outer_ang_min, item_outer_ang_max, arc_segments);
-				draw_list->PathStroke(ImColor(102, 147, 189), false, border_thickness);
+				draw_list->PathStroke(itemHoveredCol, false, border_thickness);
 				draw_list->PathArcTo(center, RADIUS_MIN + border_thickness, item_outer_ang_min, item_outer_ang_max, arc_segments);
-				draw_list->PathStroke(ImColor(102, 147, 189), false, border_thickness);
+				draw_list->PathStroke(itemHoveredCol, false, border_thickness);
 			}
 			ImVec2 text_size = ImVec2(size, size);
 			ImVec2 text_pos = ImVec2(
@@ -118,7 +129,7 @@ int PiGui::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int 
 	return ret;
 }
 
-bool PiGui::CircularSlider(const ImVec2 &center, float *v, float v_min, float v_max)
+bool Draw::CircularSlider(const ImVec2 &center, float *v, float v_min, float v_max)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
@@ -156,7 +167,7 @@ static void drawThrust(ImDrawList *draw_list, const ImVec2 &center, const ImVec2
 	draw_list->PopClipRect();
 }
 
-void PiGui::ThrustIndicator(const std::string &id_string, const ImVec2 &size_arg, const ImVec4 &thrust, const ImVec4 &velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg)
+void Draw::ThrustIndicator(const std::string &id_string, const ImVec2 &size_arg, const ImVec4 &thrust, const ImVec4 &velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg)
 {
 	PROFILE_SCOPED()
 	ImGuiWindow *window = ImGui::GetCurrentWindow();
@@ -219,7 +230,7 @@ void PiGui::ThrustIndicator(const std::string &id_string, const ImVec2 &size_arg
 	//    CloseCurrentPopup();
 }
 
-bool PiGui::LowThrustButton(const char *id_string, const ImVec2 &size_arg, int thrust_level, const ImVec4 &bg_col, int frame_padding, ImColor gauge_fg, ImColor gauge_bg)
+bool Draw::LowThrustButton(const char *id_string, const ImVec2 &size_arg, int thrust_level, const ImVec4 &bg_col, int frame_padding, ImColor gauge_fg, ImColor gauge_bg)
 {
 	PROFILE_SCOPED()
 	std::string label = std::to_string(thrust_level);
@@ -277,7 +288,7 @@ bool PiGui::LowThrustButton(const char *id_string, const ImVec2 &size_arg, int t
 // frame_padding = 0: no framing
 // frame_padding > 0: set framing size
 // The color used are the button colors.
-bool PiGui::ButtonImageSized(ImTextureID user_texture_id, const ImVec2 &size, const ImVec2 &imgSize, const ImVec2 &uv0, const ImVec2 &uv1, int frame_padding, const ImVec4 &bg_col, const ImVec4 &tint_col)
+bool Draw::ButtonImageSized(ImTextureID user_texture_id, const ImVec2 &size, const ImVec2 &imgSize, const ImVec2 &uv0, const ImVec2 &uv1, int frame_padding, const ImVec4 &bg_col, const ImVec4 &tint_col)
 {
 	ImGuiWindow *window = ImGui::GetCurrentWindow();
 	if (window->SkipItems)
@@ -317,7 +328,7 @@ bool PiGui::ButtonImageSized(ImTextureID user_texture_id, const ImVec2 &size, co
 	return pressed;
 }
 
-PiGui::DragChangeMode PiGui::IncrementDrag(const char *label, double &v, float v_speed, double v_min, double v_max, const char *format, bool draw_progress_bar)
+Draw::DragChangeMode Draw::IncrementDrag(const char *label, double &v, float v_speed, double v_min, double v_max, const char *format, bool draw_progress_bar)
 {
 	PROFILE_SCOPED()
 
@@ -425,6 +436,54 @@ PiGui::DragChangeMode PiGui::IncrementDrag(const char *label, double &v, float v
 	storage->SetBool(ImGui::GetID("##typing"), typing);
 	ImGui::PopID();
 
-	using DCM = PiGui::DragChangeMode;
+	using DCM = Draw::DragChangeMode;
 	return changed ? typing ? DCM::CHANGED_BY_TYPING : DCM::CHANGED : DCM::NOT_CHANGED;
+}
+
+bool Draw::GlyphButton(const char *str_id, const char *glyph, const ImVec2 &size_arg, ImGuiButtonFlags flags)
+{
+	ImGuiWindow* window = ImGui::GetCurrentWindow();
+    if (window->SkipItems)
+        return false;
+
+    ImGuiContext& g = *GImGui;
+    const ImGuiStyle& style = g.Style;
+    const ImGuiID id = window->GetID(str_id);
+    const ImVec2 glyph_size = ImGui::CalcTextSize(glyph, NULL, true);
+
+    ImVec2 pos = window->DC.CursorPos;
+    if ((flags & ImGuiButtonFlags_AlignTextBaseLine) && style.FramePadding.y < window->DC.CurrLineTextBaseOffset) // Try to vertically align buttons that are smaller/have no padding so that text baseline matches (bit hacky, since it shouldn't be a flag)
+        pos.y += window->DC.CurrLineTextBaseOffset - style.FramePadding.y;
+    ImVec2 size = ImGui::CalcItemSize(size_arg, glyph_size.x + style.FramePadding.x * 2.0f, glyph_size.y + style.FramePadding.y * 2.0f);
+
+    const ImRect bb(pos, pos + size);
+    ImGui::ItemSize(size, style.FramePadding.y);
+    if (!ImGui::ItemAdd(bb, id))
+        return false;
+
+    bool hovered, held;
+    bool pressed = ImGui::ButtonBehavior(bb, id, &hovered, &held, flags);
+
+    // Render
+    const ImU32 col = ImGui::GetColorU32((held && hovered) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
+    ImGui::RenderNavHighlight(bb, id);
+    ImGui::RenderFrame(bb.Min, bb.Max, col, true, style.FrameRounding);
+
+    if (g.LogEnabled)
+        ImGui::LogSetNextTextDecoration("[", "]");
+    ImGui::RenderTextClipped(bb.Min + style.FramePadding, bb.Max - style.FramePadding, glyph, NULL, &glyph_size, style.ButtonTextAlign, &bb);
+
+    return pressed;
+}
+
+void Draw::BeginHorizontalGroup()
+{
+	ImGui::BeginGroup();
+	ImGui::GetCurrentWindow()->DC.LayoutType = ImGuiLayoutType_Horizontal;
+}
+
+void Draw::EndHorizontalGroup()
+{
+	ImGui::GetCurrentWindow()->DC.LayoutType = ImGuiLayoutType_Vertical;
+	ImGui::EndGroup();
 }

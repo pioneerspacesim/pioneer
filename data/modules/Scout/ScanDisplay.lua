@@ -29,9 +29,11 @@ ScanCard.detailFields = 3
 ScanCard.rounding = 1
 ScanCard.iconSize = sizes.leadIconSize
 
-ScanCard.backgroundColor = ui.theme.styleColors.gray_800
-ScanCard.hoveredColor = ui.theme.styleColors.gray_700
-ScanCard.selectedColor = ui.theme.styleColors.primary_600
+ScanCard.colors = {
+	normal = ui.theme.buttonColors.deselected.normal,
+	hovered = ui.theme.buttonColors.deselected.hovered,
+	active = ui.theme.colors.tableSelection
+}
 
 function ScanCard:drawTooltip(data, isHighlighted)
 	if data.scan.complete then
@@ -260,7 +262,7 @@ function scanDisplay:drawTitle()
 
 	-- Draw debug display button
 	if self.showDebug or (ui.shiftHeld() and ui.altHeld()) then
-		local buttonSize = Vector2(ui.getLineHeight() - ui.theme.styles.MainButtonPadding * 2)
+		local buttonSize = Vector2(ui.getLineHeight())
 
 		ui.addCursorPos(Vector2(ui.getContentRegion().x - buttonSize.x * 1.5, 0))
 		if ui.mainMenuButton(icons.alert1, "Debug Display", false, buttonSize) then

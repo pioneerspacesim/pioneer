@@ -157,6 +157,32 @@ function ui.group(fun)
 end
 
 --
+-- Function: ui.horizontalGroup
+--
+-- ui.horizontalGroup(fun)
+--
+-- Display items in a group, using horizontal layout mode (effectively a ui.sameLine() call after every item)
+--
+--
+-- Example:
+--
+-- >
+--
+-- Parameters:
+--
+--   fun - Function, a function that is called to define the group contents
+--
+-- Returns:
+--
+--   nil
+--
+function ui.horizontalGroup(fun)
+	pigui.BeginHorizontalGroup()
+	fun()
+	pigui.EndHorizontalGroup()
+end
+
+--
 -- Function: ui.popup
 --
 -- ui.popup(name, params, fun)
@@ -260,6 +286,8 @@ end
 --
 --   nil
 --
+---@overload fun(id, fun)
+---@overload fun(id, size, fun)
 function ui.child(id, size, flags, fun)
 	if flags == nil and fun == nil then -- size is optional
 		fun = size

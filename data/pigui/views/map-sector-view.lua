@@ -161,7 +161,7 @@ function Windows.systemInfo:Show()
 		if not sectorView:GetMap():IsCenteredOn(systempath) then
 			-- add button to center on the object
 			ui.sameLine()
-			if ui.iconButton(icons.maneuver, Vector2(ui.getTextLineHeight()), lui.CENTER_ON_SYSTEM, ui.theme.buttonColors.transparent) then
+			if ui.inlineIconButton("center", icons.maneuver, lui.CENTER_ON_SYSTEM, ui.theme.buttonColors.transparent) then
 				sectorView:GetMap():GotoSystemPath(systempath)
 			end
 		end

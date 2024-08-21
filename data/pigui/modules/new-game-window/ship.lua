@@ -334,31 +334,35 @@ end
 
 function ShipCargo:draw()
 	if not ui.collapsingHeader(lui.CARGO, { "DefaultOpen" }) then return end
-	local allWidth = layout.rightWidth - Defs.scrollWidth
-	local spacing = Defs.gap.x
-	ui.columns(3, "#cargotable")
-	ui.setColumnWidth(0, allWidth - Defs.dragWidth - Defs.removeWidth - spacing * 2)
-	ui.setColumnWidth(1, Defs.dragWidth + spacing)
-	ui.setColumnWidth(2, Defs.removeWidth + spacing)
+
+	-- Indent the table slightly
+	ui.addCursorPos(Vector2(ui.getItemSpacing().x, 0))
+	ui.beginTable("#cargotable", 3, { "SizingFixedFit" })
+	ui.tableSetupColumn("label", { "WidthStretch" })
+
 	for _, v in ipairs(self.textTable) do
+		ui.tableNextRow()
+		ui.tableNextColumn()
+
 		ui.alignTextToFramePadding()
 		ui.text(v.label)
-		ui.nextColumn()
+
+		ui.tableNextColumn()
 		ui.nextItemWidth(Defs.dragWidth)
 		local value, changed = Widgets.incrementDrag(self.lock, "##drag"..v.id, self.value[v.id], 1, 1, 1000000, "%.0ft")
 		if changed then
 			self.value[v.id] = math.round(value)
 			self:updateDrawItems()
 		end
-		ui.nextColumn()
-		if not self.lock and ui.iconButton(ui.theme.icons.retrograde, Vector2(Defs.removeWidth, Defs.removeWidth), "##cargoremove" .. v.id) then
+
+		ui.tableNextColumn()
+		if not self.lock and ui.iconButton("##cargoremove" .. v.id, ui.theme.icons.cross, nil, nil, Vector2(Defs.removeWidth, Defs.removeWidth)) then
 			self.value[v.id] = nil
 			self:updateDrawItems()
 		end
-		ui.nextColumn()
 	end
 
-	ui.columns(1)
+	ui.endTable()
 
 	if not self.lock then
 		ui.nextItemWidth(Defs.addWidth)
@@ -705,19 +709,22 @@ function ShipEquip:draw()
 	local section = self.sections.misc
 	ui.text(section.label .. ":")
 
-	ui.columns(4, "#misc_equip_table")
-	ui.setColumnWidth(0, allWidth - Defs.dragWidth - Defs.removeWidth - Defs.eqTonnesWidth - spacing * 3)
-	ui.setColumnWidth(1, Defs.dragWidth + spacing)
-	ui.setColumnWidth(2, Defs.eqTonnesWidth + spacing)
-	ui.setColumnWidth(3, Defs.removeWidth + spacing)
-	local count = 0
+	-- Indent the table slightly
+	ui.addCursorPos(Vector2(ui.getItemSpacing().x, 0))
 
-	for _, v in ipairs(self.value.misc) do
-		count = count + 1
+	ui.beginTable("misc_equip_table", 4, { "SizingFixedFit" })
+	ui.tableSetupColumn("label", { "WidthStretch" })
+	ui.tableSetupColumn("quantity")
+	ui.tableSetupColumn("mass", nil, Defs.eqTonnesWidth)
+
+	for i, v in ipairs(self.value.misc) do
+		ui.tableNextRow()
+		ui.tableNextColumn()
+
 		local eqType = findEquipmentType(v.id)
 		ui.alignTextToFramePadding()
 		ui.text(leq[eqType.l10n_key])
-		ui.nextColumn()
+		ui.tableNextColumn()
 		if hasSlotClass(v.id, multiSlot) then
 			ui.nextItemWidth(Defs.dragWidth)
 			local value, changed = Widgets.incrementDrag(self.lock, "##eqdrag"..v.id, v.amount, 1, 1, 1000000, "x %.0f")
@@ -726,18 +733,18 @@ function ShipEquip:draw()
 				self:update()
 			end
 		end
-		ui.nextColumn()
+		ui.tableNextColumn()
 		ui.alignTextToFramePadding()
 		ui.text(tostring(eqType.capabilities.mass * v.amount)..'t')
-		ui.nextColumn()
-		if not self.lock and ui.iconButton(ui.theme.icons.retrograde, Vector2(Defs.removeWidth, Defs.removeWidth), "##eqremove" .. v.id) then
-			table.remove(self.value.misc, count)
+		ui.tableNextColumn()
+		if not self.lock and ui.iconButton("##eqremove" .. v.id, ui.theme.icons.cross, nil, nil, Vector2(Defs.removeWidth, Defs.removeWidth)) then
+			table.remove(self.value.misc, i)
 			self:update()
 		end
-		ui.nextColumn()
+		ui.tableNextColumn()
 	end
 
-	ui.columns(1)
+	ui.endTable()
 
 	if not self.lock then
 		local combo = self.combos.misc
@@ -1021,7 +1028,7 @@ local function draw()
 			end
 
 			ui.setCursorPos(pos + Vector2(Defs.gap.x, - Defs.gap.y * 2 - Defs.buttonSize))
-			if ui.iconButton(ui.theme.icons.random, Vector2(Defs.buttonSize), "##ship_model_random_button") then
+			if ui.iconButton("randomize_colors", ui.theme.icons.random, nil, nil, Vector2(Defs.buttonSize)) then
 				ShipModel.skin:SetRandomColors(Defs.rand)
 				ShipModel.value.colors = ShipModel.skin:GetColors()
 				ShipModel:updateModel()

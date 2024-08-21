@@ -21,7 +21,6 @@ local icons = ui.theme.icons
 local pionillium = ui.fonts.pionillium
 
 local mainButtonSize = ui.theme.styles.MainButtonSize
-local mainButtonFramePadding = ui.theme.styles.MainButtonPadding
 local optionButtonSize = ui.rescaleUI(Vector2(100, 32))
 local bindingButtonSize = ui.rescaleUI(Vector2(142, 32))
 
@@ -50,11 +49,7 @@ local function combo(label, selected, items, tooltip)
 end
 
 local function checkbox(label, checked, tooltip)
-	local color = colors.buttonBlue
-	local changed, ret
-	ui.withStyleColors({["Button"]=color,["ButtonHovered"]=color:tint(0.1),["CheckMark"]=color:tint(0.2)},function()
-		changed, ret = ui.checkbox(label, checked)
-	end)
+	local changed, ret = ui.checkbox(label, checked)
 	if ui.isItemHovered() and tooltip then
 		Engine.pigui.SetTooltip(tooltip) -- bypass the mouse check, Game.player isn't valid yet
 	end
@@ -62,16 +57,11 @@ local function checkbox(label, checked, tooltip)
 end
 
 local function slider(lbl, value, min, max, tooltip)
-	local color = colors.buttonBlue
-	local oldval = value
-	local ret
-	ui.withStyleColors({["SliderGrab"]=color,["ButtonHovered"]=color:tint(0.1),["SliderGrabActive"]=color:tint(0.2)},function()
-		ret = ui.sliderInt(lbl, value, min, max)
-	end)
+	local ret = ui.sliderInt(lbl, value, min, max)
 	if ui.isItemHovered() and tooltip then
 		Engine.pigui.SetTooltip(tooltip) -- bypass the mouse check, Game.player isn't valid yet
 	end
-	return oldval~=ret,ret
+	return value ~= ret, ret
 end
 
 local function keyOf(t, value)
@@ -381,22 +371,19 @@ end
 local function showLanguageOptions()
 	local langs = Lang.GetAvailableLanguages("core")
 
-	ui.withFont(pionillium.large, function()
-		ui.text(lui.LANGUAGE_RESTART_GAME_TO_APPLY)
+	ui.withFont(pionillium.heading, function()
+		ui.text(lui.LANGUAGE_RESTART_GAME_TO_APPLY .. ":")
 	end)
 
-	local clicked
-	for _,lang in pairs(langs) do
-		ui.withFont(pionillium.large, function()
-			if ui.selectable(Lang.GetResource("core",lang).LANG_NAME, Lang.currentLanguage==lang, {}) then
-				clicked = lang
+	ui.withFont(pionillium.body, function()
+		ui.child("##LanguageList", Vector2(0, 0), function()
+			for _, lang in ipairs(langs) do
+				if ui.selectable(Lang.GetResource("core",lang).LANG_NAME, Lang.currentLanguage==lang, {}) then
+					Lang.SetCurrentLanguage(lang)
+				end
 			end
 		end)
-	end
-
-	if clicked then
-		Lang.SetCurrentLanguage(clicked)
-	end
+	end)
 end
 
 local function actionBinding(info)
@@ -502,15 +489,13 @@ local function showJoystickInfo(id)
 	local joystick = Input.GetJoystick(id)
 
 	ui.withFont(pionillium.heading, function()
-		local buttonSize = Vector2(ui.getTextLineHeightWithSpacing())
-
-		if ui.iconButton(icons.time_backward_1x, buttonSize, lui.GO_BACK .. "##" .. id) then
+		if ui.iconButton("Back", icons.decrease_1, lui.GO_BACK) then
 			Input.SaveJoystickConfig(selectedJoystick)
 			selectedJoystick = nil
 		end
 
 		ui.sameLine()
-		ui.alignTextToLineHeight()
+		ui.alignTextToFramePadding()
 		ui.text(joystick.name)
 	end)
 
@@ -545,7 +530,7 @@ local function showJoystickInfo(id)
 		pos.y = pos.y + ui.getItemSpacing().y * 0.5
 
 		local size = Vector2(width - ui.getItemSpacing().x, ui.getTextLineHeight())
-		ui.addRectFilled(pos, pos + size, colors.darkGrey, 0, 0)
+		ui.addRectFilled(pos, pos + size, colors.uiBackground, 0, 0)
 
 		if isHalfAxis then
 			size.x = size.x * value
@@ -554,7 +539,7 @@ local function showJoystickInfo(id)
 			size.x = size.x * 0.5 * value
 		end
 
-		ui.addRectFilled(pos, pos + size, colors.primary, 0, 0)
+		ui.addRectFilled(pos, pos + size, colors.uiForeground, 0, 0)
 		ui.newLine()
 
 		-- Draw axis details
@@ -572,10 +557,10 @@ end
 
 local function showJoystickList(id)
 	local connected = Input.IsJoystickConnected(id)
-	local buttonSize = Vector2(ui.getTextLineHeightWithSpacing())
+	local buttonSize = Vector2(ui.getFrameHeight())
 
 	if connected then
-		if ui.iconButton(icons.pencil, buttonSize, lui.EDIT .. "##" .. id) then
+		if ui.iconButton("Edit" .. id, icons.pencil, lui.EDIT) then
 			selectedJoystick = id
 		end
 	else
@@ -588,7 +573,7 @@ local function showJoystickList(id)
 
 	local status = connected and linput.CONNECTED or linput.NOT_CONNECTED
 	ui.sameLine()
-	ui.textColored(ui.theme.colors.grey, Input.GetJoystickName(id) .. ", " .. status)
+	ui.textColored(ui.theme.colors.fontDim, Input.GetJoystickName(id) .. ", " .. status)
 end
 
 local function showControlsOptions()
@@ -660,26 +645,28 @@ local optionsTabs = {
 }
 
 ui.optionsWindow = ModalWindow.New("Options", function()
-	mainButton(icons.view_sidereal, lui.VIDEO, showTab=='video', function()
-		showTab = 'video'
-	end)
-	ui.sameLine()
-	mainButton(icons.sound, lui.SOUND, showTab=='sound', function()
-		showTab = 'sound'
-	end)
-	ui.sameLine()
-	mainButton(icons.language, lui.LANGUAGE, showTab=='language', function()
-		showTab = 'language'
-	end)
-	ui.sameLine()
-	mainButton(icons.controls, lui.CONTROLS, showTab=='controls', function()
-		showTab = 'controls'
+	ui.horizontalGroup(function()
+		mainButton(icons.view_sidereal, lui.VIDEO, showTab=='video', function()
+			showTab = 'video'
+		end)
+
+		mainButton(icons.sound, lui.SOUND, showTab=='sound', function()
+			showTab = 'sound'
+		end)
+
+		mainButton(icons.language, lui.LANGUAGE, showTab=='language', function()
+			showTab = 'language'
+		end)
+
+		mainButton(icons.controls, lui.CONTROLS, showTab=='controls', function()
+			showTab = 'controls'
+		end)
 	end)
 
 	ui.separator()
 
 	-- I count the separator as two item spacings
-	local other_height = mainButtonSize.y + mainButtonFramePadding * 2 + optionButtonSize.y  + ui.getItemSpacing().y * 4 + ui.getWindowPadding().y * 2
+	local other_height = mainButtonSize.y + optionButtonSize.y  + ui.getItemSpacing().y * 4 + ui.getWindowPadding().y * 2
 	ui.child("options_tab", Vector2(-1, optionsWinSize.y - other_height), function()
 		optionsTabs[showTab]()
 	end)

@@ -31,9 +31,9 @@ local hyperdrive_fuel
 
 local jettison = function (item)
 	local enabled = Game.player.flightState == "FLYING"
-	local tooltip = l.JETTISON .. "##".. item:GetName()
+	local variant = enabled and ui.theme.buttonColors.default or ui.theme.buttonColors.disabled
 
-	local button = ui.iconButton(icons.cargo_crate_illegal, buttonSpaceSize, tooltip)
+	local button = ui.iconButton("Jettison " .. item:GetName(), icons.cargo_crate_illegal, l.JETTISON, variant)
 
 	if button and enabled then
 		Game.player:Jettison(item)
@@ -78,10 +78,12 @@ local function cargolist ()
 
 		-- count
 		ui.tableNextColumn()
+		ui.alignTextToButtonPadding()
 		ui.text(entry.count .. "t")
 
 		-- name
 		ui.tableNextColumn()
+		ui.alignTextToButtonPadding()
 		ui.text(entry.commodity:GetName())
 
 		-- jettison button
@@ -252,20 +254,28 @@ InfoView:registerView({
 	draw = function()
 		ui.withStyleVars({ItemSpacing = itemSpacing}, function()
 			ui.withFont(pionillium.body, function()
-				local spacing = itemSpacing.x * 3
-				local sizex = (ui.getColumnWidth() - spacing) / 2
-				local sizey = ui.getContentRegion().y - StationView.style.height
+				ui.horizontalGroup(function()
+					local spacing = itemSpacing.x + ui.getWindowPadding().x
+					local region = ui.getContentRegion()
+					local sizex = region.x / 2 - spacing
+					local sizey = region.y - StationView.style.height
 
-				ui.child("leftpanel", Vector2(sizex, sizey), function()
-					drawEconTrade()
-				end)
+					ui.child("leftpanel", Vector2(sizex, sizey), function()
+						drawEconTrade()
+					end)
 
-				ui.sameLine(0, spacing)
+					-- add innner padding
+					ui.sameLine(0, spacing)
 
-				ui.child("rightpanel", Vector2(sizex, sizey), function()
-					ui.withFont(orbiteer.heading, function() ui.text(l.CARGO) end)
-					gauge_cargo()
-					cargolist()
+					ui.separator()
+					-- add innner padding
+					ui.sameLine(0, spacing)
+
+					ui.child("rightpanel", Vector2(sizex, sizey), function()
+						ui.withFont(orbiteer.heading, function() ui.text(l.CARGO) end)
+						gauge_cargo()
+						cargolist()
+					end)
 				end)
 			end)
 		end)

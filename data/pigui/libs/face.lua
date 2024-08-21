@@ -104,33 +104,35 @@ function PiGuiFace:changeFeature(featureId, amt, callback)
 	self.faceGen = FaceTextureGenerator.New(char.faceDescription, char.seed)
 end
 
-local pigui = Engine.pigui
 local font = ui.fonts.pionillium.medium
-local iconSize = Vector2(font.size * 2.3, font.size * 2.3)
+local iconSize = ui.theme.styles.MainButtonSize
 local buttonSize = iconSize
+
 local function faceGenButton(self, feature)
-	local bg_style = ui.theme.buttonColors.transparent
-	local fg_color = ui.theme.colors.grey
-	if ui.iconButton(ui.theme.icons.time_backward_1x, buttonSize, "##<" .. feature.id, bg_style, fg_color) then
-		self:changeFeature(feature.id, -1, feature.callback)
-	end
-	ui.sameLine()
+	local bg_variant = ui.theme.buttonColors.transparent
+	local icon_size = ui.theme.styles.MainButtonSize
 
-	pigui.PushID(feature.id)
-	ui.icon(feature.icon, iconSize, colors.white)
-	pigui.PopID()
-	if pigui.IsItemHovered() then pigui.SetTooltip(feature.tooltip) end
+	ui.withStyleColors({ Text = colors.fontDark }, function()
+		ui.withID(feature.id, function()
+			if ui.iconButton("<<", ui.theme.icons.decrease_1, nil, bg_variant, icon_size) then
+				self:changeFeature(feature.id, -1, feature.callback)
+			end
 
-	ui.sameLine()
-	if ui.iconButton(ui.theme.icons.time_forward_1x, buttonSize, '##>' .. feature.id, bg_style, fg_color) then
-		self:changeFeature(feature.id, 1, feature.callback)
-	end
+			ui.sameLine()
 
+			ui.icon(feature.icon, icon_size, colors.white)
+
+			ui.sameLine()
+
+			if ui.iconButton(">>", ui.theme.icons.increase_1, nil, bg_variant, icon_size) then
+				self:changeFeature(feature.id, 1, feature.callback)
+			end
+		end)
+	end)
 end
 
 local facegenSpacing = Vector2(font.size * 0.3, font.size * 0.3)
 local facegenSize = Vector2(buttonSize.x * 2 + iconSize.x + facegenSpacing.x * 2, (buttonSize.y + facegenSpacing.y) * (#faceFeatures + 1) - facegenSpacing.y)
-local buttonSpaceSize = Vector2(facegenSpacing.x * 2 + buttonSize.x * 2 + iconSize.x, iconSize.y)
 local inputTextPadding = ui.rescaleUI(Vector2(18, 18))
 
 function PiGuiFace:renderFaceGenButtons(can_random)
@@ -143,7 +145,11 @@ function PiGuiFace:renderFaceGenButtons(can_random)
 			for _, v in ipairs(faceFeatures) do
 				faceGenButton(self, v)
 			end
-			if can_random and (ui.iconButton(icons.random, buttonSpaceSize, l.RANDOM_FACE, nil, nil, 0, iconSize)) then
+
+			local icon_size = ui.theme.styles.MainButtonSize
+			local size = Vector2(icon_size.x * 3 + facegenSpacing.x * 2, icon_size.y)
+
+			if can_random and ui.iconButton("Randomize", icons.random, l.RANDOM_FACE, nil, size) then
 				char.faceDescription = rerollFaceDesc(char.faceDescription)
 				self.faceGen = FaceTextureGenerator.New(char.faceDescription, char.seed)
 			end

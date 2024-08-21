@@ -11,8 +11,8 @@ local logWarning = _G.logWarning
 
 local colors = ui.theme.colors
 
-local bigButtonSize = ui.rescaleUI(Vector2(58, 58))
-local bigButtonFramePadding = ui.rescaleUI(6)
+local bigButtonSize = ui.rescaleUI(Vector2(48, 48))
+local bigButtonFramePadding = ui.rescaleUI(Vector2(4, 4))
 local bigButtonWindowPadding = ui.rescaleUI(Vector2(6, 6))
 local bigButtonItemSpacing = ui.rescaleUI(Vector2(6, 6))
 local bottomUiMargin = require 'pigui.modules.time-window'.window_height
@@ -20,11 +20,6 @@ local buttonWindowPos = Vector2(0, 0)
 local viewWindowPadding = ui.rescaleUI(Vector2(4, 8))
 
 local PiGuiTabView = {}
-
-local function infoButton(icon, selected, tooltip)
-	local variant = selected and ui.theme.buttonColors.selected or nil
-	return ui.iconButton(icon, bigButtonSize, tooltip, variant, nil, bigButtonFramePadding)
-end
 
 local function drawTabWindow(_, fn)
 	return fn()
@@ -51,8 +46,8 @@ end
 
 function PiGuiTabView.resize(self)
 	self.buttonWindowSize = Vector2(
-		(bigButtonSize.x + bigButtonFramePadding * 2) * self.viewCount + bigButtonItemSpacing.x * (self.viewCount-1) + bigButtonWindowPadding.x,
-		(bigButtonSize.y + bigButtonFramePadding * 2) + bigButtonWindowPadding.y)
+		bigButtonSize.x * self.viewCount + bigButtonItemSpacing.x * (self.viewCount-1) + bigButtonWindowPadding.x * 2,
+		bigButtonSize.y + bigButtonWindowPadding.y * 2.0)
 
 	self.viewWindowSize = Vector2(
 		ui.screenWidth - viewWindowPadding.x * 2,
@@ -60,7 +55,7 @@ function PiGuiTabView.resize(self)
 
 	self.viewWindowPos = Vector2(
 		viewWindowPadding.x,
-		self.buttonWindowSize.y + viewWindowPadding.y)
+		self.buttonWindowSize.y --[[ + viewWindowPadding.y ]])
 end
 
 function PiGuiTabView.registerView(self, view)
@@ -118,8 +113,8 @@ function PiGuiTabView.renderTabView(self)
 	end
 
 	local styleColors = {
-		["WindowBg"] = colors.blueBackground,
-		["Border"] = colors.blueFrame,
+		["WindowBg"] = colors.windowBackground,
+		["Border"] = colors.windowFrame,
 	}
 	local styleVars = {
 		WindowRounding = 0,
@@ -129,7 +124,7 @@ function PiGuiTabView.renderTabView(self)
 
 	if(tab.windows) then
 		tab.windows:display()
-	end	
+	end
 
 	if (tab.showView) then
 		ui.withStyleColorsAndVars(styleColors, styleVars, function()
@@ -163,7 +158,7 @@ function PiGuiTabView.renderTabView(self)
 		end)
 	end
 
-	ui.withFont(orbiteer.large.name, orbiteer.large.size * 1.5, function()
+	ui.withFont(orbiteer.xlarge, function()
 		local text_window_padding = 12
 		local text_window_size = Vector2(
 			ui.calcTextSize(tab.name).x + text_window_padding * 2,
@@ -182,7 +177,7 @@ function PiGuiTabView.renderTabView(self)
 	ui.withStyleVars({WindowPadding = bigButtonWindowPadding, ItemSpacing = bigButtonItemSpacing}, function()
 		ui.window("StationViewButtons", staticButtonFlags, function()
 			for i, v in ipairs(self.tabs) do
-				if infoButton(v.icon, i == self.currentTab, v.name) then
+				if ui.iconButton(v.id, v.icon, v.name, i == self.currentTab, bigButtonSize, bigButtonFramePadding) then
 					self:SwitchTo(v.id)
 				end
 				ui.sameLine()

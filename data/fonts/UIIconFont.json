@@ -9,7 +9,7 @@
 		{
 			"svgFile": "icons/icons.svg",
 			"rangeBase": "0xF000",
-			"grid": [ 16, 19 ]
+			"grid": [ 16, 20 ]
 		}
 	]
 }
