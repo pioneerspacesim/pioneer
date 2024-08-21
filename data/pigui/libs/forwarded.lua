@@ -147,6 +147,7 @@ ui.tableSetupColumn = pigui.TableSetupColumn ---@type fun(id: string, flags: any
 ui.tableSetupScrollFreeze = pigui.TableSetupScrollFreeze
 ui.tableHeadersRow = pigui.TableHeadersRow
 ui.tableHeader = pigui.TableHeader
+ui.tableSetBgColor = pigui.TableSetBgColor ---@type fun(target: string, color: Color, column_idx: integer?)
 
 -- Flag validation functions. Call with a table of string flags as the only argument.
 ui.SelectableFlags = pigui.SelectableFlags
@@ -156,6 +157,7 @@ ui.WindowFlags = pigui.WindowFlags
 ui.HoveredFlags = pigui.HoveredFlags
 ui.TableFlags = pigui.TableFlags
 ui.TableColumnFlags = pigui.TableColumnFlags
+ui.TableBgTargetFlags = pigui.TableBgTargetFlags
 
 -- Wrapped in buttons.lua
 -- ui.button = pigui.Button

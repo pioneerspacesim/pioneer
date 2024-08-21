@@ -478,6 +478,26 @@ int l_pigui_check_table_flags(lua_State *l)
 	return 1;
 }
 
+static LuaFlags<ImGuiTableBgTarget_> imguiTableBgFlagsTable = {
+	{ "None", ImGuiTableBgTarget_None },
+	{ "RowBg0", ImGuiTableBgTarget_RowBg0 },
+	{ "RowBg1", ImGuiTableBgTarget_RowBg1 },
+	{ "CellBg", ImGuiTableBgTarget_CellBg },
+};
+
+void pi_lua_generic_pull(lua_State *l, int index, ImGuiTableBgTarget_ &theflags)
+{
+	theflags = parse_imgui_flags(l, index, imguiTableBgFlagsTable);
+}
+
+int l_pigui_check_table_bg_target(lua_State *l)
+{
+	luaL_checktype(l, 1, LUA_TTABLE);
+	ImGuiTableBgTarget_ fl = imguiTableBgFlagsTable.LookupTable(l, 1);
+	LuaPush<ImGuiTableBgTarget_>(l, fl);
+	return 1;
+}
+
 static LuaFlags<ImGuiTableColumnFlags_> imguiTableColumnFlagsTable = {
 	{ "None", ImGuiTableColumnFlags_None },
 	{ "DefaultHide", ImGuiTableColumnFlags_DefaultHide },
@@ -3328,6 +3348,15 @@ static int l_pigui_table_header(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_table_set_bg_color(lua_State *l)
+{
+	const ImGuiTableBgTarget_ target = LuaPull<ImGuiTableBgTarget_>(l, 1);
+	ImColor color = LuaPull<ImColor>(l, 2);
+	const int columnIndex = LuaPull<int>(l, 3, -1);
+
+	ImGui::TableSetBgColor(target, color, columnIndex);
+}
+
 static Color4ub to_Color4ub(ImVec4 c)
 {
 	return Color4ub(uint8_t(c.x * 255), uint8_t(c.y * 255), uint8_t(c.z * 255), uint8_t(c.w * 255));
@@ -3547,6 +3576,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "HoveredFlags", l_pigui_check_hovered_flags },
 		{ "TableFlags", l_pigui_check_table_flags },
 		{ "TableColumnFlags", l_pigui_check_table_column_flags },
+		{ "TableBgTargetFlags", l_pigui_check_table_bg_target },
 		{ "BeginTabBar", l_pigui_begin_tab_bar },
 		{ "BeginTabItem", l_pigui_begin_tab_item },
 		{ "EndTabBar", l_pigui_end_tab_bar },
@@ -3562,6 +3592,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "TableSetupScrollFreeze", l_pigui_table_setup_scroll_freeze },
 		{ "TableHeadersRow", l_pigui_table_headers_row },
 		{ "TableHeader", l_pigui_table_header },
+		{ "TableSetBgColor", l_pigui_table_set_bg_color },
 		// TODO: finish exposing Tables API
 
 		{ "WantTextInput", l_pigui_want_text_input },
@@ -3597,5 +3628,6 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 	imguiHoveredFlagsTable.Register(l, "ImGuiHoveredFlags");
 	imguiTableFlagsTable.Register(l, "ImGuiTableFlags");
 	imguiTableColumnFlagsTable.Register(l, "ImGuiTableColumnFlags");
+	imguiTableBgFlagsTable.Register(l, "ImGuiTableBgTargetFlags");
 	imguiColorEditFlagsTable.Register(l, "ImGuiTableColumnFlags");
 }
