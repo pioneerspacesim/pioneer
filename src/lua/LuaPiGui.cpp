@@ -27,6 +27,7 @@
 #include "pigui/LuaFlags.h"
 #include "pigui/LuaPiGui.h"
 #include "pigui/PiGui.h"
+#include "pigui/Widgets.h"
 #include "ship/PlayerShipController.h"
 #include "sound/Sound.h"
 #include "utils.h"
@@ -1281,7 +1282,7 @@ static int l_pigui_glyph_button(lua_State *l)
 	const char *text = LuaPull<const char *>(l, 2);
 	ImVec2 size = LuaPull<ImVec2>(l, 3, ImVec2(0, 0));
 	ImGuiButtonFlags_ flags = LuaPull<ImGuiButtonFlags_>(l, 4, ImGuiButtonFlags_None);
-	bool ret = PiGui::GlyphButton(id, text, size, flags);
+	bool ret = PiGui::Draw::GlyphButton(id, text, size, flags);
 	LuaPush<bool>(l, ret);
 	return 1;
 }
@@ -1339,7 +1340,7 @@ static int l_pigui_thrust_indicator(lua_State *l)
 	ImColor thrust_bg = LuaPull<ImColor>(l, 10);
 	ImVec4 thrust(thr.x, thr.y, thr.z, 0);
 	ImVec4 velocity(vel.x, vel.y, vel.z, 0);
-	PiGui::ThrustIndicator(text.c_str(), size, thrust, velocity, color,
+	PiGui::Draw::ThrustIndicator(text.c_str(), size, thrust, velocity, color,
 		frame_padding, vel_fg, vel_bg, thrust_fg, thrust_bg);
 	return 0;
 }
@@ -1354,7 +1355,7 @@ static int l_pigui_low_thrust_button(lua_State *l)
 	int frame_padding = LuaPull<int>(l, 5);
 	ImColor gauge_fg = LuaPull<ImColor>(l, 6);
 	ImColor gauge_bg = LuaPull<ImColor>(l, 7);
-	bool ret = PiGui::LowThrustButton(text.c_str(), size, level,
+	bool ret = PiGui::Draw::LowThrustButton(text.c_str(), size, level,
 		color, frame_padding, gauge_fg, gauge_bg);
 	LuaPush<bool>(l, ret);
 	return 1;
@@ -1371,7 +1372,7 @@ static int l_pigui_button_image_sized(lua_State *l)
 	int frame_padding = LuaPull<int>(l, 6);
 	ImColor bg_col = LuaPull<ImColor>(l, 7);
 	ImColor tint_col = LuaPull<ImColor>(l, 8);
-	bool res = PiGui::ButtonImageSized(id, size, imgSize, uv0, uv1,
+	bool res = PiGui::Draw::ButtonImageSized(id, size, imgSize, uv0, uv1,
 		frame_padding, bg_col, tint_col);
 	LuaPush<bool>(l, res);
 	return 1;
@@ -2658,7 +2659,7 @@ static int l_pigui_radial_menu(lua_State *l)
 	}
 	int size = LuaPull<int>(l, 7);
 	int padding = LuaPull<int>(l, 8);
-	int n = PiGui::RadialPopupSelectMenu(center, id, mouse_button, tex_ids, uvs, colors, tooltips, size, padding);
+	int n = PiGui::Draw::RadialPopupSelectMenu(center, id, mouse_button, tex_ids, uvs, colors, tooltips, size, padding);
 	LuaPush<int>(l, n);
 	return 1;
 }
@@ -2821,7 +2822,7 @@ static int l_pigui_circular_slider(lua_State *l)
 	float v = LuaPull<double>(l, 2);
 	float v_min = LuaPull<double>(l, 3);
 	float v_max = LuaPull<double>(l, 4);
-	bool res = PiGui::CircularSlider(center, &v, v_min, v_max);
+	bool res = PiGui::Draw::CircularSlider(center, &v, v_min, v_max);
 	if (res)
 		LuaPush<double>(l, v);
 	else
@@ -3052,10 +3053,10 @@ static int l_pigui_increment_drag(lua_State *l)
 	// optional bool - auto false if empty
 	bool drawProgressBar = LuaPull<bool>(l, 7);
 
-	PiGui::DragChangeMode mode = PiGui::IncrementDrag(label, value, v_speed, v_min, v_max, format, drawProgressBar);
+	PiGui::Draw::DragChangeMode mode = PiGui::Draw::IncrementDrag(label, value, v_speed, v_min, v_max, format, drawProgressBar);
 
 	LuaPush(l, value);
-	mode == PiGui::DragChangeMode::NOT_CHANGED ? lua_pushnil(l) : LuaPush(l, (int)mode);
+	mode == PiGui::Draw::DragChangeMode::NOT_CHANGED ? lua_pushnil(l) : LuaPush(l, (int)mode);
 	return 2;
 }
 

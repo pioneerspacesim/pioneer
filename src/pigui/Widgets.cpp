@@ -3,13 +3,18 @@
 
 #include "Input.h"
 #include "Pi.h"
-#include "PiGui.h"
+
+#include "Widgets.h"
 
 // For ImRect
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 
-int PiGui::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int mouse_button, const std::vector<ImTextureID> &tex_ids, const std::vector<std::pair<ImVec2, ImVec2>> &uvs, const std::vector<ImU32> &colors, const std::vector<const char *> &tooltips, unsigned int size, unsigned int padding)
+#include <profiler/Profiler.h>
+
+using namespace PiGui;
+
+int Draw::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int mouse_button, const std::vector<ImTextureID> &tex_ids, const std::vector<std::pair<ImVec2, ImVec2>> &uvs, const std::vector<ImU32> &colors, const std::vector<const char *> &tooltips, unsigned int size, unsigned int padding)
 {
 	PROFILE_SCOPED()
 	// return:
@@ -124,7 +129,7 @@ int PiGui::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int 
 	return ret;
 }
 
-bool PiGui::CircularSlider(const ImVec2 &center, float *v, float v_min, float v_max)
+bool Draw::CircularSlider(const ImVec2 &center, float *v, float v_min, float v_max)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
@@ -162,7 +167,7 @@ static void drawThrust(ImDrawList *draw_list, const ImVec2 &center, const ImVec2
 	draw_list->PopClipRect();
 }
 
-void PiGui::ThrustIndicator(const std::string &id_string, const ImVec2 &size_arg, const ImVec4 &thrust, const ImVec4 &velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg)
+void Draw::ThrustIndicator(const std::string &id_string, const ImVec2 &size_arg, const ImVec4 &thrust, const ImVec4 &velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg)
 {
 	PROFILE_SCOPED()
 	ImGuiWindow *window = ImGui::GetCurrentWindow();
@@ -225,7 +230,7 @@ void PiGui::ThrustIndicator(const std::string &id_string, const ImVec2 &size_arg
 	//    CloseCurrentPopup();
 }
 
-bool PiGui::LowThrustButton(const char *id_string, const ImVec2 &size_arg, int thrust_level, const ImVec4 &bg_col, int frame_padding, ImColor gauge_fg, ImColor gauge_bg)
+bool Draw::LowThrustButton(const char *id_string, const ImVec2 &size_arg, int thrust_level, const ImVec4 &bg_col, int frame_padding, ImColor gauge_fg, ImColor gauge_bg)
 {
 	PROFILE_SCOPED()
 	std::string label = std::to_string(thrust_level);
@@ -283,7 +288,7 @@ bool PiGui::LowThrustButton(const char *id_string, const ImVec2 &size_arg, int t
 // frame_padding = 0: no framing
 // frame_padding > 0: set framing size
 // The color used are the button colors.
-bool PiGui::ButtonImageSized(ImTextureID user_texture_id, const ImVec2 &size, const ImVec2 &imgSize, const ImVec2 &uv0, const ImVec2 &uv1, int frame_padding, const ImVec4 &bg_col, const ImVec4 &tint_col)
+bool Draw::ButtonImageSized(ImTextureID user_texture_id, const ImVec2 &size, const ImVec2 &imgSize, const ImVec2 &uv0, const ImVec2 &uv1, int frame_padding, const ImVec4 &bg_col, const ImVec4 &tint_col)
 {
 	ImGuiWindow *window = ImGui::GetCurrentWindow();
 	if (window->SkipItems)
@@ -323,7 +328,7 @@ bool PiGui::ButtonImageSized(ImTextureID user_texture_id, const ImVec2 &size, co
 	return pressed;
 }
 
-PiGui::DragChangeMode PiGui::IncrementDrag(const char *label, double &v, float v_speed, double v_min, double v_max, const char *format, bool draw_progress_bar)
+Draw::DragChangeMode Draw::IncrementDrag(const char *label, double &v, float v_speed, double v_min, double v_max, const char *format, bool draw_progress_bar)
 {
 	PROFILE_SCOPED()
 
@@ -431,11 +436,11 @@ PiGui::DragChangeMode PiGui::IncrementDrag(const char *label, double &v, float v
 	storage->SetBool(ImGui::GetID("##typing"), typing);
 	ImGui::PopID();
 
-	using DCM = PiGui::DragChangeMode;
+	using DCM = Draw::DragChangeMode;
 	return changed ? typing ? DCM::CHANGED_BY_TYPING : DCM::CHANGED : DCM::NOT_CHANGED;
 }
 
-bool PiGui::GlyphButton(const char *str_id, const char *glyph, const ImVec2 &size_arg, ImGuiButtonFlags flags)
+bool Draw::GlyphButton(const char *str_id, const char *glyph, const ImVec2 &size_arg, ImGuiButtonFlags flags)
 {
 	ImGuiWindow* window = ImGui::GetCurrentWindow();
     if (window->SkipItems)
