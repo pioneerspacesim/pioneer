@@ -20,7 +20,6 @@ local lui = Lang.GetResource("ui-core")
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local adTextColor = colors.white
 local widgetSizes = ui.rescaleUI({
 	chatButtonBase = Vector2(0, 24),
 	chatButtonSize = Vector2(0, 24),
@@ -85,11 +84,9 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 			images[icon] = PiImage.New("icons/bbs/" .. icon .. ".png")
 		end
 
-		if (adActive(item.__ref, item)) then
-			adTextColor = colors.font
-		else
-			adTextColor = colors.fontDim
-		end
+		local active = adActive(item.__ref, item)
+
+		local adTextColor = active and colors.font or colors.fontDim
 
 		ui.withFont(pionillium.title, function()
 			images[icon]:Draw(Vector2(ui.getTextLineHeight()))
@@ -148,6 +145,26 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 			end)
 			ui.nextColumn()
 		end)
+
+		return active and colors.tableHighlight or colors.tableHighlightDisabled
+	end,
+	postRender = function()
+		local tl = ui.getWindowPos()
+		local size = ui.getWindowSize()
+
+		if Game.paused then
+			ui.addRectFilled(tl, tl + size, colors.uiBackground:opacity(0.4), 0, 0)
+
+			ui.withFont(orbiteer.heading, function()
+				local textSize = ui.calcTextSize(l.PAUSED)
+				local textPos = tl + (size - textSize) * 0.5
+				local padding = ui.theme.styles.WindowPadding
+
+				ui.addRectFilled(textPos - padding, textPos + textSize + padding, colors.uiSurface, padding.x, 0xF)
+
+				ui.addText(textPos, colors.font, l.PAUSED)
+			end)
+		end
 	end,
 	onClickItem = function(self, item, key)
 		local station = Game.player:GetDockedWith()

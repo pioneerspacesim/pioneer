@@ -202,6 +202,7 @@ theme.colors = {
 	tableBackground			= styleColors.primary_900,
 	tableHighlight			= styleColors.primary_800,
 	tableSelection			= styleColors.primary_700,
+	tableHighlightDisabled  = styleColors.panel_800,
 	buttonBlue				= theme.buttonColors.selected.normal,
 	buttonInk				= styleColors.white,
 
