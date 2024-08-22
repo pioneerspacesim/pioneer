@@ -54,14 +54,22 @@ struct PerfInfo::ImGuiState {
 	std::pair<std::string, std::string> selectedTexture;
 };
 
-PerfInfo::PerfInfo() :
-	m_state(new ImGuiState({}))
+PerfInfo::CounterInfo::CounterInfo(const char *n, const char *u, uint32_t recent) :
+	name(n),
+	unit(u),
+	numRecentSamples(recent)
 {
-	m_fpsCounter.history.fill(0.0);
-	m_physCounter.history.fill(0.0);
-	m_piguiCounter.history.fill(0.0);
-	m_procMemCounter.history.fill(0.0);
-	m_luaMemCounter.history.fill(0.0);
+	history.fill(0.f);
+}
+
+PerfInfo::PerfInfo() :
+	m_state(new ImGuiState({})),
+	m_fpsCounter("Frame Time", "ms"),
+	m_physCounter("Update Time", "ms"),
+	m_piguiCounter("PiGui Time", "ms"),
+	m_procMemCounter("Process memory usage", "MB", 1),
+	m_luaMemCounter("Lua memory usage", "MB", 1)
+{
 }
 
 PerfInfo::~PerfInfo()
@@ -138,7 +146,7 @@ void PerfInfo::ClearCounter(CounterType ct)
 	counter.min = 0.;
 }
 
-void PerfInfo::UpdateCounter(CounterType ct, float deltaTime)
+void PerfInfo::UpdateCounter(CounterType ct, float sample)
 {
 	// Don't accumulate new frames when performance data is paused.
 	if (m_state->updatePause)
@@ -146,19 +154,43 @@ void PerfInfo::UpdateCounter(CounterType ct, float deltaTime)
 
 	CounterInfo &counter = GetCounter(ct);
 
-	// Drop the oldest frame, make room for the new frame.
-	std::move(counter.history.begin() + 1, counter.history.end(), counter.history.begin());
-	counter.history[NUM_FRAMES - 1] = deltaTime;
+	// Index of the first "recent" sample in the history buffer
+	size_t recentSamplesIdx = counter.history.size() - counter.numRecentSamples;
+	float oldestSample = counter.history.front();
 
-	float timeAccum = 0;
-	counter.max = 0.f;
-	counter.min = 0.f;
-	std::for_each(counter.history.begin(), counter.history.end(), [&](float i) {
-		timeAccum += i;
-		counter.max = std::max(counter.max, i);
-		counter.min = std::min(counter.min, i);
-	});
-	counter.average = timeAccum / double(NUM_FRAMES);
+	// Recalculate average values for the history range
+	counter.average -= oldestSample / float(NUM_FRAMES);
+	counter.average += sample / float(NUM_FRAMES);
+	counter.recent -= counter.history[recentSamplesIdx] / float(counter.numRecentSamples);
+	counter.recent += sample / float(counter.numRecentSamples);
+
+	// Drop the oldest frame, append the new frame.
+	std::move(counter.history.begin() + 1, counter.history.end(), counter.history.begin());
+	counter.history[NUM_FRAMES - 1] = sample;
+
+	// The stored min/max value is invalidated if:
+	// 1. The new sample lies outside the existing range
+	// 2. The retired sample is exactly equal to the current minimum or maximum value
+	// If 1) is true, we can just widen the range covered by min/max as we
+	// already know all samples in the array lie within the existing range.
+	// If 2) is true, we have to rescan the array to find the new min/max value.
+	// There's no way around this.
+	if (oldestSample == counter.min || oldestSample == counter.max) {
+		counter.min = FLT_MAX;
+		counter.max = FLT_MIN;
+		std::for_each(counter.history.begin(), counter.history.end(), [&](float i) {
+			counter.max = std::max(counter.max, i);
+			counter.min = std::min(counter.min, i);
+		});
+	} else {
+		counter.min = std::min(counter.min, sample);
+		counter.max = std::max(counter.max, sample);
+	}
+
+	if (sample < counter.min)
+		counter.min = sample;
+	if (sample > counter.max)
+		counter.max = sample;
 }
 
 void PerfInfo::Update(float deltaTime)
@@ -247,9 +279,16 @@ void EndDebugTab()
 	ImGui::EndTabItem();
 }
 
-void PerfInfo::DrawCounter(CounterType ct, const char *label, float min, float max, float height)
+void PerfInfo::DrawCounter(CounterInfo &counter, const char *label, float min, float max, float height, bool drawStats)
 {
-	CounterInfo &counter = GetCounter(ct);
+	if (drawStats) {
+		std::string line1 = fmt::format("{}: {:.1f} {}", counter.name, counter.recent, counter.unit);
+		std::string line2 = fmt::format("Min: {:.1f} {unit} | Avg: {:.1f} {unit} | Max: {:.1f} {unit}",
+			counter.min, counter.average, counter.max, fmt::arg("unit", counter.unit));
+
+		ImGui::TextUnformatted(line1.c_str());
+		ImGui::TextUnformatted(line2.c_str());
+	}
 
 	if (min == 0.0 && max == 0.0) {
 		int l2min = floor(log2(counter.min));
@@ -259,30 +298,32 @@ void PerfInfo::DrawCounter(CounterType ct, const char *label, float min, float m
 		max = pow(2.0, l2max);
 	}
 
+	ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x);
 	ImGui::PlotLines(label, counter.history.data(), counter.history.size(), 0, nullptr, min, max, { 0.f, height });
+	ImGui::PopItemWidth();
 }
 
 void PerfInfo::DrawPerfWindow()
 {
 	// Draw headline counter
 	std::string perf_text = fmt::format("Debug Tools | {:.1f} fps ({:.1f} ms)###Performance",
-		framesThisSecond, m_fpsCounter.average);
+		framesThisSecond, m_fpsCounter.recent);
 
 	if (ImGui::Begin(perf_text.c_str(), nullptr, ImGuiWindowFlags_NoNav)) {
 
 		ImVec4 color = ImVec4(1, 1, 1, 1);
-		if (m_fpsCounter.average > 16.7)
+		if (m_fpsCounter.recent > 16.8)
 			color = ImVec4(1.0, 0.6, 0.4, 1);
-		if (m_fpsCounter.average > 33.4)
+		if (m_fpsCounter.recent > 33.4)
 			color = ImVec4(1.0, 0.4, 0.4, 1);
 
 		ImGui::PushStyleColor(ImGuiCol_Text, color);
 		ImGui::Text("frame: %.1f ms | physics: %.1f ms | gui: %.1f ms",
-			m_fpsCounter.average, m_physCounter.average, m_piguiCounter.average);
+			m_fpsCounter.recent, m_physCounter.recent, m_piguiCounter.recent);
 		ImGui::PopStyleColor();
 
 		ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
-		DrawCounter(COUNTER_FPS, "#ft1", 8.0, 33.3, 30);
+		DrawCounter(m_fpsCounter, "#ft1", 8.0, 33.3, 30);
 
 		ImGui::Spacing();
 
@@ -327,18 +368,16 @@ void PerfInfo::DrawPerformanceStats()
 {
 	ImGui::SeparatorText("Frame Stats");
 
-	ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x);
+	ImGui::Text("Average FPS: %.1f", framesThisSecond);
+	DrawCounter(m_fpsCounter, "##framet", 2.0, 33.0, 45, true);
+	ImGui::Spacing();
 
-	ImGui::Text("Frame Time: %.1f ms (%.1f fps)", m_fpsCounter.average, framesThisSecond);
-	DrawCounter(COUNTER_FPS, "##framet", 2.0, 33.0, 45);
+	ImGui::Text("Average UPS: %.1f", physFramesThisSecond);
+	DrawCounter(m_physCounter, "##physt", 0.0, 10.0, 45, true);
+	ImGui::Spacing();
 
-	ImGui::Text("Update Time: %.1f ms (%.1f ups)", m_physCounter.average, physFramesThisSecond);
-	DrawCounter(COUNTER_PHYS, "##physt", 0.0, 10.0, 45);
-
-	ImGui::Text("PiGui Time: %.1f ms", m_piguiCounter.average);
-	DrawCounter(COUNTER_PIGUI, "##guit", 0.0, 5.0, 45);
-
-	ImGui::PopItemWidth();
+	DrawCounter(m_piguiCounter, "##guit", 0.0, 5.0, 45, true);
+	ImGui::Spacing();
 
 	if (ImGui::Button(m_state->updatePause ? "Unpause" : "Pause")) {
 		SetUpdatePause(!m_state->updatePause);
@@ -348,17 +387,12 @@ void PerfInfo::DrawPerformanceStats()
 
 	ImGui::SeparatorText("Memory Usage");
 
-	ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x);
-
-	ImGui::Text("%.1f MB process memory usage", (process_mem.currentMemSize * 1e-3));
 	if (process_mem.peakMemSize > 0.0)
-		ImGui::Text("%.1f MB peak process memory", (process_mem.peakMemSize * 1e-3));
-	DrawCounter(COUNTER_PROCMEM, "##procmem", 0, 0, 45);
+		ImGui::Text("Peak memory allocation: %.1f MB", (process_mem.peakMemSize * 1e-3));
+	DrawCounter(m_procMemCounter, "##procmem", 0, 0, 45, true);
+	ImGui::Spacing();
 
-	ImGui::Text("%.3f MB Lua memory usage", double(lua_mem) / scale_MB);
-	DrawCounter(COUNTER_LUAMEM, "##luamem", 0, 0, 25);
-
-	ImGui::PopItemWidth();
+	DrawCounter(m_luaMemCounter, "##luamem", 0, 0, 25, true);
 }
 
 void PerfInfo::DrawRendererStats()

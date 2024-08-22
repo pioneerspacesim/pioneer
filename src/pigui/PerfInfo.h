@@ -4,9 +4,7 @@
 #pragma once
 
 #include "PerfStats.h"
-#include "RefCounted.h"
 #include <array>
-#include <memory>
 
 namespace PiGui {
 
@@ -29,12 +27,20 @@ namespace PiGui {
 			size_t peakMemSize;
 		};
 
-		static const int NUM_FRAMES = 60;
+		static constexpr int NUM_FRAMES = 300;
 		struct CounterInfo {
 			std::array<float, NUM_FRAMES> history;
-			float average = 0.;
-			float min = 0.;
-			float max = 0.;
+			float average = 0.f;
+			float recent = 0.f;
+			float min = 0.f;
+			float max = 0.f;
+
+			const char *name;
+			const char *unit;
+
+			uint32_t numRecentSamples;
+
+			CounterInfo(const char *n, const char *u, uint32_t recent = 15);
 		};
 
 		struct ImGuiState;
@@ -63,7 +69,7 @@ namespace PiGui {
 		void DrawInputDebug();
 		void DrawStatList(const Perf::Stats::FrameInfo &fi);
 
-		void DrawCounter(CounterType ct, const char *label, float min, float max, float height);
+		void DrawCounter(CounterInfo &counter, const char *label, float min, float max, float height, bool drawStats = false);
 		CounterInfo &GetCounter(CounterType ct);
 
 		// Per-frame counters
