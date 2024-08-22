@@ -3400,6 +3400,7 @@ static int l_pigui_table_set_bg_color(lua_State *l)
 	const int columnIndex = LuaPull<int>(l, 3, -1);
 
 	ImGui::TableSetBgColor(target, color, columnIndex);
+	return 0;
 }
 
 static Color4ub to_Color4ub(ImVec4 c)
