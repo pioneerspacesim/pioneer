@@ -79,15 +79,10 @@ ui.fonts = {
 -- Returns:
 --   size - Vector2, the size of the text when rendered
 --
-function ui.calcTextSize(text, font, size)
-	if size == nil and type(font) == "table" then
-		size = font.size
-		font = font.name
-	end
-
+function ui.calcTextSize(text, font, wrapWidth)
 	local pushed = false
-	if font then pushed = pigui:PushFont(font, size) end
-	local ret = pigui.CalcTextSize(text)
+	if font then pushed = pigui:PushFont(font.name, font.size) end
+	local ret = pigui.CalcTextSize(text, wrapWidth)
 	if pushed then pigui:PopFont() end
 
 	return ret

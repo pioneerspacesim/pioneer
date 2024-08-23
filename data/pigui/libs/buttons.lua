@@ -112,19 +112,18 @@ end
 --
 -- Parameters:
 --   label - string, label of the button to calculate size for
---   font  - Font|string, optional font to use when calculating button size
---   size  - number|nil, optional font size to use
+--   font  - Font, optional font to use when calculating button size
 --
-function ui.calcButtonSize(label, font, size)
-	return ui.calcTextSize(label, font, size) + ui.theme.styles.ButtonPadding * 2
+function ui.calcButtonSize(label, font)
+	return ui.calcTextSize(label, font) + ui.theme.styles.ButtonPadding * 2
 end
 
 function ui.getButtonHeight(font)
 	return (font and font.size or ui.getTextLineHeight()) + ui.theme.styles.ButtonPadding.y * 2
 end
 
-function ui.getButtonHeightWithSpacing()
-	return ui.getTextLineHeightWithSpacing() + ui.theme.styles.ButtonPadding.y * 2.0
+function ui.getButtonHeightWithSpacing(font)
+	return ui.getButtonHeight(font) + ui.getItemSpacing().y
 end
 
 --

@@ -209,6 +209,27 @@ utils.to_array = function(t, predicate)
 end
 
 --
+-- Function: find_if
+--
+-- Returns the first value in the passed table which matches the predicate.
+--
+-- Iteration order is undefined (uses pairs() internally).
+--
+---@generic K, V
+---@param t table<K, V>
+---@param predicate fun(k: K, v: V): boolean
+---@return V?
+utils.find_if = function(t, predicate)
+	for k, v in pairs(t) do
+		if predicate(k, v) then
+			return v
+		end
+	end
+
+	return nil
+end
+
+--
 -- Function: stable_sort
 --
 -- Sort the given table in-place and return it. Sort isn't fast but will be
@@ -543,11 +564,28 @@ end
 --
 -- Function: contains
 --
--- Return true if the function contains the given value under any key.
+-- Return true if the table contains the given value under any key.
 --
 utils.contains = function(t, val)
 	for _, v in pairs(t) do
 		if v == val then return true end
+	end
+
+	return false
+end
+
+--
+-- Function: contains
+--
+-- Return true if the table contains a value that passes the given predicate.
+--
+---@generic K, V
+---@param t table<K, V>
+---@param predicate fun(v: V): boolean
+---@return boolean
+utils.contains_if = function(t, predicate)
+	for _, v in pairs(t) do
+		if predicate(v) then return true end
 	end
 
 	return false

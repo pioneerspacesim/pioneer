@@ -214,6 +214,8 @@ public:
 	void SetLabel(const std::string &label) override;
 	void SetShipName(const std::string &shipName);
 
+	const std::string &GetShipName() const { return m_shipName; }
+
 	float GetAtmosphericPressureLimit() const;
 	float GetPercentShields() const;
 	float GetPercentHull() const;

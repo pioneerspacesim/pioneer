@@ -50,6 +50,7 @@ function Game.SaveGame(filename) end
 
 --- Delete savefile with specified filename.
 ---@param filename string
+---@return boolean success
 function Game.DeleteSave(filename) end
 
 --- End the current game and return to the main menu.

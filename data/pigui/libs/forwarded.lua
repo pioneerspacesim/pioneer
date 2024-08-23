@@ -17,6 +17,8 @@ ui.pointOnClock = pigui.pointOnClock
 ui.screenWidth = pigui.screen_width
 ui.screenHeight = pigui.screen_height
 
+ui.bringWindowToDisplayFront = pigui.bringWindowToDisplayFront ---@type fun()
+
 -- Return the size of the specified window's contents from last frame (without padding/decoration)
 -- Returns {0,0} if the window hasn't been submitted during the lifetime of the program
 ui.getWindowContentSize = pigui.GetWindowContentSize ---@type fun(name: string): Vector2
@@ -55,7 +57,7 @@ ui.addCircleFilled = pigui.AddCircleFilled
 ui.addRect = pigui.AddRect ---@type fun(a: Vector2, b: Vector2, col: Color, rounding: number, edges: integer, thickness: number)
 ui.addRectFilled = pigui.AddRectFilled ---@type fun(a: Vector2, b: Vector2, col: Color, rounding: number, edges: integer)
 ui.addLine = pigui.AddLine ---@type fun(a: Vector2, b: Vector2, col: Color, thickness: number)
-ui.addText = pigui.AddText ---@type fun(pos: Vector2, col: Color, text: string)
+ui.addText = pigui.AddText ---@type fun(pos: Vector2, col: Color, text: string, wrapWidth: number?)
 ui.pathArcTo = pigui.PathArcTo
 ui.pathStroke = pigui.PathStroke
 ui.setCursorPos = pigui.SetCursorPos ---@type fun(pos: Vector2)

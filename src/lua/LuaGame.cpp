@@ -112,6 +112,15 @@ static int l_game_savegame_stats(lua_State *l)
 			t.Set("flight_state", gameInfo["flight_state"].get<std::string>());
 			if (gameInfo["docked_at"].is_string())
 				t.Set("docked_at", gameInfo["docked_at"].get<std::string>());
+
+			if (gameInfo.count("shipHull"))
+				t.Set("shipHull", gameInfo["shipHull"].get<std::string>());
+			if (gameInfo.count("shipName"))
+				t.Set("shipName", gameInfo["shipName"].get<std::string>());
+			if (gameInfo.count("duration"))
+				t.Set("duration", gameInfo["duration"].get<double>());
+			if (gameInfo.count("character"))
+				t.Set("character", gameInfo["character"].get<std::string>());
 		} else {
 			// this is an older saved game...try to show something useful
 			Json shipNode = rootNode["space"]["bodies"][rootNode["player"].get<int>() - 1];

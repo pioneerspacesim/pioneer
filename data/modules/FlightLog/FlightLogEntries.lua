@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- Entries for the FlightLog
@@ -118,7 +118,7 @@ end
 
 --- Based on flight state, compose a reasonable string for location
 --- TODO: consider a class to represent, construct, store and format this
----@param location string[] Array of string info, the first one is the  
+---@param location string[] Array of string info, the first one is the
 ---@return string The formatted composite location.
 function FlightLogEntry.Base.composeLocationString(location)
 	return string.interp(l["FLIGHTLOG_"..location[1]],
@@ -166,7 +166,7 @@ end
 FlightLogEntry.System = utils.class("FlightLogEntry.System", FlightLogEntry.Base)
 
 ---@return string Description of this type
-function FlightLogEntry.System:GetType() 
+function FlightLogEntry.System:GetType()
 	return "System"
 end
 
@@ -257,7 +257,7 @@ end
 FlightLogEntry.Custom = utils.class("FlightLogEntry.Custom", FlightLogEntry.Base)
 
 ---@return string Description of this type
-function FlightLogEntry.Custom:GetType() 
+function FlightLogEntry.Custom:GetType()
 	return "Custom"
 end
 
@@ -314,7 +314,7 @@ end
 FlightLogEntry.Station = utils.class("FlightLogEntry.Station", FlightLogEntry.Base)
 
 ---@return string Description of this type
-function FlightLogEntry.Station:GetType() 
+function FlightLogEntry.Station:GetType()
 	return "Station"
 end
 

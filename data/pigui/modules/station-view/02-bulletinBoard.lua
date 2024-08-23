@@ -213,7 +213,7 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 		chatForm = ChatForm.New(chatFunc, removeFunc, closeFunc, resizeFunc, ref, StationView, {buttonSize = widgetSizes.chatButtonSize})
 
 		station:LockAdvert(ref)
-		chatWin.innerHandler = function() chatForm:render() end
+		chatWin.render = function() chatForm:render() end
 		chatForm.resizeFunc()
 		chatWin:open()
 	end,
