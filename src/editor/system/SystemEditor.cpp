@@ -130,6 +130,7 @@ SystemEditor::SystemEditor(EditorApp *app) :
 	m_systemLoader.reset(new CustomSystemsDatabase(m_galaxy.Get(), "systems"));
 
 	m_viewport.reset(new SystemEditorViewport(m_app, this));
+	m_viewport->SetCanBeClosed(false);
 
 	m_random.seed({
 		// generate random values not dependent on app runtime
@@ -926,29 +927,6 @@ void SystemEditor::DrawInterface()
 		ImGui::PopItemWidth();
 	}
 	ImGui::End();
-
-#if 0
-	if (ImGui::Begin("ModList")) {
-		for (const auto &mod : ModManager::EnumerateMods()) {
-			if (!mod.enabled)
-				ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 64, 64, 255));
-
-			ImGui::PushFont(m_app->GetPiGui()->GetFont("orbiteer", 14));
-			ImGui::TextUnformatted(mod.name.c_str());
-			ImGui::PopFont();
-
-			ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 12));
-			ImGui::TextUnformatted(mod.path.c_str());
-			ImGui::PopFont();
-
-			if (!mod.enabled)
-				ImGui::PopStyleColor();
-
-			ImGui::Spacing();
-		}
-	}
-	ImGui::End();
-#endif
 
 	if (m_binderWindowOpen)
 		m_menuBinder->DrawOverview("Shortcut List", &m_binderWindowOpen);
