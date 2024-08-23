@@ -980,7 +980,7 @@ void GameLoop::Update(float deltaTime)
 	// Record physics timestep but keep information about current frame timing.
 	perfTimer.SoftStop();
 	// store the physics time until the end of the frame
-	phys_time = perfTimer.milliseconds() / 1.e3;
+	phys_time = perfTimer.milliseconds();
 
 	// did the player die?
 	if (Pi::game->GetPlayer()->IsDead()) {
@@ -1056,7 +1056,7 @@ void GameLoop::Update(float deltaTime)
 	Pi::pigui->Render();
 
 	perfTimer.SoftStop();
-	pigui_time = perfTimer.milliseconds() / 1.e3;
+	pigui_time = perfTimer.milliseconds();
 
 	if (Pi::game->UpdateTimeAccel())
 		accumulator = 0; // fix for huge pauses 10000x -> 1x

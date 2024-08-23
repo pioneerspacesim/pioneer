@@ -128,7 +128,7 @@ ship_spawn_debug_window = ->
 
     ui.sameLine!
 	ui.group ->
-		spawner_group_height = ui.getFrameHeightWithSpacing! * 3 + ui.getTextLineHeightWithSpacing!
+		spawner_group_height = ui.getFrameHeightWithSpacing! * 4
         ui.child 'ship_info', Vector2(0, -spawner_group_height), ->
 			draw_ship_info ship
 			if ui.button "Set Player Ship Type", Vector2(0, 0)
@@ -172,17 +172,12 @@ ship_spawn_debug_window = ->
 		ui.nextItemWidth -1.0
 		spawn_distance = ui.sliderFloat("##spawn_distance", spawn_distance, 0.5, 20, "%.1fkm")
 
-debug_ui.registerTab "Ship Spawner", ->
-	unless Game.player and Game.CurrentView() == "world" -- when not in a game, Game.player will return nil
-		return nil
-
-	if ui.beginTabItem "Ship Spawner"
-		ship_spawn_debug_window!
-
-		ui.endTabItem!
-
-		if ui.isKeyReleased(string.byte 'r') and ui.ctrlHeld!
-			package.reimport '.DebugShipSpawn'
+debug_ui.registerTab "Ship Spawner", {
+	icon: ui.theme.icons.medium_courier
+	label: "Ship Spawner"
+	show: -> Game.player and Game.CurrentView() == "world"
+	draw: ship_spawn_debug_window
+}
 
 ui.registerModule "game", ->
 	unless Game.CurrentView() == "world"

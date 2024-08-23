@@ -38,9 +38,11 @@ local get_commodities = function()
 	end
 end
 
-debugView.registerTab("RPG-debug-view", function()
-	if Game.player == nil then return end
-	if not ui.beginTabItem("RPG") then return end
+debugView.registerTab("RPG-debug-view", {
+	icon = ui.theme.icons.personal_info,
+	label = "RPG",
+	show = function() return Game.player ~= nil end,
+	draw = function()
 		ui.text("State: " .. Game.player:GetFlightState())
 
 		-- Reputation
@@ -52,7 +54,6 @@ debugView.registerTab("RPG-debug-view", function()
 		Character.persistent.player.killcount = ui.sliderInt("Kills", Character.persistent.player.killcount, 0, 6000)
 		ui.sameLine()
 		ui.text(Character.persistent.player:GetCombatRating())
-		ui.endTabItem()
 
 		-- Ship hull condition
 		local hull = ui.sliderInt("Hull", Game.player.hullPercent, 0, 100)
@@ -128,4 +129,5 @@ debugView.registerTab("RPG-debug-view", function()
 
 		end
 
-end)
+	end
+})

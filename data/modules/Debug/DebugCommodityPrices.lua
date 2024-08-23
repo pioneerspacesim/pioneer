@@ -378,10 +378,9 @@ local function main()
 end
 
 
-debugView.registerTab("Commodities", function()
-  if Game.player == nil then return end
-  if ui.beginTabItem("Commodities") then
-	main()
-	ui.endTabItem()
-  end
-end)
+debugView.registerTab("debug-commodity-price", {
+	icon = ui.theme.icons.money,
+	label = "Commodities",
+	show = function() return Game.player ~= nil end,
+	draw = main
+})
