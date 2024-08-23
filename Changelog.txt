@@ -2,12 +2,16 @@ August 2024
   * New Features
     * Implement a consistent (and purple!) UI theme (#5865)
     * Added Perf-Info button to Dump a system to systemeditor compatible JSON (#5888)
+    * Station Police shows: crime records, rules & regulations, banned goods (#5863)
+    * Redesign Save/Load window, add UI Notification system (#5898)
 
   * Fixes
     * Fix crash in mission list in hyper space when combat mission (#5872)
     * Invert illegal commodities icons in the Economy & Trade view (#5884)
     * Police patrol improvement, don't confuse player with pirate (#5809)
     * Fix intro screen ship spinner parade's lack of randomness for some (#5896)
+    * Repopulate BBS with adverts if empty (#5894)
+    * Better explanation of the combat mission due date (#5891)
 
   * Internal Changes
     * Separating shield.models (#5853)
