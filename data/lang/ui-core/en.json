@@ -239,6 +239,18 @@
     "description": "",
     "message": "Commodity trade analysis of:"
   },
+  "COMMODITY_TRADE_ANALYSIS_SYSTEM": {
+    "description": "",
+    "message": "System-wide trade analysis of:"
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_1": {
+    "description": "",
+    "message": "Average interstellar trade flow for all commodities bought and sold in the system."
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_2": {
+    "description": "",
+    "message": "Data may not reflect individual market prices."
+  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Competent"
