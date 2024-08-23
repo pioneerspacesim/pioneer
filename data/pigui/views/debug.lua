@@ -7,20 +7,12 @@ local debugView = {
 	tabs = {}
 }
 
-local function encode_icon(idx)
-	idx = idx + 0xF000
-	return string.char(
-		0xe0 + bit32.rshift(idx, 12),
-		0x80 + bit32.band(bit32.rshift(idx, 6), 0x3f),
-		0x80 + bit32.band(idx, 0x3f))
-end
-
 local childWindowFlags = ui.WindowFlags { "NoSavedSettings", "NoBackground" }
 
 local function drawTab(tab, i, delta)
 	local icon = tab.icon or ui.theme.icons.alert_generic
 	local label = tab.label or ""
-	local icon_str = "{}##{}" % { encode_icon(icon), i }
+	local icon_str = "{}##{}" % { ui.get_icon_glyph(icon), i }
 
 	ui.tabItem(icon_str, label, function()
 		ui.child(label, Vector2(0, 0), childWindowFlags, function()
