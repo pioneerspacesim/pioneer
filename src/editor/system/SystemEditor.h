@@ -73,6 +73,7 @@ private:
 	bool LoadSystemFromFile(const FileSystem::FileInfo &file);
 	bool LoadCustomSystem(const CustomSystem *system);
 	void LoadSystemFromGalaxy(RefCountedPtr<StarSystem> system);
+	bool RegenerateSystem(uint32_t newSeed);
 	void ClearSystem();
 
 	void OnFilepathChanged();
@@ -108,6 +109,7 @@ private:
 
 private:
 	class UndoSetSelection;
+	class UndoSetEditedSystem;
 
 	// Pending file actions which triggered an unsaved changes modal
 	enum FileRequestType {

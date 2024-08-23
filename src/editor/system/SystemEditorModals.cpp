@@ -125,7 +125,11 @@ void NewSystemModal::DrawInternal()
 	ImGui::EndChild();
 
 	if (ImGui::Button("New System")) {
-		m_editor->NewSystem(m_path->SectorOnly());
+		// Ensure we generate a valid system index
+		SystemPath newPath = m_path->SectorOnly();
+		newPath.systemIndex = sec->m_systems.size();
+
+		m_editor->NewSystem(newPath);
 		ImGui::CloseCurrentPopup();
 	}
 

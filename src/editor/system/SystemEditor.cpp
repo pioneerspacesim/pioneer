@@ -87,6 +87,24 @@ private:
 	SystemBody *m_selection;
 };
 
+class SystemEditor::UndoSetEditedSystem : public UndoStep {
+public:
+	UndoSetEditedSystem(SystemEditor *editor, RefCountedPtr<StarSystem> system) :
+		m_editor(editor),
+		m_system(std::move(system))
+	{
+	}
+
+	void Swap() override {
+		std::swap(m_editor->m_system, m_system);
+		m_editor->m_viewport->SetSystem(m_editor->m_system);
+	}
+
+private:
+	SystemEditor *m_editor;
+	RefCountedPtr<StarSystem> m_system;
+};
+
 SystemEditor::SystemEditor(EditorApp *app) :
 	m_app(app),
 	m_system(nullptr),
@@ -337,6 +355,54 @@ void SystemEditor::LoadSystemFromGalaxy(RefCountedPtr<StarSystem> system)
 	m_systemInfo.faction = system->GetFaction() ? system->GetFaction()->name : "";
 }
 
+bool SystemEditor::RegenerateSystem(uint32_t newSeed)
+{
+	SystemPath path = m_system->GetPath();
+	uint32_t _init[5] = { newSeed, uint32_t(path.sectorX), uint32_t(path.sectorY), uint32_t(path.sectorZ), UNIVERSE_SEED };
+	Random rng(_init, 5);
+
+	RefCountedPtr<StarSystem::GeneratorAPI> system(new StarSystem::GeneratorAPI(path, m_galaxy, nullptr, rng));
+
+	GalaxyGenerator::StarSystemConfig config;
+	auto stage1 = std::make_unique<StarSystemFromSectorGenerator>();
+	auto stage2 = std::make_unique<StarSystemCustomGenerator>();
+	auto stage3 = std::make_unique<StarSystemRandomGenerator>();
+	auto stage4 = std::make_unique<PopulateStarSystemGenerator>();
+
+	if (!stage1->Apply(rng, m_galaxy, system, &config)) {
+		Log::Error("Cannot apply stage1 generator");
+		return false;
+	}
+
+	// Stage1 uses the seed created by sector generation
+	system->SetSeed(newSeed);
+
+	if (!stage2->Apply(rng, m_galaxy, system, &config)) {
+		Log::Error("Cannot apply stage2 generator");
+		return false;
+	}
+
+	if (!stage3->Apply(rng, m_galaxy, system, &config)) {
+		Log::Error("Cannot apply stage3 generator");
+		return false;
+	}
+
+	if (!stage4->Apply(rng, m_galaxy, system, &config)) {
+		Log::Error("Cannot apply stage4 generator");
+		return false;
+	}
+
+	if (!system->GetRootBody()) {
+		Log::Error("System doesn't have a root body (should never happen)!");
+		return false;
+	}
+
+	m_system = system;
+	m_viewport->SetSystem(system);
+
+	return true;
+}
+
 void SystemEditor::ClearSystem()
 {
 	GetUndo()->Clear();
@@ -374,6 +440,10 @@ void SystemEditor::End()
 
 void SystemEditor::RegisterMenuActions()
 {
+	auto hasNonCustomSystem = [&]() {
+		return m_system.Valid() && !m_system->HasCustomBodies();
+	};
+
 	m_menuBinder->BeginMenu("File");
 
 	m_menuBinder->AddAction("New", {
@@ -429,6 +499,36 @@ void SystemEditor::RegisterMenuActions()
 	m_menuBinder->EndMenu();
 
 	m_menuBinder->BeginMenu("Edit");
+
+	m_menuBinder->BeginMenu("System");
+
+	m_menuBinder->AddAction("Regenerate", {
+		"Generate from current Seed", {}, hasNonCustomSystem,
+		[&]() {
+			GetUndo()->BeginEntry("Regenerate System");
+			GetUndo()->AddUndoStep<UndoSetSelection>(this, nullptr);
+			GetUndo()->AddUndoStep<UndoSetEditedSystem>(this, m_system);
+			GetUndo()->EndEntry();
+
+			RegenerateSystem(m_system->GetSeed());
+		}
+	});
+
+	m_menuBinder->AddAction("RegenerateNewSeed", {
+		"Generate from new Seed", ImGuiKey_ModCtrl | ImGuiKey_ModShift | ImGuiKey_R, hasNonCustomSystem,
+		[&]() {
+			uint32_t seed = Random(m_system->GetSeed()).Int32();
+
+			GetUndo()->BeginEntry("Regenerate System");
+			GetUndo()->AddUndoStep<UndoSetSelection>(this, nullptr);
+			GetUndo()->AddUndoStep<UndoSetEditedSystem>(this, m_system);
+			GetUndo()->EndEntry();
+
+			RegenerateSystem(seed);
+		}
+	});
+
+	m_menuBinder->EndMenu();
 
 	auto hasSelectedBody = [&]() { return m_contextBody != nullptr; };
 	auto hasParentBody = [&]() { return m_contextBody && m_contextBody->GetParent(); };

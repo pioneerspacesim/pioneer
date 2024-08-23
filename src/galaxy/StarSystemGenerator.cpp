@@ -493,6 +493,10 @@ bool StarSystemCustomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 	RefCountedPtr<const Sector> sec = galaxy->GetSector(system->GetPath());
 	system->SetCustom(false, false);
 
+	// No system entry in the Sector, may be a "new" custom system from the Editor
+	if (system->GetPath().systemIndex >= sec->m_systems.size())
+		return true;
+
 	if (const CustomSystem *customSys = sec->m_systems[system->GetPath().systemIndex].GetCustomSystem())
 		config->isCustomOnly = ApplyToSystem(rng, system, customSys);
 
