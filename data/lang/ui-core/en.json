@@ -323,13 +323,17 @@
     "description": "",
     "message": "Crew Roster"
   },
+  "CRIME": {
+	"description": "Heading introducing a single crime name or list of crime names",
+    "message": "Crime"
+  },
   "CRIMINAL": {
     "description": "Legal status of player",
     "message": "Criminal"
   },
   "CRIMINAL_RECORD": {
-    "description": "Past crimes / crime history of character",
-    "message": "Criminal record"
+    "description": "Heading for past crimes / crime history of character, proper noun",
+    "message": "Criminal Record"
   },
   "CURRENT_FUEL": {
     "description": "For hyperjump planner",
@@ -638,6 +642,10 @@
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
     "message": "Finance"
+  },
+  "FINE": {
+    "description": "Cost of a criminal action",
+    "message": "Fine"
   },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
@@ -1207,6 +1215,10 @@
     "description": "An illegal action or commodity",
     "message": "Illegal in System"
   },
+  "ILLEGAL_COMMODITIES": {
+    "description": "Commodities illegal in the current system or polity",
+    "message": "Illegal Commodities"
+  },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
     "message": "Reckless hyperjump registered"
@@ -1333,7 +1345,7 @@
   },
   "LEGAL_RULES": {
       "description": "Refers to laws, rules and regulations",
-      "message": "Legal rules enforced in station controlled space, within: {distance}"
+      "message": "Legal rules applicable in station controlled space. Laws are sensor enforced within a distance of: {distance}"
   },
   "LEGAL_RULES_AND_REGULATIONS": {
       "description": "Heading on a tab, keep it short",
@@ -1741,7 +1753,7 @@
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
-    "message": "Outstanding fines"
+    "message": "Outstanding Fines"
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
@@ -1850,6 +1862,10 @@
   "POOR": {
     "description": "Player combat rating",
     "message": "Poor"
+  },
+  "POSESSION_OF_COMMODITIES_ILLEGAL": {
+    "description": "",
+    "message": "Possession of certain commodities is illegal in this system."
   },
   "POSITION": {
     "description": "The job title/position of crew memeber",
@@ -2314,6 +2330,10 @@
   "THERE_WERE_ERRORS_IN_RECOVERY": {
     "description": "Message when restoring savegame",
     "message": "There were errors in recovery:"
+  },
+  "THESE_ITEMS_ARE_PUNISHABLE_BY_FINE": {
+    "description": "",
+    "message": "Purchase, sale, and transportation of these items is punishable by a fine and possible confiscation"
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
