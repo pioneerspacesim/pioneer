@@ -457,19 +457,19 @@ Event.Register("onGameEnd", onGameEnd)
 Serializer:Register("NewsEventCommodity", serialize, unserialize)
 
 
-debugView.registerTab(
-	"News", function ()
-		if Game.player == nil then return end
-		if not ui.beginTabItem("News") then return end
-
-		ui.textWrapped("Note: Display of News on the BBS will not update until docking at new station")
+debugView.registerTab("news", {
+	label = "News",
+	icon = ui.theme.icons.info,
+	show = function() return Game.player end,
+	draw = function ()
+		ui.textWrapped("Note: Display of News on the BBS will not update until docking at new station.")
 		if ui.button("Make News", Vector2(100, 0)) then
 			createNewsEvent(0)
 		end
 		ui.sameLine()
-		ui.text("Radius: " .. maxDist .. " ly. (Usually no News before: " .. Format.DateOnly(minTime) ..")")
-		ui.sameLine()
-		ui.text("and max simultaneous news events: " .. maxNumberNews)
+		ui.text("Radius: " .. maxDist .. " ly.")
+
+		ui.textWrapped("There are usually no News before: " .. Format.DateOnly(minTime) .." and max simultaneous news events: " .. maxNumberNews)
 
 		for i ,n in pairs(news) do
 			local system_name = n.syspath:GetStarSystem().name
@@ -489,7 +489,8 @@ debugView.registerTab(
 						cargo = commodity_name,
 						date  = Format.DateOnly(n.date),
 				})
-				ui.text(headline)
+				ui.textWrapped(headline)
+				ui.spacing()
 
 				local newsbody = string.interp(
 					flavours[n.flavour].newsbody,
@@ -517,4 +518,5 @@ debugView.registerTab(
 				ui.separator()
 			end
 		end
-end)
+	end
+})
