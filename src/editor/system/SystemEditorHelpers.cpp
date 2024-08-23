@@ -2,6 +2,9 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SystemEditorHelpers.h"
+
+#include "MathUtil.h"
+
 #include "core/macros.h"
 #include "gameconsts.h"
 

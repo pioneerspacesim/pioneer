@@ -5,14 +5,11 @@
 
 #include "GalaxyEditAPI.h"
 #include "SystemBodyUndo.h"
-#include "SystemEditorHelpers.h"
 #include "SystemEditorViewport.h"
 #include "SystemEditorModals.h"
 
-#include "EnumStrings.h"
 #include "FileSystem.h"
 #include "JsonUtils.h"
-#include "ModManager.h"
 #include "Pi.h" // just here for Pi::luaNameGen
 #include "SystemView.h"
 #include "core/StringUtils.h"
@@ -22,7 +19,6 @@
 #include "editor/EditorDraw.h"
 #include "editor/EditorIcons.h"
 #include "editor/UndoSystem.h"
-#include "editor/UndoStepType.h"
 
 #include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyGenerator.h"

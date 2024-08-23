@@ -8,7 +8,6 @@
 
 #include "Background.h"
 #include "SystemView.h"
-#include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
 
 #include "editor/EditorApp.h"

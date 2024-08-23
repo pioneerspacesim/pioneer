@@ -4,9 +4,7 @@
 #pragma once
 
 #include "EditorIcons.h"
-#include "MathUtil.h"
 #include "imgui/imgui.h"
-#include "imgui/imgui_stdlib.h"
 
 #include "fixed.h"
 
