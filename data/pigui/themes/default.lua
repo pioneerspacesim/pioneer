@@ -220,12 +220,12 @@ theme.colors = {
 	FrameBgActive			= styleColors.panel_700,
 
 	Tab						= styleColors.primary_800,
-	TabActive				= styleColors.primary_700,
-	TabHovered				= styleColors.primary_600,
+	TabActive				= styleColors.primary_600,
+	TabHovered				= styleColors.primary_500,
 
 	Header					= styleColors.primary_800,
-	HeaderActive			= styleColors.primary_700,
 	HeaderHovered			= styleColors.primary_600,
+	HeaderActive			= styleColors.primary_500,
 
 	SliderGrab				= styleColors.primary_500a,
 	SliderGrabActive		= styleColors.primary_300a,

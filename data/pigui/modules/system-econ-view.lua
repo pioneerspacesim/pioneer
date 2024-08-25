@@ -246,7 +246,24 @@ function SystemEconView:drawSystemComparison(selected, current)
 	local otherSys = showComparison and current or nil
 
 	ui.withFont(pionillium.body, function()
-		ui.text(lui.COMMODITY_TRADE_ANALYSIS)
+		ui.text(lui.COMMODITY_TRADE_ANALYSIS_SYSTEM)
+
+		local iconSize = Vector2(ui.getTextLineHeight())
+		ui.sameLine(ui.getContentRegion().x - iconSize.x + ui.getWindowPadding().x)
+		ui.icon(icons.info, iconSize, colors.fontDim)
+
+		if ui.isItemHovered() then
+			ui.withFont(pionillium.details, function()
+				ui.customTooltip(function()
+					ui.pushTextWrapPos(ui.getTextLineHeight() * 20)
+					ui.textWrapped(lui.COMMODITY_TRADE_ANALYSIS_TOOLTIP_1)
+					ui.spacing()
+					ui.textWrapped(lui.COMMODITY_TRADE_ANALYSIS_TOOLTIP_2)
+					ui.popTextWrapPos()
+				end)
+			end)
+		end
+
 		ui.spacing()
 
 		ui.withFont(pionillium.heading, function()
