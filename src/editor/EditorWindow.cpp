@@ -11,7 +11,8 @@
 using namespace Editor;
 
 EditorWindow::EditorWindow(EditorApp *app) :
-	m_app(app)
+	m_app(app),
+	m_canBeClosed(true)
 {}
 
 EditorWindow::~EditorWindow()
@@ -25,7 +26,7 @@ void EditorWindow::Update(float deltaTime)
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.f);
 
 	bool shouldClose = false;
-	bool open = ImGui::Begin(GetWindowName(), &shouldClose, flags);
+	bool open = ImGui::Begin(GetWindowName(), m_canBeClosed ? &shouldClose : nullptr, flags);
 
 	ImGui::PopStyleVar(2);
 

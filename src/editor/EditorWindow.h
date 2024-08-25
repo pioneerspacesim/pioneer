@@ -19,6 +19,9 @@ namespace Editor
 
 		virtual const char *GetWindowName() = 0;
 
+		bool GetCanBeClosed() const { return m_canBeClosed; }
+		void SetCanBeClosed(bool closeable) { m_canBeClosed = closeable; }
+
 	protected:
 
 		virtual void OnDraw() = 0;
@@ -29,5 +32,6 @@ namespace Editor
 
 	private:
 		EditorApp *m_app;
+		bool m_canBeClosed;
 	};
 }

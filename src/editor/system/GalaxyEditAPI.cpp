@@ -1,7 +1,7 @@
 // Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
-#include "GalaxyEditAPI.h"
 
+#include "GalaxyEditAPI.h"
 
 #include "EditorIcons.h"
 #include "SystemEditorHelpers.h"
@@ -11,10 +11,10 @@
 #include "editor/UndoStepType.h"
 #include "editor/EditorDraw.h"
 
-#include "EnumStrings.h"
-#include "galaxy/Sector.h"
+#include "galaxy/Factions.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/NameGenerator.h"
+#include "galaxy/Sector.h"
 #include "galaxy/StarSystemGenerator.h"
 
 #include "imgui/imgui.h"

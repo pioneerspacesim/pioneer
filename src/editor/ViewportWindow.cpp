@@ -47,7 +47,7 @@ void ViewportWindow::Update(float deltaTime)
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.f);
 
 	bool shouldClose = false;
-	bool open = ImGui::Begin(GetWindowName(), (flags & ImGuiWindowFlags_NoTitleBar) ? nullptr : &shouldClose, flags);
+	bool open = ImGui::Begin(GetWindowName(), (flags & ImGuiWindowFlags_NoTitleBar || !GetCanBeClosed()) ? nullptr : &shouldClose, flags);
 
 	ImGui::PopStyleVar(2);
 

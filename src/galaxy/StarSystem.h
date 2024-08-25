@@ -87,6 +87,8 @@ public:
 	double GetExploredTime() const { return m_exploredTime; }
 	void ExploreSystem(double time);
 
+	bool HasCustomBodies() const { return m_hasCustomBodies; }
+
 	fixed GetMetallicity() const { return m_metallicity; }
 	fixed GetIndustrial() const { return m_industrial; }
 	fixed GetAgricultural() const { return m_agricultural; }
@@ -169,8 +171,6 @@ private:
 
 public:
 	GeneratorAPI(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache *cache, Random &rand);
-
-	bool HasCustomBodies() const { return m_hasCustomBodies; }
 
 	void SetCustom(bool isCustom, bool hasCustomBodies)
 	{

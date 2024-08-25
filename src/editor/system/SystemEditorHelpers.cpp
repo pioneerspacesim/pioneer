@@ -2,6 +2,9 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SystemEditorHelpers.h"
+
+#include "MathUtil.h"
+
 #include "core/macros.h"
 #include "gameconsts.h"
 
@@ -265,18 +268,18 @@ bool Draw::InputFixedRadius(const char *str, fixed *val, bool is_solar, ImGuiInp
 	if (ImGui::IsDisabled()) val_step *= 0.0;
 
 	if (is_solar && unit_type != RADIUS_SOLS)
-		val_d *= unit_type == RADIUS_EARTH ? SOL_TO_EARTH_MASS : SOL_RADIUS_KM;
+		val_d *= unit_type == RADIUS_EARTH ? SOL_TO_EARTH_RADIUS : SOL_RADIUS_KM;
 	if (!is_solar && unit_type != RADIUS_EARTH)
-		val_d *= unit_type == RADIUS_SOLS ? (1.0 / SOL_TO_EARTH_MASS) : EARTH_RADIUS_KM;
+		val_d *= unit_type == RADIUS_SOLS ? (1.0 / SOL_TO_EARTH_RADIUS) : EARTH_RADIUS_KM;
 
 	ImGui::SameLine(0.f, 1.f);
 	Draw::SubtractItemWidth();
 	bool changed = ImGui::InputDouble(str, &val_d, val_step, val_step * 10.0, radius_formats[unit_type], flags);
 
 	if (is_solar && unit_type != RADIUS_SOLS)
-		val_d /= unit_type == RADIUS_EARTH ? SOL_TO_EARTH_MASS : SOL_RADIUS_KM;
+		val_d /= unit_type == RADIUS_EARTH ? SOL_TO_EARTH_RADIUS : SOL_RADIUS_KM;
 	if (!is_solar && unit_type != RADIUS_EARTH)
-		val_d /= unit_type == RADIUS_SOLS ? (1.0 / SOL_TO_EARTH_MASS) : EARTH_RADIUS_KM;
+		val_d /= unit_type == RADIUS_SOLS ? (1.0 / SOL_TO_EARTH_RADIUS) : EARTH_RADIUS_KM;
 
 	if (changed)
 		*val = fixed::FromDouble(val_d);
