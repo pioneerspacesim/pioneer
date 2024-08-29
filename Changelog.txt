@@ -4,6 +4,9 @@ August 2024
     * Added Perf-Info button to Dump a system to systemeditor compatible JSON (#5888)
     * Station Police shows: crime records, rules & regulations, banned goods (#5863)
     * Redesign Save/Load window, add UI Notification system (#5898)
+    * Added/remade 3 new factions (#5892)
+    * Add ability to reroll random systems to System Editor (#5901)
+    * Clarify system-level economy display (#5900)
 
   * Fixes
     * Fix crash in mission list in hyper space when combat mission (#5872)
@@ -17,6 +20,7 @@ August 2024
     * Separating shield.models (#5853)
     * Separate shield meshes from ship models (#5840)
     * Don't build against lzcnt by default and enable USE_SSE42 only on Intel (#5871)
+    * Improve PerfInfo debug window (#5899)
 
 July 2024
   * New Features
