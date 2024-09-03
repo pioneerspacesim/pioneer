@@ -45,11 +45,6 @@ public:
 
 	~GeoPatch();
 
-	inline void NeedToUpdateVBOs()
-	{
-		m_needUpdateVBOs = (nullptr != m_heights);
-	}
-
 	void UpdateVBOs(Graphics::Renderer *renderer);
 
 	int GetChildIdx(const GeoPatch *child) const
@@ -59,12 +54,6 @@ public:
 		}
 		abort();
 		return -1;
-	}
-
-	// in patch surface coords, [0,1]
-	inline vector3d GetSpherePoint(const double x, const double y) const
-	{
-		return (m_v0 + x * (1.0 - y) * (m_v1 - m_v0) + x * y * (m_v2 - m_v0) + (1.0 - x) * y * (m_v3 - m_v0)).Normalized();
 	}
 
 	void Render(Graphics::Renderer *r, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum);
@@ -77,7 +66,7 @@ public:
 				merge &= m_kids[i]->canBeMerged();
 			}
 		}
-		merge &= !(m_HasJobRequest);
+		merge &= !(HasJobRequest());
 		return merge;
 	}
 
@@ -89,7 +78,41 @@ public:
 	void ReceiveHeightResult(const SSplitResultData &data);
 	void ReceiveJobHandle(Job::Handle job);
 
-	inline bool HasHeightData() const { return (m_heights.get() != nullptr); }
+	inline bool HasHeightData() const { return (m_patchVBOData != nullptr) && (m_patchVBOData->m_heights.get() != nullptr); }
+
+	// used by GeoSphere so must be public
+	inline void SetNeedToUpdateVBOs()
+	{
+		m_needUpdateVBOs = HasHeightData();
+	}
+
+private:
+
+	inline bool NeedToUpdateVBOs() const
+	{
+		return m_needUpdateVBOs;
+	}
+
+	inline void ClearNeedToUpdateVBOs()
+	{
+		m_needUpdateVBOs = false;
+	}
+
+	inline void SetHasJobRequest()
+	{
+		m_hasJobRequest = true;
+	}
+
+	inline bool HasJobRequest() const
+	{
+		return m_hasJobRequest;
+	}
+
+	inline void ClearHasJobRequest()
+	{
+		m_hasJobRequest = false;
+	}
+
 
 private:
 	static const int NUM_KIDS = 4;
@@ -97,23 +120,51 @@ private:
 	bool IsOverHorizon(const vector3d &camPos);
 
 	RefCountedPtr<GeoPatchContext> m_ctx;
-	const vector3d m_v0, m_v1, m_v2, m_v3;
-	std::unique_ptr<double[]> m_heights;
-	std::unique_ptr<vector3f[]> m_normals;
-	std::unique_ptr<Color3ub[]> m_colors;
-	std::unique_ptr<Graphics::MeshObject> m_patchMesh;
-	std::unique_ptr<GeoPatch> m_kids[NUM_KIDS];
-	GeoPatch *m_parent;
-	GeoSphere *m_geosphere;
-	double m_roughLength;
-	vector3d m_clipCentroid, m_centroid;
-	double m_clipRadius;
-	Sint32 m_depth;
-	bool m_needUpdateVBOs;
+	struct Corners {
+		Corners(const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_) :
+			m_v0(v0_),
+			m_v1(v1_),
+			m_v2(v2_),
+			m_v3(v3_)
+		{}
+		Corners() = delete;
+		const vector3d m_v0, m_v1, m_v2, m_v3;
+	}; 
 
+	struct PatchVBOData {
+		PatchVBOData() = delete;
+		PatchVBOData(double* h, vector3f* n, Color3ub* c)
+		{
+			m_heights.reset(h);
+			m_normals.reset(n);
+			m_colors.reset(c);
+		}
+		~PatchVBOData() {
+			m_heights.reset();
+			m_normals.reset();
+			m_colors.reset();
+			m_patchMesh.reset();
+		}
+		std::unique_ptr<double[]> m_heights;
+		std::unique_ptr<vector3f[]> m_normals;
+		std::unique_ptr<Color3ub[]> m_colors;
+		std::unique_ptr<Graphics::MeshObject> m_patchMesh;
+	};
+
+	std::unique_ptr<Corners> m_corners;
+	std::unique_ptr<PatchVBOData> m_patchVBOData;
+	std::unique_ptr<GeoPatch> m_kids[NUM_KIDS];
+
+	vector3d m_clipCentroid;
+	GeoSphere *m_geosphere;
+	double m_splitLength; // rough length, is how near to the camera the m_clipCentroid should be before it must split
+	double m_clipRadius;
 	const GeoPatchID m_PatchID;
 	Job::Handle m_job;
-	bool m_HasJobRequest;
+	Sint32 m_depth;
+	uint8_t m_patchUpdateState;
+	bool m_needUpdateVBOs;
+	bool m_hasJobRequest;
 #ifdef DEBUG_BOUNDING_SPHERES
 	std::unique_ptr<Graphics::Drawables::Sphere3D> m_boundsphere;
 #endif
