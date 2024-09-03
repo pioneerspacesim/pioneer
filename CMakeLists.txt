@@ -59,32 +59,6 @@ if (APPLE)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu")
 endif(APPLE)
 
-<<<<<<< HEAD
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm" OR CMAKE_SYSTEM_PROCESSOR MATCHES "aarch")
-    # maybe for performance we can add options here?
-    if(PIONEER_TARGET_RASPBERRY_PI)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mcpu=cortex-a76 -ffast-math")
-    endif(PIONEER_TARGET_RASPBERRY_PI)
-else()
-    option(USE_SSE42 "Compile for SSE4.2 compatible microarchitectures (enables optimizations)" ON)
-
-    if (USE_SSE42)
-	    if (NOT MSVC)
-		    add_compile_options("-msse4.2" "-mlzcnt" "-mpopcnt")
-	    endif()
-    endif (USE_SSE42)
-
-    option(USE_AVX2 "Compile for AVX2 compatible microarchitectures (Haswell and newer)" OFF)
-
-    if (USE_AVX2)
-	    if (MSVC)
-		    add_compile_options("/arch:AVX2")
-	    else()
-		    add_compile_options("-mavx2")
-	    endif()
-    endif(USE_AVX2)
-endif(CMAKE_SYSTEM_PROCESSOR MATCHES "arm" OR CMAKE_SYSTEM_PROCESSOR MATCHES "aarch")
-=======
 option(USE_SSE42 "Compile for SSE4.2 compatible microarchitectures (enables optimizations)" ${PIONEER_TARGET_INTEL})
 
 if (USE_SSE42)
@@ -102,7 +76,13 @@ if (USE_AVX2)
 		add_compile_options("-mavx2" "-mlzcnt")
 	endif()
 endif(USE_AVX2)
->>>>>>> 9b6c6c2e44f4f26f9454e95e9bba7115d03f9e38
+
+option(USE_ARM "Compile for ARM compatible microarchitectures" ${PIONEER_TARGET_ARM})
+
+if (USE_ARM)
+	add_compile_options("-mcpu=cortex-a76" "-ffast-math")
+	# set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mcpu=cortex-a76 -ffast-math")
+endif (USE_ARM)
 
 option(USE_LLD_LINKER "Use the LLVM lld linker instead of gcc's linker" OFF)
 if (CMAKE_COMPILER_IS_GNUCXX)
