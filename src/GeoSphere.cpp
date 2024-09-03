@@ -342,7 +342,7 @@ void GeoSphere::Update()
 	} break;
 	case eReceivedFirstPatches: {
 		for (int i = 0; i < NUM_PATCHES; i++) {
-			m_patches[i]->NeedToUpdateVBOs();
+			m_patches[i]->SetNeedToUpdateVBOs();
 		}
 		m_initStage = eDefaultUpdateState;
 	} break;
