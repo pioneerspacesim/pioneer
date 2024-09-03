@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "BaseSphere.h"
@@ -19,6 +19,9 @@ struct BaseSphereDataBlock {
 	float geosphereAtmosFogDensity;
 	float geosphereAtmosInvScaleHeight;
 	Color4f atmosColor;
+	alignas(16) vector3f coefficientsR;
+	alignas(16) vector3f coefficientsM;
+	alignas(16) vector2f scaleHeight;
 
 	// Eclipse struct data
 	alignas(16) vector3f shadowCentreX;
@@ -28,7 +31,7 @@ struct BaseSphereDataBlock {
 	alignas(16) vector3f lrad;
 	alignas(16) vector3f sdivlrad;
 };
-static_assert(sizeof(BaseSphereDataBlock) == 144, "");
+static_assert(sizeof(BaseSphereDataBlock) == 192, "");
 
 BaseSphere::BaseSphere(const SystemBody *body) :
 	m_sbody(body),
@@ -78,8 +81,8 @@ void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,
 	renderer->SetTransform(matrix4x4f(modelView * matrix4x4d::ScaleMatrix(rad) * invrot));
 
 	if (!m_atmos)
-		m_atmos.reset(new Drawables::Sphere3D(renderer, mat, 4, 1.0f, ATTRIB_POSITION));
-	m_atmos->Draw(renderer);
+		m_atmos.reset(new Drawables::Sphere3D(renderer, 4, 1.0f, ATTRIB_POSITION));
+	m_atmos->Draw(renderer, mat.Get());
 
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_ATMOSPHERES, 1);
 }
@@ -90,13 +93,16 @@ void BaseSphere::SetMaterialParameters(const matrix4x4d &trans, const float radi
 {
 	BaseSphereDataBlock matData{};
 
-	matData.geosphereCenter = vector3f(trans * vector3d(0.0));
-	matData.geosphereRadius = radius;
+	matData.geosphereCenter = vector3f(trans * vector3d(0.0)) / radius;
+	matData.geosphereRadius = ap.planetRadius;
 	matData.geosphereInvRadius = 1.0f / radius;
 	matData.geosphereAtmosTopRad = ap.atmosRadius;
 	matData.geosphereAtmosFogDensity = ap.atmosDensity;
 	matData.geosphereAtmosInvScaleHeight = ap.atmosInvScaleHeight;
 	matData.atmosColor = ap.atmosCol.ToColor4f();
+	matData.coefficientsR = ap.rayleighCoefficients;
+	matData.coefficientsM = ap.mieCoefficients;
+	matData.scaleHeight = ap.scaleHeight;
 
 	// we handle up to three shadows at a time
 	auto it = shadows.cbegin(), itEnd = shadows.cend();
@@ -115,7 +121,8 @@ void BaseSphere::SetMaterialParameters(const matrix4x4d &trans, const float radi
 	// FIXME: these two should share the same buffer data instead of making two separate allocs
 	m_surfaceMaterial->SetBufferDynamic(s_baseSphereData, &matData);
 	m_surfaceMaterial->SetPushConstant(s_numShadows, int(shadows.size()));
-	if (ap.atmosDensity > 0.0) {
+
+	if (m_atmosphereMaterial.Valid() && ap.atmosDensity > 0.0) {
 		m_atmosphereMaterial->SetBufferDynamic(s_baseSphereData, &matData);
 		m_atmosphereMaterial->SetPushConstant(s_numShadows, int(shadows.size()));
 	}

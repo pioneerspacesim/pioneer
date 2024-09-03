@@ -495,6 +495,10 @@
     "description": "",
     "message": "该保存的游戏因为系统错误而无法被写入."
   },
+  "GAME_SAVE_INVALID_NAME": {
+    "description": "",
+    "message": "该保存的游戏因为无效的名字而无法被写入。"
+  },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
     "message": "通用视角控制"
@@ -1288,7 +1292,7 @@
     "message": "废料"
   },
   "SCOOP": {
-    "description": "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+    "description": "Is followed by a number, representing scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
     "message": "收集器槽位数"
   },
   "SCREENSHOT_FILENAME_TEMPLATE": {
@@ -1746,6 +1750,10 @@
   "UNIT_AU": {
     "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
     "message": "天文单位"
+  },
+  "UNIT_CUBIC_METERS": {
+    "description": "Volume unit: cubic meter",
+    "message": "m³"
   },
   "UNIT_DAYS": {
     "description": "Duration unit: one 24-hour day",

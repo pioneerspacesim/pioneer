@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GRAPHICS_RENDERTARGET_H
@@ -27,12 +27,12 @@ namespace Graphics {
 			numSamples(_samples)
 		{}
 
-		const Uint16 width;
-		const Uint16 height;
-		const TextureFormat colorFormat;
-		const TextureFormat depthFormat;
-		const bool allowDepthTexture;
-		const Uint16 numSamples;
+		Uint16 width;
+		Uint16 height;
+		TextureFormat colorFormat;
+		TextureFormat depthFormat;
+		bool allowDepthTexture;
+		Uint16 numSamples;
 	};
 
 	class RenderTarget {

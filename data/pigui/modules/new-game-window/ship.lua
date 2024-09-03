@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui'
@@ -20,12 +20,12 @@ local textTable = require 'pigui.libs.text-table'
 local Defs = require 'pigui.modules.new-game-window.defs'
 local GameParam = require 'pigui.modules.new-game-window.game-param'
 local Widgets = require 'pigui.modules.new-game-window.widgets'
+local Helpers = require 'pigui.modules.new-game-window.helpers'
 local Crew = require 'pigui.modules.new-game-window.crew'
 
 local layout = {}
 local ShipModel = {}
 local ShipSummary = {}
-
 
 --
 -- ship type
@@ -67,17 +67,25 @@ function ShipType:setShipID(shipID)
 	assert(index, "unknown ship ID: " .. tostring(shipID))
 	ShipType.value = shipID
 	self.selected = index - 1
-	ShipModel:updateModel()
 end
 
 function ShipType:fromStartVariant(variant)
 	self:setShipID(variant.shipType)
-	self:setLock(true)
+	self.lock = true
 end
 
 function ShipType:isValid()
 	return self.value and self.idMap[self.value]
 end
+
+ShipType.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		local shipID, errorString = Helpers.getPlayerShipParameter(saveGame, "model_body/model_name")
+		if errorString then return nil, errorString end
+		return shipID
+	end
+}}
 
 
 --
@@ -91,7 +99,7 @@ ShipName.layout = {}
 function ShipName:draw()
 	Widgets.alignLabel(lui.SHIP_NAME, self.layout, function()
 		local txt, changed = Widgets.inputText(self.lock, self:isValid(), "##shipname", self.value, function()
-			self.value = ShipNames.generateRandom()
+			return ShipNames.generateRandom()
 		end)
 		if changed then self.value = txt end
 	end)
@@ -99,13 +107,22 @@ end
 
 function ShipName:fromStartVariant(variant)
 	self.value = ShipNames.generateRandom()
-	self:setLock(false)
+	self.lock = false
 end
 
 function ShipName:isValid()
 	-- I think 50 characters is enough
 	return self.value and #self.value > 0 and #self.value < 50
 end
+
+ShipName.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		local shipName, errorString = Helpers.getPlayerShipParameter(saveGame, "ship/name")
+		if errorString then return nil, errorString end
+		return shipName
+	end
+}}
 
 
 --
@@ -118,21 +135,33 @@ ShipLabel.value = ""
 function ShipLabel:draw()
 	Widgets.oneLiner(lui.REGISTRATION_NUMBER, self.layout, function()
 		local txt, changed = Widgets.inputText(self.lock, self:isValid(), "##ShipLabel", self.value, function()
-			self.value = ShipObject.MakeRandomLabel()
+			return ShipObject.MakeRandomLabel()
 		end)
-		if changed then self.value = txt end
+		if changed then
+			self.value = txt
+			ShipModel:updateModel()
+		end
 	end)
 end
 
 function ShipLabel:fromStartVariant(--[[variant]])
 	self.value = ShipObject.MakeRandomLabel()
-	self:setLock(true)
+	self.lock = false
 end
 
 function ShipLabel:isValid()
 	-- AB-1234
 	return self.value and string.match(self.value, "^%u%u%-%d%d%d%d$")
 end
+
+ShipLabel.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		local shipLabel, errorString = Helpers.getPlayerShipParameter(saveGame, "body/label")
+		if errorString then return nil, errorString end
+		return shipLabel
+	end
+}}
 
 
 --
@@ -153,12 +182,21 @@ end
 
 function ShipFuel:fromStartVariant(--[[variant]])
 	self.value = 100
-	self:setLock(true)
+	self.lock = true
 end
 
 function ShipFuel:isValid()
 	return self.value and self.value >= 0 and self.value <= 100
 end
+
+ShipFuel.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		local shipFuel, errorString = Helpers.getPlayerShipParameter(saveGame, "ship/thruster_fuel")
+		if errorString then return nil, errorString end
+		return math.ceil(shipFuel * 100)
+	end
+}}
 
 
 --
@@ -177,12 +215,13 @@ ShipModel.skin = false
 ShipModel.numPatterns = 1
 
 function ShipModel:updateModel()
-	if not self.skin then return end
 	local modelName = ShipDef[ShipType.value].modelName
 	local model = Engine.GetModel(modelName)
 	self.numPatterns = model.numPatterns
+	if not self.skin then return end
 	local c = self.value.colors
 	self.skin:SetColors({ primary = c[1], secondary = c[2], trim = c[3] })
+	self.skin:SetLabel(ShipLabel.value)
 	self.spinner:setModel(modelName, self.skin, self.value.pattern)
 end
 
@@ -208,7 +247,6 @@ function ShipModel:colorPicker(colorNumber)
 	local changed, color = ui.colorEdit("##edit_model_color_" .. tostring(colorNumber), self.value.colors[colorNumber], { "NoAlpha", "NoInputs" })
 	if changed then
 		self.value.colors[colorNumber] = color
-		local colorNames = { "primary", "secondary", "trim" }
 		self:updateModel()
 	end
 end
@@ -219,14 +257,33 @@ function ShipModel:fromStartVariant(variant)
 		self.value.colors[k] = v
 	end
 	self.value.pattern = variant.pattern
-	self:updateModel()
-	self:setLock(true)
+	self.lock = true
 end
 
 function ShipModel:isValid()
 	return self.numPatterns == 0 or self.value.pattern <= self.numPatterns
 end
 
+ShipModel.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		local pattern, errorString = Helpers.getPlayerShipParameter(saveGame, "model_body/model/cur_pattern_index")
+		if errorString then return nil, errorString end
+		local jsonColors
+		jsonColors, errorString = Helpers.getPlayerShipParameter(saveGame, "ship/model_skin/colors")
+		if errorString then return nil, errorString end
+		if not jsonColors then return nil, "Colors are empty" end
+		local colors = {}
+		for i = 1, 3 do
+			local color = jsonColors[i]
+			if not color or #color ~= 4 then
+				return nil, "Wrong skin color"
+			end
+			table.insert(colors, Color(table.unpack(color)))
+		end
+		return { pattern = pattern + 1, colors = colors }
+	end
+}}
 
 --
 -- ship cargo
@@ -277,31 +334,35 @@ end
 
 function ShipCargo:draw()
 	if not ui.collapsingHeader(lui.CARGO, { "DefaultOpen" }) then return end
-	local allWidth = layout.rightWidth - Defs.scrollWidth
-	local spacing = Defs.gap.x
-	ui.columns(3, "#cargotable")
-	ui.setColumnWidth(0, allWidth - Defs.dragWidth - Defs.removeWidth - spacing * 2)
-	ui.setColumnWidth(1, Defs.dragWidth + spacing)
-	ui.setColumnWidth(2, Defs.removeWidth + spacing)
+
+	-- Indent the table slightly
+	ui.addCursorPos(Vector2(ui.getItemSpacing().x, 0))
+	ui.beginTable("#cargotable", 3, { "SizingFixedFit" })
+	ui.tableSetupColumn("label", { "WidthStretch" })
+
 	for _, v in ipairs(self.textTable) do
+		ui.tableNextRow()
+		ui.tableNextColumn()
+
 		ui.alignTextToFramePadding()
 		ui.text(v.label)
-		ui.nextColumn()
+
+		ui.tableNextColumn()
 		ui.nextItemWidth(Defs.dragWidth)
 		local value, changed = Widgets.incrementDrag(self.lock, "##drag"..v.id, self.value[v.id], 1, 1, 1000000, "%.0ft")
 		if changed then
 			self.value[v.id] = math.round(value)
 			self:updateDrawItems()
 		end
-		ui.nextColumn()
-		if not self.lock and ui.iconButton(ui.theme.icons.retrograde, Vector2(Defs.removeWidth, Defs.removeWidth), "##cargoremove" .. v.id) then
+
+		ui.tableNextColumn()
+		if not self.lock and ui.iconButton("##cargoremove" .. v.id, ui.theme.icons.cross, nil, nil, Vector2(Defs.removeWidth, Defs.removeWidth)) then
 			self.value[v.id] = nil
 			self:updateDrawItems()
 		end
-		ui.nextColumn()
 	end
 
-	ui.columns(1)
+	ui.endTable()
 
 	if not self.lock then
 		ui.nextItemWidth(Defs.addWidth)
@@ -321,7 +382,7 @@ function ShipCargo:fromStartVariant(variant)
 		self.value[entry[1].name] = entry[2]
 	end
 	self:updateDrawItems()
-	self:setLock(true)
+	self.lock = true
 end
 --
 -- to_remove: table { x1 = true, ... }
@@ -346,6 +407,19 @@ function ShipCargo:isValid()
 	ShipSummary:prepareAndValidateParamList()
 	return ShipSummary.cargo.valid
 end
+
+ShipCargo.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		local cargo, errorString = Helpers.getPlayerShipParameter(saveGame, "lua_components/CargoManager/commodities")
+		if errorString then return nil, errorString end
+		local result = {}
+		for k, v in pairs(cargo) do
+			result[k] = v.count
+		end
+		return result
+	end
+}}
 
 
 --
@@ -492,17 +566,17 @@ function ShipEquip:removeHyperdrive()
 end
 
 -- adding 1 item, without breaking the alphabetical order
-function ShipEquip:addMiscEntry(newID)
-	for i, entry in ipairs(self.value.misc) do
+local function addMiscEntry(miscTable, newID)
+	for i, entry in ipairs(miscTable) do
 		if newID < entry.id then
-			table.insert(self.value.misc, i, { id = newID, amount = 1 })
-			newID = nil
-			break
+			table.insert(miscTable, i, { id = newID, amount = 1 })
+			return
+		elseif newID == entry.id then
+			entry.amount = entry.amount + 1
+			return
 		end
 	end
-	if newID then
-		table.insert(self.value.misc, { id = newID, amount = 1 })
-	end
+	table.insert(miscTable, { id = newID, amount = 1 })
 end
 
 local function addToTable(tbl, key, count)
@@ -635,19 +709,22 @@ function ShipEquip:draw()
 	local section = self.sections.misc
 	ui.text(section.label .. ":")
 
-	ui.columns(4, "#misc_equip_table")
-	ui.setColumnWidth(0, allWidth - Defs.dragWidth - Defs.removeWidth - Defs.eqTonnesWidth - spacing * 3)
-	ui.setColumnWidth(1, Defs.dragWidth + spacing)
-	ui.setColumnWidth(2, Defs.eqTonnesWidth + spacing)
-	ui.setColumnWidth(3, Defs.removeWidth + spacing)
-	local count = 0
+	-- Indent the table slightly
+	ui.addCursorPos(Vector2(ui.getItemSpacing().x, 0))
 
-	for _, v in ipairs(self.value.misc) do
-		count = count + 1
+	ui.beginTable("misc_equip_table", 4, { "SizingFixedFit" })
+	ui.tableSetupColumn("label", { "WidthStretch" })
+	ui.tableSetupColumn("quantity")
+	ui.tableSetupColumn("mass", nil, Defs.eqTonnesWidth)
+
+	for i, v in ipairs(self.value.misc) do
+		ui.tableNextRow()
+		ui.tableNextColumn()
+
 		local eqType = findEquipmentType(v.id)
 		ui.alignTextToFramePadding()
 		ui.text(leq[eqType.l10n_key])
-		ui.nextColumn()
+		ui.tableNextColumn()
 		if hasSlotClass(v.id, multiSlot) then
 			ui.nextItemWidth(Defs.dragWidth)
 			local value, changed = Widgets.incrementDrag(self.lock, "##eqdrag"..v.id, v.amount, 1, 1, 1000000, "x %.0f")
@@ -656,18 +733,18 @@ function ShipEquip:draw()
 				self:update()
 			end
 		end
-		ui.nextColumn()
+		ui.tableNextColumn()
 		ui.alignTextToFramePadding()
 		ui.text(tostring(eqType.capabilities.mass * v.amount)..'t')
-		ui.nextColumn()
-		if not self.lock and ui.iconButton(ui.theme.icons.retrograde, Vector2(Defs.removeWidth, Defs.removeWidth), "##eqremove" .. v.id) then
-			table.remove(self.value.misc, count)
+		ui.tableNextColumn()
+		if not self.lock and ui.iconButton("##eqremove" .. v.id, ui.theme.icons.cross, nil, nil, Vector2(Defs.removeWidth, Defs.removeWidth)) then
+			table.remove(self.value.misc, i)
 			self:update()
 		end
-		ui.nextColumn()
+		ui.tableNextColumn()
 	end
 
-	ui.columns(1)
+	ui.endTable()
 
 	if not self.lock then
 		local combo = self.combos.misc
@@ -697,7 +774,7 @@ function ShipEquip:draw()
 				end
 			end
 			if not occupied then
-				self:addMiscEntry(newID)
+				addMiscEntry(self.value.misc, newID)
 				self:update()
 			end
 		end
@@ -719,7 +796,7 @@ function ShipEquip:fromStartVariant(variant)
 		local eq, amount = table.unpack(entry)
 		local eq_list, id = findEquipmentPath(eq.l10n_key)
 		if eq_list == 'misc' then
-			self:addMiscEntry(id)
+			addMiscEntry(eq_value.misc, id)
 		elseif eq_list == 'laser' then
 			for _ = 1, amount do
 				if not eq_value.laser_front then
@@ -735,13 +812,85 @@ function ShipEquip:fromStartVariant(variant)
 		end
 	end
 	self:update()
-	self:setLock(true)
+	self.lock = true
 end
 
 function ShipEquip:isValid()
 	ShipSummary:prepareAndValidateParamList()
 	return ShipSummary.equip.valid
 end
+
+---@param unitBase table where to find the equipment unit
+---@param unitPath string
+---@param eqTable table with IDs, can be subtable
+---@param eqTableSectionPath string
+---@return string? id
+---@return string? errorString
+local function findSavedEquipmentID(unitBase, unitPath, eqTable, eqTableSectionPath)
+	local entry, errorString = Helpers.getByPath(unitBase, unitPath)
+	-- missing entry is acceptable
+	if errorString then return nil end
+	if entry then
+		local eqSection
+		eqSection, errorString = Helpers.getByPath(eqTable, eqTableSectionPath)
+		if errorString then return nil, errorString end
+		assert(eqSection)
+		for id, eq in pairs(eqSection) do
+			if eq == entry then return id end
+		end
+	end
+end
+
+ShipEquip.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		-- a table with all possible equipment is located directly in the saveGame
+		-- The ship's equipment set stores refs to this table items, and the
+		-- string IDs of the equipment are only in this table
+		local eqTable, errorString = Helpers.getByPath(saveGame, "lua_modules_json/Equipment")
+		if errorString then return nil, errorString end
+		assert(eqTable)
+
+		local eqTableMisc
+		eqTableMisc, errorString = Helpers.getByPath(eqTable, "misc")
+		if errorString then return nil, errorString end
+		assert(eqTableMisc)
+
+		-- table with slots
+		local eqSet
+		eqSet, errorString = Helpers.getPlayerShipParameter(saveGame, "ship/equipSet/lua_ref_json/slots")
+		if errorString then return nil, errorString end
+
+		local engine, laser_front, laser_rear
+
+		local misc = {}
+		for slotName, slot in pairs(eqSet) do
+			if slotName == 'engine' then
+				engine, errorString = findSavedEquipmentID(slot, "#1", eqTable, "hyperspace")
+			elseif slotName == 'laser_front' then
+				laser_front, errorString = findSavedEquipmentID(slot, "#1", eqTable, "laser")
+			elseif slotName == 'laser_rear' then
+				laser_rear, errorString = findSavedEquipmentID(slot, "#1", eqTable, "laser")
+			elseif #slot > 0 then
+				for _, unit in ipairs(slot) do
+					local entry
+					entry, errorString = findSavedEquipmentID(unit, "", eqTableMisc, "")
+					if entry then
+						addMiscEntry(misc, entry)
+					end
+				end
+			end
+			if errorString then return nil, errorString end
+		end
+
+		return {
+			engine = engine,
+			laser_front = laser_front,
+			laser_rear = laser_rear,
+			misc = misc
+		}
+	end
+}}
 
 
 --
@@ -879,7 +1028,7 @@ local function draw()
 			end
 
 			ui.setCursorPos(pos + Vector2(Defs.gap.x, - Defs.gap.y * 2 - Defs.buttonSize))
-			if ui.iconButton(ui.theme.icons.random, Vector2(Defs.buttonSize), "##ship_model_random_button") then
+			if ui.iconButton("randomize_colors", ui.theme.icons.random, nil, nil, Vector2(Defs.buttonSize)) then
 				ShipModel.skin:SetRandomColors(Defs.rand)
 				ShipModel.value.colors = ShipModel.skin:GetColors()
 				ShipModel:updateModel()
@@ -927,10 +1076,18 @@ local function updateLayout()
 	ShipSummary.valueWidth = ui.calcTextSize("-3000t / 3000t-").x -- to update
 end
 
+local function updateParams()
+	ShipType:setShipID(ShipType.value)
+	ShipModel:updateModel()
+	ShipCargo:updateDrawItems()
+	ShipEquip:update()
+end
+
 return {
 	TabName = lui.SHIP,
 	draw = draw,
 	updateLayout = updateLayout,
+	updateParams = updateParams,
 	Type = ShipType,
 	Name = ShipName,
 	Label = ShipLabel,

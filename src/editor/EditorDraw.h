@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -42,12 +42,6 @@ namespace Editor::Draw {
 
 	// End a horizontal layout block
 	void EndLayout();
-
-	// Setup horizontal layout for a button bar
-	void BeginHorizontalBar();
-
-	// End a horizontal layout block
-	void EndHorizontalBar();
 
 	// Show a window to debug the state of the passed undo system
 	void ShowUndoDebugWindow(UndoSystem *undo, bool *p_open = nullptr);

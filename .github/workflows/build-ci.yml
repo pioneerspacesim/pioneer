@@ -11,6 +11,10 @@ on:
     paths:
     - 'src/**.cpp'
     - 'src/**.h'
+    - '**/CMakeLists.txt'
+    - '.github/workflows/build-ci.yml'
+    - '.github/actions/*/action.yml'
+    - 'cmake/*.cmake'
   release:
     types: [published]
 
@@ -37,12 +41,16 @@ jobs:
     runs-on: windows-2019
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Install Dependencies
+      run: |
+        choco install gawk -y
+
+    - uses: actions/checkout@v4
       with:
         path: pioneer
 
     - name: Checkout pioneer-thirdparty
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: pioneerspacesim/pioneer-thirdparty
         path: pioneer-thirdparty
@@ -50,11 +58,13 @@ jobs:
     - name: Build MSVC
       shell: cmd
       run: |
+        for /f %%i in ('echo ${{ github.ref }} ^| awk -F "/" "/pull/ { print \"PR#\"$3 } /heads/ { print $3 }"') do set PROJECT_VERSION_INFO=%%i
+        echo Project Version: %PROJECT_VERSION_INFO%
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         cd pioneer
         mkdir build
         cd build
-        cmake .. -G Ninja -DCMAKE_INSTALL_PREFIX="C:/Program Files/Pioneer" -DPIONEER_DATA_DIR="C:/Program Files/Pioneer/data" -DCMAKE_BUILD_TYPE:STRING=Release -DGIT_EXECUTABLE="c:/Program Files/Git/cmd/git.exe"
+        cmake .. -G Ninja -DCMAKE_INSTALL_PREFIX="C:/Program Files/Pioneer" -DPIONEER_DATA_DIR="C:/Program Files/Pioneer/data" -DCMAKE_BUILD_TYPE:STRING=Release -DGIT_EXECUTABLE="c:/Program Files/Git/cmd/git.exe" -DPROJECT_VERSION_INFO="%PROJECT_VERSION_INFO%"
         cmake --build .
 
     - name: Build Pioneer Data
@@ -73,10 +83,12 @@ jobs:
         cmake --build . --target win-installer
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Windows-Artifacts
         path: pioneer/pioneer-*-win.exe
+        retention-days: 14
+        compression-level: 0 # contains a pre-compressed self-extracting archive...
 
     - name: Upload Release Files
       uses: softprops/action-gh-release@v1
@@ -91,7 +103,7 @@ jobs:
 
     steps:
     # Checkout the repository as $GITHUB_WORKSPACE
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install Dependencies
       run: |
@@ -100,8 +112,9 @@ jobs:
 
     - name: Setup CMake
       run: |
+        echo "Project Version: $(echo "${{ github.ref }}" | awk -F '/' '/pull/ { print "PR#"$3 } /heads/ { print $3 }')"
         cp scripts/CMakeBuildPresetsCI.json CMakeUserPresets.json
-        cmake -G Ninja --preset linux-x64-release
+        cmake -G Ninja --preset linux-x64-release -DPROJECT_VERSION_INFO=$(echo "${{ github.ref }}" | awk -F '/' '/pull/ { print "PR#"$3 } /heads/ { print $3 }')
 
     - name: Build GCC
       run: cmake --build ./build --target all
@@ -120,12 +133,42 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         upload_release: true
 
-  build-gcc-avx:
+  build-clang:
     runs-on: ubuntu-20.04
 
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+    # Checkout the repository as $GITHUB_WORKSPACE
+    - uses: actions/checkout@v4
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-fast update
+        sudo apt-fast install -y clang-8 ${{ env.packages }}
+
+    - name: Setup CMake
+      run: |
+        echo "Project Version: $(echo "${{ github.ref }}" | awk -F '/' '/pull/ { print "PR#"$3 } /heads/ { print $3 }')"
+        cp scripts/CMakeBuildPresetsCI.json CMakeUserPresets.json
+        export CC=clang CXX=clang++
+        cmake -G Ninja --preset linux-x64-release -DPROJECT_VERSION_INFO=$(echo "${{ github.ref }}" | awk -F '/' '/pull/ { print "PR#"$3 } /heads/ { print $3 }')
+
+    - name: Build Clang
+      run: cmake --build ./build --target all
+
+    - name: Build Pioneer Data
+      run: cmake --build ./build --target build-data
+
+    - name: Run Tests
+      run: ./build/unittest
+
+  build-appimage:
+    runs-on: ubuntu-20.04
+    if: ${{github.event_name == 'release'}}
     steps:
     # Checkout the repository as $GITHUB_WORKSPACE
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install Dependencies
       run: |
@@ -135,7 +178,7 @@ jobs:
     - name: Setup CMake
       run: |
         cp scripts/CMakeBuildPresetsCI.json CMakeUserPresets.json
-        cmake -G Ninja --preset linux-x64-release-avx
+        cmake -G Ninja --preset linux-x64-release-appimage
 
     - name: Build GCC
       run: cmake --build ./build --target all
@@ -147,38 +190,9 @@ jobs:
       run: ./build/unittest
 
     - name: Generate Artifacts
-      uses: ./.github/actions/upload-linux
+      uses: ./.github/actions/upload-appimage
       with:
-        artifact_name: Linux 64-bit (AVX2 enabled)
-        build_slug: linux-x64-release-avx
+        artifact_name: Linux 64-bit Appimage
+        build_slug: linux-x64-release-appimage
         token: ${{ secrets.GITHUB_TOKEN }}
         upload_release: true
-
-  build-clang:
-    runs-on: ubuntu-20.04
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-
-    # Checkout the repository as $GITHUB_WORKSPACE
-    - uses: actions/checkout@v3
-
-    - name: Install Dependencies
-      run: |
-        sudo apt-fast update
-        sudo apt-fast install -y clang-8 ${{ env.packages }}
-
-    - name: Setup CMake
-      run: |
-        cp scripts/CMakeBuildPresetsCI.json CMakeUserPresets.json
-        export CC=clang CXX=clang++
-        cmake -G Ninja --preset linux-x64-release
-
-    - name: Build Clang
-      run: cmake --build ./build --target all
-
-    - name: Build Pioneer Data
-      run: cmake --build ./build --target build-data
-
-    - name: Run Tests
-      run: ./build/unittest

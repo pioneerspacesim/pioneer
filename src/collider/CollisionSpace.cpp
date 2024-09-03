@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CollisionSpace.h"
@@ -116,7 +116,7 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double
 	isect_result.reserve(8);
 
 	if (m_enabledStaticGeoms > 0) {
-		m_staticObjectTree->TraceRay(start, dir, len, isect_result);
+		m_staticObjectTree->TraceRay(start, invDir, len, isect_result);
 
 		for (uint32_t &idx : isect_result) {
 			Geom *g = m_staticGeoms[idx];
@@ -127,7 +127,7 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double
 	}
 
 	if (m_enabledDynGeoms > 0) {
-		m_dynamicObjectTree->TraceRay(start, dir, len, isect_result);
+		m_dynamicObjectTree->TraceRay(start, invDir, len, isect_result);
 
 		for (uint32_t &idx : isect_result) {
 			Geom *g = m_geoms[idx];
@@ -236,14 +236,14 @@ uint32_t CollisionSpace::SortEnabledGeoms(std::vector<Geom *> &geoms)
 	// Simple O(n) sort algorithm
 	// Sort geoms according to enabled state (group all enabled geoms at start of array)
 	uint32_t startIdx = 0;
-	uint32_t endIdx = geoms.size() - 1;
+	uint32_t endIdx = geoms.size();
 
-	while (startIdx <= endIdx && endIdx) {
+	while (startIdx < endIdx) {
 		if (geoms[startIdx]->IsEnabled()) {
 			startIdx++;
 		} else {
-			std::swap(geoms[startIdx], geoms[endIdx]);
 			endIdx--;
+			std::swap(geoms[startIdx], geoms[endIdx]);
 		}
 	}
 

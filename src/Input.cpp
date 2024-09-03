@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Input.h"
@@ -135,8 +135,8 @@ static JoystickInfo loadJoystick(SDL_Joystick *joystick, const IniConfig *config
 
 	std::array<char, 33> joystickGUIDName;
 	SDL_JoystickGetGUIDString(state.guid, joystickGUIDName.data(), joystickGUIDName.size());
-	Output("Found joystick '%s' (GUID: %s)\n", SDL_JoystickName(state.joystick), joystickGUIDName.data());
-	Output("  - %ld axes, %ld buttons, %ld hats\n", state.axes.size(), state.buttons.size(), state.hats.size());
+	Log::Info("Found joystick '{}' (GUID: {})\n", SDL_JoystickName(state.joystick), joystickGUIDName.data());
+	Log::Info("  - {} axes, {} buttons, {} hats\n", state.axes.size(), state.buttons.size(), state.hats.size());
 
 	std::string joystickName = "Joystick." + std::string(joystickGUIDName.data());
 
@@ -148,7 +148,7 @@ static JoystickInfo loadJoystick(SDL_Joystick *joystick, const IniConfig *config
 		}
 
 		loadAxisConfig(config->String(joystickName, axisName, ""), state.axes[i]);
-		Output("  - axis %ld: deadzone %.2f, curve: %.2f, half-axis mode: %b\n",
+		Log::Info("  - axis {}: deadzone {:.2f}, curve: {:.2f}, half-axis mode: {}\n",
 			i, state.axes[i].deadzone, state.axes[i].curve, state.axes[i].zeroToOne);
 	}
 	return state;
@@ -251,7 +251,8 @@ Manager::Manager(IniConfig *config, SDL_Window *window) :
 	m_capturingMouse(false),
 	joystickEnabled(true),
 	mouseYInvert(false),
-	m_enableBindings(true)
+	m_enableBindings(true),
+	m_frameListChanged(false)
 {
 	joystickEnabled = (m_config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (m_config->Int("InvertMouseY")) ? true : false;
@@ -347,6 +348,11 @@ void ClearInputFrameState(InputFrame *frame)
 			axis->onAxisValue.emit(0.0);
 		}
 	}
+}
+
+bool Manager::HasInputFrame(InputFrame *frame)
+{
+	return std::count(m_inputFrames.begin(), m_inputFrames.end(), frame) > 0;
 }
 
 void Manager::RemoveInputFrame(InputFrame *frame)

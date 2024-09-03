@@ -105,7 +105,7 @@
   },
   "INTROTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "你好，指挥官。我叫{client}。如果你能帮我，那就太好了。一个不可靠的货轮船长把我的货物遗失在{星球}附近，从此消失了。你的任务是找到那个集装箱，然后把它送到围绕{star}的轨道上的{shipid}船上。我会付你{cash}"
+    "message": "你好，指挥官。我叫{client}。如果你能帮我，那就太好了。一个不可靠的货轮船长把我的货物遗失在{planet}附近，从此消失了。你的任务是找到那个集装箱，然后把它送到围绕{star}的轨道上的{shipid}船上。我会付你{cash}"
   },
   "INTROTEXT_ILLEGAL_GOODS": {
     "description": "",

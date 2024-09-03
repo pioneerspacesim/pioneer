@@ -177,7 +177,7 @@
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "Vår konkurrent hävdar på fullaste allvar att han äger {area} i {system}-systemet ({sectorx}, {sector}, {sectorz}). {org} håller helt enkelt inte med och är villiga att betala {cash} för ett stridsuppdrag vid {area}. {area} ligger på ett avstånd av {dist} ly."
+    "message": "Vår konkurrent hävdar på fullaste allvar att han äger {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). {org} håller helt enkelt inte med och är villiga att betala {cash} för ett stridsuppdrag vid {area}. {area} ligger på ett avstånd av {dist} ly."
   },
   "HARVESTING_3": {
     "description": "{area} is an asteroid or planet",
@@ -309,7 +309,7 @@
   },
   "POLICE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Våra marknader översvämmades av smuggelgods. Källan har spårats tillbaka till en dold bas vid {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Ett avstånd av endast {distans} ly. På grund av den minskade polisbudgeten skulle de lokala myndigheterna vilja lägga ut uppdraget på entreprenad och har tilldelat {cash} krediter för denna operation."
+    "message": "Våra marknader översvämmades av smuggelgods. Källan har spårats tillbaka till en dold bas vid {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Ett avstånd av endast {dist} ly. På grund av den minskade polisbudgeten skulle de lokala myndigheterna vilja lägga ut uppdraget på entreprenad och har tilldelat {cash} krediter för denna operation."
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",

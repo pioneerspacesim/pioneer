@@ -1,7 +1,8 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 ---@class SpaceStation : ModelBody
+---@field techLevel integer
 local SpaceStation = package.core['SpaceStation']
 
 local Economy     = require 'Economy'
@@ -417,9 +418,11 @@ function SpaceStation:AddCommodityStock(itemType, amount)
 	local market = self:GetCommodityMarket(itemType)
 
 	if amount < 0 then
-		market[1] = market[1] + amount
+		-- Buying from market - reduce commodity stock
+		market[1] = math.max(market[1] + amount, 0)
 	else
-		market[2] = market[2] - amount
+		-- Selling to market - reduce commodity demand
+		market[2] = math.max(market[2] - amount, 0)
 	end
 
 	Economy.UpdateCommodityPriceMod(assert(self:GetSystemBody()), itemType.name, market)
@@ -573,11 +576,12 @@ local function addRandomShipAdvert(station, num)
 		local def = avail[Engine.rand:Integer(1,#avail)]
 		local model = Engine.GetModel(def.modelName)
 		local pattern = model.numPatterns ~= 0 and Engine.rand:Integer(1,model.numPatterns) or nil
+		local label = Ship.MakeRandomLabel()
 		addShipOnSale(station, {
 			def     = def,
-			skin    = ModelSkin.New():SetRandomColors(Engine.rand):SetDecal(def.manufacturer),
+			skin    = ModelSkin.New():SetRandomColors(Engine.rand):SetDecal(def.manufacturer):SetLabel(label),
 			pattern = pattern,
-			label   = Ship.MakeRandomLabel(),
+			label   = label,
 		})
 	end
 end
@@ -897,6 +901,7 @@ end
 local function updateAdverts (station)
 	if not SpaceStation.adverts[station] then
 		logWarning("SpaceStation.lua: updateAdverts called for station that hasn't been visited")
+		Event.Queue("onCreateBB", station)
 	else
 		Event.Queue("onUpdateBB", station)
 	end
@@ -941,7 +946,7 @@ function SpaceStation:UnlockAdvert (ref)
 end
 
 local function updateSystem ()
-	local stations = Space.GetBodies(function (b) return b.superType == "STARPORT" end)
+	local stations = Space.GetBodies("SpaceStation")
 	for i, station in ipairs(stations) do
 		-- updateStationMarket(station)
 		Economy.UpdateStationMarket(station:GetSystemBody())
@@ -1008,7 +1013,7 @@ Event.Register("onGameStart", function ()
 
 		visited = loaded_data.visited or {}
 		police = loaded_data.police
-		
+
 		for station,_ in pairs(visited) do
 			createCommodityStock(station)
 		end
@@ -1029,6 +1034,12 @@ Event.Register("onGameStart", function ()
 		end
 
 		loaded_data = nil
+	end
+
+	local station = Game.player:GetDockedWith()
+
+	if station and station:isa("SpaceStation") and not visited[station] then
+		createStationData(station)
 	end
 
 	Timer:CallEvery(3600, updateSystem)

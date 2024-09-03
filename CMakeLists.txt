@@ -4,6 +4,12 @@ project(pioneer LANGUAGES CXX)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 17)
 
+set(PROJECT_VERSION "20240710"
+	CACHE STRING "Version identifier for current compiled build")
+
+set(PROJECT_VERSION_INFO ""
+	CACHE STRING "Additional version information (optional)")
+
 # If both libGL.so and libOpenGL.so are found, default to the latter
 # (former is a legacy name).
 # Set OpenGL_GL_PREFERENCE=LEGACY to force it to use the former.
@@ -11,6 +17,7 @@ if(POLICY CMP0072)
 	cmake_policy(SET CMP0072 NEW)
 endif()
 
+include(cmake/TargetArchitecture.cmake)
 include(cmake/InstallPioneer.cmake)
 
 if (MINGW)
@@ -52,6 +59,7 @@ if (APPLE)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu")
 endif(APPLE)
 
+<<<<<<< HEAD
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm" OR CMAKE_SYSTEM_PROCESSOR MATCHES "aarch")
     # maybe for performance we can add options here?
     if(PIONEER_TARGET_RASPBERRY_PI)
@@ -76,6 +84,25 @@ else()
 	    endif()
     endif(USE_AVX2)
 endif(CMAKE_SYSTEM_PROCESSOR MATCHES "arm" OR CMAKE_SYSTEM_PROCESSOR MATCHES "aarch")
+=======
+option(USE_SSE42 "Compile for SSE4.2 compatible microarchitectures (enables optimizations)" ${PIONEER_TARGET_INTEL})
+
+if (USE_SSE42)
+	if (NOT MSVC)
+		add_compile_options("-msse4.2" "-mpopcnt")
+	endif()
+endif (USE_SSE42)
+
+option(USE_AVX2 "Compile for AVX2 compatible microarchitectures (Haswell and newer)" OFF)
+
+if (USE_AVX2)
+	if (MSVC)
+		add_compile_options("/arch:AVX2")
+	else()
+		add_compile_options("-mavx2" "-mlzcnt")
+	endif()
+endif(USE_AVX2)
+>>>>>>> 9b6c6c2e44f4f26f9454e95e9bba7115d03f9e38
 
 option(USE_LLD_LINKER "Use the LLVM lld linker instead of gcc's linker" OFF)
 if (CMAKE_COMPILER_IS_GNUCXX)
@@ -125,7 +152,9 @@ if (GIT_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.git)
 	)
 endif()
 
-string(TIMESTAMP PROJECT_VERSION "%Y%m%d")
+if(DEFINED PROJECT_VERSION_GIT)
+	string(JOIN " " PROJECT_VERSION_INFO ${PROJECT_VERSION_GIT} ${PROJECT_VERSION_INFO})
+endif()
 
 if (MINGW)
 	# Enable PRIxYY macros on MinGW
@@ -257,6 +286,8 @@ find_package(Threads REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED)
 
+set(FMT_INSTALL OFF CACHE BOOL "Enable install of libfmt" FORCE)
+
 add_subdirectory(contrib/lz4)
 add_subdirectory(contrib/fmt)
 
@@ -315,6 +346,7 @@ add_subdirectory(src/lua)
 
 if (WIN32)
 	string(TIMESTAMP BUILD_YEAR "%Y")
+	string(TIMESTAMP BUILD_DATE "%Y%m%d")
 	set(RESOURCES ${CMAKE_BINARY_DIR}/pioneer.rc)
 	configure_file(pioneer.rc.cmakein ${RESOURCES} @ONLY)
 endif()
@@ -430,6 +462,12 @@ endif(MODELCOMPILER)
 install(TARGETS ${PROJECT_NAME} editor modelcompiler savegamedump
 	RUNTIME DESTINATION ${PIONEER_INSTALL_BINDIR}
 )
+
+if (MSVC)
+	file(GLOB win_libs ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/bin/${MSVC_ARCH}/vs2019/*.dll)
+	install(FILES ${win_libs} DESTINATION ${PIONEER_INSTALL_BINDIR})
+endif (MSVC)
+
 install(DIRECTORY data/
 	DESTINATION ${PIONEER_INSTALL_DATADIR}/data
 	REGEX "/models" EXCLUDE
@@ -437,59 +475,8 @@ install(DIRECTORY data/
 	PATTERN "listdata.*" EXCLUDE
 	PATTERN "Makefile.am" EXCLUDE
 )
+
 install(DIRECTORY data/models/
 	DESTINATION ${PIONEER_INSTALL_DATADIR}/data/models
 	FILES_MATCHING PATTERN "*.sgm" PATTERN "*.dds" PATTERN "*.png"
 )
-
-list(APPEND install_txt
-	"AUTHORS.txt"
-	"Changelog.txt"
-	"Modelviewer.txt"
-	"Quickstart.txt"
-	"README.md")
-
-install(FILES ${install_txt} DESTINATION ${PIONEER_INSTALL_DATADIR})
-
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/licenses
-	DESTINATION ${PIONEER_INSTALL_DATADIR})
-
-if(APPIMAGE_BUILD)
-    set(PIONEER_EXECUTABLE init_pioneer.sh)
-    set(PIONEER_SH_FILE ${CMAKE_BINARY_DIR}/init_pioneer.sh)
-    configure_file(init_pioneer.sh.cmakein ${PIONEER_SH_FILE} @ONLY)
-    install(FILES ${PIONEER_SH_FILE}
-        DESTINATION ${PIONEER_INSTALL_BINDIR}
-        PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE
-    )
-else(APPIMAGE_BUILD)
-    set(PIONEER_EXECUTABLE ${CMAKE_INSTALL_FULL_BINDIR}/pioneer)
-endif(APPIMAGE_BUILD)
-
-if (WIN32)
-	configure_file(pioneer.iss.cmakein pioneer.iss @ONLY)
-	file(GLOB win_libs ../pioneer-thirdparty/win32/bin/${MSVC_ARCH}/vs2019/*.dll)
-	install(FILES ${win_libs} DESTINATION ${CMAKE_INSTALL_PREFIX})
-	if(NOT ISCC)
-		set(ISCC "C:/Program Files (x86)/Inno Setup 6/ISCC.exe")
-	endif(NOT ISCC)
-	add_custom_target(win-installer COMMAND ${ISCC} /Q pioneer.iss)
-endif (WIN32)
-
-if (UNIX AND NOT PIONEER_INSTALL_INPLACE)
-	set(PIONEER_DESKTOP_FILE ${CMAKE_BINARY_DIR}/metadata/net.pioneerspacesim.Pioneer.desktop)
-	configure_file(metadata/net.pioneerspacesim.Pioneer.desktop.cmakein ${PIONEER_DESKTOP_FILE} @ONLY)
-	install(FILES ${PIONEER_DESKTOP_FILE}
-		DESTINATION ${CMAKE_INSTALL_DATADIR}/applications
-	)
-	install(FILES metadata/net.pioneerspacesim.Pioneer.metainfo.xml
-		DESTINATION ${CMAKE_INSTALL_DATADIR}/metainfo
-	)
-
-	foreach(_i IN ITEMS 16 22 24 32 40 48 64 128 256)
-		install(FILES application-icon/pngs/pioneer-${_i}x${_i}.png
-			DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${_i}x${_i}/apps
-			RENAME net.pioneerspacesim.Pioneer.png
-		)
-	endforeach()
-endif (UNIX AND NOT PIONEER_INSTALL_INPLACE)

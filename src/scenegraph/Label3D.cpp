@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Label3D.h"
@@ -52,6 +52,8 @@ namespace SceneGraph {
 	{
 		//regenerate geometry
 		m_geometry->Clear();
+		m_textMesh.reset();
+
 		if (!text.empty()) {
 			m_font->GetGeometry(*m_geometry, text, vector2f(0.f));
 

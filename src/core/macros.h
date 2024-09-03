@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -45,6 +45,10 @@ char (&COUNTOF_Helper(T (&array)[N]))[N];
 #include <malloc.h>
 #define stackalloc(T, n) reinterpret_cast<T *>(_alloca(sizeof(T) * n))
 #else
+#ifdef __FreeBSD__
+#include <stdlib.h>
+#else
 #include <alloca.h>
+#endif
 #define stackalloc(T, n) reinterpret_cast<T *>(alloca(sizeof(T) * n))
 #endif

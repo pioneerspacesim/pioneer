@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SPACESTATION_H
@@ -89,25 +89,18 @@ private:
 	void DockingUpdate(const double timeStep);
 	void PositionDockingShip(Ship *ship, int port) const;
 	void PositionDockedShip(Ship *ship, int port) const;
-	bool LevelShip(Ship *ship, int port, const float timeStep) const;
+	bool LevelShip(Ship *ship, int port, const float timeStep);
 	void DoLawAndOrder(const double timeStep);
 	bool IsPortLocked(const int bay) const;
 	void LockPort(const int bay, const bool lockIt);
+	double GetDockAnimStageDuration(const int bay, const DockStage stage) const;
+	double GetUndockAnimStageDuration(const int bay, const DockStage stage) const;
 
-	/* Stage 0 means docking port empty
-	 * Stage 1 means docking clearance granted to ->ship
-	 * Stage 2 to m_type->numDockingStages is docking animation
-	 * Stage m_type->numDockingStages+1 means evaluating repos
-	 * Stage m_type->numDockingStages+2 means ship is repositioning
-	 * Stage m_type->numDockingStages+3 means ship is just docked
-	 * Stage m_type->numDockingStages+4 means ship is docked
-	 * Stage -1 to -m_type->numUndockStages is undocking animation
-	 */
 	struct shipDocking_t {
 		shipDocking_t() :
 			ship(0),
 			shipIndex(0),
-			stage(0),
+			stage(DockStage::NONE),
 			stagePos(0),
 			fromPos(0.0),
 			fromRot(1.0, 0.0, 0.0, 0.0),
@@ -116,7 +109,7 @@ private:
 
 		Ship *ship;
 		int shipIndex; // deserialisation
-		int stage;
+		DockStage stage;
 		double stagePos;  // 0 -> 1.0
 		vector3d fromPos; // in station model coords
 		Quaterniond fromRot;
@@ -129,6 +122,9 @@ private:
 	SpaceStationType::TPorts m_ports;
 
 	double m_oldAngDisplacement;
+
+	void SwitchToStage(Uint32 bay, DockStage stage);
+	matrix4x4d GetBayTransform(Uint32 bay) const;
 
 	void InitStation();
 	const SpaceStationType *m_type;

@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local e = require 'Equipment'
@@ -200,10 +200,6 @@ Trader.getSystemAndJump = function (ship)
 	if Core.ships[ship].starport then
 		local body = Space.GetBody(Core.ships[ship].starport.path:GetSystemBody().parent.index)
 		local port = Core.ships[ship].starport
-		-- boost away from the starport before jumping if it is too close
-		if (ship:DistanceTo(port) < 20000) then
-			ship:AIEnterLowOrbit(body)
-		end
 		return jumpToSystem(ship, getSystem(ship))
 	end
 end
@@ -216,9 +212,14 @@ local function canAtmo(ship)
 	return ship:CountEquip(e.misc.atmospheric_shielding) ~= 0
 end
 
+local THRUSTER_UP = Engine.GetEnumValue('ShipTypeThruster', 'UP')
+
 Trader.isStarportAcceptableForShip = function(starport, ship)
-	return canAtmo(ship) or not isAtmo(starport)
-	-- TODO add a check to see if the ship has enough engine power to handle gravity
+	if not isAtmo(starport) then return true end
+	if not canAtmo(ship) then return false end
+	local bellyThrust = ship:GetThrusterAcceleration(THRUSTER_UP)
+	local portGravity = starport.path:GetSystemBody().parent.gravity
+	return bellyThrust > portGravity
 end
 
 Trader.getNearestStarport = function(ship, current)
@@ -275,6 +276,19 @@ Trader.removeFuel = function (ship, count)
 	return removed
 end
 
+Trader.checkDistBetweenStarport = function (ship)
+	local trader = Core.ships[ship]
+	if not trader then return nil end
+	local distance
+	if trader.starport.type == "STARPORT_ORBITAL" then
+		distance = ship:DistanceTo(trader.starport)
+	else
+		local stationsParent = trader.starport:GetSystemBody().parent.body
+		distance = ship:GetAltitudeRelTo(stationsParent)
+	end
+	return distance >= trader.hyperjumpDist
+end
+
 -- TRADER DEFERRED TASKS
 --
 -- call the passed function in a specified time, checking whether we are still
@@ -292,6 +306,36 @@ local trader_task = {}
 -- made to serialize pending job execution
 -- the task function prototype should be:
 -- function(ship)
+
+trader_task.hyperjumpAtDistance = function(ship)
+	-- the player may have left the system
+	local trader = Core.ships[ship]
+	if not trader then return end
+	if trader.status == "outbound" and trader.ts_error ~= "HIT" then
+		-- if trader is not under attack and started to leave station
+		if trader.starport ~= nil then
+			-- if trader has not started to hyperjump
+			if trader.hyperjumpDist == nil then
+				trader.hyperjumpDist = Engine.rand:Integer(20000, 240000)
+			end
+			if Trader.checkDistBetweenStarport(ship) then
+				-- if distance is large enough attempt to hyperjump
+				local status = Trader.getSystemAndJump(ship)
+				if status ~= 'OK' then
+					ship:CancelAI()
+					ship:AIDockWith(trader.starport)
+					trader['status'] = 'inbound'
+					trader.ts_error = 'cnt_jump_aicomp'
+				end
+				trader.hyperjumpDist = nil
+			else
+				Trader.assignTask(ship, Game.time + 10, 'hyperjumpAtDistance')
+			end
+		end
+	else
+		trader.hyperjumpDist = nil
+	end
+end
 
 trader_task.doUndock = function(ship)
 	-- the player may have left the system or the ship may have already undocked

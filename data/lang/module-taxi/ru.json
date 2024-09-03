@@ -385,7 +385,7 @@
   },
   "FLAVOUR_4_WHYSOMUCH": {
     "description": "",
-    "message": "Я коммивояжер."
+    "message": "I'm a traveling salesman."
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -457,7 +457,7 @@
   },
   "FLAVOUR_6_WHYSOMUCH": {
     "description": "",
-    "message": "Я независимый журналист, занимаюсь сбором информации для репортажей."
+    "message": "I'm a freelance journalist."
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",

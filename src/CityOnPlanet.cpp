@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CityOnPlanet.h"
@@ -151,7 +151,7 @@ void CityOnPlanet::LoadBuildingType(std::string_view key, const Json &buildingDe
 	}
 
 	Log::Verbose("\tLoaded city building {} ({}x{}c, atm: {}, arl: {}, kind: {}, idleAnim: {})",
-		key, out.cellSize[0], out.cellSize[1], out.rarityAtmo, out.rarityAirless, out.buildingKind, out.idleAnimation != nullptr);
+		key, out.cellSize[0], out.cellSize[1], out.rarityAtmo, out.rarityAirless, int(out.buildingKind), out.idleAnimation != nullptr);
 }
 
 void CityOnPlanet::LoadCityFlavour(const FileSystem::FileInfo &file)

@@ -45,7 +45,7 @@
   },
   "BIND_CONTROL_LANDING_GEAR": {
     "description": "Axis description",
-    "message": "Raise / Lower Landing Gear"
+    "message": "Ανέσυρε/Κατέβασε το σύστημα προσεδάφισης"
   },
   "BIND_CYCLE_CAMERA_MODE": {
     "description": "Descriptive name for the CycleCameraMode action.",
@@ -53,7 +53,7 @@
   },
   "BIND_CYCLE_HOSTILES": {
     "description": "Descriptive name for the CycleHostiles action.",
-    "message": "Cycle Hostiles"
+    "message": "Επόμενο εχθρικό σκάφος"
   },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
@@ -117,7 +117,7 @@
   },
   "BIND_MAP_VIEW_ZOOM": {
     "description": "Axis binding",
-    "message": "Map Zoom"
+    "message": "Μεγέθυνση χάρτη"
   },
   "BIND_MAP_WARP_TO_CURRENT_SYSTEM": {
     "description": "Descriptive name for the MapWarpToCurrentSystem action.",
@@ -181,7 +181,7 @@
   },
   "BIND_TOGGLE_LANDING_GEAR": {
     "description": "Action description",
-    "message": "Toggle Landing Gear"
+    "message": "Εναλλαγή στο σύστημα προσεδάφισης"
   },
   "BIND_TOGGLE_LUA_CONSOLE": {
     "description": "Descriptive name for the ToggleLuaConsole action.",
@@ -213,15 +213,15 @@
   },
   "CURRENT_VALUE": {
     "description": "",
-    "message": "Current value:"
+    "message": "Τωρινή τιμή:"
   },
   "CURVE": {
     "description": "",
-    "message": "Curve"
+    "message": "Καμπυλότητα"
   },
   "DEADZONE": {
     "description": "",
-    "message": "Deadzone"
+    "message": "Νεκρή ζώνη"
   },
   "DIRECTION": {
     "description": "Direction",
@@ -296,7 +296,7 @@
   },
   "NUM_AXES": {
     "description": "",
-    "message": "Number of axes:"
+    "message": "Αριθμός αξόνων"
   },
   "NUM_BUTTONS": {
     "description": "",

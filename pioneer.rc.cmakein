@@ -4,13 +4,13 @@ AppIcon ICON DISCARDABLE "@CMAKE_SOURCE_DIR@/application-icon/pioneer.ico"
 LANGUAGE LANG_ENGLISH, SUBLANG_DEFAULT
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION @PROJECT_VERSION@
+FILEVERSION @BUILD_DATE@
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
         BLOCK "040904E4"
         BEGIN
-            VALUE "FileVersion",        "@PROJECT_VERSION@"
+            VALUE "FileVersion",        "@BUILD_DATE@"
             VALUE "CompanyName",        "Pioneer developers"
             VALUE "FileDescription",    "Pioneer Space Simulator"
             VALUE "InternalName",       "Pioneer"

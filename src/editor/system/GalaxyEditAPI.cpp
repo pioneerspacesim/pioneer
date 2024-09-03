@@ -1,7 +1,7 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
-#include "GalaxyEditAPI.h"
 
+#include "GalaxyEditAPI.h"
 
 #include "EditorIcons.h"
 #include "SystemEditorHelpers.h"
@@ -11,10 +11,10 @@
 #include "editor/UndoStepType.h"
 #include "editor/EditorDraw.h"
 
-#include "EnumStrings.h"
-#include "galaxy/Sector.h"
+#include "galaxy/Factions.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/NameGenerator.h"
+#include "galaxy/Sector.h"
 #include "galaxy/StarSystemGenerator.h"
 
 #include "imgui/imgui.h"
@@ -155,7 +155,6 @@ void StarSystem::EditorAPI::ReorderBodyIndex(StarSystem *system)
 
 void StarSystem::EditorAPI::ReorderBodyHierarchy(StarSystem *system)
 {
-	size_t index = 0;
 	std::vector<std::pair<SystemBody *, size_t>> orderStack {
 		{ system->GetRootBody().Get(), 0 }
 	};
@@ -217,6 +216,34 @@ void StarSystem::EditorAPI::SortBodyHierarchy(StarSystem *system, UndoSystem *un
 	});
 
 	undo->AddUndoStep<SystemEditorUndo::SortStarSystemBodies>(system, true);
+}
+
+void StarSystem::EditorAPI::GenerateStarList(StarSystem *system)
+{
+	system->m_stars.clear();
+	system->m_numStars = 0;
+	std::vector<std::pair<SystemBody *, size_t>> searchList {
+		{ system->GetRootBody().Get(), 0 }
+	};
+
+	while (!searchList.empty()) {
+		auto &pair = searchList.back();
+		SystemBody *body = pair.first;
+
+		if (pair.second == 0) {
+			if (body->GetSuperType() == SystemBodyType::SUPERTYPE_STAR) {
+				system->m_stars.push_back(body);
+				system->m_numStars++;
+			}
+		}
+
+		if (pair.second < body->GetNumChildren()) {
+			searchList.push_back({ body->GetChildren()[pair.second++], 0 });
+		} else {
+			searchList.pop_back();
+		}
+	}
+
 }
 
 void StarSystem::EditorAPI::EditName(StarSystem *system, Random &rng, UndoSystem *undo)
@@ -518,9 +545,12 @@ void SystemBody::EditorAPI::EditOrbitalParameters(SystemBody *body, UndoSystem *
 				body->GetParent()->GetMass(),
 				-orbit_time_at_start).Length() / 1000.0;
 
-			ImGui::InputDouble("Orbital Velocity (AP)", &orbit_vel_ap, 0.0, 0.0, "%.2f km/s");
-			ImGui::InputDouble("Orbital Velocity (PE)", &orbit_vel_pe, 0.0, 0.0, "%.2f km/s");
+			ImGui::InputDouble("Orbital Vel. (AP)", &orbit_vel_ap, 0.0, 0.0, "%.2f km/s");
+			ImGui::InputDouble("Orbital Vel. (PE)", &orbit_vel_pe, 0.0, 0.0, "%.2f km/s");
 		}
+
+		double escape_velocity = body->CalcEscapeVelocity();
+		ImGui::InputDouble("Escape Velocity", &escape_velocity, 0.0, 0.0, "%0.2f km/s");
 
 		ImGui::EndDisabled();
 	}
@@ -546,11 +576,16 @@ void SystemBody::EditorAPI::EditOrbitalParameters(SystemBody *body, UndoSystem *
 
 void SystemBody::EditorAPI::EditEconomicProperties(SystemBody *body, UndoSystem *undo)
 {
+	ImGui::SeparatorText("Economic Parameters");
+
 	// TODO: system generation currently ignores these fields of a system body
 	// and overwrites them with randomly-rolled values.
-	return;
+	ImGui::BeginDisabled();
 
-	ImGui::SeparatorText("Economic Parameters");
+	ImGui::PushTextWrapPos(ImGui::GetContentRegionAvail().x);
+	ImGui::TextColored(ImVec4(0.8, 0.8, 0.8, 1.0), "These fields are currently overwritten when the system is loaded.");
+	ImGui::PopTextWrapPos();
+	ImGui::Spacing();
 
 	ImGui::InputFixed("Population", &body->m_population);
 	if (Draw::UndoHelper("Edit Population", undo))
@@ -559,6 +594,8 @@ void SystemBody::EditorAPI::EditEconomicProperties(SystemBody *body, UndoSystem 
 	ImGui::InputFixed("Agricultural Activity", &body->m_agricultural);
 	if (Draw::UndoHelper("Edit Agricultural Activity", undo))
 		AddUndoSingleValue(undo, &body->m_agricultural);
+
+	ImGui::EndDisabled();
 }
 
 void SystemBody::EditorAPI::EditStarportProperties(SystemBody *body, UndoSystem *undo)
@@ -720,7 +757,7 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSy
 	bool gasGiant = body->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT;
 
 	bodyChanged |= Draw::InputFixedSlider("Atm. Density", &body->m_volatileGas,
-		0.0, gasGiant ? 50.0 : 1.225, "%.3f kg/m³", 0);
+		0.0, gasGiant ? 2.0 : 1.225, "%.3f kg/m³", 0);
 	if (Draw::UndoHelper("Edit Atmosphere Density", undo))
 		AddUndoSingleValueClosure(undo, &body->m_volatileGas, updateBodyDerived);
 

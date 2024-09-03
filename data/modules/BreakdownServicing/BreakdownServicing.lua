@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -114,6 +114,7 @@ local onChat = function (form, ref, option)
 	local pricesuggestion = string.interp(ad.price, {
 		drive = hyperdrive and hyperdrive:GetName() or lui.NONE,
 		price = Format.Money(price),
+		lasttime = lastServiceMessage(hyperdrive),
 	})
 
 	if not hyperdrive then
@@ -134,9 +135,7 @@ local onChat = function (form, ref, option)
 		form:SetFace(ad.mechanic)
 		-- Replace token with details of last service (which might have
 		-- been seconds ago)
-		form:SetMessage(string.interp(message, {
-			lasttime = lastServiceMessage(hyperdrive),
-		}))
+		form:SetMessage(message)
 		if not hyperdrive then
 			-- er, do nothing, I suppose.
 		elseif Game.player:GetMoney() < price then

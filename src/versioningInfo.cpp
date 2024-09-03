@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "versioningInfo.h"
@@ -39,7 +39,8 @@ void OutputVersioningInfo()
 	Output("LibCurl Version: %s", LIBCURL_VERSION);
 #endif
 
-	Output("GLEW dynamic version: %s\n", glewGetString(GLEW_VERSION));
+	// glewGetString returns unsigned, fmt uses signed
+	Output("GLEW dynamic version: %s\n", reinterpret_cast<const char *>(glewGetString(GLEW_VERSION)));
 	Output("--------------------\n");
 	Output("\n");
 }

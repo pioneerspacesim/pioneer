@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Camera.h"
@@ -129,8 +129,6 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 	// IsRotFrame check prevents double counting
 	if (body && !frame->IsRotFrame() && (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)) {
 		vector3d lpos = frame->GetPositionRelTo(camFrame->GetId());
-		const double dist = lpos.Length() / AU;
-		lpos *= 1.0 / dist; // normalize
 
 		const Color &col = StarSystem::starRealColors[body->GetType()];
 
@@ -156,6 +154,7 @@ void Camera::Update()
 		BodyAttrs attrs;
 		attrs.body = b;
 		attrs.billboard = false; // false by default
+		attrs.calcAtmosphereLighting = false; // false by default
 
 		// If the body wishes to be excluded from the draw, skip it.
 		if (b->GetFlags() & Body::FLAG_DRAW_EXCLUDE)
@@ -177,7 +176,8 @@ void Camera::Update()
 		attrs.bodyFlags = b->GetFlags();
 
 		// approximate pixel width (disc diameter) of body on screen
-		const float pixSize = Graphics::GetScreenHeight() * 2.0 * rad / (attrs.camDist * Graphics::GetFovFactor());
+		// FIXME: this should reference a property set on the camera instead of querying the window size
+		const float pixSize = m_renderer->GetWindowHeight() * 2.0 * rad / (attrs.camDist * Graphics::GetFovFactor());
 
 		// terrain objects are visible from distance but might not have any discernable features
 		if (b->IsType(ObjectType::TERRAINBODY)) {

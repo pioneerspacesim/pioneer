@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "DynamicBody.h"
@@ -65,6 +65,12 @@ DynamicBody::DynamicBody(const Json &jsonObj, Space *space) :
 		SetMoving(dynamicBodyObj["is_moving"]);
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
+	}
+
+	// fix saves with nans
+	// SAVEBUMP: This can be removed starting with save version 91
+	if (std::isnan(m_angVel.x) || std::isnan(m_angVel.y) || std::isnan(m_angVel.z)) {
+		m_angVel = vector3d(0.0);
 	}
 
 	m_aiMessage = AIError::AIERROR_NONE;

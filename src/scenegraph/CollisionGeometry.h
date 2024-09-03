@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SCENEGRAPH_COLLISIONGEOMETRY_H
@@ -42,6 +42,11 @@ namespace SceneGraph {
 
 		Geom *GetGeom() const { return m_geom; }
 		void SetGeom(Geom *g) { m_geom = g; }
+
+		enum Flag : unsigned int {
+			DOCKING  = 0x01,
+			ENTRANCE = 0x02
+		};
 
 	protected:
 		~CollisionGeometry();

@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SectorMap.h"
@@ -523,8 +523,8 @@ void SectorMap::InitDefaults()
 
 	m_sectorCache = m_context.galaxy->NewSectorSlaveCache();
 	InputBindings.RegisterBindings();
-	m_size.x = Graphics::GetScreenWidth();
-	m_size.y = Graphics::GetScreenHeight();
+	m_size.x = m_context.renderer->GetWindowWidth();
+	m_size.y = m_context.renderer->GetWindowHeight();
 }
 
 void SectorMap::InitObject()
@@ -648,8 +648,8 @@ void SectorMap::Draw3D()
 	if (!m_sphereParams.empty()) {
 		for (const auto& s : m_sphereParams) {
 			m_context.renderer->SetTransform(s.trans);
-			m_sphere->GetMaterial()->diffuse = s.color;
-			m_sphere->Draw(m_context.renderer);
+			m_fresnelMat->diffuse = s.color;
+			m_sphere->Draw(m_context.renderer, m_fresnelMat.Get());
 		}
 	}
 }
@@ -1024,10 +1024,13 @@ void SectorMap::DrawNearSector(const int sx, const int sy, const int sz, const m
 		// draw star blob itself
 		systrans.Rotate(DEG2RAD(-m_rotZ), 0, 0, 1);
 		systrans.Rotate(DEG2RAD(-m_rotX), 1, 0, 0);
-		systrans.Scale((StarSystem::starScale[(*i).GetStarType(0)]));
+
+		// fallback to M-class star scaling if the system doesn't have any stars (degenerate case)
+		SystemBodyType::BodyType starType = (*i).GetNumStars() > 0 ? (*i).GetStarType(0) : SystemBodyType::TYPE_STAR_M;
+		systrans.Scale((StarSystem::starScale[starType]));
 		m_context.renderer->SetTransform(systrans);
 
-		const Uint8 *col = StarSystem::starColors[(*i).GetStarType(0)];
+		const Uint8 *col = StarSystem::starColors[starType];
 		AddStarBillboard(systrans, vector3f(0.f), Color(col[0], col[1], col[2], 255), 0.5f);
 
 		// add label
@@ -1066,7 +1069,9 @@ void SectorMap::DrawFarSectors(const matrix4x4f &modelview)
 
 	// always draw the stars, slightly altering their size for different different resolutions, so they still look okay
 	if (m_farstars.size() > 0) {
-		m_farstarsPoints.SetData(m_context.renderer, m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], modelview, 0.25f * (Graphics::GetScreenHeight() / 720.f));
+		// TODO: this should query screen DPI instead of platform window height
+		float sizeFactor = 0.25f * (m_context.renderer->GetWindowHeight() / 720.f);
+		m_farstarsPoints.SetData(m_context.renderer, m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], modelview, sizeFactor);
 		m_farstarsPoints.Draw(m_context.renderer, m_farStarsMat.Get());
 	}
 
@@ -1208,7 +1213,7 @@ void SectorMap::Update(float frameTime)
 		Graphics::MaterialDescriptor matdesc;
 		m_fresnelMat.Reset(m_context.renderer->CreateMaterial("fresnel_sphere", matdesc, rsd));
 		m_fresnelMat->diffuse = Color::WHITE;
-		m_sphere.reset(new Graphics::Drawables::Sphere3D(m_context.renderer, m_fresnelMat, 4, 1.0f));
+		m_sphere.reset(new Graphics::Drawables::Sphere3D(m_context.renderer, 4, 1.0f));
 	}
 	m_sphereParams.clear();
 	m_lineVerts->Clear();

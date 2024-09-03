@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelViewerWidget.h"
@@ -6,7 +6,6 @@
 #include "EditorIcons.h"
 #include "MathUtil.h"
 #include "NavLights.h"
-#include "Shields.h"
 
 #include "core/Log.h"
 #include "core/StringUtils.h"
@@ -114,9 +113,7 @@ bool ModelViewerWidget::LoadModel(std::string_view path)
 			return false;
 		}
 
-		Shields::ReparentShieldNodes(m_model.get());
-
-		// set model colorsm_model->SetColors(m_colors);
+		// set model colors
 		m_model->SetColors(m_colors);
 
 		//set decal textures, max 4 supported.

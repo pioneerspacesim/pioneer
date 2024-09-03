@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "EnumStrings.h"
@@ -580,7 +580,7 @@ static int l_get_alert_state(lua_State *l)
 		LuaPush(l, "ship-firing");
 		break;
 	default:
-		Error("Unknown alert state %i", state);
+		Error("Unknown alert state %i", int(state));
 	}
 	return 1;
 }

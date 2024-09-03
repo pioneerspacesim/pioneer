@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SERIALIZE_H
@@ -9,6 +9,7 @@
 #include "Color.h"
 #include "Quaternion.h"
 #include "vector3.h"
+#include <cstring>
 #include <stdexcept>
 #include <string>
 
@@ -119,12 +120,15 @@ namespace Serializer {
 	public:
 		Reader() :
 			m_at(nullptr),
-			m_streamVersion(-1) {}
+			m_streamVersion(-1)
+		{
+		}
 
 		explicit Reader(const ByteRange &data) :
 			m_data(data),
 			m_at(data.begin)
-		{}
+		{
+		}
 
 		bool AtEnd() { return m_at != m_data.end; }
 
@@ -149,7 +153,7 @@ namespace Serializer {
 				throw std::out_of_range("Serializer::Reader encountered truncated stream.");
 #endif
 
-			out = *reinterpret_cast<const T *>(m_at);
+			std::memcpy(&out, m_at, sizeof(T)); // use memcpy to handle unaligned reads
 			m_at += sizeof(T);
 		}
 

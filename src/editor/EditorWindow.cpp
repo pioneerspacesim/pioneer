@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "EditorWindow.h"
@@ -11,7 +11,8 @@
 using namespace Editor;
 
 EditorWindow::EditorWindow(EditorApp *app) :
-	m_app(app)
+	m_app(app),
+	m_canBeClosed(true)
 {}
 
 EditorWindow::~EditorWindow()
@@ -25,7 +26,7 @@ void EditorWindow::Update(float deltaTime)
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.f);
 
 	bool shouldClose = false;
-	bool open = ImGui::Begin(GetWindowName(), &shouldClose, flags);
+	bool open = ImGui::Begin(GetWindowName(), m_canBeClosed ? &shouldClose : nullptr, flags);
 
 	ImGui::PopStyleVar(2);
 

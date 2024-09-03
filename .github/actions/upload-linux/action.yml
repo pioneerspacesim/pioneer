@@ -31,10 +31,12 @@ runs:
         tar -czf "pioneer-$BUILD_SLUG-$(date +%Y%m%d).tar.gz" "pioneer-$BUILD_SLUG"
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ inputs.artifact_name }}
         path: ${{ format('out/install/pioneer-{0}-*.tar.gz', inputs.build_slug) }}
+        retention-days: 14
+        compression-level: 0 # contains a pre-compressed .tar.gz archive...
 
     - name: Build Release
       shell: bash

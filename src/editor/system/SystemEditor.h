@@ -1,11 +1,10 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
 
 #include "SystemEditorModals.h"
 
-#include "Input.h"
 #include "Random.h"
 #include "RefCounted.h"
 #include "core/Application.h"
@@ -74,7 +73,10 @@ private:
 	bool LoadSystemFromFile(const FileSystem::FileInfo &file);
 	bool LoadCustomSystem(const CustomSystem *system);
 	void LoadSystemFromGalaxy(RefCountedPtr<StarSystem> system);
+	bool RegenerateSystem(uint32_t newSeed);
 	void ClearSystem();
+
+	void OnFilepathChanged();
 
 	void RegisterMenuActions();
 
@@ -101,14 +103,13 @@ private:
 	void DrawBodyProperties();
 	void DrawSystemProperties();
 
-	void EditName(const char *undo_label, std::string *name);
-
 	void DrawUndoDebug();
 
 	UndoSystem *GetUndo() { return m_undo.get(); }
 
 private:
 	class UndoSetSelection;
+	class UndoSetEditedSystem;
 
 	// Pending file actions which triggered an unsaved changes modal
 	enum FileRequestType {

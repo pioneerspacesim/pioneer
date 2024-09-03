@@ -10,7 +10,6 @@ tex_norm kanara_norm.dds
 
 lod 300
 mesh kanara_hi.dae
-mesh kanara_shield.dae
 
 lod 50
 mesh kanara_med.dae

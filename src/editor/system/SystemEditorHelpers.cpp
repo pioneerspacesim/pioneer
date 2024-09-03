@@ -1,7 +1,10 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SystemEditorHelpers.h"
+
+#include "MathUtil.h"
+
 #include "core/macros.h"
 #include "gameconsts.h"
 
@@ -131,7 +134,6 @@ bool Draw::InputFixedDegrees(const char *str, fixed *val, double val_min, double
 	double val_d = RAD2DEG(val->ToDouble());
 
 	bool changed = ImGui::SliderScalar(str, ImGuiDataType_Double, &val_d, &val_min, &val_max, "%.3f°", ImGuiSliderFlags_NoRoundToFormat);
-	// bool changed = ImGui::InputDouble(str, &val_d, 1.0, 10.0, "%.3f°", flags | ImGuiInputTextFlags_EnterReturnsTrue);
 	// delay one frame before writing back the value for the undo system to push a value
 	if (changed && !ImGui::IsItemActivated())
 		*val = fixed::FromDouble(DEG2RAD(val_d));
@@ -141,8 +143,6 @@ bool Draw::InputFixedDegrees(const char *str, fixed *val, double val_min, double
 
 bool Draw::InputFixedDistance(const char *str, fixed *val, ImGuiInputTextFlags flags)
 {
-	ImGuiStyle &style = ImGui::GetStyle();
-
 	ImGui::BeginGroup();
 	ImGui::PushID(str);
 
@@ -172,7 +172,7 @@ bool Draw::InputFixedDistance(const char *str, fixed *val, ImGuiInputTextFlags f
 
 	ImGui::SameLine(0.f, 1.f);
 	Draw::SubtractItemWidth();
-	bool changed = ImGui::InputDouble(str, &val_d, val_step, val_step * 10.0, distance_formats[unit_type], flags | ImGuiInputTextFlags_EnterReturnsTrue);
+	bool changed = ImGui::InputDouble(str, &val_d, val_step, val_step * 10.0, distance_formats[unit_type], flags);
 	if (changed)
 		*val = fixed::FromDouble(val_d / distance_multipliers[unit_type]);
 
@@ -187,8 +187,6 @@ bool Draw::InputFixedDistance(const char *str, fixed *val, ImGuiInputTextFlags f
 
 bool Draw::InputFixedMass(const char *str, fixed *val, bool is_solar, ImGuiInputTextFlags flags)
 {
-	ImGuiStyle &style = ImGui::GetStyle();
-
 	ImGui::BeginGroup();
 	ImGui::PushID(str);
 
@@ -222,7 +220,7 @@ bool Draw::InputFixedMass(const char *str, fixed *val, bool is_solar, ImGuiInput
 
 	ImGui::SameLine(0.f, 1.f);
 	Draw::SubtractItemWidth();
-	bool changed = ImGui::InputDouble(str, &val_d, val_step, val_step * 10.0, mass_formats[unit_type], flags | ImGuiInputTextFlags_EnterReturnsTrue);
+	bool changed = ImGui::InputDouble(str, &val_d, val_step, val_step * 10.0, mass_formats[unit_type], flags);
 
 	if (is_solar && unit_type != MASS_SOLS)
 		val_d /= unit_type == MASS_EARTH ? SOL_TO_EARTH_MASS : SOL_MASS_PT;
@@ -243,8 +241,6 @@ bool Draw::InputFixedMass(const char *str, fixed *val, bool is_solar, ImGuiInput
 
 bool Draw::InputFixedRadius(const char *str, fixed *val, bool is_solar, ImGuiInputTextFlags flags)
 {
-	ImGuiStyle &style = ImGui::GetStyle();
-
 	ImGui::BeginGroup();
 	ImGui::PushID(str);
 
@@ -272,18 +268,18 @@ bool Draw::InputFixedRadius(const char *str, fixed *val, bool is_solar, ImGuiInp
 	if (ImGui::IsDisabled()) val_step *= 0.0;
 
 	if (is_solar && unit_type != RADIUS_SOLS)
-		val_d *= unit_type == RADIUS_EARTH ? SOL_TO_EARTH_MASS : SOL_RADIUS_KM;
+		val_d *= unit_type == RADIUS_EARTH ? SOL_TO_EARTH_RADIUS : SOL_RADIUS_KM;
 	if (!is_solar && unit_type != RADIUS_EARTH)
-		val_d *= unit_type == RADIUS_SOLS ? (1.0 / SOL_TO_EARTH_MASS) : EARTH_RADIUS_KM;
+		val_d *= unit_type == RADIUS_SOLS ? (1.0 / SOL_TO_EARTH_RADIUS) : EARTH_RADIUS_KM;
 
 	ImGui::SameLine(0.f, 1.f);
 	Draw::SubtractItemWidth();
-	bool changed = ImGui::InputDouble(str, &val_d, val_step, val_step * 10.0, radius_formats[unit_type], flags | ImGuiInputTextFlags_EnterReturnsTrue);
+	bool changed = ImGui::InputDouble(str, &val_d, val_step, val_step * 10.0, radius_formats[unit_type], flags);
 
 	if (is_solar && unit_type != RADIUS_SOLS)
-		val_d /= unit_type == RADIUS_EARTH ? SOL_TO_EARTH_MASS : SOL_RADIUS_KM;
+		val_d /= unit_type == RADIUS_EARTH ? SOL_TO_EARTH_RADIUS : SOL_RADIUS_KM;
 	if (!is_solar && unit_type != RADIUS_EARTH)
-		val_d /= unit_type == RADIUS_SOLS ? (1.0 / SOL_TO_EARTH_MASS) : EARTH_RADIUS_KM;
+		val_d /= unit_type == RADIUS_SOLS ? (1.0 / SOL_TO_EARTH_RADIUS) : EARTH_RADIUS_KM;
 
 	if (changed)
 		*val = fixed::FromDouble(val_d);

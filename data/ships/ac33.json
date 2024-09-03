@@ -2,6 +2,7 @@
 	"model": "ac33",
 	"name": "AC-33 Dropstar",
 	"cockpit": "",
+	"shield_model": "ac33_shield",
 	"manufacturer": "albr",
 	"ship_class": "medium_freighter",
 	"min_crew": 3,

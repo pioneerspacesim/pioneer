@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CustomSystem.h"
@@ -56,7 +56,7 @@ static int l_csb_new(lua_State *L)
 	const char *name = luaL_checkstring(L, 2);
 	int type = LuaConstants::GetConstantFromArg(L, "BodyType", 3);
 
-	if (type < SystemBody::TYPE_GRAVPOINT || type > SystemBody::TYPE_MAX) {
+	if (type < int(SystemBody::TYPE_GRAVPOINT) || type > int(SystemBody::TYPE_MAX)) {
 		return luaL_error(L, "body '%s' does not have a valid type", name);
 	}
 
@@ -138,7 +138,6 @@ CSB_FIELD_SETTER_FIXED(mass, bodyData.m_mass)
 CSB_FIELD_SETTER_INT(temp, bodyData.m_averageTemp)
 CSB_FIELD_SETTER_FIXED(semi_major_axis, bodyData.m_semiMajorAxis)
 CSB_FIELD_SETTER_FIXED(eccentricity, bodyData.m_eccentricity)
-CSB_FIELD_SETTER_FIXED(inclination, bodyData.m_inclination)
 CSB_FIELD_SETTER_FIXED(rotation_period, bodyData.m_rotationPeriod)
 CSB_FIELD_SETTER_FIXED(axial_tilt, bodyData.m_axialTilt)
 CSB_FIELD_SETTER_FIXED(metallicity, bodyData.m_metallicity)
@@ -181,6 +180,17 @@ static int l_csb_orbital_offset(lua_State *L)
 		return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2));
 	csb->bodyData.m_orbitalOffset = fixed::FromDouble(*value);
 	csb->want_rand_offset = false;
+	lua_settop(L, 1);
+	return 1;
+}
+
+static int l_csb_inclination(lua_State *L)
+{
+	CustomSystemBody *csb = l_csb_check(L, 1);
+	double *value = getDoubleOrFixed(L, 2);
+	if (value == nullptr)
+		return luaL_error(L, "Bad datatype. Expected fixed or float, got %s", luaL_typename(L, 2));
+	csb->bodyData.m_inclination = fixed::FromDouble(*value);
 	lua_settop(L, 1);
 	return 1;
 }
@@ -354,7 +364,7 @@ static unsigned interpret_star_types(int *starTypes, lua_State *L, int idx)
 		lua_rawgeti(L, -1, i + 1);
 		if (lua_type(L, -1) == LUA_TSTRING) {
 			ty = LuaConstants::GetConstantFromArg(L, "BodyType", -1);
-			if ((ty < SystemBody::TYPE_STAR_MIN || ty > SystemBody::TYPE_STAR_MAX) && ty != SystemBody::TYPE_GRAVPOINT) {
+			if ((ty < int(SystemBody::TYPE_STAR_MIN) || ty > int(SystemBody::TYPE_STAR_MAX)) && ty != SystemBody::TYPE_GRAVPOINT) {
 				luaL_error(L, "system star %d does not have a valid star type", i + 1);
 				// unreachable (longjmp in luaL_error)
 			}
@@ -548,9 +558,9 @@ static int l_csys_bodies(lua_State *L)
 	int primary_type = (*primary_ptr)->bodyData.m_type;
 	luaL_checktype(L, 3, LUA_TTABLE);
 
-	if ((primary_type < SystemBody::TYPE_STAR_MIN || primary_type > SystemBody::TYPE_STAR_MAX) && primary_type != SystemBody::TYPE_GRAVPOINT)
+	if ((primary_type < int(SystemBody::TYPE_STAR_MIN) || primary_type > int(SystemBody::TYPE_STAR_MAX)) && primary_type != SystemBody::TYPE_GRAVPOINT)
 		return luaL_error(L, "first body does not have a valid star type");
-	if (primary_type != cs->primaryType[0] && primary_type != SystemBody::TYPE_GRAVPOINT)
+	if (primary_type != int(cs->primaryType[0]) && primary_type != SystemBody::TYPE_GRAVPOINT)
 		return luaL_error(L, "first body type does not match the system's primary star type");
 
 	cs->bodies.push_back(*primary_ptr);
@@ -644,13 +654,13 @@ void CustomSystem::LoadFromJson(const Json &systemdef)
 
 	const Json &sector = systemdef["sector"];
 	sectorX = sector[0].get<int32_t>();
-	sectorZ = sector[1].get<int32_t>();
-	sectorY = sector[2].get<int32_t>();
+	sectorY = sector[1].get<int32_t>();
+	sectorZ = sector[2].get<int32_t>();
 
 	const Json &position = systemdef["pos"];
-	pos.x = sector[0].get<float>();
-	pos.y = sector[1].get<float>();
-	pos.z = sector[2].get<float>();
+	pos.x = position[0].get<float>();
+	pos.y = position[1].get<float>();
+	pos.z = position[2].get<float>();
 
 	seed = systemdef.value<uint32_t>("seed", 0);
 	explored = systemdef.value<bool>("explored", true);
@@ -1018,7 +1028,9 @@ void CustomSystemsDatabase::RunLuaSystemSanityChecks(CustomSystem *csys)
 
 		bool wantRings = body->ringStatus == CustomSystemBody::WANT_RANDOM_RINGS || body->ringStatus == CustomSystemBody::WANT_RINGS;
 
-		if (!(body->want_rand_offset || body->want_rand_phase || body->want_rand_arg_periapsis || wantRings))
+		bool wantAtm = body->bodyData.m_type == SystemBodyType::TYPE_PLANET_GAS_GIANT && body->bodyData.m_volatileGas == fixed(0);
+
+		if (!(body->want_rand_offset || body->want_rand_phase || body->want_rand_arg_periapsis || wantRings || wantAtm))
 			continue;
 
 		// Generate body orbit parameters from its seed
@@ -1047,14 +1059,20 @@ void CustomSystemsDatabase::RunLuaSystemSanityChecks(CustomSystem *csys)
 			}
 		}
 
+		if (wantAtm) {
+			// Taken from StarSystemRandomGenerator::PickPlanetType
+			body->bodyData.m_volatileGas = rand.NormFixed(fixed(1050, 1000), fixed(8000, 1000)).Abs();
+			body->bodyData.m_atmosOxidizing = rand.NormFixed(fixed(0, 1), fixed(300, 1000)).Abs();
+		}
+
 	}
 }
 
 CustomSystem::CustomSystem() :
+	nameHash(0),
 	sBody(nullptr),
 	numStars(0),
 	seed(0),
-	nameHash(0),
 	want_rand_seed(true),
 	want_rand_explored(true),
 	faction(nullptr),

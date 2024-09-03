@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CoreFwdDecl.h"
@@ -184,7 +184,7 @@ std::string _pi_lua_table_tostring(lua_State *l, int idx, int indent, int recurs
 // Return a debug representation of the given lua value
 std::string pi_lua_tostring(lua_State *l, int idx, int indent, int recurseTable)
 {
-	lua_checkstack(l, 1);
+	lua_checkstack(l, 4);
 
 	int type = lua_type(l, idx);
 

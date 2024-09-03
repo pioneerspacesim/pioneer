@@ -1,15 +1,18 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 local Engine = require 'Engine'
 local Format = require 'Format'
 local Input = require 'Input'
 local Lang = require 'Lang'
 local Game = require 'Game'
-local ui = require 'pigui.baseui'
 local pigui = Engine.pigui
 local Vector2 = _G.Vector2
 
-local lc = Lang.GetResource("core");
+---@class ui
+local ui = require 'pigui.baseui'
+
+local lc = Lang.GetResource("core")
+local lui = Lang.GetResource("ui-core")
 
 -- get a fractional font factor
 local font_factor = ui.rescaleFraction(1, Vector2(1920, 1080))
@@ -76,15 +79,10 @@ ui.fonts = {
 -- Returns:
 --   size - Vector2, the size of the text when rendered
 --
-function ui.calcTextSize(text, font, size)
-	if size == nil and type(font) == "table" then
-		size = font.size
-		font = font.name
-	end
-
+function ui.calcTextSize(text, font, wrapWidth)
 	local pushed = false
-	if font then pushed = pigui:PushFont(font, size) end
-	local ret = pigui.CalcTextSize(text)
+	if font then pushed = pigui:PushFont(font.name, font.size) end
+	local ret = pigui.CalcTextSize(text, wrapWidth)
 	if pushed then pigui:PopFont() end
 
 	return ret
@@ -101,6 +99,8 @@ end
 --   alignment - number, controls alignment of the text. 0.5 is centered,
 --               1.0 is right aligned.
 --
+---@param text string
+---@param alignment number
 function ui.textAligned(text, alignment)
 	local size = pigui.CalcTextSize(text).x
 	local cw = ui.getContentRegion().x
@@ -335,8 +335,16 @@ ui.Format = {
 			return string.format("%d%s%s", number, res, deci)
 		end
 	end,
+	-- Format a volume quantity in cubic meters
+	Volume = function(number, places)
+		return ui.Format.Number(number, places or 1) .. lc.UNIT_CUBIC_METERS
+	end,
 	SystemPath = function(path)
-		return path:GetStarSystem().name.." ("..path.sectorX..", "..path.sectorY..", "..path.sectorZ..")"
+		local sectorString = "("..path.sectorX..", "..path.sectorY..", "..path.sectorZ..")"
+		if path:IsSectorPath() then
+			return lui.UNKNOWN_LOCATION_IN_SECTOR_X:interp{ sector = sectorString }
+		end
+		return path:GetStarSystem().name.." "..sectorString
 	end
 }
 

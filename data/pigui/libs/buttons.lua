@@ -1,9 +1,28 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 local Engine = require 'Engine'
-local ui = require 'pigui.baseui'
 local pigui = Engine.pigui
 local Vector2 = _G.Vector2
+
+---@class ui
+local ui = require 'pigui.baseui'
+
+--
+-- Function: ui.getButtonColor
+--
+-- Return a color from the passed button style color object, based on the given
+-- state flags for the button.
+--
+-- > color = ui.getButtonColor(variant, isHovered, isActive)
+--
+function ui.getButtonColor(variant, hovered, active)
+	if active then
+		return variant.active
+	end
+
+	return (active and variant.active)
+		or hovered and variant.hovered or variant.normal
+end
 
 --
 -- Function: ui.withButtonColors
@@ -93,81 +112,84 @@ end
 --
 -- Parameters:
 --   label - string, label of the button to calculate size for
---   font  - Font|string, optional font to use when calculating button size
---   size  - number|nil, optional font size to use
+--   font  - Font, optional font to use when calculating button size
 --
-function ui.calcButtonSize(label, font, size)
-	return ui.calcTextSize(label, font, size) + ui.theme.styles.ButtonPadding * 2
+function ui.calcButtonSize(label, font)
+	return ui.calcTextSize(label, font) + ui.theme.styles.ButtonPadding * 2
 end
 
 function ui.getButtonHeight(font)
 	return (font and font.size or ui.getTextLineHeight()) + ui.theme.styles.ButtonPadding.y * 2
 end
 
-function ui.getButtonHeightWithSpacing()
-	return ui.getTextLineHeightWithSpacing() + ui.theme.styles.ButtonPadding.y * 2.0
+function ui.getButtonHeightWithSpacing(font)
+	return ui.getButtonHeight(font) + ui.getItemSpacing().y
 end
 
 --
 -- Function: ui.iconButton
 --
--- > ui.iconButton(icon, size, tooltip, variant, fg_color, frame_padding, icon_size)
+-- Draws a square or rectangular button with the given icon glyph. The default
+-- size of an icon button is the text height + current frame padding, for
+-- consistency with other framed widgets.
+--
+-- > ui.iconButton(id, icon, tooltip, variant, size, padding, flags)
 --
 -- Example:
 --
--- > if ui.iconButton(icons.random, buttonSpaceSize, l.RANDOM_FACE, nil, nil, 0, iconSize) then
+-- > if ui.iconButton("btn", icons.random, l.MY_TOOLTIP, isSelected) then
 -- >   doSmth()
 -- > end
 --
 -- Parameters:
 --
+--   id            - string, unique identifier for the icon button
 --   icon          - image to place on button, e.g. from ui.theme.icons
---   size          - size of button, Vector2
---   tooltip       - string, mouseover text, will be used as ID, must be unique, append "##uniqueID" if needed
+--   tooltip       - string, mouseover text
 --   variant       - [optional] Table, color variants used for this button;
 --                   contains Color fields 'normal', 'hovered', and 'active'
 --                   can be true for selected and false for default color variant
---   fg_color      - [optional] Color, for foreground, default - ui.theme.colors.white
---   frame_padding - [optional] number - the width of the frame around the icon in the button, default = 0
---   icon_size     - [optional] size of icon on the button, Vector2
+--   size          - size of button, Vector2
+--   padding       - [optional] Vector2 - the width of the frame around the icon in the button
+--   flags         - [optional] ImGuiButtonFlags enum controlling button behavior
 --
 -- Returns:
 --
 --   boolean - true if button was clicked
 --
-function ui.iconButton(icon, size, tooltip, variant, fg_color, frame_padding, icon_size)
-	local uv0, uv1 = ui.get_icon_tex_coords(icon)
-	local res = nil
-	if not frame_padding then
-		frame_padding = 0
-	end
-	if not fg_color then
-		fg_color = ui.theme.colors.buttonInk
-	end
-	if variant == true then
-		variant = ui.theme.buttonColors.selected
-	end
+---@param id string
+---@param icon any
+---@param tooltip string?
+---@param variant any
+---@param size Vector2?
+---@param padding Vector2?
+---@param flags any
+---@return boolean
+function ui.iconButton(id, icon, tooltip, variant, size, padding, flags)
+	padding = padding or ui.theme.styles.IconButtonPadding
+	variant = variant == true and ui.theme.buttonColors.selected or variant
 
-	ui.withID(tooltip, function()
-		ui.withButtonColors(variant, function()
-			if icon_size then
-				res = pigui.ButtonImageSized(ui.get_icons_texture(size), size, icon_size, uv0, uv1, frame_padding, ui.theme.colors.transparent, fg_color)
-			else
-				res = pigui.ImageButton(ui.get_icons_texture(size), size, uv0, uv1, frame_padding, ui.theme.colors.transparent, fg_color)
-			end
-		end)
+	local height = (size and size.y > 0 and size.y or ui.getFrameHeight()) - padding.y * 2
+	local glyph = ui.get_icon_glyph(icon)
+	local ret = false
+
+	local pop = pigui:PushFont("icons", height)
+	pigui.PushStyleVar("FramePadding", padding)
+
+	ui.withButtonColors(variant, function()
+		ret = pigui.GlyphButton(id, glyph, size, flags)
 	end)
 
-	if pigui.IsItemHovered() then
-		local pos = tooltip:find("##") -- get position for id tag start
-		if not pos then
-			ui.setTooltip(tooltip)
-		elseif pos > 1 then
-			ui.setTooltip(string.sub(tooltip, 1, pos - 1))
-		end
+	pigui.PopStyleVar(1)
+	if pop then
+		pigui:PopFont()
 	end
 
-	return res
+	if tooltip and pigui.IsItemHovered() then
+		ui.setTooltip(tooltip)
+	end
+
+	return ret
 end
 
 --
@@ -188,51 +210,45 @@ end
 --                   contains Color fields 'normal', 'hovered', and 'active'.
 --                   can be true for selected and false (nil) for default color variant
 --   size          - [optional] size of button, Vector2, default - ui.theme.styles.MainButtonSize
---   fg_color      - [optional] Color, for foreground, default - ui.theme.colors.white
 --
 -- Returns:
 --
 --   clicked - true if button was clicked
 --
-function ui.mainMenuButton(icon, tooltip, variant, size, fg_color)
-	if size == nil then
-		size = ui.theme.styles.MainButtonSize
-	end
-	if fg_color == nil then
-		fg_color = ui.theme.colors.buttonInk
-	end
+function ui.mainMenuButton(icon, tooltip, variant, size)
 	if variant == true then
 		variant = ui.theme.buttonColors.selected
 	end
-	return ui.iconButton(icon, size, tooltip, variant, fg_color, ui.theme.styles.MainButtonPadding)
+
+	local tt = string.match(tooltip, "^(.+)##.+$")
+	return ui.iconButton(tooltip, icon, tt or tooltip, variant, size or ui.theme.styles.MainButtonSize)
 end
 
 --
 -- Function: ui.inlineIconButton
 --
--- Draw an icon button sized to match the current font size. Calling
--- alignTextToButtonPadding() is recommended if submitting text before the
--- icon button.
+-- Draw an icon button sized to match the current text line height.
+-- Inline icon buttons do not add padding total extend vertically beyond the
+-- height of the text; use iconButton if that is desired instead.
 --
 -- Example:
 --
--- > clicked = ui.inlineButton(ui.theme.icons.ship, "Tooltip", ui.theme.buttonColors.transparent, ui.theme.colors.unknown)
+-- > clicked = ui.inlineButton("btn", ui.theme.icons.ship, "Tooltip", ui.theme.buttonColors.transparent)
 --
 -- Parameters:
 --
+--   id            - string, used as ID for the button; must be unique
 --   icon          - icon index from ui.theme.icons (integer number)
---   tooltip       - string, mouseover text, will be used as ID, must be
---                   unique, append "##uniqueID" if needed
+--   tooltip       - string, mouseover text
 --   variant       - [optional] Table, color variants used for this button;
 --                   contains Color fields 'normal', 'hovered', and 'active'.
---                   can be true for selected and false (nil) for default color variant
---   fg_color      - [optional] Color, for foreground, default - ui.theme.colors.white
+--                   can be true for selected and false (nil) for default color varian
+--   flags         - [optional] ImGuiButtonFlags enum controlling button behavior
 --
 -- Returns:
 --
 --   clicked - true if button was clicked
 --
-function ui.inlineIconButton(icon, tooltip, variant, fg_color)
-	local height = ui.getTextLineHeight() + (ui.theme.styles.ButtonPadding.y - ui.theme.styles.MainButtonPadding) * 2
-	return ui.iconButton(icon, Vector2(height), tooltip, variant, fg_color, ui.theme.styles.MainButtonPadding)
+function ui.inlineIconButton(id, icon, tooltip, variant, flags)
+	return ui.iconButton(id, icon, tooltip, variant, Vector2(0, ui.getLineHeight()), ui.theme.styles.InlineIconPadding, flags)
 end

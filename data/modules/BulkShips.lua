@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -19,7 +19,7 @@ local spawnShips = function ()
 		return
 	end
 
-	local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") and not body.isGroundStation end)
+	local stations = utils.filter_array(Space.GetBodies("SpaceStation"), function (body) return not body.isGroundStation end)
 	if #stations == 0 then
 		return
 	end

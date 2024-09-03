@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef DECLARE_STRING
@@ -440,3 +440,4 @@ DECLARE_STRING(NOW)
 DECLARE_STRING(TOGGLE_RADAR_VIEW)
 DECLARE_STRING(TOGGLE_EQUIPMENT_VIEW)
 DECLARE_STRING(GRID_DISPLAY_MODE_TOGGLE)
+DECLARE_STRING(GAME_SAVE_INVALID_NAME)

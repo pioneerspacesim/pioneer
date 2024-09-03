@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Intro.h"
@@ -16,18 +16,13 @@
 
 class PiRngWrapper {
 public:
-	PiRngWrapper(size_t maxValue) :
-		maxVal(maxValue) {}
 	typedef unsigned int result_type;
 	static constexpr unsigned int min() { return 0; }
 	static constexpr unsigned int max() { return std::numeric_limits<uint32_t>::max(); }
 	unsigned int operator()()
 	{
-		return Pi::rng.Int32(maxVal);
+		return Pi::rng.Int32();
 	}
-
-private:
-	const int32_t maxVal;
 };
 
 Intro::Intro(Graphics::Renderer *r, int width, int height) :
@@ -70,12 +65,12 @@ Intro::Intro(Graphics::Renderer *r, int width, int height) :
 		m_models.push_back(model);
 	}
 
-	std::shuffle(m_models.begin(), m_models.end(), PiRngWrapper(m_models.size()));
+	std::shuffle(m_models.begin(), m_models.end(), PiRngWrapper());
 
 	m_modelIndex = 0;
 
-	const int w = Graphics::GetScreenWidth();
-	const int h = Graphics::GetScreenHeight();
+	const int w = r->GetWindowWidth();
+	const int h = r->GetWindowHeight();
 
 	// double-width viewport, centred, then offset 1/6th to centre on the left
 	// 2/3rds of the screen, to the left of the menu
@@ -162,7 +157,7 @@ void Intro::Draw(float deltaTime)
 	m_renderer->ClearDepthBuffer();
 	m_background->Draw(brot);
 
-	m_renderer->SetViewport({ m_spinnerLeft, 0, m_spinnerWidth, Graphics::GetScreenHeight() });
+	m_renderer->SetViewport({ m_spinnerLeft, 0, m_spinnerWidth, m_renderer->GetWindowHeight() });
 	m_renderer->SetPerspectiveProjection(75, m_spinnerRatio, 1.f, 10000.f);
 
 	matrix4x4f trans =

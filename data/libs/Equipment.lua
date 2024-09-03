@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Commodities = require 'Commodities'
@@ -65,13 +65,13 @@ misc.missile_naval = EquipType.New({
 })
 misc.atmospheric_shielding = EquipType.New({
 	l10n_key="ATMOSPHERIC_SHIELDING", slots="atmo_shield", price=200,
-	capabilities={mass=1, atmo_shield=9},
+	capabilities={mass=1, atmo_shield=4},
 	purchasable=true, tech_level=3,
 	icon_name="equip_atmo_shield_generator"
 })
 misc.heavy_atmospheric_shielding = EquipType.New({
 	l10n_key="ATMOSPHERIC_SHIELDING_HEAVY", slots="atmo_shield", price=900,
-	capabilities={mass=2, atmo_shield=19},
+	capabilities={mass=2, atmo_shield=9},
 	purchasable=true, tech_level=5,
 	icon_name="equip_atmo_shield_generator"
 })

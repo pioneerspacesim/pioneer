@@ -19,6 +19,10 @@
     "description": "",
     "message": "所属:"
   },
+  "ALL_PARAMETERS_WERE_RECOVERED_SUCCESSFULLY": {
+    "description": "Message when restoring savegame",
+    "message": "所有参数已成功恢复。"
+  },
   "ALL_UP_WEIGHT": {
     "description": "",
     "message": "总重"
@@ -46,6 +50,10 @@
   "ATMO_PRESS_LIMIT": {
     "description": "Base external pressure limit of a ship (without atmo shield)",
     "message": "气压极限"
+  },
+  "ATTEMPTING_TO_RECOVER_GAME_PROGRESS_FROM_SAVE_X": {
+    "description": "Message when restoring savegame",
+    "message": "正在尝试从保存：{save}中恢复游戏进度。"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -98,6 +106,14 @@
   "CANNOT_SELL_ITEM": {
     "description": "",
     "message": "此商品不能出售"
+  },
+  "CANT_FIND_PATH": {
+    "description": "Message when restoring savegame, file path",
+    "message": "找不到路径：%s"
+  },
+  "CANT_FIND_PLAYERS_SHIP_IN_SPACE": {
+    "description": "Message when restoring savegame",
+    "message": "在太空中没有找到玩家的飞船"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -263,9 +279,21 @@
     "description": "",
     "message": "控制选项"
   },
+  "COULD_NOT_DELETE_SAVE": {
+    "description": "",
+    "message": "无法删除保存的数据"
+  },
+  "COULD_NOT_FIND_SYSTEM_BODY_FOR_FRAME": {
+    "description": "Message when restoring savegame",
+    "message": "无法找到系统主体"
+  },
   "COULD_NOT_LOAD_GAME": {
     "description": "",
     "message": "无法加载游戏:"
+  },
+  "COULD_NOT_READ_THE_SAVE_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "无法读取保存版本"
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -299,6 +327,10 @@
     "description": "For hyperjump planner",
     "message": "当前燃料:"
   },
+  "CURRENT_SAVEGAME_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "无法读取保存版本：%s"
+  },
   "CURRENT_SHIP": {
     "description": "For tooltip comparing current ship specs to one in the shipyard",
     "message": "当前飞船"
@@ -322,6 +354,14 @@
   "DECREASE": {
     "description": "Decrease something.",
     "message": "减少"
+  },
+  "DELETE": {
+    "description": "",
+    "message": "删除"
+  },
+  "DELETE_SAVE_CONFIRMATION": {
+    "description": "",
+    "message": "你确定想要删除这个保存的数据吗？"
   },
   "DELTA_V": {
     "description": "",
@@ -347,6 +387,10 @@
     "description": "Time of departure, used in flight log",
     "message": "出发日期"
   },
+  "DESCRIPTION": {
+    "description": "Start game parameter, e.g. 'This is an easy start from Cydonia'",
+    "message": "描述"
+  },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
     "message": "摧毁敌人飞船"
@@ -364,7 +408,7 @@
     "message": "在屏幕截图模式(切换HUD模式)下隐藏所有显示的信息，包括系统坐标。"
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "解散"
   },
   "DISPLAY_HUD_TRAILS": {
@@ -394,6 +438,10 @@
   "DOCKED_AT": {
     "description": "",
     "message": "停靠在"
+  },
+  "DOCKED_TO_A_BODY_THAT_IS_NOT_A_STATION": {
+    "description": "Message when restoring savegame",
+    "message": "停靠到的主体并非一座空间站"
   },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
@@ -487,6 +535,10 @@
     "description": "",
     "message": "错误"
   },
+  "ERROR_APPLYING_PATCH": {
+    "description": "Message when restoring savegame",
+    "message": "应用补丁时出错"
+  },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
     "message": "无法启动超跳；起落架未收回！"
@@ -502,6 +554,10 @@
   "EXPERIENCED": {
     "description": "For player reputation",
     "message": "有经验的"
+  },
+  "EXPERIMENTAL": {
+    "description": "Indicates feature/option is experimental",
+    "message": "实验性的"
   },
   "EXPERT": {
     "description": "For player reputation",
@@ -563,6 +619,10 @@
     "description": "",
     "message": "女性"
   },
+  "FILE_SAVEGAME_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "文件保存的游戏版本：%s"
+  },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
     "message": "最终目标："
@@ -589,7 +649,7 @@
   },
   "FLIGHTLOG_LANDED": {
     "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
-    "message": "登陆到{primary},位于({secondary_info}, {tertiary_info})"
+    "message": "登陆到{primary_info},位于({secondary_info}, {tertiary_info})"
   },
   "FLIGHTLOG_STARPORT_ORBITAL": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
@@ -1315,6 +1375,18 @@
     "description": "Label tab for showing custom logged events",
     "message": "自定义日志"
   },
+  "LOG_EARLIEST_FIRST": {
+    "description": "Show the log entries in chronological order, earliest first",
+    "message": "按时间先后顺序排序"
+  },
+  "LOG_EXPORT": {
+    "description": "Export the log",
+    "message": "导出"
+  },
+  "LOG_HTML": {
+    "description": "Export the log as HTML or not",
+    "message": "HTML"
+  },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
     "message": "新条目"
@@ -1458,6 +1530,10 @@
   "MORE_INFO": {
     "description": "",
     "message": "更多信息..."
+  },
+  "MORE_THAN_ONE_PLAYERS_SHIP_FOUND_IN_SPACE": {
+    "description": "Message when restoring savegame",
+    "message": "在太空中发现了多艘玩家的飞船"
   },
   "MOSTLY_HARMLESS": {
     "description": "",
@@ -1695,6 +1771,10 @@
     "description": "Entry for ship info",
     "message": "客舱容量"
   },
+  "PATH_FOUND_BUT_VERIFICATION_FAILED": {
+    "description": "Message when restoring savegame",
+    "message": "找到了路径，但验证失败：%s"
+  },
   "PATTERN": {
     "description": "Ship painting pattern.",
     "message": "图案"
@@ -1811,9 +1891,37 @@
     "description": "",
     "message": "等级:"
   },
+  "RAYLEIGH_ACCURATE": {
+    "description": "",
+    "message": "Rayleigh/Mie（精确，每像素数）"
+  },
+  "RAYLEIGH_FAST": {
+    "description": "",
+    "message": "Rayleigh/Mie （快速，每顶点数）"
+  },
+  "REALISTIC_SCATTERING": {
+    "description": "",
+    "message": "大气散射"
+  },
+  "REALISTIC_SCATTERING_DESC": {
+    "description": "",
+    "message": "在渲染大气时选择散射。(对于低端PC来说，不建议选择Rayleigh/Mie)"
+  },
   "REAR_WEAPON": {
     "description": "",
     "message": "后武器"
+  },
+  "RECOVER": {
+    "description": "Saveload menu button",
+    "message": "恢复"
+  },
+  "RECOVERED_BUT_NOT_VALID": {
+    "description": "Message when restoring savegame",
+    "message": "已恢复但无效"
+  },
+  "RECOVER_SAVEGAME": {
+    "description": "",
+    "message": "恢复保存游戏"
   },
   "REFUEL": {
     "description": "",
@@ -1919,6 +2027,14 @@
     "description": "",
     "message": "保存"
   },
+  "SAVE_DELETED_SUCCESSFULLY": {
+    "description": "",
+    "message": "保存已成功删除"
+  },
+  "SCATTERING_OLD": {
+    "description": "",
+    "message": "旧版"
+  },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
     "message": "收集器挂点"
@@ -1930,6 +2046,14 @@
   "SELECT": {
     "description": "",
     "message": "选择"
+  },
+  "SELECTED_SAVE_DOESNT_EXISTS": {
+    "description": "",
+    "message": "所选保存并不存在"
+  },
+  "SELECTED_SAVE_IS_NOT_A_VALID_SAVE": {
+    "description": "",
+    "message": "所选保存并非一个有效的保存"
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",
@@ -2131,6 +2255,10 @@
     "description": "Tab item in the start game menu",
     "message": "摘要"
   },
+  "SYSTEM_BODY_INDEX_IS_OUT_OF_RANGE": {
+    "description": "Message when restoring savegame",
+    "message": "系统主体索引超出范围"
+  },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
     "message": "该站拥有{tech_level}级的技术证书。"
@@ -2154,6 +2282,10 @@
   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
     "description": "",
     "message": "飞船上没别人可以驾驶它了."
+  },
+  "THERE_WERE_ERRORS_IN_RECOVERY": {
+    "description": "Message when restoring savegame",
+    "message": "在恢复过程中出现错误："
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
@@ -2247,6 +2379,26 @@
     "description": "",
     "message": "种类"
   },
+  "UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "未知的自定义日志条目格式"
+  },
+  "UNKNOWN_FACTION": {
+    "description": "For entry in the flight log",
+    "message": "未知的派别"
+  },
+  "UNKNOWN_LOCATION_IN_SECTOR_X": {
+    "description": "For entry in the flight log",
+    "message": "未知扇区{sector}中的位置"
+  },
+  "UNKNOWN_STATION_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "未知的空间站日志条目格式"
+  },
+  "UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "未知的系统日志条目格式"
+  },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
     "message": "武器违法射击"
@@ -2262,6 +2414,10 @@
   "UNRELIABLE": {
     "description": "",
     "message": "不可靠的"
+  },
+  "UNSUCCESSFULLY_RECOVERED_PARAMETERS_ARE_NOW_UNLOCKED_PLEASE_SET_THEM_MANUALLY": {
+    "description": "Message when restoring savegame",
+    "message": "未成功回收的参数现已解锁，请手动设置。"
   },
   "UP_ACCEL": {
     "description": "",

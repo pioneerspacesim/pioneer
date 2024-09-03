@@ -121,7 +121,7 @@
   },
   "BATTLE_WEAPONS": {
     "description": "",
-    "message": "Бойни оръжия"
+    "message": "Големи оръжия"
   },
   "BINARY_SYSTEM": {
     "description": "",
@@ -453,7 +453,7 @@
   },
   "FOLLOWING_SELECTION": {
     "description": "",
-    "message": "Следване на селекцията"
+    "message": "Следване на избора"
   },
   "FRUIT_AND_VEG": {
     "description": "",
@@ -494,6 +494,10 @@
   "GAME_SAVE_CANNOT_WRITE": {
     "description": "",
     "message": "Запазената игра не може да бъде записана, поради системна грешка."
+  },
+  "GAME_SAVE_INVALID_NAME": {
+    "description": "",
+    "message": "Запазената игра не може да бъде записана, поради невалидно име."
   },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
@@ -1288,7 +1292,7 @@
     "message": "Боклуци"
   },
   "SCOOP": {
-    "description": "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+    "description": "Is followed by a number, representing scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
     "message": "Товарачи"
   },
   "SCREENSHOT_FILENAME_TEMPLATE": {
@@ -1746,6 +1750,10 @@
   "UNIT_AU": {
     "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
     "message": "АЕ"
+  },
+  "UNIT_CUBIC_METERS": {
+    "description": "Volume unit: cubic meter",
+    "message": "м³"
   },
   "UNIT_DAYS": {
     "description": "Duration unit: one 24-hour day",

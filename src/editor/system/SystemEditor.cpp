@@ -1,18 +1,15 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SystemEditor.h"
 
 #include "GalaxyEditAPI.h"
 #include "SystemBodyUndo.h"
-#include "SystemEditorHelpers.h"
 #include "SystemEditorViewport.h"
 #include "SystemEditorModals.h"
 
-#include "EnumStrings.h"
 #include "FileSystem.h"
 #include "JsonUtils.h"
-#include "ModManager.h"
 #include "Pi.h" // just here for Pi::luaNameGen
 #include "SystemView.h"
 #include "core/StringUtils.h"
@@ -22,7 +19,6 @@
 #include "editor/EditorDraw.h"
 #include "editor/EditorIcons.h"
 #include "editor/UndoSystem.h"
-#include "editor/UndoStepType.h"
 
 #include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyGenerator.h"
@@ -91,11 +87,29 @@ private:
 	SystemBody *m_selection;
 };
 
+class SystemEditor::UndoSetEditedSystem : public UndoStep {
+public:
+	UndoSetEditedSystem(SystemEditor *editor, RefCountedPtr<StarSystem> system) :
+		m_editor(editor),
+		m_system(std::move(system))
+	{
+	}
+
+	void Swap() override {
+		std::swap(m_editor->m_system, m_system);
+		m_editor->m_viewport->SetSystem(m_editor->m_system);
+	}
+
+private:
+	SystemEditor *m_editor;
+	RefCountedPtr<StarSystem> m_system;
+};
+
 SystemEditor::SystemEditor(EditorApp *app) :
 	m_app(app),
-	m_undo(new UndoSystem()),
 	m_system(nullptr),
 	m_systemInfo(),
+	m_undo(new UndoSystem()),
 	m_selectedBody(nullptr),
 	m_contextBody(nullptr),
 	m_pendingOp(),
@@ -116,6 +130,7 @@ SystemEditor::SystemEditor(EditorApp *app) :
 	m_systemLoader.reset(new CustomSystemsDatabase(m_galaxy.Get(), "systems"));
 
 	m_viewport.reset(new SystemEditorViewport(m_app, this));
+	m_viewport->SetCanBeClosed(false);
 
 	m_random.seed({
 		// generate random values not dependent on app runtime
@@ -148,6 +163,8 @@ void SystemEditor::NewSystem(SystemPath path)
 
 	// mark current file as unsaved
 	m_lastSavedUndoStack = size_t(-1);
+
+	m_viewport->SetSystem(m_system);
 }
 
 bool SystemEditor::LoadSystemFromDisk(const std::string &absolutePath)
@@ -220,20 +237,17 @@ bool SystemEditor::LoadSystemFromFile(const FileSystem::FileInfo &file)
 			ok = LoadCustomSystem(csys);
 
 		if (ok)
-			m_systemInfo.comment = data["comment"];
+			m_systemInfo.comment = data.value("comment", "");
 	} else if (ends_with_ci(file.GetPath(), ".lua")) {
 		const CustomSystem *csys = m_systemLoader->LoadSystem(file.GetPath());
 		if (csys)
 			ok = LoadCustomSystem(csys);
 	}
 
-	if (ok) {
-		std::string windowTitle = fmt::format("System Editor - {}", m_filepath);
-		SDL_SetWindowTitle(m_app->GetRenderer()->GetSDLWindow(), windowTitle.c_str());
-	} else {
+	if (!ok)
 		m_filepath.clear();
-	}
 
+	OnFilepathChanged();
 
 	return ok;
 }
@@ -252,6 +266,9 @@ bool SystemEditor::WriteSystem(const std::string &filepath)
 	}
 
 	Json systemdef = Json::object();
+
+	// Generate the list of stars in this system
+	StarSystem::EditorAPI::GenerateStarList(m_system.Get());
 
 	m_system->DumpToJson(systemdef);
 
@@ -339,6 +356,54 @@ void SystemEditor::LoadSystemFromGalaxy(RefCountedPtr<StarSystem> system)
 	m_systemInfo.faction = system->GetFaction() ? system->GetFaction()->name : "";
 }
 
+bool SystemEditor::RegenerateSystem(uint32_t newSeed)
+{
+	SystemPath path = m_system->GetPath();
+	uint32_t _init[5] = { newSeed, uint32_t(path.sectorX), uint32_t(path.sectorY), uint32_t(path.sectorZ), UNIVERSE_SEED };
+	Random rng(_init, 5);
+
+	RefCountedPtr<StarSystem::GeneratorAPI> system(new StarSystem::GeneratorAPI(path, m_galaxy, nullptr, rng));
+
+	GalaxyGenerator::StarSystemConfig config;
+	auto stage1 = std::make_unique<StarSystemFromSectorGenerator>();
+	auto stage2 = std::make_unique<StarSystemCustomGenerator>();
+	auto stage3 = std::make_unique<StarSystemRandomGenerator>();
+	auto stage4 = std::make_unique<PopulateStarSystemGenerator>();
+
+	if (!stage1->Apply(rng, m_galaxy, system, &config)) {
+		Log::Error("Cannot apply stage1 generator");
+		return false;
+	}
+
+	// Stage1 uses the seed created by sector generation
+	system->SetSeed(newSeed);
+
+	if (!stage2->Apply(rng, m_galaxy, system, &config)) {
+		Log::Error("Cannot apply stage2 generator");
+		return false;
+	}
+
+	if (!stage3->Apply(rng, m_galaxy, system, &config)) {
+		Log::Error("Cannot apply stage3 generator");
+		return false;
+	}
+
+	if (!stage4->Apply(rng, m_galaxy, system, &config)) {
+		Log::Error("Cannot apply stage4 generator");
+		return false;
+	}
+
+	if (!system->GetRootBody()) {
+		Log::Error("System doesn't have a root body (should never happen)!");
+		return false;
+	}
+
+	m_system = system;
+	m_viewport->SetSystem(system);
+
+	return true;
+}
+
 void SystemEditor::ClearSystem()
 {
 	GetUndo()->Clear();
@@ -353,7 +418,7 @@ void SystemEditor::ClearSystem()
 	m_filepath.clear();
 	m_newSystemPath.systemIndex = 0;
 
-	SDL_SetWindowTitle(m_app->GetRenderer()->GetSDLWindow(), "System Editor");
+	OnFilepathChanged();
 }
 
 // Here to avoid needing to drag in the Galaxy header in SystemEditor.h
@@ -376,6 +441,10 @@ void SystemEditor::End()
 
 void SystemEditor::RegisterMenuActions()
 {
+	auto hasNonCustomSystem = [&]() {
+		return m_system.Valid() && !m_system->HasCustomBodies();
+	};
+
 	m_menuBinder->BeginMenu("File");
 
 	m_menuBinder->AddAction("New", {
@@ -422,6 +491,8 @@ void SystemEditor::RegisterMenuActions()
 			if (HasUnsavedChanges()) {
 				m_unsavedFileModal = m_app->PushModal<UnsavedFileModal>();
 				m_pendingFileReq = FileRequest_Quit;
+			} else {
+				RequestEndLifecycle();
 			}
 		}
 	});
@@ -429,6 +500,36 @@ void SystemEditor::RegisterMenuActions()
 	m_menuBinder->EndMenu();
 
 	m_menuBinder->BeginMenu("Edit");
+
+	m_menuBinder->BeginMenu("System");
+
+	m_menuBinder->AddAction("Regenerate", {
+		"Generate from current Seed", {}, hasNonCustomSystem,
+		[&]() {
+			GetUndo()->BeginEntry("Regenerate System");
+			GetUndo()->AddUndoStep<UndoSetSelection>(this, nullptr);
+			GetUndo()->AddUndoStep<UndoSetEditedSystem>(this, m_system);
+			GetUndo()->EndEntry();
+
+			RegenerateSystem(m_system->GetSeed());
+		}
+	});
+
+	m_menuBinder->AddAction("RegenerateNewSeed", {
+		"Generate from new Seed", ImGuiKey_ModCtrl | ImGuiKey_ModShift | ImGuiKey_R, hasNonCustomSystem,
+		[&]() {
+			uint32_t seed = Random(m_system->GetSeed()).Int32();
+
+			GetUndo()->BeginEntry("Regenerate System");
+			GetUndo()->AddUndoStep<UndoSetSelection>(this, nullptr);
+			GetUndo()->AddUndoStep<UndoSetEditedSystem>(this, m_system);
+			GetUndo()->EndEntry();
+
+			RegenerateSystem(seed);
+		}
+	});
+
+	m_menuBinder->EndMenu();
 
 	auto hasSelectedBody = [&]() { return m_contextBody != nullptr; };
 	auto hasParentBody = [&]() { return m_contextBody && m_contextBody->GetParent(); };
@@ -479,6 +580,16 @@ void SystemEditor::RegisterMenuActions()
 	});
 
 	m_menuBinder->EndGroup();
+}
+
+void SystemEditor::OnFilepathChanged()
+{
+	if (m_filepath.empty()) {
+		SDL_SetWindowTitle(m_app->GetRenderer()->GetSDLWindow(), "System Editor");
+	} else {
+		std::string windowTitle = fmt::format("System Editor - {}", m_filepath);
+		SDL_SetWindowTitle(m_app->GetRenderer()->GetSDLWindow(), windowTitle.c_str());
+	}
 }
 
 bool SystemEditor::HasUnsavedChanges()
@@ -582,10 +693,17 @@ void SystemEditor::Update(float deltaTime)
 		if (!filePath.empty()) {
 			Log::Info("SaveFile: {}", filePath);
 
+			// Ensure we're saving JSON files on Windows
+			if (!ends_with_ci(filePath, ".json")) {
+				filePath += ".json";
+			}
+
 			// Update current file path and directory from new "save-as" path
 			if (WriteSystem(filePath)) {
 				m_filepath = filePath;
 				m_filedir = filePath.substr(0, filePath.find_last_of("/\\"));
+
+				OnFilepathChanged();
 			}
 		} else {
 			// Signal cancellation/failure to save
@@ -809,29 +927,6 @@ void SystemEditor::DrawInterface()
 		ImGui::PopItemWidth();
 	}
 	ImGui::End();
-
-#if 0
-	if (ImGui::Begin("ModList")) {
-		for (const auto &mod : ModManager::EnumerateMods()) {
-			if (!mod.enabled)
-				ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 64, 64, 255));
-
-			ImGui::PushFont(m_app->GetPiGui()->GetFont("orbiteer", 14));
-			ImGui::TextUnformatted(mod.name.c_str());
-			ImGui::PopFont();
-
-			ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 12));
-			ImGui::TextUnformatted(mod.path.c_str());
-			ImGui::PopFont();
-
-			if (!mod.enabled)
-				ImGui::PopStyleColor();
-
-			ImGui::Spacing();
-		}
-	}
-	ImGui::End();
-#endif
 
 	if (m_binderWindowOpen)
 		m_menuBinder->DrawOverview("Shortcut List", &m_binderWindowOpen);

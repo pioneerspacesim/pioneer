@@ -49,7 +49,7 @@
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "Récupération de cargaison localisée dans le système {system} requise. Détails disponibles sur demandee."
+    "message": "Récupération de cargaison localisée dans le système {system} requise. Détails disponibles sur demande."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",

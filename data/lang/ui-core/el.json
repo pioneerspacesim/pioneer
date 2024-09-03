@@ -19,6 +19,10 @@
     "description": "",
     "message": "Συμμαχία:"
   },
+  "ALL_PARAMETERS_WERE_RECOVERED_SUCCESSFULLY": {
+    "description": "Message when restoring savegame",
+    "message": "All parameters were recovered successfully."
+  },
   "ALL_UP_WEIGHT": {
     "description": "",
     "message": "Συνολικό βάρος"
@@ -47,6 +51,10 @@
     "description": "Base external pressure limit of a ship (without atmo shield)",
     "message": "Όριο ατμ. πίεσης"
   },
+  "ATTEMPTING_TO_RECOVER_GAME_PROGRESS_FROM_SAVE_X": {
+    "description": "Message when restoring savegame",
+    "message": "Attempting to recover game progress from save: {save}"
+  },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
     "message": "Απόπειρα επισκευής του κύτους"
@@ -57,7 +65,7 @@
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "Market header when buying items",
-    "message": "Available For Purchase"
+    "message": "Διαθέσιμο για αγορά."
   },
   "AVERAGE": {
     "description": "",
@@ -99,6 +107,14 @@
     "description": "",
     "message": "Αυτό το αντικείμενο δεν μπορεί να πωληθεί"
   },
+  "CANT_FIND_PATH": {
+    "description": "Message when restoring savegame, file path",
+    "message": "Can't find path: %s"
+  },
+  "CANT_FIND_PLAYERS_SHIP_IN_SPACE": {
+    "description": "Message when restoring savegame",
+    "message": "Can't find player's ship in space"
+  },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
     "message": "Χωρητικότητα"
@@ -113,7 +129,7 @@
   },
   "CARGO_CAPACITY": {
     "description": "Label to show a ship's total cargo space.",
-    "message": "Cargo Capacity"
+    "message": "Χωρητικότητα φορτίου"
   },
   "CARGO_SPACE": {
     "description": "",
@@ -157,7 +173,7 @@
   },
   "CHANGE_COLOR": {
     "description": "Paintshop button",
-    "message": "Change Color"
+    "message": "Αλλαγή χρώματος"
   },
   "CHANGE_PATTERN": {
     "description": "Paintshop button",
@@ -165,7 +181,7 @@
   },
   "CHARACTER": {
     "description": "",
-    "message": "Character"
+    "message": "Χαρακτήρας"
   },
   "CHARISMA": {
     "description": "Character parameter",
@@ -205,7 +221,7 @@
   },
   "COLOR": {
     "description": "",
-    "message": "Color"
+    "message": "Χρώμα"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -263,9 +279,21 @@
     "description": "",
     "message": "Επιλογές χειρισμού"
   },
+  "COULD_NOT_DELETE_SAVE": {
+    "description": "",
+    "message": "Could not delete save"
+  },
+  "COULD_NOT_FIND_SYSTEM_BODY_FOR_FRAME": {
+    "description": "Message when restoring savegame",
+    "message": "Could not find system body for frame"
+  },
   "COULD_NOT_LOAD_GAME": {
     "description": "",
     "message": "Δεν μπόρεσε να φορτωθεί το παιχνίδι: "
+  },
+  "COULD_NOT_READ_THE_SAVE_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Could not read the save version"
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -299,6 +327,10 @@
     "description": "For hyperjump planner",
     "message": "Τρέχον καύσιμο:"
   },
+  "CURRENT_SAVEGAME_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Current savegame version: %s"
+  },
   "CURRENT_SHIP": {
     "description": "For tooltip comparing current ship specs to one in the shipyard",
     "message": "Current Ship"
@@ -322,6 +354,14 @@
   "DECREASE": {
     "description": "Decrease something.",
     "message": "Μείωση"
+  },
+  "DELETE": {
+    "description": "",
+    "message": "Delete"
+  },
+  "DELETE_SAVE_CONFIRMATION": {
+    "description": "",
+    "message": "Are you sure you want to delete this save?"
   },
   "DELTA_V": {
     "description": "",
@@ -347,6 +387,10 @@
     "description": "Time of departure, used in flight log",
     "message": "Ημερομηνία αναχώρησης"
   },
+  "DESCRIPTION": {
+    "description": "Start game parameter, e.g. 'This is an easy start from Cydonia'",
+    "message": "Description"
+  },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
     "message": "Καταστρέψτε το εχθρικό σκάφος"
@@ -364,7 +408,7 @@
     "message": "Απόκρυψη όλων των εμφανιζόμενων πληροφοριών, συμπεριλαμβανομένων των συντεταγμένων του συστήματος, όταν βρίσκεστε σε λειτουργία στιγμιότυπου οθόνης (εναλλαγή της λειτουργίας HUD)."
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Απολύεστε"
   },
   "DISPLAY_HUD_TRAILS": {
@@ -394,6 +438,10 @@
   "DOCKED_AT": {
     "description": "",
     "message": "Προδετήθηκε στο"
+  },
+  "DOCKED_TO_A_BODY_THAT_IS_NOT_A_STATION": {
+    "description": "Message when restoring savegame",
+    "message": "Docked to a body that is not a station"
   },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
@@ -487,6 +535,10 @@
     "description": "",
     "message": "Σφάλμα"
   },
+  "ERROR_APPLYING_PATCH": {
+    "description": "Message when restoring savegame",
+    "message": "Error applying patch"
+  },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
     "message": "Δεν μπορεί να ξεκινήσει υπεράλμα - το σύστημα προσγείωσης δεν έχει ανακληθεί!"
@@ -503,13 +555,17 @@
     "description": "For player reputation",
     "message": "Έμπειρος"
   },
+  "EXPERIMENTAL": {
+    "description": "Indicates feature/option is experimental",
+    "message": "Experimental"
+  },
   "EXPERT": {
     "description": "For player reputation",
     "message": "Ειδικός"
   },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
-    "message": "Factions"
+    "message": "Φατρίες"
   },
   "FAILED": {
     "description": "When failed mission",
@@ -562,6 +618,10 @@
   "FEMALE": {
     "description": "",
     "message": "Θήλυ"
+  },
+  "FILE_SAVEGAME_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "File savegame version: %s"
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
@@ -765,7 +825,7 @@
   },
   "HUD_BUTTON_DISABLE_AUTOPILOT": {
     "description": "Tooltip for button",
-    "message": "Disable autopilot"
+    "message": "Κατάργηση αυτόματου πιλότου"
   },
   "HUD_BUTTON_DISABLE_CRUISE": {
     "description": "Tooltip for button",
@@ -985,7 +1045,7 @@
   },
   "HUD_FOLLOW_TARGET": {
     "description": "Tooltip for followed target's name in reticule",
-    "message": "Follow target"
+    "message": "Ακολουθήστε τον στόχο"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
@@ -1181,7 +1241,7 @@
   },
   "INTERSTELLAR_TRADE_AVG": {
     "description": "Label displaying commodity flow at a per-system level",
-    "message": "Interstellar Trade:"
+    "message": "Διαστρικό εμπόριο"
   },
   "INVERT_MOUSE_Y": {
     "description": "",
@@ -1315,6 +1375,18 @@
     "description": "Label tab for showing custom logged events",
     "message": "Προσαρμοσμένο ημερολόγιο"
   },
+  "LOG_EARLIEST_FIRST": {
+    "description": "Show the log entries in chronological order, earliest first",
+    "message": "Order earliest first"
+  },
+  "LOG_EXPORT": {
+    "description": "Export the log",
+    "message": "Export"
+  },
+  "LOG_HTML": {
+    "description": "Export the log as HTML or not",
+    "message": "HTML"
+  },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
     "message": "Νέα καταχώριση"
@@ -1333,7 +1405,7 @@
   },
   "LUCK": {
     "description": "Character parameter",
-    "message": "Luck"
+    "message": "Τύχη"
   },
   "LY": {
     "description": "Light year",
@@ -1459,6 +1531,10 @@
     "description": "",
     "message": "Περισσότερα..."
   },
+  "MORE_THAN_ONE_PLAYERS_SHIP_FOUND_IN_SPACE": {
+    "description": "Message when restoring savegame",
+    "message": "More than one player's ship found in space"
+  },
   "MOSTLY_HARMLESS": {
     "description": "",
     "message": "Κατά βάση ακίνδυνος"
@@ -1501,7 +1577,7 @@
   },
   "NAVIGATION": {
     "description": "Crew skill",
-    "message": "Navigation"
+    "message": "Πλοήγηση"
   },
   "NAVIGATOR": {
     "description": "",
@@ -1513,7 +1589,7 @@
   },
   "NEW_GAME": {
     "description": "Main menu item",
-    "message": "New game"
+    "message": "Νέο παιχνίδι"
   },
   "NEW_PAINTJOB_APPLIED": {
     "description": "Paintshop popup",
@@ -1565,7 +1641,7 @@
   },
   "NO_AVAILABLE_DATA": {
     "description": "Message displaying no stored data available",
-    "message": "No data available"
+    "message": "Δεν υπάρχουν διαθέσιμα δεδομένα"
   },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
@@ -1673,19 +1749,19 @@
   },
   "PAINTSHOP_WELCOME_0": {
     "description": "Welcome message to the paintshop.",
-    "message": "Welcome! We will paint your ship pretty!"
+    "message": "Καλως ήρθατε! Θα κάνουμε ένα πολύ ωραίο βάψιμο στο σκάφος σας!"
   },
   "PAINTSHOP_WELCOME_1": {
     "description": "Welcome message to the paintshop.",
-    "message": "Hi there! Looking for a change in aesthetics?"
+    "message": "Γεια σου. Ψάχνεις για μια αισθητική αλλαγή;"
   },
   "PAINTSHOP_WELCOME_2": {
     "description": "Welcome message to the paintshop.",
-    "message": "We can't make your ship fly fast, but we can make it fly in style!"
+    "message": "Δεν μπορούμε να κάνουμε το σκάφος σας να πετάει γρήγορα, μπορούμε όμως να το κάνουμε να πετάει με στυλ."
   },
   "PAINTSHOP_WELCOME_3": {
     "description": "Welcome message to the paintshop.",
-    "message": "Welcome, traveller. Please take your time and let out your creativity."
+    "message": "Καλως ήρθες ταξιδιώτη. Χαλάρωσε, και εξωτερίκευσε τη δημιουργικότητά σου."
   },
   "PAINTSHOP_WELCOME_4": {
     "description": "Welcome message to the paintshop.",
@@ -1694,6 +1770,10 @@
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
     "message": "Passenger cabin capacity"
+  },
+  "PATH_FOUND_BUT_VERIFICATION_FAILED": {
+    "description": "Message when restoring savegame",
+    "message": "Path found but verification failed: %s"
   },
   "PATTERN": {
     "description": "Ship painting pattern.",
@@ -1811,9 +1891,37 @@
     "description": "",
     "message": "Αξιολόγηση:"
   },
+  "RAYLEIGH_ACCURATE": {
+    "description": "",
+    "message": "Rayleigh/Mie (accurate, per-pixel)"
+  },
+  "RAYLEIGH_FAST": {
+    "description": "",
+    "message": "Rayleigh/Mie (fast, per-vertex)"
+  },
+  "REALISTIC_SCATTERING": {
+    "description": "",
+    "message": "Scattering"
+  },
+  "REALISTIC_SCATTERING_DESC": {
+    "description": "",
+    "message": "Select scattering when rendering atmospheres. (Rayleigh/Mie is not recommended for low-end PCs)"
+  },
   "REAR_WEAPON": {
     "description": "",
     "message": "Οπίσθιο όπλο"
+  },
+  "RECOVER": {
+    "description": "Saveload menu button",
+    "message": "Recover"
+  },
+  "RECOVERED_BUT_NOT_VALID": {
+    "description": "Message when restoring savegame",
+    "message": "Recovered but not valid"
+  },
+  "RECOVER_SAVEGAME": {
+    "description": "",
+    "message": "Recover savegame"
   },
   "REFUEL": {
     "description": "",
@@ -1919,6 +2027,14 @@
     "description": "",
     "message": "Αποθήκευση"
   },
+  "SAVE_DELETED_SUCCESSFULLY": {
+    "description": "",
+    "message": "Save deleted successfully"
+  },
+  "SCATTERING_OLD": {
+    "description": "",
+    "message": "Legacy"
+  },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
     "message": "Υποδοχείς συλλεκτών"
@@ -1930,6 +2046,14 @@
   "SELECT": {
     "description": "",
     "message": "Επιλέξτε"
+  },
+  "SELECTED_SAVE_DOESNT_EXISTS": {
+    "description": "",
+    "message": "Selected save doesn't exist"
+  },
+  "SELECTED_SAVE_IS_NOT_A_VALID_SAVE": {
+    "description": "",
+    "message": "Selected save is not a valid save"
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",
@@ -1957,7 +2081,7 @@
   },
   "SENSORS": {
     "description": "Crew skill",
-    "message": "Sensors"
+    "message": "Αισθητήρες"
   },
   "SENSORS_AND_DEFENCE": {
     "description": "",
@@ -2073,7 +2197,7 @@
   },
   "START_GAME": {
     "description": "Button",
-    "message": "Start game"
+    "message": "¨Εναρξη παιχνιδιού"
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
@@ -2129,7 +2253,11 @@
   },
   "SUMMARY": {
     "description": "Tab item in the start game menu",
-    "message": "Summary"
+    "message": "Σύνοψη"
+  },
+  "SYSTEM_BODY_INDEX_IS_OUT_OF_RANGE": {
+    "description": "Message when restoring savegame",
+    "message": "System body index is out of range"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
@@ -2141,7 +2269,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Tech level"
+    "message": "Τεχνολογικό επίπεδο"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -2154,6 +2282,10 @@
   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
     "description": "",
     "message": "Δεν υπάρχει κανένας άλλος εδώ πέρα που να μπορεί να πετάξει αυτό το σκάφος."
+  },
+  "THERE_WERE_ERRORS_IN_RECOVERY": {
+    "description": "Message when restoring savegame",
+    "message": "There were errors in recovery:"
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
@@ -2247,13 +2379,33 @@
     "description": "",
     "message": "Type"
   },
+  "UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Unknown custom log entry format"
+  },
+  "UNKNOWN_FACTION": {
+    "description": "For entry in the flight log",
+    "message": "Unknown faction"
+  },
+  "UNKNOWN_LOCATION_IN_SECTOR_X": {
+    "description": "For entry in the flight log",
+    "message": "Unknown location in sector {sector}"
+  },
+  "UNKNOWN_STATION_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Unknown station log entry format"
+  },
+  "UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Unknown system log entry format"
+  },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
     "message": "Παράνομη απόρριψη όπλων"
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Unoccupied Passenger Cabins"
+    "message": "Κενές καμπίνες επιβατών"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",
@@ -2262,6 +2414,10 @@
   "UNRELIABLE": {
     "description": "",
     "message": "Αναξιόπιστος"
+  },
+  "UNSUCCESSFULLY_RECOVERED_PARAMETERS_ARE_NOW_UNLOCKED_PLEASE_SET_THEM_MANUALLY": {
+    "description": "Message when restoring savegame",
+    "message": "Unsuccessfully recovered parameters are now unlocked, please set them manually."
   },
   "UP_ACCEL": {
     "description": "",

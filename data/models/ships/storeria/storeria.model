@@ -8,7 +8,6 @@ tex_glow storeria_glow.dds
 
 lod 300
 mesh storeria_hi.dae
-mesh storeria_shield.dae
 
 lod 100
 mesh storeria_med.dae

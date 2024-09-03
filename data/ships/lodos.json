@@ -2,6 +2,7 @@
 	"model": "lodos",
 	"name": "Lodos",
 	"cockpit": "",
+	"shield_model": "lodos_shield",
 	"manufacturer": "auronox",
 	"ship_class": "heavy_freighter",
 	"min_crew": 2,

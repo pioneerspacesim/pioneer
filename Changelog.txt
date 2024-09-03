@@ -1,19 +1,193 @@
+August 2024
+  * New Features
+    * Implement a consistent (and purple!) UI theme (#5865)
+    * Added Perf-Info button to Dump a system to systemeditor compatible JSON (#5888)
+    * Station Police shows: crime records, rules & regulations, banned goods (#5863)
+    * Redesign Save/Load window, add UI Notification system (#5898)
+    * Added/remade 3 new factions (#5892)
+    * Add ability to reroll random systems to System Editor (#5901)
+    * Clarify system-level economy display (#5900)
+
+  * Fixes
+    * Fix crash in mission list in hyper space when combat mission (#5872)
+    * Invert illegal commodities icons in the Economy & Trade view (#5884)
+    * Police patrol improvement, don't confuse player with pirate (#5809)
+    * Fix intro screen ship spinner parade's lack of randomness for some (#5896)
+    * Repopulate BBS with adverts if empty (#5894)
+    * Better explanation of the combat mission due date (#5891)
+
+  * Internal Changes
+    * Separating shield.models (#5853)
+    * Separate shield meshes from ship models (#5840)
+    * Don't build against lzcnt by default and enable USE_SSE42 only on Intel (#5871)
+    * Improve PerfInfo debug window (#5899)
+
+July 2024
+  * New Features
+    * Add "jettison all" buttons to cargo sidebar menu (#5867)
+    * Add Easter egg. Story about time traveler  (#5864)
+
+  * Internal Changes
+    * Fix debug commodities tab (#5861)
+    * News Event: debug can also remove adverts (#5862)
+    * Improve Lua type checking for string enums (PR #5869
+
+Pioneer 2024-07-10 Release
+  * Fixes
+    * Fix bad placeholders in translated strings (#5852)
+    * Fix DLLs not being installed on Windows builds (#5850)
+    * Fix News Events not modifying commodity demand (#5859)
+    * Fix custom systems with zero stars (#5858)
+    * Fixing Coronatrix label naming (#5855)
+    * Fix Military Drive 2 not for sale & tweaks (#5856)
+
+June 2024
+  * Fixes
+    * Fix so .desktop file points to correct installed path (#5847)
+    * Sort commodity names by translated string (#5846)
+    * Improve surface scan missions on high-pressure worlds (#5841)
+    * Fix lots of missing ship labels (#5842)
+    * Fix mission list error when opened during hyperspace (#5843)
+
+May 2024
+  * Fixes
+    * Fixing misalligned little parts of the Xylophis cockpit (#5834)
+    * Removing stray triangles from Bluenose (#5835)
+
+  * Internal Changes
+    * Add missing algorithm include / copy_new complaint (#5833)
+
+April 2024
+  * Internal Changes
+    * Documented minimal compiler version needed updating (#5810)
+    * Include stdlib.h instead of alloca.h for alloca(3) on FreeBSD (#5827)
+    * Include <algorithm> for std::max (#5828)
+    * Do not install libfmt by default (#5808)
+    * Renderer: Support running under Wayland (#5817)
+
+  * Fixes
+    * Police Coronatrix texture fix (#5816)
+    * Fix loud white nosie after mouse steering (#5812)
+    * Fix location recovery in save files (#5801)
+    * Use variable "dist" (SAR mission) for the distance in the BB if specified (#5818)
+    * Fixing flipping landing gear animation of Bowfin (#5814)
+
+March 2024
+  * Fixes
+    * Fix backwards save compatibility with v90 saves (#5798)
+    * Fix speed limiter button positions overlapping (#5802)
+
+Pioneer 2024-03-14 Release
+  * Internal Changes
+    * Add Lua "Persistent Object" Serialization (#5774)
+
+  * Fixes
+    * Minor model fixes (Lodos, Coronatrix) (#5782)
+    * Fix the accumulation of zombie traders and some other unnecessary things (#5783)
+    * System Editor Fixes (#5787)
+    * Consider InputBindings::Axis active only if it's value is non-zero (#5795)
+    * Fix incorrect position of starports (#5793)
+    * Fix system editor loading body parameter wrongly from .json file (#5792)
+    * Fix incorrect city locations (#5744)
+    * Fix hyperjump streaks falling down (#5770, #5794)
+    * Fix invalid binary orbits (#5764, #5794)
+    * Fix negative commodity demand (#5784, #5794)
+    * Improve collision mesh to Natrix (#5796)
+
+February 2024 (dev)
+  * New Features
+    * Editor Welcome Screen: don't require command line argument (#5772)
+    * Resizable Editor Window (#5779)
+
+  * Internal Changes
+    * Fix MSVC CI build on non-PR refs (#5733)
+    * Update libfmt, fix compilation warnings and invalid JSON CustomSystem position (#5759)
+    * Add documentation to make life for package maintainers easier (#5749)
+    * Fixed broken screenshots links (#5761)
+    * Adding editor.txt, removing ModelViewer.txt to document new editor (#5737)
+    * Misc cleanup, fixes, and Lua function library improvements (#5773)
+    * Update Github Upload-Artifact action for Windows CI (#5781)
+    * Add a recovery reader for the v90 flight log (#5763)
+
+  * Fixes
+    * Local missions should list distances in AU rather than Ly (#5756)
+    * Fix star background generation (#5758)
+    * Fix path of pioneer executable (#5743)
+    * Fix 'nil' in hyperdrive Maintenance BBS advert (#5754)
+    * Generate atmospheres for gas giants also in legacy custom systems (#5766)
+    * Fix "bad argument" error in SearchRescue.lua in custom systems (#5769)
+    * Fix crash when deleting a flightlog entry (#5768)
+    * Fix projectile and beam weapons not able to hit, frame sync (#5767)
+    * Don't crash when there are few background stars (#5778)
+    * Fix spelling / grammar in English language files (#5780)
+    * Fix that sometimes ships get stuck the moment they start to dock (#5127)
+    * Adding landing spike to Mola Ramsayi collision mesh (#5785)
+
+Pioneer 2024-02-03 Release
+  * New Features
+    * Add new music tracks by diduuz (#5727)
+
+  * Fixes
+    * Fix mission data for Custom Cargo mission persisting between games (#5730)
+    * Fix model viewer not working (#5729)
+    * Fix bogus GPS coordinates when entering an orbit (#5729)
+    * Fixes Visual Studio CMake build only supports Debug, not release or profiling (#5729)
+
+January 2024
+  * New Features
+    * Newground station cleanup and new textures (#5704)
+    * Add a function to recover old versions of saves (#5706)
+    * Docking with orbital in manual mode (#5619)
+    * Add delete button in save/load window (#5674)
+    * System overview icon upscale and update (#5540)
+    * Make ship market comparison colors colorblind friendly (#5715)
+    * Unify / re-balance mission travel time implementation (#5707)
+    * Stop TradeShips from performing illegal Hyperjumps (#5647)
+    * Improve planet rings shaders (#5708)
+    * Update/rework of the flightlog (#5666)
+    * Realistic Rayleigh/Mie atmospheric scattering (#5617)
+    * Save and load the current planned hyperjump in the save file (#5721)
+
+  * Internal Changes
+    * Release will now also build an AppImage (#5682)
+    * Re-add the galaxy dump function (#5676)
+    * Refactor Event Queues (#5671)
+    * Add Space.GetBodiesNear(), ProximityQuery module (#5637)
+    * Fix undefined behaviour in CommandBufferGL.cpp (#5694)
+    * Hardcode the project version, for packagers (#5713)
+    * Lua serializer comment error tweak (#5718)
+    * Add BUILD_DATE variable for windows builds (#5722)
+
+  * Fixes
+    * Avoid misaligned read when loading SGM files (#5692)
+    * Remove transparent backgrounds from screenshots (#5660)
+    * Fix assert on startup when calling back on an empty string (#5717)
+    * Fix orbital / surface scan missions being unable to be completed (#5724)
+    * Fix player being unable to collide with Stations if only ship in Frame (#5720)
+    * Crash from hyperjump-planner indexing local ship (nil) #5725
+    * Fix missing gas giant atmospheres (#5728)
+
+December 2023
+  * Fixes
+    * Fix installed directory structure on Windows (#5686)
+
 November 2023
   * Internal Changes
     * Lua Constant autocomplete support (#5663)
     * Simplify SystemBody::GetAtmPressure (#5662)
-
-  * Internal Changes
     * Improve Simplex Noise Performance (#5661)
+    * Improve CI Setup and Performance (#5670)
     * Build with SSE4 / AVX, fix build artifact generation (#5651)
     * Lua io and FileSystem uri changes (#5638)
     * LuaBody/Player/Ship function changes (#5643)
     * Update AppStream destination and filename (#5664)
+    * Improve BVH Broadphase Performance (#5669)
 
   * Fixes
     * Correct value of g-force in system editor (#5658)
     * Fix assertion failed in Sfx::Sfx(const Json &jsonObj) (#5668)
     * Fix crash in l_body_get_ground_position if there is no body to get (#5665)
+    * Fix lua components corruption on save (#5657)
 
 October 2023
   * New Features

@@ -1,11 +1,11 @@
 {
   "ADTEXT": {
     "description": "",
-    "message": "Keres: [comodity]. Vételár: [price] / tonna."
+    "message": "Keres: {commodity}. Vételár: {price} / tonna."
   },
   "AMOUNT": {
     "description": "The amount (for now in tonne) of goods person wants to buy",
-    "message": "{amount]-ra van szükségem, legfeljebb ennyit veszek meg."
+    "message": "{amount} tonnára van szükségem, legfeljebb ennyit veszek meg."
   },
   "MESSAGE": {
     "description": "",

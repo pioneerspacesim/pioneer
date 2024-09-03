@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Log.h"
@@ -166,7 +166,7 @@ void Log::LogFatalInternal(const char *message, fmt::format_args args)
 
 void Log::LogOld(Severity sv, const char *message, fmt::printf_args args)
 {
-	std::string out_message = fmt::vsprintf(message, args);
+	std::string out_message = fmt::vsprintf(fmt::string_view(message), args);
 	GetLog()->LogLevel(sv, out_message);
 	if (sv == Severity::Warning) {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Pioneer warning", out_message.c_str(), 0);
@@ -175,7 +175,7 @@ void Log::LogOld(Severity sv, const char *message, fmt::printf_args args)
 
 [[noreturn]] void Log::LogFatalOld(const char *message, fmt::printf_args args)
 {
-	std::string out_message = fmt::vsprintf(message, args);
+	std::string out_message = fmt::vsprintf(fmt::string_view(message), args);
 	GetLog()->LogLevel(Severity::Fatal, out_message);
 	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Pioneer error", out_message.c_str(), 0);
 

@@ -1,6 +1,7 @@
 {
 	"model": "venturestar",
 	"name": "Venturestar",
+	"shield_model": "venturestar_shield",
 	"cockpit": "",
 	"manufacturer": "albr",
 	"ship_class": "medium_freighter",

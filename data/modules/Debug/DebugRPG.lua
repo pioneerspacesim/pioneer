@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -7,7 +7,6 @@ local ui = require 'pigui'
 local debugView = require 'pigui.views.debug'
 local Commodities = require 'Commodities'
 local amount = 1000
-local selected = 0
 
 local Legal = require "Legal"
 local utils = require "utils"
@@ -16,7 +15,7 @@ local l = Lang.GetResource("ui-core")
 
 -- build list of all crime types:
 local crime_types = {}
-for k, v in pairs(Legal.CrimeType) do
+for k, _ in pairs(Legal.CrimeType) do
 	table.insert(crime_types, k)
 end
 
@@ -39,9 +38,11 @@ local get_commodities = function()
 	end
 end
 
-debugView.registerTab("RPG-debug-view", function()
-	if Game.player == nil then return end
-    if not ui.beginTabItem("RPG") then return end
+debugView.registerTab("RPG-debug-view", {
+	icon = ui.theme.icons.personal_info,
+	label = "RPG",
+	show = function() return Game.player ~= nil end,
+	draw = function()
 		ui.text("State: " .. Game.player:GetFlightState())
 
 		-- Reputation
@@ -53,7 +54,6 @@ debugView.registerTab("RPG-debug-view", function()
 		Character.persistent.player.killcount = ui.sliderInt("Kills", Character.persistent.player.killcount, 0, 6000)
 		ui.sameLine()
 		ui.text(Character.persistent.player:GetCombatRating())
-		ui.endTabItem()
 
 		-- Ship hull condition
 		local hull = ui.sliderInt("Hull", Game.player.hullPercent, 0, 100)
@@ -70,7 +70,6 @@ debugView.registerTab("RPG-debug-view", function()
 		end
 		ui.separator()
 
-		local rows = 10
 		if ui.collapsingHeader("Crime", {}) then
 
 			ui.text("ADD CRIMINAL CHARGES:")
@@ -130,4 +129,5 @@ debugView.registerTab("RPG-debug-view", function()
 
 		end
 
-end)
+	end
+})

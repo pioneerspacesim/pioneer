@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -8,6 +8,7 @@ local Space = require 'Space'
 local Comms = require 'Comms'
 local Event = require 'Event'
 local Mission = require 'Mission'
+local MissionUtils = require 'modules.MissionUtils'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
@@ -21,9 +22,6 @@ local lc = Lang.GetResource 'core'
 
 -- don't produce missions for further than this many light years away
 local max_delivery_dist = 30
--- typical time for travel to a system max_delivery_dist away
---	Irigi: ~ 4 days for in-system travel, the rest is FTL travel time
-local typical_travel_time = (1.6 * max_delivery_dist + 4) * 24 * 60 * 60
 -- typical reward for delivery to a system max_delivery_dist away
 local typical_reward = 25 * max_delivery_dist
 -- typical reward for delivery to a local port
@@ -254,7 +252,7 @@ end
 -- return statement is nil if no advert was created, else it is bool:
 -- true if a localdelivery, false for non-local
 local makeAdvert = function (station, manualFlavour, nearbystations)
-	local reward, due, location, nearbysystem, dist
+	local reward, due, location, nearbysystem, dist, timeout
 	local client = Character.New()
 
 	-- set flavour manually if a second arg is given
@@ -272,7 +270,7 @@ local makeAdvert = function (station, manualFlavour, nearbystations)
 		if #nearbystations == 0 then return nil end
 		location, dist = table.unpack(nearbystations[Engine.rand:Integer(1,#nearbystations)])
 		reward = typical_reward_local + math.max(math.sqrt(dist) / 15000, min_local_dist_pay) * (1.5+urgency)
-		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(1.5,3.5) - urgency))
+		due =(60*60*18 + MissionUtils.TravelTimeLocal(dist)) * (1.5-urgency) * Engine.rand:Number(0.9,1.1)
 	else
 		if nearbysystems == nil then
 			nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
@@ -283,9 +281,11 @@ local makeAdvert = function (station, manualFlavour, nearbystations)
 		local nearbystations = nearbysystem:GetStationPaths()
 		location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
 		reward = ((dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5+urgency) * Engine.rand:Number(0.8,1.2))
-		due = Game.time + ((dist / max_delivery_dist) * typical_travel_time * (1.5-urgency) * Engine.rand:Number(0.9,1.1))
+		due = MissionUtils.TravelTime(dist, location) * (1.5-urgency) * Engine.rand:Number(0.9,1.1)
 	end
 	reward = utils.round(reward, 5)
+	timeout = due/2 + Game.time -- timeout after half of the travel time
+	due = utils.round(due + Game.time, 900)
 
 	local ad = {
 		station		= station,
@@ -295,6 +295,7 @@ local makeAdvert = function (station, manualFlavour, nearbystations)
 		localdelivery = flavours[flavour].localdelivery,
 		dist        = dist,
 		due			= due,
+		timeout     = timeout,
 		risk		= risk,
 		urgency		= urgency,
 		reward		= reward,
@@ -341,14 +342,8 @@ end
 
 local onUpdateBB = function (station)
 	for ref,ad in pairs(ads) do
-		if flavours[ad.flavour].localdelivery then
-			if ad.due < Game.time + 2*60*60*24 then -- two day timeout for locals
-				ad.station:RemoveAdvert(ref)
-			end
-		else
-			if ad.due < Game.time + 5*60*60*24 then -- five day timeout for inter-system
-				ad.station:RemoveAdvert(ref)
-			end
+		if ad.timeout < Game.time then
+			ad.station:RemoveAdvert(ref)
 		end
 	end
 	if Engine.rand:Integer(12*60*60) < 60*60 then -- roughly once every twelve hours

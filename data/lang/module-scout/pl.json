@@ -419,6 +419,14 @@
     "description": "",
     "message": "Skan powierzchni"
   },
+  "SURFACE_SCAN_DETAILS": {
+    "description": "Additional warning information about a surface scan target",
+    "message": "The target has a surface pressure of {pressure} with a gravitational force of {gravity} at the surface."
+  },
+  "SURFACE_SCAN_WARNING": {
+    "description": "Warning reminder to player",
+    "message": "Please ensure your ship is capable of operating at the target body's surface before accepting the contract."
+  },
   "SUSPENDED": {
     "description": "",
     "message": "Wstrzymany"

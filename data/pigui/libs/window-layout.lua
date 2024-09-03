@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local utils = require "libs.utils"
@@ -24,14 +24,21 @@ end
 
 local defaultWindowFlags = ui.WindowFlags {"NoTitleBar", "AlwaysAutoResize", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"}
 function layout.NewWindow(name, bgColor, flags)
-	return {
+	local new_window = {
 		size = Vector2(0.0, 0.0),
 		pos = Vector2(0.0, 0.0),
 		visible = true,
 		name = name,
 		style_colors = {["WindowBg"] = bgColor or ui.theme.colors.lightBlackBackground},
-		params = flags or defaultWindowFlags
+		params = flags or defaultWindowFlags,
 	}
+	--- func desc
+	---@param collapse boolean|nil If not present or true, collapse this window, else expand it
+	function new_window:Collapse( collapse )
+		if collapse == nil then collapse = true end 
+		self.to_collapse = collapse
+	end
+	return new_window
 end
 
 function layout:onUpdateWindowConstraints(windows)
@@ -59,6 +66,10 @@ local function showWindow(w)
 
 	ui.setNextWindowSize(w.size, "Always")
 	ui.setNextWindowPos(w.pos, "Always", w.pivot)
+	if w.to_collapse ~= nil then
+		ui.setNextWindowCollapsed( w.to_collapse )
+		w.to_collapse = nil
+	end
 	ui.withStyleColors(w.style_colors, function() ui.window(w.name, w.params, function() w:Show() end) end)
 end
 

@@ -43,7 +43,7 @@ jobs:
 
     # Checkout the repository as $GITHUB_WORKSPACE
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Install Dependencies
       run: |

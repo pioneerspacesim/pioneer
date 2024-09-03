@@ -29,7 +29,7 @@
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "Missione {missione}: Salario {cash}."
+    "message": "Missione {mission}: Salario {cash}."
   },
   "ADTITLE_1": {
     "description": "",

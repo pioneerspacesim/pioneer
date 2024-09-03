@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StarSystem.h"
@@ -229,6 +229,7 @@ StarSystem::StarSystem(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, Sta
 	m_exploredTime(0.0),
 	m_econType(GalacticEconomy::InvalidEconomyId),
 	m_seed(0),
+	m_pos(0.0),
 	m_tradeLevel(GalacticEconomy::Commodities().size() + 1, 0),
 	m_commodityLegal(GalacticEconomy::Commodities().size() + 1, true),
 	m_cache(cache)
@@ -341,7 +342,7 @@ StarSystem::~StarSystem()
 	PROFILE_SCOPED()
 	// clear parent and children pointers. someone (Lua) might still have a
 	// reference to things that are about to be deleted
-	m_rootBody->ClearParentAndChildPointers();
+	m_rootBody->Orphan();
 	if (m_cache)
 		m_cache->RemoveFromAttic(m_path);
 }
@@ -386,7 +387,7 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body)
 	// find the body type index so we can lookup the name
 	const char *pBodyTypeName = nullptr;
 	for (int bodyTypeIdx = 0; ENUM_BodyType[bodyTypeIdx].name != 0; bodyTypeIdx++) {
-		if (ENUM_BodyType[bodyTypeIdx].value == body->GetType()) {
+		if (ENUM_BodyType[bodyTypeIdx].value == int(body->GetType())) {
 			pBodyTypeName = ENUM_BodyType[bodyTypeIdx].name;
 			break;
 		}
@@ -471,7 +472,7 @@ std::string StarSystem::GetStarTypes(SystemBody *body)
 
 	if (body->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 		for (bodyTypeIdx = 0; ENUM_BodyType[bodyTypeIdx].name != 0; bodyTypeIdx++) {
-			if (ENUM_BodyType[bodyTypeIdx].value == body->GetType())
+			if (ENUM_BodyType[bodyTypeIdx].value == int(body->GetType()))
 				break;
 		}
 
@@ -493,7 +494,7 @@ void StarSystem::ExportToLua(const char *filename)
 	if (f == 0)
 		return;
 
-	fprintf(f, "-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details\n");
+	fprintf(f, "-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details\n");
 	fprintf(f, "-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt\n\n");
 
 	std::string stars_in_system = GetStarTypes(m_rootBody.Get());

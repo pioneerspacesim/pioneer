@@ -69,7 +69,7 @@
   },
   "MSG_5": {
     "description": "(Inspired by Wolfenstein 3D)",
-    "message": "Escolha {no} para armas de fogo e glória, {sim} para trabalho e preocupação."
+    "message": "Escolha {no} para armas de fogo e glória, {yes} para trabalho e preocupação."
   },
   "MSG_6": {
     "description": "",

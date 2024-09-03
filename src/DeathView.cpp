@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "DeathView.h"
@@ -20,7 +20,7 @@ DeathView::DeathView(Game *game) :
 	Pi::renderer->GetNearFarRange(znear, zfar);
 
 	const float fovY = Pi::config->Float("FOVVertical");
-	m_cameraContext.Reset(new CameraContext(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
+	m_cameraContext.Reset(new CameraContext(Pi::renderer->GetWindowWidth(), Pi::renderer->GetWindowHeight(), fovY, znear, zfar));
 	m_camera.reset(new Camera(m_cameraContext, Pi::renderer));
 }
 

@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _RENDERER_H
@@ -19,9 +19,9 @@ struct SDL_Window;
 namespace Graphics {
 
 	/*
-	* Renderer base class. A Renderer draws points, lines, triangles.
-	* It is also used to create render states, materials and vertex/index buffers.
-	*/
+	 * Renderer base class. A Renderer draws points, lines, triangles.
+	 * It is also used to create render states, materials and vertex/index buffers.
+	 */
 
 	class IndexBuffer;
 	class InstanceBuffer;
@@ -63,6 +63,8 @@ namespace Graphics {
 		virtual bool SupportsInstancing() = 0;
 
 		SDL_Window *GetSDLWindow() const { return m_window; }
+		virtual void OnWindowResized() {};
+
 		float GetDisplayAspect() const { return static_cast<float>(m_width) / static_cast<float>(m_height); }
 		int GetWindowWidth() const { return m_width; }
 		int GetWindowHeight() const { return m_height; }
@@ -221,7 +223,8 @@ namespace Graphics {
 		public:
 			MatrixTicket(Renderer *r) :
 				MatrixTicket(r, r->GetTransform())
-			{}
+			{
+			}
 
 			MatrixTicket(Renderer *r, const matrix4x4f &newMat) :
 				m_renderer(r)
@@ -244,7 +247,6 @@ namespace Graphics {
 		};
 
 		virtual bool Screendump(ScreendumpState &sd) { return false; }
-		virtual bool FrameGrab(ScreendumpState &sd) { return false; }
 
 		Stats &GetStats() { return m_stats; }
 

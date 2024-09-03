@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef ANIMATIONCURVES_H
@@ -56,6 +56,13 @@ namespace AnimationCurves {
 	inline float InOutSineEasing(float p)
 	{
 		return 0.5 * (1.0 - std::cos(p * M_PI));
+	}
+
+	// easing from https://github.com/Michaelangel007/easing#tldr-shut-up-and-show-me-the-code
+	// p should go from 0.0 to 1.0
+	inline float OutSineEasing(float p)
+	{
+		return std::sin(p * M_PI * 0.5);
 	}
 
 	// Based on http://blog.moagrius.com/actionscript/jsas-understanding-easing/

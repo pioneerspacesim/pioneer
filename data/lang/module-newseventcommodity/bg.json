@@ -61,7 +61,7 @@
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "Спирането на тока в цялата система {system} ({sectorx}, {sectory}, {sectorz}) причини масови безредици. Потребителите се надпреварват да купят последния Трапъруеър за да си подменят хладилниците, защото техният производител си е изчерпал запасите."
+    "message": "Спирането на тока в цялата система {system} ({sectorx}, {sectory}, {sectorz}) причини масови безредици. Потребителите се надпреварват да купят последния Трапъруер за да си подменят хладилниците, защото техният производител си е изчерпал запасите."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",

@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "FileSystem.h"
@@ -6,17 +6,31 @@
 #include "core/GZipFormat.h"
 #include <SDL.h>
 
+int info()
+{
+	printf(
+		"savegamedump - Dump saved games to JSON for easy inspection.\n"
+		"All paths are relative to the pioneer data folder.\n"
+		"USAGE: savegamedump [--pretty] <input> [output]\n");
+	return 1;
+}
+
 extern "C" int main(int argc, char **argv)
 {
-	if (argc < 2 || argc > 3) {
-		printf(
-			"savegamedump - Dump saved games to JSON for easy inspection.\n"
-			"All paths are relative to the pioneer data folder.\n"
-			"USAGE: savegamedump <input> [output]\n");
-		return 1;
-	}
+	if (argc < 2) return info();
+
+	int indent = -1;
+	int shift = 0;
+
 	std::string filename = argv[1];
-	std::string outname = argc > 2 ? argv[2] : filename + ".json";
+	if (filename == "--pretty") {
+		indent = 2;
+		shift = 1;
+	}
+
+	if (argc < shift+2 || argc > shift+3) return info();
+	filename = argv[shift+1];
+	std::string outname = argc > shift+2 ? argv[shift+2] : filename + ".json";
 
 	auto fileinfo = FileSystem::userFiles.Lookup(filename);
 	if (!fileinfo.Exists()) {
@@ -66,7 +80,7 @@ extern "C" int main(int argc, char **argv)
 		return 1;
 	}
 
-	fputs(rootNode.dump().c_str(), outFile);
+	fputs(rootNode.dump(indent).c_str(), outFile);
 	fclose(outFile);
 
 	return 0;

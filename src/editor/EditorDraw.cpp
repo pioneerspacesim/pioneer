@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "EditorDraw.h"
@@ -98,18 +98,6 @@ void Draw::EndLayout()
 
 	ImGui::EndGroup();
 	ImGui::Spacing();
-}
-
-void Draw::BeginHorizontalBar()
-{
-	ImGui::BeginGroup();
-	ImGui::GetCurrentWindow()->DC.LayoutType = ImGuiLayoutType_Horizontal;
-}
-
-void Draw::EndHorizontalBar()
-{
-	ImGui::GetCurrentWindow()->DC.LayoutType = ImGuiLayoutType_Vertical;
-	ImGui::EndGroup();
 }
 
 void Draw::ShowUndoDebugWindow(UndoSystem *undo, bool *p_open)

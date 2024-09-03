@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -300,6 +300,7 @@ ui.registerHandler('game', function(delta_t)
 		end
 
 		callModules('modal')
+		callModules('ui-timer')
 
 		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
 			gameView.debugReload()

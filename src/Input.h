@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef INPUT_H
@@ -7,7 +7,7 @@
 #include "InputBindings.h"
 
 #include "SDL_joystick.h"
-
+#include <algorithm>
 #include <array>
 #include <vector>
 #include <map>
@@ -148,10 +148,7 @@ public:
 	const std::vector<InputFrame *> &GetInputFrames() { return m_inputFrames; }
 
 	// Check if a specific input frame is currently on the stack.
-	bool HasInputFrame(InputFrame *frame)
-	{
-		return std::count(m_inputFrames.begin(), m_inputFrames.end(), frame) > 0;
-	}
+	bool HasInputFrame(InputFrame *frame);
 
 	// Remove an arbitrary input frame from the input stack.
 	void RemoveInputFrame(InputFrame *frame);

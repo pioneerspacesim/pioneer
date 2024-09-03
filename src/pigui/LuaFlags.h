@@ -1,8 +1,9 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
 
+#include "enum_table.h"
 #include "utils.h"
 #include <lua.hpp>
 #include <stdexcept>
@@ -15,8 +16,17 @@ struct LuaFlags {
 	std::string typeName;
 	int lookupTableRef = LUA_NOREF;
 
+	// directly emplace from an initializer_list
 	LuaFlags(std::initializer_list<std::pair<const char *, FlagType>> init) :
 		LUT(init) {}
+
+	// Build the flags table from a c++ enum table
+	LuaFlags(const EnumItem enumEntries[])
+	{
+		for (size_t idx = 0; enumEntries[idx].name != nullptr; idx++) {
+			LUT.emplace_back(enumEntries[idx].name, static_cast<FlagType>(enumEntries[idx].value));
+		}
+	}
 
 	void Register(lua_State *l, std::string name)
 	{
@@ -42,6 +52,7 @@ struct LuaFlags {
 		lookupTableRef = LUA_NOREF;
 	}
 
+	// Parse a table of string flags or single flag into a bitwise-or'd bitflag value
 	FlagType LookupTable(lua_State *l, int index)
 	{
 		FlagType flagAccum = FlagType(0);
@@ -69,6 +80,7 @@ struct LuaFlags {
 		return flagAccum;
 	}
 
+	// Parse a single string flag value into an enum value directly
 	FlagType LookupEnum(lua_State *l, int index)
 	{
 		FlagType flagAccum = FlagType(0);

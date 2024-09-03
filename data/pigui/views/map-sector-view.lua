@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -16,6 +16,8 @@ local Color = _G.Color
 
 local ui = require 'pigui'
 local layout = require 'pigui.libs.window-layout'
+
+local Serializer = require 'Serializer'
 
 local player = nil
 local colors = ui.theme.colors
@@ -39,10 +41,16 @@ local buttonState = {
 	[false]       = ui.theme.buttonColors.transparent
 }
 
-local draw_vertical_lines = false
-local draw_out_range_labels = false
-local draw_uninhabited_labels = true
-local automatic_system_selection = true
+local settings =
+{
+	draw_vertical_lines=false,
+	draw_out_range_labels=false,
+	draw_uninhabited_labels=true,
+	automatic_system_selection=true
+}
+
+local loaded_data = nil
+
 
 local function textIcon(icon, tooltip)
 	ui.icon(icon, Vector2(ui.getTextLineHeight()), svColor.FONT, tooltip)
@@ -65,13 +73,29 @@ local onGameStart = function ()
 	hyperJumpPlanner.setSectorView(sectorView)
 	-- reset hyperspace details cache on new game
 	hyperspaceDetailsCache = {}
+
+	-- apply any data loaded earlier
+	if loaded_data then
+		if loaded_data.jump_targets then
+			local targets = loaded_data.jump_targets
+			for _, target in pairs( loaded_data.jump_targets) do
+				sectorView:AddToRoute(target)
+			end
+		end
+		if loaded_data.settings then
+			settings = loaded_data.settings
+		end
+		loaded_data = nil
+	end
+
 	-- update visibility states
-	sectorView:SetAutomaticSystemSelection(automatic_system_selection)
-	sectorView:SetDrawOutRangeLabels(draw_out_range_labels)
-	sectorView:GetMap():SetDrawUninhabitedLabels(draw_uninhabited_labels)
-	sectorView:GetMap():SetDrawVerticalLines(draw_vertical_lines)
+	sectorView:SetAutomaticSystemSelection(settings.automatic_system_selection)
+	sectorView:SetDrawOutRangeLabels(settings.draw_out_range_labels)
+	sectorView:GetMap():SetDrawUninhabitedLabels(settings.draw_uninhabited_labels)
+	sectorView:GetMap():SetDrawVerticalLines(settings.draw_vertical_lines)
 	sectorView:GetMap():SetLabelParams("orbiteer", font.size, 2.0, svColor.LABEL_HIGHLIGHT, svColor.LABEL_SHADE)
-	-- allow hyperjump planner to register its events
+
+	-- allow hyperjump planner to register its events:
 	hyperJumpPlanner.onGameStart()
 end
 
@@ -137,7 +161,7 @@ function Windows.systemInfo:Show()
 		if not sectorView:GetMap():IsCenteredOn(systempath) then
 			-- add button to center on the object
 			ui.sameLine()
-			if ui.iconButton(icons.maneuver, Vector2(ui.getTextLineHeight()), lui.CENTER_ON_SYSTEM, ui.theme.buttonColors.transparent) then
+			if ui.inlineIconButton("center", icons.maneuver, lui.CENTER_ON_SYSTEM, ui.theme.buttonColors.transparent) then
 				sectorView:GetMap():GotoSystemPath(systempath)
 			end
 		end
@@ -148,7 +172,8 @@ function Windows.systemInfo:Show()
 			starsystem.numberOfStars == 1 and starsystem.rootSystemBody.astroDescription or "",
 			lc.BINARY_SYSTEM,
 			lc.TRIPLE_SYSTEM,
-			lc.QUADRUPLE_SYSTEM
+			lc.QUADRUPLE_SYSTEM,
+			[0] = lui.AN_ERROR_HAS_OCCURRED
 		}
 
 		-- description
@@ -245,21 +270,21 @@ end
 
 local function showSettings()
 	local changed
-	changed, draw_vertical_lines = ui.checkbox(lc.DRAW_VERTICAL_LINES, draw_vertical_lines)
+	changed, settings.draw_vertical_lines = ui.checkbox(lc.DRAW_VERTICAL_LINES, settings.draw_vertical_lines)
 	if changed then
-		sectorView:GetMap():SetDrawVerticalLines(draw_vertical_lines)
+		sectorView:GetMap():SetDrawVerticalLines(settings.draw_vertical_lines)
 	end
-	changed, draw_out_range_labels = ui.checkbox(lc.DRAW_OUT_RANGE_LABELS, draw_out_range_labels)
+	changed, settings.draw_out_range_labels = ui.checkbox(lc.DRAW_OUT_RANGE_LABELS, settings.draw_out_range_labels)
 	if changed then
-		sectorView:SetDrawOutRangeLabels(draw_out_range_labels)
+		sectorView:SetDrawOutRangeLabels(settings.draw_out_range_labels)
 	end
-	changed, draw_uninhabited_labels = ui.checkbox(lc.DRAW_UNINHABITED_LABELS, draw_uninhabited_labels)
+	changed, settings.draw_uninhabited_labels = ui.checkbox(lc.DRAW_UNINHABITED_LABELS, settings.draw_uninhabited_labels)
 	if changed then
-		sectorView:GetMap():SetDrawUninhabitedLabels(draw_uninhabited_labels)
+		sectorView:GetMap():SetDrawUninhabitedLabels(settings.draw_uninhabited_labels)
 	end
-	changed, automatic_system_selection = ui.checkbox(lc.AUTOMATIC_SYSTEM_SELECTION, automatic_system_selection)
+	changed, settings.automatic_system_selection = ui.checkbox(lc.AUTOMATIC_SYSTEM_SELECTION, settings.automatic_system_selection)
 	if changed then
-		sectorView:SetAutomaticSystemSelection(automatic_system_selection)
+		sectorView:SetAutomaticSystemSelection(settings.automatic_system_selection)
 	end
 	-- end
 end
@@ -445,8 +470,9 @@ ui.registerModule("game", { id = 'map-sector-view', draw = function()
 end})
 
 Event.Register("onGameStart", onGameStart)
-Event.Register("onEnterSystem", function()
-	hyperspaceDetailsCache = {}
+Event.Register("onEnterSystem", function(ship)
+	hyperJumpPlanner.onEnterSystem(ship)
+	if ship:IsPlayer() then hyperspaceDetailsCache = {} end
 end)
 
 -- reset cached data
@@ -454,18 +480,41 @@ Event.Register("onGameEnd", function()
 	searchString = ""
 	systemPaths = nil
 	leftBarMode = "SEARCH"
+
+	hyperJumpPlanner.onGameEnd()
 end)
 
--- events moved from hyperJumpPlanner
-Event.Register("onGameEnd", hyperJumpPlanner.onGameEnd)
-Event.Register("onEnterSystem", hyperJumpPlanner.onEnterSystem)
-Event.Register("onShipEquipmentChanged", hyperJumpPlanner.onShipEquipmentChanged)
+Event.Register("onShipEquipmentChanged", function(ship, ...)
+	if ship:IsPlayer() then hyperspaceDetailsCache = {} end
+	hyperJumpPlanner.onShipEquipmentChanged(ship, ...)
+end)
 
-local function clearHyperspaceCache(ship)
-	if ship and ship == player then hyperspaceDetailsCache = {} end
+Event.Register("onShipTypeChanged", function(ship, ...)
+	if ship:IsPlayer() then hyperspaceDetailsCache = {} end
+end)
+
+
+local serialize = function ()
+
+	local data =
+	{
+		version = 1,
+		jump_targets = {},
+		settings = settings
+	}
+
+	for jumpIndex, jump_sys in pairs(sectorView:GetRoute()) do
+		table.insert( data.jump_targets, jump_sys )
+	end
+
+	return data
 end
 
-Event.Register("onShipEquipmentChanged", clearHyperspaceCache)
-Event.Register("onShipTypeChanged", clearHyperspaceCache)
+local unserialize = function (data)
+	loaded_data = data
+end
+
+Serializer:Register("HyperJumpPlanner", serialize, unserialize)
+
 
 return {}

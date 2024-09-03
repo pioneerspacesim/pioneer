@@ -9,7 +9,7 @@
   },
   "FLAVOUR_0_PRICE": {
     "description": "",
-    "message": "\nMotor: {drive}\nService: {price}\nGaranti: 18 months\n{lasttime}"
+    "message": "\nMotor: {drive}\nService: {price}\nGaranti: 18 månader\n{lasttime}"
   },
   "FLAVOUR_0_RESPONSE": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_2_RESPONSE": {
     "description": "",
-    "message": "Motorn är nu färdigservad. Tack för att du använder dig av {proprietor}."
+    "message": "Service slutförd. Tack för din beställning."
   },
   "FLAVOUR_2_TITLE": {
     "description": "",

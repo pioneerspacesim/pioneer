@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef PIGUI_LUA_H
@@ -19,12 +19,18 @@ namespace PiGui {
 	// Get a table of key name to SDL-keycode mappings
 	LuaRef GetKeys();
 
+	// Get the EventQueue to be used for UI events
+	LuaRef GetEventQueue();
+
 	namespace Lua {
 		void RegisterSandbox();
 
 		void Init();
 		void Uninit();
 	} // namespace Lua
+
+	// Emit all queued UI events
+	void EmitEvents();
 
 	// Run a lua PiGui handler.
 	void RunHandler(double delta, std::string handler = "GAME");

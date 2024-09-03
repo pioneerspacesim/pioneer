@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _PLAYER_H
@@ -27,6 +27,9 @@ public:
 	virtual Missile *SpawnMissile(ShipType::Id missile_type, int power = -1) override;
 	virtual void SetAlertState(Ship::AlertState as) override;
 	virtual void NotifyRemoved(const Body *const removedBody) override;
+	virtual bool ManualDocking() const override { return !AIIsActive(); }
+
+	void DoFixspeedTakeoff(SpaceStation *from = nullptr);
 
 	virtual void SetShipType(const ShipType::Id &shipId) override;
 
@@ -49,7 +52,6 @@ public:
 	void OnCockpitActivated();
 
 	virtual void StaticUpdate(const float timeStep) override;
-	sigc::signal<void> onChangeEquipment;
 	virtual vector3d GetManeuverVelocity() const;
 	virtual int GetManeuverTime() const;
 

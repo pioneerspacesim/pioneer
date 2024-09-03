@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Commodities = require 'Commodities'
@@ -10,10 +10,10 @@ local Timer       = require 'Timer'
 local lc = require 'Lang'.GetResource("core")
 
 local function LifeSupportCallback(self)
-	if not self:exists() then return false end
+	if not self:exists() then return true end
 
 	if self:GetDockedWith() then
-		return true
+		return false
 	end
 
 	---@type CargoManager
@@ -32,7 +32,7 @@ local function LifeSupportCallback(self)
 	-- 	Engine.RequestProfileFrame()
 	-- end
 
-	return true
+	return false
 end
 
 -- TODO: this can be massively improved as far as performance goes; it should
@@ -48,6 +48,6 @@ Event.Register('onShipCreated', function (ship)
 	-- so distribute timer callback load over the full 5s to avoid massive
 	-- single-frame spikes where every ship is processed at once
 	Timer:CallAt(Game.time + 5.0 * Engine.rand:Number(), function()
-		Timer:CallEvery(5.0, function() LifeSupportCallback(ship) end)
+		Timer:CallEvery(5.0, function() return LifeSupportCallback(ship) end)
 	end)
 end)

@@ -345,10 +345,10 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "Где находится цель?"
+    "message": "Где находится {target}?"
   },
   "X_WILL_BE_LEAVING": {
     "description": "",
-    "message": "Ваша цель - {target} - покинет космопорт {spaceport} в системе {system} ({sectorX}, {sectorY}, {sectorZ}), расстояние {dist}, ровно в {date} года.\nКорабль {shipname} имеет регистрационный номер {shipregid}."
+    "message": "{target} покинет космопорт {spaceport} в системе {system} ({sectorX}, {sectorY}, {sectorZ}), расстояние {dist} св.л., ровно в {date}.\nКорабль {shipname} имеет регистрационный номер {shipregid}."
   }
 }

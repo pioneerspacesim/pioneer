@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = require 'Lang'
@@ -100,8 +100,12 @@ CommodityType.registry = {}
 function CommodityType.RegisterCommodity(name, info)
 	assert(not CommodityType.registry[name])
 
-	CommodityType.registry[name] = CommodityType.New(name, info)
-	return CommodityType.registry[name]
+	local commodity = CommodityType.New(name, info)
+
+	CommodityType.registry[name] = commodity
+	Serializer:RegisterPersistent("CommodityType." .. name, commodity)
+
+	return commodity
 end
 
 -- Function: GetCommodity
@@ -122,14 +126,14 @@ end
 -- Ensure loaded commodity types always point at the 'canonical' instance of the commodity;
 -- commodity types not defined by the current version of the code will be loaded verbatim
 function CommodityType.Unserialize(data)
-	local ct = CommodityType.GetCommodity(data.name)
+	setmetatable(data, CommodityType.meta)
 
-	if not ct then
+	if not CommodityType.registry[data.name] then
 		logWarning('Commodity type ' .. data.name .. ' could not be found, are you loading an outdated save?')
-		ct = CommodityType.RegisterCommodity(data.name, data)
+		CommodityType.registry[data.name] = data
 	end
 
-	return ct
+	return data
 end
 
 Serializer:RegisterClass('CommodityType', CommodityType)

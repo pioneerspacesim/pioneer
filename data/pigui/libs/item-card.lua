@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local PiGui = require 'Engine'.pigui
@@ -26,9 +26,7 @@ ItemCard.iconSize = nil ---@type Vector2?
 ItemCard.lineSpacing  = ui.theme.styles.ItemSpacing
 ItemCard.rounding = 4
 
-ItemCard.backgroundColor = colors.tableBackground
-ItemCard.selectedColor   = colors.tableSelection
-ItemCard.hoveredColor    = colors.tableHighlight
+ItemCard.colors = ui.theme.buttonColors.card
 
 function ItemCard:drawTitle(data, regionWidth, isSelected)
 	-- override to draw your specific item card type!
@@ -72,7 +70,7 @@ function ItemCard:drawBackground(isSelected)
 	ui.dummy(highlightSize)
 
 	local isHovered = ui.isMouseHoveringRect(highlightBegin, highlightEnd + Vector2(0, lineSpacing.y)) and ui.isWindowHovered()
-	local bgColor = (isSelected and self.selectedColor) or (isHovered and self.hoveredColor) or self.backgroundColor
+	local bgColor = ui.getButtonColor(self.colors, isHovered, isSelected)
 
 	if self.highlightBar then
 		-- if we're hovered, we want to draw a little bar to the left of the background
@@ -122,7 +120,7 @@ function ItemCard:draw(data, isSelected)
 	local isHovered = ui.isItemHovered()
 	local isClicked = ui.isItemClicked(0)
 
-	local bgColor = (isSelected and self.selectedColor) or (isHovered and self.hoveredColor) or self.backgroundColor
+	local bgColor = ui.getButtonColor(self.colors, isHovered, isSelected)
 
 	if self.highlightBar then
 		-- if we're hovered, we want to draw a little bar to the left of the background

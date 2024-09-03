@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SHIP_H
@@ -104,6 +104,7 @@ public:
 	void SetGunState(int idx, int state);
 	void UpdateMass();
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
+	virtual bool ManualDocking() const { return false; }
 	void Blastoff();
 	bool Undock();
 	virtual void TimeStepUpdate(const float timeStep) override;
@@ -184,7 +185,7 @@ public:
 	AlertState GetAlertState() { return m_alertState; }
 
 	void AIClearInstructions(); // Note: defined in Ship-AI.cpp
-	bool AIIsActive() { return m_curAICmd ? true : false; }
+	bool AIIsActive() const { return m_curAICmd ? true : false; }
 	void AIGetStatusText(char *str); // Note: defined in Ship-AI.cpp
 
 	void AIKamikaze(Body *target); // Note: defined in Ship-AI.cpp
@@ -212,6 +213,8 @@ public:
 
 	void SetLabel(const std::string &label) override;
 	void SetShipName(const std::string &shipName);
+
+	const std::string &GetShipName() const { return m_shipName; }
 
 	float GetAtmosphericPressureLimit() const;
 	float GetPercentShields() const;
@@ -275,6 +278,7 @@ protected:
 
 	Propulsion *m_propulsion;
 	FixedGuns *m_fixedGuns;
+	Shields *m_shields;
 
 private:
 	float GetECMRechargeTime();
@@ -284,6 +288,7 @@ private:
 	void UpdateAlertState();
 	void UpdateFuel(float timeStep);
 	void SetShipId(const ShipType::Id &shipId);
+	void SetupShields();
 	void EnterHyperspace();
 	void InitMaterials();
 	void InitEquipSet();
@@ -297,6 +302,8 @@ private:
 	shipstats_t m_stats;
 	const ShipType *m_type;
 	SceneGraph::ModelSkin m_skin;
+
+	std::unique_ptr<SceneGraph::Model> m_shieldModel;
 
 	Sound::Event m_beamLaser[2];
 

@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef SYSTEMBODY_H
@@ -292,6 +292,10 @@ public:
 	// Calculate atmosphere density at given altitude and pressure (kg/m^3)
 	double GetAtmDensity(double altitude, double pressure) const;
 
+	// for rayleigh scattering
+	double ComputeDensity(const double radius, const double atmosphereHeight, const double h, const double scaleHeight) const;
+	vector3f GetCoefficients(const double radius, const double atmHeight, const double scaleHeight) const;
+
 	AtmosphereParameters CalcAtmosphereParams() const;
 
 	bool IsScoopable() const;
@@ -321,7 +325,7 @@ private:
 	void SetOrbitFromParameters();
 	void SetAtmFromParameters();
 
-	void ClearParentAndChildPointers();
+	void Orphan();
 
 	SystemBody *m_parent;				  // these are only valid if the StarSystem
 	std::vector<SystemBody *> m_children; // that create them still exists

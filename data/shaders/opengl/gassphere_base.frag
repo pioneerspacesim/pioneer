@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "attributes.glsl"
@@ -17,35 +17,22 @@ out vec4 frag_color;
 
 void main(void)
 {
-	vec3 eyepos = varyingEyepos;
-	vec3 eyenorm = normalize(eyepos);
+	vec3 eyeposScaled = varyingEyepos * geosphereInvRadius;
+	vec3 eyenorm = normalize(varyingEyepos);
 	vec3 tnorm = normalize(varyingNormal);
 	vec4 diff = vec4(0.0);
-	float nDotVP=0.0;
-	float nnDotVP=0.0;
+	float surfaceDist = length(eyeposScaled);
 
-	vec3 v = (eyepos - geosphereCenter) * geosphereInvRadius;
-	float lenInvSq = 1.0/(dot(v,v));
+	vec3 V = (eyeposScaled - geosphereCenter);
 	for (int i=0; i<NUM_LIGHTS; ++i) {
-		float uneclipsed = clamp(calcUneclipsed(eclipse, NumShadows, v, normalize(vec3(uLight[i].position))), 0.0, 1.0);
-		nDotVP  = max(0.0, dot(tnorm, normalize(vec3(uLight[i].position))));
-		nnDotVP = max(0.0, dot(tnorm, normalize(-vec3(uLight[i].position)))); //need backlight to increase horizon
-		diff += uLight[i].diffuse * uneclipsed * 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0) * INV_NUM_LIGHTS);
+		vec3 L = normalize(uLight[i].position.xyz);
+		float uneclipsed = clamp(calcUneclipsed(eclipse, NumShadows, V, L), 0.0, 1.0);
+		CalcPlanetDiffuse(diff, uLight[i].diffuse, L, tnorm, uneclipsed);
 	}
 
-	// when does the eye ray intersect atmosphere
-	float atmosStart = findSphereEyeRayEntryDistance(geosphereCenter, eyepos, geosphereRadius * geosphereAtmosTopRad);
 	float ldprod=0.0;
 	float fogFactor=0.0;
-	{
-		float atmosDist = (length(eyepos) - atmosStart);
-
-		// a&b scaled so length of 1.0 means planet surface.
-		vec3 a = (atmosStart * eyenorm - geosphereCenter) * geosphereInvRadius;
-		vec3 b = (eyepos - geosphereCenter) * geosphereInvRadius;
-		ldprod = AtmosLengthDensityProduct(a, b, atmosColor.w*geosphereAtmosFogDensity, atmosDist, geosphereAtmosInvScaleHeight);
-		fogFactor = clamp( 1.5 / exp(ldprod),0.0,1.0);
-	}
+	CalcPlanetFogFactor(ldprod, fogFactor, eyenorm, eyeposScaled - geosphereCenter, surfaceDist);
 
 	//calculate sunset tone red when passing through more atmosphere, clamp everything.
 	float atmpower = (diff.r+diff.g+diff.b)/3.0;

@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Character	= require 'Character'
@@ -101,14 +101,28 @@ local function makeMissionRows()
 			locationName = mission.location:GetSystemBody().name .. ", " .. locationName
 		end
 
-		local playerSystem = Game.system or Game.player:GetHyperspaceTarget()
-		local dist = playerSystem:DistanceTo(mission.location)
+		local playerSystem = Game.system or Game.player:GetHyperspaceTarget():GetStarSystem()
 		local days = math.max(0, (mission.due - Game.time) / (24*60*60))
+
+		-- Use AU for interplanetary, LY for interstellar distances
+		local dist, dist_display
+		if mission.location:IsSameSystem(playerSystem.path) and not Game.InHyperspace() then
+			if mission.location:IsBodyPath() then
+				local body = mission.location:GetSystemBody().body
+				dist = Game.player:GetPositionRelTo(body):length()
+				dist_display = "\n" .. ui.Format.Distance(dist)
+			else
+				dist_display = "\n-"
+			end
+		else
+			dist = playerSystem:DistanceTo(mission.location)
+			dist_display = string.format("\n%.2f %s", dist, l.LY)
+		end
 
 		local row = {
 			mission:GetTypeDescription(),
 			mission.client.name,
-			locationName .. string.format("\n%.2f %s", dist, l.LY),
+			locationName .. dist_display,
 			ui.Format.Date(mission.due) .."\n".. string.format(l.D_DAYS_LEFT, days),
 			ui.Format.Money(mission.reward),
 		}

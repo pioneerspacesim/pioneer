@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Application.h"
@@ -199,7 +199,9 @@ void Application::Run()
 
 		EndFrame();
 
+#ifdef PIONEER_PROFILER
 		const bool profileReset = (m_activeLifecycle && !m_activeLifecycle->m_profilerAccumulate);
+#endif
 
 		if (m_activeLifecycle->m_endLifecycle || !m_applicationRunning) {
 			EndLifecycle();

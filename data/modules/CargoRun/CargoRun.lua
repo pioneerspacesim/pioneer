@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -8,6 +8,7 @@ local Space = require 'Space'
 local Comms = require 'Comms'
 local Event = require 'Event'
 local Mission = require 'Mission'
+local MissionUtils = require 'modules.MissionUtils'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
@@ -22,8 +23,6 @@ local lc = Lang.GetResource 'core'
 
 -- don't produce missions for further than this many light years away
 local max_delivery_dist = 15
--- typical time for travel to a system max_delivery_dist away
-local typical_travel_time = (2.5 * max_delivery_dist + 8) * 24 * 60 * 60
 -- typical reward for delivery to a system max_delivery_dist away
 local typical_reward = 35 * max_delivery_dist
 -- typical reward for local delivery
@@ -34,21 +33,26 @@ local min_local_dist_pay = 10
 local max_cargo = 10
 local max_cargo_wholesaler = 100
 -- factor for pickup missions
-local pickup_factor = 1.75
+local pickup_factor = 2
 -- the maximum price of the custom cargo
 local max_price = 300
 
-local custom_cargo = require 'modules.CargoRun.CargoTypes'
+local custom_cargo = {}
 
 -- Each branch should have a probability weight proportional to its size
 local custom_cargo_weight_sum = 0
-for branch,branch_array in pairs(custom_cargo) do
-	custom_cargo[branch].weight = #branch_array.goods
-	custom_cargo_weight_sum = custom_cargo_weight_sum + #branch_array.goods
-end
 
 local ads = {}
 local missions = {}
+
+local setDefaultCustomCargo = function()
+	custom_cargo_weight_sum = 0
+	custom_cargo = require 'modules.CargoRun.CargoTypes'
+	for branch,branch_array in pairs(custom_cargo) do
+		custom_cargo[branch].weight = #branch_array.goods
+		custom_cargo_weight_sum = custom_cargo_weight_sum + #branch_array.goods
+	end	
+end
 
 local isQualifiedFor = function(reputation, ad)
 	return
@@ -342,7 +346,7 @@ local nearbysystems
 
 local makeAdvert = function (station)
 	local reward, due, location, nearbysystem, dist, nearbystations, amount
-	local risk, wholesaler, pickup, branch, cargotype, missiontype
+	local risk, wholesaler, pickup, branch, cargotype, missiontype, timeout
 	local client = Character.New()
 	local urgency = Engine.rand:Number(0, 1)
 	local localdelivery = Engine.rand:Number(0, 1) > 0.5 and true or false
@@ -361,15 +365,13 @@ local makeAdvert = function (station)
 		pickup = Engine.rand:Number(0, 1) > 0.75 and true or false
 		location, dist = table.unpack(nearbystations[Engine.rand:Integer(1,#nearbystations)])
 		reward = typical_reward_local + math.max(math.sqrt(dist) / 15000, min_local_dist_pay) * (1.5+urgency) * (1+amount/max_cargo)
-		due = (4*24*60*60) + (24*60*60 * (dist / (1.49*10^11))) * (1.5 - urgency)
+		due = (60*60*18 + MissionUtils.TravelTimeLocal(dist)) * 1.66 * (1.5 - urgency) * Engine.rand:Number(0.9, 1.1)
+		timeout = due/2 -- timeout after half of the travel time
 
 		if pickup then
 			missiontype = "PICKUP_LOCAL"
-			reward = reward * pickup_factor
-			due = due * pickup_factor + Game.time
 		else
 			missiontype = "LOCAL"
-			due = due + Game.time
 		end
 	else
 		if nearbysystems == nil then
@@ -399,16 +401,20 @@ local makeAdvert = function (station)
 
 		risk = 0.75 * cargotype.price / max_price + Engine.rand:Number(0, 0.25) -- goods with price max_price have a risk of 0.75 to 1
 		reward = (dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5+urgency) * (1+amount/max_cargo_wholesaler) * Engine.rand:Number(0.8,1.2)
-		due = (dist / max_delivery_dist) * typical_travel_time * (1.5 - urgency)
+		due = MissionUtils.TravelTime(dist, location) * 1.66 * (1.5 - urgency) * Engine.rand:Number(0.9, 1.1)
+		timeout = due/2 -- timeout after half of the travel time
+	end
 
-		if pickup then
-			reward = reward * pickup_factor
-			due = due * pickup_factor + Game.time
-		else
-			due = due + Game.time
-		end
+	if pickup then
+		reward = reward * pickup_factor
+		due = due * pickup_factor + Game.time
+		timeout = timeout * pickup_factor + Game.time
+	else
+		due = due + Game.time
+		timeout = timeout + Game.time
 	end
 	reward = utils.round(reward, 25)
+	due = utils.round(due, 900)
 
 	local n = getNumberOfFlavours("INTROTEXT_" .. missiontype)
 	local introtext
@@ -430,6 +436,7 @@ local makeAdvert = function (station)
 		introtext     = introtext,
 		dist          = dist,
 		due           = due,
+		timeout       = timeout,
 		amount        = amount,
 		negotiable    = negotiable,
 		branch        = branch,
@@ -465,14 +472,8 @@ end
 
 local onUpdateBB = function (station)
 	for ref,ad in pairs(ads) do
-		if ad.localdelivery then
-			if ad.due < Game.time + 2*60*60*24 then -- two day timeout for locals
-				ad.station:RemoveAdvert(ref)
-			end
-		else
-			if ad.due < Game.time + 5*60*60*24 then -- five day timeout for inter-system
-				ad.station:RemoveAdvert(ref)
-			end
+		if ad.timeout < Game.time then
+			ad.station:RemoveAdvert(ref)
 		end
 	end
 
@@ -785,6 +786,8 @@ local onGameStart = function ()
 		custom_cargo = loaded_data.custom_cargo
 		custom_cargo_weight_sum = loaded_data.custom_cargo_weight_sum
 		loaded_data = nil
+	else
+		setDefaultCustomCargo()
 	end
 end
 
@@ -792,6 +795,11 @@ local onGameEnd = function ()
 	nearbysystems = nil
 	pirate_ships = {}
 	escort_ships = {}
+
+	ads = {}
+	missions = {}
+	custom_cargo = {}
+	custom_cargo_weight_sum = 0
 end
 
 local buildMissionDescription = function(mission)

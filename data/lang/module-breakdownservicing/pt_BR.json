@@ -17,7 +17,7 @@
   },
   "FLAVOUR_0_TITLE": {
     "description": "",
-    "message": "Companhia de Manutenção de Máquinas {nome}"
+    "message": "Companhia de Manutenção de Máquinas {name}"
   },
   "FLAVOUR_0_YESPLEASE": {
     "description": "",
@@ -41,7 +41,7 @@
   },
   "FLAVOUR_1_TITLE": {
     "description": "",
-    "message": "{proprietário}: Especialista em manutenção de hiperdrive"
+    "message": "{proprietor}: Especialista em manutenção de hiperdrive"
   },
   "FLAVOUR_1_YESPLEASE": {
     "description": "",
@@ -65,7 +65,7 @@
   },
   "FLAVOUR_2_TITLE": {
     "description": "",
-    "message": "HiperMecânica {proprietário} & Cia"
+    "message": "HiperMecânica {proprietor} & Cia"
   },
   "FLAVOUR_2_YESPLEASE": {
     "description": "",
@@ -89,7 +89,7 @@
   },
   "FLAVOUR_3_TITLE": {
     "description": "",
-    "message": "Manutenção SuperConserto ({nome} divisão)"
+    "message": "Manutenção SuperConserto ({name} divisão)"
   },
   "FLAVOUR_3_YESPLEASE": {
     "description": "",
@@ -137,7 +137,7 @@
   },
   "FLAVOUR_5_TITLE": {
     "description": "",
-    "message": "Companhia de Manutenção de Máquinas {proprietário}"
+    "message": "Companhia de Manutenção de Máquinas {proprietor}"
   },
   "FLAVOUR_5_YESPLEASE": {
     "description": "",
@@ -157,11 +157,11 @@
   },
   "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED": {
     "description": "",
-    "message": "Seu drive não recebeu manutenção desde que foi instalado em {data}"
+    "message": "Seu drive não recebeu manutenção desde que foi instalado em {date}"
   },
   "YOUR_DRIVE_WAS_LAST_SERVICED_ON": {
     "description": "",
-    "message": "A última manutenção no seu drive foi em {data} por {companhia}"
+    "message": "A última manutenção no seu drive foi em {date} por {company}"
   },
   "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE": {
     "description": "",

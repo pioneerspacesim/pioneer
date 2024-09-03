@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SystemEditorModals.h"
@@ -125,7 +125,11 @@ void NewSystemModal::DrawInternal()
 	ImGui::EndChild();
 
 	if (ImGui::Button("New System")) {
-		m_editor->NewSystem(m_path->SectorOnly());
+		// Ensure we generate a valid system index
+		SystemPath newPath = m_path->SectorOnly();
+		newPath.systemIndex = sec->m_systems.size();
+
+		m_editor->NewSystem(newPath);
 		ImGui::CloseCurrentPopup();
 	}
 

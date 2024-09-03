@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "PlayerShipController.h"
@@ -106,7 +106,9 @@ struct PlayerShipController::Util {
 			auto good_speed = sqrt(2 * max_accel * want_rot) * 0.95;
 			auto frame_speed = want_rot / timeStep;
 			auto tot_speed = std::min(good_speed, frame_speed / 2);
-			rot_vel = (ship_dir.Cross(dir) * c.m_ship->GetOrient()).Normalized() * tot_speed;
+			// this cross product often becomes all-zeros (ship_dir coincides with requested dir)
+			// NormalizedSafe is crucial there to avoid NaN poisoning
+			rot_vel = (ship_dir.Cross(dir) * c.m_ship->GetOrient()).NormalizedSafe() * tot_speed;
 		}
 		return rot_vel;
 	};

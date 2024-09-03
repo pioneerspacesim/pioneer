@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang         = require "Lang"
@@ -205,6 +205,16 @@ local onChat = function (form, ref, option)
 			system     = ui.Format.SystemPath(ad.location:SystemOnly()),
 			dist       = format_dist(ad),
 		})
+
+		if not ad.orbital and (sbody.surfacePressure > 0.5 or sbody.gravity > 4.5) then
+			introtext = introtext .. "\n\n" .. l.SURFACE_SCAN_DETAILS % {
+				pressure = ui.Format.Pressure(sbody.surfacePressure),
+				gravity = ui.Format.Gravity(sbody.gravity / EARTH_G)
+			}
+
+			introtext = introtext .. "\n\n" .. l.SURFACE_SCAN_WARNING
+		end
+
 		form:SetMessage(introtext)
 
 	elseif option == 1 then
@@ -214,12 +224,15 @@ local onChat = function (form, ref, option)
 		form:SetMessage(string.interp(l.PLEASE_HAVE_THE_DATA_BACK_BEFORE, {date = Format.Date(ad.due)}))
 
 	elseif option == 4 then
-		form:SetMessage(string.interp(l.SCAN_DETAILS, {
+
+		local details = l.SCAN_DETAILS % {
 			coverage = format_coverage(ad.orbital, ad.coverage),
 			resolution = string.format("%.1f", ad.resolution),
 			body = ad.location:GetSystemBody().name,
 			type = ad.orbital and l.AN_ORBITAL_SCAN or l.A_SURFACE_SCAN
-		}))
+		}
+
+		form:SetMessage(details)
 
 	elseif option == 5 then
 		form:SetMessage(ad.orbital and l.ADDITIONAL_INFORMATION_ORBITAL or l.ADDITIONAL_INFORMATION_SURFACE)
@@ -330,7 +343,7 @@ local function calcSurfaceScanMission(sBody, difficulty, reward)
 
 	-- Calculate parameters which make approaching the body to scan it more difficult
 	local bodyDifficulty = (1 + sBody.gravity / EARTH_G)
-		* (1 + math.max(math.log(sBody.volatileGas), 0.0) * 0.5)
+		* (1 + math.max(math.log(sBody.atmosDensity), 0.0) * 0.5)
 		* (1 + sBody.eccentricity * 0.5)
 
 	local bodyReward = 1
@@ -371,8 +384,15 @@ local filterBodySurface = function(station, sBody)
 		return false
 	end
 
-	-- filter out bodies unless at least 100km in diameter
-	if sBody.radius < 50000 then
+	-- filter out bodies unless at least 200km in diameter
+	if sBody.radius < 100000 then
+		return false
+	end
+
+	-- filter out bodies with extreme atmospheric pressures
+	-- most ships won't be able to scan these planets even with heavy atmospheric shielding
+	-- TODO: allow surface scans on high-pressure planets as special high-reward mission type
+	if sBody.surfacePressure > 60.0 then
 		return false
 	end
 
@@ -615,12 +635,19 @@ local onScanComplete = function (player, scanId)
 				mission.client.name)
 		end
 	end
+
 	mission.location = newlocation
-	Game.player:SetHyperspaceTarget(mission.location:GetStarSystem().path)
+
+	if Game.system and mission.location:IsSameSystem(Game.system.path) then
+		Game.player:SetNavTarget(mission.location)
+	else
+		Game.player:SetHyperspaceTarget(mission.location:SystemOnly())
+	end
 end
 
 
 ---@param player Player
+---@param station SpaceStation
 local onShipDocked = function (player, station)
 	if not player:IsPlayer() then return end
 	local scanMgr = player:GetComponent("ScanManager")
@@ -670,6 +697,11 @@ end
 local loaded_data
 
 local onGameStart = function ()
+	-- If we loaded a saved game, the player may have a ScanManager component already
+	if not Game.player:GetComponent("ScanManager") then
+		Game.player:SetComponent("ScanManager", ScanManager.New(Game.player))
+	end
+
 	ads = {}
 	missions = {}
 	missionKey = {}
@@ -765,25 +797,17 @@ local onGameEnd = function ()
 	nearbysystems = nil
 end
 
+Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onCreateBB", onCreateBB)
 Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onShipDocked", onShipDocked)
-Event.Register("onGameStart", onGameStart)
 
 Event.Register("onScanRangeEnter", onScanRangeEnter)
 Event.Register("onScanRangeExit", onScanRangeExit)
 Event.Register("onScanPaused", onScanPaused)
 Event.Register("onScanComplete", onScanComplete)
-
--- Ensure the player ship has a ScanManager available
-Event.Register('onGameStart', function()
-	-- If we loaded a saved game, the player may have a ScanManager component already
-	if not Game.player:GetComponent("ScanManager") then
-		Game.player:SetComponent("ScanManager", ScanManager.New(Game.player))
-	end
-end)
 
 Mission.RegisterType('Scout', l.MAPPING, buildMissionDescription)
 

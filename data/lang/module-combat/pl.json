@@ -205,7 +205,7 @@
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "Spotkajmy się w {randezvous} systemie aby zakończyć zlecenie!"
+    "message": "Spotkajmy się w {rendezvous} systemie aby zakończyć zlecenie!"
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
@@ -229,7 +229,7 @@
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "{org} prowadzi spór z konkurencyjną firmą o obszar {area} w systemie {system} ({sectorx}, {sectory}, {sectorz}). Aby przeforsować nasze roszczenia, potrzebujemy niezawodnego i doświadczonego najemnika. Oferujemy {cash} na wydatki. Odległość do {systemu} to {dist} lś."
+    "message": "{org} prowadzi spór z konkurencyjną firmą o obszar {area} w systemie {system} ({sectorx}, {sectory}, {sectorz}). Aby przeforsować nasze roszczenia, potrzebujemy niezawodnego i doświadczonego najemnika. Oferujemy {cash} na wydatki. Odległość do {system} to {dist} lś."
   },
   "MINING_2": {
     "description": "{area} is an asteroid or planet",
@@ -241,7 +241,7 @@
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Konwój jest w drodze do {area}. Koniecznie należy ukończyć misję przed {date|}."
+    "message": "Konwój jest w drodze do {area}. Koniecznie należy ukończyć misję przed {date}."
   },
   "MINING_LAND_THERE": {
     "description": "",

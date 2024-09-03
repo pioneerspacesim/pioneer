@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine' -- rand
@@ -20,15 +20,15 @@ local utils = {}
 --   > for i, v in numbered_keys(pairs(table)) do ... end
 --
 function utils.numbered_keys(step, context, position)
-  local k = position
-  local f = function(s, i)
-	local v
-	k,v = step(s, k)
-	if k ~= nil then
-	  return (i+1), v
+	local k = position
+	local f = function(s, i)
+		local v
+		k,v = step(s, k)
+		if k ~= nil then
+			return (i+1), v
+		end
 	end
-  end
-  return f, context, 0
+	return f, context, 0
 end
 
 --
@@ -40,12 +40,12 @@ end
 --   > for k,v in filter(function (k,v) ... return true end, pairs(table))
 --
 function utils.filter(predicate, step, context, position)
-  local f = function (s, k)
-	local v
-	repeat k,v = step(s,k); until (k == nil) or predicate(k,v)
-	return k,v
-  end
-  return f, context, position
+	local f = function (s, k)
+		local v
+		repeat k,v = step(s,k); until (k == nil) or predicate(k,v)
+		return k,v
+	end
+	return f, context, position
 end
 
 --
@@ -57,14 +57,15 @@ end
 --   > for k,v in map(function (k,v) ... return newk, newv end, pairs(table))
 --
 function utils.map(transformer, step, context, position)
-  local f = function (s, k)
-	local v
-	k, v = step(s, k)
-	if k ~= nil then
-	  return transformer(k,v)
+	-- fully wrap the iterator so that transformed keys don't feed back into the step function
+	local f = function ()
+		local v
+		position, v = step(context, position)
+		if position ~= nil then
+			return transformer(position, v)
+		end
 	end
-  end
-  return f, context, position
+	return f, context, position
 end
 
 --
@@ -76,14 +77,14 @@ end
 --   > array = build_array(pairs(table))
 --
 function utils.build_array(f, s, k)
-  local v
-  local t = {}
-  while true do
+	local v
+	local t = {}
+	while true do
 	k, v = f(s, k)
 	if k == nil then break end
 	table.insert(t, v)
-  end
-  return t
+	end
+	return t
 end
 
 --
@@ -95,14 +96,14 @@ end
 --   > filtered = build_table(filter(function () ... end, pairs(table)))
 --
 function utils.build_table(f, s, k)
-  local v
-  local t = {}
-  while true do
+	local v
+	local t = {}
+	while true do
 	k, v = f(s, k)
 	if k == nil then break end
 	t[k] = v
-  end
-  return t
+	end
+	return t
 end
 
 --
@@ -171,6 +172,7 @@ function utils.filter_table(table, predicate)
 	end
 	return t
 end
+
 --
 -- Function: filter_array
 --
@@ -185,10 +187,47 @@ end
 ---@param predicate fun(v: T): boolean
 function utils.filter_array(array, predicate)
 	local t = {}
-	for i, v in ipairs(array) do
+	for _, v in ipairs(array) do
 		if predicate(v) then table.insert(t, v) end
 	end
 	return t
+end
+
+-- Function: to_array
+--
+-- Filters the values of the given table and converts them to an array.
+-- Key iteration order is undefined (uses pairs() internally).
+---@generic K, V
+---@param t table<K, V>
+---@param predicate fun(v: V): boolean
+---@return V[]
+utils.to_array = function(t, predicate)
+	local out = {}
+	for _, v in pairs(t) do
+		if predicate(v) then table.insert(out, v) end
+	end
+	return out
+end
+
+--
+-- Function: find_if
+--
+-- Returns the first value in the passed table which matches the predicate.
+--
+-- Iteration order is undefined (uses pairs() internally).
+--
+---@generic K, V
+---@param t table<K, V>
+---@param predicate fun(k: K, v: V): boolean
+---@return V?
+utils.find_if = function(t, predicate)
+	for k, v in pairs(t) do
+		if predicate(k, v) then
+			return v
+		end
+	end
+
+	return nil
 end
 
 --
@@ -208,47 +247,47 @@ function utils.stable_sort(values, cmp)
 	end
 
 	local split = function (values)
-	   local a = {}
-	   local b = {}
-	   local len = #values
-	   local mid = math.floor(len/2)
-	   for i = 1, mid do
-		  a[i] = values[i]
-	   end
-	   for i = mid+1, len do
-		  b[i-mid] = values[i]
-	   end
-	   return a,b
+		local a = {}
+		local b = {}
+		local len = #values
+		local mid = math.floor(len/2)
+		for i = 1, mid do
+			a[i] = values[i]
+		end
+		for i = mid+1, len do
+			b[i-mid] = values[i]
+		end
+		return a,b
 	end
 
 	local merge = function (a,b)
-	   local result = {}
-	   local a_len = #(a)
-	   local b_len = #(b)
-	   local i1 = 1
-	   local i2 = 1
-	   for j = 1, a_len+b_len do
-		  if i2 > b_len
-			 or (i1 <= a_len and cmp(a[i1], b[i2]))
-		  then
-			 result[j] = a[i1]
-			 i1 = i1 + 1
-		  else
-			 result[j] = b[i2]
-			 i2 = i2 + 1
-		  end
-	   end
-	   return result
+		local result = {}
+		local a_len = #(a)
+		local b_len = #(b)
+		local i1 = 1
+		local i2 = 1
+		for j = 1, a_len+b_len do
+			if i2 > b_len
+				or (i1 <= a_len and cmp(a[i1], b[i2]))
+			then
+				result[j] = a[i1]
+				i1 = i1 + 1
+			else
+				result[j] = b[i2]
+				i2 = i2 + 1
+			end
+		end
+		return result
 	end
 
 	local function merge_sort (values)
-	   if #values > 1 then
-		  local a, b = split(values)
-		  a = merge_sort(a)
-		  b = merge_sort(b)
-		  values = merge(a, b)
-	   end
-	   return values
+		if #values > 1 then
+			local a, b = split(values)
+			a = merge_sort(a)
+			b = merge_sort(b)
+			values = merge(a, b)
+		end
+		return values
 	end
 
 	return merge_sort(values)
@@ -354,8 +393,8 @@ utils.inherits = function (baseClass, name)
 	new_class.meta = { __index = new_class, class=name }
 
 	-- generic constructor
-	function new_class.New(args)
-		local newinst = base_class.New(args)
+	function new_class.New(...)
+		local newinst = base_class.New(...)
 		setmetatable( newinst, new_class.meta )
 		return newinst
 	end
@@ -387,20 +426,72 @@ end
 -- Wrapper for utils.inherits that manages creating new class instances and
 -- calling the constructor.
 --
-utils.class = function (name, baseClass)
-	local new_class = utils.inherits(baseClass, name)
+utils.class = function (name, base_class)
+	base_class = base_class or object
+	local new_class = utils.inherits(base_class, name)
 
 	new_class.New = function(...)
 		local instance = setmetatable( {}, new_class.meta )
 
-		if new_class.Constructor then
-			new_class.Constructor(instance, ...)
-		end
+		new_class.Constructor(instance, ...)
 
 		return instance
 	end
 
+	new_class.Constructor = function(self, ...)
+		if base_class.Constructor then
+			base_class.Constructor(self, ...)
+		end
+	end
+
 	return new_class
+end
+
+local _proto = {}
+
+_proto.__clone = function(self) end
+
+function _proto:clone(mixin)
+	local new = { __index = self }
+	setmetatable(new, new)
+
+	new:__clone()
+
+	if mixin then
+		table.merge(new, mixin)
+	end
+
+	return new
+end
+
+-- Simple Self/iolang style prototype chains
+-- Can be used with lua serialization as long as no functions are set anywhere
+-- but on the base prototype returned from utils.proto
+utils.proto = function(classname)
+	local newProto = _proto:clone()
+
+	newProto.class = classname
+
+	function newProto:Serialize()
+		local out = table.copy(self)
+
+		-- Cannot serialize functions, so references to the base prototype are
+		-- not serialized
+		if out.__index == newProto then
+			out.__index = nil
+		end
+
+		return out
+	end
+
+	-- If a prototype doesn't have a serialized __index field, it referred to
+	-- this base prototype originally
+	function newProto:Unserialize()
+		self.__index = self.__index or newProto
+		return setmetatable(self, self)
+	end
+
+	return newProto
 end
 
 --
@@ -425,17 +516,20 @@ utils.print_r = function(t)
 			if type(t) == "table" then
 				for key, val in pairs(t) do
 					local string_key = tostring(key)
+					local string_val = tostring(val)
 
-					if type(val) == "table" then
-						write(indent, '[%s] => %s {', string_key, tostring(t))
+					if type(val) == "table" and not print_r_cache[string_val] then
+						write(indent, '[%s] => %s {', string_key, string_val)
 
 						sub_print_r(val, indent + string.len(string_key) + 8)
 
 						write(indent + string.len(string_key) + 6, "}")
+					elseif type(val) == "table" then
+						write(indent, "[%s] => *%s", string_key, string_val)
 					elseif (type(val)=="string") then
-						write(indent, "[%s] => '%s'", string_key, val)
+						write(indent, "[%s] => '%s'", string_key, string_val)
 					else
-						write(indent, "[%s] => %s", string_key, tostring(val))
+						write(indent, "[%s] => %s", string_key, string_val)
 					end
 				end
 			else
@@ -471,11 +565,28 @@ end
 --
 -- Function: contains
 --
--- Return true if the function contains the given value under any key.
+-- Return true if the table contains the given value under any key.
 --
 utils.contains = function(t, val)
 	for _, v in pairs(t) do
 		if v == val then return true end
+	end
+
+	return false
+end
+
+--
+-- Function: contains
+--
+-- Return true if the table contains a value that passes the given predicate.
+--
+---@generic K, V
+---@param t table<K, V>
+---@param predicate fun(v: V): boolean
+---@return boolean
+utils.contains_if = function(t, predicate)
+	for _, v in pairs(t) do
+		if predicate(v) then return true end
 	end
 
 	return false
@@ -513,10 +624,15 @@ end
 --
 -- Remove the given value element from the passed array table
 --
+-- Returns the index that the element was removed from or nil if it wasn't removed
 utils.remove_elem = function(t, val)
 	for i = #t, 1, -1 do
-		if t[i] == val then table.remove(t, i) end
+		if t[i] == val then
+			table.remove(t, i)
+			return i
+		end
 	end
+	return nil
 end
 
 --

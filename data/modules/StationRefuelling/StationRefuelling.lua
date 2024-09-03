@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = require 'Lang'
@@ -21,12 +21,6 @@ end
 local onShipDocked = function (ship, station)
 	if not ship:IsPlayer() then
 		ship:SetFuelPercent() -- refuel NPCs for free.
-		return
-	end
-	-- On spawning, we shouldn't deduct a fee.
-	-- This is a horrible hack but fixing in C++ side would be far more complicated.
-	if ship:hasprop("is_first_spawn") then
-		ship:unsetprop("is_first_spawn")
 		return
 	end
 

@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SystemEditorViewport.h"
@@ -8,7 +8,6 @@
 
 #include "Background.h"
 #include "SystemView.h"
-#include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
 
 #include "editor/EditorApp.h"
@@ -111,7 +110,6 @@ void SystemEditorViewport::OnDraw()
 	// Then draw "under" the GUI elements so we can use ImGui::IsItemHovered et al.
 	for (auto &group : groups) {
 		ImVec2 itempos = { group.screenpos.x, group.screenpos.y };
-		ImVec2 iconSize = { ImGui::GetFontSize(), ImGui::GetFontSize() };
 
 		// Simple screen clipping rejection test
 		if (!screen_rect.Contains(itempos))

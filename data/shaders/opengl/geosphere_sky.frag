@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "attributes.glsl"
@@ -11,64 +11,43 @@ in vec4 varyingEyepos;
 
 out vec4 frag_color;
 
-void sphereEntryExitDist(out float near, out float far, const in vec3 sphereCenter, const in vec3 eyeTo, const in float radius)
-{
-	vec3 v = -sphereCenter;
-	vec3 dir = normalize(eyeTo);
-	float b = -dot(v, dir);
-	float det = (b * b) - dot(v, v) + (radius * radius);
-	float i1, i2;
-	near = 0.0;
-	far = 0.0;
-	if (det > 0.0) {
-		det = sqrt(det);
-		i1 = b - det;
-		i2 = b + det;
-		if (i2 > 0.0) {
-			near = max(i1, 0.0);
-			far = i2;
-		}
-	}
-}
-
 void main(void)
 {
-	float skyNear, skyFar;
 	vec3 eyenorm = normalize(varyingEyepos.xyz);
 	float specularHighlight=0.0;
 
-	sphereEntryExitDist(skyNear, skyFar, geosphereCenter, varyingEyepos.xyz, geosphereRadius * geosphereAtmosTopRad);
-	float atmosDist = (skyFar - skyNear);
+	vec2 viewDist = raySphereIntersect(geosphereCenter, eyenorm, geosphereAtmosTopRad);
+	vec2 isect = raySphereIntersect(geosphereCenter, eyenorm, 1.0);
+
+	float atmosDist = (viewDist.y - viewDist.x) * geosphereRadius;
 	float ldprod=0.0;
 
 	// a&b scaled so length of 1.0 means planet surface.
-	vec3 a = (skyNear * eyenorm - geosphereCenter) * geosphereInvRadius;
-	vec3 b = (skyFar * eyenorm - geosphereCenter) * geosphereInvRadius;
+	vec3 a = viewDist.x * eyenorm - geosphereCenter;
+	vec3 b = viewDist.y * eyenorm - geosphereCenter;
 	ldprod = AtmosLengthDensityProduct(a, b, atmosColor.a * geosphereAtmosFogDensity, atmosDist, geosphereAtmosInvScaleHeight);
 
 	float fogFactor = 1.0 / exp(ldprod);
 	vec4 atmosDiffuse = vec4(0.0);
 
 #if (NUM_LIGHTS > 0)
-	vec3 surfaceNorm = normalize(skyNear * eyenorm - geosphereCenter);
+	vec3 surfaceNorm = normalize(viewDist.x * eyenorm - geosphereCenter);
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 
-		vec3 lightDir = normalize(vec3(uLight[i].position));
+		vec3 L = normalize(vec3(uLight[i].position));
+		float uneclipsed = clamp(calcUneclipsedSky(eclipse, NumShadows, a, b, L), 0.0, 1.0);
 
-		float uneclipsed = clamp(calcUneclipsedSky(eclipse, NumShadows, a, b, lightDir), 0.0, 1.0);
+		CalcPlanetDiffuse(atmosDiffuse, toLinear(uLight[i].diffuse), L, surfaceNorm, uneclipsed);
 
-		float nDotVP =  max(0.0, dot(surfaceNorm, lightDir));
-		float nnDotVP = max(0.0, dot(surfaceNorm, -lightDir));  //need backlight to increase horizon
-		atmosDiffuse +=  uLight[i].diffuse * uneclipsed * 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0) * INV_NUM_LIGHTS);
-
-		//Calculate Specular Highlight
-		vec3 L = normalize(uLight[i].position.xyz - varyingEyepos.xyz);
-		vec3 E = normalize(-varyingEyepos.xyz);
-		vec3 R = normalize(-reflect(L,vec3(0.0)));
-		specularHighlight += pow(max(dot(R,E),0.0),64.0) * uneclipsed * INV_NUM_LIGHTS;
+		// Calculate Specular Highlight (halo around the light source)
+		specularHighlight += pow(max(dot(L, eyenorm), 0.0), 64.0) * uneclipsed * INV_NUM_LIGHTS;
 
 	}
 #endif
+
+	// Tonemap in sRGB space to match existing visuals
+	atmosDiffuse = toSRGB(atmosDiffuse);
+	atmosDiffuse = 1.0 - exp(-atmosDiffuse);
 
 	//calculate sunset tone red when passing through more atmosphere, clamp everything.
 	float atmpower = (atmosDiffuse.r+atmosDiffuse.g+atmosDiffuse.b)/3.0;

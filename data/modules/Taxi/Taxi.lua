@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -8,6 +8,7 @@ local Space = require 'Space'
 local Comms = require 'Comms'
 local Event = require 'Event'
 local Mission = require 'Mission'
+local MissionUtils = require 'modules.MissionUtils'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
@@ -22,9 +23,6 @@ local lc = Lang.GetResource 'core'
 
 -- don't produce missions for further than this many light years away
 local max_taxi_dist = 40
--- typical time for travel to a system max_taxi_dist away
---	Irigi: ~ 4 days for in-system travel, the rest is FTL travel time
-local typical_travel_time = (2.0 * max_taxi_dist + 4) * 24 * 60 * 60
 -- typical reward for taxi service to a system max_taxi_dist away
 local typical_reward = 75 * max_taxi_dist
 -- max number of passengers per trip
@@ -258,7 +256,7 @@ end
 
 local nearbysystems
 local makeAdvert = function (station)
-	local reward, due, location
+	local reward, due, location, timeout
 	local client = Character.New()
 	local flavour = Engine.rand:Integer(1,#flavours)
 	local urgency = flavours[flavour].urgency
@@ -276,7 +274,9 @@ local makeAdvert = function (station)
 	local dist = location:DistanceTo(Game.system)
 	reward = ((dist / max_taxi_dist) * typical_reward * (group / 2) * (1+risk) * (1+3*urgency) * Engine.rand:Number(0.8,1.2))
 	reward = utils.round(reward, 50)
-	due = Game.time + ((dist / max_taxi_dist) * typical_travel_time * (1.5-urgency) * Engine.rand:Number(0.9,1.1))
+	due = MissionUtils.TravelTime(dist) * 1.25 * (1.5-urgency) * Engine.rand:Number(0.9,1.1)
+	timeout = due/2 + Game.time -- timeout after half of the travel time
+	due = utils.round(due + Game.time, 900)
 
 	local ad = {
 		station		= station,
@@ -285,6 +285,7 @@ local makeAdvert = function (station)
 		location	= location.path,
 		dist        = dist,
 		due		    = due,
+		timeout     = timeout,
 		group		= group,
 		risk		= risk,
 		urgency		= urgency,
@@ -304,7 +305,7 @@ end
 
 local onUpdateBB = function (station)
 	for ref,ad in pairs(ads) do
-		if ad.due < Game.time + 5*60*60*24 then
+		if ad.timeout < Game.time then
 			ad.station:RemoveAdvert(ref)
 		end
 	end

@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui'
@@ -8,7 +8,6 @@ Defs.mainFont = ui.fonts.pionillium.medlarge
 Defs.subFont = ui.fonts.pionillium.medium
 Defs.scrollWidth = Defs.mainFont.size
 Defs.winSize = Vector2(Defs.mainFont.size * 60, Defs.mainFont.size * 40)
-Defs.currentStartVariant = {}
 
 Defs.rand = require 'Rand'.New()
 Defs.charParams = { 'luck', 'intelligence', 'charisma', 'notoriety', 'lawfulness', 'engineering', 'piloting', 'navigation', 'sensors' }

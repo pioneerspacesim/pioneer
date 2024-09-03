@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SYSTEMPATH_H
@@ -85,7 +85,7 @@ public:
 	{
 		const Sint32 x = b.sectorX - a.sectorX;
 		const Sint32 y = b.sectorY - a.sectorY;
-		const Sint32 z = b.sectorZ - b.sectorZ;
+		const Sint32 z = b.sectorZ - a.sectorZ;
 		return sqrt(x * x + y * y + z * z); // sqrt is slow
 	}
 
@@ -93,7 +93,7 @@ public:
 	{
 		const Sint32 x = b.sectorX - a.sectorX;
 		const Sint32 y = b.sectorY - a.sectorY;
-		const Sint32 z = b.sectorZ - b.sectorZ;
+		const Sint32 z = b.sectorZ - a.sectorZ;
 		return (x * x + y * y + z * z); // return the square of the distance
 	}
 

@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUATABLE_H
@@ -137,6 +137,12 @@ public:
 	Value Get(const Key &key, Value default_value) const;
 	template <class Value, class Key>
 	LuaTable Set(const Key &key, const Value &value) const;
+	// Push the passed value to the end of the array portion of this table
+	template <class Value>
+	LuaTable &PushBack(Value &value);
+	// Push all passed values in-order to the end of the array portion of this table
+	template <typename... Values>
+	LuaTable &PushMultiple(Values &... value);
 
 	template <class Ret, class Key, class... Args>
 	Ret Call(const Key &key, const Args &... args) const;
@@ -308,6 +314,11 @@ public:
 		m_lua = r.GetLua();
 		m_index = lua_gettop(m_lua);
 	}
+
+	// Cannot copy a scoped table
+	ScopedTable(const ScopedTable &) = delete;
+	ScopedTable &operator=(const ScopedTable &) = delete;
+
 	~ScopedTable()
 	{
 		if (m_lua && !lua_isnone(m_lua, m_index) && lua_istable(m_lua, m_index))
@@ -356,6 +367,22 @@ LuaTable LuaTable::Set(const Key &key, const Value &value) const
 	pi_lua_generic_push(m_lua, key);
 	pi_lua_generic_push(m_lua, value);
 	lua_settable(m_lua, m_index);
+	return *this;
+}
+
+template <class Value>
+LuaTable &LuaTable::PushBack(Value &value)
+{
+	pi_lua_generic_push(m_lua, Size() + 1);
+	pi_lua_generic_push(m_lua, value);
+	lua_settable(m_lua, m_index);
+	return *this;
+}
+
+template <typename... Values>
+LuaTable &LuaTable::PushMultiple(Values &... values)
+{
+	(..., PushBack<Values>(values));
 	return *this;
 }
 

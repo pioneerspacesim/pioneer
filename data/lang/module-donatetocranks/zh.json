@@ -121,7 +121,7 @@
   },
   "SALES_PITCH": {
     "description": "",
-    "message": "向我们的事业捐赠{现金}将有助于你的声誉，任何捐赠都会有所帮助。"
+    "message": "向我们的事业捐赠{cash}将有助于你的声誉，任何捐赠都会有所帮助。"
   },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",

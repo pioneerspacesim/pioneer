@@ -17,7 +17,7 @@
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
-    "message": "Pouvez-vous répéter la demande initiale?"
+    "message": "Pouvez-vous répéter la demande initiale ?"
   },
   "CREW": {
     "description": "",
@@ -353,7 +353,7 @@
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
-    "message": "Quel désastre! Vos pauvres collègues sont condamnés à une mort certaine!"
+    "message": "Quel désastre ! C'est une condamnation à mort pour nos pauvres collègues !"
   },
   "FLAVOUR_6_HOWMUCHTIMETEXT": {
     "description": "",

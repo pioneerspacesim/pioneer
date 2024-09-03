@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -11,12 +11,13 @@ local ui = require 'pigui'
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local PiImage = require 'pigui.libs.image'
-local MarketWidget = require 'pigui.libs.equipment-market'
+
+local ModalWindow = require 'pigui.libs.modal-win'
+local TableWidget = require 'pigui.libs.table'
 local EconView = require 'pigui.modules.system-econ-view'
 
 local l = Lang.GetResource("ui-core")
-local colors = ui.theme.colors
-local icons = ui.theme.icons
+
 local Vector2 = _G.Vector2
 local Color = _G.Color
 
@@ -43,8 +44,6 @@ local colorVariant = {
 	[true] = ui.theme.buttonColors.selected,
 	[false] = ui.theme.buttonColors.default
 }
-
-local sellPriceReduction = 0.8
 
 local function get_pricemod(itemType, price)
 	return (price / itemType.price - 1) * 100
@@ -165,7 +164,17 @@ function CommodityMarketWidget.New(id, title, config)
 		return c1:GetName() < c2:GetName()
 	end
 
-	local self = MarketWidget.New(id, title, config)
+	local self = TableWidget.New(id, title, config)
+
+	self.popup = config.popup or ModalWindow.New('popupMsg' .. id, function()
+        ui.text(self.popup.msg)
+        ui.dummy(Vector2((ui.getContentRegion().x - 100) / 2, 0))
+        ui.sameLine()
+        if ui.button("OK", Vector2(100, 0)) then
+            self.popup:close()
+        end
+    end)
+
 	self.icons = {}
 	self.tradeModeBuy = true
 	self.selectedItem = nil
@@ -178,6 +187,13 @@ function CommodityMarketWidget.New(id, title, config)
 
 	self.cargoMgr = nil
 	self.station = nil
+
+	self.funcs.getStock = config.getStock
+	self.funcs.getDemand = config.getDemand
+	self.funcs.getBuyPrice = config.getBuyPrice
+	self.funcs.getSellPrice = config.getSellPrice
+	self.funcs.bought = config.bought
+	self.funcs.sold = config.sold
 
 	self.style.defaults = {
 		itemSpacing = self.itemSpacing
@@ -274,8 +290,6 @@ end
 
 --player clicked confirm purchase button
 function CommodityMarketWidget:DoBuy()
-	if not self.funcs.onClickBuy(self, self.selectedItem) then return end
-
 	local price = self.funcs.getBuyPrice(self, self.selectedItem)
 	local stock = self.funcs.getStock(self, self.selectedItem)
 	local playerfreecargo = self.cargoMgr:GetFreeSpace()
@@ -318,8 +332,6 @@ end
 
 --player clicked the confirm sale button
 function CommodityMarketWidget:DoSell()
-	if not self.funcs.onClickSell(self, self.selectedItem) then return end
-
 	local price = self.funcs.getSellPrice(self, self.selectedItem)
 	--if commodity price is negative (radioactives, garbage), player needs to have enough cash
 	local orderamount = price * self.tradeAmount
@@ -460,7 +472,15 @@ function CommodityMarketWidget:SetSize(size)
 end
 
 function CommodityMarketWidget:Refresh()
-	MarketWidget.refresh(self)
+	self.items = {}
+
+	for k, comm in pairs(Commodities) do
+		if self.funcs.canDisplayItem(self, comm) then
+			table.insert(self.items, comm)
+		end
+	end
+
+	table.sort(self.items, self.funcs.sortingFunction)
 
 	---@type CargoManager
 	self.cargoMgr = Game.player:GetComponent('CargoManager')
@@ -473,7 +493,7 @@ function CommodityMarketWidget:Render(size)
 
 	ui.withStyleVars({ItemSpacing = self.style.itemSpacing}, function()
 		ui.withFont(pionillium.heading, function()
-			MarketWidget.render(self)
+			TableWidget.render(self)
 		end)
 		ui.sameLine(0, self.style.widgetSizes.windowGutter)
 		self:TradeMenu()

@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -73,7 +73,7 @@ function Sidebar:UpdateCoords()
 	self.buttonPos.y = self.offset.y
 	self.pivot.x = self.side == "right" and 1 or 0
 
-	local buttonSize = mainButtonSize.x + mainButtonPadding * 2
+	local buttonSize = mainButtonSize.x
 	local spacing = ui.getItemSpacing()
 	local padding = ui.getWindowPadding()
 

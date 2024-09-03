@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -9,7 +9,7 @@ local Event = require 'Event'
 local Serializer = require 'Serializer'
 
 local l = Lang.GetResource("module-easteregg-message")
-local max_flavour_index = 1
+local max_flavour_index = 2
 
 local flavours = {}
 for i = 0,max_flavour_index do

@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- Stuff from the C++ side that we want available directly in Lua
@@ -6,6 +6,7 @@
 local Engine = require 'Engine'
 local pigui = Engine.pigui
 
+---@class ui
 local ui = {}
 
 ui.calcTextAlignment = pigui.CalcTextAlignment
@@ -16,16 +17,21 @@ ui.pointOnClock = pigui.pointOnClock
 ui.screenWidth = pigui.screen_width
 ui.screenHeight = pigui.screen_height
 
+ui.bringWindowToDisplayFront = pigui.bringWindowToDisplayFront ---@type fun()
+
 -- Return the size of the specified window's contents from last frame (without padding/decoration)
 -- Returns {0,0} if the window hasn't been submitted during the lifetime of the program
 ui.getWindowContentSize = pigui.GetWindowContentSize ---@type fun(name: string): Vector2
 ui.setNextWindowPos = pigui.SetNextWindowPos ---@type fun(pos: Vector2, cond: string, pivot: Vector2?)
 ui.setNextWindowSize = pigui.SetNextWindowSize ---@type fun(size: Vector2, cond: string)
 ui.setNextWindowSizeConstraints = pigui.SetNextWindowSizeConstraints ---@type fun(min: Vector2, max: Vector2)
+--- Collapse or expand the next window
+ui.setNextWindowCollapsed = pigui.SetNextWindowCollapsed ---@type fun(collapse: boolean?)
 
 -- Forwarded as-is for use in complicated layout primitives without introducing additional scopes
 ui.beginGroup = pigui.BeginGroup
 ui.endGroup = pigui.EndGroup
+ui.getTime = pigui.GetTime
 
 ui.dummy = pigui.Dummy
 ui.newLine = pigui.NewLine
@@ -51,7 +57,7 @@ ui.addCircleFilled = pigui.AddCircleFilled
 ui.addRect = pigui.AddRect ---@type fun(a: Vector2, b: Vector2, col: Color, rounding: number, edges: integer, thickness: number)
 ui.addRectFilled = pigui.AddRectFilled ---@type fun(a: Vector2, b: Vector2, col: Color, rounding: number, edges: integer)
 ui.addLine = pigui.AddLine ---@type fun(a: Vector2, b: Vector2, col: Color, thickness: number)
-ui.addText = pigui.AddText ---@type fun(pos: Vector2, col: Color, text: string)
+ui.addText = pigui.AddText ---@type fun(pos: Vector2, col: Color, text: string, wrapWidth: number?)
 ui.pathArcTo = pigui.PathArcTo
 ui.pathStroke = pigui.PathStroke
 ui.setCursorPos = pigui.SetCursorPos ---@type fun(pos: Vector2)
@@ -90,6 +96,7 @@ ui.getWindowPadding = pigui.GetWindowPadding ---@type fun(): Vector2
 -- Add extra window padding after beginning a window.
 -- WARNING: this must only be called at "top-level" window scope (e.g. not in a Group or Columns etc.)
 ui.addWindowPadding = pigui.AddWindowPadding ---@type fun(padding: Vector2)
+ui.getItemRect = pigui.GetItemRect ---@type fun(): Vector2, Vector2 -- return min, max corners of last item bounding box
 
 ui.getTargetsNearby = pigui.GetTargetsNearby
 ui.getProjectedBodies = pigui.GetProjectedBodies
@@ -119,7 +126,7 @@ ui.isItemHovered = pigui.IsItemHovered
 ui.isItemActive = pigui.IsItemActive
 ui.isItemClicked = pigui.IsItemClicked
 ui.isWindowHovered = pigui.IsWindowHovered
-ui.vSliderInt = pigui.VSliderInt ---@type fun(l: string, v: integer, min: integer, max: integer, fmt: string?): value:integer, changed:boolean
+ui.vSliderInt = pigui.VSliderInt ---@type fun(l: string, size: Vector2, v: integer, min: integer, max: integer, fmt: string?): value:integer, changed:boolean
 ui.sliderInt = pigui.SliderInt ---@type fun(l: string, v: integer, min: integer, max: integer, fmt: string?): value:integer, changed:boolean
 ui.colorEdit = pigui.ColorEdit
 ui.getStyleColor = pigui.GetStyleColor
@@ -133,15 +140,16 @@ ui.beginTabItem = pigui.BeginTabItem
 ui.endTabItem = pigui.EndTabItem
 ui.endTabBar = pigui.EndTabBar
 
-ui.beginTable = pigui.BeginTable
+ui.beginTable = pigui.BeginTable ---@type fun(id: string, columns: integer, flags: any)
 ui.endTable = pigui.EndTable
 ui.tableNextRow = pigui.TableNextRow
 ui.tableNextColumn = pigui.TableNextColumn
 ui.tableSetColumnIndex = pigui.TableSetColumnIndex
-ui.tableSetupColumn = pigui.TableSetupColumn
+ui.tableSetupColumn = pigui.TableSetupColumn ---@type fun(id: string, flags: any, width_or_weight: number?)
 ui.tableSetupScrollFreeze = pigui.TableSetupScrollFreeze
 ui.tableHeadersRow = pigui.TableHeadersRow
 ui.tableHeader = pigui.TableHeader
+ui.tableSetBgColor = pigui.TableSetBgColor ---@type fun(target: string, color: Color, column_idx: integer?)
 
 -- Flag validation functions. Call with a table of string flags as the only argument.
 ui.SelectableFlags = pigui.SelectableFlags
@@ -151,9 +159,11 @@ ui.WindowFlags = pigui.WindowFlags
 ui.HoveredFlags = pigui.HoveredFlags
 ui.TableFlags = pigui.TableFlags
 ui.TableColumnFlags = pigui.TableColumnFlags
+ui.TableBgTargetFlags = pigui.TableBgTargetFlags
 
 -- Wrapped in buttons.lua
 -- ui.button = pigui.Button
+ui.invisibleButton = pigui.InvisibleButton ---@type fun(id: string, size: Vector2, flags: table|string?)
 
 --
 -- Function: ui.clearMouse

@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GAME_H
@@ -44,6 +44,8 @@ public:
 	// XXX game arg should be const, and this should probably be a member function
 	// (or LoadGame/SaveGame should be somewhere else entirely)
 	static void SaveGame(const std::string &filename, Game *game);
+	static bool DeleteSave(const std::string &filename);
+	static int CurrentSaveVersion();
 
 	// start docked in station referenced by path or nearby to body if it is no station
 	Game(const SystemPath &path, const double startDateTime, const char *shipType = "kanara");
@@ -161,6 +163,9 @@ private:
 	std::unique_ptr<Views> m_gameViews;
 	std::unique_ptr<Space> m_space;
 	double m_time;
+
+	int64_t m_sessionStartTimestamp;
+	double m_playedDuration;
 
 	enum class State {
 		NORMAL,

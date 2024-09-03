@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -19,6 +19,9 @@ namespace Editor
 
 		virtual const char *GetWindowName() = 0;
 
+		bool GetCanBeClosed() const { return m_canBeClosed; }
+		void SetCanBeClosed(bool closeable) { m_canBeClosed = closeable; }
+
 	protected:
 
 		virtual void OnDraw() = 0;
@@ -29,5 +32,6 @@ namespace Editor
 
 	private:
 		EditorApp *m_app;
+		bool m_canBeClosed;
 	};
 }

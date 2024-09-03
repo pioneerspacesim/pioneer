@@ -1,9 +1,8 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Commodities = require 'Commodities'
 local Game = require 'Game'
-local utils = require 'utils'
 local Vector2 = _G.Vector2
 
 local Lang = require 'Lang'
@@ -44,23 +43,29 @@ local function draw_cargo_bar_section(pos, size, pct, color, tooltip)
 end
 
 local function transfer_button(icon, tooltip, enabled)
-	local size = Vector2(ui.getTextLineHeight())
-	if enabled then
-		return ui.iconButton(icon, size, tooltip, nil, nil, 0)
-	else
-		ui.iconButton(icon, size, tooltip, buttonColors.disabled, colors.grey)
-	end
+	local ret = ui.withStyleColors({ Text = enabled and colors.font or colors.fontDim }, function()
+		return ui.inlineIconButton(tooltip, icon, tooltip, not enabled and buttonColors.disabled)
+	end)
+
+	return enabled and ret
 end
 
 local function transfer_buttons(amount, min, max, tooltip_reduce, tooltip_increase)
-	if transfer_button(icons.time_backward_1x, tooltip_reduce, amount > min) then
+	if transfer_button(icons.decrease_max_thick, tooltip_reduce .. "##all", amount > min) then
+		amount = min
+	end
+	ui.sameLine(0, 2)
+	if transfer_button(icons.decrease_thick, tooltip_reduce, amount > min) then
 		amount = amount - 1
 	end
 	ui.sameLine(0, 2)
-	if transfer_button(icons.time_forward_1x, tooltip_increase, amount < max) then
+	if transfer_button(icons.increase_thick, tooltip_increase, amount < max) then
 		amount = amount + 1
 	end
-
+	ui.sameLine(0, 2)
+	if transfer_button(icons.increase_max_thick, tooltip_increase .. "##all", amount < max) then
+		amount = max
+	end
 	return amount
 end
 
@@ -134,7 +139,7 @@ function module:drawModeButtons()
 
 	for _, v in ipairs(modi) do
 		local isActive = self.transferMode == v
-		if ui.inlineIconButton(v.icon, v.tooltip, isActive) then
+		if ui.iconButton(v.id, v.icon, v.tooltip, isActive, Vector2(ui.getButtonHeight())) then
 			if isActive then
 				self:resetTransfer()
 			else
@@ -267,7 +272,9 @@ function module:drawBody()
 
 	else
 		ui.alignTextToButtonPadding()
-		ui.textAligned(lui.NO_CARGO, 0.5)
+		ui.withStyleColors({ Text = colors.fontDim }, function()
+			ui.textAligned(lui.NO_CARGO, 0.5)
+		end)
 	end
 
 	ui.separator()

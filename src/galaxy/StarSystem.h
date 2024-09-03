@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _STARSYSTEM_H
@@ -87,6 +87,8 @@ public:
 	double GetExploredTime() const { return m_exploredTime; }
 	void ExploreSystem(double time);
 
+	bool HasCustomBodies() const { return m_hasCustomBodies; }
+
 	fixed GetMetallicity() const { return m_metallicity; }
 	fixed GetIndustrial() const { return m_industrial; }
 	fixed GetAgricultural() const { return m_agricultural; }
@@ -169,8 +171,6 @@ private:
 
 public:
 	GeneratorAPI(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache *cache, Random &rand);
-
-	bool HasCustomBodies() const { return m_hasCustomBodies; }
 
 	void SetCustom(bool isCustom, bool hasCustomBodies)
 	{

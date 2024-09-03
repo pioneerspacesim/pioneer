@@ -17,7 +17,11 @@
   },
   "ALLEGIANCE": {
     "description": "",
-    "message": "Лояльность:"
+    "message": "Принадлежит:"
+  },
+  "ALL_PARAMETERS_WERE_RECOVERED_SUCCESSFULLY": {
+    "description": "Message when restoring savegame",
+    "message": "Все параметры успешно восстановлены."
   },
   "ALL_UP_WEIGHT": {
     "description": "",
@@ -46,6 +50,10 @@
   "ATMO_PRESS_LIMIT": {
     "description": "Base external pressure limit of a ship (without atmo shield)",
     "message": "Ограничение давления"
+  },
+  "ATTEMPTING_TO_RECOVER_GAME_PROGRESS_FROM_SAVE_X": {
+    "description": "Message when restoring savegame",
+    "message": "Попытка восстановить игровой прогресс из сохранения: {save}"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -98,6 +106,14 @@
   "CANNOT_SELL_ITEM": {
     "description": "",
     "message": "Этот товар нельзя продать"
+  },
+  "CANT_FIND_PATH": {
+    "description": "Message when restoring savegame, file path",
+    "message": "Путь не найден: %s"
+  },
+  "CANT_FIND_PLAYERS_SHIP_IN_SPACE": {
+    "description": "Message when restoring savegame",
+    "message": "Корабль игрока в космосе не найден"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -263,9 +279,21 @@
     "description": "",
     "message": "Настройки управления"
   },
+  "COULD_NOT_DELETE_SAVE": {
+    "description": "",
+    "message": "Не удалось удалить сохранение"
+  },
+  "COULD_NOT_FIND_SYSTEM_BODY_FOR_FRAME": {
+    "description": "Message when restoring savegame",
+    "message": "Не удалось найти тело системы для точки отсчёта."
+  },
   "COULD_NOT_LOAD_GAME": {
     "description": "",
     "message": "Не удалось загрузить игру:"
+  },
+  "COULD_NOT_READ_THE_SAVE_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Не удалось прочитать сохраненную версию"
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -299,6 +327,10 @@
     "description": "For hyperjump planner",
     "message": "Топлива в наличии:"
   },
+  "CURRENT_SAVEGAME_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Текущая версия сохранения: %s"
+  },
   "CURRENT_SHIP": {
     "description": "For tooltip comparing current ship specs to one in the shipyard",
     "message": "Текущий корабль"
@@ -323,21 +355,29 @@
     "description": "Decrease something.",
     "message": "Уменьшить"
   },
+  "DELETE": {
+    "description": "",
+    "message": "Удаление"
+  },
+  "DELETE_SAVE_CONFIRMATION": {
+    "description": "",
+    "message": "Вы уверены, что хотите удалить это сохранение?"
+  },
   "DELTA_V": {
     "description": "",
-    "message": "Дельта-v"
+    "message": "Дельта-V"
   },
   "DELTA_V_EMPTY": {
     "description": "Delta-v capacity of a ship with no cargo or upgrades",
-    "message": "Дельта-v (пустой)"
+    "message": "Дельта-V (пустой)"
   },
   "DELTA_V_FULL": {
     "description": "Delta-v capacity of a ship with maximum cargo",
-    "message": "Дельта-v (полный)"
+    "message": "Дельта-V (полный)"
   },
   "DELTA_V_MAX": {
     "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
-    "message": "Дельта-v (макс.)"
+    "message": "Дельта-V (максимум)"
   },
   "DEMAND": {
     "description": "Column label for commodity demand at a market.",
@@ -346,6 +386,10 @@
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "Дата отбытия"
+  },
+  "DESCRIPTION": {
+    "description": "Start game parameter, e.g. 'This is an easy start from Cydonia'",
+    "message": "Описание"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -364,7 +408,7 @@
     "message": "Скрыть всю отображаемую информацию в режиме скриншота, включая системные координаты (переключить режим HUD). "
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Уволить"
   },
   "DISPLAY_HUD_TRAILS": {
@@ -394,6 +438,10 @@
   "DOCKED_AT": {
     "description": "",
     "message": "Пристыкован к станции"
+  },
+  "DOCKED_TO_A_BODY_THAT_IS_NOT_A_STATION": {
+    "description": "Message when restoring savegame",
+    "message": "Пристыкован к объекту, которой не является станцией"
   },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
@@ -487,6 +535,10 @@
     "description": "",
     "message": "Ошибка"
   },
+  "ERROR_APPLYING_PATCH": {
+    "description": "Message when restoring savegame",
+    "message": "Ошибка используемого пути"
+  },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
     "message": "Невозможно активировать гиперпрыжок, шасси не убрано!"
@@ -502,6 +554,10 @@
   "EXPERIENCED": {
     "description": "For player reputation",
     "message": "Опытный"
+  },
+  "EXPERIMENTAL": {
+    "description": "Indicates feature/option is experimental",
+    "message": "Экспериментально"
   },
   "EXPERT": {
     "description": "For player reputation",
@@ -563,6 +619,10 @@
     "description": "",
     "message": "Женщина"
   },
+  "FILE_SAVEGAME_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Версия файла сохранения игры: %s"
+  },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
     "message": "Конечная цель:"
@@ -621,11 +681,11 @@
   },
   "FORWARD_ACCEL_EMPTY": {
     "description": "",
-    "message": "Ускорение вперёд (пустой)"
+    "message": "Ускор. вперёд (пустой)"
   },
   "FORWARD_ACCEL_FULL": {
     "description": "",
-    "message": "Ускорение вперёд (полный)"
+    "message": "Ускор. вперёд (полный)"
   },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
@@ -1125,7 +1185,7 @@
   },
   "HYPERDRIVE_FITTED": {
     "description": "",
-    "message": "Гиперпривод установлен:"
+    "message": "Гиперпривод"
   },
   "HYPERJUMP_ROUTE": {
     "description": "",
@@ -1193,7 +1253,7 @@
   },
   "IN_STOCK": {
     "description": "",
-    "message": "На складе"
+    "message": "Наличие"
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
@@ -1314,6 +1374,18 @@
   "LOG_CUSTOM": {
     "description": "Label tab for showing custom logged events",
     "message": "Пользовательский журнал"
+  },
+  "LOG_EARLIEST_FIRST": {
+    "description": "Show the log entries in chronological order, earliest first",
+    "message": "В хронологическом порядке"
+  },
+  "LOG_EXPORT": {
+    "description": "Export the log",
+    "message": "Экспорт"
+  },
+  "LOG_HTML": {
+    "description": "Export the log as HTML or not",
+    "message": "HTML"
   },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
@@ -1459,6 +1531,10 @@
     "description": "",
     "message": "Подробнее"
   },
+  "MORE_THAN_ONE_PLAYERS_SHIP_FOUND_IN_SPACE": {
+    "description": "Message when restoring savegame",
+    "message": "В космосе найдено более одного корабля игрока"
+  },
   "MOSTLY_HARMLESS": {
     "description": "",
     "message": "Почти безобидный"
@@ -1601,7 +1677,7 @@
   },
   "N_UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "{quantity} Свободных Пассажирских Кают"
+    "message": "Свободно пассажирских кают: {quantity} "
   },
   "OCCUPIED_PASSENGER_CABINS": {
     "description": "",
@@ -1693,7 +1769,11 @@
   },
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
-    "message": "Вместимость пассажирской каюты"
+    "message": "Вместимость кают"
+  },
+  "PATH_FOUND_BUT_VERIFICATION_FAILED": {
+    "description": "Message when restoring savegame",
+    "message": "Путь найден, но проверка не удалась: %s"
   },
   "PATTERN": {
     "description": "Ship painting pattern.",
@@ -1811,9 +1891,37 @@
     "description": "",
     "message": "Рейтинг:"
   },
+  "RAYLEIGH_ACCURATE": {
+    "description": "",
+    "message": "Рэлеевское/Ми (точно, попиксельно)"
+  },
+  "RAYLEIGH_FAST": {
+    "description": "",
+    "message": "Рэлеевское/Ми (быстро, повершинно)"
+  },
+  "REALISTIC_SCATTERING": {
+    "description": "",
+    "message": "Рассеяние"
+  },
+  "REALISTIC_SCATTERING_DESC": {
+    "description": "",
+    "message": "Выберите рассеяние при рендеринге атмосферы. (Рэлеевское/Ми не рекомендуется использовать на слабых ПК)"
+  },
   "REAR_WEAPON": {
     "description": "",
     "message": "Кормовая турель"
+  },
+  "RECOVER": {
+    "description": "Saveload menu button",
+    "message": "Восстановление"
+  },
+  "RECOVERED_BUT_NOT_VALID": {
+    "description": "Message when restoring savegame",
+    "message": "Восстановлено, но недействительно"
+  },
+  "RECOVER_SAVEGAME": {
+    "description": "",
+    "message": "Восстановление сохранения"
   },
   "REFUEL": {
     "description": "",
@@ -1821,7 +1929,7 @@
   },
   "REFUEL_FULL": {
     "description": "",
-    "message": "Дозаправить полностью"
+    "message": "Дозаправить"
   },
   "REGISTRATION_NUMBER": {
     "description": "",
@@ -1873,7 +1981,7 @@
   },
   "RESET_PREVIEW": {
     "description": "Paintshop button",
-    "message": "Сбросить предварительный просмотр"
+    "message": "Сбросить предпросмотр"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1885,11 +1993,11 @@
   },
   "REVERSE_ACCEL_EMPTY": {
     "description": "",
-    "message": "Ускорение назад (пустой)"
+    "message": "Ускор. назад (пустой)"
   },
   "REVERSE_ACCEL_FULL": {
     "description": "",
-    "message": "Ускорение назад (полный)"
+    "message": "Ускор. назад (полный)"
   },
   "REWARD": {
     "description": "",
@@ -1919,6 +2027,14 @@
     "description": "",
     "message": "Сохранение"
   },
+  "SAVE_DELETED_SUCCESSFULLY": {
+    "description": "",
+    "message": "Сохранение успешно удалено"
+  },
+  "SCATTERING_OLD": {
+    "description": "",
+    "message": "Наследие"
+  },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
     "message": "Крепления для заборника"
@@ -1930,6 +2046,14 @@
   "SELECT": {
     "description": "",
     "message": "Выбрать"
+  },
+  "SELECTED_SAVE_DOESNT_EXISTS": {
+    "description": "",
+    "message": "Выбранное сохранение не существует"
+  },
+  "SELECTED_SAVE_IS_NOT_A_VALID_SAVE": {
+    "description": "",
+    "message": "Выбранное сохранение не является действительным сохранением."
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",
@@ -1953,7 +2077,7 @@
   },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
-    "message": "Продавать оборудованные"
+    "message": "Продать снаряжение"
   },
   "SENSORS": {
     "description": "Crew skill",
@@ -2025,7 +2149,7 @@
   },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
-    "message": "Судоремонтный и покрасочный цех"
+    "message": "Цех покраски и ремонта"
   },
   "SHIP_TYPE": {
     "description": "",
@@ -2131,6 +2255,10 @@
     "description": "Tab item in the start game menu",
     "message": "Сводка"
   },
+  "SYSTEM_BODY_INDEX_IS_OUT_OF_RANGE": {
+    "description": "Message when restoring savegame",
+    "message": "Индекс тела системы выходит за пределы допустимого диапазона"
+  },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
     "message": "Эта станция имеет сертификацию {tech_level}-го технологического уровня."
@@ -2154,6 +2282,10 @@
   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
     "description": "",
     "message": "На борту никого нет способного летать на этом корабле."
+  },
+  "THERE_WERE_ERRORS_IN_RECOVERY": {
+    "description": "Message when restoring savegame",
+    "message": "Возникшие в восстановлении ошибки:"
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
@@ -2247,6 +2379,26 @@
     "description": "",
     "message": "Тип"
   },
+  "UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Неизвестный формат записи журнала"
+  },
+  "UNKNOWN_FACTION": {
+    "description": "For entry in the flight log",
+    "message": "Неизвестная фракция"
+  },
+  "UNKNOWN_LOCATION_IN_SECTOR_X": {
+    "description": "For entry in the flight log",
+    "message": "Неизвестное местоположение в секторе {sector}"
+  },
+  "UNKNOWN_STATION_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Неизвестный формат записи журнала станции"
+  },
+  "UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Неизвестный формат записи системного журнала"
+  },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
     "message": "Незаконное применение орудия"
@@ -2262,6 +2414,10 @@
   "UNRELIABLE": {
     "description": "",
     "message": "Ненадёжный"
+  },
+  "UNSUCCESSFULLY_RECOVERED_PARAMETERS_ARE_NOW_UNLOCKED_PLEASE_SET_THEM_MANUALLY": {
+    "description": "Message when restoring savegame",
+    "message": "Неудачно восстановленные параметры теперь разблокированы, установите их вручную."
   },
   "UP_ACCEL": {
     "description": "",
@@ -2301,11 +2457,11 @@
   },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",
-    "message": "Посетите покрасочный цех"
+    "message": "Посетить покрасочный цех"
   },
   "VISIT_REPAIR_SERVICES": {
     "description": "Ship Repair tab button.",
-    "message": "Посетите ремонтные услуги"
+    "message": "Посетить ремонтный цех"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",
@@ -2325,7 +2481,7 @@
   },
   "WEIGHT_FULLY_LOADED": {
     "description": "",
-    "message": "Масса при полной загрузке"
+    "message": "Полная масса"
   },
   "WE_ARE_IN_HYPERSPACE_COMMANDER": {
     "description": "",

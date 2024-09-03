@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -11,6 +11,8 @@
 #define EICON_GAS_GIANT u8"\uF053"
 #define EICON_SPACE_STATION u8"\uF063"
 #define EICON_SURFACE_STATION u8"\uF073"
+
+#define EICON_SYSTEM_EDITOR u8"\uF08E"
 
 #define EICON_STOP u8"\uF054"
 #define EICON_PAUSE u8"\uF055"

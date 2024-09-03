@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelBody.h"
@@ -87,7 +87,6 @@ ModelBody::ModelBody(const Json &jsonObj, Space *space) :
 	}
 
 	m_model->LoadFromJson(modelBodyObj);
-	m_shields->LoadFromJson(modelBodyObj);
 }
 
 ModelBody::~ModelBody()
@@ -109,7 +108,6 @@ void ModelBody::SaveToJson(Json &jsonObj, Space *space)
 	modelBodyObj["is_colliding"] = m_colliding;
 	modelBodyObj["model_name"] = m_modelName;
 	m_model->SaveToJson(modelBodyObj);
-	m_shields->SaveToJson(modelBodyObj);
 
 	jsonObj["model_body"] = modelBodyObj; // Add model body object to supplied object.
 }
@@ -133,10 +131,17 @@ void ModelBody::SetStatic(bool isStatic)
 void ModelBody::SetColliding(bool colliding)
 {
 	m_colliding = colliding;
-	if (colliding)
+	if (colliding) {
 		m_geom->Enable();
-	else
+		for(auto &g : m_dynGeoms) {
+			g->Enable();
+		}
+	} else {
 		m_geom->Disable();
+		for(auto &g : m_dynGeoms) {
+			g->Disable();
+		}
+	}
 }
 
 void ModelBody::RebuildCollisionMesh()
@@ -152,6 +157,7 @@ void ModelBody::RebuildCollisionMesh()
 
 	//static geom
 	m_geom = new Geom(m_collMesh->GetGeomTree(), GetOrient(), GetPosition(), this);
+	if(!IsColliding()) m_geom->Disable();
 
 	SetPhysRadius(maxRadius);
 
@@ -166,6 +172,7 @@ void ModelBody::RebuildCollisionMesh()
 		SceneGraph::CollisionGeometry *cg = dgf.GetCgForTree(*it);
 		if (cg)
 			cg->SetGeom(dynG);
+		if(!IsColliding()) dynG->Disable();
 		m_dynGeoms.push_back(dynG);
 	}
 
@@ -189,8 +196,6 @@ void ModelBody::SetModel(const char *modelName)
 		m_model->SetAnimationActive(m_model->FindAnimationIndex(m_idleAnimation), true);
 
 	SetClipRadius(m_model->GetDrawClipRadius());
-
-	m_shields.reset(new Shields(m_model));
 
 	RebuildCollisionMesh();
 }
@@ -290,10 +295,7 @@ void ModelBody::MoveGeoms(const matrix4x4d &m, const vector3d &p)
 
 void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	matrix4x4d m2 = GetInterpOrient();
-	m2.SetTranslate(GetInterpPosition());
-
-	m_model->Render(matrix4x4f(viewTransform * m2));
+	m_model->Render(matrix4x4f(viewTransform * GetInterpMatrix()));
 }
 
 void ModelBody::TimeStepUpdate(const float timestep)

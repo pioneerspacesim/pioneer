@@ -325,7 +325,7 @@
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "Flygledningen på {starport} har identifierat ett rymdskepp med ID {shiplabel} drivandes utan bränsle i närheten. Vi betalar {cach} till den som vill tanka skeppet så att det kan lämna {starport}. "
+    "message": "Flygledningen på {starport} har identifierat ett rymdskepp med ID {shiplabel} drivandes utan bränsle i närheten. Vi betalar {cash} till den som vill tanka skeppet så att det kan lämna {starport}. "
   },
   "FLAVOUR_5_LOCATIONTEXT": {
     "description": "",
@@ -361,7 +361,7 @@
   },
   "FLAVOUR_6_INTROTEXT": {
     "description": "",
-    "message": "Mitt namn är {name}. Vi förlorade kontakten med vårt skepp {ship} {shiplabel} efter {problem}. Vi är beredda att betala {cash} för omedelbar undsättning."
+    "message": "Mitt namn är {name} för {entity}. Vi förlorade kontakten med vårt skepp {ship} {shiplabel} efter {problem}. Vi är beredda att betala {cash} för omedelbar undsättning."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
@@ -389,7 +389,7 @@
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
-    "message": "Tack så mycket, men du är försen!"
+    "message": "Tack så mycket, men du kommer för sent!"
   },
   "FLAVOUR_7_HOWMUCHTIMETEXT": {
     "description": "",

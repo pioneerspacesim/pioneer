@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Game.h"
@@ -9,6 +9,9 @@
 #include "galaxy/GalaxyGenerator.h"
 #include "utils.h"
 #include "versioningInfo.h"
+#include "lua/Lua.h"
+#include "lua/LuaNameGen.h"
+#include "lua/LuaObject.h"
 
 #include <SDL.h>
 #include <cstdio>
@@ -182,8 +185,10 @@ start:
 			// TODO: don't initialize Pi when dumping the galaxy
 			// Galaxy generation is (mostly) self-contained, no need to e.g.
 			// turn on the renderer or load UI for this.
-			Error("GalaxyDump is not currently implemented!");
 
+			Lua::Init();
+			Pi::luaNameGen = new LuaNameGen(Lua::manager);
+			LuaObject<SystemBody>::RegisterClass();
 			FILE *file = filename == "-" ? stdout : fopen(filename.c_str(), "w");
 			if (file == nullptr) {
 				Output("pioneer: could not open \"%s\" for writing: %s\n", filename.c_str(), strerror(errno));
@@ -194,6 +199,7 @@ start:
 			if (filename != "-" && fclose(file) != 0) {
 				Output("pioneer: writing to \"%s\" failed: %s\n", filename.c_str(), strerror(errno));
 			}
+			// We do not need to delete `Pi::luaNameGen` or call Lua::Uninit() here because Pi::Uninit() already does that
 		}
 
 		Pi::Uninit();

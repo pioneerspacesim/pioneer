@@ -10,7 +10,6 @@ tex_spec varada_spec.dds
 
 lod 300
 mesh varada_hi.dae
-mesh varada_shield.dae
 
 lod 50
 mesh varada_med.dae

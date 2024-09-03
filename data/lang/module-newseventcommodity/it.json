@@ -73,7 +73,7 @@
   },
   "FLAVOUR_16_HEADLINE": {
     "description": "",
-    "message": "NOTIZIA {data}: Grave incidente durante l'annuale Fiera del Vapore nel sistema {system}."
+    "message": "NOTIZIA {date}: Grave incidente durante l'annuale Fiera del Vapore nel sistema {system}."
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
@@ -97,7 +97,7 @@
   },
   "FLAVOUR_19_HEADLINE": {
     "description": "",
-    "message": "NOTIZIA {data}: Pioggia d'oro nel sistema {system}."
+    "message": "NOTIZIA {date}: Pioggia d'oro nel sistema {system}."
   },
   "FLAVOUR_19_NEWSBODY": {
     "description": "Imply vast abundance of PRECIOUS_METALS.",

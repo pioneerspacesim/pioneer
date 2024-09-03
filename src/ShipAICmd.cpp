@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipAICmd.h"
@@ -841,11 +841,11 @@ static bool CheckSuicide(DynamicBody *dBody, const vector3d &obspos, double obsM
 
 	double obsDist = obspos.Length();
 
-	//sanity check 
+	//sanity check
 	if(obsDist > 100 * safeAlt)
 		return false;
 
-	vector3d velDir = dBody->GetVelocity().NormalizedSafe();	
+	vector3d velDir = dBody->GetVelocity().NormalizedSafe();
 	double tangDist = obspos.Dot(velDir);
 
 	//ship passed the planet
@@ -859,7 +859,7 @@ static bool CheckSuicide(DynamicBody *dBody, const vector3d &obspos, double obsM
 	//Ignore speed check -> continue the recovery until speed vector is over horizon
 	if(recovering) return true;
 	//below are more strict speed conditions to enter the recovery
-	
+
 	//for final apreach the targetAlt must be used for safe speed check
 	double zeroSpeedAlt = std::min(safeAlt, targetAlt);
 
@@ -878,7 +878,7 @@ static bool CheckSuicide(DynamicBody *dBody, const vector3d &obspos, double obsM
 
 	//Energy equation with planet gravity taken into account
 	if (breakingDist > 100
-		&& dBody->GetVelocity().LengthSqr() > 2*(prop->GetAccelFwd()*breakingDist - G*obsMass*(obsDist-zeroSpeedAlt)/(obsDist*zeroSpeedAlt))) 
+		&& dBody->GetVelocity().LengthSqr() > 2*(prop->GetAccelFwd()*breakingDist - G*obsMass*(obsDist-zeroSpeedAlt)/(obsDist*zeroSpeedAlt)))
 		return true;
 
 	return false;
@@ -922,6 +922,7 @@ AICmdFlyTo::AICmdFlyTo(DynamicBody *dBody, Body *target) :
 	assert(m_prop != nullptr);
 	m_frameId = FrameId::Invalid;
 	m_state = -6;
+	m_posoff = vector3d(0.0);
 	m_endvel = 0;
 	m_tangent = false;
 	m_is_flyto = true;
@@ -1053,14 +1054,14 @@ bool AICmdFlyTo::TimeStepUpdate()
 			vector3d sidedir = obspos.Cross(m_dBody->GetVelocity()).NormalizedSafe();
 			vector3d updir = sidedir.Cross(m_dBody->GetVelocity()).NormalizedSafe();
 
-			//clamped tangent of Yaw mismatch to target - for driving side trust  
+			//clamped tangent of Yaw mismatch to target - for driving side trust
 			constexpr double cSideDriveRange = 0.02;
 			double targetSideTan = Clamp(targdist > 1 ? relpos.Dot(sidedir)/targdist : 0, -cSideDriveRange, cSideDriveRange);
-			
+
 			//Bellow safe alt (gravity too big for thrusters) breaking will kill the ship eventually
 			//so in this case ship accelerates along speed vector otherwise it is safe to break
 			float sign = G*M/obspos.LengthSqr() > 0.9 * m_prop->GetAccelUp() ? 1.0 : -1.0;
-			
+
 			double ang = m_prop->AIFaceDirection(m_dBody->GetVelocity() * sign);
 			m_prop->AIFaceUpdir(updir);
 #ifdef DEBUG_CHECK_SUICIDE
@@ -1350,7 +1351,8 @@ bool AICmdDock::TimeStepUpdate()
 	}
 
 	switch (ship->GetFlightState()) {
-	case Ship::UNDOCKING: return false; // allow undock animation to proceed
+	case Ship::DOCKING:
+	case Ship::UNDOCKING: return false; // allow dock / undock animation to proceed
 	case Ship::DOCKED:
 	case Ship::LANDED:
 		LaunchShip(ship);
@@ -1359,7 +1361,6 @@ bool AICmdDock::TimeStepUpdate()
 	case Ship::HYPERSPACE:
 		return false;
 	case Ship::FLYING:
-	case Ship::DOCKING:
 		break;
 	}
 
@@ -1385,10 +1386,14 @@ bool AICmdDock::TimeStepUpdate()
 	if (m_state == eDockGetDataStart || m_state == eDockGetDataEnd || m_state == eDockingComplete) {
 		const SpaceStationType *type = m_target->GetStationType();
 		SpaceStationType::positionOrient_t dockpos;
-		type->GetShipApproachWaypoints(port, (m_state == 0) ? 1 : 2, dockpos);
+		type->GetShipApproachWaypoints(port, (m_state == 0) ? DockStage::APPROACH1 : DockStage::APPROACH2, dockpos);
 		if (m_state != eDockGetDataEnd) {
 			m_dockpos = dockpos.pos;
 		}
+		// we are already near the station, what could go wrong?
+		// set the fuel reserve to 0, since the fuel could become lower than the
+		// current reserve during the flight, and the ship will not fly anywhere
+		m_prop->SetFuelReserve(0.0);
 
 		m_dockdir = dockpos.zaxis.Normalized();
 		m_dockupdir = dockpos.yaxis.Normalized(); // don't trust these enough

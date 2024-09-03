@@ -93,7 +93,7 @@
   },
   "BIND_MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
     "description": "Descriptive name for the MapToggleSelectionFollowView action.",
-    "message": "Изборът да следва изгледа"
+    "message": "Изборът следва изгледа"
   },
   "BIND_MAP_VIEW_MOVE_FORWARD": {
     "description": "Axis binding",

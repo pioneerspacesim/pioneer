@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = require 'Lang'
@@ -13,10 +13,12 @@ local onShipFuelChanged = function (ship, state)
 			Comms.ImportantMessage(l.YOUR_FUEL_TANK_IS_ALMOST_EMPTY)
 		elseif state == "EMPTY" then
 			Comms.ImportantMessage(l.YOUR_FUEL_TANK_IS_EMPTY)
+			Event.Queue('onShipOutOfFuel', ship)
 		end
 	else
 		if state == "EMPTY" then
 			print(('{label} ({id}) out of fuel'):interp({label=ship.label,id=ship.shipId}))
+			Event.Queue('onShipOutOfFuel', ship)
 		end
 	end
 end

@@ -1,11 +1,14 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaSpace.h"
+#include "Body.h"
 #include "CargoBody.h"
+#include "EnumStrings.h"
 #include "Frame.h"
 #include "Game.h"
 #include "HyperspaceCloud.h"
+#include "LuaBody.h"
 #include "LuaManager.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
@@ -17,6 +20,7 @@
 #include "Ship.h"
 #include "Space.h"
 #include "SpaceStation.h"
+#include "profiler/Profiler.h"
 #include "ship/PrecalcPath.h"
 
 /*
@@ -94,6 +98,27 @@ static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SystemPath *path, double du
 	ship->SetFlightState(Ship::HYPERSPACE);
 
 	return cloud;
+}
+
+// sb - central systembody, pos - absolute coordinates of given object
+static vector3d _orbital_velocity_random_direction(const SystemBody *sb, const vector3d &pos)
+{
+	// If we got a zero mass of central body - there is no orbit
+	if (sb->GetMass() < 0.01)
+		return vector3d(0.0);
+	// calculating basis from radius - vector
+	vector3d k = pos.Normalized();
+	vector3d i;
+	if (std::fabs(k.z) > 0.999999)	 // very vertical = z
+		i = vector3d(1.0, 0.0, 0.0); // second ort = x
+	else
+		i = k.Cross(vector3d(0.0, 0.0, 1.0)).Normalized();
+	vector3d j = k.Cross(i);
+	// generating random 2d direction and putting it into basis
+	vector3d randomOrthoDirection = MathUtil::RandomPointOnCircle(1.0) * matrix3x3d::FromVectors(i, j, k).Transpose();
+	// calculate the value of the orbital velocity
+	double orbitalVelocity = sqrt(G * sb->GetMass() / pos.Length());
+	return randomOrthoDirection * orbitalVelocity;
 }
 
 /*
@@ -227,7 +252,6 @@ extern double MaxEffectRad(const Body *body, Propulsion *prop);
  *
  *   experimental
  */
-
 static int l_space_put_ship_on_route(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -269,7 +293,7 @@ static int l_space_put_ship_on_route(lua_State *l)
 			// target is above the effective radius of obstructor - rotate the ship's position
 			// around the target position, so that the obstructor's "effective radius" does not cross the path
 			// direction obstructor -> target
-			const vector3d z = targpos/targAlt;
+			const vector3d z = targpos / targAlt;
 			// the axis around which the position of the ship will rotate
 			const vector3d y = z.Cross(shippos).NormalizedSafe();
 			// just the third axis of this basis
@@ -289,12 +313,68 @@ static int l_space_put_ship_on_route(lua_State *l)
 				ship->SetPosition(safe2 + targpos);
 		} else {
 			// target below the effective radius of obstructor. Position the ship direct above the target
-			ship->SetPosition(targpos + targpos/targAlt * targdist);
+			ship->SetPosition(targpos + targpos / targAlt * targdist);
 		}
 		// update velocity direction
 		ship->SetVelocity((targpos - ship->GetPosition()).Normalized() * pp.getVel() + targetbody->GetVelocityRelTo(ship->GetFrame()));
 	}
 	LUA_DEBUG_END(l, 1);
+	return 0;
+}
+
+/*
+ * Method: PutShipIntoOrbit
+ *
+ * Puts ship into orbit of target body with SystemBody.
+ *
+ * > Space.PutShipIntoOrbit(ship, target)
+ *
+ * Parameters:
+ *
+ *   ship - a <Ship> object to be moved
+ *
+ *   target - the <Star> or <Planet> to orbit
+ *
+ * Availability:
+ *
+ *  October 2023
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_put_ship_into_orbit(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	Body *b = LuaObject<Body>::CheckFromLua(2);
+	const SystemBody *sbody = b->GetSystemBody();
+	if (!sbody) {
+		return luaL_error(l, "the target body doesn't have a system body");
+	}
+	if (!sbody->GetMass()) {
+		return luaL_error(l, "the target body has zero mass");
+	}
+	if (!b->GetPhysRadius()) {
+		return luaL_error(l, "the target body has a zero physical radius");
+	}
+	Ship::FlightState currentState = s->GetFlightState();
+	if (currentState != Ship::FlightState::FLYING) {
+		return luaL_error(l, "the ship is not in the \"FLYING\" state. Current state: \"%s\"",
+			EnumStrings::GetString("ShipFlightState", currentState));
+	}
+	// calculations are borrowed from Space::GetHyperspaceExitParams
+	// calculate distance to primary body relative to body's mass and radius
+	const double max_orbit_vel = 100e3;
+	double dist = G * sbody->GetMass() / (max_orbit_vel * max_orbit_vel);
+	// ensure an absolute minimum and an absolute maximum distance
+	// the minimum distance from the center of the body should not be less than the radius of the body
+	// use physical radius, because radius of sbody can be a lot less than physical radius
+	double radius = b->GetPhysRadius();
+	dist = Clamp(dist, radius * 1.1, std::max(radius * 1.1, 100 * AU));
+	vector3d pos{ MathUtil::RandomPointOnSphere(dist) };
+	s->SetFrame(b->GetFrame());
+	s->SetPosition(pos);
+	s->SetVelocity(_orbital_velocity_random_direction(sbody, s->GetPosition()));
 	return 0;
 }
 
@@ -698,27 +778,6 @@ static int l_space_spawn_ship_landed_near(lua_State *l)
 	return 1;
 }
 
-// sb - central systembody, pos - absolute coordinates of given object
-static vector3d _orbital_velocity_random_direction(const SystemBody *sb, const vector3d &pos)
-{
-	// If we got a zero mass of central body - there is no orbit
-	if (sb->GetMass() < 0.01)
-		return vector3d(0.0);
-	// calculating basis from radius - vector
-	vector3d k = pos.Normalized();
-	vector3d i;
-	if (std::fabs(k.z) > 0.999999)	 // very vertical = z
-		i = vector3d(1.0, 0.0, 0.0); // second ort = x
-	else
-		i = k.Cross(vector3d(0.0, 0.0, 1.0)).Normalized();
-	vector3d j = k.Cross(i);
-	// generating random 2d direction and putting it into basis
-	vector3d randomOrthoDirection = MathUtil::RandomPointOnCircle(1.0) * matrix3x3d::FromVectors(i, j, k).Transpose();
-	// calculate the value of the orbital velocity
-	double orbitalVelocity = sqrt(G * sb->GetMass() / pos.Length());
-	return randomOrthoDirection * orbitalVelocity;
-}
-
 /*
  * Function: SpawnCargoNear
  *
@@ -904,20 +963,45 @@ static int l_space_get_body(lua_State *l)
 }
 
 /*
+ * Function: GetNumBodies
+ *
+ * Get the total number of bodies simulated in the current Space
+ *
+ * bodies = #Space.GetNumBodies()
+ *
+ * Return:
+ *
+ *   num - the number of bodies currently existing in Space
+ *
+ * Availability:
+ *
+ *   Oct. 2023
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_space_get_num_bodies(lua_State *l)
+{
+	if (!Pi::game) {
+		return luaL_error(l, "Game is not started!");
+	}
+
+	LuaPush(l, Pi::game->GetSpace()->GetNumBodies());
+	return 1;
+}
+
+/*
  * Function: GetBodies
  *
- * Get all the <Body> objects that match the specified filter
+ * Get all the <Body> objects that match the specified filter type
  *
- * bodies = Space.GetBodies(filter)
+ * bodies = Space.GetBodies([type])
  *
  * Parameters:
  *
- *   filter - an option function. If specificed the function will be called
- *            once for each body with the <Body> object as the only parameter.
- *            If the filter function returns true then the <Body> will be
- *            included in the array returned by <GetBodies>, otherwise it will
- *            be omitted. If no filter function is specified then all bodies
- *            are returned.
+ *   type - an optional Body classname acting as a filter on the type of the
+ *          returned bodies
  *
  * Return:
  *
@@ -927,13 +1011,13 @@ static int l_space_get_body(lua_State *l)
  * Example:
  *
  * > -- get all the ground-based stations
- * > local stations = Space.GetBodies(function (body)
+ * > local stations = utils.filter_array(Space.GetBodies("SpaceStation"), function(body)
  * >     return body.type == "STARPORT_SURFACE"
  * > end)
  *
  * Availability:
  *
- *   alpha 10
+ *   Oct. 2023
  *
  * Status:
  *
@@ -941,6 +1025,8 @@ static int l_space_get_body(lua_State *l)
  */
 static int l_space_get_bodies(lua_State *l)
 {
+	PROFILE_SCOPED()
+
 	if (!Pi::game) {
 		luaL_error(l, "Game is not started");
 		return 0;
@@ -948,36 +1034,91 @@ static int l_space_get_bodies(lua_State *l)
 
 	LUA_DEBUG_START(l);
 
-	bool filter = false;
-	if (lua_gettop(l) >= 1) {
-		luaL_checktype(l, 1, LUA_TFUNCTION); // any type of function
-		filter = true;
-	}
+	ObjectType filterBodyType = LuaPull<ObjectType>(l, 1, ObjectType::BODY);
+	bool filter = filterBodyType != ObjectType::BODY;
 
 	lua_newtable(l);
 
+	int idx = 1;
 	for (Body *b : Pi::game->GetSpace()->GetBodies()) {
-		if (filter) {
-			lua_pushvalue(l, 1);
-			LuaObject<Body>::PushToLua(b);
-			if (int ret = lua_pcall(l, 1, 1, 0)) {
-				const char *errmsg("Unknown error");
-				if (ret == LUA_ERRRUN)
-					errmsg = lua_tostring(l, -1);
-				else if (ret == LUA_ERRMEM)
-					errmsg = "memory allocation failure";
-				else if (ret == LUA_ERRERR)
-					errmsg = "error in error handler function";
-				luaL_error(l, "Error in filter function: %s", errmsg);
-			}
-			if (!lua_toboolean(l, -1)) {
-				lua_pop(l, 1);
-				continue;
-			}
-			lua_pop(l, 1);
-		}
+		if (filter && !b->IsType(filterBodyType))
+			continue;
 
-		lua_pushinteger(l, lua_rawlen(l, -1) + 1);
+		lua_pushinteger(l, idx++);
+		LuaObject<Body>::PushToLua(b);
+		lua_rawset(l, -3);
+	}
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
+/*
+ * Function: GetBodiesNear
+ *
+ * Get all the <Body> objects within a specified distance from another body
+ * that match the specified filter
+ *
+ * bodies = Space.GetBodiesNear(body, dist, [type])
+ *
+ * Parameters:
+ *
+ *   body - the reference body for distance
+ *
+ *   dist - the maximum distance from the reference body another body can be
+ *
+ *   type - optional - a PhysicsObjectType enum value
+ *          (one of Constants.PhysicsObjectType) acting as a filter on the type
+ *          of the returned bodies
+ *
+ * Return:
+ *
+ *   bodies - an array containing zero or more <Body> objects that matched the
+ *            filter
+ *
+ * Example:
+ *
+ * > -- get all stations within 50,000m
+ * > local stations = Space.GetBodiesNear(Game.player, 50000, "SPACE_STATION")
+ *
+ * Availability:
+ *
+ *   Oct. 2023
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_space_get_bodies_near(lua_State *l)
+{
+	PROFILE_SCOPED()
+
+	if (!Pi::game) {
+		luaL_error(l, "Game is not started");
+		return 0;
+	}
+
+	LUA_DEBUG_START(l);
+
+	Body *body = LuaPull<Body *>(l, 1);
+	double dist = LuaPull<double>(l, 2);
+	double distSqr = dist * dist;
+
+	ObjectType filterBodyType = LuaPull<ObjectType>(l, 3, ObjectType::BODY);
+	bool filter = filterBodyType != ObjectType::BODY;
+
+	lua_newtable(l);
+
+	int idx = 1;
+	for (Body *b : Pi::game->GetSpace()->GetBodiesMaybeNear(body, dist)) {
+		if (filter && !b->IsType(filterBodyType))
+			continue;
+
+		if (b->GetPositionRelTo(body).LengthSqr() > distSqr)
+			continue;
+
+		lua_pushinteger(l, idx++);
 		LuaObject<Body>::PushToLua(b);
 		lua_rawset(l, -3);
 	}
@@ -1033,9 +1174,12 @@ void LuaSpace::Register()
 		{ "SpawnCargoNear", l_space_spawn_cargo_near },
 		{ "SpawnShipOrbit", l_space_spawn_ship_orbit },
 		{ "PutShipOnRoute", l_space_put_ship_on_route },
+		{ "PutShipIntoOrbit", l_put_ship_into_orbit },
 
 		{ "GetBody", l_space_get_body },
+		{ "GetNumBodies", l_space_get_num_bodies },
 		{ "GetBodies", l_space_get_bodies },
+		{ "GetBodiesNear", l_space_get_bodies_near },
 
 		{ "DbgDumpFrames", l_space_dump_frames },
 		{ 0, 0 }

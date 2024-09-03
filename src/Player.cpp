@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Player.h"
@@ -27,34 +27,12 @@
 static Sound::Event s_soundUndercarriage;
 static Sound::Event s_soundHyperdrive;
 
-static int onEquipChangeListener(lua_State *l)
-{
-	Player *p = LuaObject<Player>::GetFromLua(lua_upvalueindex(1));
-	p->onChangeEquipment.emit();
-	return 0;
-}
-
-static void registerEquipChangeListener(Player *player)
-{
-	lua_State *l = Lua::manager->GetLuaState();
-	LUA_DEBUG_START(l);
-
-	LuaObject<Player>::PushToLua(player);
-	lua_pushcclosure(l, onEquipChangeListener, 1);
-	LuaRef lr(Lua::manager->GetLuaState(), -1);
-	ScopedTable(player->GetEquipSet()).CallMethod("AddListener", lr);
-	lua_pop(l, 1);
-
-	LUA_DEBUG_END(l, 0);
-}
-
 Player::Player(const ShipType::Id &shipId) :
 	Ship(shipId)
 {
 	SetController(new PlayerShipController());
 	InitCockpit();
 	m_fixedGuns->SetShouldUseLeadCalc(true);
-	registerEquipChangeListener(this);
 	m_atmosAccel = vector3d(0.0f, 0.0f, 0.0f);
 }
 
@@ -63,13 +41,11 @@ Player::Player(const Json &jsonObj, Space *space) :
 {
 	InitCockpit();
 	m_fixedGuns->SetShouldUseLeadCalc(true);
-	registerEquipChangeListener(this);
 }
 
 void Player::SetShipType(const ShipType::Id &shipId)
 {
 	Ship::SetShipType(shipId);
-	registerEquipChangeListener(this);
 	InitCockpit();
 }
 
@@ -316,7 +292,7 @@ void Player::StaticUpdate(const float timeStep)
 	bool playCreak = false;
 
 	// play creaking sfx if the acceleration along the Y axis (up/down directions) is higher than 1g
-	// and the rate of change of acceleration is more than 2.5 m s-3 
+	// and the rate of change of acceleration is more than 2.5 m s-3
 	if ((abs(m_atmosAccel.Dot(Player::m_interpOrient.VectorY()))) > 10 && abs(m_atmosJerk.Dot(Player::m_interpOrient.VectorY())) > 2.5) {
 		playCreak = true;
 	}
@@ -366,4 +342,29 @@ vector3d Player::GetManeuverVelocity() const
 		}
 	}
 	return vector3d(0, 0, 0);
+}
+
+void Player::DoFixspeedTakeoff(SpaceStation *from)
+{
+	auto con = GetPlayerController();
+	con->SetCruiseDirection(PlayerShipController::CRUISE_UP);
+	SetFlightState(Ship::FLYING);
+	GetPlayerController()->SetFlightControlState(CONTROL_FIXSPEED);
+	double curSpeed = con->GetCruiseSpeed();
+	double wantSpeed = 2; // m/s
+	con->ChangeCruiseSpeed(wantSpeed - curSpeed);
+
+	// special preparations for launch in a rotating orbital
+	if (from && !from->IsGroundStation()) {
+		SetFollowTarget(from);
+		con->SetFollowMode(PlayerShipController::FOLLOW_ORI);
+		auto pPos = GetPosition();
+		SetAngVelocity(from->GetAngVelocity());
+
+		// some actions to avoid collision with the pad at start with a margin
+		SetPosition(GetPosition() + GetOrient().VectorY() * 0.01);
+		auto tangent = from->GetAngVelocity().Cross(pPos);
+		auto radial = GetOrient().VectorY() * 0.05;
+		SetVelocity(tangent + radial);
+	}
 }

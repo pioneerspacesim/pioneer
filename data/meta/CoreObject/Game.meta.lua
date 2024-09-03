@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- This file implements type information about C++ classes for Lua static analysis
@@ -47,6 +47,11 @@ function Game.SaveGameStats(filename) end
 --- Save the current game to the given savefile.
 ---@param filename string
 function Game.SaveGame(filename) end
+
+--- Delete savefile with specified filename.
+---@param filename string
+---@return boolean success
+function Game.DeleteSave(filename) end
 
 --- End the current game and return to the main menu.
 function Game.EndGame() end

@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- This file implements type information about C++ classes for Lua static analysis
@@ -42,12 +42,15 @@
 --- The measure of metallicity of the body's crust:
 --- 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)
 ---@field metallicity number
---- The measure of volatile gas present in the atmosphere of the body:
---- 0.0 = no atmosphere, 1.0 = earth atmosphere density, 4.0+ ~= venus
----@field volatileGas number
+--- The atmospheric density at "surface level" of the body:
+--- 0.0 = no atmosphere, 1.225 = earth atmosphere density, 64 ~= venus
+---@field atmosDensity number
 --- The compositional value of any atmospheric gasses in the bodys atmosphere (if any):
 --- 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
 ---@field atmosOxidizing number
+--- The pressure of the atmosphere at the body's mean "surface level":
+--- 1.0atm = earth
+---@field surfacePressure number
 --- The measure of volatile liquids present on the body:
 --- 0.0 = none, 1.0 = waterworld (earth = 70%)
 ---@field volatileLiquid number

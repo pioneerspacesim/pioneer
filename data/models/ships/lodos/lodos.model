@@ -7,7 +7,6 @@ tex_spec lodos-specular.dds
 tex_glow lodos-glow.dds
 
 mesh lodos-hi.dae
-mesh lodos_shield.dae
 
 anim gear_down 1 121
 

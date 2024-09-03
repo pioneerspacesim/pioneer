@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -45,6 +45,9 @@ public:
 
 	// Sort the bodies in the system based on semi-major axis
 	static void SortBodyHierarchy(StarSystem *system, Editor::UndoSystem *undo);
+
+	// Regenerate the system's internal list of stars for export
+	static void GenerateStarList(StarSystem *system);
 
 	static void EditName(StarSystem *system, Random &rng, Editor::UndoSystem *undo);
 	static void EditProperties(StarSystem *system, Editor::CustomSystemInfo &custom, FactionsDatabase *factions, Editor::UndoSystem *undo);

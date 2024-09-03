@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "EnumStrings.h"
@@ -46,17 +46,6 @@ static int l_systemview_set_selected_object(lua_State *l)
 	else
 		sv->GetMap()->SetSelectedObject({ type, base, LuaObject<Body>::CheckFromLua(4) });
 	return 0;
-}
-
-bool too_near(const vector3f &a, const vector3f &b, const vector2d &gain)
-{
-	return std::abs(a.x - b.x) < gain.x && std::abs(a.y - b.y) < gain.y
-		// we don’t want to group objects that simply overlap and are located at different distances
-		// therefore, depth is also taken into account, we have z_NDC (normalized device coordinates)
-		// in order to make a strict translation of delta z_NDC into delta "pixels", one also needs to know
-		// the z coordinates in the camera space. I plan to implement this later
-		// at the moment I just picked up a number that works well (6.0)
-		&& std::abs(a.z - b.z) * Graphics::GetScreenWidth() * 6.0 < gain.x;
 }
 
 /*

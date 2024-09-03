@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui'
@@ -8,6 +8,7 @@ local Lang = require 'Lang'
 local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
 
+local Helpers = require 'pigui.modules.new-game-window.helpers'
 local Widgets = require 'pigui.modules.new-game-window.widgets'
 local SectorMap = require 'SectorMap'
 local SystemPath = require 'SystemPath'
@@ -20,14 +21,14 @@ local mapLayout, timeLayout, pathLayout
 -- time
 --
 -- value: number, game time, 0 means 3200-01-01 00:00:00
+-- value < 0 means "standard" time is taken - 1200 years from now
 --
 local Time = GameParam.New(lui.GAME_TIME, "time")
 Time.value = 0
 
-Time.standard = false
-
 function Time:pseudoDateTime()
-	local year, month, day, hour, minute, second = util.gameTimeToTimeParts(self.value)
+	local time = self.value >= 0 and self.value or util.standardGameStartTime()
+	local year, month, day, hour, minute, second = util.gameTimeToTimeParts(time)
 	return year * 10000 + month * 100 + day, hour * 10000 + minute * 100 + second
 end
 
@@ -52,7 +53,7 @@ function Time:draw()
 		ui.sameLine()
 		local pdate, ptime = self:pseudoDateTime()
 		ui.nextItemWidth(timeLayout.dateWidth)
-		local lockBecauseStandard = self.standard or self.lock
+		local lockBecauseStandard = self.value < 0 or self.lock
 		local val_date, ch_date = Widgets.incrementDrag(lockBecauseStandard, "##startdate", pdate, 1, 0, 4000000000, formatPseudoValue(pdate, "-"))
 		ui.sameLine()
 		ui.text("-")
@@ -78,29 +79,36 @@ function Time:draw()
 			-- seconds and days can be negative, but I don’t want to remove assertions in the function for other cases
 			self.value = util.timePartsToGameTime(year, month, 1, hour, minute, 0) + 86400 * (day - 1) + second
 		end
-		if self.standard then
-			self.value = util.standardGameStartTime()
-		end
-		local ch,value = ui.checkbox(lui.STANDARD_GAME_START_TIME, self.standard)
+		local ch, checked = ui.checkbox(lui.STANDARD_GAME_START_TIME, self.value < 0)
 		if ch and (not self.lock) then
-			self.standard = value
+			if checked then
+				self.value = -1
+			else
+				self.value = util.standardGameStartTime()
+			end
 		end
 		ui.endGroup()
 	end)
 end
 
 function Time:fromStartVariant(variant)
-	self.value = 0
-	self.standard = true
-	self:setLock(true)
+	self.value = -1
+	self.lock = true
 end
 
 function Time:isValid()
-	if self.standard then
-		self.value = util.standardGameStartTime()
-	end
-	return self.value >= 0
+	-- more negative time is something weird
+	return self.value >= -2
 end
+
+Time.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+		local time, errorString = Helpers.getByPath(saveGame, "time")
+		if errorString then return nil, errorString end
+		return time
+	end
+}}
 
 --
 -- location
@@ -139,7 +147,7 @@ function Location:setPath(path)
 
 	self.value.path = path
 
-	self.sysCombo = { systems = self.galaxy:GetSector(path.sectorX, path.sectorY, path.sectorZ), labels = {}, selected = 0 }
+	self.sysCombo = { systems = self:getGalaxy():GetSector(path.sectorX, path.sectorY, path.sectorZ), labels = {}, selected = 0 }
 	for _, system in ipairs(self.sysCombo.systems) do
 		table.insert(self.sysCombo.labels, system.name)
 	end
@@ -201,17 +209,21 @@ function Location:updateLayout()
 		width = Defs.contentRegion.x - mapLayout.width - ui.getItemSpacing().x
 	}
 	if not self.map then self:initMap() end
-	self:setPath(self.value.path)
+	self.map:SetSize(Vector2(mapLayout.width, mapLayout.height))
 end
 
 function Location:initMap()
 	self.map = SectorMap(function (path) self:onClickSystem(path) end)
-	self.map:SetSize(Vector2(mapLayout.width, mapLayout.height))
 	self.galaxy = self.map:GetGalaxy()
 	self.overview = SystemOverviewWidget.New()
 	self.overview.onBodySelected = function(_, sbody, _)
 		self:onClickSystem(sbody.path)
 	end
+end
+
+function Location:getGalaxy()
+	if not self.map then self:initMap() end
+	return self.galaxy
 end
 
 function Location:draw()
@@ -277,12 +289,106 @@ function Location:fromStartVariant(variant)
 		path = variant.location,
 		state = State.UNKNOWN
 	}
-	self:setLock(true)
+	self.lock = true
 end
 
 function Location:isValid()
 	return self.bodySelected and true or false
 end
+
+function Location:updateParams()
+	self:setPath(self.value.path)
+end
+
+---@param id number
+---@param frame table
+---@return number?
+local function getSystemBodyIndexForFrameID(id, frame)
+	if id == frame.frameId then
+		return frame.index_for_system_body
+	end
+	if not frame.child_frames then
+		return nil
+	end
+	for _, childFrame in pairs(frame.child_frames) do
+		local sbi = getSystemBodyIndexForFrameID(id, childFrame)
+		if sbi then return sbi end
+	end
+end
+
+-- traverse the system bodies tree depth-first, as happens when assigning
+-- indexes during serialization
+local function enumerateSystemBodies(starSystem)
+
+	local rootBody = starSystem.rootSystemBody
+	local result = {}
+	local stack = { rootBody }
+
+	repeat
+		local sbody = table.remove(stack)
+		table.insert(result, sbody)
+		local children = sbody.children
+		for i = #children, 1, -1 do
+			table.insert(stack, children[i])
+		end
+	until #stack == 0
+
+	return result
+end
+
+Location.reader = Helpers.versioned {{
+	version = 89,
+	fnc = function(saveGame)
+
+		local system, errorString = Helpers.getByPath(saveGame, "space/star_system")
+		if errorString then return nil, errorString end
+
+		local path = SystemPath.New(system.sector_x, system.sector_y, system.sector_z, system.system_index)
+		local sector = Location:getGalaxy():GetSector(path.sectorX, path.sectorY, path.sectorZ)
+		if path.systemIndex >= #sector then
+			return nil, "Bad system index"
+		end
+
+		local starSystem = Location:getGalaxy():GetStarSystem(path)
+		local systemBodies = enumerateSystemBodies(starSystem)
+
+		local dockedToBody
+		dockedToBody, errorString = Helpers.getPlayerShipParameter(saveGame, "ship/index_for_body_docked_with")
+		if errorString then return nil, errorString end
+
+		if dockedToBody ~= 0 then
+
+			local dockedToSystemBody
+			dockedToSystemBody, errorString = Helpers.getByPath(saveGame, "space/bodies/#" .. tostring(dockedToBody) .. "/space_station/index_for_system_body")
+			if errorString then return nil, errorString end
+
+			if dockedToSystemBody > #systemBodies then
+				return nil, lui.SYSTEM_BODY_INDEX_IS_OUT_OF_RANGE
+			end
+			local spaceStation = systemBodies[dockedToSystemBody]
+			if spaceStation.isStation then
+				return { path = spaceStation.path, state = State.DOCKED }
+			else
+				return nil, lui.DOCKED_TO_A_BODY_THAT_IS_NOT_A_STATION
+			end
+		end
+
+		local frameID, frameTree
+		frameID, errorString = Helpers.getPlayerShipParameter(saveGame, "body/index_for_frame")
+		frameTree, errorString = Helpers.getByPath(saveGame, "space/frame")
+		if errorString then return nil, errorString end
+
+		local systemBodyIndex = getSystemBodyIndexForFrameID(frameID, frameTree)
+		if not systemBodyIndex then
+			return nil, lui.COULD_NOT_FIND_SYSTEM_BODY_FOR_FRAME
+		end
+		if systemBodyIndex > #systemBodies then
+			return nil, lui.SYSTEM_BODY_INDEX_IS_OUT_OF_RANGE
+		end
+
+		return { path = systemBodies[systemBodyIndex].path, state = State.ORBIT }
+	end
+}}
 
 Location.Time = Time
 Location.TabName = lui.LOCATION

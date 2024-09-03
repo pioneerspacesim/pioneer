@@ -19,6 +19,10 @@
     "description": "",
     "message": "Fidelidade:"
   },
+  "ALL_PARAMETERS_WERE_RECOVERED_SUCCESSFULLY": {
+    "description": "Message when restoring savegame",
+    "message": "All parameters were recovered successfully."
+  },
   "ALL_UP_WEIGHT": {
     "description": "",
     "message": "Peso total da nave"
@@ -46,6 +50,10 @@
   "ATMO_PRESS_LIMIT": {
     "description": "Base external pressure limit of a ship (without atmo shield)",
     "message": "Atmo. pressure limit"
+  },
+  "ATTEMPTING_TO_RECOVER_GAME_PROGRESS_FROM_SAVE_X": {
+    "description": "Message when restoring savegame",
+    "message": "Attempting to recover game progress from save: {save}"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -85,11 +93,11 @@
   },
   "CABIN_FREE": {
     "description": "Free capacity for passengers",
-    "message": "{quantia} livre"
+    "message": "{amount} livre"
   },
   "CABIN_USED": {
     "description": "Passengers using cabins",
-    "message": "{quantia} usada"
+    "message": "{amount} usada"
   },
   "CANCEL": {
     "description": "",
@@ -98,6 +106,14 @@
   "CANNOT_SELL_ITEM": {
     "description": "",
     "message": "This item cannot be sold"
+  },
+  "CANT_FIND_PATH": {
+    "description": "Message when restoring savegame, file path",
+    "message": "Can't find path: %s"
+  },
+  "CANT_FIND_PLAYERS_SHIP_IN_SPACE": {
+    "description": "Message when restoring savegame",
+    "message": "Can't find player's ship in space"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -125,11 +141,11 @@
   },
   "CARGO_T_FREE": {
     "description": "t for tonne",
-    "message": "{quantia}t livre"
+    "message": "{amount}t livre"
   },
   "CARGO_T_USED": {
     "description": "t for tonne",
-    "message": "{quantia}t usada"
+    "message": "{amount}t usada"
   },
   "CASE_SENSITIVE": {
     "description": "",
@@ -141,7 +157,7 @@
   },
   "CASH_N": {
     "description": "",
-    "message": "Dinheiro: {dinheiro}"
+    "message": "Dinheiro: {money}"
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
@@ -263,9 +279,21 @@
     "description": "",
     "message": "Opções de Controle"
   },
+  "COULD_NOT_DELETE_SAVE": {
+    "description": "",
+    "message": "Could not delete save"
+  },
+  "COULD_NOT_FIND_SYSTEM_BODY_FOR_FRAME": {
+    "description": "Message when restoring savegame",
+    "message": "Could not find system body for frame"
+  },
   "COULD_NOT_LOAD_GAME": {
     "description": "",
     "message": "Não foi possível carregar o jogo:"
+  },
+  "COULD_NOT_READ_THE_SAVE_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Could not read the save version"
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -299,6 +327,10 @@
     "description": "For hyperjump planner",
     "message": "Current Fuel:"
   },
+  "CURRENT_SAVEGAME_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Current savegame version: %s"
+  },
   "CURRENT_SHIP": {
     "description": "For tooltip comparing current ship specs to one in the shipyard",
     "message": "Current Ship"
@@ -322,6 +354,14 @@
   "DECREASE": {
     "description": "Decrease something.",
     "message": "Decrease"
+  },
+  "DELETE": {
+    "description": "",
+    "message": "Delete"
+  },
+  "DELETE_SAVE_CONFIRMATION": {
+    "description": "",
+    "message": "Are you sure you want to delete this save?"
   },
   "DELTA_V": {
     "description": "",
@@ -347,6 +387,10 @@
     "description": "Time of departure, used in flight log",
     "message": "Departure date"
   },
+  "DESCRIPTION": {
+    "description": "Start game parameter, e.g. 'This is an easy start from Cydonia'",
+    "message": "Description"
+  },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
     "message": "Destruir nave inimiga"
@@ -364,7 +408,7 @@
     "message": "Hide all displayed info, including system coordinates, when in screenshot mode (toggle HUD mode)."
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Dispensar"
   },
   "DISPLAY_HUD_TRAILS": {
@@ -394,6 +438,10 @@
   "DOCKED_AT": {
     "description": "",
     "message": "Docked at"
+  },
+  "DOCKED_TO_A_BODY_THAT_IS_NOT_A_STATION": {
+    "description": "Message when restoring savegame",
+    "message": "Docked to a body that is not a station"
   },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
@@ -487,6 +535,10 @@
     "description": "",
     "message": "Erro"
   },
+  "ERROR_APPLYING_PATCH": {
+    "description": "Message when restoring savegame",
+    "message": "Error applying patch"
+  },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
     "message": "Hipersalto impossibilitado. Trem de pouso não está recolhido!"
@@ -502,6 +554,10 @@
   "EXPERIENCED": {
     "description": "For player reputation",
     "message": "Experiente"
+  },
+  "EXPERIMENTAL": {
+    "description": "Indicates feature/option is experimental",
+    "message": "Experimental"
   },
   "EXPERT": {
     "description": "For player reputation",
@@ -562,6 +618,10 @@
   "FEMALE": {
     "description": "",
     "message": "Feminino"
+  },
+  "FILE_SAVEGAME_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "File savegame version: %s"
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
@@ -1113,7 +1173,7 @@
   },
   "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
     "description": "",
-    "message": "Fuselagem reparada por {nome}, agora em {Percentualreparo}%"
+    "message": "Fuselagem reparada por {name}, agora em {repairPercent}%"
   },
   "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE": {
     "description": "",
@@ -1315,6 +1375,18 @@
     "description": "Label tab for showing custom logged events",
     "message": "Custom Log"
   },
+  "LOG_EARLIEST_FIRST": {
+    "description": "Show the log entries in chronological order, earliest first",
+    "message": "Order earliest first"
+  },
+  "LOG_EXPORT": {
+    "description": "Export the log",
+    "message": "Export"
+  },
+  "LOG_HTML": {
+    "description": "Export the log as HTML or not",
+    "message": "HTML"
+  },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
     "message": "New Entry"
@@ -1459,6 +1531,10 @@
     "description": "",
     "message": "Mais informações..."
   },
+  "MORE_THAN_ONE_PLAYERS_SHIP_FOUND_IN_SPACE": {
+    "description": "Message when restoring savegame",
+    "message": "More than one player's ship found in space"
+  },
   "MOSTLY_HARMLESS": {
     "description": "",
     "message": "Geralmente inofensivo"
@@ -1561,7 +1637,7 @@
   },
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
-    "message": "{equipamento} não é suportado neste modelo de nave"
+    "message": "{equipment} não é suportado neste modelo de nave"
   },
   "NO_AVAILABLE_DATA": {
     "description": "Message displaying no stored data available",
@@ -1601,7 +1677,7 @@
   },
   "N_UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "{quantidade} Cabines de Passageiros Desocupadas"
+    "message": "{quantity} Cabines de Passageiros Desocupadas"
   },
   "OCCUPIED_PASSENGER_CABINS": {
     "description": "",
@@ -1695,6 +1771,10 @@
     "description": "Entry for ship info",
     "message": "Passenger cabin capacity"
   },
+  "PATH_FOUND_BUT_VERIFICATION_FAILED": {
+    "description": "Message when restoring savegame",
+    "message": "Path found but verification failed: %s"
+  },
   "PATTERN": {
     "description": "Ship painting pattern.",
     "message": "Pattern"
@@ -1705,7 +1785,7 @@
   },
   "PAY_FINE_OF_N": {
     "description": "",
-    "message": "Pagar multa de {quantia}"
+    "message": "Pagar multa de {amount}"
   },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1725,7 +1805,7 @@
   },
   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
     "description": "",
-    "message": "Assento do piloto agora é ocupado por {nome}"
+    "message": "Assento do piloto agora é ocupado por {name}"
   },
   "PIRACY": {
     "description": "",
@@ -1811,9 +1891,37 @@
     "description": "",
     "message": "Classificação:"
   },
+  "RAYLEIGH_ACCURATE": {
+    "description": "",
+    "message": "Rayleigh/Mie (accurate, per-pixel)"
+  },
+  "RAYLEIGH_FAST": {
+    "description": "",
+    "message": "Rayleigh/Mie (fast, per-vertex)"
+  },
+  "REALISTIC_SCATTERING": {
+    "description": "",
+    "message": "Scattering"
+  },
+  "REALISTIC_SCATTERING_DESC": {
+    "description": "",
+    "message": "Select scattering when rendering atmospheres. (Rayleigh/Mie is not recommended for low-end PCs)"
+  },
   "REAR_WEAPON": {
     "description": "",
     "message": "Arma traseira"
+  },
+  "RECOVER": {
+    "description": "Saveload menu button",
+    "message": "Recover"
+  },
+  "RECOVERED_BUT_NOT_VALID": {
+    "description": "Message when restoring savegame",
+    "message": "Recovered but not valid"
+  },
+  "RECOVER_SAVEGAME": {
+    "description": "",
+    "message": "Recover savegame"
   },
   "REFUEL": {
     "description": "",
@@ -1845,7 +1953,7 @@
   },
   "REPAIR_X_HULL_DAMAGE_FOR_X": {
     "description": "",
-    "message": "Reparar {dano}% dano na fuselagem por {preço}"
+    "message": "Reparar {damage}% dano na fuselagem por {price}"
   },
   "REPLACE_EQUIPMENT_WITH": {
     "description": "Market header when replacing equipped items",
@@ -1919,6 +2027,14 @@
     "description": "",
     "message": "Salvar"
   },
+  "SAVE_DELETED_SUCCESSFULLY": {
+    "description": "",
+    "message": "Save deleted successfully"
+  },
+  "SCATTERING_OLD": {
+    "description": "",
+    "message": "Legacy"
+  },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
     "message": "Slots para coletores"
@@ -1930,6 +2046,14 @@
   "SELECT": {
     "description": "",
     "message": "Selecionar"
+  },
+  "SELECTED_SAVE_DOESNT_EXISTS": {
+    "description": "",
+    "message": "Selected save doesn't exist"
+  },
+  "SELECTED_SAVE_IS_NOT_A_VALID_SAVE": {
+    "description": "",
+    "message": "Selected save is not a valid save"
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",
@@ -2131,6 +2255,10 @@
     "description": "Tab item in the start game menu",
     "message": "Summary"
   },
+  "SYSTEM_BODY_INDEX_IS_OUT_OF_RANGE": {
+    "description": "Message when restoring savegame",
+    "message": "System body index is out of range"
+  },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
     "message": "Esta estação possui um certificado de tecnologia de nível {tech_level}."
@@ -2154,6 +2282,10 @@
   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
     "description": "",
     "message": "Não há mais ninguém a bordo capaz de pilotar esta nave."
+  },
+  "THERE_WERE_ERRORS_IN_RECOVERY": {
+    "description": "Message when restoring savegame",
+    "message": "There were errors in recovery:"
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
@@ -2247,6 +2379,26 @@
     "description": "",
     "message": "Tipo"
   },
+  "UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Unknown custom log entry format"
+  },
+  "UNKNOWN_FACTION": {
+    "description": "For entry in the flight log",
+    "message": "Unknown faction"
+  },
+  "UNKNOWN_LOCATION_IN_SECTOR_X": {
+    "description": "For entry in the flight log",
+    "message": "Unknown location in sector {sector}"
+  },
+  "UNKNOWN_STATION_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Unknown station log entry format"
+  },
+  "UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Unknown system log entry format"
+  },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
     "message": "Carregamento ilegal de armas"
@@ -2262,6 +2414,10 @@
   "UNRELIABLE": {
     "description": "",
     "message": "Não-confiável"
+  },
+  "UNSUCCESSFULLY_RECOVERED_PARAMETERS_ARE_NOW_UNLOCKED_PLEASE_SET_THEM_MANUALLY": {
+    "description": "Message when restoring savegame",
+    "message": "Unsuccessfully recovered parameters are now unlocked, please set them manually."
   },
   "UP_ACCEL": {
     "description": "",
@@ -2349,7 +2505,7 @@
   },
   "YOUR_HULL_IS_AT_X_INTEGRITY": {
     "description": "",
-    "message": "Sua fuselagem está {valor}% íntegra."
+    "message": "Sua fuselagem está {value}% íntegra."
   },
   "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION": {
     "description": "",

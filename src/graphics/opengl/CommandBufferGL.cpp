@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CommandBufferGL.h"
@@ -214,7 +214,9 @@ char *CommandList::SetupMaterialData(OGL::Material *mat)
 	const Shader *s = mat->GetShader();
 
 	char *alloc = AllocDrawData(s);
-	memcpy(alloc, mat->m_pushConstants.get(), s->GetConstantStorageSize());
+	if (mat->m_pushConstants) {
+		memcpy(alloc, mat->m_pushConstants.get(), s->GetConstantStorageSize());
+	}
 
 	BufferBinding<UniformBuffer> *buffers = getBufferBindings(s, alloc);
 	for (size_t index = 0; index < s->GetNumBufferBindings(); index++) {

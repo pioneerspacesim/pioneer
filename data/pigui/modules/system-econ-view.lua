@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game    = require 'Game'
@@ -86,7 +86,7 @@ function SystemEconView.buildCommodityList(sys, otherSys)
 		local otherLegal = otherSys and otherSys:IsCommodityLegal(name)
 
 		local tab = {
-			info.l10n_key,
+			lcomm[info.l10n_key],
 			legal and sys:GetCommodityBasePriceAlterations(name),
 			otherSys and otherLegal and otherSys:GetCommodityBasePriceAlterations(name)
 		}
@@ -117,7 +117,7 @@ function SystemEconView.buildStationCommodityList(system, station, otherStation)
 		local otherPrice = otherStation and otherStation:GetCommodityPrice(item)
 
 		local tab = {
-			item.l10n_key,
+			lcomm[item.l10n_key],
 			legal and SystemEconView.GetPricemod(item, price) - systemPrice,
 			legal and otherPrice and SystemEconView.GetPricemod(item, otherPrice) - systemPrice
 		}
@@ -154,7 +154,7 @@ end
 
 local function drawCommodityTooltip(info, thisSystem, otherSystem)
 	ui.customTooltip(function()
-		ui.withFont(pionillium.heading, function() ui.text(lcomm[info[1]]) end)
+		ui.withFont(pionillium.heading, function() ui.text(info[1]) end)
 
 		local profit = getProfitabilityInfo(info[2], info[3])
 		if otherSystem and profit then
@@ -186,7 +186,7 @@ function SystemEconView:drawCommodityList(commList, illegalList, thisSystem, oth
 	ui.child("CommodityList", Vector2(0, 0), ui.WindowFlags{"NoScrollbar"}, function()
 		for _, info in ipairs(commList) do
 			ui.group(function()
-				ui.text(lcomm[info[1]])
+				ui.text(info[1])
 				ui.sameLine(width - iconWidth * 3)
 
 				drawIcon(otherSystem and getProfitabilityInfo(info[2], info[3]), iconSize)
@@ -219,14 +219,14 @@ function SystemEconView:drawCommodityList(commList, illegalList, thisSystem, oth
 
 		for _, info in ipairs(illegalList) do
 			ui.group(function()
-				ui.text(lcomm[info[1]])
+				ui.text(info[1])
 				ui.sameLine(width - iconWidth * 2, 0)
 
 				-- only display illegal icon if the commodity is actually legal in the other system
 				if otherSystem and (info[2] or info[3]) then
-					drawIcon(SystemEconView.ClassifyPrice(info[2]), iconSize)
-					ui.sameLine(0, 0)
 					drawIcon(SystemEconView.ClassifyPrice(info[3]), iconSize)
+					ui.sameLine(0, 0)
+					drawIcon(SystemEconView.ClassifyPrice(info[2]), iconSize)
 				end
 			end)
 
@@ -246,7 +246,24 @@ function SystemEconView:drawSystemComparison(selected, current)
 	local otherSys = showComparison and current or nil
 
 	ui.withFont(pionillium.body, function()
-		ui.text(lui.COMMODITY_TRADE_ANALYSIS)
+		ui.text(lui.COMMODITY_TRADE_ANALYSIS_SYSTEM)
+
+		local iconSize = Vector2(ui.getTextLineHeight())
+		ui.sameLine(ui.getContentRegion().x - iconSize.x + ui.getWindowPadding().x)
+		ui.icon(icons.info, iconSize, colors.fontDim)
+
+		if ui.isItemHovered() then
+			ui.withFont(pionillium.details, function()
+				ui.customTooltip(function()
+					ui.pushTextWrapPos(ui.getTextLineHeight() * 20)
+					ui.textWrapped(lui.COMMODITY_TRADE_ANALYSIS_TOOLTIP_1)
+					ui.spacing()
+					ui.textWrapped(lui.COMMODITY_TRADE_ANALYSIS_TOOLTIP_2)
+					ui.popTextWrapPos()
+				end)
+			end)
+		end
+
 		ui.spacing()
 
 		ui.withFont(pionillium.heading, function()
@@ -343,7 +360,7 @@ function SystemEconView:drawPriceList(key, prices)
 		drawIcon(profit, iconSize)
 
 		ui.tableSetColumnIndex(2)
-		ui.textColored(ui.theme.styleColors.gray_200, price)
+		ui.text(price)
 	end
 
 	ui.endTable()
@@ -388,7 +405,7 @@ function SystemEconView:drawSystemFinder()
 
 			ui.withFont(pionillium.heading, function()
 				local price = ui.Format.Money(self.savedMarket[key])
-				ui.textColored(ui.theme.styleColors.gray_200, commName)
+				ui.text(commName)
 				ui.sameLine(ui.getContentRegion().x - ui.calcTextSize(price).x)
 				ui.text(price)
 			end)
@@ -410,7 +427,7 @@ function SystemEconView:drawSystemFinder()
 
 				local idx = self:drawPriceList(key, entries)
 				if idx then
-					Game.sectorView:GotoSystemPath(entries[idx][3])
+					Game.sectorView:SwitchToPath(entries[idx][3])
 				end
 
 			elseif self.compareMode == CompareMode.ByStation then

@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- give name, first and last name functions
@@ -13,8 +13,9 @@ local fi = require '.fi' -- finish
 local fr = require '.fr' -- french
 local gd = require '.gd' -- gaelic
 local el = require '.el' -- greek
+local haw = require '.haw' --hawaiian
 local hu = require '.hu' -- hungarian
-local is = require '.is' -- islandic
+local is = require '.is' -- icelandic
 local it = require '.it' -- italian
 local ja = require '.ja' -- japanese
 local nl = require '.nl' -- netherlands
@@ -43,6 +44,7 @@ Culture.weights = {
 	{lang = fi,	weight = 1.0},
 	{lang = fr,	weight = 3.0},
 	{lang = gd,	weight = 0.2},
+	{lang = haw, weight = 0.6},
 	{lang = hu,	weight = 1.0},
 	{lang = is,	weight = 0.2},
 	{lang = it,	weight = 3.0},

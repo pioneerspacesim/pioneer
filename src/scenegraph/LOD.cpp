@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LOD.h"
@@ -50,7 +50,8 @@ namespace SceneGraph {
 		//on screen and pick a child to render
 		const vector3f cameraPos(-trans[12], -trans[13], -trans[14]);
 		//fov is vertical, so using screen height
-		const float pixrad = Graphics::GetScreenHeight() * rd->boundingRadius / (cameraPos.Length() * Graphics::GetFovFactor());
+		// FIXME: this should reference a camera object instead of querying the render height
+		const float pixrad = m_renderer->GetWindowHeight() * rd->boundingRadius / (cameraPos.Length() * Graphics::GetFovFactor());
 		if (m_pixelSizes.empty()) return;
 		unsigned int lod = m_children.size() - 1;
 		for (unsigned int i = m_pixelSizes.size(); i > 0; i--) {
@@ -84,7 +85,8 @@ namespace SceneGraph {
 				//on screen and pick a child to render
 				const vector3f cameraPos(-mt[12], -mt[13], -mt[14]);
 				//fov is vertical, so using screen height
-				const float pixrad = Graphics::GetScreenHeight() * rd->boundingRadius / (cameraPos.Length() * Graphics::GetFovFactor());
+				// FIXME: this should reference a camera object instead of querying the window height
+				const float pixrad = m_renderer->GetWindowHeight() * rd->boundingRadius / (cameraPos.Length() * Graphics::GetFovFactor());
 				unsigned int lod = m_children.size() - 1;
 				for (unsigned int i = m_pixelSizes.size(); i > 0; i--) {
 					if (pixrad < m_pixelSizes[i - 1]) {

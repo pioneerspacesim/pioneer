@@ -349,11 +349,11 @@
   },
   "INTROTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "您好， 我是{name}。 我会向将{carportame}从{starport}传送到{dom_starport}的人支付{cash}。"
+    "message": "您好， 我是{name}。 我会向将{cargoname}从{starport}传送到{dom_starport}的人支付{cash}。"
   },
   "INTROTEXT_PICKUP_LOCAL_2": {
     "description": "",
-    "message": "你好。 我叫{name}。 我的雇主愿意出{cash}雇用您来帮助我们将{carportame}从{starport}移动到我们的新住所{dom_starport}放到我们的仓库。"
+    "message": "你好。 我叫{name}。 我的雇主愿意出{cash}雇用您来帮助我们将{cargoname}从{starport}移动到我们的新住所{dom_starport}放到我们的仓库。"
   },
   "INTROTEXT_WEDDING_1": {
     "description": "",

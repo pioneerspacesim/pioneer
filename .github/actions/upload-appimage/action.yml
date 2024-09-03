@@ -1,0 +1,47 @@
+name: "Upload Linux Artifacts"
+description: "Manage generating and uploading release artifacts for linux builds"
+
+inputs:
+  artifact_name:
+    description: "Name of generated artifact"
+    required: true
+  build_slug:
+    description: "platform-arch-build-flags"
+    required: true
+  token:
+    description: "access token for uploading to releases"
+    default: ""
+  upload_release:
+    description: "should the binary be uploaded to a tagged release?"
+    default: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install
+      shell: bash
+      run: cmake --build ./build --target install
+
+    - name: Package Artifact
+      shell: bash
+      env:
+        BUILD_SLUG: ${{ inputs.build_slug }}
+      run: |
+        VERSION=`curl -Ls -o /dev/null -w %{url_effective} https://github.com/linuxdeploy/linuxdeploy/releases/latest|awk -F/ '{print $NF}'`
+        wget https://github.com/linuxdeploy/linuxdeploy/releases/download/$VERSION/linuxdeploy-x86_64.AppImage
+        chmod a+x linuxdeploy-x86_64.AppImage
+        ARCH=x86_64 ./linuxdeploy-x86_64.AppImage --appdir "out/install/pioneer-$BUILD_SLUG" --output appimage
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ inputs.artifact_name }}
+        path: ${{ format('Pioneer*.AppImage', inputs.build_slug) }}
+
+    - name: Upload Release Files
+      uses: softprops/action-gh-release@v1
+      if: ${{ github.event_name == 'release' && inputs.upload_release }}
+      with:
+        files: Pioneer*.AppImage
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}

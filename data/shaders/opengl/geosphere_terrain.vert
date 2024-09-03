@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "attributes.glsl"
@@ -24,7 +24,7 @@ void main(void)
 	varyingNormal = normalize(normalMatrix() * a_normal);
 
 	texCoord0 = a_uv0.xy;
-	dist = abs(varyingEyepos.z);
+	dist = length(varyingEyepos);
 
 #ifdef TERRAIN_WITH_LAVA
 	varyingEmission = material.emission;

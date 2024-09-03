@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "BVHTree.h"
@@ -305,17 +305,17 @@ uint32_t SingleBVHTree::Partition(SortKey *keys, uint32_t numKeys, const AABBd &
 
 	// Simple O(n) sort algorithm to sort all objects according to side of pivot
 	uint32_t startIdx = 0;
-	uint32_t endIdx = numKeys - 1;
+	uint32_t endIdx = numKeys;
 
 	// It is ~10% faster to sort the indices than to sort the whole AABB array
 	// (cache hit rate vs. memory bandwidth)
 	// Sorting in general is extremely fast.
-	while (startIdx <= endIdx && endIdx) {
+	while (startIdx < endIdx) {
 		if (keys[startIdx].center[axis] < pivot) {
 			startIdx++;
 		} else {
-			std::swap(keys[startIdx], keys[endIdx]);
 			endIdx--;
+			std::swap(keys[startIdx], keys[endIdx]);
 		}
 	}
 

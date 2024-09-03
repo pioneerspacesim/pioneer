@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -13,7 +13,7 @@
 #include <stack>
 #include <unordered_map>
 
-typedef void* SDL_GLContext;
+typedef void *SDL_GLContext;
 
 namespace Graphics {
 
@@ -57,6 +57,8 @@ namespace Graphics {
 		virtual bool GetNearFarRange(float &near_, float &far_) const override final;
 
 		virtual void SetVSyncEnabled(bool) override;
+
+		virtual void OnWindowResized() override;
 
 		virtual bool BeginFrame() override final;
 		virtual bool EndFrame() override final;
@@ -117,7 +119,6 @@ namespace Graphics {
 		virtual bool ReloadShaders() override final;
 
 		virtual bool Screendump(ScreendumpState &sd) override final;
-		virtual bool FrameGrab(ScreendumpState &sd) override final;
 
 		bool DrawMeshInternal(OGL::MeshObject *, PrimitiveType type);
 		bool DrawMeshInstancedInternal(OGL::MeshObject *, OGL::InstanceBuffer *, PrimitiveType type);

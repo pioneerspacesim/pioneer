@@ -2,6 +2,7 @@
 	"model": "lunarshuttle",
 	"name": "Lunar Shuttle",
 	"cockpit": "",
+	"shield_model": "lunarshuttle_shield",
 	"manufacturer": "haber",
 	"ship_class": "medium_passenger_shuttle",
 	"min_crew": 1,

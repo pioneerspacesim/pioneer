@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Drawables.h"
@@ -483,7 +483,7 @@ namespace Graphics {
 
 		Graphics::MeshObject *Icosphere::Generate(Graphics::Renderer *r, int subdivs, float scale, AttributeSet attribs)
 		{
-			subdivs = Clamp(subdivs, 0, 4);
+			subdivs = Clamp(subdivs, 0, 10);
 			scale = fabs(scale);
 			matrix4x4f trans = matrix4x4f::Identity();
 			trans.Scale(scale, scale, scale);
@@ -568,19 +568,18 @@ namespace Graphics {
 
 		//------------------------------------------------------------
 
-		Sphere3D::Sphere3D(Renderer *renderer, RefCountedPtr<Material> mat, int subdivs, float scale, AttributeSet attribs)
+		Sphere3D::Sphere3D(Renderer *renderer, int subdivs, float scale, AttributeSet attribs)
 		{
 			PROFILE_SCOPED()
 			assert(attribs.HasAttrib(ATTRIB_POSITION));
 
-			m_material = mat;
 			m_sphereMesh.reset(Icosphere::Generate(renderer, subdivs, scale, attribs));
 		}
 
-		void Sphere3D::Draw(Renderer *r)
+		void Sphere3D::Draw(Renderer *r, Material *mat)
 		{
 			PROFILE_SCOPED()
-			r->DrawMesh(m_sphereMesh.get(), m_material.Get());
+			r->DrawMesh(m_sphereMesh.get(), mat);
 		}
 
 		//------------------------------------------------------------

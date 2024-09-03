@@ -1,11 +1,23 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 local Engine = require 'Engine'
-local ui = require 'pigui.baseui'
 local pigui = Engine.pigui
 
+---@class ui
+local ui = require 'pigui.baseui'
+
+---@alias ui.Icon integer
+
+local function encode_icon(idx)
+	idx = idx + 0xF000
+	return string.char(
+		0xe0 + bit32.rshift(idx, 12),
+		0x80 + bit32.band(bit32.rshift(idx, 6), 0x3f),
+		0x80 + bit32.band(idx, 0x3f))
+end
+
 local iconsX = 16
-local iconsY = 19
+local iconsY = 20
 
 local icons_texture_small = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), iconsX * 24, iconsY * 24)
 local icons_texture_med = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), iconsX * 32, iconsY * 32)
@@ -16,6 +28,10 @@ local function get_wide_icon_tex_coords(icon)
 	local rem = math.floor(icon % iconsX)
 	local quot = math.floor(icon / iconsX)
 	return Vector2(rem / iconsX, quot/iconsY), Vector2((rem+2) / iconsX, (quot+1)/iconsY)
+end
+
+function ui.get_icon_glyph(icon)
+	return encode_icon(icon)
 end
 
 function ui.get_icon_tex_coords(icon)

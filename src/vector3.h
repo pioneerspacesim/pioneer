@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _VECTOR3_H
@@ -8,6 +8,7 @@
 #include "vector2.h"
 #include <math.h>
 #include <stdio.h>
+#include <algorithm>
 
 // Need this pragma due to operator[] implementation.
 #pragma pack(4)

@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -160,7 +160,7 @@ end
 
 local function showJumpRoute()
 	if ui.collapsingHeader(lui.ROUTE_JUMPS, {"DefaultOpen"}) then
-		smallButton(icons.forward, lui.ADD_JUMP,
+		smallButton(icons.plus, lui.ADD_JUMP,
 			function()
 				sectorView:AddToRoute(map_selected_path)
 				updateHyperspaceTarget()
@@ -168,7 +168,7 @@ local function showJumpRoute()
 			end)
 		ui.sameLine()
 
-		smallButton(icons.current_line, lui.REMOVE_JUMP,
+		smallButton(icons.minus, lui.REMOVE_JUMP,
 			function()
 				if selected_jump then
 					sectorView:RemoveRouteItem(selected_jump)
@@ -199,7 +199,7 @@ local function showJumpRoute()
 			end)
 		ui.sameLine()
 
-		smallButton(icons.retrograde_thin, lui.CLEAR_ROUTE,
+		smallButton(icons.cross, lui.CLEAR_ROUTE,
 			function()
 				sectorView:ClearRoute()
 				updateHyperspaceTarget()
@@ -280,19 +280,19 @@ function hyperJumpPlanner.Dummy()
 	ui.text("Fuel line")
 	ui.text("Duration line")
 	ui.collapsingHeader("Route jumps",{"DefaultOpen"})
-	smallButton(icons.forward, lui.ADD_JUMP, function() end)
+	smallButton(icons.plus, lui.ADD_JUMP, function() end)
 	ui.sameLine()
-	smallButton(icons.forward, lui.ADD_JUMP, function() end)
+	smallButton(icons.plus, lui.ADD_JUMP, function() end)
 	ui.sameLine()
-	smallButton(icons.forward, lui.ADD_JUMP, function() end)
+	smallButton(icons.plus, lui.ADD_JUMP, function() end)
 	ui.sameLine()
-	smallButton(icons.forward, lui.ADD_JUMP, function() end)
+	smallButton(icons.plus, lui.ADD_JUMP, function() end)
 	ui.sameLine()
-	smallButton(icons.forward, lui.ADD_JUMP, function() end)
+	smallButton(icons.plus, lui.ADD_JUMP, function() end)
 	ui.sameLine()
-	smallButton(icons.forward, lui.ADD_JUMP, function() end)
+	smallButton(icons.plus, lui.ADD_JUMP, function() end)
 	ui.sameLine()
-	smallButton(icons.forward, lui.ADD_JUMP, function() end)
+	smallButton(icons.plus, lui.ADD_JUMP, function() end)
 	ui.separator()
 	--reserve 5 route items
 	ui.text("1: Barnard's Star (5.95ly - 1t) SPACE")
@@ -352,6 +352,9 @@ end
 function hyperJumpPlanner.onGameStart()
 	-- get notified when the player buys hydrogen
 	Game.player:GetComponent('CargoManager'):AddListener('hyperjump-planner', hyperJumpPlanner.onPlayerCargoChanged)
+	-- we may have just loaded a jump route list, so lets build it fresh now
+	buildJumpRouteList()
+
 end
 
 function hyperJumpPlanner.onGameEnd()

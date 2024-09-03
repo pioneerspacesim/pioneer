@@ -419,6 +419,14 @@
     "description": "",
     "message": "Ytskanning"
   },
+  "SURFACE_SCAN_DETAILS": {
+    "description": "Additional warning information about a surface scan target",
+    "message": "Målet har vid ytan ett atmosfärstryck på {pressure} och en gravitation på {gravity}."
+  },
+  "SURFACE_SCAN_WARNING": {
+    "description": "Warning reminder to player",
+    "message": "Se till att ditt skepp är kapabelt att arbeta vid målets yttryck innan du accepterar avtalet."
+  },
   "SUSPENDED": {
     "description": "",
     "message": "Pausad"

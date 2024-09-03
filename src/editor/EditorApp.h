@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -55,6 +55,7 @@ namespace Editor {
 		Graphics::Renderer *m_renderer;
 
 		std::vector<RefCountedPtr<Modal>> m_modalStack;
+		std::unique_ptr<IniConfig> m_editorCfg;
 
 		std::string m_appName;
 	};
@@ -72,6 +73,20 @@ namespace Editor {
 	private:
 		EditorApp *m_app;
 		float minRuntime = 1.f;
+	};
+
+	class EditorWelcomeScreen : public Application::Lifecycle {
+	public:
+		EditorWelcomeScreen(EditorApp *app) :
+			Application::Lifecycle(),
+			m_app(app)
+		{}
+
+	protected:
+		void Update(float dt) override;
+
+	private:
+		EditorApp *m_app;
 	};
 
 } // namespace Editor

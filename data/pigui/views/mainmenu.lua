@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -8,7 +8,7 @@ local ShipDef = require 'ShipDef'
 local Equipment = require 'Equipment'
 local MusicPlayer = require 'modules.MusicPlayer'
 local Lang = require 'Lang'
-local FlightLog = require 'FlightLog'
+local FlightLog = require 'modules.FlightLog.FlightLog'
 local Character = require 'Character'
 local Vector2 = _G.Vector2
 local NewGameWindow = require("pigui.modules.new-game-window.class")
@@ -62,8 +62,7 @@ end --mainTextButton
 local function confirmQuit()
 	ui.setNextWindowPosCenter('Always')
 
-	ui.withStyleColorsAndVars({WindowBg = colors.blueBackground:opacity(0.70)}, {WindowPadding = quitPadding}, function()
-		-- TODO: this window should be ShowBorders
+	ui.withStyleColorsAndVars({WindowBg = colors.modalBackground}, {WindowPadding = quitPadding}, function()
 		ui.window("MainMenuQuitConfirm", {"NoTitleBar", "NoResize", "AlwaysAutoResize"}, function()
 			local w = dialogButtonSize.x * 0.6
 			local fullW = w * 3 + dialogButtonSize.x * 2
@@ -129,9 +128,9 @@ local function showMainMenu()
 		hasMusicList = true
 		MusicPlayer.rebuildSongList()
 	end
-	
+
 	MusicPlayer.playRandomSongFromCategory("menu", true)
-	
+
 	local showContinue = canContinue()
 	local buttons = 4
 
@@ -178,6 +177,7 @@ local function showMainMenu()
 
 			mainTextButton(lui.NEW_GAME, nil, true, function()
 				NewGameWindow:setDebugMode(ui.ctrlHeld())
+				NewGameWindow.mode = 'NEW_GAME'
 				NewGameWindow:open();
 			end)
 
@@ -195,6 +195,7 @@ local function showMainMenu()
 
 	callModules('mainMenu')
 	callModules('modal')
+	callModules('ui-timer')
 end -- showMainMenu
 
 ui.registerHandler('mainMenu', showMainMenu)

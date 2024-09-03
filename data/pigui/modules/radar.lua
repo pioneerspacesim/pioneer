@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -41,7 +41,7 @@ local function getColorFor(item)
 	elseif body:IsCargoContainer() then
 		return colors.radarCargo
 	end
-	return colors.grey
+	return colors.radarUnknown
 end
 
 -- display the 2D radar
@@ -142,8 +142,14 @@ local function display3DRadar(center, size)
 		end
 	end
 
-	-- draw the radar plane itself
-	radar:Draw()
+	ui.withStyleColors({
+		FrameBg = colors.radarBackground,
+		FrameBgActive = colors.radarFrame,
+	}, function()
+		-- draw the radar plane itself
+		radar:Draw()
+	end)
+
 
 	-- draw targets above the plane
 	for k, v in pairs(targets) do

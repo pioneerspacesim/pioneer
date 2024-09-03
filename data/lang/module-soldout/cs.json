@@ -13,7 +13,7 @@
   },
   "NOT_IN_STOCK": {
     "description": "Regarding selling more than the player has",
-    "message": "Na skladě není dostatek {komodity}."
+    "message": "Na skladě není dostatek {commodity}."
   },
   "SELL_1": {
     "description": "Sell one single unit (probably tonne)",

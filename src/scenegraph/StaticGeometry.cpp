@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StaticGeometry.h"
@@ -35,7 +35,7 @@ namespace SceneGraph {
 
 	Node *StaticGeometry::Clone(NodeCopyCache *cache)
 	{
-		return this; //geometries are shared
+		return new StaticGeometry(*this, cache); // geometries cannot be shared if material overriding is supported. See Shields.cpp
 	}
 
 	void StaticGeometry::Accept(NodeVisitor &nv)

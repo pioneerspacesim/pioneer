@@ -49,7 +49,7 @@
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
-    "message": "Pouvez-vous répéter la demande initiale?"
+    "message": "Pouvez-vous répéter la demande initiale ?"
   },
   "DANGER": {
     "description": "",
@@ -385,7 +385,7 @@
   },
   "FLAVOUR_4_WHYSOMUCH": {
     "description": "",
-    "message": "Je suis un voyageur de commerce."
+    "message": "Je suis un vendeur itinérant."
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -457,7 +457,7 @@
   },
   "FLAVOUR_6_WHYSOMUCH": {
     "description": "",
-    "message": "Je suis journaliste indépendant."
+    "message": "Je suis un journaliste indépendant."
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",

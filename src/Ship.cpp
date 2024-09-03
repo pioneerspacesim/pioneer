@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Ship.h"
@@ -15,6 +15,7 @@
 #include "Lang.h"
 #include "Missile.h"
 #include "NavLights.h"
+#include "Pi.h"
 #include "Planet.h"
 #include "Player.h" // <-- Here only for 1 occurrence of "Pi::player" in Ship::Explode
 #include "Sensors.h"
@@ -34,6 +35,7 @@
 #include "lua/LuaUtils.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/Tag.h"
+#include "scenegraph/CollisionGeometry.h"
 #include "ship/PlayerShipController.h"
 
 static const float TONS_HULL_PER_SHIELD = 10.f;
@@ -57,6 +59,7 @@ Ship::Ship(const ShipType::Id &shipId) :
 	*/
 	m_propulsion = AddComponent<Propulsion>();
 	m_fixedGuns = AddComponent<FixedGuns>();
+	m_shields = AddComponent<Shields>();
 	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
 	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
 
@@ -91,6 +94,8 @@ Ship::Ship(const ShipType::Id &shipId) :
 	InitEquipSet();
 
 	SetModel(m_type->modelName.c_str());
+	SetupShields();
+
 	// Setting thrusters colors
 	if (m_type->isGlobalColorDefined) GetModel()->SetThrusterColor(m_type->globalThrusterColor);
 	for (int i = 0; i < THRUSTER_MAX; i++) {
@@ -122,6 +127,7 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 {
 	m_propulsion = AddComponent<Propulsion>();
 	m_fixedGuns = AddComponent<FixedGuns>();
+	m_shields = AddComponent<Shields>();
 
 	try {
 		Json shipObj = jsonObj["ship"];
@@ -172,6 +178,9 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 		m_curAICmd = AICommand::LoadFromJson(shipObj);
 		m_aiMessage = AIError(shipObj["ai_message"]);
 
+		// NOTE: needs to happen before shield data is loaded from JSON
+		SetupShields();
+
 		PropertyMap &p = Properties();
 		Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
 		Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
@@ -193,6 +202,8 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 		m_controller->LoadFromJson(shipObj);
 
 		m_navLights->LoadFromJson(shipObj);
+
+		m_shields->LoadFromJson(shipObj);
 
 		m_shipName = shipObj["name"].get<std::string>();
 		Properties().Set("shipName", m_shipName);
@@ -303,6 +314,8 @@ void Ship::SaveToJson(Json &jsonObj, Space *space)
 	m_controller->SaveToJson(shipObj, space);
 
 	m_navLights->SaveToJson(shipObj);
+
+	m_shields->SaveToJson(shipObj);
 
 	shipObj["name"] = m_shipName;
 
@@ -492,7 +505,7 @@ bool Ship::OnDamage(Body *attacker, float kgDamage, const CollisionContact &cont
 		mtx.SetTranslate(GetPosition());
 		const matrix4x4d invmtx = mtx.Inverse();
 		const vector3d localPos = invmtx * contactData.pos;
-		GetShields()->AddHit(localPos);
+		m_shields->AddHit(localPos);
 
 		m_stats.hull_mass_left -= dam;
 		Properties().Set("hullMassLeft", m_stats.hull_mass_left);
@@ -522,12 +535,11 @@ bool Ship::OnDamage(Body *attacker, float kgDamage, const CollisionContact &cont
 
 bool Ship::OnCollision(Body *b, Uint32 flags, double relVel)
 {
-	// Collision with SpaceStation docking surface is
+	// Collision with SpaceStation docking or entrance surface is
 	// completely handled by SpaceStations, you only
 	// need to return a "true" value in order to trigger
 	// a bounce in Space::OnCollision
-	// NOTE: 0x10 is a special flag set on docking surfaces
-	if (b->IsType(ObjectType::SPACESTATION) && (flags & 0x10)) {
+	if (b->IsType(ObjectType::SPACESTATION) && (flags & (SceneGraph::CollisionGeometry::DOCKING | SceneGraph::CollisionGeometry::ENTRANCE))) {
 		return true;
 	}
 
@@ -609,7 +621,7 @@ bool Ship::DoDamage(float kgDamage)
 			rnd.Double() * 2.0 - 1.0,
 			rnd.Double() * 2.0 - 1.0,
 			rnd.Double() * 2.0 - 1.0);
-		GetShields()->AddHit(randPos * (GetPhysRadius() * 0.75));
+		m_shields->AddHit(randPos * (GetPhysRadius() * 0.75));
 
 		m_stats.hull_mass_left -= dam;
 		Properties().Set("hullMassLeft", m_stats.hull_mass_left);
@@ -897,13 +909,22 @@ void Ship::Blastoff()
 
 	assert(f->GetBody()->IsType(ObjectType::PLANET));
 
-	const double planetRadius = 2.0 + static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
-	SetVelocity(vector3d(0, 0, 0));
-	SetAngVelocity(vector3d(0, 0, 0));
-	SetFlightState(FLYING);
+	if (ManualDocking()) {
+		if (!IsType(ObjectType::PLAYER)) {
+			Log::Warning("It wasn't the player's ship that tried to take off without an autopilot!");
+			return;
+		}
+		auto p = static_cast<Player*>(this);
+		p->DoFixspeedTakeoff();
+	} else {
+		const double planetRadius = 2.0 + static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
+		SetVelocity(vector3d(0, 0, 0));
+		SetAngVelocity(vector3d(0, 0, 0));
+		SetFlightState(FLYING);
 
-	SetPosition(up * planetRadius - GetAabb().min.y * up);
-	SetThrusterState(1, 1.0); // thrust upwards
+		SetPosition(up * planetRadius - GetAabb().min.y * up);
+		SetThrusterState(1, 1.0); // thrust upwards
+	}
 
 	LuaEvent::Queue("onShipTakeOff", this, f->GetBody());
 }
@@ -1458,12 +1479,16 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	// This has to be done per-model with a shield and just before it's rendered
 	const bool shieldsVisible = m_shieldCooldown > 0.01f && m_stats.shield_mass_left > (m_stats.shield_mass / 100.0f);
-	GetShields()->SetEnabled(shieldsVisible);
-	GetShields()->Update(m_shieldCooldown, 0.01f * GetPercentShields());
+	m_shields->SetEnabled(shieldsVisible);
+	m_shields->Update(m_shieldCooldown, 0.01f * GetPercentShields());
 
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 	RenderModel(renderer, camera, viewCoords, viewTransform);
 	m_navLights->Render(renderer);
+
+	if (m_shieldModel && shieldsVisible)
+		m_shieldModel->Render(matrix4x4f(viewTransform * GetInterpMatrix()));
+
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_SHIPS, 1);
 
 	if (m_ecmRecharge > 0.0f) {
@@ -1554,6 +1579,20 @@ void Ship::OnEnterSystem()
 	m_hyperspaceCloud = 0;
 }
 
+void Ship::SetupShields()
+{
+	// TODO: remove the fallback path once all shields are extracted to their own models
+	SceneGraph::Model *sm = Pi::FindModel(m_type->shieldName, false);
+
+	if (sm) {
+		m_shieldModel.reset(sm->MakeInstance());
+		m_shields->ApplyModel(m_shieldModel.get());
+	} else {
+		m_shieldModel.reset();
+		m_shields->ClearModel();
+	}
+}
+
 void Ship::SetShipId(const ShipType::Id &shipId)
 {
 	m_type = &ShipType::types[shipId];
@@ -1568,6 +1607,8 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 
 	SetShipId(shipId);
 	SetModel(m_type->modelName.c_str());
+	SetupShields();
+
 	m_skin.SetDecal(m_type->manufacturer);
 	m_skin.Apply(GetModel());
 	Init();

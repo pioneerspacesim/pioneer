@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- Convenience wrappers for the C++ UI functions and general functions
@@ -6,6 +6,8 @@ local Engine = require 'Engine'
 local Game = require 'Game'
 local utils = require 'utils'
 local pigui = Engine.pigui
+
+---@class ui
 local ui = require 'pigui.libs.forwarded'
 
 --
@@ -155,6 +157,32 @@ function ui.group(fun)
 end
 
 --
+-- Function: ui.horizontalGroup
+--
+-- ui.horizontalGroup(fun)
+--
+-- Display items in a group, using horizontal layout mode (effectively a ui.sameLine() call after every item)
+--
+--
+-- Example:
+--
+-- >
+--
+-- Parameters:
+--
+--   fun - Function, a function that is called to define the group contents
+--
+-- Returns:
+--
+--   nil
+--
+function ui.horizontalGroup(fun)
+	pigui.BeginHorizontalGroup()
+	fun()
+	pigui.EndHorizontalGroup()
+end
+
+--
 -- Function: ui.popup
 --
 -- ui.popup(name, params, fun)
@@ -258,6 +286,8 @@ end
 --
 --   nil
 --
+---@overload fun(id, fun)
+---@overload fun(id, size, fun)
 function ui.child(id, size, flags, fun)
 	if flags == nil and fun == nil then -- size is optional
 		fun = size
@@ -570,6 +600,36 @@ function ui.tabBarFont(id, items, font, ...)
 	pigui.EndTabBar()
 
 	return active_index
+end
+
+--
+-- Function: ui.tabItem
+--
+-- ui.tabItem(label, [tooltip], function)
+--
+--
+-- Example:
+--
+-- > ui.tabItem("Test", "This Does Something", function() ... end)
+--
+-- Parameters:
+--   label   - string, Display label and unique ID for the tab.
+--   tooltip - string?, Tooltip to display when hovering the tab.
+--   fun     - function, Body code of the tab item
+--
+function ui.tabItem(label, tooltip, fun)
+	if not fun then
+		fun = tooltip
+		tooltip = nil
+	end
+
+	local open = pigui.BeginTabItem(label)
+	if tooltip then ui.setItemTooltip(tooltip) end
+	if not open then return end
+
+	fun()
+
+	pigui.EndTabItem()
 end
 
 --

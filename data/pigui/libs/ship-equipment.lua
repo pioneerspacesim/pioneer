@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Equipment = require 'Equipment'
@@ -118,7 +118,7 @@ local hasTech = function (station, e)
 
 	if type(equip_tech_level) == "string" then
 		if equip_tech_level == "MILITARY" then
-			return station.techLevel == 11
+			equip_tech_level = 11
 		else
 			error("Unknown tech level:\t"..equip_tech_level)
 		end

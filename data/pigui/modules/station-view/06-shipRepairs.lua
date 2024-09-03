@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui'
@@ -141,7 +141,7 @@ local function changeColor()
 	local player = Game.player
 	local shipDef = ShipDef[player.shipId]
 	local newColor = reformatColor(previewColors)
-	previewSkin = ModelSkin.New():SetColors(newColor):SetDecal(shipDef.manufacturer)
+	previewSkin = ModelSkin.New():SetColors(newColor):SetDecal(shipDef.manufacturer):SetLabel(player.label)
 	refreshModelSpinner()
 end
 

@@ -57,19 +57,19 @@
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
-    "message": "Estou muito insatisfeito por saber que {alvo} ainda está vivo. Desnecessário dizer que você não será pago."
+    "message": "Estou muito insatisfeito por saber que {target} ainda está vivo. Desnecessário dizer que você não será pago."
   },
   "FLAVOUR_0_FAILUREMSG2": {
     "description": "",
-    "message": "Remoção de {alvo} não foi feita por você. Sem pagamento desta vez."
+    "message": "Remoção de {target} não foi feita por você. Sem pagamento desta vez."
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Olá, sou {nome}. Lhe pagarei {dinheiro}} para se livrar de {alvo}."
+    "message": "Olá, sou {name}. Lhe pagarei {cash}} para se livrar de {target}."
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
-    "message": "Muito gratos pelo recebimento da notícia das longas férias de {alvo}. Muito bem, já inicieiseu pagamento completo."
+    "message": "Muito gratos pelo recebimento da notícia das longas férias de {target}. Muito bem, já inicieiseu pagamento completo."
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
@@ -81,19 +81,19 @@
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "Ouvi que {alvo} tem ótima saúde. Isso acaba comigo."
+    "message": "Ouvi que {target} tem ótima saúde. Isso acaba comigo."
   },
   "FLAVOUR_1_FAILUREMSG2": {
     "description": "",
-    "message": "O falecimento de {alvo} não foi causado por você, então não peça pagamento."
+    "message": "O falecimento de {target} não foi causado por você, então não peça pagamento."
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "Preciso que {alvo} saia de cena. Lhe pagarei {dinheiro} por isso."
+    "message": "Preciso que {target} saia de cena. Lhe pagarei {cash} por isso."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
-    "message": "Estou muito triste por ouvir sobre o falecimento de {alvo}. Você foi integralmente pago."
+    "message": "Estou muito triste por ouvir sobre o falecimento de {target}. Você foi integralmente pago."
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
@@ -113,7 +113,7 @@
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "Sou {nome}, e lhe pagarei {dinheiro} para eliminar {alvo}."
+    "message": "Sou {name}, e lhe pagarei {cash} para eliminar {target}."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
@@ -129,7 +129,7 @@
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
-    "message": "Você pagará por não ter eliminado {alvo}!"
+    "message": "Você pagará por não ter eliminado {target}!"
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",
@@ -137,11 +137,11 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "O {alvo} deve ser reduzido a poeira espacial. Vou te recompensar {dinheiro} por isso."
+    "message": "O {target} deve ser reduzido a poeira espacial. Vou te recompensar {cash} por isso."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "{alvo} está morto. Aqui está o seu prêmio."
+    "message": "{target} está morto. Aqui está o seu prêmio."
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
@@ -153,19 +153,19 @@
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
-    "message": "{alvo} ainda respira e eu não vou te dar nenhum dinheiro."
+    "message": "{target} ainda respira e eu não vou te dar nenhum dinheiro."
   },
   "FLAVOUR_4_FAILUREMSG2": {
     "description": "",
-    "message": "A aposentadoria de {alvo} foi feita por outra pessoa."
+    "message": "A aposentadoria de {target} foi feita por outra pessoa."
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "Por {dinheiro} desejamos encorajar {alvo} a parar de trabalhar permanentemente."
+    "message": "Por {cash} desejamos encorajar {target} a parar de trabalhar permanentemente."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "Notícias da aposentadoria de {alvo} deliciosamente recebidas. Aqui está seu dinheiro."
+    "message": "Notícias da aposentadoria de {target} deliciosamente recebidas. Aqui está seu dinheiro."
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -177,19 +177,19 @@
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
-    "message": "Descobrimos que {alvo} ainda está operante. Isso nos entristece."
+    "message": "Descobrimos que {target} ainda está operante. Isso nos entristece."
   },
   "FLAVOUR_5_FAILUREMSG2": {
     "description": "",
-    "message": "{alvo} foi neutralizado por outra pessoa."
+    "message": "{target} foi neutralizado por outra pessoa."
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "Desejamos que {alvo} tenha um fim de carreira adequado no sistema {sistema} por {dinheiro}."
+    "message": "Desejamos que {target} tenha um fim de carreira adequado no sistema {system} por {cash}."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
-    "message": "Mensagem do fim da carreira de {alvo} felizmente recebida. Aqui está seu {dinheiro}."
+    "message": "Mensagem do fim da carreira de {target} felizmente recebida. Aqui está seu {cash}."
   },
   "HOW_SOON_MUST_IT_BE_DONE": {
     "description": "",
@@ -201,7 +201,7 @@
   },
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
-    "message": "Será feito depois que {alvo} deixar {base de lançamento}. Não perca a oportunidade."
+    "message": "Será feito depois que {target} deixar {spaceport}. Não perca a oportunidade."
   },
   "OK_AGREED": {
     "description": "",
@@ -345,10 +345,10 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "Onde posso encontrar {alvo}?"
+    "message": "Onde posso encontrar {target}?"
   },
   "X_WILL_BE_LEAVING": {
     "description": "",
-    "message": "{alvo} deixará {base de lançamento} no sistema {sistema} ({setorx}, {setory}, {setorz}), a uma distância de {distância} anos-luz em {data}. A nave é a {nome da nave} e tem o número de registro  {registro da nave}."
+    "message": "{target} deixará {spaceport} no sistema {system} ({sectorX}, {sectorY}, {sectorZ}), a uma distância de {dist} anos-luz em {date}. A nave é a {shipname} e tem o número de registro  {shipregid}."
   }
 }

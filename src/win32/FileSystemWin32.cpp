@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Win32Setup.h"
@@ -21,6 +21,13 @@
 #include <shlwapi.h>
 
 namespace FileSystem {
+	const wchar_t FORBIDDEN_CHARACTERS[] = {
+		0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+		11, 12, 13, 14, 15, 16, 17, 18, 19,
+		20, 21, 22, 23, 24, 25, 26, 27, 28,
+		29, 30, 31, L'\\', L'/', L'<', L'>', L':',
+		L'"', L'|', L'?', L'*'
+	};
 
 	static std::string absolute_path(const std::string &path)
 	{
@@ -86,6 +93,21 @@ namespace FileSystem {
 	{
 		static const std::string data_path = FindDataDir();
 		return data_path;
+	}
+
+	bool IsValidFilename(const std::string &filename)
+	{
+		const std::wstring wfilename = transcode_utf8_to_utf16(filename);
+
+		// Filename shouldn't end with space or dot on Windows
+		if (wfilename[wfilename.size() - 1] == L' ' || wfilename[wfilename.size() - 1] == L'.')
+			return false;
+
+		for (wchar_t c : FORBIDDEN_CHARACTERS) {
+			if (wfilename.find(c) != std::string::npos)
+				return false;
+		}
+		return true;
 	}
 
 	FileSourceFS::FileSourceFS(const std::string &root, bool trusted) :
@@ -289,5 +311,50 @@ namespace FileSystem {
 	{
 		const std::string fullpath = JoinPathBelow(GetRoot(), path);
 		return open_file_raw(fullpath, (flags & WRITE_TEXT) ? L"w" : L"wb");
+	}
+
+	bool FileSourceFS::IsChildOfRoot(const std::string &path)
+	{
+		if (path.empty())
+			return false;
+		const std::wstring wpath = transcode_utf8_to_utf16(path);
+		if (GetFileAttributesW(wpath.c_str()) == INVALID_FILE_ATTRIBUTES)
+			return false;
+		const std::unique_ptr<WCHAR[]> fullPath = std::make_unique<WCHAR[]>(MAX_PATH);
+		if (!GetFullPathNameW(wpath.c_str(), MAX_PATH, fullPath.get(), NULL))
+			return false;
+		const std::wstring wroot = transcode_utf8_to_utf16(GetRoot());
+		std::wstring pathCompareStr = fullPath.get();
+		const std::wstring wrootDrive = wroot.substr(0, wroot.find_first_of(L"/\\"));
+		const std::wstring fullPathDrive = pathCompareStr.substr(0, pathCompareStr.find_first_of(L"/\\"));
+		if (wrootDrive != fullPathDrive)
+			return false;
+		size_t elem = 0;
+		while ((elem = pathCompareStr.find_last_of(L"/\\")) != std::string::npos) {
+			if (pathCompareStr == wroot)
+				return true;
+			pathCompareStr.resize(elem);
+			if (pathCompareStr.size() < wroot.size())
+				return false;
+		}
+		return false;
+	}
+
+	bool FileSourceFS::RemoveFile(const std::string &relativePath)
+	{
+		if (relativePath.empty())
+			return false;
+		std::wstring combinedPath;
+		try {
+			combinedPath = transcode_utf8_to_utf16(JoinPathBelow(GetRoot(), relativePath));
+		} catch (const std::invalid_argument &) {
+			return false;
+		}
+		const DWORD fileAttributes = GetFileAttributesW(combinedPath.c_str());
+		if (file_type_for_attributes(fileAttributes) != FileSystem::FileInfo::FileType::FT_FILE)
+			return false;
+		if (!IsChildOfRoot(transcode_utf16_to_utf8(combinedPath)))
+			return false;
+		return DeleteFileW(combinedPath.c_str());
 	}
 } // namespace FileSystem

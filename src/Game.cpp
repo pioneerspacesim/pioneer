@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "buildopts.h"
@@ -10,14 +10,15 @@
 #include "FileSystem.h"
 #include "GameLog.h"
 #include "GameSaveError.h"
-#include "JsonUtils.h"
 #include "HyperspaceCloud.h"
+#include "JsonUtils.h"
 #include "MathUtil.h"
 #include "collider/CollisionSpace.h"
 #include "core/GZipFormat.h"
 #include "galaxy/Economy.h"
 #include "lua/LuaEvent.h"
 #include "lua/LuaSerializer.h"
+#include "pigui/LuaPiGui.h"
 #if WITH_OBJECTVIEWER
 #include "ObjectViewerView.h"
 #endif
@@ -33,11 +34,12 @@
 #include "pigui/PiGuiView.h"
 #include "ship/PlayerShipController.h"
 
-static const int s_saveVersion = 89;
+static const int s_saveVersion = 90;
 
 Game::Game(const SystemPath &path, const double startDateTime, const char *shipType) :
 	m_galaxy(GalaxyGenerator::Create()),
 	m_time(startDateTime),
+	m_playedDuration(0),
 	m_state(State::NORMAL),
 	m_wantHyperspace(false),
 	m_hyperspaceProgress(0),
@@ -68,8 +70,6 @@ Game::Game(const SystemPath &path, const double startDateTime, const char *shipT
 
 	m_space.reset(new Space(this, m_galaxy, path));
 
-	m_space->UpdateBodies();
-
 	Body *b = m_space->FindBodyForPath(&path);
 	assert(b);
 
@@ -77,15 +77,20 @@ Game::Game(const SystemPath &path, const double startDateTime, const char *shipT
 
 	m_space->AddBody(m_player.get());
 
-	m_player->SetFrame(b->GetFrame());
-
 	if (b->GetType() == ObjectType::SPACESTATION) {
+		m_player->SetFrame(b->GetFrame());
 		m_player->SetDockedWith(static_cast<SpaceStation *>(b), 0);
 	} else {
+		auto f = Frame::GetFrame(b->GetFrame());
+		if (f->IsRotFrame()) {
+			m_player->SetFrame(f->GetParent());
+		} else {
+			m_player->SetFrame(b->GetFrame());
+		}
 		// random orbit
 		// Taken from: LuaSpace.cpp, _orbital_velocity_random_direction()
 		const SystemBody *sbody = b->GetSystemBody();
-		vector3d pos{ MathUtil::RandomPointOnSphere(1.2 * sbody->GetRadius()) };
+		vector3d pos{ MathUtil::RandomPointOnSphere(1.2 * b->GetPhysRadius()) };
 		// calculating basis from radius - vector
 		vector3d k = pos.Normalized();
 		vector3d i;
@@ -102,6 +107,9 @@ Game::Game(const SystemPath &path, const double startDateTime, const char *shipT
 		m_player->SetPosition(pos);
 		m_player->SetVelocity(randomOrthoDirection * orbitalVelocity);
 	}
+
+	// Record when we started playing this save so we can determine how long it's been played this session
+	m_sessionStartTimestamp = std::chrono::steady_clock::now().time_since_epoch().count();
 
 	CreateViews();
 
@@ -155,6 +163,7 @@ Game::Game(const Json &jsonObj) :
 
 	// Preparing the Lua stuff
 	Pi::luaSerializer->InitTableRefs();
+	Pi::luaSerializer->LoadPersistent(jsonObj);
 
 	GalacticEconomy::LoadFromJson(jsonObj);
 
@@ -184,6 +193,10 @@ Game::Game(const Json &jsonObj) :
 		for (Uint32 i = 0; i < hyperspaceCloudArray.size(); i++) {
 			m_hyperspaceClouds.push_back(static_cast<HyperspaceCloud *>(Body::FromJson(hyperspaceCloudArray[i], 0)));
 		}
+
+		const Json &gameInfo = jsonObj["game_info"];
+		m_playedDuration = gameInfo.value("duration", 0.0);
+
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
@@ -200,6 +213,8 @@ Game::Game(const Json &jsonObj) :
 
 	Pi::luaSerializer->UninitTableRefs();
 
+	m_sessionStartTimestamp = std::chrono::steady_clock::now().time_since_epoch().count();
+
 	EmitPauseState(IsPaused());
 
 	Pi::GetApp()->RequestProfileFrame("LoadGame");
@@ -210,6 +225,7 @@ void Game::ToJson(Json &jsonObj)
 	PROFILE_SCOPED()
 	// preparing the lua serializer
 	Pi::luaSerializer->InitTableRefs();
+	Pi::luaSerializer->SavePersistent(jsonObj);
 
 	// version
 	jsonObj["version"] = s_saveVersion;
@@ -261,9 +277,32 @@ void Game::ToJson(Json &jsonObj)
 	Json gameInfo = Json::object();
 	float credits = LuaObject<Player>::CallMethod<float>(Pi::player, "GetMoney");
 
+	// Get the player's character name
+	// TODO: add an easier way to get the player's character object once player+ship are split more firmly
+	pi_lua_import(Lua::manager->GetLuaState(), "Character");
+	LuaTable characters(Lua::manager->GetLuaState(), -1);
+
+	std::string character_name = characters.Sub("persistent").Sub("player").Get<std::string>("name");
+	gameInfo["character"] = character_name;
+
+	// Remove the Character table
+	lua_pop(Lua::manager->GetLuaState(), 1);
+
+	// Determine how long we've been playing this save (since we created or loaded it)
+	std::chrono::steady_clock::duration start_time(m_sessionStartTimestamp);
+	auto playtime_duration = std::chrono::steady_clock::now().time_since_epoch() - start_time;
+
+	auto playtime_this_session = std::chrono::duration_cast<std::chrono::seconds>(playtime_duration).count();
+
+	gameInfo["duration"] = m_playedDuration + playtime_this_session;
+
+	// Information about the player's ship
+	gameInfo["shipHull"] = Pi::player->GetShipType()->name;
+	gameInfo["shipName"] = Pi::player->GetShipName();
+
 	gameInfo["system"] = Pi::game->GetSpace()->GetStarSystem()->GetName();
 	gameInfo["credits"] = credits;
-	gameInfo["ship"] = Pi::player->GetShipType()->modelName;
+	gameInfo["ship"] = Pi::player->GetShipType()->id;
 	if (Pi::player->IsDocked()) {
 		gameInfo["docked_at"] = Pi::player->GetDockedWith()->GetSystemBody()->GetName();
 	}
@@ -527,8 +566,6 @@ void Game::SwitchToNormalSpace()
 	m_player->SetFrame(m_space->GetRootFrame());
 	m_space->AddBody(m_player.get());
 
-	m_space->UpdateBodies();
-
 	// place it
 	vector3d pos, vel;
 	m_space->GetHyperspaceExitParams(m_hyperspaceSource, m_hyperspaceDest, pos, vel);
@@ -766,7 +803,8 @@ Game::Views::Views() :
 	m_deathView(nullptr),
 	m_spaceStationView(nullptr),
 	m_infoView(nullptr)
-{}
+{
+}
 
 void Game::Views::SetRenderer(Graphics::Renderer *r)
 {
@@ -880,9 +918,11 @@ void Game::EmitPauseState(bool paused)
 	if (paused) {
 		// Notify UI that time is paused.
 		LuaEvent::Queue("onGamePaused");
+		LuaEvent::Queue(PiGui::GetEventQueue(), "onGamePaused");
 	} else {
 		// Notify the UI that time is running again.
 		LuaEvent::Queue("onGameResumed");
+		LuaEvent::Queue(PiGui::GetEventQueue(), "onGameResumed");
 	}
 	LuaEvent::Emit();
 }
@@ -918,12 +958,28 @@ Game *Game::LoadGame(const std::string &filename)
 
 bool Game::CanLoadGame(const std::string &filename)
 {
-	auto file = FileSystem::userFiles.ReadFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
-	if (!file)
+	FILE *f;
+	try {
+		f = FileSystem::userFiles.OpenReadStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
+	} catch (const std::invalid_argument &) {
+		return false;
+	}
+	if (!f)
 		return false;
 
+	fclose(f);
 	return true;
-	// file data is freed here
+}
+
+bool Game::DeleteSave(const std::string &filename)
+{
+	std::string filePath;
+	try {
+		filePath = FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename);
+	} catch (const std::invalid_argument &) {
+		return false;
+	}
+	return FileSystem::userFiles.RemoveFile(filePath);
 }
 
 void Game::SaveGame(const std::string &filename, Game *game)
@@ -937,12 +993,19 @@ void Game::SaveGame(const std::string &filename, Game *game)
 	if (game->GetPlayer()->IsDead())
 		throw CannotSaveDeadPlayer();
 
-	if (!FileSystem::userFiles.MakeDirectory(Pi::SAVE_DIR_NAME)) {
+	if (!FileSystem::userFiles.MakeDirectory(Pi::SAVE_DIR_NAME))
+		throw CouldNotOpenFileException();
+
+	if (!FileSystem::IsValidFilename(filename))
+		throw std::invalid_argument(filename);
+	FILE *f;
+	try {
+		f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
+	} catch (const std::invalid_argument &) {
 		throw CouldNotOpenFileException();
 	}
-
-	game->m_space->UpdateBodies();
-
+	if (!f)
+		throw CouldNotOpenFileException();
 	Json rootNode;
 	game->ToJson(rootNode); // Encode the game data as JSON and give to the root value.
 	std::vector<uint8_t> jsonData;
@@ -950,10 +1013,6 @@ void Game::SaveGame(const std::string &filename, Game *game)
 		PROFILE_SCOPED_DESC("json.to_cbor");
 		jsonData = Json::to_cbor(rootNode); // Convert the JSON data to CBOR.
 	}
-
-	FileSystem::userFiles.MakeDirectory(Pi::SAVE_DIR_NAME);
-	FILE *f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
-	if (!f) throw CouldNotOpenFileException();
 
 	try {
 		// Compress the CBOR data.
@@ -969,4 +1028,9 @@ void Game::SaveGame(const std::string &filename, Game *game)
 	}
 
 	Pi::GetApp()->RequestProfileFrame("SaveGame");
+}
+
+int Game::CurrentSaveVersion()
+{
+	return s_saveVersion;
 }

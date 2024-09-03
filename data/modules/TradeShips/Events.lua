@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Comms = require 'Comms'
@@ -58,7 +58,6 @@ local onEnterSystem = function (ship)
 	elseif Core.ships[ship] ~= nil then
 		local trader = Core.ships[ship]
 		Core.log:add(ship, 'Entered '..Game.system.name..' from '..trader.from_path:GetStarSystem().name)
-
 		if trader.route then
 			ship:AIDockWith(trader.route.to)
 			Core.ships[ship]['starport'] = trader.route.to
@@ -99,23 +98,6 @@ local onLeaveSystem = function (ship)
 	end
 end
 Event.Register("onLeaveSystem", onLeaveSystem)
-
-local onFrameChanged = function (ship)
-	if not ship:isa("Ship") or Core.ships[ship] == nil then return end
-	local trader = Core.ships[ship]
-	Core.log:add(ship, "Entered frame " .. (ship.frameBody and ship.frameBody:GetLabel() or "unknown"))
-
-	if trader.status == 'outbound' then
-		-- the cloud inherits the ship velocity and vector
-		ship:CancelAI()
-		if Trader.getSystemAndJump(ship) ~= 'OK' then
-			ship:AIDockWith(trader.starport)
-			trader['status'] = 'inbound'
-			trader.ts_error = 'cnt_jump_frame'
-		end
-	end
-end
-Event.Register("onFrameChanged", onFrameChanged)
 
 local onShipDocked = function (ship, starport)
 	if Core.ships[ship] == nil then return end
@@ -159,11 +141,10 @@ Event.Register("onShipDocked", onShipDocked)
 
 local onShipUndocked = function (ship, starport)
 	if Core.ships[ship] == nil then return end
-
-	-- fly to the limit of the starport frame
-	ship:AIFlyTo(starport)
-
-	Core.ships[ship]['status'] = 'outbound'
+	local trader = Core.ships[ship]
+	ship:AIEnterLowOrbit(trader.starport:GetSystemBody().system:GetStars()[1].body)
+	Trader.assignTask(ship, Game.time + 10, 'hyperjumpAtDistance')
+	trader['status'] = 'outbound'
 end
 Event.Register("onShipUndocked", onShipUndocked)
 
@@ -171,15 +152,9 @@ local onAICompleted = function (ship, ai_error)
 	if Core.ships[ship] == nil then return end
 	local trader = Core.ships[ship]
 	if ai_error ~= 'NONE' then
-		Core.log:add(ship, 'AICompleted: Error: '..ai_error..' Status: '..trader.status) end
-
-	if trader.status == 'outbound' then
-		if Trader.getSystemAndJump(ship) ~= 'OK' then
-			ship:AIDockWith(trader.starport)
-			trader['status'] = 'inbound'
-			trader.ts_error = 'cnt_jump_aicomp'
-		end
-	elseif trader.status == 'orbit' then
+		Core.log:add(ship, 'AICompleted: Error: '..ai_error..' Status: '..trader.status)
+	end
+	if trader.status == 'orbit' then
 		if ai_error == 'NONE' then
 			trader.ts_error = "wait_6h"
 			Trader.assignTask(ship, Game.time + 21600, 'doRedock')
@@ -258,7 +233,7 @@ local onShipHit = function (ship, attacker)
 		elseif trader.starport and Engine.rand:Number(1) < trader.chance then
 			local distance = ship:DistanceTo(trader.starport)
 			if distance > Core.AU * (2 - trader.chance) then
-				if Trader.getSystemAndJump(ship) then
+				if Trader.getSystemAndJump(ship) == 'OK' then
 					return
 				else
 					trader['no_jump'] = true
@@ -330,6 +305,13 @@ local onShipDestroyed = function (ship, attacker)
 end
 Event.Register("onShipDestroyed", onShipDestroyed)
 
+local onShipOutOfFuel = function (ship)
+	if not Core.ships[ship] then return end
+	-- we don't want to bother yet
+	Core.ships[ship] = nil
+	ship:Explode()
+end
+Event.Register("onShipOutOfFuel", onShipOutOfFuel)
 
 local onGameEnd = function ()
 	-- drop the references for our data so Lua can free them

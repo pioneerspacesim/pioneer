@@ -177,7 +177,7 @@
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "我们的市场竞争对手公然声称他拥有{system}星系{area}，{sectory}，{sectorz}）的{area}所有权。 {org}完全不同意并愿意在{area}支付{cash}进行战斗任务。 {area}距离{dist}。"
+    "message": "我们的市场竞争对手公然声称他拥有{area}星系{system}，{sectorx}，{sectory}）的{sectorz}所有权。 {org}完全不同意并愿意在{cash}支付{area}进行战斗任务。 {area}距离{dist}。"
   },
   "HARVESTING_3": {
     "description": "{area} is an asteroid or planet",
@@ -209,7 +209,7 @@
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "军事情报部门认为，敌对派系在{system}系统{areax}，{sectory}，{sectorz}）的{area}建立了一个秘密的侦听前哨站。 政府不能容忍这一点，并批准了一系列行动来消灭这一设施。 敌人试图仅使用民用航天器类型来伪装其起源。 我们这样做也是这样！ 所以我们愿意为{cash}雇佣雇佣兵。 {area}位于{dist}光年。"
+    "message": "军事情报部门认为，敌对派系在{system}系统{sectorx}，{sectory}，{sectorz}）的{area}建立了一个秘密的侦听前哨站。 政府不能容忍这一点，并批准了一系列行动来消灭这一设施。 敌人试图仅使用民用航天器类型来伪装其起源。 我们这样做也是这样！ 所以我们愿意为{cash}雇佣雇佣兵。 {area}位于{dist}光年。"
   },
   "MILITARY_2": {
     "description": "{area} is an asteroid or planet",
@@ -229,7 +229,7 @@
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "{org}与竞争对手公司就{system}系统{areax}，{sectory}，{sectorz}中的{area}发生争执。 为了推动我们的主张，我们需要一个可靠且经验丰富的雇佣兵。 我们提供{cash}的费用。 到{system}的距离是{dist} 光年。"
+    "message": "{org}与竞争对手公司就{system}系统{sectorx}，{sectory}，{sectorz}中的{area}发生争执。 为了推动我们的主张，我们需要一个可靠且经验丰富的雇佣兵。 我们提供{cash}的费用。 到{system}的距离是{dist} 光年。"
   },
   "MINING_2": {
     "description": "{area} is an asteroid or planet",
@@ -237,7 +237,7 @@
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "我为{org}工作。 我们的一些货轮将很快到达{system}星系{area}，{sectionx}，{sectory}，{sectorz}）。 为了提高员工的安全性并保护设备，我们愿意为{mission}任务支付{cash}。 到{area}的距离是{dist}光年。"
+    "message": "我为{org}工作。 我们的一些货轮将很快到达{system}星系{area}，{sectorx}，{sectory}，{sectorz}）。 为了提高员工的安全性并保护设备，我们愿意为{mission}任务支付{cash}。 到{area}的距离是{dist}光年。"
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -301,7 +301,7 @@
   },
   "POLICE_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "警方侦探发现，一群海盗试图在{系统}星系（{sectorx}，{sectory}，{sectorz}）{dist} 光年的{area}建立一个据点。 这绝不允许。 地方当局支付{cash}用于摧毁{area}。"
+    "message": "警方侦探发现，一群海盗试图在{system}星系（{sectorx}，{sectory}，{sectorz}）{dist} 光年的{area}建立一个据点。 这绝不允许。 地方当局支付{cash}用于摧毁{area}。"
   },
   "POLICE_2": {
     "description": "{area} is an asteroid or planet",
@@ -309,7 +309,7 @@
   },
   "POLICE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "我们的市场被违禁品淹没。 该来源已被追溯到{system}星系{area}，{sectionx}，{sectory}，{sectorz}）的隐藏基地。 只有{dist} 光年的距离。 由于警察预算减少，地方当局希望将这项任务外包，并为此行动分配了{cash}信用点。"
+    "message": "我们的市场被违禁品淹没。 该来源已被追溯到{system}星系{area}，{sectorx}，{sectory}，{sectorz}）的隐藏基地。 只有{dist} 光年的距离。 由于警察预算减少，地方当局希望将这项任务外包，并为此行动分配了{cash}信用点。"
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",

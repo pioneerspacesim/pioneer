@@ -1,4 +1,4 @@
-/* Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details */
+/* Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details */
 /* Licensed under the terms of the GPL v3. See licenses/GPL-3.txt        */
 
 #ifndef HX_GEN_ENUM_TABLES
@@ -26,6 +26,7 @@ extern const struct EnumItem ENUM_ShipAICmdName[];
 extern const struct EnumItem ENUM_DualLaserOrientation[];
 extern const struct EnumItem ENUM_ShipTypeTag[];
 extern const struct EnumItem ENUM_DockingRefusedReason[];
+extern const struct EnumItem ENUM_DockStage[];
 extern const struct EnumItem ENUM_ProjectableTypes[];
 extern const struct EnumItem ENUM_ProjectableBases[];
 extern const struct EnumItem ENUM_SystemViewMode[];
