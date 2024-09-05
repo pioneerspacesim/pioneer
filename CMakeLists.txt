@@ -78,11 +78,14 @@ if (USE_AVX2)
 endif(USE_AVX2)
 
 option(USE_ARM "Compile for ARM compatible microarchitectures" ${PIONEER_TARGET_ARM})
+option(PIONEER_TARGET_RASPBERRY_PI "Compile for Raspberry Pi specifically (degrades to OpenGL 3.1)" OFF)
 
 if (USE_ARM)
-	add_compile_options("-mcpu=cortex-a76" "-ffast-math")
 	# This is going to get very confusing with the new Windows ARM laptops...
-	add_definitions(-DPIONEER_ON_RPI=1)
+	add_compile_options("-mcpu=cortex-a76" "-ffast-math")
+	if (PIONEER_TARGET_RASPBERRY_PI)
+		add_definitions(-DPIONEER_ON_RPI=1)
+	endif (PIONEER_TARGET_RASPBERRY_PI)
 endif (USE_ARM)
 
 option(USE_LLD_LINKER "Use the LLVM lld linker instead of gcc's linker" OFF)

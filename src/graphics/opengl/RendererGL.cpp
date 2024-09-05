@@ -201,7 +201,7 @@ namespace Graphics {
 		if (vs.enableDebugMessages)
 			GLDebug::Enable();
 
-#if (defined(PIONEER_ON_RPI) || defined(__arm__) || defined(__aarch64__) || defined(__PPC64__) || defined(__riscv))
+#if defined(PIONEER_ON_RPI)
 		// on Arm and other platforms we attempt to create an OpenGL 3.1 context as this is what Raspberry Pi 4 & 5 currently support
 		if (!glewIsSupported("GL_VERSION_3_1")) {
 			Error("Pioneer can not run on your device (Raspberry Pi?) as it does not appear to support OpenGL 3.1");
