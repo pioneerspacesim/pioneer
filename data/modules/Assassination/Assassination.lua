@@ -178,16 +178,14 @@ end
 local nearbysystems
 local makeAdvert = function (station)
 	if nearbysystems == nil then
-		nearbysystems = Game.system:GetNearbySystems(max_ass_dist, function (s) return #s:GetStationPaths() > 0 end)
+		nearbysystems = MissionUtils.GetNearbyStationPaths(Game.system, max_ass_dist)
 	end
 	if #nearbysystems == 0 then return end
 	local client = Character.New()
 	local targetIsfemale = Engine.rand:Integer(1) == 1
 	local target = l["TITLE_"..Engine.rand:Integer(1, num_titles)-1] .. " " .. NameGen.FullName(targetIsfemale)
 	local flavour = Engine.rand:Integer(1, #flavours)
-	local nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
-	local nearbystations = nearbysystem:GetStationPaths()
-	local location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
+	local location = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 	local dist = location:DistanceTo(Game.system)
 	local time = Engine.rand:Number(7*60*60*24, 35*60*60*24)
 	local due = time + MissionUtils.TravelTime(dist, location) * Engine.rand:Number(0.5, 1.5)

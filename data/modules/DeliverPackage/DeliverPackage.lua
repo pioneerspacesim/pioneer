@@ -249,10 +249,9 @@ local placeAdvert = function (station, ad)
 	ads[ref] = ad
 end
 
--- return statement is nil if no advert was created, else it is bool:
--- true if a localdelivery, false for non-local
+-- return statement is the created advert or nil
 local makeAdvert = function (station, manualFlavour, nearbystations)
-	local reward, due, location, nearbysystem, dist, timeout
+	local reward, due, location, dist, timeout
 	local client = Character.New()
 
 	-- set flavour manually if a second arg is given
@@ -262,7 +261,6 @@ local makeAdvert = function (station, manualFlavour, nearbystations)
 	local risk = flavours[flavour].risk
 
 	if flavours[flavour].localdelivery then
-		nearbysystem = Game.system
 		if nearbystations == nil then
 			-- discard stations closer than 1000m and further than 20AU
 			nearbystations = findNearbyStations(station, 1000, 1.4960e11 * 20)
@@ -273,13 +271,11 @@ local makeAdvert = function (station, manualFlavour, nearbystations)
 		due =(60*60*18 + MissionUtils.TravelTimeLocal(dist)) * (1.5-urgency) * Engine.rand:Number(0.9,1.1)
 	else
 		if nearbysystems == nil then
-			nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
+			nearbysystems = MissionUtils.GetNearbyStationPaths(Game.system, max_delivery_dist)
 		end
 		if #nearbysystems == 0 then return nil end
-		nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
-		dist = nearbysystem:DistanceTo(Game.system)
-		local nearbystations = nearbysystem:GetStationPaths()
-		location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
+		location = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
+		dist = location:DistanceTo(Game.system)
 		reward = ((dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5+urgency) * Engine.rand:Number(0.8,1.2))
 		due = MissionUtils.TravelTime(dist, location) * (1.5-urgency) * Engine.rand:Number(0.9,1.1)
 	end
@@ -310,7 +306,7 @@ end
 
 local onCreateBB = function (station)
 	if nearbysystems == nil then
-		nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
+		nearbysystems = MissionUtils.GetNearbyStationPaths(Game.system, max_delivery_dist)
 	end
 	local nearbystations = findNearbyStations(station, 1000, 1.4960e11 * 20)
 	local num = Engine.rand:Integer(0, math.ceil(Game.system.population))

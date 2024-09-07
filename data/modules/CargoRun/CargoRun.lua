@@ -345,7 +345,7 @@ end
 local nearbysystems
 
 local makeAdvert = function (station)
-	local reward, due, location, nearbysystem, dist, nearbystations, amount
+	local reward, due, location, dist, nearbystations, amount
 	local risk, wholesaler, pickup, branch, cargotype, missiontype, timeout
 	local client = Character.New()
 	local urgency = Engine.rand:Number(0, 1)
@@ -354,7 +354,6 @@ local makeAdvert = function (station)
 
 	branch, cargotype = randomCargo()
 	if localdelivery then
-		nearbysystem = Game.system
 		-- discard stations closer than 1000m and further than 20AU
 		nearbystations = findNearbyStations(station, 1000, 1.4960e11 * 20)
 		if #nearbystations == 0 then return nil end
@@ -375,14 +374,11 @@ local makeAdvert = function (station)
 		end
 	else
 		if nearbysystems == nil then
-			nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
+			nearbysystems = MissionUtils.GetNearbyStationPaths(Game.system, max_delivery_dist)
 		end
 		if #nearbysystems == 0 then return nil end
-
-		nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
-		dist = nearbysystem:DistanceTo(Game.system)
-		nearbystations = nearbysystem:GetStationPaths()
-		location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
+		location = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
+		dist = location:DistanceTo(Game.system)
 		wholesaler = Engine.rand:Number(0, 1) > 0.75 and true or false
 
 		if wholesaler then
