@@ -9,7 +9,11 @@ local ShipConfig = require 'ShipConfig'
 local Space      = require 'Space'
 local Ship       = require 'Ship'
 
+local Rules = require '.OutfitRules'
+
 local utils = require 'utils'
+
+local hullThreatCache = {}
 
 local slotTypeMatches = function(slot, filter)
 	return string.sub(slot, 1, #filter) == filter
@@ -22,53 +26,185 @@ end
 ---@class MissionUtils.ShipBuilder
 local ShipBuilder = {}
 
-local hyperdriveRule = {
-	slot = "hyperdrive",
-}
+-- =============================================================================
 
-local randomPulsecannonEasyRule = {
-	slot = "weapon",
-	filter = "weapon.energy.pulsecannon",
-	pick = "random",
-	maxSize = 3,
-	limit = 1
-}
+-- Scalars determining a "threat factor" rating for a ship's hull and equipment
+-- to generate difficulty-appropriate NPCs
 
-local atmoShieldRule = {
-	slot = "hull",
-	filter = "hull.atmo_shield",
-	limit = 1
-}
+-- Default values to use if a mission hasn't set anything
+ShipBuilder.kDefaultRandomThreatMin = 10.0
+ShipBuilder.kDefaultRandomThreatMax = 100.0
 
-local pirateProduction = {
-	role = "pirate",
-	rules = {
-		hyperdriveRule,
-		randomPulsecannonEasyRule,
-		atmoShieldRule,
-		{
-			slot = "shield",
-			limit = 1
-		},
-		{
-			slot = "computer",
-			equip = "misc.autopilot",
-			limit = 1
-		}
-	}
-}
+-- || Hull Threat Factor ||
+
+-- A ship hull starts with at least this much threat
+ShipBuilder.kBaseHullThreatFactor = 1.0
+
+-- How much hull health contributes to ship threat factor (tons of armor to threat)
+ShipBuilder.kArmorToThreatFactor = 0.15
+
+-- How much the ship's maximum forward acceleration contributes to threat factor
+ShipBuilder.kAccelToThreat = 0.000015
+-- Tbreat from acceleration is added to this number to determine the final modifier for ship hull HP
+ShipBuilder.kAccelThreatBase = 0.5
+
+-- Controls how a ship's atmospheric performance contributes to its threat factor
+ShipBuilder.kAeroStabilityToThreat = 0.3
+ShipBuilder.kAeroStabilityThreatBase = 0.80
+
+ShipBuilder.kCrossSectionToThreat = 0.3
+ShipBuilder.kCrossSectionThreatBase = 0.8
+
+-- Only accept ships where the hull is at least this fraction of the desired total threat factor
+ShipBuilder.kMinHullThreatFactor = 0.4
+ShipBuilder.kMaxHullThreatFactor = 0.8
+ShipBuilder.kMinReservedEquipThreat = 4.0
+
+-- || Weapon Threat Factor ||
+
+-- Damage in unit tons of armor per second to threat factor
+ShipBuilder.kWeaponDPSToThreat = 0.35
+
+-- Weapon projectile speed modifies threat, calculated as 1.0 + (speed / 1km/s) * mod
+ShipBuilder.kWeaponSpeedToThreat = 0.2
+
+-- Amount of hull threat included in this weapon's threat per unit of weapon damage
+ShipBuilder.kWeaponSharedHullThreat = 0.02
+
+-- || Shield Threat Factor ||
+
+-- Threat factor per unit armor ton equivalent of shield health
+-- (compare with hull threat factor per unit ton)
+ShipBuilder.kShieldThreatFactor = 0.2
+
+-- Portion of hull threat factor to contributed per unit ton
+ShipBuilder.kShieldSharedHullThreat = 0.005
+
+-- =============================================================================
+
+local Template = utils.proto("MissionUtils.ShipTemplate")
+
+Template.role = nil
+Template.shipId = nil
+Template.label = nil
+Template.rules = {}
+
+function Template:__clone()
+	self.rules = table.copy(self.rules)
+end
+
+ShipBuilder.Template = Template
+
+-- =============================================================================
+
+local ShipPlan = utils.proto("MissionUtils.ShipPlan")
+
+ShipPlan.shipId = ""
+ShipPlan.label = ""
+ShipPlan.freeVolume = 0
+ShipPlan.equipMass = 0
+ShipPlan.threat = 0
+ShipPlan.freeThreat = 0
+ShipPlan.slots = {}
+ShipPlan.equip = {}
+
+function ShipPlan:__clone()
+	self.slots = {}
+	self.equip = {}
+end
+
+function ShipPlan:AddEquipToPlan(equip, slot, threat)
+	if slot then
+		self.slots[slot.id] = equip
+	else
+		table.insert(self.equip, equip)
+	end
+
+	self.freeVolume = self.freeVolume - equip.volume
+	self.equipMass = self.equipMass + equip.mass
+	self.threat = self.threat + (threat or 0)
+	self.freeThreat = self.freeThreat - (threat or 0)
+end
+
+-- =============================================================================
+
+local function calcWeaponThreat(equip, hullThreat)
+	local damage = equip.laser_stats.damage / 1000 -- unit tons of armor
+	local speed = equip.laser_stats.speed / 1000
+
+	local dps = damage / equip.laser_stats.rechargeTime
+	local speedMod = 1.0
+
+	-- Beam lasers don't factor in projectile speed (instant)
+	-- TODO: they should have a separate threat factor instead
+	if not equip.laser_stats.beam or equip.laser_stats.beam == 0.0 then
+		speedMod = 1.0 + ShipBuilder.kWeaponSpeedToThreat * speed
+	end
+
+	local threat = ShipBuilder.kWeaponDPSToThreat * dps * speedMod
+		+ ShipBuilder.kWeaponSharedHullThreat * damage * hullThreat
+
+	return threat
+end
+
+local function calcShieldThreat(equip, hullThreat)
+	-- XXX: this is a hardcoded constant shared with Ship.cpp
+	local shield_tons = equip.capabilities.shield * 10.0
+
+	local threat = ShipBuilder.kShieldThreatFactor * shield_tons
+		+ ShipBuilder.kShieldSharedHullThreat * shield_tons * hullThreat
+
+	return threat
+end
+
+function ShipBuilder.ComputeEquipThreatFactor(equip, hullThreat)
+	if equip.slot and equip.slot.type:match("weapon.") and equip.laser_stats then
+		return calcWeaponThreat(equip, hullThreat)
+	end
+
+	if equip.slot and equip.slot.type:match("shield.") and equip.capabilities.shield then
+		return calcShieldThreat(equip, hullThreat)
+	end
+
+	return 0.0
+end
+
+-- Function: ComputeHullThreatFactor
+--
+-- Compute a "balance number" according to a ship's potential combat threat to
+-- be used when spawning a random ship for specific encounters.
+--
+-- This function does not take into account the "potential threat" of a ship if
+-- its slots were to be filled (or even the possible configurations of slots),
+-- but only looks at concrete stats about the ship hull.
+---@param shipDef ShipDef
+function ShipBuilder.ComputeHullThreatFactor(shipDef)
+	local threat = { id = shipDef.id }
+
+	local armor = shipDef.hullMass
+	local totalMass = shipDef.hullMass + shipDef.fuelTankMass
+	local forwardAccel = shipDef.linearThrust["FORWARD"] / totalMass
+	local crossSectionAvg = (shipDef.topCrossSec + shipDef.sideCrossSec + shipDef.frontCrossSec) / 3.0
+
+	threat.armor = ShipBuilder.kBaseHullThreatFactor + ShipBuilder.kArmorToThreatFactor * armor
+	threat.thrust = ShipBuilder.kAccelThreatBase + ShipBuilder.kAccelToThreat * forwardAccel
+	threat.aero = ShipBuilder.kAeroStabilityThreatBase + ShipBuilder.kAeroStabilityToThreat * (shipDef.raw.aero_stability or 0.0)
+	threat.crosssection = ShipBuilder.kCrossSectionThreatBase + ShipBuilder.kCrossSectionToThreat * (armor / crossSectionAvg)
+
+	threat.total = threat.armor * threat.thrust * threat.aero * threat.crosssection
+	threat.total = utils.round(threat.total, 0.01)
+
+	return threat
+end
+
+-- =============================================================================
 
 ---@param shipPlan table
 ---@param shipConfig ShipDef.Config
 ---@param rule table
 ---@param rand Rand
-function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand)
-
-	local addEquipToPlan = function(equip, slot)
-		shipPlan.slots[slot.id] = equip
-		shipPlan.freeVolume = shipPlan.freeVolume - equip.volume
-		shipPlan.equipMass = shipPlan.equipMass + equip.volume
-	end
+---@param hullThreat number
+function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand, hullThreat)
 
 	local matchRuleSlot = function(slot)
 		return slotTypeMatches(slot.type, rule.slot)
@@ -96,10 +232,16 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand)
 	if rule.equip then
 
 		local equip = Equipment.Get(rule.equip)
+		local threat = ShipBuilder.ComputeEquipThreatFactor(equip, hullThreat)
 
 		for _, slot in ipairs(slots) do
-			if EquipSet.CompatibleWithSlot(equip, slot) and shipPlan.freeVolume >= equip.volume then
-				addEquipToPlan(equip, slot)
+
+			local canInstall = shipPlan.freeVolume >= equip.volume
+				and shipPlan.freeThreat >= threat
+				and EquipSet.CompatibleWithSlot(equip, slot)
+
+			if canInstall then
+				shipPlan:AddEquipToPlan(equip, slot, threat)
 			end
 
 			numInstalled = numInstalled + 1
@@ -129,6 +271,15 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand)
 		return
 	end
 
+	-- Build a cache of the threat values for these equipment items
+	-- We may have multiple rounds of the install loop, so it's better to do it now
+	--
+	-- NOTE: if equipment items don't include hull threat in their calculation, this
+	-- can be precached at startup
+	local threatCache = utils.map_table(filteredEquip, function(_, equip)
+		return equip, ShipBuilder.ComputeEquipThreatFactor(equip, hullThreat)
+	end)
+
 	-- Iterate over each slot and install items
 	for _, slot in ipairs(slots) do
 
@@ -138,6 +289,7 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand)
 		local compatible = utils.filter_array(filteredEquip, function(equip)
 			return EquipSet.CompatibleWithSlot(equip, slot)
 				and shipPlan.freeVolume >= equip.volume
+				and shipPlan.freeThreat >= threatCache[equip]
 		end)
 
 		-- Nothing fits in this slot, ignore it then
@@ -146,7 +298,7 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand)
 			if rule.pick == "random" then
 				-- Select a random item from the list
 				local equip = compatible[rand:Integer(1, #compatible)]
-				addEquipToPlan(equip, slot)
+				shipPlan:AddEquipToPlan(equip, slot, threatCache[equip])
 			else
 				-- Sort equipment items by size; heavier items of the same size
 				-- class first. Assume the largest and heaviest item is the best,
@@ -155,7 +307,9 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand)
 					return a.slot.size > b.slot.size or (a.slot.size == b.slot.size and a.mass > b.mass)
 				end)
 
-				addEquipToPlan(compatible[1], slot)
+				-- Just install the "best" item we have
+				local equip = compatible[1]
+				shipPlan:AddEquipToPlan(equip, slot, threatCache[equip])
 			end
 
 			numInstalled = numInstalled + 1
@@ -170,40 +324,80 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand)
 
 end
 
-function ShipBuilder.SelectHull(production)
+-- =============================================================================
+
+function ShipBuilder.GetHullThreat(shipId)
+	return hullThreatCache[shipId] or { total = 0.0 }
+end
+
+function ShipBuilder.SelectHull(template, threat)
 	local hullList = {}
 
-	-- TODO: some sort of balance metric should be expressed here
+	if template.shipId then
 
-	for id, shipDef in pairs(ShipDef) do
-		if utils.contains(shipDef.roles, production.role) then
-			table.insert(hullList, id)
+		table.insert(hullList, template.shipType)
+
+	else
+
+		for id, shipDef in pairs(ShipDef) do
+
+			if shipDef.roles[template.role] then
+
+				local hullThreat = ShipBuilder.GetHullThreat(id).total
+
+				-- Use threat metric as a way to balance the random selection of ship hulls
+				local withinRange = hullThreat >= ShipBuilder.kMinHullThreatFactor * threat
+					and hullThreat <= ShipBuilder.kMaxHullThreatFactor * threat
+				local hasReserve = threat - hullThreat >= ShipBuilder.kMinReservedEquipThreat
+
+				if withinRange and hasReserve then
+					table.insert(hullList, id)
+				end
+
+			end
+
 		end
+
 	end
 
 	if #hullList == 0 then
 		return nil
 	end
 
-	local selectedHull = hullList[Engine.rand:Integer(1, #hullList)]
+	local shipId = hullList[Engine.rand:Integer(1, #hullList)]
 
-	return ShipConfig[selectedHull]
+	return ShipConfig[shipId]
 end
 
 ---@param production table
 ---@param shipConfig ShipDef.Config
-function ShipBuilder.MakePlan(production, shipConfig)
+function ShipBuilder.MakePlan(production, shipConfig, threat)
 
-	local shipPlan = {
+	local hullThreat = ShipBuilder.GetHullThreat(shipConfig.id).total
+
+	local shipPlan = ShipPlan:clone {
 		shipId = shipConfig.id,
-		equipMass = 0,
 		freeVolume = shipConfig.capacity,
-		slots = {}
+		threat = hullThreat,
+		freeThreat = threat - hullThreat,
 	}
 
 	for _, rule in ipairs(production.rules) do
-		ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, Engine.rand)
+
+		if rule.slot then
+			ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, Engine.rand, hullThreat)
+		else
+			local equip = Equipment.Get(rule.equip)
+			assert(equip)
+
+			if shipPlan.freeVolume >= equip.volume then
+				shipPlan:AddEquipToPlan(equip)
+			end
+		end
+
 	end
+
+	shipPlan.label = production.label or Ship.MakeRandomLabel()
 
 	return shipPlan
 
@@ -215,6 +409,7 @@ function ShipBuilder.ApplyPlan(ship, shipPlan)
 
 	local equipSet = ship:GetComponent('EquipSet')
 
+	-- Apply slot-based equipment first
 	for name, proto in pairs(shipPlan.slots) do
 		local slot = equipSet:GetSlotHandle(name)
 		assert(slot)
@@ -222,26 +417,91 @@ function ShipBuilder.ApplyPlan(ship, shipPlan)
 		equipSet:Install(proto(), slot)
 	end
 
-	-- TODO: loose equipment
+	for _, proto in ipairs(shipPlan.equip) do
+		equipSet:Install(proto())
+	end
+
+	-- TODO: ammunition / other items inside of instanced equipment
+
+	ship:SetLabel(shipPlan.label)
 
 end
+
+-- =============================================================================
+
+---@param body Body
+---@param production table
+---@param risk number?
+---@param nearDist number?
+---@param farDist number?
+function ShipBuilder.MakeShipNear(body, production, risk, nearDist, farDist)
+	if not risk then
+		risk = Engine.rand:Number(ShipBuilder.kDefaultRandomThreatMin, ShipBuilder.kDefaultRandomThreatMax)
+	end
+
+	local hullConfig = ShipBuilder.SelectHull(production, risk)
+	assert(hullConfig)
+
+	local plan = ShipBuilder.MakePlan(production, hullConfig, risk)
+	assert(plan)
+
+	local ship = Space.SpawnShipNear(plan.shipId, body, nearDist or 50, farDist or 100)
+	assert(ship)
+
+	ShipBuilder.ApplyPlan(ship, plan)
+
+	return ship
+end
+
+---@param body Body
+---@param production table
+---@param risk number?
+function ShipBuilder.MakeShipDocked(body, production, risk)
+	if not risk then
+		risk = Engine.rand:Number(ShipBuilder.kDefaultRandomThreatMin, ShipBuilder.kDefaultRandomThreatMax)
+	end
+
+	local hullConfig = ShipBuilder.SelectHull(production, risk)
+	assert(hullConfig)
+
+	local plan = ShipBuilder.MakePlan(production, hullConfig, risk)
+	assert(plan)
+
+	local ship = Space.SpawnShipDocked(plan.shipId, body)
+	assert(ship)
+
+	ShipBuilder.ApplyPlan(ship, plan)
+
+	return ship
+end
+
+-- =============================================================================
+
+local randomPulsecannonEasyRule = {
+	slot = "weapon",
+	filter = "weapon.energy.pulsecannon",
+	pick = "random",
+	maxSize = 3,
+	limit = 1
+}
+
+local pirateProduction = Template:clone {
+	role = "pirate",
+	rules = {
+		Rules.DefaultHyperdrive,
+		randomPulsecannonEasyRule,
+		Rules.DefaultAtmoShield,
+		Rules.DefaultShieldGen,
+		Rules.DefaultAutopilot
+	}
+}
 
 ---@param player Ship
 ---@param nearDist number?
 ---@param farDist number?
 function ShipBuilder.MakeGenericPirateNear(player, risk, nearDist, farDist)
 
-	local hullConfig = ShipBuilder.SelectHull(pirateProduction)
-	assert(hullConfig)
-
-	local plan = ShipBuilder.MakePlan(pirateProduction, hullConfig)
-	assert(plan)
-
-	---@type Ship
-	local ship = Space.SpawnShipNear(plan.shipId, player, nearDist or 50, farDist or 100)
-	ship:SetLabel(Ship.MakeRandomLabel())
-
-	ShipBuilder.ApplyPlan(ship, plan)
+	local ship = ShipBuilder.MakeShipNear(player, pirateProduction, risk, nearDist, farDist)
 
 	-- TODO: handle risk/difficulty-based installation of equipment as part of
 	-- the loadout rules
@@ -259,8 +519,23 @@ function ShipBuilder.MakeGenericPirateNear(player, risk, nearDist, farDist)
 
 end
 
+-- Generate a cache of combined hull threat factor for each ship in the game
+function ShipBuilder.BuildHullThreatCache()
+	for id, shipDef in pairs(ShipDef) do
+		local threat = ShipBuilder.ComputeHullThreatFactor(shipDef)
+
+		hullThreatCache[id] = threat
+	end
+end
+
 require 'Event'.Register("onEnterMainMenu", function()
-	local plan = ShipBuilder.MakePlan(pirateProduction, ShipConfig['coronatrix'])
+	ShipBuilder.BuildHullThreatCache()
+
+	local threat = 20.0
+
+	local hull = ShipBuilder.SelectHull({ role = "pirate" }, threat)
+
+	local plan = ShipBuilder.MakePlan(pirateProduction, ShipConfig['coronatrix'], threat)
 
 	utils.print_r(plan)
 end)
