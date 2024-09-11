@@ -23,6 +23,9 @@ local Commodities = require 'Commodities'
 local Faction     = require 'Faction'
 local Lang        = require 'Lang'
 
+local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
+local Rules       = ShipBuilder.OutfitRules
+
 local l = Lang.GetResource("ui-core")
 
 --
@@ -631,6 +634,20 @@ SpaceStation.lawEnforcedRange = 50000
 
 local police = {}
 
+local policeTemplate = ShipBuilder.Template:clone {
+	role = "police",
+	label = l.POLICE,
+	rules = {
+		{
+			slot = "weapon",
+			equip = "laser.pulsecannon_dual_1mw",
+			limit = 1
+		},
+		Rules.DefaultAtmoShield,
+		Rules.DefaultLaserCooling
+	}
+}
+
 --
 -- Method: LaunchPolice
 --
@@ -660,23 +677,23 @@ function SpaceStation:LaunchPolice(targetShip)
 		local lawlessness = Game.system.lawlessness
 		local maxPolice = math.min(9, self.numDocks)
 		local numberPolice = math.ceil(Engine.rand:Integer(1,maxPolice)*(1-lawlessness))
-		local shiptype = ShipDef[Game.system.faction.policeShip]
+
+		-- The more lawless/dangerous the space is, the better equipped the few police ships are
+		-- In a high-law area, a spacestation has a bunch of traffic cops due to low crime rates
+		local shipThreat = 10.0 + Engine.rand:Number(10, 50) * lawlessness
+
+		local shipTemplate = policeTemplate:clone {
+			shipId = Game.system.faction.policeShip
+		}
 
 		-- create and equip them
-		while numberPolice > 0 do
-			local policeShip = Space.SpawnShipDocked(shiptype.id, self)
+		for i = 1, numberPolice do
+			local policeShip = ShipBuilder.MakeShipDocked(self, shipTemplate, shipThreat)
 			if policeShip == nil then
-				return
-			else
-				numberPolice = numberPolice - 1
-				--policeShip:SetLabel(Game.system.faction.policeName) -- this is cool, but not translatable right now
-				policeShip:SetLabel(l.POLICE)
-				policeShip:AddEquip(Equipment.laser.pulsecannon_dual_1mw)
-				policeShip:AddEquip(Equipment.misc.atmospheric_shielding)
-				policeShip:AddEquip(Equipment.misc.laser_cooling_booster)
-
-				table.insert(police[self], policeShip)
+				break
 			end
+
+			table.insert(police[self], policeShip)
 		end
 	end
 
