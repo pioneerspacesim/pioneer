@@ -175,7 +175,8 @@ end
 function EquipCard.getDataForEquip(equip, compare)
 	---@type UI.EquipCard.Data
 	local out = {
-		icon = equip and icons[equip.icon_name] or EquipCard.emptyIcon
+		icon = equip and icons[equip.icon_name] or EquipCard.emptyIcon,
+		iconColor = equip and colors.white or colors.fontDim
 	}
 
 	if equip then

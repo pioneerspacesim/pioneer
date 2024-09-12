@@ -27,6 +27,7 @@ ItemCard.lineSpacing = ui.theme.styles.ItemSpacing
 ItemCard.rounding = ui.theme.styles.ItemCardRounding
 
 ItemCard.colors = ui.theme.buttonColors.card
+ItemCard.iconColor = colors.white
 
 function ItemCard:drawTitle(data, regionWidth, isSelected)
 	-- override to draw your specific item card type!
@@ -125,7 +126,7 @@ function ItemCard:draw(data, isSelected)
 		-- Draw the main icon
 		-- The icon is offset vertically to center it in the available space if
 		-- smaller than the height of the text
-		ui.addIconSimple(tl + lineSpacing + Vector2(0, iconOffset), data.icon, iconSize, colors.white)
+		ui.addIconSimple(tl + lineSpacing + Vector2(0, iconOffset), data.icon, iconSize, data.iconColor or self.iconColor)
 
 		-- Position the cursor for the title and details
 		local textLinePos = tl + lineSpacing + Vector2(iconSize.x + lineSpacing.x, 0)
