@@ -11,8 +11,10 @@ local utils     = require 'utils'
 local ui = require 'pigui'
 
 local pionillium = ui.fonts.pionillium
+
 local colors = ui.theme.colors
 local icons = ui.theme.icons
+local styles = ui.theme.styles
 
 local Module = require 'pigui.libs.module'
 local EquipCard = require 'pigui.libs.equip-card'
@@ -43,8 +45,10 @@ local customButton = function(label, icon, infoText, variant)
 	local height = lineHeight + framePadding.y * 2.0
 	local icon_size = Vector2(lineHeight)
 	local size = Vector2(ui.getContentRegion().x, height)
+	local rounding = styles.ItemCardRounding
 
-	local textOffset = framePadding + Vector2(icon_size.x + framePadding.x, pionillium.heading.size * 0.25)
+	local iconOffset = framePadding + Vector2(rounding, 0)
+	local textOffset = iconOffset   + Vector2(icon_size.x + framePadding.x, pionillium.heading.size * 0.25)
 	local fontCol = ui.theme.colors.font
 
 	local startPos = ui.getCursorScreenPos()
@@ -54,13 +58,18 @@ local customButton = function(label, icon, infoText, variant)
 
 	ui.withButtonColors(variant, function()
 		pigui.PushStyleVar("FramePadding", framePadding)
-		pigui.PushStyleVar("FrameRounding", 4)
+		pigui.PushStyleVar("FrameRounding", rounding)
 		clicked = pigui.Button("##" .. label, size)
 		pigui.PopStyleVar(2)
 	end)
 
+	if ui.isItemHovered() then
+		local tl, br = ui.getItemRect()
+		ui.addRectFilled(tl, tl + Vector2(rounding, size.y), fontCol, 4, 0x5)
+	end
+
 	ui.withFont(pionillium.heading, function()
-		ui.addIconSimple(startPos + framePadding, icon, icon_size, fontCol)
+		ui.addIconSimple(startPos + iconOffset, icon, icon_size, fontCol)
 		ui.addText(startPos + textOffset, fontCol, label)
 
 		if infoText then
@@ -333,7 +342,7 @@ end
 
 function Outfitter:drawBuyButton(data)
 	local icon = icons.autopilot_dock
-	local price_text = l.PRICE .. ": " .. ui.Format.Money(self:getInstallPrice(data.equip))
+	local price_text = ui.Format.Money(self:getInstallPrice(data.equip))
 
 	local variant = data.available and ui.theme.buttonColors.dark or ui.theme.buttonColors.disabled
 	if customButton(l.BUY_EQUIP % data, icon, price_text, variant) and data.available then
@@ -343,7 +352,7 @@ end
 
 function Outfitter:drawSellButton(data)
 	local icon = icons.autopilot_undock_illegal
-	local price_text = l.PRICE .. ": " .. ui.Format.Money(self:getSellPrice(data.equip))
+	local price_text = ui.Format.Money(self:getSellPrice(data.equip))
 
 	if customButton(l.SELL_EQUIP % data, icon, price_text) then
 		self:message("onSellItem", data.equip)
@@ -450,7 +459,6 @@ function Outfitter:render()
 		ui.sameLine()
 
 		ui.withFont(pionillium.heading, function()
-
 			ui.text(self.replaceEquip and l.REPLACE_EQUIPMENT_WITH or l.AVAILABLE_FOR_PURCHASE)
 		end)
 

@@ -23,8 +23,8 @@ ItemCard.highlightBar = false
 ItemCard.detailFields = 2
 
 ItemCard.iconSize = nil ---@type Vector2?
-ItemCard.lineSpacing  = ui.theme.styles.ItemSpacing
-ItemCard.rounding = 4
+ItemCard.lineSpacing = ui.theme.styles.ItemSpacing
+ItemCard.rounding = ui.theme.styles.ItemCardRounding
 
 ItemCard.colors = ui.theme.buttonColors.card
 
@@ -98,7 +98,7 @@ function ItemCard:draw(data, isSelected)
 	local lineSpacing = self.lineSpacing
 
 	if self.highlightBar then
-		ui.addCursorPos(Vector2(self.lineSpacing.x, 0))
+		ui.addCursorPos(Vector2(self.rounding, 0))
 	end
 
 	-- initial sizing setup
