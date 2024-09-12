@@ -184,17 +184,11 @@ end
 
 -- Function: GetInstalledEquipment
 --
--- Returns an array containing all equipment items installed on this ship,
+-- Returns a table containing all equipment items installed on this ship,
 -- including both slot-based equipment and freely-installed equipment.
----@return EquipType[]
+---@return table<string|integer, EquipType>
 function EquipSet:GetInstalledEquipment()
-	local out = {}
-
-	for _, equip in pairs(self.installed) do
-		table.insert(out, equip)
-	end
-
-	return out
+	return self.installed
 end
 
 -- Function: GetInstalledNonSlot
@@ -286,12 +280,14 @@ function EquipSet:Install(equipment, slotHandle)
 		end
 
 		self.installed[slotHandle.id] = equipment
+		self.cache[equipment] = slotHandle.id
 	else
 		if not self:CanInstallLoose(equipment) then
 			return false
 		end
 
 		table.insert(self.installed, equipment)
+		self.cache[equipment] = #self.installed
 	end
 
 	self:_InstallInternal(equipment)

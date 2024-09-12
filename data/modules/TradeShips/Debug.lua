@@ -309,7 +309,7 @@ debugView.registerTab('debug-trade-ships', {
 				local equipSet = ship:GetComponent('EquipSet')
 				local cargoMgr = ship:GetComponent('CargoManager')
 
-				for _, equip in ipairs(equipSet:GetInstalledEquipment()) do
+				for _, equip in pairs(equipSet:GetInstalledEquipment()) do
 					local count = equip.count or 1
 					total_mass = total_mass + equip.mass
 					table.insert(equipItems, {

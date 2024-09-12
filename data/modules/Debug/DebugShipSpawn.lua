@@ -131,7 +131,7 @@ set_player_ship_type = function(shipType)
   local equipSet = Game.player:GetComponent("EquipSet")
   local items = equipSet:GetInstalledEquipment()
   local returnedMoney = 0
-  for i, item in ipairs(items) do
+  for i, item in pairs(items) do
     returnedMoney = returnedMoney + item.price
   end
   do

@@ -119,7 +119,7 @@ set_player_ship_type = (shipType) ->
 	items = equipSet\GetInstalledEquipment!
 	returnedMoney = 0
 
-	for i, item in ipairs items
+	for i, item in pairs items
 		returnedMoney += item.price
 
 	with Game.player

@@ -100,7 +100,7 @@ local tradeInValue = function(ship)
 	end
 
 	local equipment = ship:GetComponent("EquipSet"):GetInstalledEquipment()
-	for _, e in ipairs(equipment) do
+	for _, e in pairs(equipment) do
 		local n = e.count or 1
 		value = value + n * e.price * equipSellPriceReduction
 	end
