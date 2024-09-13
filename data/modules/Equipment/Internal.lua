@@ -7,6 +7,7 @@ local Equipment = require 'Equipment'
 local EquipType = EquipTypes.EquipType
 local SensorType = EquipTypes.SensorType
 local CabinType = EquipTypes.CabinType
+local ThrusterType = EquipTypes.ThrusterType
 
 --===============================================
 -- Computer Modules
@@ -92,31 +93,31 @@ Equipment.Register("misc.hull_autorepair", EquipType.New {
 -- Thruster Mods
 --===============================================
 
-Equipment.Register("misc.thrusters_default", EquipType.New {
+Equipment.Register("misc.thrusters_default", ThrusterType.New {
 	l10n_key="THRUSTERS_DEFAULT", slots="thruster",
-	price=1500, purchasable=true, tech_level=2,
+	price=120, purchasable=true, tech_level=2,
 	slot = { type="thruster", size=1 },
 	mass=0, volume=0, capabilities={ thruster_power=0 },
 	icon_name="equip_thrusters_basic"
 })
 
-Equipment.Register("misc.thrusters_basic", EquipType.New {
+Equipment.Register("misc.thrusters_basic", ThrusterType.New {
 	l10n_key="THRUSTERS_BASIC", slots="thruster",
-	price=3000, purchasable=true, tech_level=5,
+	price=250, purchasable=true, tech_level=5,
 	slot = { type="thruster", size=1 },
-	mass=0, volume=0, capabilities={ thruster_power=1 },
+	mass=0.1, volume=0.05, capabilities={ thruster_power=1 },
 	icon_name="equip_thrusters_basic"
 })
 
-Equipment.Register("misc.thrusters_medium", EquipType.New {
+Equipment.Register("misc.thrusters_medium", ThrusterType.New {
 	l10n_key="THRUSTERS_MEDIUM", slots="thruster",
-	price=6500, purchasable=true, tech_level=8,
+	price=560, purchasable=true, tech_level=8,
 	slot = { type="thruster", size=1 },
-	mass=0, volume=0, capabilities={ thruster_power=2 },
+	mass=0.05, volume=0.05, capabilities={ thruster_power=2 },
 	icon_name="equip_thrusters_medium"
 })
 
-Equipment.Register("misc.thrusters_best", EquipType.New {
+Equipment.Register("misc.thrusters_best", ThrusterType.New {
 	l10n_key="THRUSTERS_BEST", slots="thruster",
 	price=14000, purchasable=true, tech_level="MILITARY",
 	slot = { type="thruster", size=1 },
