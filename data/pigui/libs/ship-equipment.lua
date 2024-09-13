@@ -55,9 +55,7 @@ function EquipmentWidget:onBuyItem(equip)
 		self:onSellItem(self.selectedEquip)
 	end
 
-	if equip.SpecializeForShip then
-		equip = equip:SpecializeForShip(self.ship)
-	else
+	if equip:isProto() then
 		equip = equip:Instance()
 	end
 
@@ -405,7 +403,8 @@ function EquipmentWidget:drawSlotSection(name, slots)
 
 			slotData.size = slotData.size or ("S" .. slot.size)
 			slotData.type = names[slot]
-			slotData.count = slot.count
+			-- Use the equipment count if present
+			slotData.count = slotData.count or slot.count
 
 			if self:drawEquipmentItem(slotData, isSelected) then
 				self:message("onSelectSlot", slot)

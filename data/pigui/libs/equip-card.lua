@@ -154,7 +154,7 @@ function EquipCard:drawTitle(data, textWidth, isSelected)
 	if data.count then
 		ui.sameLine()
 		ui.withStyleColors(slotColors, function()
-			ui.text("x{count}" % data)
+			ui.text("x" .. data.count)
 		end)
 	end
 
@@ -183,6 +183,7 @@ function EquipCard.getDataForEquip(equip, compare)
 		out.name = equip:GetName()
 		out.equip = equip
 		out.size = equip.slot and ("S" .. equip.slot.size) or nil
+		out.count = equip.count
 
 		out.stats = equip:GetDetailedStats()
 

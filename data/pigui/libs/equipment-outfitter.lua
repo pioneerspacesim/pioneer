@@ -157,23 +157,41 @@ end
 -- Override to support e.g. custom equipment shops
 ---@return EquipType[]
 function Outfitter:getAvailableEquipment()
-	return utils.filter_table(Equipment.new, function(id, equip)
+	local shipConfig = self.ship:GetComponent('EquipSet').config
+	local slotCount = self.filterSlot and self.filterSlot.count
+
+	return utils.map_table(Equipment.new, function(id, equip)
 		if self:getStock(equip) <= 0 then
 			-- FIXME: restore when equipment stocking converted to new system
-			--return false
+			-- return id, nil
 		end
 
-		return self:canDisplayItem(equip)
+		if not equip.purchasable or not self:stationHasTech(equip.tech_level) then
+			return id, nil
+		end
+
+		if not EquipSet.CompatibleWithSlot(equip, self.filterSlot) then
+			return id, nil
+		end
+
+		-- Instance the equipment item if we need to modify it for the ship it's installed in
+		if slotCount or equip.SpecializeForShip then
+			equip = equip:Instance()
+		end
+
+		-- Some equipment items might change their details based on the ship they're installed in
+		if equip.SpecializeForShip then
+			equip:SpecializeForShip(shipConfig)
+		end
+
+		-- Some slots collapse multiple equipment items into a single logical item
+		-- Those slots are treated as all-or-nothing for less confusion
+		if slotCount then
+			equip:SetCount(slotCount)
+		end
+
+		return id, equip
 	end)
-end
-
----@param e EquipType
-function Outfitter:canDisplayItem(e)
-	if e.SpecializeForShip then
-		e = e:SpecializeForShip(self.ship)
-	end
-
-	return e.purchasable and self:stationHasTech(e.tech_level) and EquipSet.CompatibleWithSlot(e, self.filterSlot)
 end
 
 ---@param e EquipType
@@ -184,14 +202,16 @@ end
 
 -- Cost of the equipment item if buying
 function Outfitter:getBuyPrice(e)
-	e = e.__proto or e
-	return self.station:GetEquipmentPrice(e)
+	-- If the item instance has a specific price, use that instead of the station price
+	-- TODO: the station should instead have a price modifier that adjusts the price of an equipment item
+	return rawget(e, "price") or self.station:GetEquipmentPrice(e:GetPrototype())
 end
 
 -- Money gained from equipment item if selling
 function Outfitter:getSellPrice(e)
-	e = e.__proto or e
-	return self.station:GetEquipmentPrice(e) * Economy.BaseResellPriceModifier
+	-- If the item instance has a specific price, use that instead of the station price
+	-- TODO: the station should instead have a price modifier that adjusts the price of an equipment item
+	return (rawget(e, "price") or self.station:GetEquipmentPrice(e:GetPrototype())) * Economy.BaseResellPriceModifier
 end
 
 -- Purchase price of an item less the sale cost of the old item
