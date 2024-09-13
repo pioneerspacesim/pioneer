@@ -43,6 +43,7 @@ local misc = {}
 ---@field tech_level integer | "MILITARY"
 ---@field transient table
 ---@field slots table -- deprecated
+---@field count integer?
 ---@field __proto EquipType?
 local EquipType = utils.inherits(nil, "EquipType")
 
@@ -93,9 +94,9 @@ function EquipType.New (specs)
 	return obj
 end
 
--- Override this with a function returning an equipment instance appropriate for the passed ship
+-- Override this with a function customizing the equipment instance for the passed ship
 -- (E.g. for equipment with mass/volume/cost dependent on the specific ship hull)
-EquipType.SpecializeForShip = nil ---@type nil | fun(self: self, ship: Ship): EquipType
+EquipType.SpecializeForShip = nil ---@type nil | fun(self: self, ship: ShipDef.Config)
 
 function EquipType._createTransient(obj)
 	local l = Lang.GetResource(obj.l10n_resource)
@@ -122,13 +123,28 @@ function EquipType.isProto(inst)
 	return not rawget(inst, "__proto")
 end
 
+---@return EquipType
 function EquipType:GetPrototype()
 	return rawget(self, "__proto") or self
 end
 
+-- Create an instance of this equipment prototype
 ---@return EquipType
 function EquipType:Instance()
 	return setmetatable({ __proto = self }, self.meta)
+end
+
+-- Some equipment slots represent multiple in-world items as a single logical
+-- "item" for the player to interact with. This function handles scaling
+-- equipment stats according to the number of "copies" of the item this
+-- instance represents.
+function EquipType:SetCount(count)
+	local proto = self:GetPrototype()
+
+	self.mass = proto.mass * count
+	self.volume = proto.volume * count
+	self.price = proto.price * count
+	self.count = count
 end
 
 -- Patch an EquipType class to support a prototype-based equipment system
@@ -427,12 +443,16 @@ function CabinType:OnRemove(ship, slot)
 	end
 end
 
+---@class Equipment.ThrusterType : EquipType
+local ThrusterType = utils.inherits(EquipType, "Equipment.ThrusterType")
+
 Serializer:RegisterClass("LaserType", LaserType)
 Serializer:RegisterClass("EquipType", EquipType)
 Serializer:RegisterClass("HyperdriveType", HyperdriveType)
 Serializer:RegisterClass("SensorType", SensorType)
 Serializer:RegisterClass("BodyScannerType", BodyScannerType)
 Serializer:RegisterClass("Equipment.CabinType", CabinType)
+Serializer:RegisterClass("Equipment.ThrusterType", ThrusterType)
 
 EquipType:SetupPrototype()
 LaserType:SetupPrototype()
@@ -440,6 +460,7 @@ HyperdriveType:SetupPrototype()
 SensorType:SetupPrototype()
 BodyScannerType:SetupPrototype()
 CabinType:SetupPrototype()
+ThrusterType:SetupPrototype()
 
 return {
 	laser			= laser,
@@ -451,4 +472,5 @@ return {
 	SensorType		= SensorType,
 	BodyScannerType	= BodyScannerType,
 	CabinType       = CabinType,
+	ThrusterType    = ThrusterType,
 }
