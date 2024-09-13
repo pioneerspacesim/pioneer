@@ -236,19 +236,30 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand, hullTh
 
 		for _, slot in ipairs(slots) do
 
-			local canInstall = shipPlan.freeVolume >= equip.volume
-				and shipPlan.freeThreat >= threat
-				and EquipSet.CompatibleWithSlot(equip, slot)
+			if EquipSet.CompatibleWithSlot(equip, slot) and shipPlan.freeThreat >= threat then
 
-			if canInstall then
-				shipPlan:AddEquipToPlan(equip, slot, threat)
+				local inst = equip:Instance()
+
+				if inst.SpecializeForShip then
+					inst:SpecializeForShip(shipConfig)
+				end
+
+				if slot.count then
+					inst:SetCount(slot.count)
+				end
+
+				if shipPlan.freeVolume >= inst.volume then
+					shipPlan:AddEquipToPlan(equip, slot, threat)
+				end
+
+				numInstalled = numInstalled + 1
+
+				if rule.limit and numInstalled >= rule.limit then
+					break
+				end
+
 			end
 
-			numInstalled = numInstalled + 1
-
-			if rule.limit and numInstalled >= rule.limit then
-				break
-			end
 		end
 
 		return
@@ -286,10 +297,26 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand, hullTh
 		-- Not all equipment items which passed the size/slot type check earlier
 		-- may be compatible with this specific slot (e.g. if it has a more
 		-- specific slot type than the rule itself).
-		local compatible = utils.filter_array(filteredEquip, function(equip)
-			return EquipSet.CompatibleWithSlot(equip, slot)
-				and shipPlan.freeVolume >= equip.volume
+		---@type EquipType[]
+		local compatible = utils.map_array(filteredEquip, function(equip)
+			local compat = EquipSet.CompatibleWithSlot(equip)
 				and shipPlan.freeThreat >= threatCache[equip]
+
+			if not compat then
+				return nil
+			end
+
+			local inst = equip:Instance()
+
+			if inst.SpecializeForShip then
+				inst:SpecializeForShip(shipConfig)
+			end
+
+			if slot.count then
+				inst:SetCount(slot.count)
+			end
+
+			return shipPlan.freeVolume >= inst.volume and inst or nil
 		end)
 
 		-- Nothing fits in this slot, ignore it then
