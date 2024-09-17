@@ -44,6 +44,7 @@ local misc = {}
 ---@field transient table
 ---@field slots table -- deprecated
 ---@field count integer?
+---@field provides_slots table<string, ShipDef.Slot>?
 ---@field __proto EquipType?
 local EquipType = utils.inherits(nil, "EquipType")
 
@@ -109,8 +110,13 @@ end
 ---@param ship Ship
 ---@param slot ShipDef.Slot?
 function EquipType:OnInstall(ship, slot)
-	-- Override this for any custom installation logic needed
+	-- Extend this for any custom installation logic needed
 	-- (e.g. mounting weapons)
+
+	-- Create unique instances of the slots provided by this equipment item
+	if self.provides_slots and not rawget(self, "provides_slots") then
+		self.provides_slots = utils.map_table(self.provides_slots, function(id, slot) return id, slot:clone() end)
+	end
 end
 
 ---@param ship Ship

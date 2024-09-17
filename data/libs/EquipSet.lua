@@ -17,8 +17,10 @@ local utils = require 'utils'
 local EquipSet = utils.class("EquipSet")
 
 local function slotTypeMatches(equipType, slotType)
-	return string.sub(equipType, 1, #slotType) == slotType
+	return equipType == slotType or string.sub(equipType, 1, #slotType + 1) == slotType .. "."
 end
+
+EquipSet.SlotTypeMatches = slotTypeMatches
 
 -- Function: CompatibleWithSlot
 --
@@ -43,11 +45,20 @@ function EquipSet:Constructor(ship)
 
 	-- Stores a mapping of slot id -> equipment item
 	-- Non-slot equipment is stored in the array portion
-	self.installed = {} ---@type table<string, EquipType>|EquipType[]
+	self.installed = {} ---@type table<string|integer, EquipType>
 	-- Note: the integer value stored in the cache is NOT the current array
 	-- index of the given item. It's simply a non-nil integer to indicate the
 	-- item is not installed in a slot.
 	self.cache = {} ---@type table<EquipType, string|integer>
+
+	-- Stores a mapping of slot id -> slot handle
+	-- Simplifies slot lookup for slots defined on equipment items
+	self.slotCache = {} ---@type table<string, ShipDef.Slot>
+	-- Stores the inverse mapping for looking up the compound id of a slot by
+	-- the slot object itself.
+	self.idCache = {} ---@type table<ShipDef.Slot, string>
+
+	self:BuildSlotCache()
 
 	self.listeners = {}
 
@@ -72,7 +83,7 @@ end
 ---@param id string
 ---@return ShipDef.Slot?
 function EquipSet:GetSlotHandle(id)
-	return self.config.slots[id]
+	return self.slotCache[id]
 end
 
 -- Function: GetItemInSlot
@@ -83,8 +94,10 @@ end
 function EquipSet:GetItemInSlot(slot)
 	-- The equipment item is not stored in the slot itself to reduce savefile
 	-- size. While the API would be marginally simpler if so, there would be a
-	-- significant amount of (de)serialization overhead.
-	return self.installed[slot.id]
+	-- significant amount of (de)serialization overhead as every ship and
+	-- equipment instance would need to own an instance of the slot.
+	local id = self.idCache[slot]
+	return id and self.installed[id]
 end
 
 -- Function: GetFreeSlotForEquip
@@ -103,7 +116,7 @@ function EquipSet:GetFreeSlotForEquip(equip)
 			and self:CanInstallInSlot(slot, equip)
 	end
 
-	for _, slot in pairs(self.config.slots) do
+	for _, slot in pairs(self.slotCache) do
 		if filter(_, slot) then
 			return slot
 		end
@@ -122,7 +135,7 @@ end
 function EquipSet:GetAllSlotsOfType(type, hardpoint)
 	local t = {}
 
-	for _, slot in pairs(self.config.slots) do
+	for _, slot in pairs(self.slotCache) do
 		local match = (hardpoint == nil or hardpoint == slot.hardpoint)
 			and slotTypeMatches(slot.type, type)
 		if match then table.insert(t, slot) end
@@ -269,18 +282,23 @@ end
 ---@return boolean
 function EquipSet:Install(equipment, slotHandle)
 	print("Installing equip {} in slot {}" % { equipment:GetName(), slotHandle })
+	local slotId = self.idCache[slotHandle]
 
 	if slotHandle then
+		if not slotId then
+			return false -- No such slot!
+		end
+
+		if self.installed[slotId] then
+			return false -- Slot already full!
+		end
+
 		if not self:CanInstallInSlot(slotHandle, equipment) then
-			return false
+			return false -- Doesn't fit!
 		end
 
-		if self.installed[slotHandle.id] then
-			return false
-		end
-
-		self.installed[slotHandle.id] = equipment
-		self.cache[equipment] = slotHandle.id
+		self.installed[slotId] = equipment
+		self.cache[equipment] = slotId
 	else
 		if not self:CanInstallLoose(equipment) then
 			return false
@@ -290,8 +308,8 @@ function EquipSet:Install(equipment, slotHandle)
 		self.cache[equipment] = #self.installed
 	end
 
-	self:_InstallInternal(equipment)
 	equipment:OnInstall(self.ship, slotHandle)
+	self:_InstallInternal(equipment)
 
 	for _, fun in ipairs(self.listeners) do
 		fun("install", equipment, slotHandle)
@@ -307,6 +325,11 @@ end
 -- The equipment item must be the same item instance that was installed prior;
 -- passing an equipment prototype instance will not result in any equipment
 -- item being removed.
+--
+-- Note that when removing an equipment item that provides slots, all items
+-- installed into those slots must be manually removed *before* calling this
+-- function! EquipSet:Remove() will not recurse into an item's slots to remove
+-- installed sub-items!
 ---@param equipment EquipType
 ---@return boolean
 function EquipSet:Remove(equipment)
@@ -354,6 +377,17 @@ function EquipSet:_InstallInternal(equipment)
 		end
 	end
 
+	if equipment.provides_slots then
+		local baseId = tostring(self.cache[equipment]) .. "##"
+		for _, slot in pairs(equipment.provides_slots) do
+			local slotId = baseId .. slot.id
+			assert(not self.slotCache[slotId])
+
+			self.slotCache[slotId] = slot
+			self.idCache[slot] = slotId
+		end
+	end
+
 	self.ship:UpdateEquipStats()
 end
 
@@ -363,6 +397,16 @@ end
 function EquipSet:_RemoveInternal(equipment)
 	self.ship:setprop("mass_cap", self.ship["mass_cap"] - equipment.mass)
 	self.ship:setprop("equipVolume", self.ship.equipVolume - equipment.volume)
+
+	if equipment.provides_slots then
+		for _, slot in pairs(equipment.provides_slots) do
+			local slotId = self.idCache[slot]
+			assert(slotId)
+
+			self.slotCache[slotId] = nil
+			self.idCache[slot] = nil
+		end
+	end
 
 	if equipment.capabilities then
 		for k, v in pairs(equipment.capabilities) do
@@ -374,11 +418,33 @@ function EquipSet:_RemoveInternal(equipment)
 	self.ship:UpdateEquipStats()
 end
 
+-- Populate the slot cache
+---@private
+function EquipSet:BuildSlotCache()
+	for _, slot in pairs(self.config.slots) do
+		self.slotCache[slot.id] = slot
+		self.idCache[slot] = slot.id
+	end
+
+	-- id is the (potentially compound) slot id the equipment is already installed in
+	for id, equip in pairs(self.installed) do
+		if equip.provides_slots then
+			for _, slot in pairs(equip.provides_slots) do
+				local slotId = tostring(id) .. "##" .. slot.id
+				self.slotCache[slotId] = slot
+				self.idCache[slot] = slotId
+			end
+		end
+	end
+end
+
 -- Remove transient fields from the serialized copy of the EquipSet
 function EquipSet:Serialize()
 	local obj = table.copy(self)
 
 	obj.cache = nil
+	obj.slotCache = nil
+	obj.idCache = nil
 	obj.listeners = nil
 
 	return obj
@@ -393,7 +459,14 @@ function EquipSet:Unserialize()
 		self.cache[v] = k
 	end
 
-	return setmetatable(self, EquipSet.meta)
+	self.slotCache = {}
+	self.idCache = {}
+
+	setmetatable(self, EquipSet.meta)
+
+	self:BuildSlotCache()
+
+	return self
 end
 
 Serializer:RegisterClass("EquipSet", EquipSet)
