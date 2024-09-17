@@ -100,7 +100,7 @@ function ui.addIcon(position, icon, color, size, anchor_horizontal, anchor_verti
 	end
 	if tooltip and (ui.isMouseHoveringWindow() or not ui.isAnyWindowHovered()) and tooltip ~= "" then
 		if pigui.IsMouseHoveringRect(pos, pos + size, true) then
-			ui.maybeSetTooltip(tooltip)
+			ui.setTooltip(tooltip)
 		end
 	end
 	return size
@@ -155,7 +155,7 @@ function ui.addWideIcon(position, icon, color, size, anchor_horizontal, anchor_v
 	end
 	if tooltip and (ui.isMouseHoveringWindow() or not ui.isAnyWindowHovered()) and tooltip ~= "" then
 		if pigui.IsMouseHoveringRect(pos, pos + size, true) then
-			ui.maybeSetTooltip(tooltip)
+			ui.setTooltip(tooltip)
 		end
 	end
 
@@ -185,7 +185,7 @@ function ui.addIconSimple(pos, icon, size, color, tooltip)
 
 	if tooltip and (ui.isMouseHoveringWindow() or not ui.isAnyWindowHovered()) then
 		if pigui.IsMouseHoveringRect(pos, pos + size, true) then
-			ui.maybeSetTooltip(tooltip)
+			ui.setTooltip(tooltip)
 		end
 	end
 end
