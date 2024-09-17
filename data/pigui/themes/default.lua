@@ -677,6 +677,9 @@ theme.icons = {
 	circle_md = 51,
 	circle_sm = 110,
 
+	chevron_up = 38,
+	chevron_down = 40,
+
 	-- TODO: manual / autopilot
 	-- dummy, until actually defined correctly
 	mouse_move_direction = 14,

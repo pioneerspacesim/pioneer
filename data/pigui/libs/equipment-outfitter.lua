@@ -137,6 +137,7 @@ function Outfitter:Constructor()
 	self.station = nil ---@type SpaceStation
 	self.filterSlot = nil ---@type ShipDef.Slot?
 	self.replaceEquip = nil ---@type EquipType?
+	self.canSellEquip = false
 
 	self.equipmentList = {} ---@type UI.EquipmentOutfitter.EquipData[]
 	self.selectedEquip = nil ---@type UI.EquipmentOutfitter.EquipData?
@@ -374,7 +375,8 @@ function Outfitter:drawSellButton(data)
 	local icon = icons.autopilot_undock_illegal
 	local price_text = ui.Format.Money(self:getSellPrice(data.equip))
 
-	if customButton(l.SELL_EQUIP % data, icon, price_text) then
+	local variant = self.canSellEquip and ui.theme.buttonColors.dark or ui.theme.buttonColors.disabled
+	if customButton(l.SELL_EQUIP % data, icon, price_text, variant) and self.canSellEquip then
 		self:message("onSellItem", data.equip)
 	end
 end

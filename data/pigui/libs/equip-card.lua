@@ -47,6 +47,9 @@ local EquipCard = utils.inherits(ItemCard, "UI.EquipCard")
 ---@field type string?
 ---@field size string?
 ---@field equip EquipType?
+---@field slot ShipDef.Slot?
+---@field present integer?
+---@field total integer?
 ---@field stats EquipType.UI.Stats[] | nil
 
 EquipCard.tooltipStats = true
@@ -63,28 +66,29 @@ local tooltipStyle = {
 
 ---@param data UI.EquipCard.Data
 function EquipCard:tooltipContents(data, isSelected)
-	if data.equip then
-		ui.withFont(pionillium.heading, function()
-			ui.text(data.equip:GetName())
-			ui.spacing()
-		end)
+	if not data.equip then
+		return
+	end
+
+	ui.withFont(pionillium.body, function()
+		ui.text(data.equip:GetName())
 
 		local desc = data.equip:GetDescription()
 
 		if desc and desc ~= "" then
-			ui.withFont(pionillium.body, function()
-
-				ui.textWrapped(desc)
+			ui.withFont(pionillium.details, function()
 				ui.spacing()
+				ui.textWrapped(desc)
 			end)
 		end
-	end
+	end)
 
 	if self.tooltipStats and data.stats then
+		ui.spacing()
 		ui.separator()
 		ui.spacing()
 
-		ui.withFont(pionillium.body, function()
+		ui.withFont(pionillium.details, function()
 			self.drawEquipStats(data)
 		end)
 	end
@@ -155,6 +159,11 @@ function EquipCard:drawTitle(data, textWidth, isSelected)
 		ui.sameLine()
 		ui.withStyleColors(slotColors, function()
 			ui.text("x" .. data.count)
+		end)
+	elseif data.present then
+		ui.sameLine()
+		ui.withStyleColors(slotColors, function()
+			ui.text(data.present .. "/" .. data.total)
 		end)
 	end
 
