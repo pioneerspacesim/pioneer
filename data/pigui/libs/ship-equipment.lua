@@ -66,7 +66,7 @@ function EquipmentWidget:onBuyItem(equip)
 
 	assert(self.ship:GetComponent("EquipSet"):Install(equip, self.selectedSlot))
 
-	self.selectedEquip = equip
+	self.selectedEquip = self.selectedSlot and equip
 	self:buildSections()
 end
 
@@ -99,6 +99,13 @@ function EquipmentWidget:Constructor(id)
 
 	self.market:hookMessage("onBuyItem", function(_, item)
 		self:onBuyItem(item)
+
+		if self.selectedSlot then
+			local nextSlot = self.adjacentSlots[self.selectedSlot]
+			if nextSlot and not nextSlot.equip then
+				self:onSelectSlot(nextSlot)
+			end
+		end
 
 		self.market.replaceEquip = self.selectedEquip
 		self.market:refresh()
@@ -148,6 +155,8 @@ function EquipmentWidget:Constructor(id)
 	self.id = id or "EquipmentWidget"
 
 	self.sectionList = {}
+	---@type table<ShipDef.Slot, UI.EquipCard.Data>
+	self.adjacentSlots = {}
 end
 
 function EquipmentWidget:clearSelection()
@@ -156,6 +165,8 @@ function EquipmentWidget:clearSelection()
 	self.selectionActive = false
 end
 
+---@param slotData UI.EquipCard.Data
+---@param children table?
 function EquipmentWidget:onSelectSlot(slotData, children)
 	if not slotData then
 		self:clearSelection()
@@ -244,6 +255,11 @@ function EquipmentWidget:buildSlotGroup(equipSet, name, slots)
 			end
 		end
 
+		local prevCard = items[#items]
+		if prevCard and prevCard.slot then
+			self.adjacentSlots[prevCard.slot] = slotData
+		end
+
 		table.insert(items, slotData)
 	end
 
@@ -259,6 +275,7 @@ end
 
 function EquipmentWidget:buildSections()
 	self.sectionList = {}
+	self.adjacentSlots = {}
 
 	local equipSet = self.ship:GetComponent("EquipSet")
 	local config = equipSet.config
@@ -453,8 +470,8 @@ function EquipmentWidget:drawSlotGroup(list)
 		for i, card in ipairs(list.items) do
 
 			local equip = card.equip
-			local isSelected = self.selectedSlot == card.slot or
-				(not card.slot) and self.selectedEquip == equip
+			local isSelected = self.selectionActive
+				and (self.selectedSlot == card.slot and self.selectedEquip == equip)
 
 			if equip or self.showEmptySlots then
 				if self:drawEquipmentItem(card, isSelected) then
@@ -463,9 +480,7 @@ function EquipmentWidget:drawSlotGroup(list)
 
 				local childSlots = list.children[i]
 				if childSlots then
-					ui.withID(childSlots.id, function()
-						self:drawSlotGroup(childSlots)
-					end)
+					self:drawSlotGroup(childSlots)
 				end
 			end
 

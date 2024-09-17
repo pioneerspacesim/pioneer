@@ -508,6 +508,12 @@ function Outfitter:render()
 				if clicked then
 					self:message("onSelectItem", data)
 				end
+
+				local doubleClicked = clicked and ui.isMouseDoubleClicked(0)
+
+				if doubleClicked then
+					self:message("onBuyItem", data.equip)
+				end
 			end
 		end)
 
