@@ -1346,7 +1346,7 @@ static int l_pigui_invisible_button(lua_State *l)
 	PROFILE_SCOPED()
 	std::string id = LuaPull<std::string>(l, 1);
 	ImVec2 size = LuaPull<ImVec2>(l, 2);
-	ImGuiButtonFlags flags = LuaPull<ImGuiButtonFlags_>(l, 3);
+	ImGuiButtonFlags flags = LuaPull<ImGuiButtonFlags_>(l, 3, ImGuiButtonFlags_None);
 	bool ret = ImGui::InvisibleButton(id.c_str(), size, flags);
 	LuaPush<bool>(l, ret);
 	return 1;
@@ -3269,6 +3269,13 @@ static int l_pigui_treenode(lua_State *l)
 	return 1;
 }
 
+static int l_pigui_treepush(lua_State *l)
+{
+	PROFILE_SCOPED()
+	ImGui::TreePush(LuaPull<const char *>(l, 1));
+	return 0;
+}
+
 /*
  * Function: treePop
  *
@@ -3402,6 +3409,30 @@ static int l_pigui_table_set_bg_color(lua_State *l)
 	ImGui::TableSetBgColor(target, color, columnIndex);
 	return 0;
 }
+
+// ============================================================================
+
+static int l_pigui_get_bool_state(lua_State *l)
+{
+	const char *id = LuaPull<const char *>(l, 1);
+	bool default_val = LuaPull<bool>(l, 2, false);
+
+	bool state = ImGui::GetStateStorage()->GetBool(ImGui::GetCurrentWindow()->GetID(id), default_val);
+
+	LuaPush(l, state);
+	return 1;
+}
+
+static int l_pigui_set_bool_state(lua_State *l)
+{
+	const char *id = LuaPull<const char *>(l, 1);
+	bool val = LuaPull<bool>(l, 2);
+
+	ImGui::GetStateStorage()->SetBool(ImGui::GetCurrentWindow()->GetID(id), val);
+	return 0;
+}
+
+// ============================================================================
 
 static Color4ub to_Color4ub(ImVec4 c)
 {
@@ -3599,6 +3630,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "ListBox", l_pigui_listbox },
 		{ "CollapsingHeader", l_pigui_collapsing_header },
 		{ "TreeNode", l_pigui_treenode },
+		{ "TreePush", l_pigui_treepush },
 		{ "TreePop", l_pigui_treepop },
 		{ "CaptureMouseFromApp", l_pigui_capture_mouse_from_app },
 		{ "PlotHistogram", l_pigui_plot_histogram },
@@ -3643,6 +3675,10 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "TableHeader", l_pigui_table_header },
 		{ "TableSetBgColor", l_pigui_table_set_bg_color },
 		// TODO: finish exposing Tables API
+
+		// Simple ImGui state access
+		{ "GetBoolState", l_pigui_get_bool_state },
+		{ "SetBoolState", l_pigui_set_bool_state },
 
 		{ "WantTextInput", l_pigui_want_text_input },
 		{ "ClearMouse", l_pigui_clear_mouse },

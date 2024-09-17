@@ -106,6 +106,7 @@ ui.isMouseDoubleClicked = pigui.IsMouseDoubleClicked
 ui.isMouseHoveringRect = pigui.IsMouseHoveringRect
 ui.collapsingHeader = pigui.CollapsingHeader
 ui.treeNode = pigui.TreeNode
+ui.treePush = pigui.TreePush
 ui.treePop = pigui.TreePop
 ui.beginPopupModal = pigui.BeginPopupModal
 ui.endPopup = pigui.EndPopup
