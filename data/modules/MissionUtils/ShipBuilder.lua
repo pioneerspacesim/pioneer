@@ -4,6 +4,7 @@
 local Engine     = require 'Engine'
 local Equipment  = require 'Equipment'
 local EquipSet   = require 'EquipSet'
+local Event      = require 'Event'
 local ShipDef    = require 'ShipDef'
 local ShipConfig = require 'ShipConfig'
 local Space      = require 'Space'
@@ -15,9 +16,7 @@ local utils = require 'utils'
 
 local hullThreatCache = {}
 
-local slotTypeMatches = function(slot, filter)
-	return string.sub(slot, 1, #filter) == filter
-end
+local slotTypeMatches = EquipSet.SlotTypeMatches
 
 -- Class: MissionUtils.ShipBuilder
 --
@@ -25,6 +24,8 @@ end
 
 ---@class MissionUtils.ShipBuilder
 local ShipBuilder = {}
+
+ShipBuilder.OutfitRules = Rules
 
 -- =============================================================================
 
@@ -55,10 +56,8 @@ ShipBuilder.kAeroStabilityThreatBase = 0.80
 ShipBuilder.kCrossSectionToThreat = 0.3
 ShipBuilder.kCrossSectionThreatBase = 0.8
 
--- Only accept ships where the hull is at least this fraction of the desired total threat factor
-ShipBuilder.kMinHullThreatFactor = 0.4
-ShipBuilder.kMaxHullThreatFactor = 0.8
-ShipBuilder.kMinReservedEquipThreat = 4.0
+-- Only accept ships where the hull is at most this fraction of the desired total threat factor
+ShipBuilder.kMaxHullThreatFactor = 0.7
 
 -- || Weapon Threat Factor ||
 
@@ -105,17 +104,55 @@ ShipPlan.freeVolume = 0
 ShipPlan.equipMass = 0
 ShipPlan.threat = 0
 ShipPlan.freeThreat = 0
-ShipPlan.slots = {}
+ShipPlan.filled = {}
 ShipPlan.equip = {}
+ShipPlan.install = {}
+ShipPlan.slots = {}
 
 function ShipPlan:__clone()
-	self.slots = {}
+	self.filled = {}
 	self.equip = {}
+	self.install = {}
+	self.slots = {}
+end
+
+function ShipPlan:SortSlots()
+	-- Stably sort with largest hardpoints first
+	table.sort(self.slots, function(a, b) return a.size > b.size or (a.size == b.size and a.id < b.id) end)
+end
+
+function ShipPlan:SetConfig(shipConfig)
+	self.config = shipConfig
+	self.shipId = shipConfig.id
+	self.freeVolume = shipConfig.capacity
+
+	for _, slot in pairs(shipConfig.slots) do
+		table.insert(self.slots, slot)
+	end
+
+	self:SortSlots()
+end
+
+-- Add extra slots from an equipment item to the list of available slots
+function ShipPlan:AddSlots(baseId, slots)
+	for _, slot in pairs(slots) do
+		local id = baseId .. "##" .. slot.id
+		table.insert(self.slots, slot:clone({ id = id }))
+	end
+
+	self:SortSlots()
 end
 
 function ShipPlan:AddEquipToPlan(equip, slot, threat)
+	print("Installing " .. equip:GetName())
+
+	if equip:isProto() then
+		equip = equip:Instance()
+	end
+
 	if slot then
-		self.slots[slot.id] = equip
+		self.filled[slot.id] = equip
+		table.insert(self.install, slot.id)
 	else
 		table.insert(self.equip, equip)
 	end
@@ -124,6 +161,10 @@ function ShipPlan:AddEquipToPlan(equip, slot, threat)
 	self.equipMass = self.equipMass + equip.mass
 	self.threat = self.threat + (threat or 0)
 	self.freeThreat = self.freeThreat - (threat or 0)
+
+	if equip.provides_slots then
+		self:AddSlots(slot.id, equip.provides_slots)
+	end
 end
 
 -- =============================================================================
@@ -200,30 +241,35 @@ end
 -- =============================================================================
 
 ---@param shipPlan table
----@param shipConfig ShipDef.Config
 ---@param rule table
 ---@param rand Rand
 ---@param hullThreat number
-function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand, hullThreat)
+function ShipBuilder.ApplyEquipmentRule(shipPlan, rule, rand, hullThreat)
 
-	local matchRuleSlot = function(slot)
-		return slotTypeMatches(slot.type, rule.slot)
-			and (not rule.maxSize or slot.size <= rule.maxSize)
+	-- print("Applying rule:")
+	-- utils.print_r(rule)
+
+	local shipConfig = shipPlan.config
+
+	local matchRuleSlot = function(slot, filter)
+		local minSize = slot.size_min or slot.size
+		return slotTypeMatches(slot.type, filter)
+			and (not rule.maxSize or minSize <= rule.maxSize)
 			and (not rule.minSize or slot.size >= rule.minSize)
 	end
 
 	-- Get a list of all equipment slots on the ship that match this rule
-	local slots = utils.to_array(shipConfig.slots, function(slot)
+	local slots = utils.filter_array(shipPlan.slots, function(slot)
 		-- Don't install in already-filled slots
-		return not shipPlan.slots[slot.id]
-			and matchRuleSlot(slot)
+		return not shipPlan.filled[slot.id]
+			and matchRuleSlot(slot, rule.slot)
 	end)
+
+	-- print("Ship slots: " .. #shipPlan.slots)
+	-- print("Filtered slots: " .. #slots)
 
 	-- Early-out if we have nowhere to install equipment
 	if #slots == 0 then return end
-
-	-- Sort the table of slots so we install in the best/biggest slot first
-	table.sort(slots, function(a, b) return a.size > b.size or (a.size == b.size and a.id < b.id) end)
 
 	-- Track how many items have been installed total
 	local numInstalled = 0
@@ -272,10 +318,11 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand, hullTh
 	-- Build a list of all equipment items that could potentially be installed
 	local filteredEquip = utils.to_array(Equipment.new, function(equip)
 		return (equip.slot or false)
-			and matchRuleSlot(equip.slot)
+			and matchRuleSlot(equip.slot, rule.filter or rule.slot)
 			and equip.volume <= maxVolume
-			and (not rule.filter or slotTypeMatches(equip.slot.type, rule.filter))
 	end)
+
+	-- print("Available equipment: " .. #filteredEquip)
 
 	-- No equipment items can be installed, rule is finished
 	if #filteredEquip == 0 then
@@ -288,6 +335,7 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand, hullTh
 	-- NOTE: if equipment items don't include hull threat in their calculation, this
 	-- can be precached at startup
 	local threatCache = utils.map_table(filteredEquip, function(_, equip)
+		print(equip:GetName(), ShipBuilder.ComputeEquipThreatFactor(equip, hullThreat))
 		return equip, ShipBuilder.ComputeEquipThreatFactor(equip, hullThreat)
 	end)
 
@@ -299,7 +347,7 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand, hullTh
 		-- specific slot type than the rule itself).
 		---@type EquipType[]
 		local compatible = utils.map_array(filteredEquip, function(equip)
-			local compat = EquipSet.CompatibleWithSlot(equip)
+			local compat = EquipSet.CompatibleWithSlot(equip, slot)
 				and shipPlan.freeThreat >= threatCache[equip]
 
 			if not compat then
@@ -318,6 +366,8 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand, hullTh
 
 			return shipPlan.freeVolume >= inst.volume and inst or nil
 		end)
+
+		-- print("Slot " .. slot.id .. " - compatible: " .. #compatible)
 
 		-- Nothing fits in this slot, ignore it then
 		if #compatible > 0 then
@@ -341,7 +391,7 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, rand, hullTh
 
 			numInstalled = numInstalled + 1
 
-			if rule.limit and numInstalled > rule.limit then
+			if rule.limit and numInstalled >= rule.limit then
 				break
 			end
 
@@ -362,22 +412,22 @@ function ShipBuilder.SelectHull(template, threat)
 
 	if template.shipId then
 
-		table.insert(hullList, template.shipType)
+		table.insert(hullList, template.shipId)
 
 	else
 
 		for id, shipDef in pairs(ShipDef) do
 
-			if shipDef.roles[template.role] then
+			if not template.role or shipDef.roles[template.role] then
 
 				local hullThreat = ShipBuilder.GetHullThreat(id).total
 
-				-- Use threat metric as a way to balance the random selection of ship hulls
-				local withinRange = hullThreat >= ShipBuilder.kMinHullThreatFactor * threat
-					and hullThreat <= ShipBuilder.kMaxHullThreatFactor * threat
-				local hasReserve = threat - hullThreat >= ShipBuilder.kMinReservedEquipThreat
+				print(id, hullThreat, threat)
 
-				if withinRange and hasReserve then
+				-- Use threat metric as a way to balance the random selection of ship hulls
+				local withinRange = hullThreat <= ShipBuilder.kMaxHullThreatFactor * threat
+
+				if withinRange then
 					table.insert(hullList, id)
 				end
 
@@ -403,16 +453,16 @@ function ShipBuilder.MakePlan(production, shipConfig, threat)
 	local hullThreat = ShipBuilder.GetHullThreat(shipConfig.id).total
 
 	local shipPlan = ShipPlan:clone {
-		shipId = shipConfig.id,
-		freeVolume = shipConfig.capacity,
 		threat = hullThreat,
 		freeThreat = threat - hullThreat,
 	}
 
+	shipPlan:SetConfig(shipConfig)
+
 	for _, rule in ipairs(production.rules) do
 
 		if rule.slot then
-			ShipBuilder.ApplyEquipmentRule(shipPlan, shipConfig, rule, Engine.rand, hullThreat)
+			ShipBuilder.ApplyEquipmentRule(shipPlan, rule, Engine.rand, hullThreat)
 		else
 			local equip = Equipment.Get(rule.equip)
 			assert(equip)
@@ -437,15 +487,17 @@ function ShipBuilder.ApplyPlan(ship, shipPlan)
 	local equipSet = ship:GetComponent('EquipSet')
 
 	-- Apply slot-based equipment first
-	for name, proto in pairs(shipPlan.slots) do
-		local slot = equipSet:GetSlotHandle(name)
-		assert(slot)
+	for _, slotId in ipairs(shipPlan.install) do
+		local slot = assert(equipSet:GetSlotHandle(slotId))
+		local equip = assert(shipPlan.filled[slotId])
+		assert(not equip:isProto())
 
-		equipSet:Install(proto(), slot)
+		equipSet:Install(equip, slot)
 	end
 
-	for _, proto in ipairs(shipPlan.equip) do
-		equipSet:Install(proto())
+	for _, equip in ipairs(shipPlan.equip) do
+		assert(not equip:isProto())
+		equipSet:Install(equip)
 	end
 
 	-- TODO: ammunition / other items inside of instanced equipment
@@ -555,16 +607,8 @@ function ShipBuilder.BuildHullThreatCache()
 	end
 end
 
-require 'Event'.Register("onEnterMainMenu", function()
+Event.Register("onGameStart", function()
 	ShipBuilder.BuildHullThreatCache()
-
-	local threat = 20.0
-
-	local hull = ShipBuilder.SelectHull({ role = "pirate" }, threat)
-
-	local plan = ShipBuilder.MakePlan(pirateProduction, ShipConfig['coronatrix'], threat)
-
-	utils.print_r(plan)
 end)
 
 return ShipBuilder
