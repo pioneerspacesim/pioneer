@@ -14,11 +14,17 @@ local function drawTab(tab, i, delta)
 	local label = tab.label or ""
 	local icon_str = "{}##{}" % { ui.get_icon_glyph(icon), i }
 
+	local active = false
+
 	ui.tabItem(icon_str, label, function()
+		active = true
+
 		ui.child(label, Vector2(0, 0), childWindowFlags, function()
-			tab.draw(delta)
+			tab.draw(tab, delta)
 		end)
 	end)
+
+	return active
 end
 
 ---@class Debug.DebugTab
@@ -51,14 +57,17 @@ end
 function debugView.drawTabs(delta)
 	for i, tab in ipairs(debugView.tabs) do
 		if not tab.show or tab.show() then
-			drawTab(tab, i, delta)
+			if drawTab(tab, i, delta) then
 
-			if ui.ctrlHeld() and ui.isKeyReleased(string.byte 'r') then
-				print("Hot reloading module " .. tab.module)
-				package.reimport(tab.module)
+				if ui.ctrlHeld() and ui.isKeyReleased(string.byte 'r') then
+					print("Hot reloading module " .. tab.module)
+					package.reimport(tab.module)
+				end
+
 			end
 		end
 	end
+
 end
 
 ui.registerHandler('debug-tabs', debugView.drawTabs)
