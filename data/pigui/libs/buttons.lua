@@ -60,7 +60,7 @@ end
 --
 -- Function: ui.button
 --
--- > clicked = ui.button(label, button_size, variant, tooltip)
+-- > clicked = ui.button(label, button_size, variant, tooltip, padding)
 --
 -- Example:
 --
@@ -74,19 +74,20 @@ end
 --   variant     - [optional] Table, color variants used for this button;
 --                 contains Color fields 'normal', 'hovered', and 'active'
 --   tooltip     - [optional] string, mouseover text
+--   padding     - [optional] Vector2, size of padding on each side of button
 --
 -- Returns:
 --
 --   clicked - true if button was clicked
 --
-function ui.button(label, button_size, variant, tooltip)
+function ui.button(label, button_size, variant, tooltip, padding)
 	if variant then
 		pigui.PushStyleColor("Button", variant.normal)
 		pigui.PushStyleColor("ButtonHovered", variant.hovered)
 		pigui.PushStyleColor("ButtonActive", variant.active)
 	end
 
-	pigui.PushStyleVar("FramePadding", ui.theme.styles.ButtonPadding)
+	pigui.PushStyleVar("FramePadding", padding or ui.theme.styles.ButtonPadding)
 	local res = pigui.Button(label, button_size or Vector2(0, 0))
 	pigui.PopStyleVar(1)
 
