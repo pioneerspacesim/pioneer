@@ -11,6 +11,7 @@ local utils     = require 'utils'
 local ui = require 'pigui'
 
 local pionillium = ui.fonts.pionillium
+local orbiteer = ui.fonts.orbiteer
 
 local colors = ui.theme.colors
 local icons = ui.theme.icons
@@ -20,6 +21,7 @@ local Module = require 'pigui.libs.module'
 local EquipCard = require 'pigui.libs.equip-card'
 
 local l = Lang.GetResource("ui-core")
+local le = Lang.GetResource("equipment-core")
 
 local compare = function(a, b, invert)
 	local n = invert and b - a or a - b
@@ -103,9 +105,7 @@ EquipCardAvailable.tooltipStats = false
 local EquipCardUnavailable = EquipCard.New()
 
 EquipCardUnavailable.tooltipStats = false
-EquipCardUnavailable.backgroundColor = ui.theme.styleColors.gray_800
-EquipCardUnavailable.hoveredColor = ui.theme.styleColors.gray_700
-EquipCardUnavailable.selectedColor = ui.theme.styleColors.gray_600
+EquipCardUnavailable.colors = ui.theme.buttonColors.deselected
 EquipCardUnavailable.textColor = ui.theme.styleColors.danger_300
 
 ---@param data UI.EquipmentOutfitter.EquipData
@@ -130,6 +130,37 @@ end
 ---@field New fun(): self
 local Outfitter = utils.class("UI.EquipmentOutfitter", Module)
 
+Outfitter.SortKeys = {
+	{ id = "name", label = le.SORT_NAME },
+	{ id = "mass", label = le.SORT_WEIGHT },
+	{ id = "volume", label = le.SORT_VOLUME },
+	{ id = "price", label = le.SORT_PRICE },
+}
+
+---@type table<string, fun(a: UI.EquipmentOutfitter.EquipData, b: UI.EquipmentOutfitter.EquipData): boolean>
+Outfitter.SortFuncs = {
+	name = function(a, b)
+		return a.name < b.name
+	end,
+	mass = function(a, b)
+		return a.equip.mass < b.equip.mass or (a.equip.mass == b.equip.mass and a.name < b.name)
+	end,
+	volume = function(a, b)
+		return a.equip.volume < b.equip.volume or (a.equip.volume == b.equip.volume and a.name < b.name)
+	end,
+	price = function(a, b)
+		return a.price < b.price or (a.price == b.price and a.name < b.name)
+	end,
+	default = function(a, b)
+		if a.equip.slot then
+			return a.equip.slot.size < b.equip.slot.size
+				or (a.equip.slot.size == b.equip.slot.size and a.name < b.name)
+		else
+			return a.name < b.name
+		end
+	end
+}
+
 function Outfitter:Constructor()
 	Module.Constructor(self)
 
@@ -138,6 +169,9 @@ function Outfitter:Constructor()
 	self.filterSlot = nil ---@type ShipDef.Slot?
 	self.replaceEquip = nil ---@type EquipType?
 	self.canSellEquip = false
+
+	self.sortId = nil ---@type string?
+	self.sortState = nil ---@type integer?
 
 	self.equipmentList = {} ---@type UI.EquipmentOutfitter.EquipData[]
 	self.selectedEquip = nil ---@type UI.EquipmentOutfitter.EquipData?
@@ -220,15 +254,6 @@ function Outfitter:getInstallPrice(e)
 	return self:getBuyPrice(e) - (self.replaceEquip and self:getSellPrice(self.replaceEquip) or 0)
 end
 
-function Outfitter.sortEquip(e1, e2)
-	if e1.slot then
-		return e1.slot.size < e2.slot.size
-			or (e1.slot.size == e2.slot.size and e1:GetName() < e2:GetName())
-	else
-		return e1:GetName() < e2:GetName()
-	end
-end
-
 function Outfitter:buildEquipmentList()
 	local equipment = self:getAvailableEquipment()
 
@@ -238,8 +263,6 @@ function Outfitter:buildEquipmentList()
 	for _, v in pairs(equipment) do
 		table.insert(equipList, v)
 	end
-
-	table.sort(equipList, self.sortEquip)
 
 	local currentProto = self.replaceEquip and self.replaceEquip:GetPrototype()
 	local equipSet = self.ship:GetComponent("EquipSet")
@@ -270,6 +293,16 @@ function Outfitter:buildEquipmentList()
 		end
 
 		return data
+	end)
+
+	self:sortEquipmentList()
+end
+
+function Outfitter:sortEquipmentList()
+	local sortFunc = self.sortId and Outfitter.SortFuncs[self.sortId] or Outfitter.SortFuncs.default
+
+	table.sort(self.equipmentList, function(a, b)
+		return not sortFunc(a, b) ~= (not self.sortState or self.sortState > 0)
 	end)
 end
 
@@ -333,6 +366,13 @@ function Outfitter:onSellItem(item)
 	self.selectedEquip = nil
 end
 
+function Outfitter:onSetSort(id, state)
+	self.sortId = id
+	self.sortState = state
+
+	self:sortEquipmentList()
+end
+
 function Outfitter:onClose()
 	return
 end
@@ -379,6 +419,35 @@ function Outfitter:drawSellButton(data)
 	if customButton(l.SELL_EQUIP % data, icon, price_text, variant) and self.canSellEquip then
 		self:message("onSellItem", data.equip)
 	end
+end
+
+function Outfitter:drawSortButton(id, label, state)
+	local variant = state and ui.theme.buttonColors.dark or ui.theme.buttonColors.deselected
+	local sortIcon = ""
+
+	if state then
+		sortIcon = (state > 0 and ui.get_icon_glyph(icons.chevron_up) or ui.get_icon_glyph(icons.chevron_down)) .. " "
+	end
+
+	local clicked = ui.button(sortIcon .. label, Vector2(ui.getContentRegion().x, 0), variant, nil, styles.IconButtonPadding)
+
+	if clicked then
+		state = (not state and 1) or (state > 0 and -1) or nil
+
+		self:message("onSetSort", state and id, state)
+	end
+end
+
+function Outfitter:drawSortRow()
+	ui.beginTable("sort", #Outfitter.SortKeys)
+	ui.tableNextRow()
+
+	for i, sort in ipairs(Outfitter.SortKeys) do
+		ui.tableSetColumnIndex(i - 1)
+		self:drawSortButton(sort.id, sort.label, self.sortId == sort.id and self.sortState or nil)
+	end
+
+	ui.endTable()
 end
 
 ---@param label string
@@ -473,16 +542,22 @@ function Outfitter:render()
 	ui.child("##ListPane", Vector2(panelWidth, 0), function()
 
 		ui.withStyleVars({ FrameRounding = 4 }, function()
-			if ui.button("<") then
-				self:message("onClose")
-			end
+			ui.withFont(orbiteer.heading, function()
+				if ui.iconButton("back", icons.decrease_thick, l.CLOSE, nil, nil, styles.IconButtonPadding * 1.5) then
+					self:message("onClose")
+				end
+
+				ui.sameLine()
+
+				ui.alignTextToFramePadding()
+				ui.text(self.replaceEquip and l.REPLACE_EQUIPMENT or l.AVAILABLE_FOR_PURCHASE)
+			end)
+
+			ui.withFont(pionillium.details, function()
+				self:drawSortRow()
+			end)
 		end)
 
-		ui.sameLine()
-
-		ui.withFont(pionillium.heading, function()
-			ui.text(self.replaceEquip and l.REPLACE_EQUIPMENT_WITH or l.AVAILABLE_FOR_PURCHASE)
-		end)
 
 		ui.spacing()
 

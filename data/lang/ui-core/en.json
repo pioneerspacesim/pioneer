@@ -65,7 +65,7 @@
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "Market header when buying items",
-    "message": "Available For Purchase:"
+    "message": "Available For Purchase"
   },
   "AVERAGE": {
     "description": "",
@@ -2011,9 +2011,9 @@
     "description": "",
     "message": "Repair {damage}% hull damage for {price}"
   },
-  "REPLACE_EQUIPMENT_WITH": {
+  "REPLACE_EQUIPMENT": {
     "description": "Market header when replacing equipped items",
-    "message": "Replace Equipment With:"
+    "message": "Replace Equipment"
   },
   "REPUTATION": {
     "description": "",

@@ -526,5 +526,21 @@
   "MISC_EQUIPMENT": {
 	"description": "Category header for miscellaneous equipment",
 	"message": "Miscellaneous"
+  },
+  "SORT_NAME": {
+	"description": "",
+	"message": "Name"
+  },
+  "SORT_WEIGHT": {
+	"description": "",
+	"message": "Weight"
+  },
+  "SORT_VOLUME": {
+	"description": "",
+	"message": "Volume"
+  },
+  "SORT_PRICE": {
+	"description": "",
+	"message": "Price"
   }
 }

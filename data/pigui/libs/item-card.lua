@@ -149,7 +149,7 @@ function ItemCard:draw(data, isSelected)
 				local offset = fieldSize * (i - 1) + smIconSize.x + 2
 				ui.setCursorScreenPos(pos + Vector2(offset, 1)) -- HACK: force 1-pixel offset here to align baselines
 				ui.text(v[2])
-				if v[3] and ui.isItemHovered() then
+				if v[3] and ui.isItemHovered("ForTooltip") then
 					detailTooltip = v
 				end
 			end
@@ -174,7 +174,7 @@ function ItemCard:draw(data, isSelected)
 
 	ui.endGroup()
 
-	if ui.isItemHovered() and not detailTooltip then
+	if ui.isItemHovered("ForTooltip") and not detailTooltip then
 		self:drawTooltip(data, isSelected)
 	end
 
