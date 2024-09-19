@@ -47,7 +47,7 @@ local EquipCard = utils.inherits(ItemCard, "UI.EquipCard")
 ---@field type string?
 ---@field size string?
 ---@field equip EquipType?
----@field slot ShipDef.Slot?
+---@field slot HullConfig.Slot?
 ---@field present integer?
 ---@field total integer?
 ---@field stats EquipType.UI.Stats[] | nil

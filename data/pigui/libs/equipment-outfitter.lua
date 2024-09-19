@@ -166,7 +166,7 @@ function Outfitter:Constructor()
 
 	self.ship = nil ---@type Ship
 	self.station = nil ---@type SpaceStation
-	self.filterSlot = nil ---@type ShipDef.Slot?
+	self.filterSlot = nil ---@type HullConfig.Slot?
 	self.replaceEquip = nil ---@type EquipType?
 	self.canSellEquip = false
 

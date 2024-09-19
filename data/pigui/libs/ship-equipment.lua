@@ -139,7 +139,7 @@ function EquipmentWidget:Constructor(id)
 
 	---@type EquipType?
 	self.selectedEquip = nil
-	---@type ShipDef.Slot?
+	---@type HullConfig.Slot?
 	self.selectedSlot = nil
 	self.selectionActive = false
 
@@ -155,7 +155,7 @@ function EquipmentWidget:Constructor(id)
 	self.id = id or "EquipmentWidget"
 
 	self.sectionList = {}
-	---@type table<ShipDef.Slot, UI.EquipCard.Data>
+	---@type table<HullConfig.Slot, UI.EquipCard.Data>
 	self.adjacentSlots = {}
 end
 
@@ -199,7 +199,7 @@ end
 
 -- Return the translated name of a slot, falling back to a generic name for the
 -- slot type if none is specified.
----@param slot ShipDef.Slot
+---@param slot HullConfig.Slot
 function EquipmentWidget:getSlotName(slot)
 	if slot.i18n_key then
 		return Lang.GetResource(slot.i18n_res)[slot.i18n_key]

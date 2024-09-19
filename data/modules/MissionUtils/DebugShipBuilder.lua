@@ -1,8 +1,11 @@
+-- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local debugView = require 'pigui.views.debug'
+local HullConfig = require 'HullConfig'
 local ShipDef = require 'ShipDef'
 local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
-local ShipConfig = require 'ShipConfig'
+
+local debugView = require 'pigui.views.debug'
 
 local Rules = ShipBuilder.OutfitRules
 
@@ -97,7 +100,7 @@ debugView.registerTab("ShipBuilder", {
 				end
 
 				if ui.collapsingHeader("Slots") then
-					local config = ShipConfig[self.selectedHull]
+					local config = HullConfig.GetHullConfigs()[self.selectedHull]
 
 					for k, v in pairs(config.slots) do
 						ui.text(k)

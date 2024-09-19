@@ -3,18 +3,19 @@
 
 local ShipDef = require 'ShipDef'
 local Serializer = require 'Serializer'
+
 local utils = require 'utils'
 
--- Class: ShipDef.Slot
+-- Class: HullConfig.Slot
 --
 -- Generic interface for an equipment-containing slot in a shipdef
 --
 -- Represents a constrained potential mounting point for ship equipment
 -- either internal or external to a ship.
 -- Can contain additional fields for specific slot types.
----@class ShipDef.Slot
+---@class HullConfig.Slot
 ---@field clone fun(self, mixin):self
-local Slot = utils.proto("ShipDef.Slot")
+local Slot = utils.proto("HullConfig.Slot")
 
 Slot.id = ""
 Slot.type = ""
@@ -27,42 +28,44 @@ Slot.i18n_key = nil ---@type string?
 Slot.i18n_res = "equipment-core"
 Slot.count = nil ---@type integer?
 
--- Class: ShipDef.Config
+-- Class: HullConfig
 --
 -- Represents a specific "ship configuration", being a list of equipment slots
 -- and associated data.
 --
 -- The default configuration for a ship hull is defined in its JSON shipdef and
 -- consumed by Lua as a ship config.
----@class ShipDef.Config
+---@class HullConfig
 ---@field clone fun():self
-local ShipConfig = utils.proto("ShipDef.Config")
+local HullConfig = utils.proto("HullConfig")
 
-ShipConfig.id = ""
-ShipConfig.capacity = 0
+HullConfig.id = ""
+HullConfig.capacity = 0
 
 -- Default slot config for a new shipdef
 -- Individual shipdefs can redefine slots or remove them by setting the slot to 'false'
----@type table<string, ShipDef.Slot>
-ShipConfig.slots = {
+---@type table<string, HullConfig.Slot>
+HullConfig.slots = {
 	sensor     = Slot:clone { type = "sensor",     size = 1 },
 	computer_1 = Slot:clone { type = "computer",   size = 1 },
-	computer_2 = Slot:clone { type = "computer",   size = 1 },
 	hull_mod   = Slot:clone { type = "hull",       size = 1 },
 	hyperdrive = Slot:clone { type = "hyperdrive", size = 1 },
 	thruster   = Slot:clone { type = "thruster",   size = 1 },
-	scoop      = Slot:clone { type = "scoop",      size = 1, hardpoint = true },
 }
 
-function ShipConfig:__clone()
+function HullConfig:__clone()
 	self.slots = utils.map_table(self.slots, function(key, slot)
 		return key, slot:clone()
 	end)
 end
 
+Serializer:RegisterClass("HullConfig", HullConfig)
+Serializer:RegisterClass("HullConfig.Slot", Slot)
+
+--==============================================================================
+
 local function CreateShipConfig(def)
-	---@class ShipDef.Config
-	local newShip = ShipConfig:clone()
+	local newShip = HullConfig:clone()
 	Serializer:RegisterPersistent("ShipDef." .. def.id, newShip)
 
 	newShip.id = def.id
@@ -80,19 +83,26 @@ local function CreateShipConfig(def)
 		slot.id = name
 	end
 
-	-- if def.id == 'coronatrix' then utils.print_r(newShip) end
-
 	return newShip
 end
 
----@type table<string, ShipDef.Config>
-local Config = {}
+---@type table<string, HullConfig>
+local Configs = {}
 
 for id, def in pairs(ShipDef) do
-	Config[id] = CreateShipConfig(def)
+	if def.tag == "SHIP" or def.tag == "STATIC_SHIP" then
+		Configs[id] = CreateShipConfig(def)
+	end
 end
 
-Serializer:RegisterClass("ShipDef.Config", ShipConfig)
-Serializer:RegisterClass("ShipDef.Slot", Slot)
+local function GetHullConfigs()
+	return Configs
+end
 
-return Config
+--==============================================================================
+
+return {
+	Config = HullConfig,
+	Slot = Slot,
+	GetHullConfigs = GetHullConfigs
+}

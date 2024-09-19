@@ -1,7 +1,7 @@
 -- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local ShipConfig = require 'ShipConfig'
+local HullConfig = require 'HullConfig'
 local Serializer = require 'Serializer'
 
 local utils = require 'utils'
@@ -27,7 +27,7 @@ EquipSet.SlotTypeMatches = slotTypeMatches
 -- Static helper function to check if the given equipment item is compatible
 -- with the given slot object. Validates type and size parameters of the slot.
 ---@param equip EquipType
----@param slot ShipDef.Slot?
+---@param slot HullConfig.Slot?
 function EquipSet.CompatibleWithSlot(equip, slot)
 	local equipSlot = equip.slot or false
 	if not slot then return not equipSlot end
@@ -41,7 +41,7 @@ end
 ---@param ship Ship
 function EquipSet:Constructor(ship)
 	self.ship = ship
-	self.config = ShipConfig[ship.shipId]
+	self.config = HullConfig.GetHullConfigs()[ship.shipId]
 
 	-- Stores a mapping of slot id -> equipment item
 	-- Non-slot equipment is stored in the array portion
@@ -53,10 +53,10 @@ function EquipSet:Constructor(ship)
 
 	-- Stores a mapping of slot id -> slot handle
 	-- Simplifies slot lookup for slots defined on equipment items
-	self.slotCache = {} ---@type table<string, ShipDef.Slot>
+	self.slotCache = {} ---@type table<string, HullConfig.Slot>
 	-- Stores the inverse mapping for looking up the compound id of a slot by
 	-- the slot object itself.
-	self.idCache = {} ---@type table<ShipDef.Slot, string>
+	self.idCache = {} ---@type table<HullConfig.Slot, string>
 
 	self:BuildSlotCache()
 
@@ -81,7 +81,7 @@ end
 -- Return a reference to the slot with the given ID managed by this EquipSet.
 -- The returned slot should be considered immutable.
 ---@param id string
----@return ShipDef.Slot?
+---@return HullConfig.Slot?
 function EquipSet:GetSlotHandle(id)
 	return self.slotCache[id]
 end
@@ -89,7 +89,7 @@ end
 -- Function: GetItemInSlot
 --
 -- Return the equipment item installed in the given slot, if present.
----@param slot ShipDef.Slot
+---@param slot HullConfig.Slot
 ---@return EquipType?
 function EquipSet:GetItemInSlot(slot)
 	-- The equipment item is not stored in the slot itself to reduce savefile
@@ -106,7 +106,7 @@ end
 -- installed. Does not attempt to find the most optimal slot - the first slot
 -- which meets the type and size constraints for the equipment item is returned.
 ---@param equip EquipType
----@return ShipDef.Slot?
+---@return HullConfig.Slot?
 function EquipSet:GetFreeSlotForEquip(equip)
 	if not equip.slot then return nil end
 
@@ -131,7 +131,7 @@ end
 -- If hardpoint is not specified, returns both hardpoint and internal slots.
 ---@param type string
 ---@param hardpoint boolean?
----@return ShipDef.Slot[]
+---@return HullConfig.Slot[]
 function EquipSet:GetAllSlotsOfType(type, hardpoint)
 	local t = {}
 
@@ -232,7 +232,7 @@ end
 -- If there is an item in the current slot, validates the fit as though that
 -- item were not currently installed.
 -- Returns false if the equipment item is not compatible with slot mounting.
----@param slotHandle ShipDef.Slot
+---@param slotHandle HullConfig.Slot
 ---@param equipment EquipType
 function EquipSet:CanInstallInSlot(slotHandle, equipment)
 	local equipped = self:GetItemInSlot(slotHandle)
@@ -278,7 +278,7 @@ end
 -- The passed slot must be a slot returned from caling GetSlotHandle or
 -- GetAllSlotsOfType on this EquipSet.
 ---@param equipment EquipType
----@param slotHandle ShipDef.Slot?
+---@param slotHandle HullConfig.Slot?
 ---@return boolean
 function EquipSet:Install(equipment, slotHandle)
 	print("Installing equip {} in slot {}" % { equipment:GetName(), slotHandle })

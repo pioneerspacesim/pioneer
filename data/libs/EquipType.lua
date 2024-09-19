@@ -44,7 +44,7 @@ local misc = {}
 ---@field transient table
 ---@field slots table -- deprecated
 ---@field count integer?
----@field provides_slots table<string, ShipDef.Slot>?
+---@field provides_slots table<string, HullConfig.Slot>?
 ---@field __proto EquipType?
 local EquipType = utils.inherits(nil, "EquipType")
 
@@ -97,7 +97,7 @@ end
 
 -- Override this with a function customizing the equipment instance for the passed ship
 -- (E.g. for equipment with mass/volume/cost dependent on the specific ship hull)
-EquipType.SpecializeForShip = nil ---@type nil | fun(self: self, ship: ShipDef.Config)
+EquipType.SpecializeForShip = nil ---@type nil | fun(self: self, ship: HullConfig)
 
 function EquipType._createTransient(obj)
 	local l = Lang.GetResource(obj.l10n_resource)
@@ -108,7 +108,7 @@ function EquipType._createTransient(obj)
 end
 
 ---@param ship Ship
----@param slot ShipDef.Slot?
+---@param slot HullConfig.Slot?
 function EquipType:OnInstall(ship, slot)
 	-- Extend this for any custom installation logic needed
 	-- (e.g. mounting weapons)
@@ -120,7 +120,7 @@ function EquipType:OnInstall(ship, slot)
 end
 
 ---@param ship Ship
----@param slot ShipDef.Slot?
+---@param slot HullConfig.Slot?
 function EquipType:OnRemove(ship, slot)
 	-- Override this for any custom uninstallation logic needed
 end
@@ -268,7 +268,7 @@ end
 local LaserType = utils.inherits(EquipType, "LaserType")
 
 ---@param ship Ship
----@param slot ShipDef.Slot
+---@param slot HullConfig.Slot
 function LaserType:OnInstall(ship, slot)
 	for k, v in ipairs(self.laser_stats) do
 		-- TODO: allow installing more than one laser
@@ -277,7 +277,7 @@ function LaserType:OnInstall(ship, slot)
 end
 
 ---@param ship Ship
----@param slot ShipDef.Slot
+---@param slot HullConfig.Slot
 function LaserType:OnUninstall(ship, slot)
 	for k, v in ipairs(self.laser_stats) do
 		-- TODO: allow installing more than one laser

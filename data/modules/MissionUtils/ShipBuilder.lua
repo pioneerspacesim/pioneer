@@ -5,8 +5,8 @@ local Engine     = require 'Engine'
 local Equipment  = require 'Equipment'
 local EquipSet   = require 'EquipSet'
 local Event      = require 'Event'
+local HullConfig = require 'HullConfig'
 local ShipDef    = require 'ShipDef'
-local ShipConfig = require 'ShipConfig'
 local Space      = require 'Space'
 local Ship       = require 'Ship'
 
@@ -443,11 +443,11 @@ function ShipBuilder.SelectHull(template, threat)
 
 	local shipId = hullList[Engine.rand:Integer(1, #hullList)]
 
-	return ShipConfig[shipId]
+	return HullConfig.GetHullConfigs()[shipId]
 end
 
 ---@param production table
----@param shipConfig ShipDef.Config
+---@param shipConfig HullConfig
 function ShipBuilder.MakePlan(production, shipConfig, threat)
 
 	local hullThreat = ShipBuilder.GetHullThreat(shipConfig.id).total
