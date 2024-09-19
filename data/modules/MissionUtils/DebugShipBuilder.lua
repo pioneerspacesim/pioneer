@@ -4,6 +4,7 @@
 local HullConfig = require 'HullConfig'
 local ShipDef = require 'ShipDef'
 local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
+local utils       = require 'utils'
 
 local debugView = require 'pigui.views.debug'
 
@@ -18,7 +19,9 @@ local debugRule = ShipBuilder.Template:clone {
 		{
 			slot = "weapon",
 			filter = "weapon.energy",
-			limit = 1
+			pick = "random",
+			limit = 1,
+			maxThreatFactor = 0.6
 		},
 		{
 			slot = "missile_rack",
@@ -38,10 +41,17 @@ local debugRule = ShipBuilder.Template:clone {
 		{
 			slot = "shield",
 			maxSize = 1,
-			limit = 2
+			limit = 2,
+			balance = true
 		},
 		Rules.DefaultHyperdrive,
-		Rules.DefaultLaserCooling,
+		-- Rules.DefaultLaserCooling,
+		{
+			slot = nil,
+			equip = "misc.laser_cooling_booster",
+			limit = 1,
+			minThreat = 15.0
+		},
 		Rules.DefaultAtmoShield,
 	}
 }
@@ -53,7 +63,7 @@ debugView.registerTab("ShipBuilder", {
 	selectedHull = nil,
 	spawnThreat = 20.0,
 
-	show = function() return not require 'Game':InHyperspace() end,
+	show = function() return require 'Game'.player end,
 
 	draw = function(self)
 		self.spawnThreat = ui.sliderFloat("Threat", self.spawnThreat, 1.0, 200.0)
@@ -81,8 +91,6 @@ debugView.registerTab("ShipBuilder", {
 			if self.selectedHull then
 				if ui.button("<") then
 					self.selectedHull = nil
-
-					ui.endTabItem()
 					return
 				end
 
@@ -114,14 +122,22 @@ debugView.registerTab("ShipBuilder", {
 					end
 				end
 			else
-				for id, def in pairs(ShipDef) do
-					if ui.selectable(id) then
-						self.selectedHull = id
-					end
+				local hulls = utils.build_array(pairs(ShipDef))
 
-					local threat = ShipBuilder.GetHullThreat(id)
-					ui.sameLine()
-					ui.text("threat: " .. tostring(threat.total))
+				table.sort(hulls, function(a, b)
+					return ShipBuilder.GetHullThreat(a.id).total < ShipBuilder.GetHullThreat(b.id).total
+				end)
+
+				for _, def in ipairs(hulls) do
+					if def.tag == "SHIP" then
+						if ui.selectable(def.id) then
+							self.selectedHull = def.id
+						end
+
+						local threat = ShipBuilder.GetHullThreat(def.id)
+						ui.sameLine()
+						ui.text("threat: " .. tostring(threat.total))
+					end
 				end
 			end
 		end)
