@@ -30,15 +30,21 @@
 			"gimbal": [ 5, 5 ],
 			"hardpoint": true
 		},
-		"missile_bay": {
-			"type": "missile",
+		"missile_bay_1": {
+			"type": "missile_rack.opli_internal",
 			"size": 2,
-			"size_min": 1,
-			"count": 5,
 			"i18n_key": "HARDPOINT_MISSILE_BAY",
 			"tag": "tag_missile_launch",
 			"hardpoint": true,
-			"default": "missile.guided_s2"
+			"default": "missile_rack.opli_internal_s2"
+		},
+		"missile_bay_2": {
+			"type": "missile_rack.opli_internal",
+			"size": 2,
+			"i18n_key": "HARDPOINT_MISSILE_BAY",
+			"tag": "tag_missile_launch",
+			"hardpoint": true,
+			"default": "missile_rack.opli_internal_s2"
 		},
 		"utility_1": {
 			"type": "utility",

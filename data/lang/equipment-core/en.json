@@ -479,6 +479,10 @@
 	"description": "Name for the 'Laser Front' equipment hardpoint",
 	"message": "Laser Front"
   },
+  "HARDPOINT_MISSILE": {
+	"description": "",
+	"message": "Missile"
+  },
   "HARDPOINT_MISSILE_BAY": {
 	"description": "Name for the 'Missile Bay' equipment hardpoint",
 	"message": "Missile Bay"
@@ -542,5 +546,9 @@
   "SORT_PRICE": {
 	"description": "",
 	"message": "Price"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S2": {
+	"description": "",
+	"message": "OPLI Internal Missile Rack"
   }
 }
