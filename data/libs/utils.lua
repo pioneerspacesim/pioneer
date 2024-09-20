@@ -494,6 +494,11 @@ utils.proto = function(classname)
 	return newProto
 end
 
+-- Return a copy of a with the values from b added to it
+function utils.mixin(a, b)
+	return table.append(table.copy(a), b)
+end
+
 --
 -- Function: print_r
 --

@@ -85,9 +85,15 @@ end
 ---@param predicate nil|fun(k: K, v: V): any, any
 ---@return table
 table.merge = function(a, b, predicate)
-	for k, v in pairs(b) do
-		if predicate then k, v = predicate(k, v) end
-		a[k] = v
+	if predicate then
+		for k, v in pairs(b) do
+			k, v = predicate(k, v)
+			a[k] = v
+		end
+	else
+		for k, v in pairs(b) do
+			a[k] = v
+		end
 	end
 	return a
 end
@@ -102,9 +108,15 @@ end
 ---@param predicate nil|fun(v: T): any
 ---@return table
 table.append = function(a, b, predicate)
-	for _, v in ipairs(b) do
-		if predicate then v = predicate(v) end
-		table.insert(a, v)
+	if predicate then
+		for _, v in ipairs(b) do
+			v = predicate(v)
+			table.insert(a, v)
+		end
+	else
+		for _, v in ipairs(b) do
+			table.insert(a, v)
+		end
 	end
 	return a
 end
