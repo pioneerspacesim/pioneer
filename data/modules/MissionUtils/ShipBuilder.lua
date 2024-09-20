@@ -547,7 +547,7 @@ end
 ---@param threat number?
 ---@param nearDist number?
 ---@param farDist number?
----@return Ship?
+---@return Ship
 function ShipBuilder.MakeShipNear(body, template, threat, nearDist, farDist)
 	if not threat then
 		threat = Engine.rand:Number(ShipBuilder.kDefaultRandomThreatMin, ShipBuilder.kDefaultRandomThreatMax)
@@ -569,8 +569,58 @@ end
 
 ---@param body Body
 ---@param template MissionUtils.ShipTemplate
+---@param threat number
+---@param nearDist number
+---@param farDist number
+---@return Ship
+function ShipBuilder.MakeShipOrbit(body, template, threat, nearDist, farDist)
+	if not threat then
+		threat = Engine.rand:Number(ShipBuilder.kDefaultRandomThreatMin, ShipBuilder.kDefaultRandomThreatMax)
+	end
+
+	local hullConfig = ShipBuilder.SelectHull(template, threat)
+	assert(hullConfig)
+
+	local plan = ShipBuilder.MakePlan(template, hullConfig, threat)
+	assert(plan)
+
+	local ship = Space.SpawnShipOrbit(plan.shipId, body, nearDist, farDist)
+	assert(ship)
+
+	ShipBuilder.ApplyPlan(ship, plan)
+
+	return ship
+end
+
+---@param body Body
+---@param template MissionUtils.ShipTemplate
+---@param threat number
+---@param lat number
+---@param lon number
+---@return Ship
+function ShipBuilder.MakeShipLanded(body, template, threat, lat, lon)
+	if not threat then
+		threat = Engine.rand:Number(ShipBuilder.kDefaultRandomThreatMin, ShipBuilder.kDefaultRandomThreatMax)
+	end
+
+	local hullConfig = ShipBuilder.SelectHull(template, threat)
+	assert(hullConfig)
+
+	local plan = ShipBuilder.MakePlan(template, hullConfig, threat)
+	assert(plan)
+
+	local ship = Space.SpawnShipLanded(plan.shipId, body, lat, lon)
+	assert(ship)
+
+	ShipBuilder.ApplyPlan(ship, plan)
+
+	return ship
+end
+
+---@param body Body
+---@param template MissionUtils.ShipTemplate
 ---@param threat number?
----@return Ship?
+---@return Ship
 function ShipBuilder.MakeShipDocked(body, template, threat)
 	if not threat then
 		threat = Engine.rand:Number(ShipBuilder.kDefaultRandomThreatMin, ShipBuilder.kDefaultRandomThreatMax)
@@ -591,48 +641,6 @@ function ShipBuilder.MakeShipDocked(body, template, threat)
 end
 
 -- =============================================================================
-
-local randomPulsecannonEasyRule = {
-	slot = "weapon",
-	filter = "weapon.energy.pulsecannon",
-	pick = "random",
-	maxSize = 3,
-	limit = 1
-}
-
-local pirateProduction = Template:clone {
-	role = "pirate",
-	rules = {
-		Rules.DefaultHyperdrive,
-		randomPulsecannonEasyRule,
-		Rules.DefaultAtmoShield,
-		Rules.DefaultShieldGen,
-		Rules.DefaultAutopilot
-	}
-}
-
----@param player Ship
----@param nearDist number?
----@param farDist number?
-function ShipBuilder.MakeGenericPirateNear(player, risk, nearDist, farDist)
-
-	local ship = ShipBuilder.MakeShipNear(player, pirateProduction, risk, nearDist, farDist)
-
-	-- TODO: handle risk/difficulty-based installation of equipment as part of
-	-- the loadout rules
-	local equipSet = ship:GetComponent('EquipSet')
-
-	if Engine.rand:Number(2) <= risk then
-		equipSet:Install(Equipment.Get("misc.laser_cooling_booster"))
-	end
-
-	if Engine.rand:Number(3) <= risk then
-		equipSet:Install(Equipment.Get("misc.shield_energy_booster"))
-	end
-
-	return ship
-
-end
 
 -- Generate a cache of combined hull threat factor for each ship in the game
 function ShipBuilder.BuildHullThreatCache()
