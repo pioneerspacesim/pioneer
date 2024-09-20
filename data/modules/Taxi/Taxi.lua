@@ -16,20 +16,7 @@ local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
 local ShipDef = require 'ShipDef'
 local utils = require 'utils'
 
-local OutfitRules = ShipBuilder.OutfitRules
-
-local PirateTemplate = ShipBuilder.Template:clone {
-	role = "pirate",
-	rules = {
-		OutfitRules.PulsecannonModerateWeapon,
-		OutfitRules.PulsecannonEasyWeapon,
-		OutfitRules.EasyShieldGen,
-		OutfitRules.DefaultHyperdrive,
-		OutfitRules.DefaultAtmoShield,
-		utils.mixin(OutfitRules.DefaultLaserCooling, { minThreat = 40.0 }),
-		utils.mixin(OutfitRules.DefaultShieldBooster, { minThreat = 30.0 }),
-	}
-}
+local PirateTemplate = MissionUtils.ShipTemplates.GenericPirate
 
 -- Get the language resource
 local l = Lang.GetResource("module-taxi")

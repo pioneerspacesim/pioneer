@@ -18,7 +18,6 @@ local ShipDef = require 'ShipDef'
 local Ship = require 'Ship'
 local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
 local HullConfig  = require 'HullConfig'
-local OutfitRules = ShipBuilder.OutfitRules
 local utils = require 'utils'
 
 local lc = Lang.GetResource 'core'
@@ -27,24 +26,7 @@ local l = Lang.GetResource("module-assassination")
 -- don't produce missions for further than this many light years away
 local max_ass_dist = 30
 
-local AssassinationTargetShip = ShipBuilder.Template:clone {
-	role = "mercenary",
-	rules = {
-		OutfitRules.DifficultWeapon,
-		OutfitRules.ModerateWeapon,
-		OutfitRules.EasyWeapon,
-		-- Set shield gens according to mission difficulty
-		OutfitRules.DifficultShieldGen,
-		OutfitRules.ModerateShieldGen,
-		OutfitRules.EasyShieldGen,
-		-- Enable add-on equipment based on mission difficulty
-		utils.mixin(OutfitRules.DefaultShieldBooster, { minThreat = 30.0 }),
-		utils.mixin(OutfitRules.DefaultLaserCooling, { minThreat = 40.0 }),
-		-- Default equipment in remaining space
-		OutfitRules.DefaultHyperdrive,
-		OutfitRules.DefaultAtmoShield,
-	}
-}
+local AssassinationTargetShip = MissionUtils.ShipTemplates.GenericMercenary
 
 local flavours = {}
 for i = 0,5 do

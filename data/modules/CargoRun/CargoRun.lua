@@ -22,32 +22,8 @@ local l = Lang.GetResource("module-cargorun")
 local l_ui_core = Lang.GetResource("ui-core")
 local lc = Lang.GetResource 'core'
 
-local PirateTemplate = ShipBuilder.Template:clone {
-	role = "pirate",
-	rules = {
-		OutfitRules.PulsecannonModerateWeapon,
-		OutfitRules.PulsecannonEasyWeapon,
-		OutfitRules.EasyShieldGen,
-		OutfitRules.DefaultHyperdrive,
-		OutfitRules.DefaultAtmoShield,
-		utils.mixin(OutfitRules.DefaultLaserCooling, { minThreat = 40.0 }),
-		utils.mixin(OutfitRules.DefaultShieldBooster, { minThreat = 30.0 }),
-	}
-}
-
-local EscortTemplate = ShipBuilder.Template:clone {
-	role = "police",
-	label = l_ui_core.POLICE,
-	rules = {
-		OutfitRules.ModerateWeapon,
-		OutfitRules.EasyWeapon,
-		OutfitRules.ModerateShieldGen,
-		OutfitRules.EasyShieldGen,
-		utils.mixin(OutfitRules.DefaultLaserCooling, { minThreat = 30.0 }),
-		OutfitRules.DefaultHyperdrive,
-		OutfitRules.DefaultAtmoShield
-	}
-}
+local PirateTemplate = MissionUtils.ShipTemplates.WeakPirate
+local EscortTemplate = MissionUtils.ShipTemplates.GenericPolice
 
 -- don't produce missions for further than this many light years away
 local max_delivery_dist = 15
@@ -557,6 +533,7 @@ local onEnterSystem = function (player)
 
 				if mission.wholesaler or Engine.rand:Number(0, 1) >= 0.75 then
 					local policeTemplate = EscortTemplate:clone {
+						label = Game.system.faction.policeName,
 						shipId = Game.system.faction.policeShip
 					}
 

@@ -15,16 +15,13 @@ local Engine      = require 'Engine'
 local Timer       = require 'Timer'
 local Game        = require 'Game'
 local Ship        = require 'Ship'
-local Model       = require 'SceneGraph.Model'
 local ModelSkin   = require 'SceneGraph.ModelSkin'
 local Serializer  = require 'Serializer'
 local Equipment   = require 'Equipment'
-local Commodities = require 'Commodities'
-local Faction     = require 'Faction'
 local Lang        = require 'Lang'
 
 local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
-local Rules       = ShipBuilder.OutfitRules
+local ShipTemplates = require 'modules.MissionUtils.ShipTemplates'
 
 local l = Lang.GetResource("ui-core")
 
@@ -634,20 +631,6 @@ SpaceStation.lawEnforcedRange = 50000
 
 local police = {}
 
-local policeTemplate = ShipBuilder.Template:clone {
-	role = "police",
-	label = l.POLICE,
-	rules = {
-		{
-			slot = "weapon",
-			equip = "laser.pulsecannon_dual_1mw",
-			limit = 1
-		},
-		Rules.DefaultAtmoShield,
-		Rules.DefaultLaserCooling
-	}
-}
-
 --
 -- Method: LaunchPolice
 --
@@ -682,8 +665,9 @@ function SpaceStation:LaunchPolice(targetShip)
 		-- In a high-law area, a spacestation has a bunch of traffic cops due to low crime rates
 		local shipThreat = 10.0 + Engine.rand:Number(10, 50) * lawlessness
 
-		local shipTemplate = policeTemplate:clone {
-			shipId = Game.system.faction.policeShip
+		local shipTemplate = ShipTemplates.StationPolice:clone {
+			shipId = Game.system.faction.policeShip,
+			label = Game.system.faction.policeName or l.POLICE,
 		}
 
 		-- create and equip them

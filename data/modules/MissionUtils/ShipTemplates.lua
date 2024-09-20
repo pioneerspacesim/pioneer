@@ -75,4 +75,39 @@ ShipTemplates.GenericPolice = ShipBuilder.Template:clone {
 	}
 }
 
+ShipTemplates.StationPolice = ShipBuilder.Template:clone {
+	role = "police",
+	rules = {
+		{
+			slot = "weapon",
+			equip = "laser.pulsecannon_dual_1mw",
+			limit = 1
+		},
+		OutfitRules.ModerateShieldGen,
+		-- Always has laser cooling but no need for hyperdrive
+		OutfitRules.DefaultLaserCooling,
+		OutfitRules.DefaultAtmoShield,
+		OutfitRules.DefaultAutopilot
+	}
+}
+
+ShipTemplates.GenericMercenary = ShipBuilder.Template:clone {
+	role = "mercenary",
+	rules = {
+		OutfitRules.DifficultWeapon,
+		OutfitRules.ModerateWeapon,
+		OutfitRules.EasyWeapon,
+		-- Set shield gens according to mission difficulty
+		OutfitRules.DifficultShieldGen,
+		OutfitRules.ModerateShieldGen,
+		OutfitRules.EasyShieldGen,
+		-- Enable add-on equipment based on mission difficulty
+		utils.mixin(OutfitRules.DefaultLaserCooling, { minThreat = 40.0 }),
+		utils.mixin(OutfitRules.DefaultShieldBooster, { minThreat = 30.0 }),
+		-- Default equipment in remaining space
+		OutfitRules.DefaultHyperdrive,
+		OutfitRules.DefaultAtmoShield,
+	}
+}
+
 return ShipTemplates
