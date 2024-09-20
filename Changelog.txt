@@ -1,3 +1,10 @@
+September 2024
+  * New Features
+    * Icelandic culture name generator fix-up (#5913)
+
+  * Internal
+    * Simplified random station selection for delivery missions (#5915)
+
 August 2024
   * New Features
     * Implement a consistent (and purple!) UI theme (#5865)
@@ -7,6 +14,8 @@ August 2024
     * Added/remade 3 new factions (#5892)
     * Add ability to reroll random systems to System Editor (#5901)
     * Clarify system-level economy display (#5900)
+    * Polaris is also found by name "North Star" (#5908)
+    * Add Hawaiian names (#5910)
 
   * Fixes
     * Fix crash in mission list in hyper space when combat mission (#5872)
@@ -15,12 +24,14 @@ August 2024
     * Fix intro screen ship spinner parade's lack of randomness for some (#5896)
     * Repopulate BBS with adverts if empty (#5894)
     * Better explanation of the combat mission due date (#5891)
+    * Create BBS if empty (#5912)
 
   * Internal Changes
     * Separating shield.models (#5853)
     * Separate shield meshes from ship models (#5840)
     * Don't build against lzcnt by default and enable USE_SSE42 only on Intel (#5871)
     * Improve PerfInfo debug window (#5899)
+    * Move local, and bright stars systems definitions from lua to json (#5911)
 
 July 2024
   * New Features
