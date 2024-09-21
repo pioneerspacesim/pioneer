@@ -87,9 +87,28 @@ ShipTemplates.StationPolice = ShipBuilder.Template:clone {
 			equip = "laser.pulsecannon_dual_1mw",
 			limit = 1
 		},
+		OutfitRules.ModerateWeapon,
+		OutfitRules.EasyWeapon,
 		OutfitRules.ModerateShieldGen,
 		-- Always has laser cooling but no need for hyperdrive
 		OutfitRules.DefaultLaserCooling,
+		OutfitRules.DefaultAtmoShield,
+		OutfitRules.DefaultAutopilot
+	}
+}
+
+ShipTemplates.PolicePatrol = ShipBuilder.Template:clone {
+	role = "police",
+	rules = {
+		{
+			slot = "weapon",
+			equip = "laser.pulsecannon_1mw",
+			limit = 1
+		},
+		OutfitRules.ModerateWeapon,
+		OutfitRules.EasyWeapon,
+		OutfitRules.ModerateShieldGen,
+		OutfitRules.EasyShieldGen,
 		OutfitRules.DefaultAtmoShield,
 		OutfitRules.DefaultAutopilot
 	}

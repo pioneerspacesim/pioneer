@@ -9,10 +9,11 @@ local Comms = require 'Comms'
 local Event = require 'Event'
 local Legal = require 'Legal'
 local Serializer = require 'Serializer'
-local Equipment = require 'Equipment'
-local ShipDef = require 'ShipDef'
 local Timer = require 'Timer'
 local Commodities = require 'Commodities'
+
+local MissionUtils = require 'modules.MissionUtils'
+local ShipBuilder  = require 'modules.MissionUtils.ShipBuilder'
 
 local l = Lang.GetResource("module-policepatrol")
 local l_ui_core = Lang.GetResource("ui-core")
@@ -83,8 +84,10 @@ local onShipHit = function (ship, attacker)
 	if not attacker:isa('Ship') then return end
 
 	-- Support all police, not only the patrol
-	local police = ShipDef[Game.system.faction.policeShip]
-	if ship.shipId == police.id and attacker.shipId ~= police.id then
+	-- TODO: this should use a property set on the ship rather than checking for the shipid
+	-- (what happens if the player is committing piracy in a police hull?)
+	local policeId = Game.system.faction.policeShip
+	if ship.shipId == policeId and attacker.shipId ~= policeId then
 		piracy = true
 		attackShip(attacker)
 	end
@@ -93,8 +96,8 @@ end
 local onShipFiring = function (ship)
 	if piracy or target then return end
 
-	local police = ShipDef[Game.system.faction.policeShip]
-	if ship.shipId ~= police.id then
+	local policeId = Game.system.faction.policeShip
+	if ship.shipId ~= policeId then
 		for i = 1, #patrol do
 			if ship:DistanceTo(patrol[i]) <= lawEnforcedRange then
 				Comms.ImportantMessage(string.interp(l_ui_core.X_CANNOT_BE_TOLERATED_HERE, { crime = l_ui_core.UNLAWFUL_WEAPONS_DISCHARGE }), patrol[i].label)
@@ -125,17 +128,23 @@ local onEnterSystem = function (player)
 
 	if not hasIllegalGoods(Commodities) then return end
 
-	local system = Game.system
+	local system = assert(Game.system)
 	if (1 - system.lawlessness) < Engine.rand:Number(4) then return end
 
 	local crimes, fine = player:GetCrimeOutstanding()
 	local ship
-	local shipdef = ShipDef[system.faction.policeShip]
 	local n = 1 + math.floor((1 - system.lawlessness) * (system.population / 3))
+
+	local threat = 10.0 + Engine.rand:Number(10, 50) * system.lawlessness
+	local template = MissionUtils.ShipTemplates.PolicePatrol:clone {
+		shipId = system.faction.policeShip,
+		label = system.faction.policeName
+	}
+
 	for i = 1, n do
-		ship = Space.SpawnShipNear(shipdef.id, player, 50, 100)
-		ship:SetLabel(l_ui_core.POLICE)
-		ship:AddEquip(Equipment.laser.pulsecannon_1mw)
+		ship = ShipBuilder.MakeShipNear(player, template, threat, 50, 100)
+		assert(ship)
+
 		table.insert(patrol, ship)
 	end
 
@@ -164,14 +173,14 @@ local onEnterSystem = function (player)
 		end
 	end
 
-	local police = ShipDef[system.faction.policeShip]
+	local policeId = system.faction.policeShip
 	Timer:CallEvery(15, function ()
 		if not Game.system or #patrol == 0 then return true end
 		if target then return false end
 
 		local ships = Space.GetBodiesNear(patrol[1], lawEnforcedRange, "Ship")
 		for _, enemy in ipairs(ships) do
-			if enemy.shipId ~= police.id and enemy:GetCurrentAICommand() == "CMD_KILL" then
+			if enemy.shipId ~= policeId and enemy:GetCurrentAICommand() == "CMD_KILL" then
 				if not piracy then
 					Comms.ImportantMessage(string.interp(l_ui_core.X_CANNOT_BE_TOLERATED_HERE, { crime = l_ui_core.PIRACY }), patrol[1].label)
 					Comms.ImportantMessage(string.interp(l["RESTRICTIONS_WITHDRAWN_" .. Engine.rand:Integer(1, getNumberOfFlavours("RESTRICTIONS_WITHDRAWN"))], { ship_label = player.label }), patrol[1].label)
