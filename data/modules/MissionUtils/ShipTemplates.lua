@@ -12,6 +12,7 @@ local ShipTemplates = {}
 
 ShipTemplates.StrongPirate = ShipBuilder.Template:clone {
 	role = "pirate",
+	hyperclass = 1,
 	rules = {
 		-- If the pirate is threatening enough, it can have any weapon,
 		-- otherwise it will get a simple spread of pulsecannons
@@ -33,6 +34,7 @@ ShipTemplates.StrongPirate = ShipBuilder.Template:clone {
 
 ShipTemplates.GenericPirate = ShipBuilder.Template:clone {
 	role = "pirate",
+	hyperclass = 1,
 	rules = {
 		OutfitRules.PulsecannonModerateWeapon,
 		OutfitRules.EasyWeapon,
@@ -48,6 +50,7 @@ ShipTemplates.GenericPirate = ShipBuilder.Template:clone {
 
 ShipTemplates.WeakPirate = ShipBuilder.Template:clone {
 	role = "pirate",
+	hyperclass = 1,
 	rules = {
 		OutfitRules.PulsecannonModerateWeapon,
 		OutfitRules.PulsecannonEasyWeapon,
@@ -62,6 +65,7 @@ ShipTemplates.WeakPirate = ShipBuilder.Template:clone {
 
 ShipTemplates.GenericPolice = ShipBuilder.Template:clone {
 	role = "police",
+	hyperclass = 1,
 	rules = {
 		OutfitRules.ModerateWeapon,
 		OutfitRules.EasyWeapon,
@@ -93,6 +97,7 @@ ShipTemplates.StationPolice = ShipBuilder.Template:clone {
 
 ShipTemplates.GenericMercenary = ShipBuilder.Template:clone {
 	role = "mercenary",
+	hyperclass = 1,
 	rules = {
 		OutfitRules.DifficultWeapon,
 		OutfitRules.ModerateWeapon,

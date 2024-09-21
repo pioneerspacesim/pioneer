@@ -14,7 +14,9 @@ local ui = require 'pigui'
 
 local debugRule = ShipBuilder.Template:clone {
 	label = "TEST SHIP",
-	shipId = 'coronatrix',
+	-- shipId = 'coronatrix',
+	hyperclass = 1,
+	role = "mercenary",
 	rules = {
 		{
 			slot = "weapon",

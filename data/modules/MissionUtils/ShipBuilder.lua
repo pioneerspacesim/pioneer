@@ -93,6 +93,7 @@ ShipBuilder.kShieldSharedHullThreat = 0.005
 local Template = utils.proto("MissionUtils.ShipTemplate")
 
 Template.role = nil ---@type string?
+Template.hyperclass = nil ---@type number?
 Template.shipId = nil ---@type string?
 Template.label = nil ---@type string?
 Template.rules = {} ---@type MissionUtils.OutfitRule[]
@@ -440,7 +441,11 @@ function ShipBuilder.SelectHull(template, threat)
 
 		for id, shipDef in pairs(ShipDef) do
 
-			if shipDef.tag == "SHIP" and (not template.role or shipDef.roles[template.role]) then
+			local acceptable = shipDef.tag == "SHIP"
+				and (not template.role or shipDef.roles[template.role])
+				and (not template.hyperclass or shipDef.hyperdriveClass >= template.hyperclass)
+
+			if acceptable then
 
 				local hullThreat = ShipBuilder.GetHullThreat(id).total
 
