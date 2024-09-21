@@ -9,15 +9,14 @@ local Comms = require 'Comms'
 local Event = require 'Event'
 local Timer = require 'Timer'
 local Mission = require 'Mission'
-local MissionUtils = require 'modules.MissionUtils'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
 local NameGen = require 'NameGen'
-local Equipment = require 'Equipment'
-local ShipDef = require 'ShipDef'
-local Ship = require 'Ship'
 local utils = require 'utils'
+
+local MissionUtils = require 'modules.MissionUtils'
+local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
 
 local l = Lang.GetResource("module-combat")
 local lc = Lang.GetResource 'core'
@@ -347,45 +346,26 @@ local onFrameChanged = function (player)
 
 			if ships < 1 and Engine.rand:Integer(math.ceil(1/mission.risk)) == 1 then ships = 1 end
 
-			local shipdefs = utils.build_array(utils.filter(
-				function (k,def)
-					return def.tag == "SHIP" and def.hyperdriveClass > 0 and def.equipSlotCapacity.laser_front > 0 and def.roles[mission.flavour.enemy]
-				end,
-				pairs(ShipDef)))
-			if #shipdefs == 0 then ships = 0 end
-
 			while ships > 0 do
 				ships = ships - 1
 
 				if Engine.rand:Number(1) <= mission.risk then
-					local shipdef = shipdefs[Engine.rand:Integer(1, #shipdefs)]
-					local default_drive = Equipment.hyperspace["hyperdrive_" .. tostring(shipdef.hyperdriveClass)]
 
-					local max_laser_size = shipdef.capacity - default_drive.capabilities.mass
-					local laserdefs = utils.build_array(utils.filter(
-						function (k,l)
-							return l:IsValidSlot("laser_front") and l.capabilities.mass <= max_laser_size and l.l10n_key:find("PULSECANNON")
-						end,
-						pairs(Equipment.laser)
-					))
-					local laserdef = laserdefs[Engine.rand:Integer(1, #laserdefs)]
+					local threat = 10 + mission.risk * 40.0
+
+					local template = MissionUtils.ShipTemplates.GenericMercenary:clone {
+						role = mission.flavour.enemy
+					}
 
 					local ship
 					if mission.location:GetSystemBody().type == "PLANET_GAS_GIANT" then
-						ship = Space.SpawnShipOrbit(shipdef.id, player.frameBody, 1.2 * planet_radius, 3.5 * planet_radius)
+						ship = ShipBuilder.MakeShipOrbit(player.frameBody, template, threat, 1.2 * planet_radius, 3.5 * planet_radius)
 					else
-						ship = Space.SpawnShipLanded(shipdef.id, player.frameBody, math.rad(Engine.rand:Number(360)), math.rad(Engine.rand:Number(360)))
+						ship = ShipBuilder.MakeShipLanded(player.frameBody, template, threat, math.rad(Engine.rand:Number(360)), math.rad(Engine.rand:Number(360)))
 					end
-					ship:SetLabel(Ship.MakeRandomLabel())
-					ship:AddEquip(default_drive)
-					ship:AddEquip(laserdef)
-					ship:AddEquip(Equipment.misc.shield_generator, math.ceil(mission.risk * 3))
-					if Engine.rand:Number(2) <= mission.risk then
-						ship:AddEquip(Equipment.misc.laser_cooling_booster)
-					end
-					if Engine.rand:Number(3) <= mission.risk then
-						ship:AddEquip(Equipment.misc.shield_energy_booster)
-					end
+
+					assert(ship)
+
 					table.insert(mission.mercenaries, ship)
 					ship:AIEnterLowOrbit(Space.GetBody(mission.location.bodyIndex))
 				end
@@ -446,16 +426,16 @@ local onEnterSystem = function (player)
 	for ref, mission in pairs(missions) do
 		if mission.rendezvous and mission.rendezvous:IsSameSystem(Game.system.path) then
 			if mission.complete or Game.time > mission.due then
-				local shipdefs = utils.build_array(utils.filter(
-					function (k,def)
-						return def.tag == "SHIP" and def.hyperdriveClass > 0
-					end,
-					pairs(ShipDef)))
-				local shipdef = shipdefs[Engine.rand:Integer(1, #shipdefs)]
+				local template = ShipBuilder.Template:clone {
+					hyperclass = 1,
+					rules = {
+						ShipBuilder.OutfitRules.DefaultHyperdrive,
+						ShipBuilder.OutfitRules.DefaultAutopilot,
+					}
+				}
 
-				local ship = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
-				ship:SetLabel(Ship.MakeRandomLabel())
-				ship:AddEquip(Equipment.hyperspace["hyperdrive_" .. tostring(shipdef.hyperdriveClass)])
+				local ship = ShipBuilder.MakeShipNear(Game.player, template)
+				assert(ship)
 
 				local path = mission.location:GetStarSystem().path
 				finishMission(ref, mission)
