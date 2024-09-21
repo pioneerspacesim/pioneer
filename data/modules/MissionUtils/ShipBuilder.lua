@@ -645,6 +645,30 @@ function ShipBuilder.MakeShipDocked(body, template, threat)
 	return ship
 end
 
+---@param template MissionUtils.ShipTemplate
+---@param threat number
+---@param minDistAu number
+---@param maxDistAu number
+---@return Ship
+function ShipBuilder.MakeShipAroundStar(template, threat, minDistAu, maxDistAu)
+	if not threat then
+		threat = Engine.rand:Number(ShipBuilder.kDefaultRandomThreatMin, ShipBuilder.kDefaultRandomThreatMax)
+	end
+
+	local hullConfig = ShipBuilder.SelectHull(template, threat)
+	assert(hullConfig)
+
+	local plan = ShipBuilder.MakePlan(template, hullConfig, threat)
+	assert(plan)
+
+	local ship = Space.SpawnShip(plan.shipId, minDistAu or 1, maxDistAu or 10)
+	assert(ship)
+
+	ShipBuilder.ApplyPlan(ship, plan)
+
+	return ship
+end
+
 -- =============================================================================
 
 -- Generate a cache of combined hull threat factor for each ship in the game
