@@ -11,11 +11,12 @@ local Timer = require 'Timer'
 local Engine = require 'Engine'
 local Format = require 'Format'
 local Mission = require 'Mission'
-local MissionUtils = require 'modules.MissionUtils'
-local ShipDef = require 'ShipDef'
 local Character = require 'Character'
-local Equipment = require 'Equipment'
 local Serializer = require 'Serializer'
+
+local MissionUtils = require 'modules.MissionUtils'
+local ShipBuilder  = require 'modules.MissionUtils.ShipBuilder'
+local OutfitRules  = ShipBuilder.OutfitRules
 
 local CommodityType = require 'CommodityType'
 local Commodities   = require 'Commodities'
@@ -209,13 +210,17 @@ end
 local spawnPolice = function (station)
 	local ship
 	local police = {}
-	local shipdef = ShipDef[Game.system.faction.policeShip]
+
+	local threat = 10.0 + Engine.rand:Number(10.0, 20.0)
+	local template = MissionUtils.ShipTemplates.PolicePatrol:clone {
+		shipId = Game.system.faction.policeShip,
+		label = Game.system.faction.policeName or lc.POLICE
+	}
 
 	for i = 1, 2 do
-		ship = Space.SpawnShipDocked(shipdef.id, station)
-		ship:SetLabel(lc.POLICE)
-		ship:AddEquip(Equipment.laser.pulsecannon_1mw)
+		ship = ShipBuilder.MakeShipDocked(station, template, threat)
 		table.insert(police, ship)
+
 		if station.type == "STARPORT_SURFACE" then
 			ship:AIEnterLowOrbit(Space.GetBody(station:GetSystemBody().parent.index))
 		end
@@ -244,13 +249,25 @@ local nearbySystem = function ()
 end
 
 -- Create a ship in orbit
+---@param star SystemPath
 local spawnClientShip = function (star, ship_label)
-	local shipdefs = utils.build_array(utils.filter(
-		function (k, def)
-			return def.tag == "SHIP" and def.hyperdriveClass > 0 and def.equipSlotCapacity["scoop"] > 0
-		end,
-		pairs(ShipDef)))
-	local shipdef = shipdefs[Engine.rand:Integer(1, #shipdefs)]
+
+	local template = ShipBuilder.Template:clone {
+		role = "merchant",
+		label = ship_label,
+		hyperclass = 1,
+		-- TODO: mission module wants this ship to have a scoop slot... but doesn't put a scoop in it
+		rules = {
+			OutfitRules.ModerateWeapon,
+			OutfitRules.EasyWeapon,
+			OutfitRules.ModerateShieldGen,
+			OutfitRules.EasyShieldGen,
+			OutfitRules.DefaultHyperdrive,
+			OutfitRules.DefaultAutopilot,
+		}
+	}
+
+	local threat = 10.0 + Engine.rand:Number(10, 80)
 
 	local radius = star:GetSystemBody().radius
 	local min, max
@@ -262,14 +279,7 @@ local spawnClientShip = function (star, ship_label)
 		max = radius * 4.5
 	end
 
-	local ship = Space.SpawnShipOrbit(shipdef.id, Space.GetBody(star:GetSystemBody().index), min, max)
-
-	ship:SetLabel(ship_label)
-	ship:AddEquip(Equipment.hyperspace["hyperdrive_" .. shipdef.hyperdriveClass])
-	ship:AddEquip(Equipment.laser.pulsecannon_2mw)
-	ship:AddEquip(Equipment.misc.shield_generator)
-
-	return ship
+	return ShipBuilder.MakeShipOrbit(star:GetSystemBody().body, template, threat, min, max)
 end
 
 local removeMission = function (mission, ref)
