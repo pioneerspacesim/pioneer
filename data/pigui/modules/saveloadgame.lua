@@ -274,9 +274,9 @@ function SaveLoadWindow:makeFileList()
 	if not ok then
 		Notification.add(Notification.Type.Error, lui.COULD_NOT_LOAD_SAVE_FILES, files --[[@as string]])
 		self.files = {}
+	else
+		self.files = files
 	end
-
-	self.files = files
 
 	table.sort(self.files, function(a, b)
 		return a.mtime.timestamp > b.mtime.timestamp
