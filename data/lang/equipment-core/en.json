@@ -495,6 +495,10 @@
 	"description": "",
 	"message": "Sensor"
   },
+  "SLOT_CABIN": {
+	"description": "",
+	"message": "Cabin"
+  },
   "SLOT_COMPUTER": {
 	"description": "",
 	"message": "Computer"
@@ -550,5 +554,17 @@
   "OPLI_INTERNAL_MISSILE_RACK_S2": {
 	"description": "",
 	"message": "OPLI Internal Missile Rack"
+  },
+  "CABINS": {
+	"description": "Category header for pressurized cabin slots",
+	"message": "Cabins"
+  },
+  "PASSENGER_BERTHS": {
+	"description": "",
+	"message": "Passenger Berths"
+  },
+  "OCCUPIED_BERTHS": {
+	"description": "",
+	"message": "Occupied Berths"
   }
 }

@@ -120,16 +120,16 @@ function CabinType:GetDetailedStats()
 	local out = self:Super().GetDetailedStats(self)
 
 	table.insert(out, {
-		le.PASSENGER_BERTHS,
+		le.OCCUPIED_BERTHS,
 		icons.personal,
-		self.capabilities.cabin,
+		self:GetNumPassengers(),
 		tostring
 	})
 
 	table.insert(out, {
-		le.OCCUPIED_BERTHS,
+		le.PASSENGER_BERTHS,
 		icons.personal,
-		self:GetNumPassengers(),
+		self.capabilities.cabin,
 		tostring
 	})
 
