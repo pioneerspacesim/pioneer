@@ -20,4 +20,9 @@ local Engine = {}
 
 -- TODO: add information about Engine methods
 
+-- Get a model file by name
+---@param name string
+---@return SceneGraph.Model model
+function Engine.GetModel(name) end
+
 return Engine
