@@ -5,6 +5,8 @@
 
 ---@meta
 
+---@alias ShipDef.Thrust { UP:number, DOWN:number, LEFT:number, RIGHT:number, FORWARD:number, REVERSE:number }
+
 ---@class ShipDef
 ---@field id string
 ---@field name string
@@ -16,8 +18,8 @@
 ---@field roles string[]
 --
 ---@field angularThrust number
----@field linearThrust table<ShipTypeThruster, number>
----@field linAccelerationCap table<ShipTypeThruster, number>
+---@field linearThrust ShipDef.Thrust
+---@field linAccelerationCap ShipDef.Thrust
 ---@field effectiveExhaustVelocity number
 ---@field thrusterFuelUse number -- deprecated
 ---@field frontCrossSec number
