@@ -163,14 +163,16 @@ end
 
 -- Function: GetInstalledWithFilter
 --
--- Return a list of all installed equipment matching the given filter function
----@param filter fun(equip: EquipType): boolean
----@return EquipType[]
-function EquipSet:GetInstalledWithFilter(filter)
+-- Return a list of all installed equipment of the given EquipType class matching the filter function
+---@generic T : EquipType
+---@param typename `T`
+---@param filter fun(equip: T): boolean
+---@return T[]
+function EquipSet:GetInstalledWithFilter(typename, filter)
 	local out = {}
 
 	for _, equip in pairs(self.installed) do
-		if filter(equip) then
+		if equip:IsA(typename) and filter(equip) then
 			table.insert(out, equip)
 		end
 	end

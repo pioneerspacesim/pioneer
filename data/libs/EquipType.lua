@@ -164,7 +164,7 @@ function EquipType.SetupPrototype(type)
 	-- delegates serialization to the base class of the proto
 	function type.New(...)
 		local inst = old(...)
-		inst.meta = { __index = inst, class = type.meta.class }
+		inst.meta = utils.mixin(type.meta, { __index = inst })
 		return inst
 	end
 
