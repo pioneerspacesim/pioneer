@@ -85,6 +85,11 @@ OutfitRules.EasyShieldGen = {
 
 -- Default rules always equip the item if there's enough space
 
+OutfitRules.DefaultPassengerCabins = {
+	slot = "cabin",
+	filter = "cabin.passenger"
+}
+
 OutfitRules.DefaultHyperdrive = {
 	slot = "hyperdrive"
 }
