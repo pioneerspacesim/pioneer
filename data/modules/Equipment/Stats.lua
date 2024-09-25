@@ -49,6 +49,7 @@ end
 
 --==============================================================================
 
+---@class Equipment.LaserType
 local LaserType = EquipTypes.LaserType
 
 local format_rpm = function(v) return string.format("%d RPM", 60 / v) end
@@ -84,6 +85,7 @@ end
 
 --==============================================================================
 
+---@class Equipment.BodyScannerType
 local BodyScannerType = EquipTypes.BodyScannerType
 
 local format_px = function(v) return string.format("%s px", ui.Format.Number(v, 0)) end
@@ -107,6 +109,41 @@ function BodyScannerType:GetDetailedStats()
 	})
 
 	return out
+end
+
+--==============================================================================
+
+---@class Equipment.CabinType
+local CabinType = EquipTypes.CabinType
+
+function CabinType:GetDetailedStats()
+	local out = self:Super().GetDetailedStats(self)
+
+	table.insert(out, {
+		le.PASSENGER_BERTHS,
+		icons.personal,
+		self.capabilities.cabin,
+		tostring
+	})
+
+	table.insert(out, {
+		le.OCCUPIED_BERTHS,
+		icons.personal,
+		self:GetNumPassengers(),
+		tostring
+	})
+
+	return out
+end
+
+---@return table[]
+function CabinType:GetItemCardStats()
+	return {
+		{ icons.personal, "{}/{}" % { self:GetNumPassengers(), self:GetMaxPassengers() } },
+		{ icons.hull, format_mass(self.mass) },
+		{ icons.ecm, format_power(0) },
+		{ icons.repairs, format_integrity(1) }
+	}
 end
 
 --==============================================================================

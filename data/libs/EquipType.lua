@@ -425,27 +425,49 @@ local SensorType = utils.inherits(EquipType, "SensorType")
 local BodyScannerType = utils.inherits(SensorType, "BodyScannerType")
 
 ---@class Equipment.CabinType : EquipType
----@field passenger Character?
+---@field passengers Character[]?
 local CabinType = utils.inherits(EquipType, "Equipment.CabinType")
 
 ---@param passenger Character
 function CabinType:AddPassenger(passenger)
-	self.passenger = passenger
+	table.insert(self.passengers, passenger)
 	self.icon_name = "equip_cabin_occupied"
 end
 
 ---@param passenger Character
 function CabinType:RemovePassenger(passenger)
-	self.passenger = nil
+	utils.remove_elem(self.passengers, passenger)
 	self.icon_name = "equip_cabin_empty"
+end
+
+function CabinType:HasPassenger(passenger)
+	return utils.contains(self.passengers, passenger)
+end
+
+function CabinType:GetNumPassengers()
+	return self.passengers and #self.passengers or 0
+end
+
+function CabinType:GetMaxPassengers()
+	return self.capabilities.cabin
+end
+
+function CabinType:GetFreeBerths()
+	return self.capabilities.cabin - (self.passengers and #self.passengers or 0)
+end
+
+function CabinType:OnInstall(ship, slot)
+	EquipType.OnInstall(self, ship, slot)
+
+	self.passengers = {}
 end
 
 function CabinType:OnRemove(ship, slot)
 	EquipType.OnRemove(self, ship, slot)
 
-	if self.passenger then
-		logWarning("Removing passenger cabin with passenger onboard!")
-		ship:setprop("cabin_occupied_cap", ship["cabin_occupied_cap"] - 1)
+	if self.passengers then
+		logWarning("Removing passenger cabin with passengers onboard!")
+		ship:setprop("cabin_occupied_cap", ship["cabin_occupied_cap"] - #self.passengers)
 	end
 end
 
