@@ -34,10 +34,11 @@ end
 -- return an array of names of ships that (at first sight) can be traders
 local getAcceptableShips = function ()
 	-- accept all ships with the hyperdrive, in fact
+	---@param def ShipDef
 	local filter_function = function(_,def)
 		-- XXX should limit to ships large enough to carry significant
 		--     cargo, but we don't have enough ships yet
-		return def.tag == 'SHIP' and def.hyperdriveClass > 0 -- and def.roles.merchant
+		return def.tag == 'SHIP' and def.hyperdriveClass > 0 and def.cargo > 0 -- and def.roles.merchant
 	end
 	return utils.build_array(
 		utils.map(function (k,def)
