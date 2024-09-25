@@ -28,7 +28,8 @@ ShipTemplates.StrongPirate = ShipBuilder.Template:clone {
 		utils.mixin(OutfitRules.DefaultShieldBooster, { minThreat = 30.0 }),
 		OutfitRules.DefaultHyperdrive,
 		OutfitRules.DefaultAtmoShield,
-		OutfitRules.DefaultAutopilot
+		OutfitRules.DefaultAutopilot,
+		OutfitRules.DefaultRadar,
 	}
 }
 
@@ -44,7 +45,8 @@ ShipTemplates.GenericPirate = ShipBuilder.Template:clone {
 		OutfitRules.DefaultAtmoShield,
 		utils.mixin(OutfitRules.DefaultLaserCooling, { minThreat = 40.0 }),
 		utils.mixin(OutfitRules.DefaultShieldBooster, { minThreat = 30.0 }),
-		OutfitRules.DefaultAutopilot
+		OutfitRules.DefaultAutopilot,
+		OutfitRules.DefaultRadar,
 	}
 }
 
@@ -59,7 +61,8 @@ ShipTemplates.WeakPirate = ShipBuilder.Template:clone {
 		-- No laser cooling or shield booster to be found here
 		OutfitRules.DefaultHyperdrive,
 		OutfitRules.DefaultAtmoShield,
-		OutfitRules.DefaultAutopilot
+		OutfitRules.DefaultAutopilot,
+		OutfitRules.DefaultRadar,
 	}
 }
 
@@ -75,7 +78,8 @@ ShipTemplates.GenericPolice = ShipBuilder.Template:clone {
 		utils.mixin(OutfitRules.DefaultLaserCooling, { minThreat = 20.0 }),
 		OutfitRules.DefaultHyperdrive,
 		OutfitRules.DefaultAtmoShield,
-		OutfitRules.DefaultAutopilot
+		OutfitRules.DefaultAutopilot,
+		OutfitRules.DefaultRadar,
 	}
 }
 
@@ -93,7 +97,8 @@ ShipTemplates.StationPolice = ShipBuilder.Template:clone {
 		-- Always has laser cooling but no need for hyperdrive
 		OutfitRules.DefaultLaserCooling,
 		OutfitRules.DefaultAtmoShield,
-		OutfitRules.DefaultAutopilot
+		OutfitRules.DefaultAutopilot,
+		OutfitRules.DefaultRadar,
 	}
 }
 
@@ -110,7 +115,8 @@ ShipTemplates.PolicePatrol = ShipBuilder.Template:clone {
 		OutfitRules.ModerateShieldGen,
 		OutfitRules.EasyShieldGen,
 		OutfitRules.DefaultAtmoShield,
-		OutfitRules.DefaultAutopilot
+		OutfitRules.DefaultAutopilot,
+		OutfitRules.DefaultRadar,
 	}
 }
 
@@ -131,6 +137,7 @@ ShipTemplates.GenericMercenary = ShipBuilder.Template:clone {
 		-- Default equipment in remaining space
 		OutfitRules.DefaultHyperdrive,
 		OutfitRules.DefaultAtmoShield,
+		OutfitRules.DefaultRadar,
 	}
 }
 

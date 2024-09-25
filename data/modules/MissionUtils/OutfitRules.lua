@@ -102,8 +102,7 @@ OutfitRules.DefaultAtmoShield = {
 }
 
 OutfitRules.DefaultShieldGen = {
-	slot = "shield",
-	limit = 1
+	slot = "shield"
 }
 
 OutfitRules.DefaultAutopilot = {
@@ -120,6 +119,12 @@ OutfitRules.DefaultShieldBooster = {
 OutfitRules.DefaultLaserCooling = {
 	slot = nil,
 	equip = "misc.laser_cooling_booster",
+	limit = 1
+}
+
+OutfitRules.DefaultRadar = {
+	slot = "sensor",
+	filter = "sensor.radar",
 	limit = 1
 }
 
