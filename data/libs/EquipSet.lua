@@ -50,6 +50,10 @@ function EquipSet:Constructor(ship)
 	-- index of the given item. It's simply a non-nil integer to indicate the
 	-- item is not installed in a slot.
 	self.cache = {} ---@type table<EquipType, string|integer>
+	-- This provides a unique index value for non-slot equipment cache entries.
+	-- It is monotonically increasing and prevents ID collisions for recursive
+	-- slots provided by non-slot equipment items.
+	self.cacheIndex = 1
 
 	-- Stores a mapping of slot id -> slot handle
 	-- Simplifies slot lookup for slots defined on equipment items
@@ -283,7 +287,6 @@ end
 ---@param slotHandle HullConfig.Slot?
 ---@return boolean
 function EquipSet:Install(equipment, slotHandle)
-	print("Installing equip {} in slot {}" % { equipment:GetName(), slotHandle })
 	local slotId = self.idCache[slotHandle]
 
 	if slotHandle then
@@ -307,7 +310,8 @@ function EquipSet:Install(equipment, slotHandle)
 		end
 
 		table.insert(self.installed, equipment)
-		self.cache[equipment] = #self.installed
+		self.cache[equipment] = self.cacheIndex
+		self.cacheIndex = self.cacheIndex + 1
 	end
 
 	equipment:OnInstall(self.ship, slotHandle)
