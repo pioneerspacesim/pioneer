@@ -96,6 +96,7 @@ Template.role = nil ---@type string?
 Template.hyperclass = nil ---@type number?
 Template.shipId = nil ---@type string?
 Template.label = nil ---@type string?
+Template.randomModifier = nil ---@type number? Scalar modifying the randomChance value of contained equipment rules
 Template.rules = {} ---@type MissionUtils.OutfitRule[]
 
 ShipBuilder.Template = Template
@@ -151,7 +152,7 @@ function ShipPlan:AddSlots(baseId, slots)
 end
 
 function ShipPlan:AddEquipToPlan(equip, slot, threat)
-	print("Installing " .. equip:GetName())
+	-- print("Installing " .. equip:GetName())
 
 	if equip:isProto() then
 		equip = equip:Instance()
@@ -472,7 +473,7 @@ function ShipBuilder.SelectHull(template, threat)
 	local hullIdx = Engine.rand:Integer(1, #hullList)
 	local shipId = hullList[hullIdx]
 
-	print("  threat {} => {} ({} / {})" % { threat, shipId, hullIdx, #hullList })
+	-- print("  threat {} => {} ({} / {})" % { threat, shipId, hullIdx, #hullList })
 
 	return HullConfig.GetHullConfigs()[shipId]
 end
@@ -484,6 +485,8 @@ function ShipBuilder.MakePlan(template, shipConfig, threat)
 
 	local hullThreat = ShipBuilder.GetHullThreat(shipConfig.id).total
 
+	local randomMod = template.randomModifier or 1.0
+
 	local shipPlan = ShipPlan:clone {
 		threat = hullThreat,
 		freeThreat = threat - hullThreat,
@@ -494,7 +497,12 @@ function ShipBuilder.MakePlan(template, shipConfig, threat)
 
 	for _, rule in ipairs(template.rules) do
 
-		if not rule.minThreat or threat >= rule.minThreat then
+		local canApplyRule = true
+
+		if rule.minThreat then canApplyRule = canApplyRule and threat >= rule.minThreat end
+		if rule.randomChance then canApplyRule = canApplyRule and Engine.rand:Number() < rule.randomChance * randomMod end
+
+		if canApplyRule then
 
 			if rule.slot then
 				ShipBuilder.ApplyEquipmentRule(shipPlan, rule, Engine.rand, hullThreat)

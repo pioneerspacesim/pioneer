@@ -14,6 +14,7 @@ local OutfitRules = {}
 ---@field minSize integer? Limit the minimum size of items equipped by this rule
 ---@field minThreat number? Minimum threat value for the entire ship that has to be met to consider this rule
 ---@field maxThreatFactor number? Maximum proportion of remaining threat that can be consumed by this rule
+---@field randomChance number? Random chance to apply this rule, in [0..1]
 ---@field balance boolean? Attempt to balance volume / threat across all slots this rule matches (works best with .pick = nil)
 
 OutfitRules.DifficultWeapon = {
