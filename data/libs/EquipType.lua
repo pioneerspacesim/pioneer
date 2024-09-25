@@ -178,10 +178,6 @@ function EquipType.SetupPrototype(type)
 
 		return inst
 	end
-
-	type.meta.__call = function(equip)
-		return setmetatable({ __proto = equip }, equip.meta)
-	end
 end
 
 function EquipType:Serialize()
