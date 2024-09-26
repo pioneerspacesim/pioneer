@@ -42,7 +42,6 @@ struct ShipType {
 	float linThrust[THRUSTER_MAX];
 	float angThrust;
 	float linAccelerationCap[THRUSTER_MAX];
-	std::map<std::string, int> slots;
 	std::map<std::string, bool> roles;
 	Color globalThrusterColor; // Override default color for thrusters
 	bool isGlobalColorDefined; // If globalThrusterColor is filled with... a color :)

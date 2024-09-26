@@ -183,11 +183,6 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	cargo = data.value("cargo", 0);
 	fuelTankMass = data.value("fuel_tank_mass", 5);
 
-	for (Json::iterator slot = data["slots"].begin(); slot != data["slots"].end(); ++slot) {
-		const std::string slotname = slot.key();
-		slots[slotname] = data["slots"].value(slotname, 0);
-	}
-
 	for (Json::iterator role = data["roles"].begin(); role != data["roles"].end(); ++role) {
 		roles[*role] = true;
 	}
@@ -201,13 +196,6 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	}
 
 	atmosphericPressureLimit = data.value("atmospheric_pressure_limit", 10.0); // 10 atmosphere is about 90 metres underwater (on Earth)
-
-	{
-		const auto it = slots.find("engine");
-		if (it != slots.end()) {
-			it->second = Clamp(it->second, 0, 1);
-		}
-	}
 
 	effectiveExhaustVelocity = data.value("effective_exhaust_velocity", -1.0f);
 	const float thruster_fuel_use = data.value("thruster_fuel_use", -1.0f);

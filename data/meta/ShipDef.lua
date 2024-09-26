@@ -35,7 +35,6 @@
 ---@field minCrew integer
 ---@field maxCrew integer
 ---@field hyperdriveClass integer
----@field equipSlotCapacity table -- deprecated
 ---
 ---@field raw table The entire ShipDef JSON object as a Lua table
 
