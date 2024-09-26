@@ -36,10 +36,10 @@ namespace Graphics {
 }
 
 struct shipstats_t {
-	int loaded_mass;
+	float loaded_mass;
+	float static_mass;	  // cargo, equipment + hull
+	int free_cargo;
 	int used_cargo;
-	int free_capacity;
-	int static_mass;	  // cargo, equipment + hull
 	float hull_mass_left; // effectively hitpoints
 	float hyperspace_range;
 	float hyperspace_range_max;

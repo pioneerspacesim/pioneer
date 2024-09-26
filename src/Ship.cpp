@@ -625,13 +625,11 @@ void Ship::UpdateEquipStats()
 	m_stats.loaded_mass = p.Get("mass_cap");
 	m_stats.static_mass = m_stats.loaded_mass + m_type->hullMass;
 
-	m_stats.free_capacity = m_type->capacity - p.Get("equipVolume").get_integer();
-	// m_stats.free_capacity = m_type->capacity - m_stats.loaded_mass;
+	m_stats.used_cargo = p.Get("usedCargo").get_integer();
+	m_stats.free_cargo = p.Get("totalCargo").get_integer() - m_stats.used_cargo;
 
 	p.Set("loadedMass", m_stats.loaded_mass);
 	p.Set("staticMass", m_stats.static_mass);
-
-	p.Set("freeCapacity", m_stats.free_capacity);
 
 	float shield_cap = p.Get("shield_cap");
 	m_stats.shield_mass = TONS_HULL_PER_SHIELD * shield_cap;
@@ -1266,7 +1264,7 @@ void Ship::StaticUpdate(const float timeStep)
 				 * fuel_scoop_cap = area, m^2. rate = kg^2/(m*s^3) = (Pa*kg)/s^2
 				 */
 				const double hydrogen_density = 0.0002;
-				if ((m_stats.free_capacity) && (dot > 0.90) && speed_times_density > (100.0 * 0.3)) {
+				if ((m_stats.free_cargo > 0) && (dot > 0.90) && speed_times_density > (100.0 * 0.3)) {
 					const double rate = speed_times_density * hydrogen_density * double(m_stats.fuel_scoop_cap);
 					m_hydrogenScoopedAccumulator += rate * timeStep;
 					if (m_hydrogenScoopedAccumulator > 1) {

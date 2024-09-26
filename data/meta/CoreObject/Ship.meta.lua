@@ -33,8 +33,6 @@
 --- Total equipment volume
 ---@field totalVolume number
 ---
----@field freeCapacity number
----
 ---@field usedCargo number
 ---@field totalCargo number
 ---

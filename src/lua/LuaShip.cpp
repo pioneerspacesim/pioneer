@@ -1895,17 +1895,4 @@ void LuaObject<Ship>::RegisterClass()
  *
  *   stable
  *
- *
- * Attribute: freeCapacity
- *
- * Total space remaining. Measured in tonnes.
- *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
- *
  */
