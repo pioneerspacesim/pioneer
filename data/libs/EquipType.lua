@@ -266,7 +266,9 @@ local LaserType = utils.inherits(EquipType, "LaserType")
 ---@param ship Ship
 ---@param slot HullConfig.Slot
 function LaserType:OnInstall(ship, slot)
-	for k, v in ipairs(self.laser_stats) do
+	EquipType.OnInstall(self, ship, slot)
+
+	for k, v in pairs(self.laser_stats) do
 		-- TODO: allow installing more than one laser
 		ship:setprop('laser_front_' .. k, v)
 	end
@@ -274,8 +276,10 @@ end
 
 ---@param ship Ship
 ---@param slot HullConfig.Slot
-function LaserType:OnUninstall(ship, slot)
-	for k, v in ipairs(self.laser_stats) do
+function LaserType:OnRemove(ship, slot)
+	EquipType.OnRemove(self, ship, slot)
+
+	for k, v in pairs(self.laser_stats) do
 		-- TODO: allow installing more than one laser
 		ship:setprop('laser_front_' .. k, nil)
 	end
