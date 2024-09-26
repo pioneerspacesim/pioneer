@@ -329,8 +329,9 @@ function hyperJumpPlanner.onPlayerCargoChanged(comm, count)
 	end
 end
 
-function hyperJumpPlanner.onShipEquipmentChanged(ship, equipment)
-	if ship:IsPlayer() and equipment and equipment:IsValidSlot("engine", ship) then
+---@type EquipSet.Listener
+function hyperJumpPlanner.onShipEquipmentChanged(op, equip, slot)
+	if op == 'install' and slot and slot.type:match("^hyperdrive") then
 		buildJumpRouteList()
 	end
 end
@@ -350,6 +351,7 @@ end
 function hyperJumpPlanner.onGameStart()
 	-- get notified when the player buys hydrogen
 	Game.player:GetComponent('CargoManager'):AddListener('hyperjump-planner', hyperJumpPlanner.onPlayerCargoChanged)
+	Game.player:GetComponent('EquipSet'):AddListener(hyperJumpPlanner.onShipEquipmentChanged)
 	-- we may have just loaded a jump route list, so lets build it fresh now
 	buildJumpRouteList()
 

@@ -174,8 +174,9 @@ local onShipTypeChanged = function (ship)
 	end
 end
 
-local onShipEquipmentChanged = function (ship, equipment)
-	if ship:IsPlayer() and equipment and equipment:IsValidSlot("engine", ship) then
+---@type EquipSet.Listener
+local onShipEquipmentChanged = function (op, equipment, slot)
+	if slot and slot.type:match("^hyperdrive") then
 		service_history.company = nil
 		service_history.lastdate = Game.time
 		service_history.service_period = oneyear
@@ -244,6 +245,9 @@ local onGameStart = function ()
 
 		loaded_data = nil
 	end
+
+	-- Listen to changes in the player's equipment
+	Game.player:GetComponent('EquipSet'):AddListener(onShipEquipmentChanged)
 end
 
 local savedByCrew = function(ship)
@@ -316,7 +320,6 @@ end
 Event.Register("onCreateBB", onCreateBB)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onShipTypeChanged", onShipTypeChanged)
-Event.Register("onShipEquipmentChanged", onShipEquipmentChanged)
 Event.Register("onEnterSystem", onEnterSystem)
 
 Serializer:Register("BreakdownServicing", serialize, unserialize)
