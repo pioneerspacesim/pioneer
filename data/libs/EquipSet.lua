@@ -18,8 +18,29 @@ local EquipSet = utils.class("EquipSet")
 
 ---@alias EquipSet.Listener fun(op: 'install'|'remove', equip: EquipType, slot: HullConfig.Slot?)
 
-local function slotTypeMatches(equipType, slotType)
-	return equipType == slotType or string.sub(equipType, 1, #slotType + 1) == slotType .. "."
+-- Function: SlotTypeMatches
+--
+-- Static helper function that performs filtering of slot type identifiers.
+--
+-- Call this function when you want to know if the actual type of some object
+-- is a valid match with the given filter string.
+--
+-- Example:
+--
+--  > local validEquipForSlot = EquipSet.SlotTypeMatches(equip.slot.type, slot.type)
+--
+-- Parameters:
+--
+--  actualType - string, concrete fully-qualified type string of the object or
+--               slot in question
+--
+--  filter     - string, the partially-qualified type to check the concrete type
+--               against to determine a match
+--
+---@param actualType string
+---@param filter string
+local function slotTypeMatches(actualType, filter)
+	return actualType == filter or string.sub(actualType, 1, #filter + 1) == filter .. "."
 end
 
 EquipSet.SlotTypeMatches = slotTypeMatches
@@ -28,6 +49,15 @@ EquipSet.SlotTypeMatches = slotTypeMatches
 --
 -- Static helper function to check if the given equipment item is compatible
 -- with the given slot object. Validates type and size parameters of the slot.
+--
+-- Parameters:
+--
+--  equip - EquipType, equipment item instance or prototype to check
+--
+--  slot  - optional HullConfig.Slot, the slot the equipment item is being
+--          validated against. If not present, the function validates that the
+--          passed equipment item is a non-slot equipment item.
+--
 ---@param equip EquipType
 ---@param slot HullConfig.Slot?
 function EquipSet.CompatibleWithSlot(equip, slot)
@@ -40,15 +70,18 @@ function EquipSet.CompatibleWithSlot(equip, slot)
 		and (equip.slot.size >= (slot.size_min or slot.size))
 end
 
+-- Constructor: New
+--
+-- Construct a new EquipSet object for the given ship.
 ---@param ship Ship
 function EquipSet:Constructor(ship)
 	self.ship = ship
 	self.config = HullConfig.GetHullConfigs()[ship.shipId]
 
 	-- Stores a mapping of slot id -> equipment item
-	-- Non-slot equipment is stored in the array portion
+	-- Non-slot equipment is stored in the array portion.
 	self.installed = {} ---@type table<string|integer, EquipType>
-	-- Note: the integer value stored in the cache is NOT the current array
+	-- NOTE: the integer value stored in the cache is NOT the current array
 	-- index of the given item. It's simply a non-nil integer to indicate the
 	-- item is not installed in a slot.
 	self.cache = {} ---@type table<EquipType, string|integer>
@@ -66,6 +99,8 @@ function EquipSet:Constructor(ship)
 
 	self:BuildSlotCache()
 
+	-- List of listener functions to be notified of changes to the set of
+	-- installed equipment in this EquipSet
 	self.listeners = {} ---@type EquipSet.Listener[]
 
 	-- Initialize ship properties we're responsible for modifying
@@ -74,6 +109,10 @@ function EquipSet:Constructor(ship)
 	self.ship:setprop("totalVolume", self.ship.totalVolume or self.config.capacity)
 end
 
+-- Callback: OnShipTypeChanged
+--
+-- Called when the type of the owning ship is changed. Removes all installed
+-- equipment and tries to leave the ship in an "empty" state.
 function EquipSet:OnShipTypeChanged()
 	---@type (string|integer)[]
 	local to_remove = {}
@@ -99,7 +138,7 @@ function EquipSet:OnShipTypeChanged()
 	assert(#self.installed == 0, "Missed some equipment while cleaning the ship")
 end
 
--- Function: GetFreeVolume
+-- Method: GetFreeVolume
 --
 -- Returns the available volume for mounting equipment
 ---@return number
@@ -107,19 +146,40 @@ function EquipSet:GetFreeVolume()
 	return self.ship.totalVolume - self.ship.equipVolume
 end
 
--- Function: GetSlotHandle
+-- Method: GetSlotHandle
 --
 -- Return a reference to the slot with the given ID managed by this EquipSet.
 -- The returned slot should be considered immutable.
+--
+-- Parameters:
+--
+--  id - string, fully-qualified ID of the slot to look up.
+--
+-- Returns:
+--
+--  slot - HullConfig.Slot?, the slot associated with that id if present or nil.
+--
 ---@param id string
 ---@return HullConfig.Slot?
 function EquipSet:GetSlotHandle(id)
 	return self.slotCache[id]
 end
 
--- Function: GetItemInSlot
+-- Method: GetItemInSlot
 --
 -- Return the equipment item installed in the given slot, if present.
+--
+-- Parameters:
+--
+--  slot - HullConfig.Slot, a slot instance present on this ship.
+--         Should come from config.slots or an installed equipment instance's
+--         provides_slots field.
+--
+-- Returns:
+--
+--  equip - EquipType?, the equipment instance installed in the given
+--          slot if any.
+--
 ---@param slot HullConfig.Slot
 ---@return EquipType?
 function EquipSet:GetItemInSlot(slot)
@@ -131,11 +191,24 @@ function EquipSet:GetItemInSlot(slot)
 	return id and self.installed[id]
 end
 
--- Function: GetFreeSlotForEquip
+-- Method: GetFreeSlotForEquip
 --
--- Attempts to find an available slot where the passed equipment item could be
--- installed. Does not attempt to find the most optimal slot - the first slot
--- which meets the type and size constraints for the equipment item is returned.
+-- Attempts to find an available slot where the passed equipment item instance
+-- could be installed.
+--
+-- Does not attempt to find the most optimal slot - the first slot which meets
+-- the type and size constraints for the equipment item is returned.
+--
+-- The list of slots is iterated in undefined order.
+--
+-- Parameters:
+--
+--  equip - EquipType, the equipment item instance to attempt to slot.
+--
+-- Returns:
+--
+--  slot - HullConfig.Slot?, a valid slot for the item or nil.
+--
 ---@param equip EquipType
 ---@return HullConfig.Slot?
 function EquipSet:GetFreeSlotForEquip(equip)
@@ -156,10 +229,23 @@ function EquipSet:GetFreeSlotForEquip(equip)
 	return nil
 end
 
--- Function: GetAllSlotsOfType
+-- Method: GetAllSlotsOfType
 --
 -- Return a list of all slots matching the given filter parameters.
 -- If hardpoint is not specified, returns both hardpoint and internal slots.
+--
+-- Parameters:
+--
+--  type      - string, slot type filter internally passed to SlotTypeMatches.
+--
+--  hardpoint - optional boolean, constrains the lost of slots to only those
+--              which have a `hardpoint` key of the given type.
+--
+-- Returns:
+--
+--  slots - HullConfig.Slot[], unsorted list of slots which match the given
+--          search criteria.
+--
 ---@param type string
 ---@param hardpoint boolean?
 ---@return HullConfig.Slot[]
@@ -175,26 +261,23 @@ function EquipSet:GetAllSlotsOfType(type, hardpoint)
 	return t
 end
 
--- Function: CountInstalledWithFilter
---
--- Return a count of all installed equipment matching the given filter function
----@param filter fun(equip: EquipType): boolean
----@return integer
-function EquipSet:CountInstalledWithFilter(filter)
-	local count = 0
-
-	for _, equip in pairs(self.installed) do
-		if filter(equip) then
-			count = count + (equip.count or 1)
-		end
-	end
-
-	return count
-end
-
--- Function: GetInstalledWithFilter
+-- Method: GetInstalledWithFilter
 --
 -- Return a list of all installed equipment of the given EquipType class matching the filter function
+--
+-- Parameters:
+--
+--  typename - string, constrains the results to only equipment items
+--             inheriting from the given class.
+--
+--  filter   - function, returns a boolean indicating whether the equipment
+--             item should be included in the returned list.
+--
+-- Returns:
+--
+--  items - EquipType[], list of items of the passed class which were accepted
+--          by the filter function.
+--
 ---@generic T : EquipType
 ---@param typename `T`
 ---@param filter fun(equip: T): boolean
@@ -211,9 +294,19 @@ function EquipSet:GetInstalledWithFilter(typename, filter)
 	return out
 end
 
--- Function: GetInstalledOfType
+-- Method: GetInstalledOfType
 --
 -- Return a list of all installed equipment matching the given slot type
+--
+-- Parameters:
+--
+--  type - string, slot type filter string according to SlotTypeMatches
+--
+-- Returns:
+--
+--  installed - EquipType[], list of installed equipment which passed the
+--              given slot type filter
+--
 ---@param type string type filter
 ---@return EquipType[]
 function EquipSet:GetInstalledOfType(type)
@@ -228,24 +321,23 @@ function EquipSet:GetInstalledOfType(type)
 	return out
 end
 
--- Function: GetInstalledEquipment
+-- Method: GetInstalledEquipment
 --
 -- Returns a table containing all equipment items installed on this ship,
 -- including both slot-based equipment and freely-installed equipment.
+--
+-- The returned table has both string and integer keys but should only be
+-- iterated via `pairs()` as the integer keys are not guaranteed to be
+-- contiguous.
 ---@return table<string|integer, EquipType>
 function EquipSet:GetInstalledEquipment()
 	return self.installed
 end
 
--- Function: GetInstalledNonSlot
+-- Method: GetInstalledNonSlot
 --
 -- Returns an array containing all non-slot equipment items installed on this
 -- ship. Items installed in a specific slot are not returned.
---
--- Status:
---
---    experimental
---
 ---@return EquipType[]
 function EquipSet:GetInstalledNonSlot()
 	local out = {}
@@ -257,14 +349,30 @@ function EquipSet:GetInstalledNonSlot()
 	return out
 end
 
--- Function: CanInstallInSlot
+-- Method: CanInstallInSlot
 --
 -- Checks if the given equipment item could potentially fit in the passed slot,
 -- given the current state of the ship.
 --
 -- If there is an item in the current slot, validates the fit as though that
 -- item were not currently installed.
--- Returns false if the equipment item is not compatible with slot mounting.
+-- This function does not recurse into sub-slots provided by the item and thus
+-- may not take into account the state of the ship if the equipped item and all
+-- of its contained children were removed.
+--
+-- Parameters:
+--
+--  slotHandle - HullConfig.Slot, the slot to test the equipment item against.
+--
+--  equipment  - EquipType, the equipment item instance being checked for
+--               installation.
+--
+-- Returns:
+--
+--  valid - boolean, indicates whether the given item could be installed in the
+--          passed slot. Will always return false if the object is not a
+--          slot-mounted item.
+--
 ---@param slotHandle HullConfig.Slot
 ---@param equipment EquipType
 function EquipSet:CanInstallInSlot(slotHandle, equipment)
@@ -276,7 +384,7 @@ function EquipSet:CanInstallInSlot(slotHandle, equipment)
 		and (freeVolume >= equipment.volume)
 end
 
--- Function: CanInstallLoose
+-- Method: CanInstallLoose
 --
 -- Checks if the given equipment item can be installed in the free equipment
 -- volume of the ship. Returns false if the equipment item requires a slot.
@@ -286,7 +394,7 @@ function EquipSet:CanInstallLoose(equipment)
 		and self:GetFreeVolume() >= equipment.volume
 end
 
--- Function: AddListener
+-- Method: AddListener
 --
 -- Register an event listener function to be notified of changes to this ship's
 -- equipment loadout.
@@ -295,22 +403,32 @@ function EquipSet:AddListener(fun)
 	table.insert(self.listeners, fun)
 end
 
--- Function: RemoveListener
+-- Method: RemoveListener
 --
 -- Remove a previously-registered event listener function.
 function EquipSet:RemoveListener(fun)
 	utils.remove_elem(self.listeners, fun)
 end
 
--- Function: Install
+-- Method: Install
 --
 -- Install an equipment item in the given slot or in free equipment volume.
 --
--- The passed equipment item must be an equipment item instance, not an
--- equipment item prototype.
+-- Parameters:
 --
--- The passed slot must be a slot returned from caling GetSlotHandle or
--- GetAllSlotsOfType on this EquipSet.
+--  equipment  - EquipType, an equipment item instance to install on this ship.
+--               Must be an instance, not a equipment item prototype. Cannot be
+--               currently installed on this or any other ship.
+--
+--  slotHandle - optional HullConfig.Slot, the slot to install the item into or
+--               nil if the item does not support slot mounting. If present,
+--               must be a slot returned from calling GetSlotHandle or a similar
+--               function on this EquipSet instance.
+--
+-- Returns:
+--
+--  installed - boolean, indicates whether the item was successfully installed
+--
 ---@param equipment EquipType
 ---@param slotHandle HullConfig.Slot?
 ---@return boolean
@@ -352,18 +470,26 @@ function EquipSet:Install(equipment, slotHandle)
 	return true
 end
 
--- Function: Remove
+-- Method: Remove
 --
 -- Remove a previously-installed equipment item from this ship.
 --
--- The equipment item must be the same item instance that was installed prior;
--- passing an equipment prototype instance will not result in any equipment
--- item being removed.
+-- Note that when removing an equipment item that provides slots, this function
+-- will not recurse into an item's slots to remove installed sub-items.
 --
--- Note that when removing an equipment item that provides slots, all items
--- installed into those slots must be manually removed *before* calling this
--- function! EquipSet:Remove() will not recurse into an item's slots to remove
--- installed sub-items!
+-- All items installed into those slots must be manually removed before calling
+-- this function.
+--
+-- Parameters:
+--
+--  equipment - EquipType, the equipment item to remove. Must be an equipment
+--              item instance that was installed prior to this ship. Passing
+--               an equipment prototype instance will not remove any equipment.
+--
+-- Returns:
+--
+--  removed - boolean, indicates successful removal of the item
+--
 ---@param equipment EquipType
 ---@return boolean
 function EquipSet:Remove(equipment)
