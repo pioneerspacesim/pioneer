@@ -83,15 +83,6 @@ function EquipType.New (specs)
 		obj.price = obj.price or 0
 	end
 
-	-- TODO: remove all usage of obj.capabilities, transition to explicit volume for equipment
-	-- fixup old capabilities system to explicitly specified mass/volume
-	if obj.capabilities and obj.capabilities.mass then
-		obj.mass = obj.capabilities.mass
-		obj.volume = obj.mass
-
-		-- obj.capabilities.mass = nil
-	end
-
 	return obj
 end
 
