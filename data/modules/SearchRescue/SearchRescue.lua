@@ -444,7 +444,7 @@ local calcReward = function (flavour, pickup_crew, pickup_pass, pickup_comm, del
 	-- factor in personnel to be delivered or picked up
 	local personnel = pickup_crew + pickup_pass + deliver_crew + deliver_pass
 	if personnel > 0 then
-		reward = reward + (personnel * (Equipment.misc.cabin.price * 0.5))
+		reward = reward + (personnel * (Equipment.new['misc.cabin_s1'].price * 0.5))
 	end
 
 	-- factor in commodities to be delivered or picked up
