@@ -39,6 +39,7 @@ end
 
 function Ship:OnShipTypeChanged()
 	-- immediately update any needed components or properties
+	self:GetComponent('EquipSet'):OnShipTypeChanged()
 end
 
 -- class method
@@ -787,6 +788,7 @@ local onShipDestroyed = function (ship, attacker)
 end
 
 -- Reinitialize cargo-related ship properties when changing ship type
+---@param ship Ship
 local onShipTypeChanged = function (ship)
 	ship:GetComponent('CargoManager'):OnShipTypeChanged()
 end

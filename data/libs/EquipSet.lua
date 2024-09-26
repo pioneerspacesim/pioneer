@@ -72,6 +72,31 @@ function EquipSet:Constructor(ship)
 	self.ship:setprop("totalVolume", self.ship.totalVolume or self.config.capacity)
 end
 
+function EquipSet:OnShipTypeChanged()
+	---@type (string|integer)[]
+	local to_remove = {}
+
+	for k in pairs(self.installed) do
+		table.insert(to_remove, k)
+	end
+
+	-- Sort the longest strings first, as equipment installed in subslots will need to be removed first
+	table.sort(to_remove, function(a, b)
+		if type(a) == type(b) then
+			return type(a) == "string" and #a > #b or type(a) == "number" and a > b
+		else
+			return type(a) == "string"
+		end
+	end)
+
+	for _, id in ipairs(to_remove) do
+		local equip = self.installed[id]
+		self:Remove(equip)
+	end
+
+	assert(#self.installed == 0, "Missed some equipment while cleaning the ship")
+end
+
 -- Function: GetFreeVolume
 --
 -- Returns the available volume for mounting equipment
