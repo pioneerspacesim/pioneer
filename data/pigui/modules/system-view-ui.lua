@@ -855,7 +855,6 @@ function Windows.objectInfo:Show()
 				local hd = body:GetInstalledHyperdrive()
 				table.insert(data, { name = luc.HYPERDRIVE, value = hd and hd:GetName() or lc.NO_HYPERDRIVE })
 				table.insert(data, { name = luc.MASS, value = Format.MassTonnes(body.staticMass) })
-				-- FIXME: this should use a separate cargoMass property
 				table.insert(data, { name = luc.CARGO, value = Format.MassTonnes(body.usedCargo) })
 			end
 		else
