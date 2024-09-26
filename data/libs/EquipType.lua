@@ -86,8 +86,16 @@ function EquipType.New (specs)
 	return obj
 end
 
+-- Method: SpecializeForShip
+--
 -- Override this with a function customizing the equipment instance for the passed ship
--- (E.g. for equipment with mass/volume/cost dependent on the specific ship hull)
+-- (E.g. for equipment with mass/volume/cost dependent on the specific ship hull).
+--
+-- Parameters:
+--
+--  ship - HullConfig, hull configuration this item is tailored for. Note that
+--         the config may not be associated with a concrete Ship object yet.
+--
 EquipType.SpecializeForShip = nil ---@type nil | fun(self: self, ship: HullConfig)
 
 function EquipType._createTransient(obj)
@@ -98,6 +106,20 @@ function EquipType._createTransient(obj)
 	}
 end
 
+-- Method: OnInstall
+--
+-- Perform any setup associated with installing this item on a Ship.
+--
+-- If overriding this function in a subclass you should be careful to ensure
+-- the parent class's implementation is always called.
+--
+-- Parameters:
+--
+--  ship - Ship, the ship this equipment item is being installed in.
+--
+--  slot - optional HullConfig.Slot, the slot this item is being installed in
+--         if it is a slot-mounted equipment item.
+--
 ---@param ship Ship
 ---@param slot HullConfig.Slot?
 function EquipType:OnInstall(ship, slot)
@@ -110,31 +132,62 @@ function EquipType:OnInstall(ship, slot)
 	end
 end
 
+-- Method: OnRemove
+--
+-- Perform any setup associated with uninstalling this item from a Ship.
+--
+-- If overriding this function in a subclass you should be careful to ensure
+-- the parent class's implementation is always called.
+--
+-- Parameters:
+--
+--  ship - Ship, the ship this equipment item is being removed from.
+--
+--  slot - optional HullConfig.Slot, the slot this item is being removed from
+--         if it is a slot-mounted equipment item.
+--
 ---@param ship Ship
 ---@param slot HullConfig.Slot?
 function EquipType:OnRemove(ship, slot)
 	-- Override this for any custom uninstallation logic needed
 end
 
-function EquipType.isProto(inst)
-	return not rawget(inst, "__proto")
+-- Method: isProto
+--
+-- Returns true if this object is an equipment item prototype, false if it is
+-- an instance.
+function EquipType:isProto()
+	return not rawget(self, "__proto")
 end
 
+-- Method: GetPrototype
+--
+-- Return the prototype this equipment item instance is derived from, or the
+-- self argument if called on a prototype directly.
 ---@return EquipType
 function EquipType:GetPrototype()
 	return rawget(self, "__proto") or self
 end
 
--- Create an instance of this equipment prototype
+-- Method: Instance
+--
+-- Create and return an instance of this equipment prototype.
 ---@return EquipType
 function EquipType:Instance()
 	return setmetatable({ __proto = self }, self.meta)
 end
 
+-- Method: SetCount
+--
+-- Update this equipment instance's stats to represent a logical "stack" of the
+-- same item. This should never be called on an instance that is already
+-- installed in an EquipSet.
+--
 -- Some equipment slots represent multiple in-world items as a single logical
 -- "item" for the player to interact with. This function handles scaling
 -- equipment stats according to the number of "copies" of the item this
 -- instance represents.
+---@param count integer
 function EquipType:SetCount(count)
 	local proto = self:GetPrototype()
 
@@ -146,7 +199,7 @@ end
 
 -- Patch an EquipType class to support a prototype-based equipment system
 -- `equipProto = EquipType.New({ ... })` to create an equipment prototype
--- `equipInst = equipProto()` to create a new instance based on the created prototype
+-- `equipInst = equipProto:Instance()` to create a new instance based on the created prototype
 function EquipType.SetupPrototype(type)
 	local old = type.New
 	local un = type.Unserialize
@@ -196,63 +249,30 @@ function EquipType.Unserialize(data)
 	return obj
 end
 
+-- Method: GetName
 --
--- Group: Methods
---
-
---
--- Method: GetDefaultSlot
---
---  returns the default slot for this equipment
---
--- Parameters:
---
---  ship (optional) - if provided, tailors the answer for this specific ship
---
--- Return:
---
---  slot_name - A string identifying the slot.
---
-function EquipType:GetDefaultSlot(ship)
-	return self.slots[1]
-end
-
---
--- Method: IsValidSlot
---
---  tells whether the given slot is valid for this equipment
---
--- Parameters:
---
---  slot - a string identifying the slot in question
---
---  ship (optional) - if provided, tailors the answer for this specific ship
---
--- Return:
---
---  valid - a boolean qualifying the validity of the slot.
---
-function EquipType:IsValidSlot(slot, ship)
-	for _, s in ipairs(self.slots) do
-		if s == slot then
-			return true
-		end
-	end
-	return false
-end
-
+-- Returns the translated name of this equipment item suitable for display to
+-- the user.
+---@return string
 function EquipType:GetName()
 	return self.transient.name
 end
 
+-- Method: GetDescription
+--
+-- Returns the translated description of this equipment item suitable for
+-- display to the user
+---@return string
 function EquipType:GetDescription()
 	return self.transient.description
 end
 
+--==============================================================================
+
 -- Base type for weapons
----@class EquipType.LaserType : EquipType
+---@class Equipment.LaserType : EquipType
 ---@field laser_stats table
-local LaserType = utils.inherits(EquipType, "LaserType")
+local LaserType = utils.inherits(EquipType, "Equipment.LaserType")
 
 ---@param ship Ship
 ---@param slot HullConfig.Slot
@@ -276,11 +296,13 @@ function LaserType:OnRemove(ship, slot)
 	end
 end
 
+--==============================================================================
+
 -- Single drive type, no support for slave drives.
 ---@class Equipment.HyperdriveType : EquipType
 ---@field fuel CommodityType
 ---@field byproduct CommodityType?
-local HyperdriveType = utils.inherits(EquipType, "HyperdriveType")
+local HyperdriveType = utils.inherits(EquipType, "Equipment.HyperdriveType")
 
 function HyperdriveType:GetMaximumRange(ship)
 	return 625.0*(self.capabilities.hyperclass ^ 2) / (ship.staticMass + ship.fuelMassLeft)
@@ -409,11 +431,20 @@ function HyperdriveType:OnLeaveHyperspace(ship)
 	end
 end
 
+--==============================================================================
+
 -- NOTE: "sensors" have no general-purpose code associated with the equipment type
-local SensorType = utils.inherits(EquipType, "SensorType")
+---@class Equipment.SensorType : EquipType
+local SensorType = utils.inherits(EquipType, "Equipment.SensorType")
+
+--==============================================================================
 
 -- NOTE: all code related to managing a body scanner is implemented in the ScanManager component
-local BodyScannerType = utils.inherits(SensorType, "BodyScannerType")
+---@class Equipment.BodyScannerType : EquipType
+---@field stats table
+local BodyScannerType = utils.inherits(SensorType, "Equipment.BodyScannerType")
+
+--==============================================================================
 
 ---@class Equipment.CabinType : EquipType
 ---@field passengers Character[]?
@@ -462,8 +493,12 @@ function CabinType:OnRemove(ship, slot)
 	end
 end
 
+--==============================================================================
+
 ---@class Equipment.ThrusterType : EquipType
 local ThrusterType = utils.inherits(EquipType, "Equipment.ThrusterType")
+
+--==============================================================================
 
 Serializer:RegisterClass("LaserType", LaserType)
 Serializer:RegisterClass("EquipType", EquipType)
