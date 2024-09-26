@@ -16,6 +16,8 @@ local utils = require 'utils'
 ---@field New fun(ship: Ship): EquipSet
 local EquipSet = utils.class("EquipSet")
 
+---@alias EquipSet.Listener fun(op: 'install'|'remove', equip: EquipType, slot: HullConfig.Slot?)
+
 local function slotTypeMatches(equipType, slotType)
 	return equipType == slotType or string.sub(equipType, 1, #slotType + 1) == slotType .. "."
 end
@@ -64,7 +66,7 @@ function EquipSet:Constructor(ship)
 
 	self:BuildSlotCache()
 
-	self.listeners = {}
+	self.listeners = {} ---@type EquipSet.Listener[]
 
 	-- Initialize ship properties we're responsible for modifying
 	self.ship:setprop("mass_cap", self.ship["mass_cap"] or 0)
@@ -288,6 +290,7 @@ end
 --
 -- Register an event listener function to be notified of changes to this ship's
 -- equipment loadout.
+---@param fun EquipSet.Listener
 function EquipSet:AddListener(fun)
 	table.insert(self.listeners, fun)
 end
@@ -343,7 +346,7 @@ function EquipSet:Install(equipment, slotHandle)
 	self:_InstallInternal(equipment)
 
 	for _, fun in ipairs(self.listeners) do
-		fun("install", equipment, slotHandle)
+		fun('install', equipment, slotHandle)
 	end
 
 	return true
@@ -388,7 +391,7 @@ function EquipSet:Remove(equipment)
 	end
 
 	for _, fun in ipairs(self.listeners) do
-		fun("remove", equipment, slotHandle)
+		fun('remove', equipment, slotHandle)
 	end
 
 	return true
