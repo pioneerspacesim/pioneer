@@ -4,7 +4,6 @@
 local ShipDef = require 'ShipDef'
 local debugView = require 'pigui.views.debug'
 local Engine = require 'Engine'
-local e = require 'Equipment'
 local Game = require 'Game'
 local ui = require 'pigui.baseui'
 local utils = require 'utils'
