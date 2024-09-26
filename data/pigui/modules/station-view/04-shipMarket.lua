@@ -11,6 +11,7 @@ local Table = require 'pigui.libs.table'
 local PiImage = require 'pigui.libs.image'
 local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
 local EquipSet = require 'EquipSet'
+local HullConfig = require 'HullConfig'
 
 local ui = require 'pigui'
 
@@ -96,7 +97,7 @@ local tradeInValue = function(ship)
 	local value = shipDef.basePrice * shipSellPriceReduction * ship.hullPercent/100
 
 	if shipDef.hyperdriveClass > 0 then
-		value = value - Equipment.hyperspace["hyperdrive_" .. shipDef.hyperdriveClass].price * equipSellPriceReduction
+		value = value - Equipment.new["hyperspace.hyperdrive_" .. shipDef.hyperdriveClass].price * equipSellPriceReduction
 	end
 
 	local equipment = ship:GetComponent("EquipSet"):GetInstalledEquipment()
@@ -242,7 +243,7 @@ function FormatAndCompareShips:draw_hyperdrive_cell(desc)
 
 	local function fmt( v )
 		return v > 0 and
-			Equipment.hyperspace["hyperdrive_" .. v]:GetName() or l.NONE
+			Equipment.new["hyperspace.hyperdrive_" .. v]:GetName() or l.NONE
 	end
 
 	self:compare_and_draw_column( desc, self.def.hyperdriveClass, self.b.def.hyperdriveClass, fmt )
@@ -281,26 +282,53 @@ function FormatAndCompareShips:draw_unformated_cell(desc, key)
 	self:compare_and_draw_column( desc, self:get_value(key),  self.b:get_value(key) )
 end
 
+local function getNumSlotsCompatibleWithType(def, type)
+	local config = HullConfig.GetHullConfigs()[def.id]
+	local count = 0
+
+	for _, slot in pairs(config.slots) do
+		if EquipSet.SlotTypeMatches(type, slot.type) then
+			count = count + (slot.count or 1)
+		end
+	end
+
+	return count
+end
+
+local function getBestSlotSizeOfType(def, type)
+	local config = HullConfig.GetHullConfigs()[def.id]
+	local slot, size = utils.best_score(config.slots, function(_, slot)
+		return EquipSet.SlotTypeMatches(type, slot.type) and slot.size or nil
+	end)
+
+	return slot and size or 0
+end
+
 function FormatAndCompareShips:draw_equip_slot_cell(desc, key)
-	self:compare_and_draw_column( desc, self.def.equipSlotCapacity[key], self.b.def.equipSlotCapacity[key] )
+	self:compare_and_draw_column( desc, getNumSlotsCompatibleWithType(self.def, key), getNumSlotsCompatibleWithType(self.b.def, key) )
 end
 
 function FormatAndCompareShips:draw_yes_no_equip_slot_cell(desc, key)
 
 	local function fmt( v ) return v==1 and l.YES or l.NO end
 
-	self:compare_and_draw_column( desc, self.def.equipSlotCapacity[key], self.b.def.equipSlotCapacity[key], fmt )
+	self:compare_and_draw_column( desc, getNumSlotsCompatibleWithType(self.def, key), getNumSlotsCompatibleWithType(self.b.def, key), fmt )
 end
 
 function FormatAndCompareShips:draw_atmos_pressure_limit_cell(desc)
 
+	local a_shield = getBestSlotSizeOfType(self.def, "hull.atmo_shield")
+	local b_shield = getBestSlotSizeOfType(self.b.def, "hull.atmo_shield")
 
-	local function fmt( def )
+	local function fmt( def, has_shield )
 		local atmoSlot
-		if def.equipSlotCapacity.atmo_shield > 0 then
+		if has_shield > 1 then
 			atmoSlot = string.format("%d(+%d/+%d) atm", def.atmosphericPressureLimit,
-			def.atmosphericPressureLimit * (Equipment.misc.atmospheric_shielding.capabilities.atmo_shield - 1),
-			def.atmosphericPressureLimit * (Equipment.misc.heavy_atmospheric_shielding.capabilities.atmo_shield - 1) )
+			def.atmosphericPressureLimit * (Equipment.new["hull.atmospheric_shielding"].capabilities.atmo_shield - 1),
+			def.atmosphericPressureLimit * (Equipment.new["hull.heavy_atmospheric_shielding"].capabilities.atmo_shield - 1) )
+		elseif has_shield > 0 then
+			atmoSlot = string.format("%d(+%d) atm", def.atmosphericPressureLimit,
+			def.atmosphericPressureLimit * (Equipment.new["hull.atmospheric_shielding"].capabilities.atmo_shield - 1) )
 		else
 			atmoSlot = string.format("%d atm", def.atmosphericPressureLimit)
 		end
@@ -308,16 +336,16 @@ function FormatAndCompareShips:draw_atmos_pressure_limit_cell(desc)
 	end
 
 	local function fmt_a( v )
-		return fmt( self.def )
+		return fmt( self.def, a_shield )
 	end
 
 	local function fmt_b( v )
-		return fmt( self.b.def )
+		return fmt( self.b.def, b_shield )
 	end
 
 	-- multiply the values by 1000 and then add on if there is capacity for atmo_shielding so that the compare takes that into account
 	-- however, note the formatting ignores the passed in value and therefore displays correctly.
-	self:compare_and_draw_column( desc, self.def.atmosphericPressureLimit*1000+self.def.equipSlotCapacity.atmo_shield, self.b.def.atmosphericPressureLimit*1000+self.b.def.equipSlotCapacity.atmo_shield, fmt_a, fmt_b )
+	self:compare_and_draw_column( desc, self.def.atmosphericPressureLimit*1000+a_shield, self.b.def.atmosphericPressureLimit*1000+b_shield, fmt_a, fmt_b )
 end
 
 function FormatAndCompareShips:Constructor(def, b)
@@ -325,7 +353,7 @@ function FormatAndCompareShips:Constructor(def, b)
 	self.emptyMass = def.hullMass + def.fuelTankMass
 	self.fullMass = def.hullMass + def.capacity + def.fuelTankMass
 	self.massAtCapacity = def.hullMass + def.capacity
-	self.cargoCapacity = def.equipSlotCapacity["cargo"]
+	self.cargoCapacity = def.cargo
 	self.def = def
 	self.b = b
 end
@@ -397,7 +425,7 @@ local tradeMenu = function()
 						shipFormatAndCompare:draw_unformated_cell( l.MAXIMUM_CREW, "maxCrew" )
 						shipFormatAndCompare:draw_deltav_cell( l.DELTA_V_MAX, "fullMass", "hullMass")
 						shipFormatAndCompare:draw_equip_slot_cell( l.MISSILE_MOUNTS, "missile" )
-						shipFormatAndCompare:draw_yes_no_equip_slot_cell( l.ATMOSPHERIC_SHIELDING, "atmo_shield" )
+						shipFormatAndCompare:draw_yes_no_equip_slot_cell( l.ATMOSPHERIC_SHIELDING, "hull.atmo_shield" )
 						shipFormatAndCompare:draw_atmos_pressure_limit_cell( l.ATMO_PRESS_LIMIT )
 						shipFormatAndCompare:draw_equip_slot_cell( l.SCOOP_MOUNTS, "scoop" )
 						shipFormatAndCompare:draw_equip_slot_cell( l.PASSENGER_CABIN_CAPACITY, "cabin" )

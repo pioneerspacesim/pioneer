@@ -19,6 +19,7 @@ local ModelSkin   = require 'SceneGraph.ModelSkin'
 local Serializer  = require 'Serializer'
 local Equipment   = require 'Equipment'
 local Lang        = require 'Lang'
+local HullConfig  = require 'HullConfig'
 
 local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
 local ShipTemplates = require 'modules.MissionUtils.ShipTemplates'
@@ -540,7 +541,11 @@ end
 
 local isPlayerShip = function (def) return def.tag == "SHIP" and def.basePrice > 0 end
 
-local groundShips = utils.build_array(utils.filter(function (k,def) return isPlayerShip(def) and def.equipSlotCapacity.atmo_shield > 0 end, pairs(ShipDef)))
+local groundShips = utils.build_array(utils.filter(function (k,def)
+	return isPlayerShip(def)
+		and utils.contains_if(HullConfig.GetHullConfigs()[def.id].slots, function(s) return s.type:match("^hull") end)
+end, pairs(ShipDef)))
+
 local spaceShips  = utils.build_array(utils.filter(function (k,def) return isPlayerShip(def) end, pairs(ShipDef)))
 
 

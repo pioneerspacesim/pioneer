@@ -28,7 +28,7 @@ local function shipStats()
 	local rearWeapon    =  equipSet:GetInstalledOfType("weapon")[2]
 	local cabinEmpty    =  Passengers.CountFreeCabins(player)
 	local cabinOccupied =  Passengers.CountOccupiedCabins(player)
-	local cabinMaximum  =  shipDef.equipSlotCapacity.cabin
+	local cabinMaximum  =  cabinEmpty + cabinOccupied
 
 	hyperdrive =  hyperdrive  or nil
 	frontWeapon = frontWeapon or nil
@@ -41,10 +41,7 @@ local function shipStats()
 	local up_acc = player:GetAcceleration("up")
 
 	local atmo_shield = equipSet:GetInstalledOfType("hull.atmo_shield")[1]
-	local atmo_shield_cap = 1
-	if atmo_shield then
-		atmo_shield_cap = atmo_shield.capabilities.atmo_shield
-	end
+	local atmo_shield_cap = player["atmo_shield_cap"]
 
 	textTable.draw({
 		{ l.REGISTRATION_NUMBER..":",	shipLabel},
@@ -78,10 +75,7 @@ local function shipStats()
 		{ l.OCCUPIED_PASSENGER_CABINS..":",   cabinOccupied },
 		{ l.PASSENGER_CABIN_CAPACITY..":",    cabinMaximum },
 		false,
-		{ l.MISSILE_MOUNTS..":",        shipDef.equipSlotCapacity.missile},
-		{ l.SCOOP_MOUNTS..":",          shipDef.equipSlotCapacity.scoop},
-		false,
-		{ l.ATMOSPHERIC_SHIELDING..":", shipDef.equipSlotCapacity.atmo_shield > 0 and l.YES or l.NO },
+		{ l.ATMOSPHERIC_SHIELDING..":", atmo_shield and l.YES or l.NO },
 		{ l.ATMO_PRESS_LIMIT..":",      string.format("%d atm", shipDef.atmosphericPressureLimit * atmo_shield_cap) },
 	})
 end

@@ -940,12 +940,12 @@ function ShipSummary:prepareAndValidateParamList()
 	local paramList = {
 		rowWithAlert(eq_n_cargo, lui.CAPACITY, ShipCargo.mass + ShipEquip.mass, def.capacity, greater, 't'),
 		rowWithAlert(self.cargo, lui.CARGO_SPACE, ShipCargo.mass, freeCargo, greater, 't'),
-		rowWithAlert(self.equip, lui.FRONT_WEAPON, usedSlots.laser_front, def.equipSlotCapacity.laser_front, greater),
-		rowWithAlert(self.equip, lui.REAR_WEAPON, usedSlots.laser_rear, def.equipSlotCapacity.laser_rear, greater),
-		rowWithAlert(self.equip, lui.CABINS, usedSlots.cabin, def.equipSlotCapacity.cabin, greater),
+		--rowWithAlert(self.equip, lui.FRONT_WEAPON, usedSlots.laser_front, def.equipSlotCapacity.laser_front, greater),
+		--rowWithAlert(self.equip, lui.REAR_WEAPON, usedSlots.laser_rear, def.equipSlotCapacity.laser_rear, greater),
+		--rowWithAlert(self.equip, lui.CABINS, usedSlots.cabin, def.equipSlotCapacity.cabin, greater),
 		rowWithAlert(self.equip, lui.CREW_CABINS, #Crew.value + 1, def.maxCrew, greater),
-		rowWithAlert(self.equip, lui.MISSILE_MOUNTS, usedSlots.missile, def.equipSlotCapacity.missile, greater),
-		rowWithAlert(self.equip, lui.SCOOP_MOUNTS, usedSlots.scoop, def.equipSlotCapacity.scoop, greater),
+		--rowWithAlert(self.equip, lui.MISSILE_MOUNTS, usedSlots.missile, def.equipSlotCapacity.missile, greater),
+		--rowWithAlert(self.equip, lui.SCOOP_MOUNTS, usedSlots.scoop, def.equipSlotCapacity.scoop, greater),
 	}
 	self.cargo.valid = self.cargo.valid and eq_n_cargo.valid
 	self.equip.valid = self.equip.valid and eq_n_cargo.valid
