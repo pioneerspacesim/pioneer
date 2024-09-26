@@ -10,7 +10,7 @@ local StationView = require 'pigui.views.station-view'
 local Table = require 'pigui.libs.table'
 local PiImage = require 'pigui.libs.image'
 local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
-local CommodityType= require 'CommodityType'
+local EquipSet = require 'EquipSet'
 
 local ui = require 'pigui'
 
@@ -110,7 +110,7 @@ end
 
 local function buyShip (mkt, sos)
 	local player = Game.player
-	local station = player:GetDockedWith()
+	local station = assert(player:GetDockedWith())
 	local def = sos.def
 
 	local cost = def.basePrice - tradeInValue(Game.player)
@@ -129,8 +129,8 @@ local function buyShip (mkt, sos)
 		return
 	end
 
-	local hdrive = def.hyperdriveClass > 0 and Equipment.hyperspace["hyperdrive_" .. def.hyperdriveClass].capabilities.mass or 0
-	if def.equipSlotCapacity.cargo < player.usedCargo or def.capacity < (player.usedCargo + hdrive) then
+	-- Not enough room to put all of the player's current cargo
+	if def.cargo < player.usedCargo then
 		mkt.popup.msg = l.TOO_SMALL_TO_TRANSSHIP
 		mkt.popup:open()
 		return
@@ -150,8 +150,19 @@ local function buyShip (mkt, sos)
 	if sos.pattern then player.model:SetPattern(sos.pattern) end
 	player:SetLabel(sos.label)
 
+	-- TODO: ships on sale should have their own pre-installed set of equipment
+	-- items instead of being completely empty
+
 	if def.hyperdriveClass > 0 then
-		player:AddEquip(Equipment.hyperspace["hyperdrive_" .. def.hyperdriveClass])
+		local slot = player:GetComponent('EquipSet'):GetAllSlotsOfType('hyperdrive')[1]
+
+		-- Install the best-fitting non-military hyperdrive we can
+		local hyperdrive = utils.best_score(Equipment.new, function(_, equip)
+			return EquipSet.CompatibleWithSlot(equip, slot) and equip.slot.type:match("%.civilian")
+				and equip.capabilities.hyperclass or nil
+		end)
+
+		player:GetComponent('EquipSet'):Install(hyperdrive:Instance(), slot)
 	end
 
 	player:SetFuelPercent(100)
