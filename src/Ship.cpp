@@ -7,12 +7,9 @@
 #include "EnumStrings.h"
 #include "Frame.h"
 #include "Game.h"
-#include "GameLog.h"
 #include "GameSaveError.h"
-#include "HeatGradientPar.h"
 #include "HyperspaceCloud.h"
 #include "JsonUtils.h"
-#include "Lang.h"
 #include "Missile.h"
 #include "NavLights.h"
 #include "Pi.h"
@@ -24,15 +21,12 @@
 #include "ShipAICmd.h"
 #include "Space.h"
 #include "SpaceStation.h"
-#include "StringF.h"
 #include "WorldView.h"
 #include "collider/CollisionContact.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"
 #include "lua/LuaEvent.h"
 #include "lua/LuaObject.h"
-#include "lua/LuaTable.h"
-#include "lua/LuaUtils.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/Tag.h"
 #include "scenegraph/CollisionGeometry.h"
@@ -188,9 +182,6 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 		p.Set("shieldMassLeft", m_stats.shield_mass_left);
 		p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
 
-		// TODO: object components
-		// m_equipSet.LoadFromJson(shipObj["equipSet"]);
-
 		m_controller = 0;
 		const ShipController::Type ctype = shipObj["controller_type"];
 		if (ctype == ShipController::PLAYER)
@@ -296,7 +287,6 @@ void Ship::SaveToJson(Json &jsonObj, Space *space)
 	shipObj["hyperspace_jump_sound"] = m_hyperspace.sounds.jump_sound;
 
 	m_fixedGuns->SaveToJson(shipObj, space);
-	// m_equipSet.SaveToJson(shipObj["equipSet"]);
 
 	shipObj["ecm_recharge"] = m_ecmRecharge;
 	shipObj["ship_type_id"] = m_type->id;
@@ -1558,7 +1548,6 @@ void Ship::OnEnterSystem()
 
 void Ship::SetupShields()
 {
-	// TODO: remove the fallback path once all shields are extracted to their own models
 	SceneGraph::Model *sm = Pi::FindModel(m_type->shieldName, false);
 
 	if (sm) {
