@@ -122,12 +122,10 @@ local makeAdvert = function (station)
 
 	-- Get all non-cargo or engines
 	local avail_equipment = {}
-	for k,v in pairs(Equipment) do
-		if k == "laser" or k == "misc" then
-			for _,e in pairs(v) do
-				if e.purchasable then
-					table.insert(avail_equipment,e)
-				end
+	for id, equip in pairs(Equipment.new) do
+		if equip.slot and not equip.slot.type:match("^hyperdrive") then
+			if equip.purchasable then
+				table.insert(avail_equipment, equip)
 			end
 		end
 	end
