@@ -197,8 +197,7 @@ function Outfitter:getAvailableEquipment()
 
 	return utils.map_table(Equipment.new, function(id, equip)
 		if self:getStock(equip) <= 0 then
-			-- FIXME: restore when equipment stocking converted to new system
-			-- return id, nil
+			return id, nil
 		end
 
 		if not equip.purchasable or not self:stationHasTech(equip.tech_level) then
@@ -231,8 +230,7 @@ end
 
 ---@param e EquipType
 function Outfitter:getStock(e)
-	e = e.__proto or e
-	return self.station:GetEquipmentStock(e)
+	return self.station:GetEquipmentStock(e:GetPrototype())
 end
 
 -- Cost of the equipment item if buying
