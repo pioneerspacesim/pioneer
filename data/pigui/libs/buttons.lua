@@ -95,7 +95,10 @@ function ui.button(label, button_size, variant, tooltip, padding)
 		pigui.PopStyleColor(3)
 	end
 
-	if pigui.IsItemHovered() and tooltip then pigui.SetTooltip(tooltip) end
+	if tooltip then
+		ui.setItemTooltip(tooltip)
+	end
+
 	return res
 end
 
@@ -186,8 +189,8 @@ function ui.iconButton(id, icon, tooltip, variant, size, padding, flags)
 		pigui:PopFont()
 	end
 
-	if tooltip and pigui.IsItemHovered() then
-		ui.setTooltip(tooltip)
+	if tooltip then
+		ui.setItemTooltip(tooltip)
 	end
 
 	return ret
