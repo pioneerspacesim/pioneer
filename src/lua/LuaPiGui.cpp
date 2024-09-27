@@ -526,6 +526,14 @@ void pi_lua_generic_pull(lua_State *l, int index, ImGuiTableColumnFlags_ &thefla
 	theflags = parse_imgui_flags(l, index, imguiTableColumnFlagsTable);
 }
 
+int l_pigui_check_table_column_flags(lua_State *l)
+{
+	luaL_checktype(l, 1, LUA_TTABLE);
+	ImGuiTableColumnFlags_ fl = imguiTableColumnFlagsTable.LookupTable(l, 1);
+	LuaPush<ImGuiTableColumnFlags_>(l, fl);
+	return 1;
+}
+
 static LuaFlags<ImGuiColorEditFlags_> imguiColorEditFlagsTable = {
 	{ "None", ImGuiColorEditFlags_None },
 	{ "NoAlpha", ImGuiColorEditFlags_NoAlpha },
@@ -559,11 +567,27 @@ void pi_lua_generic_pull(lua_State *l, int index, ImGuiColorEditFlags_ &theflags
 	theflags = parse_imgui_flags(l, index, imguiColorEditFlagsTable);
 }
 
-int l_pigui_check_table_column_flags(lua_State *l)
+static LuaFlags<ImGuiComboFlags_> imguiComboFlagsTable = {
+	{ "None", ImGuiComboFlags_None },
+	{ "PopupAlignLeft", ImGuiComboFlags_PopupAlignLeft },
+	{ "HeightSmall", ImGuiComboFlags_HeightSmall },
+	{ "HeightRegular", ImGuiComboFlags_HeightRegular },
+	{ "HeightLarge", ImGuiComboFlags_HeightLarge },
+	{ "HeightLargest", ImGuiComboFlags_HeightLargest },
+	{ "NoArrowButton", ImGuiComboFlags_NoArrowButton },
+	{ "NoPreview", ImGuiComboFlags_NoPreview },
+};
+
+void pi_lua_generic_pull(lua_State *l, int index, ImGuiComboFlags_ &theflags)
+{
+	theflags = parse_imgui_flags(l, index, imguiComboFlagsTable);
+}
+
+int l_pigui_check_combo_flags(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiTableColumnFlags_ fl = imguiTableColumnFlagsTable.LookupTable(l, 1);
-	LuaPush<ImGuiTableColumnFlags_>(l, fl);
+	ImGuiComboFlags_ fl = imguiComboFlagsTable.LookupTable(l, 1);
+	LuaPush<ImGuiComboFlags_>(l, fl);
 	return 1;
 }
 
@@ -2636,6 +2660,27 @@ static int l_pigui_combo(lua_State *l)
 	return 2;
 }
 
+static int l_pigui_begin_combo(lua_State *l)
+{
+	PROFILE_SCOPED()
+
+	std::string lbl = LuaPull<std::string>(l, 1);
+	std::string preview = LuaPull<std::string>(l, 2);
+	ImGuiComboFlags flags = LuaPull<ImGuiComboFlags>(l, 3, ImGuiComboFlags_None);
+
+	bool open = ImGui::BeginCombo(lbl.c_str(), preview.c_str(), flags);
+	LuaPush<bool>(l, open);
+	return 1;
+}
+
+static int l_pigui_end_combo(lua_State *l)
+{
+	PROFILE_SCOPED()
+
+	ImGui::EndCombo();
+	return 0;
+}
+
 static int l_pigui_listbox(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -3627,6 +3672,8 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "GetItemRect", l_pigui_get_item_rect },
 		{ "InputText", l_pigui_input_text },
 		{ "Combo", l_pigui_combo },
+		{ "BeginCombo", l_pigui_begin_combo },
+		{ "EndCombo", l_pigui_end_combo },
 		{ "ListBox", l_pigui_listbox },
 		{ "CollapsingHeader", l_pigui_collapsing_header },
 		{ "TreeNode", l_pigui_treenode },
@@ -3715,4 +3762,5 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 	imguiTableColumnFlagsTable.Register(l, "ImGuiTableColumnFlags");
 	imguiTableBgFlagsTable.Register(l, "ImGuiTableBgTargetFlags");
 	imguiColorEditFlagsTable.Register(l, "ImGuiTableColumnFlags");
+	imguiComboFlagsTable.Register(l, "ImGuiComboFlags");
 }
