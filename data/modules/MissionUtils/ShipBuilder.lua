@@ -20,8 +20,21 @@ local slotTypeMatches = EquipSet.SlotTypeMatches
 
 -- Class: MissionUtils.ShipBuilder
 --
--- Utilities for spawning and equipping NPC ships to be used in mission modules
-
+-- Utilities for spawning and equipping NPC ships to be used in mission modules.
+--
+-- This class provides a complete API for describing in generic terms how a ship
+-- should be equipped, allows tailoring that equipment for a wanted difficulty
+-- of a combat encounter, and hides most of the complexity of dealing with
+-- recursive, complicated slot layouts across all ship hulls in the game.
+--
+-- The function of the ShipBuilder is to enable mission modules to be able to
+-- write a single description specifying how a generic ship should be equipped,
+-- and apply that description across a wildly varying selection of ships with
+-- no commonality in slot IDs or internal layout.
+--
+-- It also provides limited support for producing "natural" looking loadouts
+-- with semi-balanced equipment across multiple slots of the same type.
+--
 ---@class MissionUtils.ShipBuilder
 local ShipBuilder = {}
 
@@ -88,6 +101,19 @@ ShipBuilder.kShieldSharedHullThreat = 0.005
 
 -- =============================================================================
 
+-- Class: MissionUtils.ShipTemplate
+--
+-- This class is the primary data container for mission modules to express how
+-- they would like spawned ships to be outfitted.
+--
+-- Pre-existing templates can be found in MissionUtils.ShipTemplates, and
+-- individual mission modules can construct their own specialized templates or
+-- clone and modify existing templates.
+--
+-- Note that the list of equipment rules is shared between clones of a template
+-- for performance reasons and should be overwritten in cloned templates with a
+-- modified copy as desired.
+--
 ---@class MissionUtils.ShipTemplate
 ---@field clone fun(self, mixin: { rules: MissionUtils.OutfitRule[] }): self
 local Template = utils.proto("MissionUtils.ShipTemplate")
@@ -103,7 +129,11 @@ ShipBuilder.Template = Template
 
 -- =============================================================================
 
-local ShipPlan = utils.proto("MissionUtils.ShipPlan")
+-- Internal ship plan class, intended as an opaque object from external users
+-- of the API.
+---@class MissionUtils.ShipBuilder.ShipPlan
+---@field clone fun(self, mixin: table): self
+local ShipPlan = utils.proto("MissionUtils.ShipBuilder.ShipPlan")
 
 ShipPlan.config = nil
 ShipPlan.shipId = ""
@@ -129,6 +159,8 @@ function ShipPlan:SortSlots()
 	table.sort(self.slots, function(a, b) return a.size > b.size or (a.size == b.size and a.id < b.id) end)
 end
 
+-- Set the hull config this plan is going to be applied to.
+-- Creates the list of slots to populate with equipment items.
 function ShipPlan:SetConfig(shipConfig)
 	self.config = shipConfig
 	self.shipId = shipConfig.id
@@ -151,6 +183,8 @@ function ShipPlan:AddSlots(baseId, slots)
 	self:SortSlots()
 end
 
+-- Add the given equipment object to the plan, making an instance as needed
+-- and applying its provided slots to the list of slots present in the plan.
 function ShipPlan:AddEquipToPlan(equip, slot, threat)
 	-- print("Installing " .. equip:GetName())
 
@@ -177,6 +211,9 @@ end
 
 -- =============================================================================
 
+-- Class: MissionUtils.ShipBuilder
+
+-- Compute threat factor for weapon equipment
 local function calcWeaponThreat(equip, hullThreat)
 	local damage = equip.laser_stats.damage / 1000 -- unit tons of armor
 	local speed = equip.laser_stats.speed / 1000
@@ -199,6 +236,7 @@ local function calcWeaponThreat(equip, hullThreat)
 	return threat
 end
 
+-- Compute threat factor for shield equipment
 local function calcShieldThreat(equip, hullThreat)
 	-- FIXME: this is a hardcoded constant shared with Ship.cpp
 	local shield_tons = equip.capabilities.shield * 10.0
@@ -209,6 +247,10 @@ local function calcShieldThreat(equip, hullThreat)
 	return threat
 end
 
+-- Function: ComputeEquipThreatFactor
+--
+-- Compute a threat factor for the given equipment item. The equipment threat
+-- factor may be modified by the threat of the hull it is installed on.
 function ShipBuilder.ComputeEquipThreatFactor(equip, hullThreat)
 	if equip.slot and equip.slot.type:match("^weapon") and equip.laser_stats then
 		return calcWeaponThreat(equip, hullThreat)
@@ -251,7 +293,16 @@ end
 
 -- =============================================================================
 
----@param shipPlan table
+-- Function: ApplyEquipmentRule
+--
+-- Apply the passed equipment rule to an in-progress ship plan, observing the
+-- limits expressed in the rule regarding threat, size, and number of items
+-- installed.
+--
+-- Intended as private internal API, and should not be called from outside the
+-- ShipBuilder module.
+--
+---@param shipPlan MissionUtils.ShipBuilder.ShipPlan
 ---@param rule MissionUtils.OutfitRule
 ---@param rand Rand
 ---@param hullThreat number
@@ -425,13 +476,44 @@ end
 
 -- =============================================================================
 
+-- Function: GetHullThreat
+--
+-- Return the threat factor table computed for a given hull configuration,
+-- looked up by the passed identifier.
 function ShipBuilder.GetHullThreat(shipId)
 	return hullThreatCache[shipId] or { total = 0.0 }
 end
 
+-- Function: SelectHull
+--
+-- Return a ship hull configuration appropriate for the passed template and
+-- threat factor.
+--
+-- If the passed template specifies a hull configuration identifier in the
+-- shipId field, that configuration is returned directly. Otherwise, the list
+-- of available hull configurations is filtered and a random valid hull is
+-- returned.
+--
+-- Parameters:
+--
+--  template - MissionUtils.ShipTemplate, used to filter the selection of hulls
+--             by role, hyperdrive class, etc.
+--
+--  threat   - number, intended encounter threat factor used to filter valid
+--             hulls by their threat factor. This value is used to compute both
+--             an upper and lower bound on allowable threat value for the hull.
+--
+-- Returns:
+--
+--  hull - HullConfig?, the hull configuration selected for this template, or
+--         nil if no hulls passed the validity checks specified by the threat
+--         factor and ship template.
+--
 ---@param template MissionUtils.ShipTemplate
 ---@param threat number
+---@return HullConfig?
 function ShipBuilder.SelectHull(template, threat)
+
 	local hullList = {}
 
 	if template.shipId then
@@ -476,11 +558,42 @@ function ShipBuilder.SelectHull(template, threat)
 	-- print("  threat {} => {} ({} / {})" % { threat, shipId, hullIdx, #hullList })
 
 	return HullConfig.GetHullConfigs()[shipId]
+
 end
 
+-- Function: MakePlan
+--
+-- Evaluates all equipment rules specified in the ship template to produce a
+-- concrete plan for equipping the given hull configuration.
+--
+-- Rules are evaluated in order of appearance, and can be disabled by the
+-- minThreat and randomChance rule parameters in each individual equipment rule.
+--
+-- See data/modules/MissionUtils/OutfitRules.lua for information on the fields
+-- applicable to an equipment rule.
+--
+-- Parameters:
+--
+--  template   - MissionUtils.ShipTemplate, the template containing equipment
+--               rules to evaluate.
+--
+--  shipConfig - HullConfig, the hull configuration to make a plan for.
+--
+--  threat     - number, controls the intended difficulty of the encounter. The
+--               threat value is used to limit which equipment can be installed
+--               and whether an equipment rule can be evaluated at all via the
+--               minThreat property.
+--
+-- Returns:
+--
+--  plan - table, an opaque structure containing information about the ship
+--         to spawn and the equipment to install as a result of evaluating the
+--         input template.
+--
 ---@param template MissionUtils.ShipTemplate
 ---@param shipConfig HullConfig
 ---@param threat number
+---@return MissionUtils.ShipBuilder.ShipPlan
 function ShipBuilder.MakePlan(template, shipConfig, threat)
 
 	local hullThreat = ShipBuilder.GetHullThreat(shipConfig.id).total
@@ -527,8 +640,25 @@ function ShipBuilder.MakePlan(template, shipConfig, threat)
 
 end
 
+-- Function: ApplyPlan
+--
+-- Apply the previously created plan to a concrete ship object of the
+-- previously-specified hull configuration, installing all equipment instances
+-- created by applying the equipment rules contained in the ship template.
+--
+-- This function ensures that equipment is properly installed in the order it
+-- was selected and items are properly distributed to sub-slots provided by
+-- installed equipment items.
+--
+-- Parameters:
+--
+--  ship     - Ship, the ship to install equipment into.
+--
+--  shipPlan - table, an opaque ship plan returned from a previous call to
+--             ShipBuilder.MakePlan.
+--
 ---@param ship Ship
----@param shipPlan table
+---@param shipPlan MissionUtils.ShipBuilder.ShipPlan
 function ShipBuilder.ApplyPlan(ship, shipPlan)
 
 	local equipSet = ship:GetComponent('EquipSet')
@@ -555,6 +685,12 @@ end
 
 -- =============================================================================
 
+-- Function: MakeShipNear
+--
+-- Spawns a ship near the specified body according to the given ship template
+-- and threat value.
+--
+-- See: Space.SpawnShipNear
 ---@param body Body
 ---@param template MissionUtils.ShipTemplate
 ---@param threat number?
@@ -580,6 +716,12 @@ function ShipBuilder.MakeShipNear(body, template, threat, nearDist, farDist)
 	return ship
 end
 
+-- Function: MakeShipOrbit
+--
+-- Spawns a ship in orbit around a specified body according to the given ship
+-- template and threat value.
+--
+-- See: Spawn.SpawnShipOrbit
 ---@param body Body
 ---@param template MissionUtils.ShipTemplate
 ---@param threat number
@@ -605,6 +747,12 @@ function ShipBuilder.MakeShipOrbit(body, template, threat, nearDist, farDist)
 	return ship
 end
 
+-- Function: MakeShipLanded
+--
+-- Spawns a ship landed on a specified body according to the given ship
+-- template and threat value.
+--
+-- See: Spawn.SpawnShipLanded
 ---@param body Body
 ---@param template MissionUtils.ShipTemplate
 ---@param threat number
@@ -630,7 +778,13 @@ function ShipBuilder.MakeShipLanded(body, template, threat, lat, lon)
 	return ship
 end
 
----@param body Body
+-- Function: MakeShipDocked
+--
+-- Spawns a ship docked atan a specified station according to the given ship
+-- template and threat value.
+--
+-- See: Spawn.SpawnShipDocked
+---@param body SpaceStation
 ---@param template MissionUtils.ShipTemplate
 ---@param threat number?
 ---@return Ship
@@ -653,6 +807,12 @@ function ShipBuilder.MakeShipDocked(body, template, threat)
 	return ship
 end
 
+-- Function: MakeShipAroundStar
+--
+-- Spawns a ship in orbit around the system center according to the given ship
+-- template and threat value.
+--
+-- See: Spawn.SpawnShip
 ---@param template MissionUtils.ShipTemplate
 ---@param threat number
 ---@param minDistAu number
