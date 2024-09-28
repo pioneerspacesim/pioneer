@@ -47,17 +47,41 @@ Equipment.Register("sensor.radar", SensorType.New {
 
 Equipment.Register("shield.basic_s1", EquipType.New {
 	l10n_key="SHIELD_GENERATOR",
-	price=2500, purchasable=true, tech_level=8,
+	price=2500, purchasable=true, tech_level=5,
 	slot = { type="shield", size=1 },
-	mass=2, volume=1, capabilities = { shield=1 },
+	mass=1, volume=2, capabilities = { shield=1 },
 	icon_name="equip_shield_generator"
 })
 
 Equipment.Register("shield.basic_s2", EquipType.New {
 	l10n_key="SHIELD_GENERATOR",
-	price=5500, purchasable=true, tech_level=9,
+	price=5500, purchasable=true, tech_level=7,
 	slot = { type="shield", size=2 },
-	mass=4, volume=2.5, capabilities = { shield=2 },
+	mass=2.8, volume=5, capabilities = { shield=2 },
+	icon_name="equip_shield_generator"
+})
+
+Equipment.Register("shield.basic_s3", EquipType.New {
+	l10n_key="SHIELD_GENERATOR",
+	price=11500, purchasable=true, tech_level=8,
+	slot = { type="shield", size=3 },
+	mass=7, volume=12.5, capabilities = { shield=3 },
+	icon_name="equip_shield_generator"
+})
+
+Equipment.Register("shield.basic_s4", EquipType.New {
+	l10n_key="SHIELD_GENERATOR",
+	price=23500, purchasable=true, tech_level=9,
+	slot = { type="shield", size=4 },
+	mass=17.9, volume=32, capabilities = { shield=4 },
+	icon_name="equip_shield_generator"
+})
+
+Equipment.Register("shield.basic_s5", EquipType.New {
+	l10n_key="SHIELD_GENERATOR",
+	price=58500, purchasable=true, tech_level=10,
+	slot = { type="shield", size=5 },
+	mass=43.7, volume=78, capabilities = { shield=5 },
 	icon_name="equip_shield_generator"
 })
 
@@ -132,14 +156,14 @@ Equipment.Register("misc.thrusters_best", ThrusterType.New {
 Equipment.Register("misc.fuel_scoop", EquipType.New {
 	l10n_key="FUEL_SCOOP",
 	price=3500, purchasable=true, tech_level=4,
-	slot = { type="scoop", size=1, hardpoint=true },
+	slot = { type="scoop.fuel", size=1, hardpoint=true },
 	mass=6, volume=4, capabilities={ fuel_scoop=3 },
 	icon_name="equip_fuel_scoop"
 })
 Equipment.Register("misc.cargo_scoop", EquipType.New {
 	l10n_key="CARGO_SCOOP",
 	price=3900, purchasable=true, tech_level=5,
-	slot = { type="scoop", size=1, hardpoint=true },
+	slot = { type="scoop.cargo", size=1, hardpoint=true },
 	mass=4, volume=7, capabilities={ cargo_scoop=1 },
 	icon_name="equip_cargo_scoop"
 })

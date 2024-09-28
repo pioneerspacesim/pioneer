@@ -203,26 +203,38 @@ Equipment.Register("missile.unguided_s1", EquipType.New {
 	l10n_key="MISSILE_UNGUIDED",
 	price=30, purchasable=true, tech_level=1,
 	missile_type="missile_unguided",
-	volume=0, mass=0.1,
+	volume=0, mass=0.045,
 	slot = { type="missile", size=1, hardpoint=true },
 	icon_name="equip_missile_unguided"
 })
+-- Approximately equivalent in size to an R60M / AA-8 'Aphid'
+Equipment.Register("missile.guided_s1", EquipType.New {
+	l10n_key="MISSILE_GUIDED",
+	price=45, purchasable=true, tech_level=5,
+	missile_type="missile_guided",
+	volume=0, mass=0.065,
+	slot = { type="missile", size=1, hardpoint=true },
+	icon_name="equip_missile_guided"
+})
+-- Approximately equivalent in size to an R73 / AA-11 'Archer'
 Equipment.Register("missile.guided_s2", EquipType.New {
 	l10n_key="MISSILE_GUIDED",
-	price=50, purchasable=true, tech_level=5,
+	price=60, purchasable=true, tech_level=5,
 	missile_type="missile_guided",
-	volume=0, mass=0.3,
+	volume=0, mass=0.145,
 	slot = { type="missile", size=2, hardpoint=true },
 	icon_name="equip_missile_guided"
 })
+-- Approximately equivalent in size to an R77 / AA-12 'Adder'
 Equipment.Register("missile.smart_s3", EquipType.New {
 	l10n_key="MISSILE_SMART",
-	price=95, purchasable=true, tech_level=10,
+	price=95, purchasable=true, tech_level=9,
 	missile_type="missile_smart",
 	volume=0, mass=0.5,
 	slot = { type="missile", size=3, hardpoint=true },
 	icon_name="equip_missile_smart"
 })
+-- TBD
 Equipment.Register("missile.naval_s4", EquipType.New {
 	l10n_key="MISSILE_NAVAL",
 	price=160, purchasable=true, tech_level="MILITARY",
@@ -232,17 +244,111 @@ Equipment.Register("missile.naval_s4", EquipType.New {
 	icon_name="equip_missile_naval"
 })
 
-Equipment.Register("missile_rack.opli_internal_s2", EquipType.New {
+--===============================================
+-- Missile Pylons
+--===============================================
+
+Equipment.Register("missile_rack.313", EquipType.New {
+	l10n_key="MISSILE_RAIL_S3",
+	price=150, purchasable=true, tech_level=1,
+	volume=0.0, mass=0.2,
+	slot = { type = "pylon.rack", size=3, hardpoint=true },
+	provides_slots = {
+		Slot:clone { id = "1", type = "missile", size = 3, hardpoint = true },
+	},
+	icon_name="equip_missile_unguided"
+})
+
+Equipment.Register("missile_rack.322", EquipType.New {
+	l10n_key="MISSILE_RACK_322",
+	price=150, purchasable=true, tech_level=1,
+	volume=0.0, mass=0.4,
+	slot = { type = "pylon.rack", size=3, hardpoint=true },
+	provides_slots = {
+		Slot:clone { id = "1", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "2", type = "missile", size = 2, hardpoint = true },
+	},
+	icon_name="equip_missile_unguided"
+})
+
+Equipment.Register("missile_rack.341", EquipType.New {
+	l10n_key="MISSILE_RACK_341",
+	price=150, purchasable=true, tech_level=1,
+	volume=0.0, mass=0.5,
+	slot = { type = "pylon.rack", size=3, hardpoint=true },
+	provides_slots = {
+		Slot:clone { id = "1", type = "missile", size = 1, hardpoint = true },
+		Slot:clone { id = "2", type = "missile", size = 1, hardpoint = true },
+		Slot:clone { id = "3", type = "missile", size = 1, hardpoint = true },
+		Slot:clone { id = "4", type = "missile", size = 1, hardpoint = true },
+	},
+	icon_name="equip_missile_unguided"
+})
+
+Equipment.Register("missile_rack.212", EquipType.New {
+	l10n_key="MISSILE_RAIL_S2",
+	price=150, purchasable=true, tech_level=1,
+	volume=0.0, mass=0.1,
+	slot = { type = "pylon.rack", size=2, hardpoint=true },
+	provides_slots = {
+		Slot:clone { id = "1", type = "missile", size = 2, hardpoint = true },
+	},
+	icon_name="equip_missile_unguided"
+})
+
+Equipment.Register("missile_rack.221", EquipType.New {
+	l10n_key="MISSILE_RACK_221",
+	price=150, purchasable=true, tech_level=1,
+	volume=0.0, mass=0.2,
+	slot = { type = "pylon.rack", size=2, hardpoint=true },
+	provides_slots = {
+		Slot:clone { id = "1", type = "missile", size = 1, hardpoint = true },
+		Slot:clone { id = "2", type = "missile", size = 1, hardpoint = true },
+	},
+	icon_name="equip_missile_unguided"
+})
+
+Equipment.Register("missile_rack.111", EquipType.New {
+	l10n_key="MISSILE_RAIL_S1",
+	price=150, purchasable=true, tech_level=1,
+	volume=0.0, mass=0.1,
+	slot = { type = "pylon.rack", size=1, hardpoint=true },
+	provides_slots = {
+		Slot:clone { id = "1", type = "missile", size = 1, hardpoint = true },
+	},
+	icon_name="equip_missile_unguided"
+})
+
+--===============================================
+-- Internal Missile Bays
+--===============================================
+
+Equipment.Register("missile_bay.opli_internal_s2", EquipType.New {
 	l10n_key="OPLI_INTERNAL_MISSILE_RACK_S2",
 	price=150, purchasable=true, tech_level=1,
 	volume=5.0, mass=0.5,
-	slot = { type = "missile_rack.opli_internal", size=2, hardpoint=true },
+	slot = { type = "missile_bay.opli_internal", size=2, hardpoint=true },
 	provides_slots = {
-		Slot:clone { id = "1", type = "missile", size = 2, size_min = 1, i18n_key = "HARDPOINT_MISSILE" },
-		Slot:clone { id = "2", type = "missile", size = 2, size_min = 1, i18n_key = "HARDPOINT_MISSILE" },
-		Slot:clone { id = "3", type = "missile", size = 2, size_min = 1, i18n_key = "HARDPOINT_MISSILE" },
-		Slot:clone { id = "4", type = "missile", size = 2, size_min = 1, i18n_key = "HARDPOINT_MISSILE" },
-		Slot:clone { id = "5", type = "missile", size = 2, size_min = 1, i18n_key = "HARDPOINT_MISSILE" },
+		Slot:clone { id = "1", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "2", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "3", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "4", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "5", type = "missile", size = 2, hardpoint = true },
+	},
+	icon_name="equip_missile_unguided"
+})
+
+Equipment.Register("missile_bay.bowfin", EquipType.New {
+	l10n_key="OKB_KALURI_BOWFIN_MISSILE_RACK",
+	price=150, purchasable=true, tech_level=1,
+	volume=0.0, mass=0.2,
+	slot = { type = "missile_bay.bowfin", size=2, hardpoint=true },
+	provides_slots = {
+		Slot:clone { id = "1", type = "missile", size = 1, hardpoint = true },
+		Slot:clone { id = "2", type = "missile", size = 1, hardpoint = true },
+		Slot:clone { id = "3", type = "missile", size = 1, hardpoint = true },
+		Slot:clone { id = "4", type = "missile", size = 1, hardpoint = true },
+		Slot:clone { id = "5", type = "missile", size = 1, hardpoint = true },
 	},
 	icon_name="equip_missile_unguided"
 })

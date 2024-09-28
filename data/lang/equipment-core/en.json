@@ -448,123 +448,191 @@
     "message": "Weapons"
   },
   "THRUSTERS_DEFAULT": {
-	"description": "",
-	"message": "Default Thrusters"
+    "description": "",
+    "message": "Default Thrusters"
   },
   "PROJECTILE_SPEED": {
-	"description": "Stat name for weapon projectile speeds",
-	"message": "Projectile Speed"
+    "description": "Stat name for weapon projectile speeds",
+    "message": "Projectile Speed"
   },
   "STAT_VOLUME": {
-	"description": "",
-	"message": "Volume"
+    "description": "",
+    "message": "Volume"
   },
   "STAT_WEIGHT": {
-	"description": "",
-	"message": "Weight"
+    "description": "",
+    "message": "Weight"
   },
   "STAT_POWER_DRAW": {
-	"description": "",
-	"message": "Power Draw"
+    "description": "",
+    "message": "Power Draw"
   },
   "COMPUTER_MODULES": {
-	"description": "Category name of computer-related equipment",
-	"message": "Computer Modules"
+    "description": "Category name of computer-related equipment",
+    "message": "Computer Modules"
   },
   "HULL_MOUNTS": {
-	"description": "Category name for hull-mounted equipment",
-	"message": "Hull Mounts"
+    "description": "Category name for hull-mounted equipment",
+    "message": "Hull Mounts"
   },
-  "HARDPOINT_LASER_FRONT": {
-	"description": "Name for the 'Laser Front' equipment hardpoint",
-	"message": "Laser Front"
+  "HARDPOINT_CARGO_SCOOP": {
+    "description": "Name for the 'Cargo Scoop' equipment hardpoint",
+    "message": "Cargo Scoop"
+  },
+  "HARDPOINT_FUEL_SCOOP": {
+    "description": "Name for the 'Fuel Scoop' equipment hardpoint",
+    "message": "Fuel Scoop"
   },
   "HARDPOINT_MISSILE": {
-	"description": "",
-	"message": "Missile"
+    "description": "Name for a generic missile mount",
+    "message": "Missile"
+  },
+  "HARDPOINT_PYLON": {
+    "description": "Name for a generic missile pylon",
+    "message": "Pylon"
   },
   "HARDPOINT_MISSILE_BAY": {
-	"description": "Name for the 'Missile Bay' equipment hardpoint",
-	"message": "Missile Bay"
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "Missile Bay"
+  },
+  "HARDPOINT_MISSILE_ARRAY": {
+    "description": "Name for the 'Missile Array' equipment hardpoint",
+    "message": "Missile Array"
+  },
+  "HARDPOINT_SCOOP": {
+    "description": "Name for a generic scoop hardpoint",
+    "message": "Scoop"
   },
   "HARDPOINT_UTILITY": {
-	"description": "",
-	"message": "Utility"
+    "description": "",
+    "message": "Utility"
+  },
+  "HARDPOINT_WEAPON_FRONT": {
+    "description": "Name for the 'Laser Front' equipment hardpoint",
+    "message": "Front Weapon"
+  },
+  "HARDPOINT_WEAPON_CHIN": {
+    "description": "Name for the 'Laser Chin' equipment hardpoint",
+    "message": "Chin Weapon"
+  },
+  "HARDPOINT_WEAPON_LEFT_NOSE": {
+    "description": "",
+    "message": "Left Nose"
+  },
+  "HARDPOINT_WEAPON_RIGHT_NOSE": {
+    "description": "",
+    "message": "Right Nose"
   },
   "SLOT_SENSOR": {
-	"description": "",
-	"message": "Sensor"
+    "description": "",
+    "message": "Sensor"
   },
   "SLOT_CABIN": {
-	"description": "",
-	"message": "Cabin"
+    "description": "",
+    "message": "Cabin"
   },
   "SLOT_COMPUTER": {
-	"description": "",
-	"message": "Computer"
+    "description": "",
+    "message": "Computer"
   },
   "SLOT_SHIELD": {
-	"description": "",
-	"message": "Shield"
+    "description": "",
+    "message": "Shield"
   },
   "SLOT_SHIELD_LEFT": {
-	"description": "",
-	"message": "Shield L"
+    "description": "",
+    "message": "Shield L"
   },
   "SLOT_SHIELD_RIGHT": {
-	"description": "",
-	"message": "Shield R"
+    "description": "",
+    "message": "Shield R"
   },
   "SLOT_HULL": {
-	"description": "",
-	"message": "Hull"
+    "description": "",
+    "message": "Hull"
   },
   "SLOT_HYPERDRIVE": {
-	"description": "",
-	"message": "Hyperdrive"
+    "description": "",
+    "message": "Hyperdrive"
   },
   "SLOT_ENGINE": {
-	"description": "",
-	"message": "Engines"
+    "description": "",
+    "message": "Engines"
   },
   "SLOT_THRUSTER": {
-	"description": "",
-	"message": "Thrusters"
+    "description": "",
+    "message": "Thrusters"
+  },
+  "SLOT_CABIN_FORE": {
+    "description": "",
+    "message": "Fore Cabin"
+  },
+  "SLOT_CABIN_REAR": {
+    "description": "",
+    "message": "Rear Cabin"
   },
   "MISC_EQUIPMENT": {
-	"description": "Category header for miscellaneous equipment",
-	"message": "Miscellaneous"
+    "description": "Category header for miscellaneous equipment",
+    "message": "Miscellaneous"
   },
   "SORT_NAME": {
-	"description": "",
-	"message": "Name"
+    "description": "",
+    "message": "Name"
   },
   "SORT_WEIGHT": {
-	"description": "",
-	"message": "Weight"
+    "description": "",
+    "message": "Weight"
   },
   "SORT_VOLUME": {
-	"description": "",
-	"message": "Volume"
+    "description": "",
+    "message": "Volume"
   },
   "SORT_PRICE": {
-	"description": "",
-	"message": "Price"
+    "description": "",
+    "message": "Price"
   },
   "OPLI_INTERNAL_MISSILE_RACK_S2": {
-	"description": "",
-	"message": "OPLI Internal Missile Rack"
+    "description": "",
+    "message": "OPLI Internal Missile Rack"
+  },
+  "OKB_KALURI_BOWFIN_MISSILE_RACK": {
+    "description": "",
+    "message": "Bowfin Missile Launcher"
   },
   "CABINS": {
-	"description": "Category header for pressurized cabin slots",
-	"message": "Cabins"
+    "description": "Category header for pressurized cabin slots",
+    "message": "Cabins"
   },
   "PASSENGER_BERTHS": {
-	"description": "",
-	"message": "Passenger Berths"
+    "description": "",
+    "message": "Passenger Berths"
   },
   "OCCUPIED_BERTHS": {
+    "description": "",
+    "message": "Occupied Berths"
+  },
+  "MISSILE_RAIL_S1": {
 	"description": "",
-	"message": "Occupied Berths"
+	"message": "Cnida-101 Missile Rail"
+  },
+  "MISSILE_RAIL_S2": {
+	"description": "",
+	"message": "Cnida-102 Missile Rail"
+  },
+  "MISSILE_RAIL_S3": {
+	"description": "",
+	"message": "Cnida-103 Missile Rail"
+  },
+  "MISSILE_RACK_341": {
+	"description": "",
+	"message": "LH-140 Hydri Missile Rack"
+  },
+  "MISSILE_RACK_322": {
+	"description": "",
+	"message": "LH-230 Hydri Missile Rack"
+  },
+  "MISSILE_RACK_221": {
+	"description": "",
+	"message": "LH-120 Hydri Missile Rack"
   }
 }
