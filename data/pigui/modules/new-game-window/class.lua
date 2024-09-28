@@ -25,16 +25,16 @@ local Game = require 'Game'
 local profileCombo = { items = {}, selected = 0 }
 
 local equipment2 = {
-	computer_1    = "misc.autopilot",
-	laser_front   = "laser.pulsecannon_1mw",
-	shield_1      = "shield.basic_s1",
-	shield_2      = "shield.basic_s1",
-	sensor        = "sensor.radar",
-	hull_mod      = "hull.atmospheric_shielding",
-	hyperdrive    = "hyperspace.hyperdrive_2",
-	thruster      = "misc.thrusters_default",
-	missile_bay_1 = "missile_rack.opli_internal_s2",
-	missile_bay_2 = "missile_rack.opli_internal_s2",
+	computer_1     = "misc.autopilot",
+	laser_front_s2 = "laser.pulsecannon_1mw",
+	shield_s1_1    = "shield.basic_s1",
+	shield_s1_2    = "shield.basic_s1",
+	sensor         = "sensor.radar",
+	hull_mod       = "hull.atmospheric_shielding",
+	hyperdrive     = "hyperspace.hyperdrive_2",
+	thruster       = "misc.thrusters_default",
+	missile_bay_1  = "missile_bay.opli_internal_s2",
+	missile_bay_2  = "missile_bay.opli_internal_s2",
 }
 
 StartVariants.register({

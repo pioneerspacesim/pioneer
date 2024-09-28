@@ -36,7 +36,7 @@ local EquipmentWidget = utils.class("UI.EquipmentWidget", Module)
 EquipmentWidget.Sections = {
 	{ name = le.PROPULSION, types = { "engine", "thruster", "hyperdrive" } },
 	{ name = le.WEAPONS, type = "weapon" },
-	{ name = le.MISSILES, types = { "pylon", "missile_rack" } },
+	{ name = le.MISSILES, types = { "pylon", "missile_bay", "missile" } },
 	{ name = le.SHIELDS, type = "shield" },
 	{ name = le.SENSORS, type = "sensor", },
 	{ name = le.COMPUTER_MODULES, type = "computer", },

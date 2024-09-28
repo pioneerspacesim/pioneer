@@ -242,7 +242,7 @@ end
 function FormatAndCompareShips:draw_hyperdrive_cell(desc)
 
 	local function fmt( v )
-		return v > 0 and
+		return v > 0 and v < 8 and
 			Equipment.new["hyperspace.hyperdrive_" .. v]:GetName() or l.NONE
 	end
 
