@@ -500,11 +500,11 @@ local ThrusterType = utils.inherits(EquipType, "Equipment.ThrusterType")
 
 --==============================================================================
 
-Serializer:RegisterClass("LaserType", LaserType)
 Serializer:RegisterClass("EquipType", EquipType)
-Serializer:RegisterClass("HyperdriveType", HyperdriveType)
-Serializer:RegisterClass("SensorType", SensorType)
-Serializer:RegisterClass("BodyScannerType", BodyScannerType)
+Serializer:RegisterClass("Equipment.LaserType", LaserType)
+Serializer:RegisterClass("Equipment.HyperdriveType", HyperdriveType)
+Serializer:RegisterClass("Equipment.SensorType", SensorType)
+Serializer:RegisterClass("Equipment.BodyScannerType", BodyScannerType)
 Serializer:RegisterClass("Equipment.CabinType", CabinType)
 Serializer:RegisterClass("Equipment.ThrusterType", ThrusterType)
 
