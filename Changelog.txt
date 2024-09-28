@@ -5,6 +5,10 @@ September 2024
   * Internal
     * Simplified random station selection for delivery missions (#5915)
 
+  * Fixes
+    * Fix savefiles directory not being created (#5919)
+    * Update advice on hyper drive mechanics (#5923)
+
 August 2024
   * New Features
     * Implement a consistent (and purple!) UI theme (#5865)
