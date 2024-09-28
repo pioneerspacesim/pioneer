@@ -137,8 +137,9 @@ function EquipSet:OnShipTypeChanged()
 
 	assert(#self.installed == 0, "Missed some equipment while cleaning the ship")
 
-	-- HullConfig changed, need to rebuild list of slots
+	-- HullConfig changed, need to reset volume and rebuild list of slots
 	self.config = HullConfig.GetHullConfigs()[self.ship.shipId]
+	self.ship:setprop("totalVolume", self.config.capacity)
 
 	self.slotCache = {}
 	self.idCache = {}
