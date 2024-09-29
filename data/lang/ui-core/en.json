@@ -743,6 +743,10 @@
     "description": "",
     "message": "Full screen"
   },
+  "GAME_OPTIONS": {
+    "description": "GameOptions - tooltip for the Game Options tab in the Settings Window",
+    "message": "Game Options"
+  },
   "GAME_TIME": {
     "description": "",
     "message": "Game time"

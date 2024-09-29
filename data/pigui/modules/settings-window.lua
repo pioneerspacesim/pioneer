@@ -170,7 +170,6 @@ local function showVideoOptions()
 	local displaySpeedLines = Engine.GetDisplaySpeedLines()
 	local displayHudTrails = Engine.GetDisplayHudTrails()
 	local enableCockpit = Engine.GetCockpitEnabled()
-	local enableAutoSave = Engine.GetAutosaveEnabled()
 
 	local c
 	ui.text(lui.VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY)
@@ -256,11 +255,6 @@ local function showVideoOptions()
 	c,enableCockpit = checkbox(lui.ENABLE_COCKPIT, enableCockpit, lui.ENABLE_COCKPIT_DESC)
 	if c then
 		Engine.SetCockpitEnabled(enableCockpit)
-	end
-
-	c,enableAutoSave = checkbox(lui.ENABLE_AUTOSAVE, enableAutoSave, lui.ENABLE_AUTOSAVE_DESC)
-	if c then
-		Engine.SetAutosaveEnabled(enableAutoSave)
 	end
 
 	c,starDensity = slider(lui.STAR_FIELD_DENSITY, starDensity, 0, 100)
@@ -637,11 +631,22 @@ local function showControlsOptions()
 	end
 end
 
+local function showGameOptions()
+	local enableAutoSave = Engine.GetAutosaveEnabled()
+	local c
+
+	c,enableAutoSave = checkbox(lui.ENABLE_AUTOSAVE, enableAutoSave, lui.ENABLE_AUTOSAVE_DESC)
+	if c then
+		Engine.SetAutosaveEnabled(enableAutoSave)
+	end
+end
+
 local optionsTabs = {
 	["video"]=showVideoOptions,
 	["sound"]=showSoundOptions,
 	["language"]=showLanguageOptions,
-	["controls"]=showControlsOptions
+	["controls"]=showControlsOptions,
+	["game"]=showGameOptions
 }
 
 ui.optionsWindow = ModalWindow.New("Options", function()
@@ -660,6 +665,9 @@ ui.optionsWindow = ModalWindow.New("Options", function()
 
 		mainButton(icons.controls, lui.CONTROLS, showTab=='controls', function()
 			showTab = 'controls'
+		end)
+		mainButton(icons.settings, lui.GAME_OPTIONS, showTab=='game', function()
+			showTab = 'game'
 		end)
 	end)
 
