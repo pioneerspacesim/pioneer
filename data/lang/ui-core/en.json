@@ -2031,6 +2031,14 @@
     "description": "Paintshop button",
     "message": "Reset Preview"
   },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT": {
+    "description": "Reset View on Hyperspace Exit option",
+    "message": "Reset View on Hyperspace Exit"
+  },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT_DESC": {
+    "description": "The tooltip of Reset View on Hyperspace Exit in the settings menu",
+    "message": "Reset view to main game view when exiting from hyperspace"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Return to game"

@@ -11,6 +11,7 @@
 local Player = package.core["Player"]
 
 local Serializer = require 'Serializer'
+local Engine = require 'Engine'
 local Event = require 'Event'
 local Game = require 'Game'
 local utils = require 'utils'
@@ -430,8 +431,16 @@ local onGameEnd = function ()
 	-- clean up for next game:
 end
 
+local onEnterSystem = function ()
+	-- Return to game view when we exit hyperspace
+	if Engine.GetResetViewOnHyperspaceExit() and Game.CurrentView() ~= "world" then
+		Game.SetView("world")
+	end
+end
+
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onGameStart", onGameStart)
+Event.Register("onEnterSystem", onEnterSystem)
 Serializer:RegisterClass("CrimeRecord", CrimeRecord)
 Serializer:Register("Player", serialize, unserialize)
 

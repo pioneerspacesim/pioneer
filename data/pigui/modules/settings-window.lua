@@ -633,11 +633,17 @@ end
 
 local function showGameOptions()
 	local enableAutoSave = Engine.GetAutosaveEnabled()
+	local resetViewOnHyperspaceExit = Engine.GetResetViewOnHyperspaceExit()
 	local c
 
 	c,enableAutoSave = checkbox(lui.ENABLE_AUTOSAVE, enableAutoSave, lui.ENABLE_AUTOSAVE_DESC)
 	if c then
 		Engine.SetAutosaveEnabled(enableAutoSave)
+	end
+
+	c,resetViewOnHyperspaceExit = checkbox(lui.RESET_VIEW_ON_HYPERSPACE_EXIT, resetViewOnHyperspaceExit, lui.RESET_VIEW_ON_HYPERSPACE_EXIT_DESC)
+	if c then
+		Engine.SetResetViewOnHyperspaceExit(resetViewOnHyperspaceExit)
 	end
 end
 
