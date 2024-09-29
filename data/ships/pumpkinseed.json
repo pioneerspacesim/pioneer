@@ -1,28 +1,95 @@
 {
 	"model": "pumpkinseed",
 	"name": "Pumpkinseed",
-	"cockpit": " ",
+	"cockpit": "",
 	"shield_model": "pumpkinseed_shield",
 	"manufacturer": "kaluri",
 	"ship_class": "light_courier",
 	"min_crew": 1,
-	"max_crew": 2,
-	"price": 36151,
-	"hull_mass": 10,
+	"max_crew": 1,
+	"price": 19104,
+	"hull_mass": 11,
+	"structure_mass": 4.2,
+	"armor_mass": 6.6,
+	"volume": 87,
 	"atmospheric_pressure_limit": 4,
-	"capacity": 17,
-	"slots": {
-		"engine": 1,
-		"cabin": 3,
-		"laser_front": 1,
-		"missile": 4,
-		"cargo": 10
-	},
-	"roles": ["mercenary", "merchant", "pirate", "courier"],
+	"capacity": 14.5,
+	"cargo": 4,
 
+	"equipment_slots": {
+		"missile_s1_1": {
+			"type": "missile",
+			"size": 1,
+			"tag": "tag_missile_s1_1",
+			"hardpoint": true
+		},
+		"missile_s1_2": {
+			"type": "missile",
+			"size": 1,
+			"tag": "tag_missile_s1_2",
+			"hardpoint": true
+		},
+		"missile_s1_3": {
+			"type": "missile",
+			"size": 1,
+			"tag": "tag_missile_s1_3",
+			"hardpoint": true
+		},
+		"missile_s1_4": {
+			"type": "missile",
+			"size": 1,
+			"tag": "tag_missile_s1_4",
+			"hardpoint": true
+		},
+		"fuel_scoop_s1": {
+			"type": "scoop.fuel",
+			"size": 1,
+			"i18n_key": "HARDPOINT_FUEL_SCOOP",
+			"tag": "tag_fuel_scoop_s1",
+			"hardpoint": true
+		},
+		"cabin_s1_1": {
+			"type": "cabin",
+			"size": 1
+		},
+		"laser_front_s1": {
+			"type": "weapon",
+			"size": 1,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT",
+			"tag": "tag_laser_front_s1",
+			"hardpoint": true,
+			"gimbal": [2,2]
+		},
+		"shield_s1_1": {
+			"type": "shield",
+			"size": 1
+		},
+		"utility_s1_1": {
+			"type": "utility",
+			"size": 1,
+			"tag": "tag_utility_s1_1",
+			"hardpoint": true
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"size": 1,
+			"size_min": 1
+		},
+		"engine": {
+			"type": "engine",
+			"size": 2,
+			"count": 4
+		},
+		"thruster": {
+			"type": "thruster",
+			"size": 1,
+			"count": 12
+		}
+	},
+	"roles": ["pirate","mercenary"],
 	"effective_exhaust_velocity": 15200000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 9,
+	"fuel_tank_mass": 10,
 	"hyperdrive_class": 1,
 
 	"forward_thrust": 1500000,
@@ -38,7 +105,7 @@
 	"right_thrust": 160000,
 	"right_acceleration_cap": 15.9903,
 
-	"angular_thrust": 1001276.26323262,
+	"angular_thrust": 1001276.26,
 
 	"front_cross_section": 38,
 	"side_cross_section": 45,

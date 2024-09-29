@@ -8,25 +8,88 @@
 	"min_crew": 1,
 	"max_crew": 1,
 	"price": 0,
-	"hull_mass": 18,
+	"hull_mass": 19,
+	"structure_mass": 7.1,
+	"armor_mass": 11.9,
+	"volume": 190,
 	"atmospheric_pressure_limit": 3.2,
-	"capacity": 30,
-	"slots": {
-		"engine": 1,
-		"cabin": 1,
-		"laser_front": 1,
-		"missile": 10,
-		"shield": 3,
-		"cargo": 16
+	"capacity": 36,
+	"cargo": 16,
+
+	"equipment_slots": {
+		"utility_s1_1": {
+			"type": "utility",
+			"size": 1,
+			"tag": "tag_utility_s1_1",
+			"hardpoint": true
+		},
+		"utility_s1_2": {
+			"type": "utility",
+			"size": 1,
+			"tag": "tag_utility_s1_2",
+			"hardpoint": true
+		},
+		"missile_bay_1": {
+			"type": "missile_bay.opli_internal",
+			"size": 2,
+			"i18n_key": "HARDPOINT_MISSILE_BAY",
+			"tag": "tag_missile_bay_1",
+			"hardpoint": true,
+			"default": "missile_rack.opli_internal_s2"
+		},
+		"missile_bay_2": {
+			"type": "missile_bay.opli_internal",
+			"size": 2,
+			"i18n_key": "HARDPOINT_MISSILE_BAY",
+			"tag": "tag_missile_bay_2",
+			"hardpoint": true,
+			"default": "missile_rack.opli_internal_s2"
+		},
+		"computer_2": {
+			"type": "computer",
+			"size": 1
+		},
+		"laser_front_s2": {
+			"type": "weapon",
+			"size": 2,
+			"size_min": 1,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT",
+			"tag": "tag_laser_front_s2",
+			"hardpoint": true,
+			"gimbal": [4,4]
+		},
+		"shield_s1_1": {
+			"type": "shield",
+			"size": 1
+		},
+		"shield_s1_2": {
+			"type": "shield",
+			"size": 1
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"size": 2,
+			"size_min": 1
+		},
+		"engine": {
+			"type": "engine",
+			"size": 2,
+			"count": 2
+		},
+		"thruster": {
+			"type": "thruster",
+			"size": 1,
+			"count": 12
+		}
 	},
-	"roles": ["mercenary"],
+	"roles": ["mercenary","police"],
 	"effective_exhaust_velocity": 12600000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 23,
 	"hyperdrive_class": 2,
 
 	"forward_thrust": 1800000,
-	"forward_acceleration_cap": 26.487,
+	"forward_acceleration_cap": 42.183,
 	"reverse_thrust": 920000,
 	"reverse_acceleration_cap": 20.601,
 	"up_thrust": 1400000,
@@ -38,7 +101,7 @@
 	"right_thrust": 920000,
 	"right_acceleration_cap": 11.4777,
 
-	"angular_thrust": 3799843.41896781,
+	"angular_thrust": 3799843.42,
 
 	"front_cross_section": 16.2,
 	"side_cross_section": 39,
