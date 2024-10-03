@@ -270,6 +270,8 @@ end
 
 function Windows.edgeButtons.Show()
 	local isOrrery = systemView:GetDisplayMode() == "Orrery"
+	local isCurrent = systemView:GetSystemSelectionMode() == "CURRENT_SYSTEM"
+
 	if ui.mainMenuButton(icons.reset_view, luc.RESET_ORIENTATION_AND_ZOOM) then
 		systemView:SetVisibility("RESET_VIEW")
 	end
@@ -281,6 +283,16 @@ function Windows.edgeButtons.Show()
 	ui.newLine()
 
 	drawWindowControlButton(Windows.objectInfo, icons.info, lc.OBJECT_INFO)
+
+	-- view control buttons
+	if not isCurrent and ui.mainMenuButton(icons.planet_grid, luc.HUD_BUTTON_SWITCH_TO_CURRENT_SYSTEM) then
+		systemView:SetSystemSelectionMode("CURRENT_SYSTEM")
+	end
+
+	if isCurrent and ui.mainMenuButton(icons.galaxy_map, luc.HUD_BUTTON_SWITCH_TO_SELECTED_SYSTEM) then
+		systemView:SetSystemSelectionMode("SELECTED_SYSTEM")
+	end
+
 	-- visibility control buttons
 	if isOrrery then
 		if ui.mainMenuButton(buttonState[ship_drawing].icon, lc.SHIPS_DISPLAY_MODE_TOGGLE, buttonState[ship_drawing].state) then
@@ -403,7 +415,12 @@ local function getColor(obj)
 end
 
 function Windows.systemName.Show()
-	local path = Game.sectorView:GetSelectedSystemPath()
+	local path
+	if systemView:GetSystemSelectionMode() == "SELECTED_SYSTEM" then
+		path = Game.sectorView:GetSelectedSystemPath()
+	else
+		path = systemView:GetSystem().path
+	end
 	ui.text(ui.Format.SystemPath(path))
 end
 

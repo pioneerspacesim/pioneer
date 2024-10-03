@@ -168,6 +168,11 @@ public:
 		Atlas = 1
 	};
 
+	enum class SystemSelectionMode { // <enum name=SystemSelectionMode scope='SystemView::SystemSelectionMode' public>
+		CURRENT_SYSTEM = 0,
+		SELECTED_SYSTEM = 1,
+	};
+
 	SystemView(Game *game);
 	~SystemView() override;
 	void Update() override;
@@ -176,6 +181,9 @@ public:
 
 	Mode GetDisplayMode() { return m_displayMode; }
 	void SetDisplayMode(Mode displayMode) { m_displayMode = displayMode; }
+
+	SystemSelectionMode GetSystemSelectionMode() { return m_systemSelectionMode; }
+	void SetSystemSelectionMode(SystemSelectionMode systemMode);
 
 	TransferPlanner *GetTransferPlanner() const { return m_planner; }
 	double GetOrbitPlannerStartTime() const { return m_planner->GetStartTime(); }
@@ -199,6 +207,7 @@ private:
 	std::list<std::pair<Ship *, Orbit>> m_contacts;
 
 	Mode m_displayMode;
+	SystemSelectionMode m_systemSelectionMode;
 	bool m_viewingCurrentSystem;
 	bool m_unexplored;
 };

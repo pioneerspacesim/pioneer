@@ -221,6 +221,16 @@ local SystemViewMode = {
 ---@type SystemViewMode[]
 Constants.SystemViewMode = {}
 
+-- A <Constants.SystemSelectionMode> string
+---@enum (key) SystemSelectionMode
+local SystemSelectionMode = {
+	CURRENT_SYSTEM = 1,
+	SELECTED_SYSTEM = 2,
+}
+
+---@type SystemSelectionMode[]
+Constants.SystemSelectionMode = {}
+
 -- A <Constants.SystemViewColorIndex> string
 ---@enum (key) SystemViewColorIndex
 local SystemViewColorIndex = {
