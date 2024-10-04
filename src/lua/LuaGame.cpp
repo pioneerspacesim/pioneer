@@ -322,6 +322,47 @@ static int l_game_delete_save(lua_State *l)
 }
 
 /*
+ * Function: ListSaves
+ *
+ * Retrieves a list of all game saves along with their last-modified time.
+ *
+ * > Game.ListSaves()
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ *   saves - a list of save-games as names and modification-date
+ *
+ * Availability:
+ *
+ *   September 2024
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_game_list_saves(lua_State *l)
+{
+	auto saves = SaveGameManager::ListSaves();
+
+	lua_newtable(l);
+	int savesTable = lua_gettop(l);
+	int saves_len = 0;
+
+	for (const auto &save : saves)
+	{
+		LuaTable saveTable(l);
+		saveTable.Set("name", save.GetName());
+		saveTable.Set("mtime", save.GetModificationTime());
+
+		lua_rawseti(l, savesTable, ++saves_len);
+	}
+
+	return 1;
+}
+
+/*
  * Function: EndGame
  *
  * End the current game and return to the main menu.
@@ -710,6 +751,7 @@ void LuaGame::Register()
 		{ "CanLoadGame", l_game_can_load_game },
 		{ "SaveGame", l_game_save_game },
 		{ "DeleteSave", l_game_delete_save },
+		{ "ListSaves", l_game_list_saves },
 		{ "EndGame", l_game_end_game },
 		{ "InHyperspace", l_game_in_hyperspace },
 		{ "SaveGameStats", l_game_savegame_stats },

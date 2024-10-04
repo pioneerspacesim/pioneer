@@ -139,3 +139,18 @@ bool SaveGameManager::DeleteSave(const std::string &name)
 	}
 	return FileSystem::userFiles.RemoveFile(filePath);
 }
+
+std::vector<FileSystem::FileInfo> SaveGameManager::ListSaves()
+{
+	std::vector<FileSystem::FileInfo> saves;
+	auto files = FileSystem::userFiles.Enumerate(s_saveDirName, 0);
+	for (const FileSystem::FileInfo &fileInfo : files) {
+		// MKW TODO : should probably check that this file is actually a valid
+		// savegame file. But that would require actually loading the file,
+		// parsing it into a JSON object, and at the very least extracting the
+		// version number.
+		saves.push_back(fileInfo);
+	}
+	return saves;
+}
+

@@ -303,6 +303,22 @@ static int l_readonly_table_ipairs(lua_State *l)
 	return 3;
 }
 
+void pi_lua_push_date_time(lua_State *l, const Time::DateTime &dt)
+{
+	int year, month, day, hour, minute, second;
+	dt.GetDateParts(&year, &month, &day);
+	dt.GetTimeParts(&hour, &minute, &second);
+
+	lua_newtable(l);
+	pi_lua_settable(l, "year", year);
+	pi_lua_settable(l, "month", month);
+	pi_lua_settable(l, "day", day);
+	pi_lua_settable(l, "hour", hour);
+	pi_lua_settable(l, "minute", minute);
+	pi_lua_settable(l, "second", second);
+	pi_lua_settable(l, "timestamp", dt.ToGameTime());
+}
+
 void pi_lua_readonly_table_proxy(lua_State *l, int table_idx)
 {
 	table_idx = lua_absindex(l, table_idx);

@@ -56,7 +56,9 @@ public:
 
 	/** Delete a savegame file. */
 	static bool DeleteSave(const std::string &name);
+
+	/** Return a  list of saved games. */
+	static std::vector<FileSystem::FileInfo> ListSaves();
 };
 
 #endif
-
