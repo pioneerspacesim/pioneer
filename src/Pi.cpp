@@ -336,6 +336,8 @@ void Pi::App::OnStartup()
 
 	Output("%s\n", OS::GetOSInfoString().c_str());
 
+	Game::CreateSaveGameDirectory();
+
 	ModManager::Init();
 	ModManager::LoadMods(config);
 
@@ -804,7 +806,7 @@ void Pi::HandleKeyDown(SDL_Keysym *key)
 
 		else {
 			const std::string name = "_quicksave";
-			const std::string path = FileSystem::JoinPath(GetSaveDir(), name);
+			const std::string path = FileSystem::JoinPath(Game::GetSaveGameDirectory(), name);
 			try {
 				Game::SaveGame(name, Pi::game);
 				Pi::game->log->Add(Lang::GAME_SAVED_TO + path);
@@ -1194,13 +1196,6 @@ SceneGraph::Model *Pi::FindModel(const std::string &name, bool allowPlaceholder)
 	}
 
 	return m;
-}
-
-const char Pi::SAVE_DIR_NAME[] = "savefiles";
-
-std::string Pi::GetSaveDir()
-{
-	return FileSystem::JoinPath(FileSystem::GetUserDir(), Pi::SAVE_DIR_NAME);
 }
 
 // request that the game is ended as soon as safely possible

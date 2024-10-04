@@ -271,7 +271,7 @@ static int l_game_save_game(lua_State *l)
 	std::string path;
 
 	try {
-		path = FileSystem::JoinPathBelow(Pi::GetSaveDir(), filename);
+		path = FileSystem::JoinPathBelow(Game::GetSaveGameDirectory(), filename);
 		Game::SaveGame(filename, Pi::game);
 		lua_pushlstring(l, path.c_str(), path.size());
 		return 1;

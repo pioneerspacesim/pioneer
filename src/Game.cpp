@@ -34,6 +34,7 @@
 #include "pigui/PiGuiView.h"
 #include "ship/PlayerShipController.h"
 
+static const char s_saveDirName[] = "savefiles";
 static const int s_saveVersion = 90;
 
 Game::Game(const SystemPath &path, const double startDateTime, const char *shipType) :
@@ -929,7 +930,7 @@ void Game::EmitPauseState(bool paused)
 
 Json Game::LoadGameToJson(const std::string &filename)
 {
-	Json rootNode = JsonUtils::LoadJsonSaveFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename), FileSystem::userFiles);
+	Json rootNode = JsonUtils::LoadJsonSaveFile(FileSystem::JoinPathBelow(s_saveDirName, filename), FileSystem::userFiles);
 	if (!rootNode.is_object()) {
 		Output("Loading saved game '%s' failed.\n", filename.c_str());
 		throw SavedGameCorruptException();
@@ -960,7 +961,7 @@ bool Game::CanLoadGame(const std::string &filename)
 {
 	FILE *f;
 	try {
-		f = FileSystem::userFiles.OpenReadStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
+		f = FileSystem::userFiles.OpenReadStream(FileSystem::JoinPathBelow(s_saveDirName, filename));
 	} catch (const std::invalid_argument &) {
 		return false;
 	}
@@ -975,7 +976,7 @@ bool Game::DeleteSave(const std::string &filename)
 {
 	std::string filePath;
 	try {
-		filePath = FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename);
+		filePath = FileSystem::JoinPathBelow(s_saveDirName, filename);
 	} catch (const std::invalid_argument &) {
 		return false;
 	}
@@ -993,14 +994,11 @@ void Game::SaveGame(const std::string &filename, Game *game)
 	if (game->GetPlayer()->IsDead())
 		throw CannotSaveDeadPlayer();
 
-	if (!FileSystem::userFiles.MakeDirectory(Pi::SAVE_DIR_NAME))
-		throw CouldNotOpenFileException();
-
 	if (!FileSystem::IsValidFilename(filename))
 		throw std::invalid_argument(filename);
 	FILE *f;
 	try {
-		f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
+		f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(s_saveDirName, filename));
 	} catch (const std::invalid_argument &) {
 		throw CouldNotOpenFileException();
 	}
@@ -1033,4 +1031,14 @@ void Game::SaveGame(const std::string &filename, Game *game)
 int Game::CurrentSaveVersion()
 {
 	return s_saveVersion;
+}
+
+bool Game::CreateSaveGameDirectory()
+{
+	return FileSystem::userFiles.MakeDirectory(s_saveDirName);
+}
+
+const std::string Game::GetSaveGameDirectory()
+{
+	return FileSystem::JoinPath(FileSystem::userFiles.GetRoot(), s_saveDirName);
 }
