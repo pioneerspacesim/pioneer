@@ -3,8 +3,8 @@
 
 #include "LuaJson.h"
 #include "FileSystem.h"
-#include "Game.h"
 #include "JsonUtils.h"
+#include "SaveGameManager.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
 
@@ -101,9 +101,10 @@ static int l_load_save_file(lua_State *l)
 {
 	std::string filename = luaL_checkstring(l, 1);
 
-	Json data = JsonUtils::LoadJsonSaveFile(FileSystem::JoinPathBelow(Game::GetSaveGameDirectory(), filename), FileSystem::userFiles);
-	if (data.is_null())
+	Json data = SaveGameManager::LoadGameToJson(filename);
+	if (data.is_null()) {
 		return luaL_error(l, "Error loading JSON file %s.", filename.c_str());
+	}
 
 	_push_json_to_lua(l, data);
 

@@ -30,6 +30,7 @@
 #include "Player.h"
 #include "PngWriter.h"
 #include "Projectile.h"
+#include "SaveGameManager.h"
 #include "SectorView.h"
 #include "Sfx.h"
 #include "Shields.h"
@@ -336,7 +337,7 @@ void Pi::App::OnStartup()
 
 	Output("%s\n", OS::GetOSInfoString().c_str());
 
-	Game::CreateSaveGameDirectory();
+	SaveGameManager::Init();
 
 	ModManager::Init();
 	ModManager::LoadMods(config);
@@ -806,9 +807,9 @@ void Pi::HandleKeyDown(SDL_Keysym *key)
 
 		else {
 			const std::string name = "_quicksave";
-			const std::string path = FileSystem::JoinPath(Game::GetSaveGameDirectory(), name);
+			const std::string path = FileSystem::JoinPath(SaveGameManager::GetSaveGameDirectory(), name);
 			try {
-				Game::SaveGame(name, Pi::game);
+				SaveGameManager::SaveGame(name, Pi::game);
 				Pi::game->log->Add(Lang::GAME_SAVED_TO + path);
 			} catch (CouldNotOpenFileException) {
 				Pi::game->log->Add(stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path)));
