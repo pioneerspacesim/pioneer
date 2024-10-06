@@ -357,11 +357,14 @@ if (NATURALDOCS)
 	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 endif()
 
-find_program(PYTHON NAMES python)
-if (PYTHON)
+find_package(Python2 COMPONENTS Interpreter)
+if (Python2_Interpreter_FOUND)
 	add_custom_target(enums
-		COMMAND scripts/scan_enums.py -o src/enum_table.cpp --pattern='*.h' -r src
-		WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+		COMMAND "${Python2_EXECUTABLE}" scripts/scan_enums.py -o src/enum_table.cpp --pattern='*.h' -r src
+		WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+	)
+else()
+	message(WARNING, "Python 2 not found; enums will not be scanned.")
 endif()
 
 target_link_libraries(pioneer-lib PUBLIC lz4 fmt::fmt)
