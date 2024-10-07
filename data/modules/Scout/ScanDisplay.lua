@@ -183,6 +183,7 @@ function scanDisplay:drawScanInfo(scan, isHighlighted)
 	-- displayed when the active scanner cannot carry out the scan
 	local altitude = string.upper(ls.INVALID_SCANNER)
 	local target = ""
+	local completion = ""
 
 	local params = scanMgr:GetScanParameters(sBody, scan.minResolution, scan.orbital)
 	if params and params.canScan then
@@ -191,16 +192,16 @@ function scanDisplay:drawScanInfo(scan, isHighlighted)
 
 	if scan.orbital then
 		target = string.format("%.1f%%", scan.targetCoverage * 100.0)
+		completion = string.format("%2.1f%%", math.floor(scan.coverage * 1000) / 10)
 	else
 		target = ui.Format.Distance(scan.targetCoverage * 1000.0, "%.1f")
+		completion = ui.Format.Distance(scan.coverage * 1000.0, "%.1f")
 	end
-
-	local completion = math.min(1.0, scan.coverage / scan.targetCoverage)
 
 	local data = {
 		title = sBody.name .. ", " .. scan.bodyPath:GetStarSystem().name,
 		target = target,
-		completion = string.format("%2.1f%%", completion * 100.0),
+		completion = completion,
 		isActive = self.scanMgr:GetActiveScan() == scan,
 		scan = scan,
 		icon = scan.orbital and icons.map or icons.scanner,
