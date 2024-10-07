@@ -262,7 +262,7 @@ namespace Background {
 
 	class SampleStarsTask : public Task {
 	public:
-		SampleStarsTask(RefCountedPtr<Galaxy> galaxy, StarQueryInfo info, int32_t starsLimit, StarInfo &stars, double &medianBrightness, TaskRange range) :
+		SampleStarsTask(RefCountedPtr<Galaxy> galaxy, const StarQueryInfo &info, int32_t starsLimit, StarInfo &stars, double &medianBrightness, TaskRange range) :
 			Task(range),
 			galaxy(galaxy),
 			info(info),
@@ -374,7 +374,7 @@ namespace Background {
 
 	class SortStarsTask : public Task {
 	public:
-		SortStarsTask(StarQueryInfo info, StarInfo &stars, double medianBrightness) :
+		SortStarsTask(const StarQueryInfo &info, StarInfo &stars, double medianBrightness) :
 			info(info),
 			stars(stars),
 			medianBrightness(medianBrightness)

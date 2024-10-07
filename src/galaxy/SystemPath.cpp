@@ -42,11 +42,13 @@ SystemPath SystemPath::Parse(const char *const str)
 
 	assert(s.length() > 0);
 
+	// delete Leading '('
 	if (s[0] == '(')
 		s = s.substr(1, s.length());
 
+	// delete trailing ')'
 	if (s[s.length() - 1] == ')')
-		s = s.substr(0, s.length() - 1);
+		s.pop_back();
 
 	std::vector<std::string> parts = split(s, ",");
 	int x = 0, y = 0, z = 0, si = 0, bi = 0;

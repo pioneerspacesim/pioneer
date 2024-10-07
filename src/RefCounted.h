@@ -12,7 +12,7 @@ class RefCounted : public LuaWrappable {
 public:
 	RefCounted() :
 		m_refCount(0) {}
-	virtual ~RefCounted() {}
+	virtual ~RefCounted() override {}
 
 	inline void IncRefCount() const { ++m_refCount; }
 	inline void DecRefCount() const

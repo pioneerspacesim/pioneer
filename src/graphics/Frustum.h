@@ -17,7 +17,7 @@ namespace Graphics {
 	class Frustum {
 	public:
 		// create for specified values
-		Frustum(float width, float height, float fovAng, float nearClip, float farClip);
+		Frustum(const float width, const float height, const float fovAng, const float nearClip, const float farClip);
 		Frustum(const matrix4x4d &modelview, const matrix4x4d &projection);
 
 		// test if point (sphere) is in the frustum
@@ -34,7 +34,7 @@ namespace Graphics {
 
 	private:
 		// create from current gl state
-		Frustum();
+		Frustum(){};
 
 		void InitFromMatrix(const matrix4x4d &m);
 

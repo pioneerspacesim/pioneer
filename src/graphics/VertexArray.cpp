@@ -48,54 +48,54 @@ namespace Graphics {
 
 	void VertexArray::Add(const vector3f &v)
 	{
-		position.push_back(v);
+		position.emplace_back(v);
 	}
 
 	void VertexArray::Add(const vector3f &v, const Color &c)
 	{
-		position.push_back(v);
-		diffuse.push_back(c);
+		position.emplace_back(v);
+		diffuse.emplace_back(c);
 	}
 
 	void VertexArray::Add(const vector3f &v, const Color &c, const vector3f &n)
 	{
-		position.push_back(v);
-		diffuse.push_back(c);
-		normal.push_back(n);
+		position.emplace_back(v);
+		diffuse.emplace_back(c);
+		normal.emplace_back(n);
 	}
 
 	void VertexArray::Add(const vector3f &v, const Color &c, const vector2f &uv)
 	{
-		position.push_back(v);
-		diffuse.push_back(c);
-		uv0.push_back(uv);
+		position.emplace_back(v);
+		diffuse.emplace_back(c);
+		uv0.emplace_back(uv);
 	}
 
 	void VertexArray::Add(const vector3f &v, const vector2f &uv)
 	{
-		position.push_back(v);
-		uv0.push_back(uv);
+		position.emplace_back(v);
+		uv0.emplace_back(uv);
 	}
 
 	void VertexArray::Add(const vector3f &v, const vector3f &n)
 	{
-		position.push_back(v);
-		normal.push_back(n);
+		position.emplace_back(v);
+		normal.emplace_back(n);
 	}
 
 	void VertexArray::Add(const vector3f &v, const vector3f &n, const vector2f &uv)
 	{
-		position.push_back(v);
-		normal.push_back(n);
-		uv0.push_back(uv);
+		position.emplace_back(v);
+		normal.emplace_back(n);
+		uv0.emplace_back(uv);
 	}
 
 	void VertexArray::Add(const vector3f &v, const vector3f &n, const vector2f &uv, const vector3f &tang)
 	{
-		position.push_back(v);
-		normal.push_back(n);
-		uv0.push_back(uv);
-		tangent.push_back(tang);
+		position.emplace_back(v);
+		normal.emplace_back(n);
+		uv0.emplace_back(uv);
+		tangent.emplace_back(tang);
 	}
 
 	void VertexArray::Set(const Uint32 idx, const vector3f &v)

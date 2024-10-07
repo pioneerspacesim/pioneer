@@ -372,7 +372,7 @@ void SectorView::ClearRoute()
 	m_setupLines = true;
 }
 
-std::vector<SystemPath> SectorView::GetRoute()
+const std::vector<SystemPath> &SectorView::GetRoute() const
 {
 	return m_route;
 }

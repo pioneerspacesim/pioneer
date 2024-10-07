@@ -89,7 +89,7 @@ std::string format_date_only(double t)
 	return buf;
 }
 
-std::string string_join(std::vector<std::string> &v, std::string sep)
+std::string string_join(std::vector<std::string> &v, const std::string &sep)
 {
 	std::vector<std::string>::iterator i = v.begin();
 	std::string out;

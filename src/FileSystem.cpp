@@ -146,7 +146,7 @@ namespace FileSystem {
 		return path;
 	}
 
-	bool CopyDir(FileSource &sourceFS, std::string sourceDir, FileSourceFS &targetFS, std::string targetDir, FileSystem::CopyMode copymode)
+	bool CopyDir(FileSource &sourceFS, const std::string &sourceDir, FileSourceFS &targetFS, const std::string &targetDir, FileSystem::CopyMode copymode)
 	{
 		// NOTE: copymode var is not used, because only mode ONLY_MISSING_IN_TARGET is implemented
 		if (!sourceFS.Lookup(sourceDir).IsDir() || !targetFS.Lookup(targetDir).IsDir())

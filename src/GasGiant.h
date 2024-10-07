@@ -47,16 +47,14 @@ public:
 
 	static bool OnAddTextureFaceResult(const SystemPath &path, GasGiantJobs::STextureFaceResult *res);
 	static bool OnAddGPUGenResult(const SystemPath &path, GasGiantJobs::SGPUGenResult *res);
-	static void Init();
-	static void Uninit();
+	static void InitGasGiant();
+	static void UninitGasGiant();
 	static void UpdateAllGasGiants();
 	static void OnChangeDetailLevel();
 
 	static void CreateRenderTarget(const Uint16 width, const Uint16 height);
 	static void SetRenderTargetCubemap(const Uint32, Graphics::Texture *, const bool unBind = true);
 	static Graphics::RenderTarget *GetRenderTarget();
-	static void BeginRenderTarget();
-	static void EndRenderTarget();
 
 private:
 	void BuildFirstPatches();

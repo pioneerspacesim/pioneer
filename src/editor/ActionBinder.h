@@ -87,10 +87,10 @@ namespace Editor {
 
 		// draw the GroupEntry named by 'id' in the context of an existing
 		// dropdown menu (i.e. do not submit a top-level BeginMenu)
-		void DrawGroup(std::string id) { DrawMenuInternal(m_groupStorage.at(id), false); }
+		void DrawGroup(const std::string &id) { DrawMenuInternal(m_groupStorage.at(id), false); }
 
 		// draw the GroupEntry named by 'id' as a submenu (with a top-level BeginMenu)
-		void DrawMenu(std::string id) { DrawMenuInternal(m_groupStorage.at(id), true); }
+		void DrawMenu(const std::string &id) { DrawMenuInternal(m_groupStorage.at(id), true); }
 
 		// draw the GroupEntry named by 'id' in the context of a button toolbar
 		// void DrawToolbar(std::string id)
@@ -99,26 +99,26 @@ namespace Editor {
 
 		// Begin a group or menu with the given ID. ID is a qualified domain
 		// name relative to the current ID stack.
-		ActionBinder &BeginGroup(std::string id) { BeginInternal(id, false); return *this; }
-		ActionBinder &BeginMenu(std::string id) { BeginInternal(id, true); return *this; }
+		ActionBinder &BeginGroup(const std::string &id) { BeginInternal(id, false); return *this; }
+		ActionBinder &BeginMenu(const std::string &id) { BeginInternal(id, true); return *this; }
 		void EndGroup() { EndInternal(); }
 		void EndMenu() { EndInternal(); }
 
 		// Add the given action to the currently open group. Fails if no group
 		// is open. The action can be referenced by the fully-qualified id
 		// 'group-id[.group-id[...]].action-id'.
-		ActionBinder &AddAction(std::string id, ActionEntry &&entry) { AddInternal(id, std::move(entry)); return *this; }
+		ActionBinder &AddAction(const std::string &id, ActionEntry &&entry) { AddInternal(id, std::move(entry)); return *this; }
 
 		std::vector<std::string> &GetGroups() { return m_topLevelGroups; }
 
-		ActionEntry *GetAction(std::string id);
-		void TriggerAction(std::string id);
+		ActionEntry *GetAction(const std::string &id);
+		void TriggerAction(const std::string &id);
 
 	private:
-		void BeginInternal(std::string id, bool menu);
+		void BeginInternal(const std::string &id, bool menu);
 		void EndInternal();
 
-		void AddInternal(std::string id, ActionEntry &&entry);
+		void AddInternal(const std::string &id, ActionEntry &&entry);
 
 		void DrawMenuInternal(Group &group, bool menuHeading);
 

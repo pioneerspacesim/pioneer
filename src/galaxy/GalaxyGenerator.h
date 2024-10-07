@@ -29,7 +29,7 @@ public:
 	}
 	static RefCountedPtr<Galaxy> CreateFromJson(const Json &jsonObj);
 
-	static std::string GetDefaultGeneratorName() { return s_defaultGenerator; }
+	static const std::string& GetDefaultGeneratorName() { return s_defaultGenerator; }
 	static Version GetDefaultGeneratorVersion() { return s_defaultVersion; }
 	static Version GetLastVersion(const std::string &name);
 

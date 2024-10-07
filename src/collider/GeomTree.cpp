@@ -8,6 +8,7 @@
 #include "scenegraph/Serializer.h"
 #include "../utils.h"
 
+#include <array>
 #include <map>
 
 #pragma GCC optimize("O3")
@@ -16,7 +17,7 @@ GeomTree::~GeomTree()
 {
 }
 
-GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vector3f> &vertices, const std::vector<Uint32> indices, const std::vector<Uint32> triFlags) :
+GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vector3f> &vertices, const std::vector<Uint32> &indices, const std::vector<Uint32> &triFlags) :
 	m_numVertices(numVerts),
 	m_numTris(numTris),
 	m_vertices(vertices),

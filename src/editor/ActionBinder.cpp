@@ -145,7 +145,7 @@ void ActionBinder::DrawMenuInternal(Group &group, bool submitMenuItem)
 		ImGui::EndMenu();
 }
 
-void ActionBinder::BeginInternal(std::string id, bool menu)
+void ActionBinder::BeginInternal(const std::string &id, bool menu)
 {
 	for (std::string_view name : SplitString(id, ".")) {
 
@@ -178,7 +178,7 @@ void ActionBinder::EndInternal()
 	m_activeGroupStack.pop_back();
 }
 
-void ActionBinder::AddInternal(std::string id, ActionEntry &&entry)
+void ActionBinder::AddInternal(const std::string &id, ActionEntry &&entry)
 {
 	if (m_activeGroupStack.empty())
 		return;
@@ -191,7 +191,7 @@ void ActionBinder::AddInternal(std::string id, ActionEntry &&entry)
 	group->entries.push_back(&iter->second);
 }
 
-ActionEntry *ActionBinder::GetAction(std::string id)
+ActionEntry *ActionBinder::GetAction(const std::string &id)
 {
 	if (!m_actionStorage.count(id))
 		return nullptr;
@@ -199,7 +199,7 @@ ActionEntry *ActionBinder::GetAction(std::string id)
 	return &m_actionStorage.at(id);
 }
 
-void ActionBinder::TriggerAction(std::string id)
+void ActionBinder::TriggerAction(const std::string &id)
 {
 	ActionEntry *entry = GetAction(id);
 

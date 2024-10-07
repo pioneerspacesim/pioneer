@@ -18,7 +18,7 @@ public:
 		y(v.y),
 		z(v.z) {}
 
-	V operator+(const V a) const { return V(a.x + x, a.y + y, a.z + z); }
+	V operator+(const V &a) const { return V(a.x + x, a.y + y, a.z + z); }
 	friend V operator*(const V a, const double s) { return V(a.x * s, a.y * s, a.z * s); }
 };
 

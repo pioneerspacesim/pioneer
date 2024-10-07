@@ -26,7 +26,7 @@ using namespace InputBindings;
 
 // TODO: push the actual action pointer to lua
 struct LuaInputAction : public LuaWrappable {
-	LuaInputAction(std::string _id) :
+	LuaInputAction(const std::string &_id) :
 		id(_id) {}
 	std::string id;
 
@@ -158,7 +158,7 @@ struct LuaInputAction : public LuaWrappable {
 
 // TODO: push the actual axis pointer to lua
 struct LuaInputAxis : public LuaWrappable {
-	LuaInputAxis(std::string _id) :
+	LuaInputAxis(const std::string &_id) :
 		id(_id) {}
 	std::string id;
 

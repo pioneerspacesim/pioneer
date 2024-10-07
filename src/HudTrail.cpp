@@ -16,11 +16,10 @@ const Uint16 MAX_POINTS = 100;
 
 HudTrail::HudTrail(Body *b, const Color &c) :
 	m_body(b),
+	m_currentFrame(b->GetFrame()),
 	m_updateTime(0.f),
 	m_color(c)
 {
-	m_currentFrame = b->GetFrame();
-
 	Graphics::MaterialDescriptor desc;
 
 	Graphics::RenderStateDesc rsd;
@@ -45,7 +44,7 @@ void HudTrail::Update(float time)
 		}
 
 		if (bodyFrameId == m_currentFrame)
-			m_trailPoints.push_back(m_body->GetInterpPosition());
+			m_trailPoints.emplace_back(m_body->GetInterpPosition());
 	}
 
 	while (m_trailPoints.size() > MAX_POINTS)
@@ -71,15 +70,15 @@ void HudTrail::Render(Graphics::Renderer *r)
 		tvts.reserve(MAX_POINTS);
 		colors.reserve(MAX_POINTS);
 
-		tvts.push_back(vector3f(0.f));
-		colors.push_back(Color::BLANK);
+		tvts.emplace_back(vector3f(0.f));
+		colors.emplace_back(Color::BLANK);
 		float alpha = 1.f;
 		const float decrement = 1.f / m_trailPoints.size();
 		const Color tcolor = m_color;
 		for (size_t i = m_trailPoints.size() - 1; i > 0; i--) {
-			tvts.push_back(-vector3f(curpos - m_trailPoints[i]));
+			tvts.emplace_back(-vector3f(curpos - m_trailPoints[i]));
 			alpha -= decrement;
-			colors.push_back(tcolor);
+			colors.emplace_back(tcolor);
 			colors.back().a = Uint8(alpha * 255);
 		}
 

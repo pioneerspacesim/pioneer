@@ -35,7 +35,7 @@ Log::Logger::~Logger()
 		fclose(file);
 }
 
-bool Log::Logger::SetLogFile(std::string filename)
+bool Log::Logger::SetLogFile(const std::string &filename)
 {
 	FILE *stream = FileSystem::userFiles.OpenWriteStream(filename, FileSystem::FileSourceFS::WRITE_TEXT);
 	if (!stream) {

@@ -487,7 +487,7 @@ static int l_starsystem_attr_other_names(lua_State *l)
 	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	LuaTable names(l);
 	int i = 1;
-	for (std::string n : s->GetOtherNames()) {
+	for (const std::string &n : s->GetOtherNames()) {
 		LuaPush(l, i++);
 		LuaPush(l, n);
 		lua_settable(l, -3);

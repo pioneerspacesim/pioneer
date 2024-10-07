@@ -19,7 +19,7 @@
 #include "profiler/Profiler.h"
 #include "versioningInfo.h"
 
-GuiApplication::GuiApplication(std::string title) :
+GuiApplication::GuiApplication(const std::string &title) :
 	Application(), m_applicationTitle(title)
 {}
 
