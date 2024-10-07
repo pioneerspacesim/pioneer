@@ -24,6 +24,7 @@
 #endif
 #include "Pi.h"
 #include "Player.h"
+#include "SaveGameManager.h"
 #include "SectorView.h"
 #include "Sfx.h"
 #include "Space.h"
@@ -33,8 +34,6 @@
 #include "galaxy/GalaxyGenerator.h"
 #include "pigui/PiGuiView.h"
 #include "ship/PlayerShipController.h"
-
-static const int s_saveVersion = 90;
 
 Game::Game(const SystemPath &path, const double startDateTime, const char *shipType) :
 	m_galaxy(GalaxyGenerator::Create()),
@@ -153,8 +152,8 @@ Game::Game(const Json &jsonObj) :
 	try {
 		int version = jsonObj["version"];
 		Output("savefile version: %d\n", version);
-		if (version != s_saveVersion) {
-			Output("can't load savefile, expected version: %d\n", s_saveVersion);
+		if (version != SaveGameManager::CurrentSaveVersion()) {
+			Output("can't load savefile, expected version: %d\n", SaveGameManager::CurrentSaveVersion());
 			throw SavedGameWrongVersionException();
 		}
 	} catch (Json::type_error &) {
@@ -228,7 +227,7 @@ void Game::ToJson(Json &jsonObj)
 	Pi::luaSerializer->SavePersistent(jsonObj);
 
 	// version
-	jsonObj["version"] = s_saveVersion;
+	jsonObj["version"] = SaveGameManager::CurrentSaveVersion();
 
 	// galaxy generator
 	m_galaxy->ToJson(jsonObj);
@@ -925,112 +924,4 @@ void Game::EmitPauseState(bool paused)
 		LuaEvent::Queue(PiGui::GetEventQueue(), "onGameResumed");
 	}
 	LuaEvent::Emit();
-}
-
-Json Game::LoadGameToJson(const std::string &filename)
-{
-	Json rootNode = JsonUtils::LoadJsonSaveFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename), FileSystem::userFiles);
-	if (!rootNode.is_object()) {
-		Output("Loading saved game '%s' failed.\n", filename.c_str());
-		throw SavedGameCorruptException();
-	}
-	if (!rootNode["version"].is_number_integer() || rootNode["version"].get<int>() != s_saveVersion) {
-		Output("Loading saved game '%s' failed: wrong save file version.\n", filename.c_str());
-		throw SavedGameCorruptException();
-	}
-	return rootNode;
-}
-
-Game *Game::LoadGame(const std::string &filename)
-{
-	Output("Game::LoadGame('%s')\n", filename.c_str());
-
-	Json rootNode = LoadGameToJson(filename);
-
-	try {
-		return new Game(rootNode);
-	} catch (const Json::type_error &) {
-		throw SavedGameCorruptException();
-	} catch (const Json::out_of_range &) {
-		throw SavedGameCorruptException();
-	}
-}
-
-bool Game::CanLoadGame(const std::string &filename)
-{
-	FILE *f;
-	try {
-		f = FileSystem::userFiles.OpenReadStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
-	} catch (const std::invalid_argument &) {
-		return false;
-	}
-	if (!f)
-		return false;
-
-	fclose(f);
-	return true;
-}
-
-bool Game::DeleteSave(const std::string &filename)
-{
-	std::string filePath;
-	try {
-		filePath = FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename);
-	} catch (const std::invalid_argument &) {
-		return false;
-	}
-	return FileSystem::userFiles.RemoveFile(filePath);
-}
-
-void Game::SaveGame(const std::string &filename, Game *game)
-{
-	PROFILE_SCOPED()
-	assert(game);
-
-	if (game->IsHyperspace())
-		throw CannotSaveInHyperspace();
-
-	if (game->GetPlayer()->IsDead())
-		throw CannotSaveDeadPlayer();
-
-	if (!FileSystem::userFiles.MakeDirectory(Pi::SAVE_DIR_NAME))
-		throw CouldNotOpenFileException();
-
-	if (!FileSystem::IsValidFilename(filename))
-		throw std::invalid_argument(filename);
-	FILE *f;
-	try {
-		f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
-	} catch (const std::invalid_argument &) {
-		throw CouldNotOpenFileException();
-	}
-	if (!f)
-		throw CouldNotOpenFileException();
-	Json rootNode;
-	game->ToJson(rootNode); // Encode the game data as JSON and give to the root value.
-	std::vector<uint8_t> jsonData;
-	{
-		PROFILE_SCOPED_DESC("json.to_cbor");
-		jsonData = Json::to_cbor(rootNode); // Convert the JSON data to CBOR.
-	}
-
-	try {
-		// Compress the CBOR data.
-		const std::string comressed_data = gzip::CompressGZip(
-			std::string(reinterpret_cast<const char *>(jsonData.data()), jsonData.size()),
-			filename + ".json");
-		size_t nwritten = fwrite(comressed_data.data(), comressed_data.size(), 1, f);
-		fclose(f);
-		if (nwritten != 1) throw CouldNotWriteToFileException();
-	} catch (gzip::CompressionFailedException) {
-		fclose(f);
-		throw CouldNotWriteToFileException();
-	}
-
-	Pi::GetApp()->RequestProfileFrame("SaveGame");
-}
-
-int Game::CurrentSaveVersion()
-{
-	return s_saveVersion;
 }

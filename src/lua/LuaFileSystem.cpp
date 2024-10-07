@@ -5,6 +5,8 @@
 #include "FileSystem.h"
 #include "LuaConstants.h"
 #include "LuaObject.h"
+#include "LuaUtils.h"
+#include "LuaTable.h"
 #include "Pi.h"
 
 #include "core/StringUtils.h"
@@ -92,22 +94,6 @@ int LuaFileSystem::l_patched_io_open(lua_State* L)
 	}
 }
 
-static void push_date_time(lua_State *l, const Time::DateTime &dt)
-{
-	int year, month, day, hour, minute, second;
-	dt.GetDateParts(&year, &month, &day);
-	dt.GetTimeParts(&hour, &minute, &second);
-
-	lua_newtable(l);
-	pi_lua_settable(l, "year", year);
-	pi_lua_settable(l, "month", month);
-	pi_lua_settable(l, "day", day);
-	pi_lua_settable(l, "hour", hour);
-	pi_lua_settable(l, "minute", minute);
-	pi_lua_settable(l, "second", second);
-	pi_lua_settable(l, "timestamp", dt.ToGameTime());
-}
-
 /*
  * Function: ReadDirectory
  *
@@ -165,10 +151,9 @@ static int l_filesystem_read_dir(lua_State *l)
 
 	for (const auto &info : fs.source->Enumerate(rel_path, FileSystem::FileEnumerator::IncludeDirs))
 	{
-		lua_newtable(l);
-		pi_lua_settable(l, "name", info.GetName().c_str());
-		push_date_time(l, info.GetModificationTime());
-		lua_setfield(l, -2, "mtime");
+		LuaTable entryTime(l);
+		entryTime.Set("name", info.GetName());
+		entryTime.Set("mtime", info.GetModificationTime());
 
 		if (info.IsDir())
 			lua_rawseti(l, dirsTable, ++dirs_len);

@@ -30,6 +30,7 @@
 #include "Player.h"
 #include "PngWriter.h"
 #include "Projectile.h"
+#include "SaveGameManager.h"
 #include "SectorView.h"
 #include "Sfx.h"
 #include "Shields.h"
@@ -335,6 +336,8 @@ void Pi::App::OnStartup()
 		Output("ver %s but could not detect platform name.\n\n", version.c_str());
 
 	Output("%s\n", OS::GetOSInfoString().c_str());
+
+	SaveGameManager::Init();
 
 	ModManager::Init();
 	ModManager::LoadMods(config);
@@ -804,9 +807,9 @@ void Pi::HandleKeyDown(SDL_Keysym *key)
 
 		else {
 			const std::string name = "_quicksave";
-			const std::string path = FileSystem::JoinPath(GetSaveDir(), name);
+			const std::string path = FileSystem::JoinPath(SaveGameManager::GetSaveGameDirectory(), name);
 			try {
-				Game::SaveGame(name, Pi::game);
+				SaveGameManager::SaveGame(name, Pi::game);
 				Pi::game->log->Add(Lang::GAME_SAVED_TO + path);
 			} catch (CouldNotOpenFileException) {
 				Pi::game->log->Add(stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path)));
@@ -1194,13 +1197,6 @@ SceneGraph::Model *Pi::FindModel(const std::string &name, bool allowPlaceholder)
 	}
 
 	return m;
-}
-
-const char Pi::SAVE_DIR_NAME[] = "savefiles";
-
-std::string Pi::GetSaveDir()
-{
-	return FileSystem::JoinPath(FileSystem::GetUserDir(), Pi::SAVE_DIR_NAME);
 }
 
 // request that the game is ended as soon as safely possible
