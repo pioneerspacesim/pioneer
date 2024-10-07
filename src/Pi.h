@@ -150,10 +150,7 @@ public:
 	static bool AreHudTrailsDisplayed() { return hudTrailsDisplayed; }
 	static void SetHudTrailsDisplayed(bool state) { hudTrailsDisplayed = state; }
 
-	static std::string GetSaveDir();
 	static SceneGraph::Model *FindModel(const std::string &, bool allowPlaceholder = true);
-
-	static const char SAVE_DIR_NAME[];
 
 	static LuaSerializer *luaSerializer;
 	static LuaTimer *luaTimer;

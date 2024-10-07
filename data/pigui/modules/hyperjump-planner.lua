@@ -22,7 +22,6 @@ local hyperJumpPlanner = {} -- for export
 
 -- hyperjump route stuff
 local hyperjump_route = {}
-local route_jumps = 0
 local current_system
 local current_path
 local map_selected_path
@@ -66,8 +65,8 @@ local function showInfo()
 
 		textIcon(icons.route_destination, lui.FINAL_TARGET)
 
-		if route_jumps > 0 then
-			local final_path = hyperjump_route[route_jumps].path
+		if #hyperjump_route > 0 then
+			local final_path = hyperjump_route[#hyperjump_route].path
 			ui.sameLine()
 			if ui.selectable(ui.Format.SystemPath(final_path), false, {}) then
 				sectorView:SwitchToPath(final_path)
@@ -314,7 +313,6 @@ function hyperJumpPlanner.display()
 	current_path = Game.system and current_system.path -- will be nil during the hyperjump
 	current_fuel = Game.player:GetComponent('CargoManager'):CountCommodity(fuel_type)
 	map_selected_path = sectorView:GetSelectedSystemPath()
-	route_jumps = sectorView:GetRouteSize()
 	showHyperJumpPlannerWindow()
 end -- hyperJumpPlanner.display
 
@@ -342,7 +340,7 @@ function hyperJumpPlanner.onEnterSystem(ship)
 	-- this should be the case if you are following a route and want the route to be
 	-- updated as you make multiple jumps
 	if ship:IsPlayer() and remove_first_if_current then
-		if route_jumps > 0 and hyperjump_route[1] and hyperjump_route[1].path:IsSameSystem(Game.system.path) then
+		if #hyperjump_route > 0 and hyperjump_route[1] and hyperjump_route[1].path:IsSameSystem(Game.system.path) then
 			sectorView:RemoveRouteItem(1)
 		end
 	end

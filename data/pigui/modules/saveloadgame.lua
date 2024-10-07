@@ -269,7 +269,7 @@ function SaveLoadWindow:makeFilteredList()
 end
 
 function SaveLoadWindow:makeFileList()
-	local ok, files, _ = pcall(FileSystem.ReadDirectory, "user://savefiles")
+	local ok, files = pcall(Game.ListSaves)
 
 	if not ok then
 		Notification.add(Notification.Type.Error, lui.COULD_NOT_LOAD_SAVE_FILES, files --[[@as string]])

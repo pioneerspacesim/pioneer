@@ -201,7 +201,11 @@ void CollisionSpace::CollideGeom(Geom *a, Geom *b, void (*callback)(CollisionCon
 	double r2 = b->GetGeomTree()->GetRadius();
 
 	if ((pos1 - pos2).Length() <= (r1 + r2)) {
-		a->Collide(b, callback);
+		std::vector<CollisionContact> contacts = a->Collide(b);
+
+		for (auto &contact : contacts) {
+			callback(&contact);
+		}
 	}
 }
 

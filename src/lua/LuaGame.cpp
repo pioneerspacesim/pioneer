@@ -14,6 +14,7 @@
 #include "LuaUtils.h"
 #include "Pi.h"
 #include "Player.h"
+#include "SaveGameManager.h"
 #include "SectorView.h"
 #include "Space.h"
 #include "StringF.h"
@@ -97,7 +98,7 @@ static int l_game_savegame_stats(lua_State *l)
 	const std::string filename = LuaPull<std::string>(l, 1);
 
 	try {
-		Json rootNode = Game::LoadGameToJson(filename);
+		Json rootNode = SaveGameManager::LoadGameToJson(filename);
 
 		LuaTable t(l, 0, 3);
 
@@ -157,7 +158,7 @@ static int l_game_savegame_stats(lua_State *l)
  */
 static int l_game_current_save_version(lua_State *l)
 {
-	LuaPush(l, Game::CurrentSaveVersion());
+	LuaPush(l, SaveGameManager::CurrentSaveVersion());
 	return 1;
 }
 
@@ -190,7 +191,7 @@ static int l_game_load_game(lua_State *l)
 	const std::string filename(luaL_checkstring(l, 1));
 
 	try {
-		Pi::StartGame(Game::LoadGame(filename));
+		Pi::StartGame(SaveGameManager::LoadGame(filename));
 	} catch (const SavedGameCorruptException &) {
 		return luaL_error(l, Lang::GAME_LOAD_CORRUPT);
 	} catch (const SavedGameWrongVersionException &) {
@@ -231,7 +232,7 @@ static int l_game_can_load_game(lua_State *l)
 {
 	const std::string filename(luaL_checkstring(l, 1));
 
-	const bool success = Game::CanLoadGame(filename);
+	const bool success = SaveGameManager::CanLoadGame(filename);
 	lua_pushboolean(l, success);
 
 	return 1;
@@ -271,8 +272,8 @@ static int l_game_save_game(lua_State *l)
 	std::string path;
 
 	try {
-		path = FileSystem::JoinPathBelow(Pi::GetSaveDir(), filename);
-		Game::SaveGame(filename, Pi::game);
+		path = FileSystem::JoinPathBelow(SaveGameManager::GetSaveGameDirectory(), filename);
+		SaveGameManager::SaveGame(filename, Pi::game);
 		lua_pushlstring(l, path.c_str(), path.size());
 		return 1;
 	} catch (const CannotSaveInHyperspace &) {
@@ -316,7 +317,48 @@ static int l_game_save_game(lua_State *l)
 static int l_game_delete_save(lua_State *l)
 {
 	const std::string filename(luaL_checkstring(l, 1));
-	lua_pushboolean(l, Game::DeleteSave(filename));
+	lua_pushboolean(l, SaveGameManager::DeleteSave(filename));
+	return 1;
+}
+
+/*
+ * Function: ListSaves
+ *
+ * Retrieves a list of all game saves along with their last-modified time.
+ *
+ * > Game.ListSaves()
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ *   saves - a list of save-games as names and modification-date
+ *
+ * Availability:
+ *
+ *   September 2024
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_game_list_saves(lua_State *l)
+{
+	auto saves = SaveGameManager::ListSaves();
+
+	lua_newtable(l);
+	int savesTable = lua_gettop(l);
+	int saves_len = 0;
+
+	for (const auto &save : saves)
+	{
+		LuaTable saveTable(l);
+		saveTable.Set("name", save.GetName());
+		saveTable.Set("mtime", save.GetModificationTime());
+
+		lua_rawseti(l, savesTable, ++saves_len);
+	}
+
 	return 1;
 }
 
@@ -709,6 +751,7 @@ void LuaGame::Register()
 		{ "CanLoadGame", l_game_can_load_game },
 		{ "SaveGame", l_game_save_game },
 		{ "DeleteSave", l_game_delete_save },
+		{ "ListSaves", l_game_list_saves },
 		{ "EndGame", l_game_end_game },
 		{ "InHyperspace", l_game_in_hyperspace },
 		{ "SaveGameStats", l_game_savegame_stats },

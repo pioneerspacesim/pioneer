@@ -33,6 +33,22 @@ inline void pi_lua_generic_push(lua_State *l, const std::string_view &value)
 	lua_pushlstring(l, value.data(), value.size());
 }
 inline void pi_lua_generic_push(lua_State *l, const std::nullptr_t &value) { lua_pushnil(l); }
+inline void pi_lua_generic_push(lua_State *l, const Time::DateTime &dt) {
+	int year, month, day, hour, minute, second;
+	dt.GetDateParts(&year, &month, &day);
+	dt.GetTimeParts(&hour, &minute, &second);
+
+	lua_createtable(l, 7, 0);
+	pi_lua_settable(l, "year", year);
+	pi_lua_settable(l, "month", month);
+	pi_lua_settable(l, "day", day);
+	pi_lua_settable(l, "hour", hour);
+	pi_lua_settable(l, "minute", minute);
+	pi_lua_settable(l, "second", second);
+	pi_lua_settable(l, "timestamp", dt.ToGameTime());
+}
+
+
 
 inline void pi_lua_generic_pull(lua_State *l, int index, bool &out) { out = lua_toboolean(l, index); }
 inline void pi_lua_generic_pull(lua_State *l, int index, int32_t &out) { out = luaL_checkinteger(l, index); }

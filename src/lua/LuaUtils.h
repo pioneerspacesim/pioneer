@@ -6,6 +6,7 @@
 
 // to mask __attribute on MSVC
 #include "core/macros.h"
+#include "DateTime.h"
 
 #include <lua.hpp>
 #include <string>
@@ -62,6 +63,9 @@ inline void pi_lua_settable(lua_State *l, const char *key, const char *value)
 	lua_pushstring(l, value);
 	lua_rawset(l, -3);
 }
+
+/** Push a DateTime as a new table into \p l. */
+void pi_lua_push_date_time(lua_State *l, const Time::DateTime &dt);
 
 void pi_lua_open_standard_base(lua_State *l);
 
