@@ -14,8 +14,7 @@
 ---@field sectorView unknown #TODO: add type info for SectorView interface
 ---@field time number Game time in seconds since Jan. 1 3200
 ---@field paused boolean
-
----@class Game
+---@field difficulty number The current game difficulty (between 0 and 1, easy to hard).  See also Engine.SetDifficulty
 local Game = {}
 
 -- Ensure the CoreImport field is visible to static analysis

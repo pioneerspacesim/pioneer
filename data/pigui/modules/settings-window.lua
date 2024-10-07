@@ -36,6 +36,8 @@ local needBackgroundStarRefresh = false
 local starDensity = Engine.GetAmountStars() * 100
 local starFieldStarSizeFactor = Engine.GetStarFieldStarSizeFactor() * 100
 
+local difficulty = Engine.GetDifficulty()
+
 local function combo(label, selected, items, tooltip)
 	local color = colors.buttonBlue
 	local changed, ret = 0, nil
@@ -170,7 +172,6 @@ local function showVideoOptions()
 	local displaySpeedLines = Engine.GetDisplaySpeedLines()
 	local displayHudTrails = Engine.GetDisplayHudTrails()
 	local enableCockpit = Engine.GetCockpitEnabled()
-	local enableAutoSave = Engine.GetAutosaveEnabled()
 
 	local c
 	ui.text(lui.VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY)
@@ -256,11 +257,6 @@ local function showVideoOptions()
 	c,enableCockpit = checkbox(lui.ENABLE_COCKPIT, enableCockpit, lui.ENABLE_COCKPIT_DESC)
 	if c then
 		Engine.SetCockpitEnabled(enableCockpit)
-	end
-
-	c,enableAutoSave = checkbox(lui.ENABLE_AUTOSAVE, enableAutoSave, lui.ENABLE_AUTOSAVE_DESC)
-	if c then
-		Engine.SetAutosaveEnabled(enableAutoSave)
 	end
 
 	c,starDensity = slider(lui.STAR_FIELD_DENSITY, starDensity, 0, 100)
@@ -637,11 +633,25 @@ local function showControlsOptions()
 	end
 end
 
+local function showGameplayOptions()
+	local enableAutoSave = Engine.GetAutosaveEnabled()
+
+	local c
+
+	c,enableAutoSave = checkbox(lui.ENABLE_AUTOSAVE, enableAutoSave, lui.ENABLE_AUTOSAVE_DESC)
+	if c then
+		Engine.SetAutosaveEnabled(enableAutoSave)
+	end
+
+	c,difficulty = slider(lui.DIFFICULTY, difficulty, 0, 100)
+end
+
 local optionsTabs = {
 	["video"]=showVideoOptions,
 	["sound"]=showSoundOptions,
 	["language"]=showLanguageOptions,
-	["controls"]=showControlsOptions
+	["controls"]=showControlsOptions,
+	["gameplay"]=showGameplayOptions,
 }
 
 ui.optionsWindow = ModalWindow.New("Options", function()
@@ -661,6 +671,11 @@ ui.optionsWindow = ModalWindow.New("Options", function()
 		mainButton(icons.controls, lui.CONTROLS, showTab=='controls', function()
 			showTab = 'controls'
 		end)
+	end)
+	ui.sameLine()
+	-- TODO: localize
+	mainButton(icons.star, lui.GAMEPLAY, showTab=='gameplay', function()
+		showTab = 'gameplay'
 	end)
 
 	ui.separator()
@@ -692,6 +707,7 @@ ui.optionsWindow = ModalWindow.New("Options", function()
 	if Game.player then
 		ui.sameLine()
 		optionTextButton(lui.SAVE, nil, Game.player.flightState ~= 'HYPERSPACE', function()
+			ui.optionsWindow:persist()
 			ui.saveLoadWindow.mode = "SAVE"
 			ui.saveLoadWindow:open()
 		end)
@@ -718,17 +734,25 @@ end
 
 function ui.optionsWindow:open()
 	ModalWindow.open(self)
+	difficulty = Engine.GetDifficulty()
 	if Game.player then
 		Input.EnableBindings(false)
 		Event.Queue("onPauseMenuOpen")
 	end
 end
 
+function ui.optionsWindow:persist()
+	Engine.SetDifficulty( difficulty )
+	if Game.player then
+		Game.SetTimeAcceleration("1x")
+	end
+end
+
 function ui.optionsWindow:close()
+	self:persist()
 	if not captureBindingWindow.isOpen then
 		ModalWindow.close(self)
 		if Game.player then
-			Game.SetTimeAcceleration("1x")
 			Event.Queue("onPauseMenuClosed")
 		end
 	end

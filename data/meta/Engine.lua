@@ -18,6 +18,15 @@
 ---@class Engine
 local Engine = {}
 
--- TODO: add information about Engine methods
+-- TODO: add information about all Engine methods
+
+--- Get the current difficulty - either that for the current loaded game or the default for any new game if there is no game loaded
+--- see also Game.difficulty
+---@return integer Difficulty from 0 to 100, easy to hard
+function Engine:GetDifficulty() end
+
+--- Set the difficulty for the current game (if loaded) and the default for any new games created
+---@param percent integer Difficulty from 1 to 100 (clamped)
+function Engine:SetDifficulty( percent ) end
 
 return Engine

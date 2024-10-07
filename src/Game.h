@@ -127,6 +127,12 @@ public:
 
 	GameLog *log;
 
+	// for debug purposes only
+	unsigned int GetFrameNumber() const { return m_frameNumber; }
+
+	double GetDifficulty() const { return m_difficulty; }
+	void SetDifficulty(double difficulty);
+
 private:
 	class Views {
 	public:
@@ -187,6 +193,10 @@ private:
 	bool m_forceTimeAccel;
 	static const float s_timeAccelRates[];
 	static const float s_timeInvAccelRates[];
+
+	double m_difficulty;
+
+	unsigned int m_frameNumber = 0;
 };
 
 #endif

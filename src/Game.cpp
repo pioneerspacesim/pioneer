@@ -4,6 +4,7 @@
 #include "buildopts.h"
 
 #include "Game.h"
+#include "GameConfig.h"
 
 #include "Body.h"
 #include "DeathView.h"
@@ -50,6 +51,10 @@ Game::Game(const SystemPath &path, const double startDateTime, const char *shipT
 	m_forceTimeAccel(false)
 {
 	PROFILE_SCOPED()
+
+	int difficulty = Pi::config->Int("Difficulty", 50);
+	m_difficulty = difficulty / 100.0;
+
 	// Now that we have a Galaxy, check the starting location
 	if (!path.IsBodyPath())
 		throw InvalidGameStartLocation("SystemPath is not a body path");
@@ -180,6 +185,17 @@ Game::Game(const Json &jsonObj) :
 		m_hyperspaceDuration = jsonObj["hyperspace_duration"];
 		m_hyperspaceEndTime = jsonObj["hyperspace_end_time"];
 
+//		Our version is too old for this (at least on windows)...
+// 		if (jsonObj.contains("difficulty"))
+		if (jsonObj.cend() != jsonObj.find("difficulty"))
+		{
+			m_difficulty = jsonObj["difficulty"];
+		} else
+		{
+			int difficulty = Pi::config->Int("Difficulty", 50);
+			m_difficulty = difficulty / 100.0;
+		}
+
 		// space, all the bodies and things
 		m_space.reset(new Space(this, m_galaxy, jsonObj, m_time));
 
@@ -243,6 +259,8 @@ void Game::ToJson(Json &jsonObj)
 	jsonObj["hyperspace_progress"] = m_hyperspaceProgress;
 	jsonObj["hyperspace_duration"] = m_hyperspaceDuration;
 	jsonObj["hyperspace_end_time"] = m_hyperspaceEndTime;
+
+	jsonObj["difficulty"] = m_difficulty;
 
 	// Delete camera frame from frame structure:
 	bool have_cam_frame = m_gameViews->m_worldView->GetCameraContext()->GetTempFrame().valid();
@@ -795,6 +813,14 @@ ObjectViewerView *Game::GetObjectViewerView() const
 	return m_gameViews->m_objectViewerView;
 }
 #endif
+
+void Game::SetDifficulty(double difficulty)
+{
+	difficulty = std::max(difficulty, 0.0);
+	difficulty = std::min(difficulty, 1.0);
+	m_difficulty = difficulty;
+}
+
 
 Game::Views::Views() :
 	m_sectorView(nullptr),
