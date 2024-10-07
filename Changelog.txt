@@ -1,3 +1,15 @@
+October 2024
+  * New Features
+    * NameGen - Spice up the station names (#5906)
+    * Add interior lighting to stations (#5823)
+
+  * Internal
+    * Improve narrow-phase collision physics performance (#5789)
+
+  * Fixes
+    * Fix hyperspace route update bug across save/load cycle (#5924)
+    * Fix creating save game directory on startup & implementation improvement (#5927)
+
 September 2024
   * New Features
     * Icelandic culture name generator fix-up (#5913)

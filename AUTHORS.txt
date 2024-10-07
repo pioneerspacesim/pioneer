@@ -80,6 +80,7 @@ The Pioneer Developers are:
 * Marcus de Roos
 * Maxim aka Max5377
 * McPain
+* Michael Werle
 * Michele Botticelli
 * Michele Fanti
 * Miha Vitorovič
@@ -114,6 +115,7 @@ The Pioneer Developers are:
 * Sukender (Benoit Neil)
 * Szilárd Bálint
 * Taiki Kim
+* Tatjam
 * Taylor Talkington
 * Thierry Dupré
 * Tim Jones
