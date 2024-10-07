@@ -7,11 +7,12 @@
 #include "../matrix4x4.h"
 #include "../vector3.h"
 
+#include <vector>
+
 struct CollisionContact;
 class GeomTree;
 struct isect_t;
 struct Sphere;
-struct BVHNode;
 
 class Geom {
 public:
@@ -20,13 +21,13 @@ public:
 	void MoveTo(const matrix4x4d &m, const vector3d &pos);
 	inline const matrix4x4d &GetInvTransform() const { return m_invOrient; }
 	inline const matrix4x4d &GetTransform() const { return m_orient; }
-	//matrix4x4d GetRotation() const;
 	inline const vector3d &GetPosition() const { return m_pos; }
 	inline void Enable() { m_active = true; }
 	inline void Disable() { m_active = false; }
 	inline bool IsEnabled() const { return m_active; }
 	inline const GeomTree *GetGeomTree() const { return m_geomtree; }
-	void Collide(Geom *b, void (*callback)(CollisionContact *)) const;
+
+	std::vector<CollisionContact> Collide(Geom *b) const;
 	void CollideSphere(Sphere &sphere, void (*callback)(CollisionContact *)) const;
 	inline void *GetUserData() const { return m_data; }
 	inline void SetMailboxIndex(int idx) { m_mailboxIndex = idx; }
@@ -35,9 +36,9 @@ public:
 	inline int GetGroup() const { return m_group; }
 
 private:
-	void CollideEdgesWithTrisOf(int &maxContacts, const Geom *b, const matrix4x4d &transTo, void (*callback)(CollisionContact *)) const;
-	void CollideEdgesTris(int &maxContacts, const BVHNode *edgeNode, const matrix4x4d &transToB,
-		const Geom *b, const BVHNode *btriNode, void (*callback)(CollisionContact *)) const;
+	// Note: these functions could easily be made static and extracted into a separate collision system
+	void CollideEdgesWithTrisOf(std::vector<CollisionContact> &contacts, size_t maxContacts, const Geom *b, const matrix4x4d &transTo) const;
+	void CollideEdgeTris(std::vector<CollisionContact> &contacts, const matrix4x4d &transToB, const Geom *b, uint32_t edgeIdx, uint32_t triIdx, std::vector<uint32_t> &isect_buf) const;
 
 	// double-buffer position so we can keep previous position
 	vector3d m_pos;
