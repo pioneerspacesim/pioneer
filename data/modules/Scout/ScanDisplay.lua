@@ -57,8 +57,10 @@ function ScanCard:drawTitle(data, textWidth, isHighlighted)
 		ui.text(data.title)
 	end)
 
-	ui.setCursorScreenPos(pos + Vector2(textWidth - size.x, 0))
-	ui.text(data.completion)
+	if (not data.isActive) then
+		ui.setCursorScreenPos(pos + Vector2(textWidth - size.x, 0))
+		ui.text(data.completion)
+	end
 end
 
 local scanDisplay = {
