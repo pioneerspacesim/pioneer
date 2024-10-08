@@ -222,7 +222,7 @@ function scanDisplay:drawScanProgress(scan)
 	-- The style progress bar colour is yellow which is very jarring for this
 	-- display. So instead lets use the slider grab colour which should remain
 	-- suitable across any style changes in the future.
-	local progressBarColor = ui.getStyleColor("SliderGrabActive")
+	local progressBarColor = colors.uiPrimaryLight
 	ui.withStyleColors({ ["PlotHistogram"] = progressBarColor }, function()
 		ui.progressBar(completion, Vector2(width, 0), ls.MISSION_PROGRESS)
 	end)
