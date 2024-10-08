@@ -14,7 +14,7 @@ namespace Graphics {
 	// step for translating to frustum space
 	static const double TRANSLATE_STEP = 0.25;
 
-	Frustum::Frustum(const float width, const float height, const float fovAng, const float znear, const float zfar) :
+	Frustum::Frustum(float width, float height, float fovAng, float znear, float zfar) :
 		m_projMatrix(matrix4x4d::PerspectiveMatrix(DEG2RAD(Clamp(fovAng, FOV_MIN, FOV_MAX)), width / height, znear, zfar)),
 		m_modelMatrix(matrix4x4d::Identity())
 	{
