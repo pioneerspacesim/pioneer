@@ -82,6 +82,11 @@ public:
 	// need this now because stations rotate in their frame
 	virtual void UpdateInterpTransform(double alpha) override;
 
+	// Return true if any lightning changes were applied, only do so if body is inside
+	// or near enough to the station
+	bool CalcInteriorLighting(const Body *b, Color4ub& sLight, double& sIntensity) const;
+
+
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
 

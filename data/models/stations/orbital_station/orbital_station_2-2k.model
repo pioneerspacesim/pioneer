@@ -48,3 +48,7 @@ mesh station_ring_2-2k.dae
 
 collision station_B_coll.dae	
 #collision station_ring_2-5k_coll.dae
+
+bound capsule interior tag_interior1 tag_interior2 70
+bound capsule interior tag_interior2 tag_interior3 120
+bound capsule interior tag_interior3 tag_interior4 70

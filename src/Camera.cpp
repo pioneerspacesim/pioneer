@@ -15,6 +15,7 @@
 #include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"
 #include "graphics/RenderState.h"
+#include "SpaceStation.h"
 
 using namespace Graphics;
 
@@ -150,11 +151,13 @@ void Camera::Update()
 
 	// evaluate each body and determine if/where/how to draw it
 	m_sortedBodies.clear();
+	m_spaceStations.clear();
 	for (Body *b : Pi::game->GetSpace()->GetBodies()) {
 		BodyAttrs attrs;
 		attrs.body = b;
 		attrs.billboard = false; // false by default
 		attrs.calcAtmosphereLighting = false; // false by default
+		attrs.calcInteriorLighting = false;
 
 		// If the body wishes to be excluded from the draw, skip it.
 		if (b->GetFlags() & Body::FLAG_DRAW_EXCLUDE)
@@ -222,7 +225,15 @@ void Camera::Update()
 				attrs.calcAtmosphereLighting = true;
 		}
 
+		if(b->IsType(ObjectType::SHIP)) {
+			attrs.calcInteriorLighting = true;
+		}
+
 		m_sortedBodies.push_back(attrs);
+
+		if(b->IsType(ObjectType::SPACESTATION)) {
+			m_spaceStations.push_back(b);
+		}
 	}
 
 	// depth sort
@@ -297,11 +308,12 @@ void Camera::Draw(const Body *excludeBody)
 		m_renderer->SetLights(rendererLights.size(), &rendererLights[0]);
 	}
 
-	std::vector<float> oldIntensities;
+	// Save lights for later restoring
+	oldLightIntensities.clear();
 	std::vector<float> lightIntensities;
 	for (size_t i = 0; i < m_lightSources.size(); i++) {
-		lightIntensities.push_back(1.0);
-		oldIntensities.push_back(m_renderer->GetLight(i).GetIntensity());
+		oldLightIntensities.push_back(m_renderer->GetLight(i).GetIntensity());
+		lightIntensities.push_back(1.0f);
 	}
 
 	Graphics::VertexArray billboards(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
@@ -319,23 +331,11 @@ void Camera::Draw(const Body *excludeBody)
 			continue;
 		}
 
-		double ambient = 0.05, direct = 1.0;
-		if (attrs->calcAtmosphereLighting)
-			CalcLighting(attrs->body, ambient, direct);
-
-		for (size_t i = 0; i < m_lightSources.size(); i++)
-			lightIntensities[i] = direct * ShadowedIntensity(i, attrs->body);
-
-		// Setup dynamic lighting parameters
-		m_renderer->SetAmbientColor(Color(ambient * 255, ambient * 255, ambient * 255));
-		m_renderer->SetLightIntensity(m_lightSources.size(), lightIntensities.data());
-
+		PrepareLighting(attrs->body, attrs->calcAtmosphereLighting, attrs->calcInteriorLighting);
 		attrs->body->Render(m_renderer, this, attrs->viewCoords, attrs->viewTransform);
 	}
 
-	// Restore default ambient color and direct light intensities
-	m_renderer->SetAmbientColor(Color(255, 255, 255));
-	m_renderer->SetLightIntensity(m_lightSources.size(), oldIntensities.data());
+	RestoreLighting();
 
 	if (!billboards.IsEmpty()) {
 		Graphics::Renderer::MatrixTicket mt(m_renderer, matrix4x4f::Identity());
@@ -554,4 +554,54 @@ void Camera::PrincipalShadows(const Body *b, const int n, std::vector<Shadow> &s
 		if (it == itREnd) break;
 		shadowsOut.push_back(*(it++));
 	}
+}
+void Camera::CalcInteriorLighting(const Body* b, Color4ub &sLight, double &sFac) const
+{
+	for(const auto& ss : m_spaceStations) {
+		const SpaceStation* as_ss = static_cast<SpaceStation *>(ss);
+		const double distance2 = as_ss->GetPositionRelTo(b).LengthSqr();
+		const double maxClip = b->GetClipRadius() + ss->GetClipRadius();
+
+		// This short-circuits for efficient checking. Only one station may actually set
+		// lighting values in CalcInteriorLighting, which is why we return as soon as that happens
+		if (distance2 < maxClip * maxClip && as_ss->CalcInteriorLighting(b, sLight, sFac))
+			return;
+	}
+}
+
+void Camera::PrepareLighting(const Body *b, bool doAtmosphere, bool doInteriors) const
+{
+	std::vector<float> lightIntensities;
+
+	double ambient = 0.05, direct = 1.0;
+	if (doAtmosphere)
+		CalcLighting(b, ambient, direct);
+
+	Color4ub ambientLightColor = Color::WHITE;
+	Color4ub stationLightColor = Color::WHITE;
+	double stationFactor = 0.0;
+
+	if (doInteriors)
+		CalcInteriorLighting(b, stationLightColor, stationFactor);
+
+	direct = direct * (1.0 - stationFactor);
+	ambient = ambient * (1.0 - stationFactor) + stationFactor;
+
+	for (size_t i = 0; i < m_lightSources.size(); i++)
+		lightIntensities.push_back(direct * ShadowedIntensity(i, b));
+
+	// Setup dynamic lighting parameters
+	Color4ub ambientMix = (ambientLightColor.Shade((float)stationFactor)
+						   + stationLightColor.Shade(1.0f - stationFactor)).Shade(1.0 - ambient);
+	ambientMix.a = 255;
+
+	m_renderer->SetAmbientColor(ambientMix);
+	m_renderer->SetLightIntensity(m_lightSources.size(), lightIntensities.data());
+
+}
+
+void Camera::RestoreLighting() const
+{
+	m_renderer->SetAmbientColor(Color::WHITE);
+	m_renderer->SetLightIntensity(m_lightSources.size(), oldLightIntensities.data());
 }

@@ -49,3 +49,7 @@ mesh station_ring_2-10k.dae
 
 collision station_hub_A_coll.dae	
 collision station_ring_2-10k_coll.dae
+
+bound capsule interior tag_interior0 tag_interior1 70
+bound capsule interior tag_interior1 tag_interior2 110
+bound capsule interior tag_interior2 tag_interior3 70

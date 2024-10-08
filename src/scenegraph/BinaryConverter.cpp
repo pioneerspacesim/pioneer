@@ -126,10 +126,21 @@ void BinaryConverter::Save(const std::string &filename, const std::string &savep
 
 	SaveAnimations(wr, m);
 
+	// save bounds
+	wr.Int32(m->m_bounds.size());
+	for(const RunTimeBoundDefinition& bdef : m->m_bounds) {
+		wr.Int16(bdef.boundDef.type);
+		wr.String(bdef.boundDef.forBound);
+		wr.String(bdef.boundDef.startTag);
+		wr.String(bdef.boundDef.endTag);
+		wr.Float(static_cast<float>(bdef.boundDef.radius));
+	}
+
 	//save tags
 	wr.Int32(m->GetNumTags());
 	for (unsigned int i = 0; i < m->GetNumTags(); i++)
 		wr.String(m->GetTagByIndex(i)->GetName().c_str());
+
 
 	// compress in memory, write to open file
 	size_t outSize = 0;
@@ -251,6 +262,21 @@ Model *BinaryConverter::CreateModel(const std::string &filename, Serializer::Rea
 	m_model->SetDrawClipRadius(rd.Float());
 
 	LoadAnimations(rd);
+
+	// load bounds
+	const int num_bounds = rd.Int32();
+	for(int i = 0; i < num_bounds; i++) {
+		BoundDefinition bdef;
+		bdef.type = static_cast<BoundDefinition::Type>(rd.Int16());
+		bdef.forBound = rd.String();
+		bdef.startTag = rd.String();
+		bdef.endTag = rd.String();
+		bdef.radius = static_cast<double>(rd.Float());
+		m_model->m_bounds.push_back(RunTimeBoundDefinition(m_model, bdef));
+	}
+
+	// TODO: load tags? They are saved in BinaryConverter::Save, but
+	// should be loaded with the model itself...
 
 	m_model->InitAnimations();
 	//m_model->CreateCollisionMesh();

@@ -66,6 +66,7 @@
 #include "Pattern.h"
 #include "graphics/Drawables.h"
 #include "graphics/Material.h"
+#include "LoaderDefinitions.h"
 #include <stdexcept>
 
 namespace SceneGraph {
@@ -79,6 +80,18 @@ namespace SceneGraph {
 	struct LoadingError : public std::runtime_error {
 		LoadingError(const std::string &str) :
 			std::runtime_error(str.c_str()) {}
+	};
+
+	struct RunTimeBoundDefinition {
+		BoundDefinition boundDef;
+		// Resolved tags to avoid looking up each frame
+		Tag* startTag;
+		Tag* endTag;
+		// Construct from a scene graph bound definition and a model
+		// Note: The constructor doesn't add ourselves to the model, simply resolves the tags!
+		explicit RunTimeBoundDefinition(Model* in_model, const BoundDefinition& bdef);
+		// Copy a RunTimeBoundDefinition from another model, updating tags
+		explicit RunTimeBoundDefinition(const RunTimeBoundDefinition& copied, Model* new_model);
 	};
 
 	typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material>>> MaterialContainer;
@@ -182,6 +195,9 @@ namespace SceneGraph {
 		};
 		void SetDebugFlags(Uint32 flags);
 
+		// If distance > 0 it means you are outside bound, otherwise you are inside
+		float DistanceFromPointToBound(const std::string& name, vector3f point);
+
 	private:
 		Model(const Model &);
 
@@ -213,6 +229,8 @@ namespace SceneGraph {
 
 		std::unique_ptr<Graphics::MeshObject> m_debugMesh;
 		std::unique_ptr<Graphics::Material> m_debugLineMat;
+
+		std::vector<RunTimeBoundDefinition> m_bounds;
 	};
 
 } // namespace SceneGraph

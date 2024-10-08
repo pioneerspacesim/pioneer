@@ -40,21 +40,9 @@ void ShipCockpit::Render(Graphics::Renderer *renderer, const Camera *camera, con
 {
 	PROFILE_SCOPED()
 
-	double ambient = 0.0;
-	double direct = 0.5;
-
-	if (static_cast<Ship *>(m_ship)->GetFlightState() != Ship::HYPERSPACE)
-		camera->CalcLighting(m_ship, ambient, direct);
-
-	std::vector<float> lightIntensities;
-	for (int i = 0; i < camera->GetNumLightSources(); i++)
-		lightIntensities.push_back(direct * camera->ShadowedIntensity(i, m_ship));
-
-	// Setup dynamic lighting parameters
-	renderer->SetAmbientColor(Color(ambient * 255, ambient * 255, ambient * 255));
-	renderer->SetLightIntensity(camera->GetNumLightSources(), lightIntensities.data());
-
+	camera->PrepareLighting(this, true, true);
 	RenderModel(renderer, camera, viewCoords, viewTransform);
+	camera->RestoreLighting();
 }
 
 inline void ShipCockpit::resetInternalCameraController()
