@@ -51,6 +51,22 @@
     "description": "",
     "message": "{system} sistemine girdiniz. Kanunlara uyunuz."
   },
+  "RESTRICTIONS_ESTABLISHED_1": {
+    "description": "",
+    "message": "Tehdit yok edildi. {ship_label}, silah kısıtlamaları artık yürütmede."
+  },
+  "RESTRICTIONS_ESTABLISHED_2": {
+    "description": "",
+    "message": "{ship_label}, ateş kes, ateş kes!"
+  },
+  "RESTRICTIONS_WITHDRAWN_1": {
+    "description": "",
+    "message": "{ship_label}, atış yapmak için serbestsiniz."
+  },
+  "RESTRICTIONS_WITHDRAWN_2": {
+    "description": "",
+    "message": "{ship_label}, atış serbest!"
+  },
   "TAKE_A_HIKE": {
     "description": "",
     "message": "Peki, sana ikinci bir şans veriyoruz. Toz ol."

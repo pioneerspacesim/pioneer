@@ -239,6 +239,18 @@
     "description": "",
     "message": "Analisi dello scambio merci di:"
   },
+  "COMMODITY_TRADE_ANALYSIS_SYSTEM": {
+    "description": "",
+    "message": "Analisi completa del sistema per commercio: "
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_1": {
+    "description": "",
+    "message": "Nel sistema c'è un medio flusso interstellare di beni venduti ed acquistati."
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_2": {
+    "description": "",
+    "message": "I dati potrebbero non riflettere i prezzi dei mercati locali."
+  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Competente"
@@ -288,12 +300,20 @@
     "message": "Non trovo il corpo celeste"
   },
   "COULD_NOT_LOAD_GAME": {
-    "description": "",
+    "description": "Label indicating a specific file could not be loaded",
     "message": "Impossibile caricare la partita:"
+  },
+  "COULD_NOT_LOAD_SAVE_FILES": {
+    "description": "Label indicating the list of save files could not be loaded",
+    "message": "Impossibile salvare i file"
   },
   "COULD_NOT_READ_THE_SAVE_VERSION": {
     "description": "Message when restoring savegame",
     "message": "Non riesco a leggere la versione del salvataggio"
+  },
+  "COULD_NOT_SAVE_GAME": {
+    "description": "Label indicating a specific file could not be saved",
+    "message": "Impossibile salvare la partita:"
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -315,12 +335,16 @@
     "description": "",
     "message": "Equipaggio"
   },
+  "CRIME": {
+    "description": "Heading introducing a single crime name or list of crime names",
+    "message": "Criminalità"
+  },
   "CRIMINAL": {
     "description": "Legal status of player",
     "message": "Criminale"
   },
   "CRIMINAL_RECORD": {
-    "description": "Past crimes / crime history of character",
+    "description": "Heading for past crimes / crime history of character, proper noun",
     "message": "Fedina penale"
   },
   "CURRENT_FUEL": {
@@ -631,6 +655,10 @@
     "description": "Financial statement of player, e.g. cash",
     "message": "Bilancio"
   },
+  "FINE": {
+    "description": "Cost of a criminal action",
+    "message": "Sanzione"
+  },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
     "message": "Attracco a {primary_info}"
@@ -714,6 +742,10 @@
   "FULL_SCREEN": {
     "description": "",
     "message": "Schermo intero"
+  },
+  "GAME_OPTIONS": {
+    "description": "GameOptions - tooltip for the Game Options tab in the Settings Window",
+    "message": "Opzioni di Gioco"
   },
   "GAME_TIME": {
     "description": "",
@@ -935,6 +967,10 @@
     "description": "Tooltip: Sidereal camera view",
     "message": "Visuale siderale"
   },
+  "HUD_BUTTON_SWITCH_TO_CURRENT_SYSTEM": {
+    "description": "Tooltip: Switch to current system",
+    "message": "Passa al sistema attuale"
+  },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
     "message": "Passa alla mappa galattica"
@@ -942,6 +978,10 @@
   "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
     "description": "Tooltip: Switch to sector map",
     "message": "Passa alla mappa del settore"
+  },
+  "HUD_BUTTON_SWITCH_TO_SELECTED_SYSTEM": {
+    "description": "Tooltip: Switch to selected system",
+    "message": "Passa al sistema selezionato"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
     "description": "Tooltip: Switch to system map",
@@ -1195,6 +1235,10 @@
     "description": "",
     "message": "Portata iperspaziale"
   },
+  "ILLEGAL_COMMODITIES": {
+    "description": "Commodities illegal in the current system or polity",
+    "message": "Beni illegali"
+  },
   "ILLEGAL_IN_SYSTEM": {
     "description": "An illegal action or commodity",
     "message": "Illegale nel Sistema"
@@ -1318,6 +1362,14 @@
   "LAWFULNESS": {
     "description": "Character parameter",
     "message": "Legalità"
+  },
+  "LEGAL_RULES": {
+    "description": "Refers to laws, rules and regulations",
+    "message": "Le leggi locali verranno applicate nello spazio controllato dalla stazione. I sensori effettueranno delle scansioni entro la distanza di: {distance}"
+  },
+  "LEGAL_RULES_AND_REGULATIONS": {
+    "description": "Heading on a tab, keep it short",
+    "message": "Leggi e regolamenti"
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1725,7 +1777,7 @@
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
-    "message": "Multe pendenti"
+    "message": "Sanzioni pendenti"
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
@@ -1785,7 +1837,7 @@
   },
   "PAY_FINE_OF_N": {
     "description": "",
-    "message": "Paga multa di {amount}"
+    "message": "Paga sanzione di {amount}"
   },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1834,6 +1886,10 @@
   "POOR": {
     "description": "Player combat rating",
     "message": "Scarso"
+  },
+  "POSESSION_OF_COMMODITIES_ILLEGAL": {
+    "description": "",
+    "message": "Il possesso di alcuni beni è illegale in questo sistema."
   },
   "POSITION": {
     "description": "The job title/position of crew memeber",
@@ -1983,6 +2039,14 @@
     "description": "Paintshop button",
     "message": "Reimposta Anteprima"
   },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT": {
+    "description": "Reset View on Hyperspace Exit option",
+    "message": "Reimposta la vista sul punto di uscita Iperspaziale"
+  },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT_DESC": {
+    "description": "The tooltip of Reset View on Hyperspace Exit in the settings menu",
+    "message": "Reimposta la vista alla schermata di gioco quando si esce dall'iperspazio"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Torna al gioco"
@@ -2026,6 +2090,14 @@
   "SAVE": {
     "description": "",
     "message": "Salva"
+  },
+  "SAVED_GAMES": {
+    "description": "Header for save/load window",
+    "message": "Partite Salvate"
+  },
+  "SAVE_AS": {
+    "description": "",
+    "message": "Salva come"
   },
   "SAVE_DELETED_SUCCESSFULLY": {
     "description": "",
@@ -2154,6 +2226,10 @@
   "SHIP_TYPE": {
     "description": "",
     "message": "Tipo di Astronave"
+  },
+  "SHOW_AUTOSAVES": {
+    "description": "Button tooltip indicating whether to show autosave files",
+    "message": "Mostra Salvataggi Automatici"
   },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
@@ -2286,6 +2362,10 @@
   "THERE_WERE_ERRORS_IN_RECOVERY": {
     "description": "Message when restoring savegame",
     "message": "Ci sono stati degli errori durante il ripristino:"
+  },
+  "THESE_ITEMS_ARE_PUNISHABLE_BY_FINE": {
+    "description": "",
+    "message": "L'acquisto, la vendita ed il trasporto di questi oggetti è sanzionabile e possono venire confiscati"
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",

@@ -239,6 +239,18 @@
     "description": "",
     "message": "Анализ на стоковата търговия в:"
   },
+  "COMMODITY_TRADE_ANALYSIS_SYSTEM": {
+    "description": "",
+    "message": "Анализ на търговията в системата:"
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_1": {
+    "description": "",
+    "message": "Среден междузвезден търговски поток за всички стоки в системата."
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_2": {
+    "description": "",
+    "message": "Възможно е данните да не отразяват отделните пазарни цени."
+  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Компетентен"
@@ -288,12 +300,20 @@
     "message": "Тялото не може да бъде намерено за отправната система"
   },
   "COULD_NOT_LOAD_GAME": {
-    "description": "",
+    "description": "Label indicating a specific file could not be loaded",
     "message": "Играта не може да бъде заредена: "
+  },
+  "COULD_NOT_LOAD_SAVE_FILES": {
+    "description": "Label indicating the list of save files could not be loaded",
+    "message": "Записите не можаха да бъдат заредени"
   },
   "COULD_NOT_READ_THE_SAVE_VERSION": {
     "description": "Message when restoring savegame",
     "message": "Версията на записа не може да бъде прочетена"
+  },
+  "COULD_NOT_SAVE_GAME": {
+    "description": "Label indicating a specific file could not be saved",
+    "message": "Играта не може да бъде запазена: "
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -315,13 +335,17 @@
     "description": "",
     "message": "Състав на екипажа"
   },
+  "CRIME": {
+    "description": "Heading introducing a single crime name or list of crime names",
+    "message": "Престъпление"
+  },
   "CRIMINAL": {
     "description": "Legal status of player",
     "message": "Престъпник"
   },
   "CRIMINAL_RECORD": {
-    "description": "Past crimes / crime history of character",
-    "message": "Досие"
+    "description": "Heading for past crimes / crime history of character, proper noun",
+    "message": "Съдебно досие"
   },
   "CURRENT_FUEL": {
     "description": "For hyperjump planner",
@@ -631,6 +655,10 @@
     "description": "Financial statement of player, e.g. cash",
     "message": "Финанси"
   },
+  "FINE": {
+    "description": "Cost of a criminal action",
+    "message": "Глоба"
+  },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
     "message": "Скачване с {primary_info}"
@@ -714,6 +742,10 @@
   "FULL_SCREEN": {
     "description": "",
     "message": "Цял екран"
+  },
+  "GAME_OPTIONS": {
+    "description": "GameOptions - tooltip for the Game Options tab in the Settings Window",
+    "message": "Game Options"
   },
   "GAME_TIME": {
     "description": "",
@@ -885,7 +917,7 @@
   },
   "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP": {
     "description": "Tooltip: Initiate illegal hyperjump",
-    "message": "Започване на нелегален хиперскок"
+    "message": "Започване на незаконен хиперскок"
   },
   "HUD_BUTTON_INTERNAL_VIEW": {
     "description": "Tooltip: Internal camera view",
@@ -935,6 +967,10 @@
     "description": "Tooltip: Sidereal camera view",
     "message": "Звезден изглед"
   },
+  "HUD_BUTTON_SWITCH_TO_CURRENT_SYSTEM": {
+    "description": "Tooltip: Switch to current system",
+    "message": "Switch to current system"
+  },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
     "message": "Галактическа карта"
@@ -942,6 +978,10 @@
   "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
     "description": "Tooltip: Switch to sector map",
     "message": "Секторна карта"
+  },
+  "HUD_BUTTON_SWITCH_TO_SELECTED_SYSTEM": {
+    "description": "Tooltip: Switch to selected system",
+    "message": "Switch to selected system"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
     "description": "Tooltip: Switch to system map",
@@ -1195,9 +1235,13 @@
     "description": "",
     "message": "Хиперпространствен обхват"
   },
+  "ILLEGAL_COMMODITIES": {
+    "description": "Commodities illegal in the current system or polity",
+    "message": "Незаконни стоки"
+  },
   "ILLEGAL_IN_SYSTEM": {
     "description": "An illegal action or commodity",
-    "message": "Нелегално в системата"
+    "message": "Незаконно в системата"
   },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
@@ -1318,6 +1362,14 @@
   "LAWFULNESS": {
     "description": "Character parameter",
     "message": "Законосъобразност"
+  },
+  "LEGAL_RULES": {
+    "description": "Refers to laws, rules and regulations",
+    "message": "Правила, приложими в контролираното от станцията пространство. Законите се прилагат чрез сензори в рамките на разстояние от: {distance}"
+  },
+  "LEGAL_RULES_AND_REGULATIONS": {
+    "description": "Heading on a tab, keep it short",
+    "message": "Правила и разпоредби"
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1835,6 +1887,10 @@
     "description": "Player combat rating",
     "message": "Незначителен"
   },
+  "POSESSION_OF_COMMODITIES_ILLEGAL": {
+    "description": "",
+    "message": "Притежаването на определени стоки е незаконно в тази система."
+  },
   "POSITION": {
     "description": "The job title/position of crew memeber",
     "message": "Позиция"
@@ -1983,6 +2039,14 @@
     "description": "Paintshop button",
     "message": "Нулиране на изгледа"
   },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT": {
+    "description": "Reset View on Hyperspace Exit option",
+    "message": "Reset View on Hyperspace Exit"
+  },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT_DESC": {
+    "description": "The tooltip of Reset View on Hyperspace Exit in the settings menu",
+    "message": "Reset view to main game view when exiting from hyperspace"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Връщане в играта"
@@ -2026,6 +2090,14 @@
   "SAVE": {
     "description": "",
     "message": "Запазване"
+  },
+  "SAVED_GAMES": {
+    "description": "Header for save/load window",
+    "message": "Запазени игри"
+  },
+  "SAVE_AS": {
+    "description": "",
+    "message": "Запазване като"
   },
   "SAVE_DELETED_SUCCESSFULLY": {
     "description": "",
@@ -2154,6 +2226,10 @@
   "SHIP_TYPE": {
     "description": "",
     "message": "Вид на кораба"
+  },
+  "SHOW_AUTOSAVES": {
+    "description": "Button tooltip indicating whether to show autosave files",
+    "message": "Автоматични записи"
   },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
@@ -2287,6 +2363,10 @@
     "description": "Message when restoring savegame",
     "message": "Имаше грешки при възстановяването:"
   },
+  "THESE_ITEMS_ARE_PUNISHABLE_BY_FINE": {
+    "description": "",
+    "message": "Купуването, продаването и транспортирането на тези артикули се наказва с глоба и възможна конфискация"
+  },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
     "message": "Командире, корабът е под управлението на станцията."
@@ -2361,7 +2441,7 @@
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Търговия с нелегални стоки"
+    "message": "Търговия с незаконни стоки"
   },
   "TRADING_TO": {
     "description": "Indicates the destination system of a commodity trade.",

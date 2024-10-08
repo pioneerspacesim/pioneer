@@ -51,6 +51,22 @@
     "description": "",
     "message": "Siete entrati nel sistema di {system}. Rispettate la legge!"
   },
+  "RESTRICTIONS_ESTABLISHED_1": {
+    "description": "",
+    "message": "La minaccia è stata eliminata. {ship_label}, tornano in vigore le restrizione sull'uso delle armi."
+  },
+  "RESTRICTIONS_ESTABLISHED_2": {
+    "description": "",
+    "message": "{ship_label}, cessate il fuoco, cessate il fuoco!"
+  },
+  "RESTRICTIONS_WITHDRAWN_1": {
+    "description": "",
+    "message": "{ship_label}, è autorizzato ad aprire il fuoco."
+  },
+  "RESTRICTIONS_WITHDRAWN_2": {
+    "description": "",
+    "message": "{ship_label}, fuoco a volontà!"
+  },
   "TAKE_A_HIKE": {
     "description": "",
     "message": "Ok, ti diamo seconda possibilità. Vai a farti un giro, ora!"

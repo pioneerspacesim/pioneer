@@ -5,7 +5,7 @@
   },
   "ADDITIONAL_INFORMATION_ORBITAL": {
     "description": "Note. 'orbital scanner' is the name of an equipment, that should be translated the same as the equipment",
-    "message": "Vous aurez besoin d'un scanner orbital équipé sur votre vaisseau. Une fois que vous serai au corps en question, activer le scanner et placez vous en orbite en dessous de l'altitude maximale jusqu'à la fin du scan. Puis livrez-moi les données."
+    "message": "Vous aurez besoin d'un scanner orbital équipé sur votre vaisseau. Une fois que vous serez au corps en question, activez le scanner et placez-vous en orbite en dessous de l'altitude maximale jusqu'à la fin du scan. Puis livrez-moi les données."
   },
   "ADDITIONAL_INFORMATION_SURFACE": {
     "description": "Note. 'surface scanner' is the name of an equipment, that should be translated the same as the equipment",
@@ -49,7 +49,7 @@
   },
   "ADTEXT_2_WHYSOMUCH": {
     "description": "",
-    "message": "Des cartes de grande qualités doivent être générées depuis une basse altitude. Le paiement adapté à ces contraintes."
+    "message": "Des cartes de grande qualité doivent être générées depuis une basse altitude. Le paiement est adapté à ces contraintes."
   },
   "ADTEXT_3": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "ADTEXT_3_INTRO": {
     "description": "",
-    "message": "Bienvenu. Vous pouvez m'appeler {name}. Je suis prêt à payer {cash} pour un scan minutieux de {systembody} dans {system} localisé à quelques {dist} de distance. Il est impératif que les données soient délivrées à un lieu qui vous sera révélé en privé."
+    "message": "Bienvenu. Vous pouvez m'appeler {name}. Je suis prêt à payer {cash} pour un scan minutieux de {systembody} dans {system} localisé à quelques {dist} de distance. Il est impératif que les données soient livrées à un lieu qui vous sera révélé en privé."
   },
   "ADTEXT_3_SUCCESSMSG": {
     "description": "",
@@ -81,7 +81,7 @@
   },
   "ADTEXT_4_INTRO": {
     "description": "",
-    "message": "Salut !\nMon nom est {name} et je fais des recherches dans le cadre de mon doctorat au sein du système {system}, à {dist} d'ici. J'ai besoin d'obtenir des données supplémentaires sur {systembody} sous forme de carte mises à jour, ou bien mon superviseur va me tuer. Je paierai {cash} au pilote qui pourra me délivrer ces données à temps, de préférence hier, car je suis extrêmement stressé."
+    "message": "Salut !\nMon nom est {name} et je fais des recherches dans le cadre de mon doctorat au sein du système {system}, à {dist} d'ici. J'ai besoin d'obtenir des données supplémentaires sur {systembody} sous forme de cartes mises à jour, ou bien mon superviseur va me tuer. Je paierai {cash} au pilote qui pourra me livrer ces données à temps, de préférence hier, car je suis extrêmement stressé."
   },
   "ADTEXT_4_SUCCESSMSG": {
     "description": "",
@@ -89,7 +89,7 @@
   },
   "ADTEXT_4_WHYSOMUCH": {
     "description": "'High impact journals' is a recognized term for journals like Nature and Science, yielding many citations.",
-    "message": "J'espère que ces nouvelles données, avec de belles images et cartes, augmentera mes chances de publier mon article dans un journal à fort impact."
+    "message": "J'espère que ces nouvelles données, avec de belles images et cartes, augmenteront mes chances de publier mon article dans un journal à fort impact."
   },
   "ADTEXT_5": {
     "description": "",
@@ -105,11 +105,11 @@
   },
   "ADTEXT_5_SUCCESSMSG": {
     "description": "",
-    "message": "Merci pour vos efforts. Le paiement a été fait entièrement."
+    "message": "Merci pour vos efforts. Le paiement a été fait en totalité."
   },
   "ADTEXT_5_WHYSOMUCH": {
     "description": "",
-    "message": "De nos jours, il n'est pas possible de mettre un prix assez haut sur l'information."
+    "message": "De nos jours, il n'est pas possible de mettre un prix assez élevé sur l'information."
   },
   "ADTEXT_6": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "ADTEXT_8_FAILMSG": {
     "description": "",
-    "message": "Nous n'appréciez pas les beaux-arts que sont la cartographie et la livraison ponctuelle à une date convenue !"
+    "message": "Vous n'appréciez pas les beaux-arts que sont la cartographie et la livraison ponctuelle à une date convenue !"
   },
   "ADTEXT_8_INTRO": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "ADTEXT_9_INTRO": {
     "description": "",
-    "message": "Bonjour ! \nJe suis {name}. Ma famille et moi avons besoin de relevés détaillés de {systembody} dans le système {system}, avant que quelqu'un ne le revendique. Nous paierons {cash} pour un pilote rapide. Nous vous enverrons le lieu de la livraison par message une fois que nous aurons reçus les données."
+    "message": "Bonjour ! \nJe suis {name}. Ma famille et moi avons besoin de relevés détaillés de {systembody} dans le système {system}, avant que quelqu'un ne le revendique. Nous paierons {cash} pour un pilote rapide. Nous vous enverrons le lieu de la livraison par message une fois que vous aurez les données."
   },
   "ADTEXT_9_SUCCESSMSG": {
     "description": "",
@@ -425,7 +425,7 @@
   },
   "SURFACE_SCAN_WARNING": {
     "description": "Warning reminder to player",
-    "message": "Assurez-vous s'il vous plait que votre vaisseau soit capable de fonctionner à la surface de l'objet de la misssion avant d'accepter votre contrat."
+    "message": "Assurez-vous s'il vous plaît que votre vaisseau soit capable de fonctionner à la surface de l'objet de la mission avant d'accepter votre contrat."
   },
   "SUSPENDED": {
     "description": "",
@@ -445,7 +445,7 @@
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",
-    "message": "Pourquoi autant d'argent?"
+    "message": "Pourquoi autant d'argent ?"
   },
   "YOU_WILL_BE_PAID_ON_MY_BEHALF_AT_NEW_DESTINATION": {
     "description": "",

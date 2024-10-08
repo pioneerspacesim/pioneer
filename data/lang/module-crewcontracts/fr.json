@@ -13,15 +13,15 @@
   },
   "CREWTESTRESULTSBB": {
     "description": "",
-    "message": "Résultats du test:\n\nCompetences générales: {general}%⏎\nIngénierie et réparations: {engineering}%⏎\nPilotage et vol dans l'espace: {piloting}%⏎\nNavigation et traçage des routes: {navigation}%⏎\nSenseurs et défense: {sensors}%⏎\nRésultat général de l'examen: {overall}%"
+    "message": "Résultats du test:\n\nCompetences générales: {general}%\nIngénierie et réparations: {engineering}%\nPilotage et vol dans l'espace: {piloting}%\nNavigation et traçage des routes: {navigation}%\nSenseurs et défense: {sensors}%\nRésultat général de l'examen: {overall}%"
   },
   "CREW_FOR_HIRE": {
     "description": "",
-    "message": "Équipage pour embauche"
+    "message": "Équipage à embaucher"
   },
   "CREW_FOR_HIRE_DESC": {
     "description": "",
-    "message": "Potentiel membre d'équipage disponible a cette station."
+    "message": "Potentiel membre d'équipage disponible à cette station."
   },
   "CREW_FOR_HIRE_TITLE": {
     "description": "",

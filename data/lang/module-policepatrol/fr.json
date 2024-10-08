@@ -51,24 +51,40 @@
     "description": "",
     "message": "Vous avez pénétré dans le système {system}. Respectez la loi !"
   },
+  "RESTRICTIONS_ESTABLISHED_1": {
+    "description": "",
+    "message": "La menace a été éliminée. {ship_label}, l'usage des armes est à nouveau restreint."
+  },
+  "RESTRICTIONS_ESTABLISHED_2": {
+    "description": "",
+    "message": "{ship_label}, cessez le feu, cessez le feu !"
+  },
+  "RESTRICTIONS_WITHDRAWN_1": {
+    "description": "",
+    "message": "{ship_label}, vous êtes autorisé à ouvrir le feu."
+  },
+  "RESTRICTIONS_WITHDRAWN_2": {
+    "description": "",
+    "message": "{ship_label}, tirez à volonté !"
+  },
   "TAKE_A_HIKE": {
     "description": "",
     "message": "Ok, je vous laisse une seconde chance. Disparaissez !"
   },
   "TARGET_DESTROYED_1": {
     "description": "",
-    "message": "Cible détruite!"
+    "message": "Cible détruite !"
   },
   "TARGET_DESTROYED_2": {
     "description": "",
-    "message": "Ouais!"
+    "message": "Ouais !"
   },
   "TARGET_DESTROYED_3": {
     "description": "",
-    "message": "Repose en pièces! Haha."
+    "message": "Repose en pièces ! Haha."
   },
   "TARGET_DESTROYED_4": {
     "description": "",
-    "message": "Encore un qui mord la poussière!"
+    "message": "Encore un qui mord la poussière !"
   }
 }

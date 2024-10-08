@@ -51,6 +51,22 @@
     "description": "",
     "message": "Du har anlänt till {system} systemet. Vänligen respektera lagen!"
   },
+  "RESTRICTIONS_ESTABLISHED_1": {
+    "description": "",
+    "message": "The threat has been eliminated. {ship_label}, weapons fire restrictions are now in effect."
+  },
+  "RESTRICTIONS_ESTABLISHED_2": {
+    "description": "",
+    "message": "{ship_label}, cease fire, cease fire!"
+  },
+  "RESTRICTIONS_WITHDRAWN_1": {
+    "description": "",
+    "message": "{ship_label}, you are authorized to open fire."
+  },
+  "RESTRICTIONS_WITHDRAWN_2": {
+    "description": "",
+    "message": "{ship_label}, fire at will!"
+  },
   "TAKE_A_HIKE": {
     "description": "",
     "message": "OK, du får en andra chans. Avvik!"

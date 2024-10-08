@@ -51,6 +51,22 @@
     "description": "",
     "message": "{system} felségterületén tartózkodik. Tartsa tiszteletben törvényeinket!"
   },
+  "RESTRICTIONS_ESTABLISHED_1": {
+    "description": "",
+    "message": "Fenyegetés elhárítva. {ship_label}, mostantól fegyver korlátozás van érvényben."
+  },
+  "RESTRICTIONS_ESTABLISHED_2": {
+    "description": "",
+    "message": "{ship_label}, tüzet szüntess, tüzet szüntess!"
+  },
+  "RESTRICTIONS_WITHDRAWN_1": {
+    "description": "",
+    "message": "{ship_label}, engedélyezem, hogy tüzet nyisson."
+  },
+  "RESTRICTIONS_WITHDRAWN_2": {
+    "description": "",
+    "message": "{ship_label}, szabadon tüzelhet!"
+  },
   "TAKE_A_HIKE": {
     "description": "",
     "message": "Kapsz egy utolsó lehetőséget. Tűnj el!"

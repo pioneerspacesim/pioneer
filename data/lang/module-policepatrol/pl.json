@@ -51,6 +51,22 @@
     "description": "",
     "message": "Wkroczyłeś do układu {system}. Przestrzegaj prawa!"
   },
+  "RESTRICTIONS_ESTABLISHED_1": {
+    "description": "",
+    "message": "Zagrożenie zostało wyeliminowane. {ship_label}, pozwolenie na ostrzał zostało wstrzymane."
+  },
+  "RESTRICTIONS_ESTABLISHED_2": {
+    "description": "",
+    "message": "{ship_label}, wstrzymać ogień, wstrzymać ogień!"
+  },
+  "RESTRICTIONS_WITHDRAWN_1": {
+    "description": "",
+    "message": "{ship_label}, zgoda na otwarcie ognia."
+  },
+  "RESTRICTIONS_WITHDRAWN_2": {
+    "description": "",
+    "message": "{ship_label}, sztrzelać bez rozkazu!"
+  },
   "TAKE_A_HIKE": {
     "description": "",
     "message": "Ok, masz drugą szansę. Przeleć się!"

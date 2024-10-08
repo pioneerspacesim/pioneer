@@ -307,13 +307,13 @@
     "description": "Label indicating the list of save files could not be loaded",
     "message": "Could not load save files"
   },
-  "COULD_NOT_SAVE_GAME": {
-    "description": "Label indicating a specific file could not be saved",
-    "message": "Could not save game: "
-  },
   "COULD_NOT_READ_THE_SAVE_VERSION": {
     "description": "Message when restoring savegame",
     "message": "Could not read the save version"
+  },
+  "COULD_NOT_SAVE_GAME": {
+    "description": "Label indicating a specific file could not be saved",
+    "message": "Could not save game: "
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -336,7 +336,7 @@
     "message": "Crew Roster"
   },
   "CRIME": {
-	"description": "Heading introducing a single crime name or list of crime names",
+    "description": "Heading introducing a single crime name or list of crime names",
     "message": "Crime"
   },
   "CRIMINAL": {
@@ -1235,13 +1235,13 @@
     "description": "",
     "message": "Hyperspace range"
   },
-  "ILLEGAL_IN_SYSTEM": {
-    "description": "An illegal action or commodity",
-    "message": "Illegal in System"
-  },
   "ILLEGAL_COMMODITIES": {
     "description": "Commodities illegal in the current system or polity",
     "message": "Illegal Commodities"
+  },
+  "ILLEGAL_IN_SYSTEM": {
+    "description": "An illegal action or commodity",
+    "message": "Illegal in System"
   },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
@@ -1363,17 +1363,17 @@
     "description": "Character parameter",
     "message": "Lawfulness"
   },
+  "LEGAL_RULES": {
+    "description": "Refers to laws, rules and regulations",
+    "message": "Legal rules applicable in station controlled space. Laws are sensor enforced within a distance of: {distance}"
+  },
+  "LEGAL_RULES_AND_REGULATIONS": {
+    "description": "Heading on a tab, keep it short",
+    "message": "Rules and Regulations"
+  },
   "LEGAL_STATUS": {
     "description": "",
     "message": "Legal status"
-  },
-  "LEGAL_RULES": {
-      "description": "Refers to laws, rules and regulations",
-      "message": "Legal rules applicable in station controlled space. Laws are sensor enforced within a distance of: {distance}"
-  },
-  "LEGAL_RULES_AND_REGULATIONS": {
-      "description": "Heading on a tab, keep it short",
-      "message": "Rules and Regulations"
   },
   "LIGHT_CARGO_SHUTTLE": {
     "description": "",
@@ -2228,8 +2228,8 @@
     "message": "Ship Type"
   },
   "SHOW_AUTOSAVES": {
-	"description": "Button tooltip indicating whether to show autosave files",
-	"message": "Show Autosaves"
+    "description": "Button tooltip indicating whether to show autosave files",
+    "message": "Show Autosaves"
   },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",

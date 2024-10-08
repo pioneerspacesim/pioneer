@@ -1,6 +1,6 @@
 {
   "FLAVOUR_0_BODY": {
-    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC",
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC. It is formated as a list",
     "message": "Just ring 36 24 36, I'm always home. I deal in:\n - Concrete shoes,\n - Cyanide,\n - TNT,\n - Neck ties,\n - Contracts,\n - High voltage,\n\n ...or just make a social call."
   },
   "FLAVOUR_0_DESC": {
@@ -22,5 +22,17 @@
   "FLAVOUR_1_TITLE": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",
     "message": "NEED SOMEONE TO TURN TO?"
+  },
+  "FLAVOUR_2_BODY": {
+    "description": "A very rare easter egg, referencing a online myth from 90s: https://en.wikipedia.org/wiki/John_Titor",
+    "message": "John Titor vagyok, az Időutazó Intézet munkatársa 4036-ból. 1975-be tartok egy IBM 5100-as számítógép beszerzése céljából. Régi, a mi időnk gépeivel inkompatibilis kódok hibakeresésére szeretnénk használni. Útközben megáltam információt gyűjteni az önök idősíkjáról, mielőtt még elvészne a Nagy Csapásban. \n\nEgy hat részes leírással szeretnék visszatérni, mely szükséges az időgép kezeléséhez. Röviden: az időkép egy mozdulatlan tömeg, temporális kiszorítóegység - amit két fel-spinű kettős-pozitív szingularitás lát el energiával-,  mely szabványos eltolt Tipler-szinuszoidot hoz létre. A kiszorító-egység így nem térben, hanem időben mozog. \n\nKérésre örömmel megosztok képeket az egységről."
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "Note: string has quotes",
+    "message": "Ha lehetséges az időben utazni, hol vannak az időutazók?"
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "A very rare Easter egg, referencing Internet myth of John Titor.",
+    "message": "Múlt népe! óvakodjanak a NAGY CSAPÁSTÓL!"
   }
 }

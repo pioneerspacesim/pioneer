@@ -1,6 +1,6 @@
 {
   "FLAVOUR_0_BODY": {
-    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC",
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC. It is formated as a list",
     "message": "Chiama 36 24 36, sono sempre in casa. Mi occupo di:\n- Scarpe di cemento,\n- Cianuro,\n- TNT,\n- Cravatte,\n- Contratti,\n- Alta tensione,\n\n...oppure semplici chiamate di cortesia."
   },
   "FLAVOUR_0_DESC": {
@@ -22,5 +22,17 @@
   "FLAVOUR_1_TITLE": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",
     "message": "HAI BISOGNO DI QUALCUNO A CUI RIVOLGERTI?"
+  },
+  "FLAVOUR_2_BODY": {
+    "description": "A very rare easter egg, referencing a online myth from 90s: https://en.wikipedia.org/wiki/John_Titor",
+    "message": "Sono John Titor dell'Istituto per il viaggio temporale, dall'anno 4036. Sto dirigendomi nel 1975 per prendere un computer IBM 5100 per poter far debug a dei programmi per antichi computer che non sono stati portati correttamente sulle macchine del mio tempo, ma intendo fermarmi qua per raccogliere informazioni sul vostro tempo, prima che vengano perdute a causa della grande calamità.\n\nIntendo tornare con una descrizione in sei parti di ciò che è necessario alle macchine del tempo per poter funzionare. In breve, la mia macchina del tempo è un'unità di dislocazione temporale a massa stazionaria, alimentata da due singolarità a doppio positivo che ruotano basso-alto come in un Cilindro di Tipler. L'unità di dislocazione si muove nel tempo, ma non nello spazio.\n\nSarò felice di mostrare delle foto, su richiesta."
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "Note: string has quotes",
+    "message": "\"Se il viaggio del tempo esiste, dove sono tutti i viaggiatori del tempo?\""
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "A very rare Easter egg, referencing Internet myth of John Titor.",
+    "message": "Gente del passato, diffidate della GRANDE CALAMITÀ!"
   }
 }

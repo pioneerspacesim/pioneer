@@ -357,7 +357,7 @@
   },
   "FLAVOUR_6_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "Трябва да се върнете до {due}."
+    "message": "Трябва да се върнете преди {due}."
   },
   "FLAVOUR_6_INTROTEXT": {
     "description": "",

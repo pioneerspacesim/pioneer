@@ -173,7 +173,7 @@
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "{org} paiera {cash} pour une mission de {mission} dans le système {system} ({sectorx}, {sectory}, {sectorz}). Nous avons des raisons de croire qu'un concurrent sans scrupules est responsable de la disparition de nos transporteur à {area}, situé à une distance de {dist} al."
+    "message": "{org} paiera {cash} pour une mission de {mission} dans le système {system} ({sectorx}, {sectory}, {sectorz}). Nous avons des raisons de croire qu'un concurrent sans scrupules est responsable de la disparition de nos transporteurs à {area}, situé à une distance de {dist} al."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
@@ -189,7 +189,7 @@
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "Nous avons un vendeur dans chaque système solaire environnant. Cette personne entrera en contact avec vous une fois que vous aurez atterri."
+    "message": "Nous avons un commercial dans chacun des systèmes stellaires environnant. Atterrissez sur une station avant la date limite et nos agents vous contacterons pour le paiement."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "Retrouvez-moi dans le système {rendezvous} pour finir le travail !"
+    "message": "Retrouvez-moi dans le système {rendezvous} avant l'échéance !"
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
@@ -225,7 +225,7 @@
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "Visitez une station dans le territoire protégé par {org} !"
+    "message": "Visitez une station dans le territoire protégé par {org} ! L'opération nécessite que les objectifs soient remplis à temps."
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
@@ -245,7 +245,7 @@
   },
   "MINING_LAND_THERE": {
     "description": "",
-    "message": "Nous avons des employés dans chaque système solaire alentours. Visitez simplement la station la plus proche et contactez-y le bureau local."
+    "message": "Nous avons des employés dans chaque système solaire environnant. Visitez simplement la station la plus proche avant l'échéance et, sur place, entrez en contact avec le bureau local."
   },
   "MISSION": {
     "description": "",
@@ -281,7 +281,7 @@
   },
   "OBJECTIVE_2": {
     "description": "",
-    "message": "Affaiblissez l'ennemi au maximum, puis allez vous réfugier."
+    "message": "Affaiblissez l'ennemi au maximum, puis revenez en sécurité."
   },
   "OBJECTIVE_3": {
     "description": "{area} is an asteroid or planet",
@@ -313,11 +313,11 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Il est important que la mission soit complétée pour le {date}, car d'autres vaisseaux hostiles sont en chemin."
+    "message": "Il est important que la mission soit complétée pour le {date}, car d'autres vaisseaux hostiles sont en route."
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "Atterrissez simplement sur une station possédant un bureau de {org}."
+    "message": "Rendez-vous simplement sur une station avec un bureau de {org}. Cela doit être fait avant l'échéance afin de ne pas compromettre la mission !"
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",

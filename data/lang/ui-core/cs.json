@@ -239,6 +239,18 @@
     "description": "",
     "message": "Commodity trade analysis of:"
   },
+  "COMMODITY_TRADE_ANALYSIS_SYSTEM": {
+    "description": "",
+    "message": "Analýza obchodu v rámci celého systému:"
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_1": {
+    "description": "",
+    "message": "Průměrný mezihvězdný obchodní tok pro všechny komodity nakoupené a prodané v systému."
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_2": {
+    "description": "",
+    "message": "Údaje nemusí odrážet jednotlivé tržní ceny."
+  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Schopný"
@@ -288,12 +300,20 @@
     "message": "Could not find system body for frame"
   },
   "COULD_NOT_LOAD_GAME": {
-    "description": "",
+    "description": "Label indicating a specific file could not be loaded",
     "message": "Nelze načíst pozici:"
+  },
+  "COULD_NOT_LOAD_SAVE_FILES": {
+    "description": "Label indicating the list of save files could not be loaded",
+    "message": "Nelze načíst uložené soubory"
   },
   "COULD_NOT_READ_THE_SAVE_VERSION": {
     "description": "Message when restoring savegame",
     "message": "Could not read the save version"
+  },
+  "COULD_NOT_SAVE_GAME": {
+    "description": "Label indicating a specific file could not be saved",
+    "message": "Hru nelze uložit:"
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -315,12 +335,16 @@
     "description": "",
     "message": "Seznam posádky"
   },
+  "CRIME": {
+    "description": "Heading introducing a single crime name or list of crime names",
+    "message": "Zločin"
+  },
   "CRIMINAL": {
     "description": "Legal status of player",
     "message": "Criminal"
   },
   "CRIMINAL_RECORD": {
-    "description": "Past crimes / crime history of character",
+    "description": "Heading for past crimes / crime history of character, proper noun",
     "message": "Trestní rejstřík"
   },
   "CURRENT_FUEL": {
@@ -493,7 +517,7 @@
   },
   "ENABLE_AUTOSAVE_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "save state when docking, might cause some lag depending on disk access time"
+    "message": "Uložení stavu při dokování, může způsobit určité zpoždění v závislosti na době přístupu k disku."
   },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
@@ -631,6 +655,10 @@
     "description": "Financial statement of player, e.g. cash",
     "message": "Finance"
   },
+  "FINE": {
+    "description": "Cost of a criminal action",
+    "message": "Pokuta"
+  },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
     "message": "Dokování na {primary_info}"
@@ -714,6 +742,10 @@
   "FULL_SCREEN": {
     "description": "",
     "message": "Celá obrazovka"
+  },
+  "GAME_OPTIONS": {
+    "description": "GameOptions - tooltip for the Game Options tab in the Settings Window",
+    "message": "Game Options"
   },
   "GAME_TIME": {
     "description": "",
@@ -935,6 +967,10 @@
     "description": "Tooltip: Sidereal camera view",
     "message": "Pohled hvězdný"
   },
+  "HUD_BUTTON_SWITCH_TO_CURRENT_SYSTEM": {
+    "description": "Tooltip: Switch to current system",
+    "message": "Switch to current system"
+  },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
     "message": "Zobrazit mapu galaxie"
@@ -942,6 +978,10 @@
   "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
     "description": "Tooltip: Switch to sector map",
     "message": "Zobrazit mapu sektoru"
+  },
+  "HUD_BUTTON_SWITCH_TO_SELECTED_SYSTEM": {
+    "description": "Tooltip: Switch to selected system",
+    "message": "Switch to selected system"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
     "description": "Tooltip: Switch to system map",
@@ -1195,6 +1235,10 @@
     "description": "",
     "message": "Hyperprostorový dosah"
   },
+  "ILLEGAL_COMMODITIES": {
+    "description": "Commodities illegal in the current system or polity",
+    "message": "Nelegální zboží"
+  },
   "ILLEGAL_IN_SYSTEM": {
     "description": "An illegal action or commodity",
     "message": "Illegal in System"
@@ -1318,6 +1362,14 @@
   "LAWFULNESS": {
     "description": "Character parameter",
     "message": "Lawfulness"
+  },
+  "LEGAL_RULES": {
+    "description": "Refers to laws, rules and regulations",
+    "message": "Právní předpisy platné v prostoru kontrolovaném stanicí. Zákony se uplatňují na senzorech ve vzdálenosti: {distance}"
+  },
+  "LEGAL_RULES_AND_REGULATIONS": {
+    "description": "Heading on a tab, keep it short",
+    "message": "Pravidla a ustanovení"
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1725,7 +1777,7 @@
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
-    "message": "Outstanding fines"
+    "message": "Nezaplacené pokuty"
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
@@ -1834,6 +1886,10 @@
   "POOR": {
     "description": "Player combat rating",
     "message": "Ubohý"
+  },
+  "POSESSION_OF_COMMODITIES_ILLEGAL": {
+    "description": "",
+    "message": "Držení některých komodit je v tomto systému nezákonné."
   },
   "POSITION": {
     "description": "The job title/position of crew memeber",
@@ -1983,6 +2039,14 @@
     "description": "Paintshop button",
     "message": "Reset Preview"
   },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT": {
+    "description": "Reset View on Hyperspace Exit option",
+    "message": "Reset View on Hyperspace Exit"
+  },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT_DESC": {
+    "description": "The tooltip of Reset View on Hyperspace Exit in the settings menu",
+    "message": "Reset view to main game view when exiting from hyperspace"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Návrat do hry"
@@ -2026,6 +2090,14 @@
   "SAVE": {
     "description": "",
     "message": "Uložit"
+  },
+  "SAVED_GAMES": {
+    "description": "Header for save/load window",
+    "message": "Uložené hry"
+  },
+  "SAVE_AS": {
+    "description": "",
+    "message": "Uložit jako"
   },
   "SAVE_DELETED_SUCCESSFULLY": {
     "description": "",
@@ -2154,6 +2226,10 @@
   "SHIP_TYPE": {
     "description": "",
     "message": "Typ lodi"
+  },
+  "SHOW_AUTOSAVES": {
+    "description": "Button tooltip indicating whether to show autosave files",
+    "message": "Zobrazit automatické uložení"
   },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
@@ -2286,6 +2362,10 @@
   "THERE_WERE_ERRORS_IN_RECOVERY": {
     "description": "Message when restoring savegame",
     "message": "There were errors in recovery:"
+  },
+  "THESE_ITEMS_ARE_PUNISHABLE_BY_FINE": {
+    "description": "",
+    "message": "Nákup, prodej a přeprava těchto předmětů se trestá pokutou a možným zabavením."
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",

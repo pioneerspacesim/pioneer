@@ -637,11 +637,11 @@
   },
   "ILLEGAL_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-    "message": "Нелегални (текуща система):"
+    "message": "Незаконно (текуща система):"
   },
   "ILLEGAL_GOODS": {
     "description": "",
-    "message": "Нелегални стоки:"
+    "message": "Незаконни стоки:"
   },
   "IMPERIAL_RULE": {
     "description": "",
@@ -721,7 +721,7 @@
   },
   "LEGAL_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-    "message": "Легални (текуща система):"
+    "message": "Законно (текуща система):"
   },
   "LIBERAL_DEMOCRACY": {
     "description": "",
@@ -1725,7 +1725,7 @@
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Търговия с нелегални стоки"
+    "message": "Търговия с незаконни стоки"
   },
   "TRIPLE_SYSTEM": {
     "description": "",
@@ -1750,6 +1750,10 @@
   "UNIT_AU": {
     "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
     "message": "АЕ"
+  },
+  "UNIT_CREDITS": {
+    "description": "Unit of money, used when $ isn't specific enough",
+    "message": "Кр"
   },
   "UNIT_CUBIC_METERS": {
     "description": "Volume unit: cubic meter",

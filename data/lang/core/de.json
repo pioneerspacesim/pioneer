@@ -413,7 +413,7 @@
   },
   "ESCAPE_VELOCITY": {
     "description": "",
-    "message": "Escape velocity"
+    "message": "Fluchtgeschwindigkeit"
   },
   "EXACT_MATCH_X": {
     "description": "",
@@ -497,7 +497,7 @@
   },
   "GAME_SAVE_INVALID_NAME": {
     "description": "",
-    "message": "This saved game file could not be written because of a invalid name."
+    "message": "Die Spieldatei konnte aufgrund eines ungültigen Namens nicht geschrieben werden."
   },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
@@ -793,7 +793,7 @@
   },
   "MEAN_DENSITY": {
     "description": "",
-    "message": "Mean density"
+    "message": "Durchschnittliche Dichte"
   },
   "MEDICINES": {
     "description": "",
@@ -1750,6 +1750,10 @@
   "UNIT_AU": {
     "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
     "message": "AE"
+  },
+  "UNIT_CREDITS": {
+    "description": "Unit of money, used when $ isn't specific enough",
+    "message": "Cr"
   },
   "UNIT_CUBIC_METERS": {
     "description": "Volume unit: cubic meter",

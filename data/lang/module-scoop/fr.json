@@ -21,7 +21,7 @@
   },
   "ADTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Vous avez une pelle à marchandise et vous cherchez votre prochaine cible? Informations de valeurs à vendre."
+    "message": "Vous avez une pelle à marchandise et vous cherchez votre prochaine cible ? Informations de valeur à vendre."
   },
   "ADTEXT_LEGAL_GOODS": {
     "description": "",
@@ -89,7 +89,7 @@
   },
   "HOW_MUCH_TIME_ARMS_DEALER": {
     "description": "",
-    "message": "Mon associé est en orbite autour de [star] pour éviter d'être détecté. L'idéal serait que vous le rejoigniez avant le {date}."
+    "message": "Mon associé est en orbite autour de {star} pour éviter d'être détecté. L'idéal serait que vous le rejoigniez avant le {date}."
   },
   "HOW_MUCH_TIME_ILLEGAL_GOODS": {
     "description": "",
@@ -97,7 +97,7 @@
   },
   "HOW_MUCH_TIME_LEGAL_GOODS": {
     "description": "",
-    "message": "Je ne sais pas, mais si j'étais vous, je me dépêcherais!"
+    "message": "Je ne sais pas, mais si j'étais vous, je me dépêcherais !"
   },
   "HOW_MUCH_TIME_RESCUE": {
     "description": "",
@@ -109,15 +109,15 @@
   },
   "INTROTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Hé mon pote, je connais un champ de débris qui contient des produits illégaux. La police a attrapé un trafiquant près de la planète {planet}. Ils n'ont pas encore eu le temps de nettoyer les environs. Si tu es rapide, tu peux te faire de l'argent facilement! Je peux te donner coordonnées. Ça te coûteras {cash}. Ne laisses pas cette chance t'échapper!"
+    "message": "Hé mon pote, je connais un champ de débris qui contient des produits illégaux. La police a attrapé un trafiquant près de la planète {planet}. Ils n'ont pas encore eu le temps de nettoyer les environs. Si tu es rapide, tu peux te faire de l'argent facilement ! Je peux te donner les coordonnées. Ça te coûteras {cash}. Ne laisses pas cette chance t'échapper !"
   },
   "INTROTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "Bonjour mon ami. Je suis {client}. J'ai entendu parler d'un transporteur qui a eu des soucis près de {planet} à cause d'une mauvaise maintenance du vaisseau. On laisse voler n'importe qui de nos jours, n'est-ce pas? Quoi qu'il en soit, ils ont dû jeter beaucoup de leur cargaison. Si vous êtes rapide, vous pouvez récupérer la marchandise très facilement! Cette info est de première fraicheur! Je vous vends les coordonnées pour seulement {cash}. Qu'est ce que vous en dites ?"
+    "message": "Bonjour mon ami. Je suis {client}. J'ai entendu parler d'un transporteur qui a eu des soucis près de {planet} à cause d'une mauvaise maintenance du vaisseau. On laisse voler n'importe qui de nos jours, n'est-ce pas ? Quoi qu'il en soit, ils ont dû jeter beaucoup de leur cargaison. Si vous êtes rapide, vous pouvez récupérer la marchandise très facilement! Cette info est de première fraicheur ! Je vous vends les coordonnées pour seulement {cash}. Qu'est ce que vous en dites ?"
   },
   "INTROTEXT_RESCUE": {
     "description": "",
-    "message": "Salut, mon nom est {client}. L'équipage d'un transporteur marchand a abandonné leur vaisseau à la suite d'un incident. Le propriétaire est prêt a payer {cash} pour une mission de sauvetage discrète. La zone de l'accident est proche de la planète {planet}. Récuperez l'équipage et transportez-les vers une station, s'il vous plait!"
+    "message": "Salut, mon nom est {client}. L'équipage d'un transporteur marchand a abandonné leur vaisseau à la suite d'un incident. Le propriétaire est prêt a payer {cash} pour une mission de sauvetage discrète. La zone de l'accident est proche de la planète {planet}. Récuperez l'équipage et transportez-les vers une station, s'il vous plait !"
   },
   "NUCLEAR_MISSILE": {
     "description": "A cargo item",
@@ -153,7 +153,7 @@
   },
   "SHIP_DESTROYED": {
     "description": "",
-    "message": "Oh non. {shipid} a été détruit. Délivrez la marchandise à la station {station} maintenant!"
+    "message": "Oh non. {shipid} a été détruit. Délivrez la marchandise à la station {station} maintenant !"
   },
   "SPACEPORT": {
     "description": "",
@@ -165,11 +165,11 @@
   },
   "SUCCESS_MSG_ARMS_DEALER": {
     "description": "",
-    "message": "Hé, c'était une belle démonstration de pilotage! L'argent a été transféré."
+    "message": "Hé, c'était une belle démonstration de pilotage ! L'argent a été transféré."
   },
   "SUCCESS_MSG_RESCUE": {
     "description": "",
-    "message": "Merci beaucoup! L'équipage aussi vous exprime tous leurs remerciements."
+    "message": "Merci beaucoup ! L'équipage aussi vous exprime tous leurs remerciements."
   },
   "TOXIC_WASTE": {
     "description": "cargo item",
@@ -181,7 +181,7 @@
   },
   "WARNING": {
     "description": "",
-    "message": "Hé ! Qu'est-ce que vous faites? Notre contrat est en jeu ! Récupérez ça à nouveau !"
+    "message": "Hé ! Qu'est-ce que vous faites ? Notre contrat est en jeu ! Récupérez ça à nouveau !"
   },
   "WHY_NOT_YOURSELF": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "YOU_DO_NOT_HAVE_A_SCOOP": {
     "description": "",
-    "message": "Désolé, mais vous n'êtes pas équipé d'un écupérateur de cargaison."
+    "message": "Désolé, mais vous n'êtes pas équipé d'un récupérateur de cargaison."
   },
   "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
     "description": "",

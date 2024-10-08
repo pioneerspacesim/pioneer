@@ -29,15 +29,15 @@
   },
   "ANIMAL_MEAT": {
     "description": "",
-    "message": "Maso"
+    "message": "Zvířecí maso"
   },
   "AN_AR_ATMOSPHERE": {
     "description": "",
-    "message": "an argon atmosphere"
+    "message": "argonová atmosféra"
   },
   "AN_O2_ATMOSPHERE": {
     "description": "",
-    "message": "an oxygen atmosphere"
+    "message": "kyslíková atmosféra"
   },
   "APOAPSIS_DISTANCE": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "AR_ATMOSPHERE": {
     "description": "",
-    "message": "argon atmosphere"
+    "message": "argonová atmosféra"
   },
   "ASTEROID": {
     "description": "",
@@ -1609,7 +1609,7 @@
   },
   "SWAP_SELECTED_HYPERSPACE_TARGET": {
     "description": "",
-    "message": "Swap selected and hyperjump target"
+    "message": "Výměna vybraného cíle a hyperskoku"
   },
   "SWITCHED_TO_PARENT": {
     "description": "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
@@ -1750,6 +1750,10 @@
   "UNIT_AU": {
     "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
     "message": "AU"
+  },
+  "UNIT_CREDITS": {
+    "description": "Unit of money, used when $ isn't specific enough",
+    "message": "Kr"
   },
   "UNIT_CUBIC_METERS": {
     "description": "Volume unit: cubic meter",

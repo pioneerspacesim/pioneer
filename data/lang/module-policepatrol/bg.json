@@ -45,11 +45,27 @@
   },
   "RESPECT_THE_LAW_1": {
     "description": "",
-    "message": "Спазвайте закона! В системата {system} не се правят подкупи!"
+    "message": "Спазвайте закона! В системата {system}, престъпленията не се отплащат!"
   },
   "RESPECT_THE_LAW_2": {
     "description": "",
     "message": "Намирате се в системата {system}. Спазвайте закона!"
+  },
+  "RESTRICTIONS_ESTABLISHED_1": {
+    "description": "",
+    "message": "Заплахата е отстранена. {ship_label}, ограниченията за стрелба вече са в сила."
+  },
+  "RESTRICTIONS_ESTABLISHED_2": {
+    "description": "",
+    "message": "{ship_label}, не стреляйте, не стреляйте!"
+  },
+  "RESTRICTIONS_WITHDRAWN_1": {
+    "description": "",
+    "message": "{ship_label}, може да стреляте."
+  },
+  "RESTRICTIONS_WITHDRAWN_2": {
+    "description": "",
+    "message": "{ship_label}, стреляйте на воля!"
   },
   "TAKE_A_HIKE": {
     "description": "",

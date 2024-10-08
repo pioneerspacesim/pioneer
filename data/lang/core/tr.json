@@ -1751,6 +1751,10 @@
     "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
     "message": "AB"
   },
+  "UNIT_CREDITS": {
+    "description": "Unit of money, used when $ isn't specific enough",
+    "message": "Kr"
+  },
   "UNIT_CUBIC_METERS": {
     "description": "Volume unit: cubic meter",
     "message": "m³"

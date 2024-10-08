@@ -25,7 +25,7 @@
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
-    "message": "Molti spostamenti brevi sono più veloci, rispetto alla loro somma, da percorrere."
+    "message": "Tragitti con molti piccoli salti vengono percorsi più velocemente della loro somma, ma il consumo di carburante è maggiore."
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",

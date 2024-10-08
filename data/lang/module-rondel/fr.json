@@ -17,7 +17,7 @@
   },
   "HOSTILE_ACTION_REPORTED": {
     "description": "",
-    "message": "Action hostile signalée. Interceptez le coupable et détruisez-le!"
+    "message": "Action hostile signalée. Interceptez le coupable et détruisez-le !"
   },
   "INTERCEPTION_SUCCESSFUL": {
     "description": "",

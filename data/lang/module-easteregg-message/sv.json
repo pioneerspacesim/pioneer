@@ -1,6 +1,6 @@
 {
   "FLAVOUR_0_BODY": {
-    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC",
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC. It is formated as a list",
     "message": "Bara ring 36 24 36, jag är alltid hemma. Jag utför kontrakt:\n- betongskor\n- cyanid\n- Dynamit\n- Blodörn\n- Kontrakt\n- Högspänning\n... eller bara ring för ett trevligt samtal"
   },
   "FLAVOUR_0_DESC": {
@@ -22,5 +22,17 @@
   "FLAVOUR_1_TITLE": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",
     "message": "BEHÖVER DU NÅGON ATT VÄNDA DIG TILL?"
+  },
+  "FLAVOUR_2_BODY": {
+    "description": "A very rare easter egg, referencing a online myth from 90s: https://en.wikipedia.org/wiki/John_Titor",
+    "message": "I'm John Titor of the Time Travel Institute, from the year 4036. I'm heading to 1975 to pick up an IBM 5100 computer to degbug legacy computer programs that haven't been ported properly to the machines of my time, but I'm stopping by here to collect information about your time before it's lost in the great calamity.\n\nI intend to return with a six part description on what's needed for time machines to operate. In short, my time machine is a stationary mass, temporal displacement unit, powered by two top-spin dual-positive singularities that produce a standard off-set tipler sinusoid. The displacement unit moves through time, not space.\n\nI will be happy to post pictures of the unit upon request."
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "Note: string has quotes",
+    "message": "'If time travel is real, where are all the time travelers?'"
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "A very rare Easter egg, referencing Internet myth of John Titor.",
+    "message": "People of the past, be wary of the GREAT CALAMITY!"
   }
 }

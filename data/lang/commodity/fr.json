@@ -37,7 +37,7 @@
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Depuis il y a plus de mille ans, avec le boulier en passant par le PDP-11 et la puce Motorala 68k, jusqu'au HAL 9001 moderne ou bien la ligne Multivac, les ordinateurs ont marqués l'aube de l'age de l'information. Ils sont aussi indispensables pour entrer dans l'hyper-espace que pour partager des videos de mignons Quibules sur UniNet."
+    "message": "Depuis plus de mille ans, avec le boulier en passant par le PDP-11 et la puce Motorola 68k, jusqu'au HAL 9001 moderne ou bien la ligne Multivac, les ordinateurs ont marqué l'aube de l'age de l'information. Ils sont aussi indispensables pour entrer dans l'hyper-espace que pour partager des vidéos de mignons Quibules sur UniNet."
   },
   "CONSUMER_GOODS": {
     "description": "",
@@ -53,11 +53,11 @@
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Bien que rare, il est toujours possible de trouver des fermiers utilisant une charrue tirée par des boeufs. Mais dans la plupart des endroits où il y a de l'agriculture, les machines sont utilisées pour la culture des sols, que ce soit des cultures hydroponiques dans un habitat sous-terrain ou bien d'immenses champs sur un monde jardin."
+    "message": "Bien que rare, il est toujours possible de trouver des fermiers utilisant une charrue tirée par des bœufs. Mais dans la plupart des endroits où il y a de l'agriculture, les machines sont utilisées pour la culture des sols, que ce soient des cultures hydroponiques dans un habitat sous-terrain ou bien d'immenses champs sur un monde jardin."
   },
   "FERTILIZER": {
     "description": "",
-    "message": "Fertilisant"
+    "message": "Engrais"
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -73,11 +73,11 @@
   },
   "GRAIN": {
     "description": "",
-    "message": "Grain"
+    "message": "Céréales"
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Les céréales sont l'épine dorsale du régime de beaucoup de personnes. Elles sont utilisées dans les fermes pour nourrir les animaux et comme supplément aux nourritures synthétiques. Elles sont aussi utilisées dans beaucoup d'autres aliments, comme le gruau et les patisseries. La plupart des cultures spatiales cultivent et consomment au moins quelques céréales, celles qui ont pu s'adapter au climat de leur habitat."
+    "message": "Les céréales sont l'épine dorsale du régime de beaucoup de personnes. Elles sont utilisées dans les fermes pour nourrir les animaux et comme supplément aux nourritures synthétiques. Elles sont aussi utilisées dans beaucoup d'autres aliments, comme le gruau et les pâtisseries. La plupart des cultures spatiales cultivent et consomment au moins quelques céréales, celles qui ont pu s'adapter au climat de leur habitat."
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Les armes de mains procurent une assurance là où la loi n'est plus présente et à ce titre elles se révèlent essentielles dans les systèmes lointains. Cependant, beaucoup de gouvernement les considèrent comme une menace à l'ordre public pour les plus libéraux, ou bien à leur contrôle sur la population pour les plus despotiques et contrôlent strictement leur commerce ainsi que leur possession."
+    "message": "Les armes de poing procurent une assurance là où la loi n'est plus présente et à ce titre elles se révèlent essentielles dans les systèmes lointains. Cependant, beaucoup de gouvernement les considèrent comme une menace à l'ordre public pour les plus libéraux, ou bien à leur contrôle sur la population pour les plus despotiques et contrôlent strictement leur commerce ainsi que leur possession."
   },
   "HYDROGEN": {
     "description": "",
@@ -149,7 +149,7 @@
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Beaucoup de colonies exploitent les minérais de métaux pour l'export. Ces minerais sont alors rafinés et employés en tant que matières premières dans des usines industrielles. Utilisé aussi bien dans de petits jouets que dans les vaisseaux spatiaux, le métal sous toutes ses formes est essentiel à la civilisation moderne."
+    "message": "Beaucoup de colonies exploitent les minerais de métaux pour l'export. Ces minerais sont alors raffinés et employés en tant que matières premières dans les sites industriels. Utilisé aussi bien dans de petits jouets que dans les vaisseaux spatiaux, le métal sous toutes ses formes est essentiel à la civilisation moderne."
   },
   "MILITARY_FUEL": {
     "description": "",
@@ -165,7 +165,7 @@
   },
   "MINING_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Le travail de mineur, traditionnellement arrassant, est assisté par l'utilisation de machines aidant les mineurs à localiser et extraire les différents minerais et à les transporter vers les usines de traitement."
+    "message": "Le travail de mineur, traditionnellement harassant, est assisté par l'utilisation de machines aidant les mineurs à localiser et extraire les différents minerais et à les transporter vers les usines de traitement."
   },
   "NARCOTICS": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Substances naturelles ou synthétiques qui altèrent l'état d'esprit et le corps. Bien que l'usage de narcotiques, médical ou récréatif, est aussi vieux que l'humanité, le transport et le commerce de ces substances est la plupart du temps interdit."
+    "message": "Substances naturelles ou synthétiques qui altèrent l'état d'esprit et le corps. Bien que l'usage de narcotiques, médical ou récréatif, soit aussi vieux que l'humanité, le transport et le commerce de ces substances est la plupart du temps interdit."
   },
   "NERVE_GAS": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Les gaz neurotoxiques sont généralement considérés comme des armes de destruction massive, très souvent boudés même par les militaires, ils sont donc illégaux dans la plupart des systèmes."
+    "message": "Les gaz neurotoxiques sont généralement considérés comme des armes de destruction massive. Très souvent boudés même par les militaires, ils sont donc illégaux dans la plupart des systèmes."
   },
   "PLASTICS": {
     "description": "",
@@ -189,7 +189,7 @@
   },
   "PLASTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Matériaux synthétiques et semi-synthétiques utilisés dans presque tout, des objets du quotidien à la construction de vaisseaux spatiaux. Même s'ils sont relativement facile et peu cher à fabriquer, les plastiques sont extrèment polyvalents, et tiennent une place très importante dans la civilisation humaine."
+    "message": "Matériaux synthétiques et semi-synthétiques utilisés dans presque tout, des objets du quotidien à la construction de vaisseaux spatiaux. Même s'ils sont relativement facile et peu cher à fabriquer, les plastiques sont extrêmement polyvalents, et tiennent une place très importante dans la civilisation humaine."
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -197,7 +197,7 @@
   },
   "PRECIOUS_METALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Les métaux précieux sont, en général, moins réactif, plus difficile à miner et plus rare, ce qui leur donne une valeur économique considérable. L'or, l'argent, le platine et les terres rares sont des exemples communs de métaux précieux. Certains éléments comme l'or et le silicone, ainsi que certaines terres rares sont cruciaux pour la construction d'ordinateurs et d'autres produits électroniques."
+    "message": "Les métaux précieux sont, en général, moins réactif, plus difficile à miner et plus rare, ce qui leur donne une valeur économique considérable. L'or, l'argent, le platine et les terres rares sont des exemples communs de métaux précieux. Certains éléments comme l'or et le silicium, ainsi que certaines terres rares sont cruciaux pour la construction d'ordinateurs et d'autres produits électroniques."
   },
   "RADIOACTIVES": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Créé par des réacteurs nucléaires et des hyper-propulsions militaires, les déchets radioactifs sont la denrée la plus dure à se débarrasser et la plus dangereuse à transporter. Pour cette raison, la plupart des spatioports paieront pour se débarrasser de leur stocks. Déverser des déchets radioactifs est une infraction grave."
+    "message": "Créés par des réacteurs nucléaires et des hyper-propulsions militaires, les déchets radioactifs sont les matières les plus difficiles et dangereuses à transporter et à éliminer. Pour cette raison, la plupart des spatioports paieront pour se débarrasser de leur stocks. Déverser des déchets radioactifs est une infraction grave."
   },
   "ROBOTS": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Lest robots sont souvent importés dans les systèmes industriels et miniers de part leur capacité à accomplir des tâches qui auraient été trop difficile, ennuyeuse ou risquées pour les travailleur humains. Ils peuvent aussi servir comme politiciens ou avocats."
+    "message": "Les robots sont souvent importés dans les systèmes industriels et miniers pour leur capacité à accomplir des tâches qui auraient été trop difficiles, ennuyeuses ou risquées pour les travailleurs humains. Ils peuvent aussi servir comme politiciens ou avocats."
   },
   "RUBBISH": {
     "description": "",
@@ -221,7 +221,7 @@
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Sous-produit de la civilisation, consistant en déchets industriels, ordures ménagères et équipements usagés. La plupart des déchets sont reconditionnés, recyclés ou envoyés vers des ports spatiaux pour transport vers d'autres mondes. Déposer des ordures sur des systèmes habités est presque systématiquement illégal. Les ports spatiaux font habituellement payer tout dépôt de déchets, mais vous payeront si vous décidiez de les enlever."
+    "message": "Sous-produit de la civilisation, ce sont des déchets industriels, des ordures ménagères et des équipements usagés. La plupart des déchets sont reconditionnés, recyclés ou envoyés vers des ports spatiaux pour être transportés vers d'autres mondes. Déposer des ordures sur des systèmes habités est presque toujours illégal. Les ports spatiaux font habituellement payer tout dépôt de déchets, mais payeront si vous décidez de les enlever."
   },
   "SLAVES": {
     "description": "",
@@ -229,11 +229,11 @@
   },
   "SLAVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Depuis que les machines ont remplacés les esclaves au coeur du moteur alimentant la civilisation, l'esclavage est maintenant considéré universellement comme immoral. Transgresser une interdiction d'esclavage entraine une punision sévère. Cependant, malgré tous les efforts des humanistes, l'esclavage existe toujours, même sur certains mondes développés."
+    "message": "Depuis que les machines ont remplacé les esclaves au cœur du moteur alimentant la civilisation, l'esclavage est maintenant considéré universellement comme immoral. Transgresser une interdiction d'esclavage entraîne une punition sévère. Cependant, malgré tous les efforts des humanistes, l'esclavage existe toujours, même sur certains mondes développés."
   },
   "TEXTILES": {
     "description": "",
-    "message": "Étoffes"
+    "message": "Etoffes"
   },
   "TEXTILES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",

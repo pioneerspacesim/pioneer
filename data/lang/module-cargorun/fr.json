@@ -125,7 +125,7 @@
   },
   "CEASE_FIRE": {
     "description": "",
-    "message": "Cessez le feu, cessez le feu! Je suis de votre côté!"
+    "message": "Cessez le feu, cessez le feu ! Je suis de votre côté !"
   },
   "CLUS": {
     "description": "custom cargo",
@@ -181,7 +181,7 @@
   },
   "DENY_AGAIN_3": {
     "description": "",
-    "message": "Monsieur, veuillez d'abord délivrer ma marchandise. Ensuite, je ferais d'autre affaires avec vous."
+    "message": "Monsieur, veuillez d'abord délivrer ma marchandise. Ensuite, je ferai d'autres affaires avec vous."
   },
   "DIAMONDS": {
     "description": "custom cargo",
@@ -213,7 +213,7 @@
   },
   "ESCORT_CHATTER_4": {
     "description": "",
-    "message": "Procédez vers votre destination. Je vous couvrirai."
+    "message": "Continuez vers votre destination. Je vous couvrirai."
   },
   "ESCORT_CHATTER_5": {
     "description": "",
@@ -301,11 +301,11 @@
   },
   "INTROTEXT_1": {
     "description": "",
-    "message": "Salut, je suis {name}. Je vous paye {cash} si vous délivrez {cargoname} vers {starport} dans le système ({sectorx}, {sectory}, {sectorz}), pour une distance de {dist} al."
+    "message": "Salut, je suis {name}. Je vous paye {cash} si vous délivrez {cargoname} vers {starport} dans le système {system} ({sectorx}, {sectory}, {sectorz}), pour une distance de {dist} al."
   },
   "INTROTEXT_2": {
     "description": "{name} is the full name of a person",
-    "message": "Bienvenu! Les services de transport {name} ont besoin de vous pour délivrer {cargoname} vers {starport} dans le système ({sectorx}, {sectory}, {sectorz}), distant de {dist} al. Nous payons {cash} pour une livraison sure et complète."
+    "message": "Bienvenue ! Les services de transport {name} ont besoin de vous pour délivrer {cargoname} vers {starport} dans le système {system} ({sectorx}, {sectory}, {sectorz}), distant de {dist} al. Nous payons {cash} pour une livraison sûre et complète."
   },
   "INTROTEXT_3": {
     "description": "",
@@ -313,11 +313,11 @@
   },
   "INTROTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "Bonjour, Nous avons besoin de quelqu'un d'expérimenté pour une course potentiellement dangereuse vers {starport} dans le système  {system} ({sectorx}, {sectory}, {sectorz}). Nous paierons {cash}. La distance est de {dist} al."
+    "message": "Bonjour. Nous avons besoin de quelqu'un d'expérimenté pour une course potentiellement dangereuse vers {starport} dans le système {system} ({sectorx}, {sectory}, {sectorz}). Nous paierons {cash}. La distance est de {dist} al."
   },
   "INTROTEXT_FLUFFY_1": {
     "description": "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
-    "message": "Salut, mon name est {name}. J'ai un chargement molletonné de {cargoname} à délivrer vers {starport} dans le système {system} ({sectorx}, {sectory}, {sectorz}). La distance est de {dist} al. Pour cette livraison, je vous paierais {cash}."
+    "message": "Salut, mon nom est {name}. J'ai un chargement bien emballé de {cargoname} à délivrer vers {starport} dans le système {system} ({sectorx}, {sectory}, {sectorz}). La distance est de {dist} al. Pour cette livraison, je vous paierais {cash}."
   },
   "INTROTEXT_INFRASTRUCTURE_1": {
     "description": "",
@@ -325,7 +325,7 @@
   },
   "INTROTEXT_LOCAL_1": {
     "description": "",
-    "message": "Heureux de faire votre connaissance. Je suis {name} et je travaille pour l'administration de {starport}. Nous payons {cash} pour toute personne capable de transporter {cargoname} vers {starport}."
+    "message": "Heureux de faire votre connaissance. Je suis {name} et je travaille pour l'administration de {starport}. Nous payons {cash} toute personne capable de transporter {cargoname} vers {starport}."
   },
   "INTROTEXT_LOCAL_2": {
     "description": "",
@@ -361,7 +361,7 @@
   },
   "INTROTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Bonjour, mon nom est {name} et je suis un grossiste du système {system}. Je paie {cash} pour une course vers {starport} dans le système \n{system} ({sectorx}, {sectory}, {sectorz}), {dist} al."
+    "message": "Bonjour, mon nom est {name} et je suis un grossiste du système {system}. Je paie {cash} pour une course vers {starport} dans le système {system} ({sectorx}, {sectory}, {sectorz}), {dist} al."
   },
   "INTROTEXT_WHOLESALER_2": {
     "description": "",
@@ -429,11 +429,11 @@
   },
   "PIRATE_GRIPES_1": {
     "description": "",
-    "message": "Maudit sois-tu! Tu me paieras ça!"
+    "message": "Maudit sois-tu ! Tu me paieras ça !"
   },
   "PIRATE_GRIPES_2": {
     "description": "",
-    "message": "Oh non. Mon pauvre vaisseau!"
+    "message": "Oh non. Mon pauvre vaisseau !"
   },
   "PIRATE_GRIPES_3": {
     "description": "said with vengeance",
@@ -441,15 +441,15 @@
   },
   "PIRATE_TAUNTS_1": {
     "description": "",
-    "message": "Ce sera ta dernière course!"
+    "message": "Ce sera ta dernière course !"
   },
   "PIRATE_TAUNTS_2": {
     "description": "",
-    "message": "Tu travailles pour {client}? C'en est fini de toi!"
+    "message": "Tu travailles pour {client} ? C'en est fini de toi !"
   },
   "PIRATE_TAUNTS_3": {
     "description": "",
-    "message": "Hé mon pote, donne-nous la marchandise. Tout de suite!"
+    "message": "Hé mon pote, donne-nous la marchandise. Tout de suite !"
   },
   "PIRATE_TAUNTS_4": {
     "description": "",
@@ -457,11 +457,11 @@
   },
   "PIRATE_TAUNTS_5": {
     "description": "",
-    "message": "Ha! Une autre oie bien grasse en route vers {location}."
+    "message": "Ha ! Une autre oie bien grasse en route vers {location}."
   },
   "PIRATE_TAUNTS_6": {
     "description": "",
-    "message": "Il semblerait que tu soit surchargé de marchandises. Laisse-moi m'occuper de ce problème."
+    "message": "Il semblerait que tu sois surchargé de marchandises. Laisses-moi m'occuper de ce problème."
   },
   "PIRATE_TAUNTS_7": {
     "description": "",
@@ -521,7 +521,7 @@
   },
   "RISK_WHOLESALER_2": {
     "description": "",
-    "message": "Il a peut-être un risque. Mais la police nous a promis de patrouiller la zone."
+    "message": "Il y a peut-être un risque. Mais la police nous a promis de patrouiller la zone."
   },
   "RISK_WHOLESALER_3": {
     "description": "",
@@ -565,11 +565,11 @@
   },
   "SUCCESSMSG_4": {
     "description": "",
-    "message": "Merci! Je vous recommanderais. L'argent a été transféré."
+    "message": "Merci ! Je vous recommanderais. L'argent a été transféré."
   },
   "SUCCESSMSG_FLUFFY_1": {
     "description": "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",
-    "message": "Que vais-je faire de tous ces animaux? Dans tous les cas, l'argent vous a été envoyé."
+    "message": "Que vais-je faire de tous ces animaux ? Dans tous les cas, l'argent vous a été envoyé."
   },
   "SYSTEM": {
     "description": "",
@@ -585,7 +585,7 @@
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
-    "message": "Vous êtes bien trop en retard! Votre performance a été si mauvaise que je me dois d'annuler notre contrat."
+    "message": "Vous êtes bien trop en retard ! Votre performance a été si mauvaise que je me dois d'annuler notre contrat."
   },
   "TUNGSTEN": {
     "description": "custom cargo",
@@ -609,7 +609,7 @@
   },
   "URGENCY_4": {
     "description": "",
-    "message": "Nous sommes pressé, cela doit être livré avant {date}."
+    "message": "Nous sommes pressés, cela doit être livré avant {date}."
   },
   "URGENCY_5": {
     "description": "",
@@ -621,11 +621,11 @@
   },
   "URGENCY_RADIOACTIVE_1": {
     "description": "",
-    "message": "À cause de la période de demi-vie de cette isotope, la livraison doit être accomplie avant {date}."
+    "message": "À cause de la période de demi-vie de cet isotope, la livraison doit être accomplie avant {date}."
   },
   "WEDDING_DRESSES": {
     "description": "custom cargo",
-    "message": "Robes de marriées"
+    "message": "Robes de mariée"
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
@@ -633,7 +633,7 @@
   },
   "WHAT_IS_THIS": {
     "description": "",
-    "message": "Quoi? Vous avez jeté ma cargaison? Vous êtes fou?"
+    "message": "Quoi ? Vous avez jeté ma cargaison ? Vous êtes fou ?"
   },
   "WHYSOMUCH_1": {
     "description": "",
@@ -701,15 +701,15 @@
   },
   "WHYSOMUCH_WEDDING_1": {
     "description": "",
-    "message": "Pour l'instant je n'ai pas trouver personne pour effectuer ce transport. Quand la saison sera finie, ma marchandise ne vaudra plus rien."
+    "message": "Pour l'instant je n'ai trouvé personne pour effectuer ce transport. Quand la saison sera finie, ma marchandise ne vaudra plus rien."
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",
-    "message": "Pourquoi autant d'argent?"
+    "message": "Pourquoi autant d'argent ?"
   },
   "WILL_I_BE_IN_ANY_DANGER": {
     "description": "",
-    "message": "Serait-je en danger?"
+    "message": "Serait-je en danger ?"
   },
   "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP": {
     "description": "",

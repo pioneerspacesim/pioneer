@@ -173,7 +173,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "Les travailleurs du système {system} ({sectorx}, {sectory}, {sectorz}) se sont rebellés et ont retirés leurs chaines d'exploités en refusant de continuer à travailler les champs de Lotus. L'économie s'est arrêtée puisque aucun travailleur à bas coût ne peut plus être trouvé."
+    "message": "Les travailleurs du système {system} ({sectorx}, {sectory}, {sectorz}) se sont rebellés et ont retiré leurs chaînes d'exploités en refusant de continuer à travailler les champs de Lotus. L'économie s'est arrêtée puisque aucun travailleur à bas coût ne peut plus être trouvé."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",

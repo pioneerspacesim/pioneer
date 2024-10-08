@@ -239,6 +239,18 @@
     "description": "",
     "message": "Malın ticari analizi:"
   },
+  "COMMODITY_TRADE_ANALYSIS_SYSTEM": {
+    "description": "",
+    "message": "Sistemin ticaret analizi:"
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_1": {
+    "description": "",
+    "message": "Sistemde yıldızlararası ticaret ile alınıp satılan bütün malların ortalama akışı."
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_2": {
+    "description": "",
+    "message": "Veri, market fiyatlarını birebir belirtmeyebilir."
+  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Mücadeleci"
@@ -288,12 +300,20 @@
     "message": "Referans çerçevesi için sistem cismi bulunamadı"
   },
   "COULD_NOT_LOAD_GAME": {
-    "description": "",
+    "description": "Label indicating a specific file could not be loaded",
     "message": "Oyun yüklenemiyor:"
+  },
+  "COULD_NOT_LOAD_SAVE_FILES": {
+    "description": "Label indicating the list of save files could not be loaded",
+    "message": "Kayıt dosyaları yüklenemedi"
   },
   "COULD_NOT_READ_THE_SAVE_VERSION": {
     "description": "Message when restoring savegame",
     "message": "Kayıt sürümü okunamadı"
+  },
+  "COULD_NOT_SAVE_GAME": {
+    "description": "Label indicating a specific file could not be saved",
+    "message": "Oyun kaydedilemedi:"
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -315,13 +335,17 @@
     "description": "",
     "message": "Mürettebat Listesi"
   },
+  "CRIME": {
+    "description": "Heading introducing a single crime name or list of crime names",
+    "message": "Suç"
+  },
   "CRIMINAL": {
     "description": "Legal status of player",
     "message": "Suçlu"
   },
   "CRIMINAL_RECORD": {
-    "description": "Past crimes / crime history of character",
-    "message": "Suç kaydı"
+    "description": "Heading for past crimes / crime history of character, proper noun",
+    "message": "Sabıka Kaydı"
   },
   "CURRENT_FUEL": {
     "description": "For hyperjump planner",
@@ -631,6 +655,10 @@
     "description": "Financial statement of player, e.g. cash",
     "message": "Finans"
   },
+  "FINE": {
+    "description": "Cost of a criminal action",
+    "message": "Ceza"
+  },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
     "message": "{primary_info} ile kenetlenirken"
@@ -714,6 +742,10 @@
   "FULL_SCREEN": {
     "description": "",
     "message": "Tam ekran"
+  },
+  "GAME_OPTIONS": {
+    "description": "GameOptions - tooltip for the Game Options tab in the Settings Window",
+    "message": "Game Options"
   },
   "GAME_TIME": {
     "description": "",
@@ -935,6 +967,10 @@
     "description": "Tooltip: Sidereal camera view",
     "message": "Yıldızsal görünüm"
   },
+  "HUD_BUTTON_SWITCH_TO_CURRENT_SYSTEM": {
+    "description": "Tooltip: Switch to current system",
+    "message": "Switch to current system"
+  },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
     "message": "Galaksi haritasına geç"
@@ -942,6 +978,10 @@
   "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
     "description": "Tooltip: Switch to sector map",
     "message": "Sektör haritasına geç"
+  },
+  "HUD_BUTTON_SWITCH_TO_SELECTED_SYSTEM": {
+    "description": "Tooltip: Switch to selected system",
+    "message": "Switch to selected system"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
     "description": "Tooltip: Switch to system map",
@@ -1195,6 +1235,10 @@
     "description": "",
     "message": "Üstuzay menzili"
   },
+  "ILLEGAL_COMMODITIES": {
+    "description": "Commodities illegal in the current system or polity",
+    "message": "Yasadışı Mallar"
+  },
   "ILLEGAL_IN_SYSTEM": {
     "description": "An illegal action or commodity",
     "message": "Sistemde Yasadışı"
@@ -1318,6 +1362,14 @@
   "LAWFULNESS": {
     "description": "Character parameter",
     "message": "Yasaya Uyum"
+  },
+  "LEGAL_RULES": {
+    "description": "Refers to laws, rules and regulations",
+    "message": "İstasyon kontrolündeki uzayda yasal kurallar geçerlidir. Yasalar sensörler aracılığıyla şu mesafeye kadar uygulanır: {distance}"
+  },
+  "LEGAL_RULES_AND_REGULATIONS": {
+    "description": "Heading on a tab, keep it short",
+    "message": "Kurallar ve Düzenlemeler"
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1725,7 +1777,7 @@
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
-    "message": "Cezalar"
+    "message": "Ödenmemiş Cezalar"
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
@@ -1834,6 +1886,10 @@
   "POOR": {
     "description": "Player combat rating",
     "message": "Kötü"
+  },
+  "POSESSION_OF_COMMODITIES_ILLEGAL": {
+    "description": "",
+    "message": "Bu sistemde belirli malların sahipliği yasadışıdır."
   },
   "POSITION": {
     "description": "The job title/position of crew memeber",
@@ -1983,6 +2039,14 @@
     "description": "Paintshop button",
     "message": "Önizlemeyi Sıfırla"
   },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT": {
+    "description": "Reset View on Hyperspace Exit option",
+    "message": "Reset View on Hyperspace Exit"
+  },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT_DESC": {
+    "description": "The tooltip of Reset View on Hyperspace Exit in the settings menu",
+    "message": "Reset view to main game view when exiting from hyperspace"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Oyuna dön"
@@ -2026,6 +2090,14 @@
   "SAVE": {
     "description": "",
     "message": "Kaydet"
+  },
+  "SAVED_GAMES": {
+    "description": "Header for save/load window",
+    "message": "Kayıtlı Oyunlar"
+  },
+  "SAVE_AS": {
+    "description": "",
+    "message": "Farklı Kaydet"
   },
   "SAVE_DELETED_SUCCESSFULLY": {
     "description": "",
@@ -2154,6 +2226,10 @@
   "SHIP_TYPE": {
     "description": "",
     "message": "Gemi Tipi"
+  },
+  "SHOW_AUTOSAVES": {
+    "description": "Button tooltip indicating whether to show autosave files",
+    "message": "Oto-kayıtları Göster"
   },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
@@ -2286,6 +2362,10 @@
   "THERE_WERE_ERRORS_IN_RECOVERY": {
     "description": "Message when restoring savegame",
     "message": "Kurtarma sırasında hatalar oluştu:"
+  },
+  "THESE_ITEMS_ARE_PUNISHABLE_BY_FINE": {
+    "description": "",
+    "message": "Bu malların alımı, satımı ve taşınması para cezası ve müsadere ile cezalandırılabilir."
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",

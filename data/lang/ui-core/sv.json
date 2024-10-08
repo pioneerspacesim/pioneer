@@ -239,6 +239,18 @@
     "description": "",
     "message": "Råvaruhandel analys av:"
   },
+  "COMMODITY_TRADE_ANALYSIS_SYSTEM": {
+    "description": "",
+    "message": "System-wide trade analysis of:"
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_1": {
+    "description": "",
+    "message": "Average interstellar trade flow for all commodities bought and sold in the system."
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_2": {
+    "description": "",
+    "message": "Data may not reflect individual market prices."
+  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Kompetent"
@@ -288,12 +300,20 @@
     "message": "Could not find system body for frame"
   },
   "COULD_NOT_LOAD_GAME": {
-    "description": "",
+    "description": "Label indicating a specific file could not be loaded",
     "message": "Kunde inte ladda spel:"
+  },
+  "COULD_NOT_LOAD_SAVE_FILES": {
+    "description": "Label indicating the list of save files could not be loaded",
+    "message": "Could not load save files"
   },
   "COULD_NOT_READ_THE_SAVE_VERSION": {
     "description": "Message when restoring savegame",
     "message": "Could not read the save version"
+  },
+  "COULD_NOT_SAVE_GAME": {
+    "description": "Label indicating a specific file could not be saved",
+    "message": "Could not save game: "
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -315,13 +335,17 @@
     "description": "",
     "message": "Besättningslista"
   },
+  "CRIME": {
+    "description": "Heading introducing a single crime name or list of crime names",
+    "message": "Crime"
+  },
   "CRIMINAL": {
     "description": "Legal status of player",
     "message": "Brottsling"
   },
   "CRIMINAL_RECORD": {
-    "description": "Past crimes / crime history of character",
-    "message": "Kriminalregister"
+    "description": "Heading for past crimes / crime history of character, proper noun",
+    "message": "Criminal Record"
   },
   "CURRENT_FUEL": {
     "description": "For hyperjump planner",
@@ -631,6 +655,10 @@
     "description": "Financial statement of player, e.g. cash",
     "message": "Finans"
   },
+  "FINE": {
+    "description": "Cost of a criminal action",
+    "message": "Fine"
+  },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
     "message": "Dockar vid {primary_info}"
@@ -714,6 +742,10 @@
   "FULL_SCREEN": {
     "description": "",
     "message": "Helskärm"
+  },
+  "GAME_OPTIONS": {
+    "description": "GameOptions - tooltip for the Game Options tab in the Settings Window",
+    "message": "Game Options"
   },
   "GAME_TIME": {
     "description": "",
@@ -935,6 +967,10 @@
     "description": "Tooltip: Sidereal camera view",
     "message": "Siderisk vy"
   },
+  "HUD_BUTTON_SWITCH_TO_CURRENT_SYSTEM": {
+    "description": "Tooltip: Switch to current system",
+    "message": "Switch to current system"
+  },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
     "message": "Byt till galaxkarta"
@@ -942,6 +978,10 @@
   "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
     "description": "Tooltip: Switch to sector map",
     "message": "Byt till sektorkarta"
+  },
+  "HUD_BUTTON_SWITCH_TO_SELECTED_SYSTEM": {
+    "description": "Tooltip: Switch to selected system",
+    "message": "Switch to selected system"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
     "description": "Tooltip: Switch to system map",
@@ -1195,6 +1235,10 @@
     "description": "",
     "message": "Hyperrymdsräckvidd"
   },
+  "ILLEGAL_COMMODITIES": {
+    "description": "Commodities illegal in the current system or polity",
+    "message": "Illegal Commodities"
+  },
   "ILLEGAL_IN_SYSTEM": {
     "description": "An illegal action or commodity",
     "message": "Olagligt i systemet"
@@ -1318,6 +1362,14 @@
   "LAWFULNESS": {
     "description": "Character parameter",
     "message": "Laglydighet"
+  },
+  "LEGAL_RULES": {
+    "description": "Refers to laws, rules and regulations",
+    "message": "Legal rules applicable in station controlled space. Laws are sensor enforced within a distance of: {distance}"
+  },
+  "LEGAL_RULES_AND_REGULATIONS": {
+    "description": "Heading on a tab, keep it short",
+    "message": "Rules and Regulations"
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1725,7 +1777,7 @@
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
-    "message": "Obetalda böter"
+    "message": "Outstanding Fines"
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
@@ -1834,6 +1886,10 @@
   "POOR": {
     "description": "Player combat rating",
     "message": "Dålig"
+  },
+  "POSESSION_OF_COMMODITIES_ILLEGAL": {
+    "description": "",
+    "message": "Possession of certain commodities is illegal in this system."
   },
   "POSITION": {
     "description": "The job title/position of crew memeber",
@@ -1983,6 +2039,14 @@
     "description": "Paintshop button",
     "message": "Återställ förhandsvisning"
   },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT": {
+    "description": "Reset View on Hyperspace Exit option",
+    "message": "Reset View on Hyperspace Exit"
+  },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT_DESC": {
+    "description": "The tooltip of Reset View on Hyperspace Exit in the settings menu",
+    "message": "Reset view to main game view when exiting from hyperspace"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Återgå till spelet"
@@ -2026,6 +2090,14 @@
   "SAVE": {
     "description": "",
     "message": "Spara"
+  },
+  "SAVED_GAMES": {
+    "description": "Header for save/load window",
+    "message": "Saved Games"
+  },
+  "SAVE_AS": {
+    "description": "",
+    "message": "Save As"
   },
   "SAVE_DELETED_SUCCESSFULLY": {
     "description": "",
@@ -2154,6 +2226,10 @@
   "SHIP_TYPE": {
     "description": "",
     "message": "Fartygstyp"
+  },
+  "SHOW_AUTOSAVES": {
+    "description": "Button tooltip indicating whether to show autosave files",
+    "message": "Show Autosaves"
   },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
@@ -2286,6 +2362,10 @@
   "THERE_WERE_ERRORS_IN_RECOVERY": {
     "description": "Message when restoring savegame",
     "message": "There were errors in recovery:"
+  },
+  "THESE_ITEMS_ARE_PUNISHABLE_BY_FINE": {
+    "description": "",
+    "message": "Purchase, sale, and transportation of these items is punishable by a fine and possible confiscation"
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",

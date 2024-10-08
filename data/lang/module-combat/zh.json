@@ -189,7 +189,7 @@
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "我们在附近的每个星系都有一个销售员。降落时他们将与您联系。"
+    "message": "We have a salesperson in every nearby star system. Land at a station before the deadline and our staff will contact you about the payment."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "在 {rendezvous}星系中与我会面以完成工作！"
+    "message": "Meet me in the {rendezvous} system before the due date!"
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
@@ -225,7 +225,7 @@
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "访问受{org}保护的地区的站点！"
+    "message": "Visit a station in the territory protected by the {org}! The operation requires that the mission objective is achieved on time."
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
@@ -245,7 +245,7 @@
   },
   "MINING_LAND_THERE": {
     "description": "",
-    "message": "我们在附近的每个星系都有员工。你只要去最近的站点和当地的办事处联系就行了。"
+    "message": "We have employees in every nearby star system. Just visit the nearest station before the due date and get in contact with the local office there."
   },
   "MISSION": {
     "description": "",
@@ -317,7 +317,7 @@
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "只需在一个有{org}办公室的站点停靠。"
+    "message": "Just land at a station with a {org} office. This must be done before the due date in order not to jeopardise the entire mission!"
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",

@@ -1,6 +1,6 @@
 {
   "FLAVOUR_0_BODY": {
-    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC",
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC. It is formated as a list",
     "message": "Обадете се на 36 24 36, винаги съм вкъщи. Имам опит с:\n- Бетонни обувки,\n- Цианид,\n- TNT,\n- Вратовръзки,\n- Договори,\n- Високо напрежение,\n\n ...или просто ми се обадете да си приказваме."
   },
   "FLAVOUR_0_DESC": {
@@ -22,5 +22,17 @@
   "FLAVOUR_1_TITLE": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",
     "message": "НУЖДАЕТЕ СЕ ОТ УСЛУГА?"
+  },
+  "FLAVOUR_2_BODY": {
+    "description": "A very rare easter egg, referencing a online myth from 90s: https://en.wikipedia.org/wiki/John_Titor",
+    "message": "Аз съм Джон Тайтър от Института за пътуване във времето от 4036 година. Връщам се в 1975 година, за да взема един IBM 5100, за да отстраня грешки в старите компютърни програми, които не са създадени правилно за машините на моето време и се спирам тук, за да събера информация за Вашето време, преди да бъде изгубено в голямото бедствие.\n\nВъзнамерявам да се върна с описание от шест части на това, което е необходимо, за да работят машините на времето. Накратко, моята машина на времето е статична единица за времево изместване на масата, задвижвана от две двойно положителни сингулярности с максимално завъртане, които произвеждат стандартна изместена и наклонена синусоида. Единицата за изместване се движи във времето, а не в пространството.\n\nЩе се радвам да публикувам снимки при поискване."
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "Note: string has quotes",
+    "message": "„Ако пътуването във времето съществува, къде са всички пътешественици във времето?“"
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "A very rare Easter egg, referencing Internet myth of John Titor.",
+    "message": "Хора от миналото, предпазете се от ГОЛЯМОТО БЕДСТВИЕ!"
   }
 }

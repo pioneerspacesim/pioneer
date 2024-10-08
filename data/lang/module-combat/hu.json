@@ -189,7 +189,7 @@
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "Minden közeli csillagrendszerben van kereskedőnk. Landoláskor majd kapcsolatba lép Önnel."
+    "message": "Minden környékbeli rendszerben elérhetőek a kereskedőink. Landoljon bármelyik kikötőben a határidőn belül, és munkatársaing felveszik önnel a kapcsolatot a díjazással kapcsolatban."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "Találkozzunk a {rendezvous} rendszerben, és kifizetlek!"
+    "message": "{rendezvous} rendszerbenn találkozzunk a határidő előtt!"
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
@@ -225,7 +225,7 @@
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "Meg kell látogatnia egy {org} felségterületén lévő állomást."
+    "message": "Keressen fel egy {org} által felügyelt kikötőt! A megbízást határidőn belül szükséges teljesíteni!"
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
@@ -245,7 +245,7 @@
   },
   "MINING_LAND_THERE": {
     "description": "",
-    "message": "Az össze környékbeli rendszerben található irodánk. Bármelyik kikötőben fel tudja venni velünk a kapcsolatot."
+    "message": "Minden környékbeli rendszerben vannak alkalmazottaink. Bármelyik kikötőben fel tudja venni a kapcsolatot a hely irodánkkal. Határidőn belül érkezzen."
   },
   "MISSION": {
     "description": "",
@@ -317,7 +317,7 @@
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "Elég, ha egy olyan helyen landolsz, ahol van {org} iroda."
+    "message": "Csak száljon le bármelyik állomáson ahol van {org} iroda. A határidő tartása elengedhetetlen az egész művelet biztonsága szempontjából!"
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",

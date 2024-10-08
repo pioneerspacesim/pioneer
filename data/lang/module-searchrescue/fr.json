@@ -89,7 +89,7 @@
   },
   "ENTITY_GENERAL_2": {
     "description": "",
-    "message": "la Société pour la Préservation Écologique"
+    "message": "la Société pour la Préservation Écologique de {locality}"
   },
   "ENTITY_GENERAL_3": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "Je n'arrive pas à croire que tu viennes à peine de rentrer! Que de temps perdu!"
+    "message": "Je n'arrive pas à croire que vous veniez à peine de rentrer! Que de temps perdu!"
   },
   "FLAVOUR_1_HOWMUCHTIMETEXT": {
     "description": "",
@@ -197,7 +197,7 @@
   },
   "FLAVOUR_1_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Un équipage de {crew} et de passagers {pass} sont à bord du vaisseau. Nous avons besoin de quelqu'un pour localiser le vaisseau, récupérer les survivants et les ramener ici immédiatement. "
+    "message": "Un équipage de {crew} et {pass} passagers sont à bord du vaisseau. Nous avons besoin de quelqu'un pour localiser le vaisseau, récupérer les survivants et les ramener ici immédiatement. "
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "FLAVOUR_2_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "Afin de recevoir le paiement complet, nous vous demandons de livrer le carburant d'ici {due}."
+    "message": "Afin de recevoir le paiement complet, nous vous demandons de livrer le carburant avant {due}."
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",

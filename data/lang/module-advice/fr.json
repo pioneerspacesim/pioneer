@@ -25,7 +25,7 @@
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
-    "message": "Plusieurs petites distances sont traversées plus rapidement que leur somme totale."
+    "message": "Le déplacement sur plusieurs petites distances est plus rapide, mais utilise plus de carburant"
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
@@ -41,7 +41,7 @@
   },
   "ADVICE_4_BODYTEXT": {
     "description": "",
-    "message": "Choisissez votre cadre de référence. Spécialement quand vous souhaitez adapter votre vitesse et direction à celle d'une cible mouvante."
+    "message": "Choisissez votre cadre de référence. Spécialement quand vous souhaitez adapter votre vitesse et votre direction à celle d'une cible mouvante."
   },
   "ADVICE_4_HEADLINE": {
     "description": "",
@@ -57,7 +57,7 @@
   },
   "ADVICE_6_BODYTEXT": {
     "description": "",
-    "message": "Faites attention à chaque nouvelle que vous recevez: l'actualité peut affecter les prix des marchés."
+    "message": "Faites attention à chaque nouvelle que vous recevez : l'actualité peut affecter les prix des marchés."
   },
   "ADVICE_6_HEADLINE": {
     "description": "",
@@ -81,7 +81,7 @@
   },
   "ADVICE_9_BODYTEXT": {
     "description": "",
-    "message": "Maintenez régulièrement votre moteur, mais souvenez-vous: la qualité dépendra du prix que vous y aurez mis."
+    "message": "Maintenez régulièrement votre moteur, mais souvenez-vous : la qualité dépendra du prix que vous y aurez mis."
   },
   "ADVICE_9_HEADLINE": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "RUMOUR_1_BODYTEXT": {
     "description": "",
-    "message": "Quelqu'un dans la marine fédérale m'a raconté qu'un jour une de leurs corvettes a sauté par accident vers un système éloigné de Haber, distant d'environ de 50 ly de Sol, appelé Rondel; causant ainsi quasiment un conflit ouvert. Peu de gens semble connaitre l'incident en dehors de la marine, mais quelques-uns disent que l'administration de Rondel a été depuis lors plus agressive envers les visiteurs et les pilotes de marchandises ont commencé à éviter le système."
+    "message": "Quelqu'un dans la marine fédérale m'a raconté qu'un jour, une de leurs corvettes a sauté par accident vers un système éloigné de Haber, distant d'environ de 50 ly de Sol, appelé Rondel ; causant ainsi quasiment un conflit ouvert. Peu de gens semble connaître l'incident en dehors de la marine, mais quelques-uns disent que l'administration de Rondel a été depuis lors plus agressive envers les visiteurs et les pilotes de marchandises ont commencé à éviter le système."
   },
   "RUMOUR_1_HEADLINE": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "TALE_1_HEADLINE": {
     "description": "Blade runner?",
-    "message": "\"J'ai vu des choses que vous autre ne croirez jamais\""
+    "message": "\"J'ai vu des choses que vous autres ne croirez jamais\""
   },
   "TRAVELLERS_ADVICE": {
     "description": "Headline starts with this pre-headline",
