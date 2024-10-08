@@ -107,17 +107,20 @@ namespace Sound {
 		return m_currentSongName;
 	}
 
-	void MusicPlayer::GetSongList(std::vector<std::string> &songListOut) const
+	const std::vector<std::string> MusicPlayer::GetSongList() const
 	{
 		using std::pair;
 		using std::string;
 		const std::map<string, Sample> samples = Sound::GetSamples();
-		songListOut.reserve(samples.size());
+		std::vector<std::string> songs;
+		songs.reserve(samples.size());
 		for (std::map<string, Sample>::const_iterator it = samples.begin();
 			 it != samples.end(); ++it) {
 			if (it->second.isMusic)
-				songListOut.emplace_back(it->first.c_str());
+				songs.emplace_back(it->first.c_str());
 		}
+
+		return songs;
 	}
 
 	bool MusicPlayer::IsPlaying() const
