@@ -224,7 +224,7 @@ function scanDisplay:drawScanProgress(scan)
 	-- suitable across any style changes in the future.
 	local progressBarColor = ui.getStyleColor("SliderGrabActive")
 	ui.withStyleColors({ ["PlotHistogram"] = progressBarColor }, function()
-		ui.progressBar(completion, Vector2(width, 0), "Scan Progress")
+		ui.progressBar(completion, Vector2(width, 0), ls.MISSION_PROGRESS)
 	end)
 end
 
