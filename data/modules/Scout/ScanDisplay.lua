@@ -1,6 +1,7 @@
 -- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Defs        = require 'pigui.modules.new-game-window.defs'
 local Game        = require 'Game'
 local Lang        = require 'Lang'
 local ItemCard    = require 'pigui.libs.item-card'
@@ -208,9 +209,23 @@ function scanDisplay:drawScanInfo(scan, isHighlighted)
 		{ icons.comms, target, ls.SCAN_TARGET_COVERAGE },
 		{ icons.scanner, ui.Format.Distance(scan.minResolution, "%.1f"), ls.SCAN_MAXIMUM_SPATIAL_RESOLUTION },
 		{ icons.altitude, altitude, ls.SCAN_MAXIMUM_ALTITUDE },
+		progress = (scan.targetCoverage / scan.coverage) * 100
 	}
 
 	return ScanCard:draw(data, isHighlighted)
+end
+
+---@param scan ScanData
+function scanDisplay:drawScanProgress(scan)
+	local completion = math.min(1.0, scan.coverage / scan.targetCoverage)
+	local width = ui.getContentRegion().x
+	-- The style progress bar colour is yellow which is very jarring for this
+	-- display. So instead lets use the slider grab colour which should remain
+	-- suitable across any style changes in the future.
+	local progressBarColor = ui.getStyleColor("SliderGrabActive")
+	ui.withStyleColors({ ["PlotHistogram"] = progressBarColor }, function()
+		ui.progressBar(completion, Vector2(width, 0), "Scan Progress")
+	end)
 end
 
 -- Return a sorted copy of the given scan list for display
@@ -284,6 +299,8 @@ function scanDisplay:drawBody()
 
 		if clicked then
 			self.scanMgr:ClearActiveScan()
+		else
+			self:drawScanProgress(activeScan)
 		end
 	else
 		self:drawEmptyActiveScan()
