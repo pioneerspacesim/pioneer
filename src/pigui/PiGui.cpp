@@ -64,7 +64,7 @@ public:
 class PiGui::RasterizeSVGTask : public Task, public CompleteNotifier {
 public:
 	// Rasterize an SVG file to a texture and upload to GPU on main thread
-	RasterizeSVGTask(std::string filename, int width, int height, Graphics::Texture *outputTexture) :
+	RasterizeSVGTask(const std::string &filename, int width, int height, Graphics::Texture *outputTexture) :
 		filename(filename),
 		width(width),
 		height(height),
@@ -73,7 +73,7 @@ public:
 	}
 
 	// Rasterize an SVG file to CPU buffer for use with font data
-	RasterizeSVGTask(std::string filename, int width, int height, PiFace *fontFace) :
+	RasterizeSVGTask(const std::string &filename, int width, int height, PiFace *fontFace) :
 		filename(filename),
 		width(width),
 		height(height),

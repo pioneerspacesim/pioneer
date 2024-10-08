@@ -552,7 +552,7 @@ namespace Sound {
 
 	class LoadSoundJob : public Job {
 	public:
-		LoadSoundJob(std::string directory, bool isMusic) :
+		LoadSoundJob(const std::string &directory, bool isMusic) :
 			m_directory(directory),
 			m_isMusic(isMusic)
 		{}

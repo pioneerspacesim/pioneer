@@ -30,11 +30,10 @@ ObjectViewerView::ObjectViewerView() :
 	PiGuiView("ObjectViewerView"),
 	m_targetBody(nullptr),
 	m_systemBody(nullptr),
-	m_state{}
+	m_state{},
+	viewingDist(1000.0f),
+	m_camRot(matrix4x4d::Identity())
 {
-	viewingDist = 1000.0f;
-	m_camRot = matrix4x4d::Identity();
-
 	float znear;
 	float zfar;
 	Pi::renderer->GetNearFarRange(znear, zfar);

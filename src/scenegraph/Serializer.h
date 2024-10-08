@@ -96,10 +96,10 @@ namespace Serializer {
 		void String(const char *s) { *this << s; }
 		void String(const std::string &s) { *this << s; }
 
-		void Vector2f(vector2f vec) { *this << vec; }
-		void Vector2d(vector2d vec) { *this << vec; }
-		void Vector3f(vector3f vec) { *this << vec; }
-		void Vector3d(vector3d vec) { *this << vec; }
+		void Vector2f(const vector2f &vec) { *this << vec; }
+		void Vector2d(const vector2d &vec) { *this << vec; }
+		void Vector3f(const vector3f &vec) { *this << vec; }
+		void Vector3d(const vector3d &vec) { *this << vec; }
 		void WrQuaternionf(const Quaternionf &q) { *this << q; }
 		void Color4UB(const Color &c) { *this << c; }
 		void WrSection(const std::string &section_label, const std::string &section_data) { *this << section_label << section_data; }

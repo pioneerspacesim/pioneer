@@ -43,15 +43,15 @@ BaseSphere::~BaseSphere() {}
 void BaseSphere::Init()
 {
 	PROFILE_SCOPED()
-	GeoSphere::Init();
-	GasGiant::Init();
+	GeoSphere::InitGeoSphere();
+	GasGiant::InitGasGiant();
 }
 
 //static
 void BaseSphere::Uninit()
 {
-	GeoSphere::Uninit();
-	GasGiant::Uninit();
+	GeoSphere::UninitGeoSphere();
+	GasGiant::UninitGasGiant();
 }
 
 //static
@@ -64,7 +64,7 @@ void BaseSphere::UpdateAllBaseSphereDerivatives()
 //static
 void BaseSphere::OnChangeDetailLevel()
 {
-	GeoSphere::OnChangeDetailLevel();
+	GeoSphere::OnChangeGeoSphereDetailLevel();
 }
 
 void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,

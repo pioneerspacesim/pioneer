@@ -101,7 +101,7 @@ namespace PiGui {
 		queue.Call("_Emit");
 	}
 
-	void RunHandler(double delta, std::string handler)
+	void RunHandler(double delta, const std::string &handler)
 	{
 		PROFILE_SCOPED()
 		ScopedTable t(GetHandlers());
@@ -111,7 +111,7 @@ namespace PiGui {
 		}
 	}
 
-	void LoadTheme(ImGuiStyle &style, std::string theme)
+	void LoadTheme(ImGuiStyle &style, const std::string &theme)
 	{
 		PROFILE_SCOPED();
 		ScopedTable t(GetThemes());
@@ -123,7 +123,7 @@ namespace PiGui {
 		}
 	}
 
-	void LoadThemeFromDisk(std::string theme)
+	void LoadThemeFromDisk(const std::string &theme)
 	{
 		PROFILE_SCOPED();
 		GetThemes().PushCopyToStack();

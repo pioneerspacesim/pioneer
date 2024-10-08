@@ -40,12 +40,12 @@ static const int detail_edgeLen[5] = {
 static const double gs_targetPatchTriLength(100.0);
 static std::vector<GeoSphere *> s_allGeospheres;
 
-void GeoSphere::Init()
+void GeoSphere::InitGeoSphere()
 {
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
 }
 
-void GeoSphere::Uninit()
+void GeoSphere::UninitGeoSphere()
 {
 	assert(s_patchContext.Unique());
 	s_patchContext.Reset();
@@ -71,7 +71,7 @@ void GeoSphere::UpdateAllGeoSpheres()
 }
 
 // static
-void GeoSphere::OnChangeDetailLevel()
+void GeoSphere::OnChangeGeoSphereDetailLevel()
 {
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
 
@@ -187,7 +187,7 @@ GeoSphere::GeoSphere(const SystemBody *body) :
 {
 	print_info(body, m_terrain.Get());
 
-	s_allGeospheres.push_back(this);
+	s_allGeospheres.emplace_back(this);
 
 	CalculateMaxPatchDepth();
 
@@ -207,7 +207,7 @@ bool GeoSphere::AddQuadSplitResult(SQuadSplitResult *res)
 	assert(res);
 	assert(mQuadSplitResults.size() < MAX_SPLIT_OPERATIONS);
 	if (mQuadSplitResults.size() < MAX_SPLIT_OPERATIONS) {
-		mQuadSplitResults.push_back(res);
+		mQuadSplitResults.emplace_back(res);
 		result = true;
 	}
 	return result;
@@ -219,7 +219,7 @@ bool GeoSphere::AddSingleSplitResult(SSingleSplitResult *res)
 	assert(res);
 	assert(mSingleSplitResults.size() < MAX_SPLIT_OPERATIONS);
 	if (mSingleSplitResults.size() < MAX_SPLIT_OPERATIONS) {
-		mSingleSplitResults.push_back(res);
+		mSingleSplitResults.emplace_back(res);
 		result = true;
 	}
 	return result;
@@ -360,7 +360,7 @@ void GeoSphere::Update()
 
 void GeoSphere::AddQuadSplitRequest(double dist, SQuadSplitRequest *pReq, GeoPatch *pPatch)
 {
-	mQuadSplitRequests.push_back(TDistanceRequest(dist, pReq, pPatch));
+	mQuadSplitRequests.emplace_back(dist, pReq, pPatch);
 }
 
 void GeoSphere::ProcessQuadSplitRequests()

@@ -121,7 +121,7 @@ static std::string get_caller(lua_State *L, int depth = 1)
  * This function discards the trailing component of the directory path. If you
  * wish to retain it, ensure the path string ends with '/'.
  */
-static std::string path_to_module(std::string path)
+static std::string path_to_module(const std::string &path)
 {
 	std::string module_name;
 
@@ -350,7 +350,7 @@ static bool lua_import_module(lua_State *L, const std::string &moduleName)
 	lua_pop(L, 1);
 
 	// Load the module from the Core c++ module cache
-	if (load_from_core(L, moduleName.c_str())) {
+	if (load_from_core(L, moduleName)) {
 		DEBUG_INDENTED_PRINTF("-> loaded module %s from C++ core modules\n", moduleName.c_str());
 		DEBUG_INDENT_DECREASE();
 		LUA_DEBUG_END(L, 1);
@@ -361,7 +361,7 @@ static bool lua_import_module(lua_State *L, const std::string &moduleName)
 	std::string errorMsg = "could not load module '" + moduleName + "'";
 	errorMsg += "\n\tno entry Imports[\"" + moduleName + "\"]";
 	errorMsg += "\n\tno field package.core." + moduleName;
-	for (auto path : triedPaths) {
+	for (const auto &path : triedPaths) {
 		errorMsg += "\n\tno file '" + path + "'";
 	}
 	lua_pushstring(L, errorMsg.c_str());

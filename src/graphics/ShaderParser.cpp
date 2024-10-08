@@ -147,7 +147,7 @@ bool Tokenizer::discardLine()
 // Parser
 //
 
-ShaderInfo Parser::Parse(std::string fileName, std::string_view fileData)
+ShaderInfo Parser::Parse(const std::string &fileName, std::string_view fileData)
 {
 	m_currentTok = Token{};
 	m_fileName = fileName;
@@ -349,7 +349,7 @@ Parser::ParseResult Parser::parsePushConstant()
 //
 
 // Format the current position in the source data
-std::string Parser::makeLineInfo()
+std::string Parser::makeLineInfo() const
 {
 	return fmt::format("{}:{}:{}", m_fileName,
 		m_tokenizer->getCurrentLine(), m_tokenizer->getCurrentChar());

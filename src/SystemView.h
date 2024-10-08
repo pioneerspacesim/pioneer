@@ -194,7 +194,7 @@ private:
 	void RefreshShips(void);
 	void AddShipTracks(double atTime);
 
-	void CalculateShipPositionAtTime(const Ship *s, Orbit o, double t, vector3d &pos);
+	void CalculateShipPositionAtTime(const Ship *s, const Orbit &o, double t, vector3d &pos);
 	void CalculateFramePositionAtTime(FrameId frameId, double t, vector3d &pos);
 
 	double CalculateStarportHeight(const SystemBody *body);
@@ -246,11 +246,11 @@ public:
 	void Draw3D();
 
 	Projectable *GetSelectedObject() { return &m_selectedObject; }
-	void SetSelectedObject(Projectable p) { m_selectedObject = p; }
+	void SetSelectedObject(const Projectable &p) { m_selectedObject = p; }
 	void ClearSelectedObject();
 
 	void ViewSelectedObject() { SetViewedObject(m_selectedObject); }
-	void SetViewedObject(Projectable p);
+	void SetViewedObject(const Projectable &p);
 	void ResetViewpoint();
 
 	Projectable *GetViewedObject() { return &m_viewedObject; }
@@ -266,7 +266,7 @@ public:
 
 	// Push a tracked object / sensor contact for display on the map.
 	// Object tracks are cleared every frame.
-	void AddObjectTrack(Projectable p);
+	void AddObjectTrack(const Projectable &p);
 
 	// Push an orbital conic for display on the map
 	// Expects the orbit's center to be provide as p.worldpos
@@ -281,7 +281,7 @@ public:
 	void SetReferenceTime(double time) { m_refTime = time; }
 	double GetTime() { return m_time; }
 	const std::vector<Projectable> &GetProjected() const { return m_projected; }
-	void SetVisibility(std::string param);
+	void SetVisibility(const std::string &param);
 	void SetZoomMode(bool enable);
 	void SetRotateMode(bool enable);
 	void SetDisplayMode(SystemView::Mode displayMode) { m_displayMode = displayMode; }
@@ -333,7 +333,7 @@ private:
 	// Project a track to screenspace with the current renderer state and add it to the list of projected objects
 	void AddProjected(Projectable p, Projectable::types type, const vector3d &transformedPos, float screensize = 0.f);
 	void RenderBody(const SystemBody *b, const vector3d &pos, const matrix4x4f &trans);
-	void RenderOrbit(Projectable p, const ProjectedOrbit *orbitData, const vector3d &transformedPos);
+	void RenderOrbit(const Projectable &p, const ProjectedOrbit *orbitData, const vector3d &transformedPos);
 
 	// draw a grid with `radius` * 2 gridlines on an evenly spaced 1-AU grid
 	void DrawGrid(uint32_t radius);

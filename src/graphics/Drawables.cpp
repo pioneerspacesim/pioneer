@@ -320,8 +320,7 @@ namespace Graphics {
 
 			m_va->normal.reserve(count);
 			for (int i = 0; i < count; i++) {
-				vector3f vSize(sizes[i]);
-				m_va->normal.push_back(vSize);
+				m_va->normal.emplace_back(sizes[i]);
 			}
 		}
 
@@ -525,13 +524,13 @@ namespace Graphics {
 		int Icosphere::AddVertex(VertexArray &vts, const vector3f &v, const vector3f &n)
 		{
 			PROFILE_SCOPED()
-			vts.position.push_back(v);
+			vts.position.emplace_back(v);
 			if (vts.HasAttrib(ATTRIB_NORMAL)) {
-				vts.normal.push_back(n);
+				vts.normal.emplace_back(n);
 			}
 			if (vts.HasAttrib(ATTRIB_UV0)) {
 				//http://www.mvps.org/directx/articles/spheremap.htm
-				vts.uv0.push_back(vector2f(asinf(n.x) / M_PI + 0.5f, asinf(n.y) / M_PI + 0.5f));
+				vts.uv0.emplace_back(asinf(n.x) / M_PI + 0.5f, asinf(n.y) / M_PI + 0.5f);
 			}
 			return vts.GetNumVerts() - 1;
 		}
@@ -539,9 +538,9 @@ namespace Graphics {
 		void Icosphere::AddTriangle(std::vector<Uint32> &indices, int i1, int i2, int i3)
 		{
 			PROFILE_SCOPED()
-			indices.push_back(i1);
-			indices.push_back(i2);
-			indices.push_back(i3);
+			indices.emplace_back(i1);
+			indices.emplace_back(i2);
+			indices.emplace_back(i3);
 		}
 
 		void Icosphere::Subdivide(VertexArray &vts, std::vector<Uint32> &indices,

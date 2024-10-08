@@ -135,7 +135,7 @@ public:
 
 		// add all of the middle indices
 		for (int i = 0; i < IDX_VBO_COUNT_ALL_IDX(); ++i) {
-			pl.push_back(indices[i]);
+			pl.emplace_back(indices[i]);
 		}
 
 		return tri_count;
@@ -303,7 +303,7 @@ GasGiant::GasGiant(const SystemBody *body) :
 	m_hasGpuJobRequest(false),
 	m_timeDelay(s_initialCPUDelayTime)
 {
-	s_allGasGiants.push_back(this);
+	s_allGasGiants.emplace_back(this);
 
 	for (int i = 0; i < NUM_PATCHES; i++) {
 		m_hasJobRequest[i] = false;
@@ -741,7 +741,7 @@ void GasGiant::BuildFirstPatches()
 	GenerateTexture();
 }
 
-void GasGiant::Init()
+void GasGiant::InitGasGiant()
 {
 	IniConfig cfg;
 	cfg.Read(FileSystem::gameDataFiles, "configs/GasGiants.ini");
@@ -764,7 +764,7 @@ void GasGiant::Init()
 	CreateRenderTarget(s_texture_size_gpu[Pi::detail.planets], s_texture_size_gpu[Pi::detail.planets]);
 }
 
-void GasGiant::Uninit()
+void GasGiant::UninitGasGiant()
 {
 	s_patchContext.Reset();
 }

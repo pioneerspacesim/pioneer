@@ -73,7 +73,7 @@ namespace FileSystem {
 
 	/// Copy the contents of a directory from sourceFS into a directory in targetFS, according to copymode.
 	/// Returns false if sourceDir or targetDir are invalid
-	bool CopyDir(FileSource &sourceFS, std::string sourceDir, FileSourceFS &targetFS, std::string targetDir, CopyMode copymode = CopyMode::OVERWRITE);
+	bool CopyDir(FileSource &sourceFS, const std::string &sourceDir, FileSourceFS &targetFS, const std::string &targetDir, CopyMode copymode = CopyMode::OVERWRITE);
 
 	class FileInfo {
 		friend class FileSource;

@@ -41,7 +41,7 @@ public:
 	void ExportToLua(const char *filename);
 
 	const std::string &GetName() const { return m_name; }
-	std::vector<std::string> GetOtherNames() const { return m_other_names; }
+	const std::vector<std::string>& GetOtherNames() const { return m_other_names; }
 	SystemPath GetPathOf(const SystemBody *sbody) const;
 	SystemBody *GetBodyByPath(const SystemPath &path) const;
 	static void ToJson(Json &jsonObj, StarSystem *);

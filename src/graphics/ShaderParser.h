@@ -103,7 +103,7 @@ namespace Graphics {
 
 		class Parser {
 		public:
-			ShaderInfo Parse(std::string filename, std::string_view fileData);
+			ShaderInfo Parse(const std::string &filename, std::string_view fileData);
 
 		protected:
 			enum ParseResult {
@@ -126,7 +126,7 @@ namespace Graphics {
 
 			bool expect(Token::Type type, const Token &tok);
 			bool isKeyword(std::string_view keyword, const Token &tok);
-			std::string makeLineInfo();
+			std::string makeLineInfo() const;
 
 		private:
 			std::string m_fileName;

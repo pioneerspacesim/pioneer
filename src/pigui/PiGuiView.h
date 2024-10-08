@@ -10,7 +10,7 @@
 // TODO: support rendering to a debug window during the Update() and Draw3D() methods.
 class PiGuiView : public View {
 public:
-	PiGuiView(std::string name) :
+	PiGuiView(const std::string &name) :
 		m_handlerName(name) {}
 
 	virtual void Update() override {}

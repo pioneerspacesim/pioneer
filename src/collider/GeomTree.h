@@ -24,7 +24,7 @@ class SingleBVHTreeBase;
 
 class GeomTree {
 public:
-	GeomTree(const int numVerts, const int numTris, const std::vector<vector3f> &vertices, const std::vector<Uint32> indices, const std::vector<Uint32> triFlags);
+	GeomTree(const int numVerts, const int numTris, const std::vector<vector3f> &vertices, const std::vector<Uint32> &indices, const std::vector<Uint32> &triFlags);
 	GeomTree(Serializer::Reader &rd);
 	void Save(Serializer::Writer &wr) const;
 

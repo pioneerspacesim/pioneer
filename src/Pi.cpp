@@ -159,7 +159,7 @@ protected:
 	bool m_hasQueuedJobs = 0;
 
 	template <typename T>
-	void AddStep(std::string name, T fn)
+	void AddStep(const std::string &name, T fn)
 	{
 		m_loaders.push_back(LoadStep{ fn, name });
 	}

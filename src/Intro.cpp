@@ -41,7 +41,7 @@ Intro::Intro(Graphics::Renderer *r, int width, int height) :
 	m_skin.SetDecal("pioneer");
 	m_skin.SetLabel(Lang::PIONEER);
 
-	for (auto i : ShipType::player_ships) {
+	for (const auto &i : ShipType::player_ships) {
 		SceneGraph::Model *model = Pi::FindModel(ShipType::types[i].modelName)->MakeInstance();
 		model->SetThrust(vector3f(0.f, 0.f, -0.6f), vector3f(0.f));
 		if (ShipType::types[i].isGlobalColorDefined) model->SetThrusterColor(ShipType::types[i].globalThrusterColor);
@@ -57,10 +57,6 @@ Intro::Intro(Graphics::Renderer *r, int width, int height) :
 			case THRUSTER_DOWN: dir = vector3f(-1.0, 0.0, 0.0); break;
 			}
 			model->SetThrusterColor(dir, ShipType::types[i].directionThrusterColor[j]);
-		}
-		const Uint32 numMats = model->GetNumMaterials();
-		for (Uint32 m = 0; m < numMats; m++) {
-			RefCountedPtr<Graphics::Material> mat = model->GetMaterialByIndex(m);
 		}
 		m_models.push_back(model);
 	}

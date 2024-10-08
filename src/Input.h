@@ -40,7 +40,7 @@ namespace Input {
 	};
 
 	struct BindingPage {
-		BindingGroup *GetBindingGroup(std::string id) { return &groups[id]; }
+		BindingGroup *GetBindingGroup(const std::string &id) { return &groups[id]; }
 
 		std::map<std::string, BindingGroup> groups;
 	};
@@ -71,8 +71,8 @@ namespace Input {
 		// Called when the frame is removed from the stack.
 		sigc::signal<void, InputFrame *> onFrameRemoved;
 
-		Action *AddAction(std::string id);
-		Axis *AddAxis(std::string id);
+		Action *AddAction(const std::string &id);
+		Axis *AddAxis(const std::string &id);
 	};
 
 	struct JoystickInfo {
@@ -138,8 +138,8 @@ public:
 	// When enable is false, this prevents the input system from writing to the config file.
 	void EnableConfigSaving(bool enable) { m_enableConfigSaving = enable; }
 
-	BindingPage *GetBindingPage(std::string id) { return &bindingPages[id]; }
-	std::map<std::string, BindingPage> GetBindingPages() { return bindingPages; }
+	BindingPage *GetBindingPage(const std::string &id) { return &bindingPages[id]; }
+	const std::map<std::string, BindingPage>& GetBindingPages() const { return bindingPages; }
 
 	// Pushes an InputFrame onto the input stack.
 	bool AddInputFrame(InputFrame *frame);
@@ -158,13 +158,13 @@ public:
 
 	// Creates a new action binding, copying the provided binding.
 	// The returned binding pointer points to the actual binding.
-	InputBindings::Action *AddActionBinding(std::string id, BindingGroup *group, InputBindings::Action &&binding);
-	InputBindings::Action *GetActionBinding(std::string id);
+	InputBindings::Action *AddActionBinding(const std::string &id, BindingGroup *group, InputBindings::Action &&binding);
+	InputBindings::Action *GetActionBinding(const std::string &id);
 
 	// Creates a new axis binding, copying the provided binding.
 	// The returned binding pointer points to the actual binding.
-	InputBindings::Axis *AddAxisBinding(std::string id, BindingGroup *group, InputBindings::Axis &&binding);
-	InputBindings::Axis *GetAxisBinding(std::string id);
+	InputBindings::Axis *AddAxisBinding(const std::string &id, BindingGroup *group, InputBindings::Axis &&binding);
+	InputBindings::Axis *GetAxisBinding(const std::string &id);
 
 	// Call EnableBindings() to temporarily disable handling input bindings while
 	// you're recording a new input binding or are in a modal window.

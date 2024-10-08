@@ -34,7 +34,7 @@ namespace Graphics {
 
 	private:
 		// create from current gl state
-		Frustum();
+		Frustum(){};
 
 		void InitFromMatrix(const matrix4x4d &m);
 

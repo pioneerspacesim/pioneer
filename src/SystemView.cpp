@@ -81,7 +81,7 @@ SystemView::~SystemView()
 {
 }
 
-void SystemView::CalculateShipPositionAtTime(const Ship *s, Orbit o, double t, vector3d &pos)
+void SystemView::CalculateShipPositionAtTime(const Ship *s, const Orbit &o, double t, vector3d &pos)
 {
 	pos = vector3d(0., 0., 0.);
 	FrameId shipFrameId = s->GetFrame();
@@ -310,15 +310,16 @@ SystemMapViewport::SystemMapViewport(GuiApplication *app) :
 	m_showL4L5(LAG_OFF),
 	m_shipDrawing(OFF),
 	m_gridDrawing(GridDrawing::OFF),
+	m_atlasPos(vector2f()),
+	m_atlasZoom(1.0f),
+	m_atlasZoomTo(1.0f),
+	m_rot_y(0),
+	m_rot_x(50),
+	m_zoom(1.0f / float(AU)),
 	m_trans(0.0),
-	m_transTo(0.0)
+	m_transTo(0.0),
+	m_realtime(true)
 {
-	m_rot_y = 0;
-	m_rot_x = 50;
-	m_atlasPos = vector2f();
-	m_zoom = 1.0f / float(AU);
-	m_atlasZoom = m_atlasZoomTo = 1.0f;
-
 	m_input.RegisterBindings();
 
 	Graphics::MaterialDescriptor lineMatDesc;
@@ -330,8 +331,6 @@ SystemMapViewport::SystemMapViewport(GuiApplication *app) :
 
 	rsd.primitiveType = Graphics::LINE_SINGLE;
 	m_gridMat.reset(m_renderer->CreateMaterial("vtxColor", lineMatDesc, rsd));
-
-	m_realtime = true;
 
 	ResetViewpoint();
 
@@ -409,7 +408,7 @@ void SystemMapViewport::SetCurrentSystem(RefCountedPtr<StarSystem> system)
 	ResetViewpoint();
 }
 
-void SystemMapViewport::RenderOrbit(Projectable p, const ProjectedOrbit *orbitData, const vector3d &offset)
+void SystemMapViewport::RenderOrbit(const Projectable &p, const ProjectedOrbit *orbitData, const vector3d &offset)
 {
 	PROFILE_SCOPED()
 
@@ -1058,7 +1057,7 @@ std::vector<Projectable::GroupInfo> SystemMapViewport::GroupProjectables(vector2
 	return outGroups;
 }
 
-void SystemMapViewport::AddObjectTrack(Projectable p)
+void SystemMapViewport::AddObjectTrack(const Projectable &p)
 {
 	m_objectTracks.push_back(p);
 
@@ -1094,7 +1093,7 @@ void SystemMapViewport::AddProjected(Projectable p, Projectable::types type, con
 	m_projected.push_back(p);
 }
 
-void SystemMapViewport::SetVisibility(std::string param)
+void SystemMapViewport::SetVisibility(const std::string &param)
 {
 	if (param == "RESET_VIEW")
 		ResetViewpoint();
@@ -1148,7 +1147,7 @@ void SystemMapViewport::ClearSelectedObject()
 	m_selectedObject.type = Projectable::NONE;
 }
 
-void SystemMapViewport::SetViewedObject(Projectable p)
+void SystemMapViewport::SetViewedObject(const Projectable &p)
 {
 	// we will immediately determine the coordinates of the viewed body so that
 	// there is a correct starting point of the transition animation, otherwise

@@ -162,7 +162,7 @@ namespace SceneGraph {
 		// Get the index of an animation in this container. If there is no such animation, returns UINT32_MAX.
 		uint32_t FindAnimationIndex(Animation *) const;
 		// Return a reference to all animations defined on this model.
-		const std::vector<Animation *> GetAnimations() const { return m_animations; }
+		const AnimationContainer& GetAnimations() const { return m_animations; }
 		// Mark an animation as actively updating. A maximum of 64 active animations are supported.
 		void SetAnimationActive(uint32_t index, bool active);
 		bool GetAnimationActive(uint32_t index) const;
@@ -212,7 +212,7 @@ namespace SceneGraph {
 		Graphics::Renderer *m_renderer;
 		std::string m_name;
 
-		std::vector<Animation *> m_animations;
+		AnimationContainer m_animations;
 		uint64_t m_activeAnimations; // bitmask of actively ticking animations
 
 		std::vector<Tag *> m_tags;		 //named attachment points

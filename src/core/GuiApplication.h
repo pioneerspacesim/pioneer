@@ -26,7 +26,7 @@ namespace Graphics {
 
 class GuiApplication : public Application {
 public:
-	GuiApplication(std::string title);
+	GuiApplication(const std::string &title);
 	~GuiApplication();
 
 	Graphics::Renderer *GetRenderer() { return m_renderer.get(); }

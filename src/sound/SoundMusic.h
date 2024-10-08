@@ -29,7 +29,7 @@ namespace Sound {
 		void Stop();
 		void FadeOut(const float fadeDelta);
 		void Update();
-		const std::string GetCurrentSongName() const;
+		const std::string& GetCurrentSongName() const;
 		const std::vector<std::string> GetSongList() const;
 		bool IsPlaying() const;
 		void SetEnabled(bool);
