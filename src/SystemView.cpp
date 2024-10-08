@@ -66,6 +66,7 @@ SystemView::SystemView(Game *game) :
 	PiGuiView("system-view"),
 	m_game(game),
 	m_displayMode(Mode::Orrery),
+	m_systemSelectionMode(SystemSelectionMode::SELECTED_SYSTEM),
 	m_viewingCurrentSystem(false),
 	m_unexplored(true)
 {
@@ -118,12 +119,14 @@ void SystemView::CalculateFramePositionAtTime(FrameId frameId, double t, vector3
 
 double SystemView::CalculateStarportHeight(const SystemBody *body)
 {
-	if (m_viewingCurrentSystem)
-		// if we look at the current system, the relief is known, we take the height from the physical body
+	// if we look at the current system, the relief is known, we take the height from the physical body
+	if (m_viewingCurrentSystem && m_game->IsNormalSpace()) {
+		assert(body != NULL);
 		return m_game->GetSpace()->FindBodyForPath(&(body->GetPath()))->GetPosition().Length();
-	else
-		// if the remote system - take the radius of the planet
-		return body->GetParent()->GetRadius();
+	}
+
+	// if the remote system - take the radius of the planet
+	return body->GetParent()->GetRadius();
 }
 
 void SystemView::RefreshShips(void)
@@ -167,8 +170,19 @@ void SystemView::Update()
 	const float ft = Pi::GetFrameTime();
 	m_map->SetReferenceTime(m_game->GetTime());
 
-	SystemPath path = m_game->GetSectorView()->GetSelected().SystemOnly();
-	m_viewingCurrentSystem = m_game->IsNormalSpace() && m_game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(path);
+	SystemPath path;
+	if (m_systemSelectionMode == SystemSelectionMode::CURRENT_SYSTEM) {
+		if (m_game->IsNormalSpace()) {
+			path = m_game->GetSpace()->GetStarSystem()->GetPath();
+		} else {
+			//path = m_game->GetSectorView()->GetCurrent();
+			path = m_game->GetHyperspaceSource();
+		}
+		m_viewingCurrentSystem = true;
+	} else {
+		path = m_game->GetSectorView()->GetSelected().SystemOnly();
+		m_viewingCurrentSystem = m_game->IsNormalSpace() && m_game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(path);
+	}
 
 	RefCountedPtr<StarSystem> system = m_map->GetCurrentSystem();
 	if (!system || (system->GetUnexplored() != m_unexplored || !system->GetPath().IsSameSystem(path))) {
@@ -267,6 +281,13 @@ void SystemView::OnSwitchFrom()
 {
 	// because ships from the previous system may remain after last update
 	// m_projected.clear();
+}
+
+void SystemView::SetSystemSelectionMode(SystemSelectionMode systemMode)
+{
+	if (m_systemSelectionMode != systemMode) {
+		m_systemSelectionMode = systemMode;
+	}
 }
 
 // ─── System Map Input ────────────────────────────────────────────────────────

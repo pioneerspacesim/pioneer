@@ -171,6 +171,12 @@ const struct EnumItem ENUM_SystemViewMode[] = {
 	{ 0, 0 },
 };
 
+const struct EnumItem ENUM_SystemSelectionMode[] = {
+	{ "CURRENT_SYSTEM", int(SystemView::SystemSelectionMode::CURRENT_SYSTEM) },
+	{ "SELECTED_SYSTEM", int(SystemView::SystemSelectionMode::SELECTED_SYSTEM) },
+	{ 0, 0 },
+};
+
 const struct EnumItem ENUM_SystemViewColorIndex[] = {
 	{ "GRID", int(SystemMapViewport::GRID) },
 	{ "GRID_LEG", int(SystemMapViewport::GRID_LEG) },
@@ -353,6 +359,7 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "ProjectableTypes", ENUM_ProjectableTypes },
 	{ "ProjectableBases", ENUM_ProjectableBases },
 	{ "SystemViewMode", ENUM_SystemViewMode },
+	{ "SystemSelectionMode", ENUM_SystemSelectionMode },
 	{ "SystemViewColorIndex", ENUM_SystemViewColorIndex },
 	{ "PolitEcon", ENUM_PolitEcon },
 	{ "PolitGovType", ENUM_PolitGovType },
@@ -384,6 +391,7 @@ const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "ProjectableTypes", ENUM_ProjectableTypes },
 	{ "ProjectableBases", ENUM_ProjectableBases },
 	{ "SystemViewMode", ENUM_SystemViewMode },
+	{ "SystemSelectionMode", ENUM_SystemSelectionMode },
 	{ "SystemViewColorIndex", ENUM_SystemViewColorIndex },
 	{ "PolitEcon", ENUM_PolitEcon },
 	{ "PolitGovType", ENUM_PolitGovType },

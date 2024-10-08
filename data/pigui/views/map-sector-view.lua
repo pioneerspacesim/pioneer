@@ -299,6 +299,10 @@ function Windows.edgeButtons.Show()
 	ui.mainMenuButton(icons.search_lens, lui.ZOOM)
 	sectorView:GetMap():SetZoomMode(ui.isItemActive())
 	ui.text("")
+
+	if ui.mainMenuButton(icons.info, lc.OBJECT_INFO, buttonState[Windows.systemInfo.visible]) then
+		Windows.systemInfo.visible = not Windows.systemInfo.visible
+	end
 	-- settings buttons
 	if ui.mainMenuButton(icons.settings, lui.SETTINGS) then
 		ui.openPopup("sectorViewLabelSettings")
@@ -309,9 +313,6 @@ function Windows.edgeButtons.Show()
 
 	if ui.mainMenuButton(icons.shield_other, lui.FACTIONS, buttonState[Windows.factions.visible]) then
 		Windows.factions.visible = not Windows.factions.visible
-	end
-	if ui.mainMenuButton(icons.info, lc.OBJECT_INFO, buttonState[Windows.systemInfo.visible]) then
-		Windows.systemInfo.visible = not Windows.systemInfo.visible
 	end
 	if ui.mainMenuButton(icons.route, lui.HYPERJUMP_ROUTE, buttonState[Windows.hjPlanner.visible]) then
 		Windows.hjPlanner.visible = not Windows.hjPlanner.visible
@@ -424,7 +425,7 @@ Windows.hjPlanner.Dummy = hyperJumpPlanner.Dummy
 function sectorViewLayout:onUpdateWindowPivots(w)
 	w.hjPlanner.anchors = { ui.anchor.right, ui.anchor.bottom }
 	w.systemInfo.anchors = { ui.anchor.right, ui.anchor.bottom }
-	w.edgeButtons.anchors = { ui.anchor.right, ui.anchor.center }
+	w.edgeButtons.anchors = { ui.anchor.right, ui.anchor.top }
 	w.factions.anchors = { ui.anchor.right, ui.anchor.top }
 end
 
@@ -465,6 +466,7 @@ ui.registerModule("game", { id = 'map-sector-view', draw = function()
 
 		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
 			systemEconView = package.reimport('pigui.modules.system-econ-view').New()
+			package.reimport()
 		end
 	end
 end})

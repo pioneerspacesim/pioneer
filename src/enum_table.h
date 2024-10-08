@@ -30,6 +30,7 @@ extern const struct EnumItem ENUM_DockStage[];
 extern const struct EnumItem ENUM_ProjectableTypes[];
 extern const struct EnumItem ENUM_ProjectableBases[];
 extern const struct EnumItem ENUM_SystemViewMode[];
+extern const struct EnumItem ENUM_SystemSelectionMode[];
 extern const struct EnumItem ENUM_SystemViewColorIndex[];
 extern const struct EnumItem ENUM_PolitEcon[];
 extern const struct EnumItem ENUM_PolitGovType[];

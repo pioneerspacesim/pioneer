@@ -296,6 +296,20 @@ static int l_systemview_set_display_mode(lua_State *l)
 	return 1;
 }
 
+static int l_systemview_get_system_selection_mode(lua_State *l)
+{
+	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
+	LuaPush(l, EnumStrings::GetString("SystemSelectionMode", int(sv->GetSystemSelectionMode())));
+	return 1;
+}
+
+static int l_systemview_set_system_selection_mode(lua_State *l)
+{
+	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
+	int mode = EnumStrings::GetValue("SystemSelectionMode", LuaPull<const char *>(l, 2));
+	sv->SetSystemSelectionMode(SystemView::SystemSelectionMode(mode));
+	return 1;
+}
 static int l_systemview_transfer_planner_get(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
@@ -392,6 +406,8 @@ void LuaObject<SystemView>::RegisterClass()
 		{ "SetZoomMode", l_systemview_set_zoom_mode },
 		{ "GetDisplayMode", l_systemview_get_display_mode },
 		{ "SetDisplayMode", l_systemview_set_display_mode },
+		{ "GetSystemSelectionMode", l_systemview_get_system_selection_mode },
+		{ "SetSystemSelectionMode", l_systemview_set_system_selection_mode },
 		{ "GetZoom", l_systemview_get_zoom },
 		{ "AtlasViewPlanetGap", l_systemview_atlas_view_planet_gap },
 		{ "AtlasViewPixelPerUnit", l_systemview_atlas_view_pixel_per_unit },

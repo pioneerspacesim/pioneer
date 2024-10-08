@@ -270,7 +270,8 @@ end
 
 function Windows.edgeButtons.Show()
 	local isOrrery = systemView:GetDisplayMode() == "Orrery"
-	-- view control buttons
+	local isCurrent = systemView:GetSystemSelectionMode() == "CURRENT_SYSTEM"
+
 	if ui.mainMenuButton(icons.reset_view, luc.RESET_ORIENTATION_AND_ZOOM) then
 		systemView:SetVisibility("RESET_VIEW")
 	end
@@ -279,13 +280,19 @@ function Windows.edgeButtons.Show()
 	ui.mainMenuButton(icons.search_lens, luc.ZOOM)
 	systemView:SetZoomMode(ui.isItemActive())
 
-	if isOrrery and ui.mainMenuButton(icons.system_overview, luc.HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW) then
-		systemView:SetDisplayMode('Atlas')
-	end
-	if not isOrrery and ui.mainMenuButton(icons.system_map, luc.HUD_BUTTON_SWITCH_TO_SYSTEM_MAP) then
-		systemView:SetDisplayMode('Orrery')
-	end
 	ui.newLine()
+
+	drawWindowControlButton(Windows.objectInfo, icons.info, lc.OBJECT_INFO)
+
+	-- view control buttons
+	if not isCurrent and ui.mainMenuButton(icons.planet_grid, luc.HUD_BUTTON_SWITCH_TO_CURRENT_SYSTEM) then
+		systemView:SetSystemSelectionMode("CURRENT_SYSTEM")
+	end
+
+	if isCurrent and ui.mainMenuButton(icons.galaxy_map, luc.HUD_BUTTON_SWITCH_TO_SELECTED_SYSTEM) then
+		systemView:SetSystemSelectionMode("SELECTED_SYSTEM")
+	end
+
 	-- visibility control buttons
 	if isOrrery then
 		if ui.mainMenuButton(buttonState[ship_drawing].icon, lc.SHIPS_DISPLAY_MODE_TOGGLE, buttonState[ship_drawing].state) then
@@ -300,11 +307,6 @@ function Windows.edgeButtons.Show()
 			show_grid = nextShowGrid[show_grid]
 			systemView:SetVisibility(show_grid)
 		end
-		ui.newLine()
-	end
-
-	drawWindowControlButton(Windows.objectInfo, icons.info, lc.OBJECT_INFO)
-	if isOrrery then
 		drawWindowControlButton(Windows.orbitPlanner, icons.semi_major_axis, lc.ORBIT_PLANNER)
 	end
 end
@@ -413,7 +415,12 @@ local function getColor(obj)
 end
 
 function Windows.systemName.Show()
-	local path = Game.sectorView:GetSelectedSystemPath()
+	local path
+	if systemView:GetSystemSelectionMode() == "SELECTED_SYSTEM" then
+		path = Game.sectorView:GetSelectedSystemPath()
+	else
+		path = systemView:GetSystem().path
+	end
 	ui.text(ui.Format.SystemPath(path))
 end
 
@@ -867,7 +874,7 @@ end
 
 function systemViewLayout:onUpdateWindowPivots(w)
 	w.systemName.anchors   = { ui.anchor.center, ui.anchor.top }
-	w.edgeButtons.anchors  = { ui.anchor.right,  ui.anchor.center }
+	w.edgeButtons.anchors  = { ui.anchor.right,  ui.anchor.top }
 	w.timeButtons.anchors  = { ui.anchor.right,  ui.anchor.bottom }
 	w.orbitPlanner.anchors = { ui.anchor.right,  ui.anchor.bottom }
 	w.objectInfo.anchors   = { ui.anchor.right,  ui.anchor.bottom }
