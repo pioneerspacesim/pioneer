@@ -971,3 +971,32 @@ function ui.incrementDrag(...)
 		return pigui.IncrementDrag(table.unpack(args))
 	end)
 end
+
+-- Function: comboBox
+--
+-- Wrapper for BeginCombo() + EndCombo(). The given function is called while
+-- the combo box is open.
+--
+-- Parameters:
+--
+--  label   - string, label to display next to the combo box
+--  preview - string, label of currently selected item
+--  flags   - optional ComboFlags, table controlling display of the combo box
+--  fun     - function, renders the contents of the combo box while open
+--
+---@param label string
+---@param preview string
+---@param flags any
+---@param fun fun()
+---@overload fun(label: string, preview: string, fun: fun())
+function ui.comboBox(label, preview, flags, fun)
+	if not fun then
+		fun = flags
+		flags = nil
+	end
+
+	if pigui.BeginCombo(label, preview) then
+		fun()
+		pigui.EndCombo()
+	end
+end

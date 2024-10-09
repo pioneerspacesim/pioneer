@@ -86,7 +86,7 @@ end
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
-	local hyperdrive = Game.player:GetEquip('engine',1)
+	local hyperdrive = Game.player:GetInstalledHyperdrive()
 
 	-- Tariff!  ad.baseprice is from 2 to 10
 	local price = ad.baseprice
@@ -174,8 +174,9 @@ local onShipTypeChanged = function (ship)
 	end
 end
 
-local onShipEquipmentChanged = function (ship, equipment)
-	if ship:IsPlayer() and equipment and equipment:IsValidSlot("engine", ship) then
+---@type EquipSet.Listener
+local onShipEquipmentChanged = function (op, equipment, slot)
+	if slot and slot.type:match("^hyperdrive") then
 		service_history.company = nil
 		service_history.lastdate = Game.time
 		service_history.service_period = oneyear
@@ -244,6 +245,9 @@ local onGameStart = function ()
 
 		loaded_data = nil
 	end
+
+	-- Listen to changes in the player's equipment
+	Game.player:GetComponent('EquipSet'):AddListener(onShipEquipmentChanged)
 end
 
 local savedByCrew = function(ship)
@@ -253,11 +257,18 @@ local savedByCrew = function(ship)
 	return false
 end
 
+---@param ship Ship
 local onEnterSystem = function (ship)
 	if ship:IsPlayer() then
 		print(('DEBUG: Jumps since warranty: %d\nWarranty expires: %s'):format(service_history.jumpcount,Format.Date(service_history.lastdate + service_history.service_period)))
 	else
 		return -- Don't care about NPC ships
+	end
+
+	local engine = ship:GetInstalledHyperdrive()
+	if not engine then
+		-- somehow got here without a hyperdrive - were aliens involved?
+		return
 	end
 
 	-- Jump drive is getting worn and is running down
@@ -284,16 +295,14 @@ local onEnterSystem = function (ship)
 			service_history.jumpcount = service_history.jumpcount - fixup
 		else
 			-- Destroy the engine
-			local engine = ship:GetEquip('engine',1)
-
 			if engine.fuel.name == 'military_fuel' then
 				pigui.playSfx("Hyperdrive_Breakdown_Military", 1.0, 1.0)
 			else
 				pigui.playSfx("Hyperdrive_Breakdown", 1.0, 1.0)
 			end
 
-			ship:RemoveEquip(engine)
-			ship:GetComponent('CargoManager'):AddCommodity(Commodities.rubbish, engine.capabilities.mass)
+			ship:GetComponent('EquipSet'):Remove(engine)
+			ship:GetComponent('CargoManager'):AddCommodity(Commodities.rubbish, engine.mass)
 
 			Comms.Message(l.THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION)
 		end
@@ -311,7 +320,6 @@ end
 Event.Register("onCreateBB", onCreateBB)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onShipTypeChanged", onShipTypeChanged)
-Event.Register("onShipEquipmentChanged", onShipEquipmentChanged)
 Event.Register("onEnterSystem", onEnterSystem)
 
 Serializer:Register("BreakdownServicing", serialize, unserialize)

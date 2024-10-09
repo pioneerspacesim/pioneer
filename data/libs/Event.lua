@@ -131,6 +131,8 @@ Event.New = function()
 	--
 	--   stable
 	--
+	---@param name string
+	---@param cb function
 	self.Register = function (name, cb)
 		super.Register(self, name, package.modulename(2), cb)
 	end
@@ -769,30 +771,6 @@ end
 -- Availability:
 --
 --   alpha 32
---
--- Status:
---
---   experimental
---
-
---
--- Event: onShipEquipmentChanged
---
--- Triggered when a ship's equipment set changes.
---
--- > local onShipEquipmentChanged = function (ship, equipType) ... end
--- > Event.Register("onShipEquipmentChanged", onShipEquipmentChanged)
---
--- Parameters:
---
---   ship - the <Ship> whose equipment just changed
---
---   equipType - The <EquipType> item that was added or removed,
---   or nil if the change involved multiple types of equipment
---
--- Availability:
---
---   alpha 15
 --
 -- Status:
 --

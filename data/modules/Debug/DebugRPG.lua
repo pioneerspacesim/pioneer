@@ -39,7 +39,7 @@ local get_commodities = function()
 end
 
 debugView.registerTab("RPG-debug-view", {
-	icon = ui.theme.icons.personal_info,
+	icon = ui.theme.icons.money,
 	label = "RPG",
 	show = function() return Game.player ~= nil end,
 	draw = function()
