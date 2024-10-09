@@ -431,7 +431,8 @@ local onGameEnd = function ()
 	-- clean up for next game:
 end
 
-local onEnterSystem = function ()
+local onEnterSystem = function (ship)
+	if not ship.IsPlayer() then return end
 	-- Return to game view when we exit hyperspace
 	if Engine.GetResetViewOnHyperspaceExit() and Game.CurrentView() ~= "world" then
 		Game.SetView("world")
