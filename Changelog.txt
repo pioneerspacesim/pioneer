@@ -2,9 +2,11 @@ October 2024
   * New Features
     * NameGen - Spice up the station names (#5906)
     * Add interior lighting to stations (#5823)
+    * Feat/reset view on hyperspace exit (#5922)
 
   * Internal
     * Improve narrow-phase collision physics performance (#5789)
+    * CppCheck 2.15 performance cleanup (#5931)
 
   * Fixes
     * Fix hyperspace route update bug across save/load cycle (#5924)
