@@ -259,6 +259,10 @@
     "description": "",
     "message": "Danger:"
   },
+  "DATA_COLLECTED_PROGRESS": {
+    "description": "Label for scan card progress bar",
+    "message": "Data Collected: {percent_completed}%"
+  },
   "DEADLINE": {
     "description": "",
     "message": "Deadline:"
@@ -318,10 +322,6 @@
   "MAPPING_PAUSED": {
     "description": "",
     "message": "MAPPING SUSPENDED. Data incomplete. Further mapping required."
-  },
-  "MISSION_PROGRESS": {
-    "description": "Label for mission completion progress bar",
-    "message": "Mission Progress"
   },
   "NO_ACTIVE_SCAN": {
     "description": "Displayed to indicate no scans are active",

@@ -221,12 +221,14 @@ end
 function scanDisplay:drawScanProgress(scan)
 	local completion = math.min(1.0, scan.coverage / scan.targetCoverage)
 	local width = ui.getContentRegion().x
-	-- The style progress bar colour is yellow which is very jarring for this
-	-- display. So instead lets use the slider grab colour which should remain
-	-- suitable across any style changes in the future.
+	-- The default progress bar colour style is yellow which is very jarring
+	-- for this display. So instead lets use a more suitable colour style.
 	local progressBarColor = colors.uiPrimaryLight
+	local progressBarText = ls.DATA_COLLECTED_PROGRESS % {
+		percent_completed = string.format("%.2f", completion * 100.0)
+	}
 	ui.withStyleColors({ ["PlotHistogram"] = progressBarColor }, function()
-		ui.progressBar(completion, Vector2(width, 0), ls.MISSION_PROGRESS)
+		ui.progressBar(completion, Vector2(width, 0), progressBarText)
 	end)
 end
 
