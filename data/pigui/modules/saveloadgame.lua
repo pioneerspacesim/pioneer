@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game       = require 'Game'
+local Event      = require 'Event'
 local FileSystem = require 'FileSystem'
 local Lang       = require 'Lang'
 local ShipDef    = require 'ShipDef'
@@ -197,41 +198,106 @@ end
 
 --=============================================================================
 
-local function makeEntryForSave(file)
-	local compatible, saveInfo = pcall(Game.SaveGameStats, file.name)
-	if not compatible then
-		saveInfo = {}
+-- Event callback once the savegame information has been loaded
+-- Updates the entryCache with the full details of the savegame.
+function SaveLoadWindow:onSaveGameStats(saveInfo)
+	print('onSaveGameStats : filename =', saveInfo.filename)
+	print('onSaveGameStats : compatible =', saveInfo.compatible)
+	print('onSaveGameStats : gameTime =', saveInfo.time)
+	print('onSaveGameStats : system =', saveInfo.system)
+
+	if not self.entryCache then
+		print('onSaveGameStats: self.entryCache is NIL!!')
+		return
+	end
+
+	if not self.entryCache[saveInfo.filename] then
+		print('onSaveGameStats: self.entryCache['.. saveInfo.filename .. '] is NIL!!')
+		return
 	end
 
 	local location = saveInfo.system or lc.UNKNOWN
-
 	if saveInfo.docked_at then
 		location = location .. ", " .. saveInfo.docked_at
 	end
 
-	local saveEntry = SaveGameEntry:clone({
-		name = file.name,
-		compatible = compatible,
-		isAutosave = file.name:sub(1, 1) == "_",
-		character = saveInfo.character,
-		timestamp = file.mtime.timestamp,
-		gameTime = saveInfo.time,
-		duration = saveInfo.duration,
-		locationName = location,
-		credits = saveInfo.credits,
-		shipName = saveInfo.shipName,
-		shipHull = saveInfo.shipHull,
-	})
+	-- local saveEntry = self:getSaveEntry(saveInfo.filename)
+	-- saveEntry.compatible = saveInfo.compatible
+	-- saveEntry.gameTime = saveInfo.time
+	-- saveEntry.locationName = location
+	-- self.entryCache[saveInfo.filename] = saveEntry
 
 	-- Old saves store only the name of the ship's *model* file for some dumb reason
 	-- Treat the model name as the ship id and otherwise ignore it if we have proper data
+	local shipHull
 	if not saveInfo.shipHull then
 		local shipDef = ShipDef[saveInfo.ship]
-
 		if shipDef then
-			saveEntry.shipHull = shipDef.name
+			shipHull = shipDef.name
 		end
+	else
+		shipHull = saveInfo.shipHull
 	end
+
+	self.entryCache[saveInfo.filename].character = saveInfo.character
+	self.entryCache[saveInfo.filename].compatible = saveInfo.compatible
+	self.entryCache[saveInfo.filename].credits = saveInfo.credits
+	self.entryCache[saveInfo.filename].duration = saveInfo.duration
+	self.entryCache[saveInfo.filename].gameTime = saveInfo.time
+	self.entryCache[saveInfo.filename].locationName = location
+	self.entryCache[saveInfo.filename].shipName = saveInfo.shipName
+	self.entryCache[saveInfo.filename].shipHull = shipHull
+end
+
+local function onSaveGameStats(saveInfo)
+	ui.saveLoadWindow:onSaveGameStats(saveInfo)
+end
+
+-- Trigger load of savegame information and return bare-bones entry
+local function makeEntryForSave(file)
+	print('makeEntryForSave : file=', file.name)
+	pcall(Game.SaveGameStats, file.name)
+
+	local saveEntry = SaveGameEntry:clone({
+		name = file.name,
+		isAutosave = file.name:sub(1, 1) == "_",
+		timestamp = file.mtime.timestamp,
+	})
+
+	-- local compatible, saveInfo = pcall(Game.SaveGameStats, file.name)
+	-- if not compatible then
+	-- 	saveInfo = {}
+	-- end
+
+	-- local location = saveInfo.system or lc.UNKNOWN
+
+	-- if saveInfo.docked_at then
+	-- 	location = location .. ", " .. saveInfo.docked_at
+	-- end
+
+	-- local saveEntry = SaveGameEntry:clone({
+	-- 	name = file.name,
+	-- 	compatible = compatible,
+	-- 	isAutosave = file.name:sub(1, 1) == "_",
+	-- 	character = saveInfo.character,
+	-- 	timestamp = file.mtime.timestamp,
+	-- 	gameTime = saveInfo.time,
+	-- 	duration = saveInfo.duration,
+	-- 	locationName = location,
+	-- 	credits = saveInfo.credits,
+	-- 	shipName = saveInfo.shipName,
+	-- 	shipHull = saveInfo.shipHull,
+	-- })
+
+	-- -- Old saves store only the name of the ship's *model* file for some dumb reason
+	-- -- Treat the model name as the ship id and otherwise ignore it if we have proper data
+	-- if not saveInfo.shipHull then
+	-- 	local shipDef = ShipDef[saveInfo.ship]
+
+	-- 	if shipDef then
+	-- 		saveEntry.shipHull = shipDef.name
+	-- 	end
+	-- end
 
 	return saveEntry
 end
@@ -551,6 +617,14 @@ function SaveLoadWindow:render()
 end
 
 --=============================================================================
+
+local function test(saveInfo)
+	print("saveInfo : ", saveInfo)
+	print("saveInfo.filename : ", saveInfo.filename)
+end
+
+-- Event.Register("onSaveGameStats", test)
+Event.Register("onSaveGameStats", onSaveGameStats)
 
 ui.saveLoadWindow = SaveLoadWindow
 
