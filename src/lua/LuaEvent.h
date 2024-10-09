@@ -52,6 +52,60 @@ namespace LuaEvent {
 		Queue(GetEventQueue(), event);
 	}
 
+	class LuaEvent {
+	public:
+		LuaEvent (const std::string_view event) :
+			m_queue(GetEventQueue()), m_event(nullptr), m_args(nullptr)
+		{
+			m_event = new ScopedTable(m_queue.GetLua());
+			m_event->Set("name", event);
+		}
+
+		LuaEvent (const LuaRef &queue, const std::string_view event) :
+			m_queue(queue)
+		{
+			m_event = new ScopedTable(m_queue.GetLua());
+			m_event->Set("name", event);
+		}
+
+		LuaEvent(const LuaEvent &) = delete;
+		LuaEvent &operator=(const LuaEvent &) = delete;
+
+		~LuaEvent()
+		{
+			delete m_args;
+			delete m_event;
+		}
+
+		template <class Key, class Value>
+		void addParameter(const Key &key, const Value &value)
+		{
+			if (!m_args) {
+				m_args = new LuaTable(*m_event);
+			}
+			m_args->Set(key, value);
+		}
+
+		void enqueue()
+		{
+			if (!m_event) {
+				return;
+			}
+			if (m_args) {
+				m_event->PushBack(*m_args);
+				delete m_args;
+				m_args = nullptr;
+			}
+			ScopedTable(m_queue).PushBack(*m_event);
+			delete m_event;
+			m_event = nullptr;
+		}
+
+	private:
+		const LuaRef &m_queue;
+		ScopedTable *m_event;
+		LuaTable *m_args;
+	};
 } // namespace LuaEvent
 
 #endif

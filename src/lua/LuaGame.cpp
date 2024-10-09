@@ -9,6 +9,7 @@
 #include "GameSaveError.h"
 #include "Json.h"
 #include "Lang.h"
+#include "LuaEvent.h"
 #include "LuaObject.h"
 #include "LuaTable.h"
 #include "LuaUtils.h"
@@ -23,6 +24,49 @@
 #include "core/GZipFormat.h"
 #include "galaxy/Galaxy.h"
 #include "pigui/LuaPiGui.h"
+
+/* A class to provide Jobs for various game tasks.
+ * The initial driver was to handle loading of savegame statistics in the
+ * background, but it was made generic enough to allow adding other jobs. */
+class LuaGameJobs
+{
+private:
+	class SaveGameJob : public Job
+	{
+	public:
+		SaveGameJob(const std::string& filename, void(*callback)(std::string, Json)) :
+			m_filename(filename), m_callback(callback)
+		{
+		}
+
+		virtual void OnRun() {
+			m_rootNode = SaveGameManager::LoadGameToJson(m_filename);
+		};
+		virtual void OnFinish() {
+			m_callback(m_filename, m_rootNode);
+		};
+		virtual void OnCancel() {};
+	private:
+		std::string m_filename;
+		Json m_rootNode;
+		void(*m_callback)(std::string, Json);
+	};
+
+	JobSet m_jobs;
+
+public:
+	LuaGameJobs() :
+		m_jobs(Pi::GetAsyncJobQueue())
+	{
+	}
+
+	void jobLoadGameToJson(std::string filename, void(*callback)(std::string, Json))
+	{
+		m_jobs.Order(new SaveGameJob(filename, callback));
+	}
+};
+
+static LuaGameJobs *gameJobs = nullptr;
 
 /*
  * Interface: Game
@@ -93,10 +137,50 @@ static int l_game_start_game(lua_State *l)
  *
  *   experimental
  */
+static void l_game_savegame_stats_callback(std::string filename, Json rootNode)
+{
+	LuaEvent::LuaEvent e("onSaveGameStats");
+	e.addParameter("filename", filename);
+	try {
+		Json gameInfo = rootNode["game_info"];
+		if (rootNode["game_info"].is_object()) {
+			if (gameInfo.count("character"))
+				e.addParameter("character", gameInfo["character"].get<std::string>());
+			e.addParameter("compatible", true);
+			e.addParameter("credits", gameInfo["credits"].get<float>());
+			if (gameInfo["docked_at"].is_string())
+				e.addParameter("docked_at", gameInfo["docked_at"].get<std::string>());
+			if (gameInfo.count("duration"))
+				e.addParameter("duration", gameInfo["duration"].get<double>());
+			e.addParameter("flight_state", gameInfo["flight_state"].get<std::string>());
+			e.addParameter("ship", gameInfo["ship"].get<std::string>());
+			if (gameInfo.count("shipHull"))
+				e.addParameter("shipHull", gameInfo["shipHull"].get<std::string>());
+			if (gameInfo.count("shipName"))
+				e.addParameter("shipName", gameInfo["shipName"].get<std::string>());
+			e.addParameter("system", gameInfo["system"].get<std::string>());
+			e.addParameter("time", rootNode["time"].get<double>());
+			e.enqueue();
+		} else {
+			e.addParameter("compatible", false);
+			Json shipNode = rootNode["space"]["bodies"][rootNode["player"].get<int>() - 1];
+			e.addParameter("frame", rootNode["space"]["bodies"][shipNode["body"]["index_for_frame"].get<int>() - 1]["body"]["label"].get<std::string>());
+			e.addParameter("ship", shipNode["model_body"]["model_name"].get<std::string>());
+		}
+	} catch (const Json::type_error &) {
+		e.addParameter("compatible", false);
+	} catch (const Json::out_of_range &) {
+		e.addParameter("compatible", false);
+	}
+	LuaEvent::Emit();
+}
+
 static int l_game_savegame_stats(lua_State *l)
 {
 	const std::string filename = LuaPull<std::string>(l, 1);
-
+	gameJobs->jobLoadGameToJson(filename, l_game_savegame_stats_callback);
+	return 0;
+#if 0
 	try {
 		Json rootNode = SaveGameManager::LoadGameToJson(filename);
 
@@ -141,6 +225,7 @@ static int l_game_savegame_stats(lua_State *l)
 	} catch (const SavedGameCorruptException &) {
 		return luaL_error(l, Lang::GAME_LOAD_CORRUPT);
 	}
+#endif
 }
 
 
@@ -787,6 +872,8 @@ void LuaGame::Register()
 	LuaObjectBase::CreateObject(l_methods, l_attrs, 0);
 	lua_setfield(l, -2, "Game");
 	lua_pop(l, 1);
+
+	gameJobs = new LuaGameJobs();
 
 	LUA_DEBUG_END(l, 0);
 }
