@@ -17,6 +17,29 @@ static const char s_saveDirName[] = "savefiles";
 
 static const int s_saveVersion = 90;
 
+// A simple job to load a savegame into a Json object
+class LoadGameToJsonJob : public Job
+{
+public:
+	LoadGameToJsonJob(std::string_view filename, void(*callback)(std::string_view, const Json &)) :
+		m_filename(filename), m_callback(callback)
+	{
+	}
+
+	virtual void OnRun() {
+		m_rootNode = SaveGameManager::LoadGameToJson(m_filename);
+	};
+	virtual void OnFinish() {
+		m_callback(m_filename, m_rootNode);
+	};
+	virtual void OnCancel() {};
+private:
+	std::string m_filename;
+	Json m_rootNode;
+	void(*m_callback)(std::string_view, const Json &);
+};
+
+
 void SaveGameManager::Init()
 {
 	if (!FileSystem::userFiles.MakeDirectory(s_saveDirName)) {
@@ -57,6 +80,11 @@ bool SaveGameManager::CanLoadGame(const std::string &name)
 Json SaveGameManager::LoadGameToJson(const std::string &filename)
 {
 	return JsonUtils::LoadJsonSaveFile(FileSystem::JoinPathBelow(s_saveDirName, filename), FileSystem::userFiles);
+}
+
+Job *SaveGameManager::LoadGameToJsonAsync(std::string_view filename, void(*callback)(std::string_view, const Json &))
+{
+	return new LoadGameToJsonJob(filename, callback);
 }
 
 Game *SaveGameManager::LoadGame(const std::string &name)

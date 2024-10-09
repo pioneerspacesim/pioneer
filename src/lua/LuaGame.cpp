@@ -9,6 +9,7 @@
 #include "GameSaveError.h"
 #include "Json.h"
 #include "Lang.h"
+#include "LuaEvent.h"
 #include "LuaObject.h"
 #include "LuaTable.h"
 #include "LuaUtils.h"
@@ -73,10 +74,63 @@ static int l_game_start_game(lua_State *l)
 	return 0;
 }
 
+/* Marshall the game info into a LuaTable and send it as an event to Lua.
+ * Callback from the savegame_stats job when the job is finished. This function
+ * will run in the main thread. */
+static void onSaveGameStatsJobFinished(std::string_view filename, const Json &rootNode)
+{
+	PROFILE_SCOPED()
+	auto ls = Lua::manager->GetLuaState();
+	ScopedTable t(ls);
+	t.Set("filename", filename);
+
+	try {
+		t.Set("time", rootNode["time"].get<double>());
+
+		// if this is a newer saved game, show the embedded info
+		if (rootNode["game_info"].is_object()) {
+			const Json &gameInfo = rootNode["game_info"];
+			t.Set("compatible", true);
+			t.Set("system", gameInfo["system"].get<std::string>());
+			t.Set("ship", gameInfo["ship"].get<std::string>());
+			t.Set("credits", gameInfo["credits"].get<float>());
+			t.Set("flight_state", gameInfo["flight_state"].get<std::string>());
+			if (gameInfo.count("docked_at")) {
+				t.Set("docked_at", gameInfo["docked_at"].get<std::string>());
+			}
+			if (gameInfo.count("shipHull")) {
+				t.Set("shipHull", gameInfo["shipHull"].get<std::string>());
+			}
+			if (gameInfo.count("shipName")) {
+				t.Set("shipName", gameInfo["shipName"].get<std::string>());
+			}
+			if (gameInfo.count("duration")) {
+				t.Set("duration", gameInfo["duration"].get<double>());
+			}
+			if (gameInfo.count("character")) {
+				t.Set("character", gameInfo["character"].get<std::string>());
+			}
+		} else {
+			// this is an older saved game...try to show something useful
+			const Json &shipNode = rootNode["space"]["bodies"][rootNode["player"].get<int>() - 1];
+			t.Set("frame", rootNode["space"]["bodies"][shipNode["body"]["index_for_frame"].get<int>() - 1]["body"]["label"].get<std::string>());
+			t.Set("ship", shipNode["model_body"]["model_name"].get<std::string>());
+			t.Set("compatible", false);
+		}
+	} catch (const Json::type_error &) {
+		t.Set("compatible", false);
+	} catch (const Json::out_of_range &) {
+		t.Set("compatible", false);
+	}
+
+	LuaEvent::Queue("onSaveGameStats", LuaTable(t));
+	LuaEvent::Emit();
+}
+
 /*
  * Function: SaveGameStats
  *
- * Return stats about a game.
+ * Start a Job to read the SaveGameStats for a particular save game
  *
  * > Game.SaveGameStats(filename)
  *
@@ -89,6 +143,12 @@ static int l_game_start_game(lua_State *l)
  *
  *   2018-02-10
  *
+ * Modified:
+ *
+ *   2024-10-11 - the function no longer returns the Stats directly, but starts
+ *                a Job. The Lua caller is responsible for registering an
+ *                "onSaveGameStats" event handler to process the data.
+ *
  * Status:
  *
  *   experimental
@@ -96,51 +156,8 @@ static int l_game_start_game(lua_State *l)
 static int l_game_savegame_stats(lua_State *l)
 {
 	const std::string filename = LuaPull<std::string>(l, 1);
-
-	try {
-		Json rootNode = SaveGameManager::LoadGameToJson(filename);
-
-		LuaTable t(l, 0, 3);
-
-		t.Set("time", rootNode["time"].get<double>());
-
-		// if this is a newer saved game, show the embedded info
-		if (rootNode["game_info"].is_object()) {
-			Json gameInfo = rootNode["game_info"];
-			t.Set("system", gameInfo["system"].get<std::string>());
-			t.Set("ship", gameInfo["ship"].get<std::string>());
-			t.Set("credits", gameInfo["credits"].get<float>());
-			t.Set("flight_state", gameInfo["flight_state"].get<std::string>());
-			if (gameInfo["docked_at"].is_string())
-				t.Set("docked_at", gameInfo["docked_at"].get<std::string>());
-
-			if (gameInfo.count("shipHull"))
-				t.Set("shipHull", gameInfo["shipHull"].get<std::string>());
-			if (gameInfo.count("shipName"))
-				t.Set("shipName", gameInfo["shipName"].get<std::string>());
-			if (gameInfo.count("duration"))
-				t.Set("duration", gameInfo["duration"].get<double>());
-			if (gameInfo.count("character"))
-				t.Set("character", gameInfo["character"].get<std::string>());
-		} else {
-			// this is an older saved game...try to show something useful
-			Json shipNode = rootNode["space"]["bodies"][rootNode["player"].get<int>() - 1];
-			t.Set("frame", rootNode["space"]["bodies"][shipNode["body"]["index_for_frame"].get<int>() - 1]["body"]["label"].get<std::string>());
-			t.Set("ship", shipNode["model_body"]["model_name"].get<std::string>());
-		}
-
-		return 1;
-	} catch (const CouldNotOpenFileException &e) {
-		const std::string message = stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", filename));
-		lua_pushlstring(l, message.c_str(), message.size());
-		return lua_error(l);
-	} catch (const Json::type_error &) {
-		return luaL_error(l, Lang::GAME_LOAD_CORRUPT);
-	} catch (const Json::out_of_range &) {
-		return luaL_error(l, Lang::GAME_LOAD_CORRUPT);
-	} catch (const SavedGameCorruptException &) {
-		return luaL_error(l, Lang::GAME_LOAD_CORRUPT);
-	}
+	Lua::manager->ScheduleJob(SaveGameManager::LoadGameToJsonAsync(filename, onSaveGameStatsJobFinished));
+	return 0;
 }
 
 

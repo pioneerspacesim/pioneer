@@ -508,7 +508,7 @@ void StartupScreen::Start()
 	// XXX UI requires Lua  but Pi::ui must exist before we start loading
 	// templates. so now we have crap everywhere :/
 	Output("Lua::Init()\n");
-	Lua::Init();
+	Lua::Init(Pi::GetAsyncJobQueue());
 
 	// TODO: Get the lua state responsible for drawing the init progress up as fast as possible
 	// Investigate using a pigui-only Lua state that we can initialize without depending on

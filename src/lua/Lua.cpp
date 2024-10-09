@@ -44,9 +44,9 @@ namespace Lua {
 
 	void InitMath();
 
-	void Init()
+	void Init(JobQueue *asyncJobQueue)
 	{
-		manager = new LuaManager();
+		manager = new LuaManager(asyncJobQueue);
 		InitMath();
 	}
 
