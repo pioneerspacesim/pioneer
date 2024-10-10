@@ -667,7 +667,7 @@ local onShipDocked = function (player, station)
 			mission.status = "FAILED"
 		end
 
-		if station.path == mission.station and mission.status == "FAILED" or mission.status == "COMPLETED" then
+		if station.path == mission.station and (mission.status == "FAILED" or mission.status == "COMPLETED") then
 			local flavour = flavours[mission.flavour]
 			local failed = mission.status == "FAILED"
 			local scan = scanMgr:AcceptScanComplete(mission.scanId)
