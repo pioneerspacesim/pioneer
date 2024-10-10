@@ -1,6 +1,7 @@
 -- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Event = require 'Event'
 local Game   = require 'Game'
 local Lang   = require 'Lang'
 local ui     = require 'pigui'
@@ -19,7 +20,6 @@ end
 gauges.registerGauge(10, {
 	value = function()
 		local scanMgr = Game.player:GetComponent("ScanManager")
-
 		local scan = scanMgr and scanMgr:GetActiveScan()
 		if not scan then return nil end
 
@@ -31,3 +31,6 @@ gauges.registerGauge(10, {
 	tooltip = ls.HUD_SCAN_PROGRESS,
 	debugReload = onDebugReload,
 })
+
+--Event.Register("onDebugReload", onDebugReload)
+

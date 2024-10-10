@@ -170,6 +170,7 @@ local missions = {}
 local missionKey = {}
 
 local format_coverage = function(orbital, val)
+	print(string.format("format coverage; orbital=[%s], val=[%0.2f]", tostring(orbital), val))
 	return orbital and ui.Format.Area(val * 1e6) or ui.Format.Area(val * 1e6)
 end
 
@@ -321,6 +322,9 @@ local function calcOrbitalScanMission(sBody, difficulty, reward)
 	local body_area = 4 * math.pi * radiusKm^2
 	local coverageKm2 = math.floor(body_area * body_coverage * 10000) / 10000
 
+	print(string.format("Generated orbital scan mission, coverage=%f%%, body_coverage=%f%%, body_coverage_km2=%fkm2",
+			coverage, body_coverage, coverageKm2))
+
 	local rewardAmount = reward
 		* p.reward_per_km * (math.pi * radiusKm * coverage)
 		* math.lerp(p.reward_resolution_min, p.reward_resolution_max, resolutionScalar)
@@ -373,6 +377,9 @@ local function calcSurfaceScanMission(sBody, difficulty, reward)
 
 	-- finally, convert the coverage into km2 and limit the number of decimals
 	local coverageKm2 = math.floor(coverage * 10000) / 10000
+
+	print(string.format("Generated surface scan mission, coverage=%f, coverage_km2=%fkm2",
+			coverage, coverageKm2))
 
 	return {
 		coverage = coverageKm2,
