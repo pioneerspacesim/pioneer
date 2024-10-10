@@ -104,6 +104,28 @@ static int l_engine_attr_time(lua_State *l)
 }
 
 /*
+ * Attribute: nowTime
+ *
+ * Returns an arbitrary value in seconds relative to some epoch corresponding
+ * to the precise time this value is accessed. This should be used only for
+ * profiling and debugging purposes to calculate a duration in sub-millisecond
+ * units.
+ *
+ * Availability:
+ *
+ *   October 2024
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_engine_attr_now_time(lua_State *l)
+{
+	lua_pushnumber(l, Profiler::Clock::ms(Profiler::Clock::getticks()) / 1000.0);
+	return 1;
+}
+
+/*
  * Attribute: frameTime
  *
  * Length of the last frame in seconds. This should be used for debugging or UI
@@ -1171,6 +1193,7 @@ void LuaEngine::Register()
 		{ "rand", l_engine_attr_rand },
 		{ "ticks", l_engine_attr_ticks },
 		{ "time", l_engine_attr_time },
+		{ "nowTime", l_engine_attr_now_time },
 		{ "frameTime", l_engine_attr_frame_time },
 		{ "pigui", l_engine_attr_pigui },
 		{ "version", l_engine_attr_version },

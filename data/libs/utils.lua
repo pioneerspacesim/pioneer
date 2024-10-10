@@ -960,4 +960,20 @@ utils.getFromIntervals = function(array, value)
 	return array[utils.getIndexFromIntervals(array, value)][1]
 end
 
+--
+-- Function: utils.profile
+--
+-- Simple manual scoped profiler to print the execution time of some invocation.
+-- The returned function should be called to terminate the profile scope.
+--
+utils.profile = function(name)
+	local start = Engine.nowTime
+
+	return function()
+		local duration = Engine.nowTime - start
+
+		print(string.format("PROFILE | %s took %.4fms", name, duration * 1000.0))
+	end
+end
+
 return utils
