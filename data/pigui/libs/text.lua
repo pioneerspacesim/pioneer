@@ -339,27 +339,37 @@ ui.Format = {
 	Volume = function(number, places)
 		return ui.Format.Number(number, places or 1) .. lc.UNIT_CUBIC_METERS
 	end,
+	-- Format an Area quantity, scaling from square meters to square megameters
+	-- Returns the formatted value, the units, and the number of digits following the decimal point
 	AreaUnit= function(area, digits)
 		local a = math.abs(area)
+		local d = 0
+		local u = lc.UNIT_SQUARE_METERS
+		local div = 1
 		if a < 1e2 then
-			local fmt = "%0." .. (digits or 2) .. "f"
-			return string.format(fmt, area), lc.UNIT_SQUARE_METERS
+			d = 2
+			u = lc.UNIT_SQUARE_METERS
 		elseif a < 1e4 then
-			local fmt = "%0." .. (digits or 0) .. "f"
-			return string.format(fmt, area), lc.UNIT_SQUARE_METERS
+			d = 0
+			u = lc.UNIT_SQUARE_METERS
 		elseif a < 1e8 then
-			local fmt = "%0." .. (digits or 2) .. "f"
-			return string.format(fmt, area / 1e6), lc.UNIT_SQUARE_KILOMETERS
+			d = 2
+			u = lc.UNIT_SQUARE_KILOMETERS
+			div = 1e6
 		elseif a < 1e10 then
-			local fmt = "%0." .. (digits or 0) .. "f"
-			return string.format(fmt, area / 1e6), lc.UNIT_SQUARE_KILOMETERS
+			d = 0
+			u = lc.UNIT_SQUARE_KILOMETERS
+			div = 1e6
 		elseif a < 1e14 then
-			local fmt = "%0." .. (digits or 2) .. "f"
-			return string.format(fmt, area / 1e12), lc.UNIT_SQUARE_MEGAMETERS
+			d = 2
+			u = lc.UNIT_SQUARE_MEGAMETERS
+			div = 1e12
 		else
-			local fmt = "%0." .. (digits or 0) .. "f"
-			return string.format(fmt, area / 1e12), lc.UNIT_SQUARE_MEGAMETERS
+			d = 0
+			u = lc.UNIT_SQUARE_MEGAMETERS
+			div = 1e12
 		end
+		return ui.Format.Number(area / div, digits or d), u
 	end,
 	Area = function(area, digits)
 		local a, u = ui.Format.AreaUnit(area, digits)
