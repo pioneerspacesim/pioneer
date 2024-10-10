@@ -426,7 +426,6 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 		emission = StarSystem::starRealColors[GetSystemBody()->GetType()];
 		emission.a = 255;
 	}
-
 	else {
 		// give planet some ambient lighting if the viewer is close to it
 		double camdist = 0.1 / campos.LengthSqr();
