@@ -339,6 +339,32 @@ ui.Format = {
 	Volume = function(number, places)
 		return ui.Format.Number(number, places or 1) .. lc.UNIT_CUBIC_METERS
 	end,
+	AreaUnit= function(area, digits)
+		local a = math.abs(area)
+		if a < 1e2 then
+			local fmt = "%0." .. (digits or 2) .. "f"
+			return string.format(fmt, area), lc.UNIT_SQUARE_METERS
+		elseif a < 1e4 then
+			local fmt = "%0." .. (digits or 0) .. "f"
+			return string.format(fmt, area), lc.UNIT_SQUARE_METERS
+		elseif a < 1e8 then
+			local fmt = "%0." .. (digits or 2) .. "f"
+			return string.format(fmt, area / 1e6), lc.UNIT_SQUARE_KILOMETERS
+		elseif a < 1e10 then
+			local fmt = "%0." .. (digits or 0) .. "f"
+			return string.format(fmt, area / 1e6), lc.UNIT_SQUARE_KILOMETERS
+		elseif a < 1e14 then
+			local fmt = "%0." .. (digits or 2) .. "f"
+			return string.format(fmt, area / 1e12), lc.UNIT_SQUARE_MEGAMETERS
+		else
+			local fmt = "%0." .. (digits or 0) .. "f"
+			return string.format(fmt, area / 1e12), lc.UNIT_SQUARE_MEGAMETERS
+		end
+	end,
+	Area = function(area, digits)
+		local a, u = ui.Format.AreaUnit(area, digits)
+		return a .. ' ' .. u
+	end,
 	SystemPath = function(path)
 		local sectorString = "("..path.sectorX..", "..path.sectorY..", "..path.sectorZ..")"
 		if path:IsSectorPath() then

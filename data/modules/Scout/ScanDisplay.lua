@@ -191,13 +191,8 @@ function scanDisplay:drawScanInfo(scan, isHighlighted)
 		altitude = ui.Format.Distance(params.maxAltitude)
 	end
 
-	if scan.orbital then
-		target = string.format("%.1f%%", scan.targetCoverage * 100.0)
-		completion = string.format("%2.1f%%", math.floor(scan.coverage * 1000) / 10)
-	else
-		target = ui.Format.Distance(scan.targetCoverage * 1000.0, "%.1f")
-		completion = ui.Format.Distance(scan.coverage * 1000.0, "%.1f")
-	end
+	target = ui.Format.Area(scan.targetCoverage * 1e6)
+	completion = ui.Format.Area(scan.coverage * 1e6)
 
 	local data = {
 		title = sBody.name .. ", " .. scan.bodyPath:GetStarSystem().name,
