@@ -1843,6 +1843,10 @@
     "description": "Duration unit: one 7-day week",
     "message": "w"
   },
+  "UNIT_CUBIC_METERS": {
+	"description": "Volume unit: cubic meter",
+	"message": "m³"
+  },
   "UNKNOWN": {
     "description": "",
     "message": "<unknown>"
