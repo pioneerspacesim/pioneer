@@ -429,7 +429,7 @@ ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, 
 
 	if tooltip and (ui.isMouseHoveringWindow() or not ui.isAnyWindowHovered()) and tooltip ~= "" then
 		if pigui.IsMouseHoveringRect(position, position + size, true) then
-			ui.maybeSetTooltip(tooltip)
+			ui.setTooltip(tooltip)
 		end
 	end
 
@@ -446,7 +446,7 @@ end
 --   tooltip - string, tooltip text to display to the user
 --   font    - optional font table, used to display the given tooltip
 --
-function ui.maybeSetTooltip(tooltip, font)
+function ui.setTooltip(tooltip, font)
 	if not Input.GetMouseCaptured() then
 		ui.withFont(font or ui.fonts.pionillium.details, function()
 			pigui.SetTooltip(tooltip)
@@ -454,4 +454,20 @@ function ui.maybeSetTooltip(tooltip, font)
 	end
 end
 
-ui.setTooltip = ui.maybeSetTooltip
+--
+-- Function: setItemTooltip
+--
+-- Displays a tooltip in the UI if the last submitted "item" is hovered with a short delay.
+-- The function does not display a tooltip if the mouse is currently captured by the game.
+--
+-- Parameters:
+--   tooltip - string, tooltip text to display to the user
+--   font    - optional font table, used to display the given tooltip
+--
+function ui.setItemTooltip(tooltip, font)
+	if not Input.GetMouseCaptured() then
+		ui.withFont(font or ui.fonts.pionillium.details, function()
+			pigui.SetItemTooltip(tooltip)
+		end)
+	end
+end

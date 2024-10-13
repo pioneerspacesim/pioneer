@@ -8,11 +8,15 @@ local utils  = require "utils"
 local AU = 149598000000
 local AU_sqrt = math.sqrt(AU)
 
-local Days = 24*60*60
+local Hours = 60*60
+local Days = 24*Hours
+local Weeks = 7*Days
 
 local MissionUtils = {
 	AU = AU,
-	Days = Days
+	Days = Days,
+	Hours = Hours,
+	Weeks = Weeks,
 }
 
 ---@class MissionUtils.Calculator

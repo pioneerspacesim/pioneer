@@ -115,3 +115,18 @@ function Ship:GetShieldsPercent() end
 -- Sets the thruster fuel tank of the ship to the given percentage of its maximum.
 ---@param percent number
 function Ship:SetFuelPercent(percent) end
+
+-- Update ship properties after changing ship equipment or cargo
+function Ship:UpdateEquipStats() end
+
+-- Is this ship currently docked with anything?
+---@return boolean
+function Ship:IsDocked() end
+
+-- Is this ship currently landed on a planet?
+---@return boolean
+function Ship:IsLanded() end
+
+-- Get the starport this ship is docked with, if any
+---@return SpaceStation?
+function Ship:GetDockedWith() end

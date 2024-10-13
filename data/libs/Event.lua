@@ -131,6 +131,8 @@ Event.New = function()
 	--
 	--   stable
 	--
+	---@param name string
+	---@param cb function
 	self.Register = function (name, cb)
 		super.Register(self, name, package.modulename(2), cb)
 	end

@@ -231,6 +231,58 @@ utils.find_if = function(t, predicate)
 end
 
 --
+-- Function: best_score
+--
+-- Returns the value in the passed table with the highest score according to the passed scoring function
+--
+-- Iteration order is undefined (uses pairs() internally).
+--
+---@generic K, V
+---@param t table<K, V>
+---@param score_fun fun(k: K, v: V): number?
+---@return V?, number
+utils.best_score = function(t, score_fun)
+	local score = 0.0
+	local best_val = nil
+
+	for k, v in pairs(t) do
+		local new_score = score_fun(k, v)
+		if new_score and new_score > score then
+			score = new_score
+			best_val = v
+		end
+	end
+
+	return best_val, score
+end
+
+--
+-- Function: least_score
+--
+-- Returns the value in the passed table with the lowest score according to the passed scoring function
+--
+-- Iteration order is undefined (uses pairs() internally).
+--
+---@generic K, V
+---@param t table<K, V>
+---@param score_fun fun(k: K, v: V): number?
+---@return V?, number
+utils.least_score = function(t, score_fun)
+	local score = math.huge
+	local best_val = nil
+
+	for k, v in pairs(t) do
+		local new_score = score_fun(k, v)
+		if new_score and new_score < score then
+			score = new_score
+			best_val = v
+		end
+	end
+
+	return best_val, score
+end
+
+--
 -- Function: stable_sort
 --
 -- Sort the given table in-place and return it. Sort isn't fast but will be
@@ -326,7 +378,7 @@ end
 --
 local object = {}
 
-object.meta = { __index = object, class="object" }
+object.meta = { __index = object, class="object", inherits = { ["object"] = true } }
 
 --
 -- Function: New
@@ -390,7 +442,10 @@ end
 utils.inherits = function (baseClass, name)
 	local new_class = {}
 	local base_class = baseClass or object
-	new_class.meta = { __index = new_class, class=name }
+	new_class.meta = { __index = new_class, class=name, inherits = { [name] = true } }
+
+	-- Allow quick lookup by parent class
+	table.merge(new_class.meta.inherits, base_class.meta.inherits)
 
 	-- generic constructor
 	function new_class.New(...)
@@ -404,6 +459,10 @@ utils.inherits = function (baseClass, name)
 	-- Return the class object of the instance
 	function new_class:Class()
 		return new_class
+	end
+
+	function new_class:IsA(typename)
+		return new_class.meta.inherits[typename]
 	end
 
 	function new_class.Unserialize(data)
@@ -492,6 +551,11 @@ utils.proto = function(classname)
 	end
 
 	return newProto
+end
+
+-- Return a copy of a with the values from b added to it
+function utils.mixin(a, b)
+	return table.merge(table.copy(a), b)
 end
 
 --
