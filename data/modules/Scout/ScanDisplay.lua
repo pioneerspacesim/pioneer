@@ -182,34 +182,43 @@ function scanDisplay:drawScanInfo(scan, isHighlighted)
 
 	-- displayed when the active scanner cannot carry out the scan
 	local altitude = string.upper(ls.INVALID_SCANNER)
-	local target = ""
 
 	local params = scanMgr:GetScanParameters(sBody, scan.minResolution, scan.orbital)
 	if params and params.canScan then
 		altitude = ui.Format.Distance(params.maxAltitude)
 	end
 
-	if scan.orbital then
-		target = string.format("%.1f%%", scan.targetCoverage * 100.0)
-	else
-		target = ui.Format.Distance(scan.targetCoverage * 1000.0, "%.1f")
-	end
-
-	local completion = math.min(1.0, scan.coverage / scan.targetCoverage)
+	local target = ui.Format.Area(scan.targetCoverage * 1e6)
 
 	local data = {
 		title = sBody.name .. ", " .. scan.bodyPath:GetStarSystem().name,
 		target = target,
-		completion = string.format("%2.1f%%", completion * 100.0),
+		completion = ui.Format.Area(scan.coverage * 1e6),
 		isActive = self.scanMgr:GetActiveScan() == scan,
 		scan = scan,
 		icon = scan.orbital and icons.map or icons.scanner,
 		{ icons.comms, target, ls.SCAN_TARGET_COVERAGE },
 		{ icons.scanner, ui.Format.Distance(scan.minResolution, "%.1f"), ls.SCAN_MAXIMUM_SPATIAL_RESOLUTION },
 		{ icons.altitude, altitude, ls.SCAN_MAXIMUM_ALTITUDE },
+		progress = (scan.targetCoverage / scan.coverage) * 100
 	}
 
 	return ScanCard:draw(data, isHighlighted)
+end
+
+---@param scan ScanData
+function scanDisplay:drawScanProgress(scan)
+	local completion = math.min(1.0, scan.coverage / scan.targetCoverage)
+	local width = ui.getContentRegion().x
+	-- The default progress bar colour style is yellow which is very jarring
+	-- for this display. So instead lets use a more suitable colour style.
+	local progressBarColor = colors.uiPrimaryLight
+	local progressBarText = ls.DATA_COLLECTED_PROGRESS % {
+		percent_completed = string.format("%.2f", completion * 100.0)
+	}
+	ui.withStyleColors({ PlotHistogram = progressBarColor }, function()
+		ui.progressBar(completion, Vector2(width, 0), progressBarText)
+	end)
 end
 
 -- Return a sorted copy of the given scan list for display
@@ -283,6 +292,8 @@ function scanDisplay:drawBody()
 
 		if clicked then
 			self.scanMgr:ClearActiveScan()
+		else
+			self:drawScanProgress(activeScan)
 		end
 	else
 		self:drawEmptyActiveScan()

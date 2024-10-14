@@ -12,10 +12,6 @@ local colors = ui.theme.colors
 
 local ls = Lang.GetResource('module-scout')
 
-local function onDebugReload()
-	package.reimport()
-end
-
 gauges.registerGauge(10, {
 	value = function()
 		local scanMgr = Game.player:GetComponent("ScanManager")
@@ -28,5 +24,7 @@ gauges.registerGauge(10, {
 	unit = '%', format = '%.2f', min = 0, max = 100,
 	icon = icons.scanner, color = colors.gaugeScanner,
 	tooltip = ls.HUD_SCAN_PROGRESS,
-	debugReload = onDebugReload,
+	debugReload = function()
+		package.reimport()
+	end
 })
