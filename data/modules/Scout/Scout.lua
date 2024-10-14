@@ -643,14 +643,14 @@ local onScanComplete = function (player, scanId)
 			Comms.ImportantMessage(l.YOU_WILL_BE_PAID_ON_MY_BEHALF_AT_NEW_DESTINATION,
 				mission.client.name)
 		end
+		mission.station = newlocation
 	end
 
-	mission.location = newlocation
-
-	if Game.system and mission.location:IsSameSystem(Game.system.path) then
-		Game.player:SetNavTarget(mission.location)
+	-- Set navigation target to the station
+	if Game.system and mission.station:IsSameSystem(Game.system.path) then
+		Game.player:SetNavTarget(mission.station)
 	else
-		Game.player:SetHyperspaceTarget(mission.location:SystemOnly())
+		Game.player:SetHyperspaceTarget(mission.station:SystemOnly())
 	end
 end
 
@@ -746,41 +746,33 @@ end
 local buildMissionDescription = function (mission)
 	local desc = {}
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
-
 	local finished = mission.status == "COMPLETED" or mission.status == "FAILED"
+	local returnLocationDesc = ""
 
-	-- Main body intro text
-	if finished then
-		desc.description = string.interp(l.DROP_OFF_DATA,
-										 {date = Format.Date(mission.due),
-										  location = mission.location:GetSystemBody().name})
-	else
-		desc.description =
-			flavours[mission.flavour].introtext:interp(
-				{
-					name       = mission.client.name,
-					systembody = mission.location:GetSystemBody().name,
-					system     = ui.Format.SystemPath(mission.location:SystemOnly()),
-					dist       = dist,
-					cash       = Format.Money(mission.reward),
-				})
-		desc.location = mission.location
+	if finished or not mission.dropoff or flavours[mission.flavour].localscout then
+		returnLocationDesc = "\n\n" .. string.interp(l.DROP_OFF_DATA,
+			{
+				date = Format.Date(mission.due),
+				location = mission.station:GetSystemBody().name
+				           .. "," .. mission.station:GetStarSystem().name
+			})
 	end
-	desc.client = mission.client
 
-	local coordinates = "("..mission.location.sectorX..","
-		..mission.location.sectorY..","
-		..mission.location.sectorZ..")"
-
-	-- station is shown for return station, after mission is completed
-	local destination = not finished and
-		{ l.TARGET_BODY,   mission.location:GetSystemBody().name } or
-		{ l.DESTINATION,   mission.location:GetSystemBody().name }
+	desc.description =
+		flavours[mission.flavour].introtext:interp(
+			{
+				name       = mission.client.name,
+				systembody = mission.location:GetSystemBody().name,
+				system     = ui.Format.SystemPath(mission.location:SystemOnly()),
+				dist       = dist,
+				cash       = Format.Money(mission.reward),
+			})
+			.. returnLocationDesc
 
 	desc.details = {
 		"Mapping",
-		{lc.SYSTEM..":",  mission.location:GetStarSystem().name.." "..coordinates},
-		destination,
+		{lc.SYSTEM..":",  ui.Format.SystemPath(mission.location) },
+		{l.TARGET_BODY,   mission.location:GetSystemBody().name },
 		{l.DISTANCE,      dist .. lc.UNIT_LY},
 		{l.DEADLINE,      Format.Date(mission.due)},
 		{luc.TYPE..":",   mission.orbital and l.ORBITAL_SCAN or l.SURFACE_SCAN},
@@ -788,6 +780,13 @@ local buildMissionDescription = function (mission)
 		{l.RESOLUTION,    format_resolution(mission.resolution) },
 		{luc.STATUS,      luc[mission.status]},
 	}
+
+	desc.client = mission.client
+	if finished then
+		desc.returnLocation = mission.station
+	else
+		desc.location = mission.location
+	end
 
 	return desc
 end
