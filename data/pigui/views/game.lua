@@ -309,8 +309,6 @@ ui.registerHandler('game', function(delta_t)
 			debugReload(gameView.modules)
 			debugReload(gameView.hudModules)
 			debugReload(gameView.sidebarModules)
-
-			Event.Queue("onDebugReload");
 		end
 end)
 
