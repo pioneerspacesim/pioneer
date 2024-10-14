@@ -81,7 +81,8 @@ endif(USE_AVX2)
 option(PIONEER_TARGET_RASPBERRY_PI "Compile for Raspberry Pi specifically (degrades to OpenGL 3.1)" ${PIONEER_TARGET_ARM64})
 
 if (PIONEER_TARGET_RASPBERRY_PI)
-	# add_compile_options("-mcpu=cortex-a76" "-ffast-math")
+	add_definitions(-DPIONEER_TARGET_RASPBERRY_PI)
+	# add_compile_options("-mcpu=cortex-a76")
 	add_compile_options("-ffast-math")
 endif(PIONEER_TARGET_RASPBERRY_PI)
 
