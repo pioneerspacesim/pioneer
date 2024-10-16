@@ -300,6 +300,13 @@ function SaveLoadWindow:makeFileList()
 		return a.mtime.timestamp > b.mtime.timestamp
 	end)
 
+	-- Cache details about each savefile
+	for _, file in ipairs(self.files) do
+		if not self.entryCache[file.name] or self.entryCache[file.name].timestamp ~= file.mtime.timestamp then
+			self.entryCache[file.name] = makeEntryForSave(file)
+		end
+	end
+
 	self:makeFilteredList()
 	-- profileEndScope()
 end
@@ -349,21 +356,6 @@ function SaveLoadWindow:deleteSelectedSave()
 		-- List of files changed on disk, need to update our copy of it
 		self:makeFileList()
 	end)
-end
-
-function SaveLoadWindow:update()
-	ModalWindow.update(self)
-
-	-- Incrementally update cache until all files are up to date
-	-- We don't need to manually clear the cache, as changes to the list of
-	-- files will trigger the cache to be updated
-	local uncached = utils.find_if(self.files, function(_, file)
-		return not self.entryCache[file.name] or self.entryCache[file.name].timestamp ~= file.mtime.timestamp
-	end)
-
-	if uncached then
-		self.entryCache[uncached.name] = makeEntryForSave(uncached)
-	end
 end
 
 --=============================================================================
