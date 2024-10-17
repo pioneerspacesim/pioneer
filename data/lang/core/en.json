@@ -1823,6 +1823,22 @@
     "description": "Mass unit: one petatonne",
     "message": "Pt"
   },
+  "UNIT_HECTARES": {
+	"description": "Area unit: one hectare (ha) -10,000 m²",
+	"message": "ha"
+  },
+  "UNIT_SQUARE_KILOMETERS": {
+	"description": "Area unit: square kilometer (km²) - 1,000,000 m²",
+	"message": "km²"
+  },
+  "UNIT_SQUARE_MEGAMETERS": {
+	"description": "Area unit: square megameter (Mm²) - 10^12 m²",
+	"message": "Mm²"
+  },
+  "UNIT_SQUARE_METERS": {
+	"description": "Area unit: square meter (m²)",
+	"message": "m²"
+  },
   "UNIT_PRESSURE_ATMOSPHERES": {
     "description": "Pressure unit: one earth atmosphere (atm)",
     "message": "atm"
