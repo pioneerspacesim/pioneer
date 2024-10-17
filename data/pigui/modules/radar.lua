@@ -179,8 +179,9 @@ local click_on_radar = false
 local function displayRadar()
 	if ui.optionsWindow.isOpen or Game.CurrentView() ~= "world" then return end
 	player = Game.player
-	local equipped_radar = player:GetEquip("radar")
+
 	-- only display if there actually *is* a radar installed
+	local equipped_radar = player:GetComponent("EquipSet"):GetInstalledOfType("sensor.radar")
 	if #equipped_radar > 0 then
 
 		local size = ui.reticuleCircleRadius * 0.66

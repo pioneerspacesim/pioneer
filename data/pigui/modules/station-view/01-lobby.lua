@@ -340,7 +340,7 @@ StationView:registerView({
 				face = PiGuiFace.New(Character.New({ title = l.STATION_MANAGER }, rand), {itemSpacing = widgetSizes.itemSpacing})
 			end
 
-			hyperdrive = table.unpack(Game.player:GetEquip("engine")) or nil
+			hyperdrive = Game.player:GetInstalledHyperdrive()
 			hyperdrive_fuel = hyperdrive and hyperdrive.fuel or Commodities.hydrogen
 			hyperdriveIcon = PiImage.New("icons/goods/" .. hyperdrive_fuel.icon_name .. ".png")
 		end
