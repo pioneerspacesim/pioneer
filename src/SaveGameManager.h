@@ -11,6 +11,7 @@
 #include <vector>
 
 class Game;
+class Job;
 
 class SaveGameManager {
 public:
@@ -47,6 +48,19 @@ public:
 	 * implementation.
 	 */
 	static Json LoadGameToJson(const std::string &name);
+
+	/** Create a job which can be scheduled on a job queue to load the game as
+	 * a Json object.
+	 * This is provided as LoadGameToJson can be expensive.
+	 *
+	 * The \p callback is called in the main thread with the Json data once the
+	 * job has completed.
+	 *
+	 * \param[in] name The name of the savegame to load.
+	 * \param[in] callback A callback to be called once the data has been loaded.
+	 * \return On success, a newly-created Job which can be passed to a job queue.
+	 */
+	static Job *LoadGameToJsonAsync(std::string_view name, void(*callback)(std::string_view, const Json &));
 
 	/** Save the game.
 	 * NOTE: This function will throw an exception if an error occurs while

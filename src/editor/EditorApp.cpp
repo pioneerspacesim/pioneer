@@ -108,7 +108,7 @@ void EditorApp::OnStartup()
 	m_editorCfg->Save(); // write defaults if the file doesn't exist
 
 	EnumStrings::Init();
-	Lua::Init();
+	Lua::Init(GetAsyncJobQueue());
 	ModManager::Init();
 
 	ModManager::LoadMods(m_editorCfg.get());

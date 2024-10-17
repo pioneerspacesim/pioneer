@@ -6,6 +6,8 @@
 
 #include "LuaManager.h"
 
+class JobQueue;
+
 // home for the global Lua context. here so its shareable between pioneer and
 // modelviewer. probably sucks in the long term
 namespace Lua {
@@ -13,7 +15,8 @@ namespace Lua {
 	extern LuaManager *manager;
 
 	// Initialize the lua instance
-	void Init();
+	void Init(JobQueue *asyncJobQueue);
+
 	// Uninitialize the lua instance
 	void Uninit();
 

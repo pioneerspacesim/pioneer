@@ -9,8 +9,8 @@
 
 bool instantiated = false;
 
-LuaManager::LuaManager() :
-	m_lua(0)
+LuaManager::LuaManager(JobQueue *asyncJobQueue) :
+	m_lua(0), m_jobs(asyncJobQueue)
 {
 	if (instantiated) {
 		Output("Can't instantiate more than one LuaManager");
@@ -50,4 +50,11 @@ size_t LuaManager::GetMemoryUsage() const
 void LuaManager::CollectGarbage()
 {
 	lua_gc(m_lua, LUA_GCCOLLECT, 0);
+}
+
+void LuaManager::ScheduleJob(Job *job)
+{
+	if (job) {
+		m_jobs.Order(job);
+	}
 }

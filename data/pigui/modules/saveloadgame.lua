@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game       = require 'Game'
+local Event      = require 'Event'
 local FileSystem = require 'FileSystem'
 local Lang       = require 'Lang'
 local ShipDef    = require 'ShipDef'
@@ -197,42 +198,56 @@ end
 
 --=============================================================================
 
-local function makeEntryForSave(file)
-	local compatible, saveInfo = pcall(Game.SaveGameStats, file.name)
-	if not compatible then
-		saveInfo = {}
-	end
-
+-- Event callback once the savegame information has been loaded
+-- Updates the entryCache with the full details of the savegame.
+function SaveLoadWindow:onSaveGameStats(saveInfo)
+	-- local profileEndScope = utils.profile("SaveLoadWindow:onSaveGameStats()")
 	local location = saveInfo.system or lc.UNKNOWN
-
 	if saveInfo.docked_at then
 		location = location .. ", " .. saveInfo.docked_at
 	end
 
-	local saveEntry = SaveGameEntry:clone({
-		name = file.name,
-		compatible = compatible,
-		isAutosave = file.name:sub(1, 1) == "_",
-		character = saveInfo.character,
-		timestamp = file.mtime.timestamp,
-		gameTime = saveInfo.time,
-		duration = saveInfo.duration,
-		locationName = location,
-		credits = saveInfo.credits,
-		shipName = saveInfo.shipName,
-		shipHull = saveInfo.shipHull,
-	})
-
 	-- Old saves store only the name of the ship's *model* file for some dumb reason
 	-- Treat the model name as the ship id and otherwise ignore it if we have proper data
+	local shipHull
 	if not saveInfo.shipHull then
 		local shipDef = ShipDef[saveInfo.ship]
-
 		if shipDef then
-			saveEntry.shipHull = shipDef.name
+			shipHull = shipDef.name
 		end
+	else
+		shipHull = saveInfo.shipHull
 	end
 
+	local entry = self.entryCache[saveInfo.filename]
+	entry.character = saveInfo.character
+	entry.compatible = saveInfo.compatible
+	entry.credits = saveInfo.credits
+	entry.duration = saveInfo.duration
+	entry.gameTime = saveInfo.time
+	entry.locationName = location
+	entry.shipName = saveInfo.shipName
+	entry.shipHull = shipHull
+
+	-- profileEndScope()
+end
+
+local function onSaveGameStats(saveInfo)
+	ui.saveLoadWindow:onSaveGameStats(saveInfo)
+end
+
+-- Trigger load of savegame information and return bare-bones entry
+local function makeEntryForSave(file)
+	-- local profileEndScope = utils.profile("makeEntryForSave()")
+	Game.SaveGameStats(file.name)
+
+	local saveEntry = SaveGameEntry:clone({
+		name = file.name,
+		isAutosave = file.name:sub(1, 1) == "_",
+		timestamp = file.mtime.timestamp,
+	})
+
+	-- profileEndScope()
 	return saveEntry
 end
 
@@ -243,6 +258,7 @@ end
 --=============================================================================
 
 function SaveLoadWindow:makeFilteredList()
+	-- local profileEndScope = utils.profile("SaveLoadWindow::makeFilteredList()")
 	local shouldShow = function(f)
 		if not self.showAutosaves and f.name:sub(1, 1) == "_" then
 			return false
@@ -266,9 +282,11 @@ function SaveLoadWindow:makeFilteredList()
 	if not utils.contains_if(self.filteredFiles, isSelectedFile) then
 		self.selectedFile = nil
 	end
+	-- profileEndScope()
 end
 
 function SaveLoadWindow:makeFileList()
+	-- local profileEndScope = utils.profile("SaveLoadWindow::makeFileList()")
 	local ok, files = pcall(Game.ListSaves)
 
 	if not ok then
@@ -282,7 +300,15 @@ function SaveLoadWindow:makeFileList()
 		return a.mtime.timestamp > b.mtime.timestamp
 	end)
 
+	-- Cache details about each savefile
+	for _, file in ipairs(self.files) do
+		if not self.entryCache[file.name] or self.entryCache[file.name].timestamp ~= file.mtime.timestamp then
+			self.entryCache[file.name] = makeEntryForSave(file)
+		end
+	end
+
 	self:makeFilteredList()
+	-- profileEndScope()
 end
 
 function SaveLoadWindow:loadSelectedSave()
@@ -330,21 +356,6 @@ function SaveLoadWindow:deleteSelectedSave()
 		-- List of files changed on disk, need to update our copy of it
 		self:makeFileList()
 	end)
-end
-
-function SaveLoadWindow:update()
-	ModalWindow.update(self)
-
-	-- Incrementally update cache until all files are up to date
-	-- We don't need to manually clear the cache, as changes to the list of
-	-- files will trigger the cache to be updated
-	local uncached = utils.find_if(self.files, function(_, file)
-		return not self.entryCache[file.name] or self.entryCache[file.name].timestamp ~= file.mtime.timestamp
-	end)
-
-	if uncached then
-		self.entryCache[uncached.name] = makeEntryForSave(uncached)
-	end
 end
 
 --=============================================================================
@@ -551,6 +562,8 @@ function SaveLoadWindow:render()
 end
 
 --=============================================================================
+
+Event.Register("onSaveGameStats", onSaveGameStats)
 
 ui.saveLoadWindow = SaveLoadWindow
 
