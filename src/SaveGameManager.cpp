@@ -96,7 +96,7 @@ Game *SaveGameManager::LoadGame(const std::string &name)
 		if (!rootNode.is_object()) {
 			throw SavedGameCorruptException();
 		}
-		return new Game(LoadGameToJson(name));
+		return new Game(rootNode);
 	} catch (const Json::type_error &) {
 		throw SavedGameCorruptException();
 	} catch (const Json::out_of_range &) {
