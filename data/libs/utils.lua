@@ -378,7 +378,7 @@ end
 --
 local object = {}
 
-object.meta = { __index = object, class="object", inherits = { ["object"] = true } }
+object.meta = { __index = object, class="object", inherits = { object = true } }
 
 --
 -- Function: New

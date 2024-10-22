@@ -25,7 +25,7 @@ ui.registerHandler(
 		ui.setNextWindowPos(Vector2(ui.screenWidth / 2 - window_width / 2, ui.screenHeight/3*2), "Always")
 		ui.setNextWindowSize(Vector2(window_width,200), "Always")
 		ui.withFont("orbiteer", 18, function()
-									ui.withStyleColors( {["WindowBg"] = transparent }, function ()
+									ui.withStyleColors( {WindowBg = transparent }, function ()
 											ui.window("test", {"NoTitleBar", "NoResize", "NoMove"}, function()
 																	local age = string.format("%.1f", 13.7 * progress)
 																	local agestring = string.interp(lui.SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS, { age = age })
@@ -36,7 +36,7 @@ ui.registerHandler(
 
 																	ui.dummy(Vector2(15,15))
 
-																	ui.withStyleColors({ ["PlotHistogram"] = highlight, ["FrameBg"] = base }, function()
+																	ui.withStyleColors({ PlotHistogram = highlight, FrameBg = base }, function()
 																			ui.progressBar(progress, Vector2(window_width - 20, ui.screenHeight / 43), "") -- 1080 / 43 -> 25
 																	end)
 											end)
@@ -46,7 +46,7 @@ ui.registerHandler(
 		local leftup = Vector2(ui.screenWidth/2 - logosize/2, ui.screenHeight/7)
 		ui.setNextWindowPos(leftup, "Always")
 		ui.setNextWindowSize(Vector2(logosize, logosize), "Always")
-		ui.withStyleColors( {["WindowBg"] = transparent }, function ()
+		ui.withStyleColors( {WindowBg = transparent }, function ()
 				ui.window("logo", {"NoTitleBar", "NoResize", "NoMove"}, function ()
 										local size = Vector2(logosize,logosize)
 										local pos = Vector2(0,0) -- Vector2(ui.screenWidth / 2, ui.screenHeight / 3 * 2)

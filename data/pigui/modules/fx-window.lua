@@ -12,8 +12,8 @@ local icons = ui.theme.icons
 
 local mainButtonSize = ui.theme.styles.MainButtonSize
 
-local next_cam_type = { ["internal"] = "external", ["external"] = "sidereal", ["sidereal"] = "internal", ["flyby"] = "internal" }
-local cam_tooltip = { ["internal"] = lui.HUD_BUTTON_INTERNAL_VIEW, ["external"] = lui.HUD_BUTTON_EXTERNAL_VIEW, ["sidereal"] = lui.HUD_BUTTON_SIDEREAL_VIEW, ["flyby"] = lui.HUD_BUTTON_FLYBY_VIEW }
+local next_cam_type = { internal = "external", external = "sidereal", sidereal = "internal", flyby = "internal" }
+local cam_tooltip = { internal = lui.HUD_BUTTON_INTERNAL_VIEW, external = lui.HUD_BUTTON_EXTERNAL_VIEW, sidereal = lui.HUD_BUTTON_SIDEREAL_VIEW, flyby = lui.HUD_BUTTON_FLYBY_VIEW }
 local function button_world(current_view)
 	local camtype = Game.GetWorldCamType()
 	local view_icon = camtype and "view_" .. camtype or "view_internal"

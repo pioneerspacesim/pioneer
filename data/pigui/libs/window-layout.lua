@@ -29,13 +29,13 @@ function layout.NewWindow(name, bgColor, flags)
 		pos = Vector2(0.0, 0.0),
 		visible = true,
 		name = name,
-		style_colors = {["WindowBg"] = bgColor or ui.theme.colors.lightBlackBackground},
+		style_colors = {WindowBg = bgColor or ui.theme.colors.lightBlackBackground},
 		params = flags or defaultWindowFlags,
 	}
 	--- func desc
 	---@param collapse boolean|nil If not present or true, collapse this window, else expand it
 	function new_window:Collapse( collapse )
-		if collapse == nil then collapse = true end 
+		if collapse == nil then collapse = true end
 		self.to_collapse = collapse
 	end
 	return new_window

@@ -430,7 +430,7 @@ function CommodityMarketWidget:TradeMenu()
 			if ui.button("+100", self.style.widgetSizes.smallButton) then self:ChangeTradeAmount(100) end
 
 			ui.dummy(self.style.itemSpacing/2)
-			ui.withStyleColors({["Text"] = self.tradeTextColor }, function()
+			ui.withStyleColors({Text = self.tradeTextColor }, function()
 				ui.withFont(pionillium.heading, function()
 					ui.text(self.tradeText)
 				end)
