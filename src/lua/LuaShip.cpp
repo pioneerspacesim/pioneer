@@ -1088,43 +1088,6 @@ static int l_ship_get_velocity(lua_State *l)
 	return 1;
 }
 
-/* Method: GetStats
- *
- * Return some ship stats.
- *
- * Returns:
- *
- *    Return a table containing:
- *          - usedCapacity
- *          - usedCargo
- *          - freeCapacity
- *          - staticMass
- *          - hullMassLeft
- *          - hyperspaceRange
- *          - hyperspaceRangeMax
- *          - shieldMass
- *          - shieldMassLeft
- *          - fuelTankMassLeft
- *
- */
-static int l_ship_get_stats(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	LuaTable t(l, 0, 10);
-	const shipstats_t &stats = s->GetStats();
-	t.Set("usedCapacity", stats.used_capacity);
-	t.Set("usedCargo", stats.used_cargo);
-	t.Set("freeCapacity", stats.free_capacity);
-	t.Set("staticMass", stats.static_mass);
-	t.Set("hullMassLeft", stats.hull_mass_left);
-	t.Set("hyperspaceRange", stats.hyperspace_range);
-	t.Set("hyperspaceRangeMax", stats.hyperspace_range_max);
-	t.Set("shieldMass", stats.shield_mass);
-	t.Set("shieldMassLeft", stats.shield_mass_left);
-	t.Set("fuelTankMassLeft", stats.fuel_tank_mass_left);
-	return 1;
-}
-
 /*
  * Method: GetPosition
  *
@@ -1659,13 +1622,6 @@ static int l_ship_update_equip_stats(lua_State *l)
 	return 0;
 }
 
-static int l_ship_attr_equipset(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	s->GetEquipSet().PushCopyToStack();
-	return 1;
-}
-
 template <>
 const char *LuaObject<Ship>::s_type = "Ship";
 
@@ -1738,7 +1694,6 @@ void LuaObject<Ship>::RegisterClass()
 		{ "GetFlightState", l_ship_get_flight_state },
 		{ "GetCruiseSpeed", l_ship_get_cruise_speed },
 		{ "GetFollowTarget", l_ship_get_follow_target },
-		{ "GetStats", l_ship_get_stats },
 
 		{ "GetHyperspaceCountdown", l_ship_get_hyperspace_countdown },
 		{ "IsHyperspaceActive", l_ship_is_hyperspace_active },
@@ -1756,7 +1711,6 @@ void LuaObject<Ship>::RegisterClass()
 	};
 
 	const luaL_Reg l_attrs[] = {
-		{ "equipSet", l_ship_attr_equipset },
 		{ 0, 0 }
 	};
 
@@ -1904,56 +1858,41 @@ void LuaObject<Ship>::RegisterClass()
  *   experimental
  *
  *
+ * Attribute: loadedMass
+ *
+ * Mass of all contents of the ship, including equipment and cargo, but
+ * excluding hull and thruster fuel mass.
+ *
+ * Status:
+ *
+ *   stable
+ *
+ *
  * Attribute: staticMass
  *
  * Mass of the ship including hull, equipment and cargo, but excluding
  * thruster fuel mass. Measured in tonnes.
  *
- * Availability:
- *
- *   November 2013
- *
  * Status:
  *
- *   experimental
- *
- *
- * Attribute: usedCapacity
- *
- * Hull capacity used by equipment and cargo. Measured in tonnes.
- *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
+ *   stable
  *
  *
  * Attribute: usedCargo
  *
- * Hull capacity used by cargo only (not equipment). Measured in tonnes.
- *
- * Availability:
- *
- *   November 2013
+ * Hull capacity used by cargo only (not equipment). Measured in cargo units.
  *
  * Status:
  *
- *   experimental
+ *   stable
  *
  *
- * Attribute: freeCapacity
+ * Attribute: totalCargo
  *
- * Total space remaining. Measured in tonnes.
- *
- * Availability:
- *
- *   November 2013
+ * Hull capacity available for cargo (not equipment). Measured in cargo units.
  *
  * Status:
  *
- *   experimental
+ *   stable
  *
  */

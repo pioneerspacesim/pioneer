@@ -8,18 +8,22 @@ local Space = require 'Space'
 local Comms = require 'Comms'
 local Event = require 'Event'
 local Mission = require 'Mission'
-local MissionUtils = require 'modules.MissionUtils'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
-local Equipment = require 'Equipment'
-local ShipDef = require 'ShipDef'
-local Ship = require 'Ship'
 local utils = require 'utils'
+
+local MissionUtils = require 'modules.MissionUtils'
+local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
+
+local OutfitRules = ShipBuilder.OutfitRules
 
 local l = Lang.GetResource("module-cargorun")
 local l_ui_core = Lang.GetResource("ui-core")
 local lc = Lang.GetResource 'core'
+
+local PirateTemplate = MissionUtils.ShipTemplates.WeakPirate
+local EscortTemplate = MissionUtils.ShipTemplates.GenericPolice
 
 -- don't produce missions for further than this many light years away
 local max_delivery_dist = 15
@@ -51,7 +55,7 @@ local setDefaultCustomCargo = function()
 	for branch,branch_array in pairs(custom_cargo) do
 		custom_cargo[branch].weight = #branch_array.goods
 		custom_cargo_weight_sum = custom_cargo_weight_sum + #branch_array.goods
-	end	
+	end
 end
 
 local isQualifiedFor = function(reputation, ad)
@@ -504,31 +508,19 @@ local onEnterSystem = function (player)
 			-- if there is some risk and still no pirates, flip a tricoin
 			if pirates < 1 and risk >= 0.2 and Engine.rand:Integer(2) == 1 then pirates = 1 end
 
-			local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP'
-				and def.hyperdriveClass > 0 and (def.roles.pirate or def.roles.mercenary) end, pairs(ShipDef)))
-			if #shipdefs == 0 then return end
-
 			local pirate
 
 			while pirates > 0 do
 				pirates = pirates - 1
 
 				if Engine.rand:Number(1) <= risk then
-					local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
-					local default_drive = Equipment.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
+					local threat = utils.round(10.0 + 25.0 * risk, 0.1)
 
-					local max_laser_size = shipdef.capacity - default_drive.capabilities.mass
-					local laserdefs = utils.build_array(utils.filter(
-						function (k,l) return l:IsValidSlot('laser_front') and l.capabilities.mass <= max_laser_size and l.l10n_key:find("PULSECANNON") end,
-						pairs(Equipment.laser)
-					))
-					local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
+					pirate = ShipBuilder.MakeShipNear(Game.player, PirateTemplate, threat, 50, 100)
+					assert(pirate)
 
-					pirate = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
-					pirate:SetLabel(Ship.MakeRandomLabel())
-					pirate:AddEquip(default_drive)
-					pirate:AddEquip(laserdef)
 					pirate:AIKill(Game.player)
+
 					table.insert(pirate_ships, pirate)
 				end
 			end
@@ -540,11 +532,15 @@ local onEnterSystem = function (player)
 				pirate_gripes_time = Game.time
 
 				if mission.wholesaler or Engine.rand:Number(0, 1) >= 0.75 then
-					local shipdef = ShipDef[Game.system.faction.policeShip]
-					local escort = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
-					escort:SetLabel(l_ui_core.POLICE)
-					escort:AddEquip(Equipment.laser.pulsecannon_1mw)
-					escort:AddEquip(Equipment.misc.shield_generator)
+					local policeTemplate = EscortTemplate:clone {
+						label = Game.system.faction.policeName,
+						shipId = Game.system.faction.policeShip
+					}
+
+					local threat = utils.round(10.0 + 30.0 * risk, 0.1)
+					local escort = ShipBuilder.MakeShipNear(Game.player, policeTemplate, threat, 50, 100)
+					assert(escort)
+
 					escort:AIKill(pirate)
 					table.insert(escort_ships, escort)
 

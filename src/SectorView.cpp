@@ -385,7 +385,7 @@ const std::string SectorView::AutoRoute(const SystemPath &start, const SystemPat
 	const RefCountedPtr<const Sector> start_sec = m_game.GetGalaxy()->GetSector(start);
 	const RefCountedPtr<const Sector> target_sec = m_game.GetGalaxy()->GetSector(target);
 
-	LuaRef try_hdrive = LuaObject<Player>::CallMethod<LuaRef>(Pi::player, "GetEquip", "engine", 1);
+	LuaRef try_hdrive = LuaObject<Player>::CallMethod<LuaRef>(Pi::player, "GetInstalledHyperdrive");
 	if (try_hdrive.IsNil())
 		return "NO_DRIVE";
 	// Get the player's hyperdrive from Lua, later used to calculate the duration between systems

@@ -323,7 +323,8 @@ theme.styles = rescaleUI {
 	SmallButtonSize = Vector2(30, 30),
 	IconButtonPadding = Vector2(3, 3),
 	InlineIconPadding = Vector2(2, 2),
-	MainButtonPadding = 3
+	MainButtonPadding = 3,
+	ItemCardRounding = 4
 }
 
 theme.icons = {
@@ -675,6 +676,9 @@ theme.icons = {
 	circle_lg = 6,
 	circle_md = 51,
 	circle_sm = 110,
+
+	chevron_up = 38,
+	chevron_down = 40,
 
 	-- TODO: manual / autopilot
 	-- dummy, until actually defined correctly
