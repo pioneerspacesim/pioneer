@@ -94,6 +94,8 @@ public:
 private:
 	static const int NUM_KIDS = 4;
 
+	bool IsOverHorizon(const vector3d &camPos);
+
 	RefCountedPtr<GeoPatchContext> m_ctx;
 	const vector3d m_v0, m_v1, m_v2, m_v3;
 	std::unique_ptr<double[]> m_heights;
@@ -104,7 +106,8 @@ private:
 	GeoPatch *m_parent;
 	GeoSphere *m_geosphere;
 	double m_roughLength;
-	vector3d m_clipCentroid, m_centroid;
+	vector3d m_clipCentroid; // rendering relative position centroid used for frustum clipping & camera relative rendering calculation
+	vector3d m_centroid; // geometry centroid used for horizon culling, split request, camera distance test
 	double m_clipRadius;
 	Sint32 m_depth;
 	bool m_needUpdateVBOs;
@@ -114,6 +117,7 @@ private:
 	bool m_HasJobRequest;
 #ifdef DEBUG_BOUNDING_SPHERES
 	std::unique_ptr<Graphics::Drawables::Sphere3D> m_boundsphere;
+	RefCountedPtr<Graphics::Material> m_matboundsphere;
 #endif
 };
 
