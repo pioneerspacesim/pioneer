@@ -189,7 +189,7 @@ local speed_limiter = (function()
 
 			local step = math.max(0.01, speed_limit / 1000 / 500)
 			local value, changed
-			ui.withStyleColors( {["FrameBg"] = colors.uiBackground}, function()
+			ui.withStyleColors( {FrameBg = colors.uiBackground}, function()
 				value, changed = ui.dragFloat("##speed_limiter_drag", speed_limit / 1000, step, 0.0, MAX_SPEED_LIMIT, "%.2f " .. lc.UNIT_KILOMETERS_PER_SECOND)
 			end)
 			if ui.isItemHovered() then

@@ -43,17 +43,17 @@ local orbital_params = {
 	resolution_min = 35,
 
 	-- scan coverage values generated, relative to the nominal radius
-	coverage_max = 0.8,
-	coverage_min = 0.1,
+	coverage_max = 0.08,
+	coverage_min = 0.01,
 
 	-- approximate "normal" body radius used to scale coverage to the body being scanned
 	nominal_radius = 2500,
 
 	-- reward per kilometer-width of body coverage
-	reward_per_km = 0.08,
+	reward_per_km = 0.11,
 	-- reward scaling by resolution
 	reward_resolution_max = 1.0,
-	reward_resolution_min = 8.0,
+	reward_resolution_min = 12.0,
 }
 
 local surface_params = {
@@ -92,19 +92,35 @@ MissionCalc:SetParams({
 })
 
 local flavours = {
+	-- Additional mission flavour ideas (originally raised in
+	-- https://github.com/pioneerspacesim/pioneer/pull/5932#discussion_r1813922824)
+	--
+	-- * prospecting for mining claims - the mission-giver would be a mining
+	--   company. There might be rival companies or environmental groups who
+	--   wish to prevent mining on the target body and send a vessel to
+	--   "dissuade" you from mapping the body. This could be an actual firefight
+	--   (simple), or an offer to sell the data to them instead (might affect
+	--   reputation?).
+	-- * Claims (family in race to claim): again, might add a risk factor with
+	--   the rival group(s) sending their own ship(s) to map/stake the claim
+	--   with potential firefight between the rivals.
+	-- * In-system data returns could transmit the data once the mapping
+	--   is complete (possibly for a lower reward?) instead of having to return
+	--   to a station.
+	--
 	-- localscout: if in same system or not
 	-- days: simply the hard deadline for this type of contract
 	-- difficulty: used to set altitude in scanner
 	-- reward: used as multiplier in reward calculation
 	-- dropoff: data needs to be delivered to another station than where the mission was accepted from
-	{                          -- flavour 1
+	{                          -- 1 - Galactic Geographic Society
 		localscout = false,    -- is in same system?
 		days       = 60,       -- days until deadline, from accepting it
 		difficulty = 1,        -- altitude, [0,1]
 		reward     = 1,        -- reward multiplier, 1=none. (unrelated to "urgency")
 		dropoff    = false,
 	}, {
-		localscout = false,    -- 2 Galactic Geographic Society
+		localscout = false,    -- 2 - Low altitude mapping
 		days       = 60,
 		difficulty = 2,        -- low altitude flying
 		reward     = 1,
@@ -140,7 +156,7 @@ local flavours = {
 		reward     = 2,        -- because urgent
 		dropoff    = false,
 	}, {
-		localscout = true,     -- 8 geographical society
+		localscout = true,     -- 8 geographical society, low-flying
 		days       = 80,
 		difficulty = 2,
 		reward     = 2,
@@ -169,8 +185,8 @@ local ads      = {}
 local missions = {}
 local missionKey = {}
 
-local format_coverage = function(orbital, val)
-	return orbital and string.format("%.2f%%", val * 100) or ui.Format.Distance(val * 1000)
+local format_coverage = function(val)
+	return  ui.Format.Area(val * 1e6)
 end
 
 local format_resolution = function(val)
@@ -226,7 +242,7 @@ local onChat = function (form, ref, option)
 	elseif option == 4 then
 
 		local details = l.SCAN_DETAILS % {
-			coverage = format_coverage(ad.orbital, ad.coverage),
+			coverage = format_coverage(ad.coverage),
 			resolution = string.format("%.1f", ad.resolution),
 			body = ad.location:GetSystemBody().name,
 			type = ad.orbital and l.AN_ORBITAL_SCAN or l.A_SURFACE_SCAN
@@ -303,24 +319,30 @@ local function calcOrbitalScanMission(sBody, difficulty, reward)
 
 	local resolutionScalar = math.invlerp(p.resolution_min, p.resolution_max, resolution)
 
+	local body_coverage = coverage
 	if radiusScalar > 1.0 then
 		-- body is small, increase coverage of the scan
-		coverage = math.min(coverage, 1.0) * (radiusScalar ^ 0.9)
+		body_coverage = math.min(coverage, 1.0) * (radiusScalar ^ 0.9)
 	else
 		-- body is large, reduce coverage of the scan proportionally
-		coverage = math.min(coverage, 1.0) * radiusScalar
+		body_coverage = math.min(coverage, 1.0) * radiusScalar
 		-- similarly increase the resolution of the scan to ensure we can scan at higher altitudes
 		resolution = resolution * (1.0 + math.log(radiusKm / p.nominal_radius, 10))
 	end
 
-	coverage = math.min(coverage * realDifficulty, 1.0)
+	-- adjust coverage against difficulty and clamp to a maximum of 100%
+	body_coverage = math.min(body_coverage * realDifficulty, 1.0)
+
+	-- finally, convert the coverage into km2 and limit the number of decimals
+	local body_area = 4 * math.pi * radiusKm^2
+	local coverageKm2 = utils.round(body_area * body_coverage, 0.0001)
 
 	local rewardAmount = reward
-		* p.reward_per_km * (math.pi * radiusKm * coverage)
+		* p.reward_per_km * math.sqrt(coverageKm2)
 		* math.lerp(p.reward_resolution_min, p.reward_resolution_max, resolutionScalar)
 
 	return {
-		coverage = coverage,
+		coverage = coverageKm2,
 		minResolution = resolution,
 		reward = rewardAmount
 	}
@@ -365,8 +387,11 @@ local function calcSurfaceScanMission(sBody, difficulty, reward)
 		+ p.reward_interesting
 		* bodyReward
 
+	-- finally, convert the coverage into km2 and limit the number of decimals
+	local coverageKm2 = utils.round(coverage, 0.0001)
+
 	return {
-		coverage = coverage,
+		coverage = coverageKm2,
 		minResolution = resolution,
 		reward = rewardAmount,
 	}
@@ -634,14 +659,14 @@ local onScanComplete = function (player, scanId)
 			Comms.ImportantMessage(l.YOU_WILL_BE_PAID_ON_MY_BEHALF_AT_NEW_DESTINATION,
 				mission.client.name)
 		end
+		mission.station = newlocation
 	end
 
-	mission.location = newlocation
-
-	if Game.system and mission.location:IsSameSystem(Game.system.path) then
-		Game.player:SetNavTarget(mission.location)
+	-- Set navigation target to the station
+	if Game.system and mission.station:IsSameSystem(Game.system.path) then
+		Game.player:SetNavTarget(mission.station)
 	else
-		Game.player:SetHyperspaceTarget(mission.location:SystemOnly())
+		Game.player:SetHyperspaceTarget(mission.station:SystemOnly())
 	end
 end
 
@@ -658,7 +683,7 @@ local onShipDocked = function (player, station)
 			mission.status = "FAILED"
 		end
 
-		if station.path == mission.location and mission.status == "FAILED" or mission.status == "COMPLETED" then
+		if station.path == mission.station and (mission.status == "FAILED" or mission.status == "COMPLETED") then
 			local flavour = flavours[mission.flavour]
 			local failed = mission.status == "FAILED"
 			local scan = scanMgr:AcceptScanComplete(mission.scanId)
@@ -737,48 +762,47 @@ end
 local buildMissionDescription = function (mission)
 	local desc = {}
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
-
 	local finished = mission.status == "COMPLETED" or mission.status == "FAILED"
+	local returnLocationDesc = ""
 
-	-- Main body intro text
-	if finished then
-		desc.description = string.interp(l.DROP_OFF_DATA,
-										 {date = Format.Date(mission.due),
-										  location = mission.location:GetSystemBody().name})
-	else
-		desc.description =
-			flavours[mission.flavour].introtext:interp(
-				{
-					name       = mission.client.name,
-					systembody = mission.location:GetSystemBody().name,
-					system     = ui.Format.SystemPath(mission.location:SystemOnly()),
-					dist       = dist,
-					cash       = Format.Money(mission.reward),
-				})
-		desc.location = mission.location
+	if finished or not mission.dropoff or flavours[mission.flavour].localscout then
+		returnLocationDesc = "\n\n" .. string.interp(l.DROP_OFF_DATA,
+			{
+				date = Format.Date(mission.due),
+				location = mission.station:GetSystemBody().name
+				           .. "," .. mission.station:GetStarSystem().name
+			})
 	end
-	desc.client = mission.client
 
-	local coordinates = "("..mission.location.sectorX..","
-		..mission.location.sectorY..","
-		..mission.location.sectorZ..")"
-
-	-- station is shown for return station, after mission is completed
-	local destination = not finished and
-		{ l.TARGET_BODY,   mission.location:GetSystemBody().name } or
-		{ l.DESTINATION,   mission.location:GetSystemBody().name }
+	desc.description =
+		flavours[mission.flavour].introtext:interp(
+			{
+				name       = mission.client.name,
+				systembody = mission.location:GetSystemBody().name,
+				system     = ui.Format.SystemPath(mission.location:SystemOnly()),
+				dist       = dist,
+				cash       = Format.Money(mission.reward),
+			})
+			.. returnLocationDesc
 
 	desc.details = {
 		"Mapping",
-		{lc.SYSTEM..":",  mission.location:GetStarSystem().name.." "..coordinates},
-		destination,
+		{lc.SYSTEM..":",  ui.Format.SystemPath(mission.location) },
+		{l.TARGET_BODY,   mission.location:GetSystemBody().name },
 		{l.DISTANCE,      dist .. lc.UNIT_LY},
 		{l.DEADLINE,      Format.Date(mission.due)},
 		{luc.TYPE..":",   mission.orbital and l.ORBITAL_SCAN or l.SURFACE_SCAN},
-		{l.COVERAGE,      format_coverage(mission.orbital, mission.coverage) },
+		{l.COVERAGE,      format_coverage(mission.coverage) },
 		{l.RESOLUTION,    format_resolution(mission.resolution) },
 		{luc.STATUS,      luc[mission.status]},
 	}
+
+	desc.client = mission.client
+	if finished then
+		desc.returnLocation = mission.station
+	else
+		desc.location = mission.location
+	end
 
 	return desc
 end

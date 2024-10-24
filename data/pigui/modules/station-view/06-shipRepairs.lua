@@ -327,7 +327,7 @@ local function drawPaintshop()
 
 				ui.dummy(verticalDummy)
 
-				ui.withStyleColors({["Text"] = priceColor }, function()
+				ui.withStyleColors({Text = priceColor }, function()
 					ui.text(l.PRICE.. ": " ..Format.Money(price, false))
 				end)
 				if ui.button(l.PURCHASE_PAINTJOB, Vector2(200, 36)) then

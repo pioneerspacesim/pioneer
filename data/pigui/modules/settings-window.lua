@@ -39,7 +39,7 @@ local starFieldStarSizeFactor = Engine.GetStarFieldStarSizeFactor() * 100
 local function combo(label, selected, items, tooltip)
 	local color = colors.buttonBlue
 	local changed, ret = 0, nil
-	ui.withStyleColors({["Button"]=color,["ButtonHovered"]=color:tint(0.1),["ButtonActive"]=color:tint(0.2)},function()
+	ui.withStyleColors({Button=color,ButtonHovered=color:tint(0.1),ButtonActive=color:tint(0.2)},function()
 		changed, ret = ui.combo(label, selected, items)
 	end)
 	if ui.isItemHovered() and tooltip then
@@ -648,11 +648,11 @@ local function showGameOptions()
 end
 
 local optionsTabs = {
-	["video"]=showVideoOptions,
-	["sound"]=showSoundOptions,
-	["language"]=showLanguageOptions,
-	["controls"]=showControlsOptions,
-	["game"]=showGameOptions
+	video=showVideoOptions,
+	sound=showSoundOptions,
+	language=showLanguageOptions,
+	controls=showControlsOptions,
+	game=showGameOptions
 }
 
 ui.optionsWindow = ModalWindow.New("Options", function()

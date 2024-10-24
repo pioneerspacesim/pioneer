@@ -99,8 +99,12 @@ end
 --=============================================================================
 
 -- Update different scan types at different rates
+-- TODO: these update rates cause excessive updates at high timewarp factors.
+--       This especially impacts the Orbial Scans. It is proposed to replace
+--       this mechanism with a timewarp-invariant timer instead.
+--       See : https://github.com/pioneerspacesim/pioneer/pull/5932#discussion_r1800544550
 local SURFACE_SCAN_UPDATE_RATE = 1
-local ORBITAL_SCAN_UPDATE_RATE = 60
+local ORBITAL_SCAN_UPDATE_RATE = 1
 
 -- Square meters to square kilometers
 local SQUARE_KILOMETERS = 10^6
@@ -595,17 +599,9 @@ function ScanManager:OnUpdateScan(scan)
 		local coverage
 		local beamWidth = self.activeSensor.apertureWidth * altitude
 
-		if scan.orbital then
-			-- percent of total coverage gained per orbit, calculated at the widest point of the body
-			local covPctPerOrbit = beamWidth / (radius * math.pi)
-			local orbitPercent = dS / (math.pi * 2)
-
-			coverage = covPctPerOrbit * orbitPercent
-		else
-			local distance = dS * radius
-			-- total coverage gain in square kilometers
-			coverage = beamWidth * distance / SQUARE_KILOMETERS
-		end
+		local distance = dS * radius
+		-- total coverage gain in square kilometers
+		coverage = beamWidth * distance / SQUARE_KILOMETERS
 
 		scan.coverage = scan.coverage + coverage
 

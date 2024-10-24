@@ -410,7 +410,7 @@ function Windows.factions.Show()
 	local factions = sectorView:GetMap():GetFactions()
 	for _,f in pairs(factions) do
 		local changed, value
-		ui.withStyleColors({ ["Text"] = Color(f.faction.colour.r, f.faction.colour.g, f.faction.colour.b) }, function()
+		ui.withStyleColors({ Text = Color(f.faction.colour.r, f.faction.colour.g, f.faction.colour.b) }, function()
 			changed, value = ui.checkbox(f.faction.name, f.visible)
 		end)
 		if changed then

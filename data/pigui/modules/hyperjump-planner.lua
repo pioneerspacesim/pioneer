@@ -229,7 +229,7 @@ local function showJumpRoute()
 		local clicked
 		ui.child("routelist", function()
 			for jumpIndex, jump in pairs(hyperjump_route) do
-				ui.withStyleColors({["Text"] = jump.color}, function()
+				ui.withStyleColors({Text = jump.color}, function()
 					if ui.selectable(jump.textLine, jumpIndex == selected_jump) then
 						clicked = jumpIndex
 					end

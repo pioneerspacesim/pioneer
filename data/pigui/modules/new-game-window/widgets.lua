@@ -140,7 +140,7 @@ Widgets.incrementDrag = function(lock, label, value, v_speed, v_min, v_max, form
 		local indent = (itemWidth - txtWidth) * 0.5
 		local cur = ui.getCursorPos()
 		if draw_progress_bar then
-			ui.withStyleColors({ ["PlotHistogram"] = Defs.progressBarColor }, function()
+			ui.withStyleColors({ PlotHistogram = Defs.progressBarColor }, function()
 				ui.progressBar((value - v_min) / (v_max - v_min), Vector2(0,0), "")
 			end)
 		else
