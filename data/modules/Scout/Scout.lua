@@ -92,19 +92,35 @@ MissionCalc:SetParams({
 })
 
 local flavours = {
+	-- Additional mission flavour ideas (originally raised in
+	-- https://github.com/pioneerspacesim/pioneer/pull/5932#discussion_r1813922824)
+	--
+	-- * prospecting for mining claims - the mission-giver would be a mining
+	--   company. There might be rival companies or environmental groups who
+	--   wish to prevent mining on the target body and send a vessel to
+	--   "dissuade" you from mapping the body. This could be an actual firefight
+	--   (simple), or an offer to sell the data to them instead (might affect
+	--   reputation?).
+	-- * Claims (family in race to claim): again, might add a risk factor with
+	--   the rival group(s) sending their own ship(s) to map/stake the claim
+	--   with potential firefight between the rivals.
+	-- * In-system data returns could transmit the data once the mapping
+	--   is complete (possibly for a lower reward?) instead of having to return
+	--   to a station.
+	--
 	-- localscout: if in same system or not
 	-- days: simply the hard deadline for this type of contract
 	-- difficulty: used to set altitude in scanner
 	-- reward: used as multiplier in reward calculation
 	-- dropoff: data needs to be delivered to another station than where the mission was accepted from
-	{                          -- flavour 1
+	{                          -- 1 - Galactic Geographic Society
 		localscout = false,    -- is in same system?
 		days       = 60,       -- days until deadline, from accepting it
 		difficulty = 1,        -- altitude, [0,1]
 		reward     = 1,        -- reward multiplier, 1=none. (unrelated to "urgency")
 		dropoff    = false,
 	}, {
-		localscout = false,    -- 2 Galactic Geographic Society
+		localscout = false,    -- 2 - Low altitude mapping
 		days       = 60,
 		difficulty = 2,        -- low altitude flying
 		reward     = 1,
@@ -140,7 +156,7 @@ local flavours = {
 		reward     = 2,        -- because urgent
 		dropoff    = false,
 	}, {
-		localscout = true,     -- 8 geographical society
+		localscout = true,     -- 8 geographical society, low-flying
 		days       = 80,
 		difficulty = 2,
 		reward     = 2,
