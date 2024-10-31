@@ -189,10 +189,12 @@ void Camera::Update()
 			if (pixSize < BILLBOARD_PIXEL_THRESHOLD) {
 				attrs.billboard = true;
 
-				// project the position
-				vector3d pos;
-				m_context->GetFrustum().TranslatePoint(attrs.viewCoords, pos);
-				attrs.billboardPos = vector3f(pos);
+				// scale the position of the terrain body until it fits within the far plane for its billboard to be rendered
+				// Note that with an infinite projection matrix there is no far plane and this is somewhat unnecessary
+				double zFar = m_context->GetZFar();
+				double scaleFactor = zFar / attrs.viewCoords.Length() - 0.000001; // tiny nudge closer from the far plane
+
+				attrs.billboardPos = vector3f(attrs.viewCoords * std::min(scaleFactor, 1.0));
 
 				// limit the minimum billboard size for planets so they're always a little visible
 				attrs.billboardSize = std::max(1.0f, pixSize);

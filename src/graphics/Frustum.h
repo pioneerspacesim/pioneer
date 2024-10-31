@@ -25,20 +25,12 @@ namespace Graphics {
 		// test if point (sphere) is in the frustum, ignoring the far plane
 		bool TestPointInfinite(const vector3d &p, double radius) const;
 
-		// translate the given point outside the frustum to a point inside
-		// returns scale factor to make object at that point appear correctly
-		void TranslatePoint(const vector3d &in, vector3d &out) const;
-
 	private:
-		// create from current gl state
 		Frustum(){};
 
 		void InitFromMatrix(const matrix4x4d &m);
 
-		matrix4x4d m_projMatrix;
-		matrix4x4d m_modelMatrix;
 		Plane<double> m_planes[6];
-		double m_translateThresholdSqr;
 	};
 
 } // namespace Graphics

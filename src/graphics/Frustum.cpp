@@ -14,20 +14,17 @@ namespace Graphics {
 	// step for translating to frustum space
 	static const double TRANSLATE_STEP = 0.25;
 
-	Frustum::Frustum(float width, float height, float fovAng, float znear, float zfar) :
-		m_projMatrix(matrix4x4d::PerspectiveMatrix(DEG2RAD(Clamp(fovAng, FOV_MIN, FOV_MAX)), width / height, znear, zfar)),
-		m_modelMatrix(matrix4x4d::Identity())
+	Frustum::Frustum(float width, float height, float fovAng, float znear, float zfar)
 	{
-		InitFromMatrix(m_projMatrix);
+		matrix4x4d projMatrix = matrix4x4d::PerspectiveMatrix(DEG2RAD(Clamp(fovAng, FOV_MIN, FOV_MAX)), width / height, znear, zfar);
+		InitFromMatrix(projMatrix);
 
 		m_translateThresholdSqr = zfar * zfar * TRANSLATE_STEP;
 	}
 
-	Frustum::Frustum(const matrix4x4d &modelview, const matrix4x4d &projection) :
-		m_projMatrix(projection),
-		m_modelMatrix(modelview)
+	Frustum::Frustum(const matrix4x4d &modelview, const matrix4x4d &projection)
 	{
-		const matrix4x4d m = m_projMatrix * m_modelMatrix;
+		const matrix4x4d m = projection * modelview;
 		InitFromMatrix(m);
 	}
 
@@ -89,14 +86,6 @@ namespace Graphics {
 			if (m_planes[i].DistanceToPoint(p) + radius < 0)
 				return false;
 		return true;
-	}
-
-	void Frustum::TranslatePoint(const vector3d &in, vector3d &out) const
-	{
-		out = in;
-		while (out.LengthSqr() > m_translateThresholdSqr) {
-			out *= TRANSLATE_STEP;
-		}
 	}
 
 } // namespace Graphics
