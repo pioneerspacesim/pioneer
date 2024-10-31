@@ -3,6 +3,7 @@
 
 #include "CityOnPlanet.h"
 
+#include "Camera.h"
 #include "FileSystem.h"
 #include "Frame.h"
 #include "Game.h"
@@ -11,6 +12,7 @@
 #include "Pi.h"
 #include "Planet.h"
 #include "SpaceStation.h"
+
 #include "collider/Geom.h"
 #include "core/Log.h"
 
@@ -18,12 +20,14 @@
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
+#include "graphics/Renderer.h"
 #include "graphics/Types.h"
-
 #include "scenegraph/Animation.h"
+#include "scenegraph/Model.h"
 #include "scenegraph/ModelSkin.h"
-#include "scenegraph/SceneGraph.h"
-#include "utils.h"
+
+#include "matrix3x3.h"
+#include "matrix4x4.h"
 
 #include "utils.h"
 
@@ -84,6 +88,26 @@ void CityOnPlanet::RemoveStaticGeomsFromCollisionSpace()
 	for (unsigned int i = 0; i < m_buildings.size(); i++) {
 		Frame *f = Frame::GetFrame(m_frame);
 		f->RemoveStaticGeom(m_buildings[i].geom);
+	}
+}
+
+void CityOnPlanet::PrecalcInstanceTransforms(const matrix4x4d &stationOrient)
+{
+	PROFILE_SCOPED();
+
+	m_instanceTransforms.clear();
+
+	// Precalculate building orientation matrices
+	matrix3x3f rot[4] = { matrix3x3f(stationOrient.GetOrient()) };
+	for (int i = 1; i < 4; i++) {
+		rot[i] = rot[0] * matrix3x3f::RotateY(M_PI * 0.5 * double(i));
+	}
+
+	// Cache building instance transforms
+	// TODO: this could easily be represented as a 4x3 matrix or dual quaternion for significantly less bandwidth
+	// That requires an "instance buffer" that isn't a 4x4 matrix per instance though... :(
+	for (const auto &building : m_enabledBuildings) {
+		m_instanceTransforms.emplace_back(rot[building.rotation], building.pos);
 	}
 }
 
@@ -326,6 +350,8 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 	Generate(station);
 
 	AddStaticGeomsToCollisionSpace();
+
+	PrecalcInstanceTransforms(station->GetOrient());
 }
 
 void CityOnPlanet::Generate(SpaceStation *station)
@@ -374,7 +400,8 @@ void CityOnPlanet::Generate(SpaceStation *station)
 
 	// top-left corner of the grid is -X, -Z relative to station position at center
 	// offset origin by half-grid to ensure grid centers are aligned with the station model
-	m_gridOrigin = station->GetPosition() - incX * (cityExtents + 0.5) - incZ * (cityExtents + 0.5);
+	const vector3d stationOrigin = station->GetPosition();
+	m_gridOrigin = stationOrigin - incX * (cityExtents + 0.5) - incZ * (cityExtents + 0.5);
 
 	// Setup the station somewhere in the city (defaults to center for now)
 	const uint32_t stationPos[2] = {
@@ -536,7 +563,7 @@ void CityOnPlanet::Generate(SpaceStation *station)
 			Geom *geom = new Geom(cmesh->GetGeomTree(), orientcalc[orient], pos, GetPlanet());
 
 			// add it to the list of buildings to render
-			m_buildings.push_back({ typeIndex, float(cmesh->GetRadius()), orient, pos, geom });
+			m_buildings.push_back({ vector3f(pos - stationOrigin), float(cmesh->GetRadius()), typeIndex, orient, geom });
 
 		}
 	}
@@ -550,10 +577,9 @@ void CityOnPlanet::Generate(SpaceStation *station)
 
 	// Compute the total AABB of this city
 	Aabb totalAABB;
-	const vector3d &stationOrigin = station->GetPosition();
 
 	for (const auto &buildingInst : m_buildings) {
-		totalAABB.Update(buildingInst.pos - stationOrigin);
+		totalAABB.Update(vector3d(buildingInst.pos));
 	}
 
 	m_realCentre = totalAABB.min + ((totalAABB.max - totalAABB.min) * 0.5);
@@ -640,7 +666,7 @@ bool CityOnPlanet::TestGridOccupancy(uint32_t x, uint32_t y, const uint8_t size[
 	return test != 0;
 }
 
-void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustum, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void CityOnPlanet::Render(Graphics::Renderer *r, const CameraContext *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	PROFILE_SCOPED()
 
@@ -649,31 +675,25 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustu
 		return;
 
 	// Early frustum test of whole city.
+	const vector3d stationOrigin = station->GetPosition();
 	const vector3d stationPos = viewTransform * (station->GetPosition() + m_realCentre);
-	//modelview seems to be always identity
-	if (!frustum.TestPoint(stationPos, m_clipRadius))
+
+	if (!camera->GetFrustum().TestPoint(stationPos, m_clipRadius))
 		return;
 
-	// Precalculate building orientation matrices
-	matrix4x4d rot[4];
-	matrix4x4f rotf[4];
-	rot[0] = station->GetOrient();
+	// Use the station-centered frame-oriented coordinate system we generated building positions in
+	matrix4x4f modelView = matrix4x4f(viewTransform * matrix4x4d::Translation(station->GetInterpPosition()));
+
+	// Combine all transformations to do as few computations as possible inside of the frustum-test loop
+	// with as much precision as possible
+	Graphics::FrustumF frustum = Graphics::FrustumF(modelView, camera->GetProjectionMatrix());
 
 	// change detail level if necessary
 	const bool bDetailChanged = m_detailLevel != Pi::detail.cities;
 	if (bDetailChanged) {
 		RemoveStaticGeomsFromCollisionSpace();
 		AddStaticGeomsToCollisionSpace();
-	}
-
-	rot[0] = viewTransform * rot[0];
-	for (int i = 1; i < 4; i++) {
-		rot[i] = rot[0] * matrix4x4d::RotateYMatrix(M_PI * 0.5 * double(i));
-	}
-	for (int i = 0; i < 4; i++) {
-		for (int e = 0; e < 16; e++) {
-			rotf[i][e] = float(rot[i][e]);
-		}
+		PrecalcInstanceTransforms(station->GetOrient());
 	}
 
 	// update any idle animations
@@ -696,27 +716,39 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustu
 
 	transform.resize(numBuildings);
 
+	// TODO: we could store all instance transforms in a single array by
+	// sorting the list of buildings according to instance index...
+	// Of course, we can't do that because Model::RenderInstanced wants a full-
+	// owning std::vector of instance data
 	for (uint32_t i = 0; i < numBuildings; i++) {
 		transform[i].reserve(m_buildingCounts[i]);
 	}
 
-	for (const auto &building : m_enabledBuildings) {
-		const vector3d pos = viewTransform * building.pos;
+	{
+		// Because we cull each individual instance for performance reasons, we
+		// have to repack instance transform data into an instance buffer to be
+		// uploaded to the GPU
+		// TODO: this could potentially be improved by clustering buildings
+		// according to a spatial distance metric and then frustum culling those
+		// clusters instead. It would result in more instanced draws however.
 
-		if (!frustum.TestPoint(pos, building.clipRadius))
-			continue;
+		PROFILE_SCOPED_DESC("CityOnPlanet::Render() Frustum Culling")
 
-		matrix4x4f instanceRot = matrix4x4f(rotf[building.rotation]);
-		instanceRot.SetTranslate(vector3f(pos));
+		for (size_t i = 0; i < m_enabledBuildings.size(); i++) {
+			const auto &building = m_enabledBuildings[i];
 
-		transform[building.instIndex].push_back(instanceRot);
-		++uCount;
+			if (!frustum.TestPoint(building.pos, building.clipRadius))
+				continue;
+
+			transform[building.instIndex].emplace_back(m_instanceTransforms[i]);
+			++uCount;
+		}
 	}
 
 	// render the building models using instancing
 	for (Uint32 i = 0; i < numBuildings; i++) {
 		if (!transform[i].empty())
-			m_cityType->buildingTypes[i].model->RenderInstanced(transform[i]);
+			m_cityType->buildingTypes[i].model->RenderInstanced(modelView, transform[i]);
 	}
 
 	// Draw debug extents

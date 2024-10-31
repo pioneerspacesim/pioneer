@@ -8,8 +8,8 @@
 #include "Random.h"
 #include "JsonFwd.h"
 #include "matrix4x4.h"
-#include "graphics/Frustum.h"
 
+class CameraContext;
 class Geom;
 class Planet;
 class SpaceStation;
@@ -39,7 +39,7 @@ public:
 	CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 seed);
 	virtual ~CityOnPlanet();
 
-	void Render(Graphics::Renderer *r, const Graphics::Frustum &camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	void Render(Graphics::Renderer *r, const CameraContext *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	inline Planet *GetPlanet() const { return m_planet; }
 	float GetClipRadius() const { return m_clipRadius; }
 
@@ -114,11 +114,15 @@ private:
 	void AddStaticGeomsToCollisionSpace();
 	void RemoveStaticGeomsFromCollisionSpace();
 
+	void PrecalcInstanceTransforms(const matrix4x4d &stationOrient);
+
+	// NOTE: position here is stored as a 32-bit float offset from the station
+	// This should retain decent precision within the size of our cities (5-10km radius).
 	struct BuildingInstance {
-		Uint32 instIndex;
+		vector3f pos;
 		float clipRadius;
+		Uint32 instIndex;
 		int rotation; // 0-3
-		vector3d pos;
 		Geom *geom;
 	};
 
@@ -132,9 +136,13 @@ private:
 	FrameId m_frame;
 	Random m_rand;
 
+	// Both of these vectors are sorted by building instance index
 	std::vector<BuildingInstance> m_buildings;
 	std::vector<BuildingInstance> m_enabledBuildings;
+
 	std::vector<Uint32> m_buildingCounts;
+
+	std::vector<matrix4x4f> m_instanceTransforms;
 
 	// bitmask occupancy grid for quick population of the city
 	std::unique_ptr<uint8_t[]> m_gridBitset;

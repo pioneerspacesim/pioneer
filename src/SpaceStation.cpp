@@ -800,7 +800,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 			SetClipRadius(m_adjacentCity->GetClipRadius());
 		}
 
-		m_adjacentCity->Render(r, camera->GetContext()->GetFrustum(), this, viewCoords, viewTransform);
+		m_adjacentCity->Render(r, camera->GetContext(), this, viewCoords, viewTransform);
 
 		RenderModel(r, camera, viewCoords, viewTransform);
 		m_navLights->Render(r);
