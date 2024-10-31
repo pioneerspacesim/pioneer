@@ -4,13 +4,11 @@
 #ifndef _CITYONPLANET_H
 #define _CITYONPLANET_H
 
-#include "CollMesh.h"
 #include "FrameId.h"
 #include "Random.h"
 #include "JsonFwd.h"
 #include "matrix4x4.h"
-
-#include <set>
+#include "graphics/Frustum.h"
 
 class Geom;
 class Planet;
@@ -19,9 +17,10 @@ class Frame;
 class SystemPath;
 class SystemBody;
 
+struct Aabb;
+
 namespace Graphics {
 	class Renderer;
-	class Frustum;
 	class Material;
 } // namespace Graphics
 

@@ -1,6 +1,8 @@
 // Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#pragma once
+
 #ifndef _FRUSTUM_H
 #define _FRUSTUM_H
 
@@ -10,28 +12,55 @@
 
 namespace Graphics {
 
-	// Frustum can be used for projecting points (3D to 2D) and testing
-	// if a point lies inside the visible area
-	// Its' internal projection matrix should, but does not have to, match
-	// the one used for rendering
-	class Frustum {
+	// Frustum can be used for testing if a point lies inside the visible area
+	template<typename T>
+	class FrustumT {
 	public:
+		FrustumT() = delete;
+
 		// create for specified values
-		Frustum(float width, float height, float fovAng, float nearClip, float farClip);
-		Frustum(const matrix4x4d &modelview, const matrix4x4d &projection);
+		FrustumT(float width, float height, float fovAng, float nearClip, float farClip)
+		{
+			matrix4x4<T> projMatrix = matrix4x4<T>::PerspectiveMatrix(fovAng, width / height, nearClip, farClip);
+			InitFromMatrix(projMatrix);
+		}
+
+		FrustumT(const matrix4x4<T> &modelview, const matrix4x4<T> &projection)
+		{
+			const matrix4x4<T> m = projection * modelview;
+			InitFromMatrix(m);
+		}
 
 		// test if point (sphere) is in the frustum
-		bool TestPoint(const vector3d &p, double radius) const;
+		bool TestPoint(const vector3<T> &p, T radius) const
+		{
+			for (int i = 0; i < 6; i++)
+				if (m_planes[i].DistanceToPoint(p) + radius < 0)
+					return false;
+			return true;
+		}
+
 		// test if point (sphere) is in the frustum, ignoring the far plane
-		bool TestPointInfinite(const vector3d &p, double radius) const;
+		bool TestPointInfinite(const vector3<T> &p, T radius) const
+		{
+			// check all planes except far plane
+			for (int i = 0; i < 5; i++)
+				if (m_planes[i].DistanceToPoint(p) + radius < 0)
+					return false;
+			return true;
+		}
 
 	private:
-		Frustum(){};
+		void InitFromMatrix(const matrix4x4<T> &m);
 
-		void InitFromMatrix(const matrix4x4d &m);
-
-		Plane<double> m_planes[6];
+		Plane<T> m_planes[6];
 	};
+
+	// Backwards-compatibility typedef
+	using Frustum = FrustumT<double>;
+
+	using FrustumF = FrustumT<float>;
+	using FrustumD = FrustumT<double>;
 
 } // namespace Graphics
 
