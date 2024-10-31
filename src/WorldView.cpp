@@ -11,21 +11,17 @@
 #include "HyperspaceCloud.h"
 #include "Input.h"
 #include "Json.h"
-#include "Lang.h"
 #include "Pi.h"
 #include "Player.h"
 #include "SDL_keycode.h"
 #include "SectorView.h"
 #include "Sensors.h"
 #include "SpeedLines.h"
-#include "StringF.h"
-#include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
 #include "matrix4x4.h"
-#include "ship/PlayerShipController.h"
 #include "ship/ShipViewController.h"
 #include "sound/Sound.h"
 
@@ -350,14 +346,12 @@ void WorldView::UpdateProjectedObjects()
 
 void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpacePos)
 {
-	const Graphics::Frustum frustum = m_cameraContext->GetFrustum();
-
 	const float BORDER = 10.0;
 	const float BORDER_BOTTOM = 90.0;
 	// XXX BORDER_BOTTOM is 10+the control panel height and shouldn't be needed at all
 
-	const float w = m_renderer->GetWindowWidth();
-	const float h = m_renderer->GetWindowHeight();
+	const float w = m_cameraContext->GetWidth();
+	const float h = m_cameraContext->GetHeight();
 
 	if (cameraSpacePos.LengthSqr() < 1e-6) { // length < 1e-3
 		indicator.pos.x = w / 2.0f;
@@ -366,13 +360,8 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 		return;
 	}
 
-	vector3d proj;
-	if (frustum.ProjectPoint(cameraSpacePos, proj)) {
-		proj.x *= w;
-		proj.y = (1.0f - proj.y) * h;
-	} else {
-		proj = vector3d(w / 2.0, h / 2.0, 0.0);
-	}
+	vector3f screenPos = Graphics::ProjectToScreen(vector3f(cameraSpacePos), m_cameraContext->GetProjectionMatrix());
+	vector3f proj = vector3f(screenPos.x * w, h - screenPos.y * h, screenPos.z);
 
 	indicator.realpos.x = int(proj.x);
 	indicator.realpos.y = int(proj.y);
@@ -579,29 +568,24 @@ std::tuple<double, double, double> WorldView::CalculateHeadingPitchRoll(PlaneTyp
 		std::isnan(roll) ? 0.0 : roll);
 }
 
+// Project a point in camera space to the screen
 static vector3d projectToScreenSpace(const vector3d &pos, RefCountedPtr<CameraContext> cameraContext, const bool adjustZ = true)
 {
-	const Graphics::Frustum &frustum = cameraContext->GetFrustum();
 	const float h = cameraContext->GetHeight();
 	const float w = cameraContext->GetWidth();
-	vector3d proj;
-	if (!frustum.ProjectPoint(pos, proj)) {
-		return vector3d(w / 2, h / 2, 0);
-	}
-	// convert NDC to top-left screen coordinates
-	proj.x *= w;
-	proj.y = h - proj.y * h;
+
+	vector3f screenPos = Graphics::ProjectToScreen(vector3f(pos), cameraContext->GetProjectionMatrix());
+	vector3d proj = vector3d(screenPos.x * w, h - screenPos.y * h, screenPos.z);
 
 	// linearize depth coordinate
 	// see https://thxforthefish.com/posts/reverse_z/
-	float znear;
-	float zfar;
-	Pi::renderer->GetNearFarRange(znear, zfar);
-	proj.z = -znear / proj.z;
+	// Note this is normally -znear / proj.z, but proj.z is already negated in ProjectToScreen
+	proj.z = cameraContext->GetZNear() / proj.z;
 
 	// set z to -1 if in front of camera, 1 else
 	if (adjustZ)
 		proj.z = pos.z < 0 ? -1 : 1;
+
 	return proj;
 }
 

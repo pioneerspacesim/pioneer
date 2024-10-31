@@ -25,9 +25,6 @@ namespace Graphics {
 		// test if point (sphere) is in the frustum, ignoring the far plane
 		bool TestPointInfinite(const vector3d &p, double radius) const;
 
-		// project a point onto the near plane (typically the screen)
-		bool ProjectPoint(const vector3d &in, vector3d &out) const;
-
 		// translate the given point outside the frustum to a point inside
 		// returns scale factor to make object at that point appear correctly
 		void TranslatePoint(const vector3d &in, vector3d &out) const;

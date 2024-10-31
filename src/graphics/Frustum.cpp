@@ -91,41 +91,6 @@ namespace Graphics {
 		return true;
 	}
 
-	// Returns a vector3d in the range { 0..1, 0..1, 1..0 }
-	bool Frustum::ProjectPoint(const vector3d &in, vector3d &out) const
-	{
-		// see the OpenGL documentation
-		// or http://www.songho.ca/opengl/gl_transform.html
-		// or http://cgit.freedesktop.org/mesa/glu/tree/src/libutil/project.c (gluProject implementation from Mesa)
-
-		const double *const M = m_modelMatrix.Data();
-		const double *const P = m_projMatrix.Data();
-
-		const double vcam[4] = { // camera space
-			in.x * M[0] + in.y * M[4] + in.z * M[8] + M[12],
-			in.x * M[1] + in.y * M[5] + in.z * M[9] + M[13],
-			in.x * M[2] + in.y * M[6] + in.z * M[10] + M[14],
-			in.x * M[3] + in.y * M[7] + in.z * M[11] + M[15]
-		};
-		const double vclip[4] = { // clip space
-			vcam[0] * P[0] + vcam[1] * P[4] + vcam[2] * P[8] + vcam[3] * P[12],
-			vcam[0] * P[1] + vcam[1] * P[5] + vcam[2] * P[9] + vcam[3] * P[13],
-			vcam[0] * P[2] + vcam[1] * P[6] + vcam[2] * P[10] + vcam[3] * P[14],
-			vcam[0] * P[3] + vcam[1] * P[7] + vcam[2] * P[11] + vcam[3] * P[15]
-		};
-
-		if (is_zero_exact(vclip[3])) {
-			return false;
-		}
-
-		const double w = vclip[3];
-		out.x = (vclip[0] / w) * 0.5 + 0.5;
-		out.y = (vclip[1] / w) * 0.5 + 0.5;
-		out.z = (vclip[2] / w);
-
-		return true;
-	}
-
 	void Frustum::TranslatePoint(const vector3d &in, vector3d &out) const
 	{
 		out = in;
