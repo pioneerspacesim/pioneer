@@ -9,7 +9,7 @@
 #include "MathUtil.h"
 #include "Pi.h"
 #include "RefCounted.h"
-#include "Sphere.h"
+#include "math/Sphere.h"
 #include "galaxy/SystemBody.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"

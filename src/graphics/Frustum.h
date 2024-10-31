@@ -4,7 +4,7 @@
 #ifndef _FRUSTUM_H
 #define _FRUSTUM_H
 
-#include "Plane.h"
+#include "math/Plane.h"
 #include "matrix4x4.h"
 #include "vector3.h"
 
@@ -40,7 +40,7 @@ namespace Graphics {
 
 		matrix4x4d m_projMatrix;
 		matrix4x4d m_modelMatrix;
-		SPlane m_planes[6];
+		Plane<double> m_planes[6];
 		double m_translateThresholdSqr;
 	};
 
