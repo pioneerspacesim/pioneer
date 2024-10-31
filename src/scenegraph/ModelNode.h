@@ -18,7 +18,7 @@ namespace SceneGraph {
 		virtual Node *Clone(NodeCopyCache *cache = 0);
 		virtual const char *GetTypeName() const { return "ModelNode"; }
 		virtual void Render(const matrix4x4f &trans, const RenderData *rd);
-		virtual void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd);
+		virtual void RenderInstanced(const std::vector<matrix4x4f> &trans, const RenderData *rd);
 
 	protected:
 		virtual ~ModelNode() {}

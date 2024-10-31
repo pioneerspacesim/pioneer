@@ -716,7 +716,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustu
 	// render the building models using instancing
 	for (Uint32 i = 0; i < numBuildings; i++) {
 		if (!transform[i].empty())
-			m_cityType->buildingTypes[i].model->Render(transform[i]);
+			m_cityType->buildingTypes[i].model->RenderInstanced(transform[i]);
 	}
 
 	// Draw debug extents

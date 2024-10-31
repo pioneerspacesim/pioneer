@@ -60,7 +60,7 @@ namespace SceneGraph {
 		m_children[lod]->Render(trans, rd);
 	}
 
-	void LOD::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
+	void LOD::RenderInstanced(const std::vector<matrix4x4f> &trans, const RenderData *rd)
 	{
 		// anything to draw?
 		if (m_pixelSizes.empty())
@@ -100,7 +100,7 @@ namespace SceneGraph {
 			// now render each of the buffers for each of the lods
 			for (Uint32 inst = 0; inst < transform.size(); inst++) {
 				if (!transform[inst].empty()) {
-					m_children[inst]->Render(transform[inst], rd);
+					m_children[inst]->RenderInstanced(transform[inst], rd);
 				}
 			}
 		}
