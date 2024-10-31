@@ -155,9 +155,8 @@ vector3f ModelSpinner::ModelSpaceToScreenSpace(vector3f modelSpaceVec)
 {
 	matrix4x4f projection = matrix4x4f::PerspectiveMatrix(DEG2RAD(SPINNER_FOV), m_size.x / m_size.y, 1.f, 10000.f, true);
 	matrix4x4f modelView = MakeModelViewMat();
-	Graphics::ViewportExtents vp = { 0, 0, int32_t(m_size.x), int32_t(m_size.y) };
 
-	return Graphics::ProjectToScreen(modelView * modelSpaceVec, projection, vp);
+	return Graphics::ProjectToScreen(modelView * modelSpaceVec, projection) * vector3f(m_size.x, m_size.y, 1.0);
 }
 
 vector2d ModelSpinner::GetTagPos(const char *tagName)

@@ -89,15 +89,16 @@ namespace Graphics {
 	// screenspace as defined by Renderer::GetViewport.
 	// This function applies the current renderer transform to the input point
 	// TODO: find a better place to hang this off of; this is too useful to be tied to a renderer object
+	// FIXME: these functions should be deprecated since they read internal renderer state
+	// Add a projection method to CameraContext or call ProjectToScreen directly
 	vector3d ProjectToScreen(const Renderer *r, const vector3d &in);
 	vector3f ProjectToScreen(const Renderer *r, const vector3f &in);
 
 	// ProjectToScreen handles projecting a point in view-space to 2d viewport space.
-	// It returns the { X, Y } window coordinates and the NDC depth value as Z.
-	// Implements gluProject (see the OpenGL documentation or the Mesa implementation of gluProject)
+	// It returns normalized { X, Y } window coordinates in 0..1 and the NDC depth value as Z.
 	// This implementation is tailored to understand Reverse-Z and our data structures.
 	template <typename T>
-	vector3<T> ProjectToScreen(const vector3<T> &vcam, const matrix4x4<T> &proj, const ViewportExtents &vp)
+	vector3<T> ProjectToScreen(const vector3<T> &vcam, const matrix4x4<T> &proj)
 	{
 		// compute the effective W component for perspective divide.
 		// This code assumes that it's being passed a 'standard' perspective or ortho matrix.
@@ -116,12 +117,8 @@ namespace Graphics {
 			-vNDC.z // undo reverse-Z coordinate flip
 		};
 
-		// viewport coord * size + position
-		return vector3<T>{
-			vVP.x * vp.w + vp.x,
-			vVP.y * vp.h + vp.y,
-			vVP.z
-		};
+		// values in { 0..1, 0..1, 0..1 }
+		return vVP;
 	}
 
 	// does SDL video init, constructs appropriate Renderer
