@@ -78,9 +78,6 @@ namespace SceneGraph {
 			ib->SetInstanceCount(numTrans);
 		}
 
-		// we'll set the transformation within the vertex shader so identity the global one
-		r->SetTransform(matrix4x4f::Identity());
-
 		if (m_instanceMaterials.empty()) {
 			// process each mesh
 			for (auto &it : m_meshes) {

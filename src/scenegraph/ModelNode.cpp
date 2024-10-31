@@ -3,6 +3,7 @@
 
 #include "ModelNode.h"
 #include "Model.h"
+#include "graphics/Renderer.h"
 #include "profiler/Profiler.h"
 
 namespace SceneGraph {
@@ -39,7 +40,7 @@ namespace SceneGraph {
 		//slight hack here
 		RenderData newrd = *rd;
 		newrd.nodemask |= MASK_IGNORE;
-		m_model->RenderInstanced(trans, &newrd);
+		m_model->RenderInstanced(m_renderer->GetTransform(), trans, &newrd);
 	}
 
 } // namespace SceneGraph
