@@ -27,10 +27,10 @@ local baseWidgetSizes = {
 	fontSizeLarge = 22.5, -- pionillium.large.size,
 	fontSizeXLarge = 27, -- pionillium.xlarge.size,
 	iconSize = Vector2(0, 22.5 * 1.5),
-	smallButton = Vector2(92, 48),
-	bigButton = Vector2(128, 48),
+	smallButton = Vector2(80, 44),
+	bigButton = Vector2(100, 44),
 	confirmButtonSize = Vector2(384, 48),
-	windowGutter = 18
+	windowGutter = 16
 }
 
 local commodityIconSize = Vector2(38.0, 32.0) -- png icons, native resolution
@@ -60,7 +60,7 @@ function CommodityMarketWidget.New(id, title, config)
 
 	config.initTable = config.initTable or function(self)
 		ui.setColumnWidth(0, commodityIconSize.x + ui.getItemSpacing().x)
-		ui.setColumnWidth(1, self.style.size.x / 2.2 - 50 * self.style.widgetSizes.rescaleVector.x)
+		ui.setColumnWidth(1, self.style.size.x / 2.3  - 50 * self.style.widgetSizes.rescaleVector.x)
 	end
 
 	config.renderHeaderRow = config.renderHeaderRow or function(_)
@@ -458,7 +458,7 @@ function CommodityMarketWidget:SetSize(size)
 	size = Vector2(math.max(size.x, 100), math.max(size.y, 100))
 	if self.style.widgetSize ~= size then
 		self.style.widgetSize = size
-		self.style.size = Vector2(size.x / 2, size.y)
+		self.style.size = Vector2(size.x * 0.6, size.y)
 
 		self.style.widgetSizes = ui.rescaleUI(
 			baseWidgetSizes,
