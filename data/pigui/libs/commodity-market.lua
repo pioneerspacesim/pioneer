@@ -103,22 +103,44 @@ function CommodityMarketWidget.New(id, title, config)
 				ui.icon(cls[1], Vector2(ui.getTextLineHeight()), cls[2])
 			end
 
-			ui.nextColumn()
+			local txt = ''
+			local posX = 0
+
+			ui.nextColumn() -- Buy Price
 			ui.dummy(vZero)
-			ui.text(Format.Money(config.getBuyPrice(self, item)))
-			ui.nextColumn()
+			txt = Format.Money(config.getBuyPrice(self, item))
+			posX = ui.getColumnWidth() - ui.calcTextSize(txt).x - ui.getItemSpacing().x
+			ui.addCursorPos(Vector2(posX, 0))
+			ui.text(txt)
+			ui.nextColumn() -- Sell Price
 			ui.dummy(vZero)
-			ui.text(Format.Money(config.getSellPrice(self, item)))
-			ui.nextColumn()
+			txt = Format.Money(config.getSellPrice(self, item))
+			posX = ui.getColumnWidth() - ui.calcTextSize(txt).x - ui.getItemSpacing().x
+			ui.addCursorPos(Vector2(posX, 0))
+			ui.text(txt)
+			ui.nextColumn() -- In Stock
 			ui.dummy(vZero)
-			ui.text(config.getStock(self, item))
-			ui.nextColumn()
+			txt = config.getStock(self, item)
+			posX = ui.getColumnWidth() - ui.calcTextSize(txt).x - ui.getItemSpacing().x
+			ui.addCursorPos(Vector2(posX, 0))
+			ui.text(txt)
+			ui.nextColumn() -- Demand
 			ui.dummy(vZero)
-			ui.text(config.getDemand(self, item))
-			ui.nextColumn()
+			txt = config.getDemand(self, item)
+			posX = ui.getColumnWidth() - ui.calcTextSize(txt).x - ui.getItemSpacing().x
+			ui.addCursorPos(Vector2(posX, 0))
+			ui.text(txt)
+			ui.nextColumn() -- Cargo
 			ui.dummy(vZero)
 			local n = self.cargoMgr:CountCommodity(item)
-			ui.text(n > 0 and n or '')
+			if n > 0 then
+				txt = n
+				posX = ui.getColumnWidth() - ui.calcTextSize(txt).x - ui.getItemSpacing().x
+				ui.addCursorPos(Vector2(posX, 0))
+				ui.text(txt)
+			else
+				ui.text('')
+			end
 		end)
 		ui.nextColumn()
 	end
