@@ -61,8 +61,8 @@ namespace FileSystem {
 		path += "Library/Application Support/Pioneer";
 #else
 		struct stat info;
-		stat((path + ".pioneer").c_str(), &info);
-		if (S_ISDIR(info.st_mode)) {
+		int err = stat((path + ".pioneer").c_str(), &info);
+		if (err == 0 && S_ISDIR(info.st_mode)) {
 			// Check for legacy pioneer directory.
 			path += ".pioneer";
 		} else {
