@@ -56,7 +56,7 @@ function CommodityMarketWidget.New(id, title, config)
 	config.style = config.style or {}
 	config.style.size = config.style.size or Vector2(0,0)
 	config.itemTypes = config.itemTypes or { Commodities }
-	config.columnCount = config.columnCount or 6
+	config.columnCount = config.columnCount or 7
 
 	config.initTable = config.initTable or function(self)
 		ui.setColumnWidth(0, commodityIconSize.x + ui.getItemSpacing().x)
@@ -68,7 +68,9 @@ function CommodityMarketWidget.New(id, title, config)
 		ui.nextColumn()
 		ui.text(l.NAME_OBJECT)
 		ui.nextColumn()
-		ui.text(l.PRICE)
+		ui.text(l.BUY_PRICE)
+		ui.nextColumn()
+		ui.text(l.SELL_PRICE)
 		ui.nextColumn()
 		ui.text(l.IN_STOCK)
 		ui.nextColumn()
@@ -103,7 +105,10 @@ function CommodityMarketWidget.New(id, title, config)
 
 			ui.nextColumn()
 			ui.dummy(vZero)
-			ui.text(Format.Money(price))
+			ui.text(Format.Money(config.getBuyPrice(self, item)))
+			ui.nextColumn()
+			ui.dummy(vZero)
+			ui.text(Format.Money(config.getSellPrice(self, item)))
 			ui.nextColumn()
 			ui.dummy(vZero)
 			ui.text(config.getStock(self, item))

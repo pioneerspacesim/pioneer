@@ -83,6 +83,10 @@
     "description": "Commodities and equipment prices",
     "message": "Buy"
   },
+  "BUY_PRICE": {
+    "description": "Title for buy-price column in commodity market",
+    "message": "Buy Price"
+  },
   "BUY_SHIP": {
     "description": "",
     "message": "Buy Ship"
@@ -2150,6 +2154,10 @@
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
     "message": "Sell Equipped"
+  },
+  "SELL_PRICE": {
+    "description": "Title for sell-price column in commodity market",
+    "message": "Sell Price"
   },
   "SENSORS": {
     "description": "Crew skill",
