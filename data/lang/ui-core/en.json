@@ -2642,5 +2642,9 @@
   "COLLAPSE": {
 	"description": "Close / collapse an open folder or group",
 	"message": "Collapse"
+  },
+  "CANNOT_SELL_NONEMPTY_EQUIP": {
+    "description": "",
+    "message": "Cannot sell an equipment item unless it is empty."
   }
 }

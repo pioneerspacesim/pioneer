@@ -98,6 +98,7 @@ EquipCardAvailable.tooltipStats = false
 
 ---@class UI.EquipmentOutfitter.EquipData : UI.EquipCard.Data
 ---@field canInstall boolean
+---@field canReplace boolean
 ---@field available boolean
 ---@field price number
 
@@ -115,12 +116,17 @@ function EquipCardUnavailable:tooltipContents(data, isSelected)
 	ui.spacing()
 
 	ui.withStyleColors({ Text = self.textColor }, function()
+		ui.withFont(pionillium.details, function()
 
-		if not data.canInstall then
-			ui.textWrapped(l.NOT_SUPPORTED_ON_THIS_SHIP % { equipment = data.name })
-		else
-			ui.textWrapped(l.YOU_NOT_ENOUGH_MONEY)
-		end
+			if not data.canInstall then
+				ui.textWrapped(l.NOT_SUPPORTED_ON_THIS_SHIP % { equipment = data.name } .. ".")
+			elseif not data.canReplace then
+				ui.textWrapped(l.CANNOT_SELL_NONEMPTY_EQUIP .. ".")
+			else
+				ui.textWrapped(l.YOU_NOT_ENOUGH_MONEY)
+			end
+
+		end)
 	end)
 end
 
@@ -280,7 +286,9 @@ function Outfitter:buildEquipmentList()
 			data.canInstall = equipSet:CanInstallLoose(equip)
 		end
 
-		data.available = data.canInstall and money >= self:getInstallPrice(equip)
+		data.canReplace = not self.replaceEquip or self.canSellEquip
+
+		data.available = data.canInstall and data.canReplace and money >= self:getInstallPrice(equip)
 
 		-- Replace condition widget with price instead
 		-- trim leading '$' character since we're drawing it with an icon instead
@@ -584,7 +592,7 @@ function Outfitter:render()
 
 				local doubleClicked = clicked and ui.isMouseDoubleClicked(0)
 
-				if doubleClicked then
+				if doubleClicked and data.available then
 					self:message("onBuyItem", data.equip)
 				end
 			end
