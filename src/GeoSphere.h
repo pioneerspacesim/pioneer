@@ -38,7 +38,7 @@ public:
 	virtual double GetHeight(const vector3d &p) const override final
 	{
 		const double h = m_terrain->GetHeight(p);
-#ifdef DEBUG
+#ifndef NDEBUG
 		// XXX don't remove this. Fix your fractals instead
 		// Fractals absolutely MUST return heights >= 0.0 (one planet radius)
 		// otherwise atmosphere and other things break.
@@ -47,7 +47,7 @@ public:
 			m_terrain->DebugDump();
 			assert(h >= 0.0);
 		}
-#endif /* DEBUG */
+#endif /* NDEBUG */
 		return h;
 	}
 
