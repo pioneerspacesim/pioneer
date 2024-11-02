@@ -63,12 +63,12 @@ PerfInfo::CounterInfo::CounterInfo(const char *n, const char *u, uint32_t recent
 }
 
 PerfInfo::PerfInfo() :
-	m_state(new ImGuiState({})),
 	m_fpsCounter("Frame Time", "ms"),
 	m_physCounter("Update Time", "ms"),
 	m_piguiCounter("PiGui Time", "ms"),
 	m_procMemCounter("Process memory usage", "MB", 1),
-	m_luaMemCounter("Lua memory usage", "MB", 1)
+	m_luaMemCounter("Lua memory usage", "MB", 1),
+	m_state(new ImGuiState({}))
 {
 }
 
