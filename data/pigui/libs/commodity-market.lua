@@ -63,21 +63,37 @@ function CommodityMarketWidget.New(id, title, config)
 		ui.setColumnWidth(1, self.style.size.x / 2.3  - 50 * self.style.widgetSizes.rescaleVector.x)
 	end
 
+	-- Adds a text column to the UI table with the given alignment
+	--  - txt - the text to display
+	--  - align - the horizontal alignment the text should have:
+	--          - "LEFT" (default if not specified)
+	--          - "MIDDLE", useful for table heading row
+	--          - "RIGHT", best for numbers
+	config.columnText = config.columnText or function(txt, align)
+		local posX = 0
+		txt = txt or ''
+		align = align or "LEFT"
+
+		if align == "RIGHT" then
+			posX = ui.getColumnWidth() - ui.calcTextSize(txt).x - ui.getItemSpacing().x
+		elseif align == "MIDDLE" then
+			posX = (ui.getColumnWidth() - ui.calcTextSize(txt).x - ui.getItemSpacing().x) / 2
+		else -- default alignment is "LEFT"
+			-- no need to adjust the position
+		end
+		ui.addCursorPos(Vector2(posX, 0))
+		ui.text(txt)
+		ui.nextColumn()
+	end
+
 	config.renderHeaderRow = config.renderHeaderRow or function(_)
-		ui.text('')
-		ui.nextColumn()
-		ui.text(l.NAME_OBJECT)
-		ui.nextColumn()
-		ui.text(l.BUY_PRICE)
-		ui.nextColumn()
-		ui.text(l.SELL_PRICE)
-		ui.nextColumn()
-		ui.text(l.IN_STOCK)
-		ui.nextColumn()
-		ui.text(l.DEMAND)
-		ui.nextColumn()
-		ui.text(l.CARGO)
-		ui.nextColumn()
+		config.columnText('')
+		config.columnText(l.NAME_OBJECT, "MIDDLE")
+		config.columnText(l.BUY_PRICE, "MIDDLE")
+		config.columnText(l.SELL_PRICE, "MIDDLE")
+		config.columnText(l.IN_STOCK, "MIDDLE")
+		config.columnText(l.DEMAND, "MIDDLE")
+		config.columnText(l.CARGO, "MIDDLE")
 	end
 
 	config.renderItem = config.renderItem or function(self, item)
@@ -103,46 +119,20 @@ function CommodityMarketWidget.New(id, title, config)
 				ui.icon(cls[1], Vector2(ui.getTextLineHeight()), cls[2])
 			end
 
-			local txt = ''
-			local posX = 0
+			ui.nextColumn()
 
-			ui.nextColumn() -- Buy Price
 			ui.dummy(vZero)
-			txt = Format.Money(config.getBuyPrice(self, item))
-			posX = ui.getColumnWidth() - ui.calcTextSize(txt).x - ui.getItemSpacing().x
-			ui.addCursorPos(Vector2(posX, 0))
-			ui.text(txt)
-			ui.nextColumn() -- Sell Price
+			config.columnText(Format.Money(config.getBuyPrice(self, item)), "RIGHT")
 			ui.dummy(vZero)
-			txt = Format.Money(config.getSellPrice(self, item))
-			posX = ui.getColumnWidth() - ui.calcTextSize(txt).x - ui.getItemSpacing().x
-			ui.addCursorPos(Vector2(posX, 0))
-			ui.text(txt)
-			ui.nextColumn() -- In Stock
+			config.columnText(Format.Money(config.getSellPrice(self, item)), "RIGHT")
 			ui.dummy(vZero)
-			txt = config.getStock(self, item)
-			posX = ui.getColumnWidth() - ui.calcTextSize(txt).x - ui.getItemSpacing().x
-			ui.addCursorPos(Vector2(posX, 0))
-			ui.text(txt)
-			ui.nextColumn() -- Demand
+			config.columnText(config.getStock(self, item), "RIGHT")
 			ui.dummy(vZero)
-			txt = config.getDemand(self, item)
-			posX = ui.getColumnWidth() - ui.calcTextSize(txt).x - ui.getItemSpacing().x
-			ui.addCursorPos(Vector2(posX, 0))
-			ui.text(txt)
-			ui.nextColumn() -- Cargo
+			config.columnText(config.getDemand(self, item), "RIGHT")
 			ui.dummy(vZero)
 			local n = self.cargoMgr:CountCommodity(item)
-			if n > 0 then
-				txt = n
-				posX = ui.getColumnWidth() - ui.calcTextSize(txt).x - ui.getItemSpacing().x
-				ui.addCursorPos(Vector2(posX, 0))
-				ui.text(txt)
-			else
-				ui.text('')
-			end
+			config.columnText(n > 0 and n or '', "RIGHT")
 		end)
-		ui.nextColumn()
 	end
 
 	config.canDisplayItem = config.canDisplayItem or function (self, commodity)
