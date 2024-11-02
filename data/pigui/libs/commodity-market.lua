@@ -60,7 +60,7 @@ function CommodityMarketWidget.New(id, title, config)
 
 	config.initTable = config.initTable or function(self)
 		ui.setColumnWidth(0, commodityIconSize.x + ui.getItemSpacing().x)
-		ui.setColumnWidth(1, self.style.size.x / 2.3  - 50 * self.style.widgetSizes.rescaleVector.x)
+		ui.setColumnWidth(1, self.style.size.x / 2.4  - 50 * self.style.widgetSizes.rescaleVector.x)
 	end
 
 	-- Adds a text column to the UI table with the given alignment
@@ -88,12 +88,12 @@ function CommodityMarketWidget.New(id, title, config)
 
 	config.renderHeaderRow = config.renderHeaderRow or function(_)
 		config.columnText('')
-		config.columnText(l.NAME_OBJECT, "MIDDLE")
+		config.columnText(l.COMMODITY, "MIDDLE")
 		config.columnText(l.BUY_PRICE, "MIDDLE")
 		config.columnText(l.SELL_PRICE, "MIDDLE")
 		config.columnText(l.IN_STOCK, "MIDDLE")
 		config.columnText(l.DEMAND, "MIDDLE")
-		config.columnText(l.CARGO, "MIDDLE")
+		config.columnText(l.IN_HOLD, "MIDDLE")
 	end
 
 	config.renderItem = config.renderItem or function(self, item)

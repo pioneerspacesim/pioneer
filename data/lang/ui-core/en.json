@@ -85,7 +85,7 @@
   },
   "BUY_PRICE": {
     "description": "Title for buy-price column in commodity market",
-    "message": "Buy Price"
+    "message": "Buy"
   },
   "BUY_SHIP": {
     "description": "",
@@ -234,6 +234,10 @@
   "COMMANDER": {
     "description": "",
     "message": "Commander"
+  },
+  "COMMODITY": {
+    "description": "Title for commodity name column in commodity market",
+    "message": "Commodity"
   },
   "COMMODITY_MARKET": {
     "description": "",
@@ -1299,9 +1303,13 @@
     "description": "",
     "message": "In cargo hold"
   },
+ "IN_HOLD": {
+    "description": "Column title of the Commodity Market screen",
+    "message": "In hold"
+  },
   "IN_STOCK": {
-    "description": "",
-    "message": "In stock"
+    "description": "Column title of Commodity and Ship Equipment markets showing current station stock level.",
+    "message": "Stock"
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
@@ -2157,7 +2165,7 @@
   },
   "SELL_PRICE": {
     "description": "Title for sell-price column in commodity market",
-    "message": "Sell Price"
+    "message": "Sell"
   },
   "SENSORS": {
     "description": "Crew skill",
