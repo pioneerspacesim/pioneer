@@ -5,6 +5,7 @@
 #define _LUAUTILS_H
 
 // to mask __attribute on MSVC
+#include "core/Log.h"
 #include "core/macros.h"
 #include "DateTime.h"
 

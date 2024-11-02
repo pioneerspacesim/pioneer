@@ -8,6 +8,7 @@
 
 #include "BaseSphere.h"
 #include "Camera.h"
+#include "core/Log.h"
 #include "vector3.h"
 
 #include <deque>
