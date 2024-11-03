@@ -450,6 +450,7 @@ bool LuaObjectBase::PushRegistered(LuaWrappable *o)
 
 	if (!o) {
 		lua_pushnil(l);
+		LUA_DEBUG_END(l, 1);
 		return true;
 	}
 

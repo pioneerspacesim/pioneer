@@ -828,6 +828,8 @@ static int l_space_spawn_cargo_near(lua_State *l)
 	} else {
 		c_body = new CargoBody(model, LuaRef(l, 1));
 	}
+	lua_pop(l, 1); // pop model_name
+
 	Body *nearbody = LuaObject<Body>::CheckFromLua(2);
 	float min_dist = luaL_checknumber(l, 3);
 	float max_dist = luaL_checknumber(l, 4);
