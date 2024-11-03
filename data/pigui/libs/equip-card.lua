@@ -115,28 +115,29 @@ end
 
 ---@param data UI.EquipCard.Data
 function EquipCard.drawEquipStats(data)
-	ui.beginTable("EquipStats", 2, { "NoSavedSettings" })
+	if ui.beginTable("EquipStats", 2, { "NoSavedSettings" }) then
 
-	ui.tableSetupColumn("##name", { "WidthStretch" })
-	ui.tableSetupColumn("##value", { "WidthFixed" })
+		ui.tableSetupColumn("##name", { "WidthStretch" })
+		ui.tableSetupColumn("##value", { "WidthFixed" })
 
-	ui.pushTextWrapPos(-1)
-	for i, tooltip in ipairs(data.stats) do
-		ui.tableNextRow()
+		ui.pushTextWrapPos(-1)
+		for i, tooltip in ipairs(data.stats) do
+			ui.tableNextRow()
 
-		ui.tableSetColumnIndex(0)
-		ui.text(tooltip[1] .. ":")
+			ui.tableSetColumnIndex(0)
+			ui.text(tooltip[1] .. ":")
 
-		ui.tableSetColumnIndex(1)
-		ui.icon(tooltip[2], Vector2(ui.getTextLineHeight(), ui.getTextLineHeight()), ui.theme.colors.font)
-		ui.sameLine(0, ui.getTextLineHeight() / 4.0)
+			ui.tableSetColumnIndex(1)
+			ui.icon(tooltip[2], Vector2(ui.getTextLineHeight(), ui.getTextLineHeight()), ui.theme.colors.font)
+			ui.sameLine(0, ui.getTextLineHeight() / 4.0)
 
-		local value, format = tooltip[3], tooltip[4]
-		ui.text(format(value))
+			local value, format = tooltip[3], tooltip[4]
+			ui.text(format(value))
+		end
+		ui.popTextWrapPos()
+
+		ui.endTable()
 	end
-	ui.popTextWrapPos()
-
-	ui.endTable()
 end
 
 local slotColors = { Text = colors.equipScreenBgText }

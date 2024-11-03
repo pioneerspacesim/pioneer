@@ -445,15 +445,16 @@ function Outfitter:drawSortButton(id, label, state)
 end
 
 function Outfitter:drawSortRow()
-	ui.beginTable("sort", #Outfitter.SortKeys)
-	ui.tableNextRow()
+	if ui.beginTable("sort", #Outfitter.SortKeys) then
+		ui.tableNextRow()
 
-	for i, sort in ipairs(Outfitter.SortKeys) do
-		ui.tableSetColumnIndex(i - 1)
-		self:drawSortButton(sort.id, sort.label, self.sortId == sort.id and self.sortState or nil)
+		for i, sort in ipairs(Outfitter.SortKeys) do
+			ui.tableSetColumnIndex(i - 1)
+			self:drawSortButton(sort.id, sort.label, self.sortId == sort.id and self.sortState or nil)
+		end
+
+		ui.endTable()
 	end
-
-	ui.endTable()
 end
 
 ---@param label string
@@ -523,18 +524,20 @@ function Outfitter:renderCompareStats()
 
 	if self.compare_stats then
 
-		ui.beginTable("##CompareEquipStats", 3)
+		if ui.beginTable("##CompareEquipStats", 3) then
 
-		ui.tableSetupColumn("##name", { "WidthStretch" })
-		ui.tableSetupColumn("##selected", { "WidthFixed" })
-		ui.tableSetupColumn("##current", { "WidthFixed" })
+			ui.tableSetupColumn("##name", { "WidthStretch" })
+			ui.tableSetupColumn("##selected", { "WidthFixed" })
+			ui.tableSetupColumn("##current", { "WidthFixed" })
 
-		for _, row in ipairs(self.compare_stats) do
-			ui.tableNextRow()
-			self:renderCompareRow(row.label, row.a, row.b)
+			for _, row in ipairs(self.compare_stats) do
+				ui.tableNextRow()
+				self:renderCompareRow(row.label, row.a, row.b)
+			end
+
+			ui.endTable()
+
 		end
-
-		ui.endTable()
 
 	end
 
