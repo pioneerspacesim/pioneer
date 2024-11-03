@@ -232,6 +232,13 @@ require 'Serializer':Register("PiguiRadar",
 	function () return { shouldDisplay2DRadar = shouldDisplay2DRadar } end,
 	function (data) shouldDisplay2DRadar = data.shouldDisplay2DRadar end)
 
-ui.registerModule("game", displayRadar)
+ui.registerModule("game", {
+	id = "game-view-radar-module",
+	draw = displayRadar,
+	debugReload = function()
+		print("Radar module reloading..")
+		package.reimport()
+	end
+})
 
 return {}
