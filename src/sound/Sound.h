@@ -1,10 +1,10 @@
 // Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef __OGGMIX_H
-#define __OGGMIX_H
+#ifndef __SOUND_H
+#define __SOUND_H
 
-#include <SDL_stdinc.h>
+#include <cstdint>
 #include <map>
 #include <string>
 #include <vector>
@@ -17,12 +17,12 @@ namespace Sound {
 		OP_REPEAT = (1 << 0),
 		OP_STOP_AT_TARGET_VOLUME = (1 << 1)
 	};
-	typedef Uint32 Op;
+	typedef uint32_t Op;
 
 	struct Sample {
-		Uint16 *buf;
-		Uint32 buf_len;
-		Uint32 channels;
+		uint16_t *buf;
+		uint32_t buf_len;
+		uint32_t channels;
 		int upsample; // 1 = 44100, 2=22050
 		/* if buf is null, this will be path to an ogg we must stream */
 		std::string path;
@@ -33,13 +33,13 @@ namespace Sound {
 	public:
 		Event() :
 			eid(0) {}
-		Event(Uint32 id) :
+		Event(uint32_t id) :
 			eid(id) {}
 		virtual void Play(const char *fx, const float volume_left, const float volume_right, Op op);
 		void Play(const char *fx) { Play(fx, 1.0f, 1.0f, 0); }
 		bool Stop();
 		bool IsPlaying() const;
-		Uint32 EventId() { return eid; }
+		uint32_t EventId() { return eid; }
 		bool SetOp(Op op);
 		bool VolumeAnimate(const float targetVol1, const float targetVol2, const float dv_dt1, const float dv_dt2);
 		bool VolumeAnimate(const float targetVols[2], const float dv_dt[2])
@@ -54,9 +54,9 @@ namespace Sound {
 		}
 
 	protected:
-		Uint32 eid;
+		uint32_t eid;
 	};
-	typedef Uint32 eventid;
+	typedef uint32_t eventid;
 
 	bool Init(bool automaticallyOpenDevice = true);
 	bool InitDevice(std::string &name);
@@ -82,4 +82,4 @@ namespace Sound {
 
 } /* namespace Sound */
 
-#endif /* __OGGMIX_H */
+#endif /* __SOUND_H */

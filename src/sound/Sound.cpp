@@ -183,10 +183,10 @@ namespace Sound {
 		const Sample *sample;
 		OggVorbis_File *oggv; // if sample->buf = 0 then stream this
 		OggFileDataStream ogg_data_stream;
-		Uint32 buf_pos;
+		uint32_t buf_pos;
 		float volume[2]; // left and right channels
 		eventid identifier;
-		Uint32 op;
+		uint32_t op;
 
 		float targetVolume[2];
 		float rateOfChange[2]; // per sample
@@ -244,12 +244,12 @@ namespace Sound {
 	/*
  * Volume should be 0-65535
  */
-	static Uint32 identifier = 1;
+	static uint32_t identifier = 1;
 	eventid PlaySfx(const char *fx, const float volume_left, const float volume_right, const Op op)
 	{
 		SDL_LockAudioDevice(m_audioDevice);
 		unsigned int idx;
-		Uint32 age;
+		uint32_t age;
 		/* find free wavstream (first two reserved for music) */
 		for (idx = 2; idx < MAX_WAVSTREAMS; idx++) {
 			if (!wavstream[idx].sample) break;

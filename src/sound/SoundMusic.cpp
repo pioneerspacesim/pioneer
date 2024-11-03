@@ -11,7 +11,7 @@ namespace Sound {
 	MusicEvent::MusicEvent() :
 		Event() {}
 
-	MusicEvent::MusicEvent(Uint32 id) :
+	MusicEvent::MusicEvent(uint32_t id) :
 		Event(id) {}
 
 	MusicEvent::~MusicEvent() {}

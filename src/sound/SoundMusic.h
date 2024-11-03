@@ -14,7 +14,7 @@ namespace Sound {
 	class MusicEvent : public Event {
 	public:
 		MusicEvent();
-		MusicEvent(Uint32 id);
+		MusicEvent(uint32_t id);
 		~MusicEvent();
 		virtual void Play(const char *fx, const float volume_left, const float volume_right, Op op);
 	};
