@@ -27,9 +27,9 @@ local function LifeSupportCallback(self)
 		-- TODO: have a more generic check instead of hard-coding the only two commodities which current require life-support.
 		local dice = 0
 		if commodityName == "live_animals" then
-			Engine.rand:Integer(0,3)
+			dice = Engine.rand:Integer(0,3)
 		elseif commodityName == "slaves" then
-			Engine.rand:Integer(0,2)
+			dice = Engine.rand:Integer(0,2)
 		end
 		if dice == 3 then
 			commodityName = "animal_meat"
