@@ -23,6 +23,23 @@ local function LifeSupportCallback(self)
 	if commodityName then
 		cargoMgr:RemoveCommodity(Commodities[commodityName], 1)
 
+		-- randomly convert the commodity into a suitable alternative
+		-- TODO: have a more generic check instead of hard-coding the only two commodities which current require life-support.
+		local dice = 0
+		if commodityName == "live_animals" then
+			Engine.rand:Integer(0,3)
+		elseif commodityName == "slaves" then
+			Engine.rand:Integer(0,2)
+		end
+		if dice == 3 then
+			commodityName = "animal_meat"
+		elseif dice == 2 then
+			commodityName = "fertilizer"
+		else
+			commodityName = "rubbish"
+		end
+		cargoMgr:AddCommodity(Commodities[commodityName], 1)
+
 		if self == Game.player then
 			Game.AddCommsLogLine(lc.CARGO_BAY_LIFE_SUPPORT_LOST)
 		end
