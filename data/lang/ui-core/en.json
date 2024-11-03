@@ -2628,11 +2628,11 @@
 	"message": "Installed"
   },
   "SELL_EQUIP": {
-	"description": "Button text to sell installed equipment. May used in a singular or plural context.",
+	"description": "Button text to sell installed equipment. May be used in a singular or plural context.",
 	"message": "Sell {name}"
   },
   "BUY_EQUIP": {
-	"description": "Button text to buy selected equipment. May used in a singular or plural context.",
+	"description": "Button text to buy selected equipment. May be used in a singular or plural context.",
 	"message": "Buy {name}"
   },
   "EXPAND": {

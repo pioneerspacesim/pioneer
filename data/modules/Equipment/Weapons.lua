@@ -338,11 +338,11 @@ Equipment.Register("missile_bay.opli_internal_s2", EquipType.New {
 	icon_name="equip_missile_unguided"
 })
 
-Equipment.Register("missile_bay.bowfin", EquipType.New {
+Equipment.Register("missile_bay.bowfin_internal", EquipType.New {
 	l10n_key="OKB_KALURI_BOWFIN_MISSILE_RACK",
 	price=150, purchasable=true, tech_level=1,
 	volume=0.0, mass=0.2,
-	slot = { type = "missile_bay.bowfin", size=2, hardpoint=true },
+	slot = { type = "missile_bay.bowfin_internal", size=2, hardpoint=true },
 	provides_slots = {
 		Slot:clone { id = "1", type = "missile", size = 1, hardpoint = true },
 		Slot:clone { id = "2", type = "missile", size = 1, hardpoint = true },
