@@ -223,14 +223,14 @@ end
 function EquipSet:GetFreeSlotForEquip(equip)
 	if not equip.slot then return nil end
 
-	local filter = function(_, slot)
-		return not slot.item
+	local filter = function(id, slot)
+		return not self.installed[id]
 			and slot.hardpoint == equip.slot.hardpoint
 			and self:CanInstallInSlot(slot, equip)
 	end
 
-	for _, slot in pairs(self.slotCache) do
-		if filter(_, slot) then
+	for id, slot in pairs(self.slotCache) do
+		if filter(id, slot) then
 			return slot
 		end
 	end
