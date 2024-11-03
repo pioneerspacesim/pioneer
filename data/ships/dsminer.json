@@ -1,31 +1,144 @@
 {
 	"model": "dsminer",
 	"name": "Deep Space Miner",
-	"cockpit": " ",
+	"cockpit": "",
 	"shield_model": "dsminer_shield",
 	"manufacturer": "haber",
 	"ship_class": "heavy_freighter",
 	"min_crew": 5,
-	"max_crew": 12,
-	"price": 2676331,
-	"hull_mass": 1380,
-	"atmospheric_pressure_limit": 2,
-	"capacity": 3900,
-	"slots": {
-		"engine": 1,
-		"cabin": 50,
-		"laser_front": 1,
-		"laser_rear": 1,
-		"missile": 4,
-		"atmo_shield": 0,
-		"cargo": 3100
+	"max_crew": 5,
+	"price": 1493716,
+	"hull_mass": 308,
+	"structure_mass": 155.2,
+	"armor_mass": 89.8,
+	"volume": 13777,
+	"atmospheric_pressure_limit": 0.8,
+	"capacity": 300,
+	"cargo": 3200,
+
+	"equipment_slots": {
+		"mining_laser_s4_1": {
+			"type": "weapon.mining",
+			"size": 4,
+			"size_min": 2,
+			"i18n_key": "HARDPOINT_MINING_LASER",
+			"tag": "tag_mining_laser_s4_1",
+			"hardpoint": true
+		},
+		"mining_laser_s4_2": {
+			"type": "weapon.mining",
+			"size": 4,
+			"size_min": 2,
+			"i18n_key": "HARDPOINT_MINING_LASER",
+			"tag": "tag_mining_laser_s4_2",
+			"hardpoint": true
+		},
+		"utility_s3_1": {
+			"type": "utility",
+			"size": 3,
+			"size_min": 1,
+			"tag": "tag_utility_s3_1",
+			"hardpoint": true
+		},
+		"utility_s3_2": {
+			"type": "utility",
+			"size": 3,
+			"size_min": 1,
+			"tag": "tag_utility_s3_2",
+			"hardpoint": true
+		},
+		"utility_s3_3": {
+			"type": "utility",
+			"size": 3,
+			"size_min": 1,
+			"tag": "tag_utility_s3_3",
+			"hardpoint": true
+		},
+		"utility_s3_4": {
+			"type": "utility",
+			"size": 3,
+			"size_min": 1,
+			"tag": "tag_utility_s3_4",
+			"hardpoint": true
+		},
+		"utility_s2_5": {
+			"type": "utility",
+			"size": 2,
+			"size_min": 1,
+			"tag": "tag_utility_s2_5",
+			"hardpoint": true
+		},
+		"utility_s2_6": {
+			"type": "utility",
+			"size": 2,
+			"size_min": 1,
+			"tag": "tag_utility_s2_6",
+			"hardpoint": true
+		},
+		"cabin_s2_1": {
+			"type": "cabin",
+			"size": 2
+		},
+		"cabin_s2_2": {
+			"type": "cabin",
+			"size": 2
+		},
+		"cabin_s2_3": {
+			"type": "cabin",
+			"size": 2
+		},
+		"cabin_s2_4": {
+			"type": "cabin",
+			"size": 2
+		},
+		"shield_s3_1": {
+			"type": "shield",
+			"size": 3
+		},
+		"shield_s3_2": {
+			"type": "shield",
+			"size": 3
+		},
+		"shield_s3_3": {
+			"type": "shield",
+			"size": 3
+		},
+		"shuttle_bay": {
+			"type": "vehicle_bay",
+			"size": 1,
+			"tag": "tag_shuttle_bay",
+			"hardpoint": true
+		},
+		"computer_1": {
+			"type": "computer",
+			"size": 3,
+			"size_min": 1
+		},
+		"computer_2": {
+			"type": "computer",
+			"size": 1
+		},
+		"computer_3": {
+			"type": "computer",
+			"size": 1
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"size": 5,
+			"size_min": 4
+		},
+		"thruster": {
+			"type": "thruster",
+			"size": 3,
+			"count": 24
+		}
 	},
+
 	"roles": ["merchant"],
-	
-	"effective_exhaust_velocity": 12900000,
+	"effective_exhaust_velocity": 13900000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 2700,
-	"hyperdrive_class": 9,
+	"fuel_tank_mass": 1850,
+	"hyperdrive_class": 5,
 
 	"forward_thrust": 46000000,
 	"forward_acceleration_cap": 9.81,
@@ -40,7 +153,7 @@
 	"right_thrust": 9000000,
 	"right_acceleration_cap": 5.0031,
 
-	"angular_thrust": 92528654.6826577,
+	"angular_thrust": 92528654.68,
 
 	"front_cross_section": 515,
 	"side_cross_section": 911,

@@ -7,8 +7,8 @@
 	"ship_class": "light_courier",
 	"min_crew": 1,
 	"max_crew": 1,
-	"price": 19104,
-	"hull_mass": 11,
+	"price": 46180,
+	"hull_mass": 13,
 	"structure_mass": 4.2,
 	"armor_mass": 6.6,
 	"volume": 87,
@@ -42,9 +42,8 @@
 			"hardpoint": true
 		},
 		"fuel_scoop_s1": {
-			"type": "scoop.fuel",
+			"type": "fuel_scoop",
 			"size": 1,
-			"i18n_key": "HARDPOINT_FUEL_SCOOP",
 			"tag": "tag_fuel_scoop_s1",
 			"hardpoint": true
 		},
@@ -70,15 +69,14 @@
 			"tag": "tag_utility_s1_1",
 			"hardpoint": true
 		},
+		"cabin_s1_2": {
+			"type": "cabin",
+			"size": 1
+		},
 		"hyperdrive": {
 			"type": "hyperdrive",
 			"size": 1,
 			"size_min": 1
-		},
-		"engine": {
-			"type": "engine",
-			"size": 2,
-			"count": 4
 		},
 		"thruster": {
 			"type": "thruster",
@@ -86,13 +84,14 @@
 			"count": 12
 		}
 	},
+
 	"roles": ["pirate","mercenary"],
 	"effective_exhaust_velocity": 15200000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 10,
 	"hyperdrive_class": 1,
 
-	"forward_thrust": 1500000,
+	"forward_thrust": 1320000,
 	"forward_acceleration_cap": 41.202,
 	"reverse_thrust": 700000,
 	"reverse_acceleration_cap": 21.582,

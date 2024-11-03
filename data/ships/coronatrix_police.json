@@ -8,12 +8,12 @@
 	"min_crew": 1,
 	"max_crew": 1,
 	"price": 0,
-	"hull_mass": 19,
+	"hull_mass": 21,
 	"structure_mass": 7.1,
 	"armor_mass": 11.9,
 	"volume": 190,
 	"atmospheric_pressure_limit": 3.2,
-	"capacity": 36,
+	"capacity": 35,
 	"cargo": 16,
 
 	"equipment_slots": {
@@ -71,17 +71,13 @@
 			"size": 2,
 			"size_min": 1
 		},
-		"engine": {
-			"type": "engine",
-			"size": 2,
-			"count": 2
-		},
 		"thruster": {
 			"type": "thruster",
 			"size": 1,
 			"count": 12
 		}
 	},
+
 	"roles": ["mercenary","police"],
 	"effective_exhaust_velocity": 12600000,
 	"thruster_fuel_use": -1.0,

@@ -1,30 +1,150 @@
 {
 	"model": "venturestar",
 	"name": "Venturestar",
-	"shield_model": "venturestar_shield",
 	"cockpit": "",
+	"shield_model": "venturestar_shield",
 	"manufacturer": "albr",
 	"ship_class": "medium_freighter",
 	"min_crew": 2,
 	"max_crew": 5,
-	"price": 1127263,
-	"hull_mass": 460,
+	"price": 1182421,
+	"hull_mass": 239,
+	"structure_mass": 68.1,
+	"armor_mass": 108.4,
+	"volume": 4002,
 	"atmospheric_pressure_limit": 7.2,
-	"capacity": 1160,
-	"slots": {
-		"engine": 1,
-		"cabin": 35,
-		"laser_front": 1,
-		"laser_rear": 1,
-		"missile": 6,
-		"cargo": 880
+	"capacity": 340,
+	"cargo": 900,
+
+	"equipment_slots": {
+		"utility_s4_1": {
+			"type": "utility",
+			"size": 4,
+			"size_min": 1,
+			"tag": "tag_utility_s4_1",
+			"hardpoint": true
+		},
+		"utility_s3_2": {
+			"type": "utility",
+			"size": 3,
+			"size_min": 1,
+			"tag": "tag_utility_s3_2",
+			"hardpoint": true
+		},
+		"utility_s3_3": {
+			"type": "utility",
+			"size": 3,
+			"size_min": 1,
+			"tag": "tag_utility_s3_3",
+			"hardpoint": true
+		},
+		"utility_s2_4": {
+			"type": "utility",
+			"size": 2,
+			"size_min": 1,
+			"tag": "tag_utility_s2_4",
+			"hardpoint": true
+		},
+		"weapon_front_s4_1": {
+			"type": "weapon",
+			"size": 4,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT",
+			"tag": "tag_weapon_front_s4_1",
+			"hardpoint": true,
+			"gimbal": [6,6]
+		},
+		"weapon_front_s4_2": {
+			"type": "weapon",
+			"size": 4,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT",
+			"tag": "tag_weapon_front_s4_2",
+			"hardpoint": true,
+			"gimbal": [6,6]
+		},
+		"pylon_s4_l": {
+			"type": "pylon",
+			"size": 4,
+			"i18n_key": "HARDPOINT_PYLON_LEFT",
+			"tag": "tag_pylon_s4_l",
+			"hardpoint": true
+		},
+		"pylon_s4_r": {
+			"type": "pylon",
+			"size": 4,
+			"i18n_key": "HARDPOINT_PYLON_RIGHT",
+			"tag": "tag_pylon_s4_r",
+			"hardpoint": true
+		},
+		"shield_s4_1": {
+			"type": "shield",
+			"size": 4,
+			"size_min": 3
+		},
+		"shield_s4_2": {
+			"type": "shield",
+			"size": 4,
+			"size_min": 3
+		},
+		"cabin_s2_1": {
+			"type": "cabin",
+			"size": 2
+		},
+		"fuel_scoop_l": {
+			"type": "fuel_scoop",
+			"size": 2,
+			"size_min": 1,
+			"tag": "tag_fuel_scoop_l",
+			"hardpoint": true
+		},
+		"fuel_scoop_r": {
+			"type": "fuel_scoop",
+			"size": 2,
+			"size_min": 1,
+			"tag": "tag_fuel_scoop_r",
+			"hardpoint": true
+		},
+		"computer_2": {
+			"type": "computer",
+			"size": 2,
+			"size_min": 1
+		},
+		"computer_3": {
+			"type": "computer",
+			"size": 2,
+			"size_min": 1
+		},
+		"computer_1": {
+			"type": "computer",
+			"size": 3,
+			"size_min": 1
+		},
+		"sensor": {
+			"type": "sensor",
+			"size": 4,
+			"size_min": 1
+		},
+		"sensor_2": {
+			"type": "sensor",
+			"size": 3,
+			"size_min": 1
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"size": 4,
+			"size_min": 4
+		},
+		"thruster": {
+			"type": "thruster",
+			"size": 4,
+			"count": 8
+		}
 	},
-	"roles": ["merchant"],	
-	
-	"effective_exhaust_velocity": 21700000,
+
+	"roles": ["merchant","pirate"],
+	"effective_exhaust_velocity": 14000000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 700,
-	"hyperdrive_class": 6,
+	"fuel_tank_mass": 740,
+	"hyperdrive_class": 4,
 
 	"forward_thrust": 55000000,
 	"forward_acceleration_cap": 21.582,
@@ -39,11 +159,11 @@
 	"right_thrust": 30000000,
 	"right_acceleration_cap": 17.2656,
 
-	"angular_thrust": 201149249.310126,
+	"angular_thrust": 201149249.31,
 
-	"front_cross_section": 120,
-	"side_cross_section": 280,
-	"top_cross_section": 1190,
+	"front_cross_section": 120.002,
+	"side_cross_section": 280.002,
+	"top_cross_section": 1190.002,
 
 	"front_drag_coeff": 0.06,
 	"side_drag_coeff": 0.21,

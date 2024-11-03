@@ -5,33 +5,134 @@
 	"shield_model": "storeria_shield",
 	"manufacturer": "opli",
 	"ship_class": "medium_freighter",
-	"min_crew": 1,
+	"min_crew": 3,
 	"max_crew": 5,
-	"price": 1219170,
-	"hull_mass": 500,
+	"price": 897564,
+	"hull_mass": 225,
+	"structure_mass": 81,
+	"armor_mass": 84.2,
+	"volume": 4502,
 	"atmospheric_pressure_limit": 3.2,
-	"capacity": 1650,
-	"slots": {
-		"engine": 1,
-		"cabin": 30,
-		"laser_front": 1,
-		"laser_rear": 1,
-		"missile": 1,
-		"cargo": 1500
-	},
-	"roles": ["merchant"],	
-	
-	"effective_exhaust_velocity": 11900000,
-	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 1000,
-	"hyperdrive_class": 7,
+	"capacity": 220,
+	"cargo": 960,
 
-	"forward_thrust": 45000000,
+	"equipment_slots": {
+		"turret_s2_1": {
+			"type": "turret",
+			"size": 2,
+			"tag": "tag_turret_s2_1",
+			"hardpoint": true
+		},
+		"turret_s2_2": {
+			"type": "turret",
+			"size": 2,
+			"tag": "tag_turret_s2_2",
+			"hardpoint": true
+		},
+		"turret_s1_1": {
+			"type": "turret",
+			"size": 1,
+			"tag": "tag_turret_s1_1",
+			"hardpoint": true
+		},
+		"turret_s1_2": {
+			"type": "turret",
+			"size": 1,
+			"tag": "tag_turret_s1_2",
+			"hardpoint": true
+		},
+		"utility_s3_1": {
+			"type": "utility",
+			"size": 3,
+			"size_min": 1,
+			"tag": "tag_utility_s3_1",
+			"hardpoint": true
+		},
+		"utility_s3_2": {
+			"type": "utility",
+			"size": 3,
+			"size_min": 1,
+			"tag": "tag_utility_s3_2",
+			"hardpoint": true
+		},
+		"utility_s2_3": {
+			"type": "utility",
+			"size": 2,
+			"size_min": 1,
+			"tag": "tag_utility_s2_3",
+			"hardpoint": true
+		},
+		"computer_1": {
+			"type": "computer",
+			"size": 3,
+			"size_min": 1
+		},
+		"computer_2": {
+			"type": "computer",
+			"size": 2,
+			"size_min": 1
+		},
+		"computer_3": {
+			"type": "computer",
+			"size": 1,
+			"size_min": 1
+		},
+		"computer_4": {
+			"type": "computer",
+			"size": 1,
+			"size_min": 1
+		},
+		"fuel_scoop_s3": {
+			"type": "fuel_scoop",
+			"size": 3,
+			"size_min": 1,
+			"tag": "tag_fuel_scoop_s3",
+			"hardpoint": true
+		},
+		"cabin_s1_1": {
+			"type": "cabin",
+			"size": 1
+		},
+		"cabin_s1_2": {
+			"type": "cabin",
+			"size": 1
+		},
+		"cabin_s1_3": {
+			"type": "cabin",
+			"size": 1
+		},
+		"shield_s3_1": {
+			"type": "shield",
+			"size": 3
+		},
+		"shield_s3_2": {
+			"type": "shield",
+			"size": 3
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"size": 4,
+			"size_min": 3
+		},
+		"thruster": {
+			"type": "thruster",
+			"size": 3,
+			"count": 36
+		}
+	},
+
+	"roles": ["merchant"],
+	"effective_exhaust_velocity": 17800000,
+	"thruster_fuel_use": -1.0,
+	"fuel_tank_mass": 660,
+	"hyperdrive_class": 4,
+
+	"forward_thrust": 38700000,
 	"forward_acceleration_cap": 16.677,
-	"reverse_thrust": 11000000,
-	"reverse_acceleration_cap": 11.772,
-	"up_thrust": 14000000,
-	"up_acceleration_cap": 14.715,
+	"reverse_thrust": 23000000,
+	"reverse_acceleration_cap": 14.715,
+	"up_thrust": 15500000,
+	"up_acceleration_cap": 11.772,
 	"down_thrust": 11000000,
 	"down_acceleration_cap": 11.772,
 	"left_thrust": 11000000,
@@ -39,11 +140,11 @@
 	"right_thrust": 11000000,
 	"right_acceleration_cap": 11.772,
 
-	"angular_thrust": 196679265.992123,
+	"angular_thrust": 196679265.99,
 
-	"front_cross_section": 125,
-	"side_cross_section": 240,
-	"top_cross_section": 865,
+	"front_cross_section": 125.002,
+	"side_cross_section": 240.002,
+	"top_cross_section": 865.002,
 
 	"front_drag_coeff": 0.67,
 	"side_drag_coeff": 1.05,

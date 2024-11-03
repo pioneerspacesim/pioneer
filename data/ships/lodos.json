@@ -3,34 +3,202 @@
 	"name": "Lodos",
 	"cockpit": "",
 	"shield_model": "lodos_shield",
-	"manufacturer": "auronox",
+	"manufacturer": "albr",
 	"ship_class": "heavy_freighter",
 	"min_crew": 2,
 	"max_crew": 5,
-	"price": 2541351,
-	"hull_mass": 850,
-	"atmospheric_pressure_limit": 3.2,
-	"capacity": 3100,
-	"slots": {
-		"engine": 1,
-		"cabin": 50,
-		"laser_front": 1,
-		"laser_rear": 1,
-		"missile": 2,
-		"cargo": 2800
+	"price": 3603283,
+	"hull_mass": 568,
+	"structure_mass": 227.6,
+	"armor_mass": 159.5,
+	"volume": 13321,
+	"atmospheric_pressure_limit": 5.1,
+	"capacity": 584,
+	"cargo": 2560,
+
+	"equipment_slots": {
+		"weapon_front_s3_1": {
+			"type": "weapon",
+			"size": 3,
+			"size_min": 2,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT_LEFT",
+			"tag": "tag_weapon_front_s3_1",
+			"hardpoint": true,
+			"gimbal": [3,3]
+		},
+		"weapon_front_s3_2": {
+			"type": "weapon",
+			"size": 3,
+			"size_min": 2,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT_LEFT",
+			"tag": "tag_weapon_front_s3_2",
+			"hardpoint": true,
+			"gimbal": [3,3]
+		},
+		"weapon_front_s3_3": {
+			"type": "weapon",
+			"size": 3,
+			"size_min": 2,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT_RIGHT",
+			"tag": "tag_weapon_front_s3_3",
+			"hardpoint": true,
+			"gimbal": [3,3]
+		},
+		"weapon_front_s3_4": {
+			"type": "weapon",
+			"size": 3,
+			"size_min": 2,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT_RIGHT",
+			"tag": "tag_weapon_front_s3_4",
+			"hardpoint": true,
+			"gimbal": [3,3]
+		},
+		"missile_rack_s4_l1": {
+			"type": "pylon.rack",
+			"size": 4,
+			"tag": "tag_missile_rack_s4_l1",
+			"hardpoint": true
+		},
+		"missile_rack_s4_l2": {
+			"type": "pylon.rack",
+			"size": 4,
+			"tag": "tag_missile_rack_s4_l2",
+			"hardpoint": true
+		},
+		"missile_rack_s4_r1": {
+			"type": "pylon.rack",
+			"size": 4,
+			"tag": "tag_missile_rack_s4_r1",
+			"hardpoint": true
+		},
+		"missile_rack_s4_r2": {
+			"type": "pylon.rack",
+			"size": 4,
+			"tag": "tag_missile_rack_s4_r2",
+			"hardpoint": true
+		},
+		"utility_s5_1": {
+			"type": "utility",
+			"size": 5,
+			"size_min": 1,
+			"tag": "tag_utility_s5_1",
+			"hardpoint": true
+		},
+		"utility_s4_2": {
+			"type": "utility",
+			"size": 4,
+			"size_min": 1,
+			"tag": "tag_utility_s4_2",
+			"hardpoint": true
+		},
+		"utility_s4_3": {
+			"type": "utility",
+			"size": 4,
+			"size_min": 1,
+			"tag": "tag_utility_s4_3",
+			"hardpoint": true
+		},
+		"utility_s2_4": {
+			"type": "utility",
+			"size": 2,
+			"size_min": 1,
+			"tag": "tag_utility_s2_4",
+			"hardpoint": true
+		},
+		"utility_s2_5": {
+			"type": "utility",
+			"size": 2,
+			"size_min": 1,
+			"tag": "tag_utility_s2_5",
+			"hardpoint": true
+		},
+		"computer_1": {
+			"type": "computer",
+			"size": 3,
+			"size_min": 1
+		},
+		"computer_2": {
+			"type": "computer",
+			"size": 3,
+			"size_min": 1
+		},
+		"computer_3": {
+			"type": "computer",
+			"size": 2,
+			"size_min": 1
+		},
+		"computer_4": {
+			"type": "computer",
+			"size": 2,
+			"size_min": 1
+		},
+		"fuel_scoop_1": {
+			"type": "fuel_scoop",
+			"size": 4,
+			"size_min": 1,
+			"tag": "tag_fuel_scoop_1",
+			"hardpoint": true
+		},
+		"fuel_scoop_2": {
+			"type": "fuel_scoop",
+			"size": 4,
+			"size_min": 1,
+			"tag": "tag_fuel_scoop_2",
+			"hardpoint": true
+		},
+		"cabin_s3_1": {
+			"type": "cabin",
+			"size": 3
+		},
+		"cabin_s3_2": {
+			"type": "cabin",
+			"size": 3
+		},
+		"cabin_s3_3": {
+			"type": "cabin",
+			"size": 3
+		},
+		"cabin_s2_4": {
+			"type": "cabin",
+			"size": 2
+		},
+		"cabin_s2_5": {
+			"type": "cabin",
+			"size": 2
+		},
+		"shield_s4_1": {
+			"type": "shield",
+			"size": 4,
+			"size_min": 3
+		},
+		"shield_s4_2": {
+			"type": "shield",
+			"size": 4,
+			"size_min": 3
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"size": 5,
+			"size_min": 4
+		},
+		"thruster": {
+			"type": "thruster",
+			"size": 5,
+			"count": 12
+		}
 	},
+
 	"roles": ["merchant"],
-	
 	"effective_exhaust_velocity": 18900000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 2100,
-	"hyperdrive_class": 7,
+	"fuel_tank_mass": 2190,
+	"hyperdrive_class": 5,
 
 	"forward_thrust": 98000000,
 	"forward_acceleration_cap": 22.563,
-	"reverse_thrust": 33000000,
+	"reverse_thrust": 35600000,
 	"reverse_acceleration_cap": 17.658,
-	"up_thrust": 33000000,
+	"up_thrust": 35600000,
 	"up_acceleration_cap": 19.62,
 	"down_thrust": 13000000,
 	"down_acceleration_cap": 17.658,
@@ -39,11 +207,11 @@
 	"right_thrust": 13000000,
 	"right_acceleration_cap": 17.658,
 
-	"angular_thrust": 267305002.416567,
+	"angular_thrust": 267305002.42,
 
-	"front_cross_section": 345,
-	"side_cross_section": 690,
-	"top_cross_section": 1430,
+	"front_cross_section": 345.002,
+	"side_cross_section": 690.002,
+	"top_cross_section": 1430.002,
 
 	"front_drag_coeff": 0.32,
 	"side_drag_coeff": 0.69,

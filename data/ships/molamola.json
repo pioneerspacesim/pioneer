@@ -7,9 +7,9 @@
 	"ship_class": "light_freighter",
 	"min_crew": 1,
 	"max_crew": 1,
-	"price": 59029.35,
-	"hull_mass": 18,
-	"structure_mass": 11.3,
+	"price": 60279,
+	"hull_mass": 23,
+	"structure_mass": 12.7,
 	"armor_mass": 7.1,
 	"volume": 378,
 	"atmospheric_pressure_limit": 5.1,
@@ -17,14 +17,6 @@
 	"cargo": 72,
 
 	"equipment_slots": {
-		"weapon_left_nose": {
-			"type": "weapon",
-			"size": 1,
-			"i18n_key": "HARDPOINT_WEAPON_LEFT_NOSE",
-			"tag": "tag_weapon_left_nose",
-			"hardpoint": true,
-			"gimbal": [0,0]
-		},
 		"weapon_right_nose": {
 			"type": "weapon",
 			"size": 1,
@@ -37,11 +29,10 @@
 			"type": "computer",
 			"size": 1
 		},
-		"cargo_scoop_s1": {
-			"type": "scoop.cargo",
+		"fuel_scoop_s1": {
+			"type": "fuel_scoop",
 			"size": 1,
-			"i18n_key": "HARDPOINT_CARGO_SCOOP",
-			"tag": "tag_cargo_scoop_s1",
+			"tag": "tag_fuel_scoop_s1",
 			"hardpoint": true
 		},
 		"utility_s1_1": {
@@ -59,17 +50,13 @@
 			"size": 2,
 			"size_min": 2
 		},
-		"engine": {
-			"type": "engine",
-			"size": 1,
-			"count": 4
-		},
 		"thruster": {
 			"type": "thruster",
 			"size": 2,
 			"count": 12
 		}
 	},
+
 	"roles": ["merchant"],
 	"effective_exhaust_velocity": 13000000,
 	"thruster_fuel_use": -1.0,

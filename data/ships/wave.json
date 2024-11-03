@@ -7,49 +7,148 @@
 	"ship_class": "medium_fighter",
 	"min_crew": 1,
 	"max_crew": 1,
-	"price": 55305,
-	"hull_mass": 13,
+	"price": 84380,
+	"hull_mass": 41,
+	"structure_mass": 12.4,
+	"armor_mass": 24.2,
+	"volume": 434,
 	"atmospheric_pressure_limit": 14,
-	"capacity": 30,
-	"slots": {
-		"engine": 1,
-		"cabin": 0,
-		"scoop": 2,
-		"laser_front": 1,
-		"laser_rear": 1,
-		"missile": 12,
-		"cargo": 30
+	"capacity": 22,
+	"cargo": 6,
+
+	"equipment_slots": {
+		"weapon_left_s1": {
+			"type": "weapon",
+			"size": 1,
+			"i18n_key": "HARDPOINT_WEAPON_LEFT",
+			"tag": "tag_weapon_left_s1",
+			"hardpoint": true,
+			"gimbal": [0,0]
+		},
+		"weapon_right_s1": {
+			"type": "weapon",
+			"size": 1,
+			"i18n_key": "HARDPOINT_WEAPON_RIGHT",
+			"tag": "tag_weapon_right_s1",
+			"hardpoint": true,
+			"gimbal": [0,0]
+		},
+		"laser_front_s2": {
+			"type": "weapon",
+			"size": 2,
+			"size_min": 1,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT",
+			"tag": "tag_laser_front_s2",
+			"hardpoint": true,
+			"gimbal": [4,4]
+		},
+		"missile_rack_s3_left": {
+			"type": "pylon.rack",
+			"size": 3,
+			"i18n_key": "HARDPOINT_PYLON_LEFT",
+			"tag": "tag_missile_rack_s3_left",
+			"hardpoint": true
+		},
+		"missile_rack_s3_right": {
+			"type": "pylon.rack",
+			"size": 3,
+			"i18n_key": "HARDPOINT_PYLON_RIGHT",
+			"tag": "tag_missile_rack_s3_right",
+			"hardpoint": true
+		},
+		"pylon_s2_left_wing": {
+			"type": "pylon",
+			"size": 2,
+			"i18n_key": "HARDPOINT_PYLON_LEFT_WING",
+			"tag": "tag_pylon_s2_left_wing",
+			"hardpoint": true
+		},
+		"pylon_s2_right_wing": {
+			"type": "pylon",
+			"size": 2,
+			"i18n_key": "HARDPOINT_PYLON_RIGHT_WING",
+			"tag": "tag_pylon_s2_right_wing",
+			"hardpoint": true
+		},
+		"missile_s3_left": {
+			"type": "missile",
+			"size": 3,
+			"tag": "tag_missile_s3_left",
+			"hardpoint": true
+		},
+		"missile_s3_right": {
+			"type": "missile",
+			"size": 3,
+			"tag": "tag_missile_s3_right",
+			"hardpoint": true
+		},
+		"computer_2": {
+			"type": "computer",
+			"size": 1
+		},
+		"shield_s2_1": {
+			"type": "shield",
+			"size": 2,
+			"size_min": 1
+		},
+		"utility_s1_1": {
+			"type": "utility",
+			"size": 1,
+			"tag": "tag_utility_s1_1",
+			"hardpoint": true
+		},
+		"utility_s1_2": {
+			"type": "utility",
+			"size": 1,
+			"tag": "tag_utility_s1_2",
+			"hardpoint": true
+		},
+		"shield_s2_2": {
+			"type": "shield",
+			"size": 2,
+			"size_min": 1
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"size": 2,
+			"size_min": 2
+		},
+		"thruster": {
+			"type": "thruster",
+			"size": 2,
+			"count": 12
+		}
 	},
-	"roles": ["mercenary", "pirate", "courier"],	
-	
+
+	"roles": ["pirate","mercenary"],
 	"effective_exhaust_velocity": 16900000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 22,
-	"hyperdrive_class": 1,
+	"hyperdrive_class": 2,
 
-	"forward_thrust": 2800000,
+	"forward_thrust": 3060000,
 	"forward_acceleration_cap": 44.145,
-	"reverse_thrust": 700000,
-	"reverse_acceleration_cap": 11.772,
-	"up_thrust": 2000000,
-	"up_acceleration_cap": 39.24,
-	"down_thrust": 800000,
-	"down_acceleration_cap": 19.62,
-	"left_thrust": 800000,
-	"left_acceleration_cap": 19.62,
-	"right_thrust": 800000,
-	"right_acceleration_cap": 19.62,
+	"reverse_thrust": 1040000,
+	"reverse_acceleration_cap": 23.544,
+	"up_thrust": 1160000,
+	"up_acceleration_cap": 17.658,
+	"down_thrust": 1160000,
+	"down_acceleration_cap": 11.772,
+	"left_thrust": 840000,
+	"left_acceleration_cap": 13.734,
+	"right_thrust": 840000,
+	"right_acceleration_cap": 13.734,
 
-	"angular_thrust": 4505743.18454681,
+	"angular_thrust": 4505743,
 
-	"front_cross_section": 35.2,
-	"side_cross_section": 46,
-	"top_cross_section": 345,
+	"front_cross_section": 35.202,
+	"side_cross_section": 46.002,
+	"top_cross_section": 345.002,
 
 	"front_drag_coeff": 0.04,
-	"side_drag_coeff": 0.1,
-	"top_drag_coeff": 0.85,
+	"side_drag_coeff": 0.21,
+	"top_drag_coeff": 1.05,
 
 	"lift_coeff": 1,
-	"aero_stability": 2.6
+	"aero_stability": 2.2
 }

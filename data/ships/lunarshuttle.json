@@ -7,8 +7,8 @@
 	"ship_class": "light_passenger_shuttle",
 	"min_crew": 1,
 	"max_crew": 1,
-	"price": 16224,
-	"hull_mass": 14,
+	"price": 27062,
+	"hull_mass": 15,
 	"structure_mass": 8.7,
 	"armor_mass": 5.6,
 	"volume": 310,
@@ -42,17 +42,13 @@
 			"size": 1,
 			"size_min": 1
 		},
-		"engine": {
-			"type": "engine",
-			"size": 2,
-			"count": 2
-		},
 		"thruster": {
 			"type": "thruster",
 			"size": 1,
 			"count": 6
 		}
 	},
+
 	"roles": ["passenger"],
 	"effective_exhaust_velocity": 7900000,
 	"thruster_fuel_use": -1.0,

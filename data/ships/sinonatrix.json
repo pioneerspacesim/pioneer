@@ -4,29 +4,134 @@
 	"cockpit": "sinonatrix_cockpit",
 	"shield_model": "sinonatrix_shield",
 	"manufacturer": "opli",
-	"ship_class": "light_courier",
+	"ship_class": "medium_courier",
 	"min_crew": 1,
 	"max_crew": 2,
-	"price": 79073,
-	"hull_mass": 28,
+	"price": 95647,
+	"hull_mass": 39,
+	"structure_mass": 15,
+	"armor_mass": 19,
+	"volume": 576,
 	"atmospheric_pressure_limit": 3.2,
-	"capacity": 53,
-	"slots": {
-		"engine": 1,
-		"cabin": 3,
-		"laser_front": 1,
-		"missile": 5,
-		"shield": 2,
-		"cargo": 30
-	},
-	"roles": ["mercenary", "merchant", "pirate", "courier"],
+	"capacity": 59,
+	"cargo": 24,
 
-	"effective_exhaust_velocity": 16000000,
+	"equipment_slots": {
+		"weapon_s2_1": {
+			"type": "weapon",
+			"size": 2,
+			"size_min": 1,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT",
+			"tag": "tag_weapon_s2_1",
+			"hardpoint": true,
+			"gimbal": [5,5]
+		},
+		"weapon_s2_2": {
+			"type": "weapon",
+			"size": 2,
+			"size_min": 1,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT",
+			"tag": "tag_weapon_s2_2",
+			"hardpoint": true,
+			"gimbal": [5,5]
+		},
+		"utility_s2_1": {
+			"type": "utility",
+			"size": 2,
+			"size_min": 1,
+			"tag": "tag_utility_s2_1",
+			"hardpoint": true
+		},
+		"utility_s2_2": {
+			"type": "utility",
+			"size": 2,
+			"size_min": 1,
+			"tag": "tag_utility_s2_2",
+			"hardpoint": true
+		},
+		"utility_s1_3": {
+			"type": "utility",
+			"size": 1,
+			"size_min": 1,
+			"tag": "tag_utility_s1_3",
+			"hardpoint": true
+		},
+		"utility_s1_4": {
+			"type": "utility",
+			"size": 1,
+			"size_min": 1,
+			"tag": "tag_utility_s1_4",
+			"hardpoint": true
+		},
+		"computer": {
+			"type": "computer",
+			"size": 1,
+			"size_min": 1
+		},
+		"computer_2": {
+			"type": "computer",
+			"size": 1,
+			"size_min": 1
+		},
+		"shield_s2_1": {
+			"type": "shield",
+			"size": 2,
+			"size_min": 1
+		},
+		"shield_s2_2": {
+			"type": "shield",
+			"size": 2,
+			"size_min": 1
+		},
+		"missile_bay_1": {
+			"type": "missile_bay.opli_internal",
+			"size": 2,
+			"size_min": 1,
+			"i18n_key": "HARDPOINT_MISSILE_BAY",
+			"tag": "tag_missile_bay_1",
+			"hardpoint": true,
+			"default": "missile_rack.opli_internal_s2"
+		},
+		"missile_bay_2": {
+			"type": "missile_bay.opli_internal",
+			"size": 2,
+			"size_min": 1,
+			"i18n_key": "HARDPOINT_MISSILE_BAY",
+			"tag": "tag_missile_bay_2",
+			"hardpoint": true,
+			"default": "missile_rack.opli_internal_s2"
+		},
+		"fuel_scoop_s1": {
+			"type": "fuel_scoop",
+			"size": 1
+		},
+		"cabin_s1_1": {
+			"type": "cabin",
+			"size": 1
+		},
+		"cabin_s1_2": {
+			"type": "cabin",
+			"size": 1
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"size": 2,
+			"size_min": 1
+		},
+		"thruster": {
+			"type": "thruster",
+			"size": 2,
+			"count": 12
+		}
+	},
+
+	"roles": ["pirate","merchant","mercenary","courier"],
+	"effective_exhaust_velocity": 16700000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 54,
 	"hyperdrive_class": 2,
 
-	"forward_thrust": 2300000,
+	"forward_thrust": 3160000,
 	"forward_acceleration_cap": 38.259,
 	"reverse_thrust": 900000,
 	"reverse_acceleration_cap": 17.658,
@@ -39,11 +144,11 @@
 	"right_thrust": 600000,
 	"right_acceleration_cap": 14.715,
 
-	"angular_thrust": 4022984.98620251,
+	"angular_thrust": 4500000,
 
-	"front_cross_section": 42.2,
-	"side_cross_section": 60.8,
-	"top_cross_section": 170,
+	"front_cross_section": 42.202,
+	"side_cross_section": 60.802,
+	"top_cross_section": 170.002,
 
 	"front_drag_coeff": 0.3,
 	"side_drag_coeff": 0.5,

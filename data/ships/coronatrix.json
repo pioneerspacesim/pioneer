@@ -7,13 +7,13 @@
 	"ship_class": "light_courier",
 	"min_crew": 1,
 	"max_crew": 1,
-	"price": 46580.34,
-	"hull_mass": 19,
+	"price": 50349,
+	"hull_mass": 21,
 	"structure_mass": 7.1,
 	"armor_mass": 11.9,
 	"volume": 190,
 	"atmospheric_pressure_limit": 3.2,
-	"capacity": 36,
+	"capacity": 35,
 	"cargo": 16,
 
 	"equipment_slots": {
@@ -40,9 +40,8 @@
 			"default": "missile_rack.opli_internal_s2"
 		},
 		"fuel_scoop_s1": {
-			"type": "scoop.fuel",
+			"type": "fuel_scoop",
 			"size": 1,
-			"i18n_key": "HARDPOINT_FUEL_SCOOP",
 			"tag": "tag_fuel_scoop_s1",
 			"hardpoint": true
 		},
@@ -73,15 +72,14 @@
 			"hardpoint": true,
 			"gimbal": [4,4]
 		},
+		"computer_1": {
+			"type": "computer",
+			"size": 1
+		},
 		"hyperdrive": {
 			"type": "hyperdrive",
 			"size": 2,
 			"size_min": 1
-		},
-		"engine": {
-			"type": "engine",
-			"size": 2,
-			"count": 2
 		},
 		"thruster": {
 			"type": "thruster",
@@ -89,7 +87,8 @@
 			"count": 16
 		}
 	},
-	"roles": ["pirate","mercenary"],
+
+	"roles": ["pirate","mercenary","courier"],
 	"effective_exhaust_velocity": 12600000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 23,

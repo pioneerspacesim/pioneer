@@ -7,9 +7,9 @@
 	"ship_class": "light_fighter",
 	"min_crew": 1,
 	"max_crew": 1,
-	"price": 48674.18056474379,
-	"hull_mass": 19,
-	"structure_mass": 7.8,
+	"price": 43104,
+	"hull_mass": 20,
+	"structure_mass": 7.1,
 	"armor_mass": 11.6,
 	"volume": 135,
 	"atmospheric_pressure_limit": 6.5,
@@ -81,24 +81,20 @@
 			"size": 1,
 			"size_min": 1
 		},
-		"engine": {
-			"type": "engine",
-			"size": 2,
-			"count": 2
-		},
 		"thruster": {
 			"type": "thruster",
 			"size": 1,
 			"count": 12
 		}
 	},
+
 	"roles": ["pirate","mercenary","police"],
 	"effective_exhaust_velocity": 8400000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 20,
 	"hyperdrive_class": 1,
 
-	"forward_thrust": 2000000,
+	"forward_thrust": 2100000,
 	"forward_acceleration_cap": 33.354,
 	"reverse_thrust": 1250000,
 	"reverse_acceleration_cap": 24.525,

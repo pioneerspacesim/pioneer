@@ -8,7 +8,7 @@
 	"min_crew": 1,
 	"max_crew": 1,
 	"price": 0,
-	"hull_mass": 17,
+	"hull_mass": 18,
 	"structure_mass": 4.2,
 	"armor_mass": 12.4,
 	"volume": 87,
@@ -60,9 +60,8 @@
 			"hardpoint": true
 		},
 		"fuel_scoop_s1": {
-			"type": "scoop.fuel",
+			"type": "fuel_scoop",
 			"size": 1,
-			"i18n_key": "HARDPOINT_FUEL_SCOOP",
 			"tag": "tag_fuel_scoop_s1",
 			"hardpoint": true
 		},
@@ -79,24 +78,20 @@
 			"size": 1,
 			"size_min": 1
 		},
-		"engine": {
-			"type": "engine",
-			"size": 2,
-			"count": 4
-		},
 		"thruster": {
 			"type": "thruster",
 			"size": 1,
 			"count": 12
 		}
 	},
+
 	"roles": ["mercenary","police"],
-	"effective_exhaust_velocity": 9900000,
+	"effective_exhaust_velocity": 15200000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 12,
 	"hyperdrive_class": 1,
 
-	"forward_thrust": 1500000,
+	"forward_thrust": 1320000,
 	"forward_acceleration_cap": 41.202,
 	"reverse_thrust": 700000,
 	"reverse_acceleration_cap": 27.468,
