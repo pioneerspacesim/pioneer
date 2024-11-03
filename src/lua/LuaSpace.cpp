@@ -318,7 +318,8 @@ static int l_space_put_ship_on_route(lua_State *l)
 		// update velocity direction
 		ship->SetVelocity((targpos - ship->GetPosition()).Normalized() * pp.getVel() + targetbody->GetVelocityRelTo(ship->GetFrame()));
 	}
-	LUA_DEBUG_END(l, 1);
+
+	LUA_DEBUG_END(l, 0);
 	return 0;
 }
 

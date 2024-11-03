@@ -146,6 +146,8 @@ static const luaL_Reg STANDARD_LIBS[] = {
 
 void pi_lua_open_standard_base(lua_State *L)
 {
+	LUA_DEBUG_START(L);
+
 	for (const luaL_Reg *lib = STANDARD_LIBS; lib->func; ++lib) {
 		luaL_requiref(L, lib->name, lib->func, 1);
 		lua_pop(L, 1);
@@ -174,9 +176,7 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_getfield(L, -1, "open");
 	assert(lua_iscfunction(L, -1));
 	LuaFileSystem::register_raw_io_open_function(lua_tocfunction(L, -1));
-
-	lua_pop(L, 1); // pop the io table
-	lua_getglobal(L, LUA_IOLIBNAME);
+	lua_pop(L, 1); // pop the io.open function
 
 	// patch io.open so we can check the path
 	lua_pushcfunction(L, LuaFileSystem::l_patched_io_open);
@@ -245,6 +245,8 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_setfield(L, -2, "dumpstack");
 
 	lua_pop(L, 1); // pop the debug table
+
+	LUA_DEBUG_END(L, 0);
 }
 
 static int l_handle_error(lua_State *L)

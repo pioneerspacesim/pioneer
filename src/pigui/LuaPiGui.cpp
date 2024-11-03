@@ -63,6 +63,8 @@ namespace PiGui {
 				keys.Set(p.first, p.second);
 			}
 
+			lua_pop(l, 1);
+
 			pi_lua_import(l, "Event");
 
 			// Create a new event table and store it for UI use
