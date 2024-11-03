@@ -475,10 +475,6 @@
     "description": "Category name for hull-mounted equipment",
     "message": "Hull Mounts"
   },
-  "HARDPOINT_CARGO_SCOOP": {
-    "description": "Name for the 'Cargo Scoop' equipment hardpoint",
-    "message": "Cargo Scoop"
-  },
   "HARDPOINT_FUEL_SCOOP": {
     "description": "Name for the 'Fuel Scoop' equipment hardpoint",
     "message": "Fuel Scoop"
@@ -499,13 +495,13 @@
     "description": "Name for the 'Missile Array' equipment hardpoint",
     "message": "Missile Array"
   },
-  "HARDPOINT_SCOOP": {
-    "description": "Name for a generic scoop hardpoint",
-    "message": "Scoop"
-  },
   "HARDPOINT_UTILITY": {
     "description": "",
     "message": "Utility"
+  },
+  "HARDPOINT_WEAPON": {
+    "description": "",
+    "message": "Weapon"
   },
   "HARDPOINT_WEAPON_FRONT": {
     "description": "Name for the 'Laser Front' equipment hardpoint",
@@ -522,6 +518,10 @@
   "HARDPOINT_WEAPON_RIGHT_NOSE": {
     "description": "",
     "message": "Right Nose"
+  },
+  "HARDPOINT_WEAPON_REAR": {
+    "description": "",
+    "message": "Rear Weapon"
   },
   "SLOT_SENSOR": {
     "description": "",
