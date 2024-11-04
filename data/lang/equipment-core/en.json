@@ -448,23 +448,23 @@
     "message": "Weapons"
   },
   "THRUSTERS_DEFAULT": {
-    "description": "",
+    "description": "Equipment name for default RCS thrusters",
     "message": "Default Thrusters"
   },
   "PROJECTILE_SPEED": {
-    "description": "Stat name for weapon projectile speeds",
+    "description": "Stat label for weapon projectile speeds",
     "message": "Projectile Speed"
   },
   "STAT_VOLUME": {
-    "description": "",
+    "description": "Stat label for equipment volume",
     "message": "Volume"
   },
   "STAT_WEIGHT": {
-    "description": "",
+    "description": "Stat label for equipment weight",
     "message": "Weight"
   },
   "STAT_POWER_DRAW": {
-    "description": "",
+    "description": "Stat label for equipment power draw",
     "message": "Power Draw"
   },
   "COMPUTER_MODULES": {
@@ -496,79 +496,79 @@
     "message": "Missile Array"
   },
   "HARDPOINT_UTILITY": {
-    "description": "",
+    "description": "Name for a generic utility hardpoint",
     "message": "Utility"
   },
   "HARDPOINT_WEAPON": {
-    "description": "",
+    "description": "Name for a generic weapon hardpoint",
     "message": "Weapon"
   },
   "HARDPOINT_WEAPON_FRONT": {
-    "description": "Name for the 'Laser Front' equipment hardpoint",
+    "description": "Name for a generic front-facing weapon hardpoint",
     "message": "Front Weapon"
   },
   "HARDPOINT_WEAPON_CHIN": {
-    "description": "Name for the 'Laser Chin' equipment hardpoint",
-    "message": "Chin Weapon"
+    "description": "Name for the 'Chin Mount' equipment hardpoint",
+    "message": "Chin Mount"
   },
   "HARDPOINT_WEAPON_LEFT_NOSE": {
-    "description": "",
+    "description": "Name for the 'Left Nose' weapon hardpoint",
     "message": "Left Nose"
   },
   "HARDPOINT_WEAPON_RIGHT_NOSE": {
-    "description": "",
+    "description": "Name for the 'Right Nose' weapon hardpoint",
     "message": "Right Nose"
   },
   "HARDPOINT_WEAPON_REAR": {
-    "description": "",
+    "description": "Name for a generic rear-facing weapon hardpoint",
     "message": "Rear Weapon"
   },
   "SLOT_SENSOR": {
-    "description": "",
+    "description": "Name for a generic (flight/navigation) sensor slot",
     "message": "Sensor"
   },
   "SLOT_CABIN": {
-    "description": "",
+    "description": "Name for a generic room slot inside the pressurized living space",
     "message": "Cabin"
   },
   "SLOT_COMPUTER": {
-    "description": "",
+    "description": "Name for a generic computer equipment slot",
     "message": "Computer"
   },
   "SLOT_SHIELD": {
-    "description": "",
+    "description": "Name for a generic shield slot",
     "message": "Shield"
   },
   "SLOT_SHIELD_LEFT": {
-    "description": "",
+    "description": "Name for a left-side shield slot",
     "message": "Shield L"
   },
   "SLOT_SHIELD_RIGHT": {
-    "description": "",
+    "description": "Name for a right-side shield equipment slot",
     "message": "Shield R"
   },
   "SLOT_HULL": {
-    "description": "",
+    "description": "Name for an equipment slot that augments or modifies the ship hull",
     "message": "Hull"
   },
   "SLOT_HYPERDRIVE": {
-    "description": "",
+    "description": "Name for a ship's singular hyperdrive equipment slot",
     "message": "Hyperdrive"
   },
   "SLOT_ENGINE": {
-    "description": "",
+    "description": "Name for the ship's primary travel engines",
     "message": "Engines"
   },
   "SLOT_THRUSTER": {
-    "description": "",
+    "description": "Generic name for secondary attitude or maneuvering thrusters",
     "message": "Thrusters"
   },
   "SLOT_CABIN_FORE": {
-    "description": "",
+    "description": "Name for a cabin slot towards the front of the ship",
     "message": "Fore Cabin"
   },
   "SLOT_CABIN_REAR": {
-    "description": "",
+    "description": "Name for a cabin slot towards the rear of the ship",
     "message": "Rear Cabin"
   },
   "MISC_EQUIPMENT": {
@@ -576,11 +576,11 @@
     "message": "Miscellaneous"
   },
   "OPLI_INTERNAL_MISSILE_RACK_S2": {
-    "description": "",
+    "description": "Equipment name for an OPLI internal missile rack",
     "message": "OPLI Internal Missile Rack"
   },
   "OKB_KALURI_BOWFIN_MISSILE_RACK": {
-    "description": "",
+    "description": "Equipment name for an OKB-Kaluri Bowfin internal missile launcher",
     "message": "Bowfin Missile Launcher"
   },
   "CABINS": {
@@ -588,35 +588,35 @@
     "message": "Cabins"
   },
   "PASSENGER_BERTHS": {
-    "description": "",
+    "description": "Label for the total number of passenger berths in a cabin equipment item",
     "message": "Passenger Berths"
   },
   "OCCUPIED_BERTHS": {
-    "description": "",
+    "description": "Label for the number of passenger berths currently occupied in a cabin equipment item",
     "message": "Occupied Berths"
   },
   "MISSILE_RAIL_S1": {
-	"description": "",
+	"description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
 	"message": "Cnida-101 Missile Rail"
   },
   "MISSILE_RAIL_S2": {
-	"description": "",
+	"description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
 	"message": "Cnida-102 Missile Rail"
   },
   "MISSILE_RAIL_S3": {
-	"description": "",
+	"description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
 	"message": "Cnida-103 Missile Rail"
   },
   "MISSILE_RACK_341": {
-	"description": "",
+	"description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
 	"message": "LH-140 Hydri Missile Rack"
   },
   "MISSILE_RACK_322": {
-	"description": "",
+	"description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
 	"message": "LH-230 Hydri Missile Rack"
   },
   "MISSILE_RACK_221": {
-	"description": "",
+	"description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
 	"message": "LH-120 Hydri Missile Rack"
   }
 }
