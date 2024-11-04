@@ -42,7 +42,11 @@ void LuaObject<PiGui::ModelSpinner>::RegisterClass()
 	using T = PiGui::ModelSpinner;
 
 	static LuaMetaType<T> s_metaType(s_type);
-	s_metaType.CreateMetaType(Lua::manager->GetLuaState());
+	auto l = Lua::manager->GetLuaState();
+
+	LUA_DEBUG_START(l);
+
+	s_metaType.CreateMetaType(l);
 
 	s_metaType.StartRecording()
 		.AddCallCtor(&l_model_new)

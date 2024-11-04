@@ -43,11 +43,11 @@ namespace PiGui {
 
 		void Init()
 		{
+			LuaObject<PiGui::Instance>::RegisterClass();
+			lua_State *l = ::Lua::manager->GetLuaState();
+
 			LUA_DEBUG_START(l);
 
-			LuaObject<PiGui::Instance>::RegisterClass();
-
-			lua_State *l = ::Lua::manager->GetLuaState();
 			lua_newtable(l);
 			m_handlers = LuaRef(l, -1);
 			lua_pop(l, 1);
@@ -62,6 +62,8 @@ namespace PiGui {
 			for (auto p : m_keycodes) {
 				keys.Set(p.first, p.second);
 			}
+
+			lua_pop(l, 1);
 
 			pi_lua_import(l, "Event");
 

@@ -286,7 +286,7 @@ void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs,
 
 	// create a throwaway, non-inheriting metatype
 	LuaMetaTypeBase metaType("");
-	metaType.CreateMetaType(l);
+	metaType.CreateMetaType(l, true);
 
 	// add methods
 	if (methods) {
@@ -350,7 +350,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	LuaMetaTypeBase metaType(type);
 	if (parent)
 		metaType.SetParent(parent);
-	metaType.CreateMetaType(l);
+	metaType.CreateMetaType(l, true);
 
 	// add attributes
 	if (attrs) {
@@ -450,6 +450,7 @@ bool LuaObjectBase::PushRegistered(LuaWrappable *o)
 
 	if (!o) {
 		lua_pushnil(l);
+		LUA_DEBUG_END(l, 1);
 		return true;
 	}
 

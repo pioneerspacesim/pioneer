@@ -5,6 +5,7 @@
 #define _LUAUTILS_H
 
 // to mask __attribute on MSVC
+#include "core/Log.h"
 #include "core/macros.h"
 #include "DateTime.h"
 
@@ -94,7 +95,7 @@ std::string pi_lua_dumpstack(lua_State *l, int top);
 void pi_lua_printvalue(lua_State *l, int idx);
 void pi_lua_stacktrace(lua_State *l);
 
-#ifdef DEBUG
+#ifndef NDEBUG
 #define LUA_DEBUG_START(luaptr) const int __luaStartStackDepth = lua_gettop(luaptr)
 #define LUA_DEBUG_END(luaptr, expectedStackDiff)                                                   \
 	do {                                                                                           \

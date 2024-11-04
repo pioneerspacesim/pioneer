@@ -422,7 +422,7 @@ void *LuaMetaTypeBase::CheckUserdata(lua_State *l, int index, const char *type)
 	return p;
 }
 
-void LuaMetaTypeBase::CreateMetaType(lua_State *l)
+void LuaMetaTypeBase::CreateMetaType(lua_State *l, bool pushToStack)
 {
 	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaMetaTypes");
 	m_lua = l;
@@ -476,4 +476,9 @@ void LuaMetaTypeBase::CreateMetaType(lua_State *l)
 
 	// replace the LuaMetaTypes registry table, leaving the created metatype on the stack
 	lua_replace(l, -2);
+
+	// clean up the stack if required
+	if (!pushToStack) {
+		lua_pop(l, 1);
+	}
 }

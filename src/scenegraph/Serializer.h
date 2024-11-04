@@ -148,7 +148,7 @@ namespace Serializer {
 		template <typename T>
 		void readObject(T &out)
 		{
-#ifdef DEBUG
+#ifndef NDEBUG
 			if (!Check(sizeof(T)))
 				throw std::out_of_range("Serializer::Reader encountered truncated stream.");
 #endif
