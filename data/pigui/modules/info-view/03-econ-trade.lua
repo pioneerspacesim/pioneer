@@ -175,12 +175,12 @@ end
 -- Gauge bar for used/free cabins
 local function gauge_cabins()
 	local player = Game.player
-	local cabins_free = Passengers.CountFreeCabins(player)
-	local cabins_used = Passengers.CountOccupiedCabins(player)
-	local cabins_total = cabins_used + cabins_free
+	local berths_free = Passengers.CountFreeBerths(player)
+	local berths_used = Passengers.CountOccupiedBerths(player)
+	local berths_total = berths_used + berths_free
 
-	gauge_bar(cabins_used, string.format('%%i %s / %i %s', l.USED, cabins_free, l.FREE),
-		0, cabins_total, icons.personal)
+	gauge_bar(berths_used, string.format('%%i %s / %i %s', l.USED, berths_free, l.FREE),
+		0, berths_total, icons.personal)
 end
 
 local function drawPumpDialog()

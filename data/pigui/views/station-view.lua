@@ -66,13 +66,13 @@ if not stationView then
 					ui.text(l.CABINS .. ': ')
 					ui.sameLine()
 
-					local cabins_free = Passengers.CountFreeCabins(player)
-					local cabins_used = Passengers.CountOccupiedCabins(player)
-					local cabins_total = cabins_used + cabins_free
+					local berths_free = Passengers.CountFreeBerths(player)
+					local berths_used = Passengers.CountOccupiedBerths(player)
+					local berths_total = berths_used + berths_free
 
 					gaugePos = ui.getWindowPos() + ui.getCursorPos() + Vector2(0, ui.getTextLineHeight() / 2)
 					gaugeWidth = ui.getContentRegion().x - self.style.inventoryPadding.x - self.style.itemSpacing.x
-					ui.gauge(gaugePos, cabins_used, '', string.format('%%i %s / %i %s', l.USED, cabins_free, l.FREE), 0, cabins_total, icons.personal, colors.gaugeEquipmentMarket, '', gaugeWidth, ui.getTextLineHeight())
+					ui.gauge(gaugePos, berths_used, '', string.format('%%i %s / %i %s', l.USED, berths_free, l.FREE), 0, berths_total, icons.personal, colors.gaugeEquipmentMarket, '', gaugeWidth, ui.getTextLineHeight())
 					ui.nextColumn()
 					ui.text(legalText)
 					ui.columns(1, '', false)

@@ -14,21 +14,21 @@ local Passengers = {}
 
 -- Function: CountOccupiedCabins
 --
--- Return the number of occupied cabins present on the ship
+-- Return the number of occupied passenger berths present on the ship
 --
 ---@param ship Ship
 ---@return integer
-function Passengers.CountOccupiedCabins(ship)
+function Passengers.CountOccupiedBerths(ship)
 	return ship["cabin_occupied_cap"] or 0
 end
 
 -- Function: CountFreeCabins
 --
--- Return the number of unoccupied cabins present on the ship
+-- Return the number of unoccupied passenger berths present on the ship
 --
 ---@param ship Ship
 ---@return integer
-function Passengers.CountFreeCabins(ship)
+function Passengers.CountFreeBerths(ship)
 	return (ship["cabin_cap"] or 0) - (ship["cabin_occupied_cap"] or 0)
 end
 

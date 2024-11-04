@@ -352,12 +352,12 @@ end
 
 local passengersPresent = function (ship)
 	-- Check if any passengers are present on the ship.
-	return Passengers.CountOccupiedCabins(ship) > 0
+	return Passengers.CountOccupiedBerths(ship) > 0
 end
 
 local passengerSpace = function (ship)
 	-- Check if the ship has space for passengers.
-	return Passengers.CountFreeCabins(ship) > 0
+	return Passengers.CountFreeBerths(ship) > 0
 end
 
 local cargoPresent = function (ship, item)
@@ -420,7 +420,7 @@ local isQualifiedFor = function(ad)
 
 	-- collect equipment requirements per mission flavor
 	local empty_cabins = ad.pickup_crew + ad.deliver_crew + ad.pickup_pass + ad.deliver_pass
-	local avail_cabins = Passengers.CountFreeCabins(Game.player)
+	local avail_cabins = Passengers.CountFreeBerths(Game.player)
 
 	return avail_cabins >= empty_cabins
 end
@@ -650,7 +650,7 @@ local createTargetShip = function (mission)
 		ship:SetPattern(rand:Integer(1, model.numPatterns))
 	end
 
-	local available_cabins = Passengers.CountFreeCabins(ship)
+	local available_cabins = Passengers.CountFreeBerths(ship)
 	assert(available_cabins >= math.max(mission.deliver_pass, mission.pickup_pass),
 		"Not enough space in mission ship for all passengers!")
 

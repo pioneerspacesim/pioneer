@@ -182,7 +182,7 @@ local onChat = function (form, ref, option)
 		form:SetMessage(howmany)
 
 	elseif option == 3 then
-		if Passengers.CountFreeCabins(Game.player) < ad.group then
+		if Passengers.CountFreeBerths(Game.player) < ad.group then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP)
 			form:RemoveNavButton()
 			return

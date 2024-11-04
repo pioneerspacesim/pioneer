@@ -26,8 +26,8 @@ local function shipStats()
 	local hyperdrive    =  equipSet:GetInstalledOfType("hyperdrive")[1]
 	local frontWeapon   =  equipSet:GetInstalledOfType("weapon")[1]
 	local rearWeapon    =  equipSet:GetInstalledOfType("weapon")[2]
-	local cabinEmpty    =  Passengers.CountFreeCabins(player)
-	local cabinOccupied =  Passengers.CountOccupiedCabins(player)
+	local cabinEmpty    =  Passengers.CountFreeBerths(player)
+	local cabinOccupied =  Passengers.CountOccupiedBerths(player)
 	local cabinMaximum  =  cabinEmpty + cabinOccupied
 
 	hyperdrive =  hyperdrive  or nil
