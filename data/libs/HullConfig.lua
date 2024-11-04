@@ -49,6 +49,7 @@ HullConfig.slots = {
 	sensor     = Slot:clone { type = "sensor",     size = 1 },
 	computer_1 = Slot:clone { type = "computer",   size = 1 },
 	hull_mod   = Slot:clone { type = "hull",       size = 1 },
+	structure  = Slot:clone { type = "structure",  size = 1 },
 	hyperdrive = Slot:clone { type = "hyperdrive", size = 1 },
 	thruster   = Slot:clone { type = "thruster",   size = 1 },
 }

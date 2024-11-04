@@ -563,6 +563,10 @@
     "description": "Name for a cabin slot towards the rear of the ship",
     "message": "Rear Cabin"
   },
+  "SLOT_STRUCTURE": {
+    "description": "Name for the ship's internal structure modification slot",
+    "message": "Structure"
+  },
   "MISC_EQUIPMENT": {
     "description": "Category header for miscellaneous equipment",
     "message": "Miscellaneous"
@@ -610,5 +614,9 @@
   "MISSILE_RACK_221": {
 	"description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
 	"message": "LH-120 Hydri Missile Rack"
+  },
+  "REINFORCED_STRUCTURE": {
+    "description": "Name for an equipment item that reinforces the hull's superstructure",
+    "message": "Reinforced Structure"
   }
 }

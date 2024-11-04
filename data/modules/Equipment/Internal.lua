@@ -89,6 +89,14 @@ Equipment.Register("shield.basic_s5", EquipType.New {
 -- Hull Modifications
 --===============================================
 
+Equipment.Register("hull.reinforced_structure", EquipType.New {
+	l10n_key="REINFORCED_STRUCTURE",
+	price=1200, purchasable=true, tech_level=5,
+	slot = { type="structure", size=1 },
+	mass=5, volume=2, capabilities = { atmo_shield=3 },
+	icon_name="equip_generic"
+})
+
 Equipment.Register("hull.atmospheric_shielding", EquipType.New {
 	l10n_key="ATMOSPHERIC_SHIELDING",
 	price=200, purchasable=true, tech_level=3,
