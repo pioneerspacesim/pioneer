@@ -575,22 +575,6 @@
     "description": "Category header for miscellaneous equipment",
     "message": "Miscellaneous"
   },
-  "SORT_NAME": {
-    "description": "",
-    "message": "Name"
-  },
-  "SORT_WEIGHT": {
-    "description": "",
-    "message": "Weight"
-  },
-  "SORT_VOLUME": {
-    "description": "",
-    "message": "Volume"
-  },
-  "SORT_PRICE": {
-    "description": "",
-    "message": "Price"
-  },
   "OPLI_INTERNAL_MISSILE_RACK_S2": {
     "description": "",
     "message": "OPLI Internal Missile Rack"

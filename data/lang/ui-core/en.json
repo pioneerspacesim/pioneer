@@ -2646,5 +2646,9 @@
   "CANNOT_SELL_NONEMPTY_EQUIP": {
     "description": "",
     "message": "Cannot sell an equipment item unless it is empty."
+  },
+  "VOLUME": {
+	"description": "The volume property of some object",
+	"message": "Volume"
   }
 }

@@ -137,10 +137,10 @@ end
 local Outfitter = utils.class("UI.EquipmentOutfitter", Module)
 
 Outfitter.SortKeys = {
-	{ id = "name", label = le.SORT_NAME },
-	{ id = "mass", label = le.SORT_WEIGHT },
-	{ id = "volume", label = le.SORT_VOLUME },
-	{ id = "price", label = le.SORT_PRICE },
+	{ id = "name", label = l.NAME_OBJECT },
+	{ id = "mass", label = l.MASS },
+	{ id = "volume", label = l.VOLUME },
+	{ id = "price", label = l.PRICE },
 }
 
 ---@type table<string, fun(a: UI.EquipmentOutfitter.EquipData, b: UI.EquipmentOutfitter.EquipData): boolean>
