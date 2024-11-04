@@ -48,16 +48,17 @@ end
 
 -- Function: GetFreeCabins
 --
--- Return a list of currently free passenger cabins
+-- Return a list of passenger cabins containing at least numBerths free
+-- passenger berths. If not specified, numBerths defaults to 1.
 --
 ---@param ship Ship
----@param numPassengers integer?
+---@param numBerths integer?
 ---@return Equipment.CabinType[]
-function Passengers.GetFreeCabins(ship, numPassengers)
+function Passengers.GetFreeCabins(ship, numBerths)
 	local equipSet = ship:GetComponent("EquipSet")
 
 	return equipSet:GetInstalledWithFilter('Equipment.CabinType', function(equip)
-		return equip:GetFreeBerths() >= (numPassengers or 1)
+		return equip:GetFreeBerths() >= (numBerths or 1)
 	end)
 end
 
@@ -94,6 +95,7 @@ end
 ---@param ship Ship
 ---@param passenger Character
 ---@param cabin EquipType?
+---@return boolean success
 function Passengers.EmbarkPassenger(ship, passenger, cabin)
 	---@cast cabin Equipment.CabinType?
 	if not cabin then
@@ -101,6 +103,10 @@ function Passengers.EmbarkPassenger(ship, passenger, cabin)
 	end
 
 	if not cabin then
+		return false
+	end
+
+	if not cabin:GetFreeBerths() > 0 then
 		return false
 	end
 

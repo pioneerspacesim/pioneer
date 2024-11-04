@@ -65,9 +65,9 @@ function EquipSet.CompatibleWithSlot(equip, slot)
 	if not slot then return not equipSlot end
 
 	return equipSlot and
-		slotTypeMatches(equip.slot.type, slot.type)
-		and (equip.slot.size <= slot.size)
-		and (equip.slot.size >= (slot.size_min or slot.size))
+		slotTypeMatches(equipSlot.type, slot.type)
+		and (equipSlot.size <= slot.size)
+		and (equipSlot.size >= (slot.size_min or slot.size))
 end
 
 -- Constructor: New

@@ -459,7 +459,9 @@ end
 ---@param passenger Character
 function CabinType:RemovePassenger(passenger)
 	utils.remove_elem(self.passengers, passenger)
-	self.icon_name = "equip_cabin_empty"
+	if #self.passengers == 0 then
+		self.icon_name = "equip_cabin_empty"
+	end
 end
 
 function CabinType:HasPassenger(passenger)

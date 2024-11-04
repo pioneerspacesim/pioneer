@@ -661,6 +661,8 @@ end
 ---@param shipPlan MissionUtils.ShipBuilder.ShipPlan
 function ShipBuilder.ApplyPlan(ship, shipPlan)
 
+	assert(ship.shipId == shipPlan.shipId, "Applying a ship plan to an incompatible ship!")
+
 	local equipSet = ship:GetComponent('EquipSet')
 
 	-- Apply slot-based equipment first
