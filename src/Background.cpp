@@ -367,7 +367,7 @@ namespace Background {
 
 		RefCountedPtr<Galaxy> galaxy;
 		const StarQueryInfo info;
-		const int32_t starsLimit;
+		const size_t starsLimit;
 		StarInfo &stars;
 		double &medianBrightness;
 	};

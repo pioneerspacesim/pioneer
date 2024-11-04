@@ -70,9 +70,9 @@ public:
 	void RayTriIntersect(int numRays, const vector3f &origin, const vector3f *dirs, int triIdx, isect_t *isects) const;
 private:
 
-	int m_numVertices;
-	int m_numEdges;
-	int m_numTris;
+	uint32_t m_numVertices;
+	uint32_t m_numEdges;
+	uint32_t m_numTris;
 
 	double m_radius;
 	Aabb m_aabb;
