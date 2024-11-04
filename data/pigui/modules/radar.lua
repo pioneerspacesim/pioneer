@@ -122,6 +122,7 @@ local function display3DRadar(center, size)
 	local navTarget = player:GetNavTarget()
 	local maxBodyDist = 0.0
 	local maxShipDist = 0.0
+	local maxCargoDist = 0.0
 
 	radar.size = size
 	radar.zoom = currentZoomDist
@@ -135,6 +136,9 @@ local function display3DRadar(center, size)
 		maxBodyDist = math.max(maxBodyDist, v.distance)
 		-- only snap to ships if they're less than 50km away (arbitrary constant based on crime range)
 		if v.body:IsShip() and v.distance < 50000 then maxShipDist = math.max(maxShipDist, v.distance) end
+
+		-- only snap to cargo containers if they're less than 25km away (arbitrary)
+		if v.body:IsCargoContainer() and v.distance < 25000 then maxCargoDist = math.max(maxCargoDist, v.distance) end
 
 		if v.distance < currentZoomDist and v.rel_position.y < 0.0 then
 			local color = (v.body == navTarget and colors.navTarget) or (v.body == combatTarget and colors.combatTarget) or getColorFor(v)
@@ -165,6 +169,8 @@ local function display3DRadar(center, size)
 		maxDist = combatTarget:GetPositionRelTo(player):length() * 1.4
 	elseif maxShipDist > 0 then
 		maxDist = maxShipDist * 1.4
+	elseif maxCargoDist > 0 then
+		maxDist = maxCargoDist * 1.4
 	elseif navTarget then
 		local dist = navTarget:GetPositionRelTo(player):length()
 		maxDist = dist > MAX_RADAR_SIZE and maxBodyDist or dist * 1.4
@@ -233,6 +239,13 @@ require 'Serializer':Register("PiguiRadar",
 	function () return { shouldDisplay2DRadar = shouldDisplay2DRadar } end,
 	function (data) shouldDisplay2DRadar = data.shouldDisplay2DRadar end)
 
-ui.registerModule("game", displayRadar)
+ui.registerModule("game", {
+	id = "game-view-radar-module",
+	draw = displayRadar,
+	debugReload = function()
+		print("Radar module reloading..")
+		package.reimport()
+	end
+})
 
 return {}
