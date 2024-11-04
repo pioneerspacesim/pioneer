@@ -40,7 +40,7 @@ Slot.count = nil ---@type integer?
 local HullConfig = utils.proto("HullConfig")
 
 HullConfig.id = ""
-HullConfig.capacity = 0
+HullConfig.equipCapacity = 0
 
 -- Default slot config for a new shipdef
 -- Individual shipdefs can redefine slots or remove them by setting the slot to 'false'
@@ -69,7 +69,7 @@ local function CreateShipConfig(def)
 	Serializer:RegisterPersistent("ShipDef." .. def.id, newShip)
 
 	newShip.id = def.id
-	newShip.capacity = def.capacity
+	newShip.equipCapacity = def.equipCapacity
 
 	table.merge(newShip.slots, def.raw.equipment_slots or {}, function(name, slotDef)
 		if slotDef == false then return name, nil end

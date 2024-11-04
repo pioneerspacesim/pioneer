@@ -106,7 +106,7 @@ function EquipSet:Constructor(ship)
 	-- Initialize ship properties we're responsible for modifying
 	self.ship:setprop("mass_cap", self.ship["mass_cap"] or 0)
 	self.ship:setprop("equipVolume", self.ship.equipVolume or 0)
-	self.ship:setprop("totalVolume", self.ship.totalVolume or self.config.capacity)
+	self.ship:setprop("totalVolume", self.ship.totalVolume or self.config.equipCapacity)
 end
 
 -- Callback: OnShipTypeChanged
@@ -139,7 +139,7 @@ function EquipSet:OnShipTypeChanged()
 
 	-- HullConfig changed, need to reset volume and rebuild list of slots
 	self.config = HullConfig.GetHullConfigs()[self.ship.shipId]
-	self.ship:setprop("totalVolume", self.config.capacity)
+	self.ship:setprop("totalVolume", self.config.equipCapacity)
 
 	self.slotCache = {}
 	self.idCache = {}

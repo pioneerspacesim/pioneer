@@ -332,7 +332,7 @@ debugView.registerTab('debug-trade-ships', {
 					})
 				end
 
-				local capacity = ShipDef[ship.shipId].capacity
+				local capacity = ShipDef[ship.shipId].equipCapacity
 
 				arrayTable.draw("tradeships_traderequipment", equipItems, ipairs, {
 					{ name = "Name",        key = "name",     string = true       },

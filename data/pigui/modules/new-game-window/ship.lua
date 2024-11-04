@@ -938,7 +938,7 @@ function ShipSummary:prepareAndValidateParamList()
 	local eq_n_cargo = { valid = true }
 	freeCargo = math.max(freeCargo, 0)
 	local paramList = {
-		rowWithAlert(eq_n_cargo, lui.CAPACITY, ShipCargo.mass + ShipEquip.mass, def.capacity, greater, 't'),
+		rowWithAlert(eq_n_cargo, lui.CAPACITY, ShipCargo.mass + ShipEquip.mass, def.equipCapacity, greater, 't'),
 		rowWithAlert(self.cargo, lui.CARGO_SPACE, ShipCargo.mass, freeCargo, greater, 't'),
 		--rowWithAlert(self.equip, lui.FRONT_WEAPON, usedSlots.laser_front, def.equipSlotCapacity.laser_front, greater),
 		--rowWithAlert(self.equip, lui.REAR_WEAPON, usedSlots.laser_rear, def.equipSlotCapacity.laser_rear, greater),

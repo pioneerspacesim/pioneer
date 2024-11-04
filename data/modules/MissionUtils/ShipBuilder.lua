@@ -164,7 +164,7 @@ end
 function ShipPlan:SetConfig(shipConfig)
 	self.config = shipConfig
 	self.shipId = shipConfig.id
-	self.freeVolume = shipConfig.capacity
+	self.freeVolume = shipConfig.equipCapacity
 
 	for _, slot in pairs(shipConfig.slots) do
 		table.insert(self.slots, slot)
@@ -276,7 +276,7 @@ function ShipBuilder.ComputeHullThreatFactor(shipDef)
 	local threat = { id = shipDef.id }
 
 	local armor = shipDef.hullMass
-	local totalMass = shipDef.hullMass + shipDef.fuelTankMass + shipDef.capacity * 0.5
+	local totalMass = shipDef.hullMass + shipDef.fuelTankMass + shipDef.equipCapacity * 0.5
 	local forwardAccel = shipDef.linearThrust["FORWARD"] / (1000.0 * totalMass)
 	local crossSectionAvg = (shipDef.topCrossSec + shipDef.sideCrossSec + shipDef.frontCrossSec) / 3.0
 

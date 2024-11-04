@@ -27,8 +27,8 @@
 ---@field topCrossSec number
 ---@field atmosphericPressureLimit number
 --
----@field capacity number
----@field cargo integer
+---@field equipCapacity number Equipment volume available on the ship
+---@field cargo integer Number of units of cargo the ship can carry
 ---@field hullMass number
 ---@field fuelTankMass number
 ---@field basePrice number

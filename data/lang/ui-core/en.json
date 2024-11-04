@@ -2650,5 +2650,9 @@
   "VOLUME": {
 	"description": "The volume property of some object",
 	"message": "Volume"
+  },
+  "EQUIPMENT_CAPACITY": {
+	"description": "The equipment capacity of a ship",
+	"message": "Equipment Capacity"
   }
 }

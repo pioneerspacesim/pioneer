@@ -246,7 +246,7 @@ void LuaShipDef::Register()
 		pi_lua_settable(l, "cockpitName", st.cockpitName.c_str());
 		pi_lua_settable(l, "tag", EnumStrings::GetString("ShipTypeTag", st.tag));
 		pi_lua_settable(l, "angularThrust", st.angThrust);
-		pi_lua_settable(l, "capacity", st.capacity);
+		pi_lua_settable(l, "equipCapacity", st.capacity);
 		pi_lua_settable(l, "cargo", st.cargo);
 		pi_lua_settable(l, "hullMass", st.hullMass);
 		pi_lua_settable(l, "fuelTankMass", st.fuelTankMass);

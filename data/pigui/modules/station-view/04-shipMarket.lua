@@ -351,8 +351,8 @@ end
 function FormatAndCompareShips:Constructor(def, b)
 	self.column = 0
 	self.emptyMass = def.hullMass + def.fuelTankMass
-	self.fullMass = def.hullMass + def.capacity + def.fuelTankMass
-	self.massAtCapacity = def.hullMass + def.capacity
+	self.fullMass = def.hullMass + def.equipCapacity + def.fuelTankMass
+	self.massAtCapacity = def.hullMass + def.equipCapacity
 	self.cargoCapacity = def.cargo
 	self.def = def
 	self.b = b
@@ -416,7 +416,7 @@ local tradeMenu = function()
 						shipFormatAndCompare:draw_accel_cell( l.FORWARD_ACCEL_EMPTY, "FORWARD", "emptyMass" )
 						shipFormatAndCompare:draw_tonnage_cell( l.WEIGHT_EMPTY, "hullMass" )
 						shipFormatAndCompare:draw_accel_cell( l.REVERSE_ACCEL_EMPTY, "REVERSE", "emptyMass" )
-						shipFormatAndCompare:draw_tonnage_cell( l.CAPACITY, "capacity" )
+						shipFormatAndCompare:draw_tonnage_cell( l.EQUIPMENT_CAPACITY, "equipCapacity" )
 						shipFormatAndCompare:draw_accel_cell( l.REVERSE_ACCEL_FULL, "REVERSE", "fullMass" )
 						shipFormatAndCompare:draw_tonnage_cell( l.FUEL_WEIGHT, "fuelTankMass" )
 						shipFormatAndCompare:draw_deltav_cell( l.DELTA_V_EMPTY, "emptyMass", "hullMass")
@@ -481,7 +481,7 @@ shipMarket = Table.New("shipMarketWidget", false, {
 			ui.text(Format.Money(item.def.basePrice,false))
 			ui.nextColumn()
 			ui.dummy(widgetSizes.rowVerticalSpacing)
-			ui.text(item.def.capacity.."t")
+			ui.text(item.def.equipCapacity.."t")
 			ui.nextColumn()
 		end)
 	end,

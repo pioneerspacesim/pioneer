@@ -496,7 +496,7 @@ local createTargetShipParameters = function (flavour, planet)
 		end
 
 		----> has to be able to take off from the planet with full fuel mass
-		local fullMass = def.hullMass + def.capacity + def.fuelTankMass
+		local fullMass = def.hullMass + def.equipCapacity + def.fuelTankMass
 		local upAccelFull = math.abs(def.linearThrust.UP / (1000 * fullMass))
 
 		if upAccelFull <= planet:GetSystemBody().gravity then

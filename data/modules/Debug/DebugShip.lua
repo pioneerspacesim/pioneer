@@ -309,7 +309,7 @@ function DebugShipTool:drawShipDefInfo(shipDef)
 		drawKeyValue("Tag", shipDef.tag)
 
 		drawKeyValue("Cargo Capacity", shipDef.cargo)
-		drawKeyValue("Equip Capacity", shipDef.capacity)
+		drawKeyValue("Equip Capacity", shipDef.equipCapacity)
 		drawKeyValue("Hull Mass", shipDef.hullMass)
 		drawKeyValue("Fuel Tank Mass", shipDef.fuelTankMass)
 		drawKeyValue("Base Price", shipDef.basePrice)

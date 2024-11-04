@@ -33,7 +33,7 @@ local onEnterSystem = function (player)
 			local ship = ShipBuilder.MakeShipAroundStar(MissionUtils.ShipTemplates.GenericPirate, threat, 8, 12)
 
 			-- pirates know how big cargo hold the ship model has
-			local playerCargoCapacity = ShipDef[player.shipId].capacity
+			local playerCargoCapacity = ShipDef[player.shipId].equipCapacity
 
 			-- Pirate attack probability proportional to how fully loaded cargo hold is.
 			local discount = 2 		-- discount on 2t for small ships.
