@@ -12,6 +12,7 @@ local ui = require 'pigui'
 
 local icons = ui.theme.icons
 local colors = ui.theme.colors
+local styles = ui.theme.styles
 local pionillium = ui.fonts.pionillium
 
 --
@@ -129,7 +130,7 @@ function EquipCard.drawEquipStats(data)
 
 			ui.tableSetColumnIndex(1)
 			ui.icon(tooltip[2], Vector2(ui.getTextLineHeight(), ui.getTextLineHeight()), ui.theme.colors.font)
-			ui.sameLine(0, ui.getTextLineHeight() / 4.0)
+			ui.sameLine(0, styles.ItemInnerSpacing.x)
 
 			local value, format = tooltip[3], tooltip[4]
 			ui.text(format(value))
