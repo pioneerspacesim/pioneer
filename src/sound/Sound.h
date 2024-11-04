@@ -19,16 +19,6 @@ namespace Sound {
 	};
 	typedef uint32_t Op;
 
-	struct Sample {
-		uint16_t *buf;
-		uint32_t buf_len;
-		uint32_t channels;
-		int upsample; // 1 = 44100, 2=22050
-		/* if buf is null, this will be path to an ogg we must stream */
-		std::string path;
-		bool isMusic;
-	};
-
 	class Event {
 	public:
 		Event() :
@@ -78,7 +68,7 @@ namespace Sound {
 	float GetMasterVolume();
 	void SetSfxVolume(const float vol);
 	float GetSfxVolume();
-	const std::map<std::string, Sample> &GetSamples();
+	const std::vector<std::string> GetMusicFiles();
 
 } /* namespace Sound */
 

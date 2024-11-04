@@ -179,6 +179,16 @@ namespace Sound {
 		return Sound::PlaySfx(sfx, vl, vr, 0);
 	}
 
+	struct Sample {
+		uint16_t *buf;
+		uint32_t buf_len;
+		uint32_t channels;
+		int upsample; // 1 = 44100, 2=22050
+		/* if buf is null, this will be path to an ogg we must stream */
+		std::string path;
+		bool isMusic;
+	};
+
 	struct SoundEvent {
 		const Sample *sample;
 		OggVorbis_File *oggv; // if sample->buf = 0 then stream this
@@ -762,9 +772,16 @@ namespace Sound {
 		return status;
 	}
 
-	const std::map<std::string, Sample> &GetSamples()
+	const std::vector<std::string> GetMusicFiles()
 	{
-		return sfx_samples;
+		std::vector<std::string> songs;
+		songs.reserve(sfx_samples.size());
+		for (std::map<std::string, Sample>::const_iterator it = sfx_samples.begin();
+			 it != sfx_samples.end(); ++it) {
+			if (it->second.isMusic)
+				songs.emplace_back(it->first.c_str());
+		}
+		return songs;
 	}
 
 } /* namespace Sound */
