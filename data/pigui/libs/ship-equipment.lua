@@ -206,7 +206,7 @@ function EquipmentWidget:getSlotName(slot)
 		return Lang.GetResource(slot.i18n_res)[slot.i18n_key]
 	end
 
-	local base_type = slot.type:match("(%w+)%.?")
+	local base_type = slot.type:match("([%w_-]+)%.?")
 	local i18n_key = (slot.hardpoint and "HARDPOINT_" or "SLOT_") .. base_type:upper()
 	return le[i18n_key]
 end
