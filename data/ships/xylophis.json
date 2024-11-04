@@ -7,22 +7,42 @@
 	"ship_class": "light_passenger_shuttle",
 	"min_crew": 1,
 	"max_crew": 2,
-	"price": 16872,
+	"price": 11685,
 	"hull_mass": 5,
+	"structure_mass": 2.1,
+	"armor_mass": 2.1,
+	"volume": 48,
 	"atmospheric_pressure_limit": 3,
-	"capacity": 10,
-	"slots": {
-		"engine": 1,
-		"cabin": 1,
-		"scoop": 0,
-		"laser_front": 1,
-		"cargo": 10
-	},
-	"roles": ["mercenary", "merchant", "pirate", "courier"],	
+	"capacity": 5.5,
+	"cargo": 8,
 
-	"effective_exhaust_velocity": 9900000,
+	"equipment_slots": {
+		"utility_s1": {
+			"type": "utility",
+			"size": 1,
+			"tag": "tag_utility_s1",
+			"hardpoint": true
+		},
+		"computer_1": {
+			"type": "computer",
+			"size": 1
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"size": 1,
+			"size_min": 1
+		},
+		"thruster": {
+			"type": "thruster",
+			"size": 1,
+			"count": 12
+		}
+	},
+
+	"roles": [],
+	"effective_exhaust_velocity": 10900000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 4,
+	"fuel_tank_mass": 5,
 	"hyperdrive_class": 0,
 
 	"forward_thrust": 280000,
@@ -38,11 +58,11 @@
 	"right_thrust": 150000,
 	"right_acceleration_cap": 9.81,
 
-	"angular_thrust": 354022.678785821,
+	"angular_thrust": 354022.68,
 
-	"front_cross_section": 7,
-	"side_cross_section": 17.5,
-	"top_cross_section": 32,
+	"front_cross_section": 7.002,
+	"side_cross_section": 17.502,
+	"top_cross_section": 32.002,
 
 	"front_drag_coeff": 0.56,
 	"side_drag_coeff": 0.84,

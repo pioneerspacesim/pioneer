@@ -2011,9 +2011,9 @@
     "description": "",
     "message": "Repair {damage}% hull damage for {price}"
   },
-  "REPLACE_EQUIPMENT_WITH": {
+  "REPLACE_EQUIPMENT": {
     "description": "Market header when replacing equipped items",
-    "message": "Replace Equipment With"
+    "message": "Replace Equipment"
   },
   "REPUTATION": {
     "description": "",
@@ -2618,5 +2618,41 @@
   "ZOOM": {
     "description": "Label for a zoom (magnification) control bar.",
     "message": "Zoom"
+  },
+  "SELECTED": {
+	"description": "Label indicating the following item is selected",
+	"message": "Selected"
+  },
+  "INSTALLED": {
+	"description": "Label indicating something is installed",
+	"message": "Installed"
+  },
+  "SELL_EQUIP": {
+	"description": "Button text to sell installed equipment. May be used in a singular or plural context.",
+	"message": "Sell {name}"
+  },
+  "BUY_EQUIP": {
+	"description": "Button text to buy selected equipment. May be used in a singular or plural context.",
+	"message": "Buy {name}"
+  },
+  "EXPAND": {
+	"description": "Open / expand a collapsed folder or group",
+	"message": "Expand"
+  },
+  "COLLAPSE": {
+	"description": "Close / collapse an open folder or group",
+	"message": "Collapse"
+  },
+  "CANNOT_SELL_NONEMPTY_EQUIP": {
+    "description": "",
+    "message": "Cannot sell an equipment item unless it is empty."
+  },
+  "VOLUME": {
+	"description": "The volume property of some object",
+	"message": "Volume"
+  },
+  "EQUIPMENT_CAPACITY": {
+	"description": "The equipment capacity of a ship",
+	"message": "Equipment Capacity"
   }
 }

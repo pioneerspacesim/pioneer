@@ -15,13 +15,14 @@ local Engine      = require 'Engine'
 local Timer       = require 'Timer'
 local Game        = require 'Game'
 local Ship        = require 'Ship'
-local Model       = require 'SceneGraph.Model'
 local ModelSkin   = require 'SceneGraph.ModelSkin'
 local Serializer  = require 'Serializer'
 local Equipment   = require 'Equipment'
-local Commodities = require 'Commodities'
-local Faction     = require 'Faction'
 local Lang        = require 'Lang'
+local HullConfig  = require 'HullConfig'
+
+local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
+local ShipTemplates = require 'modules.MissionUtils.ShipTemplates'
 
 local l = Lang.GetResource("ui-core")
 
@@ -60,17 +61,29 @@ local transientMarket = utils.automagic()
 
 local ensureStationData
 
+local function techLevelDiff(equip, station)
+	if equip == 'MILITARY' then equip = 11 end
+	if station == 'MILITARY' then station = 11 end
+
+	return station - equip
+end
+
 -- create a transient entry for this station's equipment stock
+---@param station SpaceStation
 local function createEquipmentStock (station)
 	assert(station and station:exists())
 	if equipmentStock[station] then error("Attempt to create station equipment stock twice!") end
-	equipmentStock[station] = {}
 
-	for _,slot in pairs{"laser", "hyperspace", "misc"} do
-		for key, e in pairs(Equipment[slot]) do
-			equipmentStock[station][e] = Engine.rand:Integer(0,100)
-		end
+	local stock = {}
+
+	for id, e in pairs(Equipment.new) do
+		-- Stations stock everything at least three tech levels below them,
+		-- with an increasing chance of being out-of-stock as the item's tech
+		-- approaches that of the station
+		stock[id] = math.max(0, Engine.rand:Integer(-30, 100) + techLevelDiff(e.tech_level, station.techLevel) * 10)
 	end
+
+	equipmentStock[station] = stock
 end
 
 -- Create a transient entry for this station's commodity stocks and seed it with
@@ -117,7 +130,7 @@ function SpaceStation:GetEquipmentPrice (e)
 	assert(self:exists())
 
 	if equipmentPrice[self] then
-		return equipmentPrice[self][e] or e.price
+		return equipmentPrice[self][e.id] or e.price
 	end
 
 	return e.price
@@ -147,7 +160,7 @@ end
 function SpaceStation:SetEquipmentPrice (e, price)
 	assert(self:exists())
 	if not equipmentPrice[self] then equipmentPrice[self] = {} end
-	equipmentPrice[self][e] = price
+	equipmentPrice[self][e.id] = price
 end
 
 --
@@ -175,7 +188,7 @@ end
 --
 function SpaceStation:GetEquipmentStock (e)
 	assert(self:exists())
-	return equipmentStock[self] and equipmentStock[self][e] or 0
+	return equipmentStock[self] and equipmentStock[self][e.id] or 0
 end
 
 --
@@ -204,7 +217,7 @@ function SpaceStation:AddEquipmentStock (e, stock)
 	ensureStationData(self)
 	assert(equipmentStock[self])
 
-	equipmentStock[self][e] = (equipmentStock[self][e] or 0) + stock
+	equipmentStock[self][e.id] = (equipmentStock[self][e.id] or 0) + stock
 end
 
 -- ============================================================================
@@ -540,7 +553,11 @@ end
 
 local isPlayerShip = function (def) return def.tag == "SHIP" and def.basePrice > 0 end
 
-local groundShips = utils.build_array(utils.filter(function (k,def) return isPlayerShip(def) and def.equipSlotCapacity.atmo_shield > 0 end, pairs(ShipDef)))
+local groundShips = utils.build_array(utils.filter(function (k,def)
+	return isPlayerShip(def)
+		and utils.contains_if(HullConfig.GetHullConfig(def.id).slots, function(s) return s.type:match("^hull") end)
+end, pairs(ShipDef)))
+
 local spaceShips  = utils.build_array(utils.filter(function (k,def) return isPlayerShip(def) end, pairs(ShipDef)))
 
 
@@ -660,23 +677,24 @@ function SpaceStation:LaunchPolice(targetShip)
 		local lawlessness = Game.system.lawlessness
 		local maxPolice = math.min(9, self.numDocks)
 		local numberPolice = math.ceil(Engine.rand:Integer(1,maxPolice)*(1-lawlessness))
-		local shiptype = ShipDef[Game.system.faction.policeShip]
+
+		-- The more lawless/dangerous the space is, the better equipped the few police ships are
+		-- In a high-law area, a spacestation has a bunch of traffic cops due to low crime rates
+		local shipThreat = 10.0 + Engine.rand:Number(10, 50) * lawlessness
+
+		local shipTemplate = ShipTemplates.StationPolice:clone {
+			shipId = Game.system.faction.policeShip,
+			label = Game.system.faction.policeName or l.POLICE,
+		}
 
 		-- create and equip them
-		while numberPolice > 0 do
-			local policeShip = Space.SpawnShipDocked(shiptype.id, self)
+		for i = 1, numberPolice do
+			local policeShip = ShipBuilder.MakeShipDocked(self, shipTemplate, shipThreat)
 			if policeShip == nil then
-				return
-			else
-				numberPolice = numberPolice - 1
-				--policeShip:SetLabel(Game.system.faction.policeName) -- this is cool, but not translatable right now
-				policeShip:SetLabel(l.POLICE)
-				policeShip:AddEquip(Equipment.laser.pulsecannon_dual_1mw)
-				policeShip:AddEquip(Equipment.misc.atmospheric_shielding)
-				policeShip:AddEquip(Equipment.misc.laser_cooling_booster)
-
-				table.insert(police[self], policeShip)
+				break
 			end
+
+			table.insert(police[self], policeShip)
 		end
 	end
 

@@ -7,12 +7,9 @@
 #include "EnumStrings.h"
 #include "Frame.h"
 #include "Game.h"
-#include "GameLog.h"
 #include "GameSaveError.h"
-#include "HeatGradientPar.h"
 #include "HyperspaceCloud.h"
 #include "JsonUtils.h"
-#include "Lang.h"
 #include "Missile.h"
 #include "NavLights.h"
 #include "Pi.h"
@@ -24,15 +21,12 @@
 #include "ShipAICmd.h"
 #include "Space.h"
 #include "SpaceStation.h"
-#include "StringF.h"
 #include "WorldView.h"
 #include "collider/CollisionContact.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"
 #include "lua/LuaEvent.h"
 #include "lua/LuaObject.h"
-#include "lua/LuaTable.h"
-#include "lua/LuaUtils.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/Tag.h"
 #include "scenegraph/CollisionGeometry.h"
@@ -90,8 +84,6 @@ Ship::Ship(const ShipType::Id &shipId) :
 	m_curAICmd = 0;
 	m_aiMessage = AIERROR_NONE;
 	m_decelerating = false;
-
-	InitEquipSet();
 
 	SetModel(m_type->modelName.c_str());
 	SetupShields();
@@ -189,9 +181,6 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 		p.Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 		p.Set("shieldMassLeft", m_stats.shield_mass_left);
 		p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
-
-		// TODO: object components
-		m_equipSet.LoadFromJson(shipObj["equipSet"]);
 
 		m_controller = 0;
 		const ShipController::Type ctype = shipObj["controller_type"];
@@ -298,7 +287,6 @@ void Ship::SaveToJson(Json &jsonObj, Space *space)
 	shipObj["hyperspace_jump_sound"] = m_hyperspace.sounds.jump_sound;
 
 	m_fixedGuns->SaveToJson(shipObj, space);
-	m_equipSet.SaveToJson(shipObj["equipSet"]);
 
 	shipObj["ecm_recharge"] = m_ecmRecharge;
 	shipObj["ship_type_id"] = m_type->id;
@@ -320,24 +308,6 @@ void Ship::SaveToJson(Json &jsonObj, Space *space)
 	shipObj["name"] = m_shipName;
 
 	jsonObj["ship"] = shipObj; // Add ship object to supplied object.
-}
-
-void Ship::InitEquipSet()
-{
-	lua_State *l = Lua::manager->GetLuaState();
-
-	LUA_DEBUG_START(l);
-
-	pi_lua_import(l, "EquipSet");
-	LuaTable es_class(l, -1);
-
-	LuaTable slots = LuaTable(l).LoadMap(GetShipType()->slots.begin(), GetShipType()->slots.end());
-	m_equipSet = es_class.Call<LuaRef>("New", slots);
-
-	UpdateEquipStats();
-
-	lua_pop(l, 2);
-	LUA_DEBUG_END(l, 0);
 }
 
 void Ship::InitMaterials()
@@ -642,16 +612,13 @@ void Ship::UpdateEquipStats()
 {
 	PropertyMap &p = Properties();
 
-	m_stats.used_capacity = p.Get("mass_cap");
-	m_stats.used_cargo = 0;
+	m_stats.loaded_mass = p.Get("mass_cap");
+	m_stats.static_mass = m_stats.loaded_mass + m_type->hullMass;
 
-	m_stats.free_capacity = m_type->capacity - m_stats.used_capacity;
-	m_stats.static_mass = m_stats.used_capacity + m_type->hullMass;
+	m_stats.used_cargo = p.Get("usedCargo").get_integer();
+	m_stats.free_cargo = p.Get("totalCargo").get_integer() - m_stats.used_cargo;
 
-	p.Set("usedCapacity", m_stats.used_capacity);
-	p.Set("freeCapacity", m_stats.free_capacity);
-
-	p.Set("totalMass", m_stats.static_mass);
+	p.Set("loadedMass", m_stats.loaded_mass);
 	p.Set("staticMass", m_stats.static_mass);
 
 	float shield_cap = p.Get("shield_cap");
@@ -1287,7 +1254,7 @@ void Ship::StaticUpdate(const float timeStep)
 				 * fuel_scoop_cap = area, m^2. rate = kg^2/(m*s^3) = (Pa*kg)/s^2
 				 */
 				const double hydrogen_density = 0.0002;
-				if ((m_stats.free_capacity) && (dot > 0.90) && speed_times_density > (100.0 * 0.3)) {
+				if ((m_stats.free_cargo > 0) && (dot > 0.90) && speed_times_density > (100.0 * 0.3)) {
 					const double rate = speed_times_density * hydrogen_density * double(m_stats.fuel_scoop_cap);
 					m_hydrogenScoopedAccumulator += rate * timeStep;
 					if (m_hydrogenScoopedAccumulator > 1) {
@@ -1581,7 +1548,6 @@ void Ship::OnEnterSystem()
 
 void Ship::SetupShields()
 {
-	// TODO: remove the fallback path once all shields are extracted to their own models
 	SceneGraph::Model *sm = Pi::FindModel(m_type->shieldName, false);
 
 	if (sm) {
@@ -1602,9 +1568,6 @@ void Ship::SetShipId(const ShipType::Id &shipId)
 
 void Ship::SetShipType(const ShipType::Id &shipId)
 {
-	// clear all equipment so that any relevant capability properties (or other data) is wiped
-	ScopedTable(m_equipSet).CallMethod("Clear", this);
-
 	SetShipId(shipId);
 	SetModel(m_type->modelName.c_str());
 	SetupShields();
@@ -1615,7 +1578,8 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 	onFlavourChanged.emit();
 	if (IsType(ObjectType::PLAYER))
 		Pi::game->GetWorldView()->shipView->GetCameraController()->Reset();
-	InitEquipSet();
+
+	LuaObject<Ship>::CallMethod(this, "OnShipTypeChanged");
 
 	LuaEvent::Queue("onShipTypeChanged", this);
 }

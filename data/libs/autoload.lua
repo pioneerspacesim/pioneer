@@ -78,16 +78,16 @@ end
 -- Copy values from table b into a
 --
 -- Does not copy metatable nor recurse into the table.
--- Pass an optional predicate to transform the keys and values before assignment.
+-- Pass an optional transformer to mutate the keys and values before assignment.
 ---@generic K, V
 ---@param a table
 ---@param b table<K, V>
----@param predicate nil|fun(k: K, v: V): any, any
+---@param transformer nil|fun(k: K, v: V): any, any
 ---@return table
-table.merge = function(a, b, predicate)
-	if predicate then
+table.merge = function(a, b, transformer)
+	if transformer then
 		for k, v in pairs(b) do
-			k, v = predicate(k, v)
+			k, v = transformer(k, v)
 			a[k] = v
 		end
 	else
@@ -101,16 +101,16 @@ end
 -- Append array b to array a
 --
 -- Does not copy metatable nor recurse into the table.
--- Pass an optional predicate to transform the keys and values before assignment.
+-- Pass an optional transformer to mutate the keys and values before assignment.
 ---@generic T
 ---@param a table
 ---@param b T[]
----@param predicate nil|fun(v: T): any
+---@param transformer nil|fun(v: T): any
 ---@return table
-table.append = function(a, b, predicate)
-	if predicate then
+table.append = function(a, b, transformer)
+	if transformer then
 		for _, v in ipairs(b) do
-			v = predicate(v)
+			v = transformer(v)
 			table.insert(a, v)
 		end
 	else

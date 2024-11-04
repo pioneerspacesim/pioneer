@@ -12,12 +12,12 @@ local Mission = require 'Mission'
 local MissionUtils = require 'modules.MissionUtils'
 local NameGen = require 'NameGen'
 local Character = require 'Character'
-local Commodities = require 'Commodities'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
-local Equipment = require 'Equipment'
 local ShipDef = require 'ShipDef'
 local Ship = require 'Ship'
+local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
+local HullConfig  = require 'HullConfig'
 local utils = require 'utils'
 
 local lc = Lang.GetResource 'core'
@@ -25,6 +25,8 @@ local l = Lang.GetResource("module-assassination")
 
 -- don't produce missions for further than this many light years away
 local max_ass_dist = 30
+
+local AssassinationTargetShip = MissionUtils.ShipTemplates.GenericMercenary
 
 local flavours = {}
 for i = 0,5 do
@@ -130,10 +132,11 @@ local onChat = function (form, ref, option)
 			backstation	= backstation,
 			client		= ad.client,
 			danger		= ad.danger,
-			due		= ad.due,
+			due			= ad.due,
 			flavour		= ad.flavour,
 			location	= ad.location,
 			reward		= ad.reward,
+			threat		= ad.threat,
 			shipid		= ad.shipid,
 			shipname	= ad.shipname,
 			shipregid	= ad.shipregid,
@@ -195,12 +198,9 @@ local makeAdvert = function (station)
 	reward = utils.round(reward, 500)
 	due = utils.round(due + Game.time, 3600)
 
-	-- XXX hull mass is a bad way to determine suitability for role
-	--local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= (danger * 17) and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
-	local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hyperdriveClass > 0 and def.equipSlotCapacity.atmo_shield > 0 end, pairs(ShipDef)))
-	local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
-	local shipid = shipdef.id
-	local shipname = shipdef.name
+	local threat = (1.0 + danger) * 10.0
+	local hullConfig = ShipBuilder.SelectHull(AssassinationTargetShip, threat)
+	assert(hullConfig)
 
 	local ad = {
 		client = client,
@@ -211,8 +211,9 @@ local makeAdvert = function (station)
 		location = location,
 		dist = dist,
 		reward = reward,
-		shipid = shipid,
-		shipname = shipname,
+		threat = threat,
+		shipid = hullConfig.id,
+		shipname = ShipDef[hullConfig.id].name,
 		shipregid = Ship.MakeRandomLabel(),
 		station = station,
 		target = target,
@@ -284,35 +285,19 @@ local onEnterSystem = function (ship)
 				if mission.due > Game.time then
 					if mission.location:IsSameSystem(syspath) then -- spawn our target ship
 						local station = Space.GetBody(mission.location.bodyIndex)
-						local shiptype = ShipDef[mission.shipid]
-						local default_drive = shiptype.hyperdriveClass
-						local laserdefs = utils.build_array(pairs(Equipment.laser))
-						table.sort(laserdefs, function (l1, l2) return l1.price < l2.price end)
-						local laserdef = laserdefs[mission.danger]
-						local count = default_drive ^ 2
 
-						mission.ship = Space.SpawnShipDocked(mission.shipid, station)
-						if mission.ship == nil then
+						local plan = ShipBuilder.MakePlan(AssassinationTargetShip, HullConfig.GetHullConfig(mission.shipid), mission.threat)
+						assert(plan)
+
+						local target = Space.SpawnShipDocked(mission.shipid, station)
+
+						if not target then
 							return -- TODO
 						end
 
-						mission.ship:SetLabel(mission.shipregid)
-
-						mission.ship:AddEquip(Equipment.misc.atmospheric_shielding)
-						local engine = Equipment.hyperspace['hyperdrive_'..tostring(default_drive)]
-						mission.ship:AddEquip(engine)
-						mission.ship:AddEquip(laserdef)
-						mission.ship:AddEquip(Equipment.misc.shield_generator, mission.danger)
-
-						mission.ship:GetComponent('CargoManager'):AddCommodity(Commodities.hydrogen, count)
-
-						if mission.danger > 2 then
-							mission.ship:AddEquip(Equipment.misc.shield_energy_booster)
-						end
-
-						if mission.danger > 3 then
-							mission.ship:AddEquip(Equipment.misc.laser_cooling_booster)
-						end
+						ShipBuilder.ApplyPlan(target, plan)
+						target:SetLabel(mission.shipregid)
+						mission.ship = target
 
 						_setupHooksForMission(mission)
 						mission.shipstate = 'docked'
@@ -546,6 +531,6 @@ Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 
-Mission.RegisterType('Assassination',l.ASSASSINATION, buildMissionDescription)
+Mission.RegisterType('Assassination', l.ASSASSINATION, buildMissionDescription)
 
 Serializer:Register("Assassination", serialize, unserialize)

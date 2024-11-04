@@ -14,20 +14,20 @@ local lc = require 'Lang'.GetResource("core")
 local lui = require 'Lang'.GetResource("ui-core")
 
 -- cache player each frame
-local player = nil
+local player = nil ---@type Player
 
 local gameView = require 'pigui.views.game'
 
 local shipInfoLowerBound
+---@param target Ship
 local function displayTargetScannerFor(target, offset)
 	local hull = target:GetHullPercent()
 	local shield = target:GetShieldsPercent()
 	local class = target:GetShipType()
 	local label = target.label
-	local engine = target:GetEquip('engine', 1)
-	local stats = target:GetStats()
-	local mass = stats.staticMass
-	local cargo = stats.usedCargo
+	local engine = target:GetInstalledHyperdrive()
+	local mass = target.staticMass
+	local cargo = target.usedCargo
 	if engine then
 		engine = engine:GetName()
 	else
@@ -63,7 +63,11 @@ end
 local function displayTargetScanner()
 	local offset = 7
 	shipInfoLowerBound = Vector2(ui.screenWidth - 30, 1 * ui.gauge_height)
-	if player:GetEquipCountOccupied('target_scanner') > 0 or player:GetEquipCountOccupied('advanced_target_scanner') > 0 then
+
+	local scanner_level = (player["target_scanner_level_cap"] or 0)
+	local hypercloud_level = (player["hypercloud_analyzer_cap"] or 0)
+
+	if scanner_level > 0 then
            -- what is the difference between target_scanner and advanced_target_scanner?
 		local target = player:GetNavTarget()
 		if target and target:IsShip() then
@@ -75,14 +79,15 @@ local function displayTargetScanner()
 			end
 		end
 	end
-	if player:GetEquipCountOccupied('hypercloud') > 0 then
+
+	if hypercloud_level > 0 then
 		local target = player:GetNavTarget()
+
 		if target and target:IsHyperspaceCloud() then
 			local arrival = target:IsArrival()
 			local ship = target:GetShip()
 			if ship then
-				local stats = ship:GetStats()
-				local mass = stats.staticMass
+				local mass = ship.staticMass
 				local path,destName = ship:GetHyperspaceDestination()
 				local date = target:GetDueDate()
 				local dueDate = ui.Format.Datetime(date)

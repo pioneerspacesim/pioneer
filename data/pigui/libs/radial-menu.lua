@@ -68,18 +68,25 @@ function ui.openRadialMenu(id, target, mouse_button, size, actions, padding, pos
 	end
 end
 
+local hasAutopilotLevel = function(level)
+	return (Game.player["autopilot_cap"] or 0) >= level
+end
+
 -- TODO: add cloud Lang::SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
 local radial_menu_actions_station = {
-	{icon=ui.theme.icons.comms, tooltip=lc.REQUEST_DOCKING_CLEARANCE,
+	{
+		icon=ui.theme.icons.comms, tooltip=lc.REQUEST_DOCKING_CLEARANCE,
 		action=function(target)
 			target:RequestDockingClearance(Game.player)
 			-- TODO: play a negative sound if clearance is refused
 			Game.player:SetNavTarget(target)
 			ui.playSfx("OK")
-		end},
-	{icon=ui.theme.icons.autopilot_dock, tooltip=lc.AUTOPILOT_DOCK_WITH_STATION,
+		end
+	},
+	{
+		icon=ui.theme.icons.autopilot_dock, tooltip=lc.AUTOPILOT_DOCK_WITH_STATION,
 		action=function(target)
-	 		if next(Game.player:GetEquip('autopilot')) ~= nil then
+	 		if hasAutopilotLevel(1) then
 		 		Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 		Game.player:AIDockWith(target)
 		 		Game.player:SetNavTarget(target)
@@ -87,13 +94,15 @@ local radial_menu_actions_station = {
 			else
 				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
-		end},
+		end
+	},
 }
 
 local radial_menu_actions_all_bodies = {
-	{icon=ui.theme.icons.autopilot_fly_to, tooltip=lc.AUTOPILOT_FLY_TO_VICINITY_OF,
+	{
+		icon=ui.theme.icons.autopilot_fly_to, tooltip=lc.AUTOPILOT_FLY_TO_VICINITY_OF,
 		action=function(target)
-			if next(Game.player:GetEquip('autopilot')) ~= nil then
+			if hasAutopilotLevel(1) then
 		 		Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 		Game.player:AIFlyTo(target)
 		 		Game.player:SetNavTarget(target)
@@ -101,13 +110,15 @@ local radial_menu_actions_all_bodies = {
 			else
 				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
-		end},
+		end
+	},
 }
 
 local radial_menu_actions_systembody = {
-	{icon=ui.theme.icons.autopilot_low_orbit, tooltip=lc.AUTOPILOT_ENTER_LOW_ORBIT_AROUND,
+	{
+		icon=ui.theme.icons.autopilot_low_orbit, tooltip=lc.AUTOPILOT_ENTER_LOW_ORBIT_AROUND,
 		action=function(target)
-	 		if next(Game.player:GetEquip('autopilot')) ~= nil then
+	 		if hasAutopilotLevel(1) then
 		 		Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 		Game.player:AIEnterLowOrbit(target)
 		 		Game.player:SetNavTarget(target)
@@ -115,10 +126,12 @@ local radial_menu_actions_systembody = {
 			else
 				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
-		end},
-	{icon=ui.theme.icons.autopilot_medium_orbit, tooltip=lc.AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND,
+		end
+	},
+	{
+		icon=ui.theme.icons.autopilot_medium_orbit, tooltip=lc.AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND,
 		action=function(target)
-	 		if next(Game.player:GetEquip('autopilot')) ~= nil then
+	 		if hasAutopilotLevel(1) then
 		 		Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 		Game.player:AIEnterMediumOrbit(target)
 		 		Game.player:SetNavTarget(target)
@@ -126,10 +139,12 @@ local radial_menu_actions_systembody = {
 			else
 				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
-		end},
-	{icon=ui.theme.icons.autopilot_high_orbit, tooltip=lc.AUTOPILOT_ENTER_HIGH_ORBIT_AROUND,
+		end
+	},
+	{
+		icon=ui.theme.icons.autopilot_high_orbit, tooltip=lc.AUTOPILOT_ENTER_HIGH_ORBIT_AROUND,
 		action=function(target)
-	 		if next(Game.player:GetEquip('autopilot')) ~= nil then
+	 		if hasAutopilotLevel(1) then
 		 		Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 		Game.player:AIEnterHighOrbit(target)
 		 		Game.player:SetNavTarget(target)
@@ -137,7 +152,8 @@ local radial_menu_actions_systembody = {
 			else
 				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
-		end},
+		end
+	},
 }
 
 function ui.openDefaultRadialMenu(id, body)

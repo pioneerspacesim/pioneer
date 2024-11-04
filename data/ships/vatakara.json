@@ -2,29 +2,223 @@
 	"model": "vatakara",
 	"name": "Vatakara",
 	"cockpit": "",
-	"shield_model": "malabar_shield",
-	"manufacturer": "mandarava_csepel",
+	"shield_model": "vatakara_shield",
+	"manufacturer": "mandarava-csepel",
 	"ship_class": "heavy_freighter",
-	"min_crew": 1,
+	"min_crew": 4,
 	"max_crew": 8,
-	"price": 2655296,
-	"hull_mass": 890,
+	"price": 2833883,
+	"hull_mass": 576,
+	"structure_mass": 158,
+	"armor_mass": 256.7,
+	"volume": 14162,
 	"atmospheric_pressure_limit": 4.9,
-	"capacity": 3200,
-	"slots": {
-		"engine": 1,
-		"cabin": 10,
-		"laser_front": 1,
-		"laser_rear": 1,
-		"missile": 6,
-		"cargo": 2900
+	"capacity": 484,
+	"cargo": 2080,
+
+	"equipment_slots": {
+		"cabin_s4_1": {
+			"type": "cabin",
+			"size": 4
+		},
+		"cabin_s2_2": {
+			"type": "cabin",
+			"size": 2
+		},
+		"cabin_s2_3": {
+			"type": "cabin",
+			"size": 2
+		},
+		"cabin_s2_4": {
+			"type": "cabin",
+			"size": 2
+		},
+		"cabin_s2_5": {
+			"type": "cabin",
+			"size": 2
+		},
+		"cabin_s2_6": {
+			"type": "cabin",
+			"size": 2
+		},
+		"cabin_s2_7": {
+			"type": "cabin",
+			"size": 2
+		},
+		"cabin_s2_8": {
+			"type": "cabin",
+			"size": 2
+		},
+		"cabin_s2_9": {
+			"type": "cabin",
+			"size": 2
+		},
+		"cabin_s2_10": {
+			"type": "cabin",
+			"size": 2
+		},
+		"fuel_scoop": {
+			"type": "",
+			"size": 5,
+			"size_min": 3,
+			"tag": "",
+			"hardpoint": true
+		},
+		"computer_1": {
+			"type": "computer",
+			"size": 3,
+			"size_min": 1
+		},
+		"computer_2": {
+			"type": "computer",
+			"size": 2,
+			"size_min": 1
+		},
+		"computer_3": {
+			"type": "computer",
+			"size": 1
+		},
+		"computer_4": {
+			"type": "computer",
+			"size": 1
+		},
+		"utility_s1_1": {
+			"type": "utility",
+			"size": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"utility_s1_2": {
+			"type": "utility",
+			"size": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"utility_s2_3": {
+			"type": "utility",
+			"size": 2,
+			"size_min": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"utility_s2_4": {
+			"type": "utility",
+			"size": 2,
+			"size_min": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"utility_s3_5": {
+			"type": "utility",
+			"size": 3,
+			"size_min": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"utility_s3_6": {
+			"type": "utility",
+			"size": 3,
+			"size_min": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"utility_s4_9": {
+			"type": "utility",
+			"size": 4,
+			"size_min": 2,
+			"tag": "",
+			"hardpoint": true
+		},
+		"utility_s5_11": {
+			"type": "utility",
+			"size": 5,
+			"size_min": 3,
+			"tag": "",
+			"hardpoint": true
+		},
+		"weapon_s3_1": {
+			"type": "weapon",
+			"size": 3,
+			"size_min": 2,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT",
+			"tag": "",
+			"hardpoint": true,
+			"gimbal": [30,30]
+		},
+		"weapon_s3_2": {
+			"type": "weapon",
+			"size": 3,
+			"size_min": 2,
+			"i18n_key": "HARDPOINT_WEAPON_REAR",
+			"tag": "",
+			"hardpoint": true,
+			"gimbal": [30,30]
+		},
+		"shield_s3_1": {
+			"type": "shield",
+			"size": 3,
+			"size_min": 2
+		},
+		"shield_s3_2": {
+			"type": "shield",
+			"size": 3,
+			"size_min": 2
+		},
+		"shield_s3_3": {
+			"type": "shield",
+			"size": 3,
+			"size_min": 2
+		},
+		"missile_bay_1 (cap:5xS2)": {
+			"type": "missile_bay.opli_internal",
+			"size": 2,
+			"i18n_key": "HARDPOINT_MISSILE_BAY"
+		},
+		"missile_bay_2 (cap:5xS2)": {
+			"type": "missile_bay.opli_internal",
+			"size": 2,
+			"i18n_key": "HARDPOINT_MISSILE_BAY"
+		},
+		"sensor_s3_1": {
+			"type": "",
+			"size": 3,
+			"size_min": 2
+		},
+		"sensor_s3_2": {
+			"type": "",
+			"size": 3,
+			"size_min": 2
+		},
+		"sensor_s2_3": {
+			"type": "",
+			"size": 2
+		},
+		"sensor_s2_4": {
+			"type": "",
+			"size": 2
+		},
+		"shield_s3_4": {
+			"type": "shield",
+			"size": 3,
+			"size_min": 2
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"size": 5,
+			"size_min": 3
+		},
+		"thruster": {
+			"type": "thruster",
+			"size": 5,
+			"count": 12
+		}
 	},
+
 	"roles": ["merchant"],
-	
-	"effective_exhaust_velocity": 16900000,
+	"effective_exhaust_velocity": 14900000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 2200,
-	"hyperdrive_class": 9,
+	"fuel_tank_mass": 2135,
+	"hyperdrive_class": 4,
 
 	"forward_thrust": 120000000,
 	"forward_acceleration_cap": 19.62,
@@ -39,11 +233,11 @@
 	"right_thrust": 27000000,
 	"right_acceleration_cap": 12.1644,
 
-	"angular_thrust": 555171928.095946,
+	"angular_thrust": 555171928.1,
 
-	"front_cross_section": 635,
-	"side_cross_section": 1215,
-	"top_cross_section": 980,
+	"front_cross_section": 635.002,
+	"side_cross_section": 1215.002,
+	"top_cross_section": 980.002,
 
 	"front_drag_coeff": 1.3,
 	"side_drag_coeff": 1.21,

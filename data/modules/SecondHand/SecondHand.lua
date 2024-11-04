@@ -43,28 +43,17 @@ end
 
 -- check it fits on the ship, both the slot for that equipment and the
 -- weight.
+---@param e EquipType
 local canFit = function (e)
 
-	-- todo: this is the same code as in equipmentTableWidgets, unify?
-	local slot
-	for i=1,#e.slots do
-		if Game.player:GetEquipFree(e.slots[i]) > 0 then
-			slot = e.slots[i]
-			break
-		end
-	end
+	local equipSet = Game.player:GetComponent("EquipSet")
 
-	-- if ship maxed out in any valid slot for e
-	if not slot then
-		return false, l2.SHIP_IS_FULLY_EQUIPPED
+	if e.slot then
+		local slot = equipSet:GetFreeSlotForEquip(e)
+		return slot ~= nil, slot, l2.SHIP_IS_FULLY_EQUIPPED
+	else
+		return equipSet:CanInstallLoose(e), nil, l2.SHIP_IS_FULLY_EQUIPPED
 	end
-
-	-- if ship too heavy with this equipment
-	if Game.player.freeCapacity < e.capabilities.mass then
-		return false, l2.SHIP_IS_FULLY_LADEN
-	end
-
-    return true, ""
 end
 
 
@@ -92,23 +81,30 @@ local onChat = function (form, ref, option)
 		form:SetMessage(l.FITTING_IS_INCLUDED_IN_THE_PRICE)
 		form:AddOption(l.REPEAT_OFFER, 0);
     elseif option == 2 then    --- "Buy"
+
 		if Engine.rand:Integer(0, 99) == 0 then -- This is a one in a hundred event
+
 			form:SetMessage(l["NO_LONGER_AVAILABLE_" .. Engine.rand:Integer(0, max_surprise_index)])
 			form:RemoveAdvertOnClose()
 			ads[ref] = nil
+
 		elseif Game.player:GetMoney() >= ad.price then
-			local state, message_str = canFit(ad.equipment)
-			if state then
-				local buy_message = string.interp(l.HAS_BEEN_FITTED_TO_YOUR_SHIP,
-												  {equipment = ad.equipment:GetName(),})
+
+			local ok, slot, message_str = canFit(ad.equipment)
+			if ok then
+				local buy_message = string.interp(l.HAS_BEEN_FITTED_TO_YOUR_SHIP, {
+					equipment = ad.equipment:GetName()
+				})
+
 				form:SetMessage(buy_message)
-				Game.player:AddEquip(ad.equipment, 1)
+				Game.player:GetComponent("EquipSet"):Install(ad.equipment, slot)
 				Game.player:AddMoney(-ad.price)
 				form:RemoveAdvertOnClose()
 				ads[ref] = nil
 			else
 				form:SetMessage(message_str)
 			end
+
         else
 			form:SetMessage(l.YOU_DONT_HAVE_ENOUGH_MONEY)
         end
@@ -126,18 +122,20 @@ local makeAdvert = function (station)
 
 	-- Get all non-cargo or engines
 	local avail_equipment = {}
-	for k,v in pairs(Equipment) do
-		if k == "laser" or k == "misc" then
-			for _,e in pairs(v) do
-				if e.purchasable then
-					table.insert(avail_equipment,e)
-				end
+	for id, equip in pairs(Equipment.new) do
+		if equip.slot and not equip.slot.type:match("^hyperdrive") then
+			if equip.purchasable then
+				table.insert(avail_equipment, equip)
 			end
 		end
 	end
 
 	-- choose a random ship equipment
-    local equipment = avail_equipment[Engine.rand:Integer(1,#avail_equipment)]
+    local equipType = avail_equipment[Engine.rand:Integer(1,#avail_equipment)]
+
+	-- make an instance of the equipment
+	-- TODO: set equipment integrity/wear, etc.
+	local equipment = equipType:Instance()
 
 	-- buy back price in equipment market is 0.8, so make sure the value is higher
 	local reduction = Engine.rand:Number(0.8,0.9)

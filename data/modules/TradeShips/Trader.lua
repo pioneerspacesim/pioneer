@@ -1,61 +1,76 @@
 -- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local e = require 'Equipment'
+local Commodities = require 'Commodities'
 local Engine = require 'Engine'
 local Game = require 'Game'
+local HullConfig  = require 'HullConfig'
 local Ship = require 'Ship'
-local ShipDef = require 'ShipDef'
 local Space = require 'Space'
 local Timer = require 'Timer'
-local Commodities = require 'Commodities'
+
+local utils       = require 'utils'
+
+local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
+local OutfitRules = ShipBuilder.OutfitRules
 
 local Core = require 'modules.TradeShips.Core'
+
+local ECMRule = {
+	slot = "utility",
+	filter = "utility.ecm",
+	limit = 1,
+}
+
+local TraderTemplate = ShipBuilder.Template:clone {
+	rules = {
+		OutfitRules.DefaultHyperdrive,
+		OutfitRules.DefaultAtmoShield,
+		OutfitRules.DefaultAutopilot,
+		OutfitRules.DefaultRadar,
+		{ equip = "misc.cargo_life_support" },
+		-- Defensive equipment is applied based on system lawlessness and a little luck
+		utils.mixin(OutfitRules.EasyWeapon, { randomChance = 0.8 }),
+		utils.mixin(OutfitRules.DefaultShieldGen, { randomChance = 1.0 }),
+		utils.mixin(OutfitRules.DefaultShieldBooster, { randomChance = 0.4 }),
+		-- ECM can't be used by NPC ships... yet
+		utils.mixin(ECMRule, { maxSize = 2, randomChance = 0.3 }),
+		-- Basic ECM is more prevalent than advanced ECM
+		utils.mixin(ECMRule, { maxSize = 1, randomChance = 0.8 }),
+		-- Extremely rare to have one of these onboard
+		{
+			equip = "misc.hull_autorepair",
+			limit = 1,
+			randomChance = 0.2
+		}
+	}
+}
 
 local Trader = {}
 -- this module contains functions that work for single traders
 
 Trader.addEquip = function (ship)
 	assert(ship.usedCargo == 0, "equipment is only installed on an empty ship")
-	local ship_type = ShipDef[ship.shipId]
+	local shipId = ship.shipId
 
-	-- add standard equipment
-	ship:AddEquip(e.hyperspace['hyperdrive_'..tostring(ship_type.hyperdriveClass)])
-	if ShipDef[ship.shipId].equipSlotCapacity.atmo_shield > 0 then
-		ship:AddEquip(e.misc.atmospheric_shielding)
-	end
-	ship:AddEquip(e.misc.radar)
-	ship:AddEquip(e.misc.autopilot)
-	ship:AddEquip(e.misc.cargo_life_support)
-
-	-- add defensive equipment based on lawlessness, luck and size
+	-- Compute a random modifier for more advanced equipment from lawlessness
 	local lawlessness = Game.system.lawlessness
-	local size_factor = ship.freeCapacity ^ 2 / 2000000
+	local randomMod = 0.1 + lawlessness * 0.9
 
-	if Engine.rand:Number(1) - 0.1 < lawlessness then
-		local num = math.floor(math.sqrt(ship.freeCapacity / 50)) -
-			ship:CountEquip(e.misc.shield_generator)
-		if num > 0 then ship:AddEquip(e.misc.shield_generator, num) end
-		if ship_type.equipSlotCapacity.energy_booster > 0 and
-			Engine.rand:Number(1) + 0.5 - size_factor < lawlessness then
-			ship:AddEquip(e.misc.shield_energy_booster)
-		end
-	end
+	local hullConfig = HullConfig.GetHullConfig(shipId)
+	assert(hullConfig, "Can't find hull config for shipId " .. shipId)
 
-	-- we can't use these yet
-	if ship_type.equipSlotCapacity.ecm > 0 then
-		if Engine.rand:Number(1) + 0.2 < lawlessness then
-			ship:AddEquip(e.misc.ecm_advanced)
-		elseif Engine.rand:Number(1) < lawlessness then
-			ship:AddEquip(e.misc.ecm_basic)
-		end
-	end
+	local template = TraderTemplate:clone {
+		randomModifier = randomMod
+	}
 
-	-- this should be rare
-	if ship_type.equipSlotCapacity.hull_autorepair > 0 and
-		Engine.rand:Number(1) + 0.75 - size_factor < lawlessness then
-		ship:AddEquip(e.misc.hull_autorepair)
-	end
+	local hullThreat = ShipBuilder.GetHullThreat(shipId).total
+
+	-- TODO: Dummy threat value since we're not using it to select hulls
+	local plan = ShipBuilder.MakePlan(template, hullConfig, hullThreat + 50 * randomMod)
+	assert(plan, "Couldn't make an equipment plan for trader " .. shipId)
+
+	ShipBuilder.ApplyPlan(ship, plan)
 end
 
 Trader.addCargo = function (ship, direction)
@@ -120,7 +135,7 @@ Trader.doOrbit = function (ship)
 end
 
 local getSystem = function (ship)
-	local max_range = ship:GetEquip('engine', 1):GetMaximumRange(ship)
+	local max_range = ship:GetInstalledHyperdrive():GetMaximumRange(ship)
 	max_range = math.min(max_range, 30)
 	local min_range = max_range / 2;
 	local systems_in_range = Game.system:GetNearbySystems(min_range)
@@ -209,7 +224,7 @@ local function isAtmo(starport)
 end
 
 local function canAtmo(ship)
-	return ship:CountEquip(e.misc.atmospheric_shielding) ~= 0
+	return (ship["atmo_shield_cap"] or 0) > 0
 end
 
 local THRUSTER_UP = Engine.GetEnumValue('ShipTypeThruster', 'UP')
@@ -242,7 +257,7 @@ Trader.getNearestStarport = function(ship, current)
 end
 
 Trader.addFuel = function (ship)
-	local drive = ship:GetEquip('engine', 1)
+	local drive = ship:GetInstalledHyperdrive()
 
 	-- a drive must be installed
 	if not drive then

@@ -1,45 +1,152 @@
 {
 	"model": "bluenose",
 	"name": "Bluenose",
-	"cockpit": " ",
+	"cockpit": "",
 	"shield_model": "bluenose_shield",
 	"manufacturer": "kaluri",
 	"ship_class": "medium_freighter",
 	"min_crew": 2,
 	"max_crew": 3,
-	"price": 518244,
-	"hull_mass": 210,
-	"atmospheric_pressure_limit": 4.2,
-	"capacity": 600,
-	"slots": {
-		"engine": 1,
-		"cabin": 20,
-		"laser_front": 1,
-		"laser_rear": 1,
-		"missile": 2,
-		"cargo": 550
+	"price": 269560,
+	"hull_mass": 105,
+	"structure_mass": 50.5,
+	"armor_mass": 42.7,
+	"volume": 2219,
+	"atmospheric_pressure_limit": 3.8,
+	"capacity": 110,
+	"cargo": 288,
+
+	"equipment_slots": {
+		"weapon_s2_1": {
+			"type": "weapon",
+			"size": 2,
+			"size_min": 1,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT",
+			"tag": "tag_weapon_s2_1",
+			"hardpoint": true,
+			"gimbal": [5,5]
+		},
+		"weapon_s2_2": {
+			"type": "weapon",
+			"size": 2,
+			"size_min": 1,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT",
+			"tag": "tag_weapon_s2_2",
+			"hardpoint": true,
+			"gimbal": [5,5]
+		},
+		"missile_s3_left": {
+			"type": "missile",
+			"size": 3,
+			"tag": "tag_missile_s3_left",
+			"hardpoint": true
+		},
+		"missile_s3_right": {
+			"type": "missile",
+			"size": 3,
+			"tag": "tag_missile_s3_right",
+			"hardpoint": true
+		},
+		"shield_s2_1": {
+			"type": "shield",
+			"size": 2
+		},
+		"shield_s2_2": {
+			"type": "shield",
+			"size": 2
+		},
+		"utility_s2_1": {
+			"type": "utility",
+			"size": 2,
+			"size_min": 1,
+			"tag": "tag_utility_s2_1",
+			"hardpoint": true
+		},
+		"utility_s2_2": {
+			"type": "utility",
+			"size": 2,
+			"size_min": 1,
+			"tag": "tag_utility_s2_2",
+			"hardpoint": true
+		},
+		"utility_s1_3": {
+			"type": "utility",
+			"size": 1,
+			"size_min": 1,
+			"tag": "tag_utility_s1_3",
+			"hardpoint": true
+		},
+		"utility_s1_4": {
+			"type": "utility",
+			"size": 1,
+			"size_min": 1,
+			"tag": "tag_utility_s1_4",
+			"hardpoint": true
+		},
+		"computer": {
+			"type": "computer",
+			"size": 2,
+			"size_min": 1
+		},
+		"computer_2": {
+			"type": "computer",
+			"size": 1,
+			"size_min": 1
+		},
+		"cabin_s3_1": {
+			"type": "cabin",
+			"size": 3
+		},
+		"cabin_s3_2": {
+			"type": "cabin",
+			"size": 3
+		},
+		"cabin_s1_1": {
+			"type": "cabin",
+			"size": 1
+		},
+		"cabin_s1_2": {
+			"type": "cabin",
+			"size": 1
+		},
+		"fuel_scoop_s2": {
+			"type": "fuel_scoop",
+			"size": 2,
+			"tag": "tag_fuel_scoop_s2",
+			"hardpoint": true
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"size": 3,
+			"size_min": 3
+		},
+		"thruster": {
+			"type": "thruster",
+			"size": 3,
+			"count": 12
+		}
 	},
-	"roles": ["merchant", "pirate"],
-	
-	"effective_exhaust_velocity": 17600000,
+
+	"roles": ["merchant"],
+	"effective_exhaust_velocity": 12700000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 375,
-	"hyperdrive_class": 4,
+	"fuel_tank_mass": 278,
+	"hyperdrive_class": 3,
 
-	"forward_thrust": 21000000,
-	"forward_acceleration_cap": 23.544,
-	"reverse_thrust": 9000000,
-	"reverse_acceleration_cap": 9.81,
-	"up_thrust": 12000000,
-	"up_acceleration_cap": 19.62,
-	"down_thrust": 7000000,
-	"down_acceleration_cap": 15.3036,
-	"left_thrust": 7000000,
-	"left_acceleration_cap": 15.3036,
-	"right_thrust": 7000000,
-	"right_acceleration_cap": 15.3036,
+	"forward_thrust": 10000000,
+	"forward_acceleration_cap": 20.601,
+	"reverse_thrust": 7200000,
+	"reverse_acceleration_cap": 15.696,
+	"up_thrust": 8500000,
+	"up_acceleration_cap": 20.601,
+	"down_thrust": 4000000,
+	"down_acceleration_cap": 9.81,
+	"left_thrust": 4000000,
+	"left_acceleration_cap": 9.81,
+	"right_thrust": 4000000,
+	"right_acceleration_cap": 9.81,
 
-	"angular_thrust": 93869649.6780586,
+	"angular_thrust": 93869649.68,
 
 	"front_cross_section": 80,
 	"side_cross_section": 337,

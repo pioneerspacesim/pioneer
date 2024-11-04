@@ -7,31 +7,99 @@
 	"ship_class": "light_fighter",
 	"min_crew": 1,
 	"max_crew": 1,
-	"price": 34430,
-	"hull_mass": 25,
+	"price": 43104,
+	"hull_mass": 20,
+	"structure_mass": 7.1,
+	"armor_mass": 11.6,
+	"volume": 135,
 	"atmospheric_pressure_limit": 6.5,
-	"capacity": 18,
-	"slots": {
-		"engine": 1,
-		"cabin": 0,
-		"scoop": 0,
-		"laser_front": 1,
-		"missile": 24,
-		"cargo": 6
-	},
-	"roles": ["mercenary", "pirate", "courier"],
+	"capacity": 15,
+	"cargo": 4,
 
+	"equipment_slots": {
+		"missile_bay_1": {
+			"type": "missile_bay.bowfin_internal",
+			"size": 2,
+			"i18n_key": "HARDPOINT_MISSILE_ARRAY",
+			"tag": "tag_missile_bay_1",
+			"hardpoint": true,
+			"default": "missile_rack.bowfin_internal_s2"
+		},
+		"missile_bay_2": {
+			"type": "missile_bay.bowfin_internal",
+			"size": 2,
+			"i18n_key": "HARDPOINT_MISSILE_ARRAY",
+			"tag": "tag_missile_bay_2",
+			"hardpoint": true,
+			"default": "missile_rack.bowfin_internal_s2"
+		},
+		"missile_bay_3": {
+			"type": "missile_bay.bowfin_internal",
+			"size": 2,
+			"i18n_key": "HARDPOINT_MISSILE_ARRAY",
+			"tag": "tag_missile_bay_3",
+			"hardpoint": true,
+			"default": "missile_rack.bowfin_internal_s2"
+		},
+		"missile_bay_4": {
+			"type": "missile_bay.bowfin_internal",
+			"size": 2,
+			"i18n_key": "HARDPOINT_MISSILE_ARRAY",
+			"tag": "tag_missile_bay_4",
+			"hardpoint": true,
+			"default": "missile_rack.bowfin_internal_s2"
+		},
+		"shield_s1_1": {
+			"type": "shield",
+			"size": 1
+		},
+		"shield_s1_2": {
+			"type": "shield",
+			"size": 1
+		},
+		"utility_s1_1": {
+			"type": "utility",
+			"size": 1,
+			"tag": "tag_utility_s1_1",
+			"hardpoint": true
+		},
+		"computer_2": {
+			"type": "computer",
+			"size": 1
+		},
+		"laser_chin": {
+			"type": "weapon",
+			"size": 2,
+			"size_min": 1,
+			"i18n_key": "HARDPOINT_WEAPON_CHIN",
+			"tag": "tag_laser_chin",
+			"hardpoint": true,
+			"gimbal": [8,8]
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"size": 1,
+			"size_min": 1
+		},
+		"thruster": {
+			"type": "thruster",
+			"size": 1,
+			"count": 12
+		}
+	},
+
+	"roles": ["pirate","mercenary","police"],
 	"effective_exhaust_velocity": 8400000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 26,
+	"fuel_tank_mass": 20,
 	"hyperdrive_class": 1,
 
-	"forward_thrust": 2000000,
+	"forward_thrust": 2100000,
 	"forward_acceleration_cap": 33.354,
 	"reverse_thrust": 1250000,
 	"reverse_acceleration_cap": 24.525,
 	"up_thrust": 1300000,
-	"up_acceleration_cap": 29.43,
+	"up_acceleration_cap": 24.525,
 	"down_thrust": 1000000,
 	"down_acceleration_cap": 24.525,
 	"left_thrust": 1000000,
@@ -39,7 +107,7 @@
 	"right_thrust": 1000000,
 	"right_acceleration_cap": 24.525,
 
-	"angular_thrust": 4648782.6507229,
+	"angular_thrust": 4648782.65,
 
 	"front_cross_section": 33,
 	"side_cross_section": 27,
@@ -49,6 +117,6 @@
 	"side_drag_coeff": 0.78,
 	"top_drag_coeff": 0.92,
 
-	"lift_coeff": 0.42,
-	"aero_stability": 0.5
+	"lift_coeff": 0.21,
+	"aero_stability": 0.8
 }

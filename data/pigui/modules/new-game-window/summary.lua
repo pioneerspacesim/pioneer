@@ -97,7 +97,7 @@ function Summary:draw()
 
 		for _, eq in ipairs(Ship.Equip.summaryList) do
 			-- eq: { obj, count }
-			if not eq.obj.capabilities.hyperclass then
+			if eq.obj and not eq.obj.capabilities.hyperclass then
 				local count = eq.count > 1 and " x " .. tostring(eq.count) or ""
 				ui.text("    - " .. leq[eq.obj.l10n_key] .. count)
 			end

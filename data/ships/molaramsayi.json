@@ -1,36 +1,204 @@
 {
 	"model": "molaramsayi",
 	"name": "Mola Ramsayi",
-	"cockpit": " ",
+	"cockpit": "",
 	"shield_model": "molaramsayi_shield",
 	"manufacturer": "kaluri",
 	"ship_class": "medium_freighter",
-	"min_crew": 1,
-	"max_crew": 5,
-	"price": 814200,
-	"hull_mass": 380,
-	"atmospheric_pressure_limit": 3.8,
-	"capacity": 950,
-	"slots": {
-		"engine": 1,
-		"cabin": 60,
-		"laser_front": 1,
-		"laser_rear": 1,
-		"missile": 3,
-		"cargo": 900
+	"min_crew": 2,
+	"max_crew": 3,
+	"price": 607846,
+	"hull_mass": 143,
+	"structure_mass": 54.7,
+	"armor_mass": 40.7,
+	"volume": 2881,
+	"atmospheric_pressure_limit": 4.6,
+	"capacity": 120,
+	"cargo": 440,
+
+	"equipment_slots": {
+		"cabin_s1_1": {
+			"type": "cabin",
+			"size": 1
+		},
+		"cabin_s1_2": {
+			"type": "cabin",
+			"size": 1
+		},
+		"cabin_s2_3": {
+			"type": "cabin",
+			"size": 3
+		},
+		"cabin_s2_4": {
+			"type": "cabin",
+			"size": 3
+		},
+		"fuel_scoop": {
+			"type": "fuel_scoop",
+			"size": 3,
+			"size_min": 1
+		},
+		"computer_1": {
+			"type": "computer",
+			"size": 2,
+			"size_min": 1
+		},
+		"computer_2": {
+			"type": "computer",
+			"size": 2,
+			"size_min": 1
+		},
+		"utility_s1_2": {
+			"type": "utility",
+			"size": 1,
+			"size_min": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"utility_s1_3": {
+			"type": "utility",
+			"size": 1,
+			"size_min": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"utility_s1_1": {
+			"type": "utility",
+			"size": 1,
+			"size_min": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"utility_s2_4": {
+			"type": "utility",
+			"size": 2,
+			"size_min": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"utility_s2_5": {
+			"type": "utility",
+			"size": 2,
+			"size_min": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"utility_s2_6": {
+			"type": "utility",
+			"size": 2,
+			"size_min": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"utility_s3_7": {
+			"type": "utility",
+			"size": 3,
+			"size_min": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"utility_s3_8": {
+			"type": "utility",
+			"size": 3,
+			"size_min": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"utility_s3_9": {
+			"type": "utility",
+			"size": 3,
+			"size_min": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"computer_3": {
+			"type": "computer",
+			"size": 2,
+			"size_min": 1
+		},
+		"weapon_s2_1": {
+			"type": "weapon",
+			"size": 2,
+			"tag": "",
+			"hardpoint": true,
+			"gimbal": [5,5]
+		},
+		"weapon_s2_2": {
+			"type": "weapon",
+			"size": 2,
+			"tag": "",
+			"hardpoint": true,
+			"gimbal": [5,5]
+		},
+		"missile_bay_1 (cap:12xS2)": {
+			"type": "missile_bay.opli_internal",
+			"size": 4,
+			"tag": "",
+			"hardpoint": true
+		},
+		"shield_s2_1": {
+			"type": "shield",
+			"size": 2
+		},
+		"shield_s2_2": {
+			"type": "shield",
+			"size": 2
+		},
+		"shield_s2_3": {
+			"type": "shield",
+			"size": 2
+		},
+		"sensor_s3_1": {
+			"type": "sensor",
+			"size": 3,
+			"size_min": 1
+		},
+		"sensor_s2_2": {
+			"type": "sensor",
+			"size": 2,
+			"size_min": 1
+		},
+		"sensor_s2_3": {
+			"type": "sensor",
+			"size": 2,
+			"size_min": 1
+		},
+		"sensor_s2_3": {
+			"type": "sensor",
+			"size": 2,
+			"size_min": 1
+		},
+		"cabin_s2_5": {
+			"type": "cabin",
+			"size": 3
+		},
+		"cabin_s2_6": {
+			"type": "cabin",
+			"size": 3
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"size": 4,
+			"size_min": 3
+		},
+		"thruster": {
+			"type": "thruster",
+			"size": 4,
+			"count": 12
+		}
 	},
+
 	"roles": ["merchant"],
-
-	"effective_exhaust_velocity": 17600000,
+	"effective_exhaust_velocity": 16300000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 473,
-	"hyperdrive_class": 5,
+	"fuel_tank_mass": 480,
+	"hyperdrive_class": 3,
 
-	"forward_thrust": 36000000,
+	"forward_thrust": 31200000,
 	"forward_acceleration_cap": 21.582,
-	"reverse_thrust": 20000000,
-	"reverse_acceleration_cap": 21.582,
-	"up_thrust": 32000000,
+	"reverse_thrust": 16000000,
+	"reverse_acceleration_cap": 16.1865,
+	"up_thrust": 17000000,
 	"up_acceleration_cap": 21.582,
 	"down_thrust": 13000000,
 	"down_acceleration_cap": 16.677,
@@ -39,11 +207,11 @@
 	"right_thrust": 13000000,
 	"right_acceleration_cap": 16.677,
 
-	"angular_thrust": 76704913.7369279,
+	"angular_thrust": 76704913.74,
 
-	"front_cross_section": 165,
-	"side_cross_section": 300,
-	"top_cross_section": 307,
+	"front_cross_section": 165.002,
+	"side_cross_section": 300.002,
+	"top_cross_section": 307.002,
 
 	"front_drag_coeff": 0.34,
 	"side_drag_coeff": 0.56,

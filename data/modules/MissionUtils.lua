@@ -19,6 +19,8 @@ local MissionUtils = {
 	Weeks = Weeks,
 }
 
+MissionUtils.ShipTemplates = require 'modules.MissionUtils.ShipTemplates'
+
 ---@class MissionUtils.Calculator
 ---@field New fun(): MissionUtils.Calculator
 local Calculator = utils.class("MissionUtils.Calculator")

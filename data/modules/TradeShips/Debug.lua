@@ -4,7 +4,6 @@
 local ShipDef = require 'ShipDef'
 local debugView = require 'pigui.views.debug'
 local Engine = require 'Engine'
-local e = require 'Equipment'
 local Game = require 'Game'
 local ui = require 'pigui.baseui'
 local utils = require 'utils'
@@ -281,7 +280,7 @@ debugView.registerTab('debug-trade-ships', {
 		infosize = ui.getCursorScreenPos().y
 		local obj = Game.systemView:GetSelectedObject()
 		if obj.type ~= Engine.GetEnumValue("ProjectableTypes", "NONE") and Core.ships[obj.ref] then
-			local ship = obj.ref
+			local ship = obj.ref ---@type Ship
 			local trader = Core.ships[ship]
 
 			if ui.collapsingHeader("Info:", {"DefaultOpen"}) then
@@ -306,44 +305,38 @@ debugView.registerTab('debug-trade-ships', {
 				local equipItems = {}
 				local total_mass = 0
 
-				local equips = { "misc", "hyperspace", "laser" }
-				for _,t in ipairs(equips) do
-					for _,et in pairs(e[t]) do
-						local count = ship:CountEquip(et)
-						if count > 0 then
-							local all_mass = count * et.capabilities.mass
-							table.insert(equipItems, {
-								name = et:GetName(),
-								eq_type = t,
-								count = count,
-								mass = et.capabilities.mass,
-								all_mass = all_mass
-							})
-							total_mass = total_mass + all_mass
-						end
-					end
-				end
-
-				---@type CargoManager
+				local equipSet = ship:GetComponent('EquipSet')
 				local cargoMgr = ship:GetComponent('CargoManager')
+
+				for _, equip in pairs(equipSet:GetInstalledEquipment()) do
+					local count = equip.count or 1
+					total_mass = total_mass + equip.mass
+					table.insert(equipItems, {
+						name = equip:GetName(),
+						type = equip.slot and equip.slot.type or "equip",
+						count = count,
+						mass = equip.mass,
+						all_mass = equip.mass * count
+					})
+				end
 
 				for name, info in pairs(cargoMgr.commodities) do
 					local ct = CommodityType.GetCommodity(name)
 					total_mass = total_mass + ct.mass * info.count
 					table.insert(equipItems, {
 						name = ct:GetName(),
-						eq_type = "cargo",
+						type = "cargo",
 						count = info.count,
 						mass = ct.mass,
 						all_mass = ct.mass * info.count
 					})
 				end
 
-				local capacity = ShipDef[ship.shipId].capacity
+				local capacity = ShipDef[ship.shipId].equipCapacity
 
 				arrayTable.draw("tradeships_traderequipment", equipItems, ipairs, {
 					{ name = "Name",        key = "name",     string = true       },
-					{ name = "Type",        key = "eq_type",  string = true       },
+					{ name = "Type",        key = "type",     string = true       },
 					{ name = "Units",       key = "count"                         },
 					{ name = "Unit's mass", key = "mass",     fnc = format("%dt") },
 					{ name = "Total",       key = "all_mass", fnc = format("%dt") }

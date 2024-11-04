@@ -1,16 +1,18 @@
 -- Copyright © 2008-2024 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Equipment = require 'Equipment'
-local Format = require 'Format'
 local Game = require 'Game'
 local ShipDef = require 'ShipDef'
 local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
-local EquipMarket = require 'pigui.libs.equipment-market'
-local ItemCard = require 'pigui.libs.item-card'
-local EquipType = require 'EquipType'
+local EquipCard = require 'pigui.libs.equip-card'
+local EquipSet  = require 'EquipSet'
+local pigui = require 'Engine'.pigui
 local Vector2 = Vector2
+
 local utils = require 'utils'
+
+local Module = require 'pigui.libs.module'
+local Outfitter = require 'pigui.libs.equipment-outfitter'
 
 local Lang = require 'Lang'
 local l = Lang.GetResource("ui-core")
@@ -26,85 +28,21 @@ local iconSize = Vector2(pionillium.body.size)
 
 local equipmentInfoTab
 
----@class EquipmentWidget
----@field meta table
-local EquipmentWidget = utils.inherits(nil, "EquipmentWidget")
+---@class UI.EquipmentWidget : UI.Module
+---@field New fun(id): self
+local EquipmentWidget = utils.class("UI.EquipmentWidget", Module)
 
--- Slot information for the empty slot + example slot data layout
-local emptySlot = {
-	-- type = "Slot", name = "[EMPTY]"
-	icon = icons.autopilot_dock, --size = "S1",
-	{ icons.hull, ui.Format.Mass(0, 1), le.EQUIPMENT_WEIGHT },
-	-- { icons.repairs, "100%", le.EQUIPMENT_INTEGRITY }
-	-- { icons.ecm_advanced, "0 KW", "Max Power Draw" },
-	-- { icons.temperature, "0 KW", "Operating Heat" },
+-- Equipment item grouping by underlying slot kinds
+EquipmentWidget.Sections = {
+	{ name = le.PROPULSION, types = { "engine", "thruster", "hyperdrive" } },
+	{ name = le.WEAPONS, type = "weapon" },
+	{ name = le.MISSILES, types = { "pylon", "missile_bay", "missile" } },
+	{ name = le.SHIELDS, type = "shield" },
+	{ name = le.SENSORS, type = "sensor", },
+	{ name = le.COMPUTER_MODULES, type = "computer", },
+	{ name = le.CABINS, types = { "cabin" } },
+	{ name = le.HULL_MOUNTS, types = { "hull", "utility", "fuel_scoop", "structure" } },
 }
-
--- Equipment item grouping by underlying slot type
--- TODO: significant refactor to slot system to reduce highly-specialized slots
-local sections = {
-	{ name = le.PROPULSION, slot = "engine", showCapacity = true },
-	{ name = le.WEAPONS, slot = "laser_front", showCapacity = true },
-	{ name = le.MISSILES, slot = "missile", showCapacity = true },
-	{ name = le.SCOOPS, slot = "scoop", showCapacity = true },
-	{ name = le.SENSORS, showCapacity = true, slots = {
-		"sensor", "radar", "target_scanner", "hypercloud"
-	} },
-	{ name = le.SHIELDS, slot = "shield" },
-	{ name = le.UTILITY, slots = {
-		"cabin", "ecm", "hull_autorepair",
-		"energy_booster", "atmo_shield",
-		"laser_cooler", "cargo_life_support",
-		"autopilot", "trade_computer", "thruster"
-	} }
-}
-
---
--- =============================================================================
---  Equipment Item Card
--- =============================================================================
---
-
----@class UI.EquipCard : UI.ItemCard
-local EquipCard = utils.inherits(ItemCard, "UI.EquipCard")
-
-EquipCard.highlightBar = true
-EquipCard.detailFields = 4 - 0.3
-
-function EquipCard:drawTooltip(data, isSelected)
-	if data.equip then
-		local desc = data.equip:GetDescription()
-		if desc and #desc > 0 then
-			ui.withStyleVars({ WindowPadding = ui.theme.styles.WindowPadding }, function()
-				ui.setTooltip(desc)
-			end)
-		end
-	end
-end
-
-function EquipCard:drawTitle(data, textWidth, isSelected)
-	local pos = ui.getCursorPos()
-
-	-- Draw the slot type
-	if data.type then
-		ui.text(data.type .. ":")
-		ui.sameLine()
-	end
-
-	-- Draw the name of what's in the slot
-	local fontColor = data.name and colors.white or colors.equipScreenBgText
-
-	local name = data.name or ("[" .. le.EMPTY_SLOT .. "]")
-	ui.withStyleColors({ Text = fontColor }, function() ui.text(name) end)
-
-	-- Draw the size of the slot
-	if data.size then
-		ui.setCursorPos(pos + Vector2(textWidth - ui.calcTextSize(data.size).x --[[ - self.lineSpacing.x ]], 0))
-		ui.withStyleColors({ Text = colors.equipScreenBgText }, function()
-			ui.text(data.size)
-		end)
-	end
-end
 
 --
 -- =============================================================================
@@ -112,99 +50,41 @@ end
 -- =============================================================================
 --
 
--- Copied from 05-equipmentMarket.lua
-local hasTech = function (station, e)
-	local equip_tech_level = e.tech_level or 1 -- default to 1
+---@param equip EquipType
+function EquipmentWidget:onBuyItem(equip)
+	local player = Game.player
 
-	if type(equip_tech_level) == "string" then
-		if equip_tech_level == "MILITARY" then
-			equip_tech_level = 11
-		else
-			error("Unknown tech level:\t"..equip_tech_level)
-		end
+	if self.selectedEquip then
+		self:onSellItem(self.selectedEquip)
 	end
 
-	assert(type(equip_tech_level) == "number")
-	return station.techLevel >= equip_tech_level
+	if equip:isProto() then
+		equip = equip:Instance()
+	end
+
+	player:AddMoney(-self.market:getBuyPrice(equip))
+	self.station:AddEquipmentStock(equip:GetPrototype(), -1)
+
+	assert(self.ship:GetComponent("EquipSet"):Install(equip, self.selectedSlot))
+
+	self.selectedEquip = self.selectedSlot and equip
+	self:buildSections()
 end
 
-local function makeEquipmentMarket()
-return EquipMarket.New("EquipmentMarket", l.AVAILABLE_FOR_PURCHASE, {
-	itemTypes = { Equipment.misc, Equipment.laser, Equipment.hyperspace },
-	columnCount = 5,
-	initTable = function(self)
-		ui.setColumnWidth(0, self.style.size.x / 2.5)
-		ui.setColumnWidth(3, ui.calcTextSize(l.MASS).x + self.style.itemSpacing.x + self.style.itemPadding.x)
-		ui.setColumnWidth(4, ui.calcTextSize(l.IN_STOCK).x + self.style.itemSpacing.x + self.style.itemPadding.x)
-	end,
-	renderHeaderRow = function(self)
-		ui.text(l.NAME_OBJECT)
-		ui.nextColumn()
-		ui.text(l.BUY)
-		ui.nextColumn()
-		ui.text(l.SELL)
-		ui.nextColumn()
-		ui.text(l.MASS)
-		ui.nextColumn()
-		ui.text(l.IN_STOCK)
-		ui.nextColumn()
-	end,
-	renderItem = function(self, item)
-		ui.withTooltip(item:GetDescription(), function()
-			ui.text(item:GetName())
-			ui.nextColumn()
-			ui.text(Format.Money(self.funcs.getBuyPrice(self, item)))
-			ui.nextColumn()
-			ui.text(Format.Money(self.funcs.getSellPrice(self, item)))
-			ui.nextColumn()
-			ui.text(item.capabilities.mass.."t")
-			ui.nextColumn()
-			ui.text(self.funcs.getStock(self, item))
-			ui.nextColumn()
-		end)
-	end,
-	canDisplayItem = function (s, e)
-		local filterSlot = not s.owner.selectedEquip
-		if s.owner.selectedEquip then
-			for k, v in pairs(s.owner.selectedEquipSlots) do
-				filterSlot = filterSlot or utils.contains(e.slots, v)
-			end
-		end
-		return e.purchasable and hasTech(s.owner.station, e) and filterSlot
-	end,
-	onMouseOverItem = function(s, e)
-		local tooltip = e:GetDescription()
-		if string.len(tooltip) > 0 then
-			ui.withFont(pionillium.body, function() ui.setTooltip(tooltip) end)
-		end
-	end,
-	onClickItem = function(s,e)
-		s.funcs.buy(s, e)
-		s:refresh()
-	end,
-	-- If we have an equipment item selected, we're replacing it.
-	onClickBuy = function(s,e)
-		local selected = s.owner.selectedEquip
-		if selected[1] then
-			s.owner.ship:RemoveEquip(selected[1], 1, selected.slot)
-			s.owner.ship:AddMoney(s.funcs.getSellPrice(s, selected[1]))
-			s.owner.ship:GetDockedWith():AddEquipmentStock(selected[1], 1)
-		end
+---@param equip EquipType
+function EquipmentWidget:onSellItem(equip)
+	assert(self.selectedEquip)
+	assert(self.selectedEquip == equip)
 
-		return true
-	end,
-	-- If the purchase failed, undo the sale of the item previously in the slot
-	onBuyFailed = function(s, e, reason)
-		local selected = s.owner.selectedEquip
-		if selected[1] then
-			s.owner.ship:AddEquip(selected[1], 1, selected.slot)
-			s.owner.ship:AddMoney(-s.funcs.getSellPrice(s, selected[1]))
-			s.owner.ship:GetDockedWith():AddEquipmentStock(e, -1)
-		end
+	local player = Game.player
 
-		s.defaultFuncs.onBuyFailed(s, e, reason)
-	end
-})
+	player:AddMoney(self.market:getSellPrice(equip))
+	self.station:AddEquipmentStock(equip:GetPrototype(), 1)
+
+	assert(self.ship:GetComponent("EquipSet"):Remove(equip))
+
+	self.selectedEquip = nil
+	self:buildSections()
 end
 
 --
@@ -213,9 +93,43 @@ end
 -- =============================================================================
 --
 
-function EquipmentWidget.New(id)
-	---@class EquipmentWidget
-	local self = setmetatable({}, EquipmentWidget.meta)
+function EquipmentWidget:Constructor(id)
+	Module.Constructor(self)
+
+	self.market = Outfitter.New()
+
+	self.market:hookMessage("onBuyItem", function(_, item)
+		self:onBuyItem(item)
+
+		if self.selectedSlot then
+			local nextSlot = self.adjacentSlots[self.selectedSlot]
+			if nextSlot and not nextSlot.equip then
+				self:onSelectSlot(nextSlot)
+			end
+		end
+
+		self.market.replaceEquip = self.selectedEquip
+		self.market:refresh()
+	end)
+
+	self.market:hookMessage("onSellItem", function(_, item)
+		self:onSellItem(item)
+
+		self.market.replaceEquip = self.selectedEquip
+		self.market:refresh()
+	end)
+
+	self.market:hookMessage("onClose", function(_, item)
+		self:clearSelection()
+
+		self.market.replaceEquip = nil
+		self.market.filterSlot = nil
+	end)
+
+	self.market:hookMessage("drawShipSpinner", function(_, size)
+		self.modelSpinner:setSize(size)
+		self.modelSpinner:draw()
+	end)
 
 	---@type Ship
 	self.ship = nil
@@ -224,60 +138,208 @@ function EquipmentWidget.New(id)
 	self.showShipNameEdit = false
 	self.showEmptySlots = true
 
+	---@type EquipType?
 	self.selectedEquip = nil
-	self.selectedEquipSlots = nil
+	---@type HullConfig.Slot?
+	self.selectedSlot = nil
+	self.selectionActive = false
+
 	self.modelSpinner = ModelSpinner()
 
 	self.showHoveredEquipLocation = false
 	self.lastHoveredEquipLine = Vector2(0, 0)
 	self.lastHoveredEquipTag = nil
 
-	self.equipmentMarket = makeEquipmentMarket()
-	self.equipmentMarket.owner = self
 	self.tabs = { equipmentInfoTab }
 	self.activeTab = 1
 
 	self.id = id or "EquipmentWidget"
-	return self
+
+	self.sectionList = {}
+	---@type table<HullConfig.Slot, UI.EquipCard.Data>
+	self.adjacentSlots = {}
 end
 
---[[
-self.selectedEquip format:
-{
-	[1] = equipment table or nil
-	[2] = equipment index in slot or nil
-	slot = name of slot currently selected
-	mass = mass of current equipment
-	name = name of current equipment
-}
---]]
+function EquipmentWidget:clearSelection()
+	self.selectedEquip = nil
+	self.selectedSlot = nil
+	self.selectionActive = false
+end
 
-function EquipmentWidget:onEquipmentClicked(equipDetail, slots)
+---@param slotData UI.EquipCard.Data
+---@param children table?
+function EquipmentWidget:onSelectSlot(slotData, children)
+	if not slotData then
+		self:clearSelection()
+		return
+	end
+
+	local isSelected = self.selectedEquip == slotData.equip
+		and self.selectedSlot == slotData.slot
+
+	if self.selectionActive and isSelected then
+		self:clearSelection()
+		return
+	end
+
 	if self.station then
-		self.selectedEquip = equipDetail
-		self.selectedEquipSlots = slots
-		self.equipmentMarket:refresh()
-		self.equipmentMarket.scrollReset = true
+		self.selectedSlot = slotData.slot
+		self.selectedEquip = slotData.equip
+		self.selectionActive = true
+
+		self.market.filterSlot = self.selectedSlot
+		self.market.replaceEquip = self.selectedEquip
+		self.market.canSellEquip = not children or children.count == 0
+		self.market:refresh()
 	end
 end
 
-function EquipmentWidget:onEmptySlotClicked(slots)
-	if self.station then
-		self.selectedEquip = { nil, nil }
-		self.selectedEquipSlots = slots
-		self.equipmentMarket:refresh()
-		self.equipmentMarket.scrollReset = true
+function EquipmentWidget:onSetShipName(newName)
+	self.ship:SetShipName(newName)
+end
+
+-- Return the translated name of a slot, falling back to a generic name for the
+-- slot type if none is specified.
+---@param slot HullConfig.Slot
+function EquipmentWidget:getSlotName(slot)
+	if slot.i18n_key then
+		return Lang.GetResource(slot.i18n_res)[slot.i18n_key]
 	end
+
+	local base_type = slot.type:match("([%w_-]+)%.?")
+	local i18n_key = (slot.hardpoint and "HARDPOINT_" or "SLOT_") .. base_type:upper()
+	return le[i18n_key]
+end
+
+function EquipmentWidget:buildSlotSubgroup(equipSet, equip, card)
+	local slots = utils.build_array(pairs(equip.provides_slots))
+	local subGroup = self:buildSlotGroup(equipSet, equip:GetName(), slots)
+
+	-- Subgroups use the table identity of the parent equipment item as a
+	-- stable identifier
+	subGroup.id = tostring(equip)
+
+	card.present = subGroup.count
+	card.total = subGroup.countMax
+
+	return subGroup
+end
+
+function EquipmentWidget:buildSlotGroup(equipSet, name, slots)
+	local items = {}
+	local children = {}
+	local occupied = 0
+	local totalWeight = 0
+
+	-- Sort the table of slots lexicographically
+	local names = utils.map_table(slots, function(_, slot) return slot, self:getSlotName(slot) end)
+	table.sort(slots, function(a, b) return names[a] < names[b] or (names[a] == names[b] and a.id < b.id) end)
+
+	for i, slot in ipairs(slots) do
+		local equip = equipSet:GetItemInSlot(slot)
+
+		-- Build item cards for all slots
+		local slotData = EquipCard.getDataForEquip(equip)
+
+		slotData.type = names[slot]
+		slotData.size = slotData.size or ("S" .. slot.size)
+		slotData.count = slotData.count or slot.count
+		slotData.slot = slot
+
+		if equip then
+			occupied = occupied + 1
+			totalWeight = totalWeight + equip.mass
+
+			if equip.provides_slots then
+				children[i] = self:buildSlotSubgroup(equipSet, equip, slotData)
+				totalWeight = totalWeight + children[i].weight
+			end
+		end
+
+		local prevCard = items[#items]
+		if prevCard and prevCard.slot then
+			self.adjacentSlots[prevCard.slot] = slotData
+		end
+
+		table.insert(items, slotData)
+	end
+
+	return {
+		name = name,
+		items = items,
+		children = children,
+		count = occupied,
+		countMax = #slots,
+		weight = totalWeight
+	}
+end
+
+function EquipmentWidget:buildSections()
+	self.sectionList = {}
+	self.adjacentSlots = {}
+
+	local equipSet = self.ship:GetComponent("EquipSet")
+	local config = equipSet.config
+
+	for i, section in ipairs(EquipmentWidget.Sections) do
+		local slots = {}
+
+		for _, type in ipairs(section.types or { section.type }) do
+			for id, slot in pairs(config.slots) do
+				local matches = EquipSet.SlotTypeMatches(slot.type, type) and (section.hardpoint == nil or section.hardpoint == slot.hardpoint)
+
+				if matches then
+					table.insert(slots, slot)
+				end
+			end
+		end
+
+		table.insert(self.sectionList, self:buildSlotGroup(equipSet, section.name, slots))
+	end
+
+	local nonSlot = equipSet:GetInstalledNonSlot()
+
+	-- Sort non-slot equipment by total mass
+	table.sort(nonSlot, function(a, b)
+		return a.mass > b.mass or (a.mass == b.mass and a:GetName() < b:GetName())
+	end)
+
+	local equipCards = {}
+	local children = {}
+	local equipWeight = 0.0
+
+	for i, equip in ipairs(nonSlot) do
+		local card = EquipCard.getDataForEquip(equip)
+
+		equipWeight = equipWeight + equip.mass
+
+		if equip.provides_slots then
+			children[i] = self:buildSlotSubgroup(equipSet, equip, card)
+			equipWeight = equipWeight + children[i].weight
+		end
+
+		table.insert(equipCards, card)
+	end
+
+	table.insert(self.sectionList, {
+		name = le.MISC_EQUIPMENT,
+		items = equipCards,
+		children = children,
+		count = #nonSlot,
+		weight = equipWeight,
+		isMiscEquip = true
+	})
 end
 
 equipmentInfoTab = {
 	name = l.EQUIPMENT,
-	---@param self EquipmentWidget
+	---@param self UI.EquipmentWidget
 	draw = function(self)
 		ui.withFont(pionillium.body, function()
-			for i, v in ipairs(sections) do
-				self:drawEquipSection(v)
+			for _, section in ipairs(self.sectionList) do
+				self:drawSlotGroup(section)
 			end
+
 		end)
 	end
 }
@@ -288,67 +350,8 @@ equipmentInfoTab = {
 -- =============================================================================
 --
 
--- Generate all UI data appropriate to the passed equipment item
-local function makeEquipmentData(equip)
-	local out = {
-		icon = equip.icon_name and icons[equip.icon_name] or icons.systems_management,
-		name = equip:GetName(),
-		equip = equip
-	}
-
-	if equip:Class() == EquipType.LaserType then
-		table.insert(out, {
-			icons.comms, -- PLACEHOLDER
-			string.format("%d RPM", 60 / equip.laser_stats.rechargeTime),
-			le.SHOTS_PER_MINUTE
-		})
-		table.insert(out, {
-			icons.ecm_advanced,
-			string.format("%.1f KW", equip.laser_stats.damage),
-			le.DAMAGE_PER_SHOT
-		})
-	elseif equip:Class() == EquipType.BodyScannerType then
-		table.insert(out, {
-			icons.scanner,
-			string.format("%s px", ui.Format.Number(equip.stats.resolution, 0)),
-			le.SENSOR_RESOLUTION
-		})
-
-		table.insert(out, {
-			icons.altitude,
-			ui.Format.Distance(equip.stats.minAltitude),
-			le.SENSOR_MIN_ALTITUDE
-		})
-	-- elseif equip:Class() == EquipType.HyperdriveType then
-	-- elseif equip:Class() == EquipType.SensorType then
-	-- elseif utils.contains(equip.slots, "missile") then
-	-- elseif utils.contains(equip.slots, "shield") then
-	-- elseif utils.contains(equip.slots, "cabin") then
-	-- elseif utils.contains(equip.slots, "radar") then
-	-- elseif utils.contains(equip.slots, "autopilot") then
-	end -- TODO: more data for different equip types
-
-	local equipHealth = 1
-	local equipMass = equip.capabilities.mass * 1000
-	table.insert(out, { icons.hull, ui.Format.Mass(equipMass, 1), le.EQUIPMENT_WEIGHT })
-	table.insert(out, { icons.repairs, string.format("%d%%", equipHealth * 100), le.EQUIPMENT_INTEGRITY })
-
-	return out
-end
-
--- Draw all visuals related to an individual equipment item.
--- This includes the background, highlight, icon, [slot type],
--- name, [size], and up to 4 sub-stats directly on the icon card
---
--- DrawEquipmentItem* functions take a "data" argument table with the form:
---   name  - translated name to display on the slot
---   equip - equipment object being drawn (or none for an empty slot)
---   type* - translated "slot type" name to display
---   size* - (short) string to be displayed in the "equipment size" field
---   [...] - up to 4 { icon, value, tooltip } data items for the stats line
+-- Wrapper for EquipCard which handles updating the "last hovered" information
 function EquipmentWidget:drawEquipmentItem(data, isSelected)
-	ui.addCursorPos(Vector2(lineSpacing.x * 2, 0))
-
 	local pos = ui.getCursorScreenPos()
 	local isClicked, isHovered, size = EquipCard:draw(data, isSelected)
 
@@ -358,14 +361,6 @@ function EquipmentWidget:drawEquipmentItem(data, isSelected)
 	end
 
 	return isClicked, isHovered
-end
-
--- Override this to draw any detailed tooltips
-function EquipmentWidget:drawEquipmentItemTooltip(data, isSelected)
-	if data.equip then
-		local desc = data.equip:GetDescription()
-		if desc and #desc > 0 then ui.setTooltip(desc) end
-	end
 end
 
 --
@@ -379,32 +374,45 @@ end
 local function drawHeaderDetail(cellEnd, text, icon, tooltip, textOffsetY)
 	local textStart = cellEnd - Vector2(ui.calcTextSize(text).x + lineSpacing.x, 0)
 	local iconPos = textStart - Vector2(iconSize.x + lineSpacing.x / 2, 0)
+
 	ui.setCursorPos(iconPos)
 	ui.icon(icon, iconSize, colors.white)
+	local tl = ui.getItemRect()
+
 	ui.setCursorPos(textStart + Vector2(0, textOffsetY or 0))
 	ui.text(text)
-	local wp = ui.getWindowPos()
-	if tooltip and ui.isMouseHoveringRect(wp + iconPos, wp + cellEnd + Vector2(0, iconSize.y)) then
+	local br = select(2, ui.getItemRect())
+
+	if tooltip and ui.isMouseHoveringRect(tl, br) then
 		ui.setTooltip(tooltip)
 	end
 end
 
 -- Draw an equipment section header
-function EquipmentWidget:drawSectionHeader(data, numItems, maxSlots, totalWeight)
-
-	-- This function makes heavy use of draw cursor maniupulation to achieve
+function EquipmentWidget:drawSectionHeader(section, fun)
+	-- This function makes heavy use of draw cursor manipulation to achieve
 	-- complicated layout goals
+
+	local name = section.name
+	local totalWeight = section.weight
+	local numItems = section.count
+	local maxSlots = section.countMax
+
 	---@type boolean, Vector2, Vector2
 	local sectionOpen, contentsPos, cursorPos
+
 	local cellWidth = ui.getContentRegion().x / 5
 	local textOffsetY = (pionillium.heading.size - pionillium.body.size) / 2
 
 	ui.withFont(pionillium.heading, function()
 		ui.withStyleVars({FramePadding = lineSpacing}, function()
-			sectionOpen = ui.treeNode(data.name, { "FramePadding", (self.showEmptySlots or numItems > 0) and "DefaultOpen" or nil })
+
+			local nodeFlags = { "FramePadding", (self.showEmptySlots or numItems > 0) and "DefaultOpen" or nil }
+			sectionOpen = ui.treeNode(name, nodeFlags)
 			contentsPos = ui.getCursorPos()
 			ui.sameLine(0, 0)
 			cursorPos = ui.getCursorPos() + Vector2(0, lineSpacing.y)
+
 		end)
 	end)
 
@@ -414,7 +422,7 @@ function EquipmentWidget:drawSectionHeader(data, numItems, maxSlots, totalWeight
 	drawHeaderDetail(cellEnd, weightStr, icons.hull, le.TOTAL_MODULE_WEIGHT, textOffsetY)
 
 	-- For sections with definite slot counts, show the number of used and total slots
-	if data.showCapacity then
+	if maxSlots then
 		local capacityStr = maxSlots > 0 and string.format("%d/%d", numItems, maxSlots) or tostring(numItems)
 		cellEnd = cellEnd - Vector2(cellWidth, 0)
 		drawHeaderDetail(cellEnd, capacityStr, icons.antinormal, le.TOTAL_MODULE_CAPACITY, textOffsetY)
@@ -422,73 +430,78 @@ function EquipmentWidget:drawSectionHeader(data, numItems, maxSlots, totalWeight
 
 	ui.setCursorPos(contentsPos)
 
-	return sectionOpen
-end
-
--- Calculate information about an equipment category for displaying ship internal equipment
-function EquipmentWidget:calcEquipSectionInfo(slots)
-	local equipment = {}
-	local maxSlots = 0
-	local totalWeight = 0
-
-	-- Gather all equipment items in the specified slot(s) for this section
-	-- TODO: this can be refactored once the equipment system has been overhauled
-
-	for _, name in ipairs(slots) do
-		local slot = self.ship:GetEquip(name)
-		maxSlots = maxSlots + self.ship:GetEquipSlotCapacity(name)
-
-		for i, equip in pairs(slot) do
-			table.insert(equipment, {
-				equip, i,
-				slot = name,
-				mass = equip.capabilities.mass,
-				name = equip:GetName()
-			})
-			totalWeight = totalWeight + (equip.capabilities.mass or 0)
-		end
-	end
-
-	return equipment, maxSlots, totalWeight
-end
-
--- Draw an equipment section and all contained equipment items
-function EquipmentWidget:drawEquipSection(data)
-
-	local slots = data.slots or { data.slot }
-	local equipment, maxSlots, weight = self:calcEquipSectionInfo(slots)
-
-	local sectionOpen = self:drawSectionHeader(data, #equipment, maxSlots, weight)
-
 	if sectionOpen then
-		-- heaviest items to the top, then stably sort based on name
-		table.sort(equipment, function(a, b)
-			local mass = (a.mass or 0) - (b.mass or 0)
-			return mass > 0 or (mass == 0 and a.name < b.name)
-		end)
-
-		-- Draw each equipment item in this section
-		for i, v in ipairs(equipment) do
-			local equipData = makeEquipmentData(v[1])
-			local isSelected = self.selectedEquip and (self.selectedEquip[1] == v[1] and self.selectedEquip[2] == v[2])
-
-			if self:drawEquipmentItem(equipData, isSelected) then
-				self:onEquipmentClicked(v, slots)
-			end
-		end
-
-		-- If we have more slots available in this section, show an empty slot
-		if maxSlots > 0 and self.showEmptySlots and #equipment < maxSlots then
-			local isSelected = self.selectedEquip and (not self.selectedEquip[1] and self.selectedEquipSlots[1] == slots[1])
-
-			if self:drawEquipmentItem(emptySlot, isSelected) then
-				self:onEmptySlotClicked(slots)
-			end
-		end
-
+		fun()
 		ui.treePop()
 	end
 
+	return sectionOpen
+end
+
+function EquipmentWidget:drawOpenHeader(id, defaultOpen, fun)
+	local isOpen = pigui.GetBoolState(id, defaultOpen)
+
+	if isOpen then
+		ui.treePush(id)
+		fun()
+		ui.treePop()
+	end
+
+	local iconSize = Vector2(ui.getTextLineHeight())
+
+	local clicked = ui.invisibleButton(id, Vector2(ui.getContentRegion().x, ui.getTextLineHeight()))
+	local tl, br = ui.getItemRect()
+
+	local color = ui.getButtonColor(ui.theme.buttonColors.transparent, ui.isItemHovered(), ui.isItemActive())
+	ui.addRectFilled(tl, br, color, ui.theme.styles.ItemCardRounding, 0xF)
+
+	ui.addIconSimple((tl + br - iconSize) * 0.5,
+		isOpen and icons.chevron_up or icons.chevron_down,
+		iconSize, colors.fontDim)
+
+	ui.setItemTooltip(isOpen and l.COLLAPSE or l.EXPAND)
+
+	if clicked then
+		pigui.SetBoolState(id, not isOpen)
+	end
+end
+
+function EquipmentWidget:drawSlotGroup(list)
+	local drawList = function()
+		for i, card in ipairs(list.items) do
+
+			local equip = card.equip
+			local isSelected = self.selectionActive
+				and (self.selectedSlot == card.slot and self.selectedEquip == equip)
+
+			if equip or self.showEmptySlots then
+				if self:drawEquipmentItem(card, isSelected) then
+					self:message("onSelectSlot", card, list.children[i])
+				end
+
+				local childSlots = list.children[i]
+				if childSlots then
+					self:drawSlotGroup(childSlots)
+				end
+			end
+
+		end
+
+		if self.showEmptySlots and list.isMiscEquip then
+			local card = EquipCard.getDataForEquip(nil)
+			local isSelected = self.selectionActive and not self.selectedSlot and not self.selectedEquip
+
+			if self:drawEquipmentItem(card, isSelected) then
+				self:message("onSelectSlot", card)
+			end
+		end
+	end
+
+	if list.id then
+		self:drawOpenHeader(list.id, self.showEmptySlots or list.count > 0, drawList)
+	else
+		self:drawSectionHeader(list, drawList)
+	end
 end
 
 --
@@ -498,23 +511,30 @@ end
 --
 
 function EquipmentWidget:drawShipSpinner()
-	if not self.modelSpinner then self:refresh() end
-
 	local shipDef = ShipDef[self.ship.shipId]
+
 	ui.group(function ()
+
 		ui.withFont(ui.fonts.orbiteer.large, function()
+
 			if self.showShipNameEdit then
+
 				ui.alignTextToFramePadding()
 				ui.text(shipDef.name)
 				ui.sameLine()
+
 				ui.pushItemWidth(-1.0)
 				local entry, apply = ui.inputText("##ShipNameEntry", self.ship.shipName, ui.InputTextFlags {"EnterReturnsTrue"})
 				ui.popItemWidth()
 
-				if (apply) then self.ship:SetShipName(entry) end
+				if (apply) then
+					self:message("onSetShipName", entry)
+				end
+
 			else
 				ui.text(shipDef.name)
 			end
+
 		end)
 
 		local startPos = ui.getCursorScreenPos()
@@ -525,7 +545,9 @@ function EquipmentWidget:drawShipSpinner()
 		-- WIP "physicalized component" display - draw a line between the equipment item
 		-- and the location in the ship where it is mounted
 		local lineStartPos = self.lastHoveredEquipLine
-		if self.showHoveredEquipLocation then
+
+		-- TODO: disabled until all ships have tag markup for internal components
+		if false and self.showHoveredEquipLocation then
 			local tagPos = startPos + self.modelSpinner:getTagPos(self.lastHoveredEquipTag)
 			local lineTurnPos = lineStartPos + Vector2(40, 0)
 			local dir = (tagPos - lineTurnPos):normalized()
@@ -533,35 +555,11 @@ function EquipmentWidget:drawShipSpinner()
 			ui.addLine(lineTurnPos, tagPos - dir * 4, colors.white, 2)
 			ui.addCircle(tagPos, 4, colors.white, 16, 2)
 		end
+
 	end)
 end
 
-function EquipmentWidget:drawMarketButtons()
-	if ui.button(l.GO_BACK, Vector2(0, 0)) then
-		self.selectedEquip = nil
-		return
-	end
-	ui.sameLine()
-
-	if self.selectedEquip[1] then
-		local price = self.equipmentMarket.funcs.getSellPrice(self.equipmentMarket, self.selectedEquip[1])
-
-		if ui.button(l.SELL_EQUIPPED, Vector2(0, 0)) then
-			self.ship:RemoveEquip(self.selectedEquip[1], 1, self.selectedEquip.slot)
-			self.ship:AddMoney(price)
-			self.ship:GetDockedWith():AddEquipmentStock(self.selectedEquip[1], 1)
-			self.selectedEquip = { nil, nil }
-			return
-		end
-		ui.sameLine()
-		ui.text(l.PRICE .. ": " .. Format.Money(price))
-	end
-end
-
-function EquipmentWidget:draw()
-	-- reset hovered equipment state
-	self.showHoveredEquipLocation = false
-
+function EquipmentWidget:render()
 	ui.withFont(pionillium.body, function()
 		ui.child("ShipInfo", Vector2(ui.getContentRegion().x * 1 / 3, 0), { "NoSavedSettings" }, function()
 			if #self.tabs > 1 then
@@ -574,22 +572,11 @@ function EquipmentWidget:draw()
 		ui.sameLine(0, lineSpacing.x * 2)
 
 		ui.child("##container", function()
-			if self.tabs[self.activeTab] == equipmentInfoTab and self.station and self.selectedEquip then
+			if self.tabs[self.activeTab] == equipmentInfoTab and self.station and self.selectionActive then
 
-				local _pos = ui.getCursorPos()
-				local marketSize = ui.getContentRegion() - Vector2(0, ui.getButtonHeight(pionillium.heading))
-
-				if self.selectedEquip then
-					self.equipmentMarket.title = self.selectedEquip[1] and l.REPLACE_EQUIPMENT_WITH or l.AVAILABLE_FOR_PURCHASE
-					self.equipmentMarket.style.size = marketSize
-					self.equipmentMarket:render()
+				if self.selectionActive then
+					self.market:render()
 				end
-
-				ui.withFont(pionillium.heading, function()
-					ui.setCursorPos(_pos + Vector2(0, marketSize.y))
-					self:drawMarketButtons()
-					ui.sameLine()
-				end)
 
 			else
 				self:drawShipSpinner()
@@ -598,17 +585,39 @@ function EquipmentWidget:draw()
 	end)
 end
 
+function EquipmentWidget:draw()
+	-- reset hovered equipment state
+	self.showHoveredEquipLocation = false
+
+	self:update()
+	self.market:update()
+
+	self:render()
+end
+
 function EquipmentWidget:refresh()
 	self.selectedEquip = nil
-	self.selectedEquipSlots = nil
+	self.selectedSlot = nil
+	self.selectionActive = false
 
 	local shipDef = ShipDef[self.ship.shipId]
 	self.modelSpinner:setModel(shipDef.modelName, self.ship:GetSkin(), self.ship.model.pattern)
 	self.modelSpinner.spinning = false
+
+	self.market.ship = self.ship
+	self.market.station = self.station
+
+	self.market.filterSlot = nil
+	self.market.replaceEquip = nil
+
+	self:buildSections()
 end
 
 function EquipmentWidget:debugReload()
 	package.reimport('pigui.libs.item-card')
+	package.reimport('pigui.libs.equip-card')
+	package.reimport('pigui.libs.equipment-outfitter')
+	package.reimport('modules.Equipment.Stats')
 	package.reimport()
 end
 

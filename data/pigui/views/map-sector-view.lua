@@ -97,6 +97,11 @@ local onGameStart = function ()
 
 	-- allow hyperjump planner to register its events:
 	hyperJumpPlanner.onGameStart()
+
+	-- Reset hyperspace cache when ship equipment changes
+	Game.player:GetComponent('EquipSet'):AddListener(function (op, equip, slot)
+		hyperspaceDetailsCache = {}
+	end)
 end
 
 local function getHyperspaceDetails(path)
@@ -484,11 +489,6 @@ Event.Register("onGameEnd", function()
 	leftBarMode = "SEARCH"
 
 	hyperJumpPlanner.onGameEnd()
-end)
-
-Event.Register("onShipEquipmentChanged", function(ship, ...)
-	if ship:IsPlayer() then hyperspaceDetailsCache = {} end
-	hyperJumpPlanner.onShipEquipmentChanged(ship, ...)
 end)
 
 Event.Register("onShipTypeChanged", function(ship, ...)

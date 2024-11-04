@@ -166,8 +166,8 @@ end
 ---@package
 -- Register an equipment listener on the player's ship
 function ScanManager:SetupShipEquipListener()
-	self.ship.equipSet:AddListener(function(slot)
-		if slot == "sensor" then
+	self.ship:GetComponent("EquipSet"):AddListener(function(_, equip, slot)
+		if equip.slot and equip.slot.type:match("utility.scanner.planet") then
 			self:UpdateSensorEquipInfo()
 		end
 	end)
@@ -179,11 +179,12 @@ end
 -- Scan the ship's equipment and determine its sensor capabilities
 -- Note: this function completely rebuilds the list of sensors when a sensor equipment item is changed on the ship
 function ScanManager:UpdateSensorEquipInfo()
-	local equip = self.ship.equipSet
+	local equip = self.ship:GetComponent("EquipSet")
 
 	self.sensors = {}
 
-	local sensors = equip:Get("sensor")
+	local sensors = equip:GetInstalledOfType("utility.scanner.planet")
+
 	if #sensors == 0 then
 		self.activeSensor = nil
 		self:ClearActiveScan()

@@ -18,8 +18,6 @@ local qlc = Lang.GetResource("quitconfirmation-core")
 
 local ui = require 'pigui'
 
-local hyperspace = Equipment.hyperspace
-
 local colors = ui.theme.colors
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer

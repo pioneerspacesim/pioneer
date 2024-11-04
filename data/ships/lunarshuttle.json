@@ -4,33 +4,63 @@
 	"cockpit": "",
 	"shield_model": "lunarshuttle_shield",
 	"manufacturer": "haber",
-	"ship_class": "medium_passenger_shuttle",
+	"ship_class": "light_passenger_shuttle",
 	"min_crew": 1,
-	"max_crew": 4,
-	"price": 35002,
-	"hull_mass": 30,
-	"atmospheric_pressure_limit": 3.5,
-	"capacity": 30,
-	"slots": {
-		"engine": 1,
-		"cabin": 20,
-		"laser_front": 1,
-		"missile": 1,
-		"cargo": 30
+	"max_crew": 1,
+	"price": 27062,
+	"hull_mass": 15,
+	"structure_mass": 8.7,
+	"armor_mass": 5.6,
+	"volume": 310,
+	"atmospheric_pressure_limit": 2.5,
+	"capacity": 16,
+	"cargo": 6,
+
+	"equipment_slots": {
+		"cabin_s2_fore": {
+			"type": "cabin",
+			"size": 2,
+			"i18n_key": "SLOT_CABIN_FORE"
+		},
+		"cabin_s1_rear2": {
+			"type": "cabin",
+			"size": 1,
+			"i18n_key": "SLOT_CABIN_REAR"
+		},
+		"utility_s1_1": {
+			"type": "utility",
+			"size": 1,
+			"tag": "tag_utility_s1_1",
+			"hardpoint": true
+		},
+		"shield_s1_1": {
+			"type": "shield",
+			"size": 1
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"size": 1,
+			"size_min": 1
+		},
+		"thruster": {
+			"type": "thruster",
+			"size": 1,
+			"count": 6
+		}
 	},
-	"roles": ["mercenary", "merchant", "pirate", "courier"],
-		
+
+	"roles": ["passenger"],
 	"effective_exhaust_velocity": 7900000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 25,
-	"hyperdrive_class": 0,
+	"fuel_tank_mass": 26,
+	"hyperdrive_class": 1,
 
-	"forward_thrust": 1400000,
+	"forward_thrust": 1200000,
 	"forward_acceleration_cap": 18.5409,
-	"reverse_thrust": 1000000,
+	"reverse_thrust": 800000,
 	"reverse_acceleration_cap": 17.658,
 	"up_thrust": 1000000,
-	"up_acceleration_cap": 29.43,
+	"up_acceleration_cap": 17.658,
 	"down_thrust": 680000,
 	"down_acceleration_cap": 13.734,
 	"left_thrust": 680000,
@@ -38,7 +68,7 @@
 	"right_thrust": 680000,
 	"right_acceleration_cap": 13.734,
 
-	"angular_thrust": 2553254.47124319,
+	"angular_thrust": 2353254.47,
 
 	"front_cross_section": 31,
 	"side_cross_section": 70,

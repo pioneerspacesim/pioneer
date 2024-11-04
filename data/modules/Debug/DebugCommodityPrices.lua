@@ -379,7 +379,7 @@ end
 
 
 debugView.registerTab("debug-commodity-price", {
-	icon = ui.theme.icons.money,
+	icon = ui.theme.icons.cargo_crate,
 	label = "Commodities",
 	show = function() return Game.player ~= nil end,
 	draw = main

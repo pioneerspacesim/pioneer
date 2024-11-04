@@ -14,9 +14,6 @@ local ModelSkin = require 'SceneGraph.ModelSkin'
 local ShipDef = require "ShipDef"
 local SystemPath = require 'SystemPath'
 
-local misc = Equipment.misc
-local laser = Equipment.laser
-
 local Defs = require 'pigui.modules.new-game-window.defs'
 local Layout = require 'pigui.modules.new-game-window.layout'
 local Recovery = require 'pigui.modules.new-game-window.recovery'
@@ -27,6 +24,19 @@ local Game = require 'Game'
 
 local profileCombo = { items = {}, selected = 0 }
 
+local equipment2 = {
+	computer_1     = "misc.autopilot",
+	laser_front_s2 = "laser.pulsecannon_1mw",
+	shield_s1_1    = "shield.basic_s1",
+	shield_s1_2    = "shield.basic_s1",
+	sensor         = "sensor.radar",
+	hull_mod       = "hull.atmospheric_shielding",
+	hyperdrive     = "hyperspace.hyperdrive_2",
+	thruster       = "misc.thrusters_default",
+	missile_bay_1  = "missile_bay.opli_internal_s2",
+	missile_bay_2  = "missile_bay.opli_internal_s2",
+}
+
 StartVariants.register({
 	name       = lui.START_AT_MARS,
 	desc       = lui.START_AT_MARS_DESC,
@@ -36,10 +46,10 @@ StartVariants.register({
 	money      = 600,
 	hyperdrive = true,
 	equipment  = {
-		{ laser.pulsecannon_1mw,      1 },
-		{ misc.atmospheric_shielding, 1 },
-		{ misc.autopilot,             1 },
-		{ misc.radar,                 1 }
+		-- { laser.pulsecannon_1mw,      1 },
+		-- { misc.atmospheric_shielding, 1 },
+		-- { misc.autopilot,             1 },
+		-- { misc.radar,                 1 }
 	},
 	cargo      = {
 		{ Commodities.hydrogen, 2 }
@@ -57,10 +67,10 @@ StartVariants.register({
 	money      = 400,
 	hyperdrive = true,
 	equipment  = {
-		{ laser.pulsecannon_1mw,      1 },
-		{ misc.atmospheric_shielding, 1 },
-		{ misc.autopilot,             1 },
-		{ misc.radar,                 1 }
+		-- { laser.pulsecannon_1mw,      1 },
+		-- { misc.atmospheric_shielding, 1 },
+		-- { misc.autopilot,             1 },
+		-- { misc.radar,                 1 }
 	},
 	cargo      = {
 		{ Commodities.hydrogen, 2 }
@@ -78,9 +88,9 @@ StartVariants.register({
 	money          = 100,
 	hyperdrive     = false,
 	equipment      = {
-		{misc.atmospheric_shielding,1},
-		{misc.autopilot,1},
-		{misc.radar,1}
+		-- {misc.atmospheric_shielding,1},
+		-- {misc.autopilot,1},
+		-- {misc.radar,1}
 	},
 	cargo          = {
 		{ Commodities.hydrogen, 2 }
@@ -153,16 +163,42 @@ local function startGame(gameParams)
 		laser_rear = 'laser',
 		laser_front = 'laser'
 	}
-	for _, slot in pairs({ 'engine', 'laser_rear', 'laser_front' }) do
-		local eqSection = eqSections[slot]
-		local eqEntry = gameParams.ship.equipment[slot]
-		if eqEntry then
-			player:AddEquip(Equipment[eqSection][eqEntry], 1, slot)
+
+	if not equipment2 then
+
+		-- TODO: old equipment API no longer supported
+
+	else
+
+	local equipSet = player:GetComponent("EquipSet")
+	player:UpdateEquipStats()
+
+	for _, item in ipairs(equipment2) do
+		local proto = Equipment.Get(item)
+		if not equipSet:Install(proto()) then
+			print("Couldn't install equipment item {} in misc. cargo space" % { proto:GetName() })
 		end
 	end
 
-	for _,equip in pairs(gameParams.ship.equipment.misc) do
-		player:AddEquip(Equipment.misc[equip.id], equip.amount)
+	for slot, item in pairs(equipment2) do
+		local proto = Equipment.Get(item)
+		-- print("Installing equipment {} (proto: {}) into slot {}" % { item, proto, slot })
+		if type(slot) == "string" then
+			local slotHandle = equipSet:GetSlotHandle(slot)
+			assert(slotHandle)
+
+			local inst = proto:Instance()
+
+			if slotHandle.count then
+				inst:SetCount(slotHandle.count)
+			end
+
+			if not equipSet:Install(inst, slotHandle) then
+				print("Couldn't install equipment item {} into slot {}" % { inst:GetName(), slot })
+			end
+		end
+	end
+
 	end
 
 	---@type CargoManager

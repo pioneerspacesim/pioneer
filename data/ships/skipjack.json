@@ -1,55 +1,163 @@
 {
 	"model": "skipjack",
 	"name": "Skipjack",
-	"cockpit": " ",
+	"cockpit": "",
 	"shield_model": "skipjack_shield",
 	"manufacturer": "kaluri",
 	"ship_class": "medium_courier",
-	"min_crew": 2,
-	"max_crew": 3,
-	"price": 204837,
-	"hull_mass": 80,
-	"atmospheric_pressure_limit": 4,
-	"capacity": 192,
-	"slots": {
-		"engine": 1,
-		"cabin": 5,
-		"scoop": 2,
-		"laser_front": 1,
-		"missile": 8,
-		"sensor": 3,
-		"cargo": 140
+	"min_crew": 1,
+	"max_crew": 2,
+	"price": 175779,
+	"hull_mass": 87,
+	"structure_mass": 28.6,
+	"armor_mass": 44.3,
+	"volume": 831,
+	"atmospheric_pressure_limit": 4.8,
+	"capacity": 75,
+	"cargo": 78,
+
+	"equipment_slots": {
+		"cabin_s1_1": {
+			"type": "cabin",
+			"size": 1
+		},
+		"cabin_s1_2": {
+			"type": "cabin",
+			"size": 1
+		},
+		"cabin_s2_1": {
+			"type": "cabin",
+			"size": 2
+		},
+		"weapon_s2_1": {
+			"type": "weapon",
+			"size": 2,
+			"size_min": 1,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT",
+			"tag": "tag_weapon_s2_1",
+			"hardpoint": true,
+			"gimbal": [5,5]
+		},
+		"weapon_s1_left": {
+			"type": "weapon",
+			"size": 1,
+			"i18n_key": "HARDPOINT_WEAPON_LEFT",
+			"tag": "tag_weapon_s1_left",
+			"hardpoint": true,
+			"gimbal": [1,1]
+		},
+		"weapon_s1_right": {
+			"type": "weapon",
+			"size": 1,
+			"i18n_key": "HARDPOINT_WEAPON_RIGHT",
+			"tag": "tag_weapon_s1_right",
+			"hardpoint": true,
+			"gimbal": [1,1]
+		},
+		"missile_rack_s2_left": {
+			"type": "pylon.rack",
+			"size": 2,
+			"i18n_key": "HARDPOINT_PYLON_LEFT",
+			"tag": "tag_missile_rack_s2_left",
+			"hardpoint": true
+		},
+		"missile_rack_s2_right": {
+			"type": "pylon.rack",
+			"size": 2,
+			"i18n_key": "HARDPOINT_PYLON_LEFT",
+			"tag": "tag_missile_rack_s2_right",
+			"hardpoint": true
+		},
+		"utility_s2_1": {
+			"type": "utility",
+			"size": 2,
+			"size_min": 1,
+			"tag": "tag_utility_s2_1",
+			"hardpoint": true
+		},
+		"utility_s1_1": {
+			"type": "utility",
+			"size": 1,
+			"tag": "tag_utility_s1_1",
+			"hardpoint": true
+		},
+		"utility_s1_2": {
+			"type": "utility",
+			"size": 1,
+			"tag": "tag_utility_s1_2",
+			"hardpoint": true
+		},
+		"shield_s2": {
+			"type": "shield",
+			"size": 2,
+			"size_min": 1
+		},
+		"computer_2": {
+			"type": "computer",
+			"size": 1
+		},
+		"computer_3": {
+			"type": "computer",
+			"size": 1
+		},
+		"computer": {
+			"type": "computer",
+			"size": 2,
+			"size_min": 1
+		},
+		"fuel_scoop_s1_left": {
+			"type": "fuel_scoop",
+			"size": 1,
+			"tag": "tag_fuel_scoop_s1_left",
+			"hardpoint": true
+		},
+		"fuel_scoop_s1_right": {
+			"type": "fuel_scoop",
+			"size": 1,
+			"tag": "tag_fuel_scoop_s1_right",
+			"hardpoint": true
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"size": 3,
+			"size_min": 2
+		},
+		"thruster": {
+			"type": "thruster",
+			"size": 3,
+			"count": 12
+		}
 	},
-	"roles": ["mercenary", "merchant", "pirate", "courier"],
 
-	"effective_exhaust_velocity": 18900000,
+	"roles": ["pirate","merchant","mercenary","courier"],
+	"effective_exhaust_velocity": 15700000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 135,
-	"hyperdrive_class": 4,
+	"fuel_tank_mass": 116,
+	"hyperdrive_class": 3,
 
-	"forward_thrust": 9000000,
+	"forward_thrust": 9440000,
 	"forward_acceleration_cap": 31.392,
-	"reverse_thrust": 9000000,
-	"reverse_acceleration_cap": 19.62,
-	"up_thrust": 14000000,
+	"reverse_thrust": 3640000,
+	"reverse_acceleration_cap": 24.525,
+	"up_thrust": 7380000,
 	"up_acceleration_cap": 25.506,
-	"down_thrust": 6000000,
+	"down_thrust": 3120000,
 	"down_acceleration_cap": 19.62,
-	"left_thrust": 6000000,
+	"left_thrust": 2080000,
 	"left_acceleration_cap": 19.62,
-	"right_thrust": 6000000,
+	"right_thrust": 2080000,
 	"right_acceleration_cap": 19.62,
 
-	"angular_thrust": 56321789.8068352,
+	"angular_thrust": 56321789,
 
-	"front_cross_section": 78,
-	"side_cross_section": 142,
-	"top_cross_section": 223,
+	"front_cross_section": 78.002,
+	"side_cross_section": 142.002,
+	"top_cross_section": 223.002,
 
 	"front_drag_coeff": 0.4,
 	"side_drag_coeff": 0.8,
 	"top_drag_coeff": 0.9,
 
 	"lift_coeff": 0.3,
-	"aero_stability": 1.6
+	"aero_stability": 1.4
 }

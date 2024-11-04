@@ -6,28 +6,92 @@
 	"manufacturer": "kaluri",
 	"ship_class": "light_fighter",
 	"min_crew": 1,
-	"max_crew": 2,
+	"max_crew": 1,
 	"price": 0,
-	"hull_mass": 8,
-	"atmospheric_pressure_limit": 5,
-	"capacity": 17,
-	"slots": {
-		"engine": 1,
-		"cabin": 3,
-		"scoop": 0,
-		"laser_front": 1,
-		"laser_rear": 1,
-		"missile": 8,
-		"cargo": 10
+	"hull_mass": 18,
+	"structure_mass": 4.2,
+	"armor_mass": 12.4,
+	"volume": 87,
+	"atmospheric_pressure_limit": 4,
+	"capacity": 21,
+	"cargo": 0,
+
+	"equipment_slots": {
+		"laser_front_s1": {
+			"type": "weapon",
+			"size": 1,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT",
+			"tag": "tag_laser_front_s1",
+			"hardpoint": true,
+			"gimbal": [2,2]
+		},
+		"shield_s1_1": {
+			"type": "shield",
+			"size": 1
+		},
+		"utility_s1_1": {
+			"type": "utility",
+			"size": 1,
+			"tag": "tag_utility_s1_1",
+			"hardpoint": true
+		},
+		"missile_s1_1": {
+			"type": "missile",
+			"size": 1,
+			"tag": "tag_missile_s1_1",
+			"hardpoint": true
+		},
+		"missile_s1_2": {
+			"type": "missile",
+			"size": 1,
+			"tag": "tag_missile_s1_2",
+			"hardpoint": true
+		},
+		"missile_s1_3": {
+			"type": "missile",
+			"size": 1,
+			"tag": "tag_missile_s1_3",
+			"hardpoint": true
+		},
+		"missile_s1_4": {
+			"type": "missile",
+			"size": 1,
+			"tag": "tag_missile_s1_4",
+			"hardpoint": true
+		},
+		"fuel_scoop_s1": {
+			"type": "fuel_scoop",
+			"size": 1,
+			"tag": "tag_fuel_scoop_s1",
+			"hardpoint": true
+		},
+		"computer_2": {
+			"type": "computer",
+			"size": 1
+		},
+		"shield_s1_2": {
+			"type": "shield",
+			"size": 1
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"size": 1,
+			"size_min": 1
+		},
+		"thruster": {
+			"type": "thruster",
+			"size": 1,
+			"count": 12
+		}
 	},
-	"roles": ["mercenary"],
-		
-	"effective_exhaust_velocity": 9900000,
+
+	"roles": ["mercenary","police"],
+	"effective_exhaust_velocity": 15200000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 9,
+	"fuel_tank_mass": 12,
 	"hyperdrive_class": 1,
 
-	"forward_thrust": 1500000,
+	"forward_thrust": 1320000,
 	"forward_acceleration_cap": 41.202,
 	"reverse_thrust": 700000,
 	"reverse_acceleration_cap": 27.468,
@@ -40,7 +104,7 @@
 	"right_thrust": 160000,
 	"right_acceleration_cap": 20.0124,
 
-	"angular_thrust": 1001276.26323262,
+	"angular_thrust": 1001276.26,
 
 	"front_cross_section": 38,
 	"side_cross_section": 45,

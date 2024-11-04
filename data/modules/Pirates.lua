@@ -3,12 +3,12 @@
 
 local Engine = require 'Engine'
 local Game = require 'Game'
-local Space = require 'Space'
 local Event = require 'Event'
-local Equipment = require 'Equipment'
 local ShipDef = require 'ShipDef'
-local Ship = require 'Ship'
 local utils = require 'utils'
+
+local MissionUtils = require 'modules.MissionUtils'
+local ShipBuilder  = require 'modules.MissionUtils.ShipBuilder'
 
 local onEnterSystem = function (player)
 	if not player:IsPlayer() then return end
@@ -22,39 +22,26 @@ local onEnterSystem = function (player)
 	-- XXX number should be some combination of population, lawlessness,
 	-- proximity to shipping lanes, etc
 	local max_pirates = 6
-	while max_pirates > 0 and Engine.rand:Number(1) < lawlessness do
+	while max_pirates > 0 do
 		max_pirates = max_pirates-1
 
-		local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
-		local default_drive = Equipment.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
-		assert(default_drive)  -- never be nil.
+		if Engine.rand:Number(1) < lawlessness then
+			-- Simple threat calculation based on lawlessness factor and independent of the player's current state.
+			-- This will likely not produce an assailant larger than a Deneb.
+			local threat = 10.0 + Engine.rand:Number(100.0 * lawlessness)
 
-		-- select a laser. this is naive - it simply chooses at random from
-		-- the set of lasers that will fit, but never more than one above the
-		-- player's current weapon.
-		-- XXX this should use external factors (eg lawlessness) and not be
-		-- dependent on the player in any way
-		local max_laser_size = shipdef.capacity - default_drive.capabilities.mass
-		local laserdefs = utils.build_array(utils.filter(
-			function (k,l) return l:IsValidSlot('laser_front') and l.capabilities.mass <= max_laser_size and l.l10n_key:find("PULSECANNON") end,
-			pairs(Equipment.laser)
-		))
-		local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
+			local ship = ShipBuilder.MakeShipAroundStar(MissionUtils.ShipTemplates.GenericPirate, threat, 8, 12)
 
-		local ship = Space.SpawnShip(shipdef.id, 8, 12)
-		ship:SetLabel(Ship.MakeRandomLabel())
-		ship:AddEquip(default_drive)
-		ship:AddEquip(laserdef)
+			-- pirates know how big cargo hold the ship model has
+			local playerCargoCapacity = ShipDef[player.shipId].equipCapacity
 
-		-- pirates know how big cargo hold the ship model has
-		local playerCargoCapacity = ShipDef[player.shipId].capacity
+			-- Pirate attack probability proportional to how fully loaded cargo hold is.
+			local discount = 2 		-- discount on 2t for small ships.
+			local probabilityPirateIsInterested = math.floor(player.usedCargo - discount) / math.max(1,  playerCargoCapacity - discount)
 
-		-- Pirate attack probability proportional to how fully loaded cargo hold is.
-		local discount = 2 		-- discount on 2t for small ships.
-		local probabilityPirateIsInterested = math.floor(player.usedCargo - discount) / math.max(1,  playerCargoCapacity - discount)
-
-		if Engine.rand:Number(1) <= probabilityPirateIsInterested then
-			ship:AIKill(Game.player)
+			if Engine.rand:Number(1) <= probabilityPirateIsInterested then
+				ship:AIKill(Game.player)
+			end
 		end
 	end
 end
