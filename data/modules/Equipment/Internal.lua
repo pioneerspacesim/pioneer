@@ -153,26 +153,36 @@ Equipment.Register("misc.thrusters_best", ThrusterType.New {
 -- Scoops
 --===============================================
 
-Equipment.Register("misc.fuel_scoop", EquipType.New {
+Equipment.Register("misc.fuel_scoop_s1", EquipType.New {
 	l10n_key="FUEL_SCOOP",
 	price=3500, purchasable=true, tech_level=4,
-	slot = { type="scoop.fuel", size=1, hardpoint=true },
-	mass=6, volume=4, capabilities={ fuel_scoop=3 },
+	slot = { type="fuel_scoop", size=1, hardpoint=true },
+	mass=6, volume=4, capabilities={ fuel_scoop=2 },
 	icon_name="equip_fuel_scoop"
 })
+
+Equipment.Register("misc.fuel_scoop_s2", EquipType.New {
+	l10n_key="FUEL_SCOOP",
+	price=6500, purchasable=true, tech_level=5,
+	slot = { type="fuel_scoop", size=2, hardpoint=true },
+	mass=8, volume=7, capabilities={ fuel_scoop=3 },
+	icon_name="equip_fuel_scoop"
+})
+
+Equipment.Register("misc.fuel_scoop_s3", EquipType.New {
+	l10n_key="FUEL_SCOOP",
+	price=9500, purchasable=true, tech_level=7,
+	slot = { type="fuel_scoop", size=3, hardpoint=true },
+	mass=14, volume=10, capabilities={ fuel_scoop=5 },
+	icon_name="equip_fuel_scoop"
+})
+
 Equipment.Register("misc.cargo_scoop", EquipType.New {
 	l10n_key="CARGO_SCOOP",
 	price=3900, purchasable=true, tech_level=5,
-	slot = { type="scoop.cargo", size=1, hardpoint=true },
-	mass=4, volume=7, capabilities={ cargo_scoop=1 },
+	slot = { type="hull.cargo_scoop", size=1, hardpoint=true },
+	mass=2, volume=4, capabilities={ cargo_scoop=1 },
 	icon_name="equip_cargo_scoop"
-})
-Equipment.Register("misc.multi_scoop", EquipType.New {
-	l10n_key="MULTI_SCOOP",
-	price=12000, purchasable=true, tech_level=9,
-	slot = { type="scoop", size=1, hardpoint=true },
-	mass=11, volume=9, capabilities={ cargo_scoop=1, fuel_scoop=2 },
-	icon_name="equip_multi_scoop"
 })
 
 --===============================================

@@ -239,14 +239,6 @@
     "description": "",
     "message": "R40 Unguided Rocket"
   },
-  "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
-    "message": "Multi Scoop"
-  },
-  "MULTI_SCOOP_DESCRIPTION": {
-    "description": "",
-    "message": "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
-  },
   "ORBIT_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
     "message": "Orbital scanner XKM-650"
