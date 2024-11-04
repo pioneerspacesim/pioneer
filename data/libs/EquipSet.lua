@@ -76,7 +76,7 @@ end
 ---@param ship Ship
 function EquipSet:Constructor(ship)
 	self.ship = ship
-	self.config = HullConfig.GetHullConfigs()[ship.shipId]
+	self.config = HullConfig.GetHullConfig(ship.shipId)
 
 	-- Stores a mapping of slot id -> equipment item
 	-- Non-slot equipment is stored in the array portion.
@@ -138,7 +138,7 @@ function EquipSet:OnShipTypeChanged()
 	assert(#self.installed == 0, "Missed some equipment while cleaning the ship")
 
 	-- HullConfig changed, need to reset volume and rebuild list of slots
-	self.config = HullConfig.GetHullConfigs()[self.ship.shipId]
+	self.config = HullConfig.GetHullConfig(self.ship.shipId)
 	self.ship:setprop("totalVolume", self.config.equipCapacity)
 
 	self.slotCache = {}

@@ -528,7 +528,7 @@ local createTargetShipParameters = function (flavour, planet)
 
 		----> needs to have enough passenger space for pickup
 		if flavour.id == 1 or flavour.id == 6 then
-			local config = HullConfig.GetHullConfigs()[def.id] ---@type HullConfig
+			local config = HullConfig.GetHullConfig(def.id) ---@type HullConfig
 
 			-- should have a default hull config
 			if not config then

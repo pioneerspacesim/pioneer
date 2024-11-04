@@ -555,7 +555,7 @@ local isPlayerShip = function (def) return def.tag == "SHIP" and def.basePrice >
 
 local groundShips = utils.build_array(utils.filter(function (k,def)
 	return isPlayerShip(def)
-		and utils.contains_if(HullConfig.GetHullConfigs()[def.id].slots, function(s) return s.type:match("^hull") end)
+		and utils.contains_if(HullConfig.GetHullConfig(def.id).slots, function(s) return s.type:match("^hull") end)
 end, pairs(ShipDef)))
 
 local spaceShips  = utils.build_array(utils.filter(function (k,def) return isPlayerShip(def) end, pairs(ShipDef)))

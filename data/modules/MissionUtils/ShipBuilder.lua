@@ -557,7 +557,7 @@ function ShipBuilder.SelectHull(template, threat)
 
 	-- print("  threat {} => {} ({} / {})" % { threat, shipId, hullIdx, #hullList })
 
-	return HullConfig.GetHullConfigs()[shipId]
+	return HullConfig.GetHullConfig(shipId)
 
 end
 

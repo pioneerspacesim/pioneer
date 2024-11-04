@@ -95,8 +95,22 @@ for id, def in pairs(ShipDef) do
 	end
 end
 
+-- Function: GetHullConfigs
+--
+-- Return a table containing all registered hull configurations.
+---@return table<string, HullConfig>
 local function GetHullConfigs()
 	return Configs
+end
+
+-- Function: GetHullConfig
+--
+-- Return the hull configuration corresponding to the given ID
+--
+---@param id string
+---@return HullConfig
+local function GetHullConfig(id)
+	return Configs[id]
 end
 
 --==============================================================================
@@ -104,5 +118,6 @@ end
 return {
 	Config = HullConfig,
 	Slot = Slot,
-	GetHullConfigs = GetHullConfigs
+	GetHullConfigs = GetHullConfigs,
+	GetHullConfig = GetHullConfig
 }

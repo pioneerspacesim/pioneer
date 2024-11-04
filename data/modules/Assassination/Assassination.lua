@@ -286,7 +286,7 @@ local onEnterSystem = function (ship)
 					if mission.location:IsSameSystem(syspath) then -- spawn our target ship
 						local station = Space.GetBody(mission.location.bodyIndex)
 
-						local plan = ShipBuilder.MakePlan(AssassinationTargetShip, HullConfig.GetHullConfigs()[mission.shipid], mission.threat)
+						local plan = ShipBuilder.MakePlan(AssassinationTargetShip, HullConfig.GetHullConfig(mission.shipid), mission.threat)
 						assert(plan)
 
 						local target = Space.SpawnShipDocked(mission.shipid, station)

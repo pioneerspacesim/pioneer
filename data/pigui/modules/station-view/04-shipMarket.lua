@@ -283,7 +283,7 @@ function FormatAndCompareShips:draw_unformated_cell(desc, key)
 end
 
 local function getNumSlotsCompatibleWithType(def, type)
-	local config = HullConfig.GetHullConfigs()[def.id]
+	local config = HullConfig.GetHullConfig(def.id)
 	local count = 0
 
 	for _, slot in pairs(config.slots) do
@@ -296,7 +296,7 @@ local function getNumSlotsCompatibleWithType(def, type)
 end
 
 local function getBestSlotSizeOfType(def, type)
-	local config = HullConfig.GetHullConfigs()[def.id]
+	local config = HullConfig.GetHullConfig(def.id)
 	local slot, size = utils.best_score(config.slots, function(_, slot)
 		return EquipSet.SlotTypeMatches(type, slot.type) and slot.size or nil
 	end)

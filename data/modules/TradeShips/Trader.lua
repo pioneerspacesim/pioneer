@@ -57,7 +57,7 @@ Trader.addEquip = function (ship)
 	local lawlessness = Game.system.lawlessness
 	local randomMod = 0.1 + lawlessness * 0.9
 
-	local hullConfig = HullConfig.GetHullConfigs()[shipId]
+	local hullConfig = HullConfig.GetHullConfig(shipId)
 	assert(hullConfig, "Can't find hull config for shipId " .. shipId)
 
 	local template = TraderTemplate:clone {
