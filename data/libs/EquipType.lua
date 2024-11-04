@@ -489,7 +489,7 @@ end
 function CabinType:OnRemove(ship, slot)
 	EquipType.OnRemove(self, ship, slot)
 
-	if self.passengers then
+	if #self.passengers > 0 then
 		logWarning("Removing passenger cabin with passengers onboard!")
 		ship:setprop("cabin_occupied_cap", ship["cabin_occupied_cap"] - #self.passengers)
 	end
