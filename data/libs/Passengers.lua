@@ -106,7 +106,7 @@ function Passengers.EmbarkPassenger(ship, passenger, cabin)
 		return false
 	end
 
-	if not cabin:GetFreeBerths() > 0 then
+	if cabin:GetFreeBerths() == 0 then
 		return false
 	end
 
