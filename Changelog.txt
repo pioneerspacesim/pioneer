@@ -1,3 +1,23 @@
+November 2024
+  * New Features
+    * Total overhaul of Ship Equipment - EquipSet v2 (#5734)
+    * Degrade scooped cargo requiring cargo life support (#5949)
+    * Improvement: Radar auto-zoom on cargo cannisters (#5948)
+
+  * Internal
+    * Fix builds which use "-DDEBUG" (#5946)
+    * Lua function GetEquipFree("cargo") is not behaving as expected (#3450)
+
+  * Fixes
+    * Fix $HOME/.pioneer randomly created on Linux (#5944)
+    * Ubuntu 24.04 & openSuSE Tumbleweed - Illegal instruction, core dumped (#5877)
+    * Preview information for modules in particular for hyperdrives and guns (#2820)
+    * New game may give you zero equipment (#4803)
+    * Weapon on sale not installed (#5567)
+    * Missiles buttons not showing up (#5887)
+    * Buying and selling ship equipment does not require confirmation (#5020)
+    * assertion failed in equipment-market.lua:91 (#5883)
+
 October 2024
   * New Features
     * NameGen - Spice up the station names (#5906)
@@ -62,7 +82,7 @@ July 2024
   * Internal Changes
     * Fix debug commodities tab (#5861)
     * News Event: debug can also remove adverts (#5862)
-    * Improve Lua type checking for string enums (PR #5869
+    * Improve Lua type checking for string enums (#5869
 
 Pioneer 2024-07-10 Release
   * Fixes
