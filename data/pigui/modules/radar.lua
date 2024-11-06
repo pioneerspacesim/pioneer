@@ -19,9 +19,11 @@ local icons = ui.theme.icons
 
 local MAX_RADAR_SIZE = 1000000000
 local MIN_RADAR_SIZE = 1000
+local DEFAULT_RADAR_SIZE = 10000
 
 local shouldDisplay2DRadar
-local current_radar_size = 10000
+local current_radar_size = DEFAULT_RADAR_SIZE
+local manual_zoom = false
 local blobSize = 6.0
 
 local function getColorFor(item)
@@ -95,9 +97,9 @@ local function display2DRadar(cntr, size)
 	if #tooltip > 0 then
 		ui.setTooltip(table.concat(tooltip, "\n"))
 	end
-	local distance = ui.Format.Distance(current_radar_size)
-	local textcenter = cntr + Vector2((halfsize + twothirdsize) * 0.5, size)
-	local textsize = ui.addStyledText(textcenter, ui.anchor.left, ui.anchor.bottom, distance, colors.frame, pionillium.small, lui.HUD_RADAR_DISTANCE, colors.lightBlackBackground)
+	-- local distance = ui.Format.Distance(current_radar_size)
+	-- local textcenter = cntr + Vector2((halfsize + twothirdsize) * 0.5, size)
+	-- local textsize = ui.addStyledText(textcenter, ui.anchor.left, ui.anchor.bottom, distance, colors.frame, pionillium.small, lui.HUD_RADAR_DISTANCE, colors.lightBlackBackground)
 end
 
 local function drawTarget(target, scale, center, color)
@@ -111,7 +113,7 @@ local function drawTarget(target, scale, center, color)
 end
 
 local radar = require 'PiGui.Modules.RadarWidget'()
-local currentZoomDist = MIN_RADAR_SIZE
+--local currentZoomDist = MIN_RADAR_SIZE
 radar.minZoom = MIN_RADAR_SIZE
 radar.maxZoom = MAX_RADAR_SIZE
 
@@ -125,9 +127,9 @@ local function display3DRadar(center, size)
 	local maxCargoDist = 0.0
 
 	radar.size = size
-	radar.zoom = currentZoomDist
+	radar.zoom = current_radar_size or DEFAULT_RADAR_SIZE
 	local radius = radar.radius
-	local scale = radar.radius / currentZoomDist
+	local scale = radar.radius / radar.zoom
 	ui.setCursorPos(center - size / 2.0)
 
 	-- draw targets below the plane
@@ -140,7 +142,7 @@ local function display3DRadar(center, size)
 		-- only snap to cargo containers if they're less than 25km away (arbitrary)
 		if v.body:IsCargoContainer() and v.distance < 25000 then maxCargoDist = math.max(maxCargoDist, v.distance) end
 
-		if v.distance < currentZoomDist and v.rel_position.y < 0.0 then
+		if v.distance < current_radar_size and v.rel_position.y < 0.0 then
 			local color = (v.body == navTarget and colors.navTarget) or (v.body == combatTarget and colors.combatTarget) or getColorFor(v)
 			drawTarget(v, scale, center, color)
 		end
@@ -157,27 +159,33 @@ local function display3DRadar(center, size)
 
 	-- draw targets above the plane
 	for k, v in pairs(targets) do
-		if v.distance < currentZoomDist and v.rel_position.y >= 0.0 then
+		if v.distance < current_radar_size and v.rel_position.y >= 0.0 then
 			local color = (v.body == navTarget and colors.navTarget) or (v.body == combatTarget and colors.combatTarget) or getColorFor(v)
 			drawTarget(v, scale, center, color)
 		end
 	end
 
 	-- handle automatic radar zoom based on player surroundings
-	local maxDist = maxBodyDist
-	if combatTarget then
-		maxDist = combatTarget:GetPositionRelTo(player):length() * 1.4
-	elseif maxShipDist > 0 then
-		maxDist = maxShipDist * 1.4
-	elseif maxCargoDist > 0 then
+	if not manual_zoom then
+		local maxDist = maxBodyDist
+		if combatTarget then
+			maxDist = combatTarget:GetPositionRelTo(player):length() * 1.4
+		elseif maxShipDist > 0 then
+			maxDist = maxShipDist * 1.4
+		elseif maxCargoDist > 0 then
 		maxDist = maxCargoDist * 1.4
-	elseif navTarget then
-		local dist = navTarget:GetPositionRelTo(player):length()
-		maxDist = dist > MAX_RADAR_SIZE and maxBodyDist or dist * 1.4
+		elseif navTarget then
+			local dist = navTarget:GetPositionRelTo(player):length()
+			maxDist = dist > MAX_RADAR_SIZE and maxBodyDist or dist * 1.4
+		end
+		current_radar_size = math.clamp(radar.zoom + (maxDist - radar.zoom) * 0.03,
+			MIN_RADAR_SIZE, MAX_RADAR_SIZE)
 	end
 
-	currentZoomDist = math.clamp(currentZoomDist + (maxDist - currentZoomDist) * 0.03,
-		MIN_RADAR_SIZE, MAX_RADAR_SIZE)
+	-- local distance = ui.Format.Distance(current_radar_size)
+	-- local textwidth = ui.calcTextSize(distance).x
+	-- local textpos = center + Vector2(textwidth / -2, size.y * 0.42)
+	-- local textsize = ui.addStyledText(textpos, ui.anchor.left, ui.anchor.bottom, distance, colors.frame, pionillium.small, lui.HUD_RADAR_DISTANCE, colors.lightBlackBackground)
 end
 
 local click_on_radar = false
@@ -191,25 +199,61 @@ local function displayRadar()
 	if #equipped_radar > 0 then
 
 		local size = ui.reticuleCircleRadius * 0.66
-		local cntr = Vector2(ui.screenWidth / 2, ui.screenHeight - size - 4)
+		local center = Vector2(ui.screenWidth / 2, ui.screenHeight - size - 4)
+		local zoom = 0
+		local toggle_radar = false
 
+		-- Handle keyboard
+		-- TODO: figure out how to map the keys instead of hard-coding them
+		if ui.isKeyReleased(ui.keys.left) then
+			zoom = 1 -- zoom in
+		elseif ui.isKeyReleased(ui.keys.right) then
+			zoom = -1 -- zoom out
+		end
+		if ui.isKeyReleased(ui.keys.up) then
+			zoom = 0
+			manual_zoom = false
+			current_radar_size = DEFAULT_RADAR_SIZE
+		end
+		if ui.isKeyReleased(ui.keys.down) then
+			toggle_radar = true
+		end
+
+		-- Handle mouse if it is in the radar area
 		local mp = ui.getMousePos()
-		if (mp - cntr):length() > size then
+		local mouse_dist = shouldDisplay2DRadar and size or size * 1.8
+		if (mp - center):length() > mouse_dist then
 			click_on_radar = false
 		end
-		if (mp - cntr):length() < size then
+		if (mp - center):length() < mouse_dist then
 			if ui.isMouseClicked(1) then
 				click_on_radar = true
 			end
-			if click_on_radar and ui.isMouseReleased(1) then
+			if not toggle_radar and click_on_radar and ui.isMouseReleased(1) then
 				ui.openPopup("radarselector")
 			end
-			local wheel = ui.getMouseWheel()
-			if wheel > 0 then
+			-- TODO: figure out how to "capture" the mouse wheel to prevent
+			-- the game engine from using it to also zoom the viewport
+			if zoom == 0 then
+				zoom = ui.getMouseWheel()
+			end
+		end
+		if zoom > 0 then
+			-- Zoom in (decrease scanned area)
+			if not manual_zoom then
+				current_radar_size = 10 ^ math.floor(math.log(current_radar_size, 10))
+			else
 				current_radar_size = math.max(current_radar_size / 10, MIN_RADAR_SIZE)
-			elseif wheel < 0 then
+			end
+			manual_zoom = true
+		elseif zoom < 0 then
+			-- Zoom out (increase scanned area)
+			if not manual_zoom then
+				current_radar_size = 10 ^ math.ceil(math.log(current_radar_size, 10))
+			else
 				current_radar_size = math.min(current_radar_size * 10, MAX_RADAR_SIZE)
 			end
+			manual_zoom = true
 		end
 		ui.popup("radarselector", function()
 			if ui.selectable(lui.HUD_2D_RADAR, shouldDisplay2DRadar, {}) then
@@ -219,11 +263,26 @@ local function displayRadar()
 				Event.Queue('onChangeMFD', 'scanner')
 			end
 		end)
-		if shouldDisplay2DRadar then
-			display2DRadar(cntr, size)
-		else
-			display3DRadar(cntr, Vector2(ui.reticuleCircleRadius * 1.8, size * 2))
+
+		if toggle_radar then
+			shouldDisplay2DRadar = not shouldDisplay2DRadar
+			Event.Queue('onChangeMFD', shouldDisplay2DRadar and 'radar' or 'scanner')
 		end
+		-- Draw the actual radar
+		if shouldDisplay2DRadar then
+			display2DRadar(center, size)
+		else
+			display3DRadar(center, Vector2(ui.reticuleCircleRadius * 1.8, size * 2))
+		end
+		-- Draw the range indicator
+		local distance = ui.Format.Distance(current_radar_size)
+		local textpos = Vector2(center.x + size, center.y + size)
+		local textsize = ui.addStyledText(textpos, ui.anchor.right, ui.anchor.bottom, distance, colors.frame, pionillium.small, lui.HUD_RADAR_DISTANCE, colors.lightBlackBackground)
+		-- Draw the radar mode in bottom-left corner
+		-- TODO: use an icon?
+		local mode = manual_zoom and '[M]' or '[A]'
+		textpos = Vector2(center.x - size, center.y + size)
+		ui.addStyledText(textpos, ui.anchor.left, ui.anchor.bottom, mode, colors.alertRed, pionillium.small, lui.HUD_RADAR_DISTANCE, colors.lightBlackBackground)
 	end
 end
 
