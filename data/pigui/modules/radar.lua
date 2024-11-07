@@ -111,14 +111,21 @@ local function display2DRadar(cntr, size)
 	-- local textsize = ui.addStyledText(textcenter, ui.anchor.left, ui.anchor.bottom, distance, colors.frame, pionillium.small, lui.HUD_RADAR_DISTANCE, colors.lightBlackBackground)
 end
 
+-- Return tooltip for target
 local function drawTarget(target, scale, center, color)
 	local pos = target.rel_position
 	local basePos = Vector2(pos.x * scale.x + center.x, pos.z * scale.y + center.y)
 	local blobPos = Vector2(basePos.x, basePos.y - pos.y * scale.y);
 	local blobHalfSize = Vector2(blobSize / 2)
+	local tooltip = {}
 
 	ui.addLine(basePos, blobPos, color:shade(0.1), 2)
 	ui.addRectFilled(blobPos - blobHalfSize, blobPos + blobHalfSize, color, 0, 0)
+	local mouse_position = ui.getMousePos()
+	if (mouse_position - blobPos):length() < 4 then
+		table.insert(tooltip, target.label)
+	end
+	return tooltip
 end
 
 local radar = require 'PiGui.Modules.RadarWidget'()
@@ -128,6 +135,7 @@ radar.maxZoom = MAX_RADAR_SIZE
 
 local function display3DRadar(center, size)
 	local targets = ui.getTargetsNearby(MAX_RADAR_SIZE)
+	local tooltip = {}
 
 	local combatTarget = player:GetCombatTarget()
 	local navTarget = player:GetNavTarget()
@@ -153,7 +161,7 @@ local function display3DRadar(center, size)
 
 		if v.distance < current_radar_size and v.rel_position.y < 0.0 then
 			local color = (v.body == navTarget and colors.navTarget) or (v.body == combatTarget and colors.combatTarget) or getColorFor(v)
-			drawTarget(v, scale, center, color)
+			table.append(tooltip, drawTarget(v, scale, center, color))
 		end
 	end
 
@@ -170,8 +178,12 @@ local function display3DRadar(center, size)
 	for k, v in pairs(targets) do
 		if v.distance < current_radar_size and v.rel_position.y >= 0.0 then
 			local color = (v.body == navTarget and colors.navTarget) or (v.body == combatTarget and colors.combatTarget) or getColorFor(v)
-			drawTarget(v, scale, center, color)
+			table.append(tooltip, drawTarget(v, scale, center, color))
 		end
+	end
+
+	if #tooltip > 0 then
+		ui.setTooltip(table.concat(tooltip, "\n"))
 	end
 
 	-- handle automatic radar zoom based on player surroundings
