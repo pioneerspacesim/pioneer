@@ -43,14 +43,12 @@ namespace Sound {
 		if (repeat)
 			op |= Sound::OP_REPEAT;
 		if (m_eventOnePlaying) {
-			m_eventOne.VolumeAnimate(0.f, 0.f, fadeDelta, fadeDelta);
-			m_eventOne.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
+			m_eventOne.FadeOut(fadeDelta);
 			m_eventTwo.PlayMusic(name.c_str(), 0.f, 0.f, op);
 			m_eventTwo.VolumeAnimate(m_volume, m_volume, fadeDelta, fadeDelta);
 			m_eventOnePlaying = false;
 		} else {
-			m_eventTwo.VolumeAnimate(0.f, 0.f, fadeDelta, fadeDelta);
-			m_eventTwo.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
+			m_eventTwo.FadeOut(fadeDelta);
 			m_eventOne.PlayMusic(name.c_str(), 0.f, 0.f, op);
 			m_eventOne.VolumeAnimate(m_volume, m_volume, fadeDelta, fadeDelta);
 			m_eventOnePlaying = true;
@@ -69,11 +67,9 @@ namespace Sound {
 	void MusicPlayer::FadeOut(const float fadeDelta)
 	{
 		if (m_eventOnePlaying) { //2 might be already fading out
-			m_eventOne.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
-			m_eventOne.VolumeAnimate(0.f, 0.f, fadeDelta, fadeDelta);
+			m_eventOne.FadeOut(fadeDelta);
 		} else { // 1 might be already fading out
-			m_eventTwo.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
-			m_eventTwo.VolumeAnimate(0.f, 0.f, fadeDelta, fadeDelta);
+			m_eventTwo.FadeOut(fadeDelta);
 		}
 	}
 

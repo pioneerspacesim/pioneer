@@ -302,8 +302,7 @@ void Player::StaticUpdate(const float timeStep)
 			m_creakSound.VolumeAnimate(creakVol, creakVol, 0.3f, 0.3f);
 		}
 	} else if (m_creakSound.IsPlaying()) {
-		m_creakSound.VolumeAnimate(0.0f, 0.0f, 1.5f, 1.5f);
-		m_creakSound.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
+		m_creakSound.FadeOut(1.5f);
 	}
 	m_atmosAccel = current_atmosAccel;
 

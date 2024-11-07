@@ -40,6 +40,7 @@ namespace Sound {
 		{
 			return SetVolume(vol, vol);
 		}
+		bool FadeOut(float dv_dt, Op op = 0);
 
 	private:
 		uint32_t eid;

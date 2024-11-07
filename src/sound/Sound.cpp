@@ -794,6 +794,14 @@ namespace Sound {
 		return status;
 	}
 
+	bool Event::FadeOut(float dv_dt, Op op)
+	{
+		bool found = VolumeAnimate(0.0f, 0.0f, dv_dt, dv_dt);
+		if (found)
+			SetOp(op | Sound::OP_STOP_AT_TARGET_VOLUME);
+		return found;
+	}
+
 	const std::vector<std::string> GetMusicFiles()
 	{
 		std::vector<std::string> songs;

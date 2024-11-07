@@ -80,24 +80,15 @@ void AmbientSounds::Update()
 
 	if (Pi::player->GetFlightState() == Ship::DOCKED) {
 		if (s_starNoise.IsPlaying()) {
-			const float target[2] = { 0.0f, 0.0f };
-			const float dv_dt[2] = { 1.0f, 1.0f };
-			s_starNoise.VolumeAnimate(target, dv_dt);
-			s_starNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+			s_starNoise.FadeOut(1.0f, Sound::OP_REPEAT);
 		}
 		for (int i = 0; i < eMaxNumAtmosphereSounds; i++) {
 			if (s_atmosphereNoises[i].IsPlaying()) {
-				const float target[2] = { 0.0f, 0.0f };
-				const float dv_dt[2] = { 1.0f, 1.0f };
-				s_atmosphereNoises[i].VolumeAnimate(target, dv_dt);
-				s_atmosphereNoises[i].SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+				s_atmosphereNoises[i].FadeOut(1.0f, Sound::OP_REPEAT);
 			}
 		}
 		if (s_planetSurfaceNoise.IsPlaying()) {
-			const float target[2] = { 0.0f, 0.0f };
-			const float dv_dt[2] = { 1.0f, 1.0f };
-			s_planetSurfaceNoise.VolumeAnimate(target, dv_dt);
-			s_planetSurfaceNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+			s_planetSurfaceNoise.FadeOut(1.0f, Sound::OP_REPEAT);
 		}
 
 		if (!s_stationNoise.IsPlaying()) {
@@ -109,24 +100,15 @@ void AmbientSounds::Update()
 	} else if (Pi::player->GetFlightState() == Ship::LANDED) {
 		/* Planet surface noise on rough-landing */
 		if (s_starNoise.IsPlaying()) {
-			const float target[2] = { 0.0f, 0.0f };
-			const float dv_dt[2] = { 1.0f, 1.0f };
-			s_starNoise.VolumeAnimate(target, dv_dt);
-			s_starNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+			s_starNoise.FadeOut(1.0f, Sound::OP_REPEAT);
 		}
 		for (int i = 0; i < eMaxNumAtmosphereSounds; i++) {
 			if (s_atmosphereNoises[i].IsPlaying()) {
-				const float target[2] = { 0.0f, 0.0f };
-				const float dv_dt[2] = { 1.0f, 1.0f };
-				s_atmosphereNoises[i].VolumeAnimate(target, dv_dt);
-				s_atmosphereNoises[i].SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+				s_atmosphereNoises[i].FadeOut(1.0f, Sound::OP_REPEAT);
 			}
 		}
 		if (s_stationNoise.IsPlaying()) {
-			const float target[2] = { 0.0f, 0.0f };
-			const float dv_dt[2] = { 1.0f, 1.0f };
-			s_stationNoise.VolumeAnimate(target, dv_dt);
-			s_stationNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+			s_stationNoise.FadeOut(1.0f, Sound::OP_REPEAT);
 		}
 
 		// lets try something random for the time being
@@ -166,20 +148,14 @@ void AmbientSounds::Update()
 		}
 	} else {
 		if (s_stationNoise.IsPlaying()) {
-			const float target[2] = { 0.0f, 0.0f };
-			const float dv_dt[2] = { 1.0f, 1.0f };
-			s_stationNoise.VolumeAnimate(target, dv_dt);
-			s_stationNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+			s_stationNoise.FadeOut(1.0f, Sound::OP_REPEAT);
 		}
 		if (Pi::game->IsNormalSpace()) {
 			StarSystem *s = Pi::game->GetSpace()->GetStarSystem().Get();
 			if (astroNoiseSeed != s->GetSeed()) {
 				// change sound!
 				astroNoiseSeed = s->GetSeed();
-				const float target[2] = { 0.0f, 0.0f };
-				const float dv_dt[2] = { 0.1f, 0.1f };
-				s_starNoise.VolumeAnimate(target, dv_dt);
-				s_starNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+				s_starNoise.FadeOut(0.1f, Sound::OP_REPEAT);
 				// XXX the way Sound::Event works isn't totally obvious.
 				// to destroy the object doesn't stop the sound. it is
 				// really just a sound event reference
@@ -255,11 +231,8 @@ void AmbientSounds::Update()
 				}
 			}
 		} else {
-			const float target[2] = { 0.0f, 0.0f };
-			const float dv_dt[2] = { 1.0f, 1.0f };
 			for (int i = 0; i < eMaxNumAtmosphereSounds; i++) {
-				s_atmosphereNoises[i].VolumeAnimate(target, dv_dt);
-				s_atmosphereNoises[i].SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+				s_atmosphereNoises[i].FadeOut(1.0f, Sound::OP_REPEAT);
 			}
 		}
 	}
