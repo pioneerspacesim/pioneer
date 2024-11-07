@@ -172,11 +172,11 @@ namespace Sound {
 		(*volRightOut) = Clamp((*volRightOut), 0.0f, 1.0f);
 	}
 
-	eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
+	void BodyMakeNoise(const Body *b, const char *sfx, float vol)
 	{
 		float vl, vr;
 		CalculateStereo(b, vol, &vl, &vr);
-		return Sound::PlaySfx(sfx, vl, vr, 0);
+		Sound::PlaySfx(sfx, vl, vr, 0);
 	}
 
 	struct Sample {
@@ -188,6 +188,8 @@ namespace Sound {
 		std::string path;
 		bool isMusic;
 	};
+
+	typedef uint32_t eventid;
 
 	struct SoundEvent {
 		const Sample *sample;
@@ -255,7 +257,7 @@ namespace Sound {
  * Volume should be 0-65535
  */
 	static uint32_t identifier = 1;
-	eventid PlaySfx(const char *fx, const float volume_left, const float volume_right, const Op op)
+	static eventid PlaySfxSample(Sample *sample, const float volume_left, const float volume_right, const Op op)
 	{
 		SDL_LockAudioDevice(m_audioDevice);
 		unsigned int idx;
@@ -276,7 +278,7 @@ namespace Sound {
 			}
 			DestroyEvent(&wavstream[idx]);
 		}
-		wavstream[idx].sample = GetSample(fx);
+		wavstream[idx].sample = sample;
 		wavstream[idx].oggv = 0;
 		wavstream[idx].buf_pos = 0;
 		wavstream[idx].volume[0] = volume_left * GetSfxVolume();
@@ -290,17 +292,25 @@ namespace Sound {
 		return identifier++;
 	}
 
-	//unlike PlaySfx, we want uninterrupted play and do not care about age
+	void PlaySfx(const char *fx, const float volume_left, const float volume_right, const Op op)
+	{
+		Sample* sample = GetSample(fx);
+		if (sample) {
+			PlaySfxSample(sample, volume_left, volume_right, op);
+		}
+	}
+
+	//unlike PlaySfxSample, we want uninterrupted play and do not care about age
 	//alternate between two streams for crossfade
 	static int nextMusicStream = 0;
-	eventid PlayMusic(const char *fx, const float volume_left, const float volume_right, const Op op)
+	static eventid PlayMusicSample(Sample *sample, const float volume_left, const float volume_right, const Op op)
 	{
 		const int idx = nextMusicStream;
 		nextMusicStream ^= 1;
 		SDL_LockAudioDevice(m_audioDevice);
 		if (wavstream[idx].sample)
 			DestroyEvent(&wavstream[idx]);
-		wavstream[idx].sample = GetSample(fx);
+		wavstream[idx].sample = sample;
 		wavstream[idx].oggv = nullptr;
 		wavstream[idx].buf_pos = 0;
 		wavstream[idx].volume[0] = volume_left;
@@ -700,7 +710,19 @@ namespace Sound {
 	void Event::Play(const char *fx, float volume_left, float volume_right, Op op)
 	{
 		Stop();
-		eid = PlaySfx(fx, volume_left, volume_right, op);
+		Sample* sample = GetSample(fx);
+		if (sample) {
+			eid = PlaySfxSample(sample, volume_left, volume_right, op);
+		}
+	}
+
+	void Event::PlayMusic(const char *fx, const float volume_left, const float volume_right, Op op)
+	{
+		Stop();
+		Sample* sample = GetSample(fx);
+		if (sample) {
+			eid = PlayMusicSample(sample, volume_left, volume_right, op);
+		}
 	}
 
 	bool Event::Stop()

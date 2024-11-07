@@ -8,20 +8,6 @@
 
 namespace Sound {
 
-	MusicEvent::MusicEvent() :
-		Event() {}
-
-	MusicEvent::MusicEvent(uint32_t id) :
-		Event(id) {}
-
-	MusicEvent::~MusicEvent() {}
-
-	void MusicEvent::Play(const char *fx, const float volume_left, const float volume_right, Op op)
-	{
-		Stop();
-		eid = PlayMusic(fx, volume_left, volume_right, op);
-	}
-
 	MusicPlayer::MusicPlayer() :
 		m_volume(0.8f),
 		m_playing(false),
@@ -59,13 +45,13 @@ namespace Sound {
 		if (m_eventOnePlaying) {
 			m_eventOne.VolumeAnimate(0.f, 0.f, fadeDelta, fadeDelta);
 			m_eventOne.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
-			m_eventTwo.Play(name.c_str(), 0.f, 0.f, op);
+			m_eventTwo.PlayMusic(name.c_str(), 0.f, 0.f, op);
 			m_eventTwo.VolumeAnimate(m_volume, m_volume, fadeDelta, fadeDelta);
 			m_eventOnePlaying = false;
 		} else {
 			m_eventTwo.VolumeAnimate(0.f, 0.f, fadeDelta, fadeDelta);
 			m_eventTwo.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
-			m_eventOne.Play(name.c_str(), 0.f, 0.f, op);
+			m_eventOne.PlayMusic(name.c_str(), 0.f, 0.f, op);
 			m_eventOne.VolumeAnimate(m_volume, m_volume, fadeDelta, fadeDelta);
 			m_eventOnePlaying = true;
 		}

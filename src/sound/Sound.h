@@ -23,13 +23,11 @@ namespace Sound {
 	public:
 		Event() :
 			eid(0) {}
-		Event(uint32_t id) :
-			eid(id) {}
-		virtual void Play(const char *fx, const float volume_left, const float volume_right, Op op);
+		void Play(const char *fx, const float volume_left, const float volume_right, Op op);
 		void Play(const char *fx) { Play(fx, 1.0f, 1.0f, 0); }
+		void PlayMusic(const char *fx, const float volume_left, const float volume_right, Op op);
 		bool Stop();
 		bool IsPlaying() const;
-		uint32_t EventId() { return eid; }
 		bool SetOp(Op op);
 		bool VolumeAnimate(const float targetVol1, const float targetVol2, const float dv_dt1, const float dv_dt2);
 		bool VolumeAnimate(const float targetVols[2], const float dv_dt[2])
@@ -43,10 +41,9 @@ namespace Sound {
 			return SetVolume(vol, vol);
 		}
 
-	protected:
+	private:
 		uint32_t eid;
 	};
-	typedef uint32_t eventid;
 
 	bool Init(bool automaticallyOpenDevice = true);
 	bool InitDevice(std::string &name);
@@ -59,11 +56,10 @@ namespace Sound {
 	void DestroyAllEvents();
 	void DestroyAllEventsExceptMusic();
 	void Pause(int on);
-	eventid PlaySfx(const char *fx, const float volume_left, const float volume_right, const Op op);
-	eventid PlayMusic(const char *fx, const float volume_left, const float volume_right, const Op op);
-	inline static eventid PlaySfx(const char *fx) { return PlaySfx(fx, 1.0f, 1.0f, 0); }
+	void PlaySfx(const char *fx, const float volume_left, const float volume_right, const Op op);
+	inline static void PlaySfx(const char *fx) { PlaySfx(fx, 1.0f, 1.0f, 0); }
 	void CalculateStereo(const Body *b, float vol, float *volLeftOut, float *volRightOut);
-	eventid BodyMakeNoise(const Body *b, const char *fx, float vol);
+	void BodyMakeNoise(const Body *b, const char *fx, float vol);
 	void SetMasterVolume(const float vol);
 	float GetMasterVolume();
 	void SetSfxVolume(const float vol);
