@@ -106,7 +106,7 @@ function Passengers.EmbarkPassenger(ship, passenger, cabin)
 		return false
 	end
 
-	if not cabin:GetFreeBerths() > 0 then
+	if cabin:GetFreeBerths() == 0 then
 		return false
 	end
 
@@ -177,9 +177,10 @@ function Passengers.GetMaxPassengersForHull(hull, maxMass)
 					and (availMass - equip.mass > 0)
 					and equip.capabilities.cabin or nil
 			end)
-
-			numPassengers = numPassengers + passengers
-			availMass = availMass - cabin.mass
+			if cabin then
+				numPassengers = numPassengers + passengers
+				availMass = availMass - cabin.mass
+			end
 		end
 	end
 
