@@ -227,20 +227,6 @@ namespace Sound {
 		return nullptr;
 	}
 
-	bool SetOp(eventid id, Op op)
-	{
-		if (id == 0) return false;
-		bool ret = false;
-		SDL_LockAudioDevice(m_audioDevice);
-		SoundEvent *se = GetEvent(id);
-		if (se) {
-			se->op = op;
-			ret = true;
-		}
-		SDL_UnlockAudioDevice(m_audioDevice);
-		return ret;
-	}
-
 	static void DestroyEvent(SoundEvent *ev)
 	{
 		if (ev->oggv) {
