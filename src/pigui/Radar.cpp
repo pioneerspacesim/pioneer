@@ -66,7 +66,7 @@ void RadarWidget::DrawPiGui()
 	for (float ang = 0; ang < circle; ang += step) {
 		drawList->PathLineTo(circlePos(ang, m_center, m_radius));
 	}
-	drawList->PathStroke(ImGui::GetColorU32(ImGuiCol_FrameBgActive), true);
+	drawList->PathStroke(ImGui::GetColorU32(ImGuiCol_FrameBgActive), true, 2.0);
 
 	// inner ring
 	for (float ang = 0; ang < circle; ang += circle / 20.f) {

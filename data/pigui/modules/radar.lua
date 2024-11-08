@@ -61,21 +61,33 @@ local function display2DRadar(cntr, size)
 	local halfsize = size * 0.5
 	local thirdsize = size * 0.3
 	local twothirdsize = size * 0.7
+	local fgColor = colors.uiPrimary
+	local bgColor = colors.uiBackground:opacity(0.54)
+	local lineThickness = 1.5
 
 	local function line(x,y)
-		-- ui.addLine(cntr + Vector2(x, y) * halfsize, cntr + Vector2(x,y) * size, colors.reticuleCircle, ui.reticuleCircleThickness)
-		ui.addLine(cntr + Vector2(x, y) * thirdsize, cntr + Vector2(x,y) * twothirdsize, colors.reticuleCircle, ui.reticuleCircleThickness)
+		-- Uncomment to extend the radial line all the way to the outer circle
+		-- ui.addLine(cntr + Vector2(x, y) * halfsize, center + Vector2(x,y) * size, colors.uiPrimaryDark, lineThickness)
+		ui.addLine(cntr + Vector2(x, y) * thirdsize, cntr + Vector2(x,y) * twothirdsize, fgColor, lineThickness)
 	end
-	ui.addCircleFilled(cntr, size, colors.lightBlueBackground, ui.circleSegments(size), 1)
-	ui.addCircle(cntr, size, colors.reticuleCircle, ui.circleSegments(size), ui.reticuleCircleThickness)
-	--	ui.addCircle(cntr, halfsize, colors.reticuleCircle, ui.circleSegments(halfsize), ui.reticuleCircleThickness)
-	ui.addCircle(cntr, thirdsize, colors.reticuleCircle, ui.circleSegments(thirdsize), ui.reticuleCircleThickness)
-	ui.addCircle(cntr, twothirdsize, colors.reticuleCircle, ui.circleSegments(twothirdsize), ui.reticuleCircleThickness)
+
+	-- radar background and border
+	ui.addCircleFilled(cntr, size, bgColor, ui.circleSegments(size), 1)
+	ui.addCircle(cntr, size, fgColor, ui.circleSegments(size), lineThickness * 2)
+
+	-- inner circles
+	-- Uncomment to add an additional circle dividing the 2D radar display
+	--	ui.addCircle(cntr, halfsize, fgColor, ui.circleSegments(halfsize), lineThickness)
+	ui.addCircle(cntr, thirdsize, fgColor, ui.circleSegments(thirdsize), lineThickness)
+	ui.addCircle(cntr, twothirdsize, fgColor, ui.circleSegments(twothirdsize), lineThickness)
 	local l = ui.oneOverSqrtTwo
+	-- cross-lines
 	line(-l, l)
 	line(-l, -l)
 	line(l, -l)
 	line(l, l)
+
+	-- Draw target markers
 	local combatTarget = player:GetCombatTarget()
 	local navTarget = player:GetNavTarget()
 	local tooltip = {}
