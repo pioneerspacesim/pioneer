@@ -42,7 +42,7 @@ bool SSphere::HorizonCulling(const vector3d &view, const SSphere &obj) const
 	const double y = R1 * R1 * iD1;
 	const vector3d P = m_centre - y * O1C;
 	const vector3d N = -O1C;
-	const SPlane plane(N, P);
+	const Plane<double> plane(N, P);
 	status = status || (plane.DistanceToPoint(obj.m_centre) > obj.m_radius);
 
 	return status;

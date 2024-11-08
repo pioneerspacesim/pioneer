@@ -57,6 +57,8 @@ public:
 	// get the frustum. use for projection
 	const Graphics::Frustum &GetFrustum() const { return m_frustum; }
 
+	const matrix4x4f &GetProjectionMatrix() const { return m_projMatrix; }
+
 	// generate and destroy the camere frame, used mostly to transform things to camera space
 	void BeginFrame();
 	void EndFrame();
@@ -74,6 +76,7 @@ private:
 	float m_zFar;
 
 	Graphics::Frustum m_frustum;
+	matrix4x4f m_projMatrix;
 
 	FrameId m_frame;
 	vector3d m_pos;

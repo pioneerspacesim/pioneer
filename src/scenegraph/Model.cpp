@@ -190,7 +190,7 @@ namespace SceneGraph {
 		}
 	}
 
-	void Model::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
+	void Model::RenderInstanced(const matrix4x4f &trans, const std::vector<matrix4x4f> &inst, const RenderData *rd)
 	{
 		PROFILE_SCOPED();
 
@@ -216,17 +216,19 @@ namespace SceneGraph {
 		//BR could also be a property of Node.
 		params.boundingRadius = GetDrawClipRadius();
 
+		m_renderer->SetTransform(trans);
+
 		//render in two passes, if this is the top-level model
 		if (m_debugFlags & DEBUG_WIREFRAME)
 			m_renderer->SetWireFrameMode(true);
 
 		if (params.nodemask & MASK_IGNORE) {
-			m_root->Render(trans, &params);
+			m_root->RenderInstanced(inst, &params);
 		} else {
 			params.nodemask = NODE_SOLID;
-			m_root->Render(trans, &params);
+			m_root->RenderInstanced(inst, &params);
 			params.nodemask = NODE_TRANSPARENT;
-			m_root->Render(trans, &params);
+			m_root->RenderInstanced(inst, &params);
 		}
 
 		if (m_debugFlags & DEBUG_WIREFRAME)

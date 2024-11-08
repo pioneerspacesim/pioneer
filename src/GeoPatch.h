@@ -12,6 +12,7 @@
 #include "RefCounted.h"
 #include "matrix4x4.h"
 #include "vector3.h"
+#include "graphics/Frustum.h"
 #include <deque>
 #include <memory>
 
@@ -26,7 +27,6 @@ namespace Graphics {
 
 namespace Graphics {
 	class Renderer;
-	class Frustum;
 	class MeshObject;
 } // namespace Graphics
 

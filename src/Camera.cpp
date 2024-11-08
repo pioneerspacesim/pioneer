@@ -35,7 +35,8 @@ CameraContext::CameraContext(float width, float height, float fovAng, float zNea
 	m_frame(FrameId::Invalid),
 	m_pos(0.0),
 	m_orient(matrix3x3d::Identity()),
-	m_camFrame(FrameId::Invalid)
+	m_camFrame(FrameId::Invalid),
+	m_projMatrix(matrix4x4f::InfinitePerspectiveMatrix(DEG2RAD(m_fovAng), m_width / m_height, m_zNear))
 {
 }
 
@@ -49,6 +50,7 @@ void CameraContext::SetFovAng(float newAng)
 {
 	m_fovAng = newAng;
 	m_frustum = Frustum(m_width, m_height, m_fovAng, m_zNear, m_zFar);
+	m_projMatrix = matrix4x4f::InfinitePerspectiveMatrix(DEG2RAD(m_fovAng), m_width / m_height, m_zNear);
 }
 
 void CameraContext::BeginFrame()
@@ -82,7 +84,7 @@ void CameraContext::EndFrame()
 void CameraContext::ApplyDrawTransforms(Graphics::Renderer *r)
 {
 	Graphics::SetFov(m_fovAng);
-	r->SetProjection(matrix4x4f::InfinitePerspectiveMatrix(DEG2RAD(m_fovAng), m_width / m_height, m_zNear));
+	r->SetProjection(GetProjectionMatrix());
 	r->SetTransform(matrix4x4f::Identity());
 }
 
@@ -187,10 +189,12 @@ void Camera::Update()
 			if (pixSize < BILLBOARD_PIXEL_THRESHOLD) {
 				attrs.billboard = true;
 
-				// project the position
-				vector3d pos;
-				m_context->GetFrustum().TranslatePoint(attrs.viewCoords, pos);
-				attrs.billboardPos = vector3f(pos);
+				// scale the position of the terrain body until it fits within the far plane for its billboard to be rendered
+				// Note that with an infinite projection matrix there is no far plane and this is somewhat unnecessary
+				double zFar = m_context->GetZFar();
+				double scaleFactor = zFar / attrs.viewCoords.Length() - 0.000001; // tiny nudge closer from the far plane
+
+				attrs.billboardPos = vector3f(attrs.viewCoords * std::min(scaleFactor, 1.0));
 
 				// limit the minimum billboard size for planets so they're always a little visible
 				attrs.billboardSize = std::max(1.0f, pixSize);

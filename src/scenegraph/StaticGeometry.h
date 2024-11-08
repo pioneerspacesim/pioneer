@@ -30,7 +30,7 @@ namespace SceneGraph {
 		virtual const char *GetTypeName() const override { return "StaticGeometry"; }
 		virtual void Accept(NodeVisitor &nv) override;
 		virtual void Render(const matrix4x4f &trans, const RenderData *rd) override;
-		virtual void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd) override;
+		virtual void RenderInstanced(const std::vector<matrix4x4f> &trans, const RenderData *rd) override;
 
 		virtual void Save(NodeDatabase &) override;
 		static StaticGeometry *Load(NodeDatabase &);

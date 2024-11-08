@@ -34,7 +34,7 @@ namespace SceneGraph {
 		static MatrixTransform *Load(NodeDatabase &);
 
 		virtual void Render(const matrix4x4f &trans, const RenderData *rd) override;
-		virtual void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd) override;
+		virtual void RenderInstanced(const std::vector<matrix4x4f> &trans, const RenderData *rd) override;
 
 		const matrix4x4f &GetTransform() const { return m_transform; }
 		void SetTransform(const matrix4x4f &m) { m_transform = m; }

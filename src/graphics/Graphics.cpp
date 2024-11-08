@@ -57,12 +57,26 @@ namespace Graphics {
 
 	vector3f ProjectToScreen(const Renderer *r, const vector3f &in)
 	{
-		return ProjectToScreen(r->GetTransform() * in, r->GetProjection(), r->GetViewport());
+		const Graphics::ViewportExtents &vp = r->GetViewport();
+		vector3f vVP = ProjectToScreen(r->GetTransform() * in, r->GetProjection());
+
+		// viewport coord * size + position
+		return vector3f(
+			vVP.x * vp.w + vp.x,
+			vVP.y * vp.h + vp.y,
+			vVP.z);
 	}
 
 	vector3d ProjectToScreen(const Renderer *r, const vector3d &in)
 	{
-		return ProjectToScreen(matrix4x4d(r->GetTransform()) * in, matrix4x4d(r->GetProjection()), r->GetViewport());
+		const Graphics::ViewportExtents &vp = r->GetViewport();
+		vector3d vVP = ProjectToScreen(matrix4x4d(r->GetTransform()) * in, matrix4x4d(r->GetProjection()));
+
+		// viewport coord * size + position
+		return vector3d(
+			vVP.x * vp.w + vp.x,
+			vVP.y * vp.h + vp.y,
+			vVP.z);
 	}
 
 	Renderer *Init(Settings vs)

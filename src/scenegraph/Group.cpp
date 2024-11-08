@@ -133,7 +133,7 @@ namespace SceneGraph {
 		}
 	}
 
-	void Group::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
+	void Group::RenderInstanced(const std::vector<matrix4x4f> &trans, const RenderData *rd)
 	{
 		RenderChildren(trans, rd);
 	}
@@ -143,7 +143,7 @@ namespace SceneGraph {
 		PROFILE_SCOPED()
 		for (std::vector<Node *>::iterator itr = m_children.begin(), itEnd = m_children.end(); itr != itEnd; ++itr) {
 			if ((*itr)->GetNodeMask() & rd->nodemask)
-				(*itr)->Render(trans, rd);
+				(*itr)->RenderInstanced(trans, rd);
 		}
 	}
 
