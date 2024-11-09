@@ -82,7 +82,6 @@ int Draw::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int m
 				if (drag_angle >= item_inner_ang_min && drag_angle < item_inner_ang_max)
 					hovered = true;
 			}
-			bool selected = false;
 
 			int arc_segments = static_cast<int>((64 * item_arc_span / (2 * IM_PI))) + 1;
 			draw_list->_PathArcToN(center, RADIUS_MAX - border_inout, item_outer_ang_min, item_outer_ang_max, arc_segments);

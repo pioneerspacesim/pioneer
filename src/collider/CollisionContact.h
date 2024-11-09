@@ -36,9 +36,9 @@ struct CollisionContact {
 		distance(0),
 		timestep(dt),
 		triIdx(-1),
+		geomFlag(0),
 		userData1(u1),
-		userData2(u2),
-		geomFlag(0)
+		userData2(u2)
 	{}
 };
 

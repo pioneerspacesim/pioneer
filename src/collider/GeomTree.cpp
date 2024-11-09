@@ -26,7 +26,7 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 {
 	PROFILE_SCOPED()
 
-	assert(static_cast<int>(vertices.size()) == m_numVertices);
+	assert(vertices.size() == m_numVertices);
 
 	m_aabb.min = vector3d(FLT_MAX, FLT_MAX, FLT_MAX);
 	m_aabb.max = vector3d(-FLT_MAX, -FLT_MAX, -FLT_MAX);
@@ -133,7 +133,7 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 		PROFILE_SCOPED_DESC("GeomTree::CreateTriTree");
 
 		m_triAABBs.reset(new AABBd[m_numTris]);
-		for (size_t i = 0; i < m_numTris; i++) {
+		for (uint32_t i = 0; i < m_numTris; i++) {
 			const vector3d v0 = vector3d(m_vertices[m_indices[i * 3 + 0]]);
 			const vector3d v1 = vector3d(m_vertices[m_indices[i * 3 + 1]]);
 			const vector3d v2 = vector3d(m_vertices[m_indices[i * 3 + 2]]);
@@ -182,25 +182,25 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 	{
 		PROFILE_SCOPED_DESC("GeomTree::LoadEdges")
 		m_edges.resize(m_numEdges);
-		for (Sint32 iEdge = 0; iEdge < m_numEdges; ++iEdge) {
+		for (uint32_t iEdge = 0; iEdge < m_numEdges; ++iEdge) {
 			auto &ed = m_edges[iEdge];
 			rd >> ed.v1i >> ed.v2i >> ed.len >> ed.dir >> ed.triFlag;
 		}
 	}
 
 	m_vertices.resize(m_numVertices);
-	for (Sint32 iVert = 0; iVert < m_numVertices; ++iVert) {
+	for (uint32_t iVert = 0; iVert < m_numVertices; ++iVert) {
 		m_vertices[iVert] = rd.Vector3f();
 	}
 
-	const int numIndicies(m_numTris * 3);
+	const uint32_t numIndicies(m_numTris * 3);
 	m_indices.resize(numIndicies);
-	for (Sint32 iIndi = 0; iIndi < numIndicies; ++iIndi) {
+	for (uint32_t iIndi = 0; iIndi < numIndicies; ++iIndi) {
 		m_indices[iIndi] = rd.Int32();
 	}
 
 	m_triFlags.resize(m_numTris);
-	for (Sint32 iTri = 0; iTri < m_numTris; ++iTri) {
+	for (uint32_t iTri = 0; iTri < m_numTris; ++iTri) {
 		m_triFlags[iTri] = rd.Int32();
 	}
 
@@ -209,7 +209,7 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 
 		// TODO: triangle AABBs should be written to the SGM file similarly to edge AABBs
 		m_triAABBs.reset(new AABBd[m_numTris]);
-		for (size_t i = 0; i < m_numTris; i++) {
+		for (uint32_t i = 0; i < m_numTris; i++) {
 			const vector3d v0 = vector3d(m_vertices[m_indices[i * 3 + 0]]);
 			const vector3d v1 = vector3d(m_vertices[m_indices[i * 3 + 1]]);
 			const vector3d v2 = vector3d(m_vertices[m_indices[i * 3 + 2]]);
@@ -292,26 +292,26 @@ void GeomTree::Save(Serializer::Writer &wr) const
 	// loaded in future SGM versions rather than being re-computed on each load
 
 	wr.Int32(m_numEdges);
-	for (Sint32 iAabb = 0; iAabb < m_numEdges; ++iAabb) {
+	for (uint32_t iAabb = 0; iAabb < m_numEdges; ++iAabb) {
 		AABBd &aabb = m_edgeAABBs.get()[iAabb];
 		// Write back an old-style min-max-radius Aabb for compatibility with old SGM versions
 		wr << aabb.min << aabb.max << double(0.0);
 	}
 
-	for (Sint32 iEdge = 0; iEdge < m_numEdges; ++iEdge) {
+	for (uint32_t iEdge = 0; iEdge < m_numEdges; ++iEdge) {
 		auto &ed = m_edges[iEdge];
 		wr << ed.v1i << ed.v2i << ed.len << ed.dir << ed.triFlag;
 	}
 
-	for (Sint32 iVert = 0; iVert < m_numVertices; ++iVert) {
+	for (uint32_t iVert = 0; iVert < m_numVertices; ++iVert) {
 		wr.Vector3f(m_vertices[iVert]);
 	}
 
-	for (Sint32 iIndi = 0; iIndi < (m_numTris * 3); ++iIndi) {
+	for (uint32_t iIndi = 0; iIndi < (m_numTris * 3); ++iIndi) {
 		wr.Int32(m_indices[iIndi]);
 	}
 
-	for (Sint32 iTri = 0; iTri < m_numTris; ++iTri) {
+	for (uint32_t iTri = 0; iTri < m_numTris; ++iTri) {
 		wr.Int32(m_triFlags[iTri]);
 	}
 }
