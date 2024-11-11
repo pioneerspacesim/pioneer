@@ -166,6 +166,13 @@ REGISTER_INPUT_BINDING(PlayerShipController)
 	auto landingGroup = controlsPage->GetBindingGroup("LandingControl");
 	input->AddActionBinding("BindToggleLandingGear", landingGroup, Action({ SDLK_n }));
 	input->AddAxisBinding("BindControlLandingGear", landingGroup, Axis());
+
+	auto radarGroup = controlsPage->GetBindingGroup("RadarControl");
+	input->AddActionBinding("BindRadarZoomReset", radarGroup, Action({ SDLK_DOWN }));
+	input->AddActionBinding("BindRadarToggleMode", radarGroup, Action({ SDLK_UP }));
+	input->AddActionBinding("BindRadarZoomIn", radarGroup, Action({ SDLK_LEFT }));
+	input->AddActionBinding("BindRadarZoomOut", radarGroup, Action({ SDLK_RIGHT }));
+	input->AddAxisBinding("BindRadarZoom", radarGroup, Axis());
 }
 
 PlayerShipController::PlayerShipController() :
@@ -243,6 +250,12 @@ void PlayerShipController::InputBinding::RegisterBindings()
 
 	toggleLandingGear = AddAction("BindToggleLandingGear");
 	controlLandingGear = AddAxis("BindControlLandingGear");
+
+	AddAction("BindRadarToggleMode");
+	AddAction("BindRadarZoomReset");
+	// TODO: Convert to axis?
+	AddAction("BindRadarZoomIn");
+	AddAction("BindRadarZoomOut");
 }
 
 PlayerShipController::~PlayerShipController()

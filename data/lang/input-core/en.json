@@ -131,6 +131,22 @@
     "description": "Descriptive name for the PrimaryFire action.",
     "message": "Primary Fire"
   },
+  "BIND_RADAR_TOGGLE_MODE": {
+    "description": "Descriptive name for the RadarToggle action.",
+    "message": "Toggle Radar Display Mode"
+  },
+  "BIND_RADAR_ZOOM_IN": {
+    "description": "Descriptive name for the RadarZoomIn action.",
+    "message": "Manual Zoom Radar In"
+  },
+  "BIND_RADAR_ZOOM_OUT": {
+    "description": "Descriptive name for the RadarZoomOut action.",
+    "message": "Manual Zoom Radar Out"
+  },
+  "BIND_RADAR_ZOOM_RESET": {
+    "description": "Descriptive name for the RadarZoomReset action.",
+    "message": "Reset Radar Zoom"
+  },
   "BIND_RADIAL_HORIZONTAL_SELECTION": {
     "description": "Input axis name to select in the radial menu.",
     "message": "Radial Menu Left/Right"
@@ -230,6 +246,10 @@
   "GROUP_GENERAL_VIEW_CONTROLS": {
     "description": "Header for the GeneralViewControls input group.",
     "message": "General View Controls"
+  },
+  "GROUP_RADAR_CONTROL": {
+    "description": "Group label for radar-related inputs",
+    "message": "Radar Control"
   },
   "GROUP_LANDING_CONTROL": {
     "description": "Group label for landing-related inputs",
