@@ -1,49 +1,178 @@
 {
 	"model": "natrix",
 	"name": "Natrix",
-	"cockpit": "",
+	"cockpit": "natrix_cockpit",
 	"shield_model": "natrix_shield",
 	"manufacturer": "opli",
-	"ship_class": "medium_freighter",
-	"min_crew": 1,
-	"max_crew": 3,
-	"price": 96181,
-	"hull_mass": 50,
+	"ship_class": "heavy_courier",
+	"min_crew": 2,
+	"max_crew": 4,
+	"price": 245883,
+	"hull_mass": 109,
+	"structure_mass": 36,
+	"armor_mass": 58.9,
+	"volume": 1800,
 	"atmospheric_pressure_limit": 3.3,
-	"capacity": 84,
-	"slots": {
-		"engine": 1,
-		"cabin": 25,
-		"laser_front": 1,
-		"laser_rear": 1,
-		"missile": 2,
-		"cargo": 80
+	"capacity": 135,
+	"cargo": 124,
+
+	"equipment_slots": {
+		"cabin_s2_1": {
+			"type": "cabin",
+			"size": 2
+		},
+		"cabin_s2_2": {
+			"type": "cabin",
+			"size": 2
+		},
+		"utility_s2_2": {
+			"type": "utility",
+			"size": 2,
+			"size_min": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"utility_s2_3": {
+			"type": "utility",
+			"size": 2,
+			"size_min": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"utility_s3_1": {
+			"type": "utility",
+			"size": 3,
+			"size_min": 2,
+			"tag": "",
+			"hardpoint": true
+		},
+		"turret_s1_top": {
+			"type": "turret",
+			"size": 1,
+			"i18n_key": "HARDPOINT_TURRET_TOP",
+			"tag": "",
+			"hardpoint": true
+		},
+		"turret_s1_bottom": {
+			"type": "turret",
+			"size": 1,
+			"i18n_key": "HARDPOINT_TURRET_BOTTOM",
+			"tag": "",
+			"hardpoint": true
+		},
+		"weapon_s2_1": {
+			"type": "weapon",
+			"size": 2,
+			"size_min": 1,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT",
+			"tag": "",
+			"hardpoint": true,
+			"gimbal": [5,5]
+		},
+		"weapon_s2_2": {
+			"type": "weapon",
+			"size": 2,
+			"size_min": 1,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT",
+			"tag": "",
+			"hardpoint": true,
+			"gimbal": [5,5]
+		},
+		"shield_s3": {
+			"type": "shield",
+			"size": 3,
+			"size_min": 2
+		},
+		"missile_bay_s3_left": {
+			"type": "missile_bay.opli_internal",
+			"size": 3,
+			"i18n_key": "HARDPOINT_MISSILE_BAY",
+			"tag": "",
+			"hardpoint": true
+		},
+		"missile_bay_s3_right": {
+			"type": "missile_bay.opli_internal",
+			"size": 3,
+			"i18n_key": "HARDPOINT_MISSILE_BAY",
+			"tag": "",
+			"hardpoint": true
+		},
+		"computer_1": {
+			"type": "computer",
+			"size": 2,
+			"size_min": 1
+		},
+		"computer_2": {
+			"type": "computer",
+			"size": 2,
+			"size_min": 1
+		},
+		"computer_3": {
+			"type": "computer",
+			"size": 1,
+			"size_min": 1
+		},
+		"computer_4": {
+			"type": "computer",
+			"size": 1,
+			"size_min": 1
+		},
+		"fuel_scoop_s1_left": {
+			"type": "fuel_scoop",
+			"size": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"fuel_scoop_s1_right": {
+			"type": "fuel_scoop",
+			"size": 1,
+			"tag": "",
+			"hardpoint": true
+		},
+		"hull_1": {
+			"type": "hull",
+			"size": 3
+		},
+		"structure_1": {
+			"type": "structure",
+			"size": 3
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"size": 3,
+			"size_min": 3
+		},
+		"thruster": {
+			"type": "thruster",
+			"size": 2,
+			"count": 12
+		}
 	},
-	"roles": ["mercenary", "merchant", "pirate", "courier"],
 
-	"effective_exhaust_velocity": 18000000,
+	"roles": ["pirate","merchant","mercenary","courier"],
+	"effective_exhaust_velocity": 14700000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 60,
-	"hyperdrive_class": 2,
+	"fuel_tank_mass": 200,
+	"hyperdrive_class": 3,
 
-	"forward_thrust": 2700000,
-	"forward_acceleration_cap": 17.658,
-	"reverse_thrust": 1300000,
+	"forward_thrust": 10200000,
+	"forward_acceleration_cap": 24.525,
+	"reverse_thrust": 2900000,
 	"reverse_acceleration_cap": 17.658,
-	"up_thrust": 850000,
+	"up_thrust": 6700000,
 	"up_acceleration_cap": 17.658,
-	"down_thrust": 850000,
-	"down_acceleration_cap": 10.0062,
-	"left_thrust": 850000,
-	"left_acceleration_cap": 10.0062,
-	"right_thrust": 850000,
-	"right_acceleration_cap": 10.0062,
+	"down_thrust": 2650000,
+	"down_acceleration_cap": 14.715,
+	"left_thrust": 1450000,
+	"left_acceleration_cap": 14.715,
+	"right_thrust": 1450000,
+	"right_acceleration_cap": 14.715,
 
-	"angular_thrust": 8124820.47813459,
+	"angular_thrust": 8859987.87,
 
-	"front_cross_section": 37,
-	"side_cross_section": 95,
-	"top_cross_section": 290,
+	"front_cross_section": 37.002,
+	"side_cross_section": 95.002,
+	"top_cross_section": 290.002,
 
 	"front_drag_coeff": 0.45,
 	"side_drag_coeff": 0.78,
