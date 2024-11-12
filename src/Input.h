@@ -49,9 +49,10 @@ namespace Input {
 		using Axis = InputBindings::Axis;
 		using Action = InputBindings::Action;
 
-		InputFrame(Input::Manager *man, bool modal = false) :
+		InputFrame(Input::Manager *man, bool modal = false, std::string_view id = "") :
 			manager(man),
-			modal(modal)
+			modal(modal),
+			id(id)
 		{}
 
 		std::vector<Action *> actions;
@@ -61,6 +62,7 @@ namespace Input {
 		Manager *manager = nullptr;
 		bool active = false;
 		bool modal = false;
+		std::string id;
 
 		// Call this at startup to register all the bindings associated with the frame.
 		virtual void RegisterBindings(){};
