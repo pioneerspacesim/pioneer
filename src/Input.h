@@ -65,12 +65,6 @@ namespace Input {
 		// Call this at startup to register all the bindings associated with the frame.
 		virtual void RegisterBindings(){};
 
-		// Called when the frame is added to the stack.
-		sigc::signal<void, InputFrame *> onFrameAdded;
-
-		// Called when the frame is removed from the stack.
-		sigc::signal<void, InputFrame *> onFrameRemoved;
-
 		Action *AddAction(const std::string &id);
 		Axis *AddAxis(const std::string &id);
 	};

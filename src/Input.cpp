@@ -314,7 +314,6 @@ bool Manager::AddInputFrame(InputFrame *frame)
 
 	m_inputFrames.push_back(frame);
 	frame->active = true;
-	frame->onFrameAdded.emit(frame);
 	m_frameListChanged = true;
 
 	return true;
@@ -363,7 +362,6 @@ void Manager::RemoveInputFrame(InputFrame *frame)
 
 		ClearInputFrameState(frame);
 		frame->active = false;
-		frame->onFrameRemoved.emit(frame);
 		m_frameListChanged = true;
 	}
 }
