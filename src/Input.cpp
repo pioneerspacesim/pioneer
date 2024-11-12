@@ -412,6 +412,16 @@ InputBindings::Axis *Manager::GetAxisBinding(const std::string &id)
 	return axisBindings.count(id) ? &axisBindings[id] : &Input::nullAxis;
 }
 
+bool Manager::HasActionBinding(const std::string &id) const
+{
+	return actionBindings.count(id) > 0;
+}
+
+bool Manager::HasAxisBinding(const std::string &id) const
+{
+	return axisBindings.count(id) > 0;
+}
+
 /*
 
 	STATE MANAGEMENT

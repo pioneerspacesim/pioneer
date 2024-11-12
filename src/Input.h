@@ -156,11 +156,13 @@ public:
 	// The returned binding pointer points to the actual binding.
 	InputBindings::Action *AddActionBinding(const std::string &id, BindingGroup *group, InputBindings::Action &&binding);
 	InputBindings::Action *GetActionBinding(const std::string &id);
+	bool HasActionBinding(const std::string &id) const;
 
 	// Creates a new axis binding, copying the provided binding.
 	// The returned binding pointer points to the actual binding.
 	InputBindings::Axis *AddAxisBinding(const std::string &id, BindingGroup *group, InputBindings::Axis &&binding);
 	InputBindings::Axis *GetAxisBinding(const std::string &id);
+	bool HasAxisBinding(const std::string &id) const;
 
 	// Call EnableBindings() to temporarily disable handling input bindings while
 	// you're recording a new input binding or are in a modal window.
