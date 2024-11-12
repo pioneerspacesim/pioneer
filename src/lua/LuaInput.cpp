@@ -11,6 +11,7 @@
 #include "LuaUtils.h"
 #include "LuaWrappable.h"
 #include "Pi.h"
+#include "core/StringUtils.h"
 
 #include <SDL_keyboard.h>
 #include <SDL_keycode.h>
@@ -784,6 +785,71 @@ static int l_input_create_input_frame(lua_State *l)
 	return 1;
 }
 
+static int l_input_register_action_binding(lua_State *l)
+{
+	std::string id = LuaPull<std::string>(l, 1);
+	std::string_view groupId = LuaPull<std::string_view>(l, 2);
+
+	if (Pi::input->HasActionBinding(id)) {
+		Log::Info("LuaInput: action binding {} already exists, not overwriting.", id);
+		LuaPush<LuaInputAction>(l, id);
+		return 1;
+	}
+
+	Input::BindingPage *page = nullptr;
+	Input::BindingGroup *group = nullptr;
+
+	for (std::string_view id : SplitString(groupId, ".")) {
+		if (page == nullptr) {
+			page = Pi::input->GetBindingPage(std::string(id));
+		} else if (group == nullptr) {
+			group = page->GetBindingGroup(std::string(id));
+			break;
+		}
+	}
+
+	auto primary = LuaPull<InputBindings::KeyChord>(l, 3, {});
+	auto secondary = LuaPull<InputBindings::KeyChord>(l, 4, {});
+
+	Pi::input->AddActionBinding(id, group, InputBindings::Action(primary, secondary));
+
+	LuaPush<LuaInputAction>(l, id);
+	return 1;
+}
+
+static int l_input_register_axis_binding(lua_State *l)
+{
+	std::string id = LuaPull<std::string>(l, 1);
+	std::string_view groupId = LuaPull<std::string_view>(l, 2);
+
+	if (Pi::input->HasAxisBinding(id)) {
+		Log::Info("LuaInput: axis binding {} already exists, not overwriting.", id);
+		LuaPush<LuaInputAxis>(l, id);
+		return 1;
+	}
+
+	Input::BindingPage *page = nullptr;
+	Input::BindingGroup *group = nullptr;
+
+	for (std::string_view id : SplitString(groupId, ".")) {
+		if (page == nullptr) {
+			page = Pi::input->GetBindingPage(std::string(id));
+		} else if (group == nullptr) {
+			group = page->GetBindingGroup(std::string(id));
+			break;
+		}
+	}
+
+	auto positive = LuaPull<InputBindings::KeyChord>(l, 3, {});
+	auto negative = LuaPull<InputBindings::KeyChord>(l, 4, {});
+	auto axis = LuaPull<InputBindings::JoyAxis>(l, 5, {});
+
+	Pi::input->AddAxisBinding(id, group, InputBindings::Axis(axis, positive, negative));
+
+	LuaPush<LuaInputAxis>(l, id);
+	return 1;
+}
+
 void pi_lua_generic_push(lua_State *l, InputBindings::JoyAxis axis)
 {
 	if (!axis.Enabled()) {
@@ -881,9 +947,6 @@ void pi_lua_generic_pull(lua_State *l, int index, InputBindings::KeyChord &out)
 	}
 
 	LuaTable chordTab(l, index);
-	if (!chordTab.Get<bool>("enabled"))
-		return;
-
 	out.activator = chordTab.Get<KeyBinding>("activator");
 	out.modifier1 = chordTab.Get<KeyBinding>("modifier1");
 	out.modifier2 = chordTab.Get<KeyBinding>("modifier2");
@@ -919,6 +982,8 @@ void LuaInput::Register()
 		{ "GetMouseCaptured", l_input_get_mouse_captured },
 
 		{ "CreateInputFrame", l_input_create_input_frame },
+		{ "RegisterActionBinding", l_input_register_action_binding },
+		{ "RegisterAxisBinding", l_input_register_axis_binding },
 
 		{ NULL, NULL }
 	};

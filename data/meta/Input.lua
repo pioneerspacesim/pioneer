@@ -173,4 +173,21 @@ function Input.GetMouseCaptured() end
 ---@return Input.InputFrame
 function Input.CreateInputFrame(id, modal) end
 
+-- Register an ActionBinding from Lua with the given default key associations
+---@param id string The identifier of the action binding. Must be globally unique.
+---@param groupId string The page and group this action binding is organized into, in the form "page.group"
+---@param b1 table? The primary keychord for this binding
+---@param b2 table? The secondary keychord for this binding
+---@return Input.ActionBinding
+function Input.RegisterActionBinding(id, groupId, b1, b2) end
+
+-- Register an AxisBinding from Lua with the given default key associations
+---@param id string The identifier of the axis binding. Must be globally unique.
+---@param groupId string The page and group this axis binding is organized into, in the form "page.group"
+---@param pos table? The positive-direction keychord for this axis binding
+---@param neg table? The negative-direction keychord for this axis binding
+---@param axis table? The joystick axis to associate with this axis binding
+---@return Input.AxisBinding
+function Input.RegisterAxisBinding(id, groupId, pos, neg, axis) end
+
 return Input
