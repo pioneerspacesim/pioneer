@@ -47,6 +47,7 @@ REGISTER_INPUT_BINDING(WorldView)
 	// radial menu activators
 	input->AddActionBinding("BindFlightAssistRadial", group, Action{});
 	input->AddActionBinding("BindFixheadingRadial", group, Action{});
+	input->AddActionBinding("BindTargetRadial", group, Action{});
 }
 
 void WorldView::InputBinding::RegisterBindings()
@@ -58,6 +59,7 @@ void WorldView::InputBinding::RegisterBindings()
 	AddAxis("BindRadialHorizontalSelection");
 	AddAction("BindFlightAssistRadial");
 	AddAction("BindFixheadingRadial");
+	AddAction("BindTargetRadial");
 }
 
 WorldView::WorldView(Game *game) :
