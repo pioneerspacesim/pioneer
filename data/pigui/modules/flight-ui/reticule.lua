@@ -43,7 +43,8 @@ local showNavigationalNumbers = true
 -- to interact with actions and axes in the input system
 local bindings = {
 	assistRadial = bindManager.registerAction('BindFlightAssistRadial'),
-	fixheadingRadial = bindManager.registerAction('BindFixheadingRadial')
+	fixheadingRadial = bindManager.registerAction('BindFixheadingRadial'),
+	targetRadial = bindManager.registerAction('BindTargetRadial'),
 }
 
 -- display the pitch indicator on the right inside of the reticule circle
@@ -321,8 +322,11 @@ local function displayDetailData(target, radius, colorLight, colorDark, tooltip,
 	local uiPos = ui.pointOnClock(center, radius, 2.46)
 	-- label of target
 	local nameSize = ui.addStyledText(uiPos, ui.anchor.left, ui.anchor.baseline, target.label, colorDark, pionillium.medium, tooltip, colors.lightBlackBackground)
-	if ui.isMouseHoveringRect(uiPos - Vector2(0, pionillium.medium.size), uiPos + nameSize - Vector2(0, pionillium.medium.size)) and ui.isMouseClicked(1) and ui.noModifierHeld() then
-		ui.openDefaultRadialMenu("game", target)
+	local isHovered = ui.isMouseHoveringRect(uiPos - Vector2(0, pionillium.medium.size), uiPos + nameSize - Vector2(0, pionillium.medium.size))
+	                  and ui.isMouseClicked(1) and ui.noModifierHeld()
+	if isHovered or bindings.targetRadial.action:IsJustActive() then
+		local action_binding = bindings.targetRadial.action:IsActive() and bindings.targetRadial.action
+		ui.openDefaultRadialMenu("game", target, uiPos, action_binding)
 	end
 	-- current distance, relative speed
 	uiPos = ui.pointOnClock(center, radius, 2.75)

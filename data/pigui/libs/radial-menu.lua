@@ -156,7 +156,7 @@ local radial_menu_actions_systembody = {
 	},
 }
 
-function ui.openDefaultRadialMenu(id, body)
+function ui.openDefaultRadialMenu(id, body, pos, action_binding)
 	if body then
 		local actions = {}
 		for _,v in pairs(radial_menu_actions_all_bodies) do
@@ -171,7 +171,7 @@ function ui.openDefaultRadialMenu(id, body)
 				table.insert(actions, v)
 			end
 		end
-		ui.openRadialMenu(id, body, 1, defaultRadialMenuIconSize, actions, defaultRadialMenuPadding)
+		ui.openRadialMenu(id, body, 1, defaultRadialMenuIconSize, actions, defaultRadialMenuPadding, pos, action_binding)
 	end
 end
 
