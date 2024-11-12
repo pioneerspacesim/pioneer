@@ -93,6 +93,27 @@ function JoystickInfo:SetAxisZeroToOne(axis, zeroToOne) end
 
 --==================================
 
+---@class Input.InputFrame
+---@field id string
+local InputFrame = {}
+
+-- Add the given action binding to this frame
+---@param action Input.ActionBinding
+function InputFrame:AddAction(action) end
+
+-- Add the given axis binding to this frame
+---@param axis Input.AxisBinding
+function InputFrame:AddAxis(axis) end
+
+-- Add the input frame to the stack of active inputs
+---@return boolean
+function InputFrame:AddToStack() end
+
+-- Remove the input frame from the stack of active inputs
+function InputFrame:RemoveFromStack() end
+
+--==================================
+
 ---@param enable boolean
 function Input.EnableBindings(enable) end
 
@@ -145,5 +166,11 @@ function Input.SetJoystickEnabled(enabled) end
 
 ---@return boolean
 function Input.GetMouseCaptured() end
+
+-- Create an InputFrame to add action/axis bindings to the active input stack
+---@param id string The debug identifier of this InputFrame
+---@param modal boolean? Should this InputFrame be modal?
+---@return Input.InputFrame
+function Input.CreateInputFrame(id, modal) end
 
 return Input

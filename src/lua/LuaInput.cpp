@@ -382,6 +382,11 @@ struct LuaInputAxis : public LuaWrappable {
 	Axis *getAxis() const { return Pi::input->GetAxisBinding(id); }
 };
 
+/**
+ * Class: LuaJoystickInfo
+ *
+ * Represents information about a specific joystick instance connected to the system.
+ */
 struct LuaJoystickInfo : public LuaWrappable {
 	LuaJoystickInfo(int joystickIndex) :
 		m_id(joystickIndex)
@@ -435,23 +440,63 @@ private:
 	int m_id;
 };
 
-#define GENERIC_COPY_OBJ_DEF(Typename)                                      \
-	template <>                                                             \
-	const char *LuaObject<Typename>::s_type = #Typename;                    \
-	inline void pi_lua_generic_pull(lua_State *l, int index, Typename &out) \
-	{                                                                       \
-		assert(l == Lua::manager->GetLuaState());                           \
-		out = *LuaObject<Typename>::CheckFromLua(index);                    \
-	}                                                                       \
-	inline void pi_lua_generic_push(lua_State *l, const Typename &value)    \
-	{                                                                       \
-		assert(l == Lua::manager->GetLuaState());                           \
-		LuaObject<Typename>::PushToLua(value);                              \
+/**
+ * Class: LuaInputFrame
+ *
+ * Collects a group of input bindings and controls pushing them to the active
+ * input stack.
+ */
+struct LuaInputFrame : public LuaWrappable {
+	LuaInputFrame(Input::Manager *manager, bool modal, std::string_view id) :
+		m_inputFrame(manager, modal, id)
+	{
+	}
+
+	~LuaInputFrame()
+	{
+		if (m_inputFrame.manager->HasInputFrame(&m_inputFrame)) {
+			Log::Warning("LuaInput: InputFrame {} being removed from input stack in __gc callback.", m_inputFrame.id);
+			m_inputFrame.manager->RemoveInputFrame(&m_inputFrame);
+		}
+	}
+
+	const std::string &getId() const {
+		return m_inputFrame.id;
+	}
+
+	bool addToStack() {
+		return m_inputFrame.manager->AddInputFrame(&m_inputFrame);
+	}
+
+	void removeFromStack() {
+		return m_inputFrame.manager->RemoveInputFrame(&m_inputFrame);
+	}
+
+	void addAction(LuaInputAction *action) {
+		m_inputFrame.AddAction(action->id);
+	}
+
+	void addAxis(LuaInputAxis *axis) {
+		m_inputFrame.AddAxis(axis->id);
+	}
+
+private:
+	Input::InputFrame m_inputFrame;
+};
+
+#define GENERIC_COPY_OBJ_DEF(Typename)                                       \
+	template <>                                                              \
+	const char *LuaObject<Typename>::s_type = #Typename;                     \
+	inline void pi_lua_generic_push(lua_State *l, const Typename &value)     \
+	{                                                                        \
+		assert(l == Lua::manager->GetLuaState());                            \
+		LuaObject<Typename>::PushToLua(value);                               \
 	}
 
 GENERIC_COPY_OBJ_DEF(LuaInputAction)
 GENERIC_COPY_OBJ_DEF(LuaInputAxis)
 GENERIC_COPY_OBJ_DEF(LuaJoystickInfo)
+GENERIC_COPY_OBJ_DEF(LuaInputFrame)
 
 /*
  * Interface: Input
@@ -730,6 +775,15 @@ static int l_input_set_joystick_enabled(lua_State *l)
 	return 0;
 }
 
+static int l_input_create_input_frame(lua_State *l)
+{
+	std::string_view id = LuaPull<std::string_view>(l, 1);
+	bool modal = LuaPull<bool>(l, 2, false);
+
+	LuaObject<LuaInputFrame>::PushToLua(LuaInputFrame(Pi::input, modal, id));
+	return 1;
+}
+
 void pi_lua_generic_push(lua_State *l, InputBindings::JoyAxis axis)
 {
 	if (!axis.Enabled()) {
@@ -838,6 +892,7 @@ void pi_lua_generic_pull(lua_State *l, int index, InputBindings::KeyChord &out)
 static LuaMetaType<LuaInputAction> s_inputActionBinding("LuaInputAction");
 static LuaMetaType<LuaInputAxis> s_inputAxisBinding("LuaInputAxis");
 static LuaMetaType<LuaJoystickInfo> s_joystickInfoBinding("LuaJoystickInfo");
+static LuaMetaType<LuaInputFrame> s_inputFrame("LuaInputFrame");
 void LuaInput::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -862,6 +917,8 @@ void LuaInput::Register()
 		{ "SetJoystickEnabled", l_input_set_joystick_enabled },
 
 		{ "GetMouseCaptured", l_input_get_mouse_captured },
+
+		{ "CreateInputFrame", l_input_create_input_frame },
 
 		{ NULL, NULL }
 	};
@@ -929,6 +986,15 @@ void LuaInput::Register()
 		.AddFunction("GetAxisZeroToOne", &LuaJoystickInfo::getAxisZeroToOne)
 		.AddFunction("SetAxisZeroToOne", &LuaJoystickInfo::setAxisZeroToOne);
 	s_joystickInfoBinding.StopRecording();
+
+	s_inputFrame.CreateMetaType(l);
+	s_inputFrame.StartRecording()
+		.AddMember("id", &LuaInputFrame::getId)
+		.AddFunction("AddToStack", &LuaInputFrame::addToStack)
+		.AddFunction("RemoveFromStack", &LuaInputFrame::removeFromStack)
+		.AddFunction("AddAction", &LuaInputFrame::addAction)
+		.AddFunction("AddAxis", &LuaInputFrame::addAxis);
+	s_inputFrame.StopRecording();
 
 	LUA_DEBUG_END(l, 0);
 }
