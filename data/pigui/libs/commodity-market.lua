@@ -27,10 +27,10 @@ local baseWidgetSizes = {
 	fontSizeLarge = 22.5, -- pionillium.large.size,
 	fontSizeXLarge = 27, -- pionillium.xlarge.size,
 	iconSize = Vector2(0, 22.5 * 1.5),
-	smallButton = Vector2(92, 48),
-	bigButton = Vector2(128, 48),
+	smallButton = Vector2(80, 44),
+	bigButton = Vector2(100, 44),
 	confirmButtonSize = Vector2(384, 48),
-	windowGutter = 18
+	windowGutter = 16
 }
 
 local commodityIconSize = Vector2(38.0, 32.0) -- png icons, native resolution
@@ -56,26 +56,44 @@ function CommodityMarketWidget.New(id, title, config)
 	config.style = config.style or {}
 	config.style.size = config.style.size or Vector2(0,0)
 	config.itemTypes = config.itemTypes or { Commodities }
-	config.columnCount = config.columnCount or 6
+	config.columnCount = config.columnCount or 7
 
 	config.initTable = config.initTable or function(self)
 		ui.setColumnWidth(0, commodityIconSize.x + ui.getItemSpacing().x)
-		ui.setColumnWidth(1, self.style.size.x / 2.2 - 50 * self.style.widgetSizes.rescaleVector.x)
+		ui.setColumnWidth(1, self.style.size.x / 2.4  - 50 * self.style.widgetSizes.rescaleVector.x)
+	end
+
+	-- Adds a text column to the UI table with the given alignment
+	--  - txt - the text to display
+	--  - align - the horizontal alignment the text should have:
+	--          - "LEFT" (default if not specified)
+	--          - "MIDDLE", useful for table heading row
+	--          - "RIGHT", best for numbers
+	config.columnText = config.columnText or function(txt, align)
+		local posX = 0
+		txt = txt or ''
+		align = align or "LEFT"
+
+		if align == "RIGHT" then
+			posX = ui.getColumnWidth() - ui.calcTextSize(txt).x - ui.getItemSpacing().x
+		elseif align == "MIDDLE" then
+			posX = (ui.getColumnWidth() - ui.calcTextSize(txt).x - ui.getItemSpacing().x) / 2
+		else -- default alignment is "LEFT"
+			-- no need to adjust the position
+		end
+		ui.addCursorPos(Vector2(posX, 0))
+		ui.text(txt)
+		ui.nextColumn()
 	end
 
 	config.renderHeaderRow = config.renderHeaderRow or function(_)
-		ui.text('')
-		ui.nextColumn()
-		ui.text(l.NAME_OBJECT)
-		ui.nextColumn()
-		ui.text(l.PRICE)
-		ui.nextColumn()
-		ui.text(l.IN_STOCK)
-		ui.nextColumn()
-		ui.text(l.DEMAND)
-		ui.nextColumn()
-		ui.text(l.CARGO)
-		ui.nextColumn()
+		config.columnText('')
+		config.columnText(l.COMMODITY, "MIDDLE")
+		config.columnText(l.BUY_PRICE, "MIDDLE")
+		config.columnText(l.SELL_PRICE, "MIDDLE")
+		config.columnText(l.IN_STOCK, "MIDDLE")
+		config.columnText(l.DEMAND, "MIDDLE")
+		config.columnText(l.IN_HOLD, "MIDDLE")
 	end
 
 	config.renderItem = config.renderItem or function(self, item)
@@ -102,20 +120,19 @@ function CommodityMarketWidget.New(id, title, config)
 			end
 
 			ui.nextColumn()
+
 			ui.dummy(vZero)
-			ui.text(Format.Money(price))
-			ui.nextColumn()
+			config.columnText(Format.Money(config.getBuyPrice(self, item)), "RIGHT")
 			ui.dummy(vZero)
-			ui.text(config.getStock(self, item))
-			ui.nextColumn()
+			config.columnText(Format.Money(config.getSellPrice(self, item)), "RIGHT")
 			ui.dummy(vZero)
-			ui.text(config.getDemand(self, item))
-			ui.nextColumn()
+			config.columnText(config.getStock(self, item), "RIGHT")
+			ui.dummy(vZero)
+			config.columnText(config.getDemand(self, item), "RIGHT")
 			ui.dummy(vZero)
 			local n = self.cargoMgr:CountCommodity(item)
-			ui.text(n > 0 and n or '')
+			config.columnText(n > 0 and n or '', "RIGHT")
 		end)
-		ui.nextColumn()
 	end
 
 	config.canDisplayItem = config.canDisplayItem or function (self, commodity)
@@ -453,7 +470,7 @@ function CommodityMarketWidget:SetSize(size)
 	size = Vector2(math.max(size.x, 100), math.max(size.y, 100))
 	if self.style.widgetSize ~= size then
 		self.style.widgetSize = size
-		self.style.size = Vector2(size.x / 2, size.y)
+		self.style.size = Vector2(size.x * 0.6, size.y)
 
 		self.style.widgetSizes = ui.rescaleUI(
 			baseWidgetSizes,
