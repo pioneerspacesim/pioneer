@@ -12,10 +12,152 @@
 #include "LuaWrappable.h"
 #include "Pi.h"
 
-#include "SDL_keyboard.h"
+#include <SDL_keyboard.h>
+#include <SDL_keycode.h>
 #include <sstream>
 
 using namespace InputBindings;
+
+static std::vector<std::pair<const char *, int>> s_input_keys = {
+	// Symbol keys
+
+	{ "exclaim", SDLK_EXCLAIM },
+	{ "quotedbl", SDLK_QUOTEDBL },
+	{ "hash", SDLK_HASH },
+	{ "percent", SDLK_PERCENT },
+	{ "dollar", SDLK_DOLLAR },
+	{ "ampersand", SDLK_AMPERSAND },
+	{ "quote", SDLK_QUOTE },
+	{ "leftparen", SDLK_LEFTPAREN },
+	{ "rightparen", SDLK_RIGHTPAREN },
+	{ "asterisk", SDLK_ASTERISK },
+	{ "plus", SDLK_PLUS },
+	{ "comma", SDLK_COMMA },
+	{ "minus", SDLK_MINUS },
+	{ "period", SDLK_PERIOD },
+	{ "slash", SDLK_SLASH },
+
+	{ "colon", SDLK_COLON },
+	{ "semicolon", SDLK_SEMICOLON },
+	{ "less", SDLK_LESS },
+	{ "equals", SDLK_EQUALS },
+	{ "greater", SDLK_GREATER },
+	{ "question", SDLK_QUESTION },
+	{ "at", SDLK_AT },
+
+	{ "leftbracket", SDLK_LEFTBRACKET },
+	{ "backslash", SDLK_BACKSLASH },
+	{ "rightbracket", SDLK_RIGHTBRACKET },
+	{ "caret", SDLK_CARET },
+	{ "underscore", SDLK_UNDERSCORE },
+	{ "backquote", SDLK_BACKQUOTE },
+
+	// Misc. keys
+	{ "return", SDLK_RETURN },
+	{ "escape", SDLK_ESCAPE },
+	{ "backspace", SDLK_BACKSPACE },
+	{ "tab", SDLK_TAB },
+	{ "space", SDLK_SPACE },
+
+	{ "capslock", SDLK_CAPSLOCK },
+	{ "printscreen", SDLK_PRINTSCREEN },
+	{ "scrolllock", SDLK_SCROLLLOCK },
+	{ "pause", SDLK_PAUSE },
+	{ "insert", SDLK_INSERT },
+	{ "home", SDLK_HOME },
+	{ "pageup", SDLK_PAGEUP },
+	{ "delete", SDLK_DELETE },
+	{ "end", SDLK_END },
+	{ "pagedown", SDLK_PAGEDOWN },
+	{ "right", SDLK_RIGHT },
+	{ "left", SDLK_LEFT },
+	{ "down", SDLK_DOWN },
+	{ "up", SDLK_UP },
+
+	{ "numlockclear", SDLK_NUMLOCKCLEAR },
+	{ "kp_divide", SDLK_KP_DIVIDE },
+	{ "kp_multiply", SDLK_KP_MULTIPLY },
+	{ "kp_minus", SDLK_KP_MINUS },
+	{ "kp_plus", SDLK_KP_PLUS },
+	{ "kp_enter", SDLK_KP_ENTER },
+	{ "kp_1", SDLK_KP_1 },
+	{ "kp_2", SDLK_KP_2 },
+	{ "kp_3", SDLK_KP_3 },
+	{ "kp_4", SDLK_KP_4 },
+	{ "kp_5", SDLK_KP_5 },
+	{ "kp_6", SDLK_KP_6 },
+	{ "kp_7", SDLK_KP_7 },
+	{ "kp_8", SDLK_KP_8 },
+	{ "kp_9", SDLK_KP_9 },
+	{ "kp_0", SDLK_KP_0 },
+	{ "kp_period", SDLK_KP_PERIOD },
+
+	{ "lctrl", SDLK_LCTRL },
+	{ "lshift", SDLK_LSHIFT },
+	{ "lalt", SDLK_LALT },
+	{ "lgui", SDLK_LGUI },
+	{ "rctrl", SDLK_RCTRL },
+	{ "rshift", SDLK_RSHIFT },
+	{ "ralt", SDLK_RALT },
+	{ "rgui", SDLK_RGUI },
+
+	// Function keys
+
+	{ "f1", SDLK_F1 },
+	{ "f2", SDLK_F2 },
+	{ "f3", SDLK_F3 },
+	{ "f4", SDLK_F4 },
+	{ "f5", SDLK_F5 },
+	{ "f6", SDLK_F6 },
+	{ "f7", SDLK_F7 },
+	{ "f8", SDLK_F8 },
+	{ "f9", SDLK_F9 },
+	{ "f10", SDLK_F10 },
+	{ "f11", SDLK_F11 },
+	{ "f12", SDLK_F12 },
+
+	// letters
+
+	{ "a", SDLK_a },
+	{ "b", SDLK_b },
+	{ "c", SDLK_c },
+	{ "d", SDLK_d },
+	{ "e", SDLK_e },
+	{ "f", SDLK_f },
+	{ "g", SDLK_g },
+	{ "h", SDLK_h },
+	{ "i", SDLK_i },
+	{ "j", SDLK_j },
+	{ "k", SDLK_k },
+	{ "l", SDLK_l },
+	{ "m", SDLK_m },
+	{ "n", SDLK_n },
+	{ "o", SDLK_o },
+	{ "p", SDLK_p },
+	{ "q", SDLK_q },
+	{ "r", SDLK_r },
+	{ "s", SDLK_s },
+	{ "t", SDLK_t },
+	{ "u", SDLK_u },
+	{ "v", SDLK_v },
+	{ "w", SDLK_w },
+	{ "x", SDLK_x },
+	{ "y", SDLK_y },
+	{ "z", SDLK_z },
+
+	// numbers
+
+	{ "0", SDLK_0 },
+	{ "1", SDLK_1 },
+	{ "2", SDLK_2 },
+	{ "3", SDLK_3 },
+	{ "4", SDLK_4 },
+	{ "5", SDLK_5 },
+	{ "6", SDLK_6 },
+	{ "7", SDLK_7 },
+	{ "8", SDLK_8 },
+	{ "9", SDLK_9 },
+};
 
 /*
  * Class: LuaInputAction
@@ -730,8 +872,23 @@ void LuaInput::Register()
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
 	LuaObjectBase::CreateObject(l_methods, l_attrs, 0);
-	lua_setfield(l, -2, "Input");
-	lua_pop(l, 1);
+
+	// Set as CoreImports.Input
+	lua_pushvalue(l, -1);
+	lua_setfield(l, -3, "Input");
+
+	{
+		LuaTable keys(l);
+		for (const auto &pair : s_input_keys) {
+			keys.Set(pair.first, pair.second);
+		}
+
+		lua_setfield(l, -2, "keys");
+	}
+
+	lua_pop(l, 2);
+
+	LUA_DEBUG_CHECK(l, 0);
 
 	s_inputActionBinding.CreateMetaType(l);
 	s_inputActionBinding.StartRecording()

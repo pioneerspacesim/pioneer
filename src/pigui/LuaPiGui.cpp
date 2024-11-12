@@ -8,33 +8,11 @@
 #include "Radar.h"
 #include "lua/LuaPiGuiInternal.h"
 #include "lua/LuaTable.h"
-#include "utils.h"
 
-static std::vector<std::pair<std::string, int>> m_keycodes = {
-	{ "left", SDLK_LEFT },
-	{ "right", SDLK_RIGHT },
-	{ "up", SDLK_UP },
-	{ "down", SDLK_DOWN },
-	{ "escape", SDLK_ESCAPE },
-	{ "delete", SDLK_DELETE },
-	{ "f1", SDLK_F1 },
-	{ "f2", SDLK_F2 },
-	{ "f3", SDLK_F3 },
-	{ "f4", SDLK_F4 },
-	{ "f5", SDLK_F5 },
-	{ "f6", SDLK_F6 },
-	{ "f7", SDLK_F7 },
-	{ "f8", SDLK_F8 },
-	{ "f9", SDLK_F9 },
-	{ "f10", SDLK_F10 },
-	{ "f11", SDLK_F11 },
-	{ "f12", SDLK_F12 },
-	{ "tab", SDLK_TAB },
-};
+#include <profiler/Profiler.h>
 
 static LuaRef m_handlers;
 static LuaRef m_themes;
-static LuaRef m_keys;
 static LuaRef m_eventQueue;
 
 namespace PiGui {
@@ -56,15 +34,6 @@ namespace PiGui {
 			m_themes = LuaRef(l, -1);
 			lua_pop(l, 1);
 
-			lua_newtable(l);
-			m_keys = LuaRef(l, -1);
-			LuaTable keys(l, -1);
-			for (auto p : m_keycodes) {
-				keys.Set(p.first, p.second);
-			}
-
-			lua_pop(l, 1);
-
 			pi_lua_import(l, "Event");
 
 			// Create a new event table and store it for UI use
@@ -84,14 +53,12 @@ namespace PiGui {
 		{
 			m_handlers.Unref();
 			m_themes.Unref();
-			m_keys.Unref();
 			m_eventQueue.Unref();
 		}
 
 	} // namespace Lua
 
 	LuaRef GetHandlers() { return m_handlers; }
-	LuaRef GetKeys() { return m_keys; }
 	LuaRef GetThemes() { return m_themes; }
 	LuaRef GetEventQueue() { return m_eventQueue; }
 
