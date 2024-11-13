@@ -446,7 +446,7 @@ static std::string make_module_name(lua_State *L, int idx)
 	return name;
 }
 
-static std::string get_caller_module_name(lua_State *L, int depth = 1)
+std::string pi_lua_get_caller_module(lua_State *L, int depth)
 {
 	std::string caller = get_caller(L, depth);
 	std::string_view sv(caller);
@@ -458,7 +458,7 @@ static std::string get_caller_module_name(lua_State *L, int depth = 1)
 
 static int l_reimport_package(lua_State *L)
 {
-	std::string name = lua_gettop(L) ? make_module_name(L, 1) : get_caller_module_name(L);
+	std::string name = lua_gettop(L) ? make_module_name(L, 1) : pi_lua_get_caller_module(L);
 
 	// Get the module name -> file path mapping
 	std::string path = get_path_cache(L, name);
@@ -483,7 +483,7 @@ static int l_reimport_package(lua_State *L)
 static int l_get_module_name(lua_State *L)
 {
 	int depth = luaL_optinteger(L, 1, 1);
-	lua_pushstring(L, get_caller_module_name(L, depth > 1 ? depth : 1).c_str());
+	lua_pushstring(L, pi_lua_get_caller_module(L, depth > 1 ? depth : 1).c_str());
 	return 1;
 }
 
