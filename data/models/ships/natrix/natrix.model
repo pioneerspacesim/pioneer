@@ -1,21 +1,41 @@
-material Hull
-tex_diff hull_diff.dds
-tex_spec hull_spec.dds
-tex_glow emit.dds
+material Natrix-fuselage
 diffuse 1.0 1.0 1.0
-specular 1.0 1.0 1.0
-use_patterns
+specular 0.4 0.4 0.4
+shininess 40
+tex_diff natrix_diff.dds
+tex_spec natrix_spec.dds
+tex_norm natrix_norm.png
+tex_glow natrix_glow.dds
 
-material Gear
-tex_diff gear_diff.dds
-diffuse 0.8 0.8 0.8
-specular 1.0 1.0 1.0
+material Natrix-headlight
+diffuse 1.0 1.0 1.0
+specular 0.7 0.7 0.7
+shininess 60
+opacity 60
+tex_diff natrix_diff.dds
+tex_spec natrix_spec.dds
+tex_norm natrix_norm.png
+tex_glow natrix_glow.dds
 
+material Natrix-canopy
+diffuse 1.0 1.0 1.0
+specular 0.7 0.7 0.7
+shininess 60
+opacity 60
+tex_diff natrix_diff.dds
+tex_spec natrix_spec.dds
+tex_norm natrix_norm.png
+tex_glow natrix_glow.dds
+	
+lod 300
+mesh natrix_1_high.dae
 
-lod 100
-mesh natrix.dae
+lod 150
+mesh natrix_2_mid.dae
 
-lod 10
-mesh natrix_low.dae
+lod 50
+mesh natrix_3_low.dae
 
-anim gear_down 1 20
+collision natrix_4_coll.dae
+
+anim gear_down 0 100
