@@ -32,6 +32,11 @@ function ActionBinding:IsActive() end
 ---@return boolean
 function ActionBinding:IsJustActive() end
 
+---@param cb fun()
+function ActionBinding:OnPressed(cb) end
+---@param cb fun()
+function ActionBinding:OnReleased(cb) end
+
 --==================================
 
 ---@class Input.AxisBinding
@@ -46,6 +51,9 @@ local AxisBinding = {}
 function AxisBinding:SetValue(val) end
 ---@return number
 function AxisBinding:GetValue() end
+
+---@param cb fun(val: number)
+function AxisBinding:OnValueChanged(cb) end
 
 --==================================
 

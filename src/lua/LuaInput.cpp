@@ -2,15 +2,17 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaInput.h"
+
+#include "ConnectionTicket.h"
 #include "GameConfig.h"
 #include "Input.h"
 #include "InputBindings.h"
-#include "Lang.h"
 #include "LuaMetaType.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "LuaWrappable.h"
 #include "Pi.h"
+
 #include "core/StringUtils.h"
 
 #include <SDL_keyboard.h>
@@ -160,6 +162,85 @@ static std::vector<std::pair<const char *, int>> s_input_keys = {
 	{ "9", SDLK_9 },
 };
 
+static LuaRef s_connections;
+
+// Helper wrapping a ConnectionTicket to clean up a Lua callback associated with an InputAction
+struct LuaInputCallback : public LuaWrappable {
+	ConnectionTicket connection;
+};
+
+// Store a callback ConnectionTicket so it can be cleaned up later
+static void store_callback(lua_State *l, sigc::connection &&connection, int cb_idx)
+{
+	LUA_DEBUG_START(l);
+
+	std::string moduleName = pi_lua_get_caller_module(l);
+
+	s_connections.PushCopyToStack();
+
+	// Associate the callback with the module name
+	luaL_getsubtable(l, -1, moduleName.c_str());
+	lua_pushvalue(l, cb_idx);
+	lua_rawseti(l, -2, luaL_len(l, -2) + 1);
+	lua_pop(l, 1);
+
+	lua_pushvalue(l, cb_idx); // s_connections, callback
+	lua_rawget(l, -2);
+
+	// Create the list of connections for this callback
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 1);
+		lua_newtable(l);
+		lua_pushvalue(l, cb_idx);
+		lua_pushvalue(l, -2); // s_connections, newtab, callback, newtab(2)
+		lua_rawset(l, -4);
+	}
+
+	// Stack: s_connections, connections
+	LuaObject<LuaInputCallback>::PushToLua(LuaInputCallback {});
+	LuaInputCallback *cb = LuaPull<LuaInputCallback *>(l, -1);
+
+	cb->connection = std::move(connection);
+	lua_rawseti(l, -2, luaL_len(l, -2) + 1);
+
+	lua_pop(l, 2);
+	LUA_DEBUG_END(l, 0);
+}
+
+// Cleanup a callback ConnectionTicket
+static bool unstore_callback(lua_State *l, int cb_idx)
+{
+	LUA_DEBUG_START(l);
+
+	s_connections.PushCopyToStack();
+	lua_pushvalue(l, cb_idx);
+	lua_rawget(l, -2);
+
+	// No connections, don't need to do anything
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 2);
+
+		return false;
+	}
+
+	// Iterate the list of connections and disconnect them
+	// This will destroy the C++ lambda and the associated LuaRef
+	lua_pushnil(l);
+	while (lua_next(l, -2)) {
+		LuaInputCallback *cb = LuaPull<LuaInputCallback *>(l, -1);
+		cb->connection.m_connection.disconnect();
+		lua_pop(l, 1);
+	}
+
+	lua_pushvalue(l, cb_idx);
+	lua_pushnil(l);
+	lua_rawset(l, -3);
+
+	lua_pop(l, 1);
+	LUA_DEBUG_END(l, 0);
+	return true;
+}
+
 /*
  * Class: LuaInputAction
  *
@@ -290,6 +371,42 @@ struct LuaInputAction : public LuaWrappable {
 	}
 
 	Action *getAction() const { return Pi::input->GetActionBinding(id); }
+
+	/**
+	 * Function: OnPressed()
+	 *
+	 * Register a Lua callback function to be called when this action is
+	 * pressed while in an active InputFrame.
+	 */
+	static int AddOnPressedCallback(lua_State *l, LuaInputAction *action)
+	{
+		LuaRef cbRef = LuaRef(l, 2);
+		auto connection = action->getAction()->onPressed.connect([cbRef]() {
+			cbRef.PushCopyToStack();
+			pi_lua_protected_call(cbRef.GetLua(), 0, 0);
+		});
+
+		store_callback(l, connection, 2);
+		return 0;
+	}
+
+	/**
+	 * Function: OnReleased()
+	 *
+	 * Register a Lua callback function to be called when this action is
+	 * released while in an active InputFrame.
+	 */
+	static int AddOnReleasedCallback(lua_State *l, LuaInputAction *action)
+	{
+		LuaRef cbRef = LuaRef(l, 2);
+		auto connection = action->getAction()->onReleased.connect([cbRef]() {
+			cbRef.PushCopyToStack();
+			pi_lua_protected_call(cbRef.GetLua(), 0, 0);
+		});
+
+		store_callback(l, connection, 2);
+		return 0;
+	}
 };
 
 /*
@@ -381,6 +498,25 @@ struct LuaInputAxis : public LuaWrappable {
 	}
 
 	Axis *getAxis() const { return Pi::input->GetAxisBinding(id); }
+
+	/**
+	 * Function: OnValueChanged()
+	 *
+	 * Register a Lua callback function to be called when this axis' value is
+	 * changed while part of an active InputFrame.
+	 */
+	static int AddValueCallback(lua_State *l, LuaInputAxis *axis)
+	{
+		LuaRef cbRef = LuaRef(l, 2);
+		auto connection = axis->getAxis()->onAxisValue.connect([cbRef](float value) {
+			cbRef.PushCopyToStack();
+			lua_pushnumber(cbRef.GetLua(), value);
+			pi_lua_protected_call(cbRef.GetLua(), 1, 0);
+		});
+
+		store_callback(l, connection, 2);
+		return 0;
+	}
 };
 
 /**
@@ -494,6 +630,7 @@ private:
 		LuaObject<Typename>::PushToLua(value);                               \
 	}
 
+GENERIC_COPY_OBJ_DEF(LuaInputCallback)
 GENERIC_COPY_OBJ_DEF(LuaInputAction)
 GENERIC_COPY_OBJ_DEF(LuaInputAxis)
 GENERIC_COPY_OBJ_DEF(LuaJoystickInfo)
@@ -850,6 +987,14 @@ static int l_input_register_axis_binding(lua_State *l)
 	return 1;
 }
 
+static int l_input_disconnect_callback(lua_State *l)
+{
+	unstore_callback(l, 2);
+	return 0;
+}
+
+//==============================================================================
+
 void pi_lua_generic_push(lua_State *l, InputBindings::JoyAxis axis)
 {
 	if (!axis.Enabled()) {
@@ -952,6 +1097,7 @@ void pi_lua_generic_pull(lua_State *l, int index, InputBindings::KeyChord &out)
 	out.modifier2 = chordTab.Get<KeyBinding>("modifier2");
 }
 
+static LuaMetaType<LuaInputCallback> s_inputCallback("LuaInputCallback");
 static LuaMetaType<LuaInputAction> s_inputActionBinding("LuaInputAction");
 static LuaMetaType<LuaInputAxis> s_inputAxisBinding("LuaInputAxis");
 static LuaMetaType<LuaJoystickInfo> s_joystickInfoBinding("LuaJoystickInfo");
@@ -984,6 +1130,7 @@ void LuaInput::Register()
 		{ "CreateInputFrame", l_input_create_input_frame },
 		{ "RegisterActionBinding", l_input_register_action_binding },
 		{ "RegisterAxisBinding", l_input_register_axis_binding },
+		{ "DisconnectCallback", l_input_disconnect_callback },
 
 		{ NULL, NULL }
 	};
@@ -1012,6 +1159,15 @@ void LuaInput::Register()
 
 	LUA_DEBUG_CHECK(l, 0);
 
+	// Create the binding connection storage table
+	lua_newtable(l);
+	s_connections = LuaRef(l, -1);
+	lua_pop(l, 1);
+
+	LUA_DEBUG_CHECK(l, 0);
+
+	s_inputCallback.CreateMetaType(l);
+
 	s_inputActionBinding.CreateMetaType(l);
 	s_inputActionBinding.StartRecording()
 		.AddMember("id", &LuaInputAction::id)
@@ -1021,7 +1177,9 @@ void LuaInput::Register()
 		.AddFunction("SetPressed", &LuaInputAction::setPressed)
 		.AddFunction("SetReleased", &LuaInputAction::setReleased)
 		.AddFunction("IsActive", &LuaInputAction::isActive)
-		.AddFunction("IsJustActive", &LuaInputAction::isJustActive);
+		.AddFunction("IsJustActive", &LuaInputAction::isJustActive)
+		.AddFunction("OnPressed", &LuaInputAction::AddOnPressedCallback)
+		.AddFunction("OnReleased", &LuaInputAction::AddOnReleasedCallback);
 	s_inputActionBinding.StopRecording();
 
 	s_inputAxisBinding.CreateMetaType(l);
@@ -1032,7 +1190,8 @@ void LuaInput::Register()
 		.AddMember("positive", &LuaInputAxis::getPositive, &LuaInputAxis::setPositive)
 		.AddMember("negative", &LuaInputAxis::getNegative, &LuaInputAxis::setNegative)
 		.AddFunction("SetValue", &LuaInputAxis::setValue)
-		.AddFunction("GetValue", &LuaInputAxis::getValue);
+		.AddFunction("GetValue", &LuaInputAxis::getValue)
+		.AddFunction("OnValueChanged", &LuaInputAxis::AddValueCallback);
 	s_inputAxisBinding.StopRecording();
 
 	s_joystickInfoBinding.CreateMetaType(l);
@@ -1060,6 +1219,37 @@ void LuaInput::Register()
 		.AddFunction("AddAction", &LuaInputFrame::addAction)
 		.AddFunction("AddAxis", &LuaInputFrame::addAxis);
 	s_inputFrame.StopRecording();
+
+	LUA_DEBUG_END(l, 0);
+}
+
+void LuaInput::Uninit()
+{
+	lua_State *l = s_connections.GetLua();
+
+	LUA_DEBUG_START(l);
+
+	s_connections.PushCopyToStack();
+
+	// Clear all connection tickets before Lua is shut down
+	lua_pushnil(l);
+	while (lua_next(l, -2)) {
+		if (lua_isfunction(l, -2)) {
+
+			lua_pushnil(l);
+			while (lua_next(l, -2)) {
+				auto *cb = LuaPull<LuaInputCallback *>(l, -1);
+				cb->connection.m_connection.disconnect();
+				lua_pop(l, 1);
+			}
+
+		}
+
+		lua_pop(l, 1);
+	}
+
+	lua_pop(l, 1);
+	s_connections.Unref();
 
 	LUA_DEBUG_END(l, 0);
 }
