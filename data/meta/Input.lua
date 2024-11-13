@@ -24,8 +24,8 @@ Input.keys = {}
 ---@field binding2 table
 local ActionBinding = {}
 
-function ActionBinding:OnPress() end
-function ActionBinding:OnRelease() end
+function ActionBinding:SetPressed() end
+function ActionBinding:SetReleased() end
 
 ---@return boolean
 function ActionBinding:IsActive() end

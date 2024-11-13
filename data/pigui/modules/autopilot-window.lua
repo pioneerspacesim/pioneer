@@ -133,7 +133,7 @@ local speed_limiter = (function()
 		-- don't show tooltip during animation
 		local tooltip = variant and bindings.limiter.tooltip or anim_active and "" or lui.TURN_OFF
 		if ui.mainMenuButton(icons.speed_limiter, tooltip .. "##speed_limiter_toggle", variant) then
-				bindings.limiter.action:OnPress()
+				bindings.limiter.action:SetPressed()
 		end
 
 		if toggle_limiter then

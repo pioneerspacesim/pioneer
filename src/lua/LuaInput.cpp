@@ -196,7 +196,7 @@ struct LuaInputAction : public LuaWrappable {
 	}
 
 	/*
-	 * Function: OnPress
+	 * Function: SetPressed
 	 *
 	 * Activate the corresponding action
 	 *
@@ -204,9 +204,9 @@ struct LuaInputAction : public LuaWrappable {
 	 *
 	 * > action = Input.GetActionBinding("BindToggleSpeedLimiter")
 	 * > if ui.isMouseClicked(0) then
-	 * >     action:OnPress()
+	 * >     action:SetPressed()
 	 * > elseif ui.isMouseReleased(0) then
-	 * >     action:OnRelease()
+	 * >     action:SetReleased()
 	 * > end
 	 *
 	 * Returns:
@@ -214,7 +214,7 @@ struct LuaInputAction : public LuaWrappable {
 	 *   nothing
 	 *
 	 */
-	void onPress()
+	void setPressed()
 	{
 		auto *action = getAction();
 		action->binding.m_queuedEvents |= 1;
@@ -222,7 +222,7 @@ struct LuaInputAction : public LuaWrappable {
 	}
 
 	/*
-	 * Function: OnRelease
+	 * Function: SetReleased
 	 *
 	 * Deactivate the corresponding action
 	 *
@@ -230,9 +230,9 @@ struct LuaInputAction : public LuaWrappable {
 	 *
 	 * > action = Input.GetActionBinding("BindToggleSpeedLimiter")
 	 * > if ui.isMouseClicked(0) then
-	 * >     action:OnPress()
+	 * >     action:SetPressed()
 	 * > elseif ui.isMouseReleased(0) then
-	 * >     action:OnRelease()
+	 * >     action:SetReleased()
 	 * > end
 	 *
 	 * Returns:
@@ -240,7 +240,7 @@ struct LuaInputAction : public LuaWrappable {
 	 *   nothing
 	 *
 	 */
-	void onRelease()
+	void setReleased()
 	{
 		auto *action = getAction();
 		action->binding.m_queuedEvents |= 2;
@@ -1018,8 +1018,8 @@ void LuaInput::Register()
 		.AddMember("type", &LuaInputAction::getType)
 		.AddMember("binding", &LuaInputAction::getBinding, &LuaInputAction::setBinding)
 		.AddMember("binding2", &LuaInputAction::getBinding2, &LuaInputAction::setBinding2)
-		.AddFunction("OnPress", &LuaInputAction::onPress)
-		.AddFunction("OnRelease", &LuaInputAction::onRelease)
+		.AddFunction("SetPressed", &LuaInputAction::setPressed)
+		.AddFunction("SetReleased", &LuaInputAction::setReleased)
 		.AddFunction("IsActive", &LuaInputAction::isActive)
 		.AddFunction("IsJustActive", &LuaInputAction::isJustActive);
 	s_inputActionBinding.StopRecording();
