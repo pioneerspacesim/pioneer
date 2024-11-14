@@ -4,6 +4,7 @@
 -- Stuff from the C++ side that we want available directly in Lua
 -- without any wrappers
 local Engine = require 'Engine'
+local Input = require 'Input'
 local pigui = Engine.pigui
 
 ---@class ui
@@ -120,7 +121,7 @@ ui.setColumnOffset = pigui.SetColumnOffset
 ui.getColumnWidth = pigui.GetColumnWidth
 ui.setColumnWidth = pigui.SetColumnWidth
 ui.getScrollY = pigui.GetScrollY
-ui.keys = pigui.keys
+ui.keys = Input.keys
 ui.isKeyReleased = pigui.IsKeyReleased
 ui.playSfx = pigui.PlaySfx
 ui.isItemHovered = pigui.IsItemHovered

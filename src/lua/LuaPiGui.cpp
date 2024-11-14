@@ -2588,12 +2588,6 @@ static int l_attr_handlers(lua_State *l)
 	return 1;
 }
 
-static int l_attr_keys(lua_State *l)
-{
-	PiGui::GetKeys().PushCopyToStack();
-	return 1;
-}
-
 static int l_attr_event_queue(lua_State *l)
 {
 	PiGui::GetEventQueue().PushCopyToStack();
@@ -3740,7 +3734,6 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "key_none", l_attr_key_none },
 		{ "key_shift", l_attr_key_shift },
 		{ "key_alt", l_attr_key_alt },
-		{ "keys", l_attr_keys },
 		{ "event_queue", l_attr_event_queue },
 		{ 0, 0 }
 	};

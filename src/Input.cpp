@@ -314,7 +314,6 @@ bool Manager::AddInputFrame(InputFrame *frame)
 
 	m_inputFrames.push_back(frame);
 	frame->active = true;
-	frame->onFrameAdded.emit(frame);
 	m_frameListChanged = true;
 
 	return true;
@@ -363,7 +362,6 @@ void Manager::RemoveInputFrame(InputFrame *frame)
 
 		ClearInputFrameState(frame);
 		frame->active = false;
-		frame->onFrameRemoved.emit(frame);
 		m_frameListChanged = true;
 	}
 }
@@ -412,6 +410,16 @@ InputBindings::Action *Manager::GetActionBinding(const std::string &id)
 InputBindings::Axis *Manager::GetAxisBinding(const std::string &id)
 {
 	return axisBindings.count(id) ? &axisBindings[id] : &Input::nullAxis;
+}
+
+bool Manager::HasActionBinding(const std::string &id) const
+{
+	return actionBindings.count(id) > 0;
+}
+
+bool Manager::HasAxisBinding(const std::string &id) const
+{
+	return axisBindings.count(id) > 0;
 }
 
 /*

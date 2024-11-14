@@ -88,6 +88,8 @@ void pi_lua_warn(lua_State *l, const char *format, ...) __attribute((format(prin
 
 bool pi_lua_split_table_path(lua_State *l, const std::string &path);
 
+std::string pi_lua_get_caller_module(lua_State *l, int depth = 1);
+
 int secure_trampoline(lua_State *l);
 
 std::string pi_lua_traceback(lua_State *l, int top);

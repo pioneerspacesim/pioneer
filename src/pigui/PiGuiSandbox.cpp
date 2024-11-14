@@ -2,14 +2,12 @@
 #include <lua.hpp>
 
 #include "LuaPiGui.h"
-#include "PiGui.h"
+#include "lua/Lua.h"
 
 #include "imgui/imgui.h"
 #include "lua/LuaUtils.h"
 
 #include "imgui/imgui_internal.h"
-
-#include <array>
 
 const char *s_meta_name = "PiGui.SavedImguiStackInfo";
 

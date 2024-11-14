@@ -4,7 +4,9 @@
 #ifndef PIGUI_LUA_H
 #define PIGUI_LUA_H
 
-#include "lua/LuaObject.h"
+#include "lua/LuaRef.h"
+
+#include <string>
 
 struct ImGuiStyle;
 
@@ -15,9 +17,6 @@ namespace PiGui {
 
 	// Get registered PiGui themes.
 	LuaRef GetThemes();
-
-	// Get a table of key name to SDL-keycode mappings
-	LuaRef GetKeys();
 
 	// Get the EventQueue to be used for UI events
 	LuaRef GetEventQueue();

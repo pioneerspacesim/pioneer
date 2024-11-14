@@ -49,9 +49,10 @@ namespace Input {
 		using Axis = InputBindings::Axis;
 		using Action = InputBindings::Action;
 
-		InputFrame(Input::Manager *man, bool modal = false) :
+		InputFrame(Input::Manager *man, bool modal = false, std::string_view id = "") :
 			manager(man),
-			modal(modal)
+			modal(modal),
+			id(id)
 		{}
 
 		std::vector<Action *> actions;
@@ -61,15 +62,10 @@ namespace Input {
 		Manager *manager = nullptr;
 		bool active = false;
 		bool modal = false;
+		std::string id;
 
 		// Call this at startup to register all the bindings associated with the frame.
 		virtual void RegisterBindings(){};
-
-		// Called when the frame is added to the stack.
-		sigc::signal<void, InputFrame *> onFrameAdded;
-
-		// Called when the frame is removed from the stack.
-		sigc::signal<void, InputFrame *> onFrameRemoved;
 
 		Action *AddAction(const std::string &id);
 		Axis *AddAxis(const std::string &id);
@@ -160,11 +156,13 @@ public:
 	// The returned binding pointer points to the actual binding.
 	InputBindings::Action *AddActionBinding(const std::string &id, BindingGroup *group, InputBindings::Action &&binding);
 	InputBindings::Action *GetActionBinding(const std::string &id);
+	bool HasActionBinding(const std::string &id) const;
 
 	// Creates a new axis binding, copying the provided binding.
 	// The returned binding pointer points to the actual binding.
 	InputBindings::Axis *AddAxisBinding(const std::string &id, BindingGroup *group, InputBindings::Axis &&binding);
 	InputBindings::Axis *GetAxisBinding(const std::string &id);
+	bool HasAxisBinding(const std::string &id) const;
 
 	// Call EnableBindings() to temporarily disable handling input bindings while
 	// you're recording a new input binding or are in a modal window.

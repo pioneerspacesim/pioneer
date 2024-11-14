@@ -142,6 +142,7 @@ namespace Lua {
 	void UninitModules()
 	{
 		LuaEvent::Uninit();
+		LuaInput::Uninit();
 
 		delete Pi::luaNameGen;
 

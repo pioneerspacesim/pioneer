@@ -13,6 +13,8 @@ namespace InputBindings {
 
 namespace LuaInput {
 	void Register();
+
+	void Uninit();
 }
 
 void pi_lua_generic_pull(lua_State *l, int index, InputBindings::KeyChord &out);
