@@ -98,6 +98,8 @@ public:
 
 	inline bool HasHeightData() const { return (m_patchVBOData != nullptr) && (m_patchVBOData->m_heights.get() != nullptr); }
 
+	inline const vector3d &Centroid() const { return m_clipCentroid; }
+
 	// used by GeoSphere so must be public
 	inline void SetNeedToUpdateVBOs()
 	{
