@@ -286,6 +286,13 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 		for (int i = 0; i < NUM_KIDS; i++)
 			m_kids[i]->Render(renderer, campos, modelView, frustum);
 	} else if (HasHeightData()) {
+		RenderImmediate(renderer, campos, modelView);
+	}
+}
+
+void GeoPatch::RenderImmediate(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView) const
+{
+	if (m_patchVBOData->m_heights) {
 		const vector3d relpos = m_clipCentroid - campos;
 		renderer->SetTransform(matrix4x4f(modelView * matrix4x4d::Translation(relpos)));
 
@@ -313,6 +320,29 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 		renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_PATCHES, 1);
 	}
 }
+
+void GeoPatch::GatherRenderablePatches(std::vector<GeoPatch *> &visiblePatches, Graphics::Renderer *renderer, const vector3d &campos, const Graphics::Frustum &frustum)
+{
+	PROFILE_SCOPED()
+	// must update the VBOs to calculate the clipRadius...
+	UpdateVBOs(renderer);
+	// ...before doing the frustum culling that relies on it.
+	if (!frustum.TestPoint(m_clipCentroid, m_clipRadius))
+		return; // nothing below this patch is visible
+
+	// only want to horizon cull patches that can actually be over the horizon!
+	if (IsOverHorizon(campos)) {
+		return;
+	}
+
+	if (m_kids[0]) {
+		for (int i = 0; i < NUM_KIDS; i++)
+			m_kids[i]->GatherRenderablePatches(visiblePatches, renderer, campos, frustum);
+	} else if (m_patchVBOData->m_heights) {
+		visiblePatches.emplace_back(this);
+	}
+}
+
 
 void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustum)
 {
