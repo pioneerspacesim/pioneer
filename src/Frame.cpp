@@ -305,7 +305,8 @@ void Frame::CollideFrames(void (*callback)(CollisionContact *))
 		if (!frame.m_collisionSpace)
 			continue;
 
-		PROFILE_SCOPED_DESC(frame.m_label.c_str())
+		// Used to be frame.m_label.c_str() however the preprocessor is evaluated at compile time this fails on MSVC
+		PROFILE_SCOPED_DESC("Loop frame")
 		frame.m_collisionSpace->Collide(callback);
 	}
 }
