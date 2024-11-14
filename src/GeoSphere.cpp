@@ -174,6 +174,8 @@ void GeoSphere::Reset()
 
 	CalculateMaxPatchDepth();
 
+	m_visiblePatches.reserve(1024);
+
 	m_initStage = eBuildFirstPatches;
 }
 
@@ -190,6 +192,8 @@ GeoSphere::GeoSphere(const SystemBody *body) :
 	s_allGeospheres.emplace_back(this);
 
 	CalculateMaxPatchDepth();
+
+	m_visiblePatches.reserve(1024);
 
 	//SetUpMaterials is not called until first Render since light count is zero :)
 }
@@ -441,8 +445,31 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 	renderer->SetTransform(matrix4x4f(modelView));
 
-	for (int i = 0; i < NUM_PATCHES; i++) {
-		m_patches[i]->Render(renderer, campos, modelView, frustum);
+	if (Pi::config->Int("SortGeoPatches") == 0) {
+		for (int i = 0; i < NUM_PATCHES; i++) {
+			m_patches[i]->Render(renderer, campos, modelView, frustum);
+		}
+	} else {
+		// Gather the patches that could be rendered
+		for (int i = 0; i < NUM_PATCHES; i++) {
+			m_patches[i]->GatherRenderablePatches(m_visiblePatches, renderer, campos, frustum);
+		}
+
+		// distance sort the patches
+		std::sort(m_visiblePatches.begin(), m_visiblePatches.end(), [&, campos](const GeoPatch *a, const GeoPatch *b) {
+			return (a->Centroid() - campos).LengthSqr() < (b->Centroid() - campos).LengthSqr();
+		});
+
+		// cull occluded patches somehow?
+		// create frustum from corner points, something vertical, and the campos??? Cull anything within that frustum?
+
+		// render the sorted patches
+		for (GeoPatch *pPatch : m_visiblePatches) {
+			pPatch->RenderImmediate(renderer, campos, modelView);
+		}
+
+		// must clear this after each render otherwise it just accumulates every patch ever drawn!
+		m_visiblePatches.clear();
 	}
 
 	renderer->SetAmbientColor(oldAmbient);
