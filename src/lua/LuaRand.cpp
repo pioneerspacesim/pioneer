@@ -44,12 +44,13 @@ static int l_rand_new(lua_State *l)
 	std::unique_ptr<Random> rng(new Random());
 	switch (lua_type(l, 1)) {
 	case LUA_TSTRING: {
-		size_t sz;
-		const char *str = lua_tolstring(l, 1, &sz);
+		std::string str = LuaPull<std::string>(l, 1);
+		// lookup3_hashlittle2 reads 2 bytes past the end of the string
+		str += "\0\0";
 
 		// Note, these are inputs as well as outputs! They must be initialised.
 		Uint32 hashes[2] = { 0u, 0u };
-		lookup3_hashlittle2(str, sz, hashes + 0, hashes + 1);
+		lookup3_hashlittle2(str.data(), str.size() - 2, hashes + 0, hashes + 1);
 		rng->seed(hashes, 2);
 		break;
 	}
