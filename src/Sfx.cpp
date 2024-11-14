@@ -11,7 +11,8 @@
 #include "JsonUtils.h"
 #include "ModelBody.h"
 #include "Pi.h"
-#include "StringF.h"
+#include "matrix4x4.h"
+
 #include "core/IniConfig.h"
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
@@ -21,7 +22,8 @@
 #include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"
 #include "graphics/VertexArray.h"
-#include "matrix4x4.h"
+
+#include "profiler/Profiler.h"
 
 using namespace Graphics;
 

@@ -3,6 +3,7 @@
 
 #include "core/FNV1a.h"
 #include "core/Log.h"
+#include "core/StringHash.h"
 #include "core/StringName.h"
 #include "profiler/Profiler.h"
 

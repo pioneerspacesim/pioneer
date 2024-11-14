@@ -5,7 +5,6 @@
 #include "Pi.h"
 
 #include "LuaColor.h"
-#include "LuaConsole.h"
 #include "LuaConstants.h"
 #include "LuaDev.h"
 #include "LuaEconomy.h"
@@ -35,8 +34,9 @@
 #include "SystemView.h"
 
 #include "galaxy/StarSystem.h"
-#include "pigui/LuaPiGui.h"
 #include "scenegraph/Lua.h"
+
+#include "profiler/Profiler.h"
 
 namespace Lua {
 

@@ -22,11 +22,12 @@
 #include "collider/CollisionSpace.h"
 #include "core/Log.h"
 #include "galaxy/Galaxy.h"
-#include "graphics/Graphics.h"
 #include "lua/LuaEvent.h"
 #include "lua/LuaTimer.h"
+
+#include "profiler/Profiler.h"
+
 #include <algorithm>
-#include <functional>
 
 //#define DEBUG_CACHE
 

@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "UndoSystem.h"
+#include "core/StringHash.h"
 #include "utils.h"
 
 #define XXH_INLINE_ALL

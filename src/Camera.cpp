@@ -11,11 +11,14 @@
 #include "Player.h"
 #include "Sfx.h"
 #include "Space.h"
+#include "SpaceStation.h"
+
 #include "galaxy/StarSystem.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"
 #include "graphics/RenderState.h"
-#include "SpaceStation.h"
+
+#include "profiler/Profiler.h"
 
 using namespace Graphics;
 

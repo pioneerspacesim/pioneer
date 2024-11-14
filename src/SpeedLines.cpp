@@ -10,6 +10,7 @@
 #include "core/IniConfig.h"
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
+#include "profiler/Profiler.h"
 
 // default values
 float SpeedLines::BOUNDS = 2000.f;

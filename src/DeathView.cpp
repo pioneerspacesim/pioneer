@@ -11,6 +11,8 @@
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 
+#include "profiler/Profiler.h"
+
 DeathView::DeathView(Game *game) :
 	View(),
 	m_game(game)

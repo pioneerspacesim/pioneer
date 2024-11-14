@@ -26,6 +26,8 @@
 #include "lua/LuaEvent.h"
 #include "lua/LuaUtils.h"
 
+#include "profiler/Profiler.h"
+
 std::unique_ptr<Graphics::MeshObject> Projectile::s_sideMesh;
 std::unique_ptr<Graphics::MeshObject> Projectile::s_glowMesh;
 std::unique_ptr<Graphics::Material> Projectile::s_sideMat;

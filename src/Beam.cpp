@@ -26,6 +26,8 @@
 #include "lua/LuaEvent.h"
 #include "lua/LuaUtils.h"
 
+#include "profiler/Profiler.h"
+
 namespace {
 	static float lifetime = 0.1f;
 }
