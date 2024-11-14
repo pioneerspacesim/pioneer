@@ -3,6 +3,9 @@
 
 #include "core/StringName.h"
 
+#include "FNV1a.h"
+#include "profiler/Profiler.h"
+
 #include <cassert>
 #include <cstdint>
 #include <cstdlib>
@@ -67,6 +70,15 @@ StringName::StringData *StringName::make_data(const char *c, uint32_t s, uint32_
 }
 
 // =============================================================================
+
+StringTable::StringTable(uint32_t size) :
+	keys(size),
+	dist(size),
+	values(size),
+	entries(0)
+{
+	m_lastReclaim = Profiler::Clock::getticks();
+}
 
 StringTable::Data *StringTable::Find(uint32_t key)
 {
@@ -160,11 +172,13 @@ void StringTable::Erase(uint32_t key)
 
 void StringTable::Reclaim(bool force)
 {
-	m_reclaimClock.SoftStop();
-	if (m_reclaimClock.seconds() < 15.0 && !force)
+	uint64_t ticks = Profiler::Clock::getticks();
+	double seconds = Profiler::Clock::ms(ticks - m_lastReclaim) * 1000.0;
+
+	if (seconds < 15.0 && !force)
 		return;
 
-	m_reclaimClock.SoftReset();
+	m_lastReclaim = ticks;
 	for (uint32_t idx = 0; idx < keys.size(); idx++) {
 		uint32_t probed_key = keys[idx];
 
