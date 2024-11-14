@@ -7,12 +7,12 @@
 #include "SystemEditorHelpers.h"
 
 #include "core/Log.h"
+#include "core/StringHash.h"
 #include "core/macros.h"
 #include "editor/UndoStepType.h"
 #include "editor/EditorDraw.h"
 
 #include "galaxy/Factions.h"
-#include "galaxy/Galaxy.h"
 #include "galaxy/NameGenerator.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystemGenerator.h"

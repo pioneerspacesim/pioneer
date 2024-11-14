@@ -4,6 +4,7 @@
 #ifndef GALAXYGENERATOR_H
 #define GALAXYGENERATOR_H
 
+#include "Galaxy.h"
 #include "RefCounted.h"
 #include "Sector.h"
 #include "StarSystem.h"

@@ -10,6 +10,8 @@
 #include "Ship.h"
 #include "Space.h"
 
+#include "profiler/Profiler.h"
+
 Sensors::RadarContact::RadarContact() :
 	body(0),
 	trail(0),
@@ -62,7 +64,7 @@ Body* Sensors::ChooseTarget(TargetingCriteria crit, const Body* oldTarget )
 
 	if(!m_owner->IsType(ObjectType::PLAYER))
 		return nullptr;
-		
+
 	const Body* currTarget = oldTarget;
 
 	m_radarContacts.sort(ContactDistanceSort);

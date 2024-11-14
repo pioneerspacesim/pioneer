@@ -5,10 +5,11 @@
 #include "Quaternion.h"
 #include "core/Log.h"
 #include "core/Property.h"
+#include "profiler/Profiler.h"
 
 #include <algorithm>
-#include <string>
 #include <iostream>
+#include <string>
 #include "doctest.h"
 
 static constexpr uint32_t ITERATIONS = 10000;

@@ -15,6 +15,8 @@
 #include "scenegraph/StaticGeometry.h"
 #include "scenegraph/Node.h"
 
+#include "profiler/Profiler.h"
+
 #include <SDL_timer.h>
 
 REGISTER_COMPONENT_TYPE(Shields) {

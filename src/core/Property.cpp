@@ -5,6 +5,7 @@
 
 #include "Json.h"
 #include "JsonUtils.h"
+#include "StringHash.h"
 
 PropertyMapWrapper::PropertyMapWrapper(PropertyMap *m) :
 	m_map(m)

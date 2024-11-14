@@ -5,12 +5,10 @@
 #include "FileSystem.h"
 #include "Game.h"
 #include "GameSaveError.h"
-#include "LuaConstants.h"
 #include "LuaObject.h"
 #include "LuaTable.h"
 #include "LuaUtils.h"
 #include "Pi.h"
-#include "Planet.h"
 #include "Space.h"
 #include "SpaceStation.h"
 #include "Star.h"
@@ -20,6 +18,8 @@
 #include "galaxy/GalaxyCache.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
+
+#include "profiler/Profiler.h"
 
 /*
  * Class: StarSystem

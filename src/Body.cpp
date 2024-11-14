@@ -20,6 +20,8 @@
 #include "core/Log.h"
 #include "lua/LuaEvent.h"
 
+#include "profiler/Profiler.h"
+
 Body::Body() :
 	PropertiedObject(),
 	m_interpPos(0.0),

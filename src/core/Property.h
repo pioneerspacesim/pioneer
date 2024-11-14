@@ -11,6 +11,8 @@
 #include "vector2.h"
 #include "vector3.h"
 
+#include "FNV1a.h"
+
 #include <string>
 #include <string_view>
 #include <type_traits>

@@ -24,10 +24,11 @@
 #include "lua/LuaRef.h"
 #include "lua/LuaTable.h"
 #include "matrix4x4.h"
-#include <assert.h>
-#include <cmath>
-#include <sstream>
 
+#include "profiler/Profiler.h"
+
+#include <cassert>
+#include <cmath>
 #include <unordered_set>
 
 SectorView::~SectorView() {}
