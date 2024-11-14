@@ -2,11 +2,17 @@ November 2024
   * New Features
     * Total overhaul of Ship Equipment - EquipSet v2 (#5734)
     * Degrade scooped cargo requiring cargo life support (#5949)
-    * Improvement: Radar auto-zoom on cargo cannisters (#5948)
+    * Improvement: Radar auto-zoom on cargo canisters (#5948)
+    * Add Buy and Sell prices to the Commodity Market (#5945)
+    * Natrix overhaul (#5963)
 
   * Internal
     * Fix builds which use "-DDEBUG" (#5946)
     * Lua function GetEquipFree("cargo") is not behaving as expected (#3450)
+    * Build Cleanup (#5956)
+    * Optimize CityOnPlanet CPU-side rendering cost (#5943)
+    * Removing normal map from default cockpit materials (#5964)
+    * Fully expose InputBindings to Lua (PR #5965)
 
   * Fixes
     * Fix $HOME/.pioneer randomly created on Linux (#5944)
@@ -17,6 +23,7 @@ November 2024
     * Missiles buttons not showing up (#5887)
     * Buying and selling ship equipment does not require confirmation (#5020)
     * assertion failed in equipment-market.lua:91 (#5883)
+    * fix crash bugs in Passengers introduced by equip-v2 (#5957)
 
 October 2024
   * New Features
