@@ -25,7 +25,6 @@
 #include "Profiler.h"
 
 #if defined(USE_CHRONO)
-#undef __PROFILER_SMP__
 #include <atomic>
 #endif
 
@@ -115,7 +114,7 @@ namespace Profiler {
 			#if !defined(USE_CHRONO)
 			volatile u32 mLock;
 			#else
-			std::atomic_uint32_t mLock;
+			std::atomic_uint32_t mLock = { 0 };
 			#endif
 		};
 	#else
@@ -915,7 +914,7 @@ namespace Profiler {
 
 
 #if defined(__PROFILER_ENABLED__)
-	threadlocal Caller::ThreadState Caller::thisThread = { {0}, 0, 0, 0, 0 };
+	threadlocal Caller::ThreadState Caller::thisThread = { {}, 0, 0, 0, 0 };
 	f64 Caller::mTimerOverhead = 0, Caller::mRdtscOverhead = 0;
 	u64 Caller::mGlobalDuration = 0;
 	Caller::Max Caller::maxStats;
@@ -999,7 +998,7 @@ namespace Profiler {
 
 	u64 globalStart = Timer::getticks();
 	u64 globalClockStart = Clock::getticks();
-	GlobalThreadList threads = { NULL, {0} };
+	GlobalThreadList threads = { NULL, {} };
 	threadlocal Caller *root = NULL;
 
 
