@@ -338,6 +338,10 @@
     "description": "Header for the ShipControls input page.",
     "message": "Ship - Controls"
   },
+  "PAGE_SHIP_HUD": {
+    "description": "Header for the ShipHUD input page.",
+    "message": "Ship - HUD"
+  },
   "PAGE_SHIP_VIEW": {
     "description": "Header for the ShipView input page.",
     "message": "Ship - View"

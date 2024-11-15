@@ -24,13 +24,19 @@ local DEFAULT_RADAR_SIZE = 10000
 local shouldDisplay2DRadar = false
 local blobSize = 6.0
 
+local input_group = 'ShipHUD.RadarControl'
 local keys = {
-	radar_toggle_mode = Input.GetActionBinding('BindRadarToggleMode'),
-	radar_reset = Input.GetActionBinding('BindRadarZoomReset'),
-	-- TODO: Convert to Axis?
-	radar_zoom_in = Input.GetActionBinding('BindRadarZoomIn'),
-	radar_zoom_out = Input.GetActionBinding('BindRadarZoomOut'),
+	radar_reset = Input.RegisterActionBinding('BindRadarZoomReset', input_group, { activator = { key = Input.keys.slash } } ),
+	radar_toggle_mode = Input.RegisterActionBinding('BindRadarToggleMode', input_group, { activator = { key = Input.keys.semicolon } } ),
+	-- TODO: Add axis
+	radar_zoom_in = Input.RegisterActionBinding('BindRadarZoomIn', input_group, { activator = { key = Input.keys.comma } } ),
+	radar_zoom_out = Input.RegisterActionBinding('BindRadarZoomOut', input_group, { activator = { key = Input.keys.period } } ),
 }
+local input_frame = Input.CreateInputFrame("ShipHudRadar", false)
+input_frame:AddAction(keys.radar_reset)
+input_frame:AddAction(keys.radar_toggle_mode)
+input_frame:AddAction(keys.radar_zoom_in)
+input_frame:AddAction(keys.radar_zoom_out)
 
 local function getColorFor(item)
 	local body = item.body
@@ -369,6 +375,15 @@ local function displayRadar()
 	end) -- window
 
 end -- function displayRadar()
+
+-- view has changed, update input frame
+Event.Register("onViewChanged", function()
+	if Game.CurrentView() == "world" then
+		input_frame:AddToStack()
+	else
+		input_frame:RemoveFromStack()
+	end
+end)
 
 -- reset radar to default at game end
 Event.Register("onGameEnd", function()

@@ -1216,6 +1216,7 @@ void Pi::RequestQuit()
 
 void Pi::SetView(View *v)
 {
+	// TODO: Should it be an error or warning to switch the view to itself?
 	if (currentView) currentView->Detach();
 	currentView = v;
 	if (currentView) currentView->Attach();
