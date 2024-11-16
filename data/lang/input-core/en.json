@@ -179,6 +179,10 @@
     "description": "Descriptive name for the SpeedControl axis.",
     "message": "Set Target Speed"
   },
+  "BIND_TARGET_RADIAL": {
+    "description": "Descriptive name for opening the TargetRadial popup.",
+    "message": "Open Target Radial Menu"
+  },
   "BIND_TARGET_OBJECT": {
     "description": "Descriptive name for the TargetObject action.",
     "message": "Target Object"
