@@ -287,7 +287,7 @@ namespace Graphics {
 		m_drawUniformBuffers.reserve(8);
 		GetDrawUniformBuffer(0);
 
-		m_lightUniformBuffer.Reset(new OGL::UniformBuffer(sizeof(LightData) * TOTAL_NUM_LIGHTS, BUFFER_USAGE_DYNAMIC));
+		m_lightUniformBuffer = {};
 	}
 
 	RendererOGL::~RendererOGL()
@@ -296,7 +296,7 @@ namespace Graphics {
 			buffer.reset();
 		}
 
-		m_lightUniformBuffer.Reset();
+		m_lightUniformBuffer = {};
 
 		s_DynamicDrawBufferMap.clear();
 
@@ -560,6 +560,8 @@ namespace Graphics {
 		stat.SetStatCount(Stats::STAT_NUM_RENDER_STATES, m_renderStateCache->m_stateDescCache.size());
 		stat.SetStatCount(Stats::STAT_NUM_SHADER_PROGRAMS, numShaderPrograms);
 
+		m_lightUniformBuffer = {};
+
 		return true;
 	}
 
@@ -769,8 +771,11 @@ namespace Graphics {
 
 		m_numLights = numlights;
 		m_numDirLights = 0;
+
+		using LightUBO = LightData[TOTAL_NUM_LIGHTS];
+
 		// ScopedMap will be released at the end of the function
-		auto lightData = m_lightUniformBuffer->Map<LightData>(BufferMapMode::BUFFER_MAP_WRITE);
+		auto lightData = GetDrawUniformBuffer(sizeof(LightUBO))->Allocate<LightUBO>(m_lightUniformBuffer);
 		assert(lightData.isValid());
 
 		for (Uint32 i = 0; i < numlights; i++) {
@@ -785,7 +790,7 @@ namespace Graphics {
 			assert(m_numDirLights <= TOTAL_NUM_LIGHTS);
 
 			// Update the GPU-side light data buffer
-			LightData &gpuLight = lightData.data()[i];
+			LightData &gpuLight = (*lightData.data())[i];
 			gpuLight.diffuse = l.GetDiffuse().ToColor4f();
 			gpuLight.specular = l.GetSpecular().ToColor4f();
 			gpuLight.position = l.GetPosition();
@@ -1162,9 +1167,9 @@ namespace Graphics {
 		return CreateMeshObject(vertexBuffer, indexBuffer);
 	}
 
-	OGL::UniformBuffer *RendererOGL::GetLightUniformBuffer()
+	const BufferBinding<UniformBuffer> &RendererOGL::GetLightUniformBuffer()
 	{
-		return m_lightUniformBuffer.Get();
+		return m_lightUniformBuffer;
 	}
 
 	OGL::UniformLinearBuffer *RendererOGL::GetDrawUniformBuffer(Uint32 size)

@@ -61,7 +61,7 @@ namespace Graphics {
 			uint32_t NumAllocs() const { return m_numAllocs; }
 
 			template <typename T>
-			ScopedMapping<T> Allocate(BufferBinding<UniformBuffer> &outBinding)
+			ScopedMapping<T> Allocate(BufferBinding<Graphics::UniformBuffer> &outBinding)
 			{
 				assert(m_mapMode == BUFFER_MAP_NONE);
 				return ScopedMapping<T>(AllocInternal(sizeof(T), outBinding), this);
@@ -74,7 +74,7 @@ namespace Graphics {
 			using UniformBuffer::BufferData;
 			using UniformBuffer::Map;
 
-			void *AllocInternal(size_t size, BufferBinding<UniformBuffer> &outBinding);
+			void *AllocInternal(size_t size, BufferBinding<Graphics::UniformBuffer> &outBinding);
 
 			// cache individual allocations into a single buffer and upload to
 			// the GPU in one large chunk.

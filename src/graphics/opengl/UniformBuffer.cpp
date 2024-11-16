@@ -142,7 +142,7 @@ BufferBinding<UniformBuffer> UniformLinearBuffer::Allocate(void *data, size_t si
 	return { this, offset, uint32_t(size) };
 }
 
-void *UniformLinearBuffer::AllocInternal(size_t size, BufferBinding<UniformBuffer> &outBinding)
+void *UniformLinearBuffer::AllocInternal(size_t size, BufferBinding<Graphics::UniformBuffer> &outBinding)
 {
 	assert(m_mapMode == BUFFER_MAP_NONE);
 	m_mapMode = BUFFER_MAP_WRITE;
