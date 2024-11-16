@@ -540,6 +540,7 @@ namespace Graphics {
 
 		matrix4x4f *InstanceBuffer::Map(BufferMapMode mode)
 		{
+			PROFILE_SCOPED()
 			assert(mode != BUFFER_MAP_NONE);	  //makes no sense
 			assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
 			m_mapMode = mode;
@@ -556,6 +557,7 @@ namespace Graphics {
 
 		void InstanceBuffer::Unmap()
 		{
+			PROFILE_SCOPED()
 			assert(m_mapMode != BUFFER_MAP_NONE); //not currently mapped
 
 			if (GetUsage() == BUFFER_USAGE_STATIC) {
