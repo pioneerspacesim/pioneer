@@ -654,7 +654,7 @@ theme.icons = {
 	equip_autopilot = 302,
 	equip_hyperdrive = 303,
 
-	-- twentieth row
+	-- twentieth row : icons 304 to 319
 	plus = 304,
 	minus = 305,
 	cross = 306,
@@ -669,6 +669,13 @@ theme.icons = {
 	increase_1 = 315,
 	increase_2 = 316,
 	increase_max = 317,
+	radar_2d = 318,
+	radar_3d = 319,
+
+	-- twenty-first row : icons 320 to 335
+	radar_automatic = 320,
+	radar_manual = 321,
+	-- 322 - 335 : empty
 
 	shipmarket_compare_better = 38,
 	shipmarket_compare_worse = 40,

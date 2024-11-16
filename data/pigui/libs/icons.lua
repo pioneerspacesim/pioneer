@@ -17,7 +17,7 @@ local function encode_icon(idx)
 end
 
 local iconsX = 16
-local iconsY = 20
+local iconsY = 21
 
 local icons_texture_small = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), iconsX * 24, iconsY * 24)
 local icons_texture_med = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), iconsX * 32, iconsY * 32)

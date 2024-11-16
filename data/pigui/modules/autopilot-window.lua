@@ -252,7 +252,8 @@ local function displayAutoPilotWindow()
 	local current_view = Game.CurrentView()
 	local window_h = mainButtonSize.y + smallButtonSize.y + ui.getWindowPadding().y * 2
 	local shift = smallButtonSize.y
-	local window_posx = ui.screenWidth/2 + ui.reticuleCircleRadius / 4 * 3
+	-- X starting position is the edge of the scanner display.
+	local window_posx = ui.screenWidth/2 + ui.reticuleCircleRadius
 	local window_posy = ui.screenHeight - window_h
 	ui.setNextWindowPos(Vector2(window_posx, window_posy) , "Always")
 	ui.window("AutoPilot", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings", "AlwaysAutoResize"},
