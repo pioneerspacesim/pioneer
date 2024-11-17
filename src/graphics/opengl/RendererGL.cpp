@@ -767,6 +767,16 @@ namespace Graphics {
 			return false;
 		}
 
+		// on the principle that this won't change very often...
+		uint64_t lightHash(m_lightHash); 
+		if (numlights == m_numLights) {
+			lightHash = hash_64_fnv1a(reinterpret_cast<const char *>(lights), sizeof(Light) * numlights);
+			if (lightHash == m_lightHash) {
+				return true;
+			}
+		}
+
+		m_lightHash = lightHash;
 		m_numLights = numlights;
 		m_numDirLights = 0;
 		// ScopedMap will be released at the end of the function

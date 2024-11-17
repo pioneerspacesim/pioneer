@@ -129,7 +129,7 @@ namespace Graphics {
 		virtual void PopState() override final{};
 
 		size_t m_frameNum;
-
+		uint64_t m_lightHash;
 		Uint32 m_numLights;
 		Uint32 m_numDirLights;
 		float m_minZNear;
