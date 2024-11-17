@@ -266,24 +266,13 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 	PROFILE_SCOPED()
 	// must update the VBOs to calculate the clipRadius...
 	UpdateVBOs(renderer);
-	// ...before doing the furstum culling that relies on it.
+	// ...before doing the frustum culling that relies on it.
 	if (!frustum.TestPoint(m_clipCentroid, m_clipRadius))
 		return; // nothing below this patch is visible
 
 	// only want to horizon cull patches that can actually be over the horizon!
-	const vector3d camDir(campos - m_clipCentroid);
-	const vector3d camDirNorm(camDir.Normalized());
-	const vector3d cenDir(m_clipCentroid.Normalized());
-	const double dotProd = camDirNorm.Dot(cenDir);
-
-	if (dotProd < 0.25 && (camDir.LengthSqr() > (m_clipRadius * m_clipRadius))) {
-		SSphere obj;
-		obj.m_centre = m_clipCentroid;
-		obj.m_radius = m_clipRadius;
-
-		if (!s_sph.HorizonCulling(campos, obj)) {
-			return; // nothing below this patch is visible
-		}
+	if (IsOverHorizon(campos)) {
+		return;
 	}
 
 	if (m_kids[0]) {
@@ -344,19 +333,8 @@ void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustu
 				return; // nothing below this patch is visible
 
 			// only want to horizon cull patches that can actually be over the horizon!
-			const vector3d camDir(campos - m_clipCentroid);
-			const vector3d camDirNorm(camDir.Normalized());
-			const vector3d cenDir(m_clipCentroid.Normalized());
-			const double dotProd = camDirNorm.Dot(cenDir);
-
-			if (dotProd < 0.25 && (camDir.LengthSqr() > (m_clipRadius * m_clipRadius))) {
-				SSphere obj;
-				obj.m_centre = m_clipCentroid;
-				obj.m_radius = m_clipRadius;
-
-				if (!s_sph.HorizonCulling(campos, obj)) {
-					return; // nothing below this patch is visible
-				}
+			if (IsOverHorizon(campos)) {
+				return;
 			}
 
 			// we can see this patch so submit the jobs!
@@ -465,4 +443,21 @@ void GeoPatch::ReceiveJobHandle(Job::Handle job)
 {
 	assert(!m_job.HasJob());
 	m_job = static_cast<Job::Handle &&>(job);
+}
+
+bool GeoPatch::IsOverHorizon(const vector3d &camPos)
+{
+	const vector3d camDir(camPos - m_clipCentroid);
+	const vector3d camDirNorm(camDir.Normalized());
+	const vector3d cenDir(m_clipCentroid.Normalized());
+	const double dotProd = camDirNorm.Dot(cenDir);
+
+	if (dotProd < 0.25 && (camDir.LengthSqr() > (m_clipRadius * m_clipRadius))) {
+		// return the result of the Horizon Culling test, inverted to match naming semantic
+		// eg: HC returns true==visible, but this method returns true==hidden
+		return !s_sph.HorizonCulling(camPos, SSphere(m_clipCentroid, m_clipRadius));
+	}
+
+	// not over the horizon
+	return false;
 }

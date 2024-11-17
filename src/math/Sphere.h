@@ -15,11 +15,15 @@ struct SSphere {
 	SSphere(const double rad) :
 		m_centre(vector3d(0.0)),
 		m_radius(rad) {}
-	vector3d m_centre;
-	double m_radius;
+	SSphere(const vector3d &centre, const double rad) :
+		m_centre(centre),
+		m_radius(rad) {}
 
 	// Adapted from Ysaneya here: http://www.gamedev.net/blog/73/entry-1666972-horizon-culling/
 	bool HorizonCulling(const vector3d &view, const SSphere &obj) const;
+
+	vector3d m_centre;
+	double m_radius;
 };
 
 #endif /* _SPHERE_H */
