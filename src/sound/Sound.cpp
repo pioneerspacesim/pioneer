@@ -702,12 +702,23 @@ namespace Sound {
 		}
 	}
 
-	void Event::PlayMusic(const char *fx, const float volume_left, const float volume_right, Op op)
+	void Event::PlayMusic(const char *fx, float volume, float fadeDelta, bool repeat, Event* fadeOut)
 	{
+		// The FadeOut, Stop, PlayMusicSample & VolumeAnimate calls perform
+		// five mutex lock operations. These could be reduced to a single
+		// lock/unlock if this were re-written.
+
+		if (fadeOut) {
+			fadeOut->FadeOut(fadeDelta);
+		}
 		Stop();
 		Sample* sample = GetSample(fx);
 		if (sample) {
-			eid = PlayMusicSample(sample, volume_left, volume_right, op);
+			float start = fadeDelta ? 0.0f : volume;
+			eid = PlayMusicSample(sample, start, start, repeat ? Sound::OP_REPEAT : 0);
+			if (fadeDelta) {
+				VolumeAnimate(volume, volume, fadeDelta, fadeDelta);
+			}
 		}
 	}
 

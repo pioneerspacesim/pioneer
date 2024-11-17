@@ -39,20 +39,18 @@ namespace Sound {
 	void MusicPlayer::Play(const std::string &name, const bool repeat /* = false */, const float fadeDelta /* = 1.f */)
 	{
 		if (!m_enabled) return;
-		Sound::Op op = 0;
-		if (repeat)
-			op |= Sound::OP_REPEAT;
+
+		Event *current, *next;
 		if (m_eventOnePlaying) {
-			m_eventOne.FadeOut(fadeDelta);
-			m_eventTwo.PlayMusic(name.c_str(), 0.f, 0.f, op);
-			m_eventTwo.VolumeAnimate(m_volume, m_volume, fadeDelta, fadeDelta);
 			m_eventOnePlaying = false;
+			current = &m_eventOne;
+			next = &m_eventTwo;
 		} else {
-			m_eventTwo.FadeOut(fadeDelta);
-			m_eventOne.PlayMusic(name.c_str(), 0.f, 0.f, op);
-			m_eventOne.VolumeAnimate(m_volume, m_volume, fadeDelta, fadeDelta);
 			m_eventOnePlaying = true;
+			current = &m_eventTwo;
+			next = &m_eventOne;
 		}
+		next->PlayMusic(name.c_str(), m_volume, repeat, fadeDelta, current);
 		m_playing = true;
 		m_currentSongName = name;
 	}
