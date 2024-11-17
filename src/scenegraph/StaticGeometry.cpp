@@ -69,6 +69,8 @@ namespace SceneGraph {
 		Graphics::InstanceBuffer *ib = m_instBuffer.Get();
 		matrix4x4f *pBuffer = ib->Map(Graphics::BUFFER_MAP_WRITE);
 		if (pBuffer) {
+			PROFILE_SCOPED_DESC("Copy Instance Data")
+
 			// Copy the transforms into the buffer
 			for (const matrix4x4f &mt : trans) {
 				(*pBuffer) = mt;

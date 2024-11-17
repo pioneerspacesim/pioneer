@@ -112,7 +112,7 @@ namespace Graphics {
 
 		virtual const RenderStateDesc &GetMaterialRenderState(const Graphics::Material *m) override final;
 
-		OGL::UniformBuffer *GetLightUniformBuffer();
+		const BufferBinding<UniformBuffer> &GetLightUniformBuffer();
 		OGL::UniformLinearBuffer *GetDrawUniformBuffer(Uint32 size);
 		OGL::RenderStateCache *GetStateCache() { return m_renderStateCache.get(); }
 
@@ -141,7 +141,7 @@ namespace Graphics {
 		std::vector<std::pair<std::string, OGL::Shader *>> m_shaders;
 		std::vector<std::unique_ptr<OGL::UniformLinearBuffer>> m_drawUniformBuffers;
 		std::unique_ptr<OGL::RenderStateCache> m_renderStateCache;
-		RefCountedPtr<OGL::UniformBuffer> m_lightUniformBuffer;
+		BufferBinding<UniformBuffer> m_lightUniformBuffer;
 		bool m_useNVDepthRanged;
 		OGL::RenderTarget *m_activeRenderTarget = nullptr;
 		std::unique_ptr<OGL::CommandList> m_drawCommandList;

@@ -37,6 +37,7 @@ void UniformBuffer::Unmap()
 
 void UniformBuffer::BufferData(const size_t size, void *data)
 {
+	PROFILE_SCOPED()
 	assert(m_mapMode == BUFFER_MAP_NONE);
 	glBindBuffer(GL_UNIFORM_BUFFER, m_buffer);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, size, data);
@@ -55,6 +56,7 @@ void UniformBuffer::Release()
 
 void *UniformBuffer::MapInternal(BufferMapMode mode)
 {
+	PROFILE_SCOPED()
 	assert(m_mapMode == BUFFER_MAP_NONE);
 	glBindBuffer(GL_UNIFORM_BUFFER, m_buffer);
 	void *data = glMapBuffer(GL_UNIFORM_BUFFER, (mode == BUFFER_MAP_READ) ? GL_READ_ONLY : GL_WRITE_ONLY);
@@ -140,9 +142,8 @@ BufferBinding<UniformBuffer> UniformLinearBuffer::Allocate(void *data, size_t si
 	return { this, offset, uint32_t(size) };
 }
 
-void *UniformLinearBuffer::AllocInternal(size_t size, BufferBinding<UniformBuffer> &outBinding)
+void *UniformLinearBuffer::AllocInternal(size_t size, BufferBinding<Graphics::UniformBuffer> &outBinding)
 {
-	PROFILE_SCOPED()
 	assert(m_mapMode == BUFFER_MAP_NONE);
 	m_mapMode = BUFFER_MAP_WRITE;
 

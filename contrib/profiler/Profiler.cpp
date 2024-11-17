@@ -340,8 +340,11 @@ namespace Profiler {
 	template <typename Value>
 	struct HashTable {
 	public:
-		HashTable() {
-			mNumChildren = 0;
+		HashTable() :
+			mBucketCount(0),
+			mNumChildren(0),
+			mBuckets(nullptr)
+		{
 			Resize(2);
 		}
 
@@ -1050,6 +1053,8 @@ namespace Profiler {
 		};
 
 		void Init(const char *dir) {
+			frameTable = new HashTable<Entry>();
+
 			firstThreadDump = true;
 			time_t now;
 			time( &now );
@@ -1067,7 +1072,7 @@ namespace Profiler {
 
 		void PrintThread( Caller *r ) {
 			root = r;
-			SharedPrinter printer(&frameTable, f, r);
+			SharedPrinter printer(frameTable, f, r);
 		}
 
 		void PrintAccumulated( Caller * ) {
@@ -1076,7 +1081,7 @@ namespace Profiler {
 
 		void PrintZone( const Zone *z, f64 cyclesToTime, bool isLast ) {
 			u64 at = z->time * cyclesToTime;
-			Entry *ent = frameTable.Find(z->str());
+			Entry *ent = frameTable->Find(z->str());
 			fprintf( f, "{\"type\":\"%c\",\"frame\":%d,\"at\":%lld}%c", (z->type == ZoneType::ZoneEnter ? 'O' : 'C'),
 				(ent ? ent->index : 0), at, (isLast ? ' ' : ','));
 		}
@@ -1112,11 +1117,14 @@ namespace Profiler {
 			fprintf( f, "]}\n");
 			fflush( f );
 			fclose( f );
+
+			delete frameTable;
+			frameTable = 0;
 		}
 
 	protected:
 		FILE *f;
-		HashTable<Entry> frameTable;
+		HashTable<Entry> *frameTable;
 		char timeFormat[256], fileFormat[4096];
 		bool firstThreadDump;
 	};

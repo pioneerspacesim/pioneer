@@ -99,7 +99,7 @@ if (USE_TIME_TRACE)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftime-trace")
 endif()
 
-option(USE_ASAN "Use -fsanitize=asan when compiling (requires Clang)" OFF)
+option(USE_ASAN "Use -fsanitize=address when compiling (requires Clang)" OFF)
 if (USE_ASAN)
 	add_compile_options(
 		-g

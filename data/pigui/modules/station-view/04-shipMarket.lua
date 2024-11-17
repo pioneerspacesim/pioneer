@@ -268,7 +268,7 @@ function FormatAndCompareShips:draw_accel_cell(desc, thrustKey, massKey )
 end
 
 function FormatAndCompareShips:draw_deltav_cell(desc, massNumeratorKey, massDenominatorKey)
-	local deltavA = self.def.effectiveExhaustVelocity * math.log( self:get_value(massNumeratorKey) / self.b:get_value(massDenominatorKey) )
+	local deltavA = self.def.effectiveExhaustVelocity * math.log( self:get_value(massNumeratorKey) / self:get_value(massDenominatorKey) )
 	local deltavB = self.b.def.effectiveExhaustVelocity * math.log( self.b:get_value(massNumeratorKey) / self.b:get_value(massDenominatorKey) )
 
 	local function fmt( v )
