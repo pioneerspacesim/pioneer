@@ -273,14 +273,9 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 	PROFILE_SCOPED()
 	// must update the VBOs to calculate the clipRadius...
 	UpdateVBOs(renderer);
-	// ...before doing the frustum culling that relies on it.
-	if (!frustum.TestPoint(m_clipCentroid, m_clipRadius))
-		return; // nothing below this patch is visible
-
-	// only want to horizon cull patches that can actually be over the horizon!
-	if (IsOverHorizon(campos)) {
+	// ...before doing the visibility testing that relies on it.
+	if (!IsPatchVisible(frustum, campos))
 		return;
-	}
 
 	if (m_kids[0]) {
 		for (int i = 0; i < NUM_KIDS; i++)
@@ -326,14 +321,9 @@ void GeoPatch::GatherRenderablePatches(std::vector<GeoPatch *> &visiblePatches, 
 	PROFILE_SCOPED()
 	// must update the VBOs to calculate the clipRadius...
 	UpdateVBOs(renderer);
-	// ...before doing the frustum culling that relies on it.
-	if (!frustum.TestPoint(m_clipCentroid, m_clipRadius))
-		return; // nothing below this patch is visible
-
-	// only want to horizon cull patches that can actually be over the horizon!
-	if (IsOverHorizon(campos)) {
+	// ...before doing the visibility testing that relies on it.
+	if (!IsPatchVisible(frustum, campos))
 		return;
-	}
 
 	if (m_kids[0]) {
 		for (int i = 0; i < NUM_KIDS; i++)
@@ -366,13 +356,8 @@ void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustu
 	if (canSplit) {
 		if (!m_kids[0]) {
 			// Test if this patch is visible
-			if (!frustum.TestPoint(m_clipCentroid, m_clipRadius))
-				return; // nothing below this patch is visible
-
-			// only want to horizon cull patches that can actually be over the horizon!
-			if (IsOverHorizon(campos)) {
+			if (!IsPatchVisible(frustum, campos))
 				return;
-			}
 
 			// we can see this patch so submit the jobs!
 			assert(!HasJobRequest());
@@ -478,7 +463,22 @@ void GeoPatch::ReceiveJobHandle(Job::Handle job)
 	m_job = static_cast<Job::Handle &&>(job);
 }
 
-bool GeoPatch::IsOverHorizon(const vector3d &camPos)
+bool GeoPatch::IsPatchVisible(const Graphics::Frustum &frustum, const vector3d &camPos) const
+{
+	// Test if this patch is visible
+	if (!frustum.TestPoint(m_clipCentroid, m_clipRadius))
+		return false; // nothing below this patch is visible
+
+	// We only want to horizon cull patches that can actually be over the horizon!
+	// depth == zero patches cannot be tested against the horizon
+	if (m_depth != 0 && IsOverHorizon(camPos)) {
+		return false;
+	}
+
+	return true;
+}
+
+bool GeoPatch::IsOverHorizon(const vector3d &camPos) const
 {
 	const vector3d camDir(camPos - m_clipCentroid);
 	const vector3d camDirNorm(camDir.Normalized());

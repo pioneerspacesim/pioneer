@@ -121,7 +121,8 @@ private:
 private:
 	static const int NUM_KIDS = 4;
 
-	bool IsOverHorizon(const vector3d &camPos);
+	bool IsPatchVisible(const Graphics::Frustum &frustum, const vector3d &camPos) const;
+	bool IsOverHorizon(const vector3d &camPos) const;
 
 	RefCountedPtr<GeoPatchContext> m_ctx;
 	struct Corners {
