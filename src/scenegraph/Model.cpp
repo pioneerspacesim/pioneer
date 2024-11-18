@@ -706,7 +706,7 @@ namespace SceneGraph {
 
 			const auto& start = bound.startTag->GetGlobalTransform().GetTranslate();
 			const auto& end = bound.endTag->GetGlobalTransform().GetTranslate();
-			float dist;
+			float dist = 0.0;
 
 			if(bound.boundDef.type == BoundDefinition::CAPSULE) {
 				// Point-line distance (this naturally results in a rounded end-cap)
