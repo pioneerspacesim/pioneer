@@ -6,6 +6,7 @@ tex_diff natrix_diff.dds
 tex_spec natrix_spec.dds
 tex_norm natrix_norm.png
 tex_glow natrix_glow.dds
+use_patterns
 
 material Natrix-headlight
 diffuse 1.0 1.0 1.0
