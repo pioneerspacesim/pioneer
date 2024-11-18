@@ -1218,10 +1218,15 @@ void Pi::RequestQuit()
 void Pi::SetView(View *v)
 {
 	// TODO: Should it be an error or warning to switch the view to itself?
+	View *previousView = currentView;
+
 	if (currentView) currentView->Detach();
 	currentView = v;
 	if (currentView) currentView->Attach();
-	LuaEvent::Queue("onViewChanged");
+	LuaEvent::Queue("onViewChanged",
+	                currentView? currentView->GetViewName().c_str() : "",
+	                previousView? previousView->GetViewName().c_str() : "");
+
 }
 
 bool Pi::SetView(const std::string& target)
