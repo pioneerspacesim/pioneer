@@ -110,7 +110,7 @@ local function displayShipFunctionWindow()
 	local window_posy = ui.screenHeight - window_height
 	ui.setNextWindowPos(Vector2(window_posx, window_posy), "Always")
 	ui.window("ShipFunctions", windowFlags, function()
-		if current_view == "world" then
+		if current_view == "WorldView" then
 			local shift = Vector2(0.0, thrust_widget_size.y - mainButtonSize.y)
 			ui.addCursorPos(shift)
 			button_wheelstate()
@@ -124,7 +124,7 @@ local function displayShipFunctionWindow()
 			if ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f8) then
 				show_thrust_slider = not show_thrust_slider
 			end
-		end -- current_view == "world"
+		end -- current_view == "WorldView"
 	end)
 end
 

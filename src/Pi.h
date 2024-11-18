@@ -168,6 +168,7 @@ public:
 	static int statNumPatches;
 
 	static void SetView(View *v);
+	static bool SetView(const std::string& view_name);
 	static View *GetView() { return currentView; }
 
 	static void SetAmountBackgroundStars(const float pc)

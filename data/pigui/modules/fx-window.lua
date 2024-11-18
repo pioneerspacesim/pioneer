@@ -17,9 +17,9 @@ local cam_tooltip = { internal = lui.HUD_BUTTON_INTERNAL_VIEW, external = lui.HU
 local function button_world(current_view)
 	local camtype = Game.GetWorldCamType()
 	local view_icon = camtype and "view_" .. camtype or "view_internal"
-	if current_view ~= "world" then
+	if current_view ~= "WorldView" then
 		if ui.mainMenuButton(icons[view_icon], lui.HUD_BUTTON_SWITCH_TO_WORLD_VIEW) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f1)) then
-			Game.SetView("world")
+			Game.SetView("WorldView")
 			ui.playBoinkNoise()
 		end
 	else
@@ -34,43 +34,43 @@ local function button_world(current_view)
 	end
 end
 
-local current_map_view = "sector"
+local current_map_view = "SectorView"
 local function buttons_map(current_view)
-	local onmap = current_view == "sector" or current_view == "system"
+	local onmap = current_view == "SectorView" or current_view == "SystemView"
 
 	ui.sameLine()
-	local active = current_view == "sector"
+	local active = current_view == "SectorView"
 	if ui.mainMenuButton(icons.sector_map, lui.HUD_BUTTON_SWITCH_TO_SECTOR_MAP, active) or (onmap and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
 		if not active then
-			Game.SetView("sector")
-			current_map_view = "sector"
+			Game.SetView("SectorView")
+			current_map_view = "SectorView"
 		end
 	end
 
 	ui.sameLine()
 	local isOrrery = Game.systemView:GetDisplayMode() == "Orrery"
-	active = current_view == "system" and isOrrery
+	active = current_view == "SystemView" and isOrrery
 	if ui.mainMenuButton(icons.system_map, lui.HUD_BUTTON_SWITCH_TO_SYSTEM_MAP, active) or (onmap and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f6)) then
 		if not active then
 			Game.systemView:SetDisplayMode('Orrery')
-			Game.SetView("system")
-			current_map_view = "system"
+			Game.SetView("SystemView")
+			current_map_view = "SystemView"
 		end
 	end
 
 	ui.sameLine()
-	active = current_view == "system" and not isOrrery
+	active = current_view == "SystemView" and not isOrrery
 	if ui.mainMenuButton(icons.system_overview, lui.HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW, active) or (onmap and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f7)) then
 		if not active then
 			Game.systemView:SetDisplayMode('Atlas')
-			Game.SetView("system")
-			current_map_view = "system"
+			Game.SetView("SystemView")
+			current_map_view = "SystemView"
 		end
 	end
 
 	if ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f2) then
 		if onmap then
-			Game.SetView("world")
+			Game.SetView("WorldView")
 		else
 			Game.SetView(current_map_view)
 		end
@@ -79,10 +79,10 @@ end
 
 local function button_info(current_view)
 	ui.sameLine()
-	local active = current_view == "info"
+	local active = current_view == "InfoView"
 	if ui.mainMenuButton(icons.personal_info, lui.HUD_BUTTON_SHOW_PERSONAL_INFO, active) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f3)) then
 		if not active then
-			Game.SetView("info")
+			Game.SetView("InfoView")
 		end
 	end
 end
@@ -90,10 +90,10 @@ end
 local function button_comms(current_view)
 	if player:IsDocked() then
 		ui.sameLine()
-		local active = current_view == "space_station"
+		local active = current_view == "StationView"
 		if ui.mainMenuButton(icons.comms, lui.HUD_BUTTON_SHOW_COMMS, active) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f4)) then
 			if not active then
-				Game.SetView("space_station")
+				Game.SetView("StationView")
 			end
 		end
 	end

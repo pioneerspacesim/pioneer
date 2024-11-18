@@ -121,7 +121,7 @@ SectorMapContext SectorView::CreateMapContext()
 }
 
 SectorView::SectorView(Game *game) :
-	View("sector-view"),
+	View("SectorView"),
 	InputBindings(Pi::input),
 	m_game(*game),
 	m_map(new SectorMap(CreateMapContext()))
@@ -145,7 +145,7 @@ SectorView::SectorView(Game *game) :
 }
 
 SectorView::SectorView(const Json &jsonObj, Game *game) :
-	View("sector-view"),
+	View("SectorView"),
 	InputBindings(Pi::input),
 	m_game(*game)
 {

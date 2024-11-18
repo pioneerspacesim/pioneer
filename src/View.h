@@ -19,7 +19,7 @@ namespace Graphics {
  */
 class View {
 public:
-	View();
+	View(const std::string &name);
 	virtual ~View();
 	virtual void Draw() {};
 	// called before Gui::Draw will call widget ::Draw methods.
@@ -36,10 +36,12 @@ public:
 
 	void SetRenderer(Graphics::Renderer *r) { m_renderer = r; }
 
+	const std::string &GetViewName() const { return m_handlerName; }
 protected:
 	virtual void OnSwitchTo() {};
 	virtual void OnSwitchFrom() {}
 	Graphics::Renderer *m_renderer;
+	std::string m_handlerName;
 };
 
 #endif /* _VIEW_H */

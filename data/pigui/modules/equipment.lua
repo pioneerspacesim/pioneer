@@ -59,7 +59,7 @@ end
 local function displayECM(uiPos)
 	player = Game.player
 	local current_view = Game.CurrentView()
-	if current_view == "world" then
+	if current_view == "WorldView" then
 		local ecms = player:GetComponent("EquipSet"):GetInstalledOfType("utility.ecm")
 		for i,ecm in ipairs(ecms) do
 			local size, clicked = iconEqButton(uiPos, icons[ecm.ecm_type], false, mainIconSize, "ECM", not player:IsECMReady(), mainBackgroundColor, mainForegroundColor, mainHoverColor, mainPressedColor, lec[ecm.hover_message])
@@ -93,7 +93,7 @@ local function displayMissiles(uiPos)
 	player = Game.player
 	local current_view = Game.CurrentView()
 
-	if current_view == "world" then
+	if current_view == "WorldView" then
 
 		local missiles = player:GetComponent("EquipSet"):GetInstalledOfType("missile")
 		local count = {}

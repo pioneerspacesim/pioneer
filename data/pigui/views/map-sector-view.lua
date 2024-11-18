@@ -457,7 +457,7 @@ end
 
 ui.registerModule("game", { id = 'map-sector-view', draw = function()
 	player = Game.player
-	if Game.CurrentView() == "sector" then
+	if Game.CurrentView() == "SectorView" then
 		sectorViewLayout:display()
 
 		if ui.isKeyReleased(ui.keys.tab) then
@@ -466,7 +466,7 @@ ui.registerModule("game", { id = 'map-sector-view', draw = function()
 		end
 
 		if ui.escapeKeyReleased() then
-			Game.SetView("world")
+			Game.SetView("WorldView")
 		end
 
 		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then

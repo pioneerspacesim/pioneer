@@ -275,7 +275,7 @@ local click_on_radar = false
 
 -- display either the 3D or the 2D radar, show a popup on right click to select
 local function displayRadar()
-	if ui.optionsWindow.isOpen or Game.CurrentView() ~= "world" then return end
+	if ui.optionsWindow.isOpen or Game.CurrentView() ~= "WorldView" then return end
 	player = player or Game.player
 
 	-- only display if there actually *is* a radar installed
@@ -378,7 +378,7 @@ end -- function displayRadar()
 
 -- view has changed, update input frame
 Event.Register("onViewChanged", function()
-	if Game.CurrentView() == "world" then
+	if Game.CurrentView() == "WorldView" then
 		input_frame:AddToStack()
 	else
 		input_frame:RemoveFromStack()

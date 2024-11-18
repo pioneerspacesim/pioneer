@@ -571,7 +571,7 @@ static int l_game_in_hyperspace(lua_State *l)
  *
  * Return:
  *
- *   view - a string describing the game view: "world", "space_station", "info", "sector", "system", "death", "settings"
+ *   view - a string describing the game view: "WorldView", "StationView", "InfoView", "SectorView", "SystemView", "DeathView"
  *
  * Availability:
  *
@@ -585,20 +585,11 @@ static int l_game_in_hyperspace(lua_State *l)
 static int l_game_current_view(lua_State *l)
 {
 	const View *view = Pi::GetView();
-	if (view == Pi::game->GetWorldView())
-		LuaPush(l, "world");
-	else if (view == Pi::game->GetSpaceStationView())
-		LuaPush(l, "space_station");
-	else if (view == Pi::game->GetInfoView())
-		LuaPush(l, "info");
-	else if (view == Pi::game->GetSectorView())
-		LuaPush(l, "sector");
-	else if (view == Pi::game->GetSystemView())
-		LuaPush(l, "system");
-	else if (view == Pi::game->GetDeathView())
-		LuaPush(l, "death");
-	else
+	if( view != nullptr) {
+		LuaPush(l, view->GetViewName());
+	} else {
 		lua_pushnil(l);
+	}
 	return 1;
 }
 
@@ -685,22 +676,11 @@ static int l_game_get_date_time(lua_State *l)
 
 static int l_game_set_view(lua_State *l)
 {
-	if (!Pi::game)
+	if (!Pi::game) {
 		return luaL_error(l, "can't set view when no game is running");
+	}
 	const std::string target = luaL_checkstring(l, 1);
-	if (!target.compare("world")) {
-		Pi::SetView(Pi::game->GetWorldView());
-	} else if (!target.compare("space_station")) {
-		Pi::SetView(Pi::game->GetSpaceStationView());
-	} else if (!target.compare("info")) {
-		Pi::SetView(Pi::game->GetInfoView());
-	} else if (!target.compare("death")) {
-		Pi::SetView(Pi::game->GetDeathView());
-	} else if (!target.compare("sector")) {
-		Pi::SetView(Pi::game->GetSectorView());
-	} else if (!target.compare("system")) {
-		Pi::SetView(Pi::game->GetSystemView());
-	} else {
+	if (!Pi::SetView(target)) {
 		return luaL_error(l, "Unknown view %s", target.c_str());
 	}
 	return 0;

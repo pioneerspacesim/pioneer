@@ -902,7 +902,7 @@ local function displaySystemViewUI()
 	if not ui.shouldDrawUI() then return end
 
 	player = Game.player
-	if Game.CurrentView() == "system" then
+	if Game.CurrentView() == "SystemView" then
 		if ui.isKeyReleased(ui.keys.tab) then
 			systemViewLayout.enabled = not systemViewLayout.enabled
 		end
@@ -915,7 +915,7 @@ local function displaySystemViewUI()
 		displayOnScreenObjects()
 
 		if ui.escapeKeyReleased() then
-			Game.SetView("sector")
+			Game.SetView("SectorView")
 		end
 
 		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
@@ -928,6 +928,6 @@ end
 
 Event.Register("onGameStart", onGameStart)
 Event.Register("onEnterSystem", onEnterSystem)
-ui.registerHandler("system-view", ui.makeFullScreenHandler("system-view", displaySystemViewUI))
+ui.registerHandler("SystemView", ui.makeFullScreenHandler("SystemView", displaySystemViewUI))
 
 return {}

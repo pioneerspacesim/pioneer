@@ -5,8 +5,9 @@
 #include "Pi.h"
 #include "pigui/LuaPiGui.h"
 
-View::View() :
-	m_renderer(nullptr)
+View::View(const std::string &name) :
+	m_renderer(nullptr),
+	m_handlerName(name)
 {
 }
 

@@ -39,6 +39,7 @@
 #include "SpaceStation.h"
 #include "Star.h"
 #include "StringF.h"
+#include "SystemView.h"
 #include "Tombstone.h"
 #include "TransferPlanner.h"
 #include "WorldView.h"
@@ -1221,6 +1222,26 @@ void Pi::SetView(View *v)
 	currentView = v;
 	if (currentView) currentView->Attach();
 	LuaEvent::Queue("onViewChanged");
+}
+
+bool Pi::SetView(const std::string& target)
+{
+	if (!target.compare("WorldView")) {
+		Pi::SetView(Pi::game->GetWorldView());
+	} else if (!target.compare("StationView")) {
+		Pi::SetView(Pi::game->GetSpaceStationView());
+	} else if (!target.compare("InfoView")) {
+		Pi::SetView(Pi::game->GetInfoView());
+	} else if (!target.compare("DeathView")) {
+		Pi::SetView(Pi::game->GetDeathView());
+	} else if (!target.compare("SectorView")) {
+		Pi::SetView(Pi::game->GetSectorView());
+	} else if (!target.compare("SystemView")) {
+		Pi::SetView(Pi::game->GetSystemView());
+	} else {
+		return false;
+	}
+	return true;
 }
 
 void Pi::OnChangeDetailLevel()

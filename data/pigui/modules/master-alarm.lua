@@ -98,7 +98,7 @@ local function alarm ()
 		--player is closer to the body than the altitude calculated via evasion_factor
 		if approach_speed < -25 and periapsis_radius < body_radius and (altitude - recover_distance) / ((approach_speed^2 + 2*surface_gravity*recover_distance)^(1/2)) < response_time_factor and body_radius/altitude > evasion_factor and Game.player:GetCurrentAICommand() ~= "CMD_DOCK" then
 			alreadyAlertedImpact = false
-			if Game.CurrentView() == "world" then
+			if Game.CurrentView() == "WorldView" then
 				ui.addStyledText(uiTextPos, ui.anchor.center, ui.anchor.top, lui.HUD_WARNING_DESCENT_RATE, colors.alertRed, pionillium.large, nil, colors.lightBlackBackground)
 			end
 			if not alreadyAlertedDescent then
@@ -112,7 +112,7 @@ local function alarm ()
 		--player is still far enough away from the body
 		elseif approach_speed < -25 and recover_distance > altitude and periapsis_radius < body_radius and body_radius/altitude <= evasion_factor and (periapsis_radius + (1/2)*max_accel*(altitude / -approach_speed)^2) >= body_radius then
 			alreadyAlertedDescent = false
-			if Game.CurrentView() == "world" then
+			if Game.CurrentView() == "WorldView" then
 				ui.addIcon(uiPos, icons.impact_warning, colors.alertYellow, iconSize, ui.anchor.center, ui.anchor.center, lui.HUD_WARNING_IMPACT)
 			end
 			if not alreadyAlertedImpact then
@@ -123,7 +123,7 @@ local function alarm ()
 		--with the following formula, alert triggers if
 		--player ship's acceleration rate would not allow them to avoid a collision by simply accelerating sideways
 		--exact calculations require complex integrals, this alert is accurate enough but just a tiny bit on the pessimistic side for extra safety measures
-		elseif approach_speed < -25 and recover_distance > altitude and periapsis_radius < body_radius and body_radius/altitude <= evasion_factor and (periapsis_radius + (1/2)*max_accel*(altitude / -approach_speed)^2) < body_radius and Game.CurrentView() == "world" then
+		elseif approach_speed < -25 and recover_distance > altitude and periapsis_radius < body_radius and body_radius/altitude <= evasion_factor and (periapsis_radius + (1/2)*max_accel*(altitude / -approach_speed)^2) < body_radius and Game.CurrentView() == "WorldView" then
 			ui.addIcon(uiPos, icons.impact_warning, colors.alertRed, iconSize, ui.anchor.center, ui.anchor.center, lui.HUD_WARNING_IMPACT_IMMINENT)
 		else -- clean up warning status so we can warn the player the next time they are in danger
 			alreadyAlertedImpact = false
