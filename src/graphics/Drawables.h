@@ -14,6 +14,10 @@
 
 struct Aabb;
 
+namespace SceneGraph {
+	class Label3D;
+} //namespace SceneGraph
+
 namespace Graphics {
 	class Renderer;
 

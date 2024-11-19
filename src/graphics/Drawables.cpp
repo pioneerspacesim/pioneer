@@ -12,6 +12,9 @@
 #include "graphics/Types.h"
 #include "graphics/VertexBuffer.h"
 #include "profiler/Profiler.h"
+#include "scenegraph/Label3D.h"
+
+#include <sstream>
 
 #include <sstream>
 
