@@ -121,7 +121,7 @@ SectorMapContext SectorView::CreateMapContext()
 }
 
 SectorView::SectorView(Game *game) :
-	PiGuiView("sector-view"),
+	View("sector-view"),
 	InputBindings(Pi::input),
 	m_game(*game),
 	m_map(new SectorMap(CreateMapContext()))
@@ -145,7 +145,7 @@ SectorView::SectorView(Game *game) :
 }
 
 SectorView::SectorView(const Json &jsonObj, Game *game) :
-	PiGuiView("sector-view"),
+	View("sector-view"),
 	InputBindings(Pi::input),
 	m_game(*game)
 {

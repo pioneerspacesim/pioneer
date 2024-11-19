@@ -6,8 +6,8 @@
 
 #include "ConnectionTicket.h"
 #include "graphics/Drawables.h"
-#include "pigui/PiGuiView.h"
 #include "ship/ShipViewController.h"
+#include "View.h"
 
 class Body;
 class Camera;
@@ -27,7 +27,7 @@ enum PlaneType {
 	PARENT
 };
 
-class WorldView : public PiGuiView {
+class WorldView : public View {
 public:
 	static void RegisterInputBindings();
 	friend class NavTunnelWidget;

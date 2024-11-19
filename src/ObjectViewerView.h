@@ -5,12 +5,12 @@
 #define _OBJECTVIEWERVIEW_H
 
 #include "Camera.h"
-#include "pigui/PiGuiView.h"
+#include "View.h"
 
 class Body;
 class SystemBody;
 
-class ObjectViewerView : public PiGuiView {
+class ObjectViewerView : public View {
 public:
 	ObjectViewerView();
 	virtual void Update() override;

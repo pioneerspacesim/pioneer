@@ -3,6 +3,7 @@
 
 #include "View.h"
 #include "Pi.h"
+#include "pigui/LuaPiGui.h"
 
 View::View() :
 	m_renderer(nullptr)
@@ -21,4 +22,9 @@ void View::Attach()
 void View::Detach()
 {
 	OnSwitchFrom();
+}
+
+void View::DrawPiGui()
+{
+	PiGui::RunHandler(Pi::GetFrameTime(), m_handlerName);
 }

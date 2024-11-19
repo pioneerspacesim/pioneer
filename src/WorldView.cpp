@@ -63,7 +63,7 @@ void WorldView::InputBinding::RegisterBindings()
 }
 
 WorldView::WorldView(Game *game) :
-	PiGuiView("WorldView"),
+	View("WorldView"),
 	m_game(game),
 	InputBindings(Pi::input)
 {
@@ -71,7 +71,7 @@ WorldView::WorldView(Game *game) :
 }
 
 WorldView::WorldView(const Json &jsonObj, Game *game) :
-	PiGuiView("WorldView"),
+	View("WorldView"),
 	m_game(game),
 	InputBindings(Pi::input)
 {

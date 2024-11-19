@@ -64,7 +64,7 @@ namespace {
 // ─── System View ─────────────────────────────────────────────────────────────
 
 SystemView::SystemView(Game *game) :
-	PiGuiView("system-view"),
+	View("system-view"),
 	m_game(game),
 	m_displayMode(Mode::Orrery),
 	m_systemSelectionMode(SystemSelectionMode::SELECTED_SYSTEM),

@@ -16,8 +16,8 @@
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "matrix4x4.h"
-#include "pigui/PiGuiView.h"
 #include "vector3.h"
+#include "View.h"
 
 #include <sigc++/signal.h>
 
@@ -155,13 +155,13 @@ struct AtlasBodyLayout {
 class SystemMapViewport;
 
 /**
- * SystemView glues a SystemMapViewport to the PiGuiView framework and handles
+ * SystemView glues a SystemMapViewport to the View framework and handles
  * most user interaction in the context of a running game.
  *
  * It is responsible for pushing ship contacts and managing the orbit planner
  * interface.
  */
-class SystemView : public PiGuiView, public DeleteEmitter {
+class SystemView : public View, public DeleteEmitter {
 public:
 	enum class Mode { // <enum name=SystemViewMode scope='SystemView::Mode' public>
 		Orrery = 0,

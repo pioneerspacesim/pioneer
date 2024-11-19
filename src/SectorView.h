@@ -10,7 +10,7 @@
 #include "JsonFwd.h"
 
 #include "galaxy/SystemPath.h"
-#include "pigui/PiGuiView.h"
+#include "View.h"
 
 #include "vector3.h"
 #include "matrix4x4.h"
@@ -20,7 +20,7 @@ class Galaxy;
 class SectorMap;
 struct SectorMapContext;
 
-class SectorView : public PiGuiView, public DeleteEmitter {
+class SectorView : public View, public DeleteEmitter {
 public:
 	SectorView(Game *game);
 	SectorView(const Json &jsonObj, Game *game);
