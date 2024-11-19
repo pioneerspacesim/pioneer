@@ -15,7 +15,7 @@ local pionillium = ui.fonts.pionillium
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local SCREEN_BORDER = 4
+local SCREEN_BORDER = 6
 
 local MAX_RADAR_SIZE = 1000000000
 local MIN_RADAR_SIZE = 1000
@@ -112,12 +112,13 @@ local radar3d = {
 -- display the 2D radar
 radar2d.draw = function(self, center)
 	local targets = ui.getTargetsNearby(self.zoom)
-	local halfsize = self.size * 0.5
-	local thirdsize = self.size * 0.3
-	local twothirdsize = self.size * 0.7
+	local lineThickness = 1.5
+	local size = self.size - lineThickness
+	local halfsize = size * 0.5
+	local thirdsize = size * 0.3
+	local twothirdsize = size * 0.7
 	local fgColor = colors.uiPrimary
 	local bgColor = colors.uiBackground:opacity(0.54)
-	local lineThickness = 1.5
 
 	local function line(x,y)
 		-- Uncomment to extend the radial line all the way to the outer circle
@@ -126,8 +127,8 @@ radar2d.draw = function(self, center)
 	end
 
 	-- radar background and border
-	ui.addCircleFilled(center, self.size, bgColor, ui.circleSegments(self.size), 1)
-	ui.addCircle(center, self.size, fgColor, ui.circleSegments(self.size), lineThickness * 2)
+	ui.addCircleFilled(center, size, bgColor, ui.circleSegments(size), 1)
+	ui.addCircle(center, size, fgColor, ui.circleSegments(size), lineThickness * 2)
 
 	-- inner circles
 	-- Uncomment to add an additional circle dividing the 2D radar display
@@ -152,7 +153,7 @@ radar2d.draw = function(self, center)
 			if v.distance > halfRadarSize then
 				alpha = 255 * (1 - (v.distance - halfRadarSize) / halfRadarSize)
 			end
-			local position = center + v.aep * self.size * 2
+			local position = center + v.aep * size * 2
 			if v.body == navTarget then
 				local color = Color(colors.navTarget.r, colors.navTarget.g, colors.navTarget.b, alpha)
 				ui.addIcon(position, icons.square, color, Vector2(12, 12), ui.anchor.center, ui.anchor.center)
@@ -340,7 +341,7 @@ local function displayRadar()
 	-- This is in a window so the buttons work and the mouse-wheel is captured
 	local window_width = ui.reticuleCircleRadius * 1.8
 	local window_height = radar2d.size * 2
-	local window_pos = Vector2(center.x - window_width / 2, center.y - radar2d.size - SCREEN_BORDER)
+	local window_pos = Vector2(center.x - window_width / 2, center.y - window_height / 2)
 	local windowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"}
 	ui.setNextWindowPos(window_pos, "Always")
 	ui.setNextWindowPadding(Vector2(0))
