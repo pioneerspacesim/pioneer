@@ -204,7 +204,7 @@ radar3d.draw = function(self, center)
 	radar.size = self.size
 	radar.zoom = radar.zoom or DEFAULT_RADAR_SIZE
 	local scale = radar.radius / radar.zoom
-	ui.setCursorPos(center - self.size / 2.0)
+	ui.setCursorScreenPos(center - self.size / 2.0)
 
 	-- draw targets below the plane
 	for k, v in pairs(targets) do
@@ -336,33 +336,35 @@ local function displayRadar()
 		instrument:zoomOut()
 	end
 
-	-- Draw the actual radar - this can't be in a window or the 3D scanner background doesn't render
-	instrument:draw(center)
-
-	-- Draw the radar buttons and info - this needs to be in a window, otherwise the buttons don't work.
+	-- Draw the radar, radar buttons and info
+	-- This is in a window so the buttons work and the mouse-wheel is captured
 	local window_width = ui.reticuleCircleRadius * 1.8
-	local window_height = radar2d.size / 3.5
-	local window_pos = Vector2(center.x - window_width / 2, center.y + radar2d.size - window_height - SCREEN_BORDER)
+	local window_height = radar2d.size * 2
+	local window_pos = Vector2(center.x - window_width / 2, center.y - radar2d.size - SCREEN_BORDER)
 	local windowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"}
 	ui.setNextWindowPos(window_pos, "Always")
 	ui.setNextWindowPadding(Vector2(0))
 	ui.setNextWindowSize(Vector2(window_width, window_height), "Always")
+	ui.window("radar", windowFlags, function()
 
-	ui.window("radar_buttons", windowFlags, function()
+		-- Draw the actual radar
+		instrument:draw(center)
 
 		-- Draw radar mode toggle button
+		local toggle_button_size = radar2d.size / 3.5
+		ui.setCursorPos(Vector2(0, window_height - toggle_button_size))
 		local icon = shouldDisplay2DRadar and radar3d.icon or radar2d.icon
-		local clicked = ui.mainMenuButton(icon, lui.HUD_RADAR_TOGGLE_MODE, false, Vector2(window_height))
+		local clicked = ui.mainMenuButton(icon, lui.HUD_RADAR_TOGGLE_MODE, false, Vector2(toggle_button_size))
 		if toggle_radar or clicked then
 			shouldDisplay2DRadar = not shouldDisplay2DRadar
 		end
 
 		-- Draw zoom mode indicator
 		if not shouldDisplay2DRadar then
-			local button_size = window_height / 1.5
+			local button_size = toggle_button_size / 1.5
 			local tt = radar3d.auto_zoom and lui.HUD_RADAR_ZOOM_MODE_AUTOMATIC or lui.HUD_RADAR_ZOOM_MODE_MANUAL
 			ui.sameLine()
-			ui.addCursorPos(Vector2(0, window_height - button_size))
+			ui.addCursorPos(Vector2(0, toggle_button_size - button_size))
 			icon = instrument:isAutoZoom() and icons.radar_automatic or icons.radar_manual
 			ui.mainMenuButton(icon, tt, ui.theme.buttonColors.disabled, Vector2(button_size))
 		end
@@ -372,7 +374,7 @@ local function displayRadar()
 		local textpos = ui.getWindowPos() + Vector2(window_width, window_height)
 		ui.addStyledText(textpos, ui.anchor.right, ui.anchor.bottom, distance, colors.frame, pionillium.small, lui.HUD_RADAR_DISTANCE, colors.lightBlackBackground)
 
-	end) -- window
+	end) -- radar window
 
 end -- function displayRadar()
 
