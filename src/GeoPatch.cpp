@@ -497,7 +497,7 @@ bool GeoPatch::IsPatchVisible(const Graphics::Frustum &frustum, const vector3d &
 {
 	PROFILE_SCOPED()
 	// Test if this patch is visible
-	if (!frustum.TestPoint(m_clipCentroid, m_clipRadius))
+	if (!frustum.TestSphere(m_clipCentroid, m_clipRadius))
 		return false; // nothing below this patch is visible
 
 	// We only want to horizon cull patches that can actually be over the horizon!
