@@ -83,6 +83,14 @@
     "description": "Commodities and equipment prices",
     "message": "Compra"
   },
+  "BUY_EQUIP": {
+    "description": "Button text to buy selected equipment. May be used in a singular or plural context.",
+    "message": "Compra {name}"
+  },
+  "BUY_PRICE": {
+    "description": "Title for buy-price column in commodity market",
+    "message": "Compra"
+  },
   "BUY_SHIP": {
     "description": "",
     "message": "Compra Astronave"
@@ -106,6 +114,10 @@
   "CANNOT_SELL_ITEM": {
     "description": "",
     "message": "Non si può vendere questo oggetto"
+  },
+  "CANNOT_SELL_NONEMPTY_EQUIP": {
+    "description": "",
+    "message": "Non è possibile vendere un oggetto di equipaggiamento se non vuoto."
   },
   "CANT_FIND_PATH": {
     "description": "Message when restoring savegame, file path",
@@ -219,6 +231,10 @@
     "description": "",
     "message": "Chiudi"
   },
+  "COLLAPSE": {
+    "description": "Close / collapse an open folder or group",
+    "message": "Chiudi"
+  },
   "COLOR": {
     "description": "",
     "message": "Colore"
@@ -230,6 +246,10 @@
   "COMMANDER": {
     "description": "",
     "message": "Comandante"
+  },
+  "COMMODITY": {
+    "description": "Title for commodity name column in commodity market",
+    "message": "Prodotto"
   },
   "COMMODITY_MARKET": {
     "description": "",
@@ -547,6 +567,10 @@
     "description": "",
     "message": "Equipaggiamento"
   },
+  "EQUIPMENT_CAPACITY": {
+    "description": "The equipment capacity of a ship",
+    "message": "Capacità di equipaggiamento"
+  },
   "EQUIPMENT_MARKET": {
     "description": "",
     "message": "Mercato delle apparecchiature"
@@ -574,6 +598,10 @@
   "EXIT_THIS_GAME": {
     "description": "",
     "message": "Esci dalla partita"
+  },
+  "EXPAND": {
+    "description": "Open / expand a collapsed folder or group",
+    "message": "Espandi"
   },
   "EXPERIENCED": {
     "description": "For player reputation",
@@ -1151,6 +1179,18 @@
     "description": "Tooltip: Current distance of the radar.",
     "message": "Portata del radar selezionata"
   },
+  "HUD_RADAR_TOGGLE_MODE": {
+    "description": "Tooltip: Toggle radar mode.",
+    "message": "Radar: modalità 2D/3D"
+  },
+  "HUD_RADAR_ZOOM_MODE_AUTOMATIC": {
+    "description": "Tooltip: Current radar zoom mode.",
+    "message": "Zoom automatico"
+  },
+  "HUD_RADAR_ZOOM_MODE_MANUAL": {
+    "description": "Tooltip: Current radar zoom mode.",
+    "message": "Zoom manuale"
+  },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
     "message": "Accelerazione temporale richiesta: {time}"
@@ -1271,6 +1311,10 @@
     "description": "Ship jump status",
     "message": "Avviato"
   },
+  "INSTALLED": {
+    "description": "Label indicating something is installed",
+    "message": "Installati"
+  },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
     "message": "Carburante insufficiente"
@@ -1295,8 +1339,12 @@
     "description": "",
     "message": "In stiva"
   },
+  "IN_HOLD": {
+    "description": "Column title of the Commodity Market screen",
+    "message": "In stiva"
+  },
   "IN_STOCK": {
-    "description": "",
+    "description": "Column title of Commodity and Ship Equipment markets showing current station stock level.",
     "message": "Giacenza"
   },
   "IN_SYSTEM": {
@@ -2011,9 +2059,9 @@
     "description": "",
     "message": "Ripara il {damage}% dei danni allo scafo per {price}"
   },
-  "REPLACE_EQUIPMENT_WITH": {
+  "REPLACE_EQUIPMENT": {
     "description": "Market header when replacing equipped items",
-    "message": "Sostituisci equipaggiamento con"
+    "message": "Sostituisci equipaggiamento"
   },
   "REPUTATION": {
     "description": "",
@@ -2119,6 +2167,10 @@
     "description": "",
     "message": "Seleziona"
   },
+  "SELECTED": {
+    "description": "Label indicating the following item is selected",
+    "message": "Selezionati"
+  },
   "SELECTED_SAVE_DOESNT_EXISTS": {
     "description": "",
     "message": "Il salvataggio selezionato non esiste"
@@ -2147,9 +2199,17 @@
     "description": "Commodities and equipment prices",
     "message": "Vendi"
   },
+  "SELL_EQUIP": {
+    "description": "Button text to sell installed equipment. May be used in a singular or plural context.",
+    "message": "Vendi {name}"
+  },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
     "message": "Vendi equipaggiamento"
+  },
+  "SELL_PRICE": {
+    "description": "Title for sell-price column in commodity market",
+    "message": "Vendi"
   },
   "SENSORS": {
     "description": "Crew skill",
@@ -2542,6 +2602,10 @@
   "VISIT_REPAIR_SERVICES": {
     "description": "Ship Repair tab button.",
     "message": "Visita i servizi di riparazione"
+  },
+  "VOLUME": {
+    "description": "The volume property of some object",
+    "message": "Volume"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",

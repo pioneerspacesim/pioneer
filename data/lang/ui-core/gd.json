@@ -83,6 +83,14 @@
     "description": "Commodities and equipment prices",
     "message": "Ceannaich"
   },
+  "BUY_EQUIP": {
+    "description": "Button text to buy selected equipment. May be used in a singular or plural context.",
+    "message": "Buy {name}"
+  },
+  "BUY_PRICE": {
+    "description": "Title for buy-price column in commodity market",
+    "message": "Ceannaich"
+  },
   "BUY_SHIP": {
     "description": "",
     "message": "Ceannaich"
@@ -106,6 +114,10 @@
   "CANNOT_SELL_ITEM": {
     "description": "",
     "message": "Chan urrainn dhut an nì seo a reic"
+  },
+  "CANNOT_SELL_NONEMPTY_EQUIP": {
+    "description": "",
+    "message": "Cannot sell an equipment item unless it is empty."
   },
   "CANT_FIND_PATH": {
     "description": "Message when restoring savegame, file path",
@@ -219,6 +231,10 @@
     "description": "",
     "message": "Dùin"
   },
+  "COLLAPSE": {
+    "description": "Close / collapse an open folder or group",
+    "message": "Collapse"
+  },
   "COLOR": {
     "description": "",
     "message": "Color"
@@ -230,6 +246,10 @@
   "COMMANDER": {
     "description": "",
     "message": "Comandair"
+  },
+  "COMMODITY": {
+    "description": "Title for commodity name column in commodity market",
+    "message": "Commodity"
   },
   "COMMODITY_MARKET": {
     "description": "",
@@ -547,6 +567,10 @@
     "description": "",
     "message": "Uidheamachd"
   },
+  "EQUIPMENT_CAPACITY": {
+    "description": "The equipment capacity of a ship",
+    "message": "Equipment Capacity"
+  },
   "EQUIPMENT_MARKET": {
     "description": "",
     "message": "Margadh uidheamachd"
@@ -574,6 +598,10 @@
   "EXIT_THIS_GAME": {
     "description": "",
     "message": "Fàg an geama seo"
+  },
+  "EXPAND": {
+    "description": "Open / expand a collapsed folder or group",
+    "message": "Expand"
   },
   "EXPERIENCED": {
     "description": "For player reputation",
@@ -1151,6 +1179,18 @@
     "description": "Tooltip: Current distance of the radar.",
     "message": "Rainse ghnìomhach an rèideir"
   },
+  "HUD_RADAR_TOGGLE_MODE": {
+    "description": "Tooltip: Toggle radar mode.",
+    "message": "Toggle radar between 2D and 3D modes"
+  },
+  "HUD_RADAR_ZOOM_MODE_AUTOMATIC": {
+    "description": "Tooltip: Current radar zoom mode.",
+    "message": "Automatic zoom"
+  },
+  "HUD_RADAR_ZOOM_MODE_MANUAL": {
+    "description": "Tooltip: Current radar zoom mode.",
+    "message": "Manual zoom"
+  },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
     "message": "Dèan nas luaithe: {time}"
@@ -1271,6 +1311,10 @@
     "description": "Ship jump status",
     "message": "Air a thòiseachadh"
   },
+  "INSTALLED": {
+    "description": "Label indicating something is installed",
+    "message": "Installed"
+  },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
     "message": "Chan eil connadh gu leòr agad"
@@ -1295,9 +1339,13 @@
     "description": "",
     "message": "San roinn carago"
   },
+  "IN_HOLD": {
+    "description": "Column title of the Commodity Market screen",
+    "message": "In hold"
+  },
   "IN_STOCK": {
-    "description": "",
-    "message": "San stoc"
+    "description": "Column title of Commodity and Ship Equipment markets showing current station stock level.",
+    "message": "Stock"
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
@@ -2011,9 +2059,9 @@
     "description": "",
     "message": "Càraich {damage}% dhen dochann air an t-slige le {price}"
   },
-  "REPLACE_EQUIPMENT_WITH": {
+  "REPLACE_EQUIPMENT": {
     "description": "Market header when replacing equipped items",
-    "message": "Replace Equipment With"
+    "message": "Replace Equipment"
   },
   "REPUTATION": {
     "description": "",
@@ -2119,6 +2167,10 @@
     "description": "",
     "message": "Tagh"
   },
+  "SELECTED": {
+    "description": "Label indicating the following item is selected",
+    "message": "Selected"
+  },
   "SELECTED_SAVE_DOESNT_EXISTS": {
     "description": "",
     "message": "Selected save doesn't exist"
@@ -2147,9 +2199,17 @@
     "description": "Commodities and equipment prices",
     "message": "Reic"
   },
+  "SELL_EQUIP": {
+    "description": "Button text to sell installed equipment. May be used in a singular or plural context.",
+    "message": "Sell {name}"
+  },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
     "message": "Sell Equipped"
+  },
+  "SELL_PRICE": {
+    "description": "Title for sell-price column in commodity market",
+    "message": "Reic"
   },
   "SENSORS": {
     "description": "Crew skill",
@@ -2542,6 +2602,10 @@
   "VISIT_REPAIR_SERVICES": {
     "description": "Ship Repair tab button.",
     "message": "Visit Repair Services"
+  },
+  "VOLUME": {
+    "description": "The volume property of some object",
+    "message": "Volume"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",

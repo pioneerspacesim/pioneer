@@ -259,6 +259,10 @@
     "description": "",
     "message": "Fare:"
   },
+  "DATA_COLLECTED_PROGRESS": {
+    "description": "Label for scan card progress bar",
+    "message": "Data Collected: {percent_completed}%"
+  },
   "DEADLINE": {
     "description": "",
     "message": "Deadline:"

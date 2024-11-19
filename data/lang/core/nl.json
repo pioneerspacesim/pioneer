@@ -1771,6 +1771,10 @@
     "description": "Mass unit: one gigatonne",
     "message": "Gt"
   },
+  "UNIT_HECTARES": {
+    "description": "Area unit: one hectare (ha) -10,000 m²",
+    "message": "ha"
+  },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
     "message": "u"
@@ -1830,6 +1834,18 @@
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",
     "message": "s"
+  },
+  "UNIT_SQUARE_KILOMETERS": {
+    "description": "Area unit: square kilometer (km²) - 1,000,000 m²",
+    "message": "km²"
+  },
+  "UNIT_SQUARE_MEGAMETERS": {
+    "description": "Area unit: square megameter (Mm²) - 10^12 m²",
+    "message": "Mm²"
+  },
+  "UNIT_SQUARE_METERS": {
+    "description": "Area unit: square meter (m²)",
+    "message": "m²"
   },
   "UNIT_TERATONNES": {
     "description": "Mass unit: one teratonne",

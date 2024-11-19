@@ -5,7 +5,7 @@
   },
   "AIR_PROCESSORS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "清洁的空气只有在充足的时候才会被认为是理所当然的。据传，空气净化背后的技术来自火星上发现的外星人工制品。许多公司生产各种类型的空气处理器，能够把最恶劣的环境变成一个可行的环境，政府不能容忍垄断空气生产。"
+    "message": "清洁的空气只有在充足时才被视为理所当然。空气净化技术背后的传言称，它来自于在火星上发现的外星遗迹。许多公司生产各种类型的空气净化器，能够将即使是最恶劣的大气环境转变为可工作的环境，而政府不会容忍在空气生产上的垄断。"
   },
   "ANIMAL_MEAT": {
     "description": "",
@@ -13,7 +13,7 @@
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "一个主要的争议点是，肉是动物的肉。由于合成蛋白质唾手可得，大多数人认为动物不应该被杀死。虽然肉类在大多数核心系统中是非法的，但活的动物和它们的肉在更传统的世界里是人们生活的重要组成部分。"
+    "message": "一个主要的争议点是，肉类是动物的肉体。随着合成蛋白质的广泛可用，大多数人认为不应该杀害动物。虽然在大多数核心系统中肉类是非法的，但在更传统的世界上，活体动物及其肉类是人们生活的重要组成部分。"
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -21,7 +21,7 @@
   },
   "BATTLE_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "重型军用武器，如装甲悬停坦克和地对空导弹。军火贸易通常受政府的垄断。然而在黑市上，这些往往能卖到一大笔钱。"
+    "message": "重型军用武器，如装甲悬浮坦克和地对空导弹。这些武器的交易通常是政府的垄断。然而，在黑市上，这些武器往往能卖得高价。"
   },
   "CARBON_ORE": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "碳是我们所知道的最多样化的元素之一。从塑料到合金，甚至电力生产，几乎所有的东西都需要碳，碳是一种廉价但重要的商品。因此，几乎所有的工业定居点都进口碳矿石。"
+    "message": "碳是我们所知最多样化的元素之一。从塑料到合金，有时甚至在能源生产中，碳都扮演着重要角色，它是一种廉价但重要的商品。因此，几乎所有的工业定居点都进口碳矿石。"
   },
   "COMPUTERS": {
     "description": "",
@@ -37,15 +37,15 @@
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "从一千多年前的算盘、PDP-11和摩托罗拉68k芯片，到现在的HAL 9001和multiac系列，计算机标志着信息时代的到来。对于进入超空间和分享关于UniNet的可爱争吵的视频同样重要。"
+    "message": "从一千多年前的算盘、PDP-11和摩托罗拉68k芯片，到我们现代的HAL 9001和Multivac系列，计算机标志着信息时代的黎明。无论是进入超空间还是通过UniNet分享可爱的quibbles视频，它们都同样不可或缺。"
   },
   "CONSUMER_GOODS": {
     "description": "",
-    "message": "消费者货物"
+    "message": "消费品"
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "成品供一般消费者大众使用，无需进一步加工。从牙刷，厨房用具到悬停的汽车。"
+    "message": "消费品是指那些已经准备好供最终消费者使用，无需进一步加工的产品。这些产品覆盖了从牙刷、厨房用具到悬浮汽车等一切物品。"
   },
   "FARM_MACHINERY": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "虽然很少见，偶尔还是有农民捕捉牛拖犁耕田。但在几乎任何一个有农业的地方，机器都被用于土地的耕作，无论是地下栖息地的水培法，还是花园世界无边无际的田野。"
+    "message": "尽管较为罕见，但偶尔仍能见到使用牛拉犁的农民。但在几乎所有有农业的地方，机器都被用于土地耕作，无论是地下栖息地的水培系统还是花园世界的广阔田野。"
   },
   "FERTILIZER": {
     "description": "",
@@ -61,23 +61,23 @@
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "肥料对于工业规模的作物生长至关重要，它允许单一培养，并且比使用普通泥土产生更高的收益。这往往伴随着生态代价，在开始时并不明显"
+    "message": "肥料对于在工业规模上种植作物至关重要，它允许单一作物种植，并能比使用普通土壤获得更高的产量。这通常伴随着不易立即察觉的生态成本。"
   },
   "FRUIT_AND_VEG": {
     "description": "",
-    "message": "蔬菜水果"
+    "message": "蔬菜 & 水果"
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "虽然有许多合成的替代品，但真正的水果和蔬菜仍然是我们烹饪和营养的重要组成部分。生长在农业世界或作为栖息地生命维持的一部分，并出口到无法种植植物的星系。"
+    "message": "尽管有许多合成替代品，真正的水果和蔬菜仍然是我们饮食和营养中的重要组成部分。它们在农业世界种植，或作为栖息地生命支持系统的一部分，并出口到种植植物不可行的系统中。"
   },
   "GRAIN": {
     "description": "",
-    "message": "粮食"
+    "message": "谷物"
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "许多人饮食的支柱。它用于农业、饲养动物以及作为合成食品的补充。谷物也用于许多其他食物，如燕麦片和烘焙食品。大多数繁星文化至少生长和消耗一些谷物，这些谷物已经被用于它们栖息地的气候。"
+    "message": "谷物是许多人饮食的支柱。它被用于农业中饲养动物，作为合成食品的补充，并且用于许多其他食品中，比如燕麦片和烘焙食品。大多数星际旅行的文化都会种植并消费至少一些谷物，这些谷物已经适应了他们栖息地的气候。"
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "在法律的管辖范围之外提供保险，对于遥远系统中的空间商人来说，手持武器是必不可少的。然而，许多政府将其视为对自己控制人口的威胁，并严格控制其贸易和持有。"
+    "message": "在法律触及不到的遥远星系中，手持类武器对于太空商人来说是超越法律保护的重要保障。然而，许多政府将它们视为对自己对民众控制的威胁，并严格管控它们的交易和持有。"
   },
   "HYDROGEN": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "氢是一种非常重要的元素，用作超空间推进器的燃料和星际飞船的推进剂。幸运的是，它也是宇宙中最常见的元素，尽管存储它并不容易。它通常是贸易市场上最便宜的商品之一。星港在任何时候都供应充足。"
+    "message": "氢被用作超光速驱动器的燃料和星际飞船的推进剂，是一种极其重要的元素。幸运的是，它也是宇宙中最常见的元素，尽管储存它并不简单。它通常是贸易市场上最便宜的商品之一。在任何时候，星际港口都能得到充分的供应。"
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "生产线、炼油厂、冶炼厂和机械生产所需的设备，这些设备将反过来生产其他产品。生产这些先进的机器需要很高的能力。"
+    "message": "生产线、炼油厂、冶炼厂以及生产其他商品所需机械的关键设备。生产这些高级机械需要高度的技术能力。"
   },
   "LIQUID_OXYGEN": {
     "description": "",
@@ -109,7 +109,7 @@
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "液氧有许多用途，最常用于医疗和工业应用，有时也用于废物处理。这是非常便宜的，因为氧气很容易从水中获得。"
+    "message": "液氧有许多用途，最常见于医疗和工业应用，有时也用于废物处理。由于氧气很容易从水中提取，所以液氧非常便宜。"
   },
   "LIQUOR": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "大多数前哨站都有当地酿造的啤酒，外人觉得很难喝。酒精在某些系统中是被禁止的，因为它被认为会使人的头脑变得模糊。不管法律如何，一杯苏格兰威士忌几乎总是在黑市上以一定的价格出售。"
+    "message": "大多数前哨站都有自己的当地酿造酒，外来者往往难以接受。在某些系统中，酒精可能被禁止，因为它被认为是会模糊心智的。不管法律如何，黑市上几乎总是可以以一定的价格获得一杯苏格兰威士忌。"
   },
   "LIVE_ANIMALS": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "部分原因是由于人本主义、经济和生态原因，动物饲养和贸易受到严格管制，甚至在许多核心系统中都是非法的。从外面看，牲畜成为人民生活的一个更重要的部分，既是营养的来源，又是一种负担的牲畜。外来动物园和野生动植物保护区有助于银河系周围的动物贸易，通常在严格的国家规定下，以打击非法狩猎场。"
+    "message": "部分由于人文、经济和生态原因，动物饲养和贸易在许多核心系统中受到严格监管，甚至被定为非法。向外扩展，牲畜成为人们生计中更重要的一部分，既是营养来源也是负重的动物。异国情调的动物园和野生动物保护区促进了银河系内动物贸易的发展，通常在严格的国家监管下进行，以打击非法狩猎行为。"
   },
   "MEDICINES": {
     "description": "",
@@ -133,7 +133,7 @@
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "药物来源于自然资源或人工合成，无论人类走到哪里，都需要药物。从治疗普通感冒到对抗长期太空旅行的不利影响，药物对于星际人类的繁荣是必不可少的。被海关人员仔细观察，因为把麻醉品伪装成药物并不罕见。"
+    "message": "无论是从天然来源提取还是人工合成，药物都是人类无论走到哪里都需要的东西。从治疗普通感冒到对抗长期太空旅行的不利影响，药物对于星际人类的繁荣至关重要。海关代理密切监视药物，因为将毒品伪装成医疗药物并不罕见。"
   },
   "METAL_ALLOYS": {
     "description": "",

@@ -43,6 +43,10 @@
     "description": "",
     "message": "Laser a fuoco rapido da 2MW"
   },
+  "CABINS": {
+    "description": "Category header for pressurized cabin slots",
+    "message": "Alloggi"
+  },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
     "message": "Supporti vitali per la stiva"
@@ -58,6 +62,10 @@
   "CARGO_SCOOP_DESCRIPTION": {
     "description": "",
     "message": "Permette la raccolta di container di cargo vaganti nello spazio."
+  },
+  "COMPUTER_MODULES": {
+    "description": "Category name of computer-related equipment",
+    "message": "Moduli del computer"
   },
   "DAMAGE_PER_SHOT": {
     "description": "Tooltip explaining weapon damage per shot",
@@ -175,6 +183,54 @@
     "description": "",
     "message": "Permette la raccolta e lo stoccaggio di idrogeno dall'atmosfera dei giganti gassosi."
   },
+  "HARDPOINT_FUEL_SCOOP": {
+    "description": "Name for the 'Fuel Scoop' equipment hardpoint",
+    "message": "Raccoglitore di carburante"
+  },
+  "HARDPOINT_MISSILE": {
+    "description": "Name for a generic missile mount",
+    "message": "Missile"
+  },
+  "HARDPOINT_MISSILE_ARRAY": {
+    "description": "Name for the 'Missile Array' equipment hardpoint",
+    "message": "Schiera di missili"
+  },
+  "HARDPOINT_MISSILE_BAY": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "Vano missili"
+  },
+  "HARDPOINT_PYLON": {
+    "description": "Name for a generic missile pylon",
+    "message": "Pilone"
+  },
+  "HARDPOINT_UTILITY": {
+    "description": "Name for a generic utility hardpoint",
+    "message": "Attrezzi"
+  },
+  "HARDPOINT_WEAPON": {
+    "description": "Name for a generic weapon hardpoint",
+    "message": "Arma"
+  },
+  "HARDPOINT_WEAPON_CHIN": {
+    "description": "Name for the 'Chin Mount' equipment hardpoint",
+    "message": "Montaggio sotto muso"
+  },
+  "HARDPOINT_WEAPON_FRONT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "Arma anteriore"
+  },
+  "HARDPOINT_WEAPON_LEFT_NOSE": {
+    "description": "Name for the 'Left Nose' weapon hardpoint",
+    "message": "Sinistra muso"
+  },
+  "HARDPOINT_WEAPON_REAR": {
+    "description": "Name for a generic rear-facing weapon hardpoint",
+    "message": "Arma posteriore"
+  },
+  "HARDPOINT_WEAPON_RIGHT_NOSE": {
+    "description": "Name for the 'Right Nose' weapon hardpoint",
+    "message": "Destra muso"
+  },
   "HULL_AUTOREPAIR": {
     "description": "",
     "message": "Autoriparatore dello scafo"
@@ -182,6 +238,10 @@
   "HULL_AUTOREPAIR_DESCRIPTION": {
     "description": "",
     "message": "Sistema avanzato che ripara lentamente lo scafo in caso di danneggiamento."
+  },
+  "HULL_MOUNTS": {
+    "description": "Category name for hull-mounted equipment",
+    "message": "Montaggio su scafo"
   },
   "HYPERCLOUD_ANALYZER": {
     "description": "",
@@ -219,6 +279,10 @@
     "description": "",
     "message": "Utilizzato per estrarre materiale minerario dagli asteroidi."
   },
+  "MISC_EQUIPMENT": {
+    "description": "Category header for miscellaneous equipment",
+    "message": "Varie"
+  },
   "MISSILES": {
     "description": "Category name of missile-related equipment",
     "message": "Missili"
@@ -231,6 +295,30 @@
     "description": "",
     "message": "Testata tattica"
   },
+  "MISSILE_RACK_221": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
+    "message": "Rastrelliera missili Hydri LH-120"
+  },
+  "MISSILE_RACK_322": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
+    "message": "Rastrelliera missili Hydri LH-230"
+  },
+  "MISSILE_RACK_341": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
+    "message": "Rastrelliera missili Hydri LH-140"
+  },
+  "MISSILE_RAIL_S1": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
+    "message": "Lanciamissili Cnida-101"
+  },
+  "MISSILE_RAIL_S2": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
+    "message": "Lanciamissili Cnida-102"
+  },
+  "MISSILE_RAIL_S3": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
+    "message": "Lanciamissili Cnida-103"
+  },
   "MISSILE_SMART": {
     "description": "",
     "message": "Missile intelligente"
@@ -239,13 +327,17 @@
     "description": "",
     "message": "Missile R40 non guidato"
   },
-  "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
-    "message": "Multi Raccoglitore"
+  "OCCUPIED_BERTHS": {
+    "description": "Label for the number of passenger berths currently occupied in a cabin equipment item",
+    "message": "Cuccette occupate"
   },
-  "MULTI_SCOOP_DESCRIPTION": {
-    "description": "",
-    "message": "Seppur meno efficace di un raccoglitore di carburante, permette di raccogliere sia cargo che carburante"
+  "OKB_KALURI_BOWFIN_MISSILE_RACK": {
+    "description": "Equipment name for an OKB-Kaluri Bowfin internal missile launcher",
+    "message": "Lanciamissili Bowfin"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S2": {
+    "description": "Equipment name for an OPLI internal missile rack",
+    "message": "Rastrelliera missili OPLI interna"
   },
   "ORBIT_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
@@ -267,9 +359,17 @@
     "description": "",
     "message": "Portata massima dell'analizzatore superata:"
   },
+  "PASSENGER_BERTHS": {
+    "description": "Label for the total number of passenger berths in a cabin equipment item",
+    "message": "Cuccette passeggeri"
+  },
   "PASSENGER_CABIN": {
     "description": "",
     "message": "Alloggio passeggeri"
+  },
+  "PROJECTILE_SPEED": {
+    "description": "Stat label for weapon projectile speeds",
+    "message": "Velocità del proiettile"
   },
   "PROPULSION": {
     "description": "Category name of propulsion-related equipment",
@@ -310,6 +410,10 @@
   "RADAR_DESCRIPTION": {
     "description": "",
     "message": "Sensore a corto raggio che identifica la posizione in tre dimensioni di astronavi e stazioni spaziali vicine."
+  },
+  "REINFORCED_STRUCTURE": {
+    "description": "Name for an equipment item that reinforces the hull's superstructure",
+    "message": "Rinforzi strutturali"
   },
   "SCAN_COMPLETED": {
     "description": "",
@@ -359,6 +463,58 @@
     "description": "Tooltip explaining weapon fire rate / RPM counter",
     "message": "Cadenza di tiro / Minuto"
   },
+  "SLOT_CABIN": {
+    "description": "Name for a generic room slot inside the pressurized living space",
+    "message": "Cabina"
+  },
+  "SLOT_CABIN_FORE": {
+    "description": "Name for a cabin slot towards the front of the ship",
+    "message": "Cabina anteriore"
+  },
+  "SLOT_CABIN_REAR": {
+    "description": "Name for a cabin slot towards the rear of the ship",
+    "message": "Cabina posteriore"
+  },
+  "SLOT_COMPUTER": {
+    "description": "Name for a generic computer equipment slot",
+    "message": "Computer"
+  },
+  "SLOT_ENGINE": {
+    "description": "Name for the ship's primary travel engines",
+    "message": "Motori"
+  },
+  "SLOT_HULL": {
+    "description": "Name for an equipment slot that augments or modifies the ship hull",
+    "message": "Scafo"
+  },
+  "SLOT_HYPERDRIVE": {
+    "description": "Name for a ship's singular hyperdrive equipment slot",
+    "message": "Iper-propulsore"
+  },
+  "SLOT_SENSOR": {
+    "description": "Name for a generic (flight/navigation) sensor slot",
+    "message": "Sensore"
+  },
+  "SLOT_SHIELD": {
+    "description": "Name for a generic shield slot",
+    "message": "Scudo"
+  },
+  "SLOT_SHIELD_LEFT": {
+    "description": "Name for a left-side shield slot",
+    "message": "Scudo Sx"
+  },
+  "SLOT_SHIELD_RIGHT": {
+    "description": "Name for a right-side shield equipment slot",
+    "message": "Scudo Dx"
+  },
+  "SLOT_STRUCTURE": {
+    "description": "Name for the ship's internal structure modification slot",
+    "message": "Telaio"
+  },
+  "SLOT_THRUSTER": {
+    "description": "Generic name for secondary attitude or maneuvering thrusters",
+    "message": "Propulsori"
+  },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
     "message": "Acceleratore di plasma: piccolo"
@@ -366,6 +522,18 @@
   "STARTING_SCAN": {
     "description": "",
     "message": "Inizio analisi, distanza dal bersaglio"
+  },
+  "STAT_POWER_DRAW": {
+    "description": "Stat label for equipment power draw",
+    "message": "Assorbimento energia"
+  },
+  "STAT_VOLUME": {
+    "description": "Stat label for equipment volume",
+    "message": "Volume"
+  },
+  "STAT_WEIGHT": {
+    "description": "Stat label for equipment weight",
+    "message": "Peso"
   },
   "SURFACE_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude. Model manufacturer name is meant to sound like a cheap brand.",
@@ -406,6 +574,10 @@
   "THRUSTERS_BEST_DESCRIPTION": {
     "description": "",
     "message": "Propulsori fatti su misura per fornire la miglior spinta possibile."
+  },
+  "THRUSTERS_DEFAULT": {
+    "description": "Equipment name for default RCS thrusters",
+    "message": "Propulsori standard"
   },
   "THRUSTERS_MEDIUM": {
     "description": "",

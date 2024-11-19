@@ -83,6 +83,14 @@
     "description": "Commodities and equipment prices",
     "message": "Покупка"
   },
+  "BUY_EQUIP": {
+    "description": "Button text to buy selected equipment. May be used in a singular or plural context.",
+    "message": "Buy {name}"
+  },
+  "BUY_PRICE": {
+    "description": "Title for buy-price column in commodity market",
+    "message": "Купуване"
+  },
   "BUY_SHIP": {
     "description": "",
     "message": "Купуване"
@@ -106,6 +114,10 @@
   "CANNOT_SELL_ITEM": {
     "description": "",
     "message": "Този артикул не може да бъде продаден"
+  },
+  "CANNOT_SELL_NONEMPTY_EQUIP": {
+    "description": "",
+    "message": "Cannot sell an equipment item unless it is empty."
   },
   "CANT_FIND_PATH": {
     "description": "Message when restoring savegame, file path",
@@ -219,6 +231,10 @@
     "description": "",
     "message": "Затваряне"
   },
+  "COLLAPSE": {
+    "description": "Close / collapse an open folder or group",
+    "message": "Свиване"
+  },
   "COLOR": {
     "description": "",
     "message": "Цвят"
@@ -230,6 +246,10 @@
   "COMMANDER": {
     "description": "",
     "message": "Командир"
+  },
+  "COMMODITY": {
+    "description": "Title for commodity name column in commodity market",
+    "message": "Стока"
   },
   "COMMODITY_MARKET": {
     "description": "",
@@ -547,6 +567,10 @@
     "description": "",
     "message": "Оборудване"
   },
+  "EQUIPMENT_CAPACITY": {
+    "description": "The equipment capacity of a ship",
+    "message": "Equipment Capacity"
+  },
   "EQUIPMENT_MARKET": {
     "description": "",
     "message": "Пазар за оборудване"
@@ -574,6 +598,10 @@
   "EXIT_THIS_GAME": {
     "description": "",
     "message": "Излизане от играта"
+  },
+  "EXPAND": {
+    "description": "Open / expand a collapsed folder or group",
+    "message": "Разгъване"
   },
   "EXPERIENCED": {
     "description": "For player reputation",
@@ -745,7 +773,7 @@
   },
   "GAME_OPTIONS": {
     "description": "GameOptions - tooltip for the Game Options tab in the Settings Window",
-    "message": "Game Options"
+    "message": "Настройки на играта"
   },
   "GAME_TIME": {
     "description": "",
@@ -969,7 +997,7 @@
   },
   "HUD_BUTTON_SWITCH_TO_CURRENT_SYSTEM": {
     "description": "Tooltip: Switch to current system",
-    "message": "Switch to current system"
+    "message": "Текуща система"
   },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
@@ -981,7 +1009,7 @@
   },
   "HUD_BUTTON_SWITCH_TO_SELECTED_SYSTEM": {
     "description": "Tooltip: Switch to selected system",
-    "message": "Switch to selected system"
+    "message": "Избрана система"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
     "description": "Tooltip: Switch to system map",
@@ -1151,6 +1179,18 @@
     "description": "Tooltip: Current distance of the radar.",
     "message": "Активен радарен обхват"
   },
+  "HUD_RADAR_TOGGLE_MODE": {
+    "description": "Tooltip: Toggle radar mode.",
+    "message": "Toggle radar between 2D and 3D modes"
+  },
+  "HUD_RADAR_ZOOM_MODE_AUTOMATIC": {
+    "description": "Tooltip: Current radar zoom mode.",
+    "message": "Automatic zoom"
+  },
+  "HUD_RADAR_ZOOM_MODE_MANUAL": {
+    "description": "Tooltip: Current radar zoom mode.",
+    "message": "Manual zoom"
+  },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
     "message": "Ускорение на времето: {time}"
@@ -1271,6 +1311,10 @@
     "description": "Ship jump status",
     "message": "Започнат"
   },
+  "INSTALLED": {
+    "description": "Label indicating something is installed",
+    "message": "Installed"
+  },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
     "message": "Недостатъчно гориво"
@@ -1295,8 +1339,12 @@
     "description": "",
     "message": "Натоварени"
   },
+  "IN_HOLD": {
+    "description": "Column title of the Commodity Market screen",
+    "message": "Товар"
+  },
   "IN_STOCK": {
-    "description": "",
+    "description": "Column title of Commodity and Ship Equipment markets showing current station stock level.",
     "message": "Наличност"
   },
   "IN_SYSTEM": {
@@ -2011,9 +2059,9 @@
     "description": "",
     "message": "Поправяне на {damage}% щети на корпуса за {price}"
   },
-  "REPLACE_EQUIPMENT_WITH": {
+  "REPLACE_EQUIPMENT": {
     "description": "Market header when replacing equipped items",
-    "message": "Замяна на оборудването"
+    "message": "Replace Equipment"
   },
   "REPUTATION": {
     "description": "",
@@ -2041,11 +2089,11 @@
   },
   "RESET_VIEW_ON_HYPERSPACE_EXIT": {
     "description": "Reset View on Hyperspace Exit option",
-    "message": "Reset View on Hyperspace Exit"
+    "message": "Нулиране на изгледа при изход от хиперпространството"
   },
   "RESET_VIEW_ON_HYPERSPACE_EXIT_DESC": {
     "description": "The tooltip of Reset View on Hyperspace Exit in the settings menu",
-    "message": "Reset view to main game view when exiting from hyperspace"
+    "message": "Нулиране на основния изглед при изход от хиперпространството"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -2119,6 +2167,10 @@
     "description": "",
     "message": "Избиране"
   },
+  "SELECTED": {
+    "description": "Label indicating the following item is selected",
+    "message": "Selected"
+  },
   "SELECTED_SAVE_DOESNT_EXISTS": {
     "description": "",
     "message": "Избраният запис не съществува"
@@ -2147,8 +2199,16 @@
     "description": "Commodities and equipment prices",
     "message": "Продажба"
   },
+  "SELL_EQUIP": {
+    "description": "Button text to sell installed equipment. May be used in a singular or plural context.",
+    "message": "Sell {name}"
+  },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
+    "message": "Продаване"
+  },
+  "SELL_PRICE": {
+    "description": "Title for sell-price column in commodity market",
     "message": "Продаване"
   },
   "SENSORS": {
@@ -2542,6 +2602,10 @@
   "VISIT_REPAIR_SERVICES": {
     "description": "Ship Repair tab button.",
     "message": "Отдел за ремонти"
+  },
+  "VOLUME": {
+    "description": "The volume property of some object",
+    "message": "Обем"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",

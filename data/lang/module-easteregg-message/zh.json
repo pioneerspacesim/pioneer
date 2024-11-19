@@ -25,14 +25,14 @@
   },
   "FLAVOUR_2_BODY": {
     "description": "A very rare easter egg, referencing a online myth from 90s: https://en.wikipedia.org/wiki/John_Titor",
-    "message": "I'm John Titor of the Time Travel Institute, from the year 4036. I'm heading to 1975 to pick up an IBM 5100 computer to degbug legacy computer programs that haven't been ported properly to the machines of my time, but I'm stopping by here to collect information about your time before it's lost in the great calamity.\n\nI intend to return with a six part description on what's needed for time machines to operate. In short, my time machine is a stationary mass, temporal displacement unit, powered by two top-spin dual-positive singularities that produce a standard off-set tipler sinusoid. The displacement unit moves through time, not space.\n\nI will be happy to post pictures of the unit upon request."
+    "message": "我是来自时间旅行研究所的约翰·蒂托，来自4036年。我要去1975年取一台IBM 5100电脑，用于调试那些没有正确移植到我们时代机器上的旧计算机程序，但我在这里停留是为了收集你们时代信息，以免在大灾难中丢失。\n\n我打算带回一个六部分的描述，说明时间机器运行所需的条件。简而言之，我的时间机器是一个固定质量的时间置换单元，由两个顶旋双正奇异性驱动，产生一个标准的偏移Tipler正弦波。置换单元在时间中移动，而不是空间。\n\n如有需要，我将乐意发布该单元的图片。"
   },
   "FLAVOUR_2_DESC": {
     "description": "Note: string has quotes",
-    "message": "'If time travel is real, where are all the time travelers?'"
+    "message": "“如果时间旅行是真的，那么所有的时间旅行者都在哪里？”"
   },
   "FLAVOUR_2_TITLE": {
     "description": "A very rare Easter egg, referencing Internet myth of John Titor.",
-    "message": "People of the past, be wary of the GREAT CALAMITY!"
+    "message": "过去的人，小心大灾难！"
   }
 }

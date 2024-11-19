@@ -43,6 +43,10 @@
     "description": "",
     "message": "2MW gyorstüzelő lézer"
   },
+  "CABINS": {
+    "description": "Category header for pressurized cabin slots",
+    "message": "Utaskabin"
+  },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
     "message": "Raktéri életfenntartó"
@@ -58,6 +62,10 @@
   "CARGO_SCOOP_DESCRIPTION": {
     "description": "",
     "message": "Lehetővé teszi rakománytartály felszedését az űrből."
+  },
+  "COMPUTER_MODULES": {
+    "description": "Category name of computer-related equipment",
+    "message": "Számítógép modulok"
   },
   "DAMAGE_PER_SHOT": {
     "description": "Tooltip explaining weapon damage per shot",
@@ -175,6 +183,54 @@
     "description": "",
     "message": "Lehetővé teszi hidrogén üzemanyag felvételét gázóriás bolygókból."
   },
+  "HARDPOINT_FUEL_SCOOP": {
+    "description": "Name for the 'Fuel Scoop' equipment hardpoint",
+    "message": "Üzemanyagszívó"
+  },
+  "HARDPOINT_MISSILE": {
+    "description": "Name for a generic missile mount",
+    "message": "Rakéta"
+  },
+  "HARDPOINT_MISSILE_ARRAY": {
+    "description": "Name for the 'Missile Array' equipment hardpoint",
+    "message": "Rakétakilövő"
+  },
+  "HARDPOINT_MISSILE_BAY": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "Rakétakonténer"
+  },
+  "HARDPOINT_PYLON": {
+    "description": "Name for a generic missile pylon",
+    "message": "Rakétasín"
+  },
+  "HARDPOINT_UTILITY": {
+    "description": "Name for a generic utility hardpoint",
+    "message": "Kiegészítő"
+  },
+  "HARDPOINT_WEAPON": {
+    "description": "Name for a generic weapon hardpoint",
+    "message": "Fegyver"
+  },
+  "HARDPOINT_WEAPON_CHIN": {
+    "description": "Name for the 'Chin Mount' equipment hardpoint",
+    "message": "Orr fegyver"
+  },
+  "HARDPOINT_WEAPON_FRONT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "Első fegyver"
+  },
+  "HARDPOINT_WEAPON_LEFT_NOSE": {
+    "description": "Name for the 'Left Nose' weapon hardpoint",
+    "message": "Bal első fegyver"
+  },
+  "HARDPOINT_WEAPON_REAR": {
+    "description": "Name for a generic rear-facing weapon hardpoint",
+    "message": "Hátső fegyver"
+  },
+  "HARDPOINT_WEAPON_RIGHT_NOSE": {
+    "description": "Name for the 'Right Nose' weapon hardpoint",
+    "message": "Jobb első fegyver"
+  },
   "HULL_AUTOREPAIR": {
     "description": "",
     "message": "Hajótest javító rendszer"
@@ -182,6 +238,10 @@
   "HULL_AUTOREPAIR_DESCRIPTION": {
     "description": "",
     "message": "Automatikusan javítja a hajótestet sérülés esetén."
+  },
+  "HULL_MOUNTS": {
+    "description": "Category name for hull-mounted equipment",
+    "message": "Hajótest foglalatok"
   },
   "HYPERCLOUD_ANALYZER": {
     "description": "",
@@ -219,6 +279,10 @@
     "description": "",
     "message": "Ásványokban gazdag aszteroidák bányászatához."
   },
+  "MISC_EQUIPMENT": {
+    "description": "Category header for miscellaneous equipment",
+    "message": "Egyéb"
+  },
   "MISSILES": {
     "description": "Category name of missile-related equipment",
     "message": "Rakéta"
@@ -231,6 +295,30 @@
     "description": "",
     "message": "Flottarakéta"
   },
+  "MISSILE_RACK_221": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
+    "message": "LH-120 Hydri rakétaindító"
+  },
+  "MISSILE_RACK_322": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
+    "message": "LH-230 Hydri rakétaindító"
+  },
+  "MISSILE_RACK_341": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
+    "message": "LH-140 Hydri rakétaindító"
+  },
+  "MISSILE_RAIL_S1": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
+    "message": "Cnida-101 rakétasín"
+  },
+  "MISSILE_RAIL_S2": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
+    "message": "Cnida-102 rakétasín"
+  },
+  "MISSILE_RAIL_S3": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
+    "message": "Cnida-103 rakétasín"
+  },
   "MISSILE_SMART": {
     "description": "",
     "message": "Követőrakéta"
@@ -239,13 +327,17 @@
     "description": "",
     "message": "R40 nemirányított rakéta"
   },
-  "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
-    "message": "Kombinált szívó"
+  "OCCUPIED_BERTHS": {
+    "description": "Label for the number of passenger berths currently occupied in a cabin equipment item",
+    "message": "Foglalt férőhely"
   },
-  "MULTI_SCOOP_DESCRIPTION": {
-    "description": "",
-    "message": "Bár kevésbé hatékony üzemanyagszívó üzemmódban, mint a hagyományos üzemanyagszívó de lehetővé teszi rakomány befogását is."
+  "OKB_KALURI_BOWFIN_MISSILE_RACK": {
+    "description": "Equipment name for an OKB-Kaluri Bowfin internal missile launcher",
+    "message": "Bowfin rakétaindító"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S2": {
+    "description": "Equipment name for an OPLI internal missile rack",
+    "message": "OPLI belső rakétaindító"
   },
   "ORBIT_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
@@ -267,9 +359,17 @@
     "description": "",
     "message": "Hatótávon kívül:"
   },
+  "PASSENGER_BERTHS": {
+    "description": "Label for the total number of passenger berths in a cabin equipment item",
+    "message": "Utas férőhely"
+  },
   "PASSENGER_CABIN": {
     "description": "",
     "message": "Kabin"
+  },
+  "PROJECTILE_SPEED": {
+    "description": "Stat label for weapon projectile speeds",
+    "message": "Lövedék sebesség"
   },
   "PROPULSION": {
     "description": "Category name of propulsion-related equipment",
@@ -310,6 +410,10 @@
   "RADAR_DESCRIPTION": {
     "description": "",
     "message": "Egy 3D térképet jelenít meg a közeli hajókról."
+  },
+  "REINFORCED_STRUCTURE": {
+    "description": "Name for an equipment item that reinforces the hull's superstructure",
+    "message": "Megerősített struktúra"
   },
   "SCAN_COMPLETED": {
     "description": "",
@@ -359,6 +463,58 @@
     "description": "Tooltip explaining weapon fire rate / RPM counter",
     "message": "Tűz-sebesség / perc"
   },
+  "SLOT_CABIN": {
+    "description": "Name for a generic room slot inside the pressurized living space",
+    "message": "Kabin"
+  },
+  "SLOT_CABIN_FORE": {
+    "description": "Name for a cabin slot towards the front of the ship",
+    "message": "Első kabin"
+  },
+  "SLOT_CABIN_REAR": {
+    "description": "Name for a cabin slot towards the rear of the ship",
+    "message": "Hátső kabin"
+  },
+  "SLOT_COMPUTER": {
+    "description": "Name for a generic computer equipment slot",
+    "message": "Számítógép"
+  },
+  "SLOT_ENGINE": {
+    "description": "Name for the ship's primary travel engines",
+    "message": "Hajtóművek"
+  },
+  "SLOT_HULL": {
+    "description": "Name for an equipment slot that augments or modifies the ship hull",
+    "message": "Hajótest"
+  },
+  "SLOT_HYPERDRIVE": {
+    "description": "Name for a ship's singular hyperdrive equipment slot",
+    "message": "Hipermotor"
+  },
+  "SLOT_SENSOR": {
+    "description": "Name for a generic (flight/navigation) sensor slot",
+    "message": "Érzékelő"
+  },
+  "SLOT_SHIELD": {
+    "description": "Name for a generic shield slot",
+    "message": "Védőpajzs"
+  },
+  "SLOT_SHIELD_LEFT": {
+    "description": "Name for a left-side shield slot",
+    "message": "Bal pajzs"
+  },
+  "SLOT_SHIELD_RIGHT": {
+    "description": "Name for a right-side shield equipment slot",
+    "message": "Jobb pajzs"
+  },
+  "SLOT_STRUCTURE": {
+    "description": "Name for the ship's internal structure modification slot",
+    "message": "Struktúra"
+  },
+  "SLOT_THRUSTER": {
+    "description": "Generic name for secondary attitude or maneuvering thrusters",
+    "message": "Manőverező hajtóművek"
+  },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
     "message": "Kicsi plazmagyorsító"
@@ -366,6 +522,18 @@
   "STARTING_SCAN": {
     "description": "",
     "message": "Felmérés indul, célpont távolsága:"
+  },
+  "STAT_POWER_DRAW": {
+    "description": "Stat label for equipment power draw",
+    "message": "Energiafelvétel"
+  },
+  "STAT_VOLUME": {
+    "description": "Stat label for equipment volume",
+    "message": "Térfogat"
+  },
+  "STAT_WEIGHT": {
+    "description": "Stat label for equipment weight",
+    "message": "Tömeg"
   },
   "SURFACE_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude. Model manufacturer name is meant to sound like a cheap brand.",
@@ -406,6 +574,10 @@
   "THRUSTERS_BEST_DESCRIPTION": {
     "description": "",
     "message": "Hajóra szabott fúvókák, a lehető legjobb hatékonysággal."
+  },
+  "THRUSTERS_DEFAULT": {
+    "description": "Equipment name for default RCS thrusters",
+    "message": "Alapértelmezett manőverező hajtóművek"
   },
   "THRUSTERS_MEDIUM": {
     "description": "",

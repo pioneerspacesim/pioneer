@@ -131,6 +131,22 @@
     "description": "Descriptive name for the PrimaryFire action.",
     "message": "初级火力"
   },
+  "BIND_RADAR_TOGGLE_MODE": {
+    "description": "Descriptive name for the RadarToggle action.",
+    "message": "切换雷达显示模式"
+  },
+  "BIND_RADAR_ZOOM_IN": {
+    "description": "Descriptive name for the RadarZoomIn action.",
+    "message": "手动放大雷达"
+  },
+  "BIND_RADAR_ZOOM_OUT": {
+    "description": "Descriptive name for the RadarZoomOut action.",
+    "message": "手动缩小雷达"
+  },
+  "BIND_RADAR_ZOOM_RESET": {
+    "description": "Descriptive name for the RadarZoomReset action.",
+    "message": "重置雷达缩放 "
+  },
   "BIND_RADIAL_HORIZONTAL_SELECTION": {
     "description": "Input axis name to select in the radial menu.",
     "message": "径向菜单左/右"
@@ -166,6 +182,10 @@
   "BIND_TARGET_OBJECT": {
     "description": "Descriptive name for the TargetObject action.",
     "message": "目标物体"
+  },
+  "BIND_TARGET_RADIAL": {
+    "description": "Descriptive name for opening the TargetRadial popup.",
+    "message": "打开目标径向菜单"
   },
   "BIND_THRUST_LOW_POWER": {
     "description": "Descriptive name for the ThrustLowPower action.",
@@ -242,6 +262,10 @@
   "GROUP_MISCELLANEOUS": {
     "message": "杂项"
   },
+  "GROUP_RADAR_CONTROL": {
+    "description": "Group label for radar-related inputs",
+    "message": "雷达控制"
+  },
   "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
     "description": "Header for the SectorMapViewControls input group.",
     "message": "地图视图控制"
@@ -317,6 +341,10 @@
   "PAGE_SHIP_CONTROLS": {
     "description": "Header for the ShipControls input page.",
     "message": "飞船控制"
+  },
+  "PAGE_SHIP_HUD": {
+    "description": "Header for the ShipHUD input page.",
+    "message": "飞船 - 抬头显示"
   },
   "PAGE_SHIP_VIEW": {
     "description": "Header for the ShipView input page.",

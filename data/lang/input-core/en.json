@@ -179,13 +179,13 @@
     "description": "Descriptive name for the SpeedControl axis.",
     "message": "Set Target Speed"
   },
-  "BIND_TARGET_RADIAL": {
-    "description": "Descriptive name for opening the TargetRadial popup.",
-    "message": "Open Target Radial Menu"
-  },
   "BIND_TARGET_OBJECT": {
     "description": "Descriptive name for the TargetObject action.",
     "message": "Target Object"
+  },
+  "BIND_TARGET_RADIAL": {
+    "description": "Descriptive name for opening the TargetRadial popup.",
+    "message": "Open Target Radial Menu"
   },
   "BIND_THRUST_LOW_POWER": {
     "description": "Descriptive name for the ThrustLowPower action.",
@@ -251,10 +251,6 @@
     "description": "Header for the GeneralViewControls input group.",
     "message": "General View Controls"
   },
-  "GROUP_RADAR_CONTROL": {
-    "description": "Group label for radar-related inputs",
-    "message": "Radar Control"
-  },
   "GROUP_LANDING_CONTROL": {
     "description": "Group label for landing-related inputs",
     "message": "Landing Control"
@@ -265,6 +261,10 @@
   },
   "GROUP_MISCELLANEOUS": {
     "message": "Miscellaneous"
+  },
+  "GROUP_RADAR_CONTROL": {
+    "description": "Group label for radar-related inputs",
+    "message": "Radar Control"
   },
   "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
     "description": "Header for the SectorMapViewControls input group.",
