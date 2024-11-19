@@ -367,7 +367,15 @@ local function displayRadar()
 			ui.sameLine()
 			ui.addCursorPos(Vector2(0, toggle_button_size - button_size))
 			icon = instrument:isAutoZoom() and icons.radar_automatic or icons.radar_manual
-			ui.mainMenuButton(icon, tt, ui.theme.buttonColors.disabled, Vector2(button_size))
+			local theme = instrument:isAutoZoom() and ui.theme.buttonColors.disabled or ui.theme.buttonColors.default
+			local clicked = ui.mainMenuButton(icon, tt, theme, Vector2(button_size))
+			if clicked then
+				if instrument:isAutoZoom() then
+					instrument:zoomIn()
+				else
+					instrument:resetZoom()
+				end
+			end
 		end
 
 		-- Draw radar range
