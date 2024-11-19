@@ -123,8 +123,9 @@ void ObjectViewerView::ReloadState()
 
 void ObjectViewerView::Update()
 {
-	if (Pi::input->KeyState(SDLK_EQUALS)) viewingDist *= 0.99f;
-	if (Pi::input->KeyState(SDLK_MINUS)) viewingDist *= 1.01f;
+	const float zoomScaler = (Pi::input->KeyState(SDLK_LSHIFT) || Pi::input->KeyState(SDLK_RSHIFT)) ? 0.001f : 0.01f;
+	if (Pi::input->KeyState(SDLK_EQUALS)) viewingDist *= (1.0f - zoomScaler);
+	if (Pi::input->KeyState(SDLK_MINUS)) viewingDist *= (1.0f + zoomScaler);
 	viewingDist = Clamp(viewingDist, 10.0f, 1e12f);
 
 	Body *body = Pi::player->GetNavTarget();
