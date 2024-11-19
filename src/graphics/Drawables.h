@@ -7,8 +7,10 @@
 #include "graphics/Material.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
+#include "text/DistanceFieldFont.h"
 
 #include <memory>
+#include <string>
 
 struct Aabb;
 
@@ -122,8 +124,6 @@ namespace Graphics {
 			void Draw(Renderer *, Material *);
 
 		private:
-			void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);
-
 			bool m_refreshVertexBuffer;
 			RefCountedPtr<MeshObject> m_pointMesh;
 			std::unique_ptr<VertexArray> m_va;
@@ -288,6 +288,23 @@ namespace Graphics {
 		class AABB {
 		public:
 			static void DrawVertices(Graphics::VertexArray &va, const matrix4x4f &transform, const Aabb &aabb, Color color);
+		};
+
+		//------------------------------------------------------------
+
+		// Label3D
+		class Label3D {
+		public:
+			Label3D(Graphics::Renderer *r, const std::string &str);
+			void Draw(Graphics::Renderer *r, const matrix4x4f &trans);
+
+		private:
+			void SetText(Graphics::Renderer *r, const std::string &text);
+
+			RefCountedPtr<Graphics::Material> m_material;
+			std::unique_ptr<Graphics::VertexArray> m_geometry;
+			std::unique_ptr<Graphics::MeshObject> m_textMesh;
+			RefCountedPtr<Text::DistanceFieldFont> m_font;
 		};
 
 	} // namespace Drawables

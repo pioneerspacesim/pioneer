@@ -17,14 +17,18 @@
 #include <deque>
 #include <memory>
 
+#define DEBUG_PATCHES 0
 //#define DEBUG_BOUNDING_SPHERES
 
-#ifdef DEBUG_BOUNDING_SPHERES
+#if DEBUG_PATCHES
 #include "graphics/Drawables.h"
 namespace Graphics {
+#ifdef DEBUG_BOUNDING_SPHERES
 	class RenderState;
-}
 #endif
+	class Label3DWrapper;
+} //namespace Graphics
+#endif // DEBUG_PATCHES
 
 namespace Graphics {
 	class Renderer;
@@ -185,9 +189,14 @@ private:
 	uint8_t m_patchUpdateState;
 	bool m_needUpdateVBOs;
 	bool m_hasJobRequest;
+#if DEBUG_PATCHES
 #ifdef DEBUG_BOUNDING_SPHERES
 	std::unique_ptr<Graphics::Drawables::Sphere3D> m_boundsphere;
 #endif
+	std::unique_ptr<Graphics::Drawables::Label3D> m_label3D;
+
+	void RenderLabelDebug(const vector3d &campos, const matrix4x4d &modelView) const;
+#endif // #if DEBUG_PATCHES
 };
 
 #endif /* _GEOPATCH_H */
