@@ -177,7 +177,7 @@ void Camera::Update()
 
 		// cull off-screen objects
 		double rad = b->GetClipRadius();
-		if (!m_context->GetFrustum().TestPointInfinite(attrs.viewCoords, rad))
+		if (!m_context->GetFrustum().TestSphereInfinite(attrs.viewCoords, rad))
 			continue;
 
 		attrs.camDist = attrs.viewCoords.Length();

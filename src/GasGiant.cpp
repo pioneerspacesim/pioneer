@@ -258,7 +258,7 @@ public:
 
 	void Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum)
 	{
-		if (!frustum.TestPoint(clipCentroid, clipRadius))
+		if (!frustum.TestSphere(clipCentroid, clipRadius))
 			return;
 
 		const vector3d relpos = clipCentroid - campos;
