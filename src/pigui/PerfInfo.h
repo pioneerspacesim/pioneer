@@ -67,6 +67,7 @@ namespace PiGui {
 		void DrawWorldViewStats();
 		void DrawImGuiStats();
 		void DrawInputDebug();
+		void DrawTerrainDebug();
 		void DrawStatList(const Perf::Stats::FrameInfo &fi);
 
 		void DrawCounter(CounterInfo &counter, const char *label, float min, float max, float height, bool drawStats = false);

@@ -4,6 +4,7 @@
 #include "PerfInfo.h"
 #include "Frame.h"
 #include "Game.h"
+#include "GameConfig.h"
 #include "Input.h"
 #include "LuaPiGui.h"
 #include "Pi.h"
@@ -349,10 +350,14 @@ void PerfInfo::DrawPerfWindow()
 
 			if (Pi::game && Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 				if (BeginDebugTab(s_worldIcon, "WorldView Stats")) {
-
 					DrawWorldViewStats();
 					EndDebugTab();
 				}
+			}
+
+			if (ImGui::BeginTabItem("Terrain")) {
+				DrawTerrainDebug();
+				ImGui::EndTabItem();
 			}
 
 			PiGui::RunHandler(Pi::GetFrameTime(), "debug-tabs");
@@ -621,6 +626,14 @@ void PerfInfo::DrawInputDebug()
 
 		ImGui::Spacing();
 		index++;
+	}
+}
+
+void PiGui::PerfInfo::DrawTerrainDebug()
+{
+	bool sortGeoPatches = Pi::config->Int("SortGeoPatches") == 1;
+	if (ImGui::Checkbox("Distance Sort GeoPatches", &sortGeoPatches)) {
+		Pi::config->SetInt("SortGeoPatches", sortGeoPatches ? 1 : 0);
 	}
 }
 
