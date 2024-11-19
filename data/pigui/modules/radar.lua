@@ -377,10 +377,10 @@ local function displayRadar()
 end -- function displayRadar()
 
 -- view has changed, update input frame
-Event.Register("onViewChanged", function()
-	if Game.CurrentView() == "WorldView" then
+Event.Register("onViewChanged", function(newView, previousView)
+	if newView == "WorldView" then
 		input_frame:AddToStack()
-	else
+	elseif previousView == "WorldView" then
 		input_frame:RemoveFromStack()
 	end
 end)
