@@ -20,8 +20,10 @@
 #include "profiler/Profiler.h"
 #include "vcacheopt/vcacheopt.h"
 #include "Core/Log.h"
+
 #include <algorithm>
 #include <deque>
+#include <sstream>
 
 #define DEBUG_CENTROIDS 0
 
@@ -280,6 +282,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		m_patchVBOData->m_normals.reset();
 		m_patchVBOData->m_colors.reset();
 
+#if DEBUG_PATCHES
 #ifdef DEBUG_BOUNDING_SPHERES
 		RefCountedPtr<Graphics::Material> mat(Pi::renderer->CreateMaterial("unlit", Graphics::MaterialDescriptor(), Graphics::RenderStateDesc()));
 		switch (m_depth) {
@@ -291,6 +294,12 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		}
 		m_boundsphere.reset(new Graphics::Drawables::Sphere3D(Pi::renderer, mat, 1, m_clipRadius));
 #endif
+		if (m_label3D == nullptr) {
+			std::stringstream stuff;
+			stuff << m_PatchID.GetPatchFaceIdx();
+			m_label3D.reset(new Graphics::Drawables::Label3DWrapper(Pi::renderer, stuff.str()));
+		}
+#endif // DEBUG_PATCHES
 	}
 }
 
@@ -305,6 +314,13 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 	if (!IsPatchVisible(frustum, campos))
 		return;
 
+#if DEBUG_PATCHES
+	if (m_label3D != nullptr) {
+		const vector3d relpos = m_clipCentroid - campos;
+		m_label3D->Draw(matrix4x4f(modelView * matrix4x4d::Translation(relpos)));
+	}
+#endif // DEBUG_PATCHES
+
 	if (m_kids[0]) {
 		for (int i = 0; i < NUM_KIDS; i++)
 			m_kids[i]->Render(renderer, campos, modelView, frustum);
@@ -316,6 +332,14 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 void GeoPatch::RenderImmediate(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView) const
 {
 	PROFILE_SCOPED()
+
+#if DEBUG_PATCHES
+	if (m_label3D != nullptr) {
+		const vector3d relpos = m_clipCentroid - campos;
+		m_label3D->Draw(matrix4x4f(modelView * matrix4x4d::Translation(relpos)));
+	}
+#endif // DEBUG_PATCHES
+
 	if (m_patchVBOData->m_heights) {
 		const vector3d relpos = m_clipCentroid - campos;
 		renderer->SetTransform(matrix4x4f(modelView * matrix4x4d::Translation(relpos)));
