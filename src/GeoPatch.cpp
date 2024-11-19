@@ -9,7 +9,6 @@
 #include "MathUtil.h"
 #include "Pi.h"
 #include "RefCounted.h"
-#include "math/Sphere.h"
 #include "galaxy/SystemBody.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
@@ -43,7 +42,31 @@ namespace PatchMaths{
 }
 
 // tri edge lengths
-static const double GEOPATCH_SUBDIVIDE_AT_CAMDIST = 5.0;
+static constexpr double GEOPATCH_SUBDIVIDE_AT_CAMDIST = 5.0;
+
+#if USE_SUB_CENTROID_CLIPPING
+#if NUM_HORIZON_POINTS == 9
+static const vector2d sample[NUM_HORIZON_POINTS] = {
+	{ 0.2, 0.2 }, { 0.5, 0.2 }, { 0.8, 0.2 },
+	{ 0.2, 0.5 }, { 0.5, 0.5 }, { 0.8, 0.8 },
+	{ 0.2, 0.8 }, { 0.5, 0.8 }, { 0.8, 0.8 }
+};
+#elif NUM_HORIZON_POINTS == 5
+static const vector2d sample[NUM_HORIZON_POINTS] = {
+	// Naive ordering
+	// { 0.2, 0.2 }, { 0.8, 0.2 }, // top
+	//{ 0.5, 0.5 }, // middle
+	//{ 0.2, 0.8 }, { 0.8, 0.8 } // bottom
+	
+	// possibly more optimal elimination for early out
+	{ 0.5, 0.5 }, // centre
+	{ 0.2, 0.2 }, // top-left corner
+	{ 0.8, 0.8 }, // opposite corner
+	{ 0.8, 0.2 }, // other diagonal
+	{ 0.2, 0.8 }  // ^^^
+};
+#endif
+#endif // #if USE_SUB_CENTROID_CLIPPING
 
 GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_,
@@ -70,7 +93,12 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 		distMult = 5.0 / Clamp(m_depth, 1, 5);
 	}
 	m_splitLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, m_depth) * distMult;
-	
+
+#if USE_SUB_CENTROID_CLIPPING
+	for (size_t i = 0; i < NUM_HORIZON_POINTS; i++) {
+		m_clipHorizon[i] = SSphere(PatchMaths::GetSpherePoint(v0_, v1_, v2_, v3_, sample[i].x, sample[i].y), m_clipRadius * CLIP_RADIUS_MULTIPLIER);
+	}
+#endif // #if USE_SUB_CENTROID_CLIPPING
 }
 
 GeoPatch::~GeoPatch()
@@ -287,6 +315,7 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 
 void GeoPatch::RenderImmediate(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView) const
 {
+	PROFILE_SCOPED()
 	if (m_patchVBOData->m_heights) {
 		const vector3d relpos = m_clipCentroid - campos;
 		renderer->SetTransform(matrix4x4f(modelView * matrix4x4d::Translation(relpos)));
@@ -336,6 +365,7 @@ void GeoPatch::GatherRenderablePatches(std::vector<GeoPatch *> &visiblePatches, 
 
 void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustum)
 {
+	PROFILE_SCOPED()
 	// there should be no LOD update when we have active split requests
 	if (HasJobRequest())
 		return;
@@ -465,6 +495,7 @@ void GeoPatch::ReceiveJobHandle(Job::Handle job)
 
 bool GeoPatch::IsPatchVisible(const Graphics::Frustum &frustum, const vector3d &camPos) const
 {
+	PROFILE_SCOPED()
 	// Test if this patch is visible
 	if (!frustum.TestPoint(m_clipCentroid, m_clipRadius))
 		return false; // nothing below this patch is visible
@@ -480,6 +511,7 @@ bool GeoPatch::IsPatchVisible(const Graphics::Frustum &frustum, const vector3d &
 
 bool GeoPatch::IsOverHorizon(const vector3d &camPos) const
 {
+	PROFILE_SCOPED()
 	const vector3d camDir(camPos - m_clipCentroid);
 	const vector3d camDirNorm(camDir.Normalized());
 	const vector3d cenDir(m_clipCentroid.Normalized());
@@ -488,7 +520,17 @@ bool GeoPatch::IsOverHorizon(const vector3d &camPos) const
 	if (dotProd < 0.25 && (camDir.LengthSqr() > (m_clipRadius * m_clipRadius))) {
 		// return the result of the Horizon Culling test, inverted to match naming semantic
 		// eg: HC returns true==visible, but this method returns true==hidden
+#if USE_SUB_CENTROID_CLIPPING
+		bool gather = false;
+		for (size_t i = 0; i < NUM_HORIZON_POINTS; i++) {
+			gather |= s_sph.HorizonCulling(camPos, m_clipHorizon[i]);
+			if (gather) 
+				return false; // early out if any test is visible
+		}
+		return !gather; // if true then it's visible, return semantic is true == over the horizon and thus invisible so invert
+#else
 		return !s_sph.HorizonCulling(camPos, SSphere(m_clipCentroid, m_clipRadius));
+#endif // #if USE_SUB_CENTROID_CLIPPING
 	}
 
 	// not over the horizon

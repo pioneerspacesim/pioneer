@@ -13,6 +13,7 @@
 #include "matrix4x4.h"
 #include "vector3.h"
 #include "graphics/Frustum.h"
+#include "math/Sphere.h"
 #include <deque>
 #include <memory>
 
@@ -36,6 +37,17 @@ class BasePatchJob;
 class SQuadSplitResult;
 class SSingleSplitResult;
 struct SSplitResultData;
+
+// Experiment:
+// Use smaller spheres than the (m_clipCentroid, m_clipRadius) to test against the horizon.
+// This can eliminate more patches due to not poking a giant clipping sphere over the horizon
+// but on terrains with extreme feature heights there is over-culling of GeoPatches
+// eg: Vesta in the Sol system has massive craters which are obviously culled as they go over the horizon.
+#define USE_SUB_CENTROID_CLIPPING 1
+#if USE_SUB_CENTROID_CLIPPING
+#define NUM_HORIZON_POINTS 5 // 9 // 9 points is more expensive
+static constexpr double CLIP_RADIUS_MULTIPLIER = 0.1;
+#endif // USE_SUB_CENTROID_CLIPPING
 
 class GeoPatch {
 public:
@@ -161,6 +173,9 @@ private:
 	std::unique_ptr<GeoPatch> m_kids[NUM_KIDS];
 
 	vector3d m_clipCentroid;
+#if USE_SUB_CENTROID_CLIPPING
+	SSphere m_clipHorizon[NUM_HORIZON_POINTS];
+#endif // #if USE_SUB_CENTROID_CLIPPING
 	GeoSphere *m_geosphere;
 	double m_splitLength; // rough length, is how near to the camera the m_clipCentroid should be before it must split
 	double m_clipRadius;
