@@ -215,6 +215,10 @@ Pioneer includes the following third-party software:
   Copyright © 2018–2022 Sam Hocevar
   Licensed under the WTFPLv2 license (http://www.wtfpl.net/)
 
+  toml11
+  Copyright (c) 2017-now Toru Niina
+  Licensed under the MIT license (see contrib/toml11/toml.hpp)
+
   High Performance C++ Profiler
   https://code.google.com/p/high-performance-cplusplus-profiler/
   Licensed under the MIT license
