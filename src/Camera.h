@@ -119,8 +119,10 @@ public:
 
 	void CalcLighting(const Body *b, double &ambient, double &direct) const;
 	void CalcInteriorLighting(const Body* b, Color4ub &sLight, double &sFac) const;
-	void CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const;
-	float ShadowedIntensity(const int lightNum, const Body *b) const;
+
+	static void CalcShadows(const Body *lightBody, const Body *b, std::vector<Shadow> &shadowsOut);
+	static float ShadowedIntensity(const Body *lightBody, const Body *b);
+
 	void PrincipalShadows(const Body *b, const int n, std::vector<Shadow> &shadowsOut) const;
 
 	// lights with properties in camera space
@@ -136,7 +138,7 @@ public:
 	void RestoreLighting() const;
 
 private:
-	std::vector<float> oldLightIntensities;
+	std::vector<float> m_oldLightIntensities;
 
 	RefCountedPtr<CameraContext> m_context;
 	Graphics::Renderer *m_renderer;

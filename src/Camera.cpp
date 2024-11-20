@@ -294,7 +294,7 @@ void Camera::Draw(const Body *excludeBody)
 					// Set up data for eclipses. All bodies are assumed to be spheres.
 					const LightSource &it = m_lightSources[i];
 					const vector3f lightDir(it.GetLight().GetPosition().Normalized());
-					intensity += ShadowedIntensity(i, pBody) * std::max(0.f, lightDir.Dot(-relpos.Normalized())) * (it.GetLight().GetDiffuse().GetLuminance() / 255.0f);
+					intensity += ShadowedIntensity(m_lightSources[i].GetBody(), pBody) * std::max(0.f, lightDir.Dot(-relpos.Normalized())) * (it.GetLight().GetDiffuse().GetLuminance() / 255.0f);
 				}
 				intensity = Clamp(intensity, 0.0f, 1.0f);
 
@@ -316,10 +316,10 @@ void Camera::Draw(const Body *excludeBody)
 	}
 
 	// Save lights for later restoring
-	oldLightIntensities.clear();
+	m_oldLightIntensities.clear();
 	std::vector<float> lightIntensities;
 	for (size_t i = 0; i < m_lightSources.size(); i++) {
-		oldLightIntensities.push_back(m_renderer->GetLight(i).GetIntensity());
+		m_oldLightIntensities.push_back(m_renderer->GetLight(i).GetIntensity());
 		lightIntensities.push_back(1.0f);
 	}
 
@@ -454,10 +454,9 @@ void Camera::CalcLighting(const Body *b, double &ambient, double &direct) const
 	ambient = std::max(minAmbient, ambient);
 }
 
-void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const
+void Camera::CalcShadows(const Body *lightBody, const Body *b, std::vector<Shadow> &shadowsOut)
 {
 	// Set up data for eclipses. All bodies are assumed to be spheres.
-	const Body *lightBody = m_lightSources[lightNum].GetBody();
 	if (!lightBody)
 		return;
 
@@ -535,11 +534,11 @@ float discCovered(const float dist, const float rad)
 
 static std::vector<Camera::Shadow> shadows;
 
-float Camera::ShadowedIntensity(const int lightNum, const Body *b) const
+float Camera::ShadowedIntensity(const Body *lightBody, const Body *b)
 {
 	shadows.clear();
 	shadows.reserve(16);
-	CalcShadows(lightNum, b, shadows);
+	CalcShadows(lightBody, b, shadows);
 	float product = 1.0;
 	for (std::vector<Camera::Shadow>::const_iterator it = shadows.begin(), itEnd = shadows.end(); it != itEnd; ++it)
 		product *= 1.0 - discCovered(it->centre.Length() / it->lrad, it->srad / it->lrad);
@@ -552,7 +551,7 @@ void Camera::PrincipalShadows(const Body *b, const int n, std::vector<Shadow> &s
 	shadows.clear();
 	shadows.reserve(16);
 	for (size_t i = 0; i < 4 && i < m_lightSources.size(); i++) {
-		CalcShadows(i, b, shadows);
+		CalcShadows(m_lightSources[i].GetBody(), b, shadows);
 	}
 	shadowsOut.reserve(shadows.size());
 	std::sort(shadows.begin(), shadows.end());
@@ -595,7 +594,7 @@ void Camera::PrepareLighting(const Body *b, bool doAtmosphere, bool doInteriors)
 	ambient = ambient * (1.0 - stationFactor) + stationFactor;
 
 	for (size_t i = 0; i < m_lightSources.size(); i++)
-		lightIntensities.push_back(direct * ShadowedIntensity(i, b));
+		lightIntensities.push_back(direct * ShadowedIntensity(m_lightSources[i].GetBody(), b));
 
 	// Setup dynamic lighting parameters
 	Color4ub ambientMix = (ambientLightColor.Shade((float)stationFactor)
@@ -610,5 +609,5 @@ void Camera::PrepareLighting(const Body *b, bool doAtmosphere, bool doInteriors)
 void Camera::RestoreLighting() const
 {
 	m_renderer->SetAmbientColor(Color::WHITE);
-	m_renderer->SetLightIntensity(m_lightSources.size(), oldLightIntensities.data());
+	m_renderer->SetLightIntensity(m_lightSources.size(), m_oldLightIntensities.data());
 }
