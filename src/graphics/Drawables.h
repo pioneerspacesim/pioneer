@@ -7,6 +7,7 @@
 #include "graphics/Material.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
+#include "text/DistanceFieldFont.h"
 
 #include <memory>
 #include <string>
@@ -291,14 +292,19 @@ namespace Graphics {
 
 		//------------------------------------------------------------
 
-		// Label3DWrapper
-		class Label3DWrapper {
+		// Label3D
+		class Label3D {
 		public:
-			Label3DWrapper(Graphics::Renderer *r, const std::string &str);
-			void Draw(const matrix4x4f &trans);
+			Label3D(Graphics::Renderer *r, const std::string &str);
+			void Draw(Graphics::Renderer *r, const matrix4x4f &trans);
 
 		private:
-			std::unique_ptr<SceneGraph::Label3D> m_label3D;
+			void SetText(Graphics::Renderer *r, const std::string &text);
+
+			RefCountedPtr<Graphics::Material> m_material;
+			std::unique_ptr<Graphics::VertexArray> m_geometry;
+			std::unique_ptr<Graphics::MeshObject> m_textMesh;
+			RefCountedPtr<Text::DistanceFieldFont> m_font;
 		};
 
 	} // namespace Drawables

@@ -193,7 +193,9 @@ private:
 #ifdef DEBUG_BOUNDING_SPHERES
 	std::unique_ptr<Graphics::Drawables::Sphere3D> m_boundsphere;
 #endif
-	std::unique_ptr<Graphics::Drawables::Label3DWrapper> m_label3D;
+	std::unique_ptr<Graphics::Drawables::Label3D> m_label3D;
+
+	void RenderLabelDebug(const vector3d &campos, const matrix4x4d &modelView) const;
 #endif // #if DEBUG_PATCHES
 };
 

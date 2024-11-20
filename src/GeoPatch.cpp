@@ -27,11 +27,11 @@
 
 #define DEBUG_CENTROIDS 0
 
+#if DEBUG_PATCHES
 #ifdef DEBUG_BOUNDING_SPHERES
 #include "graphics/RenderState.h"
 #endif
 
-#if DEBUG_CENTROIDS
 #include "graphics/Drawables.h"
 #endif
 
@@ -297,7 +297,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		if (m_label3D == nullptr) {
 			std::stringstream stuff;
 			stuff << m_PatchID.GetPatchFaceIdx();
-			m_label3D.reset(new Graphics::Drawables::Label3DWrapper(Pi::renderer, stuff.str()));
+			m_label3D.reset(new Graphics::Drawables::Label3D(Pi::renderer, stuff.str()));
 		}
 #endif // DEBUG_PATCHES
 	}
@@ -315,10 +315,7 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 		return;
 
 #if DEBUG_PATCHES
-	if (m_label3D != nullptr) {
-		const vector3d relpos = m_clipCentroid - campos;
-		m_label3D->Draw(matrix4x4f(modelView * matrix4x4d::Translation(relpos)));
-	}
+	RenderLabelDebug(campos, modelView);
 #endif // DEBUG_PATCHES
 
 	if (m_kids[0]) {
@@ -334,10 +331,7 @@ void GeoPatch::RenderImmediate(Graphics::Renderer *renderer, const vector3d &cam
 	PROFILE_SCOPED()
 
 #if DEBUG_PATCHES
-	if (m_label3D != nullptr) {
-		const vector3d relpos = m_clipCentroid - campos;
-		m_label3D->Draw(matrix4x4f(modelView * matrix4x4d::Translation(relpos)));
-	}
+	RenderLabelDebug(campos, modelView);
 #endif // DEBUG_PATCHES
 
 	if (m_patchVBOData->m_heights) {
@@ -560,3 +554,13 @@ bool GeoPatch::IsOverHorizon(const vector3d &camPos) const
 	// not over the horizon
 	return false;
 }
+
+#if DEBUG_PATCHES
+void GeoPatch::RenderLabelDebug(const vector3d &campos, const matrix4x4d &modelView) const
+{
+	if (m_label3D != nullptr) {
+		const vector3d relpos = m_clipCentroid - campos;
+		m_label3D->Draw(Pi::renderer, matrix4x4f(modelView * matrix4x4d::Translation(relpos)));
+	}
+}
+#endif // DEBUG_PATCHES
