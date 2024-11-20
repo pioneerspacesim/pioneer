@@ -16,6 +16,11 @@
 #include "render/RenderSetup.h"
 #include "render/ResourceManager.h"
 
+#include "render/generators/BackgroundGenerator.h"
+#include "render/generators/BillboardGenerator.h"
+#include "render/generators/LightingGenerator.h"
+#include "render/generators/FullscreenGenerator.h"
+
 #include "profiler/Profiler.h"
 
 using namespace Render;
@@ -61,6 +66,12 @@ SceneRenderer::SceneRenderer(Graphics::Renderer *r, ResourceManager *rm) :
 	m_renderer(r),
 	m_resManager(rm)
 {
+	m_generators.try_emplace("background", new BackgroundGenerator(this));
+	m_generators.try_emplace("billboards", new BillboardGenerator(this));
+	m_generators.try_emplace("lighting", new LightingGenerator(this));
+	m_generators.try_emplace("fullscreen", new FullscreenGenerator(this));
+	m_generators.try_emplace("fullscreen_resolve", new FullscreenResolveGenerator(this));
+	m_generators.try_emplace("fullscreen_downsample", new FullscreenDownsampleGenerator(this));
 }
 
 SceneRenderer::~SceneRenderer()
