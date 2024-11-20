@@ -5,6 +5,7 @@
 #include "Frame.h"
 #include "Game.h"
 #include "GameConfig.h"
+#include "GeoSphere.h"
 #include "Input.h"
 #include "LuaPiGui.h"
 #include "Pi.h"
@@ -631,10 +632,29 @@ void PerfInfo::DrawInputDebug()
 
 void PiGui::PerfInfo::DrawTerrainDebug()
 {
-	bool sortGeoPatches = Pi::config->Int("SortGeoPatches") == 1;
-	if (ImGui::Checkbox("Distance Sort GeoPatches", &sortGeoPatches)) {
-		Pi::config->SetInt("SortGeoPatches", sortGeoPatches ? 1 : 0);
+	ImGui::SeparatorText("Terrain Debug");
+
+	using Flags = GeoSphere::DebugFlags;
+	uint32_t debugFlags = GeoSphere::GetDebugFlags();
+	bool showSort = debugFlags & Flags::DEBUG_SORTGEOPATCHES;
+	bool showWire = debugFlags & Flags::DEBUG_WIREFRAME;
+	//bool showFace = debugFlags & Flags::DEBUG_FACELABELS;
+
+	bool changed = ImGui::Checkbox("Distance Sort GeoPatches", &showSort);
+	changed |= ImGui::Checkbox("Show Wireframe", &showWire);
+	//changed |= ImGui::Checkbox("Show Face IDs", &showFace);
+
+	/* clang-format off */
+	if (changed) {
+		debugFlags = (showSort ? Flags::DEBUG_SORTGEOPATCHES : 0)
+			| (showWire ? Flags::DEBUG_WIREFRAME : 0);
+			//| (showFace ? Flags::DEBUG_FACELABELS : 0);
+		GeoSphere::SetDebugFlags(debugFlags);
+		Pi::config->SetInt("SortGeoPatches", showSort ? 1 : 0);
+
+		Pi::config->Save();
 	}
+	/* clang-format on */
 }
 
 void PerfInfo::DrawImGuiStats()

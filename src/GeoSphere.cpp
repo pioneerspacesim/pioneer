@@ -39,6 +39,7 @@ static const int detail_edgeLen[5] = {
 
 static const double gs_targetPatchTriLength(100.0);
 static std::vector<GeoSphere *> s_allGeospheres;
+static Uint32 s_debugFlags = GeoSphere::DebugFlags::DEBUG_NONE;
 
 void GeoSphere::InitGeoSphere()
 {
@@ -127,6 +128,18 @@ bool GeoSphere::OnAddSingleSplitResult(const SystemPath &path, SSingleSplitResul
 	return false;
 }
 
+//static
+void GeoSphere::SetDebugFlags(Uint32 flags)
+{
+	s_debugFlags = flags;
+}
+
+//static
+Uint32 GeoSphere::GetDebugFlags()
+{
+	return s_debugFlags;
+}
+
 void GeoSphere::Reset()
 {
 	{
@@ -194,6 +207,12 @@ GeoSphere::GeoSphere(const SystemBody *body) :
 	CalculateMaxPatchDepth();
 
 	m_visiblePatches.reserve(1024);
+
+	if (Pi::config->Int("SortGeoPatches") == 0) {
+		SetDebugFlags(GetDebugFlags() & ~DebugFlags::DEBUG_SORTGEOPATCHES);
+	} else {
+		SetDebugFlags(GetDebugFlags() | DebugFlags::DEBUG_SORTGEOPATCHES);
+	}
 
 	//SetUpMaterials is not called until first Render since light count is zero :)
 }
@@ -443,11 +462,10 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 	renderer->SetTransform(matrix4x4f(modelView));
 
-	if (Pi::config->Int("SortGeoPatches") == 0) {
-		for (int i = 0; i < NUM_PATCHES; i++) {
-			m_patches[i]->Render(renderer, campos, modelView, frustum);
-		}
-	} else {
+	if (s_debugFlags & GeoSphere::DebugFlags::DEBUG_WIREFRAME) 
+		renderer->SetWireFrameMode(true);
+
+	if (s_debugFlags & GeoSphere::DebugFlags::DEBUG_SORTGEOPATCHES) {
 		// Gather the patches that could be rendered
 		for (int i = 0; i < NUM_PATCHES; i++) {
 			m_patches[i]->GatherRenderablePatches(m_visiblePatches, renderer, campos, frustum);
@@ -468,7 +486,14 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 		// must clear this after each render otherwise it just accumulates every patch ever drawn!
 		m_visiblePatches.clear();
+	} else {
+		for (int i = 0; i < NUM_PATCHES; i++) {
+			m_patches[i]->Render(renderer, campos, modelView, frustum);
+		}
 	}
+
+	if (s_debugFlags & GeoSphere::DebugFlags::DEBUG_WIREFRAME)
+		renderer->SetWireFrameMode(false);
 
 	renderer->SetAmbientColor(oldAmbient);
 
