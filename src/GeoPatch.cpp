@@ -19,7 +19,6 @@
 #include "perlin.h"
 #include "profiler/Profiler.h"
 #include "vcacheopt/vcacheopt.h"
-#include "Core/Log.h"
 
 #include <algorithm>
 #include <deque>
