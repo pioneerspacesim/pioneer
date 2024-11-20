@@ -239,7 +239,7 @@ void Camera::Update()
 		m_sortedBodies.push_back(attrs);
 
 		if(b->IsType(ObjectType::SPACESTATION)) {
-			m_spaceStations.push_back(b);
+			m_spaceStations.push_back(static_cast<SpaceStation *>(b));
 		}
 	}
 
@@ -362,7 +362,7 @@ void Camera::Draw(const Body *excludeBody)
 //        as optical thickness increases the fraction of ambient light increases
 //        this takes altitude into account automatically
 //    * As suns set the split is biased towards ambient
-void Camera::CalcLighting(const Body *b, double &ambient, double &direct) const
+void Camera::CalcLighting(const Body *b, const std::vector<Camera::LightSource> &lightSources, double &ambient, double &direct)
 {
 	const double minAmbient = 0.05;
 	ambient = minAmbient;
@@ -402,8 +402,7 @@ void Camera::CalcLighting(const Body *b, double &ambient, double &direct) const
 	double light = 0.0;
 	double light_clamped = 0.0;
 
-	const std::vector<Camera::LightSource> &lightSources = m_lightSources;
-	for (const LightSource &source : m_lightSources) {
+	for (const LightSource &source : lightSources) {
 		double sunAngle;
 		// calculate the extent the sun is towards zenith
 		const Body *lightBody = source.GetBody();
@@ -561,16 +560,15 @@ void Camera::PrincipalShadows(const Body *b, const int n, std::vector<Shadow> &s
 		shadowsOut.push_back(*(it++));
 	}
 }
-void Camera::CalcInteriorLighting(const Body* b, Color4ub &sLight, double &sFac) const
+void Camera::CalcInteriorLighting(const Body* b, const std::vector<SpaceStation *> &stations, Color4ub &sLight, double &sFac)
 {
-	for(const auto& ss : m_spaceStations) {
-		const SpaceStation* as_ss = static_cast<SpaceStation *>(ss);
-		const double distance2 = as_ss->GetPositionRelTo(b).LengthSqr();
+	for (const SpaceStation *ss : stations) {
+		const double distance2 = ss->GetPositionRelTo(b).LengthSqr();
 		const double maxClip = b->GetClipRadius() + ss->GetClipRadius();
 
 		// This short-circuits for efficient checking. Only one station may actually set
 		// lighting values in CalcInteriorLighting, which is why we return as soon as that happens
-		if (distance2 < maxClip * maxClip && as_ss->CalcInteriorLighting(b, sLight, sFac))
+		if (distance2 < maxClip * maxClip && ss->CalcInteriorLighting(b, sLight, sFac))
 			return;
 	}
 }
@@ -581,14 +579,14 @@ void Camera::PrepareLighting(const Body *b, bool doAtmosphere, bool doInteriors)
 
 	double ambient = 0.05, direct = 1.0;
 	if (doAtmosphere)
-		CalcLighting(b, ambient, direct);
+		CalcLighting(b, m_lightSources, ambient, direct);
 
 	Color4ub ambientLightColor = Color::WHITE;
 	Color4ub stationLightColor = Color::WHITE;
 	double stationFactor = 0.0;
 
 	if (doInteriors)
-		CalcInteriorLighting(b, stationLightColor, stationFactor);
+		CalcInteriorLighting(b, m_spaceStations, stationLightColor, stationFactor);
 
 	direct = direct * (1.0 - stationFactor);
 	ambient = ambient * (1.0 - stationFactor) + stationFactor;

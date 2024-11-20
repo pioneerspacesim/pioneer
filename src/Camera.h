@@ -18,6 +18,7 @@
 
 class Body;
 class Frame;
+class SpaceStation;
 
 namespace Graphics {
 	class Material;
@@ -117,8 +118,8 @@ public:
 		bool operator<(const Shadow &other) const { return srad / lrad < other.srad / other.lrad; }
 	};
 
-	void CalcLighting(const Body *b, double &ambient, double &direct) const;
-	void CalcInteriorLighting(const Body* b, Color4ub &sLight, double &sFac) const;
+	static void CalcLighting(const Body *b, const std::vector<Camera::LightSource> &lightSources, double &ambient, double &direct);
+	static void CalcInteriorLighting(const Body* b, const std::vector<SpaceStation *> &stations, Color4ub &sLight, double &sFac);
 
 	static void CalcShadows(const Body *lightBody, const Body *b, std::vector<Shadow> &shadowsOut);
 	static float ShadowedIntensity(const Body *lightBody, const Body *b);
@@ -128,8 +129,6 @@ public:
 	// lights with properties in camera space
 	const std::vector<LightSource> &GetLightSources() const { return m_lightSources; }
 	int GetNumLightSources() const { return static_cast<Uint32>(m_lightSources.size()); }
-	// Used for lighting the cockpit (and other bodies not directly rendered by the camera)
-	const std::vector<Body*> GetSpaceStations() const { return m_spaceStations; }
 
 	// Sets renderer lighting so that the body is renderer appropiately lit
 	void PrepareLighting(const Body* b, bool doAtmosphere, bool doInteriors) const;
@@ -182,7 +181,7 @@ private:
 
 	std::list<BodyAttrs> m_sortedBodies;
 	// For interior check
-	std::vector<Body*> m_spaceStations;
+	std::vector<SpaceStation *> m_spaceStations;
 	std::vector<LightSource> m_lightSources;
 };
 
