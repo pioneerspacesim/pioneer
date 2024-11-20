@@ -323,9 +323,11 @@ endif (NOT USE_SYSTEM_LIBLUA)
 add_subdirectory(src/core)
 
 define_pioneer_library(pioneer-lib PIONEER_CXX_FILES PIONEER_HXX_FILES)
-target_link_libraries(pioneer-lib PUBLIC pioneer-core)
+target_link_libraries(pioneer-lib PUBLIC pioneer-core pioneer-render)
 
 add_subdirectory(src/lua)
+
+add_subdirectory(src/render)
 
 if (WIN32)
 	string(TIMESTAMP BUILD_YEAR "%Y")
