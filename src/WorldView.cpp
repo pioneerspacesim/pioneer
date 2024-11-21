@@ -21,6 +21,9 @@
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
+#include "render/RenderSetup.h"
+#include "render/ResourceManager.h"
+#include "render/SceneRenderer.h"
 #include "matrix4x4.h"
 #include "ship/ShipViewController.h"
 #include "sound/Sound.h"
@@ -113,6 +116,14 @@ void WorldView::InitObject()
 	m_cameraContext.Reset(new CameraContext(Pi::renderer->GetWindowWidth(), Pi::renderer->GetWindowHeight(), fovY, znear, zfar));
 	m_camera.reset(new Camera(m_cameraContext, Pi::renderer));
 
+	m_resManager.reset(new Render::ResourceManager(Pi::renderer));
+	m_sceneRenderer.reset(new Render::SceneRenderer(Pi::renderer, m_resManager.get()));
+
+	m_resManager->ImportRenderTarget(Pi::GetApp()->GetRenderTarget(), "backbuffer");
+
+	Render::RenderSetup *rs = new Render::RenderSetup("renderer/default.render_setup.toml");
+	m_sceneRenderer->LoadRenderSetup(rs);
+
 	InputBindings.RegisterBindings();
 	shipView.reset(new ShipViewController(this));
 	shipView->Init();
@@ -159,11 +170,18 @@ void WorldView::Draw3D()
 
 	m_cameraContext->ApplyDrawTransforms(m_renderer);
 
-	m_camera->Draw();
+	m_sceneRenderer->BeforeRendering(Pi::game->GetSpace(), m_camera.get());
+
+	m_sceneRenderer->RenderScene(Pi::game->GetSpace(), m_camera.get(), "world");
 
 	// NB: Do any screen space rendering after here:
 	// Things like the cockpit and AR features like hudtrails, space dust etc.
 	m_viewController->Draw(m_camera.get());
+
+	// TODO: post-processing chain
+	// m_sceneRenderer->RenderScene(Pi::game->GetSpace(), m_camera.get(), "postprocess");
+
+	Pi::renderer->SetRenderTarget(Pi::GetApp()->GetRenderTarget());
 
 	// Draw 3D HUD
 	// Speed lines
