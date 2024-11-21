@@ -27,6 +27,11 @@ enum PlaneType {
 	PARENT
 };
 
+namespace Render {
+	class SceneRenderer;
+	class ResourceManager;
+}
+
 class WorldView : public PiGuiView {
 public:
 	static void RegisterInputBindings();
@@ -117,6 +122,9 @@ private:
 
 	RefCountedPtr<CameraContext> m_cameraContext;
 	std::unique_ptr<Camera> m_camera;
+
+	std::unique_ptr<Render::SceneRenderer> m_sceneRenderer;
+	std::unique_ptr<Render::ResourceManager> m_resManager;
 
 	Indicator m_combatTargetIndicator;
 	Indicator m_targetLeadIndicator;

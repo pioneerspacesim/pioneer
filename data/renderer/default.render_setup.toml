@@ -1,0 +1,58 @@
+# Default renderer setup for Pioneer's forward rendering
+# Includes a commented-out prototype render layer for proof-of-concept post-processing
+
+[parameters]
+blur = "true"
+msaa = 0
+
+# [[resource.render_target]]
+# name = "scene_copy"
+# format = "RGBA8"
+# depends_on = "backbuffer"
+# h_scale = 1
+# w_scale = 1
+
+[[resource.render_target]]
+name = "blur"
+format = "RGB8"
+depends_on = "backbuffer"
+
+# Render layers
+
+[[render_pass.world]]
+name = "setup_lighting"
+generator = "lighting"
+
+[[render_pass.world]]
+name = "scene_background"
+generator = "background"
+render_target = "backbuffer"
+
+[[render_pass.world]]
+name = "scene_objects"
+render_target = "backbuffer"
+
+[[render_pass.world]]
+name = "scene_billboards"
+generator = "billboards"
+render_target = "backbuffer"
+shader = "billboards"
+
+# Post-processing chain (runs at the end after all world-view has finished)
+
+# [[render_pass.postprocess]]
+# name = "msaa_resolve"
+# generator = "fullscreen_resolve"
+# render_target = "scene_copy"
+# input = "backbuffer"
+
+# [[render_pass.postprocess]]
+# name = "scene_blur"
+# generator = "fullscreen_downsample"
+# render_target = "blur"
+# input = "scene_copy"
+# shader = "kawase"
+# steps = 3
+
+# [[render_pass.postprocess.conditions]]
+# blur = "true"
