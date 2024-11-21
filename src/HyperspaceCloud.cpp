@@ -138,13 +138,21 @@ Ship *HyperspaceCloud::EvictShip()
 	return s;
 }
 
-static void make_circle_thing(VertexArray &va, float radius, const Color &colCenter, const Color &colEdge)
+static void make_circle_thing(VertexArray &va, float radius, const Color &colCenter, const Color &colEdge, float stepAngle = 0.1f) 
 {
-	va.Add(vector3f(0.f, 0.f, 0.f), colCenter);
-	for (float ang = 0; ang < float(M_PI) * 2.f; ang += 0.1f) {
-		va.Add(vector3f(radius * sin(ang), radius * cos(ang), 0.0f), colEdge);
-	}
-	va.Add(vector3f(0.f, radius, 0.f), colEdge);
+    // Add the center point of the circle with the specified center color
+    va.Add(vector3f(0.f, 0.f, 0.f), colCenter);
+    
+    // Iterate over the angles from 0 to 2π to create points around the circle
+    for (float ang = 0; ang < float(M_PI) * 2.f; ang += stepAngle) {
+        // Calculate the x and y coordinates of the point on the circle using the current angle
+        // and add the point with the edge color to the vertex array
+        va.Add(vector3f(radius * sin(ang), radius * cos(ang), 0.0f), colEdge);
+    }
+    
+    // Add the first point of the circle again to close the circle, using the edge color
+    // This ensures that the circle is a continuous loop in the vertex array
+    va.Add(vector3f(radius * sin(0.f), radius * cos(0.f), 0.0f), colEdge); 
 }
 
 void HyperspaceCloud::UpdateInterpTransform(double alpha)
