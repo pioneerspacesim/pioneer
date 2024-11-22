@@ -434,8 +434,8 @@ end
 local onEnterSystem = function (ship)
 	if not ship.IsPlayer() then return end
 	-- Return to game view when we exit hyperspace
-	if Engine.GetResetViewOnHyperspaceExit() and Game.CurrentView() ~= "world" then
-		Game.SetView("world")
+	if Engine.GetResetViewOnHyperspaceExit() and Game.CurrentView() ~= "WorldView" then
+		Game.SetView("WorldView")
 	end
 end
 

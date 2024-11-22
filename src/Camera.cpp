@@ -35,11 +35,11 @@ CameraContext::CameraContext(float width, float height, float fovAng, float zNea
 	m_zNear(zNear),
 	m_zFar(zFar),
 	m_frustum(m_width, m_height, m_fovAng, m_zNear, m_zFar),
+	m_projMatrix(matrix4x4f::InfinitePerspectiveMatrix(DEG2RAD(m_fovAng), m_width / m_height, m_zNear)),
 	m_frame(FrameId::Invalid),
 	m_pos(0.0),
 	m_orient(matrix3x3d::Identity()),
-	m_camFrame(FrameId::Invalid),
-	m_projMatrix(matrix4x4f::InfinitePerspectiveMatrix(DEG2RAD(m_fovAng), m_width / m_height, m_zNear))
+	m_camFrame(FrameId::Invalid)
 {
 }
 

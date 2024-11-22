@@ -675,7 +675,6 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const CameraContext *camera, co
 		return;
 
 	// Early frustum test of whole city.
-	const vector3d stationOrigin = station->GetPosition();
 	const vector3d stationPos = viewTransform * (station->GetPosition() + m_realCentre);
 
 	if (!camera->GetFrustum().TestPoint(stationPos, m_clipRadius))

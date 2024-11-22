@@ -17,7 +17,7 @@ local TabView = require 'pigui.views.tab-view'
 local stationView
 
 if not stationView then
-	stationView = TabView.New("space_station")
+	stationView = TabView.New("StationView")
 	-- stationView.windowPadding = ui.rescaleUI(Vector2(18, 18))
 	stationView.style = ui.rescaleUI({
 		windowPadding = Vector2(18, 18),
@@ -84,7 +84,7 @@ if not stationView then
 	ui.registerModule("game", function()
 		stationView:renderTabView()
 		if stationView.isActive and ui.escapeKeyReleased() then
-			Game.SetView("world")
+			Game.SetView("WorldView")
 		end
 	end)
 end

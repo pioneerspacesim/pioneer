@@ -240,7 +240,7 @@ end
 
 local drawHUD = ui.makeFullScreenHandler("HUD", function()
 	if ui.shouldDrawUI() then
-		if Game.CurrentView() == "world" then
+		if Game.CurrentView() == "WorldView" then
 			gameView:draw()
 		else
 			gameView.shouldRefresh = true
@@ -248,7 +248,7 @@ local drawHUD = ui.makeFullScreenHandler("HUD", function()
 
 		ui.radialMenu("game")
 		callModules("game")
-	elseif Game.CurrentView() == "world" then
+	elseif Game.CurrentView() == "WorldView" then
 		displayScreenshotInfo()
 	end
 end)
@@ -295,7 +295,7 @@ ui.registerHandler('game', function(delta_t)
 		end)
 
 		-- TODO: dispatch escape key to views and let them handle it
-		if currentView == "world" and ui.escapeKeyReleased(true) then
+		if currentView == "WorldView" and ui.escapeKeyReleased(true) then
 			ui.optionsWindow:changeState()
 		end
 

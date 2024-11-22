@@ -147,7 +147,7 @@ Event.Register("onSongFinished", function ()
 		else
 			playAmbient()
 		end
-	elseif Game.CurrentView() == "sector" or Game.CurrentView() == "system_info" or Game.CurrentView() == "system" then
+	elseif Game.CurrentView() == "SectorView" or Game.CurrentView() == "SystemView" then
 		if Game.system and Game.system:DistanceTo(SystemPath.New(0, 0, 0, 0, 0)) < 1000 then -- farther than where ambient music switches
 			if music["map-core"] then
 				MusicPlayer.playRandomSongFromCategory("map-core")
@@ -238,7 +238,7 @@ end)
 
 -- view has changed, so player might have left the map view
 Event.Register("onViewChanged", function()
-	if inMapView and Game.CurrentView() == "world" then
+	if inMapView and Game.CurrentView() == "WorldView" then
 		playAmbient()
 		inMapView = false
 	end

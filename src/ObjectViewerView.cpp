@@ -27,7 +27,7 @@
 #if WITH_OBJECTVIEWER
 
 ObjectViewerView::ObjectViewerView() :
-	PiGuiView("ObjectViewerView"),
+	View("ObjectViewerView"),
 	m_targetBody(nullptr),
 	m_systemBody(nullptr),
 	m_state{},
@@ -253,7 +253,7 @@ void ObjectViewerView::DrawPiGui()
 		DrawControlsWindow();
 	}
 
-	PiGuiView::DrawPiGui();
+	View::DrawPiGui();
 }
 
 static constexpr fixed dtofixed(double val, uint32_t denom = 1 << 16)

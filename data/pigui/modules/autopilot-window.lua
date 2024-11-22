@@ -258,12 +258,12 @@ local function displayAutoPilotWindow()
 	ui.setNextWindowPos(Vector2(window_posx, window_posy) , "Always")
 	ui.window("AutoPilot", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings", "AlwaysAutoResize"},
 		function()
-			if current_view == "world" then
+			if current_view == "WorldView" then
 				ui.addCursorPos(Vector2(0, shift))
 				if button_hyperspace() then ui.sameLine() end
 				if button_undock() then ui.sameLine() end
 				speed_limiter.show()
-			end -- current_view == "world"
+			end -- current_view == "WorldView"
 		end)
 end
 

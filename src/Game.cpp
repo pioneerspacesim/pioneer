@@ -32,7 +32,6 @@
 #include "SystemView.h"
 #include "WorldView.h"
 #include "galaxy/GalaxyGenerator.h"
-#include "pigui/PiGuiView.h"
 #include "ship/PlayerShipController.h"
 
 Game::Game(const SystemPath &path, const double startDateTime, const char *shipType) :
@@ -824,8 +823,8 @@ void Game::Views::Init(Game *game)
 	m_sectorView = new SectorView(game);
 	m_worldView = new WorldView(game);
 	m_systemView = new SystemView(game);
-	m_spaceStationView = new PiGuiView("StationView");
-	m_infoView = new PiGuiView("InfoView");
+	m_spaceStationView = new View("StationView");
+	m_infoView = new View("InfoView");
 	m_deathView = new DeathView(game);
 
 #if WITH_OBJECTVIEWER
@@ -841,8 +840,8 @@ void Game::Views::LoadFromJson(const Json &jsonObj, Game *game)
 	m_worldView = new WorldView(jsonObj, game);
 
 	m_systemView = new SystemView(game);
-	m_spaceStationView = new PiGuiView("StationView");
-	m_infoView = new PiGuiView("InfoView");
+	m_spaceStationView = new View("StationView");
+	m_infoView = new View("InfoView");
 	m_deathView = new DeathView(game);
 
 #if WITH_OBJECTVIEWER

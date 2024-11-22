@@ -19,15 +19,15 @@ namespace Graphics {
  */
 class View {
 public:
-	View();
+	View(const std::string &name);
 	virtual ~View();
-	virtual void Draw(){};
+	virtual void Draw() {};
 	// called before Gui::Draw will call widget ::Draw methods.
-	virtual void Draw3D() = 0;
+	virtual void Draw3D() {};
 	// for checking key states, mouse crud
-	virtual void Update() = 0;
+	virtual void Update() {};
 	// Called during the pigui frame to draw UI
-	virtual void DrawPiGui(){};
+	virtual void DrawPiGui();
 	virtual void SaveToJson(Json &jsonObj) {}
 	virtual void LoadFromJson(const Json &jsonObj) {}
 
@@ -36,10 +36,12 @@ public:
 
 	void SetRenderer(Graphics::Renderer *r) { m_renderer = r; }
 
+	const std::string &GetViewName() const { return m_handlerName; }
 protected:
-	virtual void OnSwitchTo() = 0;
+	virtual void OnSwitchTo() {};
 	virtual void OnSwitchFrom() {}
 	Graphics::Renderer *m_renderer;
+	std::string m_handlerName;
 };
 
 #endif /* _VIEW_H */
