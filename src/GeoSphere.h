@@ -90,7 +90,7 @@ private:
 	void ProcessQuadSplitRequests();
 
 	std::unique_ptr<GeoPatch> m_patches[6];
-	std::vector<GeoPatch *> m_visiblePatches;
+	std::vector<std::pair<double, GeoPatch *>> m_visiblePatches;
 
 	struct TDistanceRequest {
 		TDistanceRequest(double dist, SQuadSplitRequest *pRequest, GeoPatch *pRequester) :

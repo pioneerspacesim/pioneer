@@ -362,7 +362,7 @@ void GeoPatch::RenderImmediate(Graphics::Renderer *renderer, const vector3d &cam
 	}
 }
 
-void GeoPatch::GatherRenderablePatches(std::vector<GeoPatch *> &visiblePatches, Graphics::Renderer *renderer, const vector3d &campos, const Graphics::Frustum &frustum)
+void GeoPatch::GatherRenderablePatches(std::vector<std::pair<double, GeoPatch *>> &visiblePatches, Graphics::Renderer *renderer, const vector3d &campos, const Graphics::Frustum &frustum)
 {
 	PROFILE_SCOPED()
 	// must update the VBOs to calculate the clipRadius...
@@ -375,7 +375,7 @@ void GeoPatch::GatherRenderablePatches(std::vector<GeoPatch *> &visiblePatches, 
 		for (int i = 0; i < NUM_KIDS; i++)
 			m_kids[i]->GatherRenderablePatches(visiblePatches, renderer, campos, frustum);
 	} else if (m_patchVBOData->m_heights) {
-		visiblePatches.emplace_back(this);
+		visiblePatches.emplace_back((m_clipCentroid - campos).LengthSqr(), this);
 	}
 }
 
