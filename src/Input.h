@@ -226,6 +226,10 @@ public:
 	// This is a default value only, centralized here to promote uniform user expericience.
 	float GetMoveSpeedShiftModifier();
 
+	// Get the default speed modifier to apply to rotation depending on the "shift" keys.
+	// This is a default value only, centralized here to promote uniform user expericience.
+	float GetRotateSpeedShiftModifier();
+
 	sigc::signal<void, SDL_Keysym *> onKeyPress;
 	sigc::signal<void, SDL_Keysym *> onKeyRelease;
 	sigc::signal<void, int, int, int> onMouseButtonUp;

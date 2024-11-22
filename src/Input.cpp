@@ -851,10 +851,16 @@ void Manager::DispatchEvents()
 
 */
 
+// Mouse rotation is enabled if:
+// MMB is pressed, or Ctrl+LMB is pressed, AND no other mouse buttons are pressed
 bool Manager::IsMouseRotatePressed()
 {
-	return MouseButtonState(SDL_BUTTON_MIDDLE) ||
-	       ((keyModState & KMOD_LCTRL) && MouseButtonState(SDL_BUTTON_LEFT));
+	int state = keyModState & KMOD_LCTRL ? 0x01 : 0x00;
+	state |= MouseButtonState(SDL_BUTTON_LEFT) ? 0x02 : 0x00;
+	state |= MouseButtonState(SDL_BUTTON_MIDDLE) ? 0x04 : 0x00;
+	state |= MouseButtonState(SDL_BUTTON_RIGHT) ? 0x08 : 0x00;
+
+	return state == 0x03 || state == 0x04;
 }
 
 void Manager::SetCapturingMouse(bool grabbed)
@@ -878,6 +884,13 @@ float Manager::GetMoveSpeedShiftModifier()
 {
 	// Suggestion: make x1000 speed on pressing both keys?
 	if (KeyState(SDLK_LSHIFT)) return 100.f;
-	if (KeyState(SDLK_RSHIFT)) return 10.f;
+	if (KeyState(SDLK_LALT)) return 10.f;
+	return 1;
+}
+
+float Manager::GetRotateSpeedShiftModifier()
+{
+	if (KeyState(SDLK_LSHIFT)) return 10.f;
+	if (KeyState(SDLK_LALT)) return 0.1f;
 	return 1;
 }

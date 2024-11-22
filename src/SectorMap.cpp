@@ -1161,8 +1161,9 @@ void SectorMap::Update(float frameTime)
 	if (m_rotateWithMouseButton || m_rotateView) {
 		int motion[2];
 		input->GetMouseMotion(motion);
-		m_rotXMovingTo += 0.2f * float(motion[1]);
-		m_rotZMovingTo += 0.2f * float(motion[0]);
+		float speed = 0.2f * input->GetRotateSpeedShiftModifier();
+		m_rotXMovingTo += speed * float(motion[1]);
+		m_rotZMovingTo += speed * float(motion[0]);
 	} else if (m_zoomView) {
 		input->SetCapturingMouse(true);
 		int motion[2];
