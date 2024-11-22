@@ -84,7 +84,7 @@ public:
 				merge &= m_kids[i]->canBeMerged();
 			}
 		}
-		merge &= !(HasJobRequest());
+		merge &= !(m_hasJobRequest);
 		return merge;
 	}
 
@@ -102,33 +102,6 @@ public:
 	inline void SetNeedToUpdateVBOs()
 	{
 		m_needUpdateVBOs = HasHeightData();
-	}
-
-private:
-
-	inline bool NeedToUpdateVBOs() const
-	{
-		return m_needUpdateVBOs;
-	}
-
-	inline void ClearNeedToUpdateVBOs()
-	{
-		m_needUpdateVBOs = false;
-	}
-
-	inline void SetHasJobRequest()
-	{
-		m_hasJobRequest = true;
-	}
-
-	inline bool HasJobRequest() const
-	{
-		return m_hasJobRequest;
-	}
-
-	inline void ClearHasJobRequest()
-	{
-		m_hasJobRequest = false;
 	}
 
 
