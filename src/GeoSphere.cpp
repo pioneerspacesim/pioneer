@@ -472,16 +472,16 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 		}
 
 		// distance sort the patches
-		std::sort(m_visiblePatches.begin(), m_visiblePatches.end(), [&, campos](const GeoPatch *a, const GeoPatch *b) {
-			return (a->Centroid() - campos).LengthSqr() < (b->Centroid() - campos).LengthSqr();
+		std::sort(m_visiblePatches.begin(), m_visiblePatches.end(), [&, campos](const std::pair<double, GeoPatch *> &a, const std::pair<double, GeoPatch *> &b) {
+			return (a.first) < (b.first);
 		});
 
 		// cull occluded patches somehow?
 		// create frustum from corner points, something vertical, and the campos??? Cull anything within that frustum?
 
 		// render the sorted patches
-		for (GeoPatch *pPatch : m_visiblePatches) {
-			pPatch->RenderImmediate(renderer, campos, modelView);
+		for (std::pair<double, GeoPatch *> &pPatch : m_visiblePatches) {
+			pPatch.second->RenderImmediate(renderer, campos, modelView);
 		}
 
 		// must clear this after each render otherwise it just accumulates every patch ever drawn!

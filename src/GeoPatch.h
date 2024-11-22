@@ -74,7 +74,7 @@ public:
 
 	void Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum);
 	void RenderImmediate(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView) const;
-	void GatherRenderablePatches(std::vector<GeoPatch *> &visiblePatches, Graphics::Renderer *renderer, const vector3d &campos, const Graphics::Frustum &frustum);
+	void GatherRenderablePatches(std::vector<std::pair<double, GeoPatch *>> &visiblePatches, Graphics::Renderer *renderer, const vector3d &campos, const Graphics::Frustum &frustum);
 
 	inline bool canBeMerged() const
 	{
@@ -97,8 +97,6 @@ public:
 	void ReceiveJobHandle(Job::Handle job);
 
 	inline bool HasHeightData() const { return (m_patchVBOData != nullptr) && (m_patchVBOData->m_heights.get() != nullptr); }
-
-	inline const vector3d &Centroid() const { return m_clipCentroid; }
 
 	// used by GeoSphere so must be public
 	inline void SetNeedToUpdateVBOs()
