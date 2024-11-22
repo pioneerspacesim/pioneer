@@ -1153,8 +1153,7 @@ void SectorMap::Update(float frameTime)
 	if (InputBindings.mapViewPitch->IsActive()) m_rotXMovingTo += 0.5f * moveSpeed * InputBindings.mapViewPitch->GetValue();
 
 	// to capture mouse when button was pressed and release when released
-	const int mouseButton = (input->EmulateMiddleMouseButton() ? SDL_BUTTON_LEFT : SDL_BUTTON_MIDDLE);
-	if (input->MouseButtonState(mouseButton) != m_rotateWithMouseButton) {
+	if (input->IsMouseRotatePressed() != m_rotateWithMouseButton) {
 		m_rotateWithMouseButton = !m_rotateWithMouseButton;
 		input->SetCapturingMouse(m_rotateWithMouseButton);
 	}

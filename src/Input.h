@@ -206,6 +206,11 @@ public:
 
 	int GetMouseWheel() { return mouseWheel; }
 
+	// Here for unified UI experience.
+	// Returns true if the mouse button(s)/modifier(s) required to enable
+	// rotation are currently pressed.
+	bool IsMouseRotatePressed();
+
 	// Capturing the mouse hides the cursor, puts the mouse into relative mode,
 	// and passes all mouse inputs to the input system, regardless of whether
 	// ImGui is using them or not.

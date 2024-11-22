@@ -851,6 +851,12 @@ void Manager::DispatchEvents()
 
 */
 
+bool Manager::IsMouseRotatePressed()
+{
+	return MouseButtonState(SDL_BUTTON_MIDDLE) ||
+	       ((keyModState & KMOD_LCTRL) && MouseButtonState(SDL_BUTTON_LEFT));
+}
+
 void Manager::SetCapturingMouse(bool grabbed)
 {
 	// early-out to avoid changing (possibly) expensive WM state
