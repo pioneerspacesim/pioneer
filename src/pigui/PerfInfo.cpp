@@ -256,9 +256,15 @@ void PerfInfo::Draw()
 		ImGui::ShowStackToolWindow(&m_state->stackToolOpen);
 }
 
-static const char *s_rendererIcon = "\uF082";
-static const char *s_worldIcon = "\uF092";
-static const char *s_perfIcon = "\uF0F0";
+// Icons are found in the file /data/icons/icons.svg
+// The value below can be calculated like this: \uF0A4
+// \uF0 ignore this part
+// A == 10 zero index based so the 11th row of icons.svg
+// 4 == 4 zero index based so the 5th column of icons.svg
+static const char *s_rendererIcon = u8"\uF082";
+static const char *s_worldIcon = u8"\uF092";
+static const char *s_perfIcon = u8"\uF0F0";
+static const char *s_planetIcon = u8"\uF0A0";
 
 bool BeginDebugTab(const char *icon, const char *label)
 {
@@ -344,6 +350,11 @@ void PerfInfo::DrawPerfWindow()
 				EndDebugTab();
 			}
 
+			if (BeginDebugTab(s_planetIcon, "Terrain")) {
+				DrawTerrainDebug();
+				EndDebugTab();
+			}
+
 			if (false && ImGui::BeginTabItem("Input")) {
 				DrawInputDebug();
 				ImGui::EndTabItem();
@@ -354,11 +365,6 @@ void PerfInfo::DrawPerfWindow()
 					DrawWorldViewStats();
 					EndDebugTab();
 				}
-			}
-
-			if (ImGui::BeginTabItem("Terrain")) {
-				DrawTerrainDebug();
-				ImGui::EndTabItem();
 			}
 
 			PiGui::RunHandler(Pi::GetFrameTime(), "debug-tabs");
