@@ -104,7 +104,7 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 
 GeoPatch::~GeoPatch()
 {
-	ClearHasJobRequest();
+	m_hasJobRequest = false;
 	for (int i = 0; i < NUM_KIDS; i++) {
 		m_kids[i].reset();
 	}
@@ -115,9 +115,9 @@ GeoPatch::~GeoPatch()
 void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 {
 	PROFILE_SCOPED()
-	if (NeedToUpdateVBOs()) {
+	if (m_needUpdateVBOs) {
 		assert(renderer);
-		ClearNeedToUpdateVBOs();
+		m_needUpdateVBOs = false;
 
 		//create buffer and upload data
 		auto vbd = Graphics::VertexBufferDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
@@ -384,7 +384,7 @@ void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustu
 {
 	PROFILE_SCOPED()
 	// there should be no LOD update when we have active split requests
-	if (HasJobRequest())
+	if (m_hasJobRequest)
 		return;
 
 	bool canSplit = true;
@@ -407,8 +407,8 @@ void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustu
 				return;
 
 			// we can see this patch so submit the jobs!
-			assert(!HasJobRequest());
-			SetHasJobRequest();
+			assert(!m_hasJobRequest);
+			m_hasJobRequest = true;
 
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(m_corners->m_v0, m_corners->m_v1, m_corners->m_v2, m_corners->m_v3, m_clipCentroid.Normalized(), m_depth,
 				m_geosphere->GetSystemBody()->GetPath(), m_PatchID, m_ctx->GetEdgeLen() - 2,
@@ -436,8 +436,8 @@ void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustu
 void GeoPatch::RequestSinglePatch()
 {
 	if (!HasHeightData()) {
-		assert(!HasJobRequest());
-		SetHasJobRequest();
+		assert(!m_hasJobRequest);
+		m_hasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(m_corners->m_v0, m_corners->m_v1, m_corners->m_v2, m_corners->m_v3, m_clipCentroid.Normalized(), m_depth,
 			m_geosphere->GetSystemBody()->GetPath(), m_PatchID, m_ctx->GetEdgeLen() - 2, m_ctx->GetFrac(), m_geosphere->GetTerrain());
 		m_job = Pi::GetAsyncJobQueue()->Queue(new SinglePatchJob(ssrd));
@@ -457,7 +457,7 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 			psr->OnCancel();
 		}
 	} else {
-		assert(HasJobRequest());
+		assert(m_hasJobRequest);
 		const int newDepth = m_depth + 1;
 		for (int i = 0; i < NUM_KIDS; i++) {
 			assert(!m_kids[i]);
@@ -472,7 +472,7 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 		for (int i = 0; i < NUM_KIDS; i++) {
 			m_kids[i]->ReceiveHeightResult(psr->data(i));
 		}
-		ClearHasJobRequest();
+		m_hasJobRequest = false;
 	}
 }
 
@@ -480,10 +480,10 @@ void GeoPatch::ReceiveHeightmap(const SSingleSplitResult *psr)
 {
 	PROFILE_SCOPED()
 	assert(nullptr != psr);
-	assert(HasJobRequest());
+	assert(m_hasJobRequest);
 
 	ReceiveHeightResult(psr->data());
-	ClearHasJobRequest();
+	m_hasJobRequest = false;
 }
 
 void GeoPatch::ReceiveHeightResult(const SSplitResultData &data)
