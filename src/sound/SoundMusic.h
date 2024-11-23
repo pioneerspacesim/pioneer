@@ -11,14 +11,6 @@
 #include <vector>
 
 namespace Sound {
-	class MusicEvent : public Event {
-	public:
-		MusicEvent();
-		MusicEvent(Uint32 id);
-		~MusicEvent();
-		virtual void Play(const char *fx, const float volume_left, const float volume_right, Op op);
-	};
-
 	class MusicPlayer {
 	public:
 		MusicPlayer();
@@ -39,8 +31,8 @@ namespace Sound {
 	private:
 		float m_volume;
 		//two streams for crossfade
-		MusicEvent m_eventOne;
-		MusicEvent m_eventTwo;
+		Event m_eventOne;
+		Event m_eventTwo;
 		bool m_playing;
 		bool m_eventOnePlaying;
 		std::string m_currentSongName;

@@ -172,21 +172,33 @@ namespace Sound {
 		(*volRightOut) = Clamp((*volRightOut), 0.0f, 1.0f);
 	}
 
-	eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
+	void BodyMakeNoise(const Body *b, const char *sfx, float vol)
 	{
 		float vl, vr;
 		CalculateStereo(b, vol, &vl, &vr);
-		return Sound::PlaySfx(sfx, vl, vr, 0);
+		Sound::PlaySfx(sfx, vl, vr, 0);
 	}
+
+	struct Sample {
+		uint16_t *buf;
+		uint32_t buf_len;
+		uint32_t channels;
+		int upsample; // 1 = 44100, 2=22050
+		/* if buf is null, this will be path to an ogg we must stream */
+		std::string path;
+		bool isMusic;
+	};
+
+	typedef uint32_t eventid;
 
 	struct SoundEvent {
 		const Sample *sample;
 		OggVorbis_File *oggv; // if sample->buf = 0 then stream this
 		OggFileDataStream ogg_data_stream;
-		Uint32 buf_pos;
+		uint32_t buf_pos;
 		float volume[2]; // left and right channels
 		eventid identifier;
-		Uint32 op;
+		uint32_t op;
 
 		float targetVolume[2];
 		float rateOfChange[2]; // per sample
@@ -215,20 +227,6 @@ namespace Sound {
 		return nullptr;
 	}
 
-	bool SetOp(eventid id, Op op)
-	{
-		if (id == 0) return false;
-		bool ret = false;
-		SDL_LockAudioDevice(m_audioDevice);
-		SoundEvent *se = GetEvent(id);
-		if (se) {
-			se->op = op;
-			ret = true;
-		}
-		SDL_UnlockAudioDevice(m_audioDevice);
-		return ret;
-	}
-
 	static void DestroyEvent(SoundEvent *ev)
 	{
 		if (ev->oggv) {
@@ -244,12 +242,12 @@ namespace Sound {
 	/*
  * Volume should be 0-65535
  */
-	static Uint32 identifier = 1;
-	eventid PlaySfx(const char *fx, const float volume_left, const float volume_right, const Op op)
+	static uint32_t identifier = 1;
+	static eventid PlaySfxSample(Sample *sample, const float volume_left, const float volume_right, const Op op)
 	{
 		SDL_LockAudioDevice(m_audioDevice);
 		unsigned int idx;
-		Uint32 age;
+		uint32_t age;
 		/* find free wavstream (first two reserved for music) */
 		for (idx = 2; idx < MAX_WAVSTREAMS; idx++) {
 			if (!wavstream[idx].sample) break;
@@ -266,7 +264,7 @@ namespace Sound {
 			}
 			DestroyEvent(&wavstream[idx]);
 		}
-		wavstream[idx].sample = GetSample(fx);
+		wavstream[idx].sample = sample;
 		wavstream[idx].oggv = 0;
 		wavstream[idx].buf_pos = 0;
 		wavstream[idx].volume[0] = volume_left * GetSfxVolume();
@@ -280,17 +278,25 @@ namespace Sound {
 		return identifier++;
 	}
 
-	//unlike PlaySfx, we want uninterrupted play and do not care about age
+	void PlaySfx(const char *fx, const float volume_left, const float volume_right, const Op op)
+	{
+		Sample* sample = GetSample(fx);
+		if (sample) {
+			PlaySfxSample(sample, volume_left, volume_right, op);
+		}
+	}
+
+	//unlike PlaySfxSample, we want uninterrupted play and do not care about age
 	//alternate between two streams for crossfade
 	static int nextMusicStream = 0;
-	eventid PlayMusic(const char *fx, const float volume_left, const float volume_right, const Op op)
+	static eventid PlayMusicSample(Sample *sample, const float volume_left, const float volume_right, const Op op)
 	{
 		const int idx = nextMusicStream;
 		nextMusicStream ^= 1;
 		SDL_LockAudioDevice(m_audioDevice);
 		if (wavstream[idx].sample)
 			DestroyEvent(&wavstream[idx]);
-		wavstream[idx].sample = GetSample(fx);
+		wavstream[idx].sample = sample;
 		wavstream[idx].oggv = nullptr;
 		wavstream[idx].buf_pos = 0;
 		wavstream[idx].volume[0] = volume_left;
@@ -690,7 +696,30 @@ namespace Sound {
 	void Event::Play(const char *fx, float volume_left, float volume_right, Op op)
 	{
 		Stop();
-		eid = PlaySfx(fx, volume_left, volume_right, op);
+		Sample* sample = GetSample(fx);
+		if (sample) {
+			eid = PlaySfxSample(sample, volume_left, volume_right, op);
+		}
+	}
+
+	void Event::PlayMusic(const char *fx, float volume, float fadeDelta, bool repeat, Event* fadeOut)
+	{
+		// The FadeOut, Stop, PlayMusicSample & VolumeAnimate calls perform
+		// five mutex lock operations. These could be reduced to a single
+		// lock/unlock if this were re-written.
+
+		if (fadeOut) {
+			fadeOut->FadeOut(fadeDelta);
+		}
+		Stop();
+		Sample* sample = GetSample(fx);
+		if (sample) {
+			float start = fadeDelta ? 0.0f : volume;
+			eid = PlayMusicSample(sample, start, start, repeat ? Sound::OP_REPEAT : 0);
+			if (fadeDelta) {
+				VolumeAnimate(volume, volume, fadeDelta, fadeDelta);
+			}
+		}
 	}
 
 	bool Event::Stop()
@@ -762,9 +791,24 @@ namespace Sound {
 		return status;
 	}
 
-	const std::map<std::string, Sample> &GetSamples()
+	bool Event::FadeOut(float dv_dt, Op op)
 	{
-		return sfx_samples;
+		bool found = VolumeAnimate(0.0f, 0.0f, dv_dt, dv_dt);
+		if (found)
+			SetOp(op | Sound::OP_STOP_AT_TARGET_VOLUME);
+		return found;
+	}
+
+	const std::vector<std::string> GetMusicFiles()
+	{
+		std::vector<std::string> songs;
+		songs.reserve(sfx_samples.size());
+		for (std::map<std::string, Sample>::const_iterator it = sfx_samples.begin();
+			 it != sfx_samples.end(); ++it) {
+			if (it->second.isMusic)
+				songs.emplace_back(it->first.c_str());
+		}
+		return songs;
 	}
 
 } /* namespace Sound */
