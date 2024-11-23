@@ -5,6 +5,8 @@ November 2024
     * Improvement: Radar auto-zoom on cargo canisters (#5948)
     * Add Buy and Sell prices to the Commodity Market (#5945)
     * Natrix overhaul (#5963)
+    * feat(ui): add keybinding for target radial (#5962)
+    * feat(radar): add manual zoom mode to scanner (#5958)
 
   * Internal
     * Fix builds which use "-DDEBUG" (#5946)
@@ -12,7 +14,13 @@ November 2024
     * Build Cleanup (#5956)
     * Optimize CityOnPlanet CPU-side rendering cost (#5943)
     * Removing normal map from default cockpit materials (#5964)
-    * Fully expose InputBindings to Lua (PR #5965)
+    * Fully expose InputBindings to Lua (#5965)
+    * Small fixes and improvements (#5968)
+    * Linux de-profile and msvc compilation fix (#5967)
+    * More default colours and cleanup copy-n-paste in GeoPatch (#5973)
+    * Cleanup Sound interfaces to allow plugging in alternative backend (#5959)
+    * Cleanup and unify Feat/view event and names (#5974)
+    * Allocate light data UBO from per-frame allocator, misc. fixes and cleanup (#5970)
 
   * Fixes
     * Fix $HOME/.pioneer randomly created on Linux (#5944)
@@ -24,6 +32,8 @@ November 2024
     * Buying and selling ship equipment does not require confirmation (#5020)
     * assertion failed in equipment-market.lua:91 (#5883)
     * fix crash bugs in Passengers introduced by equip-v2 (#5957)
+    * Fix the ability to start from all start positions (#5971)
+    * Fix incorrect dV calculations in ship market (#5970)
 
 October 2024
   * New Features
