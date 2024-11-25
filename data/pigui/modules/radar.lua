@@ -371,7 +371,7 @@ local function displayRadar()
 			local clicked = ui.mainMenuButton(icon, tt, theme, Vector2(button_size))
 			if clicked then
 				if instrument:isAutoZoom() then
-					instrument:zoomIn()
+					instrument:zoomOut()
 				else
 					instrument:resetZoom()
 				end
