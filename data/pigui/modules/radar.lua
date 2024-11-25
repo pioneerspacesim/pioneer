@@ -349,9 +349,18 @@ local function displayRadar()
 	end
 
 	-- Handle mouse if it is in the radar area
-	local mp = ui.getMousePos()
-	-- TODO: adjust properly for 3D radar; bit more challenging as its an ellipse
-	if (mp - center):length() < radar2d.getRadius(radar2d) then
+	local isMouseOverRadar = function()
+		if shouldDisplay2DRadar then
+			local mp = ui.getMousePos()
+			return (mp - center):length() < radar2d.getRadius(radar2d)
+		end
+		return ui.isMouseHoveringRect(
+			Vector2(center.x - ui.reticuleCircleRadius * 0.9,
+			        center.y - ui.reticuleCircleRadius * 0.7),
+			Vector2(center.x + ui.reticuleCircleRadius * 0.9,
+			        center.y + ui.reticuleCircleRadius * 0.7))
+	end
+	if isMouseOverRadar() then
 		ui.popup("radarselector", function()
 			if ui.selectable(lui.HUD_2D_RADAR, shouldDisplay2DRadar, {}) then
 				toggle_radar = true
