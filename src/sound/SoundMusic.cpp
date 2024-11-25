@@ -50,7 +50,7 @@ namespace Sound {
 			current = &m_eventTwo;
 			next = &m_eventOne;
 		}
-		next->PlayMusic(name.c_str(), m_volume, repeat, fadeDelta, current);
+		next->PlayMusic(name.c_str(), m_volume, fadeDelta, repeat, current);
 		m_playing = true;
 		m_currentSongName = name;
 	}
