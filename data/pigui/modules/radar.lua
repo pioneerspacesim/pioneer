@@ -58,16 +58,78 @@ local function getColorFor(item)
 	return colors.radarUnknown
 end
 
+-- Return digits from a number
+-- If the number is invalid, it returns 1
+local function getDigits(number, digitStart, digitEnd)
+	if digitStart == nil then
+		digitStart = 1
+	end
+	if digitEnd == nil then
+		digitEnd = digitStart
+	end
+	return tonumber(string.sub(tostring(number),
+	                math.min(digitStart, #tostring(number)),
+	                math.min(digitEnd, #tostring(number))))
+end
+
+-- Generate the next in a sequence of 1 2 5 10 20 ...
+local function nextZoomSeq(currZoom, maxZoom)
+	local newZoom = 0
+	if getDigits(currZoom) == 2 then
+		newZoom = currZoom * 2.5
+	else
+		newZoom = currZoom * 2
+	end
+	return math.min(newZoom, maxZoom)
+end
+
+-- Generate the previous in a sequence of 1 2 5 10 20 ...
+local function prevZoomSeq(currZoom, minZoom)
+	local newZoom = 0
+	if getDigits(currZoom) == 5 then
+		newZoom = currZoom / 2.5
+	else
+		newZoom = currZoom / 2
+	end
+	return math.max(newZoom, minZoom)
+end
+
+-- Normalize a number into the zoom sequence (1, 2, 5, 10, 20, ...), rounding
+-- it up or down to the next item in the sequence (default: down).
+local function normalizeToZoomSeq(number, up)
+	if up == nil then
+		up = false
+	end
+
+	local firstDigits = getDigits(number, 1, 2)
+	if firstDigits > 50 then
+		firstDigits = up and 10 or 5
+	elseif firstDigits == 50 then
+		firstDigits = 5
+	elseif firstDigits > 20 then
+		firstDigits = up and 5 or 2
+	elseif firstDigits == 20 then
+		firstDigits = 2
+	elseif firstDigits > 10 then
+		firstDigits = up and 2 or 1
+	else
+		firstDigits = 1
+	end
+
+	local numDigits = #tostring(number)
+	return firstDigits * 10^(numDigits-1)
+end
+
 local radar2d = {
 	icon = icons.radar_2d,
 	zoom = DEFAULT_RADAR_SIZE,
 	size = ui.reticuleCircleRadius * 0.66,
 	getRadius = function(self) return self.size end,
 	zoomIn = function(self)
-		self.zoom = math.max(self.zoom / 10, MIN_RADAR_SIZE)
+		self.zoom = prevZoomSeq(self.zoom, MIN_RADAR_SIZE)
 	end,
 	zoomOut = function(self)
-		self.zoom = math.min(self.zoom * 10, MAX_RADAR_SIZE)
+		self.zoom = nextZoomSeq(self.zoom, MAX_RADAR_SIZE)
 	end,
 	resetZoom = function(self)
 		self.zoom = DEFAULT_RADAR_SIZE
@@ -87,17 +149,17 @@ local radar3d = {
 	getRadius = function(self) return self.size.x end,
 	zoomIn = function(self)
 		if self.auto_zoom then
-			radar.zoom = 10 ^ math.floor(math.log(radar.zoom, 10))
+			radar.zoom = normalizeToZoomSeq(radar.zoom, false)
 		else
-			radar.zoom = math.max(radar.zoom / 10, MIN_RADAR_SIZE)
+			radar.zoom = prevZoomSeq(radar.zoom, MIN_RADAR_SIZE)
 		end
 		self.auto_zoom = false
 	end,
 	zoomOut = function(self)
 		if self.auto_zoom then
-			radar.zoom = 10 ^ math.ceil(math.log(radar.zoom, 10))
+			radar.zoom = normalizeToZoomSeq(radar.zoom, true)
 		else
-			radar.zoom = math.min(radar.zoom * 10, MAX_RADAR_SIZE)
+			radar.zoom = nextZoomSeq(radar.zoom, MAX_RADAR_SIZE)
 		end
 		self.auto_zoom = false
 	end,
