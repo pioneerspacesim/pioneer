@@ -24,6 +24,17 @@ local DEFAULT_RADAR_SIZE = 10000
 local shouldDisplay2DRadar = false
 local blobSize = 6.0
 
+-- These variable needs to be outside the draw function in order to capture the
+-- current state between frames. We are trying to ensure that a mouse
+-- click started and finished inside the radar area in order to trigger
+-- the popups and actions.
+local click_on_radar = false
+local radar_popup_displayed = false
+local popup_targets = {}
+
+-- Current set of targets hovered over by the mouse
+local mouseTargets = {}
+
 local input_group = 'ShipHUD.RadarControl'
 local keys = {
 	radar_reset = Input.RegisterActionBinding('BindRadarZoomReset', input_group, { activator = { key = Input.keys.slash } } ),
@@ -190,6 +201,7 @@ radar2d.draw = function(self, center)
 	local combatTarget = player:GetCombatTarget()
 	local navTarget = player:GetNavTarget()
 	local tooltip = {}
+	mouseTargets = {}
 	for k,v in pairs(targets) do
 		if v.distance < self.zoom then
 			local halfRadarSize = self.zoom / 2
@@ -211,10 +223,11 @@ radar2d.draw = function(self, center)
 			local mouse_position = ui.getMousePos()
 			if (mouse_position - position):length() < 4 then
 				table.insert(tooltip, v.label)
+				table.insert(mouseTargets, v)
 			end
 		end
 	end
-	if #tooltip > 0 then
+	if not radar_popup_displayed and #tooltip > 0 then
 		ui.setTooltip(table.concat(tooltip, "\n"))
 	end
 end
@@ -251,6 +264,8 @@ radar3d.draw = function(self, center)
 	local scale = radar.radius / radar.zoom
 	ui.setCursorScreenPos(center - self.size / 2.0)
 
+	mouseTargets = {}
+
 	-- draw targets below the plane
 	for k, v in pairs(targets) do
 		-- collect some values for zoom updates later
@@ -269,7 +284,11 @@ radar3d.draw = function(self, center)
 			local color = (v.body == navTarget and colors.navTarget) or
 			              (v.body == combatTarget and colors.combatTarget) or
 						  getColorFor(v)
-			table.append(tooltip, drawTarget(v, scale, center, color))
+			local radarTarget = drawTarget(v, scale, center, color)
+			if #radarTarget > 0 then
+				table.append(tooltip, radarTarget)
+				table.insert(mouseTargets, v)
+			end
 		end
 	end
 
@@ -287,12 +306,16 @@ radar3d.draw = function(self, center)
 			local color = (v.body == navTarget and colors.navTarget) or
 			              (v.body == combatTarget and colors.combatTarget) or
 						  getColorFor(v)
-			table.append(tooltip, drawTarget(v, scale, center, color))
+			local radarTarget = drawTarget(v, scale, center, color)
+			if #radarTarget > 0 then
+				table.append(tooltip, radarTarget)
+				table.insert(mouseTargets, v)
+			end
 		end
 	end
 
-	-- return tooltip if mouse is over a target
-	if #tooltip > 0 then
+	-- display tooltip if mouse is over a target pip
+	if not radar_popup_displayed and #tooltip > 0 then
 		ui.setTooltip(table.concat(tooltip, "\n"))
 	end
 
@@ -313,11 +336,21 @@ radar3d.draw = function(self, center)
 	end
 end
 
--- This variable needs to be outside the function in order to capture state
--- between frames. We are trying to ensure that a mouse right-click started and
--- finished inside the radar area in order to trigger the popup.
-local click_on_radar = false
-local radar_popup_displayed = false
+local function onTargetClicked(target)
+	if target.body:IsShip() then
+		if Game.player:GetCombatTarget() == target.body then
+			Game.player:SetCombatTarget(nil)
+		else
+			Game.player:SetCombatTarget(target.body)
+		end
+	else
+		if Game.player:GetNavTarget() == target.body then
+			Game.player:SetNavTarget(nil)
+		else
+			Game.player:SetNavTarget(target.body)
+		end
+	end
+end
 
 -- display either the 3D or the 2D radar, show a popup on right click to select
 local function displayRadar()
@@ -361,32 +394,56 @@ local function displayRadar()
 			Vector2(center.x + ui.reticuleCircleRadius * 0.9,
 			        center.y + ui.reticuleCircleRadius * 0.7))
 	end
-	if isMouseOverRadar() or radar_popup_displayed then
+	if radar_popup_displayed or isMouseOverRadar() then
 		ui.popup("radarselector", function()
 			if ui.selectable(lui.HUD_2D_RADAR, shouldDisplay2DRadar, {}) then
 				if not shouldDisplay2DRadar then
 					toggle_radar = true
 				end
+				radar_popup_displayed = false
 			end
 			if ui.selectable(lui.HUD_3D_RADAR, not shouldDisplay2DRadar, {}) then
 				if shouldDisplay2DRadar then
 					toggle_radar = true
 				end
+				radar_popup_displayed = false
+			end
+		end)
+		ui.popup("radartargetselector", function()
+			for k,v in pairs(popup_targets) do
+				if ui.selectable(v.label) then
+					onTargetClicked(v)
+					radar_popup_displayed = false
+				end
 			end
 		end)
 
-		if ui.isMouseClicked(1) then
+		if not click_on_radar and not radar_popup_displayed and ui.isMouseClicked(0) or ui.isMouseClicked(1) then
 			click_on_radar = true
 		end
-		if click_on_radar and ui.isMouseReleased(0) then
+		if radar_popup_displayed and (ui.isMouseReleased(0) or ui.isMouseReleased(1)) then
 			radar_popup_displayed = false
+			click_on_radar = false
 		end
-		if not toggle_radar and click_on_radar and ui.isMouseReleased(1) then
-			ui.openPopup("radarselector")
-			radar_popup_displayed = true
+		if click_on_radar then
+			if ui.isMouseReleased(0) then
+				popup_targets = mouseTargets
+				-- check if we are on a pip and if so, set it as the target
+				if #popup_targets > 1 then
+					ui.openPopup("radartargetselector")
+					radar_popup_displayed = true
+				elseif #popup_targets > 0 then
+					onTargetClicked(popup_targets[1])
+				end
+				click_on_radar = false
+			elseif ui.isMouseReleased(1) then
+				if not toggle_radar then
+					ui.openPopup("radarselector")
+					radar_popup_displayed = true
+				end
+				click_on_radar = false
+			end
 		end
-		-- TODO: figure out how to "capture" the mouse wheel to prevent
-		-- the game engine from using it to also zoom the viewport
 		if zoom == 0 then
 			zoom = ui.getMouseWheel()
 		end
