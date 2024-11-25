@@ -317,6 +317,7 @@ end
 -- between frames. We are trying to ensure that a mouse right-click started and
 -- finished inside the radar area in order to trigger the popup.
 local click_on_radar = false
+local radar_popup_displayed = false
 
 -- display either the 3D or the 2D radar, show a popup on right click to select
 local function displayRadar()
@@ -360,21 +361,29 @@ local function displayRadar()
 			Vector2(center.x + ui.reticuleCircleRadius * 0.9,
 			        center.y + ui.reticuleCircleRadius * 0.7))
 	end
-	if isMouseOverRadar() then
+	if isMouseOverRadar() or radar_popup_displayed then
 		ui.popup("radarselector", function()
 			if ui.selectable(lui.HUD_2D_RADAR, shouldDisplay2DRadar, {}) then
-				toggle_radar = true
+				if not shouldDisplay2DRadar then
+					toggle_radar = true
+				end
 			end
 			if ui.selectable(lui.HUD_3D_RADAR, not shouldDisplay2DRadar, {}) then
-				toggle_radar = true
+				if shouldDisplay2DRadar then
+					toggle_radar = true
+				end
 			end
 		end)
 
 		if ui.isMouseClicked(1) then
 			click_on_radar = true
 		end
+		if click_on_radar and ui.isMouseReleased(0) then
+			radar_popup_displayed = false
+		end
 		if not toggle_radar and click_on_radar and ui.isMouseReleased(1) then
 			ui.openPopup("radarselector")
+			radar_popup_displayed = true
 		end
 		-- TODO: figure out how to "capture" the mouse wheel to prevent
 		-- the game engine from using it to also zoom the viewport
