@@ -51,7 +51,7 @@ void main(void)
 	float coarseNoise = texture2D(texture1, noiseCoord * 100.0).r;
 	float fineNoise = texture2D(texture1, noiseCoord * 2000.0).r; //finer detail
 
-	float coarseDistance = clamp((200000.0 - detailDist) / (200000.0 - 5000.0), 0.0, 1.0);
+	float coarseDistance = clamp((2000000.0 - detailDist) / (2000000.0 - 5000.0), 0.0, 1.0);
 	float fineDistance = pow(coarseDistance, 8.0);
 
 	//mix between fine detail, coarse detail and white
