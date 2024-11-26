@@ -5,6 +5,7 @@
 #include "lib.glsl"
 
 uniform sampler2D texture0;
+uniform sampler2D texture1;
 in vec2 texCoord0;
 in vec4 texCoord1;
 in vec4 varyingEyepos;
@@ -43,5 +44,20 @@ void main(void)
 		}
 	}
 	col.a = texCol.a;
-	frag_color = col;
+
+	//noise detail texturing
+	float detailDist = length(varyingEyepos);
+	vec2 noiseCoord = texCoord1.xz; // using the texCoord1 (a_vertex aka position) probably isn't perfect
+	float coarseNoise = texture2D(texture1, noiseCoord * 100.0).r;
+	float fineNoise = texture2D(texture1, noiseCoord * 2000.0).r; //finer detail
+
+	float coarseDistance = clamp((200000.0 - detailDist) / (200000.0 - 5000.0), 0.0, 1.0);
+	float fineDistance = pow(coarseDistance, 8.0);
+
+	//mix between fine detail, coarse detail and white
+	float detail1 = mix(1.0, coarseNoise, coarseDistance);
+	float detail2 = mix(detail1, fineNoise, fineDistance);
+
+	// multiply the colour by the greyscale detail
+	frag_color = col * detail2;
 }
