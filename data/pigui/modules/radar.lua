@@ -367,8 +367,14 @@ local function displayRadar()
 	local zoom = 0
 	local toggle_radar = false
 
-	-- Handle keyboard
-	-- TODO: Convert to axis?
+	local window_width = ui.reticuleCircleRadius * 1.8
+	local window_height = radar2d.size * 2
+	local window_pos = Vector2(center.x - window_width / 2, center.y - window_height / 2)
+	local windowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"}
+
+	--
+	-- keyboard handling
+	--
 	if keys.radar_zoom_in:IsJustActive() then
 		zoom = 1
 	elseif keys.radar_zoom_out:IsJustActive() then
@@ -382,67 +388,52 @@ local function displayRadar()
 		toggle_radar = true
 	end
 
-	-- Handle mouse if it is in the radar area
+	--
+	-- popup functions
+	--
+	ui.popup("radartargetselector", function()
+		for k,v in pairs(popup_targets) do
+			if ui.selectable(v.label) then
+				onTargetClicked(v)
+				radar_popup_displayed = false
+			end
+		end
+	end)
+
+	--
+	-- mouse handling
+	--
 	local isMouseOverRadar = function()
 		if shouldDisplay2DRadar then
 			local mp = ui.getMousePos()
 			return (mp - center):length() < radar2d.getRadius(radar2d)
 		end
 		return ui.isMouseHoveringRect(
-			Vector2(center.x - ui.reticuleCircleRadius * 0.9,
-			        center.y - ui.reticuleCircleRadius * 0.7),
-			Vector2(center.x + ui.reticuleCircleRadius * 0.9,
-			        center.y + ui.reticuleCircleRadius * 0.7))
+			Vector2(center.x - window_width/2,
+			        center.y - window_height/2),
+			Vector2(center.x + window_width/2,
+			        center.y + window_height/2))
 	end
-	if radar_popup_displayed or isMouseOverRadar() then
-		ui.popup("radarselector", function()
-			if ui.selectable(lui.HUD_2D_RADAR, shouldDisplay2DRadar, {}) then
-				if not shouldDisplay2DRadar then
-					toggle_radar = true
-				end
-				radar_popup_displayed = false
-			end
-			if ui.selectable(lui.HUD_3D_RADAR, not shouldDisplay2DRadar, {}) then
-				if shouldDisplay2DRadar then
-					toggle_radar = true
-				end
-				radar_popup_displayed = false
-			end
-		end)
-		ui.popup("radartargetselector", function()
-			for k,v in pairs(popup_targets) do
-				if ui.selectable(v.label) then
-					onTargetClicked(v)
-					radar_popup_displayed = false
-				end
-			end
-		end)
 
-		if not click_on_radar and not radar_popup_displayed and ui.isMouseClicked(0) or ui.isMouseClicked(1) then
-			click_on_radar = true
-		end
-		if radar_popup_displayed and (ui.isMouseReleased(0) or ui.isMouseReleased(1)) then
+	if radar_popup_displayed then
+		if ui.isMouseReleased(0) then
 			radar_popup_displayed = false
 			click_on_radar = false
 		end
-		if click_on_radar then
-			if ui.isMouseReleased(0) then
-				popup_targets = mouseTargets
-				-- check if we are on a pip and if so, set it as the target
-				if #popup_targets > 1 then
-					ui.openPopup("radartargetselector")
-					radar_popup_displayed = true
-				elseif #popup_targets > 0 then
-					onTargetClicked(popup_targets[1])
-				end
-				click_on_radar = false
-			elseif ui.isMouseReleased(1) then
-				if not toggle_radar then
-					ui.openPopup("radarselector")
-					radar_popup_displayed = true
-				end
-				click_on_radar = false
+	elseif isMouseOverRadar() then
+		if not click_on_radar and ui.isMouseClicked(0) then
+			click_on_radar = true
+		end
+		if click_on_radar and ui.isMouseReleased(0) then
+			-- check if we are on a pip and if so, set it as the target
+			popup_targets = mouseTargets
+			if #popup_targets > 1 then
+				ui.openPopup("radartargetselector")
+				radar_popup_displayed = true
+			elseif #popup_targets > 0 then
+				onTargetClicked(popup_targets[1])
 			end
+			click_on_radar = false
 		end
 		if zoom == 0 then
 			zoom = ui.getMouseWheel()
@@ -456,12 +447,10 @@ local function displayRadar()
 		instrument:zoomOut()
 	end
 
-	-- Draw the radar, radar buttons and info
+	--
+	-- drawing functionality
+	--
 	-- This is in a window so the buttons work and the mouse-wheel is captured
-	local window_width = ui.reticuleCircleRadius * 1.8
-	local window_height = radar2d.size * 2
-	local window_pos = Vector2(center.x - window_width / 2, center.y - window_height / 2)
-	local windowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"}
 	ui.setNextWindowPos(window_pos, "Always")
 	ui.setNextWindowPadding(Vector2(0))
 	ui.setNextWindowSize(Vector2(window_width, window_height), "Always")
