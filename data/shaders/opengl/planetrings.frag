@@ -26,7 +26,7 @@ void main(void)
 	vec3 eyenorm = normalize(varyingEyepos.xyz);
 
 	for (int i=0; i<NUM_LIGHTS; ++i) {
-		float l = findSphereEyeRayEntryDistance(-vec3(texCoord1), vec3(uViewMatrixInverse * uLight[i].position), 1.0);
+		float l = findSphereEyeRayEntryDistance(-vec3(texCoord1), vec3(uViewMatrixInverse * normalize(uLight[i].position)), 1.0);
 		if (l <= 0.0) {
 			// first term: diffuse light phase (like in full/new moon)
 			float mu = dot(normalize(vec3(uLight[i].position)), eyenorm);
