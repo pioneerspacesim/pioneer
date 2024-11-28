@@ -58,66 +58,48 @@ local function getColorFor(item)
 	return colors.radarUnknown
 end
 
--- Return digits from a number
--- If the number is invalid, it returns 1
-local function getDigits(number, digitStart, digitEnd)
-	if digitStart == nil then
-		digitStart = 1
+-- Creates a sequence 1, 2, 5, 10, ...
+local zoomSeq = {
+	0.0,
+	math.log(2, 10),
+	math.log(5, 10),
+	1.0
+}
+
+-- Given a number in log10 form, return the next number in the above sequence
+-- also in log10 form.
+-- Because we're using the logarithm of base 10, each whole number increment is
+-- an order of magnitude, allowing the above sequence to easily map to 1, 2, 5, 10
+-- regardless of how many zeros follow, simply by changing the fractional part
+-- of the logarithm form of the number.
+local function findSeq(log10, up)
+	local whole, frac = math.floor(log10), log10 % 1.0
+
+	for i, step in ipairs(zoomSeq) do
+		if step > frac then
+			-- find the first step which is greater than our input value and snap
+			-- up or down based on the function inputs
+			return up and whole + step or whole + zoomSeq[i - 1]
+		end
 	end
-	if digitEnd == nil then
-		digitEnd = digitStart
-	end
-	return tonumber(string.sub(tostring(number),
-	                math.min(digitStart, #tostring(number)),
-	                math.min(digitEnd, #tostring(number))))
 end
 
 -- Generate the next in a sequence of 1 2 5 10 20 ...
 local function nextZoomSeq(currZoom, maxZoom)
-	local newZoom = 0
-	if getDigits(currZoom) == 2 then
-		newZoom = currZoom * 2.5
-	else
-		newZoom = currZoom * 2
-	end
-	return math.min(newZoom, maxZoom)
+	local log10 = math.log(currZoom, 10) + 0.1
+	return math.min(10 ^ findSeq(log10, true), maxZoom)
 end
 
 -- Generate the previous in a sequence of 1 2 5 10 20 ...
 local function prevZoomSeq(currZoom, minZoom)
-	local newZoom = 0
-	if getDigits(currZoom) == 5 then
-		newZoom = currZoom / 2.5
-	else
-		newZoom = currZoom / 2
-	end
-	return math.max(newZoom, minZoom)
+	local log10 = math.log(currZoom, 10) - 0.1
+	return math.max(10 ^ findSeq(log10, false), minZoom)
 end
 
 -- Normalize a number into the zoom sequence (1, 2, 5, 10, 20, ...), rounding
 -- it up or down to the next item in the sequence (default: down).
 local function normalizeToZoomSeq(number, up)
-	if up == nil then
-		up = false
-	end
-
-	local firstDigits = getDigits(number, 1, 2)
-	if firstDigits > 50 then
-		firstDigits = up and 10 or 5
-	elseif firstDigits == 50 then
-		firstDigits = 5
-	elseif firstDigits > 20 then
-		firstDigits = up and 5 or 2
-	elseif firstDigits == 20 then
-		firstDigits = 2
-	elseif firstDigits > 10 then
-		firstDigits = up and 2 or 1
-	else
-		firstDigits = 1
-	end
-
-	local numDigits = #tostring(number)
-	return firstDigits * 10^(numDigits-1)
+	return 10 ^ findSeq(math.log(number, 10), up)
 end
 
 local radar2d = {
