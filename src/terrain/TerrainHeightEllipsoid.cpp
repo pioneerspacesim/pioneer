@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Terrain.h"
+#include "../galaxy/SystemBody.h"
 #include <algorithm> // for std::max
 
 template <>
@@ -11,8 +12,8 @@ template <>
 TerrainHeightFractal<TerrainHeightEllipsoid>::TerrainHeightFractal(const SystemBody *body) :
 	Terrain(body)
 {
-	const double rad = m_minBody.m_radius;
-	m_maxHeight = m_minBody.m_aspectRatio - 1.0;
+	const double rad = m_body->GetRadius();
+	m_maxHeight = m_body->GetAspectRatio() - 1.0;
 	m_maxHeightInMeters = m_maxHeight * rad;
 	m_invMaxHeight = 1.0 / m_maxHeight;
 }

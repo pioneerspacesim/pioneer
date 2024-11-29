@@ -7,6 +7,7 @@
 #include <SDL_stdinc.h>
 
 #include "JobQueue.h"
+#include "galaxy/SystemPath.h"
 #include "graphics/Material.h"
 #include "graphics/VertexBuffer.h"
 #include "graphics/RenderState.h"

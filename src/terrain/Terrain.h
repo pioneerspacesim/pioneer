@@ -8,7 +8,6 @@
 #include "../Random.h"
 #include "../RefCounted.h"
 #include "../vector3.h"
-#include "../galaxy/SystemPath.h"
 
 #include <memory>
 #include <string>
@@ -66,6 +65,8 @@ private:
 protected:
 	Terrain(const SystemBody *body);
 
+	const RefCountedPtr<SystemBody> m_body;
+
 	Uint32 m_seed;
 	Random m_rand;
 
@@ -109,15 +110,6 @@ protected:
 	   using more than 10 then things will be slow as hell */
 	static const Uint32 MAX_FRACDEFS = 10;
 	fracdef_t m_fracdef[MAX_FRACDEFS];
-
-	struct MinBodyData {
-		MinBodyData(const SystemBody *body);
-		double m_radius;
-		double m_aspectRatio;
-		SystemPath m_path;
-		std::string m_name;
-	};
-	MinBodyData m_minBody;
 };
 
 template <typename HeightFractal>

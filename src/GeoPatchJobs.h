@@ -11,6 +11,7 @@
 #include "JobQueue.h"
 #include "vector3.h"
 #include "terrain/Terrain.h"
+#include "galaxy/SystemPath.h"
 
 class GeoSphere;
 
