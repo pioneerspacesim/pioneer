@@ -6,7 +6,6 @@
 
 #include <SDL_stdinc.h>
 
-#include "Color.h"
 #include "GeoPatchID.h"
 #include "JobQueue.h"
 #include "vector3.h"
@@ -63,14 +62,13 @@ public:
 		for (int i = 0; i < 4; ++i) {
 			heights[i] = new double[numVerts];
 			normals[i] = new vector3f[numVerts];
-			colors[i] = new Color3ub[numVerts];
 		}
 		const int numBorderedVerts = NUMVERTICES((edgeLen_ * 2) + (BORDER_SIZE * 2) - 1);
 		borderHeights.reset(new double[numBorderedVerts]);
 		borderVertexs.reset(new vector3d[numBorderedVerts]);
 	}
 
-	// Generates full-detail vertices, and also non-edge normals and colors
+	// Generates full-detail vertices, and also non-edge normals
 	void GenerateBorderedData() const;
 
 	void GenerateSubPatchData(const int quadrantIndex,
@@ -79,7 +77,6 @@ public:
 
 	// these are created with the request and are given to the resulting patches
 	vector3f *normals[4];
-	Color3ub *colors[4];
 	double *heights[4];
 
 	// these are created with the request but are destroyed when the request is finished
@@ -107,7 +104,7 @@ public:
 		borderVertexs.reset(new vector3d[numBorderedVerts]);
 	}
 
-	// Generates full-detail vertices, and also non-edge normals and colors
+	// Generates full-detail vertices, and also non-edge normals
 	void GenerateMesh() const;
 
 	// these are created with the request and are given to the resulting patches

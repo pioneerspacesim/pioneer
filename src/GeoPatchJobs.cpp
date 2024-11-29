@@ -221,7 +221,6 @@ void SQuadSplitRequest::GenerateSubPatchData(
 	PROFILE_SCOPED()
 	// Generate normals & colors for vertices
 	vector3d *vrts = borderVertexs.get();
-	Color3ub *col = colors[quadrantIndex];
 	vector3f *nrm = normals[quadrantIndex];
 	double *hts = heights[quadrantIndex];
 
@@ -244,15 +243,8 @@ void SQuadSplitRequest::GenerateSubPatchData(
 			const vector3d n = ((x2 - x1).Cross(y2 - y1)).Normalized();
 			assert(nrm != &normals[quadrantIndex][edgeLen * edgeLen]);
 			*(nrm++) = vector3f(n);
-
-			// color
-			const vector3d p = GetSpherePoint(v0, v1, v2, v3, x * fracStep, y * fracStep);
-			setColour(*col, pTerrain->GetColor(p, height, n));
-			assert(col != &colors[quadrantIndex][edgeLen * edgeLen]);
-			++col;
 		}
 	}
 	assert(hts == &heights[quadrantIndex][edgeLen * edgeLen]);
 	assert(nrm == &normals[quadrantIndex][edgeLen * edgeLen]);
-	assert(col == &colors[quadrantIndex][edgeLen * edgeLen]);
 }

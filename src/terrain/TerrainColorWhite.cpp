@@ -3,8 +3,6 @@
 
 #include "Terrain.h"
 
-static const vector3d svWhite(1.0, 1.0, 1.0);
-
 template <>
 const char *TerrainColorFractal<TerrainColorWhite>::GetColorFractalName() const { return "SolidWhite"; }
 
@@ -12,10 +10,4 @@ template <>
 TerrainColorFractal<TerrainColorWhite>::TerrainColorFractal(const SystemBody *body) :
 	Terrain(body)
 {
-}
-
-template <>
-vector3d TerrainColorFractal<TerrainColorWhite>::GetColor(const vector3d &p, double height, const vector3d &norm) const
-{
-	return svWhite;
 }
