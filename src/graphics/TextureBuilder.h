@@ -9,6 +9,7 @@
 #include <SDL_mutex.h>
 #include "Texture.h"
 #include <string>
+#include <vector>
 
 #include "PicoDDS/PicoDDS.h"
 
