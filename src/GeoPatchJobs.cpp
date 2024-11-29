@@ -75,7 +75,6 @@ void SSingleSplitRequest::GenerateMesh() const
 	}
 	assert(hts == &heights[edgeLen * edgeLen]);
 	assert(nrm == &normals[edgeLen * edgeLen]);
-	assert(col == &colors[edgeLen * edgeLen]);
 }
 
 // ********************************************************************************
