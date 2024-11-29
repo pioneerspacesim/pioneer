@@ -20,8 +20,8 @@ public:
 	struct VBOVertex {
 		vector3f pos;
 		vector3f norm;
-		Color4ub col;
-		vector2f uv;
+		vector2f uv0;
+		vector2f uv1;
 	};
 
 	GeoPatchContext(const int _edgeLen)
