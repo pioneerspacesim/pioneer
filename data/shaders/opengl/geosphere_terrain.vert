@@ -7,9 +7,8 @@
 
 out vec3 varyingEyepos;
 out vec3 varyingNormal;
-out vec4 vertexColor;
-
-out vec2 texCoord0;
+out vec2 uv0;
+out vec2 uv1;
 out float dist;
 
 #ifdef TERRAIN_WITH_LAVA
@@ -19,11 +18,11 @@ out vec4 varyingEmission;
 void main(void)
 {
 	gl_Position = matrixTransform();
-	vertexColor = a_color;
 	varyingEyepos = vec3(uViewMatrix * a_vertex);
 	varyingNormal = normalize(normalMatrix() * a_normal);
 
-	texCoord0 = a_uv0.xy;
+	uv0 = a_uv0.xy;
+    uv1 = a_uv1.xy;
 	dist = length(varyingEyepos);
 
 #ifdef TERRAIN_WITH_LAVA
