@@ -9,6 +9,7 @@
 #include "BaseSphere.h"
 #include "Camera.h"
 #include "core/Log.h"
+#include "galaxy/SystemPath.h"
 #include "vector3.h"
 
 #include <deque>
@@ -57,6 +58,16 @@ public:
 	static void OnChangeGeoSphereDetailLevel();
 	static bool OnAddQuadSplitResult(const SystemPath &path, SQuadSplitResult *res);
 	static bool OnAddSingleSplitResult(const SystemPath &path, SSingleSplitResult *res);
+
+	enum DebugFlags : uint32_t { // <enum scope='GeoSphere' name=GeoSphereDebugFlags prefix=DEBUG_ public>
+		DEBUG_NONE = 0x0,
+		DEBUG_SORTGEOPATCHES = 0x1,
+		DEBUG_WIREFRAME = 0x2,
+		DEBUG_FACELABELS = 0x4
+	};
+	static void SetDebugFlags(Uint32 flags);
+	static Uint32 GetDebugFlags();
+
 	// in sbody radii
 	virtual double GetMaxFeatureHeight() const override final { return m_terrain->GetMaxHeight(); }
 
@@ -67,19 +78,19 @@ public:
 	virtual void Reset() override;
 
 	inline Sint32 GetMaxDepth() const { return m_maxDepth; }
+	inline double GetHeightNormaliserMin() const { return m_heightNormaliserMin; }
+	inline double GetHeightNormaliserMax() const { return m_heightNormaliserMax; }
 
 	void AddQuadSplitRequest(double, SQuadSplitRequest *, GeoPatch *);
 
 private:
 	void BuildFirstPatches();
 	void CalculateMaxPatchDepth();
-	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const
-	{
-		return m_terrain->GetColor(p, height, norm);
-	}
 	void ProcessQuadSplitRequests();
 
 	std::unique_ptr<GeoPatch> m_patches[6];
+	std::vector<std::pair<double, GeoPatch *>> m_visiblePatches;
+
 	struct TDistanceRequest {
 		TDistanceRequest(double dist, SQuadSplitRequest *pRequest, GeoPatch *pRequester) :
 			mDistance(dist),
@@ -101,11 +112,14 @@ private:
 
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
 
+	void LoadTerrainJSON(const std::string &path);
 	virtual void SetUpMaterials() override;
 	void CreateAtmosphereMaterial();
 
 	RefCountedPtr<Graphics::Texture> m_texHi;
 	RefCountedPtr<Graphics::Texture> m_texLo;
+	RefCountedPtr<Graphics::Texture> m_surfaceLUT;
+	RefCountedPtr<Graphics::Texture> m_surfaceAtlas;
 
 	enum EGSInitialisationStage {
 		eBuildFirstPatches = 0,
@@ -116,6 +130,8 @@ private:
 	EGSInitialisationStage m_initStage;
 
 	Sint32 m_maxDepth;
+	double m_heightNormaliserMin;
+	double m_heightNormaliserMax;
 };
 
 #endif /* _GEOSPHERE_H */

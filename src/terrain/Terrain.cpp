@@ -383,11 +383,13 @@ static size_t bufread_or_die(void *ptr, size_t size, size_t nmemb, ByteRange &bu
 #endif
 
 Terrain::Terrain(const SystemBody *body) :
+	m_body(const_cast<SystemBody*>(body)),
 	m_seed(body->GetSeed()),
 	m_rand(body->GetSeed()),
 	m_heightScaling(0),
 	m_minh(0),
-	m_minBody(body)
+	m_heightMapSizeX(0),
+	m_heightMapSizeY(0)
 {
 
 	// load the heightmap
@@ -473,7 +475,7 @@ Terrain::Terrain(const SystemBody *body) :
 	m_volcanic = Clamp(body->GetVolcanicity(), 0.0, 1.0); // height scales with volcanicity as well
 	m_surfaceEffects = 0;
 
-	const double rad = m_minBody.m_radius;
+	const double rad = m_body->GetRadius();
 
 	// calculate max height
 	if (!body->GetHeightMapFilename().empty() && body->GetHeightMapFractal() > 1) { // if scaled heightmap
@@ -485,15 +487,16 @@ Terrain::Terrain(const SystemBody *body) :
 	}
 	// and then in sphere normalized jizz
 	m_maxHeight = m_maxHeightInMeters / rad;
-	//Output("%s: max terrain height: %fm [%f]\n", m_minBody.name.c_str(), m_maxHeightInMeters, m_maxHeight);
+	//Output("%s: max terrain height: %fm [%f]\n", m_body->GetName().c_str(), m_maxHeightInMeters, m_maxHeight);
 	m_invMaxHeight = 1.0 / m_maxHeight;
 	m_planetRadius = rad;
 	m_invPlanetRadius = 1.0 / rad;
 	m_planetEarthRadii = rad / EARTH_RADIUS;
 
-	// Pick some colors, mainly reds and greens
 	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
 		m_entropy[i] = m_rand.Double();
+
+	// Pick some colors, mainly reds and greens
 	for (int i = 0; i < int(COUNTOF(m_rockColor)); i++) {
 		double r, g, b;
 		r = m_rand.Double(0.3, 1.0);
@@ -505,8 +508,6 @@ Terrain::Terrain(const SystemBody *body) :
 	}
 
 	// Pick some darker colours mainly reds and greens
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_darkrockColor)); i++) {
 		double r, g, b;
 		r = m_rand.Double(0.05, 0.3);
@@ -518,8 +519,6 @@ Terrain::Terrain(const SystemBody *body) :
 	}
 
 	// grey colours, in case you simply must have a grey colour on a world with high metallicity
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_greyrockColor)); i++) {
 		double g;
 		g = m_rand.Double(0.3, 0.9);
@@ -528,8 +527,6 @@ Terrain::Terrain(const SystemBody *body) :
 
 	// Pick some plant colours, mainly greens
 	// TODO take star class into account
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_plantColor)); i++) {
 		double r, g, b;
 		g = m_rand.Double(0.3, 1.0);
@@ -542,8 +539,6 @@ Terrain::Terrain(const SystemBody *body) :
 
 	// Pick some darker plant colours mainly greens
 	// TODO take star class into account
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_darkplantColor)); i++) {
 		double r, g, b;
 		g = m_rand.Double(0.05, 0.3);
@@ -556,57 +551,47 @@ Terrain::Terrain(const SystemBody *body) :
 
 	// Pick some sand colours, mainly yellow
 	// TODO let some planetary value scale this colour
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_sandColor)); i++) {
 		double r, g, b;
 		r = m_rand.Double(0.6, 1.0);
 		g = m_rand.Double(0.6, r);
-		//b = m_rand.Double(0.0, g/2.0);
+		//b = m_rand.Double(0.0, g * 0.5);
 		b = 0;
 		m_sandColor[i] = vector3d(r, g, b);
 	}
 
 	// Pick some darker sand colours mainly yellow
 	// TODO let some planetary value scale this colour
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_darksandColor)); i++) {
 		double r, g, b;
 		r = m_rand.Double(0.05, 0.6);
 		g = m_rand.Double(0.00, r);
-		//b = m_rand.Double(0.00, g/2.0);
+		//b = m_rand.Double(0.00, g * 0.5);
 		b = 0;
 		m_darksandColor[i] = vector3d(r, g, b);
 	}
 
 	// Pick some dirt colours, mainly red/brown
 	// TODO let some planetary value scale this colour
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_dirtColor)); i++) {
 		double r, g, b;
 		r = m_rand.Double(0.3, 0.7);
 		g = m_rand.Double(r - 0.1, 0.75);
-		b = m_rand.Double(0.0, r / 2.0);
+		b = m_rand.Double(0.0, r * 0.5);
 		m_dirtColor[i] = vector3d(r, g, b);
 	}
 
 	// Pick some darker dirt colours mainly red/brown
 	// TODO let some planetary value scale this colour
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_darkdirtColor)); i++) {
 		double r, g, b;
 		r = m_rand.Double(0.05, 0.3);
 		g = m_rand.Double(r - 0.05, 0.35);
-		b = m_rand.Double(0.0, r / 2.0);
+		b = m_rand.Double(0.0, r * 0.5);
 		m_darkdirtColor[i] = vector3d(r, g, b);
 	}
 
 	// These are used for gas giant colours, they are more m_random and *should* really use volatileGasses - TODO
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_gglightColor)); i++) {
 		double r, g, b;
 		r = m_rand.Double(0.0, 0.5);
@@ -615,8 +600,6 @@ Terrain::Terrain(const SystemBody *body) :
 		m_gglightColor[i] = vector3d(r, g, b);
 	}
 	//darker gas giant colours, more reds and greens
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_ggdarkColor)); i++) {
 		double r, g, b;
 		r = m_rand.Double(0.0, 0.3);
@@ -696,12 +679,4 @@ double Terrain::BiCubicInterpolation(const vector3d &p) const
 	const double a2 = 0.5 * d0 + 0.5 * d2;
 	const double a3 = -(1 / 6.0) * d0 - 0.5 * d2 + (1 / 6.0) * d3;
 	return (0.1 + a0 + a1 * dy + a2 * dy * dy + a3 * dy * dy * dy);
-}
-
-Terrain::MinBodyData::MinBodyData(const SystemBody *body)
-{
-	m_radius = body->GetRadius();
-	m_aspectRatio = body->GetAspectRatio();
-	m_path = body->GetPath();
-	m_name = body->GetName();
 }

@@ -7,6 +7,7 @@
 #include <SDL_stdinc.h>
 
 #include "JobQueue.h"
+#include "galaxy/SystemPath.h"
 #include "graphics/Material.h"
 #include "graphics/VertexBuffer.h"
 #include "graphics/RenderState.h"
@@ -44,104 +45,6 @@ namespace GasGiantJobs {
 	static const vector3d p8 = (vector3d(1, -1, -1)).Normalized();
 
 	const vector3d &GetPatchFaces(const Uint32 patch, const Uint32 face);
-
-	class STextureFaceRequest {
-	public:
-		STextureFaceRequest(const vector3d *v_, const SystemPath &sysPath_, const Sint32 face_, const Sint32 uvDIMs_, Terrain *pTerrain_);
-
-		// RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-		// Use only data local to this object
-		void OnRun();
-
-		Sint32 Face() const { return face; }
-		inline Sint32 UVDims() const { return uvDIMs; }
-		Color *Colors() const { return colors; }
-		const SystemPath &SysPath() const { return sysPath; }
-
-	protected:
-		// deliberately prevent copy constructor access
-		STextureFaceRequest(const STextureFaceRequest &r) = delete;
-
-		inline Sint32 NumTexels() const { return uvDIMs * uvDIMs; }
-
-		// in patch surface coords, [0,1]
-		inline vector3d GetSpherePoint(const double x, const double y) const
-		{
-			return (corners[0] + x * (1.0 - y) * (corners[1] - corners[0]) + x * y * (corners[2] - corners[0]) + (1.0 - x) * y * (corners[3] - corners[0])).Normalized();
-		}
-
-		// these are created with the request and are given to the resulting patches
-		Color *colors;
-
-		const vector3d *corners;
-		const SystemPath sysPath;
-		const Sint32 face;
-		const Sint32 uvDIMs;
-		RefCountedPtr<Terrain> pTerrain;
-	};
-
-	class STextureFaceResult {
-	public:
-		struct STextureFaceData {
-			STextureFaceData() {}
-			STextureFaceData(Color *c_, Sint32 uvDims_) :
-				colors(c_),
-				uvDims(uvDims_) {}
-			Color *colors;
-			Sint32 uvDims;
-		};
-
-		STextureFaceResult(const int32_t face_) :
-			mFace(face_) {}
-
-		void addResult(Color *c_, Sint32 uvDims_)
-		{
-			PROFILE_SCOPED()
-			mData = STextureFaceData(c_, uvDims_);
-		}
-
-		inline const STextureFaceData &data() const { return mData; }
-		inline int32_t face() const { return mFace; }
-
-		void OnCancel()
-		{
-			if (mData.colors) {
-				delete[] mData.colors;
-				mData.colors = NULL;
-			}
-		}
-
-	protected:
-		// deliberately prevent copy constructor access
-		STextureFaceResult(const STextureFaceResult &r) = delete;
-
-		const int32_t mFace;
-		STextureFaceData mData;
-	};
-
-	// ********************************************************************************
-	// Overloaded PureJob class to handle generating the mesh for each patch
-	// ********************************************************************************
-	class SingleTextureFaceJob : public Job {
-	public:
-		SingleTextureFaceJob(STextureFaceRequest *data) :
-			mData(data),
-			mpResults(nullptr)
-		{ /* empty */
-		}
-		virtual ~SingleTextureFaceJob();
-
-		virtual void OnRun();
-		virtual void OnFinish();
-		virtual void OnCancel() {}
-
-	private:
-		// deliberately prevent copy constructor access
-		SingleTextureFaceJob(const SingleTextureFaceJob &r) = delete;
-
-		std::unique_ptr<STextureFaceRequest> mData;
-		STextureFaceResult *mpResults;
-	};
 
 	// ********************************************************************************
 	// a quad with reversed winding
