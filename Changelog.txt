@@ -5,8 +5,11 @@ November 2024
     * Improvement: Radar auto-zoom on cargo canisters (#5948)
     * Add Buy and Sell prices to the Commodity Market (#5945)
     * Natrix overhaul (#5963)
+    * Natrix patterns (#5975)
     * feat(ui): add keybinding for target radial (#5962)
     * feat(radar): add manual zoom mode to scanner (#5958)
+    * feat(radar): capture mouse wheel for zooming radar (#5978)
+    * Feat/radar improvements (e.g. intermediate zoom step, etc.) (#5984)
 
   * Internal
     * Fix builds which use "-DDEBUG" (#5946)
@@ -34,6 +37,9 @@ November 2024
     * fix crash bugs in Passengers introduced by equip-v2 (#5957)
     * Fix the ability to start from all start positions (#5971)
     * Fix incorrect dV calculations in ship market (#5970)
+    * Fixing icons.svg after the radar updates (#5982)
+    * Fix(flightlog): fix crash when removing a flight log entry (#5988)
+    * Updating Vatakara to use the shild mesh of the Malabar (#5990)
 
 October 2024
   * New Features
