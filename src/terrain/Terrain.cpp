@@ -12,47 +12,129 @@
 #include "core/Log.h"
 #include "../galaxy/SystemBody.h"
 
+namespace TerrainColours {
+
+	const std::string TerrainColourNames[] = {
+		"Asteroid",
+		"BandedRock",
+		"DeadWithWater",
+		"Desert",
+		"EarthLike",
+		"EarthLikeHeightmapped",
+		"Ice",
+		"Methane",
+		"Rock2",
+		"Rock",
+		"Volcanic",
+		 // Gas Giants
+		"GGJupiter",
+		"GGNeptune2",
+		"GGNeptune",
+		"GGSaturn2",
+		"GGSaturn",
+		"GGUranus",
+		// /Gas Giants
+		// Stars
+		"StarBrownDwarf",
+		"StarG",
+		"StarK",
+		"StarM",
+		"StarWhiteDwarf",
+		// /Stars
+		"Black",
+		"White",
+		"TFGood",
+		"TFPoor"
+	};
+
+	const uint32_t TerrainSurfaceEffects[] = {
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		Terrain::SurfaceEffectFlags::EFFECT_WATER,
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		Terrain::SurfaceEffectFlags::EFFECT_WATER,
+		Terrain::SurfaceEffectFlags::EFFECT_WATER,
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		Terrain::SurfaceEffectFlags::EFFECT_LAVA,
+		// Gas Giants
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		// /Gas Giants
+		// Stars
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		// /Stars
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		Terrain::SurfaceEffectFlags::EFFECT_NONE,
+		Terrain::SurfaceEffectFlags::EFFECT_WATER,
+		Terrain::SurfaceEffectFlags::EFFECT_WATER
+	};
+
+	const std::string &GetTerrainColourNameFromEnum(const Terrain::ETerrainColours etc)
+	{
+		return TerrainColourNames[etc];
+	}
+} //namespace TerrainColours
+
 // static instancer. selects the best height and color classes for the body
 Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 {
+
 	// special case for heightmaps
 	// XXX this is terrible but will do for now until we get a unified
 	// heightmap setup. if you add another height fractal, remember to change
 	// the check in CustomSystem::l_height_map / SystemBodyData::LoadFromJson
 	if (!body->GetHeightMapFilename().empty()) {
-		const GeneratorInstancer choices[] = {
-			InstanceGenerator<TerrainHeightMapped, TerrainColorEarthLikeHeightmapped>,
-			InstanceGenerator<TerrainHeightMapped2, TerrainColorRock2>
+		const std::pair<GeneratorInstancer, ETerrainColours> choices[] = {
+			std::make_pair(InstanceGenerator<TerrainHeightMapped>, ETerrainColours::eTerrainColorEarthLikeHeightmapped),
+			std::make_pair(InstanceGenerator<TerrainHeightMapped2>, ETerrainColours::eTerrainColorRock2)
 		};
 		assert(body->GetHeightMapFractal() < COUNTOF(choices));
-		return choices[body->GetHeightMapFractal()](body);
+		const int32_t idx = body->GetHeightMapFractal();
+		return choices[idx].first(body, TerrainColours::TerrainSurfaceEffects[choices[idx].second], choices[idx].second);
 	}
 
 	Random rand(body->GetSeed());
 
 	GeneratorInstancer gi = 0;
+	Uint32 surfaceEffects = 0;
+	ETerrainColours terrainColour = ETerrainColours::eTerrainColorAsteroid;
 
 	switch (body->GetType()) {
 
 	case SystemBody::TYPE_BROWN_DWARF:
-		gi = InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarBrownDwarf>;
+		gi = InstanceGenerator<TerrainHeightEllipsoid>;
+		terrainColour = ETerrainColours::eTerrainColorStarBrownDwarf;
 		break;
 
 	case SystemBody::TYPE_WHITE_DWARF:
-		gi = InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarWhiteDwarf>;
+		gi = InstanceGenerator<TerrainHeightEllipsoid>;
+		terrainColour = ETerrainColours::eTerrainColorStarWhiteDwarf;
 		break;
 
 	case SystemBody::TYPE_STAR_M:
 	case SystemBody::TYPE_STAR_M_GIANT:
 	case SystemBody::TYPE_STAR_M_SUPER_GIANT:
 	case SystemBody::TYPE_STAR_M_HYPER_GIANT: {
-		const GeneratorInstancer choices[] = {
-			InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarM>,
-			InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarM>,
-			InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarK>,
-			InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarG>
+		const std::pair<GeneratorInstancer, ETerrainColours> choices[] = {
+			std::make_pair(InstanceGenerator<TerrainHeightEllipsoid>, ETerrainColours::eTerrainColorStarM),
+			std::make_pair(InstanceGenerator<TerrainHeightEllipsoid>, ETerrainColours::eTerrainColorStarM),
+			std::make_pair(InstanceGenerator<TerrainHeightEllipsoid>, ETerrainColours::eTerrainColorStarK),
+			std::make_pair(InstanceGenerator<TerrainHeightEllipsoid>, ETerrainColours::eTerrainColorStarG)
 		};
-		gi = choices[rand.Int32(COUNTOF(choices))];
+		const int32_t idx = rand.Int32(COUNTOF(choices));
+		gi = choices[idx].first;
+		terrainColour = choices[idx].second;
 		break;
 	}
 
@@ -60,13 +142,15 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 	case SystemBody::TYPE_STAR_K_GIANT:
 	case SystemBody::TYPE_STAR_K_SUPER_GIANT:
 	case SystemBody::TYPE_STAR_K_HYPER_GIANT: {
-		const GeneratorInstancer choices[] = {
-			InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarM>,
-			InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarK>,
-			InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarK>,
-			InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarG>
+		const std::pair<GeneratorInstancer, ETerrainColours> choices[] = {
+			std::make_pair(InstanceGenerator<TerrainHeightEllipsoid>, ETerrainColours::eTerrainColorStarM),
+			std::make_pair(InstanceGenerator<TerrainHeightEllipsoid>, ETerrainColours::eTerrainColorStarK),
+			std::make_pair(InstanceGenerator<TerrainHeightEllipsoid>, ETerrainColours::eTerrainColorStarK),
+			std::make_pair(InstanceGenerator<TerrainHeightEllipsoid>, ETerrainColours::eTerrainColorStarG)
 		};
-		gi = choices[rand.Int32(COUNTOF(choices))];
+		const int32_t idx = rand.Int32(COUNTOF(choices));
+		gi = choices[idx].first;
+		terrainColour = choices[idx].second;
 		break;
 	}
 
@@ -74,11 +158,13 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 	case SystemBody::TYPE_STAR_G_GIANT:
 	case SystemBody::TYPE_STAR_G_SUPER_GIANT:
 	case SystemBody::TYPE_STAR_G_HYPER_GIANT: {
-		const GeneratorInstancer choices[] = {
-			InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarWhiteDwarf>,
-			InstanceGenerator<TerrainHeightEllipsoid, TerrainColorStarG>
+		const std::pair<GeneratorInstancer, ETerrainColours> choices[] = {
+			std::make_pair(InstanceGenerator<TerrainHeightEllipsoid>, ETerrainColours::eTerrainColorStarWhiteDwarf),
+			std::make_pair(InstanceGenerator<TerrainHeightEllipsoid>, ETerrainColours::eTerrainColorStarG)
 		};
-		gi = choices[rand.Int32(COUNTOF(choices))];
+		const int32_t idx = rand.Int32(COUNTOF(choices));
+		gi = choices[idx].first;
+		terrainColour = choices[idx].second;
 		break;
 	}
 
@@ -99,41 +185,47 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 	case SystemBody::TYPE_STAR_O_HYPER_GIANT:
 	case SystemBody::TYPE_STAR_O_SUPER_GIANT:
 	case SystemBody::TYPE_STAR_O_WF:
-		gi = InstanceGenerator<TerrainHeightEllipsoid, TerrainColorWhite>;
+		gi = InstanceGenerator<TerrainHeightEllipsoid>;
+		terrainColour = ETerrainColours::eTerrainColorWhite;
 		break;
 
 	case SystemBody::TYPE_STAR_S_BH:
 	case SystemBody::TYPE_STAR_IM_BH:
 	case SystemBody::TYPE_STAR_SM_BH:
-		gi = InstanceGenerator<TerrainHeightEllipsoid, TerrainColorBlack>;
+		gi = InstanceGenerator<TerrainHeightEllipsoid>;
+		terrainColour = ETerrainColours::eTerrainColorBlack;
 		break;
 
 	case SystemBody::TYPE_PLANET_GAS_GIANT: {
-		const GeneratorInstancer choices[] = {
-			InstanceGenerator<TerrainHeightFlat, TerrainColorGGJupiter>,
-			InstanceGenerator<TerrainHeightFlat, TerrainColorGGSaturn>,
-			InstanceGenerator<TerrainHeightFlat, TerrainColorGGSaturn2>,
-			InstanceGenerator<TerrainHeightFlat, TerrainColorGGNeptune>,
-			InstanceGenerator<TerrainHeightFlat, TerrainColorGGNeptune2>,
-			InstanceGenerator<TerrainHeightFlat, TerrainColorGGUranus>,
-			InstanceGenerator<TerrainHeightFlat, TerrainColorGGSaturn>
+		const std::pair<GeneratorInstancer, ETerrainColours> choices[] = {
+			std::make_pair(InstanceGenerator<TerrainHeightFlat>, ETerrainColours::eTerrainColorGGJupiter),
+			std::make_pair(InstanceGenerator<TerrainHeightFlat>, ETerrainColours::eTerrainColorGGSaturn),
+			std::make_pair(InstanceGenerator<TerrainHeightFlat>, ETerrainColours::eTerrainColorGGSaturn2),
+			std::make_pair(InstanceGenerator<TerrainHeightFlat>, ETerrainColours::eTerrainColorGGNeptune),
+			std::make_pair(InstanceGenerator<TerrainHeightFlat>, ETerrainColours::eTerrainColorGGNeptune2),
+			std::make_pair(InstanceGenerator<TerrainHeightFlat>, ETerrainColours::eTerrainColorGGUranus),
+			std::make_pair(InstanceGenerator<TerrainHeightFlat>, ETerrainColours::eTerrainColorGGSaturn)
 		};
-		gi = choices[rand.Int32(COUNTOF(choices))];
+		const int32_t idx = rand.Int32(COUNTOF(choices));
+		gi = choices[idx].first;
+		terrainColour = choices[idx].second;
 		break;
 	}
 
 	case SystemBody::TYPE_PLANET_ASTEROID: {
-		const GeneratorInstancer choices[] = {
-			InstanceGenerator<TerrainHeightAsteroid, TerrainColorAsteroid>,
-			InstanceGenerator<TerrainHeightAsteroid2, TerrainColorAsteroid>,
-			InstanceGenerator<TerrainHeightAsteroid3, TerrainColorAsteroid>,
-			InstanceGenerator<TerrainHeightAsteroid4, TerrainColorAsteroid>,
-			InstanceGenerator<TerrainHeightAsteroid, TerrainColorRock>,
-			InstanceGenerator<TerrainHeightAsteroid2, TerrainColorBandedRock>,
-			InstanceGenerator<TerrainHeightAsteroid3, TerrainColorRock>,
-			InstanceGenerator<TerrainHeightAsteroid4, TerrainColorBandedRock>
+		const std::pair<GeneratorInstancer, ETerrainColours> choices[] = {
+			std::make_pair(InstanceGenerator<TerrainHeightAsteroid>, ETerrainColours::eTerrainColorAsteroid),
+			std::make_pair(InstanceGenerator<TerrainHeightAsteroid2>, ETerrainColours::eTerrainColorAsteroid),
+			std::make_pair(InstanceGenerator<TerrainHeightAsteroid3>, ETerrainColours::eTerrainColorAsteroid),
+			std::make_pair(InstanceGenerator<TerrainHeightAsteroid4>, ETerrainColours::eTerrainColorAsteroid),
+			std::make_pair(InstanceGenerator<TerrainHeightAsteroid>, ETerrainColours::eTerrainColorRock),
+			std::make_pair(InstanceGenerator<TerrainHeightAsteroid2>, ETerrainColours::eTerrainColorBandedRock),
+			std::make_pair(InstanceGenerator<TerrainHeightAsteroid3>, ETerrainColours::eTerrainColorRock),
+			std::make_pair(InstanceGenerator<TerrainHeightAsteroid4>, ETerrainColours::eTerrainColorBandedRock)
 		};
-		gi = choices[rand.Int32(COUNTOF(choices))];
+		const int32_t idx = rand.Int32(COUNTOF(choices));
+		gi = choices[idx].first;
+		terrainColour = choices[idx].second;
 		break;
 	}
 
@@ -148,35 +240,38 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 			// There would be no life on the surface without atmosphere
 
 			if (body->GetAverageTemp() > 240) {
-				const GeneratorInstancer choices[] = {
-					InstanceGenerator<TerrainHeightHillsRidged, TerrainColorEarthLike>,
-					InstanceGenerator<TerrainHeightHillsRivers, TerrainColorEarthLike>,
-					InstanceGenerator<TerrainHeightHillsDunes, TerrainColorEarthLike>,
-					InstanceGenerator<TerrainHeightMountainsRidged, TerrainColorEarthLike>,
-					InstanceGenerator<TerrainHeightMountainsNormal, TerrainColorEarthLike>,
-					InstanceGenerator<TerrainHeightMountainsRivers, TerrainColorEarthLike>,
-					InstanceGenerator<TerrainHeightMountainsVolcano, TerrainColorEarthLike>,
-					InstanceGenerator<TerrainHeightMountainsRiversVolcano, TerrainColorEarthLike>
+				const std::pair<GeneratorInstancer, ETerrainColours> choices[] = {
+					std::make_pair(InstanceGenerator<TerrainHeightHillsRidged>, ETerrainColours::eTerrainColorEarthLike),
+					std::make_pair(InstanceGenerator<TerrainHeightHillsRivers>, ETerrainColours::eTerrainColorEarthLike),
+					std::make_pair(InstanceGenerator<TerrainHeightHillsDunes>, ETerrainColours::eTerrainColorEarthLike),
+					std::make_pair(InstanceGenerator<TerrainHeightMountainsRidged>, ETerrainColours::eTerrainColorEarthLike),
+					std::make_pair(InstanceGenerator<TerrainHeightMountainsNormal>, ETerrainColours::eTerrainColorEarthLike),
+					std::make_pair(InstanceGenerator<TerrainHeightMountainsRivers>, ETerrainColours::eTerrainColorEarthLike),
+					std::make_pair(InstanceGenerator<TerrainHeightMountainsVolcano>, ETerrainColours::eTerrainColorEarthLike),
+					std::make_pair(InstanceGenerator<TerrainHeightMountainsRiversVolcano>, ETerrainColours::eTerrainColorEarthLike)
 				};
-				gi = choices[rand.Int32(COUNTOF(choices))];
+				const int32_t idx = rand.Int32(COUNTOF(choices));
+				gi = choices[idx].first;
+				terrainColour = choices[idx].second;
 				break;
 			}
 
-			// desert-ice planets
-			const GeneratorInstancer choices[] = {
-				InstanceGenerator<TerrainHeightHillsRidged, TerrainColorDesert>,
-				InstanceGenerator<TerrainHeightHillsRivers, TerrainColorDesert>,
-				InstanceGenerator<TerrainHeightHillsDunes, TerrainColorDesert>,
-				InstanceGenerator<TerrainHeightMountainsRidged, TerrainColorDesert>,
-				InstanceGenerator<TerrainHeightMountainsNormal, TerrainColorDesert>,
-				InstanceGenerator<TerrainHeightMountainsRivers, TerrainColorDesert>,
-				InstanceGenerator<TerrainHeightMountainsVolcano, TerrainColorDesert>,
-				InstanceGenerator<TerrainHeightMountainsRiversVolcano, TerrainColorDesert>,
-				InstanceGenerator<TerrainHeightBarrenRock, TerrainColorDesert>,
-				InstanceGenerator<TerrainHeightBarrenRock2, TerrainColorDesert> //,
-				//InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorTFGood>
+			const std::pair<GeneratorInstancer, ETerrainColours> choices[] = {
+				std::make_pair(InstanceGenerator<TerrainHeightHillsRidged>, ETerrainColours::eTerrainColorDesert),
+				std::make_pair(InstanceGenerator<TerrainHeightHillsRivers>, ETerrainColours::eTerrainColorDesert),
+				std::make_pair(InstanceGenerator<TerrainHeightHillsDunes>, ETerrainColours::eTerrainColorDesert),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsRidged>, ETerrainColours::eTerrainColorDesert),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsNormal>, ETerrainColours::eTerrainColorDesert),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsRivers>, ETerrainColours::eTerrainColorDesert),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsVolcano>, ETerrainColours::eTerrainColorDesert),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsRiversVolcano>, ETerrainColours::eTerrainColorDesert),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock>, ETerrainColours::eTerrainColorDesert),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock2>, ETerrainColours::eTerrainColorDesert)
+				//std::make_pair(InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorTFGood>
 			};
-			gi = choices[rand.Int32(COUNTOF(choices))];
+			const int32_t idx = rand.Int32(COUNTOF(choices));
+			gi = choices[idx].first;
+			terrainColour = choices[idx].second;
 			break;
 		}
 
@@ -184,42 +279,45 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 		if ((body->GetVolatileGasAsFixed() > fixed(2, 10)) && (body->GetLifeAsFixed() > fixed(4, 10))) {
 
 			if (body->GetAverageTemp() > 240) {
-				const GeneratorInstancer choices[] = {
-					InstanceGenerator<TerrainHeightHillsRidged, TerrainColorTFGood>,
-					InstanceGenerator<TerrainHeightHillsRivers, TerrainColorTFGood>,
-					InstanceGenerator<TerrainHeightHillsDunes, TerrainColorTFGood>,
-					InstanceGenerator<TerrainHeightHillsNormal, TerrainColorTFGood>,
-					InstanceGenerator<TerrainHeightMountainsNormal, TerrainColorTFGood>,
-					InstanceGenerator<TerrainHeightMountainsRidged, TerrainColorTFGood>,
-					InstanceGenerator<TerrainHeightMountainsVolcano, TerrainColorTFGood>,
-					InstanceGenerator<TerrainHeightMountainsRiversVolcano, TerrainColorTFGood>,
-					InstanceGenerator<TerrainHeightMountainsRivers, TerrainColorTFGood>,
-					InstanceGenerator<TerrainHeightRuggedDesert, TerrainColorTFGood>,
-					InstanceGenerator<TerrainHeightBarrenRock, TerrainColorTFGood>,
-					InstanceGenerator<TerrainHeightBarrenRock2, TerrainColorTFGood>
+				const std::pair<GeneratorInstancer, ETerrainColours> choices[] = {
+					std::make_pair(InstanceGenerator<TerrainHeightHillsRidged>, ETerrainColours::eTerrainColorTFGood),
+					std::make_pair(InstanceGenerator<TerrainHeightHillsRivers>, ETerrainColours::eTerrainColorTFGood),
+					std::make_pair(InstanceGenerator<TerrainHeightHillsDunes>, ETerrainColours::eTerrainColorTFGood),
+					std::make_pair(InstanceGenerator<TerrainHeightHillsNormal>, ETerrainColours::eTerrainColorTFGood),
+					std::make_pair(InstanceGenerator<TerrainHeightMountainsNormal>, ETerrainColours::eTerrainColorTFGood),
+					std::make_pair(InstanceGenerator<TerrainHeightMountainsRidged>, ETerrainColours::eTerrainColorTFGood),
+					std::make_pair(InstanceGenerator<TerrainHeightMountainsVolcano>, ETerrainColours::eTerrainColorTFGood),
+					std::make_pair(InstanceGenerator<TerrainHeightMountainsRiversVolcano>, ETerrainColours::eTerrainColorTFGood),
+					std::make_pair(InstanceGenerator<TerrainHeightMountainsRivers>, ETerrainColours::eTerrainColorTFGood),
+					std::make_pair(InstanceGenerator<TerrainHeightRuggedDesert>, ETerrainColours::eTerrainColorTFGood),
+					std::make_pair(InstanceGenerator<TerrainHeightBarrenRock>, ETerrainColours::eTerrainColorTFGood),
+					std::make_pair(InstanceGenerator<TerrainHeightBarrenRock2>, ETerrainColours::eTerrainColorTFGood)
 					//InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorTFGood>
 				};
-				gi = choices[rand.Int32(COUNTOF(choices))];
+				const int32_t idx = rand.Int32(COUNTOF(choices));
+				gi = choices[idx].first;
+				terrainColour = choices[idx].second;
 				break;
 			}
 
-			// ice planets
-			const GeneratorInstancer choices[] = {
-				InstanceGenerator<TerrainHeightHillsRidged, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightHillsRivers, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightHillsDunes, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightHillsNormal, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightMountainsNormal, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightMountainsRidged, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightMountainsVolcano, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightMountainsRiversVolcano, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightMountainsRivers, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightRuggedDesert, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightBarrenRock, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightBarrenRock2, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightBarrenRock3, TerrainColorIce>
+			const std::pair<GeneratorInstancer, ETerrainColours> choices[] = {
+				std::make_pair(InstanceGenerator<TerrainHeightHillsRidged>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightHillsRivers>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightHillsDunes>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightHillsNormal>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsNormal>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsRidged>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsVolcano>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsRiversVolcano>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsRivers>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightRuggedDesert>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock2>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock3>, ETerrainColours::eTerrainColorIce)
 			};
-			gi = choices[rand.Int32(COUNTOF(choices))];
+			const int32_t idx = rand.Int32(COUNTOF(choices));
+			gi = choices[idx].first;
+			terrainColour = choices[idx].second;
 			break;
 		}
 
@@ -227,141 +325,162 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 		else if ((body->GetVolatileGasAsFixed() > fixed(1, 10)) && (body->GetLifeAsFixed() > fixed(1, 10))) {
 
 			if (body->GetAverageTemp() > 240) {
-				const GeneratorInstancer choices[] = {
-					InstanceGenerator<TerrainHeightHillsRidged, TerrainColorTFPoor>,
-					InstanceGenerator<TerrainHeightHillsRivers, TerrainColorTFPoor>,
-					InstanceGenerator<TerrainHeightHillsDunes, TerrainColorTFPoor>,
-					InstanceGenerator<TerrainHeightHillsNormal, TerrainColorTFPoor>,
-					InstanceGenerator<TerrainHeightMountainsNormal, TerrainColorTFPoor>,
-					InstanceGenerator<TerrainHeightMountainsRidged, TerrainColorTFPoor>,
-					InstanceGenerator<TerrainHeightMountainsVolcano, TerrainColorTFPoor>,
-					InstanceGenerator<TerrainHeightMountainsRiversVolcano, TerrainColorTFPoor>,
-					InstanceGenerator<TerrainHeightMountainsRivers, TerrainColorTFPoor>,
-					InstanceGenerator<TerrainHeightRuggedDesert, TerrainColorTFPoor>,
-					InstanceGenerator<TerrainHeightBarrenRock, TerrainColorTFPoor>,
-					InstanceGenerator<TerrainHeightBarrenRock2, TerrainColorTFPoor>,
-					InstanceGenerator<TerrainHeightBarrenRock3, TerrainColorTFPoor>
+				const std::pair<GeneratorInstancer, ETerrainColours> choices[] = {
+					std::make_pair(InstanceGenerator<TerrainHeightHillsRidged>, ETerrainColours::eTerrainColorTFPoor),
+					std::make_pair(InstanceGenerator<TerrainHeightHillsRivers>, ETerrainColours::eTerrainColorTFPoor),
+					std::make_pair(InstanceGenerator<TerrainHeightHillsDunes>, ETerrainColours::eTerrainColorTFPoor),
+					std::make_pair(InstanceGenerator<TerrainHeightHillsNormal>, ETerrainColours::eTerrainColorTFPoor),
+					std::make_pair(InstanceGenerator<TerrainHeightMountainsNormal>, ETerrainColours::eTerrainColorTFPoor),
+					std::make_pair(InstanceGenerator<TerrainHeightMountainsRidged>, ETerrainColours::eTerrainColorTFPoor),
+					std::make_pair(InstanceGenerator<TerrainHeightMountainsVolcano>, ETerrainColours::eTerrainColorTFPoor),
+					std::make_pair(InstanceGenerator<TerrainHeightMountainsRiversVolcano>, ETerrainColours::eTerrainColorTFPoor),
+					std::make_pair(InstanceGenerator<TerrainHeightMountainsRivers>, ETerrainColours::eTerrainColorTFPoor),
+					std::make_pair(InstanceGenerator<TerrainHeightRuggedDesert>, ETerrainColours::eTerrainColorTFPoor),
+					std::make_pair(InstanceGenerator<TerrainHeightBarrenRock>, ETerrainColours::eTerrainColorTFPoor),
+					std::make_pair(InstanceGenerator<TerrainHeightBarrenRock2>, ETerrainColours::eTerrainColorTFPoor),
+					std::make_pair(InstanceGenerator<TerrainHeightBarrenRock3>, ETerrainColours::eTerrainColorTFPoor)
 				};
-				gi = choices[rand.Int32(COUNTOF(choices))];
+				const int32_t idx = rand.Int32(COUNTOF(choices));
+				gi = choices[idx].first;
+				terrainColour = choices[idx].second;
 				break;
 			}
 
-			// ice planets
-			const GeneratorInstancer choices[] = {
-				InstanceGenerator<TerrainHeightHillsRidged, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightHillsRivers, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightHillsDunes, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightHillsNormal, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightMountainsNormal, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightMountainsRidged, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightMountainsVolcano, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightMountainsRiversVolcano, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightMountainsRivers, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightRuggedDesert, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightBarrenRock, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightBarrenRock2, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightBarrenRock3, TerrainColorIce>
+			const std::pair<GeneratorInstancer, ETerrainColours> choices[] = {
+				std::make_pair(InstanceGenerator<TerrainHeightHillsRidged>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightHillsRivers>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightHillsDunes>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightHillsNormal>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsNormal>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsRidged>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsVolcano>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsRiversVolcano>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsRivers>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightRuggedDesert>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock2>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock3>, ETerrainColours::eTerrainColorIce)
 			};
-			gi = choices[rand.Int32(COUNTOF(choices))];
+			const int32_t idx = rand.Int32(COUNTOF(choices));
+			gi = choices[idx].first;
+			terrainColour = choices[idx].second;
 			break;
 		}
 
 		// Desert-like world, Mars -like.
 		if ((body->GetVolatileLiquidAsFixed() < fixed(1, 10)) && (body->GetVolatileGasAsFixed() > fixed(1, 5))) {
-			const GeneratorInstancer choices[] = {
-				InstanceGenerator<TerrainHeightHillsDunes, TerrainColorDesert>,
-				InstanceGenerator<TerrainHeightWaterSolid, TerrainColorDesert>,
-				InstanceGenerator<TerrainHeightRuggedDesert, TerrainColorDesert>,
-				InstanceGenerator<TerrainHeightRuggedLava, TerrainColorDesert>,
-				InstanceGenerator<TerrainHeightMountainsVolcano, TerrainColorDesert>,
-				InstanceGenerator<TerrainHeightMountainsRiversVolcano, TerrainColorDesert>,
-				InstanceGenerator<TerrainHeightBarrenRock, TerrainColorDesert>,
-				InstanceGenerator<TerrainHeightBarrenRock2, TerrainColorDesert>
+			const std::pair<GeneratorInstancer, ETerrainColours> choices[] = {
+				std::make_pair(InstanceGenerator<TerrainHeightHillsDunes>, ETerrainColours::eTerrainColorDesert),
+				std::make_pair(InstanceGenerator<TerrainHeightWaterSolid>, ETerrainColours::eTerrainColorDesert),
+				std::make_pair(InstanceGenerator<TerrainHeightRuggedDesert>, ETerrainColours::eTerrainColorDesert),
+				std::make_pair(InstanceGenerator<TerrainHeightRuggedLava>, ETerrainColours::eTerrainColorDesert),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsVolcano>, ETerrainColours::eTerrainColorDesert),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsRiversVolcano>, ETerrainColours::eTerrainColorDesert),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock>, ETerrainColours::eTerrainColorDesert),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock2>, ETerrainColours::eTerrainColorDesert)
 			};
-			gi = choices[rand.Int32(COUNTOF(choices))];
+			const int32_t idx = rand.Int32(COUNTOF(choices));
+			gi = choices[idx].first;
+			terrainColour = choices[idx].second;
 			break;
 		}
 
 		// Frozen world
 		if ((body->GetVolatileIcesAsFixed() > fixed(8, 10)) && (body->GetAverageTemp() < 250)) {
-			const GeneratorInstancer choices[] = {
-				InstanceGenerator<TerrainHeightHillsDunes, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightHillsCraters, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightMountainsCraters, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightWaterSolid, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightWaterSolidCanyons, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightRuggedDesert, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightBarrenRock, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightBarrenRock2, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightBarrenRock3, TerrainColorIce>
+			const std::pair<GeneratorInstancer, ETerrainColours> choices[] = {
+				std::make_pair(InstanceGenerator<TerrainHeightHillsDunes>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightHillsCraters>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsCraters>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightWaterSolid>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightWaterSolidCanyons>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightRuggedDesert>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock2>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock3>, ETerrainColours::eTerrainColorIce)
 			};
-			gi = choices[rand.Int32(COUNTOF(choices))];
+			const int32_t idx = rand.Int32(COUNTOF(choices));
+			gi = choices[idx].first;
+			terrainColour = choices[idx].second;
 			break;
 		}
 
 		// Volcanic world
 		if (body->GetVolcanicityAsFixed() > fixed(7, 10)) {
 
-			if (body->GetLifeAsFixed() > fixed(5, 10)) // life on a volcanic world ;)
-				gi = InstanceGenerator<TerrainHeightRuggedLava, TerrainColorTFGood>;
-			else if (body->GetLifeAsFixed() > fixed(2, 10))
-				gi = InstanceGenerator<TerrainHeightRuggedLava, TerrainColorTFPoor>;
-			else
-				gi = InstanceGenerator<TerrainHeightRuggedLava, TerrainColorVolcanic>;
+			if (body->GetLifeAsFixed() > fixed(5, 10)) { // life on a volcanic world ;)
+				gi = InstanceGenerator<TerrainHeightRuggedLava>;
+				terrainColour = ETerrainColours::eTerrainColorTFGood;
+			} else if (body->GetLifeAsFixed() > fixed(2, 10)) {
+				gi = InstanceGenerator<TerrainHeightRuggedLava>;
+				terrainColour = ETerrainColours::eTerrainColorTFPoor;
+			} else {
+				gi = InstanceGenerator<TerrainHeightRuggedLava>;
+				terrainColour = ETerrainColours::eTerrainColorVolcanic;
+			}
 			break;
 		}
 
 		//Below might not be needed.
 		//Alien life world:
 		if (body->GetLifeAsFixed() > fixed(1, 10)) {
-			const GeneratorInstancer choices[] = {
-				InstanceGenerator<TerrainHeightHillsDunes, TerrainColorTFPoor>,
-				InstanceGenerator<TerrainHeightHillsRidged, TerrainColorTFPoor>,
-				InstanceGenerator<TerrainHeightHillsRivers, TerrainColorTFPoor>,
-				InstanceGenerator<TerrainHeightMountainsNormal, TerrainColorTFPoor>,
-				InstanceGenerator<TerrainHeightMountainsRidged, TerrainColorTFPoor>,
-				InstanceGenerator<TerrainHeightMountainsVolcano, TerrainColorTFPoor>,
-				InstanceGenerator<TerrainHeightMountainsRiversVolcano, TerrainColorTFPoor>,
-				InstanceGenerator<TerrainHeightMountainsRivers, TerrainColorTFPoor>,
-				InstanceGenerator<TerrainHeightWaterSolid, TerrainColorTFPoor>,
-				InstanceGenerator<TerrainHeightRuggedLava, TerrainColorTFPoor>,
-				InstanceGenerator<TerrainHeightRuggedDesert, TerrainColorTFPoor>,
-				InstanceGenerator<TerrainHeightBarrenRock, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightBarrenRock2, TerrainColorIce>,
-				InstanceGenerator<TerrainHeightBarrenRock3, TerrainColorIce>
+			const std::pair<GeneratorInstancer, ETerrainColours> choices[] = {
+				std::make_pair(InstanceGenerator<TerrainHeightHillsDunes>, ETerrainColours::eTerrainColorTFPoor),
+				std::make_pair(InstanceGenerator<TerrainHeightHillsRidged>, ETerrainColours::eTerrainColorTFPoor),
+				std::make_pair(InstanceGenerator<TerrainHeightHillsRivers>, ETerrainColours::eTerrainColorTFPoor),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsNormal>, ETerrainColours::eTerrainColorTFPoor),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsRidged>, ETerrainColours::eTerrainColorTFPoor),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsVolcano>, ETerrainColours::eTerrainColorTFPoor),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsRiversVolcano>, ETerrainColours::eTerrainColorTFPoor),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsRivers>, ETerrainColours::eTerrainColorTFPoor),
+				std::make_pair(InstanceGenerator<TerrainHeightWaterSolid>, ETerrainColours::eTerrainColorTFPoor),
+				std::make_pair(InstanceGenerator<TerrainHeightRuggedLava>, ETerrainColours::eTerrainColorTFPoor),
+				std::make_pair(InstanceGenerator<TerrainHeightRuggedDesert>, ETerrainColours::eTerrainColorTFPoor),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock2>, ETerrainColours::eTerrainColorIce),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock3>, ETerrainColours::eTerrainColorIce)
 			};
-			gi = choices[rand.Int32(COUNTOF(choices))];
+			const int32_t idx = rand.Int32(COUNTOF(choices));
+			gi = choices[idx].first;
+			terrainColour = choices[idx].second;
 			break;
 		};
 
 		if (body->GetVolatileGasAsFixed() > fixed(1, 10)) {
-			const GeneratorInstancer choices[] = {
-				InstanceGenerator<TerrainHeightHillsNormal, TerrainColorRock>,
-				InstanceGenerator<TerrainHeightMountainsNormal, TerrainColorRock>,
-				InstanceGenerator<TerrainHeightRuggedDesert, TerrainColorRock>,
-				InstanceGenerator<TerrainHeightBarrenRock, TerrainColorRock>,
-				InstanceGenerator<TerrainHeightBarrenRock2, TerrainColorRock>,
-				InstanceGenerator<TerrainHeightBarrenRock3, TerrainColorRock>
+			const std::pair<GeneratorInstancer, ETerrainColours> choices[] = {
+				std::make_pair(InstanceGenerator<TerrainHeightHillsNormal>, ETerrainColours::eTerrainColorRock),
+				std::make_pair(InstanceGenerator<TerrainHeightMountainsNormal>, ETerrainColours::eTerrainColorRock),
+				std::make_pair(InstanceGenerator<TerrainHeightRuggedDesert>, ETerrainColours::eTerrainColorRock),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock>, ETerrainColours::eTerrainColorRock),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock2>, ETerrainColours::eTerrainColorRock),
+				std::make_pair(InstanceGenerator<TerrainHeightBarrenRock3>, ETerrainColours::eTerrainColorRock)
 			};
-			gi = choices[rand.Int32(COUNTOF(choices))];
+			const int32_t idx = rand.Int32(COUNTOF(choices));
+			gi = choices[idx].first;
+			terrainColour = choices[idx].second;
 			break;
 		}
 
-		const GeneratorInstancer choices[] = {
-			InstanceGenerator<TerrainHeightHillsCraters2, TerrainColorRock>,
-			InstanceGenerator<TerrainHeightMountainsCraters2, TerrainColorRock>,
-			InstanceGenerator<TerrainHeightBarrenRock3, TerrainColorRock>
+		const std::pair<GeneratorInstancer, ETerrainColours> choices[] = {
+			std::make_pair(InstanceGenerator<TerrainHeightHillsCraters2>, ETerrainColours::eTerrainColorRock),
+			std::make_pair(InstanceGenerator<TerrainHeightMountainsCraters2>, ETerrainColours::eTerrainColorRock),
+			std::make_pair(InstanceGenerator<TerrainHeightBarrenRock3>, ETerrainColours::eTerrainColorRock)
 		};
-		gi = choices[rand.Int32(COUNTOF(choices))];
+		const int32_t idx = rand.Int32(COUNTOF(choices));
+		gi = choices[idx].first;
+		terrainColour = choices[idx].second;
 		break;
 	}
 
 	default:
-		gi = InstanceGenerator<TerrainHeightFlat, TerrainColorWhite>;
+		gi = InstanceGenerator<TerrainHeightFlat>;
+		terrainColour = ETerrainColours::eTerrainColorWhite;
 		break;
 	}
 
-	return gi(body);
+	// only have to do this once because we're just looking up the surface effects from the table based on the terrain colour
+	surfaceEffects |= TerrainColours::TerrainSurfaceEffects[terrainColour];
+
+	return gi(body, surfaceEffects, terrainColour);
 }
 
 static size_t bufread_or_die(void *ptr, size_t size, size_t nmemb, ByteRange &buf)
@@ -385,10 +504,12 @@ static size_t bufread_or_die(void *ptr, size_t size, size_t nmemb, ByteRange &bu
 #define UINT16_MAX (65535)
 #endif
 
-Terrain::Terrain(const SystemBody *body) :
+Terrain::Terrain(const SystemBody *body, const Uint32 surfaceEffects, const ETerrainColours terrainColour) :
 	m_body(const_cast<SystemBody*>(body)),
 	m_seed(body->GetSeed()),
 	m_rand(body->GetSeed()),
+	m_surfaceEffects(surfaceEffects),
+	m_terrainColour(terrainColour),
 	m_heightScaling(0),
 	m_minh(0),
 	m_heightMapSizeX(0),
@@ -515,6 +636,12 @@ void Terrain::SetFracDef(const unsigned int index, const double featureHeightMet
 	m_fracdef[index].octaves = std::max(1, int(ceil(log(featureWidthMeters / smallestOctaveMeters) / log(2.0))));
 	m_fracdef[index].lacunarity = 2.0;
 	//Output("%d octaves\n", m_fracdef[index].octaves); //print
+}
+
+const char* Terrain::GetColorFractalName() const
+{
+	assert(m_terrainColour >= eTerrainColorAsteroid && m_terrainColour <= eTerrainColorTFPoor);
+	return TerrainColours::TerrainColourNames[m_terrainColour].c_str();
 }
 
 double Terrain::BiCubicInterpolation(const vector3d &p) const

@@ -18,7 +18,7 @@
 
 class SystemBody;
 
-template <typename, typename>
+template <typename>
 class TerrainGenerator;
 
 class Terrain : public RefCounted {
@@ -26,9 +26,43 @@ public:
 	// location and intensity of effects are controlled by the colour fractals;
 	// it's possible for a Terrain to have a flag set but not actually to exhibit any of that effect
 	enum SurfaceEffectFlags {
-		EFFECT_LAVA = 1 << 0,
+		EFFECT_NONE = 0,
+		EFFECT_LAVA = 1,
 		EFFECT_WATER = 2
 		// can add other effect flags here (e.g., water, snow, ice)
+	};
+
+	enum ETerrainColours : uint8_t {
+		eTerrainColorAsteroid,
+		eTerrainColorBandedRock,
+		eTerrainColorDeadWithWater,
+		eTerrainColorDesert,
+		eTerrainColorEarthLike,
+		eTerrainColorEarthLikeHeightmapped,
+		eTerrainColorIce,
+		eTerrainColorMethane,
+		eTerrainColorRock2,
+		eTerrainColorRock,
+		eTerrainColorVolcanic,
+		// Gas Giants
+		eTerrainColorGGJupiter,
+		eTerrainColorGGNeptune2,
+		eTerrainColorGGNeptune,
+		eTerrainColorGGSaturn2,
+		eTerrainColorGGSaturn,
+		eTerrainColorGGUranus,
+		// /Gas Giants
+		// Stars
+		eTerrainColorStarBrownDwarf,
+		eTerrainColorStarG,
+		eTerrainColorStarK,
+		eTerrainColorStarM,
+		eTerrainColorStarWhiteDwarf,
+		// /Stars
+		eTerrainColorBlack,
+		eTerrainColorWhite,
+		eTerrainColorTFGood,
+		eTerrainColorTFPoor
 	};
 
 	static Terrain *InstanceTerrain(const SystemBody *body);
@@ -45,7 +79,7 @@ public:
 	virtual void GetHeights(const vector3d *vP, double *heightsOut, const size_t count) const = 0;
 
 	virtual const char *GetHeightFractalName() const = 0;
-	virtual const char *GetColorFractalName() const = 0;
+	const char *GetColorFractalName() const;
 
 	double GetMaxHeight() const { return m_maxHeight; }
 
@@ -56,13 +90,17 @@ public:
 	void DebugDump() const;
 
 private:
-	template <typename HeightFractal, typename ColorFractal>
-	static Terrain *InstanceGenerator(const SystemBody *body) { return new TerrainGenerator<HeightFractal, ColorFractal>(body); }
 
-	typedef Terrain *(*GeneratorInstancer)(const SystemBody *);
+	template <typename HeightFractal>
+	static Terrain *InstanceGenerator(const SystemBody *body, const Uint32 surfaceEffects, const ETerrainColours terrainColour)
+	{
+		return new TerrainGenerator<HeightFractal>(body, surfaceEffects, terrainColour);
+	}
+
+	typedef Terrain *(*GeneratorInstancer)(const SystemBody *, const Uint32, const ETerrainColours);
 
 protected:
-	Terrain(const SystemBody *body);
+	Terrain(const SystemBody *body, const Uint32 surfaceEffects, const ETerrainColours terrainColour);
 
 	const RefCountedPtr<SystemBody> m_body;
 
@@ -74,6 +112,7 @@ protected:
 	double m_volcanic;
 
 	Uint32 m_surfaceEffects;
+	ETerrainColours m_terrainColour;
 
 	// heightmap stuff
 	// XXX unify heightmap types
@@ -105,27 +144,18 @@ public:
 	const char *GetHeightFractalName() const final;
 
 protected:
-	TerrainHeightFractal(const SystemBody *body);
+	TerrainHeightFractal(const SystemBody *body, const Uint32 surfaceEffects, const ETerrainColours terrainColour);
+
+private:
 };
 
-template <typename ColorFractal>
-class TerrainColorFractal : virtual public Terrain {
-public:
-	TerrainColorFractal() = delete;
-	const char *GetColorFractalName() const final;
-
-protected:
-	TerrainColorFractal(const SystemBody *body);
-};
-
-template <typename HeightFractal, typename ColorFractal>
-class TerrainGenerator : public TerrainHeightFractal<HeightFractal>, public TerrainColorFractal<ColorFractal> {
+template <typename HeightFractal>
+class TerrainGenerator : public TerrainHeightFractal<HeightFractal> {
 public:
 	TerrainGenerator() = delete;
-	TerrainGenerator(const SystemBody *body) :
-		Terrain(body),
-		TerrainHeightFractal<HeightFractal>(body),
-		TerrainColorFractal<ColorFractal>(body) {}
+	TerrainGenerator(const SystemBody *body, const Uint32 surfaceEffects, const ETerrainColours terrainColour) :
+		Terrain(body, surfaceEffects, terrainColour),
+		TerrainHeightFractal<HeightFractal>(body, surfaceEffects, terrainColour) {}
 
 private:
 };
@@ -170,12 +200,6 @@ class TerrainHeightMountainsCraters;
 class TerrainHeightMountainsNormal;
 // Based on TerrainHeightMountainsNormal :
 class TerrainHeightMountainsRivers;
-/*Pictures from the above two terrains generating Earth-like worlds:
- http://www.spacesimcentral.com/forum/download/file.php?id=1533&mode=view
- http://www.spacesimcentral.com/forum/download/file.php?id=1544&mode=view
- http://www.spacesimcentral.com/forum/download/file.php?id=1550&mode=view
- http://www.spacesimcentral.com/forum/download/file.php?id=1540&mode=view
- */
 
 // Older terrains:
 class TerrainHeightMountainsRidged;
@@ -185,7 +209,7 @@ class TerrainHeightMountainsVolcano;
 
 //Oldest terrains, from before fracdefs :
 class TerrainHeightRuggedDesert;
-//   lava terrain should look like this http://www.spacesimcentral.com/forum/download/file.php?id=1778&mode=view
+//   lava terrain 
 class TerrainHeightRuggedLava;
 
 /*Terrains used for Iceworlds,
@@ -193,36 +217,6 @@ only terrain to use the much neglected impact crater function
 (basically I forgot about it;) ) **It makes cool looking sunken craters** */
 class TerrainHeightWaterSolidCanyons;
 class TerrainHeightWaterSolid;
-
-class TerrainColorAsteroid;
-class TerrainColorBandedRock;
-class TerrainColorBlack;
-class TerrainColorDesert;
-/*ColorEarthlike uses features not yet included in all terrain colours
- such as better poles : http://www.spacesimcentral.com/forum/download/file.php?id=1884&mode=view
- http://www.spacesimcentral.com/forum/download/file.php?id=1885&mode=view
-and better distribution of snow :  http://www.spacesimcentral.com/forum/download/file.php?id=1879&mode=view  */
-class TerrainColorEarthLike;
-class TerrainColorEarthLikeHeightmapped;
-class TerrainColorGGJupiter;
-class TerrainColorGGNeptune2;
-class TerrainColorGGNeptune;
-class TerrainColorGGSaturn2;
-class TerrainColorGGSaturn;
-class TerrainColorGGUranus;
-class TerrainColorIce;
-class TerrainColorMethane;
-class TerrainColorRock2;
-class TerrainColorRock;
-class TerrainColorWhite;
-class TerrainColorStarBrownDwarf;
-class TerrainColorStarG;
-class TerrainColorStarK;
-class TerrainColorStarM;
-class TerrainColorStarWhiteDwarf;
-class TerrainColorTFGood;
-class TerrainColorTFPoor;
-class TerrainColorVolcanic;
 
 #ifdef _MSC_VER
 #pragma warning(default : 4250)

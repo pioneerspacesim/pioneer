@@ -11,8 +11,8 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightMapped2>::GetHeightFractalName() const { return "Mapped2"; }
 
 template <>
-TerrainHeightFractal<TerrainHeightMapped2>::TerrainHeightFractal(const SystemBody *body) :
-	Terrain(body)
+TerrainHeightFractal<TerrainHeightMapped2>::TerrainHeightFractal(const SystemBody *body, const Uint32 surfaceEffects, const ETerrainColours terrainColour) :
+	Terrain(body, surfaceEffects, terrainColour)
 {
 }
 
