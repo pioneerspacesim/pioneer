@@ -24,6 +24,17 @@ local DEFAULT_RADAR_SIZE = 10000
 local shouldDisplay2DRadar = false
 local blobSize = 6.0
 
+-- These variable needs to be outside the draw function in order to capture the
+-- current state between frames. We are trying to ensure that a mouse
+-- click started and finished inside the radar area in order to trigger
+-- the popups and actions.
+local click_on_radar = false
+local radar_popup_displayed = false
+local popup_targets = {}
+
+-- Current set of targets hovered over by the mouse
+local mouseTargets = {}
+
 local input_group = 'ShipHUD.RadarControl'
 local keys = {
 	radar_reset = Input.RegisterActionBinding('BindRadarZoomReset', input_group, { activator = { key = Input.keys.slash } } ),
@@ -58,16 +69,60 @@ local function getColorFor(item)
 	return colors.radarUnknown
 end
 
+-- Creates a sequence 1, 2, 5, 10, ...
+local zoomSeq = {
+	0.0,
+	math.log(2, 10),
+	math.log(5, 10),
+	1.0
+}
+
+-- Given a number in log10 form, return the next number in the above sequence
+-- also in log10 form.
+-- Because we're using the logarithm of base 10, each whole number increment is
+-- an order of magnitude, allowing the above sequence to easily map to 1, 2, 5, 10
+-- regardless of how many zeros follow, simply by changing the fractional part
+-- of the logarithm form of the number.
+local function findSeq(log10, up)
+	local whole, frac = math.floor(log10), log10 % 1.0
+
+	for i, step in ipairs(zoomSeq) do
+		if step > frac then
+			-- find the first step which is greater than our input value and snap
+			-- up or down based on the function inputs
+			return up and whole + step or whole + zoomSeq[i - 1]
+		end
+	end
+end
+
+-- Generate the next in a sequence of 1 2 5 10 20 ...
+local function nextZoomSeq(currZoom, maxZoom)
+	local log10 = math.log(currZoom, 10) + 0.1
+	return math.min(10 ^ findSeq(log10, true), maxZoom)
+end
+
+-- Generate the previous in a sequence of 1 2 5 10 20 ...
+local function prevZoomSeq(currZoom, minZoom)
+	local log10 = math.log(currZoom, 10) - 0.1
+	return math.max(10 ^ findSeq(log10, false), minZoom)
+end
+
+-- Normalize a number into the zoom sequence (1, 2, 5, 10, 20, ...), rounding
+-- it up or down to the next item in the sequence (default: down).
+local function normalizeToZoomSeq(number, up)
+	return 10 ^ findSeq(math.log(number, 10), up)
+end
+
 local radar2d = {
 	icon = icons.radar_2d,
 	zoom = DEFAULT_RADAR_SIZE,
 	size = ui.reticuleCircleRadius * 0.66,
 	getRadius = function(self) return self.size end,
 	zoomIn = function(self)
-		self.zoom = math.max(self.zoom / 10, MIN_RADAR_SIZE)
+		self.zoom = prevZoomSeq(self.zoom, MIN_RADAR_SIZE)
 	end,
 	zoomOut = function(self)
-		self.zoom = math.min(self.zoom * 10, MAX_RADAR_SIZE)
+		self.zoom = nextZoomSeq(self.zoom, MAX_RADAR_SIZE)
 	end,
 	resetZoom = function(self)
 		self.zoom = DEFAULT_RADAR_SIZE
@@ -87,17 +142,17 @@ local radar3d = {
 	getRadius = function(self) return self.size.x end,
 	zoomIn = function(self)
 		if self.auto_zoom then
-			radar.zoom = 10 ^ math.floor(math.log(radar.zoom, 10))
+			radar.zoom = normalizeToZoomSeq(radar.zoom, false)
 		else
-			radar.zoom = math.max(radar.zoom / 10, MIN_RADAR_SIZE)
+			radar.zoom = prevZoomSeq(radar.zoom, MIN_RADAR_SIZE)
 		end
 		self.auto_zoom = false
 	end,
 	zoomOut = function(self)
 		if self.auto_zoom then
-			radar.zoom = 10 ^ math.ceil(math.log(radar.zoom, 10))
+			radar.zoom = normalizeToZoomSeq(radar.zoom, true)
 		else
-			radar.zoom = math.min(radar.zoom * 10, MAX_RADAR_SIZE)
+			radar.zoom = nextZoomSeq(radar.zoom, MAX_RADAR_SIZE)
 		end
 		self.auto_zoom = false
 	end,
@@ -146,6 +201,7 @@ radar2d.draw = function(self, center)
 	local combatTarget = player:GetCombatTarget()
 	local navTarget = player:GetNavTarget()
 	local tooltip = {}
+	mouseTargets = {}
 	for k,v in pairs(targets) do
 		if v.distance < self.zoom then
 			local halfRadarSize = self.zoom / 2
@@ -167,10 +223,11 @@ radar2d.draw = function(self, center)
 			local mouse_position = ui.getMousePos()
 			if (mouse_position - position):length() < 4 then
 				table.insert(tooltip, v.label)
+				table.insert(mouseTargets, v)
 			end
 		end
 	end
-	if #tooltip > 0 then
+	if not radar_popup_displayed and #tooltip > 0 then
 		ui.setTooltip(table.concat(tooltip, "\n"))
 	end
 end
@@ -207,6 +264,8 @@ radar3d.draw = function(self, center)
 	local scale = radar.radius / radar.zoom
 	ui.setCursorScreenPos(center - self.size / 2.0)
 
+	mouseTargets = {}
+
 	-- draw targets below the plane
 	for k, v in pairs(targets) do
 		-- collect some values for zoom updates later
@@ -225,7 +284,11 @@ radar3d.draw = function(self, center)
 			local color = (v.body == navTarget and colors.navTarget) or
 			              (v.body == combatTarget and colors.combatTarget) or
 						  getColorFor(v)
-			table.append(tooltip, drawTarget(v, scale, center, color))
+			local radarTarget = drawTarget(v, scale, center, color)
+			if #radarTarget > 0 then
+				table.append(tooltip, radarTarget)
+				table.insert(mouseTargets, v)
+			end
 		end
 	end
 
@@ -243,12 +306,16 @@ radar3d.draw = function(self, center)
 			local color = (v.body == navTarget and colors.navTarget) or
 			              (v.body == combatTarget and colors.combatTarget) or
 						  getColorFor(v)
-			table.append(tooltip, drawTarget(v, scale, center, color))
+			local radarTarget = drawTarget(v, scale, center, color)
+			if #radarTarget > 0 then
+				table.append(tooltip, radarTarget)
+				table.insert(mouseTargets, v)
+			end
 		end
 	end
 
-	-- return tooltip if mouse is over a target
-	if #tooltip > 0 then
+	-- display tooltip if mouse is over a target pip
+	if not radar_popup_displayed and #tooltip > 0 then
 		ui.setTooltip(table.concat(tooltip, "\n"))
 	end
 
@@ -269,10 +336,21 @@ radar3d.draw = function(self, center)
 	end
 end
 
--- This variable needs to be outside the function in order to capture state
--- between frames. We are trying to ensure that a mouse right-click started and
--- finished inside the radar area in order to trigger the popup.
-local click_on_radar = false
+local function onTargetClicked(target)
+	if target.body:IsShip() then
+		if Game.player:GetCombatTarget() == target.body then
+			Game.player:SetCombatTarget(nil)
+		else
+			Game.player:SetCombatTarget(target.body)
+		end
+	else
+		if Game.player:GetNavTarget() == target.body then
+			Game.player:SetNavTarget(nil)
+		else
+			Game.player:SetNavTarget(target.body)
+		end
+	end
+end
 
 -- display either the 3D or the 2D radar, show a popup on right click to select
 local function displayRadar()
@@ -289,8 +367,14 @@ local function displayRadar()
 	local zoom = 0
 	local toggle_radar = false
 
-	-- Handle keyboard
-	-- TODO: Convert to axis?
+	local window_width = ui.reticuleCircleRadius * 1.8
+	local window_height = radar2d.size * 2
+	local window_pos = Vector2(center.x - window_width / 2, center.y - window_height / 2)
+	local windowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"}
+
+	--
+	-- keyboard handling
+	--
 	if keys.radar_zoom_in:IsJustActive() then
 		zoom = 1
 	elseif keys.radar_zoom_out:IsJustActive() then
@@ -304,27 +388,53 @@ local function displayRadar()
 		toggle_radar = true
 	end
 
-	-- Handle mouse if it is in the radar area
-	local mp = ui.getMousePos()
-	-- TODO: adjust properly for 3D radar; bit more challenging as its an ellipse
-	if (mp - center):length() < radar2d.getRadius(radar2d) then
-		ui.popup("radarselector", function()
-			if ui.selectable(lui.HUD_2D_RADAR, shouldDisplay2DRadar, {}) then
-				toggle_radar = true
+	--
+	-- popup functions
+	--
+	ui.popup("radartargetselector", function()
+		for k,v in pairs(popup_targets) do
+			if ui.selectable(v.label) then
+				onTargetClicked(v)
+				radar_popup_displayed = false
 			end
-			if ui.selectable(lui.HUD_3D_RADAR, not shouldDisplay2DRadar, {}) then
-				toggle_radar = true
-			end
-		end)
+		end
+	end)
 
-		if ui.isMouseClicked(1) then
+	--
+	-- mouse handling
+	--
+	local isMouseOverRadar = function()
+		if shouldDisplay2DRadar then
+			local mp = ui.getMousePos()
+			return (mp - center):length() < radar2d.getRadius(radar2d)
+		end
+		return ui.isMouseHoveringRect(
+			Vector2(center.x - window_width/2,
+			        center.y - window_height/2),
+			Vector2(center.x + window_width/2,
+			        center.y + window_height/2))
+	end
+
+	if radar_popup_displayed then
+		if ui.isMouseReleased(0) then
+			radar_popup_displayed = false
+			click_on_radar = false
+		end
+	elseif isMouseOverRadar() then
+		if not click_on_radar and ui.isMouseClicked(0) then
 			click_on_radar = true
 		end
-		if not toggle_radar and click_on_radar and ui.isMouseReleased(1) then
-			ui.openPopup("radarselector")
+		if click_on_radar and ui.isMouseReleased(0) then
+			-- check if we are on a pip and if so, set it as the target
+			popup_targets = mouseTargets
+			if #popup_targets > 1 then
+				ui.openPopup("radartargetselector")
+				radar_popup_displayed = true
+			elseif #popup_targets > 0 then
+				onTargetClicked(popup_targets[1])
+			end
+			click_on_radar = false
 		end
-		-- TODO: figure out how to "capture" the mouse wheel to prevent
-		-- the game engine from using it to also zoom the viewport
 		if zoom == 0 then
 			zoom = ui.getMouseWheel()
 		end
@@ -337,12 +447,10 @@ local function displayRadar()
 		instrument:zoomOut()
 	end
 
-	-- Draw the radar, radar buttons and info
+	--
+	-- drawing functionality
+	--
 	-- This is in a window so the buttons work and the mouse-wheel is captured
-	local window_width = ui.reticuleCircleRadius * 1.8
-	local window_height = radar2d.size * 2
-	local window_pos = Vector2(center.x - window_width / 2, center.y - window_height / 2)
-	local windowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"}
 	ui.setNextWindowPos(window_pos, "Always")
 	ui.setNextWindowPadding(Vector2(0))
 	ui.setNextWindowSize(Vector2(window_width, window_height), "Always")
@@ -371,7 +479,7 @@ local function displayRadar()
 			local clicked = ui.mainMenuButton(icon, tt, theme, Vector2(button_size))
 			if clicked then
 				if instrument:isAutoZoom() then
-					instrument:zoomIn()
+					instrument:zoomOut()
 				else
 					instrument:resetZoom()
 				end
