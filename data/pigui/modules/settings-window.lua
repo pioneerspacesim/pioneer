@@ -152,7 +152,6 @@ local function showVideoOptions()
 	local anisoFilter = Engine.GetAnisoFiltering()
 
 	local textCompress = Engine.GetTextureCompressionEnabled()
-	local gpuJobs = Engine.GetGpuJobsEnabled()
 	local disableScreenshotInfo = Engine.GetDisableScreenshotInfo()
 
 	-- Scattering is still an experimental feature
@@ -210,11 +209,6 @@ local function showVideoOptions()
 	c,textCompress = checkbox(lui.COMPRESS_TEXTURES, textCompress, lui.TEXTURE_COMPRESSION)
 	if c then
 		Engine.SetTextureCompressionEnabled(textCompress)
-	end
-	ui.nextColumn()
-	c,gpuJobs = checkbox(lui.GPU_JOBS, gpuJobs, lui.GPU_JOBS_DESC)
-	if c then
-		Engine.SetGpuJobsEnabled(gpuJobs)
 	end
 	ui.nextColumn()
 	c,disableScreenshotInfo = checkbox(lui.DISABLE_SCREENSHOT_INFO, disableScreenshotInfo, lui.DISABLE_SCREENSHOT_INFO_DESC)
