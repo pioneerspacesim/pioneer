@@ -10,8 +10,8 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightHillsDunes>::GetHeightFractalName() const { return "HillsDunes"; }
 
 template <>
-TerrainHeightFractal<TerrainHeightHillsDunes>::TerrainHeightFractal(const SystemBody *body) :
-	Terrain(body)
+TerrainHeightFractal<TerrainHeightHillsDunes>::TerrainHeightFractal(const SystemBody *body, const Uint32 surfaceEffects, const ETerrainColours terrainColour) :
+	Terrain(body, surfaceEffects, terrainColour)
 {
 	//textures
 	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(50, 100), 10);
