@@ -95,6 +95,7 @@ local function renderLog( formatter )
 	ui.separator()
 
 	local counter = 0
+	local entry_to_remove = nil
 	for entry in FlightLog:GetLogEntries(includedSet, nil, earliestFirst ) do
 	 	counter = counter + 1
 		local id = "##custom" .. counter
@@ -116,15 +117,18 @@ local function renderLog( formatter )
 
 		if entry:CanBeRemoved() then
 			if ui.iconButton("Remove" .. id, icons.trashcan, l.REMOVE) then
-				FlightLog:RemoveEntry( entry )
-				-- if we were already in edit mode, reset it, or else it carries over to next iteration
-				entering_text = false
+				entry_to_remove = entry
 			end
 		end
 
 		ui.nextColumn()
 		ui.separator()
 		ui.spacing()
+	end
+	if entry_to_remove then
+		FlightLog:RemoveEntry( entry_to_remove )
+		-- if we were already in edit mode, reset it, or else it carries over to next iteration
+		entering_text = false
 	end
 end
 
