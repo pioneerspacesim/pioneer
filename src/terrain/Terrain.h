@@ -91,20 +91,6 @@ protected:
 	double m_invPlanetRadius;
 	double m_planetEarthRadii;
 
-	double m_entropy;
-
-	vector3d m_rockColor[8];
-	vector3d m_darkrockColor[8];
-	vector3d m_greyrockColor[8];
-	vector3d m_plantColor[8];
-	vector3d m_darkplantColor[8];
-	vector3d m_sandColor[8];
-	vector3d m_darksandColor[8];
-	vector3d m_dirtColor[8];
-	vector3d m_darkdirtColor[8];
-	vector3d m_gglightColor[8];
-	vector3d m_ggdarkColor[8];
-
 	/* XXX you probably shouldn't increase this. If you are
 	   using more than 10 then things will be slow as hell */
 	static const Uint32 MAX_FRACDEFS = 10;
