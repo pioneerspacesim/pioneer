@@ -4,7 +4,7 @@
 #ifndef _QUATERNION_H
 #define _QUATERNION_H
 
-#include "matrix4x4.h"
+#include "matrix3x3.h"
 #include "vector3.h"
 #include <math.h>
 #include <type_traits>
@@ -21,7 +21,7 @@ public:
 	Quaternion();
 	Quaternion(T w, T x, T y, T z);
 	// from angle and axis
-	Quaternion(T ang, vector3<T> axis)
+	Quaternion(T ang, const vector3<T> &axis)
 	{
 		const T halfAng = ang * T(0.5);
 		const T sinHalfAng = sin(halfAng);
@@ -30,20 +30,41 @@ public:
 		y = axis.y * sinHalfAng;
 		z = axis.z * sinHalfAng;
 	}
-	// from axis, assume angle == PI
-	// optimized fast path using sin(PI/2) = 1
-	Quaternion(vector3<T> axis)
+	// Create quaternion from normalized direction vectors.
+	// This creates a quaternion representing the rotation from the second
+	// unit direction vector to the first unit direction vector.
+	Quaternion(const vector3<T> &to, const vector3<T> &from)
 	{
-		w = 0;
-		x = axis.x;
-		y = axis.y;
-		z = axis.z;
+		// Use half-angle trig identities to skip invoking trig functions
+		T cosAng = to.Dot(from);
+		// when to and from are equal (colinear), floating point error can cause
+		// this to become sqrt(-epsilon) without the std::max
+		T sinHalfAng = sqrt(std::max(1.0 - cosAng, 0.0) / 2.0);
+		// use the cross product to find the axis of rotation between the two vectors
+		vector3<T> rot = from.Cross(to).NormalizedSafe();
+
+		w = sqrt((1.0 + cosAng) / 2.0);
+		x = rot.x * sinHalfAng;
+		y = rot.y * sinHalfAng;
+		z = rot.z * sinHalfAng;
 	}
 	Quaternion(const Quaternion<other_float_t> &o) :
 		w(o.w),
 		x(o.x),
 		y(o.y),
 		z(o.z) {}
+
+	// Convenience helper
+	static Quaternion FromUpVector(const vector3<T> &normal)
+	{
+		return Quaternion(normal, vector3<T>(0, 1, 0));
+	}
+
+	// Convenience helper
+	static Quaternion FromForwardVector(const vector3<T> &normal)
+	{
+		return Quaternion(normal, vector3<T>(0, 0, -1));
+	}
 
 	void GetAxisAngle(T &angle, vector3<T> &axis)
 	{
@@ -106,6 +127,11 @@ public:
 		vector3<T> xyz = vector3<T>(a.x, a.y, a.z);
 		return vec + 2.0 * (vec.Cross(xyz) + a.w * vec).Cross(xyz);
 	}
+
+	// vector * quaternion = inverse multiplication scam
+	friend vector3<T> operator*(const vector3<T> &lhs, const Quaternion &rhs) { return ~rhs * lhs; }
+
+
 	friend Quaternion operator+(const Quaternion &a, const Quaternion &b)
 	{
 		Quaternion r;
