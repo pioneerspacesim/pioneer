@@ -39,4 +39,21 @@ inline bool pi_lua_strict_pull(lua_State *l, int index, vector2d &out)
 	return false;
 }
 
+inline void pi_lua_generic_push(lua_State *l, const vector2f &value) { LuaVector2::PushToLua(l, vector2d(value)); }
+
+inline void pi_lua_generic_pull(lua_State *l, int index, vector2f &out)
+{
+	out = vector2f(*LuaVector2::CheckFromLua(l, index));
+}
+
+inline bool pi_lua_strict_pull(lua_State *l, int index, vector2f &out)
+{
+	const vector2d *tmp = LuaVector2::GetFromLua(l, index);
+	if (tmp) {
+		out = vector2f(*tmp);
+		return true;
+	}
+	return false;
+}
+
 #endif
