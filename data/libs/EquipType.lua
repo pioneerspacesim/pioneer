@@ -272,17 +272,47 @@ end
 -- Base type for weapons
 ---@class Equipment.LaserType : EquipType
 ---@field laser_stats table
+---@field weapon_data table
 local LaserType = utils.inherits(EquipType, "Equipment.LaserType")
+
+function LaserType.New(specs)
+	local item = setmetatable(EquipType.New(specs), LaserType.meta)
+	local ls = specs.laser_stats
+
+	-- NOTE: backwards-compatibility with old laser_stats definitions
+	if ls then
+
+		local projectile = {
+			lifespan = ls.lifespan,
+			speed = ls.speed,
+			damage = ls.damage,
+			beam = ls.beam == 1,
+			mining = ls.mining == 1,
+			length = ls.length,
+			width = ls.width,
+			color = Color(ls.rgba_r, ls.rgba_g, ls.rgba_b, ls.rgba_a),
+		}
+
+		item.weapon_data = {
+			rpm = 60 / ls.rechargeTime,
+			heatPerShot = ls.heatrate or 0.01,
+			cooling = ls.coolrate or 0.01,
+			overheat = 1.0,
+			projectile = projectile,
+			numBarrels = 1 + ls.dual
+		}
+
+	end
+
+	return item
+end
 
 ---@param ship Ship
 ---@param slot HullConfig.Slot
 function LaserType:OnInstall(ship, slot)
 	EquipType.OnInstall(self, ship, slot)
 
-	for k, v in pairs(self.laser_stats) do
-		-- TODO: allow installing more than one laser
-		ship:setprop('laser_front_' .. k, v)
-	end
+	ship:GetComponent('GunManager'):MountWeapon(slot.id, self.weapon_data)
 end
 
 ---@param ship Ship
@@ -290,10 +320,7 @@ end
 function LaserType:OnRemove(ship, slot)
 	EquipType.OnRemove(self, ship, slot)
 
-	for k, v in pairs(self.laser_stats) do
-		-- TODO: allow installing more than one laser
-		ship:setprop('laser_front_' .. k, nil)
-	end
+	ship:GetComponent('GunManager'):UnmountWeapon(slot.id)
 end
 
 --==============================================================================
