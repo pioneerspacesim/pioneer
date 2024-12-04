@@ -9,6 +9,7 @@
 #include "GameSaveError.h"
 #include "JsonUtils.h"
 #include "Pi.h"
+#include "Projectile.h"
 #include "Planet.h"
 #include "Player.h"
 #include "Sfx.h"

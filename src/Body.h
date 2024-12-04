@@ -152,18 +152,32 @@ public:
 	T *GetComponent() const
 	{
 		auto *type = BodyComponentDB::GetComponentType<T>();
-		return m_components & (uint64_t(1) << uint8_t(type->componentIndex)) ? type->get(this) : nullptr;
+		return m_components & GetComponentBit(type->componentIndex) ? type->get(this) : nullptr;
 	}
 
+	// Add a component to this body if it is not already present.
+	// Returns a pointer to the existing component if a new one could not be added.
 	template <typename T>
 	T *AddComponent()
 	{
 		auto *type = BodyComponentDB::GetComponentType<T>();
-		if (m_components & (uint64_t(1) << uint8_t(type->componentIndex)))
+		if (m_components & GetComponentBit(type->componentIndex))
 			return type->get(this);
 
-		m_components |= (uint64_t(1) << uint8_t(type->componentIndex));
+		m_components |= GetComponentBit(type->componentIndex);
 		return type->newComponent(this);
+	}
+
+	// Remove a component from this body, destroying it.
+	template<typename T>
+	void RemoveComponent()
+	{
+		auto *type = BodyComponentDB::GetComponentType<T>();
+		if (!(m_components & GetComponentBit(type->componentIndex)))
+			return;
+
+		m_components ^= GetComponentBit(type->componentIndex);
+		type->deleteComponent(this);
 	}
 
 	// Returns the bitset of components attached to this body. Prefer using HasComponent<> or GetComponent<> instead.
@@ -218,6 +232,8 @@ protected:
 	matrix3x3d m_interpOrient;
 
 private:
+	uint64_t GetComponentBit(uint8_t bit) const { return uint64_t(1) << bit; }
+
 	vector3d m_pos;
 	matrix3x3d m_orient;
 	FrameId m_frame; // frame of reference

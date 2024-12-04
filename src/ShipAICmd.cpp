@@ -12,6 +12,7 @@
 #include "Space.h"
 #include "SpaceStation.h"
 #include "perlin.h"
+#include "ship/GunManager.h"
 #include "ship/Propulsion.h"
 
 static const double VICINITY_MIN = 15000.0;
@@ -327,9 +328,9 @@ AICmdKill::AICmdKill(DynamicBody *dBody, Ship *target) :
 	m_leadTime = m_evadeTime = m_closeTime = 0.0;
 	m_lastVel = m_target->GetVelocity();
 	m_prop = m_dBody->GetComponent<Propulsion>();
-	m_fguns = m_dBody->GetComponent<FixedGuns>();
+	m_guns = m_dBody->GetComponent<GunManager>();
 	assert(m_prop != nullptr);
-	assert(m_fguns != nullptr);
+	assert(m_guns != nullptr);
 }
 
 AICmdKill::AICmdKill(const Json &jsonObj) :
@@ -349,7 +350,7 @@ void AICmdKill::SaveToJson(Json &jsonObj)
 
 AICmdKill::~AICmdKill()
 {
-	if (m_fguns) m_fguns->SetGunFiringState(0, 0);
+	m_guns->SetAllGroupsFiring(false);
 }
 
 void AICmdKill::PostLoadFixup(Space *space)
@@ -360,9 +361,19 @@ void AICmdKill::PostLoadFixup(Space *space)
 	m_lastVel = m_target->GetVelocity();
 	// Ensure needed sub-system:
 	m_prop = m_dBody->GetComponent<Propulsion>();
-	m_fguns = m_dBody->GetComponent<FixedGuns>();
+	m_guns = m_dBody->GetComponent<GunManager>();
 	assert(m_prop != nullptr);
-	assert(m_fguns != nullptr);
+	assert(m_guns != nullptr);
+}
+
+AICmdKill::GunStats AICmdKill::GetGunStats()
+{
+	if (!m_guns->GetNumWeapons())
+		return { 0.f, 0.f };
+
+	const GunManager::WeaponData *data = &m_guns->GetWeapons().front().data;
+
+	return { data->projectile.speed * data->projectile.lifespan, data->projectile.speed };
 }
 
 bool AICmdKill::TimeStepUpdate()
@@ -396,6 +407,8 @@ bool AICmdKill::TimeStepUpdate()
 			return false;
 	}
 
+	GunStats stats = GetGunStats();
+
 	dist = sqrt(dist);
 	const matrix3x3d &rot = m_dBody->GetOrient();
 	vector3d targvel = m_target->GetVelocityRelTo(m_dBody);
@@ -404,7 +417,7 @@ bool AICmdKill::TimeStepUpdate()
 	// Accel will be wrong for a frame on timestep changes, but it doesn't matter
 	vector3d targaccel = (m_target->GetVelocity() - m_lastVel) / Pi::game->GetTimeStep();
 	m_lastVel = m_target->GetVelocity(); // may need next frame
-	vector3d leaddir = m_prop->AIGetLeadDir(m_target, targaccel, m_fguns->GetProjSpeed(0));
+	vector3d leaddir = m_prop->AIGetLeadDir(m_target, targaccel, stats.speed);
 
 	if (dist >= VICINITY_MIN + 1000.0) { // if really far from target, intercept
 		//		Output("%s started AUTOPILOT\n", m_ship->GetLabel().c_str());
@@ -434,12 +447,11 @@ bool AICmdKill::TimeStepUpdate()
 		double vissize = 1.3 * m_dBody->GetPhysRadius() / dist;
 		vissize += (0.05 + 0.5 * leaddiff) * Pi::rng.Double() * skillShoot;
 		if (vissize > headdiff)
-			m_fguns->SetGunFiringState(0, 1);
+			m_guns->SetAllGroupsFiring(true);
 		else
-			m_fguns->SetGunFiringState(0, 0);
-		float max_fire_dist = m_fguns->GetGunRange(0);
-		if (max_fire_dist > 4000) max_fire_dist = 4000;
-		if (dist > max_fire_dist) m_fguns->SetGunFiringState(0, 0); // temp
+			m_guns->SetAllGroupsFiring(false);
+		float max_fire_dist = std::min(stats.range, 4000.f);
+		if (dist > max_fire_dist) m_guns->SetAllGroupsFiring(false); // temp
 	}
 	m_leadOffset += m_leadDrift * Pi::game->GetTimeStep();
 	double leadAV = (leaddir - targdir).Dot((leaddir - heading).NormalizedSafe()); // leaddir angvel

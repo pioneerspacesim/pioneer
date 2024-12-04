@@ -9,13 +9,11 @@
 #include "vector3.h"
 
 class Propulsion;
-class FixedGuns;
 class Orbit;
 
 class DynamicBody : public ModelBody {
 private:
 	friend class Propulsion;
-	friend class FixedGuns;
 
 public:
 	OBJDEF(DynamicBody, ModelBody, DYNAMICBODY);

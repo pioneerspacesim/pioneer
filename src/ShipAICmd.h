@@ -8,10 +8,10 @@
 #include "JsonFwd.h"
 
 #include "DynamicBody.h"
-#include "FixedGuns.h"
 #include "FrameId.h"
 #include "ship/Propulsion.h"
 
+class GunManager;
 class Ship;
 class Space;
 class SpaceStation;
@@ -193,7 +193,14 @@ public:
 	const Ship* GetTarget() const { return m_target; }
 
 private:
-	FixedGuns *m_fguns;
+	struct GunStats {
+		float range;
+		float speed;
+	};
+
+	GunStats GetGunStats();
+
+	GunManager *m_guns;
 	Ship *m_target;
 	double m_leadTime, m_evadeTime, m_closeTime;
 	vector3d m_leadOffset, m_leadDrift, m_lastVel;

@@ -22,6 +22,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
 #include "matrix4x4.h"
+#include "ship/GunManager.h"
 #include "ship/ShipViewController.h"
 #include "sound/Sound.h"
 
@@ -332,11 +333,17 @@ void WorldView::UpdateProjectedObjects()
 			}
 		}
 
-		FixedGuns *gunManager = Pi::player->GetComponent<FixedGuns>();
-		if (laser >= 0 && gunManager->IsGunMounted(laser) && gunManager->IsFiringSolutionOk()) {
-			UpdateIndicator(m_targetLeadIndicator, cam_rot * gunManager->GetTargetLeadPos());
-			if ((m_targetLeadIndicator.side != INDICATOR_ONSCREEN) || (m_combatTargetIndicator.side != INDICATOR_ONSCREEN))
+		GunManager *gunManager = Pi::player->GetComponent<GunManager>();
+		if (laser >= 0 && laser < gunManager->GetWeaponGroups().size()) {
+			const auto &group = gunManager->GetWeaponGroups()[laser];
+
+			if (gunManager->GetGroupTarget(laser)) {
+				UpdateIndicator(m_targetLeadIndicator, cam_rot * gunManager->GetGroupLeadPos(laser));
+				if ((m_targetLeadIndicator.side != INDICATOR_ONSCREEN) || (m_combatTargetIndicator.side != INDICATOR_ONSCREEN))
+					HideIndicator(m_targetLeadIndicator);
+			} else {
 				HideIndicator(m_targetLeadIndicator);
+			}
 		} else {
 			HideIndicator(m_targetLeadIndicator);
 		}

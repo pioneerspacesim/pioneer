@@ -15,8 +15,8 @@
 #include "Space.h"
 #include "SystemView.h"
 #include "WorldView.h"
-#include "core/OS.h"
 #include "lua/LuaObject.h"
+#include "ship/GunManager.h"
 #include "ship/ShipController.h"
 #include "Sensors.h"
 
@@ -968,6 +968,7 @@ void PlayerShipController::SetCombatTarget(Body *const target, bool setFollowTo)
 		SetFollowTarget(target);
 
 	m_combatTarget = target;
+	m_ship->GetComponent<GunManager>()->SetTrackingTarget(target);
 	onChangeTarget.emit();
 }
 
