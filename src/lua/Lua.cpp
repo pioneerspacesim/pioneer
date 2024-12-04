@@ -97,6 +97,8 @@ namespace Lua {
 		LuaObject<Faction>::RegisterClass();
 		LuaObject<Galaxy>::RegisterClass();
 
+		LuaObject<GunManager>::RegisterClass();
+
 		Pi::luaSerializer = new LuaSerializer();
 		Pi::luaTimer = new LuaTimer();
 
