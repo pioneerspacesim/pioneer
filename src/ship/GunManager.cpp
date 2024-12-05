@@ -9,12 +9,9 @@
 #include "Game.h"
 #include "ModelBody.h"
 #include "Pi.h"
-#include "core/Log.h"
 #include "lua/LuaBodyComponent.h"
 #include "matrix4x4.h"
 #include "scenegraph/Tag.h"
-
-#include "imgui/imgui.h"
 
 REGISTER_COMPONENT_TYPE(GunManager) {
 	BodyComponentDB::RegisterComponent<GunManager>("GunManager");
@@ -320,16 +317,6 @@ void GunManager::StaticUpdate(float deltaTime)
 {
 	bool isAnyFiring = false;
 
-	static ImGuiOnceUponAFrame thisFrame;
-	bool shouldDrawDebug = m_parent && m_parent->IsType(ObjectType::PLAYER) && thisFrame;
-	if (shouldDrawDebug)
-		ImGui::Begin("GunMangerDebug", nullptr, ImGuiWindowFlags_NoFocusOnAppearing);
-
-	if (shouldDrawDebug) {
-		ImGui::Text("Gun mounts: %ld, mounted: %ld", m_mounts.size(), m_weapons.size());
-		ImGui::Spacing();
-	}
-
 	m_stoppedThisFrame = m_stoppedNextFrame;
 	m_stoppedNextFrame.reset();
 	m_firedThisFrame.reset();
@@ -339,26 +326,6 @@ void GunManager::StaticUpdate(float deltaTime)
 	for (WeaponState &gun : m_weapons) {
 
 		GroupState &gs = m_groups[gun.group];
-
-		// REMOVE: Draw debug state
-		if (shouldDrawDebug) {
-			ImGui::Text("== Gun Mount: %s, target %s", gun.mount->id.c_str(), gs.target ? gs.target->GetLabel().c_str() : "<none>");
-			ImGui::Indent();
-			ImGui::Text("Temperature: %f", gun.temperature);
-			ImGui::Text("Firing: %d", gs.firing);
-			ImGui::Text("Damage: %f", gun.data.projectile.damage);
-			ImGui::Text("NextFireTime: %f", gun.nextFireTime);
-			ImGui::Text("Current Time: %f", Pi::game->GetTime());
-			ImGui::Text("Firing RPM: %f", gun.data.firingRPM);
-			ImGui::Text("Firing Heat: %f", gun.data.firingHeat);
-			ImGui::Text("Overheat At: %f", gun.data.overheatThreshold);
-			ImGui::Text("Beam: %d", gun.data.projectile.beam);
-			ImGui::Text("Mining: %d", gun.data.projectile.mining);
-			const auto &leadDir = gun.currentLead;
-			ImGui::Text("CurrentLeadDir: %f, %f, %f", leadDir.x, leadDir.y, leadDir.z);
-			ImGui::Unindent();
-			ImGui::Spacing();
-		}
 
 		bool isBeam = gun.data.projectile.beam || gun.data.projectileType == PROJECTILE_BEAM;
 
@@ -421,9 +388,6 @@ void GunManager::StaticUpdate(float deltaTime)
 	}
 
 	m_isAnyFiring = isAnyFiring;
-
-	if (shouldDrawDebug)
-		ImGui::End();
 }
 
 void GunManager::Fire(WeaponState *weapon, GroupState *group)
