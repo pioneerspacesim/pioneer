@@ -5,10 +5,12 @@
 
 #include "Beam.h"
 #include "DynamicBody.h"
-#include "Projectile.h"
 #include "Game.h"
+#include "JsonUtils.h"
 #include "ModelBody.h"
 #include "Pi.h"
+#include "Projectile.h"
+#include "Space.h"
 #include "lua/LuaBodyComponent.h"
 #include "matrix4x4.h"
 #include "scenegraph/Tag.h"
@@ -18,6 +20,20 @@ REGISTER_COMPONENT_TYPE(GunManager) {
 	BodyComponentDB::RegisterSerializer<GunManager>();
 	BodyComponentDB::RegisterLuaInterface<GunManager>();
 }
+
+// =============================================================================
+
+// Forward-declared serialization code
+void from_json(const Json &obj, GunManager::WeaponData &data);
+void to_json(Json &out, const GunManager::WeaponData &data);
+void from_json(const Json &obj, GunManager::WeaponState &weapon);
+void to_json(Json &out, const GunManager::WeaponState &weapon);
+void from_json(const Json &obj, GunManager::WeaponMount &mount);
+void to_json(Json &out, const GunManager::WeaponMount &mount);
+void from_json(const Json &obj, GunManager::GroupState &group);
+void to_json(Json &out, const GunManager::GroupState &group);
+
+// =============================================================================
 
 void GunManager::Init(ModelBody *b)
 {
@@ -29,12 +45,77 @@ void GunManager::Init(ModelBody *b)
 	}
 }
 
-void GunManager::SaveToJson(Json &jsonObj, Space *space)
+void GunManager::SaveToJson(Json &out, Space *space)
 {
+	out["isAnyFiring"] = m_isAnyFiring;
+	out["coolingBoost"] = m_coolingBoost;
+
+	Json &mounts = (out["mounts"] = Json::object());
+	for (auto &pair : m_mounts) {
+		mounts.emplace(pair.first, pair.second);
+	}
+
+	Json &weapons = (out["weapons"] = Json::array());
+	for (auto &weapon : m_weapons) {
+		weapons.push_back(weapon);
+	}
+
+	Json &groups = (out["groups"] = Json::array());
+	for (auto &group : m_groups) {
+		groups.push_back(group);
+
+		if (group.target) {
+			groups.back()["target"] = space->GetIndexForBody(group.target);
+		}
+	}
 }
 
 void GunManager::LoadFromJson(const Json &jsonObj, Space *space)
 {
+	m_isAnyFiring = jsonObj.value<bool>("isAnyFiring", false);
+	m_coolingBoost = jsonObj.value<float>("coolingBoost", 1.0);
+
+	const Json &mounts = jsonObj["mounts"];
+	for (const auto &pair : mounts.items()) {
+		WeaponMount mount = pair.value().get<WeaponMount>();
+
+		// Find the tag for this weapon mount
+		mount.tag = m_parent->GetModel()->FindTagByName(pair.value()["tag"]);
+
+		m_mounts.try_emplace(std::string_view(pair.key()), std::move(mount));
+	}
+
+	const Json &weapons = jsonObj["weapons"];
+	for (const auto &weapon : weapons) {
+		m_weapons.push_back(weapon.get<WeaponState>());
+
+		// Fixup the mount pointer
+		StringName mount = weapon["mount"].get<std::string_view>();
+		m_weapons.back().mount = &m_mounts[mount];
+	}
+
+	m_groups.clear();
+
+	const Json &groups = jsonObj["groups"];
+	for (const auto &group : groups) {
+		m_groups.push_back(group.get<GroupState>());
+
+		if (group.count("target")) {
+
+			size_t groupIdx = m_groups.size() - 1;
+			size_t targetIdx = group["target"].get<size_t>();
+
+			Body *target = space->GetBodyByIndex(targetIdx);
+
+			if (!target) {
+				Log::Warning("Could not find target body index {} for ship {} (weapon group {})",
+					targetIdx, m_parent->GetLabel(), groupIdx);
+				continue;
+			}
+
+			SetGroupTarget(groupIdx, target);
+		}
+	}
 }
 
 bool GunManager::AddWeaponMount(StringName id, StringName tagName, vector2f gimbalLimit)
@@ -515,4 +596,129 @@ const matrix4x4f &GunManager::GetMountTransform(WeaponState &state)
 	}
 
 	return s_noMountTransform;
+}
+
+// =============================================================================
+
+// JSON serialization functions
+
+void from_json(const Json &obj, GunManager::WeaponData &data)
+{
+	data.firingRPM = obj.value("rpm", 1.f);
+	data.firingHeat = obj.value("heat", 0.f);
+	data.coolingPerSecond = obj.value("cooling", 0.f);
+	data.overheatThreshold = obj.value("overheat", 1.f);
+
+	data.projectileType = GunManager::ProjectileType(obj.value("type", 0));
+	data.numBarrels = obj.value("numBarrels", 1);
+	data.staggerBarrels = obj.value("staggerBarrels", false);
+
+	data.modelPath = obj.value("modelPath", std::string());
+
+	data.projectile = {};
+
+	if (const Json &pr = obj.value("projectile", Json()); pr.is_object()) {
+		ProjectileData &out = data.projectile;
+		out.lifespan = pr.value("lifespan", 0.f);
+		out.damage = pr.value("damage", 0.f);
+		out.length = pr.value("length", 0.f);
+		out.width = pr.value("width", 0.f);
+		out.speed = pr.value("speed", 0.f);
+		out.color = pr.value("color", Color());
+		out.mining = pr.value("mining", false);
+		out.beam = pr.value("beam", false);
+	}
+}
+
+void to_json(Json &out, const GunManager::WeaponData &data)
+{
+	out["rpm"] = data.firingRPM;
+	out["heat"] = data.firingHeat;
+	out["cooling"] = data.coolingPerSecond;
+	out["overheat"] = data.overheatThreshold;
+
+	out["type"] = int(data.projectileType);
+	out["numBarrels"] = data.numBarrels;
+	out["staggerBarrels"] = data.staggerBarrels;
+
+	if (!data.modelPath.empty()) {
+		out["modelPath"] = data.modelPath;
+	}
+
+	Json &outProj = (out["projectile"] = Json::object());
+	const ProjectileData &pr = data.projectile;
+
+	outProj["lifespan"] = pr.lifespan;
+	outProj["damage"] = pr.damage;
+	outProj["length"] = pr.length;
+	outProj["width"] = pr.width;
+	outProj["speed"] = pr.speed;
+	outProj["color"] = pr.color;
+	outProj["mining"] = pr.mining;
+	outProj["beam"] = pr.beam;
+}
+
+void from_json(const Json &obj, GunManager::WeaponState &weapon)
+{
+	weapon.group = obj.value("group", 0);
+	weapon.lastBarrel = obj.value("lastBarrel", 0);
+	weapon.temperature = obj.value("temperature", 0.f);
+	weapon.nextFireTime = obj.value("nextFireTime", 0.0);
+	weapon.data = obj["data"].get<GunManager::WeaponData>();
+}
+
+void to_json(Json &out, const GunManager::WeaponState &weapon)
+{
+	out["mount"] = weapon.mount->id;
+	out["group"] = weapon.group;
+	out["lastBarrel"] = weapon.lastBarrel;
+	out["temperature"] = weapon.temperature;
+	out["nextFireTime"] = weapon.nextFireTime;
+
+	// All lead calculation variables are transient and will be recreated on next timestep
+	// Weapon model is reconstructed from WeaponData
+	out["data"] = weapon.data;
+}
+
+void from_json(const Json &obj, GunManager::WeaponMount &mount)
+{
+	mount.id = obj["id"].get<StringName>();
+	// mount tag will be fixed up on load
+	mount.tag = nullptr;
+	mount.gimbalLimitTan = obj["gimbalLimit"].get<vector2f>();
+}
+
+void to_json(Json &out, const GunManager::WeaponMount &mount)
+{
+	out["id"] = mount.id;
+	out["tag"] = mount.tag ? mount.tag->GetName() : "";
+	out["gimbalLimit"] = mount.gimbalLimitTan;
+}
+
+void from_json(const Json &obj, GunManager::GroupState &group)
+{
+	if (const Json &weapons = obj.value("weapons", Json()); weapons.is_array()) {
+		for (const auto &index : weapons) {
+			group.weapons[index.get<size_t>()] = true;
+		}
+	}
+
+	// Target will be fixed up externally
+	group.target = nullptr;
+	group.firing = obj.value("firing", false);
+	group.fireWithoutTargeting = obj.value("fireWithoutTargeting", false);
+}
+
+void to_json(Json &out, const GunManager::GroupState &group)
+{
+	Json &weapons = (out["weapons"] = Json::array());
+	for (size_t idx = 0; idx < group.weapons.size(); idx++) {
+		if (group.weapons[idx]) {
+			weapons.push_back(idx);
+		}
+	}
+
+	// Target is added externally, needs a reference to Space
+	out["firing"] = group.firing;
+	out["fireWithoutTargeting"] = group.fireWithoutTargeting;
 }

@@ -78,12 +78,12 @@ public:
 		float coolingPerSecond = 0; // nominal amount of thermal energy removed per second (kW)
 		float overheatThreshold = 1; // total amount of thermal energy(kJ) the gun can store while functioning
 
-		std::string modelPath; // model to render this weapon with
-
-		ProjectileData projectile; // deprecated, to replace with RefCountedPtr<ProjectileDef>
 		ProjectileType projectileType = PROJECTILE_BALLISTIC;
 		uint8_t numBarrels = 1;		 // total number of barrels on the model
 		bool staggerBarrels = false; // should we fire one barrel after another, or both at the same time?
+
+		ProjectileData projectile; // deprecated, to replace with RefCountedPtr<ProjectileDef>
+		std::string modelPath; // model to render this weapon with
 	};
 
 	// Information about a specific mounted weapon (serialized directly)
@@ -221,7 +221,6 @@ private:
 	WeaponIndexSet m_stoppedThisFrame;
 	WeaponIndexSet m_stoppedNextFrame;
 
-	ConnectionTicket m_targetDestroyedCallback;
 	ModelBody *m_parent = nullptr;
 	bool m_isAnyFiring = false;
 	float m_coolingBoost = 1.0;
