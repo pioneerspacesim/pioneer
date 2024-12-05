@@ -4,6 +4,7 @@
 #include "GunManager.h"
 
 #include "Beam.h"
+#include "DynamicBody.h"
 #include "Projectile.h"
 #include "Game.h"
 #include "ModelBody.h"
@@ -366,9 +367,14 @@ void GunManager::StaticUpdate(float deltaTime)
 			const matrix3x3d &orient = m_parent->GetOrient();
 			const vector3d relPosition = gs.target->GetPositionRelTo(m_parent);
 			const vector3d relVelocity = gs.target->GetVelocityRelTo(m_parent->GetFrame()) - m_parent->GetVelocity();
+			vector3d relAccel = vector3d(0, 0, 0);
 
-			// bring velocity and acceleration into ship-space
-			CalcWeaponLead(&gun, relPosition * orient, relVelocity * orient);
+			if (gs.target->IsType(ObjectType::DYNAMICBODY)) {
+				relAccel = static_cast<const DynamicBody *>(gs.target)->GetLastForce() / gs.target->GetMass();
+			}
+
+			// bring position, velocity and acceleration into ship-space
+			CalcWeaponLead(&gun, relPosition * orient, relVelocity * orient, relAccel * orient);
 		} else {
 			gun.currentLead = vector3f(0, 0, 1);
 			gun.currentLeadPos = vector3d(0, 0, 0);
@@ -459,7 +465,7 @@ void GunManager::Fire(WeaponState *weapon, GroupState *group)
 }
 
 // Note that position and relative velocity are in the coordinate system of the host body
-void GunManager::CalcWeaponLead(WeaponState *state, vector3d position, vector3d relativeVelocity)
+void GunManager::CalcWeaponLead(WeaponState *state, vector3d position, vector3d relativeVelocity, vector3d relativeAccel)
 {
 	// Compute the forward vector for the weapon mount
 	const matrix4x4f &xform = GetMountTransform(state);
@@ -472,17 +478,42 @@ void GunManager::CalcWeaponLead(WeaponState *state, vector3d position, vector3d 
 		// Account for the distance between the weapon mount and the center of the parent
 		position -= vector3d(xform.GetTranslate());
 
-		// 1. First, generate a basic approximation to estimate travel time
-		vector3d leadpos = position + relativeVelocity * (position.Length() / projspeed);
-		// 2. This second-order approximation yields a much more accurate estimate
-		float travelTime = leadpos.Length() / projspeed;
-		leadpos = position + relativeVelocity * travelTime;
-		// A third-order approximation here would need to take into account the target's
-		// expected acceleration over the duration by using a moving average of acceleration
-		// rather than taking the instantaneous forces acting on the body.
-		// Thus, we refrain from implementing it for now.
+		//Exact lead calculation. We start with:
+		// |targpos * l + targvel| = projspeed
+		//we solve for l which can be interpreted as 1/time for the projectile to reach the target
+		//it gives:
+		// |targpos|^2 * l^2 + targpos*targvel * 2l + |targvel|^2 - projspeed^2 = 0;
+		// so it gives scalar quadratic equation with two possible solutions - we care only about the positive one - shooting forward
+		// A basic math for solving, there is probably more elegant and efficient way to do this:
+		double a = position.LengthSqr();
+		double b = position.Dot(relativeVelocity) * 2;
+		double c = relativeVelocity.LengthSqr() - projspeed * projspeed;
+		double delta = b * b - 4 * a * c;
 
-		state->currentLeadPos = leadpos;
+		vector3d leadPos = position;
+
+		if (delta >= 0) {
+			//l = (-b + sqrt(delta)) / 2a; t=1/l; a>0
+			double t = 2 * a / (-b + sqrt(delta));
+
+			if (t < 0 || t > state->data.projectile.lifespan) {
+				//no positive solution or target too far
+			} else {
+				//This is an exact solution as opposed to 2 step approximation used before.
+				//It does not improve the accuracy as expected though.
+				//If the target is accelerating and is far enough then this aim assist will
+				//actually make sure that it is mpossible to hit..
+				leadPos = position + relativeVelocity * t;
+
+				//lets try to adjust for acceleration of the target ship
+				//s=a*t^2/2 -> hitting steadily accelerating ships works at much greater distance
+				leadPos += relativeAccel * t * t * 0.5;
+			}
+		} else {
+			//no solution
+		}
+
+		state->currentLeadPos = leadPos;
 	} else if (state->data.projectileType == PROJECTILE_BEAM) {
 		// Beam weapons should just aim at the target
 		state->currentLeadPos = position;

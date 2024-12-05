@@ -201,7 +201,7 @@ private:
 
 	// Calculate the position a given gun should aim at to hit the current target body
 	// This is effectively the position of the target at T+n
-	void CalcWeaponLead(WeaponState *state, vector3d position, vector3d relativeVelocity);
+	void CalcWeaponLead(WeaponState *state, vector3d position, vector3d relativeVelocity, vector3d relativeAccel);
 
 	const matrix4x4f &GetMountTransform(WeaponState *weapon);
 
