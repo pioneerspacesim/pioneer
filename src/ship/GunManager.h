@@ -42,8 +42,8 @@ public:
 	};
 
 	struct ProjectileDef {
-		float lifespan = 5.0;
-		float speed = 1000.0;
+		float lifespan = 1;
+		float speed = 1;
 
 		// Damage
 		float impactDamage = 0.0; // How much damage is dealt when this projectile hits a target
@@ -59,7 +59,7 @@ public:
 
 		// Fusing
 		float proxyFuseRadius = 0.0; // This projectile will detonate when it detects a body within this range
-		float proxyFuseArmTime = 0.5; // How long after firing before the projectile fuse is armed?
+		float proxyFuseArmTime = 0.0; // How long after firing before the projectile fuse is armed?
 
 		// Visual settings
 		float length = 0;
@@ -71,12 +71,12 @@ public:
 	// TODO: create one of these in Lua per weapon definition and reference them from each mounted gun
 	// TODO: create a separate projectile definition and reference it
 	struct WeaponData {
-		float firingRPM = 240;	// number of shots per minute (60s / time between shots)
-		float firingHeat = 4.5; // amount of thermal energy(kJ) emitted into the system per shot
+		float firingRPM = 1;	// number of shots per minute (60s / time between shots)
+		float firingHeat = 0; // amount of thermal energy(kJ) emitted into the system per shot
 
 		//TODO: integrate this with a whole-ship cooling system
-		float coolingPerSecond = 14.2; // nominal amount of thermal energy removed per second (kW)
-		float overheatThreshold = 280; // total amount of thermal energy(kJ) the gun can store while functioning
+		float coolingPerSecond = 0; // nominal amount of thermal energy removed per second (kW)
+		float overheatThreshold = 1; // total amount of thermal energy(kJ) the gun can store while functioning
 
 		std::string modelPath; // model to render this weapon with
 
@@ -107,6 +107,8 @@ public:
 		SceneGraph::Model *model; // gun model, currently unused
 	};
 
+	// Information about a specific mount that a weapon is attached to
+	// Currently only handles gimballed weapon mounts, but may support turrets in the future
 	struct WeaponMount {
 		StringName id;
 		SceneGraph::Tag *tag;     // Tag in the parent model that this weapon mount is attached to
@@ -115,6 +117,7 @@ public:
 		// TODO: enable/disable hardpoint based on ship configuration, i.e. landing/vtol/wings?
 	};
 
+	// Combines one or more weapons with a shared fire-control trigger and targeting information
 	struct GroupState {
 		WeaponIndexSet weapons;				// Whic weapons are assigned to this group?
 		const Body *target;					// The target for this group, if any
@@ -134,16 +137,19 @@ public:
 
 	// ==========================================
 
-	// Add a weapon mount to this gun manager
-	void AddWeaponMount(StringName id, StringName tagName, vector2f gimbalLimitDegrees);
-	// Remove a weapon mount from this gun manager. This will fail if a weapon is still mounted.
+	// Add a weapon mount to this gun manager.
+	// Returns false if a hardpoint already exists on this GunManager with the specified name.
+	bool AddWeaponMount(StringName id, StringName tagName, vector2f gimbalLimitDegrees);
+	// Remove a weapon mount from this gun manager.
+	// The caller should always ensure that the weapon mount is empty before calling this function.
 	void RemoveWeaponMount(StringName id);
 
-	// Attach a weapon to a specific mount
+	// Attach a weapon to a specific mount.
+	// Returns false if the hardpoint cannot be found or the weapon could not be mounted.
 	bool MountWeapon(StringName hardpoint, const WeaponData &data);
 	// Remove the attached weapon from a specific mount
 	void UnmountWeapon(StringName hardpoint);
-	// Check if a weapon is attached to a specific mount
+	// Check if any weapon is attached to a specific mount
 	bool IsWeaponMounted(StringName hardpoint) const;
 
 	const std::vector<WeaponState> &GetWeapons() const { return m_weapons; }
@@ -197,13 +203,13 @@ private:
 	// Handle checking and firing a given gun.
 	// Note that this currently does not nicely handle spawning multiple projectiles per timestep - i.e. timewarp or a weapon RPM higher than 3600
 	// Projectile spawns are also "snapped" to the start of a timestep if they are not direct multiples of the timestep duration
-	void Fire(WeaponState *weapon, GroupState *group);
+	void Fire(WeaponState &weapon);
 
 	// Calculate the position a given gun should aim at to hit the current target body
 	// This is effectively the position of the target at T+n
-	void CalcWeaponLead(WeaponState *state, vector3d position, vector3d relativeVelocity, vector3d relativeAccel);
+	void CalcWeaponLead(WeaponState &state, vector3d position, vector3d relativeVelocity, vector3d relativeAccel);
 
-	const matrix4x4f &GetMountTransform(WeaponState *weapon);
+	const matrix4x4f &GetMountTransform(WeaponState &weapon);
 
 	void RemoveGroupIndex(WeaponIndexSet &group, uint32_t index);
 

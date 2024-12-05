@@ -37,7 +37,7 @@ void GunManager::LoadFromJson(const Json &jsonObj, Space *space)
 {
 }
 
-void GunManager::AddWeaponMount(StringName id, StringName tagName, vector2f gimbalLimit)
+bool GunManager::AddWeaponMount(StringName id, StringName tagName, vector2f gimbalLimit)
 {
 	WeaponMount mount = {};
 
@@ -48,7 +48,8 @@ void GunManager::AddWeaponMount(StringName id, StringName tagName, vector2f gimb
 		tan(DEG2RAD(gimbalLimit.y))
 	);
 
-	m_mounts.try_emplace(id, mount);
+	auto result = m_mounts.try_emplace(id, mount);
+	return result.second;
 }
 
 void GunManager::RemoveWeaponMount(StringName id)
@@ -341,7 +342,7 @@ void GunManager::StaticUpdate(float deltaTime)
 			}
 
 			// bring position, velocity and acceleration into ship-space
-			CalcWeaponLead(&gun, relPosition * orient, relVelocity * orient, relAccel * orient);
+			CalcWeaponLead(gun, relPosition * orient, relVelocity * orient, relAccel * orient);
 		} else {
 			gun.currentLead = vector3f(0, 0, 1);
 			gun.currentLeadPos = vector3d(0, 0, 0);
@@ -369,7 +370,7 @@ void GunManager::StaticUpdate(float deltaTime)
 			uint32_t numShots = 1 + floor((missedTime + deltaTime) / deltaShot);
 
 			for (uint32_t i = 0; i < numShots; ++i) {
-				Fire(&gun, &gs);
+				Fire(gun);
 			}
 
 			// set the next fire time, making sure to preserve accumulated (fractional) shot time
@@ -390,16 +391,16 @@ void GunManager::StaticUpdate(float deltaTime)
 	m_isAnyFiring = isAnyFiring;
 }
 
-void GunManager::Fire(WeaponState *weapon, GroupState *group)
+void GunManager::Fire(WeaponState &weapon)
 {
-	WeaponData *data = &weapon->data;
+	WeaponData *data = &weapon.data;
 
 	// either fire the next barrel in sequence or fire all at the same time
 	size_t firstBarrel = 0;
 	size_t numBarrels = 1;
 	if (data->staggerBarrels || data->numBarrels == 1) {
-		firstBarrel = (weapon->lastBarrel + 1) % data->numBarrels;
-		weapon->lastBarrel = firstBarrel;
+		firstBarrel = (weapon.lastBarrel + 1) % data->numBarrels;
+		weapon.lastBarrel = firstBarrel;
 	} else {
 		numBarrels = data->numBarrels;
 	}
@@ -411,10 +412,10 @@ void GunManager::Fire(WeaponState *weapon, GroupState *group)
 	const matrix3x3d &orient = m_parent->GetOrient();
 
 	// mount-relative aiming direction
-	const vector3d leadDir = vector3d(wpn_orient * weapon->currentLead).Normalized();
+	const vector3d leadDir = vector3d(wpn_orient * weapon.currentLead).Normalized();
 
 	for (size_t idx = firstBarrel; idx < firstBarrel + numBarrels; idx++) {
-		weapon->temperature += data->firingHeat;
+		weapon.temperature += data->firingHeat;
 		// TODO: get individual barrel locations from gun model and cache them
 		const vector3d dir = orient * leadDir;
 		const vector3d pos = orient * wpn_pos + m_parent->GetPosition();
@@ -429,16 +430,18 @@ void GunManager::Fire(WeaponState *weapon, GroupState *group)
 }
 
 // Note that position and relative velocity are in the coordinate system of the host body
-void GunManager::CalcWeaponLead(WeaponState *state, vector3d position, vector3d relativeVelocity, vector3d relativeAccel)
+void GunManager::CalcWeaponLead(WeaponState &state, vector3d position, vector3d relativeVelocity, vector3d relativeAccel)
 {
 	// Compute the forward vector for the weapon mount
+	// NOTE: weapons by convention use +Z as their "forward" vector,
+	// as this is the most natural mapping to the content authoring pipeline for ships
 	const matrix4x4f &xform = GetMountTransform(state);
 	const vector3f forward = vector3f(0, 0, 1);
 
-	if (state->data.projectileType == PROJECTILE_BALLISTIC) {
+	if (state.data.projectileType == PROJECTILE_BALLISTIC) {
 		// Calculate firing solution and relative velocity along our z axis by
 		// computing the position along the enemy ship's lead vector at which to aim
-		const double projspeed = state->data.projectile.speed;
+		const double projspeed = state.data.projectile.speed;
 		// Account for the distance between the weapon mount and the center of the parent
 		position -= vector3d(xform.GetTranslate());
 
@@ -460,7 +463,7 @@ void GunManager::CalcWeaponLead(WeaponState *state, vector3d position, vector3d 
 			//l = (-b + sqrt(delta)) / 2a; t=1/l; a>0
 			double t = 2 * a / (-b + sqrt(delta));
 
-			if (t < 0 || t > state->data.projectile.lifespan) {
+			if (t < 0 || t > state.data.projectile.lifespan) {
 				//no positive solution or target too far
 			} else {
 				//This is an exact solution as opposed to 2 step approximation used before.
@@ -477,16 +480,16 @@ void GunManager::CalcWeaponLead(WeaponState *state, vector3d position, vector3d 
 			//no solution
 		}
 
-		state->currentLeadPos = leadPos;
-	} else if (state->data.projectileType == PROJECTILE_BEAM) {
+		state.currentLeadPos = leadPos;
+	} else if (state.data.projectileType == PROJECTILE_BEAM) {
 		// Beam weapons should just aim at the target
-		state->currentLeadPos = position;
+		state.currentLeadPos = position;
 	}
 
 	// Transform the target's direction into the coordinate space of the mount,
 	// with the barrel pointing "forward" towards +Z.
 	// float has plenty of precision when working with normalized directions.
-	vector3f targetDir = vector3f(state->currentLeadPos.Normalized()) * xform.GetOrient();
+	vector3f targetDir = vector3f(state.currentLeadPos.Normalized()) * xform.GetOrient();
 
 	// We represent the maximum traverse of the weapon as an ellipse relative
 	// to the +Z axis of the mount.
@@ -496,18 +499,19 @@ void GunManager::CalcWeaponLead(WeaponState *state, vector3d position, vector3d 
 	// vector.
 	// Note that we scale the targetDir vector such that the z component has a length of 1.0,
 	// so that the comparison with the tangent of the gimbal limit is correct.
-	vector2f traverseRel = (targetDir * (1.0 / targetDir.z)).xy() / state->mount->gimbalLimitTan;
+	vector2f traverseRel = (targetDir * (1.0 / targetDir.z)).xy() / state.mount->gimbalLimitTan;
 
-	state->withinGimbalLimit = targetDir.z > 0 && traverseRel.LengthSqr() <= 1.0;
-	state->currentLead = state->withinGimbalLimit ? targetDir : forward;
+	state.withinGimbalLimit = targetDir.z > 0 && traverseRel.LengthSqr() <= 1.0;
+	state.currentLead = state.withinGimbalLimit ? targetDir : forward;
 }
 
+// Default matrix to use +Z as weapon forward
 static const matrix4x4f s_noMountTransform = matrix4x4f::RotateXMatrix(M_PI);
 
-const matrix4x4f &GunManager::GetMountTransform(WeaponState *state)
+const matrix4x4f &GunManager::GetMountTransform(WeaponState &state)
 {
-	if (state->mount->tag) {
-		return state->mount->tag->GetGlobalTransform();
+	if (state.mount->tag) {
+		return state.mount->tag->GetGlobalTransform();
 	}
 
 	return s_noMountTransform;
