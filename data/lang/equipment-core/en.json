@@ -307,6 +307,10 @@
     "description": "",
     "message": "Guided Missile"
   },
+  "MISSILE_GUIDED_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "A guided missile able to home in on your target using advanced LIDAR."
+  },
   "MISSILE_NAVAL": {
     "description": "",
     "message": "Naval Missile"
@@ -315,33 +319,65 @@
     "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
     "message": "LH-120 Hydri Missile Rack"
   },
+  "MISSILE_RACK_221_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "External missile rack able to carry up to 2 small missiles."
+  },
   "MISSILE_RACK_322": {
     "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
     "message": "LH-230 Hydri Missile Rack"
+  },
+  "MISSILE_RACK_322_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "External missile rack able to carry up to 2 medium-sized missiles. Bigger bangs for your bucks!"
   },
   "MISSILE_RACK_341": {
     "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
     "message": "LH-140 Hydri Missile Rack"
   },
+  "MISSILE_RACK_341_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "External missile rack able to carry up to 4 small missiles."
+  },
   "MISSILE_RAIL_S1": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
     "message": "Cnida-101 Missile Rail"
+  },
+  "MISSILE_RAIL_S1_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "External launcher for a single small missile."
   },
   "MISSILE_RAIL_S2": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
     "message": "Cnida-102 Missile Rail"
   },
+  "MISSILE_RAIL_S2_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "External launcher for a single medium missile."
+  },
   "MISSILE_RAIL_S3": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
     "message": "Cnida-103 Missile Rail"
+  },
+  "MISSILE_RAIL_S3_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "External launcher for a single large missile."
   },
   "MISSILE_SMART": {
     "description": "",
     "message": "Smart Missile"
   },
+  "MISSILE_SMART_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "A smart rocket capable of tracking down your target using an advanced AI module."
+  },
   "MISSILE_UNGUIDED": {
     "description": "",
     "message": "R40 Unguided Rocket"
+  },
+  "MISSILE_UNGUIDED_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "A generic dumb-fire rocket mass-produced on most worlds. Simply aim and fire to solve your problems."
   },
   "OCCUPIED_BERTHS": {
     "description": "Label for the number of passenger berths currently occupied in a cabin equipment item",
