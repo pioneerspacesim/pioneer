@@ -248,6 +248,112 @@ Equipment.Register("missile.naval_s4", EquipType.New {
 -- Missile Pylons
 --===============================================
 
+-- "LH-420 Hydri Missile Rack"
+Equipment.Register("missile_rack.524", EquipType.New {
+	l10n_key="MISSILE_RACK_524",
+	price=2250, purchasable=true, tech_level="MILITARY",
+	volume=0.0, mass=0.8,
+	slot = { type = "pylon.rack", size=5, hardpoint=true },
+	provides_slots = {
+		Slot:clone { id = "1", type = "missile", size = 4, hardpoint = true },
+		Slot:clone { id = "2", type = "missile", size = 4, hardpoint = true },
+	},
+	icon_name="equip_missile_unguided"
+})
+
+-- "LH-340 Hydri Missile Rack"
+Equipment.Register("missile_rack.543", EquipType.New {
+	l10n_key="MISSILE_RACK_543",
+	price=1800, purchasable=true, tech_level=9,
+	volume=0.0, mass=1.2,
+	slot = { type = "pylon.rack", size=5, hardpoint=true },
+	provides_slots = {
+		Slot:clone { id = "1", type = "missile", size = 3, hardpoint = true },
+		Slot:clone { id = "2", type = "missile", size = 3, hardpoint = true },
+		Slot:clone { id = "3", type = "missile", size = 3, hardpoint = true },
+		Slot:clone { id = "4", type = "missile", size = 3, hardpoint = true },
+	},
+	icon_name="equip_missile_unguided"
+})
+
+-- "LH-280 Hydri Missile Rack"
+Equipment.Register("missile_rack.582", EquipType.New {
+	l10n_key="MISSILE_RACK_582",
+	price=3000, purchasable=true, tech_level=5,
+	volume=0.0, mass=0.9,
+	slot = { type = "pylon.rack", size=5, hardpoint=true },
+	provides_slots = {
+		Slot:clone { id = "1", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "2", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "3", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "4", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "5", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "6", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "7", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "8", type = "missile", size = 2, hardpoint = true },
+	},
+	icon_name="equip_missile_unguided"
+})
+
+-- "Cnida-104 Missile Rail"
+Equipment.Register("missile_rack.414", EquipType.New {
+	l10n_key="MISSILE_RAIL_S4",
+	price=1125, purchasable=true, tech_level="MILITARY",
+	volume=0.0, mass=0.5,
+	slot = { type = "pylon.rack", size=4, hardpoint=true },
+	provides_slots = {
+		Slot:clone { id = "1", type = "missile", size = 4, hardpoint = true },
+	},
+	icon_name="equip_missile_unguided"
+})
+
+-- "LH-320 Hydri Missile Rack"
+Equipment.Register("missile_rack.423", EquipType.New {
+	l10n_key="MISSILE_RACK_423",
+	price=900, purchasable=true, tech_level=9,
+	volume=0.0, mass=0.6,
+	slot = { type = "pylon.rack", size=4, hardpoint=true },
+	provides_slots = {
+		Slot:clone { id = "1", type = "missile", size = 3, hardpoint = true },
+		Slot:clone { id = "2", type = "missile", size = 3, hardpoint = true },
+	},
+	icon_name="equip_missile_unguided"
+})
+
+-- "LH-240 Hydri Missile Rack"
+Equipment.Register("missile_rack.442", EquipType.New {
+	l10n_key="MISSILE_RACK_442",
+	price=1500, purchasable=true, tech_level=5,
+	volume=0.0, mass=0.8,
+	slot = { type = "pylon.rack", size=4, hardpoint=true },
+	provides_slots = {
+		Slot:clone { id = "1", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "2", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "3", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "4", type = "missile", size = 2, hardpoint = true },
+	},
+	icon_name="equip_missile_unguided"
+})
+
+-- "LH-180 Hydri Missile Rack"
+Equipment.Register("missile_rack.481", EquipType.New {
+	l10n_key="MISSILE_RACK_481",
+	price=1200, purchasable=true, tech_level=1,
+	volume=0.0, mass=0.9,
+	slot = { type = "pylon.rack", size=4, hardpoint=true },
+	provides_slots = {
+		Slot:clone { id = "1", type = "missile", size = 1, hardpoint = true },
+		Slot:clone { id = "2", type = "missile", size = 1, hardpoint = true },
+		Slot:clone { id = "3", type = "missile", size = 1, hardpoint = true },
+		Slot:clone { id = "4", type = "missile", size = 1, hardpoint = true },
+		Slot:clone { id = "5", type = "missile", size = 1, hardpoint = true },
+		Slot:clone { id = "6", type = "missile", size = 1, hardpoint = true },
+		Slot:clone { id = "7", type = "missile", size = 1, hardpoint = true },
+		Slot:clone { id = "8", type = "missile", size = 1, hardpoint = true },
+	},
+	icon_name="equip_missile_unguided"
+})
+
 -- "Cnida-103 Missile Rail"
 Equipment.Register("missile_rack.313", EquipType.New {
 	l10n_key="MISSILE_RAIL_S3",

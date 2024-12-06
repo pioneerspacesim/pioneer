@@ -337,7 +337,55 @@
   },
   "MISSILE_RACK_341_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "External missile rack able to carry up to 4 small missiles."
+    "message": "External missile rack able to carry up to 4 small missiles. Make fireworks!"
+  },
+  "MISSILE_RACK_442": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
+    "message": "LH-240 Hydri Missile Rack"
+  },
+  "MISSILE_RACK_442_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "External missile rack able to carry up to 4 medium missiles."
+  },
+  "MISSILE_RACK_423": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
+    "message": "LH-320 Hydri Missile Rack"
+  },
+  "MISSILE_RACK_423_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "External missile rack able to carry up to 2 large missiles."
+  },
+  "MISSILE_RACK_481": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
+    "message": "LH-180 Hydri Missile Rack"
+  },
+  "MISSILE_RACK_481_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "External missile rack able to carry up to 8 small missiles. More fireworks!"
+  },
+  "MISSILE_RACK_524": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
+    "message": "LH-420 Hydri Missile Rack"
+  },
+  "MISSILE_RACK_524_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "External missile rack able to carry up to 2 huge missiles."
+  },
+  "MISSILE_RACK_543": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
+    "message": "LH-340 Hydri Missile Rack"
+  },
+  "MISSILE_RACK_543_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "External missile rack able to carry up to 4 large missiles."
+  },
+  "MISSILE_RACK_582": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
+    "message": "LH-280 Hydri Missile Rack"
+  },
+  "MISSILE_RACK_582_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "External missile rack able to carry up to 8 medium missiles."
   },
   "MISSILE_RAIL_S1": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
@@ -362,6 +410,14 @@
   "MISSILE_RAIL_S3_DESCRIPTION": {
     "description": "Equipment description",
     "message": "External launcher for a single large missile."
+  },
+  "MISSILE_RAIL_S4": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
+    "message": "Cnida-104 Missile Rail"
+  },
+  "MISSILE_RAIL_S4_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "External launcher for a single huge missile."
   },
   "MISSILE_SMART": {
     "description": "",
