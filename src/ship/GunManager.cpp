@@ -133,16 +133,17 @@ bool GunManager::AddWeaponMount(StringName id, StringName tagName, vector2f gimb
 	return result.second;
 }
 
-void GunManager::RemoveWeaponMount(StringName id)
+bool GunManager::RemoveWeaponMount(StringName id)
 {
 	auto iter = m_mounts.find(id);
 	if (iter == m_mounts.end())
-		return;
+		return false;
 
 	if (IsWeaponMounted(id))
-		return;
+		return false;
 
 	m_mounts.erase(iter);
+	return true;
 }
 
 bool GunManager::MountWeapon(StringName hardpoint, const WeaponData &gunData)

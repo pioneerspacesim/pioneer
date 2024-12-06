@@ -142,7 +142,8 @@ public:
 	bool AddWeaponMount(StringName id, StringName tagName, vector2f gimbalLimitDegrees);
 	// Remove a weapon mount from this gun manager.
 	// The caller should always ensure that the weapon mount is empty before calling this function.
-	void RemoveWeaponMount(StringName id);
+	// Returns false if the mount does not exist or is not empty.
+	bool RemoveWeaponMount(StringName id);
 
 	// Attach a weapon to a specific mount.
 	// Returns false if the hardpoint cannot be found or the weapon could not be mounted.

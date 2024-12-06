@@ -53,11 +53,15 @@ function Ship:UpdateWeaponSlots()
 
 	for _, slot in ipairs(equipSet:GetAllSlotsOfType("weapon", true)) do
 		if not slot.gimbal then
-			print('Missing hardpoint gimbal on ship {} for slot {}' % { self.shipId, slot.id })
+			logWarning('Missing hardpoint gimbal on ship {} for slot {}' % { self.shipId, slot.id })
 		end
 
 		local gimbal = Vector2(table.unpack(slot.gimbal or { 1, 1 }))
-		gunManager:AddWeaponMount(slot.id, slot.tag, gimbal)
+		local ok = gunManager:AddWeaponMount(slot.id, slot.tag, gimbal)
+
+		if not ok then
+			logWarning('Unable to add weapon mount slot {} on ship {}' % { slot.id, self.shipId })
+		end
 	end
 end
 
