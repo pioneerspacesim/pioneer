@@ -199,9 +199,25 @@
     "description": "Name for the 'Missile Bay' equipment hardpoint",
     "message": "Missile Bay"
   },
+  "HARDPOINT_MISSILE_BAY_LEFT": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "Missile Bay Left"
+  },
+  "HARDPOINT_MISSILE_BAY_RIGHT": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "Missile Bay Right"
+  },
   "HARDPOINT_PYLON": {
     "description": "Name for a generic missile pylon",
     "message": "Pylon"
+  },
+  "HARDPOINT_PYLON_LEFT": {
+    "description": "Name for a generic missile pylon",
+    "message": "Pylon Left"
+  },
+  "HARDPOINT_PYLON_RIGHT": {
+    "description": "Name for a generic missile pylon",
+    "message": "Pylon Right"
   },
   "HARDPOINT_UTILITY": {
     "description": "Name for a generic utility hardpoint",
