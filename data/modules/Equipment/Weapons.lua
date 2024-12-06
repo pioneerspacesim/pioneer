@@ -248,9 +248,10 @@ Equipment.Register("missile.naval_s4", EquipType.New {
 -- Missile Pylons
 --===============================================
 
+-- "Cnida-103 Missile Rail"
 Equipment.Register("missile_rack.313", EquipType.New {
 	l10n_key="MISSILE_RAIL_S3",
-	price=150, purchasable=true, tech_level=1,
+	price=450, purchasable=true, tech_level=9,
 	volume=0.0, mass=0.2,
 	slot = { type = "pylon.rack", size=3, hardpoint=true },
 	provides_slots = {
@@ -259,9 +260,10 @@ Equipment.Register("missile_rack.313", EquipType.New {
 	icon_name="equip_missile_unguided"
 })
 
+-- "LH-220 Hydri Missile Rack"
 Equipment.Register("missile_rack.322", EquipType.New {
 	l10n_key="MISSILE_RACK_322",
-	price=150, purchasable=true, tech_level=1,
+	price=750, purchasable=true, tech_level=5,
 	volume=0.0, mass=0.4,
 	slot = { type = "pylon.rack", size=3, hardpoint=true },
 	provides_slots = {
@@ -271,9 +273,10 @@ Equipment.Register("missile_rack.322", EquipType.New {
 	icon_name="equip_missile_unguided"
 })
 
+-- "LH-140 Hydri Missile Rack"
 Equipment.Register("missile_rack.341", EquipType.New {
 	l10n_key="MISSILE_RACK_341",
-	price=150, purchasable=true, tech_level=1,
+	price=600, purchasable=true, tech_level=1,
 	volume=0.0, mass=0.5,
 	slot = { type = "pylon.rack", size=3, hardpoint=true },
 	provides_slots = {
@@ -285,9 +288,10 @@ Equipment.Register("missile_rack.341", EquipType.New {
 	icon_name="equip_missile_unguided"
 })
 
+-- "Cnida-102 Missile Rail"
 Equipment.Register("missile_rack.212", EquipType.New {
 	l10n_key="MISSILE_RAIL_S2",
-	price=150, purchasable=true, tech_level=1,
+	price=375, purchasable=true, tech_level=5,
 	volume=0.0, mass=0.1,
 	slot = { type = "pylon.rack", size=2, hardpoint=true },
 	provides_slots = {
@@ -296,9 +300,10 @@ Equipment.Register("missile_rack.212", EquipType.New {
 	icon_name="equip_missile_unguided"
 })
 
+-- "LH-120 Hydri Missile Rack"
 Equipment.Register("missile_rack.221", EquipType.New {
 	l10n_key="MISSILE_RACK_221",
-	price=150, purchasable=true, tech_level=1,
+	price=300, purchasable=true, tech_level=1,
 	volume=0.0, mass=0.2,
 	slot = { type = "pylon.rack", size=2, hardpoint=true },
 	provides_slots = {
@@ -308,6 +313,7 @@ Equipment.Register("missile_rack.221", EquipType.New {
 	icon_name="equip_missile_unguided"
 })
 
+-- "Cnida-101 Missile Rail"
 Equipment.Register("missile_rack.111", EquipType.New {
 	l10n_key="MISSILE_RAIL_S1",
 	price=150, purchasable=true, tech_level=1,
