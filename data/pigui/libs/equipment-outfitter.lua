@@ -515,6 +515,7 @@ function Outfitter:renderCompareStats()
 	ui.separator()
 	ui.spacing()
 
+	-- MKW TODO : Add tooltip and extended description here.
 	if self.selectedEquip then
 		ui.textWrapped(self.selectedEquip.equip:GetDescription())
 	elseif self.currentEquip then
@@ -538,9 +539,26 @@ function Outfitter:renderCompareStats()
 
 			ui.endTable()
 
-		end
+		end -- render equipment stats
 
-	end
+		-- Render stock level
+		if self.selectedEquip then
+
+			ui.spacing()
+
+			ui.beginTable("##StockLevel", 2)
+			ui.tableSetupColumn("##name", { "WidthStretch" })
+			ui.tableSetupColumn("##amount", { "WidthFixed" })
+			ui.tableNextRow()
+			ui.tableNextColumn()
+			ui.text("Stock Level")
+			ui.tableNextColumn()
+			ui.text(self.selectedEquip.count )
+			ui.endTable()
+
+		end -- render stock level
+
+	end -- render equipment details
 
 end
 
