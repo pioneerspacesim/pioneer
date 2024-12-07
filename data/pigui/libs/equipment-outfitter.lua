@@ -99,6 +99,7 @@ EquipCardAvailable.tooltipStats = false
 ---@class UI.EquipmentOutfitter.EquipData : UI.EquipCard.Data
 ---@field canInstall boolean
 ---@field canReplace boolean
+---@field outOfStock boolean
 ---@field available boolean
 ---@field price number
 ---@field count number
@@ -124,6 +125,8 @@ function EquipCardUnavailable:tooltipContents(data, isSelected)
 				ui.textWrapped(l.NOT_SUPPORTED_ON_THIS_SHIP % { equipment = data.name } .. ".")
 			elseif not data.canReplace then
 				ui.textWrapped(l.CANNOT_SELL_NONEMPTY_EQUIP .. ".")
+			elseif data.outOfStock then
+				ui.textWrapped(l.OUT_OF_STOCK)
 			else
 				ui.textWrapped(l.YOU_NOT_ENOUGH_MONEY)
 			end
@@ -204,9 +207,6 @@ function Outfitter:getAvailableEquipment()
 	local slotCount = self.filterSlot and self.filterSlot.count
 
 	return utils.map_table(Equipment.new, function(id, equip)
-		if self:getStock(equip) <= 0 then
-			return id, nil
-		end
 
 		if not equip.purchasable or not self:stationHasTech(equip.tech_level) then
 			return id, nil
@@ -292,7 +292,10 @@ function Outfitter:buildEquipmentList()
 
 		data.canReplace = not self.replaceEquip or self.canSellEquip
 
-		data.available = data.canInstall and data.canReplace and money >= self:getInstallPrice(equip)
+		data.outOfStock =  data.count <= 0
+
+		data.available = data.canInstall and data.canReplace and not data.outOfStock
+		                 and money >= self:getInstallPrice(equip)
 
 		-- Replace condition widget with price instead
 		-- trim leading '$' character since we're drawing it with an icon instead
