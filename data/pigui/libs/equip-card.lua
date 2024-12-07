@@ -74,7 +74,7 @@ function EquipCard:tooltipContents(data, isSelected)
 	ui.withFont(pionillium.body, function()
 		ui.text(data.equip:GetName())
 
-		local desc = data.equip:GetDescription()
+		local desc = data.equip:GetTooltip()
 
 		if desc and desc ~= "" then
 			ui.withFont(pionillium.details, function()

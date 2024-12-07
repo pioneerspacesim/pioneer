@@ -521,11 +521,18 @@ function Outfitter:renderCompareStats()
 	ui.separator()
 	ui.spacing()
 
-	-- MKW TODO : Add tooltip and extended description here.
-	if self.selectedEquip then
-		ui.textWrapped(self.selectedEquip.equip:GetDescription())
-	elseif self.currentEquip then
-		ui.textWrapped(self.currentEquip.equip:GetDescription())
+	-- Draw the equipment description.
+	-- If present, the tooltip is used as a heading followed by the description
+	local equip = self.selectedEquip and self.selectedEquip.equip
+	              or self.currentEquip and self.currentEquip.equip
+	              or nil
+	if equip then
+		local tt = equip:GetTooltip()
+		if tt and tt ~= "" then
+			ui.textWrapped(tt)
+			ui.spacing()
+		end
+		ui.textWrapped(equip:GetDescription())
 	end
 
 	ui.spacing()
