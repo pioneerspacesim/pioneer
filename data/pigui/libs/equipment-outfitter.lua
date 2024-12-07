@@ -527,12 +527,12 @@ function Outfitter:renderCompareStats()
 	              or self.currentEquip and self.currentEquip.equip
 	              or nil
 	if equip then
-		local tt = equip:GetTooltip()
-		if tt and tt ~= "" then
-			ui.textWrapped(tt)
-			ui.spacing()
-		end
 		ui.textWrapped(equip:GetDescription())
+		local flavour = equip:GetFlavourText()
+		if flavour and flavour ~= "" then
+			ui.spacing()
+			ui.textWrapped(flavour)
+		end
 	end
 
 	ui.spacing()
