@@ -101,6 +101,8 @@ EquipCardAvailable.tooltipStats = false
 ---@field canReplace boolean
 ---@field available boolean
 ---@field price number
+---@field count number
+---@field techLevel number
 
 ---@class UI.EquipmentOutfitter.EquipCard : UI.EquipCard
 local EquipCardUnavailable = EquipCard.New()
@@ -280,6 +282,7 @@ function Outfitter:buildEquipmentList()
 
 		data.price = self:getBuyPrice(equip)
 		data.count = self:getStock(equip)
+		data.techLevel = equip.tech_level
 
 		if self.filterSlot then
 			data.canInstall = equipSet:CanInstallInSlot(self.filterSlot, equip)
@@ -541,7 +544,7 @@ function Outfitter:renderCompareStats()
 
 		end -- render equipment stats
 
-		-- Render stock level
+		-- Render additional equipment information
 		if self.selectedEquip then
 
 			ui.spacing()
@@ -549,11 +552,22 @@ function Outfitter:renderCompareStats()
 			ui.beginTable("##StockLevel", 2)
 			ui.tableSetupColumn("##name", { "WidthStretch" })
 			ui.tableSetupColumn("##amount", { "WidthFixed" })
+
+			-- Stock level
 			ui.tableNextRow()
 			ui.tableNextColumn()
 			ui.text("Stock Level")
 			ui.tableNextColumn()
 			ui.text(self.selectedEquip.count )
+
+			-- Tech level
+			ui.tableNextRow()
+			ui.tableNextColumn()
+			ui.text("Tech Level")
+			ui.tableNextColumn()
+			ui.text(self.selectedEquip.techLevel )
+
+
 			ui.endTable()
 
 		end -- render stock level
