@@ -99,8 +99,10 @@ EquipCardAvailable.tooltipStats = false
 ---@class UI.EquipmentOutfitter.EquipData : UI.EquipCard.Data
 ---@field canInstall boolean
 ---@field canReplace boolean
+---@field outOfStock boolean
 ---@field available boolean
 ---@field price number
+---@field techLevel number
 
 ---@class UI.EquipmentOutfitter.EquipCard : UI.EquipCard
 local EquipCardUnavailable = EquipCard.New()
@@ -122,6 +124,8 @@ function EquipCardUnavailable:tooltipContents(data, isSelected)
 				ui.textWrapped(l.NOT_SUPPORTED_ON_THIS_SHIP % { equipment = data.name } .. ".")
 			elseif not data.canReplace then
 				ui.textWrapped(l.CANNOT_SELL_NONEMPTY_EQUIP .. ".")
+			elseif data.outOfStock then
+				ui.textWrapped(l.OUT_OF_STOCK)
 			else
 				ui.textWrapped(l.YOU_NOT_ENOUGH_MONEY)
 			end
@@ -202,9 +206,6 @@ function Outfitter:getAvailableEquipment()
 	local slotCount = self.filterSlot and self.filterSlot.count
 
 	return utils.map_table(Equipment.new, function(id, equip)
-		if self:getStock(equip) <= 0 then
-			return id, nil
-		end
 
 		if not equip.purchasable or not self:stationHasTech(equip.tech_level) then
 			return id, nil
@@ -279,6 +280,8 @@ function Outfitter:buildEquipmentList()
 		---@cast data UI.EquipmentOutfitter.EquipData
 
 		data.price = self:getBuyPrice(equip)
+		data.count = self:getStock(equip)
+		data.techLevel = equip.tech_level
 
 		if self.filterSlot then
 			data.canInstall = equipSet:CanInstallInSlot(self.filterSlot, equip)
@@ -288,7 +291,10 @@ function Outfitter:buildEquipmentList()
 
 		data.canReplace = not self.replaceEquip or self.canSellEquip
 
-		data.available = data.canInstall and data.canReplace and money >= self:getInstallPrice(equip)
+		data.outOfStock =  data.count <= 0
+
+		data.available = data.canInstall and data.canReplace and not data.outOfStock
+		                 and money >= self:getInstallPrice(equip)
 
 		-- Replace condition widget with price instead
 		-- trim leading '$' character since we're drawing it with an icon instead
@@ -514,10 +520,18 @@ function Outfitter:renderCompareStats()
 	ui.separator()
 	ui.spacing()
 
-	if self.selectedEquip then
-		ui.textWrapped(self.selectedEquip.equip:GetDescription())
-	elseif self.currentEquip then
-		ui.textWrapped(self.currentEquip.equip:GetDescription())
+	-- Draw the equipment description.
+	-- If present, the tooltip is used as a heading followed by the description
+	local equip = self.selectedEquip and self.selectedEquip.equip
+	              or self.currentEquip and self.currentEquip.equip
+	              or nil
+	if equip then
+		ui.textWrapped(equip:GetDescription())
+		local flavour = equip:GetFlavourText()
+		if flavour and flavour ~= "" then
+			ui.spacing()
+			ui.textWrapped(flavour)
+		end
 	end
 
 	ui.spacing()
@@ -537,9 +551,39 @@ function Outfitter:renderCompareStats()
 
 			ui.endTable()
 
-		end
+		end -- render equipment stats
 
-	end
+		-- Render additional equipment information
+		if self.selectedEquip then
+
+			ui.spacing()
+
+			if ui.beginTable("##StockLevel", 2) then
+
+				ui.tableSetupColumn("##name", { "WidthStretch" })
+				ui.tableSetupColumn("##amount", { "WidthFixed" })
+
+				-- Stock level
+				ui.tableNextRow()
+				ui.tableNextColumn()
+				ui.text("Stock Level")
+				ui.tableNextColumn()
+				ui.text(self.selectedEquip.count )
+
+				-- Tech level
+				ui.tableNextRow()
+				ui.tableNextColumn()
+				ui.text("Tech Level")
+				ui.tableNextColumn()
+				ui.text(self.selectedEquip.techLevel )
+
+				ui.endTable()
+
+			end -- render additional information
+
+		end -- render stock level
+
+	end -- render equipment details
 
 end
 
