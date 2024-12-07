@@ -235,6 +235,10 @@
     "description": "Name for a generic front-facing weapon hardpoint",
     "message": "Front Weapon"
   },
+  "HARDPOINT_WEAPON_FRONT_LEFT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "Front Left Weapon"
+  },
   "HARDPOINT_WEAPON_LEFT_NOSE": {
     "description": "Name for the 'Left Nose' weapon hardpoint",
     "message": "Left Nose"
@@ -242,6 +246,10 @@
   "HARDPOINT_WEAPON_REAR": {
     "description": "Name for a generic rear-facing weapon hardpoint",
     "message": "Rear Weapon"
+  },
+  "HARDPOINT_WEAPON_RIGHT": {
+    "description": "Name for the 'Right Nose' weapon hardpoint",
+    "message": "Front Right Weapon"
   },
   "HARDPOINT_WEAPON_RIGHT_NOSE": {
     "description": "Name for the 'Right Nose' weapon hardpoint",
