@@ -397,6 +397,7 @@ Equipment.Register("missile_rack.111", EquipType.New {
 -- Internal Missile Bays
 --===============================================
 
+-- For the Coronatrix, Malabar, Sinonatrix (and Police), and Vatakara
 Equipment.Register("missile_bay.opli_internal_s2", EquipType.New {
 	l10n_key="OPLI_INTERNAL_MISSILE_RACK_S2",
 	price=150, purchasable=true, tech_level=1,
@@ -408,6 +409,48 @@ Equipment.Register("missile_bay.opli_internal_s2", EquipType.New {
 		Slot:clone { id = "3", type = "missile", size = 2, hardpoint = true },
 		Slot:clone { id = "4", type = "missile", size = 2, hardpoint = true },
 		Slot:clone { id = "5", type = "missile", size = 2, hardpoint = true },
+	},
+	icon_name="equip_missile_unguided"
+})
+
+-- For the Natrix, and Nerodia
+Equipment.Register("missile_bay.opli_internal_s3", EquipType.New {
+	l10n_key="OPLI_INTERNAL_MISSILE_RACK_S3",
+	price=450, purchasable=true, tech_level=5,
+	volume=8.5, mass=0.9,
+	slot = { type = "missile_bay.opli_internal", size=3, hardpoint=true },
+	provides_slots = {
+		Slot:clone { id = "1", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "2", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "3", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "4", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "5", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "6", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "7", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "8", type = "missile", size = 2, hardpoint = true },
+	},
+	icon_name="equip_missile_unguided"
+})
+
+-- For the Molar Ramsayi
+Equipment.Register("missile_bay.opli_internal_s4", EquipType.New {
+	l10n_key="OPLI_INTERNAL_MISSILE_RACK_S4",
+	price=950, purchasable=true, tech_level=7,
+	volume=11.0, mass=1.1,
+	slot = { type = "missile_bay.opli_internal", size=4, hardpoint=true },
+	provides_slots = {
+		Slot:clone { id = "1", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "2", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "3", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "4", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "5", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "6", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "7", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "8", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "9", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "10", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "11", type = "missile", size = 2, hardpoint = true },
+		Slot:clone { id = "12", type = "missile", size = 2, hardpoint = true },
 	},
 	icon_name="equip_missile_unguided"
 })
