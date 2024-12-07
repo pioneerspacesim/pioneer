@@ -279,6 +279,7 @@ function Outfitter:buildEquipmentList()
 		---@cast data UI.EquipmentOutfitter.EquipData
 
 		data.price = self:getBuyPrice(equip)
+		data.count = self:getStock(equip)
 
 		if self.filterSlot then
 			data.canInstall = equipSet:CanInstallInSlot(self.filterSlot, equip)
