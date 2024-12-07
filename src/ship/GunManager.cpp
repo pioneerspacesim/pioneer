@@ -118,7 +118,7 @@ void GunManager::LoadFromJson(const Json &jsonObj, Space *space)
 	}
 }
 
-bool GunManager::AddWeaponMount(StringName id, StringName tagName, vector2f gimbalLimit)
+bool GunManager::AddWeaponMount(const StringName &id, const StringName &tagName, vector2f gimbalLimit)
 {
 	WeaponMount mount = {};
 
@@ -133,7 +133,7 @@ bool GunManager::AddWeaponMount(StringName id, StringName tagName, vector2f gimb
 	return result.second;
 }
 
-bool GunManager::RemoveWeaponMount(StringName id)
+bool GunManager::RemoveWeaponMount(const StringName &id)
 {
 	auto iter = m_mounts.find(id);
 	if (iter == m_mounts.end())
@@ -146,7 +146,7 @@ bool GunManager::RemoveWeaponMount(StringName id)
 	return true;
 }
 
-bool GunManager::MountWeapon(StringName hardpoint, const WeaponData &gunData)
+bool GunManager::MountWeapon(const StringName &hardpoint, const WeaponData &gunData)
 {
 	auto iter = m_mounts.find(hardpoint);
 	if (iter == m_mounts.end())
@@ -173,7 +173,7 @@ bool GunManager::MountWeapon(StringName hardpoint, const WeaponData &gunData)
 	return true;
 }
 
-void GunManager::UnmountWeapon(StringName hardpoint)
+void GunManager::UnmountWeapon(const StringName &hardpoint)
 {
 	auto iter = std::find_if(m_weapons.begin(), m_weapons.end(), [&](const WeaponState &ws) {
 		return ws.mount->id == hardpoint;
@@ -192,7 +192,7 @@ void GunManager::UnmountWeapon(StringName hardpoint)
 	}
 }
 
-bool GunManager::IsWeaponMounted(StringName hardpoint) const
+bool GunManager::IsWeaponMounted(const StringName &hardpoint) const
 {
 	return std::find_if(m_weapons.begin(), m_weapons.end(), [&](const WeaponState &ws) {
 		return ws.mount->id == hardpoint;
@@ -210,7 +210,7 @@ void GunManager::RemoveGroupIndex(WeaponIndexSet &group, uint32_t index)
 	group = (group & keep) | ((group & mask) >> 1);
 }
 
-uint32_t GunManager::GetWeaponIndexForHardpoint(StringName hardpoint) const
+uint32_t GunManager::GetWeaponIndexForHardpoint(const StringName &hardpoint) const
 {
 	auto iter = std::find_if(m_weapons.begin(), m_weapons.end(), [&](const WeaponState &ws) {
 		return ws.mount->id == hardpoint;

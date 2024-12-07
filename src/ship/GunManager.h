@@ -139,25 +139,25 @@ public:
 
 	// Add a weapon mount to this gun manager.
 	// Returns false if a hardpoint already exists on this GunManager with the specified name.
-	bool AddWeaponMount(StringName id, StringName tagName, vector2f gimbalLimitDegrees);
+	bool AddWeaponMount(const StringName &id, const StringName &tagName, vector2f gimbalLimitDegrees);
 	// Remove a weapon mount from this gun manager.
 	// The caller should always ensure that the weapon mount is empty before calling this function.
 	// Returns false if the mount does not exist or is not empty.
-	bool RemoveWeaponMount(StringName id);
+	bool RemoveWeaponMount(const StringName &id);
 
 	// Attach a weapon to a specific mount.
 	// Returns false if the hardpoint cannot be found or the weapon could not be mounted.
-	bool MountWeapon(StringName hardpoint, const WeaponData &data);
+	bool MountWeapon(const StringName &hardpoint, const WeaponData &data);
 	// Remove the attached weapon from a specific mount
-	void UnmountWeapon(StringName hardpoint);
+	void UnmountWeapon(const StringName &hardpoint);
 	// Check if any weapon is attached to a specific mount
-	bool IsWeaponMounted(StringName hardpoint) const;
+	bool IsWeaponMounted(const StringName &hardpoint) const;
 
 	const std::vector<WeaponState> &GetWeapons() const { return m_weapons; }
 
 	uint32_t GetNumWeapons() const { return m_weapons.size(); }
 	const WeaponState *GetWeaponState(uint32_t numWeapon) const { return m_weapons.size() > numWeapon ? &m_weapons[numWeapon] : nullptr; }
-	uint32_t GetWeaponIndexForHardpoint(StringName hardpoint) const;
+	uint32_t GetWeaponIndexForHardpoint(const StringName &hardpoint) const;
 
 	// ==========================================
 
