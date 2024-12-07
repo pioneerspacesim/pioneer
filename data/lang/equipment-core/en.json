@@ -347,6 +347,22 @@
     "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
     "message": "LH-140 Hydri Missile Rack"
   },
+  "MISSILE_RACK_442": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
+    "message": "LH-240 Hydri Missile Rack"
+  },
+  "MISSILE_RACK_423": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
+    "message": "LH-320 Hydri Missile Rack"
+  },
+  "MISSILE_RACK_524": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
+    "message": "LH-420 Hydri Missile Rack"
+  },
+  "MISSILE_RACK_543": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
+    "message": "LH-340 Hydri Missile Rack"
+  },
   "MISSILE_RAIL_S1": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
     "message": "Cnida-101 Missile Rail"
@@ -358,6 +374,10 @@
   "MISSILE_RAIL_S3": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
     "message": "Cnida-103 Missile Rail"
+  },
+  "MISSILE_RAIL_S4": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
+    "message": "Cnida-104 Missile Rail"
   },
   "MISSILE_SMART": {
     "description": "",
