@@ -559,26 +559,28 @@ function Outfitter:renderCompareStats()
 
 			ui.spacing()
 
-			ui.beginTable("##StockLevel", 2)
-			ui.tableSetupColumn("##name", { "WidthStretch" })
-			ui.tableSetupColumn("##amount", { "WidthFixed" })
+			if ui.beginTable("##StockLevel", 2) then
 
-			-- Stock level
-			ui.tableNextRow()
-			ui.tableNextColumn()
-			ui.text("Stock Level")
-			ui.tableNextColumn()
-			ui.text(self.selectedEquip.count )
+				ui.tableSetupColumn("##name", { "WidthStretch" })
+				ui.tableSetupColumn("##amount", { "WidthFixed" })
 
-			-- Tech level
-			ui.tableNextRow()
-			ui.tableNextColumn()
-			ui.text("Tech Level")
-			ui.tableNextColumn()
-			ui.text(self.selectedEquip.techLevel )
+				-- Stock level
+				ui.tableNextRow()
+				ui.tableNextColumn()
+				ui.text("Stock Level")
+				ui.tableNextColumn()
+				ui.text(self.selectedEquip.count )
 
+				-- Tech level
+				ui.tableNextRow()
+				ui.tableNextColumn()
+				ui.text("Tech Level")
+				ui.tableNextColumn()
+				ui.text(self.selectedEquip.techLevel )
 
-			ui.endTable()
+				ui.endTable()
+
+			end -- render additional information
 
 		end -- render stock level
 
