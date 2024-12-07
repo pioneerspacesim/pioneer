@@ -187,6 +187,10 @@
     "description": "Name for the 'Fuel Scoop' equipment hardpoint",
     "message": "Fuel Scoop"
   },
+  "HARDPOINT_MINING_LASER": {
+    "description": "Name for a mining laser mount.",
+    "message": "Mining Hardpoint"
+  },
   "HARDPOINT_MISSILE": {
     "description": "Name for a generic missile mount",
     "message": "Missile"
