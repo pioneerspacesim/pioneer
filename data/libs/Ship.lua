@@ -29,6 +29,8 @@ function Ship:Constructor()
 	self:SetComponent('CargoManager', CargoManager.New(self))
 	self:SetComponent('EquipSet', EquipSet.New(self))
 
+	self:UpdateWeaponSlots()
+
 	-- Timers cannot be started in ship constructors before Game is fully set,
 	-- so trigger a lazy event to setup gameplay timers.
 	--
@@ -40,6 +42,27 @@ end
 function Ship:OnShipTypeChanged()
 	-- immediately update any needed components or properties
 	self:GetComponent('EquipSet'):OnShipTypeChanged()
+
+	self:UpdateWeaponSlots()
+end
+
+---@private
+function Ship:UpdateWeaponSlots()
+	local equipSet = self:GetComponent('EquipSet')
+	local gunManager = self:GetComponent('GunManager')
+
+	for _, slot in ipairs(equipSet:GetAllSlotsOfType("weapon", true)) do
+		if not slot.gimbal then
+			logWarning('Missing hardpoint gimbal on ship {} for slot {}' % { self.shipId, slot.id })
+		end
+
+		local gimbal = Vector2(table.unpack(slot.gimbal or { 1, 1 }))
+		local ok = gunManager:AddWeaponMount(slot.id, slot.tag, gimbal)
+
+		if not ok then
+			logWarning('Unable to add weapon mount slot {} on ship {}' % { slot.id, self.shipId })
+		end
+	end
 end
 
 -- class method

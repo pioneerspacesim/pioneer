@@ -8,6 +8,7 @@
 #include "Space.h"
 #include "SpaceStation.h"
 #include "lua/LuaEvent.h"
+#include "ship/GunManager.h"
 
 #include "profiler/Profiler.h"
 
@@ -24,8 +25,7 @@ bool Ship::AITimeStep(float timeStep)
 
 		// just in case the AI left it on
 		ClearThrusterState();
-		for (int i = 0; i < Guns::GUNMOUNT_MAX; i++)
-			SetGunState(i, 0);
+		m_gunManager->SetAllGroupsFiring(false);
 		return true;
 	}
 

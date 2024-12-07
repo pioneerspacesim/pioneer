@@ -3,7 +3,6 @@
 
 #include "Player.h"
 
-#include "FixedGuns.h"
 #include "Frame.h"
 #include "Game.h"
 #include "GameConfig.h"
@@ -32,7 +31,6 @@ Player::Player(const ShipType::Id &shipId) :
 {
 	SetController(new PlayerShipController());
 	InitCockpit();
-	m_fixedGuns->SetShouldUseLeadCalc(true);
 	m_atmosAccel = vector3d(0.0f, 0.0f, 0.0f);
 }
 
@@ -40,7 +38,6 @@ Player::Player(const Json &jsonObj, Space *space) :
 	Ship(jsonObj, space)
 {
 	InitCockpit();
-	m_fixedGuns->SetShouldUseLeadCalc(true);
 }
 
 void Player::SetShipType(const ShipType::Id &shipId)
@@ -279,10 +276,6 @@ void Player::OnCockpitActivated()
 void Player::StaticUpdate(const float timeStep)
 {
 	Ship::StaticUpdate(timeStep);
-
-	for (size_t i = 0; i < GUNMOUNT_MAX; i++)
-		if (m_fixedGuns->IsGunMounted(i))
-			m_fixedGuns->UpdateLead(timeStep, i, this, GetCombatTarget());
 
 	// now insert the latest value
 	vector3d current_atmosAccel = GetAtmosForce() * (1.0 / GetMass());

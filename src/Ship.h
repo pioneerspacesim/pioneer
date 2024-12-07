@@ -13,7 +13,6 @@
 #include "scenegraph/ModelSkin.h"
 #include "sound/Sound.h"
 
-#include "FixedGuns.h"
 #include "ship/Propulsion.h"
 
 class AICommand;
@@ -27,6 +26,7 @@ class Planet;
 class Sensors;
 class ShipController;
 class Space;
+class GunManager;
 
 struct CollisionContact;
 struct HeatGradientParameters_t;
@@ -96,12 +96,11 @@ public:
 	void UpdateLuaStats();
 	void UpdateEquipStats();
 	void UpdateFuelStats();
-	void UpdateGunsStats();
 	const shipstats_t &GetStats() const { return m_stats; }
 
 	void Explode();
 	virtual bool DoDamage(float kgDamage); // can be overloaded in Player to add audio
-	void SetGunState(int idx, int state);
+	[[deprecated]] void SetGunState(int idx, int state);
 	void UpdateMass();
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	virtual bool ManualDocking() const { return false; }
@@ -273,7 +272,7 @@ protected:
 	} m_hyperspace;
 
 	Propulsion *m_propulsion;
-	FixedGuns *m_fixedGuns;
+	GunManager *m_gunManager;
 	Shields *m_shields;
 
 private:

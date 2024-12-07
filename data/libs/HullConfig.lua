@@ -27,6 +27,7 @@ Slot.hardpoint = false
 Slot.i18n_key = nil ---@type string?
 Slot.i18n_res = "equipment-core"
 Slot.count = nil ---@type integer?
+Slot.gimbal = nil ---@type table?
 
 -- Class: HullConfig
 --

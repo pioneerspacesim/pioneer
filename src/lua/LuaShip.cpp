@@ -17,6 +17,7 @@
 #include "ShipType.h"
 #include "Space.h"
 #include "SpaceStation.h"
+#include "ship/GunManager.h"
 #include "ship/PlayerShipController.h"
 #include "ship/PrecalcPath.h"
 #include "lua.h"
@@ -1147,7 +1148,7 @@ static int l_ship_get_gun_temperature(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	int gun = luaL_checkinteger(l, 2);
-	LuaPush(l, s->GetComponent<FixedGuns>()->GetGunTemperature(gun));
+	LuaPush(l, s->GetComponent<GunManager>()->GetGroupTemperatureState(gun));
 	return 1;
 }
 

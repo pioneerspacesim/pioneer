@@ -19,5 +19,9 @@ struct ConnectionTicket {
 		m_connection = c;
 	}
 
+	void disconnect() {
+		m_connection.disconnect();
+	}
+
 	sigc::connection m_connection;
 };

@@ -5,6 +5,7 @@
 #define _LUAPUSHPULL_H
 
 #include "Lua.h"
+#include "core/StringName.h"
 #include <lua.hpp>
 
 #include <cstddef>
@@ -25,6 +26,10 @@ inline void pi_lua_generic_push(lua_State *l, uint64_t value) { lua_pushinteger(
 inline void pi_lua_generic_push(lua_State *l, double value) { lua_pushnumber(l, value); }
 inline void pi_lua_generic_push(lua_State *l, const char *value) { lua_pushstring(l, value); }
 inline void pi_lua_generic_push(lua_State *l, const std::string &value)
+{
+	lua_pushlstring(l, value.c_str(), value.size());
+}
+inline void pi_lua_generic_push(lua_State *l, const StringName &value)
 {
 	lua_pushlstring(l, value.c_str(), value.size());
 }
@@ -63,6 +68,12 @@ inline void pi_lua_generic_pull(lua_State *l, int index, std::string &out)
 	size_t len;
 	const char *buf = luaL_checklstring(l, index, &len);
 	std::string(buf, len).swap(out);
+}
+inline void pi_lua_generic_pull(lua_State *l, int index, StringName &out)
+{
+	size_t len;
+	const char *buf = luaL_checklstring(l, index, &len);
+	out = StringName(std::string_view(buf, len));
 }
 // the returned string view is only valid until the lua object is removed from the stack
 inline void pi_lua_generic_pull(lua_State *l, int index, std::string_view &out)
