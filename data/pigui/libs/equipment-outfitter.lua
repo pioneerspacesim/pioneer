@@ -102,7 +102,6 @@ EquipCardAvailable.tooltipStats = false
 ---@field outOfStock boolean
 ---@field available boolean
 ---@field price number
----@field count number
 ---@field techLevel number
 
 ---@class UI.EquipmentOutfitter.EquipCard : UI.EquipCard
