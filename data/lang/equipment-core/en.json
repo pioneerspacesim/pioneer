@@ -187,6 +187,10 @@
     "description": "Name for the 'Fuel Scoop' equipment hardpoint",
     "message": "Fuel Scoop"
   },
+  "HARDPOINT_MINING_LASER": {
+    "description": "Name for a mining laser mount.",
+    "message": "Mining Hardpoint"
+  },
   "HARDPOINT_MISSILE": {
     "description": "Name for a generic missile mount",
     "message": "Missile"
@@ -199,9 +203,33 @@
     "description": "Name for the 'Missile Bay' equipment hardpoint",
     "message": "Missile Bay"
   },
+  "HARDPOINT_MISSILE_BAY_LEFT": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "Left Missile Bay"
+  },
+  "HARDPOINT_MISSILE_BAY_RIGHT": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "Right Missile Bay"
+  },
   "HARDPOINT_PYLON": {
     "description": "Name for a generic missile pylon",
     "message": "Pylon"
+  },
+  "HARDPOINT_PYLON_LEFT": {
+    "description": "Name for a generic missile pylon",
+    "message": "Left Pylon"
+  },
+  "HARDPOINT_PYLON_LEFT_WING": {
+    "description": "Name for a generic missile pylon",
+    "message": "Left Wing Pylon"
+  },
+  "HARDPOINT_PYLON_RIGHT": {
+    "description": "Name for a generic missile pylon",
+    "message": "Right Pylon"
+  },
+  "HARDPOINT_PYLON_RIGHT_WING": {
+    "description": "Name for a generic missile pylon",
+    "message": "Right Wing Pylon"
   },
   "HARDPOINT_UTILITY": {
     "description": "Name for a generic utility hardpoint",
@@ -211,6 +239,14 @@
     "description": "Name for a generic weapon hardpoint",
     "message": "Weapon"
   },
+  "HARDPOINT_WEAPON_LEFT": {
+    "description": "Name for a generic weapon hardpoint",
+    "message": "Left Weapon"
+  },
+  "HARDPOINT_WEAPON_RIGHT": {
+    "description": "Name for a generic weapon hardpoint",
+    "message": "Right Weapon"
+  },
   "HARDPOINT_WEAPON_CHIN": {
     "description": "Name for the 'Chin Mount' equipment hardpoint",
     "message": "Chin Mount"
@@ -218,6 +254,14 @@
   "HARDPOINT_WEAPON_FRONT": {
     "description": "Name for a generic front-facing weapon hardpoint",
     "message": "Front Weapon"
+  },
+  "HARDPOINT_WEAPON_FRONT_LEFT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "Front Left Weapon"
+  },
+  "HARDPOINT_WEAPON_FRONT_RIGHT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "Front Right Weapon"
   },
   "HARDPOINT_WEAPON_LEFT_NOSE": {
     "description": "Name for the 'Left Nose' weapon hardpoint",
