@@ -318,6 +318,22 @@ Equipment.Register("misc.fuel_scoop_s3", EquipType.New {
 	icon_name="equip_fuel_scoop"
 })
 
+Equipment.Register("misc.fuel_scoop_s4", EquipType.New {
+	l10n_key="FUEL_SCOOP",
+	price=14500, purchasable=true, tech_level=9,
+	slot = { type="fuel_scoop", size=4, hardpoint=true },
+	mass=22, volume=16, capabilities={ fuel_scoop=7 },
+	icon_name="equip_fuel_scoop"
+})
+
+Equipment.Register("misc.fuel_scoop_s5", EquipType.New {
+	l10n_key="FUEL_SCOOP",
+	price=21500, purchasable=true, tech_level=12,
+	slot = { type="fuel_scoop", size=5, hardpoint=true },
+	mass=30, volume=22, capabilities={ fuel_scoop=9 },
+	icon_name="equip_fuel_scoop"
+})
+
 Equipment.Register("misc.cargo_scoop", EquipType.New {
 	l10n_key="CARGO_SCOOP",
 	price=3900, purchasable=true, tech_level=5,
