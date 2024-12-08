@@ -546,14 +546,14 @@ function ShipEquip:getHyperDriveClass()
 	return 0
 end
 
+-- returns 0..3 representing default to naval
 function ShipEquip:getThrusterUpgradeLevel()
-	-- FIXME: convert to new equipment APIs
-	-- for _, eq_entry in pairs(self.value.misc) do
-	-- 	local eq = Equipment.misc[eq_entry.id]
-	-- 	if eq.capabilities.thruster_power then
-	-- 		return eq.capabilities.thruster_power
-	-- 	end
-	-- end
+	for _, eq_entry in pairs(self.value.misc) do
+		local eq = Equipment.misc[eq_entry.id]
+		if eq.capabilities.thruster_power then
+			return eq.capabilities.thruster_power
+		end
+	end
 	return 0
 end
 
