@@ -201,11 +201,11 @@
   },
   "HARDPOINT_MISSILE_BAY_LEFT": {
     "description": "Name for the 'Missile Bay' equipment hardpoint",
-    "message": "Missile Bay Left"
+    "message": "Left Missile Bay"
   },
   "HARDPOINT_MISSILE_BAY_RIGHT": {
     "description": "Name for the 'Missile Bay' equipment hardpoint",
-    "message": "Missile Bay Right"
+    "message": "Right Missile Bay"
   },
   "HARDPOINT_PYLON": {
     "description": "Name for a generic missile pylon",
