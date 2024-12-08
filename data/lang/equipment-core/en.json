@@ -827,7 +827,7 @@
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",
-    "message": "Required for transport of a single passenger"
+    "message": "Required for transporting passengers"
   },
   "UTILITY": {
     "description": "Category name of utility equipment",
