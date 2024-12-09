@@ -355,73 +355,73 @@
   },
 
   "MISSILE_RACK_221": {
-    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
-    "message": "LH-120 Hydri Missile Rack"
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
+    "message": "Hydra LH-120 Missile Rack"
   },
   "MISSILE_RACK_221_DESCRIPTION": {
     "description": "Equipment tooltip",
     "message": "External missile rack with a capacity of 2 small missiles."
   },
   "MISSILE_RACK_221_FLAVOURTEXT": {
-    "description": "Equipment description",
-    "message": "This quality missile rack from Hydri allows you to carry more bangs per hardpoint, essential for taking on those pesky pirates."
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "This quality missile rack from Hydri Defense allows you to carry more bangs per hardpoint, essential for taking on those pesky pirates."
   },
 
   "MISSILE_RACK_322": {
-    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
-    "message": "LH-220 Hydri Missile Rack"
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
+    "message": "Hydra LH-220 Missile Rack"
   },
   "MISSILE_RACK_322_DESCRIPTION": {
     "description": "Equipment tooltip",
     "message": "External missile rack with a capacity of 2 medium missiles."
   },
   "MISSILE_RACK_322_FLAVOURTEXT": {
-    "description": "Equipment description",
-    "message": "A larger missile rack for the discerning Hydri customer. Bigger bangs for your bucks!"
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "A missile rack for the more discerning Hydri Defense customer. Bigger bangs for your bucks!"
   },
 
   "MISSILE_RACK_341": {
-    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
-    "message": "LH-140 Hydri Missile Rack"
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "Medusa LH-140 Missile Rack"
   },
   "MISSILE_RACK_341_DESCRIPTION": {
     "description": "Equipment tooltip",
     "message": "External missile rack with a capacity of 4 small missiles."
   },
   "MISSILE_RACK_341_FLAVOURTEXT": {
-    "description": "Equipment description",
-    "message": "This one is a real beauty, coming straight to you from the R&D labs at Hydri. We've squeezed even more missiles into this rack to allow you to really make some fireworks!"
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "This one is a real beauty, coming straight to you from the R&D labs at Hydri Defense. We've squeezed even more missiles into this rack to allow you to really make some fireworks!"
   },
 
   "MISSILE_RACK_442": {
-    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
-    "message": "LH-240 Hydri Missile Rack"
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "Medusa LH-240 Missile Rack"
   },
   "MISSILE_RACK_442_DESCRIPTION": {
     "description": "Equipment tooltip",
     "message": "External missile rack with a capacity of 4 medium missiles."
   },
   "MISSILE_RACK_442_FLAVOURTEXT": {
-    "description": "Equipment description",
-    "message": "Ready to take on the big league? With this big rack from Hydri, you'll always be fully loaded to unleash fiery destruction."
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Ready to take on the big league? With this big rack from Hydri Defense, you'll always be fully loaded to unleash fiery destruction."
   },
 
   "MISSILE_RACK_423": {
-    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
-    "message": "LH-320 Hydri Missile Rack"
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
+    "message": "Hydra LH-320 Missile Rack"
   },
   "MISSILE_RACK_423_DESCRIPTION": {
     "description": "Equipment tooltip",
     "message": "External missile rack with a capacity of 2 large missiles."
   },
   "MISSILE_RACK_423_FLAVOURTEXT": {
-    "description": "Equipment description",
-    "message": "Make sure to keep your distance after firing! Hydri has packed 2 large missiles into this rack for some truly spectacular booms."
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Make sure to keep your distance after firing! Hydri Defense has packed 2 large missiles into this rack for some truly spectacular booms."
   },
 
   "MISSILE_RACK_524": {
-    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
-    "message": "LH-420 Hydri Missile Rack"
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
+    "message": "Hydra LH-420 Missile Rack"
   },
   "MISSILE_RACK_524_DESCRIPTION": {
     "description": "Equipment tooltip",
@@ -433,20 +433,20 @@
   },
 
   "MISSILE_RACK_543": {
-    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
-    "message": "LH-340 Hydri Missile Rack"
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "Medusa LH-340 Missile Rack"
   },
   "MISSILE_RACK_543_DESCRIPTION": {
     "description": "Equipment tooltip",
     "message": "External missile rack with a capacity of 4 large missiles."
   },
   "MISSILE_RACK_543_FLAVOURTEXT": {
-    "description": "Equipment description",
-    "message": "First Hydri brought you the awesome LH-320, now we've doubled its capacity! Go ahead, and make your mark on any system that dares to defy your might."
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "First Hydri Defense brought you the awesome LH-320, now we've doubled its capacity! Go ahead, and make your mark on any system that dares to defy your might."
   },
 
   "MISSILE_RAIL_S1": {
-    "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
     "message": "Cnida-101 Missile Rail"
   },
   "MISSILE_RAIL_S1_DESCRIPTION": {
@@ -454,12 +454,12 @@
     "message": "External launcher for a single small missile."
   },
   "MISSILE_RAIL_S1_FLAVOURTEXT": {
-    "description": "Equipment description",
-    "message": "A quality external missile rail for S1 missiles of all types, brought to you by Cnida."
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Hydri Defense's entry point rail, this is a quality piece of equipment for all S1 missiles adhering to ISAAEEE standards."
   },
 
   "MISSILE_RAIL_S2": {
-    "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
     "message": "Cnida-102 Missile Rail"
   },
   "MISSILE_RAIL_S2_DESCRIPTION": {
@@ -467,12 +467,12 @@
     "message": "External launcher for a single medium missile."
   },
   "MISSILE_RAIL_S2_FLAVOURTEXT": {
-    "description": "Equipment description",
-    "message": "A quality external missile rail for S2 missiles of all types, brought to you by Cnida."
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "A quality missile rail from Hydri Defense, this provides a secure mounting point for S2 class missiles."
   },
 
   "MISSILE_RAIL_S3": {
-    "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
     "message": "Cnida-103 Missile Rail"
   },
   "MISSILE_RAIL_S3_DESCRIPTION": {
@@ -480,12 +480,12 @@
     "message": "External launcher for a single large missile."
   },
   "MISSILE_RAIL_S3_FLAVOURTEXT": {
-    "description": "Equipment description",
-    "message": "A quality external missile rail for S3 missiles of all types, brought to you by Cnida."
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "A quality missile rail from Hydri Defense, this provides a secure mounting point for S3 class missiles."
   },
 
   "MISSILE_RAIL_S4": {
-    "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
     "message": "Cnida-104 Missile Rail"
   },
   "MISSILE_RAIL_S4_DESCRIPTION": {
@@ -493,8 +493,8 @@
     "message": "External launcher for a single huge missile."
   },
   "MISSILE_RAIL_S4_FLAVOURTEXT": {
-    "description": "Equipment description",
-    "message": "A quality external missile rail for S4 missiles of all types, brought to you by Cnida."
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "A quality missile rail from Hydri Defense, this provides a secure mounting point for S4 class missiles."
   },
 
   "MISSILE_SMART": {
@@ -507,7 +507,7 @@
   },
   "MISSILE_SMART_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "A smart rocket capable of tracking down your target using an advanced AI module."
+    "message": "A smart rocket capable of tracking down your target using an advanced advanced sensors with an integrated AI module. Make sure not to call it HAL and we're sure it will home in on your intended target, and not you.."
   },
 
   "MISSILE_UNGUIDED": {
