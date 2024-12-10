@@ -90,6 +90,31 @@
  * Status:
  *
  *   stable
+ *
+ *
+ * Method: ApplyAt
+ *
+ * Apply a function to the object at a given in-game time.
+ *
+ * > object:ApplyAt(gametime, function)
+ *
+ * Time acceleration may cause the function to be applied long after the
+ * desired time has passed. This method isn't called if the object
+ * doesn't exist anymore.
+ *
+ * Parameters:
+ *
+ *   time - the absolute game time to apply the function at. This will usually
+ *          be created by adding some small amount to <Game.time>.
+ *   function - the function to apply. Takes one parameter (the object) and returns nothing
+ *
+ * Example:
+ *
+ * > ship:ApplyAt(Game.time + 5, function(s) s:Explode())
+ *
+ * Status:
+ *
+ *   stable
  */
 
 static std::map<std::string, std::map<std::string, PromotionTest>> promotions;
