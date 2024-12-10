@@ -38,6 +38,7 @@ private:
 	double m_atmosphereRadius;
 	double m_surfaceGravity_g;
 	RefCountedPtr<Graphics::Texture> m_ringTexture;
+	RefCountedPtr<Graphics::Texture> m_ringNoiseTexture;
 	std::unique_ptr<Graphics::Material> m_ringMaterial;
 	std::unique_ptr<Graphics::MeshObject> m_ringMesh;
 };
