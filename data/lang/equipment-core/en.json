@@ -511,7 +511,7 @@
   },
   "MISSILE_SMART_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "A smart rocket capable of tracking down your target using an advanced advanced sensors with an integrated AI module. Make sure not to call it HAL and we're sure it will home in on your intended target, and not you.."
+    "message": "A smart rocket capable of tracking down your target using an advanced sensor suite with an integrated AI module. Make sure not to call it HAL and we're sure it will home in on your intended target, and not you.."
   },
 
   "MISSILE_UNGUIDED": {
