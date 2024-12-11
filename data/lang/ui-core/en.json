@@ -1831,6 +1831,10 @@
     "description": "Ship jump status",
     "message": "Out of range"
   },
+  "OUT_OF_STOCK": {
+    "description": "Equipment availability",
+    "message": "Out of stock"
+  },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
     "message": "Filter overview window entries by name"

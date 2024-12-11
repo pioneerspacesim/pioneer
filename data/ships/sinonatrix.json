@@ -103,7 +103,8 @@
 		},
 		"fuel_scoop_s1": {
 			"type": "fuel_scoop",
-			"size": 1
+			"size": 1,
+			"hardpoint": true
 		},
 		"cabin_s1_1": {
 			"type": "cabin",
