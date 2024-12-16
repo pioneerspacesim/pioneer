@@ -18,11 +18,11 @@ public:
 	virtual ~Missile();
 	void StaticUpdate(const float timeStep) override;
 	void TimeStepUpdate(const float timeStep) override;
-	virtual bool OnCollision(Body *o, Uint32 flags, double relVel) override;
-	virtual bool OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData) override;
-	virtual void NotifyRemoved(const Body *const removedBody) override;
-	virtual void PostLoadFixup(Space *space) override;
-	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
+	bool OnCollision(Body *o, Uint32 flags, double relVel) override;
+	bool OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData) override;
+	void NotifyRemoved(const Body *const removedBody) override;
+	void PostLoadFixup(Space *space) override;
+	void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 	void ECMAttack(int power_val);
 
 	Body *GetOwner() const { return m_owner; }
@@ -34,7 +34,7 @@ public:
 	void AIKamikaze(Body *target);
 
 protected:
-	virtual void SaveToJson(Json &jsonObj, Space *space) override;
+	void SaveToJson(Json &jsonObj, Space *space) override;
 
 private:
 	void Explode();

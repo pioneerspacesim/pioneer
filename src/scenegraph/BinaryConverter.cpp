@@ -37,12 +37,12 @@ public:
 		db.model = m;
 	}
 
-	virtual void ApplyNode(Node &n) override
+	void ApplyNode(Node &n) override
 	{
 		n.Save(db);
 	}
 
-	virtual void ApplyGroup(Group &g) override
+	void ApplyGroup(Group &g) override
 	{
 		ApplyNode(static_cast<Node &>(g));
 		db.wr->Int32(g.GetNumChildren());

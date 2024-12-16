@@ -22,7 +22,7 @@ public:
 	Planet(SystemBody *);
 	Planet(const Json &jsonObj, Space *space);
 
-	virtual void SubRender(Graphics::Renderer *r, const matrix4x4d &viewTran, const vector3d &camPos) override;
+	void SubRender(Graphics::Renderer *r, const matrix4x4d &viewTran, const vector3d &camPos) override;
 
 	void GetAtmosphericState(double dist, double *outPressure, double *outDensity) const;
 	double GetAtmosphereRadius() const { return m_atmosphereRadius; }
