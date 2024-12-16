@@ -22,20 +22,20 @@ namespace Graphics {
 				rsd(rsd) {}
 			// Create an appropriate program for this material.
 			virtual Program *CreateProgram(const MaterialDescriptor &) { return nullptr; }
-			virtual bool IsProgramLoaded() const override final { return false; }
+			bool IsProgramLoaded() const final { return false; }
 			virtual void SetProgram(Program *p) {}
 
-			virtual bool SetTexture(size_t name, Texture *tex) override { return false; }
-			virtual bool SetBuffer(size_t name, BufferBinding<UniformBuffer>) override { return false; }
-			virtual bool SetBufferDynamic(size_t name, void *data, size_t size) override { return false; }
+			bool SetTexture(size_t name, Texture *tex) override { return false; }
+			bool SetBuffer(size_t name, BufferBinding<Graphics::UniformBuffer>) override { return false; }
+			bool SetBufferDynamic(size_t name, void *data, size_t size) override { return false; }
 
-			virtual bool SetPushConstant(size_t name, int i) override { return false; }
-			virtual bool SetPushConstant(size_t name, float f) override { return false; }
-			virtual bool SetPushConstant(size_t name, vector3f v3) override { return false; }
-			virtual bool SetPushConstant(size_t name, vector3f v4, float f4) override { return false; }
-			virtual bool SetPushConstant(size_t name, Color c) override { return false; }
-			virtual bool SetPushConstant(size_t name, matrix3x3f mat3) override { return false; }
-			virtual bool SetPushConstant(size_t name, matrix4x4f mat4) override { return false; }
+			bool SetPushConstant(size_t name, int i) override { return false; }
+			bool SetPushConstant(size_t name, float f) override { return false; }
+			bool SetPushConstant(size_t name, vector3f v3) override { return false; }
+			bool SetPushConstant(size_t name, vector3f v4, float f4) override { return false; }
+			bool SetPushConstant(size_t name, Color c) override { return false; }
+			bool SetPushConstant(size_t name, matrix3x3f mat3) override { return false; }
+			bool SetPushConstant(size_t name, matrix4x4f mat4) override { return false; }
 
 			RenderStateDesc rsd; // here to ensure validation works correctly
 		};

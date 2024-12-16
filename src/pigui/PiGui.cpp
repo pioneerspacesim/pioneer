@@ -50,7 +50,7 @@ public:
 	{
 	}
 
-	virtual void OnExecute(TaskRange range) override
+	void OnExecute(TaskRange range) override
 	{
 		PROFILE_SCOPED()
 
@@ -96,7 +96,7 @@ public:
 		return true;
 	}
 
-	virtual void OnExecute(TaskRange range) override
+	void OnExecute(TaskRange range) override
 	{
 		PROFILE_SCOPED()
 
@@ -132,7 +132,7 @@ public:
 		}
 	}
 
-	virtual void OnComplete() override
+	void OnComplete() override
 	{
 		if (imageData)
 			delete[] imageData;

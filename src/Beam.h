@@ -32,17 +32,17 @@ public:
 	Beam(Body *parent, const ProjectileData &prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dir);
 	Beam(const Json &jsonObj, Space *space);
 	virtual ~Beam();
-	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override final;
-	void TimeStepUpdate(const float timeStep) override final;
-	void StaticUpdate(const float timeStep) override final;
-	virtual void NotifyRemoved(const Body *const removedBody) override final;
-	virtual void PostLoadFixup(Space *space) override final;
-	virtual void UpdateInterpTransform(double alpha) override final;
+	void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) final;
+	void TimeStepUpdate(const float timeStep) final;
+	void StaticUpdate(const float timeStep) final;
+	void NotifyRemoved(const Body *const removedBody) final;
+	void PostLoadFixup(Space *space) final;
+	void UpdateInterpTransform(double alpha) final;
 
 	static void FreeModel();
 
 protected:
-	virtual void SaveToJson(Json &jsonObj, Space *space) override final;
+	virtual void SaveToJson(Json &jsonObj, Space *space) final;
 
 private:
 	float GetDamage() const;

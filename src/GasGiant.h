@@ -35,15 +35,15 @@ public:
 	GasGiant(const SystemBody *body);
 	virtual ~GasGiant();
 
-	virtual void Update() override;
-	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) override;
+	void Update() override;
+	void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) override;
 
-	virtual double GetHeight(const vector3d &p) const override final { return 0.0; }
+	double GetHeight(const vector3d &p) const final { return 0.0; }
 
 	// in sbody radii
-	virtual double GetMaxFeatureHeight() const override { return 0.0; }
+	double GetMaxFeatureHeight() const override { return 0.0; }
 
-	virtual void Reset() override;
+	void Reset() override;
 
 	static bool OnAddTextureFaceResult(const SystemPath &path, GasGiantJobs::STextureFaceResult *res);
 	static bool OnAddGPUGenResult(const SystemPath &path, GasGiantJobs::SGPUGenResult *res);
@@ -71,7 +71,7 @@ private:
 	bool m_hasTempCampos;
 	vector3d m_tempCampos;
 
-	virtual void SetUpMaterials() override;
+	void SetUpMaterials() override;
 	RefCountedPtr<Graphics::Texture> m_surfaceTextureSmall;
 	RefCountedPtr<Graphics::Texture> m_surfaceTexture;
 	RefCountedPtr<Graphics::Texture> m_builtTexture;

@@ -23,10 +23,10 @@ namespace Editor
 		ViewportWindow(EditorApp *app);
 		~ViewportWindow();
 
-		virtual void OnAppearing() override;
-		virtual void OnDisappearing() override;
+		void OnAppearing() override;
+		void OnDisappearing() override;
 
-		virtual void Update(float deltaTime) override;
+		void Update(float deltaTime) override;
 
 	protected:
 

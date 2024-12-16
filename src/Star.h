@@ -24,7 +24,7 @@ public:
 	Star(const Json &jsonObj, Space *space);
 	virtual ~Star();
 
-	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
+	void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 
 protected:
 	void InitStar();

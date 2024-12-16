@@ -23,10 +23,10 @@ namespace SceneGraph {
 		Thruster(Graphics::Renderer *, bool linear, const vector3f &pos, const vector3f &dir);
 		Thruster(const Thruster &, NodeCopyCache *cache = 0);
 		Node *Clone(NodeCopyCache *cache = 0) override;
-		virtual void Accept(NodeVisitor &v) override;
-		virtual const char *GetTypeName() const override { return "Thruster"; }
-		virtual void Render(const matrix4x4f &trans, const RenderData *rd) override;
-		virtual void Save(NodeDatabase &) override;
+		void Accept(NodeVisitor &v) override;
+		const char *GetTypeName() const override { return "Thruster"; }
+		void Render(const matrix4x4f &trans, const RenderData *rd) override;
+		void Save(NodeDatabase &) override;
 		static Thruster *Load(NodeDatabase &);
 		void SetColor(const Color c) { currentColor = c; }
 		const vector3f &GetDirection() { return dir; }

@@ -563,7 +563,7 @@ namespace Sound {
 			m_isMusic(isMusic)
 		{}
 
-		virtual void OnRun() override
+		void OnRun() override
 		{
 			PROFILE_SCOPED()
 			// TODO: this is *probably* thread-safe, but FileSystem could use some further evaluation
@@ -575,7 +575,7 @@ namespace Sound {
 			}
 		}
 
-		virtual void OnFinish() override
+		void OnFinish() override
 		{
 			for (const auto &pair : m_loadedSounds) {
 				sfx_samples.emplace(std::move(pair));
