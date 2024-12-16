@@ -17,13 +17,13 @@ namespace Graphics {
 				Graphics::UniformBuffer(size, usage),
 				m_data(new uint8_t[size])
 			{}
-			virtual ~UniformBuffer() override {}
+			~UniformBuffer() override {}
 
-			virtual void Unmap() override {}
-			virtual void BufferData(const size_t, void *) override {}
+			void Unmap() override {}
+			void BufferData(const size_t, void *) override {}
 
 		private:
-			virtual void *MapInternal(BufferMapMode) override { return m_data.get(); }
+			void *MapInternal(BufferMapMode) override { return m_data.get(); }
 			std::unique_ptr<uint8_t[]> m_data;
 		};
 

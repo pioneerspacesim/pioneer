@@ -22,13 +22,13 @@ class TerrainBody : public Body {
 public:
 	OBJDEF(TerrainBody, Body, TERRAINBODY);
 
-	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
+	void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 	virtual void SubRender(Graphics::Renderer *r, const matrix4x4d &modelView, const vector3d &camPos) {}
-	virtual void SetFrame(FrameId fId) override;
+	void SetFrame(FrameId fId) override;
 	virtual bool OnCollision(Body *b, Uint32 flags, double relVel) override { return true; }
-	virtual double GetMass() const override { return m_mass; }
+	double GetMass() const override { return m_mass; }
 	double GetTerrainHeight(const vector3d &pos) const;
-	virtual const SystemBody *GetSystemBody() const override { return m_sbody; }
+	const SystemBody *GetSystemBody() const override { return m_sbody; }
 
 	// returns value in metres
 	double GetMaxFeatureRadius() const { return m_maxFeatureHeight; }
@@ -44,7 +44,7 @@ protected:
 
 	void InitTerrainBody();
 
-	virtual void SaveToJson(Json &jsonObj, Space *space) override;
+	void SaveToJson(Json &jsonObj, Space *space) override;
 
 private:
 	const SystemBody *m_sbody;

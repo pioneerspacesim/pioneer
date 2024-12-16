@@ -55,8 +55,8 @@ namespace {
 			prefix(prefix)
 		{}
 
-		virtual void OnRun() override;
-		virtual void OnFinish() override
+		void OnRun() override;
+		void OnFinish() override
 		{
 			for (auto &part : cache)
 				output.push_back(std::move(part));
@@ -73,7 +73,7 @@ namespace {
 
 	struct ScanGenderedPartJob : public ScanPartJob {
 		using ScanPartJob::ScanPartJob;
-		virtual void OnRun() override;
+		void OnRun() override;
 	};
 
 	class PartDb {

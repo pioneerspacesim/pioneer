@@ -133,9 +133,9 @@ public:
 	SyncJobQueue() = default;
 	virtual ~SyncJobQueue();
 
-	virtual Job::Handle Queue(Job *job, JobClient *client = nullptr) override;
-	virtual void Cancel(Job *job) override;
-	virtual Uint32 FinishJobs() override;
+	Job::Handle Queue(Job *job, JobClient *client = nullptr) override;
+	void Cancel(Job *job) override;
+	Uint32 FinishJobs() override;
 
 	Uint32 RunJobs(Uint32 count = 1);
 

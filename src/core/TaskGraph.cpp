@@ -28,9 +28,9 @@ public:
 	TaskGraphJobQueueImpl(TaskGraph *graph) :
 		m_graph(graph) {}
 
-	virtual Job::Handle Queue(Job *job, JobClient *client) override;
-	virtual void Cancel(Job *job) override;
-	virtual Uint32 FinishJobs() override;
+	Job::Handle Queue(Job *job, JobClient *client) override;
+	void Cancel(Job *job) override;
+	Uint32 FinishJobs() override;
 
 	TaskGraph *m_graph;
 };

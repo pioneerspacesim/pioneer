@@ -172,7 +172,7 @@ namespace Graphics {
 		bool SetBufferDynamic(size_t hash, T *buffer) { return SetBufferDynamic(hash, static_cast<void *>(buffer), sizeof(T)); }
 
 		// Set the given buffer object with an externally-managed uniform buffer.
-		virtual bool SetBuffer(size_t hash, BufferBinding<UniformBuffer> uboBinding) = 0;
+		virtual bool SetBuffer(size_t hash, BufferBinding<Graphics::UniformBuffer> uboBinding) = 0;
 
 		virtual bool SetPushConstant(size_t hash, int i) = 0;
 		virtual bool SetPushConstant(size_t hash, float f) = 0;

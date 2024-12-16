@@ -19,21 +19,21 @@ namespace Graphics {
 			VertexBuffer(const VertexBufferDesc &, size_t stateHash);
 			~VertexBuffer();
 
-			virtual void Unmap() override;
+			void Unmap() override;
 
 			// copies the contents of the VertexArray into the buffer
-			virtual bool Populate(const VertexArray &) override;
+			bool Populate(const VertexArray &) override;
 
 			// change the buffer data without mapping
-			virtual void BufferData(const size_t, void *) override final;
+			void BufferData(const size_t, void *) final;
 
-			virtual void Bind() override final;
-			virtual void Release() override final;
+			void Bind() final;
+			void Release() final;
 
 			size_t GetVertexFormatHash() const { return m_vertexStateHash; }
 
 		protected:
-			virtual Uint8 *MapInternal(BufferMapMode) override;
+			Uint8 *MapInternal(BufferMapMode) override;
 			Uint8 *m_data;
 			size_t m_vertexStateHash;
 		};
@@ -42,7 +42,7 @@ namespace Graphics {
 		public:
 			CachedVertexBuffer(const VertexBufferDesc &, size_t stateHash);
 
-			virtual bool Populate(const VertexArray &) override final;
+			bool Populate(const VertexArray &) final;
 			uint32_t GetOffset() { return m_size * m_desc.stride; }
 
 			bool Flush();
@@ -62,15 +62,15 @@ namespace Graphics {
 			IndexBuffer(Uint32 size, BufferUsage, IndexBufferSize);
 			~IndexBuffer();
 
-			virtual Uint32 *Map(BufferMapMode) override final;
-			virtual Uint16 *Map16(BufferMapMode) override final;
-			virtual void Unmap() override final;
+			Uint32 *Map(BufferMapMode) final;
+			Uint16 *Map16(BufferMapMode) final;
+			void Unmap() final;
 
 			// change the buffer data without mapping
-			virtual void BufferData(const size_t, void *) override final;
+			void BufferData(const size_t, void *) final;
 
-			virtual void Bind() override final;
-			virtual void Release() override final;
+			void Bind() final;
+			void Release() final;
 
 		private:
 			Uint32 *m_data;
@@ -81,12 +81,12 @@ namespace Graphics {
 		class InstanceBuffer final : public Graphics::InstanceBuffer, public GLBufferBase {
 		public:
 			InstanceBuffer(Uint32 size, BufferUsage);
-			virtual ~InstanceBuffer() override final;
-			virtual matrix4x4f *Map(BufferMapMode) override final;
-			virtual void Unmap() override final;
+			~InstanceBuffer() final;
+			matrix4x4f *Map(BufferMapMode) final;
+			void Unmap() final;
 
-			virtual void Bind() override final;
-			virtual void Release() override final;
+			void Bind() final;
+			void Release() final;
 
 			enum InstOffs {
 				INSTOFFS_MAT0 = 6, // these value must match those of a_transform within data/shaders/opengl/attributes.glsl

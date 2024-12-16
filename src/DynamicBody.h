@@ -21,19 +21,19 @@ public:
 	DynamicBody(const Json &jsonObj, Space *space);
 	virtual ~DynamicBody();
 
-	virtual vector3d GetVelocity() const override;
-	virtual void SetVelocity(const vector3d &v) override;
-	virtual void SetFrame(FrameId fId) override;
+	vector3d GetVelocity() const override;
+	void SetVelocity(const vector3d &v) override;
+	void SetFrame(FrameId fId) override;
 	vector3d GetAngVelocity() const override;
 	void SetAngVelocity(const vector3d &v) override;
-	virtual bool OnCollision(Body *o, Uint32 flags, double relVel) override;
+	bool OnCollision(Body *o, Uint32 flags, double relVel) override;
 	vector3d GetAngularMomentum() const;
 	double GetAngularInertia() const { return m_angInertia; }
 	void SetMassDistributionFromModel();
 	void SetMoving(bool isMoving);
 	bool IsMoving() const { return m_isMoving; }
-	virtual double GetMass() const override { return m_mass; } // XXX don't override this
-	virtual void TimeStepUpdate(const float timeStep) override;
+	double GetMass() const final { return m_mass; } // XXX don't override this
+	void TimeStepUpdate(const float timeStep) override;
 	double CalcAtmosphericDrag(double velSqr, double area, double coeff) const;
 	void CalcExternalForce();
 
@@ -50,9 +50,9 @@ public:
 	vector3d GetExternalForce() const { return m_externalForce; }
 	vector3d GetAtmosForce() const { return m_atmosForce; }
 	vector3d GetGravityForce() const { return m_gravityForce; }
-	virtual void UpdateInterpTransform(double alpha) override;
+	void UpdateInterpTransform(double alpha) override;
 
-	virtual void PostLoadFixup(Space *space) override;
+	void PostLoadFixup(Space *space) override;
 
 	Orbit ComputeOrbit() const;
 
@@ -78,7 +78,7 @@ public:
 	void SetDecelerating(bool decel) { m_decelerating = decel; }
 
 protected:
-	virtual void SaveToJson(Json &jsonObj, Space *space) override;
+	void SaveToJson(Json &jsonObj, Space *space) override;
 
 	void GetCurrentAtmosphericState(double &pressure, double &density) const;
 

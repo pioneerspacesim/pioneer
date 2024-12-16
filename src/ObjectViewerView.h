@@ -13,13 +13,13 @@ class SystemBody;
 class ObjectViewerView : public View {
 public:
 	ObjectViewerView();
-	virtual void Update() override;
-	virtual void Draw3D() override;
+	void Update() override;
+	void Draw3D() override;
 
 protected:
-	virtual void OnSwitchTo() override;
+	void OnSwitchTo() override;
 
-	virtual void DrawPiGui() override;
+	void DrawPiGui() override;
 
 private:
 	void ReloadState();

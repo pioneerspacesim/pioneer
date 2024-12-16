@@ -28,11 +28,11 @@ namespace Graphics {
 			};
 
 			~RenderTarget();
-			virtual Texture *GetColorTexture() const override final;
-			virtual Texture *GetDepthTexture() const override final;
-			virtual void SetCubeFaceTexture(const Uint32 face, Texture *t) override final;
-			virtual void SetColorTexture(Texture *) override final;
-			virtual void SetDepthTexture(Texture *) override final;
+			Texture *GetColorTexture() const final;
+			Texture *GetDepthTexture() const final;
+			void SetCubeFaceTexture(const Uint32 face, Texture *t) final;
+			void SetColorTexture(Texture *) final;
+			void SetDepthTexture(Texture *) final;
 
 		protected:
 			friend class Graphics::RendererOGL;

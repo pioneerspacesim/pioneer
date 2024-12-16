@@ -150,10 +150,10 @@ public:
 	const char *GetName() const override { return Lang::EXTERNAL_VIEW; }
 	bool IsExternal() const override { return true; }
 
-	virtual void PitchCamera(float amount) override { m_rotX += amount; }
-	virtual void YawCamera(float amount) override { m_rotY += amount; }
+	void PitchCamera(float amount) override { m_rotX += amount; }
+	void YawCamera(float amount) override { m_rotY += amount; }
 
-	virtual void SetRotationAngles(vector3f rotation) override
+	void SetRotationAngles(vector3f rotation) override
 	{
 		m_rotX = rotation.x;
 		m_rotY = rotation.y;
