@@ -20,11 +20,11 @@ namespace SceneGraph {
 		Tag(Graphics::Renderer *r, const matrix4x4f &m);
 		Tag(const Tag &, NodeCopyCache *cache = 0);
 
-		virtual Node *Clone(NodeCopyCache *cache = 0) override;
-		virtual const char *GetTypeName() const override { return "Tag"; }
-		virtual void Accept(NodeVisitor &v) override;
+		Node *Clone(NodeCopyCache *cache = 0) override;
+		const char *GetTypeName() const override { return "Tag"; }
+		void Accept(NodeVisitor &v) override;
 
-		virtual void Save(NodeDatabase &) override;
+		void Save(NodeDatabase &) override;
 		static Tag *Load(NodeDatabase &);
 
 		const matrix4x4f &GetGlobalTransform() const { return m_globalTransform; }

@@ -23,12 +23,12 @@ struct BodyComponentDB::LuaInterface final : LuaInterfaceBase {
 	{}
 	Pool<T> *pool;
 
-	virtual void PushToLua(const Body *body) override
+	void PushToLua(const Body *body) override
 	{
 		LuaObject<T>::PushComponentToLua(pool->get(body));
 	}
 
-	virtual void DeregisterComponent(const Body *body) override
+	void DeregisterComponent(const Body *body) override
 	{
 		LuaObjectBase::DeregisterObject(pool->get(body));
 	}

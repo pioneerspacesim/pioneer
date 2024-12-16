@@ -73,7 +73,7 @@ public:
 	Ship(const ShipType::Id &shipId);
 	virtual ~Ship();
 
-	virtual void SetFrame(FrameId fId) override;
+	void SetFrame(FrameId fId) override;
 
 	void SetController(ShipController *c); //deletes existing
 	ShipController *GetController() const { return m_controller; }
@@ -87,7 +87,7 @@ public:
 
 	virtual void SetLandedOn(Planet *p, float latitude, float longitude);
 
-	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
+	void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 
 	inline void ClearThrusterState()
 	{
@@ -107,16 +107,16 @@ public:
 	virtual bool ManualDocking() const { return false; }
 	void Blastoff();
 	bool Undock();
-	virtual void TimeStepUpdate(const float timeStep) override;
-	virtual void StaticUpdate(const float timeStep) override;
+	void TimeStepUpdate(const float timeStep) override;
+	void StaticUpdate(const float timeStep) override;
 
 	void TimeAccelAdjust(const float timeStep);
 
 	bool IsDecelerating() const { return m_decelerating; }
 
-	virtual void NotifyRemoved(const Body *const removedBody) override;
-	virtual bool OnCollision(Body *o, Uint32 flags, double relVel) override;
-	virtual bool OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData) override;
+	void NotifyRemoved(const Body *const removedBody) override;
+	bool OnCollision(Body *o, Uint32 flags, double relVel) override;
+	bool OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData) override;
 
 	enum FlightState { // <enum scope='Ship' name=ShipFlightState public>
 		FLYING,		   // open flight (includes autopilot)
@@ -137,7 +137,7 @@ public:
 	int GetWheelTransition() const { return m_wheelTransition; }
 	bool SpawnCargo(CargoBody *c_body) const;
 
-	virtual bool IsInSpace() const override { return (m_flightState != HYPERSPACE); }
+	bool IsInSpace() const override { return (m_flightState != HYPERSPACE); }
 
 	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
 	const SystemPath &GetHyperspaceDest() const { return m_hyperspace.dest; }
@@ -199,7 +199,7 @@ public:
 	const AICommand *GetAICommand() const { return m_curAICmd; }
 	bool IsAIAttacking(const Ship *target) const;
 
-	virtual void PostLoadFixup(Space *space) override;
+	void PostLoadFixup(Space *space) override;
 
 	const ShipType *GetShipType() const { return m_type; }
 	virtual void SetShipType(const ShipType::Id &shipId);
@@ -246,7 +246,7 @@ public:
 protected:
 	vector3d CalcAtmosphericForce() const override;
 
-	virtual void SaveToJson(Json &jsonObj, Space *space) override;
+	void SaveToJson(Json &jsonObj, Space *space) override;
 
 	bool AITimeStep(float timeStep); // Called by controller. Returns true if complete
 

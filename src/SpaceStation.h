@@ -44,18 +44,18 @@ public:
 	SpaceStation(const Json &jsonObj, Space *space);
 
 	virtual ~SpaceStation();
-	virtual vector3d GetAngVelocity() const override { return vector3d(0, m_type->AngVel(), 0); }
-	virtual bool OnCollision(Body *b, Uint32 flags, double relVel) override;
+	vector3d GetAngVelocity() const override { return vector3d(0, m_type->AngVel(), 0); }
+	bool OnCollision(Body *b, Uint32 flags, double relVel) override;
 	bool DoShipDamage(Ship *s, Uint32 flags, double relVel);
-	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
-	virtual void StaticUpdate(const float timeStep) override;
-	virtual void TimeStepUpdate(const float timeStep) override;
+	void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
+	void StaticUpdate(const float timeStep) override;
+	void TimeStepUpdate(const float timeStep) override;
 
-	virtual const SystemBody *GetSystemBody() const override { return m_sbody; }
-	virtual void PostLoadFixup(Space *space) override;
-	virtual void NotifyRemoved(const Body *const removedBody) override;
+	const SystemBody *GetSystemBody() const override { return m_sbody; }
+	void PostLoadFixup(Space *space) override;
+	void NotifyRemoved(const Body *const removedBody) override;
 
-	virtual void SetLabel(const std::string &label) override;
+	void SetLabel(const std::string &label) override;
 
 	// should call Ship::Undock and Ship::SetDockedWith instead
 	// Returns true on success, false if permission denied
@@ -80,7 +80,7 @@ public:
 	vector3d GetTargetIndicatorPosition() const override;
 
 	// need this now because stations rotate in their frame
-	virtual void UpdateInterpTransform(double alpha) override;
+	void UpdateInterpTransform(double alpha) override;
 
 	// Return true if any lightning changes were applied, only do so if body is inside
 	// or near enough to the station
@@ -88,7 +88,7 @@ public:
 
 
 protected:
-	virtual void SaveToJson(Json &jsonObj, Space *space) override;
+	void SaveToJson(Json &jsonObj, Space *space) override;
 
 private:
 	void DockingUpdate(const double timeStep);
