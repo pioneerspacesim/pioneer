@@ -31,8 +31,8 @@ namespace Graphics {
 			InitFromMatrix(m);
 		}
 
-		// test if point (sphere) is in the frustum
-		bool TestPoint(const vector3<T> &p, T radius) const
+		// test if sphere is in the frustum
+		bool TestSphere(const vector3<T> &p, T radius) const
 		{
 			for (int i = 0; i < 6; i++)
 				if (m_planes[i].DistanceToPoint(p) + radius < 0)
@@ -40,8 +40,8 @@ namespace Graphics {
 			return true;
 		}
 
-		// test if point (sphere) is in the frustum, ignoring the far plane
-		bool TestPointInfinite(const vector3<T> &p, T radius) const
+		// test if sphere is in the frustum, ignoring the far plane
+		bool TestSphereInfinite(const vector3<T> &p, T radius) const
 		{
 			// check all planes except far plane
 			for (int i = 0; i < 5; i++)
