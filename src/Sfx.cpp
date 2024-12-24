@@ -194,6 +194,8 @@ void SfxManager::Add(const Body *b, SFX_TYPE t)
 
 void SfxManager::AddExplosion(Body *b)
 {
+	if (!b) return;
+
 	SfxManager *sfxman = AllocSfxInFrame(b->GetFrame());
 	if (!sfxman) return;
 
@@ -311,7 +313,8 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId)
 vector2f SfxManager::CalculateOffset(const enum SFX_TYPE type, const Sfx &inst)
 {
 	if (m_materialData[type].effect == Graphics::EFFECT_BILLBOARD_ATLAS) {
-		const int spriteframe = inst.AgeBlend() * (m_materialData[type].num_textures - 1);
+		const Uint32 max_texture = (m_materialData[type].num_textures);
+		const int spriteframe = max_texture - (inst.AgeBlend() * max_texture); // count DOWN from the maximum texture to zero
 		const Sint32 numImgsWide = m_materialData[type].num_imgs_wide;
 		const int u = (spriteframe % numImgsWide); // % is the "modulo operator", the remainder of i / width;
 		const int v = (spriteframe / numImgsWide); // where "/" is an integer division
