@@ -783,6 +783,12 @@ void Pi::HandleKeyDown(SDL_Keysym *key)
 	case SDLK_F11: // Reload shaders
 		renderer->ReloadShaders();
 		break;
+
+	case SDLK_F8: // EXPLOSION!
+	{
+		SfxManager::AddExplosion(Pi::game->GetPlayer());
+		break;
+	}
 #endif /* DEVKEYS */
 
 #if WITH_OBJECTVIEWER
