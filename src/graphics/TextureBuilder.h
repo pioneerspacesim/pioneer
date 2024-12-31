@@ -5,8 +5,8 @@
 #define _TEXTUREBUILDER_H
 
 #include "Renderer.h"
-#include "SDLWrappers.h"
-#include "SDL_mutex.h"
+#include <SDLWrappers.h>
+#include <SDL_mutex.h>
 #include "Texture.h"
 #include <string>
 

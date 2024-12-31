@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "SDL_mutex.h"
+#include <SDL_mutex.h>
 #include <atomic_queue/defs.h>
 
 // Lightweight spinlock semaphore

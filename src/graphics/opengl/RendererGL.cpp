@@ -4,7 +4,7 @@
 #include "RendererGL.h"
 #include "MathUtil.h"
 #include "RefCounted.h"
-#include "SDL_video.h"
+#include <SDL_video.h>
 #include "StringF.h"
 
 #include "graphics/Graphics.h"

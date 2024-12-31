@@ -10,7 +10,7 @@
 #include "Json.h"
 #include "Pi.h"
 #include "Player.h"
-#include "SDL_keycode.h"
+#include <SDL_keycode.h>
 #include "Ship.h"
 #include "Space.h"
 #include "SystemView.h"

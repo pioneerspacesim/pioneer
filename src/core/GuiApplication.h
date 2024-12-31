@@ -5,7 +5,7 @@
 
 #include "Application.h"
 #include "RefCounted.h"
-#include "SDL_events.h"
+#include <SDL_events.h>
 
 #include "graphics/Graphics.h"
 

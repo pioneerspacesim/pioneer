@@ -20,7 +20,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "Random.h"
-#include "SDL_video.h"
+#include <SDL_video.h>
 #include "WorldView.h"
 #include "buildopts.h"
 #include "core/OS.h"
