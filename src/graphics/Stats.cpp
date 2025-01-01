@@ -16,6 +16,8 @@ namespace Graphics {
 
 		m_counterRefs = {
 			GetOrCreateCounter("DrawMesh Calls"),
+			GetOrCreateCounter("DrawMesh Instance Calls"),
+			GetOrCreateCounter("DrawMesh Instanced Calls"),
 			GetOrCreateCounter("Num Points Drawn"),
 			GetOrCreateCounter("Num Lines Drawn"),
 			GetOrCreateCounter("Num Tris Drawn"),

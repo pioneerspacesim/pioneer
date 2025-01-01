@@ -976,7 +976,8 @@ namespace Graphics {
 
 		inst->Release();
 		CheckRenderErrors(__FUNCTION__, __LINE__);
-		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
+		m_stats.AddToStatCount(Stats::STAT_DRAWCALLINSTANCES, 1);
+		m_stats.AddToStatCount(Stats::STAT_DRAWCALLSINSTANCED, inst->GetInstanceCount());
 		stat_primitives(m_stats, type, numElems);
 		return true;
 	}
