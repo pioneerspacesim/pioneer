@@ -1,3 +1,8 @@
+December 2024
+  * New Features
+    * Fully support installing multiple weapons per ship (#5991)
+    * Expose galaxy parameters - allow changing explored space radius (#5941)
+
 November 2024
   * New Features
     * Total overhaul of Ship Equipment - EquipSet v2 (#5734)
@@ -39,7 +44,7 @@ November 2024
     * Fix incorrect dV calculations in ship market (#5970)
     * Fixing icons.svg after the radar updates (#5982)
     * Fix(flightlog): fix crash when removing a flight log entry (#5988)
-    * Updating Vatakara to use the shild mesh of the Malabar (#5990)
+    * Updating Vatakara to use the shield mesh of the Malabar (#5990)
 
 October 2024
   * New Features
@@ -100,7 +105,7 @@ August 2024
 July 2024
   * New Features
     * Add "jettison all" buttons to cargo sidebar menu (#5867)
-    * Add Easter egg. Story about time traveler  (#5864)
+    * Add Easter egg. Story about time traveller  (#5864)
 
   * Internal Changes
     * Fix debug commodities tab (#5861)
@@ -126,7 +131,7 @@ June 2024
 
 May 2024
   * Fixes
-    * Fixing misalligned little parts of the Xylophis cockpit (#5834)
+    * Fixing misaligned little parts of the Xylophis cockpit (#5834)
     * Removing stray triangles from Bluenose (#5835)
 
   * Internal Changes
@@ -142,7 +147,7 @@ April 2024
 
   * Fixes
     * Police Coronatrix texture fix (#5816)
-    * Fix loud white nosie after mouse steering (#5812)
+    * Fix loud white noise after mouse steering (#5812)
     * Fix location recovery in save files (#5801)
     * Use variable "dist" (SAR mission) for the distance in the BB if specified (#5818)
     * Fixing flipping landing gear animation of Bowfin (#5814)
@@ -181,7 +186,7 @@ February 2024 (dev)
     * Fixed broken screenshots links (#5761)
     * Adding editor.txt, removing ModelViewer.txt to document new editor (#5737)
     * Misc cleanup, fixes, and Lua function library improvements (#5773)
-    * Update Github Upload-Artifact action for Windows CI (#5781)
+    * Update Github Upload-Artefact action for Windows CI (#5781)
     * Add a recovery reader for the v90 flight log (#5763)
 
   * Fixes
