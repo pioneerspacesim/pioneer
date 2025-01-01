@@ -47,8 +47,8 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        sudo apt-fast update
-        sudo apt-fast install -y ${{ env.packages }}
+        sudo apt-get update
+        sudo apt-get install -y ${{ env.packages }}
 
     - name: Download natural docs
       uses: wei/wget@v1
