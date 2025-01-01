@@ -11,6 +11,7 @@
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
+#include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
@@ -170,6 +171,9 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 		static_cast<void *>(buf.get()), texSize,
 		Graphics::TEXTURE_RGBA_8888);
 
+	// NB: ring_noise.png is not compressed to DDS as it is small, greyscale, and we don't want the 4x4 blocking artefacts in the noise values
+	m_ringNoiseTexture.Reset(Graphics::TextureBuilder::Model("textures/ring_noise.png").GetOrCreateTexture(renderer, "model"));
+
 	Graphics::MaterialDescriptor desc;
 	desc.lighting = true;
 	desc.textures = 1;
@@ -181,6 +185,7 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 
 	m_ringMaterial.reset(renderer->CreateMaterial("planetrings", desc, rsd));
 	m_ringMaterial->SetTexture("texture0"_hash, m_ringTexture.Get());
+	m_ringMaterial->SetTexture("texture1"_hash, m_ringNoiseTexture.Get());
 }
 
 void Planet::DrawGasGiantRings(Renderer *renderer, const matrix4x4d &modelView)

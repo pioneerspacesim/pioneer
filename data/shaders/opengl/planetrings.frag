@@ -5,6 +5,7 @@
 #include "lib.glsl"
 
 uniform sampler2D texture0;
+uniform sampler2D texture1;
 in vec2 texCoord0;
 in vec4 texCoord1;
 in vec4 varyingEyepos;
@@ -25,7 +26,7 @@ void main(void)
 	vec3 eyenorm = normalize(varyingEyepos.xyz);
 
 	for (int i=0; i<NUM_LIGHTS; ++i) {
-		float l = findSphereEyeRayEntryDistance(-vec3(texCoord1), vec3(uViewMatrixInverse * uLight[i].position), 1.0);
+		float l = findSphereEyeRayEntryDistance(-vec3(texCoord1), vec3(uViewMatrixInverse * normalize(uLight[i].position)), 1.0);
 		if (l <= 0.0) {
 			// first term: diffuse light phase (like in full/new moon)
 			float mu = dot(normalize(vec3(uLight[i].position)), eyenorm);
@@ -43,5 +44,20 @@ void main(void)
 		}
 	}
 	col.a = texCol.a;
-	frag_color = col;
+
+	//noise detail texturing
+	float detailDist = length(varyingEyepos);
+	vec2 noiseCoord = texCoord1.xz; // using the texCoord1 (a_vertex aka position) probably isn't perfect
+	float coarseNoise = texture2D(texture1, noiseCoord * 100.0).r;
+	float fineNoise = texture2D(texture1, noiseCoord * 2000.0).r; //finer detail
+
+	float coarseDistance = clamp((2000000.0 - detailDist) / (2000000.0 - 5000.0), 0.0, 1.0);
+	float fineDistance = pow(coarseDistance, 8.0);
+
+	//mix between fine detail, coarse detail and white
+	float detail1 = mix(1.0, coarseNoise, coarseDistance);
+	float detail2 = mix(detail1, fineNoise, fineDistance);
+
+	// multiply the colour by the greyscale detail
+	frag_color = col * detail2;
 }
