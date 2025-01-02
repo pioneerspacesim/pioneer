@@ -102,6 +102,7 @@ function EquipType._createTransient(obj)
 	local l = Lang.GetResource(obj.l10n_resource)
 	obj.transient = {
 		description = l:get(obj.l10n_key .. "_DESCRIPTION") or "",
+		flavourtext = l:get(obj.l10n_key .. "_FLAVOURTEXT") or "",
 		name = l[obj.l10n_key] or ""
 	}
 end
@@ -265,6 +266,15 @@ end
 ---@return string
 function EquipType:GetDescription()
 	return self.transient.description
+end
+
+-- Method: GetFlavourText
+--
+-- Returns the translated tooltip for this equipment item suitable for
+-- display to the user
+---@return string
+function EquipType:GetFlavourText()
+	return self.transient.flavourtext
 end
 
 --==============================================================================
