@@ -21,18 +21,18 @@ namespace Graphics {
 			{}
 
 			// copies the contents of the VertexArray into the buffer
-			virtual bool Populate(const VertexArray &) override final { return true; }
+			bool Populate(const VertexArray &) final { return true; }
 
 			// change the buffer data without mapping
-			virtual void BufferData(const size_t, void *) override final {}
+			void BufferData(const size_t, void *) final {}
 
-			virtual void Bind() override final {}
-			virtual void Release() override final {}
+			void Bind() final {}
+			void Release() final {}
 
-			virtual void Unmap() override final {}
+			void Unmap() final {}
 
 		protected:
-			virtual Uint8 *MapInternal(BufferMapMode) override final { return m_buffer.get(); }
+			Uint8 *MapInternal(BufferMapMode) final { return m_buffer.get(); }
 
 		private:
 			std::unique_ptr<Uint8[]> m_buffer;
@@ -49,14 +49,14 @@ namespace Graphics {
 					m_buffer16.reset(new Uint16[size]);
 			}
 
-			virtual Uint32 *Map(BufferMapMode) override final { return m_buffer.get(); }
-			virtual Uint16 *Map16(BufferMapMode) override final { return m_buffer16.get(); }
-			virtual void Unmap() override final {}
+			Uint32 *Map(BufferMapMode) final { return m_buffer.get(); }
+			Uint16 *Map16(BufferMapMode) final { return m_buffer16.get(); }
+			void Unmap() final {}
 
-			virtual void BufferData(const size_t, void *) override final {}
+			void BufferData(const size_t, void *) final {}
 
-			virtual void Bind() override final {}
-			virtual void Release() override final {}
+			void Bind() final {}
+			void Release() final {}
 
 		private:
 			std::unique_ptr<Uint32[]> m_buffer;
@@ -70,15 +70,15 @@ namespace Graphics {
 				Graphics::InstanceBuffer(size, hint),
 				m_data(new matrix4x4f[size])
 			{}
-			virtual ~InstanceBuffer(){};
-			virtual matrix4x4f *Map(BufferMapMode) override final { return m_data.get(); }
-			virtual void Unmap() override final {}
+			~InstanceBuffer() final {};
+			matrix4x4f *Map(BufferMapMode) final { return m_data.get(); }
+			void Unmap() final {}
 
 			Uint32 GetSize() const { return m_size; }
 			BufferUsage GetUsage() const { return m_usage; }
 
-			virtual void Bind() override final {}
-			virtual void Release() override final {}
+			void Bind() final {}
+			void Release() final {}
 
 		protected:
 			std::unique_ptr<matrix4x4f> m_data;
@@ -90,13 +90,13 @@ namespace Graphics {
 				m_vtxBuffer(v),
 				m_idxBuffer(i)
 			{}
-			virtual ~MeshObject() override final {}
+			~MeshObject() final {}
 
-			virtual Graphics::VertexBuffer *GetVertexBuffer() const override final { return m_vtxBuffer.Get(); }
-			virtual Graphics::IndexBuffer *GetIndexBuffer() const override final { return m_idxBuffer.Get(); }
+			Graphics::VertexBuffer *GetVertexBuffer() const final { return m_vtxBuffer.Get(); }
+			Graphics::IndexBuffer *GetIndexBuffer() const final { return m_idxBuffer.Get(); }
 
-			virtual void Bind() override final {}
-			virtual void Release() override final {}
+			void Bind() final {}
+			void Release() final {}
 
 		protected:
 			RefCountedPtr<VertexBuffer> m_vtxBuffer;

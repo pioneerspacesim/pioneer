@@ -53,8 +53,8 @@ enum class AltitudeType { // <enum name=AltitudeType scope='AltitudeType' public
 #define OBJDEF(__thisClass, __parentClass, __TYPE)                                  \
 	static constexpr ObjectType StaticType() { return ObjectType::__TYPE; }         \
 	static constexpr ObjectType SuperType() { return __parentClass::StaticType(); } \
-	virtual ObjectType GetType() const override { return ObjectType::__TYPE; }      \
-	virtual bool IsType(ObjectType c) const override                                \
+	ObjectType GetType() const override { return ObjectType::__TYPE; }              \
+	bool IsType(ObjectType c) const override                                        \
 	{                                                                               \
 		if (__thisClass::GetType() == (c))                                          \
 			return true;                                                            \
