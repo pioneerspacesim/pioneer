@@ -435,8 +435,8 @@ void PerfInfo::DrawRendererStats()
 	const Uint32 cachedTextureMemUsage = tex2dMemUsage + texCubeMemUsage + texArray2dMemUsage;
 
 	ImGui::SeparatorText("Renderer");
-	ImGui::Text("%u Draw calls, %u | %u Instanced calls, %u CommandList flushes",
-		numDrawCalls, numDrawCallInstances, numDrawCallsInstanced, numCmdListFlushes);
+	ImGui::Text("%u Draw calls, %u Instances (%u Draw calls), %u CommandList flushes",
+		numDrawCalls, numDrawCallsInstanced, numDrawCallInstances, numCmdListFlushes);
 
 	ImGui::Indent();
 	ImGui::Text("%u points", numPoints);
