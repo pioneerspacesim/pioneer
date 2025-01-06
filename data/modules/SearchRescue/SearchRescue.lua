@@ -646,8 +646,8 @@ local createTargetShip = function (mission)
 	ship:SetSkin(skin)
 	ship:SetLabel(mission.shiplabel)
 	local model = Engine.GetModel(shipdef.modelName)
-	if model.numPatterns > 0 then
-		ship:SetPattern(rand:Integer(1, model.numPatterns))
+	if model.numPatterns > 1 then
+		ship:SetPattern(rand:Integer(0, model.numPatterns - 1))
 	end
 
 	local available_cabins = Passengers.CountFreeBerths(ship)
