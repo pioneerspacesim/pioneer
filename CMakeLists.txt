@@ -150,6 +150,7 @@ option(USE_SYSTEM_LIBGLEW "Use the system's libglew" OFF)
 option(USE_SYSTEM_LIBLUA "Use the system's liblua" OFF)
 option(PROFILER_ENABLED "Build pioneer with profiling support built-in." OFF)
 option(REMOTE_LUA_REPL "Enable remote LUA console" OFF)
+option(USE_SERVER_AGENT "Enable server agent and HTTP access" ON)
 
 if (REMOTE_LUA_REPL)
 	set(REMOTE_LUA_REPL_PORT 12345 CACHE STRING "TCP port for remote LUA console")
@@ -234,6 +235,10 @@ endif (USE_SYSTEM_LIBLUA)
 if (PROFILER_ENABLED)
 	add_definitions(-DPIONEER_PROFILER=1)
 endif(PROFILER_ENABLED)
+
+if (USE_SERVER_AGENT)
+	add_definitions(-DENABLE_SERVER_AGENT=1)
+endif(USE_SERVER_AGENT)
 
 if (WIN32)
 	add_definitions(-DPSAPI_VERSION=1)
