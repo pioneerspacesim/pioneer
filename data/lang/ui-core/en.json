@@ -505,7 +505,7 @@
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "Days left: %d"
+    "message": "Time left:"
   },
   "ECONOMY_TRADE": {
     "description": "",

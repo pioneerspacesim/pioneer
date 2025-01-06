@@ -102,7 +102,6 @@ local function makeMissionRows()
 		end
 
 		local playerSystem = Game.system or Game.player:GetHyperspaceTarget():GetStarSystem()
-		local days = math.max(0, (mission.due - Game.time) / (24*60*60))
 
 		-- Use AU for interplanetary, LY for interstellar distances
 		local dist, dist_display
@@ -123,7 +122,7 @@ local function makeMissionRows()
 			mission:GetTypeDescription(),
 			mission.client.name,
 			locationName .. dist_display,
-			ui.Format.Date(mission.due) .."\n".. string.format(l.D_DAYS_LEFT, days),
+			ui.Format.Date(mission.due) .."\n".. l.D_DAYS_LEFT .." ".. ui.Format.Duration(mission.due - Game.time, 2),
 			ui.Format.Money(mission.reward),
 		}
 
