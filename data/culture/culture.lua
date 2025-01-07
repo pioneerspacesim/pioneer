@@ -26,6 +26,7 @@ local pl = require '.pl' -- polish
 local ro = require '.ro' -- romanian
 local ru = require '.ru' -- russian
 local se = require '.se' -- northern sami
+local sq = require '.sq' -- albanian
 local sv = require '.sv' -- swedish
 local us = require '.us' -- USA
 local tr = require '.tr' -- turkish
@@ -60,6 +61,7 @@ Culture.weights = {
 	{lang = ro,	weight = 1.0},
 	{lang = ru,	weight = 3.0},
 	{lang = se,	weight = 0.1},
+	{lang = sq,	weight = 0.6},
 	{lang = sv,	weight = 1.0},
 	{lang = tr,	weight = 1.0},
 	{lang = us,	weight = 5.0},
