@@ -399,6 +399,8 @@ void PerfInfo::DrawRendererStats()
 {
 	const Graphics::Stats::TFrameData &stats = Pi::renderer->GetStats().FrameStatsPrevious();
 	const Uint32 numDrawCalls = stats.m_stats[Graphics::Stats::STAT_DRAWCALL];
+	const Uint32 numDrawCallInstances = stats.m_stats[Graphics::Stats::STAT_DRAWCALLINSTANCES];
+	const Uint32 numDrawCallsInstanced = stats.m_stats[Graphics::Stats::STAT_DRAWCALLSINSTANCED];
 	const Uint32 numTris = stats.m_stats[Graphics::Stats::STAT_NUM_TRIS];
 	const Uint32 numLines = stats.m_stats[Graphics::Stats::STAT_NUM_LINES];
 	const Uint32 numPoints = stats.m_stats[Graphics::Stats::STAT_NUM_POINTS];
@@ -433,8 +435,8 @@ void PerfInfo::DrawRendererStats()
 	const Uint32 cachedTextureMemUsage = tex2dMemUsage + texCubeMemUsage + texArray2dMemUsage;
 
 	ImGui::SeparatorText("Renderer");
-	ImGui::Text("%u Draw calls, %u CommandList flushes",
-		numDrawCalls, numCmdListFlushes);
+	ImGui::Text("%u Draw calls, %u Instances (%u Draw calls), %u CommandList flushes",
+		numDrawCalls, numDrawCallsInstanced, numDrawCallInstances, numCmdListFlushes);
 
 	ImGui::Indent();
 	ImGui::Text("%u points", numPoints);

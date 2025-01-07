@@ -22,6 +22,8 @@ namespace Graphics {
 		enum StatType {
 			// renderer entries
 			STAT_DRAWCALL = 0,
+			STAT_DRAWCALLINSTANCES,
+			STAT_DRAWCALLSINSTANCED,
 			STAT_NUM_POINTS,
 			STAT_NUM_LINES,
 			STAT_NUM_TRIS,
