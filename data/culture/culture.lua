@@ -11,6 +11,7 @@ local es = require '.es' -- spanish
 local en = require '.en' -- english
 local eu = require '.eu' -- basque
 local fi = require '.fi' -- finish
+local fil = require '.fil' -- filipino
 local fr = require '.fr' -- french
 local gd = require '.gd' -- gaelic
 local el = require '.el' -- greek
@@ -45,6 +46,7 @@ Culture.weights = {
 	{lang = es,	weight = 3.0},
 	{lang = eu,	weight = 1.0},
 	{lang = fi,	weight = 1.0},
+	{lang = fil, weight = 1.0},
 	{lang = fr,	weight = 3.0},
 	{lang = gd,	weight = 0.2},
 	{lang = haw, weight = 0.6},
