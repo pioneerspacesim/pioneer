@@ -795,7 +795,7 @@ end
 ---@param body SpaceStation
 ---@param template MissionUtils.ShipTemplate
 ---@param threat number?
----@return Ship
+---@return Ship?
 function ShipBuilder.MakeShipDocked(body, template, threat)
 	if not threat then
 		threat = Engine.rand:Number(ShipBuilder.kDefaultRandomThreatMin, ShipBuilder.kDefaultRandomThreatMax)
@@ -808,7 +808,11 @@ function ShipBuilder.MakeShipDocked(body, template, threat)
 	assert(plan)
 
 	local ship = Space.SpawnShipDocked(plan.shipId, body)
-	assert(ship)
+
+	-- All docks may be full...
+	if not ship then
+		return nil
+	end
 
 	ShipBuilder.ApplyPlan(ship, plan)
 
