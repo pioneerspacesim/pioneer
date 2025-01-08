@@ -418,10 +418,11 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, rule, rand, hullThreat)
 		---@type EquipType[]
 		local compatible = utils.map_array(filteredEquip, function(equip)
 			local threat = threatCache[equip]
-
-			local compat = EquipSet.CompatibleWithSlot(equip, slot)
-				and threat <= (shipPlan.freeThreat - reserveThreat)
+			local withinThreat = threat == 0
+				or threat <= (shipPlan.freeThreat - reserveThreat)
 				and threat <= maxThreat
+
+			local compat = EquipSet.CompatibleWithSlot(equip, slot) and withinThreat
 
 			if not compat then
 				return nil
@@ -607,6 +608,11 @@ function ShipBuilder.MakePlan(template, shipConfig, threat)
 	}
 
 	shipPlan:SetConfig(shipConfig)
+
+	if shipPlan.freeThreat <= 0 then
+		logWarning("ShipBuilder: {} has a hull threat of {}, greater than the provided threat {}. Ship will not be properly outfitted." % {
+			shipConfig.id, hullThreat, threat})
+	end
 
 	for _, rule in ipairs(template.rules) do
 
