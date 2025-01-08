@@ -162,7 +162,7 @@ local function drawNotification(notif, wrapWidth)
 	-- Draw the close button to the left of the notification in empty space
 	if hovered and not notif.closing then
 		ui.setCursorScreenPos(startPos)
-		local clicked = ui.iconButton(icons.retrograde, style.closeButtonSize, "##DismissNotification", ui.theme.buttonColors.transparent)
+		local clicked = ui.iconButton("DismissNotification", icons.retrograde, nil, ui.theme.buttonColors.transparent, style.closeButtonSize)
 
 		if clicked then
 			notif.closing = 0.0
