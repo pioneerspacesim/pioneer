@@ -190,7 +190,7 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 
 		m_navLights->LoadFromJson(shipObj);
 
-		m_shields->LoadFromJson(shipObj);
+		m_shields->LoadFromJson(shipObj["shields"]);
 
 		m_shipName = shipObj["name"].get<std::string>();
 		Properties().Set("shipName", m_shipName);
@@ -300,7 +300,7 @@ void Ship::SaveToJson(Json &jsonObj, Space *space)
 
 	m_navLights->SaveToJson(shipObj);
 
-	m_shields->SaveToJson(shipObj);
+	m_shields->SaveToJson(shipObj["shields"]);
 
 	shipObj["name"] = m_shipName;
 
