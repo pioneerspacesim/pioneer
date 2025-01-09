@@ -1643,6 +1643,8 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 	// with respect to well-spaced orbital shells (e.g. a "station belt" around a high-population planet)
 	// as well as generating station placement for e.g. research, industrial, or communications stations
 
+	fixed totalPop = system->GetTotalPop();
+
 	if (sbody->GetPopulationAsFixed() < fixed(1, 1000)) return;
 	fixed orbMaxS = fixed(1, 4) * fixed(CalcHillRadius(sbody));
 	fixed orbMinS = fixed().FromDouble((sbody->CalcAtmosphereParams().atmosRadius + +500000.0 / EARTH_RADIUS)) * AU_EARTH_RADIUS;
@@ -1747,6 +1749,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 				sp->m_orbMax = sp->GetSemiMajorAxisAsFixed();
 
 				sp->m_name = gen_unique_station_name(sp, system, namerand);
+				PopulateStage1(sp, system, totalPop);
 			}
 		}
 	}
@@ -1771,6 +1774,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 		PositionSettlementOnPlanet(sp, previousOrbits);
 		sbody->m_children.insert(sbody->m_children.begin(), sp);
 		system->AddSpaceStation(sp);
+		PopulateStage1(sp, system, totalPop);
 	}
 
 	// guarantee that there is always a star port on a populated world
@@ -1786,7 +1790,10 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 		PositionSettlementOnPlanet(sp, previousOrbits);
 		sbody->m_children.insert(sbody->m_children.begin(), sp);
 		system->AddSpaceStation(sp);
+		PopulateStage1(sp, system, totalPop);
 	}
+
+	system->SetTotalPop(totalPop);
 }
 
 void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, const fixed &human_infestedness)
