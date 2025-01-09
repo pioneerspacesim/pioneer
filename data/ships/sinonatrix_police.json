@@ -104,7 +104,7 @@
 		"fuel_scoop_s1": {
 			"type": "fuel_scoop",
 			"size": 1,
-			"size_min": 1
+			"hardpoint": true
 		},
 		"utility_s2_3": {
 			"type": "utility",
