@@ -17,6 +17,7 @@ local gd = require '.gd' -- gaelic
 local el = require '.el' -- greek
 local haw = require '.haw' --hawaiian
 local hu = require '.hu' -- hungarian
+local hy = require '.hy' -- armenian
 local is = require '.is' -- icelandic
 local it = require '.it' -- italian
 local ja = require '.ja' -- japanese
@@ -52,6 +53,7 @@ Culture.weights = {
 	{lang = gd,	weight = 0.2},
 	{lang = haw, weight = 0.6},
 	{lang = hu,	weight = 1.0},
+	{lang = hy,	weight = 0.4},
 	{lang = is,	weight = 0.2},
 	{lang = it,	weight = 3.0},
 	{lang = ja,	weight = 3.0},
