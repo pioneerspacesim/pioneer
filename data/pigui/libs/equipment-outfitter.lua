@@ -259,6 +259,17 @@ function Outfitter:getInstallPrice(e)
 	return self:getBuyPrice(e) - (self.replaceEquip and self:getSellPrice(self.replaceEquip) or 0)
 end
 
+local function fmt_number(val) return ui.Format.Number(val, 0) end
+
+-- Prepend information about the current station's stocking information to an equipment item's detailed stats
+---@param data UI.EquipCard.Data
+function Outfitter:modifyEquipmentStats(data)
+	local stock = self:getStock(data.equip)
+
+	table.insert(data.stats, 1, { l.AVAILABLE_STOCK, icons.cargo_crate, stock, fmt_number })
+	table.insert(data.stats, 2, { l.TECH_LEVEL, icons.station_orbital_large, data.equip.tech_level, fmt_number })
+end
+
 function Outfitter:buildEquipmentList()
 	local equipment = self:getAvailableEquipment()
 
@@ -275,13 +286,18 @@ function Outfitter:buildEquipmentList()
 
 	self.currentEquip = self.replaceEquip and EquipCard.getDataForEquip(self.replaceEquip) or nil
 
+	if self.currentEquip then
+		self:modifyEquipmentStats(self.currentEquip)
+	end
+
 	self.equipmentList = utils.map_array(equipList, function(equip)
 		local data = EquipCard.getDataForEquip(equip, self.replaceEquip)
 		---@cast data UI.EquipmentOutfitter.EquipData
 
 		data.price = self:getBuyPrice(equip)
 		data.count = self:getStock(equip)
-		data.techLevel = equip.tech_level
+
+		self:modifyEquipmentStats(data)
 
 		if self.filterSlot then
 			data.canInstall = equipSet:CanInstallInSlot(self.filterSlot, equip)
@@ -291,10 +307,10 @@ function Outfitter:buildEquipmentList()
 
 		data.canReplace = not self.replaceEquip or self.canSellEquip
 
-		data.outOfStock =  data.count <= 0
+		data.outOfStock = data.count <= 0
 
 		data.available = data.canInstall and data.canReplace and not data.outOfStock
-		                 and money >= self:getInstallPrice(equip)
+		    and money >= self:getInstallPrice(equip)
 
 		-- Replace condition widget with price instead
 		-- trim leading '$' character since we're drawing it with an icon instead
@@ -552,36 +568,6 @@ function Outfitter:renderCompareStats()
 			ui.endTable()
 
 		end -- render equipment stats
-
-		-- Render additional equipment information
-		if self.selectedEquip then
-
-			ui.spacing()
-
-			if ui.beginTable("##StockLevel", 2) then
-
-				ui.tableSetupColumn("##name", { "WidthStretch" })
-				ui.tableSetupColumn("##amount", { "WidthFixed" })
-
-				-- Stock level
-				ui.tableNextRow()
-				ui.tableNextColumn()
-				ui.text("Stock Level")
-				ui.tableNextColumn()
-				ui.text(self.selectedEquip.count )
-
-				-- Tech level
-				ui.tableNextRow()
-				ui.tableNextColumn()
-				ui.text("Tech Level")
-				ui.tableNextColumn()
-				ui.text(self.selectedEquip.techLevel )
-
-				ui.endTable()
-
-			end -- render additional information
-
-		end -- render stock level
 
 	end -- render equipment details
 
