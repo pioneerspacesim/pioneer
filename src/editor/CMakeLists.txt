@@ -13,15 +13,15 @@ list(REMOVE_ITEM EDITOR_CXX_FILES
 )
 
 # Creates a library, adds it to the build, and sets C++ target properties on it
-define_pioneer_library(pioneer-editor EDITOR_CXX_FILES EDITOR_HXX_FILES)
-target_include_directories(pioneer-editor PRIVATE ${CMAKE_BINARY_DIR})
-target_link_libraries(pioneer-editor LINK_PRIVATE
+define_pioneer_library(pioneer-editor-lib EDITOR_CXX_FILES EDITOR_HXX_FILES)
+target_include_directories(pioneer-editor-lib PRIVATE ${CMAKE_BINARY_DIR})
+target_link_libraries(pioneer-editor-lib LINK_PRIVATE
 	pioneer-core
 	pioneer-lib
 )
 
 list(APPEND EDITOR_LIBRARIES
-	pioneer-editor
+	pioneer-editor-lib
 	pioneer-core
 )
 
@@ -29,3 +29,4 @@ add_executable(editor WIN32 editormain.cpp ${RESOURCES})
 set_cxx_properties(editor)
 target_link_libraries(editor LINK_PRIVATE ${EDITOR_LIBRARIES} ${pioneerLibs} ${winLibs})
 set_target_properties(editor PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set_target_properties(editor PROPERTIES OUTPUT_NAME pioneer-editor)
