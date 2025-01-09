@@ -3,6 +3,11 @@
 
 #include "sRGB.glsl"
 
+float remap01(float v_min, float v_max, float val)
+{
+	return clamp((val - v_min) / (v_max - v_min), 0.0, 1.0);
+}
+
 // Simple ray-sphere intersection test, assuming ray starts at origin and rayDir is pre-normalized.
 // Returns distance to first and second intersections in {x, y} or 0.0 if no intersection.
 vec2 raySphereIntersect(in vec3 sphereCenter, in vec3 rayDir, in float radius)
