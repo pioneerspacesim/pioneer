@@ -39,6 +39,7 @@ static const int detail_edgeLen[5] = {
 
 static const double gs_targetPatchTriLength(100.0);
 static std::vector<GeoSphere *> s_allGeospheres;
+static Uint32 s_debugFlags = GeoSphere::DebugFlags::DEBUG_NONE;
 
 void GeoSphere::InitGeoSphere()
 {
@@ -127,6 +128,18 @@ bool GeoSphere::OnAddSingleSplitResult(const SystemPath &path, SSingleSplitResul
 	return false;
 }
 
+//static
+void GeoSphere::SetDebugFlags(Uint32 flags)
+{
+	s_debugFlags = flags;
+}
+
+//static
+Uint32 GeoSphere::GetDebugFlags()
+{
+	return s_debugFlags;
+}
+
 void GeoSphere::Reset()
 {
 	{
@@ -174,6 +187,8 @@ void GeoSphere::Reset()
 
 	CalculateMaxPatchDepth();
 
+	m_visiblePatches.reserve(1024);
+
 	m_initStage = eBuildFirstPatches;
 }
 
@@ -190,6 +205,14 @@ GeoSphere::GeoSphere(const SystemBody *body) :
 	s_allGeospheres.emplace_back(this);
 
 	CalculateMaxPatchDepth();
+
+	m_visiblePatches.reserve(1024);
+
+	if (Pi::config->Int("SortGeoPatches") == 0) {
+		SetDebugFlags(GetDebugFlags() & ~DebugFlags::DEBUG_SORTGEOPATCHES);
+	} else {
+		SetDebugFlags(GetDebugFlags() | DebugFlags::DEBUG_SORTGEOPATCHES);
+	}
 
 	//SetUpMaterials is not called until first Render since light count is zero :)
 }
@@ -342,7 +365,7 @@ void GeoSphere::Update()
 	} break;
 	case eReceivedFirstPatches: {
 		for (int i = 0; i < NUM_PATCHES; i++) {
-			m_patches[i]->NeedToUpdateVBOs();
+			m_patches[i]->SetNeedToUpdateVBOs();
 		}
 		m_initStage = eDefaultUpdateState;
 	} break;
@@ -425,9 +448,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 		ambient.a = 255;
 		emission = StarSystem::starRealColors[GetSystemBody()->GetType()];
 		emission.a = 255;
-	}
-
-	else {
+	} else {
 		// give planet some ambient lighting if the viewer is close to it
 		double camdist = 0.1 / campos.LengthSqr();
 		// why the fuck is this returning 0.1 when we are sat on the planet??
@@ -441,9 +462,38 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 	renderer->SetTransform(matrix4x4f(modelView));
 
-	for (int i = 0; i < NUM_PATCHES; i++) {
-		m_patches[i]->Render(renderer, campos, modelView, frustum);
+	if (s_debugFlags & GeoSphere::DebugFlags::DEBUG_WIREFRAME) 
+		renderer->SetWireFrameMode(true);
+
+	if (s_debugFlags & GeoSphere::DebugFlags::DEBUG_SORTGEOPATCHES) {
+		// Gather the patches that could be rendered
+		for (int i = 0; i < NUM_PATCHES; i++) {
+			m_patches[i]->GatherRenderablePatches(m_visiblePatches, renderer, campos, frustum);
+		}
+
+		// distance sort the patches
+		std::sort(m_visiblePatches.begin(), m_visiblePatches.end(), [&, campos](const std::pair<double, GeoPatch *> &a, const std::pair<double, GeoPatch *> &b) {
+			return (a.first) < (b.first);
+		});
+
+		// cull occluded patches somehow?
+		// create frustum from corner points, something vertical, and the campos??? Cull anything within that frustum?
+
+		// render the sorted patches
+		for (std::pair<double, GeoPatch *> &pPatch : m_visiblePatches) {
+			pPatch.second->RenderImmediate(renderer, campos, modelView);
+		}
+
+		// must clear this after each render otherwise it just accumulates every patch ever drawn!
+		m_visiblePatches.clear();
+	} else {
+		for (int i = 0; i < NUM_PATCHES; i++) {
+			m_patches[i]->Render(renderer, campos, modelView, frustum);
+		}
 	}
+
+	if (s_debugFlags & GeoSphere::DebugFlags::DEBUG_WIREFRAME)
+		renderer->SetWireFrameMode(false);
 
 	renderer->SetAmbientColor(oldAmbient);
 
