@@ -20,18 +20,18 @@ public:
 	Player(const Json &jsonObj, Space *space);
 	Player(const ShipType::Id &shipId);
 
-	virtual void SetDockedWith(SpaceStation *, int port) override;
-	virtual bool DoDamage(float kgDamage) override final; // overloaded to add "crush" audio
-	virtual bool OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData) override;
-	virtual bool SetWheelState(bool down) override; // returns success of state change, NOT state itself
-	virtual Missile *SpawnMissile(ShipType::Id missile_type, int power = -1) override;
-	virtual void SetAlertState(Ship::AlertState as) override;
-	virtual void NotifyRemoved(const Body *const removedBody) override;
-	virtual bool ManualDocking() const override { return !AIIsActive(); }
+	void SetDockedWith(SpaceStation *, int port) override;
+	bool DoDamage(float kgDamage) final; // overloaded to add "crush" audio
+	bool OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData) override;
+	bool SetWheelState(bool down) override; // returns success of state change, NOT state itself
+	Missile *SpawnMissile(ShipType::Id missile_type, int power = -1) override;
+	void SetAlertState(Ship::AlertState as) override;
+	void NotifyRemoved(const Body *const removedBody) override;
+	bool ManualDocking() const override { return !AIIsActive(); }
 
 	void DoFixspeedTakeoff(SpaceStation *from = nullptr);
 
-	virtual void SetShipType(const ShipType::Id &shipId) override;
+	void SetShipType(const ShipType::Id &shipId) override;
 
 	PlayerShipController *GetPlayerController() const;
 	//XXX temporary things to avoid causing too many changes right now
@@ -43,23 +43,23 @@ public:
 	void SetFollowTarget(Body *const target);
 	void ChangeCruiseSpeed(double delta);
 
-	virtual Ship::HyperjumpStatus InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, const HyperdriveSoundsTable &sounds, LuaRef checks) override;
-	virtual void AbortHyperjump() override;
+	Ship::HyperjumpStatus InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, const HyperdriveSoundsTable &sounds, LuaRef checks) override;
+	void AbortHyperjump() override;
 
 	// XXX cockpit is here for now because it has a physics component
 	void InitCockpit();
 	ShipCockpit *GetCockpit() const { return m_cockpit.get(); }
 	void OnCockpitActivated();
 
-	virtual void StaticUpdate(const float timeStep) override;
+	void StaticUpdate(const float timeStep) override;
 	virtual vector3d GetManeuverVelocity() const;
 	virtual int GetManeuverTime() const;
 
 protected:
-	virtual void SaveToJson(Json &jsonObj, Space *space) override;
+	void SaveToJson(Json &jsonObj, Space *space) override;
 
-	virtual void OnEnterSystem() override;
-	virtual void OnEnterHyperspace() override;
+	void OnEnterSystem() override;
+	void OnEnterHyperspace() override;
 
 private:
 	std::unique_ptr<ShipCockpit> m_cockpit;

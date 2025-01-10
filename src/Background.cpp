@@ -382,7 +382,7 @@ namespace Background {
 
 		// Do the brightness sort on worker threads using the worker's subset
 		// of stars rather than on the main thread with all stars.
-		virtual void OnExecute(TaskRange) override
+		void OnExecute(TaskRange) override
 		{
 			PROFILE_SCOPED()
 			const size_t numStars = stars.pos.size();
