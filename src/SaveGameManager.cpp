@@ -15,7 +15,8 @@
 
 static const char s_saveDirName[] = "savefiles";
 
-static const int s_saveVersion = 90;
+// Last incremented: 01/2025 prior to 02-03-2025 release
+static const int s_saveVersion = 91;
 
 // A simple job to load a savegame into a Json object
 class LoadGameToJsonJob : public Job
@@ -181,4 +182,3 @@ std::vector<FileSystem::FileInfo> SaveGameManager::ListSaves()
 	}
 	return saves;
 }
-

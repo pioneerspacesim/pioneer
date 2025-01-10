@@ -157,9 +157,9 @@ void Shields::ClearModel()
 	m_shieldMaterial.Reset();
 }
 
-void Shields::SaveToJson(Json &jsonObj)
+void Shields::SaveToJson(Json &shieldsObj)
 {
-	Json shieldsObj({}); // Create JSON object to contain shields data.
+	shieldsObj = Json::object(); // Create JSON object to contain shields data.
 
 	shieldsObj["enabled"] = m_enabled;
 	shieldsObj["num_shields"] = m_shields.size();
@@ -172,15 +172,11 @@ void Shields::SaveToJson(Json &jsonObj)
 		shieldArray.push_back(shieldArrayEl); // Append shield object to array.
 	}
 	shieldsObj["shield_array"] = shieldArray; // Add shield array to shields object.
-
-	jsonObj["shields"] = shieldsObj; // Add shields object to supplied object.
 }
 
-void Shields::LoadFromJson(const Json &jsonObj)
+void Shields::LoadFromJson(const Json &shieldsObj)
 {
 	try {
-		Json shieldsObj = jsonObj["shields"];
-
 		m_enabled = shieldsObj["enabled"];
 		assert(shieldsObj["num_shields"].get<unsigned int>() == m_shields.size());
 

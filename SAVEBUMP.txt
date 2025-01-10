@@ -13,5 +13,4 @@ Regular tasks
 - data/libs/NameGen.lua: Add new authors to name generator
 
 One-time tasks
-- DynamicBody.cpp: the std::isnan() check in constructor should be removed
 - add your one-time tasks here
