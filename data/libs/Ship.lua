@@ -299,6 +299,11 @@ function Ship:FireMissileAt(missile, target)
 		missile = equipSet:GetInstalledOfType("missile")[1]
 	end
 
+	-- No missile available to fire, likely this function was called from a C++ action binding
+	if not missile then
+		return nil
+	end
+
 	-- FIXME: handle multiple-count missile mounts
 	equipSet:Remove(missile)
 

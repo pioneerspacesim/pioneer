@@ -219,10 +219,13 @@ local spawnPolice = function (station)
 
 	for i = 1, 2 do
 		ship = ShipBuilder.MakeShipDocked(station, template, threat)
-		table.insert(police, ship)
 
-		if station.type == "STARPORT_SURFACE" then
-			ship:AIEnterLowOrbit(Space.GetBody(station:GetSystemBody().parent.index))
+		if ship then
+			table.insert(police, ship)
+
+			if station.type == "STARPORT_SURFACE" then
+				ship:AIEnterLowOrbit(Space.GetBody(station:GetSystemBody().parent.index))
+			end
 		end
 	end
 

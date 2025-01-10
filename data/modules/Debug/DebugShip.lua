@@ -168,7 +168,12 @@ function DebugShipTool:onSpawnSelectedHull()
 		end
 
 		---@cast body SpaceStation
-		ship = ShipBuilder.MakeShipDocked(body, template, self.spawnThreat)
+		local ship = ShipBuilder.MakeShipDocked(body, template, self.spawnThreat)
+
+		if not ship then
+			Notification.add(Notification.Type.Error, "Can't spawn ship docked at {} - no room?" % { body.label })
+			return
+		end
 
 	elseif location == "Orbit" then
 
