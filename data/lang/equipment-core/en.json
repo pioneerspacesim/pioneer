@@ -331,79 +331,202 @@
     "description": "Category name of missile-related equipment",
     "message": "Missiles"
   },
+
   "MISSILE_GUIDED": {
     "description": "",
     "message": "Guided Missile"
+  },
+  "MISSILE_GUIDED_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Standard fire-and-forget guided missiles."
+  },
+  "MISSILE_GUIDED_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Mass produced guided missile which will attempt to home in on a selected target. Depending on the exact model, this missile may use a variety of homing technologies including one or more of Radar, Laser, or LIDAR. Nevertheless, the technology in these missiles is not guaranteed to ensure a hit and most are quite vulnerable to ECM or other countermeasures."
   },
 
   "MISSILE_NAVAL": {
     "description": "",
     "message": "Naval Missile"
   },
+  "MISSILE_NAVAL_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Fire-and-forget homing missile highly resistant to all known types of countermeasures."
+  },
+  "MISSILE_NAVAL_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "These missiles are produced in highly specialised and secretive naval factories in tightly controlled facilities and generally not available to non-military personel. Able to resist most known types of countermeasures, these missiles are fast for their size and usually pack exotic warheads for extreme destructive potential. Often specialised equipment is required in the ships carrying these in order to correctly arm and program the missiles prior to launch."
+  },
 
   "MISSILE_RACK_221": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
     "message": "Hydra LH-120 Missile Rack"
+  },
+  "MISSILE_RACK_221_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "External missile rack with a capacity of 2 small missiles."
+  },
+  "MISSILE_RACK_221_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "This quality missile rack from Hydri Defense allows you to carry more bangs per hardpoint, essential for taking on those pesky pirates."
   },
 
   "MISSILE_RACK_322": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
     "message": "Hydra LH-220 Missile Rack"
   },
+  "MISSILE_RACK_322_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "External missile rack with a capacity of 2 medium missiles."
+  },
+  "MISSILE_RACK_322_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "A missile rack for the more discerning Hydri Defense customer. Bigger bangs for your bucks!"
+  },
 
   "MISSILE_RACK_341": {
     "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
     "message": "Medusa LH-140 Missile Rack"
+  },
+  "MISSILE_RACK_341_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "External missile rack with a capacity of 4 small missiles."
+  },
+  "MISSILE_RACK_341_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "This one is a real beauty, coming straight to you from the R&D labs at Hydri Defense. We've squeezed even more missiles into this rack to allow you to really make some fireworks!"
   },
 
   "MISSILE_RACK_442": {
     "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
     "message": "Medusa LH-240 Missile Rack"
   },
+  "MISSILE_RACK_442_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "External missile rack with a capacity of 4 medium missiles."
+  },
+  "MISSILE_RACK_442_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Ready to take on the big league? With this big rack from Hydri Defense, you'll always be fully loaded to unleash fiery destruction."
+  },
 
   "MISSILE_RACK_423": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
     "message": "Hydra LH-320 Missile Rack"
   },
+  "MISSILE_RACK_423_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "External missile rack with a capacity of 2 large missiles."
+  },
+  "MISSILE_RACK_423_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Make sure to keep your distance after firing! Hydri Defense has packed 2 large missiles into this rack for some truly spectacular booms."
   },
 
   "MISSILE_RACK_524": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
     "message": "Hydra LH-420 Missile Rack"
   },
+  "MISSILE_RACK_524_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "External missile rack with a capacity of 2 huge missiles."
+  },
+  "MISSILE_RACK_524_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Space for 2 huge missiles. Even we've run out of superlatives for what you can do with these.. we just hope you packed your sunnies!"
+  },
 
   "MISSILE_RACK_543": {
     "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
     "message": "Medusa LH-340 Missile Rack"
+  },
+  "MISSILE_RACK_543_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "External missile rack with a capacity of 4 large missiles."
+  },
+  "MISSILE_RACK_543_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "First Hydri Defense brought you the awesome LH-320, now we've doubled its capacity! Go ahead, and make your mark on any system that dares to defy your might."
   },
 
   "MISSILE_RAIL_S1": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
     "message": "Cnida-101 Missile Rail"
   },
+  "MISSILE_RAIL_S1_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "External launcher for a single small missile."
+  },
+  "MISSILE_RAIL_S1_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Hydri Defense's entry point rail, this is a quality piece of equipment for all S1 missiles adhering to ISAAEEE standards."
+  },
 
   "MISSILE_RAIL_S2": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
     "message": "Cnida-102 Missile Rail"
+  },
+  "MISSILE_RAIL_S2_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "External launcher for a single medium missile."
+  },
+  "MISSILE_RAIL_S2_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "A quality missile rail from Hydri Defense, this provides a secure mounting point for S2 class missiles."
   },
 
   "MISSILE_RAIL_S3": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
     "message": "Cnida-103 Missile Rail"
   },
+  "MISSILE_RAIL_S3_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "External launcher for a single large missile."
+  },
+  "MISSILE_RAIL_S3_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "A quality missile rail from Hydri Defense, this provides a secure mounting point for S3 class missiles."
+  },
 
   "MISSILE_RAIL_S4": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
     "message": "Cnida-104 Missile Rail"
   },
+  "MISSILE_RAIL_S4_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "External launcher for a single huge missile."
+  },
+  "MISSILE_RAIL_S4_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "A quality missile rail from Hydri Defense, this provides a secure mounting point for S4 class missiles."
+  },
+
   "MISSILE_SMART": {
     "description": "",
     "message": "Smart Missile"
   },
+  "MISSILE_SMART_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "A guided missile somewhat resistant to ECM."
+  },
+  "MISSILE_SMART_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "A smart rocket capable of tracking down your target using an advanced sensor suite with an integrated AI module. Make sure not to call it HAL and we're sure it will home in on your intended target, and not you.."
+  },
+
   "MISSILE_UNGUIDED": {
     "description": "",
     "message": "R40 Unguided Rocket"
   },
+  "MISSILE_UNGUIDED_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Dumb aim-and-fire missile."
+  },
+  "MISSILE_UNGUIDED_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Mass-produced by local manufacturers on most worlds. These range from being lovingly hand-crafted by artisans on developing worlds to being mindlessly churned out by the millions in automated mega-factories on hyper-industrialised ones.\nBut regardless from where they are sourced, the specifications are tightly controlled by the ISAEEE and should work in most compatible ship systems."
+  },
+
   "OCCUPIED_BERTHS": {
     "description": "Label for the number of passenger berths currently occupied in a cabin equipment item",
     "message": "Occupied Berths"
@@ -412,18 +535,32 @@
     "description": "Equipment name for an OKB-Kaluri Bowfin internal missile launcher",
     "message": "Bowfin Missile Launcher"
   },
+
   "OPLI_INTERNAL_MISSILE_RACK_S2": {
     "description": "Equipment name for an OPLI internal missile rack",
     "message": "OPLI Internal Missile Rack"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S2_DESCRIPTION": {
+    "description": "Short description and tooltip.",
+    "message": "Internal missile bay for 5x medium missiles."
   },
   "OPLI_INTERNAL_MISSILE_RACK_S3": {
     "description": "Equipment name for an OPLI internal missile rack",
     "message": "OPLI Internal Missile Rack"
   },
+  "OPLI_INTERNAL_MISSILE_RACK_S3_DESCRIPTION": {
+    "description": "Short description and tooltip.",
+    "message": "Internal missile bay for 8x medium missiles."
+  },
   "OPLI_INTERNAL_MISSILE_RACK_S4": {
     "description": "Equipment name for an OPLI internal missile rack",
     "message": "OPLI Internal Missile Rack"
   },
+  "OPLI_INTERNAL_MISSILE_RACK_S4_DESCRIPTION": {
+    "description": "Short description and tooltip.",
+    "message": "Internal missile bay for 12x medium missiles."
+  },
+
   "ORBIT_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
     "message": "Orbital scanner XKM-650"
