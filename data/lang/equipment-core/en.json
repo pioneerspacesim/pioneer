@@ -335,33 +335,66 @@
     "description": "",
     "message": "Guided Missile"
   },
+
   "MISSILE_NAVAL": {
     "description": "",
     "message": "Naval Missile"
   },
+
   "MISSILE_RACK_221": {
-    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
-    "message": "LH-120 Hydri Missile Rack"
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
+    "message": "Hydra LH-120 Missile Rack"
   },
+
   "MISSILE_RACK_322": {
-    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
-    "message": "LH-220 Hydri Missile Rack"
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
+    "message": "Hydra LH-220 Missile Rack"
   },
+
   "MISSILE_RACK_341": {
-    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
-    "message": "LH-140 Hydri Missile Rack"
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "Medusa LH-140 Missile Rack"
   },
+
+  "MISSILE_RACK_442": {
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "Medusa LH-240 Missile Rack"
+  },
+
+  "MISSILE_RACK_423": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
+    "message": "Hydra LH-320 Missile Rack"
+  },
+  },
+
+  "MISSILE_RACK_524": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
+    "message": "Hydra LH-420 Missile Rack"
+  },
+
+  "MISSILE_RACK_543": {
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "Medusa LH-340 Missile Rack"
+  },
+
   "MISSILE_RAIL_S1": {
-    "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
     "message": "Cnida-101 Missile Rail"
   },
+
   "MISSILE_RAIL_S2": {
-    "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
     "message": "Cnida-102 Missile Rail"
   },
+
   "MISSILE_RAIL_S3": {
-    "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
     "message": "Cnida-103 Missile Rail"
+  },
+
+  "MISSILE_RAIL_S4": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
+    "message": "Cnida-104 Missile Rail"
   },
   "MISSILE_SMART": {
     "description": "",
@@ -380,6 +413,14 @@
     "message": "Bowfin Missile Launcher"
   },
   "OPLI_INTERNAL_MISSILE_RACK_S2": {
+    "description": "Equipment name for an OPLI internal missile rack",
+    "message": "OPLI Internal Missile Rack"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S3": {
+    "description": "Equipment name for an OPLI internal missile rack",
+    "message": "OPLI Internal Missile Rack"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S4": {
     "description": "Equipment name for an OPLI internal missile rack",
     "message": "OPLI Internal Missile Rack"
   },
