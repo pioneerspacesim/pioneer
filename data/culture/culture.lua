@@ -9,12 +9,15 @@ local de = require '.de' -- german
 local da = require '.da' -- danish
 local es = require '.es' -- spanish
 local en = require '.en' -- english
+local eu = require '.eu' -- basque
 local fi = require '.fi' -- finish
+local fil = require '.fil' -- filipino
 local fr = require '.fr' -- french
 local gd = require '.gd' -- gaelic
 local el = require '.el' -- greek
 local haw = require '.haw' --hawaiian
 local hu = require '.hu' -- hungarian
+local hy = require '.hy' -- armenian
 local is = require '.is' -- icelandic
 local it = require '.it' -- italian
 local ja = require '.ja' -- japanese
@@ -23,6 +26,8 @@ local nb = require '.nb' -- norwegian bokmål
 local pl = require '.pl' -- polish
 local ro = require '.ro' -- romanian
 local ru = require '.ru' -- russian
+local se = require '.se' -- northern sami
+local sq = require '.sq' -- albanian
 local sv = require '.sv' -- swedish
 local us = require '.us' -- USA
 local tr = require '.tr' -- turkish
@@ -41,11 +46,14 @@ Culture.weights = {
 	{lang = el,	weight = 1.0},
 	{lang = en,	weight = 6.0},
 	{lang = es,	weight = 3.0},
+	{lang = eu,	weight = 1.0},
 	{lang = fi,	weight = 1.0},
+	{lang = fil, weight = 1.0},
 	{lang = fr,	weight = 3.0},
 	{lang = gd,	weight = 0.2},
 	{lang = haw, weight = 0.6},
 	{lang = hu,	weight = 1.0},
+	{lang = hy,	weight = 0.4},
 	{lang = is,	weight = 0.2},
 	{lang = it,	weight = 3.0},
 	{lang = ja,	weight = 3.0},
@@ -54,6 +62,8 @@ Culture.weights = {
 	{lang = pl,	weight = 2.0},
 	{lang = ro,	weight = 1.0},
 	{lang = ru,	weight = 3.0},
+	{lang = se,	weight = 0.1},
+	{lang = sq,	weight = 0.6},
 	{lang = sv,	weight = 1.0},
 	{lang = tr,	weight = 1.0},
 	{lang = us,	weight = 5.0},
