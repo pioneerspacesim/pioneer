@@ -603,31 +603,31 @@
     "description": "",
     "message": "Used to remotely inspect the equipment, cargo and state of other ships."
   },
-  "THRUSTERS_BASIC": {
-    "description": "",
-    "message": "Modified Thrusters"
-  },
-  "THRUSTERS_BASIC_DESCRIPTION": {
-    "description": "",
-    "message": "A modified type of thrusters approved for your ship."
-  },
-  "THRUSTERS_BEST": {
-    "description": "",
-    "message": "Bespoke Thrusters"
-  },
-  "THRUSTERS_BEST_DESCRIPTION": {
-    "description": "",
-    "message": "Custom made thrusters that provide the best possible output."
-  },
   "THRUSTERS_DEFAULT": {
     "description": "Equipment name for default RCS thrusters",
     "message": "Default Thrusters"
   },
-  "THRUSTERS_MEDIUM": {
+  "THRUSTERS_IMPROVED": {
+    "description": "",
+    "message": "Improved Thrusters"
+  },
+  "THRUSTERS_IMPROVED_DESCRIPTION": {
+    "description": "",
+    "message": "An improved type of thrusters approved for your ship."
+  },
+  "THRUSTERS_NAVAL": {
+    "description": "",
+    "message": "Naval Thrusters"
+  },
+  "THRUSTERS_NAVAL_DESCRIPTION": {
+    "description": "",
+    "message": "Naval thrusters specifically tailored for your ship to provide the best possible output."
+  },
+  "THRUSTERS_OPTIMISED": {
     "description": "",
     "message": "Optimised Thrusters"
   },
-  "THRUSTERS_MEDIUM_DESCRIPTION": {
+  "THRUSTERS_OPTIMISED_DESCRIPTION": {
     "description": "",
     "message": "Thrusters that have been optimised to reduce inefficiencies and improve power output."
   },

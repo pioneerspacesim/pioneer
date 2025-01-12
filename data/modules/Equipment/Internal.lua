@@ -125,7 +125,8 @@ Equipment.Register("misc.hull_autorepair", EquipType.New {
 -- Thruster Mods
 --===============================================
 
-Equipment.Register("misc.thrusters_default", ThrusterType.New {
+-- S1 thrusters
+Equipment.Register("misc.thrusters_default_s1", ThrusterType.New {
 	l10n_key="THRUSTERS_DEFAULT", slots="thruster",
 	price=120, purchasable=true, tech_level=2,
 	slot = { type="thruster", size=1 },
@@ -133,27 +134,159 @@ Equipment.Register("misc.thrusters_default", ThrusterType.New {
 	icon_name="equip_thrusters_basic"
 })
 
-Equipment.Register("misc.thrusters_basic", ThrusterType.New {
-	l10n_key="THRUSTERS_BASIC", slots="thruster",
+Equipment.Register("misc.thrusters_improved_s1", ThrusterType.New {
+	l10n_key="THRUSTERS_IMPROVED", slots="thruster",
 	price=250, purchasable=true, tech_level=5,
 	slot = { type="thruster", size=1 },
 	mass=0.1, volume=0.05, capabilities={ thruster_power=1 },
 	icon_name="equip_thrusters_basic"
 })
 
-Equipment.Register("misc.thrusters_medium", ThrusterType.New {
-	l10n_key="THRUSTERS_MEDIUM", slots="thruster",
+Equipment.Register("misc.thrusters_optimised_s1", ThrusterType.New {
+	l10n_key="THRUSTERS_OPTIMISED", slots="thruster",
 	price=560, purchasable=true, tech_level=8,
 	slot = { type="thruster", size=1 },
-	mass=0.05, volume=0.05, capabilities={ thruster_power=2 },
+	mass=0.05, volume=0.03, capabilities={ thruster_power=2 },
 	icon_name="equip_thrusters_medium"
 })
 
-Equipment.Register("misc.thrusters_best", ThrusterType.New {
-	l10n_key="THRUSTERS_BEST", slots="thruster",
-	price=14000, purchasable=true, tech_level="MILITARY",
+Equipment.Register("misc.thrusters_naval_s1", ThrusterType.New {
+	l10n_key="THRUSTERS_NAVAL", slots="thruster",
+	price=1400, purchasable=true, tech_level="MILITARY",
 	slot = { type="thruster", size=1 },
-	mass=0, volume=0, capabilities={ thruster_power=3 },
+	mass=0.1, volume=0.1, capabilities={ thruster_power=3 },
+	icon_name="equip_thrusters_best"
+})
+
+-- S2 thrusters
+Equipment.Register("misc.thrusters_default_s2", ThrusterType.New {
+	l10n_key="THRUSTERS_DEFAULT", slots="thruster",
+	price=220, purchasable=true, tech_level=2,
+	slot = { type="thruster", size=2 },
+	mass=0, volume=0, capabilities={ thruster_power=0 },
+	icon_name="equip_thrusters_basic"
+})
+
+Equipment.Register("misc.thrusters_improved_s2", ThrusterType.New {
+	l10n_key="THRUSTERS_IMPROVED", slots="thruster",
+	price=460, purchasable=true, tech_level=5,
+	slot = { type="thruster", size=2 },
+	mass=0.24, volume=0.12, capabilities={ thruster_power=1 },
+	icon_name="equip_thrusters_basic"
+})
+
+Equipment.Register("misc.thrusters_optimised_s2", ThrusterType.New {
+	l10n_key="THRUSTERS_OPTIMISED", slots="thruster",
+	price=1025, purchasable=true, tech_level=8,
+	slot = { type="thruster", size=2 },
+	mass=0.12, volume=0.1, capabilities={ thruster_power=2 },
+	icon_name="equip_thrusters_medium"
+})
+
+Equipment.Register("misc.thrusters_naval_s2", ThrusterType.New {
+	l10n_key="THRUSTERS_NAVAL", slots="thruster",
+	price=2565, purchasable=true, tech_level="MILITARY",
+	slot = { type="thruster", size=2 },
+	mass=0.24, volume=0.24, capabilities={ thruster_power=3 },
+	icon_name="equip_thrusters_best"
+})
+
+-- S3 thrusters
+Equipment.Register("misc.thrusters_default_s3", ThrusterType.New {
+	l10n_key="THRUSTERS_DEFAULT", slots="thruster",
+	price=420, purchasable=true, tech_level=2,
+	slot = { type="thruster", size=3 },
+	mass=0, volume=0, capabilities={ thruster_power=0 },
+	icon_name="equip_thrusters_basic"
+})
+
+Equipment.Register("misc.thrusters_improved_s3", ThrusterType.New {
+	l10n_key="THRUSTERS_IMPROVED", slots="thruster",
+	price=880, purchasable=true, tech_level=5,
+	slot = { type="thruster", size=3 },
+	mass=0.46, volume=0.23, capabilities={ thruster_power=1 },
+	icon_name="equip_thrusters_basic"
+})
+
+Equipment.Register("misc.thrusters_optimised_s3", ThrusterType.New {
+	l10n_key="THRUSTERS_OPTIMISED", slots="thruster",
+	price=1950, purchasable=true, tech_level=8,
+	slot = { type="thruster", size=3 },
+	mass=0.23, volume=0.2, capabilities={ thruster_power=2 },
+	icon_name="equip_thrusters_medium"
+})
+
+Equipment.Register("misc.thrusters_naval_s3", ThrusterType.New {
+	l10n_key="THRUSTERS_NAVAL", slots="thruster",
+	price=4970, purchasable=true, tech_level="MILITARY",
+	slot = { type="thruster", size=3 },
+	mass=0.46, volume=0.46, capabilities={ thruster_power=3 },
+	icon_name="equip_thrusters_best"
+})
+
+-- S4 Thrusters
+Equipment.Register("misc.thrusters_default_s4", ThrusterType.New {
+	l10n_key="THRUSTERS_DEFAULT", slots="thruster",
+	price=880, purchasable=true, tech_level=2,
+	slot = { type="thruster", size=4 },
+	mass=0, volume=0, capabilities={ thruster_power=0 },
+	icon_name="equip_thrusters_basic"
+})
+
+Equipment.Register("misc.thrusters_improved_s4", ThrusterType.New {
+	l10n_key="THRUSTERS_IMPROVED", slots="thruster",
+	price=1850, purchasable=true, tech_level=5,
+	slot = { type="thruster", size=4 },
+	mass=0.96, volume=0.48, capabilities={ thruster_power=1 },
+	icon_name="equip_thrusters_basic"
+})
+
+Equipment.Register("misc.thrusters_optimised_s4", ThrusterType.New {
+	l10n_key="THRUSTERS_OPTIMISED", slots="thruster",
+	price=4096, purchasable=true, tech_level=8,
+	slot = { type="thruster", size=4 },
+	mass=0.48, volume=0.42, capabilities={ thruster_power=2 },
+	icon_name="equip_thrusters_medium"
+})
+
+Equipment.Register("misc.thrusters_naval_s4", ThrusterType.New {
+	l10n_key="THRUSTERS_NAVAL", slots="thruster",
+	price=10240, purchasable=true, tech_level="MILITARY",
+	slot = { type="thruster", size=4 },
+	mass=0.96, volume=0.96, capabilities={ thruster_power=3 },
+	icon_name="equip_thrusters_best"
+})
+
+-- S5 thrusters
+Equipment.Register("misc.thrusters_default_s5", ThrusterType.New {
+	l10n_key="THRUSTERS_DEFAULT", slots="thruster",
+	price=1950, purchasable=true, tech_level=2,
+	slot = { type="thruster", size=5 },
+	mass=0, volume=0, capabilities={ thruster_power=0 },
+	icon_name="equip_thrusters_basic"
+})
+
+Equipment.Register("misc.thrusters_improved_s5", ThrusterType.New {
+	l10n_key="THRUSTERS_IMPROVED", slots="thruster",
+	price=4090, purchasable=true, tech_level=5,
+	slot = { type="thruster", size=5 },
+	mass=2.1, volume=1.05, capabilities={ thruster_power=1 },
+	icon_name="equip_thrusters_basic"
+})
+
+Equipment.Register("misc.thrusters_optimised_s5", ThrusterType.New {
+	l10n_key="THRUSTERS_OPTIMISED", slots="thruster",
+	price=9050, purchasable=true, tech_level=8,
+	slot = { type="thruster", size=5 },
+	mass=1.05, volume=0.9, capabilities={ thruster_power=2 },
+	icon_name="equip_thrusters_medium"
+})
+
+Equipment.Register("misc.thrusters_naval_s5", ThrusterType.New {
+	l10n_key="THRUSTERS_NAVAL", slots="thruster",
+	price=22620, purchasable=true, tech_level="MILITARY",
+	slot = { type="thruster", size=5 },
+	mass=2.1, volume=2.1, capabilities={ thruster_power=3 },
 	icon_name="equip_thrusters_best"
 })
 
