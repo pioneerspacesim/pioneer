@@ -67,6 +67,10 @@
     "description": "Market header when buying items",
     "message": "Available For Purchase"
   },
+  "AVAILABLE_STOCK": {
+    "description": "Market stat showing number of items in stock",
+    "message": "Available Stock"
+  },
   "AVERAGE": {
     "description": "",
     "message": "Average"
@@ -1831,6 +1835,10 @@
     "description": "Ship jump status",
     "message": "Out of range"
   },
+  "OUT_OF_STOCK": {
+    "description": "Equipment availability",
+    "message": "Out of stock"
+  },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
     "message": "Filter overview window entries by name"
@@ -2405,7 +2413,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Tech level"
+    "message": "Tech Level"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
