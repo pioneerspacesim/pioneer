@@ -23,6 +23,7 @@ Slot.size = 1
 Slot.size_min = nil ---@type number?
 Slot.tag = nil ---@type string?
 Slot.default = nil ---@type string?
+Slot.required = false ---@type boolean
 Slot.hardpoint = false
 Slot.i18n_key = nil ---@type string?
 Slot.i18n_res = "equipment-core"
