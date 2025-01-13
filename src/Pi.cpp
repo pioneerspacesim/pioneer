@@ -679,6 +679,8 @@ void MainMenu::Start()
 
 	perfInfoDisplay->ClearCounter(PiGui::PerfInfo::COUNTER_PHYS);
 	perfInfoDisplay->ClearCounter(PiGui::PerfInfo::COUNTER_PIGUI);
+
+	LuaEvent::Queue("onEnterMainMenu");
 }
 
 void MainMenu::Update(float deltaTime)
@@ -689,6 +691,8 @@ void MainMenu::Update(float deltaTime)
 		Pi::intro->RefreshBackground(Pi::renderer);
 
 	Pi::intro->Draw(deltaTime);
+
+	LuaEvent::Emit();
 
 	Pi::pigui->NewFrame();
 	PiGui::EmitEvents();

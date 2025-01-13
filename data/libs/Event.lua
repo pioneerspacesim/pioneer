@@ -241,6 +241,28 @@ Event.New = function()
 end
 
 --
+-- Event: onEnterMainMenu
+--
+-- Triggered when the menu is loaded.
+--
+-- > local onMenuLoaded = function () ... end
+-- > Event.Register("onEnterMainMenu", onMenuLoaded)
+--
+-- onMenuLoaded is triggered once the menu is fully available
+--
+-- This is a good place to perform startup checks, including checking for
+-- errors and making them visible to the player
+--
+-- Availability:
+--
+--   2025-02-03
+--
+-- Status:
+--
+--   stable
+--
+
+--
 -- Event: onGameStart
 --
 -- Triggered when the game is first initialised.
