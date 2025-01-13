@@ -9,6 +9,7 @@
 
 ---@class ShipDef
 ---@field id string
+---@field path string
 ---@field name string
 ---@field shipClass string
 ---@field manufacturer string

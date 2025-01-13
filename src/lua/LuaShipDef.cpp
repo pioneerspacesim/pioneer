@@ -238,6 +238,7 @@ void LuaShipDef::Register()
 		lua_newtable(l);
 
 		pi_lua_settable(l, "id", iter.first.c_str());
+		pi_lua_settable(l, "path", st.definitionPath.c_str());
 		pi_lua_settable(l, "name", st.name.c_str());
 		pi_lua_settable(l, "shipClass", st.shipClass.c_str());
 		pi_lua_settable(l, "manufacturer", st.manufacturer.c_str());
