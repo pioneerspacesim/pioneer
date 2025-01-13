@@ -178,6 +178,8 @@ end
 
 local windowFlags = ui.WindowFlags { "NoDecoration", "NoBackground", "NoMove" }
 
+local frameCounter = 3
+
 ui.registerModule('notification', function()
 	if #Notification.queue == 0 then
 		return
@@ -205,13 +207,15 @@ ui.registerModule('notification', function()
 			table.remove(Notification.queue, i)
 		else
 			-- TODO(screen-resize): this has to be re-calculated if the screen width changes
-			if not notif.size then
+			if not notif.size or frameCounter > 0 then
 				calcNotificationSize(notif, wrapWidth)
 			end
 
 			maxHeight = maxHeight + notif.size.y + (i == 1 and 0.0 or vSpacing)
 		end
 	end
+
+	frameCounter = math.max(frameCounter - 1, 0)
 
 	-- Grow vertically, but fix horizontal size
 	local windowHeight = math.min(maxHeight, ui.screenHeight)
@@ -243,7 +247,7 @@ ui.registerModule('notification', function()
 		local hovered = drawNotification(notif, wrapWidth)
 
 		-- Prevent this notification from expiring while hovered
-		if hovered then
+		if hovered and notif.expiry then
 			notif.expiry = notif.expiry + Engine.frameTime
 		end
 
