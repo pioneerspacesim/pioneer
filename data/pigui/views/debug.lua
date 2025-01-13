@@ -52,6 +52,10 @@ function debugView.registerTab(name, tab)
 	local index = debugView.tabs[name] or #debugView.tabs + 1
 	debugView.tabs[index] = tab
 	debugView.tabs[name] = index
+
+	table.sort(debugView.tabs, function(a, b)
+		return (a.priority and not b.priority) or (a.priority and b.priority and a.priority < b.priority) or (a.priority == b.priority and a.label < b.label)
+	end)
 end
 
 function debugView.drawTabs(delta)
