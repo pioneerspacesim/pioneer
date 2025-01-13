@@ -123,11 +123,11 @@ function EquipCardUnavailable:tooltipContents(data, isSelected)
 			if not data.canInstall then
 				ui.textWrapped(l.NOT_SUPPORTED_ON_THIS_SHIP % { equipment = data.name } .. ".")
 			elseif not data.canReplace then
-				ui.textWrapped(l.CANNOT_SELL_NONEMPTY_EQUIP .. ".")
+				ui.textWrapped(l.CANNOT_SELL_NONEMPTY_EQUIP)
 			elseif data.outOfStock then
-				ui.textWrapped(l.OUT_OF_STOCK)
+				ui.textWrapped(l.ITEM_IS_OUT_OF_STOCK)
 			else
-				ui.textWrapped(l.YOU_NOT_ENOUGH_MONEY)
+				ui.textWrapped(l.YOU_NOT_ENOUGH_MONEY .. ".")
 			end
 
 		end)
@@ -178,6 +178,7 @@ function Outfitter:Constructor()
 	self.station = nil ---@type SpaceStation
 	self.filterSlot = nil ---@type HullConfig.Slot?
 	self.replaceEquip = nil ---@type EquipType?
+	self.canReplaceEquip = false
 	self.canSellEquip = false
 
 	self.sortId = nil ---@type string?
@@ -305,7 +306,7 @@ function Outfitter:buildEquipmentList()
 			data.canInstall = equipSet:CanInstallLoose(equip)
 		end
 
-		data.canReplace = not self.replaceEquip or self.canSellEquip
+		data.canReplace = not self.replaceEquip or self.canReplaceEquip
 
 		data.outOfStock = data.count <= 0
 
@@ -429,6 +430,7 @@ function Outfitter:drawEquipmentItem(data, isSelected)
 	end
 end
 
+---@param data UI.EquipmentOutfitter.EquipData
 function Outfitter:drawBuyButton(data)
 	local icon = icons.autopilot_dock
 	local price_text = ui.Format.Money(self:getInstallPrice(data.equip))
@@ -439,6 +441,7 @@ function Outfitter:drawBuyButton(data)
 	end
 end
 
+---@param data UI.EquipCard.Data
 function Outfitter:drawSellButton(data)
 	local icon = icons.autopilot_undock_illegal
 	local price_text = ui.Format.Money(self:getSellPrice(data.equip))
