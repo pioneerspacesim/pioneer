@@ -23,6 +23,7 @@ Slot.size = 1
 Slot.size_min = nil ---@type number?
 Slot.tag = nil ---@type string?
 Slot.default = nil ---@type string?
+Slot.required = false ---@type boolean
 Slot.hardpoint = false
 Slot.i18n_key = nil ---@type string?
 Slot.i18n_res = "equipment-core"
@@ -41,6 +42,7 @@ Slot.gimbal = nil ---@type table?
 local HullConfig = utils.proto("HullConfig")
 
 HullConfig.id = ""
+HullConfig.path = ""
 HullConfig.equipCapacity = 0
 
 -- Default slot config for a new shipdef
@@ -71,6 +73,7 @@ local function CreateShipConfig(def)
 	Serializer:RegisterPersistent("ShipDef." .. def.id, newShip)
 
 	newShip.id = def.id
+	newShip.path = def.path
 	newShip.equipCapacity = def.equipCapacity
 
 	table.merge(newShip.slots, def.raw.equipment_slots or {}, function(name, slotDef)

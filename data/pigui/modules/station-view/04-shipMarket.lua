@@ -32,6 +32,8 @@ local widgetSizes = ui.rescaleUI({
 widgetSizes.iconSpacer = (widgetSizes.buyButton - widgetSizes.iconSize)/2
 
 local shipMarket
+---@type table<table, { price: integer, equip: { [1]: string, [2]: EquipType }[] }
+local advertDataCache = {}
 local icons = {}
 local manufacturerIcons = {}
 local selectedItem
@@ -66,6 +68,46 @@ local shipClassString = {
 	unknown                    = "",
 }
 
+local function makeAdvertDataCacheEntry(shipOnSale)
+	local def = shipOnSale.def ---@type ShipDef
+	local config = assert(HullConfig.GetHullConfig(def.id))
+
+	-- TODO: some sort of condition-based discount or an alteration to the
+	-- price for purchasing directly from a manufacturer's station?
+	local shipPrice = def.basePrice
+
+	local equip = {}
+
+	for _, slot in pairs(config.slots) do
+
+		if slot.default then
+			local defaultEquip = Equipment.Get(slot.default)
+
+			-- Have to go through all of this to get an accurate cost for the ship...
+			-- TODO: consider adding a "cost function" to EquipType which moves
+			-- responsibility for computing accurate cost into the domain of the code
+			-- that knows how the equipment will be specialized for the ship?
+			if defaultEquip then
+				local inst = defaultEquip:Instance()
+
+				if inst.SpecializeForShip then
+					inst:SpecializeForShip(config)
+				end
+
+				if slot.count then
+					inst:SetCount(slot.count)
+				end
+
+				table.insert(equip, { slot.id, inst })
+				shipPrice = shipPrice + inst.price
+			end
+		end
+
+	end
+
+	return { price = shipPrice, equip = equip }
+end
+
 local function refreshModelSpinner()
 	if not selectedItem then return end
 	cachedShip = selectedItem.def.modelName
@@ -80,6 +122,9 @@ local function refreshShipMarket()
 	shipMarket.items = station:GetShipsOnSale()
 	selectedItem = nil
 	shipMarket.selectedItem = nil
+	advertDataCache = utils.map_table(shipMarket.items, function(_, sos)
+		return sos, makeAdvertDataCacheEntry(sos)
+	end)
 end
 
 local function manufacturerIcon (manufacturer)
@@ -96,14 +141,10 @@ local tradeInValue = function(ship)
 	local shipDef = ShipDef[ship.shipId]
 	local value = shipDef.basePrice * shipSellPriceReduction * ship.hullPercent/100
 
-	if shipDef.hyperdriveClass > 0 then
-		value = value - Equipment.new["hyperspace.hyperdrive_" .. shipDef.hyperdriveClass].price * equipSellPriceReduction
-	end
-
+	-- We don't need to remove the hyperdrive from the value of the ship since the player is charged for it when buying the ship
 	local equipment = ship:GetComponent("EquipSet"):GetInstalledEquipment()
 	for _, e in pairs(equipment) do
-		local n = e.count or 1
-		value = value + n * e.price * equipSellPriceReduction
+		value = value + e.price * equipSellPriceReduction
 	end
 
 	return math.ceil(value)
@@ -114,7 +155,9 @@ local function buyShip (mkt, sos)
 	local station = assert(player:GetDockedWith())
 	local def = sos.def
 
-	local cost = def.basePrice - tradeInValue(Game.player)
+	local shipData = advertDataCache[sos]
+
+	local cost = shipData.price - tradeInValue(Game.player)
 	if math.floor(cost) ~= cost then
 		error("Ship price non-integer value.")
 	end
@@ -151,10 +194,25 @@ local function buyShip (mkt, sos)
 	if sos.pattern then player.model:SetPattern(sos.pattern) end
 	player:SetLabel(sos.label)
 
-	-- TODO: ships on sale should have their own pre-installed set of equipment
-	-- items instead of being completely empty
+	-- TODO: ship ads should support an explicit list of (pre-owned) equipment as well as / instead of factory-default items
+	-- At current we just build a list from the HullConfig's default items
 
-	if def.hyperdriveClass > 0 then
+	local equipSet = player:GetComponent('EquipSet')
+
+	-- Install pre-built list of default equipment into ship
+	for _, pair in ipairs(shipData.equip) do
+		local handle = assert(equipSet:GetSlotHandle(pair[1]))
+
+		if equipSet:CanInstallInSlot(handle, pair[2]) then
+			equipSet:Install(pair[2], handle)
+		else
+			logWarning("Default equipment item {} for ship slot {}.{} is not compatible with slot." % { slot.default, player.shipId, slot.id })
+		end
+	end
+
+	-- FIXME: fallback pass. Hyperdrives should be specified as a default item on the hyperdrive slot
+	-- Once all hyperdrives are specified as default, this pass should be removed
+	if def.hyperdriveClass > 0 and not player:GetInstalledHyperdrive() then
 		local slot = player:GetComponent('EquipSet'):GetAllSlotsOfType('hyperdrive')[1]
 
 		-- Install the best-fitting non-military hyperdrive we can
@@ -376,10 +434,12 @@ local tradeMenu = function()
 					ui.text(shipClassString[selectedItem.def.shipClass])
 				end)
 
+				local cost = advertDataCache[selectedItem].price
+
 				ui.withFont(pionillium.heading, function()
-					ui.text(l.PRICE..": "..Format.Money(selectedItem.def.basePrice, false))
+					ui.text(l.PRICE..": "..Format.Money(cost, false))
 					ui.sameLine()
-					ui.text(l.AFTER_TRADE_IN..": "..Format.Money(selectedItem.def.basePrice - tradeInValue(Game.player), false))
+					ui.text(l.AFTER_TRADE_IN..": "..Format.Money(cost - tradeInValue(Game.player), false))
 				end)
 
 				ui.nextColumn()
@@ -478,7 +538,7 @@ shipMarket = Table.New("shipMarketWidget", false, {
 			ui.text(item.def.name)
 			ui.nextColumn()
 			ui.dummy(widgetSizes.rowVerticalSpacing)
-			ui.text(Format.Money(item.def.basePrice,false))
+			ui.text(Format.Money(advertDataCache[item].price, false))
 			ui.nextColumn()
 			ui.dummy(widgetSizes.rowVerticalSpacing)
 			ui.text(item.def.equipCapacity.."t")

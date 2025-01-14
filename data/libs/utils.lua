@@ -12,6 +12,24 @@ local Engine = require 'Engine' -- rand
 local utils = {}
 
 --
+-- Function: keys
+--
+-- Create an iterator that returns a numberic index and the keys of the
+-- provided table. Iteration order is undefined (uses pairs() internally).
+--
+-- Example:
+--   > for i, k in utils.keys(table) do ... end
+--
+function utils.keys(table)
+	local k = nil
+	local f = function(s, i)
+		k = next(s, k)
+		return (k and i + 1 or nil), k
+	end
+	return f, table, 0
+end
+
+--
 -- Function: numbered_keys
 --
 -- Transform an iterator to one that returns a numeric index instead of keys

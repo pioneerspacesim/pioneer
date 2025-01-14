@@ -142,13 +142,14 @@ ShipPlan.freeVolume = 0
 ShipPlan.equipMass = 0
 ShipPlan.threat = 0
 ShipPlan.freeThreat = 0
-ShipPlan.filled = {}
-ShipPlan.equip = {}
-ShipPlan.install = {}
-ShipPlan.slots = {}
+ShipPlan.filled = {} ---@type table<string, EquipType>
+ShipPlan.equip = {} ---@type EquipType[]
+ShipPlan.install = {} ---@type string[]
+ShipPlan.slots = {} ---@type HullConfig.Slot[]
 
 function ShipPlan:__clone()
 	self.filled = {}
+	self.default = {}
 	self.equip = {}
 	self.install = {}
 	self.slots = {}
@@ -612,6 +613,31 @@ function ShipBuilder.MakePlan(template, shipConfig, threat)
 	if shipPlan.freeThreat <= 0 then
 		logWarning("ShipBuilder: {} has a hull threat of {}, greater than the provided threat {}. Ship will not be properly outfitted." % {
 			shipConfig.id, hullThreat, threat})
+	end
+
+	-- Setup required equipment items for the ship
+	-- TODO: support op="replace" equipment rules to override required slots?
+	for _, slot in pairs(shipPlan.slots) do
+
+		if slot.required then
+			local defaultEquip = Equipment.Get(slot.default)
+
+			if defaultEquip then
+
+				local inst = defaultEquip:Instance()
+
+				if inst.SpecializeForShip then
+					inst:SpecializeForShip(shipPlan.config)
+				end
+
+				if slot.count then
+					inst:SetCount(slot.count)
+				end
+
+				shipPlan:AddEquipToPlan(inst, slot)
+			end
+		end
+
 	end
 
 	for _, rule in ipairs(template.rules) do

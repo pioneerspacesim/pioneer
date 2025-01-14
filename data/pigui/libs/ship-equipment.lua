@@ -187,9 +187,12 @@ function EquipmentWidget:onSelectSlot(slotData, children)
 		self.selectedEquip = slotData.equip
 		self.selectionActive = true
 
+		local hasChildren = children and children.count > 0
+
 		self.market.filterSlot = self.selectedSlot
 		self.market.replaceEquip = self.selectedEquip
-		self.market.canSellEquip = not children or children.count == 0
+		self.market.canReplaceEquip = not hasChildren
+		self.market.canSellEquip = not (self.selectedSlot and self.selectedSlot.required or hasChildren)
 		self.market:refresh()
 	end
 end

@@ -366,6 +366,9 @@ function DebugShipTool:drawSlotDetail(slot)
 		drawSlotValue(slot, "size_min")
 		drawSlotValue(slot, "tag")
 		drawSlotValue(slot, "default")
+		if slot.required then
+			drawSlotValue(slot, "required")
+		end
 		drawSlotValue(slot, "hardpoint")
 		drawSlotValue(slot, "count")
 

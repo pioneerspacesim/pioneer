@@ -442,6 +442,7 @@ end
 ---@param slotHandle HullConfig.Slot?
 ---@return boolean
 function EquipSet:Install(equipment, slotHandle)
+	assert(equipment:isInstance())
 	local slotId = self.idCache[slotHandle]
 
 	if slotHandle then

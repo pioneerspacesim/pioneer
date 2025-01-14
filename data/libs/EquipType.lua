@@ -161,6 +161,14 @@ function EquipType:isProto()
 	return not rawget(self, "__proto")
 end
 
+-- Method: isInstance
+--
+-- Returns true if this object is an equipment item instance, false if it is
+-- n prototype.
+function EquipType:isInstance()
+	return rawget(self, "__proto") ~= nil
+end
+
 -- Method: GetPrototype
 --
 -- Return the prototype this equipment item instance is derived from, or the
@@ -190,6 +198,7 @@ end
 -- instance represents.
 ---@param count integer
 function EquipType:SetCount(count)
+	assert(self:isInstance())
 	local proto = self:GetPrototype()
 
 	self.mass = proto.mass * count

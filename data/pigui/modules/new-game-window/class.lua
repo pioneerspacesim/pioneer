@@ -32,7 +32,7 @@ local equipment2 = {
 	sensor         = "sensor.radar",
 	hull_mod       = "hull.atmospheric_shielding",
 	hyperdrive     = "hyperspace.hyperdrive_2",
-	thruster       = "misc.thrusters_default_s1",
+	thruster       = "thruster.default_s1",
 	missile_bay_1  = "missile_bay.opli_internal_s2",
 	missile_bay_2  = "missile_bay.opli_internal_s2",
 }
