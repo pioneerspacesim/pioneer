@@ -23,7 +23,8 @@
 			"size_min": 2,
 			"i18n_key": "HARDPOINT_MINING_LASER",
 			"tag": "tag_mining_laser_s4_1",
-			"hardpoint": true
+			"hardpoint": true,
+			"gimbal": [10,10]
 		},
 		"mining_laser_s4_2": {
 			"type": "weapon.mining",
@@ -31,7 +32,8 @@
 			"size_min": 2,
 			"i18n_key": "HARDPOINT_MINING_LASER",
 			"tag": "tag_mining_laser_s4_2",
-			"hardpoint": true
+			"hardpoint": true,
+			"gimbal": [10,10]
 		},
 		"utility_s3_1": {
 			"type": "utility",
@@ -122,13 +124,24 @@
 			"type": "computer",
 			"size": 1
 		},
+		"hull_1": {
+			"type": "hull",
+			"size": 5
+		},
+		"structure_1": {
+			"type": "structure",
+			"size": 5
+		},
 		"hyperdrive": {
 			"type": "hyperdrive",
+			"default": "hyperspace.hyperdrive_5",
 			"size": 5,
 			"size_min": 4
 		},
 		"thruster": {
 			"type": "thruster",
+			"default": "thruster.default_s3",
+			"required": true,
 			"size": 3,
 			"count": 24
 		}

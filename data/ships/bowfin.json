@@ -23,7 +23,7 @@
 			"i18n_key": "HARDPOINT_MISSILE_ARRAY",
 			"tag": "tag_missile_bay_1",
 			"hardpoint": true,
-			"default": "missile_rack.bowfin_internal_s2"
+			"default": "missile_bay.bowfin_internal"
 		},
 		"missile_bay_2": {
 			"type": "missile_bay.bowfin_internal",
@@ -31,7 +31,7 @@
 			"i18n_key": "HARDPOINT_MISSILE_ARRAY",
 			"tag": "tag_missile_bay_2",
 			"hardpoint": true,
-			"default": "missile_rack.bowfin_internal_s2"
+			"default": "missile_bay.bowfin_internal"
 		},
 		"missile_bay_3": {
 			"type": "missile_bay.bowfin_internal",
@@ -39,7 +39,7 @@
 			"i18n_key": "HARDPOINT_MISSILE_ARRAY",
 			"tag": "tag_missile_bay_3",
 			"hardpoint": true,
-			"default": "missile_rack.bowfin_internal_s2"
+			"default": "missile_bay.bowfin_internal"
 		},
 		"missile_bay_4": {
 			"type": "missile_bay.bowfin_internal",
@@ -47,7 +47,7 @@
 			"i18n_key": "HARDPOINT_MISSILE_ARRAY",
 			"tag": "tag_missile_bay_4",
 			"hardpoint": true,
-			"default": "missile_rack.bowfin_internal_s2"
+			"default": "missile_bay.bowfin_internal"
 		},
 		"shield_s1_1": {
 			"type": "shield",
@@ -76,13 +76,24 @@
 			"hardpoint": true,
 			"gimbal": [8,8]
 		},
+		"hull_1": {
+			"type": "hull",
+			"size": 1
+		},
+		"structure_1": {
+			"type": "structure",
+			"size": 1
+		},
 		"hyperdrive": {
 			"type": "hyperdrive",
+			"default": "hyperspace.hyperdrive_1",
 			"size": 1,
 			"size_min": 1
 		},
 		"thruster": {
 			"type": "thruster",
+			"default": "thruster.default_s1",
+			"required": true,
 			"size": 1,
 			"count": 12
 		}
