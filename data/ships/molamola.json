@@ -17,11 +17,11 @@
 	"cargo": 72,
 
 	"equipment_slots": {
-		"weapon_right_nose": {
+		"weapon_left_nose": {
 			"type": "weapon",
 			"size": 1,
 			"i18n_key": "HARDPOINT_WEAPON_RIGHT_NOSE",
-			"tag": "tag_weapon_right_nose",
+			"tag": "tag_weapon_left_nose",
 			"hardpoint": true,
 			"gimbal": [0,0]
 		},
@@ -45,13 +45,32 @@
 			"type": "shield",
 			"size": 1
 		},
+		"weapon_right_nose": {
+			"type": "weapon",
+			"size": 1,
+			"i18n_key": "HARDPOINT_WEAPON_RIGHT_NOSE",
+			"tag": "tag_weapon_right_nose",
+			"hardpoint": true,
+			"gimbal": [0,0]
+		},
+		"hull_1": {
+			"type": "hull",
+			"size": 1
+		},
+		"structure_1": {
+			"type": "structure",
+			"size": 1
+		},
 		"hyperdrive": {
 			"type": "hyperdrive",
+			"default": "hyperspace.hyperdrive_2",
 			"size": 2,
 			"size_min": 2
 		},
 		"thruster": {
 			"type": "thruster",
+			"default": "thruster.default_s2",
+			"required": true,
 			"size": 2,
 			"count": 12
 		}

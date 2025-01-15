@@ -178,13 +178,24 @@
 			"size": 4,
 			"size_min": 1
 		},
+		"hull_1": {
+			"type": "hull",
+			"size": 4
+		},
+		"structure_1": {
+			"type": "structure",
+			"size": 4
+		},
 		"hyperdrive": {
 			"type": "hyperdrive",
+			"default": "hyperspace.hyperdrive_4",
 			"size": 4,
 			"size_min": 4
 		},
 		"thruster": {
 			"type": "thruster",
+			"default": "thruster.default_s4",
+			"required": true,
 			"size": 4,
 			"count": 8
 		}

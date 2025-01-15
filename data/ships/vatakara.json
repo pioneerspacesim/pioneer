@@ -2,7 +2,7 @@
 	"model": "vatakara",
 	"name": "Vatakara",
 	"cockpit": "",
-	"shield_model": "malabar_shield",
+	"shield_model": "vatakara_shield",
 	"manufacturer": "mandarava-csepel",
 	"ship_class": "heavy_freighter",
 	"min_crew": 4,
@@ -58,10 +58,10 @@
 			"size": 2
 		},
 		"fuel_scoop": {
-			"type": "",
+			"type": "fuel_scoop",
 			"size": 5,
 			"size_min": 3,
-			"tag": "",
+			"tag": "tag_fuel_scoop",
 			"hardpoint": true
 		},
 		"computer_1": {
@@ -85,55 +85,55 @@
 		"utility_s1_1": {
 			"type": "utility",
 			"size": 1,
-			"tag": "",
+			"tag": "tag_utility_s1_1",
 			"hardpoint": true
 		},
 		"utility_s1_2": {
 			"type": "utility",
 			"size": 1,
-			"tag": "",
+			"tag": "tag_utility_s1_2",
 			"hardpoint": true
 		},
 		"utility_s2_3": {
 			"type": "utility",
 			"size": 2,
 			"size_min": 1,
-			"tag": "",
+			"tag": "tag_utility_s2_3",
 			"hardpoint": true
 		},
 		"utility_s2_4": {
 			"type": "utility",
 			"size": 2,
 			"size_min": 1,
-			"tag": "",
+			"tag": "tag_utility_s2_4",
 			"hardpoint": true
 		},
 		"utility_s3_5": {
 			"type": "utility",
 			"size": 3,
 			"size_min": 1,
-			"tag": "",
+			"tag": "tag_utility_s3_5",
 			"hardpoint": true
 		},
 		"utility_s3_6": {
 			"type": "utility",
 			"size": 3,
 			"size_min": 1,
-			"tag": "",
+			"tag": "tag_utility_s3_6",
 			"hardpoint": true
 		},
 		"utility_s4_9": {
 			"type": "utility",
 			"size": 4,
 			"size_min": 2,
-			"tag": "",
+			"tag": "tag_utility_s4_9",
 			"hardpoint": true
 		},
 		"utility_s5_11": {
 			"type": "utility",
 			"size": 5,
 			"size_min": 3,
-			"tag": "",
+			"tag": "tag_utility_s5_11",
 			"hardpoint": true
 		},
 		"weapon_s3_1": {
@@ -141,7 +141,7 @@
 			"size": 3,
 			"size_min": 2,
 			"i18n_key": "HARDPOINT_WEAPON_FRONT",
-			"tag": "",
+			"tag": "tag_weapon_s3_1",
 			"hardpoint": true,
 			"gimbal": [30,30]
 		},
@@ -150,7 +150,7 @@
 			"size": 3,
 			"size_min": 2,
 			"i18n_key": "HARDPOINT_WEAPON_REAR",
-			"tag": "",
+			"tag": "tag_weapon_s3_2",
 			"hardpoint": true,
 			"gimbal": [30,30]
 		},
@@ -169,32 +169,38 @@
 			"size": 3,
 			"size_min": 2
 		},
-		"missile_bay_1 (cap:5xS2)": {
+		"missile_bay_1": {
 			"type": "missile_bay.opli_internal",
 			"size": 2,
-			"i18n_key": "HARDPOINT_MISSILE_BAY"
+			"i18n_key": "HARDPOINT_MISSILE_BAY",
+			"tag": "tag_missile_bay_1",
+			"hardpoint": true,
+			"default": "missile_bay.opli_internal_s2"
 		},
-		"missile_bay_2 (cap:5xS2)": {
+		"missile_bay_2": {
 			"type": "missile_bay.opli_internal",
 			"size": 2,
-			"i18n_key": "HARDPOINT_MISSILE_BAY"
+			"i18n_key": "HARDPOINT_MISSILE_BAY",
+			"tag": "tag_missile_bay_2",
+			"hardpoint": true,
+			"default": "missile_bay.opli_internal_s2"
 		},
 		"sensor_s3_1": {
-			"type": "",
+			"type": "sensor",
 			"size": 3,
 			"size_min": 2
 		},
 		"sensor_s3_2": {
-			"type": "",
+			"type": "sensor",
 			"size": 3,
 			"size_min": 2
 		},
 		"sensor_s2_3": {
-			"type": "",
+			"type": "sensor",
 			"size": 2
 		},
 		"sensor_s2_4": {
-			"type": "",
+			"type": "sensor",
 			"size": 2
 		},
 		"shield_s3_4": {
@@ -202,13 +208,24 @@
 			"size": 3,
 			"size_min": 2
 		},
+		"hull_1": {
+			"type": "hull",
+			"size": 5
+		},
+		"structure_1": {
+			"type": "structure",
+			"size": 5
+		},
 		"hyperdrive": {
 			"type": "hyperdrive",
+			"default": "hyperspace.hyperdrive_4",
 			"size": 5,
 			"size_min": 3
 		},
 		"thruster": {
 			"type": "thruster",
+			"default": "thruster.default_s5",
+			"required": true,
 			"size": 5,
 			"count": 12
 		}
