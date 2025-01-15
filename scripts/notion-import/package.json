@@ -1,0 +1,14 @@
+{
+  "name": "notion-import",
+  "version": "0.1.0",
+  "description": "Imports Pioneer ship data from Notion.so",
+  "main": "notion-import.mjs",
+  "scripts": {
+    "import": "node notion-import.mjs"
+  },
+  "author": "Pioneer Space Sim",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "@notionhq/client": "^2.2.15"
+  }
+}
