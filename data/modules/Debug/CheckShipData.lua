@@ -46,7 +46,7 @@ local function checkSlot(slot)
 	end
 
 	if EquipSet.SlotTypeMatches(slot.type, "hyperdrive") and not slot.default then
-		warn("Slot {id} has no default hyperdrive equipment." % slot)
+		info("Slot {id} has no default hyperdrive equipment and will not have a hyperdrive when purchased." % slot)
 	end
 
 	if slot.i18n_key then
@@ -75,7 +75,7 @@ local function checkSlot(slot)
 		end
 
 		if not slot.tag then
-			info("External slot {id} with type {type} is missing an associated tag." % slot)
+			warn("External slot {id} with type {type} is missing an associated tag." % slot)
 		end
 
 	end
@@ -120,7 +120,7 @@ local function checkShipDef(shipDef)
 	end
 
 	if not shipDef.shipClass or shipDef.shipClass == "" then
-		warn("Ship {id} has invalid/empty ship_class field." % shipDef)
+		warn("Ship {id} has missing/empty ship_class field." % shipDef)
 	end
 
 	if not shipDef.manufacturer then
