@@ -147,7 +147,10 @@ local function showMainMenu()
 			ui.window("shipinfoWindow", overlayWindowFlags, function()
 				local mn = Engine.GetIntroCurrentModelName()
 				if mn then
-					local sd = ShipDef[mn]
+					-- TODO: this is kind of hacky, Intro should use shipdefs instead of models...
+					local sd = require 'utils'.to_array(ShipDef, function(def)
+						return def.modelName == mn
+					end)[1]
 					if sd then
 						ui.addFancyText(Vector2(ui.screenWidth / 3, ui.screenHeight / 5.0 * 4), ui.anchor.center, ui.anchor.bottom, {{text=sd.name, color=colors.white, font=orbiteer.medlarge}}, colors.transparent)
 						ui.addFancyText(Vector2(ui.screenWidth / 3, ui.screenHeight / 5.0 * 4.02), ui.anchor.center, ui.anchor.top, {{text=lui[sd.shipClass:upper()], color=colors.white, font=orbiteer.medium}}, colors.transparent)
