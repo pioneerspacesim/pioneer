@@ -446,6 +446,8 @@ namespace Background {
 		m_pointSprites.reset(new Graphics::Drawables::PointSprites);
 
 		const Uint32 NUM_BG_STARS = MathUtil::mix(BG_STAR_MIN, BG_STAR_MAX, Pi::GetAmountBackgroundStars());
+		m_animMesh.reset();
+
 		// user doesn't want to see stars
 		if (NUM_BG_STARS == BG_STAR_MIN) return;
 
@@ -610,6 +612,9 @@ namespace Background {
 		if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 			m_pointSprites->Draw(m_renderer, m_material.Get());
 		} else {
+			if (!m_animMesh) // user doesn't want to see stars
+				return;
+
 			Graphics::VertexBuffer *buffer = m_animMesh->GetVertexBuffer();
 			assert(sizeof(StarVert) == 16);
 			assert(buffer->GetDesc().stride == sizeof(StarVert));
