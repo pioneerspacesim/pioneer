@@ -45,7 +45,7 @@ local face = nil
 local stationSeed = 0
 local shipDef
 
-local hyperdrive
+local hyperdrive ---@type Equipment.HyperdriveType?
 local hyperdrive_fuel
 local hydrogenIcon = PiImage.New("icons/goods/Hydrogen.png")
 local hyperdriveIcon = PiImage.New("icons/goods/Hydrogen.png")
@@ -134,12 +134,10 @@ local refuelInternalTank = function (delta)
 end
 
 local refuelHyperdrive = function (mass)
-	local station = Game.player:GetDockedWith()
+	assert(hyperdrive)
+	local station = assert(Game.player:GetDockedWith())
 	local stock = station:GetCommodityStock(hyperdrive_fuel)
 	local price = station:GetCommodityPrice(hyperdrive_fuel)
-
-	---@type CargoManager
-	local cargoMgr = Game.player:GetComponent('CargoManager')
 
 	if mass > 0 then
 		if stock == 0 then
@@ -147,30 +145,16 @@ local refuelHyperdrive = function (mass)
 			popup:open()
 			return
 		end
-
-		mass = math.clamp(mass, 0, cargoMgr:GetFreeSpace())
-	else
-		mass = math.clamp(mass, -cargoMgr:CountCommodity(hyperdrive_fuel), 0)
 	end
 
-	local total = price * mass
-	if total > Game.player:GetMoney() then
-		mass = math.floor(Game.player:GetMoney() / price)
-		total = price * mass
-	end
+	mass = math.clamp(mass, -hyperdrive.storedFuel, hyperdrive:GetMaxFuel() - hyperdrive.storedFuel)
 
-	if stock < mass then
-		mass = stock
-		total = price * mass
-	end
+	-- Can't buy any more than the station has in stock or we have money for
+	mass = math.min(mass, math.min(stock, Game.player:GetMoney() / price))
+	Game.player:AddMoney(-price * mass)
 
-	Game.player:AddMoney(-total)
-	if mass < 0 then
-		cargoMgr:RemoveCommodity(hyperdrive_fuel, math.abs(mass))
-	else
-		cargoMgr:AddCommodity(hyperdrive_fuel, mass)
-	end
-	station:AddCommodityStock(hyperdrive_fuel, -mass)
+	hyperdrive:SetFuel(Game.player, hyperdrive.storedFuel + mass)
+	station:AddCommodityStock(hyperdrive_fuel, -math.round(mass))
 end
 
 local function lobbyMenu()
@@ -215,12 +199,12 @@ local function lobbyMenu()
 	-- hyperspace fuel
 	ui.nextColumn()
 
+	if not hyperdrive then return end
+
 	hyperdriveIcon:Draw(widgetSizes.iconSize)
 	ui.nextColumn()
 
-	---@type CargoManager
-	local cargoMgr = Game.player:GetComponent('CargoManager')
-	local stored_hyperfuel = cargoMgr:CountCommodity(hyperdrive_fuel)
+	local stored_hyperfuel = hyperdrive.storedFuel
 
 	-- hyperspace fuel prices
 	ui.withFont(pionillium.body, function()
@@ -242,9 +226,9 @@ local function lobbyMenu()
 	-- hyperspace fuel gauge
 	gaugePos = ui.getCursorScreenPos()
 	gaugePos.y = gaugePos.y + widgetSizes.buttonSizeBase.y/2
-	ui.gauge(gaugePos, stored_hyperfuel, '', string.format(l.FUEL .. ": %dt \t" .. l.HYPERSPACE_RANGE .. ": %d " .. l.LY,
+	ui.gauge(gaugePos, stored_hyperfuel, '', string.format(l.FUEL .. ": %0.1ft \t" .. l.HYPERSPACE_RANGE .. ": %d " .. l.LY,
 		stored_hyperfuel, Game.player:GetHyperspaceRange()),
-		0, cargoMgr:GetFreeSpace() + stored_hyperfuel,
+		0, hyperdrive:GetMaxFuel(),
 		icons.hyperspace, colors.gaugeEquipmentMarket, '',
 		gaugeWidth, gaugeHeight, pionillium.body)
 
