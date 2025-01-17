@@ -11,15 +11,14 @@ local childWindowFlags = ui.WindowFlags { "NoSavedSettings", "NoBackground" }
 
 local function drawTab(tab, i, delta)
 	local icon = tab.icon or ui.theme.icons.alert_generic
-	local label = tab.label or ""
 	local icon_str = "{}##{}" % { ui.get_icon_glyph(icon), i }
 
 	local active = false
 
-	ui.tabItem(icon_str, label, function()
+	ui.tabItem(icon_str, tab.label, function()
 		active = true
 
-		ui.child(label, Vector2(0, 0), childWindowFlags, function()
+		ui.child(tab.label, Vector2(0, 0), childWindowFlags, function()
 			tab.draw(tab, delta)
 		end)
 	end)
@@ -38,16 +37,10 @@ end
 ---@param name string
 ---@param tab Debug.DebugTab
 function debugView.registerTab(name, tab)
-	if type(tab) == "function" then
-		tab = {
-			icon = ui.theme.icons.alert_generic,
-			draw = tab
-		}
-	end
+	assert(type(tab) == "table", "Must pass a DebugTab table to debugView.registerTab()")
 
-	if not tab.module then
-		tab.module = package.modulename(2)
-	end
+	tab.label = tab.label or ""
+	tab.module = tab.module or package.modulename(2)
 
 	local index = debugView.tabs[name] or #debugView.tabs + 1
 	debugView.tabs[index] = tab

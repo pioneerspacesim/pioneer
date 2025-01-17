@@ -1,7 +1,7 @@
 -- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local f = Faction:new('Tolisian Scientific Community"')
+local f = Faction:new('Tolisian Scientific Community')
 	:description_short('Worlds who have submitted to the rule of a group of elite scientists called the Tolisians')
 	:description('')
 	:homeworld(4,-1,9, 0, 0)
