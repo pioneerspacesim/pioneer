@@ -350,23 +350,48 @@ end
 ---@field byproduct CommodityType?
 local HyperdriveType = utils.inherits(EquipType, "Equipment.HyperdriveType")
 
-function HyperdriveType:GetMaximumRange(ship)
-	return 625.0*(self.capabilities.hyperclass ^ 2) / (ship.staticMass + ship.fuelMassLeft)
+-- Static factors
+HyperdriveType.factor_eff = 55
+HyperdriveType.factor_time = 1.0
+HyperdriveType.fuel_resv_size = 1
+
+-- Travel time exponents
+local range_exp = 1.6
+local mass_exp = 1.2
+-- Fuel use exponents
+local fuel_use_exp = 0.9
+local fuel_use_exp_inv = 1.0 / 0.9
+
+---@param ship Ship
+function HyperdriveType:GetEfficiencyTerm(ship)
+	return self.factor_eff / (ship.staticMass + ship.fuelMassLeft)^(3/5) * (1 + self.capabilities.hyperclass) / self.capabilities.hyperclass
 end
 
--- range_max is as usual optional
-function HyperdriveType:GetDuration(ship, distance, range_max)
-	range_max = range_max or self:GetMaximumRange(ship)
-	local hyperclass = self.capabilities.hyperclass
-	return 0.36*distance^2/(range_max*hyperclass) * (86400*math.sqrt(ship.staticMass + ship.fuelMassLeft))
+---@param ship Ship
+function HyperdriveType:GetMaximumRange(ship)
+	return (self.fuel_resv_size * self:GetEfficiencyTerm(ship))^fuel_use_exp_inv
 end
 
 -- range_max is optional, distance defaults to the maximal range.
 function HyperdriveType:GetFuelUse(ship, distance, range_max)
-	range_max = range_max or self:GetMaximumRange(ship)
-	local distance = distance or range_max
-	local hyperclass_squared = self.capabilities.hyperclass^2
-	return math.clamp(math.ceil(hyperclass_squared*distance / range_max), 1, hyperclass_squared);
+	return (distance or range_max)^fuel_use_exp / self:GetEfficiencyTerm(ship)
+end
+
+-- range_max is as usual optional
+function HyperdriveType:GetDuration(ship, distance, range_max)
+	local mass = ship.staticMass + ship.fuelMassLeft
+	return 86400 * 0.36 * (distance^range_exp * mass^mass_exp) / (425 * self.capabilities.hyperclass^2 * self.factor_time)
+end
+
+-- Give the range for the given remaining fuel
+-- If the fuel isn't specified, it takes the current value.
+---@param ship Ship
+---@return number currentRange
+---@return number maxRange
+function HyperdriveType:GetRange(ship, remaining_fuel)
+	local avail_fuel = math.min(remaining_fuel or ship:GetComponent('CargoManager'):CountCommodity(self.fuel), self.fuel_resv_size)
+	local E = self:GetEfficiencyTerm(ship)
+	return (avail_fuel * E)^fuel_use_exp_inv, (self.fuel_resv_size * E)^fuel_use_exp_inv
 end
 
 -- if the destination is reachable, returns: distance, fuel, duration
@@ -396,30 +421,6 @@ function HyperdriveType:CheckDestination(ship, destination)
 		return nil
 	end
 	return self:CheckJump(ship, Game.system.path, destination)
-end
-
--- Give the range for the given remaining fuel
--- If the fuel isn't specified, it takes the current value.
-function HyperdriveType:GetRange(ship, remaining_fuel)
-	local range_max = self:GetMaximumRange(ship)
-	local fuel_max = self:GetFuelUse(ship, range_max, range_max)
-
-	---@type CargoManager
-	local cargoMgr = ship:GetComponent('CargoManager')
-	remaining_fuel = remaining_fuel or cargoMgr:CountCommodity(self.fuel)
-
-	if fuel_max <= remaining_fuel then
-		return range_max, range_max
-	end
-	local range = range_max*remaining_fuel/fuel_max
-
-	while range > 0 and self:GetFuelUse(ship, range, range_max) > remaining_fuel do
-		range = range - 0.05
-	end
-
-	-- range is never negative
-	range = math.max(range, 0)
-	return range, range_max
 end
 
 local HYPERDRIVE_SOUNDS_NORMAL = {
