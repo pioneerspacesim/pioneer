@@ -344,16 +344,27 @@ end
 
 --==============================================================================
 
--- Single drive type, no support for slave drives.
+-- Class: HyperdriveType
+--
+-- HyperdriveType is responsible for most logic related to computing a hyperspace jump.
+-- The actual logic for executing the jump is delegated to Ship, but the drive is responsible
+-- for checking that a jump is possible and deducting fuel.
+--
+-- Note that no attempt is made to model multiple hyperdrives, including backup drives;
+-- redundancy in hyperdrives should be achieved by repairing the existing drive or installing
+-- a replacement drive from the ship's stores while underway.
+--
 ---@class Equipment.HyperdriveType : EquipType
 ---@field fuel CommodityType
 ---@field byproduct CommodityType?
 local HyperdriveType = utils.inherits(EquipType, "Equipment.HyperdriveType")
 
+HyperdriveType.storedFuel = 0.0
+
 -- Static factors
 HyperdriveType.factor_eff = 55
 HyperdriveType.factor_time = 1.0
-HyperdriveType.fuel_resv_size = 1
+HyperdriveType.fuel_resv_size = 1.0
 
 -- Travel time exponents
 local range_exp = 1.6
@@ -363,59 +374,116 @@ local fuel_use_exp = 0.9
 local fuel_use_exp_inv = 1.0 / 0.9
 
 ---@param ship Ship
-function HyperdriveType:GetEfficiencyTerm(ship)
-	return self.factor_eff / (ship.staticMass + ship.fuelMassLeft)^(3/5) * (1 + self.capabilities.hyperclass) / self.capabilities.hyperclass
+---@param extraMass number Additional mass beyond current lading to include in calculation
+function HyperdriveType:GetEfficiencyTerm(ship, extraMass)
+	return self.factor_eff / (ship.staticMass + ship.fuelMassLeft + extraMass)^(3/5) * (1 + self.capabilities.hyperclass) / self.capabilities.hyperclass
 end
 
+-- Function: GetMaximumRange
+--
+-- Returns the maximum range of the hyperdrive under their current lading state of the ship.
 ---@param ship Ship
 function HyperdriveType:GetMaximumRange(ship)
-	return (self.fuel_resv_size * self:GetEfficiencyTerm(ship))^fuel_use_exp_inv
+	-- Account for the extra mass needed to reach full fuel state
+	local E = self:GetEfficiencyTerm(ship, self.fuel_resv_size - self.storedFuel)
+	return (self.fuel_resv_size * E)^fuel_use_exp_inv
 end
 
--- range_max is optional, distance defaults to the maximal range.
-function HyperdriveType:GetFuelUse(ship, distance, range_max)
-	return (distance or range_max)^fuel_use_exp / self:GetEfficiencyTerm(ship)
+-- Function: GetFuelUse
+--
+-- Returns the fuel consumed by the drive in attempting a jump of the specified distance.
+---@param ship Ship
+---@param distance number Distance to jump, in light years
+---@return number fuelUsed Amount of fuel used, in tons
+function HyperdriveType:GetFuelUse(ship, distance)
+	return distance^fuel_use_exp / self:GetEfficiencyTerm(ship, 0)
 end
 
--- range_max is as usual optional
+-- Function: GetDuration
+--
+-- Returns the duration taken for a jump of the specified distance.
+---@param ship Ship
+---@param distance number Distance to jump, in light years
+---@return number duration Duration of the jump, in seconds
 function HyperdriveType:GetDuration(ship, distance, range_max)
 	local mass = ship.staticMass + ship.fuelMassLeft
 	return 86400 * 0.36 * (distance^range_exp * mass^mass_exp) / (425 * self.capabilities.hyperclass^2 * self.factor_time)
 end
 
--- Give the range for the given remaining fuel
--- If the fuel isn't specified, it takes the current value.
+-- Function: GetRange
+--
+-- Return the current jump range of the ship given the current fuel state,
+-- and the maximum jump range of the ship at its current lading if the drive were fully fueled.
 ---@param ship Ship
 ---@return number currentRange
 ---@return number maxRange
-function HyperdriveType:GetRange(ship, remaining_fuel)
-	local avail_fuel = math.min(remaining_fuel or ship:GetComponent('CargoManager'):CountCommodity(self.fuel), self.fuel_resv_size)
-	local E = self:GetEfficiencyTerm(ship)
-	return (avail_fuel * E)^fuel_use_exp_inv, (self.fuel_resv_size * E)^fuel_use_exp_inv
+function HyperdriveType:GetRange(ship)
+	local E, E1 = self:GetEfficiencyTerm(ship, 0), self:GetEfficiencyTerm(ship, self.fuel_resv_size - self.storedFuel)
+	return (self.storedFuel * E)^fuel_use_exp_inv, (self.fuel_resv_size * E1)^fuel_use_exp_inv
 end
 
+-- Function: SetFuel
+--
+-- Update the amount of fuel stored in the drive's internal reservoir.
+-- The amount of fuel must be equal to or less than the fuel_resv_size of the drive.
+---@param ship Ship? The ship this hyperdrive is installed in, or nil if the hyperdrive is not yet installed
+---@param newFuel number The fuel amount stored in the hyperdrive's reservoir, in tons
+function HyperdriveType:SetFuel(ship, newFuel)
+	assert(newFuel >= 0 and newFuel <= self.fuel_resv_size)
+
+	local massDiff = newFuel - self.storedFuel
+	self.storedFuel = newFuel
+	self.mass = self.mass + massDiff
+
+	if ship then
+		ship:setprop("mass_cap", ship["mass_cap"] + massDiff)
+		ship:UpdateEquipStats()
+
+		ship:GetComponent('EquipSet'):NotifyListeners('modify', self)
+	end
+end
+
+-- Function: GetMaxFuel
+--
+-- Return the maximum fuel capacity of the drive, in tons.
+function HyperdriveType:GetMaxFuel()
+	return self.fuel_resv_size
+end
+
+-- Function: CheckJump
+--
+-- Checks the viability of a potential jump from are source SystemPath to a destination SystemPath.
+--
 -- if the destination is reachable, returns: distance, fuel, duration
 -- if the destination is out of range, returns: distance
 -- if the specified jump is invalid, returns nil
+---@param ship Ship
+---@param source SystemPath
+---@param destination SystemPath
 function HyperdriveType:CheckJump(ship, source, destination)
 	if ship:GetInstalledHyperdrive() ~= self or source:IsSameSystem(destination) then
 		return nil
 	end
 	local distance = source:DistanceTo(destination)
-	local max_range = self:GetMaximumRange(ship) -- takes fuel into account
+	local max_range = self:GetRange(ship) -- takes fuel into account
 	if distance > max_range then
 		return distance
 	end
-	local fuel = self:GetFuelUse(ship, distance, max_range) -- specify range_max to avoid unnecessary recomputing.
+	local fuel = self:GetFuelUse(ship, distance)
 
 	local duration = self:GetDuration(ship, distance, max_range) -- same as above
 	return distance, fuel, duration
 end
 
--- like HyperdriveType.CheckJump, but uses Game.system as the source system
+-- Function: CheckDestination
+--
+-- Like HyperdriveType.CheckJump, but uses Game.system as the source system
+--
 -- if the destination is reachable, returns: distance, fuel, duration
 -- if the destination is out of range, returns: distance
 -- if the specified jump is invalid, returns nil
+---@param ship Ship
+---@param destination SystemPath
 function HyperdriveType:CheckDestination(ship, destination)
 	if not Game.system then
 		return nil
@@ -435,6 +503,11 @@ local HYPERDRIVE_SOUNDS_MILITARY = {
 	jump = "Hyperdrive_Jump_Military",
 }
 
+-- Function: HyperjumpTo
+--
+-- Perform safety checks and initiate a hyperjump to the destination system
+---@param ship Ship
+---@param destination SystemPath
 function HyperdriveType:HyperjumpTo(ship, destination)
 	-- First off, check that this is the primary engine.
 	-- NOTE: this enforces the constraint that only one hyperdrive may be installed on a ship
@@ -464,17 +537,23 @@ function HyperdriveType:HyperjumpTo(ship, destination)
 	return ship:InitiateHyperjumpTo(destination, warmup_time, duration, sounds), fuel_use, duration
 end
 
+-- Function: OnLeaveHyperspace
+--
+-- Handle cleanup after leaving hyperspace
+---@param ship Ship
 function HyperdriveType:OnLeaveHyperspace(ship)
 	if ship:hasprop('nextJumpFuelUse') then
-		---@type CargoManager
-		local cargoMgr = ship:GetComponent('CargoManager')
-
-		local amount = ship.nextJumpFuelUse
-		cargoMgr:RemoveCommodity(self.fuel, amount)
-		if self.byproduct then
-			cargoMgr:AddCommodity(self.byproduct, amount)
-		end
+		local amount = ship['nextJumpFuelUse']
 		ship:unsetprop('nextJumpFuelUse')
+
+		self.storedFuel = math.max(0, self.storedFuel - amount)
+
+		if self.byproduct then
+			local cargoMgr = ship:GetComponent('CargoManager')
+			-- TODO: byproduct can be "bypassed" when jumping on a full cargo hold
+			local byproductAmount = math.min(math.ceil(amount), cargoMgr:GetFreeSpace())
+			cargoMgr:AddCommodity(self.byproduct, byproductAmount)
+		end
 	end
 end
 

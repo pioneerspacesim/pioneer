@@ -241,14 +241,11 @@ Ship.GetHyperspaceDetails = function (self, source, destination)
 	local distance, fuel, duration = engine:CheckJump(self, source, destination)
 	local status = "OK"
 
-	---@type CargoManager
-	local cargoMgr = self:GetComponent('CargoManager')
-
 	if not duration then
 		duration = 0
 		fuel = 0
 		status = "OUT_OF_RANGE"
-	elseif fuel > cargoMgr:CountCommodity(engine.fuel) then
+	elseif fuel > engine.storedFuel then
 		status = "INSUFFICIENT_FUEL"
 	end
 	return status, distance, fuel, duration
