@@ -11,19 +11,19 @@ namespace Graphics {
 	namespace OGL {
 		class TextureGL : public Texture {
 		public:
-			virtual void Update(const void *data, const vector2f &pos, const vector3f &dataSize, TextureFormat format, const unsigned int numMips) override final;
-			virtual void Update(const TextureCubeData &data, const vector3f &dataSize, TextureFormat format, const unsigned int numMips) override final;
-			virtual void Update(const vecDataPtr &data, const vector3f &dataSize, const TextureFormat format, const unsigned int numMips) override final;
+			void Update(const void *data, const vector2f &pos, const vector3f &dataSize, TextureFormat format, const unsigned int numMips) final;
+			void Update(const TextureCubeData &data, const vector3f &dataSize, TextureFormat format, const unsigned int numMips) final;
+			void Update(const vecDataPtr &data, const vector3f &dataSize, const TextureFormat format, const unsigned int numMips) final;
 
 			TextureGL(const TextureDescriptor &descriptor, const bool useCompressed, const bool useAnisoFiltering, const Uint16 numSamples = 0);
 			virtual ~TextureGL();
 
-			virtual void Bind() override final;
-			virtual void Unbind() override final;
+			void Bind() final;
+			void Unbind() final;
 
-			virtual void SetSampleMode(TextureSampleMode) override final;
-			virtual void BuildMipmaps(const uint32_t validMips = 1) override final;
-			virtual uint32_t GetTextureID() const override final
+			void SetSampleMode(TextureSampleMode) final;
+			void BuildMipmaps(const uint32_t validMips = 1) final;
+			uint32_t GetTextureID() const final
 			{
 				static_assert(sizeof(uint32_t) == sizeof(GLuint));
 				return m_texture;
