@@ -102,6 +102,22 @@ local function checkConfig(config)
 		warn("Ship {id} has no thruster slots. This may break in the future.")
 	end
 
+	if utils.count(findMatchingSlots(config, "hull")) == 0 then
+		info("Ship {id} has no hull modification slots." % config)
+	end
+
+	if utils.count(findMatchingSlots(config, "structure")) == 0 then
+		info("Ship {id} has no structural modification slots." % config)
+	end
+
+	if utils.count(findMatchingSlots(config, "computer")) == 0 then
+		info("Ship {id} has no computer equipment slots." % config)
+	end
+
+	if utils.count(findMatchingSlots(config, "sensor")) == 0 then
+		info("Ship {id} has no sensor slots." % config)
+	end
+
 	-- TODO: more validation passes on the whole ship config
 end
 
