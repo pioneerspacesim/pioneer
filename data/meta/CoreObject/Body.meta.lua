@@ -50,6 +50,10 @@ function Body:isa(type) end
 ---@param value any NOTE: functions, tables, and coroutines cannot be set as body properties
 function Body:setprop(key, value) end
 
+-- Clears the given body property
+---@param key string
+function Body:unsetprop(key) end
+
 -- Check if the given property exists on the body
 ---@param key string
 ---@return boolean
