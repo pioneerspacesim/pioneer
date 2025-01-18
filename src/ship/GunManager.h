@@ -121,6 +121,7 @@ public:
 	struct GroupState {
 		WeaponIndexSet weapons;				// Whic weapons are assigned to this group?
 		const Body *target;					// The target for this group, if any
+		uint32_t target_idx;				// Group target body index for serialization, used in PostLoadFixup()
 		bool firing;						// Is the group currently firing
 		bool fireWithoutTargeting;			// Can the group fire without a target/target not in gimbal range?
 		ConnectionTicket onTargetDestroyed;	// Unlock the target once it's been destroyed
@@ -132,6 +133,8 @@ public:
 
 	void SaveToJson(Json &jsonObj, Space *space);
 	void LoadFromJson(const Json &jsonObj, Space *space);
+
+	void PostLoadFixup(Space *space);
 
 	void StaticUpdate(float deltaTime);
 

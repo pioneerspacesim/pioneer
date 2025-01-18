@@ -257,6 +257,7 @@ void Ship::PostLoadFixup(Space *space)
 	m_dockedWith = static_cast<SpaceStation *>(space->GetBodyByIndex(m_dockedWithIndex));
 	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
 	m_controller->PostLoadFixup(space);
+	m_gunManager->PostLoadFixup(space);
 }
 
 void Ship::SaveToJson(Json &jsonObj, Space *space)
