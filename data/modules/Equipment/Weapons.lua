@@ -7,6 +7,7 @@ local Slot      = require 'HullConfig'.Slot
 
 local EquipType = EquipTypes.EquipType
 local LaserType = EquipTypes.LaserType
+local MissileType = EquipTypes.MissileType
 
 --===============================================
 -- Pulse Cannons
@@ -199,46 +200,46 @@ Equipment.Register("laser.miningcannon_17mw", LaserType.New {
 -- Missiles
 --===============================================
 
-Equipment.Register("missile.unguided_s1", EquipType.New {
+Equipment.Register("missile.unguided_s1", MissileType.New {
 	l10n_key="MISSILE_UNGUIDED",
 	price=30, purchasable=true, tech_level=1,
-	missile_type="missile_unguided",
+	missile_stats = { shipType="missile_unguided", guided=false, warheadSize=200.0, fuzeRadius=100.0, effectiveRadius=1000.0, chargeEffectiveness=1.0, ecmResist=5.0 },
 	volume=0, mass=0.045,
 	slot = { type="missile", size=1, hardpoint=true },
 	icon_name="equip_missile_unguided"
 })
 -- Approximately equivalent in size to an R60M / AA-8 'Aphid'
-Equipment.Register("missile.guided_s1", EquipType.New {
+Equipment.Register("missile.guided_s1", MissileType.New {
 	l10n_key="MISSILE_GUIDED",
 	price=45, purchasable=true, tech_level=5,
-	missile_type="missile_guided",
+	missile_stats = { shipType="missile_guided", guided=true, warheadSize=125.0, fuzeRadius=30.0, effectiveRadius=800.0, chargeEffectiveness=3.0, ecmResist=1.0 },
 	volume=0, mass=0.065,
 	slot = { type="missile", size=1, hardpoint=true },
 	icon_name="equip_missile_guided"
 })
 -- Approximately equivalent in size to an R73 / AA-11 'Archer'
-Equipment.Register("missile.guided_s2", EquipType.New {
+Equipment.Register("missile.guided_s2", MissileType.New {
 	l10n_key="MISSILE_GUIDED",
 	price=60, purchasable=true, tech_level=5,
-	missile_type="missile_guided",
+	missile_stats = { shipType="missile_guided", guided=true, warheadSize=200.0, fuzeRadius=40.0, effectiveRadius=1500.0, chargeEffectiveness=3.5, ecmResist=1.0 },
 	volume=0, mass=0.145,
 	slot = { type="missile", size=2, hardpoint=true },
 	icon_name="equip_missile_guided"
 })
 -- Approximately equivalent in size to an R77 / AA-12 'Adder'
-Equipment.Register("missile.smart_s3", EquipType.New {
+Equipment.Register("missile.smart_s3", MissileType.New {
 	l10n_key="MISSILE_SMART",
 	price=95, purchasable=true, tech_level=9,
-	missile_type="missile_smart",
+	missile_stats = { shipType="missile_smart", guided=true, warheadSize=320.0, fuzeRadius=35.0, effectiveRadius=2000.0, chargeEffectiveness=4.0, ecmResist=2.0 },
 	volume=0, mass=0.5,
 	slot = { type="missile", size=3, hardpoint=true },
 	icon_name="equip_missile_smart"
 })
 -- TBD
-Equipment.Register("missile.naval_s4", EquipType.New {
+Equipment.Register("missile.naval_s4", MissileType.New {
 	l10n_key="MISSILE_NAVAL",
 	price=160, purchasable=true, tech_level="MILITARY",
-	missile_type="missile_naval",
+	missile_stats = { shipType="missile_naval", guided=true, warheadSize=580.0, fuzeRadius=40.0, effectiveRadius=2000.0, chargeEffectiveness=4.5, ecmResist=3.0 },
 	volume=0, mass=1,
 	slot = { type="missile", size=4, hardpoint=true },
 	icon_name="equip_missile_naval"
