@@ -131,3 +131,9 @@ function Ship:IsLanded() end
 -- Get the starport this ship is docked with, if any
 ---@return SpaceStation?
 function Ship:GetDockedWith() end
+
+-- Spawn a new missile from this ship
+---@param stats table Information about the missile to spawn. Must include a shipType: string field
+---@param target Body? Optional body to target with the missile
+---@return Body? missile The spawned missile if valid
+function Ship:SpawnMissile(stats, target) end

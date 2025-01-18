@@ -12,25 +12,25 @@
 #include "ShipAICmd.h"
 #include "Space.h"
 #include "collider/CollisionContact.h"
-#include "core/Log.h"
 #include "lua/LuaEvent.h"
 #include "ship/Propulsion.h"
 
-Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)
+// For debugging
+// #include "core/Log.h"
+// #include "EnumStrings.h"
+
+Missile::Missile(Body *owner, const MissileDef &mdef)
 {
+	m_owner = owner;
+	m_missileStats = mdef;
 	m_propulsion = AddComponent<Propulsion>();
 
-	if (power < 0) {
-		m_power = 0;
-		if (shipId == ShipType::MISSILE_GUIDED) m_power = 1;
-		if (shipId == ShipType::MISSILE_SMART) m_power = 2;
-		if (shipId == ShipType::MISSILE_NAVAL) m_power = 3;
-	} else
-		m_power = power;
+	m_type = &ShipType::types[mdef.shipType.c_str()];
+	Init();
+}
 
-	m_owner = owner;
-	m_type = &ShipType::types[shipId];
-
+void Missile::Init()
+{
 	SetMass(m_type->hullMass * 1000);
 
 	SetModel(m_type->modelName.c_str());
@@ -58,7 +58,14 @@ Missile::Missile(const Json &jsonObj, Space *space) :
 	Json missileObj = jsonObj["missile"];
 
 	try {
-		m_type = &ShipType::types[missileObj["ship_type_id"]];
+		m_missileStats.shipType = missileObj["ship_type_id"].get<std::string_view>();
+		m_missileStats.fuzeRadius = missileObj["fuze_radius"];
+		m_missileStats.warheadSize = missileObj["warhead_size"];
+		m_missileStats.effectiveRadius = missileObj["effective_radius"];
+		m_missileStats.chargeEffectiveness = missileObj["shaped_charge"];
+		m_missileStats.ecmResist = missileObj["power"];
+
+		m_type = &ShipType::types[m_missileStats.shipType.c_str()];
 		SetModel(m_type->modelName.c_str());
 
 		m_curAICmd = 0;
@@ -66,7 +73,6 @@ Missile::Missile(const Json &jsonObj, Space *space) :
 		m_aiMessage = AIError(missileObj["ai_message"]);
 
 		m_ownerIndex = missileObj["index_for_body"];
-		m_power = missileObj["power"];
 		m_armed = missileObj["armed"];
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
@@ -85,7 +91,14 @@ void Missile::SaveToJson(Json &jsonObj, Space *space)
 
 	missileObj["ai_message"] = int(m_aiMessage);
 	missileObj["index_for_body"] = space->GetIndexForBody(m_owner);
-	missileObj["power"] = m_power;
+
+	missileObj["ship_type_id"] = m_missileStats.shipType.sv();
+	missileObj["fuze_radius"] = m_missileStats.fuzeRadius;
+	missileObj["warhead_size"] = m_missileStats.warheadSize;
+	missileObj["effective_radius"] = m_missileStats.effectiveRadius;
+	missileObj["shaped_charge"] = m_missileStats.chargeEffectiveness;
+	missileObj["power"] = m_missileStats.ecmResist;
+
 	missileObj["armed"] = m_armed;
 	missileObj["ship_type_id"] = m_type->id;
 
@@ -106,7 +119,7 @@ Missile::~Missile()
 
 void Missile::ECMAttack(int power_val)
 {
-	if (power_val > m_power) {
+	if (power_val > m_missileStats.ecmResist) {
 		CollisionContact dummy;
 		OnDamage(0, 1.0f, dummy);
 	}
@@ -160,7 +173,7 @@ void Missile::TimeStepUpdate(const float timeStep)
 	DynamicBody::TimeStepUpdate(timeStep);
 	m_propulsion->UpdateFuel(timeStep);
 
-	const float MISSILE_DETECTION_RADIUS = 100.0f;
+	const float MISSILE_DETECTION_RADIUS = m_missileStats.fuzeRadius;
 	const float MISSILE_TRIGGER_RADIUS = 10.0f;
 
 	const Body *target = GetTarget();
@@ -217,16 +230,8 @@ void Missile::Explode()
 {
 	Pi::game->GetSpace()->KillBody(this);
 
-	// how much energy was converted in the explosion?
-	// defaults to 200kg of TNT
-	double mjYield = Properties().Get("missile_yield_cap").get_number(4.184 * 200);
-
 	// defaults to 2 km, this is sufficient for most explosions
-	double queryRadius = Properties().Get("missile_explosion_radius_cap").get_number(2000.0);
-
-	// How effective is the blast at hitting a target compared to a omnidirectional warhead?
-	// defaults to 4x effectiveness, this is sufficient for most anti-ship missile explosions
-	double chargeShapeScalar = Properties().Get("missile_charge_effect_cap").get_number(4.0);
+	double queryRadius = m_missileStats.effectiveRadius;
 
 	CollisionContact dummy;
 	Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(this, queryRadius);
@@ -244,19 +249,24 @@ void Missile::Explode()
 		const double crossSectionTarget = calcAreaCircle(targetRadius);
 		double ratioArea = crossSectionTarget / areaSphere; // compute ratio of areas to know how much energy was transfered to target
 
-		if (body == GetTarget())                            // missiles have shaped-charge warheads to focus the blast towards the target
-			ratioArea = ratioArea * chargeShapeScalar;      // assume the warhead is oriented towards the target correctly
+		// We assume missiles with shaped-charge warheads to focus the blast towards the target have the warhead oriented correctly
+		if (body == GetTarget())
+			ratioArea = ratioArea * m_missileStats.chargeEffectiveness;
 
-		ratioArea = std::min(ratioArea, 1.0);				// we must limit received energy to finite amount
+		ratioArea = std::min(ratioArea, 1.0); // we must limit received energy to finite amount
 
-		const double mjReceivedEnergy = ratioArea * mjYield; // compute received energy by blast
+		// Compute received energy using warhead size expressed as equivalent to kg of TNT
+		const double mjReceivedEnergy = ratioArea * m_missileStats.warheadSize * 4.184;
 
 		double kgDamage = mjReceivedEnergy * 16.18033; // received energy back to damage in pioneer "kg" unit, using Phi*10 because we can
 		if (kgDamage < 5.0)
 			continue; // early-out if we're dealing a negligable amount of damage
 
-		// Log::Info("Missile impact on {} | {}\n\ttarget.radius={} dist={} sphereArea={} crossSection={} (ratio={}) => received energy {}mj={}kgD\n",
-		// 	body->GetLabel(), body->GetType(), targetRadius, dist, areaSphere, crossSectionTarget, ratioArea, mjReceivedEnergy, kgDamage);
+		/*
+		Log::Info("Missile impact on {} | {}\n\ttarget.radius={} dist={} sphereArea={} crossSection={} (ratio={}) => received energy {}mj={}kgD\n",
+			body->GetLabel(), EnumStrings::GetString("PhysicsObjectType", int(body->GetType())),
+			targetRadius, dist, areaSphere, crossSectionTarget, ratioArea, mjReceivedEnergy, kgDamage);
+		*/
 
 		body->OnDamage(m_owner, kgDamage, dummy);
 		if (body->IsType(ObjectType::SHIP))

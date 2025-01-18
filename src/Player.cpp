@@ -125,9 +125,9 @@ bool Player::SetWheelState(bool down)
 }
 
 //XXX all ships should make this sound
-Missile *Player::SpawnMissile(ShipType::Id missile_type, int power)
+Missile *Player::SpawnMissile(const MissileDef &def, Body *target)
 {
-	Missile *m = Ship::SpawnMissile(missile_type, power);
+	Missile *m = Ship::SpawnMissile(def, target);
 	if (m)
 		Sound::PlaySfx("Missile_launch", 1.0f, 1.0f, 0);
 	return m;

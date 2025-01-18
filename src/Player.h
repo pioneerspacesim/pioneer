@@ -24,7 +24,7 @@ public:
 	virtual bool DoDamage(float kgDamage) override final; // overloaded to add "crush" audio
 	virtual bool OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData) override;
 	virtual bool SetWheelState(bool down) override; // returns success of state change, NOT state itself
-	virtual Missile *SpawnMissile(ShipType::Id missile_type, int power = -1) override;
+	virtual Missile *SpawnMissile(const MissileDef &, Body *) override;
 	virtual void SetAlertState(Ship::AlertState as) override;
 	virtual void NotifyRemoved(const Body *const removedBody) override;
 	virtual bool ManualDocking() const override { return !AIIsActive(); }

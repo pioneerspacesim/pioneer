@@ -602,16 +602,14 @@ static int l_ship_blast_off(lua_State *l)
  *
  * Spawn a missile near the ship.
  *
- * > missile = ship:SpawnMissile(type, target, power)
+ * > missile = ship:SpawnMissile(stats, target)
  *
  * Parameters:
  *
- *   shiptype - a string for the missile type. specifying an
- *          ship that is not a missile will result in a Lua error
+ *   shiptype - A table containing information about the missile type.
+ *              The table must contain a ship type identifier and information about the missile warhead.
  *
- *   target - the <Ship> to fire the missile at
- *
- *   power - the power of the missile. If unspecified, the default power for the
+ *   target - an optional <Body> to fire the missile at
  *
  * Return:
  *
@@ -628,18 +626,30 @@ static int l_ship_blast_off(lua_State *l)
 static int l_ship_spawn_missile(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaTable stats = LuaTable(l, 2);
+	Body *target = LuaPull<Body *>(l, 3, nullptr);
+
 	if (s->GetFlightState() == Ship::HYPERSPACE)
 		return luaL_error(l, "Ship:SpawnMissile() cannot be called on a ship in hyperspace");
-	ShipType::Id missile_type(luaL_checkstring(l, 2));
 
-	if (missile_type != ShipType::MISSILE_UNGUIDED &&
-		missile_type != ShipType::MISSILE_GUIDED &&
-		missile_type != ShipType::MISSILE_SMART &&
-		missile_type != ShipType::MISSILE_NAVAL)
-		luaL_error(l, "Ship type '%s' is not a valid missile type", lua_tostring(l, 2));
-	int power = (lua_isnone(l, 3)) ? -1 : lua_tointeger(l, 3);
+	if (stats.Get<std::string_view>("shipType", {}).empty())
+		return luaL_error(l, "Ship:SpawnMissile() is missing a shipType value in the passed missile table!");
 
-	Missile *missile = s->SpawnMissile(missile_type, power);
+	MissileDef def = {};
+
+	def.shipType = stats.Get<StringName>("shipType");
+	def.fuzeRadius = stats.Get("fuzeRadius", def.fuzeRadius);
+	def.warheadSize = stats.Get("warheadSize", def.warheadSize);
+	def.effectiveRadius = stats.Get("effectiveRadius", def.effectiveRadius);
+	def.chargeEffectiveness = stats.Get("chargeEffectiveness", def.chargeEffectiveness);
+	def.ecmResist = stats.Get("ecmResist", def.ecmResist);
+
+	const ShipType *type = ShipType::Get(def.shipType.c_str());
+	if (!type || type->tag != ShipType::TAG_MISSILE) {
+		return luaL_error(l, "Ship type '%s' is not a valid missile type", def.shipType.c_str());
+	}
+
+	Missile *missile = s->SpawnMissile(def, target);
 	if (missile)
 		LuaObject<Missile>::PushToLua(missile);
 	else
