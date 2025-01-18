@@ -41,17 +41,19 @@ local templateOptions = {
 }
 
 local missileOptions = {
-	"Guided Missile",
-	"Unguided Missile",
-	"Smart Missile",
-	"Naval Missile"
+	"S1 Guided Missile",
+	"S1 Unguided Missile",
+	"S2 Guided Missile",
+	"S3 Smart Missile",
+	"S4 Naval Missile"
 }
 
 local missileTypes = {
-	"missile_guided",
-	"missile_unguided",
-	"missile_smart",
-	"missile_naval",
+	"missile.guided_s1",
+	"missile.unguided_s1",
+	"missile.guided_s2",
+	"missile.smart_s3",
+	"missile.naval_s4",
 }
 
 ---@type HullConfig[]
@@ -221,15 +223,21 @@ end
 
 function DebugShipTool:onSpawnMissile()
 
-	local missile_type = missileTypes[self.missileIdx]
+	local missile_type = require 'Equipment'.Get(missileTypes[self.missileIdx]) --[[@as Equipment.MissileType?]]
 
-	if missile_type ~= "missile_unguided" and not Game.player:GetCombatTarget() then
+	if not missile_type then
+		Notification.add(Notification.Type.Error, "No missile equipment {}" % { missileTypes[self.missileIdx] })
+		return
+	end
+
+	if missile_type.missile_stats.guided and not Game.player:GetCombatTarget() then
 		Notification.add(Notification.Type.Error, "Debug: no target for {}" % { missileOptions[self.missileIdx] })
 		return
 	end
 
-	local missile = Game.player:SpawnMissile(missile_type)
-	missile:AIKamikaze(Game.player:GetCombatTarget())
+	local missile = Game.player:SpawnMissile(missile_type.missile_stats, Game.player:GetCombatTarget())
+
+	if not missile then return end
 
 	Timer:CallAt(Game.time + 1, function()
 		if missile:exists() then

@@ -548,6 +548,12 @@ local ThrusterType = utils.inherits(EquipType, "Equipment.ThrusterType")
 
 --==============================================================================
 
+---@class Equipment.MissileType : EquipType
+---@field missile_stats table
+local MissileType = utils.inherits(EquipType, "Equipment.MissileType")
+
+--==============================================================================
+
 Serializer:RegisterClass("EquipType", EquipType)
 Serializer:RegisterClass("Equipment.LaserType", LaserType)
 Serializer:RegisterClass("Equipment.HyperdriveType", HyperdriveType)
@@ -555,6 +561,7 @@ Serializer:RegisterClass("Equipment.SensorType", SensorType)
 Serializer:RegisterClass("Equipment.BodyScannerType", BodyScannerType)
 Serializer:RegisterClass("Equipment.CabinType", CabinType)
 Serializer:RegisterClass("Equipment.ThrusterType", ThrusterType)
+Serializer:RegisterClass("Equipment.MissileType", MissileType)
 
 EquipType:SetupPrototype()
 LaserType:SetupPrototype()
@@ -563,6 +570,7 @@ SensorType:SetupPrototype()
 BodyScannerType:SetupPrototype()
 CabinType:SetupPrototype()
 ThrusterType:SetupPrototype()
+MissileType:SetupPrototype()
 
 return {
 	laser			= laser,
@@ -575,4 +583,5 @@ return {
 	BodyScannerType	= BodyScannerType,
 	CabinType       = CabinType,
 	ThrusterType    = ThrusterType,
+	MissileType     = MissileType,
 }

@@ -307,11 +307,10 @@ function Ship:FireMissileAt(missile, target)
 	-- FIXME: handle multiple-count missile mounts
 	equipSet:Remove(missile)
 
-	local missile_object = self:SpawnMissile(missile.missile_type)
+	local missile_object = self:SpawnMissile(missile.missile_stats, target)
 
 	if missile_object then
 		if target then
-			missile_object:AIKamikaze(target)
 			Event.Queue("onShipFiring", self)
 		end
 		-- Let's keep a safe distance before activating this device, shall we ?
