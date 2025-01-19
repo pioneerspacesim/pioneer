@@ -1,3 +1,28 @@
+January 2025
+  * New Features
+    * Add four new cultures (#6008)
+    * Noise detail texture sampling for gas giant rings (#5985)
+
+  * Fixes
+    * Fix billboard atlas animation playing order and frame count (#5997)
+    * Ship pattern fix (#6005)
+    * Add equipment for all size slots (#5993)
+    * Fix ships spawned without enough threat value for the base hull receiving no equipment (#6006)
+    * Fix assertion when spawning more police than a station has pads (no issue)
+    * Fix assertion when pressing the missile fire keybind with no installed missiles (#6007)
+    * Fix assertion when hovering a notification (#6004)
+    * Fix randomly-generated starports not having a population (#5955)
+    * Fixed a rogue trailing quote in the Tolisay faction name (#6024)
+    * Fixed Error in debug view when tab object has no label (#6022)
+    * Fixed Game crashes on hyperjump with star field density set to 0 (#5880)
+    * Fixed System Editor does not load position within the sector (#6012)
+
+  * Internal
+    * Display how many instanced objects are drawn (#5994)
+    * Add automated ship JSON import from Notion to github (#6019)
+    * Add support for required slots, validate shipdefs on startup (#6013)
+    * Increment savefile version to v91 (and update NameGen list) (#6010)
+
 December 2024
   * New Features
     * Fully support installing multiple weapons per ship (#5991)
