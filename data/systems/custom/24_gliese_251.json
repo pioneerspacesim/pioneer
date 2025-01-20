@@ -477,7 +477,7 @@
 			"volcanicity": "f0/27021706"
 		}
 	],
-	"comment": "https://en.wikipedia.org/wiki/Gliese_251\nhttps://www.stellarcatalog.com/exoplanet.php?planetID=100056\nlocal_stars:     {\"name\": \"HD 265866\", \"stars\": [\"STAR_K\"], \"sector\": [1, 0, 1], \"pos\": [6.608, 3.552, 1.864]},\nand :     {\"name\": \"Gliese 251\", \"stars\": [\"STAR_M\"], \"sector\": [1, 0, 1], \"pos\": [7.256, 3.72, 2.312]},\n",
+	"comment": "  j2000: \"6h54m47.48s/+33°15'56.1\\\"\",\n        dist: 18.2   https://en.wikipedia.org/wiki/Gliese_251\nhttps://www.stellarcatalog.com/exoplanet.php?planetID=100056\nlocal_stars:     {\"name\": \"HD 265866\", \"stars\": [\"STAR_K\"], \"sector\": [1, 0, 1], \"pos\": [6.608, 3.552, 1.864]},\nand :     {\"name\": \"Gliese 251\", \"stars\": [\"STAR_M\"], \"sector\": [1, 0, 1], \"pos\": [7.256, 3.72, 2.312]},\n",
 	"explored": true,
 	"govType": "NONE",
 	"lawlessness": "f0/4284095261",
@@ -487,16 +487,8 @@
 		"HD 265866",
 		"HIP 33226"
 	],
-	"pos": [
-		6.960999965667725,
-		3.552000045776367,
-		2.3350000381469727
-	],
-	"sector": [
-		1,
-		0,
-		1
-	],
+	"sector": [ 1, 0, 1 ],
+	"pos": [ 7.217693397544485, 3.603571197370645, 1.9830760619325627 ],
 	"seed": 3464555875,
 	"shortDesc": "Located in the constellation of Gemini, it is the nearest star ro Sol in this constellation.",
 	"stars": [
