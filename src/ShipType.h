@@ -80,10 +80,6 @@ struct ShipType {
 	float GetFuelUseRate() const;
 
 	static const std::string POLICE;
-	static const std::string MISSILE_GUIDED;
-	static const std::string MISSILE_NAVAL;
-	static const std::string MISSILE_SMART;
-	static const std::string MISSILE_UNGUIDED;
 
 	static std::map<Id, const ShipType> types;
 	static std::vector<Id> player_ships;

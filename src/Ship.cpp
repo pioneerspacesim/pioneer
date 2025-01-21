@@ -257,6 +257,7 @@ void Ship::PostLoadFixup(Space *space)
 	m_dockedWith = static_cast<SpaceStation *>(space->GetBodyByIndex(m_dockedWithIndex));
 	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
 	m_controller->PostLoadFixup(space);
+	m_gunManager->PostLoadFixup(space);
 }
 
 void Ship::SaveToJson(Json &jsonObj, Space *space)
@@ -741,12 +742,12 @@ Ship::ECMResult Ship::UseECM()
 		return ECM_NOT_INSTALLED;
 }
 
-Missile *Ship::SpawnMissile(ShipType::Id missile_type, int power)
+Missile *Ship::SpawnMissile(const MissileDef &missileStats, Body *target)
 {
 	if (GetFlightState() != FLYING)
 		return 0;
 
-	Missile *missile = new Missile(missile_type, this, power);
+	Missile *missile = new Missile(this, missileStats);
 	missile->SetOrient(GetOrient());
 	missile->SetFrame(GetFrame());
 	const vector3d pos = GetOrient() * vector3d(0, GetAabb().min.y - 10, GetAabb().min.z);
@@ -754,6 +755,11 @@ Missile *Ship::SpawnMissile(ShipType::Id missile_type, int power)
 	missile->SetPosition(GetPosition() + pos);
 	missile->SetVelocity(GetVelocity() + vel);
 	Pi::game->GetSpace()->AddBody(missile);
+
+	if (target) {
+		missile->AIKamikaze(target);
+	}
+
 	return missile;
 }
 

@@ -21,6 +21,7 @@ class CargoBody;
 class SpaceStation;
 class HyperspaceCloud;
 class Missile;
+struct MissileDef;
 class NavLights;
 class Planet;
 class Sensors;
@@ -171,7 +172,7 @@ public:
 
 	ECMResult UseECM();
 
-	virtual Missile *SpawnMissile(ShipType::Id missile_type, int power = -1);
+	virtual Missile *SpawnMissile(const MissileDef &missileStats, Body *target);
 
 	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_ public>
 		ALERT_NONE,

@@ -99,22 +99,26 @@ void GunManager::LoadFromJson(const Json &jsonObj, Space *space)
 	const Json &groups = jsonObj["groups"];
 	for (const auto &group : groups) {
 		m_groups.push_back(group.get<GroupState>());
+	}
+}
 
-		if (group.count("target")) {
+void GunManager::PostLoadFixup(Space *space)
+{
+	for (size_t groupIdx = 0; groupIdx < m_groups.size(); groupIdx++) {
+		GroupState &gs = m_groups[groupIdx];
 
-			size_t groupIdx = m_groups.size() - 1;
-			size_t targetIdx = group["target"].get<size_t>();
+		if (gs.target_idx == 0)
+			continue;
 
-			Body *target = space->GetBodyByIndex(targetIdx);
+		Body *target = space->GetBodyByIndex(gs.target_idx);
 
-			if (!target) {
-				Log::Warning("Could not find target body index {} for ship {} (weapon group {})",
-					targetIdx, m_parent->GetLabel(), groupIdx);
-				continue;
-			}
-
-			SetGroupTarget(groupIdx, target);
+		if (!target) {
+			Log::Warning("Could not find target body index {} for ship {} (weapon group {})",
+				gs.target_idx, m_parent->GetLabel(), groupIdx);
+			continue;
 		}
+
+		SetGroupTarget(groupIdx, target);
 	}
 }
 
@@ -705,6 +709,7 @@ void from_json(const Json &obj, GunManager::GroupState &group)
 	}
 
 	// Target will be fixed up externally
+	group.target_idx = obj.value<uint32_t>("target", 0);
 	group.target = nullptr;
 	group.firing = obj.value("firing", false);
 	group.fireWithoutTargeting = obj.value("fireWithoutTargeting", false);

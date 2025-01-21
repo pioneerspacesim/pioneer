@@ -17,10 +17,6 @@ std::vector<ShipType::Id> ShipType::static_ships;
 std::vector<ShipType::Id> ShipType::missile_ships;
 
 const std::string ShipType::POLICE = "kanara";
-const std::string ShipType::MISSILE_GUIDED = "missile_guided";
-const std::string ShipType::MISSILE_NAVAL = "missile_naval";
-const std::string ShipType::MISSILE_SMART = "missile_smart";
-const std::string ShipType::MISSILE_UNGUIDED = "missile_unguided";
 
 float ShipType::GetFuelUseRate() const
 {
