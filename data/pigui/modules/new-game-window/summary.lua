@@ -11,7 +11,7 @@ local GameParam = require 'pigui.modules.new-game-window.game-param'
 local ShipDef = require 'ShipDef'
 local Lang = require 'Lang'
 local lui = Lang.GetResource("ui-core")
-local leq = Lang.GetResource("equipment-core")
+local lc = Lang.GetResource("core")
 
 local Summary = {}
 
@@ -86,7 +86,7 @@ function Summary:draw()
 			ui.text("")
 		end
 		Widgets.alignLabel(lui.HYPERDRIVE, layout.shipParam, function()
-			ui.text(Ship.Equip:getHyperDriveClass() > 0 and lui.YES or lui.NO)
+			ui.text(Ship.Equip.hyperDriveClass > 0 and lui.YES or lui.NO)
 		end)
 		ui.text("")
 		if #Ship.Equip.summaryList == 0 then
@@ -97,10 +97,11 @@ function Summary:draw()
 
 		for _, eq in ipairs(Ship.Equip.summaryList) do
 			-- eq: { obj, count }
-			if eq.obj and not eq.obj.capabilities.hyperclass then
-				local count = eq.count > 1 and " x " .. tostring(eq.count) or ""
-				ui.text("    - " .. leq[eq.obj.l10n_key] .. count)
-			end
+			assert(eq.obj)
+			local count = eq.count > 1 and " x " .. tostring(eq.count) or ""
+			local l = Lang.GetResource(eq.obj.l10n_resource)
+			local localized = l[eq.obj.l10n_key] or eq.obj.id or lc.UNKNOWN
+			ui.text("    - " .. localized .. count)
 		end
 
 		ui.text("")
