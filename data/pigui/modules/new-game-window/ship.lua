@@ -1745,6 +1745,47 @@ ShipEquip.reader = Helpers.versioned {{
 			misc = misc
 		}
 	end
+},{
+	version = 91,
+	fnc = function(saveGame)
+
+		local equip, errorString = Helpers.getPlayerShipParameter(saveGame, "lua_components/EquipSet/installed")
+		if errorString then return nil, errorString end
+
+		local value = {}
+		local success = true
+		local sorted = {}
+
+		for slotID, data in pairs(equip) do
+
+			local path = {}
+			for i in string.gmatch(slotID, "[^#]+") do
+				table.insert(path, i)
+			end
+
+			local eqID = data.__proto and data.__proto.id
+
+			if eqID then
+				table.insert(sorted, { id = eqID, path = path })
+			else
+				success = false
+			end
+		end
+
+		-- make sure the parent is added before the child
+		table.sort(sorted, function(x1, x2)
+			return #x1.path < #x2.path
+		end)
+
+		for _, v in ipairs(sorted) do
+			putNode(value, v.id, v.path)
+		end
+
+		if not success then
+			errorString = lui.FAILED_TO_RECOVER_SOME_EQUIPMENT
+		end
+		return value, errorString
+	end
 }}
 
 

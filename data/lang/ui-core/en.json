@@ -635,6 +635,10 @@
     "description": "When failed mission",
     "message": "Failed"
   },
+  "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
+    "description": "",
+    "message": "Failed to recover some equipment"
+  },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
     "message": "Accessories"
