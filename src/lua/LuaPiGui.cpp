@@ -405,6 +405,29 @@ int l_pigui_check_window_flags(lua_State *l)
 	return 1;
 }
 
+static LuaFlags<ImGuiFocusedFlags_> imguiFocusedFlagsTable = {
+	{ "None", ImGuiFocusedFlags_None },
+	{ "ChildWindows", ImGuiFocusedFlags_ChildWindows },
+	{ "RootWindow", ImGuiFocusedFlags_RootWindow },
+	{ "AnyWindow", ImGuiFocusedFlags_AnyWindow },
+	{ "NoPopupHierarchy", ImGuiFocusedFlags_NoPopupHierarchy },
+	{ "DockHierarchy", ImGuiFocusedFlags_DockHierarchy },
+	{ "RootAndChildWindows", ImGuiFocusedFlags_RootAndChildWindows }
+};
+
+void pi_lua_generic_pull(lua_State *l, int index, ImGuiFocusedFlags_ &theflags)
+{
+	theflags = parse_imgui_flags(l, index, imguiFocusedFlagsTable);
+}
+
+int l_pigui_check_focused_flags(lua_State *l)
+{
+	luaL_checktype(l, 1, LUA_TTABLE);
+	ImGuiFocusedFlags_ fl = imguiFocusedFlagsTable.LookupTable(l, 1);
+	LuaPush<ImGuiFocusedFlags_>(l, fl);
+	return 1;
+}
+
 static LuaFlags<ImGuiHoveredFlags_> imguiHoveredFlagsTable = {
 	{ "None", ImGuiHoveredFlags_None },
 	{ "ChildWindows", ImGuiHoveredFlags_ChildWindows },
@@ -988,6 +1011,20 @@ static int l_pigui_get_window_content_size(lua_State *l)
 	const char *name = luaL_checkstring(l, 1);
 	LuaPush(l, ImGui::GetWindowContentSize(name));
 	return 1;
+}
+
+static int l_pigui_set_keyboard_focus_here(lua_State *l)
+{
+	PROFILE_SCOPED()
+
+	if (lua_gettop(l) == 0) {
+		ImGui::SetKeyboardFocusHere();
+		return 0;
+	} else {
+		auto offset = LuaPull<int>(l, 1);
+		ImGui::SetKeyboardFocusHere(offset);
+		return 0;
+	}
 }
 
 static int l_pigui_set_next_window_pos(lua_State *l)
@@ -1983,6 +2020,13 @@ static int l_pigui_is_item_clicked(lua_State *l)
 	return 1;
 }
 
+static int l_pigui_is_any_item_active(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LuaPush(l, ImGui::IsAnyItemActive());
+	return 1;
+}
+
 static int l_pigui_is_mouse_released(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -2788,6 +2832,13 @@ static int l_pigui_is_window_hovered(lua_State *l)
 	return 1;
 }
 
+static int l_pigui_is_window_focused(lua_State *l)
+{
+	int flags = LuaPull<ImGuiFocusedFlags_>(l, 1, ImGuiFocusedFlags_None);
+	LuaPush<bool>(l, ImGui::IsWindowFocused(flags));
+	return 1;
+}
+
 static int l_pigui_begin_tab_bar(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -3555,6 +3606,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "AlignTextToFramePadding", l_pigui_align_to_frame_padding },
 		{ "AlignTextToLineHeight", l_pigui_align_to_line_height },
 		{ "GetWindowContentSize", l_pigui_get_window_content_size },
+		{ "SetKeyboardFocusHere", l_pigui_set_keyboard_focus_here },
 		{ "SetNextWindowPos", l_pigui_set_next_window_pos },
 		{ "SetNextWindowSize", l_pigui_set_next_window_size },
 		{ "SetNextWindowSizeConstraints", l_pigui_set_next_window_size_constraints },
@@ -3597,6 +3649,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "IsItemHovered", l_pigui_is_item_hovered },
 		{ "IsItemActive", l_pigui_is_item_active },
 		{ "IsItemClicked", l_pigui_is_item_clicked },
+		{ "IsAnyItemActive", l_pigui_is_any_item_active },
 		{ "Spacing", l_pigui_spacing },
 		{ "Dummy", l_pigui_dummy },
 		{ "NewLine", l_pigui_newline },
@@ -3634,6 +3687,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "IsMouseDown", l_pigui_is_mouse_down },
 		{ "IsMouseHoveringRect", l_pigui_is_mouse_hovering_rect },
 		{ "IsWindowHovered", l_pigui_is_window_hovered },
+		{ "IsWindowFocused", l_pigui_is_window_focused },
 		{ "Image", l_pigui_image },
 		{ "pointOnClock", l_pigui_pointOnClock },
 		{ "lineOnClock", l_pigui_lineOnClock },
@@ -3695,6 +3749,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "TreeNodeFlags", l_pigui_check_tree_node_flags },
 		{ "InputTextFlags", l_pigui_check_input_text_flags },
 		{ "WindowFlags", l_pigui_check_window_flags },
+		{ "FocusedFlags", l_pigui_check_focused_flags },
 		{ "HoveredFlags", l_pigui_check_hovered_flags },
 		{ "TableFlags", l_pigui_check_table_flags },
 		{ "TableColumnFlags", l_pigui_check_table_column_flags },
@@ -3750,6 +3805,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 	imguiColTable.Register(l, "ImGuiCol");
 	imguiStyleVarTable.Register(l, "ImGuiStyleVar");
 	imguiWindowFlagsTable.Register(l, "ImGuiWindowFlags");
+	imguiFocusedFlagsTable.Register(l, "ImGuiFocusedFlags");
 	imguiHoveredFlagsTable.Register(l, "ImGuiHoveredFlags");
 	imguiTableFlagsTable.Register(l, "ImGuiTableFlags");
 	imguiTableColumnFlagsTable.Register(l, "ImGuiTableColumnFlags");
