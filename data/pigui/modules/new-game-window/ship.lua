@@ -1625,6 +1625,42 @@ function ShipEquip.editDialog.generateRow(path)
 	return indent .. slotName .. itemName
 end
 
+
+local function patch_v90_v91(old)
+
+	local newPrefixes = {
+		'hyperspace', 'misc', 'sensor', 'hull', 'laser'
+	}
+
+	local function tryWithPrefix(oldID)
+		for _, prefix in ipairs(newPrefixes) do
+			local prefixed = prefix .. '.' .. oldID
+			local obj = Equipment.Get(prefixed)
+			if obj then return prefixed end
+		end
+		return oldID
+	end
+
+	local new = {}
+	local i = 1
+
+	for _, section in ipairs({ 'engine', 'laser_front', 'laser_rear' }) do
+		if old[section] then
+			new['old_equipment_' .. tostring(i)] = tryWithPrefix(old[section])
+			i = i + 1
+		end
+	end
+
+	for _, eqHunk in ipairs(old.misc) do
+		for _ = 1, eqHunk.amount, 1 do
+			new['old_equipment_' .. tostring(i)] = tryWithPrefix(eqHunk.id)
+			i = i + 1
+		end
+	end
+
+	return new
+end
+
 ---@param unitBase table where to find the equipment unit
 ---@param unitPath string
 ---@param eqTable table with IDs, can be subtable
@@ -1702,7 +1738,7 @@ ShipEquip.reader = Helpers.versioned {{
 			if errorString then return nil, errorString end
 		end
 
-		return {
+		return patch_v90_v91 {
 			engine = engine,
 			laser_front = laser_front,
 			laser_rear = laser_rear,
