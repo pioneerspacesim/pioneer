@@ -48,8 +48,8 @@ GameParam.reader = Helpers.versioned {{
 ---@return string? errorString
 function GameParam:fromSaveGame(saveGame)
 	local value, errorString = self.reader(saveGame)
+	if value then self.value = value end
 	if errorString then return errorString end
-	self.value = value
 end
 
 function GameParam:isEmpty()
