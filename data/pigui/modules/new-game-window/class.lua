@@ -287,6 +287,11 @@ local function hasNameInArray(param, array)
 	end
 end
 
+local function unlockAll()
+	Layout.setLock(false)
+	FlightLogParam.value.Custom = {{ entry = "Custom start of the game - for the purpose of debugging or cheat." }}
+end
+
 -- wait a few frames, and then calculate the static layout (updateLayout)
 local initFrames = 2
 
@@ -305,8 +310,7 @@ NewGameWindow = ModalWindow.New("New Game", function()
 				profileCombo.selected = ret
 				local action = profileCombo.actions[ret + 1]
 				if action == 'DO_UNLOCK' then
-					Layout.setLock(false)
-					FlightLogParam.value.Custom = {{ text = "Custom start of the game - for the purpose of debugging or cheat." }}
+					unlockAll()
 				else
 					setStartVariant(StartVariants.item(ret + 1))
 				end
@@ -423,7 +427,7 @@ function NewGameWindow:open()
 	end
 	if self.debugMode then
 		profileCombo.selected = #profileCombo.items - 1
-		Layout.setLock(false)
+		unlockAll()
 	end
 	ModalWindow.open(self)
 end
