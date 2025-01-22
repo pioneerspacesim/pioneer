@@ -43,6 +43,14 @@
     "description": "",
     "message": "2MW rapid-fire beam laser"
   },
+  "BY_ITEM": {
+    "description": "Button in the start menu when editing equipment",
+    "message": "By item"
+  },
+  "BY_SLOT": {
+    "description": "Button in the start menu when editing equipment",
+    "message": "By slot"
+  },
   "CABINS": {
     "description": "Category header for pressurized cabin slots",
     "message": "Cabins"
@@ -163,9 +171,21 @@
     "description": "",
     "message": "Activate Electronic Countermeasures"
   },
+  "EDIT_EQUIPMENT": {
+    "description": "Dialog title",
+    "message": "Edit equipment"
+  },
+  "EMPTY_EQUIPMENT_PROVIDING_SLOTS": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "Empty equipment providing slots"
+  },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
     "message": "EMPTY"
+  },
+  "EQUIPMENT_DOES_NOT_FIT_INTO_THE_SLOT": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "Equipment does not fit into the slot"
   },
   "EQUIPMENT_INTEGRITY": {
     "description": "Tooltip explaining remaining equipment integrity",
@@ -294,6 +314,14 @@
   "HYPERCLOUD_ANALYZER_DESCRIPTION": {
     "description": "",
     "message": "Analyze hyperspace clouds to determine destination and time of arrival or departure."
+  },
+  "INVALID_SLOT": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "Invalid slot"
+  },
+  "ITEM": {
+    "description": "A piece of equipment",
+    "message": "Item"
   },
   "LARGE_PLASMA_ACCEL": {
     "description": "",
@@ -527,6 +555,14 @@
     "message": "Mass-produced by local manufacturers on most worlds. These range from being lovingly hand-crafted by artisans on developing worlds to being mindlessly churned out by the millions in automated mega-factories on hyper-industrialised ones.\nBut regardless from where they are sourced, the specifications are tightly controlled by the ISAEEE and should work in most compatible ship systems."
   },
 
+  "NO_SUITABLE_EQUIPMENT": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "No suitable equipment"
+  },
+  "NO_SUITABLE_SLOTS": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "No suitable slots"
+  },
   "OCCUPIED_BERTHS": {
     "description": "Label for the number of passenger berths currently occupied in a cabin equipment item",
     "message": "Occupied Berths"
@@ -636,6 +672,10 @@
   "REINFORCED_STRUCTURE": {
     "description": "Name for an equipment item that reinforces the hull's superstructure",
     "message": "Reinforced Structure"
+  },
+  "REQUIRED_SLOT_IS_EMPTY": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "Required slot is empty"
   },
   "SCAN_COMPLETED": {
     "description": "",
@@ -781,6 +821,14 @@
     "description": "",
     "message": "Used to remotely inspect the equipment, cargo and state of other ships."
   },
+  "TARGET_SLOT_IS_NOT_EMPTY_PUT_THE_REPLACED_ONE_IN_THE_CLIPBOARD_QUESTION": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "Target slot is not empty, put the replaced one in the clipboard?"
+  },
+  "THE_SAME_EQUIPMENT_HAS_BEEN_ALREADY_INSTALLED": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "The same equipment has been already installed."
+  },
   "THRUSTERS_DEFAULT": {
     "description": "Equipment name for default RCS thrusters",
     "message": "Default Thrusters"
@@ -840,5 +888,17 @@
   "WEAPONS": {
     "description": "Category name of weapon-related equipment",
     "message": "Weapons"
+  },
+  "SLOT": {
+    "description": "",
+    "message": "Slot"
+  },
+  "SLOT_IS_NOT_EMPTY_REPLACE_THE_EQUIPMENT_QUESTION": {
+    "description": "",
+    "message": "Slot is not empty, replace the equipment?"
+  },
+  "SLOTLESS": {
+    "description": "",
+    "message": "Slotless"
   }
 }
