@@ -92,6 +92,10 @@ local function drawModals(idx)
 	end
 end
 
+function ModalWindow:topmost()
+	return self.stackIdx == #modalStack
+end
+
 ui.registerModule('modal', function()
 	drawModals(1)
 end)
