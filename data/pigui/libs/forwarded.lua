@@ -10,6 +10,8 @@ local pigui = Engine.pigui
 ---@class ui
 local ui = {}
 
+ui.raw = pigui
+
 ui.calcTextAlignment = pigui.CalcTextAlignment
 ui.alignTextToLineHeight = pigui.AlignTextToLineHeight
 ui.alignTextToFramePadding = pigui.AlignTextToFramePadding
