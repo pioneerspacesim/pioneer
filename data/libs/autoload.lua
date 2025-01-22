@@ -98,6 +98,27 @@ table.merge = function(a, b, transformer)
 	return a
 end
 
+-- Copy table recursively using pairs()
+--
+-- Does not copy metatable
+---@generic T
+---@param t T
+---@return T
+table.deepcopy = function(t)
+
+	if not t then return nil end
+
+	local result = {}
+	for k, v in pairs(t) do
+		if type(v) == 'table' then
+			result[k] = table.deepcopy(v)
+		else
+			result[k] = v
+		end
+	end
+	return result
+end
+
 -- Append array b to array a
 --
 -- Does not copy metatable nor recurse into the table.
