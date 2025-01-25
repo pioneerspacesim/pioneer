@@ -16,6 +16,7 @@ local OutfitRules = {}
 ---@field maxThreatFactor number? Maximum proportion of remaining threat that can be consumed by this rule
 ---@field randomChance number? Random chance to apply this rule, in [0..1]
 ---@field balance boolean? Attempt to balance volume / threat across all slots this rule matches (works best with .pick = nil)
+---@field apply fun(equip: EquipType)? Make custom changes to the selected equipment before it is installed in the ship
 
 OutfitRules.DifficultWeapon = {
 	slot = "weapon",
