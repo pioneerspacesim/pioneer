@@ -93,7 +93,10 @@ OutfitRules.DefaultPassengerCabins = {
 }
 
 OutfitRules.DefaultHyperdrive = {
-	slot = "hyperdrive"
+	slot = "hyperdrive",
+	apply = function(equip) ---@param equip Equipment.HyperdriveType
+		equip:SetFuel(nil, equip:GetMaxFuel())
+	end
 }
 
 OutfitRules.DefaultAtmoShield = {
