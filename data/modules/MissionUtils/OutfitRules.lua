@@ -92,8 +92,16 @@ OutfitRules.DefaultPassengerCabins = {
 	filter = "cabin.passenger"
 }
 
+OutfitRules.AnyHyperdrive = {
+	slot = "hyperdrive",
+	apply = function(equip) ---@param equip Equipment.HyperdriveType
+		equip:SetFuel(nil, equip:GetMaxFuel())
+	end
+}
+
 OutfitRules.DefaultHyperdrive = {
 	slot = "hyperdrive",
+	filter = "hyperdrive.civilian",
 	apply = function(equip) ---@param equip Equipment.HyperdriveType
 		equip:SetFuel(nil, equip:GetMaxFuel())
 	end

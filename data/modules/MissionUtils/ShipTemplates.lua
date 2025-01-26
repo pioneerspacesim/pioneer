@@ -135,7 +135,7 @@ ShipTemplates.GenericMercenary = ShipBuilder.Template:clone {
 		utils.mixin(OutfitRules.DefaultLaserCooling, { minThreat = 40.0 }),
 		utils.mixin(OutfitRules.DefaultShieldBooster, { minThreat = 30.0 }),
 		-- Default equipment in remaining space
-		OutfitRules.DefaultHyperdrive,
+		OutfitRules.AnyHyperdrive,
 		OutfitRules.DefaultAtmoShield,
 		OutfitRules.DefaultRadar,
 	}
