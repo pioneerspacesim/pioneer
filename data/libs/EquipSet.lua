@@ -16,7 +16,7 @@ local utils = require 'utils'
 ---@field New fun(ship: Ship): EquipSet
 local EquipSet = utils.class("EquipSet")
 
----@alias EquipSet.Listener fun(op: 'install'|'remove', equip: EquipType, slot: HullConfig.Slot?)
+---@alias EquipSet.Listener fun(op: 'install'|'remove'|'modify', equip: EquipType, slot: HullConfig.Slot?)
 
 -- Function: SlotTypeMatches
 --
@@ -417,6 +417,18 @@ end
 -- Remove a previously-registered event listener function.
 function EquipSet:RemoveListener(fun)
 	utils.remove_elem(self.listeners, fun)
+end
+
+-- Method: NotifyListeners
+--
+-- Send a notification event to listeners.
+---@param op string The type of event to send.
+---@param equipment EquipType The equipment item generating the event
+---@param slot HullConfig.Slot? The slot handle on this EquipSet that is relevant to the event
+function EquipSet:NotifyListeners(op, equipment, slot)
+	for _, listener in ipairs(self.listeners) do
+		listener(op, equipment, slot)
+	end
 end
 
 -- Method: Install
