@@ -90,7 +90,6 @@ static void onSaveGameStatsJobFinished(std::string_view filename, const Json &ro
 		// if this is a newer saved game, show the embedded info
 		if (rootNode["game_info"].is_object()) {
 			const Json &gameInfo = rootNode["game_info"];
-			t.Set("compatible", true);
 			t.Set("system", gameInfo["system"].get<std::string>());
 			t.Set("ship", gameInfo["ship"].get<std::string>());
 			t.Set("credits", gameInfo["credits"].get<float>());
@@ -115,8 +114,11 @@ static void onSaveGameStatsJobFinished(std::string_view filename, const Json &ro
 			const Json &shipNode = rootNode["space"]["bodies"][rootNode["player"].get<int>() - 1];
 			t.Set("frame", rootNode["space"]["bodies"][shipNode["body"]["index_for_frame"].get<int>() - 1]["body"]["label"].get<std::string>());
 			t.Set("ship", shipNode["model_body"]["model_name"].get<std::string>());
-			t.Set("compatible", false);
 		}
+
+		int saveVersion = rootNode["version"].get<int>();
+		t.Set("compatible", saveVersion == SaveGameManager::CurrentSaveVersion());
+
 	} catch (const Json::type_error &) {
 		t.Set("compatible", false);
 	} catch (const Json::out_of_range &) {

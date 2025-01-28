@@ -315,6 +315,10 @@
     "description": "",
     "message": "Control Options"
   },
+  "COPY": {
+    "description": "As for clipboard",
+    "message": "Copy"
+  },
   "COULD_NOT_DELETE_SAVE": {
     "description": "",
     "message": "Could not delete save"
@@ -386,6 +390,10 @@
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
     "message": "Current system"
+  },
+  "CUT": {
+    "description": "As for clipboard",
+    "message": "Cut"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
@@ -626,6 +634,10 @@
   "FAILED": {
     "description": "When failed mission",
     "message": "Failed"
+  },
+  "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
+    "description": "",
+    "message": "Failed to recover some equipment"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
@@ -1315,6 +1327,10 @@
     "description": "Ship jump status",
     "message": "Initiated"
   },
+  "INSTALL": {
+    "description": "Install something",
+    "message": "Install"
+  },
   "INSTALLED": {
     "description": "Label indicating something is installed",
     "message": "Installed"
@@ -1878,6 +1894,10 @@
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
     "message": "Passenger cabin capacity"
+  },
+  "PASTE": {
+    "description": "As for clipboard",
+    "message": "Paste"
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",

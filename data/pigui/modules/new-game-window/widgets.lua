@@ -162,4 +162,22 @@ Widgets.incrementDrag = function(lock, label, value, v_speed, v_min, v_max, form
 	end
 end
 
+-- return actual height
+Widgets.filledHeader = function(label, width)
+
+	local fillHeight = Defs.lineHeight + Defs.gap.y
+
+	local p1 = ui.getCursorScreenPos()
+	local p2 = Vector2(p1.x + width, p1.y + fillHeight)
+	ui.addRectFilled(p1, p2, ui.theme.colors.tableHighlight, 0, 0)
+
+	ui.addCursorPos(Defs.gap)
+	ui.text(label)
+	-- here we are at the bottom edge of the fill, add another gap
+	ui.addCursorPos(Vector2(0, Defs.gap.y))
+
+	-- text height plus three gaps
+	return fillHeight + Defs.gap.y
+end
+
 return Widgets

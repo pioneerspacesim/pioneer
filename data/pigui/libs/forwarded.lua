@@ -10,6 +10,8 @@ local pigui = Engine.pigui
 ---@class ui
 local ui = {}
 
+ui.raw = pigui
+
 ui.calcTextAlignment = pigui.CalcTextAlignment
 ui.alignTextToLineHeight = pigui.AlignTextToLineHeight
 ui.alignTextToFramePadding = pigui.AlignTextToFramePadding
@@ -20,6 +22,7 @@ ui.screenHeight = pigui.screen_height
 
 ui.bringWindowToDisplayFront = pigui.bringWindowToDisplayFront ---@type fun()
 
+ui.setKeyboardFocusHere = pigui.SetKeyboardFocusHere ---@type fun(offset: number?)
 -- Return the size of the specified window's contents from last frame (without padding/decoration)
 -- Returns {0,0} if the window hasn't been submitted during the lifetime of the program
 ui.getWindowContentSize = pigui.GetWindowContentSize ---@type fun(name: string): Vector2
@@ -127,7 +130,9 @@ ui.playSfx = pigui.PlaySfx
 ui.isItemHovered = pigui.IsItemHovered
 ui.isItemActive = pigui.IsItemActive
 ui.isItemClicked = pigui.IsItemClicked
-ui.isWindowHovered = pigui.IsWindowHovered
+ui.isAnyItemActive = pigui.IsAnyItemActive ---@type fun()
+ui.isWindowHovered = pigui.IsWindowHovered ---@type fun(flags: any)
+ui.isWindowFocused = pigui.IsWindowFocused ---@type fun(flags: any)
 ui.vSliderInt = pigui.VSliderInt ---@type fun(l: string, size: Vector2, v: integer, min: integer, max: integer, fmt: string?): value:integer, changed:boolean
 ui.sliderInt = pigui.SliderInt ---@type fun(l: string, v: integer, min: integer, max: integer, fmt: string?): value:integer, changed:boolean
 ui.colorEdit = pigui.ColorEdit

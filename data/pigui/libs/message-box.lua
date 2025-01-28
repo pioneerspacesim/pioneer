@@ -8,6 +8,10 @@ local lui = Lang.GetResource("ui-core")
 local font = ui.fonts.pionillium.body
 local msgButtonWidth = font.size * 7
 
+--
+-- Interface: msgbox
+--
+
 local msgbox = {}
 
 local function createBoxModal(msg, footer, footerWidth)
@@ -36,6 +40,11 @@ local function createBoxModal(msg, footer, footerWidth)
 	end):open()
 end
 
+--
+-- Function: msgbox.OK
+--
+-- msgbox.OK(msg)
+--
 msgbox.OK = function(msg)
 	createBoxModal(msg, function(self)
 		if ui.button(lui.OK, Vector2(msgButtonWidth, 0)) then
@@ -44,6 +53,11 @@ msgbox.OK = function(msg)
 	end, msgButtonWidth)
 end
 
+--
+-- Function: msgbox.OK_CANCEL
+--
+-- msgbox.OK_CANCEL(msg)
+--
 msgbox.OK_CANCEL = function(msg, callback)
 	createBoxModal(msg, function(self)
 		if ui.button(lui.OK, Vector2(msgButtonWidth, 0)) then
@@ -57,6 +71,59 @@ msgbox.OK_CANCEL = function(msg, callback)
 			self:close()
 		end
 	end, msgButtonWidth * 2 + ui.getItemSpacing().x)
+end
+
+--
+-- Function: msgbox.YES_NO
+--
+-- msgbox.YES_NO(msg)
+--
+msgbox.YES_NO = function(msg, callbacks)
+	createBoxModal(msg, function(self)
+		if ui.button(lui.YES, Vector2(msgButtonWidth, 0)) then
+			if callbacks and callbacks.yes then
+				callbacks.yes()
+			end
+			self:close()
+		end
+		ui.sameLine()
+		if ui.button(lui.NO, Vector2(msgButtonWidth, 0)) then
+			if callbacks and callbacks.no then
+				callbacks.no()
+			end
+			self:close()
+		end
+	end, msgButtonWidth * 2 + ui.getItemSpacing().x)
+end
+
+--
+-- Function: msgbox.custom
+--
+-- msgbox.custom(msg, buttons)
+--
+-- Show a message box with custom buttons and corresponding callbacks.
+--
+-- Parameters:
+--
+--   msg - string, message for message box
+--   buttons - array of type:
+--       label - string, button label
+--       callback - function
+--
+msgbox.custom = function(msg, buttons)
+	createBoxModal(msg, function(self)
+		for i, button in ipairs(buttons) do
+
+			if i ~= 1 then ui.sameLine() end
+
+			if ui.button(button.label, Vector2(msgButtonWidth, 0)) then
+				if button.callback then
+					button.callback()
+				end
+				self:close()
+			end
+		end
+	end, msgButtonWidth * #buttons + ui.getItemSpacing().x)
 end
 
 return msgbox

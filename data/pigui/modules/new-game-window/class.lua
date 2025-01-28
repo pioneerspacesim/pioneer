@@ -19,23 +19,9 @@ local Layout = require 'pigui.modules.new-game-window.layout'
 local Recovery = require 'pigui.modules.new-game-window.recovery'
 local StartVariants = require 'pigui.modules.new-game-window.start-variants'
 local FlightLogParam = require 'pigui.modules.new-game-window.flight-log'
-local Helpers = require 'pigui.modules.new-game-window.helpers'
 local Game = require 'Game'
 
 local profileCombo = { items = {}, selected = 0 }
-
-local equipment2 = {
-	computer_1     = "misc.autopilot",
-	laser_front_s2 = "laser.pulsecannon_1mw",
-	shield_s1_1    = "shield.basic_s1",
-	shield_s1_2    = "shield.basic_s1",
-	sensor         = "sensor.radar",
-	hull_mod       = "hull.atmospheric_shielding",
-	hyperdrive     = "hyperspace.hyperdrive_2",
-	thruster       = "thruster.default_s1",
-	missile_bay_1  = "missile_bay.opli_internal_s2",
-	missile_bay_2  = "missile_bay.opli_internal_s2",
-}
 
 StartVariants.register({
 	name       = lui.START_AT_MARS,
@@ -44,12 +30,17 @@ StartVariants.register({
 	logmsg     = lui.START_LOG_ENTRY_1,
 	shipType   = 'coronatrix',
 	money      = 600,
-	hyperdrive = true,
-	equipment  = {
-		-- { laser.pulsecannon_1mw,      1 },
-		-- { misc.atmospheric_shielding, 1 },
-		-- { misc.autopilot,             1 },
-		-- { misc.radar,                 1 }
+	equipment = {
+		computer_1     = "misc.autopilot",
+		laser_front_s2 = "laser.pulsecannon_1mw",
+		shield_s1_1    = "shield.basic_s1",
+		shield_s1_2    = "shield.basic_s1",
+		sensor         = "sensor.radar",
+		hull_mod       = "hull.atmospheric_shielding",
+		hyperdrive     = "hyperspace.hyperdrive_2",
+		thruster       = "thruster.default_s1",
+		missile_bay_1  = "missile_bay.opli_internal_s2",
+		missile_bay_2  = "missile_bay.opli_internal_s2",
 	},
 	cargo      = {
 		{ Commodities.hydrogen, 2 }
@@ -66,11 +57,13 @@ StartVariants.register({
 	shipType   = 'pumpkinseed',
 	money      = 400,
 	hyperdrive = true,
-	equipment  = {
-		-- { laser.pulsecannon_1mw,      1 },
-		-- { misc.atmospheric_shielding, 1 },
-		-- { misc.autopilot,             1 },
-		-- { misc.radar,                 1 }
+	equipment = {
+		computer_1     = "misc.autopilot",
+		laser_front_s1 = "laser.pulsecannon_1mw",
+		sensor         = "sensor.radar",
+		hull_mod       = "hull.atmospheric_shielding",
+		hyperdrive     = "hyperspace.hyperdrive_1",
+		thruster       = "thruster.default_s1",
 	},
 	cargo      = {
 		{ Commodities.hydrogen, 2 }
@@ -87,10 +80,11 @@ StartVariants.register({
 	shipType       = 'xylophis',
 	money          = 100,
 	hyperdrive     = false,
-	equipment      = {
-		-- {misc.atmospheric_shielding,1},
-		-- {misc.autopilot,1},
-		-- {misc.radar,1}
+	equipment = {
+		computer_1     = "misc.autopilot",
+		sensor         = "sensor.radar",
+		hull_mod       = "hull.atmospheric_shielding",
+		thruster       = "thruster.default_s1",
 	},
 	cargo          = {
 		{ Commodities.hydrogen, 2 }
@@ -158,48 +152,57 @@ local function startGame(gameParams)
 		player:Enroll(member)
 	end
 
-	local eqSections = {
-		engine = 'hyperspace',
-		laser_rear = 'laser',
-		laser_front = 'laser'
-	}
-
-	if not equipment2 then
-
-		-- TODO: old equipment API no longer supported
-
-	else
-
 	local equipSet = player:GetComponent("EquipSet")
 	player:UpdateEquipStats()
 
-	for _, item in ipairs(equipment2) do
+	-- slotless
+	for _, item in ipairs(gameParams.ship.equipment) do
 		local proto = Equipment.Get(item)
-		if not equipSet:Install(proto()) then
-			print("Couldn't install equipment item {} in misc. cargo space" % { proto:GetName() })
+		if not equipSet:Install(proto:Instance()) then
+			logWarning("Couldn't install equipment item {} in misc. cargo space" % { proto:GetName() })
 		end
 	end
 
-	for slot, item in pairs(equipment2) do
-		local proto = Equipment.Get(item)
-		-- print("Installing equipment {} (proto: {}) into slot {}" % { item, proto, slot })
-		if type(slot) == "string" then
-			local slotHandle = equipSet:GetSlotHandle(slot)
-			if slotHandle then
-				local inst = proto:Instance()
+	local function installEquipment(nodes, prefix)
+		for slot, node in pairs(nodes) do
 
-				if slotHandle.count then
-					inst:SetCount(slotHandle.count)
+			local item
+
+			if type(node) == 'table' then
+				item = node.id
+				assert(item)
+			else
+				item = node
+			end
+
+			if prefix then
+				slot = prefix .. slot
+			end
+
+			local proto = Equipment.Get(item)
+			if type(slot) == "string" then
+				local slotHandle = equipSet:GetSlotHandle(slot)
+				if slotHandle then
+					local inst = proto:Instance()
+
+					if inst.SpecializeForShip then inst:SpecializeForShip(equipSet.config) end
+
+					if slotHandle.count then
+						inst:SetCount(slotHandle.count)
+					end
+
+					if not equipSet:Install(inst, slotHandle) then
+						logWarning("Couldn't install equipment item {} into slot {}" % { inst:GetName(), slot })
+					end
 				end
 
-				if not equipSet:Install(inst, slotHandle) then
-					print("Couldn't install equipment item {} into slot {}" % { inst:GetName(), slot })
+				if type(node) == 'table' then
+					installEquipment(node.slots, slot .. "##")
 				end
 			end
 		end
 	end
-
-	end
+	installEquipment(gameParams.ship.equipment)
 
 	---@type CargoManager
 	local cargoMgr = player:GetComponent('CargoManager')
@@ -287,6 +290,11 @@ local function hasNameInArray(param, array)
 	end
 end
 
+local function unlockAll()
+	Layout.setLock(false)
+	FlightLogParam.value.Custom = {{ entry = "Custom start of the game - for the purpose of debugging or cheat." }}
+end
+
 -- wait a few frames, and then calculate the static layout (updateLayout)
 local initFrames = 2
 
@@ -305,8 +313,7 @@ NewGameWindow = ModalWindow.New("New Game", function()
 				profileCombo.selected = ret
 				local action = profileCombo.actions[ret + 1]
 				if action == 'DO_UNLOCK' then
-					Layout.setLock(false)
-					FlightLogParam.value.Custom = {{ text = "Custom start of the game - for the purpose of debugging or cheat." }}
+					unlockAll()
 				else
 					setStartVariant(StartVariants.item(ret + 1))
 				end
@@ -423,7 +430,7 @@ function NewGameWindow:open()
 	end
 	if self.debugMode then
 		profileCombo.selected = #profileCombo.items - 1
-		Layout.setLock(false)
+		unlockAll()
 	end
 	ModalWindow.open(self)
 end
