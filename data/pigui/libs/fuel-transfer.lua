@@ -1,12 +1,10 @@
 
 
 local ui = require 'pigui'
-local InfoView = require 'pigui.views.info-view'
 local Lang = require 'Lang'
 local Game = require 'Game'
 local ShipDef = require 'ShipDef'
-local StationView = require 'pigui.views.station-view'
-local Passengers = require 'Passengers'
+
 local Commodities = require 'Commodities'
 local CommodityType = require 'CommodityType'
 
