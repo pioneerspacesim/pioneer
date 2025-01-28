@@ -130,7 +130,7 @@ local onShipDocked = function (ship, starport)
 		ship:SetHullPercent()
 		Trader.addEquip(ship)
 	end
-	Trader.addFuel(ship)
+	Trader.addHyperdriveFuel(ship)
 	ship:SetFuelPercent()
 
 	if trader.status == 'docked' then

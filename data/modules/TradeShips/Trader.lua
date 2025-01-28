@@ -256,7 +256,10 @@ Trader.getNearestStarport = function(ship, current)
 	return starport or current
 end
 
-Trader.addFuel = function (ship)
+-- Add fuel to the ship's hyperdrive
+---@param ship Ship
+---@param deducted number? Amount of fuel to leave empty in the drive
+Trader.addHyperdriveFuel = function (ship, deducted)
 	local drive = ship:GetInstalledHyperdrive()
 
 	-- a drive must be installed
@@ -265,30 +268,8 @@ Trader.addFuel = function (ship)
 		return nil
 	end
 
-	-- the last character of the fitted drive is the class
-	-- the fuel needed for max range is the square of the drive class
-	local count = drive.capabilities.hyperclass ^ 2
-
-	---@type CargoManager
-	local cargoMgr = ship:GetComponent('CargoManager')
-
-	-- account for fuel it already has
-	count = count - cargoMgr:CountCommodity(Commodities.hydrogen)
-
-	-- don't add more fuel than the ship can hold
-	count = math.min(count, cargoMgr:GetFreeSpace())
-	cargoMgr:AddCommodity(Commodities.hydrogen, count)
-
-	return count
-end
-
-Trader.removeFuel = function (ship, count)
-	---@type CargoManager
-	local cargoMgr = ship:GetComponent('CargoManager')
-
-	local removed = cargoMgr:RemoveCommodity(Commodities.hydrogen, count)
-
-	return removed
+	-- fill the drive completely, less the amount that should be deducted
+	drive:SetFuel(ship, math.max(0, drive:GetMaxFuel() - (deducted or 0)))
 end
 
 Trader.checkDistBetweenStarport = function (ship)
@@ -402,7 +383,7 @@ Trader.spawnInCloud = function(ship_name, cloud, route, dest_time)
 	local ship = Space.SpawnShip(ship_name, 0, 0, {cloud.from, route.from:GetSystemBody().path, dest_time})
 	ship:SetLabel(Ship.MakeRandomLabel())
 	Trader.addEquip(ship)
-	Trader.addFuel(ship)
+	Trader.addHyperdriveFuel(ship)
 	Trader.addCargo(ship, 'import')
 	Core.ships[ship] = {
 		status		= 'hyperspace',

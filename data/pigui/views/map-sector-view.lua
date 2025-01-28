@@ -139,7 +139,7 @@ sectorViewLayout.mainFont = font
 
 local function draw_jump_status(item)
 	textIcon(statusIcons[item.jumpStatus].icon, lui[item.jumpStatus])
-	ui.text(string.format("%.2f%s %d%s %s",
+	ui.text(string.format("%.2f%s %.1f%s %s",
 		item.distance, lc.UNIT_LY, item.fuelRequired, lc.UNIT_TONNES, ui.Format.Duration(item.duration, 2)))
 end
 
@@ -471,6 +471,7 @@ ui.registerModule("game", { id = 'map-sector-view', draw = function()
 
 		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
 			systemEconView = package.reimport('pigui.modules.system-econ-view').New()
+			package.reimport('pigui.modules.hyperjump-planner')
 			package.reimport()
 		end
 	end

@@ -206,7 +206,7 @@ local function buyShip (mkt, sos)
 		if equipSet:CanInstallInSlot(handle, pair[2]) then
 			equipSet:Install(pair[2], handle)
 		else
-			logWarning("Default equipment item {} for ship slot {}.{} is not compatible with slot." % { slot.default, player.shipId, slot.id })
+			logWarning("Default equipment item {} for ship slot {}.{} is not compatible with slot." % { handle.default, player.shipId, handle.id })
 		end
 	end
 

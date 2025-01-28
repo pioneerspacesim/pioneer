@@ -361,6 +361,10 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, rule, rand, hullThreat)
 					inst:SetCount(slot.count)
 				end
 
+				if rule.apply then
+					rule.apply(inst)
+				end
+
 				if shipPlan.freeVolume >= inst.volume then
 					shipPlan:AddEquipToPlan(equip, slot, threat)
 				end
@@ -437,6 +441,10 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, rule, rand, hullThreat)
 
 			if slot.count then
 				inst:SetCount(slot.count)
+			end
+
+			if rule.apply then
+				rule.apply(inst)
 			end
 
 			return shipPlan.freeVolume >= inst.volume and inst or nil
@@ -652,13 +660,20 @@ function ShipBuilder.MakePlan(template, shipConfig, threat)
 			if rule.slot then
 				ShipBuilder.ApplyEquipmentRule(shipPlan, rule, Engine.rand, hullThreat)
 			else
-				local equip = Equipment.Get(rule.equip)
-				assert(equip)
+				local inst = assert(Equipment.Get(rule.equip)):Instance()
 
-				local equipThreat = ShipBuilder.ComputeEquipThreatFactor(equip, hullThreat)
+				if inst.SpecializeForShip then
+					inst:SpecializeForShip(shipPlan.config)
+				end
 
-				if shipPlan.freeVolume >= equip.volume and shipPlan.freeThreat >= equipThreat then
-					shipPlan:AddEquipToPlan(equip)
+				if rule.apply then
+					rule.apply(inst)
+				end
+
+				local equipThreat = ShipBuilder.ComputeEquipThreatFactor(inst, hullThreat)
+
+				if shipPlan.freeVolume >= inst.volume and shipPlan.freeThreat >= equipThreat then
+					shipPlan:AddEquipToPlan(inst)
 				end
 			end
 

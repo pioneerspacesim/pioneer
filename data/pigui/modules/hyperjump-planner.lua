@@ -2,7 +2,6 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
-local Equipment = require 'Equipment'
 local Commodities = require 'Commodities'
 
 local Lang = require 'Lang'
@@ -78,14 +77,14 @@ local function showInfo()
 
 		textIcon(icons.fuel, lui.REQUIRED_FUEL)
 		ui.sameLine()
-		ui.text(total_fuel .. lc.UNIT_TONNES)
+		ui.text(string.format("%.1f%s", total_fuel, lc.UNIT_TONNES))
 		ui.sameLine()
 		ui.text("[")
 		ui.sameLine()
 		ui.withStyleVars({ItemSpacing = Vector2(0.0)}, function()
 			textIcon(icons.hull, lui.CURRENT_FUEL)
 			ui.sameLine()
-			ui.text(" : " .. current_fuel .. lc.UNIT_TONNES)
+			ui.text(" : " .. string.format("%.1f%s", current_fuel, lc.UNIT_TONNES))
 		end)
 		ui.sameLine()
 		ui.text("]")
@@ -116,9 +115,9 @@ local function buildJumpRouteList()
 	local start = Game.system and Game.system.path or player:GetHyperspaceDestination()
 
 	local drive = player:GetInstalledHyperdrive()
-	local fuel_type = drive and drive.fuel or Commodities.hydrogen
+	if not drive then return end
 
-	local cur_fuel = player:GetComponent('CargoManager'):CountCommodity(fuel_type)
+	local cur_fuel = drive.storedFuel
 	local running_fuel = 0
 
 	for jumpIndex, jump in pairs(sectorView:GetRoute()) do
@@ -138,7 +137,11 @@ local function buildJumpRouteList()
 		hyperjump_route[jumpIndex] = {
 			path = jump,
 			color = color,
-			textLine = jumpIndex ..": ".. jump_sys.name .. " (" .. string.format("%.2f", distance) .. lc.UNIT_LY .. " - " .. fuel .. lc.UNIT_TONNES..")"
+			textLine = "{}: {} ({} - {})" % {
+				jumpIndex, jump_sys.name,
+				string.format("%.2f%s", distance, lc.UNIT_LY),
+				string.format("%.1f%s", fuel, lc.UNIT_TONNES)
+			}
 		}
 		running_fuel = fuel + running_fuel
 		start = jump
@@ -311,7 +314,7 @@ function hyperJumpPlanner.display()
 	local fuel_type = drive and drive.fuel or Commodities.hydrogen
 	current_system = Game.system -- will be nil during the hyperjump
 	current_path = Game.system and current_system.path -- will be nil during the hyperjump
-	current_fuel = Game.player:GetComponent('CargoManager'):CountCommodity(fuel_type)
+	current_fuel = Game.player:GetComponent('CargoManager'):CountCommodity(fuel_type) + (drive and drive.storedFuel or 0)
 	map_selected_path = sectorView:GetSelectedSystemPath()
 	showHyperJumpPlannerWindow()
 end -- hyperJumpPlanner.display
@@ -331,7 +334,7 @@ end
 
 ---@type EquipSet.Listener
 function hyperJumpPlanner.onShipEquipmentChanged(op, equip, slot)
-	if op == 'install' and slot and slot.type:match("^hyperdrive") then
+	if (op == 'install' or op == 'modify') and equip:IsA("Equipment.HyperdriveType") then
 		buildJumpRouteList()
 	end
 end

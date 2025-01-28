@@ -526,6 +526,13 @@ local createTargetShipParameters = function (flavour, planet)
 			end
 		end
 
+		----> cargo hold to transfer fuel
+		if flavour.id == 2 or flavour.id == 4 or flavour.id == 5 then
+			if def.cargo < 1 then
+				return false
+			end
+		end
+
 		----> needs to have enough passenger space for pickup
 		if flavour.id == 1 or flavour.id == 6 then
 			local config = HullConfig.GetHullConfig(def.id) ---@type HullConfig
@@ -678,17 +685,19 @@ local createTargetShip = function (mission)
 		error("Could not fit all passengers to return into mission ship!")
 	end
 
+	-- If this is not a refueling mission, the ship will have full engine and hyperdrive fuel tanks
 	local is_refueling = mission.flavour.id == 2 or mission.flavour.id == 4 or mission.flavour.id == 5
 
 	if is_refueling then
 		-- remove all fuel for refueling mission
 		ship:SetFuelPercent(0)
-	else
-		-- add hydrogen for hyperjumping
-		-- FIXME(fuel): hyperdrives will have their own independent fuel tanks and we should not add fuel to the cargo bay
-		local drive = assert(ship:GetInstalledHyperdrive(), "No hyperdrive in stranded ship!")
-		local hypfuel = drive.capabilities.hyperclass ^ 2  -- fuel for max range
-		ship:GetComponent('CargoManager'):AddCommodity(drive.fuel or Commodities.hydrogen, hypfuel)
+
+		local drive = ship:GetInstalledHyperdrive()
+
+		-- Remove hyperdrive fuel for refueling mission
+		if drive then
+			drive:SetFuel(ship, 0)
+		end
 	end
 
 	return ship
@@ -1668,6 +1677,14 @@ local deliverCommodity = function (mission, commodity)
 		removeCargo(Game.player, commodity)
 		addCargo(mission.target, commodity)
 
+		-- if commodity was fuel and the mission was local refuel the ship with it
+		-- prevents issues where the ship's spare cargo space is smaller than the fuel we're delivering
+		if commodity == Commodities.hydrogen then
+			if mission.flavour.id == 2 or mission.flavour.id == 4 or mission.flavour.id == 5 then
+				mission.target:Refuel(Commodities.hydrogen, 1)
+			end
+		end
+
 		-- show result message if done delivering this commodity
 		mission.deliver_comm[commodity] = mission.deliver_comm[commodity] - 1
 		local done = mission.deliver_comm_orig[commodity] - mission.deliver_comm[commodity]
@@ -1675,13 +1692,6 @@ local deliverCommodity = function (mission, commodity)
 			local resulttxt = string.interp(l.RESULT_DELIVERY_COMM, {done = done, todo = todo, cargotype = commodity_name})
 			Comms.ImportantMessage(resulttxt)
 			mission.deliver_comm_check[commodity] = "COMPLETE"
-
-			-- if commodity was fuel and the mission was local refuel the ship with it
-			if commodity == Commodities.hydrogen then
-				if mission.flavour.id == 2 or mission.flavour.id == 4 or mission.flavour.id == 5 then
-					mission.target:Refuel(Commodities.hydrogen, mission.deliver_comm_orig[commodity])
-				end
-			end
 		end
 	end
 end
@@ -2001,6 +2011,7 @@ local onLeaveSystem = function (ship)
 	end
 end
 
+---@param ship Ship
 local onShipDocked = function (ship, station)
 	if ship:IsPlayer() then
 		for _,mission in pairs(missions) do
@@ -2020,11 +2031,7 @@ local onShipDocked = function (ship, station)
 				-- add hydrogen for hyperjumping
 				local drive = ship:GetInstalledHyperdrive()
 				if drive then
-					---@type CargoManager
-					local cargoMgr = ship:GetComponent('CargoManager')
-					local hypfuel = drive.capabilities.hyperclass ^ 2  -- fuel for max range
-					hypfuel = hypfuel - cargoMgr:CountCommodity(Commodities.hydrogen)
-					cargoMgr:AddCommodity(Commodities.hydrogen, math.max(hypfuel, 0))
+					drive:SetFuel(ship, drive:GetMaxFuel())
 				end
 
 				discardShip(ship)

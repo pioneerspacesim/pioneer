@@ -6,6 +6,7 @@ local Format = require "Format"
 local ui = require 'pigui'
 local debugView = require 'pigui.views.debug'
 local Commodities = require 'Commodities'
+local Equipment   = require 'Equipment'
 local amount = 1000
 
 local Legal = require "Legal"
@@ -38,9 +39,20 @@ local get_commodities = function()
 	end
 end
 
-debugView.registerTab("RPG-debug-view", {
-	icon = ui.theme.icons.money,
-	label = "RPG",
+local equipment = {}
+local selected_equip = 0
+
+local get_equipment = function()
+	for id, equip in pairs(Equipment.new) do
+		table.insert(equipment, { "{} (S{})" % { equip:GetName(), equip.slot and equip.slot.size or "-" }, equip })
+	end
+
+	table.sort(equipment, function(a, b) return a[1] < b[1] end)
+end
+
+debugView.registerTab("debug-player", {
+	icon = ui.theme.icons.personal,
+	label = "Player Debug",
 	show = function() return Game.player ~= nil end,
 	draw = function()
 		ui.text("State: " .. Game.player:GetFlightState())
@@ -102,6 +114,56 @@ debugView.registerTab("RPG-debug-view", {
 			end
 		end
 
+		-- Add equipment
+		if ui.collapsingHeader("Equipment") then
+
+			if #equipment == 0 then
+				get_equipment()
+			end
+
+			local active_equip = equipment[selected_equip]
+
+			ui.comboBox("##Selected", active_equip and active_equip[1] or "<None>", function()
+				for i, pair in ipairs(equipment) do
+					if ui.selectable(pair[1], selected_equip == active_equip) then
+						selected_equip = i
+						active_equip = pair
+					end
+				end
+			end)
+
+			if active_equip then
+
+				ui.sameLine()
+
+				local equipSet = Game.player:GetComponent('EquipSet')
+
+				local slot = equipSet:GetFreeSlotForEquip(active_equip[2])
+
+				if ui.button("Install") and slot then
+
+					---@type EquipType
+					local inst = active_equip[2]:Instance()
+
+					if inst.SpecializeForShip then
+						inst:SpecializeForShip(equipSet.config)
+					end
+
+					if slot.count then
+						inst:SetCount(slot.count)
+					end
+
+					if equipSet:CanInstallInSlot(slot, inst) then
+						equipSet:Install(inst, slot)
+					end
+
+				end
+
+				ui.text(slot and "Slot Status: Available" or "Slot Status: Unavailable or Occupied")
+
+			end
+
+		end
 
 		-- Load up on commodities
 		if ui.collapsingHeader("Cargo", {}) then  -- {"OpenOnDoubleClick"}
