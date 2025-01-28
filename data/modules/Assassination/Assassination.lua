@@ -512,8 +512,12 @@ local unserialize = function (data)
 		if mission.ship and
 		   mission.ship:exists() and
 		   mission.timer == 'SET' then
-			Timer:CallAt(mission.due, function () if mission.ship:exists() then mission.ship:Undock()
-				mission.timer = nil end end)
+			Timer:CallAt(mission.due, function ()
+				if mission.ship and mission.ship:exists() then
+					mission.ship:Undock()
+					mission.timer = nil
+				end
+			end)
 		end
 	end
 end
