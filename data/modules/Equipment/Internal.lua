@@ -29,6 +29,14 @@ Equipment.Register("misc.trade_computer", EquipType.New {
 	icon_name="equip_trade_computer"
 })
 
+Equipment.Register("misc.fuel_computer", EquipType.New {
+	l10n_key="FUEL_COMPUTER",
+	price=450, purchasable=true, tech_level=6,
+	slot={ type="computer", size=1 },
+	mass=0.3, volume=0.5, capabilities={ fuel_computer=1 },
+	icon_name="equip_fuel_computer"
+})
+
 --===============================================
 -- Sensors
 --===============================================

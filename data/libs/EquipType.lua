@@ -447,7 +447,7 @@ end
 --
 -- Return the maximum fuel capacity of the drive, in tons.
 function HyperdriveType:GetMaxFuel()
-	return self.fuel_resv_size
+	return self.fuel_resv_size -- is this a cpp value???
 end
 
 -- Function: CheckJump

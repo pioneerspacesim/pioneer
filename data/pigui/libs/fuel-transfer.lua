@@ -10,6 +10,8 @@ local Passengers = require 'Passengers'
 local Commodities = require 'Commodities'
 local CommodityType = require 'CommodityType'
 
+local Comms = require 'Comms'
+
 local l = Lang.GetResource("ui-core")
 
 local colors = ui.theme.colors
@@ -19,8 +21,8 @@ local orbiteer = ui.fonts.orbiteer
 local Vector2 = _G.Vector2
 
 local iconSize = ui.rescaleUI(Vector2(28, 28))
-local fuel = {}
 
+local fuel = {}
 
 local function drawCentered(id, fun)
 	if not ui.beginTable(id .. "##centered", 3) then return end
@@ -37,6 +39,7 @@ local function drawCentered(id, fun)
 	ui.endTable()
 end
 
+-- todo keep this consistant with 03-econ-trade
 -- wrapper around gaugees, for consistent size, and vertical spacing
 local function gauge_bar(x, text, min, max, icon)
 	local height = ui.getTextLineHeightWithSpacing()
@@ -55,7 +58,7 @@ end
 
 
 -- Gauge bar for internal, interplanetary, fuel tank
-local function gauge_fuel()
+function fuel.gauge_fuel()
 	local player = Game.player
 	local tankSize = ShipDef[player.shipId].fuelTankMass
 	local text = string.format(l.FUEL .. ": %dt \t" .. l.DELTA_V .. ": %d km/s",
@@ -65,9 +68,8 @@ local function gauge_fuel()
 end
 
 
-
-
-fuel.pumpDown = function (fuelAmt)
+--transfer fuel from cargo to main tank
+function fuel.pumpDown (fuelAmt)
 	local player = Game.player
 	---@type CargoManager
 	local cargoMgr = player:GetComponent('CargoManager')
@@ -100,17 +102,76 @@ fuel.pumpDown = function (fuelAmt)
 	player:SetFuelPercent(math.clamp(player.fuel - drainedFuel * 100 / fuelTankMass, 0, 100))
 end
 
+-- a utility function for collecting fuel related values in one place
+---@param hyperdrive Equipment.HyperdriveType
+function fuel.getFuelStats(hyperdrive)
+    local fuel_stats = {}
+
+    -- main thruster fuel
+    fuel_stats.main = {
+        size = ShipDef[Game.player.shipId].fuelTankMass, -- Maximum tank size
+        left = Game.player.fuelMassLeft, -- Fuel left in the tank
+        free = ShipDef[Game.player.shipId].fuelTankMass - Game.player.fuelMassLeft -- Free space in the tank
+    }
+
+    -- cargo fuel
+    local cargoMgr = Game.player:GetComponent('CargoManager')
+    fuel_stats.cargo = {
+        -- todo maybe ad size here for consistancy
+        left = cargoMgr:CountCommodity(hyperdrive.fuel), -- Fuel left in cargo
+        free = cargoMgr:GetFreeSpace(), -- Free cargo space
+        fuelType = hyperdrive.fuel
+    }
+
+    -- hyperdrive fuel
+    fuel_stats.drive = {
+        size = hyperdrive:GetMaxFuel(), -- Maximum fuel size for the drive
+        left = hyperdrive.storedFuel, -- Fuel left in the drive
+        free = hyperdrive:GetMaxFuel() - hyperdrive.storedFuel -- Free space in the drive tank
+    }
+    return fuel_stats
+end
+
+
+-- allow positive and negitive transfers
+local function clampTransfer(amt, from, to)
+
+	-- Ensure we're not transferring more than the hyperdrive holds or has
+    local delta = math.clamp(amt, -to.left, to.free)
+
+	-- Ensure we're not transferring more than the cargo bay holds
+	delta = math.clamp(delta, -from.free, from.left)
+
+    -- Return the clamped transfer amount
+    return delta
+end
+
+---@param hyperdrive Equipment.HyperdriveType
+function fuel.transfer_hyperfuel_hydrogen(hyperdrive, amt)
+
+	local fuelStats = fuel.getFuelStats(hyperdrive)
+    local delta = clampTransfer(amt, fuelStats.main, fuelStats.drive )
+	local fuelTankSize = fuelStats.main.size
+	local fuelMassLeft = fuelStats.main.left
+
+    -- move the fuel
+	if math.abs(delta) > 0.0001 then
+		Game.player:SetFuelPercent((fuelMassLeft - delta) * 100 / fuelTankSize)
+		hyperdrive:SetFuel(Game.player, hyperdrive.storedFuel + delta)
+	end
+end
+
 ---@param hyperdrive Equipment.HyperdriveType
 function fuel.transfer_hyperfuel_mil(hyperdrive, amt)
+    --TODO: can this not be an if statment in a transfer_hyperfuel function
 	local cargoMgr = Game.player:GetComponent('CargoManager')
-	local availableFuel = cargoMgr:CountCommodity(hyperdrive.fuel)
-	local availableCargo = cargoMgr:GetFreeSpace()
 
-	-- Ensure we're not transferring more than the hyperdrive holds
-	local delta = math.clamp(amt, -hyperdrive.storedFuel, hyperdrive:GetMaxFuel() - hyperdrive.storedFuel)
-	-- Ensure we're not transferring more than the cargo bay holds
-	delta = math.clamp(delta, -availableCargo, availableFuel)
+	local fuelStats = fuel.getFuelStats(hyperdrive)
 
+    -- Ensure we're not transferring more than the hyperdrive or cargo bay holds
+    local delta = clampTransfer(amt, fuelStats.cargo, fuelStats.drive)
+
+    print("Fuel Transfer: ".. delta)
 	-- TODO(CargoManager): liquid tanks / partially-filled cargo containers
 	-- Until then, we round down to a whole integer in both directions since we're dealing with integer cargo masses
 	delta = math.modf(delta)
@@ -135,6 +196,8 @@ function fuel.fuelTransferButton(drive, amt)
 			fuel.transfer_hyperfuel_mil(drive, amt)
 		end
 
+		print("Drive Fuel: ".. drive.storedFuel)
+
 	end
 end
 
@@ -153,11 +216,14 @@ function fuel.drawCentered(id, fun)
 	ui.endTable()
 end
 
+local cargoReserve = 2
+local mainReserve = 4
 -- a function to dransfer fuel from the ship tank to the hyperdrive
 function fuel.drawFuelTransfer(drive)
 	-- Don't allow transferring fuel while the hyperdrive is doing its thing
 	if Game.player:IsHyperspaceActive() then return end
 
+    -- otherwise continue for section
 	drawCentered("Hyperdrive", function()
 		ui.horizontalGroup(function()
 			fuel.fuelTransferButton(drive, 10)
@@ -169,6 +235,17 @@ function fuel.drawFuelTransfer(drive)
 			fuel.fuelTransferButton(drive, -10)
 		end)
 	end)
+
+	if fuel.hasFuelComputerCapability() then
+
+	    local fuelStats = fuel.getFuelStats(drive)
+	    ui.text("Fuel Computer Operational Settings: ")
+	    cargoReserve = ui.sliderInt("Cargo Emergancy Reserve",cargoReserve, 0, fuelStats.main.size ) --todo set to cargo size
+        mainReserve = ui.sliderInt("Main Emergancy Reserve",mainReserve, 0, fuelStats.main.size )
+
+    else
+	    ui.text("You have NO fuel computer installed!")
+	end
 end
 
 --ui for above
@@ -204,7 +281,7 @@ function fuel.drawPumpDialog()
 	for _, v in ipairs(options) do
 		local fuelVal = -1*v
 		if ui.button(fuelVal .. "##pump", Vector2(100, 0)) then
-			fuel.pumpDown(fuel)
+			fuel.pumpDown(fuelVal)
 		end
 		ui.sameLine()
 	end
@@ -212,6 +289,62 @@ function fuel.drawPumpDialog()
 end
 
 
+function fuel.hasFuelComputerCapability()
+    return (Game.player["fuel_computer_cap"] or 0) > 0
+end
 
+--this code is used to sirialise and deserilize the fuel computer settings to save game.
+function fuel.setComputerReserve(mainR, cargoR);
+    mainReserve = mainR or 4
+    cargoReserve = cargoR or 2
+end
+
+function fuel.getComputerReserve();
+    return {
+        mainReserve = mainReserve,
+        cargoReserve = cargoReserve
+    }
+end
+function fuel.computerTransfer()
+
+    local player = Game.player
+    local drive = player:GetInstalledHyperdrive()
+    --if we have no fuel for out next jump
+    --check if there is fuel in our tank drive above threshhold (70%)
+    -- if there is not check if there is fuel in out cargo above 2t;
+    Comms.Message("Initiating Automated Fuel Transfer", "Fuel Computer")
+
+
+    local fuelStats = fuel.getFuelStats(drive)
+
+    local cargoExesse =  fuelStats.cargo.left - cargoReserve;
+
+    local mainExesse = fuelStats.main.left - mainReserve
+
+    if( fuelStats.cargo.fuelType ~= Commodities.hydrogen) then
+        -- mil drive then send cargo exess to drive
+         if cargoExesse > 0 then
+             fuel.transfer_hyperfuel_mil(drive, cargoExesse);
+         else
+             Comms.ImportantMessage("No Military Fuel Avalable To Refuel Huperdrive Check Your Reserves.", "Fuel Computer")
+         end
+
+    else
+        --send cargo exess to thrusters and thruster exess to drive
+        if cargoExesse > 0 then
+           print("FuelComputer: Cargo has exess fuel: "..cargoExesse)
+           --fuel.pumpDown(-cargoExesse);
+            Game.player:Refuel(Commodities.hydrogen, cargoExesse)
+            Comms.Message("Toping up you tank with "..cargoExesse.."T of H", "Fuel Computer")
+
+        end
+
+        if(mainExesse > 0) then
+            fuel.transfer_hyperfuel_hydrogen(drive, mainExesse);
+        else
+            Comms.ImportantMessage("No Fuel Avalable To Refuel Huperdrive Check Your Reserves.", "Fuel Computer")
+        end
+    end
+end
 
 return fuel

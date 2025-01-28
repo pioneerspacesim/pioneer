@@ -825,6 +825,15 @@
     "description": "",
     "message": "Shows profitable commodities to trade between selected and current system"
   },
+
+  "FUEL_COMPUTER": {
+    "description": "Ship equipment computing fuel transfer to hyperdrive if available.",
+    "message": "Fuel Computer"
+  },
+  "FUEL_COMPUTER_DESCRIPTION": {
+    "description": "",
+    "message": "Tired Of transferring fuel from cargo to your drive? Now have it automatically balanced on arrival to a system. "
+  },
   "UNOCCUPIED_CABIN": {
     "description": "",
     "message": "Extra Passenger Cabin"
