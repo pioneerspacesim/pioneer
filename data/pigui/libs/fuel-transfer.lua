@@ -9,8 +9,10 @@ local Commodities = require 'Commodities'
 local CommodityType = require 'CommodityType'
 
 local Comms = require 'Comms'
-
+--local HyperDrive = require 'Hyperdrive'
+local HyperdriveType = require 'EquipType'.HyperdriveType
 local l = Lang.GetResource("ui-core")
+local le = Lang.GetResource("equipment-core")
 
 local colors = ui.theme.colors
 local icons = ui.theme.icons
@@ -116,9 +118,11 @@ function fuel.getFuelStats(hyperdrive)
     local cargoMgr = Game.player:GetComponent('CargoManager')
     fuel_stats.cargo = {
         -- todo maybe ad size here for consistancy
+        size = cargoMgr:GetTotalSpace(),
         left = cargoMgr:CountCommodity(hyperdrive.fuel), -- Fuel left in cargo
         free = cargoMgr:GetFreeSpace(), -- Free cargo space
-        fuelType = hyperdrive.fuel
+        fuelType = hyperdrive.fuel,
+        leftH = cargoMgr:CountCommodity(Commodities.hydrogen), -- for mil drive fuel computer to know how much main thruster fuel reserver
     }
 
     -- hyperdrive fuel
@@ -131,7 +135,8 @@ function fuel.getFuelStats(hyperdrive)
 end
 
 
--- allow positive and negitive transfers
+-- allow positive and negitive transfers clamp beteween 2 tanks of object shape {left, free} where left is remaining fuel and free is free space.
+--- @return number amount of fuel actualt transfered
 local function clampTransfer(amt, from, to)
 
 	-- Ensure we're not transferring more than the hyperdrive holds or has
@@ -146,7 +151,7 @@ end
 
 ---@param hyperdrive Equipment.HyperdriveType
 function fuel.transfer_hyperfuel_hydrogen(hyperdrive, amt)
-
+    -- for normal drive transfer from main tank
 	local fuelStats = fuel.getFuelStats(hyperdrive)
     local delta = clampTransfer(amt, fuelStats.main, fuelStats.drive )
 	local fuelTankSize = fuelStats.main.size
@@ -161,7 +166,7 @@ end
 
 ---@param hyperdrive Equipment.HyperdriveType
 function fuel.transfer_hyperfuel_mil(hyperdrive, amt)
-    --TODO: can this not be an if statment in a transfer_hyperfuel function
+    --for mil drive transfer from cargo
 	local cargoMgr = Game.player:GetComponent('CargoManager')
 
 	local fuelStats = fuel.getFuelStats(hyperdrive)
@@ -303,28 +308,60 @@ function fuel.getComputerReserve();
         cargoReserve = cargoReserve
     }
 end
+
+function fuel.GetUnreservedRange(fuelStats)
+    local player = Game.player
+
+    local cargoExesse =  fuelStats.cargo.left - cargoReserve;
+    local mainExesse = fuelStats.main.left - mainReserve
+    local extraMass = cargoExesse + mainExesse
+    return player:GetInstalledHyperdrive():GetCustomRange(player, extraMass)
+end
+
+function fuel.GetReservedDeltaV(shipStats)
+    local player = Game.player
+
+    -- todo i dont know how to get the delta v for a custom fuel level.
+
+end
+
+
 function fuel.computerTransfer()
 
     local player = Game.player
     local drive = player:GetInstalledHyperdrive()
+
+    if not drive then
+		return 0, 0
+	end
+    local range =  drive:GetRange(player);
+    local rangeMax = drive:GetMaximumRange(player);
+
+    --drive.getMaxRange(startMass, endMass)
     --if we have no fuel for out next jump
     --check if there is fuel in our tank drive above threshhold (70%)
     -- if there is not check if there is fuel in out cargo above 2t;
-    Comms.Message("Initiating Automated Fuel Transfer", "Fuel Computer")
-
 
     local fuelStats = fuel.getFuelStats(drive)
-
     local cargoExesse =  fuelStats.cargo.left - cargoReserve;
 
     local mainExesse = fuelStats.main.left - mainReserve
+    --local E = HyperdriveType:GetEfficiencyTerm(drive, player, cargoExesse + mainExesse)
+    --local customRange = HyperdriveType:GetCustomRange(drive, player, cargoExesse + mainExesse)
+    local extraMass = cargoExesse + mainExesse
+    --local E = drive:GetEfficiencyTerm(player, extraMass )
+    local customRange = drive:GetCustomRange(player, extraMass)
+    --print("E: ".. E .. " Extra Mass: " ..extraMass.." Total Unreserverd Range: "..customRange);
+    local text = string.format("Initiating Automated Fuel Transfer Jump Range: %.2fly; Max Range: %.2fly; Unreserved Range: %.2fly; ",
+        range, rangeMax, customRange)
+    Comms.Message(text, le.FUEL_COMPUTER)
 
     if( fuelStats.cargo.fuelType ~= Commodities.hydrogen) then
         -- mil drive then send cargo exess to drive
          if cargoExesse > 0 then
              fuel.transfer_hyperfuel_mil(drive, cargoExesse);
          else
-             Comms.ImportantMessage("No Military Fuel Avalable To Refuel Huperdrive Check Your Reserves.", "Fuel Computer")
+             Comms.ImportantMessage("No Military Fuel Avalable To Refuel Huperdrive Check Your Reserves!", le.FUEL_COMPUTER)
          end
 
     else
@@ -333,14 +370,14 @@ function fuel.computerTransfer()
            print("FuelComputer: Cargo has exess fuel: "..cargoExesse)
            --fuel.pumpDown(-cargoExesse);
             Game.player:Refuel(Commodities.hydrogen, cargoExesse)
-            Comms.Message("Toping up you tank with "..cargoExesse.."T of H", "Fuel Computer")
+            Comms.Message("Toping up your tank with "..cargoExesse.."T of H", le.FUEL_COMPUTER)
 
         end
 
         if(mainExesse > 0) then
             fuel.transfer_hyperfuel_hydrogen(drive, mainExesse);
         else
-            Comms.ImportantMessage("No Fuel Avalable To Refuel Huperdrive Check Your Reserves.", "Fuel Computer")
+            Comms.ImportantMessage("No Fuel Avalable To Refuel Huperdrive Check Your Reserves!", "Fuel Computer")
         end
     end
 end

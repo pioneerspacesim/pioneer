@@ -40,7 +40,7 @@ end
 
 
 local onEnterSystem = function (player)
-    if not player:IsPlayer() then return end
+    if not player:IsPlayer() then return end -- only works for player
 
 	if (loaded_data) then
 		    fuel.setComputerReserve(loaded_data.mainReserve, loaded_data.cargoReserve)
