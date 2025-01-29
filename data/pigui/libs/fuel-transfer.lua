@@ -245,7 +245,6 @@ function fuel.drawFuelTransfer(drive)
 	    ui.text("Fuel Computer Operational Settings: ")
 	    cargoReserve = ui.sliderInt("Cargo Emergancy Reserve",cargoReserve, 0, fuelStats.main.size ) --todo set to cargo size
         mainReserve = ui.sliderInt("Main Emergancy Reserve",mainReserve, 0, fuelStats.main.size )
-`
     --else
 	    --ui.text("You have NO fuel computer installed!")
 	end
@@ -312,8 +311,8 @@ end
 function fuel.GetUnreservedRange(fuelStats)
     local player = Game.player
 
-    local cargoExesse =  fuelStats.cargo.left - cargoReserve;
-    local mainExesse = fuelStats.main.left - mainReserve
+    local cargoExesse =  math.min(0, fuelStats.cargo.left - cargoReserve);
+    local mainExesse = math.min(fuelStats.main.left - mainReserve)
     local extraMass = cargoExesse + mainExesse
     return player:GetInstalledHyperdrive():GetCustomRange(player, extraMass)
 end
@@ -344,13 +343,10 @@ function fuel.computerTransfer()
 
     local fuelStats = fuel.getFuelStats(drive)
     local cargoExesse =  fuelStats.cargo.left - cargoReserve;
-
     local mainExesse = fuelStats.main.left - mainReserve
-    --local E = HyperdriveType:GetEfficiencyTerm(drive, player, cargoExesse + mainExesse)
-    --local customRange = HyperdriveType:GetCustomRange(drive, player, cargoExesse + mainExesse)
-    local extraMass = cargoExesse + mainExesse
-    --local E = drive:GetEfficiencyTerm(player, extraMass )
-    local customRange = drive:GetCustomRange(player, extraMass)
+    -- if thes is negitive we have no reserves. maybe the computer should maintin them
+
+    local customRange = fuel.GetUnreservedRange(fuelStats)
     --print("E: ".. E .. " Extra Mass: " ..extraMass.." Total Unreserverd Range: "..customRange);
     local text = string.format("Initiating Automated Fuel Transfer Jump Range: %.2fly; Max Range: %.2fly; Unreserved Range: %.2fly; ",
         range, rangeMax, customRange)
