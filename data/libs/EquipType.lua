@@ -61,6 +61,10 @@ function EquipType.New (specs)
 	end
 
 	setmetatable(obj, EquipType.meta)
+	-- Create the instance metatable for instances of this prototype
+	-- NOTE: intentionally duplicated in EquipType.NewType
+	obj.meta = utils.mixin(EquipType.meta, { __index = obj })
+
 	EquipType._createTransient(obj)
 
 	if type(obj.slots) ~= "table" then
@@ -207,31 +211,42 @@ function EquipType:SetCount(count)
 	self.count = count
 end
 
--- Patch an EquipType class to support a prototype-based equipment system
--- `equipProto = EquipType.New({ ... })` to create an equipment prototype
--- `equipInst = equipProto:Instance()` to create a new instance based on the created prototype
-function EquipType.SetupPrototype(type)
-	local old = type.New
-	local un = type.Unserialize
+-- Function: NewType
+--
+-- Create a new type of equipment inheriting from the given base type
+-- (typically passed as the self argument)
+--
+-- This function is responsible for overriding the .New() function to create
+-- serializable equipment object prototypes. To set values at creation time
+-- on prototypes created from this type, you should override the Constructor()
+-- method.
+--
+-- --- Lua ---
+-- -- Create a new equipment type
+-- MyType = EquipType:NewType("Equipment.MyType")
+-- -- Create an equipment item prototype
+-- equipProto = MyType.New({ ... })
+-- -- Create a new equipment item instance from that prototype
+-- equipInst = equipProto:Instance()
+-- -----------
+function EquipType.NewType(baseType, name)
+	local newType = utils.class(name, baseType)
 
-	-- Create a new metatable for instances of the prototype object;
-	-- delegates serialization to the base class of the proto
-	function type.New(...)
-		local inst = old(...)
-		inst.meta = utils.mixin(type.meta, { __index = inst })
-		return inst
+	function newType.New(...)
+		-- Create a prototype object and set its metatable appropriately
+		local proto = setmetatable(baseType.New(...), newType.meta)
+		-- Create the instance metatable for instances of this prototype;
+		-- delegates serialization to the base class of the prototype
+		proto.meta = utils.mixin(newType.meta, { __index = proto })
+		-- Run the constructor for this type
+		newType.Constructor(proto, ...)
+
+		return proto
 	end
 
-	function type.Unserialize(inst)
-		inst = un(inst) ---@type any
+	Serializer:RegisterClass(name, newType)
 
-		-- if we have a "__proto" field we're an instance of the equipment prototype
-		if rawget(inst, "__proto") then
-			setmetatable(inst, inst.__proto.meta)
-		end
-
-		return inst
-	end
+	return newType
 end
 
 function EquipType:Serialize()
@@ -254,6 +269,9 @@ function EquipType.Unserialize(data)
 	-- Only patch the common prototype with runtime transient data
 	if EquipType.isProto(obj) then
 		EquipType._createTransient(obj)
+	else
+		-- This equipment instance's prototype should be set as the metatable
+		setmetatable(obj, obj.__proto.meta)
 	end
 
 	return obj
@@ -292,10 +310,9 @@ end
 ---@class Equipment.LaserType : EquipType
 ---@field laser_stats table
 ---@field weapon_data table
-local LaserType = utils.inherits(EquipType, "Equipment.LaserType")
+local LaserType = EquipType:NewType("Equipment.LaserType")
 
-function LaserType.New(specs)
-	local item = setmetatable(EquipType.New(specs), LaserType.meta)
+function LaserType:Constructor(specs)
 	local ls = specs.laser_stats
 
 	-- NOTE: backwards-compatibility with old laser_stats definitions
@@ -312,7 +329,7 @@ function LaserType.New(specs)
 			color = Color(ls.rgba_r, ls.rgba_g, ls.rgba_b, ls.rgba_a),
 		}
 
-		item.weapon_data = {
+		self.weapon_data = {
 			rpm = 60 / ls.rechargeTime,
 			heatPerShot = ls.heatrate or 0.01,
 			cooling = ls.coolrate or 0.01,
@@ -322,8 +339,6 @@ function LaserType.New(specs)
 		}
 
 	end
-
-	return item
 end
 
 ---@param ship Ship
@@ -357,7 +372,7 @@ end
 ---@class Equipment.HyperdriveType : EquipType
 ---@field fuel CommodityType
 ---@field byproduct CommodityType?
-local HyperdriveType = utils.inherits(EquipType, "Equipment.HyperdriveType")
+local HyperdriveType = EquipType:NewType("Equipment.HyperdriveType")
 
 HyperdriveType.storedFuel = 0.0
 
@@ -561,20 +576,20 @@ end
 
 -- NOTE: "sensors" have no general-purpose code associated with the equipment type
 ---@class Equipment.SensorType : EquipType
-local SensorType = utils.inherits(EquipType, "Equipment.SensorType")
+local SensorType = EquipType:NewType("Equipment.SensorType")
 
 --==============================================================================
 
 -- NOTE: all code related to managing a body scanner is implemented in the ScanManager component
 ---@class Equipment.BodyScannerType : EquipType
 ---@field stats table
-local BodyScannerType = utils.inherits(SensorType, "Equipment.BodyScannerType")
+local BodyScannerType = SensorType:NewType("Equipment.BodyScannerType")
 
 --==============================================================================
 
 ---@class Equipment.CabinType : EquipType
 ---@field passengers Character[]?
-local CabinType = utils.inherits(EquipType, "Equipment.CabinType")
+local CabinType = EquipType:NewType("Equipment.CabinType")
 
 ---@param passenger Character
 function CabinType:AddPassenger(passenger)
@@ -624,38 +639,17 @@ end
 --==============================================================================
 
 ---@class Equipment.ThrusterType : EquipType
-local ThrusterType = utils.inherits(EquipType, "Equipment.ThrusterType")
+local ThrusterType = EquipType:NewType("Equipment.ThrusterType")
 
 --==============================================================================
 
 ---@class Equipment.MissileType : EquipType
 ---@field missile_stats table
-local MissileType = utils.inherits(EquipType, "Equipment.MissileType")
+local MissileType = EquipType:NewType("Equipment.MissileType")
 
 --==============================================================================
 
-Serializer:RegisterClass("EquipType", EquipType)
-Serializer:RegisterClass("Equipment.LaserType", LaserType)
-Serializer:RegisterClass("Equipment.HyperdriveType", HyperdriveType)
-Serializer:RegisterClass("Equipment.SensorType", SensorType)
-Serializer:RegisterClass("Equipment.BodyScannerType", BodyScannerType)
-Serializer:RegisterClass("Equipment.CabinType", CabinType)
-Serializer:RegisterClass("Equipment.ThrusterType", ThrusterType)
-Serializer:RegisterClass("Equipment.MissileType", MissileType)
-
-EquipType:SetupPrototype()
-LaserType:SetupPrototype()
-HyperdriveType:SetupPrototype()
-SensorType:SetupPrototype()
-BodyScannerType:SetupPrototype()
-CabinType:SetupPrototype()
-ThrusterType:SetupPrototype()
-MissileType:SetupPrototype()
-
 return {
-	laser			= laser,
-	hyperspace		= hyperspace,
-	misc			= misc,
 	EquipType		= EquipType,
 	LaserType		= LaserType,
 	HyperdriveType	= HyperdriveType,
