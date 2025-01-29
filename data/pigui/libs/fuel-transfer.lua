@@ -245,9 +245,9 @@ function fuel.drawFuelTransfer(drive)
 	    ui.text("Fuel Computer Operational Settings: ")
 	    cargoReserve = ui.sliderInt("Cargo Emergancy Reserve",cargoReserve, 0, fuelStats.main.size ) --todo set to cargo size
         mainReserve = ui.sliderInt("Main Emergancy Reserve",mainReserve, 0, fuelStats.main.size )
-
-    else
-	    ui.text("You have NO fuel computer installed!")
+`
+    --else
+	    --ui.text("You have NO fuel computer installed!")
 	end
 end
 
