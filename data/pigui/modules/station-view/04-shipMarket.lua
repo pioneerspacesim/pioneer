@@ -382,11 +382,11 @@ function FormatAndCompareShips:draw_atmos_pressure_limit_cell(desc)
 		local atmoSlot
 		if has_shield > 1 then
 			atmoSlot = string.format("%d(+%d/+%d) atm", def.atmosphericPressureLimit,
-			def.atmosphericPressureLimit * (Equipment.new["hull.atmospheric_shielding"].capabilities.atmo_shield - 1),
-			def.atmosphericPressureLimit * (Equipment.new["hull.heavy_atmospheric_shielding"].capabilities.atmo_shield - 1) )
+			def.atmosphericPressureLimit * (Equipment.new["hull.atmospheric_shielding_s2"].capabilities.atmo_shield - 1),
+			def.atmosphericPressureLimit * (Equipment.new["hull.heavy_atmospheric_shielding_s2"].capabilities.atmo_shield - 1) )
 		elseif has_shield > 0 then
 			atmoSlot = string.format("%d(+%d) atm", def.atmosphericPressureLimit,
-			def.atmosphericPressureLimit * (Equipment.new["hull.atmospheric_shielding"].capabilities.atmo_shield - 1) )
+			def.atmosphericPressureLimit * (Equipment.new["hull.atmospheric_shielding_s2"].capabilities.atmo_shield - 1) )
 		else
 			atmoSlot = string.format("%d atm", def.atmosphericPressureLimit)
 		end

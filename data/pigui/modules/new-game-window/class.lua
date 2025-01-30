@@ -36,7 +36,7 @@ StartVariants.register({
 		shield_s1_1    = "shield.basic_s1",
 		shield_s1_2    = "shield.basic_s1",
 		sensor         = "sensor.radar",
-		hull_mod       = "hull.atmospheric_shielding",
+		hull_mod       = "hull.atmospheric_shielding_s1",
 		hyperdrive     = "hyperspace.hyperdrive_2",
 		thruster       = "thruster.default_s1",
 		missile_bay_1  = "missile_bay.opli_internal_s2",
@@ -61,7 +61,7 @@ StartVariants.register({
 		computer_1     = "misc.autopilot",
 		laser_front_s1 = "laser.pulsecannon_1mw",
 		sensor         = "sensor.radar",
-		hull_mod       = "hull.atmospheric_shielding",
+		hull_mod       = "hull.atmospheric_shielding_s1",
 		hyperdrive     = "hyperspace.hyperdrive_1",
 		thruster       = "thruster.default_s1",
 	},
@@ -83,7 +83,7 @@ StartVariants.register({
 	equipment = {
 		computer_1     = "misc.autopilot",
 		sensor         = "sensor.radar",
-		hull_mod       = "hull.atmospheric_shielding",
+		hull_mod       = "hull.atmospheric_shielding_s0",
 		thruster       = "thruster.default_s1",
 	},
 	cargo          = {
