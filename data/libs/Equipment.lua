@@ -1,8 +1,7 @@
 -- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local EquipTypes  = require 'EquipType'
-local Serializer  = require 'Serializer'
+local Serializer = require 'Serializer'
 
 ---@class Equipment
 local Equipment = {}

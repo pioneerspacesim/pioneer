@@ -4,7 +4,7 @@
 local Equipment = require 'Equipment'
 local Commodities = require 'Commodities'
 
-local HyperdriveType = require 'EquipType'.HyperdriveType
+local HyperdriveType = require '.Types'.HyperdriveType
 
 --
 -- Civilian Drives

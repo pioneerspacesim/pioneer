@@ -1,16 +1,15 @@
 -- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local EquipTypes = require 'EquipType'
+local EquipTypes = require '.Types'
 local Equipment = require 'Equipment'
-
-local Types = require '.Types'
 
 local EquipType = EquipTypes.EquipType
 local SensorType = EquipTypes.SensorType
 local CabinType = EquipTypes.CabinType
+local ShieldType = EquipTypes.ShieldType
 local ThrusterType = EquipTypes.ThrusterType
-local CargoScoopType = Types.CargoScoopType
+local CargoScoopType = EquipTypes.CargoScoopType
 
 --===============================================
 -- Computer Modules
@@ -48,7 +47,7 @@ Equipment.Register("sensor.radar", SensorType.New {
 -- Shield Generators
 --===============================================
 
-Equipment.Register("shield.basic_s1", EquipType.New {
+Equipment.Register("shield.basic_s1", ShieldType.New {
 	l10n_key="SHIELD_GENERATOR",
 	price=2500, purchasable=true, tech_level=5,
 	slot = { type="shield", size=1 },
@@ -56,7 +55,7 @@ Equipment.Register("shield.basic_s1", EquipType.New {
 	icon_name="equip_shield_generator"
 })
 
-Equipment.Register("shield.basic_s2", EquipType.New {
+Equipment.Register("shield.basic_s2", ShieldType.New {
 	l10n_key="SHIELD_GENERATOR",
 	price=5500, purchasable=true, tech_level=7,
 	slot = { type="shield", size=2 },
@@ -64,7 +63,7 @@ Equipment.Register("shield.basic_s2", EquipType.New {
 	icon_name="equip_shield_generator"
 })
 
-Equipment.Register("shield.basic_s3", EquipType.New {
+Equipment.Register("shield.basic_s3", ShieldType.New {
 	l10n_key="SHIELD_GENERATOR",
 	price=11500, purchasable=true, tech_level=8,
 	slot = { type="shield", size=3 },
@@ -72,7 +71,7 @@ Equipment.Register("shield.basic_s3", EquipType.New {
 	icon_name="equip_shield_generator"
 })
 
-Equipment.Register("shield.basic_s4", EquipType.New {
+Equipment.Register("shield.basic_s4", ShieldType.New {
 	l10n_key="SHIELD_GENERATOR",
 	price=23500, purchasable=true, tech_level=9,
 	slot = { type="shield", size=4 },
@@ -80,7 +79,7 @@ Equipment.Register("shield.basic_s4", EquipType.New {
 	icon_name="equip_shield_generator"
 })
 
-Equipment.Register("shield.basic_s5", EquipType.New {
+Equipment.Register("shield.basic_s5", ShieldType.New {
 	l10n_key="SHIELD_GENERATOR",
 	price=58500, purchasable=true, tech_level=10,
 	slot = { type="shield", size=5 },

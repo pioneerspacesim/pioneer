@@ -1,12 +1,12 @@
 -- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local EquipTypes = require 'EquipType'
+local EquipTypes = require '.Types'
 local Equipment  = require 'Equipment'
-local Slot      = require 'HullConfig'.Slot
+local Slot       = require 'HullConfig'.Slot
 
-local EquipType = EquipTypes.EquipType
-local LaserType = EquipTypes.LaserType
+local EquipType   = EquipTypes.EquipType
+local LaserType   = EquipTypes.LaserType
 local MissileType = EquipTypes.MissileType
 
 --===============================================
