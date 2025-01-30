@@ -651,6 +651,8 @@ theme.icons = {
 	equip_thrusters_medium = 300,
 	equip_thrusters_best = 300,
 	equip_trade_computer = 301,
+	equip_fuel_computer = 63, -- copy fuel tank icon
+
 	equip_autopilot = 302,
 	equip_hyperdrive = 303,
 

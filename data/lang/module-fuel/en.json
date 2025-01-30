@@ -1,0 +1,59 @@
+{
+  "FUEL": {
+    "description": "",
+    "message": "FUEL"
+  },
+  "EMERGENCY_RESERVE": {
+    "description": "",
+    "message": "Emergency Reserve"
+  },
+  "MAIN_TANK": {
+    "description": "",
+    "message": "Main Tank"
+  },
+  "CARGO_BAY": {
+    "description": "",
+    "message": "Cargo Bay"
+  },
+  "DRIVE_TANK": {
+    "description": "",
+    "message": "Drive Tank"
+  },
+  "OPERATIONAL_SETTINGS": {
+    "description": "",
+    "message": "Operational Settings"
+  },
+  "FUEL_COMPUTER": {
+    "description": "",
+    "message": "Fuel Computer"
+  },
+  "INITIATING_TRANSFER": {
+    "description": "",
+    "message": "Initiating Automated Fuel Transfer"
+  },
+  "JUMP_RANGE": {
+    "description": "",
+    "message": "Jump Range"
+  },
+  "MAX_RANGE": {
+    "description": "",
+    "message": "Max Range"
+  },
+  "UNRESERVED_RANGE": {
+    "description": "",
+    "message": "Unreserved Range"
+  },
+  "TOPPING_UP": {
+    "description": "",
+    "message": "Topping up your tank with %dT of H"
+  },
+  "NO_DRIVE_FUEL": {
+    "description": "",
+    "message": "No Fuel Available To Refuel Hyperdrive. Check Your Reserves!"
+  },
+  "NO_DRIVE_MIL_FUEL": {
+    "description": "",
+    "message": "No Military Fuel Available To Refuel Hyperdrive. Check Your Reserves!"
+  }
+
+}

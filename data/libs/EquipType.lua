@@ -389,6 +389,17 @@ function HyperdriveType:GetMaximumRange(ship)
 	return (self.fuel_resv_size * E)^fuel_use_exp_inv
 end
 
+-- Function: GetCustomRange
+--
+-- Returns the range of the hyperdrive under their current lading state of the ship. acounting for a custom extra fuel usage
+---@param ship Ship
+---@param extraMass number - of tons of fuel in cargo for alocation for calculation
+function HyperdriveType:GetCustomRange(ship, extraMass)
+	-- Account for the extra mass needed to reach full fuel state
+	local E = self:GetEfficiencyTerm(ship, extraMass)
+	return ((self.fuel_resv_size+extraMass) * E)^fuel_use_exp_inv
+end
+
 -- Function: GetFuelUse
 --
 -- Returns the fuel consumed by the drive in attempting a jump of the specified distance.
@@ -447,7 +458,7 @@ end
 --
 -- Return the maximum fuel capacity of the drive, in tons.
 function HyperdriveType:GetMaxFuel()
-	return self.fuel_resv_size
+	return self.fuel_resv_size -- is this a cpp value???
 end
 
 -- Function: CheckJump
