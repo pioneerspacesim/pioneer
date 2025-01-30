@@ -251,7 +251,7 @@ function fuel.drawFuelTransfer(drive)
         local fuelStats = fuel.getFuelStats(drive)
         ui.text(joinWithSpaces(le.FUEL_COMPUTER, lmf.OPERATIONAL_SETTINGS))
         cargoReserve = ui.sliderInt(joinWithSpaces(lmf.CARGO_BAY, lmf.EMERGENCY_RESERVE), cargoReserve, 0,
-            fuelStats.main.size) --todo set to cargo size
+            fuelStats.cargo.size)
         mainReserve = ui.sliderInt(joinWithSpaces(lmf.MAIN_TANK, lmf.EMERGENCY_RESERVE), mainReserve, 0,
             fuelStats.main.size)
 
