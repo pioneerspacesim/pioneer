@@ -215,7 +215,7 @@ end
 
 local cargoReserve = 2
 local mainReserve = 4
-
+local comsVerbosity = 1
 local function joinWithSpaces(...)
     return table.concat({ ... }, " ")
 end
@@ -251,9 +251,14 @@ function fuel.drawFuelTransfer(drive)
         local fuelStats = fuel.getFuelStats(drive)
         ui.text(joinWithSpaces(le.FUEL_COMPUTER, lmf.OPERATIONAL_SETTINGS))
         cargoReserve = ui.sliderInt(joinWithSpaces(lmf.CARGO_BAY, lmf.EMERGENCY_RESERVE), cargoReserve, 0,
-            fuelStats.main.size)                                                                                             --todo set to cargo size
+            fuelStats.main.size) --todo set to cargo size
         mainReserve = ui.sliderInt(joinWithSpaces(lmf.MAIN_TANK, lmf.EMERGENCY_RESERVE), mainReserve, 0,
             fuelStats.main.size)
+
+        print("Coms Verbosity:", comsVerbosity)
+        --if ui.checkbox("Enable Coms Messages", comsVerbosity==1) then
+        --    comsVerbosity = 1 else comsVerbosity = 0
+        --end
         --else
         --ui.text("You have NO fuel computer installed!")
     end
@@ -358,8 +363,10 @@ function fuel.computerTransfer()
 
     --joinWithSpaces(lmf.INITIATING_TRANSFER, lmf.JUMP_RANGE, "%2fly;", lmf.MAX_RANGE,"%2fly;", lmf.UNRESERVED_RANGE,"%2fly;")
     local text = string.format(
-        joinWithSpaces(lmf.INITIATING_TRANSFER, lmf.JUMP_RANGE, "%2fly;", lmf.MAX_RANGE, "%2fly;", lmf.UNRESERVED_RANGE,
-            "%2fly;"),
+        joinWithSpaces(lmf.INITIATING_TRANSFER,
+            lmf.JUMP_RANGE..":", "%.2fly;",
+            lmf.MAX_RANGE..":", "%.2fly;",
+            lmf.UNRESERVED_RANGE..":","%.2fly;"),
         range, rangeMax, customRange)
     Comms.Message(text, le.FUEL_COMPUTER)
 
