@@ -948,5 +948,13 @@
   "UNIT_HYPERDRIVE_EFFICIENCY": {
     "description": "Fictional unit abbreviation for hyperdrive efficiency",
     "message": "kF"
+  },
+  "HARDPOINT_TURRET_BOTTOM": {
+    "description": "Slot name for a ventral-mounted turret",
+    "message": "Bottom Turret"
+  },
+  "HARDPOINT_TURRET_TOP": {
+    "description": "Slot name for a dorsal-mounted turret",
+    "message": "Top Turret"
   }
 }
