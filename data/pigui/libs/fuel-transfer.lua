@@ -13,6 +13,7 @@ local Comms = require 'Comms'
 local HyperdriveType = require 'EquipType'.HyperdriveType
 local l = Lang.GetResource("ui-core")
 local le = Lang.GetResource("equipment-core")
+local lmf = Lang.GetResource("module-fuel")
 
 local colors = ui.theme.colors
 local icons = ui.theme.icons
@@ -136,7 +137,7 @@ end
 
 
 -- allow positive and negitive transfers clamp beteween 2 tanks of object shape {left, free} where left is remaining fuel and free is free space.
---- @return number amount of fuel actualt transfered
+--- @return number amount of fuel actualy transfered
 local function clampTransfer(amt, from, to)
 
 	-- Ensure we're not transferring more than the hyperdrive holds or has
@@ -239,12 +240,26 @@ function fuel.drawFuelTransfer(drive)
 		end)
 	end)
 
-	if fuel.hasFuelComputerCapability() then
+	if fuel.hasFuelComputerCapability() then --todo maybe make it installed by default
+
+        --lmf = {
+        --    FUEL = "FUEL",
+        --    EMERGENCY_RESERVE = "EMERGENCY_RESERVE",
+        --    MAIN_TANK = "MAIN_TANK",
+        --    CARGO_BAY = "CARGO_BAY",
+        --    DRIVE_TANK = "DRIVE_TANK",
+        --    OPERATIONAL_SETTINGS = "OPERATIONAL_SETTINGS",
+        --    FUEL_COMPUTER = "FUEL_COMPUTER"
+        --}
+        local function joinWithSpaces(...)
+            return table.concat({...}, " ")
+        end
+
 
 	    local fuelStats = fuel.getFuelStats(drive)
-	    ui.text("Fuel Computer Operational Settings: ")
-	    cargoReserve = ui.sliderInt("Cargo Emergancy Reserve",cargoReserve, 0, fuelStats.main.size ) --todo set to cargo size
-        mainReserve = ui.sliderInt("Main Emergancy Reserve",mainReserve, 0, fuelStats.main.size )
+	    ui.text(joinWithSpaces(le.FUEL_COMPUTER, lmf.OPERATIONAL_SETTINGS))
+	    cargoReserve = ui.sliderInt(joinWithSpaces(lmf.CARGO_BAY, lmf.EMERGENCY_RESERVE),cargoReserve, 0, fuelStats.main.size ) --todo set to cargo size
+        mainReserve = ui.sliderInt(joinWithSpaces(lmf.MAIN_TANK, lmf.EMERGENCY_RESERVE),mainReserve, 0, fuelStats.main.size )
     --else
 	    --ui.text("You have NO fuel computer installed!")
 	end
@@ -348,7 +363,9 @@ function fuel.computerTransfer()
 
     local customRange = fuel.GetUnreservedRange(fuelStats)
     --print("E: ".. E .. " Extra Mass: " ..extraMass.." Total Unreserverd Range: "..customRange);
-    local text = string.format("Initiating Automated Fuel Transfer Jump Range: %.2fly; Max Range: %.2fly; Unreserved Range: %.2fly; ",
+
+    --joinWithSpaces(lmf.INITIATING_TRANSFER, lmf.JUMP_RANGE, "%2fly;", lmf.MAX_RANGE,"%2fly;", lmf.UNRESERVED_RANGE,"%2fly;")
+    local text = string.format(joinWithSpaces(lmf.INITIATING_TRANSFER, lmf.JUMP_RANGE, "%2fly;", lmf.MAX_RANGE,"%2fly;", lmf.UNRESERVED_RANGE,"%2fly;"),
         range, rangeMax, customRange)
     Comms.Message(text, le.FUEL_COMPUTER)
 
@@ -357,7 +374,7 @@ function fuel.computerTransfer()
          if cargoExesse > 0 then
              fuel.transfer_hyperfuel_mil(drive, cargoExesse);
          else
-             Comms.ImportantMessage("No Military Fuel Avalable To Refuel Huperdrive Check Your Reserves!", le.FUEL_COMPUTER)
+             Comms.ImportantMessage(lmf.NO_MIL_DRIVE_FUEL, le.FUEL_COMPUTER)
          end
 
     else
@@ -366,14 +383,14 @@ function fuel.computerTransfer()
            print("FuelComputer: Cargo has exess fuel: "..cargoExesse)
            --fuel.pumpDown(-cargoExesse);
             Game.player:Refuel(Commodities.hydrogen, cargoExesse)
-            Comms.Message("Toping up your tank with "..cargoExesse.."T of H", le.FUEL_COMPUTER)
+            Comms.Message(string.format(lmf.TOPPING_UP, cargoExesse), le.FUEL_COMPUTER)
 
         end
 
         if(mainExesse > 0) then
             fuel.transfer_hyperfuel_hydrogen(drive, mainExesse);
         else
-            Comms.ImportantMessage("No Fuel Avalable To Refuel Huperdrive Check Your Reserves!", "Fuel Computer")
+             Comms.ImportantMessage(lmf.NO_DRIVE_FUEL, le.FUEL_COMPUTER)
         end
     end
 end
