@@ -4,10 +4,13 @@
 local EquipTypes = require 'EquipType'
 local Equipment = require 'Equipment'
 
+local Types = require '.Types'
+
 local EquipType = EquipTypes.EquipType
 local SensorType = EquipTypes.SensorType
 local CabinType = EquipTypes.CabinType
 local ThrusterType = EquipTypes.ThrusterType
+local CargoScoopType = Types.CargoScoopType
 
 --===============================================
 -- Computer Modules
@@ -334,10 +337,9 @@ Equipment.Register("misc.fuel_scoop_s5", EquipType.New {
 	icon_name="equip_fuel_scoop"
 })
 
-Equipment.Register("misc.cargo_scoop", EquipType.New {
+Equipment.Register("misc.cargo_scoop", CargoScoopType.New {
 	l10n_key="CARGO_SCOOP",
-	price=3900, purchasable=true, tech_level=5,
-	slot = { type="hull.cargo_scoop", size=1, hardpoint=true },
+	price=2900, purchasable=true, tech_level=5,
 	mass=2, volume=4, capabilities={ cargo_scoop=1 },
 	icon_name="equip_cargo_scoop"
 })
