@@ -5,6 +5,9 @@
 		}
 	],
 	"settings": {
+		"[json]": {
+			"editor.detectIndentation": true,
+		},
 		"editor.insertSpaces": false,
 		"editor.detectIndentation": false,
 		"editor.tabSize": 4,
@@ -103,16 +106,27 @@
 				"program": "${command:cmake.buildDirectory}/pioneer",
 				"args": [],
 				"environment": [],
-				"cwd": "${workspaceRoot}",
+				"cwd": "${workspaceRoot:pioneer}",
 			},
 			{
-				"name": "Debug (Model Editor)",
+				"name": "Debug (Editor)",
 				"type": "cppdbg",
 				"request": "launch",
 				"program": "${command:cmake.buildDirectory}/editor",
-				"args": [ "--mv" ],
+				"args": [ ],
 				"environment": [],
-				"cwd": "${workspaceRoot}",
+				"cwd": "${workspaceRoot:pioneer}",
+			},
+			{
+				"name": "Debug Active Target (Windows)",
+				"type": "cppvsdbg",
+				"request": "launch",
+				"program": "${command:cmake.launchTargetPath}",
+				"args": [],
+				"environment": [
+					{"name": "PATH", "value": "${env:PATH};${workspaceFolder}/../pioneer-thirdparty/win32/bin/x86/vs2019"}
+				],
+				"cwd": "${workspaceRoot:pioneer}",
 			},
 		]
 	}

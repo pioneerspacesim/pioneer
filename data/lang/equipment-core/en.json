@@ -15,6 +15,10 @@
     "description": "",
     "message": "Shields your spaceship from the heat of atmospheric re-entry."
   },
+  "ATMOSPHERIC_SHIELDING_FLAVOURTEXT": {
+    "description": "",
+    "message": "Provides a moderate level of protection against atmospheric friction and pressure at a minimal mass cost."
+  },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
     "message": "Heavy Atmospheric Shielding"
@@ -22,6 +26,10 @@
   "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
     "description": "",
     "message": "A more capable version of Atmospheric Shields"
+  },
+  "ATMOSPHERIC_SHIELDING_HEAVY_FLAVOURTEXT": {
+    "description": "",
+    "message": "Specialized for scientific expeditions within dense atmospheres, this shielding trades weight and efficiency for a significant increase in the atmospheric pressures it can withstand."
   },
   "AUTOPILOT": {
     "description": "",
@@ -673,6 +681,10 @@
     "description": "Name for an equipment item that reinforces the hull's superstructure",
     "message": "Reinforced Structure"
   },
+  "REINFORCED_STRUCTURE_DESCRIPTION": {
+    "description": "Description of the Reinforced Structure equipment item",
+    "message": "Aftermarket strengthening kit for the ship's frame. Increases resistance to high atmospheric pressures."
+  },
   "REQUIRED_SLOT_IS_EMPTY": {
     "description": "Tooltip for wrong equipment item",
     "message": "Required slot is empty"
@@ -900,5 +912,49 @@
   "SLOTLESS": {
     "description": "",
     "message": "Slotless"
+  },
+  "STAT_ATMO_SHIELD": {
+    "description": "Stat name for atmospheric shielding. 'Atmospheric' is abbreviated.",
+    "message": "Atm. Pressure Resistance"
+  },
+  "STAT_SHIELD": {
+    "description": "Stat name for shield generator effectiveness.",
+    "message": "Effective Shield Strength"
+  },
+  "STAT_THRUSTER_POWER": {
+    "description": "Stat name for thruster upgrades",
+    "message": "Maximum Thrust Increase"
+  },
+  "STAT_HYPERDRIVE_RESERVOIR": {
+    "description": "",
+    "message": "Fuel Reservoir Size"
+  },
+  "STAT_HYPERDRIVE_EFFICIENCY": {
+    "description": "",
+    "message": "Fuel Efficiency Rating"
+  },
+  "STAT_MISSILE_RADIUS": {
+    "description": "",
+    "message": "Fuzing Radius"
+  },
+  "STAT_MISSILE_WARHEAD": {
+    "description": "",
+    "message": "Explosive Yield (Equivalent)"
+  },
+  "UNIT_WARHEAD_DAMAGE": {
+    "description": "Unit abbreviation for missile warhead damage.",
+    "message": "kg TNT"
+  },
+  "UNIT_HYPERDRIVE_EFFICIENCY": {
+    "description": "Fictional unit abbreviation for hyperdrive efficiency",
+    "message": "kF"
+  },
+  "HARDPOINT_TURRET_BOTTOM": {
+    "description": "Slot name for a ventral-mounted turret",
+    "message": "Bottom Turret"
+  },
+  "HARDPOINT_TURRET_TOP": {
+    "description": "Slot name for a dorsal-mounted turret",
+    "message": "Top Turret"
   }
 }

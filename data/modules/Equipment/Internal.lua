@@ -1,13 +1,15 @@
 -- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local EquipTypes = require 'EquipType'
+local EquipTypes = require '.Types'
 local Equipment = require 'Equipment'
 
 local EquipType = EquipTypes.EquipType
 local SensorType = EquipTypes.SensorType
 local CabinType = EquipTypes.CabinType
+local ShieldType = EquipTypes.ShieldType
 local ThrusterType = EquipTypes.ThrusterType
+local CargoScoopType = EquipTypes.CargoScoopType
 
 --===============================================
 -- Computer Modules
@@ -45,7 +47,7 @@ Equipment.Register("sensor.radar", SensorType.New {
 -- Shield Generators
 --===============================================
 
-Equipment.Register("shield.basic_s1", EquipType.New {
+Equipment.Register("shield.basic_s1", ShieldType.New {
 	l10n_key="SHIELD_GENERATOR",
 	price=2500, purchasable=true, tech_level=5,
 	slot = { type="shield", size=1 },
@@ -53,7 +55,7 @@ Equipment.Register("shield.basic_s1", EquipType.New {
 	icon_name="equip_shield_generator"
 })
 
-Equipment.Register("shield.basic_s2", EquipType.New {
+Equipment.Register("shield.basic_s2", ShieldType.New {
 	l10n_key="SHIELD_GENERATOR",
 	price=5500, purchasable=true, tech_level=7,
 	slot = { type="shield", size=2 },
@@ -61,7 +63,7 @@ Equipment.Register("shield.basic_s2", EquipType.New {
 	icon_name="equip_shield_generator"
 })
 
-Equipment.Register("shield.basic_s3", EquipType.New {
+Equipment.Register("shield.basic_s3", ShieldType.New {
 	l10n_key="SHIELD_GENERATOR",
 	price=11500, purchasable=true, tech_level=8,
 	slot = { type="shield", size=3 },
@@ -69,7 +71,7 @@ Equipment.Register("shield.basic_s3", EquipType.New {
 	icon_name="equip_shield_generator"
 })
 
-Equipment.Register("shield.basic_s4", EquipType.New {
+Equipment.Register("shield.basic_s4", ShieldType.New {
 	l10n_key="SHIELD_GENERATOR",
 	price=23500, purchasable=true, tech_level=9,
 	slot = { type="shield", size=4 },
@@ -77,7 +79,7 @@ Equipment.Register("shield.basic_s4", EquipType.New {
 	icon_name="equip_shield_generator"
 })
 
-Equipment.Register("shield.basic_s5", EquipType.New {
+Equipment.Register("shield.basic_s5", ShieldType.New {
 	l10n_key="SHIELD_GENERATOR",
 	price=58500, purchasable=true, tech_level=10,
 	slot = { type="shield", size=5 },
@@ -86,38 +88,154 @@ Equipment.Register("shield.basic_s5", EquipType.New {
 })
 
 --===============================================
+-- Structure Modifications
+--===============================================
+
+Equipment.Register("struct.reinforced_structure_s1", EquipType.New {
+	l10n_key="REINFORCED_STRUCTURE",
+	price=1200, purchasable=true, tech_level=4,
+	slot = { type="structure", size=1 },
+	mass=5, volume=2, capabilities = { atmo_shield=6 },
+	icon_name="equip_atmo_shield_generator"
+})
+
+Equipment.Register("struct.reinforced_structure_s2", EquipType.New {
+	l10n_key="REINFORCED_STRUCTURE",
+	price=2800, purchasable=true, tech_level=5,
+	slot = { type="structure", size=2 },
+	mass=10, volume=5, capabilities = { atmo_shield=6 },
+	icon_name="equip_atmo_shield_generator"
+})
+
+Equipment.Register("struct.reinforced_structure_s3", EquipType.New {
+	l10n_key="REINFORCED_STRUCTURE",
+	price=7560, purchasable=true, tech_level=6,
+	slot = { type="structure", size=3 },
+	mass=22, volume=12.5, capabilities = { atmo_shield=6 },
+	icon_name="equip_atmo_shield_generator"
+})
+
+Equipment.Register("struct.reinforced_structure_s4", EquipType.New {
+	l10n_key="REINFORCED_STRUCTURE",
+	price=20410, purchasable=true, tech_level=7,
+	slot = { type="structure", size=4 },
+	mass=46, volume=31, capabilities = { atmo_shield=6 },
+	icon_name="equip_atmo_shield_generator"
+})
+
+Equipment.Register("struct.reinforced_structure_s5", EquipType.New {
+	l10n_key="REINFORCED_STRUCTURE",
+	price=55100, purchasable=true, tech_level=8,
+	slot = { type="structure", size=5 },
+	mass=96.5, volume=77, capabilities = { atmo_shield=6 },
+	icon_name="equip_atmo_shield_generator"
+})
+
+--===============================================
 -- Hull Modifications
 --===============================================
 
-Equipment.Register("hull.reinforced_structure", EquipType.New {
-	l10n_key="REINFORCED_STRUCTURE",
-	price=1200, purchasable=true, tech_level=5,
-	slot = { type="structure", size=1 },
-	mass=5, volume=2, capabilities = { atmo_shield=3 },
-	icon_name="equip_generic"
-})
-
-Equipment.Register("hull.atmospheric_shielding", EquipType.New {
+Equipment.Register("hull.atmospheric_shielding_s0", EquipType.New {
 	l10n_key="ATMOSPHERIC_SHIELDING",
-	price=200, purchasable=true, tech_level=3,
+	price=500, purchasable=true, tech_level=4,
+	slot = { type="hull.atmo_shield", size=0 },
+	mass=0.6, volume=1, capabilities = { atmo_shield=4 },
+	icon_name="equip_atmo_shield_generator"
+})
+
+Equipment.Register("hull.atmospheric_shielding_s1", EquipType.New {
+	l10n_key="ATMOSPHERIC_SHIELDING",
+	price=800, purchasable=true, tech_level=4,
 	slot = { type="hull.atmo_shield", size=1 },
-	mass=1, volume=2, capabilities = { atmo_shield=9 },
+	mass=1, volume=3, capabilities = { atmo_shield=4 },
 	icon_name="equip_atmo_shield_generator"
 })
 
-Equipment.Register("hull.heavy_atmospheric_shielding", EquipType.New {
-	l10n_key="ATMOSPHERIC_SHIELDING_HEAVY",
-	price=900, purchasable=true, tech_level=5,
+Equipment.Register("hull.atmospheric_shielding_s2", EquipType.New {
+	l10n_key="ATMOSPHERIC_SHIELDING",
+	price=2100, purchasable=true, tech_level=5,
+	slot = { type="hull.atmo_shield", size=2 },
+	mass=1.8, volume=5.5, capabilities = { atmo_shield=4 },
+	icon_name="equip_atmo_shield_generator"
+})
+
+Equipment.Register("hull.atmospheric_shielding_s3", EquipType.New {
+	l10n_key="ATMOSPHERIC_SHIELDING",
+	price=5800, purchasable=true, tech_level=5,
 	slot = { type="hull.atmo_shield", size=3 },
-	mass=5, volume=12, capabilities = { atmo_shield=19 },
+	mass=3.8, volume=11.5, capabilities = { atmo_shield=4 },
 	icon_name="equip_atmo_shield_generator"
 })
 
-Equipment.Register("misc.hull_autorepair", EquipType.New {
+Equipment.Register("hull.atmospheric_shielding_s4", EquipType.New {
+	l10n_key="ATMOSPHERIC_SHIELDING",
+	price=15740, purchasable=true, tech_level=6,
+	slot = { type="hull.atmo_shield", size=4 },
+	mass=8, volume=24, capabilities = { atmo_shield=4 },
+	icon_name="equip_atmo_shield_generator"
+})
+
+Equipment.Register("hull.atmospheric_shielding_s5", EquipType.New {
+	l10n_key="ATMOSPHERIC_SHIELDING",
+	price=42510, purchasable=true, tech_level=7,
+	slot = { type="hull.atmo_shield", size=5 },
+	mass=17, volume=43, capabilities = { atmo_shield=4 },
+	icon_name="equip_atmo_shield_generator"
+})
+
+Equipment.Register("hull.heavy_atmospheric_shielding_s2", EquipType.New {
+	l10n_key="ATMOSPHERIC_SHIELDING_HEAVY",
+	price=2920, purchasable=true, tech_level=7,
+	slot = { type="hull.atmo_shield", size=2 },
+	mass=5, volume=6.5, capabilities = { atmo_shield=9 },
+	icon_name="equip_atmo_shield_generator"
+})
+
+Equipment.Register("hull.heavy_atmospheric_shielding_s3", EquipType.New {
+	l10n_key="ATMOSPHERIC_SHIELDING_HEAVY",
+	price=7900, purchasable=true, tech_level=7,
+	slot = { type="hull.atmo_shield", size=3 },
+	mass=10.5, volume=13.5, capabilities = { atmo_shield=9 },
+	icon_name="equip_atmo_shield_generator"
+})
+
+Equipment.Register("hull.heavy_atmospheric_shielding_s4", EquipType.New {
+	l10n_key="ATMOSPHERIC_SHIELDING_HEAVY",
+	price=21330, purchasable=true, tech_level=7,
+	slot = { type="hull.atmo_shield", size=3 },
+	mass=22, volume=28, capabilities = { atmo_shield=9 },
+	icon_name="equip_atmo_shield_generator"
+})
+
+Equipment.Register("hull.hull_autorepair_s2", EquipType.New {
+	l10n_key="HULL_AUTOREPAIR", slots="hull_autorepair",
+	price=6250, purchasable=true, tech_level="MILITARY",
+	slot = { type="hull.autorepair", size=2 },
+	mass=13.5, volume=18, capabilities={ hull_autorepair=1 },
+	icon_name="repairs"
+})
+
+Equipment.Register("hull.hull_autorepair_s3", EquipType.New {
 	l10n_key="HULL_AUTOREPAIR", slots="hull_autorepair",
 	price=16000, purchasable=true, tech_level="MILITARY",
-	slot = { type="hull.autorepair", size=4 },
+	slot = { type="hull.autorepair", size=3 },
 	mass=30, volume=40, capabilities={ hull_autorepair=1 },
+	icon_name="repairs"
+})
+
+Equipment.Register("hull.hull_autorepair_s4", EquipType.New {
+	l10n_key="HULL_AUTOREPAIR", slots="hull_autorepair",
+	price=40960, purchasable=true, tech_level="MILITARY",
+	slot = { type="hull.autorepair", size=4 },
+	mass=64.5, volume=85, capabilities={ hull_autorepair=1 },
+	icon_name="repairs"
+})
+
+Equipment.Register("hull.hull_autorepair_s5", EquipType.New {
+	l10n_key="HULL_AUTOREPAIR", slots="hull_autorepair",
+	price=16000, purchasable=true, tech_level="MILITARY",
+	slot = { type="hull.autorepair", size=5 },
+	mass=138, volume=185, capabilities={ hull_autorepair=1 },
 	icon_name="repairs"
 })
 
@@ -334,10 +452,9 @@ Equipment.Register("misc.fuel_scoop_s5", EquipType.New {
 	icon_name="equip_fuel_scoop"
 })
 
-Equipment.Register("misc.cargo_scoop", EquipType.New {
+Equipment.Register("misc.cargo_scoop", CargoScoopType.New {
 	l10n_key="CARGO_SCOOP",
-	price=3900, purchasable=true, tech_level=5,
-	slot = { type="hull.cargo_scoop", size=1, hardpoint=true },
+	price=2900, purchasable=true, tech_level=5,
 	mass=2, volume=4, capabilities={ cargo_scoop=1 },
 	icon_name="equip_cargo_scoop"
 })

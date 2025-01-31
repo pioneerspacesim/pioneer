@@ -39,7 +39,8 @@ local TraderTemplate = ShipBuilder.Template:clone {
 		utils.mixin(ECMRule, { maxSize = 1, randomChance = 0.8 }),
 		-- Extremely rare to have one of these onboard
 		{
-			equip = "misc.hull_autorepair",
+			slot = "hull",
+			filter = "hull.autorepair",
 			limit = 1,
 			randomChance = 0.2
 		}
