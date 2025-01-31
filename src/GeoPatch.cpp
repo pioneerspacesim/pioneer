@@ -9,7 +9,6 @@
 #include "MathUtil.h"
 #include "Pi.h"
 #include "RefCounted.h"
-#include "math/Sphere.h"
 #include "galaxy/SystemBody.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
@@ -20,66 +19,97 @@
 #include "perlin.h"
 #include "profiler/Profiler.h"
 #include "vcacheopt/vcacheopt.h"
+
 #include <algorithm>
 #include <deque>
+#include <sstream>
 
 #define DEBUG_CENTROIDS 0
 
+#if DEBUG_PATCHES
 #ifdef DEBUG_BOUNDING_SPHERES
 #include "graphics/RenderState.h"
 #endif
 
-#if DEBUG_CENTROIDS
 #include "graphics/Drawables.h"
 #endif
 
+namespace PatchMaths{
+	// in patch surface coords, [0,1]
+	inline vector3d GetSpherePoint(const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3, const double x, const double y)
+	{
+		return (v0 + x * (1.0 - y) * (v1 - v0) + x * y * (v2 - v0) + (1.0 - x) * y * (v3 - v0)).Normalized();
+	}
+}
+
 // tri edge lengths
-static const double GEOPATCH_SUBDIVIDE_AT_CAMDIST = 5.0;
+static constexpr double GEOPATCH_SUBDIVIDE_AT_CAMDIST = 5.0;
+
+#if USE_SUB_CENTROID_CLIPPING
+#if NUM_HORIZON_POINTS == 9
+static const vector2d sample[NUM_HORIZON_POINTS] = {
+	{ 0.2, 0.2 }, { 0.5, 0.2 }, { 0.8, 0.2 },
+	{ 0.2, 0.5 }, { 0.5, 0.5 }, { 0.8, 0.8 },
+	{ 0.2, 0.8 }, { 0.5, 0.8 }, { 0.8, 0.8 }
+};
+#elif NUM_HORIZON_POINTS == 5
+static const vector2d sample[NUM_HORIZON_POINTS] = {
+	// Naive ordering
+	// { 0.2, 0.2 }, { 0.8, 0.2 }, // top
+	//{ 0.5, 0.5 }, // middle
+	//{ 0.2, 0.8 }, { 0.8, 0.8 } // bottom
+	
+	// possibly more optimal elimination for early out
+	{ 0.5, 0.5 }, // centre
+	{ 0.2, 0.2 }, // top-left corner
+	{ 0.8, 0.8 }, // opposite corner
+	{ 0.8, 0.2 }, // other diagonal
+	{ 0.2, 0.8 }  // ^^^
+};
+#endif
+#endif // #if USE_SUB_CENTROID_CLIPPING
 
 GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_,
 	const int depth, const GeoPatchID &ID_) :
 	m_ctx(ctx_),
-	m_v0(v0_),
-	m_v1(v1_),
-	m_v2(v2_),
-	m_v3(v3_),
-	m_heights(nullptr),
-	m_normals(nullptr),
-	m_colors(nullptr),
-	m_parent(nullptr),
+	m_corners(new Corners(v0_, v1_, v2_, v3_)),
 	m_geosphere(gs),
-	m_depth(depth),
 	m_PatchID(ID_),
-	m_HasJobRequest(false)
+	m_depth(depth),
+	m_needUpdateVBOs(false),
+	m_hasJobRequest(false)
 {
-
-	m_clipCentroid = (m_v0 + m_v1 + m_v2 + m_v3) * 0.25;
-	m_centroid = m_clipCentroid.Normalized();
+	m_clipCentroid = ((v0_ + v1_ + v2_ + v3_) * 0.25).Normalized();
 	m_clipRadius = 0.0;
-	m_clipRadius = std::max(m_clipRadius, (m_v0 - m_clipCentroid).Length());
-	m_clipRadius = std::max(m_clipRadius, (m_v1 - m_clipCentroid).Length());
-	m_clipRadius = std::max(m_clipRadius, (m_v2 - m_clipCentroid).Length());
-	m_clipRadius = std::max(m_clipRadius, (m_v3 - m_clipCentroid).Length());
+	m_clipRadius = std::max(m_clipRadius, (v0_ - m_clipCentroid).Length());
+	m_clipRadius = std::max(m_clipRadius, (v1_ - m_clipCentroid).Length());
+	m_clipRadius = std::max(m_clipRadius, (v2_ - m_clipCentroid).Length());
+	m_clipRadius = std::max(m_clipRadius, (v3_ - m_clipCentroid).Length());
+
 	double distMult;
 	if (m_geosphere->GetSystemBody()->GetType() < SystemBody::TYPE_PLANET_ASTEROID) {
 		distMult = 10.0 / Clamp(m_depth, 1, 10);
 	} else {
 		distMult = 5.0 / Clamp(m_depth, 1, 5);
 	}
-	m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, m_depth) * distMult;
-	m_needUpdateVBOs = false;
+	m_splitLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, m_depth) * distMult;
+
+#if USE_SUB_CENTROID_CLIPPING
+	for (size_t i = 0; i < NUM_HORIZON_POINTS; i++) {
+		m_clipHorizon[i] = SSphere(PatchMaths::GetSpherePoint(v0_, v1_, v2_, v3_, sample[i].x, sample[i].y), m_clipRadius * CLIP_RADIUS_MULTIPLIER);
+	}
+#endif // #if USE_SUB_CENTROID_CLIPPING
 }
 
 GeoPatch::~GeoPatch()
 {
-	m_HasJobRequest = false;
+	m_hasJobRequest = false;
 	for (int i = 0; i < NUM_KIDS; i++) {
 		m_kids[i].reset();
 	}
-	m_heights.reset();
-	m_normals.reset();
-	m_colors.reset();
+	m_corners.reset();
+	m_patchVBOData.reset();
 }
 
 void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
@@ -100,11 +130,16 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 
 		const Sint32 edgeLen = m_ctx->GetEdgeLen();
 		const double frac = m_ctx->GetFrac();
-		const double *pHts = m_heights.get();
-		const vector3f *pNorm = m_normals.get();
-		const Color3ub *pColr = m_colors.get();
+		const double *pHts = m_patchVBOData->m_heights.get();
+		const vector3f *pNorm = m_patchVBOData->m_normals.get();
+		const Color3ub *pColr = m_patchVBOData->m_colors.get();
 
 		double minh = DBL_MAX;
+
+		const vector3d v0 = m_corners->m_v0;
+		const vector3d v1 = m_corners->m_v1;
+		const vector3d v2 = m_corners->m_v2;
+		const vector3d v3 = m_corners->m_v3;
 
 		// ----------------------------------------------------
 		// inner loops
@@ -114,7 +149,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 				minh = std::min(height, minh);
 				const double xFrac = double(x - 1) * frac;
 				const double yFrac = double(y - 1) * frac;
-				const vector3d p((GetSpherePoint(xFrac, yFrac) * (height + 1.0)) - m_clipCentroid);
+				const vector3d p((PatchMaths::GetSpherePoint(v0, v1, v2, v3, xFrac, yFrac) * (height + 1.0)) - m_clipCentroid);
 				m_clipRadius = std::max(m_clipRadius, p.Length());
 
 				GeoPatchContext::VBOVertex *vtxPtr = &VBOVtxPtr[x + (y * edgeLen)];
@@ -150,7 +185,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 			const Sint32 x = innerLeft - 1;
 			const double xFrac = double(x - 1) * frac;
 			const double yFrac = double(y - 1) * frac;
-			const vector3d p((GetSpherePoint(xFrac, yFrac) * minhScale) - m_clipCentroid);
+			const vector3d p((PatchMaths::GetSpherePoint(v0, v1, v2, v3, xFrac, yFrac) * minhScale) - m_clipCentroid);
 
 			GeoPatchContext::VBOVertex *vtxPtr = &VBOVtxPtr[outerLeft + (y * edgeLen)];
 			GeoPatchContext::VBOVertex *vtxInr = &VBOVtxPtr[innerLeft + (y * edgeLen)];
@@ -164,7 +199,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 			const Sint32 x = innerRight + 1;
 			const double xFrac = double(x - 1) * frac;
 			const double yFrac = double(y - 1) * frac;
-			const vector3d p((GetSpherePoint(xFrac, yFrac) * minhScale) - m_clipCentroid);
+			const vector3d p((PatchMaths::GetSpherePoint(v0, v1, v2, v3, xFrac, yFrac) * minhScale) - m_clipCentroid);
 
 			GeoPatchContext::VBOVertex *vtxPtr = &VBOVtxPtr[outerRight + (y * edgeLen)];
 			GeoPatchContext::VBOVertex *vtxInr = &VBOVtxPtr[innerRight + (y * edgeLen)];
@@ -184,7 +219,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 			const Sint32 y = innerTop - 1;
 			const double xFrac = double(x - 1) * frac;
 			const double yFrac = double(y - 1) * frac;
-			const vector3d p((GetSpherePoint(xFrac, yFrac) * minhScale) - m_clipCentroid);
+			const vector3d p((PatchMaths::GetSpherePoint(v0, v1, v2, v3, xFrac, yFrac) * minhScale) - m_clipCentroid);
 
 			GeoPatchContext::VBOVertex *vtxPtr = &VBOVtxPtr[x + (outerTop * edgeLen)];
 			GeoPatchContext::VBOVertex *vtxInr = &VBOVtxPtr[x + (innerTop * edgeLen)];
@@ -198,7 +233,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 			const Sint32 y = innerBottom + 1;
 			const double xFrac = double(x - 1) * frac;
 			const double yFrac = double(y - 1) * frac;
-			const vector3d p((GetSpherePoint(xFrac, yFrac) * minhScale) - m_clipCentroid);
+			const vector3d p((PatchMaths::GetSpherePoint(v0, v1, v2, v3, xFrac, yFrac) * minhScale) - m_clipCentroid);
 
 			GeoPatchContext::VBOVertex *vtxPtr = &VBOVtxPtr[x + (outerBottom * edgeLen)];
 			GeoPatchContext::VBOVertex *vtxInr = &VBOVtxPtr[x + (innerBottom * edgeLen)];
@@ -239,12 +274,14 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		vtxBuffer->Unmap();
 
 		// use the new vertex buffer and the shared index buffer
-		m_patchMesh.reset(renderer->CreateMeshObject(vtxBuffer, m_ctx->GetIndexBuffer()));
+		m_patchVBOData->m_patchMesh.reset(renderer->CreateMeshObject(vtxBuffer, m_ctx->GetIndexBuffer()));
 
 		// Don't need this anymore so throw it away
-		m_normals.reset();
-		m_colors.reset();
+		//m_patchVBOData->m_heights.reset();
+		m_patchVBOData->m_normals.reset();
+		m_patchVBOData->m_colors.reset();
 
+#if DEBUG_PATCHES
 #ifdef DEBUG_BOUNDING_SPHERES
 		RefCountedPtr<Graphics::Material> mat(Pi::renderer->CreateMaterial("unlit", Graphics::MaterialDescriptor(), Graphics::RenderStateDesc()));
 		switch (m_depth) {
@@ -256,6 +293,12 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		}
 		m_boundsphere.reset(new Graphics::Drawables::Sphere3D(Pi::renderer, mat, 1, m_clipRadius));
 #endif
+		if (m_label3D == nullptr) {
+			std::stringstream stuff;
+			stuff << m_PatchID.GetPatchFaceIdx();
+			m_label3D.reset(new Graphics::Drawables::Label3D(Pi::renderer, stuff.str()));
+		}
+#endif // DEBUG_PATCHES
 	}
 }
 
@@ -266,19 +309,31 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 	PROFILE_SCOPED()
 	// must update the VBOs to calculate the clipRadius...
 	UpdateVBOs(renderer);
-	// ...before doing the frustum culling that relies on it.
-	if (!frustum.TestPoint(m_clipCentroid, m_clipRadius))
-		return; // nothing below this patch is visible
-
-	// only want to horizon cull patches that can actually be over the horizon!
-	if (IsOverHorizon(campos)) {
+	// ...before doing the visibility testing that relies on it.
+	if (!IsPatchVisible(frustum, campos))
 		return;
-	}
+
+#if DEBUG_PATCHES
+	RenderLabelDebug(campos, modelView);
+#endif // DEBUG_PATCHES
 
 	if (m_kids[0]) {
 		for (int i = 0; i < NUM_KIDS; i++)
 			m_kids[i]->Render(renderer, campos, modelView, frustum);
-	} else if (m_heights) {
+	} else if (HasHeightData()) {
+		RenderImmediate(renderer, campos, modelView);
+	}
+}
+
+void GeoPatch::RenderImmediate(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView) const
+{
+	PROFILE_SCOPED()
+
+#if DEBUG_PATCHES
+	RenderLabelDebug(campos, modelView);
+#endif // DEBUG_PATCHES
+
+	if (m_patchVBOData->m_heights) {
 		const vector3d relpos = m_clipCentroid - campos;
 		renderer->SetTransform(matrix4x4f(modelView * matrix4x4d::Translation(relpos)));
 
@@ -289,10 +344,10 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 		const float fDetailFrequency = pow(2.0f, float(m_geosphere->GetMaxDepth()) - float(m_depth));
 
 		m_geosphere->GetSurfaceMaterial()->SetPushConstant("PatchDetailFrequency"_hash, fDetailFrequency);
-		renderer->DrawMesh(m_patchMesh.get(), m_geosphere->GetSurfaceMaterial().Get());
+		renderer->DrawMesh(m_patchVBOData->m_patchMesh.get(), m_geosphere->GetSurfaceMaterial().Get());
 
 #if DEBUG_CENTROIDS
-		renderer->SetTransform(matrix4x4f(modelView * matrix4x4d::Translation(m_centroid - campos) * matrix4x4d::ScaleMatrix(0.2 / pow(2.0f, m_depth))));
+		renderer->SetTransform(matrix4x4f(modelView * matrix4x4d::Translation(m_clipCentroid - campos) * matrix4x4d::ScaleMatrix(0.2 / pow(2.0f, m_depth))));
 		Graphics::Drawables::GetAxes3DDrawable(renderer)->Draw(renderer);
 #endif
 
@@ -307,10 +362,29 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 	}
 }
 
+void GeoPatch::GatherRenderablePatches(std::vector<std::pair<double, GeoPatch *>> &visiblePatches, Graphics::Renderer *renderer, const vector3d &campos, const Graphics::Frustum &frustum)
+{
+	PROFILE_SCOPED()
+	// must update the VBOs to calculate the clipRadius...
+	UpdateVBOs(renderer);
+	// ...before doing the visibility testing that relies on it.
+	if (!IsPatchVisible(frustum, campos))
+		return;
+
+	if (m_kids[0]) {
+		for (int i = 0; i < NUM_KIDS; i++)
+			m_kids[i]->GatherRenderablePatches(visiblePatches, renderer, campos, frustum);
+	} else if (m_patchVBOData->m_heights) {
+		visiblePatches.emplace_back((m_clipCentroid - campos).LengthSqr(), this);
+	}
+}
+
+
 void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustum)
 {
+	PROFILE_SCOPED()
 	// there should be no LOD update when we have active split requests
-	if (m_HasJobRequest)
+	if (m_hasJobRequest)
 		return;
 
 	bool canSplit = true;
@@ -318,9 +392,9 @@ void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustu
 
 	// always split at first level
 	double centroidDist = DBL_MAX;
-	if (m_parent) {
-		centroidDist = (campos - m_centroid).Length();		 // distance from camera to centre of the patch
-		const bool tooFar = (centroidDist >= m_roughLength); // check if the distance is greater than the rough length, which is how far it should be before it can split
+	if (m_depth > 0) {
+		centroidDist = (campos - m_clipCentroid).Length();		// distance from camera to centre of the patch
+		const bool tooFar = (centroidDist >= m_splitLength);	// check if the distance is greater than the rough length, which is how far it should be before it can split
 		if (m_depth >= std::min(GEOPATCH_MAX_DEPTH, m_geosphere->GetMaxDepth()) || tooFar) {
 			canSplit = false; // we're too deep in the quadtree or too far away so cannot split
 		}
@@ -329,19 +403,14 @@ void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustu
 	if (canSplit) {
 		if (!m_kids[0]) {
 			// Test if this patch is visible
-			if (!frustum.TestPoint(m_clipCentroid, m_clipRadius))
-				return; // nothing below this patch is visible
-
-			// only want to horizon cull patches that can actually be over the horizon!
-			if (IsOverHorizon(campos)) {
+			if (!IsPatchVisible(frustum, campos))
 				return;
-			}
 
 			// we can see this patch so submit the jobs!
-			assert(!m_HasJobRequest);
-			m_HasJobRequest = true;
+			assert(!m_hasJobRequest);
+			m_hasJobRequest = true;
 
-			SQuadSplitRequest *ssrd = new SQuadSplitRequest(m_v0, m_v1, m_v2, m_v3, m_centroid.Normalized(), m_depth,
+			SQuadSplitRequest *ssrd = new SQuadSplitRequest(m_corners->m_v0, m_corners->m_v1, m_corners->m_v2, m_corners->m_v3, m_clipCentroid.Normalized(), m_depth,
 				m_geosphere->GetSystemBody()->GetPath(), m_PatchID, m_ctx->GetEdgeLen() - 2,
 				m_ctx->GetFrac(), m_geosphere->GetTerrain());
 
@@ -366,10 +435,10 @@ void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustu
 
 void GeoPatch::RequestSinglePatch()
 {
-	if (!m_heights) {
-		assert(!m_HasJobRequest);
-		m_HasJobRequest = true;
-		SSingleSplitRequest *ssrd = new SSingleSplitRequest(m_v0, m_v1, m_v2, m_v3, m_centroid.Normalized(), m_depth,
+	if (!HasHeightData()) {
+		assert(!m_hasJobRequest);
+		m_hasJobRequest = true;
+		SSingleSplitRequest *ssrd = new SSingleSplitRequest(m_corners->m_v0, m_corners->m_v1, m_corners->m_v2, m_corners->m_v3, m_clipCentroid.Normalized(), m_depth,
 			m_geosphere->GetSystemBody()->GetPath(), m_PatchID, m_ctx->GetEdgeLen() - 2, m_ctx->GetFrac(), m_geosphere->GetTerrain());
 		m_job = Pi::GetAsyncJobQueue()->Queue(new SinglePatchJob(ssrd));
 	}
@@ -388,7 +457,7 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 			psr->OnCancel();
 		}
 	} else {
-		assert(m_HasJobRequest);
+		assert(m_hasJobRequest);
 		const int newDepth = m_depth + 1;
 		for (int i = 0; i < NUM_KIDS; i++) {
 			assert(!m_kids[i]);
@@ -399,44 +468,40 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 				data.v0, data.v1, data.v2, data.v3,
 				newDepth, data.patchID));
 		}
-		m_kids[0]->m_parent = m_kids[1]->m_parent = m_kids[2]->m_parent = m_kids[3]->m_parent = this;
 
 		for (int i = 0; i < NUM_KIDS; i++) {
 			m_kids[i]->ReceiveHeightResult(psr->data(i));
 		}
-		m_HasJobRequest = false;
+		m_hasJobRequest = false;
 	}
 }
 
 void GeoPatch::ReceiveHeightmap(const SSingleSplitResult *psr)
 {
 	PROFILE_SCOPED()
-	assert(nullptr == m_parent);
 	assert(nullptr != psr);
-	assert(m_HasJobRequest);
+	assert(m_hasJobRequest);
 
 	ReceiveHeightResult(psr->data());
-	m_HasJobRequest = false;
+	m_hasJobRequest = false;
 }
 
 void GeoPatch::ReceiveHeightResult(const SSplitResultData &data)
 {
-	m_heights.reset(data.heights);
-	m_normals.reset(data.normals);
-	m_colors.reset(data.colors);
+	m_patchVBOData.reset(new PatchVBOData(data.heights, data.normals, data.colors));
 
 	// skirt vertices are not present in the heights array
 	const int edgeLen = m_ctx->GetEdgeLen() - 2;
 
-	const double h0 = m_heights[0];
-	const double h1 = m_heights[edgeLen - 1];
-	const double h2 = m_heights[edgeLen * (edgeLen - 1)];
-	const double h3 = m_heights[edgeLen * edgeLen - 1];
+	const double h0 = data.heights[0];
+	const double h1 = data.heights[edgeLen - 1];
+	const double h2 = data.heights[edgeLen * (edgeLen - 1)];
+	const double h3 = data.heights[edgeLen * edgeLen - 1];
 
 	const double height = (h0 + h1 + h2 + h3) * 0.25;
-	m_centroid *= (1.0 + height);
+	m_clipCentroid *= (1.0 + height);
 
-	NeedToUpdateVBOs();
+	SetNeedToUpdateVBOs();
 }
 
 void GeoPatch::ReceiveJobHandle(Job::Handle job)
@@ -445,8 +510,25 @@ void GeoPatch::ReceiveJobHandle(Job::Handle job)
 	m_job = static_cast<Job::Handle &&>(job);
 }
 
-bool GeoPatch::IsOverHorizon(const vector3d &camPos)
+bool GeoPatch::IsPatchVisible(const Graphics::Frustum &frustum, const vector3d &camPos) const
 {
+	PROFILE_SCOPED()
+	// Test if this patch is visible
+	if (!frustum.TestSphere(m_clipCentroid, m_clipRadius))
+		return false; // nothing below this patch is visible
+
+	// We only want to horizon cull patches that can actually be over the horizon!
+	// depth == zero patches cannot be tested against the horizon
+	if (m_depth != 0 && IsOverHorizon(camPos)) {
+		return false;
+	}
+
+	return true;
+}
+
+bool GeoPatch::IsOverHorizon(const vector3d &camPos) const
+{
+	PROFILE_SCOPED()
 	const vector3d camDir(camPos - m_clipCentroid);
 	const vector3d camDirNorm(camDir.Normalized());
 	const vector3d cenDir(m_clipCentroid.Normalized());
@@ -455,9 +537,29 @@ bool GeoPatch::IsOverHorizon(const vector3d &camPos)
 	if (dotProd < 0.25 && (camDir.LengthSqr() > (m_clipRadius * m_clipRadius))) {
 		// return the result of the Horizon Culling test, inverted to match naming semantic
 		// eg: HC returns true==visible, but this method returns true==hidden
+#if USE_SUB_CENTROID_CLIPPING
+		bool gather = false;
+		for (size_t i = 0; i < NUM_HORIZON_POINTS; i++) {
+			gather |= s_sph.HorizonCulling(camPos, m_clipHorizon[i]);
+			if (gather) 
+				return false; // early out if any test is visible
+		}
+		return !gather; // if true then it's visible, return semantic is true == over the horizon and thus invisible so invert
+#else
 		return !s_sph.HorizonCulling(camPos, SSphere(m_clipCentroid, m_clipRadius));
+#endif // #if USE_SUB_CENTROID_CLIPPING
 	}
 
 	// not over the horizon
 	return false;
 }
+
+#if DEBUG_PATCHES
+void GeoPatch::RenderLabelDebug(const vector3d &campos, const matrix4x4d &modelView) const
+{
+	if (m_label3D != nullptr) {
+		const vector3d relpos = m_clipCentroid - campos;
+		m_label3D->Draw(Pi::renderer, matrix4x4f(modelView * matrix4x4d::Translation(relpos)));
+	}
+}
+#endif // DEBUG_PATCHES
