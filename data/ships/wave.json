@@ -7,7 +7,7 @@
 	"ship_class": "medium_fighter",
 	"min_crew": 1,
 	"max_crew": 1,
-	"price": 84380,
+	"price": 79172,
 	"hull_mass": 41,
 	"structure_mass": 12.4,
 	"armor_mass": 24.2,
@@ -32,15 +32,6 @@
 			"tag": "tag_weapon_right_s1",
 			"hardpoint": true,
 			"gimbal": [0,0]
-		},
-		"laser_front_s2": {
-			"type": "weapon",
-			"size": 2,
-			"size_min": 1,
-			"i18n_key": "HARDPOINT_WEAPON_FRONT",
-			"tag": "tag_laser_front_s2",
-			"hardpoint": true,
-			"gimbal": [4,4]
 		},
 		"missile_rack_s3_left": {
 			"type": "pylon.rack",
@@ -107,6 +98,14 @@
 			"type": "shield",
 			"size": 2,
 			"size_min": 1
+		},
+		"laser_front_s2": {
+			"type": "weapon",
+			"size": 2,
+			"i18n_key": "HARDPOINT_WEAPON_FRONT",
+			"tag": "tag_laser_front_s2",
+			"hardpoint": true,
+			"gimbal": [4,4]
 		},
 		"hull_1": {
 			"type": "hull",

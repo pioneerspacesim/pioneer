@@ -121,6 +121,7 @@
 		"weapon_s2_1": {
 			"type": "weapon",
 			"size": 2,
+			"size_min": 1,
 			"tag": "tag_weapon_s2_1",
 			"hardpoint": true,
 			"gimbal": [5,5]
@@ -128,6 +129,7 @@
 		"weapon_s2_2": {
 			"type": "weapon",
 			"size": 2,
+			"size_min": 1,
 			"tag": "tag_weapon_s2_2",
 			"hardpoint": true,
 			"gimbal": [5,5]

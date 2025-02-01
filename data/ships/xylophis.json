@@ -27,6 +27,11 @@
 			"type": "computer",
 			"size": 1
 		},
+		"cabin_1": {
+			"type": "cabin",
+			"size": 1,
+			"default": "misc.cabin_s1"
+		},
 		"hull_1": {
 			"type": "hull",
 			"size": 0
@@ -49,7 +54,7 @@
 		}
 	},
 
-	"roles": [],
+	"roles": ["courier","passenger"],
 	"effective_exhaust_velocity": 10900000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 5,

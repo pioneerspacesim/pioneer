@@ -37,6 +37,10 @@
 			"type": "shield",
 			"size": 1
 		},
+		"computer_1": {
+			"type": "computer",
+			"size": 1
+		},
 		"hull_1": {
 			"type": "hull",
 			"size": 1
