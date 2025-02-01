@@ -708,7 +708,8 @@ void PlayerShipController::PollControls(const float timeStep, int *mouseMotion, 
 		wantAngVel += Util::NeededAngVelocityToFaceDirection(*this, timeStep, GetMouseDir(), outParams.angPower);
 	}
 
-	if (InputBindings.killRot->IsActive()) SetFlightControlState(CONTROL_FIXHEADING_KILLROT);
+	if (InputBindings.killRot->IsActive() && GetFlightControlState() != CONTROL_FIXSPEED)
+		SetFlightControlState(CONTROL_FIXHEADING_KILLROT);
 
 	outParams.desiredAngular = wantAngVel;
 
