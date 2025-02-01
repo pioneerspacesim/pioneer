@@ -62,7 +62,7 @@ jobs:
           mono Natural\ Docs/NaturalDocs.exe -i . -o HTML docs -p nd
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: "Lua API documentation"
         path: docs
@@ -71,11 +71,11 @@ jobs:
       uses: actions/configure-pages@v3
 
     - name: Upload pages
-      uses: actions/upload-pages-artifact@v1
+      uses: actions/upload-pages-artifact@v3
       with:
         # only upload docs/ folder
         path: 'docs'
 
     - name: Deploy to GitHub Pages
       id: deployment
-      uses: actions/deploy-pages@v1
+      uses: actions/deploy-pages@v4
