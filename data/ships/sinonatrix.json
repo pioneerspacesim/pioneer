@@ -127,7 +127,7 @@
 			"type": "hyperdrive",
 			"default": "hyperspace.hyperdrive_2",
 			"size": 2,
-			"size_min": 1
+			"size_min": 2
 		},
 		"thruster": {
 			"type": "thruster",

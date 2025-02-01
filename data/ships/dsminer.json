@@ -124,6 +124,12 @@
 			"type": "computer",
 			"size": 1
 		},
+		"fuel_scoop": {
+			"type": "fuel_scoop",
+			"size": 3,
+			"tag": "tag_fuel_scoop",
+			"hardpoint": true
+		},
 		"hull_1": {
 			"type": "hull",
 			"size": 5

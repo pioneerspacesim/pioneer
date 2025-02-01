@@ -60,6 +60,7 @@
 		"weapon_front_s4_1": {
 			"type": "weapon",
 			"size": 4,
+			"size_min": 3,
 			"i18n_key": "HARDPOINT_WEAPON_FRONT",
 			"tag": "tag_weapon_front_s4_1",
 			"hardpoint": true,
@@ -68,6 +69,7 @@
 		"weapon_front_s4_2": {
 			"type": "weapon",
 			"size": 4,
+			"size_min": 3,
 			"i18n_key": "HARDPOINT_WEAPON_FRONT",
 			"tag": "tag_weapon_front_s4_2",
 			"hardpoint": true,

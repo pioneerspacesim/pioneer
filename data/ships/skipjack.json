@@ -59,14 +59,16 @@
 			"size": 2,
 			"i18n_key": "HARDPOINT_PYLON_LEFT",
 			"tag": "tag_missile_rack_s2_left",
-			"hardpoint": true
+			"hardpoint": true,
+			"default": "missile_rack.221"
 		},
 		"missile_rack_s2_right": {
 			"type": "pylon.rack",
 			"size": 2,
 			"i18n_key": "HARDPOINT_PYLON_RIGHT",
 			"tag": "tag_missile_rack_s2_right",
-			"hardpoint": true
+			"hardpoint": true,
+			"default": "missile_rack.221"
 		},
 		"utility_s2_1": {
 			"type": "utility",
@@ -127,7 +129,7 @@
 		},
 		"hyperdrive": {
 			"type": "hyperdrive",
-			"default": "hyperspace.hyperdrive_3",
+			"default": "hyperspace.hyperdrive_2",
 			"size": 3,
 			"size_min": 2
 		},
@@ -144,7 +146,7 @@
 	"effective_exhaust_velocity": 15700000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 116,
-	"hyperdrive_class": 3,
+	"hyperdrive_class": 2,
 
 	"forward_thrust": 9440000,
 	"forward_acceleration_cap": 31.392,
