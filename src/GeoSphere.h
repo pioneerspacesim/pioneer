@@ -57,6 +57,16 @@ public:
 	static void OnChangeGeoSphereDetailLevel();
 	static bool OnAddQuadSplitResult(const SystemPath &path, SQuadSplitResult *res);
 	static bool OnAddSingleSplitResult(const SystemPath &path, SSingleSplitResult *res);
+
+	enum DebugFlags : uint32_t { // <enum scope='GeoSphere' name=GeoSphereDebugFlags prefix=DEBUG_ public>
+		DEBUG_NONE = 0x0,
+		DEBUG_SORTGEOPATCHES = 0x1,
+		DEBUG_WIREFRAME = 0x2,
+		DEBUG_FACELABELS = 0x4
+	};
+	static void SetDebugFlags(Uint32 flags);
+	static Uint32 GetDebugFlags();
+
 	// in sbody radii
 	virtual double GetMaxFeatureHeight() const override final { return m_terrain->GetMaxHeight(); }
 
@@ -80,6 +90,8 @@ private:
 	void ProcessQuadSplitRequests();
 
 	std::unique_ptr<GeoPatch> m_patches[6];
+	std::vector<std::pair<double, GeoPatch *>> m_visiblePatches;
+
 	struct TDistanceRequest {
 		TDistanceRequest(double dist, SQuadSplitRequest *pRequest, GeoPatch *pRequester) :
 			mDistance(dist),

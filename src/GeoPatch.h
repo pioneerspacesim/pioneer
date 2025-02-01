@@ -13,17 +13,22 @@
 #include "matrix4x4.h"
 #include "vector3.h"
 #include "graphics/Frustum.h"
+#include "math/Sphere.h"
 #include <deque>
 #include <memory>
 
+#define DEBUG_PATCHES 0
 //#define DEBUG_BOUNDING_SPHERES
 
-#ifdef DEBUG_BOUNDING_SPHERES
+#if DEBUG_PATCHES
 #include "graphics/Drawables.h"
 namespace Graphics {
+#ifdef DEBUG_BOUNDING_SPHERES
 	class RenderState;
-}
 #endif
+	class Label3DWrapper;
+} //namespace Graphics
+#endif // DEBUG_PATCHES
 
 namespace Graphics {
 	class Renderer;
@@ -37,6 +42,17 @@ class SQuadSplitResult;
 class SSingleSplitResult;
 struct SSplitResultData;
 
+// Experiment:
+// Use smaller spheres than the (m_clipCentroid, m_clipRadius) to test against the horizon.
+// This can eliminate more patches due to not poking a giant clipping sphere over the horizon
+// but on terrains with extreme feature heights there is over-culling of GeoPatches
+// eg: Vesta in the Sol system has massive craters which are obviously culled as they go over the horizon.
+#define USE_SUB_CENTROID_CLIPPING 1
+#if USE_SUB_CENTROID_CLIPPING
+#define NUM_HORIZON_POINTS 5 // 9 // 9 points is more expensive
+static constexpr double CLIP_RADIUS_MULTIPLIER = 0.1;
+#endif // USE_SUB_CENTROID_CLIPPING
+
 class GeoPatch {
 public:
 	GeoPatch(const RefCountedPtr<GeoPatchContext> &_ctx, GeoSphere *gs,
@@ -44,11 +60,6 @@ public:
 		const int depth, const GeoPatchID &ID_);
 
 	~GeoPatch();
-
-	inline void NeedToUpdateVBOs()
-	{
-		m_needUpdateVBOs = (nullptr != m_heights);
-	}
 
 	void UpdateVBOs(Graphics::Renderer *renderer);
 
@@ -61,13 +72,9 @@ public:
 		return -1;
 	}
 
-	// in patch surface coords, [0,1]
-	inline vector3d GetSpherePoint(const double x, const double y) const
-	{
-		return (m_v0 + x * (1.0 - y) * (m_v1 - m_v0) + x * y * (m_v2 - m_v0) + (1.0 - x) * y * (m_v3 - m_v0)).Normalized();
-	}
-
-	void Render(Graphics::Renderer *r, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum);
+	void Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum);
+	void RenderImmediate(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView) const;
+	void GatherRenderablePatches(std::vector<std::pair<double, GeoPatch *>> &visiblePatches, Graphics::Renderer *renderer, const vector3d &campos, const Graphics::Frustum &frustum);
 
 	inline bool canBeMerged() const
 	{
@@ -77,7 +84,7 @@ public:
 				merge &= m_kids[i]->canBeMerged();
 			}
 		}
-		merge &= !(m_HasJobRequest);
+		merge &= !(m_hasJobRequest);
 		return merge;
 	}
 
@@ -89,34 +96,78 @@ public:
 	void ReceiveHeightResult(const SSplitResultData &data);
 	void ReceiveJobHandle(Job::Handle job);
 
-	inline bool HasHeightData() const { return (m_heights.get() != nullptr); }
+	inline bool HasHeightData() const { return (m_patchVBOData != nullptr) && (m_patchVBOData->m_heights.get() != nullptr); }
+
+	// used by GeoSphere so must be public
+	inline void SetNeedToUpdateVBOs()
+	{
+		m_needUpdateVBOs = HasHeightData();
+	}
+
 
 private:
 	static const int NUM_KIDS = 4;
 
-	bool IsOverHorizon(const vector3d &camPos);
+	bool IsPatchVisible(const Graphics::Frustum &frustum, const vector3d &camPos) const;
+	bool IsOverHorizon(const vector3d &camPos) const;
 
 	RefCountedPtr<GeoPatchContext> m_ctx;
-	const vector3d m_v0, m_v1, m_v2, m_v3;
-	std::unique_ptr<double[]> m_heights;
-	std::unique_ptr<vector3f[]> m_normals;
-	std::unique_ptr<Color3ub[]> m_colors;
-	std::unique_ptr<Graphics::MeshObject> m_patchMesh;
-	std::unique_ptr<GeoPatch> m_kids[NUM_KIDS];
-	GeoPatch *m_parent;
-	GeoSphere *m_geosphere;
-	double m_roughLength;
-	vector3d m_clipCentroid, m_centroid;
-	double m_clipRadius;
-	Sint32 m_depth;
-	bool m_needUpdateVBOs;
+	struct Corners {
+		Corners(const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_) :
+			m_v0(v0_),
+			m_v1(v1_),
+			m_v2(v2_),
+			m_v3(v3_)
+		{}
+		Corners() = delete;
+		const vector3d m_v0, m_v1, m_v2, m_v3;
+	}; 
 
+	struct PatchVBOData {
+		PatchVBOData() = delete;
+		PatchVBOData(double* h, vector3f* n, Color3ub* c)
+		{
+			m_heights.reset(h);
+			m_normals.reset(n);
+			m_colors.reset(c);
+		}
+		~PatchVBOData() {
+			m_heights.reset();
+			m_normals.reset();
+			m_colors.reset();
+			m_patchMesh.reset();
+		}
+		std::unique_ptr<double[]> m_heights;
+		std::unique_ptr<vector3f[]> m_normals;
+		std::unique_ptr<Color3ub[]> m_colors;
+		std::unique_ptr<Graphics::MeshObject> m_patchMesh;
+	};
+
+	std::unique_ptr<Corners> m_corners;
+	std::unique_ptr<PatchVBOData> m_patchVBOData;
+	std::unique_ptr<GeoPatch> m_kids[NUM_KIDS];
+
+	vector3d m_clipCentroid;
+#if USE_SUB_CENTROID_CLIPPING
+	SSphere m_clipHorizon[NUM_HORIZON_POINTS];
+#endif // #if USE_SUB_CENTROID_CLIPPING
+	GeoSphere *m_geosphere;
+	double m_splitLength; // rough length, is how near to the camera the m_clipCentroid should be before it must split
+	double m_clipRadius;
 	const GeoPatchID m_PatchID;
 	Job::Handle m_job;
-	bool m_HasJobRequest;
+	Sint32 m_depth;
+	uint8_t m_patchUpdateState;
+	bool m_needUpdateVBOs;
+	bool m_hasJobRequest;
+#if DEBUG_PATCHES
 #ifdef DEBUG_BOUNDING_SPHERES
 	std::unique_ptr<Graphics::Drawables::Sphere3D> m_boundsphere;
 #endif
+	std::unique_ptr<Graphics::Drawables::Label3D> m_label3D;
+
+	void RenderLabelDebug(const vector3d &campos, const matrix4x4d &modelView) const;
+#endif // #if DEBUG_PATCHES
 };
 
 #endif /* _GEOPATCH_H */

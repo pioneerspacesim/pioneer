@@ -13,6 +13,8 @@
 #include "graphics/VertexBuffer.h"
 #include "profiler/Profiler.h"
 
+#include <sstream>
+
 namespace Graphics {
 
 	namespace Drawables {
@@ -1025,6 +1027,60 @@ namespace Graphics {
 			for (unsigned int i = 8; i < 15; i++) {
 				va.Add(verts[i], color);
 				va.Add(verts[i + 1], color);
+			}
+		}
+
+		//------------------------------------------------------------
+		Label3D::Label3D(Graphics::Renderer *r, const std::string &str)
+		{
+			Graphics::Texture *sdfTex = Graphics::TextureBuilder("fonts/label3d.dds", Graphics::LINEAR_CLAMP, true, true, true).GetOrCreateTexture(r, "model");
+			m_font.Reset(new Text::DistanceFieldFont("fonts/sdf_definition.txt", sdfTex));
+
+			Graphics::MaterialDescriptor matdesc;
+			matdesc.textures = 1;
+			matdesc.alphaTest = true;
+			matdesc.lighting = true;
+
+			Graphics::RenderStateDesc rsd;
+			rsd.depthWrite = false;
+			rsd.blendMode = Graphics::BLEND_ALPHA;
+
+			m_geometry.reset(m_font->CreateVertexArray());
+			m_material.Reset(r->CreateMaterial("label", matdesc, rsd));
+			m_material->SetTexture("texture0"_hash, m_font->GetTexture());
+			m_material->diffuse = Color::WHITE;
+			m_material->emissive = Color(38, 38, 38);
+			m_material->specular = Color::WHITE;
+
+			SetText(r, str);
+		}
+
+		void Label3D::SetText(Graphics::Renderer *r, const std::string &text)
+		{
+			//regenerate geometry
+			m_geometry->Clear();
+			m_textMesh.reset();
+
+			if (!text.empty()) {
+				m_font->GetGeometry(*m_geometry, text, vector2f(0.f));
+
+				// Happens if none of the characters in the string have glyphs in the SDF font.
+				// Most noticeably, this means text consisting of entirely Cyrillic
+				// or Chinese characters will vanish when rendered on a Label3D.
+				if (m_geometry->IsEmpty()) {
+					return;
+				}
+
+				//create buffer and upload data
+				m_textMesh.reset(r->CreateMeshObjectFromArray(m_geometry.get()));
+			}
+		}
+
+		void Label3D::Draw(Graphics::Renderer *r, const matrix4x4f &trans)
+		{
+			if (r!=nullptr && m_textMesh.get()) {
+				r->SetTransform(trans);
+				r->DrawMesh(m_textMesh.get(), m_material.Get());
 			}
 		}
 

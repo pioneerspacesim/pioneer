@@ -4,6 +4,8 @@
 #include "PerfInfo.h"
 #include "Frame.h"
 #include "Game.h"
+#include "GameConfig.h"
+#include "GeoSphere.h"
 #include "Input.h"
 #include "LuaPiGui.h"
 #include "Pi.h"
@@ -254,9 +256,15 @@ void PerfInfo::Draw()
 		ImGui::ShowStackToolWindow(&m_state->stackToolOpen);
 }
 
-static const char *s_rendererIcon = "\uF082";
-static const char *s_worldIcon = "\uF092";
-static const char *s_perfIcon = "\uF0F0";
+// Icons are found in the file /data/icons/icons.svg
+// The value below can be calculated like this: \uF0A4
+// \uF0 ignore this part
+// A == 10 zero index based so the 11th row of icons.svg
+// 4 == 4 zero index based so the 5th column of icons.svg
+static const char *s_rendererIcon = u8"\uF082";
+static const char *s_worldIcon = u8"\uF092";
+static const char *s_perfIcon = u8"\uF0F0";
+static const char *s_planetIcon = u8"\uF0A0";
 
 bool BeginDebugTab(const char *icon, const char *label)
 {
@@ -349,7 +357,6 @@ void PerfInfo::DrawPerfWindow()
 
 			if (Pi::game && Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 				if (BeginDebugTab(s_worldIcon, "WorldView Stats")) {
-
 					DrawWorldViewStats();
 					EndDebugTab();
 				}
@@ -569,6 +576,7 @@ void PerfInfo::DrawWorldViewStats()
 		}
 	}
 
+	DrawTerrainDebug();
 }
 
 void PerfInfo::DrawInputDebug()
@@ -622,6 +630,34 @@ void PerfInfo::DrawInputDebug()
 		ImGui::Spacing();
 		index++;
 	}
+}
+
+void PiGui::PerfInfo::DrawTerrainDebug()
+{
+	ImGui::Spacing();
+	ImGui::SeparatorText("Terrain Debug");
+
+	using Flags = GeoSphere::DebugFlags;
+	uint32_t debugFlags = GeoSphere::GetDebugFlags();
+	bool showSort = debugFlags & Flags::DEBUG_SORTGEOPATCHES;
+	bool showWire = debugFlags & Flags::DEBUG_WIREFRAME;
+	//bool showFace = debugFlags & Flags::DEBUG_FACELABELS;
+
+	bool changed = ImGui::Checkbox("Distance Sort GeoPatches", &showSort);
+	changed |= ImGui::Checkbox("Show Wireframe", &showWire);
+	//changed |= ImGui::Checkbox("Show Face IDs", &showFace);
+
+	/* clang-format off */
+	if (changed) {
+		debugFlags = (showSort ? Flags::DEBUG_SORTGEOPATCHES : 0)
+			| (showWire ? Flags::DEBUG_WIREFRAME : 0);
+			//| (showFace ? Flags::DEBUG_FACELABELS : 0);
+		GeoSphere::SetDebugFlags(debugFlags);
+		Pi::config->SetInt("SortGeoPatches", showSort ? 1 : 0);
+
+		Pi::config->Save();
+	}
+	/* clang-format on */
 }
 
 void PerfInfo::DrawImGuiStats()
