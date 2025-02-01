@@ -481,7 +481,7 @@
 	"explored": true,
 	"govType": "NONE",
 	"lawlessness": "f0/4284095261",
-	"longDesc": "Gliese 251 is a red dwarf with a spectral type of M3V[3] with an effective temperature of about 3300 K.[3] Its mass has been measured to be around 0.36 solar masses[6] and its radius is about 36% solar radii.[6] Its metallicity is likely slightly less than that of the Sun.[7] Observations at infrared wavelengths rule out the presence of a circumstellar disk around it.",
+	"longDesc": "Gliese 251 is a red dwarf with a spectral type of M3V with an effective temperature of about 3300 K. Its mass has been measured to be around 0.36 solar masses and its radius is about 36% solar radii. Its metallicity is likely slightly less than that of the Sun. Observations at infrared wavelengths rule out the presence of a circumstellar disk around it.",
 	"name": "Gliese 251",
 	"otherNames": [
 		"HD 265866",
@@ -490,7 +490,7 @@
 	"sector": [ 1, 0, 1 ],
 	"pos": [ 7.217693397544485, 3.603571197370645, 1.9830760619325627 ],
 	"seed": 3464555875,
-	"shortDesc": "Located in the constellation of Gemini, it is the nearest star ro Sol in this constellation.",
+	"shortDesc": "Located in the constellation of Gemini, it is the nearest star to Sol in this constellation.",
 	"stars": [
 		"STAR_M"
 	]
