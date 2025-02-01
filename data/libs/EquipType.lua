@@ -244,6 +244,14 @@ function EquipType.NewType(baseType, name)
 		return proto
 	end
 
+	-- Override the unserializer to handle prototype metatables
+	-- If the new type defines an Unserialize method it must store this unserializer method and call it
+	function newType.Unserialize(data)
+		local inst = baseType.Unserialize(data)
+		local proto = rawget(inst, "__proto")
+		return setmetatable(inst, proto and proto.meta or newType.meta)
+	end
+
 	Serializer:RegisterClass(name, newType)
 
 	return newType
@@ -303,5 +311,7 @@ end
 function EquipType:GetFlavourText()
 	return self.transient.flavourtext
 end
+
+Serializer:RegisterClass("EquipType", EquipType)
 
 return EquipType
