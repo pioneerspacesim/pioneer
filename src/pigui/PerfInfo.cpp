@@ -350,11 +350,6 @@ void PerfInfo::DrawPerfWindow()
 				EndDebugTab();
 			}
 
-			if (BeginDebugTab(s_planetIcon, "Terrain")) {
-				DrawTerrainDebug();
-				EndDebugTab();
-			}
-
 			if (false && ImGui::BeginTabItem("Input")) {
 				DrawInputDebug();
 				ImGui::EndTabItem();
@@ -581,6 +576,7 @@ void PerfInfo::DrawWorldViewStats()
 		}
 	}
 
+	DrawTerrainDebug();
 }
 
 void PerfInfo::DrawInputDebug()
@@ -638,6 +634,7 @@ void PerfInfo::DrawInputDebug()
 
 void PiGui::PerfInfo::DrawTerrainDebug()
 {
+	ImGui::Spacing();
 	ImGui::SeparatorText("Terrain Debug");
 
 	using Flags = GeoSphere::DebugFlags;
