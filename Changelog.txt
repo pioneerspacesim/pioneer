@@ -2,6 +2,9 @@ January 2025
   * New Features
     * Add four new cultures (#6008)
     * Noise detail texture sampling for gas giant rings (#5985)
+    * Improve Naval and Smart missiles (#6027)
+    * New hyperdrive algorithms and internal hyperfuel tanks (#6026)
+    * Add support for new equipment to the game start menu. (#6029)
 
   * Fixes
     * Fix billboard atlas animation playing order and frame count (#5997)
@@ -16,12 +19,21 @@ January 2025
     * Fixed Error in debug view when tab object has no label (#6022)
     * Fixed Game crashes on hyperjump with star field density set to 0 (#5880)
     * Fixed System Editor does not load position within the sector (#6012)
+    * Fix unexpected behaviour from Missile UI buttons (#4159)
+    * Fix missile firing during paused game (#5926)
+    * Fix Assassination stack trace crash when jumping into target system too late (#6032)
+    * Fix bugs, expand equipment coverage, add detailed stats for equipment (#6032)
+    * Fix terrain texture disappearance / GeoPatch/GeoSphere refactoring (#5979)
+    * Fix the Vatakara not having a shield model (#6034)
+    * Fix Game crashes when disabling rotation while exiting a station (#6034)
 
   * Internal
     * Display how many instanced objects are drawn (#5994)
     * Add automated ship JSON import from Notion to github (#6019)
     * Add support for required slots, validate shipdefs on startup (#6013)
     * Increment savefile version to v91 (and update NameGen list) (#6010)
+    * Updating weapon tags to match the ship DB on Notion (#6028)
+    * Added launch settings to vscode  (#6032)
 
 December 2024
   * New Features
