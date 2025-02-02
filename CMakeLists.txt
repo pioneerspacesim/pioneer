@@ -342,12 +342,20 @@ link_directories(
 	${VORBISFILE_LIBRARY_DIRS}
 )
 
-list(APPEND UNITTEST_SRC_FOLDERS
-	src/test)
-add_source_folders(UNITTEST UNITTEST_SRC_FOLDERS)
+option(BUILD_TESTING "Build pioneer test executables" ON)
+
+if (BUILD_TESTING)
+  list(APPEND UNITTEST_SRC_FOLDERS
+    src/test
+  )
+  add_source_folders(UNITTEST UNITTEST_SRC_FOLDERS)
+
+  add_executable(unittest ${UNITTEST_CXX_FILES})
+  target_link_libraries(unittest LINK_PRIVATE ${pioneerLibs} ${winLibs})
+	set_cxx_properties(unittest)
+endif()
 
 add_executable(${PROJECT_NAME} WIN32 src/main.cpp ${RESOURCES})
-add_executable(unittest ${UNITTEST_CXX_FILES})
 add_executable(modelcompiler src/modelcompiler.cpp)
 add_executable(savegamedump
 	src/savegamedump.cpp
@@ -406,11 +414,10 @@ endif (WIN32)
 add_subdirectory(src/editor)
 
 target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs} ${winLibs})
-target_link_libraries(unittest LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(savegamedump LINK_PRIVATE pioneer-core ${SDL2_IMAGE_LIBRARIES} ${winLibs})
 
-set_cxx_properties(${PROJECT_NAME} unittest modelcompiler savegamedump)
+set_cxx_properties(${PROJECT_NAME} modelcompiler savegamedump)
 
 if(MSVC)
 	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
