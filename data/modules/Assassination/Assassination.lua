@@ -407,7 +407,7 @@ local onAICompleted = function (ship, ai_error)
 			elseif ai_error == 'NONE' then
 				Timer:CallAt(Game.time + 60 * 60 * 8, function ()
 					if mission.ship:exists() then
-						local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
+						local stations = Space.GetBodies("SpaceStation")
 						if #stations == 0 then return end
 						local station = stations[Engine.rand:Integer(1,#stations)]
 
