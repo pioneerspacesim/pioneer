@@ -54,9 +54,9 @@ public:
 		m_path(path),
 		m_inPlace(inPlace) {}
 
-	virtual void OnRun() override final { RunCompiler(m_name, m_path, m_inPlace); } // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-	virtual void OnFinish() override final {}
-	virtual void OnCancel() override final {}
+	void OnRun() final { RunCompiler(m_name, m_path, m_inPlace); } // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+	void OnFinish() final {}
+	void OnCancel() final {}
 
 protected:
 	std::string m_name;
