@@ -43,7 +43,6 @@ StartVariants.register({
 		missile_bay_2  = "missile_bay.opli_internal_s2",
 	},
 	cargo      = {
-		{ Commodities.hydrogen, 2 }
 	},
 	pattern    = 1,
 	colors     = { Color('000000'), Color('000000'), Color('000000') }
@@ -66,7 +65,6 @@ StartVariants.register({
 		thruster       = "thruster.default_s1",
 	},
 	cargo      = {
-		{ Commodities.hydrogen, 2 }
 	},
 	pattern    = 1,
 	colors     = { Color('000000'), Color('000000'), Color('FFFF00') }
@@ -87,7 +85,6 @@ StartVariants.register({
 		thruster       = "thruster.default_s1",
 	},
 	cargo          = {
-		{ Commodities.hydrogen, 2 }
 	},
 	pattern    = 6,
 	colors     = { Color('E17F00'), Color('FFFFFF'), Color('FF7F00') }
@@ -208,6 +205,11 @@ local function startGame(gameParams)
 	local cargoMgr = player:GetComponent('CargoManager')
 	for id, amount in pairs(gameParams.ship.cargo) do
 		cargoMgr:AddCommodity(Commodities[id], amount)
+	end
+
+	local drive = player:GetInstalledHyperdrive()
+	if drive then
+		drive:SetFuel(player, drive:GetMaxFuel())
 	end
 
 	for _, entry in ipairs(gameParams.flightlog.Custom) do

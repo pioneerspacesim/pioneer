@@ -2,7 +2,7 @@
 	"model": "vatakara",
 	"name": "Vatakara",
 	"cockpit": "",
-	"shield_model": "vatakara_shield",
+	"shield_model": "malabar_shield",
 	"manufacturer": "mandarava-csepel",
 	"ship_class": "heavy_freighter",
 	"min_crew": 4,
