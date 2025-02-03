@@ -99,7 +99,7 @@ jobs:
 
     - name: Upload Release Files
       uses: softprops/action-gh-release@v1
-      if: ${{ github.event_name == 'release' }}
+      if: ${{ github.event_name == 'release' || github.event_name == 'workflow_dispatch' }}
       with:
         files: pioneer/pioneer-*-win.exe
         tag_name: ${{ inputs.tag_name || github.ref_name }}
@@ -140,6 +140,7 @@ jobs:
         build_slug: linux-x64-release
         token: ${{ secrets.GITHUB_TOKEN }}
         upload_release: true
+		tag_name: ${{ inputs.tag_name }}
 
   build-clang:
     runs-on: ubuntu-20.04
@@ -204,3 +205,4 @@ jobs:
         build_slug: linux-x64-release-appimage
         token: ${{ secrets.GITHUB_TOKEN }}
         upload_release: true
+		tag_name: ${{ inputs.tag_name }}
