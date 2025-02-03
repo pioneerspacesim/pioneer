@@ -14,6 +14,9 @@ inputs:
   upload_release:
     description: "should the binary be uploaded to a tagged release?"
     default: false
+  tag_name:
+    description: "release tag to upload artifacts to"
+    default: ""
 
 runs:
   using: "composite"
@@ -46,8 +49,9 @@ runs:
 
     - name: Upload Release Files
       uses: softprops/action-gh-release@v1
-      if: ${{ github.event_name == 'release' && inputs.upload_release }}
+      if: ${{ (github.event_name == 'release' || github.event_name == 'workflow_dispatch') && inputs.upload_release }}
       with:
         files: release/pioneer-linux-x64-*.tar.gz
+        tag_name: ${{ inputs.tag_name || github.ref_name }}
       env:
         GITHUB_TOKEN: ${{ inputs.token }}

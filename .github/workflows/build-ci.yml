@@ -17,6 +17,13 @@ on:
     - 'cmake/*.cmake'
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: The release tag name to update
+        default: ''
+        required: true
+        type: string
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -95,6 +102,7 @@ jobs:
       if: ${{ github.event_name == 'release' }}
       with:
         files: pioneer/pioneer-*-win.exe
+        tag_name: ${{ inputs.tag_name || github.ref_name }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
