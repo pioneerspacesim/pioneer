@@ -352,9 +352,13 @@ trader_task.doRedock = function(ship)
 	if trader then
 		if ship:exists() and ship.flightState ~= 'HYPERSPACE' then
 			trader['starport'] = Trader.getNearestStarport(ship, trader.starport)
-			ship:AIDockWith(trader.starport)
-			trader['status'] = 'inbound'
-			trader.ts_error = "dock_aft_6h"
+
+			-- TODO: needs a proper failure state
+			if trader.starport then
+				ship:AIDockWith(trader.starport)
+				trader['status'] = 'inbound'
+				trader.ts_error = "dock_aft_6h"
+			end
 		end
 	end
 end
