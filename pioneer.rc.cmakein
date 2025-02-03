@@ -18,7 +18,7 @@ BEGIN
             VALUE "LegalTrademarks",    "https://www.gnu.org/licenses/gpl-3.0.en.html"
             VALUE "OriginalFilename",   "pioneer.exe"
             VALUE "ProductName",        "Pioneer"
-            VALUE "ProductVersion",     "@PROJECT_VERSION@"
+            VALUE "ProductVersion",     "@PIONEER_VERSION@"
         END
     END
 

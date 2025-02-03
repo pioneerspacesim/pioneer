@@ -4,7 +4,7 @@ project(pioneer LANGUAGES CXX)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 17)
 
-set(PROJECT_VERSION "20240710"
+set(PIONEER_VERSION "20240710"
 	CACHE STRING "Version identifier for current compiled build")
 
 set(PROJECT_VERSION_INFO ""
