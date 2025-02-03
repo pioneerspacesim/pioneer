@@ -123,7 +123,9 @@ local makeAdvert = function (station)
 	-- Get all non-cargo or engines
 	local avail_equipment = {}
 	for id, equip in pairs(Equipment.new) do
-		if equip.slot and not equip.slot.type:match("^hyperdrive") then
+		-- Don't sell hyperdrives on the secondhand market
+		-- Don't sell thrusters because their price depends on the thruster count
+		if equip.slot and not equip.slot.type:match("^hyperdrive") and not equip.slot.type:match("^thruster") then
 			if equip.purchasable then
 				table.insert(avail_equipment, equip)
 			end
