@@ -8,6 +8,9 @@
 		"[json]": {
 			"editor.detectIndentation": true,
 		},
+		"[yaml]": {
+			"editor.detectIndentation": true,
+		},
 		"editor.insertSpaces": false,
 		"editor.detectIndentation": false,
 		"editor.tabSize": 4,
