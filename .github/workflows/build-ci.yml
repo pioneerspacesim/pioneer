@@ -173,7 +173,7 @@ jobs:
 
   build-appimage:
     runs-on: ubuntu-20.04
-    if: ${{github.event_name == 'release'}}
+    if: ${{github.event_name == 'release' || github.event_name == 'workflow_dispatch'}}
     steps:
     # Checkout the repository as $GITHUB_WORKSPACE
     - uses: actions/checkout@v4
