@@ -140,7 +140,7 @@ jobs:
         build_slug: linux-x64-release
         token: ${{ secrets.GITHUB_TOKEN }}
         upload_release: true
-		tag_name: ${{ inputs.tag_name }}
+		    tag_name: ${{ inputs.tag_name }}
 
   build-clang:
     runs-on: ubuntu-20.04
@@ -205,4 +205,4 @@ jobs:
         build_slug: linux-x64-release-appimage
         token: ${{ secrets.GITHUB_TOKEN }}
         upload_release: true
-		tag_name: ${{ inputs.tag_name }}
+		    tag_name: ${{ inputs.tag_name }}
