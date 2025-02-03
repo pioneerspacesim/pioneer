@@ -5,7 +5,7 @@
 [Setup]
 AppId={{5ba280c9-1d73-4039-b2e1-7fc7800f784c}
 AppName="{#AppName}"
-AppVersion="@PROJECT_VERSION@"
+AppVersion="@PIONEER_VERSION@"
 AppPublisher="{#AppName} Developers"
 AppPublisherURL="{#AppUrl}"
 AppSupportURL="{#AppUrl}"
@@ -13,7 +13,7 @@ AppUpdatesURL="{#AppUrl}"
 AppCopyright="Copyright 2008-@BUILD_YEAR@ {#AppName} developers"
 CreateAppDir=yes
 LicenseFile="@PROJECT_SOURCE_DIR@\licenses\GPL-3.txt"
-OutputBaseFilename=pioneer-@PROJECT_VERSION@-win
+OutputBaseFilename=pioneer-@PIONEER_VERSION@-win
 OutputDir="@PROJECT_SOURCE_DIR@"
 Compression=lzma
 SolidCompression=yes
