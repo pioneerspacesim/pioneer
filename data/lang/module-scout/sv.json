@@ -261,7 +261,7 @@
   },
   "DATA_COLLECTED_PROGRESS": {
     "description": "Label for scan card progress bar",
-    "message": "Data Collected: {percent_completed}%"
+    "message": "Insamlad Data: {percent_completed}%"
   },
   "DEADLINE": {
     "description": "",

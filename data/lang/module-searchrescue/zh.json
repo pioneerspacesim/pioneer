@@ -97,7 +97,7 @@
   },
   "ENTITY_GENERAL_4": {
     "description": "",
-    "message": " {locality}采矿权办公室"
+    "message": "{locality}采矿权办公室"
   },
   "ENTITY_GENERAL_5": {
     "description": "",
@@ -129,7 +129,7 @@
   },
   "ENTITY_RESEARCH_2": {
     "description": "",
-    "message": " {locality} 微生物协会"
+    "message": "{locality} 微生物协会"
   },
   "ENTITY_RESEARCH_3": {
     "description": "",
@@ -473,7 +473,7 @@
   },
   "LAT": {
     "description": "",
-    "message": "拉丁："
+    "message": "纬度："
   },
   "LON": {
     "description": "",
@@ -485,15 +485,15 @@
   },
   "MISSING_CREW": {
     "description": "",
-    "message": "机组人员失踪，无法完成传输。"
+    "message": "船员缺失，无法完成转移。 "
   },
   "MISSING_PASS": {
     "description": "",
-    "message": "乘客失踪，无法完成运输。"
+    "message": "乘客们缺失，无法完成运输。"
   },
   "MISSING_PASSENGER": {
     "description": "",
-    "message": "乘客失踪，无法完成运输。"
+    "message": "乘客缺失，无法完成运输。"
   },
   "OK_AGREED": {
     "description": "",
@@ -525,7 +525,7 @@
   },
   "PLAYER_DESTROYED_TARGET": {
     "description": "",
-    "message": "我们听说过你的行为，船长！请放心，我们会向地方当局举报你摧毁了等你去救助的那艘船。随后会对你提起刑事诉讼。"
+    "message": "我们听说了您的事迹，船长！请放心，我们将把您摧毁本应协助的那艘船的行为报告给当地当局，并将提起刑事诉讼。"
   },
   "PLEASE_LAND": {
     "description": "",
@@ -565,11 +565,11 @@
   },
   "PROBLEM_CREW_8": {
     "description": "",
-    "message": "导致其他人被扔到入太空的可怕事故"
+    "message": "一次可怕的事故，导致其他人被抛入太空。"
   },
   "PROBLEM_CREW_9": {
     "description": "",
-    "message": "我不能公开评论的情况"
+    "message": "一个我无法公开评论的情况。"
   },
   "PROBLEM_GENERAL_1": {
     "description": "",
@@ -589,7 +589,7 @@
   },
   "PROBLEM_GENERAL_4": {
     "description": "",
-    "message": "船上所有人员都发生严重的食物中毒。"
+    "message": "一种严重的食物中毒，波及了船上所有人员。"
   },
   "PROBLEM_GENERAL_5": {
     "description": "",

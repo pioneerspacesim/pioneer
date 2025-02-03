@@ -5,7 +5,7 @@
   },
   "ACCEPTED_2": {
     "description": "",
-    "message": "杰出的！"
+    "message": "太棒了！"
   },
   "ACCEPTED_3": {
     "description": "",
@@ -13,23 +13,23 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "秘密任务所需的合格飞行员：支付{cash}。"
+    "message": "需要合格飞行员执行秘密任务：报酬{cash}。"
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "需要在{system}星系中执行作战任务的飞船和船员。"
+    "message": "寻找飞船和船员执行{system}系统中的战斗任务。"
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "需要有装备精良的飞船的合格佣兵。任务详情可按要求提供。"
+    "message": "需要一名装备精良的合格雇佣兵。任务详情可按需提供。"
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "{org}寻找无畏的雇佣军前往{system}星系执行任务。将支付{cash}。"
+    "message": "{org} 寻求无畏的雇佣兵前往 {system} 星系执行任务。报酬 {cash}。"
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "任务{mission} ：薪水 {cash}。"
+    "message": "任务{mission} ：报酬 {cash}。"
   },
   "ADTITLE_1": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "你太迟了！ 你造成了很大的损失。 你不会得到报酬！"
+    "message": "你来晚了！你造成了巨大的损失。你将不会获得报酬！"
   },
   "FAILUREMSG_3": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "{org}将在{system}星系（{sectorx}，{sectory}，{sectorz}）中为{mission}任务支付{cash}。 我们有理由相信，一个无情的市场竞争者应对{area}货轮的失踪负责。 到目标区域的距离是{dist} 光年。"
+    "message": "{org} 将支付 {cash} 作为 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 中 {mission} 任务的报酬。我们有理由相信，一位无情的市场竞争者对我们货运船在 {area} 消失一事负有责任。目标区域距离 {dist} 光年。"
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
@@ -209,11 +209,11 @@
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "军事情报部门认为，敌对派系在{system}系统{sectorx}，{sectory}，{sectorz}）的{area}建立了一个秘密的侦听前哨站。 政府不能容忍这一点，并批准了一系列行动来消灭这一设施。 敌人试图仅使用民用航天器类型来伪装其起源。 我们这样做也是这样！ 所以我们愿意为{cash}雇佣雇佣兵。 {area}位于{dist}光年。"
+    "message": "军事情报部门认为，一个敌对派系在 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 的 {area} 建立了一个秘密监听前哨。政府无法容忍这一行为，并已批准一系列行动来摧毁这个设施。敌人试图通过只使用民用飞船类型来掩盖其来源。我们也是这么做的！因此，我们愿意雇佣一名雇佣兵，报酬为 {cash}。{area} 距此地 {dist} 光年。"
   },
   "MILITARY_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "针对{system}系统（{sectorx}，{sectory}，{sectorz}）中的盗版案例，{dist}，地方当局在{area}支付{cash}作战任务。"
+    "message": "针对{system}星系（{sectorx}，{sectory}，{sectorz}）中的盗版案例，{dist}，地方当局在{area}支付{cash}作战任务。"
   },
   "MILITARY_3": {
     "description": "",
@@ -233,7 +233,7 @@
   },
   "MINING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "我是{org}的经理。 我们需要额外的帮助，与竞争对手就{system}星系（{sectorx}，{sectory}，{sectorz}），{dist}的采矿权进行长期法律纠纷。 我们失去了耐心，并希望在法庭外加快速度。 您的任务是跳转到{area}以获取{cash}。"
+    "message": "我是 {org} 的经理。我们在与竞争对手关于 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 的矿产开采权的长期法律争议中需要额外的帮助，{dist} 光年远。我们已经失去耐心，想要在法庭外加速解决此事。你的任务是跳跃到 {area} 执行任务，报酬 {cash}。"
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",

@@ -497,7 +497,7 @@
   },
   "GAME_SAVE_INVALID_NAME": {
     "description": "",
-    "message": "Запазената игра не може да бъде записана, поради невалидно име."
+    "message": "Запазената игра не може да бъде записана, поради неправилно име."
   },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
@@ -973,7 +973,7 @@
   },
   "NO_AUTOPILOT_INSTALLED": {
     "description": "",
-    "message": "Корабът няма автопилот"
+    "message": "Корабът няма инсталиран автопилот"
   },
   "NO_CENTRAL_GOVERNANCE": {
     "description": "",

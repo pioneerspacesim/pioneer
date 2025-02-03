@@ -67,6 +67,10 @@
     "description": "Market header when buying items",
     "message": "可供购买"
   },
+  "AVAILABLE_STOCK": {
+    "description": "Market stat showing number of items in stock",
+    "message": "Available Stock"
+  },
   "AVERAGE": {
     "description": "",
     "message": "平均值"
@@ -311,6 +315,10 @@
     "description": "",
     "message": "控制选项"
   },
+  "COPY": {
+    "description": "As for clipboard",
+    "message": "Copy"
+  },
   "COULD_NOT_DELETE_SAVE": {
     "description": "",
     "message": "无法删除保存的数据"
@@ -382,6 +390,10 @@
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
     "message": "当前星系"
+  },
+  "CUT": {
+    "description": "As for clipboard",
+    "message": "Cut"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
@@ -505,7 +517,7 @@
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "剩余天数: %d"
+    "message": "Time left:"
   },
   "ECONOMY_TRADE": {
     "description": "",
@@ -622,6 +634,10 @@
   "FAILED": {
     "description": "When failed mission",
     "message": "失败"
+  },
+  "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
+    "description": "",
+    "message": "Failed to recover some equipment"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
@@ -1285,11 +1301,11 @@
   },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
-    "message": "鲁莽的超空间跳跃已经被记录在案"
+    "message": "已记录鲁莽的超空间跳跃"
   },
   "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
     "description": "",
-    "message": "我受够了给别人白干活儿. 你难道不知道什么叫合同吗?"
+    "message": "我已经厌倦了无报酬的工作。你知道什么是合同吗？"
   },
   "INACTIVE": {
     "description": "",
@@ -1310,6 +1326,10 @@
   "INITIATED": {
     "description": "Ship jump status",
     "message": "发动"
+  },
+  "INSTALL": {
+    "description": "Install something",
+    "message": "Install"
   },
   "INSTALLED": {
     "description": "Label indicating something is installed",
@@ -1357,7 +1377,7 @@
   },
   "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE": {
     "description": "",
-    "message": "能给你干活实在是太棒了.如果你还需要我帮忙,我瞬间就会出现在你面前."
+    "message": "和你合作非常愉快。如果你还需要我，我会在这里待一会儿。"
   },
   "JETTISON": {
     "description": "",
@@ -1385,15 +1405,15 @@
   },
   "LAUNCH_PERMISSION_DENIED_BUSY": {
     "description": "",
-    "message": "发射请求驳回:港口正忙."
+    "message": "发射许可被拒绝：对接舱忙碌。"
   },
   "LAUNCH_PERMISSION_DENIED_CREW": {
     "description": "",
-    "message": "发射许可被拒绝：没有足够的船员来操纵这艘船。"
+    "message": "发射许可被拒绝：没有足够的船员来操作这艘飞船。"
   },
   "LAUNCH_PERMISSION_DENIED_FINED": {
     "description": "",
-    "message": "发射请求驳回:你的罚金已经爆表了."
+    "message": "发射许可被拒绝：您有未支付的罚款。"
   },
   "LAUNCH_PERMISSION_GRANTED": {
     "description": "",
@@ -1831,6 +1851,10 @@
     "description": "Ship jump status",
     "message": "超出范围"
   },
+  "OUT_OF_STOCK": {
+    "description": "Equipment availability",
+    "message": "Out of stock"
+  },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
     "message": "按名称筛选概述窗口项"
@@ -1870,6 +1894,10 @@
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
     "message": "客舱容量"
+  },
+  "PASTE": {
+    "description": "As for clipboard",
+    "message": "Paste"
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",
@@ -2405,7 +2433,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "科技等级"
+    "message": "Tech Level"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -2507,6 +2535,10 @@
     "description": "Indicates the destination system of a commodity trade.",
     "message": "去{system}:"
   },
+  "TRANSFER_FUEL": {
+    "description": "Label indicating the ability to transfer fuel between equipment tanks",
+    "message": "Transfer Fuel"
+  },
   "TRUSTWORTHY": {
     "description": "For player reputation",
     "message": "可信的"
@@ -2545,11 +2577,11 @@
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "客舱闲置"
+    "message": "未占用的乘客舱"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",
-    "message": "无利润贸易"
+    "message": "无利可图的贸易"
   },
   "UNRELIABLE": {
     "description": "",
@@ -2557,7 +2589,7 @@
   },
   "UNSUCCESSFULLY_RECOVERED_PARAMETERS_ARE_NOW_UNLOCKED_PLEASE_SET_THEM_MANUALLY": {
     "description": "Message when restoring savegame",
-    "message": "未成功回收的参数现已解锁，请手动设置。"
+    "message": "未能成功恢复的参数现已解锁，请手动设置。"
   },
   "UP_ACCEL": {
     "description": "",

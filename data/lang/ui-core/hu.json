@@ -67,6 +67,10 @@
     "description": "Market header when buying items",
     "message": "Megvásárolható"
   },
+  "AVAILABLE_STOCK": {
+    "description": "Market stat showing number of items in stock",
+    "message": "Elérhető készlet"
+  },
   "AVERAGE": {
     "description": "",
     "message": "Átlagos"
@@ -249,7 +253,7 @@
   },
   "COMMODITY": {
     "description": "Title for commodity name column in commodity market",
-    "message": "Commodity"
+    "message": "Áru"
   },
   "COMMODITY_MARKET": {
     "description": "",
@@ -310,6 +314,10 @@
   "CONTROL_OPTIONS": {
     "description": "",
     "message": "Vezérlés beállítása"
+  },
+  "COPY": {
+    "description": "As for clipboard",
+    "message": "Másolás"
   },
   "COULD_NOT_DELETE_SAVE": {
     "description": "",
@@ -382,6 +390,10 @@
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
     "message": "Jelenlegi rendszer"
+  },
+  "CUT": {
+    "description": "As for clipboard",
+    "message": "Kivágás"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
@@ -505,7 +517,7 @@
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "%d nap maradt"
+    "message": "Hátralévő idő:"
   },
   "ECONOMY_TRADE": {
     "description": "",
@@ -622,6 +634,10 @@
   "FAILED": {
     "description": "When failed mission",
     "message": "Sikertelen"
+  },
+  "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
+    "description": "",
+    "message": "Nem sikerült minden felszerelést visszaállítani"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
@@ -1181,15 +1197,15 @@
   },
   "HUD_RADAR_TOGGLE_MODE": {
     "description": "Tooltip: Toggle radar mode.",
-    "message": "Toggle radar between 2D and 3D modes"
+    "message": "2D és 3D radar mód váltás"
   },
   "HUD_RADAR_ZOOM_MODE_AUTOMATIC": {
     "description": "Tooltip: Current radar zoom mode.",
-    "message": "Automatic zoom"
+    "message": "Automata zoom"
   },
   "HUD_RADAR_ZOOM_MODE_MANUAL": {
     "description": "Tooltip: Current radar zoom mode.",
-    "message": "Manual zoom"
+    "message": "Manuális zoom"
   },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
@@ -1311,6 +1327,10 @@
     "description": "Ship jump status",
     "message": "Elindítva"
   },
+  "INSTALL": {
+    "description": "Install something",
+    "message": "Installálás"
+  },
   "INSTALLED": {
     "description": "Label indicating something is installed",
     "message": "Felszerelve"
@@ -1341,7 +1361,7 @@
   },
   "IN_HOLD": {
     "description": "Column title of the Commodity Market screen",
-    "message": "In hold"
+    "message": "Raktér"
   },
   "IN_STOCK": {
     "description": "Column title of Commodity and Ship Equipment markets showing current station stock level.",
@@ -1831,6 +1851,10 @@
     "description": "Ship jump status",
     "message": "Hatótávon kívül"
   },
+  "OUT_OF_STOCK": {
+    "description": "Equipment availability",
+    "message": "Nincs készlet"
+  },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
     "message": "Név szerinti szűrés"
@@ -1870,6 +1894,10 @@
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
     "message": "Kabin kapacitás"
+  },
+  "PASTE": {
+    "description": "As for clipboard",
+    "message": "Beillesztés"
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",
@@ -2506,6 +2534,10 @@
   "TRADING_TO": {
     "description": "Indicates the destination system of a commodity trade.",
     "message": "{system} rendszerbe:"
+  },
+  "TRANSFER_FUEL": {
+    "description": "Label indicating the ability to transfer fuel between equipment tanks",
+    "message": "Üzemanyag átemelése"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",

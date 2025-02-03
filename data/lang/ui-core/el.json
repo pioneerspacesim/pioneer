@@ -67,6 +67,10 @@
     "description": "Market header when buying items",
     "message": "Διαθέσιμο για αγορά."
   },
+  "AVAILABLE_STOCK": {
+    "description": "Market stat showing number of items in stock",
+    "message": "Available Stock"
+  },
   "AVERAGE": {
     "description": "",
     "message": "Μέσος όρος"
@@ -311,6 +315,10 @@
     "description": "",
     "message": "Επιλογές χειρισμού"
   },
+  "COPY": {
+    "description": "As for clipboard",
+    "message": "Copy"
+  },
   "COULD_NOT_DELETE_SAVE": {
     "description": "",
     "message": "Could not delete save"
@@ -382,6 +390,10 @@
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
     "message": "Τρέχον σύστημα"
+  },
+  "CUT": {
+    "description": "As for clipboard",
+    "message": "Cut"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
@@ -505,7 +517,7 @@
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "Ημέρες που απομένουν: %d"
+    "message": "Time left:"
   },
   "ECONOMY_TRADE": {
     "description": "",
@@ -622,6 +634,10 @@
   "FAILED": {
     "description": "When failed mission",
     "message": "Αποτυχία"
+  },
+  "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
+    "description": "",
+    "message": "Failed to recover some equipment"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
@@ -1311,6 +1327,10 @@
     "description": "Ship jump status",
     "message": "Εκκίνησε"
   },
+  "INSTALL": {
+    "description": "Install something",
+    "message": "Install"
+  },
   "INSTALLED": {
     "description": "Label indicating something is installed",
     "message": "Installed"
@@ -1831,6 +1851,10 @@
     "description": "Ship jump status",
     "message": "Εκτός εμβέλειας"
   },
+  "OUT_OF_STOCK": {
+    "description": "Equipment availability",
+    "message": "Out of stock"
+  },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
     "message": "Φιλτράρισμα των καταχωρήσεων του παραθύρου επισκόπησης με βάση το όνομα"
@@ -1870,6 +1894,10 @@
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
     "message": "Passenger cabin capacity"
+  },
+  "PASTE": {
+    "description": "As for clipboard",
+    "message": "Paste"
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",
@@ -2405,7 +2433,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Τεχνολογικό επίπεδο"
+    "message": "Tech Level"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -2506,6 +2534,10 @@
   "TRADING_TO": {
     "description": "Indicates the destination system of a commodity trade.",
     "message": "Στο {system}:"
+  },
+  "TRANSFER_FUEL": {
+    "description": "Label indicating the ability to transfer fuel between equipment tanks",
+    "message": "Transfer Fuel"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",

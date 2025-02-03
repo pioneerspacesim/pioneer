@@ -67,6 +67,10 @@
     "description": "Market header when buying items",
     "message": "Dostępne do zakupu"
   },
+  "AVAILABLE_STOCK": {
+    "description": "Market stat showing number of items in stock",
+    "message": "Available Stock"
+  },
   "AVERAGE": {
     "description": "",
     "message": "Przeciętny"
@@ -85,7 +89,7 @@
   },
   "BUY_EQUIP": {
     "description": "Button text to buy selected equipment. May be used in a singular or plural context.",
-    "message": "Buy {name}"
+    "message": "Kup {name}"
   },
   "BUY_PRICE": {
     "description": "Title for buy-price column in commodity market",
@@ -117,7 +121,7 @@
   },
   "CANNOT_SELL_NONEMPTY_EQUIP": {
     "description": "",
-    "message": "Cannot sell an equipment item unless it is empty."
+    "message": "Nie możesz sprzedać ekwipunku dopóki nie zostanie opróżniony."
   },
   "CANT_FIND_PATH": {
     "description": "Message when restoring savegame, file path",
@@ -233,7 +237,7 @@
   },
   "COLLAPSE": {
     "description": "Close / collapse an open folder or group",
-    "message": "Collapse"
+    "message": "Zwiń"
   },
   "COLOR": {
     "description": "",
@@ -249,7 +253,7 @@
   },
   "COMMODITY": {
     "description": "Title for commodity name column in commodity market",
-    "message": "Commodity"
+    "message": "Surowce"
   },
   "COMMODITY_MARKET": {
     "description": "",
@@ -310,6 +314,10 @@
   "CONTROL_OPTIONS": {
     "description": "",
     "message": "Opcje sterowania"
+  },
+  "COPY": {
+    "description": "As for clipboard",
+    "message": "Copy"
   },
   "COULD_NOT_DELETE_SAVE": {
     "description": "",
@@ -382,6 +390,10 @@
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
     "message": "Aktualny system"
+  },
+  "CUT": {
+    "description": "As for clipboard",
+    "message": "Cut"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
@@ -505,7 +517,7 @@
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "Pozostało dni: %d"
+    "message": "Time left:"
   },
   "ECONOMY_TRADE": {
     "description": "",
@@ -569,7 +581,7 @@
   },
   "EQUIPMENT_CAPACITY": {
     "description": "The equipment capacity of a ship",
-    "message": "Equipment Capacity"
+    "message": "Pojemność ekwipunku"
   },
   "EQUIPMENT_MARKET": {
     "description": "",
@@ -601,7 +613,7 @@
   },
   "EXPAND": {
     "description": "Open / expand a collapsed folder or group",
-    "message": "Expand"
+    "message": "Rozwiń"
   },
   "EXPERIENCED": {
     "description": "For player reputation",
@@ -622,6 +634,10 @@
   "FAILED": {
     "description": "When failed mission",
     "message": "Nieukończona"
+  },
+  "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
+    "description": "",
+    "message": "Failed to recover some equipment"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
@@ -1181,15 +1197,15 @@
   },
   "HUD_RADAR_TOGGLE_MODE": {
     "description": "Tooltip: Toggle radar mode.",
-    "message": "Toggle radar between 2D and 3D modes"
+    "message": "Przełącz radar miedzy trybem 2D oraz 3D"
   },
   "HUD_RADAR_ZOOM_MODE_AUTOMATIC": {
     "description": "Tooltip: Current radar zoom mode.",
-    "message": "Automatic zoom"
+    "message": "Automatyczny zoom"
   },
   "HUD_RADAR_ZOOM_MODE_MANUAL": {
     "description": "Tooltip: Current radar zoom mode.",
-    "message": "Manual zoom"
+    "message": "Ręczny zoom"
   },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
@@ -1311,9 +1327,13 @@
     "description": "Ship jump status",
     "message": "Zainicjowany"
   },
+  "INSTALL": {
+    "description": "Install something",
+    "message": "Install"
+  },
   "INSTALLED": {
     "description": "Label indicating something is installed",
-    "message": "Installed"
+    "message": "Zamocowane"
   },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
@@ -1341,7 +1361,7 @@
   },
   "IN_HOLD": {
     "description": "Column title of the Commodity Market screen",
-    "message": "In hold"
+    "message": "Ładownia"
   },
   "IN_STOCK": {
     "description": "Column title of Commodity and Ship Equipment markets showing current station stock level.",
@@ -1831,6 +1851,10 @@
     "description": "Ship jump status",
     "message": "Poza zasięgiem"
   },
+  "OUT_OF_STOCK": {
+    "description": "Equipment availability",
+    "message": "Out of stock"
+  },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
     "message": "Filtruj okna poglądu według nazwy"
@@ -1870,6 +1894,10 @@
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
     "message": "Pojemność kabiny pasażerskie"
+  },
+  "PASTE": {
+    "description": "As for clipboard",
+    "message": "Paste"
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",
@@ -2061,7 +2089,7 @@
   },
   "REPLACE_EQUIPMENT": {
     "description": "Market header when replacing equipped items",
-    "message": "Replace Equipment"
+    "message": "Zamień ekwipunek"
   },
   "REPUTATION": {
     "description": "",
@@ -2169,7 +2197,7 @@
   },
   "SELECTED": {
     "description": "Label indicating the following item is selected",
-    "message": "Selected"
+    "message": "Wybrane"
   },
   "SELECTED_SAVE_DOESNT_EXISTS": {
     "description": "",
@@ -2201,7 +2229,7 @@
   },
   "SELL_EQUIP": {
     "description": "Button text to sell installed equipment. May be used in a singular or plural context.",
-    "message": "Sell {name}"
+    "message": "Sprzedaj {name}"
   },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
@@ -2405,7 +2433,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Poziom technologiczny"
+    "message": "Tech Level"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -2507,6 +2535,10 @@
     "description": "Indicates the destination system of a commodity trade.",
     "message": "Do {system}:"
   },
+  "TRANSFER_FUEL": {
+    "description": "Label indicating the ability to transfer fuel between equipment tanks",
+    "message": "Transfer Fuel"
+  },
   "TRUSTWORTHY": {
     "description": "For player reputation",
     "message": "Godny zaufania"
@@ -2605,7 +2637,7 @@
   },
   "VOLUME": {
     "description": "The volume property of some object",
-    "message": "Volume"
+    "message": "Objętość"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",

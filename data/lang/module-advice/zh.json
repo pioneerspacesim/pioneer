@@ -17,7 +17,7 @@
   },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
-    "message": "当你回到站点时,要提防那些你不认识的另类市场,这样你就不会触犯法律。"
+    "message": "当你返回空间站时，要提防那些你不熟悉的非正规市场，以免惹上法律麻烦。"
   },
   "ADVICE_1_HEADLINE": {
     "description": "",
@@ -25,7 +25,7 @@
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
-    "message": "许多小距离加起来虽然比单独旅行要慢，但却消耗更多的燃料。"
+    "message": "短距离分段航行的速度往往比直接航行的总时间更快，但代价是消耗更多燃料。"
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
@@ -33,7 +33,7 @@
   },
   "ADVICE_3_BODYTEXT": {
     "description": "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
-    "message": "避免在无法离开的情况下跳入一个不适宜居住的星系"
+    "message": "避免在没有离开手段的情况下跳跃到无人定居的星系。"
   },
   "ADVICE_3_HEADLINE": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "RUMOUR_1_BODYTEXT": {
     "description": "",
-    "message": "联邦海军有人告诉我，有一天，他们的一艘护卫舰不小心跳到了离索尔大约50英里远的哈伯前哨系统，名叫朗德尔；几乎引起公开冲突。除了海军之外，似乎没有多少人知道这起事件本身，但有人说，朗德尔政府从那以后对游客更具侵略性，货运飞行员开始避开这一系统"
+    "message": "联邦海军中的某人告诉我，有一天，他们的一艘护卫舰不小心跳跃到了距离太阳大约50光年的哈伯前哨系统，名为朗德尔；差点引发公开冲突。除了海军之外，似乎没有多少人知道这件事，但有人说自那以后，朗德尔的管理当局对访客变得更加敌对，货运飞行员也开始避开这个系统。"
   },
   "RUMOUR_1_HEADLINE": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "TALE_1_BODYTEXT": {
     "description": "",
-    "message": "不要错过哈迪斯遮挡波江座ε时在新希望上可以看到的美丽的日蚀. "
+    "message": " 不要错过在新希望看到的美丽日全食，当哈迪斯遮挡了来自epsilon Eridani的光芒时。"
   },
   "TALE_1_HEADLINE": {
     "description": "Blade runner?",

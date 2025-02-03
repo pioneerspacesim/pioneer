@@ -17,11 +17,11 @@
   },
   "FLAVOUR_0_HEADLINE": {
     "description": "",
-    "message": "{date} 新闻: 在{system} 星系中瘟疫泛滥.死亡人数上升."
+    "message": "{date}新闻：{system} 星系爆发全星系范围的瘟疫。死亡人数上升。"
   },
   "FLAVOUR_0_NEWSBODY": {
     "description": "Imply high demand for MEDICINE commodity.",
-    "message": "瘟疫正在 {system}  ({sectorx}, {sectory}, {sectorz})星系内大杀特杀, 政府发出了紧急医疗求助."
+    "message": "瘟疫在{system}星系（{sectorx}, {sectory}, {sectorz}）夺走生命。官方紧急呼吁医疗援助。"
   },
   "FLAVOUR_10_HEADLINE": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "FLAVOUR_11_NEWSBODY": {
     "description": "Imply high demand of ANIMAL_MEAT.",
-    "message": "像是遇到了一股神秘力量, 在 {system} 星系的农场主一觉醒来以后发现牛栏里面空空如也. \"本世纪最大的黄牛大盗\"警察说道."
+    "message": "像是遇到了一股神秘力量, 在 {system} 星系的农场主一觉醒来以后发现牛栏里面空空如也. 警方报告称：“这是世纪之牛盗窃案”。"
   },
   "FLAVOUR_12_HEADLINE": {
     "description": "",
@@ -69,15 +69,15 @@
   },
   "FLAVOUR_15_NEWSBODY": {
     "description": "Imply high demand of NARCOTICS.",
-    "message": "{system} 星系 ({sectorx}, {sectory}, {sectorz}) 的当局者希望在犯罪组织头目被捕以后, 例如毒品之类的犯罪活动会消失."
+    "message": "{system}星系（{sectorx}, {sectory}, {sectorz}）的政府希望随着几名黑帮分子的逮捕，毒品不再流通，犯罪活动会减少。"
   },
   "FLAVOUR_16_HEADLINE": {
     "description": "",
-    "message": "{date} 新闻: 在 {system} 星系举办的年度蒸汽机博览会上发生了严重事故."
+    "message": "{date} 新闻: 在年度{system}大蒸汽博览会期间发生严重事故。"
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "在{system}星系（{sectorx}，{sectory}，{sectorz}）的大型蒸汽集市期间，一次试图在最大的拖拉机牵引比赛中打破银河系纪录的尝试以一名参赛者失去对他的装置的控制，摧毁了所有其他参赛者的机器而告终。政府称这可能会给当地农民带来厄运。"
+    "message": "在{system}星系（{sectorx}, {sectory}, {sectorz}）举行的大蒸汽博览会上，一场旨在打破银河系纪录的最大拖拉机拉力赛以混乱告终，因为一名参赛者失去了对其装置的控制，摧毁了所有其他参赛者的机器。管理部门表示，这可能预示着当地农民的灾难。"
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "FLAVOUR_19_NEWSBODY": {
     "description": "Imply vast abundance of PRECIOUS_METALS.",
-    "message": "在 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 有个人继承了他已故的叔叔留下来的一项发明. 这项发明可以让他把任何的固体物质转换成金和铂. 经济学家预测这会导致经济系统的崩坏, 除非那个人的造金机器坏掉了."
+    "message": "在{system}星系（{sectorx}, {sectory}, {sectorz}）的一名男子从他已故的叔叔那里继承了一项发明，这项发明可以将任何固体物质转化为黄金和铂金。经济学家预计，除非这台机器很快出故障，否则该星系的经济将会不稳定。"
   },
   "FLAVOUR_1_HEADLINE": {
     "description": "",
@@ -109,15 +109,15 @@
   },
   "FLAVOUR_1_NEWSBODY": {
     "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
-    "message": "{system} 星系 ({sectorx}, {sectory}, {sectorz}) 内的长期冲突逐步升级为军队全面参与的战斗."
+    "message": "{system}星系（{sectorx}, {sectory}, {sectorz}）长期存在的冲突升级，军队开始全面交战。"
   },
   "FLAVOUR_20_HEADLINE": {
     "description": "",
-    "message": "{date} 新闻: 在 {system} 气体巨星上收获的藻类产量创下了新纪录."
+    "message": "新闻 {date}：{system}星系的气体巨星藻类收获量创下新纪录。"
   },
   "FLAVOUR_20_NEWSBODY": {
     "description": "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-    "message": "随着 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 内气体巨星大气层内发现的黄藻进入疯长阶段, \"藻黄\"肥料公司在行星大气内收获的藻类异常的多."
+    "message": "随着{system}星系（{sectorx}, {sectory}, {sectorz}）进入有利于当地气体巨星大气中发现的黄藻生长的阶段，肥料公司Soylent Yellow Inc.的收获异常丰富。"
   },
   "FLAVOUR_21_HEADLINE": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "{system}星系（{sectorx}，{sectory}，{sectorz}）中的工人由于拒绝在莲花田工作而在叛乱中挣脱了枷锁。由于找不到廉价工人，经济陷入停滞。"
+    "message": "在{system}星系（{sectorx}, {sectory}, {sectorz}）的工人们在反抗中摆脱了束缚，因为他们拒绝在莲花田工作。由于找不到廉价劳动力，经济陷入停滞。"
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",

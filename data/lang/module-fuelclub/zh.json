@@ -53,11 +53,11 @@
   },
   "FLAVOUR_2_DESC": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-    "message": "预约与英联邦燃料联盟对话。"
+    "message": "预约与联邦燃料联盟（Commonwealth Fuel Union）会面。（燃料俱乐部属于 CIW（独立星际联邦）派系。）"
   },
   "FLAVOUR_2_NONMEMBER_INTRO": {
     "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
-    "message": "在自由联邦独立世界的广大范围内，您将发现 {clubname}是打折燃料和废物管理服务的最佳供应商。对于我们的会员，我们做到："
+    "message": "在自由的独立星际联邦广阔领域中，您会发现 {clubname} 是最好的折扣燃料和废物处理服务提供商。对于我们的会员，我们提供："
   },
   "FLAVOUR_2_TITLE": {
     "description": "Title of the BBS advertisement",

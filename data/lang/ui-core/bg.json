@@ -67,6 +67,10 @@
     "description": "Market header when buying items",
     "message": "Оборудване на пазара"
   },
+  "AVAILABLE_STOCK": {
+    "description": "Market stat showing number of items in stock",
+    "message": "Налично"
+  },
   "AVERAGE": {
     "description": "",
     "message": "Средно"
@@ -85,7 +89,7 @@
   },
   "BUY_EQUIP": {
     "description": "Button text to buy selected equipment. May be used in a singular or plural context.",
-    "message": "Buy {name}"
+    "message": "Купуване на {name}"
   },
   "BUY_PRICE": {
     "description": "Title for buy-price column in commodity market",
@@ -117,7 +121,7 @@
   },
   "CANNOT_SELL_NONEMPTY_EQUIP": {
     "description": "",
-    "message": "Cannot sell an equipment item unless it is empty."
+    "message": "Не може да се продаде артикул от оборудването, освен ако не е празен."
   },
   "CANT_FIND_PATH": {
     "description": "Message when restoring savegame, file path",
@@ -311,6 +315,10 @@
     "description": "",
     "message": "Опции"
   },
+  "COPY": {
+    "description": "As for clipboard",
+    "message": "Копиране"
+  },
   "COULD_NOT_DELETE_SAVE": {
     "description": "",
     "message": "Записът не може да бъде изтрит"
@@ -382,6 +390,10 @@
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
     "message": "Текуща система"
+  },
+  "CUT": {
+    "description": "As for clipboard",
+    "message": "Изрязване"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
@@ -505,7 +517,7 @@
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "Оставащи дни: %d"
+    "message": "Оставащо време:"
   },
   "ECONOMY_TRADE": {
     "description": "",
@@ -569,7 +581,7 @@
   },
   "EQUIPMENT_CAPACITY": {
     "description": "The equipment capacity of a ship",
-    "message": "Equipment Capacity"
+    "message": "Капацитет на оборудването"
   },
   "EQUIPMENT_MARKET": {
     "description": "",
@@ -622,6 +634,10 @@
   "FAILED": {
     "description": "When failed mission",
     "message": "Неуспешна"
+  },
+  "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
+    "description": "",
+    "message": "Възстановяването на част от оборудването е неуспешно"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
@@ -1181,15 +1197,15 @@
   },
   "HUD_RADAR_TOGGLE_MODE": {
     "description": "Tooltip: Toggle radar mode.",
-    "message": "Toggle radar between 2D and 3D modes"
+    "message": "2D и 3D режим на радара"
   },
   "HUD_RADAR_ZOOM_MODE_AUTOMATIC": {
     "description": "Tooltip: Current radar zoom mode.",
-    "message": "Automatic zoom"
+    "message": "Автоматично мащабиране"
   },
   "HUD_RADAR_ZOOM_MODE_MANUAL": {
     "description": "Tooltip: Current radar zoom mode.",
-    "message": "Manual zoom"
+    "message": "Ръчно мащабиране"
   },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
@@ -1311,9 +1327,13 @@
     "description": "Ship jump status",
     "message": "Започнат"
   },
+  "INSTALL": {
+    "description": "Install something",
+    "message": "Инсталиране"
+  },
   "INSTALLED": {
     "description": "Label indicating something is installed",
-    "message": "Installed"
+    "message": "Инсталирано"
   },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
@@ -1831,6 +1851,10 @@
     "description": "Ship jump status",
     "message": "Извън обхват"
   },
+  "OUT_OF_STOCK": {
+    "description": "Equipment availability",
+    "message": "Изчерпано"
+  },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
     "message": "Филтриране по име"
@@ -1870,6 +1894,10 @@
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
     "message": "Капацитет на кабината"
+  },
+  "PASTE": {
+    "description": "As for clipboard",
+    "message": "Поставяне"
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",
@@ -2061,7 +2089,7 @@
   },
   "REPLACE_EQUIPMENT": {
     "description": "Market header when replacing equipped items",
-    "message": "Replace Equipment"
+    "message": "Замяна на оборудването"
   },
   "REPUTATION": {
     "description": "",
@@ -2169,7 +2197,7 @@
   },
   "SELECTED": {
     "description": "Label indicating the following item is selected",
-    "message": "Selected"
+    "message": "Избрано"
   },
   "SELECTED_SAVE_DOESNT_EXISTS": {
     "description": "",
@@ -2201,7 +2229,7 @@
   },
   "SELL_EQUIP": {
     "description": "Button text to sell installed equipment. May be used in a singular or plural context.",
-    "message": "Sell {name}"
+    "message": "Продаване на {name}"
   },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
@@ -2506,6 +2534,10 @@
   "TRADING_TO": {
     "description": "Indicates the destination system of a commodity trade.",
     "message": "Към {system}:"
+  },
+  "TRANSFER_FUEL": {
+    "description": "Label indicating the ability to transfer fuel between equipment tanks",
+    "message": "Прехвърляне"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",

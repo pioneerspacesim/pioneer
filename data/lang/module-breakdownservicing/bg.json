@@ -157,7 +157,7 @@
   },
   "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED": {
     "description": "",
-    "message": "Вашият двигател не е обслужван от датата на монтирането му: {date}"
+    "message": "Вашият двигател не е обслужван от датата на инсталирането му: {date}"
   },
   "YOUR_DRIVE_WAS_LAST_SERVICED_ON": {
     "description": "",

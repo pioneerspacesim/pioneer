@@ -67,6 +67,10 @@
     "description": "Market header when buying items",
     "message": "Till salu"
   },
+  "AVAILABLE_STOCK": {
+    "description": "Market stat showing number of items in stock",
+    "message": "Available Stock"
+  },
   "AVERAGE": {
     "description": "",
     "message": "Medel"
@@ -85,7 +89,7 @@
   },
   "BUY_EQUIP": {
     "description": "Button text to buy selected equipment. May be used in a singular or plural context.",
-    "message": "Buy {name}"
+    "message": "Köp {name}"
   },
   "BUY_PRICE": {
     "description": "Title for buy-price column in commodity market",
@@ -233,7 +237,7 @@
   },
   "COLLAPSE": {
     "description": "Close / collapse an open folder or group",
-    "message": "Collapse"
+    "message": "Stäng"
   },
   "COLOR": {
     "description": "",
@@ -249,7 +253,7 @@
   },
   "COMMODITY": {
     "description": "Title for commodity name column in commodity market",
-    "message": "Commodity"
+    "message": "Vara"
   },
   "COMMODITY_MARKET": {
     "description": "",
@@ -311,6 +315,10 @@
     "description": "",
     "message": "Kontrollalternativ"
   },
+  "COPY": {
+    "description": "As for clipboard",
+    "message": "Copy"
+  },
   "COULD_NOT_DELETE_SAVE": {
     "description": "",
     "message": "Could not delete save"
@@ -357,7 +365,7 @@
   },
   "CRIME": {
     "description": "Heading introducing a single crime name or list of crime names",
-    "message": "Crime"
+    "message": "Brott"
   },
   "CRIMINAL": {
     "description": "Legal status of player",
@@ -365,7 +373,7 @@
   },
   "CRIMINAL_RECORD": {
     "description": "Heading for past crimes / crime history of character, proper noun",
-    "message": "Criminal Record"
+    "message": "Brottsregister"
   },
   "CURRENT_FUEL": {
     "description": "For hyperjump planner",
@@ -382,6 +390,10 @@
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
     "message": "Nuvarande system"
+  },
+  "CUT": {
+    "description": "As for clipboard",
+    "message": "Cut"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
@@ -505,7 +517,7 @@
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "Dagar kvar: %d"
+    "message": "Time left:"
   },
   "ECONOMY_TRADE": {
     "description": "",
@@ -601,7 +613,7 @@
   },
   "EXPAND": {
     "description": "Open / expand a collapsed folder or group",
-    "message": "Expand"
+    "message": "Öppna"
   },
   "EXPERIENCED": {
     "description": "For player reputation",
@@ -622,6 +634,10 @@
   "FAILED": {
     "description": "When failed mission",
     "message": "Misslyckades"
+  },
+  "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
+    "description": "",
+    "message": "Failed to recover some equipment"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
@@ -1185,11 +1201,11 @@
   },
   "HUD_RADAR_ZOOM_MODE_AUTOMATIC": {
     "description": "Tooltip: Current radar zoom mode.",
-    "message": "Automatic zoom"
+    "message": "Automatisk zoom"
   },
   "HUD_RADAR_ZOOM_MODE_MANUAL": {
     "description": "Tooltip: Current radar zoom mode.",
-    "message": "Manual zoom"
+    "message": "Manuell zoom"
   },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
@@ -1311,9 +1327,13 @@
     "description": "Ship jump status",
     "message": "påbörjat"
   },
+  "INSTALL": {
+    "description": "Install something",
+    "message": "Install"
+  },
   "INSTALLED": {
     "description": "Label indicating something is installed",
-    "message": "Installed"
+    "message": "Installerad"
   },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
@@ -1417,7 +1437,7 @@
   },
   "LEGAL_RULES_AND_REGULATIONS": {
     "description": "Heading on a tab, keep it short",
-    "message": "Rules and Regulations"
+    "message": "Regler och förordningar "
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1825,11 +1845,15 @@
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
-    "message": "Outstanding Fines"
+    "message": "Utestående böter"
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
     "message": "Utom räckhåll"
+  },
+  "OUT_OF_STOCK": {
+    "description": "Equipment availability",
+    "message": "Out of stock"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
@@ -1870,6 +1894,10 @@
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
     "message": "Passagerarkapacitet"
+  },
+  "PASTE": {
+    "description": "As for clipboard",
+    "message": "Paste"
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",
@@ -2141,11 +2169,11 @@
   },
   "SAVED_GAMES": {
     "description": "Header for save/load window",
-    "message": "Saved Games"
+    "message": "Sparade Spel"
   },
   "SAVE_AS": {
     "description": "",
-    "message": "Save As"
+    "message": "Spara Som"
   },
   "SAVE_DELETED_SUCCESSFULLY": {
     "description": "",
@@ -2169,7 +2197,7 @@
   },
   "SELECTED": {
     "description": "Label indicating the following item is selected",
-    "message": "Selected"
+    "message": "Vald"
   },
   "SELECTED_SAVE_DOESNT_EXISTS": {
     "description": "",
@@ -2201,7 +2229,7 @@
   },
   "SELL_EQUIP": {
     "description": "Button text to sell installed equipment. May be used in a singular or plural context.",
-    "message": "Sell {name}"
+    "message": "Sälj {name}"
   },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
@@ -2405,7 +2433,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Tech nivå"
+    "message": "Tech Level"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -2507,6 +2535,10 @@
     "description": "Indicates the destination system of a commodity trade.",
     "message": "Till {system}:"
   },
+  "TRANSFER_FUEL": {
+    "description": "Label indicating the ability to transfer fuel between equipment tanks",
+    "message": "Transfer Fuel"
+  },
   "TRUSTWORTHY": {
     "description": "For player reputation",
     "message": "Tillförlitlig"
@@ -2605,7 +2637,7 @@
   },
   "VOLUME": {
     "description": "The volume property of some object",
-    "message": "Volume"
+    "message": "Volym"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",

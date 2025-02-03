@@ -15,6 +15,10 @@
     "description": "",
     "message": "Megvédi az űrhajót az atmoszférába lépés alatt a túlmelegedéstől."
   },
+  "ATMOSPHERIC_SHIELDING_FLAVOURTEXT": {
+    "description": "",
+    "message": "Közepes szintű védelmet nyújt a légellenálással és légköri nyomással szemben, mindezt kedvező súllyal."
+  },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
     "message": "Nehéz atmoszférapajzs"
@@ -22,6 +26,10 @@
   "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
     "description": "",
     "message": "Erősebb védelmet nyújtó atmoszférapajzs."
+  },
+  "ATMOSPHERIC_SHIELDING_HEAVY_FLAVOURTEXT": {
+    "description": "",
+    "message": "Tudományos expedíciók számára fejlesztett, sűrű légköri körülmények között is kiválló védelmet nyújtó atmoszférikus pajzs. A magas szintű nyomásvédelem elérése szükségszerűen nagyobb tömegű és kevéséb hatékony berendezést eredményez."
   },
   "AUTOPILOT": {
     "description": "",
@@ -42,6 +50,14 @@
   "BEAMLASER_RAPID_2MW": {
     "description": "",
     "message": "2MW gyorstüzelő lézer"
+  },
+  "BY_ITEM": {
+    "description": "Button in the start menu when editing equipment",
+    "message": "Elemenként"
+  },
+  "BY_SLOT": {
+    "description": "Button in the start menu when editing equipment",
+    "message": "Foglalatonként"
   },
   "CABINS": {
     "description": "Category header for pressurized cabin slots",
@@ -163,9 +179,21 @@
     "description": "",
     "message": "Elektronikus rakétazavaró aktiválása"
   },
+  "EDIT_EQUIPMENT": {
+    "description": "Dialog title",
+    "message": "Felszerelés szerkesztése"
+  },
+  "EMPTY_EQUIPMENT_PROVIDING_SLOTS": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "Üres felszerelés foglalat"
+  },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
     "message": "ÜRES"
+  },
+  "EQUIPMENT_DOES_NOT_FIT_INTO_THE_SLOT": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "A kiválasztott felszerelés nem fér el a foglalatban"
   },
   "EQUIPMENT_INTEGRITY": {
     "description": "Tooltip explaining remaining equipment integrity",
@@ -187,6 +215,10 @@
     "description": "Name for the 'Fuel Scoop' equipment hardpoint",
     "message": "Üzemanyagszívó"
   },
+  "HARDPOINT_MINING_LASER": {
+    "description": "Name for a mining laser mount.",
+    "message": "Bányász felsüggesztési pont"
+  },
   "HARDPOINT_MISSILE": {
     "description": "Name for a generic missile mount",
     "message": "Rakéta"
@@ -199,9 +231,41 @@
     "description": "Name for the 'Missile Bay' equipment hardpoint",
     "message": "Rakétakonténer"
   },
+  "HARDPOINT_MISSILE_BAY_LEFT": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "Bal rakétakilövő"
+  },
+  "HARDPOINT_MISSILE_BAY_RIGHT": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "Jobb rakétakilővő"
+  },
   "HARDPOINT_PYLON": {
     "description": "Name for a generic missile pylon",
     "message": "Rakétasín"
+  },
+  "HARDPOINT_PYLON_LEFT": {
+    "description": "Name for a generic missile pylon",
+    "message": "Bal rakétasín"
+  },
+  "HARDPOINT_PYLON_LEFT_WING": {
+    "description": "Name for a generic missile pylon",
+    "message": "Bal szárny rakétasín"
+  },
+  "HARDPOINT_PYLON_RIGHT": {
+    "description": "Name for a generic missile pylon",
+    "message": "Jobb rakétasín"
+  },
+  "HARDPOINT_PYLON_RIGHT_WING": {
+    "description": "Name for a generic missile pylon",
+    "message": "Jobb szárny rakítasín"
+  },
+  "HARDPOINT_TURRET_BOTTOM": {
+    "description": "Slot name for a ventral-mounted turret",
+    "message": "Alsó torony"
+  },
+  "HARDPOINT_TURRET_TOP": {
+    "description": "Slot name for a dorsal-mounted turret",
+    "message": "Felső torony"
   },
   "HARDPOINT_UTILITY": {
     "description": "Name for a generic utility hardpoint",
@@ -219,6 +283,18 @@
     "description": "Name for a generic front-facing weapon hardpoint",
     "message": "Első fegyver"
   },
+  "HARDPOINT_WEAPON_FRONT_LEFT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "Orr-bal fegyver"
+  },
+  "HARDPOINT_WEAPON_FRONT_RIGHT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "Orr-jobb fegyver"
+  },
+  "HARDPOINT_WEAPON_LEFT": {
+    "description": "Name for a generic weapon hardpoint",
+    "message": "Bal fegyver"
+  },
   "HARDPOINT_WEAPON_LEFT_NOSE": {
     "description": "Name for the 'Left Nose' weapon hardpoint",
     "message": "Bal első fegyver"
@@ -226,6 +302,10 @@
   "HARDPOINT_WEAPON_REAR": {
     "description": "Name for a generic rear-facing weapon hardpoint",
     "message": "Hátső fegyver"
+  },
+  "HARDPOINT_WEAPON_RIGHT": {
+    "description": "Name for a generic weapon hardpoint",
+    "message": "Jobb fegyver"
   },
   "HARDPOINT_WEAPON_RIGHT_NOSE": {
     "description": "Name for the 'Right Nose' weapon hardpoint",
@@ -250,6 +330,14 @@
   "HYPERCLOUD_ANALYZER_DESCRIPTION": {
     "description": "",
     "message": "A hiperugrás-felhőket analizálja, megállapítva a célállomást és az érkezés vagy indulás időpontját."
+  },
+  "INVALID_SLOT": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "Érvénytelen foglalat"
+  },
+  "ITEM": {
+    "description": "A piece of equipment",
+    "message": "Tárgy"
   },
   "LARGE_PLASMA_ACCEL": {
     "description": "",
@@ -291,41 +379,189 @@
     "description": "",
     "message": "Irányított rakéta"
   },
+  "MISSILE_GUIDED_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Szabvány önvezérlő rakéta"
+  },
+  "MISSILE_GUIDED_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Tömeggyártott önvezérlő rakéta, ami a kijelölt célpontot követi. Modelltől függően különféle követési technológiával működhet; többek között lehet radar-, lézer-, vagy lidar vezérlésű. Akárhogy is, a találat nem garantált, és ezek a rakéták sérülékenyek az elektronikus zavarókkal és egyéb védelmi berendezésekkel szemben."
+  },
   "MISSILE_NAVAL": {
     "description": "",
     "message": "Flottarakéta"
   },
+  "MISSILE_NAVAL_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Az ismert zavaró berendezésekkel szemben ellenálló önvezérlő rakéta."
+  },
+  "MISSILE_NAVAL_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Ezeket a rakétákat specializált, és a titkaikat féltékenyen őrző harcászati üzemekben készítik, szigorúan ellenőrzözz körülmények között. Jellemzően civilek számára nem elérhetőek. Képesek ellenállni az ismert zavaró és védelmi berendezések legtöbbjének. Méretükhöz képest gyorsak, és speciális robbanófejeiknek köszönhetően extrém támadóértéket képviselnek. Többnyire speciális felszerelés szükséges az élesítésükhöz és programozásukhoz indítás előtt."
+  },
   "MISSILE_RACK_221": {
-    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
-    "message": "LH-120 Hydri rakétaindító"
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
+    "message": "Hydra LH-120 rakétakilövő"
+  },
+  "MISSILE_RACK_221_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Külső rakétakilövő, két kis rakéta kapacitással"
+  },
+  "MISSILE_RACK_221_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "A Hydri Defense gyártmányú minőségi kilövő segítségével több rakétát szállíthatunk felfüggesztési pontonként. Elengedhetetlen az idegesítő kalózok ellen"
   },
   "MISSILE_RACK_322": {
-    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
-    "message": "LH-230 Hydri rakétaindító"
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
+    "message": "Hydra LH-220 rakétakilövő"
+  },
+  "MISSILE_RACK_322_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Külső kilövő, két rakéta kapacitással"
+  },
+  "MISSILE_RACK_322_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Rakétakilövő az igényes Hídri Defense kuncsaftoknak. Nagyobb durranás a pénzéért!"
   },
   "MISSILE_RACK_341": {
-    "description": "Name for a multiple-missile external missile rack. 'Hydri' is a brand name.",
-    "message": "LH-140 Hydri rakétaindító"
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "Medusa LH-140 rakétakilövő"
+  },
+  "MISSILE_RACK_341_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Négy rakéta kapacitású külső rakétakilövő."
+  },
+  "MISSILE_RACK_341_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Igazi szépség, egyenesen a Hydri Defense fejlesztési osztályáról. Még több rakétát zsúfoltunk ebbe a kilövőbe, a bámulatos tüzijáték érdekében."
+  },
+  "MISSILE_RACK_423": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
+    "message": "ídra LH-320 rakétakilövő"
+  },
+  "MISSILE_RACK_423_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Külső kilövő két nagy rakéta kapacitással"
+  },
+  "MISSILE_RACK_423_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Tartsa a távolságot, lövés előtt, hiszen ezzel a kilövővel két nagy méretű rakétát szállít, ami nagyot is fog szólni!"
+  },
+  "MISSILE_RACK_442": {
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "Medusa LH-240 rakétakilövő"
+  },
+  "MISSILE_RACK_442_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Négy közepes rakéta kapacitású kilövő"
+  },
+  "MISSILE_RACK_442_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Eljött az idő a nagyfiúk közötti meccsnek? Ezzel a Hydri Defense gyártmányú nagy méretű kilövővel bármikor készen állhat a pokol elszabadítására."
+  },
+  "MISSILE_RACK_524": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
+    "message": "Hídra LH-420 rakétakilövő"
+  },
+  "MISSILE_RACK_524_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Két óriás rakéta kapacitású kilövő"
+  },
+  "MISSILE_RACK_524_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Két hatalmas rakétát szállíthat ezzel a kilövővel. Nincs az a szuperlatívusz arra, mire képesek ezek a szépségek. Akárhogy is, reméljük van önnél napszemüveg!"
+  },
+  "MISSILE_RACK_543": {
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "Medusa LH-340 rakétakilövő"
+  },
+  "MISSILE_RACK_543_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Négy nagy rakéta kapacitású kilövő"
+  },
+  "MISSILE_RACK_543_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Először a Hydri Defense elhozta önöknek a nagyszerű LH-320-t. Most megduplázzuk a kapacitást! Tegye le névjegyét bármhol, ahol ellent mernének mondani önnek!"
   },
   "MISSILE_RAIL_S1": {
-    "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
     "message": "Cnida-101 rakétasín"
   },
+  "MISSILE_RAIL_S1_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Egy rakéta kapacitású kilövő"
+  },
+  "MISSILE_RAIL_S1_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "A Hydri Defense belépő szintű, ám minőségi rakétakilövője. Kompatibilis minden ISAAEEE szabvány S1 rakétával."
+  },
   "MISSILE_RAIL_S2": {
-    "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
     "message": "Cnida-102 rakétasín"
   },
+  "MISSILE_RAIL_S2_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Egy rakéta kapacitású külső kilövő"
+  },
+  "MISSILE_RAIL_S2_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Minőségy Hídri Defense külső rögzítésű rakétakilövő S2 rakéták számára"
+  },
   "MISSILE_RAIL_S3": {
-    "description": "Name for a single-missile external launcher. 'Cnida' is a brand name.",
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
     "message": "Cnida-103 rakétasín"
+  },
+  "MISSILE_RAIL_S3_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Nagy méretű rakétakilövő"
+  },
+  "MISSILE_RAIL_S3_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Minőségi rakétakilövő egy darab S3 osztályú rakéta számára"
+  },
+  "MISSILE_RAIL_S4": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
+    "message": "Cnida-104 rakétasín"
+  },
+  "MISSILE_RAIL_S4_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Külső rakétaindító egy hatalmas rakéta számára"
+  },
+  "MISSILE_RAIL_S4_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Magas színvonalú rakétaindító a Hydri Defense-től, mellyel biztonságosan szállíthat egy darab S4 osztályú rakétát"
   },
   "MISSILE_SMART": {
     "description": "",
     "message": "Követőrakéta"
   },
+  "MISSILE_SMART_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Zavarásnak közepesen ellenálló önvezérlő rakéta"
+  },
+  "MISSILE_SMART_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Okos rakéta, mely fejlett szenzoraival és integrált MI moduljával követi a célpontot. Amíg nem HAL-nak nevezi, garantáljuk, hogy a kijelölt célpontot követi ön helyett."
+  },
   "MISSILE_UNGUIDED": {
     "description": "",
     "message": "R40 nemirányított rakéta"
+  },
+  "MISSILE_UNGUIDED_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Irányítatlan rakéta."
+  },
+  "MISSILE_UNGUIDED_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "A fejlődő világok kézműves módszerekkel szeretettel készített darabjaitól a hiper-iparosított világok tömeggyártó sorairól érkező változatokig széles a paletta. \nA specifikációk származási helytől függetlenül az ISAEEE által szigorúan kontrolláltak, a legszélesebb kompatibilitás biztosítása érdekében."
+  },
+  "NO_SUITABLE_EQUIPMENT": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "Nincs megfelelő felszerelés"
+  },
+  "NO_SUITABLE_SLOTS": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "Nincs megfelelő foglalat"
   },
   "OCCUPIED_BERTHS": {
     "description": "Label for the number of passenger berths currently occupied in a cabin equipment item",
@@ -338,6 +574,26 @@
   "OPLI_INTERNAL_MISSILE_RACK_S2": {
     "description": "Equipment name for an OPLI internal missile rack",
     "message": "OPLI belső rakétaindító"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S2_DESCRIPTION": {
+    "description": "Short description and tooltip.",
+    "message": "Belső rakéta-öböl öt darab közepes rakéta számára"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S3": {
+    "description": "Equipment name for an OPLI internal missile rack",
+    "message": "OPLI belső rakétaindító"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S3_DESCRIPTION": {
+    "description": "Short description and tooltip.",
+    "message": "Belső rakétaöböl nyolc darab közepes rakéta számára."
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S4": {
+    "description": "Equipment name for an OPLI internal missile rack",
+    "message": "OPLI belső rakétaindító"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S4_DESCRIPTION": {
+    "description": "Short description and tooltip.",
+    "message": "Belső rakétaöböl tizenkét darab közepes rakéta számára."
   },
   "ORBIT_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
@@ -415,6 +671,14 @@
     "description": "Name for an equipment item that reinforces the hull's superstructure",
     "message": "Megerősített struktúra"
   },
+  "REINFORCED_STRUCTURE_DESCRIPTION": {
+    "description": "Description of the Reinforced Structure equipment item",
+    "message": "Utángyártott strukturális megerősítő készlet, mellyel megemelhető a hajótest külső nyomás tűréshatára."
+  },
+  "REQUIRED_SLOT_IS_EMPTY": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "A szükséges foglalat üres"
+  },
   "SCAN_COMPLETED": {
     "description": "",
     "message": "Felmérés kész."
@@ -463,6 +727,14 @@
     "description": "Tooltip explaining weapon fire rate / RPM counter",
     "message": "Tűz-sebesség / perc"
   },
+  "SLOT": {
+    "description": "",
+    "message": "Foglalat"
+  },
+  "SLOTLESS": {
+    "description": "",
+    "message": "Foglalat nélküli"
+  },
   "SLOT_CABIN": {
     "description": "Name for a generic room slot inside the pressurized living space",
     "message": "Kabin"
@@ -490,6 +762,10 @@
   "SLOT_HYPERDRIVE": {
     "description": "Name for a ship's singular hyperdrive equipment slot",
     "message": "Hipermotor"
+  },
+  "SLOT_IS_NOT_EMPTY_REPLACE_THE_EQUIPMENT_QUESTION": {
+    "description": "",
+    "message": "Foglalat nem üres. Kicseréled a benne lévő felszerelést?"
   },
   "SLOT_SENSOR": {
     "description": "Name for a generic (flight/navigation) sensor slot",
@@ -523,9 +799,37 @@
     "description": "",
     "message": "Felmérés indul, célpont távolsága:"
   },
+  "STAT_ATMO_SHIELD": {
+    "description": "Stat name for atmospheric shielding. 'Atmospheric' is abbreviated.",
+    "message": "Atm. nyomás tűréshatár"
+  },
+  "STAT_HYPERDRIVE_EFFICIENCY": {
+    "description": "",
+    "message": "Hatékonyság"
+  },
+  "STAT_HYPERDRIVE_RESERVOIR": {
+    "description": "",
+    "message": "Üzemanyag tartály méret"
+  },
+  "STAT_MISSILE_RADIUS": {
+    "description": "",
+    "message": "Közelségi kioldó hatótáv"
+  },
+  "STAT_MISSILE_WARHEAD": {
+    "description": "",
+    "message": "Robbanási energia (TNT egyenérték)"
+  },
   "STAT_POWER_DRAW": {
     "description": "Stat label for equipment power draw",
     "message": "Energiafelvétel"
+  },
+  "STAT_SHIELD": {
+    "description": "Stat name for shield generator effectiveness.",
+    "message": "Effektív pajzs védelmi szint"
+  },
+  "STAT_THRUSTER_POWER": {
+    "description": "Stat name for thruster upgrades",
+    "message": "Maximális tolóerő növelés"
   },
   "STAT_VOLUME": {
     "description": "Stat label for equipment volume",
@@ -559,31 +863,39 @@
     "description": "",
     "message": "Távolsági érzékelő, űrben lebegő felszerelés, rakomány, hajó vizsgálatára."
   },
-  "THRUSTERS_BASIC": {
-    "description": "",
-    "message": "Módosított fúvókák"
+  "TARGET_SLOT_IS_NOT_EMPTY_PUT_THE_REPLACED_ONE_IN_THE_CLIPBOARD_QUESTION": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "A kijelölt foglalat nem üres. Csere előtt a vágolapra másolod?"
   },
-  "THRUSTERS_BASIC_DESCRIPTION": {
-    "description": "",
-    "message": "A hajódhoz gyártott módosított fúvókák."
-  },
-  "THRUSTERS_BEST": {
-    "description": "",
-    "message": "Egyedi fúvókák"
-  },
-  "THRUSTERS_BEST_DESCRIPTION": {
-    "description": "",
-    "message": "Hajóra szabott fúvókák, a lehető legjobb hatékonysággal."
+  "THE_SAME_EQUIPMENT_HAS_BEEN_ALREADY_INSTALLED": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "Az adott felszerelés már installálva."
   },
   "THRUSTERS_DEFAULT": {
     "description": "Equipment name for default RCS thrusters",
     "message": "Alapértelmezett manőverező hajtóművek"
   },
-  "THRUSTERS_MEDIUM": {
+  "THRUSTERS_IMPROVED": {
+    "description": "",
+    "message": "Feljavított fúvókák"
+  },
+  "THRUSTERS_IMPROVED_DESCRIPTION": {
+    "description": "",
+    "message": "A hajódhoz gyártott módosított fúvókák."
+  },
+  "THRUSTERS_NAVAL": {
+    "description": "",
+    "message": "Harci fúvókák"
+  },
+  "THRUSTERS_NAVAL_DESCRIPTION": {
+    "description": "",
+    "message": "Kimondottan hadi hajókhoz tervezett fúvókák, a lehető legnagyobb tolóerő érdekében."
+  },
+  "THRUSTERS_OPTIMISED": {
     "description": "",
     "message": "Optimalizált fúvókák"
   },
-  "THRUSTERS_MEDIUM_DESCRIPTION": {
+  "THRUSTERS_OPTIMISED_DESCRIPTION": {
     "description": "",
     "message": "Tolóerőre optimalizált hajtómű, kevésbé hajtóanyaghatékony."
   },
@@ -603,13 +915,21 @@
     "description": "",
     "message": "Kiemeli a jelenlegi és a cél rendszer között várhatóan profittal értékesíthető termékeket."
   },
+  "UNIT_HYPERDRIVE_EFFICIENCY": {
+    "description": "Fictional unit abbreviation for hyperdrive efficiency",
+    "message": "kF"
+  },
+  "UNIT_WARHEAD_DAMAGE": {
+    "description": "Unit abbreviation for missile warhead damage.",
+    "message": "kg TNT"
+  },
   "UNOCCUPIED_CABIN": {
     "description": "",
     "message": "Személyszállító utaskabin"
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",
-    "message": "Szükséges egy személy szállításához"
+    "message": "Utasok szállításához szükséges"
   },
   "UTILITY": {
     "description": "Category name of utility equipment",

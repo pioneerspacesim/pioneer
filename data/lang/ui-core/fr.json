@@ -67,6 +67,10 @@
     "description": "Market header when buying items",
     "message": "Disponible à l'achat"
   },
+  "AVAILABLE_STOCK": {
+    "description": "Market stat showing number of items in stock",
+    "message": "Stock disponible"
+  },
   "AVERAGE": {
     "description": "",
     "message": "Moyen"
@@ -311,6 +315,10 @@
     "description": "",
     "message": "Options de controle"
   },
+  "COPY": {
+    "description": "As for clipboard",
+    "message": "Copier"
+  },
   "COULD_NOT_DELETE_SAVE": {
     "description": "",
     "message": "Impossible d'éffacer la sauvegarde"
@@ -382,6 +390,10 @@
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
     "message": "Système actuel"
+  },
+  "CUT": {
+    "description": "As for clipboard",
+    "message": "Couper"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
@@ -505,7 +517,7 @@
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "Jours restants: %d"
+    "message": "Temps restant:"
   },
   "ECONOMY_TRADE": {
     "description": "",
@@ -622,6 +634,10 @@
   "FAILED": {
     "description": "When failed mission",
     "message": "Loupé"
+  },
+  "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
+    "description": "",
+    "message": "Certains équipement n'ont pu être récupérés"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
@@ -1311,6 +1327,10 @@
     "description": "Ship jump status",
     "message": "Amorcée"
   },
+  "INSTALL": {
+    "description": "Install something",
+    "message": "Installer"
+  },
   "INSTALLED": {
     "description": "Label indicating something is installed",
     "message": "Installé"
@@ -1831,6 +1851,10 @@
     "description": "Ship jump status",
     "message": "Hors de portée"
   },
+  "OUT_OF_STOCK": {
+    "description": "Equipment availability",
+    "message": "Rupture de stock"
+  },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
     "message": "Filtrer les entrées de la fenêtre d'aperçu par nom"
@@ -1870,6 +1894,10 @@
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
     "message": "Capacité cabine passager"
+  },
+  "PASTE": {
+    "description": "As for clipboard",
+    "message": "Coller"
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",
@@ -2506,6 +2534,10 @@
   "TRADING_TO": {
     "description": "Indicates the destination system of a commodity trade.",
     "message": "Vers {system}:"
+  },
+  "TRANSFER_FUEL": {
+    "description": "Label indicating the ability to transfer fuel between equipment tanks",
+    "message": "Transfert de carburant"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
