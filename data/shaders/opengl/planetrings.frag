@@ -25,7 +25,7 @@ float octaveNoise(vec2 noiseCoord, float amplitude, float persistence, float lac
 	float frequency = 1.0;
 
 	for (int i = 0; i < NUM_OCTAVES; i++) {
-		val += amplitude * texture2D(texture1, noiseCoord * frequency).r;
+		val += amplitude * texture(texture1, noiseCoord * frequency).r;
 		amplitude *= persistence;
 		frequency *= lacunarity;
 	}
@@ -45,7 +45,7 @@ void main(void)
 	float detailDist = length(varyingEyepos);
 	vec2 noiseCoord = texCoord1.xz; // using the texCoord1 (a_vertex aka position) probably isn't perfect
 	float coarseNoise = 0.3 + 0.7 * clamp(octaveNoise(noiseCoord * 15.0, 0.3, 1.1, 4.0), 0.0, 1.0); // first-level octave noise
-	float fineNoise = texture2D(texture1, noiseCoord * 2000.0).r; //finer detail
+	float fineNoise = texture(texture1, noiseCoord * 2000.0).r; //finer detail
 
 	float coarseDistance = remap01(15000000.0, 2500000.0, detailDist);
 	float fineDistance = remap01(2000000.0, 200000.0, detailDist);
