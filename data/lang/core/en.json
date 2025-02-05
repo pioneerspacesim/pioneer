@@ -1029,7 +1029,7 @@
   },
   "NUMBER_TONNES": {
     "description": "",
-    "message": "%{mass}t"
+    "message": "%{mass} t"
   },
   "N_ATMOSPHERE": {
     "description": "",
@@ -1762,6 +1762,10 @@
   "UNIT_DAYS": {
     "description": "Duration unit: one 24-hour day",
     "message": "d"
+  },
+  "UNIT_DENSITY": {
+    "description": "Density unit: kilos per cubic meter",
+    "message": "kg/m³"
   },
   "UNIT_EARTH_GRAVITY": {
     "description": "Acceleration unit: one earth gravity (g)",

@@ -143,7 +143,7 @@ end
 local function gauge_fuel()
 	local player = Game.player
 	local tankSize = ShipDef[player.shipId].fuelTankMass
-	local text = string.format(l.FUEL .. ": %dt \t" .. l.DELTA_V .. ": %d km/s",
+	local text = string.format(l.FUEL .. ": %d t \t" .. l.DELTA_V .. ": %d km/s",
 		tankSize/100 * player.fuel, player:GetRemainingDeltaV()/1000)
 
 	gauge_bar(player.fuel, text, 0, 100, icons.fuel)
@@ -151,7 +151,7 @@ end
 
 -- Gauge bar for hyperdrive fuel / range
 local function gauge_hyperdrive(drive)
-	local text = string.format(l.FUEL .. ": %%0.1ft \t" .. l.HYPERSPACE_RANGE .. ": %0.1f " .. l.LY, Game.player:GetHyperspaceRange())
+	local text = string.format(l.FUEL .. ": %%0.1f t \t" .. l.HYPERSPACE_RANGE .. ": %0.1f " .. l.LY, Game.player:GetHyperspaceRange())
 
 	gauge_bar(drive.storedFuel, text, 0, drive:GetMaxFuel(), icons.hyperspace)
 end
@@ -161,7 +161,7 @@ local function gauge_cargo()
 	---@type CargoManager
 	local cargoMgr = Game.player:GetComponent('CargoManager')
 
-	local fmtString = string.format('%%it %s / %it %s', l.USED, cargoMgr:GetFreeSpace(), l.FREE)
+	local fmtString = string.format('%%i t %s / %i t %s', l.USED, cargoMgr:GetFreeSpace(), l.FREE)
 	gauge_bar(cargoMgr:GetUsedSpace(), fmtString, 0, cargoMgr:GetFreeSpace() + cargoMgr:GetUsedSpace(), icons.market)
 end
 
