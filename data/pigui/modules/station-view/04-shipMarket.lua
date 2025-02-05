@@ -541,7 +541,7 @@ shipMarket = Table.New("shipMarketWidget", false, {
 			ui.text(Format.Money(advertDataCache[item].price, false))
 			ui.nextColumn()
 			ui.dummy(widgetSizes.rowVerticalSpacing)
-			ui.text(item.def.equipCapacity.."t")
+			ui.text(item.def.equipCapacity.." t")
 			ui.nextColumn()
 		end)
 	end,
