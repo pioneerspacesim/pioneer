@@ -818,7 +818,7 @@ function Windows.objectInfo:Show()
 				{ name = lc.ESCAPE_VELOCITY, icon = icons.body_radius,
 					value = (not starport) and ui.Format.Speed(body.escapeVelocity , true) or nil },
 				{ name = lc.MEAN_DENSITY, icon = icons.body_radius,
-					value = (not starport) and ui.Format.Mass(body.meanDensity).."/m3" or nil },
+					value = (not starport) and ui.Format.Mass(body.meanDensity).."/m³" or nil },
 				{ name = lc.ORBITAL_PERIOD, icon = icons.body_orbit_period,
 					value = op and op > 0 and ui.Format.Duration(op, 2) or nil },
 				{ name = lc.DAY_LENGTH, icon = icons.body_day_length,
