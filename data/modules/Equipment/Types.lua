@@ -267,7 +267,7 @@ function HyperdriveType:OnLeaveHyperspace(ship)
 		local amount = ship['nextJumpFuelUse']
 		ship:unsetprop('nextJumpFuelUse')
 
-		self.storedFuel = math.max(0, self.storedFuel - amount)
+		self:SetFuel(ship, math.max(0, self.storedFuel - amount))
 
 		if self.byproduct then
 			local cargoMgr = ship:GetComponent('CargoManager')
