@@ -100,21 +100,32 @@ namespace SceneGraph {
 			}
 		}
 		if (power < 0.001f) return;
+		
+		const float thrust_flicker = ((rand() % 10001) + 90000) / 100000.0f;
 
-		m_tMat->diffuse = m_glowMat->diffuse = currentColor * power;
+		m_tMat->diffuse = m_glowMat->diffuse = currentColor * power * thrust_flicker;
 
 		//directional fade
 		vector3f cdir = vector3f(trans * -dir).Normalized();
 		vector3f vdir = vector3f(trans[2], trans[6], -trans[10]).Normalized();
 		// XXX check this for transition to new colors.
-		m_glowMat->diffuse.a = Easing::Circ::EaseIn(Clamp(vdir.Dot(cdir), 0.f, 1.f), 0.f, 1.f, 1.f) * 255;
-		m_tMat->diffuse.a = 255 - m_glowMat->diffuse.a;
+		m_glowMat->diffuse.a = 255 * Easing::Circ::EaseIn(Clamp(vdir.Dot(cdir), 0.f, 1.f), 0.f, 1.f, 1.f);
+		m_tMat->diffuse.a = (255 - m_glowMat->diffuse.a) * thrust_flicker;
 
 		Graphics::Renderer *r = GetRenderer();
 		if (!s_thrustMesh.Valid())
 			CreateThrusterGeometry(r);
 
-		r->SetTransform(trans);
+		matrix4x4f mod_trans = trans;
+
+		// make thruster flame expand and contract randomly 
+		const float thrust_scale = ((rand() % 15001) + 85000) / 100000.0f;
+		// do fast scaling
+		mod_trans[0] *= thrust_scale;
+		mod_trans[5] *= thrust_scale;
+		mod_trans[10] *= thrust_scale;
+		
+		r->SetTransform(mod_trans);
 		r->DrawMesh(s_thrustMesh.Get(), m_tMat.Get());
 		r->DrawMesh(s_glowMesh.Get(), m_glowMat.Get());
 	}
