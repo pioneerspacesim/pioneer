@@ -266,9 +266,11 @@ local function fmt_number(val) return ui.Format.Number(val, 0) end
 ---@param data UI.EquipCard.Data
 function Outfitter:modifyEquipmentStats(data)
 	local stock = self:getStock(data.equip)
+	local tech_level = data.equip.tech_level
+	tech_level = tech_level == "MILITARY" and 11 or tech_level
 
 	table.insert(data.stats, 1, { l.AVAILABLE_STOCK, icons.cargo_crate, stock, fmt_number })
-	table.insert(data.stats, 2, { l.TECH_LEVEL, icons.station_orbital_large, data.equip.tech_level, fmt_number })
+	table.insert(data.stats, 2, { l.TECH_LEVEL, icons.station_orbital_large, tech_level, fmt_number })
 end
 
 function Outfitter:buildEquipmentList()
