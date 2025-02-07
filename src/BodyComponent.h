@@ -101,7 +101,7 @@ public:
 		using PoolBase::PoolBase;
 
 		// Delete the component and delegate removing it from lua if necessary
-		virtual void deleteComponent(Body *body) override
+		void deleteComponent(Body *body) override
 		{
 			if (luaInterface)
 				luaInterface->DeregisterComponent(body);
@@ -136,12 +136,12 @@ public:
 		{}
 		Pool<T> *pool;
 
-		virtual void toJson(const Body *body, Json &obj, Space *space) override
+		void toJson(const Body *body, Json &obj, Space *space) override
 		{
 			pool->get(body)->SaveToJson(obj, space);
 		}
 
-		virtual void fromJson(Body *body, const Json &obj, Space *space) override
+		void fromJson(Body *body, const Json &obj, Space *space) override
 		{
 			auto *component = pool->newComponent(body);
 			component->LoadFromJson(obj, space);

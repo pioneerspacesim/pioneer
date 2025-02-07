@@ -32,10 +32,10 @@ public:
 	GeoSphere(const SystemBody *body);
 	virtual ~GeoSphere();
 
-	virtual void Update() override;
-	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) override;
+	void Update() override;
+	void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) override;
 
-	virtual double GetHeight(const vector3d &p) const override final
+	double GetHeight(const vector3d &p) const final
 	{
 		const double h = m_terrain->GetHeight(p);
 #ifndef NDEBUG
@@ -68,13 +68,13 @@ public:
 	static Uint32 GetDebugFlags();
 
 	// in sbody radii
-	virtual double GetMaxFeatureHeight() const override final { return m_terrain->GetMaxHeight(); }
+	double GetMaxFeatureHeight() const final { return m_terrain->GetMaxHeight(); }
 
 	bool AddQuadSplitResult(SQuadSplitResult *res);
 	bool AddSingleSplitResult(SSingleSplitResult *res);
 	void ProcessSplitResults();
 
-	virtual void Reset() override;
+	void Reset() override;
 
 	inline Sint32 GetMaxDepth() const { return m_maxDepth; }
 
@@ -113,7 +113,7 @@ private:
 
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
 
-	virtual void SetUpMaterials() override;
+	void SetUpMaterials() override;
 	void CreateAtmosphereMaterial();
 
 	RefCountedPtr<Graphics::Texture> m_texHi;

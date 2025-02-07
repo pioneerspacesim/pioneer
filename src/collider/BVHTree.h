@@ -74,7 +74,7 @@ public:
 	~SingleBVHTree() {};
 
 protected:
-	virtual void BuildNode(Node *node, SortKey *keys, uint32_t numKeys, const AABBd *objAabbs, uint32_t height) override final;
+	void BuildNode(Node *node, SortKey *keys, uint32_t numKeys, const AABBd *objAabbs, uint32_t height) final;
 	uint32_t Partition(SortKey *keys, uint32_t numKeys, const AABBd &aabb, const AABBd *objAabbs);
 };
 
@@ -105,7 +105,7 @@ protected:
 	// experimentally shown to provide a better SAH for human-authored models.
 	static constexpr size_t NUM_BINS = 12;
 
-	virtual void BuildNode(Node *node, SortKey *keys, uint32_t numKeys, const AABBd *objAabbs, uint32_t height) override final;
+	void BuildNode(Node *node, SortKey *keys, uint32_t numKeys, const AABBd *objAabbs, uint32_t height) final;
 	uint32_t Partition(SortKey *keys, uint32_t numKeys, const AABBd &aabb, const AABBd *objAabbs);
 	float FindPivot(SortKey *keys, uint32_t numKeys, const AABBd &aabb, const AABBd *objAabbs, uint32_t axis, float &outCost) const;
 };
