@@ -76,6 +76,7 @@ The Pioneer Developers are:
 * Leonardo Manna
 * Luca Ganzerla
 * Maksim Kulikov aka sapog662
+* Maksim "Maks2103" Romanov
 * Marcel Tulloh
 * Marcus de Roos
 * Maxim aka Max5377
