@@ -373,7 +373,7 @@ LuaTable LuaTable::Set(const Key &key, const Value &value) const
 template <class Value>
 LuaTable &LuaTable::PushBack(Value &value)
 {
-	pi_lua_generic_push(m_lua, Size() + 1);
+	pi_lua_generic_push(m_lua, static_cast<uint32_t>(Size() + 1));
 	pi_lua_generic_push(m_lua, value);
 	lua_settable(m_lua, m_index);
 	return *this;
@@ -476,4 +476,11 @@ inline void pi_lua_generic_push(lua_State *l, const LuaTable &value)
 {
 	lua_pushvalue(l, value.GetIndex());
 }
+
+#if defined(__APPLE__)
+inline void pi_lua_generic_push(lua_State *l, size_t value)
+{
+	pi_lua_generic_push(l, static_cast<uint64_t>(value));
+}
+#endif
 #endif
