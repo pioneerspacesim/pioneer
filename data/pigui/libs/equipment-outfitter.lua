@@ -491,13 +491,6 @@ function Outfitter:renderCompareRow(label, stat_a, stat_b)
 	ui.tableNextColumn()
 	ui.text(label)
 
-	if stat_a then
-		stat_a[3] = stat_a[3] == "MILITARY" and 11 or stat_a[3]
-	end
-	if stat_b then
-		stat_b[3] = stat_b[3] == "MILITARY" and 11 or stat_b[3]
-	end
-
 	local icon_size = Vector2(ui.getTextLineHeight())
 	local color = stat_a and stat_b
 		and compare(stat_a[3], stat_b[3], stat_a[5])
