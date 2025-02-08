@@ -48,21 +48,22 @@ public:
 	RefCountedPtr<Graphics::Material> GetSurfaceMaterial() const { return m_surfaceMaterial; }
 
 protected:
+	virtual void SetUpMaterials() = 0;
+
+	// set up shader data for this geosphere's atmosphere
+	void SetMaterialParameters(const matrix4x4d &t, const float r, const std::vector<Camera::Shadow> &s, const AtmosphereParameters &ap);
+
 	const SystemBody *m_sbody;
 
 	// all variables for GetHeight(), GetColor()
 	RefCountedPtr<Terrain> m_terrain;
 
-	virtual void SetUpMaterials() = 0;
-
 	RefCountedPtr<Graphics::Material> m_surfaceMaterial;
 	RefCountedPtr<Graphics::Material> m_atmosphereMaterial;
 
-	// set up shader data for this geosphere's atmosphere
-	void SetMaterialParameters(const matrix4x4d &t, const float r, const std::vector<Camera::Shadow> &s, const AtmosphereParameters &ap);
-
 	// atmosphere geometry
 	std::unique_ptr<Graphics::Drawables::Sphere3D> m_atmos;
+	AtmosphereParameters m_atmosphereParameters;
 };
 
 #endif /* _GEOSPHERE_H */
