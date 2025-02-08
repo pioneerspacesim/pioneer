@@ -265,7 +265,7 @@ ui.Format = {
 	end,
 	Speed = function(distance, fractional)
 		local s, u = ui.Format.SpeedUnit(distance, fractional)
-		return s .. u
+		return s .. " " .. u
 	end,
 	MassUnit = function(mass, digits)
 		local m = math.abs(mass)
@@ -291,7 +291,7 @@ ui.Format = {
 	end,
 	Mass = function(mass, digits)
 		local m, u = ui.Format.MassUnit(mass, digits)
-		return m .. u
+		return m .. " " .. u
 	end,
 	Money = Format.Money,
 	Date = Format.Date,
@@ -300,7 +300,7 @@ ui.Format = {
 		return string.format("%4i-%02i-%02i %02i:%02i:%02i", year, month, day, hour, minute, second)
 	end,
 	Gravity = function(grav)
-		return string.format("%0.2f", grav) .. lc.UNIT_EARTH_GRAVITY
+		return string.format("%0.2f", grav) .. " " .. lc.UNIT_EARTH_GRAVITY
 	end,
 	Pressure = function(pres)
 		return string.format("%0.2f", pres) .. lc.UNIT_PRESSURE_ATMOSPHERES
@@ -311,9 +311,9 @@ ui.Format = {
 		number = math.abs(number)
 		local fmt = "%." .. (places or '2') .. "f%s"
 		if number < 1e3 then return s .. fmt:format(number, "")
-		elseif number < 1e6 then return s .. fmt:format(number / 1e3, "k")
-		elseif number < 1e9 then return s .. fmt:format(number / 1e6, "mil")
-		elseif number < 1e12 then return s .. fmt:format(number / 1e9, "bil")
+		elseif number < 1e6 then return s .. fmt:format(number / 1e3, " k")
+		elseif number < 1e9 then return s .. fmt:format(number / 1e6, " mil")
+		elseif number < 1e12 then return s .. fmt:format(number / 1e9, " bil")
 		else return s .. fmt:format(number / 1e12, "trn") end
 	end,
 	-- write the entire number using thousands-place grouping
