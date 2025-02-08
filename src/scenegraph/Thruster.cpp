@@ -101,6 +101,10 @@ namespace SceneGraph {
 		}
 		if (power < 0.001f) return;
 		
+		// animate the thrust flame by making small changes in the material diffuse and alpha each frame
+		// the range of the change has to be kept small otherwise the flame flickers too much
+		// a random value between 0.9 and 1.0 works ok
+		// a large modulo value is used in order to get a good distribution of random changes 
 		const float thrust_flicker = ((rand() % 10001) + 90000) / 100000.0f;
 
 		m_tMat->diffuse = m_glowMat->diffuse = currentColor * power * thrust_flicker;
@@ -118,9 +122,17 @@ namespace SceneGraph {
 
 		matrix4x4f mod_trans = trans;
 
-		// make thruster flame expand and contract randomly 
+		// make thruster flame expand and contract randomly each frame
+		// the range of the change has to be kept small otherwise the flame flickers too much
+		// a random value between 0.85 and 1.0 works ok
 		const float thrust_scale = ((rand() % 15001) + 85000) / 100000.0f;
+
 		// do fast scaling
+		// Warning: must apply the same scale change to all three axis of the transform
+		// since the transform includes the view
+		// the view direction will still effect the deformation of the flame but its
+		// not as noticeable if all three axis are affected the same
+		// Fixme: this should be done in the vertex shader before the model view transform is applied
 		mod_trans[0] *= thrust_scale;
 		mod_trans[5] *= thrust_scale;
 		mod_trans[10] *= thrust_scale;
