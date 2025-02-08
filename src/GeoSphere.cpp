@@ -423,16 +423,14 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 		SetUpMaterials();
 
 	//Update material parameters
-	//XXX no need to calculate AP every frame
-	auto ap = GetSystemBody()->CalcAtmosphereParams();
-	SetMaterialParameters(trans, radius, shadows, ap);
+	SetMaterialParameters(trans, radius, shadows, m_atmosphereParameters);
 
-	if (m_atmosphereMaterial.Valid() && ap.atmosDensity > 0.0) {
+	if (m_atmosphereMaterial.Valid() && m_atmosphereParameters.atmosDensity > 0.0) {
 		// make atmosphere sphere slightly bigger than required so
 		// that the edges of the pixel shader atmosphere jizz doesn't
 		// show ugly polygonal angles
 		DrawAtmosphereSurface(renderer, trans, campos,
-			ap.atmosRadius * 1.02,
+			m_atmosphereParameters.atmosRadius * 1.02,
 			m_atmosphereMaterial);
 	}
 
@@ -502,6 +500,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 void GeoSphere::SetUpMaterials()
 {
+	m_atmosphereParameters = GetSystemBody()->CalcAtmosphereParams();
 	// normal star has a different setup path than geosphere terrain does
 	if (GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 		Graphics::MaterialDescriptor surfDesc;
@@ -528,9 +527,8 @@ void GeoSphere::SetUpMaterials()
 			surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;
 		} else {
 			//planetoid with or without atmosphere
-			const AtmosphereParameters ap(GetSystemBody()->CalcAtmosphereParams());
 			surfDesc.lighting = true;
-			if (ap.atmosDensity > 0.0) {
+			if (m_atmosphereParameters.atmosDensity > 0.0) {
 				surfDesc.quality |= Graphics::HAS_ATMOSPHERE;
 			}
 		}

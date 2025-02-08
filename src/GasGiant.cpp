@@ -635,15 +635,13 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 		SetUpMaterials();
 
 	//Update material parameters
-	//XXX no need to calculate AP every frame
-	auto ap = GetSystemBody()->CalcAtmosphereParams();
-	SetMaterialParameters(trans, radius, shadows, ap);
-	if (ap.atmosDensity > 0.0) {
+	SetMaterialParameters(trans, radius, shadows, m_atmosphereParameters);
+	if (m_atmosphereParameters.atmosDensity > 0.0) {
 		// make atmosphere sphere slightly bigger than required so
 		// that the edges of the pixel shader atmosphere jizz doesn't
 		// show ugly polygonal angles
 		DrawAtmosphereSurface(renderer, trans, campos,
-			ap.atmosRadius * 1.01,
+			m_atmosphereParameters.atmosRadius * 1.01,
 			m_atmosphereMaterial);
 	}
 
@@ -678,7 +676,6 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 
 void GasGiant::SetUpMaterials()
 {
-
 	// Request material for this planet, with atmosphere.
 	// Separate materials for surface and sky.
 	Graphics::MaterialDescriptor surfDesc;
@@ -687,8 +684,8 @@ void GasGiant::SetUpMaterials()
 	surfDesc.textures = 1;
 
 	//planetoid with atmosphere
-	const AtmosphereParameters ap(GetSystemBody()->CalcAtmosphereParams());
-	assert(ap.atmosDensity > 0.0);
+	m_atmosphereParameters = GetSystemBody()->CalcAtmosphereParams();
+	assert(m_atmosphereParameters.atmosDensity > 0.0);
 	assert(m_surfaceTextureSmall.Valid() || m_surfaceTexture.Valid());
 
 	// surface material is solid
