@@ -1,3 +1,27 @@
+February
+  * Fixes
+    * Replace `texture2D()` with `texture()` (#6045)
+    * Fixing tail Malabar/Vatakara stabilizer decals (#6061)
+
+  * Internal
+    * Add amd64 architecture (#6043)
+    * build-ci: allow re-running release builds on workflow_dispatch (#6037)
+    * Conform to C.128, aka: Virtual functions should specify exactly one of virtual, override, or final (#5995)
+    * Store AtmosphereParameters in BaseSphere, calculate with material setup (#6059)
+
+Pioneer 2025-02-03 Release
+  * Fixes
+    * Fix error when tradeship attempts to redock to nearby starport (#6035)
+    * Fix crash in Assassination mission (#6035)
+    * Fix thrusters offered in SecondHand advert (#6035)
+    * Fix the Vatakara not having a shield model (#6034)
+    * Fix Game crashes when disabling rotation while exiting a station (#6034)
+    * Fix terrain texture disappearance / GeoPatch/GeoSphere refactoring (#5979)
+
+  * Internal
+    * CMake: Rename PROJECT_VERSION -> PIONEER_VERSION (#6036)
+    * Fix compilation on Clang v19+ (#6034)
+
 January 2025
   * New Features
     * Add four new cultures (#6008)
@@ -23,12 +47,6 @@ January 2025
     * Fix missile firing during paused game (#5926)
     * Fix Assassination stack trace crash when jumping into target system too late (#6032)
     * Fix bugs, expand equipment coverage, add detailed stats for equipment (#6032)
-    * Fix terrain texture disappearance / GeoPatch/GeoSphere refactoring (#5979)
-    * Fix the Vatakara not having a shield model (#6034)
-    * Fix Game crashes when disabling rotation while exiting a station (#6034)
-    * Fix error when tradeship attempts to redock to nearby starport (#6035)
-    * Fix crash in Assassination mission (#6035)
-    * Fix thrusters offered in SecondHand advert (#6035)
 
   * Internal
     * Display how many instanced objects are drawn (#5994)
@@ -37,8 +55,6 @@ January 2025
     * Increment savefile version to v91 (and update NameGen list) (#6010)
     * Updating weapon tags to match the ship DB on Notion (#6028)
     * Added launch settings to vscode  (#6032)
-    * Fix compilation on Clang v19+ (#6034)
-    * CMake: Rename PROJECT_VERSION -> PIONEER_VERSION (#6036)
 
 December 2024
   * New Features
