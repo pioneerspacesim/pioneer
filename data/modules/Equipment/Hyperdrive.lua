@@ -96,7 +96,7 @@ Equipment.Register("hyperspace.hyperdrive_mil3", HyperdriveType.New {
 	slot = { type="hyperdrive.military", size=3 },
 	mass=12.5, volume=15, capabilities={ hyperclass=3 },
 	fuel_resv_size = 10, factor_eff = 60,
-	price=85000, purchasable=true, tech_level=11,
+	price=85000, purchasable=true, tech_level="MILITARY",
 	icon_name="equip_hyperdrive_mil"
 })
 Equipment.Register("hyperspace.hyperdrive_mil4", HyperdriveType.New {
@@ -104,7 +104,7 @@ Equipment.Register("hyperspace.hyperdrive_mil4", HyperdriveType.New {
 	slot = { type="hyperdrive.military", size=4 },
 	mass=32, volume=40, capabilities={ hyperclass=4 },
 	fuel_resv_size = 30, factor_eff = 48,
-	price=214000, purchasable=true, tech_level=12,
+	price=214000, purchasable=true, tech_level="MILITARY",
 	icon_name="equip_hyperdrive_mil"
 })
 Equipment.Register("hyperspace.hyperdrive_mil5", HyperdriveType.New {

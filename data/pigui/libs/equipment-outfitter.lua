@@ -196,8 +196,12 @@ end
 --==================
 
 function Outfitter:stationHasTech(level)
-	level = level == "MILITARY" and 11 or level
-	return self.station.techLevel >= level
+	if level ~= "MILITARY" then
+		return self.station.techLevel >= level
+	else
+		level = 11
+		return self.station.techLevel == level
+	end
 end
 
 -- Override to support e.g. custom equipment shops
@@ -491,6 +495,7 @@ function Outfitter:renderCompareRow(label, stat_a, stat_b)
 
 	local icon_size = Vector2(ui.getTextLineHeight())
 	local color = stat_a and stat_b
+		and stat_a[3] ~= "MILITARY" and stat_b[3] ~= "MILITARY"
 		and compare(stat_a[3], stat_b[3], stat_a[5])
 		or colors.font
 
@@ -500,7 +505,11 @@ function Outfitter:renderCompareRow(label, stat_a, stat_b)
 		ui.sameLine()
 
 		local val, format = stat_a[3], stat_a[4]
-		ui.textColored(color, format(val))
+		if val ~= "MILITARY" then
+			ui.textColored(color, format(val))
+		else
+			ui.icon(icons.shield_other, icon_size, colors.font)
+		end
 	end
 
 	ui.tableNextColumn()
@@ -509,7 +518,11 @@ function Outfitter:renderCompareRow(label, stat_a, stat_b)
 		ui.sameLine()
 
 		local val, format = stat_b[3], stat_b[4]
-		ui.text(format(val))
+		if val ~= "MILITARY" then
+			ui.textColored(color, format(val))
+		else
+			ui.icon(icons.shield_other, icon_size, colors.font)
+		end
 	end
 end
 
