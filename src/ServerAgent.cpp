@@ -156,7 +156,8 @@ void HTTPServerAgent::ThreadMain()
 		// done with the queue
 		SDL_UnlockMutex(m_requestQueueLock);
 
-		req.buffer = req.data;
+		// serialise
+		req.buffer = req.data.dump();
 
 		Response resp(req.onSuccess, req.onFail, req.userdata);
 
@@ -180,10 +181,15 @@ void HTTPServerAgent::ThreadMain()
 		}
 
 		if (resp.success) {
-			//Json::Reader reader;
-			//resp.success = reader.parse(resp.buffer, resp.data, false);
-			//if (!resp.success)
-			//	resp.buffer = std::string("JSON parse error: " + reader.getFormattedErrorMessages());
+			try {
+				resp.data = Json::parse(resp.buffer);
+				resp.success = resp.data.is_object();
+				if (!resp.success)
+					resp.buffer = std::string("Unknown JSON parse error");
+			} catch (const std::exception &excpt) {
+				resp.success = false;
+				resp.buffer = std::string("JSON parse exception: ") + std::string(excpt.what());
+			}
 		}
 
 		SDL_LockMutex(m_responseQueueLock);
