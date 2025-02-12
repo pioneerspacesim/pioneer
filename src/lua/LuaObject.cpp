@@ -759,6 +759,10 @@ bool LuaObjectBase::SerializeComponents(LuaWrappable *object, Json &out)
 	}
 
 	lua_pushnil(l);
+
+	// sort the components before serialization
+	std::set<std::string_view> componentNames;
+
 	while (lua_next(l, -2) != 0) {
 		if (!lua_isstring(l, -2)) {
 			lua_pop(l, 1);
@@ -772,7 +776,13 @@ bool LuaObjectBase::SerializeComponents(LuaWrappable *object, Json &out)
 			continue;
 		}
 
-		// Pickle the table to json
+		componentNames.insert(key);
+		lua_pop(l, 1);
+	}
+
+	for (auto key : componentNames) {
+		lua_pushstring(l, key.data());
+		lua_rawget(l, -2);
 		LuaSerializer::pickle_json(l, lua_gettop(l), out[key.data()], "BodyComponent");
 		lua_pop(l, 1);
 	}
@@ -809,10 +819,16 @@ bool LuaObjectBase::DeserializeComponents(LuaWrappable *object, const Json &obj)
 		return false;
 	}
 
-	// Deserialize all components
+	// Deserialize all components, in alphabetical order
+	std::set<std::string_view> componentNames;
+
 	for (const auto &pair : obj.items()) {
-		lua_pushstring(l, pair.key().c_str());
-		LuaSerializer::unpickle_json(l, pair.value());
+		componentNames.insert(pair.key());
+	}
+
+	for (auto key : componentNames) {
+		lua_pushstring(l, key.data());
+		LuaSerializer::unpickle_json(l, obj[key.data()]);
 		lua_rawset(l, -3);
 	}
 
