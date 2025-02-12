@@ -5,6 +5,7 @@ local ui = require 'pigui'
 local StationView = require 'pigui.views.station-view'
 local ShipDef = require "ShipDef"
 local Game = require "Game"
+local Engine = require 'Engine'
 local Rand = require "Rand"
 local PiGuiFace = require 'pigui.libs.face'
 local Format = require "Format"
@@ -298,15 +299,6 @@ local function drawPaintshop()
 			secChanged, previewColors[2] = ui.colorEdit((l.COLOR.." 2"), previewColors[2], { "NoAlpha" })
 			triChanged, previewColors[3] = ui.colorEdit((l.COLOR.." 3"), previewColors[3], { "NoAlpha" })
 
-			local colorChanged = (priChanged or secChanged or triChanged)
-			if colorChanged then
-				changesMade = true
-			end
-
-			if colorChanged then
-				changeColor()
-			end
-
 			ui.withFont(pionillium.body, function()
 
 				if ui.button("<", Vector2(20, 36)) then
@@ -320,9 +312,45 @@ local function drawPaintshop()
 				end
 
 				ui.sameLine()
-
-				if ui.button(l.RESET_PREVIEW, Vector2(200, 36)) then
+				if ui.button(l.RESET_PREVIEW, Vector2(columnWidth/4, 36)) then
 					resetPreview()
+				end
+
+				ui.sameLine()
+				if ui.button(l.RANDOM_COLORS, Vector2(columnWidth/4, 36)) then
+
+					local function randomColor()
+						return Color(Engine.rand:Integer(0,255), Engine.rand:Integer(0,255), Engine.rand:Integer(0,255))
+					end
+
+					previewColors[1] = randomColor()
+					previewColors[2] = randomColor()
+					previewColors[3] = randomColor()
+
+					-- preview colors may be the same
+					if Engine.rand:Integer(0,2) < 1 then
+						local color = Engine.rand:Integer(1,4)
+						if color == 1 then
+							previewColors[2] = previewColors[1]
+						elseif color == 2 then
+							previewColors[3] = previewColors[1]
+						elseif color == 3 then
+							previewColors[3] = previewColors[2]
+						else -- All colors the same
+							previewColors[2] = previewColors[1]
+							previewColors[3] = previewColors[1]
+						end
+					end
+					priChanged = true -- All colors changed but we only need to hint one
+				end
+
+				local colorChanged = (priChanged or secChanged or triChanged)
+				if colorChanged then
+					changesMade = true
+				end
+
+				if colorChanged then
+					changeColor()
 				end
 
 				ui.dummy(verticalDummy)
