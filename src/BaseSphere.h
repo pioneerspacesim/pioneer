@@ -62,7 +62,7 @@ protected:
 	RefCountedPtr<Graphics::Material> m_atmosphereMaterial;
 
 	// atmosphere geometry
-	std::unique_ptr<Graphics::Drawables::Sphere3D> m_atmos;
+	static std::unique_ptr<Graphics::Drawables::Sphere3D> m_atmos; // always created with the same parameters so can be shared by all atmospheres
 	AtmosphereParameters m_atmosphereParameters;
 };
 
