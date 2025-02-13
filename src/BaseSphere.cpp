@@ -33,6 +33,8 @@ struct BaseSphereDataBlock {
 };
 static_assert(sizeof(BaseSphereDataBlock) == 192, "");
 
+std::unique_ptr<Graphics::Drawables::Sphere3D> BaseSphere::m_atmos;
+
 BaseSphere::BaseSphere(const SystemBody *body) :
 	m_sbody(body),
 	m_terrain(Terrain::InstanceTerrain(body)) {}
@@ -80,8 +82,12 @@ void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,
 
 	renderer->SetTransform(matrix4x4f(modelView * matrix4x4d::ScaleMatrix(rad) * invrot));
 
-	if (!m_atmos)
-		m_atmos.reset(new Drawables::Sphere3D(renderer, 4, 1.0f, ATTRIB_POSITION));
+	if (!m_atmos) {
+		// 5 subdivision = 20472 verts, 61440 indices NB: this should be configurable!
+		static constexpr int subdivisions = 5;
+		m_atmos.reset(new Drawables::Sphere3D(renderer, subdivisions, 1.0f, ATTRIB_POSITION));
+	}
+	
 	m_atmos->Draw(renderer, mat.Get());
 
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_ATMOSPHERES, 1);

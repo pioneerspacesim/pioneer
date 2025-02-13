@@ -482,16 +482,36 @@ namespace Graphics {
 			{ 6, 1, 10 }, { 9, 0, 11 }, { 9, 11, 2 }, { 9, 2, 5 }, { 7, 2, 11 }
 		};
 
+		// NB: { num vertices, num indices }
+		// num indices == (num_vertices + 8) * 3
+		// The original formula used to reserve space was WILDLY wrong "(subdivs * subdivs) * 20 * 3"
+		// I bet there's a really clever way to calculate the vertices and indices, a smart person could do it
+		// ...but this is me, and here's a table that I generated through brute force - AndyC
+		static const size_t icosahedron_counts[11][2] = {
+			{ 12, 60 }, // subdivs 0
+			{ 72, 240 },
+			{ 312, 960 },
+			{ 1272, 3840 }, // subdivs 4 (planets atmopsheres as of 2025/02/11)
+			{ 5112, 15360 },
+			{ 20472, 61440 },
+			{ 81912, 245760 },
+			{ 327672, 983040 },
+			{ 1310712, 3932160 },
+			{ 5242872, 15728640 },
+			{ 20971512, 62914560 } // subdivs 10
+		};
+
 		Graphics::MeshObject *Icosphere::Generate(Graphics::Renderer *r, int subdivs, float scale, AttributeSet attribs)
 		{
 			subdivs = Clamp(subdivs, 0, 10);
 			scale = fabs(scale);
 			matrix4x4f trans = matrix4x4f::Identity();
 			trans.Scale(scale, scale, scale);
-
-			//reserve some data - ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0
-			VertexArray vts(attribs, (subdivs * subdivs) * 20 * 3);
+			
+			// Reserve space for vertices and indices
+			VertexArray vts(attribs, icosahedron_counts[subdivs][0]);
 			std::vector<Uint32> indices;
+			indices.reserve(icosahedron_counts[subdivs][1]);
 
 			//initial vertices
 			int vi[12];
@@ -511,7 +531,7 @@ namespace Graphics {
 					subdivs);
 			}
 
-			//Create vtx & index buffers and copy data
+			// Create index buffer
 			Graphics::IndexBuffer *indexBuffer = r->CreateIndexBuffer(indices.size(), BUFFER_USAGE_STATIC);
 			Uint32 *idxPtr = indexBuffer->Map(Graphics::BUFFER_MAP_WRITE);
 			for (auto it : indices) {
@@ -520,6 +540,7 @@ namespace Graphics {
 			}
 			indexBuffer->Unmap();
 
+			// Generate mesh from vtx and indexBuffer
 			return r->CreateMeshObjectFromArray(&vts, indexBuffer);
 		}
 
