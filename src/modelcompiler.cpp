@@ -220,25 +220,26 @@ start:
 			if (argc > 3) {
 				std::string arg3 = argv[3];
 				isInPlace = (arg3 == "inplace" || arg3 == "true");
+			}
 
-				// find all of the models
-				FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
-				for (FileSystem::FileEnumerator files(fileSource, "models", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
-					const FileSystem::FileInfo &info = files.Current();
-					const std::string &fpath = info.GetPath();
+			// find all of the models
+			FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
+			for (FileSystem::FileEnumerator files(fileSource, "models", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
+				const FileSystem::FileInfo &info = files.Current();
+				const std::string &fpath = info.GetPath();
 
-					//check it's the expected type
-					if (info.IsFile()) {
-						if (ends_with_ci(fpath, ".model")) { // store the path for ".model" files
-							const std::string shortname(info.GetName().substr(0, info.GetName().size() - 6));
-							if (shortname == modelName) {
-								filePath = fpath;
-								break;
-							}
+				//check it's the expected type
+				if (info.IsFile()) {
+					if (ends_with_ci(fpath, ".model")) { // store the path for ".model" files
+						const std::string shortname(info.GetName().substr(0, info.GetName().size() - 6));
+						if (shortname == modelName) {
+							filePath = fpath;
+							break;
 						}
 					}
 				}
 			}
+
 			SetupRenderer();
 			RunCompiler(modelName, filePath, isInPlace);
 		}
