@@ -29,7 +29,8 @@ namespace SceneGraph {
 		linearOnly(_linear),
 		dir(_dir),
 		pos(_pos),
-		currentColor(baseColor)
+		currentColor(baseColor),
+		m_time(0.f)
 	{
 		//set up materials
 		Graphics::MaterialDescriptor desc;
@@ -41,12 +42,12 @@ namespace SceneGraph {
 		rsd.depthWrite = false;
 		rsd.cullMode = Graphics::CULL_NONE;
 
-		m_tMat.Reset(r->CreateMaterial("unlit", desc, rsd));
+		m_tMat.Reset(r->CreateMaterial("thruster", desc, rsd));
 		m_tMat->SetTexture("texture0"_hash,
 			Graphics::TextureBuilder::Billboard(thrusterTextureFilename).GetOrCreateTexture(r, "billboard"));
 		m_tMat->diffuse = baseColor;
 
-		m_glowMat.Reset(r->CreateMaterial("unlit", desc, rsd));
+		m_glowMat.Reset(r->CreateMaterial("thruster", desc, rsd));
 		m_glowMat->SetTexture("texture0"_hash,
 			Graphics::TextureBuilder::Billboard(thrusterGlowTextureFilename).GetOrCreateTexture(r, "billboard"));
 		m_glowMat->diffuse = baseColor;
@@ -59,7 +60,8 @@ namespace SceneGraph {
 		linearOnly(thruster.linearOnly),
 		dir(thruster.dir),
 		pos(thruster.pos),
-		currentColor(thruster.currentColor)
+		currentColor(thruster.currentColor),
+		m_time(thruster.m_time)
 	{
 	}
 
@@ -100,8 +102,24 @@ namespace SceneGraph {
 			}
 		}
 		if (power < 0.001f) return;
+		
+		// animate the thrust flame using the thruster shader
+		// update animation time on each render
+		// a unique time stamp is needed for each thruster flame to have a unique flicker
+		// use thruster position to make each thruster time different
+		m_time += abs(trans[12] + trans[13] + trans[14]) * rd->timeStep * 1000.0f;
+		// generate a psuedo random flicker
+		// this could be done in the vertex shader but the value only needs to be 
+		// generated once per frame, not for every vertex
+		const float flicker = sin(m_time) * 43758.5453f;
 
-		m_tMat->diffuse = m_glowMat->diffuse = currentColor * power;
+		// pass the power setting and flicker value using the material emissive
+		// emissive.a is the flicker value for the flame
+		m_tMat->emissive.a = m_glowMat->emissive.a = flicker;
+		// emissive.r is the thruster power setting which effects flame length and brightness
+		m_tMat->emissive.r = m_glowMat->emissive.r = 255.0f * power;
+		
+		m_tMat->diffuse = m_glowMat->diffuse = currentColor;
 
 		//directional fade
 		vector3f cdir = vector3f(trans * -dir).Normalized();
