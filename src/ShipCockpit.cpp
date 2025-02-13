@@ -195,6 +195,8 @@ void ShipCockpit::Update(const Player *player, float timeStep)
 		vector3f linthrust{ prop->GetLinThrusterState() };
 		vector3f angthrust{ prop->GetAngThrusterState() };
 		GetModel()->SetThrust(linthrust, -angthrust);
+		// animate the thrusters
+		GetModel()->SetTimeStep(timeStep);
 	}
 }
 
