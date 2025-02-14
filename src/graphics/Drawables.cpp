@@ -491,9 +491,9 @@ namespace Graphics {
 			{ 12, 60 }, // subdivs 0
 			{ 72, 240 },
 			{ 312, 960 },
-			{ 1272, 3840 }, // subdivs 4 (planets atmopsheres as of 2025/02/11)
-			{ 5112, 15360 },
-			{ 20472, 61440 },
+			{ 1272, 3840 },
+			{ 5112, 15360 }, // subdivs 4 (old default planet atmospheres)
+			{ 20472, 61440 }, // subdivs 5 (current default planet atmospheres)
 			{ 81912, 245760 },
 			{ 327672, 983040 },
 			{ 1310712, 3932160 },
