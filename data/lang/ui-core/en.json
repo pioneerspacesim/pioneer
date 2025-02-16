@@ -1915,6 +1915,10 @@
     "description": "",
     "message": "Pay fine of {amount}"
   },
+  "PENDING": {
+    "description": "Status if the mission has not yet been fully completed",
+    "message": "Pending\nReturn"
+  },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Perseus arm"
