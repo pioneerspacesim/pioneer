@@ -779,7 +779,7 @@ bool LuaObjectBase::SerializeComponents(LuaWrappable *object, Json &out)
 		componentNames.emplace_back(key);
 		lua_pop(l, 1);
 	}
-	std::sort(componentNames.begin(), componentNames.end());
+	std::sort(componentNames.begin(), componentNames.end(), std::less{});
 
 	for (const auto &key : componentNames) {
 		lua_pushstring(l, key.data());
