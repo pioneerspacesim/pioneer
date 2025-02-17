@@ -525,7 +525,12 @@ local buildMissionDescription = function(mission)
 	})
 
 	desc.client = mission.client
-	desc.location = mission.location
+
+	if mission.status == "PENDING" and mission.rendezvous then
+		desc.location = mission.rendezvous
+	else
+		desc.location = mission.location
+	end
 
 	local paymentLoc = mission.rendezvous and ui.Format.SystemPath(mission.rendezvous)
 		or string.interp(l[mission.flavour.id .. "_LAND_THERE"], { org = mission.org })
