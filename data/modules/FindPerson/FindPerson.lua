@@ -18,12 +18,13 @@ local ShipDef = require 'ShipDef'
 local Ship = require 'Ship'
 local utils = require 'utils'
 
+local MissionUtils = require 'modules.MissionUtils'
+
 local l = Lang.GetResource 'module-findperson'
 local lc = Lang.GetResource 'core'
 
 -- Mission framework conditions
 local max_mission_dist = 20
-local typical_hyperspace_time = 3.0 * 24 * 60 * 60
 local typical_reward = 50
 
 local flavours = {
@@ -162,19 +163,18 @@ local nearbysystems
 
 local makeAdvert = function (station)
 	if nearbysystems == nil then
-		nearbysystems = Game.system:GetNearbySystems(max_mission_dist, function (s) return #s:GetStationPaths() > 2 end)
+		nearbysystems = MissionUtils.GetNearbyStationPaths(Game.system, max_mission_dist, function (s) return #s:GetStationPaths() > 2 end)
 	end
 	if #nearbysystems == 0 then return end
-	local nearbysystem = nearbysystems[Engine.rand:Integer(1, #nearbysystems)]
-	local nearbystations = nearbysystem:GetStationPaths()
-	local location = nearbystations[Engine.rand:Integer(1, #nearbystations)]
+	local location = nearbysystems[Engine.rand:Integer(1, #nearbysystems)]
 	local dist = location:DistanceTo(Game.system)
 
 	local flavour = flavours[Engine.rand:Integer(1, #flavours)]
 	local risk = Engine.rand:Number(0.01, flavour.max_risk)
 	local urgency = Engine.rand:Number(1)
-	local reward = math.ceil(dist * (typical_reward + #nearbystations) * (1 + risk) * (1.5 + urgency) * Engine.rand:Number(0.8, 1.2))
-	local due = Game.time + #nearbystations * 86400 + (dist * typical_hyperspace_time * (1.5 - urgency) * Engine.rand:Number(0.9, 1.1))
+	local ns = location:GetStarSystem().numberOfStations
+	local reward = math.ceil(dist * (typical_reward + ns) * (1 + risk) * (1.5 + urgency) * Engine.rand:Number(0.8, 1.2))
+	local due = Game.time + ns * 86400 + MissionUtils.TravelTime(dist) * 1.75 * (1.5 - urgency) * Engine.rand:Number(0.9, 1.1)
 
 	local female = Engine.rand:Integer(1) == 1
 	local introtext = "INTROTEXT_" .. flavour.id .. (female and "_FEMALE" or "_MALE")
