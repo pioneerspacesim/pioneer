@@ -20,7 +20,7 @@ namespace Graphics {
 			case ATTRIB_NORMAL: return 1;
 			case ATTRIB_DIFFUSE: return 2;
 			case ATTRIB_UV0: return 3;
-			case ATTRIB_TANGENT: return 4;
+			case ATTRIB_TANGENT: return 5;
 			default:
 				assert(false);
 				return 0;
