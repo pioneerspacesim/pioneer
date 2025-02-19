@@ -150,6 +150,9 @@ namespace SceneGraph {
 		//Override renderdata if this model is called from ModelNode
 		RenderData params = (rd != 0) ? (*rd) : m_renderData;
 
+		// reset time step for next frame
+		m_renderData.timeStep = 0.f;
+
 		m_renderer->SetTransform(trans);
 
 		//using the entire model bounding radius for all nodes at the moment.
@@ -211,6 +214,9 @@ namespace SceneGraph {
 
 		//Override renderdata if this model is called from ModelNode
 		RenderData params = (rd != 0) ? (*rd) : m_renderData;
+
+		// reset time step
+		m_renderData.timeStep = 0.f;
 
 		//using the entire model bounding radius for all nodes at the moment.
 		//BR could also be a property of Node.
@@ -432,6 +438,11 @@ namespace SceneGraph {
 		m_renderData.angthrust[0] = ang.x;
 		m_renderData.angthrust[1] = ang.y;
 		m_renderData.angthrust[2] = ang.z;
+	}
+
+	void Model::SetTimeStep(const float timeStep)
+	{
+		m_renderData.timeStep = timeStep;
 	}
 
 	void Model::SetThrusterColor(const vector3f &dir, const Color &color)
