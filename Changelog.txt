@@ -2,12 +2,15 @@ February
   * Fixes
     * Replace `texture2D()` with `texture()` (#6045)
     * Fixing tail Malabar/Vatakara stabilizer decals (#6061)
+    * Lodos normal re-fix (#6054)
+    * Fix lighting on models that use normal maps (#6073)
 
   * Internal
     * Add amd64 architecture (#6043)
     * build-ci: allow re-running release builds on workflow_dispatch (#6037)
     * Conform to C.128, aka: Virtual functions should specify exactly one of virtual, override, or final (#5995)
     * Store AtmosphereParameters in BaseSphere, calculate with material setup (#6059)
+    * Change modelcompiler single model filepathing, change Editor location for MSVC (#6063)
 
 Pioneer 2025-02-03 Release
   * Fixes
