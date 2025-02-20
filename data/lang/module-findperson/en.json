@@ -25,19 +25,27 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "FIND PERSON in the {system} system. Pay {cash}."
+    "message": "Find a person in the {system} system. Reward {cash}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "PILOT NEEDED for a search mission in the {system} system. Payment {cash}."
+    "message": "Search mission in the {system} system. Payment {cash}."
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "SEARCH MISSION. Find person in the {system} system."
+    "message": "Compensation for expenses {cash}."
   },
-  "ADTEXT_4": {
+  "ADTITLE_1": {
     "description": "",
-    "message": "SHIP FOR SEARCH REQUIRED. Compensation for expenses {cash}."
+    "message": "PERSON WANTED"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "PILOT FOR A SEARCH MISSION NEEDED"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "SHIP FOR SEARCH REQUIRED"
   },
   "CLIENT": {
     "description": "",
