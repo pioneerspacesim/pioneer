@@ -6,6 +6,9 @@
 #include "core/GZipFormat.h"
 #include <SDL.h>
 
+// HACK, this is copied from /src/SaveGameManager.cpp where it is defined
+static const char s_saveDirName[] = "savefiles";
+
 int info()
 {
 	printf(
@@ -32,14 +35,14 @@ extern "C" int main(int argc, char **argv)
 	filename = argv[shift+1];
 	std::string outname = argc > shift+2 ? argv[shift+2] : filename + ".json";
 
-	auto fileinfo = FileSystem::userFiles.Lookup(filename);
+	auto fileinfo = FileSystem::userFiles.Lookup(FileSystem::JoinPathBelow(s_saveDirName, filename));
 	if (!fileinfo.Exists()) {
 		printf("Input file %s could not be found.\n", filename.c_str());
 		printf("%s\n", fileinfo.GetPath().c_str());
 		return 1;
 	}
 
-	auto file = FileSystem::userFiles.ReadFile(filename);
+	auto file = FileSystem::userFiles.ReadFile(FileSystem::JoinPathBelow(s_saveDirName, filename));
 	if (!file) {
 		printf("Could not open file %s.\n", filename.c_str());
 		return 1;
@@ -74,7 +77,7 @@ extern "C" int main(int argc, char **argv)
 		return 3;
 	}
 
-	auto outFile = FileSystem::userFiles.OpenWriteStream(outname);
+	auto outFile = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(s_saveDirName, outname));
 	if (!outFile) {
 		printf("Could not open output file %s.\n", outname.c_str());
 		return 1;
