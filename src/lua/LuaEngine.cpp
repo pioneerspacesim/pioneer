@@ -489,7 +489,7 @@ static int l_engine_get_planet_detail_level(lua_State *l)
 
 static int l_engine_set_planet_detail_level(lua_State *l)
 {
-	const int level = LuaConstants::GetConstantFromArg(l, "DetailLevel", 1);
+	const int level = Clamp(LuaConstants::GetConstantFromArg(l, "DetailLevel", 1), 0, 4); // limit the values to the valid range
 	if (level != Pi::detail.planets) {
 		Pi::detail.planets = level;
 		Pi::config->SetInt("DetailPlanets", level);
@@ -507,7 +507,7 @@ static int l_engine_get_city_detail_level(lua_State *l)
 
 static int l_engine_set_city_detail_level(lua_State *l)
 {
-	const int level = LuaConstants::GetConstantFromArg(l, "DetailLevel", 1);
+	const int level = Clamp(LuaConstants::GetConstantFromArg(l, "DetailLevel", 1), 0, 4); // limit the values to the valid range
 	if (level != Pi::detail.cities) {
 		Pi::detail.cities = level;
 		Pi::config->SetInt("DetailCities", level);

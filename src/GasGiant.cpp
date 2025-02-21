@@ -282,7 +282,7 @@ void GasGiant::UpdateAllGasGiants()
 }
 
 // static
-void GasGiant::OnChangeDetailLevel()
+void GasGiant::OnChangeGasGiantsDetailLevel()
 {
 	s_patchContext.Reset(new GasPatchContext(127));
 

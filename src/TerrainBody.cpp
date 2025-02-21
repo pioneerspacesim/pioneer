@@ -151,8 +151,7 @@ double TerrainBody::GetTerrainHeight(const vector3d &pos_) const
 }
 
 //static
-void TerrainBody::OnChangeDetailLevel()
+void TerrainBody::OnChangeDetailLevel(Graphics::Renderer *r)
 {
-	GeoSphere::OnChangeDetailLevel();
-	GasGiant::OnChangeDetailLevel();
+	BaseSphere::OnChangeDetailLevel(r);
 }
