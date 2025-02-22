@@ -19,9 +19,13 @@ local Ship = require 'Ship'
 local utils = require 'utils'
 
 local MissionUtils = require 'modules.MissionUtils'
+local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
 
 local l = Lang.GetResource 'module-findperson'
 local lc = Lang.GetResource 'core'
+
+local PirateTemplate = MissionUtils.ShipTemplates.GenericPirate
+local MercenaryTemplate = MissionUtils.ShipTemplates.GenericMercenary
 
 -- Mission framework conditions
 local max_mission_dist = 20
@@ -278,45 +282,6 @@ local onShipDestroyed = function (ship, attacker)
 	end
 end
 
-local defineShip = function (role)
-	local shipdefs = utils.build_array(
-		utils.filter(
-			function (k, def)
-				return def.tag == 'SHIP' and def.hyperdriveClass > 0 and def.roles[role]
-			end,
-			pairs(ShipDef)
-		)
-	)
-	local shipdef = shipdefs[Engine.rand:Integer(1, #shipdefs)]
-	local drivedef = Equipment.hyperspace["hyperdrive_" .. shipdef.hyperdriveClass]
-
-	local missiledefs = utils.build_array(
-		utils.filter(
-			function (k, l)
-				return l:IsValidSlot("missile") and
-					not l.l10n_key:find("UNGUIDED")
-			end,
-			pairs(Equipment.misc)
-		)
-	)
-	local missiledef = missiledefs[Engine.rand:Integer(1, #missiledefs)]
-
-	local max_laser_size = shipdef.capacity - (drivedef.capabilities.mass + missiledef.capabilities.mass)
-	local laserdefs = utils.build_array(
-		utils.filter(
-			function (k, l)
-				return l:IsValidSlot("laser_front") and
-					l.capabilities.mass <= max_laser_size and
-					l.l10n_key:find("PULSECANNON")
-			end,
-			pairs(Equipment.laser)
-		)
-	)
-	local laserdef = laserdefs[Engine.rand:Integer(1, #laserdefs)]
-
-	return shipdef, drivedef, laserdef, missiledef
-end
-
 local onFrameChanged = function (player)
 	if not player:isa("Ship") or not player:IsPlayer() then return end
 
@@ -328,12 +293,8 @@ local onFrameChanged = function (player)
 			local riskmargin = Engine.rand:Number(-0.3, 0.0) -- Add some random luck
 			if (mission.risk + riskmargin) > Engine.rand:Number(1) then
 				-- The wanted person or one of his/her enemies has hired a mercenary to intercept
-				local ship, shipdef, drivedef, laserdef, missiledef
-				shipdef, drivedef, laserdef, missiledef = defineShip("mercenary")
-				ship = Space.SpawnShipDocked(shipdef.id, Space.GetBody(mission.destination.bodyIndex))
-				ship:SetLabel(Ship.MakeRandomLabel())
-				ship:AddEquip(drivedef)
-				ship:AddEquip(laserdef)
+				local threat = 10.0 + mission.risk * 25.0
+				local ship = ShipBuilder.MakeShipDocked(Space.GetBody(mission.destination.bodyIndex), MercenaryTemplate, threat)
 				mission.interceptor = ship
 				if mission.destination.type == "STARPORT_SURFACE" then
 					ship:AIEnterLowOrbit(Space.GetBody(mission.destination:GetSystemBody().parent.index))
@@ -354,16 +315,13 @@ local onEnterSystem = function (player)
 	for ref, mission in pairs(missions) do
 		if mission.destination:IsSameSystem(Game.system.path) and not mission.halfdone and mission.flavour.ship then
 
-			local ship, pirate_msg, shipdef, drivedef, laserdef, missiledef
-			shipdef, drivedef, laserdef, missiledef = defineShip("pirate")
-
+			local ship
+			local threat = 10.0 + mission.risk * 25.0
 			local riskmargin = Engine.rand:Number(-0.3, 0.3) -- Add some random luck
+
 			if (mission.risk + riskmargin) > Engine.rand:Number(1) then
-				ship = Space.SpawnShipNear(shipdef.id, player, 50, 100)
+				ship = ShipBuilder.MakeShipNear(player, PirateTemplate, threat, 50, 100)
 				ship:SetLabel(mission.shipid)
-				ship:AddEquip(drivedef)
-				ship:AddEquip(laserdef)
-				ship:AddEquip(missiledef)
 				pirate_msg = string.interp(l["PIRATE_GREETING_" .. Engine.rand:Integer(1, getNumberOfFlavours("PIRATE_GREETING"))], { client = mission.client.name })
 				Comms.ImportantMessage(pirate_msg, ship.label)
 				Comms.ImportantMessage(string.interp(l.TRANSMITTING_MSG, { shipid = mission.shipid }))
@@ -383,10 +341,8 @@ local onEnterSystem = function (player)
 					mission.halfdone = true
 				end)
 			else
-				ship = Space.SpawnShipDocked(shipdef.id, Space.GetBody(mission.destination.bodyIndex))
+				ship = ShipBuilder.MakeShipDocked(Space.GetBody(mission.destination.bodyIndex), PirateTemplate, threat)
 				ship:SetLabel(mission.shipid)
-				ship:AddEquip(drivedef)
-				ship:AddEquip(laserdef)
 			end
 			mission.ship = ship
 		end
