@@ -172,6 +172,7 @@ namespace SceneGraph {
 		Graphics::Renderer *GetRenderer() const { return m_renderer; }
 
 		//special for ship model use
+		void SetTimeStep(const float timeStep);
 		void SetThrust(const vector3f &linear, const vector3f &angular);
 
 		void SetThrusterColor(const vector3f &dir, const Color &color);

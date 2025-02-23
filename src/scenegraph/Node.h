@@ -48,6 +48,7 @@ namespace SceneGraph {
 		float linthrust[3]; // 1.0 to -1.0
 		float angthrust[3]; // 1.0 to -1.0
 		Color customColor;
+		float timeStep; // used as a heart beat for shaders
 
 		float boundingRadius; //updated by model and passed to submodels
 		unsigned int nodemask;
@@ -55,6 +56,7 @@ namespace SceneGraph {
 		RenderData() :
 			linthrust(),
 			angthrust(),
+			timeStep(0.f),
 			boundingRadius(0.f),
 			nodemask(NODE_SOLID) //draw solids
 		{

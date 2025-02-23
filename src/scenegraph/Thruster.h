@@ -44,6 +44,7 @@ namespace SceneGraph {
 		vector3f dir;
 		vector3f pos;
 		Color currentColor;
+		float m_time; // used for animating the thruster
 	};
 
 } // namespace SceneGraph
