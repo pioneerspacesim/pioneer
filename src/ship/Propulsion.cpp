@@ -241,7 +241,10 @@ void Propulsion::Render(Graphics::Renderer *r, const Camera *camera, const vecto
 	 * thruster and so on)... this code is :-/
 	*/
 	//angthrust negated, for some reason
-	if (m_smodel != nullptr) m_smodel->SetThrust(vector3f(GetLinThrusterState()), -vector3f(GetAngThrusterState()));
+	if (m_smodel != nullptr) {
+		m_smodel->SetThrust(vector3f(GetLinThrusterState()), -vector3f(GetAngThrusterState()));
+		m_smodel->SetRenderTime(Pi::game->GetTime());
+	}
 }
 
 void Propulsion::AIModelCoordsMatchSpeedRelTo(const vector3d &v, const DynamicBody *other)
