@@ -50,13 +50,15 @@ namespace SceneGraph {
 		Color customColor;
 
 		float boundingRadius; //updated by model and passed to submodels
-		unsigned int nodemask;
+		uint32_t nodemask;
+		double renderTime;
 
 		RenderData() :
 			linthrust(),
 			angthrust(),
 			boundingRadius(0.f),
-			nodemask(NODE_SOLID) //draw solids
+			nodemask(NODE_SOLID), //draw solids
+			renderTime(0.0)
 		{
 		}
 	};

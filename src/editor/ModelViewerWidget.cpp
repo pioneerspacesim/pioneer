@@ -578,6 +578,7 @@ void ModelViewerWidget::DrawModel(matrix4x4f trans)
 		(m_options.showGeomBBox ? SceneGraph::Model::DEBUG_GEOMBBOX : 0x0) |
 		(m_options.wireframe ? SceneGraph::Model::DEBUG_WIREFRAME : 0x0));
 
+	m_model->SetRenderTime(GetApp()->GetTime());
 	m_model->Render(m_modelViewMat);
 	m_navLights->Render(m_renderer);
 }

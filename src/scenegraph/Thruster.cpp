@@ -24,12 +24,23 @@ namespace SceneGraph {
 	static const std::string thrusterGlowTextureFilename("textures/halo.dds");
 	static Color baseColor(178, 153, 255, 255);
 
+	uint32_t hash32(uint32_t x)
+	{
+		x ^= x >> 16;
+		x *= 0x21f0aaad;
+		x ^= x >> 15;
+		x *= 0xd35a2d97;
+		x ^= x >> 15;
+		return x;
+	}
+
 	Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, const vector3f &_dir) :
 		Node(r, NODE_TRANSPARENT),
 		linearOnly(_linear),
 		dir(_dir),
 		pos(_pos),
-		currentColor(baseColor)
+		currentColor(baseColor),
+		displayedPower(0.f)
 	{
 		//set up materials
 		Graphics::MaterialDescriptor desc;
@@ -43,12 +54,12 @@ namespace SceneGraph {
 
 		auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
-		m_tMat.Reset(r->CreateMaterial("unlit", desc, rsd, vtxFormat));
+		m_tMat.Reset(r->CreateMaterial("thruster", desc, rsd, vtxFormat));
 		m_tMat->SetTexture("texture0"_hash,
 			Graphics::TextureBuilder::Billboard(thrusterTextureFilename).GetOrCreateTexture(r, "billboard"));
 		m_tMat->diffuse = baseColor;
 
-		m_glowMat.Reset(r->CreateMaterial("unlit", desc, rsd, vtxFormat));
+		m_glowMat.Reset(r->CreateMaterial("thruster", desc, rsd, vtxFormat));
 		m_glowMat->SetTexture("texture0"_hash,
 			Graphics::TextureBuilder::Billboard(thrusterGlowTextureFilename).GetOrCreateTexture(r, "billboard"));
 		m_glowMat->diffuse = baseColor;
@@ -61,7 +72,8 @@ namespace SceneGraph {
 		linearOnly(thruster.linearOnly),
 		dir(thruster.dir),
 		pos(thruster.pos),
-		currentColor(thruster.currentColor)
+		currentColor(thruster.currentColor),
+		displayedPower(thruster.displayedPower)
 	{
 	}
 
@@ -101,9 +113,32 @@ namespace SceneGraph {
 					power = fabs(at.z);
 			}
 		}
-		if (power < 0.001f) return;
 
-		m_tMat->diffuse = m_glowMat->diffuse = currentColor * power;
+		// fade in/out the amount of thruster power shown
+		displayedPower = MathUtil::Lerp(displayedPower, power, 0.2f);
+		if (displayedPower < 0.01f) {
+			return;
+		}
+
+		// animate the thrust flame using the thruster shader
+		// update animation time on each render
+		// a unique time stamp is needed for each thruster flame to have a unique flicker
+		// use thruster position to make each thruster time different
+		// generate a psuedo random flicker
+		// this could be done in the vertex shader but the value only needs to be
+		// generated once per frame, not for every vertex
+		float hash = pos.x + pos.y + pos.z;
+		hash = (uint16_t(hash32(*reinterpret_cast<uint32_t *>(&hash)) & 0xFFFF)) / 65535.f;
+		const float flicker = abs(sin(rd->renderTime * 55. * (0.75 + hash * 0.5)));
+
+		// pass the power setting and flicker value using the material emissive
+		// emissive.a is the flicker value for the flame
+		m_tMat->emissive.a = m_glowMat->emissive.a = flicker * 255.f;
+		
+		// emissive.r is the thruster power setting which effects flame length and brightness
+		m_tMat->emissive.r = m_glowMat->emissive.r = 255.0f * displayedPower;
+		
+		m_tMat->diffuse = m_glowMat->diffuse = currentColor;
 
 		//directional fade
 		vector3f cdir = vector3f(trans * -dir).Normalized();
@@ -184,7 +219,7 @@ namespace SceneGraph {
 		verts.Clear();
 		{
 			//create glow billboard when looking down the thruster
-			const float w = 0.2;
+			constexpr float w = 0.2f;
 
 			vector3f one(-w, -w, 0.f); //top left
 			vector3f two(-w, w, 0.f);  //top right
@@ -192,10 +227,10 @@ namespace SceneGraph {
 			vector3f four(w, -w, 0.f); //bottom left
 
 			//uv coords
-			const vector2f topLeft(0.f, 1.f);
-			const vector2f topRight(1.f, 1.f);
-			const vector2f botLeft(0.f, 0.f);
-			const vector2f botRight(1.f, 0.f);
+			static const vector2f topLeft(0.f, 1.f);
+			static const vector2f topRight(1.f, 1.f);
+			static const vector2f botLeft(0.f, 0.f);
+			static const vector2f botRight(1.f, 0.f);
 
 			for (int i = 0; i < 5; i++) {
 				verts.Add(one, topLeft);

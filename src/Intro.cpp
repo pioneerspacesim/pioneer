@@ -160,5 +160,6 @@ void Intro::Draw(float deltaTime)
 		matrix4x4f::Translation(0, 0, m_dist) *
 		matrix4x4f::RotateXMatrix(DEG2RAD(-15.0f)) *
 		matrix4x4f::RotateYMatrix(duration);
+	m_model->SetRenderTime(duration);
 	m_model->Render(trans);
 }
