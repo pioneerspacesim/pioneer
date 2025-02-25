@@ -34,7 +34,7 @@ public:
 	double GetMaxFeatureRadius() const { return m_maxFeatureHeight; }
 
 	// implements calls to all relevant terrain management sub-systems
-	static void OnChangeDetailLevel();
+	static void OnChangeDetailLevel(Graphics::Renderer *r);
 
 protected:
 	TerrainBody() = delete;

@@ -150,7 +150,7 @@ namespace Graphics {
 		// and spherical texture coordinates.
 		class Sphere3D {
 		public:
-			//subdivisions must be 0-4
+			//subdivisions must be 0-10
 			Sphere3D(Renderer *, int subdivisions = 0, float scale = 1.f, AttributeSet attribs = (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0));
 			void Draw(Renderer *r, Material *m);
 

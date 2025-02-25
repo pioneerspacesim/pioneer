@@ -289,7 +289,7 @@ void ObjectViewerView::OnChangeTerrain()
 	Pi::renderer->FlushCommandBuffers();
 
 	// force reload
-	TerrainBody::OnChangeDetailLevel();
+	TerrainBody::OnChangeDetailLevel(Pi::renderer);
 	ReloadState();
 }
 

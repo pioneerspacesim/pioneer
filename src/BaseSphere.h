@@ -28,10 +28,10 @@ public:
 
 	virtual double GetHeight(const vector3d &p) const { return 0.0; }
 
-	static void Init();
+	static void Init(Graphics::Renderer *renderer);
 	static void Uninit();
 	static void UpdateAllBaseSphereDerivatives();
-	static void OnChangeDetailLevel();
+	static void OnChangeDetailLevel(Graphics::Renderer *renderer);
 
 	void DrawAtmosphereSurface(Graphics::Renderer *renderer,
 		const matrix4x4d &modelView, const vector3d &campos, float rad,
@@ -62,8 +62,11 @@ protected:
 	RefCountedPtr<Graphics::Material> m_atmosphereMaterial;
 
 	// atmosphere geometry
-	std::unique_ptr<Graphics::Drawables::Sphere3D> m_atmos;
+	static std::unique_ptr<Graphics::Drawables::Sphere3D> m_atmos; // always created with the same parameters so can be shared by all atmospheres
 	AtmosphereParameters m_atmosphereParameters;
+
+private:
+	static void ResetAtmosphereGeometry(Graphics::Renderer *renderer);
 };
 
 #endif /* _GEOSPHERE_H */
