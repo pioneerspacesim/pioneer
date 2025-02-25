@@ -201,8 +201,17 @@ double SystemBody::GetAtmPressure(double altitude) const
 	const double lapseRate_L = surfaceGravity_g / specificHeat; // deg/m
 	const double surfaceTemperature_T0 = GetAverageTemp();	//K
 
-	return m_atmosPressure * pow((1 - lapseRate_L * altitude / surfaceTemperature_T0),
-		(specificHeat * gasMolarMass / GAS_CONSTANT_R)); // in ATM since p0 was in ATM
+	// pressure below tropopause
+	const double atmosPressure = m_atmosPressure * pow((1 - lapseRate_L * altitude / surfaceTemperature_T0),
+					(specificHeat * gasMolarMass / GAS_CONSTANT_R)); // in ATM since p0 was in ATM
+
+	if (atmosPressure > 0.1) {
+		return atmosPressure;
+	} else {
+		// above tropopause
+		const double tropopauseTemp = surfaceTemperature_T0 - lapseRate_L * m_tropopause;
+		return 0.1 * exp((-surfaceGravity_g * gasMolarMass * (altitude - m_tropopause)) / (GAS_CONSTANT_R * tropopauseTemp));
+	}
 }
 
 double SystemBody::GetAtmDensity(double altitude, double pressure) const
@@ -217,6 +226,10 @@ double SystemBody::GetAtmAverageTemp(double altitude) const
 {
 	// temperature at height
 	const double lapseRate_L = CalcSurfaceGravity() / GetSpecificHeat(GetSuperType()); // deg/m
+	if (altitude > m_tropopause) {
+		return double(GetAverageTemp()) - lapseRate_L * m_tropopause;
+	}
+
 	return double(GetAverageTemp()) - lapseRate_L * altitude;
 }
 
@@ -241,7 +254,18 @@ void SystemBody::SetAtmFromParameters()
 		// want height for pressure 0.001 atm:
 		// h = (1 - exp(RL/gM * log(P/p0))) * T0 / l
 		double RLdivgM = (GAS_CONSTANT_R * lapseRate_L) / (surfaceGravity_g * GetMolarMass(GetSuperType()));
-		m_atmosRadius = (1.0 - exp(RLdivgM * log(0.001 / m_atmosPressure))) * surfaceTemperature_T0 / lapseRate_L;
+//		m_atmosRadius = (1.0 - exp(RLdivgM * log(0.001 / m_atmosPressure))) * surfaceTemperature_T0 / lapseRate_L;
+
+		// get tropopause: height for pressure 0.1 atm
+		m_tropopause = (1.0 - exp(RLdivgM * log(0.1 / m_atmosPressure))) * surfaceTemperature_T0 / lapseRate_L;
+
+		// if tropopause is below surface (surface pressure < 0.1 atm)
+		if (m_tropopause < 0.0) {
+			m_tropopause = 0.0;
+		}
+
+		double tropopause_temperature = surfaceTemperature_T0 - lapseRate_L * m_tropopause;
+		m_atmosRadius = log(0.001 / 0.1) * GAS_CONSTANT_R * tropopause_temperature / (-surfaceGravity_g * GetMolarMass(GetSuperType())) + m_tropopause;
 	}
 }
 
