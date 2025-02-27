@@ -107,7 +107,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-gcc:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
     # Checkout the repository as $GITHUB_WORKSPACE
@@ -143,7 +143,7 @@ jobs:
         tag_name: ${{ inputs.tag_name }}
 
   build-clang:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -154,7 +154,7 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt-fast update
-        sudo apt-fast install -y clang-8 ${{ env.packages }}
+        sudo apt-fast install -y clang-12 ${{ env.packages }}
 
     - name: Setup CMake
       run: |
@@ -173,7 +173,7 @@ jobs:
       run: ./build/unittest
 
   build-appimage:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     if: ${{github.event_name == 'release' || github.event_name == 'workflow_dispatch'}}
     steps:
     # Checkout the repository as $GITHUB_WORKSPACE
