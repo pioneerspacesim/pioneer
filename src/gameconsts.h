@@ -5,6 +5,8 @@
 #define _GAMECONSTS_H
 
 #include <cstdint>
+#include "Using.h"
+#include "Random64.h"
 
 static const double PHYSICS_HZ = 60.0;
 
