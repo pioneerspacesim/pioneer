@@ -59,5 +59,8 @@
 #include "core/macros.h"
 
 #include "MathUtil.h"
+#include "Random64.h"
+
+#include "Using.h"
 
 #endif /* _LIBS_H */

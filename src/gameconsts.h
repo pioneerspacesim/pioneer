@@ -5,6 +5,7 @@
 #define _GAMECONSTS_H
 
 #include <cstdint>
+#include "Using.h"
 
 static const double PHYSICS_HZ = 60.0;
 
