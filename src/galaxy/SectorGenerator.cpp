@@ -145,21 +145,17 @@ bool SectorRandomSystemsGenerator::Apply(Random &rng, Random64 &rng64, RefCounte
 		Sector::System s(sector.Get(), sx, sy, sz, customCount + i);
 
 		cui3 numStarChance = rng.Int32(1000000000);
-
 		if (numStarChance < 588704) { //0.0588704792849501% chance
-			assert(s.m_numStars == 4);
-
+			s.m_numStars = 4;
 		}
 		else if (numStarChance < 98324047) { //9.7735343551% chance
-			assert(s.m_numStars == 2);
-
+			s.m_numStars = 2;
 		}
 		else if (numStarChance < 291311882) { //19.2987835548% chance
-			assert(s.m_numStars == 3);
-
+			s.m_numStars = 3;
 		}
 		else {
-			assert(s.m_numStars == 1);
+			s.m_numStars = 1;
 		}
 
 		s.m_pos.x = rng.Double(Sector::SIZE);
