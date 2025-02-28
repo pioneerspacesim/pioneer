@@ -17,7 +17,6 @@
 
 #include "RefCounted.h"
 #include "fixed.h"
-#include "Using.h"
 
 extern "C" {
 #include "jenkins/lookup3.h"
@@ -25,11 +24,10 @@ extern "C" {
 
 #define PCG_LITTLE_ENDIAN 1
 #include "pcg-cpp/pcg_random.hpp"
-#include <Random.h>
 
 // A deterministic random number generator
 class Random64 : public RefCounted {
-	pcg64 mPCG;
+	pcg32 mPCG;
 
 	// For storing second rand from Normal
 	bool cached;
@@ -41,26 +39,26 @@ public:
 	//
 
 	// Construct a new random generator using the given seed
-	Random64(cui3 initialSeed = 0xabcd1234)
+	Random64(const Uint32 initialSeed = 0xabcd1234)
 	{
 		seed(initialSeed);
 	}
 
-	// Construct a new generator given an array of 64-bit seeds.
-	Random64(cui3* const seeds, size_t length)
+	// Construct a new generator given an array of 32-bit seeds.
+	Random64(const Uint32* const seeds, size_t length)
 	{
 		seed(seeds, length);
 	}
 
 	// Construct a new random generator from an array of 64-bit
 	// seeds.
-	Random64(cui6* const seeds, size_t length)
+	Random64(const Uint64* const seeds, size_t length)
 	{
-		seed(reinterpret_cast<cui3*>(seeds), length * 2);
+		seed(reinterpret_cast<const Uint32*>(seeds), length * 2);
 	}
 
-	// Construct a new generator given an array of 64-bit seeds.
-	Random64(std::initializer_list<ui3t> seeds)
+	// Construct a new generator given an array of 32-bit seeds.
+	Random64(std::initializer_list<uint32_t> seeds)
 	{
 		seed(seeds);
 	}
@@ -70,26 +68,26 @@ public:
 	//
 
 	// Seed the RNG using the hash of the given array of seeds.
-	void seed(cui3* const seeds, size_t length)
+	void seed(const Uint32* const seeds, size_t length)
 	{
-		cui3 hash = lookup3_hashword(seeds, length, 0);
+		const Uint32 hash = lookup3_hashword(seeds, length, 0);
 		mPCG.seed(hash);
 		cached = false;
 	}
 
 	// Seed using an array of 64-bit integers
-	void seed(cui6* const seeds, size_t length)
+	void seed(const Uint64* const seeds, size_t length)
 	{
-		seed(reinterpret_cast<cui6*>(seeds), length * 2);
+		seed(reinterpret_cast<const Uint32*>(seeds), length * 2);
 	}
 
-	// Seed using an initializer_list of 64-bit integers
-	void seed(std::initializer_list<ui3t> list) {
+	// Seed using an initializer_list of 32-bit integers
+	void seed(std::initializer_list<uint32_t> list) {
 		seed(&*list.begin(), list.size());
 	}
 
 	// Seed using a single 32-bit integer
-	void seed(cui3 value)
+	void seed(const Uint32 value)
 	{
 		seed(&value, 1);
 	}
@@ -104,7 +102,7 @@ public:
 
 	// Get the next integer from the sequence
 	// interval [0, 2**32)
-	inline ui6 Int64()
+	inline Uint64 Int64()
 	{
 		return mPCG();
 	}
@@ -112,7 +110,7 @@ public:
 	// Pick an integer like you're rolling a "choices" sided die,
 	// a 6 sided die would return a number between 0 and 5.
 	// interval [0, choices)
-	inline ui6 Int64(const long long choices)
+	inline Uint64 Int64(const long long choices)
 	{
 		return Int64() % choices;
 	}
@@ -266,7 +264,7 @@ public:
 		return mean + maxdev * NormFixed();
 	}
 
-	const pcg64& GetPCG64() const { return mPCG; }
+	const pcg32& GetPCG() const { return mPCG; }
 
 private:
 	Random64(const Random64&); // copy constructor not defined
