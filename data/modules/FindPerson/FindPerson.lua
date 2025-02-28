@@ -9,6 +9,7 @@ local Comms = require 'Comms'
 local Event = require 'Event'
 local Timer = require 'Timer'
 local Mission = require 'Mission'
+local Passengers = require 'Passengers'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
@@ -115,7 +116,7 @@ local onChat = function (form, ref, option)
 		form:SetMessage(string.interp(l["HOW_MUCH_TIME_" .. ad.flavour.id], { date = Format.Date(ad.due) }))
 
 	elseif option == 4 then
-		if ad.flavour.taxi and Game.player:CountEquip(Equipment.misc.cabin) == 0 and Game.player:CountEquip(Equipment.misc.cabin_occupied) == 0 then
+		if ad.flavour.taxi and Passengers.CountFreeBerths(Game.player) == 0 then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_A_CABIN)
 			form:RemoveNavButton()
 			return
@@ -390,8 +391,7 @@ local onShipDocked = function (player, station)
 					Character.persistent.player.reputation = Character.persistent.player.reputation - reputation
 				end
 				if mission.flavour.taxi then
-					player:RemoveEquip(Equipment.misc.cabin_occupied)
-					player:AddEquip(Equipment.misc.cabin)
+					Passengers.DisembarkPassenger(player, mission.wanted)
 				end
 				Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
 					Character.persistent.player.reputation, Character.persistent.player.killcount)
@@ -404,9 +404,8 @@ local onShipDocked = function (player, station)
 				msg = string.interp(l["GREETING_" .. mission.flavour.id], { client = mission.client.name })
 				Comms.ImportantMessage(msg, mission.wanted.name)
 				if mission.flavour.taxi then
-					if player:CountEquip(Equipment.misc.cabin) > 0 then
-						player:RemoveEquip(Equipment.misc.cabin)
-						player:AddEquip(Equipment.misc.cabin_occupied)
+					if Passengers.CountFreeBerths(player) > 0 then
+						Passengers.EmbarkPassenger(player, mission.wanted)
 						mission.halfdone = true
 					else
 						-- cabin occupied or player has removed cabin?
