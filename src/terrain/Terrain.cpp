@@ -633,6 +633,95 @@ Terrain::~Terrain()
 {
 }
 
+static constexpr double TARGET_CITY_RADIUS = 5000.0;
+#pragma optimize(off, "")
+// Set up region data for each of the system body's child surface starports
+void Terrain::InitCityRegions(const SystemBody *body)
+{
+	m_regionTypes.clear();
+	m_positions.clear();
+
+	const SystemBody *&sb = body;
+	if (!sb->HasChildren()) {
+		return;
+	}
+
+	//Terrain *terrain = static_cast<Terrain *>(this);
+
+	m_regionTypes.reserve(16);
+	m_positions.reserve(16);
+
+	// step through the planet's sbody's children and set up regions for surface starports
+	for (std::vector<SystemBody *>::const_iterator i = sb->GetChildren().begin(); i != sb->GetChildren().end(); i++) {
+		if ((*i)->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
+			const double delta = (0.75 * TARGET_CITY_RADIUS / m_planetRadius);
+			const double citySize_m = TARGET_CITY_RADIUS * 1.1;
+
+			// calculate position of starport
+			const vector3d pos = ((*i)->GetOrbit().GetPlane() * vector3d(0, 1, 0));
+
+			// set up regions which contain the details for region implementation
+			RegionType rt;
+
+			rt.height = GetHeight(pos); // height in planet radii
+
+			// Calculate average variation of four points about star port
+			// points do not need to be on the planet surface
+			double avgVariation = fabs(GetHeight(vector3d(pos.x + delta, pos.y, pos.z)) - rt.height);
+			avgVariation += fabs(GetHeight(vector3d(pos.x - delta, pos.y, pos.z)) - rt.height);
+			avgVariation += fabs(GetHeight(vector3d(pos.x, pos.y, pos.z + delta)) - rt.height);
+			avgVariation += fabs(GetHeight(vector3d(pos.x, pos.y, pos.z - delta)) - rt.height);
+			avgVariation *= (1 / 4.0);
+			rt.heightVariation = 1.0 / m_planetRadius + 0.625 * avgVariation;
+
+			const double size = fabs(cos(std::min(citySize_m, 0.2 * sb->GetRadius()) / (sb->GetRadius()))); // angle between city center/boundary = 2pi*city size/(perimeter great circle = 2pi r)
+			rt.outer = size;																				// city center pos and current point will be dotted, and compared against size
+			rt.inner = (1.0 - size) * 0.5 + size;
+
+			m_positions.emplace_back(pos);
+			m_regionTypes.emplace_back(rt);
+		}
+	}
+}
+
+void Terrain::ApplySimpleHeightRegions(double &h, const vector3d &p) const
+{
+	const double dynamicRangeHeight = 60.0 / m_planetRadius; //in radii
+	for (unsigned int i = 0; i < m_positions.size(); i++) {
+		const vector3d &pos = m_positions[i];
+		const RegionType &rt = m_regionTypes[i];
+		if (pos.Dot(p) > rt.outer) {
+			// target height
+			const double th = rt.height;
+
+			// maximum variation in height with respect to target height
+			const double delta_h = fabs(h - th);
+			const double neg = (h - th > 0.0) ? 1.0 : -1.0;
+
+			// Make up an expression to compress delta_h:
+			// Compress delta_h between 0 and 1
+			//    1.1 use compression of the form c = (delta_h+a)/(a+(delta_h+a)) (eqn. 1)
+			//    1.2 this gives c in the interval [0.5, 1] for delta_h [0, +inf] with c=0.5 at delta_h=0.
+			//  2.0 Use compressed_h = dynamic range*(sign(h-th)*(c-0.5)) (eqn. 2) to get h between th-0.5*dynamic range, th+0.5*dynamic range
+
+			// Choosing a value for a
+			//    3.1 c [0.5, 0.8] occurs when delta_h [a to 3a] (3x difference) which is roughly the expressible range (above or below that the function changes slowly)
+			//    3.2 Find an expression for the expected variation and divide by around 3
+
+			// It may become necessary calculate expected variation based on intermediate quantities generated (e.g. distribution fractals)
+			// or to store a per planet estimation of variation when fracdefs are calculated.
+			const double variationEstimate = rt.heightVariation;
+			const double a = variationEstimate * (1.0 / 3.0); // point 3.2
+
+			const double c = (delta_h + a) / (2.0 * a + delta_h);					 // point 1.1
+			const double compressed_h = dynamicRangeHeight * (neg * (c - 0.5)) + th; // point 2.0
+
+			h= MathUtil::Lerp(h, compressed_h, Clamp((pos.Dot(p) - rt.outer) / (rt.inner - rt.outer), 0.0, 1.0));
+			break; // blends from compressed height-terrain height as pos goes inner to outer
+		}
+	}
+}
+#pragma optimize(on, "")
 /**
  * Feature width means roughly one perlin noise blob or grain.
  * This will end up being one hill, mountain or continent, roughly.

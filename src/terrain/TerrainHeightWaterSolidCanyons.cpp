@@ -63,5 +63,6 @@ double TerrainHeightFractal<TerrainHeightWaterSolidCanyons>::GetHeight(const vec
 	n = m_maxHeight * n;
 	n = (n < 0.0 ? 0 : n);
 	n = (n > 1.0 ? 2.0 - n : n);
+	ApplySimpleHeightRegions(n, p);
 	return n;
 }

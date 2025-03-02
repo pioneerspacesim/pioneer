@@ -22,6 +22,14 @@ class SystemBody;
 template <typename, typename>
 class TerrainGenerator;
 
+// data about regions from feature to heightmap code go here
+struct RegionType {
+	double height;
+	double heightVariation;
+	double inner;
+	double outer;
+};
+
 class Terrain : public RefCounted {
 public:
 	// location and intensity of effects are controlled by the colour fractals;
@@ -35,6 +43,8 @@ public:
 	static Terrain *InstanceTerrain(const SystemBody *body);
 
 	virtual ~Terrain();
+
+	void InitCityRegions(const SystemBody *body);
 
 	void SetFracDef(const unsigned int index, const double featureHeightMeters, const double featureWidthMeters, const double smallestOctaveMeters = 20.0);
 	inline const fracdef_t &GetFracDef(const unsigned int index) const
@@ -65,6 +75,7 @@ private:
 
 protected:
 	Terrain(const SystemBody *body);
+	void ApplySimpleHeightRegions(double &h, const vector3d &p) const;
 
 	Uint32 m_seed;
 	Random m_rand;
@@ -118,6 +129,10 @@ protected:
 		std::string m_name;
 	};
 	MinBodyData m_minBody;
+
+	// used for region based terrain e.g. cities
+	std::vector<vector3d> m_positions;
+	std::vector<RegionType> m_regionTypes;
 };
 
 template <typename HeightFractal>
