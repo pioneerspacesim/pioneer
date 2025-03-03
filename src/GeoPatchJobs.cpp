@@ -30,23 +30,31 @@ void SSingleSplitRequest::GenerateMesh() const
 {
 	PROFILE_SCOPED()
 	const int borderedEdgeLen = edgeLen + (BORDER_SIZE * 2);
-#ifndef NDEBUG
 	const int numBorderedVerts = borderedEdgeLen * borderedEdgeLen;
-#endif
 
 	// generate heights plus a 1 unit border
-	double *bhts = borderHeights.get();
-	vector3d *vrts = borderVertexs.get();
+	std::vector<vector3d> positions;
+	positions.reserve(numBorderedVerts);
+	std::vector<double> heightsOut;
+	heightsOut.resize(numBorderedVerts);
 	for (int y = -BORDER_SIZE; y < borderedEdgeLen - BORDER_SIZE; y++) {
 		const double yfrac = double(y) * fracStep;
 		for (int x = -BORDER_SIZE; x < borderedEdgeLen - BORDER_SIZE; x++) {
 			const double xfrac = double(x) * fracStep;
 			const vector3d p = GetSpherePoint(v0, v1, v2, v3, xfrac, yfrac);
-			const double height = pTerrain->GetHeight(p);
-			assert(height >= 0.0f && height <= 1.0f);
-			*(bhts++) = height;
-			*(vrts++) = p * (height + 1.0);
+			positions.emplace_back(p);
 		}
+	}
+	pTerrain->GetHeights(positions, heightsOut);
+
+	double *bhts = borderHeights.get();
+	vector3d *vrts = borderVertexs.get();
+	for (int iHeights = 0; iHeights < numBorderedVerts; iHeights++)
+	{
+		const vector3d &p = positions[iHeights];
+		const double height = heightsOut[iHeights];
+		*(bhts++) = height;
+		*(vrts++) = p * (height + 1.0);
 	}
 	assert(bhts == &borderHeights.get()[numBorderedVerts]);
 
@@ -190,23 +198,30 @@ void SQuadSplitRequest::GenerateBorderedData() const
 {
 	PROFILE_SCOPED()
 	const int borderedEdgeLen = (edgeLen * 2) + (BORDER_SIZE * 2) - 1;
-#ifndef NDEBUG
 	const int numBorderedVerts = borderedEdgeLen * borderedEdgeLen;
-#endif
 
 	// generate heights plus a N=BORDER_SIZE unit border
-	double *bhts = borderHeights.get();
-	vector3d *vrts = borderVertexs.get();
+	std::vector<vector3d> positions;
+	positions.reserve(numBorderedVerts);
+	std::vector<double> heightsOut;
+	heightsOut.resize(numBorderedVerts);
 	for (int y = -BORDER_SIZE; y < (borderedEdgeLen - BORDER_SIZE); y++) {
 		const double yfrac = double(y) * (fracStep * 0.5);
 		for (int x = -BORDER_SIZE; x < (borderedEdgeLen - BORDER_SIZE); x++) {
 			const double xfrac = double(x) * (fracStep * 0.5);
 			const vector3d p = GetSpherePoint(v0, v1, v2, v3, xfrac, yfrac);
-			const double height = pTerrain->GetHeight(p);
-			assert(height >= 0.0f && height <= 1.0f);
-			*(bhts++) = height;
-			*(vrts++) = p * (height + 1.0);
+			positions.emplace_back(p);
 		}
+	}
+	pTerrain->GetHeights(positions, heightsOut);
+
+	double *bhts = borderHeights.get();
+	vector3d *vrts = borderVertexs.get();
+	for (int iHeights = 0; iHeights < numBorderedVerts; iHeights++) {
+		const vector3d &p = positions[iHeights];
+		const double height = heightsOut[iHeights];
+		*(bhts++) = height;
+		*(vrts++) = p * (height + 1.0);
 	}
 	assert(bhts == &borderHeights[numBorderedVerts]);
 }
