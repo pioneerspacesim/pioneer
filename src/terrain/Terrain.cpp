@@ -634,36 +634,35 @@ Terrain::~Terrain()
 }
 
 static constexpr double TARGET_CITY_RADIUS = 5000.0;
-#pragma optimize(off, "")
+
 // Set up region data for each of the system body's child surface starports
-void Terrain::InitCityRegions(const SystemBody *body)
+void Terrain::InitCityRegions(const SystemBody *sb)
 {
 	m_regionTypes.clear();
 	m_positions.clear();
 
-	const SystemBody *&sb = body;
 	if (!sb->HasChildren()) {
 		return;
 	}
 
-	//Terrain *terrain = static_cast<Terrain *>(this);
+	const double delta = (0.75 * TARGET_CITY_RADIUS / m_planetRadius);
+	constexpr double citySize_m = TARGET_CITY_RADIUS * 1.1;
 
-	m_regionTypes.reserve(16);
-	m_positions.reserve(16);
+	constexpr size_t DEFAULT_RESERVE = 8;
+	m_regionTypes.reserve(DEFAULT_RESERVE);
+	m_positions.reserve(DEFAULT_RESERVE);
 
 	// step through the planet's sbody's children and set up regions for surface starports
 	for (std::vector<SystemBody *>::const_iterator i = sb->GetChildren().begin(); i != sb->GetChildren().end(); i++) {
 		if ((*i)->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
-			const double delta = (0.75 * TARGET_CITY_RADIUS / m_planetRadius);
-			const double citySize_m = TARGET_CITY_RADIUS * 1.1;
-
 			// calculate position of starport
 			const vector3d pos = ((*i)->GetOrbit().GetPlane() * vector3d(0, 1, 0));
 
 			// set up regions which contain the details for region implementation
 			RegionType rt;
 
-			rt.height = GetHeight(pos); // height in planet radii
+			// height in planet radii
+			rt.height = GetHeight(pos);
 
 			// Calculate average variation of four points about star port
 			// points do not need to be on the planet surface
@@ -674,14 +673,20 @@ void Terrain::InitCityRegions(const SystemBody *body)
 			avgVariation *= (1 / 4.0);
 			rt.heightVariation = 1.0 / m_planetRadius + 0.625 * avgVariation;
 
-			const double size = fabs(cos(std::min(citySize_m, 0.2 * sb->GetRadius()) / (sb->GetRadius()))); // angle between city center/boundary = 2pi*city size/(perimeter great circle = 2pi r)
-			rt.outer = size;																				// city center pos and current point will be dotted, and compared against size
+			// angle between city center/boundary = 2pi*city size/(perimeter great circle = 2pi r)
+			// city center pos and current point will be dotted, and compared against size
+			const double size = fabs(cos(std::min(citySize_m, 0.2 * sb->GetRadius()) / (sb->GetRadius())));
+			rt.outer = size;																				
 			rt.inner = (1.0 - size) * 0.5 + size;
 
 			m_positions.emplace_back(pos);
 			m_regionTypes.emplace_back(rt);
 		}
 	}
+
+	// reduce wasted space, maybe
+	m_positions.resize(m_positions.size());
+	m_regionTypes.resize(m_regionTypes.size());
 }
 
 void Terrain::ApplySimpleHeightRegions(double &h, const vector3d &p) const
@@ -716,12 +721,13 @@ void Terrain::ApplySimpleHeightRegions(double &h, const vector3d &p) const
 			const double c = (delta_h + a) / (2.0 * a + delta_h);					 // point 1.1
 			const double compressed_h = dynamicRangeHeight * (neg * (c - 0.5)) + th; // point 2.0
 
-			h= MathUtil::Lerp(h, compressed_h, Clamp((pos.Dot(p) - rt.outer) / (rt.inner - rt.outer), 0.0, 1.0));
-			break; // blends from compressed height-terrain height as pos goes inner to outer
+			// blends from compressed height-terrain height as pos goes inner to outer
+			h = MathUtil::Lerp(h, compressed_h, Clamp((pos.Dot(p) - rt.outer) / (rt.inner - rt.outer), 0.0, 1.0));
+			break;
 		}
 	}
 }
-#pragma optimize(on, "")
+
 /**
  * Feature width means roughly one perlin noise blob or grain.
  * This will end up being one hill, mountain or continent, roughly.
