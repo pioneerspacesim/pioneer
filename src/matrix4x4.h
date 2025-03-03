@@ -499,7 +499,7 @@ public:
 		vector3<T> x(cell[0], cell[4], cell[8]);
 		vector3<T> y(cell[1], cell[5], cell[9]);
 		vector3<T> z(cell[2], cell[6], cell[10]);
-		x = x.Normalized();
+		x.Normalize();
 		z = x.Cross(y).Normalized();
 		y = z.Cross(x).Normalized();
 		cell[0] = x.x;
