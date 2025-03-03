@@ -44,7 +44,7 @@ public:
 
 	virtual ~Terrain();
 
-	void InitCityRegions(const SystemBody *body);
+	void InitCityRegions(const SystemBody *sb);
 
 	void SetFracDef(const unsigned int index, const double featureHeightMeters, const double featureWidthMeters, const double smallestOctaveMeters = 20.0);
 	inline const fracdef_t &GetFracDef(const unsigned int index) const
