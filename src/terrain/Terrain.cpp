@@ -630,7 +630,7 @@ Terrain::~Terrain()
 {
 }
 
-static constexpr double TARGET_CITY_RADIUS = 5000.0;
+static constexpr double TARGET_CITY_RADIUS = 600.0;
 
 // Set up region data for each of the system body's child surface starports
 void Terrain::InitCityRegions(const SystemBody *sb)
