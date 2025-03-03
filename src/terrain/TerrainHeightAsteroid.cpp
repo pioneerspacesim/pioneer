@@ -29,3 +29,14 @@ double TerrainHeightFractal<TerrainHeightAsteroid>::GetHeight(const vector3d &p)
 
 	return (n > 0.0 ? m_maxHeight * n : 0.0);
 }
+
+template <>
+void TerrainHeightFractal<TerrainHeightAsteroid>::GetHeights(const std::vector<vector3d>& p, std::vector<double>& heightsOut) const
+{
+	// this is NOT the way
+	for (size_t i = 0; i < p.size(); i++)
+	{
+		double h = GetHeight(p[i]);
+		heightsOut.at(i) = h;
+	}
+}
