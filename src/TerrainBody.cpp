@@ -143,7 +143,7 @@ double TerrainBody::GetTerrainHeight(const vector3d &pos_) const
 {
 	double radius = m_sbody->GetRadius();
 	if (m_baseSphere) {
-		return radius * (1.0 + m_baseSphere->GetHeight(pos_));
+		return radius * (1.0 + m_baseSphere->GetTerrainHeight(pos_));
 	} else {
 		assert(0);
 		return radius;

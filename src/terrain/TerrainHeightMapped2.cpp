@@ -17,18 +17,21 @@ TerrainHeightFractal<TerrainHeightMapped2>::TerrainHeightFractal(const SystemBod
 }
 
 template <>
-double TerrainHeightFractal<TerrainHeightMapped2>::GetHeight(const vector3d &p) const
+void TerrainHeightFractal<TerrainHeightMapped2>::GetHeights(const std::vector<vector3d> &vP, std::vector<double> &heightsOut) const
 {
-	double v = BiCubicInterpolation(p);
+	for (size_t i = 0; i < vP.size(); i++) {
+		const vector3d &p = vP[i];
+		double v = BiCubicInterpolation(p);
 
-	v = v * m_heightScaling + m_minh; // v = v*height scaling+min height
-	v *= m_invPlanetRadius;
+		v = v * m_heightScaling + m_minh; // v = v*height scaling+min height
+		v *= m_invPlanetRadius;
 
-	v += 0.1;
-	double h = 1.5 * v * v * v * ridged_octavenoise(16, 4.0 * v, 4.0, p);
-	h += 30000.0 * v * v * v * v * v * v * v * ridged_octavenoise(16, 5.0 * v, 20.0 * v, p);
-	h += v;
-	h -= 0.09;
+		v += 0.1;
+		double h = 1.5 * v * v * v * ridged_octavenoise(16, 4.0 * v, 4.0, p);
+		h += 30000.0 * v * v * v * v * v * v * v * ridged_octavenoise(16, 5.0 * v, 20.0 * v, p);
+		h += v;
+		h -= 0.09;
 
-	return (h > 0.0 ? h : 0.0);
+		heightsOut.at(i) = (h > 0.0 ? h : 0.0);
+	}
 }

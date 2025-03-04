@@ -29,27 +29,32 @@ TerrainHeightFractal<TerrainHeightHillsDunes>::TerrainHeightFractal(const System
 }
 
 template <>
-double TerrainHeightFractal<TerrainHeightHillsDunes>::GetHeight(const vector3d &p) const
+void TerrainHeightFractal<TerrainHeightHillsDunes>::GetHeights(const std::vector<vector3d> &vP, std::vector<double> &heightsOut) const
 {
-	double continents = ridged_octavenoise(GetFracDef(3), 0.65, p) * (1.0 - m_sealevel) - (m_sealevel * 0.1);
-	if (continents < 0) return 0;
-	double n = continents;
-	double distrib = dunes_octavenoise(GetFracDef(4), 0.4, p);
-	distrib *= distrib * distrib;
-	double m = octavenoise(GetFracDef(7), 0.5, p) * dunes_octavenoise(GetFracDef(7), 0.5, p) * Clamp(0.2 - distrib, 0.0, 0.05);
-	m += octavenoise(GetFracDef(2), 0.5, p) * dunes_octavenoise(GetFracDef(2), 0.5 * octavenoise(GetFracDef(6), 0.5 * distrib, p), p) * Clamp(1.0 - distrib, 0.0, 0.0005);
-	double mountains = ridged_octavenoise(GetFracDef(5), 0.5 * distrib, p) * octavenoise(GetFracDef(4), 0.5 * distrib, p) * octavenoise(GetFracDef(6), 0.5, p) * distrib;
-	mountains *= mountains;
-	m += mountains;
-	//detail for mountains, stops them looking smooth.
-	//m += mountains*mountains*0.02*octavenoise(GetFracDef(2), 0.6*mountains*mountains*distrib, p);
-	//m *= m*m*m*10.0;
-	// smooth cliffs at shore
-	if (continents < 0.01)
-		n += m * continents * 100.0f;
-	else
-		n += m;
-	//n += continents*Clamp(0.5-m, 0.0, 0.5)*0.2*dunes_octavenoise(GetFracDef(6), 0.6*distrib, p);
-	//n += continents*Clamp(0.05-n, 0.0, 0.01)*0.2*dunes_octavenoise(GetFracDef(2), Clamp(0.5-n, 0.0, 0.5), p);
-	return (n > 0.0 ? n * m_maxHeight : 0.0);
+	for (size_t i = 0; i < vP.size(); i++) {
+		const vector3d &p = vP[i];
+		const double continents = ridged_octavenoise(GetFracDef(3), 0.65, p) * (1.0 - m_sealevel) - (m_sealevel * 0.1);
+		if (continents < 0.0)
+			heightsOut.at(i) = 0.0;
+		double n = continents;
+
+		double distrib = dunes_octavenoise(GetFracDef(4), 0.4, p);
+		distrib *= distrib * distrib;
+		double m = octavenoise(GetFracDef(7), 0.5, p) * dunes_octavenoise(GetFracDef(7), 0.5, p) * Clamp(0.2 - distrib, 0.0, 0.05);
+		m += octavenoise(GetFracDef(2), 0.5, p) * dunes_octavenoise(GetFracDef(2), 0.5 * octavenoise(GetFracDef(6), 0.5 * distrib, p), p) * Clamp(1.0 - distrib, 0.0, 0.0005);
+		double mountains = ridged_octavenoise(GetFracDef(5), 0.5 * distrib, p) * octavenoise(GetFracDef(4), 0.5 * distrib, p) * octavenoise(GetFracDef(6), 0.5, p) * distrib;
+		mountains *= mountains;
+		m += mountains;
+		//detail for mountains, stops them looking smooth.
+		//m += mountains*mountains*0.02*octavenoise(GetFracDef(2), 0.6*mountains*mountains*distrib, p);
+		//m *= m*m*m*10.0;
+		// smooth cliffs at shore
+		if (continents < 0.01)
+			n += m * continents * 100.0f;
+		else
+			n += m;
+		//n += continents*Clamp(0.5-m, 0.0, 0.5)*0.2*dunes_octavenoise(GetFracDef(6), 0.6*distrib, p);
+		//n += continents*Clamp(0.05-n, 0.0, 0.01)*0.2*dunes_octavenoise(GetFracDef(2), Clamp(0.5-n, 0.0, 0.5), p);
+		heightsOut.at(i) = (n > 0.0 ? n * m_maxHeight : 0.0);
+	}
 }

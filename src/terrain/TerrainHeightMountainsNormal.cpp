@@ -25,108 +25,115 @@ TerrainHeightFractal<TerrainHeightMountainsNormal>::TerrainHeightFractal(const S
 }
 
 template <>
-double TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeight(const vector3d &p) const
-//This is among the most complex of terrains, so I'll use this as an example:
+void TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeights(const std::vector<vector3d> &vP, std::vector<double> &heightsOut) const
 {
-	//We need a continental pattern to place our noise onto, the 0.7*ridged_octavnoise..... is important here
-	// for making 'broken up' coast lines, as opposed to circular land masses, it will reduce the frequency of our
-	// continents depending on the ridged noise value, we subtract sealevel so that sea level will have an effect on the continents size
-	double continents = octavenoise(GetFracDef(0), 0.7 * ridged_octavenoise(GetFracDef(8), 0.58, p), p) - m_sealevel * 0.65;
-	// if there are no continents on an area, we want it to be sea level
-	if (continents < 0) return 0;
-	double n = continents - (GetFracDef(0).amplitude * m_sealevel * 0.5);
-	// we save the height n now as a constant h
-	const double h = n;
-	//We don't want to apply noise to sea level n=0
-	if (n > 0.0) {
-		//large mountainous shapes
-		n += h * 0.2 * ridged_octavenoise(GetFracDef(7), 0.5 * octavenoise(GetFracDef(6), 0.5, p), p);
+	for (size_t i = 0; i < vP.size(); i++) {
+		const vector3d &p = vP[i];
+		//This is among the most complex of terrains, so I'll use this as an example:
+		//
+		//We need a continental pattern to place our noise onto, the 0.7*ridged_octavnoise..... is important here
+		// for making 'broken up' coast lines, as opposed to circular land masses, it will reduce the frequency of our
+		// continents depending on the ridged noise value, we subtract sealevel so that sea level will have an effect on the continents size
+		double continents = octavenoise(GetFracDef(0), 0.7 * ridged_octavenoise(GetFracDef(8), 0.58, p), p) - m_sealevel * 0.65;
+		// if there are no continents on an area, we want it to be sea level
+		if (continents < 0.0)
+			heightsOut.at(i) = 0.0;
+		double n = continents - (GetFracDef(0).amplitude * m_sealevel * 0.5);
 
-		// This smoothes edges near the coast, we cant have vertical terrain its not handled correctly.
-		if (n < 0.4) {
-			n += n * 1.25 * ridged_octavenoise(GetFracDef(6), Clamp(h * 0.00002, 0.3, 0.7) * ridged_octavenoise(GetFracDef(5), 0.5, p), p);
-		} else {
-			n += 0.5 * ridged_octavenoise(GetFracDef(6), Clamp(h * 0.00002, 0.3, 0.7) * ridged_octavenoise(GetFracDef(5), 0.5, p), p);
+		// we save the height n now as a constant h
+		const double h = n;
+
+		//We don't want to apply noise to sea level n=0
+		if (n > 0.0) {
+			//large mountainous shapes
+			n += h * 0.2 * ridged_octavenoise(GetFracDef(7), 0.5 * octavenoise(GetFracDef(6), 0.5, p), p);
+
+			// This smoothes edges near the coast, we cant have vertical terrain its not handled correctly.
+			if (n < 0.4) {
+				n += n * 1.25 * ridged_octavenoise(GetFracDef(6), Clamp(h * 0.00002, 0.3, 0.7) * ridged_octavenoise(GetFracDef(5), 0.5, p), p);
+			} else {
+				n += 0.5 * ridged_octavenoise(GetFracDef(6), Clamp(h * 0.00002, 0.3, 0.7) * ridged_octavenoise(GetFracDef(5), 0.5, p), p);
+			}
+
+			if (n < 0.2) {
+				n += n * 15.0 * river_octavenoise(GetFracDef(6), Clamp(h * 0.00002, 0.5, 0.7), p);
+			} else {
+				n += 3.0 * river_octavenoise(GetFracDef(6), Clamp(h * 0.00002, 0.5, 0.7), p);
+			}
+			n *= 0.33333333333;
+
+			if (n < 0.133) {
+				n += n * billow_octavenoise(GetFracDef(6), 0.5 * octavenoise(GetFracDef(5), 0.5, p), p);
+			} else {
+				n += (0.16 / n) * billow_octavenoise(GetFracDef(6), 0.5 * octavenoise(GetFracDef(5), 0.5, p), p);
+			}
+
+			if (n < 0.066667) {
+				n += n * billow_octavenoise(GetFracDef(5), 0.5 * octavenoise(GetFracDef(5), 0.5, p), p);
+			} else {
+				n += (0.04 / n) * billow_octavenoise(GetFracDef(5), 0.5 * octavenoise(GetFracDef(5), 0.5, p), p);
+			}
+			//smaller ridged mountains
+			n += n * 0.7 * ridged_octavenoise(GetFracDef(5), 0.5 * octavenoise(GetFracDef(6), 0.5, p), p);
+
+			n = (n * 0.5) + (n * n);
+
+			//jagged surface for mountains
+			//This is probably using far too much noise, some of it is just not needed
+			// More specifically this: Clamp(h*0.0002*octavenoise(GetFracDef(5), 0.5, p),
+			//		 0.5*octavenoise(GetFracDef(3), 0.5, p),
+			//		 0.5*octavenoise(GetFracDef(3), 0.5, p))
+			//should probably be: Clamp(h*0.0002*octavenoise(GetFracDef(5), 0.5, p),
+			//		 0.1,
+			//		 0.5)  But I have no time for testing
+			if (n > 0.25) {
+				n += (n - 0.25) * 0.1 * octavenoise(GetFracDef(3), Clamp(h * 0.0002 * octavenoise(GetFracDef(5), 0.5, p), 0.5 * octavenoise(GetFracDef(3), 0.5, p), 0.5 * octavenoise(GetFracDef(3), 0.5, p)), p); //[4]?
+			}
+
+			if (n > 0.2 && n <= 0.25) {
+				n += (0.25 - n) * 0.2 * ridged_octavenoise(GetFracDef(3), Clamp(h * 0.0002 * octavenoise(GetFracDef(5), 0.5, p), 0.5 * octavenoise(GetFracDef(3), 0.5, p), 0.5 * octavenoise(GetFracDef(4), 0.5, p)), p);
+			} else if (n > 0.05) {
+				n += ((n - 0.05) / 15) * ridged_octavenoise(GetFracDef(3), Clamp(h * 0.0002 * octavenoise(GetFracDef(5), 0.5, p), 0.5 * octavenoise(GetFracDef(3), 0.5, p), 0.5 * octavenoise(GetFracDef(4), 0.5, p)), p);
+			}
+			n = n * 0.2;
+
+			if (n < 0.01) {
+				n += n * voronoiscam_octavenoise(GetFracDef(3), Clamp(h * 0.00002, 0.5, 0.5), p);
+			} else if (n < 0.02) {
+				n += 0.01 * voronoiscam_octavenoise(GetFracDef(3), Clamp(h * 0.00002, 0.5, 0.5), p);
+			} else {
+				n += (0.02 / n) * 0.01 * voronoiscam_octavenoise(GetFracDef(3), Clamp(h * 0.00002, 0.5, 0.5), p);
+			}
+
+			if (n < 0.001) {
+				n += n * 3 * dunes_octavenoise(GetFracDef(2), 1.0 * octavenoise(GetFracDef(2), 0.5, p), p);
+			} else if (n < 0.01) {
+				n += 0.003 * dunes_octavenoise(GetFracDef(2), 1.0 * octavenoise(GetFracDef(2), 0.5, p), p);
+			} else {
+				n += (0.01 / n) * 0.003 * dunes_octavenoise(GetFracDef(2), 1.0 * octavenoise(GetFracDef(2), 0.5, p), p);
+			}
+
+			if (n < 0.001) {
+				n += n * 0.2 * ridged_octavenoise(GetFracDef(1), 0.5 * octavenoise(GetFracDef(2), 0.5, p), p);
+			} else if (n < 0.01) {
+				n += 0.0002 * ridged_octavenoise(GetFracDef(1), 0.5 * octavenoise(GetFracDef(2), 0.5, p), p);
+			} else {
+				n += (0.01 / n) * 0.0002 * ridged_octavenoise(GetFracDef(1), 0.5 * octavenoise(GetFracDef(2), 0.5, p), p);
+			}
+
+			if (n < 0.1) {
+				n += n * 0.05 * dunes_octavenoise(GetFracDef(2), n * river_octavenoise(GetFracDef(2), 0.5, p), p);
+			} else if (n < 0.2) {
+				n += 0.005 * dunes_octavenoise(GetFracDef(2), ((n * n * 10.0) + (3 * (n - 0.1))) * river_octavenoise(GetFracDef(2), 0.5, p), p);
+			} else {
+				n += (0.2 / n) * 0.005 * dunes_octavenoise(GetFracDef(2), Clamp(0.7 - (1 - (5 * n)), 0.0, 0.7) * river_octavenoise(GetFracDef(2), 0.5, p), p);
+			}
+
+			//terrain is too mountainous, so we reduce the height
+			//n *= 0.3;
 		}
 
-		if (n < 0.2) {
-			n += n * 15.0 * river_octavenoise(GetFracDef(6), Clamp(h * 0.00002, 0.5, 0.7), p);
-		} else {
-			n += 3.0 * river_octavenoise(GetFracDef(6), Clamp(h * 0.00002, 0.5, 0.7), p);
-		}
-		n *= 0.33333333333;
-
-		if (n < 0.133) {
-			n += n * billow_octavenoise(GetFracDef(6), 0.5 * octavenoise(GetFracDef(5), 0.5, p), p);
-		} else {
-			n += (0.16 / n) * billow_octavenoise(GetFracDef(6), 0.5 * octavenoise(GetFracDef(5), 0.5, p), p);
-		}
-
-		if (n < 0.066667) {
-			n += n * billow_octavenoise(GetFracDef(5), 0.5 * octavenoise(GetFracDef(5), 0.5, p), p);
-		} else {
-			n += (0.04 / n) * billow_octavenoise(GetFracDef(5), 0.5 * octavenoise(GetFracDef(5), 0.5, p), p);
-		}
-		//smaller ridged mountains
-		n += n * 0.7 * ridged_octavenoise(GetFracDef(5), 0.5 * octavenoise(GetFracDef(6), 0.5, p), p);
-
-		n = (n * 0.5) + (n * n);
-
-		//jagged surface for mountains
-		//This is probably using far too much noise, some of it is just not needed
-		// More specifically this: Clamp(h*0.0002*octavenoise(GetFracDef(5), 0.5, p),
-		//		 0.5*octavenoise(GetFracDef(3), 0.5, p),
-		//		 0.5*octavenoise(GetFracDef(3), 0.5, p))
-		//should probably be: Clamp(h*0.0002*octavenoise(GetFracDef(5), 0.5, p),
-		//		 0.1,
-		//		 0.5)  But I have no time for testing
-		if (n > 0.25) {
-			n += (n - 0.25) * 0.1 * octavenoise(GetFracDef(3), Clamp(h * 0.0002 * octavenoise(GetFracDef(5), 0.5, p), 0.5 * octavenoise(GetFracDef(3), 0.5, p), 0.5 * octavenoise(GetFracDef(3), 0.5, p)), p); //[4]?
-		}
-
-		if (n > 0.2 && n <= 0.25) {
-			n += (0.25 - n) * 0.2 * ridged_octavenoise(GetFracDef(3), Clamp(h * 0.0002 * octavenoise(GetFracDef(5), 0.5, p), 0.5 * octavenoise(GetFracDef(3), 0.5, p), 0.5 * octavenoise(GetFracDef(4), 0.5, p)), p);
-		} else if (n > 0.05) {
-			n += ((n - 0.05) / 15) * ridged_octavenoise(GetFracDef(3), Clamp(h * 0.0002 * octavenoise(GetFracDef(5), 0.5, p), 0.5 * octavenoise(GetFracDef(3), 0.5, p), 0.5 * octavenoise(GetFracDef(4), 0.5, p)), p);
-		}
-		n = n * 0.2;
-
-		if (n < 0.01) {
-			n += n * voronoiscam_octavenoise(GetFracDef(3), Clamp(h * 0.00002, 0.5, 0.5), p);
-		} else if (n < 0.02) {
-			n += 0.01 * voronoiscam_octavenoise(GetFracDef(3), Clamp(h * 0.00002, 0.5, 0.5), p);
-		} else {
-			n += (0.02 / n) * 0.01 * voronoiscam_octavenoise(GetFracDef(3), Clamp(h * 0.00002, 0.5, 0.5), p);
-		}
-
-		if (n < 0.001) {
-			n += n * 3 * dunes_octavenoise(GetFracDef(2), 1.0 * octavenoise(GetFracDef(2), 0.5, p), p);
-		} else if (n < 0.01) {
-			n += 0.003 * dunes_octavenoise(GetFracDef(2), 1.0 * octavenoise(GetFracDef(2), 0.5, p), p);
-		} else {
-			n += (0.01 / n) * 0.003 * dunes_octavenoise(GetFracDef(2), 1.0 * octavenoise(GetFracDef(2), 0.5, p), p);
-		}
-
-		if (n < 0.001) {
-			n += n * 0.2 * ridged_octavenoise(GetFracDef(1), 0.5 * octavenoise(GetFracDef(2), 0.5, p), p);
-		} else if (n < 0.01) {
-			n += 0.0002 * ridged_octavenoise(GetFracDef(1), 0.5 * octavenoise(GetFracDef(2), 0.5, p), p);
-		} else {
-			n += (0.01 / n) * 0.0002 * ridged_octavenoise(GetFracDef(1), 0.5 * octavenoise(GetFracDef(2), 0.5, p), p);
-		}
-
-		if (n < 0.1) {
-			n += n * 0.05 * dunes_octavenoise(GetFracDef(2), n * river_octavenoise(GetFracDef(2), 0.5, p), p);
-		} else if (n < 0.2) {
-			n += 0.005 * dunes_octavenoise(GetFracDef(2), ((n * n * 10.0) + (3 * (n - 0.1))) * river_octavenoise(GetFracDef(2), 0.5, p), p);
-		} else {
-			n += (0.2 / n) * 0.005 * dunes_octavenoise(GetFracDef(2), Clamp(0.7 - (1 - (5 * n)), 0.0, 0.7) * river_octavenoise(GetFracDef(2), 0.5, p), p);
-		}
-
-		//terrain is too mountainous, so we reduce the height
-		//n *= 0.3;
+		n *= m_maxHeight;
+		heightsOut.at(i) = (n > 0.0 ? n : 0.0);
 	}
-
-	n = m_maxHeight * n;
-	return (n > 0.0 ? n : 0.0);
 }
