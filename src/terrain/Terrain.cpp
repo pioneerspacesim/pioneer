@@ -491,9 +491,10 @@ Terrain::Terrain(const SystemBody *body) :
 	m_invPlanetRadius = 1.0 / rad;
 	m_planetEarthRadii = rad / EARTH_RADIUS;
 
+	// NB: I don't know what this does but only the 1st entry was ever used, and only for Neptune and Jupiter colours
+	m_entropy = m_rand.Double();
+
 	// Pick some colors, mainly reds and greens
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_rockColor)); i++) {
 		double r, g, b;
 		r = m_rand.Double(0.3, 1.0);
@@ -505,8 +506,6 @@ Terrain::Terrain(const SystemBody *body) :
 	}
 
 	// Pick some darker colours mainly reds and greens
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_darkrockColor)); i++) {
 		double r, g, b;
 		r = m_rand.Double(0.05, 0.3);
@@ -518,8 +517,6 @@ Terrain::Terrain(const SystemBody *body) :
 	}
 
 	// grey colours, in case you simply must have a grey colour on a world with high metallicity
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_greyrockColor)); i++) {
 		double g;
 		g = m_rand.Double(0.3, 0.9);
@@ -528,8 +525,6 @@ Terrain::Terrain(const SystemBody *body) :
 
 	// Pick some plant colours, mainly greens
 	// TODO take star class into account
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_plantColor)); i++) {
 		double r, g, b;
 		g = m_rand.Double(0.3, 1.0);
@@ -542,8 +537,6 @@ Terrain::Terrain(const SystemBody *body) :
 
 	// Pick some darker plant colours mainly greens
 	// TODO take star class into account
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_darkplantColor)); i++) {
 		double r, g, b;
 		g = m_rand.Double(0.05, 0.3);
@@ -556,8 +549,6 @@ Terrain::Terrain(const SystemBody *body) :
 
 	// Pick some sand colours, mainly yellow
 	// TODO let some planetary value scale this colour
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_sandColor)); i++) {
 		double r, g, b;
 		r = m_rand.Double(0.6, 1.0);
@@ -569,8 +560,6 @@ Terrain::Terrain(const SystemBody *body) :
 
 	// Pick some darker sand colours mainly yellow
 	// TODO let some planetary value scale this colour
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_darksandColor)); i++) {
 		double r, g, b;
 		r = m_rand.Double(0.05, 0.6);
@@ -582,8 +571,6 @@ Terrain::Terrain(const SystemBody *body) :
 
 	// Pick some dirt colours, mainly red/brown
 	// TODO let some planetary value scale this colour
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_dirtColor)); i++) {
 		double r, g, b;
 		r = m_rand.Double(0.3, 0.7);
@@ -594,8 +581,6 @@ Terrain::Terrain(const SystemBody *body) :
 
 	// Pick some darker dirt colours mainly red/brown
 	// TODO let some planetary value scale this colour
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_darkdirtColor)); i++) {
 		double r, g, b;
 		r = m_rand.Double(0.05, 0.3);
@@ -605,8 +590,6 @@ Terrain::Terrain(const SystemBody *body) :
 	}
 
 	// These are used for gas giant colours, they are more m_random and *should* really use volatileGasses - TODO
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_gglightColor)); i++) {
 		double r, g, b;
 		r = m_rand.Double(0.0, 0.5);
@@ -615,8 +598,6 @@ Terrain::Terrain(const SystemBody *body) :
 		m_gglightColor[i] = vector3d(r, g, b);
 	}
 	//darker gas giant colours, more reds and greens
-	for (int i = 0; i < int(COUNTOF(m_entropy)); i++)
-		m_entropy[i] = m_rand.Double();
 	for (int i = 0; i < int(COUNTOF(m_ggdarkColor)); i++) {
 		double r, g, b;
 		r = m_rand.Double(0.0, 0.3);
