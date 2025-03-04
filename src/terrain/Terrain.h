@@ -91,7 +91,7 @@ protected:
 	double m_invPlanetRadius;
 	double m_planetEarthRadii;
 
-	double m_entropy[12];
+	double m_entropy;
 
 	vector3d m_rockColor[8];
 	vector3d m_darkrockColor[8];
