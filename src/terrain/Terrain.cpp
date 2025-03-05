@@ -458,7 +458,8 @@ Terrain::Terrain(const SystemBody *body) :
 				minHMapScld = std::min(minHMapScld, val);
 				maxHMapScld = std::max(maxHMapScld, val);
 				// store then increment pointer
-				(*pHeightMap) = val;
+				// pre-multiply and offset the height value
+				(*pHeightMap) = double(val) * m_heightScaling + m_minh;
 				++pHeightMap;
 			}
 			assert(pHeightMap == &m_heightMap[heightmapPixelArea]);
