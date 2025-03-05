@@ -155,3 +155,20 @@ void TerrainBody::OnChangeDetailLevel(Graphics::Renderer *r)
 {
 	BaseSphere::OnChangeDetailLevel(r);
 }
+
+const char *TerrainBody::GetHeightFractalName() const
+{
+	if (Terrain* terrain = m_baseSphere->GetTerrain())
+	{
+		return terrain->GetHeightFractalName();
+	}
+	return nullptr;
+}
+
+const char* TerrainBody::GetColorFractalName() const
+{
+	if (Terrain *terrain = m_baseSphere->GetTerrain()) {
+		return terrain->GetColorFractalName();
+	}
+	return nullptr;
+}
