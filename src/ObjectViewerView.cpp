@@ -189,6 +189,17 @@ void ObjectViewerView::DrawControlsWindow()
 		bool didChange = false;
 		uint32_t prevSeed = m_state.seed;
 
+		// if we can get the TerrainBody display the height and color fractal names, very useful for dev and debugging
+		if (const TerrainBody *terrainBody = static_cast<const TerrainBody *>(m_targetBody)) {
+			const char *heightFractalName = terrainBody->GetHeightFractalName();
+			const char *colorFractalName = terrainBody->GetColorFractalName();
+			if (heightFractalName) ImGui::Text("Height fractal: %s", heightFractalName);
+			if (colorFractalName) ImGui::Text("Color fractal: %s", colorFractalName);
+			ImGui::Spacing();
+			ImGui::Separator();
+			ImGui::Spacing();
+		}
+
 		ImGui::TextUnformatted("Seed");
 		int *seed = reinterpret_cast<int32_t *>(&m_state.seed);
 		didChange |= ImGui::DragInt("##seed", seed);
