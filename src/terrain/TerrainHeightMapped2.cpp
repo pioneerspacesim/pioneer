@@ -23,7 +23,6 @@ void TerrainHeightFractal<TerrainHeightMapped2>::GetHeights(const std::vector<ve
 		const vector3d &p = vP[i];
 		double v = BiCubicInterpolation(p);
 
-		v = v * m_heightScaling + m_minh; // v = v*height scaling+min height
 		v *= m_invPlanetRadius;
 
 		v += 0.1;
