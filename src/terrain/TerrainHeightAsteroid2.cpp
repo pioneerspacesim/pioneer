@@ -28,8 +28,10 @@ TerrainHeightFractal<TerrainHeightAsteroid2>::TerrainHeightFractal(const SystemB
 template <>
 double TerrainHeightFractal<TerrainHeightAsteroid2>::GetHeight(const vector3d &p) const
 {
-	const double n = voronoiscam_octavenoise(6, 0.2 * octavenoise(GetFracDef(0), 0.3, p), 15.0 * octavenoise(GetFracDef(1), 0.5, p), p) *
-		0.75 * ridged_octavenoise(16.0 * octavenoise(GetFracDef(2), 0.275, p), 0.4 * ridged_octavenoise(GetFracDef(3), 0.4, p), 4.0 * octavenoise(GetFracDef(4), 0.35, p), p);
+	double n = voronoiscam_octavenoise(6, 0.2 * octavenoise(GetFracDef(0), 0.3, p), 15.0 * octavenoise(GetFracDef(1), 0.5, p), p) *
+		0.75 * ridged_octavenoise(16.0 * octavenoise(GetFracDef(2), 0.275, p), 0.4 * ridged_octavenoise(GetFracDef(3), 0.4, p), 4.0 * octavenoise(GetFracDef(4), 0.35, p), p) *
+		m_maxHeight;
 
-	return (n > 0.0 ? m_maxHeight * n : 0.0);
+	ApplySimpleHeightRegions(n, p);
+	return (n > 0.0 ? n : 0.0);
 }
