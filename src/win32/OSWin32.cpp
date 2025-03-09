@@ -51,17 +51,19 @@ namespace OS {
 		struct OSVersion {
 			DWORD major;
 			DWORD minor;
+			DWORD build;
 			const char *name;
 		};
 		static const struct OSVersion osVersions[] = {
-			{ 10, 0, "Windows 10" },
-			{ 6, 3, "Windows 8.1" },
-			{ 6, 2, "Windows 8" },
-			{ 6, 1, "Windows 7" },
-			{ 6, 0, "Windows Vista" },
-			{ 5, 1, "Windows XP" },
-			{ 5, 0, "Windows 2000" },
-			{ 0, 0, nullptr }
+			{ 10,	0,		22000,	"Windows 11" }, // fuck microsoft, major minor are the same as Windows 10, but builds from 22000 are Win11
+			{ 10,	0,		0,		"Windows 10" },
+			{ 6,	3,		0,		"Windows 8.1" },
+			{ 6,	2,		0,		"Windows 8" },
+			{ 6,	1,		0,		"Windows 7" },
+			{ 6,	0,		0,		"Windows Vista" },
+			{ 5,	1,		0,		"Windows XP" },
+			{ 5,	0,		0,		"Windows 2000" },
+			{ 0,	0,		0,		nullptr }
 		};
 	} // namespace
 
@@ -198,7 +200,9 @@ namespace OS {
 		OSVERSIONINFOEX os;
 		if (GetVersionHackNTDLL(&os) == TRUE) {
 			for (const OSVersion *scan = osVersions; scan->name; scan++) {
-				if (os.dwMajorVersion >= scan->major && os.dwMinorVersion >= scan->minor) {
+				if (os.dwMajorVersion >= scan->major &&
+ 					os.dwMinorVersion >= scan->minor &&
+ 					os.dwBuildNumber >= scan->build) {
 					name = scan->name;
 					break;
 				}
@@ -213,7 +217,9 @@ namespace OS {
 			GetVersionExA(&osa);
 
 			for (const OSVersion *scan = osVersions; scan->name; scan++) {
-				if (osa.dwMajorVersion >= scan->major && osa.dwMinorVersion >= scan->minor) {
+				if (osa.dwMajorVersion >= scan->major &&
+					osa.dwMinorVersion >= scan->minor &&
+					osa.dwBuildNumber >= scan->build) {
 					name = scan->name;
 					break;
 				}
