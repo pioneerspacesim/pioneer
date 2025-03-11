@@ -14,8 +14,6 @@ local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
 local NameGen = require 'NameGen'
-local Equipment = require 'Equipment'
-local ShipDef = require 'ShipDef'
 local Ship = require 'Ship'
 local utils = require 'utils'
 
@@ -214,10 +212,10 @@ local makeAdvert = function (station)
 		location  = location,
 		shipid    = flavour.ship and Ship.MakeRandomLabel() or nil,
 		dist      = dist,
-		due       = due,
+		due       = utils.round(due, 3600),
 		risk      = risk,
 		urgency   = urgency,
-		reward    = reward,
+		reward    = utils.round(reward, 100),
 	}
 
 	placeAdvert(station, ad)
@@ -225,7 +223,7 @@ end
 
 local onCreateBB = function (station)
 	local num = Engine.rand:Integer(0, math.ceil(Game.system.population) / 2)
-	for i = 1, num do
+	for _ = 1, num do
 		makeAdvert(station)
 	end
 end

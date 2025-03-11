@@ -233,7 +233,7 @@
   },
   "INTROTEXT_DELIVER_MESSAGE_FEMALE_1": {
     "description": "",
-    "message": "Hi, my name is {client}. I'm looking for my stepsister {wanted}. She left the family in anger a few years ago. A friend of mine has seen her recently in the {system} ({sectorx}, {sectory}, {sectorz}) system. So I think the time has come for a reconciliation. I pay you {cash} if you can deliver a message to her and return to {domicile} with an answer. Please do it! Will you?"
+    "message": "Hi, my name is {client}. I'm looking for my stepsister {wanted}. She left the family in anger a few years ago. A friend of mine has seen her recently in the {system} ({sectorx}, {sectory}, {sectorz}) system. I would like to see if she is ready for a reconciliation. I pay you {cash} if you can deliver a message to her and return to {domicile} with an answer. Please do it! Will you?"
   },
   "INTROTEXT_DELIVER_MESSAGE_FEMALE_2": {
     "description": "",
@@ -241,7 +241,7 @@
   },
   "INTROTEXT_DELIVER_MESSAGE_MALE_1": {
     "description": "",
-    "message": "Hi, my name is {client}. I'm looking for my stepbrother {wanted}. He left the family in anger a few years ago. A friend of mine has seen him recently in the {system} ({sectorx}, {sectory}, {sectorz}) system. So I think the time has come for a reconciliation. I pay you {cash} if you can deliver a message to him and return to {domicile} with an answer. Please do it! Will you?"
+    "message": "Hi, my name is {client}. I'm looking for my stepbrother {wanted}. He left the family in anger a few years ago. A friend of mine has seen him recently in the {system} ({sectorx}, {sectory}, {sectorz}) system. I would like to see if he is ready for a reconciliation. I pay you {cash} if you can deliver a message to him and return to {domicile} with an answer. Please do it! Will you?"
   },
   "INTROTEXT_DELIVER_MESSAGE_MALE_2": {
     "description": "",
@@ -281,7 +281,7 @@
   },
   "INTROTEXT_TAXI_FEMALE_1": {
     "description": "",
-    "message": "Hi. I'm {client}. I'm looking for a relative in the {system} ({sectorx}, {sectory}, {sectorz}) system. Her name is {wanted}. Time is very crucial because her mother is seriously ill. Please find her and bring her back to {domicile}. I pay you {cash}."
+    "message": "Hi. I'm {client}. I'm looking for a relative in the {system} ({sectorx}, {sectory}, {sectorz}) system. Her name is {wanted}. Time is of the essence because there is a medical emergency in the family. Please find her and bring her back to {domicile}. I pay you {cash}."
   },
   "INTROTEXT_TAXI_FEMALE_2": {
     "description": "",
@@ -289,7 +289,7 @@
   },
   "INTROTEXT_TAXI_MALE_1": {
     "description": "",
-    "message": "Hi. I'm {client}. I'm looking for a relative in the {system} ({sectorx}, {sectory}, {sectorz}) system. His name is {wanted}. Time is very crucial because his father is seriously ill. Please find him and bring him back to {domicile}. I pay you {cash}."
+    "message": "Hi. I'm {client}. I'm looking for a relative in the {system} ({sectorx}, {sectory}, {sectorz}) system. His name is {wanted}. Time is of the essence because there is a medical emergency in the family. Please find him and bring him back to {domicile}. I pay you {cash}."
   },
   "INTROTEXT_TAXI_MALE_2": {
     "description": "",
