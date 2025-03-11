@@ -2011,6 +2011,10 @@
     "description": "For the checkbox in settings window",
     "message": "Quit confirmation"
   },
+  "RANDOM_COLORS": {
+    "description": "Paint shop. Randomize colors",
+    "message": "Random Colors"
+  },
   "RANDOM_FACE": {
     "description": "Generate random face",
     "message": "Random"
