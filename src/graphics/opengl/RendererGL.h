@@ -43,7 +43,7 @@ namespace Graphics {
 		RendererOGL(SDL_Window *window, const Graphics::Settings &vs, SDL_GLContext &glContext);
 		~RendererOGL() final;
 
-		const char *GetName() const final { return "OpenGL 3.1, with extensions, renderer"; }
+		const char *GetName() const final;
 		RendererType GetRendererType() const final { return RENDERER_OPENGL_3x; }
 
 		void WriteRendererInfo(std::ostream &out) const final;

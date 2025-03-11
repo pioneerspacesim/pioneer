@@ -309,6 +309,12 @@ namespace Graphics {
 		SDL_GL_DeleteContext(m_glContext);
 	}
 
+	const char *RendererOGL::GetName() const
+	{
+		// since 15/10/2020 we've been requiring OpenGL 3.2
+		return "OpenGL 3.2, with extensions, renderer";
+	}
+
 	static const char *gl_error_to_string(GLenum err)
 	{
 		switch (err) {
@@ -384,6 +390,12 @@ namespace Graphics {
 		out << "OpenGL version " << glGetString(GL_VERSION);
 		out << ", running on " << glGetString(GL_VENDOR);
 		out << " " << glGetString(GL_RENDERER) << "\n";
+
+		// Log this information to output as well to aid error reporting
+		Output("OpenGL version %s, running on %s %s",
+			(const char *)glGetString(GL_VERSION),
+			(const char *)glGetString(GL_VENDOR),
+			(const char *)glGetString(GL_RENDERER));
 
 		out << "Available extensions:"
 			<< "\n";
