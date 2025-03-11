@@ -28,25 +28,29 @@ TerrainHeightFractal<TerrainHeightHillsNormal>::TerrainHeightFractal(const Syste
 }
 
 template <>
-double TerrainHeightFractal<TerrainHeightHillsNormal>::GetHeight(const vector3d &p) const
+void TerrainHeightFractal<TerrainHeightHillsNormal>::GetHeights(const std::vector<vector3d> &vP, std::vector<double> &heightsOut) const
 {
-	double continents = octavenoise(GetFracDef(3), 0.65, p) * (1.0 - m_sealevel) - (m_sealevel * 0.1);
-	if (continents < 0) return 0;
-	double n = continents;
-	double distrib = octavenoise(GetFracDef(4), 0.5, p);
-	distrib *= distrib;
-	double m = 0.5 * GetFracDef(3).amplitude * octavenoise(GetFracDef(4), 0.55 * distrib, p) * GetFracDef(5).amplitude;
-	m += 0.25 * billow_octavenoise(GetFracDef(5), 0.55 * distrib, p);
-	//hill footings
-	m -= octavenoise(GetFracDef(2), 0.6 * (1.0 - distrib), p) * Clamp(0.05 - m, 0.0, 0.05) * Clamp(0.05 - m, 0.0, 0.05);
-	//hill footings
-	m += voronoiscam_octavenoise(GetFracDef(6), 0.765 * distrib, p) * Clamp(0.025 - m, 0.0, 0.025) * Clamp(0.025 - m, 0.0, 0.025);
-	// cliffs at shore
-	if (continents < 0.01)
-		n += m * continents * 100.0f;
-	else
-		n += m;
+	for (size_t i = 0; i < vP.size(); i++) {
+		const vector3d &p = vP[i];
+		double continents = octavenoise(GetFracDef(3), 0.65, p) * (1.0 - m_sealevel) - (m_sealevel * 0.1);
+		if (continents < 0.0)
+			heightsOut.at(i) = 0.0;
+		double n = continents;
 
-	if (n > 0.0) return n * m_maxHeight;
-	return 0.0;
+		double distrib = octavenoise(GetFracDef(4), 0.5, p);
+		distrib *= distrib;
+		double m = 0.5 * GetFracDef(3).amplitude * octavenoise(GetFracDef(4), 0.55 * distrib, p) * GetFracDef(5).amplitude;
+		m += 0.25 * billow_octavenoise(GetFracDef(5), 0.55 * distrib, p);
+		//hill footings
+		m -= octavenoise(GetFracDef(2), 0.6 * (1.0 - distrib), p) * Clamp(0.05 - m, 0.0, 0.05) * Clamp(0.05 - m, 0.0, 0.05);
+		//hill footings
+		m += voronoiscam_octavenoise(GetFracDef(6), 0.765 * distrib, p) * Clamp(0.025 - m, 0.0, 0.025) * Clamp(0.025 - m, 0.0, 0.025);
+		// cliffs at shore
+		if (continents < 0.01)
+			n += m * continents * 100.0f;
+		else
+			n += m;
+
+		heightsOut.at(i) = (n > 0.0 ? n * m_maxHeight : 0.0);
+	}
 }
