@@ -734,6 +734,7 @@ local onShipDocked = function (player, station)
 					cargoMgr:AddCommodity(mission.cargotype, mission.amount);
 					mission.cargo_picked_up = true
 					Comms.ImportantMessage(l.WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP, mission.client.name)
+					mission.status = "PENDING"
 				end
 
 			else
