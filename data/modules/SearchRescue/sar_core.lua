@@ -708,7 +708,7 @@ function core.makeAdvert (station, manualFlavour, closestplanets)
 		system_target = system_local
 		location = planet_target
 		lat, long, dist = sar_utils.randomLatLong(station)
-		due = 60 * 60 * Engine.rand:Number(2,24)        --TODO: adjust due date based on urgency
+		due = flavour.fun_due(dist)
 
 	elseif flavour.loctype == "MEDIUM_PLANET" then
 		station_target = nil
@@ -728,7 +728,7 @@ function core.makeAdvert (station, manualFlavour, closestplanets)
 		lat, long, dist = sar_utils.randomLatLong()
 		dist = station:DistanceTo(Space.GetBody(planet_target.bodyIndex))  --overwrite empty dist from randomLatLong()
 		--1 added for short distances when most of the time is spent at low average speed (accelerating and deccelerating)
-		due = (dist / MissionUtils.AU * 2 + 1) * Engine.rand:Integer(20,24) * 60 * 60     -- TODO: adjust due date based on urgency
+		due = flavour.fun_due(dist)
 
 	elseif flavour.loctype == "CLOSE_SPACE" then
 		station_target = station_local
@@ -736,7 +736,7 @@ function core.makeAdvert (station, manualFlavour, closestplanets)
 		system_target = system_local
 		location = planet_target
 		dist = 1000 * Engine.rand:Integer(1,sar_config.max_close_space_dist)     -- minimum of 1 km distance from station
-		due = (60 * 60 * Engine.rand:Number(2,24))        --TODO: adjust due date based on urgency
+		due = flavour.fun_due(dist)
 
 	elseif flavour.loctype == "FAR_SPACE" then
 		local nearbysystems = sar_utils.findNearbySystems(false)  -- setup to only return systems without stations
@@ -751,7 +751,7 @@ function core.makeAdvert (station, manualFlavour, closestplanets)
 		end
 		location = planet_target
 		dist = system_local:DistanceTo(system_target)
-		due = (5 * dist + 4) * Engine.rand:Integer(20,24) * 60 * 60     -- TODO: adjust due date based on urgency
+		due = flavour.fun_due(dist)
 	end
 
 	-- Create message string for the cases where the target landed on a planet that is higher gravity (> 1.2 g)
@@ -1335,5 +1335,3 @@ Mission.RegisterType("searchrescue",l.SEARCH_RESCUE, buildMissionDescription)
 Serializer:Register("searchrescue", serialize, unserialize)
 
 return core
-
-

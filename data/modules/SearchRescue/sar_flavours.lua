@@ -33,6 +33,10 @@
 
 -- reward_immediate = false : should the mission reward be provided immediately or upon return to station
 
+-- fun_due: flavour-specific function to determine due date. Requires "dist" argument (even if not needed in function) for compatibility.
+
+local Engine = require 'Engine'
+local Mission = require 'Mission'
 local Lang = require 'Lang'
 local l = Lang.GetResource("module-searchrescue")
 
@@ -51,7 +55,8 @@ local flavours = {
 		deliver_comm     = {},
 		urgency          = 1,
 		reward_immediate = false,
-		description      = "pickup random crew/pass from uninhabited, close by planet"
+		description      = "pickup random crew/pass from uninhabited, close by planet",
+		fun_due          = function(dist) return (dist / MissionUtils.AU * 2 + 1) * Engine.rand:Integer(20,24) * 60 * 60 end
 	},
 
 	-- deliver fuel to ship stranded close to starport
@@ -67,7 +72,8 @@ local flavours = {
 		deliver_comm     = {},
 		urgency          = 5,
 		reward_immediate = true,
-		description      = "deliver random fuel close to ground station"
+		description      = "deliver random fuel close to ground station",
+		fun_due          = function(dist) return 60 * 60 * Engine.rand:Number(2,24) end
 	},
 
 	-- deliver 1 crew to ship stranded close to starport
@@ -82,7 +88,8 @@ local flavours = {
 		deliver_comm     = {},
 		urgency          = 5,
 		reward_immediate = true,
-		description      = "deliver 1 crew to close to ground station"
+		description      = "deliver 1 crew to close to ground station",
+		fun_due          = function(dist) return 60 * 60 * Engine.rand:Number(2,24) end
 	},
 
 	-- deliver fuel to ship stranded on planet within same system
@@ -98,7 +105,8 @@ local flavours = {
 		deliver_comm     = {},
 		urgency          = 5,
 		reward_immediate = true,
-		description      = "deliver random fuel to planet in system"
+		description      = "deliver random fuel to planet in system",
+		fun_due          = function(dist) return (dist / MissionUtils.AU * 2 + 1) * Engine.rand:Integer(20,24) * 60 * 60 end
 	},
 
 	-- deliver fuel to ship stranded in space close to station player is docked at
@@ -114,7 +122,8 @@ local flavours = {
 		deliver_comm     = {},
 		urgency          = 5,
 		reward_immediate = true,
-		description      = "deliver random fuel close to space station"
+		description      = "deliver random fuel close to space station",
+		fun_due          = function(dist) return (60 * 60 * Engine.rand:Number(2,24)) end
 	},
 
 	-- rescue all crew + passengers from ship stranded in unoccupied system
@@ -130,7 +139,8 @@ local flavours = {
 		deliver_comm     = {},
 		urgency          = 5,
 		reward_immediate = false,
-		description      = "pickup random crew/pass from distant system"
+		description      = "pickup random crew/pass from distant system",
+		fun_due          = function(dist) return (5 * dist + 4) * Engine.rand:Integer(20,24) * 60 * 60 end
 	},
 
 	-- take replacment crew to ship stranded in unoccupied system
@@ -146,7 +156,8 @@ local flavours = {
 		deliver_comm     = {},
 		urgency          = 5,
 		reward_immediate = true,
-		description      = "deliver random crew to distant system"
+		description      = "deliver random crew to distant system",
+		fun_due          = function(dist) return (5 * dist + 4) * Engine.rand:Integer(20,24) * 60 * 60 end
 	}
 }
 
