@@ -1915,9 +1915,9 @@
     "description": "",
     "message": "Pay fine of {amount}"
   },
-  "PENDING": {
+  "PENDING_RETURN": {
     "description": "Status if the mission has not yet been fully completed",
-    "message": "Pending\nReturn"
+    "message": "Pending Return"
   },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
