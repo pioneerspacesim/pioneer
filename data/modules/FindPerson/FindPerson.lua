@@ -138,7 +138,6 @@ local onChat = function (form, ref, option)
 			risk        = ad.risk,
 			reward      = ad.reward,
 			due         = ad.due,
-			halfdone    = false,
 		}
 		table.insert(missions, Mission.New(mission))
 		mission.wanted:Save() -- make the character available for other scripts
@@ -312,7 +311,7 @@ local onEnterSystem = function (player)
 	if not player:IsPlayer() then return end
 
 	for ref, mission in pairs(missions) do
-		if mission.destination:IsSameSystem(Game.system.path) and not mission.halfdone and mission.flavour.ship then
+		if mission.destination:IsSameSystem(Game.system.path) and mission.status == "ACTIVE" and mission.flavour.ship then
 
 			local ship
 			local threat = 10.0 + mission.risk * 25.0
@@ -337,7 +336,7 @@ local onEnterSystem = function (player)
 						Comms.ImportantMessage(pirate_msg, ship.label)
 						ship:AIDockWith(Space.GetBody(mission.destination.bodyIndex))
 					end
-					mission.halfdone = true
+					mission.status = "PENDING_RETURN"
 				end)
 			else
 				ship = ShipBuilder.MakeShipDocked(Space.GetBody(mission.destination.bodyIndex), PirateTemplate, threat)
@@ -366,7 +365,7 @@ local onShipDocked = function (player, station)
 			end
 		end
 
-		if mission.halfdone then
+		if mission.status == "PENDING_RETURN" then
 			if mission.domicile == station.path then
 				local reputation = 2
 				local oldReputation = Character.persistent.player.reputation
@@ -404,13 +403,13 @@ local onShipDocked = function (player, station)
 				if mission.flavour.taxi then
 					if Passengers.CountFreeBerths(player) > 0 then
 						Passengers.EmbarkPassenger(player, mission.wanted)
-						mission.halfdone = true
+						mission.status = "PENDING_RETURN"
 					else
 						-- cabin occupied or player has removed cabin?
 						Comms.ImportantMessage(l.YOU_DO_NOT_HAVE_A_CABIN, mission.wanted.name)
 					end
 				else
-					mission.halfdone = true
+					mission.status = "PENDING_RETURN"
 				end
 			else
 				-- do nothing if not in the right system or a tipster was already there
@@ -518,7 +517,6 @@ local buildMissionDescription = function (mission)
 		mission.flavour.company and { l.COMPANY, mission.company },
 		false,
 		{ l.DEADLINE, ui.Format.Date(mission.due) },
-		{ l.PROGRESS, mission.halfdone and l.MSTAT_HALF_DONE or l.MSTAT_NONE },
 		{ l.DANGER, string.interp(danger, { wanted = mission.wanted.name }) },
 	}
 

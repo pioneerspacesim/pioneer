@@ -339,14 +339,6 @@
     "description": "",
     "message": "You want to meet {wanted}? Over my dead body!"
   },
-  "MSTAT_HALF_DONE": {
-    "description": "The progress of the mission",
-    "message": "Half-done"
-  },
-  "MSTAT_NONE": {
-    "description": "The progress of the mission",
-    "message": "None"
-  },
   "OK_AGREED": {
     "description": "",
     "message": "OK, agreed."
@@ -386,10 +378,6 @@
   "PIRATE_TAUNTS_3": {
     "description": "",
     "message": "You actually went all this way to deliver this stupid message to me? You better get out of here!"
-  },
-  "PROGRESS": {
-    "description": "",
-    "message": "Mission progress:"
   },
   "REPEAT_THE_REQUEST": {
     "description": "",
