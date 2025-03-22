@@ -1764,8 +1764,8 @@
     "message": "d"
   },
   "UNIT_DENSITY": {
-    "description": "Volume unit: gram per cubic centimeter",
-    "message": "g/cm³"
+    "description": "Volume unit: kilos per cubic meter",
+    "message": "kg/m³"
   },
   "UNIT_EARTH_GRAVITY": {
     "description": "Acceleration unit: one earth gravity (g)",

@@ -692,7 +692,7 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSy
 		double surfaceGrav = body->CalcSurfaceGravity() / 9.80665; // compute g-force
 		ImGui::InputDouble("Surface Gravity", &surfaceGrav, 0, 0, "%.4f g");
 
-		double meanDensity = body->CalcMeanDensity() / 1000.0f;
+		double meanDensity = body->CalcMeanDensity();
 		ImGui::InputDouble("Mean Density", &meanDensity, 0, 0, "%.2f g/cm³");
 		ImGui::EndDisabled();
 
