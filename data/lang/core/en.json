@@ -1763,6 +1763,10 @@
     "description": "Duration unit: one 24-hour day",
     "message": "d"
   },
+  "UNIT_DENSITY": {
+    "description": "Volume unit: gram per cubic centimeter",
+    "message": "g/cm³"
+  },
   "UNIT_EARTH_GRAVITY": {
     "description": "Acceleration unit: one earth gravity (g)",
     "message": "g"
