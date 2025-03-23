@@ -1,3 +1,17 @@
+March
+  * New Features
+    * Show status "pending" if the cargo mission has not yet been fully completed (#6082)
+    * Paint Shop - Randomize colors (#6069)
+
+  * Fixes
+    * Fix MILITARY tech level display and availability (#6062)
+    * Fix savegames not loading: Sort lua components during serialization (#6070)
+
+  * Internal
+    * Read/write save games from/to the savefiles folder (#6083)
+    * Detect Windows 11, update GL Renderer name (#6088)
+    * Update ubuntu version 20.04 -> 22.04 for build (#6072)
+
 February
   * Fixes
     * Replace `texture2D()` with `texture()` (#6045)
@@ -11,6 +25,7 @@ February
     * Conform to C.128, aka: Virtual functions should specify exactly one of virtual, override, or final (#5995)
     * Store AtmosphereParameters in BaseSphere, calculate with material setup (#6059)
     * Change modelcompiler single model filepathing, change Editor location for MSVC (#6063)
+    * Make Sphere3D/Icosphere reserve space better (#6067)
 
 Pioneer 2025-02-03 Release
   * Fixes
