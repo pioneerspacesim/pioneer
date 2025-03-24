@@ -340,7 +340,9 @@ function ShipCargo:draw()
 
 	-- Indent the table slightly
 	ui.addCursorPos(Vector2(ui.getItemSpacing().x, 0))
-	ui.beginTable("#cargotable", 3, { "SizingFixedFit" })
+
+	if not ui.beginTable("#cargotable", 3, { "SizingFixedFit" }) then return end
+
 	ui.tableSetupColumn("label", { "WidthStretch" })
 
 	for _, v in ipairs(self.textTable) do
@@ -575,7 +577,8 @@ function ShipEquip:draw()
 
 	ui.withStyleVars({ CellPadding = Vector2(Defs.gap.x * 2, Defs.gap.y * 0.5) }, function()
 
-		ui.beginTable("equip_table", 4, { "SizingFixedFit", "ScrollY" }, Vector2(0, self.layout.height - h))
+		if not ui.beginTable("equip_table", 4, { "SizingFixedFit", "ScrollY" }, Vector2(0, self.layout.height - h)) then return end
+
 		ui.tableSetupScrollFreeze(0, 1)
 		ui.tableSetupColumn(lc.NAME_OBJECT, { "WidthStretch" })
 		ui.tableSetupColumn(leq.SLOT)
