@@ -97,9 +97,57 @@ if (UNIX AND NOT PIONEER_INSTALL_INPLACE)
 	)
 
 	foreach(_i IN ITEMS 16 22 24 32 40 48 64 128 256)
-		install(FILES application-icon/pngs/pioneer-${_i}x${_i}.png
+		install(FILES ${CMAKE_BINARY_DIR}/pioneer-${_i}x${_i}.png
 			DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${_i}x${_i}/apps
 			RENAME net.pioneerspacesim.Pioneer.png
 		)
 	endforeach()
 endif (UNIX AND NOT PIONEER_INSTALL_INPLACE)
+
+macro(build_png SIZE BADGE)
+    set(SVG ${CMAKE_SOURCE_DIR}/application-icon/badge-${BADGE}.svg)
+    set(PNG pioneer-${SIZE}x${SIZE}.png)
+    list(APPEND PIONEER_PNGS ${PNG})
+    add_custom_command(OUTPUT ${PNG}
+        DEPENDS ${SVG}
+        COMMAND inkscape ${SVG}
+            --export-filename=${PNG}
+            --export-height=${SIZE}
+            --export-width=${SIZE}
+            --export-type=png
+            --export-area-page
+            --export-background=black
+            --export-background-opacity=0.0
+        COMMAND optipng -clobber ${PNG}
+        VERBATIM
+    )
+endmacro()
+build_png(256 enlarged-text)
+build_png(128 enlarged-text)
+build_png(64 notext-extrastars)
+build_png(48 notext-extrastars)
+build_png(40 notext-extrastars)
+build_png(32 notext-extrastars)
+build_png(24 square)
+build_png(22 square)
+build_png(16 square)
+
+set(PIONEER_ICO pioneer.ico)
+set(PIONEER_ICO_PNGS
+    pioneer-16x16.png
+    pioneer-24x24.png
+    pioneer-32x32.png
+    pioneer-48x48.png
+    pioneer-64x64.png
+    pioneer-256x256.png
+)
+add_custom_command(OUTPUT ${PIONEER_ICO}
+    DEPENDS ${PIONEER_ICO_PNGS}
+    COMMAND icotool --create --icon --output=${PIONEER_ICO} ${PIONEER_ICO_PNGS}
+    VERBATIM
+)
+
+add_custom_target(generate_icons
+    ALL
+    DEPENDS ${PIONEER_PNGS} ${PIONEER_ICO}
+)
