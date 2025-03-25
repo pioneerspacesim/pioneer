@@ -229,11 +229,11 @@ end
 
 local onUpdateBB = function (station)
 	for ref, ad in pairs(ads) do
-		if ad.due < Game.time + 5*60*60*24 then -- five day timeout
+		if ad.due < Game.time + 5*24*60*60 then -- five day timeout
 			ad.station:RemoveAdvert(ref)
 		end
 	end
-	if Engine.rand:Integer(4*24*60*60) < 60*60 then -- roughly once every four days
+	if Engine.rand:Integer(10*24*60*60) < 60*60 then -- roughly once every ten days
 		makeAdvert(station)
 	end
 end
@@ -467,7 +467,7 @@ local onGameStart = function ()
 		ads = {}
 		missions = {}
 
-		for k, ad in pairs(loaded_data.ads) do
+		for _, ad in pairs(loaded_data.ads) do
 			placeAdvert(ad.station, ad)
 		end
 		missions = loaded_data.missions
