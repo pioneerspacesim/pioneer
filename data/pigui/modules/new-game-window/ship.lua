@@ -1812,7 +1812,7 @@ local function rowWithAlert(output, label, current, project, alertIf, unitStr, f
 	local valid = not alertIf(current, project)
 	if not valid then color = ui.theme.colors.alertRed end
 	output.valid = output.valid and valid
-	return { label .. ":", string.format(format .. " / " .. format .. unitStr .. " ", current, project), color = color }
+	return { label .. ":", string.format(format .. "/" .. format .. " " .. unitStr .. " ", current, project), color = color }
 end
 
 -- prepare a table for output and at the same time check the parameters
