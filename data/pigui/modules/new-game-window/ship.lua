@@ -1888,12 +1888,12 @@ function ShipSummary:draw()
 	ui.child("##param_table2", Vector2(self.layout.width, self.layout.table2_height), function()
 		local p1 = ui.getCursorPos()
 		textTable.drawTable(2, { self.layout.width - self.valueWidth, self.valueWidth }, {
-		{ lui.ALL_UP_WEIGHT..":", string.format("%dt", mass_with_fuel ) },
-		{ lui.HYPERSPACE_RANGE..":", string.format("%.1f / %.1f " .. lui.LY, hyper_range, range_max) },
+		{ lui.ALL_UP_WEIGHT..":", string.format("%d t", mass_with_fuel ) },
+		{ lui.HYPERSPACE_RANGE..":", string.format("%.1f/%.1f " .. lui.LY, hyper_range, range_max) },
 		{ lui.DELTA_V..":",      string.format("%s %s", ui.Format.SpeedUnit(delta_v)) },
 		{ lui.REFUEL .. " " .. lui.DELTA_V..":", string.format("%s %s", ui.Format.SpeedUnit(p_delta_v)) },
-		{ lui.FORWARD_ACCEL..":",  string.format("%.1f / %.1f g", fwd_acc / 9.81, fwd_cap / 9.81) },
-		{ lui.UP_ACCEL..":",       string.format("%.1f / %.1f g", up_acc / 9.81, up_cap / 9.81) },
+		{ lui.FORWARD_ACCEL..":",  string.format("%.1f/%.1f g", fwd_acc / 9.81, fwd_cap / 9.81) },
+		{ lui.UP_ACCEL..":",       string.format("%.1f/%.1f g", up_acc / 9.81, up_cap / 9.81) },
 		})
 		local p2 = ui.getCursorPos()
 		self.layout.table2_height = p2.y - p1.y
