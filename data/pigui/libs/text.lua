@@ -337,7 +337,7 @@ ui.Format = {
 	end,
 	-- Format a volume quantity in cubic meters
 	Volume = function(number, places)
-		return ui.Format.Number(number, places or 1) .. lc.UNIT_CUBIC_METERS
+		return ui.Format.Number(number, places or 1) .. " " .. lc.UNIT_CUBIC_METERS
 	end,
 	-- Format an Area quantity, scaling from square meters to square megameters
 	-- Returns the formatted value, the units, and the number of digits following the decimal point
