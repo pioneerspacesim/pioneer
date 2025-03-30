@@ -110,7 +110,7 @@ local onChat = function (form, ref, option)
 			sectorx = ad.location.sectorX,
 			sectory = ad.location.sectorY,
 			sectorz = ad.location.sectorZ,
-			mission = l["MISSION_TYPE_" .. math.ceil(ad.dedication * NUMSUBTYPES)],
+			mission = l["MISSION_TYPE_CONVO_" .. math.ceil(ad.dedication * NUMSUBTYPES)],
 			dist    = string.format("%.2f", ad.dist),
 		})
 		form:SetMessage(introtext)
@@ -509,7 +509,9 @@ local buildMissionDescription = function(mission)
 
 	local desc = {}
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
-	local type = l["MISSION_TYPE_" .. math.ceil(mission.dedication * NUMSUBTYPES)]
+	local subtype = math.ceil(mission.dedication * NUMSUBTYPES)
+	local missiontype = l["MISSION_TYPE_" .. subtype]
+	local missiontypeconvo = l["MISSION_TYPE_CONVO_" .. subtype]
 
 	desc.description = mission.introtext:interp({
 		name    = mission.client.name,
@@ -520,7 +522,7 @@ local buildMissionDescription = function(mission)
 		sectorx = mission.location.sectorX,
 		sectory = mission.location.sectorY,
 		sectorz = mission.location.sectorZ,
-		mission = type,
+		mission = missiontypeconvo,
 		dist    = dist
 	})
 
@@ -536,7 +538,7 @@ local buildMissionDescription = function(mission)
 		or string.interp(l[mission.flavour.id .. "_LAND_THERE"], { org = mission.org })
 
 	desc.details = {
-		{ l.MISSION, type },
+		{ l.MISSION, missiontype },
 		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
 		{ l.AREA, mission.location:GetSystemBody().name },
 		{ l.DISTANCE, dist.." "..lc.UNIT_LY },
