@@ -22,6 +22,29 @@
  */
 
 /*
+ * Attribute: i18n
+ *
+ * The capitalized ship name that pairs with a suffix to address a ship in
+ * it's correct singular form in the translated names in /data/lang/ships.
+ *
+ * SHIP			- ship, base form.
+ * SHIP_DEF		- the ship, definitive form.
+ * SHIP_INDEF	- a ship, indefinite form.
+ *
+ * Example:
+ *
+ * > local ship = ShipDef[ad.shipid].i18n_key            -- 'NATRIX'
+ * >
+ * > local ship_def = ls[ship .. "_DEF"],                -- 'NATRIX_DEF' - 'the Natrix'
+ * > print("We're counting on " .. ship_def .. " to give us some resistance!")
+ * >
+ * > local ship_indef = ls[ship .. "_INDEF"],            -- 'NATRIX_INDEF' - 'a Natrix'
+ * > local body = ad.location:GetSystemBody()
+ * > print("There are rumours of an abandoned " .. ship_undef ..
+ * > ", drifting in a close orbit around " .. body .. ".")
+ */
+
+/*
  * Attribute: angularThrust
  *
  * The amount of angular thrust this ship can achieve. This is the value
@@ -135,6 +158,7 @@ void LuaShipDef::Register()
 		pi_lua_settable(l, "id", iter.first.c_str());
 		pi_lua_settable(l, "path", st.definitionPath.c_str());
 		pi_lua_settable(l, "name", st.name.c_str());
+		pi_lua_settable(l, "i18n_key", st.i18n_key.c_str());
 		pi_lua_settable(l, "shipClass", st.shipClass.c_str());
 		pi_lua_settable(l, "manufacturer", st.manufacturer.c_str());
 		pi_lua_settable(l, "modelName", st.modelName.c_str());

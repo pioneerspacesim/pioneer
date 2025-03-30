@@ -31,6 +31,7 @@ struct ShipType {
 	Id id;
 
 	std::string name;
+	std::string i18n_key;
 	std::string shipClass;
 	std::string manufacturer;
 

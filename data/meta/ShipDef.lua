@@ -11,6 +11,7 @@
 ---@field id string
 ---@field path string
 ---@field name string
+---@field i18n_key string
 ---@field shipClass string
 ---@field manufacturer string
 ---@field modelName string

@@ -21,6 +21,7 @@ local utils = require 'utils'
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local l = Lang.GetResource("ui-core")
+local ls = Lang.GetResource("ships")
 local Vector2 = _G.Vector2
 
 local vZero = Vector2(0,0)
@@ -436,7 +437,7 @@ local tradeMenu = function()
 				ui.setColumnWidth(0, colHeadingWidth)
 
 				ui.withFont(orbiteer.title, function()
-					ui.text(selectedItem.def.name)
+					ui.text(ls[selectedItem.def.i18n_key])
 				end)
 				ui.withFont(orbiteer.body, function()
 					ui.text(shipClassString[selectedItem.def.shipClass])
@@ -549,7 +550,7 @@ shipMarket = Table.New("shipMarketWidget", false, {
 		ui.nextColumn()
 		ui.withStyleVars({ItemSpacing = vZero}, function()
 			ui.dummy(widgetSizes.rowVerticalSpacing)
-			ui.text(item.def.name)
+			ui.text(ls[item.def.i18n_key])
 			ui.nextColumn()
 			ui.dummy(widgetSizes.rowVerticalSpacing)
 			ui.text(Format.Money(advertDataCache[item].price, false))
@@ -564,7 +565,9 @@ shipMarket = Table.New("shipMarketWidget", false, {
 		shipMarket.selectedItem = e
 		refreshModelSpinner()
 	end,
-	sortingFunction = function(s1,s2) return s1.def.name < s2.def.name end
+	sortingFunction = function(s1,s2)
+		return ls[s1.def.i18n_key] < ls[s2.def.i18n_key]
+	end
 })
 
 StationView:registerView({

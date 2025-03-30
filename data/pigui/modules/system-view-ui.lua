@@ -8,10 +8,12 @@ local Lang = require 'Lang'
 local ui = require 'pigui'
 local Format = require 'Format'
 local SpaceStation = require 'SpaceStation'
+local ShipDef = require 'ShipDef'
 local Constants = _G.Constants
 
 local Vector2 = _G.Vector2
 local lc = Lang.GetResource("core")
+local ls = Lang.GetResource("ships")
 local luc = Lang.GetResource("ui-core")
 local layout = require 'pigui.libs.window-layout'
 local Sidebar = require 'pigui.libs.sidebar'
@@ -425,7 +427,8 @@ local function getObjectData(obj)
 			-- some kind of hook that the target scanner can hook into to display
 			-- more info here.
 			-- This is what should be inserted:
-			table.insert(data, { name = luc.SHIP_TYPE, value = body:GetShipType() })
+			local shipdef = ShipDef[body.shipId]
+			table.insert(data, { name = luc.SHIP_TYPE, value = ls[shipdef.i18n_key] })
 			if (player["target_scanner_level_cap"] or 0) > 0 then
 				local hd = body:GetInstalledHyperdrive()
 				table.insert(data, { name = luc.HYPERDRIVE, value = hd and hd:GetName() or lc.NO_HYPERDRIVE })
@@ -436,13 +439,13 @@ local function getObjectData(obj)
 			---@cast body HyperspaceCloud
 			local hypercloud_level = (player["hypercloud_analyzer_cap"] or 0)
 			local ship = body:GetShip()
+			local shipdef = ShipDef[ship.shipId]
 			-- TODO: different levels of hypercloud analyser should provide
 			-- increasingly detailed amounts of information.
 			if hypercloud_level > 0 and ship then
 				local _,systemName = ship:GetHyperspaceDestination()
 				local systemLabel = body:IsArrival() and luc.HUD_HYPERSPACE_ORIGIN or luc.HUD_HYPERSPACE_DESTINATION
-
-				table.insert(data, { name = luc.SHIP_TYPE, value = ship:GetShipType() })
+				table.insert(data, { name = luc.SHIP_TYPE, value = ls[shipdef.i18n_key] })
 				table.insert(data, { name = luc.HUD_MASS, value = formatMass(ship.staticMass) })
 				table.insert(data, { name = systemLabel, value = systemName })
 				table.insert(data, { name = luc.HUD_ARRIVAL_DATE, value = ui.Format.Datetime(body:GetDueDate()) })

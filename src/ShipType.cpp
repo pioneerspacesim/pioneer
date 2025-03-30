@@ -62,6 +62,7 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	definitionPath = path;
 
 	name = data.value("name", "");
+	i18n_key = data.value("i18n_key", "");
 	shipClass = data.value("ship_class", "");
 	manufacturer = data.value("manufacturer", "");
 	modelName = data.value("model", "");
