@@ -1,7 +1,7 @@
 {
   "ACCEPTED_DELIVER_DOCUMENT": {
     "description": "",
-    "message": "Very well. The data has been copied."
+    "message": "Very well. I have transferred the document to you."
   },
   "ACCEPTED_DELIVER_MESSAGE": {
     "description": "",
@@ -265,7 +265,7 @@
   },
   "INTROTEXT_PRIVATEER_FEMALE_1": {
     "description": "",
-    "message": "Hi there! My name is {client}. I'm looking for {wanted}. She owes me a lot of money. According to the latest information, she's doing missions in the {system} ({sectorx}, {sectory}, {sectorz}) system. Please tell her my patience is running out. Return to {domicile} for your payment of {cash}."
+    "message": "Hi there! My name is {client}. I'm looking for {wanted}. She owes me a lot of money. According to the latest information, she's doing missions in the {system} ({sectorx}, {sectory}, {sectorz}) system. Please tell her that my patience is running thin. Return to {domicile} for your payment of {cash}."
   },
   "INTROTEXT_PRIVATEER_FEMALE_2": {
     "description": "",
@@ -273,7 +273,7 @@
   },
   "INTROTEXT_PRIVATEER_MALE_1": {
     "description": "",
-    "message": "Hi there! My name is {client}. I'm looking for {wanted}. He owes me a lot of money. According to the latest information, he's doing missions in the {system} ({sectorx}, {sectory}, {sectorz}) system. Please tell him my patience is running out. Return to {domicile} for your payment of {cash}."
+    "message": "Hi there! My name is {client}. I'm looking for {wanted}. He owes me a lot of money. According to the latest information, he's doing missions in the {system} ({sectorx}, {sectory}, {sectorz}) system. Please tell him that my patience is running thin. Return to {domicile} for your payment of {cash}."
   },
   "INTROTEXT_PRIVATEER_MALE_2": {
     "description": "",
@@ -281,7 +281,7 @@
   },
   "INTROTEXT_TAXI_FEMALE_1": {
     "description": "",
-    "message": "Hi. I'm {client}. I'm looking for a relative in the {system} ({sectorx}, {sectory}, {sectorz}) system. Her name is {wanted}. Time is of the essence because there is a medical emergency in the family. Please find her and bring her back to {domicile}. I pay you {cash}."
+    "message": "Hi. I'm {client}. I'm looking for a relative in the {system} ({sectorx}, {sectory}, {sectorz}) system. Her name is {wanted}. Time is of the essence due to a medical emergency in the family. Please find her and bring her back to {domicile}. I pay you {cash}."
   },
   "INTROTEXT_TAXI_FEMALE_2": {
     "description": "",
@@ -289,7 +289,7 @@
   },
   "INTROTEXT_TAXI_MALE_1": {
     "description": "",
-    "message": "Hi. I'm {client}. I'm looking for a relative in the {system} ({sectorx}, {sectory}, {sectorz}) system. His name is {wanted}. Time is of the essence because there is a medical emergency in the family. Please find him and bring him back to {domicile}. I pay you {cash}."
+    "message": "Hi. I'm {client}. I'm looking for a relative in the {system} ({sectorx}, {sectory}, {sectorz}) system. His name is {wanted}. Time is of the essence due to a medical emergency in the family. Please find him and bring him back to {domicile}. I pay you {cash}."
   },
   "INTROTEXT_TAXI_MALE_2": {
     "description": "",
@@ -377,7 +377,7 @@
   },
   "PIRATE_TAUNTS_3": {
     "description": "",
-    "message": "You actually went all this way to deliver this stupid message to me? You better get out of here!"
+    "message": "You actually went all this way to deliver this silly message to me? You better get out of here!"
   },
   "REPEAT_THE_REQUEST": {
     "description": "",
@@ -485,7 +485,7 @@
   },
   "SUCCESS_MSG_2": {
     "description": "",
-    "message": "Thanks for the service. Your salary was transferred."
+    "message": "Thanks for the service. Your salary has been transferred."
   },
   "SUCCESS_MSG_3": {
     "description": "",
