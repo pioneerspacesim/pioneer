@@ -638,8 +638,8 @@ void PlayerShipController::PollControls(const float timeStep, int *mouseMotion, 
 	// only linear thrust ^ is allowed in the system map
 	if (Pi::GetView() == Pi::game->GetSystemView()) return;
 
-	m_ship->SetGunState(0, 0);
-	m_ship->SetGunState(1, 0);
+	auto gunManager = m_ship->GetComponent<GunManager>();
+	if (gunManager) gunManager->SetAllGroupsFiring(false);
 
 	if (Pi::input->MouseButtonState(SDL_BUTTON_RIGHT)) {
 		// use ship rotation relative to system, unchanged by frame transitions
@@ -687,9 +687,9 @@ void PlayerShipController::PollControls(const float timeStep, int *mouseMotion, 
 		m_mouseActive = false;
 	}
 
-	if (InputBindings.primaryFire->IsActive() || (Pi::input->MouseButtonState(SDL_BUTTON_LEFT) && Pi::input->MouseButtonState(SDL_BUTTON_RIGHT))) {
-		//XXX worldview? madness, ask from ship instead
-		m_ship->SetGunState(Pi::game->GetWorldView()->GetActiveWeapon(), 1);
+	if (gunManager &&
+		(InputBindings.primaryFire->IsActive() || (Pi::input->MouseButtonState(SDL_BUTTON_LEFT) && Pi::input->MouseButtonState(SDL_BUTTON_RIGHT)))) {
+		gunManager->SetGroupFiring(Pi::game->GetWorldView()->GetActiveWeapon(), true);
 	}
 
 	vector3d wantAngVel = vector3d(
