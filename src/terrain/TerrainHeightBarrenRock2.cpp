@@ -25,6 +25,6 @@ double TerrainHeightFractal<TerrainHeightBarrenRock2>::GetHeight(const vector3d 
 {
 
 	double n = billow_octavenoise(16, 0.3 * octavenoise(8, 0.4, 2.5, p), Clamp(5.0 * ridged_octavenoise(8, 0.377, 4.0, p), 1.0, 5.0), p);
-
+	ApplySimpleHeightRegions(n, p);
 	return (n > 0.0 ? m_maxHeight * n : 0.0);
 }
