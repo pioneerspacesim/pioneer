@@ -1,0 +1,110 @@
+{
+    "ac33": {
+        "description": "",
+        "message": "AC-33 Dropstar"
+    },
+    "bluenose": {
+        "description": "",
+        "message": "Bluenose"
+    },
+    "bowfin": {
+        "description": "",
+        "message": "Bowfin"
+    },
+    "coronatrix": {
+        "description": "",
+        "message": "Coronatrix"
+    },
+    "coronatrix_police": {
+        "description": "",
+        "message": "Coronatrix police ship"
+    },
+    "deneb": {
+        "description": "",
+        "message": "Deneb"
+    },
+    "dsminer": {
+        "description": "",
+        "message": "DS Miner"
+    },
+    "kanara": {
+        "description": "",
+        "message": "Kanara"
+    },
+    "kanara_civ": {
+        "description": "",
+        "message": "KanarCiv"
+    },
+    "lodos": {
+        "description": "",
+        "message": "Lodos"
+    },
+    "lunarshuttle": {
+        "description": "",
+        "message": "Lunar Shuttle"
+    },
+    "malabar": {
+        "description": "",
+        "message": "Malabar"
+    },
+    "molamola": {
+        "description": "",
+        "message": "MolMola"
+    },
+    "molaramsayi": {
+        "description": "",
+        "message": "MolRamsayi"
+    },
+    "natrix": {
+        "description": "",
+        "message": "Natrix"
+    },
+    "nerodia": {
+        "description": "",
+        "message": "Nerodia"
+    },
+    "pumpkinseed": {
+        "description": "",
+        "message": "Pumpkinseed"
+    },
+    "pumpkinseed_police": {
+        "description": "",
+        "message": "Pumpkinseed police ship"
+    },
+    "sinonatrix": {
+        "description": "",
+        "message": "Sinonatrix"
+    },
+    "sinonatrix_police": {
+        "description": "",
+        "message": "Sinonatrix police ship"
+    },
+    "skipjack": {
+        "description": "",
+        "message": "Skipjack"
+    },
+    "storeria": {
+        "description": "",
+        "message": "Storeria"
+    },
+    "varada": {
+        "description": "",
+        "message": "Varada"
+    },
+    "vatakara": {
+        "description": "",
+        "message": "Vatakara"
+    },
+    "venturestar": {
+        "description": "",
+        "message": "Venturestar"
+    },
+    "wave": {
+        "description": "",
+        "message": "Wave"
+    },
+    "xylophis": {
+        "description": "",
+        "message": "Xylophis"
+    }
+}
