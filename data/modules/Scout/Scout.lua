@@ -568,14 +568,14 @@ end
 local onUpdateBB = function (station)
 	for ref,ad in pairs(ads) do
 		if not flavours[ad.flavour].localscout
-			and ad.due < Game.time + 432000 then -- 5 days
+			and ad.due < Game.time + 5*24*60*60 then
 			ad.station:RemoveAdvert(ref)
 		elseif flavours[ad.flavour].localscout
-			and ad.due < Game.time + 172800 then -- 2 days
+			and ad.due < Game.time + 2*24*60*60 then
 			ad.station:RemoveAdvert(ref)
 		end
 	end
-	if Engine.rand:Integer(43200) < 3600 then    -- 12 h < 1 h
+	if Engine.rand:Integer(3*24*60*60) < 60*60 then
 		makeAdvert(station)
 	end
 end
