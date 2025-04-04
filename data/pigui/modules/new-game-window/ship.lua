@@ -1815,7 +1815,7 @@ local function rowWithAlert(output, label, current, project, alertIf, unitStr, f
 	local valid = not alertIf(current, project)
 	if not valid then color = ui.theme.colors.alertRed end
 	output.valid = output.valid and valid
-	return { label .. ":", string.format(format .. " / " .. format .. unitStr .. " ", current, project), color = color }
+	return { label .. ":", string.format(format .. " / " .. format .. " " .. unitStr .. " ", current, project), color = color }
 end
 
 -- prepare a table for output and at the same time check the parameters
@@ -1891,7 +1891,7 @@ function ShipSummary:draw()
 	ui.child("##param_table2", Vector2(self.layout.width, self.layout.table2_height), function()
 		local p1 = ui.getCursorPos()
 		textTable.drawTable(2, { self.layout.width - self.valueWidth, self.valueWidth }, {
-		{ lui.ALL_UP_WEIGHT..":", string.format("%dt", mass_with_fuel ) },
+		{ lui.ALL_UP_WEIGHT..":", string.format("%d t", mass_with_fuel ) },
 		{ lui.HYPERSPACE_RANGE..":", string.format("%.1f / %.1f " .. lui.LY, hyper_range, range_max) },
 		{ lui.DELTA_V..":",      string.format("%s %s", ui.Format.SpeedUnit(delta_v)) },
 		{ lui.REFUEL .. " " .. lui.DELTA_V..":", string.format("%s %s", ui.Format.SpeedUnit(p_delta_v)) },
