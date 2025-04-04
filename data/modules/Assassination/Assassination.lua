@@ -21,6 +21,7 @@ local HullConfig  = require 'HullConfig'
 local utils = require 'utils'
 
 local lc = Lang.GetResource 'core'
+local ls = Lang.GetResource 'ships'
 local l = Lang.GetResource("module-assassination")
 
 -- don't produce missions for further than this many light years away
@@ -107,7 +108,7 @@ local onChat = function (form, ref, option)
 		  sectorZ   = ad.location.sectorZ,
 		  dist      = string.format("%.2f", ad.dist),
 		  date      = Format.Date(ad.due),
-		  shipname  = ad.shipname,
+		  shipname  = ls[ad.shipname],
 		  shipregid = ad.shipregid,
 		  })
 		)
@@ -138,7 +139,7 @@ local onChat = function (form, ref, option)
 			reward		= ad.reward,
 			threat		= ad.threat,
 			shipid		= ad.shipid,
-			shipname	= ad.shipname,
+			shipname	= ls[ad.shipname],
 			shipregid	= ad.shipregid,
 			status		= 'ACTIVE',
 			target		= ad.target,
@@ -213,7 +214,7 @@ local makeAdvert = function (station)
 		reward = reward,
 		threat = threat,
 		shipid = hullConfig.id,
-		shipname = ShipDef[hullConfig.id].name,
+		shipname = ShipDef[hullConfig.id].modelName,
 		shipregid = Ship.MakeRandomLabel(),
 		station = station,
 		target = target,
@@ -490,7 +491,7 @@ local function buildMissionDescription(mission)
 		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
 		{ l.DISTANCE, dist.." "..lc.UNIT_LY },
 		false,
-		{ l.SHIP, mission.shipname },
+		{ l.SHIP, ShipDef[mission.shipid].name },
 		{ l.SHIP_ID, mission.shipregid },
 		{ l.TARGET_WILL_BE_LEAVING_SPACEPORT_AT, ui.Format.Date(mission.due) }
 	}
