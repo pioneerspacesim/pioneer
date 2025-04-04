@@ -491,7 +491,7 @@ local function buildMissionDescription(mission)
 		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
 		{ l.DISTANCE, dist.." "..lc.UNIT_LY },
 		false,
-		{ l.SHIP, mission.shipname },
+		{ l.SHIP, ShipDef[mission.shipid].name },
 		{ l.SHIP_ID, mission.shipregid },
 		{ l.TARGET_WILL_BE_LEAVING_SPACEPORT_AT, ui.Format.Date(mission.due) }
 	}
