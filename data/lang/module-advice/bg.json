@@ -13,7 +13,7 @@
   },
   "ADVICE_11_HEADLINE": {
     "description": "A reference to the song 'The Harder They Come', by Jimmy Cliff",
-    "message": "„The harder the g, the harder the fall“"
+    "message": "Колкото е по-силна гравитацията, толкова по-твърдо се пада"
   },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
@@ -29,7 +29,7 @@
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
-    "message": "„The Road Faster Taken“"
+    "message": "Пътят, по който по-бързо поех"
   },
   "ADVICE_3_BODYTEXT": {
     "description": "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
@@ -105,7 +105,7 @@
   },
   "TALE_1_HEADLINE": {
     "description": "Blade runner?",
-    "message": "„Виждал съм неща, на които Вие хората няма да повярвате!“"
+    "message": "Виждал съм неща, на които Вие хората няма да повярвате!"
   },
   "TRAVELLERS_ADVICE": {
     "description": "Headline starts with this pre-headline",

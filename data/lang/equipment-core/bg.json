@@ -53,11 +53,11 @@
   },
   "BY_ITEM": {
     "description": "Button in the start menu when editing equipment",
-    "message": "По артикул"
+    "message": "Артикули"
   },
   "BY_SLOT": {
     "description": "Button in the start menu when editing equipment",
-    "message": "По гнездо"
+    "message": "Гнезда"
   },
   "CABINS": {
     "description": "Category header for pressurized cabin slots",
@@ -401,7 +401,7 @@
   },
   "MISSILE_RACK_221": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
-    "message": "Ракетна стойка Водна змия ЛХ-120"
+    "message": "Ракетна стойка Водна змия LH-120"
   },
   "MISSILE_RACK_221_DESCRIPTION": {
     "description": "Equipment tooltip",
@@ -409,11 +409,11 @@
   },
   "MISSILE_RACK_221_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "Тази качествена ракетна стойка, произведена от Отбранителна водна змия, няма да ви разочарова, когато е време да се справите с тези досадни пирати."
+    "message": "Тази качествена ракетна стойка, произведена от Отбранителна водна змия, никога не разочарова, когато е време да се справите с тези досадни пирати."
   },
   "MISSILE_RACK_322": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
-    "message": "Ракетна стойка Водна змия ЛХ-220"
+    "message": "Ракетна стойка Водна змия LH-220"
   },
   "MISSILE_RACK_322_DESCRIPTION": {
     "description": "Equipment tooltip",
@@ -425,7 +425,7 @@
   },
   "MISSILE_RACK_341": {
     "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
-    "message": "Ракетна стойка Медуза ЛХ-140"
+    "message": "Ракетна стойка Медуза LH-140"
   },
   "MISSILE_RACK_341_DESCRIPTION": {
     "description": "Equipment tooltip",
@@ -437,7 +437,7 @@
   },
   "MISSILE_RACK_423": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
-    "message": "Ракетна стойка Водна змия ЛХ-320"
+    "message": "Ракетна стойка Водна змия LH-320"
   },
   "MISSILE_RACK_423_DESCRIPTION": {
     "description": "Equipment tooltip",
@@ -449,7 +449,7 @@
   },
   "MISSILE_RACK_442": {
     "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
-    "message": "Ракетна стойка Медуза ЛХ-240"
+    "message": "Ракетна стойка Медуза LH-240"
   },
   "MISSILE_RACK_442_DESCRIPTION": {
     "description": "Equipment tooltip",
@@ -461,7 +461,7 @@
   },
   "MISSILE_RACK_524": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
-    "message": "Ракетна стойка Водна змия ЛХ-420"
+    "message": "Ракетна стойка Водна змия LH-420"
   },
   "MISSILE_RACK_524_DESCRIPTION": {
     "description": "Equipment tooltip",
@@ -473,7 +473,7 @@
   },
   "MISSILE_RACK_543": {
     "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
-    "message": "Ракетна стойка Водна змия ЛХ-340"
+    "message": "Ракетна стойка Водна змия LH-340"
   },
   "MISSILE_RACK_543_DESCRIPTION": {
     "description": "Equipment tooltip",
@@ -481,7 +481,7 @@
   },
   "MISSILE_RACK_543_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "Първо, Отбранителна водна змия създаде страхотната ЛХ-320, сега удвояваме нейния капацитет! Продължете напред и оставете своя отпечатък върху всяка система, която се осмели да се противопостави на вашата мощ."
+    "message": "Първо, Отбранителна водна змия създаде страхотната LH-320, сега удвояваме нейния капацитет! Продължете напред и оставете своя отпечатък върху всяка система, която се осмели да се противопостави."
   },
   "MISSILE_RAIL_S1": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
@@ -493,7 +493,7 @@
   },
   "MISSILE_RAIL_S1_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "Качествена ракетна релса, произведена от Отбранителна водна змия, за всички ракети от клас С1, които се придържат към стандартите на МКА."
+    "message": "Качествена ракетна релса, произведена от Отбранителна водна змия, за всички ракети от клас S1, които се придържат към стандартите на ISAAEEE."
   },
   "MISSILE_RAIL_S2": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
@@ -505,7 +505,7 @@
   },
   "MISSILE_RAIL_S2_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "Качествена ракетна релса, произведена от Отбранителна водна змия, която осигурява точка за монтиране на ракети от клас С2."
+    "message": "Качествена ракетна релса, произведена от Отбранителна водна змия, която осигурява точка за монтиране на ракети от клас S2."
   },
   "MISSILE_RAIL_S3": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
@@ -517,7 +517,7 @@
   },
   "MISSILE_RAIL_S3_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "Качествена ракетна релса, произведена от Отбранителна водна змия, която осигурява точка за монтиране на ракети от клас С3."
+    "message": "Качествена ракетна релса, произведена от Отбранителна водна змия, която осигурява точка за монтиране на ракети от клас S3."
   },
   "MISSILE_RAIL_S4": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
@@ -529,7 +529,7 @@
   },
   "MISSILE_RAIL_S4_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "Качествена ракетна релса, произведена от Отбранителна водна змия, която осигурява точка за монтиране на ракети от клас С4."
+    "message": "Качествена ракетна релса, произведена от Отбранителна водна змия, която осигурява точка за монтиране на ракети от клас S4."
   },
   "MISSILE_SMART": {
     "description": "",
@@ -541,11 +541,11 @@
   },
   "MISSILE_SMART_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "Интелигентна ракета, способна да проследи целта с помощта на усъвършенстван набор от сензори с интегриран модул с изкуствен интелект. Уверете се, че не го наричате HAL и гарантираме, че ще се насочи към целта си, а не към вас."
+    "message": "Интелигентна ракета, способна да проследи целта с помощта на усъвършенстван набор от сензори с интегриран модул с изкуствен интелект. Само не го наричайте HAL и гарантираме, че няма да има проблеми ."
   },
   "MISSILE_UNGUIDED": {
     "description": "",
-    "message": "Самостоятелна ракета Р40"
+    "message": "Самостоятелна ракета R40"
   },
   "MISSILE_UNGUIDED_DESCRIPTION": {
     "description": "Equipment description",
@@ -553,7 +553,7 @@
   },
   "MISSILE_UNGUIDED_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "Масово произвеждани от местни производители в повечето светове. Те варират от ръчно изработени ракети от занаятчии в развиващите се светове до автоматизирана разработка на ракети  в огромните заводи на индустриализираните светове.\nНо независимо откъде произлизат, техните спецификации са строго контролирани от МКА и трябва да работят с повечето съвместими корабни системи."
+    "message": "Масово произвеждани от местни производители в повечето светове. Те варират от ръчно изработени ракети от занаятчии в развиващите се светове до автоматизирана разработка на ракети  в огромните заводи на индустриализираните светове.\nНо независимо откъде произлизат, техните спецификации са строго контролирани от ISAEEE и трябва да работят с повечето съвместими корабни системи."
   },
   "NO_SUITABLE_EQUIPMENT": {
     "description": "Message in the start menu when editing equipment",
@@ -573,7 +573,7 @@
   },
   "OPLI_INTERNAL_MISSILE_RACK_S2": {
     "description": "Equipment name for an OPLI internal missile rack",
-    "message": "Вътрешна ракетна стойка ОПЛИ"
+    "message": "Вътрешна ракетна стойка OPLI"
   },
   "OPLI_INTERNAL_MISSILE_RACK_S2_DESCRIPTION": {
     "description": "Short description and tooltip.",
@@ -581,7 +581,7 @@
   },
   "OPLI_INTERNAL_MISSILE_RACK_S3": {
     "description": "Equipment name for an OPLI internal missile rack",
-    "message": "Вътрешна ракетна стойка ОПЛИ"
+    "message": "Вътрешна ракетна стойка OPLI"
   },
   "OPLI_INTERNAL_MISSILE_RACK_S3_DESCRIPTION": {
     "description": "Short description and tooltip.",
@@ -589,7 +589,7 @@
   },
   "OPLI_INTERNAL_MISSILE_RACK_S4": {
     "description": "Equipment name for an OPLI internal missile rack",
-    "message": "Вътрешна ракетна стойка ОПЛИ"
+    "message": "Вътрешна ракетна стойка OPLI"
   },
   "OPLI_INTERNAL_MISSILE_RACK_S4_DESCRIPTION": {
     "description": "Short description and tooltip.",
@@ -597,7 +597,7 @@
   },
   "ORBIT_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
-    "message": "Орбитален скенер ХКМ-650"
+    "message": "Орбитален скенер XKM-650"
   },
   "ORBIT_SCANNER_DESCRIPTION": {
     "description": "tooltip",
@@ -605,7 +605,7 @@
   },
   "ORBIT_SCANNER_GOOD": {
     "description": "A sensor used to scan planets from high altitude / orbit + model number (that's minimum km altitude)",
-    "message": "Орбитален скенер ХКМ-1750"
+    "message": "Орбитален скенер XKM-1750"
   },
   "ORBIT_SCANNER_GOOD_DESCRIPTION": {
     "description": "tooltip",
@@ -625,7 +625,7 @@
   },
   "PROJECTILE_SPEED": {
     "description": "Stat label for weapon projectile speeds",
-    "message": "Стрелкова скорост"
+    "message": "Начална скорост"
   },
   "PROPULSION": {
     "description": "Category name of propulsion-related equipment",
@@ -717,7 +717,7 @@
   },
   "SHIELD_GENERATOR": {
     "description": "",
-    "message": "Генератор на щитовете"
+    "message": "Генератор"
   },
   "SHIELD_GENERATOR_DESCRIPTION": {
     "description": "",
@@ -809,7 +809,7 @@
   },
   "STAT_HYPERDRIVE_RESERVOIR": {
     "description": "",
-    "message": "Размер на горивния резервоар"
+    "message": "Размер на резервоара"
   },
   "STAT_MISSILE_RADIUS": {
     "description": "",
@@ -841,7 +841,7 @@
   },
   "SURFACE_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude. Model manufacturer name is meant to sound like a cheap brand.",
-    "message": "Повърхностен скенер Nadir-150"
+    "message": "Повърхностен скенер Надир-150"
   },
   "SURFACE_SCANNER_DESCRIPTION": {
     "description": "tooltip",
@@ -849,7 +849,7 @@
   },
   "SURFACE_SCANNER_GOOD": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types. Model manufacturer name is meant to be associated with high quality.",
-    "message": "Повърхностен скенер Xeiss-250"
+    "message": "Повърхностен скенер Цайс-250"
   },
   "SURFACE_SCANNER_GOOD_DESCRIPTION": {
     "description": "tooltip",
@@ -881,7 +881,7 @@
   },
   "THRUSTERS_IMPROVED_DESCRIPTION": {
     "description": "",
-    "message": "Подобрени ускорители, които са лицензирани за кораба."
+    "message": "Подобрени ускорители, лицензирани за вашия кораб."
   },
   "THRUSTERS_NAVAL": {
     "description": "",

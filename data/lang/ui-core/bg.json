@@ -69,7 +69,7 @@
   },
   "AVAILABLE_STOCK": {
     "description": "Market stat showing number of items in stock",
-    "message": "Налично"
+    "message": "Наличност"
   },
   "AVERAGE": {
     "description": "",
@@ -1793,7 +1793,7 @@
   },
   "N_SHIELD_GENERATORS": {
     "description": "",
-    "message": "{quantity} генератора на щитовете"
+    "message": "{quantity} генератора"
   },
   "N_UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
@@ -1915,6 +1915,10 @@
     "description": "",
     "message": "Заплащане на глобата в размер на {amount}"
   },
+  "PENDING_RETURN": {
+    "description": "Status if the mission has not yet been fully completed",
+    "message": "Предстоящо връщане"
+  },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Ръкав Персей"
@@ -1953,7 +1957,7 @@
   },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
-    "message": "Нещо се обърка! Моля, докладвайте как се е стигнало до тази неизправност в „Github“. Приложете изходния дневник на „Pioneer” и запазената игра към отчета.\nИзходният дневник се намира в: {path}/output.txt"
+    "message": "Нещо се обърка! Моля, докладвайте как се е стигнало до тази неизправност в Github. Приложете изходния дневник на Pioneer и запазената игра към отчета.\nИзходният дневник се намира в: {path}/output.txt"
   },
   "POLICE": {
     "description": "",
@@ -1973,7 +1977,7 @@
   },
   "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
     "description": "",
-    "message": "Натиснете бутон или натиснете „Esc“ за изчистване"
+    "message": "Натиснете клавиш или натиснете Esc за изчистване"
   },
   "PREVIOUS_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
@@ -2010,6 +2014,10 @@
   "QUIT_CONFIRMATION": {
     "description": "For the checkbox in settings window",
     "message": "Потвърждение за изход"
+  },
+  "RANDOM_COLORS": {
+    "description": "Paint shop. Randomize colors",
+    "message": "Произволни цветове"
   },
   "RANDOM_FACE": {
     "description": "Generate random face",
@@ -2341,7 +2349,7 @@
   },
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
-    "message": "Това е труден старт от космическия затвор „Почивна база на системната администрация“"
+    "message": "Това е труден старт от космическия затвор Почивна база на системната администрация."
   },
   "START_AT_MARS": {
     "description": "",
@@ -2349,7 +2357,7 @@
   },
   "START_AT_MARS_DESC": {
     "description": "",
-    "message": "Това е лесен старт от „Сидония“ – Марс в Слънчевата система."
+    "message": "Това е лесен старт от Сидония – Марс в Слънчевата система."
   },
   "START_AT_NEW_HOPE": {
     "description": "New Hope is an in game location",
@@ -2357,7 +2365,7 @@
   },
   "START_AT_NEW_HOPE_DESC": {
     "description": "",
-    "message": "Това е умерен старт от „Ицалиян“ – Нова надежда в системата Епсилон Еридани."
+    "message": "Това е умерен старт от Ицалиян – Нова надежда в системата Епсилон Еридани."
   },
   "START_GAME": {
     "description": "Button",

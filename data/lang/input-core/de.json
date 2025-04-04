@@ -133,19 +133,19 @@
   },
   "BIND_RADAR_TOGGLE_MODE": {
     "description": "Descriptive name for the RadarToggle action.",
-    "message": "Toggle Radar Display Mode"
+    "message": "Modus der Radaranzeige umschalten"
   },
   "BIND_RADAR_ZOOM_IN": {
     "description": "Descriptive name for the RadarZoomIn action.",
-    "message": "Manual Zoom Radar In"
+    "message": "Radar manuell hereinzoomen"
   },
   "BIND_RADAR_ZOOM_OUT": {
     "description": "Descriptive name for the RadarZoomOut action.",
-    "message": "Manual Zoom Radar Out"
+    "message": "Radar manuell herauszoomen"
   },
   "BIND_RADAR_ZOOM_RESET": {
     "description": "Descriptive name for the RadarZoomReset action.",
-    "message": "Reset Radar Zoom"
+    "message": "Radarzoom zurücksetzen"
   },
   "BIND_RADIAL_HORIZONTAL_SELECTION": {
     "description": "Input axis name to select in the radial menu.",
@@ -185,7 +185,7 @@
   },
   "BIND_TARGET_RADIAL": {
     "description": "Descriptive name for opening the TargetRadial popup.",
-    "message": "Open Target Radial Menu"
+    "message": "Öffne Pop-up für radiale Ausrichtung"
   },
   "BIND_THRUST_LOW_POWER": {
     "description": "Descriptive name for the ThrustLowPower action.",
@@ -264,7 +264,7 @@
   },
   "GROUP_RADAR_CONTROL": {
     "description": "Group label for radar-related inputs",
-    "message": "Radar Control"
+    "message": "Radarsteuerung"
   },
   "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
     "description": "Header for the SectorMapViewControls input group.",
@@ -344,7 +344,7 @@
   },
   "PAGE_SHIP_HUD": {
     "description": "Header for the ShipHUD input page.",
-    "message": "Ship - HUD"
+    "message": "Schiff - HUD"
   },
   "PAGE_SHIP_VIEW": {
     "description": "Header for the ShipView input page.",

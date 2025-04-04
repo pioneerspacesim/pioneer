@@ -1,7 +1,7 @@
 {
   "ACCIDENT_DESTROYED_TARGET": {
     "description": "",
-    "message": "Vi har nåtts av den sorgliga nyheten att {shiplabel} har förstörts. Vi kommer därför betala hälften av det överenskomna priset för er insats."
+    "message": "Vi har nåtts av den sorgliga nyheten att {shiplabel} har förstörts. Vi kommer därför bara betala hälften av det överenskomna priset för er insats."
   },
   "AU": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "ENTITY_FAMILY_BUSINESS_10": {
     "description": "",
-    "message": "{name} Taxi Tjänster"
+    "message": "{name} Taxitjänst"
   },
   "ENTITY_FAMILY_BUSINESS_2": {
     "description": "",

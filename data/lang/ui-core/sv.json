@@ -69,7 +69,7 @@
   },
   "AVAILABLE_STOCK": {
     "description": "Market stat showing number of items in stock",
-    "message": "Available Stock"
+    "message": "Tillgängligt lager"
   },
   "AVERAGE": {
     "description": "",
@@ -121,7 +121,7 @@
   },
   "CANNOT_SELL_NONEMPTY_EQUIP": {
     "description": "",
-    "message": "Cannot sell an equipment item unless it is empty."
+    "message": "Kan inte sälja en utrustningsdel om den inte är tom."
   },
   "CANT_FIND_PATH": {
     "description": "Message when restoring savegame, file path",
@@ -265,15 +265,15 @@
   },
   "COMMODITY_TRADE_ANALYSIS_SYSTEM": {
     "description": "",
-    "message": "System-wide trade analysis of:"
+    "message": "Systemomfattande handelsanalys av:"
   },
   "COMMODITY_TRADE_ANALYSIS_TOOLTIP_1": {
     "description": "",
-    "message": "Average interstellar trade flow for all commodities bought and sold in the system."
+    "message": "Genomsnittligt interstellärt handelsflöde för alla varor som köps och säljs i systemet."
   },
   "COMMODITY_TRADE_ANALYSIS_TOOLTIP_2": {
     "description": "",
-    "message": "Data may not reflect individual market prices."
+    "message": "Data kanske inte speglar individuella marknadspriser."
   },
   "COMPETENT": {
     "description": "Combat rating",
@@ -317,7 +317,7 @@
   },
   "COPY": {
     "description": "As for clipboard",
-    "message": "Copy"
+    "message": "Kopiera"
   },
   "COULD_NOT_DELETE_SAVE": {
     "description": "",
@@ -333,7 +333,7 @@
   },
   "COULD_NOT_LOAD_SAVE_FILES": {
     "description": "Label indicating the list of save files could not be loaded",
-    "message": "Could not load save files"
+    "message": "Det gick inte att ladda sparade filer"
   },
   "COULD_NOT_READ_THE_SAVE_VERSION": {
     "description": "Message when restoring savegame",
@@ -341,7 +341,7 @@
   },
   "COULD_NOT_SAVE_GAME": {
     "description": "Label indicating a specific file could not be saved",
-    "message": "Could not save game: "
+    "message": "Det gick inte att spara: "
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -393,7 +393,7 @@
   },
   "CUT": {
     "description": "As for clipboard",
-    "message": "Cut"
+    "message": "Klipp ut"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
@@ -517,7 +517,7 @@
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "Time left:"
+    "message": "Återstående tid:"
   },
   "ECONOMY_TRADE": {
     "description": "",
@@ -581,7 +581,7 @@
   },
   "EQUIPMENT_CAPACITY": {
     "description": "The equipment capacity of a ship",
-    "message": "Equipment Capacity"
+    "message": "Utrustning, max vikt"
   },
   "EQUIPMENT_MARKET": {
     "description": "",
@@ -637,7 +637,7 @@
   },
   "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
     "description": "",
-    "message": "Failed to recover some equipment"
+    "message": "Det gick inte att återställa viss utrustning"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
@@ -701,7 +701,7 @@
   },
   "FINE": {
     "description": "Cost of a criminal action",
-    "message": "Fine"
+    "message": "Böter"
   },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
@@ -789,7 +789,7 @@
   },
   "GAME_OPTIONS": {
     "description": "GameOptions - tooltip for the Game Options tab in the Settings Window",
-    "message": "Game Options"
+    "message": "Spelalternativ"
   },
   "GAME_TIME": {
     "description": "",
@@ -1013,7 +1013,7 @@
   },
   "HUD_BUTTON_SWITCH_TO_CURRENT_SYSTEM": {
     "description": "Tooltip: Switch to current system",
-    "message": "Switch to current system"
+    "message": "Byt till nuvarande system"
   },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
@@ -1025,7 +1025,7 @@
   },
   "HUD_BUTTON_SWITCH_TO_SELECTED_SYSTEM": {
     "description": "Tooltip: Switch to selected system",
-    "message": "Switch to selected system"
+    "message": "Byt till valt system "
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
     "description": "Tooltip: Switch to system map",
@@ -1197,7 +1197,7 @@
   },
   "HUD_RADAR_TOGGLE_MODE": {
     "description": "Tooltip: Toggle radar mode.",
-    "message": "Toggle radar between 2D and 3D modes"
+    "message": "Växla radar mellan 2D- och 3D-läge"
   },
   "HUD_RADAR_ZOOM_MODE_AUTOMATIC": {
     "description": "Tooltip: Current radar zoom mode.",
@@ -1293,7 +1293,7 @@
   },
   "ILLEGAL_COMMODITIES": {
     "description": "Commodities illegal in the current system or polity",
-    "message": "Illegal Commodities"
+    "message": "Illegala varor"
   },
   "ILLEGAL_IN_SYSTEM": {
     "description": "An illegal action or commodity",
@@ -1329,7 +1329,7 @@
   },
   "INSTALL": {
     "description": "Install something",
-    "message": "Install"
+    "message": "Installera"
   },
   "INSTALLED": {
     "description": "Label indicating something is installed",
@@ -1361,11 +1361,11 @@
   },
   "IN_HOLD": {
     "description": "Column title of the Commodity Market screen",
-    "message": "In hold"
+    "message": "Innehav"
   },
   "IN_STOCK": {
     "description": "Column title of Commodity and Ship Equipment markets showing current station stock level.",
-    "message": "Stock"
+    "message": "Lager"
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
@@ -1433,7 +1433,7 @@
   },
   "LEGAL_RULES": {
     "description": "Refers to laws, rules and regulations",
-    "message": "Legal rules applicable in station controlled space. Laws are sensor enforced within a distance of: {distance}"
+    "message": "Rättsregler som gäller i stationskontrollerat utrymme. Lagar upprätthålls av sensorer inom ett avstånd av: {distance}"
   },
   "LEGAL_RULES_AND_REGULATIONS": {
     "description": "Heading on a tab, keep it short",
@@ -1853,7 +1853,7 @@
   },
   "OUT_OF_STOCK": {
     "description": "Equipment availability",
-    "message": "Out of stock"
+    "message": "Slut i lager"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
@@ -1897,7 +1897,7 @@
   },
   "PASTE": {
     "description": "As for clipboard",
-    "message": "Paste"
+    "message": "Klistra in"
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",
@@ -1914,6 +1914,10 @@
   "PAY_FINE_OF_N": {
     "description": "",
     "message": "Betala böter på {amount}"
+  },
+  "PENDING_RETURN": {
+    "description": "Status if the mission has not yet been fully completed",
+    "message": "Väntar på retur"
   },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1965,7 +1969,7 @@
   },
   "POSESSION_OF_COMMODITIES_ILLEGAL": {
     "description": "",
-    "message": "Possession of certain commodities is illegal in this system."
+    "message": "Innehav av vissa varor är olagligt i detta system."
   },
   "POSITION": {
     "description": "The job title/position of crew memeber",
@@ -2010,6 +2014,10 @@
   "QUIT_CONFIRMATION": {
     "description": "For the checkbox in settings window",
     "message": "Bekräfta avslut"
+  },
+  "RANDOM_COLORS": {
+    "description": "Paint shop. Randomize colors",
+    "message": "Slumpa färger"
   },
   "RANDOM_FACE": {
     "description": "Generate random face",
@@ -2089,7 +2097,7 @@
   },
   "REPLACE_EQUIPMENT": {
     "description": "Market header when replacing equipped items",
-    "message": "Replace Equipment"
+    "message": "Byt ut utrustning"
   },
   "REPUTATION": {
     "description": "",
@@ -2113,15 +2121,15 @@
   },
   "RESET_PREVIEW": {
     "description": "Paintshop button",
-    "message": "Återställ förhandsvisning"
+    "message": "Återställ vy"
   },
   "RESET_VIEW_ON_HYPERSPACE_EXIT": {
     "description": "Reset View on Hyperspace Exit option",
-    "message": "Reset View on Hyperspace Exit"
+    "message": "Återställ vy vid utträde ur hyperrymden"
   },
   "RESET_VIEW_ON_HYPERSPACE_EXIT_DESC": {
     "description": "The tooltip of Reset View on Hyperspace Exit in the settings menu",
-    "message": "Reset view to main game view when exiting from hyperspace"
+    "message": "Återställ vyn till huvudspelvyn vid utträde ur hyperrymden"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -2317,7 +2325,7 @@
   },
   "SHOW_AUTOSAVES": {
     "description": "Button tooltip indicating whether to show autosave files",
-    "message": "Show Autosaves"
+    "message": "Visa autosparade filer"
   },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
@@ -2433,7 +2441,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Tech Level"
+    "message": "Teknologinivå"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -2453,7 +2461,7 @@
   },
   "THESE_ITEMS_ARE_PUNISHABLE_BY_FINE": {
     "description": "",
-    "message": "Purchase, sale, and transportation of these items is punishable by a fine and possible confiscation"
+    "message": "Köp, försäljning och transport av dessa föremål är straffbart med böter och eventuellt förverkande "
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
@@ -2537,7 +2545,7 @@
   },
   "TRANSFER_FUEL": {
     "description": "Label indicating the ability to transfer fuel between equipment tanks",
-    "message": "Transfer Fuel"
+    "message": "Överför bränsle"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",

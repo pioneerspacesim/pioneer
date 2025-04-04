@@ -1915,6 +1915,10 @@
     "description": "",
     "message": "Íoc fíneáil {amount}"
   },
+  "PENDING_RETURN": {
+    "description": "Status if the mission has not yet been fully completed",
+    "message": "Pending Return"
+  },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Géag Pheirséis"
@@ -2010,6 +2014,10 @@
   "QUIT_CONFIRMATION": {
     "description": "For the checkbox in settings window",
     "message": "Deimhniú roimh scor"
+  },
+  "RANDOM_COLORS": {
+    "description": "Paint shop. Randomize colors",
+    "message": "Random Colors"
   },
   "RANDOM_FACE": {
     "description": "Generate random face",

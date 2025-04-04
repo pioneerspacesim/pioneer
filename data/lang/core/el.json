@@ -197,7 +197,7 @@
   },
   "CARGO_SCOOP_ATTEMPTED": {
     "description": "",
-    "message": "Απόπειρα συλλογής φορτίου. Δεν υπάρχει αρκετός χώρος στο τμήμα αποθήκευσης φορτίου."
+    "message": "Απόπειρα συλλογής φορτίου. Δεν υπάρχει αρκετός χώρος στο σκάφος."
   },
   "CENTER": {
     "description": "",
@@ -1753,7 +1753,7 @@
   },
   "UNIT_CREDITS": {
     "description": "Unit of money, used when $ isn't specific enough",
-    "message": "Cr"
+    "message": "μονάδες"
   },
   "UNIT_CUBIC_METERS": {
     "description": "Volume unit: cubic meter",
@@ -1773,7 +1773,7 @@
   },
   "UNIT_HECTARES": {
     "description": "Area unit: one hectare (ha) -10,000 m²",
-    "message": "ha"
+    "message": "εκτ"
   },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
@@ -1837,15 +1837,15 @@
   },
   "UNIT_SQUARE_KILOMETERS": {
     "description": "Area unit: square kilometer (km²) - 1,000,000 m²",
-    "message": "km²"
+    "message": "χλμ2"
   },
   "UNIT_SQUARE_MEGAMETERS": {
     "description": "Area unit: square megameter (Mm²) - 10^12 m²",
-    "message": "Mm²"
+    "message": "Μμ2"
   },
   "UNIT_SQUARE_METERS": {
     "description": "Area unit: square meter (m²)",
-    "message": "m²"
+    "message": "μ2"
   },
   "UNIT_TERATONNES": {
     "description": "Mass unit: one teratonne",

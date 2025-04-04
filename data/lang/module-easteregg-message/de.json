@@ -25,14 +25,14 @@
   },
   "FLAVOUR_2_BODY": {
     "description": "A very rare easter egg, referencing a online myth from 90s: https://en.wikipedia.org/wiki/John_Titor",
-    "message": "I'm John Titor of the Time Travel Institute, from the year 4036. I'm heading to 1975 to pick up an IBM 5100 computer to degbug legacy computer programs that haven't been ported properly to the machines of my time, but I'm stopping by here to collect information about your time before it's lost in the great calamity.\n\nI intend to return with a six part description on what's needed for time machines to operate. In short, my time machine is a stationary mass, temporal displacement unit, powered by two top-spin dual-positive singularities that produce a standard off-set tipler sinusoid. The displacement unit moves through time, not space.\n\nI will be happy to post pictures of the unit upon request."
+    "message": "Ich bin John Titor vom Time Travel Institut und komme aus dem Jahr 4036. Ich bin auf dem Weg zurück ins Jahr 1975 um einen IBM 5100 Computer abzuholen, mit dem ich Computerprogramme debuggen kann, die nicht fehlerfrei auf die Computer in meiner Zeit portiert worden sind. Aber bevor ich weiterreise möchte ich Informationen über eure Zeit sammeln, bevor sie in der großen Katastrophe verloren gehen.\n\nIch werde bald mit einer sechteiligen Beschreibung für den Bau und Betrieb einer Zeitmaschine zurückzukehren. Kurzgesagt, meine Zeitmaschine ist eine temporale Verdrängungsmaschine mit stationärer Masse, die von zwei doppelt positiven Topspin-Singularitäten angetrieben wird, die einen Tipler-Sinusoid mit Standard-Offset erzeugen. Die Einheit bewegt sich also durch die Zeit und bleibt im Raum stationär.\n\nAuf Wunsch werde ich gerne Bilder davon posten."
   },
   "FLAVOUR_2_DESC": {
     "description": "Note: string has quotes",
-    "message": "'If time travel is real, where are all the time travelers?'"
+    "message": "\"Wenn Zeitreisen möglich sind, wo sind dann all die Zeitreisenden?\""
   },
   "FLAVOUR_2_TITLE": {
     "description": "A very rare Easter egg, referencing Internet myth of John Titor.",
-    "message": "People of the past, be wary of the GREAT CALAMITY!"
+    "message": "Menschen der Vergangenheit, hütet euch vor der GROẞEN KATASTROPHE!"
   }
 }

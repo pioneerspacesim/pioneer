@@ -17,7 +17,7 @@
   },
   "ATMOSPHERIC_SHIELDING_FLAVOURTEXT": {
     "description": "",
-    "message": "Provides a moderate level of protection against atmospheric friction and pressure at a minimal mass cost."
+    "message": "Ger en måttlig nivå av skydd mot atmosfärisk friktion och tryck till en minimal kostnad i massa."
   },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
@@ -29,7 +29,7 @@
   },
   "ATMOSPHERIC_SHIELDING_HEAVY_FLAVOURTEXT": {
     "description": "",
-    "message": "Specialized for scientific expeditions within dense atmospheres, this shielding trades weight and efficiency for a significant increase in the atmospheric pressures it can withstand."
+    "message": "Specialiserad för vetenskapliga expeditioner i täta atmosfärer, byter denna kraftiga sköld vikt och effektivitet mot en betydande ökning av atmosfärstrycket den kan motstå."
   },
   "AUTOPILOT": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "BY_ITEM": {
     "description": "Button in the start menu when editing equipment",
-    "message": "By item"
+    "message": "Efter artikel"
   },
   "BY_SLOT": {
     "description": "Button in the start menu when editing equipment",
@@ -181,7 +181,7 @@
   },
   "EDIT_EQUIPMENT": {
     "description": "Dialog title",
-    "message": "Edit equipment"
+    "message": "Redigera utrustning"
   },
   "EMPTY_EQUIPMENT_PROVIDING_SLOTS": {
     "description": "Tooltip for wrong equipment item",
@@ -281,7 +281,7 @@
   },
   "HARDPOINT_WEAPON_FRONT": {
     "description": "Name for a generic front-facing weapon hardpoint",
-    "message": "Front Weapon"
+    "message": "Främre vapen"
   },
   "HARDPOINT_WEAPON_FRONT_LEFT": {
     "description": "Name for a generic front-facing weapon hardpoint",
@@ -293,7 +293,7 @@
   },
   "HARDPOINT_WEAPON_LEFT": {
     "description": "Name for a generic weapon hardpoint",
-    "message": "Left Weapon"
+    "message": "Vänster vapen"
   },
   "HARDPOINT_WEAPON_LEFT_NOSE": {
     "description": "Name for the 'Left Nose' weapon hardpoint",
@@ -301,11 +301,11 @@
   },
   "HARDPOINT_WEAPON_REAR": {
     "description": "Name for a generic rear-facing weapon hardpoint",
-    "message": "Rear Weapon"
+    "message": "Bakre vapen"
   },
   "HARDPOINT_WEAPON_RIGHT": {
     "description": "Name for a generic weapon hardpoint",
-    "message": "Right Weapon"
+    "message": "Höger vapen"
   },
   "HARDPOINT_WEAPON_RIGHT_NOSE": {
     "description": "Name for the 'Right Nose' weapon hardpoint",

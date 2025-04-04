@@ -1,19 +1,19 @@
 {
   "MSG_1": {
     "description": "",
-    "message": "Значи, казвате „{yes}“ на скучните си програми?"
+    "message": "Значи, казвате {yes} на скучните си програми?"
   },
   "MSG_10": {
     "description": "",
-    "message": "Моля, изберете „{no}“ за да изгубите още няколко часа от живота си. Сделка?"
+    "message": "Моля, изберете {no} за да изгубите още няколко часа от живота си. Сделка?"
   },
   "MSG_11": {
     "description": "",
-    "message": "Истинските изследователи не се предават и не биха натиснали „{yes}“."
+    "message": "Истинските изследователи не се предават и не биха натиснали {yes}."
   },
   "MSG_12": {
     "description": "",
-    "message": "Истинските ловци на глави избират „{no}“, всички останали избират „{yes}“."
+    "message": "Истинските ловци на глави избират {no}, всички останали избират {yes}."
   },
   "MSG_13": {
     "description": "\"Seeing\" as in having an affair / being unfaithful",
@@ -37,7 +37,7 @@
   },
   "MSG_18": {
     "description": "Catch phrase of 2016?",
-    "message": "Направете „Pioneer“ велика! Само слабаците си тръгват, от тяхната група ли сте?"
+    "message": "Направете Pioneer велика! Само слабаците си тръгват, от тяхната група ли сте?"
   },
   "MSG_19": {
     "description": "Alluding to / inviting the player to contribute content to the game",
@@ -69,11 +69,11 @@
   },
   "MSG_5": {
     "description": "(Inspired by Wolfenstein 3D)",
-    "message": "Изберете „{no}“ за величие или „{yes}“ за безразличие."
+    "message": "Изберете {no} за величие или {yes} за безразличие."
   },
   "MSG_6": {
     "description": "",
-    "message": "Натиснете „{no}“ за да сте известни или „{yes}“ за да останете неизвестни."
+    "message": "Натиснете {no} за да станете известни или {yes} за да останете неизвестни."
   },
   "MSG_7": {
     "description": "Doom 1 anyone? Although it said DOS instead of Command line",
@@ -81,15 +81,15 @@
   },
   "MSG_8": {
     "description": "",
-    "message": "Сигурен съм, че ще натиснете „{no}“. Направете го!"
+    "message": "Сигурен съм, че ще натиснете {no}. Направете го!"
   },
   "MSG_9": {
     "description": "",
-    "message": "Ако натиснете „{yes}“ ще се върнете в скучния реален живот."
+    "message": "Ако натиснете {yes}, ще се върнете в скучния реален живот."
   },
   "NO": {
     "description": "No, don't quit program",
-    "message": "Не"
+    "message": "не"
   },
   "QUIT": {
     "description": "Quit game, as a question",
@@ -97,6 +97,6 @@
   },
   "YES": {
     "description": "Yes, quit program",
-    "message": "Да"
+    "message": "да"
   }
 }

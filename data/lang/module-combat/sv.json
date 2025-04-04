@@ -173,7 +173,7 @@
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "{org} betalar {cash} för ett {mission}-uppdrag i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Vi har anledning att tro att en hänsynslös konkurrent är ansvarig för försvinnandet av våra fraktfartyg vid {area}. Avståndet till målområdet är {dist} ly."
+    "message": "{org} betalar {cash} för ett {mission} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Vi har anledning att tro att en hänsynslös konkurrent är ansvarig för försvinnandet av våra fraktfartyg vid {area}. Avståndet till målområdet är {dist} ly."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",

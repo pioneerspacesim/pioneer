@@ -69,7 +69,7 @@
   },
   "AVAILABLE_STOCK": {
     "description": "Market stat showing number of items in stock",
-    "message": "Available Stock"
+    "message": "可用库存"
   },
   "AVERAGE": {
     "description": "",
@@ -317,7 +317,7 @@
   },
   "COPY": {
     "description": "As for clipboard",
-    "message": "Copy"
+    "message": "复制"
   },
   "COULD_NOT_DELETE_SAVE": {
     "description": "",
@@ -393,7 +393,7 @@
   },
   "CUT": {
     "description": "As for clipboard",
-    "message": "Cut"
+    "message": "剪切"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
@@ -517,7 +517,7 @@
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "Time left:"
+    "message": "时限："
   },
   "ECONOMY_TRADE": {
     "description": "",
@@ -637,7 +637,7 @@
   },
   "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
     "description": "",
-    "message": "Failed to recover some equipment"
+    "message": "部分装备恢复失败"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
@@ -1329,7 +1329,7 @@
   },
   "INSTALL": {
     "description": "Install something",
-    "message": "Install"
+    "message": "安装"
   },
   "INSTALLED": {
     "description": "Label indicating something is installed",
@@ -1853,7 +1853,7 @@
   },
   "OUT_OF_STOCK": {
     "description": "Equipment availability",
-    "message": "Out of stock"
+    "message": "缺货"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
@@ -1897,7 +1897,7 @@
   },
   "PASTE": {
     "description": "As for clipboard",
-    "message": "Paste"
+    "message": "粘贴"
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",
@@ -1914,6 +1914,10 @@
   "PAY_FINE_OF_N": {
     "description": "",
     "message": "缴纳 {amount} 罚金"
+  },
+  "PENDING_RETURN": {
+    "description": "Status if the mission has not yet been fully completed",
+    "message": "Pending Return"
   },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -2010,6 +2014,10 @@
   "QUIT_CONFIRMATION": {
     "description": "For the checkbox in settings window",
     "message": "确认退出"
+  },
+  "RANDOM_COLORS": {
+    "description": "Paint shop. Randomize colors",
+    "message": "Random Colors"
   },
   "RANDOM_FACE": {
     "description": "Generate random face",
@@ -2433,7 +2441,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Tech Level"
+    "message": "科技等级"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -2537,7 +2545,7 @@
   },
   "TRANSFER_FUEL": {
     "description": "Label indicating the ability to transfer fuel between equipment tanks",
-    "message": "Transfer Fuel"
+    "message": "转移燃料"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",

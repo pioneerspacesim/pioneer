@@ -133,15 +133,15 @@
   },
   "BIND_RADAR_TOGGLE_MODE": {
     "description": "Descriptive name for the RadarToggle action.",
-    "message": "Режим на радарния изглед"
+    "message": "Радарен изглед"
   },
   "BIND_RADAR_ZOOM_IN": {
     "description": "Descriptive name for the RadarZoomIn action.",
-    "message": "Ръчно приближаване на радара"
+    "message": "Приближаване на радара"
   },
   "BIND_RADAR_ZOOM_OUT": {
     "description": "Descriptive name for the RadarZoomOut action.",
-    "message": "Ръчно отдалечаване на радара"
+    "message": "Отдалечаване на радара"
   },
   "BIND_RADAR_ZOOM_RESET": {
     "description": "Descriptive name for the RadarZoomReset action.",
@@ -264,7 +264,7 @@
   },
   "GROUP_RADAR_CONTROL": {
     "description": "Group label for radar-related inputs",
-    "message": "Радарно управление"
+    "message": "Радар"
   },
   "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
     "description": "Header for the SectorMapViewControls input group.",
@@ -344,7 +344,7 @@
   },
   "PAGE_SHIP_HUD": {
     "description": "Header for the ShipHUD input page.",
-    "message": "Корабна кабина"
+    "message": "Kабина"
   },
   "PAGE_SHIP_VIEW": {
     "description": "Header for the ShipView input page.",
