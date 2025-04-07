@@ -81,9 +81,9 @@
 
 	"forward_thrust": 700000,
 	"forward_acceleration_cap": 38.7495,
-	"reverse_thrust": 600000,
+	"reverse_thrust": 500000,
 	"reverse_acceleration_cap": 24.525,
-	"up_thrust": 300000,
+	"up_thrust": 500000,
 	"up_acceleration_cap": 19.62,
 	"down_thrust": 200000,
 	"down_acceleration_cap": 10.0062,
