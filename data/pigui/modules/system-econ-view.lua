@@ -309,7 +309,15 @@ function SystemEconView:drawStationComparison(selected, current)
 		ui.withFont(pionillium.heading, function()
 			if current then
 				ui.text(current.name)
-				ui.sameLine(ui.getContentRegion().x - ui.calcTextSize(selected.name).x)
+				ui.sameLine()
+
+				local spacing = ui.getContentRegion().x - ui.calcTextSize(selected.name).x
+
+				if spacing < 0.0 then
+					ui.newLine()
+				else
+					ui.addCursorPos(Vector2(spacing, 0))
+				end
 			end
 
 			ui.text(selected.name)
