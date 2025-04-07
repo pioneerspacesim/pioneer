@@ -172,7 +172,7 @@ local onChat = function (form, ref, option)
 		form:SetMessage(flavours[ad.flavour].whysomuchtext)
 
 	elseif option == 2 then
-		form:SetMessage(l.IT_MUST_BE_DELIVERED_BY..Format.Date(ad.due))
+		form:SetMessage(l.IT_MUST_BE_DELIVERED_BY..Format.Date(ad.due)..".")
 
 	elseif option == 4 then
 		form:SetMessage(getRiskMsg(ad.risk))
