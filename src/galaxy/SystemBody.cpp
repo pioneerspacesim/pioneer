@@ -385,9 +385,7 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 
 	// min of 2.0 corresponds to a scale height of 1/20 of the planet's radius,
 	params.atmosInvScaleHeight = std::max(20.0f, static_cast<float>(GetRadius() / atmosScaleHeight));
-	// integrate atmospheric density between surface and this radius. this is 10x the scale
-	// height, which should be a height at which the atmospheric density is negligible
-	params.atmosRadius = 1.0f + static_cast<float>(10.0f * atmosScaleHeight) / GetRadius();
+	params.atmosRadius = 1.0f + static_cast<float>(m_atmosRadius) / radiusPlanet_in_m;
 
 	params.planetRadius = static_cast<float>(radiusPlanet_in_m);
 
