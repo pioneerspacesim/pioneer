@@ -1,3 +1,5 @@
+#define FAST 0
+
 float height(const in vec3 orig, const in vec3 center)
 {
 	vec3 r = orig - center;
@@ -155,25 +157,34 @@ void processRay(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, const
 		scatter(density, samplePosition, center);
 		opticalDepth += exp(density) * segmentLength;
 
-		// light optical depth
 		vec2 opticalDepthLight = vec2(0.f);
-		vec3 samplePositionLight = samplePosition;
-
 		vec3 sampleGeoCenter = center - samplePosition;
+#if FAST
+		// light optical depth
+		vec3 samplePositionLight = samplePosition;
 		opticalDepthLight.x = predictDensityInOut(samplePositionLight, sunDirection, sampleGeoCenter, geosphereRadius, atmosphereHeight, coefficientsR);
 		opticalDepthLight.y = predictDensityInOut(samplePositionLight, sunDirection, sampleGeoCenter, geosphereRadius, atmosphereHeight, coefficientsM);
+#else // FAST
+		int numSamplesLight = 8;
+		vec2 boundariesLight = raySphereIntersect(sampleGeoCenter, sunDirection, geosphereRadius * geosphereAtmosTopRad);
+		float segmentLengthLight = boundariesLight.y / numSamplesLight;
+		float tCurrentLight = 0.f;
+		for (int j = 0; j < numSamplesLight; ++j) {
+			vec3 samplePositionLight = vec3(segmentLengthLight * 0.5f + tCurrentLight) * sunDirection + samplePosition;
+			vec2 densityLDir = vec2(0.f);
+			scatter(densityLDir, samplePositionLight, center);
+			opticalDepthLight += exp(densityLDir) * segmentLengthLight;
 
+			tCurrentLight += segmentLengthLight;
+		}
+#endif // FAST
 		vec3 surfaceNorm = -normalize(sampleGeoCenter);
 		vec4 atmosDiffuse = vec4(0.f);
 		CalcPlanetDiffuse(atmosDiffuse, diffuse, sunDirection, surfaceNorm, uneclipsed);
 
-		vec3 tau = -(betaR * (opticalDepth.x + opticalDepthLight.x) + betaM * 1.1f * (opticalDepth.y + opticalDepthLight.y));
-		vec3 tauR = tau + vec3(density.x);
-		vec3 tauM = tau + vec3(density.y);
-		vec3 attenuationR = exp(tauR) * segmentLength;
-		vec3 attenuationM = exp(tauM) * segmentLength;
-		sumR += attenuationR * atmosDiffuse.xyz;
-		sumM += attenuationM * atmosDiffuse.xyz;
+		vec3 tau = -(betaR * opticalDepth.x + betaR * opticalDepthLight.x + betaM * 1.1f * opticalDepth.y + betaM * 1.1f * opticalDepthLight.y);
+		sumR += exp(tau + vec3(density.x)) * segmentLength * atmosDiffuse.xyz;
+		sumM += exp(tau + vec3(density.y)) * segmentLength * atmosDiffuse.xyz;
 		tCurrent += segmentLength;
 	}
 }
