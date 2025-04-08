@@ -4,6 +4,7 @@
 #include "attributes.glsl"
 #include "lib.glsl"
 #include "basesphere_uniforms.glsl"
+#include "rayleigh.glsl"
 
 #define WATER_SHINE 16.0
 
@@ -40,6 +41,10 @@ void main(void)
 	vec3 tnorm = normalize(varyingNormal);
 	vec4 diff = vec4(0.0);
 
+	vec2 atmosDist  = raySphereIntersect(geosphereCenter, eyenorm, geosphereAtmosTopRad);
+	vec2 planetDist = raySphereIntersect(geosphereCenter, eyenorm, geosphereInvRadius);
+	vec3 planetIntersect = geosphereCenter + (eyenorm * planetDist.x);
+
 	float surfaceDist = dist * geosphereInvRadius;
 
 	// calculate the detail texture contribution from hi and lo textures
@@ -49,21 +54,31 @@ void main(void)
 	vec4 detailMul = mix(vec4(1.0), detailVal, detailMix);
 
 #ifdef TERRAIN_WITH_WATER
-	float specularReflection=0.0;
+	vec4 waterSpecular = vec4(0.0);
 #endif
 
 #if (NUM_LIGHTS > 0)
 	vec3 V = normalize(eyeposScaled - geosphereCenter);
+	float AU = 149598000000.0;
+
+	vec3 I = normalize(eyeposScaled - planetIntersect);
+	vec3 center = I * geosphereRadius;
+	frag_color = vec4(0.f);
 
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		vec3 L = normalize(uLight[i].position.xyz);
+
 		float uneclipsed = clamp(calcUneclipsed(eclipse, NumShadows, V, L), 0.0, 1.0);
 		CalcPlanetDiffuse(diff, uLight[i].diffuse, L, tnorm, uneclipsed);
 
 #ifdef TERRAIN_WITH_WATER
 		//water only for specular
-	    if (vertexColor.b > 0.05 && vertexColor.r < 0.05) {
-			CalcPlanetSpec(specularReflection, uLight[i], L, tnorm, eyenorm, WATER_SHINE);
+		if (vertexColor.b > 0.05 && vertexColor.r < 0.05) {
+			// Convert from radius-relative to real coordinates
+			vec3 lightPosAU = uLight[i].position.xyz / AU;
+			float intensity = 1.f / dot(lightPosAU, lightPosAU); // magic to avoid calculating length and then squaring it
+
+			waterSpecular.xyz += computeIncidentLight(reflect(L, I), eyenorm, center, atmosDist, toLinear(uLight[i].diffuse), uneclipsed) * intensity;
 		}
 #endif
 	}
@@ -94,11 +109,15 @@ void main(void)
 #endif
 		final;
 
+#ifdef TERRAIN_WITH_WATER
+	vec4 waterColor = waterSpecular * 20.f;
+#endif
+
 #ifdef ATMOSPHERE
 	frag_color +=
 		(1.0-fogFactor) * (diff*atmosColor) +
 #ifdef TERRAIN_WITH_WATER
-		  diff * specularReflection * sunset +
+		  toSRGB(1 - exp(-waterColor)) +
 #endif
 		  (0.02-clamp(fogFactor,0.0,0.01))*diff*ldprod*sunset +	      //increase fog scatter
 		  (pow((1.0-pow(fogFactor,0.75)),256.0)*0.4*diff*atmosColor)*sunset;  //distant fog.
