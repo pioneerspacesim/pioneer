@@ -99,8 +99,8 @@ local onChat = function (form, ref, option)
 		local sbody = ad.location:GetSystemBody()
 
 		form:SetMessage(string.interp(l.X_WILL_BE_LEAVING, {
-		  target    = ad.target,
-		  spaceport = sbody.name,
+		  target    = ad.targetsurname or ad.target, -- If targetsurname is missing, then older version.
+		  spaceport = sbody.name,                    -- Instead hand over previously used full name + title.
 		  system    = sys.name,
 		  sectorX   = ad.location.sectorX,
 		  sectorY   = ad.location.sectorY,
@@ -186,7 +186,8 @@ local makeAdvert = function (station)
 	if #nearbysystems == 0 then return end
 	local client = Character.New()
 	local targetIsfemale = Engine.rand:Integer(1) == 1
-	local target = l["TITLE_"..Engine.rand:Integer(1, num_titles)-1] .. " " .. NameGen.FullName(targetIsfemale)
+	local firstname, surname = NameGen.Names(targetIsfemale)
+	local target = l["TITLE_"..Engine.rand:Integer(1, num_titles)-1] .. " " .. firstname .. " " .. surname
 	local flavour = Engine.rand:Integer(1, #flavours)
 	local location = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 	local dist = location:DistanceTo(Game.system)
@@ -216,6 +217,7 @@ local makeAdvert = function (station)
 		shipname = ShipDef[hullConfig.id].name,
 		shipregid = Ship.MakeRandomLabel(),
 		station = station,
+		targetsurname = surname,
 		target = target,
 		timeout = timeout,
 	}
