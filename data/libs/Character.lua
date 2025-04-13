@@ -83,11 +83,35 @@ Character = {
 --
 -- Attribute: name
 --
---   Name of character
+--   Full name of character. First name + surname.
 --
 -- Availability:
 --
 --   alpha 17
+--
+-- Status:
+--
+--   experimental
+--
+-- Attribute: firstname
+--
+--   First name of character.
+--
+-- Availability:
+--
+--   2025
+--
+-- Status:
+--
+--   experimental
+--
+-- Attribute: surname
+--
+--   Surname of character.
+--
+-- Availability:
+--
+--   2025
 --
 -- Status:
 --
@@ -516,7 +540,10 @@ Character = {
 		setmetatable(newCharacter,Character.meta)
 		-- initialize face characteristics if they weren't fully specified
 		if newCharacter.female == nil then newCharacter.female = (rand:Integer(1) ==1) end
-		newCharacter.name = newCharacter.name or NameGen.FullName(newCharacter.female,rand)
+		if newCharacter.firstname == nil or newCharacter.surname == nil then
+			newCharacter.firstname, newCharacter.surname = NameGen.Names(newCharacter.female,rand)
+		end
+		newCharacter.name = newCharacter.firstname .. " " .. newCharacter.surname
 		newCharacter.seed = newCharacter.seed or rand:Integer()
 		newCharacter.armour = newCharacter.armour or false
 		newCharacter.player = false -- Explicitly set this, if you need it.
