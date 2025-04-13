@@ -281,14 +281,6 @@ local getNumberOfFlavours = function (str)
 	return num - 1
 end
 
-local splitName = function (name)
-	-- Splits the supplied name into first and last name and returns a table of both separately.
-	-- Idea from http://stackoverflow.com/questions/2779700/lua-split-into-words.
-	local names = {}
-	for word in name:gmatch("%w+") do table.insert(names, word) end
-	return names
-end
-
 local decToDegMinSec = function (coord_orig)
 	-- Converts geographic coordinates from decimal to degree/minutes/seconds format
 	-- and returns a string.
@@ -1276,11 +1268,11 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 
 	elseif flavour.id == 7 then
 		client = Character.New()
-		local lastname = splitName(client.name)[2]
+		local surname = string.gsub(client.surname, "^%l", string.upper)
 
 		-- select posting entity
 		entity = string.interp(l["ENTITY_FAMILY_BUSINESS_" .. Engine.rand:Integer(1, getNumberOfFlavours("ENTITY_FAMILY_BUSINESS"))],
-			{ locality = localities_local[Engine.rand:Integer(1,#localities_local)], name = lastname })
+			{ locality = localities_local[Engine.rand:Integer(1,#localities_local)], name = surname })
 
 		-- select problem
 		problem = string.interp(l["PROBLEM_CREW_" .. Engine.rand:Integer(1, getNumberOfFlavours("PROBLEM_CREW"))],
