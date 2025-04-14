@@ -37,7 +37,7 @@
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "PERSON WANTED"
+    "message": "MISSING PERSON"
   },
   "ADTITLE_2": {
     "description": "",
@@ -337,7 +337,7 @@
   },
   "MERCENARY_GREETING_MALE_3": {
     "description": "",
-    "message": "You want to meet {wanted}? Over my dead body!"
+    "message": "You want to meet {wanted}? Over your dead body!"
   },
   "OK_AGREED": {
     "description": "",
