@@ -17,10 +17,11 @@
 	"cargo": 8,
 
 	"equipment_slots": {
-		"tag_weapon_s2": {
+		"weapon_s2": {
 			"type": "weapon",
 			"size": 2,
-			"tag": "tag_tag_weapon_s2",
+			"size_min": 1,
+			"tag": "tag_weapon_s2",
 			"hardpoint": true,
 			"gimbal": [3,3]
 		},
