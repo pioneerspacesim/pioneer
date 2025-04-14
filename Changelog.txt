@@ -1,11 +1,18 @@
+April
+  * Fixes
+    * Fix, nav ligts and model (#6105)
+    * Fixing skipjack collision interfering with takeoffs. (#6111)
+
 March
   * New Features
-    * Show status "pending" if the cargo mission has not yet been fully completed (#6082)
+    * Show status "pending" if the cargo & combat missions has not yet been fully completed (#6082)
     * Paint Shop - Randomize colors (#6069)
 
   * Fixes
     * Fix MILITARY tech level display and availability (#6062)
     * Fix savegames not loading: Sort lua components during serialization (#6070)
+    * Fix crash at alt-tab in the start menu equip tab (#6097)
+    * Reduce Scout mission ad frequency on BBS (#6095)
 
   * Internal
     * Read/write save games from/to the savefiles folder (#6083)
