@@ -1268,11 +1268,11 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 
 	elseif flavour.id == 7 then
 		client = Character.New()
-		local lastname = string.gsub(client.surname, "^%l", string.upper)
+		local surname = string.gsub(client.surname, "^%l", string.upper)
 
 		-- select posting entity
 		entity = string.interp(l["ENTITY_FAMILY_BUSINESS_" .. Engine.rand:Integer(1, getNumberOfFlavours("ENTITY_FAMILY_BUSINESS"))],
-			{ locality = localities_local[Engine.rand:Integer(1,#localities_local)], name = lastname })
+			{ locality = localities_local[Engine.rand:Integer(1,#localities_local)], name = surname })
 
 		-- select problem
 		problem = string.interp(l["PROBLEM_CREW_" .. Engine.rand:Integer(1, getNumberOfFlavours("PROBLEM_CREW"))],

@@ -79,15 +79,6 @@ NameGen = {
 --
 --   name2 - a string containing the surname
 --
---
--- Availability:
---
---   2025
---
--- Status:
---
---   experimental
---
 
 	Names = function (isfemale, rand)
 		if not rand then rand = Engine.rand end
@@ -113,14 +104,6 @@ NameGen = {
 -- Return:
 --
 --   name - a string containing the name
---
--- Availability:
---
---   2025
---
--- Status:
---
---   experimental
 --
 
 	FirstName = function (isfemale, rand)

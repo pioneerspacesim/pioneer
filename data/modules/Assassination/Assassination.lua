@@ -99,8 +99,8 @@ local onChat = function (form, ref, option)
 		local sbody = ad.location:GetSystemBody()
 
 		form:SetMessage(string.interp(l.X_WILL_BE_LEAVING, {
-		  target    = ad.targetsurname or ad.target,	-- If targetsurname is missing, then older version.
-		  spaceport = sbody.name,						-- Instead hand over previously used full name + title.
+		  target    = ad.targetsurname or ad.target, -- If targetsurname is missing, then older version.
+		  spaceport = sbody.name,                    -- Instead hand over previously used full name + title.
 		  system    = sys.name,
 		  sectorX   = ad.location.sectorX,
 		  sectorY   = ad.location.sectorY,
