@@ -131,13 +131,13 @@ onChat = function (form, ref, option)
 		-- members get the trader interface
 		form:SetMessage(string.interp(ad.flavour.member_intro, {radioactives=Commodities.radioactives:GetName()}))
 		form:AddGoodsTrader({
-			canTrade = function (ref, commodity)
+			canTrade = function (market, commodity)
 				return saleables[commodity] and true or false
 			end,
-			canDisplayItem = function (ref, commodity)
+			canDisplayItem = function (market, commodity)
 				return saleables[commodity] and true or false
 			end,
-			getStock = function (ref, commodity)
+			getStock = function (market, commodity)
 				local prev = ad.stock[commodity.name]
 				if prev then
 					return prev
@@ -150,19 +150,26 @@ onChat = function (form, ref, option)
 				ad.stock[commodity.name] = cur
 				return cur
 			end,
-			getBuyPrice = function (ref, commodity)
+			getDemand = function (market, commodity)
+				if commodity == Commodities.radioactives then
+					return math.max(membership.milrads, 0)
+				else
+					return Game.player:GetDockedWith():GetCommodityDemand(commodity)
+				end
+			end,
+			getBuyPrice = function (market, commodity)
 				return ad.station:GetCommodityPrice(commodity) * saleables[commodity]
 			end,
-			getSellPrice = function (ref, commodity)
+			getSellPrice = function (market, commodity)
 				return ad.station:GetCommodityPrice(commodity) * saleables[commodity]
 			end,
 			-- Next two functions: If your membership is nearly up, you'd better
 			-- trade quickly, because we do check!
 			-- Also checking that the player isn't abusing radioactives sales...
-			onClickBuy = function (ref, commodity)
+			onClickBuy = function (market, commodity)
 				return membership.joined + membership.expiry > Game.time
 			end,
-			onClickSell = function (ref, commodity, market)
+			onClickSell = function (market, commodity)
 				local count = 1
 				if market.tradeAmount ~= nil then
 					count = market.tradeAmount
@@ -178,22 +185,16 @@ onChat = function (form, ref, option)
 				end
 				return	membership.joined + membership.expiry > Game.time
 			end,
-			bought = function (ref, commodity, market)
-				local count = 1
-				if market.tradeAmount ~= nil then
-					count = market.tradeAmount
-				end
+			bought = function (market, commodity, amount)
+				local count = amount or 1
 
 				ad.stock[commodity.name] = ad.stock[commodity.name] - count
 				if commodity == Commodities.radioactives or commodity == Commodities.military_fuel then
 					membership.milrads = membership.milrads + count
 				end
 			end,
-			sold = function (ref, commodity, market)
-				local count = 1
-				if market.tradeAmount ~= nil then
-					count = market.tradeAmount
-				end
+			sold = function (market, commodity, amount)
+				local count = amount or 1
 
 				ad.stock[commodity.name] = ad.stock[commodity.name] + count
 				if commodity == Commodities.radioactives or commodity == Commodities.military_fuel then
