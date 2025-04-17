@@ -144,7 +144,7 @@ function CommodityMarketWidget.New(id, title, config)
         return self.station:GetCommodityStock(commodity)
     end
 
-	config.getDemand = function (self, commodity)
+	config.getDemand = config.getDemand or function (self, commodity)
 		return self.station:GetCommodityDemand(commodity)
 	end
 
@@ -257,7 +257,7 @@ function CommodityMarketWidget:ChangeTradeAmount(delta)
 	else
 		price = self.funcs.getSellPrice(self, self.selectedItem)
 		stock = self.cargoMgr:CountCommodity(self.selectedItem)
-		demand = self.station:GetCommodityDemand(self.selectedItem)
+		demand = self.funcs.getDemand(self, self.selectedItem)
 	end
 
 	--we cant trade more units than we have in stock
