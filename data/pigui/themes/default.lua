@@ -190,6 +190,7 @@ theme.colors = {
 
 	font					= styleColors.gray_100,
 	fontDim					= styleColors.gray_400,
+	fontDisabled			= styleColors.gray_500,
 	fontDark				= styleColors.gray_600,
 
 	-- FIXME: this color is primarily used to tint buttons by rendering over top of the frame color.

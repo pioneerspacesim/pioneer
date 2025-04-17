@@ -119,12 +119,19 @@ local function refreshShipMarket()
 	widgetSizes.rowVerticalSpacing = Vector2(0, (widgetSizes.iconSize.y + widgetSizes.itemSpacing.y - pionillium.large.size)/2)
 
 	local station = Game.player:GetDockedWith()
-	shipMarket.items = station:GetShipsOnSale()
+	if station then
+		shipMarket.items = station:GetShipsOnSale()
+
+		advertDataCache = utils.map_table(shipMarket.items, function(_, sos)
+			return sos, makeAdvertDataCacheEntry(sos)
+		end)
+	else
+		shipMarket.items = {}
+		advertDataCache = {}
+	end
+
 	selectedItem = nil
 	shipMarket.selectedItem = nil
-	advertDataCache = utils.map_table(shipMarket.items, function(_, sos)
-		return sos, makeAdvertDataCacheEntry(sos)
-	end)
 end
 
 local function manufacturerIcon (manufacturer)
@@ -526,11 +533,17 @@ shipMarket = Table.New("shipMarketWidget", false, {
 		if(icons[item.def.shipClass] == nil) then
 			icons[item.def.shipClass] = PiImage.New("icons/shipclass/".. item.def.shipClass ..".png")
 		end
+
 		if not selectedItem then
 			selectedItem = item
 			shipMarket.selectedItem = item
 			refreshModelSpinner()
 		end
+
+		if not advertDataCache[item] then
+			advertDataCache[item] = makeAdvertDataCacheEntry(item)
+		end
+
 		icons[item.def.shipClass]:Draw(widgetSizes.iconSize)
 		ui.nextColumn()
 		ui.withStyleVars({ItemSpacing = vZero}, function()

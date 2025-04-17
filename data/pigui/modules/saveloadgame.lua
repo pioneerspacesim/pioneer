@@ -510,7 +510,12 @@ function SaveLoadWindow:drawSaveList()
 				self:message("onFileSelected", f.name)
 
 				if ui.isMouseDoubleClicked(0) then
-					self:message("loadSelectedSave")
+
+					if self.mode == SaveLoadWindow.Modes.Load then
+						self:message("loadSelectedSave")
+					else
+						self:message("saveToFilePath")
+					end
 				end
 			end
 		end

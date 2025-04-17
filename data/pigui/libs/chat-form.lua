@@ -142,24 +142,22 @@ function ChatForm:Clear ()
 	self.market = nil
 end
 
-local tradeFuncKeys = { "canTrade", "getStock", "getBuyPrice", "getSellPrice", "onClickBuy", "onClickSell", "canDisplayItem", "bought", "sold"}
+local tradeFuncKeys = { "canTrade", "getDemand", "getStock", "getBuyPrice", "getSellPrice", "onClickBuy", "onClickSell", "canDisplayItem", "bought", "sold"}
 function ChatForm:AddGoodsTrader (funcs)
 	self.equipWidgetConfig = {
 		stationColumns = { "icon", "name", "price", "stock" },
 		shipColumns = { "icon", "name", "amount" },
 	}
 
-	self.market = CommodityWidget.New("chatTrader", false)
-	for i = 1,#tradeFuncKeys do
-		local key = tradeFuncKeys[i]
-		local fn = funcs[key]
-		if fn then
-			self.market.funcs[key] = function (s, e)
-				return fn(self.ref, e, s)
-			end
+	local config = {}
+
+	for _, key in ipairs(tradeFuncKeys) do
+		if funcs[key] then
+			config[key] = funcs[key]
 		end
 	end
 
+	self.market = CommodityWidget.New("chatTrader", false, config)
 	self.resizeFunc()
 	self.market:Refresh()
 end

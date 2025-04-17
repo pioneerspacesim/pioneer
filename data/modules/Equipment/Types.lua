@@ -53,6 +53,8 @@ function LaserType:OnInstall(ship, slot)
 	EquipType.OnInstall(self, ship, slot)
 
 	ship:GetComponent('GunManager'):MountWeapon(slot.id, self.weapon_data)
+	--- TEMP: enable always-on firing until a UI is provided to the player
+	ship:GetComponent('GunManager'):SetGroupFireWithoutTargeting(0, true)
 end
 
 ---@param ship Ship

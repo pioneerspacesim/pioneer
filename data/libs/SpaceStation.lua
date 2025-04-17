@@ -680,7 +680,7 @@ function SpaceStation:LaunchPolice(targetShip)
 
 		-- The more lawless/dangerous the space is, the better equipped the few police ships are
 		-- In a high-law area, a spacestation has a bunch of traffic cops due to low crime rates
-		local shipThreat = 10.0 + Engine.rand:Number(10, 50) * lawlessness
+		local shipThreat = 15.0 + Engine.rand:Number(10, 50) * lawlessness
 
 		local shipTemplate = ShipTemplates.StationPolice:clone {
 			shipId = Game.system.faction.policeShip,

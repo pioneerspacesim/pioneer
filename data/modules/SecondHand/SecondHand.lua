@@ -92,8 +92,12 @@ local onChat = function (form, ref, option)
 
 			local ok, slot, message_str = canFit(ad.equipment)
 			if ok then
+
+				-- TEMP: clarify the size of items offered for secondhand purchase
+				local equipmentName = (ad.equipment.slot and "S" .. ad.equipment.slot.size .. " " or "") .. ad.equipment:GetName()
+
 				local buy_message = string.interp(l.HAS_BEEN_FITTED_TO_YOUR_SHIP, {
-					equipment = ad.equipment:GetName()
+					equipment = equipmentName
 				})
 
 				form:SetMessage(buy_message)
@@ -153,8 +157,11 @@ local makeAdvert = function (station)
 		station = station,
     }
 
+	-- TEMP: clarify the size of items offered for secondhand purchase
+	local equipmentName = (equipment.slot and "S" .. equipment.slot.size .. " " or "") .. equipment:GetName()
+
     ad.desc = string.interp(flavours[ad.flavour].adtext, {
-		equipment = equipment:GetName(),
+		equipment = equipmentName,
     })
     local ref = station:AddAdvert({
 		title       = flavours[ad.flavour].adtitle,

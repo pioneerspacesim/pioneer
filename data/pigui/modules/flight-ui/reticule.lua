@@ -35,7 +35,7 @@ ui.reticuleCircleThickness = reticuleCircleThickness
 local center = nil
 
 -- cache player each frame
-local player = nil
+local player = nil ---@type Player
 
 -- this should go into HUD settings
 local showNavigationalNumbers = true
@@ -645,7 +645,22 @@ local function flightAssistButton(pos)
 			local settargetname = settarget:GetLabel()
 			-- ori / pos does only works for dynamic bodies and orbitals
 			local can_follow = not settarget.type or settarget.type == "STARPORT_ORBITAL"
-			if player:DistanceTo(settarget) < MAX_FOLLOW_DISTANCE and can_follow then
+			local in_distance = player:DistanceTo(settarget) < MAX_FOLLOW_DISTANCE
+			local is_follow_pos = followtarget and followmode == "FOLLOW_POS"
+			local is_follow_ori = followtarget and followmode == "FOLLOW_ORI"
+
+			if not in_distance then
+				icon_left.icon = icons.follow_ori
+				icon_left.tooltip = string.interp(
+					can_follow and lui.HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR or lui.HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE,
+					{ targetname = settargetname })
+				icon_right.icon = icons.follow_pos
+				icon_right.tooltip = string.interp(
+					can_follow and lui.HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR or lui.HUD_FOLLOW_POSITION_NOT_AVAILABLE,
+					{ targetname = settargetname })
+			end
+
+			if in_distance and can_follow or is_follow_ori then
 				icon_left.icon = icons.follow_ori
 				icon_left.color = color_active
 				icon_left.tooltip = string.interp(lui.HUD_FOLLOW_ORIENTATION, { targetname = settargetname })
@@ -657,45 +672,28 @@ local function flightAssistButton(pos)
 					player:SetFollowMode("FOLLOW_ORI")
 				end
 
-				if flightcontrolstate ~= "CONTROL_MANUAL" then
-					icon_right.icon = icons.follow_pos
-					icon_right.color = color_active
-					icon_right.tooltip = string.interp(lui.HUD_FOLLOW_POSITION, { targetname = settargetname })
-					icon_right.action = function(_)
-						player:SetFlightControlState("CONTROL_FIXSPEED")
-						player:SetFollowTarget(settarget)
-						player:SetFollowMode("FOLLOW_POS")
-					end
-				else
+				if is_follow_ori then
+					icon_left = flight_assist_buttons.disable_follow
+				end
+			end
+
+			if in_distance and can_follow or is_follow_pos then
+				icon_right.icon = icons.follow_pos
+				icon_right.color = color_active
+				icon_right.tooltip = string.interp(lui.HUD_FOLLOW_POSITION, { targetname = settargetname })
+				icon_right.action = function(_)
+					player:SetFlightControlState("CONTROL_FIXSPEED")
+					player:SetFollowTarget(settarget)
+					player:SetFollowMode("FOLLOW_POS")
 					-- switch to cruise mode automatically if follow position was enabled from manual mode
-					icon_right.icon = icons.follow_pos
-					icon_right.color = color_active
-					icon_right.tooltip = string.interp(lui.HUD_FOLLOW_POSITION, { targetname = settargetname })
-					icon_right.action = function(_)
-						player:SetFlightControlState("CONTROL_FIXSPEED")
-						player:SetFollowTarget(settarget)
-						player:SetFollowMode("FOLLOW_POS")
+					if flightcontrolstate == "CONTROL_MANUAL" then
 						player:SetCruiseDirection("CRUISE_FWD")
 					end
 				end
 
-				if followtarget then
-					if followmode == "FOLLOW_POS" then
-						icon_right = flight_assist_buttons.disable_follow
-					else
-						icon_left = flight_assist_buttons.disable_follow
-					end
+				if is_follow_pos then
+					icon_right = flight_assist_buttons.disable_follow
 				end
-
-			else
-				icon_left.icon = icons.follow_ori
-				icon_left.tooltip = string.interp(
-					can_follow and lui.HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR or lui.HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE,
-					{ targetname = settargetname })
-				icon_right.icon = icons.follow_pos
-				icon_right.tooltip = string.interp(
-					can_follow and lui.HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR or lui.HUD_FOLLOW_POSITION_NOT_AVAILABLE,
-					{ targetname = settargetname })
 			end
 		end
 

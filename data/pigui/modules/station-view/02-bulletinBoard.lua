@@ -86,7 +86,7 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 
 		local active = adActive(item.__ref, item)
 
-		local adTextColor = active and colors.font or colors.fontDim
+		local adTextColor = active and colors.font or colors.fontDisabled
 
 		ui.withFont(pionillium.title, function()
 			images[icon]:Draw(Vector2(ui.getTextLineHeight()))

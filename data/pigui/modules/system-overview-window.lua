@@ -114,8 +114,10 @@ end
 
 -- Render a row for an entry in the system overview
 function SystemOverviewWidget:renderEntry(entry, indent)
-	local sbody = entry.systemBody
+	local sbody = entry.systemBody ---@type SystemBody
 	local label = entry.label or "UNKNOWN"
+	-- Handle the case where there is more than one body with the same name (e.g. New Hope in Epsilon Eridani)
+	local id = "##" .. label .. "#" .. sbody.path.bodyIndex
 
 	ui.dummy(Vector2(style.iconSize.x * indent / 2.0, style.iconSize.y))
 	ui.sameLine()
@@ -123,7 +125,7 @@ function SystemOverviewWidget:renderEntry(entry, indent)
 	ui.sameLine()
 
 	local pos = ui.getCursorPos()
-	if ui.selectable("##" .. label, entry.selected, {"SpanAllColumns"}, Vector2(0, style.iconSize.y)) then
+	if ui.selectable(id, entry.selected, {"SpanAllColumns"}, Vector2(0, style.iconSize.y)) then
 		self:onBodySelected(sbody, entry.body)
 	end
 	if ui.isItemHovered() and ui.isMouseDoubleClicked(0) then

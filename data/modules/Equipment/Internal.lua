@@ -202,7 +202,7 @@ Equipment.Register("hull.heavy_atmospheric_shielding_s3", EquipType.New {
 Equipment.Register("hull.heavy_atmospheric_shielding_s4", EquipType.New {
 	l10n_key="ATMOSPHERIC_SHIELDING_HEAVY",
 	price=21330, purchasable=true, tech_level=7,
-	slot = { type="hull.atmo_shield", size=3 },
+	slot = { type="hull.atmo_shield", size=4 },
 	mass=22, volume=28, capabilities = { atmo_shield=9 },
 	icon_name="equip_atmo_shield_generator"
 })
