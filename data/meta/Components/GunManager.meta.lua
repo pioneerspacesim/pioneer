@@ -27,4 +27,16 @@ function GunManager:UnmountWeapon(mount) end
 ---@param mount string
 function GunManager:IsWeaponMounted(mount) end
 
+---@param id string
+---@return integer weaponIndex
+function GunManager:GetWeaponIndexForHardpoint(id) end
+
+---@param weaponIndex integer
+---@param group integer
+function GunManager:AssignWeaponToGroup(weaponIndex, group) end
+
+---@param group integer
+---@param enabled boolean
+function GunManager:SetGroupFireWithoutTargeting(group, enabled) end
+
 -- TODO...
