@@ -56,6 +56,62 @@ NameGen = {
 		return Culture:FullName(isfemale, rand)
 	end,
 
+
+--
+-- Function: Names
+--
+-- Create first and surname strings. Both names can be composed of more
+-- than one name. Ex. 'Maria Luisa' or 'van der Velden'.
+--
+-- > name1, name2 = Namegen.Names(isfemale, rand)
+--
+-- Parameters:
+--
+--   isfemale - whether to generate a male or female name. true for female,
+--              false for male
+--
+--   rand - optional, the <Rand> object to use to generate the name. if
+--          omitted/nil, <Engine.rand> will be used
+--
+-- Return:
+--
+--   name1 - a string containing the first name
+--
+--   name2 - a string containing the surname
+--
+
+	Names = function (isfemale, rand)
+		if not rand then rand = Engine.rand end
+
+		return Culture:Names(isfemale, rand)
+	end,
+
+--
+-- Function: FirstName
+--
+-- Create a first name string
+--
+-- > name = Namegen.FirstName(isfemale, rand)
+--
+-- Parameters:
+--
+--   isfemale - whether to generate a male or female name. true for female,
+--              false for male
+--
+--   rand - optional, the <Rand> object to use to generate the name. if
+--          omitted/nil, <Engine.rand> will be used
+--
+-- Return:
+--
+--   name - a string containing the name
+--
+
+	FirstName = function (isfemale, rand)
+		if not rand then rand = Engine.rand end
+
+		return Culture:FirstName(isfemale, rand)
+	end,
+
 --
 -- Function: Surname
 --
