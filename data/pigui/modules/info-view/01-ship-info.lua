@@ -41,7 +41,7 @@ local function shipStats()
 	local up_acc = player:GetAcceleration("up")
 
 	local atmo_shield = equipSet:GetInstalledOfType("hull.atmo_shield")[1]
-	local atmo_shield_cap = player["atmo_shield_cap"] or 1
+	local atmo_shield_cap = math.max(player["atmo_shield_cap"], 1)
 
 	textTable.draw({
 		{ l.REGISTRATION_NUMBER..":",	shipLabel},
