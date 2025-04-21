@@ -144,7 +144,7 @@ function CommodityMarketWidget.New(id, title, config)
         return self.station:GetCommodityStock(commodity)
     end
 
-	config.getDemand = function (self, commodity)
+	config.getDemand = config.getDemand or function (self, commodity)
 		return self.station:GetCommodityDemand(commodity)
 	end
 
@@ -160,12 +160,15 @@ function CommodityMarketWidget.New(id, title, config)
 		return price * (1.0 - math.sign(price) * Economy.TradeFeeSplit * 0.01)
     end
 
-	config.bought = function (self, commodity, tradeamount)
+	config.onClickBuy = config.onClickBuy or function(self, commodity) return true end
+	config.onClickSell = config.onClickSell or function(self, commodity) return true end
+
+	config.bought = config.bought or function (self, commodity, tradeamount)
 		local count = tradeamount or 1
         self.station:AddCommodityStock(commodity, -count)
     end
 
-    config.sold = function (self, commodity, tradeamount)
+    config.sold = config.sold or function (self, commodity, tradeamount)
 		local count = tradeamount or 1
         self.station:AddCommodityStock(commodity, count)
     end
@@ -209,6 +212,8 @@ function CommodityMarketWidget.New(id, title, config)
 	self.funcs.getDemand = config.getDemand
 	self.funcs.getBuyPrice = config.getBuyPrice
 	self.funcs.getSellPrice = config.getSellPrice
+	self.funcs.onClickBuy = config.onClickBuy
+	self.funcs.onClickSell = config.onClickSell
 	self.funcs.bought = config.bought
 	self.funcs.sold = config.sold
 
@@ -257,7 +262,7 @@ function CommodityMarketWidget:ChangeTradeAmount(delta)
 	else
 		price = self.funcs.getSellPrice(self, self.selectedItem)
 		stock = self.cargoMgr:CountCommodity(self.selectedItem)
-		demand = self.station:GetCommodityDemand(self.selectedItem)
+		demand = self.funcs.getDemand(self, self.selectedItem)
 	end
 
 	--we cant trade more units than we have in stock
@@ -334,6 +339,11 @@ function CommodityMarketWidget:DoBuy()
 		return
 	end
 
+	-- user validation code
+	if not self.funcs.onClickBuy(self, self.selectedItem) then
+		return
+	end
+
 	--all checks passed
 	assert(self.cargoMgr:AddCommodity(self.selectedItem, self.tradeAmount))
 	Game.player:AddMoney(-orderAmount) --grab the money
@@ -352,6 +362,11 @@ function CommodityMarketWidget:DoSell()
 	local price = self.funcs.getSellPrice(self, self.selectedItem)
 	--if commodity price is negative (radioactives, garbage), player needs to have enough cash
 	local orderamount = price * self.tradeAmount
+
+	-- user validation code
+	if not self.funcs.onClickSell(self, self.selectedItem) then
+		return
+	end
 
 	assert(self.cargoMgr:RemoveCommodity(self.selectedItem, self.tradeAmount) == self.tradeAmount)
 	Game.player:AddMoney(orderamount) --grab the money

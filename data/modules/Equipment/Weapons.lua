@@ -53,7 +53,7 @@ Equipment.Register("laser.pulsecannon_rapid_2mw", LaserType.New {
 	l10n_key="PULSECANNON_RAPID_2MW",
 	price=1800, purchasable=true, tech_level=5,
 	mass=7, volume=7, capabilities={},
-	slot = { type="weapon.energy.pulsecannon", size=2, hardpoint=true },
+	slot = { type="weapon.energy.pulsecannon", size=3, hardpoint=true },
 	laser_stats = {
 		lifespan=8, speed=1000, damage=2000, rechargeTime=0.13, length=30,
 		width=5, beam=0, dual=0, mining=0, rgba_r = 255, rgba_g = 127, rgba_b = 51, rgba_a = 255
@@ -85,11 +85,12 @@ Equipment.Register("laser.pulsecannon_10mw", LaserType.New {
 	icon_name="equip_pulsecannon"
 })
 
+-- TEMP: marked weapon as S4, should be restatted to S5
 Equipment.Register("laser.pulsecannon_20mw", LaserType.New {
 	l10n_key="PULSECANNON_20MW",
 	price=12000, purchasable=true, tech_level="MILITARY",
-	mass=65, volume=65, capabilities={},
-	slot = { type="weapon.energy.pulsecannon", size=5, hardpoint=true },
+	mass=55, volume=55, capabilities={},
+	slot = { type="weapon.energy.pulsecannon", size=4, hardpoint=true },
 	laser_stats = {
 		lifespan=8, speed=1000, damage=20000, rechargeTime=0.25, length=30,
 		width=5, beam=0, dual=0, mining=0, rgba_r = 0.1, rgba_g = 51, rgba_b = 255, rgba_a = 255
@@ -144,11 +145,12 @@ Equipment.Register("laser.beamlaser_2mw", LaserType.New {
 -- Plasma Accelerators
 --===============================================
 
+-- TEMP: marked weapon as S3, should be S4+
 Equipment.Register("laser.small_plasma_accelerator", LaserType.New {
 	l10n_key="SMALL_PLASMA_ACCEL",
 	price=120000, purchasable=true, tech_level=10,
 	mass=22, volume=22, capabilities={},
-	slot = { type="weapon.energy.plasma_acc", size=5, hardpoint=true },
+	slot = { type="weapon.energy.plasma_acc", size=3, hardpoint=true },
 	laser_stats = {
 		lifespan=8, speed=1000, damage=50000, rechargeTime=0.3, length=42,
 		width=7, beam=0, dual=0, mining=0, rgba_r = 51, rgba_g = 255, rgba_b = 255, rgba_a = 255
@@ -156,11 +158,12 @@ Equipment.Register("laser.small_plasma_accelerator", LaserType.New {
 	icon_name="equip_plasma_accelerator"
 })
 
+-- TEMP: marked weapon as S4, should be S5+
 Equipment.Register("laser.large_plasma_accelerator", LaserType.New {
 	l10n_key="LARGE_PLASMA_ACCEL",
 	price=390000, purchasable=true, tech_level=12,
 	mass=50, volume=50, capabilities={},
-	slot = { type="weapon.energy.plasma_acc", size=6, hardpoint=true },
+	slot = { type="weapon.energy.plasma_acc", size=4, hardpoint=true },
 	laser_stats = {
 		lifespan=8, speed=1000, damage=100000, rechargeTime=0.3, length=42,
 		width=7, beam=0, dual=0, mining=0, rgba_r = 127, rgba_g = 255, rgba_b = 255, rgba_a = 255

@@ -445,7 +445,7 @@ void GunManager::StaticUpdate(float deltaTime)
 		// Temperature, gimbal checks, etc.
 		bool canFire = gun.temperature < gun.data.overheatThreshold && (gs.fireWithoutTargeting || gs.target && gun.withinGimbalLimit);
 
-		if (gs.firing && currentTime >= gun.nextFireTime) {
+		if (gs.firing && canFire && currentTime >= gun.nextFireTime) {
 
 			// Determine how much time we missed since the gun was supposed to fire
 			double missedTime = currentTime - gun.nextFireTime;
