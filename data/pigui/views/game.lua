@@ -162,7 +162,7 @@ local function displayOnScreenObjects()
 			end
 		end
 		-- popup content
-		ui.popup("navtarget" .. mainBody:GetLabel(), function()
+		ui.popup("navtarget" .. mainBody:GetLabel(), {"NoMove"}, function()
 			for _,b in pairs(group.bodies) do
 				ui.icon(getBodyIcon(b, true), small_iconsize, colors.frame)
 				ui.sameLine()
