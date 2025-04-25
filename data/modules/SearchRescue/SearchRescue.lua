@@ -1499,6 +1499,8 @@ local pickupCrew = function (mission)
 
 		-- if all necessary crew transferred print result message
 		mission.pickup_crew = mission.pickup_crew - 1
+		mission.pickup_crew_check = nil -- clear PARTIAL flag if present
+
 		local done = mission.pickup_crew_orig - mission.pickup_crew
 		if todo == done then
 			local resulttxt = string.interp(l.RESULT_PICKUP_CREW, {todo = todo, done = done})
@@ -1538,6 +1540,8 @@ local pickupPassenger = function (mission)
 
 		-- if all necessary passengers have been picked up show result message
 		mission.pickup_pass = mission.pickup_pass - 1
+		mission.pickup_pass_check = nil -- clear PARTIAL flag if present
+
 		local done = mission.pickup_pass_orig - mission.pickup_pass
 		if todo == done then
 			local resulttxt = string.interp(l.RESULT_PICKUP_PASS, {todo = todo, done = done})
@@ -1576,6 +1580,8 @@ local pickupCommodity = function (mission, commodity)
 
 		-- show result message if done picking up this commodity
 		mission.pickup_comm[commodity] = mission.pickup_comm[commodity] - 1
+		mission.pickup_comm_check[commodity] = nil -- clear PARTIAL flag if present
+
 		local done = mission.pickup_comm_orig[commodity] - mission.pickup_comm[commodity]
 		if todo == done then
 			local resulttxt = string.interp(l.RESULT_PICKUP_COMM, {cargotype = commodity_name, todo = todo, done = done})
@@ -1612,6 +1618,8 @@ local deliverCrew = function (mission)
 
 		-- if all necessary crew transferred print result message
 		mission.deliver_crew = mission.deliver_crew - 1
+		mission.deliver_crew_check = nil -- clear PARTIAL flag if present
+
 		local done = mission.deliver_crew_orig - mission.deliver_crew
 		if todo == done then
 			local resulttxt = string.interp(l.RESULT_DELIVERY_CREW, {todo = todo, done = done})
@@ -1646,6 +1654,8 @@ local deliverPassenger = function (mission)
 
 		-- if all necessary passengers have been transferred show result message
 		mission.deliver_pass = mission.deliver_pass - 1
+		mission.deliver_pass_check = nil -- clear PARTIAL flag if present
+
 		local done = mission.deliver_pass_orig - mission.deliver_pass
 		if todo == done then
 			local resulttxt = string.interp(l.RESULT_DELIVERY_PASS, {todo = todo, done = done})
@@ -1687,6 +1697,8 @@ local deliverCommodity = function (mission, commodity)
 
 		-- show result message if done delivering this commodity
 		mission.deliver_comm[commodity] = mission.deliver_comm[commodity] - 1
+		mission.deliver_comm_check[commodity] = nil -- clear PARTIAL flag if present
+
 		local done = mission.deliver_comm_orig[commodity] - mission.deliver_comm[commodity]
 		if todo == done then
 			local resulttxt = string.interp(l.RESULT_DELIVERY_COMM, {done = done, todo = todo, cargotype = commodity_name})
@@ -1904,6 +1916,8 @@ local onFrameChanged = function (body)
 	end
 end
 
+---@param ship Ship
+---@param station SpaceStation?
 local onShipUndocked = function (ship, station)
 	-- Start search immediately if the target is on the same planet as the station.
 	if not ship:IsPlayer() then return end
@@ -2212,6 +2226,7 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 Event.Register("onShipUndocked", onShipUndocked)
+Event.Register("onShipTakeoff", onShipUndocked)
 Event.Register("onFrameChanged", onFrameChanged)
 Event.Register("onShipDestroyed", onShipDestroyed)
 
