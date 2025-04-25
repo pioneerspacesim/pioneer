@@ -204,8 +204,14 @@ end
 --
 --   nil
 --
-function ui.popup(name, fun)
-	if pigui.BeginPopup(name) then
+---@overload fun(name: string, flags: any, fun: fun())
+---@overload fun(name: string, fun: fun())
+function ui.popup(name, flags, fun)
+	if not fun then
+		fun, flags = flags, nil
+	end
+
+	if pigui.BeginPopup(name, flags) then
 		fun()
 		pigui.EndPopup()
 	end

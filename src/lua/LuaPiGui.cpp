@@ -1935,7 +1935,8 @@ static int l_pigui_begin_popup(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string id = LuaPull<std::string>(l, 1);
-	LuaPush<bool>(l, ImGui::BeginPopup(id.c_str()));
+	ImGuiWindowFlags flags = LuaPull<ImGuiWindowFlags_>(l, 2, ImGuiWindowFlags_None);
+	LuaPush<bool>(l, ImGui::BeginPopup(id.c_str(), flags));
 	return 1;
 }
 
