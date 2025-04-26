@@ -1,7 +1,24 @@
 April
   * Fixes
-    * Fix, nav ligts and model (#6105)
+    * Ship Market - Crash: attempt to index field '?' (#6101)
+    * Police refuse to fight (#6065)
+    * Ship weapon ignores overheat (#6057)
+    * Size 5+ weapons cannot be equipped by any ship? (#6077)
+    * Follow orientation cannot be turned off if far from target (#6081)
+    * Duplicated "Heavy Atmospheric Shielding" on S3, instead of S3 and S4 (#6038)
+    * Station Name Overlap in System View Economy window Fix Suggestion (#6091)
+    * Low contrast between active and inactive BBS entry colors (#5966)
+    * Goods Trader - Glitch in prices (#6075)
+    * On sale keep mentionning ship fully equipped (#6049)
+    * Fix nav ligts and model (#6105)
     * Fixing skipjack collision interfering with takeoffs. (#6111)
+    * Fix pressure limit value if no atmo shield is installed (#6117)
+    * Fix grammar in Combat mission Strings (#6102)
+    * Fix interrupted SAR missions, draggable popups in worldview (#6120)
+    * Fix pressure limit value if no atmo shield is installed (#6117)
+
+  * Internal
+    * Character - Separate first name and surname (#6114)
 
 March
   * New Features
