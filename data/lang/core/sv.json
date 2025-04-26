@@ -189,7 +189,7 @@
   },
   "CARGO_N": {
     "description": "",
-    "message": "Last: %{mass}t"
+    "message": "Last: %{mass} t"
   },
   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
     "description": "",
@@ -789,7 +789,7 @@
   },
   "MASS_N_TONNES": {
     "description": "",
-    "message": "Massa: %{mass}t"
+    "message": "Massa: %{mass} t"
   },
   "MEAN_DENSITY": {
     "description": "",
@@ -1029,7 +1029,7 @@
   },
   "NUMBER_TONNES": {
     "description": "",
-    "message": "%{mass}t"
+    "message": "%{mass} t"
   },
   "N_ATMOSPHERE": {
     "description": "",
@@ -1401,7 +1401,7 @@
   },
   "SHIP_MASS_N_TONNES": {
     "description": "",
-    "message": "Skeppsmassa: %{mass}t"
+    "message": "Skeppsmassa: %{mass} t"
   },
   "SHIP_NEARBY": {
     "description": "",

@@ -349,6 +349,6 @@
   },
   "X_WILL_BE_LEAVING": {
     "description": "",
-    "message": "{target} kommer att lämna {spaceport} i {system} systemet ({sectorX}, {sectorY}, {sectorZ}), avstånd {dist} ly, vid {date}.\nSkeppet är en {shipname} och har registrerings id {shipregid}."
+    "message": "{target} kommer att lämna {spaceport} i {system} systemet ({sectorX}, {sectorY}, {sectorZ}), avstånd {dist} ly, vid {date}. Skeppet är en {shipname} och har registrerings id {shipregid}."
   }
 }

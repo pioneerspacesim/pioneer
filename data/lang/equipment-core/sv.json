@@ -669,11 +669,11 @@
   },
   "REINFORCED_STRUCTURE": {
     "description": "Name for an equipment item that reinforces the hull's superstructure",
-    "message": "Reinforced Structure"
+    "message": "Förstärkt struktur"
   },
   "REINFORCED_STRUCTURE_DESCRIPTION": {
     "description": "Description of the Reinforced Structure equipment item",
-    "message": "Aftermarket strengthening kit for the ship's frame. Increases resistance to high atmospheric pressures."
+    "message": "Eftermarknadsförstärkningskit för skeppets ram. Ökar motståndskraften mot höga atmosfäriska tryck."
   },
   "REQUIRED_SLOT_IS_EMPTY": {
     "description": "Tooltip for wrong equipment item",
@@ -737,7 +737,7 @@
   },
   "SLOT_CABIN": {
     "description": "Name for a generic room slot inside the pressurized living space",
-    "message": "Cabin"
+    "message": "Kabin"
   },
   "SLOT_CABIN_FORE": {
     "description": "Name for a cabin slot towards the front of the ship",
@@ -749,7 +749,7 @@
   },
   "SLOT_COMPUTER": {
     "description": "Name for a generic computer equipment slot",
-    "message": "Computer"
+    "message": "Dator"
   },
   "SLOT_ENGINE": {
     "description": "Name for the ship's primary travel engines",
@@ -757,7 +757,7 @@
   },
   "SLOT_HULL": {
     "description": "Name for an equipment slot that augments or modifies the ship hull",
-    "message": "Hull"
+    "message": "Skrov"
   },
   "SLOT_HYPERDRIVE": {
     "description": "Name for a ship's singular hyperdrive equipment slot",
@@ -773,7 +773,7 @@
   },
   "SLOT_SHIELD": {
     "description": "Name for a generic shield slot",
-    "message": "Shield"
+    "message": "Sköld"
   },
   "SLOT_SHIELD_LEFT": {
     "description": "Name for a left-side shield slot",
@@ -785,7 +785,7 @@
   },
   "SLOT_STRUCTURE": {
     "description": "Name for the ship's internal structure modification slot",
-    "message": "Structure"
+    "message": "Struktur"
   },
   "SLOT_THRUSTER": {
     "description": "Generic name for secondary attitude or maneuvering thrusters",
@@ -801,7 +801,7 @@
   },
   "STAT_ATMO_SHIELD": {
     "description": "Stat name for atmospheric shielding. 'Atmospheric' is abbreviated.",
-    "message": "Atm. Pressure Resistance"
+    "message": "Atm. tryckmotstånd"
   },
   "STAT_HYPERDRIVE_EFFICIENCY": {
     "description": "",
@@ -817,7 +817,7 @@
   },
   "STAT_MISSILE_WARHEAD": {
     "description": "",
-    "message": "Explosive Yield (Equivalent)"
+    "message": "\"Sprängverkan (Ekvivalent)\""
   },
   "STAT_POWER_DRAW": {
     "description": "Stat label for equipment power draw",
@@ -825,11 +825,11 @@
   },
   "STAT_SHIELD": {
     "description": "Stat name for shield generator effectiveness.",
-    "message": "Effective Shield Strength"
+    "message": "Effektiv sköldstyrka"
   },
   "STAT_THRUSTER_POWER": {
     "description": "Stat name for thruster upgrades",
-    "message": "Maximum Thrust Increase"
+    "message": "Maximal dragkraftsökning"
   },
   "STAT_VOLUME": {
     "description": "Stat label for equipment volume",

@@ -173,7 +173,7 @@
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "{org} заплатит {cash} за {mission} в системе {system} ({sectorx}, {sectory}, {sectorz}). У нас есть основания полагать, что беспощадный рыночный конкурент несет ответственность за исчезновение наших грузовых судов в {area}. Расстояние до целевой области составляет {dist} световых лет."
+    "message": "The {org} will pay {cash} for {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We have reason to believe that a ruthless market competitor is responsible for the disappearance of our freighters at {area}. Distance to the target area is {dist} ly."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
@@ -217,7 +217,7 @@
   },
   "MILITARY_3": {
     "description": "",
-    "message": "Отделу контрразведки нужен гражданский пилот, который не задает лишних вопросов для миссии {mission} в {system} ({sectorx}, {sectory}, {sectorz}). Удалённость - {dist} световых лет. Оплата {cash}."
+    "message": "The counter intelligence corps needs a civil pilot who asks no questions for {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pay is {cash}."
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Я работаю в {org}. Некоторые из наших грузовых судов скоро прибудут в {area} в системе {system} ({sectorx}, {sectory}, {sectorz}). Чтобы повысить безопасность наших сотрудников и защитить оборудование, мы готовы платить {cash} за {mission}. Расстояние до {area} - {dist} световых лет."
+    "message": "I work for the {org}. Some of our freighters will arrive shortly at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To increase the safety of our employees and to protect the equipment we are willing to pay {cash} for {mission} mission. Distance to {area} is {dist} ly."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -270,6 +270,18 @@
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
     "message": "Зачистка территории"
+  },
+  "MISSION_TYPE_CONVO_1": {
+    "description": "Name of mission type, used in conversation",
+    "message": "a reconnaissance"
+  },
+  "MISSION_TYPE_CONVO_2": {
+    "description": "Name of mission type, used in conversation",
+    "message": "an armed reconnaissance"
+  },
+  "MISSION_TYPE_CONVO_3": {
+    "description": "Name of mission type, used in conversation. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
+    "message": "an area sweep"
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",

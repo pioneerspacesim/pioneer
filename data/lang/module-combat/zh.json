@@ -173,7 +173,7 @@
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "{org} 将支付 {cash} 作为 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 中 {mission} 任务的报酬。我们有理由相信，一位无情的市场竞争者对我们货运船在 {area} 消失一事负有责任。目标区域距离 {dist} 光年。"
+    "message": "The {org} will pay {cash} for {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We have reason to believe that a ruthless market competitor is responsible for the disappearance of our freighters at {area}. Distance to the target area is {dist} ly."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
@@ -217,7 +217,7 @@
   },
   "MILITARY_3": {
     "description": "",
-    "message": "反情报部队需要一名民事飞行员，他不会在{system}星系（{sectorx}，{sectory}，{sectorz}），{dist}中询问{mission}任务。 支付{cash}。"
+    "message": "The counter intelligence corps needs a civil pilot who asks no questions for {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pay is {cash}."
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "我为{org}工作。 我们的一些货轮将很快到达{system}星系{area}，{sectorx}，{sectory}，{sectorz}）。 为了提高员工的安全性并保护设备，我们愿意为{mission}任务支付{cash}。 到{area}的距离是{dist}光年。"
+    "message": "I work for the {org}. Some of our freighters will arrive shortly at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To increase the safety of our employees and to protect the equipment we are willing to pay {cash} for {mission} mission. Distance to {area} is {dist} ly."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -270,6 +270,18 @@
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
     "message": "扫描区域"
+  },
+  "MISSION_TYPE_CONVO_1": {
+    "description": "Name of mission type, used in conversation",
+    "message": "a reconnaissance"
+  },
+  "MISSION_TYPE_CONVO_2": {
+    "description": "Name of mission type, used in conversation",
+    "message": "an armed reconnaissance"
+  },
+  "MISSION_TYPE_CONVO_3": {
+    "description": "Name of mission type, used in conversation. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
+    "message": "an area sweep"
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",

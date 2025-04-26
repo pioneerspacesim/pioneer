@@ -157,11 +157,11 @@
   },
   "CARGO_T_FREE": {
     "description": "t for tonne",
-    "message": "{amount}t ledigt"
+    "message": "{amount} t ledigt"
   },
   "CARGO_T_USED": {
     "description": "t for tonne",
-    "message": "{amount}t använt"
+    "message": "{amount} t använt"
   },
   "CASE_SENSITIVE": {
     "description": "",
@@ -437,7 +437,7 @@
   },
   "DEMAND": {
     "description": "Column label for commodity demand at a market.",
-    "message": "Efterfrågan"
+    "message": "Behov"
   },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",

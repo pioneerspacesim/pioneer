@@ -97,7 +97,7 @@
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
-    "message": "Aluminiumtuber"
+    "message": "aluminiumtuber"
   },
   "AMOUNT": {
     "description": "Shown in mission summary. The amount of cargo",
@@ -105,7 +105,7 @@
   },
   "ART_OBJECTS": {
     "description": "custom cargo",
-    "message": "Konstföremål"
+    "message": "konstföremål"
   },
   "CARGO": {
     "description": "",
@@ -129,7 +129,7 @@
   },
   "CLUS": {
     "description": "custom cargo",
-    "message": "Bostadsmoduler"
+    "message": "bostadsmoduler"
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
@@ -185,11 +185,11 @@
   },
   "DIAMONDS": {
     "description": "custom cargo",
-    "message": "Diamanter"
+    "message": "diamanter"
   },
   "DIGESTERS": {
     "description": "custom cargo",
-    "message": "Idisslare"
+    "message": "rötkammare"
   },
   "DISTANCE": {
     "description": "distance in space, between two locations",
@@ -197,7 +197,7 @@
   },
   "ELECTRICAL_APPLIANCES": {
     "description": "custom cargo",
-    "message": "Elektriska hushållsvaror"
+    "message": "elektriska hushållsvaror"
   },
   "ESCORT_CHATTER_1": {
     "description": "",
@@ -221,7 +221,7 @@
   },
   "EXPLOSIVES": {
     "description": "custom cargo",
-    "message": "Sprängämnen"
+    "message": "sprängämnen"
   },
   "FAILUREMSG_1": {
     "description": "",
@@ -229,7 +229,7 @@
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "Du är försen! Vad skall jag göra med detta nu, när det är värdelöst?"
+    "message": "Du kommer för sent! Vad skall jag göra med detta nu, när det är värdelöst?"
   },
   "FAILUREMSG_3": {
     "description": "",
@@ -245,7 +245,7 @@
   },
   "FURNITURE": {
     "description": "custom cargo",
-    "message": "Möbler"
+    "message": "möbler"
   },
   "GO_BACK": {
     "description": "Shown on a button in a sub-menu, to move back, to previous menu",
@@ -253,7 +253,7 @@
   },
   "GREENHOUSES": {
     "description": "custom cargo",
-    "message": "Växthus"
+    "message": "växthus"
   },
   "GUNS_GUNS_GUNS": {
     "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
@@ -261,7 +261,7 @@
   },
   "HAZARDOUS_SUBSTANCES": {
     "description": "custom cargo",
-    "message": "Farligt gods"
+    "message": "farligt gods"
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
@@ -269,27 +269,27 @@
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}t"
+    "message": "{amount} t."
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Massan är {amount}t"
+    "message": "Massan är {amount} t."
   },
   "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "Det är {amount}t."
+    "message": "Det är {amount} t."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "Det är bara {amount}t"
+    "message": "Det är bara {amount} t."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "Det är {amount}t av {cargoname}."
+    "message": "Det är {amount} t av {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}t {cargoname}"
+    "message": "{amount} t {cargoname}."
   },
   "HOW_MUCH_MASS": {
     "description": "",
@@ -385,7 +385,7 @@
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
-    "message": "Maskinverktyg"
+    "message": "maskinverktyg"
   },
   "NEGOTIABLE_1": {
     "description": "regarding mass, always more than 1t",
@@ -409,11 +409,11 @@
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
-    "message": "Neptunium"
+    "message": "neptunium"
   },
   "OFFER": {
     "description": "",
-    "message": "Transportera {amount}t för {reward}"
+    "message": "Transportera {amount} t för {reward}"
   },
   "OK_AGREED": {
     "description": "",
@@ -469,11 +469,11 @@
   },
   "PLUTONIUM": {
     "description": "custom cargo",
-    "message": "Plutonium"
+    "message": "plutonium"
   },
   "QUIBBLES": {
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-    "message": "Quibbler"
+    "message": "quibbler"
   },
   "RISK_1": {
     "description": "",
@@ -529,7 +529,7 @@
   },
   "SEMI_FINISHED_PRODUCTS": {
     "description": "custom cargo",
-    "message": "Halvfärdiga produkter"
+    "message": "halvfärdiga produkter"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -545,11 +545,11 @@
   },
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
-    "message": "Rymdskeppsdelar"
+    "message": "rymdskeppsdelar"
   },
   "STEM_BOLTS": {
     "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
-    "message": "Självslutande stambultar"
+    "message": "självslutande stambultar"
   },
   "SUCCESSMSG_1": {
     "description": "",
@@ -581,7 +581,7 @@
   },
   "TITANIUM": {
     "description": "custom cargo",
-    "message": "Titan"
+    "message": "titan"
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
@@ -589,11 +589,11 @@
   },
   "TUNGSTEN": {
     "description": "custom cargo",
-    "message": "Volfram"
+    "message": "volfram"
   },
   "URANIUM": {
     "description": "custom cargo",
-    "message": "Uran"
+    "message": "uran"
   },
   "URGENCY_1": {
     "description": "",
@@ -625,7 +625,7 @@
   },
   "WEDDING_DRESSES": {
     "description": "custom cargo",
-    "message": "Bröllopsklänningar"
+    "message": "bröllopsklänningar"
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
@@ -665,7 +665,7 @@
   },
   "WHYSOMUCH_CHEMICAL_1": {
     "description": "",
-    "message": "Produktionen i kemifabriken är avhängit dessa varor. Inget får hindra maskinen."
+    "message": "Produktionen i kemifabriken är beroende av dessa varor. Inget får hindra maskinen."
   },
   "WHYSOMUCH_EXPENSIVE_1": {
     "description": "",
