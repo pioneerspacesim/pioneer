@@ -5,7 +5,7 @@
   },
   "ADDITIONAL_INFORMATION_ORBITAL": {
     "description": "Note. 'orbital scanner' is the name of an equipment, that should be translated the same as the equipment",
-    "message": "You will need an orbital scanner fitted to your ship. Once you're at the body in question, activate the scanner, and orbit within the maximum altitude until the scan is complete. Then deliver the data to me."
+    "message": "Sie werden auf Ihrem Schiff einen orbitalen Scanner benötigen. Wenn sie am fraglichen Körper angekommen sind, aktivieren Sie den Scanner. Bleiben Sie unter der maximalen Flughöhe bis der Scan abgeschlossen ist. Dann liefern Sie mir die Daten."
   },
   "ADDITIONAL_INFORMATION_SURFACE": {
     "description": "Note. 'surface scanner' is the name of an equipment, that should be translated the same as the equipment",
@@ -89,7 +89,7 @@
   },
   "ADTEXT_4_WHYSOMUCH": {
     "description": "'High impact journals' is a recognized term for journals like Nature and Science, yielding many citations.",
-    "message": "I'm hoping this new data, with pretty pictures and maps, will increase my chances of getting my article published in some high impact journal."
+    "message": "Ich hoffe, dass diese neuen Daten, zusammen mit hübschen Bildern und Karten, meine Chancen verbessern, dass meine Arbeit in einem der großen Wissenschaftsjournale veröffentlicht wird."
   },
   "ADTEXT_5": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "ADTEXT_5_INTRO": {
     "description": "",
-    "message": "Hello! \nMein Name ist {name}. Informationen sind mein Geschäft und ich zahle {cash} für die KArtografierung von {systembody} in {system}, das {dist} von uns entfernt ist."
+    "message": "Hello! \nMein Name ist {name}. Informationen sind mein Geschäft und ich zahle {cash} für die Kartografierung von {systembody} in {system}, das {dist} von uns entfernt ist."
   },
   "ADTEXT_5_SUCCESSMSG": {
     "description": "",
@@ -425,11 +425,11 @@
   },
   "SURFACE_SCAN_DETAILS": {
     "description": "Additional warning information about a surface scan target",
-    "message": "The target has a surface pressure of {pressure} with a gravitational force of {gravity} at the surface."
+    "message": "Das Ziel hat an der Oberfläche einen Druck von {pressure} und eine Schwerkraft von {gravity}."
   },
   "SURFACE_SCAN_WARNING": {
     "description": "Warning reminder to player",
-    "message": "Please ensure your ship is capable of operating at the target body's surface before accepting the contract."
+    "message": "Bitte stellen Sie sicher, dass Ihr Schiff für den Druck und die Schwerkraft an der Oberfläche des Zielkörpers ausgelegt ist, bevor Sie den Vertrag akzeptieren."
   },
   "SUSPENDED": {
     "description": "",

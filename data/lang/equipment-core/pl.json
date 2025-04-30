@@ -17,7 +17,7 @@
   },
   "ATMOSPHERIC_SHIELDING_FLAVOURTEXT": {
     "description": "",
-    "message": "Provides a moderate level of protection against atmospheric friction and pressure at a minimal mass cost."
+    "message": "Dostarcza umiarkowanej ochrony przeciwko tarciu atmosferycznemu i ciśnieniu minimalnym kosztem."
   },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
@@ -29,7 +29,7 @@
   },
   "ATMOSPHERIC_SHIELDING_HEAVY_FLAVOURTEXT": {
     "description": "",
-    "message": "Specialized for scientific expeditions within dense atmospheres, this shielding trades weight and efficiency for a significant increase in the atmospheric pressures it can withstand."
+    "message": "Stworzony dla naukowych ekspedycji do miejsc z gęstą atmosferą, ta tarcza kosztem większej wagi i wydajności dostarcza więcej ochrony podczas pracy  przy większym ciśnieniu."
   },
   "AUTOPILOT": {
     "description": "",
@@ -53,11 +53,11 @@
   },
   "BY_ITEM": {
     "description": "Button in the start menu when editing equipment",
-    "message": "By item"
+    "message": "Po przedmiocie"
   },
   "BY_SLOT": {
     "description": "Button in the start menu when editing equipment",
-    "message": "By slot"
+    "message": "Po miejscu"
   },
   "CABINS": {
     "description": "Category header for pressurized cabin slots",
@@ -181,11 +181,11 @@
   },
   "EDIT_EQUIPMENT": {
     "description": "Dialog title",
-    "message": "Edit equipment"
+    "message": "Edytuj ekwipunek"
   },
   "EMPTY_EQUIPMENT_PROVIDING_SLOTS": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Empty equipment providing slots"
+    "message": "Opróżnij miejsca na ekwipunek"
   },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
@@ -193,7 +193,7 @@
   },
   "EQUIPMENT_DOES_NOT_FIT_INTO_THE_SLOT": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Equipment does not fit into the slot"
+    "message": "Ekwipunek nie mieści się we wskazanym miejscu"
   },
   "EQUIPMENT_INTEGRITY": {
     "description": "Tooltip explaining remaining equipment integrity",
@@ -217,7 +217,7 @@
   },
   "HARDPOINT_MINING_LASER": {
     "description": "Name for a mining laser mount.",
-    "message": "Mining Hardpoint"
+    "message": "Punkt wydobywczy"
   },
   "HARDPOINT_MISSILE": {
     "description": "Name for a generic missile mount",
@@ -233,11 +233,11 @@
   },
   "HARDPOINT_MISSILE_BAY_LEFT": {
     "description": "Name for the 'Missile Bay' equipment hardpoint",
-    "message": "Left Missile Bay"
+    "message": "Lewa wyrzutnia rakiet"
   },
   "HARDPOINT_MISSILE_BAY_RIGHT": {
     "description": "Name for the 'Missile Bay' equipment hardpoint",
-    "message": "Right Missile Bay"
+    "message": "Prawa wyrzutnia rakiet"
   },
   "HARDPOINT_PYLON": {
     "description": "Name for a generic missile pylon",
@@ -245,27 +245,27 @@
   },
   "HARDPOINT_PYLON_LEFT": {
     "description": "Name for a generic missile pylon",
-    "message": "Left Pylon"
+    "message": "Lewy pylon"
   },
   "HARDPOINT_PYLON_LEFT_WING": {
     "description": "Name for a generic missile pylon",
-    "message": "Left Wing Pylon"
+    "message": "Pylon na lewym skrzydle"
   },
   "HARDPOINT_PYLON_RIGHT": {
     "description": "Name for a generic missile pylon",
-    "message": "Right Pylon"
+    "message": "Prawy pylon"
   },
   "HARDPOINT_PYLON_RIGHT_WING": {
     "description": "Name for a generic missile pylon",
-    "message": "Right Wing Pylon"
+    "message": "Pylon na prawym skrzydle"
   },
   "HARDPOINT_TURRET_BOTTOM": {
     "description": "Slot name for a ventral-mounted turret",
-    "message": "Bottom Turret"
+    "message": "Dolna wieżyczka"
   },
   "HARDPOINT_TURRET_TOP": {
     "description": "Slot name for a dorsal-mounted turret",
-    "message": "Top Turret"
+    "message": "Górna wieżyczka"
   },
   "HARDPOINT_UTILITY": {
     "description": "Name for a generic utility hardpoint",
@@ -273,43 +273,43 @@
   },
   "HARDPOINT_WEAPON": {
     "description": "Name for a generic weapon hardpoint",
-    "message": "Weapon"
+    "message": "Broń"
   },
   "HARDPOINT_WEAPON_CHIN": {
     "description": "Name for the 'Chin Mount' equipment hardpoint",
-    "message": "Chin Mount"
+    "message": "Mocowanie na kadłubie"
   },
   "HARDPOINT_WEAPON_FRONT": {
     "description": "Name for a generic front-facing weapon hardpoint",
-    "message": "Front Weapon"
+    "message": "Uzbrojenie z przodu"
   },
   "HARDPOINT_WEAPON_FRONT_LEFT": {
     "description": "Name for a generic front-facing weapon hardpoint",
-    "message": "Front Left Weapon"
+    "message": "Uzbrojenie na lewym froncie"
   },
   "HARDPOINT_WEAPON_FRONT_RIGHT": {
     "description": "Name for a generic front-facing weapon hardpoint",
-    "message": "Front Right Weapon"
+    "message": "Uzbrojenie na prawym froncie"
   },
   "HARDPOINT_WEAPON_LEFT": {
     "description": "Name for a generic weapon hardpoint",
-    "message": "Left Weapon"
+    "message": "Lewe uzbrojenie"
   },
   "HARDPOINT_WEAPON_LEFT_NOSE": {
     "description": "Name for the 'Left Nose' weapon hardpoint",
-    "message": "Left Nose"
+    "message": "Lewy nos"
   },
   "HARDPOINT_WEAPON_REAR": {
     "description": "Name for a generic rear-facing weapon hardpoint",
-    "message": "Rear Weapon"
+    "message": "Tylnie uzbrojenie"
   },
   "HARDPOINT_WEAPON_RIGHT": {
     "description": "Name for a generic weapon hardpoint",
-    "message": "Right Weapon"
+    "message": "Prawe uzbrojenie"
   },
   "HARDPOINT_WEAPON_RIGHT_NOSE": {
     "description": "Name for the 'Right Nose' weapon hardpoint",
-    "message": "Right Nose"
+    "message": "Prawy nos"
   },
   "HULL_AUTOREPAIR": {
     "description": "",
@@ -321,7 +321,7 @@
   },
   "HULL_MOUNTS": {
     "description": "Category name for hull-mounted equipment",
-    "message": "Hull Mounts"
+    "message": "Mocowanie na kadłubie"
   },
   "HYPERCLOUD_ANALYZER": {
     "description": "",
@@ -333,7 +333,7 @@
   },
   "INVALID_SLOT": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Invalid slot"
+    "message": "Niewłaściwe miejsce"
   },
   "ITEM": {
     "description": "A piece of equipment",
@@ -381,11 +381,11 @@
   },
   "MISSILE_GUIDED_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "Standard fire-and-forget guided missiles."
+    "message": "Standardowe rakiety nakierowywane."
   },
   "MISSILE_GUIDED_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "Mass produced guided missile which will attempt to home in on a selected target. Depending on the exact model, this missile may use a variety of homing technologies including one or more of Radar, Laser, or LIDAR. Nevertheless, the technology in these missiles is not guaranteed to ensure a hit and most are quite vulnerable to ECM or other countermeasures."
+    "message": "Masowo produkowane pociski samonaprowadzające, bedą podążać za wybranym celem. W zależności od modelu, pociski mogą wykorzystywać różne technologie, takie jak radary, namierzanie laserowe czy LIDAR. Należy pamiętać jednak że technologia w tych pociskach nie gwarantuje trafienia, i są podatne na systemy obronne jak ECM i inne."
   },
   "MISSILE_NAVAL": {
     "description": "",
@@ -393,143 +393,143 @@
   },
   "MISSILE_NAVAL_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "Fire-and-forget homing missile highly resistant to all known types of countermeasures."
+    "message": "Pociski samonaprowadzające, mocno odporne na znane systemy obronne."
   },
   "MISSILE_NAVAL_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "These missiles are produced in highly specialised and secretive naval factories in tightly controlled facilities and generally not available to non-military personel. Able to resist most known types of countermeasures, these missiles are fast for their size and usually pack exotic warheads for extreme destructive potential. Often specialised equipment is required in the ships carrying these in order to correctly arm and program the missiles prior to launch."
+    "message": "Te pociski są produkowane w wyspecjalizowanych i tajnych jednostkach wojskowych w ściśle kontrolowanych warunkach i nie są normalnie dostępne dla cywili. Zdolne do ominięcia większości systemów obronnych, te pociski są szybkie jak na swój rozmiar i często posiadają egzotyczne głowice które zwiekszają potencjał na zadanie jak największych szkód. Często potrzeba specjalnego ekwipunku na statku żeby móc właściwie uzbroić i wykorzystać te pociski."
   },
   "MISSILE_RACK_221": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
-    "message": "Hydra LH-120 Missile Rack"
+    "message": "Komora na pociski Hydra LH-120"
   },
   "MISSILE_RACK_221_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 2 small missiles."
+    "message": "Zewnętrzna komora rakietowa mieszcząca 2 małe pociski."
   },
   "MISSILE_RACK_221_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "This quality missile rack from Hydri Defense allows you to carry more bangs per hardpoint, essential for taking on those pesky pirates."
+    "message": "Ten wysokiej jakości komora rakietowa wyprodukowana przez Hydra Defense pozwala na zabranie większej mocy, potrzebnej do eliminowania tych upierdliwych piratów."
   },
   "MISSILE_RACK_322": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
-    "message": "Hydra LH-220 Missile Rack"
+    "message": "Komora na pociski Hydra LH-220"
   },
   "MISSILE_RACK_322_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 2 medium missiles."
+    "message": "Zewnętrzna komora rakietowa mieszcząca 2 średnie pociski."
   },
   "MISSILE_RACK_322_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "A missile rack for the more discerning Hydri Defense customer. Bigger bangs for your bucks!"
+    "message": "Komora rakietowa dla najbardziej wymagających klientów Hydra Defense. Więcej mocy za Twoje pieniądze!"
   },
   "MISSILE_RACK_341": {
     "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
-    "message": "Medusa LH-140 Missile Rack"
+    "message": "Komora rakietowa Medusa LH-140"
   },
   "MISSILE_RACK_341_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 4 small missiles."
+    "message": "Zewnętrzna komora rakietowa mieszcząca 4 małe pociski."
   },
   "MISSILE_RACK_341_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "This one is a real beauty, coming straight to you from the R&D labs at Hydri Defense. We've squeezed even more missiles into this rack to allow you to really make some fireworks!"
+    "message": "Ta prawdziwa ślicznotka pochodząca prosto z laboratorium R&D w Hydra Defense. Wcisnęliśmy jeszcze więcej pocisków w te komore żebyś mogł odpalić prawdziwe fajerwerki!"
   },
   "MISSILE_RACK_423": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
-    "message": "Hydra LH-320 Missile Rack"
+    "message": "Komora Rakietowa Hydra LH-320"
   },
   "MISSILE_RACK_423_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 2 large missiles."
+    "message": "Zewnętrzna komora rakietowa mieszcząca 2 duże pociski."
   },
   "MISSILE_RACK_423_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "Make sure to keep your distance after firing! Hydri Defense has packed 2 large missiles into this rack for some truly spectacular booms."
+    "message": "Zachowaj bezpieczną odległośc po wystrzeleniu! Hydra Defense zmieściła 2 ogromne pociski w tej komorze dla na prawde spektakularnych eksplozji."
   },
   "MISSILE_RACK_442": {
     "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
-    "message": "Medusa LH-240 Missile Rack"
+    "message": "Komora Medusa LH-240"
   },
   "MISSILE_RACK_442_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 4 medium missiles."
+    "message": "Zewnętrzna komora rakietowa mieszcząca 4 średnie pociski."
   },
   "MISSILE_RACK_442_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "Ready to take on the big league? With this big rack from Hydri Defense, you'll always be fully loaded to unleash fiery destruction."
+    "message": "Gotowy namieszać w najwyższej lidze? Z tą ogromną komorą rakietową od Hydra Defense zawsze będziesz gotowy zadać ogromne obrażenia."
   },
   "MISSILE_RACK_524": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
-    "message": "Hydra LH-420 Missile Rack"
+    "message": "Komora na pociski Hydra LH-420"
   },
   "MISSILE_RACK_524_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 2 huge missiles."
+    "message": "Zewnętrzna komora rakietowa mieszcząca 2 ogromne pociski."
   },
   "MISSILE_RACK_524_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "Space for 2 huge missiles. Even we've run out of superlatives for what you can do with these.. we just hope you packed your sunnies!"
+    "message": "Miejsce na 2 ogromne pociski. Nawet my nie mamy pomysłów jak możesz je wykorzystać... Mamy nadzieję ze masz okulary przeciwsłoneczne!"
   },
   "MISSILE_RACK_543": {
     "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
-    "message": "Medusa LH-340 Missile Rack"
+    "message": "Komora na pociski Medusa LH-340"
   },
   "MISSILE_RACK_543_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 4 large missiles."
+    "message": "Zewnętrzna komora rakietowa mieszcząca 4 duże pociski."
   },
   "MISSILE_RACK_543_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "First Hydri Defense brought you the awesome LH-320, now we've doubled its capacity! Go ahead, and make your mark on any system that dares to defy your might."
+    "message": "Najpierw Hydri Defense dostarczyło dla was niesamowitą LH-320, teraz zwiększamy jej pojemność! Dalej, ruszaj i pokaż innym którzy spróbuja Cię poniżyć!"
   },
   "MISSILE_RAIL_S1": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
-    "message": "Cnida-101 Missile Rail"
+    "message": "Szyna rakietowa Cnida-101"
   },
   "MISSILE_RAIL_S1_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "External launcher for a single small missile."
+    "message": "Zewnętrzna wyrzutnia rakiet na mały pocisk."
   },
   "MISSILE_RAIL_S1_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "Hydri Defense's entry point rail, this is a quality piece of equipment for all S1 missiles adhering to ISAAEEE standards."
+    "message": "Szyna wejściowa Hydri Defense to wysokiej jakości element wyposażenia dla wszystkich rakiet S1 zgodnych ze standardami ISAAEEE."
   },
   "MISSILE_RAIL_S2": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
-    "message": "Cnida-102 Missile Rail"
+    "message": "Szyna rakietowa Cnida-102"
   },
   "MISSILE_RAIL_S2_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "External launcher for a single medium missile."
+    "message": "Zewnętrzna wyrzutnia rakiet na średni pocisk."
   },
   "MISSILE_RAIL_S2_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "A quality missile rail from Hydri Defense, this provides a secure mounting point for S2 class missiles."
+    "message": "Jakościowa szyna Hydri Defense to wysokiej jakości element wyposażenia dla wszystkich rakiet S2 zgodnych ze standardami ISAAEEE."
   },
   "MISSILE_RAIL_S3": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
-    "message": "Cnida-103 Missile Rail"
+    "message": "Szyna rakietowa Cnida-103"
   },
   "MISSILE_RAIL_S3_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "External launcher for a single large missile."
+    "message": "Zewnętrzna wyrzutnia rakiet na duży pocisk."
   },
   "MISSILE_RAIL_S3_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "A quality missile rail from Hydri Defense, this provides a secure mounting point for S3 class missiles."
+    "message": "Jakościowa szyna Hydri Defense to wysokiej jakości element wyposażenia dla wszystkich rakiet S3 zgodnych ze standardami ISAAEEE."
   },
   "MISSILE_RAIL_S4": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
-    "message": "Cnida-104 Missile Rail"
+    "message": "Szyna rakietowa Cnida-104"
   },
   "MISSILE_RAIL_S4_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "External launcher for a single huge missile."
+    "message": "Zewnętrzna wyrzutnia rakiet na ogromny pocisk."
   },
   "MISSILE_RAIL_S4_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "A quality missile rail from Hydri Defense, this provides a secure mounting point for S4 class missiles."
+    "message": "Jakościowa szyna Hydri Defense to wysokiej jakości element wyposażenia dla wszystkich rakiet S4 zgodnych ze standardami ISAAEEE."
   },
   "MISSILE_SMART": {
     "description": "",
@@ -537,11 +537,11 @@
   },
   "MISSILE_SMART_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "A guided missile somewhat resistant to ECM."
+    "message": "Pocisk samonaprowadzający w miarę odporny na ECM."
   },
   "MISSILE_SMART_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "A smart rocket capable of tracking down your target using an advanced sensor suite with an integrated AI module. Make sure not to call it HAL and we're sure it will home in on your intended target, and not you.."
+    "message": "Smart pocisk z możliwością śledzenia celu dzięki sensorom ze zintegrowaną SI. Upewnij sie że nie nazwiesz jej HALem i będziemy pewni że trafisz odpowiedni cel, a nie siebie.."
   },
   "MISSILE_UNGUIDED": {
     "description": "",
@@ -549,51 +549,51 @@
   },
   "MISSILE_UNGUIDED_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "Dumb aim-and-fire missile."
+    "message": "Pocisk niekierowany."
   },
   "MISSILE_UNGUIDED_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "Mass-produced by local manufacturers on most worlds. These range from being lovingly hand-crafted by artisans on developing worlds to being mindlessly churned out by the millions in automated mega-factories on hyper-industrialised ones.\nBut regardless from where they are sourced, the specifications are tightly controlled by the ISAEEE and should work in most compatible ship systems."
+    "message": "Masowo produkowane przez lokalne fabryki na wiekszości planet. Od ręcznie składanych pocisków na dopiero rozwijających się światach, po masowo produkowane produkty w mega fabrykach. Lecz nieważne gdzie zostały wyprodukowane, specyfikacja jest ściśle kontrolowana przez ISAEEE i powinny działać w większości kompatybilnych systemach."
   },
   "NO_SUITABLE_EQUIPMENT": {
     "description": "Message in the start menu when editing equipment",
-    "message": "No suitable equipment"
+    "message": "Brak pasującego ekwipunku"
   },
   "NO_SUITABLE_SLOTS": {
     "description": "Message in the start menu when editing equipment",
-    "message": "No suitable slots"
+    "message": "Brak odpowiedniego miejsca"
   },
   "OCCUPIED_BERTHS": {
     "description": "Label for the number of passenger berths currently occupied in a cabin equipment item",
-    "message": "Occupied Berths"
+    "message": "Zajęte kuszetki"
   },
   "OKB_KALURI_BOWFIN_MISSILE_RACK": {
     "description": "Equipment name for an OKB-Kaluri Bowfin internal missile launcher",
-    "message": "Bowfin Missile Launcher"
+    "message": "Wyrzutnia rakiet Bowfin"
   },
   "OPLI_INTERNAL_MISSILE_RACK_S2": {
     "description": "Equipment name for an OPLI internal missile rack",
-    "message": "OPLI Internal Missile Rack"
+    "message": "Wewnętrzna komora na pociski OPLI"
   },
   "OPLI_INTERNAL_MISSILE_RACK_S2_DESCRIPTION": {
     "description": "Short description and tooltip.",
-    "message": "Internal missile bay for 5x medium missiles."
+    "message": "Wewnętrzna składownia pocisków dla 5 średnich pocisków."
   },
   "OPLI_INTERNAL_MISSILE_RACK_S3": {
     "description": "Equipment name for an OPLI internal missile rack",
-    "message": "OPLI Internal Missile Rack"
+    "message": "Wewnętrzna komora na pociski OPLI"
   },
   "OPLI_INTERNAL_MISSILE_RACK_S3_DESCRIPTION": {
     "description": "Short description and tooltip.",
-    "message": "Internal missile bay for 8x medium missiles."
+    "message": "Wewnętrzna składownia pocisków dla 8 średnich pocisków."
   },
   "OPLI_INTERNAL_MISSILE_RACK_S4": {
     "description": "Equipment name for an OPLI internal missile rack",
-    "message": "OPLI Internal Missile Rack"
+    "message": "Wewnętrzna komora na pociski OPLI"
   },
   "OPLI_INTERNAL_MISSILE_RACK_S4_DESCRIPTION": {
     "description": "Short description and tooltip.",
-    "message": "Internal missile bay for 12x medium missiles."
+    "message": "Wewnętrzna składownia pocisków dla 12 średnich pocisków."
   },
   "ORBIT_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
@@ -617,7 +617,7 @@
   },
   "PASSENGER_BERTHS": {
     "description": "Label for the total number of passenger berths in a cabin equipment item",
-    "message": "Passenger Berths"
+    "message": "Kuszetki"
   },
   "PASSENGER_CABIN": {
     "description": "",
@@ -625,7 +625,7 @@
   },
   "PROJECTILE_SPEED": {
     "description": "Stat label for weapon projectile speeds",
-    "message": "Projectile Speed"
+    "message": "Prędkość pocisku"
   },
   "PROPULSION": {
     "description": "Category name of propulsion-related equipment",
@@ -669,15 +669,15 @@
   },
   "REINFORCED_STRUCTURE": {
     "description": "Name for an equipment item that reinforces the hull's superstructure",
-    "message": "Reinforced Structure"
+    "message": "Wzmocnienie struktury"
   },
   "REINFORCED_STRUCTURE_DESCRIPTION": {
     "description": "Description of the Reinforced Structure equipment item",
-    "message": "Aftermarket strengthening kit for the ship's frame. Increases resistance to high atmospheric pressures."
+    "message": "Zestaw wzmacniający do ramy statku. Zwiększa odporność na wysokie ciśnienia atmosferyczne"
   },
   "REQUIRED_SLOT_IS_EMPTY": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Required slot is empty"
+    "message": "Wymagane miejsce jest puste"
   },
   "SCAN_COMPLETED": {
     "description": "",
@@ -729,35 +729,35 @@
   },
   "SLOT": {
     "description": "",
-    "message": "Slot"
+    "message": "Miejsce"
   },
   "SLOTLESS": {
     "description": "",
-    "message": "Slotless"
+    "message": "Brak miejsc"
   },
   "SLOT_CABIN": {
     "description": "Name for a generic room slot inside the pressurized living space",
-    "message": "Cabin"
+    "message": "Kabina"
   },
   "SLOT_CABIN_FORE": {
     "description": "Name for a cabin slot towards the front of the ship",
-    "message": "Fore Cabin"
+    "message": "Przednia kabina"
   },
   "SLOT_CABIN_REAR": {
     "description": "Name for a cabin slot towards the rear of the ship",
-    "message": "Rear Cabin"
+    "message": "Tylnia kabina"
   },
   "SLOT_COMPUTER": {
     "description": "Name for a generic computer equipment slot",
-    "message": "Computer"
+    "message": "Komputer"
   },
   "SLOT_ENGINE": {
     "description": "Name for the ship's primary travel engines",
-    "message": "Engines"
+    "message": "Silniki"
   },
   "SLOT_HULL": {
     "description": "Name for an equipment slot that augments or modifies the ship hull",
-    "message": "Hull"
+    "message": "Kadłub"
   },
   "SLOT_HYPERDRIVE": {
     "description": "Name for a ship's singular hyperdrive equipment slot",
@@ -765,31 +765,31 @@
   },
   "SLOT_IS_NOT_EMPTY_REPLACE_THE_EQUIPMENT_QUESTION": {
     "description": "",
-    "message": "Slot is not empty, replace the equipment?"
+    "message": "Miejsce jest puste, zamienić ekwipunek?"
   },
   "SLOT_SENSOR": {
     "description": "Name for a generic (flight/navigation) sensor slot",
-    "message": "Sensor"
+    "message": "Czujnik"
   },
   "SLOT_SHIELD": {
     "description": "Name for a generic shield slot",
-    "message": "Shield"
+    "message": "Tarcza"
   },
   "SLOT_SHIELD_LEFT": {
     "description": "Name for a left-side shield slot",
-    "message": "Shield L"
+    "message": "Tarcza L"
   },
   "SLOT_SHIELD_RIGHT": {
     "description": "Name for a right-side shield equipment slot",
-    "message": "Shield R"
+    "message": "Tarcza P"
   },
   "SLOT_STRUCTURE": {
     "description": "Name for the ship's internal structure modification slot",
-    "message": "Structure"
+    "message": "Struktura"
   },
   "SLOT_THRUSTER": {
     "description": "Generic name for secondary attitude or maneuvering thrusters",
-    "message": "Thrusters"
+    "message": "Silniki odrzutowe"
   },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
@@ -801,35 +801,35 @@
   },
   "STAT_ATMO_SHIELD": {
     "description": "Stat name for atmospheric shielding. 'Atmospheric' is abbreviated.",
-    "message": "Atm. Pressure Resistance"
+    "message": "Odporność na ciśnienie atmosferyczne"
   },
   "STAT_HYPERDRIVE_EFFICIENCY": {
     "description": "",
-    "message": "Fuel Efficiency Rating"
+    "message": "Ocena wydajności spalania"
   },
   "STAT_HYPERDRIVE_RESERVOIR": {
     "description": "",
-    "message": "Fuel Reservoir Size"
+    "message": "Rozmiar baku paliwa"
   },
   "STAT_MISSILE_RADIUS": {
     "description": "",
-    "message": "Fuzing Radius"
+    "message": "Promień fuzowania"
   },
   "STAT_MISSILE_WARHEAD": {
     "description": "",
-    "message": "Explosive Yield (Equivalent)"
+    "message": "Wydajność wybuchowa (odpowiednik)"
   },
   "STAT_POWER_DRAW": {
     "description": "Stat label for equipment power draw",
-    "message": "Power Draw"
+    "message": "Pobór mocy"
   },
   "STAT_SHIELD": {
     "description": "Stat name for shield generator effectiveness.",
-    "message": "Effective Shield Strength"
+    "message": "Efektywna siła osłony"
   },
   "STAT_THRUSTER_POWER": {
     "description": "Stat name for thruster upgrades",
-    "message": "Maximum Thrust Increase"
+    "message": "Maksymalne wzmocnienie przyśpieszenia"
   },
   "STAT_VOLUME": {
     "description": "Stat label for equipment volume",
@@ -837,7 +837,7 @@
   },
   "STAT_WEIGHT": {
     "description": "Stat label for equipment weight",
-    "message": "Weight"
+    "message": "Waga"
   },
   "SURFACE_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude. Model manufacturer name is meant to sound like a cheap brand.",
@@ -865,31 +865,31 @@
   },
   "TARGET_SLOT_IS_NOT_EMPTY_PUT_THE_REPLACED_ONE_IN_THE_CLIPBOARD_QUESTION": {
     "description": "Message in the start menu when editing equipment",
-    "message": "Target slot is not empty, put the replaced one in the clipboard?"
+    "message": "Docelowe miejsce nie jest puste, zamontować ze schowka?"
   },
   "THE_SAME_EQUIPMENT_HAS_BEEN_ALREADY_INSTALLED": {
     "description": "Message in the start menu when editing equipment",
-    "message": "The same equipment has been already installed."
+    "message": "Ten sam ekwipunek jest już zainstalowany."
   },
   "THRUSTERS_DEFAULT": {
     "description": "Equipment name for default RCS thrusters",
-    "message": "Default Thrusters"
+    "message": "Podstawowe silniki rakietowe"
   },
   "THRUSTERS_IMPROVED": {
     "description": "",
-    "message": "Improved Thrusters"
+    "message": "Poprawione silniki rakietowe"
   },
   "THRUSTERS_IMPROVED_DESCRIPTION": {
     "description": "",
-    "message": "An improved type of thrusters approved for your ship."
+    "message": "Ulepszony rodzaj silników pasujący do Twojego statku."
   },
   "THRUSTERS_NAVAL": {
     "description": "",
-    "message": "Naval Thrusters"
+    "message": "Stery"
   },
   "THRUSTERS_NAVAL_DESCRIPTION": {
     "description": "",
-    "message": "Naval thrusters specifically tailored for your ship to provide the best possible output."
+    "message": "Stery specjalnie dopasowane do Twojego statku, tak aby zapewnić jak najlepszą wydajność."
   },
   "THRUSTERS_OPTIMISED": {
     "description": "",
@@ -929,7 +929,7 @@
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",
-    "message": "Required for transporting passengers"
+    "message": "Wymagane do transportu pasażerów"
   },
   "UTILITY": {
     "description": "Category name of utility equipment",

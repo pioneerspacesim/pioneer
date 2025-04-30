@@ -1917,7 +1917,7 @@
   },
   "PENDING_RETURN": {
     "description": "Status if the mission has not yet been fully completed",
-    "message": "Pending Return"
+    "message": "Αναμονή για επιστροφή"
   },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -2017,7 +2017,7 @@
   },
   "RANDOM_COLORS": {
     "description": "Paint shop. Randomize colors",
-    "message": "Random Colors"
+    "message": "Τυχαία χρώματα"
   },
   "RANDOM_FACE": {
     "description": "Generate random face",

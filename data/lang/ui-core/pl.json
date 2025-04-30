@@ -69,7 +69,7 @@
   },
   "AVAILABLE_STOCK": {
     "description": "Market stat showing number of items in stock",
-    "message": "Available Stock"
+    "message": "Dostępne na stanie"
   },
   "AVERAGE": {
     "description": "",
@@ -317,7 +317,7 @@
   },
   "COPY": {
     "description": "As for clipboard",
-    "message": "Copy"
+    "message": "Kopiuj"
   },
   "COULD_NOT_DELETE_SAVE": {
     "description": "",
@@ -393,7 +393,7 @@
   },
   "CUT": {
     "description": "As for clipboard",
-    "message": "Cut"
+    "message": "Wytnij"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
@@ -517,7 +517,7 @@
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "Time left:"
+    "message": "Pozostało czasu:"
   },
   "ECONOMY_TRADE": {
     "description": "",
@@ -637,7 +637,7 @@
   },
   "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
     "description": "",
-    "message": "Failed to recover some equipment"
+    "message": "Nie udało się odzyskać części ekwipunku"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
@@ -1329,7 +1329,7 @@
   },
   "INSTALL": {
     "description": "Install something",
-    "message": "Install"
+    "message": "Zamontuj"
   },
   "INSTALLED": {
     "description": "Label indicating something is installed",
@@ -1853,7 +1853,7 @@
   },
   "OUT_OF_STOCK": {
     "description": "Equipment availability",
-    "message": "Out of stock"
+    "message": "Brak na stanie"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
@@ -1897,7 +1897,7 @@
   },
   "PASTE": {
     "description": "As for clipboard",
-    "message": "Paste"
+    "message": "Wklej"
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",
@@ -1917,7 +1917,7 @@
   },
   "PENDING_RETURN": {
     "description": "Status if the mission has not yet been fully completed",
-    "message": "Pending Return"
+    "message": "Oczekiwanie na powrót"
   },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -2017,7 +2017,7 @@
   },
   "RANDOM_COLORS": {
     "description": "Paint shop. Randomize colors",
-    "message": "Random Colors"
+    "message": "Losowe kolory"
   },
   "RANDOM_FACE": {
     "description": "Generate random face",
@@ -2441,7 +2441,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Tech Level"
+    "message": "Poziom technologiczny"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -2545,7 +2545,7 @@
   },
   "TRANSFER_FUEL": {
     "description": "Label indicating the ability to transfer fuel between equipment tanks",
-    "message": "Transfer Fuel"
+    "message": "Przeniesienie paliwa"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",

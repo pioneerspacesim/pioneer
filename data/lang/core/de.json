@@ -1721,7 +1721,7 @@
   },
   "TOMBSTONE_EPITAPH": {
     "description": "shown on tombstone when player dies",
-    "message": "RUHE IN FRIEDEN"
+    "message": "RUHE IN\nFRIEDEN"
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",

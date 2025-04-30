@@ -305,7 +305,7 @@
   },
   "FLAVOUR_4_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "The pilot is asking for {unit} tons of {cargo}. {high_gravity}"
+    "message": "Der Pilot möchte {unit} Tonnen {cargo}. {high_gravity}"
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -353,7 +353,7 @@
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
-    "message": "What a disaster! This is a death sentence for our poor colleagues!"
+    "message": "Was für eine Katastrophe! Das ist das Todesurteil für unsere armen Kollegen!"
   },
   "FLAVOUR_6_HOWMUCHTIMETEXT": {
     "description": "",
@@ -429,19 +429,19 @@
   },
   "HIGHGRAVITY_0": {
     "description": "",
-    "message": "The surface gravity on {planet} is {gravity} g. Please take this into consideration."
+    "message": "Die Schwerkraft auf der Oberfläche des Planeten {planet} its {gravity} g. Bitte berücksichtigen Sie das bei der Planung."
   },
   "HIGHGRAVITY_1": {
     "description": "",
-    "message": "You should know that {planet} is {gravity} g."
+    "message": "Sie sollten noch wissen, dass der Planet {planet} die Schwerkraft {gravity} g hat."
   },
   "HIGHGRAVITY_2": {
     "description": "",
-    "message": "You will land and take off in {gravity} g."
+    "message": "Sie werden bei {gravity} g Schwerkraft landen und abheben müssen."
   },
   "HIGHGRAVITY_3": {
     "description": "",
-    "message": "{planet} is {gravity} g."
+    "message": "{planet} ist {gravity} g."
   },
   "HOW_FAR": {
     "description": "",
@@ -565,7 +565,7 @@
   },
   "PROBLEM_CREW_8": {
     "description": "",
-    "message": "einem furchtbaren Unfall, der zum Rauswurf von Crewmitgliedern in den Weltraum führte,"
+    "message": "einem furchtbaren Unfall, der zum Auswurf von Crewmitgliedern in den Weltraum führte,"
   },
   "PROBLEM_CREW_9": {
     "description": "",

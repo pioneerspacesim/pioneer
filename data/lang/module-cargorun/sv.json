@@ -97,7 +97,7 @@
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
-    "message": "aluminiumtuber"
+    "message": "Aluminiumtuber"
   },
   "AMOUNT": {
     "description": "Shown in mission summary. The amount of cargo",
@@ -105,7 +105,7 @@
   },
   "ART_OBJECTS": {
     "description": "custom cargo",
-    "message": "konstföremål"
+    "message": "Konstföremål"
   },
   "CARGO": {
     "description": "",
@@ -129,7 +129,7 @@
   },
   "CLUS": {
     "description": "custom cargo",
-    "message": "bostadsmoduler"
+    "message": "Bostadsmoduler"
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
@@ -185,11 +185,11 @@
   },
   "DIAMONDS": {
     "description": "custom cargo",
-    "message": "diamanter"
+    "message": "Diamanter"
   },
   "DIGESTERS": {
     "description": "custom cargo",
-    "message": "rötkammare"
+    "message": "Rötkammare"
   },
   "DISTANCE": {
     "description": "distance in space, between two locations",
@@ -197,7 +197,7 @@
   },
   "ELECTRICAL_APPLIANCES": {
     "description": "custom cargo",
-    "message": "elektriska hushållsvaror"
+    "message": "Elektriska hushållsvaror"
   },
   "ESCORT_CHATTER_1": {
     "description": "",
@@ -221,7 +221,7 @@
   },
   "EXPLOSIVES": {
     "description": "custom cargo",
-    "message": "sprängämnen"
+    "message": "Sprängämnen"
   },
   "FAILUREMSG_1": {
     "description": "",
@@ -245,7 +245,7 @@
   },
   "FURNITURE": {
     "description": "custom cargo",
-    "message": "möbler"
+    "message": "Möbler"
   },
   "GO_BACK": {
     "description": "Shown on a button in a sub-menu, to move back, to previous menu",
@@ -253,7 +253,7 @@
   },
   "GREENHOUSES": {
     "description": "custom cargo",
-    "message": "växthus"
+    "message": "Växthus"
   },
   "GUNS_GUNS_GUNS": {
     "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
@@ -261,7 +261,7 @@
   },
   "HAZARDOUS_SUBSTANCES": {
     "description": "custom cargo",
-    "message": "farligt gods"
+    "message": "Farligt gods"
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
@@ -385,7 +385,7 @@
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
-    "message": "maskinverktyg"
+    "message": "Maskinverktyg"
   },
   "NEGOTIABLE_1": {
     "description": "regarding mass, always more than 1t",
@@ -409,7 +409,7 @@
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
-    "message": "neptunium"
+    "message": "Neptunium"
   },
   "OFFER": {
     "description": "",
@@ -469,11 +469,11 @@
   },
   "PLUTONIUM": {
     "description": "custom cargo",
-    "message": "plutonium"
+    "message": "Plutonium"
   },
   "QUIBBLES": {
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-    "message": "quibbler"
+    "message": "Quibbler"
   },
   "RISK_1": {
     "description": "",
@@ -529,7 +529,7 @@
   },
   "SEMI_FINISHED_PRODUCTS": {
     "description": "custom cargo",
-    "message": "halvfärdiga produkter"
+    "message": "Halvfärdiga produkter"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -545,11 +545,11 @@
   },
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
-    "message": "rymdskeppsdelar"
+    "message": "Rymdskeppsdelar"
   },
   "STEM_BOLTS": {
     "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
-    "message": "självslutande stambultar"
+    "message": "Självslutande stambultar"
   },
   "SUCCESSMSG_1": {
     "description": "",
@@ -581,7 +581,7 @@
   },
   "TITANIUM": {
     "description": "custom cargo",
-    "message": "titan"
+    "message": "Titan"
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
@@ -589,11 +589,11 @@
   },
   "TUNGSTEN": {
     "description": "custom cargo",
-    "message": "volfram"
+    "message": "Volfram"
   },
   "URANIUM": {
     "description": "custom cargo",
-    "message": "uran"
+    "message": "Uran"
   },
   "URGENCY_1": {
     "description": "",
@@ -625,7 +625,7 @@
   },
   "WEDDING_DRESSES": {
     "description": "custom cargo",
-    "message": "bröllopsklänningar"
+    "message": "Bröllopsklänningar"
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",

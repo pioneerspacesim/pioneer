@@ -53,7 +53,7 @@
   },
   "BIND_CYCLE_HOSTILES": {
     "description": "Descriptive name for the CycleHostiles action.",
-    "message": "Durch Feinde Ziele schalten"
+    "message": "Durch feindliche Ziele schalten"
   },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
@@ -61,11 +61,11 @@
   },
   "BIND_FIXHEADING_RADIAL": {
     "description": "Descriptive name for the action binding.",
-    "message": "Open Attitude Hold Radial Menu"
+    "message": "Öffne Pop-up für das Halten der radialen Ausrichtung"
   },
   "BIND_FLIGHT_ASSIST_RADIAL": {
     "description": "Descriptive name for the action binding.",
-    "message": "Open Flight Assist Radial Menu"
+    "message": "Öffne Pop-up des Flight Assists"
   },
   "BIND_FRONT_CAMERA": {
     "description": "Descriptive name for the FrontCamera action.",
@@ -149,11 +149,11 @@
   },
   "BIND_RADIAL_HORIZONTAL_SELECTION": {
     "description": "Input axis name to select in the radial menu.",
-    "message": "Radial Menu Left/Right"
+    "message": "Pop-up Menü-Auswahl Links/Rechts"
   },
   "BIND_RADIAL_VERTICAL_SELECTION": {
     "description": "Input axis name to select in the radial menu.",
-    "message": "Radial Menu Up/Down"
+    "message": "Pop-up Menü-Auswahl Oben/Unten"
   },
   "BIND_REAR_CAMERA": {
     "description": "Descriptive name for the RearCamera action.",
@@ -193,7 +193,7 @@
   },
   "BIND_TOGGLE_CRUISE": {
     "description": "Descriptive name for the action binding.",
-    "message": "Toggle Cruise Mode"
+    "message": "Automatische Reglung umschalten"
   },
   "BIND_TOGGLE_HUD_MODE": {
     "description": "Descriptive name for the ToggleHudMode action.",
@@ -213,7 +213,7 @@
   },
   "BIND_TOGGLE_SPEED_LIMITER": {
     "description": "Descriptive name for the action binding.",
-    "message": "Toggle Speed Limiter"
+    "message": "Geschwindigkeitslimit umschalten"
   },
   "BIND_TOP_CAMERA": {
     "description": "Descriptive name for the TopCamera action.",
@@ -229,7 +229,7 @@
   },
   "CONNECTED": {
     "description": "Joystick status in the list",
-    "message": "Connected"
+    "message": "Verbunden"
   },
   "CURRENT_VALUE": {
     "description": "",
@@ -316,7 +316,7 @@
   },
   "NOT_CONNECTED": {
     "description": "Joystick status in the list",
-    "message": "Not connected"
+    "message": "Nicht verbunden"
   },
   "NUM_AXES": {
     "description": "",

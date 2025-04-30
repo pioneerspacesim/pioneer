@@ -29,7 +29,7 @@
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "{mission} Mission: Lohn {cash}"
+    "message": "{mission}: Lohn {cash}"
   },
   "ADTITLE_1": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} will pay {cash} for {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We have reason to believe that a ruthless market competitor is responsible for the disappearance of our freighters at {area}. Distance to the target area is {dist} ly."
+    "message": "{org} zahlt {cash} für eine {mission} im {system}-System ({sectorx}, {sectory}, {sectorz}). Wir haben guten Grund anzunehmen, dass ein kaltblütiger Wettbewerber unseres Unternehmens für das Verschwinden unserer Frachter bei {area} verantwortlich ist. Die Entfernung zum Zielgebiet ist {dist} Lj."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
@@ -217,7 +217,7 @@
   },
   "MILITARY_3": {
     "description": "",
-    "message": "The counter intelligence corps needs a civil pilot who asks no questions for {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pay is {cash}."
+    "message": "Die Spionageabwehr braucht einen zivilen Piloten, der keine Fragen stellt, für eine {mission} im System {system} ({sectorx}, {sectory}, {sectorz}), {dist} Lj. Bezahlung ist {cash}."
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "I work for the {org}. Some of our freighters will arrive shortly at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To increase the safety of our employees and to protect the equipment we are willing to pay {cash} for {mission} mission. Distance to {area} is {dist} ly."
+    "message": "Ich arbeite für {org}. Einige unserer Frachter werden demnächst bei {area} im System {system} ({sectorx}, {sectory}, {sectorz}) ankommen. Um die Sicherheit unserer Mitarbeiter zu erhöhen und das Equipment zu schützen, sind wir bereit, {cash} für eine {mission} zu bezahlen. Die Entfernung zu {area} beträgt {dist} Lj."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -261,27 +261,27 @@
   },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
-    "message": "Aufklärung"
+    "message": "Aufklärungsmission"
   },
   "MISSION_TYPE_2": {
     "description": "Name of mission type",
-    "message": "Bewaffnete Aufklärung"
+    "message": "Bewaffnete Aufklärungsmission"
   },
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
-    "message": "Gebiet durchkämmen"
+    "message": "Mission zum durchkämmen eines Gebiets"
   },
   "MISSION_TYPE_CONVO_1": {
     "description": "Name of mission type, used in conversation",
-    "message": "a reconnaissance"
+    "message": "eine Aufklärungsmission"
   },
   "MISSION_TYPE_CONVO_2": {
     "description": "Name of mission type, used in conversation",
-    "message": "an armed reconnaissance"
+    "message": "eine bewaffnete Aufklärungsmission"
   },
   "MISSION_TYPE_CONVO_3": {
     "description": "Name of mission type, used in conversation. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
-    "message": "an area sweep"
+    "message": "eine Mission zum durchkämmen eines Gebiets"
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",
