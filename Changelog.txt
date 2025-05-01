@@ -16,6 +16,7 @@ April
     * Fix grammar in Combat mission Strings (#6102)
     * Fix interrupted SAR missions, draggable popups in worldview (#6120)
     * Fix pressure limit value if no atmo shield is installed (#6117)
+    * Fixing and cleaning up skipjack (#6123)
 
   * Internal
     * Character - Separate first name and surname (#6114)
