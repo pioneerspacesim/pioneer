@@ -33,7 +33,7 @@
   },
   "FLAVOUR_2_BODY": {
     "description": "",
-    "message": "Ossequi! Sono {name} ed ho un ottimo {equipment} che potrebbe essere vostro per appena {price}."
+    "message": "Saluti! Sono {name} ed ho un ottimo {equipment} che potrebbe essere vostro per appena {price}."
   },
   "FLAVOUR_2_TEXT": {
     "description": "Selling second hand ship equipment",
@@ -69,7 +69,7 @@
   },
   "FLAVOUR_5_BODY": {
     "description": "",
-    "message": "Ossequi! Vuoi comprare il mio vecchio {equipment}? Mi ha servito molto bene, ma ora che l'ho sostituito con uno migliore non mi serve più. Il prezzo è {price}."
+    "message": "Saluti! Vuoi comprare il mio vecchio {equipment}? Mi ha servito molto bene, ma ora che l'ho sostituito con uno migliore non mi serve più. Il prezzo è {price}."
   },
   "FLAVOUR_5_TEXT": {
     "description": "Selling second hand ship equipment",

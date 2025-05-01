@@ -169,7 +169,7 @@
   },
   "CANT_SAVE_IN_HYPERSPACE": {
     "description": "",
-    "message": "Non è possibile salvare mentre si è in iperspazio"
+    "message": "Non è possibile salvare mentre si è nell'iperspazio"
   },
   "CAPITALIST": {
     "description": "",
@@ -353,7 +353,7 @@
   },
   "DOCKING": {
     "description": "",
-    "message": "Ancoraggio"
+    "message": "Attracco"
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -493,11 +493,11 @@
   },
   "GAME_SAVE_CANNOT_WRITE": {
     "description": "",
-    "message": "Questo salvataggio non può essere scritto per via di un errore di sistema."
+    "message": "Questo salvataggio non può essere scritto a causa di un errore di sistema."
   },
   "GAME_SAVE_INVALID_NAME": {
     "description": "",
-    "message": "Non è possibile scrivere il salvataggio per via del nome errato."
+    "message": "Questo salvataggio non può essere scritto a causa del nome errato"
   },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
@@ -685,7 +685,7 @@
   },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
-    "message": "Commuta frai modi di visualizzazione dei punti di Lagrange L4/L5."
+    "message": "Commuta fra i modi di visualizzazione dei punti di Lagrange L4/L5."
   },
   "LANDED": {
     "description": "",
@@ -705,7 +705,7 @@
   },
   "LASER_FIRE_DETECTED": {
     "description": "",
-    "message": "Rilevato uso d'armi."
+    "message": "Rilevato uso di armi."
   },
   "LATITUDE": {
     "description": "Short for latitude",
@@ -1165,7 +1165,7 @@
   },
   "PLANNER_RESET_NORMAL": {
     "description": "For system orbit view",
-    "message": "Delta-v normale. Clic per azzerare."
+    "message": "Delta-v normale. Click per azzerare."
   },
   "PLANNER_RESET_PROGRADE": {
     "description": "For system orbit view",
@@ -1437,7 +1437,7 @@
   },
   "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS": {
     "description": "",
-    "message": "Ricerche minerarie a piccola scala. Nessun insediamento."
+    "message": "Ricerche minerarie so piccola scala. Nessun insediamento."
   },
   "SOCIAL_DEMOCRACY": {
     "description": "",
@@ -1601,11 +1601,11 @@
   },
   "SURFACE_GRAVITY": {
     "description": "",
-    "message": "Gravità alla superficie"
+    "message": "Gravità in superficie"
   },
   "SURFACE_TEMPERATURE": {
     "description": "",
-    "message": "Temperatura alla superficie"
+    "message": "Temperatura in superficie"
   },
   "SWAP_SELECTED_HYPERSPACE_TARGET": {
     "description": "",
@@ -1741,7 +1741,7 @@
   },
   "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
     "description": "",
-    "message": "Sistema inesplorato. Dati non disponibili."
+    "message": "Sistema inesplorato. Visuale sistema non disponibile"
   },
   "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
     "description": "",

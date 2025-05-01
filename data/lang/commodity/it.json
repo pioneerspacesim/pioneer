@@ -13,7 +13,7 @@
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Un elemento di grandi controversie, la carne è sostanzialmente pezzi di corpi di animali. Data la disponibilità di proteine sintetiche e vegetali, ormai la maggior parte della gente ritiene che gli animali non debbano più essere uccisi. La carne è illegale nella maggior parte dei sistemi centrali, mentre nei mondi più tradizionalisti e periferici, gli animali vivi e la loro carne sono considerati una parte importane nelle vite delle persone."
+    "message": "Un elemento di grandi controversie, la carne è sostanzialmente pezzi di corpi di animali. Data la disponibilità di proteine sintetiche e vegetali, ormai la maggior parte della gente ritiene che gli animali non debbano più essere uccisi. La carne è illegale nella maggior parte dei sistemi centrali, mentre nei mondi più tradizionalisti e periferici, gli animali vivi e la loro carne sono considerati una parte importante nelle vite delle persone."
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Anche se raro, è ancora possibile trovare l'occasionale contadino con l'aratro trainato da buoi. Ma in quasi qualsiasi luogo dove si faccia agricoltura, vengono usate delle macchine per coltivare la terra, siano coltivazioni idroponiche di un habitat sotterraneo, o i cambi sterminati di un mondo giardino."
+    "message": "Anche se raro, è ancora possibile trovare l'occasionale contadino con l'aratro trainato da buoi. Ma in quasi qualsiasi luogo dove si faccia agricoltura, vengono usate delle macchine per coltivare la terra, siano coltivazioni idroponiche di un habitat sotterraneo, o i campi sterminati di un mondo giardino."
   },
   "FERTILIZER": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "La maggior parte degli avamposti ha il proprio locale miscuglio che i forestieri trovano difficile da digerire. L'alcool può essere bandito in alcuni sistemi, perché si ritiene che annebbi la mente. Incurante della legge, un cicchetto di scotch lo si trova sempre, pagando, sul mercato nero."
+    "message": "La maggior parte degli avamposti ha il proprio miscuglio locale che i forestieri trovano difficile da digerire. L'alcool può essere bandito in alcuni sistemi perché si ritiene che annebbi la mente. Incurante della legge, un cicchetto di scotch lo si trova sempre, pagando, sul mercato nero."
   },
   "LIVE_ANIMALS": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Dopo che i minerali metallici sono stati estratti e raffinati, vengono processati e finiscono col diventare leghe metalliche. Una lega è più un'amalgama di metalli, che un singolo puro elementi, combinati nelle proporzioni corrette per ottenere le caratteristiche desiderate. Pertanto, la maggior parte dei metalli di consumo sono leghe."
+    "message": "Dopo che i minerali metallici sono stati estratti e raffinati, vengono processati e finiscono col diventare leghe metalliche. Una lega è più un'amalgama di metalli, piuttosto che un singolo elemento puro, combinati nelle proporzioni corrette per ottenere le caratteristiche desiderate. Pertanto, la maggior parte dei metalli di consumo sono leghe."
   },
   "METAL_ORE": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Utilizzato come carburante nei più avanzati propulsori militari. Tali propulsori producono scorie radioattive, che debbono venir smaltite. A causa della sua origine sintetica, il carburante militare è più costoso e meno comune dell'idrogeno e non è possibile trovarlo allo stato brado."
+    "message": "Utilizzato come carburante nei più avanzati propulsori militari. Tali propulsori producono scorie radioattive, che debbono essere poi smaltite. A causa della sua origine sintetica, il carburante militare è più costoso e meno comune dell'idrogeno e non è possibile trovarlo allo stato naturale."
   },
   "MINING_MACHINERY": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "È generalmente considerato un'arma di distruzione di massa, evitato anche dai militari nella maggior parte dei sistemi, e considerato illegale quasi ovunque."
+    "message": "È generalmente considerato un'arma di distruzione di massa, evitato anche dai militari nella maggior parte dei sistemi, e considerato quindi illegale quasi ovunque."
   },
   "PLASTICS": {
     "description": "",
@@ -197,11 +197,11 @@
   },
   "PRECIOUS_METALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "I metalli preziosi sono, generalmente, meno reattivi, più difficili da estrarre e più rari, ottenendo per questa ragione un valore economico considerevole. Essi spesso includono oro, argento, platino e terre rare. Alcuni elementi come l'oro ed il silicone, o le terre rare, sono cruciali per la costruzione di computer ed apparati elettronici."
+    "message": "I metalli preziosi sono, generalmente, meno reattivi, più difficili da estrarre e più rari, ottenendo per questa ragione un valore economico considerevole. Essi spesso includono oro, argento, platino e terre rare. Alcuni elementi come l'oro ed il silicio, o le terre rare, sono cruciali per la costruzione di computer ed apparati elettronici."
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Scorie Radioattive"
+    "message": "Scorie radioattive"
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",

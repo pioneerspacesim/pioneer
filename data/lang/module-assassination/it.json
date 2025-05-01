@@ -53,7 +53,7 @@
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "RICHIESTA PRELEVAZIONE"
+    "message": "RICHIESTA ELIMINAZIONE"
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_0_FAILUREMSG2": {
     "description": "",
-    "message": "La rimozione di {target} non è stata fatta da lei. Nessun pagamento, questa volta."
+    "message": "L'eliminazione di {target} non è stata fatta da lei. Nessun pagamento, questa volta."
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "OPERAZIONE DI PRELIEVO"
+    "message": "OPERAZIONE DI ELIMINAZIONE"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "TERMINAZIONE"
+    "message": "CESSAZIONE"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -137,7 +137,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "{target} dev'essere ridotto in polvere. Se accetta, verrà ricompenserò con {cash}."
+    "message": "{target} dev'essere ridotto in polvere. Se accetta, verrà ricompensato con {cash}."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -145,11 +145,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Operatore \"discreto\" per garantire il fatale pensionamento di {target}."
+    "message": "Operatore \"discreto\" per garantire il fatale ritiro di {target}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "PENSIONAMENTO"
+    "message": "RITIRO"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -165,7 +165,7 @@
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "Notizie sul pensionamento di {target} deliziosamente giunte. Ecco i suoi crediti."
+    "message": "Notizie sul ritiro di {target} deliziosamente giunte. Ecco i suoi crediti."
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -301,7 +301,7 @@
   },
   "TITLE_21": {
     "description": "",
-    "message": "Sindaco"
+    "message": "Rettore"
   },
   "TITLE_22": {
     "description": "",

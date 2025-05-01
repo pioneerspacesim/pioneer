@@ -101,7 +101,7 @@
   },
   "CABINS": {
     "description": "For passengers",
-    "message": "Alloggi"
+    "message": "Cabine"
   },
   "CABIN_FREE": {
     "description": "Free capacity for passengers",
@@ -325,7 +325,7 @@
   },
   "COULD_NOT_FIND_SYSTEM_BODY_FOR_FRAME": {
     "description": "Message when restoring savegame",
-    "message": "Non trovo il corpo celeste"
+    "message": "Non trovo il corpo del sistema"
   },
   "COULD_NOT_LOAD_GAME": {
     "description": "Label indicating a specific file could not be loaded",
@@ -357,7 +357,7 @@
   },
   "CREW_CABINS": {
     "description": "",
-    "message": "Alloggi equipaggio"
+    "message": "Cabine equipaggio"
   },
   "CREW_ROSTER": {
     "description": "",
@@ -1061,7 +1061,7 @@
   },
   "HUD_CURRENT_HEADING": {
     "description": "Tooltip: the current heading.",
-    "message": "La direzione attuale"
+    "message": "Direzione attuale"
   },
   "HUD_CURRENT_NAV_TARGET": {
     "description": "Tooltip: The current navigational target.",
@@ -1181,7 +1181,7 @@
   },
   "HUD_IN_TRANSIT_TO_N_X_X_X": {
     "description": "",
-    "message": "In transizione per {system} [{x},{y},{z}]"
+    "message": "In transito verso {system} [{x},{y},{z}]"
   },
   "HUD_JUMP_COMPLETE": {
     "description": "",
@@ -1737,7 +1737,7 @@
   },
   "NONE_FOR_SALE_IN_THIS_STATION": {
     "description": "",
-    "message": "Nulla in vendita, in questa stazione."
+    "message": "Nulla in vendita in questa stazione."
   },
   "NORMA_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1801,7 +1801,7 @@
   },
   "OCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Cuccette passeggeri occupate"
+    "message": "Cabine passeggeri occupate"
   },
   "OFF": {
     "description": "",
@@ -1957,7 +1957,7 @@
   },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
-    "message": "Oops, qualcosa è andata storta! Ti preghiamo di fornirci i passi necessari per riprodurre questo errore, il log di output ed il tuo file di salvataggio sul issue tracker di Pioneer su Girhub.\nIl log di output si trova qui: {path}/output.txt"
+    "message": "Oops, qualcosa è andato storto! Ti preghiamo di fornirci i passaggi necessari per riprodurre questo errore, il log di output ed il tuo file di salvataggio sull'issue tracker di Pioneer su Github.\nIl log di output si trova qui: {path}/output.txt"
   },
   "POLICE": {
     "description": "",
@@ -2585,7 +2585,7 @@
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Cuccette passeggeri libere"
+    "message": "Cabine passeggeri libere"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",

@@ -193,7 +193,7 @@
   },
   "EQUIPMENT_DOES_NOT_FIT_INTO_THE_SLOT": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Non c'è sufficiente spazio per l'oggetto"
+    "message": "Non c'è sufficiente spazio per l'equipaggiamento"
   },
   "EQUIPMENT_INTEGRITY": {
     "description": "Tooltip explaining remaining equipment integrity",
@@ -329,7 +329,7 @@
   },
   "HYPERCLOUD_ANALYZER_DESCRIPTION": {
     "description": "",
-    "message": "Analizza i residui di un balzo iperspaziale (c.d. nubi iperspaziali) per determinare la destinazione ed il tempo di arrivo o partenza dell'astronave che lo ha generato."
+    "message": "Analizza i residui di un salto iperspaziale (c.d. nubi iperspaziali) per determinare la destinazione ed il tempo di arrivo o partenza dell'astronave che lo ha generato."
   },
   "INVALID_SLOT": {
     "description": "Tooltip for wrong equipment item",
@@ -393,11 +393,11 @@
   },
   "MISSILE_NAVAL_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "Missili a ricerca di tipo fire-and-forget con ottima resistenza alle contromisure."
+    "message": "Missili a ricerca di tipo \"spara e dimentica\" con ottima resistenza alle contromisure."
   },
   "MISSILE_NAVAL_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "Questi missili vengono prodotti in fabbriche altamente specializzate e segrete. Normalmente non sono disponibili al di fuori dell'ambito militare. Possono resistere alla maggior parte delle contromisure note, sono molto veloci ed abitualmente montano testate particolari dal potenziale distruttivo elevato. Viene spesso richiesto dell'equipaggiamento specialistico sulla nave per poter poter armare e programmare questi missili."
+    "message": "Questi missili vengono prodotti in fabbriche altamente specializzate e segrete. Normalmente non sono disponibili al di fuori dell'ambito militare. Possono resistere alla maggior parte delle contromisure note, sono molto veloci ed abitualmente montano testate particolari dal potenziale distruttivo elevato. Viene spesso richiesto dell'equipaggiamento specialistico sulla nave per poter poter armare e programmare correttamente questi missili."
   },
   "MISSILE_RACK_221": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
@@ -669,7 +669,7 @@
   },
   "REINFORCED_STRUCTURE": {
     "description": "Name for an equipment item that reinforces the hull's superstructure",
-    "message": "Rinforzi strutturali"
+    "message": "Rinforzo strutturale"
   },
   "REINFORCED_STRUCTURE_DESCRIPTION": {
     "description": "Description of the Reinforced Structure equipment item",

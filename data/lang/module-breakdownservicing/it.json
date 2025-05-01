@@ -5,7 +5,7 @@
   },
   "FLAVOUR_0_INTRO": {
     "description": "",
-    "message": "Evita l'inconveniente di un ipermotore guasto. Fai revisionare la tua oggi, dalla {name} Azienda Manutenzione Motori, autorizzata ufficiale.\n"
+    "message": "Evita l'inconveniente di un iper-propulsore guasto. Fai revisionare il tuo oggi, dalla {name} Azienda Manutenzione Motori, autorizzata ufficiale.\n"
   },
   "FLAVOUR_0_PRICE": {
     "description": "",
@@ -21,7 +21,7 @@
   },
   "FLAVOUR_0_YESPLEASE": {
     "description": "",
-    "message": "Revisiona ipermotore"
+    "message": "Revisiona iper-propulsore"
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "FLAVOUR_5_INTRO": {
     "description": "",
-    "message": "Evita l'inconveniente di un ipermotore guasto. Revisiona il tuo oggi.\n"
+    "message": "Evita l'inconveniente di un propulsore iperspaziale guasto. Revisiona il tuo oggi.\n"
   },
   "FLAVOUR_5_PRICE": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "FLAVOUR_5_YESPLEASE": {
     "description": "",
-    "message": "Revisiona ipermotore"
+    "message": "Revisiona propulsore iperspaziale"
   },
   "I_DONT_HAVE_ENOUGH_MONEY": {
     "description": "",

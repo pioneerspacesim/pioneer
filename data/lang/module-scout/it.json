@@ -9,7 +9,7 @@
   },
   "ADDITIONAL_INFORMATION_SURFACE": {
     "description": "Note. 'surface scanner' is the name of an equipment, that should be translated the same as the equipment",
-    "message": "Avrai bisogno di equipaggiare uno scanner orbitale. Una volta arrivato al corpo celeste, attiva lo scanner e vola a bassa altitudine finché la scansione non sarà completata. Quindi, consegnami i dati."
+    "message": "Avrai bisogno di equipaggiare uno scanner di superficie. Una volta arrivato al corpo celeste, attiva lo scanner e vola a bassa altitudine finché la scansione non sarà completata. Quindi, consegnami i dati."
   },
   "ADTEXT_1": {
     "description": "The Galactic Geographical Society is comparable to National Geographical society. But in space!",

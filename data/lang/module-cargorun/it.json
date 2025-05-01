@@ -73,11 +73,11 @@
   },
   "ADTITLE_LOCAL_1": {
     "description": "",
-    "message": "FREGATA A CORTO RAGGIO"
+    "message": "TRASPORTO MERCI A CORTO RAGGIO"
   },
   "ADTITLE_LOCAL_2": {
     "description": "",
-    "message": "TRASPORTO PER FREGATA LOCALE"
+    "message": "TRASPORTO MERCI LOCALE"
   },
   "ADTITLE_LOCAL_3": {
     "description": "",
@@ -189,7 +189,7 @@
   },
   "DIGESTERS": {
     "description": "custom cargo",
-    "message": "Digestivi"
+    "message": "Digestori"
   },
   "DISTANCE": {
     "description": "distance in space, between two locations",
@@ -233,7 +233,7 @@
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "Senti, eravamo stati chiari a proposito della scadenza. Te lo scordi di venire pagato."
+    "message": "Senti, eravamo stati chiari a proposito della scadenza. Te lo scordi di essere pagato."
   },
   "FAILUREMSG_4": {
     "description": "",
@@ -241,7 +241,7 @@
   },
   "FAILUREMSG_FLUFFY_1": {
     "description": "",
-    "message": "Tu, mostro! Ci hai messo troppo per questa consegna. Tutti i miei cuccioli batuffolosi stan morendo di fame!"
+    "message": "Tu, mostro! Ci hai messo troppo per questa consegna. Tutti i miei cuccioli batuffolosi stanno morendo di fame!"
   },
   "FURNITURE": {
     "description": "custom cargo",
@@ -301,7 +301,7 @@
   },
   "INTROTEXT_1": {
     "description": "",
-    "message": "Ciao, sono {name}. Ti pagherò {cash} se consegnerai {cargoname} a {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), distante {dist} anni luce."
+    "message": "Ciao, sono {name}. Ti pagherò {cash} se consegnerai {cargoname} a {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), distante {dist} AL."
   },
   "INTROTEXT_2": {
     "description": "{name} is the full name of a person",
@@ -321,7 +321,7 @@
   },
   "INTROTEXT_INFRASTRUCTURE_1": {
     "description": "",
-    "message": "Ossequi. Mi chiamo {name}. Il governo di {system} desidera consegnare {cargoname} a {starport} nel sistema {system}  ({sectorx}, {sectory}, {sectorz}). La parcella è di {cash}. {system} è dislocato a {dist} anni luce da qua."
+    "message": "Ossequi. Mi chiamo {name}. Il governo di {system} desidera consegnare {cargoname} a {starport} nel sistema {system}  ({sectorx}, {sectory}, {sectorz}). La parcella è di {cash}. {system} è dislocato a {dist} AL da qua."
   },
   "INTROTEXT_LOCAL_1": {
     "description": "",
@@ -337,15 +337,15 @@
   },
   "INTROTEXT_MINING_1": {
     "description": "{name} is the full name of a person",
-    "message": "Ciao. La Compagnia Mineraria {name} desidera consegnare {cargoname} a {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), distante {dist} anni luce, per allestire una nuova miniera. La paga è di {cash}."
+    "message": "Ciao. La Compagnia Mineraria {name} desidera consegnare {cargoname} a {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), distante {dist} AL, per allestire una nuova miniera. La paga è di {cash}."
   },
   "INTROTEXT_PICKUP_1": {
     "description": "",
-    "message": "Come va? Mi chiamo {name}, ed ho bisogno di un'astronave in grado di volare verso {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), per prelevare {cargoname} e riportarlo a {dom_starport} su {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) per {cash}. La distanza verso {system} è di {dist} anni luce."
+    "message": "Come va? Mi chiamo {name}, ed ho bisogno di un'astronave in grado di volare verso {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), per prelevare {cargoname} e riportarlo a {dom_starport} su {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) per {cash}. La distanza verso {system} è di {dist} AL."
   },
   "INTROTEXT_PICKUP_2": {
     "description": "",
-    "message": "Come va? Mi chiamo {name}. Un mio cliente desidera importare {cargoname} da {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), distante {dist} anni luce. Pagherebbe {cash} per il trasporto. Tornate qua a {dom_starport} nel sistema {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) per scaricare la merce."
+    "message": "Come va? Mi chiamo {name}. Un mio cliente desidera importare {cargoname} da {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), distante {dist} AL. Pagherebbe {cash} per il trasporto. Tornate qua a {dom_starport} nel sistema {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) per scaricare la merce."
   },
   "INTROTEXT_PICKUP_LOCAL_1": {
     "description": "",
@@ -357,7 +357,7 @@
   },
   "INTROTEXT_WEDDING_1": {
     "description": "",
-    "message": "Saluti. Ha sentito parlare della stazione matrimoniale di {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz})? Vogliano trasportare {cargoname} là. È lontano {dist} anni luce. La paga è di {cash}. Cosa ne pensa?"
+    "message": "Saluti. Ha sentito parlare della stazione matrimoniale di {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz})? Vogliano trasportare {cargoname} là. È lontano {dist} AL. La paga è di {cash}. Cosa ne pensa?"
   },
   "INTROTEXT_WHOLESALER_1": {
     "description": "",
@@ -365,7 +365,7 @@
   },
   "INTROTEXT_WHOLESALER_2": {
     "description": "",
-    "message": "Ossequi, mi chiamo {name} e lavoro per la Haber Corp. Paghiamo {cash} per la una consegna a {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), ad una distanza di {dist} anni luce."
+    "message": "Ossequi, mi chiamo {name} e lavoro per la Haber Corp. Paghiamo {cash} per la una consegna a {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), ad una distanza di {dist} AL."
   },
   "IS_IT_NEGOTIABLE": {
     "description": "",
@@ -461,7 +461,7 @@
   },
   "PIRATE_TAUNTS_6": {
     "description": "",
-    "message": "Sembra che tu stia trasportando più di quanto tu possa permetterti. Lasciami aiutarti."
+    "message": "Sembra che tu stia trasportando più di quanto tu possa permetterti. Lascia che ti dia una mano."
   },
   "PIRATE_TAUNTS_7": {
     "description": "",
@@ -681,7 +681,7 @@
   },
   "WHYSOMUCH_INFRASTRUCTURE_1": {
     "description": "",
-    "message": "Questa merce è criciale per un progetto di costruzione."
+    "message": "Questa merce è cruciale per un progetto di costruzione."
   },
   "WHYSOMUCH_MINING_1": {
     "description": "",
@@ -689,7 +689,7 @@
   },
   "WHYSOMUCH_URGENT_1": {
     "description": "",
-    "message": "Il mio pilota favorito è malato, ed il tempo stringe."
+    "message": "Il mio pilota preferito è malato, ed il tempo stringe."
   },
   "WHYSOMUCH_URGENT_2": {
     "description": "",

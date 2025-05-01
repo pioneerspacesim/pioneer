@@ -297,7 +297,7 @@
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "Molto bene. La raccomanderemo per i futuri incarichi."
+    "message": "Molto bene. La raccomanderemo per futuri incarichi."
   },
   "FLAVOUR_4_TRANSFERMSG": {
     "description": "",
@@ -505,7 +505,7 @@
   },
   "PARTIAL": {
     "description": "",
-    "message": "La ringrazio per le sue fatiche. Spero che tornerà per completare la missione!"
+    "message": "La ringrazio per i suoi sforzi. Spero che tornerà per completare la missione!"
   },
   "PASSENGERS": {
     "description": "",
@@ -541,7 +541,7 @@
   },
   "PROBLEM_CREW_2": {
     "description": "",
-    "message": "l'inseguimento di un mortale serpente di {locality} trovato in libertà sulla nave"
+    "message": "l'inseguimento di un pericoloso serpente di {locality} trovato in libertà sulla nave"
   },
   "PROBLEM_CREW_3": {
     "description": "",
@@ -561,7 +561,7 @@
   },
   "PROBLEM_CREW_7": {
     "description": "",
-    "message": "una grave forma di avvelenamento alimentare sulla nave"
+    "message": "una grave forma di intossicazione alimentare sulla nave"
   },
   "PROBLEM_CREW_8": {
     "description": "",

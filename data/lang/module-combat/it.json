@@ -177,7 +177,7 @@
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "Il nostro concorrente di mercato sta affermando seriamente di avere il possesso di {area} nel sistema {system} ({sectorx}, {sectory}, {sectorz}). {org} non è affatto d'accordo ed è disposta a pagare {cash} per una missione di combattimento su {area}. {area} è ad una distanzia di {dist} AL."
+    "message": "Il nostro concorrente di mercato sta affermando seriamente di avere il possesso di {area} nel sistema {system} ({sectorx}, {sectory}, {sectorz}). {org} non è affatto d'accordo ed è disposta a pagare {cash} per una missione di combattimento su {area}. {area} è ad una distanza di {dist} AL."
   },
   "HARVESTING_3": {
     "description": "{area} is an asteroid or planet",
@@ -253,11 +253,11 @@
   },
   "MISSION_COMPLETE": {
     "description": "Message from the ship computer",
-    "message": "Completato obiettivo primario della missione"
+    "message": "Obiettivo primario della missione completato"
   },
   "MISSION_INFO": {
     "description": "Message from the ship computer",
-    "message": "Raggiunta l'area dell'obiettivo. Inizio raccolta dati. Previsione durata massima missione {duration}."
+    "message": "Area dell'obiettivo raggiunta. Inizio raccolta dati. Previsione durata massima missione {duration}."
   },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
@@ -305,7 +305,7 @@
   },
   "PAYMENT_LOCATION": {
     "description": "",
-    "message": "Luogo di pagamento:"
+    "message": "Luogo del pagamento:"
   },
   "PLEASE_REPEAT_THE_MISSION_DETAILS": {
     "description": "",
@@ -317,11 +317,11 @@
   },
   "POLICE_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "{org} pagherà {cash} per una missione di combattimento nel sistema {system} ({sectorx}, {sectory}, {sectorz}). Siamo a corto di piloti e navi. Quindi, questa può essere un'opportunità di guadagno per un leale cittadino. Il bersaglio è una piccola base pirata su {area}. Hai bisogno di propellente per {dist} AL e carburante aggiuntivo per il tragitto di ritorno."
+    "message": "{org} pagherà {cash} per una missione di combattimento nel sistema {system} ({sectorx}, {sectory}, {sectorz}). Siamo a corto di piloti e navi. Questa può essere dunque un'opportunità di guadagno per un leale cittadino. Il bersaglio è una piccola base pirata su {area}. Hai bisogno di propellente per {dist} AL e carburante aggiuntivo per il tragitto di ritorno."
   },
   "POLICE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "I nostri mercati sono stati invasi da merci di contrabbando. Abbiamo tracciato l'origine su una base nascosta su {area} nel sistema ({sectorx}, {sectory}, {sectorz}). Distante appena {dist} AL. Per via dei ridotti fondi della polizia le autorità locali vorrebbero esternalizzare questa missione assegnando {cash} per l'operazione."
+    "message": "I nostri mercati sono stati invasi da merci di contrabbando. Abbiamo tracciato l'origine su una base nascosta su {area} nel sistema ({sectorx}, {sectory}, {sectorz}). Distante appena {dist} AL. Per via dei ridotti fondi della polizia, le autorità locali vorrebbero esternalizzare questa missione assegnando {cash} per l'operazione."
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",

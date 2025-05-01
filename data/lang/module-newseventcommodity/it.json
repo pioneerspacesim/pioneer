@@ -37,7 +37,7 @@
   },
   "FLAVOUR_11_NEWSBODY": {
     "description": "Imply high demand of ANIMAL_MEAT.",
-    "message": "Come fosse l'intervento di un potere superiore, gli allevatori nel sistema {system} ({sectorx}, {sectory}, {sectorz}) si sono svegliati trovando le stalle vuote. \"È il furto di bestiame del secolo\", rifesrisce la polizia."
+    "message": "Come fosse l'intervento di un potere superiore, gli allevatori nel sistema {system} ({sectorx}, {sectory}, {sectorz}) si sono svegliati trovando le stalle vuote. \"È il furto di bestiame del secolo\", riferisce la polizia."
   },
   "FLAVOUR_12_HEADLINE": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "L'interruzione di corrente in tutto il sistema ha portato il caos nel sistema {system} ({sectorx}, {sectory}, {sectorz}). I consumetori stanno facendo lunghe file per comprare gli ultimi Trappolware per rimpiazzare i propri frigoriferi, mentre i produttori hanno esaurito le materie prime."
+    "message": "L'interruzione di corrente in tutto il sistema ha portato il caos nel sistema {system} ({sectorx}, {sectory}, {sectorz}). I consumatori stanno facendo lunghe file per comprare gli ultimi Trappolware per rimpiazzare i propri frigoriferi, mentre i produttori hanno esaurito le materie prime."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
