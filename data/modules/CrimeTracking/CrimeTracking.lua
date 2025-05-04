@@ -8,8 +8,10 @@ local Timer = require 'Timer'
 local Serializer = require 'Serializer'
 local Legal = require 'Legal'
 
--- Fine at which police will launch and hunt donwn outlaw player
-local maxFineTolerated = 300
+-- Fine at which police will launch and hunt down outlaw player
+-- This is the level above which the player counts as a criminal
+-- in data/libs/Player.lua
+local maxFineTolerated = 5500
 
 -- store which station sent them out
 local policeDispatched = false

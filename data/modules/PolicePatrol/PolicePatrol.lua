@@ -20,7 +20,7 @@ local l_ui_core = Lang.GetResource("ui-core")
 
 -- Fine at which police will hunt down outlaw player
 -- This is a copy from CrimeTracking.lua.
-local maxFineTolerated = 300
+local maxFineTolerated = 5500
 --   The distance, in meters, at which the police patrol upholds the law
 local lawEnforcedRange = 4000000
 
@@ -168,6 +168,19 @@ local onEnterSystem = function (player)
 					Comms.ImportantMessage(l["POLICE_TAUNT_" .. Engine.rand:Integer(1, getNumberOfFlavours("POLICE_TAUNT"))], ship.label)
 				else
 					Comms.ImportantMessage(l.NOTHING_DETECTED, ship.label)
+					print("Fine: " .. fine)
+					if fine > 0 then
+						local message = l["FINES_INTRO_" .. Engine.rand:Integer(1, 4)]
+						message = message .. " " .. l["FINES_MESSAGE_" .. Engine.rand:Integer(1, 4)]
+						if fine > 1000 then
+							message = message .. " " .. l["FINES_ADMONISHING_HARSH_" .. Engine.rand:Integer(1, 3)]
+						elseif fine > 200 then
+							message = message .. " " .. l["FINES_ADMONISHING_" .. Engine.rand:Integer(1, 4)]
+						end
+						local policeforce = Game.system.faction.policeName
+						local ship_label = player.label
+						Comms.ImportantMessage(string.interp(message, {policeforce = policeforce, ship_label = ship_label}), ship.label)
+					end
 				end
 			end)
 		end
@@ -206,6 +219,15 @@ local onLeaveSystem = function (ship)
 	end
 end
 
+local onShipDocked = function (player)
+	if not player:IsPlayer() then return end
+	local ui = require 'pigui'
+	local crimes, fine = player:GetCrimeOutstanding()
+	if fine > 0 then
+		Comms.ImportantMessage("[" .. string.upper(Game.system.faction.policeName) .. " - " ..
+			l_ui_core.AUTOMATED_MESSAGE .. "] " .. l_ui_core.OUTSTANDING_FINES .. ": " .. ui.Format.Money(fine))
+	end
+end
 
 local loaded_data
 
@@ -236,6 +258,7 @@ end
 
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onLeaveSystem", onLeaveSystem)
+Event.Register("onShipDocked", onShipDocked)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onShipHit", onShipHit)
 Event.Register("onShipFiring", onShipFiring)
