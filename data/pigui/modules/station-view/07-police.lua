@@ -30,7 +30,7 @@ local crimeTableID = "##CrimeTable"
 local view
 
 local function refreshStatusIcon()
-	local crimes, fine = Game.player:GetCrimeOutstanding()
+	local crimes, fine = PlayerState.GetCrimeOutstanding()
 	view.icon = fine > 0 and ui.theme.icons.police_tab_fined or ui.theme.icons.police_tab_normal
 end
 

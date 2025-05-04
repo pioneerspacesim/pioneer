@@ -702,7 +702,7 @@ theme.icons = {
 	shipmarket_compare_worse = 40,
 
 	police_tab_normal = 167,
-	police_tab_fined  = 166, -- UPDATEME
+	police_tab_fined  = 109,
 
 	circle_lg = 6,
 	circle_md = 51,
