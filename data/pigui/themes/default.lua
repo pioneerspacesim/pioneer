@@ -701,6 +701,9 @@ theme.icons = {
 	shipmarket_compare_better = 38,
 	shipmarket_compare_worse = 40,
 
+	police_tab_normal = 167,
+	police_tab_fined  = 166, -- UPDATEME
+
 	circle_lg = 6,
 	circle_md = 51,
 	circle_sm = 110,
