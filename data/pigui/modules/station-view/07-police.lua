@@ -7,6 +7,7 @@ local ui = require 'pigui'
 local StationView = require 'pigui.views.station-view'
 local Lang = require 'Lang'
 local Legal = require "Legal"
+local Event = require 'Event'
 local utils = require "utils"
 local PiGuiFace = require 'pigui.libs.face'
 local Format = require "Format"
@@ -25,6 +26,13 @@ local face = nil
 local stationSeed = false
 
 local crimeTableID = "##CrimeTable"
+
+local view
+
+local function refreshStatusIcon()
+	local crimes, fine = Game.player:GetCrimeOutstanding()
+	view.icon = fine > 0 and ui.theme.icons.police_tab_fined or ui.theme.icons.police_tab_normal
+end
 
 local popup = ModalWindow.New('policePopup', function(self)
 	ui.text(l.YOU_NOT_ENOUGH_MONEY .. ".")
@@ -53,6 +61,7 @@ local function payfine(fine)
 	end
 	PlayerState.AddMoney(-fine)
 	PlayerState.ClearCrimeFine()
+	refreshStatusIcon()
 end
 
 local function make_crime_list(record)
@@ -244,13 +253,13 @@ local function drawPolice()
 	end)
 end
 
-StationView:registerView({
+view = StationView:registerView({
 	id = "police",
 	name = l.POLICE,
-	icon = ui.theme.icons.shield_other,
+	icon = ui.theme.icons.police_tab_normal,
 	showView = true,
 	draw = drawPolice,
-	refresh = function()
+	refresh = function(self)
 		local station = Game.player:GetDockedWith()
 		if (station) then
 			if (stationSeed ~= station.seed) then
@@ -260,8 +269,16 @@ StationView:registerView({
 					{itemSpacing = widgetSizes.itemSpacing})
 			end
 		end
+
+		refreshStatusIcon()
 	end,
 	debugReload = function()
 		package.reimport()
 	end
 })
+
+Event.Register("onShipDocked", function(player, station)
+	if player:IsPlayer() then
+		refreshStatusIcon()
+	end
+end)
