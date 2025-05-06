@@ -87,8 +87,9 @@ namespace Graphics {
 		}
 
 		VertexBuffer::VertexBuffer(const VertexBindingDesc &desc, BufferUsage usage, uint32_t numVertices, size_t stateHash) :
-			Graphics::VertexBuffer(desc, numVertices),
-			m_usage(usage),
+			Graphics::VertexBuffer(desc, usage, numVertices),
+			m_mapStart(0),
+			m_mapLength(0),
 			m_vertexStateHash(stateHash)
 		{
 			PROFILE_SCOPED()
@@ -117,7 +118,7 @@ namespace Graphics {
 			delete[] m_data;
 		}
 
-		Uint8 *VertexBuffer::MapInternal(BufferMapMode mode)
+		uint8_t *VertexBuffer::MapInternal(BufferMapMode mode)
 		{
 			PROFILE_SCOPED()
 			assert(mode != BUFFER_MAP_NONE);	  //makes no sense
@@ -154,6 +155,57 @@ namespace Graphics {
 
 			m_mapMode = BUFFER_MAP_NONE;
 			m_written = true;
+		}
+
+		uint8_t *VertexBuffer::MapRangeInternal(BufferMapMode mode, size_t start, size_t range)
+		{
+			PROFILE_SCOPED()
+			assert(mode != BUFFER_MAP_NONE);
+			assert(m_mapMode == BUFFER_MAP_NONE);
+			assert(m_mapLength == 0);
+			assert(start + range <= m_capacity * m_desc.stride);
+
+			m_mapMode = mode;
+			m_mapStart = start;
+			m_mapLength = range;
+
+			if (m_usage == BUFFER_USAGE_STATIC) {
+				glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+				return reinterpret_cast<uint8_t *>(glMapBufferRange(GL_ARRAY_BUFFER, start, range, mode == BUFFER_MAP_READ ? GL_READ_ONLY : GL_WRITE_ONLY));
+			}
+
+			return m_data + start;
+		}
+
+		void VertexBuffer::UnmapRange(bool flush)
+		{
+			PROFILE_SCOPED()
+			assert(m_mapMode != BUFFER_MAP_NONE);
+			assert(m_mapLength != 0);
+
+			if (m_usage == BUFFER_USAGE_STATIC) {
+				glUnmapBuffer(GL_ARRAY_BUFFER);
+			} else if (m_mapMode == BUFFER_MAP_WRITE && flush) {
+				glBufferSubData(GL_ARRAY_BUFFER, m_mapStart, m_mapLength, m_data + m_mapStart);
+			}
+
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+			m_mapMode = BUFFER_MAP_NONE;
+			m_mapStart = 0;
+			m_mapLength = 0;
+		}
+
+		void VertexBuffer::FlushRange(size_t start, size_t range)
+		{
+			PROFILE_SCOPED()
+			assert(m_mapMode == BUFFER_MAP_NONE);
+			assert(m_usage == BUFFER_USAGE_DYNAMIC);
+			assert(start + range <= m_capacity * m_desc.stride);
+
+			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+			glBufferSubData(GL_ARRAY_BUFFER, start, range, m_data + start);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 
 #pragma pack(push, 4)

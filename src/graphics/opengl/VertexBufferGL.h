@@ -21,6 +21,10 @@ namespace Graphics {
 
 			void Unmap() override;
 
+			void UnmapRange(bool flush) override;
+
+			void FlushRange(size_t, size_t) override;
+
 			// copies the contents of the VertexArray into the buffer
 			bool Populate(const VertexArray &, const VertexFormatDesc &) override;
 
@@ -33,9 +37,12 @@ namespace Graphics {
 			size_t GetVertexFormatHash() const { return m_vertexStateHash; }
 
 		protected:
-			Uint8 *MapInternal(BufferMapMode) override;
-			Uint8 *m_data;
-			BufferUsage m_usage;
+			uint8_t *MapInternal(BufferMapMode) override;
+			uint8_t *MapRangeInternal(BufferMapMode, size_t, size_t) override;
+			uint8_t *m_data;
+
+			size_t m_mapStart;
+			size_t m_mapLength;
 			size_t m_vertexStateHash;
 		};
 

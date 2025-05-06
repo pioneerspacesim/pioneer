@@ -95,9 +95,10 @@ namespace Graphics {
 
 	class VertexBuffer : public Mappable {
 	public:
-		VertexBuffer(const VertexBindingDesc desc, uint32_t size) :
+		VertexBuffer(const VertexBindingDesc desc, BufferUsage usage, uint32_t size) :
 			Mappable(size),
-			m_desc(desc) {}
+			m_desc(desc),
+			m_usage(usage) {}
 		virtual ~VertexBuffer();
 		const VertexBindingDesc &GetDesc() const { return m_desc; }
 
@@ -106,6 +107,20 @@ namespace Graphics {
 		{
 			return reinterpret_cast<T *>(MapInternal(mode));
 		}
+
+		template <typename T>
+		T *MapRange(size_t start, size_t size, BufferMapMode mode)
+		{
+			return reinterpret_cast<T *>(MapRangeInternal(mode, start * sizeof(T), size * sizeof(T)));
+		}
+
+		// Unmap the last-mapped range and flush data to GPU
+		// If the buffer is dynamic, flush=false may be specified in which case a separate call to FlushRange must be used.
+		virtual void UnmapRange(bool flush = true) = 0;
+
+		// Explicitly flush (i.e. upload) the given range of the dynamic buffer to the GPU.
+		// This buffer must have been created with BUFFER_USAGE_DYNAMIC and previously mapped with BUFFER_MAP_WRITE.
+		virtual void FlushRange(size_t start, size_t size) = 0;
 
 		//Vertex count used for rendering.
 		//By default the maximum set in description, but
@@ -125,8 +140,10 @@ namespace Graphics {
 		virtual void Release() = 0;
 
 	protected:
-		virtual Uint8 *MapInternal(BufferMapMode) = 0;
+		virtual uint8_t *MapInternal(BufferMapMode) = 0;
+		virtual uint8_t *MapRangeInternal(BufferMapMode, size_t start, size_t length) = 0;
 		VertexBindingDesc m_desc;
+		BufferUsage m_usage;
 	};
 
 	// Index buffer
