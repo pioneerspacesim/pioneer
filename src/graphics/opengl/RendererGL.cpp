@@ -150,7 +150,6 @@ namespace Graphics {
 
 	// static member instantiations
 	bool RendererOGL::initted = false;
-	RendererOGL::DynamicBufferMap RendererOGL::s_DynamicDrawBufferMap;
 
 	// typedefs
 	typedef std::vector<std::pair<MaterialDescriptor, OGL::Program *>>::const_iterator ProgramIterator;
@@ -298,7 +297,7 @@ namespace Graphics {
 
 		m_lightUniformBuffer = {};
 
-		s_DynamicDrawBufferMap.clear();
+		m_dynamicDrawBufferMap.clear();
 
 		// HACK ANDYC - this crashes when shutting down? They'll be released anyway right?
 		while (!m_shaders.empty()) {
@@ -557,11 +556,11 @@ namespace Graphics {
 			buffer->Reset();
 		}
 
-		for (auto &buffer : s_DynamicDrawBufferMap) {
+		for (auto &buffer : m_dynamicDrawBufferMap) {
 			buffer.vtxBuffer->Reset();
 		}
 
-		stat.SetStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_INUSE, s_DynamicDrawBufferMap.size());
+		stat.SetStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_INUSE, m_dynamicDrawBufferMap.size());
 		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_INUSE, uint32_t(m_drawUniformBuffers.size()));
 		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_ALLOCS, numAllocs);
 
@@ -829,34 +828,34 @@ namespace Graphics {
 		const AttributeSet attrs = v->GetAttributeSet();
 
 		// Find a buffer matching our attributes with enough free space
-		auto iter = std::find_if(s_DynamicDrawBufferMap.begin(), s_DynamicDrawBufferMap.end(), [&](DynamicBufferData &a) {
+		auto iter = std::find_if(m_dynamicDrawBufferMap.begin(), m_dynamicDrawBufferMap.end(), [&](DynamicBufferData &a) {
 			uint32_t freeSize = a.vtxBuffer->GetCapacity() - a.vtxBuffer->GetSize();
 			return a.attrs == attrs && freeSize >= v->GetNumVerts();
 		});
 
 		// If we don't have one, make one
-		if (iter == s_DynamicDrawBufferMap.end()) {
-			auto desc = VertexFormatDesc::FromAttribSet(v->GetAttributeSet());
-			desc.numVertices = std::max(v->GetNumVerts(), DYNAMIC_DRAW_BUFFER_SIZE / desc.stride);
-			desc.usage = BUFFER_USAGE_DYNAMIC;
+		if (iter == m_dynamicDrawBufferMap.end()) {
+			const VertexFormatDesc desc = VertexFormatDesc::FromAttribSet(attrs);
 
+			uint32_t numVertices = std::max(v->GetNumVerts(), DYNAMIC_DRAW_BUFFER_SIZE / desc.bindings[0].stride);
 			size_t stateHash = m_renderStateCache->CacheVertexDesc(desc);
-			OGL::CachedVertexBuffer *vb = new OGL::CachedVertexBuffer(desc, stateHash);
-			MeshObject *meshObject = CreateMeshObject(vb, nullptr);
-			s_DynamicDrawBufferMap.push_back(DynamicBufferData{ attrs, vb, RefCountedPtr<MeshObject>(meshObject) });
+
+			OGL::CachedVertexBuffer *vb = new OGL::CachedVertexBuffer(desc.bindings[0], BUFFER_USAGE_DYNAMIC, numVertices, stateHash);
+			m_dynamicDrawBufferMap.emplace_back(attrs, desc, vb);
+			CheckRenderErrors(__FUNCTION__, __LINE__);
 
 			GetStats().AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
 			GetStats().AddToStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_CREATED, 1);
-			iter = s_DynamicDrawBufferMap.end() - 1;
+			iter = m_dynamicDrawBufferMap.end() - 1;
 		}
 
 		// Write our data into the buffer
 		uint32_t offset = iter->vtxBuffer->GetOffset();
-		iter->vtxBuffer->Populate(*v);
+		iter->vtxBuffer->Populate(*v, iter->desc);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		// Append a command to the command list
-		m_drawCommandList->AddDynamicDrawCmd({ iter->mesh->GetVertexBuffer(), offset, v->GetNumVerts() }, {}, m);
+		m_drawCommandList->AddDynamicDrawCmd({ iter->vtxBuffer.get(), offset, v->GetNumVerts() }, {}, m);
 
 		return true;
 	}
@@ -896,7 +895,7 @@ namespace Graphics {
 		for (auto &buffer : m_drawUniformBuffers)
 			buffer->Flush();
 
-		for (auto &buffer : s_DynamicDrawBufferMap)
+		for (auto &buffer : m_dynamicDrawBufferMap)
 			buffer.vtxBuffer->Flush();
 
 		m_drawCommandList->m_executing = true;

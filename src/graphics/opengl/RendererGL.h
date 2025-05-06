@@ -6,6 +6,7 @@
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/Types.h"
+#include "graphics/VertexBuffer.h"
 #include "graphics/UniformBuffer.h"
 
 #include "OpenGLLibs.h"
@@ -155,12 +156,12 @@ namespace Graphics {
 
 		struct DynamicBufferData {
 			AttributeSet attrs;
-			OGL::CachedVertexBuffer *vtxBuffer;
-			RefCountedPtr<MeshObject> mesh;
+			VertexFormatDesc desc;
+			std::unique_ptr<OGL::CachedVertexBuffer> vtxBuffer;
 		};
 
 		using DynamicBufferMap = std::vector<DynamicBufferData>;
-		static DynamicBufferMap s_DynamicDrawBufferMap;
+		DynamicBufferMap m_dynamicDrawBufferMap;
 
 		SDL_GLContext m_glContext;
 	};
