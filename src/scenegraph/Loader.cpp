@@ -17,6 +17,8 @@
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/Types.h"
+#include "graphics/VertexBuffer.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/LoaderDefinitions.h"
 #include "utils.h"
@@ -389,7 +391,7 @@ namespace SceneGraph {
 		// special features that are absolute-positioned (thrusters)
 		RefCountedPtr<Node> meshRoot(new Group(m_renderer));
 
-		ConvertNodes(scene->mRootNode, static_cast<Group *>(meshRoot.Get()), geoms, matrix4x4f::Identity());
+		ConvertNodes(scene, scene->mRootNode, static_cast<Group *>(meshRoot.Get()), geoms, matrix4x4f::Identity());
 		ConvertAnimations(scene, animDefs, static_cast<Group *>(meshRoot.Get()));
 
 		return meshRoot;
@@ -454,6 +456,9 @@ namespace SceneGraph {
 	}
 
 #pragma pack(push, 4)
+	// These structs are carefully chosen to match the vertex layout generated from
+	// the corresponding AttributeSet.
+
 	struct ModelVtx {
 		vector3f pos;
 		vector3f nrm;
@@ -512,26 +517,8 @@ namespace SceneGraph {
 			if (mat->diffuse.a < 255)
 				geom->SetNodeMask(NODE_TRANSPARENT);
 
-			Graphics::VertexFormatDesc vbd;
-			vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-			vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-			vbd.attrib[0].offset = hasTangents ? offsetof(ModelTangentVtx, pos) : offsetof(ModelVtx, pos);
-			vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
-			vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-			vbd.attrib[1].offset = hasTangents ? offsetof(ModelTangentVtx, nrm) : offsetof(ModelVtx, nrm);
-			vbd.attrib[2].semantic = Graphics::ATTRIB_UV0;
-			vbd.attrib[2].format = Graphics::ATTRIB_FORMAT_FLOAT2;
-			vbd.attrib[2].offset = hasTangents ? offsetof(ModelTangentVtx, uv0) : offsetof(ModelVtx, uv0);
-			if (hasTangents) {
-				vbd.attrib[3].semantic = Graphics::ATTRIB_TANGENT;
-				vbd.attrib[3].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-				vbd.attrib[3].offset = offsetof(ModelTangentVtx, tangent);
-			}
-			vbd.stride = hasTangents ? sizeof(ModelTangentVtx) : sizeof(ModelVtx);
-			vbd.numVertices = mesh->mNumVertices;
-			vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-
-			RefCountedPtr<Graphics::VertexBuffer> vb(m_renderer->CreateVertexBuffer(vbd));
+			// Create Index Buffer
+			// ===================
 
 			// huge meshes are split by the importer so this should not exceed 65K indices
 			std::vector<Uint32> indices;
@@ -560,6 +547,21 @@ namespace SceneGraph {
 				idxPtr[j] = indices[j];
 			ib->Unmap();
 
+			// Create Vertex Buffer
+			// ====================
+
+			Graphics::VertexFormatDesc vbd;
+
+			if (!hasTangents) {
+				vbd = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0);
+			} else {
+				vbd = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0 | Graphics::ATTRIB_TANGENT);
+			}
+
+			RefCountedPtr<Graphics::VertexBuffer> vb(m_renderer->CreateVertexBuffer(vbd, Graphics::BUFFER_USAGE_STATIC, mesh->mNumVertices));
+
+			aiVector3D zeroVector = aiVector3D(0.f);
+
 			//copy vertices, always assume normals
 			//replace nonexistent UVs with zeros
 			if (!hasTangents) {
@@ -567,7 +569,7 @@ namespace SceneGraph {
 				for (unsigned int v = 0; v < mesh->mNumVertices; v++) {
 					const aiVector3D &vtx = mesh->mVertices[v];
 					const aiVector3D &norm = mesh->mNormals[v];
-					const aiVector3D &uv0 = hasUVs ? mesh->mTextureCoords[0][v] : aiVector3D(0.f);
+					const aiVector3D &uv0 = hasUVs ? mesh->mTextureCoords[0][v] : zeroVector;
 					vtxPtr[v].pos = vector3f(vtx.x, vtx.y, vtx.z);
 					vtxPtr[v].nrm = vector3f(norm.x, norm.y, norm.z);
 					vtxPtr[v].uv0 = vector2f(uv0.x, uv0.y);
@@ -582,7 +584,7 @@ namespace SceneGraph {
 				for (unsigned int v = 0; v < mesh->mNumVertices; v++) {
 					const aiVector3D &vtx = mesh->mVertices[v];
 					const aiVector3D &norm = mesh->mNormals[v];
-					const aiVector3D &uv0 = hasUVs ? mesh->mTextureCoords[0][v] : aiVector3D(0.f);
+					const aiVector3D &uv0 = hasUVs ? mesh->mTextureCoords[0][v] : zeroVector;
 					const aiVector3D &tangents = mesh->mTangents[v];
 					vtxPtr[v].pos = vector3f(vtx.x, vtx.y, vtx.z);
 					vtxPtr[v].nrm = vector3f(norm.x, norm.y, norm.z);
@@ -829,42 +831,37 @@ namespace SceneGraph {
 		m_billboardsRoot->AddChild(lightPoint);
 	}
 
-	RefCountedPtr<CollisionGeometry> Loader::CreateCollisionGeometry(RefCountedPtr<StaticGeometry> geom, unsigned int collFlag)
+	RefCountedPtr<CollisionGeometry> Loader::CreateCollisionGeometry(aiMesh *mesh, unsigned int collFlag)
 	{
 		PROFILE_SCOPED()
-		//Convert StaticMesh points & indices into cgeom
+		//Convert assimp mesh points & indices into cgeom
 		//note: it's not slow, but the amount of data being copied is just stupid:
-		//assimp to vtxbuffer, vtxbuffer to vector, vector to cgeom, cgeom to geomtree...
-		assert(geom->GetNumMeshes() == 1);
-		StaticGeometry::Mesh mesh = geom->GetMeshAt(0);
+		//assimp to vector, vector to cgeom, cgeom to geomtree...
 
-		const Uint32 posOffs = mesh.vertexBuffer->GetDesc().GetOffset(Graphics::ATTRIB_POSITION);
-		const Uint32 stride = mesh.vertexBuffer->GetDesc().stride;
-		const Uint32 numVtx = mesh.vertexBuffer->GetDesc().numVertices;
-		const Uint32 numIdx = mesh.indexBuffer->GetSize();
-
-		//copy vertex positions from buffer
+		//copy vertex positions from mesh
 		std::vector<vector3f> pos;
-		pos.reserve(numVtx);
+		pos.reserve(mesh->mNumVertices);
 
-		Uint8 *vtxPtr = mesh.vertexBuffer->Map<Uint8>(Graphics::BUFFER_MAP_READ);
-		for (Uint32 i = 0; i < numVtx; i++)
-			pos.push_back(*reinterpret_cast<vector3f *>(vtxPtr + (i * stride) + posOffs));
-		mesh.vertexBuffer->Unmap();
+		for (size_t i = 0; i < mesh->mNumVertices; i++) {
+			const aiVector3D &vtx = mesh->mVertices[i];
+			pos.emplace_back(vtx.x, vtx.y, vtx.z);
+		}
 
-		//copy indices from buffer
+		//copy indices from mesh
 		std::vector<Uint32> idx;
-		idx.reserve(numIdx);
+		idx.reserve(mesh->mNumFaces * 3);
 
-		Uint32 *idxPtr = mesh.indexBuffer->Map(Graphics::BUFFER_MAP_READ);
-		for (Uint32 i = 0; i < numIdx; i++)
-			idx.push_back(idxPtr[i]);
-		mesh.indexBuffer->Unmap();
+		for (size_t i = 0; i < mesh->mNumFaces; i++) {
+			for (size_t j = 0; j < mesh->mFaces[i].mNumIndices; j++) {
+				idx.push_back(mesh->mFaces[i].mIndices[j]);
+			}
+		}
+
 		RefCountedPtr<CollisionGeometry> cgeom(new CollisionGeometry(m_renderer, pos, idx, collFlag));
 		return cgeom;
 	}
 
-	void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPtr<StaticGeometry>> &geoms, const matrix4x4f &accum)
+	void Loader::ConvertNodes(const aiScene *scene, aiNode *node, Group *_parent, std::vector<RefCountedPtr<StaticGeometry>> &geoms, const matrix4x4f &accum)
 	{
 		PROFILE_SCOPED()
 		Group *parent = _parent;
@@ -913,7 +910,7 @@ namespace SceneGraph {
 		//nodes named collision_* are not added as renderable geometry
 		if (node->mNumMeshes == 1 && starts_with(nodename, "collision_")) {
 			const unsigned int collflag = GetGeomFlagForNodeName(nodename);
-			RefCountedPtr<CollisionGeometry> cgeom = CreateCollisionGeometry(geoms.at(node->mMeshes[0]), collflag);
+			RefCountedPtr<CollisionGeometry> cgeom = CreateCollisionGeometry(scene->mMeshes[node->mMeshes[0]], collflag);
 			cgeom->SetName(nodename + "_cgeom");
 			cgeom->SetDynamic(starts_with(nodename, "collision_d"));
 			parent->AddChild(cgeom.Get());
@@ -947,7 +944,7 @@ namespace SceneGraph {
 
 		for (unsigned int i = 0; i < node->mNumChildren; i++) {
 			aiNode *child = node->mChildren[i];
-			ConvertNodes(child, parent, geoms, accum * m);
+			ConvertNodes(scene, child, parent, geoms, accum * m);
 		}
 	}
 
