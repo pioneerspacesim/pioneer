@@ -13,32 +13,35 @@ namespace Graphics {
 
 	namespace Dummy {
 
-		class VertexBuffer : public Graphics::VertexBuffer {
+		class VertexBuffer final : public Graphics::VertexBuffer {
 		public:
-			VertexBuffer(const VertexFormatDesc &d) :
-				Graphics::VertexBuffer(d),
-				m_buffer(new Uint8[m_desc.numVertices * m_desc.stride])
+			VertexBuffer(const VertexFormatDesc &d, BufferUsage u, uint32_t s) :
+				Graphics::VertexBuffer(d.bindings[0], u, s),
+				m_buffer(new Uint8[s * m_desc.stride])
 			{}
-
-			// copies the contents of the VertexArray into the buffer
-			bool Populate(const VertexArray &) final { return true; }
 
 			// change the buffer data without mapping
 			void BufferData(const size_t, void *) final {}
+
+			void Reset() final {}
 
 			void Bind() final {}
 			void Release() final {}
 
 			void Unmap() final {}
+			void UnmapRange(bool) final {}
+
+			void FlushRange(size_t, size_t) final {}
 
 		protected:
-			Uint8 *MapInternal(BufferMapMode) final { return m_buffer.get(); }
+			uint8_t *MapInternal(BufferMapMode) final { return m_buffer.get(); }
+			uint8_t *MapRangeInternal(BufferMapMode, size_t s, size_t) final { return m_buffer.get() + s; }
 
 		private:
 			std::unique_ptr<Uint8[]> m_buffer;
 		};
 
-		class IndexBuffer : public Graphics::IndexBuffer {
+		class IndexBuffer final : public Graphics::IndexBuffer {
 		public:
 			IndexBuffer(Uint32 size, BufferUsage bu, IndexBufferSize el) :
 				Graphics::IndexBuffer(size, bu, el)
@@ -64,7 +67,7 @@ namespace Graphics {
 		};
 
 		// Instance buffer
-		class InstanceBuffer : public Graphics::InstanceBuffer {
+		class InstanceBuffer final : public Graphics::InstanceBuffer {
 		public:
 			InstanceBuffer(Uint32 size, BufferUsage hint) :
 				Graphics::InstanceBuffer(size, hint),
@@ -86,7 +89,8 @@ namespace Graphics {
 
 		class MeshObject final : public Graphics::MeshObject {
 		public:
-			MeshObject(VertexBuffer *v, IndexBuffer *i) :
+			MeshObject(const VertexFormatDesc &d, VertexBuffer *v, IndexBuffer *i) :
+				m_desc(d),
 				m_vtxBuffer(v),
 				m_idxBuffer(i)
 			{}
@@ -94,6 +98,7 @@ namespace Graphics {
 
 			Graphics::VertexBuffer *GetVertexBuffer() const final { return m_vtxBuffer.Get(); }
 			Graphics::IndexBuffer *GetIndexBuffer() const final { return m_idxBuffer.Get(); }
+			const VertexFormatDesc &GetFormat() const final { return m_desc; }
 
 			void Bind() final {}
 			void Release() final {}
@@ -101,6 +106,7 @@ namespace Graphics {
 		protected:
 			RefCountedPtr<VertexBuffer> m_vtxBuffer;
 			RefCountedPtr<IndexBuffer> m_idxBuffer;
+			VertexFormatDesc m_desc;
 		};
 
 	} // namespace Dummy
