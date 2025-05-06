@@ -5,7 +5,10 @@
 #include "graphics/Types.h"
 #include "core/macros.h"
 
+#include "lz4/xxhash.h"
+
 #include <algorithm>
+#include <bitset>
 #include <cstring>
 
 namespace Graphics {
@@ -102,6 +105,45 @@ namespace Graphics {
 		vbd.bindings[0] = { offset, true, VertexAttribRate::ATTRIB_RATE_NORMAL };
 
 		return vbd;
+	}
+
+	InvalidVertexFormatReason VertexFormatDesc::ValidateDesc() const
+	{
+		std::bitset<256> locations {};
+
+		size_t numBindings = GetNumBindings();
+
+		for (size_t i = 0; i < MAX_ATTRIBS && attribs[i].format != ATTRIB_FORMAT_NONE; i++) {
+			size_t numLocations = 1;
+
+			if (attribs[i].format == ATTRIB_FORMAT_MAT3)
+				numLocations = 3;
+			if (attribs[i].format == ATTRIB_FORMAT_MAT3x4)
+				numLocations = 4;
+			if (attribs[i].format == ATTRIB_FORMAT_MAT4x4)
+				numLocations = 4;
+
+			for (size_t loc = 0; loc < numLocations; loc++) {
+				if (locations.test(attribs[i].location + loc)) {
+					return InvalidVertexFormatReason::LocationOverlap;
+				}
+
+				locations.set(attribs[i].location + loc, true);
+			}
+
+			if (attribs[i].binding >= numBindings)
+				return InvalidVertexFormatReason::InvalidBinding;
+		}
+
+		return InvalidVertexFormatReason::OK;
+	}
+
+	uint64_t VertexFormatDesc::Hash() const
+	{
+		// Because we defined VertexFormatDesc with #pragma pack(1), we can be
+		// confident there are no padding bytes anywhere in the struct and can
+		// hash the entire memory block.
+		return XXH64(this, sizeof(VertexFormatDesc), 0);
 	}
 
 	size_t VertexFormatDesc::GetNumAttribs() const

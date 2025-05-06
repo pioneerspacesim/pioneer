@@ -79,7 +79,7 @@ namespace Graphics {
 		InvalidVertexFormatReason ValidateDesc() const;
 
 		// Return a hash of this vertex format descriptor
-		size_t Hash() const;
+		uint64_t Hash() const;
 
 		size_t GetNumAttribs() const;
 		size_t GetNumBindings() const;
