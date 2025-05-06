@@ -6,6 +6,7 @@
 #include "graphics/Types.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
+#include "graphics/opengl/OpenGLLibs.h"
 #include "graphics/opengl/RendererGL.h"
 
 #include "profiler/Profiler.h"
@@ -223,6 +224,17 @@ namespace Graphics {
 			}
 		}
 
+		void VertexBuffer::Reset()
+		{
+			PROFILE_SCOPED()
+			assert(m_usage == BUFFER_USAGE_DYNAMIC);
+			assert(m_mapMode == BUFFER_MAP_NONE);
+
+			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+			glBufferData(GL_ARRAY_BUFFER, m_capacity * m_desc.stride, nullptr, get_buffer_usage(m_usage));
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+		}
+
 		void VertexBuffer::Bind()
 		{
 			assert(m_written);
@@ -232,52 +244,6 @@ namespace Graphics {
 		void VertexBuffer::Release()
 		{
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
-		}
-
-		// ------------------------------------------------------------
-		CachedVertexBuffer::CachedVertexBuffer(const VertexBindingDesc &desc, BufferUsage usage, uint32_t numVertices, size_t stateHash) :
-			VertexBuffer(desc, usage, numVertices, stateHash)
-		{
-			assert(usage == BufferUsage::BUFFER_USAGE_DYNAMIC);
-			m_size = 0;
-			m_lastFlushed = 0;
-		}
-
-		bool CachedVertexBuffer::Populate(const VertexArray &va, const VertexFormatDesc &fmt)
-		{
-			assert(fmt.bindings[0].stride == m_desc.stride);
-			va.PopulateRange(fmt, m_data + m_size * m_desc.stride, (m_capacity - m_size) * m_desc.stride);
-			m_size += va.GetNumVerts();
-
-			return true;
-		}
-
-		// Send accumulated data to the GPU prior to using the buffer for rendering
-		bool CachedVertexBuffer::Flush()
-		{
-			uint32_t dataSize = m_size * m_desc.stride;
-			if (m_lastFlushed >= dataSize)
-				return false;
-
-			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-			glBufferSubData(GL_ARRAY_BUFFER, m_lastFlushed, dataSize - m_lastFlushed, m_data + m_lastFlushed);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			m_lastFlushed = dataSize;
-			m_written = true;
-			return true;
-		}
-
-		// Reset the cache and associated buffer for use in a new frame
-		void CachedVertexBuffer::Reset()
-		{
-			// respecify the buffer storage to orphan data that theoretically might still be in flight
-			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-			glBufferData(GL_ARRAY_BUFFER, m_capacity * m_desc.stride, nullptr, get_buffer_usage(m_usage));
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-			m_size = 0;
-			m_lastFlushed = 0;
-			m_written = false;
 		}
 
 		// ------------------------------------------------------------

@@ -31,6 +31,9 @@ namespace Graphics {
 			// change the buffer data without mapping
 			void BufferData(const size_t, void *) final;
 
+			// release the underlying GPU memory and recreate
+			void Reset() final;
+
 			void Bind() final;
 			void Release() final;
 
@@ -44,25 +47,6 @@ namespace Graphics {
 			size_t m_mapStart;
 			size_t m_mapLength;
 			size_t m_vertexStateHash;
-		};
-
-		class CachedVertexBuffer : public VertexBuffer {
-		public:
-			CachedVertexBuffer(const VertexBindingDesc &, BufferUsage, uint32_t, size_t);
-
-			bool Populate(const VertexArray &, const VertexFormatDesc &) final;
-			uint32_t GetOffset() { return m_size * m_desc.stride; }
-
-			bool Flush();
-			void Reset();
-
-		protected:
-			using VertexBuffer::BufferData;
-			using VertexBuffer::Map;
-			using VertexBuffer::Unmap;
-
-		private:
-			uint32_t m_lastFlushed;
 		};
 
 		class IndexBuffer : public Graphics::IndexBuffer, public GLBufferBase {

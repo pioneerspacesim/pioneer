@@ -558,6 +558,8 @@ namespace Graphics {
 
 		for (auto &buffer : m_dynamicDrawBufferMap) {
 			buffer.vtxBuffer->Reset();
+			buffer.vtxBuffer->SetVertexCount(0);
+			buffer.start = 0;
 		}
 
 		stat.SetStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_INUSE, m_dynamicDrawBufferMap.size());
@@ -840,18 +842,29 @@ namespace Graphics {
 			uint32_t numVertices = std::max(v->GetNumVerts(), DYNAMIC_DRAW_BUFFER_SIZE / desc.bindings[0].stride);
 			size_t stateHash = m_renderStateCache->CacheVertexDesc(desc);
 
-			OGL::CachedVertexBuffer *vb = new OGL::CachedVertexBuffer(desc.bindings[0], BUFFER_USAGE_DYNAMIC, numVertices, stateHash);
-			m_dynamicDrawBufferMap.emplace_back(attrs, desc, vb);
+			VertexBuffer *vb = CreateVertexBuffer(desc, BUFFER_USAGE_DYNAMIC, numVertices);
 			CheckRenderErrors(__FUNCTION__, __LINE__);
+
+			vb->SetVertexCount(0);
+			m_dynamicDrawBufferMap.emplace_back(attrs, desc, 0U, vb);
 
 			GetStats().AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
 			GetStats().AddToStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_CREATED, 1);
 			iter = m_dynamicDrawBufferMap.end() - 1;
 		}
 
+		uint32_t stride = iter->vtxBuffer->GetDesc().stride;
+		uint32_t offset = iter->vtxBuffer->GetSize() * stride;
+		size_t range = v->GetNumVerts() * stride;
+
 		// Write our data into the buffer
-		uint32_t offset = iter->vtxBuffer->GetOffset();
-		iter->vtxBuffer->Populate(*v, iter->desc);
+		uint8_t *buffer = iter->vtxBuffer->MapRange<uint8_t>(offset, range, BUFFER_MAP_WRITE);
+		v->PopulateRange(iter->desc, buffer, range);
+
+		// Don't flush the data to the GPU just yet.
+		iter->vtxBuffer->UnmapRange(false);
+		iter->vtxBuffer->SetVertexCount(iter->vtxBuffer->GetSize() + v->GetNumVerts());
+
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		// Append a command to the command list
@@ -895,8 +908,15 @@ namespace Graphics {
 		for (auto &buffer : m_drawUniformBuffers)
 			buffer->Flush();
 
-		for (auto &buffer : m_dynamicDrawBufferMap)
-			buffer.vtxBuffer->Flush();
+		for (auto &buffer : m_dynamicDrawBufferMap) {
+			size_t size = buffer.vtxBuffer->GetSize() * buffer.vtxBuffer->GetDesc().stride;
+
+			// Upload whatever portion of this buffer hasn't yet been sent to the GPU.
+			if (size - buffer.start > 0) {
+				buffer.vtxBuffer->FlushRange(buffer.start, size - buffer.start);
+				buffer.start = size;
+			}
+		}
 
 		m_drawCommandList->m_executing = true;
 

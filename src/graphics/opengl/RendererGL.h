@@ -22,7 +22,6 @@ namespace Graphics {
 	struct Settings;
 
 	namespace OGL {
-		class CachedVertexBuffer;
 		class CommandList;
 		class InstanceBuffer;
 		class IndexBuffer;
@@ -155,9 +154,17 @@ namespace Graphics {
 		static bool initted;
 
 		struct DynamicBufferData {
+			DynamicBufferData(AttributeSet a, const VertexFormatDesc &d, size_t s, VertexBuffer *b) :
+				attrs(a),
+				desc(d),
+				start(s),
+				vtxBuffer(b)
+			{}
+
 			AttributeSet attrs;
 			VertexFormatDesc desc;
-			std::unique_ptr<OGL::CachedVertexBuffer> vtxBuffer;
+			size_t start;
+			std::unique_ptr<VertexBuffer> vtxBuffer;
 		};
 
 		using DynamicBufferMap = std::vector<DynamicBufferData>;

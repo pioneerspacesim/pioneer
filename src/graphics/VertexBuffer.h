@@ -108,6 +108,8 @@ namespace Graphics {
 			return reinterpret_cast<T *>(MapInternal(mode));
 		}
 
+		// Map the given range of the buffer and return a pointer to it.
+		// Note that all values are in bytes not vertices.
 		template <typename T>
 		T *MapRange(size_t start, size_t size, BufferMapMode mode)
 		{
@@ -120,6 +122,7 @@ namespace Graphics {
 
 		// Explicitly flush (i.e. upload) the given range of the dynamic buffer to the GPU.
 		// This buffer must have been created with BUFFER_USAGE_DYNAMIC and previously mapped with BUFFER_MAP_WRITE.
+		// Note that all values are in bytes not vertices.
 		virtual void FlushRange(size_t start, size_t size) = 0;
 
 		//Vertex count used for rendering.
@@ -132,6 +135,11 @@ namespace Graphics {
 
 		// change the buffer data without mapping
 		virtual void BufferData(const size_t, void *) = 0;
+
+		// Recreate the underlying GPU memory to an empty state.
+		// Only allowed for BUFFER_USAGE_DYNAMIC buffers.
+		// Not guaranteed to have an effect outside of the OpenGL backend, should not be used as a way to clear GPU buffers.
+		virtual void Reset() = 0;
 
 		// Bind the vertex buffer for use in rendering
 		virtual void Bind() = 0;
