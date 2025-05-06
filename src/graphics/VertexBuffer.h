@@ -56,6 +56,8 @@ namespace Graphics {
 	};
 	static_assert(sizeof(VertexBindingDesc) == 4);
 
+#pragma pack(pop)
+
 	// Enumerates the possible reasons for VertexFormatDesc validation to fail
 	enum class InvalidVertexFormatReason {
 		OK = 0,
@@ -64,7 +66,7 @@ namespace Graphics {
 	};
 
 	// Return the index of the given attribute within the passed AttributeSet.
-	static size_t GetAttributeIndex(AttributeSet set, VertexAttrib attrib);
+	static size_t GetAttributeIndexInSet(AttributeSet set, VertexAttrib attrib);
 
 	struct VertexFormatDesc {
 		VertexFormatDesc();
@@ -87,15 +89,13 @@ namespace Graphics {
 	};
 	static_assert(sizeof(VertexFormatDesc) == 64);
 
-#pragma pack(pop)
-
 	class VertexBuffer : public Mappable {
 	public:
-		VertexBuffer(const VertexFormatDesc &desc) :
-			Mappable(desc.numVertices),
+		VertexBuffer(const VertexBindingDesc desc, uint32_t size) :
+			Mappable(size),
 			m_desc(desc) {}
 		virtual ~VertexBuffer();
-		const VertexFormatDesc &GetDesc() const { return m_desc; }
+		const VertexBindingDesc &GetDesc() const { return m_desc; }
 
 		template <typename T>
 		T *Map(BufferMapMode mode)
@@ -122,7 +122,7 @@ namespace Graphics {
 
 	protected:
 		virtual Uint8 *MapInternal(BufferMapMode) = 0;
-		VertexFormatDesc m_desc;
+		VertexBindingDesc m_desc;
 	};
 
 	// Index buffer
