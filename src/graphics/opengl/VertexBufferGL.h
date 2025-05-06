@@ -25,9 +25,6 @@ namespace Graphics {
 
 			void FlushRange(size_t, size_t) override;
 
-			// copies the contents of the VertexArray into the buffer
-			bool Populate(const VertexArray &, const VertexFormatDesc &) override;
-
 			// change the buffer data without mapping
 			void BufferData(const size_t, void *) final;
 

@@ -130,9 +130,6 @@ namespace Graphics {
 		//you may set a smaller count for partial rendering
 		bool SetVertexCount(Uint32);
 
-		// copies the contents of the VertexArray into the buffer
-		virtual bool Populate(const VertexArray &, const VertexFormatDesc &) = 0;
-
 		// change the buffer data without mapping
 		virtual void BufferData(const size_t, void *) = 0;
 

@@ -119,11 +119,6 @@ namespace Graphics {
 			delete[] m_data;
 		}
 
-		bool VertexBuffer::Populate(const VertexArray &va, const VertexFormatDesc &)
-		{
-			va.Populate(this);
-		}
-
 		uint8_t *VertexBuffer::MapInternal(BufferMapMode mode)
 		{
 			PROFILE_SCOPED()

@@ -1193,7 +1193,7 @@ namespace Graphics {
 		VertexFormatDesc desc = VertexFormatDesc::FromAttribSet(vertexArray->GetAttributeSet());
 
 		Graphics::VertexBuffer *vertexBuffer = CreateVertexBuffer(desc, usage, vertexArray->GetNumVerts());
-		vertexBuffer->Populate(*vertexArray, desc);
+		vertexArray->Populate(vertexBuffer);
 
 		return CreateMeshObject(desc, vertexBuffer, indexBuffer);
 	}
