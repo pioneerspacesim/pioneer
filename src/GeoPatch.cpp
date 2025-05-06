@@ -121,9 +121,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 
 		//create buffer and upload data
 		auto vbd = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
-		vbd.numVertices = m_ctx->NUMVERTICES();
-		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-		Graphics::VertexBuffer *vtxBuffer = renderer->CreateVertexBuffer(vbd);
+		Graphics::VertexBuffer *vtxBuffer = renderer->CreateVertexBuffer(vbd, Graphics::BUFFER_USAGE_STATIC, m_ctx->NUMVERTICES());
 
 		GeoPatchContext::VBOVertex *VBOVtxPtr = vtxBuffer->Map<GeoPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
 		assert(vtxBuffer->GetDesc().stride == sizeof(GeoPatchContext::VBOVertex));
@@ -274,7 +272,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		vtxBuffer->Unmap();
 
 		// use the new vertex buffer and the shared index buffer
-		m_patchVBOData->m_patchMesh.reset(renderer->CreateMeshObject(vtxBuffer, m_ctx->GetIndexBuffer()));
+		m_patchVBOData->m_patchMesh.reset(renderer->CreateMeshObject(vbd, vtxBuffer, m_ctx->GetIndexBuffer()));
 
 		// Don't need this anymore so throw it away
 		//m_patchVBOData->m_heights.reset();

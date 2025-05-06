@@ -158,23 +158,14 @@ namespace Background {
 		m_material->diffuse = Color4f(0.8, 0.8, 0.8, 1.0);
 
 		//create buffer and upload data
-		Graphics::VertexFormatDesc vbd = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
-		vbd.numVertices = box->GetNumVerts();
-		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
+		Graphics::VertexFormatDesc fmt = Graphics::VertexFormatDesc::FromAttribSet(box->GetAttributeSet());
+		Graphics::VertexBuffer *vertexBuf = m_renderer->CreateVertexBuffer(fmt, Graphics::BUFFER_USAGE_STATIC, box->GetNumVerts());
 
-		Graphics::VertexBuffer *vertexBuf = m_renderer->CreateVertexBuffer(vbd);
-
-		SkyboxVert *vtxPtr = vertexBuf->Map<SkyboxVert>(Graphics::BUFFER_MAP_WRITE);
-		assert(vertexBuf->GetDesc().stride == sizeof(SkyboxVert));
-		for (Uint32 i = 0; i < box->GetNumVerts(); i++) {
-			vtxPtr[i].pos = box->position[i];
-			vtxPtr[i].uv = box->uv0[i];
-		}
-		vertexBuf->Unmap();
+		box->Populate(vertexBuf);
 
 		SetIntensity(1.0f);
 
-		m_universeBox.reset(m_renderer->CreateMeshObject(vertexBuf));
+		m_universeBox.reset(m_renderer->CreateMeshObject(fmt, vertexBuf));
 		m_numCubemaps = GetNumSkyboxes();
 	}
 
@@ -457,12 +448,10 @@ namespace Background {
 		m_hyperVtx.reset(new vector3f[NUM_HYPERSPACE_STARS * 3]);
 		m_hyperCol.reset(new Color[NUM_HYPERSPACE_STARS * 3]);
 		{
-			Graphics::VertexFormatDesc vbd = VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
-			vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
-			vbd.numVertices = NUM_HYPERSPACE_STARS * 2;
+			Graphics::VertexFormatDesc fmt = VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
 			// this vertex buffer will be owned by the animMesh object
-			Graphics::VertexBuffer *vtxBuffer = m_renderer->CreateVertexBuffer(vbd);
-			m_animMesh.reset(m_renderer->CreateMeshObject(vtxBuffer));
+			Graphics::VertexBuffer *vtxBuffer = m_renderer->CreateVertexBuffer(fmt, Graphics::BUFFER_USAGE_DYNAMIC, NUM_HYPERSPACE_STARS * 2);
+			m_animMesh.reset(m_renderer->CreateMeshObject(fmt, vtxBuffer));
 		}
 
 		assert(sizeof(StarVert) == 16);
@@ -627,7 +616,7 @@ namespace Background {
 
 			const double hyperspaceProgress = Pi::game->GetHyperspaceProgress();
 
-			const Sint32 numStars = buffer->GetDesc().numVertices / 2;
+			const Sint32 numStars = buffer->GetSize() / 2;
 
 			const vector3d oz = Pi::player->GetOrient().VectorZ(); //back vector in Y-up space
 			const vector3d pz = vector3d(oz.z, oz.x, oz.y); // back vector rotated into Z-up space
@@ -700,27 +689,20 @@ namespace Background {
 		m_material.Reset(m_renderer->CreateMaterial("starfield", desc, stateDesc));
 		m_material->emissive = Color::WHITE;
 
-		Graphics::VertexFormatDesc vbd = VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
-		vbd.numVertices = bottom->GetNumVerts() + top->GetNumVerts();
-		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-
+		Graphics::VertexFormatDesc fmt = VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
 		//two strips in one buffer, but seems to work ok without degenerate triangles
-		Graphics::VertexBuffer *vtxBuffer = renderer->CreateVertexBuffer(vbd);
-		assert(vtxBuffer->GetDesc().stride == sizeof(MilkyWayVert));
-		auto vtxPtr = vtxBuffer->Map<MilkyWayVert>(Graphics::BUFFER_MAP_WRITE);
-		for (Uint32 i = 0; i < top->GetNumVerts(); i++) {
-			vtxPtr->pos = top->position[i];
-			vtxPtr->col = top->diffuse[i];
-			vtxPtr++;
-		}
-		for (Uint32 i = 0; i < bottom->GetNumVerts(); i++) {
-			vtxPtr->pos = bottom->position[i];
-			vtxPtr->col = bottom->diffuse[i];
-			vtxPtr++;
-		}
+		Graphics::VertexBuffer *vtxBuffer = renderer->CreateVertexBuffer(fmt, Graphics::BUFFER_USAGE_STATIC, bottom->GetNumVerts() + top->GetNumVerts());
+
+		uint8_t *vtxPtr = vtxBuffer->Map<uint8_t>(Graphics::BUFFER_MAP_WRITE);
+		size_t topSize = top->GetNumVerts() * fmt.bindings[0].stride;
+		size_t bottomSize = bottom->GetNumVerts() * fmt.bindings[0].stride;
+
+		top->PopulateRange(fmt, vtxPtr, topSize);
+		bottom->PopulateRange(fmt, vtxPtr + topSize, bottomSize);
+
 		vtxBuffer->Unmap();
 
-		m_meshObject.reset(m_renderer->CreateMeshObject(vtxBuffer));
+		m_meshObject.reset(m_renderer->CreateMeshObject(fmt, vtxBuffer));
 	}
 
 	void MilkyWay::Draw()

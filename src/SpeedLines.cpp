@@ -10,6 +10,7 @@
 #include "core/IniConfig.h"
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
+#include "graphics/Types.h"
 #include "profiler/Profiler.h"
 
 // default values
@@ -124,7 +125,7 @@ void SpeedLines::Render(Graphics::Renderer *r)
 		vtx += 2;
 	}
 
-	m_mesh->GetVertexBuffer()->Populate(*m_varray);
+	m_varray->Populate(m_mesh->GetVertexBuffer());
 
 	r->SetTransform(matrix4x4f(m_transform));
 	r->DrawMesh(m_mesh.get(), m_material.Get());
@@ -144,9 +145,7 @@ void SpeedLines::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
 	m_material.Reset(r->CreateMaterial("unlit", desc, rsd));
 
 	auto vbd = Graphics::VertexFormatDesc::FromAttribSet(m_varray->GetAttributeSet());
-	vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
-	vbd.numVertices = size;
-	m_mesh.reset(r->CreateMeshObject(r->CreateVertexBuffer(vbd)));
+	m_mesh.reset(r->CreateMeshObject(vbd, r->CreateVertexBuffer(vbd, Graphics::BUFFER_USAGE_DYNAMIC, size)));
 }
 
 void SpeedLines::Init()

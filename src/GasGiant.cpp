@@ -231,9 +231,7 @@ public:
 		PROFILE_SCOPED()
 		//create buffer and upload data
 		auto vbd = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
-		vbd.numVertices = ctx->NUMVERTICES();
-		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-		Graphics::VertexBuffer *vtxBuffer = Pi::renderer->CreateVertexBuffer(vbd);
+		Graphics::VertexBuffer *vtxBuffer = Pi::renderer->CreateVertexBuffer(vbd, Graphics::BUFFER_USAGE_STATIC, ctx->NUMVERTICES());
 
 		GasPatchContext::VBOVertex *vtxPtr = vtxBuffer->Map<GasPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
 		assert(vtxBuffer->GetDesc().stride == sizeof(GasPatchContext::VBOVertex));
@@ -253,7 +251,7 @@ public:
 		}
 		vtxBuffer->Unmap();
 
-		m_patchMesh.reset(Pi::renderer->CreateMeshObject(vtxBuffer, ctx->indexBuffer.Get()));
+		m_patchMesh.reset(Pi::renderer->CreateMeshObject(vbd, vtxBuffer, ctx->indexBuffer.Get()));
 	}
 
 	void Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum)

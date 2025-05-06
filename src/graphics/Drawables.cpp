@@ -341,7 +341,7 @@ namespace Graphics {
 
 			if (m_refreshVertexBuffer) {
 				m_refreshVertexBuffer = false;
-				m_pointData->GetVertexBuffer()->Populate(*m_va);
+				m_va->Populate(m_pointData->GetVertexBuffer());
 			}
 
 			r->DrawMesh(m_pointData.Get(), mat);
@@ -458,7 +458,7 @@ namespace Graphics {
 
 			if (m_refreshVertexBuffer) {
 				m_refreshVertexBuffer = false;
-				m_pointMesh->GetVertexBuffer()->Populate(*m_va);
+				m_va->Populate(m_pointMesh->GetVertexBuffer());
 			}
 
 			r->DrawMesh(m_pointMesh.Get(), mat);
