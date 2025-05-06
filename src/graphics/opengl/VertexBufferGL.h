@@ -16,13 +16,13 @@ namespace Graphics {
 
 		class VertexBuffer : public Graphics::VertexBuffer, public GLBufferBase {
 		public:
-			VertexBuffer(const VertexFormatDesc &, size_t stateHash);
+			VertexBuffer(const VertexBindingDesc &, BufferUsage usage, uint32_t numVertices, size_t stateHash);
 			~VertexBuffer();
 
 			void Unmap() override;
 
 			// copies the contents of the VertexArray into the buffer
-			bool Populate(const VertexArray &) override;
+			bool Populate(const VertexArray &, const VertexFormatDesc &) override;
 
 			// change the buffer data without mapping
 			void BufferData(const size_t, void *) final;
@@ -35,14 +35,15 @@ namespace Graphics {
 		protected:
 			Uint8 *MapInternal(BufferMapMode) override;
 			Uint8 *m_data;
+			BufferUsage m_usage;
 			size_t m_vertexStateHash;
 		};
 
 		class CachedVertexBuffer : public VertexBuffer {
 		public:
-			CachedVertexBuffer(const VertexFormatDesc &, size_t stateHash);
+			CachedVertexBuffer(const VertexBindingDesc &, BufferUsage, uint32_t, size_t);
 
-			bool Populate(const VertexArray &) final;
+			bool Populate(const VertexArray &, const VertexFormatDesc &) final;
 			uint32_t GetOffset() { return m_size * m_desc.stride; }
 
 			bool Flush();
@@ -102,7 +103,7 @@ namespace Graphics {
 
 		class MeshObject final : public Graphics::MeshObject {
 		public:
-			MeshObject(Graphics::VertexBuffer *vtx, Graphics::IndexBuffer *idx);
+			MeshObject(const Graphics::VertexFormatDesc &fmt, Graphics::VertexBuffer *vtx, Graphics::IndexBuffer *idx);
 			~MeshObject() override;
 
 			void Bind() override;
@@ -110,6 +111,7 @@ namespace Graphics {
 
 			Graphics::VertexBuffer *GetVertexBuffer() const override { return m_vtxBuffer.Get(); };
 			Graphics::IndexBuffer *GetIndexBuffer() const override { return m_idxBuffer.Get(); };
+			const Graphics::VertexFormatDesc &GetFormat() const override { return m_format; }
 
 		protected:
 			friend class Graphics::RendererOGL;
@@ -118,6 +120,7 @@ namespace Graphics {
 			RefCountedPtr<VertexBuffer> m_vtxBuffer;
 			RefCountedPtr<IndexBuffer> m_idxBuffer;
 			GLuint m_vao = 0;
+			VertexFormatDesc m_format;
 		};
 
 		GLuint BuildVAOFromDesc(const Graphics::VertexFormatDesc desc);

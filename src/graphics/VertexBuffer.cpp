@@ -74,6 +74,25 @@ namespace Graphics {
 		return index;
 	}
 
+	size_t GetNumActiveAttribsInSet(AttributeSet set)
+	{
+		size_t active = 0;
+		for (size_t i = 0; i < COUNTOF(s_attribs); i++)
+			if (set & s_attribs[i].semantic)
+				active++;
+
+		return active;
+	}
+
+	void GetActiveAttribsInSet(AttributeSet set, VertexAttrib *attribs, size_t numAttribs)
+	{
+		size_t out_idx = 0;
+		for (size_t i = 0; i < COUNTOF(s_attribs) && out_idx < numAttribs; i++) {
+			if (set & s_attribs[i].semantic)
+				attribs[out_idx++] = s_attribs[i].semantic;
+		}
+	}
+
 	VertexFormatDesc::VertexFormatDesc()
 	{
 		std::memset(attribs, 0, sizeof(VertexAttribDesc) * MAX_ATTRIBS);

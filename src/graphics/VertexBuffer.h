@@ -66,7 +66,11 @@ namespace Graphics {
 	};
 
 	// Return the index of the given attribute within the passed AttributeSet.
-	static size_t GetAttributeIndexInSet(AttributeSet set, VertexAttrib attrib);
+	size_t GetAttributeIndexInSet(AttributeSet set, VertexAttrib attrib);
+	// Return the number of active VertexAttribs in the given set.
+	size_t GetNumActiveAttribsInSet(AttributeSet set);
+	// Populate the passed list of individual vertex attributes that comprise the passed AttributeSet.
+	void GetActiveAttribsInSet(AttributeSet set, VertexAttrib *attribs, size_t numAttribs);
 
 	struct VertexFormatDesc {
 		VertexFormatDesc();
@@ -109,7 +113,7 @@ namespace Graphics {
 		bool SetVertexCount(Uint32);
 
 		// copies the contents of the VertexArray into the buffer
-		virtual bool Populate(const VertexArray &) = 0;
+		virtual bool Populate(const VertexArray &, const VertexFormatDesc &) = 0;
 
 		// change the buffer data without mapping
 		virtual void BufferData(const size_t, void *) = 0;
@@ -189,6 +193,7 @@ namespace Graphics {
 
 		virtual VertexBuffer *GetVertexBuffer() const = 0;
 		virtual IndexBuffer *GetIndexBuffer() const = 0;
+		virtual const VertexFormatDesc &GetFormat() const = 0;
 	};
 
 } // namespace Graphics

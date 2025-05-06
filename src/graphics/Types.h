@@ -71,7 +71,7 @@ namespace Graphics {
 		DATA_FORMAT_MAT4
 	};
 
-	enum BufferUsage {
+	enum BufferUsage : uint8_t {
 		BUFFER_USAGE_STATIC,
 		BUFFER_USAGE_DYNAMIC
 	};

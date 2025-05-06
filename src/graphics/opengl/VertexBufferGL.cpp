@@ -5,42 +5,50 @@
 #include "SDL_stdinc.h"
 #include "graphics/Types.h"
 #include "graphics/VertexArray.h"
+#include "graphics/VertexBuffer.h"
 #include "graphics/opengl/RendererGL.h"
-#include "utils.h"
+
+#include "profiler/Profiler.h"
+
 #include <algorithm>
 
 namespace Graphics {
 	namespace OGL {
 
-		static GLuint get_attrib_index(VertexAttrib semantic)
+		static GLuint is_attr_normalized(VertexAttribFormat fmt)
 		{
-			switch (semantic) {
-			case ATTRIB_POSITION: return 0;
-			case ATTRIB_POSITION2D: return 0;
-			case ATTRIB_NORMAL: return 1;
-			case ATTRIB_DIFFUSE: return 2;
-			case ATTRIB_UV0: return 3;
-			case ATTRIB_TANGENT: return 5;
-			default:
-				assert(false);
-				return 0;
-			}
+			return fmt == ATTRIB_FORMAT_UBYTE4 ? GL_TRUE : GL_FALSE;
 		}
 
-		static GLuint is_attr_normalized(VertexAttrib semantic)
+		static GLuint get_num_locations(VertexAttribFormat fmt)
 		{
-			return semantic == ATTRIB_DIFFUSE ? GL_TRUE : GL_FALSE;
+			switch (fmt) {
+			case ATTRIB_FORMAT_MAT3x4:
+			case ATTRIB_FORMAT_MAT4x4:
+				return 4;
+			case ATTRIB_FORMAT_MAT3:
+				return 3;
+			default:
+				return 1;
+			}
 		}
 
 		static GLint get_num_components(VertexAttribFormat fmt)
 		{
 			switch (fmt) {
+			case ATTRIB_FORMAT_FLOAT:
+				return 1;
 			case ATTRIB_FORMAT_FLOAT2:
 				return 2;
 			case ATTRIB_FORMAT_FLOAT3:
 				return 3;
 			case ATTRIB_FORMAT_FLOAT4:
 			case ATTRIB_FORMAT_UBYTE4:
+				return 4;
+			case ATTRIB_FORMAT_MAT3:
+			case ATTRIB_FORMAT_MAT3x4:
+				return 3;
+			case ATTRIB_FORMAT_MAT4x4:
 				return 4;
 			default:
 				assert(false);
@@ -53,9 +61,13 @@ namespace Graphics {
 			switch (fmt) {
 			case ATTRIB_FORMAT_UBYTE4:
 				return GL_UNSIGNED_BYTE;
+			case ATTRIB_FORMAT_FLOAT:
 			case ATTRIB_FORMAT_FLOAT2:
 			case ATTRIB_FORMAT_FLOAT3:
 			case ATTRIB_FORMAT_FLOAT4:
+			case ATTRIB_FORMAT_MAT3:
+			case ATTRIB_FORMAT_MAT3x4:
+			case ATTRIB_FORMAT_MAT4x4:
 			default:
 				return GL_FLOAT;
 			}
@@ -74,25 +86,25 @@ namespace Graphics {
 			}
 		}
 
-		VertexBuffer::VertexBuffer(const VertexFormatDesc &desc, size_t stateHash) :
-			Graphics::VertexBuffer(desc),
+		VertexBuffer::VertexBuffer(const VertexBindingDesc &desc, BufferUsage usage, uint32_t numVertices, size_t stateHash) :
+			Graphics::VertexBuffer(desc, numVertices),
+			m_usage(usage),
 			m_vertexStateHash(stateHash)
 		{
 			PROFILE_SCOPED()
 
-			m_desc.CalculateOffsets();
 			assert(m_desc.stride > 0);
 
 			//Allocate GL buffer with undefined contents
 			//Critical optimisation for some architectures in cases where buffer is created and written in the same frame
 			glGenBuffers(1, &m_buffer);
 			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-			const Uint32 dataSize = m_desc.numVertices * m_desc.stride;
-			glBufferData(GL_ARRAY_BUFFER, dataSize, 0, get_buffer_usage(m_desc.usage));
+			const Uint32 dataSize = numVertices * m_desc.stride;
+			glBufferData(GL_ARRAY_BUFFER, dataSize, 0, get_buffer_usage(usage));
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			// Allocate client data store for dynamic buffers
-			if (GetDesc().usage != BUFFER_USAGE_STATIC) {
+			if (usage != BUFFER_USAGE_STATIC) {
 				m_data = new Uint8[dataSize];
 				memset(m_data, 0, dataSize);
 			} else
@@ -111,7 +123,7 @@ namespace Graphics {
 			assert(mode != BUFFER_MAP_NONE);	  //makes no sense
 			assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
 			m_mapMode = mode;
-			if (GetDesc().usage == BUFFER_USAGE_STATIC) {
+			if (m_usage == BUFFER_USAGE_STATIC) {
 				glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
 				if (mode == BUFFER_MAP_READ)
 					return reinterpret_cast<Uint8 *>(glMapBuffer(GL_ARRAY_BUFFER, GL_READ_ONLY));
@@ -127,14 +139,14 @@ namespace Graphics {
 			PROFILE_SCOPED()
 			assert(m_mapMode != BUFFER_MAP_NONE); //not currently mapped
 
-			if (GetDesc().usage == BUFFER_USAGE_STATIC) {
+			if (m_usage == BUFFER_USAGE_STATIC) {
 				glUnmapBuffer(GL_ARRAY_BUFFER);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			} else {
 				if (m_mapMode == BUFFER_MAP_WRITE) {
-					const GLsizei dataSize = m_desc.numVertices * m_desc.stride;
+					const GLsizei dataSize = m_size * m_desc.stride;
 					glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-					glBufferData(GL_ARRAY_BUFFER, dataSize, 0, get_buffer_usage(m_desc.usage));
+					glBufferData(GL_ARRAY_BUFFER, dataSize, 0, get_buffer_usage(m_usage));
 					glBufferSubData(GL_ARRAY_BUFFER, 0, dataSize, m_data);
 					glBindBuffer(GL_ARRAY_BUFFER, 0);
 				}
@@ -263,7 +275,7 @@ namespace Graphics {
 		}
 
 		// copies the contents of the VertexArray into the buffer
-		bool VertexBuffer::Populate(const VertexArray &va)
+		bool VertexBuffer::Populate(const VertexArray &va, const VertexFormatDesc &)
 		{
 			PROFILE_SCOPED()
 			assert(va.GetNumVerts() > 0);
@@ -308,7 +320,7 @@ namespace Graphics {
 		{
 			PROFILE_SCOPED()
 			assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
-			if (GetDesc().usage == BUFFER_USAGE_DYNAMIC) {
+			if (m_usage == BUFFER_USAGE_DYNAMIC) {
 				glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
 				glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(size), static_cast<GLvoid *>(data), GL_DYNAMIC_DRAW);
 			}
@@ -326,30 +338,32 @@ namespace Graphics {
 		}
 
 		// ------------------------------------------------------------
-		CachedVertexBuffer::CachedVertexBuffer(const VertexFormatDesc &desc, size_t stateHash) :
-			VertexBuffer(desc, stateHash)
+		CachedVertexBuffer::CachedVertexBuffer(const VertexBindingDesc &desc, BufferUsage usage, uint32_t numVertices, size_t stateHash) :
+			VertexBuffer(desc, usage, numVertices, stateHash)
 		{
-			assert(desc.usage == BufferUsage::BUFFER_USAGE_DYNAMIC);
+			assert(usage == BufferUsage::BUFFER_USAGE_DYNAMIC);
 			m_size = 0;
 			m_lastFlushed = 0;
 		}
 
-		bool CachedVertexBuffer::Populate(const VertexArray &va)
+		// TODO: consider moving Populate to VertexArray and providing a MapRange/FlushRange API for regular VertexBuffer?
+		bool CachedVertexBuffer::Populate(const VertexArray &va, const VertexFormatDesc &fmt)
 		{
 			assert(m_capacity - m_size >= va.GetNumVerts());
 
-			// ugly but effective way of counting the number of non-empty vertex attribute slots
-			uint32_t numAttrs = 0;
-			for (; numAttrs < 8 && m_desc.attrib[numAttrs].semantic != ATTRIB_NONE; numAttrs++)
-				;
+			// Get an enumerated list of the attributes in this set
+			VertexAttrib semantics[MAX_ATTRIBS] = {};
+
+			uint32_t numAttrs = fmt.GetNumAttribs();
+			GetActiveAttribsInSet(va.GetAttributeSet(), semantics, numAttrs);
 
 			// Complicated-ish loop to deal with 16+ possible combinations of vertex formats
 			// (Position is effectively required, or it would be 32)
 			for (size_t idx = 0; idx < va.GetNumVerts(); idx++) {
 				for (uint32_t n = 0; n < numAttrs; n++) {
 					// Calculate the location of this component inside the vertex being written
-					uint8_t *data = m_data + (m_size + idx) * m_desc.stride + m_desc.attrib[n].offset;
-					switch (m_desc.attrib[n].semantic) {
+					uint8_t *data = m_data + (m_size + idx) * m_desc.stride + fmt.attribs[n].offset;
+					switch (semantics[n]) {
 					case ATTRIB_POSITION:
 						*reinterpret_cast<vector3f *>(data) = va.position[idx];
 						break;
@@ -396,7 +410,7 @@ namespace Graphics {
 		{
 			// respecify the buffer storage to orphan data that theoretically might still be in flight
 			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-			glBufferData(GL_ARRAY_BUFFER, m_capacity * m_desc.stride, nullptr, get_buffer_usage(m_desc.usage));
+			glBufferData(GL_ARRAY_BUFFER, m_capacity * m_desc.stride, nullptr, get_buffer_usage(m_usage));
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			m_size = 0;
@@ -600,16 +614,17 @@ namespace Graphics {
 			glDisableVertexAttribArray(INSTOFFS_MAT3);
 		}
 
-		MeshObject::MeshObject(Graphics::VertexBuffer *vtx, Graphics::IndexBuffer *idx) :
+		MeshObject::MeshObject(const Graphics::VertexFormatDesc &fmt, Graphics::VertexBuffer *vtx, Graphics::IndexBuffer *idx) :
 			m_vtxBuffer(static_cast<OGL::VertexBuffer *>(vtx)),
-			m_idxBuffer(static_cast<OGL::IndexBuffer *>(idx))
+			m_idxBuffer(static_cast<OGL::IndexBuffer *>(idx)),
+			m_format(fmt)
 		{
 			assert(m_vtxBuffer.Valid());
 
-			m_vao = BuildVAOFromDesc(m_vtxBuffer->GetDesc());
+			m_vao = BuildVAOFromDesc(fmt);
 			glBindVertexArray(m_vao);
 
-			glBindVertexBuffer(0, m_vtxBuffer->GetBuffer(), 0, m_vtxBuffer->GetDesc().stride);
+			glBindVertexBuffer(0, m_vtxBuffer->GetBuffer(), 0, fmt.bindings[0].stride);
 			if (m_idxBuffer)
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_idxBuffer->GetBuffer());
 
@@ -638,32 +653,32 @@ namespace Graphics {
 			glGenVertexArrays(1, &vao);
 			glBindVertexArray(vao);
 
-			//Setup the VAO pointers
-			for (uint32_t i = 0; i < MAX_ATTRIBS; i++) {
-				const auto &attr = desc.attrib[i];
-				if (attr.semantic == ATTRIB_NONE)
-					break;
+			// Setup VertexArrayObject pointers (vertex input descriptor state)
+			// FORMAT_NONE is the implicit null-terminator in the attribs list
+			for (size_t i = 0; i < MAX_ATTRIBS && desc.attribs[i].format; i++) {
+				const VertexAttribDesc &attr = desc.attribs[i];
 
-				GLuint attrib = get_attrib_index(attr.semantic);
-				// Enable the attribute at that location
-				glEnableVertexAttribArray(attrib);
-				// Tell OpenGL what the array contains
-				glVertexAttribFormat(attrib, get_num_components(attr.format), get_component_type(attr.format), is_attr_normalized(attr.semantic), attr.offset);
-				// All vertex attribs will be sourced from the same buffer
-				glVertexAttribBinding(attrib, 0);
+				// Passing matrix data requires configuring multiple contiguous locations
+				size_t num_locations = get_num_locations(attr.format);
+
+				for (GLuint loc = attr.location; loc < attr.location + num_locations; loc++) {
+					// Enable the attribute at that location
+					glEnableVertexAttribArray(loc);
+					// Tell OpenGL what the array contains
+					glVertexAttribFormat(loc, get_num_components(attr.format), get_component_type(attr.format), is_attr_normalized(attr.format), attr.offset);
+					// Point the attribute to the correct input buffer
+					glVertexAttribBinding(loc, attr.binding);
+				}
 			}
 
 			CHECKERRORS();
 
-			// Set up the divisor for the instance data buffer binding
-			glVertexBindingDivisor(1, 1);
-			// Set up the slots for an instance buffer now, so we don't need to touch it again.
-			const size_t sizeVec4 = (sizeof(float) * 4);
-			for (uint32_t idx = 0; idx < 4; idx++) {
-				// Each row of the matrix needs to be set separately.
-				glVertexAttribFormat(InstanceBuffer::INSTOFFS_MAT0 + idx, 4, GL_FLOAT, GL_FALSE, idx * sizeVec4);
-				// All instance-data attribs will be sourced from a separate buffer
-				glVertexAttribBinding(InstanceBuffer::INSTOFFS_MAT0 + idx, 1);
+			// Setup buffer binding divisors for instance buffers
+			// The list of bindings is null-terminated by the presence of an enabled==false binding
+			for (size_t i = 0; i < MAX_BINDINGS && desc.bindings[i].enabled; i++) {
+				const VertexBindingDesc &binding = desc.bindings[i];
+
+				glVertexBindingDivisor(i, binding.rate == ATTRIB_RATE_INSTANCE ? 1 : 0);
 			}
 
 			CHECKERRORS();
