@@ -141,12 +141,7 @@ size_t RenderStateCache::InternRenderState(const RenderStateDesc &rsd)
 
 size_t RenderStateCache::CacheVertexDesc(const Graphics::VertexFormatDesc &desc)
 {
-	// Hash the attrib sets - they're tightly packed and zero-initialized, so
-	// we're guaranteed to get the correct hash result.
-	const uint32_t *ptr = reinterpret_cast<const uint32_t *>(&desc.attrib);
-	uint32_t a = 0, b = 0;
-	lookup3_hashword2(ptr, MAX_ATTRIBS, &a, &b); // size of a single attribute is == sizeof(uint32_t)
-	size_t hash = size_t(a) | (size_t(b) << 32);
+	size_t hash = desc.Hash();
 
 	for (auto &pair : m_vtxDescObjectCache)
 		if (pair.first == hash)
