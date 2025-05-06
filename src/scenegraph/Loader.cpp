@@ -550,15 +550,16 @@ namespace SceneGraph {
 			// Create Vertex Buffer
 			// ====================
 
-			Graphics::VertexFormatDesc vbd;
+			Graphics::AttributeSet attribs;
 
 			if (!hasTangents) {
-				vbd = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0);
+				attribs = Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0;
 			} else {
-				vbd = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0 | Graphics::ATTRIB_TANGENT);
+				attribs = Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0 | Graphics::ATTRIB_TANGENT;
 			}
 
-			RefCountedPtr<Graphics::VertexBuffer> vb(m_renderer->CreateVertexBuffer(vbd, Graphics::BUFFER_USAGE_STATIC, mesh->mNumVertices));
+			Graphics::VertexFormatDesc fmt = Graphics::VertexFormatDesc::FromAttribSet(attribs);
+			RefCountedPtr<Graphics::VertexBuffer> vb(m_renderer->CreateVertexBuffer(fmt, Graphics::BUFFER_USAGE_STATIC, mesh->mNumVertices));
 
 			aiVector3D zeroVector = aiVector3D(0.f);
 
@@ -598,7 +599,7 @@ namespace SceneGraph {
 				vb->Unmap();
 			}
 
-			geom->AddMesh(vb, ib, mat);
+			geom->AddMesh(attribs, vb, ib, mat);
 
 			geoms.push_back(geom);
 		}

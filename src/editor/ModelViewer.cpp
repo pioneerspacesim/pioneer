@@ -165,7 +165,7 @@ void ModelViewer::HitIt()
 			Random rng(uint32_t(m_app->GetTime()));
 
 			// Please don't do this in game, no speed guarantee
-			const Uint32 posOffs = mesh.vertexBuffer->GetDesc().GetOffset(Graphics::ATTRIB_POSITION);
+			const Uint32 posOffs = mesh.meshObject->GetFormat().attribs[0].offset;
 			const Uint32 stride = mesh.vertexBuffer->GetDesc().stride;
 			const Uint32 vtxIdx = rng.Int32() % mesh.vertexBuffer->GetSize();
 

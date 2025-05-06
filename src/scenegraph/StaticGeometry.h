@@ -9,6 +9,7 @@
 #include "Aabb.h"
 #include "Node.h"
 #include "graphics/Renderer.h"
+#include "graphics/Types.h"
 #include "graphics/VertexBuffer.h"
 
 namespace SceneGraph {
@@ -23,6 +24,7 @@ namespace SceneGraph {
 			RefCountedPtr<Graphics::IndexBuffer> indexBuffer;
 			RefCountedPtr<Graphics::MeshObject> meshObject;
 			RefCountedPtr<Graphics::Material> material;
+			Graphics::AttributeSet semantics;
 		};
 		StaticGeometry(Graphics::Renderer *r);
 		StaticGeometry(const StaticGeometry &, NodeCopyCache *cache = 0);
@@ -35,7 +37,8 @@ namespace SceneGraph {
 		void Save(NodeDatabase &) override;
 		static StaticGeometry *Load(NodeDatabase &);
 
-		void AddMesh(RefCountedPtr<Graphics::VertexBuffer>,
+		void AddMesh(Graphics::AttributeSet,
+			RefCountedPtr<Graphics::VertexBuffer>,
 			RefCountedPtr<Graphics::IndexBuffer>,
 			RefCountedPtr<Graphics::Material>);
 		unsigned int GetNumMeshes() const { return static_cast<Uint32>(m_meshes.size()); }
