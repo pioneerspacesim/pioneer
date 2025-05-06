@@ -16,7 +16,7 @@ namespace Graphics {
 
 		class VertexBuffer : public Graphics::VertexBuffer, public GLBufferBase {
 		public:
-			VertexBuffer(const VertexBufferDesc &, size_t stateHash);
+			VertexBuffer(const VertexFormatDesc &, size_t stateHash);
 			~VertexBuffer();
 
 			void Unmap() override;
@@ -40,7 +40,7 @@ namespace Graphics {
 
 		class CachedVertexBuffer : public VertexBuffer {
 		public:
-			CachedVertexBuffer(const VertexBufferDesc &, size_t stateHash);
+			CachedVertexBuffer(const VertexFormatDesc &, size_t stateHash);
 
 			bool Populate(const VertexArray &) final;
 			uint32_t GetOffset() { return m_size * m_desc.stride; }
@@ -120,7 +120,7 @@ namespace Graphics {
 			GLuint m_vao = 0;
 		};
 
-		GLuint BuildVAOFromDesc(const Graphics::VertexBufferDesc desc);
+		GLuint BuildVAOFromDesc(const Graphics::VertexFormatDesc desc);
 
 	} // namespace OGL
 } // namespace Graphics

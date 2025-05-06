@@ -36,7 +36,7 @@ namespace Graphics {
 	class VertexArray;
 	class VertexBuffer;
 
-	struct VertexBufferDesc;
+	struct VertexFormatDesc;
 	struct RenderStateDesc;
 	struct RenderTargetDesc;
 
@@ -158,7 +158,7 @@ namespace Graphics {
 		virtual Material *CloneMaterial(const Material *mat, const MaterialDescriptor &descriptor, const RenderStateDesc &stateDescriptor) = 0;
 		virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
 		virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) = 0; //returns nullptr if unsupported
-		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &) = 0;
+		virtual VertexBuffer *CreateVertexBuffer(const VertexFormatDesc &) = 0;
 		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage, IndexBufferSize = INDEX_BUFFER_32BIT) = 0;
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) = 0;
 		virtual UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage) = 0;

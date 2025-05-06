@@ -15,7 +15,7 @@ namespace Graphics {
 
 		class VertexBuffer : public Graphics::VertexBuffer {
 		public:
-			VertexBuffer(const VertexBufferDesc &d) :
+			VertexBuffer(const VertexFormatDesc &d) :
 				Graphics::VertexBuffer(d),
 				m_buffer(new Uint8[m_desc.numVertices * m_desc.stride])
 			{}

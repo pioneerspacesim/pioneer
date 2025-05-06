@@ -512,7 +512,7 @@ namespace SceneGraph {
 			if (mat->diffuse.a < 255)
 				geom->SetNodeMask(NODE_TRANSPARENT);
 
-			Graphics::VertexBufferDesc vbd;
+			Graphics::VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
 			vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
 			vbd.attrib[0].offset = hasTangents ? offsetof(ModelTangentVtx, pos) : offsetof(ModelVtx, pos);

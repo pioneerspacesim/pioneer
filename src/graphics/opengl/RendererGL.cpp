@@ -836,7 +836,7 @@ namespace Graphics {
 
 		// If we don't have one, make one
 		if (iter == s_DynamicDrawBufferMap.end()) {
-			auto desc = VertexBufferDesc::FromAttribSet(v->GetAttributeSet());
+			auto desc = VertexFormatDesc::FromAttribSet(v->GetAttributeSet());
 			desc.numVertices = std::max(v->GetNumVerts(), DYNAMIC_DRAW_BUFFER_SIZE / desc.stride);
 			desc.usage = BUFFER_USAGE_DYNAMIC;
 
@@ -1137,7 +1137,7 @@ namespace Graphics {
 		return rt;
 	}
 
-	VertexBuffer *RendererOGL::CreateVertexBuffer(const VertexBufferDesc &desc)
+	VertexBuffer *RendererOGL::CreateVertexBuffer(const VertexFormatDesc &desc)
 	{
 		m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
 		size_t stateHash = m_renderStateCache->CacheVertexDesc(desc);
@@ -1170,7 +1170,7 @@ namespace Graphics {
 
 	MeshObject *RendererOGL::CreateMeshObjectFromArray(const VertexArray *vertexArray, IndexBuffer *indexBuffer, BufferUsage usage)
 	{
-		VertexBufferDesc desc = VertexBufferDesc::FromAttribSet(vertexArray->GetAttributeSet());
+		VertexFormatDesc desc = VertexFormatDesc::FromAttribSet(vertexArray->GetAttributeSet());
 		desc.numVertices = vertexArray->GetNumVerts();
 		desc.usage = usage;
 

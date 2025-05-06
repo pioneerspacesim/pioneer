@@ -139,7 +139,7 @@ size_t RenderStateCache::InternRenderState(const RenderStateDesc &rsd)
 	return hash;
 }
 
-size_t RenderStateCache::CacheVertexDesc(const Graphics::VertexBufferDesc &desc)
+size_t RenderStateCache::CacheVertexDesc(const Graphics::VertexFormatDesc &desc)
 {
 	// Hash the attrib sets - they're tightly packed and zero-initialized, so
 	// we're guaranteed to get the correct hash result.
@@ -159,7 +159,7 @@ size_t RenderStateCache::CacheVertexDesc(const Graphics::VertexBufferDesc &desc)
 
 size_t RenderStateCache::InternVertexAttribSet(Graphics::AttributeSet set)
 {
-	auto vbdesc = Graphics::VertexBufferDesc::FromAttribSet(set);
+	auto vbdesc = Graphics::VertexFormatDesc::FromAttribSet(set);
 	return CacheVertexDesc(vbdesc);
 }
 

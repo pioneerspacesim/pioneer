@@ -29,7 +29,7 @@ void InstanceRenderer::Initialize()
 	io.BackendRendererName = "Pioneer Renderer";
 	io.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset;
 
-	Graphics::VertexBufferDesc vbd;
+	Graphics::VertexFormatDesc vbd;
 	vbd.attrib[0] = { Graphics::ATTRIB_POSITION2D, Graphics::ATTRIB_FORMAT_FLOAT2, offsetof(ImDrawVert, pos) };
 	vbd.attrib[1] = { Graphics::ATTRIB_UV0, Graphics::ATTRIB_FORMAT_FLOAT2, offsetof(ImDrawVert, uv) };
 	vbd.attrib[2] = { Graphics::ATTRIB_DIFFUSE, Graphics::ATTRIB_FORMAT_UBYTE4, offsetof(ImDrawVert, col) };

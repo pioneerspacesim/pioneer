@@ -198,8 +198,8 @@ namespace SceneGraph {
 			const bool hasTangents = (vtxFormat & Graphics::ATTRIB_TANGENT);
 
 			//vertex buffer
-			// XXX evaluate whether we can use VertexBufferDesc::FromAttribSet here
-			Graphics::VertexBufferDesc vbDesc;
+			// XXX evaluate whether we can use VertexFormatDesc::FromAttribSet here
+			Graphics::VertexFormatDesc vbDesc;
 			vbDesc.attrib[0].semantic = Graphics::ATTRIB_POSITION;
 			vbDesc.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
 			vbDesc.attrib[1].semantic = Graphics::ATTRIB_NORMAL;

@@ -230,7 +230,7 @@ public:
 	{
 		PROFILE_SCOPED()
 		//create buffer and upload data
-		auto vbd = Graphics::VertexBufferDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
+		auto vbd = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
 		vbd.numVertices = ctx->NUMVERTICES();
 		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
 		Graphics::VertexBuffer *vtxBuffer = Pi::renderer->CreateVertexBuffer(vbd);

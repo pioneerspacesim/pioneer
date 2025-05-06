@@ -103,7 +103,7 @@ namespace Graphics {
 		Material *CloneMaterial(const Material *, const MaterialDescriptor &, const RenderStateDesc &) final;
 		Texture *CreateTexture(const TextureDescriptor &descriptor) final;
 		RenderTarget *CreateRenderTarget(const RenderTargetDesc &) final;
-		VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &) final;
+		VertexBuffer *CreateVertexBuffer(const VertexFormatDesc &) final;
 		IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage, IndexBufferSize) final;
 		InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) final;
 		UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage) final;

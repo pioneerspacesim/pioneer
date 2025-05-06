@@ -143,7 +143,7 @@ void SpeedLines::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
 
 	m_material.Reset(r->CreateMaterial("unlit", desc, rsd));
 
-	auto vbd = Graphics::VertexBufferDesc::FromAttribSet(m_varray->GetAttributeSet());
+	auto vbd = Graphics::VertexFormatDesc::FromAttribSet(m_varray->GetAttributeSet());
 	vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
 	vbd.numVertices = size;
 	m_mesh.reset(r->CreateMeshObject(r->CreateVertexBuffer(vbd)));

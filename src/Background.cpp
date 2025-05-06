@@ -158,7 +158,7 @@ namespace Background {
 		m_material->diffuse = Color4f(0.8, 0.8, 0.8, 1.0);
 
 		//create buffer and upload data
-		Graphics::VertexBufferDesc vbd = Graphics::VertexBufferDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+		Graphics::VertexFormatDesc vbd = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 		vbd.numVertices = box->GetNumVerts();
 		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
 
@@ -457,7 +457,7 @@ namespace Background {
 		m_hyperVtx.reset(new vector3f[NUM_HYPERSPACE_STARS * 3]);
 		m_hyperCol.reset(new Color[NUM_HYPERSPACE_STARS * 3]);
 		{
-			Graphics::VertexBufferDesc vbd = VertexBufferDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
+			Graphics::VertexFormatDesc vbd = VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
 			vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
 			vbd.numVertices = NUM_HYPERSPACE_STARS * 2;
 			// this vertex buffer will be owned by the animMesh object
@@ -700,7 +700,7 @@ namespace Background {
 		m_material.Reset(m_renderer->CreateMaterial("starfield", desc, stateDesc));
 		m_material->emissive = Color::WHITE;
 
-		Graphics::VertexBufferDesc vbd = VertexBufferDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
+		Graphics::VertexFormatDesc vbd = VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
 		vbd.numVertices = bottom->GetNumVerts() + top->GetNumVerts();
 		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
 

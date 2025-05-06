@@ -68,7 +68,7 @@ namespace Graphics {
 			m_material.Reset(r->CreateMaterial(desc));
 
 			//Create vtx & index buffers and copy data
-			VertexBufferDesc vbd;
+			VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = ATTRIB_POSITION;
 			vbd.attrib[0].format = ATTRIB_FORMAT_FLOAT3;
 			vbd.numVertices = vertices.GetNumVerts();
@@ -187,7 +187,7 @@ namespace Graphics {
 			desc.vertexColors = true;
 			m_material.Reset(r->CreateMaterial(desc));
 
-			Graphics::VertexBufferDesc vbd;
+			Graphics::VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
 			vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
 			vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
@@ -264,7 +264,7 @@ namespace Graphics {
 
 			/*
 			if (!m_lineMesh.Valid()) {
-				Graphics::VertexBufferDesc vbd = VertexBufferDesc::FromAttribSet(m_va->GetAttributeSet());
+				Graphics::VertexFormatDesc vbd = VertexFormatDesc::FromAttribSet(m_va->GetAttributeSet());
 				vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
 				vbd.numVertices = m_va->GetNumVerts() * 2; // ask for twice as many as we need to reduce buffer thrashing
 				m_lineMesh.Reset(r->CreateMeshObject(r->CreateVertexBuffer(vbd)));
@@ -507,7 +507,7 @@ namespace Graphics {
 			scale = fabs(scale);
 			matrix4x4f trans = matrix4x4f::Identity();
 			trans.Scale(scale, scale, scale);
-			
+
 			// Reserve space for vertices and indices
 			VertexArray vts(attribs, icosahedron_counts[subdivs][0]);
 			std::vector<Uint32> indices;
@@ -638,7 +638,7 @@ namespace Graphics {
 			vertices.Add(vector3f(halfsz.x, halfsz.y, 0.0f), vector2f(texSize.x, 0.0f));
 
 			//Create vtx & index buffers and copy data
-			VertexBufferDesc vbd;
+			VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = ATTRIB_POSITION;
 			vbd.attrib[0].format = ATTRIB_FORMAT_FLOAT3;
 			vbd.attrib[1].semantic = ATTRIB_UV0;
@@ -673,7 +673,7 @@ namespace Graphics {
 			vertices.Add(vector3f(pos.x + size.x, pos.y + size.y, 0.0f), vector2f(texPos.x + texSize.x, texPos.y));
 
 			//Create vtx & index buffers and copy data
-			VertexBufferDesc vbd;
+			VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = ATTRIB_POSITION;
 			vbd.attrib[0].format = ATTRIB_FORMAT_FLOAT3;
 			vbd.attrib[1].semantic = ATTRIB_UV0;
@@ -692,7 +692,7 @@ namespace Graphics {
 			m_renderState = state;
 
 			//Create vtx & index buffers and copy data
-			VertexBufferDesc vbd;
+			VertexFormatDesc vbd;
 
 			Uint32 attribIdx = 0;
 			assert(va.HasAttrib(ATTRIB_POSITION));
@@ -761,7 +761,7 @@ namespace Graphics {
 			bgArr.Add(vector3f(size.x, pos.y, 0), c);
 			bgArr.Add(vector3f(pos.x, pos.y, 0), c);
 
-			VertexBufferDesc vbd;
+			VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = ATTRIB_POSITION;
 			vbd.attrib[0].format = ATTRIB_FORMAT_FLOAT3;
 			vbd.attrib[1].semantic = ATTRIB_DIFFUSE;
@@ -807,7 +807,7 @@ namespace Graphics {
 			desc.vertexColors = true;
 			m_material.Reset(r->CreateMaterial(desc));
 
-			VertexBufferDesc vbd;
+			VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = ATTRIB_POSITION;
 			vbd.attrib[0].format = ATTRIB_FORMAT_FLOAT3;
 			vbd.attrib[1].semantic = ATTRIB_DIFFUSE;

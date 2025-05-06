@@ -74,7 +74,7 @@ namespace Graphics {
 			}
 		}
 
-		VertexBuffer::VertexBuffer(const VertexBufferDesc &desc, size_t stateHash) :
+		VertexBuffer::VertexBuffer(const VertexFormatDesc &desc, size_t stateHash) :
 			Graphics::VertexBuffer(desc),
 			m_vertexStateHash(stateHash)
 		{
@@ -326,7 +326,7 @@ namespace Graphics {
 		}
 
 		// ------------------------------------------------------------
-		CachedVertexBuffer::CachedVertexBuffer(const VertexBufferDesc &desc, size_t stateHash) :
+		CachedVertexBuffer::CachedVertexBuffer(const VertexFormatDesc &desc, size_t stateHash) :
 			VertexBuffer(desc, stateHash)
 		{
 			assert(desc.usage == BufferUsage::BUFFER_USAGE_DYNAMIC);
@@ -631,7 +631,7 @@ namespace Graphics {
 			glBindVertexArray(0);
 		}
 
-		GLuint BuildVAOFromDesc(const Graphics::VertexBufferDesc desc)
+		GLuint BuildVAOFromDesc(const Graphics::VertexFormatDesc desc)
 		{
 			GLuint vao = 0;
 			// Create the VAOs

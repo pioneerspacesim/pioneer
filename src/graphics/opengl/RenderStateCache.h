@@ -52,7 +52,7 @@ namespace Graphics {
 
 			// Cache the given vertex format descriptor and create the associated
 			// vertex array object needed to draw it.
-			size_t CacheVertexDesc(const Graphics::VertexBufferDesc &desc);
+			size_t CacheVertexDesc(const Graphics::VertexFormatDesc &desc);
 
 			// Create the canonical representation of the given vertex attribute set
 			// and cache the VAO needed for it.

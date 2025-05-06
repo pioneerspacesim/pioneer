@@ -89,35 +89,13 @@ namespace Graphics {
 
 #pragma pack(pop)
 
-	struct VertexBufferDesc {
-		VertexBufferDesc();
-		static VertexBufferDesc FromAttribSet(AttributeSet set);
-
-		//byte offset of an existing attribute
-		Uint32 GetOffset(VertexAttrib) const;
-
-		//used internally for calculating offsets
-		static Uint32 CalculateOffset(const VertexBufferDesc &, VertexAttrib);
-		static Uint32 GetAttribSize(VertexAttribFormat);
-
-		void CalculateOffsets();
-
-		//semantic ATTRIB_NONE ends description (when not using all attribs)
-		VertexAttribDesc attrib[MAX_ATTRIBS];
-		Uint32 numVertices;
-		//byte size of one vertex, if zero this is
-		//automatically calculated for created buffers
-		Uint32 stride;
-		BufferUsage usage;
-	};
-
 	class VertexBuffer : public Mappable {
 	public:
-		VertexBuffer(const VertexBufferDesc &desc) :
+		VertexBuffer(const VertexFormatDesc &desc) :
 			Mappable(desc.numVertices),
 			m_desc(desc) {}
 		virtual ~VertexBuffer();
-		const VertexBufferDesc &GetDesc() const { return m_desc; }
+		const VertexFormatDesc &GetDesc() const { return m_desc; }
 
 		template <typename T>
 		T *Map(BufferMapMode mode)
@@ -144,7 +122,7 @@ namespace Graphics {
 
 	protected:
 		virtual Uint8 *MapInternal(BufferMapMode) = 0;
-		VertexBufferDesc m_desc;
+		VertexFormatDesc m_desc;
 	};
 
 	// Index buffer
