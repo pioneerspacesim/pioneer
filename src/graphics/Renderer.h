@@ -158,13 +158,14 @@ namespace Graphics {
 		virtual Material *CloneMaterial(const Material *mat, const MaterialDescriptor &descriptor, const RenderStateDesc &stateDescriptor) = 0;
 		virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
 		virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) = 0; //returns nullptr if unsupported
-		virtual VertexBuffer *CreateVertexBuffer(const VertexFormatDesc &) = 0;
+		// FIXME: pass { size, stride, usage } instead of a VertexFormatDesc
+		virtual VertexBuffer *CreateVertexBuffer(const VertexFormatDesc &, BufferUsage, uint32_t numVertices) = 0;
 		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage, IndexBufferSize = INDEX_BUFFER_32BIT) = 0;
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) = 0;
 		virtual UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage) = 0;
 
 		// Create a new mesh object that wraps the given vertex and index buffers.
-		virtual MeshObject *CreateMeshObject(VertexBuffer *vertexBuffer, IndexBuffer *indexBuffer = nullptr) = 0;
+		virtual MeshObject *CreateMeshObject(const VertexFormatDesc &desc, VertexBuffer *vertexBuffer, IndexBuffer *indexBuffer = nullptr) = 0;
 
 		// Create a new mesh object and vertex buffer, and upload data from the given vertex array. Optionally associate the given index buffer.
 		// This is a convenience function to avoid boilerplate needed to set up a vertex buffer and mesh object from a vertex array.

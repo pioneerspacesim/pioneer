@@ -1136,11 +1136,12 @@ namespace Graphics {
 		return rt;
 	}
 
-	VertexBuffer *RendererOGL::CreateVertexBuffer(const VertexFormatDesc &desc)
+	VertexBuffer *RendererOGL::CreateVertexBuffer(const VertexFormatDesc &desc, BufferUsage usage, uint32_t numVertices)
 	{
 		m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
+		// FIXME: vertex format hash should not be stored on the buffer
 		size_t stateHash = m_renderStateCache->CacheVertexDesc(desc);
-		return new OGL::VertexBuffer(desc, stateHash);
+		return new OGL::VertexBuffer(desc.bindings[0], usage, numVertices, stateHash);
 	}
 
 	IndexBuffer *RendererOGL::CreateIndexBuffer(Uint32 size, BufferUsage usage, IndexBufferSize el)
@@ -1161,22 +1162,20 @@ namespace Graphics {
 		return new OGL::UniformBuffer(size, usage);
 	}
 
-	MeshObject *RendererOGL::CreateMeshObject(VertexBuffer *v, IndexBuffer *i)
+	MeshObject *RendererOGL::CreateMeshObject(const VertexFormatDesc &desc, VertexBuffer *v, IndexBuffer *i)
 	{
 		m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
-		return new OGL::MeshObject(v, i);
+		return new OGL::MeshObject(desc, v, i);
 	}
 
 	MeshObject *RendererOGL::CreateMeshObjectFromArray(const VertexArray *vertexArray, IndexBuffer *indexBuffer, BufferUsage usage)
 	{
 		VertexFormatDesc desc = VertexFormatDesc::FromAttribSet(vertexArray->GetAttributeSet());
-		desc.numVertices = vertexArray->GetNumVerts();
-		desc.usage = usage;
 
-		Graphics::VertexBuffer *vertexBuffer = CreateVertexBuffer(desc);
-		vertexBuffer->Populate(*vertexArray);
+		Graphics::VertexBuffer *vertexBuffer = CreateVertexBuffer(desc, usage, vertexArray->GetNumVerts());
+		vertexBuffer->Populate(*vertexArray, desc);
 
-		return CreateMeshObject(vertexBuffer, indexBuffer);
+		return CreateMeshObject(desc, vertexBuffer, indexBuffer);
 	}
 
 	const BufferBinding<UniformBuffer> &RendererOGL::GetLightUniformBuffer()

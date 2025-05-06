@@ -104,11 +104,11 @@ namespace Graphics {
 		Material *CloneMaterial(const Material *, const MaterialDescriptor &, const RenderStateDesc &) final;
 		Texture *CreateTexture(const TextureDescriptor &descriptor) final;
 		RenderTarget *CreateRenderTarget(const RenderTargetDesc &) final;
-		VertexBuffer *CreateVertexBuffer(const VertexFormatDesc &) final;
+		VertexBuffer *CreateVertexBuffer(const VertexFormatDesc &, BufferUsage, uint32_t) final;
 		IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage, IndexBufferSize) final;
 		InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) final;
 		UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage) final;
-		MeshObject *CreateMeshObject(VertexBuffer *v, IndexBuffer *i) final;
+		MeshObject *CreateMeshObject(const VertexFormatDesc &desc, VertexBuffer *v, IndexBuffer *i) final;
 		MeshObject *CreateMeshObjectFromArray(const VertexArray *v, IndexBuffer *i = nullptr, BufferUsage u = BUFFER_USAGE_STATIC) final;
 
 		const RenderStateDesc &GetMaterialRenderState(const Graphics::Material *m) final;
