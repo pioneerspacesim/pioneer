@@ -93,8 +93,15 @@ namespace SceneGraph {
 				mdesc.instanced = true;
 
 				const Graphics::RenderStateDesc oldDesc = r->GetMaterialRenderState(it.material.Get());
+
+				// Set up the vertex format descriptor for instanced rendering
+				// This ideally should be done significantly before now (at load time, probably)
+				Graphics::VertexFormatDesc vtxFormat = it.meshObject->GetFormat();
+				vtxFormat.attribs[vtxFormat.GetNumAttribs()] = { Graphics::ATTRIB_FORMAT_MAT4x4, 6, 1, 0 };
+				vtxFormat.bindings[1] = { sizeof(matrix4x4f), true, Graphics::ATTRIB_RATE_INSTANCE };
+
 				// create the "new" material with the instanced description
-				RefCountedPtr<Graphics::Material> mat(r->CloneMaterial(it.material.Get(), mdesc, oldDesc));
+				RefCountedPtr<Graphics::Material> mat(r->CloneMaterial(it.material.Get(), mdesc, oldDesc, vtxFormat));
 				m_instanceMaterials.push_back(std::move(mat));
 			}
 		}

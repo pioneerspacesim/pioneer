@@ -63,6 +63,7 @@ namespace Graphics {
 			Shader *m_shader;
 			Program *m_activeVariant;
 			RendererOGL *m_renderer;
+			GLuint m_vertexState; // vertex array object corresponding to the material's vertex format
 
 			uint32_t m_perDrawBinding;
 

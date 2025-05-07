@@ -991,13 +991,19 @@ namespace Graphics {
 		return true;
 	}
 
-	bool RendererOGL::DrawMeshInstancedInternal(OGL::MeshObject *mesh, OGL::InstanceBuffer *inst, PrimitiveType type)
+	bool RendererOGL::DrawMeshInstancedInternal(OGL::MeshObject *mesh, OGL::InstanceBuffer *inst, GLuint vtxState, PrimitiveType type)
 	{
 		PROFILE_SCOPED()
 
-		glBindVertexArray(mesh->GetVertexArrayObject());
+		glBindVertexArray(vtxState);
+		// TODO: loop through an array of vertex buffers rather than hardcoding slots and stride
+		glBindVertexBuffer(0, mesh->m_vtxBuffer->GetBuffer(), 0, mesh->m_vtxBuffer->GetDesc().stride);
+		glBindVertexBuffer(1, inst->GetBuffer(), 0, sizeof(float) * 16);
+
+		if (mesh->m_idxBuffer.Valid())
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->m_idxBuffer->GetBuffer());
+
 		uint32_t numElems = mesh->m_idxBuffer.Valid() ? mesh->m_idxBuffer->GetIndexCount() : mesh->m_vtxBuffer->GetSize();
-		inst->Bind();
 
 		if (mesh->m_idxBuffer.Valid()) {
 			glDrawElementsInstanced(type, numElems, get_element_size(mesh->m_idxBuffer.Get()), nullptr, inst->GetInstanceCount());
@@ -1005,7 +1011,6 @@ namespace Graphics {
 			glDrawArraysInstanced(type, 0, numElems, inst->GetInstanceCount());
 		}
 
-		inst->Release();
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 		m_stats.AddToStatCount(Stats::STAT_DRAWCALLINSTANCES, 1);
 		m_stats.AddToStatCount(Stats::STAT_DRAWCALLSINSTANCED, inst->GetInstanceCount());
@@ -1079,6 +1084,36 @@ namespace Graphics {
 
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 		return newMat;
+	}
+
+	Material *RendererOGL::CreateMaterial(const std::string &shader, const MaterialDescriptor &desc, const RenderStateDesc &stateDesc, const VertexFormatDesc &vfmt)
+	{
+		size_t hash = m_renderStateCache->CacheVertexDesc(vfmt);
+		GLuint vao = m_renderStateCache->GetVertexArrayObject(hash);
+
+		glBindVertexArray(vao);
+		OGL::Material *mat = static_cast<OGL::Material *>(CreateMaterial(shader, desc, stateDesc));
+		glBindVertexArray(0);
+
+		if (!mat)
+			return nullptr;
+
+		mat->m_vertexState = vao;
+		return mat;
+	}
+
+	Material *RendererOGL::CloneMaterial(const Material *old, const MaterialDescriptor &desc, const RenderStateDesc &stateDesc, const VertexFormatDesc &vfmt)
+	{
+		size_t hash = m_renderStateCache->CacheVertexDesc(vfmt);
+		GLuint vao = m_renderStateCache->GetVertexArrayObject(hash);
+
+		OGL::Material *mat = static_cast<OGL::Material *>(CloneMaterial(old, desc, stateDesc));
+
+		if (!mat)
+			return nullptr;
+
+		mat->m_vertexState = vao;
+		return mat;
 	}
 
 	bool RendererOGL::ReloadShaders()

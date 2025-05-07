@@ -90,6 +90,9 @@ namespace Graphics {
 			return new Graphics::Dummy::MeshObject(desc, vb, static_cast<Dummy::IndexBuffer *>(i));
 		}
 
+		Material *CreateMaterial(const std::string &s, const MaterialDescriptor &d, const RenderStateDesc &rsd, const VertexFormatDesc &vfmt) final { return new Graphics::Dummy::Material(rsd); }
+		Material *CloneMaterial(const Material *m, const MaterialDescriptor &d, const RenderStateDesc &rsd, const VertexFormatDesc &vfmt) final { return new Graphics::Dummy::Material(rsd); }
+
 		const RenderStateDesc &GetMaterialRenderState(const Graphics::Material *m) final { return static_cast<const Dummy::Material *>(m)->rsd; }
 
 		bool ReloadShaders() final { return true; }

@@ -30,6 +30,7 @@ void CommandList::AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *mat
 	cmd.shader = mat->GetShader();
 	cmd.renderStateHash = mat->m_renderStateHash;
 	cmd.drawData = SetupMaterialData(mat);
+	cmd.vertexState = inst ? mat->m_vertexState : 0;
 
 	m_drawCmds.emplace_back(std::move(cmd));
 }
@@ -288,7 +289,7 @@ void CommandList::ExecuteDrawCmd(const DrawCmd &cmd)
 
 	PrimitiveType pt = stateCache->GetActiveRenderState().primitiveType;
 	if (cmd.inst)
-		m_renderer->DrawMeshInstancedInternal(cmd.mesh, cmd.inst, pt);
+		m_renderer->DrawMeshInstancedInternal(cmd.mesh, cmd.inst, cmd.vertexState, pt);
 	else
 		m_renderer->DrawMeshInternal(cmd.mesh, pt);
 

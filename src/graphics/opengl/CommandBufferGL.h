@@ -41,6 +41,7 @@ namespace Graphics {
 				const Shader *shader = nullptr;
 				Program *program = nullptr;
 				size_t renderStateHash = 0;
+				GLuint vertexState = 0;
 				char *drawData;
 			};
 
