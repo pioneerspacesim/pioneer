@@ -74,6 +74,30 @@ namespace Graphics {
 			}
 		}
 
+		static GLuint get_component_size(VertexAttribFormat fmt)
+		{
+			switch (fmt) {
+			case ATTRIB_FORMAT_UBYTE4:
+				return sizeof(uint32_t);
+			case ATTRIB_FORMAT_FLOAT:
+				return sizeof(float);
+			case ATTRIB_FORMAT_FLOAT2:
+				return sizeof(float) * 2;
+			case ATTRIB_FORMAT_FLOAT3:
+				return sizeof(float) * 3;
+			case ATTRIB_FORMAT_FLOAT4:
+				return sizeof(float) * 4;
+			case ATTRIB_FORMAT_MAT3:
+				return sizeof(float) * 3;
+			case ATTRIB_FORMAT_MAT3x4:
+				return sizeof(float) * 4;
+			case ATTRIB_FORMAT_MAT4x4:
+				return sizeof(float) * 4;
+			default:
+				return 4;
+			}
+		}
+
 		static GLenum get_buffer_usage(BufferUsage use)
 		{
 			switch (use) {
@@ -484,11 +508,13 @@ namespace Graphics {
 				// Passing matrix data requires configuring multiple contiguous locations
 				size_t num_locations = get_num_locations(attr.format);
 
-				for (GLuint loc = attr.location; loc < attr.location + num_locations; loc++) {
+				for (size_t l = 0; l < num_locations; l++) {
+					GLuint loc = attr.location + l;
+
 					// Enable the attribute at that location
 					glEnableVertexAttribArray(loc);
 					// Tell OpenGL what the array contains
-					glVertexAttribFormat(loc, get_num_components(attr.format), get_component_type(attr.format), is_attr_normalized(attr.format), attr.offset);
+					glVertexAttribFormat(loc, get_num_components(attr.format), get_component_type(attr.format), is_attr_normalized(attr.format), attr.offset + get_component_size(attr.format) * l);
 					// Point the attribute to the correct input buffer
 					glVertexAttribBinding(loc, attr.binding);
 				}
