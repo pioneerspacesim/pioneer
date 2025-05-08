@@ -38,7 +38,6 @@ namespace Graphics {
 			struct DrawCmd {
 				MeshObject *mesh;
 				InstanceBuffer *inst = nullptr;
-				const Shader *shader = nullptr;
 				Program *program = nullptr;
 				size_t renderStateHash = 0;
 				GLuint vertexState = 0;
@@ -48,9 +47,9 @@ namespace Graphics {
 			struct DynamicDrawCmd {
 				BufferBinding<VertexBuffer> vtxBind;
 				BufferBinding<IndexBuffer> idxBind;
-				const Shader *shader = nullptr;
 				Program *program = nullptr;
 				size_t renderStateHash = 0;
+				GLuint vertexState = 0;
 				char *drawData;
 			};
 
@@ -117,7 +116,7 @@ namespace Graphics {
 			char *SetupMaterialData(OGL::Material *mat);
 
 			// These functions are called before and after a command is executed
-			void ApplyDrawData(const Shader *shader, Program *program, char *drawData) const;
+			void ApplyDrawData(Program *program, char *drawData) const;
 
 			void ExecuteDrawCmd(const DrawCmd &);
 			void ExecuteDynamicDrawCmd(const DynamicDrawCmd &);

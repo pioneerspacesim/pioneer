@@ -1018,12 +1018,14 @@ namespace Graphics {
 		return true;
 	}
 
-	bool RendererOGL::DrawMeshDynamicInternal(BufferBinding<OGL::VertexBuffer> vtxBind, BufferBinding<OGL::IndexBuffer> idxBind, PrimitiveType type)
+	bool RendererOGL::DrawMeshDynamicInternal(BufferBinding<OGL::VertexBuffer> vtxBind, BufferBinding<OGL::IndexBuffer> idxBind, GLuint vtxState, PrimitiveType type)
 	{
 		PROFILE_SCOPED()
 
-		glBindVertexArray(m_renderStateCache->GetVertexArrayObject(vtxBind.buffer->GetVertexFormatHash()));
+		glBindVertexArray(vtxState);
+		// glBindVertexArray(m_renderStateCache->GetVertexArrayObject(vtxBind.buffer->GetVertexFormatHash()));
 		glBindVertexBuffer(0, vtxBind.buffer->GetBuffer(), vtxBind.offset, vtxBind.buffer->GetDesc().stride);
+
 		if (idxBind.buffer) {
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBind.buffer->GetBuffer());
 			glDrawElements(type, idxBind.size, get_element_size(idxBind.buffer), (void *)(uintptr_t)(idxBind.offset));

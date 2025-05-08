@@ -27,7 +27,6 @@ void CommandList::AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *mat
 	cmd.inst = static_cast<OGL::InstanceBuffer *>(inst);
 
 	cmd.program = mat->EvaluateVariant();
-	cmd.shader = mat->GetShader();
 	cmd.renderStateHash = mat->m_renderStateHash;
 	cmd.drawData = SetupMaterialData(mat);
 	cmd.vertexState = inst ? mat->m_vertexState : 0;
@@ -50,8 +49,8 @@ void CommandList::AddDynamicDrawCmd(BufferBinding<Graphics::VertexBuffer> vtxBin
 	cmd.idxBind.size = idxBind.size;
 
 	cmd.program = mat->EvaluateVariant();
-	cmd.shader = mat->GetShader();
 	cmd.renderStateHash = mat->m_renderStateHash;
+	cmd.vertexState = mat->m_vertexState;
 	cmd.drawData = SetupMaterialData(mat);
 
 	m_drawCmds.emplace_back(std::move(cmd));
@@ -232,10 +231,12 @@ char *CommandList::SetupMaterialData(OGL::Material *mat)
 	return alloc;
 }
 
-void CommandList::ApplyDrawData(const Shader *shader, Program *program, char *drawData) const
+void CommandList::ApplyDrawData(Program *program, char *drawData) const
 {
 	PROFILE_SCOPED();
+	const Shader *shader = program->GetShader();
 	RenderStateCache *state = m_renderer->GetStateCache();
+
 	state->SetProgram(program);
 
 	BufferBinding<UniformBuffer> *buffers = getBufferBindings(shader, drawData);
@@ -284,7 +285,7 @@ void CommandList::ExecuteDrawCmd(const DrawCmd &cmd)
 	stateCache->SetRenderState(cmd.renderStateHash);
 	CHECKERRORS();
 
-	ApplyDrawData(cmd.shader, cmd.program, cmd.drawData);
+	ApplyDrawData(cmd.program, cmd.drawData);
 	CHECKERRORS();
 
 	PrimitiveType pt = stateCache->GetActiveRenderState().primitiveType;
@@ -302,11 +303,11 @@ void CommandList::ExecuteDynamicDrawCmd(const DynamicDrawCmd &cmd)
 	stateCache->SetRenderState(cmd.renderStateHash);
 	CHECKERRORS();
 
-	ApplyDrawData(cmd.shader, cmd.program, cmd.drawData);
+	ApplyDrawData(cmd.program, cmd.drawData);
 	CHECKERRORS();
 
 	PrimitiveType pt = stateCache->GetActiveRenderState().primitiveType;
-	m_renderer->DrawMeshDynamicInternal(cmd.vtxBind, cmd.idxBind, pt);
+	m_renderer->DrawMeshDynamicInternal(cmd.vtxBind, cmd.idxBind, cmd.vertexState, pt);
 
 	CHECKERRORS();
 }

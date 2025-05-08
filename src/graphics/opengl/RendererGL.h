@@ -124,7 +124,7 @@ namespace Graphics {
 
 		bool DrawMeshInternal(OGL::MeshObject *, PrimitiveType type);
 		bool DrawMeshInstancedInternal(OGL::MeshObject *, OGL::InstanceBuffer *, GLuint vtxState, PrimitiveType type);
-		bool DrawMeshDynamicInternal(BufferBinding<OGL::VertexBuffer> vtxBind, BufferBinding<OGL::IndexBuffer> idxBind, PrimitiveType type);
+		bool DrawMeshDynamicInternal(BufferBinding<OGL::VertexBuffer> vtxBind, BufferBinding<OGL::IndexBuffer> idxBind, GLuint vtxState, PrimitiveType type);
 
 	protected:
 		void PushState() final{};
