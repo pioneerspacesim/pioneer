@@ -37,6 +37,7 @@ namespace Graphics {
 	class VertexBuffer;
 
 	struct VertexFormatDesc;
+	struct VertexBindingDesc;
 	struct RenderStateDesc;
 	struct RenderTargetDesc;
 
@@ -161,8 +162,8 @@ namespace Graphics {
 		virtual Material *CloneMaterial(const Material *mat, const MaterialDescriptor &desc, const RenderStateDesc &stateDesc, const VertexFormatDesc &vertexFormat) = 0;
 		virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
 		virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) = 0; //returns nullptr if unsupported
-		// FIXME: pass { size, stride, usage } instead of a VertexFormatDesc
-		virtual VertexBuffer *CreateVertexBuffer(const VertexFormatDesc &, BufferUsage, uint32_t numVertices) = 0;
+		// Create a buffer containing enough space for numVertices with a byte size per vertex equal to stride
+		virtual VertexBuffer *CreateVertexBuffer(BufferUsage, uint32_t numVertices, uint32_t stride) = 0;
 		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage, IndexBufferSize = INDEX_BUFFER_32BIT) = 0;
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) = 0;
 		virtual UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage) = 0;

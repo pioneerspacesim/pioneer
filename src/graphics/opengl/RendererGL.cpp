@@ -842,7 +842,7 @@ namespace Graphics {
 			uint32_t numVertices = std::max(v->GetNumVerts(), DYNAMIC_DRAW_BUFFER_SIZE / desc.bindings[0].stride);
 			size_t stateHash = m_renderStateCache->CacheVertexDesc(desc);
 
-			VertexBuffer *vb = CreateVertexBuffer(desc, BUFFER_USAGE_DYNAMIC, numVertices);
+			VertexBuffer *vb = CreateVertexBuffer(BUFFER_USAGE_DYNAMIC, numVertices, desc.bindings[0].stride);
 			CheckRenderErrors(__FUNCTION__, __LINE__);
 
 			vb->SetVertexCount(0);
@@ -853,7 +853,7 @@ namespace Graphics {
 			iter = m_dynamicDrawBufferMap.end() - 1;
 		}
 
-		uint32_t stride = iter->vtxBuffer->GetDesc().stride;
+		uint32_t stride = iter->vtxBuffer->GetStride();
 		uint32_t offset = iter->vtxBuffer->GetSize() * stride;
 		size_t range = v->GetNumVerts() * stride;
 
@@ -880,7 +880,7 @@ namespace Graphics {
 
 		uint32_t indexSize = i && i->GetElementSize() == INDEX_BUFFER_16BIT ? sizeof(uint16_t) : sizeof(uint32_t);
 		m_drawCommandList->AddDynamicDrawCmd(
-			{ v, vtxOffset * v->GetDesc().stride, numElems },
+			{ v, vtxOffset * v->GetStride(), numElems },
 			{ i, i == nullptr ? 0 : idxOffset * indexSize, numElems },
 			mat);
 
@@ -909,7 +909,7 @@ namespace Graphics {
 			buffer->Flush();
 
 		for (auto &buffer : m_dynamicDrawBufferMap) {
-			size_t size = buffer.vtxBuffer->GetSize() * buffer.vtxBuffer->GetDesc().stride;
+			size_t size = buffer.vtxBuffer->GetSize() * buffer.vtxBuffer->GetStride();
 
 			// Upload whatever portion of this buffer hasn't yet been sent to the GPU.
 			if (size - buffer.start > 0) {
@@ -997,7 +997,7 @@ namespace Graphics {
 
 		glBindVertexArray(vtxState);
 		// TODO: loop through an array of vertex buffers rather than hardcoding slots and stride
-		glBindVertexBuffer(0, mesh->m_vtxBuffer->GetBuffer(), 0, mesh->m_vtxBuffer->GetDesc().stride);
+		glBindVertexBuffer(0, mesh->m_vtxBuffer->GetBuffer(), 0, mesh->m_vtxBuffer->GetStride());
 		glBindVertexBuffer(1, inst->GetBuffer(), 0, sizeof(float) * 16);
 
 		if (mesh->m_idxBuffer.Valid())
@@ -1024,7 +1024,7 @@ namespace Graphics {
 
 		glBindVertexArray(vtxState);
 		// glBindVertexArray(m_renderStateCache->GetVertexArrayObject(vtxBind.buffer->GetVertexFormatHash()));
-		glBindVertexBuffer(0, vtxBind.buffer->GetBuffer(), vtxBind.offset, vtxBind.buffer->GetDesc().stride);
+		glBindVertexBuffer(0, vtxBind.buffer->GetBuffer(), vtxBind.offset, vtxBind.buffer->GetStride());
 
 		if (idxBind.buffer) {
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBind.buffer->GetBuffer());
@@ -1193,12 +1193,10 @@ namespace Graphics {
 		return rt;
 	}
 
-	VertexBuffer *RendererOGL::CreateVertexBuffer(const VertexFormatDesc &desc, BufferUsage usage, uint32_t numVertices)
+	VertexBuffer *RendererOGL::CreateVertexBuffer(BufferUsage usage, uint32_t numVertices, uint32_t stride)
 	{
 		m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
-		// FIXME: vertex format hash should not be stored on the buffer
-		size_t stateHash = m_renderStateCache->CacheVertexDesc(desc);
-		return new OGL::VertexBuffer(desc.bindings[0], usage, numVertices, stateHash);
+		return new OGL::VertexBuffer(usage, numVertices, stride);
 	}
 
 	IndexBuffer *RendererOGL::CreateIndexBuffer(Uint32 size, BufferUsage usage, IndexBufferSize el)
@@ -1229,7 +1227,7 @@ namespace Graphics {
 	{
 		VertexFormatDesc desc = VertexFormatDesc::FromAttribSet(vertexArray->GetAttributeSet());
 
-		Graphics::VertexBuffer *vertexBuffer = CreateVertexBuffer(desc, usage, vertexArray->GetNumVerts());
+		Graphics::VertexBuffer *vertexBuffer = CreateVertexBuffer(usage, vertexArray->GetNumVerts(), desc.bindings[0].stride);
 		vertexArray->Populate(vertexBuffer);
 
 		return CreateMeshObject(desc, vertexBuffer, indexBuffer);

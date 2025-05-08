@@ -15,9 +15,9 @@ namespace Graphics {
 
 		class VertexBuffer final : public Graphics::VertexBuffer {
 		public:
-			VertexBuffer(const VertexFormatDesc &d, BufferUsage u, uint32_t s) :
-				Graphics::VertexBuffer(d.bindings[0], u, s),
-				m_buffer(new Uint8[s * m_desc.stride])
+			VertexBuffer(BufferUsage u, uint32_t sz, uint32_t st) :
+				Graphics::VertexBuffer(u, sz, st),
+				m_buffer(new Uint8[sz * st])
 			{}
 
 			// change the buffer data without mapping

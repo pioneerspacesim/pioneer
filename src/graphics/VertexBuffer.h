@@ -95,12 +95,13 @@ namespace Graphics {
 
 	class VertexBuffer : public Mappable {
 	public:
-		VertexBuffer(const VertexBindingDesc desc, BufferUsage usage, uint32_t size) :
+		VertexBuffer(BufferUsage usage, uint32_t size, uint32_t stride) :
 			Mappable(size),
-			m_desc(desc),
+			m_stride(stride),
 			m_usage(usage) {}
 		virtual ~VertexBuffer();
-		const VertexBindingDesc &GetDesc() const { return m_desc; }
+
+		uint32_t GetStride() const { return m_stride; }
 
 		template <typename T>
 		T *Map(BufferMapMode mode)
@@ -147,7 +148,7 @@ namespace Graphics {
 	protected:
 		virtual uint8_t *MapInternal(BufferMapMode) = 0;
 		virtual uint8_t *MapRangeInternal(BufferMapMode, size_t start, size_t length) = 0;
-		VertexBindingDesc m_desc;
+		uint32_t m_stride;
 		BufferUsage m_usage;
 	};
 

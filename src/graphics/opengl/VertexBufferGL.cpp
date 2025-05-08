@@ -111,21 +111,20 @@ namespace Graphics {
 			}
 		}
 
-		VertexBuffer::VertexBuffer(const VertexBindingDesc &desc, BufferUsage usage, uint32_t numVertices, size_t stateHash) :
-			Graphics::VertexBuffer(desc, usage, numVertices),
+		VertexBuffer::VertexBuffer(BufferUsage usage, uint32_t numVertices, uint32_t stride) :
+			Graphics::VertexBuffer(usage, numVertices, stride),
 			m_mapStart(0),
-			m_mapLength(0),
-			m_vertexStateHash(stateHash)
+			m_mapLength(0)
 		{
 			PROFILE_SCOPED()
 
-			assert(m_desc.stride > 0);
+			assert(m_stride > 0);
 
 			//Allocate GL buffer with undefined contents
 			//Critical optimisation for some architectures in cases where buffer is created and written in the same frame
 			glGenBuffers(1, &m_buffer);
 			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-			const Uint32 dataSize = numVertices * m_desc.stride;
+			const Uint32 dataSize = numVertices * m_stride;
 			glBufferData(GL_ARRAY_BUFFER, dataSize, 0, get_buffer_usage(usage));
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -170,7 +169,7 @@ namespace Graphics {
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			} else {
 				if (m_mapMode == BUFFER_MAP_WRITE) {
-					const GLsizei dataSize = m_size * m_desc.stride;
+					const GLsizei dataSize = m_size * m_stride;
 					glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
 					glBufferData(GL_ARRAY_BUFFER, dataSize, 0, get_buffer_usage(m_usage));
 					glBufferSubData(GL_ARRAY_BUFFER, 0, dataSize, m_data);
@@ -188,7 +187,7 @@ namespace Graphics {
 			assert(mode != BUFFER_MAP_NONE);
 			assert(m_mapMode == BUFFER_MAP_NONE);
 			assert(m_mapLength == 0);
-			assert(start + range <= m_capacity * m_desc.stride);
+			assert(start + range <= m_capacity * m_stride);
 
 			m_mapMode = mode;
 			m_mapStart = start;
@@ -226,7 +225,7 @@ namespace Graphics {
 			PROFILE_SCOPED()
 			assert(m_mapMode == BUFFER_MAP_NONE);
 			assert(m_usage == BUFFER_USAGE_DYNAMIC);
-			assert(start + range <= m_capacity * m_desc.stride);
+			assert(start + range <= m_capacity * m_stride);
 
 			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
 			glBufferSubData(GL_ARRAY_BUFFER, start, range, m_data + start);
@@ -250,7 +249,7 @@ namespace Graphics {
 			assert(m_mapMode == BUFFER_MAP_NONE);
 
 			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-			glBufferData(GL_ARRAY_BUFFER, m_capacity * m_desc.stride, nullptr, get_buffer_usage(m_usage));
+			glBufferData(GL_ARRAY_BUFFER, m_capacity * m_stride, nullptr, get_buffer_usage(m_usage));
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 

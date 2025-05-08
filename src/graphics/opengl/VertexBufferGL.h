@@ -16,7 +16,7 @@ namespace Graphics {
 
 		class VertexBuffer : public Graphics::VertexBuffer, public GLBufferBase {
 		public:
-			VertexBuffer(const VertexBindingDesc &, BufferUsage usage, uint32_t numVertices, size_t stateHash);
+			VertexBuffer(BufferUsage usage, uint32_t numVertices, uint32_t stride);
 			~VertexBuffer();
 
 			void Unmap() override;
@@ -34,8 +34,6 @@ namespace Graphics {
 			void Bind() final;
 			void Release() final;
 
-			size_t GetVertexFormatHash() const { return m_vertexStateHash; }
-
 		protected:
 			uint8_t *MapInternal(BufferMapMode) override;
 			uint8_t *MapRangeInternal(BufferMapMode, size_t, size_t) override;
@@ -43,7 +41,6 @@ namespace Graphics {
 
 			size_t m_mapStart;
 			size_t m_mapLength;
-			size_t m_vertexStateHash;
 		};
 
 		class IndexBuffer : public Graphics::IndexBuffer, public GLBufferBase {
