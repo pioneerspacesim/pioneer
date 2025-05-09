@@ -176,12 +176,12 @@ local onEnterSystem = function (player)
 						else
 							Comms.ImportantMessage(l.NOTHING_DETECTED, ship.label)
 							if fine > 100 then
-								local message = l["FINES_INTRO_" .. Engine.rand:Integer(1, 4)]
-								message = message .. " " .. l["FINES_MESSAGE_" .. Engine.rand:Integer(1, 4)]
+								local message = l["FINES_INTRO_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_INTRO"))]
+								message = message .. " " .. l["FINES_MESSAGE_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_MESSAGE"))]
 								if fine > 1000 then
-									message = message .. " " .. l["FINES_ADMONISHING_HARSH_" .. Engine.rand:Integer(1, 4)]
+									message = message .. " " .. l["FINES_ADMONISHING_HARSH_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_ADMONISHING_HARSH"))]
 								else
-									message = message .. " " .. l["FINES_ADMONISHING_" .. Engine.rand:Integer(1, 4)]
+									message = message .. " " .. l["FINES_ADMONISHING_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_ADMONISHING"))]
 								end
 								local policeforce = Game.system.faction.policeName
 								local ship_label = player.label
