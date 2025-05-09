@@ -18,6 +18,8 @@ extern "C" {
 using namespace Graphics::OGL;
 using RenderStateDesc = Graphics::RenderStateDesc;
 
+static const Graphics::VertexFormatDesc s_emptyVtxFormat = {};
+
 const RenderStateDesc &RenderStateCache::GetRenderState(size_t hash) const
 {
 	for (auto &pair : m_stateDescCache)
@@ -148,7 +150,7 @@ size_t RenderStateCache::CacheVertexDesc(const Graphics::VertexFormatDesc &desc)
 			return hash;
 
 	GLuint vao = BuildVAOFromDesc(desc);
-	m_vtxDescObjectCache.emplace_back(hash, vao);
+	m_vtxDescObjectCache.emplace_back(hash, VtxFormatCache { desc, vao });
 	return hash;
 }
 
@@ -162,10 +164,20 @@ GLuint RenderStateCache::GetVertexArrayObject(size_t hash)
 {
 	for (auto &pair : m_vtxDescObjectCache)
 		if (pair.first == hash)
-			return pair.second;
+			return pair.second.vao;
 
 	Log::Warning("Attempt to set VertexDescState for unknown hash {}!", hash);
 	return 0;
+}
+
+const Graphics::VertexFormatDesc &RenderStateCache::GetVertexFormatDesc(size_t hash)
+{
+	for (auto &pair : m_vtxDescObjectCache)
+		if (pair.first == hash)
+			return pair.second.format;
+
+	Log::Warning("Attempt to set VertexDescState for unknown hash {}!", hash);
+	return s_emptyVtxFormat;
 }
 
 void RenderStateCache::ResetFrame()

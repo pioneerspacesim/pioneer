@@ -37,6 +37,8 @@
 #include <ostream>
 #include <sstream>
 
+#define CHECK_VERTEX_FORMAT_MATCH 0
+
 using RenderPassCmd = Graphics::OGL::CommandList::RenderPassCmd;
 
 namespace Graphics {
@@ -853,6 +855,18 @@ namespace Graphics {
 			iter = m_dynamicDrawBufferMap.end() - 1;
 		}
 
+		#if CHECK_VERTEX_FORMAT_MATCH
+
+		OGL::Material *mat = static_cast<OGL::Material *>(m);
+		assert(mat->m_vertexState != 0);
+
+		const VertexFormatDesc &mat_vfmt = m_renderStateCache->GetVertexFormatDesc(mat->m_vertexFormatHash);
+		auto vfmt = VertexFormatDesc::FromAttribSet(attrs);
+
+		assert(vfmt.Hash() == mat->m_vertexFormatHash);
+
+		#endif
+
 		uint32_t stride = iter->vtxBuffer->GetStride();
 		uint32_t offset = iter->vtxBuffer->GetSize() * stride;
 		size_t range = v->GetNumVerts() * stride;
@@ -889,6 +903,17 @@ namespace Graphics {
 
 	bool RendererOGL::DrawMesh(MeshObject *mesh, Material *material)
 	{
+		#if CHECK_VERTEX_FORMAT_MATCH
+
+		OGL::Material *mat = static_cast<OGL::Material *>(material);
+		assert(mat->m_vertexState != 0);
+
+		const VertexFormatDesc &vfmt = m_renderStateCache->GetVertexFormatDesc(mat->m_vertexFormatHash);
+
+		assert(vfmt.Hash() == mesh->GetFormat().Hash());
+
+		#endif
+
 		m_drawCommandList->AddDrawCmd(mesh, material, nullptr);
 		return true;
 	}
@@ -1101,6 +1126,7 @@ namespace Graphics {
 			return nullptr;
 
 		mat->m_vertexState = vao;
+		mat->m_vertexFormatHash = hash;
 		return mat;
 	}
 
@@ -1115,6 +1141,7 @@ namespace Graphics {
 			return nullptr;
 
 		mat->m_vertexState = vao;
+		mat->m_vertexFormatHash = hash;
 		return mat;
 	}
 

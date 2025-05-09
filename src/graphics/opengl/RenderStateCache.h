@@ -29,6 +29,7 @@ namespace Graphics {
 			const RenderStateDesc &GetActiveRenderState() const { return m_activeRenderState; }
 
 			GLuint GetVertexArrayObject(size_t hash);
+			const VertexFormatDesc &GetVertexFormatDesc(size_t hash);
 
 			void SetRenderState(size_t hash);
 			void SetTexture(uint32_t index, TextureGL *texture);
@@ -46,6 +47,11 @@ namespace Graphics {
 		private:
 			friend class Graphics::RendererOGL;
 			RenderStateCache() = default;
+
+			struct VtxFormatCache {
+				VertexFormatDesc format;
+				GLuint vao;
+			};
 
 			const RenderStateDesc &GetRenderState(size_t hash) const;
 			size_t InternRenderState(const RenderStateDesc &rsd);
@@ -69,7 +75,7 @@ namespace Graphics {
 			std::vector<std::pair<size_t, RenderStateDesc>> m_stateDescCache;
 
 			// contains a mapping of hash->VAO on a per-vertex-format basis
-			std::vector<std::pair<size_t, GLuint>> m_vtxDescObjectCache;
+			std::vector<std::pair<size_t, VtxFormatCache>> m_vtxDescObjectCache;
 
 			GLuint m_activeProgram = 0;
 			RenderTarget *m_activeRT = 0;
