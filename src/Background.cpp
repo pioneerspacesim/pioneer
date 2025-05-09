@@ -159,7 +159,7 @@ namespace Background {
 
 		//create buffer and upload data
 		Graphics::VertexFormatDesc fmt = Graphics::VertexFormatDesc::FromAttribSet(box->GetAttributeSet());
-		Graphics::VertexBuffer *vertexBuf = m_renderer->CreateVertexBuffer(fmt, Graphics::BUFFER_USAGE_STATIC, box->GetNumVerts());
+		Graphics::VertexBuffer *vertexBuf = m_renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_STATIC, box->GetNumVerts(), fmt.bindings[0].stride);
 
 		box->Populate(vertexBuf);
 
@@ -450,7 +450,7 @@ namespace Background {
 		{
 			Graphics::VertexFormatDesc fmt = VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
 			// this vertex buffer will be owned by the animMesh object
-			Graphics::VertexBuffer *vtxBuffer = m_renderer->CreateVertexBuffer(fmt, Graphics::BUFFER_USAGE_DYNAMIC, NUM_HYPERSPACE_STARS * 2);
+			Graphics::VertexBuffer *vtxBuffer = m_renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_DYNAMIC, NUM_HYPERSPACE_STARS * 2, fmt.bindings[0].stride);
 			m_animMesh.reset(m_renderer->CreateMeshObject(fmt, vtxBuffer));
 		}
 
@@ -606,7 +606,7 @@ namespace Background {
 
 			Graphics::VertexBuffer *buffer = m_animMesh->GetVertexBuffer();
 			assert(sizeof(StarVert) == 16);
-			assert(buffer->GetDesc().stride == sizeof(StarVert));
+			assert(buffer->GetStride() == sizeof(StarVert));
 			auto vtxPtr = buffer->Map<StarVert>(Graphics::BUFFER_MAP_WRITE);
 
 			// roughly, the multiplier gets smaller as the duration gets larger.
@@ -691,7 +691,7 @@ namespace Background {
 
 		Graphics::VertexFormatDesc fmt = VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
 		//two strips in one buffer, but seems to work ok without degenerate triangles
-		Graphics::VertexBuffer *vtxBuffer = renderer->CreateVertexBuffer(fmt, Graphics::BUFFER_USAGE_STATIC, bottom->GetNumVerts() + top->GetNumVerts());
+		Graphics::VertexBuffer *vtxBuffer = renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_STATIC, bottom->GetNumVerts() + top->GetNumVerts(), fmt.bindings[0].stride);
 
 		uint8_t *vtxPtr = vtxBuffer->Map<uint8_t>(Graphics::BUFFER_MAP_WRITE);
 		size_t topSize = top->GetNumVerts() * fmt.bindings[0].stride;

@@ -140,7 +140,7 @@ namespace SceneGraph {
 
 			//save positions, normals, uvs, and optional tangents interleaved (only known format now)
 			const uint8_t *vtxPtr = mesh.vertexBuffer->Map<uint8_t>(Graphics::BUFFER_MAP_READ);
-			db.wr->Raw(vtxPtr, mesh.vertexBuffer->GetSize() * mesh.vertexBuffer->GetDesc().stride);
+			db.wr->Raw(vtxPtr, mesh.vertexBuffer->GetSize() * mesh.vertexBuffer->GetStride());
 			mesh.vertexBuffer->Unmap();
 
 			//indices
@@ -188,11 +188,11 @@ namespace SceneGraph {
 
 			// Read the number of vertices in the mesh
 			Uint32 numVertices = db.rd->Int32();
-			RefCountedPtr<Graphics::VertexBuffer> vtxBuffer(db.loader->GetRenderer()->CreateVertexBuffer(desc, Graphics::BUFFER_USAGE_STATIC, numVertices));
+			RefCountedPtr<Graphics::VertexBuffer> vtxBuffer(db.loader->GetRenderer()->CreateVertexBuffer(Graphics::BUFFER_USAGE_STATIC, numVertices, desc.bindings[0].stride));
 
 			// Copy the vertex data into the buffer; note this implies host-only endianness.
 			uint8_t *vtxPtr = vtxBuffer->Map<uint8_t>(BUFFER_MAP_WRITE);
-			size_t vtxSize = numVertices * vtxBuffer->GetDesc().stride;
+			size_t vtxSize = numVertices * vtxBuffer->GetStride();
 
 			std::memcpy(vtxPtr, db.rd->Raw(vtxSize), vtxSize);
 			vtxBuffer->Unmap();

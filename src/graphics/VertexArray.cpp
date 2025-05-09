@@ -52,7 +52,7 @@ namespace Graphics {
 	static inline void CopyPosNorm(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 	{
 		PosNormVert *vtxPtr = vb->Map<PosNormVert>(Graphics::BUFFER_MAP_WRITE);
-		assert(vb->GetDesc().stride == sizeof(PosNormVert));
+		assert(vb->GetStride() == sizeof(PosNormVert));
 		for (Uint32 i = 0; i < va.GetNumVerts(); i++) {
 			vtxPtr[i].pos = va.position[i];
 			vtxPtr[i].norm = va.normal[i];
@@ -63,7 +63,7 @@ namespace Graphics {
 	static inline void CopyPosUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 	{
 		PosUVVert *vtxPtr = vb->Map<PosUVVert>(Graphics::BUFFER_MAP_WRITE);
-		assert(vb->GetDesc().stride == sizeof(PosUVVert));
+		assert(vb->GetStride() == sizeof(PosUVVert));
 		for (Uint32 i = 0; i < va.GetNumVerts(); i++) {
 			vtxPtr[i].pos = va.position[i];
 			vtxPtr[i].uv = va.uv0[i];
@@ -74,7 +74,7 @@ namespace Graphics {
 	static inline void CopyPosCol(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 	{
 		PosColVert *vtxPtr = vb->Map<PosColVert>(Graphics::BUFFER_MAP_WRITE);
-		assert(vb->GetDesc().stride == sizeof(PosColVert));
+		assert(vb->GetStride() == sizeof(PosColVert));
 		for (Uint32 i = 0; i < va.GetNumVerts(); i++) {
 			vtxPtr[i].pos = va.position[i];
 			vtxPtr[i].col = va.diffuse[i];
@@ -85,7 +85,7 @@ namespace Graphics {
 	static inline void CopyPos(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 	{
 		PosVert *vtxPtr = vb->Map<PosVert>(Graphics::BUFFER_MAP_WRITE);
-		assert(vb->GetDesc().stride == sizeof(PosVert));
+		assert(vb->GetStride() == sizeof(PosVert));
 		for (Uint32 i = 0; i < va.GetNumVerts(); i++) {
 			vtxPtr[i].pos = va.position[i];
 		}
@@ -95,7 +95,7 @@ namespace Graphics {
 	static inline void CopyPosColUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 	{
 		PosColUVVert *vtxPtr = vb->Map<PosColUVVert>(Graphics::BUFFER_MAP_WRITE);
-		assert(vb->GetDesc().stride == sizeof(PosColUVVert));
+		assert(vb->GetStride() == sizeof(PosColUVVert));
 		for (Uint32 i = 0; i < va.GetNumVerts(); i++) {
 			vtxPtr[i].pos = va.position[i];
 			vtxPtr[i].col = va.diffuse[i];
@@ -107,7 +107,7 @@ namespace Graphics {
 	static inline void CopyPosNormUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 	{
 		PosNormUVVert *vtxPtr = vb->Map<PosNormUVVert>(Graphics::BUFFER_MAP_WRITE);
-		assert(vb->GetDesc().stride == sizeof(PosNormUVVert));
+		assert(vb->GetStride() == sizeof(PosNormUVVert));
 		for (Uint32 i = 0; i < va.GetNumVerts(); i++) {
 			vtxPtr[i].pos = va.position[i];
 			vtxPtr[i].norm = va.normal[i];
@@ -119,7 +119,7 @@ namespace Graphics {
 	static inline void CopyPosNormCol(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 	{
 		PosNormColVert *vtxPtr = vb->Map<PosNormColVert>(Graphics::BUFFER_MAP_WRITE);
-		assert(vb->GetDesc().stride == sizeof(PosNormColVert));
+		assert(vb->GetStride() == sizeof(PosNormColVert));
 		for (Uint32 i = 0; i < va.GetNumVerts(); i++) {
 			vtxPtr[i].pos = va.position[i];
 			vtxPtr[i].norm = va.normal[i];

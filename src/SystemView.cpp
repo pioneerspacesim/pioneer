@@ -12,6 +12,7 @@
 #include "SectorView.h"
 #include "Space.h"
 #include "gameconsts.h"
+#include "graphics/VertexBuffer.h"
 #include "matrix4x4.h"
 #include "core/Log.h"
 
@@ -328,10 +329,12 @@ SystemMapViewport::SystemMapViewport(GuiApplication *app) :
 	Graphics::RenderStateDesc rsd;
 	rsd.primitiveType = Graphics::LINE_STRIP;
 
-	m_lineMat.reset(m_renderer->CreateMaterial("vtxColor", lineMatDesc, rsd)); //m_renderer not set yet
+	Graphics::VertexFormatDesc vfmt = Graphics::Drawables::Lines::GetVertexFormat();
+
+	m_lineMat.reset(m_renderer->CreateMaterial("vtxColor", lineMatDesc, rsd, vfmt));
 
 	rsd.primitiveType = Graphics::LINE_SINGLE;
-	m_gridMat.reset(m_renderer->CreateMaterial("vtxColor", lineMatDesc, rsd));
+	m_gridMat.reset(m_renderer->CreateMaterial("vtxColor", lineMatDesc, rsd, vfmt));
 
 	ResetViewpoint();
 

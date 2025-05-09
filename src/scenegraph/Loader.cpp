@@ -559,7 +559,7 @@ namespace SceneGraph {
 			}
 
 			Graphics::VertexFormatDesc fmt = Graphics::VertexFormatDesc::FromAttribSet(attribs);
-			RefCountedPtr<Graphics::VertexBuffer> vb(m_renderer->CreateVertexBuffer(fmt, Graphics::BUFFER_USAGE_STATIC, mesh->mNumVertices));
+			RefCountedPtr<Graphics::VertexBuffer> vb(m_renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_STATIC, mesh->mNumVertices, fmt.bindings[0].stride));
 
 			aiVector3D zeroVector = aiVector3D(0.f);
 

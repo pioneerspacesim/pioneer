@@ -285,6 +285,11 @@ namespace Graphics {
 			// glLineWidth(1.f);
 		}
 
+		Graphics::VertexFormatDesc Lines::GetVertexFormat()
+		{
+			return Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
+		}
+
 		//------------------------------------------------------------
 		PointSprites::PointSprites() :
 			m_refreshVertexBuffer(true),
@@ -882,7 +887,9 @@ namespace Graphics {
 			rsd.cullMode = Graphics::CULL_NONE;
 			rsd.depthWrite = false;
 
-			m_gridMat.reset(r->CreateMaterial("grid", {}, rsd));
+			Graphics::VertexFormatDesc vfmt = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+
+			m_gridMat.reset(r->CreateMaterial("grid", {}, rsd, vfmt));
 		}
 
 		void GridLines::SetLineColors(Color minorLineColor, Color majorLineColor, float lineWidth)

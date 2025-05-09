@@ -28,7 +28,7 @@ HudTrail::HudTrail(Body *b, const Color &c) :
 	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
 	rsd.depthWrite = false;
 	rsd.primitiveType = Graphics::LINE_STRIP;
-	m_lineMat.reset(Pi::renderer->CreateMaterial("vtxColor", desc, rsd));
+	m_lineMat.reset(Pi::renderer->CreateMaterial("vtxColor", desc, rsd, Graphics::Drawables::Lines::GetVertexFormat()));
 }
 
 void HudTrail::Update(float time)

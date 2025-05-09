@@ -121,10 +121,10 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 
 		//create buffer and upload data
 		auto vbd = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
-		Graphics::VertexBuffer *vtxBuffer = renderer->CreateVertexBuffer(vbd, Graphics::BUFFER_USAGE_STATIC, m_ctx->NUMVERTICES());
+		Graphics::VertexBuffer *vtxBuffer = renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_STATIC, m_ctx->NUMVERTICES(), vbd.bindings[0].stride);
 
 		GeoPatchContext::VBOVertex *VBOVtxPtr = vtxBuffer->Map<GeoPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
-		assert(vtxBuffer->GetDesc().stride == sizeof(GeoPatchContext::VBOVertex));
+		assert(vtxBuffer->GetStride() == sizeof(GeoPatchContext::VBOVertex));
 
 		const Sint32 edgeLen = m_ctx->GetEdgeLen();
 		const double frac = m_ctx->GetFrac();

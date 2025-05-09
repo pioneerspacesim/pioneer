@@ -29,14 +29,14 @@ void InstanceRenderer::Initialize()
 	io.BackendRendererName = "Pioneer Renderer";
 	io.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset;
 
-	Graphics::VertexFormatDesc vbd = {};
-	vbd.attribs[0] = { Graphics::ATTRIB_FORMAT_FLOAT2, 0, 0, offsetof(ImDrawVert, pos) };
-	vbd.attribs[1] = { Graphics::ATTRIB_FORMAT_FLOAT2, 3, 0, offsetof(ImDrawVert, uv)  };
-	vbd.attribs[2] = { Graphics::ATTRIB_FORMAT_UBYTE4, 2, 0, offsetof(ImDrawVert, col) };
+	Graphics::VertexFormatDesc vfmt = {};
+	vfmt.attribs[0] = { Graphics::ATTRIB_FORMAT_FLOAT2, 0, 0, offsetof(ImDrawVert, pos) };
+	vfmt.attribs[1] = { Graphics::ATTRIB_FORMAT_FLOAT2, 3, 0, offsetof(ImDrawVert, uv)  };
+	vfmt.attribs[2] = { Graphics::ATTRIB_FORMAT_UBYTE4, 2, 0, offsetof(ImDrawVert, col) };
 
-	vbd.bindings[0] = { sizeof(ImDrawVert), true, Graphics::ATTRIB_RATE_NORMAL };
+	vfmt.bindings[0] = { sizeof(ImDrawVert), true, Graphics::ATTRIB_RATE_NORMAL };
 
-	m_vtxBuffer.reset(m_renderer->CreateVertexBuffer(vbd, Graphics::BUFFER_USAGE_DYNAMIC, 0));
+	m_vtxBuffer.reset(m_renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_DYNAMIC, 0, vfmt.bindings[0].stride));
 	m_idxBuffer.reset(m_renderer->CreateIndexBuffer(0, Graphics::BUFFER_USAGE_DYNAMIC, Graphics::INDEX_BUFFER_16BIT));
 
 	Graphics::RenderStateDesc rsd;
@@ -50,7 +50,7 @@ void InstanceRenderer::Initialize()
 	mDesc.textures = 1;
 	mDesc.alphaTest = 1;
 
-	m_material.reset(m_renderer->CreateMaterial("ui", mDesc, rsd));
+	m_material.reset(m_renderer->CreateMaterial("ui", mDesc, rsd, vfmt));
 
 	CreateFontsTexture();
 }

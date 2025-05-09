@@ -95,7 +95,7 @@ void WorldView::InitObject()
 	rsd.depthWrite = false;
 	rsd.depthTest = false;
 	rsd.primitiveType = Graphics::LINE_SINGLE;
-	m_indicatorMat.reset(Pi::renderer->CreateMaterial("vtxColor", desc, rsd));
+	m_indicatorMat.reset(Pi::renderer->CreateMaterial("vtxColor", desc, rsd, Graphics::Drawables::Lines::GetVertexFormat()));
 
 	/*
 	  NEW UI

@@ -539,7 +539,9 @@ void SectorMap::InitObject()
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 
 	Graphics::MaterialDescriptor bbMatDesc;
-	m_starMaterial.Reset(m_context.renderer->CreateMaterial("sphereimpostor", bbMatDesc, rsd));
+
+	auto vfmt = Graphics::VertexFormatDesc::FromAttribSet(m_starVerts->GetAttributeSet());
+	m_starMaterial.Reset(m_context.renderer->CreateMaterial("sphereimpostor", bbMatDesc, rsd, vfmt));
 
 	rsd.depthWrite = false;
 	rsd.cullMode = CULL_NONE;
@@ -551,7 +553,7 @@ void SectorMap::InitObject()
 	rsd.primitiveType = Graphics::LINE_SINGLE;
 
 	Graphics::MaterialDescriptor lineDesc;
-	m_lineMat.Reset(m_context.renderer->CreateMaterial("vtxColor", lineDesc, rsd));
+	m_lineMat.Reset(m_context.renderer->CreateMaterial("vtxColor", lineDesc, rsd, Graphics::Drawables::Lines::GetVertexFormat()));
 
 	m_drawList.reset(new ImDrawList(ImGui::GetDrawListSharedData()));
 }

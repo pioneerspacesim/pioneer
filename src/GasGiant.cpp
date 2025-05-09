@@ -231,10 +231,10 @@ public:
 		PROFILE_SCOPED()
 		//create buffer and upload data
 		auto vbd = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
-		Graphics::VertexBuffer *vtxBuffer = Pi::renderer->CreateVertexBuffer(vbd, Graphics::BUFFER_USAGE_STATIC, ctx->NUMVERTICES());
+		Graphics::VertexBuffer *vtxBuffer = Pi::renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_STATIC, ctx->NUMVERTICES(), vbd.bindings[0].stride);
 
 		GasPatchContext::VBOVertex *vtxPtr = vtxBuffer->Map<GasPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
-		assert(vtxBuffer->GetDesc().stride == sizeof(GasPatchContext::VBOVertex));
+		assert(vtxBuffer->GetStride() == sizeof(GasPatchContext::VBOVertex));
 
 		const Sint32 edgeLen = ctx->edgeLen;
 		const double frac = ctx->frac;

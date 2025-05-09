@@ -89,6 +89,8 @@ namespace Graphics {
 			void SetData(const Uint32 vertCount, const vector3f *vertices, const Color *colors);
 			void Draw(Renderer *, Material *);
 
+			static Graphics::VertexFormatDesc GetVertexFormat();
+
 		private:
 			bool m_refreshVertexBuffer;
 			RefCountedPtr<MeshObject> m_lineMesh;
