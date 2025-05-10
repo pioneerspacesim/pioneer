@@ -217,16 +217,26 @@ local function transfer_hyperfuel_mil(hyperdrive, amt)
 end
 
 local function fuelTransferButton(drive, amt)
+	local driveEnabled = false
+
+	-- Don't allow transferring fuel while the hyperdrive is doing its thing
+	if Game.player:IsHyperspaceActive() or
+			Game.player.flightState == "JUMPING" or
+			Game.player.flightState == "HYPERSPACE" then
+		driveEnabled = true
+	end
+
+	local color = driveEnabled and ui.theme.buttonColors.disabled or ui.theme.buttonColors.default
 	local icon = amt < 0 and icons.chevron_down or icons.chevron_up
 
-	if ui.button(ui.get_icon_glyph(icon) .. tostring(math.abs(amt))) then
-
-		if drive.fuel == Commodities.hydrogen then
-			transfer_hyperfuel_hydrogen(drive, amt)
-		elseif drive.fuel == Commodities.military_fuel then
-			transfer_hyperfuel_mil(drive, amt)
+	if ui.button(ui.get_icon_glyph(icon) .. tostring(math.abs(amt)), Vector2(100, 0), color) then
+		if not driveEnabled then
+			if drive.fuel == Commodities.hydrogen then
+				transfer_hyperfuel_hydrogen(drive, amt)
+			elseif drive.fuel == Commodities.military_fuel then
+				transfer_hyperfuel_mil(drive, amt)
+			end
 		end
-
 	end
 end
 
@@ -246,9 +256,6 @@ local function drawCentered(id, fun)
 end
 
 local function drawFuelTransfer(drive)
-	-- Don't allow transferring fuel while the hyperdrive is doing its thing
-	if Game.player:IsHyperspaceActive() then return end
-
 	drawCentered("Hyperdrive", function()
 		ui.horizontalGroup(function()
 			fuelTransferButton(drive, 10)
