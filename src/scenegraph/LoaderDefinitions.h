@@ -8,9 +8,11 @@
  */
 #include "Color.h"
 #include "../vector3.h"
+#include "graphics/RenderState.h"
 
 #include <string>
 #include <vector>
+#include <utility>
 
 namespace SceneGraph {
 
@@ -102,6 +104,32 @@ namespace SceneGraph {
 		std::string name;
 		std::vector<LodDefinition> lodDefs;
 		std::vector<MaterialDefinition> matDefs;
+		std::vector<std::string> collisionDefs;
+		std::vector<AnimDefinition> animDefs;
+		std::vector<BoundDefinition> boundsDefs;
+	};
+
+
+	struct MaterialDefinitionV2 {
+		std::string name;
+		std::string shader;
+		std::vector<std::pair<std::string, std::string>> textureBinds;
+
+		Color diffuse;
+		Color specular;
+		Color ambient;
+		Color emissive;
+		float shininess;
+		float opacity;
+		Graphics::RenderStateDesc renderState;
+		bool unlit;
+		bool use_patterns;
+	};
+
+	struct ModelDefinitionV2 {
+		std::string name;
+		std::vector<LodDefinition> lodDefs;
+		std::vector<MaterialDefinitionV2> matDefs;
 		std::vector<std::string> collisionDefs;
 		std::vector<AnimDefinition> animDefs;
 		std::vector<BoundDefinition> boundsDefs;

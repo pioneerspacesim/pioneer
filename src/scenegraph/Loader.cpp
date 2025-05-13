@@ -186,6 +186,19 @@ namespace SceneGraph {
 			const std::string name = info.GetName();
 			if (name.substr(0, name.length() - 6) == shortname) {
 				ModelDefinition modelDefinition;
+
+				auto lookup = fileSource.Lookup(info.GetPath().substr(0, info.GetPath().size() - 6) + ".model2");
+				if (lookup.Exists()) {
+					RefCountedPtr<FileSystem::FileData> data2 = lookup.Read();
+					ModelDefinitionV2 mdl = {};
+
+					ParserV2 parser = {};
+					bool ok = parser.Parse(*data2, &mdl);
+					if (!ok) {
+						throw LoadingError("Failed to parse!");
+					}
+
+				}
 				try {
 					//curPath is used to find textures, patterns,
 					//possibly other data files for this model.
