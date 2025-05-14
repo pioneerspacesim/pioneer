@@ -46,4 +46,11 @@ local onEnterSystem = function (player)
 	end
 end
 
+local onGameStart = function ()
+    if not Game.system.explored then
+        exploreSystem(Game.system)
+    end
+end
+
 Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onGameStart", onGameStart)
