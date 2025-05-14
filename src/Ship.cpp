@@ -1456,10 +1456,12 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 bool Ship::SpawnCargo(CargoBody *c_body) const
 {
 	if (m_flightState != FLYING) return false;
-	vector3d pos = GetOrient() * vector3d(0, GetAabb().min.y - 5, 0);
+	const double r1 = (Pi::rng.Double() - 0.5) * 0.1;
+	const double r2 = (Pi::rng.Double() - 0.5) * 0.1;
+	vector3d pos = GetOrient() * vector3d(r1, GetAabb().min.y - 5., r2);
 	c_body->SetFrame(GetFrame());
 	c_body->SetPosition(GetPosition() + pos);
-	c_body->SetVelocity(GetVelocity() + GetOrient() * vector3d(0, -10, 0));
+	c_body->SetVelocity(GetVelocity() + GetOrient() * vector3d(r1, -10., r2));
 	Pi::game->GetSpace()->AddBody(c_body);
 	return true;
 }
