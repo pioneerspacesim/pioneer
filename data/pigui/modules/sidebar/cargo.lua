@@ -90,7 +90,7 @@ table.insert(module.transferModes, {
 	action = function(ship, manifest)
 		for k, v in pairs(manifest) do
 			local commodity = Commodities[k]
-			for i = 1, v do
+			for i = 1, math.min(v, 50) do
 				ship:Jettison(commodity)
 			end
 		end
