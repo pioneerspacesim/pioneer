@@ -21,6 +21,7 @@ local l = Lang.GetResource("ui-core")
 -- PIRACY - fired on ship
 -- TRADING_ILLEGAL_GOODS - attempted to sell illegal goods
 -- WEAPONS_DISCHARGE - weapons discharged too close to station
+-- ECM_DISCHARGE - ECM discharged too close to station
 --
 -- Availability:
 --
@@ -41,6 +42,7 @@ Legal.CrimeType["MURDER"] = {basefine = 1.5e6, name = l.MURDER}
 Legal.CrimeType["PIRACY"] = {basefine = 1e5, name = l.PIRACY}
 Legal.CrimeType["TRADING_ILLEGAL_GOODS"] = {basefine = 5e3, name = l.TRADING_ILLEGAL_GOODS}
 Legal.CrimeType["WEAPONS_DISCHARGE"] = {basefine = 5e2, name = l.UNLAWFUL_WEAPONS_DISCHARGE}
+Legal.CrimeType["ECM_DISCHARGE"] = {basefine = 7.5e2, name = l.UNLAWFUL_ECM_DISCHARGE}
 Legal.CrimeType["CONTRACT_FRAUD"] = {basefine = 5e2, name = l.CONTRACT_FRAUD}
 
 
