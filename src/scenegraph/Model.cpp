@@ -244,15 +244,6 @@ namespace SceneGraph {
 		return m_collMesh;
 	}
 
-	RefCountedPtr<Graphics::Material> Model::GetMaterialByName(const std::string &name) const
-	{
-		for (auto it : m_materials) {
-			if (it.first == name)
-				return it.second;
-		}
-		return RefCountedPtr<Graphics::Material>(); //return invalid
-	}
-
 	RefCountedPtr<Graphics::Material> Model::GetMaterialByIndex(const int i) const
 	{
 		return m_materials.at(Clamp(i, 0, int(m_materials.size()) - 1)).second;

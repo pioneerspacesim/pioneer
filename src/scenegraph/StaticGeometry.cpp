@@ -171,11 +171,6 @@ namespace SceneGraph {
 			//material
 			RefCountedPtr<Graphics::Material> material;
 			const std::string matName = rd.String();
-			if (starts_with(matName, "decal_")) {
-				const unsigned int di = atoi(matName.substr(6).c_str());
-				material = db.loader->GetDecalMaterial(di);
-			} else
-				material = db.model->GetMaterialByName(matName);
 
 			//vertex format check
 			const Uint32 vtxFormat = db.rd->Int32();
@@ -183,8 +178,17 @@ namespace SceneGraph {
 				throw LoadingError("Unsupported vertex format");
 			}
 
-			//vertex buffer
 			Graphics::VertexFormatDesc desc = Graphics::VertexFormatDesc::FromAttribSet(vtxFormat);
+
+			// load material, delegating to BaseLoader to create one for this vertex format
+			if (starts_with(matName, "decal_")) {
+				const unsigned int di = atoi(matName.substr(6).c_str());
+				material = db.loader->GetDecalMaterial(di);
+			} else {
+				material = db.loader->GetMaterialForMesh(matName, desc);
+			}
+
+			//vertex buffer
 
 			// Read the number of vertices in the mesh
 			Uint32 numVertices = db.rd->Int32();

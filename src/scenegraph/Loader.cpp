@@ -217,23 +217,22 @@ namespace SceneGraph {
 
 		Model *model = new Model(m_renderer, def.name);
 		m_model = model;
+		m_modelDef = &def;
 
 		for(const BoundDefinition& bdef : def.boundsDefs) {
 			m_model->m_bounds.push_back(RunTimeBoundDefinition(m_model, bdef));
 		}
 
 		bool patternsUsed = false;
+		for (const auto &matDef : m_modelDef->matDefs) {
+			if (matDef.use_pattern) {
+				patternsUsed = true;
+				break;
+			}
+		}
 
 		m_thrustersRoot.Reset(new Group(m_renderer));
 		m_billboardsRoot.Reset(new Group(m_renderer));
-
-		//create materials from definitions
-		for (std::vector<MaterialDefinition>::const_iterator it = def.matDefs.begin();
-			 it != def.matDefs.end(); ++it) {
-			if (it->use_pattern) patternsUsed = true;
-			ConvertMaterialDefinition(*it);
-		}
-		//Output("Loaded %d materials\n", int(model->m_materials.size()));
 
 		//load meshes
 		//"mesh" here refers to a "mesh xxx.yyy"
@@ -325,6 +324,12 @@ namespace SceneGraph {
 		// initialize tag transforms
 		m_model->UpdateTagTransforms();
 
+		m_model = nullptr;
+		m_modelDef = nullptr;
+
+		// Don't clear the vertex format cache; it is model-agnostic
+		m_materialLookup.clear();
+
 		return model;
 	}
 
@@ -382,16 +387,18 @@ namespace SceneGraph {
 		if (scene->mNumMeshes == 0)
 			throw LoadingError("No geometry found");
 
-		//turn all scene aiMeshes into Surfaces
-		//Index matches assimp index.
-		std::vector<RefCountedPtr<StaticGeometry>> geoms;
-		ConvertAiMeshes(geoms, scene);
+		// XXX(sturnclaw):
+		// We do not directly convert all scene meshes at this point any longer.
+		// Instead, we convert specifically those meshes used for renderable geometry inside ConvertNodes(),
+		// and process collision meshes separately.
+		// Doing it this way allows more information about the mesh to be available, and prevents wasting GPU
+		// memory on collision meshes that will never be rendered.
 
 		// Recursive structure conversion. Matrix needs to be accumulated for
 		// special features that are absolute-positioned (thrusters)
 		RefCountedPtr<Node> meshRoot(new Group(m_renderer));
 
-		ConvertNodes(scene, scene->mRootNode, static_cast<Group *>(meshRoot.Get()), geoms, matrix4x4f::Identity());
+		ConvertNodes(scene, scene->mRootNode, static_cast<Group *>(meshRoot.Get()), matrix4x4f::Identity());
 		ConvertAnimations(scene, animDefs, static_cast<Group *>(meshRoot.Get()));
 
 		return meshRoot;
@@ -473,136 +480,145 @@ namespace SceneGraph {
 	};
 #pragma pack(pop)
 
-	void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry>> &geoms, const aiScene *scene)
+	RefCountedPtr<StaticGeometry> Loader::ConvertMesh(const aiMesh *mesh, const aiScene *scene, std::string_view name)
 	{
-		PROFILE_SCOPED()
 		//XXX sigh, workaround for obj loader
-		int matIdxOffs = 0;
-		if (scene->mNumMaterials > scene->mNumMeshes)
-			matIdxOffs = 1;
+		int matIdxOffs = m_modelFormat == ModelFormat::WAVEFRONT && scene->mNumMaterials > scene->mNumMeshes ? 1 : 0;
+		assert(mesh->HasNormals());
 
-		//turn meshes into static geometry nodes
-		for (unsigned int i = 0; i < scene->mNumMeshes; i++) {
-			const aiMesh *mesh = scene->mMeshes[i];
-			assert(mesh->HasNormals());
+		RefCountedPtr<StaticGeometry> geom(new StaticGeometry(m_renderer));
+		geom->SetName(std::string(name));
 
-			RefCountedPtr<StaticGeometry> geom(new StaticGeometry(m_renderer));
-			geom->SetName(stringf("sgMesh%0{u}", i));
+		const bool hasUVs = mesh->HasTextureCoords(0);
+		const bool hasTangents = mesh->HasTangentsAndBitangents();
+		if (!hasUVs)
+			AddLog(stringf("%0: mesh %1 missing UV coordinates", m_curMeshDef, std::string(name)));
+		if (!hasTangents)
+			AddLog(stringf("%0: mesh %1 missing Tangents and Bitangents coordinates", m_curMeshDef, std::string(name)));
+		//sadly, aimesh name is usually empty so no help for logging
 
-			const bool hasUVs = mesh->HasTextureCoords(0);
-			const bool hasTangents = mesh->HasTangentsAndBitangents();
-			if (!hasUVs)
-				AddLog(stringf("%0: missing UV coordinates", m_curMeshDef));
-			if (!hasTangents)
-				AddLog(stringf("%0: missing Tangents and Bitangents coordinates", m_curMeshDef));
-			//sadly, aimesh name is usually empty so no help for logging
+		// Create Index Buffer
+		// ===================
 
-			//Material names are not consistent throughout formats.
-			//try matching name first, if that fails use index
-			RefCountedPtr<Graphics::Material> mat;
-			const aiMaterial *amat = scene->mMaterials[mesh->mMaterialIndex];
-			aiString aiMatName;
-			if (AI_SUCCESS == amat->Get(AI_MATKEY_NAME, aiMatName))
-				mat = m_model->GetMaterialByName(std::string(aiMatName.C_Str()));
-
-			if (!mat.Valid()) {
-				const unsigned int matIdx = mesh->mMaterialIndex - matIdxOffs;
-				AddLog(stringf("%0: no material %1, using material %2{u} instead", m_curMeshDef, aiMatName.C_Str(), matIdx + 1));
-				mat = m_model->GetMaterialByIndex(matIdx);
-			}
-			assert(mat.Valid());
-
-			//turn on alpha blending and mark entire node as transparent
-			//(all importers split by material so far)
-			if (mat->diffuse.a < 255)
-				geom->SetNodeMask(NODE_TRANSPARENT);
-
-			// Create Index Buffer
-			// ===================
-
-			// huge meshes are split by the importer so this should not exceed 65K indices
-			std::vector<Uint32> indices;
-			if (mesh->mNumFaces > 0) {
-				indices.reserve(mesh->mNumFaces * 3);
-				for (unsigned int f = 0; f < mesh->mNumFaces; f++) {
-					const aiFace *face = &mesh->mFaces[f];
-					for (unsigned int j = 0; j < face->mNumIndices; j++) {
-						indices.push_back(face->mIndices[j]);
-					}
+		// huge meshes are split by the importer so this should not exceed 65K indices
+		std::vector<Uint32> indices;
+		if (mesh->mNumFaces > 0) {
+			indices.reserve(mesh->mNumFaces * 3);
+			for (unsigned int f = 0; f < mesh->mNumFaces; f++) {
+				const aiFace *face = &mesh->mFaces[f];
+				for (unsigned int j = 0; j < face->mNumIndices; j++) {
+					indices.push_back(face->mIndices[j]);
 				}
-			} else {
-				//generate dummy indices
-				AddLog(stringf("Missing indices in mesh %0{u}", i));
-				indices.reserve(mesh->mNumVertices);
-				for (unsigned int v = 0; v < mesh->mNumVertices; v++)
-					indices.push_back(v);
 			}
-
-			assert(indices.size() > 0);
-
-			//create buffer & copy
-			RefCountedPtr<Graphics::IndexBuffer> ib(m_renderer->CreateIndexBuffer(indices.size(), Graphics::BUFFER_USAGE_STATIC));
-			Uint32 *idxPtr = ib->Map(Graphics::BUFFER_MAP_WRITE);
-			for (Uint32 j = 0; j < indices.size(); j++)
-				idxPtr[j] = indices[j];
-			ib->Unmap();
-
-			// Create Vertex Buffer
-			// ====================
-
-			Graphics::AttributeSet attribs;
-
-			if (!hasTangents) {
-				attribs = Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0;
-			} else {
-				attribs = Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0 | Graphics::ATTRIB_TANGENT;
-			}
-
-			Graphics::VertexFormatDesc fmt = Graphics::VertexFormatDesc::FromAttribSet(attribs);
-			RefCountedPtr<Graphics::VertexBuffer> vb(m_renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_STATIC, mesh->mNumVertices, fmt.bindings[0].stride));
-
-			aiVector3D zeroVector = aiVector3D(0.f);
-
-			//copy vertices, always assume normals
-			//replace nonexistent UVs with zeros
-			if (!hasTangents) {
-				ModelVtx *vtxPtr = vb->Map<ModelVtx>(Graphics::BUFFER_MAP_WRITE);
-				for (unsigned int v = 0; v < mesh->mNumVertices; v++) {
-					const aiVector3D &vtx = mesh->mVertices[v];
-					const aiVector3D &norm = mesh->mNormals[v];
-					const aiVector3D &uv0 = hasUVs ? mesh->mTextureCoords[0][v] : zeroVector;
-					vtxPtr[v].pos = vector3f(vtx.x, vtx.y, vtx.z);
-					vtxPtr[v].nrm = vector3f(norm.x, norm.y, norm.z);
-					vtxPtr[v].uv0 = vector2f(uv0.x, uv0.y);
-
-					//update bounding box
-					//untransformed points, collision visitor will transform
-					geom->m_boundingBox.Update(vtx.x, vtx.y, vtx.z);
-				}
-				vb->Unmap();
-			} else {
-				ModelTangentVtx *vtxPtr = vb->Map<ModelTangentVtx>(Graphics::BUFFER_MAP_WRITE);
-				for (unsigned int v = 0; v < mesh->mNumVertices; v++) {
-					const aiVector3D &vtx = mesh->mVertices[v];
-					const aiVector3D &norm = mesh->mNormals[v];
-					const aiVector3D &uv0 = hasUVs ? mesh->mTextureCoords[0][v] : zeroVector;
-					const aiVector3D &tangents = mesh->mTangents[v];
-					vtxPtr[v].pos = vector3f(vtx.x, vtx.y, vtx.z);
-					vtxPtr[v].nrm = vector3f(norm.x, norm.y, norm.z);
-					vtxPtr[v].uv0 = vector2f(uv0.x, uv0.y);
-					vtxPtr[v].tangent = vector3f(tangents.x, tangents.y, tangents.z);
-
-					//update bounding box
-					//untransformed points, collision visitor will transform
-					geom->m_boundingBox.Update(vtx.x, vtx.y, vtx.z);
-				}
-				vb->Unmap();
-			}
-
-			geom->AddMesh(attribs, vb, ib, mat);
-
-			geoms.push_back(geom);
+		} else {
+			//generate dummy indices
+			AddLog(stringf("%0: Missing indices in mesh %0", m_curMeshDef, std::string(name)));
+			indices.reserve(mesh->mNumVertices);
+			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
+				indices.push_back(v);
 		}
+
+		assert(indices.size() > 0);
+
+		//create buffer & copy
+		RefCountedPtr<Graphics::IndexBuffer> ib(m_renderer->CreateIndexBuffer(indices.size(), Graphics::BUFFER_USAGE_STATIC));
+		Uint32 *idxPtr = ib->Map(Graphics::BUFFER_MAP_WRITE);
+		for (Uint32 j = 0; j < indices.size(); j++)
+			idxPtr[j] = indices[j];
+		ib->Unmap();
+
+		// Create Vertex Buffer
+		// ====================
+
+		Graphics::AttributeSet attribs;
+
+		if (!hasTangents) {
+			attribs = Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0;
+		} else {
+			attribs = Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0 | Graphics::ATTRIB_TANGENT;
+		}
+
+		Graphics::VertexFormatDesc fmt = Graphics::VertexFormatDesc::FromAttribSet(attribs);
+		RefCountedPtr<Graphics::VertexBuffer> vb(m_renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_STATIC, mesh->mNumVertices, fmt.bindings[0].stride));
+
+		aiVector3D zeroVector = aiVector3D(0.f);
+
+		//copy vertices, always assume normals
+		//replace nonexistent UVs with zeros
+		if (!hasTangents) {
+			ModelVtx *vtxPtr = vb->Map<ModelVtx>(Graphics::BUFFER_MAP_WRITE);
+			for (unsigned int v = 0; v < mesh->mNumVertices; v++) {
+				const aiVector3D &vtx = mesh->mVertices[v];
+				const aiVector3D &norm = mesh->mNormals[v];
+				const aiVector3D &uv0 = hasUVs ? mesh->mTextureCoords[0][v] : zeroVector;
+				vtxPtr[v].pos = vector3f(vtx.x, vtx.y, vtx.z);
+				vtxPtr[v].nrm = vector3f(norm.x, norm.y, norm.z);
+				vtxPtr[v].uv0 = vector2f(uv0.x, uv0.y);
+
+				//update bounding box
+				//untransformed points, collision visitor will transform
+				geom->m_boundingBox.Update(vtx.x, vtx.y, vtx.z);
+			}
+			vb->Unmap();
+		} else {
+			ModelTangentVtx *vtxPtr = vb->Map<ModelTangentVtx>(Graphics::BUFFER_MAP_WRITE);
+			for (unsigned int v = 0; v < mesh->mNumVertices; v++) {
+				const aiVector3D &vtx = mesh->mVertices[v];
+				const aiVector3D &norm = mesh->mNormals[v];
+				const aiVector3D &uv0 = hasUVs ? mesh->mTextureCoords[0][v] : zeroVector;
+				const aiVector3D &tangents = mesh->mTangents[v];
+				vtxPtr[v].pos = vector3f(vtx.x, vtx.y, vtx.z);
+				vtxPtr[v].nrm = vector3f(norm.x, norm.y, norm.z);
+				vtxPtr[v].uv0 = vector2f(uv0.x, uv0.y);
+				vtxPtr[v].tangent = vector3f(tangents.x, tangents.y, tangents.z);
+
+				//update bounding box
+				//untransformed points, collision visitor will transform
+				geom->m_boundingBox.Update(vtx.x, vtx.y, vtx.z);
+			}
+			vb->Unmap();
+		}
+
+		//Material names are not consistent throughout formats.
+		//try matching name first, if that fails use index
+		RefCountedPtr<Graphics::Material> mat;
+
+		// Lookup scene material name
+		const aiMaterial *amat = scene->mMaterials[mesh->mMaterialIndex];
+		aiString aiMatName;
+		if (AI_SUCCESS == amat->Get(AI_MATKEY_NAME, aiMatName)) {
+			// Do we actually have a material by that name?
+			auto mdef = std::find_if(m_modelDef->matDefs.begin(), m_modelDef->matDefs.end(), [&](const MaterialDefinition &v) {
+				return v.name.compare({ aiMatName.data, aiMatName.length }) == 0;
+			});
+
+			if (mdef != m_modelDef->matDefs.end()) {
+				mat = GetMaterialForMesh({ aiMatName.data, aiMatName.length }, fmt);
+			}
+		}
+
+		// General fallback - material without name or invalid material name (looking at you, .obj files)
+		if (!mat.Valid()) {
+			uint32_t matIdx = mesh->mMaterialIndex - matIdxOffs;
+			AddLog(stringf("%0: no material %1, using material at index %2{u} instead", m_curMeshDef, aiMatName.C_Str(), matIdx));
+
+			if (matIdx >= m_modelDef->matDefs.size()) {
+				AddLog(stringf("%0: no material defined at index %1, falling back to material %2", m_curMeshDef, matIdx, m_modelDef->matDefs.size() - 1));
+				matIdx = m_modelDef->matDefs.size() - 1;
+			}
+
+			mat = GetMaterialForMesh(m_modelDef->matDefs[matIdx].name, fmt);
+		}
+
+		assert(mat.Valid());
+
+		//turn on alpha blending and mark entire node as transparent
+		//(all importers split by material so far)
+		if (mat->diffuse.a < 255)
+			geom->SetNodeMask(NODE_TRANSPARENT);
+
+		geom->AddMesh(attribs, vb, ib, mat);
+		return geom;
 	}
 
 	void Loader::ConvertAnimations(const aiScene *scene, const std::vector<AnimDefinition> &animDefs, Node *meshRoot)
@@ -862,7 +878,7 @@ namespace SceneGraph {
 		return cgeom;
 	}
 
-	void Loader::ConvertNodes(const aiScene *scene, aiNode *node, Group *_parent, std::vector<RefCountedPtr<StaticGeometry>> &geoms, const matrix4x4f &accum)
+	void Loader::ConvertNodes(const aiScene *scene, aiNode *node, Group *_parent, const matrix4x4f &accum)
 	{
 		PROFILE_SCOPED()
 		Group *parent = _parent;
@@ -929,11 +945,15 @@ namespace SceneGraph {
 			}
 
 			for (unsigned int i = 0; i < node->mNumMeshes; i++) {
-				RefCountedPtr<StaticGeometry> geom = geoms.at(node->mMeshes[i]);
+				const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+				RefCountedPtr<StaticGeometry> geom = ConvertMesh(mesh, scene, { node->mName.data, node->mName.length });
 
 				//handle special decal material
 				//set special material for decals
 				if (numDecal > 0) {
+					if (!mesh->HasTangentsAndBitangents())
+						throw LoadingError("Decal meshes must include tangent data!");
+
 					geom->SetNodeMask(NODE_TRANSPARENT);
 					geom->GetMeshAt(0).material = GetDecalMaterial(numDecal);
 					geom->SetNodeFlags(geom->GetNodeFlags() | NODE_DECAL);
@@ -945,7 +965,7 @@ namespace SceneGraph {
 
 		for (unsigned int i = 0; i < node->mNumChildren; i++) {
 			aiNode *child = node->mChildren[i];
-			ConvertNodes(scene, child, parent, geoms, accum * m);
+			ConvertNodes(scene, child, parent, accum * m);
 		}
 	}
 
