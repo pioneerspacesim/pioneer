@@ -149,6 +149,11 @@ void processRay(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, const
 	      atmosphereHeight = atmosphereRadius - geosphereRadius;
 
 	float tCurrent = boundaries.x;
+	float maxSegment = atmosphereHeight / numSamples;
+
+	if (height(tCurrent * dir, center) > 0 && numSamples * maxSegment < (boundaries.y - boundaries.x)) {
+		numSamples = min(int(ceil((boundaries.y - boundaries.x) / maxSegment)), 256); // max 256 segments
+	}
 	float segmentLength = (boundaries.y - boundaries.x) / numSamples;
 	for (int i = 0; i < numSamples; ++i) {
 		vec3 samplePosition = vec3(tCurrent + segmentLength * 0.5f) * dir;
