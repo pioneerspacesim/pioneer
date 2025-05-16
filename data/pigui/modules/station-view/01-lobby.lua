@@ -191,7 +191,7 @@ local function lobbyMenu()
 	local gaugeHeight = widgetSizes.buttonSizeBase.y
 	gaugePos.y = gaugePos.y + widgetSizes.buttonSizeBase.y/2
 	local gaugeWidth = ui.getContentRegion().x
-	ui.gauge(gaugePos, Game.player.fuel, '', string.format(l.FUEL .. ": %dt \t" .. l.DELTA_V .. ": %d km/s",
+	ui.gauge(gaugePos, Game.player.fuel, '', string.format(l.FUEL .. ": %d t \t" .. l.DELTA_V .. ": %d km/s",
 		shipDef.fuelTankMass/100 * Game.player.fuel, Game.player:GetRemainingDeltaV()/1000),
 		0, 100, icons.fuel,
 		colors.gaugeEquipmentMarket, '', gaugeWidth, gaugeHeight, pionillium.body)
@@ -226,7 +226,7 @@ local function lobbyMenu()
 	-- hyperspace fuel gauge
 	gaugePos = ui.getCursorScreenPos()
 	gaugePos.y = gaugePos.y + widgetSizes.buttonSizeBase.y/2
-	ui.gauge(gaugePos, stored_hyperfuel, '', string.format(l.FUEL .. ": %0.1ft \t" .. l.HYPERSPACE_RANGE .. ": %d " .. l.LY,
+	ui.gauge(gaugePos, stored_hyperfuel, '', string.format(l.FUEL .. ": %0.1f t \t" .. l.HYPERSPACE_RANGE .. ": %d " .. l.LY,
 		stored_hyperfuel, Game.player:GetHyperspaceRange()),
 		0, hyperdrive:GetMaxFuel(),
 		icons.hyperspace, colors.gaugeEquipmentMarket, '',
