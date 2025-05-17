@@ -57,7 +57,7 @@
   },
   "BY_SLOT": {
     "description": "Button in the start menu when editing equipment",
-    "message": "By slot"
+    "message": "Efter plats"
   },
   "CABINS": {
     "description": "Category header for pressurized cabin slots",
@@ -193,7 +193,7 @@
   },
   "EQUIPMENT_DOES_NOT_FIT_INTO_THE_SLOT": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Equipment does not fit into the slot"
+    "message": "Utrustningen passa inte på den här platsen"
   },
   "EQUIPMENT_INTEGRITY": {
     "description": "Tooltip explaining remaining equipment integrity",
@@ -229,15 +229,15 @@
   },
   "HARDPOINT_MISSILE_BAY": {
     "description": "Name for the 'Missile Bay' equipment hardpoint",
-    "message": "Missile Bay"
+    "message": "Missilrum"
   },
   "HARDPOINT_MISSILE_BAY_LEFT": {
     "description": "Name for the 'Missile Bay' equipment hardpoint",
-    "message": "Left Missile Bay"
+    "message": "Missilrum vänster"
   },
   "HARDPOINT_MISSILE_BAY_RIGHT": {
     "description": "Name for the 'Missile Bay' equipment hardpoint",
-    "message": "Right Missile Bay"
+    "message": "Missilrum höger"
   },
   "HARDPOINT_PYLON": {
     "description": "Name for a generic missile pylon",
@@ -285,11 +285,11 @@
   },
   "HARDPOINT_WEAPON_FRONT_LEFT": {
     "description": "Name for a generic front-facing weapon hardpoint",
-    "message": "Front Left Weapon"
+    "message": "Främre vapen vänster"
   },
   "HARDPOINT_WEAPON_FRONT_RIGHT": {
     "description": "Name for a generic front-facing weapon hardpoint",
-    "message": "Front Right Weapon"
+    "message": "Främre vapen höger"
   },
   "HARDPOINT_WEAPON_LEFT": {
     "description": "Name for a generic weapon hardpoint",
@@ -297,7 +297,7 @@
   },
   "HARDPOINT_WEAPON_LEFT_NOSE": {
     "description": "Name for the 'Left Nose' weapon hardpoint",
-    "message": "Left Nose"
+    "message": "Vänster nos"
   },
   "HARDPOINT_WEAPON_REAR": {
     "description": "Name for a generic rear-facing weapon hardpoint",
@@ -309,7 +309,7 @@
   },
   "HARDPOINT_WEAPON_RIGHT_NOSE": {
     "description": "Name for the 'Right Nose' weapon hardpoint",
-    "message": "Right Nose"
+    "message": "Höger nos"
   },
   "HULL_AUTOREPAIR": {
     "description": "",
@@ -321,7 +321,7 @@
   },
   "HULL_MOUNTS": {
     "description": "Category name for hull-mounted equipment",
-    "message": "Hull Mounts"
+    "message": "Skrovfästen"
   },
   "HYPERCLOUD_ANALYZER": {
     "description": "",
@@ -333,11 +333,11 @@
   },
   "INVALID_SLOT": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Invalid slot"
+    "message": "Ogiltig plats"
   },
   "ITEM": {
     "description": "A piece of equipment",
-    "message": "Item"
+    "message": "Föremål"
   },
   "LARGE_PLASMA_ACCEL": {
     "description": "",
@@ -385,7 +385,7 @@
   },
   "MISSILE_GUIDED_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "Mass produced guided missile which will attempt to home in on a selected target. Depending on the exact model, this missile may use a variety of homing technologies including one or more of Radar, Laser, or LIDAR. Nevertheless, the technology in these missiles is not guaranteed to ensure a hit and most are quite vulnerable to ECM or other countermeasures."
+    "message": "Massproducerad styrd missil som söker ett inställt mål. Beroende på den exakta modellen kan denna missil använda en mängd olika målsökningstekniker, inklusive en eller flera av radar, laser eller LIDAR. Tekniken i dessa missiler är dock inte garanterad träff och de flesta är ganska sårbara för ECM eller andra motåtgärder."
   },
   "MISSILE_NAVAL": {
     "description": "",
@@ -393,19 +393,19 @@
   },
   "MISSILE_NAVAL_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "Fire-and-forget homing missile highly resistant to all known types of countermeasures."
+    "message": "Målsökande missil med hög motståndskraft mot alla kända typer av motåtgärder."
   },
   "MISSILE_NAVAL_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "These missiles are produced in highly specialised and secretive naval factories in tightly controlled facilities and generally not available to non-military personel. Able to resist most known types of countermeasures, these missiles are fast for their size and usually pack exotic warheads for extreme destructive potential. Often specialised equipment is required in the ships carrying these in order to correctly arm and program the missiles prior to launch."
+    "message": "Dessa missiler tillverkas i högspecialiserade och hemliga marinfabriker i noggrant kontrollerade anläggningar och är i allmänhet inte tillgängliga för icke-militär personal. De kan motstå de flesta kända typer av motåtgärder, är snabba för sin storlek och har vanligtvis exotiska stridsspetsar för extrem destruktiv potential. Ofta krävs specialutrustning i de skepp som transporterar dessa för att korrekt armera och programmera missilerna före avfyrning."
   },
   "MISSILE_RACK_221": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
-    "message": "Hydra LH-120 Missile Rack"
+    "message": "Hydra LH-120 Missilställ"
   },
   "MISSILE_RACK_221_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 2 small missiles."
+    "message": "Extern missilställ med kapacitet för 2 mindre missiler. "
   },
   "MISSILE_RACK_221_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
@@ -413,11 +413,11 @@
   },
   "MISSILE_RACK_322": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
-    "message": "Hydra LH-220 Missile Rack"
+    "message": "Hydra LH-220 Missilställ"
   },
   "MISSILE_RACK_322_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 2 medium missiles."
+    "message": "Extern missilställ med kapacitet för 2 medelstora missiler."
   },
   "MISSILE_RACK_322_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
@@ -425,11 +425,11 @@
   },
   "MISSILE_RACK_341": {
     "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
-    "message": "Medusa LH-140 Missile Rack"
+    "message": "Medusa LH-140 Missilställ"
   },
   "MISSILE_RACK_341_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 4 small missiles."
+    "message": "Extern missilställ med kapacitet för 4 mindre missiler."
   },
   "MISSILE_RACK_341_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
@@ -437,11 +437,11 @@
   },
   "MISSILE_RACK_423": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
-    "message": "Hydra LH-320 Missile Rack"
+    "message": "Hydra LH-320 Missilställ"
   },
   "MISSILE_RACK_423_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 2 large missiles."
+    "message": "Extern missilställ med kapacitet för 2 större missiler."
   },
   "MISSILE_RACK_423_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
@@ -449,11 +449,11 @@
   },
   "MISSILE_RACK_442": {
     "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
-    "message": "Medusa LH-240 Missile Rack"
+    "message": "Medusa LH-240 Missilställ"
   },
   "MISSILE_RACK_442_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 4 medium missiles."
+    "message": "Extern missilställ med kapacitet för 4 medelstora missiler."
   },
   "MISSILE_RACK_442_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
@@ -461,7 +461,7 @@
   },
   "MISSILE_RACK_524": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
-    "message": "Hydra LH-420 Missile Rack"
+    "message": "Hydra LH-420 Missilställ"
   },
   "MISSILE_RACK_524_DESCRIPTION": {
     "description": "Equipment tooltip",
@@ -473,7 +473,7 @@
   },
   "MISSILE_RACK_543": {
     "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
-    "message": "Medusa LH-340 Missile Rack"
+    "message": "Medusa LH-340 Missilställ"
   },
   "MISSILE_RACK_543_DESCRIPTION": {
     "description": "Equipment tooltip",
@@ -625,7 +625,7 @@
   },
   "PROJECTILE_SPEED": {
     "description": "Stat label for weapon projectile speeds",
-    "message": "Projectile Speed"
+    "message": "Projektilhastighet"
   },
   "PROPULSION": {
     "description": "Category name of propulsion-related equipment",
@@ -729,7 +729,7 @@
   },
   "SLOT": {
     "description": "",
-    "message": "Slot"
+    "message": "Plats"
   },
   "SLOTLESS": {
     "description": "",
@@ -765,7 +765,7 @@
   },
   "SLOT_IS_NOT_EMPTY_REPLACE_THE_EQUIPMENT_QUESTION": {
     "description": "",
-    "message": "Slot is not empty, replace the equipment?"
+    "message": "Platsen är upptagen. Byt utrustning?"
   },
   "SLOT_SENSOR": {
     "description": "Name for a generic (flight/navigation) sensor slot",
@@ -777,11 +777,11 @@
   },
   "SLOT_SHIELD_LEFT": {
     "description": "Name for a left-side shield slot",
-    "message": "Shield L"
+    "message": "Sköld V"
   },
   "SLOT_SHIELD_RIGHT": {
     "description": "Name for a right-side shield equipment slot",
-    "message": "Shield R"
+    "message": "Sköld H"
   },
   "SLOT_STRUCTURE": {
     "description": "Name for the ship's internal structure modification slot",
@@ -789,7 +789,7 @@
   },
   "SLOT_THRUSTER": {
     "description": "Generic name for secondary attitude or maneuvering thrusters",
-    "message": "Thrusters"
+    "message": "Styrraketer"
   },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
@@ -929,7 +929,7 @@
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",
-    "message": "Required for transporting passengers"
+    "message": "Krävs för passagerartransport"
   },
   "UTILITY": {
     "description": "Category name of utility equipment",

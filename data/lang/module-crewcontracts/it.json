@@ -41,7 +41,7 @@
   },
   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
     "description": "",
-    "message": "Offri un posto sulla nave per l'ammontare stabilito"
+    "message": "Offri una posizione sulla nave per l'ammontare stabilito"
   },
   "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
     "description": "",

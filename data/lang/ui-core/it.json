@@ -1145,7 +1145,7 @@
   },
   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
     "description": "",
-    "message": "Iperspazio verso {destination} tra {countdown} secondi"
+    "message": "Salto iperspaziale verso {destination} tra {countdown} secondi"
   },
   "HUD_INDICATOR_AWAY_FROM_FRAME": {
     "description": "Indicator: Away from the current frame.",
@@ -1261,7 +1261,7 @@
   },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
-    "message": "Lo scafo non necessità di riparazione."
+    "message": "Lo scafo non necessita di riparazione."
   },
   "HULL_INTEGRITY": {
     "description": "",

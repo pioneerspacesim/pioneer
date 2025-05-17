@@ -497,7 +497,7 @@
   },
   "RISK_6": {
     "description": "",
-    "message": "Non ti aspettare di arrivare a destinazione disarmato."
+    "message": "Non ti aspettare di arrivare a destinazione illeso."
   },
   "RISK_ART_1": {
     "description": "",
@@ -561,7 +561,7 @@
   },
   "SUCCESSMSG_3": {
     "description": "",
-    "message": "Eccellente, è stato un piacere lavorare con te. Le ho pagato la parcella."
+    "message": "Eccellente, è stato un piacere lavorare con lei. Le ho pagato la parcella."
   },
   "SUCCESSMSG_4": {
     "description": "",
@@ -585,7 +585,7 @@
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
-    "message": "Sei arrivato troppo tardi! Lavori talmente male che ho deciso di rescindere il mio contratto."
+    "message": "Sei arrivato troppo tardi! Lavori talmente male che ho deciso di rescindere il mio contratto con te."
   },
   "TUNGSTEN": {
     "description": "custom cargo",

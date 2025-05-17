@@ -17,7 +17,7 @@
   },
   "ATMOSPHERIC_SHIELDING_FLAVOURTEXT": {
     "description": "",
-    "message": "Provides a moderate level of protection against atmospheric friction and pressure at a minimal mass cost."
+    "message": "Conferă un nivel moderat de protecție împotriva frecării atmosferice și a presiunii la un cost minimal de masă."
   },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
@@ -29,7 +29,7 @@
   },
   "ATMOSPHERIC_SHIELDING_HEAVY_FLAVOURTEXT": {
     "description": "",
-    "message": "Specialized for scientific expeditions within dense atmospheres, this shielding trades weight and efficiency for a significant increase in the atmospheric pressures it can withstand."
+    "message": "Specializat pentru expediții științifice în atmosfere dense, acest scut renunță la greutate și eficiență pentru o creștere signifiantă a presiunii atmosferice pe care o poate suporta."
   },
   "AUTOPILOT": {
     "description": "",
@@ -53,11 +53,11 @@
   },
   "BY_ITEM": {
     "description": "Button in the start menu when editing equipment",
-    "message": "By item"
+    "message": "Per articol"
   },
   "BY_SLOT": {
     "description": "Button in the start menu when editing equipment",
-    "message": "By slot"
+    "message": "Per soclu"
   },
   "CABINS": {
     "description": "Category header for pressurized cabin slots",
@@ -81,11 +81,11 @@
   },
   "COMPUTER_MODULES": {
     "description": "Category name of computer-related equipment",
-    "message": "Computer Modules"
+    "message": "Module Computer"
   },
   "DAMAGE_PER_SHOT": {
     "description": "Tooltip explaining weapon damage per shot",
-    "message": "Damage Per Shot"
+    "message": "Daună Per Foc"
   },
   "DRIVE_CLASS1": {
     "description": "",
@@ -181,19 +181,19 @@
   },
   "EDIT_EQUIPMENT": {
     "description": "Dialog title",
-    "message": "Edit equipment"
+    "message": "Editare echipament"
   },
   "EMPTY_EQUIPMENT_PROVIDING_SLOTS": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Empty equipment providing slots"
+    "message": "Echipament gol care adaugă socluri"
   },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
-    "message": "EMPTY"
+    "message": "GOL"
   },
   "EQUIPMENT_DOES_NOT_FIT_INTO_THE_SLOT": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Equipment does not fit into the slot"
+    "message": "Echipamentul nu se potrivește în fantă"
   },
   "EQUIPMENT_INTEGRITY": {
     "description": "Tooltip explaining remaining equipment integrity",

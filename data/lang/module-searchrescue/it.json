@@ -513,7 +513,7 @@
   },
   "PAYMENT_LOCATION": {
     "description": "",
-    "message": "Luogo di pagamento:"
+    "message": "Luogo del pagamento:"
   },
   "PICKUP": {
     "description": "",

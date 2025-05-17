@@ -29,7 +29,7 @@
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Carbon is one of the most diverse elements we know of. Used in almost everything from plastics to alloys and sometimes even power production, carbon is an inexpensive, but important commodity. As such, almost all industrial settlements import carbon ore."
+    "message": "Carbonul este unul dintre cele mai diverse elemente pe care le cunoaștem. Folosit în aproape totul de la plastice până la aliaje și uneori chiar producția de curent, carbonul este o comoditate ieftină dar importantă. Din acest motiv, aproape toate așezările industriale importă cărbune."
   },
   "COMPUTERS": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "From over a thousand years ago, with the Abacus, PDP-11, and Motorola 68k chip, down to our modern HAL 9001 and Multivac line, computers marked the dawn of the information age. Equally essential for entering hyperspace as for sharing videos of cute quibbles over the UniNet."
+    "message": "De acum mai bine de o mie de ani începând cu Abacus, PDP-11 si chip-ul Motorola 68k, până la modernul HAL 9001 și linia Multivac, calculatoarele au marcat era informatică. Esențiale în egală măsură pentru a intra in hiperspațiu cât și pentru a vedea pe UniNet ultimele trend-uri în modă."
   },
   "CONSUMER_GOODS": {
     "description": "",
