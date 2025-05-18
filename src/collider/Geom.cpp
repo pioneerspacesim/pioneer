@@ -90,17 +90,17 @@ std::vector<CollisionContact> Geom::Collide(Geom *b) const
 	return contacts;
 }
 
-static AABBd rotateAaabb(const AABBd &a, const matrix4x4d transA)
+static AABBd rotateAaabb(const AABBd &a, const matrix4x4d &transA)
 {
 	AABBd arot = AABBd::Invalid();
-	arot.Update(transA * vector3d(a.min.x, a.min.y, a.min.z));
+	arot.Update(transA * a.min);
 	arot.Update(transA * vector3d(a.min.x, a.min.y, a.max.z));
 	arot.Update(transA * vector3d(a.min.x, a.max.y, a.min.z));
 	arot.Update(transA * vector3d(a.min.x, a.max.y, a.max.z));
 	arot.Update(transA * vector3d(a.max.x, a.min.y, a.min.z));
 	arot.Update(transA * vector3d(a.max.x, a.min.y, a.max.z));
 	arot.Update(transA * vector3d(a.max.x, a.max.y, a.min.z));
-	arot.Update(transA * vector3d(a.max.x, a.max.y, a.max.z));
+	arot.Update(transA * a.max);
 	return arot;
 }
 
