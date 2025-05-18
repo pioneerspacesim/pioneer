@@ -90,8 +90,13 @@ table.insert(module.transferModes, {
 	action = function(ship, manifest)
 		for k, v in pairs(manifest) do
 			local commodity = Commodities[k]
-			for i = 1, v do
-				ship:Jettison(commodity)
+			local deci = math.floor(v / 10)
+			for i = 1, deci do
+				ship:Jettison(commodity, 10, 600)
+			end
+			local remaining = v - (deci * 10)
+			if remaining > 0 then
+				ship:Jettison(commodity, v - (deci * 10), 600)
 			end
 		end
 	end,

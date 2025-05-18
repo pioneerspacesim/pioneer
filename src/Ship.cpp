@@ -515,7 +515,7 @@ bool Ship::OnCollision(Body *b, Uint32 flags, double relVel)
 	int cargoscoop_cap = Properties().Get("cargo_scoop_cap");
 	if (cargoscoop_cap > 0 && b->IsType(ObjectType::CARGOBODY) && !b->IsDead()) {
 		bool scooped = LuaObject<Ship>::CallMethod<bool>(this, "OnScoopCargo",
-			static_cast<CargoBody *>(b)->GetCargoType());
+			static_cast<CargoBody *>(b)->GetCargoType(), static_cast<CargoBody *>(b)->GetCargoQuantity());
 
 		if (scooped) {
 			Pi::game->GetSpace()->KillBody(b);

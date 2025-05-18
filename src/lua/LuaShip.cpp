@@ -475,7 +475,12 @@ static int l_ship_spawn_cargo(lua_State *l)
 
 	if (lua_gettop(l) >= 3) {
 		float lifeTime = lua_tonumber(l, 3);
-		c_body = new CargoBody(model, LuaRef(l, 2), lifeTime);
+		if (lua_gettop(l) >= 4) {
+			float quantity = lua_tonumber(l, 4);
+			c_body = new CargoBody(model, LuaRef(l, 2), lifeTime, quantity);
+		} else {
+			c_body = new CargoBody(model, LuaRef(l, 2), lifeTime);
+		}
 	} else
 		c_body = new CargoBody(model, LuaRef(l, 2));
 

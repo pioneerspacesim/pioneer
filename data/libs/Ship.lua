@@ -398,19 +398,19 @@ end
 --   experimental
 --
 ---@param cargoType CommodityType
-function Ship:Jettison(cargoType)
+function Ship:Jettison(cargoType, quantity, lifetime)
 	if self.flightState ~= "FLYING" and self.flightState ~= "DOCKED" and self.flightState ~= "LANDED" then
 		return false
 	end
 
 	---@type CargoManager
 	local cargoMgr = self:GetComponent('CargoManager')
-	if cargoMgr:RemoveCommodity(cargoType, 1) < 1 then
+	if cargoMgr:RemoveCommodity(cargoType, quantity) < quantity then
 		return false
 	end
 
 	if self.flightState == "FLYING" then
-		self:SpawnCargo(cargoType)
+		self:SpawnCargo(cargoType, lifetime, quantity)
 		Event.Queue("onJettison", self, cargoType)
 	elseif self.flightState == "DOCKED" then
 		Event.Queue("onCargoUnload", self:GetDockedWith(), cargoType)
@@ -429,7 +429,7 @@ end
 --
 -- Returns true if the body was successfully scooped.
 --
-function Ship:OnScoopCargo(cargoType)
+function Ship:OnScoopCargo(cargoType, quantity)
 	---@type CargoManager
 	local cargoMgr = self:GetComponent('CargoManager')
 
@@ -446,7 +446,7 @@ function Ship:OnScoopCargo(cargoType)
 		self:setprop('last_scoop_time', Game.time)
 	end
 
-	local success = cargoMgr:AddCommodity(cargoType, 1)
+	local success = cargoMgr:AddCommodity(cargoType, quantity)
 
 	Event.Queue('onShipScoopCargo', self, success, cargoType)
 
