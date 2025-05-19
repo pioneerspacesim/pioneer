@@ -13,7 +13,9 @@ TerrainHeightFractal<TerrainHeightFlat>::TerrainHeightFractal(const SystemBody *
 }
 
 template <>
-double TerrainHeightFractal<TerrainHeightFlat>::GetHeight(const vector3d &p) const
+void TerrainHeightFractal<TerrainHeightFlat>::GetHeights(const std::vector<vector3d> &vP, std::vector<double> &heightsOut) const
 {
-	return 0.0;
+	for (size_t i = 0; i < vP.size(); i++) {
+		heightsOut.at(i) = 0.0;
+	}
 }
