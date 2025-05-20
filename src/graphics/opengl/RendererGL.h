@@ -99,8 +99,6 @@ namespace Graphics {
 		bool DrawMesh(MeshObject *, Material *) final;
 		bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) final;
 
-		Material *CreateMaterial(const std::string &, const MaterialDescriptor &, const RenderStateDesc &) final;
-		Material *CloneMaterial(const Material *, const MaterialDescriptor &, const RenderStateDesc &) final;
 		Material *CreateMaterial(const std::string &, const MaterialDescriptor &, const RenderStateDesc &, const VertexFormatDesc &) final;
 		Material *CloneMaterial(const Material *, const MaterialDescriptor &, const RenderStateDesc &, const VertexFormatDesc &) final;
 		Texture *CreateTexture(const TextureDescriptor &descriptor) final;

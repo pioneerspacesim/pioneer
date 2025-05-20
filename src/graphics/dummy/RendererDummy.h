@@ -74,8 +74,6 @@ namespace Graphics {
 		bool DrawMesh(MeshObject *, Material *) final { return true; }
 		bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) final { return true; }
 
-		Material *CreateMaterial(const std::string &s, const MaterialDescriptor &d, const RenderStateDesc &rsd) final { return new Graphics::Dummy::Material(rsd); }
-		Material *CloneMaterial(const Material *m, const MaterialDescriptor &d, const RenderStateDesc &rsd) final { return new Graphics::Dummy::Material(rsd); }
 		Texture *CreateTexture(const TextureDescriptor &d) final { return new Graphics::TextureDummy(d); }
 		RenderTarget *CreateRenderTarget(const RenderTargetDesc &d) final { return new Graphics::Dummy::RenderTarget(d); }
 		VertexBuffer *CreateVertexBuffer(BufferUsage u, uint32_t sz, uint32_t st) final { return new Graphics::Dummy::VertexBuffer(u, sz, st); }

@@ -29,6 +29,7 @@
 #include "VertexBufferGL.h"
 
 #include "core/Log.h"
+#include "graphics/opengl/OpenGLLibs.h"
 
 #include <SDL.h>
 
@@ -1005,8 +1006,6 @@ namespace Graphics {
 		uint32_t numElems = mesh->m_idxBuffer.Valid() ? mesh->m_idxBuffer->GetIndexCount() : mesh->m_vtxBuffer->GetSize();
 
 		if (mesh->m_idxBuffer.Valid()) {
-			// FIXME: terrain segfaults without this BindBuffer call
-			// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->m_idxBuffer->GetBuffer());
 			glDrawElements(type, numElems, get_element_size(mesh->m_idxBuffer.Get()), nullptr);
 		} else
 			glDrawArrays(type, 0, numElems);
@@ -1065,12 +1064,22 @@ namespace Graphics {
 		return true;
 	}
 
-	Material *RendererOGL::CreateMaterial(const std::string &shader, const MaterialDescriptor &d, const RenderStateDesc &stateDescriptor)
+	Material *RendererOGL::CreateMaterial(const std::string &shader, const MaterialDescriptor &d, const RenderStateDesc &stateDescriptor, const VertexFormatDesc &vfmt)
 	{
 		PROFILE_SCOPED()
 		MaterialDescriptor desc = d;
 
 		OGL::Material *mat = new OGL::Material;
+
+		size_t hash = m_renderStateCache->CacheVertexDesc(vfmt);
+		GLuint vao = m_renderStateCache->GetVertexArrayObject(hash);
+
+		// Bind the vertex array before calling SetShader()
+		// This ensures that the intended vertex state is active when glLinkProgram() is called,
+		// which prevents a spurious recompile the first time the program is actually used.
+		// (Otherwise the program is linked with an incorrect vertex state.)
+
+		glBindVertexArray(vao);
 
 		if (desc.lighting) {
 			desc.dirLights = m_numDirLights;
@@ -1079,6 +1088,8 @@ namespace Graphics {
 		mat->m_renderer = this;
 		mat->m_descriptor = desc;
 		mat->m_renderStateHash = m_renderStateCache->InternRenderState(stateDescriptor);
+		mat->m_vertexState = vao;
+		mat->m_vertexFormatHash = hash;
 
 		OGL::Shader *s = nullptr;
 		for (auto &pair : m_shaders) {
@@ -1093,57 +1104,41 @@ namespace Graphics {
 
 			m_shaders.push_back({ shader, s });
 		}
-
 		mat->SetShader(s);
+
 		CheckRenderErrors(__FUNCTION__, __LINE__);
+		glBindVertexArray(0);
+
 		return mat;
 	}
 
-	Material *RendererOGL::CloneMaterial(const Material *old, const MaterialDescriptor &descriptor, const RenderStateDesc &stateDescriptor)
+	Material *RendererOGL::CloneMaterial(const Material *old, const MaterialDescriptor &descriptor, const RenderStateDesc &stateDescriptor, const VertexFormatDesc &vfmt)
 	{
 		OGL::Material *newMat = new OGL::Material();
+
+		size_t hash = m_renderStateCache->CacheVertexDesc(vfmt);
+		GLuint vao = m_renderStateCache->GetVertexArrayObject(hash);
+
+		// Bind the vertex array before calling SetShader()
+		// This ensures that the intended vertex state is active when glLinkProgram() is called,
+		// which prevents a spurious recompile the first time the program is actually used.
+		// (Otherwise the program is linked with an incorrect vertex state.)
+		glBindVertexArray(vao);
+
 		newMat->m_renderer = this;
 		newMat->m_descriptor = descriptor;
 		newMat->m_renderStateHash = m_renderStateCache->InternRenderState(stateDescriptor);
+		newMat->m_vertexState = vao;
+		newMat->m_vertexFormatHash = hash;
 
 		const OGL::Material *material = static_cast<const OGL::Material *>(old);
 		newMat->SetShader(material->m_shader);
 		material->Copy(newMat);
 
 		CheckRenderErrors(__FUNCTION__, __LINE__);
-		return newMat;
-	}
-
-	Material *RendererOGL::CreateMaterial(const std::string &shader, const MaterialDescriptor &desc, const RenderStateDesc &stateDesc, const VertexFormatDesc &vfmt)
-	{
-		size_t hash = m_renderStateCache->CacheVertexDesc(vfmt);
-		GLuint vao = m_renderStateCache->GetVertexArrayObject(hash);
-
-		glBindVertexArray(vao);
-		OGL::Material *mat = static_cast<OGL::Material *>(CreateMaterial(shader, desc, stateDesc));
 		glBindVertexArray(0);
 
-		if (!mat)
-			return nullptr;
-
-		mat->m_vertexState = vao;
-		mat->m_vertexFormatHash = hash;
-		return mat;
-	}
-
-	Material *RendererOGL::CloneMaterial(const Material *old, const MaterialDescriptor &desc, const RenderStateDesc &stateDesc, const VertexFormatDesc &vfmt)
-	{
-		size_t hash = m_renderStateCache->CacheVertexDesc(vfmt);
-		GLuint vao = m_renderStateCache->GetVertexArrayObject(hash);
-
-		OGL::Material *mat = static_cast<OGL::Material *>(CloneMaterial(old, desc, stateDesc));
-
-		if (!mat)
-			return nullptr;
-
-		mat->m_vertexState = vao;
-		mat->m_vertexFormatHash = hash;
-		return mat;
+		return newMat;
 	}
 
 	bool RendererOGL::ReloadShaders()
