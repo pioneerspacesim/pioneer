@@ -3,7 +3,6 @@
 
 local Game       = require 'Game'
 local Event      = require 'Event'
-local FileSystem = require 'FileSystem'
 local Lang       = require 'Lang'
 local ShipDef    = require 'ShipDef'
 local Vector2    = _G.Vector2

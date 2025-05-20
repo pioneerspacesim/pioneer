@@ -9,7 +9,6 @@ local Vector2 = _G.Vector2
 local pionillium = ui.fonts.pionillium
 local colors = ui.theme.colors
 
-local lc = require 'Lang'.GetResource("core")
 local lui = require 'Lang'.GetResource("ui-core")
 
 local gameView = require 'pigui.views.game'

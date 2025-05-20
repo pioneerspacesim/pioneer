@@ -3,7 +3,6 @@
 
 local Comms		= require 'Comms'
 local Game		= require 'Game'
-local Equipment = require 'Equipment'
 local Lang		= require 'Lang'
 local ShipDef	= require 'ShipDef'
 local InfoView	= require 'pigui.views.info-view'
@@ -18,7 +17,6 @@ local lcrew = Lang.GetResource("module-crewcontracts")
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local colors = ui.theme.colors
-local icons = ui.theme.icons
 
 local itemSpacing = ui.rescaleUI(Vector2(6, 12), Vector2(1600, 900))
 
