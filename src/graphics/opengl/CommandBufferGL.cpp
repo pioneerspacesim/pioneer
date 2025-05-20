@@ -315,6 +315,8 @@ void CommandList::ExecuteDynamicDrawCmd(const DynamicDrawCmd &cmd)
 void CommandList::ExecuteRenderPassCmd(const RenderPassCmd &cmd)
 {
 	RenderStateCache *stateCache = m_renderer->GetStateCache();
+	stateCache->SetProgram(nullptr);
+
 	if (cmd.setRenderTarget)
 		stateCache->SetRenderTarget(cmd.renderTarget, cmd.extents);
 
@@ -330,6 +332,7 @@ void CommandList::ExecuteRenderPassCmd(const RenderPassCmd &cmd)
 void CommandList::ExecuteBlitRenderTargetCmd(const BlitRenderTargetCmd &cmd)
 {
 	RenderStateCache *stateCache = m_renderer->GetStateCache();
+	stateCache->SetProgram(nullptr);
 
 	// invalidate cached render target state
 	stateCache->SetRenderTarget(nullptr);
