@@ -920,6 +920,11 @@ namespace Graphics {
 		return true;
 	}
 
+	void RendererOGL::DrawBuffers(Span<VertexBuffer *const> vtxBuffers, IndexBuffer *idx, Material *material, uint32_t numElements, uint32_t instanceCount)
+	{
+		m_drawCommandList->AddDrawCmd2(vtxBuffers, idx, material, numElements, instanceCount);
+	}
+
 	bool RendererOGL::DrawMeshInstanced(MeshObject *mesh, Material *material, InstanceBuffer *inst)
 	{
 		m_drawCommandList->AddDrawCmd(mesh, material, inst);
@@ -950,6 +955,8 @@ namespace Graphics {
 		for (const auto &cmd : m_drawCommandList->GetDrawCmds()) {
 			if (auto *drawCmd = std::get_if<OGL::CommandList::DrawCmd>(&cmd))
 				m_drawCommandList->ExecuteDrawCmd(*drawCmd);
+			else if (auto *drawCmd = std::get_if<OGL::CommandList::DrawCmd2>(&cmd))
+				m_drawCommandList->ExecuteDrawCmd2(*drawCmd);
 			else if (auto *dynDrawCmd = std::get_if<OGL::CommandList::DynamicDrawCmd>(&cmd))
 				m_drawCommandList->ExecuteDynamicDrawCmd(*dynDrawCmd);
 			else if (auto *renderPassCmd = std::get_if<OGL::CommandList::RenderPassCmd>(&cmd))
@@ -1013,6 +1020,44 @@ namespace Graphics {
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 		stat_primitives(m_stats, type, numElems);
+		return true;
+	}
+
+	bool RendererOGL::DrawMesh2Internal(Span<OGL::VertexBuffer *> vtxBuffers, OGL::IndexBuffer *idxBuffer, uint32_t elementCount, uint32_t instanceCount, GLuint vtxState, PrimitiveType type)
+	{
+		PROFILE_SCOPED()
+
+		glBindVertexArray(vtxState);
+		// Bind (or unbind) the element array buffer
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBuffer ? idxBuffer->GetBuffer() : 0);
+
+		// Bind all vertex buffers
+		for (size_t idx = 0; idx < vtxBuffers.size(); idx++) {
+			glBindVertexBuffer(idx, vtxBuffers[idx]->GetBuffer(), 0, vtxBuffers[idx]->GetStride());
+		}
+
+		if (idxBuffer) {
+			if (instanceCount > 1)
+				glDrawElementsInstanced(type, elementCount, get_element_size(idxBuffer), nullptr, instanceCount);
+			else
+				glDrawElements(type, elementCount, get_element_size(idxBuffer), nullptr);
+		} else {
+			if (instanceCount > 1)
+				glDrawArraysInstanced(type, 0, elementCount, instanceCount);
+			else
+				glDrawArrays(type, 0, elementCount);
+		}
+
+		CheckRenderErrors(__FUNCTION__, __LINE__);
+
+		stat_primitives(m_stats, type, elementCount * instanceCount);
+		if (instanceCount > 1) {
+			m_stats.AddToStatCount(Stats::STAT_DRAWCALLINSTANCES, 1);
+			m_stats.AddToStatCount(Stats::STAT_DRAWCALLSINSTANCED, instanceCount);
+		} else {
+			m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
+		}
+
 		return true;
 	}
 

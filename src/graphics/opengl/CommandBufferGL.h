@@ -5,9 +5,9 @@
 
 #include "Color.h"
 #include "graphics/Graphics.h"
+#include "graphics/Span.h"
 #include "graphics/Types.h"
 #include "graphics/VertexBuffer.h"
-
 #include "OpenGLLibs.h"
 #include <variant>
 
@@ -41,6 +41,17 @@ namespace Graphics {
 				Program *program = nullptr;
 				size_t renderStateHash = 0;
 				GLuint vertexState = 0;
+				char *drawData;
+			};
+
+			struct DrawCmd2 {
+				uint32_t idxBuffer : 1;
+				uint32_t numVtxBuffers : 2;
+				uint32_t instanceCount : 29;
+				uint32_t elementCount = 0;
+				GLuint vertexState = 0;
+				size_t renderStateHash = 0;
+				Program *program = nullptr;
 				char *drawData;
 			};
 
@@ -81,6 +92,7 @@ namespace Graphics {
 			static_assert(sizeof(RenderPassCmd) <= 64);
 
 			void AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *mat, Graphics::InstanceBuffer *inst = nullptr);
+			void AddDrawCmd2(const Span<Graphics::VertexBuffer *const> vtxBuffer, Graphics::IndexBuffer *buffer, Graphics::Material *mat, uint32_t numElements, uint32_t numInstances);
 			void AddDynamicDrawCmd(BufferBinding<Graphics::VertexBuffer> vtx, BufferBinding<Graphics::IndexBuffer> idx, Graphics::Material *mat);
 
 			void AddRenderPassCmd(RenderTarget *renderTarget, ViewportExtents extents);
@@ -96,7 +108,7 @@ namespace Graphics {
 				bool resolveMSAA = false, bool blitDepthBuffer = false, bool linearFilter = true);
 
 		protected:
-			using Cmd = std::variant<DrawCmd, DynamicDrawCmd, RenderPassCmd, BlitRenderTargetCmd>;
+			using Cmd = std::variant<DrawCmd, DrawCmd2, DynamicDrawCmd, RenderPassCmd, BlitRenderTargetCmd>;
 			const std::vector<Cmd> &GetDrawCmds() const { return m_drawCmds; }
 
 			bool IsEmpty() const { return m_drawCmds.empty(); }
@@ -111,14 +123,15 @@ namespace Graphics {
 			}
 
 			// Allocate space for all shader data that needs to be cached forward
-			char *AllocDrawData(const Shader *shader);
+			char *AllocDrawData(const Shader *shader, uint32_t numBuffers = 0);
 			// Create and cache all material data needed for later execution of a draw command
-			char *SetupMaterialData(OGL::Material *mat);
+			char *SetupMaterialData(OGL::Material *mat, uint32_t numBuffers = 0);
 
 			// These functions are called before and after a command is executed
 			void ApplyDrawData(Program *program, char *drawData) const;
 
 			void ExecuteDrawCmd(const DrawCmd &);
+			void ExecuteDrawCmd2(const DrawCmd2 &);
 			void ExecuteDynamicDrawCmd(const DynamicDrawCmd &);
 			void ExecuteRenderPassCmd(const RenderPassCmd &);
 			void ExecuteBlitRenderTargetCmd(const BlitRenderTargetCmd &);

@@ -99,6 +99,8 @@ namespace Graphics {
 		bool DrawMesh(MeshObject *, Material *) final;
 		bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) final;
 
+		void DrawBuffers(Span<VertexBuffer *const>, IndexBuffer *, Material *m, uint32_t, uint32_t) final;
+
 		Material *CreateMaterial(const std::string &, const MaterialDescriptor &, const RenderStateDesc &, const VertexFormatDesc &) final;
 		Material *CloneMaterial(const Material *, const MaterialDescriptor &, const RenderStateDesc &, const VertexFormatDesc &) final;
 		Texture *CreateTexture(const TextureDescriptor &descriptor) final;
@@ -121,6 +123,7 @@ namespace Graphics {
 		bool Screendump(ScreendumpState &sd) final;
 
 		bool DrawMeshInternal(OGL::MeshObject *, PrimitiveType type);
+		bool DrawMesh2Internal(Span<OGL::VertexBuffer *> vtx, OGL::IndexBuffer *idx, uint32_t elements, uint32_t instances, GLuint vtxState, PrimitiveType type);
 		bool DrawMeshInstancedInternal(OGL::MeshObject *, OGL::InstanceBuffer *, GLuint vtxState, PrimitiveType type);
 		bool DrawMeshDynamicInternal(BufferBinding<OGL::VertexBuffer> vtxBind, BufferBinding<OGL::IndexBuffer> idxBind, GLuint vtxState, PrimitiveType type);
 

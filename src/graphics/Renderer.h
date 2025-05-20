@@ -6,6 +6,7 @@
 
 #include "Graphics.h"
 #include "Light.h"
+#include "Span.h"
 #include "Stats.h"
 #include "Types.h"
 #include "core/StringHash.h"
@@ -152,6 +153,10 @@ namespace Graphics {
 		virtual bool DrawMesh(MeshObject *, Material *) = 0;
 		// Draw multiple instances of a mesh object using the given material.
 		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) = 0;
+
+		// EXPERIMENTAL:
+		// Draw a mesh (a group of vertex buffers and optional index buffer) with the given material, optionally instanced.
+		virtual void DrawBuffers(Span<VertexBuffer * const> vtxBuffers, IndexBuffer *idx, Material *m, uint32_t numElements, uint32_t numInstances = 1) = 0;
 
 		//creates a unique material based on the descriptor. It will not be deleted automatically.
 		virtual Material *CreateMaterial(const std::string &shader, const MaterialDescriptor &desc, const RenderStateDesc &stateDesc, const VertexFormatDesc &vertexFormat) = 0;
