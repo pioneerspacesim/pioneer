@@ -3,13 +3,9 @@
 
 local Engine = require 'Engine'
 local Game = require 'Game'
-local Ship = require 'Ship'
 local ShipDef = require 'ShipDef'
-local Equipment = require 'Equipment'
 local MusicPlayer = require 'modules.MusicPlayer'
 local Lang = require 'Lang'
-local FlightLog = require 'modules.FlightLog.FlightLog'
-local Character = require 'Character'
 local Vector2 = _G.Vector2
 local NewGameWindow = require("pigui.modules.new-game-window.class")
 

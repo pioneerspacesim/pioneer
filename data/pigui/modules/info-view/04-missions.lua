@@ -4,7 +4,6 @@
 local Character	= require 'Character'
 local Game		= require 'Game'
 local Lang		= require 'Lang'
-local Mission	= require 'Mission'
 local Space		= require 'Space'
 
 local ui		= require 'pigui'
