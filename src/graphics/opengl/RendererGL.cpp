@@ -37,7 +37,7 @@
 #include <ostream>
 #include <sstream>
 
-#define CHECK_VERTEX_FORMAT_MATCH 0
+#define CHECK_VERTEX_FORMAT_MATCH 1
 
 using RenderPassCmd = Graphics::OGL::CommandList::RenderPassCmd;
 
@@ -908,9 +908,10 @@ namespace Graphics {
 		OGL::Material *mat = static_cast<OGL::Material *>(material);
 		assert(mat->m_vertexState != 0);
 
-		const VertexFormatDesc &vfmt = m_renderStateCache->GetVertexFormatDesc(mat->m_vertexFormatHash);
-
-		assert(vfmt.Hash() == mesh->GetFormat().Hash());
+		if (mat->m_vertexState) {
+			const VertexFormatDesc &vfmt = m_renderStateCache->GetVertexFormatDesc(mat->m_vertexFormatHash);
+			assert(vfmt.Hash() == mesh->GetFormat().Hash());
+		}
 
 		#endif
 
