@@ -329,7 +329,7 @@ SystemMapViewport::SystemMapViewport(GuiApplication *app) :
 	Graphics::RenderStateDesc rsd;
 	rsd.primitiveType = Graphics::LINE_STRIP;
 
-	Graphics::VertexFormatDesc vfmt = Graphics::Drawables::Lines::GetVertexFormat();
+	Graphics::VertexFormatDesc vfmt = m_lines.GetVertexFormat();
 
 	m_lineMat.reset(m_renderer->CreateMaterial("vtxColor", lineMatDesc, rsd, vfmt));
 
@@ -563,8 +563,8 @@ void SystemMapViewport::Draw3D()
 		Graphics::RenderStateDesc rsd;
 		rsd.primitiveType = Graphics::TRIANGLE_FAN;
 
-		m_bodyMat.reset(m_renderer->CreateMaterial("unlit", desc, rsd));
 		m_bodyIcon.reset(new Graphics::Drawables::Disk(m_renderer));
+		m_bodyMat.reset(m_renderer->CreateMaterial("unlit", desc, rsd, m_bodyIcon->GetVertexFormat()));
 	}
 
 	if (!m_atlasMat) {
@@ -575,7 +575,7 @@ void SystemMapViewport::Draw3D()
 		rsd.primitiveType = Graphics::TRIANGLE_FAN;
 		rsd.depthTest = false;
 
-		m_atlasMat.reset(m_renderer->CreateMaterial("unlit", desc, rsd));
+		m_atlasMat.reset(m_renderer->CreateMaterial("unlit", desc, rsd, m_bodyIcon->GetVertexFormat()));
 		m_atlasMat->SetTexture(Graphics::Renderer::GetName("texture0"), TextureBuilder::GetWhiteTexture(m_renderer));
 	}
 

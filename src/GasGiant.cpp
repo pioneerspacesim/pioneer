@@ -8,6 +8,7 @@
 #include "GameConfig.h"
 #include "Pi.h"
 #include "galaxy/AtmosphereParameters.h"
+#include "graphics/Drawables.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
@@ -16,6 +17,7 @@
 #include "graphics/Texture.h"
 #include "graphics/Types.h"
 #include "graphics/VertexArray.h"
+#include "graphics/VertexBuffer.h"
 #include "perlin.h"
 #include "utils.h"
 #include "vcacheopt/vcacheopt.h"
@@ -686,9 +688,12 @@ void GasGiant::SetUpMaterials()
 	assert(m_atmosphereParameters.atmosDensity > 0.0);
 	assert(m_surfaceTextureSmall.Valid() || m_surfaceTexture.Valid());
 
+	// XXX: should be the same as used to create the vertex buffer
+	auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
+
 	// surface material is solid
 	Graphics::RenderStateDesc rsd;
-	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial("gassphere_base", surfDesc, rsd));
+	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial("gassphere_base", surfDesc, rsd, vtxFormat));
 	m_surfaceMaterial->SetTexture("texture0"_hash,
 		m_surfaceTexture.Valid() ? m_surfaceTexture.Get() : m_surfaceTextureSmall.Get());
 
@@ -703,16 +708,18 @@ void GasGiant::SetUpMaterials()
 		rsd.cullMode = Graphics::CULL_NONE;
 		rsd.depthWrite = false;
 
+		Graphics::VertexFormatDesc atmosVtxFmt = m_atmos->GetVertexFormat();
+
 		const int scattering = Pi::config->Int("RealisticScattering");
 		switch (scattering) {
 		case 1:
-			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_fast", skyDesc, rsd));
+			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_fast", skyDesc, rsd, atmosVtxFmt));
 			break;
 		case 2:
-			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_accurate", skyDesc, rsd));
+			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_accurate", skyDesc, rsd, atmosVtxFmt));
 			break;
 		default:
-			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("geosphere_sky", skyDesc, rsd));
+			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("geosphere_sky", skyDesc, rsd, atmosVtxFmt));
 			break;
 		}
 	}

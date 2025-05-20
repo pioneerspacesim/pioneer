@@ -149,24 +149,24 @@ namespace Background {
 		box->Add(vector3f(-vp, -vp, vp), vector2f(0.0f, 1.0f));
 		box->Add(vector3f(-vp, -vp, -vp), vector2f(1.0f, 1.0f));
 
-		Graphics::MaterialDescriptor desc;
-		Graphics::RenderStateDesc stateDesc;
-		stateDesc.depthTest = false;
-		stateDesc.depthWrite = false;
-
-		m_material.Reset(m_renderer->CreateMaterial("skybox", desc, stateDesc));
-		m_material->diffuse = Color4f(0.8, 0.8, 0.8, 1.0);
-
 		//create buffer and upload data
 		Graphics::VertexFormatDesc fmt = Graphics::VertexFormatDesc::FromAttribSet(box->GetAttributeSet());
 		Graphics::VertexBuffer *vertexBuf = m_renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_STATIC, box->GetNumVerts(), fmt.bindings[0].stride);
 
 		box->Populate(vertexBuf);
 
-		SetIntensity(1.0f);
+		Graphics::MaterialDescriptor desc;
+		Graphics::RenderStateDesc stateDesc;
+		stateDesc.depthTest = false;
+		stateDesc.depthWrite = false;
+
+		m_material.Reset(m_renderer->CreateMaterial("skybox", desc, stateDesc, fmt));
+		m_material->diffuse = Color4f(0.8, 0.8, 0.8, 1.0);
 
 		m_universeBox.reset(m_renderer->CreateMeshObject(fmt, vertexBuf));
 		m_numCubemaps = GetNumSkyboxes();
+
+		SetIntensity(1.0f);
 	}
 
 	void UniverseBox::Draw()
@@ -203,6 +203,8 @@ namespace Background {
 	{
 		PROFILE_SCOPED()
 
+		m_pointSprites.reset(new Graphics::Drawables::PointSprites);
+
 		// Create material to be used with starfield points
 		Graphics::MaterialDescriptor desc;
 
@@ -212,7 +214,7 @@ namespace Background {
 		stateDesc.blendMode = Graphics::BLEND_ALPHA;
 		stateDesc.primitiveType = Graphics::POINTS;
 
-		m_material.Reset(m_renderer->CreateMaterial("starfield", desc, stateDesc));
+		m_material.Reset(m_renderer->CreateMaterial("starfield", desc, stateDesc, m_pointSprites->GetVertexFormat()));
 		Graphics::Texture *texture = Graphics::TextureBuilder::Billboard("textures/star_point.png").GetOrCreateTexture(m_renderer, "billboard");
 		m_material->SetTexture("texture0"_hash, texture);
 		m_material->emissive = Color::WHITE;
@@ -220,8 +222,9 @@ namespace Background {
 		// Create material to be used with hyperjump 'star streaks'
 		Graphics::MaterialDescriptor descStreaks;
 		Graphics::RenderStateDesc stateDescStreaks = stateDesc;
+		Graphics::VertexFormatDesc vtxFormatStreaks = Graphics::VertexFormatDesc::FromAttribSet(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 		stateDescStreaks.primitiveType = Graphics::LINE_SINGLE;
-		m_materialStreaks.Reset(m_renderer->CreateMaterial("vtxColor", descStreaks, stateDescStreaks));
+		m_materialStreaks.Reset(m_renderer->CreateMaterial("vtxColor", descStreaks, stateDescStreaks, vtxFormatStreaks));
 		m_materialStreaks->emissive = Color::WHITE;
 
 		IniConfig cfg;
@@ -433,8 +436,6 @@ namespace Background {
 	void Starfield::Fill(Random &rand, const SystemPath *const systemPath, RefCountedPtr<Galaxy> galaxy)
 	{
 		PROFILE_SCOPED()
-
-		m_pointSprites.reset(new Graphics::Drawables::PointSprites);
 
 		const Uint32 NUM_BG_STARS = MathUtil::mix(BG_STAR_MIN, BG_STAR_MAX, Pi::GetAmountBackgroundStars());
 		m_animMesh.reset();
@@ -681,14 +682,6 @@ namespace Background {
 			vector3f(100.0f * sin(theta), float(40.0 + 30.0 * noise(vector3d(sin(theta), -1.0, cos(theta)))), 100.0f * cos(theta)),
 			dark);
 
-		Graphics::MaterialDescriptor desc;
-		Graphics::RenderStateDesc stateDesc;
-		stateDesc.depthTest = false;
-		stateDesc.depthWrite = false;
-		stateDesc.primitiveType = Graphics::TRIANGLE_STRIP;
-		m_material.Reset(m_renderer->CreateMaterial("starfield", desc, stateDesc));
-		m_material->emissive = Color::WHITE;
-
 		Graphics::VertexFormatDesc fmt = VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
 		//two strips in one buffer, but seems to work ok without degenerate triangles
 		Graphics::VertexBuffer *vtxBuffer = renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_STATIC, bottom->GetNumVerts() + top->GetNumVerts(), fmt.bindings[0].stride);
@@ -701,6 +694,15 @@ namespace Background {
 		bottom->PopulateRange(fmt, vtxPtr + topSize, bottomSize);
 
 		vtxBuffer->Unmap();
+
+		Graphics::MaterialDescriptor desc;
+		Graphics::RenderStateDesc stateDesc;
+		stateDesc.depthTest = false;
+		stateDesc.depthWrite = false;
+		stateDesc.primitiveType = Graphics::TRIANGLE_STRIP;
+
+		m_material.Reset(m_renderer->CreateMaterial("starfield", desc, stateDesc, fmt));
+		m_material->emissive = Color::WHITE;
 
 		m_meshObject.reset(m_renderer->CreateMeshObject(fmt, vtxBuffer));
 	}

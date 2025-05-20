@@ -17,6 +17,7 @@
 #include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
 
+#include "graphics/VertexBuffer.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/BinaryConverter.h"
 #include "scenegraph/DumpVisitor.h"
@@ -70,7 +71,9 @@ ModelViewerWidget::ModelViewerWidget(EditorApp *app) :
 	rsd.depthWrite = false;
 	rsd.cullMode = Graphics::CULL_NONE;
 	rsd.primitiveType = Graphics::TRIANGLES;
-	m_bgMaterial.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd));
+
+	auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
+	m_bgMaterial.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd, vtxFormat));
 
 	m_gridLines.reset(new Graphics::Drawables::GridLines(m_renderer));
 

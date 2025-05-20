@@ -78,9 +78,6 @@ namespace Graphics {
 		}
 	};
 
-	class Material;
-	extern Material *vtxColorMaterial;
-
 	float GetFov();
 	void SetFov(float);
 	float GetFovFactor(); //cached 2*tan(fov/2) for LOD

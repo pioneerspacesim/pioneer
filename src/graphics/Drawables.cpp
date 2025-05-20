@@ -105,6 +105,11 @@ namespace Graphics {
 			r->DrawMesh(m_diskMesh.get(), mat);
 		}
 
+		Graphics::VertexFormatDesc Disk::GetVertexFormat() const
+		{
+			return m_diskMesh->GetFormat();
+		}
+
 		//------------------------------------------------------------
 
 		/*
@@ -285,9 +290,9 @@ namespace Graphics {
 			// glLineWidth(1.f);
 		}
 
-		Graphics::VertexFormatDesc Lines::GetVertexFormat()
+		Graphics::VertexFormatDesc Lines::GetVertexFormat() const
 		{
-			return Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
+			return Graphics::VertexFormatDesc::FromAttribSet(m_va->GetAttributeSet());
 		}
 
 		//------------------------------------------------------------
@@ -350,6 +355,11 @@ namespace Graphics {
 			}
 
 			r->DrawMesh(m_pointData.Get(), mat);
+		}
+
+		Graphics::VertexFormatDesc PointSprites::GetVertexFormat() const
+		{
+			return Graphics::VertexFormatDesc::FromAttribSet(m_va->GetAttributeSet());
 		}
 
 		//------------------------------------------------------------
@@ -467,6 +477,11 @@ namespace Graphics {
 			}
 
 			r->DrawMesh(m_pointMesh.Get(), mat);
+		}
+
+		Graphics::VertexFormatDesc Points::GetVertexFormat() const
+		{
+			return Graphics::VertexFormatDesc::FromAttribSet(m_va->GetAttributeSet());
 		}
 
 		//------------------------------------------------------------
@@ -607,6 +622,11 @@ namespace Graphics {
 		{
 			PROFILE_SCOPED()
 			r->DrawMesh(m_sphereMesh.get(), mat);
+		}
+
+		Graphics::VertexFormatDesc Sphere3D::GetVertexFormat() const
+		{
+			return m_sphereMesh->GetFormat();
 		}
 
 		//------------------------------------------------------------
@@ -936,14 +956,15 @@ namespace Graphics {
 			m_minorColor(Color(160, 160, 160)),
 			m_majorColor(Color(255, 255, 255)),
 			m_lineWidth(2.0f),
-			m_numSubdivs(num_subdivs)
+			m_numSubdivs(num_subdivs),
+			m_sphereMesh(Icosphere::Generate(r, num_subdivs, 1.f, Graphics::ATTRIB_POSITION))
 		{
 			Graphics::RenderStateDesc rsd = {};
 			rsd.blendMode = Graphics::BLEND_ALPHA;
 			rsd.cullMode = Graphics::CULL_NONE;
 			rsd.depthWrite = false;
 
-			m_gridMat.reset(r->CreateMaterial("gridsphere", {}, rsd));
+			m_gridMat.reset(r->CreateMaterial("gridsphere", {}, rsd, m_sphereMesh->GetFormat()));
 		}
 
 		void GridSphere::SetLineColors(Color minorLineColor, Color majorLineColor, float lineWidth)
@@ -955,10 +976,6 @@ namespace Graphics {
 
 		void GridSphere::Draw(Graphics::Renderer *r, float lineSpacing)
 		{
-			if (!m_sphereMesh) {
-				m_sphereMesh.reset(Icosphere::Generate(r, m_numSubdivs, 1.f, Graphics::ATTRIB_POSITION));
-			}
-
 			GridData data = {};
 			data.thin_color = m_minorColor.ToColor4f();
 			data.thick_color = m_majorColor.ToColor4f();
@@ -973,14 +990,6 @@ namespace Graphics {
 		Axes3D::Axes3D(Graphics::Renderer *r)
 		{
 			PROFILE_SCOPED()
-
-			Graphics::MaterialDescriptor desc;
-
-			Graphics::RenderStateDesc rsd;
-			rsd.cullMode = Graphics::CULL_NONE;
-			rsd.depthWrite = false;
-			rsd.primitiveType = Graphics::LINE_SINGLE;
-			m_axesMat.Reset(r->CreateMaterial("vtxColor", desc, rsd));
 
 			VertexArray vertices(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 
@@ -1008,6 +1017,14 @@ namespace Graphics {
 
 			//Create vtx buffer and copy data
 			m_axesMesh.Reset(r->CreateMeshObjectFromArray(&vertices));
+
+			Graphics::MaterialDescriptor desc;
+
+			Graphics::RenderStateDesc rsd;
+			rsd.cullMode = Graphics::CULL_NONE;
+			rsd.depthWrite = false;
+			rsd.primitiveType = Graphics::LINE_SINGLE;
+			m_axesMat.Reset(r->CreateMaterial("vtxColor", desc, rsd, m_axesMesh->GetFormat()));
 		}
 
 		void Axes3D::Draw(Graphics::Renderer *r)
@@ -1074,7 +1091,10 @@ namespace Graphics {
 			rsd.blendMode = Graphics::BLEND_ALPHA;
 
 			m_geometry.reset(m_font->CreateVertexArray());
-			m_material.Reset(r->CreateMaterial("label", matdesc, rsd));
+
+			auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(m_geometry->GetAttributeSet());
+
+			m_material.Reset(r->CreateMaterial("label", matdesc, rsd, vtxFormat));
 			m_material->SetTexture("texture0"_hash, m_font->GetTexture());
 			m_material->diffuse = Color::WHITE;
 			m_material->emissive = Color(38, 38, 38);

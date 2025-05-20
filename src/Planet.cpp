@@ -183,7 +183,7 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	rsd.cullMode = Graphics::CULL_NONE;
 	rsd.primitiveType = Graphics::TRIANGLE_STRIP;
 
-	m_ringMaterial.reset(renderer->CreateMaterial("planetrings", desc, rsd));
+	m_ringMaterial.reset(renderer->CreateMaterial("planetrings", desc, rsd, m_ringMesh->GetFormat()));
 	m_ringMaterial->SetTexture("texture0"_hash, m_ringTexture.Get());
 	m_ringMaterial->SetTexture("texture1"_hash, m_ringNoiseTexture.Get());
 }

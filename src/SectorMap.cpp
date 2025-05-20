@@ -548,12 +548,12 @@ void SectorMap::InitObject()
 
 	Graphics::MaterialDescriptor starPointDesc;
 	starPointDesc.vertexColors = true;
-	m_farStarsMat.Reset(m_context.renderer->CreateMaterial("unlit", starPointDesc, rsd));
+	m_farStarsMat.Reset(m_context.renderer->CreateMaterial("unlit", starPointDesc, rsd, m_farstarsPoints.GetVertexFormat()));
 
 	rsd.primitiveType = Graphics::LINE_SINGLE;
 
 	Graphics::MaterialDescriptor lineDesc;
-	m_lineMat.Reset(m_context.renderer->CreateMaterial("vtxColor", lineDesc, rsd, Graphics::Drawables::Lines::GetVertexFormat()));
+	m_lineMat.Reset(m_context.renderer->CreateMaterial("vtxColor", lineDesc, rsd, m_lines.GetVertexFormat()));
 
 	m_drawList.reset(new ImDrawList(ImGui::GetDrawListSharedData()));
 }
@@ -1206,6 +1206,8 @@ void SectorMap::Update(float frameTime)
 	ShrinkCache();
 
 	if (!m_sphere) {
+		m_sphere.reset(new Graphics::Drawables::Sphere3D(m_context.renderer, 4, 1.0f));
+
 		Graphics::RenderStateDesc rsd;
 		rsd.blendMode = Graphics::BLEND_ALPHA;
 		rsd.depthTest = false;
@@ -1213,9 +1215,9 @@ void SectorMap::Update(float frameTime)
 		rsd.cullMode = Graphics::CULL_NONE;
 
 		Graphics::MaterialDescriptor matdesc;
-		m_fresnelMat.Reset(m_context.renderer->CreateMaterial("fresnel_sphere", matdesc, rsd));
+
+		m_fresnelMat.Reset(m_context.renderer->CreateMaterial("fresnel_sphere", matdesc, rsd, m_sphere->GetVertexFormat()));
 		m_fresnelMat->diffuse = Color::WHITE;
-		m_sphere.reset(new Graphics::Drawables::Sphere3D(m_context.renderer, 4, 1.0f));
 	}
 	m_sphereParams.clear();
 	m_lineVerts->Clear();

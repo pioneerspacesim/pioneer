@@ -43,6 +43,8 @@
 #include "Tombstone.h"
 #include "TransferPlanner.h"
 #include "WorldView.h"
+#include "graphics/Types.h"
+#include "graphics/VertexBuffer.h"
 
 #if WITH_OBJECTVIEWER
 #include "ObjectViewerView.h"
@@ -291,14 +293,17 @@ void TestGPUJobsSupport()
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.primitiveType = Graphics::TRIANGLE_STRIP;
 
-	std::unique_ptr<Graphics::Material> mat(Pi::renderer->CreateMaterial("gen_gas_giant_colour", desc, rsd));
+	// XXX: has to be synced with GasGiantJobs.cpp
+	auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
+
+	std::unique_ptr<Graphics::Material> mat(Pi::renderer->CreateMaterial("gen_gas_giant_colour", desc, rsd, vtxFormat));
 
 	// failed - retry
 	// reduce the number of octaves
 	if (!mat->IsProgramLoaded()) {
 		octaves = 5;
 		desc.quality = Graphics::MaterialQuality::HAS_OCTAVES | (octaves << 16);
-		mat.reset(Pi::renderer->CreateMaterial("gen_gas_giant_colour", desc, rsd));
+		mat.reset(Pi::renderer->CreateMaterial("gen_gas_giant_colour", desc, rsd, vtxFormat));
 
 		// if this works correctly with fewer octaves, enable the config flag.
 		if (mat->IsProgramLoaded())

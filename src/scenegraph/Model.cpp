@@ -182,7 +182,7 @@ namespace SceneGraph {
 				rsd.depthWrite = false;
 				rsd.primitiveType = Graphics::LINE_SINGLE;
 
-				m_debugLineMat.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd));
+				m_debugLineMat.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd, m_debugMesh->GetFormat()));
 			}
 
 			m_renderer->SetTransform(trans);
