@@ -7,7 +7,6 @@ local InfoView = require 'pigui.views.info-view'
 local Lang = require 'Lang'
 local FlightLog = require 'modules.FlightLog.FlightLog'
 local FlightLogExporter = require 'modules.FlightLog.FlightLogExporter'
-local Format = require 'Format'
 local Color = _G.Color
 local Vector2 = _G.Vector2
 

@@ -2,7 +2,6 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui'
-local Game = require 'Game'
 local Vector2 = _G.Vector2
 
 -- cache ui

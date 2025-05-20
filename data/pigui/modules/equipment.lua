@@ -1,15 +1,11 @@
 -- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = require 'Engine'
-local Equipment = require 'Equipment'
 local Game = require 'Game'
 local utils = require 'utils'
-local Event = require 'Event'
 
 local Lang = require 'Lang'
 local lc = Lang.GetResource("core");
-local lui = Lang.GetResource("ui-core");
 local lec = Lang.GetResource("equipment-core");
 
 local ui = require 'pigui'
@@ -19,7 +15,6 @@ local colors = ui.theme.colors
 local icons = ui.theme.icons
 
 local mainIconSize = ui.rescaleUI(Vector2(32,32))
-local mainWideIconSize = ui.rescaleUI(Vector2(64,32))
 local mainForegroundColor = colors.reticuleCircle
 local mainBackgroundColor = colors.lightBlueBackground
 local mainHoverColor = colors.lightBlueBackground:tint(0.2)
