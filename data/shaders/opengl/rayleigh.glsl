@@ -15,9 +15,9 @@ void scatter(out vec2 density, const in vec3 orig, const in vec3 center)
 	density = -height / scaleHeight;
 
 	// earth atmospheric density: 1.225 kg/m^3, divided by 1e5
-	// 1/1.225e-5 = 81632.65306
-	float earthDensities = geosphereAtmosFogDensity * 81632.65306f;
-	density /= earthDensities;
+	// 1/1.225e-5 = 81632.65306, ln(81632.65306) ~= 11.31
+	float earthDensities = log(geosphereAtmosFogDensity) + 11.31f;
+	density += earthDensities;
 }
 
 // orig: ray origin
