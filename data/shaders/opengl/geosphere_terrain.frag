@@ -59,7 +59,6 @@ void main(void)
 
 #if (NUM_LIGHTS > 0)
 	vec3 V = normalize(eyeposScaled - geosphereCenter);
-	float AU = 149598000000.0;
 
 	vec3 I = normalize(eyeposScaled - planetIntersect);
 	vec3 center = I * geosphereRadius;
@@ -75,7 +74,7 @@ void main(void)
 		//water only for specular
 		if (vertexColor.b > 0.05 && vertexColor.r < 0.05) {
 			// Convert from radius-relative to real coordinates
-			vec3 lightPosAU = uLight[i].position.xyz / AU;
+			vec3 lightPosAU = uLight[i].position.xyz * INV_AU;
 			float intensity = 1.f / dot(lightPosAU, lightPosAU); // magic to avoid calculating length and then squaring it
 
 			waterSpecular.xyz += computeIncidentLight(reflect(L, I), eyenorm, center, atmosDist, toLinear(uLight[i].diffuse), uneclipsed) * intensity;
