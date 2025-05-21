@@ -89,6 +89,8 @@ float predictDensityIn(const in float radius, const in float atmosphereHeight, c
 	}
 }
 
+const float INV_AU = 1.f / 149598000000.f;
+
 // predict "scattering density" along the ray
 // sample: starting point of the ray
 // dir:    direction of ray
