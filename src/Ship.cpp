@@ -1455,7 +1455,12 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 bool Ship::SpawnCargo(CargoBody *c_body) const
 {
-	if (m_flightState != FLYING) return false;
+	if (m_flightState != FLYING) {
+		// cleanup the allocated CargoBody
+		delete c_body;
+		return false;
+	}
+
 	const double r1 = (Pi::rng.Double() - 0.5);
 	const double r2 = (Pi::rng.Double() - 0.5);
 	const double r3 = (Pi::rng.Double() - 0.5);

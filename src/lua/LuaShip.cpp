@@ -484,6 +484,7 @@ static int l_ship_spawn_cargo(lua_State *l)
 	} else
 		c_body = new CargoBody(model, LuaRef(l, 2));
 
+	// ownership of c_body passes to SpawnCargo
 	lua_pushboolean(l, s->SpawnCargo(c_body));
 
 	return 1;
