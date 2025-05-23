@@ -372,17 +372,21 @@ end
 --
 -- Method: Jettison
 --
--- Jettison one unit of the given cargo type.  The item must be present in
+-- Jettison units of the given cargo type.  The item(s) must be present in
 -- the ship's equipment/cargo set, and will be removed by this call.
 --
--- > success = ship:Jettison(item)
+-- > success = ship:Jettison(cargoType, quantity, lifetime)
 --
 -- On sucessful jettison, the <EventQueue.onJettison> event is triggered.
 --
 -- Parameters:
 --
---   item - a commodity type object (e.g., Commodity.radioactives)
+--   cargoType - a commodity type object (e.g., Commodity.radioactives)
 --          specifying the type of item to jettison.
+--
+--   quantity - how many of the item to jettison
+--
+--   lifetime - how long should the jettisoned item life before exploding
 --
 -- Result:
 --
@@ -398,6 +402,8 @@ end
 --   experimental
 --
 ---@param cargoType CommodityType
+---@param quantity integer
+---@param lifetime float
 function Ship:Jettison(cargoType, quantity, lifetime)
 	if self.flightState ~= "FLYING" and self.flightState ~= "DOCKED" and self.flightState ~= "LANDED" then
 		return false
