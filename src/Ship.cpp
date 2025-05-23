@@ -60,6 +60,7 @@ Ship::Ship(const ShipType::Id &shipId) :
 
 	SetFuel(1.0);
 	SetFuelReserve(0.0);
+	m_latestSpawnTime = 0.0;
 	m_lastAlertUpdate = 0.0;
 	m_lastFiringAlert = 0.0;
 	m_shipNear = false;
@@ -167,6 +168,8 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 		m_curAICmd = 0;
 		m_curAICmd = AICommand::LoadFromJson(shipObj);
 		m_aiMessage = AIError(shipObj["ai_message"]);
+
+		m_latestSpawnTime = 0.0;
 
 		// NOTE: needs to happen before shield data is loaded from JSON
 		SetupShields();
@@ -945,6 +948,10 @@ void Ship::TimeStepUpdate(const float timeStep)
 		}
 	}
 
+	if (!m_cargoSpawnQueue.empty()) {
+		ProcessSpawnQueue();
+	}
+
 	m_dragCoeff = DynamicBody::DEFAULT_DRAG_COEFF * (1.0 + 0.25 * m_wheelState);
 	DynamicBody::TimeStepUpdate(timeStep);
 
@@ -1453,13 +1460,39 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	}
 }
 
-bool Ship::SpawnCargo(CargoBody *c_body) const
+bool Ship::SpawnCargo(CargoBody *c_body)
 {
 	if (m_flightState != FLYING) {
 		// cleanup the allocated CargoBody
 		delete c_body;
 		return false;
 	}
+
+	// don't actually spawn the cargo just yet, add it to a queue for spawning later
+	m_cargoSpawnQueue.push_back(c_body);
+	return true;
+}
+
+void Ship::ProcessSpawnQueue()
+{
+	// check we're due to spawn something
+	const double latestTime = Pi::game->GetTime();
+	if (m_latestSpawnTime > latestTime)
+		m_latestSpawnTime = 0.0; // don't allow time to be in the future, reset it
+
+	if (m_latestSpawnTime + 0.2 <= latestTime) {
+		// time to spawn again
+		m_latestSpawnTime = latestTime;
+	} else {
+		return; // not ready to spawn
+	}
+
+	// add one CargoBody to space at a time per timestep, this will happen over several steps
+	// and spread out the bodies in physical space
+	CargoBody *c_body = m_cargoSpawnQueue.front();
+	m_cargoSpawnQueue.pop_front();
+	if (!c_body)
+		return; // sanity check
 
 	const double r1 = (Pi::rng.Double() - 0.5);
 	const double r2 = (Pi::rng.Double() - 0.5);
@@ -1469,7 +1502,6 @@ bool Ship::SpawnCargo(CargoBody *c_body) const
 	c_body->SetPosition(GetPosition() + pos);
 	c_body->SetVelocity(GetVelocity() + GetOrient() * vector3d(r1, -10. + r2, r3));
 	Pi::game->GetSpace()->AddBody(c_body);
-	return true;
 }
 
 void Ship::EnterHyperspace()
