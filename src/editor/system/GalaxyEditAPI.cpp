@@ -692,6 +692,9 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSy
 		double surfaceGrav = body->CalcSurfaceGravity() / 9.80665; // compute g-force
 		ImGui::InputDouble("Surface Gravity", &surfaceGrav, 0, 0, "%.4f g");
 
+		double meanDensity = body->CalcMeanDensity();
+		ImGui::InputDouble("Mean Density", &meanDensity, 0, 0, "%.2f kg/m³");
+
 		ImGui::EndDisabled();
 
 		if (body->GetSuperType() <= SUPERTYPE_GAS_GIANT && body->GetType() != TYPE_PLANET_ASTEROID) {
