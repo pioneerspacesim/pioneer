@@ -96,9 +96,9 @@ table.insert(module.transferModes, {
 				ship:Jettison(commodity, 10, 600)
 			end
 			-- fill a cargo body with any remaining entries
-			local remaining = v - (deci * 10)
+			local remaining = v % 10
 			if remaining > 0 then
-				ship:Jettison(commodity, v - (deci * 10), 600)
+				ship:Jettison(commodity, remaining, 600)
 			end
 		end
 	end,
