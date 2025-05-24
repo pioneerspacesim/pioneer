@@ -40,7 +40,7 @@ void CommandList::AddDrawCmd2(Span<Graphics::VertexBuffer *const> vtxBuffers, Gr
 	assert(instanceCount < (1 << 29) && "Draw instance count limit is 2^29. (what are you doing that's drawing more than 2^29 instances?)");
 	OGL::Material *mat = static_cast<OGL::Material *>(material);
 
-	uint32_t numVtxBuffers = std::min(vtxBuffers.size(), 4UL);
+	uint32_t numVtxBuffers = std::min<uint32_t>(vtxBuffers.size(), 4);
 
 	DrawCmd2 cmd{};
 	cmd.numVtxBuffers = numVtxBuffers - 1;
