@@ -621,6 +621,13 @@ static int l_starsystem_attr_short_description(lua_State *l)
 	return 1;
 }
 
+static int l_starsystem_attr_long_description(lua_State *l)
+{
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	LuaPush(l, s->GetLongDescription());
+	return 1;
+}
+
 /*
 * Attribute: govDescription
 *
@@ -747,6 +754,7 @@ void LuaObject<StarSystem>::RegisterClass()
 		{ "numberOfBodies", l_starsystem_attr_number_of_bodies },
 		{ "rootSystemBody", l_starsystem_attr_root_system_body },
 		{ "shortDescription", l_starsystem_attr_short_description },
+		{ "longDescription", l_starsystem_attr_long_description },
 		{ "govDescription", l_starsystem_attr_gov_description },
 		{ "econDescription", l_starsystem_attr_econ_description },
 		{ 0, 0 }
