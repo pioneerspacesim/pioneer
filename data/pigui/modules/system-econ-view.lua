@@ -376,6 +376,12 @@ function SystemEconView:drawPriceList(key, prices)
 	return out
 end
 
+function SystemEconView:drawDescriptionLong(selected)
+	ui.withFont(pionillium.body, function()
+		ui.textWrapped(selected.longDescription)
+	end)
+end
+
 function SystemEconView:drawSystemFinder()
 	local selectedIndex = self.selectedCommodity or 1
 	local key = commodityOptions[selectedIndex]
