@@ -25,7 +25,6 @@ namespace Graphics {
 	 */
 
 	class IndexBuffer;
-	class InstanceBuffer;
 	class Material;
 	class MaterialDescriptor;
 	class MeshObject;
@@ -151,11 +150,9 @@ namespace Graphics {
 		virtual bool DrawBufferDynamic(VertexBuffer *v, uint32_t vtxOffset, IndexBuffer *i, uint32_t idxOffset, uint32_t numElems, Material *m) = 0;
 		// Draw a single mesh object (vertex+index buffer) using the given material.
 		virtual bool DrawMesh(MeshObject *, Material *) = 0;
-		// Draw multiple instances of a mesh object using the given material.
-		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) = 0;
-
-		// EXPERIMENTAL:
-		// Draw a mesh (a group of vertex buffers and optional index buffer) with the given material, optionally instanced.
+		// Draw the given vertex buffer(s) + index buffer with the given material, optionally instanced.
+		// The number of elements drawn must be manually specified. At least one vertex buffer must be present,
+		// but the index buffer is not required.
 		virtual void DrawBuffers(Span<VertexBuffer * const> vtxBuffers, IndexBuffer *idx, Material *m, uint32_t numElements, uint32_t numInstances = 1) = 0;
 
 		//creates a unique material based on the descriptor. It will not be deleted automatically.
@@ -167,7 +164,6 @@ namespace Graphics {
 		// Create a buffer containing enough space for numVertices with a byte size per vertex equal to stride
 		virtual VertexBuffer *CreateVertexBuffer(BufferUsage, uint32_t numVertices, uint32_t stride) = 0;
 		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage, IndexBufferSize = INDEX_BUFFER_32BIT) = 0;
-		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) = 0;
 		virtual UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage) = 0;
 
 		// Create a new mesh object that wraps the given vertex and index buffers.

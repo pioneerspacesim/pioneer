@@ -23,7 +23,6 @@ namespace Graphics {
 
 	namespace OGL {
 		class CommandList;
-		class InstanceBuffer;
 		class IndexBuffer;
 		class Material;
 		class MeshObject;
@@ -97,7 +96,6 @@ namespace Graphics {
 		bool DrawBuffer(const VertexArray *v, Material *m) final;
 		bool DrawBufferDynamic(VertexBuffer *v, uint32_t vtxOffset, IndexBuffer *i, uint32_t idxOffset, uint32_t numElems, Material *m) final;
 		bool DrawMesh(MeshObject *, Material *) final;
-		bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) final;
 
 		void DrawBuffers(Span<VertexBuffer *const>, IndexBuffer *, Material *m, uint32_t, uint32_t) final;
 
@@ -107,7 +105,6 @@ namespace Graphics {
 		RenderTarget *CreateRenderTarget(const RenderTargetDesc &) final;
 		VertexBuffer *CreateVertexBuffer(BufferUsage, uint32_t, uint32_t) final;
 		IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage, IndexBufferSize) final;
-		InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) final;
 		UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage) final;
 		MeshObject *CreateMeshObject(const VertexFormatDesc &desc, VertexBuffer *v, IndexBuffer *i) final;
 		MeshObject *CreateMeshObjectFromArray(const VertexArray *v, IndexBuffer *i = nullptr, BufferUsage u = BUFFER_USAGE_STATIC) final;
@@ -124,7 +121,6 @@ namespace Graphics {
 
 		bool DrawMeshInternal(OGL::MeshObject *, PrimitiveType type);
 		bool DrawMesh2Internal(Span<OGL::VertexBuffer *> vtx, OGL::IndexBuffer *idx, uint32_t elements, uint32_t instances, GLuint vtxState, PrimitiveType type);
-		bool DrawMeshInstancedInternal(OGL::MeshObject *, OGL::InstanceBuffer *, GLuint vtxState, PrimitiveType type);
 		bool DrawMeshDynamicInternal(BufferBinding<OGL::VertexBuffer> vtxBind, BufferBinding<OGL::IndexBuffer> idxBind, GLuint vtxState, PrimitiveType type);
 
 	protected:

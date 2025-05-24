@@ -63,29 +63,6 @@ namespace Graphics {
 			Uint16 *m_data16;
 		};
 
-		// Instance buffer
-		class InstanceBuffer final : public Graphics::InstanceBuffer, public GLBufferBase {
-		public:
-			InstanceBuffer(Uint32 size, BufferUsage);
-			~InstanceBuffer() final;
-			matrix4x4f *Map(BufferMapMode) final;
-			void Unmap() final;
-
-			void Bind() final;
-			void Release() final;
-
-			enum InstOffs {
-				INSTOFFS_MAT0 = 6, // these value must match those of a_transform within data/shaders/opengl/attributes.glsl
-				INSTOFFS_MAT1 = 7,
-				INSTOFFS_MAT2 = 8,
-				INSTOFFS_MAT3 = 9
-			};
-
-		protected:
-			friend class MeshObject; // need access to InstOffs enum
-			std::unique_ptr<matrix4x4f[]> m_data;
-		};
-
 		class MeshObject final : public Graphics::MeshObject {
 		public:
 			MeshObject(const Graphics::VertexFormatDesc &fmt, Graphics::VertexBuffer *vtx, Graphics::IndexBuffer *idx);

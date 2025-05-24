@@ -66,27 +66,6 @@ namespace Graphics {
 			std::unique_ptr<Uint16[]> m_buffer16;
 		};
 
-		// Instance buffer
-		class InstanceBuffer final : public Graphics::InstanceBuffer {
-		public:
-			InstanceBuffer(Uint32 size, BufferUsage hint) :
-				Graphics::InstanceBuffer(size, hint),
-				m_data(new matrix4x4f[size])
-			{}
-			~InstanceBuffer() final {};
-			matrix4x4f *Map(BufferMapMode) final { return m_data.get(); }
-			void Unmap() final {}
-
-			Uint32 GetSize() const { return m_size; }
-			BufferUsage GetUsage() const { return m_usage; }
-
-			void Bind() final {}
-			void Release() final {}
-
-		protected:
-			std::unique_ptr<matrix4x4f> m_data;
-		};
-
 		class MeshObject final : public Graphics::MeshObject {
 		public:
 			MeshObject(const VertexFormatDesc &d, VertexBuffer *v, IndexBuffer *i) :

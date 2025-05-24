@@ -17,19 +17,18 @@
 
 using namespace Graphics::OGL;
 
-void CommandList::AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *material, Graphics::InstanceBuffer *inst)
+void CommandList::AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *material)
 {
 	assert(!m_executing && "Attempt to append to a command list while it's being executed!");
 	OGL::Material *mat = static_cast<OGL::Material *>(material);
 
 	DrawCmd cmd{};
 	cmd.mesh = static_cast<OGL::MeshObject *>(mesh);
-	cmd.inst = static_cast<OGL::InstanceBuffer *>(inst);
 
 	cmd.program = mat->EvaluateVariant();
 	cmd.renderStateHash = mat->m_renderStateHash;
 	cmd.drawData = SetupMaterialData(mat);
-	cmd.vertexState = inst ? mat->m_vertexState : 0;
+	cmd.vertexState = mat->m_vertexState;
 
 	m_drawCmds.emplace_back(std::move(cmd));
 }
@@ -316,10 +315,7 @@ void CommandList::ExecuteDrawCmd(const DrawCmd &cmd)
 	CHECKERRORS();
 
 	PrimitiveType pt = stateCache->GetActiveRenderState().primitiveType;
-	if (cmd.inst)
-		m_renderer->DrawMeshInstancedInternal(cmd.mesh, cmd.inst, cmd.vertexState, pt);
-	else
-		m_renderer->DrawMeshInternal(cmd.mesh, pt);
+	m_renderer->DrawMeshInternal(cmd.mesh, pt);
 
 	CHECKERRORS();
 }

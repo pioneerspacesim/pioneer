@@ -72,14 +72,12 @@ namespace Graphics {
 		bool DrawBuffer(const VertexArray *, Material *) final { return true; }
 		bool DrawBufferDynamic(VertexBuffer *, uint32_t, IndexBuffer *, uint32_t, uint32_t, Material *) final { return true; }
 		bool DrawMesh(MeshObject *, Material *) final { return true; }
-		bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) final { return true; }
 		void DrawBuffers(Span<VertexBuffer *const>, IndexBuffer *, Material *, uint32_t, uint32_t) final {}
 
 		Texture *CreateTexture(const TextureDescriptor &d) final { return new Graphics::TextureDummy(d); }
 		RenderTarget *CreateRenderTarget(const RenderTargetDesc &d) final { return new Graphics::Dummy::RenderTarget(d); }
 		VertexBuffer *CreateVertexBuffer(BufferUsage u, uint32_t sz, uint32_t st) final { return new Graphics::Dummy::VertexBuffer(u, sz, st); }
 		IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage bu, IndexBufferSize el) final { return new Graphics::Dummy::IndexBuffer(size, bu, el); }
-		InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage bu) final { return new Graphics::Dummy::InstanceBuffer(size, bu); }
 		UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage bu) final { return new Graphics::Dummy::UniformBuffer(size, bu); }
 		MeshObject *CreateMeshObject(const VertexFormatDesc &d, VertexBuffer *v, IndexBuffer *i) final { return new Graphics::Dummy::MeshObject(d, static_cast<Dummy::VertexBuffer *>(v), static_cast<Dummy::IndexBuffer *>(i)); }
 		MeshObject *CreateMeshObjectFromArray(const VertexArray *v, IndexBuffer *i = nullptr, BufferUsage u = BUFFER_USAGE_STATIC) final

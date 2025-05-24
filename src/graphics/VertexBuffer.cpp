@@ -218,21 +218,4 @@ namespace Graphics {
 		m_indexCount = std::min(ic, GetSize());
 	}
 
-	// ------------------------------------------------------------
-	InstanceBuffer::InstanceBuffer(Uint32 size, BufferUsage usage) :
-		Mappable(size),
-		m_usage(usage)
-	{
-	}
-
-	InstanceBuffer::~InstanceBuffer()
-	{
-	}
-
-	void InstanceBuffer::SetInstanceCount(const Uint32 ic)
-	{
-		assert(ic <= GetSize());
-		m_instanceCount = std::min(ic, GetSize());
-	}
-
 } // namespace Graphics

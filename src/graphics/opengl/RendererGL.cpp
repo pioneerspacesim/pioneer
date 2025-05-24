@@ -916,19 +916,13 @@ namespace Graphics {
 
 		#endif
 
-		m_drawCommandList->AddDrawCmd(mesh, material, nullptr);
+		m_drawCommandList->AddDrawCmd(mesh, material);
 		return true;
 	}
 
 	void RendererOGL::DrawBuffers(Span<VertexBuffer *const> vtxBuffers, IndexBuffer *idx, Material *material, uint32_t numElements, uint32_t instanceCount)
 	{
 		m_drawCommandList->AddDrawCmd2(vtxBuffers, idx, material, numElements, instanceCount);
-	}
-
-	bool RendererOGL::DrawMeshInstanced(MeshObject *mesh, Material *material, InstanceBuffer *inst)
-	{
-		m_drawCommandList->AddDrawCmd(mesh, material, inst);
-		return true;
 	}
 
 	bool RendererOGL::FlushCommandBuffers()
@@ -1058,33 +1052,6 @@ namespace Graphics {
 			m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 		}
 
-		return true;
-	}
-
-	bool RendererOGL::DrawMeshInstancedInternal(OGL::MeshObject *mesh, OGL::InstanceBuffer *inst, GLuint vtxState, PrimitiveType type)
-	{
-		PROFILE_SCOPED()
-
-		glBindVertexArray(vtxState);
-		// TODO: loop through an array of vertex buffers rather than hardcoding slots and stride
-		glBindVertexBuffer(0, mesh->m_vtxBuffer->GetBuffer(), 0, mesh->m_vtxBuffer->GetStride());
-		glBindVertexBuffer(1, inst->GetBuffer(), 0, sizeof(float) * 16);
-
-		if (mesh->m_idxBuffer.Valid())
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->m_idxBuffer->GetBuffer());
-
-		uint32_t numElems = mesh->m_idxBuffer.Valid() ? mesh->m_idxBuffer->GetIndexCount() : mesh->m_vtxBuffer->GetSize();
-
-		if (mesh->m_idxBuffer.Valid()) {
-			glDrawElementsInstanced(type, numElems, get_element_size(mesh->m_idxBuffer.Get()), nullptr, inst->GetInstanceCount());
-		} else {
-			glDrawArraysInstanced(type, 0, numElems, inst->GetInstanceCount());
-		}
-
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-		m_stats.AddToStatCount(Stats::STAT_DRAWCALLINSTANCES, 1);
-		m_stats.AddToStatCount(Stats::STAT_DRAWCALLSINSTANCED, inst->GetInstanceCount());
-		stat_primitives(m_stats, type, numElems);
 		return true;
 	}
 
@@ -1271,12 +1238,6 @@ namespace Graphics {
 	{
 		m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
 		return new OGL::IndexBuffer(size, usage, el);
-	}
-
-	InstanceBuffer *RendererOGL::CreateInstanceBuffer(Uint32 size, BufferUsage usage)
-	{
-		m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
-		return new OGL::InstanceBuffer(size, usage);
 	}
 
 	UniformBuffer *RendererOGL::CreateUniformBuffer(Uint32 size, BufferUsage usage)

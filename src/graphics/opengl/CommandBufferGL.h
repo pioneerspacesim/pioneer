@@ -22,7 +22,6 @@ namespace Graphics {
 
 	namespace OGL {
 
-		class InstanceBuffer;
 		class Material;
 		class MeshObject;
 		class Program;
@@ -37,7 +36,6 @@ namespace Graphics {
 		public:
 			struct DrawCmd {
 				MeshObject *mesh;
-				InstanceBuffer *inst = nullptr;
 				Program *program = nullptr;
 				size_t renderStateHash = 0;
 				GLuint vertexState = 0;
@@ -91,7 +89,7 @@ namespace Graphics {
 			static_assert(sizeof(DynamicDrawCmd) <= 64);
 			static_assert(sizeof(RenderPassCmd) <= 64);
 
-			void AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *mat, Graphics::InstanceBuffer *inst = nullptr);
+			void AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *mat);
 			void AddDrawCmd2(const Span<Graphics::VertexBuffer *const> vtxBuffer, Graphics::IndexBuffer *buffer, Graphics::Material *mat, uint32_t numElements, uint32_t numInstances);
 			void AddDynamicDrawCmd(BufferBinding<Graphics::VertexBuffer> vtx, BufferBinding<Graphics::IndexBuffer> idx, Graphics::Material *mat);
 
