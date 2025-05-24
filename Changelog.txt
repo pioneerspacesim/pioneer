@@ -1,4 +1,17 @@
-April
+May
+  * New Features
+    * New mission: Find person (#4746)
+    * ECM crime - Don't allow ECM use near stations (#5916)
+
+  * Fixes
+    * Fix hyperspace fuel cheat (#6129)
+    * Explore system on game start (#6132)
+    * CrewContracts - add onUpdateBB, to spawn new crew with time (#5596)
+
+  * Internal
+    * Update minimum required version of CMake to 3.5 (#6124)
+
+April / Pioneer 2025-05-01 Release
   * Fixes
     * Ship Market - Crash: attempt to index field '?' (#6101)
     * Police refuse to fight (#6065)
