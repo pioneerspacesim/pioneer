@@ -36,21 +36,26 @@ void CommandList::AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *mat
 void CommandList::AddDrawCmd2(Span<Graphics::VertexBuffer *const> vtxBuffers, Graphics::IndexBuffer *idxBuffer, Graphics::Material *material, uint32_t elementCount, uint32_t instanceCount)
 {
 	assert(!m_executing && "Attempt to append to a command list while it's being executed!");
+	assert(vtxBuffers.size() <= 4 && "At most 4 vertex buffers may be bound to a draw command.");
 	assert(instanceCount < (1 << 29) && "Draw instance count limit is 2^29. (what are you doing that's drawing more than 2^29 instances?)");
 	OGL::Material *mat = static_cast<OGL::Material *>(material);
 
+	uint32_t numVtxBuffers = std::min(vtxBuffers.size(), 4UL);
+
 	DrawCmd2 cmd{};
-	cmd.numVtxBuffers = vtxBuffers.size();
+	cmd.numVtxBuffers = numVtxBuffers - 1;
 	cmd.idxBuffer = idxBuffer ? 1 : 0;
 	cmd.instanceCount = instanceCount;
 	cmd.elementCount = elementCount;
-	cmd.drawData = SetupMaterialData(mat, cmd.numVtxBuffers + cmd.idxBuffer);
+	cmd.drawData = SetupMaterialData(mat, numVtxBuffers + cmd.idxBuffer);
 
 	for (size_t idx = 0; idx < vtxBuffers.size(); idx++) {
 		reinterpret_cast<OGL::VertexBuffer **>(cmd.drawData)[idx] = static_cast<OGL::VertexBuffer *>(vtxBuffers[idx]);
 	}
 
-	reinterpret_cast<OGL::IndexBuffer **>(cmd.drawData)[cmd.numVtxBuffers] = static_cast<OGL::IndexBuffer *>(idxBuffer);
+	if (idxBuffer) {
+		reinterpret_cast<OGL::IndexBuffer **>(cmd.drawData)[numVtxBuffers] = static_cast<OGL::IndexBuffer *>(idxBuffer);
+	}
 
 	cmd.program = mat->EvaluateVariant();
 	cmd.renderStateHash = mat->m_renderStateHash;
@@ -326,12 +331,13 @@ void CommandList::ExecuteDrawCmd2(const DrawCmd2 &cmd)
 	stateCache->SetRenderState(cmd.renderStateHash);
 	CHECKERRORS();
 
-	size_t drawDataOffset = sizeof(VertexBuffer *) * (cmd.numVtxBuffers + cmd.idxBuffer);
+	uint32_t numVtxBuffers = 1 + cmd.numVtxBuffers;
+	size_t drawDataOffset = sizeof(VertexBuffer *) * (numVtxBuffers + cmd.idxBuffer);
 	ApplyDrawData(cmd.program, cmd.drawData + drawDataOffset);
 	CHECKERRORS();
 
-	Span<VertexBuffer *> vtxBuffers = { reinterpret_cast<VertexBuffer **>(cmd.drawData), cmd.numVtxBuffers };
-	IndexBuffer *idxBuffer = cmd.idxBuffer ? reinterpret_cast<IndexBuffer **>(cmd.drawData)[cmd.numVtxBuffers] : nullptr;
+	Span<VertexBuffer *> vtxBuffers = { reinterpret_cast<VertexBuffer **>(cmd.drawData), numVtxBuffers };
+	IndexBuffer *idxBuffer = cmd.idxBuffer ? reinterpret_cast<IndexBuffer **>(cmd.drawData)[numVtxBuffers] : nullptr;
 
 	PrimitiveType pt = stateCache->GetActiveRenderState().primitiveType;
 	m_renderer->DrawMesh2Internal(vtxBuffers, idxBuffer, cmd.elementCount, cmd.instanceCount, cmd.vertexState, pt);
