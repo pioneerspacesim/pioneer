@@ -3,7 +3,6 @@
 
 local Game = require 'Game'
 local utils = require 'utils'
-local Vector2 = _G.Vector2
 
 local Lang = require 'Lang'
 local lc = Lang.GetResource("core");

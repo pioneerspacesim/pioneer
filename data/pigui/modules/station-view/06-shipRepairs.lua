@@ -22,7 +22,6 @@ local colors = ui.theme.colors
 local icons = ui.theme.icons
 
 local pionillium = ui.fonts.pionillium
-local orbiteer = ui.fonts.orbiteer
 
 local face = nil
 local stationSeed = false

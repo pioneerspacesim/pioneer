@@ -4,7 +4,6 @@
 local ui = require 'pigui'
 local InfoView = require 'pigui.views.info-view'
 local Lang = require 'Lang'
-local Engine = require 'Engine'
 local Character = require 'Character'
 local PiGuiFace = require 'pigui.libs.face'
 local Event = require 'Event'
@@ -12,7 +11,6 @@ local Game  = require 'Game'
 
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
-local colors = ui.theme.colors
 local icons = ui.theme.icons
 
 local textTable = require 'pigui.libs.text-table'

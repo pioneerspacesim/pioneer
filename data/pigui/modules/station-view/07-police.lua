@@ -34,8 +34,6 @@ local popup = ModalWindow.New('policePopup', function(self)
 	end
 end)
 
-local gray = Color(100, 100, 100)
-
 local widgetSizes = ui.rescaleUI({
 	itemSpacing = Vector2(4, 9),
 	faceSize = Vector2(586,565),
