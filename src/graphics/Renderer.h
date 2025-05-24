@@ -153,7 +153,7 @@ namespace Graphics {
 		// Draw the given vertex buffer(s) + index buffer with the given material, optionally instanced.
 		// The number of elements drawn must be manually specified. At least one vertex buffer must be present,
 		// but the index buffer is not required.
-		virtual void DrawBuffers(Span<VertexBuffer * const> vtxBuffers, IndexBuffer *idx, Material *m, uint32_t numElements, uint32_t numInstances = 1) = 0;
+		virtual void Draw(Span<VertexBuffer * const> vtxBuffers, IndexBuffer *idx, Material *m, uint32_t numElements, uint32_t numInstances = 1) = 0;
 
 		//creates a unique material based on the descriptor. It will not be deleted automatically.
 		virtual Material *CreateMaterial(const std::string &shader, const MaterialDescriptor &desc, const RenderStateDesc &stateDesc, const VertexFormatDesc &vertexFormat) = 0;

@@ -97,7 +97,7 @@ namespace Graphics {
 		bool DrawBufferDynamic(VertexBuffer *v, uint32_t vtxOffset, IndexBuffer *i, uint32_t idxOffset, uint32_t numElems, Material *m) final;
 		bool DrawMesh(MeshObject *, Material *) final;
 
-		void DrawBuffers(Span<VertexBuffer *const>, IndexBuffer *, Material *m, uint32_t, uint32_t) final;
+		void Draw(Span<VertexBuffer *const>, IndexBuffer *, Material *m, uint32_t, uint32_t) final;
 
 		Material *CreateMaterial(const std::string &, const MaterialDescriptor &, const RenderStateDesc &, const VertexFormatDesc &) final;
 		Material *CloneMaterial(const Material *, const MaterialDescriptor &, const RenderStateDesc &, const VertexFormatDesc &) final;

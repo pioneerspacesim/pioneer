@@ -110,7 +110,7 @@ namespace SceneGraph {
 		for (auto &it : m_meshes) {
 			// finally render using the instance material
 			uint32_t numElems = it.meshObject->GetIndexBuffer()->GetIndexCount();
-			r->DrawBuffers(
+			r->Draw(
 				{ it.meshObject->GetVertexBuffer(), m_instBuffer.Get() },
 				it.meshObject->GetIndexBuffer(),
 				m_instanceMaterials[i].Get(),

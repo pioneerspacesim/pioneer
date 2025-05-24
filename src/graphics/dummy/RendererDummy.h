@@ -72,7 +72,7 @@ namespace Graphics {
 		bool DrawBuffer(const VertexArray *, Material *) final { return true; }
 		bool DrawBufferDynamic(VertexBuffer *, uint32_t, IndexBuffer *, uint32_t, uint32_t, Material *) final { return true; }
 		bool DrawMesh(MeshObject *, Material *) final { return true; }
-		void DrawBuffers(Span<VertexBuffer *const>, IndexBuffer *, Material *, uint32_t, uint32_t) final {}
+		void Draw(Span<VertexBuffer *const>, IndexBuffer *, Material *, uint32_t, uint32_t) final {}
 
 		Texture *CreateTexture(const TextureDescriptor &d) final { return new Graphics::TextureDummy(d); }
 		RenderTarget *CreateRenderTarget(const RenderTargetDesc &d) final { return new Graphics::Dummy::RenderTarget(d); }

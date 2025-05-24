@@ -38,7 +38,7 @@
 #include <ostream>
 #include <sstream>
 
-#define CHECK_VERTEX_FORMAT_MATCH 1
+#define CHECK_VERTEX_FORMAT_MATCH 0
 
 using RenderPassCmd = Graphics::OGL::CommandList::RenderPassCmd;
 
@@ -920,7 +920,7 @@ namespace Graphics {
 		return true;
 	}
 
-	void RendererOGL::DrawBuffers(Span<VertexBuffer *const> vtxBuffers, IndexBuffer *idx, Material *material, uint32_t numElements, uint32_t instanceCount)
+	void RendererOGL::Draw(Span<VertexBuffer *const> vtxBuffers, IndexBuffer *idx, Material *material, uint32_t numElements, uint32_t instanceCount)
 	{
 		m_drawCommandList->AddDrawCmd2(vtxBuffers, idx, material, numElements, instanceCount);
 	}
