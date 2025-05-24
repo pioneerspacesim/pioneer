@@ -29,7 +29,9 @@
 ---
 --- Translated description for the system
 ---@field shortDescription string
---- Translated description of the system's government type
+--- Translated (short) custom description of the system
+---@field longDescription string
+--- Translated (long) custom description of the system
 ---@field govDescription string
 --- Translated description of the system's economic type
 ---@field econDescription string
