@@ -13,28 +13,24 @@
 #include "lua/LuaEvent.h"
 #include "lua/LuaTable.h"
 
-CargoBody::CargoBody(const LuaRef &cargo, float selfdestructTimer) :
-	m_cargo(cargo)
+CargoBody::CargoBody(const LuaRef &cargo, float selfdestructTimer, uint8_t quantity) :
+	m_cargo(cargo),
+	m_quantity(quantity)
 {
 	SetModel("cargo");
 	Init();
 	SetMass(1.0);
 	m_selfdestructTimer = selfdestructTimer; // number of seconds to live
-
-	if (is_zero_exact(selfdestructTimer)) // turn off self destruct
-		m_hasSelfdestruct = false;
 }
 
-CargoBody::CargoBody(const char *modelName, const LuaRef &cargo, float selfdestructTimer) :
-	m_cargo(cargo)
+CargoBody::CargoBody(const char *modelName, const LuaRef &cargo, float selfdestructTimer, uint8_t quantity) :
+	m_cargo(cargo),
+	m_quantity(quantity)
 {
 	SetModel(modelName);
 	Init();
 	SetMass(1.0);
 	m_selfdestructTimer = selfdestructTimer; // number of seconds to live
-
-	if (is_zero_exact(selfdestructTimer)) // turn off self destruct
-		m_hasSelfdestruct = false;
 }
 
 CargoBody::CargoBody(const Json &jsonObj, Space *space) :
@@ -49,7 +45,7 @@ CargoBody::CargoBody(const Json &jsonObj, Space *space) :
 		Init();
 		m_hitpoints = cargoBodyObj["hit_points"];
 		m_selfdestructTimer = cargoBodyObj["self_destruct_timer"];
-		m_hasSelfdestruct = cargoBodyObj["has_self_destruct"];
+		m_quantity = cargoBodyObj["quantity"];
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
@@ -64,7 +60,7 @@ void CargoBody::SaveToJson(Json &jsonObj, Space *space)
 	m_cargo.SaveToJson(cargoBodyObj);
 	cargoBodyObj["hit_points"] = m_hitpoints;
 	cargoBodyObj["self_destruct_timer"] = m_selfdestructTimer;
-	cargoBodyObj["has_self_destruct"] = m_hasSelfdestruct;
+	cargoBodyObj["quantity"] = m_quantity;
 
 	jsonObj["cargo_body"] = cargoBodyObj; // Add cargo body object to supplied object.
 }
@@ -75,7 +71,6 @@ void CargoBody::Init()
 	std::string cargoname = ScopedTable(m_cargo).CallMethod<std::string>("GetName"); // instead of switching to lua twice for the same value
 	SetLabel(cargoname);
 	SetMassDistributionFromModel();
-	m_hasSelfdestruct = true;
 
 	std::vector<Color> colors;
 	//metallic blue-orangeish color scheme
@@ -99,7 +94,7 @@ void CargoBody::TimeStepUpdate(const float timeStep)
 	// Until then, we kill it after some time, to not clutter up the current
 	// star system.
 
-	if (m_hasSelfdestruct) {
+	if (!is_zero_exact(m_selfdestructTimer)) {
 		m_selfdestructTimer -= timeStep;
 		if (m_selfdestructTimer <= 0) {
 			LuaEvent::Queue("onCargoDestroyed", this);
