@@ -337,7 +337,7 @@ private:
 	double m_hydrogenScoopedAccumulator = 0;
 
 	double m_latestSpawnTime = 0.0;
-	std::deque<CargoBody*> m_cargoSpawnQueue;
+	std::deque<CargoBody *> m_cargoSpawnQueue;
 
 public:
 	// FIXME: these methods are deprecated; all calls should use the propulsion object directly.

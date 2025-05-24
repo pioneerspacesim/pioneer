@@ -90,6 +90,17 @@ std::vector<CollisionContact> Geom::Collide(Geom *b) const
 	return contacts;
 }
 
+static AABBd rotateAabbFast(const AABBd &a, const matrix4x4d &transA)
+{
+	const vector3d center((a.min + a.max) * 0.5f);
+	const vector3d extent((a.max - a.min) * 0.5f);
+
+	const vector3d new_center(transA * center);
+	const vector3d new_extent(transA.GetOrientAbs() * extent);
+
+	return AABBd{ new_center - new_extent, new_center + new_extent };
+}
+
 static AABBd rotateAabb(const AABBd &a, const matrix4x4d &transA)
 {
 	AABBd arot = AABBd::Invalid();
@@ -154,7 +165,12 @@ void Geom::CollideEdgesWithTrisOf(std::vector<CollisionContact> &contacts, size_
 		} else {
 			// does the edgeNode (with its aabb described in 6 planes transformed and rotated to
 			// b's coordinates) intersect with one or other of b's child nodes?
-			AABBd rotAabb = rotateAabb(edgeNode->aabb, transTo);
+			AABBd rotAabb = rotateAabbFast(edgeNode->aabb, transTo);
+#if 0 //def _DEBUG
+			// useful for sanity checking the rotateAabbFast
+			AABBd rotAabbSlow = rotateAabb(edgeNode->aabb, transTo);
+			assert(abs((rotAabb.min - rotAabb.max).LengthSqr() - (rotAabbSlow.min - rotAabbSlow.max).LengthSqr()) < 0.01);
+#endif // _DEBUG
 			const bool left = rotAabb.Intersects(triBvh->GetNode(triNode->kids[0])->aabb);
 			const bool right = rotAabb.Intersects(triBvh->GetNode(triNode->kids[1])->aabb);
 
