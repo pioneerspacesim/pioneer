@@ -643,7 +643,7 @@ theme.icons = {
 	equip_scanner = 294,
 	equip_radar = 295,
 	equip_orbit_scanner = 296,
-	equip_generic = 297,
+	equip_generic = 297,  -- duplicate of settings = 145,
 	equip_cabin_empty = 298,
 	equip_cabin_occupied = 299,
 	equip_thrusters = 300,
