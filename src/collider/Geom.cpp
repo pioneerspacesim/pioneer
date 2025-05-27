@@ -92,8 +92,9 @@ std::vector<CollisionContact> Geom::Collide(Geom *b) const
 
 static AABBd rotateAabbFast(const AABBd &a, const matrix4x4d &transA)
 {
-	const vector3d center((a.min + a.max) * 0.5f);
+
 	const vector3d extent((a.max - a.min) * 0.5f);
+	const vector3d center(a.min + extent);
 
 	const vector3d new_center(transA * center);
 	const vector3d new_extent(transA.GetOrientAbs() * extent);
