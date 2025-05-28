@@ -9,6 +9,8 @@
 #include "core/IniConfig.h"
 #include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/Types.h"
+#include "graphics/VertexBuffer.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "scenegraph/SceneGraph.h"
 #include "utils.h"
@@ -83,7 +85,9 @@ void NavLights::Init(Graphics::Renderer *renderer)
 	rsd.depthWrite = false;
 	rsd.primitiveType = Graphics::POINTS;
 
-	matHalos4x4.Reset(renderer->CreateMaterial("billboards", desc, rsd));
+	Graphics::VertexFormatDesc vfmt = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
+
+	matHalos4x4.Reset(renderer->CreateMaterial("billboards", desc, rsd, vfmt));
 	matHalos4x4->SetTexture("texture0"_hash, texHalos4x4.Get());
 	matHalos4x4->SetPushConstant("coordDownScale"_hash, 0.5f);
 
