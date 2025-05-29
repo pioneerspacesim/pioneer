@@ -419,6 +419,11 @@ void Instance::Init(Graphics::Renderer *renderer)
 	m_ioIniFilename = new char[imguiIni.size() + 1];
 	std::strncpy(m_ioIniFilename, imguiIni.c_str(), imguiIni.size() + 1);
 	io.IniFilename = m_ioIniFilename;
+
+	// Enable error recovery support
+	io.ConfigErrorRecovery = true;
+	io.ConfigErrorRecoveryEnableTooltip = true;
+	io.ConfigErrorRecoveryEnableAssert = false;
 }
 
 bool Instance::ProcessEvent(SDL_Event *event)
