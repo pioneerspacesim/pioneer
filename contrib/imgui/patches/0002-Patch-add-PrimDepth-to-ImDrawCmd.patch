@@ -1,20 +1,31 @@
+From f7d04620fde511feb244fef3889417d4b635becf Mon Sep 17 00:00:00 2001
+From: Axtel Sturnclaw <sturnclaw@protonmail.com>
+Date: Thu, 29 May 2025 18:41:12 -0400
+Subject: [PATCH 2/3] Patch: add PrimDepth to ImDrawCmd
+
+Allow rendering ImGui elements in a 3d scene with proper depth values and depth testing.
+---
+ contrib/imgui/imgui.h        | 1 +
+ contrib/imgui/imgui_draw.cpp | 5 +++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
 diff --git a/contrib/imgui/imgui.h b/contrib/imgui/imgui.h
-index 7d6a13151..dfad335fa 100644
+index fcc1d5a0f..fa2772b0c 100644
 --- a/contrib/imgui/imgui.h
 +++ b/contrib/imgui/imgui.h
-@@ -2633,6 +2633,7 @@ struct ImDrawCmd
+@@ -3106,6 +3106,7 @@ struct ImDrawCmd
      unsigned int    VtxOffset;          // 4    // Start offset in vertex buffer. ImGuiBackendFlags_RendererHasVtxOffset: always 0, otherwise may be >0 to support meshes larger than 64K vertices with 16-bit indices.
      unsigned int    IdxOffset;          // 4    // Start offset in index buffer.
      unsigned int    ElemCount;          // 4    // Number of indices (multiple of 3) to be rendered as triangles. Vertices are stored in the callee ImDrawList's vtx_buffer[] array, indices in idx_buffer[].
 +    float           PrimDepth;          // 4    // [PIONEER] 3D depth of contained vertices, for rendering labels etc. in mixed-mode scenes
      ImDrawCallback  UserCallback;       // 4-8  // If != NULL, call the function instead of rendering the vertices. clip_rect and texture_id will be set normally.
-     void*           UserCallbackData;   // 4-8  // The draw callback code can access this.
- 
+     void*           UserCallbackData;   // 4-8  // Callback user data (when UserCallback != NULL). If called AddCallback() with size == 0, this is a copy of the AddCallback() argument. If called AddCallback() with size > 0, this is pointing to a buffer where data is stored.
+     int             UserCallbackDataSize;  // 4 // Size of callback user data when using storage, otherwise 0.
 diff --git a/contrib/imgui/imgui_draw.cpp b/contrib/imgui/imgui_draw.cpp
-index 26bed1ebc..c80768980 100644
+index 7c4eaa4b3..e4f77e9f9 100644
 --- a/contrib/imgui/imgui_draw.cpp
 +++ b/contrib/imgui/imgui_draw.cpp
-@@ -446,6 +446,7 @@ void ImDrawList::AddDrawCmd()
+@@ -478,6 +478,7 @@ void ImDrawList::AddDrawCmd()
      draw_cmd.TextureId = _CmdHeader.TextureId;
      draw_cmd.VtxOffset = _CmdHeader.VtxOffset;
      draw_cmd.IdxOffset = IdxBuffer.Size;
@@ -22,7 +33,7 @@ index 26bed1ebc..c80768980 100644
  
      IM_ASSERT(draw_cmd.ClipRect.x <= draw_cmd.ClipRect.z && draw_cmd.ClipRect.y <= draw_cmd.ClipRect.w);
      CmdBuffer.push_back(draw_cmd);
-@@ -492,7 +493,7 @@ void ImDrawList::_TryMergeDrawCmds()
+@@ -542,7 +543,7 @@ void ImDrawList::_TryMergeDrawCmds()
      IM_ASSERT_PARANOID(CmdBuffer.Size > 0);
      ImDrawCmd* curr_cmd = &CmdBuffer.Data[CmdBuffer.Size - 1];
      ImDrawCmd* prev_cmd = curr_cmd - 1;
@@ -31,7 +42,7 @@ index 26bed1ebc..c80768980 100644
      {
          prev_cmd->ElemCount += curr_cmd->ElemCount;
          CmdBuffer.pop_back();
-@@ -1741,7 +1742,7 @@ void ImDrawListSplitter::Merge(ImDrawList* draw_list)
+@@ -2148,7 +2149,7 @@ void ImDrawListSplitter::Merge(ImDrawList* draw_list)
              // Do not include ImDrawCmd_AreSequentialIdxOffset() in the compare as we rebuild IdxOffset values ourselves.
              // Manipulating IdxOffset (e.g. by reordering draw commands like done by RenderDimmedBackgroundBehindWindow()) is not supported within a splitter.
              ImDrawCmd* next_cmd = &ch._CmdBuffer[0];
@@ -40,3 +51,6 @@ index 26bed1ebc..c80768980 100644
              {
                  // Merge previous channel last draw command with current channel first draw command if matching.
                  last_cmd->ElemCount += next_cmd->ElemCount;
+-- 
+2.49.0
+
