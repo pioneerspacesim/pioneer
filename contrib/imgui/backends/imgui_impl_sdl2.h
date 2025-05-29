@@ -26,6 +26,9 @@
 #include "imgui/imgui.h"      // IMGUI_IMPL_API
 #ifndef IMGUI_DISABLE
 
+#include <SDL_scancode.h>
+#include <SDL_keycode.h>
+
 struct SDL_Window;
 struct SDL_Renderer;
 struct _SDL_GameController;
@@ -46,5 +49,7 @@ IMGUI_IMPL_API bool     ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event);
 // When using manual mode, caller is responsible for opening/closing gamepad.
 enum ImGui_ImplSDL2_GamepadMode { ImGui_ImplSDL2_GamepadMode_AutoFirst, ImGui_ImplSDL2_GamepadMode_AutoAll, ImGui_ImplSDL2_GamepadMode_Manual };
 IMGUI_IMPL_API void     ImGui_ImplSDL2_SetGamepadMode(ImGui_ImplSDL2_GamepadMode mode, struct _SDL_GameController** manual_gamepads_array = nullptr, int manual_gamepads_count = -1);
+
+ImGuiKey ImGui_ImplSDL2_KeyEventToImGuiKey(SDL_Keycode keycode, SDL_Scancode scancode);
 
 #endif // #ifndef IMGUI_DISABLE

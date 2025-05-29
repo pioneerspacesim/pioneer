@@ -503,6 +503,62 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
 EM_JS(void, ImGui_ImplSDL2_EmscriptenOpenURL, (char const* url), { url = url ? UTF8ToString(url) : null; if (url) window.open(url, '_blank'); });
 #endif
 
+// The Pioneer cursor.
+static const char mouse_cursor[] = {
+	"XXXXXXXXXX              "
+	"X.........X             "
+	"X..........X            "
+	"X...........X           "
+	"X............X          "
+	"X.............X         "
+	"X..............X        "
+	"X...............X       "
+	"X................X      "
+	"X.................X     "
+	" X.................X    "
+	"  X..........    ...X   "
+	"   X........      ...X  "
+	"    X......        ...X "
+	"     X.....        ....X"
+	"      X....        ...X "
+	"       X...        ..X  "
+	"        X...      ..X   "
+	"         X...    ..X    "
+	"          X.......X     "
+	"           X.....X      "
+	"            X...X       "
+	"             X.X        "
+	"              X         "
+};
+
+// Shamelessly adapted from the SDL wiki, who stole it from the mailing list.
+// Create the pioneer cursor in SDL's preferred format.
+static SDL_Cursor* CreatePioneerCursor()
+{
+	int i = -1;
+	// Cursor data is stored as bitfields in most-significant-bit first order.
+	Uint8 data[3*24];
+	Uint8 mask[3*24];
+	for (int row = 0; row < 24; ++row) {
+		for (int col = 0; col < 24; ++col) {
+			if (col % 8) {
+				data[i] <<= 1;
+				mask[i] <<= 1;
+			} else {
+				i++;
+				data[i] = mask[i] = 0; // clear the next byte.
+			}
+			switch (mouse_cursor[row*24 + col]) {
+			// Use fallthrough here because it makes sense.
+			case 'X': data[i] |= 0x01;
+			case '.': mask[i] |= 0x01;
+			default: break;
+			}
+		}
+	}
+	return SDL_CreateCursor(data, mask, 24, 24, 0, 0);
+}
+
 static bool ImGui_ImplSDL2_Init(SDL_Window* window, SDL_Renderer* renderer, void* sdl_gl_context)
 {
     ImGuiIO& io = ImGui::GetIO();
@@ -561,7 +617,7 @@ static bool ImGui_ImplSDL2_Init(SDL_Window* window, SDL_Renderer* renderer, void
     bd->WantUpdateGamepadsList = true;
 
     // Load mouse cursors
-    bd->MouseCursors[ImGuiMouseCursor_Arrow] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
+    bd->MouseCursors[ImGuiMouseCursor_Arrow] = CreatePioneerCursor();
     bd->MouseCursors[ImGuiMouseCursor_TextInput] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_IBEAM);
     bd->MouseCursors[ImGuiMouseCursor_ResizeAll] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZEALL);
     bd->MouseCursors[ImGuiMouseCursor_ResizeNS] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZENS);
