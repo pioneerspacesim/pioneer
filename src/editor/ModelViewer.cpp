@@ -790,7 +790,7 @@ void ModelViewer::SetupLayout(ImGuiID dockspaceID)
 	// ImGuiID centerDown = ImGui::DockBuilderSplitNode(nodeID, ImGuiDir_Down, 0.2, nullptr, &nodeID);
 
 	ImGui::DockBuilderGetNode(nodeID)->LocalFlags |= ImGuiDockNodeFlags_HiddenTabBar;
-	ImGui::DockBuilderGetNode(dockspaceID)->LocalFlags |= ImGuiDockNodeFlags_NoDockingSplitMe;
+	ImGui::DockBuilderGetNode(dockspaceID)->LocalFlags |= ImGuiDockNodeFlags_NoDockingSplit;
 
 	ImGui::DockBuilderDockWindow(SELECTOR_WND_NAME, sideUp);
 	ImGui::DockBuilderDockWindow(TAGS_WND_NAME, sideUp);

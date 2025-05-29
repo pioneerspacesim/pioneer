@@ -30,10 +30,7 @@ ActionBinder::~ActionBinder()
 // static
 std::string ActionBinder::FormatShortcut(ImGuiKeyChord shortcut)
 {
-	char name[24];
-	ImGui::GetKeyChordName(shortcut, name, sizeof(name));
-
-	return std::string(name);
+	return std::string(ImGui::GetKeyChordName(shortcut));
 }
 
 void ActionBinder::Update()
