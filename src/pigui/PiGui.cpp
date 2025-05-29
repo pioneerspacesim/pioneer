@@ -411,8 +411,8 @@ void Instance::Init(Graphics::Renderer *renderer)
 	ImGui::StyleColorsDark();
 
 	// Disable ctrl+tab / ctrl+shift+tab window switching
-	ImGui::SetShortcutRouting(ImGui::GetCurrentContext()->ConfigNavWindowingKeyNext, ImGuiKeyOwner_None);
-	ImGui::SetShortcutRouting(ImGui::GetCurrentContext()->ConfigNavWindowingKeyPrev, ImGuiKeyOwner_None);
+	ImGui::SetShortcutRouting(ImGui::GetCurrentContext()->ConfigNavWindowingKeyNext, 0, ImGuiKeyOwner_NoOwner);
+	ImGui::SetShortcutRouting(ImGui::GetCurrentContext()->ConfigNavWindowingKeyPrev, 0, ImGuiKeyOwner_NoOwner);
 
 	std::string imguiIni = FileSystem::JoinPath(FileSystem::GetUserDir(), "imgui.ini");
 
@@ -481,7 +481,7 @@ void Instance::NewFrame()
 		m_instanceRenderer->NewFrame();
 		break;
 	}
-	ImGui_ImplSDL2_NewFrame(m_renderer->GetSDLWindow());
+	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
 	m_renderer->CheckRenderErrors(__FUNCTION__, __LINE__);

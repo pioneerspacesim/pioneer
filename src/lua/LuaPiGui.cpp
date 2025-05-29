@@ -194,7 +194,6 @@ static LuaFlags<ImGuiButtonFlags> imguiButtonFlagsTable = {
 	{ "PressedOnClick", ImGuiButtonFlags_PressedOnClick },
 	{ "PressedOnClickRelease", ImGuiButtonFlags_PressedOnClickRelease },
 	{ "PressedOnDoubleClick", ImGuiButtonFlags_PressedOnDoubleClick },
-	{ "Repeat", ImGuiButtonFlags_Repeat },
 };
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiButtonFlags_ &theflags)
@@ -1452,7 +1451,7 @@ static int l_pigui_low_thrust_button(lua_State *l)
 static int l_pigui_button_image_sized(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImTextureID id = pi_lua_checklightuserdata(l, 1);
+	ImTextureID id = reinterpret_cast<ImTextureID>(pi_lua_checklightuserdata(l, 1));
 	ImVec2 size = LuaPull<ImVec2>(l, 2);
 	ImVec2 imgSize = LuaPull<ImVec2>(l, 3);
 	ImVec2 uv0 = LuaPull<ImVec2>(l, 4);
@@ -1517,8 +1516,7 @@ static int l_pigui_get_axisbinding(lua_State *l)
 	PROFILE_SCOPED()
 
 	// Escape is used to clear an existing binding
-	// io.KeysDown uses scancodes, but we want to use keycodes.
-	if (ImGui::IsKeyDown(ImGui_ImplSDL2_KeycodeToImGuiKey(SDLK_ESCAPE))) {
+	if (ImGui::IsKeyDown(ImGuiKey_Escape)) {
 		LuaPush(l, true);
 		lua_pushnil(l);
 		return 2;
@@ -1614,9 +1612,13 @@ static int l_pigui_get_keybinding(lua_State *l)
 
 	// keys
 	for (int i = 0; i < 512; i++) {
-		if (ImGui::GetIO().KeysDown[i]) {
-			// io.KeysDown uses scancodes, but we need keycodes.
-			binds[bind_count++] = SDL_GetKeyFromScancode(static_cast<SDL_Scancode>(i));
+		SDL_Scancode scancode = static_cast<SDL_Scancode>(i);
+		SDL_Keycode keycode = SDL_GetKeyFromScancode(scancode);
+		ImGuiKey key = ImGui_ImplSDL2_KeyEventToImGuiKey(keycode, scancode);
+
+		// KeyData uses ImGuiKeys, but we use SDL_Keycodes internally
+		if (key != ImGuiKey_None && ImGui::GetKeyData(key)->Down) {
+			binds[bind_count++] = keycode;
 			if (bind_count == MAX_BIND_KEYS) break;
 		}
 	}
@@ -1755,7 +1757,7 @@ static int l_pigui_add_image(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	ImTextureID id = pi_lua_checklightuserdata(l, 1);
+	ImTextureID id = reinterpret_cast<ImTextureID>(pi_lua_checklightuserdata(l, 1));
 	ImVec2 a = LuaPull<ImVec2>(l, 2);
 	ImVec2 b = LuaPull<ImVec2>(l, 3);
 	ImVec2 uv0 = LuaPull<ImVec2>(l, 4);
@@ -1769,7 +1771,7 @@ static int l_pigui_add_image_quad(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	ImTextureID id = pi_lua_checklightuserdata(l, 1);
+	ImTextureID id = reinterpret_cast<ImTextureID>(pi_lua_checklightuserdata(l, 1));
 	ImVec2 a = LuaPull<ImVec2>(l, 2);
 	ImVec2 b = LuaPull<ImVec2>(l, 3);
 	ImVec2 c = LuaPull<ImVec2>(l, 4);
@@ -2234,27 +2236,25 @@ static int l_pigui_get_content_region(lua_State *l)
 static int l_pigui_image(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImTextureID id = pi_lua_checklightuserdata(l, 1);
+	ImTextureID id = reinterpret_cast<ImTextureID>(pi_lua_checklightuserdata(l, 1));
 	ImVec2 size = LuaPull<ImVec2>(l, 2);
 	ImVec2 uv0 = LuaPull<ImVec2>(l, 3);
 	ImVec2 uv1 = LuaPull<ImVec2>(l, 4);
-	ImColor tint_col = LuaPull<ImColor>(l, 5);
-	ImGui::Image(id, size, uv0, uv1, tint_col); //,  border_col
+	ImGui::Image(id, size, uv0, uv1); //,  border_col
 	return 0;
 }
 
 static int l_pigui_image_button(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImTextureID id = pi_lua_checklightuserdata(l, 1);
-	ImVec2 size = LuaPull<ImVec2>(l, 2);
-	ImVec2 uv0 = LuaPull<ImVec2>(l, 3);
-	ImVec2 uv1 = LuaPull<ImVec2>(l, 4);
-	int frame_padding = LuaPull<int>(l, 5);
-	ImColor bg_col = LuaPull<ImColor>(l, 6);
-	ImColor tint_col = LuaPull<ImColor>(l, 7);
-	bool res = ImGui::ImageButton(id, size, uv0, uv1,
-		frame_padding, bg_col, tint_col);
+	const char *str_id = LuaPull<const char *>(l, 1);
+	ImTextureID id = reinterpret_cast<ImTextureID>(pi_lua_checklightuserdata(l, 2));
+	ImVec2 size = LuaPull<ImVec2>(l, 3);
+	ImVec2 uv0 = LuaPull<ImVec2>(l, 4);
+	ImVec2 uv1 = LuaPull<ImVec2>(l, 5);
+	ImColor bg_col = LuaPull<ImColor>(l, 7);
+	ImColor tint_col = LuaPull<ImColor>(l, 8);
+	bool res = ImGui::ImageButton(str_id, id, size, uv0, uv1, bg_col, tint_col);
 	LuaPush<bool>(l, res);
 	return 1;
 }
@@ -2263,7 +2263,7 @@ static int l_pigui_capture_mouse_from_app(lua_State *l)
 {
 	PROFILE_SCOPED()
 	bool b = LuaPull<bool>(l, 1);
-	ImGui::CaptureMouseFromApp(b);
+	ImGui::SetNextFrameWantCaptureMouse(b);
 	return 0;
 }
 
@@ -2760,7 +2760,7 @@ static int l_pigui_radial_menu(lua_State *l)
 			break;
 		}
 		lua_getfield(l, -1, "id");
-		ImTextureID tid = pi_lua_checklightuserdata(l, -1);
+		ImTextureID tid = reinterpret_cast<ImTextureID>(pi_lua_checklightuserdata(l, -1));
 		lua_pop(l, 1);
 
 		lua_getfield(l, -1, "uv0");
@@ -3089,7 +3089,9 @@ static int l_pigui_color_edit(lua_State *l)
 static int l_pigui_is_key_released(lua_State *l)
 {
 	SDL_Keycode key = LuaPull<int>(l, 1);
-	LuaPush<bool>(l, ImGui::IsKeyReleased(ImGui_ImplSDL2_KeycodeToImGuiKey(key)));
+	SDL_Scancode code = SDL_GetScancodeFromKey(key);
+
+	LuaPush<bool>(l, ImGui::IsKeyReleased(ImGui_ImplSDL2_KeyEventToImGuiKey(key, code)));
 	return 1;
 }
 
@@ -3229,11 +3231,11 @@ static int l_pigui_load_texture_from_svg(lua_State *l)
 	int height = LuaPull<int>(l, 4);
 
 	ImTextureID id = PiGui::RenderSVG(Pi::renderer, svg_filename, width, height);
-	if (id == nullptr) {
+	if (id == 0) {
 		return luaL_error(l, "LoadTextureFromSVG: error loading file %s", svg_filename.c_str());
 	}
 
-	lua_pushlightuserdata(l, id);
+	lua_pushlightuserdata(l, reinterpret_cast<void *>(id));
 	return 1;
 }
 
