@@ -26,6 +26,9 @@
 #include "imgui/imgui.h"      // IMGUI_IMPL_API
 #ifndef IMGUI_DISABLE
 
+#include <SDL_scancode.h>
+#include <SDL_keycode.h>
+
 struct SDL_Window;
 struct SDL_Renderer;
 struct _SDL_GameController;
@@ -57,5 +60,7 @@ IMGUI_IMPL_API void     ImGui_ImplSDL2_SetGamepadMode(ImGui_ImplSDL2_GamepadMode
 // But you may independently decide on X11, when a debugger is attached, to set this value to ImGui_ImplSDL2_MouseCaptureMode_Disabled.
 enum ImGui_ImplSDL2_MouseCaptureMode { ImGui_ImplSDL2_MouseCaptureMode_Enabled, ImGui_ImplSDL2_MouseCaptureMode_EnabledAfterDrag, ImGui_ImplSDL2_MouseCaptureMode_Disabled };
 IMGUI_IMPL_API void     ImGui_ImplSDL2_SetMouseCaptureMode(ImGui_ImplSDL2_MouseCaptureMode mode);
+
+ImGuiKey ImGui_ImplSDL2_KeyEventToImGuiKey(SDL_Keycode keycode, SDL_Scancode scancode);
 
 #endif // #ifndef IMGUI_DISABLE
