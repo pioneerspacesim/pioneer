@@ -7,9 +7,12 @@ May
     * Fix hyperspace fuel cheat (#6129)
     * Explore system on game start (#6132)
     * CrewContracts - add onUpdateBB, to spawn new crew with time (#5596)
+    * Formatting fixes (#6058)
 
   * Internal
     * Update minimum required version of CMake to 3.5 (#6124)
+    * Expose long description & clean dead code (#6144)
+    * Upgrade Imgui to 1.91.9b (#6143)
 
 April / Pioneer 2025-05-01 Release
   * Fixes
