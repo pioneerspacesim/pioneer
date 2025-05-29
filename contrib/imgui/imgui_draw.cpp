@@ -3902,13 +3902,21 @@ void ImFont::AddRemapChar(ImWchar dst, ImWchar src, bool overwrite_dst)
 }
 
 // Find glyph, return fallback if missing
-ImFontGlyph* ImFont::FindGlyph(ImWchar c)
+ImFontGlyph* ImFont::FindGlyph(ImWchar c, bool report_missing)
 {
-    if (c >= (size_t)IndexLookup.Size)
+    if (c >= (size_t)IndexLookup.Size) {
+		if (report_missing)
+			if (!MissingGlyphs.contains(c))
+				MissingGlyphs.push_back(c);
         return FallbackGlyph;
+	}
     const ImU16 i = IndexLookup.Data[c];
-    if (i == (ImU16)-1)
+    if (i == (ImU16)-1) {
+		if (report_missing)
+			if (!MissingGlyphs.contains(c))
+				MissingGlyphs.push_back(c);
         return FallbackGlyph;
+	}
     return &Glyphs.Data[i];
 }
 
@@ -4116,7 +4124,7 @@ ImVec2 ImFont::CalcTextSizeA(float size, float max_width, float wrap_width, cons
 // Note: as with every ImDrawList drawing function, this expects that the font atlas texture is bound.
 void ImFont::RenderChar(ImDrawList* draw_list, float size, const ImVec2& pos, ImU32 col, ImWchar c)
 {
-    const ImFontGlyph* glyph = FindGlyph(c);
+    const ImFontGlyph* glyph = FindGlyph(c, true);
     if (!glyph || !glyph->Visible)
         return;
     if (glyph->Colored)
@@ -4236,7 +4244,7 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, const ImVec2& pos, Im
                 continue;
         }
 
-        const ImFontGlyph* glyph = FindGlyph((ImWchar)c);
+        const ImFontGlyph* glyph = FindGlyph((ImWchar)c, true);
         if (glyph == NULL)
             continue;
 
