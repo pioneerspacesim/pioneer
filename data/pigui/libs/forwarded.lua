@@ -61,6 +61,7 @@ ui.addCircle = pigui.AddCircle
 ui.addCircleFilled = pigui.AddCircleFilled
 ui.addRect = pigui.AddRect ---@type fun(a: Vector2, b: Vector2, col: Color, rounding: number, edges: integer, thickness: number)
 ui.addRectFilled = pigui.AddRectFilled ---@type fun(a: Vector2, b: Vector2, col: Color, rounding: number, edges: integer)
+ui.addRectFaded = pigui.AddRectFaded ---@type fun(a: Vector2, b: Vector2, col: Color, fadeToAlpha: number, edges: integer)
 ui.addLine = pigui.AddLine ---@type fun(a: Vector2, b: Vector2, col: Color, thickness: number)
 ui.addText = pigui.AddText ---@type fun(pos: Vector2, col: Color, text: string, wrapWidth: number?)
 ui.pathArcTo = pigui.PathArcTo
