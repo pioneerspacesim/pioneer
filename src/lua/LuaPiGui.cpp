@@ -431,6 +431,7 @@ static LuaFlags<ImGuiTableBgTarget_> table_bg_target_flags = {
 
 static LuaFlags<ImGuiTableColumnFlags_> table_column_flags = {
 	{ "None", ImGuiTableColumnFlags_None },
+	{ "Disabled", ImGuiTableColumnFlags_Disabled },
 	{ "DefaultHide", ImGuiTableColumnFlags_DefaultHide },
 	{ "DefaultSort", ImGuiTableColumnFlags_DefaultSort },
 	{ "WidthStretch", ImGuiTableColumnFlags_WidthStretch },
@@ -442,11 +443,13 @@ static LuaFlags<ImGuiTableColumnFlags_> table_column_flags = {
 	{ "NoSort", ImGuiTableColumnFlags_NoSort },
 	{ "NoSortAscending", ImGuiTableColumnFlags_NoSortAscending },
 	{ "NoSortDescending", ImGuiTableColumnFlags_NoSortDescending },
+	{ "NoHeaderLabel", ImGuiTableColumnFlags_NoHeaderLabel },
 	{ "NoHeaderWidth", ImGuiTableColumnFlags_NoHeaderWidth },
 	{ "PreferSortAscending", ImGuiTableColumnFlags_PreferSortAscending },
 	{ "PreferSortDescending", ImGuiTableColumnFlags_PreferSortDescending },
 	{ "IndentEnable", ImGuiTableColumnFlags_IndentEnable },
 	{ "IndentDisable", ImGuiTableColumnFlags_IndentDisable },
+	{ "AngledHeader", ImGuiTableColumnFlags_AngledHeader },
 };
 
 static LuaFlags<ImGuiColorEditFlags_> color_edit_flags = {
