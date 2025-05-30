@@ -201,7 +201,7 @@ local function drawShipRepair()
 	ui.withStyleVars({ItemSpacing = widgetSizes.itemSpacing}, function ()
 		local infoColumnWidth = ui.getContentRegion().x - widgetSizes.faceSize.x - widgetSizes.itemSpacing.x
 
-		ui.child("ShipStatus", Vector2(infoColumnWidth, 0), {}, function ()
+		ui.child("ShipStatus", Vector2(infoColumnWidth, 0), function ()
 
 			ui.withFont(pionillium.body, function ()
 				if hullPercent > 99.9 then
@@ -283,14 +283,14 @@ local function drawPaintshop()
 	local itemSpacing = Vector2(8, 6)
 	local verticalDummy = Vector2(0, 50)
 	ui.withStyleVars({ ItemSpacing = itemSpacing }, function ()
-		ui.child("PaintshopModelSpinner", Vector2(columnWidth, 0), {}, function()
+		ui.child("PaintshopModelSpinner", Vector2(columnWidth, 0), function()
 			modelSpinner:setSize(ui.getContentRegion())
 			modelSpinner:draw()
 		end)
 
 		ui.sameLine()
 
-		ui.child("PaintshopControls", Vector2(columnWidth, 0), {}, function ()
+		ui.child("PaintshopControls", Vector2(columnWidth, 0), function ()
 			ui.text(l["PAINTSHOP_WELCOME_" .. rand:Integer(NUM_WELCOME_MESSAGES - 1)])
 			ui.dummy(verticalDummy)
 			ui.text(l.PLEASE_DESIGN_NEW_PAINTJOB)

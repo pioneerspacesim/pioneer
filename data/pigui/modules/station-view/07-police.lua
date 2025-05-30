@@ -232,7 +232,7 @@ local function drawPolice()
 		local infoColumnWidth = ui.getContentRegion().x
 			- widgetSizes.faceSize.x - padding.x * 2
 
-		ui.child("CrimeStats", Vector2(infoColumnWidth, 0), {}, function()
+		ui.child("CrimeStats", Vector2(infoColumnWidth, 0), function()
 			ui.withFont(pionillium.heading, function ()
 				ui.text(intro_txt)
 			end)

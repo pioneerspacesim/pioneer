@@ -25,6 +25,7 @@ local pionillium = ui.fonts.pionillium
 
 local lineSpacing = ui.rescaleUI(Vector2(8, 6))
 local iconSize = Vector2(pionillium.body.size)
+local noSavedSettings = ui.WindowFlags { 'NoSavedSettings' }
 
 local equipmentInfoTab
 
@@ -564,7 +565,7 @@ end
 
 function EquipmentWidget:render()
 	ui.withFont(pionillium.body, function()
-		ui.child("ShipInfo", Vector2(ui.getContentRegion().x * 1 / 3, 0), { "NoSavedSettings" }, function()
+		ui.child("ShipInfo", Vector2(ui.getContentRegion().x * 1 / 3, 0), noSavedSettings, function()
 			if #self.tabs > 1 then
 				self.activeTab = ui.tabBarFont("##tabs", self.tabs, pionillium.heading, self)
 			else

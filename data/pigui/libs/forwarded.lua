@@ -163,6 +163,7 @@ ui.SelectableFlags = pigui.SelectableFlags
 ui.TreeNodeFlags = pigui.TreeNodeFlags
 ui.InputTextFlags = pigui.InputTextFlags
 ui.WindowFlags = pigui.WindowFlags
+ui.ChildFlags = pigui.ChildFlags
 ui.HoveredFlags = pigui.HoveredFlags
 ui.TableFlags = pigui.TableFlags
 ui.TableColumnFlags = pigui.TableColumnFlags

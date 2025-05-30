@@ -14,7 +14,8 @@ local colors = ui.theme.colors
 local icons = ui.theme.icons
 local orbiteer = ui.fonts.orbiteer
 local noSavedSettings = ui.WindowFlags {"NoSavedSettings"}
-local charInfoFlags = ui.WindowFlags {"AlwaysUseWindowPadding", "NoScrollbar", "NoSavedSettings", "NoScrollWithMouse"}
+local useWindowPadding = ui.ChildFlags { 'AlwaysUseWindowPadding' }
+local charInfoFlags = ui.WindowFlags { "NoScrollbar", "NoSavedSettings", "NoScrollWithMouse"}
 
 local ensureCharacter = function (character)
 	if not (character and (type(character)=='table') and getmetatable(character) and (getmetatable(character).class == 'Character'))
@@ -181,7 +182,7 @@ function PiGuiFace:render()
 		local lastPos = ui.getCursorPos()
 		local itemSpacing = self.style.itemSpacing
 
-		ui.child("Face", Vector2(ui.getColumnWidth() - (facegenSize.x + itemSpacing.x), 0), {}, function()
+		ui.child("Face", Vector2(ui.getColumnWidth() - (facegenSize.x + itemSpacing.x), 0), function()
 			self:renderFaceDisplay()
 		end)
 
@@ -211,7 +212,7 @@ function PiGuiFace:renderFaceDisplay ()
 
 		ui.withStyleColorsAndVars({ChildBg = self.style.charInfoBgColor}, styles, function ()
 
-			ui.child("PlayerInfoDetails", Vector2(size, self.style.charInfoHeight), charInfoFlags, function ()
+			ui.child("PlayerInfoDetails", Vector2(size, self.style.charInfoHeight), charInfoFlags, useWindowPadding, function ()
 				ui.withFont(self.style.nameFont.name, self.style.nameFont.size, function()
 					ui.text(self.character.name)
 				end)

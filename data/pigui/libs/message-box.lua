@@ -14,13 +14,15 @@ local msgButtonWidth = font.size * 7
 
 local msgbox = {}
 
+local modalFlags = ui.WindowFlags { 'HorizontalScrollbar' }
+
 local function createBoxModal(msg, footer, footerWidth)
 	ModalWindow.New('PopupMessageBox', function(self)
 
 		local textSize = ui.calcTextSize(tostring(msg) .. "\n.")
 		textSize.x = math.min(textSize.x, ui.screenWidth * 0.6)
 		textSize.y = math.min(textSize.y, ui.screenHeight * 0.6)
-		ui.child('PopupMessageBoxText', textSize, { 'HorizontalScrollbar' }, function ()
+		ui.child('PopupMessageBoxText', textSize, modalFlags, function ()
 			ui.text(msg)
 		end)
 

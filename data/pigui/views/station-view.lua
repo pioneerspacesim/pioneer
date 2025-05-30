@@ -16,6 +16,8 @@ local TabView = require 'pigui.views.tab-view'
 
 local stationView
 
+local useWindowPadding = ui.ChildFlags { 'AlwaysUseWindowPadding' }
+
 if not stationView then
 	stationView = TabView.New("StationView")
 	-- stationView.windowPadding = ui.rescaleUI(Vector2(18, 18))
@@ -29,7 +31,7 @@ if not stationView then
 
 	function stationView:renderTab(tabFn)
 		ui.withStyleVars({WindowPadding = self.style.windowPadding}, function()
-			ui.child("Container", Vector2(0, -self.style.height), {"AlwaysUseWindowPadding"}, tabFn)
+			ui.child("Container", Vector2(0, -self.style.height), nil, useWindowPadding, tabFn)
 		end)
 		self:shipSummary()
 	end
@@ -39,7 +41,7 @@ if not stationView then
 
 		ui.withFont(pionillium.medlarge.name, self.style.fontSize, function()
 			ui.withStyleVars({WindowPadding = self.style.inventoryPadding, ItemSpacing = self.style.itemSpacing}, function()
-				ui.child("shipInventoryContainer", Vector2(0, 0), {"AlwaysUseWindowPadding"}, function()
+				ui.child("shipInventoryContainer", Vector2(0, 0), nil, useWindowPadding, function()
 					local moneyText = l.CASH .. ': ' ..  Format.Money(Game.player:GetMoney())
 					local legalText = l.LEGAL_STATUS .. ': ' .. l[Game.player:GetLegalStatus()]
 					local moneySize = ui.calcTextSize(moneyText) + self.style.inventoryPadding + self.style.itemSpacing

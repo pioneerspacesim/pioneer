@@ -16,6 +16,8 @@ local icons = ui.theme.icons
 local colors = ui.theme.colors
 local pionillium = ui.fonts.pionillium
 
+local noScrollbar = ui.WindowFlags{ 'NoScrollbar' }
+
 ---@class UI.SystemEconView
 ---@field New fun(): self
 local SystemEconView = utils.class('UI.SystemEconView')
@@ -183,7 +185,7 @@ function SystemEconView:drawCommodityList(commList, illegalList, thisSystem, oth
 	local iconWidth = ui.getTextLineHeight() + 4
 	local iconSize = Vector2(iconWidth, iconWidth)
 
-	ui.child("CommodityList", Vector2(0, 0), ui.WindowFlags{"NoScrollbar"}, function()
+	ui.child("CommodityList", Vector2(0, 0), noScrollbar, function()
 		for _, info in ipairs(commList) do
 			ui.group(function()
 				ui.text(info[1])
