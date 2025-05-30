@@ -120,7 +120,7 @@ local function showInfo()
 	ui.withFont(pionillium.body, function()
 		ui.textWrapped("The game is open-ended, and you are free to explore the millions of star systems in the game. You can land on planets, slingshot past gas giants, and burn yourself to a crisp flying between binary star systems. You can try your hand at piracy, make your fortune trading between systems, or do missions for the various factions fighting for power, freedom or self-determination.")
 		ui.spacing()
-		ui.text("Version: ")
+		ui.inputText("Version", Engine.version , { "ReadOnly" })
 		ui.text("Development is continous. Stable version is released annually, February 3: ")
 		ui.spacing()
 
