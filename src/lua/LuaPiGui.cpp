@@ -3382,6 +3382,12 @@ static int l_pigui_table_headers_row(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_table_angled_headers_row(lua_State *l)
+{
+	ImGui::TableAngledHeadersRow();
+	return 0;
+}
+
 static int l_pigui_table_header(lua_State *l)
 {
 	const char *label = luaL_checkstring(l, 1);
@@ -3674,6 +3680,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "TableSetupColumn", l_pigui_table_setup_column },
 		{ "TableSetupScrollFreeze", l_pigui_table_setup_scroll_freeze },
 		{ "TableHeadersRow", l_pigui_table_headers_row },
+		{ "TableAngledHeadersRow", l_pigui_table_angled_headers_row },
 		{ "TableHeader", l_pigui_table_header },
 		{ "TableSetBgColor", l_pigui_table_set_bg_color },
 		// TODO: finish exposing Tables API

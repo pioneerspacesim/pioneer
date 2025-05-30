@@ -155,6 +155,7 @@ ui.tableSetColumnIndex = pigui.TableSetColumnIndex
 ui.tableSetupColumn = pigui.TableSetupColumn ---@type fun(id: string, flags: any, width_or_weight: number?)
 ui.tableSetupScrollFreeze = pigui.TableSetupScrollFreeze
 ui.tableHeadersRow = pigui.TableHeadersRow
+ui.tableAngledHeadersRow = pigui.TableAngledHeadersRow
 ui.tableHeader = pigui.TableHeader
 ui.tableSetBgColor = pigui.TableSetBgColor ---@type fun(target: string, color: Color, column_idx: integer?)
 
@@ -228,4 +229,5 @@ ui.image = pigui.Image
 --   changed - boolean, whether the passed value has changed
 --
 ui.dragFloat = pigui.DragFloat
+
 return ui
