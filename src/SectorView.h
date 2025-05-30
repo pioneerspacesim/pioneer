@@ -40,6 +40,7 @@ public:
 	void GotoCurrentSystem();
 	void GotoSelectedSystem();
 	void GotoHyperspaceTarget();
+	void SetSelectedPath(const SystemPath &path);
 	void SwitchToPath(const SystemPath &path);
 	void SetHyperspaceTarget(const SystemPath &path);
 	void SetDrawOutRangeLabels(bool value) { m_drawOutRangeLabels = value; }
@@ -82,7 +83,6 @@ private:
 	void InitDefaults();
 	void InitObject();
 	const SystemPath &CheckPathInRoute(const SystemPath &path);
-	void SetSelected(const SystemPath &path);
 	void SetupLines(const vector3f &playerAbsPos, const matrix4x4f &trans);
 	void GetPlayerPosAndStarSize(vector3f &playerPosOut, float &currentStarSizeOut);
 
