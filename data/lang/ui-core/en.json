@@ -179,6 +179,10 @@
     "description": "Center on selected star system",
     "message": "Center on System"
   },
+  "CENTER_ON_CURRENT_SYSTEM": {
+    "description": "Center on current star system",
+    "message": "Center on Current System"
+  },
   "CHANGE": {
     "description": "Face feature option",
     "message": "Change:"
@@ -376,8 +380,8 @@
     "message": "Criminal Record"
   },
   "CURRENT_FUEL": {
-    "description": "For hyperjump planner",
-    "message": "Current Fuel:"
+    "description": "Label indicating the current fuel state",
+    "message": "Current Fuel"
   },
   "CURRENT_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
@@ -388,8 +392,8 @@
     "message": "Current Ship"
   },
   "CURRENT_SYSTEM": {
-    "description": "For hyperjump planner",
-    "message": "Current system"
+    "description": "Label indicating the system the player currently occupies",
+    "message": "Current System"
   },
   "CUT": {
     "description": "As for clipboard",
@@ -693,7 +697,7 @@
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "Final Target:"
+    "message": "Final Target"
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
@@ -2109,7 +2113,7 @@
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "Required Fuel:"
+    "message": "Required Fuel"
   },
   "RESET": {
     "description": "",
@@ -2517,11 +2521,11 @@
   },
   "TOTAL_DISTANCE": {
     "description": "Total distance of a (possibly series) of hyper jump(s)",
-    "message": "Total Distance:"
+    "message": "Total Distance"
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "Total Duration:"
+    "message": "Total Duration"
   },
   "TOTAL_MASS": {
     "description": "",
