@@ -677,10 +677,14 @@ theme.icons = {
 	-- twenty-first row : icons 320 to 335
 	radar_automatic = 320,
 	radar_manual = 321,
-	-- 322 - 335 : empty
+	shield_other_alert = 322,
+	-- 323 - 335 : empty
 
 	shipmarket_compare_better = 38,
 	shipmarket_compare_worse = 40,
+
+	police_tab_normal = 167,
+	police_tab_fined  = 322,
 
 	circle_lg = 6,
 	circle_md = 51,
