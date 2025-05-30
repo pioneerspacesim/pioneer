@@ -1317,7 +1317,7 @@
   },
   "SECTOR_X_Y_Z": {
     "description": "",
-    "message": "Sector: %x,%y,%z"
+    "message": "Sector: {sectorX}, {sectorY}, {sectorZ}"
   },
   "SELECTED_SYSTEM": {
     "description": "",
