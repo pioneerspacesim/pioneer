@@ -274,7 +274,7 @@ local function drawPlayerInfo()
 			local buttonSizeSpacing = widgetSizes.buttonLaunchSize.y + widgetSizes.itemSpacing.y
 			local lobbyMenuHeight = widgetSizes.buttonSizeBase.y*2 + widgetSizes.itemSpacing.y*3 -- use an extra itemSpacing to avoid scrollbar
 
-			ui.child("Wrapper", Vector2(0, -lobbyMenuHeight), {}, function()
+			ui.child("Wrapper", Vector2(0, -lobbyMenuHeight), function()
 				-- face display has 1:1 aspect ratio, and we need size for a launch button underneath
 				local infoColumnWidth = -math.min(ui.getContentRegion().y - buttonSizeSpacing, widgetSizes.faceSize.x) - widgetSizes.itemSpacing.x
 				ui.child("PlayerShipFuel", Vector2(infoColumnWidth, 0), function()

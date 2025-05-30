@@ -310,7 +310,7 @@ function Crew:drawMember(memberEntry)
 
 	ui.sameLine()
 
-	ui.child("Face", Vector2(crewPictureSize, crewPictureSize), {}, function()
+	ui.child("Face", Vector2(crewPictureSize, crewPictureSize), function()
 		memberEntry.face:renderFaceDisplay()
 	end)
 

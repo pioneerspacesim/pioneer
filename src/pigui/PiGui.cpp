@@ -217,7 +217,7 @@ void StyleColorsDarkPlus(ImGuiStyle &style)
 	style.Colors[ImGuiCol_HeaderActive] = ImColor(66, 150, 250);
 
 	style.Colors[ImGuiCol_Tab] = ImColor(20, 23, 26);
-	style.Colors[ImGuiCol_TabActive] = ImColor(60, 133, 224);
+	style.Colors[ImGuiCol_TabSelected] = ImColor(60, 133, 224);
 	style.Colors[ImGuiCol_TabHovered] = ImColor(66, 150, 250);
 }
 
@@ -411,14 +411,19 @@ void Instance::Init(Graphics::Renderer *renderer)
 	ImGui::StyleColorsDark();
 
 	// Disable ctrl+tab / ctrl+shift+tab window switching
-	ImGui::SetShortcutRouting(ImGui::GetCurrentContext()->ConfigNavWindowingKeyNext, ImGuiKeyOwner_None);
-	ImGui::SetShortcutRouting(ImGui::GetCurrentContext()->ConfigNavWindowingKeyPrev, ImGuiKeyOwner_None);
+	ImGui::SetShortcutRouting(ImGui::GetCurrentContext()->ConfigNavWindowingKeyNext, 0, ImGuiKeyOwner_NoOwner);
+	ImGui::SetShortcutRouting(ImGui::GetCurrentContext()->ConfigNavWindowingKeyPrev, 0, ImGuiKeyOwner_NoOwner);
 
 	std::string imguiIni = FileSystem::JoinPath(FileSystem::GetUserDir(), "imgui.ini");
 
 	m_ioIniFilename = new char[imguiIni.size() + 1];
 	std::strncpy(m_ioIniFilename, imguiIni.c_str(), imguiIni.size() + 1);
 	io.IniFilename = m_ioIniFilename;
+
+	// Enable error recovery support
+	io.ConfigErrorRecovery = true;
+	io.ConfigErrorRecoveryEnableTooltip = true;
+	io.ConfigErrorRecoveryEnableAssert = false;
 }
 
 bool Instance::ProcessEvent(SDL_Event *event)
@@ -476,7 +481,7 @@ void Instance::NewFrame()
 		m_instanceRenderer->NewFrame();
 		break;
 	}
-	ImGui_ImplSDL2_NewFrame(m_renderer->GetSDLWindow());
+	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
 	m_renderer->CheckRenderErrors(__FUNCTION__, __LINE__);

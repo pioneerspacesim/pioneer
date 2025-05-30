@@ -1,19 +1,20 @@
+From 8ca8008a5c546c92b75b825eb212f9b4d8a0cdc8 Mon Sep 17 00:00:00 2001
+From: Axtel Sturnclaw <sturnclaw@protonmail.com>
+Date: Thu, 29 May 2025 17:36:02 -0400
+Subject: [PATCH 1/3] Patch: use Pioneer SDL cursor
+
+---
+ contrib/imgui/backends/imgui_impl_sdl2.cpp | 58 +++++++++++++++++++++-
+ contrib/imgui/backends/imgui_impl_sdl2.h   |  5 ++
+ 2 files changed, 62 insertions(+), 1 deletion(-)
+
 diff --git a/contrib/imgui/backends/imgui_impl_sdl2.cpp b/contrib/imgui/backends/imgui_impl_sdl2.cpp
-index bd1d8c9e0..1145ada3d 100644
+index f3a31c5c3..fee590954 100644
 --- a/contrib/imgui/backends/imgui_impl_sdl2.cpp
 +++ b/contrib/imgui/backends/imgui_impl_sdl2.cpp
-@@ -172,7 +172,7 @@ static void ImGui_ImplSDL2_SetPlatformImeData(ImGuiViewport* viewport, ImGuiPlat
-     }
- }
- 
--static ImGuiKey ImGui_ImplSDL2_KeycodeToImGuiKey(int keycode)
-+ImGuiKey ImGui_ImplSDL2_KeycodeToImGuiKey(int keycode)
- {
-     switch (keycode)
-     {
-@@ -412,6 +412,62 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
-     return false;
- }
+@@ -503,6 +503,62 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
+ EM_JS(void, ImGui_ImplSDL2_EmscriptenOpenURL, (char const* url), { url = url ? UTF8ToString(url) : null; if (url) window.open(url, '_blank'); });
+ #endif
  
 +// The Pioneer cursor.
 +static const char mouse_cursor[] = {
@@ -74,8 +75,8 @@ index bd1d8c9e0..1145ada3d 100644
  static bool ImGui_ImplSDL2_Init(SDL_Window* window, SDL_Renderer* renderer, void* sdl_gl_context)
  {
      ImGuiIO& io = ImGui::GetIO();
-@@ -456,7 +512,7 @@ static bool ImGui_ImplSDL2_Init(SDL_Window* window, SDL_Renderer* renderer, void
-     io.SetPlatformImeDataFn = ImGui_ImplSDL2_SetPlatformImeData;
+@@ -561,7 +617,7 @@ static bool ImGui_ImplSDL2_Init(SDL_Window* window, SDL_Renderer* renderer, void
+     bd->WantUpdateGamepadsList = true;
  
      // Load mouse cursors
 -    bd->MouseCursors[ImGuiMouseCursor_Arrow] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
@@ -84,24 +85,26 @@ index bd1d8c9e0..1145ada3d 100644
      bd->MouseCursors[ImGuiMouseCursor_ResizeAll] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZEALL);
      bd->MouseCursors[ImGuiMouseCursor_ResizeNS] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZENS);
 diff --git a/contrib/imgui/backends/imgui_impl_sdl2.h b/contrib/imgui/backends/imgui_impl_sdl2.h
-index 8d50eb801..9b29f4647 100644
+index fc31bbc06..9c8b16f4e 100644
 --- a/contrib/imgui/backends/imgui_impl_sdl2.h
 +++ b/contrib/imgui/backends/imgui_impl_sdl2.h
-@@ -19,7 +19,7 @@
- // Read online: https://github.com/ocornut/imgui/tree/master/docs
- 
- #pragma once
--#include "imgui.h"      // IMGUI_IMPL_API
-+#include "imgui/imgui.h"      // IMGUI_IMPL_API
+@@ -26,6 +26,9 @@
+ #include "imgui/imgui.h"      // IMGUI_IMPL_API
  #ifndef IMGUI_DISABLE
  
- struct SDL_Window;
-@@ -35,6 +35,8 @@ IMGUI_IMPL_API void     ImGui_ImplSDL2_Shutdown();
- IMGUI_IMPL_API void     ImGui_ImplSDL2_NewFrame();
- IMGUI_IMPL_API bool     ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event);
- 
-+IMGUI_IMPL_API ImGuiKey ImGui_ImplSDL2_KeycodeToImGuiKey(int keycode);
++#include <SDL_scancode.h>
++#include <SDL_keycode.h>
 +
- #ifndef IMGUI_DISABLE_OBSOLETE_FUNCTIONS
- static inline void ImGui_ImplSDL2_NewFrame(SDL_Window*) { ImGui_ImplSDL2_NewFrame(); } // 1.84: removed unnecessary parameter
- #endif
+ struct SDL_Window;
+ struct SDL_Renderer;
+ struct _SDL_GameController;
+@@ -47,4 +50,6 @@ IMGUI_IMPL_API bool     ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event);
+ enum ImGui_ImplSDL2_GamepadMode { ImGui_ImplSDL2_GamepadMode_AutoFirst, ImGui_ImplSDL2_GamepadMode_AutoAll, ImGui_ImplSDL2_GamepadMode_Manual };
+ IMGUI_IMPL_API void     ImGui_ImplSDL2_SetGamepadMode(ImGui_ImplSDL2_GamepadMode mode, struct _SDL_GameController** manual_gamepads_array = nullptr, int manual_gamepads_count = -1);
+ 
++ImGuiKey ImGui_ImplSDL2_KeyEventToImGuiKey(SDL_Keycode keycode, SDL_Scancode scancode);
++
+ #endif // #ifndef IMGUI_DISABLE
+-- 
+2.49.0
+

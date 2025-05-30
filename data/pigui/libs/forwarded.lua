@@ -48,6 +48,7 @@ ui.textColored = pigui.TextColored
 ui.inputText = pigui.InputText
 ui.checkbox = pigui.Checkbox ---@type fun(label: string, checked: boolean): changed:boolean, value:boolean
 ui.separator = pigui.Separator
+ui.separatorText = pigui.SeparatorText
 ui.pushTextWrapPos = pigui.PushTextWrapPos
 ui.popTextWrapPos = pigui.PopTextWrapPos
 ui.setScrollHereY = pigui.SetScrollHereY
@@ -155,6 +156,7 @@ ui.tableSetColumnIndex = pigui.TableSetColumnIndex
 ui.tableSetupColumn = pigui.TableSetupColumn ---@type fun(id: string, flags: any, width_or_weight: number?)
 ui.tableSetupScrollFreeze = pigui.TableSetupScrollFreeze
 ui.tableHeadersRow = pigui.TableHeadersRow
+ui.tableAngledHeadersRow = pigui.TableAngledHeadersRow
 ui.tableHeader = pigui.TableHeader
 ui.tableSetBgColor = pigui.TableSetBgColor ---@type fun(target: string, color: Color, column_idx: integer?)
 
@@ -163,6 +165,7 @@ ui.SelectableFlags = pigui.SelectableFlags
 ui.TreeNodeFlags = pigui.TreeNodeFlags
 ui.InputTextFlags = pigui.InputTextFlags
 ui.WindowFlags = pigui.WindowFlags
+ui.ChildFlags = pigui.ChildFlags
 ui.HoveredFlags = pigui.HoveredFlags
 ui.TableFlags = pigui.TableFlags
 ui.TableColumnFlags = pigui.TableColumnFlags
@@ -227,4 +230,5 @@ ui.image = pigui.Image
 --   changed - boolean, whether the passed value has changed
 --
 ui.dragFloat = pigui.DragFloat
+
 return ui

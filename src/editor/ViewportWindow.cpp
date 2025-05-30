@@ -117,8 +117,8 @@ void ViewportWindow::Update(float deltaTime)
 				ImVec2 mousePos = ImClamp(ImGui::GetIO().MousePos, area.Min, area.Max) - area.Min;
 
 				// disable mouse/keyboard capture so input subsystem can be used in viewport
-				ImGui::CaptureMouseFromApp(false);
-				ImGui::CaptureKeyboardFromApp(false);
+				ImGui::SetNextFrameWantCaptureMouse(false);
+				ImGui::SetNextFrameWantCaptureKeyboard(false);
 
 				OnHandleInput(clicked, wasPressed && !m_viewportActive, mousePos);
 			}

@@ -294,23 +294,24 @@ end
 --
 ---@overload fun(id, fun)
 ---@overload fun(id, size, fun)
-function ui.child(id, size, flags, fun)
-	if flags == nil and fun == nil then -- size is optional
-		fun = size
-		size = Vector2(-1,-1)
-		flags = {}
-	elseif fun == nil then
-		fun = flags
-		flags = {}
+---@overload fun(id, size, flags, fun)
+function ui.child(id, size, flags, childFlags, fun)
+	local arg_n = utils.n_args(id, size, flags, childFlags, fun)
+	if arg_n == 2 then -- size is optional
+		fun, size = size, Vector2(-1, -1)
+	elseif arg_n == 3 then -- flags are optional
+		fun, flags = flags, nil
+	elseif arg_n == 4 then
+		fun, childFlags = childFlags, nil
 	end
 
 	if _nextWindowPadding then
 		pigui.PushStyleVar("WindowPadding", _nextWindowPadding)
-		pigui.BeginChild(id, size, flags)
+		pigui.BeginChild(id, size, childFlags, flags)
 		pigui.PopStyleVar()
 		_nextWindowPadding = nil
 	else
-		pigui.BeginChild(id, size, flags)
+		pigui.BeginChild(id, size, childFlags, flags)
 	end
 
 	fun()

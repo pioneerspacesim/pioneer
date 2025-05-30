@@ -221,7 +221,7 @@ theme.colors = {
 	FrameBgActive			= styleColors.panel_700,
 
 	Tab						= styleColors.primary_800,
-	TabActive				= styleColors.primary_600,
+	TabSelected				= styleColors.primary_600,
 	TabHovered				= styleColors.primary_500,
 
 	Header					= styleColors.primary_800,
@@ -315,6 +315,7 @@ theme.colors = {
 theme.styles = rescaleUI {
 	WindowBorderSize = 0.0,
 	WindowPadding = Vector2(8, 8),
+	FramePadding = Vector2(4, 3),
 	TabRounding = 0.0,
 	TabPadding = Vector2(8, 6),
 	ButtonPadding = Vector2(8, 6),

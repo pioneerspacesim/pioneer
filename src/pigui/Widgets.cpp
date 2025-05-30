@@ -54,7 +54,7 @@ int Draw::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int m
 			drag_delta = ImVec2(-horizontalSelection->GetValue() * length, -verticalSelection->GetValue() * length);
 		}
 		const float drag_dist2 = drag_delta.x * drag_delta.x + drag_delta.y * drag_delta.y;
-		const int ITEMS_MIN = 4;
+		const int ITEMS_MIN = 2;
 		const float border_inout = 0.3 * psize;
 		const float border_thickness = 0.1 * psize;
 		ImDrawList *draw_list = ImGui::GetWindowDrawList();
@@ -86,7 +86,7 @@ int Draw::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int m
 			int arc_segments = static_cast<int>((64 * item_arc_span / (2 * IM_PI))) + 1;
 			draw_list->_PathArcToN(center, RADIUS_MAX - border_inout, item_outer_ang_min, item_outer_ang_max, arc_segments);
 			draw_list->_PathArcToN(center, RADIUS_MIN + border_inout, item_inner_ang_max, item_inner_ang_min, arc_segments);
-			draw_list->PathFillConvex(hovered ? itemHoveredCol : itemBgCol);
+			draw_list->PathFillConcave(hovered ? itemHoveredCol : itemBgCol);
 
 			if (hovered) {
 				// draw outer / inner extra segments

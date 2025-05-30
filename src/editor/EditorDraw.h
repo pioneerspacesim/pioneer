@@ -83,8 +83,3 @@ namespace Editor::Draw {
 	void HelpMarker(const char* desc, bool same_line = true);
 
 }
-
-inline bool operator==(const ImVec2 &a, const ImVec2 &b)
-{
-	return is_equal_general(a.x, b.x) && is_equal_general(a.y, b.y);
-}

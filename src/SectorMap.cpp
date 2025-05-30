@@ -696,7 +696,7 @@ void SectorMap::DrawEmbed()
 	// Draw the image and stretch it over the available region.
 	// ImGui inverts the vertical axis to get top-left coordinates, so we need to invert our UVs to match.
 	ImVec2 imagePos = ImGui::GetCursorScreenPos();
-	ImGui::Image(m_renderTarget->GetColorTexture(), m_size, ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::Image(reinterpret_cast<ImTextureID>(m_renderTarget->GetColorTexture()), m_size, ImVec2(0, 1), ImVec2(1, 0));
 
 	auto *r = m_context.renderer;
 	const auto &desc = m_renderTarget.get()->GetDesc();
@@ -713,7 +713,7 @@ void SectorMap::DrawEmbed()
 	}
 
 	if (ImGui::IsItemHovered()) {
-		ImGui::CaptureMouseFromApp(false);
+		ImGui::SetNextFrameWantCaptureMouse(false);
 	}
 }
 

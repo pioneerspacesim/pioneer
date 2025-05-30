@@ -667,7 +667,6 @@ void PerfInfo::DrawImGuiStats()
 	auto &io = ImGui::GetIO();
 	ImGui::Text("%d verts, %d tris", io.MetricsRenderVertices, io.MetricsRenderIndices / 3);
 	ImGui::Text("%d active windows (%d visible)", io.MetricsActiveWindows, io.MetricsRenderWindows);
-	ImGui::Text("%d current allocations", io.MetricsActiveAllocations);
 
 	if (ImGui::Button("Toggle Metrics Window")) {
 		m_state->metricsWindowOpen = !m_state->metricsWindowOpen;

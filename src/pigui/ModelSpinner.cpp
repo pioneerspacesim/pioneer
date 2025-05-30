@@ -129,7 +129,7 @@ void ModelSpinner::DrawPiGui()
 	if (m_renderTarget) {
 		// Draw the image and stretch it over the available region.
 		// ImGui inverts the vertical axis to get top-left coordinates, so we need to invert our UVs to match.
-		ImGui::Image(m_resolveTarget->GetColorTexture(), size, ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::Image(reinterpret_cast<ImTextureID>(m_resolveTarget->GetColorTexture()), size, ImVec2(0, 1), ImVec2(1, 0));
 	} else {
 		ImGui::Dummy(size);
 	}
