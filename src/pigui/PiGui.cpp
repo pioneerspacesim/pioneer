@@ -217,7 +217,7 @@ void StyleColorsDarkPlus(ImGuiStyle &style)
 	style.Colors[ImGuiCol_HeaderActive] = ImColor(66, 150, 250);
 
 	style.Colors[ImGuiCol_Tab] = ImColor(20, 23, 26);
-	style.Colors[ImGuiCol_TabActive] = ImColor(60, 133, 224);
+	style.Colors[ImGuiCol_TabSelected] = ImColor(60, 133, 224);
 	style.Colors[ImGuiCol_TabHovered] = ImColor(66, 150, 250);
 }
 

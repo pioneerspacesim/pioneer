@@ -221,7 +221,7 @@ theme.colors = {
 	FrameBgActive			= styleColors.panel_700,
 
 	Tab						= styleColors.primary_800,
-	TabActive				= styleColors.primary_600,
+	TabSelected				= styleColors.primary_600,
 	TabHovered				= styleColors.primary_500,
 
 	Header					= styleColors.primary_800,
