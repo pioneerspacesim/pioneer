@@ -300,7 +300,7 @@ void SectorView::ResetHyperspaceTarget()
 	}
 }
 
-void SectorView::SetSelected(const SystemPath &path)
+void SectorView::SetSelectedPath(const SystemPath &path)
 {
 	if (path.IsBodyPath())
 		m_selected = path;
@@ -313,7 +313,7 @@ void SectorView::SetSelected(const SystemPath &path)
 
 void SectorView::SwitchToPath(const SystemPath &path)
 {
-	SetSelected(path);
+	SetSelectedPath(path);
 	if (m_automaticSystemSelection)
 		m_map->GotoSystem(path);
 }
@@ -640,7 +640,7 @@ void SectorView::Update()
 		SystemPath new_selected = m_map->NearestSystemToPos(m_map->GetPosition());
 		if (new_selected.IsSystemPath() && !m_selected.IsSameSystem(new_selected)) {
 			RefCountedPtr<StarSystem> system = m_game.GetGalaxy()->GetStarSystem(new_selected);
-			SetSelected(CheckPathInRoute(system->GetStars()[0]->GetPath()));
+			SetSelectedPath(CheckPathInRoute(system->GetStars()[0]->GetPath()));
 		}
 	}
 

@@ -48,7 +48,7 @@ function StarSystem:GetBodyPaths() end
 ---@return SystemBody[]
 function StarSystem:GetStars() end
 
----@return boolean[]
+---@return SystemBody[]
 function StarSystem:GetJumpable() end
 
 ---@param name string Commodity identifier
