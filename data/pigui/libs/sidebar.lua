@@ -41,6 +41,16 @@ end
 ---@field New fun(id, side?, offset?): UI.Sidebar
 local Sidebar = utils.class("UI.Sidebar")
 
+---@class UI.Sidebar.Module
+---@field icon any
+---@field tooltip string
+---@field title string?
+---@field refresh? fun(self)
+---@field draw? fun(self, min, max)
+---@field drawTitle? fun(self)
+---@field drawBody fun(self)
+---@field exclusive boolean?
+
 function Sidebar:Constructor(id, side, offset)
 	self.modules = {}
 	self.hudModules = {}
