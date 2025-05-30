@@ -39,6 +39,25 @@
 // undef it, to avoid including yet another header that undefs it
 #undef RegisterClass
 
+#define IMPL_FLAGS_TABLE(TypeName, table)                                     \
+	void pi_lua_generic_pull(lua_State *l, int index, TypeName &theflags)     \
+	{                                                                         \
+		theflags = static_cast<TypeName>(parse_imgui_flags(l, index, table)); \
+	}                                                                         \
+	int l_pigui_check_##table(lua_State *l)                                   \
+	{                                                                         \
+		luaL_checktype(l, 1, LUA_TTABLE);                                     \
+		TypeName fl = static_cast<TypeName>(table.LookupTable(l, 1));         \
+		LuaPush<TypeName>(l, fl);                                             \
+		return 1;                                                             \
+	}
+
+#define IMPL_ENUM_TABLE(TypeName, table)                                    \
+	void pi_lua_generic_pull(lua_State *l, int index, TypeName &outEnum)    \
+	{                                                                       \
+		outEnum = static_cast<TypeName>(parse_imgui_enum(l, index, table)); \
+	}
+
 namespace ImGui {
 	void AlignTextToLineHeight(float lineHeight = -1.0f)
 	{
@@ -97,6 +116,8 @@ static Type parse_imgui_flags(lua_State *l, int index, LuaFlags<Type> &lookupTab
 		theFlags = lookupTable.LookupTable(l, index);
 	} else if (lua_isstring(l, index)) {
 		theFlags = lookupTable.LookupEnum(l, index);
+	} else if (lua_isnil(l, index)) {
+		theFlags = Type(0);
 	} else {
 		luaL_traceback(l, l, NULL, 1);
 		Error("Expected a table, string, or integer, got %s.\n%s\n", luaL_typename(l, index), lua_tostring(l, -1));
@@ -166,28 +187,19 @@ void pi_lua_generic_pull(lua_State *l, int index, ImColor &color)
 	color = ImColor(tr.r, tr.g, tr.b, tr.a);
 }
 
-static LuaFlags<ImGuiSelectableFlags_> imguiSelectableFlagsTable = {
+// ============================================================================
+// ImGui Flag and Enum Tables
+// ============================================================================
+
+static LuaFlags<ImGuiSelectableFlags_> selectable_flags = {
 	{ "DontClosePopups", ImGuiSelectableFlags_DontClosePopups },
 	{ "SpanAllColumns", ImGuiSelectableFlags_SpanAllColumns },
 	{ "AllowDoubleClick", ImGuiSelectableFlags_AllowDoubleClick },
 	{ "AllowItemOverlap", ImGuiSelectableFlags_AllowItemOverlap }
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiSelectableFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiSelectableFlagsTable);
-}
-
-int l_pigui_check_selectable_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiSelectableFlags_ fl = imguiSelectableFlagsTable.LookupTable(l, 1);
-	lua_pushinteger(l, fl);
-	return 1;
-}
-
 // Can't use ImGuiButtonFlags_ here, as PressedOnClick etc. are in the ImGuiButtonFlagsPrivate_ enum instead
-static LuaFlags<ImGuiButtonFlags> imguiButtonFlagsTable = {
+static LuaFlags<ImGuiButtonFlags> button_flags = {
 	{ "MouseButtonLeft", ImGuiButtonFlags_MouseButtonLeft },
 	{ "MouseButtonRight", ImGuiButtonFlags_MouseButtonRight },
 	{ "MouseButtonMiddle", ImGuiButtonFlags_MouseButtonMiddle },
@@ -196,47 +208,23 @@ static LuaFlags<ImGuiButtonFlags> imguiButtonFlagsTable = {
 	{ "PressedOnDoubleClick", ImGuiButtonFlags_PressedOnDoubleClick },
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiButtonFlags_ &theflags)
-{
-	theflags = static_cast<ImGuiButtonFlags_>(parse_imgui_flags(l, index, imguiButtonFlagsTable));
-}
-
-int l_pigui_check_button_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiButtonFlags_ fl = static_cast<ImGuiButtonFlags_>(imguiButtonFlagsTable.LookupTable(l, 1));
-	lua_pushinteger(l, fl);
-	return 1;
-}
-
-static LuaFlags<ImGuiTreeNodeFlags_> imguiTreeNodeFlagsTable = {
+static LuaFlags<ImGuiTreeNodeFlags_> tree_node_flags = {
 	{ "Selected", ImGuiTreeNodeFlags_Selected },
 	{ "Framed", ImGuiTreeNodeFlags_Framed },
+	{ "AllowOverlap", ImGuiTreeNodeFlags_AllowOverlap },
 	{ "NoTreePushOnOpen", ImGuiTreeNodeFlags_NoTreePushOnOpen },
 	{ "NoAutoOpenOnLog", ImGuiTreeNodeFlags_NoAutoOpenOnLog },
 	{ "DefaultOpen", ImGuiTreeNodeFlags_DefaultOpen },
 	{ "OpenOnDoubleClick", ImGuiTreeNodeFlags_OpenOnDoubleClick },
 	{ "OpenOnArrow", ImGuiTreeNodeFlags_OpenOnArrow },
-	{ "FramePadding", ImGuiTreeNodeFlags_FramePadding },
 	{ "Leaf", ImGuiTreeNodeFlags_Leaf },
 	{ "Bullet", ImGuiTreeNodeFlags_Bullet },
+	{ "FramePadding", ImGuiTreeNodeFlags_FramePadding },
+	{ "SpanAllColumns", ImGuiTreeNodeFlags_SpanAllColumns },
 	{ "CollapsingHeader", ImGuiTreeNodeFlags_CollapsingHeader },
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiTreeNodeFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiTreeNodeFlagsTable);
-}
-
-int l_pigui_check_tree_node_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiTreeNodeFlags_ fl = imguiTreeNodeFlagsTable.LookupTable(l, 1);
-	lua_pushinteger(l, fl);
-	return 1;
-}
-
-static LuaFlags<ImGuiInputTextFlags_> imguiInputTextFlagsTable = {
+static LuaFlags<ImGuiInputTextFlags_> input_text_flags = {
 	{ "CharsDecimal", ImGuiInputTextFlags_CharsDecimal },
 	{ "CharsHexadecimal", ImGuiInputTextFlags_CharsHexadecimal },
 	{ "CharsUppercase", ImGuiInputTextFlags_CharsUppercase },
@@ -255,33 +243,15 @@ static LuaFlags<ImGuiInputTextFlags_> imguiInputTextFlagsTable = {
 	{ "Password", ImGuiInputTextFlags_Password }
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiInputTextFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiInputTextFlagsTable);
-}
-
-int l_pigui_check_input_text_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiInputTextFlags_ fl = imguiInputTextFlagsTable.LookupTable(l, 1);
-	lua_pushinteger(l, fl);
-	return 1;
-}
-
-static LuaFlags<ImGuiCond_> imguiSetCondTable = {
+static LuaFlags<ImGuiCond_> imgui_cond_enums = {
 	{ "Always", ImGuiCond_Always },
 	{ "Once", ImGuiCond_Once },
 	{ "FirstUseEver", ImGuiCond_FirstUseEver },
 	{ "Appearing", ImGuiCond_Appearing }
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiCond_ &value)
-{
-	value = parse_imgui_enum(l, index, imguiSetCondTable);
-}
-
 /* clang-format off */
-static LuaFlags<ImGuiCol_> imguiColTable = {
+static LuaFlags<ImGuiCol_> imgui_col_enums = {
 	{ "Text", ImGuiCol_Text },
 	{ "TextDisabled", ImGuiCol_TextDisabled },
 	{ "WindowBg", ImGuiCol_WindowBg },
@@ -333,12 +303,7 @@ static LuaFlags<ImGuiCol_> imguiColTable = {
 };
 /* clang-format on */
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiCol_ &value)
-{
-	value = parse_imgui_enum(l, index, imguiColTable);
-}
-
-static LuaFlags<ImGuiStyleVar_> imguiStyleVarTable = {
+static LuaFlags<ImGuiStyleVar_> imgui_style_var_enums = {
 	{ "Alpha", ImGuiStyleVar_Alpha },
 	{ "WindowPadding", ImGuiStyleVar_WindowPadding },
 	{ "WindowRounding", ImGuiStyleVar_WindowRounding },
@@ -365,12 +330,7 @@ static LuaFlags<ImGuiStyleVar_> imguiStyleVarTable = {
 	{ "SelectableTextAlign", ImGuiStyleVar_SelectableTextAlign }
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiStyleVar_ &value)
-{
-	value = parse_imgui_enum(l, index, imguiStyleVarTable);
-}
-
-static LuaFlags<ImGuiWindowFlags_> imguiWindowFlagsTable = {
+static LuaFlags<ImGuiWindowFlags_> window_flags = {
 	{ "NoTitleBar", ImGuiWindowFlags_NoTitleBar },
 	{ "NoResize", ImGuiWindowFlags_NoResize },
 	{ "NoMove", ImGuiWindowFlags_NoMove },
@@ -380,31 +340,29 @@ static LuaFlags<ImGuiWindowFlags_> imguiWindowFlagsTable = {
 	{ "AlwaysAutoResize", ImGuiWindowFlags_AlwaysAutoResize },
 	{ "NoBackground", ImGuiWindowFlags_NoBackground },
 	{ "NoSavedSettings", ImGuiWindowFlags_NoSavedSettings },
-	{ "NoInputs", ImGuiWindowFlags_NoInputs },
-	{ "NoDecoration", ImGuiWindowFlags_NoDecoration },
 	{ "MenuBar", ImGuiWindowFlags_MenuBar },
 	{ "HorizontalScrollbar", ImGuiWindowFlags_HorizontalScrollbar },
 	{ "NoFocusOnAppearing", ImGuiWindowFlags_NoFocusOnAppearing },
 	{ "NoBringToFrontOnFocus", ImGuiWindowFlags_NoBringToFrontOnFocus },
 	{ "AlwaysVerticalScrollbar", ImGuiWindowFlags_AlwaysVerticalScrollbar },
 	{ "AlwaysHorizontalScrollbar", ImGuiWindowFlags_AlwaysHorizontalScrollbar },
-	{ "AlwaysUseWindowPadding", ImGuiWindowFlags_AlwaysUseWindowPadding }
+	{ "NoDecoration", ImGuiWindowFlags_NoDecoration },
+	{ "NoInputs", ImGuiWindowFlags_NoInputs },
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiWindowFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiWindowFlagsTable);
-}
+static LuaFlags<ImGuiChildFlags_> child_window_flags = {
+	{ "Borders", ImGuiChildFlags_Borders },
+	{ "AlwaysUseWindowPadding", ImGuiChildFlags_AlwaysUseWindowPadding },
+	{ "ResizeX", ImGuiChildFlags_ResizeX },
+	{ "ResizeY", ImGuiChildFlags_ResizeY },
+	{ "AutoResizeX", ImGuiChildFlags_AutoResizeX },
+	{ "AutoResizeY", ImGuiChildFlags_AutoResizeY },
+	{ "AlwaysAutoResize", ImGuiChildFlags_AlwaysAutoResize },
+	{ "FrameStyle", ImGuiChildFlags_FrameStyle },
+	{ "NavFlattened", ImGuiChildFlags_NavFlattened },
+};
 
-int l_pigui_check_window_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiWindowFlags_ fl = imguiWindowFlagsTable.LookupTable(l, 1);
-	lua_pushinteger(l, fl);
-	return 1;
-}
-
-static LuaFlags<ImGuiFocusedFlags_> imguiFocusedFlagsTable = {
+static LuaFlags<ImGuiFocusedFlags_> focused_flags = {
 	{ "None", ImGuiFocusedFlags_None },
 	{ "ChildWindows", ImGuiFocusedFlags_ChildWindows },
 	{ "RootWindow", ImGuiFocusedFlags_RootWindow },
@@ -414,20 +372,7 @@ static LuaFlags<ImGuiFocusedFlags_> imguiFocusedFlagsTable = {
 	{ "RootAndChildWindows", ImGuiFocusedFlags_RootAndChildWindows }
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiFocusedFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiFocusedFlagsTable);
-}
-
-int l_pigui_check_focused_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiFocusedFlags_ fl = imguiFocusedFlagsTable.LookupTable(l, 1);
-	LuaPush<ImGuiFocusedFlags_>(l, fl);
-	return 1;
-}
-
-static LuaFlags<ImGuiHoveredFlags_> imguiHoveredFlagsTable = {
+static LuaFlags<ImGuiHoveredFlags_> hovered_flags = {
 	{ "None", ImGuiHoveredFlags_None },
 	{ "ChildWindows", ImGuiHoveredFlags_ChildWindows },
 	{ "RootWindow", ImGuiHoveredFlags_RootWindow },
@@ -441,20 +386,7 @@ static LuaFlags<ImGuiHoveredFlags_> imguiHoveredFlagsTable = {
 	{ "ForTooltip", ImGuiHoveredFlags_ForTooltip }
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiHoveredFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiHoveredFlagsTable);
-}
-
-int l_pigui_check_hovered_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiHoveredFlags_ fl = imguiHoveredFlagsTable.LookupTable(l, 1);
-	LuaPush<ImGuiHoveredFlags_>(l, fl);
-	return 1;
-}
-
-static LuaFlags<ImGuiTableFlags_> imguiTableFlagsTable = {
+static LuaFlags<ImGuiTableFlags_> table_flags = {
 	{ "None", ImGuiTableFlags_None },
 	{ "Resizable", ImGuiTableFlags_Resizable },
 	{ "Reorderable", ImGuiTableFlags_Reorderable },
@@ -490,40 +422,14 @@ static LuaFlags<ImGuiTableFlags_> imguiTableFlagsTable = {
 	{ "SortTristate", ImGuiTableFlags_SortTristate }
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiTableFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiTableFlagsTable);
-}
-
-int l_pigui_check_table_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiTableFlags_ fl = imguiTableFlagsTable.LookupTable(l, 1);
-	LuaPush<ImGuiTableFlags_>(l, fl);
-	return 1;
-}
-
-static LuaFlags<ImGuiTableBgTarget_> imguiTableBgFlagsTable = {
+static LuaFlags<ImGuiTableBgTarget_> table_bg_target_flags = {
 	{ "None", ImGuiTableBgTarget_None },
 	{ "RowBg0", ImGuiTableBgTarget_RowBg0 },
 	{ "RowBg1", ImGuiTableBgTarget_RowBg1 },
 	{ "CellBg", ImGuiTableBgTarget_CellBg },
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiTableBgTarget_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiTableBgFlagsTable);
-}
-
-int l_pigui_check_table_bg_target(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiTableBgTarget_ fl = imguiTableBgFlagsTable.LookupTable(l, 1);
-	LuaPush<ImGuiTableBgTarget_>(l, fl);
-	return 1;
-}
-
-static LuaFlags<ImGuiTableColumnFlags_> imguiTableColumnFlagsTable = {
+static LuaFlags<ImGuiTableColumnFlags_> table_column_flags = {
 	{ "None", ImGuiTableColumnFlags_None },
 	{ "DefaultHide", ImGuiTableColumnFlags_DefaultHide },
 	{ "DefaultSort", ImGuiTableColumnFlags_DefaultSort },
@@ -543,20 +449,7 @@ static LuaFlags<ImGuiTableColumnFlags_> imguiTableColumnFlagsTable = {
 	{ "IndentDisable", ImGuiTableColumnFlags_IndentDisable },
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiTableColumnFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiTableColumnFlagsTable);
-}
-
-int l_pigui_check_table_column_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiTableColumnFlags_ fl = imguiTableColumnFlagsTable.LookupTable(l, 1);
-	LuaPush<ImGuiTableColumnFlags_>(l, fl);
-	return 1;
-}
-
-static LuaFlags<ImGuiColorEditFlags_> imguiColorEditFlagsTable = {
+static LuaFlags<ImGuiColorEditFlags_> color_edit_flags = {
 	{ "None", ImGuiColorEditFlags_None },
 	{ "NoAlpha", ImGuiColorEditFlags_NoAlpha },
 	{ "NoPicker", ImGuiColorEditFlags_NoPicker },
@@ -584,12 +477,7 @@ static LuaFlags<ImGuiColorEditFlags_> imguiColorEditFlagsTable = {
 	{ "DefaultOptions", ImGuiColorEditFlags_DefaultOptions_ }
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiColorEditFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiColorEditFlagsTable);
-}
-
-static LuaFlags<ImGuiComboFlags_> imguiComboFlagsTable = {
+static LuaFlags<ImGuiComboFlags_> combo_flags = {
 	{ "None", ImGuiComboFlags_None },
 	{ "PopupAlignLeft", ImGuiComboFlags_PopupAlignLeft },
 	{ "HeightSmall", ImGuiComboFlags_HeightSmall },
@@ -600,18 +488,25 @@ static LuaFlags<ImGuiComboFlags_> imguiComboFlagsTable = {
 	{ "NoPreview", ImGuiComboFlags_NoPreview },
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiComboFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiComboFlagsTable);
-}
+IMPL_FLAGS_TABLE(ImGuiSelectableFlags_, selectable_flags)
+IMPL_FLAGS_TABLE(ImGuiButtonFlags_, button_flags);
+IMPL_FLAGS_TABLE(ImGuiTreeNodeFlags_, tree_node_flags);
+IMPL_FLAGS_TABLE(ImGuiInputTextFlags_, input_text_flags);
+IMPL_FLAGS_TABLE(ImGuiWindowFlags_, window_flags);
+IMPL_FLAGS_TABLE(ImGuiChildFlags_, child_window_flags);
+IMPL_FLAGS_TABLE(ImGuiFocusedFlags_, focused_flags);
+IMPL_FLAGS_TABLE(ImGuiHoveredFlags_, hovered_flags);
+IMPL_FLAGS_TABLE(ImGuiTableFlags_, table_flags);
+IMPL_FLAGS_TABLE(ImGuiTableBgTarget_, table_bg_target_flags);
+IMPL_FLAGS_TABLE(ImGuiTableColumnFlags_, table_column_flags);
+IMPL_FLAGS_TABLE(ImGuiColorEditFlags_, color_edit_flags);
+IMPL_FLAGS_TABLE(ImGuiComboFlags_, combo_flags);
 
-int l_pigui_check_combo_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiComboFlags_ fl = imguiComboFlagsTable.LookupTable(l, 1);
-	LuaPush<ImGuiComboFlags_>(l, fl);
-	return 1;
-}
+IMPL_ENUM_TABLE(ImGuiCond_, imgui_cond_enums);
+IMPL_ENUM_TABLE(ImGuiCol_, imgui_col_enums);
+IMPL_ENUM_TABLE(ImGuiStyleVar_, imgui_style_var_enums);
+
+// ============================================================================
 
 static vector2d s_center(0., 0.);
 
@@ -1987,9 +1882,10 @@ static int l_pigui_begin_child(lua_State *l)
 	const vector2d v1 = LuaPull<vector2d>(l, 2);
 
 	ImVec2 size(v1.x, v1.y);
-	ImGuiWindowFlags theflags = LuaPull<ImGuiWindowFlags_>(l, 3);
+	ImGuiChildFlags childFlags = LuaPull<ImGuiChildFlags_>(l, 3, ImGuiChildFlags_None);
+	ImGuiWindowFlags windowFlags = LuaPull<ImGuiWindowFlags_>(l, 4, ImGuiWindowFlags_None);
 
-	ImGui::BeginChild(id.c_str(), size, false, theflags);
+	ImGui::BeginChild(id.c_str(), size, childFlags, windowFlags);
 	return 0;
 }
 
@@ -3541,7 +3437,7 @@ static ImVec4 to_ImVec4(Color4ub c)
 void PiGui::load_theme_from_table(LuaTable &table, ImGuiStyle &style)
 {
 	ScopedTable colors = table.Sub("colors");
-	for (auto &pair : imguiColTable.LUT) {
+	for (auto &pair : imgui_col_enums.LUT) {
 		Color4ub defaultColor = to_Color4ub(style.Colors[pair.second]);
 		style.Colors[pair.second] = to_ImVec4(colors.Get<Color4ub>(pair.first, defaultColor));
 	}
@@ -3747,16 +3643,23 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "PlaySfx", l_pigui_play_sfx },
 		{ "DisableMouseFacing", l_pigui_disable_mouse_facing },
 		{ "SetMouseButtonState", l_pigui_set_mouse_button_state },
+
+		// Flags Builders
 		{ "SelectableFlags", l_pigui_check_selectable_flags },
 		{ "ButtonFlags", l_pigui_check_button_flags },
 		{ "TreeNodeFlags", l_pigui_check_tree_node_flags },
 		{ "InputTextFlags", l_pigui_check_input_text_flags },
 		{ "WindowFlags", l_pigui_check_window_flags },
+		{ "ChildFlags", l_pigui_check_child_window_flags },
 		{ "FocusedFlags", l_pigui_check_focused_flags },
 		{ "HoveredFlags", l_pigui_check_hovered_flags },
 		{ "TableFlags", l_pigui_check_table_flags },
+		{ "TableBgTargetFlags", l_pigui_check_table_bg_target_flags },
 		{ "TableColumnFlags", l_pigui_check_table_column_flags },
-		{ "TableBgTargetFlags", l_pigui_check_table_bg_target },
+		{ "ColorEditFlags", l_pigui_check_color_edit_flags },
+		{ "ComboFlags", l_pigui_check_combo_flags },
+
+		// TabBar API
 		{ "BeginTabBar", l_pigui_begin_tab_bar },
 		{ "BeginTabItem", l_pigui_begin_tab_item },
 		{ "EndTabBar", l_pigui_end_tab_bar },
@@ -3800,19 +3703,20 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 
 	lua_State *l = Lua::manager->GetLuaState();
 
-	imguiSelectableFlagsTable.Register(l, "ImGuiSelectableFlags");
-	imguiButtonFlagsTable.Register(l, "ImGuiButtonFlags");
-	imguiTreeNodeFlagsTable.Register(l, "ImGuiTreeNodeFlags");
-	imguiInputTextFlagsTable.Register(l, "ImGuiInputTextFlags");
-	imguiSetCondTable.Register(l, "ImGuiCond");
-	imguiColTable.Register(l, "ImGuiCol");
-	imguiStyleVarTable.Register(l, "ImGuiStyleVar");
-	imguiWindowFlagsTable.Register(l, "ImGuiWindowFlags");
-	imguiFocusedFlagsTable.Register(l, "ImGuiFocusedFlags");
-	imguiHoveredFlagsTable.Register(l, "ImGuiHoveredFlags");
-	imguiTableFlagsTable.Register(l, "ImGuiTableFlags");
-	imguiTableColumnFlagsTable.Register(l, "ImGuiTableColumnFlags");
-	imguiTableBgFlagsTable.Register(l, "ImGuiTableBgTargetFlags");
-	imguiColorEditFlagsTable.Register(l, "ImGuiTableColumnFlags");
-	imguiComboFlagsTable.Register(l, "ImGuiComboFlags");
+	selectable_flags.Register(l, "ImGuiSelectableFlags");
+	button_flags.Register(l, "ImGuiButtonFlags");
+	tree_node_flags.Register(l, "ImGuiTreeNodeFlags");
+	input_text_flags.Register(l, "ImGuiInputTextFlags");
+	imgui_cond_enums.Register(l, "ImGuiCond");
+	imgui_col_enums.Register(l, "ImGuiCol");
+	imgui_style_var_enums.Register(l, "ImGuiStyleVar");
+	window_flags.Register(l, "ImGuiWindowFlags");
+	child_window_flags.Register(l, "ImGuiChildWindowFlags");
+	focused_flags.Register(l, "ImGuiFocusedFlags");
+	hovered_flags.Register(l, "ImGuiHoveredFlags");
+	table_flags.Register(l, "ImGuiTableFlags");
+	table_column_flags.Register(l, "ImGuiTableColumnFlags");
+	table_bg_target_flags.Register(l, "ImGuiTableBgTargetFlags");
+	color_edit_flags.Register(l, "ImGuiColorEditFlags");
+	combo_flags.Register(l, "ImGuiComboFlags");
 }
