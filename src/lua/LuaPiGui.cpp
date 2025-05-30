@@ -327,7 +327,10 @@ static LuaFlags<ImGuiStyleVar_> imgui_style_var_enums = {
 	{ "GrabRounding", ImGuiStyleVar_GrabRounding },
 	{ "TabRounding", ImGuiStyleVar_TabRounding },
 	{ "ButtonTextAlign", ImGuiStyleVar_ButtonTextAlign },
-	{ "SelectableTextAlign", ImGuiStyleVar_SelectableTextAlign }
+	{ "SelectableTextAlign", ImGuiStyleVar_SelectableTextAlign },
+	{ "SeparatorTextBorderSize", ImGuiStyleVar_SeparatorTextBorderSize },
+	{ "SeparatorTextAlign", ImGuiStyleVar_SeparatorTextAlign },
+	{ "SeparatorTextPadding", ImGuiStyleVar_SeparatorTextPadding },
 };
 
 static LuaFlags<ImGuiWindowFlags_> window_flags = {
@@ -3496,6 +3499,9 @@ void PiGui::load_theme_from_table(LuaTable &table, ImGuiStyle &style)
 	SET_STYLE(TabBorderSize);
 	SET_STYLE(ButtonTextAlign);
 	SET_STYLE(SelectableTextAlign);
+	SET_STYLE(SeparatorTextBorderSize);
+	SET_STYLE(SeparatorTextAlign);
+	SET_STYLE(SeparatorTextPadding);
 
 #undef SET_STYLE
 }
