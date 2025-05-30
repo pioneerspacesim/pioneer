@@ -12,6 +12,22 @@ local Engine = require 'Engine' -- rand
 local utils = {}
 
 --
+-- Function: n_args
+--
+-- Return the index of the greatest non-nil argument passed to this function
+--
+function utils.n_args(...)
+	local args = table.pack(...)
+	for i = args.n, 1, -1 do
+		if args[i] ~= nil then
+			return i
+		end
+	end
+
+	return 0
+end
+
+--
 -- Function: keys
 --
 -- Create an iterator that returns a numberic index and the keys of the
