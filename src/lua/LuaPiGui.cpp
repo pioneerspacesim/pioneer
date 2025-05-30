@@ -1795,6 +1795,21 @@ static int l_pigui_separator(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: separatorText
+ *
+ * Draw a horisontal line interrupted by text
+ *
+ * > ui.separatorText(label)
+ *
+ */
+static int l_pigui_separator_text(lua_State *l)
+{
+	const char *label = LuaPull<const char *>(l, 1);
+	ImGui::SeparatorText(label);
+	return 0;
+}
+
 static int l_pigui_spacing(lua_State *l)
 {
 	ImGui::Spacing();
@@ -3551,6 +3566,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "EndHorizontalGroup", l_pigui_end_horizontal_group },
 		{ "SameLine", l_pigui_same_line },
 		{ "Separator", l_pigui_separator },
+		{ "SeparatorText", l_pigui_separator_text },
 		{ "IsItemHovered", l_pigui_is_item_hovered },
 		{ "IsItemActive", l_pigui_is_item_active },
 		{ "IsItemClicked", l_pigui_is_item_clicked },

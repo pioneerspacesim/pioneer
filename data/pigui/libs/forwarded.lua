@@ -48,6 +48,7 @@ ui.textColored = pigui.TextColored
 ui.inputText = pigui.InputText
 ui.checkbox = pigui.Checkbox ---@type fun(label: string, checked: boolean): changed:boolean, value:boolean
 ui.separator = pigui.Separator
+ui.separatorText = pigui.SeparatorText
 ui.pushTextWrapPos = pigui.PushTextWrapPos
 ui.popTextWrapPos = pigui.PopTextWrapPos
 ui.setScrollHereY = pigui.SetScrollHereY
