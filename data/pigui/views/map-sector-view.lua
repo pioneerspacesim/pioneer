@@ -16,6 +16,7 @@ local Color = _G.Color
 
 local ui = require 'pigui'
 local layout = require 'pigui.libs.window-layout'
+local Sidebar = require 'pigui.libs.sidebar'
 
 local Serializer = require 'Serializer'
 
@@ -23,6 +24,8 @@ local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
+local orbiteer = ui.fonts.orbiteer
+local pionillium = ui.fonts.pionillium
 
 local font = ui.fonts.pionillium.medlarge
 local smallfont = ui.fonts.pionillium.medium
@@ -51,10 +54,33 @@ local settings =
 
 local loaded_data = nil
 
+local leftSidebar = Sidebar.New("SectorMapLeft")
 
 local function textIcon(icon, tooltip)
 	ui.icon(icon, Vector2(ui.getTextLineHeight()), svColor.FONT, tooltip)
 	ui.sameLine()
+end
+
+local function bannerText(pos, text, color)
+	local s = ui.calcTextSize(text)
+
+	local padding = ui.theme.styles.ButtonPadding
+	s.y = s.y + padding.y * 2
+	local max = pos + Vector2(s.x + s.y * 2, s.y)
+
+	local x1 = Vector2(pos.x + s.y, pos.y + s.y)
+	local x2 = Vector2(pos.x + s.y, pos.y)
+	local x3 = Vector2(pos.x + s.y + s.x, pos.y + s.y)
+	local x4 = Vector2(pos.x + s.y + s.x, pos.y)
+
+	ui.addRectFaded(pos, x1, color, 0.0, 0x5)
+	ui.addRectFilled(x2, x3, color, 0.0, 0)
+	ui.addRectFaded(x4, max, color, 0.0, 0xA)
+
+	ui.setCursorScreenPos(Vector2(x2.x, x2.y + padding.y))
+	ui.text(text)
+	ui.sameLine(0, 0)
+	ui.dummy(Vector2(s.y, s.y))
 end
 
 local sectorView
@@ -117,10 +143,8 @@ end
 
 -- all windows in this view
 local Windows = {
-	current = layout.NewWindow("SectorMapCurrentSystem"), -- current system string
 	hjPlanner = layout.NewWindow("HyperJumpPlanner"), -- hyper jump planner
 	systemInfo = layout.NewWindow("SectorMapSystemInfo"), -- selected system information
-	searchBar = layout.NewWindow("SectorMapSearchBar"),
 	edgeButtons = layout.NewWindow("SectorMapEdgeButtons"),
 	factions = layout.NewWindow("SectorMapFactions")
 }
@@ -296,6 +320,10 @@ end
 
 function Windows.edgeButtons.Show()
 	-- view control buttons
+	if ui.mainMenuButton(icons.navtarget, lui.CENTER_ON_CURRENT_SYSTEM) then
+		sectorView:SwitchToPath(sectorView:GetCurrentSystemPath())
+	end
+
 	if ui.mainMenuButton(icons.reset_view, lui.RESET_ORIENTATION_AND_ZOOM) then
 		sectorView:ResetView()
 	end
@@ -343,84 +371,6 @@ local function drawSearchResults(systempaths)
 	end)
 end
 
-local searchString, systemPaths = "", nil
-local leftBarMode = "SEARCH"
-
-function Windows.searchBar:Show()
-	if ui.mainMenuButton(icons.search_lens, lc.SEARCH) then leftBarMode = "SEARCH" end
-	ui.sameLine()
-	if ui.mainMenuButton(icons.money, lui.ECONOMY_TRADE) then
-		self.size.y = self.fullHeight
-		if ui.altHeld() then
-			leftBarMode = "TRADE_COMPUTER"
-		else
-			leftBarMode = "ECONOMY"
-		end
-	end
-
-	local selectedPath = sectorView:GetSelectedSystemPath()
-	local description_long = selectedPath:GetStarSystem().longDescription
-
-	if string.len(description_long) > 0 then
-		ui.sameLine()
-		if ui.mainMenuButton(icons.info, lui.MORE_INFO) then
-			self.size.y = self.fullHeight
-			leftBarMode = "INFO_LONG"
-		end
-	end
-
-	ui.spacing()
-
-	if leftBarMode == "SEARCH" then
-		ui.text(lc.SEARCH)
-		local search_text, changed = ui.inputText("##searchText", searchString, {})
-		ui.spacing()
-		local parsedSystem = changed and search_text ~= "" and SystemPath.ParseString(search_text)
-		if parsedSystem and parsedSystem ~= nil then
-			sectorView:GetMap():GotoSectorPath(parsedSystem)
-		end
-
-		if search_text ~= searchString then
-			systemPaths = search_text ~= "" and sectorView:GetMap():SearchNearbyStarSystemsByName(search_text)
-			searchString = search_text
-		end
-
-		if not systemPaths or #systemPaths == 0 then
-			ui.text(lc.NOT_FOUND)
-			self.size.y = self.collapsedHeight
-		else
-			drawSearchResults(systemPaths)
-			self.size.y = self.fullHeight
-		end
-
-	elseif leftBarMode == "ECONOMY" then
-		local currentPath = sectorView:GetCurrentSystemPath()
-
-		systemEconView:drawSystemComparison(selectedPath:GetStarSystem(), currentPath:GetStarSystem())
-	elseif leftBarMode == "TRADE_COMPUTER" then
-		systemEconView:drawSystemFinder()
-	elseif leftBarMode == "INFO_LONG" then
-		systemEconView:drawDescritpionLong(description_long)
-	end
-end
-
-function Windows.searchBar.Dummy()
-	ui.mainMenuButton(icons.search_lens, lc.SEARCH)
-	ui.spacing()
-	ui.text("***************")
-	ui.inputText("##searchText", "", {})
-	ui.spacing()
-	ui.text("***************")
-end
-
-function Windows.current.Show()
-	local path = sectorView:GetCurrentSystemPath()
-	textIcon(icons.navtarget)
-	if ui.selectable(' ' .. ui.Format.SystemPath(path)) then
-		sectorView:SwitchToPath(path)
-	end
-end
-
 function Windows.factions.Show()
 	textIcon(icons.shield)
 	ui.text("Factions")
@@ -447,15 +397,6 @@ function sectorViewLayout:onUpdateWindowPivots(w)
 end
 
 function sectorViewLayout:onUpdateWindowConstraints(w)
-	-- resizing, aligning windows - static
-	w.current.pos = edgePadding
-	w.current.size.x = 0 -- adaptive width
-
-	w.searchBar.pos = w.current.pos + w.current.size
-	w.searchBar.collapsedHeight = w.searchBar.size.y
-	w.searchBar.fullHeight = ui.screenHeight - w.searchBar.pos.y - edgePadding.y - ui.timeWindowSize.y
-	w.searchBar.size.y = w.searchBar.fullHeight
-
 	local rightColWidth = math.max(w.hjPlanner.size.x, w.systemInfo.size.x)
 	w.hjPlanner.pos = w.hjPlanner.pos - Vector2(w.edgeButtons.size.x, edgePadding.y)
 	w.hjPlanner.size.x = rightColWidth
@@ -467,9 +408,128 @@ function sectorViewLayout:onUpdateWindowConstraints(w)
 	w.factions.size = Vector2(rightColWidth, 0.0) -- adaptive height
 end
 
+-- System Information bar
+---@type UI.Sidebar.Module
+local infoView = {
+	icon = icons.info,
+	title = lui.MORE_INFO,
+	tooltip = lui.MORE_INFO,
+	exclusive = true,
+	drawBody = function(self)
+		local description_long = sectorView:GetSelectedSystemPath():GetStarSystem().longDescription
+
+		ui.withFont(pionillium.details, function()
+			ui.textWrapped(description_long)
+		end)
+	end
+}
+
+-- Search bar module
+---@type UI.Sidebar.Module
+local searchBar = {
+	searchText = "",
+	systemPaths = nil, ---@type table?
+	icon = icons.search_lens,
+	tooltip = lc.SEARCH,
+	exclusive = true,
+	drawTitle = function(self)
+		ui.withFont(pionillium.body, function()
+			ui.addCursorPos(Vector2(0, 0.5 * (ui.getLineHeight() - ui.getFrameHeight())))
+			self:updateSearch(ui.inputText("##searchText", self.searchText, lc.SEARCH, {}))
+		end)
+	end,
+	drawBody = function(self)
+		if not self.systemPaths or #self.systemPaths == 0 then
+			ui.text(lc.NOT_FOUND)
+		else
+			drawSearchResults(self.systemPaths)
+		end
+	end,
+
+	---@param search string
+	---@param go boolean
+	updateSearch = function(self, search, go)
+		if go and search ~= "" then
+			local path = SystemPath.ParseString(search)
+
+			if path then
+				sectorView:GetMap():GotoSectorPath(path)
+			end
+		end
+
+		if search ~= self.searchText then
+			self.searchText = search
+			self.systemPaths = nil
+
+			if search ~= "" then
+				self.systemPaths = sectorView:GetMap():SearchNearbyStarSystemsByName(search)
+			end
+		end
+	end
+}
+
+-- Economy view module
+---@type UI.Sidebar.Module
+local econView = {
+	icon = icons.money,
+	tooltip = lui.ECONOMY_TRADE,
+	exclusive = true,
+	mode = "normal",
+	drawTitle = function(self)
+		ui.text(lui.ECONOMY_TRADE)
+		if ui.altHeld() or self.mode == "debug" then
+			local buttonSize = Vector2(ui.getButtonHeight())
+			ui.sameLine(ui.getContentRegion().x - buttonSize.x, 0)
+
+			if ui.iconButton("DEBUG", icons.alert1, "Debug Mode", nil, buttonSize) then
+				self.mode = self.mode == "debug" and "normal" or "debug"
+			end
+		end
+	end,
+	drawBody = function(self)
+		local selectedPath = sectorView:GetSelectedSystemPath()
+		local currentPath = sectorView:GetCurrentSystemPath()
+
+		if self.mode == "normal" then
+			systemEconView:drawSystemComparison(selectedPath:GetStarSystem(), currentPath:GetStarSystem())
+		elseif self.mode == "debug" then
+			systemEconView:drawSystemFinder()
+		end
+	end
+}
+
+table.insert(leftSidebar.modules, infoView)
+table.insert(leftSidebar.modules, searchBar)
+table.insert(leftSidebar.modules, econView)
+
+local shouldRefresh = true
+
+-- Renders the current system banner
+local function drawCurrentSystemName()
+	local window_offset_y = ui.theme.styles.MainButtonSize.y + ui.getWindowPadding().y * 2 + ui.theme.styles.ItemSpacing.y
+	ui.setNextWindowPos(Vector2(ui.screenWidth / 2, window_offset_y), "Always", Vector2(0.5, 0))
+
+	ui.window("##CurrentSystem", { "NoDecoration", "NoMove", "AlwaysAutoResize" }, function()
+		local path = sectorView:GetCurrentSystemPath()
+		ui.withFont(orbiteer.body, function()
+			bannerText(ui.getCursorScreenPos(), ui.get_icon_glyph(icons.navtarget) .. " " .. ui.Format.SystemPath(path), colors.lightBlackBackground)
+		end)
+	end)
+end
+
 ui.registerModule("game", { id = 'map-sector-view', draw = function()
 	player = Game.player
 	if Game.CurrentView() == "SectorView" then
+
+		if shouldRefresh then
+			shouldRefresh = false
+			leftSidebar:Refresh()
+		end
+
+		drawCurrentSystemName()
+
+		leftSidebar:Draw()
+
 		sectorViewLayout:display()
 
 		if ui.isKeyReleased(ui.keys.tab) then
@@ -486,6 +546,8 @@ ui.registerModule("game", { id = 'map-sector-view', draw = function()
 			package.reimport('pigui.modules.hyperjump-planner')
 			package.reimport()
 		end
+	else
+		shouldRefresh = true
 	end
 end})
 
@@ -497,9 +559,9 @@ end)
 
 -- reset cached data
 Event.Register("onGameEnd", function()
-	searchString = ""
-	systemPaths = nil
-	leftBarMode = "SEARCH"
+	leftSidebar:Reset()
+	searchBar.searchText = ""
+	searchBar.systemPaths = nil
 
 	hyperJumpPlanner.onGameEnd()
 end)
