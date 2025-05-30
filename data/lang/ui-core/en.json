@@ -2730,5 +2730,29 @@
   "ZOOM": {
     "description": "Label for a zoom (magnification) control bar.",
     "message": "Zoom"
+  },
+  "SYSTEM_INFORMATION": {
+    "description": "Tooltip / label indicating information about a selected star system",
+    "message": "System Information"
+  },
+  "KNOWN_AS": {
+    "description": "Indicates alternate names/aliases for an object",
+    "message": "Known as"
+  },
+  "HYPERJUMP_ROUTING": {
+    "description": "Label indicating a category division",
+    "message": "HyperJump Routing"
+  },
+  "BODY_IN_ROUTE": {
+    "description": "Label indicating a star is part of a planned hyperjump route",
+    "message": "Body in planned HyperJump Route"
+  },
+  "SET_JUMP_TARGET": {
+    "description": "Button tooltip which sets the jump route to the selected body",
+    "message": "Set Jump Target"
+  },
+  "FACTION": {
+    "description": "Label indicating the factional allegiance of an object",
+    "message": "Faction"
   }
 }
