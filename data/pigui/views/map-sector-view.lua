@@ -357,10 +357,16 @@ function Windows.searchBar:Show()
 			leftBarMode = "ECONOMY"
 		end
 	end
-	ui.sameLine()
-	if ui.mainMenuButton(icons.info, lui.MORE_INFO) then
-		self.size.y = self.fullHeight
-		leftBarMode = "INFO_LONG"
+
+	local selectedPath = sectorView:GetSelectedSystemPath()
+	local description_long = selectedPath:GetStarSystem().longDescription
+
+	if string.len(description_long) > 0 then
+		ui.sameLine()
+		if ui.mainMenuButton(icons.info, lui.MORE_INFO) then
+			self.size.y = self.fullHeight
+			leftBarMode = "INFO_LONG"
+		end
 	end
 
 	ui.spacing()
@@ -388,15 +394,13 @@ function Windows.searchBar:Show()
 		end
 
 	elseif leftBarMode == "ECONOMY" then
-		local selectedPath = sectorView:GetSelectedSystemPath()
 		local currentPath = sectorView:GetCurrentSystemPath()
 
 		systemEconView:drawSystemComparison(selectedPath:GetStarSystem(), currentPath:GetStarSystem())
 	elseif leftBarMode == "TRADE_COMPUTER" then
 		systemEconView:drawSystemFinder()
 	elseif leftBarMode == "INFO_LONG" then
-		local selectedPath = sectorView:GetSelectedSystemPath()
-		systemEconView:drawDescritpionLong(selectedPath:GetStarSystem())
+		systemEconView:drawDescritpionLong(description_long)
 	end
 end
 

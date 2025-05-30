@@ -378,9 +378,9 @@ function SystemEconView:drawPriceList(key, prices)
 	return out
 end
 
-function SystemEconView:drawDescritpionLong(selected)
+function SystemEconView:drawDescritpionLong(description)
 	ui.withFont(pionillium.body, function()
-		ui.textWrapped(selected.longDescription)
+		ui.textWrapped(description)
 	end)
 end
 
