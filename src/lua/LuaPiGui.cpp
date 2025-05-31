@@ -1466,6 +1466,37 @@ static int l_pigui_text_colored(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: textLinkOpenURL
+ *
+ * Draw clickable hyperlink to screen
+ *
+ * > ui.textLinkOpenURL(label, link)
+ * > ui.textLinkOpenURL(link)
+ *
+ * Parameters:
+ *
+ *   label - string, text to print
+ *   link - url to open
+ *
+ */
+static int l_pigui_text_link_open_url(lua_State *l)
+{
+	PROFILE_SCOPED()
+
+	if (lua_gettop(l) == 1) {
+		std::string link = LuaPull<std::string>(l, 1);
+		ImGui::TextLinkOpenURL(link.c_str());
+	}
+	else{
+		std::string label = LuaPull<std::string>(l, 1);
+		std::string link = LuaPull<std::string>(l, 2);
+		ImGui::TextLinkOpenURL(label.c_str(), link.c_str());
+	}
+	return 0;
+}
+
+
 static int l_pigui_get_axisbinding(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -3687,6 +3718,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "TextWrapped", l_pigui_text_wrapped },
 		{ "TextEllipsis", l_pigui_text_ellipsis },
 		{ "TextColored", l_pigui_text_colored },
+		{ "TextLinkOpenURL", l_pigui_text_link_open_url },
 		{ "SetScrollHereY", l_pigui_set_scroll_here_y },
 		{ "Button", l_pigui_button },
 		{ "GlyphButton", l_pigui_glyph_button },

@@ -49,6 +49,7 @@ ui.textColored = pigui.TextColored ---@type fun(color: Color, text: string)
 ---@type fun(label: string, text: string, flags: any?)
 ---@overload fun(label: string, text: string, hint: string, flags: any?)
 ui.inputText = pigui.InputText
+ui.textLinkOpenURL = pigui.TextLinkOpenURL
 ui.checkbox = pigui.Checkbox ---@type fun(label: string, checked: boolean): changed:boolean, value:boolean
 ui.separator = pigui.Separator
 ui.separatorText = pigui.SeparatorText
