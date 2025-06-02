@@ -45,7 +45,7 @@ CargoBody::CargoBody(const Json &jsonObj, Space *space) :
 		Init();
 		m_hitpoints = cargoBodyObj["hit_points"];
 		m_selfdestructTimer = cargoBodyObj["self_destruct_timer"];
-		m_quantity = cargoBodyObj["quantity"];
+		m_quantity = cargoBodyObj.value("quantity", 1); // SAVEBUMP
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
