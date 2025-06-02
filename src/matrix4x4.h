@@ -6,6 +6,7 @@
 
 #include "matrix3x3.h"
 #include "vector3.h"
+#include "core/todo.h"
 
 #include <cassert>
 #include <math.h>
@@ -16,6 +17,8 @@
 template <typename T>
 class matrix4x4 {
 private:
+	// column-major ordering
+	PI_TODO("column-major is at odds with matrix3x3 which is row-major, this needs fixing")
 	T cell[16];
 	using other_float_t = typename std::conditional<std::is_same<T, float>::value, double, float>::type;
 
