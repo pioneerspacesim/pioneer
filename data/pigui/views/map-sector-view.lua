@@ -550,6 +550,17 @@ local routeView = {
 	title = lui.ROUTE_INFO,
 	active = true,
 
+	currentFuel = 0.0,
+	refresh = function(self)
+		local engine = Game.player:GetInstalledHyperdrive()
+		if not engine then
+			self.currentFuel = 0.0
+		else
+			self.currentFuel = engine.storedFuel +
+				Game.player:GetComponent('CargoManager'):CountCommodity(engine.fuel)
+		end
+	end,
+
 	drawBody = function(self)
 
 		local route = hyperJumpPlanner.getJumpRouteList()
@@ -590,7 +601,7 @@ local routeView = {
 			ui.text("[")
 
 			textIcon(icons.hull, lui.CURRENT_FUEL)
-			ui.text(ui.Format.Mass(0.0, 1)) -- FIXME: current fuel
+			ui.text(ui.Format.Mass(self.currentFuel * 1000, 1))
 
 			ui.text("]")
 		end)
@@ -612,9 +623,11 @@ local routeView = {
 		local jumpIndex = hyperJumpPlanner.getSelectedJump()
 
 		ui.horizontalGroup(function()
-			if ui.iconButton("Remove", icons.cross, lui.REMOVE_JUMP) then
+
+			if ui.iconButton("ViewSystem", icons.view_internal, lui.CENTER_ON_SYSTEM) then
 				if route[jumpIndex] then
-					hyperJumpPlanner.removeJump(jumpIndex)
+					sectorView:SwitchToPath(route[jumpIndex].path)
+					sectorView:GetMap():GotoSystemPath(route[jumpIndex].path)
 				end
 			end
 
@@ -630,12 +643,12 @@ local routeView = {
 				end
 			end
 
-			if ui.iconButton("ViewSystem", icons.view_internal, lui.CENTER_ON_SYSTEM) then
+			if ui.iconButton("Remove", icons.cross, lui.REMOVE_JUMP) then
 				if route[jumpIndex] then
-					sectorView:SwitchToPath(route[jumpIndex].path)
-					sectorView:GetMap():GotoSystemPath(route[jumpIndex].path)
+					hyperJumpPlanner.removeJump(jumpIndex)
 				end
 			end
+
 		end)
 
 		local padding = ui.getWindowPadding()
@@ -824,7 +837,10 @@ end})
 Event.Register("onGameStart", onGameStart)
 Event.Register("onEnterSystem", function(ship)
 	hyperJumpPlanner.onEnterSystem(ship)
-	if ship:IsPlayer() then hyperspaceDetailsCache = {} end
+	if ship:IsPlayer() then
+		hyperspaceDetailsCache = {}
+		shouldRefresh = true
+	end
 end)
 
 -- reset cached data
