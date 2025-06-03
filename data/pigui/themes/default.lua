@@ -72,6 +72,10 @@ local styleColors = {
 	primary_500a	= Color "4C5AA4",
 	primary_700a	= Color "3A4688",
 
+	-- "Alternate" primary colors with high desaturation for thin outline elements
+
+	primary_500b	= Color "6E7080",
+
 	accent_100		= Color "BBDDFF",
 	accent_200		= Color "8FC8FF",
 	accent_300		= Color "62B2FF",
@@ -220,6 +224,9 @@ theme.colors = {
 	FrameBgHovered			= styleColors.panel_700,
 	FrameBgActive			= styleColors.panel_700,
 
+	Border					= styleColors.primary_500b:opacity(0.5),
+	Separator				= styleColors.primary_500b:opacity(0.5),
+
 	Tab						= styleColors.primary_800,
 	TabSelected				= styleColors.primary_600,
 	TabHovered				= styleColors.primary_500,
@@ -323,10 +330,13 @@ theme.styles = rescaleUI {
 	ItemInnerSpacing = Vector2(4, 4),
 	MainButtonSize = Vector2(38, 38),
 	SmallButtonSize = Vector2(30, 30),
+	SeparatorTextBorderSize = 1.0,
+	SeparatorTextPadding = Vector2(16, 3),
 	IconButtonPadding = Vector2(3, 3),
 	InlineIconPadding = Vector2(2, 2),
 	MainButtonPadding = 3,
-	ItemCardRounding = 4
+	ItemCardRounding = 4,
+	StyleRounding = 4,
 }
 
 theme.icons = {

@@ -12,6 +12,8 @@ ui.rescaleUI = require 'pigui.libs.rescale-ui'
 ---@type EventQueue
 ui.Events = pigui.event_queue
 
+ui.Style = require 'pigui.libs.style'
+
 --
 -- Function: ui.rescaleFraction
 --

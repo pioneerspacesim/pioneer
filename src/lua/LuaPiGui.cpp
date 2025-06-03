@@ -1725,6 +1725,35 @@ static int l_pigui_add_triangle_filled(lua_State *l)
 	return 0;
 }
 
+// Partially-transparent rectangle
+static int l_pigui_add_rect_faded(lua_State *l)
+{
+	PROFILE_SCOPED()
+	ImDrawList *draw_list = ImGui::GetWindowDrawList();
+	ImVec2 a = LuaPull<ImVec2>(l, 1);
+	ImVec2 b = LuaPull<ImVec2>(l, 2);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 3).Value);
+	ImColor color_b { color };
+	color_b.Value.w = LuaPull<double>(l, 4);
+	ImDrawFlags round_corners = (LuaPull<int>(l, 5) & 0x0F) << 4;
+
+	draw_list->PrimReserve(6, 4);
+	ImDrawVert *vertices = draw_list->_VtxWritePtr;
+	draw_list->PrimRect(a, b, color);
+
+	if (round_corners & ImDrawFlags_RoundCornersTopLeft)
+		vertices[0].col = color_b;
+	if (round_corners & ImDrawFlags_RoundCornersTopRight)
+		vertices[1].col = color_b;
+	if (round_corners & ImDrawFlags_RoundCornersBottomRight)
+		vertices[2].col = color_b;
+	if (round_corners & ImDrawFlags_RoundCornersBottomLeft)
+		vertices[3].col = color_b;
+
+	return 0;
+}
+
+
 /*
  * Function: sameLine
  *
@@ -2830,7 +2859,16 @@ static int l_pigui_input_text(lua_State *l)
 	PROFILE_SCOPED()
 	std::string label = LuaPull<std::string>(l, 1);
 	std::string text = LuaPull<std::string>(l, 2);
-	int flags = LuaPull<ImGuiInputTextFlags_>(l, 3, ImGuiInputTextFlags_None);
+	std::string hint;
+	int flags;
+
+	if (lua_gettop(l) > 3) {
+		hint = LuaPull<std::string>(l, 3);
+		flags = LuaPull<ImGuiInputTextFlags_>(l, 4, ImGuiInputTextFlags_None);
+	} else {
+		flags = LuaPull<ImGuiInputTextFlags_>(l, 3, ImGuiInputTextFlags_None);
+	}
+
 
 	if (label.empty())
 		return luaL_error(l, "label parameter to ui.inputText() cannot be empty! Use \"##\" for an invisible label.");
@@ -2840,7 +2878,14 @@ static int l_pigui_input_text(lua_State *l)
 	char buffer[1024];
 	memset(buffer, 0, 1024);
 	strncpy(buffer, text.c_str(), 1023);
-	bool result = ImGui::InputText(label.c_str(), buffer, 1024, flags);
+	bool result;
+
+	if (!hint.empty()) {
+		result = ImGui::InputTextWithHint(label.c_str(), hint.c_str(), buffer, 1024, flags);
+	} else {
+		result = ImGui::InputText(label.c_str(), buffer, 1024, flags);
+	}
+
 	LuaPush<const char *>(l, buffer);
 	LuaPush<bool>(l, result);
 	return 2;
@@ -3529,6 +3574,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "AddQuad", l_pigui_add_quad },
 		{ "AddRect", l_pigui_add_rect },
 		{ "AddRectFilled", l_pigui_add_rect_filled },
+		{ "AddRectFaded", l_pigui_add_rect_faded },
 		{ "AddImage", l_pigui_add_image },
 		{ "AddImageQuad", l_pigui_add_image_quad },
 		{ "AddBezierCurve", l_pigui_add_bezier_curve },
