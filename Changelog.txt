@@ -1,3 +1,11 @@
+June
+  * New Features
+    * Redesign Sector Map interface, allow jumping from Sector Map (#6148)
+
+  * Internal
+    * Cleaning up unused icons (#6147)
+    * Update to Windows 2022 build runner (#6149)
+
 May
   * New Features
     * New mission: Find person (#4746)
@@ -13,6 +21,7 @@ May
     * Update minimum required version of CMake to 3.5 (#6124)
     * Expose long description & clean dead code (#6144)
     * Upgrade Imgui to 1.91.9b (#6143)
+    * Adding new icons for sector map and about (#6146)
 
 April / Pioneer 2025-05-01 Release
   * Fixes
