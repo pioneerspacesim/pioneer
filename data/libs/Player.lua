@@ -16,6 +16,7 @@ local Event = require 'Event'
 local Game = require 'Game'
 local utils = require 'utils'
 local Legal = require 'Legal'
+local PlayerState = require 'PlayerState'
 
 Player.record = {}
 Player.record_old = {}
@@ -333,7 +334,7 @@ end
 --   experimental
 --
 function Player:GetMoney ()
-	return self.cash
+	return PlayerState.GetMoney()
 end
 
 --
@@ -356,7 +357,7 @@ end
 --   experimental
 --
 function Player:SetMoney (m)
-	self:setprop("cash", m)
+	PlayerState.SetMoney(m)
 end
 
 --
@@ -383,7 +384,7 @@ end
 --   experimental
 --
 function Player:AddMoney (m)
-	self:setprop("cash", self.cash + m)
+	PlayerState.AddMoney(m)
 end
 
 
@@ -398,8 +399,6 @@ local onGameStart = function ()
 	Player.record_old = {}
 
 	if (loaded_data) then
-		Game.player:setprop("cash", loaded_data.cash)
-
 		-- ...thus we need to manually unserialize them
 		Player.record = loaded_data.record
 		Player.record_old = loaded_data.record_old
@@ -411,7 +410,6 @@ end
 local serialize = function ()
 
 	local data = {
-		cash = Game.player.cash,
 		record = Game.player.record,
 		record_old = Game.player.record_old
 	}
@@ -422,7 +420,6 @@ end
 
 local unserialize = function (data)
 	loaded_data = data
-	Player.cash = data.cash
 	Player.record = data.record
 	Player.record_old = data.record_old
 end

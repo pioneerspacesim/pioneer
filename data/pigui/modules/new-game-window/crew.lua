@@ -82,7 +82,10 @@ end
 PlayerMoney.reader = Helpers.versioned {{
 	version = 89,
 	fnc = function(saveGame)
-		return Helpers.getByPath(saveGame, "lua_modules_json/Player/cash")
+		return Helpers.getByPath(saveGame, {
+			"lua_modules_json/PlayerStateDB/finances/cash", -- v91.1
+			"lua_modules_json/Player/cash" -- v91.0 and older
+		})
 	end
 }}
 
