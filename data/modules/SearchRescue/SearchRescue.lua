@@ -2218,7 +2218,7 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 Event.Register("onShipUndocked", onShipUndocked)
-Event.Register("onShipTakeoff", onShipUndocked)
+Event.Register("onShipTakeOff", onShipUndocked)
 Event.Register("onFrameChanged", onFrameChanged)
 Event.Register("onShipDestroyed", onShipDestroyed)
 

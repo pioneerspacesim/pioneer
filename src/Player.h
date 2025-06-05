@@ -20,7 +20,9 @@ public:
 	Player(const Json &jsonObj, Space *space);
 	Player(const ShipType::Id &shipId);
 
-	virtual void SetDockedWith(SpaceStation *, int port) override;
+	void OnDocked(SpaceStation *, int) override;
+	void OnUndocked(SpaceStation *, int) override;
+
 	virtual bool DoDamage(float kgDamage) override final; // overloaded to add "crush" audio
 	virtual bool OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData) override;
 	virtual bool SetWheelState(bool down) override; // returns success of state change, NOT state itself

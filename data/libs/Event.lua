@@ -627,6 +627,34 @@ end
 --
 
 --
+-- Event: onPlayerDocked
+-- See: onShipDocked
+--
+-- Triggered when the player docks to a starport.
+--
+
+--
+-- Event: onPlayerUndocked
+-- See: onShipUndocked
+--
+-- Triggered when the player undocks from a starport.
+--
+
+--
+-- Event: onPlayerLanded
+-- See: onShipLanded
+--
+-- Triggered when the player lands on a planet.
+--
+
+--
+-- Event: onPlayerTakeOff
+-- See: onShipTakeOff
+--
+-- Triggered when the player takes off from a planet.
+--
+
+--
 -- Event: onShipAlertChanged
 --
 -- Triggered when a ship's alert status changes.
