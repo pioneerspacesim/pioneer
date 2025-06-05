@@ -59,7 +59,7 @@
 	}
 
 namespace ImGui {
-	void AlignTextToLineHeight(float lineHeight = -1.0f)
+	void AlignTextToLineHeight(float lineHeight = -1.0f, float proportion_y = 0.5)
 	{
 		ImGuiWindow *window = ImGui::GetCurrentWindow();
 		if (window->SkipItems)
@@ -67,7 +67,7 @@ namespace ImGui {
 
 		ImGuiContext &g = *GetCurrentContext();
 		window->DC.CurrLineSize.y = ImMax(window->DC.CurrLineSize.y, ImMax(lineHeight, g.FontSize));
-		window->DC.CurrLineTextBaseOffset = ImMax(window->DC.CurrLineTextBaseOffset, (window->DC.CurrLineSize.y - g.FontSize) / 2.0f);
+		window->DC.CurrLineTextBaseOffset = ImMax(window->DC.CurrLineTextBaseOffset, (window->DC.CurrLineSize.y - g.FontSize) * proportion_y);
 	}
 
 	// Horribly abuse the internals to allow submitting a window without padding and adding it later (e.g. drawing custom decorations).
@@ -1387,6 +1387,50 @@ static int l_pigui_text_wrapped(lua_State *l)
 }
 
 /*
+ * Function: textEllipsis
+ *
+ * Render text with an optional ellipsis if it is too long. Returns true
+ * if the text was rendered with an ellipsis.
+ *
+ * > local elided = ui.textEllipsis(text, clipWidth)
+ *
+ * Parameters:
+ *
+ *   text      - string, text string, possibly longer than a single line
+ *   clipWidth - number, optional width at which to render the ellipsis
+ *
+ */
+static int l_pigui_text_ellipsis(lua_State *l)
+{
+	PROFILE_SCOPED()
+	ImGuiWindow *window = ImGui::GetCurrentWindow();
+	float avail_x = ImGui::GetContentRegionAvail().x;
+	float text_height = ImGui::GetTextLineHeight();
+
+	std::string text = LuaPull<std::string>(l, 1);
+	float clipWidth = LuaPull<float>(l, 2, avail_x);
+
+	float clip_max_x = window->DC.CursorPos.x + clipWidth;
+	ImVec2 text_size = ImGui::CalcTextSize(text.c_str(), text.c_str() + text.size());
+
+	ImVec2 size = ImVec2(ImMin(text_size.x, clipWidth), text_height);
+	ImVec2 textPos = window->DC.CursorPos + ImVec2(0, window->DC.CurrLineTextBaseOffset);
+
+	const ImRect bb(textPos, textPos + size);
+    ImGui::ItemSize(size);
+    ImGui::ItemAdd(bb, 0);
+
+	ImGui::RenderTextEllipsis(ImGui::GetWindowDrawList(),
+		textPos, textPos + size,
+		clip_max_x, clip_max_x,
+		text.c_str(), text.c_str() + text.size(),
+		&text_size);
+
+	LuaPush<bool>(l, text_size.x > clipWidth);
+	return 1;
+}
+
+/*
  * Function: textColored
  *
  * Print text, with color
@@ -1760,18 +1804,27 @@ static int l_pigui_add_rect_faded(lua_State *l)
  * Draw the next command on the same line as previous
  *
  * > ui.sameLine(pos_x, spacing_w)
+ * > ui.sameLine(-width)
  *
  * Parameters:
  *
- *   pos_x - optional float, X position for next draw command
+ *   pos_x - optional float, X position for next draw command.
+ *           If negative, this is the distance from the right side of the
+ *           content region to position the cursor.
  *   spacing_w - optional float, draw with spacing relative to previous
  *
  */
 static int l_pigui_same_line(lua_State *l)
 {
-	double pos_x = LuaPull<double>(l, 1);
-	double spacing_w = LuaPull<double>(l, 2);
-	ImGui::SameLine(pos_x, spacing_w);
+	float pos_x = LuaPull<float>(l, 1);
+	float spacing_w = LuaPull<float>(l, 2);
+
+	if (pos_x < 0.0) {
+		ImGuiWindow *window = ImGui::GetCurrentWindow();
+		ImGui::SameLine(window->WorkRect.Max.x - window->Pos.x - window->DC.ColumnsOffset.x - window->DC.GroupOffset.x + pos_x - (spacing_w > 0.f ? spacing_w : 0.f));
+	} else {
+		ImGui::SameLine(pos_x, spacing_w);
+	}
 	return 0;
 }
 
@@ -1783,8 +1836,9 @@ static int l_pigui_align_to_frame_padding(lua_State *l)
 
 static int l_pigui_align_to_line_height(lua_State *l)
 {
-	double lineHeight = LuaPull<double>(l, 1, -1.0f);
-	ImGui::AlignTextToLineHeight(lineHeight);
+	float lineHeight = LuaPull<float>(l, 1, -1.0f);
+	float offset = LuaPull<float>(l, 2, 0.5f);
+	ImGui::AlignTextToLineHeight(lineHeight, offset);
 	return 0;
 }
 
@@ -3603,6 +3657,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "GetScrollY", l_pigui_get_scroll_y },
 		{ "Text", l_pigui_text },
 		{ "TextWrapped", l_pigui_text_wrapped },
+		{ "TextEllipsis", l_pigui_text_ellipsis },
 		{ "TextColored", l_pigui_text_colored },
 		{ "SetScrollHereY", l_pigui_set_scroll_here_y },
 		{ "Button", l_pigui_button },
