@@ -456,7 +456,7 @@ bool Draw::GlyphButton(const char *str_id, const char *glyph, const ImVec2 &size
     ImVec2 size = ImGui::CalcItemSize(size_arg, glyph_size.x + style.FramePadding.x * 2.0f, glyph_size.y + style.FramePadding.y * 2.0f);
 
     const ImRect bb(pos, pos + size);
-    ImGui::ItemSize(size, style.FramePadding.y);
+    ImGui::ItemSize(size);
     if (!ImGui::ItemAdd(bb, id))
         return false;
 
