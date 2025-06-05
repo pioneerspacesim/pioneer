@@ -46,6 +46,8 @@ ui.listBox = pigui.ListBox
 ui.textWrapped = pigui.TextWrapped ---@type fun(text: string)
 ui.textEllipsis = pigui.TextEllipsis ---@type fun(text: string, clipWidth: number?)
 ui.textColored = pigui.TextColored ---@type fun(color: Color, text: string)
+---@type fun(label: string, text: string, flags: any?)
+---@overload fun(label: string, text: string, hint: string, flags: any?)
 ui.inputText = pigui.InputText
 ui.checkbox = pigui.Checkbox ---@type fun(label: string, checked: boolean): changed:boolean, value:boolean
 ui.separator = pigui.Separator
@@ -132,6 +134,8 @@ ui.isKeyReleased = pigui.IsKeyReleased
 ui.playSfx = pigui.PlaySfx
 ui.isItemHovered = pigui.IsItemHovered
 ui.isItemActive = pigui.IsItemActive
+ui.isItemActivated = pigui.IsItemActivated
+ui.isItemDeactivated = pigui.IsItemDeactivated
 ui.isItemClicked = pigui.IsItemClicked
 ui.isAnyItemActive = pigui.IsAnyItemActive ---@type fun()
 ui.isWindowHovered = pigui.IsWindowHovered ---@type fun(flags: any)

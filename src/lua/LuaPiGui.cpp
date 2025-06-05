@@ -2023,6 +2023,20 @@ static int l_pigui_is_item_clicked(lua_State *l)
 	return 1;
 }
 
+static int l_pigui_is_item_activated(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LuaPush(l, ImGui::IsItemActivated());
+	return 1;
+}
+
+static int l_pigui_is_item_deactivated(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LuaPush(l, ImGui::IsItemDeactivated());
+	return 1;
+}
+
 static int l_pigui_is_any_item_active(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -3680,6 +3694,8 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "IsItemHovered", l_pigui_is_item_hovered },
 		{ "IsItemActive", l_pigui_is_item_active },
 		{ "IsItemClicked", l_pigui_is_item_clicked },
+		{ "IsItemActivated", l_pigui_is_item_activated },
+		{ "IsItemDeactivated", l_pigui_is_item_deactivated },
 		{ "IsAnyItemActive", l_pigui_is_any_item_active },
 		{ "Spacing", l_pigui_spacing },
 		{ "Dummy", l_pigui_dummy },
