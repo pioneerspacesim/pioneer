@@ -45,11 +45,12 @@ local Sidebar = utils.class("UI.Sidebar")
 ---@field icon any
 ---@field tooltip string
 ---@field title string?
+---@field active boolean?
+---@field exclusive boolean?
 ---@field refresh? fun(self)
 ---@field draw? fun(self, min, max)
 ---@field drawTitle? fun(self)
 ---@field drawBody fun(self)
----@field exclusive boolean?
 
 function Sidebar:Constructor(id, side, offset)
 	self.modules = {}
@@ -186,6 +187,10 @@ function Sidebar:DrawModule(module)
 end
 
 function Sidebar:Draw()
+	for _, module in ipairs(self.modules) do
+		self:SafeCall(module, module.update)
+	end
+
 	local activeModules = utils.filter_array(self.modules, function(v) return v.active and not v.disabled end)
 
 	self:UpdateCoords()
@@ -281,6 +286,11 @@ function Sidebar:Refresh()
 
 	for i, v in ipairs(activeModules) do
 		self:SafeCall(v, v.refresh)
+	end
+
+	-- Handle the case where an exclusive module is default-open at startup or e.g. after hot-reload
+	if activeModules[1] and activeModules[1].exclusive then
+		self.active = activeModules[1]
 	end
 end
 
