@@ -40,6 +40,7 @@ ui.getTime = pigui.GetTime
 ui.dummy = pigui.Dummy
 ui.newLine = pigui.NewLine
 ui.spacing = pigui.Spacing
+ui.bulletText = pigui.BulletText
 ui.text = pigui.Text
 ui.combo = pigui.Combo ---@type fun(label: string, selected: integer, items: string[]): changed: boolean, selected: integer
 ui.listBox = pigui.ListBox
