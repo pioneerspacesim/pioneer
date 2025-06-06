@@ -9,6 +9,9 @@ local utils = require 'utils'
 local modalStack = {}
 
 ---@class UI.ModalWindow : UI.Module
+---@field size Vector2?
+---@field centered boolean?
+---@field style table?
 local ModalWindow = utils.class("UI.ModalWindow", Module)
 
 local defaultModalFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "AlwaysAutoResize", "NoMove"}
@@ -43,6 +46,11 @@ function ModalWindow:open(...)
 end
 
 function ModalWindow:close(...)
+	-- Not in the stack currently
+	if self.stackIdx == -1 then
+		return
+	end
+
 	for i=#modalStack, self.stackIdx, -1 do
 		modalStack[i].stackIdx = -1
 		modalStack[i].isOpen = false
@@ -71,7 +79,19 @@ local function drawModals(idx)
 
 		win:update()
 
-		win:outerHandler(function ()
+		if win.style then
+			win.style:push()
+		end
+
+		local ok, err = ui.pcall(win.outerHandler, win, function ()
+			if win.size then
+				ui.setNextWindowSize(win.size, "Always")
+			end
+
+			if win.centered then
+				ui.setNextWindowPosCenter("Always")
+			end
+
 			if ui.beginPopupModal(win.name, win.flags) then
 				win:render()
 				-- modal could close in handler
@@ -83,6 +103,15 @@ local function drawModals(idx)
 				ui.endPopup()
 			end
 		end)
+
+		if win.style then
+			win.style:pop()
+		end
+
+		if not ok then
+			logWarning(err)
+			win:close()
+		end
 	end
 
 	if idx == #modalStack + 1 then
