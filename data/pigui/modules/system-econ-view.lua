@@ -5,6 +5,7 @@ local Game    = require 'Game'
 local Economy = require 'Economy'
 local ui      = require 'pigui'
 local utils   = require 'utils'
+local PlayerState = require 'PlayerState'
 
 local lc = require 'Lang'.GetResource('core')
 local lui = require 'Lang'.GetResource('ui-core')
@@ -88,6 +89,7 @@ function SystemEconView.buildCommodityList(sys, otherSys)
 		local otherLegal = otherSys and otherSys:IsCommodityLegal(name)
 
 		local tab = {
+			name = name,
 			lcomm[info.l10n_key],
 			legal and sys:GetCommodityBasePriceAlterations(name),
 			otherSys and otherLegal and otherSys:GetCommodityBasePriceAlterations(name)
@@ -119,6 +121,7 @@ function SystemEconView.buildStationCommodityList(system, station, otherStation)
 		local otherPrice = otherStation and otherStation:GetCommodityPrice(item)
 
 		local tab = {
+			name = name,
 			lcomm[item.l10n_key],
 			legal and SystemEconView.GetPricemod(item, price) - systemPrice,
 			legal and otherPrice and SystemEconView.GetPricemod(item, otherPrice) - systemPrice
@@ -151,7 +154,7 @@ end
 local function drawExportTooltip(price)
 	local cls = SystemEconView.ClassifyPrice(price) or priceModTab.minimal_trade
 	ui.sameLine()
-	ui.textColored(cls[2], cls[3])
+	ui.textColored(cls[2], cls[3] .. (cls[1] and " " .. ui.get_icon_glyph(cls[1]) or ""))
 end
 
 local function drawCommodityTooltip(info, thisSystem, otherSystem)
@@ -178,18 +181,36 @@ local function drawCommodityTooltip(info, thisSystem, otherSystem)
 	end)
 end
 
----@param thisSystem table
----@param otherSystem table?
+local function add_bookmark(commInfo, thisSystem, otherSystem)
+	if commInfo[2] and commInfo[3] and commInfo[2] > commInfo[3] then
+		PlayerState.AddBookmark(thisSystem.path, { route_to = otherSystem.path, commodity = commInfo.name })
+	else
+		PlayerState.AddBookmark(otherSystem.path, { route_to = thisSystem.path, commodity = commInfo.name })
+	end
+end
+
+---@param thisSystem StarSystem|SystemBody
+---@param otherSystem StarSystem|SystemBody?
 function SystemEconView:drawCommodityList(commList, illegalList, thisSystem, otherSystem)
-	local width = ui.getColumnWidth()
 	local iconWidth = ui.getTextLineHeight() + 4
 	local iconSize = Vector2(iconWidth, iconWidth)
 
 	ui.child("CommodityList", Vector2(0, 0), noScrollbar, function()
 		for _, info in ipairs(commList) do
+			if otherSystem then
+				local bookmark = ui.iconButton("bookmark_" .. info[1], icons.bookmark, lui.ADD_BOOKMARK, nil, iconSize)
+				ui.sameLine()
+
+				if bookmark then
+					add_bookmark(info, thisSystem, otherSystem)
+				end
+			end
+
 			ui.group(function()
+
+				ui.alignTextToLineHeight()
 				ui.text(info[1])
-				ui.sameLine(width - iconWidth * 3)
+				ui.sameLine(-iconWidth * 3)
 
 				drawIcon(otherSystem and getProfitabilityInfo(info[2], info[3]), iconSize)
 
@@ -198,31 +219,37 @@ function SystemEconView:drawCommodityList(commList, illegalList, thisSystem, oth
 					drawIcon(SystemEconView.ClassifyPrice(info[3]), iconSize)
 					ui.sameLine(0, 0)
 				else
-					ui.sameLine(0, iconWidth)
+					ui.sameLine(0, iconWidth * 2)
 				end
 
 				drawIcon(SystemEconView.ClassifyPrice(info[2]), iconSize)
 			end)
 
-			if ui.isItemHovered() then
+			if ui.isItemHovered("ForTooltip") then
 				drawCommodityTooltip(info, thisSystem, otherSystem)
 			end
 		end
 
 		if not illegalList or #illegalList == 0 then return end
 
-		ui.spacing()
-		ui.separator()
-		ui.spacing()
 		ui.withStyleColors({ Text = colors.econIllegalCommodity }, function()
-			ui.text(lc.ILLEGAL_GOODS)
+			ui.separatorText(lc.ILLEGAL_GOODS)
 		end)
-		ui.spacing()
 
 		for _, info in ipairs(illegalList) do
+
+			if otherSystem then
+				local bookmark = ui.iconButton("bookmark_" .. info[1], icons.bookmark, lui.ADD_BOOKMARK, nil, iconSize)
+				ui.sameLine()
+
+				if bookmark then
+					add_bookmark(info, thisSystem, otherSystem)
+				end
+			end
+
 			ui.group(function()
 				ui.text(info[1])
-				ui.sameLine(width - iconWidth * 2, 0)
+				ui.sameLine(-iconWidth * 2)
 
 				-- only display illegal icon if the commodity is actually legal in the other system
 				if otherSystem and (info[2] or info[3]) then
@@ -232,7 +259,7 @@ function SystemEconView:drawCommodityList(commList, illegalList, thisSystem, oth
 				end
 			end)
 
-			if ui.isItemHovered() then
+			if ui.isItemHovered("ForTooltip") then
 				drawCommodityTooltip(info, thisSystem, otherSystem)
 			end
 		end
