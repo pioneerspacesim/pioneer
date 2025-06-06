@@ -338,29 +338,6 @@ function Player:GetMoney ()
 end
 
 --
--- Method: SetMoney
---
--- Set the player's money
---
--- > player:SetMoney(money)
---
--- Parameters:
---
---   money - the new amount of money, in dollars
---
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   experimental
---
-function Player:SetMoney (m)
-	PlayerState.SetMoney(m)
-end
-
---
 -- Method: AddMoney
 --
 -- Add an amount to the player's money
