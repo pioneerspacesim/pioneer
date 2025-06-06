@@ -2787,6 +2787,10 @@
     "description": "Indicates the list of objects should be sorted by distance",
     "message": "Distance"
   },
+  "SORT_COMMODITY": {
+    "description": "Indicates the list of objects should be sorted by commodity",
+    "message": "Commodity"
+  },
   "SORT_NAME": {
     "description": "Indicates the list of objects should be sorted by name",
     "message": "Name"

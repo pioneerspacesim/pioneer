@@ -42,8 +42,12 @@ local bookmarkEditStyle = ui.Style:clone({
 
 local sortModes = {
 	DISTANCE = lui.SORT_DISTANCE,
-	NAME = lui.SORT_NAME
+	NAME = lui.SORT_NAME,
+	COMMODITY = lui.SORT_COMMODITY,
 }
+
+local sortKeys = utils.build_array(utils.keys(sortModes))
+table.sort(sortKeys)
 
 local childFlags = ui.ChildFlags { 'AlwaysUseWindowPadding', 'Borders', 'AutoResizeY' }
 
@@ -133,19 +137,43 @@ function BookmarkView:rebuildBookmarks()
 
 	local current = self:getCurrentPath()
 
-	local function sort_name(a, b)
+	local sorts = {}
+
+	function sorts.NAME(a, b)
 		local name_a = get_bookmark_name(bookmarks[a].path)
 		local name_b = get_bookmark_name(bookmarks[b].path)
-		return name_a < name_b
+		return name_a < name_b or (name_a == name_b and a < b)
 	end
 
-	local function sort_dist(a, b)
+	function sorts.DISTANCE(a, b)
 		local dist_a = bookmarks[a].path:DistanceTo(current)
 		local dist_b = bookmarks[b].path:DistanceTo(current)
-		return dist_a < dist_b
+		return dist_a < dist_b or (dist_a == dist_b and a < b)
 	end
 
-	table.sort(bookmarkList, self.sortMode == "DISTANCE" and sort_dist or sort_name)
+	function sorts.COMMODITY(a, b)
+		local comm_a = bookmarks[a].commodity
+		local comm_b = bookmarks[b].commodity
+		if not comm_a and not comm_b then
+			return sorts.NAME(a, b)
+		end
+
+		if comm_a ~= comm_b then
+			return not comm_b or comm_a and comm_a < comm_b
+		end
+
+		local name_a = get_bookmark_name(bookmarks[a].path)
+		local name_b = get_bookmark_name(bookmarks[b].path)
+		if name_a ~= name_b then
+			return name_a < name_b
+		end
+
+		local route_a = get_bookmark_name(bookmarks[a].route_to)
+		local route_b = get_bookmark_name(bookmarks[b].route_to)
+		return route_a < route_b
+	end
+
+	table.sort(bookmarkList, sorts[self.sortMode])
 
 	self.bookmarks = bookmarkList
 end
@@ -322,7 +350,7 @@ function BookmarkView:drawBody()
 
 		ui.comboBox("##SortMode", sortModes[self.sortMode], function()
 
-			for _, mode in utils.keys(sortModes) do
+			for _, mode in ipairs(sortKeys) do
 
 				if ui.selectable(sortModes[mode]) then
 					self:message("setSortMode", mode)
