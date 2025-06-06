@@ -79,6 +79,10 @@
     "description": "",
     "message": "Backward acceleration"
   },
+  "BODY_IN_ROUTE": {
+    "description": "Label indicating a star is part of a planned hyperjump route",
+    "message": "Body in planned HyperJump Route"
+  },
   "BULLETIN_BOARD": {
     "description": "",
     "message": "Bulletin Board"
@@ -175,13 +179,13 @@
     "description": "",
     "message": "Cash: {money}"
   },
-  "CENTER_ON_SYSTEM": {
-    "description": "Center on selected star system",
-    "message": "Center on System"
-  },
   "CENTER_ON_CURRENT_SYSTEM": {
     "description": "Center on current star system",
     "message": "Center on Current System"
+  },
+  "CENTER_ON_SYSTEM": {
+    "description": "Center on selected star system",
+    "message": "Center on System"
   },
   "CHANGE": {
     "description": "Face feature option",
@@ -630,6 +634,10 @@
   "EXPERT": {
     "description": "For player reputation",
     "message": "Expert"
+  },
+  "FACTION": {
+    "description": "Label indicating the factional allegiance of an object",
+    "message": "Faction"
   },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
@@ -1291,6 +1299,10 @@
     "description": "",
     "message": "HyperJump Route"
   },
+  "HYPERJUMP_ROUTING": {
+    "description": "Label indicating a category division",
+    "message": "HyperJump Routing"
+  },
   "HYPERSPACE_RANGE": {
     "description": "",
     "message": "Hyperspace range"
@@ -1398,6 +1410,10 @@
   "KILLS": {
     "description": "",
     "message": "Kills:"
+  },
+  "KNOWN_AS": {
+    "description": "Indicates alternate names/aliases for an object",
+    "message": "Known as"
   },
   "LANGUAGE": {
     "description": "",
@@ -2267,6 +2283,10 @@
     "description": "",
     "message": "Set destination as navigation target."
   },
+  "SET_JUMP_TARGET": {
+    "description": "Button tooltip which sets the jump route to the selected body",
+    "message": "Set Jump Target"
+  },
   "SET_RETURN_ROUTE": {
     "description": "",
     "message": "Set return route"
@@ -2435,6 +2455,10 @@
     "description": "Message when restoring savegame",
     "message": "System body index is out of range"
   },
+  "SYSTEM_INFORMATION": {
+    "description": "Tooltip / label indicating information about a selected star system",
+    "message": "System Information"
+  },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
     "message": "This station holds a level {tech_level} technology certificate."
@@ -2583,13 +2607,13 @@
     "description": "Message when restoring savegame",
     "message": "Unknown system log entry format"
   },
-  "UNLAWFUL_WEAPONS_DISCHARGE": {
-    "description": "",
-    "message": "Unlawful weapons discharge"
-  },
   "UNLAWFUL_ECM_DISCHARGE": {
     "description": "",
     "message": "Unlawful ECM discharge"
+  },
+  "UNLAWFUL_WEAPONS_DISCHARGE": {
+    "description": "",
+    "message": "Unlawful weapons discharge"
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
@@ -2730,29 +2754,5 @@
   "ZOOM": {
     "description": "Label for a zoom (magnification) control bar.",
     "message": "Zoom"
-  },
-  "SYSTEM_INFORMATION": {
-    "description": "Tooltip / label indicating information about a selected star system",
-    "message": "System Information"
-  },
-  "KNOWN_AS": {
-    "description": "Indicates alternate names/aliases for an object",
-    "message": "Known as"
-  },
-  "HYPERJUMP_ROUTING": {
-    "description": "Label indicating a category division",
-    "message": "HyperJump Routing"
-  },
-  "BODY_IN_ROUTE": {
-    "description": "Label indicating a star is part of a planned hyperjump route",
-    "message": "Body in planned HyperJump Route"
-  },
-  "SET_JUMP_TARGET": {
-    "description": "Button tooltip which sets the jump route to the selected body",
-    "message": "Set Jump Target"
-  },
-  "FACTION": {
-    "description": "Label indicating the factional allegiance of an object",
-    "message": "Faction"
   }
 }

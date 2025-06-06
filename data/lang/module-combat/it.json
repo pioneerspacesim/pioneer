@@ -233,7 +233,7 @@
   },
   "MINING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "Sono un dirigente della {org}. Abbiamo bisogno di aiuto per una disputa legale di lunga data con un concorrente a proposito dei diritti d'estrazione nel sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} AL. Abbiamo perso la pazienza e vogliamo velocizzare le cose al di fuori dell'aula di tribunale. La tua missione sarà di saltare verso {area}. La paga di {cash}."
+    "message": "Sono un dirigente della {org}. Abbiamo bisogno di aiuto per una disputa legale di lunga data con un concorrente a proposito dei diritti d'estrazione nel sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} AL. Abbiamo perso la pazienza e vogliamo velocizzare le cose al di fuori dell'aula di tribunale. La tua missione sarà di saltare verso {area}. La paga è di {cash}."
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",

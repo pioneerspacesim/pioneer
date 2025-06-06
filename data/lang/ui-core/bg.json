@@ -79,6 +79,10 @@
     "description": "",
     "message": "Ускорение назад"
   },
+  "BODY_IN_ROUTE": {
+    "description": "Label indicating a star is part of a planned hyperjump route",
+    "message": "Body in planned HyperJump Route"
+  },
   "BULLETIN_BOARD": {
     "description": "",
     "message": "Бюлетина"
@@ -174,6 +178,10 @@
   "CASH_N": {
     "description": "",
     "message": "Кредити: {money}"
+  },
+  "CENTER_ON_CURRENT_SYSTEM": {
+    "description": "Center on current star system",
+    "message": "Center on Current System"
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
@@ -376,8 +384,8 @@
     "message": "Съдебно досие"
   },
   "CURRENT_FUEL": {
-    "description": "For hyperjump planner",
-    "message": "Текущо гориво:"
+    "description": "Label indicating the current fuel state",
+    "message": "Current Fuel"
   },
   "CURRENT_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
@@ -388,8 +396,8 @@
     "message": "Текущ кораб"
   },
   "CURRENT_SYSTEM": {
-    "description": "For hyperjump planner",
-    "message": "Текуща система"
+    "description": "Label indicating the system the player currently occupies",
+    "message": "Current System"
   },
   "CUT": {
     "description": "As for clipboard",
@@ -627,6 +635,10 @@
     "description": "For player reputation",
     "message": "Експерт"
   },
+  "FACTION": {
+    "description": "Label indicating the factional allegiance of an object",
+    "message": "Faction"
+  },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
     "message": "Групировки"
@@ -693,7 +705,7 @@
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "Крайна цел:"
+    "message": "Final Target"
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
@@ -1287,6 +1299,10 @@
     "description": "",
     "message": "Маршрут на хиперскока"
   },
+  "HYPERJUMP_ROUTING": {
+    "description": "Label indicating a category division",
+    "message": "HyperJump Routing"
+  },
   "HYPERSPACE_RANGE": {
     "description": "",
     "message": "Хиперпространствен обхват"
@@ -1394,6 +1410,10 @@
   "KILLS": {
     "description": "",
     "message": "Убити:"
+  },
+  "KNOWN_AS": {
+    "description": "Indicates alternate names/aliases for an object",
+    "message": "Known as"
   },
   "LANGUAGE": {
     "description": "",
@@ -2109,7 +2129,7 @@
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "Необходимо гориво:"
+    "message": "Required Fuel"
   },
   "RESET": {
     "description": "",
@@ -2262,6 +2282,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Задаване на дестинацията като навигационна цел."
+  },
+  "SET_JUMP_TARGET": {
+    "description": "Button tooltip which sets the jump route to the selected body",
+    "message": "Set Jump Target"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
@@ -2431,6 +2455,10 @@
     "description": "Message when restoring savegame",
     "message": "Индексът на тялото е извън обхвата"
   },
+  "SYSTEM_INFORMATION": {
+    "description": "Tooltip / label indicating information about a selected star system",
+    "message": "System Information"
+  },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
     "message": "Тази станция има технологичен сертификат от ниво {tech_level}."
@@ -2517,11 +2545,11 @@
   },
   "TOTAL_DISTANCE": {
     "description": "Total distance of a (possibly series) of hyper jump(s)",
-    "message": "Общо разстояние:"
+    "message": "Total Distance"
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "Обща продължителност:"
+    "message": "Total Duration"
   },
   "TOTAL_MASS": {
     "description": "",
@@ -2578,6 +2606,10 @@
   "UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",
     "message": "Неизвестен формат на дневника на системата"
+  },
+  "UNLAWFUL_ECM_DISCHARGE": {
+    "description": "",
+    "message": "Незаконно използване на ЕПМ"
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",

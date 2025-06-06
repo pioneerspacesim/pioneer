@@ -269,27 +269,27 @@
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}t"
+    "message": "{amount} t"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "La massa è {amount}t."
+    "message": "La massa è {amount} t."
   },
   "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "Sono {amount}t."
+    "message": "Sono {amount} t."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "Sono solo {amount}t."
+    "message": "Sono solo {amount} t."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "Ci sono {amount}t di {cargoname}."
+    "message": "Ci sono {amount} t di {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}t {cargoname}"
+    "message": "{amount} t {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
@@ -393,7 +393,7 @@
   },
   "NEGOTIABLE_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}t di {cargoname} possono essere divise così:"
+    "message": "{amount} t di {cargoname} possono essere divise così:"
   },
   "NEGOTIABLE_3": {
     "description": "regarding mass, always more than 1t",
@@ -405,7 +405,7 @@
   },
   "NEGOTIABLE_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "No. Si tratta di solo {amount}t."
+    "message": "No. Si tratta di solo {amount} t."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
@@ -413,7 +413,7 @@
   },
   "OFFER": {
     "description": "",
-    "message": "Trasporta {amount}t per {reward}"
+    "message": "Trasporta {amount} t per {reward}"
   },
   "OK_AGREED": {
     "description": "",
@@ -421,7 +421,7 @@
   },
   "OK_WE_AGREE": {
     "description": "",
-    "message": "Ok, abbiamo un accordo per {amount}t per {reward}."
+    "message": "Ok, abbiamo un accordo per {amount} t per {reward}."
   },
   "PICKUP_FROM": {
     "description": "from a location",

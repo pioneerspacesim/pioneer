@@ -185,7 +185,7 @@
   },
   "EMPTY_EQUIPMENT_PROVIDING_SLOTS": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Empty equipment providing slots"
+    "message": "Tom plats för utrustning"
   },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
@@ -217,7 +217,7 @@
   },
   "HARDPOINT_MINING_LASER": {
     "description": "Name for a mining laser mount.",
-    "message": "Mining Hardpoint"
+    "message": "Fäste för gruvutrustning"
   },
   "HARDPOINT_MISSILE": {
     "description": "Name for a generic missile mount",
@@ -225,7 +225,7 @@
   },
   "HARDPOINT_MISSILE_ARRAY": {
     "description": "Name for the 'Missile Array' equipment hardpoint",
-    "message": "Missile Array"
+    "message": "Raketställ"
   },
   "HARDPOINT_MISSILE_BAY": {
     "description": "Name for the 'Missile Bay' equipment hardpoint",
@@ -241,7 +241,7 @@
   },
   "HARDPOINT_PYLON": {
     "description": "Name for a generic missile pylon",
-    "message": "Pylon"
+    "message": "Vapenbalk"
   },
   "HARDPOINT_PYLON_LEFT": {
     "description": "Name for a generic missile pylon",
@@ -537,11 +537,11 @@
   },
   "MISSILE_SMART_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "A guided missile somewhat resistant to ECM."
+    "message": "En styrd missil som är något motståndskraftig mot ECM."
   },
   "MISSILE_SMART_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "A smart rocket capable of tracking down your target using an advanced sensor suite with an integrated AI module. Make sure not to call it HAL and we're sure it will home in on your intended target, and not you.."
+    "message": "En smart raket som kan spåra ditt mål med hjälp av en avancerad uppsättning av sensorer med en integrerad AI-modul. Kalla den inte HAL, så är vi säkra på att den kommer att rikta in sig på ditt avsedda mål, och inte dig..."
   },
   "MISSILE_UNGUIDED": {
     "description": "",
@@ -553,11 +553,11 @@
   },
   "MISSILE_UNGUIDED_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "Mass-produced by local manufacturers on most worlds. These range from being lovingly hand-crafted by artisans on developing worlds to being mindlessly churned out by the millions in automated mega-factories on hyper-industrialised ones.\nBut regardless from where they are sourced, the specifications are tightly controlled by the ISAEEE and should work in most compatible ship systems."
+    "message": "Massproducerade av lokala tillverkare på de flesta planeter. Dessa sträcker sig från kärleksfullt handgjorda av hantverkare i utvecklingsländer till tanklöst producerade i miljoner i automatiserade megafabriker på hyperindustrialiserade världar.\nMen oavsett var de kommer ifrån, är specifikationerna noggrant kontrollerade av ISAEEE och borde fungera i de flesta kompatibla system. "
   },
   "NO_SUITABLE_EQUIPMENT": {
     "description": "Message in the start menu when editing equipment",
-    "message": "No suitable equipment"
+    "message": "Ingen passande utrustning"
   },
   "NO_SUITABLE_SLOTS": {
     "description": "Message in the start menu when editing equipment",
@@ -869,19 +869,19 @@
   },
   "THE_SAME_EQUIPMENT_HAS_BEEN_ALREADY_INSTALLED": {
     "description": "Message in the start menu when editing equipment",
-    "message": "The same equipment has been already installed."
+    "message": "Samma utrustning redan installerad."
   },
   "THRUSTERS_DEFAULT": {
     "description": "Equipment name for default RCS thrusters",
-    "message": "Default Thrusters"
+    "message": "Standard styrmotorer"
   },
   "THRUSTERS_IMPROVED": {
     "description": "",
-    "message": "Improved Thrusters"
+    "message": "Förbättrade styrmotorer"
   },
   "THRUSTERS_IMPROVED_DESCRIPTION": {
     "description": "",
-    "message": "An improved type of thrusters approved for your ship."
+    "message": "En förbättrad styrraket, godkänd för ditt skepp."
   },
   "THRUSTERS_NAVAL": {
     "description": "",

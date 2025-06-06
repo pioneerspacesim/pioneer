@@ -273,19 +273,19 @@
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "La massa és de {amount} tones."
+    "message": "The mass is {amount} t."
   },
   "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "N'hi ha {amount} tones."
+    "message": "There are {amount} t."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "Només {amount} tona."
+    "message": "It's only {amount} t."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "N'hi ha {amount} t de {cargoname}."
+    "message": "There are {amount} t of {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
@@ -393,7 +393,7 @@
   },
   "NEGOTIABLE_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}t {cargoname} can be divided as follows:"
+    "message": "{amount} t {cargoname} can be divided as follows:"
   },
   "NEGOTIABLE_3": {
     "description": "regarding mass, always more than 1t",
@@ -405,7 +405,7 @@
   },
   "NEGOTIABLE_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "No it is not. It's only {amount}t."
+    "message": "No it is not. It's only {amount} t."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
@@ -413,7 +413,7 @@
   },
   "OFFER": {
     "description": "",
-    "message": "Transport {amount}t for {reward}"
+    "message": "Transport {amount} t for {reward}"
   },
   "OK_AGREED": {
     "description": "",
@@ -421,7 +421,7 @@
   },
   "OK_WE_AGREE": {
     "description": "",
-    "message": "OK, we agree on {amount}t for {reward}."
+    "message": "OK, we agree on {amount} t for {reward}."
   },
   "PICKUP_FROM": {
     "description": "from a location",

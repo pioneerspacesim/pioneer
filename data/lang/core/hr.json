@@ -405,7 +405,7 @@
   },
   "ECONOMY_TYPE": {
     "description": "",
-    "message": "Tip ekonomije:"
+    "message": "Economy type"
   },
   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
     "description": "",
@@ -505,7 +505,7 @@
   },
   "GOVERNMENT_TYPE": {
     "description": "",
-    "message": "Tip uprave:"
+    "message": "Government type"
   },
   "GRAIN": {
     "description": "like wheat or barley",
@@ -1029,7 +1029,7 @@
   },
   "NUMBER_TONNES": {
     "description": "",
-    "message": "%{mass}t"
+    "message": "%{mass} t"
   },
   "N_ATMOSPHERE": {
     "description": "",
@@ -1189,7 +1189,7 @@
   },
   "POPULATION": {
     "description": "",
-    "message": "Populacija:"
+    "message": "Population"
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -1317,7 +1317,7 @@
   },
   "SECTOR_X_Y_Z": {
     "description": "",
-    "message": "Sektor: %x,%y,%z"
+    "message": "Sector: {sectorX}, {sectorY}, {sectorZ}"
   },
   "SELECTED_SYSTEM": {
     "description": "",
@@ -1762,6 +1762,10 @@
   "UNIT_DAYS": {
     "description": "Duration unit: one 24-hour day",
     "message": "d"
+  },
+  "UNIT_DENSITY": {
+    "description": "Density unit: kilos per cubic meter",
+    "message": "kg/m³"
   },
   "UNIT_EARTH_GRAVITY": {
     "description": "Acceleration unit: one earth gravity (g)",

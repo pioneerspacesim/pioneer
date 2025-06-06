@@ -269,27 +269,27 @@
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}t"
+    "message": "{amount} t"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "The mass is {amount}t."
+    "message": "The mass is {amount} t."
   },
   "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "There are {amount}t."
+    "message": "There are {amount} t."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "It's only {amount}t."
+    "message": "It's only {amount} t."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "There are {amount}t of {cargoname}."
+    "message": "There are {amount} t of {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}t {cargoname}"
+    "message": "{amount} t {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
@@ -393,7 +393,7 @@
   },
   "NEGOTIABLE_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount} tonna {cargoname}, ami felosztható az alábbiak szerint:"
+    "message": "{amount} t {cargoname} can be divided as follows:"
   },
   "NEGOTIABLE_3": {
     "description": "regarding mass, always more than 1t",
@@ -405,7 +405,7 @@
   },
   "NEGOTIABLE_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "Nem lehetséges. Mindössze {amount} tonna."
+    "message": "No it is not. It's only {amount} t."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
@@ -413,7 +413,7 @@
   },
   "OFFER": {
     "description": "",
-    "message": "{amount} tonna szállítmány {reward}-ért"
+    "message": "Transport {amount} t for {reward}"
   },
   "OK_AGREED": {
     "description": "",
@@ -421,7 +421,7 @@
   },
   "OK_WE_AGREE": {
     "description": "",
-    "message": "Rendben, akkor megegyeztünk {amount} tonnában, {reward} díjazásért."
+    "message": "OK, we agree on {amount} t for {reward}."
   },
   "PICKUP_FROM": {
     "description": "from a location",

@@ -269,27 +269,27 @@
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}吨"
+    "message": "{amount} t"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "质量是 {amount}吨."
+    "message": "The mass is {amount} t."
   },
   "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "有 {amount}吨."
+    "message": "There are {amount} t."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "只有 {amount}吨."
+    "message": "It's only {amount} t."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "这有 {amount}吨{cargoname}。"
+    "message": "There are {amount} t of {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}吨{cargoname}"
+    "message": "{amount} t {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
@@ -393,7 +393,7 @@
   },
   "NEGOTIABLE_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}吨{cargoname}可分为："
+    "message": "{amount} t {cargoname} can be divided as follows:"
   },
   "NEGOTIABLE_3": {
     "description": "regarding mass, always more than 1t",
@@ -405,7 +405,7 @@
   },
   "NEGOTIABLE_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "不，不是。只有{amount}吨。"
+    "message": "No it is not. It's only {amount} t."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
@@ -413,7 +413,7 @@
   },
   "OFFER": {
     "description": "",
-    "message": "运输{amount}吨用于{reward}"
+    "message": "Transport {amount} t for {reward}"
   },
   "OK_AGREED": {
     "description": "",
@@ -421,7 +421,7 @@
   },
   "OK_WE_AGREE": {
     "description": "",
-    "message": "好的，我们同意{amount}吨作为{reward}。"
+    "message": "OK, we agree on {amount} t for {reward}."
   },
   "PICKUP_FROM": {
     "description": "from a location",

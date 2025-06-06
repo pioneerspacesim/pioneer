@@ -9,7 +9,7 @@
   },
   "BOARDED_PASSENGER": {
     "description": "",
-    "message": "{name} ha imbarcato la nave."
+    "message": "{name} è salito a bordo della nave."
   },
   "COMMODITIES": {
     "description": "",
@@ -273,7 +273,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Ricevuto segnale di emergenza: nave alla deriva e priva di cabrante sul pianeta {planet}."
+    "message": "Ricevuto segnale di emergenza: nave alla deriva e priva di carburante sul pianeta {planet}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",

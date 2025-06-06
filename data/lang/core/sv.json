@@ -405,7 +405,7 @@
   },
   "ECONOMY_TYPE": {
     "description": "",
-    "message": "Ekonomityp:"
+    "message": "Ekonomiskt system"
   },
   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
     "description": "",
@@ -505,7 +505,7 @@
   },
   "GOVERNMENT_TYPE": {
     "description": "",
-    "message": "Regeringsform:"
+    "message": "Styrelseskick"
   },
   "GRAIN": {
     "description": "like wheat or barley",
@@ -1017,7 +1017,7 @@
   },
   "NUMBER_GROUP_SEP": {
     "description": "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-    "message": " \\u2009"
+    "message": " ,"
   },
   "NUMBER_HOURS": {
     "description": "",
@@ -1189,7 +1189,7 @@
   },
   "POPULATION": {
     "description": "",
-    "message": "Befolkning:"
+    "message": "Befolkning"
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -1317,7 +1317,7 @@
   },
   "SECTOR_X_Y_Z": {
     "description": "",
-    "message": "Sektor: %x,%y,%z"
+    "message": "Sektor: {sectorX}, {sectorY}, {sectorZ}"
   },
   "SELECTED_SYSTEM": {
     "description": "",
@@ -1762,6 +1762,10 @@
   "UNIT_DAYS": {
     "description": "Duration unit: one 24-hour day",
     "message": "d"
+  },
+  "UNIT_DENSITY": {
+    "description": "Density unit: kilos per cubic meter",
+    "message": "kg/m³"
   },
   "UNIT_EARTH_GRAVITY": {
     "description": "Acceleration unit: one earth gravity (g)",

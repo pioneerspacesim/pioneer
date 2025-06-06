@@ -269,7 +269,7 @@
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount} t."
+    "message": "{amount} t"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
@@ -289,7 +289,7 @@
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount} t {cargoname}."
+    "message": "{amount} t {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",

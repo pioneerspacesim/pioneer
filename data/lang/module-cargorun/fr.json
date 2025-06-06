@@ -269,27 +269,27 @@
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}t"
+    "message": "{amount} t"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Le poids est de {amount}t."
+    "message": "La masse est de {amount} t."
   },
   "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "Il y a {amount}t."
+    "message": "Il y a {amount} t."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "C'est seulement {amount}t."
+    "message": "Cela pèse seulement {amount} t."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "Il y a {amount}t de {cargoname}."
+    "message": "Il y a {amount} t de {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}t {cargoname}"
+    "message": "{amount} t {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
@@ -393,7 +393,7 @@
   },
   "NEGOTIABLE_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "Lest {amount}t de {cargoname} peuvent être divisés comme suit:"
+    "message": "Les {amount} t de {cargoname} peuvent être divisés comme suit:"
   },
   "NEGOTIABLE_3": {
     "description": "regarding mass, always more than 1t",
@@ -405,7 +405,7 @@
   },
   "NEGOTIABLE_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "Non. C'est seulement {amount}t."
+    "message": "Non. Cela pèse seulement {amount} t."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
@@ -413,7 +413,7 @@
   },
   "OFFER": {
     "description": "",
-    "message": "Transporter {amount}t pour un montant de {reward}"
+    "message": "Transportez {amount} t pour un montant de {reward}"
   },
   "OK_AGREED": {
     "description": "",
@@ -421,7 +421,7 @@
   },
   "OK_WE_AGREE": {
     "description": "",
-    "message": "Ok, nous sommes d'accord pour {amount}t à {reward}."
+    "message": "OK, nous sommes d'accord pour {amount} t pour un montant de {reward}"
   },
   "PICKUP_FROM": {
     "description": "from a location",

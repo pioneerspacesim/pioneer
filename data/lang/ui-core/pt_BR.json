@@ -79,6 +79,10 @@
     "description": "",
     "message": "Aceleração para trás"
   },
+  "BODY_IN_ROUTE": {
+    "description": "Label indicating a star is part of a planned hyperjump route",
+    "message": "Body in planned HyperJump Route"
+  },
   "BULLETIN_BOARD": {
     "description": "",
     "message": "Boletim de Bordo"
@@ -174,6 +178,10 @@
   "CASH_N": {
     "description": "",
     "message": "Dinheiro: {money}"
+  },
+  "CENTER_ON_CURRENT_SYSTEM": {
+    "description": "Center on current star system",
+    "message": "Center on Current System"
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
@@ -376,8 +384,8 @@
     "message": "Criminal Record"
   },
   "CURRENT_FUEL": {
-    "description": "For hyperjump planner",
-    "message": "Current Fuel:"
+    "description": "Label indicating the current fuel state",
+    "message": "Current Fuel"
   },
   "CURRENT_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
@@ -388,8 +396,8 @@
     "message": "Current Ship"
   },
   "CURRENT_SYSTEM": {
-    "description": "For hyperjump planner",
-    "message": "Sistema atual"
+    "description": "Label indicating the system the player currently occupies",
+    "message": "Current System"
   },
   "CUT": {
     "description": "As for clipboard",
@@ -627,6 +635,10 @@
     "description": "For player reputation",
     "message": "Especialista"
   },
+  "FACTION": {
+    "description": "Label indicating the factional allegiance of an object",
+    "message": "Faction"
+  },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
     "message": "Factions"
@@ -693,7 +705,7 @@
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "Final Target:"
+    "message": "Final Target"
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
@@ -1287,6 +1299,10 @@
     "description": "",
     "message": "HyperJump Route"
   },
+  "HYPERJUMP_ROUTING": {
+    "description": "Label indicating a category division",
+    "message": "HyperJump Routing"
+  },
   "HYPERSPACE_RANGE": {
     "description": "",
     "message": "Alcance de hiperespaço"
@@ -1394,6 +1410,10 @@
   "KILLS": {
     "description": "",
     "message": "Assassinatos:"
+  },
+  "KNOWN_AS": {
+    "description": "Indicates alternate names/aliases for an object",
+    "message": "Known as"
   },
   "LANGUAGE": {
     "description": "",
@@ -2109,7 +2129,7 @@
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "Required Fuel:"
+    "message": "Required Fuel"
   },
   "RESET": {
     "description": "",
@@ -2262,6 +2282,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Definir destino como alvo de navegação"
+  },
+  "SET_JUMP_TARGET": {
+    "description": "Button tooltip which sets the jump route to the selected body",
+    "message": "Set Jump Target"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
@@ -2431,6 +2455,10 @@
     "description": "Message when restoring savegame",
     "message": "System body index is out of range"
   },
+  "SYSTEM_INFORMATION": {
+    "description": "Tooltip / label indicating information about a selected star system",
+    "message": "System Information"
+  },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
     "message": "Esta estação possui um certificado de tecnologia de nível {tech_level}."
@@ -2517,11 +2545,11 @@
   },
   "TOTAL_DISTANCE": {
     "description": "Total distance of a (possibly series) of hyper jump(s)",
-    "message": "Total Distance:"
+    "message": "Total Distance"
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "Duração total:"
+    "message": "Total Duration"
   },
   "TOTAL_MASS": {
     "description": "",
@@ -2578,6 +2606,10 @@
   "UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",
     "message": "Unknown system log entry format"
+  },
+  "UNLAWFUL_ECM_DISCHARGE": {
+    "description": "",
+    "message": "Unlawful ECM discharge"
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
