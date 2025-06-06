@@ -1466,6 +1466,14 @@ static int l_pigui_text_colored(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_bullet_text(lua_State *l)
+{
+	PROFILE_SCOPED()
+	std::string text = LuaPull<std::string>(l, 1);
+	ImGui::BulletText(text.c_str());
+	return 0;
+}
+
 /*
  * Function: textLinkOpenURL
  *
@@ -3714,6 +3722,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "SetColumnWidth", l_pigui_set_column_width },
 		{ "SetColumnOffset", l_pigui_set_column_offset },
 		{ "GetScrollY", l_pigui_get_scroll_y },
+		{ "BulletText", l_pigui_bullet_text },
 		{ "Text", l_pigui_text },
 		{ "TextWrapped", l_pigui_text_wrapped },
 		{ "TextEllipsis", l_pigui_text_ellipsis },
