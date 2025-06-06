@@ -14,6 +14,7 @@ local Serializer = require 'Serializer'
 local Character = require 'Character'
 local NameGen = require 'NameGen'
 local utils = require 'utils'
+local PlayerState = require 'PlayerState'
 
 local MissionUtils = require 'modules.MissionUtils'
 local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
@@ -404,12 +405,12 @@ local finishMission = function (ref, mission)
 	elseif mission.complete then
 		Comms.ImportantMessage(l["SUCCESSMSG_" .. Engine.rand:Integer(1, getNumberOfFlavours("SUCCESSMSG"))], mission.client.name)
 		delta_reputation = 2.5
-		Game.player:AddMoney(mission.reward)
+		PlayerState.AddMoney(mission.reward)
 		if mission.bonus > 0 then
 			local bonus = math.ceil(mission.reward/5 * mission.bonus)
 			local addition = string.interp(l["BONUS_" .. Engine.rand:Integer(1, getNumberOfFlavours("BONUS"))], { cash = Format.Money(bonus, false) })
 			Comms.ImportantMessage(addition, mission.client.name)
-			Game.player:AddMoney(bonus)
+			PlayerState.AddMoney(bonus)
 		end
 	end
 	if delta_reputation ~= 0 then

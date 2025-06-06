@@ -314,57 +314,6 @@ function Player:GetLegalStatus (faction)
 	end
 end
 
---
--- Method: GetMoney
---
--- Get the player's current money
---
--- > money = player:GetMoney()
---
--- Return:
---
---   money - the player's money, in dollars
---
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   experimental
---
-function Player:GetMoney ()
-	return PlayerState.GetMoney()
-end
-
---
--- Method: AddMoney
---
--- Add an amount to the player's money
---
--- > money = player:AddMoney(change)
---
--- Parameters:
---
---   change - the amount of money to add to the player's money, in dollars
---
--- Return:
---
---   money - the player's new money, in dollars
---
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   experimental
---
-function Player:AddMoney (m)
-	PlayerState.AddMoney(m)
-end
-
-
 local loaded_data
 
 local onGameStart = function ()

@@ -4,6 +4,7 @@
 local ui = require 'pigui'
 local StationView = require 'pigui.views.station-view'
 local AutoSave    = require 'modules.AutoSave.AutoSave'
+local PlayerState = require 'PlayerState'
 
 local Game = require 'Game'
 local Rand = require 'Rand'
@@ -114,8 +115,8 @@ local refuelInternalTank = function (delta)
 	local mass = shipDef.fuelTankMass/100 * delta
 	local total = price * mass
 
-	if total > Game.player:GetMoney() then
-		total = Game.player:GetMoney()
+	if total > PlayerState.GetMoney() then
+		total = PlayerState.GetMoney()
 		mass = total / price
 		fuel = Game.player.fuel + mass * 100 / shipDef.fuelTankMass
 	end
@@ -126,7 +127,7 @@ local refuelInternalTank = function (delta)
 		fuel = Game.player.fuel + mass * 100 / shipDef.fuelTankMass
 	end
 
-	Game.player:AddMoney(-total)
+	PlayerState.AddMoney(-total)
 	local commodityChangeAmount = mass < 0 and math.floor(mass) or math.ceil(mass)
 	station:AddCommodityStock(Commodities.hydrogen, -commodityChangeAmount)
 	Game.player:SetFuelPercent(fuel)
@@ -149,8 +150,8 @@ local refuelHyperdrive = function (mass)
 	mass = math.clamp(mass, -hyperdrive.storedFuel, hyperdrive:GetMaxFuel() - hyperdrive.storedFuel)
 
 	-- Can't buy any more than the station has in stock or we have money for
-	mass = math.min(mass, math.min(stock, Game.player:GetMoney() / price))
-	Game.player:AddMoney(-price * mass)
+	mass = math.min(mass, math.min(stock, PlayerState.GetMoney() / price))
+	PlayerState.AddMoney(-price * mass)
 
 	hyperdrive:SetFuel(Game.player, hyperdrive.storedFuel + mass)
 	station:AddCommodityStock(hyperdrive_fuel, -math.round(mass))

@@ -12,6 +12,7 @@ local PiImage = require 'pigui.libs.image'
 local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
 local EquipSet = require 'EquipSet'
 local HullConfig = require 'HullConfig'
+local PlayerState= require 'PlayerState'
 
 local ui = require 'pigui'
 
@@ -168,7 +169,7 @@ local function buyShip (mkt, sos)
 	if math.floor(cost) ~= cost then
 		error("Ship price non-integer value.")
 	end
-	if player:GetMoney() < cost then
+	if PlayerState.GetMoney() < cost then
 		mkt.popup.msg = l.YOU_NOT_ENOUGH_MONEY
 		mkt.popup:open()
 		return
@@ -187,7 +188,7 @@ local function buyShip (mkt, sos)
 		return
 	end
 
-	player:AddMoney(-cost)
+	PlayerState.AddMoney(-cost)
 
 	station:ReplaceShipOnSale(sos, {
 		def     = ShipDef[player.shipId],

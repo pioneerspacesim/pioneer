@@ -2,7 +2,6 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
-local utils = require 'utils'
 local Lang = require 'Lang'
 local Game = require 'Game'
 local Event = require 'Event'
@@ -10,6 +9,8 @@ local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Equipment = require 'Equipment'
 local Character = require 'Character'
+local PlayerState = require 'PlayerState'
+
 local utils = require 'utils'
 
 local l = Lang.GetResource("module-secondhand")
@@ -88,7 +89,7 @@ local onChat = function (form, ref, option)
 			form:RemoveAdvertOnClose()
 			ads[ref] = nil
 
-		elseif Game.player:GetMoney() >= ad.price then
+		elseif PlayerState.GetMoney() >= ad.price then
 
 			local ok, slot, message_str = canFit(ad.equipment)
 			if ok then
@@ -102,7 +103,7 @@ local onChat = function (form, ref, option)
 
 				form:SetMessage(buy_message)
 				Game.player:GetComponent("EquipSet"):Install(ad.equipment, slot)
-				Game.player:AddMoney(-ad.price)
+				PlayerState.AddMoney(-ad.price)
 				form:RemoveAdvertOnClose()
 				ads[ref] = nil
 			else

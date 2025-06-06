@@ -12,6 +12,7 @@ local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
 local utils = require 'utils'
+local PlayerState = require 'PlayerState'
 
 local MissionUtils = require 'modules.MissionUtils'
 local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
@@ -417,7 +418,7 @@ local onShipDocked = function (player, station)
 				Character.persistent.player.reputation = Character.persistent.player.reputation - reward
 			else
 				Comms.ImportantMessage(flavours[mission.flavour].successmsg, mission.client.name)
-				player:AddMoney(mission.reward)
+				PlayerState.AddMoney(mission.reward)
 				Character.persistent.player.reputation = Character.persistent.player.reputation + reward
 			end
 			Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,

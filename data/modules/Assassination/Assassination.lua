@@ -19,6 +19,7 @@ local Ship = require 'Ship'
 local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
 local HullConfig  = require 'HullConfig'
 local utils = require 'utils'
+local PlayerState = require 'PlayerState'
 
 local lc = Lang.GetResource 'core'
 local l = Lang.GetResource("module-assassination")
@@ -337,7 +338,7 @@ local onShipDocked = function (ship, station)
 					cash	= Format.Money(mission.reward,false),
 				})
 				Comms.ImportantMessage(text, mission.client.name)
-				ship:AddMoney(mission.reward)
+				PlayerState.AddMoney(mission.reward)
 				Character.persistent.player.reputation = Character.persistent.player.reputation + 8
 				mission:Remove()
 				missions[ref] = nil

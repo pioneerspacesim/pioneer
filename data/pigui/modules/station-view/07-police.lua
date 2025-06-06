@@ -12,6 +12,7 @@ local PiGuiFace = require 'pigui.libs.face'
 local Format = require "Format"
 local Character = require "Character"
 local Commodities = require 'Commodities'
+local PlayerState = require 'PlayerState'
 local l = Lang.GetResource("ui-core")
 
 local ModalWindow = require 'pigui.libs.modal-win'
@@ -46,11 +47,11 @@ local widgetSizes = ui.rescaleUI({
 
 
 local function payfine(fine)
-	if Game.player:GetMoney() < fine then
+	if PlayerState.GetMoney() < fine then
 		popup:open()
 		return
 	end
-	Game.player:AddMoney(-fine)
+	PlayerState.AddMoney(-fine)
 	Game.player:ClearCrimeFine()
 end
 
@@ -118,7 +119,7 @@ local function outstanding_fines()
 			crime_table(crime_list)
 			ui.spacing()
 
-			local canPay = Game.player:GetMoney() >= fine
+			local canPay = PlayerState.GetMoney() >= fine
 			local pay_fine_text = string.interp(l.PAY_FINE_OF_N,
 				{ amount = Format.Money(fine) })
 
