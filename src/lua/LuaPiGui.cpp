@@ -2254,7 +2254,8 @@ static int l_pigui_image(lua_State *l)
 	ImVec2 size = LuaPull<ImVec2>(l, 2);
 	ImVec2 uv0 = LuaPull<ImVec2>(l, 3);
 	ImVec2 uv1 = LuaPull<ImVec2>(l, 4);
-	ImGui::Image(id, size, uv0, uv1); //,  border_col
+	ImColor tint_color = LuaPull<ImColor>(l, 5);
+	ImGui::ImageWithBg(id, size, uv0, uv1, ImVec4(0, 0, 0, 0), tint_color); //,  border_col
 	return 0;
 }
 
