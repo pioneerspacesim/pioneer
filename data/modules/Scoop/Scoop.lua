@@ -13,6 +13,7 @@ local Format = require 'Format'
 local Mission = require 'Mission'
 local Character = require 'Character'
 local Serializer = require 'Serializer'
+local PlayerState= require 'PlayerState'
 
 local MissionUtils = require 'modules.MissionUtils'
 local ShipBuilder  = require 'modules.MissionUtils.ShipBuilder'
@@ -291,7 +292,7 @@ local removeMission = function (mission, ref)
 
 	if mission.status == "COMPLETED" then
 		Character.persistent.player.reputation = oldReputation + mission_reputation
-		Game.player:AddMoney(mission.reward)
+		PlayerState.AddMoney(mission.reward)
 		Comms.ImportantMessage(l["SUCCESS_MSG_" .. mission.id], sender)
 	elseif mission.status == "FAILED" then
 		Character.persistent.player.reputation = oldReputation - mission_reputation
@@ -411,7 +412,7 @@ local onChat = function (form, ref, option)
 			return
 		end
 
-		if ad.reward < 0 and player:GetMoney() < math.abs(ad.reward) then
+		if ad.reward < 0 and PlayerState.GetMoney() < math.abs(ad.reward) then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_MONEY)
 			form:RemoveNavButton()
 			return
@@ -430,7 +431,7 @@ local onChat = function (form, ref, option)
 		end
 		debris = spawnDebris(ad.debris_type, ad.amount, ad.planet, mindist, maxdist, ad.due - Game.time)
 
-		if ad.reward < 0 then player:AddMoney(ad.reward) end
+		if ad.reward < 0 then PlayerState.AddMoney(ad.reward) end
 		if ad.deliver_to_ship then
 			ship = spawnClientShip(ad.star, ad.ship_label)
 		end

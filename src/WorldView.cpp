@@ -266,33 +266,6 @@ void WorldView::OnSwitchFrom()
 	Pi::DrawGUI = true;
 }
 
-// XXX paying fine remotely can't really be done until crime and
-// worldview are in Lua. I'm leaving this code here so its not
-// forgotten
-/*
-static void PlayerPayFine()
-{
-	Sint64 crime, fine;
-	Polit::GetCrime(&crime, &fine);
-	if (Pi::player->GetMoney() == 0) {
-		m_game->log->Add(Lang::YOU_NO_MONEY);
-	} else if (fine > Pi::player->GetMoney()) {
-		Polit::AddCrime(0, -Pi::player->GetMoney());
-		Polit::GetCrime(&crime, &fine);
-		m_game->log->Add(stringf(
-			Lang::FINE_PAID_N_BUT_N_REMAINING,
-				formatarg("paid", format_money(Pi::player->GetMoney())),
-				formatarg("fine", format_money(fine))));
-		Pi::player->SetMoney(0);
-	} else {
-		Pi::player->SetMoney(Pi::player->GetMoney() - fine);
-		m_game->log->Add(stringf(Lang::FINE_PAID_N,
-				formatarg("fine", format_money(fine))));
-		Polit::AddCrime(0, -fine);
-	}
-}
-*/
-
 int WorldView::GetActiveWeapon() const
 {
 	using CamType = ShipViewController::CamType;

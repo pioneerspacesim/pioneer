@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 local Comms = require 'Comms'
 local Game = require 'Game'
+local PlayerState = require 'PlayerState'
 
 local Lang = require 'Lang'
 local l = Lang.GetResource("ui-core")
@@ -69,12 +70,12 @@ function Legal:notifyOfCrime (ship, crime)
 						   station.label)
 
 	local lawlessness = Game.system.lawlessness
-	local _, outstandingfines = Game.player:GetCrimeOutstanding()
+	local _, outstandingfines = PlayerState.GetCrimeOutstanding()
 	local newFine = self:fine(crime, lawlessness)
 
 	-- don't keep compounding fines, except for murder
 	if crime ~= "MURDER" and newFine < outstandingfines then newFine = 0 end
-	Game.player:AddCrime(crime, newFine)
+	PlayerState.AddCrime(crime, newFine)
 end
 
 

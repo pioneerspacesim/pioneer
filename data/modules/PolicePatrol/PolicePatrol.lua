@@ -11,6 +11,7 @@ local Legal = require 'Legal'
 local Serializer = require 'Serializer'
 local Timer = require 'Timer'
 local Commodities = require 'Commodities'
+local PlayerState = require 'PlayerState'
 
 local MissionUtils = require 'modules.MissionUtils'
 local ShipBuilder  = require 'modules.MissionUtils.ShipBuilder'
@@ -131,7 +132,7 @@ local onEnterSystem = function (player)
 	local system = assert(Game.system)
 	if (1 - system.lawlessness) < Engine.rand:Number(4) then return end
 
-	local crimes, fine = player:GetCrimeOutstanding()
+	local crimes, fine = PlayerState.GetCrimeOutstanding()
 	local ship
 	local n = 1 + math.floor((1 - system.lawlessness) * (system.population / 3))
 

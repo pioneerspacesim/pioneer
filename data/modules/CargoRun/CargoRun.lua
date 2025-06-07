@@ -12,6 +12,7 @@ local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
 local utils = require 'utils'
+local PlayerState = require 'PlayerState'
 
 local MissionUtils = require 'modules.MissionUtils'
 local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
@@ -689,11 +690,11 @@ local onShipDocked = function (player, station)
 				end
 
 				Character.persistent.player.reputation = Character.persistent.player.reputation + reputation
-				player:AddMoney(mission.reward)
+				PlayerState.AddMoney(mission.reward)
 			else
 				if amount < mission.amount then
 					Comms.ImportantMessage(l.WHAT_IS_THIS, mission.client.name)
-					player:AddMoney((amount - mission.amount) * mission.cargotype.price) -- pay for the missing
+					PlayerState.AddMoney((amount - mission.amount) * mission.cargotype.price) -- pay for the missing
 					Comms.ImportantMessage(l.I_HAVE_DEBITED_YOUR_ACCOUNT, mission.client.name)
 				else
 					local n = getNumberOfFlavours("FAILUREMSG_" .. mission.branch)

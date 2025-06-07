@@ -6,6 +6,7 @@ local ShipDef = require 'ShipDef'
 local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
 local EquipCard = require 'pigui.libs.equip-card'
 local EquipSet  = require 'EquipSet'
+local PlayerState = require 'PlayerState'
 local pigui = require 'Engine'.pigui
 local Vector2 = Vector2
 
@@ -63,7 +64,7 @@ function EquipmentWidget:onBuyItem(equip)
 		equip = equip:Instance()
 	end
 
-	player:AddMoney(-self.market:getBuyPrice(equip))
+	PlayerState.AddMoney(-self.market:getBuyPrice(equip))
 	self.station:AddEquipmentStock(equip:GetPrototype(), -1)
 
 	assert(self.ship:GetComponent("EquipSet"):Install(equip, self.selectedSlot))
@@ -79,7 +80,7 @@ function EquipmentWidget:onSellItem(equip)
 
 	local player = Game.player
 
-	player:AddMoney(self.market:getSellPrice(equip))
+	PlayerState.AddMoney(self.market:getSellPrice(equip))
 	self.station:AddEquipmentStock(equip:GetPrototype(), 1)
 
 	assert(self.ship:GetComponent("EquipSet"):Remove(equip))

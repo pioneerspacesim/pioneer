@@ -9,6 +9,7 @@ local Serializer = require 'Serializer'
 local Character = require 'Character'
 local Format = require 'Format'
 local Commodities = require 'Commodities'
+local PlayerState = require 'PlayerState'
 
 local l = Lang.GetResource("module-soldout")
 
@@ -38,7 +39,7 @@ local onChat = function (form, ref, option)
 			form:SetMessage(string.interp(l.NOT_IN_STOCK, {commodity = ad.commodity:GetName()}))
 		else
 			cargoMgr:RemoveCommodity(ad.commodity, max)
-			Game.player:AddMoney(ad.price * max)
+			PlayerState.AddMoney(ad.price * max)
 			ad.amount = ad.amount - max
 			form:SetMessage(ad.message .. "\n\n" .. string.interp(l.AMOUNT, {amount = ad.amount}))
 		end
@@ -47,7 +48,7 @@ local onChat = function (form, ref, option)
 			form:SetMessage(string.interp(l.NOT_IN_STOCK, {commodity = ad.commodity:GetName()}))
 		else
 			cargoMgr:RemoveCommodity(ad.commodity, option)
-			Game.player:AddMoney(ad.price * option)
+			PlayerState.AddMoney(ad.price * option)
 			ad.amount = ad.amount - option
 			form:SetMessage(ad.message .. "\n\n" .. string.interp(l.AMOUNT, {amount = ad.amount}))
 		end

@@ -12,6 +12,7 @@ local Game = require 'Game'
 local Event = require 'Event'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
+local PlayerState= require 'PlayerState'
 
 local utils = require 'utils'
 
@@ -206,7 +207,7 @@ function FlightLog.MakeCustomEntry(text)
 		location = {state, sysname}
 	end
 
-	FlightLog.AddEntry( FlightLogEntry.Custom.New( path, Game.time, Game.player:GetMoney(), location, text ) )
+	FlightLog.AddEntry( FlightLogEntry.Custom.New( path, Game.time, PlayerState.GetMoney(), location, text ) )
 end
 
 --
@@ -361,7 +362,7 @@ end
 local AddStationToLog = function (ship, station)
 	if not ship:IsPlayer() then return end
 
-	FlightLog.AddEntry( FlightLogEntry.Station.New( station.path, Game.time, Game.player:GetMoney(), nil ) )
+	FlightLog.AddEntry( FlightLogEntry.Station.New( station.path, Game.time, PlayerState.GetMoney(), nil ) )
 end
 
 function FlightLog.OrganizeEntries()

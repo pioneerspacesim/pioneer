@@ -509,19 +509,20 @@ void SpaceStation::SwitchToStage(Uint32 bay, DockStage stage)
 
 	// if we want to generate a docking event
 	case DockStage::JUST_DOCK: {
-		LuaEvent::Queue("onShipDocked", dt.ship, this);
+		dt.ship->OnDocked(this, bay);
 		m_doorAnimationStep = -0.3; // close door
 		dt.ship->SetDockedWith(this, bay);
 		break;
 	}
 
-	case DockStage::UNDOCK_BEGIN:
+	case DockStage::UNDOCK_BEGIN: {
 		if (m_type->NumUndockStages() > 0) {
 			SwitchToStage(bay, DockStage::UNDOCK_ANIMATION_1);
 		} else {
 			SwitchToStage(bay, DockStage::UNDOCK_END);
 		}
 		break;
+	}
 
 	case DockStage::UNDOCK_END:
 		dt.ship->SetAngVelocity(GetAngVelocity());
@@ -535,7 +536,7 @@ void SpaceStation::SwitchToStage(Uint32 bay, DockStage stage)
 		break;
 
 	case DockStage::LEAVE:
-		LuaEvent::Queue("onShipUndocked", dt.ship, this);
+		dt.ship->OnUndocked(this, bay);
 		dt.ship = nullptr;
 		dt.stagePos = 0;
 		dt.maxOffset = 0;

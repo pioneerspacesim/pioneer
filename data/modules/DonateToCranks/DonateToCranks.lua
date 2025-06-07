@@ -8,6 +8,7 @@ local Character = require 'Character'
 local Event = require 'Event'
 local Serializer = require 'Serializer'
 local Format = require 'Format'
+local PlayerState = require 'PlayerState'
 
 local l = Lang.GetResource("module-donatetocranks")
 
@@ -75,7 +76,7 @@ local onChat = function (form, ref, option)
 		form:SetMessage(string.interp(flavours[ad.n].message, ad.stringVariables) .. "\n\n" .. string.interp(
 			l.SALES_PITCH, {cash = Format.Money(computeReputation(ad), false)}))
 
-	elseif Game.player:GetMoney() < option then
+	elseif PlayerState.GetMoney() < option then
 		form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_MONEY)
 	else
 		if option >= 10000 then
@@ -83,7 +84,7 @@ local onChat = function (form, ref, option)
 		else
 			form:SetMessage(l.THANK_YOU_ALL_DONATIONS_ARE_WELCOME)
 		end
-		Game.player:AddMoney(-option)
+		PlayerState.AddMoney(-option)
 		addReputation(option * ad.modifier)
 	end
 

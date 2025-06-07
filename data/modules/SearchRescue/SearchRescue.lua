@@ -47,6 +47,7 @@ local utils = require 'utils'
 local Timer = require 'Timer'
 local Rand = require 'Rand'
 local ModelSkin = require 'SceneGraph.ModelSkin'
+local PlayerState = require 'PlayerState'
 
 local MissionUtils = require 'modules.MissionUtils'
 local ShipBuilder  = require 'modules.MissionUtils.ShipBuilder'
@@ -1410,7 +1411,7 @@ local closeMission = function (mission)
 		else
 			local destroyedtxt = string.interp(l.ACCIDENT_DESTROYED_TARGET, {shiplabel = mission.shiplabel})
 			Comms.ImportantMessage(destroyedtxt)
-			Game.player:AddMoney(mission.reward/2)
+			PlayerState.AddMoney(mission.reward/2)
 			Character.persistent.player.reputation = Character.persistent.player.reputation + delta_reputation
 			Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
 			            Character.persistent.player.reputation, Character.persistent.player.killcount)
@@ -1421,7 +1422,7 @@ local closeMission = function (mission)
 		if missionStatus(mission) == "COMPLETE" then
 			local successtxt = string.interp(mission.flavour.successmsg, {cash = Format.Money(mission.reward)})
 			Comms.ImportantMessage(successtxt)
-			Game.player:AddMoney(mission.reward)
+			PlayerState.AddMoney(mission.reward)
 			Character.persistent.player.reputation = Character.persistent.player.reputation + delta_reputation
 			Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
 			            Character.persistent.player.reputation, Character.persistent.player.killcount)
@@ -2218,7 +2219,7 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 Event.Register("onShipUndocked", onShipUndocked)
-Event.Register("onShipTakeoff", onShipUndocked)
+Event.Register("onShipTakeOff", onShipUndocked)
 Event.Register("onFrameChanged", onFrameChanged)
 Event.Register("onShipDestroyed", onShipDestroyed)
 

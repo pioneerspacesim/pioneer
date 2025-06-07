@@ -12,6 +12,7 @@ local Serializer = require 'Serializer'
 local ModalWindow = require 'pigui.libs.modal-win'
 local ui = require 'pigui'
 local Commodities = require 'Commodities'
+local PlayerState = require 'PlayerState'
 
 local rescaleVector = ui.rescaleUI(Vector2(1, 1), Vector2(1600, 900), true)
 local popupSpacer = Vector2(0,0)
@@ -221,7 +222,7 @@ onChat = function (form, ref, option)
 
 	elseif option == 2 then
 		-- Player applied for membership
-		if Game.player:GetMoney() > 500 then
+		if PlayerState.GetMoney() > 500 then
 			-- Membership application successful
 			memberships[ad.flavour.clubname] = {
 				joined = Game.time,
@@ -230,7 +231,7 @@ onChat = function (form, ref, option)
 				refueled = false,
 				refueling_date = 0,
 			}
-			Game.player:AddMoney(0 - ad.flavour.annual_fee)
+			PlayerState.AddMoney(0 - ad.flavour.annual_fee)
 			form:SetMessage(l.YOU_ARE_NOW_A_MEMBER:interp({
 				expiry_date = Format.Date(memberships[ad.flavour.clubname].joined + memberships[ad.flavour.clubname].expiry)
 			}))

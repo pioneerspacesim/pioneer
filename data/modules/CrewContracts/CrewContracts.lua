@@ -10,6 +10,7 @@ local Character = require 'Character'
 local Format = require 'Format'
 local Timer = require 'Timer'
 local utils = require 'utils'
+local PlayerState = require 'PlayerState'
 
 -- This module allows the player to hire crew members through BB adverts
 -- on stations, and handles periodic events such as their wages.
@@ -77,8 +78,8 @@ local scheduleWages = function (crewMember)
 		-- Check if crew member has been dismissed
 		if not contract then return end
 
-		if Game.player:GetMoney() > contract.wage then
-			Game.player:AddMoney(0 - contract.wage)
+		if PlayerState.GetMoney() > contract.wage then
+			PlayerState.AddMoney(0 - contract.wage)
 			-- Being paid can make awkward crew like you more
 			if not crewMember:TestRoll('playerRelationship') then
 				crewMember.playerRelationship = crewMember.playerRelationship + 1
@@ -90,8 +91,8 @@ local scheduleWages = function (crewMember)
 		end
 
 		-- Attempt to pay off any arrears
-		local arrears = math.min(Game.player:GetMoney(),contract.outstanding)
-		Game.player:AddMoney(0 - arrears)
+		local arrears = math.min(PlayerState.GetMoney(),contract.outstanding)
+		PlayerState.AddMoney(0 - arrears)
 		contract.outstanding = contract.outstanding - arrears
 
 		-- The crew gain experience each week, and might get better

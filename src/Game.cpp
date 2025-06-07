@@ -273,7 +273,14 @@ void Game::ToJson(Json &jsonObj)
 	// Stuff to show in the preview in load game window
 	// some may be redundant, but this won't require loading up a game to get it all
 	Json gameInfo = Json::object();
-	float credits = LuaObject<Player>::CallMethod<float>(Pi::player, "GetMoney");
+	float credits = 0;
+
+	{
+		pi_lua_import(Lua::manager->GetLuaState(), "PlayerState");
+		ScopedTable state(LuaTable(Lua::manager->GetLuaState(), -1));
+
+		credits = state.Call<float>("GetMoney");
+	}
 
 	// Get the player's character name
 	// TODO: add an easier way to get the player's character object once player+ship are split more firmly
