@@ -1,0 +1,122 @@
+{
+  "ABOUT": {
+    "description": "",
+    "message": "About"
+  },
+  "ACKNOWLEDGEMENTS": {
+    "description": "",
+    "message": "Acknowledgements"
+  },
+  "CONTENT_CONTRIBUTION": {
+    "description": "",
+    "message": "Content contribution"
+  },
+  "CONTRIBUTIONS": {
+    "description": "",
+    "message": "Contributions"
+  },
+  "CONTRIBUTE_BODY": {
+    "description": "",
+    "message": "Pioneer is the sum of the many contributions from its players and developers. See anything you want to change, improve, or ideas for new content to add? (E.g. translations, coding, art, 2D & 3D assets, music, designing custom systems, improve our documentation, wiki, etc.)"
+  },
+  "CONTENT": {
+    "description": "",
+    "message": "Content"
+  },
+  "DEVELOPER_DOCUMENTATION": {
+    "description": "",
+    "message": "Developer Documentation"
+  },
+  "DOCUMENTATION": {
+    "description": "",
+    "message": "Documentation"
+  },
+  "DONATE_BODY": {
+    "description": "",
+    "message": "If you enjoy playing Pioneer and would like to support its continued development, please consider donating - no donation is too small."
+  },
+  "DONATE_THANKS": {
+    "description": "",
+    "message": "Thank you all for your continued support of Pioneer!"
+  },
+  "GAME_RELEASE": {
+    "description": "",
+    "message": "Stable version is released annually, February 3, but development is continuous. Brave pilots are thus encouraged to play from latest source and report bugs."
+  },
+  "INFO_BLURB": {
+    "description": "",
+    "message": "Pioneer is a single player space adventure game set in the Milky Way galaxy at the turn of the 31st century"
+  },
+  "INFO_BODY": {
+    "description": "",
+    "message": "The game is open-ended, and you are free to explore the millions of star systems in the game. You can land on planets, slingshot past gas giants, and burn yourself to a crisp flying between binary star systems. You can try your hand at piracy, make your fortune trading between systems, or do missions for the various factions fighting for power, freedom or self-determination."
+  },
+  "LINK_HOMEPAGE": {
+    "description": "",
+    "message": "Homepage"
+  },
+  "LINK_BUG_TRACKER": {
+    "description": "",
+    "message": "Bug Tracker"
+  },
+  "LINK_DEVELOPER_FORUM": {
+    "description": "",
+    "message": "Developer Forum"
+  },
+  "LINK_COMMUNITY_FORUM": {
+    "description": "",
+    "message": "Community Forum"
+  },
+  "LINK_COMMUNITY_CHAT": {
+    "description": "",
+    "message": "Community chat (Discord)"
+  },
+  "LINK_DEVELOPER_CHAT": {
+    "description": "",
+    "message": "Developer chat (IRC)"
+  },
+  "LINK_MANUAL": {
+    "description": "",
+    "message": "Manual"
+  },
+  "LINK_FAQ": {
+    "description": "",
+    "message": "FAQ"
+  },
+  "LINK_BASIC_FLIGHT": {
+    "description": "",
+    "message": "Basic flight"
+  },
+  "LICENSE": {
+    "description": "",
+    "message": "License"
+  },
+  "SOFTWARE": {
+    "description": "",
+    "message": "Software"
+  },
+  "SOFTWARE_BODY": {
+    "description": "",
+    "message": "Pioneer includes the following third-party software"
+  },
+  "SUPPORT_DEVELOPMENT": {
+    "description": "",
+    "message": "Support Development"
+  },
+  "TRANSLATIONS": {
+    "description": "",
+    "message": "Translations"
+  },
+  "VERSION_CURRENT": {
+    "description": "",
+    "message": "Your current version"
+  },
+  "VERSION_LATEST": {
+      "description": "This sentence continues into string VERSION_LATEST_CONTINUED, to read 'Latest version from source', referring to the source code",
+    "message": "Latest version from"
+  },
+  "VERSION_LATEST_CONTINUED": {
+    "description": "is continued from string VERSION_LATEST, to read 'Latest version from source'. Here, 'source' refers to the source code",
+    "message": "source code"
+  }
+}
