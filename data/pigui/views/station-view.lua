@@ -44,7 +44,7 @@ if not stationView then
 			ui.withStyleVars({WindowPadding = self.style.inventoryPadding, ItemSpacing = self.style.itemSpacing}, function()
 				ui.child("shipInventoryContainer", Vector2(0, 0), nil, useWindowPadding, function()
 					local moneyText = l.CASH .. ': ' ..  Format.Money(PlayerState.GetMoney())
-					local legalText = l.LEGAL_STATUS .. ': ' .. l[Game.player:GetLegalStatus()]
+					local legalText = l.LEGAL_STATUS .. ': ' .. l[PlayerState.GetLegalStatus()]
 					local moneySize = ui.calcTextSize(moneyText) + self.style.inventoryPadding + self.style.itemSpacing
 					local legalSize = ui.calcTextSize(legalText) + self.style.inventoryPadding + self.style.itemSpacing
 					local gaugeSize = (ui.getContentRegion().x - moneySize.x - legalSize.x) / 2

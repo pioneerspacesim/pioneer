@@ -61,7 +61,7 @@ local popup = ModalWindow.New('lobbyPopup', function(self)
 end)
 
 local requestLaunch = function (station)
-	local _, fine = Game.player:GetCrimeOutstanding()
+	local _, fine = PlayerState.GetCrimeOutstanding()
 	local nearbyTraffic = station:GetNearbyTraffic(50000) -- ships within 50km of station
 
 	if not Game.player:HasCorrectCrew() then

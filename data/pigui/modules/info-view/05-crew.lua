@@ -8,6 +8,7 @@ local ShipDef	= require 'ShipDef'
 local InfoView	= require 'pigui.views.info-view'
 local PiGuiFace = require 'pigui.libs.face'
 local Commodities = require 'Commodities'
+local PlayerState = require 'PlayerState'
 
 local ui = require 'pigui'
 local textTable = require 'pigui.libs.text-table'
@@ -148,7 +149,7 @@ local dismissButton = function(crewMember)
 				crewMember.playerRelationship = crewMember.playerRelationship - 5 -- Hate!
 				if crewMember.contract.outstanding > 5e2 then
 					-- there are consequences for defaulting on a big enough payment!
-					Game.player:AddCrime("CONTRACT_FRAUD", crewMember.contract.outstanding * 1.1)
+					PlayerState.AddCrime("CONTRACT_FRAUD", crewMember.contract.outstanding * 1.1)
 				end
 			elseif crewMember:TestRoll('playerRelationship') then
 				Comms.Message(l.ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE,crewMember.name)

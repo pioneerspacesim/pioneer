@@ -11,6 +11,7 @@ local Rand = require 'Rand'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
 local Commodities = require 'Commodities'
+local PlayerState = require 'PlayerState'
 
 local l = Lang.GetResource("module-goodstrader")
 
@@ -42,7 +43,7 @@ local onChat = function (form, ref, option)
 		end
 
 		local lawlessness = Game.system.lawlessness
-		Game.player:AddCrime("TRADING_ILLEGAL_GOODS", 400*(2-lawlessness))
+		PlayerState.AddCrime("TRADING_ILLEGAL_GOODS", 400*(2-lawlessness))
 		form:GotoPolice()
 		return false
 	end

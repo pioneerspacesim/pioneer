@@ -52,7 +52,7 @@ local function payfine(fine)
 		return
 	end
 	PlayerState.AddMoney(-fine)
-	Game.player:ClearCrimeFine()
+	PlayerState.ClearCrimeFine()
 end
 
 local function make_crime_list(record)
@@ -89,7 +89,7 @@ local function crime_table(crimes)
 end
 
 local function crime_record()
-	local past_crimes = make_crime_list(Game.player:GetCrimeRecord())
+	local past_crimes = make_crime_list(PlayerState.GetCrimeRecord())
 
 	if #past_crimes > 0 then
 		ui.withFont(orbiteer.heading, function()
@@ -104,7 +104,7 @@ end
 
 
 local function outstanding_fines()
-	local crimes, fine = Game.player:GetCrimeOutstanding()
+	local crimes, fine = PlayerState.GetCrimeOutstanding()
 
 	local crime_list = make_crime_list(crimes)
 	if #crime_list > 0 then

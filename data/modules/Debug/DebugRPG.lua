@@ -95,7 +95,7 @@ debugView.registerTab("debug-player", {
 
 			ui.dummy(Vector2(0,10))
 			-- CRIME
-			local crimes, fine = Game.player:GetCrimeOutstanding()
+			local crimes, fine = PlayerState.GetCrimeOutstanding()
 			if #utils.build_array(pairs(crimes)) > 0 then
 				ui.text(l.OUTSTANDING_FINES)
 				for k,v in pairs(crimes) do
@@ -105,7 +105,7 @@ debugView.registerTab("debug-player", {
 			end
 
 			ui.dummy(Vector2(0,10))
-			local past_crimes, _ = Game.player:GetCrimeRecord()
+			local past_crimes, _ = PlayerState.GetCrimeRecord()
 			if #utils.build_array(pairs(past_crimes)) > 0 then
 				ui.text(l.CRIMINAL_RECORD)
 				for k,v in pairs(past_crimes) do
