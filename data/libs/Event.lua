@@ -45,9 +45,10 @@ end
 ---@field debugger table
 local Event = utils.inherits(nil, "Event")
 
-function Event:Register(name, module, func)
+function Event:Register(name, module, func, priority)
+	local callbacks = self.callbacks[name]
 
-	for _, cb in ipairs(self.callbacks[name]) do
+	for _, cb in ipairs(callbacks) do
 		-- Update registered callback
 		if cb.module == module then
 			logWarning("Module {} overwriting event callback {}" % { module, func })
@@ -56,7 +57,8 @@ function Event:Register(name, module, func)
 		end
 	end
 
-	table.insert(self.callbacks[name], { module = module, func = func })
+	local pos = priority and 1 or #callbacks + 1
+	table.insert(callbacks, 1, { module = module, func = func })
 end
 
 function Event:Deregister(name, module, func)
@@ -106,7 +108,7 @@ Event.New = function()
 	-- Register a function with a specific type of event. When an event with
 	-- the named type is processed, the function will be called.
 	--
-	-- > Event.Register(name, function)
+	-- > Event.Register(name, function, [priority])
 	--
 	-- Parameters:
 	--
@@ -116,6 +118,8 @@ Event.New = function()
 	--              The function will recieve a copy of the parameters attached to
 	--              the event.
 	--
+	--   priority - optional boolean. If true, the event handler is inserted at the
+	--              start of the list of handlers.
 	--
 	-- Example:
 	--
@@ -133,8 +137,9 @@ Event.New = function()
 	--
 	---@param name string
 	---@param cb function
-	self.Register = function (name, cb)
-		super.Register(self, name, package.modulename(2), cb)
+	---@param priority boolean?
+	self.Register = function (name, cb, priority)
+		super.Register(self, name, package.modulename(2), cb, priority)
 	end
 
 	--
