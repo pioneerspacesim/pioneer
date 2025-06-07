@@ -10,6 +10,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/Types.h"
 #include "graphics/UniformBuffer.h"
+#include "graphics/VertexBuffer.h"
 #include "scenegraph/NodeVisitor.h"
 #include "scenegraph/MatrixTransform.h"
 #include "scenegraph/StaticGeometry.h"
@@ -78,12 +79,16 @@ void Shields::Init(Graphics::Renderer *renderer)
 	rsd.depthWrite = false;
 	rsd.cullMode = Graphics::CULL_NONE;
 
+	// Placeholder vertex format. Ideally we would only create a "material data" buffer at global level
+	// and not actually initialize a full material.
+	auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0 | Graphics::ATTRIB_TANGENT);
+
 	// Create a global shield data buffer containing "nothing" for use when there isn't an active Shields class
 	// attached to the model
 	s_matUniformBuffer.Reset(renderer->CreateUniformBuffer(sizeof(ShieldData), Graphics::BUFFER_USAGE_STATIC));
 	s_matUniformBuffer->BufferData(ShieldData{});
 
-	s_matShield.Reset(renderer->CreateMaterial("shield", desc, rsd));
+	s_matShield.Reset(renderer->CreateMaterial("shield", desc, rsd, vtxFormat));
 	s_matShield->diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	s_matShield->SetPushConstant(s_numHitsName, 0);
 	s_matShield->SetBuffer(s_shieldDataName, s_matUniformBuffer->GetBufferBinding());
@@ -119,15 +124,12 @@ Shields::~Shields()
 {
 }
 
-
 void Shields::ApplyModel(SceneGraph::Model *model)
 {
 	assert(model);
 
 	// Clone the global material and use a per-model instance
 	Graphics::Renderer *r = model->GetRenderer();
-	Graphics::Material *globalShield = GetGlobalShieldMaterial().Get();
-	m_shieldMaterial.Reset(r->CloneMaterial(globalShield, globalShield->GetDescriptor(), r->GetMaterialRenderState(globalShield)));
 
 	// Find all static geometry nodes in the shield model
 	ShieldNodeAccumulator accum = {};
@@ -143,7 +145,7 @@ void Shields::ApplyModel(SceneGraph::Model *model)
 			// NOTE: model instances must contain unique StaticGeometry nodes for this to function.
 			// Sharing of StaticGeometry nodes between instances is forbidden.
 			SceneGraph::StaticGeometry::Mesh &rMesh = shieldGeom->GetMeshAt(iMesh);
-			rMesh.material = m_shieldMaterial;
+			rMesh.material = FindOrCreateMaterial(r, rMesh.meshObject->GetFormat());
 		}
 
 		matrix4x4f shieldTransform = shieldGeom->GetParent()->CalcGlobalTransform();
@@ -151,10 +153,28 @@ void Shields::ApplyModel(SceneGraph::Model *model)
 	}
 }
 
+RefCountedPtr<Graphics::Material> Shields::FindOrCreateMaterial(Graphics::Renderer *r, const Graphics::VertexFormatDesc &vtxFormat)
+{
+	uint64_t vtxFormatHash = vtxFormat.Hash();
+	auto iter = std::find_if(m_shieldMaterials.begin(), m_shieldMaterials.end(), [&](const auto &pair) {
+		return pair.first == vtxFormatHash;
+	});
+
+	if (iter != m_shieldMaterials.end())
+		return iter->second;
+
+	// Clone the global material and use a per-model, per-vertex-format instance
+	Graphics::Material *globalShield = GetGlobalShieldMaterial().Get();
+	RefCountedPtr<Graphics::Material> mat { r->CloneMaterial(globalShield, globalShield->GetDescriptor(), r->GetMaterialRenderState(globalShield), vtxFormat) };
+
+	m_shieldMaterials.emplace_back(vtxFormatHash, mat);
+	return mat;
+}
+
 void Shields::ClearModel()
 {
 	m_shields.clear();
-	m_shieldMaterial.Reset();
+	m_shieldMaterials.clear();
 }
 
 void Shields::SaveToJson(Json &shieldsObj)
@@ -220,7 +240,7 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 	}
 
 	// setup the render params
-	if (shieldStrength > 0.0f && m_shieldMaterial) {
+	if (shieldStrength > 0.0f && !m_shieldMaterials.empty()) {
 		ShieldData renderData{};
 
 		Uint32 numHits = std::min(m_hits.size(), MAX_SHIELD_HITS);
@@ -240,8 +260,12 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 		renderData.shieldStrength = shieldStrength;
 		renderData.shieldCooldown = coolDown;
 
-		m_shieldMaterial->SetBufferDynamic(s_shieldDataName, &renderData);
-		m_shieldMaterial->SetPushConstant(s_numHitsName, int(numHits));
+		for (const auto &pair : m_shieldMaterials)
+		{
+			// TODO: this could be more efficient by directly allocating the buffer data in the preceeding block and binding it via SetBuffer
+			pair.second->SetBufferDynamic(s_shieldDataName, &renderData);
+			pair.second->SetPushConstant(s_numHitsName, int(numHits));
+		}
 	}
 
 	// update the shield visibility

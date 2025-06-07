@@ -5,7 +5,6 @@
 
 #include "graphics/BufferCommon.h"
 #include "graphics/Types.h"
-#include "matrix4x4.h"
 
 /**
  * A Vertex Buffer is created by filling out a description struct with desired
@@ -27,48 +26,81 @@ namespace Graphics {
 	// fwd declaration
 	class VertexArray;
 
-	const Uint32 MAX_ATTRIBS = 8;
+	// tuned to ensure the size of VertexFormatDesc == 64
+	constexpr uint32_t MAX_ATTRIBS = 12;
+	constexpr uint32_t MAX_BINDINGS = 4;
+
+#pragma pack(push, 1)
 
 	struct VertexAttribDesc {
-		//position, texcoord, normal etc.
-		VertexAttrib semantic;
-		//float3, float2 etc.
-		VertexAttribFormat format;
-		//byte offset of the attribute, if zero this
-		//is automatically filled for created buffers
-		uint16_t offset;
+		// size of the vertex data element
+		VertexAttribFormat format = VertexAttribFormat::ATTRIB_FORMAT_NONE;
+		// program location index of this vertex
+		uint8_t location = 0;
+		// buffer binding source for this vertex attrib
+		uint16_t binding : 4;
+		// byte offset of the attribute, if zero this is automatically filled
+		// when creating a vertex format desc
+		uint16_t offset : 12;
 	};
 	static_assert(sizeof(VertexAttribDesc) == 4);
 
-	struct VertexBufferDesc {
-		VertexBufferDesc();
-		static VertexBufferDesc FromAttribSet(AttributeSet set);
-
-		//byte offset of an existing attribute
-		Uint32 GetOffset(VertexAttrib) const;
-
-		//used internally for calculating offsets
-		static Uint32 CalculateOffset(const VertexBufferDesc &, VertexAttrib);
-		static Uint32 GetAttribSize(VertexAttribFormat);
-
-		void CalculateOffsets();
-
-		//semantic ATTRIB_NONE ends description (when not using all attribs)
-		VertexAttribDesc attrib[MAX_ATTRIBS];
-		Uint32 numVertices;
-		//byte size of one vertex, if zero this is
-		//automatically calculated for created buffers
-		Uint32 stride;
-		BufferUsage usage;
+	struct VertexBindingDesc {
+		// stride between vertices in the buffer
+		uint16_t stride = 0;
+		// Is this binding entry used by the vertex format
+		uint8_t enabled = 0;
+		// rate of vertex advancement in the buffer
+		VertexAttribRate rate = VertexAttribRate::ATTRIB_RATE_NORMAL;
 	};
+	static_assert(sizeof(VertexBindingDesc) == 4);
+
+#pragma pack(pop)
+
+	// Enumerates the possible reasons for VertexFormatDesc validation to fail
+	enum class InvalidVertexFormatReason {
+		OK = 0,
+		InvalidBinding = 1,
+		LocationOverlap = 2
+	};
+
+	// Return the index of the given attribute within the passed AttributeSet.
+	size_t GetAttributeIndexInSet(AttributeSet set, VertexAttrib attrib);
+	// Return the number of active VertexAttribs in the given set.
+	size_t GetNumActiveAttribsInSet(AttributeSet set);
+	// Populate the passed list of individual vertex attributes that comprise the passed AttributeSet.
+	void GetActiveAttribsInSet(AttributeSet set, VertexAttrib *attribs, size_t numAttribs);
+
+	struct VertexFormatDesc {
+		VertexFormatDesc();
+
+		// Create a vertex format descriptor from the given attribute set.
+		// Attributes are mapped to predefined locations and sourced from buffer binding 0
+		static VertexFormatDesc FromAttribSet(AttributeSet set);
+
+		// Run a validation check on the layout of this vertex format
+		InvalidVertexFormatReason ValidateDesc() const;
+
+		// Return a hash of this vertex format descriptor
+		uint64_t Hash() const;
+
+		size_t GetNumAttribs() const;
+		size_t GetNumBindings() const;
+
+		VertexAttribDesc attribs[MAX_ATTRIBS];
+		VertexBindingDesc bindings[MAX_BINDINGS];
+	};
+	static_assert(sizeof(VertexFormatDesc) == 64);
 
 	class VertexBuffer : public Mappable {
 	public:
-		VertexBuffer(const VertexBufferDesc &desc) :
-			Mappable(desc.numVertices),
-			m_desc(desc) {}
+		VertexBuffer(BufferUsage usage, uint32_t size, uint32_t stride) :
+			Mappable(size),
+			m_stride(stride),
+			m_usage(usage) {}
 		virtual ~VertexBuffer();
-		const VertexBufferDesc &GetDesc() const { return m_desc; }
+
+		uint32_t GetStride() const { return m_stride; }
 
 		template <typename T>
 		T *Map(BufferMapMode mode)
@@ -76,16 +108,35 @@ namespace Graphics {
 			return reinterpret_cast<T *>(MapInternal(mode));
 		}
 
+		// Map the given range of the buffer and return a pointer to it.
+		// Note that all values are in bytes not vertices.
+		template <typename T>
+		T *MapRange(size_t start, size_t size, BufferMapMode mode)
+		{
+			return reinterpret_cast<T *>(MapRangeInternal(mode, start * sizeof(T), size * sizeof(T)));
+		}
+
+		// Unmap the last-mapped range and flush data to GPU
+		// If the buffer is dynamic, flush=false may be specified in which case a separate call to FlushRange must be used.
+		virtual void UnmapRange(bool flush = true) = 0;
+
+		// Explicitly flush (i.e. upload) the given range of the dynamic buffer to the GPU.
+		// This buffer must have been created with BUFFER_USAGE_DYNAMIC and previously mapped with BUFFER_MAP_WRITE.
+		// Note that all values are in bytes not vertices.
+		virtual void FlushRange(size_t start, size_t size) = 0;
+
 		//Vertex count used for rendering.
 		//By default the maximum set in description, but
 		//you may set a smaller count for partial rendering
 		bool SetVertexCount(Uint32);
 
-		// copies the contents of the VertexArray into the buffer
-		virtual bool Populate(const VertexArray &) = 0;
-
 		// change the buffer data without mapping
 		virtual void BufferData(const size_t, void *) = 0;
+
+		// Recreate the underlying GPU memory to an empty state.
+		// Only allowed for BUFFER_USAGE_DYNAMIC buffers.
+		// Not guaranteed to have an effect outside of the OpenGL backend, should not be used as a way to clear GPU buffers.
+		virtual void Reset() = 0;
 
 		// Bind the vertex buffer for use in rendering
 		virtual void Bind() = 0;
@@ -94,8 +145,10 @@ namespace Graphics {
 		virtual void Release() = 0;
 
 	protected:
-		virtual Uint8 *MapInternal(BufferMapMode) = 0;
-		VertexBufferDesc m_desc;
+		virtual uint8_t *MapInternal(BufferMapMode) = 0;
+		virtual uint8_t *MapRangeInternal(BufferMapMode, size_t start, size_t length) = 0;
+		uint32_t m_stride;
+		BufferUsage m_usage;
 	};
 
 	// Index buffer
@@ -123,25 +176,6 @@ namespace Graphics {
 		BufferUsage m_usage;
 	};
 
-	// Instance buffer
-	class InstanceBuffer : public Mappable {
-	public:
-		InstanceBuffer(Uint32 size, BufferUsage);
-		virtual ~InstanceBuffer();
-		virtual matrix4x4f *Map(BufferMapMode) = 0;
-
-		Uint32 GetInstanceCount() const { return m_instanceCount; }
-		void SetInstanceCount(const Uint32);
-		BufferUsage GetUsage() const { return m_usage; }
-
-		virtual void Bind() = 0;
-		virtual void Release() = 0;
-
-	protected:
-		Uint32 m_instanceCount;
-		BufferUsage m_usage;
-	};
-
 	/*
      * Wraps a vertex buffer and optional index buffer into a single mesh.
 	 *
@@ -162,6 +196,7 @@ namespace Graphics {
 
 		virtual VertexBuffer *GetVertexBuffer() const = 0;
 		virtual IndexBuffer *GetIndexBuffer() const = 0;
+		virtual const VertexFormatDesc &GetFormat() const = 0;
 	};
 
 } // namespace Graphics

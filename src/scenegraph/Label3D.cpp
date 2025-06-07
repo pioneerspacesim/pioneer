@@ -28,7 +28,9 @@ namespace SceneGraph {
 		rsd.blendMode = Graphics::BLEND_ALPHA;
 
 		m_geometry.reset(font->CreateVertexArray());
-		m_material.Reset(r->CreateMaterial("label", matdesc, rsd));
+		auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(m_geometry->GetAttributeSet());
+
+		m_material.Reset(r->CreateMaterial("label", matdesc, rsd, vtxFormat));
 		m_material->SetTexture("texture0"_hash, font->GetTexture());
 		m_material->diffuse = Color::WHITE;
 		m_material->emissive = Color(38, 38, 38);

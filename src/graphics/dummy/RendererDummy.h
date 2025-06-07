@@ -72,23 +72,23 @@ namespace Graphics {
 		bool DrawBuffer(const VertexArray *, Material *) final { return true; }
 		bool DrawBufferDynamic(VertexBuffer *, uint32_t, IndexBuffer *, uint32_t, uint32_t, Material *) final { return true; }
 		bool DrawMesh(MeshObject *, Material *) final { return true; }
-		bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) final { return true; }
+		void Draw(Span<VertexBuffer *const>, IndexBuffer *, Material *, uint32_t, uint32_t) final {}
 
-		Material *CreateMaterial(const std::string &s, const MaterialDescriptor &d, const RenderStateDesc &rsd) final { return new Graphics::Dummy::Material(rsd); }
-		Material *CloneMaterial(const Material *m, const MaterialDescriptor &d, const RenderStateDesc &rsd) final { return new Graphics::Dummy::Material(rsd); }
 		Texture *CreateTexture(const TextureDescriptor &d) final { return new Graphics::TextureDummy(d); }
 		RenderTarget *CreateRenderTarget(const RenderTargetDesc &d) final { return new Graphics::Dummy::RenderTarget(d); }
-		VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &d) final { return new Graphics::Dummy::VertexBuffer(d); }
+		VertexBuffer *CreateVertexBuffer(BufferUsage u, uint32_t sz, uint32_t st) final { return new Graphics::Dummy::VertexBuffer(u, sz, st); }
 		IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage bu, IndexBufferSize el) final { return new Graphics::Dummy::IndexBuffer(size, bu, el); }
-		InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage bu) final { return new Graphics::Dummy::InstanceBuffer(size, bu); }
 		UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage bu) final { return new Graphics::Dummy::UniformBuffer(size, bu); }
-		MeshObject *CreateMeshObject(VertexBuffer *v, IndexBuffer *i) final { return new Graphics::Dummy::MeshObject(static_cast<Dummy::VertexBuffer *>(v), static_cast<Dummy::IndexBuffer *>(i)); }
-		MeshObject *CreateMeshObjectFromArray(const VertexArray *v, IndexBuffer *i = nullptr, BufferUsage = BUFFER_USAGE_STATIC) final
+		MeshObject *CreateMeshObject(const VertexFormatDesc &d, VertexBuffer *v, IndexBuffer *i) final { return new Graphics::Dummy::MeshObject(d, static_cast<Dummy::VertexBuffer *>(v), static_cast<Dummy::IndexBuffer *>(i)); }
+		MeshObject *CreateMeshObjectFromArray(const VertexArray *v, IndexBuffer *i = nullptr, BufferUsage u = BUFFER_USAGE_STATIC) final
 		{
-			auto desc = Graphics::VertexBufferDesc::FromAttribSet(v->GetAttributeSet());
-			desc.numVertices = v->GetNumVerts();
-			return new Graphics::Dummy::MeshObject(static_cast<Dummy::VertexBuffer *>(CreateVertexBuffer(desc)), static_cast<Dummy::IndexBuffer *>(i));
+			auto desc = Graphics::VertexFormatDesc::FromAttribSet(v->GetAttributeSet());
+			auto *vb = static_cast<Dummy::VertexBuffer *>(CreateVertexBuffer(u, v->GetNumVerts(), desc.bindings[0].stride));
+			return new Graphics::Dummy::MeshObject(desc, vb, static_cast<Dummy::IndexBuffer *>(i));
 		}
+
+		Material *CreateMaterial(const std::string &s, const MaterialDescriptor &d, const RenderStateDesc &rsd, const VertexFormatDesc &vfmt) final { return new Graphics::Dummy::Material(rsd); }
+		Material *CloneMaterial(const Material *m, const MaterialDescriptor &d, const RenderStateDesc &rsd, const VertexFormatDesc &vfmt) final { return new Graphics::Dummy::Material(rsd); }
 
 		const RenderStateDesc &GetMaterialRenderState(const Graphics::Material *m) final { return static_cast<const Dummy::Material *>(m)->rsd; }
 
