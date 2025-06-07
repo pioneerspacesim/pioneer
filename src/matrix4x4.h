@@ -6,6 +6,7 @@
 
 #include "matrix3x3.h"
 #include "vector3.h"
+#include "core/todo.h"
 
 #include <cassert>
 #include <math.h>
@@ -16,6 +17,8 @@
 template <typename T>
 class matrix4x4 {
 private:
+	// column-major ordering
+	PI_TODO("column-major is at odds with matrix3x3 which is row-major, this needs fixing")
 	T cell[16];
 	using other_float_t = typename std::conditional<std::is_same<T, float>::value, double, float>::type;
 
@@ -58,6 +61,7 @@ public:
 		for (int i = 0; i < 12; i++)
 			cell[i] = m.cell[i];
 	}
+
 	matrix3x3<T> GetOrient() const
 	{
 		matrix3x3<T> m;
@@ -72,6 +76,23 @@ public:
 		m[8] = cell[10];
 		return m;
 	}
+
+	// used by Geom.cpp rotateAabbFast function, where we need a 3x3 orientation matrix but with abs values
+	matrix3x3<T> GetOrientAbs() const
+	{
+		matrix3x3<T> m;
+		m[0] = abs(cell[0]);
+		m[1] = abs(cell[4]);
+		m[2] = abs(cell[8]);
+		m[3] = abs(cell[1]);
+		m[4] = abs(cell[5]);
+		m[5] = abs(cell[9]);
+		m[6] = abs(cell[2]);
+		m[7] = abs(cell[6]);
+		m[8] = abs(cell[10]);
+		return m;
+	}
+
 	// row-major 3x3 matrix
 	void LoadFrom3x3Matrix(const T *r)
 	{
