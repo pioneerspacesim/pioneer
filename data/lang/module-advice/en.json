@@ -107,7 +107,15 @@
     "description": "",
     "message": "The Rondel Incident"
   },
-  "TALE_1_BODYTEXT": {
+  "RUMOUR_2_BODYTEXT": {
+    "description": "",
+    "message": "There are rumours of Pirates operating from a secret base somewhere in the Orion constellation"
+  },
+  "RUMOUR_2_HEADLINE": {
+    "description": "",
+    "message": "Secret location of a pirate base"
+  },
+    "TALE_1_BODYTEXT": {
     "description": "",
     "message": "Don't miss the beautiful eclipse on New Hope as Hades blocks out the light from Epsilon Eridani."
   },
