@@ -159,6 +159,5 @@
     {"name": "Theta Aurigae", "stars": ["STAR_A"], "sector": [17, -1, 13], "pos": [1.944, 7.832, 0.76]},
     {"name": "Beta Corvi", "stars": ["STAR_G_SUPER_GIANT"], "sector": [-3, 15, -7], "pos": [4.832, 6.816, 0.512]},
     {"name": "Lambda Sagittarii", "stars": ["STAR_K_GIANT"], "sector": [-9, -2, -5], "pos": [2.712, 7.504, 6.824]},
-    {"name": "Betelgeuse", "stars": ["STAR_M_SUPER_GIANT"], "sector": [52, -2, 6], "pos": [7.816, 7.072, 7.112]},
     {"name": "Delta Centauri", "stars": ["STAR_B_GIANT"], "sector": [-2, 31, -39], "pos": [6.872, 2.12, 5.968]}
 ]
