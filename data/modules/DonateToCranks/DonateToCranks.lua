@@ -21,6 +21,13 @@ for i = 0,9 do
 	})
 end
 
+-- last flavour is for pirate system, a modification of (Pastafari) falavour 0
+	table.insert(flavours, {
+		title     = l["FLAVOUR_" .. 0 .. "_ADTITLE"],
+		desc      = l["FLAVOUR_" .. 0 .. "_DESC"],
+		message   = l['FLAVOUR_PIRATE']  .. '\n\n' .. l["FLAVOUR_" .. 0 .. "_MESSAGE"],
+	})
+
 local ads = {}
 
 
@@ -43,7 +50,7 @@ end
 local computeReputation = function (ad)
 	-- compute money to get to next level of reputation
 
-	local current_reputation = 	Character.persistent.player:GetReputationRating()
+	local current_reputation =	Character.persistent.player:GetReputationRating()
 	print("\n\nCURRENT:", current_reputation)
 
 	for i=0,5,1 do
@@ -101,6 +108,11 @@ end
 
 local onCreateBB = function (station)
 	local n = Engine.rand:Integer(1, #flavours)
+
+	-- Pirate system always have a donate to cranks (last flavour):
+	if Game.system.lawlessness >= 0 then
+		n = #flavours
+	end
 
 	-- FOSS is rare, (kind of an easter egg), skip advert
 	if n == 6 and Engine.rand:Integer(0, 5) > 1 then
