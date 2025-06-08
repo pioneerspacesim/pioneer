@@ -102,6 +102,11 @@ local function determinePaintshopAvailability()
 		return true
 	end
 
+	-- Lawless systems have, for anonymizing ship
+	if Game.system.lawlessness >= 1 then
+		return true
+	end
+
 	-- high population stations often have them
 	local pop = station:GetSystemBody().population
 	if pop > 0.00005 then -- Mars is about 0.0002
