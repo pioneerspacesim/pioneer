@@ -23,6 +23,8 @@ class GalaxyObjectCache {
 public:
 	static const std::string CACHE_NAME;
 
+	using Self = GalaxyObjectCache<T, CompareT>;
+
 	GalaxyObjectCache(Galaxy *galaxy) :
 		m_galaxy(galaxy),
 		m_cacheHits(0),
