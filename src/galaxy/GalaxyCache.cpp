@@ -182,9 +182,14 @@ template <typename T, typename CompareT>
 void GalaxyObjectCache<T, CompareT>::Slave::FillCache(const PathVector &paths, CacheFilledCallback callback)
 {
 	// allocate some space for what we're about to chunk up
+	// there will be at most N paths, but potentially M<=N of those paths are already cached in another slave
+	// so don't allocate storage upfront for the entire list of paths
 	std::vector<std::unique_ptr<PathVector>> vec_paths;
 	vec_paths.reserve(paths.size() / CACHE_JOB_SIZE + 1);
-	std::unique_ptr<PathVector> current_paths;
+	vec_paths.emplace_back(new PathVector());
+
+	PathVector *current_paths = vec_paths.back().get();
+	current_paths->reserve(CACHE_JOB_SIZE);
 #ifdef DEBUG_CACHE
 	size_t alreadyCached = m_cache.size();
 	unsigned masterCached = 0;
@@ -192,21 +197,19 @@ void GalaxyObjectCache<T, CompareT>::Slave::FillCache(const PathVector &paths, C
 #endif
 
 	// chop the paths into groups of CACHE_JOB_SIZE
-	for (auto it = paths.begin(), itEnd = paths.end(); it != itEnd; ++it) {
-		RefCountedPtr<T> s = m_master->GetIfCached(*it);
+	for (const SystemPath &path : paths) {
+		RefCountedPtr<T> s = m_master->GetIfCached(path);
 		if (s) {
-			m_cache[*it] = s;
+			m_cache[path] = s;
 #ifdef DEBUG_CACHE
 			++masterCached;
 #endif
 		} else {
-			if (!current_paths) {
-				current_paths.reset(new PathVector);
-				current_paths->reserve(CACHE_JOB_SIZE);
-			}
-			current_paths->push_back(*it);
+			current_paths->push_back(path);
+
 			if (current_paths->size() >= CACHE_JOB_SIZE) {
-				vec_paths.push_back(std::move(current_paths));
+				current_paths = vec_paths.emplace_back(new PathVector()).get();
+				current_paths->reserve(CACHE_JOB_SIZE);
 			}
 #ifdef DEBUG_CACHE
 			++toBeCreated;
@@ -214,23 +217,19 @@ void GalaxyObjectCache<T, CompareT>::Slave::FillCache(const PathVector &paths, C
 		}
 	}
 
-	// catch the last loop in case it's got some entries (could be less than the spread width)
-	if (current_paths) {
-		vec_paths.push_back(std::move(current_paths));
-	}
-
 #ifdef DEBUG_CACHE
 	Output("%s: FillCache: " SIZET_FMT " cached, %u in master cache, %u to be created, will use " SIZET_FMT " jobs\n", CACHE_NAME.c_str(),
 		alreadyCached, masterCached, toBeCreated, vec_paths.size());
 #endif
 
-	if (vec_paths.empty()) {
+	// No paths need to be generated
+	if (vec_paths.front()->empty()) {
 		if (callback)
 			callback();
 	} else {
 		// now add the batched jobs
-		for (auto it = vec_paths.begin(), itEnd = vec_paths.end(); it != itEnd; ++it)
-			m_jobs.Order(new CacheJob(std::move(*it), this, m_galaxy, callback));
+		for (std::unique_ptr<PathVector> &vec : vec_paths)
+			m_jobs.Order(new CacheJob(std::move(vec), this, m_galaxy, callback));
 	}
 }
 
