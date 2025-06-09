@@ -15,6 +15,7 @@ local Character = require 'Character'
 local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
 local ShipDef = require 'ShipDef'
 local utils = require 'utils'
+local PlayerState = require 'PlayerState'
 
 local PirateTemplate = MissionUtils.ShipTemplates.GenericPirate
 
@@ -401,7 +402,7 @@ local onShipDocked = function (player, station)
 				Character.persistent.player.reputation = Character.persistent.player.reputation - 2
 			else
 				Comms.ImportantMessage(flavours[mission.flavour].successmsg, mission.client.name)
-				player:AddMoney(mission.reward)
+				PlayerState.AddMoney(mission.reward)
 				Character.persistent.player.reputation = Character.persistent.player.reputation + 2
 			end
 			Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,

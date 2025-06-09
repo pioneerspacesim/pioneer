@@ -7,6 +7,7 @@ local Engine = require 'Engine'
 local Timer = require 'Timer'
 local Serializer = require 'Serializer'
 local Legal = require 'Legal'
+local PlayerState = require 'PlayerState'
 
 -- Fine at which police will launch and hunt donwn outlaw player
 local maxFineTolerated = 300
@@ -18,7 +19,7 @@ local policeDispatched = false
 local function doLawAndOrder ()
 	if Game.player.flightState == "HYPERSPACE" then return end
 
-	local crimes, fine = Game.player:GetCrimeOutstanding()
+	local crimes, fine = PlayerState.GetCrimeOutstanding()
 	if not policeDispatched then
 		if fine > maxFineTolerated and
 		Game.player.flightState == "FLYING" and

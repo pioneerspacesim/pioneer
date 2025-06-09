@@ -85,6 +85,11 @@ public:
 	bool IsDocked() const { return GetFlightState() == Ship::DOCKED; }
 	bool IsLanded() const { return GetFlightState() == Ship::LANDED; }
 
+	virtual void OnDocked(SpaceStation *, int port);
+	virtual void OnUndocked(SpaceStation *, int port);
+	virtual void OnLanded(Body *);
+	virtual void OnTakeoff(Body *);
+
 	virtual void SetLandedOn(Planet *p, float latitude, float longitude);
 
 	void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;

@@ -5,6 +5,7 @@ local Lang = require 'Lang'
 local Game = require 'Game'
 local Format = require 'Format'
 local Passengers = require 'Passengers'
+local PlayerState= require 'PlayerState'
 
 local l = Lang.GetResource("ui-core")
 
@@ -42,8 +43,8 @@ if not stationView then
 		ui.withFont(pionillium.medlarge.name, self.style.fontSize, function()
 			ui.withStyleVars({WindowPadding = self.style.inventoryPadding, ItemSpacing = self.style.itemSpacing}, function()
 				ui.child("shipInventoryContainer", Vector2(0, 0), nil, useWindowPadding, function()
-					local moneyText = l.CASH .. ': ' ..  Format.Money(Game.player:GetMoney())
-					local legalText = l.LEGAL_STATUS .. ': ' .. l[Game.player:GetLegalStatus()]
+					local moneyText = l.CASH .. ': ' ..  Format.Money(PlayerState.GetMoney())
+					local legalText = l.LEGAL_STATUS .. ': ' .. l[PlayerState.GetLegalStatus()]
 					local moneySize = ui.calcTextSize(moneyText) + self.style.inventoryPadding + self.style.itemSpacing
 					local legalSize = ui.calcTextSize(legalText) + self.style.inventoryPadding + self.style.itemSpacing
 					local gaugeSize = (ui.getContentRegion().x - moneySize.x - legalSize.x) / 2

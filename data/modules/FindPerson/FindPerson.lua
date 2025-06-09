@@ -16,6 +16,7 @@ local Character = require 'Character'
 local NameGen = require 'NameGen'
 local Ship = require 'Ship'
 local utils = require 'utils'
+local PlayerState = require 'PlayerState'
 
 local MissionUtils = require 'modules.MissionUtils'
 local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
@@ -381,7 +382,7 @@ local onShipDocked = function (player, station)
 					end
 					Comms.ImportantMessage(msg, mission.client.name)
 					Character.persistent.player.reputation = Character.persistent.player.reputation + reputation
-					player:AddMoney(mission.reward)
+					PlayerState.AddMoney(mission.reward)
 				else
 					msg = string.interp(l["FAILUREMSG_" .. Engine.rand:Integer(1, getNumberOfFlavours("FAILUREMSG"))], { wanted = mission.wanted.name })
 					Comms.ImportantMessage(msg, mission.client.name)
@@ -548,4 +549,3 @@ Event.Register("onReputationChanged", onReputationChanged)
 Mission.RegisterType("FindPerson", l.FIND_PERSON, buildMissionDescription)
 
 Serializer:Register("FindPerson", serialize, unserialize)
-

@@ -10,6 +10,7 @@ local StationView = require 'pigui.views.station-view'
 local Passengers = require 'Passengers'
 local Commodities = require 'Commodities'
 local CommodityType = require 'CommodityType'
+local PlayerState   = require 'PlayerState'
 
 local l = Lang.GetResource("ui-core")
 
@@ -337,7 +338,7 @@ local function drawEconTrade()
 	ui.withFont(orbiteer.heading, function() ui.text(l.FINANCE) end)
 	ui.text(l.CASH)
 	ui.sameLine()
-	ui.text(ui.Format.Money(player:GetMoney()))
+	ui.text(ui.Format.Money(PlayerState.GetMoney()))
 
 end
 

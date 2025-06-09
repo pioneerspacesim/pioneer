@@ -7,6 +7,7 @@ local ui = require 'pigui'
 local debugView = require 'pigui.views.debug'
 local Commodities = require 'Commodities'
 local Equipment   = require 'Equipment'
+local PlayerState = require 'PlayerState'
 local amount = 1000
 
 local Legal = require "Legal"
@@ -75,10 +76,10 @@ debugView.registerTab("debug-player", {
 			-- args: label, default, min, max, (optional: str format)
 			amount = ui.sliderInt("Amount", amount, 0, 100000)
 			if ui.button("Give money", Vector2(100, 0)) then
-				Game.player:AddMoney(amount)
+				PlayerState.AddMoney(amount)
 			end
 			ui.sameLine()
-			ui.text("Current money: " .. Format.Money(Game.player:GetMoney()))
+			ui.text("Current money: " .. Format.Money(PlayerState.GetMoney()))
 		end
 		ui.separator()
 
@@ -94,7 +95,7 @@ debugView.registerTab("debug-player", {
 
 			ui.dummy(Vector2(0,10))
 			-- CRIME
-			local crimes, fine = Game.player:GetCrimeOutstanding()
+			local crimes, fine = PlayerState.GetCrimeOutstanding()
 			if #utils.build_array(pairs(crimes)) > 0 then
 				ui.text(l.OUTSTANDING_FINES)
 				for k,v in pairs(crimes) do
@@ -104,7 +105,7 @@ debugView.registerTab("debug-player", {
 			end
 
 			ui.dummy(Vector2(0,10))
-			local past_crimes, _ = Game.player:GetCrimeRecord()
+			local past_crimes, _ = PlayerState.GetCrimeRecord()
 			if #utils.build_array(pairs(past_crimes)) > 0 then
 				ui.text(l.CRIMINAL_RECORD)
 				for k,v in pairs(past_crimes) do

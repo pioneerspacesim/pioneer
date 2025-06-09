@@ -7,7 +7,7 @@ local Lang = require 'Lang'
 local Character = require 'Character'
 local PiGuiFace = require 'pigui.libs.face'
 local Event = require 'Event'
-local Game  = require 'Game'
+local PlayerState = require 'PlayerState'
 
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
@@ -38,7 +38,7 @@ local function drawPlayerInfo()
 	ui.newLine()
 
 	textTable.withHeading(l.FINANCE, orbiteer.heading, {
-		{ l.CASH .. ":", ui.Format.Money(Game.player:GetMoney()) }
+		{ l.CASH .. ":", ui.Format.Money(PlayerState.GetMoney()) }
 	})
 end
 

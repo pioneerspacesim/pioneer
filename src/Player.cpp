@@ -16,6 +16,7 @@
 #include "StringF.h"
 #include "SystemView.h" // for the transfer planner
 #include "WorldView.h"
+#include "lua/LuaEvent.h"
 #include "lua/LuaObject.h"
 #include "lua/LuaTable.h"
 #include "ship/PlayerShipController.h"
@@ -107,10 +108,18 @@ bool Player::OnDamage(Body *attacker, float kgDamage, const CollisionContact &co
 	return r;
 }
 
-//XXX handle killcounts in lua
-void Player::SetDockedWith(SpaceStation *s, int port)
+void Player::OnDocked(SpaceStation *s, int port)
 {
-	Ship::SetDockedWith(s, port);
+	Ship::OnDocked(s, port);
+
+	LuaEvent::Queue("onPlayerDocked", this, s, port);
+}
+
+void Player::OnUndocked(SpaceStation *s, int port)
+{
+	Ship::OnUndocked(s, port);
+
+	LuaEvent::Queue("onPlayerUndocked", this, s, port);
 }
 
 //XXX all ships should make this sound

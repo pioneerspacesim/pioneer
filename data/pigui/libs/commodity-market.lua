@@ -6,6 +6,7 @@ local Lang = require 'Lang'
 local Format = require 'Format'
 local Commodities = require 'Commodities'
 local Economy     = require 'Economy'
+local PlayerState = require 'PlayerState'
 
 local ui = require 'pigui'
 local pionillium = ui.fonts.pionillium
@@ -239,7 +240,7 @@ function CommodityMarketWidget:ChangeTradeAmount(delta)
 	local price = 0
 
 	--do you have any money?
-	local playerCash = Game.player:GetMoney()
+	local playerCash = PlayerState.GetMoney()
 
 	--blank value, needs to be initialized or later on lua will complain
 	local stock, demand
@@ -318,7 +319,7 @@ function CommodityMarketWidget:DoBuy()
 	local orderAmount = price * self.tradeAmount
 
 	--check cash (should never happen since trade amount buttons wont let it happen)
-	if orderAmount > Game.player:GetMoney() then
+	if orderAmount > PlayerState.GetMoney() then
 		self.popup.msg = l.YOU_NOT_ENOUGH_MONEY
 		self.popup:open()
 		return
@@ -346,7 +347,7 @@ function CommodityMarketWidget:DoBuy()
 
 	--all checks passed
 	assert(self.cargoMgr:AddCommodity(self.selectedItem, self.tradeAmount))
-	Game.player:AddMoney(-orderAmount) --grab the money
+	PlayerState.AddMoney(-orderAmount) --grab the money
 
 	self.funcs.bought(self, self.selectedItem, self.tradeAmount)
 	self:ChangeTradeAmount(-self.tradeAmount) --reset the trade amount
@@ -369,7 +370,7 @@ function CommodityMarketWidget:DoSell()
 	end
 
 	assert(self.cargoMgr:RemoveCommodity(self.selectedItem, self.tradeAmount) == self.tradeAmount)
-	Game.player:AddMoney(orderamount) --grab the money
+	PlayerState.AddMoney(orderamount) --grab the money
 
 	self.funcs.sold(self, self.selectedItem, self.tradeAmount)
 	self:ChangeTradeAmount(-self.tradeAmount) --reset the trade amount

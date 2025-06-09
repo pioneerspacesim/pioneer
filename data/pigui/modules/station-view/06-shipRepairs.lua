@@ -14,6 +14,7 @@ local ModalWindow = require 'pigui.libs.modal-win'
 local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
 local ModelSkin = require 'SceneGraph.ModelSkin'
 local Lang = require 'Lang'
+local PlayerState = require 'PlayerState'
 local l = Lang.GetResource("ui-core")
 
 local rescaleVector = ui.rescaleUI(Vector2(1, 1), Vector2(1600, 900), true)
@@ -61,8 +62,8 @@ local popup = ModalWindow.New('ChiefMechanicPopup', function(self)
 end)
 
 local tryRepair = function (damage, price)
-	if Game.player:GetMoney() >= price then
-		Game.player:AddMoney(-price)
+	if PlayerState.GetMoney() >= price then
+		PlayerState.AddMoney(-price)
 		Game.player:SetHullPercent(Game.player:GetHullPercent() + damage)
 		ui.playSfx("Repairing_Ship")
 	else
@@ -167,10 +168,10 @@ end
 local function applyChanges()
 	local player = Game.player
 	if not changesMade then return end
-	if price < player:GetMoney() then
+	if price < PlayerState.GetMoney() then
 		player.model:SetPattern(previewPattern)
 		player:SetSkin(previewSkin)
-		player:AddMoney(-price)
+		PlayerState.AddMoney(-price)
 		ui.playSfx("Painting_Ship")
 		popupChangesApplied:open()
 		changesMade = false
@@ -274,7 +275,7 @@ local function drawPaintshop()
 	local rand = Rand.New(station.seed)
 
 	local priceColor = textColorDefault
-	if price > player:GetMoney() then
+	if price > PlayerState.GetMoney() then
 		priceColor = textColorWarning
 	end
 

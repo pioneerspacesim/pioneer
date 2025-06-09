@@ -14,6 +14,7 @@ local Format       = require "Format"
 local Serializer   = require "Serializer"
 local Character    = require "Character"
 local utils        = require 'utils'
+local PlayerState  = require 'PlayerState'
 
 local ui = require 'pigui'
 
@@ -696,7 +697,7 @@ local onShipDocked = function (player, station)
 				-- You get some of the reward if you're back late with the data
 				Comms.ImportantMessage((flavour.failmsg), mission.client.name)
 				Character.persistent.player.reputation = Character.persistent.player.reputation - 1
-				player:AddMoney(mission.reward * mission_failed_reward)
+				PlayerState.AddMoney(mission.reward * mission_failed_reward)
 
 			elseif failed then
 				-- You get no money if you're back without data or entirely too late
@@ -707,7 +708,7 @@ local onShipDocked = function (player, station)
 				-- You get all of the money and reputation if you're back in time with the data!
 				Comms.ImportantMessage((flavour.successmsg), mission.client.name)
 				Character.persistent.player.reputation = Character.persistent.player.reputation + 1
-				player:AddMoney(mission.reward)
+				PlayerState.AddMoney(mission.reward)
 			end
 
 			mission:Remove()

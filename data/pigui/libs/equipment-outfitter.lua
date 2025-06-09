@@ -1,12 +1,12 @@
 -- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Game      = require 'Game'
 local Economy   = require 'Economy'
 local Equipment = require 'Equipment'
 local EquipSet  = require 'EquipSet'
 local Lang      = require 'Lang'
 local utils     = require 'utils'
+local PlayerState = require 'PlayerState'
 
 local ui = require 'pigui'
 
@@ -287,7 +287,7 @@ function Outfitter:buildEquipmentList()
 
 	local currentProto = self.replaceEquip and self.replaceEquip:GetPrototype()
 	local equipSet = self.ship:GetComponent("EquipSet")
-	local money = Game.player:GetMoney()
+	local money = PlayerState.GetMoney()
 
 	self.currentEquip = self.replaceEquip and EquipCard.getDataForEquip(self.replaceEquip) or nil
 

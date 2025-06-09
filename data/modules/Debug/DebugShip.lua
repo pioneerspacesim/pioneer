@@ -6,6 +6,7 @@ local HullConfig  = require 'HullConfig'
 local ShipDef     = require 'ShipDef'
 local Lang        = require 'Lang'
 local Timer       = require 'Timer'
+local PlayerState = require 'PlayerState'
 
 local utils       = require 'utils'
 
@@ -212,7 +213,7 @@ function DebugShipTool:onSetPlayerShipType()
 		refundTotal = refundTotal + equip.price
 	end
 
-	Game.player:AddMoney(refundTotal)
+	PlayerState.AddMoney(refundTotal)
 	Game.player:SetShipType(hull.id)
 
 	Notification.add(Notification.Type.Info,
