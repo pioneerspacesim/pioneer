@@ -45,7 +45,7 @@
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The end products ready for the general consumer public, without need for further processing. Everything from toothbrushes, kitchen appliances to hover cars."
+    "message": "Produse finale, gata de consum, care nu mai au nevoie de procesare. Totul de la periuțe de dinți, aparate casnice până la mașini aeroglisoare."
   },
   "FARM_MACHINERY": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Although rare, it is still possible to catch the occasional farmer with an ox-driven plow. But in almost any place where there is agriculture, machines are used in the cultivation of the land, be it the hydroponics of an underground habitat or the endless fields of a garden world."
+    "message": "Deși rar, este posibil să mai prinzi câte un fermier care folosește plug tras de boi. Însă, aproape în orice loc unde e agricultură, se folosesc mașinării care cultivă pământul, fie ca e vorba de sisteme hidroponice ale unui habitat de sub pământ sau o planetă grădină."
   },
   "FERTILIZER": {
     "description": "",
