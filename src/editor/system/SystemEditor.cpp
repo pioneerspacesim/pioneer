@@ -362,6 +362,7 @@ bool SystemEditor::RegenerateSystem(uint32_t newSeed)
 	uint32_t _init[5] = { newSeed, uint32_t(path.sectorX), uint32_t(path.sectorY), uint32_t(path.sectorZ), UNIVERSE_SEED };
 	Random rng(_init, 5);
 
+	RefCountedPtr<const Sector> sec = m_galaxy->GetSector(path);
 	RefCountedPtr<StarSystem::GeneratorAPI> system(new StarSystem::GeneratorAPI(path, m_galaxy, nullptr, rng));
 
 	GalaxyGenerator::StarSystemConfig config;
@@ -370,7 +371,7 @@ bool SystemEditor::RegenerateSystem(uint32_t newSeed)
 	auto stage3 = std::make_unique<StarSystemRandomGenerator>();
 	auto stage4 = std::make_unique<PopulateStarSystemGenerator>();
 
-	if (!stage1->Apply(rng, m_galaxy, system, &config)) {
+	if (!stage1->Apply(rng, m_galaxy, sec.Get(), system, &config)) {
 		Log::Error("Cannot apply stage1 generator");
 		return false;
 	}
@@ -378,17 +379,17 @@ bool SystemEditor::RegenerateSystem(uint32_t newSeed)
 	// Stage1 uses the seed created by sector generation
 	system->SetSeed(newSeed);
 
-	if (!stage2->Apply(rng, m_galaxy, system, &config)) {
+	if (!stage2->Apply(rng, m_galaxy, sec.Get(), system, &config)) {
 		Log::Error("Cannot apply stage2 generator");
 		return false;
 	}
 
-	if (!stage3->Apply(rng, m_galaxy, system, &config)) {
+	if (!stage3->Apply(rng, m_galaxy, sec.Get(), system, &config)) {
 		Log::Error("Cannot apply stage3 generator");
 		return false;
 	}
 
-	if (!stage4->Apply(rng, m_galaxy, system, &config)) {
+	if (!stage4->Apply(rng, m_galaxy, sec.Get(), system, &config)) {
 		Log::Error("Cannot apply stage4 generator");
 		return false;
 	}

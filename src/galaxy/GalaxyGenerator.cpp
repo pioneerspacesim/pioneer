@@ -192,7 +192,7 @@ RefCountedPtr<StarSystem> GalaxyGenerator::GenerateStarSystem(RefCountedPtr<Gala
 	StarSystemConfig config;
 	RefCountedPtr<StarSystem::GeneratorAPI> system(new StarSystem::GeneratorAPI(path, galaxy, cache, rng));
 	for (StarSystemGeneratorStage *sysgen : m_starSystemStage)
-		if (!sysgen->Apply(rng, galaxy, system, &config))
+		if (!sysgen->Apply(rng, galaxy, sec.Get(), system, &config))
 			break;
 	return system;
 }
