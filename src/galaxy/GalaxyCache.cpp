@@ -40,10 +40,10 @@ void GalaxyObjectCache<T, CompareT>::AddToCache(std::vector<RefCountedPtr<T>> &o
 }
 
 template <typename T, typename CompareT>
-RefCountedPtr<T> GalaxyObjectCache<T, CompareT>::GetIfCached(const SystemPath &path)
+RefCountedPtr<T> GalaxyObjectCache<T, CompareT>::GetIfCached(const SystemPath &path) const
 {
 	RefCountedPtr<T> s;
-	typename AtticMap::iterator i = m_attic.find(path);
+	typename AtticMap::const_iterator i = m_attic.find(path);
 	if (i != m_attic.end()) {
 		s.Reset(i->second);
 	}
