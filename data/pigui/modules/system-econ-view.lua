@@ -346,6 +346,12 @@ for k, v in pairs(Commodities) do
 end
 table.sort(commodityOptions)
 
+function SystemEconView:displayLongDescription(selected) --get long description for star system
+	ui.withFont(pionillium.heading, function()
+		ui.textWrapped(selected.longDescription)
+	end)
+end
+
 function SystemEconView:drawPriceList(key, prices)
 	local iconSize = Vector2(ui.getTextLineHeight() + 4)
 	local out = nil

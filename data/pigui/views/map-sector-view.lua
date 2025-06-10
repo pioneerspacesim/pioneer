@@ -15,7 +15,7 @@ local Vector2 = _G.Vector2
 local Color = _G.Color
 
 local ui = require 'pigui'
-local layout = require 'pigui.libs.window-layout'
+local layout = require 'pigui.libs.window-layout' --important for project??
 
 local Serializer = require 'Serializer'
 
@@ -122,7 +122,8 @@ local Windows = {
 	systemInfo = layout.NewWindow("SectorMapSystemInfo"), -- selected system information
 	searchBar = layout.NewWindow("SectorMapSearchBar"),
 	edgeButtons = layout.NewWindow("SectorMapEdgeButtons"),
-	factions = layout.NewWindow("SectorMapFactions")
+	factions = layout.NewWindow("SectorMapFactions"),
+	longDescription = layout.NewWindow("SectorLongDescription") -- creates new window for long description --Added by Zack Whalen
 }
 
 local statusIcons = {
@@ -409,6 +410,12 @@ function Windows.current.Show()
 	end
 end
 
+function Windows.longDescription.Show() --window for long description
+	ui.text("Description")
+	local selectedPath = sectorView:GetSelectedSystemPath()
+	systemEconView:displayLongDescription(selectedPath:GetStarSystem())
+end 
+
 function Windows.factions.Show()
 	textIcon(icons.shield)
 	ui.text("Factions")
@@ -453,6 +460,9 @@ function sectorViewLayout:onUpdateWindowConstraints(w)
 
 	w.factions.pos = Vector2(w.hjPlanner.pos.x, edgePadding.y)
 	w.factions.size = Vector2(rightColWidth, 0.0) -- adaptive height
+
+	w.longDescription.pos = Vector2(18, 200) ---long description position
+	w.longDescription.size = Vector2(rightColWidth, 0.0) --long description size
 end
 
 ui.registerModule("game", { id = 'map-sector-view', draw = function()
