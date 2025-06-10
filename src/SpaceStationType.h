@@ -104,8 +104,10 @@ private:
 	SceneGraph::Model *model;
 	std::string modelName;
 	float angVel;
-	enum DOCKMETHOD { SURFACE,
-		ORBITAL } dockMethod;
+	enum DOCKMETHOD {
+		SURFACE,
+		ORBITAL
+	} dockMethod;
 	unsigned int numDockingPorts;
 	DockStage lastDockStage;
 	DockStage lastUndockStage;
@@ -114,9 +116,10 @@ private:
 	BayPathMap m_bayPaths;
 	TPorts m_ports;
 	float padOffset;
+	bool customOnly;
 
-	static std::vector<SpaceStationType> surfaceTypes;
-	static std::vector<SpaceStationType> orbitalTypes;
+	static std::vector<SpaceStationType *> surfaceTypes;
+	static std::vector<SpaceStationType *> orbitalTypes;
 
 public:
 	SpaceStationType(const std::string &id, const std::string &path);
