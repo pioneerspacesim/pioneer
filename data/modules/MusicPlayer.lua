@@ -202,14 +202,12 @@ Event.Register("onShipDestroyed", function (ship, attacker)
 end)
 
 -- player docked
-Event.Register("onShipDocked", function (ship, station)
-	if not ship:IsPlayer() then return end
+Event.Register("onPlayerDocked", function (ship, station)
 	MusicPlayer.playRandomSongFromCategory("docked")
 end)
 
 -- player undocked
-Event.Register("onShipUndocked", function (ship, station)
-	if not ship:IsPlayer() then return end
+Event.Register("onPlayerUndocked", function (ship, station)
 	MusicPlayer.playRandomSongFromCategory("undocked")
 end)
 

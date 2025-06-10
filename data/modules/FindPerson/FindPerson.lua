@@ -352,9 +352,7 @@ local onEnterSystem = function (player)
 	end
 end
 
-local onShipDocked = function (player, station)
-	if not player:IsPlayer() then return end
-
+local onPlayerDocked = function (player, station)
 	for ref, mission in pairs(missions) do
 		local msg
 
@@ -432,9 +430,7 @@ local onShipDocked = function (player, station)
 	end
 end
 
-local onShipUndocked = function (player, station)
-	if not player:IsPlayer() then return end
-
+local onPlayerUndocked = function (player, station)
 	for ref, mission in pairs(missions) do
 		if mission.interceptor then
 			mission.interceptor:AIKill(player)
@@ -537,8 +533,8 @@ Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onFrameChanged", onFrameChanged)
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onLeaveSystem", onLeaveSystem)
-Event.Register("onShipDocked", onShipDocked)
-Event.Register("onShipUndocked", onShipUndocked)
+Event.Register("onPlayerDocked", onPlayerDocked)
+Event.Register("onPlayerUndocked", onPlayerUndocked)
 Event.Register("onShipFiring", onShipFiring)
 Event.Register("onShipHit", onShipHit)
 Event.Register("onShipDestroyed", onShipDestroyed)

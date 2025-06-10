@@ -1911,9 +1911,8 @@ end
 
 ---@param ship Ship
 ---@param station SpaceStation?
-local onShipUndocked = function (ship, station)
+local onPlayerUndocked = function (ship, station)
 	-- Start search immediately if the target is on the same planet as the station.
-	if not ship:IsPlayer() then return end
 	for _,mission in pairs(missions) do
 		if mission.target and ship.frameBody == mission.target.frameBody then
 			searchForTarget(mission)
@@ -2218,8 +2217,8 @@ Event.Register("onShipDocked", onShipDocked)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
-Event.Register("onShipUndocked", onShipUndocked)
-Event.Register("onShipTakeOff", onShipUndocked)
+Event.Register("onPlayerUndocked", onPlayerUndocked)
+Event.Register("onPlayerTakeOff", onPlayerUndocked)
 Event.Register("onFrameChanged", onFrameChanged)
 Event.Register("onShipDestroyed", onShipDestroyed)
 

@@ -56,11 +56,11 @@ end
 Event.Register('onAutoSave', AutoSave)
 
 local f = function (ship)
-	if ship:IsPlayer() then Event.Queue('onAutoSave') end
+	Event.Queue('onAutoSave')
 end
 
-Event.Register('onShipDocked', f)
-Event.Register('onShipLanded', f)
+Event.Register('onPlayerDocked', f)
+Event.Register('onPlayerLanded', f)
 
 -- we have to make sure to autosave the game before the end game process starts
 Event.Register('onAutoSaveBeforeGameEnds', function()
