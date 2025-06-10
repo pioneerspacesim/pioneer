@@ -205,25 +205,31 @@ function bookmarkEdit:render()
 		ui.text(lui.BOOKMARK .. ":")
 		ui.sameLine()
 		ui.text(get_bookmark_name(self.bookmark.path))
+
+		ui.spacing()
 	end)
 
-	ui.text(lui.EDIT_NOTE)
+	ui.withFont(pionillium.body, function()
 
-	ui.nextItemWidth(ui.getContentRegion().x)
-	local note, changed = ui.inputText("##Note", self.bookmark.note or "", lui.ENTER_CUSTOM_NOTE, { "EnterReturnsTrue" })
+		ui.text(lui.EDIT_NOTE)
 
-	if changed or ui.isItemDeactivated() then
-		if note == "" and not self.bookmark.route_to then
-			note = make_bookmark_note(self.bookmark.path)
+		ui.nextItemWidth(ui.getContentRegion().x)
+		local note, changed = ui.inputText("##Note", self.bookmark.note or "", lui.ENTER_CUSTOM_NOTE, { "EnterReturnsTrue" })
+
+		if changed or ui.isItemDeactivated() then
+			if note == "" and not self.bookmark.route_to then
+				note = make_bookmark_note(self.bookmark.path)
+			end
+
+			self.bookmark.note = (note ~= "" and note or nil)
+			PlayerState.UpdateBookmark(self.bookmarkId, self.bookmark)
 		end
 
-		self.bookmark.note = (note ~= "" and note or nil)
-		PlayerState.UpdateBookmark(self.bookmarkId, self.bookmark)
-	end
+		if changed or ui.button(lui.CLOSE) or ui.isKeyReleased(ui.keys.escape) then
+			self:close()
+		end
 
-	if changed or ui.button(lui.CLOSE) or ui.isKeyReleased(ui.keys.escape) then
-		self:close()
-	end
+	end)
 
 end
 
