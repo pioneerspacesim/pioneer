@@ -664,8 +664,7 @@ local onLeaveSystem = function (ship)
 	end
 end
 
-local onShipDocked = function (player, station)
-	if not player:IsPlayer() then return end
+local onPlayerDocked = function (player, station)
 
 	-- First drop off cargo (if any such missions)
 	for ref,mission in pairs(missions) do
@@ -678,7 +677,7 @@ local onShipDocked = function (player, station)
 			local oldReputation = Character.persistent.player.reputation
 
 			---@type CargoManager
-			local cargoMgr = Game.player:GetComponent('CargoManager')
+			local cargoMgr = player:GetComponent('CargoManager')
 			local amount = cargoMgr:RemoveCommodity(mission.cargotype, mission.amount)
 
 			if Game.time <= mission.due and amount == mission.amount then
@@ -727,7 +726,7 @@ local onShipDocked = function (player, station)
 			if Game.time < mission.due then
 
 				---@type CargoManager
-				local cargoMgr = Game.player:GetComponent('CargoManager')
+				local cargoMgr = player:GetComponent('CargoManager')
 
 				if cargoMgr:GetFreeSpace() < mission.amount then
 					Comms.ImportantMessage(l.YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE, mission.client.name)
@@ -872,7 +871,7 @@ Event.Register("onCreateBB", onCreateBB)
 Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onLeaveSystem", onLeaveSystem)
-Event.Register("onShipDocked", onShipDocked)
+Event.Register("onPlayerDocked", onPlayerDocked)
 Event.Register("onShipFiring", onShipFiring)
 Event.Register("onShipHit", onShipHit)
 Event.Register("onShipDestroyed", onShipDestroyed)

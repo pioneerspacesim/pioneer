@@ -662,9 +662,7 @@ local onShipDestroyed = function (ship, attacker)
 	end
 end
 
-local onShipDocked = function (player, station)
-	if not player:IsPlayer() then return end
-
+local onPlayerDocked = function (player, station)
 	for ref, mission in pairs(missions) do
 		if mission.police then
 			for _, s in pairs(mission.police) do
@@ -708,9 +706,7 @@ local onShipDocked = function (player, station)
 	end
 end
 
-local onShipUndocked = function (player, station)
-	if not player:IsPlayer() then return end
-
+local onPlayerUndocked = function (player, station)
 	for ref, mission in pairs(missions) do
 		if mission.police then
 			for _, s in pairs(mission.police) do
@@ -864,8 +860,8 @@ end
 
 Event.Register("onCreateBB", onCreateBB)
 Event.Register("onUpdateBB", onUpdateBB)
-Event.Register("onShipDocked", onShipDocked)
-Event.Register("onShipUndocked", onShipUndocked)
+Event.Register("onPlayerDocked", onPlayerDocked)
+Event.Register("onPlayerUndocked", onPlayerUndocked)
 Event.Register("onShipHit", onShipHit)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onJettison", onJettison)
