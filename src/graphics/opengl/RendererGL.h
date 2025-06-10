@@ -6,6 +6,7 @@
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/Types.h"
+#include "graphics/VertexBuffer.h"
 #include "graphics/UniformBuffer.h"
 
 #include "OpenGLLibs.h"
@@ -21,9 +22,7 @@ namespace Graphics {
 	struct Settings;
 
 	namespace OGL {
-		class CachedVertexBuffer;
 		class CommandList;
-		class InstanceBuffer;
 		class IndexBuffer;
 		class Material;
 		class MeshObject;
@@ -97,17 +96,17 @@ namespace Graphics {
 		bool DrawBuffer(const VertexArray *v, Material *m) final;
 		bool DrawBufferDynamic(VertexBuffer *v, uint32_t vtxOffset, IndexBuffer *i, uint32_t idxOffset, uint32_t numElems, Material *m) final;
 		bool DrawMesh(MeshObject *, Material *) final;
-		bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) final;
 
-		Material *CreateMaterial(const std::string &, const MaterialDescriptor &, const RenderStateDesc &) final;
-		Material *CloneMaterial(const Material *, const MaterialDescriptor &, const RenderStateDesc &) final;
+		void Draw(Span<VertexBuffer *const>, IndexBuffer *, Material *m, uint32_t, uint32_t) final;
+
+		Material *CreateMaterial(const std::string &, const MaterialDescriptor &, const RenderStateDesc &, const VertexFormatDesc &) final;
+		Material *CloneMaterial(const Material *, const MaterialDescriptor &, const RenderStateDesc &, const VertexFormatDesc &) final;
 		Texture *CreateTexture(const TextureDescriptor &descriptor) final;
 		RenderTarget *CreateRenderTarget(const RenderTargetDesc &) final;
-		VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &) final;
+		VertexBuffer *CreateVertexBuffer(BufferUsage, uint32_t, uint32_t) final;
 		IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage, IndexBufferSize) final;
-		InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) final;
 		UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage) final;
-		MeshObject *CreateMeshObject(VertexBuffer *v, IndexBuffer *i) final;
+		MeshObject *CreateMeshObject(const VertexFormatDesc &desc, VertexBuffer *v, IndexBuffer *i) final;
 		MeshObject *CreateMeshObjectFromArray(const VertexArray *v, IndexBuffer *i = nullptr, BufferUsage u = BUFFER_USAGE_STATIC) final;
 
 		const RenderStateDesc &GetMaterialRenderState(const Graphics::Material *m) final;
@@ -121,8 +120,8 @@ namespace Graphics {
 		bool Screendump(ScreendumpState &sd) final;
 
 		bool DrawMeshInternal(OGL::MeshObject *, PrimitiveType type);
-		bool DrawMeshInstancedInternal(OGL::MeshObject *, OGL::InstanceBuffer *, PrimitiveType type);
-		bool DrawMeshDynamicInternal(BufferBinding<OGL::VertexBuffer> vtxBind, BufferBinding<OGL::IndexBuffer> idxBind, PrimitiveType type);
+		bool DrawMesh2Internal(Span<OGL::VertexBuffer *> vtx, OGL::IndexBuffer *idx, uint32_t elements, uint32_t instances, GLuint vtxState, PrimitiveType type);
+		bool DrawMeshDynamicInternal(BufferBinding<OGL::VertexBuffer> vtxBind, BufferBinding<OGL::IndexBuffer> idxBind, GLuint vtxState, PrimitiveType type);
 
 	protected:
 		void PushState() final{};
@@ -154,13 +153,21 @@ namespace Graphics {
 		static bool initted;
 
 		struct DynamicBufferData {
+			DynamicBufferData(AttributeSet a, const VertexFormatDesc &d, size_t s, VertexBuffer *b) :
+				attrs(a),
+				desc(d),
+				start(s),
+				vtxBuffer(b)
+			{}
+
 			AttributeSet attrs;
-			OGL::CachedVertexBuffer *vtxBuffer;
-			RefCountedPtr<MeshObject> mesh;
+			VertexFormatDesc desc;
+			size_t start;
+			std::unique_ptr<VertexBuffer> vtxBuffer;
 		};
 
 		using DynamicBufferMap = std::vector<DynamicBufferData>;
-		static DynamicBufferMap s_DynamicDrawBufferMap;
+		DynamicBufferMap m_dynamicDrawBufferMap;
 
 		SDL_GLContext m_glContext;
 	};

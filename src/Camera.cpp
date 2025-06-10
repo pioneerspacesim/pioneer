@@ -17,6 +17,7 @@
 #include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"
 #include "graphics/RenderState.h"
+#include "graphics/VertexBuffer.h"
 
 #include "profiler/Profiler.h"
 
@@ -121,7 +122,9 @@ Camera::Camera(RefCountedPtr<CameraContext> context, Graphics::Renderer *rendere
 	rsd.depthWrite = false;
 	rsd.primitiveType = Graphics::POINTS;
 
-	m_billboardMaterial.reset(m_renderer->CreateMaterial("billboards", desc, rsd));
+	Graphics::VertexFormatDesc vfmt = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
+
+	m_billboardMaterial.reset(m_renderer->CreateMaterial("billboards", desc, rsd, vfmt));
 	m_billboardMaterial->SetTexture("texture0"_hash,
 		Graphics::TextureBuilder::Billboard("textures/planet_billboard.dds").GetOrCreateTexture(m_renderer, "billboard"));
 }

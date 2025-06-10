@@ -19,6 +19,7 @@
 #include "editor/EditorDraw.h"
 
 #include "graphics/RenderState.h"
+#include "graphics/VertexBuffer.h"
 #include "scenegraph/BinaryConverter.h"
 #include "scenegraph/DumpVisitor.h"
 #include "scenegraph/FindNodeVisitor.h"
@@ -165,8 +166,8 @@ void ModelViewer::HitIt()
 			Random rng(uint32_t(m_app->GetTime()));
 
 			// Please don't do this in game, no speed guarantee
-			const Uint32 posOffs = mesh.vertexBuffer->GetDesc().GetOffset(Graphics::ATTRIB_POSITION);
-			const Uint32 stride = mesh.vertexBuffer->GetDesc().stride;
+			const Uint32 posOffs = mesh.meshObject->GetFormat().attribs[0].offset;
+			const Uint32 stride = mesh.vertexBuffer->GetStride();
 			const Uint32 vtxIdx = rng.Int32() % mesh.vertexBuffer->GetSize();
 
 			const Uint8 *vtxPtr = mesh.vertexBuffer->Map<Uint8>(Graphics::BUFFER_MAP_READ);
@@ -450,22 +451,23 @@ void ModelViewer::OnPostRender()
 	RenderModelExtras();
 
 	if (!m_modelWindow->GetModel())
-		return;
+	return;
 
 	RefCountedPtr<CollMesh> collMesh = m_modelWindow->GetModel()->GetCollisionMesh();
 
 	static std::unique_ptr<Graphics::Material> s_debugLinesMat;
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, 256);
 
 	if (!s_debugLinesMat) {
 		Graphics::MaterialDescriptor desc;
 		Graphics::RenderStateDesc rsd;
+		auto vfmt = Graphics::VertexFormatDesc::FromAttribSet(va.GetAttributeSet());
 		rsd.depthWrite = false;
 		rsd.primitiveType = Graphics::LINE_SINGLE;
 
-		s_debugLinesMat.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd));
+		s_debugLinesMat.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd, vfmt));
 	}
 
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, 256);
 	if (m_showStaticCollTriBVH)
 		BuildGeomTreeVisualizer(va, collMesh->GetGeomTree()->GetTriTree(), 1);
 
