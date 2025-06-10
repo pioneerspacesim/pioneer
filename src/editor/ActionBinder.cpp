@@ -47,7 +47,7 @@ void ActionBinder::Update()
 		if (!action.shortcut)
 			continue;
 
-		if (ImGui::Shortcut(action.shortcut, 0, ImGuiInputFlags_RouteGlobal)) {
+		if (ImGui::Shortcut(action.shortcut, ImGuiInputFlags_RouteGlobal, 0)) {
 			if (action.predicate.empty() || action.predicate())
 				action.action();
 		}
