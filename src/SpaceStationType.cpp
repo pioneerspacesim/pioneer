@@ -14,12 +14,15 @@
 #include "EnumStrings.h"
 
 #include <algorithm>
+#include <map>
 
 // TODO: Fix the horrible control flow that makes this exception type necessary.
 struct StationTypeLoadError {};
 
-std::vector<SpaceStationType> SpaceStationType::surfaceTypes;
-std::vector<SpaceStationType> SpaceStationType::orbitalTypes;
+std::vector<SpaceStationType *> SpaceStationType::surfaceTypes;
+std::vector<SpaceStationType *> SpaceStationType::orbitalTypes;
+
+static std::map<std::string, SpaceStationType> s_allTypes;
 
 SpaceStationType::SpaceStationType(const std::string &id_, const std::string &path_) :
 	id(id_),
@@ -31,7 +34,8 @@ SpaceStationType::SpaceStationType(const std::string &id_, const std::string &pa
 	lastDockStage(DockStage::DOCK_ANIMATION_NONE),
 	lastUndockStage(DockStage::UNDOCK_ANIMATION_NONE),
 	parkingDistance(0),
-	parkingGapSize(0)
+	parkingGapSize(0),
+	customOnly(false)
 {
 	Json data = JsonUtils::LoadJsonDataFile(path_);
 	if (data.is_null()) {
@@ -57,6 +61,8 @@ SpaceStationType::SpaceStationType(const std::string &id_, const std::string &pa
 	parkingGapSize = data.value("parking_gap_size", 0.0f);
 
 	padOffset = data.value("pad_offset", 150.f);
+
+	customOnly = data.value("custom_only", false);
 
 	model = Pi::FindModel(modelName, /* allowPlaceholder = */ false);
 	if (!model) {
@@ -274,17 +280,25 @@ void SpaceStationType::Init()
 	for (fs::FileEnumerator files(fs::gameDataFiles, "stations", 0); !files.Finished(); files.Next()) {
 		const fs::FileInfo &info = files.Current();
 		if (ends_with_ci(info.GetPath(), ".json")) {
+
 			const std::string id(info.GetName().substr(0, info.GetName().size() - 5));
+			SpaceStationType *sst = nullptr;
+
 			try {
 				SpaceStationType st = SpaceStationType(id, info.GetPath());
-				switch (st.dockMethod) {
-				case SURFACE: surfaceTypes.push_back(st); break;
-				case ORBITAL: orbitalTypes.push_back(st); break;
-				}
+				sst = &s_allTypes.try_emplace(st.id, std::move(st)).first->second;
 			} catch (StationTypeLoadError) {
 				// TODO: Actual error handling would be nice.
 				Error("Error while loading Space Station data (check stdout/output.txt).\n");
 			}
+
+			if (!sst->customOnly) {
+				switch (sst->dockMethod) {
+				case SURFACE: surfaceTypes.push_back(sst); break;
+				case ORBITAL: orbitalTypes.push_back(sst); break;
+				}
+			}
+
 		}
 	}
 }
@@ -293,22 +307,20 @@ void SpaceStationType::Init()
 const SpaceStationType *SpaceStationType::RandomStationType(Random &random, const bool bIsGround)
 {
 	if (bIsGround) {
-		return &surfaceTypes[random.Int32(SpaceStationType::surfaceTypes.size())];
+		return surfaceTypes[random.Int32(SpaceStationType::surfaceTypes.size())];
 	}
 
-	return &orbitalTypes[random.Int32(SpaceStationType::orbitalTypes.size())];
+	return orbitalTypes[random.Int32(SpaceStationType::orbitalTypes.size())];
 }
 
 /*static*/
 const SpaceStationType *SpaceStationType::FindByName(const std::string &name)
 {
-	for (auto &sst : surfaceTypes)
-		if (sst.id == name)
-			return &sst;
-	for (auto &sst : orbitalTypes)
-		if (sst.id == name)
-			return &sst;
-	return nullptr;
+	auto iter = s_allTypes.find(name);
+	if (iter == s_allTypes.end())
+		return nullptr;
+
+	return &iter->second;
 }
 
 DockStage SpaceStationType::PivotStage(DockStage s) const {
