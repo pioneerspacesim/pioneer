@@ -68,6 +68,7 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string &name, Version v
 			Output("Clearing and re-using previous Galaxy object\n");
 			s_galaxy->SetGalaxyGenerator(galgen);
 			s_galaxy->FlushCaches();
+			s_galaxy->GetFactions()->PostInit();
 			return s_galaxy;
 		}
 

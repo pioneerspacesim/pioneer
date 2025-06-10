@@ -543,6 +543,8 @@ void FactionsDatabase::AddFaction(Faction *faction)
 		}
 		m_missingFactionsMap.erase(it);
 	}
+
+	faction->GenerateHomeSector();
 	m_spatial_index.Add(faction);
 
 	if (faction->hasHomeworld) m_homesystems.insert(faction->homeworld.SystemOnly());
@@ -774,9 +776,16 @@ void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint3
 
 RefCountedPtr<const Sector> Faction::GetHomeSector() const
 {
-	if (!m_homesector) // This will later be replaced by a Sector from the cache
-		m_homesector = m_galaxy->GetSector(homeworld);
+	// It is a programming error to call GetHomeSector before having called Factions::PostInit()
+	// This is due to the function's previous semantics as a get-or-create function which initialized
+	// m_homesector.
+	assert(m_homesector);
 	return m_homesector;
+}
+
+void Faction::GenerateHomeSector()
+{
+	m_homesector = m_galaxy->GetSector(homeworld);
 }
 
 Faction::Faction(Galaxy *galaxy) :
