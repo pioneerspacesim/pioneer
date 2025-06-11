@@ -5,7 +5,6 @@
 #define _MATRIX3X3_H
 
 #include "vector3.h"
-#include "core/todo.h"
 #include <math.h>
 #include <stdio.h>
 #include <type_traits>

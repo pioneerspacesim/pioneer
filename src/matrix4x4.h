@@ -6,7 +6,6 @@
 
 #include "matrix3x3.h"
 #include "vector3.h"
-#include "core/todo.h"
 
 #include <cassert>
 #include <math.h>
