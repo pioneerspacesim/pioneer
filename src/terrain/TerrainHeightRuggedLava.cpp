@@ -36,13 +36,13 @@ TerrainHeightFractal<TerrainHeightRuggedLava>::TerrainHeightFractal(const System
 }
 
 template <>
-void TerrainHeightFractal<TerrainHeightRuggedLava>::GetHeights(const std::vector<vector3d> &vP, std::vector<double> &heightsOut) const
+void TerrainHeightFractal<TerrainHeightRuggedLava>::GetHeights(const vector3d *vP, double *heightsOut, const size_t count) const
 {
-	for (size_t i = 0; i < vP.size(); i++) {
+	for (size_t i = 0; i < count; i++) {
 		const vector3d &p = vP[i];
 		double continents = octavenoise(GetFracDef(0), Clamp(0.725 - (m_sealevel / 2), 0.1, 0.725), p) - m_sealevel;
 		if (continents < 0.0)
-			heightsOut.at(i) = 0.0;
+			heightsOut[i] = 0.0;
 
 		double mountain_distrib = octavenoise(GetFracDef(1), 0.55, p);
 		double mountains = octavenoise(GetFracDef(2), 0.5, p) * ridged_octavenoise(GetFracDef(2), 0.575, p);
@@ -99,6 +99,6 @@ void TerrainHeightFractal<TerrainHeightRuggedLava>::GetHeights(const std::vector
 		n += rocks;
 
 		n = (n < 0.0 ? 0.0 : m_maxHeight * n);
-		heightsOut.at(i) = n;
+		heightsOut[i] = n;
 	}
 }

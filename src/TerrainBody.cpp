@@ -158,8 +158,7 @@ void TerrainBody::OnChangeDetailLevel(Graphics::Renderer *r)
 
 const char *TerrainBody::GetHeightFractalName() const
 {
-	if (Terrain* terrain = m_baseSphere->GetTerrain())
-	{
+	if (Terrain* terrain = m_baseSphere->GetTerrain()) {
 		return terrain->GetHeightFractalName();
 	}
 	return nullptr;

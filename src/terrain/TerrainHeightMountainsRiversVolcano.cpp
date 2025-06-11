@@ -35,13 +35,13 @@ TerrainHeightFractal<TerrainHeightMountainsRiversVolcano>::TerrainHeightFractal(
 }
 
 template <>
-void TerrainHeightFractal<TerrainHeightMountainsRiversVolcano>::GetHeights(const std::vector<vector3d> &vP, std::vector<double> &heightsOut) const
+void TerrainHeightFractal<TerrainHeightMountainsRiversVolcano>::GetHeights(const vector3d *vP, double *heightsOut, const size_t count) const
 {
-	for (size_t i = 0; i < vP.size(); i++) {
+	for (size_t i = 0; i < count; i++) {
 		const vector3d &p = vP[i];
 		double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel;
 		if (continents < 0.0)
-			heightsOut.at(i) = 0.0;
+			heightsOut[i] = 0.0;
 
 		// unused variable \\ double mountain_distrib = octavenoise(GetFracDef(1), 0.5, p);
 		double mountains = octavenoise(GetFracDef(2), 0.5, p);
@@ -224,6 +224,6 @@ void TerrainHeightFractal<TerrainHeightMountainsRiversVolcano>::GetHeights(const
 		}
 
 		n *= m_maxHeight;
-		heightsOut.at(i) = (n > 0.0 ? n : 0.0);
+		heightsOut[i] = (n > 0.0 ? n : 0.0);
 	}
 }

@@ -9,8 +9,6 @@
 
 #include <cassert>
 #include <math.h>
-#include <stdio.h>
-#include <cassert>
 #include <type_traits>
 
 template <typename T>
@@ -701,13 +699,6 @@ public:
 		m[14] = cell[11];
 		m[15] = cell[15];
 		return m;
-	}
-	void Print() const
-	{
-		for (int i = 0; i < 4; i++) {
-			printf("%.12f %.12f %.12f %.12f\n", cell[i], cell[i + 4], cell[i + 8], cell[i + 12]);
-		}
-		printf("\n");
 	}
 
 	//convenience accessors for getting right/up/back vectors

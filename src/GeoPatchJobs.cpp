@@ -33,28 +33,23 @@ void SSingleSplitRequest::GenerateMesh() const
 	const int numBorderedVerts = borderedEdgeLen * borderedEdgeLen;
 
 	// generate heights plus a 1 unit border
-	std::vector<vector3d> positions;
-	positions.reserve(numBorderedVerts);
-	std::vector<double> heightsOut;
-	heightsOut.resize(numBorderedVerts);
+	vector3d *fill_verts = borderVertexs.get();
 	for (int y = -BORDER_SIZE; y < borderedEdgeLen - BORDER_SIZE; y++) {
 		const double yfrac = double(y) * fracStep;
 		for (int x = -BORDER_SIZE; x < borderedEdgeLen - BORDER_SIZE; x++) {
 			const double xfrac = double(x) * fracStep;
 			const vector3d p = GetSpherePoint(v0, v1, v2, v3, xfrac, yfrac);
-			positions.emplace_back(p);
+			*(fill_verts++) = p;
 		}
 	}
-	pTerrain->GetHeights(positions, heightsOut);
 
-	double *bhts = borderHeights.get();
 	vector3d *vrts = borderVertexs.get();
+	double *bhts = borderHeights.get();
+	pTerrain->GetHeights(vrts, bhts, numBorderedVerts);
+
 	for (int iHeights = 0; iHeights < numBorderedVerts; iHeights++)
 	{
-		const vector3d &p = positions[iHeights];
-		const double height = heightsOut[iHeights];
-		*(bhts++) = height;
-		*(vrts++) = p * (height + 1.0);
+		vrts[iHeights] *= (bhts[iHeights] + 1.0);
 	}
 	assert(bhts == &borderHeights.get()[numBorderedVerts]);
 
@@ -201,27 +196,22 @@ void SQuadSplitRequest::GenerateBorderedData() const
 	const int numBorderedVerts = borderedEdgeLen * borderedEdgeLen;
 
 	// generate heights plus a N=BORDER_SIZE unit border
-	std::vector<vector3d> positions;
-	positions.reserve(numBorderedVerts);
-	std::vector<double> heightsOut;
-	heightsOut.resize(numBorderedVerts);
+	vector3d *fill_verts = borderVertexs.get();
 	for (int y = -BORDER_SIZE; y < (borderedEdgeLen - BORDER_SIZE); y++) {
 		const double yfrac = double(y) * (fracStep * 0.5);
 		for (int x = -BORDER_SIZE; x < (borderedEdgeLen - BORDER_SIZE); x++) {
 			const double xfrac = double(x) * (fracStep * 0.5);
 			const vector3d p = GetSpherePoint(v0, v1, v2, v3, xfrac, yfrac);
-			positions.emplace_back(p);
+			*(fill_verts++) = p;
 		}
 	}
-	pTerrain->GetHeights(positions, heightsOut);
 
-	double *bhts = borderHeights.get();
 	vector3d *vrts = borderVertexs.get();
+	double *bhts = borderHeights.get();
+	pTerrain->GetHeights(vrts, bhts, numBorderedVerts);
+
 	for (int iHeights = 0; iHeights < numBorderedVerts; iHeights++) {
-		const vector3d &p = positions[iHeights];
-		const double height = heightsOut[iHeights];
-		*(bhts++) = height;
-		*(vrts++) = p * (height + 1.0);
+		vrts[iHeights] *= (bhts[iHeights] + 1.0);
 	}
 	assert(bhts == &borderHeights[numBorderedVerts]);
 }

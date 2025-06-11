@@ -43,7 +43,7 @@ public:
 		return m_fracdef[index];
 	}
 
-	virtual void GetHeights(const std::vector<vector3d> &vP, std::vector<double> &heightsOut) const = 0;
+	virtual void GetHeights(const vector3d *vP, double *heightsOut, const size_t count) const = 0;
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const = 0;
 
 	virtual const char *GetHeightFractalName() const = 0;
@@ -124,7 +124,7 @@ template <typename HeightFractal>
 class TerrainHeightFractal : virtual public Terrain {
 public:
 	TerrainHeightFractal() = delete;
-	void GetHeights(const std::vector<vector3d> &positions, std::vector<double> &heightsOut) const final;
+	void GetHeights(const vector3d *vP, double *heightsOut, const size_t count) const final;
 	const char *GetHeightFractalName() const final;
 
 protected:
