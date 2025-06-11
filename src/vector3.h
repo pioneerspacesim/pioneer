@@ -7,7 +7,6 @@
 #include "FloatComparison.h"
 #include "vector2.h"
 #include <math.h>
-#include <stdio.h>
 #include <algorithm>
 
 // Need this pragma due to operator[] implementation.
@@ -136,19 +135,19 @@ public:
 	}
 	inline void Normalize()
 	{
-		const T l = 1.0f / Length();
+		const T l = 1.0f / sqrt(x * x + y * y + z * z);
 		x *= l;
 		y *= l;
 		z *= l;
 	}
 	inline vector3 Normalized() const
 	{
-		const T l = 1.0f / Length();
+		const T l = 1.0f / sqrt(x * x + y * y + z * z);
 		return vector3(x * l, y * l, z * l);
 	}
 	inline vector3 NormalizedSafe() const
 	{
-		const T lenSqr = LengthSqr();
+		const T lenSqr = x * x + y * y + z * z;
 		if (lenSqr < 1e-18) // sqrt(lenSqr) < 1e-9
 			return vector3(1, 0, 0);
 		else {
@@ -156,8 +155,6 @@ public:
 			return vector3(x / l, y / l, z / l);
 		}
 	}
-
-	inline void Print() const { printf("v(%f,%f,%f)\n", x, y, z); }
 
 	/* Rotate this vector about point o, in axis defined by v. */
 	void ArbRotateAroundPoint(const vector3 &o, const vector3 &__v, T ang)

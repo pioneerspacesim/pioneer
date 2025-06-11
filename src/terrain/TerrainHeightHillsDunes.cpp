@@ -29,13 +29,13 @@ TerrainHeightFractal<TerrainHeightHillsDunes>::TerrainHeightFractal(const System
 }
 
 template <>
-void TerrainHeightFractal<TerrainHeightHillsDunes>::GetHeights(const std::vector<vector3d> &vP, std::vector<double> &heightsOut) const
+void TerrainHeightFractal<TerrainHeightHillsDunes>::GetHeights(const vector3d *vP, double *heightsOut, const size_t count) const
 {
-	for (size_t i = 0; i < vP.size(); i++) {
+	for (size_t i = 0; i < count; i++) {
 		const vector3d &p = vP[i];
 		const double continents = ridged_octavenoise(GetFracDef(3), 0.65, p) * (1.0 - m_sealevel) - (m_sealevel * 0.1);
 		if (continents < 0.0)
-			heightsOut.at(i) = 0.0;
+			heightsOut[i] = 0.0;
 		double n = continents;
 
 		double distrib = dunes_octavenoise(GetFracDef(4), 0.4, p);
@@ -55,6 +55,6 @@ void TerrainHeightFractal<TerrainHeightHillsDunes>::GetHeights(const std::vector
 			n += m;
 		//n += continents*Clamp(0.5-m, 0.0, 0.5)*0.2*dunes_octavenoise(GetFracDef(6), 0.6*distrib, p);
 		//n += continents*Clamp(0.05-n, 0.0, 0.01)*0.2*dunes_octavenoise(GetFracDef(2), Clamp(0.5-n, 0.0, 0.5), p);
-		heightsOut.at(i) = (n > 0.0 ? n * m_maxHeight : 0.0);
+		heightsOut[i] = (n > 0.0 ? n * m_maxHeight : 0.0);
 	}
 }

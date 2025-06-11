@@ -25,9 +25,9 @@ TerrainHeightFractal<TerrainHeightMountainsNormal>::TerrainHeightFractal(const S
 }
 
 template <>
-void TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeights(const std::vector<vector3d> &vP, std::vector<double> &heightsOut) const
+void TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeights(const vector3d *vP, double *heightsOut, const size_t count) const
 {
-	for (size_t i = 0; i < vP.size(); i++) {
+	for (size_t i = 0; i < count; i++) {
 		const vector3d &p = vP[i];
 		//This is among the most complex of terrains, so I'll use this as an example:
 		//
@@ -37,7 +37,7 @@ void TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeights(const std::v
 		double continents = octavenoise(GetFracDef(0), 0.7 * ridged_octavenoise(GetFracDef(8), 0.58, p), p) - m_sealevel * 0.65;
 		// if there are no continents on an area, we want it to be sea level
 		if (continents < 0.0)
-			heightsOut.at(i) = 0.0;
+			heightsOut[i] = 0.0;
 		double n = continents - (GetFracDef(0).amplitude * m_sealevel * 0.5);
 
 		// we save the height n now as a constant h
@@ -134,6 +134,6 @@ void TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeights(const std::v
 		}
 
 		n *= m_maxHeight;
-		heightsOut.at(i) = (n > 0.0 ? n : 0.0);
+		heightsOut[i] = (n > 0.0 ? n : 0.0);
 	}
 }

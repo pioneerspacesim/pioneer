@@ -27,10 +27,10 @@ TerrainHeightFractal<TerrainHeightMapped>::TerrainHeightFractal(const SystemBody
 }
 
 template <>
-void TerrainHeightFractal<TerrainHeightMapped>::GetHeights(const std::vector<vector3d> &vP, std::vector<double> &heightsOut) const
+void TerrainHeightFractal<TerrainHeightMapped>::GetHeights(const vector3d *vP, double *heightsOut, const size_t count) const
 {
 	// This is used for Earth and Mars
-	for (size_t i = 0; i < vP.size(); i++) {
+	for (size_t i = 0; i < count; i++) {
 		const vector3d &p = vP[i];
 
 		double v = BiCubicInterpolation(p);
@@ -83,6 +83,6 @@ void TerrainHeightFractal<TerrainHeightMapped>::GetHeights(const std::vector<vec
 			v += h;
 		}
 
-		heightsOut.at(i) = (v < 0 ? 0 : (v * m_invPlanetRadius));
+		heightsOut[i] = (v < 0 ? 0 : (v * m_invPlanetRadius));
 	}
 }
