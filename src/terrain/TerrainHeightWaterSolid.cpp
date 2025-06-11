@@ -62,6 +62,6 @@ void TerrainHeightFractal<TerrainHeightWaterSolid>::GetHeights(const std::vector
 		n *= m_maxHeight;
 		n = (n < 0.0 ? -n : n);
 		n = (n > 1.0 ? 2.0 - n : n);
-		heightsOut.at(i) = n;
+		heightsOut[i] = n;
 	}
 }

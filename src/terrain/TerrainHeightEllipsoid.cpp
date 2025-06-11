@@ -65,6 +65,6 @@ void TerrainHeightFractal<TerrainHeightEllipsoid>::GetHeights(const std::vector<
 		const double distFromCenter_R = ar / sqrt(x_squared + ar * ar * y_squared); // (eqn. 9)
 		// GetHeight must return the difference in the distance from center between a point in a sphere of
 		// Polar radius (in coords scaled to a unit sphere) and the point on the ellipsoid surface.
-		heightsOut.at(i) = std::max(distFromCenter_R - 1.0, 0.0);
+		heightsOut[i] = std::max(distFromCenter_R - 1.0, 0.0);
 	}
 }

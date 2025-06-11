@@ -29,6 +29,6 @@ void TerrainHeightFractal<TerrainHeightAsteroid3>::GetHeights(const std::vector<
 		const vector3d &p = vP[i];
 		const double n = octavenoise(GetFracDef(0), 0.5, p) * ridged_octavenoise(GetFracDef(1), 0.5, p) * m_maxHeight;
 
-		heightsOut.at(i) = (n > 0.0 ? n : 0.0);
+		heightsOut[i] = (n > 0.0 ? n : 0.0);
 	}
 }

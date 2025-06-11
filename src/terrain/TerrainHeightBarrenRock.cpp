@@ -30,6 +30,6 @@ void TerrainHeightFractal<TerrainHeightBarrenRock>::GetHeights(const std::vector
 		double n = ridged_octavenoise(16, 0.5 * octavenoise(8, 0.4, 2.5, p), Clamp(5.0 * octavenoise(8, 0.257, 4.0, p), 1.0, 5.0), p);
 
 		n *= m_maxHeight;
-		heightsOut.at(i) = (n > 0.0 ? n : 0.0);
+		heightsOut[i] = (n > 0.0 ? n : 0.0);
 	}
 }

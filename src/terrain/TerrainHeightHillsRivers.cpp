@@ -34,7 +34,7 @@ void TerrainHeightFractal<TerrainHeightHillsRivers>::GetHeights(const std::vecto
 		const vector3d &p = vP[i];
 		double continents = river_octavenoise(GetFracDef(3), 0.65, p) * (1.0 - m_sealevel) - (m_sealevel * 0.1);
 		if (continents < 0.0)
-			heightsOut.at(i) = 0.0;
+			heightsOut[i] = 0.0;
 		double n = continents;
 
 		double distrib = voronoiscam_octavenoise(GetFracDef(4), 0.5 * GetFracDef(5).amplitude, p);
@@ -53,6 +53,6 @@ void TerrainHeightFractal<TerrainHeightHillsRivers>::GetHeights(const std::vecto
 		n += continents * Clamp(0.5 - m, 0.0, 0.5) * 0.2 * river_octavenoise(GetFracDef(6), 0.6 * distrib, p);
 		n += continents * Clamp(0.05 - n, 0.0, 0.01) * 0.2 * dunes_octavenoise(GetFracDef(2), Clamp(0.5 - n, 0.0, 0.5), p);
 		n *= m_maxHeight;
-		heightsOut.at(i) = (n > 0.0 ? n : 0.0);
+		heightsOut[i] = (n > 0.0 ? n : 0.0);
 	}
 }

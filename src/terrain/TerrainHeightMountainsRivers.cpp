@@ -34,7 +34,7 @@ void TerrainHeightFractal<TerrainHeightMountainsRivers>::GetHeights(const std::v
 		const vector3d &p = vP[i];
 		double continents = octavenoise(GetFracDef(0), 0.7 * ridged_octavenoise(GetFracDef(8), 0.58, p), p) - m_sealevel * 0.65;
 		if (continents < 0.0)
-			heightsOut.at(i) = 0.0;
+			heightsOut[i] = 0.0;
 
 		double n = (river_function(GetFracDef(9), p) *
 					river_function(GetFracDef(7), p) *
@@ -144,6 +144,6 @@ void TerrainHeightFractal<TerrainHeightMountainsRivers>::GetHeights(const std::v
 		}
 
 		n *= m_maxHeight;
-		heightsOut.at(i) = (n > 0.0 ? n : 0.0);
+		heightsOut[i] = (n > 0.0 ? n : 0.0);
 	}
 }

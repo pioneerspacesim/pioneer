@@ -31,6 +31,6 @@ void TerrainHeightFractal<TerrainHeightMapped2>::GetHeights(const std::vector<ve
 		h += v;
 		h -= 0.09;
 
-		heightsOut.at(i) = (h > 0.0 ? h : 0.0);
+		heightsOut[i] = (h > 0.0 ? h : 0.0);
 	}
 }
