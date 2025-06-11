@@ -473,16 +473,9 @@ static int l_ship_spawn_cargo(lua_State *l)
 	else
 		model = "cargo";
 
-	if (lua_gettop(l) >= 3) {
-		float lifeTime = lua_tonumber(l, 3);
-		if (lua_gettop(l) >= 4) {
-			float quantity = lua_tonumber(l, 4);
-			c_body = new CargoBody(model, LuaRef(l, 2), lifeTime, quantity);
-		} else {
-			c_body = new CargoBody(model, LuaRef(l, 2), lifeTime);
-		}
-	} else
-		c_body = new CargoBody(model, LuaRef(l, 2));
+	float lifeTime = LuaPull<float>(l, 3, 86400); // default time of 1 day in seconds
+	uint32_t quantity = LuaPull<uint32_t>(l, 4, 1); // default quantity of 1
+	c_body = new CargoBody(model, LuaRef(l, 2), lifeTime, quantity);
 
 	// ownership of c_body passes to SpawnCargo
 	lua_pushboolean(l, s->SpawnCargo(c_body));
