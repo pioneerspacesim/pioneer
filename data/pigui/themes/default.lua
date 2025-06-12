@@ -512,7 +512,7 @@ theme.icons = {
 	-- EMPTY = 159,
 	-- eleventh row
 	planet_grid = 160,
-	bookmarks = 161,
+	bookmark = 161,
 	-- EMPTY = 162,
 	-- EMPTY = 163,
 	legal = 164, -- UNUSED
@@ -575,7 +575,7 @@ theme.icons = {
 	find_person = 216,
 	cargo_manifest = 217,
 	trashcan = 218,
-	bookmark = 219,
+	bookmark_book = 219,
 	pencil = 220,
 	fountain_pen = 221,
 	cocktail_glass = 222,

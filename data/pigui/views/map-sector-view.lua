@@ -7,6 +7,9 @@ local Format = require 'Format'
 local SystemPath = require 'SystemPath'
 local hyperJumpPlanner = require 'pigui.modules.hyperjump-planner'
 local systemEconView = require 'pigui.modules.system-econ-view'.New()
+local PlayerState    = require 'PlayerState'
+
+local BookmarkView = require 'pigui.modules.sidebar.bookmarks'
 
 local Lang = require 'Lang'
 local lc = Lang.GetResource("core");
@@ -21,6 +24,7 @@ local Sidebar = require 'pigui.libs.sidebar'
 local Serializer = require 'Serializer'
 
 local player = nil ---@type Player
+
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
@@ -30,15 +34,7 @@ local pionillium = ui.fonts.pionillium
 local font = ui.fonts.pionillium.medlarge
 local smallfont = ui.fonts.pionillium.medium
 
-local sidebarStyle = ui.Style:clone({
-	colors = {},
-	vars = {
-		FrameBorderSize = 1.0,
-		ChildBorderSize = 1.0,
-		FrameRounding = ui.theme.styles.StyleRounding,
-		ChildRounding = ui.theme.styles.StyleRounding,
-	}
-})
+local sidebarStyle = require 'pigui.styles'.sidebar
 
 local frameStyle = ui.Style:clone {
 	colors = {
@@ -246,18 +242,31 @@ local function drawJumpableList(jumpables, path)
 
 			ui.tableNextColumn()
 
-			local routeIcon = is_active_route and icons.map_checkmark or index and icons.map_selectsystem or icons.plus
-			local tooltip = is_active_route and lui.REMOVE_JUMP or index and lui.SET_JUMP_TARGET or lui.ADD_JUMP
+			local iconSize = Vector2(ui.getTextLineHeight())
 
-			if ui.iconButton("Select" .. i, routeIcon, tooltip, nil, Vector2(ui.getTextLineHeight()), ui.theme.styles.InlineIconPadding) then
-				if is_active_route then
-					hyperJumpPlanner.removeJump(index)
-				elseif index then
-					hyperJumpPlanner.updateInRoute(star.path)
-				else
-					hyperJumpPlanner.addJump(star.path)
+			ui.withStyleVars({ ItemSpacing = ui.theme.styles.ItemInnerSpacing }, function()
+
+				if ui.iconButton("Bookmark" .. i, icons.bookmark, lui.ADD_BOOKMARK, nil, iconSize) then
+					PlayerState.AddBookmark(star.path, { note = star.astroDescription })
 				end
-			end
+
+				ui.sameLine()
+
+				local routeIcon = is_active_route and icons.map_checkmark or index and icons.map_selectsystem or icons.plus
+				local tooltip = is_active_route and lui.REMOVE_JUMP or index and lui.SET_JUMP_TARGET or lui.ADD_JUMP
+
+				if ui.iconButton("Select" .. i, routeIcon, tooltip, nil, iconSize, ui.theme.styles.InlineIconPadding) then
+					if is_active_route then
+						hyperJumpPlanner.removeJump(index)
+					elseif index then
+						hyperJumpPlanner.updateInRoute(star.path)
+					else
+						hyperJumpPlanner.addJump(star.path)
+					end
+				end
+
+			end)
+
 		end
 
 		ui.endTable()
@@ -273,14 +282,27 @@ local infoView = {
 
 	drawTitle = function(self)
 
-		ui.text(sectorView:GetSelectedSystemPath():GetStarSystem().name)
-		ui.sameLine(ui.getContentRegion().x - ui.getButtonHeight(), 0)
+		local iconSize = Vector2(ui.getButtonHeight())
+		local path = sectorView:GetSelectedSystemPath() ---@type SystemPath
+
+		ui.text(path:GetStarSystem().name)
+		ui.sameLine(ui.getContentRegion().x - iconSize.x * 2, 0)
 
 		local padding = ui.theme.styles.ItemInnerSpacing
 
-		if ui.iconButton("focus", icons.maneuver, lui.CENTER_ON_SYSTEM, nil, Vector2(ui.getButtonHeight()), padding) then
-			sectorView:GetMap():GotoSystemPath(sectorView:GetSelectedSystemPath())
-		end
+		ui.withStyleVars({ ItemSpacing = Vector2(0, 0) }, function()
+			ui.horizontalGroup(function()
+
+				if ui.iconButton("bookmark", icons.bookmark, lui.ADD_BOOKMARK, nil, iconSize, padding) then
+					PlayerState.AddBookmark(path:SystemOnly(), { note = path:GetStarSystem().shortDescription })
+				end
+
+				if ui.iconButton("focus", icons.maneuver, lui.CENTER_ON_SYSTEM, nil, iconSize, padding) then
+					sectorView:GetMap():GotoSystemPath(path)
+				end
+
+			end)
+		end)
 
 	end,
 
@@ -720,6 +742,8 @@ local optionView = {
 	end
 }
 
+local bookmarkView = BookmarkView.New()
+
 table.insert(leftSidebar.modules, infoView)
 table.insert(leftSidebar.modules, econView)
 table.insert(leftSidebar.modules, factionView)
@@ -727,6 +751,7 @@ table.insert(leftSidebar.modules, optionView)
 
 table.insert(rightSidebar.modules, routeView)
 table.insert(rightSidebar.modules, searchBar)
+table.insert(rightSidebar.modules, bookmarkView)
 
 local shouldRefresh = true
 
@@ -826,6 +851,7 @@ ui.registerModule("game", { id = 'map-sector-view', draw = function()
 
 		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
 			systemEconView = package.reimport('pigui.modules.system-econ-view').New()
+			bookmarkView:debugReload()
 			package.reimport('pigui.modules.hyperjump-planner')
 			package.reimport()
 		end
