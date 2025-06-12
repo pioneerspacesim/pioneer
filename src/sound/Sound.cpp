@@ -690,6 +690,10 @@ namespace Sound {
 
 	void Pause(int on)
 	{
+		if (bool(on) == (SDL_AUDIO_PAUSED == SDL_GetAudioDeviceStatus(m_audioDevice)))
+		{
+			return;
+		}
 		SDL_PauseAudioDevice(m_audioDevice, on);
 	}
 
