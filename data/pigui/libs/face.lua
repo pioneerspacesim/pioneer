@@ -142,7 +142,7 @@ function PiGuiFace:renderFaceGenButtons(can_random)
 		local numFeatures = #faceFeatures
 		if can_random then numFeatures = numFeatures + 1 end
 		facegenSize.y = (buttonSize.y + facegenSpacing.y) * numFeatures - facegenSpacing.y
-		ui.child("FaceGen", facegenSize, {'AlwaysAutoResize'}, function()
+		ui.child("FaceGen", facegenSize, nil, {'AlwaysAutoResize','AutoResizeX','AutoResizeY'}, function()
 			for _, v in ipairs(faceFeatures) do
 				faceGenButton(self, v)
 			end
