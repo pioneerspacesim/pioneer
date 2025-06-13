@@ -405,7 +405,7 @@
   },
   "ECONOMY_TYPE": {
     "description": "",
-    "message": "Economy type"
+    "message": "Ekonomia"
   },
   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
     "description": "",
@@ -505,7 +505,7 @@
   },
   "GOVERNMENT_TYPE": {
     "description": "",
-    "message": "Government type"
+    "message": "Rząd"
   },
   "GRAIN": {
     "description": "like wheat or barley",
@@ -1189,7 +1189,7 @@
   },
   "POPULATION": {
     "description": "",
-    "message": "Population"
+    "message": "Populacja"
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -1317,7 +1317,7 @@
   },
   "SECTOR_X_Y_Z": {
     "description": "",
-    "message": "Sector: {sectorX}, {sectorY}, {sectorZ}"
+    "message": "Sektor: {sectorX}, {sectorY}, {sectorZ}"
   },
   "SELECTED_SYSTEM": {
     "description": "",

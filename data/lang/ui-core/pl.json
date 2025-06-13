@@ -7,6 +7,10 @@
     "description": "",
     "message": "Aktywna"
   },
+  "ADD_BOOKMARK": {
+    "description": "Button to add a singular bookmark",
+    "message": "Add Bookmark"
+  },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
     "message": "Dodaj skok"
@@ -81,7 +85,15 @@
   },
   "BODY_IN_ROUTE": {
     "description": "Label indicating a star is part of a planned hyperjump route",
-    "message": "Body in planned HyperJump Route"
+    "message": "Ciało w planowanej drodze Hiper Skoku"
+  },
+  "BOOKMARK": {
+    "description": "Label introducing a bookmark",
+    "message": "Bookmark"
+  },
+  "BOOKMARKS": {
+    "description": "Label introducing a list of bookmarks",
+    "message": "Bookmarks"
   },
   "BULLETIN_BOARD": {
     "description": "",
@@ -181,7 +193,7 @@
   },
   "CENTER_ON_CURRENT_SYSTEM": {
     "description": "Center on current star system",
-    "message": "Center on Current System"
+    "message": "Środek aktualnego układu"
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
@@ -385,7 +397,7 @@
   },
   "CURRENT_FUEL": {
     "description": "Label indicating the current fuel state",
-    "message": "Current Fuel"
+    "message": "Stan paliwa"
   },
   "CURRENT_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
@@ -397,7 +409,7 @@
   },
   "CURRENT_SYSTEM": {
     "description": "Label indicating the system the player currently occupies",
-    "message": "Current System"
+    "message": "Aktualny System"
   },
   "CUT": {
     "description": "As for clipboard",
@@ -422,6 +434,10 @@
   "DELETE": {
     "description": "",
     "message": "Usuń"
+  },
+  "DELETE_BOOKMARK": {
+    "description": "Button to remove a singular bookmark",
+    "message": "Delete Bookmark"
   },
   "DELETE_SAVE_CONFIRMATION": {
     "description": "",
@@ -535,6 +551,14 @@
     "description": "Tooltip, to edit a flight log entry",
     "message": "Edycja"
   },
+  "EDIT_BOOKMARK": {
+    "description": "Button to edit a singular bookmark",
+    "message": "Edit Bookmark"
+  },
+  "EDIT_NOTE": {
+    "description": "",
+    "message": "Edit Note"
+  },
   "EFFECTS": {
     "description": "",
     "message": "Efekty:"
@@ -578,6 +602,10 @@
   "ENGINEERING": {
     "description": "Engineering skills of crew",
     "message": "Inżynieria"
+  },
+  "ENTER_CUSTOM_NOTE": {
+    "description": "Label indicating a note should be entered here",
+    "message": "Enter custom note..."
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
@@ -637,7 +665,7 @@
   },
   "FACTION": {
     "description": "Label indicating the factional allegiance of an object",
-    "message": "Faction"
+    "message": "Frakcja"
   },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
@@ -705,7 +733,7 @@
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "Final Target"
+    "message": "Końcowy cel"
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
@@ -1301,7 +1329,7 @@
   },
   "HYPERJUMP_ROUTING": {
     "description": "Label indicating a category division",
-    "message": "HyperJump Routing"
+    "message": "Trasa hiperskoków"
   },
   "HYPERSPACE_RANGE": {
     "description": "",
@@ -1413,7 +1441,7 @@
   },
   "KNOWN_AS": {
     "description": "Indicates alternate names/aliases for an object",
-    "message": "Known as"
+    "message": "Znany jako"
   },
   "LANGUAGE": {
     "description": "",
@@ -1783,6 +1811,10 @@
     "description": "Message displaying no stored data available",
     "message": "Brak dostępnych danych"
   },
+  "NO_BOOKMARKS_FOUND": {
+    "description": "Label indicating a lack of bookmarks to display",
+    "message": "No Bookmarks Found"
+  },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
     "message": "BRAK ŁADUNKÓW "
@@ -2129,7 +2161,7 @@
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "Required Fuel"
+    "message": "Potrzeba paliwa"
   },
   "RESET": {
     "description": "",
@@ -2285,7 +2317,7 @@
   },
   "SET_JUMP_TARGET": {
     "description": "Button tooltip which sets the jump route to the selected body",
-    "message": "Set Jump Target"
+    "message": "Ustaw miejsce docelowe skoku"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
@@ -2358,6 +2390,22 @@
   "SOME_PARAMETERS_ARE_NOT_OK": {
     "description": "Diagnostics at game start",
     "message": "Niektóre parametry są niewłaściwe:"
+  },
+  "SORT_COMMODITY": {
+    "description": "Indicates the list of objects should be sorted by commodity",
+    "message": "Surowce"
+  },
+  "SORT_DISTANCE": {
+    "description": "Indicates the list of objects should be sorted by distance",
+    "message": "Distance"
+  },
+  "SORT_MODE": {
+    "description": "Label indicating the current sorting mode of a list of objects",
+    "message": "Sort Mode"
+  },
+  "SORT_NAME": {
+    "description": "Indicates the list of objects should be sorted by name",
+    "message": "Nazwa"
   },
   "SOUND": {
     "description": "",
@@ -2457,7 +2505,7 @@
   },
   "SYSTEM_INFORMATION": {
     "description": "Tooltip / label indicating information about a selected star system",
-    "message": "System Information"
+    "message": "Informacja o systemie"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
@@ -2545,11 +2593,11 @@
   },
   "TOTAL_DISTANCE": {
     "description": "Total distance of a (possibly series) of hyper jump(s)",
-    "message": "Total Distance"
+    "message": "Całkowity dystans"
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "Total Duration"
+    "message": "Całkowity czas trwania"
   },
   "TOTAL_MASS": {
     "description": "",
@@ -2609,7 +2657,7 @@
   },
   "UNLAWFUL_ECM_DISCHARGE": {
     "description": "",
-    "message": "Unlawful ECM discharge"
+    "message": "Bezprawne użycie ECM"
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
