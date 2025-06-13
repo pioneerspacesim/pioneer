@@ -411,8 +411,9 @@ void Instance::Init(Graphics::Renderer *renderer)
 	ImGui::StyleColorsDark();
 
 	// Disable ctrl+tab / ctrl+shift+tab window switching
-	ImGui::SetShortcutRouting(ImGui::GetCurrentContext()->ConfigNavWindowingKeyNext, 0, ImGuiKeyOwner_NoOwner);
-	ImGui::SetShortcutRouting(ImGui::GetCurrentContext()->ConfigNavWindowingKeyPrev, 0, ImGuiKeyOwner_NoOwner);
+	// https://github.com/ocornut/imgui/issues/3255#issuecomment-2529061532
+	ImGui::GetCurrentContext()->ConfigNavWindowingKeyNext = 0; // replace the default which is `ImGuiMod_Ctrl | ImGuiKey_Tab`
+	ImGui::GetCurrentContext()->ConfigNavWindowingKeyPrev = 0; // replace the default which is `ImGuiMod_Ctrl | ImGuiMod_Shift | ImGuiKey_Tab`.
 
 	std::string imguiIni = FileSystem::JoinPath(FileSystem::GetUserDir(), "imgui.ini");
 
