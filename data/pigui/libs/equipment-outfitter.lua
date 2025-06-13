@@ -67,7 +67,7 @@ local customButton = function(label, icon, infoText, variant)
 
 	if ui.isItemHovered() then
 		local tl, br = ui.getItemRect()
-		ui.addRectFilled(tl, tl + Vector2(rounding, size.y), fontCol, 4, 0x5)
+		ui.addRectFilled(tl, tl + Vector2(rounding, size.y), fontCol, 4, ui.RoundCornersLeft)
 	end
 
 	ui.withFont(pionillium.heading, function()
@@ -84,7 +84,7 @@ local customButton = function(label, icon, infoText, variant)
 			ui.addRectFilled(
 				startPos + Vector2(endOffset - width, framePadding.y),
 				startPos + Vector2(endOffset, height - framePadding.y),
-				variant.normal, 4, 0)
+				variant.normal, 4, ui.RoundCornersNone)
 		end
 	end)
 
