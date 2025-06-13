@@ -283,11 +283,10 @@ void SectorView::DrawPiGui()
 
 void SectorView::SetHyperspaceTarget(const SystemPath &path)
 {
-	if (m_hyperspaceTarget.IsSameSystem(path)) {
-		return;
+	if (m_hyperspaceTarget != path) {
+		m_hyperspaceTarget = path;
+		onHyperspaceTargetChanged.emit();
 	}
-	m_hyperspaceTarget = path;
-	onHyperspaceTargetChanged.emit();
 }
 
 void SectorView::ResetHyperspaceTarget()
