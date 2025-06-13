@@ -260,6 +260,22 @@ end
 --   id    - String, a unique name for the window,
 --           used to group its children
 --   size  - (Optional)Vector2
+--   childFlags - (Optional)Table, options:
+--              - Borders                   : Show an outer border and enable WindowPadding.
+--              - AlwaysUseWindowPadding    : Ensure child windows without border uses
+--                                            style.WindowPadding (ignored by default for
+--                                            non-bordered child windows, because more convenient)
+--              - ResizeX                   : Allow resize from right border.
+--              - ResizeY                   : Allow resize from bottom border.
+--              - AutoResizeX               : Enable auto-resizing width.
+--              - AutoResizeY               : Enable auto-resizing height.
+--              - AlwaysAutoResize          : Resize every window to its content every frame (must
+--                                            be used with AutoRezizeX and/or AutoResizeY)
+--              - FrameStyle                : Style the child window like a framed item: use
+--                                            FrameBg, FrameRounding, FrameBord
+--              - NavFlattened              : Share focus scope, allow keyboard/gamepad navigation
+--                                            to cross over parent border to this child or between
+--                                            sibling child windows.
 --   flags - (Optional)Table, options:
 --              - NoTitleBar                : Disable title-bar
 --              - NoResize                  : Disable user resizing with the lower-right grip
