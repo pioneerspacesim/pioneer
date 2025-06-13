@@ -25,8 +25,8 @@ local gameView = require 'pigui.views.game'
 
 local function draw_cargo_bar(pos, size, pct, color, tooltip)
 	local section = Vector2(size.x * pct, size.y)
-	ui.addRectFilled(pos, pos + size, colors.lightBlackBackground, 0, 0)
-	ui.addRectFilled(pos, pos + section, color, 0, 0)
+	ui.addRectFilled(pos, pos + size, colors.lightBlackBackground, 0, ui.RoundCornersNone)
+	ui.addRectFilled(pos, pos + section, color, 0, ui.RoundCornersNone)
 
 	if ui.isWindowHovered() and ui.isMouseHoveringRect(pos, pos + size) then
 		ui.setTooltip(tooltip)
@@ -35,7 +35,7 @@ end
 
 local function draw_cargo_bar_section(pos, size, pct, color, tooltip)
 	local section = Vector2(size.x * pct, size.y)
-	ui.addRectFilled(pos, pos + section, color, 0, 0)
+	ui.addRectFilled(pos, pos + section, color, 0, ui.RoundCornersNone)
 
 	if ui.isWindowHovered() and ui.isMouseHoveringRect(pos, pos + section) then
 		ui.setTooltip(tooltip)

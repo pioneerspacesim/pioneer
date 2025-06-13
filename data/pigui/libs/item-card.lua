@@ -76,13 +76,13 @@ function ItemCard:drawBackground(isSelected)
 	if self.highlightBar then
 		-- if we're hovered, we want to draw a little bar to the left of the background
 		if isHovered or isSelected then
-			ui.addRectFilled(tl - Vector2(self.rounding, 0), tl + Vector2(0, totalHeight), colors.equipScreenHighlight, 2, 5)
+			ui.addRectFilled(tl - Vector2(self.rounding, 0), tl + Vector2(0, totalHeight), colors.equipScreenHighlight, 2, ui.RoundCornersLeft)
 		end
 
-		ui.addRectFilled(tl, br, bgColor, self.rounding, (isHovered or isSelected) and 10 or 0) -- 10 == top-right | bottom-right
+		ui.addRectFilled(tl, br, bgColor, self.rounding, (isHovered or isSelected) and ui.RoundCornersRight or ui.RoundCornersNone)
 	else
 		-- otherwise just draw a normal rounded rectangle
-		ui.addRectFilled(tl, br, bgColor, self.rounding, 0)
+		ui.addRectFilled(tl, br, bgColor, self.rounding, ui.RoundCornersNone)
 	end
 
 	return isClicked, isHovered, highlightSize

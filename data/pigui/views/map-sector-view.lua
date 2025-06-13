@@ -87,9 +87,9 @@ local function bannerText(pos, text, color)
 	local x3 = Vector2(pos.x + s.y + s.x, pos.y + s.y)
 	local x4 = Vector2(pos.x + s.y + s.x, pos.y)
 
-	ui.addRectFaded(pos, x1, color, 0.0, 0x5)
-	ui.addRectFilled(x2, x3, color, 0.0, 0)
-	ui.addRectFaded(x4, max, color, 0.0, 0xA)
+	ui.addRectFaded(pos, x1, color, 0.0, ui.RoundCornersLeft)
+	ui.addRectFilled(x2, x3, color, 0.0, ui.RoundCornersNone)
+	ui.addRectFaded(x4, max, color, 0.0, ui.RoundCornersRight)
 
 	ui.setCursorScreenPos(Vector2(x2.x, x2.y + padding.y))
 	ui.text(text)

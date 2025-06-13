@@ -136,7 +136,7 @@ local function gauge_bar(x, text, min, max, icon)
 	ui.gauge(gaugePos, x, '', text, min, max, icon,
 		colors.gaugeEquipmentMarket, '', gaugeWidth, height)
 
-	-- ui.addRect(cursorPos, cursorPos + Vector2(gaugeWidth, height), colors.gaugeCargo, 0, 0, 1)
+	-- ui.addRect(cursorPos, cursorPos + Vector2(gaugeWidth, height), colors.gaugeCargo, 0, ui.RoundCornersNone, 1)
 	ui.dummy(Vector2(gaugeWidth, height))
 end
 

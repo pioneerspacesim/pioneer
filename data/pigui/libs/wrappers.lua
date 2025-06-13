@@ -10,6 +10,22 @@ local pigui = Engine.pigui
 ---@class ui
 local ui = require 'pigui.libs.forwarded'
 
+
+-- Legacy ImDrawFlags values
+--
+-- These are used to be more performant and avoid expensive string lookups
+-- when invoking the "addRect", "addRectFilled", and "addRectFaded" calls.
+ui.RoundCornersNone = 0x00
+ui.RoundCornersTopLeft = 0x01
+ui.RoundCornersTopRight = 0x02
+ui.RoundCornertBottomLeft = 0x04
+ui.RoundCornersBottomRight = 0x08
+ui.RoundCornersLeft = 0x05
+ui.RoundCornersRight = 0x0A
+ui.RoundCornersTop = 0x03
+ui.RoundCornersBottom = 0x0C
+ui.RoundCornersAll = 0x0F
+
 --
 -- Function: ui.pcall
 --
