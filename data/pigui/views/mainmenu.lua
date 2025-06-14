@@ -86,6 +86,10 @@ local function showOptions()
 	ui.optionsWindow:open()
 end
 
+local function showAbout()
+	ui.aboutWindow:open()
+end
+
 local function quitGame()
 	if Engine.GetConfirmQuit() then
 		quitConfirmMsg = string.interp(qlc["MSG_" .. Engine.rand:Integer(1, max_flavours)],{yes = qlc.YES, no = qlc.NO})
@@ -184,6 +188,7 @@ local function showMainMenu()
 			end)
 
 			mainTextButton(lui.OPTIONS, nil, true, showOptions)
+			mainTextButton(lui.ABOUT, nil, true, showAbout)
 			mainTextButton(lui.QUIT, nil, true, quitGame)
 
 			if showQuitConfirm then confirmQuit() end
