@@ -155,6 +155,17 @@ function EquipSet:GetFreeVolume()
 	return self.ship.totalVolume - self.ship.equipVolume
 end
 
+-- Method: HasVolumeForEquipment
+--
+-- Checks whether the ship has enough free space to install the equipment,
+-- regardless of whether or not the equipment requires a slot and whether the
+-- ship has a compatible slot.
+--
+-- @param eqip EquipType
+function EquipSet:HasVolumeForEquipment(equip)
+	return self:GetFreeVolume() >= equip.volume
+end
+
 -- Method: GetSlotHandle
 --
 -- Return a reference to the slot with the given ID managed by this EquipSet.

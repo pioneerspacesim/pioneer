@@ -3,17 +3,21 @@
     "description": "Buy a piece of ship equipment",
     "message": "Buy"
   },
-  "EQUIPMENT_NO_FREE_SLOT_IN_SHIP": {
+  "EQUIPMENT_NO_COMPATIBLE_SLOT": {
+    "description": "Message given when the second-hand equipment is not compatible with the ship slots.",
+    "message": "This equipment item is not compatible with your ship."
+  },
+  "EQUIPMENT_NO_FREE_SLOT": {
     "description": "Message shown by second-hand market if the ship does not have a free slot for the equipment.",
     "message": "Your ship does not have a free slot for this equipment."
   },
-  "EQUIPMENT_NO_SPACE_IN_SHIP": {
+  "EQUIPMENT_NO_SPACE": {
     "description": "Message shown by second-hand market if the equipment requires a free slot or free capacity to fit",
     "message": "Your ship does not have enough free space for this equipment item."
   },
-  "EQUIPMENT_NOT_COMPATIBLE_WITH_SHIP": {
-    "description": "Message given when the second-hand equipment is not compatible with the ship slots.",
-    "message": "This equipment item is not compatible with your ship."
+  "EQUIPMENT_SLOT_NO_SPACE":{
+    "description": "Message given when the ship has a compatible slot, but not enough space left to fit the equipment item.",
+    "message": "Your ship has a compatible slot, but not enough space to install this equipment."
   },
   "FITTING_IS_INCLUDED_IN_THE_PRICE": {
     "description": "Regarding installing a component on the ship",
