@@ -14,7 +14,6 @@ local PlayerState = require 'PlayerState'
 local utils = require 'utils'
 
 local l = Lang.GetResource("module-secondhand")
-local l2 = Lang.GetResource("ui-core")
 
 -- average number of adverts per BBS and billion population
 local N_equil = 0.1 -- [ads/(BBS*unit_population)]
@@ -22,9 +21,11 @@ local N_equil = 0.1 -- [ads/(BBS*unit_population)]
 -- inverse half life of an advert in (approximate) hours
 local inv_tau = 1.0 / (4 * 24)
 
+-- Maximum indeces for randomised messages; see data/lang/module-secondhand/en.json
 -- Note: including the 0
 local max_flavour_index = 5
 local max_surprise_index = 2
+local max_money_index = 3
 
 local flavours = {}
 for i = 0, max_flavour_index do
@@ -42,20 +43,50 @@ local onDelete = function(ref)
 	ads[ref] = nil
 end
 
--- check it fits on the ship, both the slot for that equipment and the
--- weight.
+-- Check if a piece of equipment can fit into the ship. Both the available space
+-- and, for equipemnt which requires a slot, a free and compatible slot are
+-- checked.
+--
+-- Returns a triple of:
+--
+--   ok      - whether the equipment can be installed
+--
+--   slot?   - if ok and the equipment requires a slot, the free slot into which
+--             it can be installed
+--
+--   message - a message containing the reason why the equipment can't be installed
+--
 ---@param e EquipType
+---@return boolean ok
+---@return Hullconfig.Slot? slot
+---@return string error
 local canFit = function(e)
 	local equipSet = Game.player:GetComponent("EquipSet")
+	local hasEnoughFreeVolume = equipSet:GetFreeVolume() >= e.volume
 
-	if e.slot then
-		local slot = equipSet:GetFreeSlotForEquip(e)
-		return slot ~= nil, slot, l2.SHIP_IS_FULLY_EQUIPPED
-	else
-		return equipSet:CanInstallLoose(e), nil, l2.SHIP_IS_FULLY_EQUIPPED
+	if not e.slot then
+		return hasEnoughFreeVolume, nil, l.EQUIPMENT_NO_SPACE
 	end
+
+	if not equipSet:HasCompatibleSlotForEquipment(e) then
+		return false, nil, l.EQUIPMENT_NO_COMPATIBLE_SLOT
+	end
+	if not hasEnoughFreeVolume then
+		return false, nil, l.EQUIPMENT_SLOT_NO_SPACE
+	end
+	local slot = equipSet:GetFreeSlotForEquip(e)
+	return slot ~= nil, slot, l.EQUIPMENT_NO_FREE_SLOT
 end
 
+-- Check if the player can afford the equipment item for sale
+local canAfford = function(ad)
+	return PlayerState.GetMoney() >= ad.price
+end
+
+-- Return true if the ad should be enabled in the BBS
+local isEnabled = function(ref)
+	return ads[ref] ~= nil and canAfford(ads[ref]) and canFit(ads[ref].equipment)
+end
 
 local onChat = function(form, ref, option)
 	local ad = ads[ref]
@@ -68,6 +99,19 @@ local onChat = function(form, ref, option)
 	end
 
 	form:SetFace(ad.character)
+
+	local ok, slot, message_str = canFit(ad.equipment)
+	if not ok then
+		form:SetMessage(message_str)
+		return
+	end
+
+	-- It is more performant to check the money first, but it is a better player
+	-- experience to check for equipment compatibility first.
+	if not canAfford(ad) then
+		form:SetMessage(l["NOT_ENOUGH_MONEY_" .. Engine.rand:Integer(0, max_money_index)])
+		return
+	end
 
 	if option == 0 then -- state offer
 		local adbody = string.interp(flavours[ad.flavour].adbody, {
@@ -85,28 +129,21 @@ local onChat = function(form, ref, option)
 			form:SetMessage(l["NO_LONGER_AVAILABLE_" .. Engine.rand:Integer(0, max_surprise_index)])
 			form:RemoveAdvertOnClose()
 			ads[ref] = nil
-		elseif PlayerState.GetMoney() >= ad.price then
-			local ok, slot, message_str = canFit(ad.equipment)
-			if ok then
-				-- TEMP: clarify the size of items offered for secondhand purchase
-				local equipmentName = (ad.equipment.slot and "S" .. ad.equipment.slot.size .. " " or "") ..
-				ad.equipment:GetName()
-
-				local buy_message = string.interp(l.HAS_BEEN_FITTED_TO_YOUR_SHIP, {
-					equipment = equipmentName
-				})
-
-				form:SetMessage(buy_message)
-				Game.player:GetComponent("EquipSet"):Install(ad.equipment, slot)
-				PlayerState.AddMoney(-ad.price)
-				form:RemoveAdvertOnClose()
-				ads[ref] = nil
-			else
-				form:SetMessage(message_str)
-			end
-		else
-			form:SetMessage(l.YOU_DONT_HAVE_ENOUGH_MONEY)
 		end
+
+		-- TEMP: clarify the size of items offered for secondhand purchase
+		local equipmentName = (ad.equipment.slot and "S" .. ad.equipment.slot.size .. " " or "") ..
+		ad.equipment:GetName()
+
+		local buy_message = string.interp(l.HAS_BEEN_FITTED_TO_YOUR_SHIP, {
+			equipment = equipmentName
+		})
+
+		form:SetMessage(buy_message)
+		Game.player:GetComponent("EquipSet"):Install(ad.equipment, slot)
+		PlayerState.AddMoney(-ad.price)
+		form:RemoveAdvertOnClose()
+		ads[ref] = nil
 
 		return
 	end
@@ -114,6 +151,24 @@ local onChat = function(form, ref, option)
 	form:AddOption(l.BUY, 2);
 end
 
+
+local postAdvert = function(station, ad)
+	-- TEMP: clarify the size of items offered for secondhand purchase
+	local equipmentName = (ad.equipment.slot and "S" .. ad.equipment.slot.size .. " " or "") .. ad.equipment:GetName()
+
+	ad.desc = string.interp(flavours[ad.flavour].adtext, {
+		equipment = equipmentName,
+	})
+	local ref = station:AddAdvert({
+		title       = flavours[ad.flavour].adtitle,
+		description = ad.desc,
+		icon        = "second_hand",
+		onChat      = onChat,
+		onDelete    = onDelete,
+		isEnabled   = isEnabled
+	})
+	ads[ref] = ad
+end
 
 local makeAdvert = function(station)
 	local character = Character.New()
@@ -152,22 +207,8 @@ local makeAdvert = function(station)
 		station = station,
 	}
 
-	-- TEMP: clarify the size of items offered for secondhand purchase
-	local equipmentName = (equipment.slot and "S" .. equipment.slot.size .. " " or "") .. equipment:GetName()
-
-	ad.desc = string.interp(flavours[ad.flavour].adtext, {
-		equipment = equipmentName,
-	})
-	local ref = station:AddAdvert({
-		title       = flavours[ad.flavour].adtitle,
-		description = ad.desc,
-		icon        = "second_hand",
-		onChat      = onChat,
-		onDelete    = onDelete
-	})
-	ads[ref] = ad
+	postAdvert(station, ad)
 end
-
 
 -- Dynamics of adverts on the BBS --
 ------------------------------------
@@ -240,25 +281,16 @@ local onGameStart = function()
 
 	if not loaded_data or not loaded_data.ads then return end
 
-	for k, ad in pairs(loaded_data.ads) do
-		local ref = ad.station:AddAdvert({
-			title       = flavours[ad.flavour].adtitle,
-			description = ad.desc,
-			icon        = "second_hand",
-			onChat      = onChat,
-			onDelete    = onDelete,
-		})
-		ads[ref] = ad
+	for _, ad in pairs(loaded_data.ads) do
+		postAdvert(ad.station, ad)
 	end
 
 	loaded_data = nil
 end
 
-
 local serialize = function()
 	return { ads = ads }
 end
-
 
 local unserialize = function(data)
 	loaded_data = data
