@@ -155,6 +155,17 @@ function EquipSet:GetFreeVolume()
 	return self.ship.totalVolume - self.ship.equipVolume
 end
 
+-- Method: HasVolumeForEquipment
+--
+-- Checks whether the ship has enough free space to install the equipment,
+-- regardless of whether or not the equipment requires a slot and whether the
+-- ship has a compatible slot.
+--
+-- @param eqip EquipType
+function EquipSet:HasVolumeForEquipment(equip)
+	return self:GetFreeVolume() >= equip.volume
+end
+
 -- Method: GetSlotHandle
 --
 -- Return a reference to the slot with the given ID managed by this EquipSet.
@@ -268,6 +279,40 @@ function EquipSet:GetAllSlotsOfType(type, hardpoint)
 	end
 
 	return t
+end
+
+-- Method: HasCompatibleSlotForEquipment
+--
+-- Return true if the ship has at least one slot which is compatible with the
+-- equipment item regardless of whether the ship currently has the space to
+-- fit the equipemnt.
+--
+-- Parameters:
+--
+--  equip - EquipType, the equipment item instance to attempt to slot.
+--
+-- Returns:
+--
+--  True if the ship has at least one slot compatible with the equipment,
+--          otherwise false.
+--
+---@param equip EquipType
+---@return boolean
+function EquipSet:HasCompatibleSlotForEquipment(equip)
+	if not equip.slot then return false end
+
+	local isCompatible = function(equip, slot)
+		return slot.hardpoint == equip.slot.hardpoint
+			and self.CompatibleWithSlot(equip, slot)
+	end
+
+	for _, slot in pairs(self.slotCache) do
+		if isCompatible(equip, slot) then
+			return true
+		end
+	end
+
+	return false
 end
 
 -- Method: GetInstalledWithFilter
