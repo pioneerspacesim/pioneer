@@ -10,6 +10,22 @@ local pigui = Engine.pigui
 ---@class ui
 local ui = require 'pigui.libs.forwarded'
 
+
+-- Legacy ImDrawFlags values
+--
+-- These are used to be more performant and avoid expensive string lookups
+-- when invoking the "addRect", "addRectFilled", and "addRectFaded" calls.
+ui.RoundCornersNone = 0x00
+ui.RoundCornersTopLeft = 0x01
+ui.RoundCornersTopRight = 0x02
+ui.RoundCornertBottomLeft = 0x04
+ui.RoundCornersBottomRight = 0x08
+ui.RoundCornersLeft = 0x05
+ui.RoundCornersRight = 0x0A
+ui.RoundCornersTop = 0x03
+ui.RoundCornersBottom = 0x0C
+ui.RoundCornersAll = 0x0F
+
 --
 -- Function: ui.pcall
 --
@@ -260,6 +276,22 @@ end
 --   id    - String, a unique name for the window,
 --           used to group its children
 --   size  - (Optional)Vector2
+--   childFlags - (Optional)Table, options:
+--              - Borders                   : Show an outer border and enable WindowPadding.
+--              - AlwaysUseWindowPadding    : Ensure child windows without border uses
+--                                            style.WindowPadding (ignored by default for
+--                                            non-bordered child windows, because more convenient)
+--              - ResizeX                   : Allow resize from right border.
+--              - ResizeY                   : Allow resize from bottom border.
+--              - AutoResizeX               : Enable auto-resizing width.
+--              - AutoResizeY               : Enable auto-resizing height.
+--              - AlwaysAutoResize          : Resize every window to its content every frame (must
+--                                            be used with AutoRezizeX and/or AutoResizeY)
+--              - FrameStyle                : Style the child window like a framed item: use
+--                                            FrameBg, FrameRounding, FrameBord
+--              - NavFlattened              : Share focus scope, allow keyboard/gamepad navigation
+--                                            to cross over parent border to this child or between
+--                                            sibling child windows.
 --   flags - (Optional)Table, options:
 --              - NoTitleBar                : Disable title-bar
 --              - NoResize                  : Disable user resizing with the lower-right grip

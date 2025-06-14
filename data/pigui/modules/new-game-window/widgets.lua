@@ -169,7 +169,7 @@ Widgets.filledHeader = function(label, width)
 
 	local p1 = ui.getCursorScreenPos()
 	local p2 = Vector2(p1.x + width, p1.y + fillHeight)
-	ui.addRectFilled(p1, p2, ui.theme.colors.tableHighlight, 0, 0)
+	ui.addRectFilled(p1, p2, ui.theme.colors.tableHighlight, 0, ui.RoundCornersNone)
 
 	ui.addCursorPos(Defs.gap)
 	ui.text(label)

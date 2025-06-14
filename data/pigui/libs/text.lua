@@ -431,7 +431,7 @@ ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, b
 	if bg_color then
 		pigui.AddRectFilled(position - Vector2(textBackgroundMarginPixels, max_offset + textBackgroundMarginPixels),
 			position + Vector2(size.x + textBackgroundMarginPixels, size.y - max_offset + textBackgroundMarginPixels),
-			bg_color, 0, 0)
+			bg_color, 0, ui.RoundCornersNone)
 	end
 
 	for i=1,#data do
@@ -458,7 +458,7 @@ ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, 
 		if bg_color then
 			pigui.AddRectFilled(Vector2(position.x - textBackgroundMarginPixels, position.y - textBackgroundMarginPixels),
 				Vector2(position.x + size.x + textBackgroundMarginPixels, position.y + size.y + textBackgroundMarginPixels),
-				bg_color, 0, 0)
+				bg_color, 0, ui.RoundCornersNone)
 		end
 		pigui.AddText(position, color, text)
 	end)

@@ -241,7 +241,7 @@ local function drawTarget(target, scale, center, color)
 	local tooltip = {}
 
 	ui.addLine(basePos, blobPos, color:shade(0.1), 2)
-	ui.addRectFilled(blobPos - blobHalfSize, blobPos + blobHalfSize, color, 0, 0)
+	ui.addRectFilled(blobPos - blobHalfSize, blobPos + blobHalfSize, color, 0, ui.RoundCornersNone)
 	local mouse_position = ui.getMousePos()
 	if (mouse_position - blobPos):length() < 4 then
 		table.insert(tooltip, target.label)

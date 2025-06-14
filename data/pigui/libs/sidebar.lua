@@ -154,8 +154,8 @@ function Sidebar:DrawModule(module)
 	local titleBg = buttonColors.default.normal
 
 	-- Draw backgrounds for title area and icon
-	ui.addRectFilled(screenPos, screenPos + Vector2(ui.getContentRegion().x, frameSize), titleBg, 0, 0)
-	ui.addRectFilled(screenPos, screenPos + Vector2(frameSize), iconBg, 0, 0)
+	ui.addRectFilled(screenPos, screenPos + Vector2(ui.getContentRegion().x, frameSize), titleBg, 0, ui.RoundCornersNone)
+	ui.addRectFilled(screenPos, screenPos + Vector2(frameSize), iconBg, 0, ui.RoundCornersNone)
 
 	local iconPos = screenPos + Vector2(mainButtonPadding)
 	ui.addIconSimple(iconPos, module.icon, Vector2(iconSize), colors.white, module.tooltip)
