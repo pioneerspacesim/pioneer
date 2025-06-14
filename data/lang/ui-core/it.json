@@ -9,7 +9,7 @@
   },
   "ADD_BOOKMARK": {
     "description": "Button to add a singular bookmark",
-    "message": "Add Bookmark"
+    "message": "Aggiungi Segnalibro"
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
@@ -89,11 +89,11 @@
   },
   "BOOKMARK": {
     "description": "Label introducing a bookmark",
-    "message": "Bookmark"
+    "message": "Segnalibro"
   },
   "BOOKMARKS": {
     "description": "Label introducing a list of bookmarks",
-    "message": "Bookmarks"
+    "message": "Segnalibri"
   },
   "BULLETIN_BOARD": {
     "description": "",
@@ -437,7 +437,7 @@
   },
   "DELETE_BOOKMARK": {
     "description": "Button to remove a singular bookmark",
-    "message": "Delete Bookmark"
+    "message": "Cancella Segnalibro"
   },
   "DELETE_SAVE_CONFIRMATION": {
     "description": "",
@@ -553,11 +553,11 @@
   },
   "EDIT_BOOKMARK": {
     "description": "Button to edit a singular bookmark",
-    "message": "Edit Bookmark"
+    "message": "Modifica Segnalibro"
   },
   "EDIT_NOTE": {
     "description": "",
-    "message": "Edit Note"
+    "message": "Modifica Nota"
   },
   "EFFECTS": {
     "description": "",
@@ -605,7 +605,7 @@
   },
   "ENTER_CUSTOM_NOTE": {
     "description": "Label indicating a note should be entered here",
-    "message": "Enter custom note..."
+    "message": "Inserisci nota personale..."
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
@@ -1813,7 +1813,7 @@
   },
   "NO_BOOKMARKS_FOUND": {
     "description": "Label indicating a lack of bookmarks to display",
-    "message": "No Bookmarks Found"
+    "message": "Nessun segnalibro"
   },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
@@ -2397,11 +2397,11 @@
   },
   "SORT_DISTANCE": {
     "description": "Indicates the list of objects should be sorted by distance",
-    "message": "Distance"
+    "message": "Distanza"
   },
   "SORT_MODE": {
     "description": "Label indicating the current sorting mode of a list of objects",
-    "message": "Sort Mode"
+    "message": "Ordinamento"
   },
   "SORT_NAME": {
     "description": "Indicates the list of objects should be sorted by name",
