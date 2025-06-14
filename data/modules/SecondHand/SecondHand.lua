@@ -22,9 +22,11 @@ local N_equil = 0.1 -- [ads/(BBS*unit_population)]
 -- inverse half life of an advert in (approximate) hours
 local inv_tau = 1.0 / (4 * 24)
 
+-- Maximum indeces for randomised messages; see data/lang/module-secondhand/en.json
 -- Note: including the 0
 local max_flavour_index = 5
 local max_surprise_index = 2
+local max_money_index = 3
 
 local flavours = {}
 for i = 0, max_flavour_index do
@@ -45,17 +47,25 @@ end
 -- check it fits on the ship, both the slot for that equipment and the
 -- weight.
 ---@param e EquipType
+---@return boolean,Hullconfig.Slot?,string
 local canFit = function(e)
 	local equipSet = Game.player:GetComponent("EquipSet")
 
-	if e.slot then
-		local slot = equipSet:GetFreeSlotForEquip(e)
-		return slot ~= nil, slot, l2.SHIP_IS_FULLY_EQUIPPED
-	else
-		return equipSet:CanInstallLoose(e), nil, l2.SHIP_IS_FULLY_EQUIPPED
+	if not e.slot then
+		return equipSet:CanInstallLoose(e), nil, l.EQUIPMENT_NO_SPACE_IN_SHIP
 	end
+
+	if not equipSet:HasCompatibleSlotForEquipment(e) then
+		return false, nil, l.EQUIPMENT_NOT_COMPATIBLE_WITH_SHIP
+	end
+	local slot = equipSet:GetFreeSlotForEquip(e)
+	return slot ~= nil, slot, l.EQUIPMENT_NO_FREE_SLOT_IN_SHIP
 end
 
+-- Check if the player can afford the equipment item for sale
+local canAfford = function(ad)
+	return PlayerState.GetMoney() >= ad.price
+end
 
 local onChat = function(form, ref, option)
 	local ad = ads[ref]
@@ -68,6 +78,19 @@ local onChat = function(form, ref, option)
 	end
 
 	form:SetFace(ad.character)
+
+	local ok, slot, message_str = canFit(ad.equipment)
+	if not ok then
+		form:SetMessage(message_str)
+		return
+	end
+
+	-- It is more performant to check the money first, but it is a better player
+	-- experience to check for equipment compatibility first.
+	if not canAfford(ad) then
+		form:SetMessage(l["NOT_ENOUGH_MONEY_" .. Engine.rand:Integer(0, max_money_index)])
+		return
+	end
 
 	if option == 0 then -- state offer
 		local adbody = string.interp(flavours[ad.flavour].adbody, {
@@ -85,28 +108,21 @@ local onChat = function(form, ref, option)
 			form:SetMessage(l["NO_LONGER_AVAILABLE_" .. Engine.rand:Integer(0, max_surprise_index)])
 			form:RemoveAdvertOnClose()
 			ads[ref] = nil
-		elseif PlayerState.GetMoney() >= ad.price then
-			local ok, slot, message_str = canFit(ad.equipment)
-			if ok then
-				-- TEMP: clarify the size of items offered for secondhand purchase
-				local equipmentName = (ad.equipment.slot and "S" .. ad.equipment.slot.size .. " " or "") ..
-				ad.equipment:GetName()
-
-				local buy_message = string.interp(l.HAS_BEEN_FITTED_TO_YOUR_SHIP, {
-					equipment = equipmentName
-				})
-
-				form:SetMessage(buy_message)
-				Game.player:GetComponent("EquipSet"):Install(ad.equipment, slot)
-				PlayerState.AddMoney(-ad.price)
-				form:RemoveAdvertOnClose()
-				ads[ref] = nil
-			else
-				form:SetMessage(message_str)
-			end
-		else
-			form:SetMessage(l.YOU_DONT_HAVE_ENOUGH_MONEY)
 		end
+
+		-- TEMP: clarify the size of items offered for secondhand purchase
+		local equipmentName = (ad.equipment.slot and "S" .. ad.equipment.slot.size .. " " or "") ..
+		ad.equipment:GetName()
+
+		local buy_message = string.interp(l.HAS_BEEN_FITTED_TO_YOUR_SHIP, {
+			equipment = equipmentName
+		})
+
+		form:SetMessage(buy_message)
+		Game.player:GetComponent("EquipSet"):Install(ad.equipment, slot)
+		PlayerState.AddMoney(-ad.price)
+		form:RemoveAdvertOnClose()
+		ads[ref] = nil
 
 		return
 	end
@@ -114,6 +130,13 @@ local onChat = function(form, ref, option)
 	form:AddOption(l.BUY, 2);
 end
 
+-- Return true if the ad should be enabled in the BBS
+local isEnabled = function(ref)
+	if ads[ref] == nil then return false end
+	if not canAfford(ads[ref]) then return false end
+	if not canFit(ads[ref].equipment) then return false end
+	return true
+end
 
 local makeAdvert = function(station)
 	local character = Character.New()
@@ -163,7 +186,8 @@ local makeAdvert = function(station)
 		description = ad.desc,
 		icon        = "second_hand",
 		onChat      = onChat,
-		onDelete    = onDelete
+		onDelete    = onDelete,
+		isEnabled   = isEnabled
 	})
 	ads[ref] = ad
 end
@@ -247,6 +271,7 @@ local onGameStart = function()
 			icon        = "second_hand",
 			onChat      = onChat,
 			onDelete    = onDelete,
+			isEnabled   = isEnabled
 		})
 		ads[ref] = ad
 	end
