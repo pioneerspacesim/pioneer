@@ -20,33 +20,32 @@ local l2 = Lang.GetResource("ui-core")
 local N_equil = 0.1 -- [ads/(BBS*unit_population)]
 
 -- inverse half life of an advert in (approximate) hours
-local inv_tau = 1.0 / (4*24)
+local inv_tau = 1.0 / (4 * 24)
 
 -- Note: including the 0
 local max_flavour_index = 5
 local max_surprise_index = 2
 
 local flavours = {}
-for i = 0,max_flavour_index do
-    table.insert(flavours, {
-        adtitle = l["FLAVOUR_" .. i .. "_TITLE"],
-        adtext = l["FLAVOUR_" .. i .. "_TEXT"],
-        adbody  = l["FLAVOUR_" .. i .. "_BODY"],
-    })
+for i = 0, max_flavour_index do
+	table.insert(flavours, {
+		adtitle = l["FLAVOUR_" .. i .. "_TITLE"],
+		adtext  = l["FLAVOUR_" .. i .. "_TEXT"],
+		adbody  = l["FLAVOUR_" .. i .. "_BODY"],
+	})
 end
 
 local ads = {}
 
 -- find a value in an array and return key
-local onDelete = function (ref)
-    ads[ref] = nil
+local onDelete = function(ref)
+	ads[ref] = nil
 end
 
 -- check it fits on the ship, both the slot for that equipment and the
 -- weight.
 ---@param e EquipType
-local canFit = function (e)
-
+local canFit = function(e)
 	local equipSet = Game.player:GetComponent("EquipSet")
 
 	if e.slot then
@@ -58,44 +57,40 @@ local canFit = function (e)
 end
 
 
-local onChat = function (form, ref, option)
-    local ad = ads[ref]
+local onChat = function(form, ref, option)
+	local ad = ads[ref]
 
-    form:Clear()
+	form:Clear()
 
-    if option == -1 then
-        form:Close()
-        return
-    end
+	if option == -1 then
+		form:Close()
+		return
+	end
 
-    form:SetFace(ad.character)
+	form:SetFace(ad.character)
 
-    if option == 0 then        -- state offer
-        local adbody = string.interp(flavours[ad.flavour].adbody, {
-            name  = ad.character.name,
-            equipment = ad.equipment:GetName(),
-            price = Format.Money(ad.price, false),
-        })
-        form:SetMessage(adbody)
+	if option == 0 then -- state offer
+		local adbody = string.interp(flavours[ad.flavour].adbody, {
+			name      = ad.character.name,
+			equipment = ad.equipment:GetName(),
+			price     = Format.Money(ad.price, false),
+		})
+		form:SetMessage(adbody)
 		form:AddOption(l.HOW_DO_I_FITT_IT, 1);
-    elseif option == 1 then    -- "How do I fit it"?
+	elseif option == 1 then -- "How do I fit it"?
 		form:SetMessage(l.FITTING_IS_INCLUDED_IN_THE_PRICE)
 		form:AddOption(l.REPEAT_OFFER, 0);
-    elseif option == 2 then    --- "Buy"
-
+	elseif option == 2 then               --- "Buy"
 		if Engine.rand:Integer(0, 99) == 0 then -- This is a one in a hundred event
-
 			form:SetMessage(l["NO_LONGER_AVAILABLE_" .. Engine.rand:Integer(0, max_surprise_index)])
 			form:RemoveAdvertOnClose()
 			ads[ref] = nil
-
 		elseif PlayerState.GetMoney() >= ad.price then
-
 			local ok, slot, message_str = canFit(ad.equipment)
 			if ok then
-
 				-- TEMP: clarify the size of items offered for secondhand purchase
-				local equipmentName = (ad.equipment.slot and "S" .. ad.equipment.slot.size .. " " or "") .. ad.equipment:GetName()
+				local equipmentName = (ad.equipment.slot and "S" .. ad.equipment.slot.size .. " " or "") ..
+				ad.equipment:GetName()
 
 				local buy_message = string.interp(l.HAS_BEEN_FITTED_TO_YOUR_SHIP, {
 					equipment = equipmentName
@@ -109,21 +104,20 @@ local onChat = function (form, ref, option)
 			else
 				form:SetMessage(message_str)
 			end
-
-        else
+		else
 			form:SetMessage(l.YOU_DONT_HAVE_ENOUGH_MONEY)
-        end
+		end
 
-        return
-    end
+		return
+	end
 
-    form:AddOption(l.BUY, 2);
+	form:AddOption(l.BUY, 2);
 end
 
 
-local makeAdvert = function (station)
-    local character = Character.New()
-    local flavour = Engine.rand:Integer(1, #flavours)
+local makeAdvert = function(station)
+	local character = Character.New()
+	local flavour = Engine.rand:Integer(1, #flavours)
 
 	-- Get all non-cargo or engines
 	local avail_equipment = {}
@@ -138,39 +132,40 @@ local makeAdvert = function (station)
 	end
 
 	-- choose a random ship equipment
-    local equipType = avail_equipment[Engine.rand:Integer(1,#avail_equipment)]
+	local equipType = avail_equipment[Engine.rand:Integer(1, #avail_equipment)]
 
 	-- make an instance of the equipment
 	-- TODO: set equipment integrity/wear, etc.
 	local equipment = equipType:Instance()
 
 	-- buy back price in equipment market is 0.8, so make sure the value is higher
-	local reduction = Engine.rand:Number(0.8,0.9)
+	local reduction = Engine.rand:Number(0.8, 0.9)
 
-    local price = utils.round(station:GetEquipmentPrice(equipment) * reduction, 2)
+	local price = utils.round(station:GetEquipmentPrice(equipment) * reduction, 2)
 
-    local ad = {
-        character = character,
-        faceseed = Engine.rand:Integer(),
-        flavour = flavour,
-        price = price,
-        equipment = equipment,
+	local ad = {
+		character = character,
+		faceseed = Engine.rand:Integer(),
+		flavour = flavour,
+		price = price,
+		equipment = equipment,
 		station = station,
-    }
+	}
 
 	-- TEMP: clarify the size of items offered for secondhand purchase
 	local equipmentName = (equipment.slot and "S" .. equipment.slot.size .. " " or "") .. equipment:GetName()
 
-    ad.desc = string.interp(flavours[ad.flavour].adtext, {
+	ad.desc = string.interp(flavours[ad.flavour].adtext, {
 		equipment = equipmentName,
-    })
-    local ref = station:AddAdvert({
+	})
+	local ref = station:AddAdvert({
 		title       = flavours[ad.flavour].adtitle,
-        description = ad.desc,
-        icon        = "second_hand",
-        onChat      = onChat,
-        onDelete    = onDelete})
-    ads[ref] = ad
+		description = ad.desc,
+		icon        = "second_hand",
+		onChat      = onChat,
+		onDelete    = onDelete
+	})
+	ads[ref] = ad
 end
 
 
@@ -188,24 +183,22 @@ end
 --   N(t) = prod/lambda - N_0*exp(-lambda * t)
 -- We want to have N_0 = N_equil, since BBS should spawn at equilibrium
 
-local onCreateBB = function (station)
-
+local onCreateBB = function(station)
 	-- instead of "for i = 1, Game.system.population do", get higher,
 	-- and more consistent resolution
 	local iter = 10
 
 	-- create one ad for each unit of population with some probability
-    for i = 1,iter do
-		if Engine.rand:Number(0,1) < N_equil * Game.system.population / iter then
+	for i = 1, iter do
+		if Engine.rand:Number(0, 1) < N_equil * Game.system.population / iter then
 			makeAdvert(station)
 		end
-    end
+	end
 end
 
-local onUpdateBB = function (station)
-
-	local lambda = 0.693147 * inv_tau    -- adv, del prob = ln(2) / tau
-	local prod = N_equil * lambda        -- adv. add prob
+local onUpdateBB = function(station)
+	local lambda = 0.693147 * inv_tau -- adv, del prob = ln(2) / tau
+	local prod = N_equil * lambda  -- adv. add prob
 
 	-- local add = 0 -- just to print statistics
 
@@ -214,8 +207,8 @@ local onUpdateBB = function (station)
 	-- remove with decay rate lambda. Call ONCE/hour for all adverts
 	-- in system, thus normalize with #BBS, or we remove adverts with
 	-- a probability a factor #BBS too high.
-	for ref,ad in pairs(ads) do
-		if Engine.rand:Number(0,1) < lambda * inv_BBSnumber then
+	for ref, ad in pairs(ads) do
+		if Engine.rand:Number(0, 1) < lambda * inv_BBSnumber then
 			ad.station:RemoveAdvert(ref)
 		end
 	end
@@ -224,8 +217,8 @@ local onUpdateBB = function (station)
 	local inv_iter = 1.0 / iter
 
 	-- spawn new adverts, call for each BBS
-    for i = 1,iter do
-		if Engine.rand:Number(0,1) <= prod * Game.system.population * inv_iter then
+	for i = 1, iter do
+		if Engine.rand:Number(0, 1) <= prod * Game.system.population * inv_iter then
 			makeAdvert(station)
 			-- add = add + 1
 		end
@@ -242,33 +235,33 @@ end
 
 local loaded_data
 
-local onGameStart = function ()
-    ads = {}
+local onGameStart = function()
+	ads = {}
 
-    if not loaded_data or not loaded_data.ads then return end
+	if not loaded_data or not loaded_data.ads then return end
 
-    for k,ad in pairs(loaded_data.ads) do
-        local ref = ad.station:AddAdvert({
+	for k, ad in pairs(loaded_data.ads) do
+		local ref = ad.station:AddAdvert({
 			title       = flavours[ad.flavour].adtitle,
-            description = ad.desc,
-            icon        = "second_hand",
-            onChat      = onChat,
-            onDelete    = onDelete,
-        })
-        ads[ref] = ad
-    end
+			description = ad.desc,
+			icon        = "second_hand",
+			onChat      = onChat,
+			onDelete    = onDelete,
+		})
+		ads[ref] = ad
+	end
 
-    loaded_data = nil
+	loaded_data = nil
 end
 
 
-local serialize = function ()
-    return { ads = ads }
+local serialize = function()
+	return { ads = ads }
 end
 
 
-local unserialize = function (data)
-    loaded_data = data
+local unserialize = function(data)
+	loaded_data = data
 end
 
 Event.Register("onCreateBB", onCreateBB)
