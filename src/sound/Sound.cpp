@@ -6,6 +6,7 @@
  */
 
 #include "Sound.h"
+#include "AlAudioBackend.h"
 #include "AudioBackend.h"
 #include "Body.h"
 #include "FileSystem.h"
@@ -201,7 +202,7 @@ namespace Sound {
 		}
 
 		try {
-			m_backend = new SdlAudioBackend();
+			m_backend = new AlAudioBackend();
 		} catch (...) {
 			return false;
 		}
@@ -286,12 +287,20 @@ namespace Sound {
 
 	bool Event::FadeOut(float dv_dt, Op op)
 	{
-		return m_backend->EventFadeOut(eid, dv_dt, op);
+		bool found = m_backend->EventVolumeAnimate(eid, 0.0f, 0.0f, dv_dt, dv_dt);
+		if (found)
+			m_backend->EventSetOp(eid, op | Sound::OP_STOP_AT_TARGET_VOLUME);
+		return found;
 	}
 
 	const std::vector<std::string> GetMusicFiles()
 	{
 		return music_sample_keys;
+	}
+
+	void Update(float delta_t)
+	{
+		m_backend->Update(delta_t);
 	}
 
 } /* namespace Sound */
