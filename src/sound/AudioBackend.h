@@ -36,24 +36,19 @@ namespace Sound {
 		virtual bool EventSetOp(eventid eid, Op op) = 0;
 		virtual bool EventVolumeAnimate(eventid eid, const float targetVol1, const float targetVol2, const float dv_dt1, const float dv_dt2) = 0;
 		virtual bool EventSetVolume(eventid eid, const float vol_left, const float vol_right) = 0;
-		virtual bool EventFadeOut(eventid eid, float dv_dt, Op op) = 0;
 
 		virtual void Pause(int on) = 0;
 
 		virtual eventid Play(std::string_view key, const float volume_left, const float volume_right, const Op op) = 0;
 		virtual void BodyMakeNoise(const Body *b, std::string_view key, float vol) = 0;
 
-		virtual void SetMasterVolume(const float vol) { m_masterVolume = vol; }
-		float GetMasterVolume() { return m_masterVolume; }
-		virtual void SetSfxVolume(const float vol) { m_sfxVolume = vol; }
-		float GetSfxVolume() { return m_sfxVolume; }
+		virtual void SetMasterVolume(float vol) = 0;
+		virtual float GetMasterVolume() = 0;
+		virtual void SetSfxVolume(float vol) = 0;
+		virtual float GetSfxVolume() = 0;
 
-		virtual void AddSample(std::string_view key, Sample &&sample) { m_samples.emplace(key, std::move(sample)); }
-
-	protected:
-		std::map<std::string, Sample> m_samples;
-		float m_masterVolume{};
-		float m_sfxVolume{};
+		virtual void AddSample(std::string_view key, Sample &&sample) = 0;
+		virtual void Update(float delta_t) {}
 	};
 
 } // namespace Sound
