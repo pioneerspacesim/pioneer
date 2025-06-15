@@ -24,6 +24,8 @@ local reticuleCircleRadius = math.min(ui.screenWidth, ui.screenHeight) / 8
 local reticuleCircleThickness = 2.0
 
 local lastTimeAcceleration
+-- Keep track of whether sound was muted before opening the pause menu
+local lastMasterVolumeMuted
 
 -- for modules
 ui.reticuleCircleRadius = reticuleCircleRadius
@@ -275,6 +277,19 @@ end)
 Event.Register("onPauseMenuClosed", function()
 	Game.SetTimeAcceleration((lastTimeAcceleration == "paused") and "1x" or lastTimeAcceleration)
 	Input.EnableBindings()
+end)
+
+Event.Register("onGamePaused", function()
+	lastMasterVolumeMuted = Engine.GetMasterMuted()
+	if not lastMasterVolumeMuted then
+		Engine.SetMasterMuted(true)
+	end
+end)
+
+Event.Register("onGameResumed", function()
+	if not lastMasterVolumeMuted then
+		Engine.SetMasterMuted(false)
+	end
 end)
 
 ui.registerHandler('game', function(delta_t)
