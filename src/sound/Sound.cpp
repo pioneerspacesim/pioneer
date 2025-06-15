@@ -24,7 +24,7 @@ namespace Sound {
 	static const unsigned int FREQ = 44100;
 	static const double STREAM_IF_LONGER_THAN = 10.0;
 
-	static AudioBackend* m_backend = nullptr;
+	static AudioBackend *m_backend = nullptr;
 
 	void SetMasterVolume(const float vol)
 	{
@@ -88,7 +88,7 @@ namespace Sound {
 
 	void PlaySfx(const char *fx, const float volume_left, const float volume_right, const Op op)
 	{
-		Sample* sample = GetSample(fx);
+		Sample *sample = GetSample(fx);
 		if (sample) {
 			m_backend->PlaySfxSample(sample, volume_left, volume_right, op);
 		}
@@ -176,7 +176,8 @@ namespace Sound {
 		LoadSoundJob(const std::string &directory, bool isMusic) :
 			m_directory(directory),
 			m_isMusic(isMusic)
-		{}
+		{
+		}
 
 		void OnRun() override
 		{
@@ -206,18 +207,14 @@ namespace Sound {
 	bool Init()
 	{
 		PROFILE_SCOPED()
-		if (m_backend != nullptr)
-		{
+		if (m_backend != nullptr) {
 			DestroyAllEvents();
 			return true;
 		}
 
-		try
-		{
+		try {
 			m_backend = new SdlAudioBackend();
-		}
-		catch (...)
-		{
+		} catch (...) {
 			return false;
 		}
 
@@ -235,8 +232,7 @@ namespace Sound {
 
 	void Uninit()
 	{
-		if (m_backend == nullptr)
-		{
+		if (m_backend == nullptr) {
 			return;
 		}
 
@@ -246,7 +242,7 @@ namespace Sound {
 
 		std::map<std::string, Sample>::iterator i;
 		for (i = sfx_samples.begin(); i != sfx_samples.end(); ++i)
-			delete[](*i).second.buf;
+			delete[] (*i).second.buf;
 	}
 
 	void Pause(int on)
@@ -257,13 +253,13 @@ namespace Sound {
 	void Event::Play(const char *fx, float volume_left, float volume_right, Op op)
 	{
 		Stop();
-		Sample* sample = GetSample(fx);
+		Sample *sample = GetSample(fx);
 		if (sample) {
 			eid = m_backend->PlaySfxSample(sample, volume_left, volume_right, op);
 		}
 	}
 
-	void Event::PlayMusic(const char *fx, float volume, float fadeDelta, bool repeat, Event* fadeOut)
+	void Event::PlayMusic(const char *fx, float volume, float fadeDelta, bool repeat, Event *fadeOut)
 	{
 		// The FadeOut, Stop, PlayMusicSample & VolumeAnimate calls perform
 		// five mutex lock operations. These could be reduced to a single
@@ -273,7 +269,7 @@ namespace Sound {
 			fadeOut->FadeOut(fadeDelta);
 		}
 		Stop();
-		Sample* sample = GetSample(fx);
+		Sample *sample = GetSample(fx);
 		if (sample) {
 			float start = fadeDelta ? 0.0f : volume;
 			eid = m_backend->PlayMusicSample(sample, start, start, repeat ? Sound::OP_REPEAT : 0);
@@ -318,7 +314,7 @@ namespace Sound {
 		std::vector<std::string> songs;
 		songs.reserve(sfx_samples.size());
 		for (std::map<std::string, Sample>::const_iterator it = sfx_samples.begin();
-			 it != sfx_samples.end(); ++it) {
+			it != sfx_samples.end(); ++it) {
 			if (it->second.isMusic)
 				songs.emplace_back(it->first.c_str());
 		}

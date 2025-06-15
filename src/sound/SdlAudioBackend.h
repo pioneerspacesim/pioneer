@@ -9,63 +9,61 @@
 
 #include "SDL2/SDL_audio.h"
 
-namespace Sound
-{
+namespace Sound {
 
-class SdlAudioBackend : public AudioBackend
-{
-public:
-    SdlAudioBackend();
-    ~SdlAudioBackend();
+	class SdlAudioBackend : public AudioBackend {
+	public:
+		SdlAudioBackend();
+		~SdlAudioBackend();
 
-	void DestroyAllEvents() override;
-	void DestroyAllEventsExceptMusic() override;
+		void DestroyAllEvents() override;
+		void DestroyAllEventsExceptMusic() override;
 
-    bool EventStop(eventid eid) override;
-    bool IsEventPlaying(eventid eid) override;
-    bool EventSetOp(eventid eid, Op op) override;
-    bool EventVolumeAnimate(eventid eid, const float targetVol1, const float targetVol2, const float dv_dt1, const float dv_dt2) override;
-    bool EventSetVolume(eventid eid, const float vol_left, const float vol_right) override;
-    bool EventFadeOut(eventid eid, float dv_dt, Op op) override;
+		bool EventStop(eventid eid) override;
+		bool IsEventPlaying(eventid eid) override;
+		bool EventSetOp(eventid eid, Op op) override;
+		bool EventVolumeAnimate(eventid eid, const float targetVol1, const float targetVol2, const float dv_dt1, const float dv_dt2) override;
+		bool EventSetVolume(eventid eid, const float vol_left, const float vol_right) override;
+		bool EventFadeOut(eventid eid, float dv_dt, Op op) override;
 
-	void Pause(int on) override;
+		void Pause(int on) override;
 
-	eventid PlaySfxSample(Sample *sample, const float volume_left, const float volume_right, const Op op) override;
-    eventid PlayMusicSample(Sample *sample, const float volume_left, const float volume_right, const Op op) override;
-	void BodyMakeNoise(const Body *b, Sample* sample, float vol) override;
+		eventid PlaySfxSample(Sample *sample, const float volume_left, const float volume_right, const Op op) override;
+		eventid PlayMusicSample(Sample *sample, const float volume_left, const float volume_right, const Op op) override;
+		void BodyMakeNoise(const Body *b, Sample *sample, float vol) override;
 
-private:
-    struct SoundEvent {
-		const Sample *sample;
-		OggVorbis_File *oggv; // if sample->buf = 0 then stream this
-		OggFileDataStream ogg_data_stream;
-		uint32_t buf_pos;
-		float volume[2]; // left and right channels
-		eventid identifier;
-		uint32_t op;
+	private:
+		struct SoundEvent {
+			const Sample *sample;
+			OggVorbis_File *oggv; // if sample->buf = 0 then stream this
+			OggFileDataStream ogg_data_stream;
+			uint32_t buf_pos;
+			float volume[2]; // left and right channels
+			eventid identifier;
+			uint32_t op;
 
-		float targetVolume[2];
-		float rateOfChange[2]; // per sample
-		bool ascend[2];
+			float targetVolume[2];
+			float rateOfChange[2]; // per sample
+			bool ascend[2];
+		};
+
+		constexpr inline static unsigned int FREQ = 44100;
+		constexpr inline static unsigned int BUF_SIZE = 4096;
+		constexpr inline static unsigned int MAX_WAVSTREAMS = 10; //first two are for music
+
+		SoundEvent *GetEvent(eventid id);
+		void DestroyEvent(SoundEvent *ev);
+
+		template <int T_channels, int T_upsample>
+		void fill_audio_1stream(float *buffer, int len, int stream_num);
+		void fill_audio(Uint8 *dsp_buf, int len);
+		static void fill_audio_callback(void *udata, Uint8 *dsp_buf, int len);
+
+		SDL_AudioDeviceID m_audioDevice;
+		uint32_t identifier = 1;
+		int nextMusicStream = 0;
+		SoundEvent wavstream[MAX_WAVSTREAMS]{};
 	};
-
-    constexpr inline static unsigned int FREQ = 44100;
-	constexpr inline static unsigned int BUF_SIZE = 4096;
-	constexpr inline static unsigned int MAX_WAVSTREAMS = 10; //first two are for music
-
-    SoundEvent *GetEvent(eventid id);
-    void DestroyEvent(SoundEvent *ev);
-
-    template <int T_channels, int T_upsample>
-	void fill_audio_1stream(float *buffer, int len, int stream_num);
-    void fill_audio(Uint8 *dsp_buf, int len);
-    static void fill_audio_callback(void *udata, Uint8 *dsp_buf, int len);
-    
-    SDL_AudioDeviceID m_audioDevice;
-    uint32_t identifier = 1;
-    int nextMusicStream = 0;
-	SoundEvent wavstream[MAX_WAVSTREAMS]{};
-};
 
 } // namespace Sound
 
