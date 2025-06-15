@@ -69,29 +69,16 @@ namespace Sound {
 		(*volRightOut) = Clamp((*volRightOut), 0.0f, 1.0f);
 	}
 
-	static std::map<std::string, Sample> sfx_samples;
-
-	static Sample *GetSample(const char *filename)
-	{
-		if (sfx_samples.find(filename) != sfx_samples.end()) {
-			return &sfx_samples[filename];
-		} else {
-			//SilentWarning("Unknown sound sample: %s", filename);
-			return 0;
-		}
-	}
+	static std::vector<std::string> music_sample_keys;
 
 	void BodyMakeNoise(const Body *b, const char *sfx, float vol)
 	{
-		m_backend->BodyMakeNoise(b, GetSample(sfx), vol);
+		m_backend->BodyMakeNoise(b, sfx, vol);
 	}
 
 	void PlaySfx(const char *fx, const float volume_left, const float volume_right, const Op op)
 	{
-		Sample *sample = GetSample(fx);
-		if (sample) {
-			m_backend->PlaySfxSample(sample, volume_left, volume_right, op);
-		}
+		m_backend->Play(fx, volume_left, volume_right, op);
 	}
 
 	void DestroyAllEvents()
@@ -131,14 +118,12 @@ namespace Sound {
 			Error("Vorbis file %s is not mono or stereo. Bad!", path.c_str());
 		}
 
-		int resample_multiplier = ((info->rate == (FREQ >> 1)) ? 2 : 1);
 		const Sint64 num_samples = ov_pcm_total(&oggv, -1);
 		// since samples are 16 bits we have:
 
-		sample.buf = 0;
 		sample.buf_len = num_samples * info->channels;
 		sample.channels = info->channels;
-		sample.upsample = resample_multiplier;
+		sample.samplerate = info->rate;
 		sample.path = path;
 
 		const float seconds = num_samples / float(info->rate);
@@ -146,12 +131,12 @@ namespace Sound {
 
 		// immediately decode and store as raw sample if short enough
 		if (seconds < STREAM_IF_LONGER_THAN) {
-			sample.buf = new Uint16[sample.buf_len];
+			sample.buf.resize(sample.buf_len);
 
 			int i = 0;
 			for (;;) {
 				int music_section;
-				int amt = ov_read(&oggv, reinterpret_cast<char *>(sample.buf) + i,
+				int amt = ov_read(&oggv, reinterpret_cast<char *>(sample.buf.data()) + i,
 					2 * sample.buf_len - i, 0, 2, 1, &music_section);
 				i += amt;
 				if (amt == 0) break;
@@ -193,8 +178,11 @@ namespace Sound {
 
 		void OnFinish() override
 		{
-			for (const auto &pair : m_loadedSounds) {
-				sfx_samples.emplace(std::move(pair));
+			for (auto &pair : m_loadedSounds) {
+				if (pair.second.isMusic) {
+					music_sample_keys.emplace_back(pair.first);
+				}
+				m_backend->AddSample(pair.first, std::move(pair.second));
 			}
 		}
 
@@ -240,9 +228,7 @@ namespace Sound {
 		delete m_backend;
 		m_backend = nullptr;
 
-		std::map<std::string, Sample>::iterator i;
-		for (i = sfx_samples.begin(); i != sfx_samples.end(); ++i)
-			delete[] (*i).second.buf;
+		music_sample_keys.clear();
 	}
 
 	void Pause(int on)
@@ -253,10 +239,7 @@ namespace Sound {
 	void Event::Play(const char *fx, float volume_left, float volume_right, Op op)
 	{
 		Stop();
-		Sample *sample = GetSample(fx);
-		if (sample) {
-			eid = m_backend->PlaySfxSample(sample, volume_left, volume_right, op);
-		}
+		eid = m_backend->Play(fx, volume_left, volume_right, op);
 	}
 
 	void Event::PlayMusic(const char *fx, float volume, float fadeDelta, bool repeat, Event *fadeOut)
@@ -269,13 +252,10 @@ namespace Sound {
 			fadeOut->FadeOut(fadeDelta);
 		}
 		Stop();
-		Sample *sample = GetSample(fx);
-		if (sample) {
-			float start = fadeDelta ? 0.0f : volume;
-			eid = m_backend->PlayMusicSample(sample, start, start, repeat ? Sound::OP_REPEAT : 0);
-			if (fadeDelta) {
-				VolumeAnimate(volume, volume, fadeDelta, fadeDelta);
-			}
+		float start = fadeDelta ? 0.0f : volume;
+		eid = m_backend->Play(fx, start, start, repeat ? Sound::OP_REPEAT : 0);
+		if (fadeDelta) {
+			VolumeAnimate(volume, volume, fadeDelta, fadeDelta);
 		}
 	}
 
@@ -311,14 +291,7 @@ namespace Sound {
 
 	const std::vector<std::string> GetMusicFiles()
 	{
-		std::vector<std::string> songs;
-		songs.reserve(sfx_samples.size());
-		for (std::map<std::string, Sample>::const_iterator it = sfx_samples.begin();
-			it != sfx_samples.end(); ++it) {
-			if (it->second.isMusic)
-				songs.emplace_back(it->first.c_str());
-		}
-		return songs;
+		return music_sample_keys;
 	}
 
 } /* namespace Sound */

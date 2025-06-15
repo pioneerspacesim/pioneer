@@ -145,69 +145,36 @@ void Sound::SdlAudioBackend::Pause(int on)
 /*
  * Volume should be 0-65535
  */
-Sound::AudioBackend::eventid Sound::SdlAudioBackend::PlaySfxSample(Sample *sample, const float volume_left, const float volume_right, const Op op)
+Sound::AudioBackend::eventid Sound::SdlAudioBackend::Play(std::string_view key, const float volume_left, const float volume_right, const Op op)
 {
+	std::string key_str(key);
+	auto sample_it = m_samples.find(key_str);
+	if (sample_it == m_samples.end()) {
+		Warning("Could not find sample with key %s", key_str.c_str());
+		return 0;
+	}
+	const float mix_volume = sample_it->second.isMusic ? 1.0F : GetSfxVolume();
 	SDL_LockAudioDevice(m_audioDevice);
-	unsigned int idx;
-	uint32_t age;
-	/* find free wavstream (first two reserved for music) */
-	for (idx = 2; idx < MAX_WAVSTREAMS; idx++) {
-		if (!wavstream[idx].sample) break;
-	}
-	if (idx == MAX_WAVSTREAMS) {
-		/* otherwise overwrite oldest one */
-		age = 0;
-		idx = 0;
-		for (unsigned int i = 2; i < MAX_WAVSTREAMS; i++) {
-			if ((i == 0) || (wavstream[i].buf_pos > age)) {
-				idx = i;
-				age = wavstream[i].buf_pos;
-			}
-		}
-		DestroyEvent(&wavstream[idx]);
-	}
-	wavstream[idx].sample = sample;
-	wavstream[idx].oggv = 0;
-	wavstream[idx].buf_pos = 0;
-	wavstream[idx].volume[0] = volume_left * GetSfxVolume();
-	wavstream[idx].volume[1] = volume_right * GetSfxVolume();
-	wavstream[idx].op = op;
-	wavstream[idx].identifier = identifier;
-	wavstream[idx].targetVolume[0] = volume_left * GetSfxVolume();
-	wavstream[idx].targetVolume[1] = volume_right * GetSfxVolume();
-	wavstream[idx].rateOfChange[0] = wavstream[idx].rateOfChange[1] = 0.0f;
+	SoundEvent &empty_event = FindFreeEventForSample(sample_it->second);
+	empty_event.sample = &sample_it->second;
+	empty_event.oggv = 0;
+	empty_event.buf_pos = 0;
+	empty_event.volume[0] = volume_left * mix_volume;
+	empty_event.volume[1] = volume_right * mix_volume;
+	empty_event.op = op;
+	empty_event.identifier = identifier;
+	empty_event.targetVolume[0] = mix_volume;
+	empty_event.targetVolume[1] = mix_volume;
+	empty_event.rateOfChange[0] = empty_event.rateOfChange[1] = 0.0f;
 	SDL_UnlockAudioDevice(m_audioDevice);
 	return identifier++;
 }
 
-//unlike PlaySfxSample, we want uninterrupted play and do not care about age
-//alternate between two streams for crossfade
-Sound::AudioBackend::eventid Sound::SdlAudioBackend::PlayMusicSample(Sample *sample, const float volume_left, const float volume_right, const Op op)
-{
-	const int idx = nextMusicStream;
-	nextMusicStream ^= 1;
-	SDL_LockAudioDevice(m_audioDevice);
-	if (wavstream[idx].sample)
-		DestroyEvent(&wavstream[idx]);
-	wavstream[idx].sample = sample;
-	wavstream[idx].oggv = nullptr;
-	wavstream[idx].buf_pos = 0;
-	wavstream[idx].volume[0] = volume_left;
-	wavstream[idx].volume[1] = volume_right;
-	wavstream[idx].op = op;
-	wavstream[idx].identifier = identifier;
-	wavstream[idx].targetVolume[0] = volume_left; //already scaled in MusicPlayer
-	wavstream[idx].targetVolume[1] = volume_right;
-	wavstream[idx].rateOfChange[0] = wavstream[idx].rateOfChange[1] = 0.0f;
-	SDL_UnlockAudioDevice(m_audioDevice);
-	return identifier++;
-}
-
-void Sound::SdlAudioBackend::BodyMakeNoise(const Body *b, Sample *sample, float vol)
+void Sound::SdlAudioBackend::BodyMakeNoise(const Body *b, std::string_view key, float vol)
 {
 	float vl, vr;
 	CalculateStereo(b, vol, &vl, &vr);
-	this->PlaySfxSample(sample, vl, vr, 0);
+	this->Play(key, vl, vr, 0);
 }
 
 Sound::SdlAudioBackend::SoundEvent *Sound::SdlAudioBackend::GetEvent(eventid id)
@@ -231,6 +198,37 @@ void Sound::SdlAudioBackend::DestroyEvent(SoundEvent *ev)
 	ev->sample = nullptr;
 }
 
+Sound::SdlAudioBackend::SoundEvent &Sound::SdlAudioBackend::FindFreeEventForSample(const Sample &sample)
+{
+	int idx = -1;
+	if (sample.isMusic) {
+		idx = nextMusicStream;
+		nextMusicStream ^= 1;
+		if (wavstream[idx].sample)
+			DestroyEvent(&wavstream[idx]);
+	} else {
+		uint32_t age;
+		/* find free wavstream (first two reserved for music) */
+		for (idx = 2; idx < MAX_WAVSTREAMS; idx++) {
+			if (!wavstream[idx].sample) {
+				return wavstream[idx];
+			}
+		}
+		/* otherwise overwrite oldest one */
+		age = 0;
+		idx = 0;
+		for (unsigned int i = 2; i < MAX_WAVSTREAMS; i++) {
+			if ((i == 0) || (wavstream[i].buf_pos > age)) {
+				idx = i;
+				age = wavstream[i].buf_pos;
+			}
+		}
+		DestroyEvent(&wavstream[idx]);
+	}
+
+	return wavstream[idx];
+}
+
 /*
  * len is the number of floats to put in buffer, NOT full samples (a sample would be 2 floats since stereo)
  */
@@ -244,9 +242,9 @@ void Sound::SdlAudioBackend::fill_audio_1stream(float *buffer, int len, int stre
 	int inbuf_pos = 0;
 	int pos = 0;
 	while ((pos < len) && ev.sample) {
-		if (ev.sample->buf) {
+		if (!ev.sample->buf.empty()) {
 			// already decoded
-			inbuf = reinterpret_cast<Sint16 *>(ev.sample->buf);
+			inbuf = reinterpret_cast<const Sint16 *>(ev.sample->buf.data());
 			inbuf_pos = ev.buf_pos;
 		} else {
 			// stream ogg vorbis
@@ -276,7 +274,7 @@ void Sound::SdlAudioBackend::fill_audio_1stream(float *buffer, int len, int stre
 			for (;;) {
 				int music_section;
 				if (wanted_bytes == 0) break;
-				int amt = ov_read(ev.oggv, reinterpret_cast<char *>(inbuf) + i,
+				int amt = ov_read(ev.oggv, const_cast<char *>(reinterpret_cast<const char *>(inbuf)) + i,
 					wanted_bytes, 0, 2, 1, &music_section);
 				i += amt;
 				wanted_bytes -= amt;
@@ -368,13 +366,13 @@ void Sound::SdlAudioBackend::fill_audio(Uint8 *dsp_buf, int len)
 		}
 
 		if (wavstream[i].sample->channels == 1) {
-			if (wavstream[i].sample->upsample == 1) {
+			if (wavstream[i].sample->samplerate == 22050) {
 				fill_audio_1stream<1, 1>(tmpbuf, len_in_floats, i);
 			} else {
 				fill_audio_1stream<1, 2>(tmpbuf, len_in_floats, i);
 			}
 		} else {
-			if (wavstream[i].sample->upsample == 1) {
+			if (wavstream[i].sample->samplerate == 44100) {
 				fill_audio_1stream<2, 1>(tmpbuf, len_in_floats, i);
 			} else {
 				fill_audio_1stream<2, 2>(tmpbuf, len_in_floats, i);

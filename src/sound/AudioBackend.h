@@ -6,13 +6,16 @@
 
 #include "Sound.h"
 
+#include <map>
+#include <string_view>
+
 namespace Sound {
 
 	struct Sample {
-		uint16_t *buf;
+		std::vector<uint16_t> buf;
 		uint32_t buf_len;
 		uint32_t channels;
-		int upsample; // 1 = 44100, 2=22050
+		int samplerate;
 		/* if buf is null, this will be path to an ogg we must stream */
 		std::string path;
 		bool isMusic;
@@ -37,16 +40,18 @@ namespace Sound {
 
 		virtual void Pause(int on) = 0;
 
-		virtual eventid PlaySfxSample(Sample *sample, const float volume_left, const float volume_right, const Op op) = 0;
-		virtual eventid PlayMusicSample(Sample *sample, const float volume_left, const float volume_right, const Op op) = 0;
-		virtual void BodyMakeNoise(const Body *b, Sample *sample, float vol) = 0;
+		virtual eventid Play(std::string_view key, const float volume_left, const float volume_right, const Op op) = 0;
+		virtual void BodyMakeNoise(const Body *b, std::string_view key, float vol) = 0;
 
 		virtual void SetMasterVolume(const float vol) { m_masterVolume = vol; }
 		float GetMasterVolume() { return m_masterVolume; }
 		virtual void SetSfxVolume(const float vol) { m_sfxVolume = vol; }
 		float GetSfxVolume() { return m_sfxVolume; }
 
+		virtual void AddSample(std::string_view key, Sample &&sample) { m_samples.emplace(key, std::move(sample)); }
+
 	protected:
+		std::map<std::string, Sample> m_samples;
 		float m_masterVolume{};
 		float m_sfxVolume{};
 	};
