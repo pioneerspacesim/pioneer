@@ -775,6 +775,22 @@ static int l_engine_set_music_volume(lua_State *l)
 	return 0;
 }
 
+static int l_engine_get_mute_on_pause(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("AudioMuteOnPause") != 0);
+	return 1;
+}
+
+static int l_engine_set_mute_on_pause(lua_State *l)
+{
+	if (lua_isnone(l, 1)) {
+		return luaL_error(l, "SetMuteOnPause takes one boolean argument");
+	}
+	const bool mute= lua_toboolean(l, 1);
+	Pi::config->SetInt("AudioMuteOnPause", (mute? 1 : 0));
+	Pi::config->Save();
+	return 0;
+}
 static int l_engine_get_gpu_jobs_enabled(lua_State *l)
 {
 	lua_pushboolean(l, Pi::config->Int("EnableGPUJobs") != 0);
@@ -1168,6 +1184,8 @@ void LuaEngine::Register()
 		{ "GetMusicVolume", l_engine_get_music_volume },
 		{ "SetMusicVolume", l_engine_set_music_volume },
 
+		{ "SetMuteOnPause", l_engine_set_mute_on_pause },
+		{ "GetMuteOnPause", l_engine_get_mute_on_pause },
 		{ "CanBrowseUserFolder", l_get_can_browse_user_folders },
 		{ "OpenBrowseUserFolder", l_browse_user_folders },
 

@@ -281,13 +281,13 @@ end)
 
 Event.Register("onGamePaused", function()
 	lastMasterVolumeMuted = Engine.GetMasterMuted()
-	if not lastMasterVolumeMuted then
+	if Engine.GetMuteOnPause() and not lastMasterVolumeMuted then
 		Engine.SetMasterMuted(true)
 	end
 end)
 
 Event.Register("onGameResumed", function()
-	if not lastMasterVolumeMuted then
+	if Engine.GetMuteOnPause() and not lastMasterVolumeMuted then
 		Engine.SetMasterMuted(false)
 	end
 end)

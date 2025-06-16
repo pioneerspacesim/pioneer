@@ -1735,6 +1735,10 @@
     "description": "",
     "message": "Mute"
   },
+  "MUTE_ON_PAUSE": {
+    "description": "Setting for muting audio when the game is paused.",
+    "message": "Mute on Pause"
+  },
   "NAME_OBJECT": {
     "description": "For an item or object",
     "message": "Name"

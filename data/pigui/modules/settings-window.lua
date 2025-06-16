@@ -340,6 +340,7 @@ local function showSoundOptions()
 	local musicLevel = Engine.GetMusicVolume()*100
 	local effectsMuted = Engine.GetEffectsMuted()
 	local effectsLevel = Engine.GetEffectsVolume()*100
+	local muteOnPause = Engine.GetMuteOnPause()
 
 	local c
 
@@ -360,6 +361,9 @@ local function showSoundOptions()
 	ui.sameLine()
 	c,effectsLevel = slider(lui.EFFECTS, effectsLevel, 0, 100)
 	if c then Engine.SetEffectsVolume(effectsLevel/100) end
+
+	c,muteOnPause = checkbox(lui.MUTE_ON_PAUSE, muteOnPause)
+	if c then Engine.SetMuteOnPause(muteOnPause) end
 end
 
 local function showLanguageOptions()
