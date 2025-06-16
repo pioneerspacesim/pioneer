@@ -215,6 +215,8 @@ GeoSphere::GeoSphere(const SystemBody *body) :
 	}
 
 	//SetUpMaterials is not called until first Render since light count is zero :)
+
+	m_terrain->InitCityRegions(body);
 }
 
 GeoSphere::~GeoSphere()
