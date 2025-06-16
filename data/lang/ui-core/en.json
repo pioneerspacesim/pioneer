@@ -1735,6 +1735,10 @@
     "description": "",
     "message": "Mute"
   },
+  "MUTE_ON_FOCUS": {
+    "description": "Setting for muting audio when the game window loses focus.",
+    "message": "Mute on Focus"
+  },
   "MUTE_ON_PAUSE": {
     "description": "Setting for muting audio when the game is paused.",
     "message": "Mute on Pause"

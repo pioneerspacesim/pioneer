@@ -292,6 +292,24 @@ Event.Register("onGameResumed", function()
 	end
 end)
 
+Event.Register("onFocusLost", function()
+	-- Don't mute on lost focus if the game is paused and mute-on-pause is set
+	if Game.paused and Engine.GetMuteOnPause() then return end
+
+	lastMasterVolumeMuted = Engine.GetMasterMuted()
+	if Engine.GetMuteOnFocus() and not lastMasterVolumeMuted then
+		Engine.SetMasterMuted(true)
+	end
+end)
+
+Event.Register("onFocusGained", function()
+	-- Don't un-mute on lost focus if the game is paused and mute-on-pause is set
+	if Game.paused and Engine.GetMuteOnPause() then return end
+	if Engine.GetMuteOnFocus() and not lastMasterVolumeMuted then
+		Engine.SetMasterMuted(false)
+	end
+end)
+
 ui.registerHandler('game', function(delta_t)
 		-- delta_t is ignored for now
 		gameView.player = Game.player

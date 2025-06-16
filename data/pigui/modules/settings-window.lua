@@ -341,6 +341,7 @@ local function showSoundOptions()
 	local effectsMuted = Engine.GetEffectsMuted()
 	local effectsLevel = Engine.GetEffectsVolume()*100
 	local muteOnPause = Engine.GetMuteOnPause()
+	local muteOnFocus = Engine.GetMuteOnFocus()
 
 	local c
 
@@ -364,6 +365,8 @@ local function showSoundOptions()
 
 	c,muteOnPause = checkbox(lui.MUTE_ON_PAUSE, muteOnPause)
 	if c then Engine.SetMuteOnPause(muteOnPause) end
+	c,muteOnFocus = checkbox(lui.MUTE_ON_FOCUS, muteOnFocus)
+	if c then Engine.SetMuteOnFocus(muteOnFocus) end
 end
 
 local function showLanguageOptions()

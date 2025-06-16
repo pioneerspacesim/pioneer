@@ -791,6 +791,23 @@ static int l_engine_set_mute_on_pause(lua_State *l)
 	Pi::config->Save();
 	return 0;
 }
+static int l_engine_get_mute_on_focus(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("AudioMuteOnFocus") != 0);
+	return 1;
+}
+
+static int l_engine_set_mute_on_focus(lua_State *l)
+{
+	if (lua_isnone(l, 1)) {
+		return luaL_error(l, "SetMuteOnFocus takes one boolean argument");
+	}
+	const bool mute= lua_toboolean(l, 1);
+	Pi::config->SetInt("AudioMuteOnFocus", (mute? 1 : 0));
+	Pi::config->Save();
+	return 0;
+}
+
 static int l_engine_get_gpu_jobs_enabled(lua_State *l)
 {
 	lua_pushboolean(l, Pi::config->Int("EnableGPUJobs") != 0);
@@ -1186,6 +1203,9 @@ void LuaEngine::Register()
 
 		{ "SetMuteOnPause", l_engine_set_mute_on_pause },
 		{ "GetMuteOnPause", l_engine_get_mute_on_pause },
+		{ "SetMuteOnFocus", l_engine_set_mute_on_focus },
+		{ "GetMuteOnFocus", l_engine_get_mute_on_focus },
+
 		{ "CanBrowseUserFolder", l_get_can_browse_user_folders },
 		{ "OpenBrowseUserFolder", l_browse_user_folders },
 
