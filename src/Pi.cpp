@@ -1107,6 +1107,21 @@ void GameLoop::Update(float deltaTime)
 	Pi::statSceneTris = 0;
 	Pi::statNumPatches = 0;
 
+	{
+		SDL_Window *w = Pi::renderer->GetSDLWindow();
+		if (w != NULL) {
+			static bool lastFocus = true;
+			uint32_t flags = SDL_GetWindowFlags(w);
+			bool hasFocus = (flags & SDL_WINDOW_INPUT_FOCUS) != 0;
+			if (hasFocus != lastFocus) {
+				lastFocus = hasFocus;
+				LuaEvent::Queue(hasFocus? "onFocusGained" : "onFocusLost");
+				LuaEvent::Emit();
+			}
+		}
+
+	}
+
 #if 0 // FIXME: decouple video recording from Pi
 	if (Pi::isRecordingVideo && (Pi::ffmpegFile != nullptr)) {
 		Graphics::ScreendumpState sd;
