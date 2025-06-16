@@ -1603,6 +1603,10 @@
     "description": "",
     "message": "Surface gravity"
   },
+  "SURFACE_PRESSURE": {
+    "description": "",
+    "message": "Surface pressure"
+  },
   "SURFACE_TEMPERATURE": {
     "description": "",
     "message": "Surface temperature"
@@ -1850,6 +1854,18 @@
   "UNIT_SQUARE_METERS": {
     "description": "Area unit: square meter (m²)",
     "message": "m²"
+  },
+  "UNIT_TEMPERATURE_CELSIUS": {
+    "description": "Temperature unit: degrees Celsius (°C)",
+    "message": "°C"
+  },
+  "UNIT_TEMPERATURE_FAHRENHEIT": {
+    "description": "Temperature unit: Fahrenheit (F)",
+    "message": "F"
+  },
+  "UNIT_TEMPERATURE_KELVIN": {
+    "description": "Temperature unit: degrees Kelvin (°K)",
+    "message": "°K"
   },
   "UNIT_TERATONNES": {
     "description": "Mass unit: one teratonne",
