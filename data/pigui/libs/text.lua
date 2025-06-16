@@ -286,8 +286,12 @@ ui.Format = {
 			return string.format(fmt, mass / 1e18), lc.UNIT_PETATONNES
 		elseif m < EARTH_MASS * 1e3 then
 			return oldFmt(lc.N_EARTH_MASSES, { mass = mass / EARTH_MASS }), ""
+			-- fmt = "%0." .. (digits or 3) .. "f"
+			--return string.format(fmt, mass / EARTH_MASS), "EM" -- Should be: "M🜨"
 		end
 		return oldFmt(lc.N_SOLAR_MASSES, { mass = mass / SOL_MASS }), ""
+		-- fmt = "%0." .. (digits or 3) .. "f"
+		--return string.format(fmt, mass / SOL_MASS), "SM" -- Should be : "M☉"
 	end,
 	Mass = function(mass, digits)
 		local m, u = ui.Format.MassUnit(mass, digits)
@@ -303,7 +307,7 @@ ui.Format = {
 		return string.format("%0.2f", grav) .. " " .. lc.UNIT_EARTH_GRAVITY
 	end,
 	Pressure = function(pres)
-		return string.format("%0.2f", pres) .. lc.UNIT_PRESSURE_ATMOSPHERES
+		return string.format("%0.2f ", pres) .. lc.UNIT_PRESSURE_ATMOSPHERES
 	end,
 	TemperatureCelsius = function(tempInKelvin)
 		return string.format("%0.2f", tempInKelvin - 273.15) .. lc.UNIT_TEMPERATURE_CELSIUS
