@@ -9,7 +9,7 @@
   },
   "ADD_BOOKMARK": {
     "description": "Button to add a singular bookmark",
-    "message": "Add Bookmark"
+    "message": "Добавяне на отметка"
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
@@ -85,15 +85,15 @@
   },
   "BODY_IN_ROUTE": {
     "description": "Label indicating a star is part of a planned hyperjump route",
-    "message": "Body in planned HyperJump Route"
+    "message": "Тяло в планирания маршрут на хиперскока"
   },
   "BOOKMARK": {
     "description": "Label introducing a bookmark",
-    "message": "Bookmark"
+    "message": "Отметка"
   },
   "BOOKMARKS": {
     "description": "Label introducing a list of bookmarks",
-    "message": "Bookmarks"
+    "message": "Отметки"
   },
   "BULLETIN_BOARD": {
     "description": "",
@@ -193,7 +193,7 @@
   },
   "CENTER_ON_CURRENT_SYSTEM": {
     "description": "Center on current star system",
-    "message": "Center on Current System"
+    "message": "Центриране върху текущата система"
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
@@ -397,7 +397,7 @@
   },
   "CURRENT_FUEL": {
     "description": "Label indicating the current fuel state",
-    "message": "Current Fuel"
+    "message": "Текущо гориво"
   },
   "CURRENT_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
@@ -409,7 +409,7 @@
   },
   "CURRENT_SYSTEM": {
     "description": "Label indicating the system the player currently occupies",
-    "message": "Current System"
+    "message": "Текуща система"
   },
   "CUT": {
     "description": "As for clipboard",
@@ -437,7 +437,7 @@
   },
   "DELETE_BOOKMARK": {
     "description": "Button to remove a singular bookmark",
-    "message": "Delete Bookmark"
+    "message": "Изтриване на отметка"
   },
   "DELETE_SAVE_CONFIRMATION": {
     "description": "",
@@ -553,11 +553,11 @@
   },
   "EDIT_BOOKMARK": {
     "description": "Button to edit a singular bookmark",
-    "message": "Edit Bookmark"
+    "message": "Редактиране на отметка"
   },
   "EDIT_NOTE": {
     "description": "",
-    "message": "Edit Note"
+    "message": "Редактиране на бележка"
   },
   "EFFECTS": {
     "description": "",
@@ -605,7 +605,7 @@
   },
   "ENTER_CUSTOM_NOTE": {
     "description": "Label indicating a note should be entered here",
-    "message": "Enter custom note..."
+    "message": "Въвеждане на персонализирана бележка..."
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
@@ -665,7 +665,7 @@
   },
   "FACTION": {
     "description": "Label indicating the factional allegiance of an object",
-    "message": "Faction"
+    "message": "Групировка"
   },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
@@ -733,7 +733,7 @@
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "Final Target"
+    "message": "Крайна цел"
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
@@ -1329,7 +1329,7 @@
   },
   "HYPERJUMP_ROUTING": {
     "description": "Label indicating a category division",
-    "message": "HyperJump Routing"
+    "message": "Маршрут на хиперскока"
   },
   "HYPERSPACE_RANGE": {
     "description": "",
@@ -1441,7 +1441,7 @@
   },
   "KNOWN_AS": {
     "description": "Indicates alternate names/aliases for an object",
-    "message": "Known as"
+    "message": "Известен като"
   },
   "LANGUAGE": {
     "description": "",
@@ -1813,7 +1813,7 @@
   },
   "NO_BOOKMARKS_FOUND": {
     "description": "Label indicating a lack of bookmarks to display",
-    "message": "No Bookmarks Found"
+    "message": "Няма намерени отметки"
   },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
@@ -2161,7 +2161,7 @@
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "Required Fuel"
+    "message": "Необходимо гориво"
   },
   "RESET": {
     "description": "",
@@ -2213,7 +2213,7 @@
   },
   "ROUTE_JUMPS": {
     "description": "For hyperjump planner",
-    "message": "Скокове в маршрута"
+    "message": "Хиперскокове в маршрута"
   },
   "SAFETY_LOCKOUT": {
     "description": "Ship jump status",
@@ -2317,7 +2317,7 @@
   },
   "SET_JUMP_TARGET": {
     "description": "Button tooltip which sets the jump route to the selected body",
-    "message": "Set Jump Target"
+    "message": "Задаване на цел за хиперскока"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
@@ -2397,11 +2397,11 @@
   },
   "SORT_DISTANCE": {
     "description": "Indicates the list of objects should be sorted by distance",
-    "message": "Distance"
+    "message": "Разстояние"
   },
   "SORT_MODE": {
     "description": "Label indicating the current sorting mode of a list of objects",
-    "message": "Sort Mode"
+    "message": "Режим на сортиране"
   },
   "SORT_NAME": {
     "description": "Indicates the list of objects should be sorted by name",
@@ -2505,7 +2505,7 @@
   },
   "SYSTEM_INFORMATION": {
     "description": "Tooltip / label indicating information about a selected star system",
-    "message": "System Information"
+    "message": "Информация за системата"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
@@ -2593,11 +2593,11 @@
   },
   "TOTAL_DISTANCE": {
     "description": "Total distance of a (possibly series) of hyper jump(s)",
-    "message": "Total Distance"
+    "message": "Общо разстояние"
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "Total Duration"
+    "message": "Обща продължителност"
   },
   "TOTAL_MASS": {
     "description": "",

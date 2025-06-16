@@ -713,10 +713,10 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Нямате достатъчно товарно пространство."
+    "message": "Нямате достатъчно товарно място."
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Моля, върнете се, когато имате достатъчно товарно пространство."
+    "message": "Моля, върнете се, когато имате достатъчно товарно място."
   }
 }

@@ -3,6 +3,22 @@
     "description": "Buy a piece of ship equipment",
     "message": "Compra"
   },
+  "EQUIPMENT_NO_COMPATIBLE_SLOT": {
+    "description": "Message given when the second-hand equipment is not compatible with the ship slots.",
+    "message": "Questo pezzo di equipaggiamento non è compatibile con la tua nave."
+  },
+  "EQUIPMENT_NO_FREE_SLOT": {
+    "description": "Message shown by second-hand market if the ship does not have a free slot for the equipment.",
+    "message": "La tua nave non ha uno slot liberi per equipaggiare l'oggetto."
+  },
+  "EQUIPMENT_NO_SPACE": {
+    "description": "Message shown by second-hand market if the equipment requires a free slot or free capacity to fit",
+    "message": "La tua nave non ha sufficiente spazio per questo equipaggiamento."
+  },
+  "EQUIPMENT_SLOT_NO_SPACE": {
+    "description": "Message given when the ship has a compatible slot, but not enough space left to fit the equipment item.",
+    "message": "La tua nave ha uno slot compatibile, ma manca dello spazio necessario per l'installazione."
+  },
   "FITTING_IS_INCLUDED_IN_THE_PRICE": {
     "description": "Regarding installing a component on the ship",
     "message": "Il montaggio è incluso nel prezzo."
@@ -86,6 +102,22 @@
   "HOW_DO_I_FITT_IT": {
     "description": "Regarding installing a component on the ship",
     "message": "Come lo monto?"
+  },
+  "NOT_ENOUGH_MONEY_0": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Non hai abbastanza denaro per permetterti l’oggetto."
+  },
+  "NOT_ENOUGH_MONEY_1": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Torna quando avrai abbastanza soldi."
+  },
+  "NOT_ENOUGH_MONEY_2": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Non faccio beneficenza. Torna quando te lo potrai permettere."
+  },
+  "NOT_ENOUGH_MONEY_3": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Anche se è usato, il prezzo non è trattabile."
   },
   "NO_LONGER_AVAILABLE_0": {
     "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",

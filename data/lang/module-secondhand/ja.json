@@ -3,6 +3,22 @@
     "description": "Buy a piece of ship equipment",
     "message": "買値"
   },
+  "EQUIPMENT_NO_COMPATIBLE_SLOT": {
+    "description": "Message given when the second-hand equipment is not compatible with the ship slots.",
+    "message": "This equipment item is not compatible with your ship."
+  },
+  "EQUIPMENT_NO_FREE_SLOT": {
+    "description": "Message shown by second-hand market if the ship does not have a free slot for the equipment.",
+    "message": "Your ship does not have a free slot for this equipment item."
+  },
+  "EQUIPMENT_NO_SPACE": {
+    "description": "Message shown by second-hand market if the equipment requires a free slot or free capacity to fit",
+    "message": "Your ship does not have enough free space for this equipment item."
+  },
+  "EQUIPMENT_SLOT_NO_SPACE": {
+    "description": "Message given when the ship has a compatible slot, but not enough space left to fit the equipment item.",
+    "message": "Your ship has a compatible slot, but not enough space to install this equipment item."
+  },
   "FITTING_IS_INCLUDED_IN_THE_PRICE": {
     "description": "Regarding installing a component on the ship",
     "message": "Fitting is included in the price."
@@ -86,6 +102,22 @@
   "HOW_DO_I_FITT_IT": {
     "description": "Regarding installing a component on the ship",
     "message": "How do I fit it?"
+  },
+  "NOT_ENOUGH_MONEY_0": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "You don't have enough money to afford this."
+  },
+  "NOT_ENOUGH_MONEY_1": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Come back when you have enough money."
+  },
+  "NOT_ENOUGH_MONEY_2": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "I'm not a charity, come back when you can afford this."
+  },
+  "NOT_ENOUGH_MONEY_3": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "It may be used, but the price is not negotiable."
   },
   "NO_LONGER_AVAILABLE_0": {
     "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",

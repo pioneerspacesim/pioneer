@@ -9,7 +9,7 @@
   },
   "ADD_BOOKMARK": {
     "description": "Button to add a singular bookmark",
-    "message": "Add Bookmark"
+    "message": "Lesezeichen hinzufügen"
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
@@ -85,15 +85,15 @@
   },
   "BODY_IN_ROUTE": {
     "description": "Label indicating a star is part of a planned hyperjump route",
-    "message": "Body in planned HyperJump Route"
+    "message": "Körper in geplanter Hyperraumsprung-Route"
   },
   "BOOKMARK": {
     "description": "Label introducing a bookmark",
-    "message": "Bookmark"
+    "message": "Lesezeichen"
   },
   "BOOKMARKS": {
     "description": "Label introducing a list of bookmarks",
-    "message": "Bookmarks"
+    "message": "Lesezeichen"
   },
   "BULLETIN_BOARD": {
     "description": "",
@@ -193,7 +193,7 @@
   },
   "CENTER_ON_CURRENT_SYSTEM": {
     "description": "Center on current star system",
-    "message": "Center on Current System"
+    "message": "Aktuelles System Anpeilen"
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
@@ -397,7 +397,7 @@
   },
   "CURRENT_FUEL": {
     "description": "Label indicating the current fuel state",
-    "message": "Current Fuel"
+    "message": "Aktueller Kraftstoff"
   },
   "CURRENT_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
@@ -409,7 +409,7 @@
   },
   "CURRENT_SYSTEM": {
     "description": "Label indicating the system the player currently occupies",
-    "message": "Current System"
+    "message": "Aktuelles System"
   },
   "CUT": {
     "description": "As for clipboard",
@@ -437,7 +437,7 @@
   },
   "DELETE_BOOKMARK": {
     "description": "Button to remove a singular bookmark",
-    "message": "Delete Bookmark"
+    "message": "Lesezeichen löschen"
   },
   "DELETE_SAVE_CONFIRMATION": {
     "description": "",
@@ -553,11 +553,11 @@
   },
   "EDIT_BOOKMARK": {
     "description": "Button to edit a singular bookmark",
-    "message": "Edit Bookmark"
+    "message": "Lesezeichen editieren"
   },
   "EDIT_NOTE": {
     "description": "",
-    "message": "Edit Note"
+    "message": "Notiz editieren"
   },
   "EFFECTS": {
     "description": "",
@@ -605,7 +605,7 @@
   },
   "ENTER_CUSTOM_NOTE": {
     "description": "Label indicating a note should be entered here",
-    "message": "Enter custom note..."
+    "message": "Notiz eingeben"
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
@@ -665,7 +665,7 @@
   },
   "FACTION": {
     "description": "Label indicating the factional allegiance of an object",
-    "message": "Faction"
+    "message": "Faktion"
   },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
@@ -733,7 +733,7 @@
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "Final Target"
+    "message": "Endziel"
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
@@ -1329,7 +1329,7 @@
   },
   "HYPERJUMP_ROUTING": {
     "description": "Label indicating a category division",
-    "message": "HyperJump Routing"
+    "message": "Hyperraumsprung-Routing"
   },
   "HYPERSPACE_RANGE": {
     "description": "",
@@ -1441,7 +1441,7 @@
   },
   "KNOWN_AS": {
     "description": "Indicates alternate names/aliases for an object",
-    "message": "Known as"
+    "message": "Bekannt als"
   },
   "LANGUAGE": {
     "description": "",
@@ -1813,7 +1813,7 @@
   },
   "NO_BOOKMARKS_FOUND": {
     "description": "Label indicating a lack of bookmarks to display",
-    "message": "No Bookmarks Found"
+    "message": "Keine Lesezeichen gefunden"
   },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
@@ -2161,7 +2161,7 @@
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "Required Fuel"
+    "message": "Benötigter Kraftstoff"
   },
   "RESET": {
     "description": "",
@@ -2317,7 +2317,7 @@
   },
   "SET_JUMP_TARGET": {
     "description": "Button tooltip which sets the jump route to the selected body",
-    "message": "Set Jump Target"
+    "message": "Sprungziel setzen"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
@@ -2397,11 +2397,11 @@
   },
   "SORT_DISTANCE": {
     "description": "Indicates the list of objects should be sorted by distance",
-    "message": "Distance"
+    "message": "Distanz"
   },
   "SORT_MODE": {
     "description": "Label indicating the current sorting mode of a list of objects",
-    "message": "Sort Mode"
+    "message": "Sortierungsmodus"
   },
   "SORT_NAME": {
     "description": "Indicates the list of objects should be sorted by name",
@@ -2593,11 +2593,11 @@
   },
   "TOTAL_DISTANCE": {
     "description": "Total distance of a (possibly series) of hyper jump(s)",
-    "message": "Total Distance"
+    "message": "Gesamtdistanz"
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "Total Duration"
+    "message": "Gesamtdauer"
   },
   "TOTAL_MASS": {
     "description": "",
@@ -2657,7 +2657,7 @@
   },
   "UNLAWFUL_ECM_DISCHARGE": {
     "description": "",
-    "message": "Unlawful ECM discharge"
+    "message": "Illegale ECM-Entladung"
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",

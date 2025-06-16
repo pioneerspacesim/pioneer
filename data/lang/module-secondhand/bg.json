@@ -3,6 +3,22 @@
     "description": "Buy a piece of ship equipment",
     "message": "Купуване"
   },
+  "EQUIPMENT_NO_COMPATIBLE_SLOT": {
+    "description": "Message given when the second-hand equipment is not compatible with the ship slots.",
+    "message": "Този артикул не е съвместим с Вашия кораб."
+  },
+  "EQUIPMENT_NO_FREE_SLOT": {
+    "description": "Message shown by second-hand market if the ship does not have a free slot for the equipment.",
+    "message": "Вашият кораб няма свободно гнездо за този артикул."
+  },
+  "EQUIPMENT_NO_SPACE": {
+    "description": "Message shown by second-hand market if the equipment requires a free slot or free capacity to fit",
+    "message": "Вашият кораб няма достатъчно свободно място за този артикул."
+  },
+  "EQUIPMENT_SLOT_NO_SPACE": {
+    "description": "Message given when the ship has a compatible slot, but not enough space left to fit the equipment item.",
+    "message": "Вашият кораб има съвместимо гнездо, но няма достатъчно място за инсталирането на този артикул."
+  },
   "FITTING_IS_INCLUDED_IN_THE_PRICE": {
     "description": "Regarding installing a component on the ship",
     "message": "Монтирането е включено в цената."
@@ -86,6 +102,22 @@
   "HOW_DO_I_FITT_IT": {
     "description": "Regarding installing a component on the ship",
     "message": "Как се монтира?"
+  },
+  "NOT_ENOUGH_MONEY_0": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Нямате достатъчно кредити, за да си го позволите."
+  },
+  "NOT_ENOUGH_MONEY_1": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Върнете се, когато имате достатъчно кредити."
+  },
+  "NOT_ENOUGH_MONEY_2": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Не съм благотворителна организация, върнете се, когато може да си го позволите."
+  },
+  "NOT_ENOUGH_MONEY_3": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Може да има драскотини, но цената не е по договаряне."
   },
   "NO_LONGER_AVAILABLE_0": {
     "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",

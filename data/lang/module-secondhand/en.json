@@ -15,7 +15,7 @@
     "description": "Message shown by second-hand market if the equipment requires a free slot or free capacity to fit",
     "message": "Your ship does not have enough free space for this equipment item."
   },
-  "EQUIPMENT_SLOT_NO_SPACE":{
+  "EQUIPMENT_SLOT_NO_SPACE": {
     "description": "Message given when the ship has a compatible slot, but not enough space left to fit the equipment item.",
     "message": "Your ship has a compatible slot, but not enough space to install this equipment item."
   },
@@ -103,18 +103,6 @@
     "description": "Regarding installing a component on the ship",
     "message": "How do I fit it?"
   },
-  "NO_LONGER_AVAILABLE_0": {
-    "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
-    "message": "Sorry, it has just been sold!"
-  },
-  "NO_LONGER_AVAILABLE_1": {
-    "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
-    "message": "It seems like my colleague just sold it to another customer. Sorry!"
-  },
-  "NO_LONGER_AVAILABLE_2": {
-    "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
-    "message": "I've changed my mind, it's not for sale anymore."
-  },
   "NOT_ENOUGH_MONEY_0": {
     "description": "When the player doesn't have enough money to afford the item.",
     "message": "You don't have enough money to afford this."
@@ -130,6 +118,18 @@
   "NOT_ENOUGH_MONEY_3": {
     "description": "When the player doesn't have enough money to afford the item.",
     "message": "It may be used, but the price is not negotiable."
+  },
+  "NO_LONGER_AVAILABLE_0": {
+    "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
+    "message": "Sorry, it has just been sold!"
+  },
+  "NO_LONGER_AVAILABLE_1": {
+    "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
+    "message": "It seems like my colleague just sold it to another customer. Sorry!"
+  },
+  "NO_LONGER_AVAILABLE_2": {
+    "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
+    "message": "I've changed my mind, it's not for sale anymore."
   },
   "REPEAT_OFFER": {
     "description": "",
