@@ -93,12 +93,41 @@ void GuiApplication::PollEvents()
 	SDL_Event event;
 
 	while (SDL_PollEvent(&event)) {
+
 		if (event.type == SDL_QUIT) {
 			RequestQuit();
 		}
 
-		if (event.type == SDL_WINDOWEVENT && (event.window.event == SDL_WINDOWEVENT_RESIZED)) {
-			OnWindowResized();
+		if (event.type == SDL_WINDOWEVENT ) {
+			switch (event.window.event) {
+			case SDL_WINDOWEVENT_RESIZED:
+				OnWindowResized();
+				break;
+			case SDL_WINDOWEVENT_ENTER:
+				// Triggered when mouse enters the application window. This occurs
+				// after the keyboard focus is gained as this does not trigger
+				// when the mouse is over the window decorations.
+				//printf("GuiApplication::PollEvents() - mouse entered\n");
+				break;
+			case SDL_WINDOWEVENT_LEAVE:
+				// Triggered when mouse leaves the application window. This occurs
+				// before the keyboard focus is lost as this already triggers
+				// when the mouse is over the window decorations.
+				//printf("GuiApplication::PollEvents() - mouse left\n");
+				break;
+			case SDL_WINDOWEVENT_FOCUS_GAINED:
+				// Triggered when the window gains keyboard focus
+				//printf("GuiApplication::PollEvents() - keyboard focus gained\n");
+				OnWindowKeyboardFocusChanged(true);
+				break;
+			case SDL_WINDOWEVENT_FOCUS_LOST:
+				// Triggered when the window loses keyboard focus
+				//printf("GuiApplication::PollEvents() - keyboard focus lost\n");
+				OnWindowKeyboardFocusChanged(false);
+				break;
+			default:
+				break;
+			}
 		}
 
 		m_pigui->ProcessEvent(&event);
