@@ -162,7 +162,7 @@ end
 -- all windows in this view
 local Windows = {
 	systemName = layout.NewWindow("SystemMapSystemName"),
-	objectInfo = layout.NewWindow("SystemMapObjectIngo"),
+	objectInfo = layout.NewWindow("SystemMapObjectInfo"),
 	edgeButtons = layout.NewWindow("SystemMapEdgeButtons"),
 	orbitPlanner = layout.NewWindow("SystemMapOrbitPlanner"),
 	timeButtons = layout.NewWindow("SystemMapTimeButtons"),
@@ -811,6 +811,10 @@ function Windows.objectInfo:Show()
 					value = (not starport) and ui.Format.Mass(body.mass) or nil },
 				{ name = lc.RADIUS, icon = icons.body_radius,
 					value = (not starport) and ui.Format.Distance(body.radius) or nil },
+				{ name = lc.SURFACE_TEMPERATURE, icon = icons.temperature,
+					value = (not starport) and ui.Format.Temperature(body.averageTemp) or nil },
+				{ name = lc.SURFACE_PRESSURE, icon = icons.pressure,
+					value = (not starport) and ui.Format.Pressure(body.surfacePressure) or nil },
 				{ name = lc.SURFACE_GRAVITY, icon = icons.body_radius,
 					value = (not starport) and ui.Format.Speed(body.gravity, true).."²"..
 												" ("..ui.Format.Gravity(body.gravity / 9.80665)..")" or nil },
