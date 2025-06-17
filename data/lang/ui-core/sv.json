@@ -2317,7 +2317,7 @@
   },
   "SET_JUMP_TARGET": {
     "description": "Button tooltip which sets the jump route to the selected body",
-    "message": "Set Jump Target"
+    "message": "Ställ in mål"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
