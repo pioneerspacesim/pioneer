@@ -78,6 +78,10 @@ protected:
 	// Override point to handle an application quit notification
 	virtual void HandleQuit(SDL_QuitEvent &ev) { RequestQuit(); }
 
+	// Override to handle the game window gaining or losing keyboard focus
+	// newFocus: true - window has keyboard focus, false - window does not have keyboard focus
+	virtual void OnWindowKeyboardFocusChanged(bool newFocus) {}
+
 private:
 	Graphics::RenderTarget *CreateRenderTarget(const Graphics::Settings &settings);
 	void OnWindowResized();

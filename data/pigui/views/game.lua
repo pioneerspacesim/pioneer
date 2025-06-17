@@ -279,20 +279,24 @@ Event.Register("onPauseMenuClosed", function()
 	Input.EnableBindings()
 end)
 
-Event.Register("onGamePaused", function()
+
+-- The following need to be on the UI event queue as the main event queue is not
+-- processed while the game is paused.
+
+ui.Events.Register("onGamePaused", function()
 	lastMasterVolumeMuted = Engine.GetMasterMuted()
 	if Engine.GetMuteOnPause() and not lastMasterVolumeMuted then
 		Engine.SetMasterMuted(true)
 	end
 end)
 
-Event.Register("onGameResumed", function()
+ui.Events.Register("onGameResumed", function()
 	if Engine.GetMuteOnPause() and not lastMasterVolumeMuted then
 		Engine.SetMasterMuted(false)
 	end
 end)
 
-Event.Register("onFocusLost", function()
+ui.Events.Register("onFocusLost", function()
 	-- Don't mute on lost focus if the game is paused and mute-on-pause is set
 	if Game.paused and Engine.GetMuteOnPause() then return end
 
@@ -302,7 +306,7 @@ Event.Register("onFocusLost", function()
 	end
 end)
 
-Event.Register("onFocusGained", function()
+ui.Events.Register("onFocusGained", function()
 	-- Don't un-mute on lost focus if the game is paused and mute-on-pause is set
 	if Game.paused and Engine.GetMuteOnPause() then return end
 	if Engine.GetMuteOnFocus() and not lastMasterVolumeMuted then
