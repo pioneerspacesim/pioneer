@@ -799,7 +799,7 @@ static int l_engine_set_effects_muted(lua_State *l)
 	if (lua_isnone(l, 1))
 		return luaL_error(l, "SetEffectsMuted takes one boolean argument");
 	const bool muted = lua_toboolean(l, 1);
-	set_effects_volume(muted, Sound::GetSfxVolume());
+	set_effects_volume(muted, Pi::config->Float("SfxVolume"));
 	return 0;
 }
 
@@ -827,7 +827,7 @@ static int l_engine_set_music_muted(lua_State *l)
 	if (lua_isnone(l, 1))
 		return luaL_error(l, "SetMusicMuted takes one boolean argument");
 	const bool muted = lua_toboolean(l, 1);
-	set_music_volume(muted, Pi::GetMusicPlayer().GetVolume());
+	set_music_volume(muted, Pi::config->Float("MusicVolume"));
 	return 0;
 }
 
