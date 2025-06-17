@@ -186,9 +186,9 @@ local function showVideoOptions()
 		Engine.SetMultisampling(aa)
 	end
 
-	c,scattering = combo(lui.REALISTIC_SCATTERING, realisticScattering, scatteringLabels, lui.REALISTIC_SCATTERING_DESC)
+	c,realisticScattering = combo(lui.REALISTIC_SCATTERING, realisticScattering, scatteringLabels, lui.REALISTIC_SCATTERING_DESC)
 	if c then
-		Engine.SetRealisticScattering(scattering)
+		Engine.SetRealisticScattering(realisticScattering)
 	end
 
 	ui.columns(2,"video_checkboxes",false)
