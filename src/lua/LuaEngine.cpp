@@ -786,7 +786,7 @@ static int l_engine_set_mute_on_pause(lua_State *l)
 	if (lua_isnone(l, 1)) {
 		return luaL_error(l, "SetMuteOnPause takes one boolean argument");
 	}
-	const bool mute= lua_toboolean(l, 1);
+	const bool mute = lua_toboolean(l, 1);
 	Pi::config->SetInt("AudioMuteOnPause", (mute? 1 : 0));
 	Pi::config->Save();
 	return 0;
