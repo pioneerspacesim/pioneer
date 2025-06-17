@@ -510,11 +510,11 @@ local plannerView = {
 	end
 }
 
-table.insert(leftSidebar.modules, overviewView)
+table.insert(leftSidebar.modules, infoView)
 table.insert(leftSidebar.modules, economyView)
 table.insert(leftSidebar.modules, settingsView)
 
-table.insert(rightSidebar.modules, infoView)
+table.insert(rightSidebar.modules, overviewView)
 table.insert(rightSidebar.modules, plannerView)
 
 --
