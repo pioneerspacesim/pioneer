@@ -285,31 +285,31 @@ end)
 
 ui.Events.Register("onGamePaused", function()
 	lastMasterVolumeMuted = Engine.GetMasterMuted()
-	if Engine.GetMuteOnPause() and not lastMasterVolumeMuted then
+	if Engine.SettingsGetBool("AudioMuteOnPause") and not lastMasterVolumeMuted then
 		Engine.SetMasterMuted(true)
 	end
 end)
 
 ui.Events.Register("onGameResumed", function()
-	if Engine.GetMuteOnPause() and not lastMasterVolumeMuted then
+	if Engine.SettingsGetBool("AudioMuteOnPause") and not lastMasterVolumeMuted then
 		Engine.SetMasterMuted(false)
 	end
 end)
 
 ui.Events.Register("onFocusLost", function()
 	-- Don't mute on lost focus if the game is paused and mute-on-pause is set
-	if Game.paused and Engine.GetMuteOnPause() then return end
+	if Game.paused and Engine.SettingsGetBool("AudioMuteOnPause") then return end
 
 	lastMasterVolumeMuted = Engine.GetMasterMuted()
-	if Engine.GetMuteOnFocus() and not lastMasterVolumeMuted then
+	if Engine.SettingsGetBool("AudioMuteOnFocus") and not lastMasterVolumeMuted then
 		Engine.SetMasterMuted(true)
 	end
 end)
 
 ui.Events.Register("onFocusGained", function()
 	-- Don't un-mute on lost focus if the game is paused and mute-on-pause is set
-	if Game.paused and Engine.GetMuteOnPause() then return end
-	if Engine.GetMuteOnFocus() and not lastMasterVolumeMuted then
+	if Game.paused and Engine.SettingsGetBool("AudioMuteOnPause") then return end
+	if Engine.SettingsGetBool("AudioMuteOnFocus") and not lastMasterVolumeMuted then
 		Engine.SetMasterMuted(false)
 	end
 end)
