@@ -283,34 +283,79 @@ end)
 -- The following need to be on the UI event queue as the main event queue is not
 -- processed while the game is paused.
 
+local audioSettings = {
+	lastEffectsMuted = Engine.GetEffectsMuted(),
+	lastMusicMuted = Engine.GetMusicMuted(),
+}
+
+local shouldMuteEffectsOn = function(str)
+	return not audioSettings.lastEffectsMuted and (Engine.SettingsGetInt("AudioMuteOn" .. str) > 0)
+end
+
+local shouldMuteMusicOn = function(str)
+	return not audioSettings.lastMusicMuted and (Engine.SettingsGetInt("AudioMuteOn" .. str) > 1)
+end
+
 ui.Events.Register("onGamePaused", function()
-	lastMasterVolumeMuted = Engine.GetMasterMuted()
-	if Engine.SettingsGetBool("AudioMuteOnPause") and not lastMasterVolumeMuted then
-		Engine.SetMasterMuted(true)
+	print("ui.Events.onGamePaused")
+
+	audioSettings.lastEffectsMuted = Engine.GetEffectsMuted()
+	audioSettings.lastMusicMuted = Engine.GetMusicMuted()
+
+	if shouldMuteEffectsOn("Pause") then
+		Engine.SetEffectsMuted(true)
+	end
+	if shouldMuteMusicOn("Pause") then
+		Engine.SetMusicMuted(true)
 	end
 end)
 
 ui.Events.Register("onGameResumed", function()
-	if Engine.SettingsGetBool("AudioMuteOnPause") and not lastMasterVolumeMuted then
-		Engine.SetMasterMuted(false)
+	print("ui.Events.onGameResumed")
+
+	if shouldMuteEffectsOn("Pause") then
+		Engine.SetEffectsMuted(false)
+	end
+	if shouldMuteMusicOn("Pause") then
+		Engine.SetMusicMuted(false)
 	end
 end)
 
-ui.Events.Register("onFocusLost", function()
-	-- Don't mute on lost focus if the game is paused and mute-on-pause is set
-	if Game.paused and Engine.SettingsGetBool("AudioMuteOnPause") then return end
+local isEffectsAutoPaused = function()
+	return Game.paused and Engine.SettingsGetInt("AudioMuteOnPause") > 0
+end
+local isMusicAutoPaused = function()
+	return Game.paused and Engine.SettingsGetInt("AudioMuteOnPause") > 1
+end
 
-	lastMasterVolumeMuted = Engine.GetMasterMuted()
-	if Engine.SettingsGetBool("AudioMuteOnFocus") and not lastMasterVolumeMuted then
-		Engine.SetMasterMuted(true)
+ui.Events.Register("onFocusLost", function()
+	local isPaused = Game.paused
+	local muteOnPause = Engine.SettingsGetInt("AudioMuteOnPause")
+	if not (isPaused and muteOnPause > 0) then
+		audioSettings.lastEffectsMuted = Engine.GetEffectsMuted()
+	end
+	if not (isPaused and muteOnPause > 1) then
+		audioSettings.lastMusicMuted = Engine.GetMusicMuted()
+	end
+
+	if shouldMuteEffectsOn("Focus") then
+		Engine.SetEffectsMuted(true)
+	end
+	if shouldMuteMusicOn("Focus") then
+		Engine.SetMusicMuted(true)
 	end
 end)
 
 ui.Events.Register("onFocusGained", function()
-	-- Don't un-mute on lost focus if the game is paused and mute-on-pause is set
-	if Game.paused and Engine.SettingsGetBool("AudioMuteOnPause") then return end
-	if Engine.SettingsGetBool("AudioMuteOnFocus") and not lastMasterVolumeMuted then
-		Engine.SetMasterMuted(false)
+	local isPaused = Game.paused
+	local muteOnPause = Engine.SettingsGetInt("AudioMuteOnPause")
+
+	-- Don't un-mute on gained focus if the game is paused and mute-on-pause is set
+	if not (isPaused and (muteOnPause > 0)) and shouldMuteEffectsOn("Focus") then
+		Engine.SetEffectsMuted(false)
+	end
+	if not (isPaused and (muteOnPause > 1)) and shouldMuteMusicOn("Focus") then
+		Engine.SetMusicMuted(false)
 	end
 end)
 

@@ -333,6 +333,12 @@ end, function (_, drawPopupFn)
 	ui.withStyleColors({ PopupBg = ui.theme.colors.modalBackground }, drawPopupFn)
 end)
 
+local muteLabels = {
+	"None",              -- 0
+	"Effects",           -- 1
+	"Effects and Music", -- 2
+}
+
 local function showSoundOptions()
 	local masterMuted = Engine.GetMasterMuted()
 	local masterLevel = Engine.GetMasterVolume()*100
@@ -340,8 +346,8 @@ local function showSoundOptions()
 	local musicLevel = Engine.GetMusicVolume()*100
 	local effectsMuted = Engine.GetEffectsMuted()
 	local effectsLevel = Engine.GetEffectsVolume()*100
-	local muteOnPause = Engine.SettingsGetBool("AudioMuteOnPause")
-	local muteOnFocus = Engine.SettingsGetBool("AudioMuteOnFocus")
+	local muteOnPause = Engine.SettingsGetInt("AudioMuteOnPause")
+	local muteOnFocus = Engine.SettingsGetInt("AudioMuteOnFocus")
 
 	local c
 
@@ -363,10 +369,11 @@ local function showSoundOptions()
 	c,effectsLevel = slider(lui.EFFECTS, effectsLevel, 0, 100)
 	if c then Engine.SetEffectsVolume(effectsLevel/100) end
 
-	c,muteOnPause = checkbox(lui.MUTE_ON_PAUSE, muteOnPause)
-	if c then Engine.SettingsSetBool("AudioMuteOnPause", muteOnPause) end
-	c,muteOnFocus = checkbox(lui.MUTE_ON_FOCUS, muteOnFocus)
-	if c then Engine.SettingsSetBool("AudioMuteOnFocus", muteOnFocus) end
+	c,muteOnPause = combo(lui.MUTE_ON_PAUSE, muteOnPause, muteLabels, "")
+	if c then Engine.SettingsSetInt("AudioMuteOnPause", muteOnPause) end
+
+	c,muteOnFocus = combo(lui.MUTE_ON_FOCUS, muteOnFocus, muteLabels, "")
+	if c then Engine.SettingsSetInt("AudioMuteOnFocus", muteOnFocus) end
 end
 
 local function showLanguageOptions()
