@@ -1737,11 +1737,11 @@
   },
   "MUTE_ON_FOCUS": {
     "description": "Setting for muting audio when the game window loses focus.",
-    "message": "Mute on Focus"
+    "message": "Mute on Window Focus Lost"
   },
   "MUTE_ON_PAUSE": {
     "description": "Setting for muting audio when the game is paused.",
-    "message": "Mute on Pause"
+    "message": "Mute on Game Paused"
   },
   "NAME_OBJECT": {
     "description": "For an item or object",
