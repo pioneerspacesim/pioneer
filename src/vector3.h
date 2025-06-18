@@ -7,7 +7,6 @@
 #include "FloatComparison.h"
 #include "vector2.h"
 #include <math.h>
-#include <stdio.h>
 #include <algorithm>
 
 // Need this pragma due to operator[] implementation.
@@ -32,39 +31,39 @@ public:
 	explicit vector3(const vector3<typename other_floating_type<T>::type> &v);
 	explicit vector3(const typename other_floating_type<T>::type vals[3]);
 
-	const T &operator[](const size_t i) const { return (const_cast<const T *>(&x))[i]; }
-	T &operator[](const size_t i) { return (&x)[i]; }
+	inline const T &operator[](const size_t i) const { return (const_cast<const T *>(&x))[i]; }
+	inline T &operator[](const size_t i) { return (&x)[i]; }
 
-	vector3 operator+(const vector3 &a) const { return vector3(a.x + x, a.y + y, a.z + z); }
-	vector3 &operator+=(const vector3 &a)
+	inline vector3 operator+(const vector3 &a) const { return vector3(a.x + x, a.y + y, a.z + z); }
+	inline vector3 &operator+=(const vector3 &a)
 	{
 		x += a.x;
 		y += a.y;
 		z += a.z;
 		return *this;
 	}
-	vector3 &operator-=(const vector3 &a)
+	inline vector3 &operator-=(const vector3 &a)
 	{
 		x -= a.x;
 		y -= a.y;
 		z -= a.z;
 		return *this;
 	}
-	vector3 &operator*=(const float a)
+	inline vector3 &operator*=(const float a)
 	{
 		x *= a;
 		y *= a;
 		z *= a;
 		return *this;
 	}
-	vector3 &operator*=(const double a)
+	inline vector3 &operator*=(const double a)
 	{
 		x *= a;
 		y *= a;
 		z *= a;
 		return *this;
 	}
-	vector3 &operator/=(const float a)
+	inline vector3 &operator/=(const float a)
 	{
 		const T inva = T(1.0 / a);
 		x *= inva;
@@ -72,7 +71,7 @@ public:
 		z *= inva;
 		return *this;
 	}
-	vector3 &operator/=(const double a)
+	inline vector3 &operator/=(const double a)
 	{
 		const T inva = T(1.0 / a);
 		x *= inva;
@@ -80,66 +79,73 @@ public:
 		z *= inva;
 		return *this;
 	}
-	vector3 operator-(const vector3 &a) const { return vector3(x - a.x, y - a.y, z - a.z); }
-	vector3 operator-() const { return vector3(-x, -y, -z); }
+	inline vector3 operator-(const vector3 &a) const { return vector3(x - a.x, y - a.y, z - a.z); }
+	inline vector3 operator-() const { return vector3(-x, -y, -z); }
 
-	bool operator==(const vector3 &a) const
+	inline bool operator==(const vector3 &a) const
 	{
 		return is_equal_exact(a.x, x) && is_equal_exact(a.y, y) && is_equal_exact(a.z, z);
 	}
-	bool ExactlyEqual(const vector3 &a) const
+	inline bool ExactlyEqual(const vector3 &a) const
 	{
 		return is_equal_exact(a.x, x) && is_equal_exact(a.y, y) && is_equal_exact(a.z, z);
 	}
 
-	friend vector3 operator+(const vector3 &a, const T &scalar) { return vector3(a.x + scalar, a.y + scalar, a.z + scalar); }
-	friend vector3 operator+(const T scalar, const vector3 &a) { return a + scalar; }
-	friend vector3 operator-(const vector3 &a, const T &scalar) { return vector3(a.x - scalar, a.y - scalar, a.z - scalar); }
-	friend vector3 operator-(const T scalar, const vector3 &a) { return a - scalar; }
+	inline friend vector3 operator+(const vector3 &a, const T &scalar) { return vector3(a.x + scalar, a.y + scalar, a.z + scalar); }
+	inline friend vector3 operator+(const T scalar, const vector3 &a) { return a + scalar; }
+	inline friend vector3 operator-(const vector3 &a, const T &scalar) { return vector3(a.x - scalar, a.y - scalar, a.z - scalar); }
+	inline friend vector3 operator-(const T scalar, const vector3 &a) { return a - scalar; }
 
-	friend vector3 operator*(const vector3 &a, const vector3 &b) { return vector3(T(a.x * b.x), T(a.y * b.y), T(a.z * b.z)); }
-	friend vector3 operator*(const vector3 &a, const T scalar) { return vector3(T(a.x * scalar), T(a.y * scalar), T(a.z * scalar)); }
+	inline friend vector3 operator*(const vector3 &a, const vector3 &b) { return vector3(T(a.x * b.x), T(a.y * b.y), T(a.z * b.z)); }
+	inline friend vector3 operator*(const vector3 &a, const T scalar) { return vector3(T(a.x * scalar), T(a.y * scalar), T(a.z * scalar)); }
 	//friend vector3 operator*(const vector3 &a, const double scalar) { return vector3(T(a.x*scalar), T(a.y*scalar), T(a.z*scalar)); }
-	friend vector3 operator*(const T scalar, const vector3 &a) { return a * scalar; }
+	inline friend vector3 operator*(const T scalar, const vector3 &a) { return a * scalar; }
 	//friend vector3 operator*(const double scalar, const vector3 &a) { return a*scalar; }
-	friend vector3 operator/(const vector3 &a, const float scalar)
+	inline friend vector3 operator/(const vector3 &a, const float scalar)
 	{
 		const T inv = 1.0 / scalar;
 		return vector3(a.x * inv, a.y * inv, a.z * inv);
 	}
-	friend vector3 operator/(const vector3 &a, const double scalar)
+	inline friend vector3 operator/(const vector3 &a, const double scalar)
 	{
 		const T inv = 1.0 / scalar;
 		return vector3(a.x * inv, a.y * inv, a.z * inv);
 	}
-	friend vector3 operator/(const T scalar, const vector3 &a)
+	inline friend vector3 operator/(const T scalar, const vector3 &a)
 	{
 		return vector3(scalar / a.x, scalar / a.y, scalar / a.z);
 	}
 
 	// component-wise ALL-less-than
-	auto operator<(const vector3 &b) const { return x < b.x && y < b.y && z < b.z; }
+	inline auto operator<(const vector3 &b) const { return x < b.x && y < b.y && z < b.z; }
 	// component-wise ALL-less-equal
-	auto operator<=(const vector3 &b) const { return x <= b.x && y <= b.y && z <= b.z; }
+	inline auto operator<=(const vector3 &b) const { return x <= b.x && y <= b.y && z <= b.z; }
 	// component-wise ALL-greater-than
-	auto operator>(const vector3 &b) const { return x > b.x && y > b.y && z > b.z; }
+	inline auto operator>(const vector3 &b) const { return x > b.x && y > b.y && z > b.z; }
 	// component-wise ALL-greater-equal
-	auto operator>=(const vector3 &b) const { return x >= b.x && y >= b.y && z >= b.z; }
+	inline auto operator>=(const vector3 &b) const { return x >= b.x && y >= b.y && z >= b.z; }
 
-	vector3 Cross(const vector3 &b) const { return vector3(y * b.z - z * b.y, z * b.x - x * b.z, x * b.y - y * b.x); }
-	T Dot(const vector3 &b) const { return x * b.x + y * b.y + z * b.z; }
-	T Length() const { return sqrt(x * x + y * y + z * z); }
-	T LengthSqr() const { return x * x + y * y + z * z; }
-	vector3 Lerp(const vector3 &b, const double percent) const
+	inline vector3 Cross(const vector3 &b) const { return vector3(y * b.z - z * b.y, z * b.x - x * b.z, x * b.y - y * b.x); }
+	inline T Dot(const vector3 &b) const { return x * b.x + y * b.y + z * b.z; }
+	inline T Length() const { return sqrt(x * x + y * y + z * z); }
+	inline T LengthSqr() const { return x * x + y * y + z * z; }
+	inline vector3 Lerp(const vector3 &b, const double percent) const
 	{
 		return *this + percent * (b - *this);
 	}
-	vector3 Normalized() const
+	inline void Normalize()
+	{
+		const T l = 1.0f / sqrt(x * x + y * y + z * z);
+		x *= l;
+		y *= l;
+		z *= l;
+	}
+	inline vector3 Normalized() const
 	{
 		const T l = 1.0f / sqrt(x * x + y * y + z * z);
 		return vector3(x * l, y * l, z * l);
 	}
-	vector3 NormalizedSafe() const
+	inline vector3 NormalizedSafe() const
 	{
 		const T lenSqr = x * x + y * y + z * z;
 		if (lenSqr < 1e-18) // sqrt(lenSqr) < 1e-9
@@ -149,8 +155,6 @@ public:
 			return vector3(x / l, y / l, z / l);
 		}
 	}
-
-	void Print() const { printf("v(%f,%f,%f)\n", x, y, z); }
 
 	/* Rotate this vector about point o, in axis defined by v. */
 	void ArbRotateAroundPoint(const vector3 &o, const vector3 &__v, T ang)
@@ -199,27 +203,27 @@ public:
 		*this = t;
 	}
 
-	void xy(const vector2<T> &v2)
+	inline void xy(const vector2<T> &v2)
 	{
 		x = v2.x;
 		y = v2.y;
 	}
-	void xz(const vector2<T> &v2)
+	inline void xz(const vector2<T> &v2)
 	{
 		x = v2.x;
 		z = v2.y;
 	}
-	void yz(const vector2<T> &v2)
+	inline void yz(const vector2<T> &v2)
 	{
 		y = v2.x;
 		z = v2.y;
 	}
 
-	vector2<T> xy() { return vector2<T>(x, y); }
-	vector2<T> xz() { return vector2<T>(x, z); }
-	vector2<T> yz() { return vector2<T>(y, z); }
-	vector2<T> yx() { return vector2<T>(y, x); }
-	vector2<T> zx() { return vector2<T>(z, x); }
+	inline vector2<T> xy() { return vector2<T>(x, y); }
+	inline vector2<T> xz() { return vector2<T>(x, z); }
+	inline vector2<T> yz() { return vector2<T>(y, z); }
+	inline vector2<T> yx() { return vector2<T>(y, x); }
+	inline vector2<T> zx() { return vector2<T>(z, x); }
 };
 
 // These are here in this manner to enforce that only float and double versions are possible.
