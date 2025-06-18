@@ -733,7 +733,7 @@ local getPopulatedPlanets = function (system)
 end
 
 local onEnterSystem = function (ship)
-	if not ship:IsPlayer() or Game.system.population == 0 then return end
+	if Game.system.population == 0 then return end
 
 	local planets = getPopulatedPlanets(Game.system)
 	local num = Engine.rand:Integer(0, math.ceil(Game.system.population * Game.system.lawlessness))
@@ -753,22 +753,20 @@ local onEnterSystem = function (ship)
 end
 
 local onLeaveSystem = function (ship)
-	if ship:IsPlayer() then
-		for ref, mission in pairs(missions) do
-			mission.destination = nil
-			mission.police = nil
-			if mission.client_ship then
-				mission.client_ship = nil
-				mission.status = "FAILED"
-			end
-			for i, e in pairs(mission.debris) do
-				e.body = nil
-			end
+	for ref, mission in pairs(missions) do
+		mission.destination = nil
+		mission.police = nil
+		if mission.client_ship then
+			mission.client_ship = nil
+			mission.status = "FAILED"
 		end
-		planets = nil
-		flavours[LEGAL].cargo_type = nil
-		flavours[ILLEGAL].cargo_type = nil
+		for i, e in pairs(mission.debris) do
+			e.body = nil
+		end
 	end
+	planets = nil
+	flavours[LEGAL].cargo_type = nil
+	flavours[ILLEGAL].cargo_type = nil
 end
 
 local onReputationChanged = function (oldRep, oldKills, newRep, newKills)

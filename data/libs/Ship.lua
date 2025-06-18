@@ -730,7 +730,7 @@ end
 
 -- Function to check whether ships exist after hyperspace, and if they do not,
 -- to remove their crew from the roster.
-local onEnterSystem = function (ship)
+local onShipEnterSystem = function (ship)
 	if ship:IsPlayer() then
 		for crewedShip,crew in pairs(CrewRoster) do
 			if not crewedShip:exists() then
@@ -738,6 +738,7 @@ local onEnterSystem = function (ship)
 			end
 		end
 	end
+
 	local engine = ship:GetInstalledHyperdrive()
 	if engine then
 		engine:OnLeaveHyperspace(ship)
@@ -761,7 +762,7 @@ local onShipTypeChanged = function (ship)
 	ship:GetComponent('CargoManager'):OnShipTypeChanged()
 end
 
-Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onShipEnterSystem", onShipEnterSystem)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)

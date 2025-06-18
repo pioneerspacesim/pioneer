@@ -491,8 +491,6 @@ local escort_chatter_time
 local escort_switch_target
 
 local onEnterSystem = function (player)
-	if (not player:IsPlayer()) then return end
-
 	local syspath = Game.system.path
 
 	for ref,mission in pairs(missions) do
@@ -657,11 +655,9 @@ local onShipHit = function (ship, attacker)
 end
 
 local onLeaveSystem = function (ship)
-	if ship:IsPlayer() then
-		nearbysystems = nil
-		pirate_ships = {}
-		escort_ships = {}
-	end
+	nearbysystems = nil
+	pirate_ships = {}
+	escort_ships = {}
 end
 
 local onPlayerDocked = function (player, station)

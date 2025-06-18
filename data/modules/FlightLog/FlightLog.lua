@@ -346,15 +346,11 @@ end
 
 -- onLeaveSystem
 local AddSystemDepartureToLog = function (ship)
-	if not ship:IsPlayer() then return end
-
 	FlightLog.AddEntry( FlightLogEntry.System.New( Game.system.path, nil, Game.time, nil ) )
 end
 
 -- onEnterSystem
 local AddSystemArrivalToLog = function (ship)
-	if not ship:IsPlayer() then return end
-
 	FlightLog.AddEntry( FlightLogEntry.System.New( Game.system.path, Game.time, nil, nil ) )
 end
 

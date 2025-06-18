@@ -125,8 +125,6 @@ local onJettison = function (ship, cargo)
 end
 
 local onEnterSystem = function (player)
-	if not player:IsPlayer() then return end
-
 	if not hasIllegalGoods(Commodities) then return end
 
 	local system = assert(Game.system)
@@ -199,12 +197,10 @@ local onEnterSystem = function (player)
 end
 
 local onLeaveSystem = function (ship)
-	if ship:IsPlayer() then
-		patrol = {}
-		showMercy = true
-		piracy = false
-		target = nil
-	end
+	patrol = {}
+	showMercy = true
+	piracy = false
+	target = nil
 end
 
 

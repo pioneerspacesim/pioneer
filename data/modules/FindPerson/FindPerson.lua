@@ -309,8 +309,6 @@ local onFrameChanged = function (player)
 end
 
 local onEnterSystem = function (player)
-	if not player:IsPlayer() then return end
-
 	for ref, mission in pairs(missions) do
 		if mission.destination:IsSameSystem(Game.system.path) and mission.status == "ACTIVE" and mission.flavour.ship then
 
@@ -439,12 +437,10 @@ local onPlayerUndocked = function (player, station)
 end
 
 local onLeaveSystem = function (ship)
-	if ship:IsPlayer() then
-		nearbysystems = nil
-		for ref, mission in pairs(missions) do
-			mission.ship = nil
-			mission.interceptor = nil
-		end
+	nearbysystems = nil
+	for ref, mission in pairs(missions) do
+		mission.ship = nil
+		mission.interceptor = nil
 	end
 end
 

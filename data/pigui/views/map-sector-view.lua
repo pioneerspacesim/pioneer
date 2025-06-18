@@ -863,10 +863,8 @@ end})
 Event.Register("onGameStart", onGameStart)
 Event.Register("onEnterSystem", function(ship)
 	hyperJumpPlanner.onEnterSystem(ship)
-	if ship:IsPlayer() then
-		hyperspaceDetailsCache = {}
-		shouldRefresh = true
-	end
+	hyperspaceDetailsCache = {}
+	shouldRefresh = true
 end)
 
 -- reset cached data

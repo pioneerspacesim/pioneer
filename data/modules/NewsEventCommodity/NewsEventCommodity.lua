@@ -304,8 +304,6 @@ end
 local timeInHyperspace
 
 local onEnterSystem = function (player)
-	if (not player:IsPlayer()) then return end
-
 	-- remove old news before making new
 	checkOldNews()
 
@@ -322,7 +320,6 @@ end
 
 
 local onLeaveSystem = function (ship)
-	if not ship:IsPlayer() then return end
 	nearbySystems = nil
 	timeInHyperspace = Game.time
 end

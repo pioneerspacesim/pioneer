@@ -583,7 +583,6 @@ end
 
 
 local onEnterSystem = function (playership)
-	if not playership:IsPlayer() then return end
 	nearbysystems = nil
 
 	for ref,mission in pairs(missions) do
