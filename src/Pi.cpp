@@ -865,6 +865,14 @@ void Pi::App::HandleRequests()
 	internalRequests.clear();
 }
 
+void Pi::App::OnWindowKeyboardFocusChanged(bool newFocus)
+{
+    if (!PiGui::GetEventQueue().IsValid()) {
+        return;
+	}
+    LuaEvent::Queue(PiGui::GetEventQueue(), newFocus ? "onFocusGained" : "onFocusLost");
+}
+
 /*
 ===============================================================================
 	GAME LOOP

@@ -417,6 +417,75 @@ static int l_engine_get_enum_value(lua_State *l)
 	return 1;
 }
 
+static int l_engine_settings_get_bool(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SettingsGetBool takes one string argument");
+	const char *name = lua_tostring(l, 1);
+	lua_pushboolean(l, Pi::config->Int(name) != 0);
+	return 1;
+}
+static int l_engine_settings_get_int(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SettingsGetInt takes one string argument");
+	const char *name = lua_tostring(l, 1);
+	lua_pushinteger(l, Pi::config->Int(name));
+	return 1;
+}
+static int l_engine_settings_get_number(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SettingsGetNumber takes one string argument");
+	const char *name = lua_tostring(l, 1);
+	lua_pushnumber(l, Pi::config->Float(name));
+	return 1;
+}
+static int l_engine_settings_get_string(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SettingsGetString takes one string argument");
+	const char *name = lua_tostring(l, 1);
+	lua_pushstring(l, Pi::config->String(name).c_str());
+	return 1;
+}
+static int l_engine_settings_set_bool(lua_State *l)
+{
+	if (lua_isnone(l, 2))
+		return luaL_error(l, "SettingsSetBool takes one string and one boolean argument");
+	const char *name = lua_tostring(l, 1);
+	bool value = lua_toboolean(l, 2);
+	Pi::config->SetInt(name, value? 1 : 0);
+	return 0;
+}
+static int l_engine_settings_set_int(lua_State *l)
+{
+	if (lua_isnone(l, 2))
+		return luaL_error(l, "SettingsSetInt takes one string and one integer argument");
+	const char *name = lua_tostring(l, 1);
+	int value = lua_tointeger(l, 2);
+	Pi::config->SetInt(name, value);
+	return 0;
+}
+static int l_engine_settings_set_number(lua_State *l)
+{
+	if (lua_isnone(l, 2))
+		return luaL_error(l, "SettingsSetNumber takes one string and one number argument");
+	const char *name = lua_tostring(l, 1);
+	float value = lua_tonumber(l, 2);
+	Pi::config->SetFloat(name, value);
+	return 0;
+}
+static int l_engine_settings_set_string(lua_State *l)
+{
+	if (lua_isnone(l, 2))
+		return luaL_error(l, "SettingsSetString takes two string arguments");
+	const char *name = lua_tostring(l, 1);
+	const char *value = lua_tostring(l, 2);
+	Pi::config->SetString(name, value);
+	return 0;
+}
+
 static int l_engine_get_disable_screenshot_info(lua_State *l)
 {
 	LuaPush<bool>(l, Pi::config->Int("DisableScreenshotInfo") != 0);
@@ -730,7 +799,7 @@ static int l_engine_set_effects_muted(lua_State *l)
 	if (lua_isnone(l, 1))
 		return luaL_error(l, "SetEffectsMuted takes one boolean argument");
 	const bool muted = lua_toboolean(l, 1);
-	set_effects_volume(muted, Sound::GetSfxVolume());
+	set_effects_volume(muted, Pi::config->Float("SfxVolume"));
 	return 0;
 }
 
@@ -758,7 +827,7 @@ static int l_engine_set_music_muted(lua_State *l)
 	if (lua_isnone(l, 1))
 		return luaL_error(l, "SetMusicMuted takes one boolean argument");
 	const bool muted = lua_toboolean(l, 1);
-	set_music_volume(muted, Pi::GetMusicPlayer().GetVolume());
+	set_music_volume(muted, Pi::config->Float("MusicVolume"));
 	return 0;
 }
 
@@ -1099,6 +1168,15 @@ void LuaEngine::Register()
 		{ "Quit", l_engine_quit },
 
 		{ "SetShowDebugInfo", l_engine_set_show_debug_info },
+
+		{ "SettingsGetBool", l_engine_settings_get_bool },
+		{ "SettingsGetInt", l_engine_settings_get_int },
+		{ "SettingsGetFloat", l_engine_settings_get_number },
+		{ "SettingsGetString", l_engine_settings_get_string },
+		{ "SettingsSetBool", l_engine_settings_set_bool },
+		{ "SettingsSetInt", l_engine_settings_set_int },
+		{ "SettingsSetFloat", l_engine_settings_set_number },
+		{ "SettingsSetString", l_engine_settings_set_string },
 
 		{ "GetVideoModeList", l_engine_get_video_mode_list },
 		{ "GetMaximumAASamples", l_engine_get_maximum_aa_samples },

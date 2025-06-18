@@ -105,6 +105,8 @@ public:
 
 		void HandleRequests();
 
+		void OnWindowKeyboardFocusChanged(bool newFocus) override;
+
 	private:
 		// msgs/requests that can be posted which the game processes at the end of a game loop in HandleRequests
 		enum class InternalRequests {

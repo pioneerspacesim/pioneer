@@ -57,11 +57,11 @@ local function checkbox(label, checked, tooltip)
 end
 
 local function slider(lbl, value, min, max, tooltip)
-	local ret = ui.sliderInt(lbl, value, min, max)
+	local ret,c = ui.sliderInt(lbl, value, min, max)
 	if ui.isItemHovered() and tooltip then
 		Engine.pigui.SetTooltip(tooltip) -- bypass the mouse check, Game.player isn't valid yet
 	end
-	return value ~= ret, ret
+	return c, ret
 end
 
 local function keyOf(t, value)
@@ -186,9 +186,9 @@ local function showVideoOptions()
 		Engine.SetMultisampling(aa)
 	end
 
-	c,scattering = combo(lui.REALISTIC_SCATTERING, realisticScattering, scatteringLabels, lui.REALISTIC_SCATTERING_DESC)
+	c,realisticScattering = combo(lui.REALISTIC_SCATTERING, realisticScattering, scatteringLabels, lui.REALISTIC_SCATTERING_DESC)
 	if c then
-		Engine.SetRealisticScattering(scattering)
+		Engine.SetRealisticScattering(realisticScattering)
 	end
 
 	ui.columns(2,"video_checkboxes",false)
