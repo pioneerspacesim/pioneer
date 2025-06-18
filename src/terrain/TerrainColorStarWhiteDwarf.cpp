@@ -26,9 +26,9 @@ vector3d TerrainColorFractal<TerrainColorStarWhiteDwarf>::GetColor(const vector3
 {
 	double n;
 	vector3d col;
-	n = ridged_octavenoise(GetFracDef(0), 0.8, p * p.x);
-	n += ridged_octavenoise(GetFracDef(1), 0.8, p);
-	n += voronoiscam_octavenoise(GetFracDef(0), 0.8 * octavenoise(GetFracDef(1), 0.6, p), p);
+	n = ridged_octavenoise(m_fracdef[0], 0.8, p * p.x);
+	n += ridged_octavenoise(m_fracdef[1], 0.8, p);
+	n += voronoiscam_octavenoise(m_fracdef[0], 0.8 * octavenoise(m_fracdef[1], 0.6, p), p);
 	n *= n * n;
 	if (n > 0.666) {
 		n -= 0.666;

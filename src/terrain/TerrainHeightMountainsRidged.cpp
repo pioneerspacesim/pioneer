@@ -34,23 +34,23 @@ void TerrainHeightFractal<TerrainHeightMountainsRidged>::GetHeights(const vector
 {
 	for (size_t i = 0; i < count; i++) {
 		const vector3d &p = vP[i];
-		double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel;
+		double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 		if (continents < 0.0)
 			heightsOut[i] = 0.0;
 
-		// unused variable \\ double mountain_distrib = octavenoise(GetFracDef(1), 0.5, p);
-		double mountains = octavenoise(GetFracDef(2), 0.5, p);
-		double mountains2 = ridged_octavenoise(GetFracDef(3), 0.5, p);
+		// unused variable \\ double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
+		double mountains = octavenoise(m_fracdef[2], 0.5, p);
+		double mountains2 = ridged_octavenoise(m_fracdef[3], 0.5, p);
 
-		double hill_distrib = octavenoise(GetFracDef(4), 0.5, p);
-		double hills = hill_distrib * GetFracDef(5).amplitude * ridged_octavenoise(GetFracDef(5), 0.5, p);
-		double hills2 = hill_distrib * GetFracDef(6).amplitude * octavenoise(GetFracDef(6), 0.5, p);
+		double hill_distrib = octavenoise(m_fracdef[4], 0.5, p);
+		double hills = hill_distrib * m_fracdef[5].amplitude * ridged_octavenoise(m_fracdef[5], 0.5, p);
+		double hills2 = hill_distrib * m_fracdef[6].amplitude * octavenoise(m_fracdef[6], 0.5, p);
 
-		double hill2_distrib = octavenoise(GetFracDef(7), 0.5, p);
-		double hills3 = hill2_distrib * GetFracDef(8).amplitude * ridged_octavenoise(GetFracDef(8), 0.5, p);
-		double hills4 = hill2_distrib * GetFracDef(9).amplitude * ridged_octavenoise(GetFracDef(9), 0.5, p);
+		double hill2_distrib = octavenoise(m_fracdef[7], 0.5, p);
+		double hills3 = hill2_distrib * m_fracdef[8].amplitude * ridged_octavenoise(m_fracdef[8], 0.5, p);
+		double hills4 = hill2_distrib * m_fracdef[9].amplitude * ridged_octavenoise(m_fracdef[9], 0.5, p);
 
-		double n = continents - (GetFracDef(0).amplitude * m_sealevel);
+		double n = continents - (m_fracdef[0].amplitude * m_sealevel);
 
 		if (n > 0.0) {
 			// smooth in hills at shore edges
@@ -72,10 +72,10 @@ void TerrainHeightFractal<TerrainHeightMountainsRidged>::GetHeights(const vector
 			else
 				n += hills4;
 
-			mountains = octavenoise(GetFracDef(1), 0.5, p) *
-				GetFracDef(2).amplitude * mountains * mountains * mountains;
-			mountains2 = octavenoise(GetFracDef(4), 0.5, p) *
-				GetFracDef(3).amplitude * mountains2 * mountains2 * mountains2 * mountains2;
+			mountains = octavenoise(m_fracdef[1], 0.5, p) *
+				m_fracdef[2].amplitude * mountains * mountains * mountains;
+			mountains2 = octavenoise(m_fracdef[4], 0.5, p) *
+				m_fracdef[3].amplitude * mountains2 * mountains2 * mountains2 * mountains2;
 			if (n > 0.2) n += mountains2 * (n - 0.2);
 			if (n < 0.2)
 				n += mountains * n * 5.0f;

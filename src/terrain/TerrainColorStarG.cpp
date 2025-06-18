@@ -27,12 +27,12 @@ vector3d TerrainColorFractal<TerrainColorStarG>::GetColor(const vector3d &p, dou
 {
 	double n;
 	vector3d col;
-	n = octavenoise(GetFracDef(0), 0.5, p) * 0.5;
-	n += voronoiscam_octavenoise(GetFracDef(1), 0.5, p) * 0.5;
-	n += octavenoise(GetFracDef(0), 0.5, p) * billow_octavenoise(GetFracDef(1), 0.5, p);
-	n += octavenoise(GetFracDef(2), 0.5, p) * 0.5 * Clamp(GetFracDef(0).amplitude - 0.2, 0.0, 1.0);
-	n += 15.0 * billow_octavenoise(GetFracDef(0), 0.8, noise(p * 3.142) * p) *
-		megavolcano_function(GetFracDef(1), p);
+	n = octavenoise(m_fracdef[0], 0.5, p) * 0.5;
+	n += voronoiscam_octavenoise(m_fracdef[1], 0.5, p) * 0.5;
+	n += octavenoise(m_fracdef[0], 0.5, p) * billow_octavenoise(m_fracdef[1], 0.5, p);
+	n += octavenoise(m_fracdef[2], 0.5, p) * 0.5 * Clamp(m_fracdef[0].amplitude - 0.2, 0.0, 1.0);
+	n += 15.0 * billow_octavenoise(m_fracdef[0], 0.8, noise(p * 3.142) * p) *
+		megavolcano_function(m_fracdef[1], p);
 	n *= n * 0.15;
 	n = 1.0 - n;
 	if (n > 0.666) {

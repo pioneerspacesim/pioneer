@@ -33,14 +33,14 @@ void TerrainHeightFractal<TerrainHeightMountainsCraters>::GetHeights(const vecto
 {
 	for (size_t i = 0; i < count; i++) {
 		const vector3d &p = vP[i];
-		double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel;
+		double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 		if (continents < 0.0)
 			heightsOut[i] = 0.0;
 		double n = 0.3 * continents;
 
-		double m = GetFracDef(1).amplitude * ridged_octavenoise(GetFracDef(1), 0.5, p);
-		double distrib = ridged_octavenoise(GetFracDef(4), 0.5, p);
-		if (distrib > 0.5) m += 2.0 * (distrib - 0.5) * GetFracDef(3).amplitude * ridged_octavenoise(GetFracDef(3), 0.5 * distrib, p);
+		double m = m_fracdef[1].amplitude * ridged_octavenoise(m_fracdef[1], 0.5, p);
+		double distrib = ridged_octavenoise(m_fracdef[4], 0.5, p);
+		if (distrib > 0.5) m += 2.0 * (distrib - 0.5) * m_fracdef[3].amplitude * ridged_octavenoise(m_fracdef[3], 0.5 * distrib, p);
 
 		// cliffs at shore
 		if (continents < 0.001)
@@ -48,8 +48,8 @@ void TerrainHeightFractal<TerrainHeightMountainsCraters>::GetHeights(const vecto
 		else
 			n += m;
 
-		n += crater_function(GetFracDef(5), p);
-		n += crater_function(GetFracDef(6), p);
+		n += crater_function(m_fracdef[5], p);
+		n += crater_function(m_fracdef[6], p);
 		n *= m_maxHeight;
 		heightsOut[i] = (n > 0.0 ? n : 0.0);
 	}

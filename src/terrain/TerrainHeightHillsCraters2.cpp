@@ -32,14 +32,14 @@ void TerrainHeightFractal<TerrainHeightHillsCraters2>::GetHeights(const vector3d
 {
 	for (size_t i = 0; i < count; i++) {
 		const vector3d &p = vP[i];
-		const double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel;
+		const double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 		if (continents < 0.0)
 			heightsOut[i] = 0.0;
 
 		// == TERRAIN_HILLS_NORMAL except river_octavenoise
 		double n = 0.3 * continents;
-		double distrib = river_octavenoise(GetFracDef(2), 0.5, p);
-		double m = GetFracDef(1).amplitude * river_octavenoise(GetFracDef(1), 0.5 * distrib, p);
+		double distrib = river_octavenoise(m_fracdef[2], 0.5, p);
+		double m = m_fracdef[1].amplitude * river_octavenoise(m_fracdef[1], 0.5 * distrib, p);
 
 		// cliffs at shore
 		if (continents < 0.001)
@@ -47,12 +47,12 @@ void TerrainHeightFractal<TerrainHeightHillsCraters2>::GetHeights(const vector3d
 		else
 			n += m;
 
-		n += crater_function(GetFracDef(3), p);
-		n += crater_function(GetFracDef(4), p);
-		n += crater_function(GetFracDef(5), p);
-		n += crater_function(GetFracDef(6), p);
-		n += crater_function(GetFracDef(7), p);
-		n += crater_function(GetFracDef(8), p);
+		n += crater_function(m_fracdef[3], p);
+		n += crater_function(m_fracdef[4], p);
+		n += crater_function(m_fracdef[5], p);
+		n += crater_function(m_fracdef[6], p);
+		n += crater_function(m_fracdef[7], p);
+		n += crater_function(m_fracdef[8], p);
 		n *= m_maxHeight;
 		heightsOut[i] = (n > 0.0 ? n : 0.0);
 	}
