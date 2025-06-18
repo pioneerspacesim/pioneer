@@ -318,19 +318,20 @@ end
 --
 -- Event: onEnterSystem
 --
--- Triggered when a ship enters a system after hyperspace.
+-- Triggered when a new system is loaded after hyperspace.
+-- For the event that is called when any ship enters the current system, see <onShipEnterSystem>.
 --
--- > local onEnterSystem = function (ship) ... end
+-- > local onEnterSystem = function (player) ... end
 -- > Event.Register("onEnterSystem", onEnterSystem)
 --
 -- This is the place to spawn pirates and other attack ships to give the
--- illusion that the ship was followed through hyperspace.
+-- illusion that the player's ship was followed through hyperspace.
 --
 -- Note that this event is *not* triggered at game start.
 --
 -- Parameters:
 --
---   ship - the <Ship> that entered the system
+--   player - the player's <Ship> that entered the system
 --
 -- Availability:
 --
@@ -344,21 +345,64 @@ end
 --
 -- Event: onLeaveSystem
 --
--- Triggered immediately before ship leaves a system and enters hyperspace.
+-- Triggered immediately before the player leaves a system and enters hyperspace.
+-- For the event that is called when any ship leaves the current system, see <onShipLeaveSystem>.
 --
--- > local onLeaveSystem = function (ship) ... end
+-- > local onLeaveSystem = function (player) ... end
 -- > Event.Register("onLeaveSystem", onLeaveSystem)
 --
--- If the ship was the player then all physics <Body> objects are invalid after
--- this method returns.
+-- This is the place to clean up per-system caches and other data structures that
+-- track ship objects.
+--
+-- All physics <Body> objects are invalid after this method returns, as the
+-- underlying <Space> is unloaded.
+--
+-- Parameters:
+--
+--   player - the player's <Ship> that left the system
+--
+-- Status:
+--
+--   stable
+--
+
+--
+-- Event: onShipEnterSystem
+--
+-- Triggered when a <Ship> enters the current system from a hyperspace cloud.
+-- This event is also called for the player's <Ship> when a new system is entered.
+--
+-- > local onShipEnterSystem = function (ship) ... end
+-- > Event.Register("onShipEnterSystem", onShipEnterSystem)
+--
+-- This is the place to give AI commands and track ship objects in mission modules.
+--
+-- Note that this event is *not* triggered at game start.
+--
+-- Parameters:
+--
+--   ship - the <Ship> that entered the system
+--
+-- Status:
+--
+--   stable
+--
+
+--
+-- Event: onShipLeaveSystem
+--
+-- Triggered immediately before a <Ship> enters hyperspace and leaves the current system.
+-- This event is also called for the player's <Ship> when the current system is unloaded.
+--
+-- > local onShipLeaveSystem = function (ship) ... end
+-- > Event.Register("onShipLeaveSystem", onShipLeaveSystem)
+--
+-- All physics <Body> objects are invalid after this method returns, as the
+-- underlying <Space> is unloaded.
 --
 -- Parameters:
 --
 --   ship - the <Ship> that left the system
---
--- Availability:
---
---   alpha 10
 --
 -- Status:
 --

@@ -677,10 +677,12 @@ void Game::SwitchToNormalSpace()
 
 			m_space->AddBody(ship);
 
-			LuaEvent::Queue("onEnterSystem", ship);
+			LuaEvent::Queue("onShipEnterSystem", ship);
 		}
 	}
 	m_hyperspaceClouds.clear();
+
+	LuaEvent::Queue("onEnterSystem", m_player.get());
 
 	m_space->GetBackground()->SetDrawFlags(Background::Container::DRAW_SKYBOX | Background::Container::DRAW_STARS);
 

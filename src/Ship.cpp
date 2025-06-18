@@ -1346,7 +1346,7 @@ void Ship::StaticUpdate(const float timeStep)
 				// We have to fire it here, because the event isn't actually fired until
 				// after the whole physics update, which means the flight state on next
 				// step would be HYPERSPACE, thus breaking quite a few things.
-				LuaEvent::Queue("onLeaveSystem", this);
+				OnBeforeEnterHyperspace();
 			} else if (!(is_equal_exact(m_wheelState, 0.0f)) && this->IsType(ObjectType::PLAYER)) {
 				AbortHyperjump();
 				Sound::BodyMakeNoise(this, "Missile_Inbound", 1.0f);
@@ -1507,6 +1507,11 @@ void Ship::EnterHyperspace()
 	OnEnterHyperspace();
 }
 
+void Ship::OnBeforeEnterHyperspace()
+{
+	LuaEvent::Queue("onShipLeaveSystem", this);
+}
+
 void Ship::OnEnterHyperspace()
 {
 	Sound::BodyMakeNoise(this, m_hyperspace.sounds.jump_sound.c_str(), 1.f);
@@ -1530,7 +1535,7 @@ void Ship::EnterSystem()
 
 	SetFlightState(Ship::FLYING);
 
-	LuaEvent::Queue("onEnterSystem", this);
+	LuaEvent::Queue("onShipEnterSystem", this);
 }
 
 void Ship::OnEnterSystem()

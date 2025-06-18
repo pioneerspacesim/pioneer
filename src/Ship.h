@@ -257,6 +257,7 @@ protected:
 
 	virtual void SetAlertState(AlertState as);
 
+	virtual void OnBeforeEnterHyperspace();
 	virtual void OnEnterHyperspace();
 	virtual void OnEnterSystem();
 

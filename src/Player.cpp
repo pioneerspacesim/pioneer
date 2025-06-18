@@ -199,6 +199,13 @@ void Player::NotifyRemoved(const Body *const removedBody)
 	Ship::NotifyRemoved(removedBody);
 }
 
+void Player::OnBeforeEnterHyperspace()
+{
+	Ship::OnBeforeEnterHyperspace();
+
+	LuaEvent::Queue("onLeaveSystem", this);
+}
+
 //XXX ui stuff
 void Player::OnEnterHyperspace()
 {
