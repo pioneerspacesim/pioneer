@@ -32,26 +32,26 @@ void TerrainHeightFractal<TerrainHeightHillsRivers>::GetHeights(const vector3d *
 {
 	for (size_t i = 0; i < count; i++) {
 		const vector3d &p = vP[i];
-		double continents = river_octavenoise(GetFracDef(3), 0.65, p) * (1.0 - m_sealevel) - (m_sealevel * 0.1);
+		double continents = river_octavenoise(m_fracdef[3], 0.65, p) * (1.0 - m_sealevel) - (m_sealevel * 0.1);
 		if (continents < 0.0)
 			heightsOut[i] = 0.0;
 		double n = continents;
 
-		double distrib = voronoiscam_octavenoise(GetFracDef(4), 0.5 * GetFracDef(5).amplitude, p);
-		double m = 0.1 * GetFracDef(4).amplitude * river_octavenoise(GetFracDef(5), 0.5 * distrib, p);
-		double mountains = ridged_octavenoise(GetFracDef(5), 0.5 * distrib, p) * billow_octavenoise(GetFracDef(5), 0.5, p) *
-			voronoiscam_octavenoise(GetFracDef(4), 0.5 * distrib, p) * distrib;
+		double distrib = voronoiscam_octavenoise(m_fracdef[4], 0.5 * m_fracdef[5].amplitude, p);
+		double m = 0.1 * m_fracdef[4].amplitude * river_octavenoise(m_fracdef[5], 0.5 * distrib, p);
+		double mountains = ridged_octavenoise(m_fracdef[5], 0.5 * distrib, p) * billow_octavenoise(m_fracdef[5], 0.5, p) *
+			voronoiscam_octavenoise(m_fracdef[4], 0.5 * distrib, p) * distrib;
 		m += mountains;
 		//detail for mountains, stops them looking smooth.
-		m += mountains * mountains * 0.02 * ridged_octavenoise(GetFracDef(2), 0.6 * mountains * mountains * distrib, p);
+		m += mountains * mountains * 0.02 * ridged_octavenoise(m_fracdef[2], 0.6 * mountains * mountains * distrib, p);
 		m *= m * m * m * 10.0;
 		// smooth cliffs at shore
 		if (continents < 0.01)
 			n += m * continents * 100.0f;
 		else
 			n += m;
-		n += continents * Clamp(0.5 - m, 0.0, 0.5) * 0.2 * river_octavenoise(GetFracDef(6), 0.6 * distrib, p);
-		n += continents * Clamp(0.05 - n, 0.0, 0.01) * 0.2 * dunes_octavenoise(GetFracDef(2), Clamp(0.5 - n, 0.0, 0.5), p);
+		n += continents * Clamp(0.5 - m, 0.0, 0.5) * 0.2 * river_octavenoise(m_fracdef[6], 0.6 * distrib, p);
+		n += continents * Clamp(0.05 - n, 0.0, 0.01) * 0.2 * dunes_octavenoise(m_fracdef[2], Clamp(0.5 - n, 0.0, 0.5), p);
 		n *= m_maxHeight;
 		heightsOut[i] = (n > 0.0 ? n : 0.0);
 	}

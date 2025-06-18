@@ -32,23 +32,23 @@ void TerrainHeightFractal<TerrainHeightHillsRidged>::GetHeights(const vector3d *
 {
 	for (size_t i = 0; i < count; i++) {
 		const vector3d &p = vP[i];
-		double continents = ridged_octavenoise(GetFracDef(3), 0.65, p) * (1.0 - m_sealevel) - (m_sealevel * 0.1);
+		double continents = ridged_octavenoise(m_fracdef[3], 0.65, p) * (1.0 - m_sealevel) - (m_sealevel * 0.1);
 		if (continents < 0.0)
 			heightsOut[i] = 0.0;
 		double n = continents;
 
-		double distrib = river_octavenoise(GetFracDef(4), 0.5, p);
-		double m = 0.5 * ridged_octavenoise(GetFracDef(4), 0.55 * distrib, p);
-		m += continents * 0.25 * ridged_octavenoise(GetFracDef(5), 0.58 * distrib, p);
+		double distrib = river_octavenoise(m_fracdef[4], 0.5, p);
+		double m = 0.5 * ridged_octavenoise(m_fracdef[4], 0.55 * distrib, p);
+		m += continents * 0.25 * ridged_octavenoise(m_fracdef[5], 0.58 * distrib, p);
 		// **
-		m += 0.001 * ridged_octavenoise(GetFracDef(6), 0.55 * distrib * m, p);
+		m += 0.001 * ridged_octavenoise(m_fracdef[6], 0.55 * distrib * m, p);
 		// cliffs at shore
 		if (continents < 0.01)
 			n += m * continents * 100.0f;
 		else
 			n += m;
-		// was n -= 0.001*ridged_octavenoise(GetFracDef(6), 0.55*distrib*m, p);
-		//n += 0.001*ridged_octavenoise(GetFracDef(6), 0.55*distrib*m, p);
+		// was n -= 0.001*ridged_octavenoise(m_fracdef[6], 0.55*distrib*m, p);
+		//n += 0.001*ridged_octavenoise(m_fracdef[6], 0.55*distrib*m, p);
 		heightsOut[i] = (n > 0.0 ? n * m_maxHeight : 0.0);
 	}
 }

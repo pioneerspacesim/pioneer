@@ -39,47 +39,47 @@ void TerrainHeightFractal<TerrainHeightMountainsVolcano>::GetHeights(const vecto
 {
 	for (size_t i = 0; i < count; i++) {
 		const vector3d &p = vP[i];
-		double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel;
+		double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel;
 		if (continents < 0.0)
 			heightsOut[i] = 0.0;
 
-		// unused variable \\ double mountain_distrib = octavenoise(GetFracDef(1), 0.5, p);
-		double mountains = octavenoise(GetFracDef(2), 0.5, p);
-		double mountains2 = octavenoise(GetFracDef(3), 0.5, p);
-		double hill_distrib = octavenoise(GetFracDef(4), 0.5, p);
-		double hills = hill_distrib * GetFracDef(5).amplitude * octavenoise(GetFracDef(5), 0.5, p);
-		double hills2 = hill_distrib * GetFracDef(6).amplitude * octavenoise(GetFracDef(6), 0.5, p);
+		// unused variable \\ double mountain_distrib = octavenoise(m_fracdef[1], 0.5, p);
+		double mountains = octavenoise(m_fracdef[2], 0.5, p);
+		double mountains2 = octavenoise(m_fracdef[3], 0.5, p);
+		double hill_distrib = octavenoise(m_fracdef[4], 0.5, p);
+		double hills = hill_distrib * m_fracdef[5].amplitude * octavenoise(m_fracdef[5], 0.5, p);
+		double hills2 = hill_distrib * m_fracdef[6].amplitude * octavenoise(m_fracdef[6], 0.5, p);
 
-		double n = continents - (GetFracDef(0).amplitude * m_sealevel);
+		double n = continents - (m_fracdef[0].amplitude * m_sealevel);
 
 		if (n < 0.01)
-			n += megavolcano_function(GetFracDef(7), p) * n * 3000.0f;
+			n += megavolcano_function(m_fracdef[7], p) * n * 3000.0f;
 		else
-			n += megavolcano_function(GetFracDef(7), p) * 30.0f;
+			n += megavolcano_function(m_fracdef[7], p) * 30.0f;
 
 		n = (n > 0.0 ? n : 0.0);
 
 		if ((m_seed >> 2) % 3 > 2) {
 			if (n < .2f)
-				n += canyon3_ridged_function(GetFracDef(8), p) * n * 2;
+				n += canyon3_ridged_function(m_fracdef[8], p) * n * 2;
 			else if (n < .4f)
-				n += canyon3_ridged_function(GetFracDef(8), p) * .4;
+				n += canyon3_ridged_function(m_fracdef[8], p) * .4;
 			else
-				n += canyon3_ridged_function(GetFracDef(8), p) * (.4 / n) * .4;
+				n += canyon3_ridged_function(m_fracdef[8], p) * (.4 / n) * .4;
 		} else if ((m_seed >> 2) % 3 > 1) {
 			if (n < .2f)
-				n += canyon3_billow_function(GetFracDef(8), p) * n * 2;
+				n += canyon3_billow_function(m_fracdef[8], p) * n * 2;
 			else if (n < .4f)
-				n += canyon3_billow_function(GetFracDef(8), p) * .4;
+				n += canyon3_billow_function(m_fracdef[8], p) * .4;
 			else
-				n += canyon3_billow_function(GetFracDef(8), p) * (.4 / n) * .4;
+				n += canyon3_billow_function(m_fracdef[8], p) * (.4 / n) * .4;
 		} else {
 			if (n < .2f)
-				n += canyon3_voronoi_function(GetFracDef(8), p) * n * 2;
+				n += canyon3_voronoi_function(m_fracdef[8], p) * n * 2;
 			else if (n < .4f)
-				n += canyon3_voronoi_function(GetFracDef(8), p) * .4;
+				n += canyon3_voronoi_function(m_fracdef[8], p) * .4;
 			else
-				n += canyon3_voronoi_function(GetFracDef(8), p) * (.4 / n) * .4;
+				n += canyon3_voronoi_function(m_fracdef[8], p) * (.4 / n) * .4;
 		}
 
 		n += -0.05f;
@@ -98,10 +98,10 @@ void TerrainHeightFractal<TerrainHeightMountainsVolcano>::GetHeights(const vecto
 			else
 				n += hills2 * (0.02f / n);
 
-			mountains = octavenoise(GetFracDef(1), 0.5, p) *
-				GetFracDef(2).amplitude * mountains * mountains * mountains;
-			mountains2 = octavenoise(GetFracDef(4), 0.5, p) *
-				GetFracDef(3).amplitude * mountains2 * mountains2 * mountains2;
+			mountains = octavenoise(m_fracdef[1], 0.5, p) *
+				m_fracdef[2].amplitude * mountains * mountains * mountains;
+			mountains2 = octavenoise(m_fracdef[4], 0.5, p) *
+				m_fracdef[3].amplitude * mountains2 * mountains2 * mountains2;
 			if (n > 2.5) n += mountains2 * (n - 2.5) * 0.6f;
 			if (n < 0.01)
 				n += mountains * n * 60.0f;
