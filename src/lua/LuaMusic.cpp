@@ -254,6 +254,7 @@ void LuaMusic::Register()
 
 	Pi::GetMusicPlayer().onSongFinished.connect([]() {
 		LuaEvent::Queue("onSongFinished");
+		LuaEvent::Emit();
 	});
 
 	LUA_DEBUG_END(l, 0);
