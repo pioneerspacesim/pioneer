@@ -159,11 +159,11 @@ array_table.draw = function(id, tbl, iter, columns, extra)
 	ui.columns(1, "")
 	-- draw highlight
 	if highlight_box then
-		ui.addRectFilled(highlight_box[1], highlight_box[2], ui.theme.colors.white:opacity(0.3), 0, 0)
+		ui.addRectFilled(highlight_box[1], highlight_box[2], ui.theme.colors.white:opacity(0.3), 0, ui.RoundCornersNone)
 	end
 	if #selected_boxes ~= 0 then
 		for _, selected_box in ipairs(selected_boxes) do
-			ui.addRectFilled(selected_box[1], selected_box[2], ui.theme.colors.white:opacity(0.2), 0, 0)
+			ui.addRectFilled(selected_box[1], selected_box[2], ui.theme.colors.white:opacity(0.2), 0, ui.RoundCornersNone)
 		end
 	end
 end

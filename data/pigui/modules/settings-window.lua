@@ -524,7 +524,7 @@ local function showJoystickInfo(id)
 		pos.y = pos.y + ui.getItemSpacing().y * 0.5
 
 		local size = Vector2(width - ui.getItemSpacing().x, ui.getTextLineHeight())
-		ui.addRectFilled(pos, pos + size, colors.uiBackground, 0, 0)
+		ui.addRectFilled(pos, pos + size, colors.uiBackground, 0, ui.RoundCornersNone)
 
 		if isHalfAxis then
 			size.x = size.x * value
@@ -533,7 +533,7 @@ local function showJoystickInfo(id)
 			size.x = size.x * 0.5 * value
 		end
 
-		ui.addRectFilled(pos, pos + size, colors.uiForeground, 0, 0)
+		ui.addRectFilled(pos, pos + size, colors.uiForeground, 0, ui.RoundCornersNone)
 		ui.newLine()
 
 		-- Draw axis details

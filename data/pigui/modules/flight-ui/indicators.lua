@@ -85,7 +85,7 @@ local function isTargetObscured(navTarget)
 	local frameBody = player.frameBody
 
 	-- checks if the nav target is  behind (on the other side of) the player's framebody
-	
+
 	if frameBody and frameBody.path:GetSystemBody().radius > 0 and frameBody ~= navTarget then
 
 		local starport = navTarget.type == "STARPORT_SURFACE" and navTarget or
@@ -97,7 +97,7 @@ local function isTargetObscured(navTarget)
 		--local isPlayerOnFrameBody = player:IsLanded() or player:IsDocked() and player:GetDockedWith().type == "STARPORT_SURFACE"
 
 		local navWrtPlayer = navTarget:GetPositionRelTo(player)
-		--avoiding calculation of length - no sqrt() 
+		--avoiding calculation of length - no sqrt()
 		local targetDistSqr = navWrtPlayer:lengthSqr()
 
 		--below 10km distance visibility assumed
@@ -179,7 +179,7 @@ local function displayNavTargetIndicator(navTarget)
 
 	local targetIcon = isTargetObscured(navTarget) and icons.square_dashed or icons.square
 	displayIndicator(onscreen, position, direction, targetIcon, colors.navTargetDark, true)
-	
+
 	local navVelocity = -navTarget:GetVelocityRelTo(player)
 	if navVelocity:length() > 1 then
 		onscreen,position,direction = Engine.ProjectRelDirection(navVelocity)
@@ -220,7 +220,7 @@ local function displayNavTunnels(navTarget)
 		if scrHeight > 10.0 then
 			-- as the frame gets further away from the target, bring it closer to the center of the screen
 			local rectCenter = position - screenDiff * (dist / targetDist)
-			ui.addRect(rectCenter - size * scrHeight, rectCenter + size * scrHeight, colors.navTargetDark, 0, 0, 1.0)
+			ui.addRect(rectCenter - size * scrHeight, rectCenter + size * scrHeight, colors.navTargetDark, 0, ui.RoundCornersNone, 1.0)
 		end
 	end
 end

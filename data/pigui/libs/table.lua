@@ -100,8 +100,8 @@ function TableWidget:render()
 			if not self.selectedItem then self.selectionStart = nil end
 
             -- If highlightStart is set, the mouse hovered over an item in the previous frame, so draw a rectangle underneath for highlighting
-            if self.highlightStart then ui.addRectFilled(self.highlightStart, self.highlightEnd, self.highlightColor, 0, 0) end
-            if self.selectionStart then ui.addRectFilled(self.selectionStart, self.selectionEnd, self.style.selectionColor, 0, 0) end
+            if self.highlightStart then ui.addRectFilled(self.highlightStart, self.highlightEnd, self.highlightColor, 0, ui.RoundCornersNone) end
+            if self.selectionStart then ui.addRectFilled(self.selectionStart, self.selectionEnd, self.style.selectionColor, 0, ui.RoundCornersNone) end
 
             -- We're using self.columnCount+1 to help with calculating the bounds of the highling rect
             -- ui.getCursorPos() always returns the top-left corner of a column, so to get the max x-coordninate of

@@ -666,9 +666,9 @@ void SystemEditor::HandleInput()
 void SystemEditor::Update(float deltaTime)
 {
 	ImGuiID editorID = ImGui::GetID("System Editor");
-	if (ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiMod_Shift | ImGuiKey_Z, editorID, ImGuiInputFlags_RouteGlobal)) {
+	if (ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiMod_Shift | ImGuiKey_Z, ImGuiInputFlags_RouteGlobal, editorID)) {
 		GetUndo()->Redo();
-	} else if (ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_Z, editorID, ImGuiInputFlags_RouteGlobal)) {
+	} else if (ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_Z, ImGuiInputFlags_RouteGlobal, editorID)) {
 		GetUndo()->Undo();
 	}
 

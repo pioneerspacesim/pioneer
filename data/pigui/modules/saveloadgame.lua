@@ -145,7 +145,7 @@ local function drawSaveEntryRow(entry, selected)
 
 	-- Draw the background of the whole save file
 	local backgroundColor = selected and cardSelectedCol or cardBackgroundCol
-	ui.addRectFilled(pos, pos + size, ui.getButtonColor(backgroundColor, hovered, active), 0, 0)
+	ui.addRectFilled(pos, pos + size, ui.getButtonColor(backgroundColor, hovered, active), 0, ui.RoundCornersNone)
 
 	local indicatorColor = ui.theme.styleColors.danger_900
 
@@ -154,7 +154,7 @@ local function drawSaveEntryRow(entry, selected)
 	end
 
 	-- Indicator bar for compatible / autosave / incompatible saves
-	ui.addRectFilled(pos, pos + Vector2(spacing.x, size.y), indicatorColor, 0, 0)
+	ui.addRectFilled(pos, pos + Vector2(spacing.x, size.y), indicatorColor, 0, ui.RoundCornersNone)
 
 	ui.withStyleVars({ CellPadding = padding, ItemSpacing = ui.theme.styles.ItemInnerSpacing }, function()
 

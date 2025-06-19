@@ -42,7 +42,7 @@ local function iconEqButton(leftupper, icon, is_wide, icon_size, text, is_disabl
 		end
 		ui.setTooltip(tooltip)
 	end
-	ui.addRectFilled(leftupper, leftupper + delta, bg_color, 0.1, 15)
+	ui.addRectFilled(leftupper, leftupper + delta, bg_color, 0.1, ui.RoundCornersAll)
 	if is_wide then
 		ui.addWideIcon(leftupper + Vector2(mainButtonPadding, mainButtonPadding), icon, fg_color, icon_size, ui.anchor.left, ui.anchor.top)
 	else

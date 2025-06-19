@@ -132,11 +132,11 @@ local function drawNotification(notif, wrapWidth)
 	local barCol = notificationColor[notif.type] or colors.notificationInfo
 
 	-- Draw background
-	ui.addRectFilled(pos, pos + badgeSize, colors.notificationBackground, round, 0xF)
+	ui.addRectFilled(pos, pos + badgeSize, colors.notificationBackground, round, ui.RoundCornersAll)
 	-- Draw border
-	ui.addRect(pos, pos + badgeSize, colors.windowFrame, round, 0xF, style.border)
+	ui.addRect(pos, pos + badgeSize, colors.windowFrame, round, ui.RoundCornersAll, style.border)
 	-- Draw left bar
-	ui.addRectFilled(pos, pos + Vector2(style.barWidth, badgeSize.y), barCol, round, 0x5)
+	ui.addRectFilled(pos, pos + Vector2(style.barWidth, badgeSize.y), barCol, round, ui.RoundCornersLeft)
 
 	pos = pos + style.innerPadding
 

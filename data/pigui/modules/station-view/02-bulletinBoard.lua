@@ -153,14 +153,14 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 		local size = ui.getWindowSize()
 
 		if Game.paused then
-			ui.addRectFilled(tl, tl + size, colors.uiBackground:opacity(0.4), 0, 0)
+			ui.addRectFilled(tl, tl + size, colors.uiBackground:opacity(0.4), 0, ui.RoundCornersNone)
 
 			ui.withFont(orbiteer.heading, function()
 				local textSize = ui.calcTextSize(l.PAUSED)
 				local textPos = tl + (size - textSize) * 0.5
 				local padding = ui.theme.styles.WindowPadding
 
-				ui.addRectFilled(textPos - padding, textPos + textSize + padding, colors.uiSurface, padding.x, 0xF)
+				ui.addRectFilled(textPos - padding, textPos + textSize + padding, colors.uiSurface, padding.x, ui.RoundCornersAll)
 
 				ui.addText(textPos, colors.font, l.PAUSED)
 			end)

@@ -458,7 +458,7 @@ function EquipmentWidget:drawOpenHeader(id, defaultOpen, fun)
 	local tl, br = ui.getItemRect()
 
 	local color = ui.getButtonColor(ui.theme.buttonColors.transparent, ui.isItemHovered(), ui.isItemActive())
-	ui.addRectFilled(tl, br, color, ui.theme.styles.ItemCardRounding, 0xF)
+	ui.addRectFilled(tl, br, color, ui.theme.styles.ItemCardRounding, ui.RoundCornersAll)
 
 	ui.addIconSimple((tl + br - iconSize) * 0.5,
 		isOpen and icons.chevron_up or icons.chevron_down,
