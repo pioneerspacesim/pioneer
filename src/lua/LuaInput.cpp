@@ -759,10 +759,10 @@ static int l_input_save_binding(lua_State *l)
 	std::ostringstream buffer;
 	if (action) {
 		buffer << *action->getAction();
-		Pi::config->SetString(action->id, buffer.str());
+		Pi::config->SetString("Input", action->id, buffer.str());
 	} else if (axis) {
 		buffer << *axis->getAxis();
-		Pi::config->SetString(axis->id, buffer.str());
+		Pi::config->SetString("Input", axis->id, buffer.str());
 	}
 
 	return 0;
@@ -881,7 +881,6 @@ static int l_input_set_mouse_y_inverted(lua_State *l)
 	if (lua_isnone(l, 1))
 		return luaL_error(l, "SetMouseYInverted takes one boolean argument");
 	const bool inverted = lua_toboolean(l, 1);
-	Pi::config->SetInt("InvertMouseY", (inverted ? 1 : 0));
 	Pi::input->SetMouseYInvert(inverted);
 	return 0;
 }
@@ -903,7 +902,6 @@ static int l_input_set_joystick_enabled(lua_State *l)
 	if (lua_isnone(l, 1))
 		return luaL_error(l, "SetJoystickEnabled takes one boolean argument");
 	const bool enabled = lua_toboolean(l, 1);
-	Pi::config->SetInt("EnableJoystick", (enabled ? 1 : 0));
 	Pi::input->SetJoystickEnabled(enabled);
 	return 0;
 }
