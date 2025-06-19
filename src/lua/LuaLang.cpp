@@ -132,7 +132,6 @@ static int l_lang_set_current_language(lua_State *l)
 	if (std::find(langs.begin(), langs.end(), lang) == langs.end())
 		return luaL_error(l, "The language '%s' is not known.", lang.c_str());
 	Pi::config->SetString("Lang", lang);
-	Pi::config->Save();
 	// XXX change it!
 	return 0;
 }
