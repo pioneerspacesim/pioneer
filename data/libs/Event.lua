@@ -48,6 +48,8 @@ local Event = utils.inherits(nil, "Event")
 function Event:Register(name, module, func, priority)
 	local callbacks = self.callbacks[name]
 
+	logWarning("Registering callback: name={}, module={}" % { name, module })
+
 	for _, cb in ipairs(callbacks) do
 		-- Update registered callback
 		if cb.module == module then

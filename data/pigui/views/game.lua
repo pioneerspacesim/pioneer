@@ -24,6 +24,8 @@ local reticuleCircleRadius = math.min(ui.screenWidth, ui.screenHeight) / 8
 local reticuleCircleThickness = 2.0
 
 local lastTimeAcceleration
+-- Keep track of whether sound was muted before opening the pause menu
+local lastMasterVolumeMuted
 
 -- for modules
 ui.reticuleCircleRadius = reticuleCircleRadius
@@ -275,6 +277,86 @@ end)
 Event.Register("onPauseMenuClosed", function()
 	Game.SetTimeAcceleration((lastTimeAcceleration == "paused") and "1x" or lastTimeAcceleration)
 	Input.EnableBindings()
+end)
+
+
+-- The following need to be on the UI event queue as the main event queue is not
+-- processed while the game is paused.
+
+local audioSettings = {
+	lastEffectsMuted = Engine.GetEffectsMuted(),
+	lastMusicMuted = Engine.GetMusicMuted(),
+}
+
+local shouldMuteEffectsOn = function(str)
+	return not audioSettings.lastEffectsMuted and (Engine.SettingsGetInt("AudioMuteOn" .. str) > 0)
+end
+
+local shouldMuteMusicOn = function(str)
+	return not audioSettings.lastMusicMuted and (Engine.SettingsGetInt("AudioMuteOn" .. str) > 1)
+end
+
+ui.Events.Register("onGamePaused", function()
+	print("ui.Events.onGamePaused")
+
+	audioSettings.lastEffectsMuted = Engine.GetEffectsMuted()
+	audioSettings.lastMusicMuted = Engine.GetMusicMuted()
+
+	if shouldMuteEffectsOn("Pause") then
+		Engine.SetEffectsMuted(true)
+	end
+	if shouldMuteMusicOn("Pause") then
+		Engine.SetMusicMuted(true)
+	end
+end)
+
+ui.Events.Register("onGameResumed", function()
+	print("ui.Events.onGameResumed")
+
+	if shouldMuteEffectsOn("Pause") then
+		Engine.SetEffectsMuted(false)
+	end
+	if shouldMuteMusicOn("Pause") then
+		Engine.SetMusicMuted(false)
+	end
+end)
+
+local isEffectsAutoPaused = function()
+	return Game.paused and Engine.SettingsGetInt("AudioMuteOnPause") > 0
+end
+local isMusicAutoPaused = function()
+	return Game.paused and Engine.SettingsGetInt("AudioMuteOnPause") > 1
+end
+
+ui.Events.Register("onFocusLost", function()
+	local isPaused = Game.paused
+	local muteOnPause = Engine.SettingsGetInt("AudioMuteOnPause")
+	if not (isPaused and muteOnPause > 0) then
+		audioSettings.lastEffectsMuted = Engine.GetEffectsMuted()
+	end
+	if not (isPaused and muteOnPause > 1) then
+		audioSettings.lastMusicMuted = Engine.GetMusicMuted()
+	end
+
+	if shouldMuteEffectsOn("Focus") then
+		Engine.SetEffectsMuted(true)
+	end
+	if shouldMuteMusicOn("Focus") then
+		Engine.SetMusicMuted(true)
+	end
+end)
+
+ui.Events.Register("onFocusGained", function()
+	local isPaused = Game.paused
+	local muteOnPause = Engine.SettingsGetInt("AudioMuteOnPause")
+
+	-- Don't un-mute on gained focus if the game is paused and mute-on-pause is set
+	if not (isPaused and (muteOnPause > 0)) and shouldMuteEffectsOn("Focus") then
+		Engine.SetEffectsMuted(false)
+	end
+	if not (isPaused and (muteOnPause > 1)) and shouldMuteMusicOn("Focus") then
+		Engine.SetMusicMuted(false)
+	end
 end)
 
 ui.registerHandler('game', function(delta_t)
