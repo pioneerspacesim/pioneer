@@ -3,9 +3,28 @@
 
 local Rand       = require 'Rand'
 local Game       = require 'Game'
+local Json       = require 'Json'
 local Serializer = require 'Serializer'
-local utils      = require 'utils'
 local Engine     = require 'Engine'
+local utils      = require 'utils'
+
+local Conditions = require 'Economy.Conditions'
+local Industry   = require 'Economy.Industry'
+
+--
+-- Interface: Economy
+--
+-- This interface is reponsible for maintaining the game's economic simulation.
+-- It models economies at the levels of individual starports, representing them
+-- as a collection of <Industries> which inform the supply and demand values
+-- of the local economy.
+--
+-- Any commodities which are not produced at a station are first sourced from
+-- the "local neighborhood"; commodities not produced locally are assumed to
+-- be imported from distant planets or via interstellar trade.
+--
+
+local AU = 149598000000
 
 ---@class Economy
 local Economy = package.core['Economy']
@@ -17,6 +36,10 @@ local Economy = package.core['Economy']
 -- Determines how far a commodity's price can be perturbed from the system-wide
 -- average price at an individual station
 local kMaxCommodityVariance = 15
+
+-- Amount pricemod is increased for a local surplus or deficit
+-- pricemod is computed as pricemod + variance * (ln(supply) - supply_flow)
+-- local kSurplusDeficitVariance = 20
 
 local Economies = {}
 local Commodities = Economy.GetCommodities()
@@ -42,7 +65,433 @@ Economy.BaseResellPriceModifier = 0.8
 -- the player has visited in their journey
 local stationMarket = {}
 
+---@class Economy.EconomyDef
+---@field industries string[]
+---@field tags table<string, boolean>
+---@field supply table<string, integer>
+---@field demand table<string, integer>
+
+---@class Economy.SupplyGroup
+---@field primary SystemPath
+---@field supply table<string, integer>
+---@field starports SystemPath[]
+
+-- cache of deterministic station economies
+---@type table<SystemPath, Economy.EconomyDef>
+local economyCache = {}
+
+-- cache of locally-available supply amounts by starport path
+---@type table<SystemPath, Economy.SupplyGroup>
+local neighborhoodCache = {}
+
+-- cache of station groups which participate in local supply trading
+-- top-level index is path to system, second-level index is body path
+---@type table<SystemPath, table<SystemPath, Economy.SupplyGroup>>
+local supplyGroupCache = utils.automagic()
+
+-- persistent cache of local modifiers to station trade
+---@type table<SystemPath, { supply: table<string, number>, demand: table<string, number>, stock: table<string, number> }>
+local persistentMarket = {}
+
+local sEmptyMarket = {
+	supply = {},
+	demand = {},
+	stock = {},
+}
+
+local populationDef = Industry.NewIndustry("population", Json.LoadJson('economy/population.json'))
+
 local affinityCache = {}
+
+--=============================================================================
+
+-- Convert a commodity flow magnitude to a quantity in cargo units
+local function flowToAmount(mag)
+	return math.ceil(math.exp(2 + mag))
+end
+
+-- Convert the inverse (flow magnitude) of a commodity amount in cargo units
+local function invFlow(amount)
+	return amount > 0 and math.log(amount) - 2 or 0
+end
+
+--=============================================================================
+-- New Economy
+--=============================================================================
+
+-- TODO
+-- Commodity prices are based on current distribution between demand/supply, which can be altered by selling to the market.
+-- Consistently buying from the market can lower the effective supply value for a time (beyond transient restocks)
+-- Don't keep a timestamp, instead have the "history" value decay at a rate 1/e of commodity restock
+-- Remove demand limit at stations; selling goods increases transient supply > demand, which affects commodity prices.
+
+
+-- Function: PrecacheSystem
+--
+-- Generate economies and cached values for the spaceports in the given star system.
+-- Use <ReleaseCachedSystem> to retire cached values.
+--
+---@param system StarSystem
+function Economy.PrecacheSystem(system)
+	local _end = utils.profile("Economy.PrecacheSystem(\"{name}\")" % system)
+
+	local starports = utils.map_array(system:GetStationPaths(), function(path) return path:GetSystemBody() end)
+
+	for _, sbody in ipairs(starports) do
+		Economy.GenerateStationEconomy(sbody)
+	end
+
+	for _, sbody in ipairs(starports) do
+		if not neighborhoodCache[sbody.path] then
+			Economy.GenerateSupplyNeighborhood(sbody)
+		end
+	end
+
+	_end()
+end
+
+-- Function: ReleaseCachedSystem
+--
+-- Remove the starports of the given system from the economy's caches.
+-- Should be used when leaving a system or closing a view of a remote system.
+--
+---@param system StarSystem
+function Economy.ReleaseCachedSystem(system)
+
+	local paths = system:GetStationPaths()
+
+	for _, path in ipairs(paths) do
+		economyCache[path] = nil
+		neighborhoodCache[path] = nil
+	end
+
+	supplyGroupCache[system.path] = nil
+
+end
+
+-- Function: Economy.GetStationEconomy2
+--
+-- Return or create the deterministic EconomyDef for the given station.
+--
+-- Status: Experimental
+---@param sbody SystemBody
+---@return Economy.EconomyDef
+function Economy.GetStationEconomy2(sbody)
+	if economyCache[sbody.path] then
+		return economyCache[sbody.path]
+	end
+
+	return Economy.GenerateStationEconomy(sbody)
+end
+
+-- Function: GenerateStationEconomy
+--
+-- Compute the list of station industries for the given station SystemBody,
+-- creating and caching the EconomyDef for that station.
+---@param sbody SystemBody
+---@return Economy.EconomyDef
+function Economy.GenerateStationEconomy(sbody)
+	-- local _p = utils.profile("Economy.GenerateStationEconomy(\"{name}\")" % sbody)
+	assert(sbody.superType == "STARPORT")
+
+	local conditions = Economy.ComputeStationConditions(sbody)
+	local size = Economy.GetStationSizeClass(sbody)
+	local rand = Rand.New(sbody.seed)
+
+	-- Generate the supply/demand values for the station's population
+	-- Each supply/demand number is scaled by the size class of the station.
+	local supply, demand = Industry.ComputeModifiers(populationDef, conditions)
+	local pop_scale = size - 1
+
+	for comm, amt in pairs(supply) do
+		supply[comm] = amt + pop_scale
+	end
+
+	for comm, amt in pairs(demand) do
+		demand[comm] = amt + pop_scale
+	end
+
+	local economy = {}
+
+	economy.tags = conditions
+	economy.industries, economy.supply, economy.demand = Industry.GenerateIndustries(sbody, conditions, size, rand, supply, demand)
+
+	economyCache[sbody.path] = economy
+
+	-- _p()
+	return economy
+end
+
+-- Function: ComputeStationConditions
+--
+-- Compute the list of condition tags affecting this particular station and
+-- return it.
+--
+-- This function is not particularly fast and the result should be cached if
+-- it is intended to be accessed multiple times.
+---@param sbody SystemBody
+---@return table<string, boolean> tags
+function Economy.ComputeStationConditions(sbody)
+	local conditions = Conditions.Evaluate(sbody.system)
+
+	Conditions.Evaluate(sbody.parent, conditions)
+	Conditions.Evaluate(sbody, conditions)
+
+	return conditions
+end
+
+-- Function: GetStationSizeClass
+--
+-- Compute a station's "size class", AKA the logarithm of its population size.
+---@param sbody SystemBody
+function Economy.GetStationSizeClass(sbody)
+	local popThousands = sbody.population * 1000000
+	return math.max(1, math.ceil(math.log(popThousands, 10)))
+end
+
+-- Function: GetCommodityFlowParams
+--
+-- Returns the raw supply and demand flow values for a station's economy,
+-- with no effects from transient events or supply neighborhood being applied.
+--
+---@param sbody SystemBody
+---@param commodityId string
+function Economy.GetCommodityFlowParams(sbody, commodityId)
+	local econ = Economy.GetStationEconomy2(sbody)
+	return econ.supply[commodityId] or 0, econ.demand[commodityId] or 0
+end
+
+-- Function: GetLocalSupply
+--
+-- Return the flow value of the given commodity present in the local "supply
+-- neighborhood" for the given station.
+--
+---@param sbody SystemBody
+---@param commodityId string
+function Economy.GetLocalSupply(sbody, commodityId)
+	if not neighborhoodCache[sbody.path] then
+		Economy.GenerateSupplyNeighborhood(sbody)
+	end
+
+	return neighborhoodCache[sbody.path].supply[commodityId] or 0
+end
+
+-- Function: GenerateSupplyNeighborhood
+--
+-- Traverse the local environs of this system body to determine the "supply
+-- neighborhood"; the local network of stations exporting goods to each other.
+--
+---@param sbody SystemBody
+function Economy.GenerateSupplyNeighborhood(sbody)
+	local supply = {}
+	local starports = {}
+
+	local group = {
+		supply = supply,
+		starports = starports
+	}
+
+	---@param sbody SystemBody
+	local function traverse_econ(sbody)
+
+		for _, child in ipairs(sbody.children) do
+
+			if child.superType == "STARPORT" then
+
+				table.insert(starports, child.path)
+
+				local econ = Economy.GetStationEconomy2(child)
+
+				for id, produced in pairs(econ.supply) do
+
+					if (econ.demand[id] or 0) <= produced then
+						supply[id] = math.max(supply[id] or 0, produced)
+					end
+
+				end
+
+				neighborhoodCache[child.path] = group
+
+			elseif (child.apoapsis + child.periapsis) * 0.5 < AU * 0.01 then
+
+				traverse_econ(child)
+
+			end
+
+		end
+
+	end
+
+	-- Start with this station's parent, and go up the tree until the distance to parent is > 0.01 AU
+	local primary = assert(sbody.parent)
+
+	while primary.parent and (primary.apoapsis + primary.periapsis) * 0.5 < AU * 0.01 do
+		primary = assert(primary.parent)
+	end
+
+	group.primary = primary
+	traverse_econ(primary)
+
+	supplyGroupCache[sbody.system.path][primary.path] = group
+end
+
+-- Function: GetSupplyGroupForStation
+--
+-- Return the local supply neighborhood for the passed station.
+-- Will return nil if the station hasn't been cached with <PrecacheSystem>.
+function Economy.GetSupplyGroupForStation(sbody)
+	return neighborhoodCache[sbody.path]
+end
+
+-- Function: GetSupplyGroups
+--
+-- Get the set of local "supply neighborhoods" for the passed system.
+-- Each supply neighborhood is a group of starports under a primary SystemBody
+-- which are within economic export range of each other.
+--
+-- Interplanetary or interstellar trade is likely to take place between
+-- different supply groups, and this information can be used to determine
+-- where start and end points are for trade networks.
+--
+-- Note that no values will be returned unless <PrecacheSystem> has been called
+-- prior for the passed system.
+function Economy.GetSupplyGroups(system)
+	return supplyGroupCache[system.path]
+end
+
+-- Function: GetCommodityPriceMod
+--
+-- Returns the instantaneous price modifier for the given commodity at this station.
+-- This price modifier is affected by the player's trade history, as well as local
+-- events near the station which affect the supply / demand / import transient modifiers.
+--
+-- Parameters:
+--
+--    sbody - SystemBody, the station to compute the price modifier for.
+--    commodityId - string, the id of the commodity to compute the price modifier for.
+--
+-- Returns:
+--
+--    pricemod - number, percentage modification of the commodity price.
+--
+---@param sbody SystemBody
+---@param commodityId string
+function Economy.GetCommodityPriceMod(sbody, commodityId)
+	local supply_flow, demand_flow = Economy.GetCommodityFlowParams(sbody, commodityId)
+	local local_supply = Economy.GetLocalSupply(sbody, commodityId)
+
+	local persist = persistentMarket[sbody.path] or sEmptyMarket
+
+	local rand = Rand.New(sbody.seed .. "-econ-state")
+
+	-- TODO: approximation of an instantaneous supply value via random walks
+	-- TODO: approximation of an instantaneous demand value
+	-- TODO: connect transient supply value to trade history / events
+
+	-- NOTE: this is not the current commodity stock value, but rather the persistent supply
+	-- adjusted for the effects of repeated purchases and local events
+	local supply = math.ceil(flowToAmount(supply_flow) * rand:Normal(1.0, 0.1)) -- persist.supply[commodityId]
+	local demand = math.ceil(flowToAmount(demand_flow) * rand:Normal(1.0, 0.2)) -- persist.demand[commodityId]
+
+	-- TODO: approximation of instantaneous import satisfaction based on import capacity
+	local imported = math.max(demand - supply, 0)
+	local nearby_import = math.min(imported, flowToAmount(local_supply))
+
+	local est_max_flow = Economy.GetMaxFlowForPrice(Commodities[commodityId].price)
+
+	-- TODO: handle surplus (greater supply than interstellar export capacity)
+	-- TODO: handle deficit (greater demand than interstellar import capacity)
+
+	if supply >= demand then
+		return math.clamp(invFlow(supply - demand) / est_max_flow, 0, 1)^2 * -kMaxCommodityVariance
+	else
+		local pricemod = math.clamp(invFlow(imported) / est_max_flow, 0, 1) * kMaxCommodityVariance
+		-- scale price based on proportion of imported goods available nearby; 1x at fully imported,
+		-- 0.5x when all demand is sourced from nearby starports
+		return pricemod * (1.0 - nearby_import / (imported * 2))
+	end
+end
+
+-- Function: GetMaxFlowForPrice
+--
+-- Returns the maximum "estimated flow" for a commodity based on its price.
+-- This function is used to relate commodity stock/demand values to price modifiers.
+--
+-- Parameters:
+--
+--    price - number, price of the commodity to estimate.
+--
+-- Returns:
+--
+--    flow - number, estimated maximim flow for the commodity
+--
+---@param price number
+function Economy.GetMaxFlowForPrice(price)
+	-- This is a set of magic numbers which relates (most) of our commodity prices
+	-- to expected flow values.
+	return 30 / math.log(math.abs(price) + 7.38)
+end
+
+-- Function: GetCommodityStockEquilibrium
+--
+-- Returns the equilibrium (maximum) stocking of a commodity at this station.
+--
+-- This computes the maximum amount of commodity stock available from station
+-- arbitrage brokers under equilibrium conditions.
+-- The result should be modified by a small random factor to determine actual
+-- commodity stock numbers to avoid visible "sameness".
+--
+-- This function does not yet take into account transient supply modifiers from
+-- events or player actions.
+--
+-- Parameters:
+--
+--    sbody - SystemBody, the station for which to compute the equilibrium
+--    commodityId - string, the id of the commodity in question
+--
+-- Returns:
+--
+--    equilibrium - number, total commodity stock expected to be present at this station
+--
+---@param sbody SystemBody
+---@param commodityId string
+function Economy.GetCommodityStockEquilibrium(sbody, commodityId)
+	local econ = Economy.GetStationEconomy2(sbody)
+
+	local supply = econ.supply[commodityId] or 0
+	local demand = econ.demand[commodityId] or 0
+
+	local supply_amt = flowToAmount(supply)
+	local demand_amt = flowToAmount(demand)
+
+	if supply > demand then
+
+		-- We produce more than we consume; the full production is available on the market (no imports)
+		return supply_amt - demand_amt
+
+	elseif supply > 0 and supply == demand then
+
+		-- We produce in equilibrium with our consumption; goods are priced right about market rates
+		-- and we have half our production value available for purchase from the market.
+		return supply_amt * 0.5
+
+	else
+
+		local local_supply = Economy.GetLocalSupply(sbody, commodityId)
+		local local_import = flowToAmount(local_supply) - supply_amt
+
+		-- Compute a "fudge" number determining how many commodities are floating around in station arbitrage
+		-- for a desparate pilot to purchase at above-market rates.
+		-- Any station with indigenous production will have more goods available at any one time,
+		-- and stock will scale with nearby supply and local demand.
+		return (supply_amt + (demand_amt + local_import) * 0.5) * math.exp(-1)
+
+	end
+end
+
+--=============================================================================
+-- Old Economy
+--=============================================================================
 
 -- Function: GetStationEconomy
 --
