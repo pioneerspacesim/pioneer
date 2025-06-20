@@ -72,7 +72,34 @@ local hasAutopilotLevel = function(level)
 	return (Game.player["autopilot_cap"] or 0) >= level
 end
 
--- TODO: add cloud Lang::SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
+local radial_menu_actions_hyperspace_cloud = {
+	{
+		icon = ui.theme.icons.hyperspace,
+		tooltip = lc.SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE,
+		action = function(target)
+			local hypercloud_level = (Game.player["hypercloud_analyzer_cap"] or 0)
+			local ship = not target:IsArrival() and target:GetShip()
+			if hypercloud_level > 0 then
+				-- implicitly drops second return value of GetHyperspaceDestination() when using this "and" construct
+				local destPath = ship and ship:GetHyperspaceDestination()
+				if destPath then
+					local target = destPath:IsBodyPath() and destPath:GetSystemBody().nearestJumpable.path or destPath:GetStarSystem().path
+					Game.player:SetHyperspaceTarget(target)
+					Game.sectorView:ClearRoute()
+					Game.sectorView:AddToRoute(target)
+					-- FIXME: lazy-require here due to insufficient event handling around hyperjump route management.
+					require 'pigui.modules.hyperjump-planner'.updateRouteList()
+					Game.sectorView:SwitchToPath(target)
+					ui.playSfx("OK")
+				end
+			else
+				Game.AddCommsLogLine(lc.NO_HYPERCLOUD_SCANNER_INSTALLED)
+			end
+		end
+
+	}
+}
+
 local radial_menu_actions_station = {
 	{
 		icon=ui.theme.icons.comms, tooltip=lc.REQUEST_DOCKING_CLEARANCE,
@@ -164,6 +191,10 @@ function ui.openDefaultRadialMenu(id, body, pos, action_binding)
 		end
 		if body:IsStation() then
 			for _,v in pairs(radial_menu_actions_station) do
+				table.insert(actions, v)
+			end
+		elseif body:IsHyperspaceCloud() then
+			for _,v in pairs(radial_menu_actions_hyperspace_cloud) do
 				table.insert(actions, v)
 			end
 		elseif body:GetSystemBody() then
