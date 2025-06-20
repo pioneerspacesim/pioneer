@@ -131,9 +131,6 @@ public:
 	// Call immediately after processing events, dispatches events to Action / Axis bindings.
 	void DispatchEvents();
 
-	// When enable is false, this prevents the input system from writing to the config file.
-	void EnableConfigSaving(bool enable) { m_enableConfigSaving = enable; }
-
 	BindingPage *GetBindingPage(const std::string &id) { return &bindingPages[id]; }
 	const std::map<std::string, BindingPage>& GetBindingPages() const { return bindingPages; }
 
@@ -235,7 +232,6 @@ private:
 
 	SDL_Window *m_window;
 	IniConfig *m_config;
-	bool m_enableConfigSaving;
 
 	std::map<SDL_Keycode, uint8_t> keyState;
 	int keyModState;

@@ -60,6 +60,8 @@ public:
 	bool HasEntry(const std::string &key) const { return HasEntry("", key); }
 	SectionMapType &GetSections() { return m_map; }
 
+	bool HasUnsavedChanges() const { return m_unsaved; }
+
 protected:
 	void Read(const FileSystem::FileData &data);
 
@@ -67,6 +69,7 @@ protected:
 
 	FileSystem::FileSourceFS *m_fs = nullptr;
 	std::string m_path;
+	bool m_unsaved = false;
 };
 
 #endif /* _INICONFIG_H */

@@ -375,7 +375,7 @@ InputBindings::Action *Manager::AddActionBinding(const std::string &id, BindingG
 	group->bindings[id] = BindingGroup::ENTRY_ACTION;
 
 	// Load from the config
-	std::string config_str = m_config->String(id.c_str());
+	std::string config_str = m_config->String("Input", id.c_str());
 	if (!config_str.empty()) {
 		std::string_view str(config_str);
 		str >> binding;
@@ -393,7 +393,7 @@ InputBindings::Axis *Manager::AddAxisBinding(const std::string &id, BindingGroup
 	group->bindings[id] = BindingGroup::ENTRY_AXIS;
 
 	// Load from the config
-	std::string config_str = m_config->String(id.c_str());
+	std::string config_str = m_config->String("Input", id.c_str());
 	if (!config_str.empty()) {
 		std::string_view str(config_str);
 		str >> binding;
@@ -502,19 +502,13 @@ float Manager::JoystickAxisState(int joystick, int axis)
 void Manager::SetJoystickEnabled(bool state)
 {
 	joystickEnabled = state;
-	if (m_enableConfigSaving) {
-		m_config->SetInt("EnableJoystick", joystickEnabled);
-		m_config->Save();
-	}
+	m_config->SetInt("EnableJoystick", joystickEnabled);
 }
 
 void Manager::SetMouseYInvert(bool state)
 {
 	mouseYInvert = state;
-	if (m_enableConfigSaving) {
-		m_config->SetInt("InvertMouseY", mouseYInvert);
-		m_config->Save();
-	}
+	m_config->SetInt("InvertMouseY", mouseYInvert);
 }
 
 void Manager::GetMousePosition(int position[2])

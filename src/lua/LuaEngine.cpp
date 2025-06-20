@@ -325,7 +325,6 @@ static int l_engine_set_video_resolution(lua_State *l)
 	const int height = luaL_checkinteger(l, 2);
 	Pi::config->SetInt("ScrWidth", width);
 	Pi::config->SetInt("ScrHeight", height);
-	Pi::config->Save();
 	return 0;
 }
 
@@ -377,7 +376,6 @@ static int l_engine_set_fullscreen(lua_State *l)
 		return luaL_error(l, "SetFullscreen takes one boolean argument");
 	const bool fullscreen = lua_toboolean(l, 1);
 	Pi::config->SetInt("StartFullscreen", (fullscreen ? 1 : 0));
-	Pi::config->Save();
 	return 0;
 }
 
@@ -486,6 +484,13 @@ static int l_engine_settings_set_string(lua_State *l)
 	return 0;
 }
 
+static int l_engine_save_settings(lua_State *l)
+{
+	if (Pi::config->HasUnsavedChanges())
+		Pi::config->Save();
+	return 0;
+}
+
 static int l_engine_get_disable_screenshot_info(lua_State *l)
 {
 	LuaPush<bool>(l, Pi::config->Int("DisableScreenshotInfo") != 0);
@@ -498,7 +503,6 @@ static int l_engine_set_disable_screenshot_info(lua_State *l)
 		return luaL_error(l, "SetDisableScreenshotInfo takes one boolean argument");
 	const bool disable = LuaPull<bool>(l, 1);
 	Pi::config->SetInt("DisableScreenshotInfo", (disable ? 1 : 0));
-	Pi::config->Save();
 	return 0;
 }
 static int l_engine_get_vsync_enabled(lua_State *l)
@@ -514,7 +518,6 @@ static int l_engine_set_vsync_enabled(lua_State *l)
 
 	const bool vsync = lua_toboolean(l, 1);
 	Pi::config->SetInt("VSync", (vsync ? 1 : 0));
-	Pi::config->Save();
 
 	Pi::renderer->SetVSyncEnabled(vsync);
 	return 0;
@@ -532,7 +535,6 @@ static int l_engine_set_texture_compression_enabled(lua_State *l)
 		return luaL_error(l, "SetTextureCompressionEnabled takes one boolean argument");
 	const bool enabled = lua_toboolean(l, 1);
 	Pi::config->SetInt("UseTextureCompression", (enabled ? 1 : 0));
-	Pi::config->Save();
 	return 0;
 }
 
@@ -546,7 +548,6 @@ static int l_engine_set_multisampling(lua_State *l)
 {
 	const int samples = luaL_checkinteger(l, 1);
 	Pi::config->SetInt("AntiAliasingMode", samples);
-	Pi::config->Save();
 	return 0;
 }
 
@@ -562,7 +563,6 @@ static int l_engine_set_planet_detail_level(lua_State *l)
 	if (level != Pi::detail.planets) {
 		Pi::detail.planets = level;
 		Pi::config->SetInt("DetailPlanets", level);
-		Pi::config->Save();
 		Pi::OnChangeDetailLevel();
 	}
 	return 0;
@@ -580,7 +580,6 @@ static int l_engine_set_city_detail_level(lua_State *l)
 	if (level != Pi::detail.cities) {
 		Pi::detail.cities = level;
 		Pi::config->SetInt("DetailCities", level);
-		Pi::config->Save();
 		Pi::OnChangeDetailLevel();
 	}
 	return 0;
@@ -598,7 +597,6 @@ static int l_engine_set_display_nav_tunnels(lua_State *l)
 		return luaL_error(l, "SetDisplayNavTunnels takes one boolean argument");
 	const bool enabled = lua_toboolean(l, 1);
 	Pi::config->SetInt("DisplayNavTunnel", (enabled ? 1 : 0));
-	Pi::config->Save();
 	Pi::SetNavTunnelDisplayed(enabled);
 	return 0;
 }
@@ -615,7 +613,6 @@ static int l_engine_set_display_speed_lines(lua_State *l)
 		return luaL_error(l, "SetDisplaySpeedLines takes one boolean argument");
 	const bool enabled = lua_toboolean(l, 1);
 	Pi::config->SetInt("SpeedLines", (enabled ? 1 : 0));
-	Pi::config->Save();
 	Pi::SetSpeedLinesDisplayed(enabled);
 	return 0;
 }
@@ -632,7 +629,6 @@ static int l_engine_set_cockpit_enabled(lua_State *l)
 		return luaL_error(l, "SetCockpitEnabled takes one boolean argument");
 	const bool enabled = lua_toboolean(l, 1);
 	Pi::config->SetInt("EnableCockpit", (enabled ? 1 : 0));
-	Pi::config->Save();
 	if (Pi::player) {
 		Pi::player->InitCockpit();
 		if (enabled) Pi::player->OnCockpitActivated();
@@ -652,7 +648,6 @@ static int l_engine_set_aniso_enabled(lua_State *l)
 		return luaL_error(l, "SetAnisoEnabled takes one boolean argument");
 	const bool enabled = lua_toboolean(l, 1);
 	Pi::config->SetInt("UseAnisotropicFiltering", (enabled ? 1 : 0));
-	Pi::config->Save();
 	return 0;
 }
 
@@ -668,7 +663,6 @@ static int l_engine_set_autosave_enabled(lua_State *l)
 		return luaL_error(l, "SetAutosaveEnabled takes one boolean argument");
 	const bool enabled = lua_toboolean(l, 1);
 	Pi::config->SetInt("EnableAutosave", (enabled ? 1 : 0));
-	Pi::config->Save();
 	return 0;
 }
 static int l_engine_get_reset_view_on_hyperspace_exit(lua_State *l)
@@ -683,7 +677,6 @@ static int l_engine_set_reset_view_on_hyperspace_exit(lua_State *l)
 		return luaL_error(l, "SetResetViewOnHyperspaceExit takes one boolean argument");
 	const bool enabled = lua_toboolean(l, 1);
 	Pi::config->SetInt("ResetViewOnHyperspaceExit", (enabled ? 1 : 0));
-	Pi::config->Save();
 	return 0;
 }
 
@@ -699,7 +692,6 @@ static int l_engine_set_display_hud_trails(lua_State *l)
 		return luaL_error(l, "SetDisplayHudTrails takes one boolean argument");
 	const bool enabled = lua_toboolean(l, 1);
 	Pi::config->SetInt("HudTrails", (enabled ? 1 : 0));
-	Pi::config->Save();
 	Pi::SetHudTrailsDisplayed(enabled);
 	return 0;
 }
@@ -708,7 +700,6 @@ static int l_engine_set_amount_stars(lua_State *l)
 {
 	const float amount = Clamp(luaL_checknumber(l, 1), 0.0, 1.0);
 	Pi::config->SetFloat("AmountOfBackgroundStars", amount);
-	Pi::config->Save();
 	Pi::SetAmountBackgroundStars(amount);
 	return 0;
 }
@@ -723,7 +714,6 @@ static int l_engine_set_star_field_star_size_factor(lua_State *l)
 {
 	const float amount = Clamp(luaL_checknumber(l, 1), 0.0, 1.0);
 	Pi::config->SetFloat("StarFieldStarSizeFactor", amount);
-	Pi::config->Save();
 	Pi::SetStarFieldStarSizeFactor(amount);
 	return 0;
 }
@@ -740,7 +730,6 @@ static void set_master_volume(const bool muted, const float volume)
 	Sound::SetMasterVolume(volume);
 	Pi::config->SetFloat("MasterVolume", volume);
 	Pi::config->SetInt("MasterMuted", muted ? 1 : 0);
-	Pi::config->Save();
 }
 
 static void set_effects_volume(const bool muted, const float volume)
@@ -748,7 +737,6 @@ static void set_effects_volume(const bool muted, const float volume)
 	Sound::SetSfxVolume(muted ? 0.0f : volume);
 	Pi::config->SetFloat("SfxVolume", volume);
 	Pi::config->SetInt("SfxMuted", muted ? 1 : 0);
-	Pi::config->Save();
 }
 
 static void set_music_volume(const bool muted, const float volume)
@@ -757,7 +745,6 @@ static void set_music_volume(const bool muted, const float volume)
 	Pi::GetMusicPlayer().SetVolume(volume);
 	Pi::config->SetFloat("MusicVolume", volume);
 	Pi::config->SetInt("MusicMuted", muted ? 1 : 0);
-	Pi::config->Save();
 }
 
 static int l_engine_get_master_muted(lua_State *l)
@@ -856,7 +843,6 @@ static int l_engine_set_gpu_jobs_enabled(lua_State *l)
 		return luaL_error(l, "SetGpuJobsEnabled takes one boolean argument");
 	const bool enabled = lua_toboolean(l, 1);
 	Pi::config->SetInt("EnableGPUJobs", (enabled ? 1 : 0));
-	Pi::config->Save();
 	return 0;
 }
 
@@ -871,7 +857,6 @@ static int l_engine_set_realistic_scattering(lua_State *l)
 	const int scattering = luaL_checkinteger(l, 1);
 	if (scattering != Pi::config->Int("RealisticScattering")) {
 		Pi::config->SetInt("RealisticScattering", scattering);
-		Pi::config->Save();
 		Pi::OnChangeDetailLevel();
 	}
 	return 0;
@@ -1123,7 +1108,6 @@ static int l_engine_set_confirm_quit(lua_State *l)
 		return luaL_error(l, "ConfirmQuit takes one boolean argument");
 	const bool confirm = lua_toboolean(l, 1);
 	Pi::config->SetInt("ConfirmQuit", (confirm ? 1 : 0));
-	Pi::config->Save();
 	return 0;
 }
 
@@ -1177,6 +1161,8 @@ void LuaEngine::Register()
 		{ "SettingsSetInt", l_engine_settings_set_int },
 		{ "SettingsSetFloat", l_engine_settings_set_number },
 		{ "SettingsSetString", l_engine_settings_set_string },
+
+		{ "SaveSettings", l_engine_save_settings },
 
 		{ "GetVideoModeList", l_engine_get_video_mode_list },
 		{ "GetMaximumAASamples", l_engine_get_maximum_aa_samples },
