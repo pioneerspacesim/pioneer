@@ -1,0 +1,125 @@
+{
+	"circuit_fabrication": {
+		"l10n_key": "COMPUTER_FABRICATION",
+		"conditions": [],
+		"inputs": {
+			"metal_alloys": 4,
+			"plastics": 4,
+			"industrial_machinery": 3
+		},
+		"outputs": {
+			"computers": 4,
+			"robots": 2
+		},
+		"workforce": 4
+	},
+	"orbital_assembly": {
+		"l10n_key": "ZERO_G_ASSEMBLY",
+		"context": "orbital",
+		"conditions": [],
+		"inputs": {
+			"metal_alloys": 5,
+			"plastics": 4,
+			"industrial_machinery": 4,
+			"precious_metals": 2,
+			"computers": 3
+		},
+		"outputs": {
+			"robots": 4,
+			"air_processors": 3,
+			"battle_weapons": 3
+		},
+		"workforce": 5
+	},
+	"orbital_gas_refining": {
+		"l10n_key": "ZERO_G_GAS_REFINING",
+		"context": "orbital",
+		"conditions_any": [ "ice_moderate", "gas_giant" ],
+		"inputs": {
+			"water": 7
+		},
+		"outputs": {
+			"hydrogen": 7,
+			"liquid_oxygen": 5
+		},
+		"modifiers": {
+			"ice_abundant": [ "i:water+1", "o:*+1" ]
+		},
+		"workforce": 4
+	},
+	"mil_refinery": {
+		"l10n_key": "MILITARY_REFINING",
+		"context": "orbital",
+		"inputs": {
+			"hydrogen": 6,
+			"water": 6,
+			"radioactives": 3,
+			"industrial_machinery": 3
+		},
+		"outputs": {
+			"military_fuel": 6,
+			"plastics": 3,
+			"nerve_gas": 3
+		},
+		"workforce": 5
+	},
+	"orbital_lab": {
+		"l10n_key": "ORBITAL_LABORATORY",
+		"context": "orbital",
+		"conditions": [ "!lawless" ],
+		"inputs": {
+			"computers": 3,
+			"grain": 3,
+			"robots": 2,
+			"plastics": 1,
+			"industrial_machinery": 3
+		},
+		"outputs": {
+			"medicine": 3,
+			"narcotics": 3,
+			"animal_meat": 3
+		},
+		"modifiers": {
+			"rare_microbial_life": [ "o:medicine+1", "o:narcotics+1" ],
+			"biosphere_rich": [ "o:animal_meat+1" ]
+		}
+	},
+	"drug_lab": {
+		"l10n_key": "DRUG_LABORATORY",
+		"conditions": [ "lawless" ],
+		"inputs": {
+			"grain": 4,
+			"fruit_and_veg": 3,
+			"plastics": 1,
+			"industrial_machinery": 1
+		},
+		"outputs": {
+			"liquor": 3,
+			"narcotics": 3,
+			"nerve_gas": 2,
+			"medicines": 1
+		},
+		"modifiers": {
+			"rare_microbial_life": [ "o:narcotics+1", "o:medicines+1" ]
+		},
+		"workforce": 2
+	},
+	"recycling": {
+		"l10n_key": "RECYCLING_PLANT",
+		"inputs": {
+			"rubbish": 6,
+			"liquid_oxygen": 4,
+			"water": 5,
+			"industrial_machinery": 4,
+			"robots": 3
+		},
+		"outputs": {
+			"plastics": 4,
+			"metal_alloys": 4,
+			"textiles": 3,
+			"computers": 2,
+			"precious_metals": 1
+		},
+		"workforce": 4
+	}
+}

@@ -1,0 +1,85 @@
+{
+	"ore_mine": {
+		"l10n_key": "ORE_MINING",
+		"context": "surface",
+		"conditions": [ "metal_moderate" ],
+		"inputs": {
+			"mining_machinery": 3,
+			"air_processors": 2,
+			"narcotics": 4
+		},
+		"outputs": {
+			"metal_ore": 6,
+			"carbon_ore": 4
+		},
+		"modifiers": {
+			"metal_abundant": [ "i:mining_machinery+1", "o:metal_ore+1" ],
+			"rare_metals": [ "o:metal_ore+1" ],
+			"carbon_ores_rich": [ "o:carbon_ore+2" ],
+			"atmos_airless": [ "i:air_processors+2" ],
+			"atmos_tenuous": [ "i:air_processors+1" ],
+			"planet_asteroid": [ "o:metal_ore-1"]
+		},
+		"workforce": 4
+	},
+	"carbon_mine": {
+		"l10n_key": "CARBON_ORE_MINING",
+		"context": "surface",
+		"conditions": [ "carbon_ores" ],
+		"inputs": {
+			"mining_machinery": 4,
+			"air_processors": 2,
+			"narcotics": 4
+		},
+		"outputs": {
+			"metal_ore": 2,
+			"carbon_ore": 7
+		},
+		"modifiers": {
+			"carbon_ores_rich": [ "o:carbon_ore+1" ],
+			"metal_moderate": [ "o:metal_ore+3" ],
+			"atmos_airless": [ "i:air_processors+2" ],
+			"planet_asteroid": [ "o:carbon_ore-1" ]
+		},
+		"workforce": 4
+	},
+	"ice_mine": {
+		"l10n_key": "SURFACE_ICE_MINING",
+		"context": "surface",
+		"conditions": [ "ice_moderate" ],
+		"inputs": {
+			"mining_machinery": 3,
+			"air_processors": 2,
+			"narcotics": 4
+		},
+		"outputs": {
+			"water": 8,
+			"hydrogen": 8,
+			"liquid_oxygen": 6
+		},
+		"modifiers": {
+			"ice_abundant": [ "o:*+1" ],
+			"atmos_airless": [ "i:air_processors+2" ],
+			"planet_asteroid": [ "o:*-1"]
+		},
+		"workforce": 4
+	},
+	"gas_giant_extraction": {
+		"l10n_key": "GAS_GIANT_EXTRACTION",
+		"context": "orbital",
+		"conditions": [ "gas_giant" ],
+		"inputs": {
+			"mining_machinery": 4,
+			"air_processors": 4,
+			"narcotics": 3
+		},
+		"outputs": {
+			"hydrogen": 9,
+			"liquid_oxygen": 5
+		},
+		"modifiers": {
+			"gas_giant_o2": [ "o:liquid_oxygen+2", "o:water+7" ]
+		},
+		"workforce": 4
+	}
+}
