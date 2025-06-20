@@ -1,10 +1,23 @@
 June
   * New Features
     * Redesign Sector Map interface, allow jumping from Sector Map (#6148)
+    * Support 'custom_only' key in station.json file (#6153)
+    * Add System and Trade Route Bookmark Interface (#6154)
+
+  * Fixes
+    * Prevent invoking SDL_PauseAudioDevice when it's already paused (#6156)
+    * fix: select correct star for hyperspace target after route planned (#6158)
+    * fix: crash in info screen (#6176)
+    * SecondHand equipment market: add clearer error messages (#6159)
+    * Fix/minor fixes: (un)muting settings, saving settings, UI events, etc. (#6175)
 
   * Internal
     * Cleaning up unused icons (#6147)
     * Update to Windows 2022 build runner (#6149)
+    * Add persistent "player state" datastore, player versions of dock/undock/landing events (#6150)
+    * Optimization: Replace onShip*() with onPlayer*() events where functional (#6163)
+    * Optimization: Redefine meaning of onEnterSystem/onLeaveSystem events (#6177)
+    * Fix breakages introduced by the updated version of Dear ImGui (#6157)
 
 May
   * New Features
