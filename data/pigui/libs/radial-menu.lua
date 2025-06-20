@@ -72,7 +72,34 @@ local hasAutopilotLevel = function(level)
 	return (Game.player["autopilot_cap"] or 0) >= level
 end
 
--- TODO: add cloud Lang::SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
+local radial_menu_actions_hyperspace_cloud = {
+	{
+		icon = ui.theme.icons.hyperspace,
+		tooltip=lc.SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE,
+		action = function(target)
+			local hypercloud_level = (Game.player["hypercloud_analyzer_cap"] or 0)
+			local ship = not target:IsArrival() and target:GetShip()
+			if hypercloud_level > 0 then
+				local destPath,_ = ship and ship:GetHyperspaceDestination()
+				if destPath then
+					--Game.player:SetHyperspaceTarget(destPath:SystemOnly())
+					local target = destPath:IsBodyPath() and destPath:GetSystemBody().nearestJumpable.path or destPath:GetStarSystem().path
+					Game.player:SetHyperspaceTarget(target)
+					--TODO: figure out how to set the destination so that the
+					-- route planner also contains the jump, otherwise the jump
+					-- is cleared if the player enters the sector map
+					Game.sectorView:ClearRoute()
+					Game.sectorView:SwitchToPath(target)
+					ui.playSfx("OK")
+				end
+			else
+				Game.AddCommsLogLine(lc.NO_HYPERCLOUD_SCANNER_INSTALLED)
+			end
+		end
+
+	}
+}
+
 local radial_menu_actions_station = {
 	{
 		icon=ui.theme.icons.comms, tooltip=lc.REQUEST_DOCKING_CLEARANCE,
@@ -164,6 +191,10 @@ function ui.openDefaultRadialMenu(id, body, pos, action_binding)
 		end
 		if body:IsStation() then
 			for _,v in pairs(radial_menu_actions_station) do
+				table.insert(actions, v)
+			end
+		elseif body:IsHyperspaceCloud() then
+			for _,v in pairs(radial_menu_actions_hyperspace_cloud) do
 				table.insert(actions, v)
 			end
 		elseif body:GetSystemBody() then
