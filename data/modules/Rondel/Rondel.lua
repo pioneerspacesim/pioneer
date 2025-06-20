@@ -155,8 +155,6 @@ local onJettison = function (ship, cargo)
 end
 
 local onEnterSystem = function (player)
-	if not player:IsPlayer() then return end
-
 	local system = assert(Game.system)
 	if not system.path:IsSameSystem(rondel_syspath) then return end
 
@@ -193,11 +191,9 @@ local onEnterSystem = function (player)
 end
 
 local onLeaveSystem = function (ship)
-	if ship:IsPlayer() then
-		shipFiring = false
-		jetissionedCargo = false
-		patrol = {}
-	end
+	shipFiring = false
+	jetissionedCargo = false
+	patrol = {}
 end
 
 local loaded_data

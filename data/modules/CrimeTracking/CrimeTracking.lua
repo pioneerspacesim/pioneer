@@ -111,7 +111,6 @@ end
 
 
 local onLeaveSystem = function(ship)
-	if not ship:IsPlayer() then return end
 	-- if we leave the system, the space station object will be invalid
 	policeDispatched = nil
 

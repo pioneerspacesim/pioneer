@@ -424,8 +424,6 @@ local finishMission = function (ref, mission)
 end
 
 local onEnterSystem = function (player)
-	if not player:IsPlayer() then return end
-
 	for ref, mission in pairs(missions) do
 		if mission.rendezvous and mission.rendezvous:IsSameSystem(Game.system.path) then
 			if mission.complete or Game.time > mission.due then
@@ -449,13 +447,11 @@ local onEnterSystem = function (player)
 end
 
 local onLeaveSystem = function (ship)
-	if ship:IsPlayer() then
-		for _, f in pairs(flavours) do
-			f.planets = nil
-		end
-		for ref, mission in pairs(missions) do
-			mission.mercenaries = {}
-		end
+	for _, f in pairs(flavours) do
+		f.planets = nil
+	end
+	for ref, mission in pairs(missions) do
+		mission.mercenaries = {}
 	end
 end
 

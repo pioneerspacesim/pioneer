@@ -39,8 +39,6 @@ local exploreSystem = function (system)
 end
 
 local onEnterSystem = function (player)
-	if not player:IsPlayer() then return end
-
 	if not Game.system.explored then
 		exploreSystem(Game.system)
 	end

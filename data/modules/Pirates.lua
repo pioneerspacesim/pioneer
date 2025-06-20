@@ -11,8 +11,6 @@ local MissionUtils = require 'modules.MissionUtils'
 local ShipBuilder  = require 'modules.MissionUtils.ShipBuilder'
 
 local onEnterSystem = function (player)
-	if not player:IsPlayer() then return end
-
 	local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP'
 		and def.hyperdriveClass > 0 and def.roles.pirate end, pairs(ShipDef)))
 	if #shipdefs == 0 then return end

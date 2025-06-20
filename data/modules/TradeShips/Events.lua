@@ -38,7 +38,7 @@ local onGameStart = function ()
 end
 Event.Register("onGameStart", onGameStart)
 
-local onEnterSystem = function (ship)
+local onShipEnterSystem = function (ship)
 	-- dont crash when entering unexplored systems
 	if Game.system.explored == false then
 		return
@@ -70,9 +70,9 @@ local onEnterSystem = function (ship)
 		end
 	end
 end
-Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onShipEnterSystem", onShipEnterSystem)
 
-local onLeaveSystem = function (ship)
+local onShipLeaveSystem = function (ship)
 	if ship:IsPlayer() then
 		-- the next onEnterSystem will be in a new system
 		local total, removed = 0, 0
@@ -97,7 +97,7 @@ local onLeaveSystem = function (ship)
 		Flow.cleanTradeShipsTable()
 	end
 end
-Event.Register("onLeaveSystem", onLeaveSystem)
+Event.Register("onShipLeaveSystem", onShipLeaveSystem)
 
 local onShipDocked = function (ship, starport)
 	if Core.ships[ship] == nil then return end

@@ -38,8 +38,6 @@ local spawnShips = function ()
 end
 
 local onEnterSystem = function (player)
-	if not player:IsPlayer() then return end
-
 	spawnShips()
 end
 

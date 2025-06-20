@@ -278,8 +278,6 @@ end
 
 local planets
 local onEnterSystem = function (ship)
-	if not ship:IsPlayer() then return end
-
 	local syspath = Game.system.path
 
 	for ref,mission in pairs(missions) do
@@ -321,10 +319,8 @@ local onEnterSystem = function (ship)
 end
 
 local onLeaveSystem = function (ship)
-	if ship:IsPlayer() then
-		nearbysystems = nil
-		planets = nil
-	end
+	nearbysystems = nil
+	planets = nil
 end
 
 local onShipDocked = function (ship, station)

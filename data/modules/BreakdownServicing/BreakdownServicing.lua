@@ -260,11 +260,7 @@ end
 
 ---@param ship Ship
 local onEnterSystem = function (ship)
-	if ship:IsPlayer() then
-		print(('DEBUG: Jumps since warranty: %d\nWarranty expires: %s'):format(service_history.jumpcount,Format.Date(service_history.lastdate + service_history.service_period)))
-	else
-		return -- Don't care about NPC ships
-	end
+	print(('DEBUG: Jumps since warranty: %d\nWarranty expires: %s'):format(service_history.jumpcount,Format.Date(service_history.lastdate + service_history.service_period)))
 
 	local engine = ship:GetInstalledHyperdrive()
 	if not engine then

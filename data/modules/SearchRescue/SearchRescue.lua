@@ -1984,7 +1984,6 @@ local onUpdateBB = function (station)
 end
 
 local onEnterSystem = function (player)
-	if (not player:IsPlayer()) then return end
 	leaving_system = false
 
 	local syspath = Game.system.path
@@ -2000,21 +1999,19 @@ local onEnterSystem = function (player)
 end
 
 local onLeaveSystem = function (ship)
-	if ship:IsPlayer() then
-		leaving_system = true    --checked by searchForTarget to abort search
+	leaving_system = true    --checked by searchForTarget to abort search
 
-		local syspath = Game.system.path
+	local syspath = Game.system.path
 
-		-- remove references to ships that are left behind (cause serialization crash otherwise)
-		for _,mission in pairs(missions) do
-			if mission.system_target:IsSameSystem(syspath) then
-				mission.target = nil
-			end
+	-- remove references to ships that are left behind (cause serialization crash otherwise)
+	for _,mission in pairs(missions) do
+		if mission.system_target:IsSameSystem(syspath) then
+			mission.target = nil
 		end
-
-		discarded_ships = {}
-		-- TODO: put in tracker to recreate mission targets (already transferred personnel, cargo, etc.)
 	end
+
+	discarded_ships = {}
+	-- TODO: put in tracker to recreate mission targets (already transferred personnel, cargo, etc.)
 end
 
 ---@param ship Ship

@@ -61,6 +61,7 @@ protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
 
 	virtual void OnEnterSystem() override;
+	virtual void OnBeforeEnterHyperspace() override;
 	virtual void OnEnterHyperspace() override;
 
 private:

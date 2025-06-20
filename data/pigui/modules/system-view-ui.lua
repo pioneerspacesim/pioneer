@@ -104,9 +104,7 @@ local onGameStart = function ()
 end
 
 local onEnterSystem = function (ship)
-	if ship == Game.player then
-		Game.systemView:SetVisibility("RESET_VIEW");
-	end
+	Game.systemView:SetVisibility("RESET_VIEW");
 end
 
 local function textIcon(icon, tooltip)

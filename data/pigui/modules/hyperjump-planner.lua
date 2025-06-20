@@ -182,7 +182,7 @@ function hyperJumpPlanner.onEnterSystem(ship)
 	-- remove the first jump if it's the current system (and enabled to do so)
 	-- this should be the case if you are following a route and want the route to be
 	-- updated as you make multiple jumps
-	if ship:IsPlayer() and remove_first_if_current then
+	if remove_first_if_current then
 		if #hyperjump_route > 0 and hyperjump_route[1] and hyperjump_route[1].path:IsSameSystem(Game.system.path) then
 			sectorView:RemoveRouteItem(1)
 		end

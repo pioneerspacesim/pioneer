@@ -1072,7 +1072,6 @@ Event.Register("onPlayerDocked", function (ship, station)
 end)
 
 Event.Register("onLeaveSystem", function (ship)
-	if ship ~= Game.player then return end
 	destroySystem()
 end)
 
