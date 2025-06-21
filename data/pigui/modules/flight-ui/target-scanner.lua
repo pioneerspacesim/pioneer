@@ -140,9 +140,7 @@ local function displayCloudScanner(min, max)
 	ui.setNextWindowPadding(Vector2(0, 0))
 	ui.window("CloudScanner", scannerWindowFlags, function()
 		ui.withFont(font_heading, function()
-			local heading = not ship and lc.HYPERSPACE_ARRIVAL_CLOUD_REMNANT or
-				(arrival and lc.HYPERSPACE_ARRIVAL_CLOUD or lc.HYPERSPACE_DEPARTURE_CLOUD)
-			ui.text(heading)
+			ui.text(target:GetLabel())
 		end)
 		if ship then
 			-- NOTE: ships in arrival clouds have their destination set to the
