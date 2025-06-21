@@ -68,7 +68,7 @@ namespace Graphics {
 			m_material.Reset(r->CreateMaterial(desc));
 
 			//Create vtx & index buffers and copy data
-			VertexBufferDesc vbd;
+			VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = ATTRIB_POSITION;
 			vbd.attrib[0].format = ATTRIB_FORMAT_FLOAT3;
 			vbd.numVertices = vertices.GetNumVerts();
@@ -103,6 +103,11 @@ namespace Graphics {
 		{
 			PROFILE_SCOPED()
 			r->DrawMesh(m_diskMesh.get(), mat);
+		}
+
+		Graphics::VertexFormatDesc Disk::GetVertexFormat() const
+		{
+			return m_diskMesh->GetFormat();
 		}
 
 		//------------------------------------------------------------
@@ -187,7 +192,7 @@ namespace Graphics {
 			desc.vertexColors = true;
 			m_material.Reset(r->CreateMaterial(desc));
 
-			Graphics::VertexBufferDesc vbd;
+			Graphics::VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
 			vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
 			vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
@@ -264,7 +269,7 @@ namespace Graphics {
 
 			/*
 			if (!m_lineMesh.Valid()) {
-				Graphics::VertexBufferDesc vbd = VertexBufferDesc::FromAttribSet(m_va->GetAttributeSet());
+				Graphics::VertexFormatDesc vbd = VertexFormatDesc::FromAttribSet(m_va->GetAttributeSet());
 				vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
 				vbd.numVertices = m_va->GetNumVerts() * 2; // ask for twice as many as we need to reduce buffer thrashing
 				m_lineMesh.Reset(r->CreateMeshObject(r->CreateVertexBuffer(vbd)));
@@ -283,6 +288,11 @@ namespace Graphics {
 			// r->DrawMesh(m_lineMesh.Get(), mat);
 			r->DrawBuffer(m_va.get(), mat);
 			// glLineWidth(1.f);
+		}
+
+		Graphics::VertexFormatDesc Lines::GetVertexFormat() const
+		{
+			return Graphics::VertexFormatDesc::FromAttribSet(m_va->GetAttributeSet());
 		}
 
 		//------------------------------------------------------------
@@ -341,10 +351,15 @@ namespace Graphics {
 
 			if (m_refreshVertexBuffer) {
 				m_refreshVertexBuffer = false;
-				m_pointData->GetVertexBuffer()->Populate(*m_va);
+				m_va->Populate(m_pointData->GetVertexBuffer());
 			}
 
 			r->DrawMesh(m_pointData.Get(), mat);
+		}
+
+		Graphics::VertexFormatDesc PointSprites::GetVertexFormat() const
+		{
+			return Graphics::VertexFormatDesc::FromAttribSet(m_va->GetAttributeSet());
 		}
 
 		//------------------------------------------------------------
@@ -458,10 +473,15 @@ namespace Graphics {
 
 			if (m_refreshVertexBuffer) {
 				m_refreshVertexBuffer = false;
-				m_pointMesh->GetVertexBuffer()->Populate(*m_va);
+				m_va->Populate(m_pointMesh->GetVertexBuffer());
 			}
 
 			r->DrawMesh(m_pointMesh.Get(), mat);
+		}
+
+		Graphics::VertexFormatDesc Points::GetVertexFormat() const
+		{
+			return Graphics::VertexFormatDesc::FromAttribSet(m_va->GetAttributeSet());
 		}
 
 		//------------------------------------------------------------
@@ -507,7 +527,7 @@ namespace Graphics {
 			scale = fabs(scale);
 			matrix4x4f trans = matrix4x4f::Identity();
 			trans.Scale(scale, scale, scale);
-			
+
 			// Reserve space for vertices and indices
 			VertexArray vts(attribs, icosahedron_counts[subdivs][0]);
 			std::vector<Uint32> indices;
@@ -604,6 +624,11 @@ namespace Graphics {
 			r->DrawMesh(m_sphereMesh.get(), mat);
 		}
 
+		Graphics::VertexFormatDesc Sphere3D::GetVertexFormat() const
+		{
+			return m_sphereMesh->GetFormat();
+		}
+
 		//------------------------------------------------------------
 
 		/*
@@ -638,7 +663,7 @@ namespace Graphics {
 			vertices.Add(vector3f(halfsz.x, halfsz.y, 0.0f), vector2f(texSize.x, 0.0f));
 
 			//Create vtx & index buffers and copy data
-			VertexBufferDesc vbd;
+			VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = ATTRIB_POSITION;
 			vbd.attrib[0].format = ATTRIB_FORMAT_FLOAT3;
 			vbd.attrib[1].semantic = ATTRIB_UV0;
@@ -673,7 +698,7 @@ namespace Graphics {
 			vertices.Add(vector3f(pos.x + size.x, pos.y + size.y, 0.0f), vector2f(texPos.x + texSize.x, texPos.y));
 
 			//Create vtx & index buffers and copy data
-			VertexBufferDesc vbd;
+			VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = ATTRIB_POSITION;
 			vbd.attrib[0].format = ATTRIB_FORMAT_FLOAT3;
 			vbd.attrib[1].semantic = ATTRIB_UV0;
@@ -692,7 +717,7 @@ namespace Graphics {
 			m_renderState = state;
 
 			//Create vtx & index buffers and copy data
-			VertexBufferDesc vbd;
+			VertexFormatDesc vbd;
 
 			Uint32 attribIdx = 0;
 			assert(va.HasAttrib(ATTRIB_POSITION));
@@ -761,7 +786,7 @@ namespace Graphics {
 			bgArr.Add(vector3f(size.x, pos.y, 0), c);
 			bgArr.Add(vector3f(pos.x, pos.y, 0), c);
 
-			VertexBufferDesc vbd;
+			VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = ATTRIB_POSITION;
 			vbd.attrib[0].format = ATTRIB_FORMAT_FLOAT3;
 			vbd.attrib[1].semantic = ATTRIB_DIFFUSE;
@@ -807,7 +832,7 @@ namespace Graphics {
 			desc.vertexColors = true;
 			m_material.Reset(r->CreateMaterial(desc));
 
-			VertexBufferDesc vbd;
+			VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = ATTRIB_POSITION;
 			vbd.attrib[0].format = ATTRIB_FORMAT_FLOAT3;
 			vbd.attrib[1].semantic = ATTRIB_DIFFUSE;
@@ -882,7 +907,9 @@ namespace Graphics {
 			rsd.cullMode = Graphics::CULL_NONE;
 			rsd.depthWrite = false;
 
-			m_gridMat.reset(r->CreateMaterial("grid", {}, rsd));
+			Graphics::VertexFormatDesc vfmt = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+
+			m_gridMat.reset(r->CreateMaterial("grid", {}, rsd, vfmt));
 		}
 
 		void GridLines::SetLineColors(Color minorLineColor, Color majorLineColor, float lineWidth)
@@ -929,14 +956,15 @@ namespace Graphics {
 			m_minorColor(Color(160, 160, 160)),
 			m_majorColor(Color(255, 255, 255)),
 			m_lineWidth(2.0f),
-			m_numSubdivs(num_subdivs)
+			m_numSubdivs(num_subdivs),
+			m_sphereMesh(Icosphere::Generate(r, num_subdivs, 1.f, Graphics::ATTRIB_POSITION))
 		{
 			Graphics::RenderStateDesc rsd = {};
 			rsd.blendMode = Graphics::BLEND_ALPHA;
 			rsd.cullMode = Graphics::CULL_NONE;
 			rsd.depthWrite = false;
 
-			m_gridMat.reset(r->CreateMaterial("gridsphere", {}, rsd));
+			m_gridMat.reset(r->CreateMaterial("gridsphere", {}, rsd, m_sphereMesh->GetFormat()));
 		}
 
 		void GridSphere::SetLineColors(Color minorLineColor, Color majorLineColor, float lineWidth)
@@ -948,10 +976,6 @@ namespace Graphics {
 
 		void GridSphere::Draw(Graphics::Renderer *r, float lineSpacing)
 		{
-			if (!m_sphereMesh) {
-				m_sphereMesh.reset(Icosphere::Generate(r, m_numSubdivs, 1.f, Graphics::ATTRIB_POSITION));
-			}
-
 			GridData data = {};
 			data.thin_color = m_minorColor.ToColor4f();
 			data.thick_color = m_majorColor.ToColor4f();
@@ -966,14 +990,6 @@ namespace Graphics {
 		Axes3D::Axes3D(Graphics::Renderer *r)
 		{
 			PROFILE_SCOPED()
-
-			Graphics::MaterialDescriptor desc;
-
-			Graphics::RenderStateDesc rsd;
-			rsd.cullMode = Graphics::CULL_NONE;
-			rsd.depthWrite = false;
-			rsd.primitiveType = Graphics::LINE_SINGLE;
-			m_axesMat.Reset(r->CreateMaterial("vtxColor", desc, rsd));
 
 			VertexArray vertices(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 
@@ -1001,6 +1017,14 @@ namespace Graphics {
 
 			//Create vtx buffer and copy data
 			m_axesMesh.Reset(r->CreateMeshObjectFromArray(&vertices));
+
+			Graphics::MaterialDescriptor desc;
+
+			Graphics::RenderStateDesc rsd;
+			rsd.cullMode = Graphics::CULL_NONE;
+			rsd.depthWrite = false;
+			rsd.primitiveType = Graphics::LINE_SINGLE;
+			m_axesMat.Reset(r->CreateMaterial("vtxColor", desc, rsd, m_axesMesh->GetFormat()));
 		}
 
 		void Axes3D::Draw(Graphics::Renderer *r)
@@ -1067,7 +1091,10 @@ namespace Graphics {
 			rsd.blendMode = Graphics::BLEND_ALPHA;
 
 			m_geometry.reset(m_font->CreateVertexArray());
-			m_material.Reset(r->CreateMaterial("label", matdesc, rsd));
+
+			auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(m_geometry->GetAttributeSet());
+
+			m_material.Reset(r->CreateMaterial("label", matdesc, rsd, vtxFormat));
 			m_material->SetTexture("texture0"_hash, m_font->GetTexture());
 			m_material->diffuse = Color::WHITE;
 			m_material->emissive = Color(38, 38, 38);

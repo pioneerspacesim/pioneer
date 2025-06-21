@@ -58,7 +58,7 @@ static const vector2d sample[NUM_HORIZON_POINTS] = {
 	// { 0.2, 0.2 }, { 0.8, 0.2 }, // top
 	//{ 0.5, 0.5 }, // middle
 	//{ 0.2, 0.8 }, { 0.8, 0.8 } // bottom
-	
+
 	// possibly more optimal elimination for early out
 	{ 0.5, 0.5 }, // centre
 	{ 0.2, 0.2 }, // top-left corner
@@ -120,13 +120,11 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		m_needUpdateVBOs = false;
 
 		//create buffer and upload data
-		auto vbd = Graphics::VertexBufferDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
-		vbd.numVertices = m_ctx->NUMVERTICES();
-		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-		Graphics::VertexBuffer *vtxBuffer = renderer->CreateVertexBuffer(vbd);
+		auto vbd = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
+		Graphics::VertexBuffer *vtxBuffer = renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_STATIC, m_ctx->NUMVERTICES(), vbd.bindings[0].stride);
 
 		GeoPatchContext::VBOVertex *VBOVtxPtr = vtxBuffer->Map<GeoPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
-		assert(vtxBuffer->GetDesc().stride == sizeof(GeoPatchContext::VBOVertex));
+		assert(vtxBuffer->GetStride() == sizeof(GeoPatchContext::VBOVertex));
 
 		const Sint32 edgeLen = m_ctx->GetEdgeLen();
 		const double frac = m_ctx->GetFrac();
@@ -274,7 +272,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		vtxBuffer->Unmap();
 
 		// use the new vertex buffer and the shared index buffer
-		m_patchVBOData->m_patchMesh.reset(renderer->CreateMeshObject(vtxBuffer, m_ctx->GetIndexBuffer()));
+		m_patchVBOData->m_patchMesh.reset(renderer->CreateMeshObject(vbd, vtxBuffer, m_ctx->GetIndexBuffer()));
 
 		// Don't need this anymore so throw it away
 		//m_patchVBOData->m_heights.reset();
@@ -541,7 +539,7 @@ bool GeoPatch::IsOverHorizon(const vector3d &camPos) const
 		bool gather = false;
 		for (size_t i = 0; i < NUM_HORIZON_POINTS; i++) {
 			gather |= s_sph.HorizonCulling(camPos, m_clipHorizon[i]);
-			if (gather) 
+			if (gather)
 				return false; // early out if any test is visible
 		}
 		return !gather; // if true then it's visible, return semantic is true == over the horizon and thus invisible so invert

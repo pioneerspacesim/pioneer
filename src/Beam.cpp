@@ -40,23 +40,6 @@ std::unique_ptr<Graphics::Material> Beam::s_glowMat;
 
 void Beam::BuildModel()
 {
-	//set up materials
-	Graphics::MaterialDescriptor desc;
-	desc.textures = 1;
-
-	Graphics::RenderStateDesc rsd;
-	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
-	rsd.depthWrite = false;
-	rsd.cullMode = Graphics::CULL_NONE;
-
-	s_sideMat.reset(Pi::renderer->CreateMaterial("unlit", desc, rsd));
-	s_sideMat->SetTexture("texture0"_hash,
-		Graphics::TextureBuilder::Billboard("textures/beam_l.dds").GetOrCreateTexture(Pi::renderer, "billboard"));
-
-	s_glowMat.reset(Pi::renderer->CreateMaterial("unlit", desc, rsd));
-	s_glowMat->SetTexture("texture0"_hash,
-		Graphics::TextureBuilder::Billboard("textures/projectile_w.dds").GetOrCreateTexture(Pi::renderer, "billboard"));
-
 	//zero at projectile position
 	//+x down
 	//+y right
@@ -113,6 +96,25 @@ void Beam::BuildModel()
 
 	s_sideMesh.reset(Pi::renderer->CreateMeshObjectFromArray(&sideVerts));
 	s_glowMesh.reset(Pi::renderer->CreateMeshObjectFromArray(&glowVerts));
+
+	//set up materials
+	Graphics::MaterialDescriptor desc;
+	desc.textures = 1;
+
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
+	rsd.depthWrite = false;
+	rsd.cullMode = Graphics::CULL_NONE;
+
+	Graphics::VertexFormatDesc vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(vertexAttrs);
+
+	s_sideMat.reset(Pi::renderer->CreateMaterial("unlit", desc, rsd, vtxFormat));
+	s_sideMat->SetTexture("texture0"_hash,
+		Graphics::TextureBuilder::Billboard("textures/beam_l.dds").GetOrCreateTexture(Pi::renderer, "billboard"));
+
+	s_glowMat.reset(Pi::renderer->CreateMaterial("unlit", desc, rsd, vtxFormat));
+	s_glowMat->SetTexture("texture0"_hash,
+		Graphics::TextureBuilder::Billboard("textures/projectile_w.dds").GetOrCreateTexture(Pi::renderer, "billboard"));
 }
 
 void Beam::FreeModel()

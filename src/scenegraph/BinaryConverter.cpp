@@ -249,6 +249,8 @@ Model *BinaryConverter::CreateModel(const std::string &filename, Serializer::Rea
 
 	m_model = new Model(m_renderer, modelName);
 
+	m_modelDef = new ModelDefinition();
+
 	m_patternsUsed = false;
 	LoadMaterials(rd);
 
@@ -338,7 +340,7 @@ void BinaryConverter::LoadMaterials(Serializer::Reader &rd)
 
 		if (m.use_pattern) m_patternsUsed = true;
 
-		ConvertMaterialDefinition(m);
+		m_modelDef->matDefs.emplace_back(std::move(m));
 	}
 }
 

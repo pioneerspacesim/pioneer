@@ -210,6 +210,7 @@ namespace Graphics {
 		//
 
 		Program::Program(Shader *shader, const ProgramDef &def) :
+			m_shader(shader),
 			m_program(0),
 			success(false)
 		{
