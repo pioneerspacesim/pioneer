@@ -6,6 +6,8 @@
 #include "Player.h"
 #include "core/Log.h"
 
+#include "AL/alext.h"
+
 #include <algorithm>
 #include <utility>
 
@@ -216,6 +218,34 @@ void Sound::AlAudioBackend::Update(float delta_t)
 	}
 	for (auto id : events_to_remove) {
 		m_events.erase(id);
+	}
+}
+
+bool Sound::AlAudioBackend::IsBinauralSupported()
+{
+	return alcIsExtensionPresent(m_device, "ALC_SOFT_HRTF");
+}
+
+void Sound::AlAudioBackend::EnableBinaural(bool enabled)
+{
+	if (!IsBinauralSupported())
+	{
+		Output("Cannot enable/disable binaural audio rendering, because it is not supported on the current OpenAL implementation");
+		return;
+	}
+	auto alcResetDeviceSOFT_fnptr = reinterpret_cast<LPALCRESETDEVICESOFT>(alGetProcAddress("alcResetDeviceSOFT"));
+	if (alcResetDeviceSOFT_fnptr == nullptr)
+	{
+		Output("Could not get address of function alcResetDeviceSOFT");
+		return;
+	}
+	ALCint attributes[] = {
+		ALC_HRTF_SOFT, ALC_TRUE, 0
+	};
+	const auto result = alcResetDeviceSOFT_fnptr(m_device, &attributes[0]);
+	if (result != AL_TRUE)
+	{
+		Output("Could not reset device properties with alcResetDeviceSOFT");
 	}
 }
 

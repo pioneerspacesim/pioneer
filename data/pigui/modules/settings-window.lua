@@ -342,6 +342,8 @@ local function showSoundOptions()
 	local musicLevel = Engine.GetMusicVolume()*100
 	local effectsMuted = Engine.GetEffectsMuted()
 	local effectsLevel = Engine.GetEffectsVolume()*100
+	local binaural_supported = Engine.IsBinauralRenderingSupported()
+	local binaural_enabled = Engine.GetBinauralRendering()
 
 	local c
 
@@ -365,6 +367,11 @@ local function showSoundOptions()
 	ui.sameLine()
 	c,effectsLevel = slider(lui.EFFECTS, effectsLevel, 0, 100)
 	if c then Engine.SetEffectsVolume(effectsLevel/100) end
+
+	if binaural_supported then
+		c,binaural_enabled = checkbox("Enable Binaural Rendering", binaural_enabled)
+		if c then Engine.SetBinauralRendering(binaural_enabled) end
+	end
 end
 
 local function showLanguageOptions()

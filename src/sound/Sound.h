@@ -75,6 +75,8 @@ namespace Sound {
 	const std::vector<std::string> GetMusicFiles();
 	void Update(float delta_t);
 
+	bool IsBinauralSupported();
+	void EnableBinaural(bool enabled);
 } /* namespace Sound */
 
 #endif /* __SOUND_H */
