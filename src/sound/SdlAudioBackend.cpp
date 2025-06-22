@@ -363,13 +363,13 @@ void Sound::SdlAudioBackend::fill_audio(Uint8 *dsp_buf, int len)
 		}
 
 		if (wavstream[i].sample->channels == 1) {
-			if (wavstream[i].sample->samplerate == 22050) {
+			if (wavstream[i].sample->samplerate == FREQ) {
 				fill_audio_1stream<1, 1>(tmpbuf, len_in_floats, i);
 			} else {
 				fill_audio_1stream<1, 2>(tmpbuf, len_in_floats, i);
 			}
 		} else {
-			if (wavstream[i].sample->samplerate == 44100) {
+			if (wavstream[i].sample->samplerate == FREQ) {
 				fill_audio_1stream<2, 1>(tmpbuf, len_in_floats, i);
 			} else {
 				fill_audio_1stream<2, 2>(tmpbuf, len_in_floats, i);
