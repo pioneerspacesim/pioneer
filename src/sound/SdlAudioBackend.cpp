@@ -4,6 +4,7 @@
 
 #include "SDL2/SDL.h"
 
+#include <random>
 #include <utility>
 
 namespace {
@@ -68,6 +69,10 @@ Sound::SdlAudioBackend::SdlAudioBackend()
 		Output("Could not open audio device: %s\n", SDL_GetError());
 		throw std::exception();
 	}
+
+	std::default_random_engine prng(std::random_device{}());
+	std::uniform_int_distribution<decltype(identifier)> dist;
+	identifier = dist(prng);
 
 	Output("Initialized SDL audio backend");
 }

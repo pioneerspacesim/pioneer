@@ -16,6 +16,7 @@ namespace Sound {
 		SdlAudioBackend();
 		~SdlAudioBackend();
 
+		BackendId GetId() override { return AudioBackend_SDL; }
 		void DestroyAllEvents() override;
 		void DestroyAllEventsExceptMusic() override;
 
@@ -68,7 +69,7 @@ namespace Sound {
 		float m_masterVolume = 1.F;
 		float m_sfxVolume = 1.F;
 		SDL_AudioDeviceID m_audioDevice;
-		uint32_t identifier = 1;
+		uint32_t identifier;
 		int nextMusicStream = 0;
 		SoundEvent wavstream[MAX_WAVSTREAMS]{};
 		std::map<std::string, Sample> m_samples;

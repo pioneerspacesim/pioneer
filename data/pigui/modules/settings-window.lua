@@ -334,6 +334,8 @@ end, function (_, drawPopupFn)
 end)
 
 local function showSoundOptions()
+	local available_backends = Engine.GetAvailableSoundBackends()
+	local current_backend_id = Engine.GetSoundBackendId()
 	local masterMuted = Engine.GetMasterMuted()
 	local masterLevel = Engine.GetMasterVolume()*100
 	local musicMuted = Engine.GetMusicMuted()
@@ -342,6 +344,9 @@ local function showSoundOptions()
 	local effectsLevel = Engine.GetEffectsVolume()*100
 
 	local c
+
+	c,new_backend_id = combo("Audio Backend", current_backend_id - 1, available_backends)
+	if c then Engine.SetSoundBackend(new_backend_id + 1) end
 
 	c,masterMuted = checkbox(lui.MUTE.."##master", masterMuted)
 	if c then Engine.SetMasterMuted(masterMuted) end
