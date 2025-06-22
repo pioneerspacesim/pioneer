@@ -26,6 +26,7 @@ namespace Sound {
 	static const double STREAM_IF_LONGER_THAN = 10.0;
 
 	static AudioBackend *m_backend = nullptr;
+	static std::vector<std::pair<std::string, Sample>> m_samples;
 
 	void SetMasterVolume(const float vol)
 	{
@@ -183,6 +184,7 @@ namespace Sound {
 				if (pair.second.isMusic) {
 					music_sample_keys.emplace_back(pair.first);
 				}
+				m_samples.emplace_back(pair.first, pair.second);
 				m_backend->AddSample(pair.first, std::move(pair.second));
 			}
 		}
@@ -232,11 +234,17 @@ namespace Sound {
 			return false;
 		}
 
-		// load all the wretched effects
-		Pi::GetApp()->GetAsyncStartupQueue()->Order(new LoadSoundJob("sounds", false));
+		if (m_samples.empty()) {
+			// load all the wretched effects
+			Pi::GetApp()->GetAsyncStartupQueue()->Order(new LoadSoundJob("sounds", false));
 
-		//I'd rather do this in MusicPlayer and store in a different map too, this will do for now
-		Pi::GetApp()->GetAsyncStartupQueue()->Order(new LoadSoundJob("music", true));
+			//I'd rather do this in MusicPlayer and store in a different map too, this will do for now
+			Pi::GetApp()->GetAsyncStartupQueue()->Order(new LoadSoundJob("music", true));
+		} else {
+			for (auto sample_copy : m_samples) {
+				m_backend->AddSample(sample_copy.first, std::move(sample_copy.second));
+			}
+		}
 
 		/* silence any sound events */
 		DestroyAllEvents();
