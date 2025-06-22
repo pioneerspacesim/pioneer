@@ -193,17 +193,42 @@ namespace Sound {
 		std::map<std::string, Sample> m_loadedSounds;
 	};
 
-	bool Init()
+	BackendFlags GetAvailableBackends()
+	{
+		return AudioBackend_SDL | AudioBackend_OpenAL;
+	}
+
+	BackendId GetBackendId()
+	{
+		return m_backend->GetId();
+	}
+
+	bool Init(BackendId backend)
 	{
 		PROFILE_SCOPED()
 		if (m_backend != nullptr) {
-			DestroyAllEvents();
-			return true;
+			if (backend == m_backend->GetId()) {
+				DestroyAllEvents();
+				return true;
+			} else {
+				Uninit();
+			}
 		}
 
 		try {
-			m_backend = new AlAudioBackend();
+			switch (backend) {
+			case AudioBackend_OpenAL:
+				try {
+					m_backend = new AlAudioBackend();
+					break;
+				} catch (...) {
+				}
+			default:
+				m_backend = new SdlAudioBackend();
+				break;
+			}
 		} catch (...) {
+			Error("Could not initialize backend %u", backend);
 			return false;
 		}
 

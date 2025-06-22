@@ -20,6 +20,7 @@ namespace Sound {
 		AlAudioBackend();
 		~AlAudioBackend();
 
+		BackendId GetId() override { return AudioBackend_OpenAL; }
 		void DestroyAllEvents() override;
 		void DestroyAllEventsExceptMusic() override;
 

@@ -16,6 +16,7 @@ namespace Sound {
 		SdlAudioBackend();
 		~SdlAudioBackend();
 
+		BackendId GetId() override { return AudioBackend_SDL; }
 		void DestroyAllEvents() override;
 		void DestroyAllEventsExceptMusic() override;
 
