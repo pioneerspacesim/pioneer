@@ -1,6 +1,11 @@
 [main]
 host = https://www.transifex.com
 
+[o:pioneer:p:pioneer:r:about]
+file_filter = data/lang/about/<lang>.json
+source_file = data/lang/about/en.json
+source_lang = en
+
 [o:pioneer:p:pioneer:r:core]
 file_filter = data/lang/core/<lang>.json
 source_file = data/lang/core/en.json
