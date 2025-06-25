@@ -15,10 +15,10 @@ namespace TerrainFeature {
 		double h;
 		double n = 0;
 		n = ridged_octavenoise(def.octaves, 0.54, 2.0, def.frequency * p);
-		const double outer = 0.71;
-		const double inner = 0.715;
-		const double inner2 = 0.715;
-		const double outer2 = 0.72;
+		constexpr double outer = 0.71;
+		constexpr double inner = 0.715;
+		constexpr double inner2 = 0.715;
+		constexpr double outer2 = 0.72;
 		if (n > outer2) {
 			h = 1;
 		} else if (n > inner2) {
@@ -39,10 +39,10 @@ namespace TerrainFeature {
 		double h;
 		double n = 0; //octavenoise(def.octaves, 0.56, 2.0, def.frequency*p);
 		n = ridged_octavenoise(def.octaves, 0.56, 2.0, def.frequency * p);
-		const double outer = 0.7;
-		const double inner = 0.71;
-		const double inner2 = 0.72;
-		const double outer2 = 0.73;
+		constexpr double outer = 0.7;
+		constexpr double inner = 0.71;
+		constexpr double inner2 = 0.72;
+		constexpr double outer2 = 0.73;
 		if (n > outer2) {
 			h = 1;
 		} else if (n > inner2) {
@@ -63,10 +63,10 @@ namespace TerrainFeature {
 		double h;
 		double n = 0; //octavenoise(def.octaves, 0.585, 2.0, def.frequency*p);
 		n = ridged_octavenoise(def.octaves, 0.585, 2.0, def.frequency * p);
-		const double outer = 0.7;
-		const double inner = 0.71;
-		const double inner2 = 0.72;
-		const double outer2 = 0.73;
+		constexpr double outer = 0.7;
+		constexpr double inner = 0.71;
+		constexpr double inner2 = 0.72;
+		constexpr double outer2 = 0.73;
 		if (n > outer2) {
 			h = 1.0;
 		} else if (n > inner2) {
@@ -86,10 +86,10 @@ namespace TerrainFeature {
 		double h;
 		double n = 0;
 		n = octavenoise(def.octaves, 0.54, 2.0, def.frequency * p);
-		const double outer = 0.71;
-		const double inner = 0.715;
-		const double inner2 = 0.715;
-		const double outer2 = 0.72;
+		constexpr double outer = 0.71;
+		constexpr double inner = 0.715;
+		constexpr double inner2 = 0.715;
+		constexpr double outer2 = 0.72;
 		if (n > outer2) {
 			h = 1;
 		} else if (n > inner2) {
@@ -109,10 +109,10 @@ namespace TerrainFeature {
 		double h;
 		double n = 0;
 		n = octavenoise(def.octaves, 0.56, 2.0, def.frequency * p);
-		const double outer = 0.7;
-		const double inner = 0.71;
-		const double inner2 = 0.72;
-		const double outer2 = 0.73;
+		constexpr double outer = 0.7;
+		constexpr double inner = 0.71;
+		constexpr double inner2 = 0.72;
+		constexpr double outer2 = 0.73;
 		if (n > outer2) {
 			h = 1;
 		} else if (n > inner2) {
@@ -132,10 +132,10 @@ namespace TerrainFeature {
 		double h;
 		double n = 0;
 		n = octavenoise(def.octaves, 0.585, 2.0, def.frequency * p);
-		const double outer = 0.7;
-		const double inner = 0.71;
-		const double inner2 = 0.72;
-		const double outer2 = 0.73;
+		constexpr double outer = 0.7;
+		constexpr double inner = 0.71;
+		constexpr double inner2 = 0.72;
+		constexpr double outer2 = 0.73;
 		if (n > outer2) {
 			h = 1.0;
 		} else if (n > inner2) {
@@ -155,10 +155,10 @@ namespace TerrainFeature {
 		double h;
 		double n = 0;
 		n = octavenoise(def.octaves, 0.54, 2.0, def.frequency * p);
-		const double outer = 0.71;
-		const double inner = 0.715;
-		const double inner2 = 0.715;
-		const double outer2 = 0.72;
+		constexpr double outer = 0.71;
+		constexpr double inner = 0.715;
+		constexpr double inner2 = 0.715;
+		constexpr double outer2 = 0.72;
 		if (n > outer2) {
 			h = 1;
 		} else if (n > inner2) {
@@ -178,10 +178,10 @@ namespace TerrainFeature {
 		double h;
 		double n = 0;
 		n = octavenoise(def.octaves, 0.56, 2.0, def.frequency * p);
-		const double outer = 0.7;
-		const double inner = 0.71;
-		const double inner2 = 0.72;
-		const double outer2 = 0.73;
+		constexpr double outer = 0.7;
+		constexpr double inner = 0.71;
+		constexpr double inner2 = 0.72;
+		constexpr double outer2 = 0.73;
 		if (n > outer2) {
 			h = 1;
 		} else if (n > inner2) {
@@ -201,10 +201,10 @@ namespace TerrainFeature {
 		double h;
 		double n = 0;
 		n = octavenoise(def.octaves, 0.585, 2.0, def.frequency * p);
-		const double outer = 0.7;
-		const double inner = 0.71;
-		const double inner2 = 0.72;
-		const double outer2 = 0.73;
+		constexpr double outer = 0.7;
+		constexpr double inner = 0.71;
+		constexpr double inner2 = 0.72;
+		constexpr double outer2 = 0.73;
 		if (n > outer2) {
 			h = 1.0;
 		} else if (n > inner2) {
@@ -224,10 +224,10 @@ namespace TerrainFeature {
 		double h;
 		double n = 0;
 		n = octavenoise(def.octaves, 0.54, 2.0, def.frequency * p);
-		const double outer = 0.71;
-		const double inner = 0.715;
-		const double inner2 = 0.715;
-		const double outer2 = 0.72;
+		constexpr double outer = 0.71;
+		constexpr double inner = 0.715;
+		constexpr double inner2 = 0.715;
+		constexpr double outer2 = 0.72;
 		if (n > outer2) {
 			h = 1;
 		} else if (n > inner2) {
@@ -247,10 +247,10 @@ namespace TerrainFeature {
 		double h;
 		double n = 0;
 		n = octavenoise(def.octaves, 0.56, 2.0, def.frequency * p);
-		const double outer = 0.7;
-		const double inner = 0.71;
-		const double inner2 = 0.72;
-		const double outer2 = 0.73;
+		constexpr double outer = 0.7;
+		constexpr double inner = 0.71;
+		constexpr double inner2 = 0.72;
+		constexpr double outer2 = 0.73;
 		if (n > outer2) {
 			h = 1;
 		} else if (n > inner2) {
@@ -270,10 +270,10 @@ namespace TerrainFeature {
 		double h;
 		double n = 0;
 		n = octavenoise(def.octaves, 0.585, 2.0, def.frequency * p);
-		const double outer = 0.7;
-		const double inner = 0.71;
-		const double inner2 = 0.72;
-		const double outer2 = 0.73;
+		constexpr double outer = 0.7;
+		constexpr double inner = 0.71;
+		constexpr double inner2 = 0.72;
+		constexpr double outer2 = 0.73;
 		if (n > outer2) {
 			h = 1.0;
 		} else if (n > inner2) {
@@ -292,10 +292,10 @@ namespace TerrainFeature {
 {
 	double h;
 	double n = octavenoise(def.octaves, 0.788, 2.0, def.frequency*p);
-	const double outer = 0.1;
-	const double inner = 0.3;
-	const double inner2 = 0.7;
-	const double outer2 = 0.9;
+	constexpr double outer = 0.1;
+	constexpr double inner = 0.3;
+	constexpr double inner2 = 0.7;
+	constexpr double outer2 = 0.9;
 	if (n > outer2) {
 		h = 0.0;
 	} else if (n > inner2) {
@@ -313,10 +313,10 @@ namespace TerrainFeature {
 	void crater_function_1pass(const vector3d &p, double &out, const double height)
 	{
 		double n = fabs(noise(p));
-		const double ejecta_outer = 0.6;
-		const double outer = 0.9;
-		const double inner = 0.94;
-		const double midrim = 0.93;
+		constexpr double ejecta_outer = 0.6;
+		constexpr double outer = 0.9;
+		constexpr double inner = 0.94;
+		constexpr double midrim = 0.93;
 		if (n > inner) {
 			//out = 0;
 		} else if (n > midrim) {
@@ -351,9 +351,9 @@ namespace TerrainFeature {
 	void impact_crater_function_1pass(const vector3d &p, double &out, const double height)
 	{
 		double n = fabs(noise(p));
-		const double ejecta_outer = 0.6;
-		const double outer = 0.9;
-		const double midrim = 0.93;
+		constexpr double ejecta_outer = 0.6;
+		constexpr double outer = 0.9;
+		constexpr double midrim = 0.93;
 		double hrim;
 		double descent;
 		if (n > midrim) {
@@ -386,10 +386,10 @@ namespace TerrainFeature {
 	void volcano_function_1pass(const vector3d &p, double &out, const double height)
 	{
 		double n = fabs(noise(p));
-		const double ejecta_outer = 0.6;
-		const double outer = 0.9;
-		const double inner = 0.975;
-		const double midrim = 0.971;
+		constexpr double ejecta_outer = 0.6;
+		constexpr double outer = 0.9;
+		constexpr double inner = 0.975;
+		constexpr double midrim = 0.971;
 		if (n > inner) {
 			//out = 0;
 		} else if (n > midrim) {
@@ -423,10 +423,10 @@ namespace TerrainFeature {
 	void megavolcano_function_1pass(const vector3d &p, double &out, const double height)
 	{
 		double n = fabs(noise(p));
-		const double ejecta_outer = 0.6;
-		const double outer = 0.76; //Radius
-		const double inner = 0.98;
-		const double midrim = 0.964;
+		constexpr double ejecta_outer = 0.6;
+		constexpr double outer = 0.76; //Radius
+		constexpr double inner = 0.98;
+		constexpr double midrim = 0.964;
 		if (n > inner) {
 			//out = 0;
 		} else if (n > midrim) {
@@ -462,10 +462,10 @@ namespace TerrainFeature {
 		assert(style >= 0 && style < 2);
 		double h;
 		double n = octavenoise(def.octaves, 0.585, 2.0, def.frequency * p * 0.5);
-		const double outer[] = { 0.67, 0.01 };
-		const double inner[] = { 0.715, 0.49 };
-		const double inner2[] = { 0.715, 0.51 };
-		const double outer2[] = { 0.76, 0.99 };
+		constexpr double outer[] = { 0.67, 0.01 };
+		constexpr double inner[] = { 0.715, 0.49 };
+		constexpr double inner2[] = { 0.715, 0.51 };
+		constexpr double outer2[] = { 0.76, 0.99 };
 		if (n > outer2[style]) {
 			h = 1;
 		} else if (n > inner2[style]) {
@@ -486,8 +486,8 @@ double cliff_function(const fracdef_t &def, const vector3d &p)
 {
 	double h;
 	double n = octavenoise(def.octaves, 0.54, 2.0, def.frequency*p);
-	const double outer = 0.7;
-	const double inner = 0.71;
+	constexpr double outer = 0.7;
+	constexpr double inner = 0.71;
 	if (n > inner) {
 		h = 0;
 	} else if (n > outer) {
