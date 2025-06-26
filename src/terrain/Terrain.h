@@ -225,7 +225,6 @@ class TerrainHeightWaterSolid;
 class TerrainColorAsteroid;
 class TerrainColorBandedRock;
 class TerrainColorBlack;
-class TerrainColorDeadWithWater;
 class TerrainColorDesert;
 /*ColorEarthlike uses features not yet included in all terrain colours
  such as better poles : http://www.spacesimcentral.com/forum/download/file.php?id=1884&mode=view

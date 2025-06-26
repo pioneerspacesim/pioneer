@@ -162,6 +162,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 				break;
 			}
 
+			// desert-ice planets
 			const GeneratorInstancer choices[] = {
 				InstanceGenerator<TerrainHeightHillsRidged, TerrainColorDesert>,
 				InstanceGenerator<TerrainHeightHillsRivers, TerrainColorDesert>,
@@ -202,6 +203,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 				break;
 			}
 
+			// ice planets
 			const GeneratorInstancer choices[] = {
 				InstanceGenerator<TerrainHeightHillsRidged, TerrainColorIce>,
 				InstanceGenerator<TerrainHeightHillsRivers, TerrainColorIce>,
@@ -244,6 +246,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 				break;
 			}
 
+			// ice planets
 			const GeneratorInstancer choices[] = {
 				InstanceGenerator<TerrainHeightHillsRidged, TerrainColorIce>,
 				InstanceGenerator<TerrainHeightHillsRivers, TerrainColorIce>,
