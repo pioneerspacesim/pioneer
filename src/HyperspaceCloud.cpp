@@ -50,13 +50,13 @@ HyperspaceCloud::HyperspaceCloud(const Json &jsonObj, Space *space) :
 		m_vel = hyperspaceCloudObj["vel"];
 		m_birthdate = hyperspaceCloudObj["birth_date"];
 		m_due = hyperspaceCloudObj["due"];
-		m_isArrival = hyperspaceCloudObj["is_arrival"];
 
 		m_ship = nullptr;
 		if (hyperspaceCloudObj["ship"].is_object()) {
 			Json shipObj = hyperspaceCloudObj["ship"];
 			m_ship = static_cast<Ship *>(Body::FromJson(shipObj, space));
 		}
+		SetIsArrival(hyperspaceCloudObj["is_arrival"]);
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
@@ -70,7 +70,11 @@ HyperspaceCloud::~HyperspaceCloud()
 void HyperspaceCloud::SetIsArrival(bool isArrival)
 {
 	m_isArrival = isArrival;
-	SetLabel(isArrival ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
+	if (!m_ship) {
+		SetLabel(Lang::HYPERSPACE_ARRIVAL_CLOUD_REMNANT);
+	} else {
+		SetLabel(isArrival ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
+	}
 }
 
 void HyperspaceCloud::SaveToJson(Json &jsonObj, Space *space)
@@ -121,6 +125,7 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 		m_ship->EnterSystem();
 
 		m_ship = nullptr;
+		SetLabel(Lang::HYPERSPACE_ARRIVAL_CLOUD_REMNANT);
 	}
 
 	// cloud expiration
@@ -135,6 +140,7 @@ Ship *HyperspaceCloud::EvictShip()
 {
 	Ship *s = m_ship;
 	m_ship = nullptr;
+	SetLabel(Lang::HYPERSPACE_ARRIVAL_CLOUD_REMNANT);
 	return s;
 }
 
