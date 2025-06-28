@@ -44,7 +44,9 @@ double TerrainHeightFractal<TerrainHeightRuggedDesert>::GetHeight(const vector3d
 	//rocks = mountain_distrib * GetFracDef(9).amplitude * rocks*rocks*rocks;
 	//n += rocks ;
 
-	return (n > 0.0 ? m_maxHeight * n : 0.0);
+	n *= m_maxHeight;
+	ApplySimpleHeightRegions(n, p);
+	return (n > 0.0 ? n : 0.0);
 }
 
 template <>
