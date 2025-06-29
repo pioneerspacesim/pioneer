@@ -224,6 +224,7 @@ namespace Sound {
 					m_backend = new AlAudioBackend();
 					break;
 				} catch (...) {
+					Output("Could not initialize OpenAL audio backend, falling back to default");
 				}
 			default:
 				m_backend = new SdlAudioBackend();
