@@ -12,42 +12,6 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightRuggedDesert>::GetHeightFractalName() const { return "RuggedDesert"; }
 
 template <>
-double TerrainHeightFractal<TerrainHeightRuggedDesert>::GetHeight(const vector3d &p) const
-{
-	double continents = octavenoise(GetFracDef(0), 0.5, p) - m_sealevel; // + (cliff_function(GetFracDef(7), p)*0.5);
-	if (continents < 0) return 0;
-	double mountain_distrib = octavenoise(GetFracDef(2), 0.5, p);
-	double mountains = ridged_octavenoise(GetFracDef(1), 0.5, p);
-	//double rocks = octavenoise(GetFracDef(9), 0.5, p);
-	double hill_distrib = octavenoise(GetFracDef(4), 0.5, p);
-	double hills = hill_distrib * GetFracDef(3).amplitude * billow_octavenoise(GetFracDef(3), 0.5, p);
-	double dunes = hill_distrib * GetFracDef(5).amplitude * dunes_octavenoise(GetFracDef(5), 0.5, p);
-	double n = continents * GetFracDef(0).amplitude * 2; //+ (cliff_function(GetFracDef(6), p)*0.5);
-	n += (n < 0.0 ? 0.0 : n);
-
-	// makes larger dunes at lower altitudes, flat ones at high altitude.
-	mountains = mountain_distrib * GetFracDef(3).amplitude * mountains * mountains * mountains;
-	// smoothes edges of mountains and places them only above a set altitude
-	if (n < 0.1)
-		n += n * 10.0f * hills;
-	else
-		n += hills;
-	if (n > 0.2)
-		n += dunes * (0.2 / n);
-	else
-		n += dunes;
-	if (n < 0.1)
-		n += n * 10.0f * mountains;
-	else
-		n += mountains;
-
-	//rocks = mountain_distrib * GetFracDef(9).amplitude * rocks*rocks*rocks;
-	//n += rocks ;
-
-	return (n > 0.0 ? m_maxHeight * n : 0.0);
-}
-
-template <>
 TerrainHeightFractal<TerrainHeightRuggedDesert>::TerrainHeightFractal(const SystemBody *body) :
 	Terrain(body)
 {
@@ -70,4 +34,45 @@ TerrainHeightFractal<TerrainHeightRuggedDesert>::TerrainHeightFractal(const Syst
 	//SetFracDef(9, m_maxHeightInMeters*0.1, 100, 10.0);
 	// adds bumps to the landscape
 	SetFracDef(9, height * 0.0025, m_rand.Double(1, 100), 100.0);
+}
+
+template <>
+void TerrainHeightFractal<TerrainHeightRuggedDesert>::GetHeights(const vector3d *vP, double *heightsOut, const size_t count) const
+{
+	for (size_t i = 0; i < count; i++) {
+		const vector3d &p = vP[i];
+		double continents = octavenoise(m_fracdef[0], 0.5, p) - m_sealevel; // + (cliff_function(m_fracdef[7], p)*0.5);
+		if (continents < 0.0)
+			heightsOut[i] = 0.0;
+
+		double mountain_distrib = octavenoise(m_fracdef[2], 0.5, p);
+		double mountains = ridged_octavenoise(m_fracdef[1], 0.5, p);
+		//double rocks = octavenoise(m_fracdef[9], 0.5, p);
+		double hill_distrib = octavenoise(m_fracdef[4], 0.5, p);
+		double hills = hill_distrib * m_fracdef[3].amplitude * billow_octavenoise(m_fracdef[3], 0.5, p);
+		double dunes = hill_distrib * m_fracdef[5].amplitude * dunes_octavenoise(m_fracdef[5], 0.5, p);
+		double n = continents * m_fracdef[0].amplitude * 2; //+ (cliff_function(m_fracdef[6], p)*0.5);
+		n += (n < 0.0 ? 0.0 : n);
+
+		// makes larger dunes at lower altitudes, flat ones at high altitude.
+		mountains = mountain_distrib * m_fracdef[3].amplitude * mountains * mountains * mountains;
+		// smoothes edges of mountains and places them only above a set altitude
+		if (n < 0.1)
+			n += n * 10.0f * hills;
+		else
+			n += hills;
+		if (n > 0.2)
+			n += dunes * (0.2 / n);
+		else
+			n += dunes;
+		if (n < 0.1)
+			n += n * 10.0f * mountains;
+		else
+			n += mountains;
+
+		//rocks = mountain_distrib * m_fracdef[9].amplitude * rocks*rocks*rocks;
+		//n += rocks ;
+
+		heightsOut[i] = (n > 0.0 ? m_maxHeight * n : 0.0);
+	}
 }

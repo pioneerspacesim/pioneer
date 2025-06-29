@@ -21,10 +21,13 @@ TerrainHeightFractal<TerrainHeightBarrenRock2>::TerrainHeightFractal(const Syste
 }
 
 template <>
-double TerrainHeightFractal<TerrainHeightBarrenRock2>::GetHeight(const vector3d &p) const
+void TerrainHeightFractal<TerrainHeightBarrenRock2>::GetHeights(const vector3d *vP, double *heightsOut, const size_t count) const
 {
+	for (size_t i = 0; i < count; i++) {
+		const vector3d &p = vP[i];
+		double n = billow_octavenoise(16, 0.3 * octavenoise(8, 0.4, 2.5, p), Clamp(5.0 * ridged_octavenoise(8, 0.377, 4.0, p), 1.0, 5.0), p);
 
-	double n = billow_octavenoise(16, 0.3 * octavenoise(8, 0.4, 2.5, p), Clamp(5.0 * ridged_octavenoise(8, 0.377, 4.0, p), 1.0, 5.0), p);
-
-	return (n > 0.0 ? m_maxHeight * n : 0.0);
+		n *= m_maxHeight;
+		heightsOut[i] = (n > 0.0 ? n : 0.0);
+	}
 }
