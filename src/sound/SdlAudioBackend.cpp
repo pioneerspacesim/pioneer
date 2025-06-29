@@ -2,7 +2,7 @@
 #include "MathUtil.h"
 #include "core/Log.h"
 
-#include "SDL2/SDL.h"
+#include "SDL.h"
 
 Sound::SdlAudioBackend::SdlAudioBackend()
 {
@@ -233,7 +233,7 @@ template <int T_channels, int T_upsample>
 void Sound::SdlAudioBackend::fill_audio_1stream(float *buffer, int len, int stream_num)
 {
 	// inbuf will be smaller for mono and for 22050hz samples
-	Sint16 *inbuf = static_cast<Sint16 *>(alloca(len * T_channels / T_upsample));
+	const Sint16 *inbuf = static_cast<Sint16 *>(alloca(len * T_channels / T_upsample));
 	// hm pity to put this here ^^ since not used by ev.sample->buf case
 	SoundEvent &ev = wavstream[stream_num];
 	int inbuf_pos = 0;
