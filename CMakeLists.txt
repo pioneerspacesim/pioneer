@@ -270,7 +270,7 @@ find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED)
 
 if(NOT TARGET OpenAL::OpenAL)
-	find_package(OpenAL CONFIG)
+	find_package(OpenAL)
 endif()
 if (CACHE{BUILD_WITH_OPENAL} AND NOT OpenAL_FOUND)
 	message(FATAL_ERROR "Requested BUILD_WITH_OPENAL=ON, but the library is not found")
