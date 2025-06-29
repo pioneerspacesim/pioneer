@@ -17,8 +17,7 @@ namespace Sound {
 		OP_STOP_AT_TARGET_VOLUME = (1 << 1)
 	};
 	typedef uint32_t Op;
-	enum
-	{
+	enum {
 		// Bitflags!
 		AudioBackend_SDL = 1 << 0,
 		AudioBackend_OpenAL = 1 << 1,

@@ -738,13 +738,11 @@ static int l_engine_get_available_sound_backends(lua_State *l)
 {
 	const Sound::BackendFlags backends = Sound::GetAvailableBackends();
 	lua_newtable(l);
-	if (backends & Sound::AudioBackend_SDL)
-	{
+	if (backends & Sound::AudioBackend_SDL) {
 		lua_pushstring(l, "SDL");
 		lua_rawseti(l, -2, 1);
 	}
-	if (backends & Sound::AudioBackend_OpenAL)
-	{
+	if (backends & Sound::AudioBackend_OpenAL) {
 		lua_pushstring(l, "OpenAL");
 		lua_rawseti(l, -2, 2);
 	}

@@ -65,15 +65,12 @@ void Sound::AlAudioBackend::DestroyAllEvents()
 void Sound::AlAudioBackend::DestroyAllEventsExceptMusic()
 {
 	std::vector<eventid> events_to_remove;
-	for (auto& [id, ev] : m_events)
-	{
-		if (!ev.IsMusic())
-		{
+	for (auto &[id, ev] : m_events) {
+		if (!ev.IsMusic()) {
 			events_to_remove.push_back(id);
 		}
 	}
-	for (auto id : events_to_remove)
-	{
+	for (auto id : events_to_remove) {
 		m_events.erase(id);
 	}
 }
@@ -124,17 +121,13 @@ bool Sound::AlAudioBackend::EventSetVolume(eventid eid, const float vol_left, co
 
 void Sound::AlAudioBackend::Pause(int on)
 {
-	for (auto& [id, ev] : m_events)
-	{
+	for (auto &[id, ev] : m_events) {
 		ALint state;
 		CHECK_OPENAL_ERROR(alGetSourcei, ev.GetSource(), AL_SOURCE_STATE, &state);
 
-		if (on && state == AL_PLAYING)
-		{
+		if (on && state == AL_PLAYING) {
 			CHECK_OPENAL_ERROR(alSourcePause, ev.GetSource());
-		}
-		else if (!on && state == AL_PAUSED)
-		{
+		} else if (!on && state == AL_PAUSED) {
 			CHECK_OPENAL_ERROR(alSourcePlay, ev.GetSource());
 		}
 	}
@@ -228,14 +221,12 @@ bool Sound::AlAudioBackend::IsBinauralSupported()
 
 void Sound::AlAudioBackend::EnableBinaural(bool enabled)
 {
-	if (!IsBinauralSupported())
-	{
+	if (!IsBinauralSupported()) {
 		Output("Cannot enable/disable binaural audio rendering, because it is not supported on the current OpenAL implementation");
 		return;
 	}
 	auto alcResetDeviceSOFT_fnptr = reinterpret_cast<LPALCRESETDEVICESOFT>(alGetProcAddress("alcResetDeviceSOFT"));
-	if (alcResetDeviceSOFT_fnptr == nullptr)
-	{
+	if (alcResetDeviceSOFT_fnptr == nullptr) {
 		Output("Could not get address of function alcResetDeviceSOFT");
 		return;
 	}
@@ -243,8 +234,7 @@ void Sound::AlAudioBackend::EnableBinaural(bool enabled)
 		ALC_HRTF_SOFT, ALC_TRUE, 0
 	};
 	const auto result = alcResetDeviceSOFT_fnptr(m_device, &attributes[0]);
-	if (result != AL_TRUE)
-	{
+	if (result != AL_TRUE) {
 		Output("Could not reset device properties with alcResetDeviceSOFT");
 	}
 }
