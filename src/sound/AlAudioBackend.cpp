@@ -1,6 +1,8 @@
 // Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#ifdef PI_BUILD_WITH_OPENAL
+
 #include "AlAudioBackend.h"
 #include "Pi.h"
 #include "Player.h"
@@ -412,3 +414,5 @@ void Sound::AlAudioBackend::SoundEvent::SetTargetGain(float gain, float rate)
 	target_gain = gain;
 	fade_rate = rate;
 }
+
+#endif
