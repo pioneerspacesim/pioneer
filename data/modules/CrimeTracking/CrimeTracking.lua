@@ -11,7 +11,7 @@ local PlayerState = require 'PlayerState'
 
 -- Fine at which police will launch and hunt down outlaw player
 -- This is the level above which the player counts as a criminal
--- in data/libs/Player.lua
+-- in data/libs/PlayerState.lua
 local maxFineTolerated = 5500
 
 -- store which station sent them out
