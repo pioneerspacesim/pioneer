@@ -514,6 +514,15 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 	UpdateLandingGear();
 
 	if (m_ship->GetFlightState() == Ship::FLYING) {
+
+		if (m_followTarget) {
+			double distSqr = m_followTarget->GetPositionRelTo(m_ship).LengthSqr();
+			if ((m_followMode == FOLLOW_ORI && distSqr > maxFollowDistanceSqr[FOLLOW_ORI]) ||
+				(m_followMode == FOLLOW_POS && distSqr > maxFollowDistanceSqr[FOLLOW_POS])) {
+				SetFollowTarget(nullptr);
+			}
+		}
+
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
 			PollControls(timeStep, mouseMotion, act);
