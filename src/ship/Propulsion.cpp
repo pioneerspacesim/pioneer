@@ -281,26 +281,6 @@ void Propulsion::AIAccelToModelRelativeVelocity(const vector3d &v)
 // sometimes endvel is too low to catch moving objects
 // worked around with half-accel hack in dynamicbody & pi.cpp
 
-double calc_ivel(double dist, double vel, double acc)
-{
-	bool inv = false;
-	if (dist < 0) {
-		dist = -dist;
-		vel = -vel;
-		inv = true;
-	}
-	double ivel = 0.9 * sqrt(vel * vel + 2.0 * acc * dist); // fudge hardly necessary
-
-	double endvel = ivel - (acc * Pi::game->GetTimeStep());
-	if (endvel <= 0.0)
-		ivel = dist / Pi::game->GetTimeStep(); // last frame discrete correction
-	else
-		ivel = (ivel + endvel) * 0.5; // discrete overshoot correction
-	//	else ivel = endvel + 0.5*acc/PHYSICS_HZ;                  // unknown next timestep discrete overshoot correction
-
-	return (inv) ? -ivel : ivel;
-}
-
 // version for all-positive values
 double calc_ivel_pos(double dist, double vel, double acc)
 {
@@ -313,6 +293,19 @@ double calc_ivel_pos(double dist, double vel, double acc)
 		ivel = (ivel + endvel) * 0.5; // discrete overshoot correction
 
 	return ivel;
+}
+
+double calc_ivel(double dist, double vel, double acc)
+{
+	bool inv = false;
+	if (dist < 0) {
+		dist = -dist;
+		vel = -vel;
+		inv = true;
+	}
+	double ivel = calc_ivel_pos(dist, vel, acc);
+
+	return (inv) ? -ivel : ivel;
 }
 
 // vel is desired velocity in ship's frame
