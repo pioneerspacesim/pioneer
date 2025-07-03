@@ -123,7 +123,6 @@ namespace SceneGraph {
 		RefCountedPtr<Group> GetRoot() { return m_root; }
 
 		//materials used in the nodes should be accessible from here for convenience
-		RefCountedPtr<Graphics::Material> GetMaterialByName(const std::string &name) const;
 		RefCountedPtr<Graphics::Material> GetMaterialByIndex(const int) const;
 		unsigned int GetNumMaterials() const { return static_cast<Uint32>(m_materials.size()); }
 

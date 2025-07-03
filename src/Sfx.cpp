@@ -397,13 +397,15 @@ void SfxManager::Init(Graphics::Renderer *r)
 	additiveAlphaState.depthWrite = false;
 	additiveAlphaState.primitiveType = Graphics::POINTS;
 
+	Graphics::VertexFormatDesc vfmt = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
+
 	// materials
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 1;
 
 	// ECM effect is different, not managed by Sfx at all, should it be factored out?
 	desc.effect = Graphics::EFFECT_BILLBOARD;
-	ecmParticle.reset(r->CreateMaterial("billboards", desc, additiveAlphaState));
+	ecmParticle.reset(r->CreateMaterial("billboards", desc, additiveAlphaState, vfmt));
 	ecmParticle->SetTexture("texture0"_hash,
 		Graphics::TextureBuilder::Billboard("textures/ecm.png").GetOrCreateTexture(r, "billboard"));
 
@@ -413,7 +415,7 @@ void SfxManager::Init(Graphics::Renderer *r)
 	SplitMaterialData(cfg.String("smokePacking"), m_materialData[TYPE_SMOKE]);
 
 	desc.effect = m_materialData[TYPE_DAMAGE].effect;
-	damageParticle.reset(r->CreateMaterial("billboards", desc, additiveAlphaState));
+	damageParticle.reset(r->CreateMaterial("billboards", desc, additiveAlphaState, vfmt));
 	damageParticle->SetTexture("texture0"_hash,
 		Graphics::TextureBuilder::Billboard(cfg.String("damageFile")).GetOrCreateTexture(r, "billboard"));
 	if (desc.effect == Graphics::EFFECT_BILLBOARD_ATLAS)
@@ -421,7 +423,7 @@ void SfxManager::Init(Graphics::Renderer *r)
 			m_materialData[TYPE_DAMAGE].coord_downscale);
 
 	desc.effect = m_materialData[TYPE_SMOKE].effect;
-	smokeParticle.reset(r->CreateMaterial("billboards", desc, alphaState));
+	smokeParticle.reset(r->CreateMaterial("billboards", desc, alphaState, vfmt));
 	smokeParticle->SetTexture("texture0"_hash,
 		Graphics::TextureBuilder::Billboard(cfg.String("smokeFile")).GetOrCreateTexture(r, "billboard"));
 	if (desc.effect == Graphics::EFFECT_BILLBOARD_ATLAS)
@@ -429,7 +431,7 @@ void SfxManager::Init(Graphics::Renderer *r)
 			m_materialData[TYPE_SMOKE].coord_downscale);
 
 	desc.effect = m_materialData[TYPE_EXPLOSION].effect;
-	explosionParticle.reset(r->CreateMaterial("billboards", desc, alphaState));
+	explosionParticle.reset(r->CreateMaterial("billboards", desc, alphaState, vfmt));
 	explosionParticle->SetTexture("texture0"_hash,
 		Graphics::TextureBuilder::Billboard(cfg.String("explosionFile")).GetOrCreateTexture(r, "billboard"));
 	if (desc.effect == Graphics::EFFECT_BILLBOARD_ATLAS)

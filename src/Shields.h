@@ -18,6 +18,7 @@
 namespace Graphics {
 	class Renderer;
 	class Material;
+	struct VertexFormatDesc;
 }
 namespace SceneGraph {
 	class Model;
@@ -59,9 +60,12 @@ protected:
 		Uint32 end;
 	};
 
+	RefCountedPtr<Graphics::Material> FindOrCreateMaterial(Graphics::Renderer *r, const Graphics::VertexFormatDesc &vtxFormat);
+
 	std::deque<Hits> m_hits;
 	std::vector<Shield> m_shields;
-	RefCountedPtr<Graphics::Material> m_shieldMaterial;
+	// RefCountedPtr<Graphics::Material> m_shieldMaterial;
+	std::vector<std::pair<uint64_t, RefCountedPtr<Graphics::Material>>> m_shieldMaterials;
 
 	bool m_enabled;
 
