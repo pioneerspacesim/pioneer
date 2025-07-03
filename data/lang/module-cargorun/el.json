@@ -269,27 +269,27 @@
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount} t"
+    "message": "%(mass) τόννοι"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "The mass is {amount} t."
+    "message": "Η ποσότητα είναι {amount} τόννοι."
   },
   "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "There are {amount} t."
+    "message": "Πρόκειται για {amount} τόννους."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "It's only {amount} t."
+    "message": "Είναι μόλις {amount} τόννοι."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "There are {amount} t of {cargoname}."
+    "message": "Είναι {amount} τόννοι {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount} t {cargoname}"
+    "message": "{amount} τόννοι {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
@@ -393,7 +393,7 @@
   },
   "NEGOTIABLE_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount} t {cargoname} can be divided as follows:"
+    "message": "{amount} τόννοι {cargoname} μπορούν να χωριστούν ως εξής:"
   },
   "NEGOTIABLE_3": {
     "description": "regarding mass, always more than 1t",
@@ -405,7 +405,7 @@
   },
   "NEGOTIABLE_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "No it is not. It's only {amount} t."
+    "message": "Δυστυχώς δε γίνεται, είναι μόλις {amount} τόννοι."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
@@ -413,7 +413,7 @@
   },
   "OFFER": {
     "description": "",
-    "message": "Transport {amount} t for {reward}"
+    "message": "Μεταφέρετε {amount} τόννους έναντι {reward}"
   },
   "OK_AGREED": {
     "description": "",
@@ -421,7 +421,7 @@
   },
   "OK_WE_AGREE": {
     "description": "",
-    "message": "OK, we agree on {amount} t for {reward}."
+    "message": "ΟΚ, είμαστε σύμφωνοι για {amount} τόννους έναντι {reward}."
   },
   "PICKUP_FROM": {
     "description": "from a location",

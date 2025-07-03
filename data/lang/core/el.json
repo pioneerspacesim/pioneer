@@ -405,7 +405,7 @@
   },
   "ECONOMY_TYPE": {
     "description": "",
-    "message": "Economy type"
+    "message": "Είδος οικονομίας"
   },
   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
     "description": "",
@@ -505,7 +505,7 @@
   },
   "GOVERNMENT_TYPE": {
     "description": "",
-    "message": "Government type"
+    "message": "Είδος διακυβέρνησης"
   },
   "GRAIN": {
     "description": "like wheat or barley",
@@ -1029,7 +1029,7 @@
   },
   "NUMBER_TONNES": {
     "description": "",
-    "message": "%{mass} t"
+    "message": "%(mass) τόννοι"
   },
   "N_ATMOSPHERE": {
     "description": "",
@@ -1189,7 +1189,7 @@
   },
   "POPULATION": {
     "description": "",
-    "message": "Population"
+    "message": "Πληθυσμός"
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -1317,7 +1317,7 @@
   },
   "SECTOR_X_Y_Z": {
     "description": "",
-    "message": "Sector: {sectorX}, {sectorY}, {sectorZ}"
+    "message": "Τομέας: {sectorX}, {sectorY}, {sectorZ}"
   },
   "SELECTED_SYSTEM": {
     "description": "",
