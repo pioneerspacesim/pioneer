@@ -320,16 +320,27 @@ bool Propulsion::AIMatchVel(const vector3d &vel, const vector3d &powerLimit)
 // returns true if this can be done in a single timestep
 bool Propulsion::AIChangeVelBy(const vector3d &diffvel, const vector3d &powerLimit)
 {
-	// counter external forces
-	vector3d extf = m_dBody->GetExternalForce() * (Pi::game->GetTimeStep() / m_dBody->GetMass());
-	vector3d diffvel2 = diffvel - extf * m_dBody->GetOrient();
+	float frameTimestep = Pi::game->GetTimeStep();
 
-	vector3d maxThrust = GetThrust(diffvel2);
-	vector3d maxFrameAccel = maxThrust * (Pi::game->GetTimeStep() / m_dBody->GetMass());
+	// external force, acceleration and velocity
+	// acceleration: F = ma -> a = F / m
+	vector3d extf = m_dBody->GetExternalForce() * m_dBody->GetOrient();
+	vector3d exta = extf / m_dBody->GetMass();
+	vector3d extdv = exta * frameTimestep;
+
+	// required internal velocity change (should extdv be the opposite direction?)
+	vector3d intdvGoal = diffvel - extdv;
+
+	// internal force and acceleration
+	vector3d intf = GetThrust(intdvGoal);
+	vector3d inta = intf / m_dBody->GetMass();
+	vector3d intdv = inta * frameTimestep;
+
 	vector3d thrust(
-		Clamp(diffvel2.x / maxFrameAccel.x, -powerLimit.x, powerLimit.x),
-		Clamp(diffvel2.y / maxFrameAccel.y, -powerLimit.y, powerLimit.y),
-		Clamp(diffvel2.z / maxFrameAccel.z, -powerLimit.z, powerLimit.z));
+		Clamp(intdvGoal.x / intdv.x, -powerLimit.x, powerLimit.x),
+		Clamp(intdvGoal.y / intdv.y, -powerLimit.y, powerLimit.y),
+		Clamp(intdvGoal.z / intdv.z, -powerLimit.z, powerLimit.z));
+
 	SetLinThrusterState(thrust); // use clamping
 	if (thrust.x * thrust.x > 1.0 || thrust.y * thrust.y > 1.0 || thrust.z * thrust.z > 1.0) return false;
 	return true;
