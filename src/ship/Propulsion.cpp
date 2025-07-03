@@ -336,10 +336,12 @@ bool Propulsion::AIChangeVelBy(const vector3d &diffvel, const vector3d &powerLim
 	vector3d inta = intf / m_dBody->GetMass();
 	vector3d intdv = inta * frameTimestep;
 
+	vector3d intdvSmooth = intdv * 60.0;
+
 	vector3d thrust(
-		Clamp(intdvGoal.x / intdv.x, -powerLimit.x, powerLimit.x),
-		Clamp(intdvGoal.y / intdv.y, -powerLimit.y, powerLimit.y),
-		Clamp(intdvGoal.z / intdv.z, -powerLimit.z, powerLimit.z));
+		Clamp(intdvGoal.x / intdvSmooth.x, -powerLimit.x, powerLimit.x),
+		Clamp(intdvGoal.y / intdvSmooth.y, -powerLimit.y, powerLimit.y),
+		Clamp(intdvGoal.z / intdvSmooth.z, -powerLimit.z, powerLimit.z));
 
 	SetLinThrusterState(thrust); // use clamping
 	if (thrust.x * thrust.x > 1.0 || thrust.y * thrust.y > 1.0 || thrust.z * thrust.z > 1.0) return false;
