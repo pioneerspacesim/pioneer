@@ -24,8 +24,8 @@ vector3d TerrainColorFractal<TerrainColorRock2>::GetColor(const vector3d &p, dou
 	const vector3d color_cliffs = m_rockColor[0];
 	double equatorial_desert = (2.0 - m_icyness) * (-1.0 + 2.0 * octavenoise(4, 0.05, 2.0, (n * 2.0) * p)) *
 		1.0 * (2.0 - m_icyness) * (1.0 - p.y * p.y);
-	//double equatorial_region = octavenoise(GetFracDef(0), 0.54, p) * p.y * p.x;
-	//double equatorial_region_2 = ridged_octavenoise(GetFracDef(1), 0.58, p) * p.x * p.x;
+	//double equatorial_region = octavenoise(m_fracdef[0], 0.54, p) * p.y * p.x;
+	//double equatorial_region_2 = ridged_octavenoise(m_fracdef[1], 0.58, p) * p.x * p.x;
 	// Below is to do with variable colours for different heights, it gives a nice effect.
 	// n is height.
 	vector3d col;
