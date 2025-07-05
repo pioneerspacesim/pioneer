@@ -5,7 +5,6 @@
 #define __SOUND_H
 
 #include <cstdint>
-#include <map>
 #include <string>
 #include <vector>
 
@@ -18,6 +17,18 @@ namespace Sound {
 		OP_STOP_AT_TARGET_VOLUME = (1 << 1)
 	};
 	typedef uint32_t Op;
+	enum {
+		// Bitflags!
+		AudioBackend_SDL = 1 << 0,
+		AudioBackend_OpenAL = 1 << 1,
+#ifdef PI_BUILD_WITH_OPENAL
+		AudioBackend_Default = AudioBackend_OpenAL,
+#else
+		AudioBackend_Default = AudioBackend_SDL,
+#endif
+	};
+	typedef uint32_t BackendId;
+	typedef uint32_t BackendFlags;
 
 	class Event {
 	public:
@@ -25,7 +36,7 @@ namespace Sound {
 			eid(0) {}
 		void Play(const char *fx, const float volume_left, const float volume_right, Op op);
 		void Play(const char *fx) { Play(fx, 1.0f, 1.0f, 0); }
-		void PlayMusic(const char *fx, float volume, float fadeDelta, bool repeat, Event* fadeOut = nullptr);
+		void PlayMusic(const char *fx, float volume, float fadeDelta, bool repeat, Event *fadeOut = nullptr);
 		bool Stop();
 		bool IsPlaying() const;
 		bool SetOp(Op op);
@@ -46,11 +57,11 @@ namespace Sound {
 		uint32_t eid;
 	};
 
-	bool Init(bool automaticallyOpenDevice = true);
-	bool InitDevice(std::string &name);
+	BackendFlags GetAvailableBackends();
+	BackendId GetBackendId();
+
+	bool Init(BackendId backend);
 	void Uninit();
-	std::vector<std::string> &GetAudioDevices();
-	void UpdateAudioDevices();
 	/**
 	 * Silence all active sound events.
 	 */
@@ -66,7 +77,10 @@ namespace Sound {
 	void SetSfxVolume(const float vol);
 	float GetSfxVolume();
 	const std::vector<std::string> GetMusicFiles();
+	void Update(float delta_t);
 
+	bool IsBinauralSupported();
+	void EnableBinaural(bool enabled);
 } /* namespace Sound */
 
 #endif /* __SOUND_H */
