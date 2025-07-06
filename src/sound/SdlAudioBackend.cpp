@@ -4,6 +4,49 @@
 
 #include "SDL.h"
 
+#include <utility>
+
+namespace {
+
+	class AudioDeviceGuard {
+	public:
+		explicit AudioDeviceGuard(SDL_AudioDeviceID dev) :
+			m_dev(dev), m_locked(true)
+		{
+			SDL_LockAudioDevice(m_dev);
+		}
+
+		AudioDeviceGuard(const AudioDeviceGuard &) = delete;
+
+		AudioDeviceGuard(AudioDeviceGuard &&other) :
+			m_dev(std::exchange(other.m_dev, 0)), m_locked(std::exchange(other.m_locked, false))
+		{
+		}
+
+		~AudioDeviceGuard()
+		{
+			if (m_locked) {
+				SDL_UnlockAudioDevice(m_dev);
+				m_locked = false;
+			}
+		}
+
+		AudioDeviceGuard &operator=(const AudioDeviceGuard &) = delete;
+
+		AudioDeviceGuard &operator=(AudioDeviceGuard &&other)
+		{
+			m_dev = std::exchange(other.m_dev, 0);
+			m_locked = std::exchange(other.m_locked, false);
+			return *this;
+		}
+
+	private:
+		SDL_AudioDeviceID m_dev;
+		bool m_locked;
+	};
+
+} //namespace
+
 Sound::SdlAudioBackend::SdlAudioBackend()
 {
 	if (SDL_Init(SDL_INIT_AUDIO) == -1) {
@@ -39,33 +82,30 @@ Sound::SdlAudioBackend::~SdlAudioBackend()
 void Sound::SdlAudioBackend::DestroyAllEvents()
 {
 	/* silence any sound events */
-	SDL_LockAudioDevice(m_audioDevice);
+	AudioDeviceGuard guard(m_audioDevice);
 	for (unsigned int idx = 0; idx < MAX_WAVSTREAMS; idx++) {
 		this->DestroyEvent(&wavstream[idx]);
 	}
-	SDL_UnlockAudioDevice(m_audioDevice);
 }
 
 void Sound::SdlAudioBackend::DestroyAllEventsExceptMusic()
 {
 	/* silence any sound events EXCEPT music
 	which are on wavstream[0] and [1] */
-	SDL_LockAudioDevice(m_audioDevice);
+	AudioDeviceGuard guard(m_audioDevice);
 	for (unsigned int idx = 2; idx < MAX_WAVSTREAMS; idx++) {
 		this->DestroyEvent(&wavstream[idx]);
 	}
-	SDL_UnlockAudioDevice(m_audioDevice);
 }
 
 bool Sound::SdlAudioBackend::EventStop(eventid eid)
 {
 	if (eid) {
-		SDL_LockAudioDevice(m_audioDevice);
+		AudioDeviceGuard guard(m_audioDevice);
 		SoundEvent *s = GetEvent(eid);
 		if (s) {
 			DestroyEvent(s);
 		}
-		SDL_UnlockAudioDevice(m_audioDevice);
 		return s != nullptr;
 	} else {
 		return false;
@@ -84,19 +124,18 @@ bool Sound::SdlAudioBackend::EventSetOp(eventid eid, Op op)
 {
 	if (eid == 0) return false;
 	bool ret = false;
-	SDL_LockAudioDevice(m_audioDevice);
+	AudioDeviceGuard guard(m_audioDevice);
 	SoundEvent *se = GetEvent(eid);
 	if (se) {
 		se->op = op;
 		ret = true;
 	}
-	SDL_UnlockAudioDevice(m_audioDevice);
 	return ret;
 }
 
 bool Sound::SdlAudioBackend::EventVolumeAnimate(eventid eid, const float targetVol1, const float targetVol2, const float dv_dt1, const float dv_dt2)
 {
-	SDL_LockAudioDevice(m_audioDevice);
+	AudioDeviceGuard guard(m_audioDevice);
 	SoundEvent *ev = GetEvent(eid);
 	if (ev) {
 		ev->targetVolume[0] = targetVol1;
@@ -104,13 +143,12 @@ bool Sound::SdlAudioBackend::EventVolumeAnimate(eventid eid, const float targetV
 		ev->rateOfChange[0] = dv_dt1 / float(FREQ);
 		ev->rateOfChange[1] = dv_dt2 / float(FREQ);
 	}
-	SDL_UnlockAudioDevice(m_audioDevice);
 	return (ev != nullptr);
 }
 
 bool Sound::SdlAudioBackend::EventSetVolume(eventid eid, const float vol_left, const float vol_right)
 {
-	SDL_LockAudioDevice(m_audioDevice);
+	AudioDeviceGuard guard(m_audioDevice);
 	bool status = false;
 	for (unsigned int i = 0; i < MAX_WAVSTREAMS; i++) {
 		if (wavstream[i].sample && (wavstream[i].identifier == eid)) {
@@ -122,7 +160,6 @@ bool Sound::SdlAudioBackend::EventSetVolume(eventid eid, const float vol_left, c
 			break;
 		}
 	}
-	SDL_UnlockAudioDevice(m_audioDevice);
 	return status;
 }
 
@@ -146,7 +183,7 @@ Sound::AudioBackend::eventid Sound::SdlAudioBackend::Play(std::string_view key, 
 		return 0;
 	}
 	const float mix_volume = sample_it->second.isMusic ? 1.0F : GetSfxVolume();
-	SDL_LockAudioDevice(m_audioDevice);
+	AudioDeviceGuard guard(m_audioDevice);
 	SoundEvent &empty_event = FindFreeEventForSample(sample_it->second);
 	empty_event.sample = &sample_it->second;
 	empty_event.oggv = 0;
@@ -158,7 +195,6 @@ Sound::AudioBackend::eventid Sound::SdlAudioBackend::Play(std::string_view key, 
 	empty_event.targetVolume[0] = mix_volume;
 	empty_event.targetVolume[1] = mix_volume;
 	empty_event.rateOfChange[0] = empty_event.rateOfChange[1] = 0.0f;
-	SDL_UnlockAudioDevice(m_audioDevice);
 	return identifier++;
 }
 
