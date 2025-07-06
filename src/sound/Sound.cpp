@@ -253,6 +253,7 @@ namespace Sound {
 			for (auto sample_copy : m_samples) {
 				m_backend->AddSample(sample_copy.first, std::move(sample_copy.second));
 			}
+			Pause(0);
 		}
 
 		/* silence any sound events */
