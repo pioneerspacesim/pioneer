@@ -315,6 +315,10 @@
     "description": "graphics option in game settings menu ",
     "message": "Compress Textures"
   },
+  "COMPUTER_MOUNTS": {
+    "description": "How many slots or mounts exist on the ship for fitting COMPUTER equipment (e.g. autopilot, trade computer, etc)",
+    "message": "Computer mounts"
+  },
   "CONFIRM_PURCHASE": {
     "description": "",
     "message": "Confirm purchase"
@@ -1327,6 +1331,10 @@
     "description": "",
     "message": "Hull integrity"
   },
+  "HULL_MOUNTS": {
+    "description": "How many slots or mounts exist on the ship for fitting Hull mounted equipment (eg. Atmospheric Shielding)",
+    "message": "Hull mounts"
+  },
   "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
     "description": "",
     "message": "Hull repaired by {name}, now at {repairPercent}%"
@@ -1695,9 +1703,17 @@
     "description": "For displaying commodity information",
     "message": "Minor Import"
   },
+  "MISSILE_BAYS": {
+    "description": "How many slots or mounts exist on the ship for Missile Bays.",
+    "message": "Missile bays"
+  },
   "MISSILE_MOUNTS": {
     "description": "",
     "message": "Missile mounts"
+  },
+  "MISSILE_PYLONS": {
+    "description": "How many slots or mounts exist on the ship for Missile Pylons.",
+    "message": "Missile pylons"
   },
   "MISSIONS": {
     "description": "",
@@ -2335,6 +2351,10 @@
     "description": "Title for sell-price column in commodity market",
     "message": "Sell"
   },
+  "SENSOR_MOUNTS": {
+    "description": "How many slots or mounts exist on the ship for fitting SENSOR equipment (e.g. radar, etc)",
+    "message": "Sensor mounts"
+  },
   "SENSORS": {
     "description": "Crew skill",
     "message": "Sensors"
@@ -2370,6 +2390,10 @@
   "SET_TO_ZERO": {
     "description": "For the speed limiter button",
     "message": "Set to zero"
+  },
+  "SHIELD_MOUNTS": {
+    "description": "How many slots or mounts exist on the ship for fitting Shields",
+    "message": "Shield mounts"
   },
   "SHIP": {
     "description": "",
@@ -2530,6 +2554,10 @@
   "STATUS": {
     "description": "",
     "message": "Status"
+  },
+  "STRUCTURE_MOUNTS": {
+    "description": "How many slots or mounts exist on the ship for fitting Structural equipment (e.g. Hull Reinforcement)",
+    "message": "Structure mounts"
   },
   "SUMMARY": {
     "description": "Tab item in the start game menu",
@@ -2731,6 +2759,10 @@
     "description": "",
     "message": "Used"
   },
+  "UTILITY_MOUNTS": {
+    "description": "How many slots or mounts exist on the ship for fitting UTILITY equipment (e.g. scanners) ",
+    "message": "Utility mounts"
+  },
   "VERY_HIGH": {
     "description": "Game settings option: graphic resolution",
     "message": "Very high"
@@ -2782,6 +2814,10 @@
   "WAGE": {
     "description": "Salary of crew shown in crew roster",
     "message": "Wage"
+  },
+  "WEAPON_MOUNTS": {
+    "description": "How many slots or mounts exist on the ship for fitting Weapons.",
+    "message": "Weapon mounts"
   },
   "WEIGHT_EMPTY": {
     "description": "",
