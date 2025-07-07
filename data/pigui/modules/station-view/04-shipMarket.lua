@@ -353,7 +353,7 @@ local function getNumSlotsCompatibleWithType(def, type)
 	local count = 0
 
 	for _, slot in pairs(config.slots) do
-		if EquipSet.SlotTypeMatches(type, slot.type) then
+		if EquipSet.SlotTypeMatches(slot.type, type) then
 			count = count + (slot.count or 1)
 		end
 	end
