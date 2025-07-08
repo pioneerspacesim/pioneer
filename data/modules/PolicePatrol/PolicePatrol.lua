@@ -227,7 +227,7 @@ end
 
 local onShipDocked = function (player)
 	if not player:IsPlayer() then return end
-	local crimes, fine = player:GetCrimeOutstanding()
+	local crimes, fine = PlayerState.GetCrimeOutstanding()
 	if fine > 0 then
 		Comms.ImportantMessage("[" .. string.upper(Game.system.faction.policeName) .. " - " ..
 			l_ui_core.AUTOMATED_MESSAGE .. "] " .. l_ui_core.OUTSTANDING_FINES .. ": " .. ui.Format.Money(fine))
