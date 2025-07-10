@@ -741,6 +741,9 @@ end
 function ui.optionsWindow:close()
 	if not captureBindingWindow.isOpen then
 		ModalWindow.close(self)
+
+		-- Write any changed settings to disk
+		Engine.SaveSettings()
 		if Game.player then
 			Game.SetTimeAcceleration("1x")
 			Event.Queue("onPauseMenuClosed")
