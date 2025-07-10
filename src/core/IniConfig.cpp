@@ -24,8 +24,12 @@ void IniConfig::SetFloat(const std::string &section, const std::string &key, flo
 
 void IniConfig::SetString(const std::string &section, const std::string &key, const std::string &val)
 {
-	m_map[section][key] = val;
-	m_unsaved = true;
+	std::string &store = m_map[section][key];
+
+	if (store != val) {
+		store = val;
+		m_unsaved = true;
+	}
 }
 
 int IniConfig::Int(const std::string &section, const std::string &key, int defval) const
@@ -163,6 +167,10 @@ bool IniConfig::Save()
 		return false;
 	}
 
+	if (!Write(*m_fs, m_path)) {
+		return false;
+	}
+
 	m_unsaved = false;
-	return Write(*m_fs, m_path);
+	return true;
 }
