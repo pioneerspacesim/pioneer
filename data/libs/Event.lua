@@ -58,7 +58,7 @@ function Event:Register(name, module, func, priority)
 	end
 
 	local pos = priority and 1 or #callbacks + 1
-	table.insert(callbacks, 1, { module = module, func = func })
+	table.insert(callbacks, pos, { module = module, func = func })
 end
 
 function Event:Deregister(name, module, func)
