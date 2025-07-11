@@ -186,21 +186,13 @@ local radial_menu_actions_systembody = {
 function ui.openDefaultRadialMenu(id, body, pos, action_binding)
 	if body then
 		local actions = {}
-		for _,v in pairs(radial_menu_actions_all_bodies) do
-			table.insert(actions, v)
-		end
+		table.append(actions, radial_menu_actions_all_bodies)
 		if body:IsStation() then
-			for _,v in pairs(radial_menu_actions_station) do
-				table.insert(actions, v)
-			end
+			table.append(actions, radial_menu_actions_station)
 		elseif body:IsHyperspaceCloud() then
-			for _,v in pairs(radial_menu_actions_hyperspace_cloud) do
-				table.insert(actions, v)
-			end
+			table.append(actions, radial_menu_actions_hyperspace_cloud)
 		elseif body:GetSystemBody() then
-			for _,v in pairs(radial_menu_actions_systembody) do
-				table.insert(actions, v)
-			end
+			table.append(actions, radial_menu_actions_systembody)
 		end
 		ui.openRadialMenu(id, body, 1, defaultRadialMenuIconSize, actions, defaultRadialMenuPadding, pos, action_binding)
 	end
