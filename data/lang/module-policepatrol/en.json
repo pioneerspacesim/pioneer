@@ -13,7 +13,7 @@
   },
   "FINES_ADMONISHING_4": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "There's a {policeforce} office on every larger station. Pay your fines!"
+    "message": "There's a {policeforce} office on every large station. Pay your fines!"
   },
   "FINES_ADMONISHING_HARSH_1": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
