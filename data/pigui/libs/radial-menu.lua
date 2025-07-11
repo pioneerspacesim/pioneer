@@ -75,7 +75,7 @@ end
 local radial_menu_actions_hyperspace_cloud = {
 	{
 		icon = ui.theme.icons.hyperspace,
-		tooltip=lc.SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE,
+		tooltip = lc.SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE,
 		action = function(target)
 			local hypercloud_level = (Game.player["hypercloud_analyzer_cap"] or 0)
 			local ship = not target:IsArrival() and target:GetShip()
