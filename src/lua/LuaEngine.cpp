@@ -724,6 +724,35 @@ static int l_engine_get_star_field_star_size_factor(lua_State *l)
 	return 1;
 }
 
+static int l_engine_get_available_sound_backends(lua_State *l)
+{
+	const Sound::BackendFlags backends = Sound::GetAvailableBackends();
+	lua_newtable(l);
+	if (backends & Sound::AudioBackend_SDL) {
+		lua_pushstring(l, "SDL");
+		lua_rawseti(l, -2, 1);
+	}
+	if (backends & Sound::AudioBackend_OpenAL) {
+		lua_pushstring(l, "OpenAL");
+		lua_rawseti(l, -2, 2);
+	}
+	return 1;
+}
+
+static int l_engine_get_sound_backend_id(lua_State *l)
+{
+	lua_pushnumber(l, Sound::GetBackendId());
+	return 1;
+}
+
+static int l_engine_set_sound_backend(lua_State *l)
+{
+	const Sound::BackendId id = luaL_checkinteger(l, 1);
+	Sound::Init(id);
+	Pi::config->SetInt("AudioBackendId", Sound::GetBackendId());
+	return 0;
+}
+
 static void set_master_volume(const bool muted, const float volume)
 {
 	Sound::Pause(muted || is_zero_exact(volume));
@@ -828,6 +857,28 @@ static int l_engine_set_music_volume(lua_State *l)
 {
 	const float volume = Clamp(luaL_checknumber(l, 1), 0.0, 1.0);
 	set_music_volume(Pi::config->Int("MusicMuted") != 0, volume);
+	return 0;
+}
+
+static int l_engine_is_binaural_supported(lua_State *l)
+{
+	lua_pushboolean(l, Sound::IsBinauralSupported());
+	return 1;
+}
+
+static int l_engine_get_binaural_rendering(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("BinauralRendering"));
+	return 1;
+}
+
+static int l_engine_set_binaural_rendering(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SetBinauralRendering takes one boolean argument");
+	const bool enabled = lua_toboolean(l, 1);
+	Sound::EnableBinaural(enabled);
+	Pi::config->SetInt("BinauralRendering", enabled ? 1 : 0);
 	return 0;
 }
 
@@ -1219,6 +1270,10 @@ void LuaEngine::Register()
 		{ "SetStarFieldStarSizeFactor", l_engine_set_star_field_star_size_factor },
 		{ "GetStarFieldStarSizeFactor", l_engine_get_star_field_star_size_factor },
 
+		{ "GetAvailableSoundBackends", l_engine_get_available_sound_backends },
+		{ "GetSoundBackendId", l_engine_get_sound_backend_id },
+		{ "SetSoundBackend", l_engine_set_sound_backend },
+		{ "GetAvailableSoundBackends", l_engine_get_available_sound_backends },
 		{ "GetMasterMuted", l_engine_get_master_muted },
 		{ "SetMasterMuted", l_engine_set_master_muted },
 		{ "GetMasterVolume", l_engine_get_master_volume },
@@ -1231,6 +1286,9 @@ void LuaEngine::Register()
 		{ "SetMusicMuted", l_engine_set_music_muted },
 		{ "GetMusicVolume", l_engine_get_music_volume },
 		{ "SetMusicVolume", l_engine_set_music_volume },
+		{ "IsBinauralRenderingSupported", l_engine_is_binaural_supported },
+		{ "GetBinauralRendering", l_engine_get_binaural_rendering },
+		{ "SetBinauralRendering", l_engine_set_binaural_rendering },
 
 		{ "CanBrowseUserFolder", l_get_can_browse_user_folders },
 		{ "OpenBrowseUserFolder", l_browse_user_folders },
