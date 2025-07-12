@@ -33,10 +33,13 @@ namespace Graphics {
 			GLuint GetConstantLocation(uint32_t index) const { return m_constants[index]; }
 			GLuint GetProgramID() const { return m_program; }
 
+			const Shader *GetShader() const { return m_shader; }
+
 		protected:
 			GLuint LoadShaders(const ProgramDef &def);
 			void InitUniforms(Shader *shader);
 
+			const Shader *m_shader;
 			GLuint m_program;
 			bool success;
 

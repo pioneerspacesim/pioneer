@@ -6,7 +6,10 @@
 #include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"
+#include "graphics/VertexBuffer.h"
 #include "utils.h"
+
+#include "lz4/xxhash.h"
 
 using namespace SceneGraph;
 
@@ -20,15 +23,44 @@ BaseLoader::BaseLoader(Graphics::Renderer *r) :
 	m_labelFont.Reset(new Text::DistanceFieldFont("fonts/sdf_definition.txt", sdfTex));
 }
 
-void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
+RefCountedPtr<Graphics::Material> BaseLoader::GetMaterialForMesh(std::string_view name, const Graphics::VertexFormatDesc &vtxFormat)
+{
+	size_t vtxHash = vtxFormat.Hash();
+
+	// Intern the vertex format for debugging purposes
+	m_vtxFormatCache.try_emplace(vtxHash, vtxFormat);
+
+	// Create a hash key from the material name and the vertex format hash
+	uint64_t materialKey = XXH64(name.data(), name.size(), vtxHash);
+	auto iter = m_materialLookup.find(materialKey);
+
+	// If we already have the material cached, we can just use it.
+	if (iter != m_materialLookup.end()) {
+		return iter->second;
+	}
+
+	// Create a new material instance according to the material definition
+	auto mdef = std::find_if(m_modelDef->matDefs.begin(), m_modelDef->matDefs.end(), [&](const MaterialDefinition &v) {
+		return name.compare(v.name) == 0;
+	});
+
+	if (mdef == m_modelDef->matDefs.end()) {
+		Log::Warning("{}: No material definition found for material name {}, using material {}",
+			m_modelDef->name, name, m_modelDef->matDefs.front().name);
+		mdef = m_modelDef->matDefs.begin();
+	}
+
+	RefCountedPtr<Graphics::Material> mat = ConvertMaterialDefinition(*mdef, vtxFormat);
+
+	m_model->m_materials.push_back(std::make_pair(mdef->name, mat));
+	m_materialLookup.try_emplace(materialKey, mat);
+
+	return mat;
+}
+
+RefCountedPtr<Graphics::Material> BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef, const Graphics::VertexFormatDesc &vtxFormat)
 {
 	//Build material descriptor
-	const std::string &diffTex = mdef.tex_diff;
-	const std::string &specTex = mdef.tex_spec;
-	const std::string &glowTex = mdef.tex_glow;
-	const std::string &ambiTex = mdef.tex_ambi;
-	const std::string &normTex = mdef.tex_norm;
-
 	Graphics::MaterialDescriptor matDesc;
 	matDesc.lighting = !mdef.unlit;
 	matDesc.alphaTest = mdef.alpha_test;
@@ -37,10 +69,10 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 
 	//diffuse texture is a must. Will create a white dummy texture if one is not supplied
 	matDesc.textures = 1;
-	matDesc.specularMap = !specTex.empty();
-	matDesc.glowMap = !glowTex.empty();
-	matDesc.ambientMap = !ambiTex.empty();
-	matDesc.normalMap = !normTex.empty();
+	matDesc.specularMap = !mdef.tex_spec.empty();
+	matDesc.glowMap = !mdef.tex_glow.empty();
+	matDesc.ambientMap = !mdef.tex_ambi.empty();
+	matDesc.normalMap = !mdef.tex_norm.empty();
 	matDesc.quality = Graphics::HAS_HEAT_GRADIENT;
 
 	// FIXME: add render state properties to MaterialDefinition
@@ -52,7 +84,7 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	}
 
 	//Create material and set parameters
-	RefCountedPtr<Graphics::Material> mat(m_renderer->CreateMaterial("multi", matDesc, rsd));
+	RefCountedPtr<Graphics::Material> mat(m_renderer->CreateMaterial("multi", matDesc, rsd, vtxFormat));
 	mat->diffuse = mdef.diffuse;
 	mat->specular = mdef.specular;
 	mat->emissive = mdef.emissive;
@@ -69,20 +101,20 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	Graphics::Texture *texture2 = nullptr;
 	Graphics::Texture *texture3 = nullptr;
 	Graphics::Texture *texture6 = nullptr;
-	if (!diffTex.empty())
-		texture0 = Graphics::TextureBuilder::Model(diffTex).GetOrCreateTexture(m_renderer, "model");
+	if (!mdef.tex_diff.empty())
+		texture0 = Graphics::TextureBuilder::Model(mdef.tex_diff).GetOrCreateTexture(m_renderer, "model");
 	else
 		texture0 = Graphics::TextureBuilder::GetWhiteTexture(m_renderer);
-	if (!specTex.empty())
-		texture1 = Graphics::TextureBuilder::Model(specTex).GetOrCreateTexture(m_renderer, "model");
-	if (!glowTex.empty())
-		texture2 = Graphics::TextureBuilder::Model(glowTex).GetOrCreateTexture(m_renderer, "model");
-	if (!ambiTex.empty())
-		texture3 = Graphics::TextureBuilder::Model(ambiTex).GetOrCreateTexture(m_renderer, "model");
+	if (!mdef.tex_spec.empty())
+		texture1 = Graphics::TextureBuilder::Model(mdef.tex_spec).GetOrCreateTexture(m_renderer, "model");
+	if (!mdef.tex_glow.empty())
+		texture2 = Graphics::TextureBuilder::Model(mdef.tex_glow).GetOrCreateTexture(m_renderer, "model");
+	if (!mdef.tex_ambi.empty())
+		texture3 = Graphics::TextureBuilder::Model(mdef.tex_ambi).GetOrCreateTexture(m_renderer, "model");
 	//texture4 is reserved for pattern
 	//texture5 is reserved for color gradient
-	if (!normTex.empty())
-		texture6 = Graphics::TextureBuilder::Normal(normTex).GetOrCreateTexture(m_renderer, "model");
+	if (!mdef.tex_norm.empty())
+		texture6 = Graphics::TextureBuilder::Normal(mdef.tex_norm).GetOrCreateTexture(m_renderer, "model");
 
 	mat->SetTexture("texture0"_hash, texture0);
 	mat->SetTexture("texture1"_hash, texture1);
@@ -90,13 +122,14 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	mat->SetTexture("texture3"_hash, texture3);
 	mat->SetTexture("texture6"_hash, texture6);
 
-	m_model->m_materials.push_back(std::make_pair(mdef.name, mat));
+	return mat;
 }
 
 RefCountedPtr<Graphics::Material> BaseLoader::GetDecalMaterial(unsigned int index)
 {
 	assert(index <= Model::MAX_DECAL_MATERIALS);
 	RefCountedPtr<Graphics::Material> &decMat = m_model->m_decalMaterials[index - 1];
+
 	if (!decMat.Valid()) {
 		Graphics::MaterialDescriptor matDesc;
 		matDesc.textures = 1;
@@ -106,13 +139,18 @@ RefCountedPtr<Graphics::Material> BaseLoader::GetDecalMaterial(unsigned int inde
 		rsd.depthWrite = false;
 		rsd.blendMode = Graphics::BLEND_ALPHA;
 
+		// Hardcoding the vertex format here to work around the design of decal materials in Model
+		// Ideally decals should be specified as a texture and a model-wide bind-group be updated
+		Graphics::VertexFormatDesc vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0 | Graphics::ATTRIB_TANGENT);
+
 		// XXX add depth bias to render state parameter
-		decMat.Reset(m_renderer->CreateMaterial("multi", matDesc, rsd));
+		decMat.Reset(m_renderer->CreateMaterial("multi", matDesc, rsd, vtxFormat));
 		decMat->SetTexture("texture0"_hash,
 			Graphics::TextureBuilder::GetTransparentTexture(m_renderer));
 		decMat->specular = Color::BLACK;
 		decMat->diffuse = Color::WHITE;
 	}
+
 	return decMat;
 }
 

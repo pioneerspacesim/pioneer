@@ -14,12 +14,9 @@
  */
 #include "OpenGLLibs.h"
 #include "graphics/Material.h"
-#include "graphics/Types.h"
 #include "graphics/opengl/UniformBuffer.h"
 
 #include <memory>
-#include <string>
-#include <vector>
 
 namespace Graphics {
 
@@ -34,7 +31,11 @@ namespace Graphics {
 
 		class Material : public Graphics::Material {
 		public:
-			Material() {}
+			Material() :
+				m_shader(nullptr),
+				m_activeVariant(nullptr),
+				m_vertexState(0),
+				m_vertexFormatHash(0) {}
 
 			bool IsProgramLoaded() const final;
 			virtual void SetShader(Shader *p);
@@ -63,6 +64,8 @@ namespace Graphics {
 			Shader *m_shader;
 			Program *m_activeVariant;
 			RendererOGL *m_renderer;
+			GLuint m_vertexState; // vertex array object corresponding to the material's vertex format
+			size_t m_vertexFormatHash;
 
 			uint32_t m_perDrawBinding;
 
