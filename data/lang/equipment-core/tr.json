@@ -17,7 +17,7 @@
   },
   "ATMOSPHERIC_SHIELDING_FLAVOURTEXT": {
     "description": "",
-    "message": "Provides a moderate level of protection against atmospheric friction and pressure at a minimal mass cost."
+    "message": "Az bir ek kütle karşılığında atmosferik sürtünme ve basınca karşı ortalama bir koruma sağlar."
   },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
@@ -29,7 +29,7 @@
   },
   "ATMOSPHERIC_SHIELDING_HEAVY_FLAVOURTEXT": {
     "description": "",
-    "message": "Specialized for scientific expeditions within dense atmospheres, this shielding trades weight and efficiency for a significant increase in the atmospheric pressures it can withstand."
+    "message": "Yoğun atmosferlere bilimsel yolculuklar için özelleştirilmiş bu kalkan, ağırlık ve verimliliğin bir denge noktasında tasarlanmıştır ve atmosferik basınç dayanımını önemli miktarda arttırır. "
   },
   "AUTOPILOT": {
     "description": "",
@@ -53,11 +53,11 @@
   },
   "BY_ITEM": {
     "description": "Button in the start menu when editing equipment",
-    "message": "By item"
+    "message": "Ögeler"
   },
   "BY_SLOT": {
     "description": "Button in the start menu when editing equipment",
-    "message": "By slot"
+    "message": "Slotlar"
   },
   "CABINS": {
     "description": "Category header for pressurized cabin slots",
@@ -181,11 +181,11 @@
   },
   "EDIT_EQUIPMENT": {
     "description": "Dialog title",
-    "message": "Edit equipment"
+    "message": "Ekipmanı düzenle"
   },
   "EMPTY_EQUIPMENT_PROVIDING_SLOTS": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Empty equipment providing slots"
+    "message": "Ekipman sağlama slotları boş"
   },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
@@ -193,7 +193,7 @@
   },
   "EQUIPMENT_DOES_NOT_FIT_INTO_THE_SLOT": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Equipment does not fit into the slot"
+    "message": "Ekipman slota uymuyor"
   },
   "EQUIPMENT_INTEGRITY": {
     "description": "Tooltip explaining remaining equipment integrity",
@@ -217,7 +217,7 @@
   },
   "HARDPOINT_MINING_LASER": {
     "description": "Name for a mining laser mount.",
-    "message": "Mining Hardpoint"
+    "message": "Madencilik Yuvası"
   },
   "HARDPOINT_MISSILE": {
     "description": "Name for a generic missile mount",
@@ -233,11 +233,11 @@
   },
   "HARDPOINT_MISSILE_BAY_LEFT": {
     "description": "Name for the 'Missile Bay' equipment hardpoint",
-    "message": "Left Missile Bay"
+    "message": "Sol Füze Bölmesi"
   },
   "HARDPOINT_MISSILE_BAY_RIGHT": {
     "description": "Name for the 'Missile Bay' equipment hardpoint",
-    "message": "Right Missile Bay"
+    "message": "Sağ Füze Bölmesi"
   },
   "HARDPOINT_PYLON": {
     "description": "Name for a generic missile pylon",
@@ -245,27 +245,27 @@
   },
   "HARDPOINT_PYLON_LEFT": {
     "description": "Name for a generic missile pylon",
-    "message": "Left Pylon"
+    "message": "Sol Pilon"
   },
   "HARDPOINT_PYLON_LEFT_WING": {
     "description": "Name for a generic missile pylon",
-    "message": "Left Wing Pylon"
+    "message": "Sol Kanat Pilonu"
   },
   "HARDPOINT_PYLON_RIGHT": {
     "description": "Name for a generic missile pylon",
-    "message": "Right Pylon"
+    "message": "Sağ Pilon"
   },
   "HARDPOINT_PYLON_RIGHT_WING": {
     "description": "Name for a generic missile pylon",
-    "message": "Right Wing Pylon"
+    "message": "Sağ Kanat Pilonu"
   },
   "HARDPOINT_TURRET_BOTTOM": {
     "description": "Slot name for a ventral-mounted turret",
-    "message": "Bottom Turret"
+    "message": "Alt Taret"
   },
   "HARDPOINT_TURRET_TOP": {
     "description": "Slot name for a dorsal-mounted turret",
-    "message": "Top Turret"
+    "message": "Üst Taret"
   },
   "HARDPOINT_UTILITY": {
     "description": "Name for a generic utility hardpoint",
@@ -285,15 +285,15 @@
   },
   "HARDPOINT_WEAPON_FRONT_LEFT": {
     "description": "Name for a generic front-facing weapon hardpoint",
-    "message": "Front Left Weapon"
+    "message": "Sol Ön Silah"
   },
   "HARDPOINT_WEAPON_FRONT_RIGHT": {
     "description": "Name for a generic front-facing weapon hardpoint",
-    "message": "Front Right Weapon"
+    "message": "Sağ Ön Silah"
   },
   "HARDPOINT_WEAPON_LEFT": {
     "description": "Name for a generic weapon hardpoint",
-    "message": "Left Weapon"
+    "message": "Sol Silah"
   },
   "HARDPOINT_WEAPON_LEFT_NOSE": {
     "description": "Name for the 'Left Nose' weapon hardpoint",
@@ -305,7 +305,7 @@
   },
   "HARDPOINT_WEAPON_RIGHT": {
     "description": "Name for a generic weapon hardpoint",
-    "message": "Right Weapon"
+    "message": "Sağ Silah"
   },
   "HARDPOINT_WEAPON_RIGHT_NOSE": {
     "description": "Name for the 'Right Nose' weapon hardpoint",
@@ -333,11 +333,11 @@
   },
   "INVALID_SLOT": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Invalid slot"
+    "message": "Geçersiz slot"
   },
   "ITEM": {
     "description": "A piece of equipment",
-    "message": "Item"
+    "message": "Öge"
   },
   "LARGE_PLASMA_ACCEL": {
     "description": "",
@@ -381,11 +381,11 @@
   },
   "MISSILE_GUIDED_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "Standard fire-and-forget guided missiles."
+    "message": "Standart at-ve-unut güdümlü füzeler."
   },
   "MISSILE_GUIDED_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "Mass produced guided missile which will attempt to home in on a selected target. Depending on the exact model, this missile may use a variety of homing technologies including one or more of Radar, Laser, or LIDAR. Nevertheless, the technology in these missiles is not guaranteed to ensure a hit and most are quite vulnerable to ECM or other countermeasures."
+    "message": "Seçili hedefi takip etmeyi deneyen seri üretim güdümlü füzeler. Modeline bağlı olarak Radar, Lazer ya da LIDAR gibi güdüm teknolojilerini kullanabilir. Bu füze teknolojisi iyi bir vuruşu garantilemez ve ECM ve diğer önleyici yöntemlere karşı zayıftır."
   },
   "MISSILE_NAVAL": {
     "description": "",
@@ -393,19 +393,19 @@
   },
   "MISSILE_NAVAL_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "Fire-and-forget homing missile highly resistant to all known types of countermeasures."
+    "message": "Bilinen tüm önleyici teknikleri defedebilen at-ve-unut tipi güdümlü füze."
   },
   "MISSILE_NAVAL_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "These missiles are produced in highly specialised and secretive naval factories in tightly controlled facilities and generally not available to non-military personel. Able to resist most known types of countermeasures, these missiles are fast for their size and usually pack exotic warheads for extreme destructive potential. Often specialised equipment is required in the ships carrying these in order to correctly arm and program the missiles prior to launch."
+    "message": "Bu füzeler özel olarak gizli donanama fabrikalarında üretilirler ve genelde askeri olmayan personel tarafından erişilemezler. Çoğu bilinen önleme tekniğine karşı güçlü olan bu füzeler, boyutlarına göre hızlıdır ve yüksek yokedici güç açığa çıkaran egzotik harp başlıklarına sahiptirler. Fırlatmadan önce bu füzeleri programlamak ve aktifleştirmek için genelde gemilerde özel ekipman gerekir."
   },
   "MISSILE_RACK_221": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
-    "message": "Hydra LH-120 Missile Rack"
+    "message": "Hydra LH-120 Füze Rafı"
   },
   "MISSILE_RACK_221_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 2 small missiles."
+    "message": "2 küçük füze kapasiteli harici füze rafı."
   },
   "MISSILE_RACK_221_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
