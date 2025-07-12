@@ -153,7 +153,7 @@ local onEnterSystem = function (player)
 		end
 
 		Timer:CallAt(Game.time + Engine.rand:Integer(5, 10), function () -- Oh crap, it's the police!
-			if not Game.system then return end -- Shut up if the player has jumped away
+			if not Game.system or Game.system.path ~= system.path then return end -- Shut up if the player has jumped away
 
 			if Engine.rand:Number(1) < system.lawlessness then
 				-- You are lucky. They are busy, eating donuts ;-)
@@ -166,7 +166,7 @@ local onEnterSystem = function (player)
 				else
 					Comms.ImportantMessage(l["INITIATE_CARGO_SCAN_" .. Engine.rand:Integer(1, getNumberOfFlavours("INITIATE_CARGO_SCAN"))], ship.label)
 					Timer:CallAt(Game.time + Engine.rand:Integer(3, 9), function ()
-						if not Game.system then return end -- Shut up when the player is already in hyperspace
+						if not Game.system or Game.system.path ~= system.path then return end -- Shut up when the player is already in hyperspace
 
 						local manifest = player:GetComponent('CargoManager').commodities
 						if hasIllegalGoods(manifest) then
