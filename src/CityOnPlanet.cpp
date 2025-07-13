@@ -22,6 +22,7 @@
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/Types.h"
+#include "graphics/VertexBuffer.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/Model.h"
 #include "scenegraph/ModelSkin.h"
@@ -281,7 +282,8 @@ void CityOnPlanet::Init()
 	rsd.depthWrite = false;
 	rsd.primitiveType = Graphics::LINE_SINGLE;
 
-	s_debugMat.reset(Pi::renderer->CreateMaterial("vtxColor", Graphics::MaterialDescriptor(), rsd));
+	auto fmt = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
+	s_debugMat.reset(Pi::renderer->CreateMaterial("vtxColor", Graphics::MaterialDescriptor(), rsd, fmt));
 }
 
 void CityOnPlanet::Uninit()

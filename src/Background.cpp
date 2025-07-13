@@ -149,33 +149,24 @@ namespace Background {
 		box->Add(vector3f(-vp, -vp, vp), vector2f(0.0f, 1.0f));
 		box->Add(vector3f(-vp, -vp, -vp), vector2f(1.0f, 1.0f));
 
+		//create buffer and upload data
+		Graphics::VertexFormatDesc fmt = Graphics::VertexFormatDesc::FromAttribSet(box->GetAttributeSet());
+		Graphics::VertexBuffer *vertexBuf = m_renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_STATIC, box->GetNumVerts(), fmt.bindings[0].stride);
+
+		box->Populate(vertexBuf);
+
 		Graphics::MaterialDescriptor desc;
 		Graphics::RenderStateDesc stateDesc;
 		stateDesc.depthTest = false;
 		stateDesc.depthWrite = false;
 
-		m_material.Reset(m_renderer->CreateMaterial("skybox", desc, stateDesc));
+		m_material.Reset(m_renderer->CreateMaterial("skybox", desc, stateDesc, fmt));
 		m_material->diffuse = Color4f(0.8, 0.8, 0.8, 1.0);
 
-		//create buffer and upload data
-		Graphics::VertexBufferDesc vbd = Graphics::VertexBufferDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
-		vbd.numVertices = box->GetNumVerts();
-		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-
-		Graphics::VertexBuffer *vertexBuf = m_renderer->CreateVertexBuffer(vbd);
-
-		SkyboxVert *vtxPtr = vertexBuf->Map<SkyboxVert>(Graphics::BUFFER_MAP_WRITE);
-		assert(vertexBuf->GetDesc().stride == sizeof(SkyboxVert));
-		for (Uint32 i = 0; i < box->GetNumVerts(); i++) {
-			vtxPtr[i].pos = box->position[i];
-			vtxPtr[i].uv = box->uv0[i];
-		}
-		vertexBuf->Unmap();
+		m_universeBox.reset(m_renderer->CreateMeshObject(fmt, vertexBuf));
+		m_numCubemaps = GetNumSkyboxes();
 
 		SetIntensity(1.0f);
-
-		m_universeBox.reset(m_renderer->CreateMeshObject(vertexBuf));
-		m_numCubemaps = GetNumSkyboxes();
 	}
 
 	void UniverseBox::Draw()
@@ -212,6 +203,8 @@ namespace Background {
 	{
 		PROFILE_SCOPED()
 
+		m_pointSprites.reset(new Graphics::Drawables::PointSprites);
+
 		// Create material to be used with starfield points
 		Graphics::MaterialDescriptor desc;
 
@@ -221,7 +214,7 @@ namespace Background {
 		stateDesc.blendMode = Graphics::BLEND_ALPHA;
 		stateDesc.primitiveType = Graphics::POINTS;
 
-		m_material.Reset(m_renderer->CreateMaterial("starfield", desc, stateDesc));
+		m_material.Reset(m_renderer->CreateMaterial("starfield", desc, stateDesc, m_pointSprites->GetVertexFormat()));
 		Graphics::Texture *texture = Graphics::TextureBuilder::Billboard("textures/star_point.png").GetOrCreateTexture(m_renderer, "billboard");
 		m_material->SetTexture("texture0"_hash, texture);
 		m_material->emissive = Color::WHITE;
@@ -229,8 +222,9 @@ namespace Background {
 		// Create material to be used with hyperjump 'star streaks'
 		Graphics::MaterialDescriptor descStreaks;
 		Graphics::RenderStateDesc stateDescStreaks = stateDesc;
+		Graphics::VertexFormatDesc vtxFormatStreaks = Graphics::VertexFormatDesc::FromAttribSet(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 		stateDescStreaks.primitiveType = Graphics::LINE_SINGLE;
-		m_materialStreaks.Reset(m_renderer->CreateMaterial("vtxColor", descStreaks, stateDescStreaks));
+		m_materialStreaks.Reset(m_renderer->CreateMaterial("vtxColor", descStreaks, stateDescStreaks, vtxFormatStreaks));
 		m_materialStreaks->emissive = Color::WHITE;
 
 		IniConfig cfg;
@@ -443,8 +437,6 @@ namespace Background {
 	{
 		PROFILE_SCOPED()
 
-		m_pointSprites.reset(new Graphics::Drawables::PointSprites);
-
 		const Uint32 NUM_BG_STARS = MathUtil::mix(BG_STAR_MIN, BG_STAR_MAX, Pi::GetAmountBackgroundStars());
 		m_animMesh.reset();
 
@@ -457,12 +449,10 @@ namespace Background {
 		m_hyperVtx.reset(new vector3f[NUM_HYPERSPACE_STARS * 3]);
 		m_hyperCol.reset(new Color[NUM_HYPERSPACE_STARS * 3]);
 		{
-			Graphics::VertexBufferDesc vbd = VertexBufferDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
-			vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
-			vbd.numVertices = NUM_HYPERSPACE_STARS * 2;
+			Graphics::VertexFormatDesc fmt = VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
 			// this vertex buffer will be owned by the animMesh object
-			Graphics::VertexBuffer *vtxBuffer = m_renderer->CreateVertexBuffer(vbd);
-			m_animMesh.reset(m_renderer->CreateMeshObject(vtxBuffer));
+			Graphics::VertexBuffer *vtxBuffer = m_renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_DYNAMIC, NUM_HYPERSPACE_STARS * 2, fmt.bindings[0].stride);
+			m_animMesh.reset(m_renderer->CreateMeshObject(fmt, vtxBuffer));
 		}
 
 		assert(sizeof(StarVert) == 16);
@@ -617,7 +607,7 @@ namespace Background {
 
 			Graphics::VertexBuffer *buffer = m_animMesh->GetVertexBuffer();
 			assert(sizeof(StarVert) == 16);
-			assert(buffer->GetDesc().stride == sizeof(StarVert));
+			assert(buffer->GetStride() == sizeof(StarVert));
 			auto vtxPtr = buffer->Map<StarVert>(Graphics::BUFFER_MAP_WRITE);
 
 			// roughly, the multiplier gets smaller as the duration gets larger.
@@ -627,7 +617,7 @@ namespace Background {
 
 			const double hyperspaceProgress = Pi::game->GetHyperspaceProgress();
 
-			const Sint32 numStars = buffer->GetDesc().numVertices / 2;
+			const Sint32 numStars = buffer->GetSize() / 2;
 
 			const vector3d oz = Pi::player->GetOrient().VectorZ(); //back vector in Y-up space
 			const vector3d pz = vector3d(oz.z, oz.x, oz.y); // back vector rotated into Z-up space
@@ -692,35 +682,29 @@ namespace Background {
 			vector3f(100.0f * sin(theta), float(40.0 + 30.0 * noise(vector3d(sin(theta), -1.0, cos(theta)))), 100.0f * cos(theta)),
 			dark);
 
+		Graphics::VertexFormatDesc fmt = VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
+		//two strips in one buffer, but seems to work ok without degenerate triangles
+		Graphics::VertexBuffer *vtxBuffer = renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_STATIC, bottom->GetNumVerts() + top->GetNumVerts(), fmt.bindings[0].stride);
+
+		uint8_t *vtxPtr = vtxBuffer->Map<uint8_t>(Graphics::BUFFER_MAP_WRITE);
+		size_t topSize = top->GetNumVerts() * fmt.bindings[0].stride;
+		size_t bottomSize = bottom->GetNumVerts() * fmt.bindings[0].stride;
+
+		top->PopulateRange(fmt, vtxPtr, topSize);
+		bottom->PopulateRange(fmt, vtxPtr + topSize, bottomSize);
+
+		vtxBuffer->Unmap();
+
 		Graphics::MaterialDescriptor desc;
 		Graphics::RenderStateDesc stateDesc;
 		stateDesc.depthTest = false;
 		stateDesc.depthWrite = false;
 		stateDesc.primitiveType = Graphics::TRIANGLE_STRIP;
-		m_material.Reset(m_renderer->CreateMaterial("starfield", desc, stateDesc));
+
+		m_material.Reset(m_renderer->CreateMaterial("starfield", desc, stateDesc, fmt));
 		m_material->emissive = Color::WHITE;
 
-		Graphics::VertexBufferDesc vbd = VertexBufferDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
-		vbd.numVertices = bottom->GetNumVerts() + top->GetNumVerts();
-		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-
-		//two strips in one buffer, but seems to work ok without degenerate triangles
-		Graphics::VertexBuffer *vtxBuffer = renderer->CreateVertexBuffer(vbd);
-		assert(vtxBuffer->GetDesc().stride == sizeof(MilkyWayVert));
-		auto vtxPtr = vtxBuffer->Map<MilkyWayVert>(Graphics::BUFFER_MAP_WRITE);
-		for (Uint32 i = 0; i < top->GetNumVerts(); i++) {
-			vtxPtr->pos = top->position[i];
-			vtxPtr->col = top->diffuse[i];
-			vtxPtr++;
-		}
-		for (Uint32 i = 0; i < bottom->GetNumVerts(); i++) {
-			vtxPtr->pos = bottom->position[i];
-			vtxPtr->col = bottom->diffuse[i];
-			vtxPtr++;
-		}
-		vtxBuffer->Unmap();
-
-		m_meshObject.reset(m_renderer->CreateMeshObject(vtxBuffer));
+		m_meshObject.reset(m_renderer->CreateMeshObject(fmt, vtxBuffer));
 	}
 
 	void MilkyWay::Draw()

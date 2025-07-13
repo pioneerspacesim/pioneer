@@ -182,7 +182,7 @@ namespace SceneGraph {
 				rsd.depthWrite = false;
 				rsd.primitiveType = Graphics::LINE_SINGLE;
 
-				m_debugLineMat.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd));
+				m_debugLineMat.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd, m_debugMesh->GetFormat()));
 			}
 
 			m_renderer->SetTransform(trans);
@@ -242,15 +242,6 @@ namespace SceneGraph {
 		m_collMesh = cv.CreateCollisionMesh();
 		m_boundingRadius = cv.GetBoundingRadius();
 		return m_collMesh;
-	}
-
-	RefCountedPtr<Graphics::Material> Model::GetMaterialByName(const std::string &name) const
-	{
-		for (auto it : m_materials) {
-			if (it.first == name)
-				return it.second;
-		}
-		return RefCountedPtr<Graphics::Material>(); //return invalid
 	}
 
 	RefCountedPtr<Graphics::Material> Model::GetMaterialByIndex(const int i) const

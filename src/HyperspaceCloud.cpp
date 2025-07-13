@@ -14,6 +14,7 @@
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
+#include "graphics/VertexBuffer.h"
 #include "perlin.h"
 
 using namespace Graphics;
@@ -184,6 +185,8 @@ void HyperspaceCloud::Render(Renderer *renderer, const Camera *camera, const vec
 
 void HyperspaceCloud::InitGraphics(Graphics::Renderer *renderer)
 {
+	Graphics::VertexArray vertices(ATTRIB_POSITION | ATTRIB_DIFFUSE);
+
 	Graphics::MaterialDescriptor desc;
 	desc.vertexColors = true;
 
@@ -191,9 +194,9 @@ void HyperspaceCloud::InitGraphics(Graphics::Renderer *renderer)
 	rsd.blendMode = BLEND_ALPHA_ONE;
 	rsd.depthWrite = false;
 	rsd.primitiveType = Graphics::TRIANGLE_FAN;
-	s_cloudMat.reset(renderer->CreateMaterial("unlit", desc, rsd));
 
-	Graphics::VertexArray vertices(ATTRIB_POSITION | ATTRIB_DIFFUSE);
+	auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(vertices.GetAttributeSet());
+	s_cloudMat.reset(renderer->CreateMaterial("unlit", desc, rsd, vtxFormat));
 
 	const Color edgeArrivingColour(Color::BLUE, 0); // alpha needs to be zero'd
 	make_circle_thing(vertices, 1000.f, Color::WHITE, edgeArrivingColour);

@@ -10,6 +10,7 @@
 #include "Model.h"
 #include "StaticGeometry.h"
 #include "graphics/Material.h"
+#include "graphics/VertexBuffer.h"
 #include "text/DistanceFieldFont.h"
 
 namespace SceneGraph {
@@ -22,16 +23,24 @@ namespace SceneGraph {
 		RefCountedPtr<Text::DistanceFieldFont> GetLabel3DFont() const { return m_labelFont; }
 
 		//allocate material for dynamic decal, should be used in order 1..4
+		//TODO: vertex format for decal meshes is currently hardcoded
 		RefCountedPtr<Graphics::Material> GetDecalMaterial(unsigned int index);
+		RefCountedPtr<Graphics::Material> GetMaterialForMesh(std::string_view name, const Graphics::VertexFormatDesc &vtxFormat);
 
 	protected:
 		Graphics::Renderer *m_renderer;
 		Model *m_model;
+		ModelDefinition *m_modelDef;
 		std::string m_curPath; //path of current model file
 		RefCountedPtr<Text::DistanceFieldFont> m_labelFont;
 
+		std::map<uint64_t, Graphics::VertexFormatDesc> m_vtxFormatCache;
+		std::map<uint64_t, RefCountedPtr<Graphics::Material>> m_materialLookup;
+
 		//create a material from definition and add it to m_model
-		void ConvertMaterialDefinition(const MaterialDefinition &);
+		RefCountedPtr<Graphics::Material> ConvertMaterialDefinition(const MaterialDefinition &, const Graphics::VertexFormatDesc &vtxFormat);
+
+
 		//find pattern texture files from the model directory
 		void FindPatterns(PatternContainer &output);
 		void SetUpPatterns();

@@ -125,6 +125,19 @@ namespace GasGiantJobs {
 	{
 		PROFILE_SCOPED()
 
+		// these might need to be reversed
+		const vector2f &texSize(size);
+
+		Graphics::VertexArray vertices(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+
+		vertices.Add(vector3f(0.0f, 0.0f, 0.0f), vector2f(0.0f, texSize.y));
+		vertices.Add(vector3f(0.0f, size.y, 0.0f), vector2f(0.0f, 0.0f));
+		vertices.Add(vector3f(size.x, 0.0f, 0.0f), vector2f(texSize.x, texSize.y));
+		vertices.Add(vector3f(size.x, size.y, 0.0f), vector2f(texSize.x, 0.0f));
+
+		//Create vtx  buffer and copy data
+		m_quadMesh.reset(r->CreateMeshObjectFromArray(&vertices));
+
 		Graphics::MaterialDescriptor desc;
 		desc.quality = Graphics::MaterialQuality::HAS_OCTAVES | (GGQuality & 0xFFFF0000);
 		desc.textures = 3;
@@ -134,7 +147,7 @@ namespace GasGiantJobs {
 		rsd.depthWrite = false;
 		rsd.blendMode = Graphics::BLEND_ALPHA;
 		rsd.primitiveType = Graphics::TRIANGLE_STRIP;
-		m_material.reset(r->CreateMaterial("gen_gas_giant_colour", desc, rsd));
+		m_material.reset(r->CreateMaterial("gen_gas_giant_colour", desc, rsd, m_quadMesh->GetFormat()));
 
 		// setup noise textures
 		m_material->SetTexture("permTexture"_hash,
@@ -166,19 +179,6 @@ namespace GasGiantJobs {
 		}
 
 		m_material->SetTexture("rampTexture"_hash, rampTexture);
-
-		// these might need to be reversed
-		const vector2f &texSize(size);
-
-		Graphics::VertexArray vertices(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
-
-		vertices.Add(vector3f(0.0f, 0.0f, 0.0f), vector2f(0.0f, texSize.y));
-		vertices.Add(vector3f(0.0f, size.y, 0.0f), vector2f(0.0f, 0.0f));
-		vertices.Add(vector3f(size.x, 0.0f, 0.0f), vector2f(texSize.x, texSize.y));
-		vertices.Add(vector3f(size.x, size.y, 0.0f), vector2f(texSize.x, 0.0f));
-
-		//Create vtx  buffer and copy data
-		m_quadMesh.reset(r->CreateMeshObjectFromArray(&vertices));
 	}
 
 	void GenFaceQuad::Draw(Graphics::Renderer *r)

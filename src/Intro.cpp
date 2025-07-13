@@ -97,7 +97,7 @@ void Intro::Reset()
 	if (m_modelIndex == m_models.size()) m_modelIndex = 0;
 	m_skin.SetRandomColors(Pi::rng);
 	m_skin.Apply(m_model);
-	if (m_model->SupportsPatterns())
+	if (m_model->SupportsPatterns() && m_model->GetNumPatterns() > 0)
 		m_model->SetPattern(Pi::rng.Int32(0, m_model->GetNumPatterns() - 1));
 	m_zoomBegin = -10000.0f;
 	m_zoomEnd = -m_model->GetDrawClipRadius() * 1.7f;

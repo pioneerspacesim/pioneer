@@ -9,7 +9,7 @@
 namespace Graphics {
 
 	//Vertex attribute semantic
-	enum VertexAttrib : uint8_t {
+	enum VertexAttrib : uint32_t {
 		ATTRIB_NONE = 0,
 		ATTRIB_POSITION = (1u << 0),
 		ATTRIB_NORMAL = (1u << 1),
@@ -46,10 +46,19 @@ namespace Graphics {
 
 	enum VertexAttribFormat : uint8_t {
 		ATTRIB_FORMAT_NONE = 0,
+		ATTRIB_FORMAT_FLOAT,
 		ATTRIB_FORMAT_FLOAT2,
 		ATTRIB_FORMAT_FLOAT3,
 		ATTRIB_FORMAT_FLOAT4,
-		ATTRIB_FORMAT_UBYTE4
+		ATTRIB_FORMAT_UBYTE4,
+		ATTRIB_FORMAT_MAT3,
+		ATTRIB_FORMAT_MAT3x4,
+		ATTRIB_FORMAT_MAT4x4
+	};
+
+	enum VertexAttribRate : uint8_t {
+		ATTRIB_RATE_NORMAL = 0,
+		ATTRIB_RATE_INSTANCE = 1
 	};
 
 	enum ConstantDataFormat : uint8_t {
@@ -62,7 +71,7 @@ namespace Graphics {
 		DATA_FORMAT_MAT4
 	};
 
-	enum BufferUsage {
+	enum BufferUsage : uint8_t {
 		BUFFER_USAGE_STATIC,
 		BUFFER_USAGE_DYNAMIC
 	};

@@ -11,6 +11,7 @@
 #include "RefCounted.h"
 #include "galaxy/AtmosphereParameters.h"
 #include "galaxy/StarSystem.h"
+#include "graphics/Drawables.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
@@ -18,6 +19,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/Types.h"
 #include "graphics/VertexArray.h"
 #include "perlin.h"
 #include "utils.h"
@@ -460,7 +462,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 	renderer->SetTransform(matrix4x4f(modelView));
 
-	if (s_debugFlags & GeoSphere::DebugFlags::DEBUG_WIREFRAME) 
+	if (s_debugFlags & GeoSphere::DebugFlags::DEBUG_WIREFRAME)
 		renderer->SetWireFrameMode(true);
 
 	if (s_debugFlags & GeoSphere::DebugFlags::DEBUG_SORTGEOPATCHES) {
@@ -500,13 +502,16 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 void GeoSphere::SetUpMaterials()
 {
+	// XXX: this has to be synced with the vertex format used in GeoPatch
+	auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
+
 	m_atmosphereParameters = GetSystemBody()->CalcAtmosphereParams();
 	// normal star has a different setup path than geosphere terrain does
 	if (GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 		Graphics::MaterialDescriptor surfDesc;
 		surfDesc.lighting = false;
 		Graphics::RenderStateDesc rsd;
-		m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial("geosphere_star", surfDesc, rsd));
+		m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial("geosphere_star", surfDesc, rsd, vtxFormat));
 	} else {
 		// Request material for this star or planet, with or without
 		// atmosphere. Separate material for surface and sky.
@@ -536,7 +541,7 @@ void GeoSphere::SetUpMaterials()
 		//solid blendmode
 		Graphics::RenderStateDesc rsd;
 		surfDesc.quality |= Graphics::HAS_ECLIPSES;
-		m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial("geosphere_terrain", surfDesc, rsd));
+		m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial("geosphere_terrain", surfDesc, rsd, vtxFormat));
 
 		m_texHi.Reset(Graphics::TextureBuilder::Model("textures/high.dds").GetOrCreateTexture(Pi::renderer, "model"));
 		m_texLo.Reset(Graphics::TextureBuilder::Model("textures/low.dds").GetOrCreateTexture(Pi::renderer, "model"));
@@ -560,16 +565,18 @@ void GeoSphere::CreateAtmosphereMaterial()
 	skyDesc.lighting = true;
 	skyDesc.quality |= Graphics::HAS_ECLIPSES;
 
+	Graphics::VertexFormatDesc atmosVtxFmt = m_atmos->GetVertexFormat();
+
 	const int scattering = Pi::config->Int("RealisticScattering");
 	switch (scattering) {
 	case 1:
-		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_fast", skyDesc, rsd));
+		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_fast", skyDesc, rsd, atmosVtxFmt));
 		break;
 	case 2:
-		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_accurate", skyDesc, rsd));
+		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_accurate", skyDesc, rsd, atmosVtxFmt));
 		break;
 	default:
-		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("geosphere_sky", skyDesc, rsd));
+		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("geosphere_sky", skyDesc, rsd, atmosVtxFmt));
 		break;
 	}
 }

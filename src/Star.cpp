@@ -47,7 +47,9 @@ void Star::InitStar()
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.depthWrite = false;
 	rsd.primitiveType = Graphics::TRIANGLE_FAN;
-	m_haloMat.reset(Pi::renderer->CreateMaterial("vtxColor", desc, rsd));
+
+	auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
+	m_haloMat.reset(Pi::renderer->CreateMaterial("vtxColor", desc, rsd, vtxFormat));
 }
 
 void Star::BuildHaloBuffer(Graphics::Renderer *renderer, double rad)
