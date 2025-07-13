@@ -152,6 +152,15 @@ Sound::AudioBackend::eventid Sound::AlAudioBackend::Play(std::string_view key, c
 
 void Sound::AlAudioBackend::BodyMakeNoise(const Body *b, std::string_view key, float vol)
 {
+	constexpr double distance_threshold = 3000;
+	auto pos = b->GetPositionRelTo(Pi::player);
+	pos = pos * Pi::player->GetOrient();
+
+	if (pos.Length() > distance_threshold)
+	{
+		return;
+	}
+
 	const std::string key_str(key);
 	auto sample_it = m_samples.find(key_str);
 	if (sample_it == m_samples.end()) {
@@ -162,8 +171,6 @@ void Sound::AlAudioBackend::BodyMakeNoise(const Body *b, std::string_view key, f
 	auto it = m_events.emplace(++next_event_id, sample_it->second).first;
 	it->second.SetGain(m_sfxVolume);
 
-	auto pos = b->GetPositionRelTo(Pi::player);
-	pos = pos * Pi::player->GetOrient();
 	CHECK_OPENAL_ERROR(alSource3f, it->second.GetSource(), AL_POSITION, pos.x, pos.y, pos.z);
 
 	auto vel = b->GetVelocityRelTo(Pi::player);
