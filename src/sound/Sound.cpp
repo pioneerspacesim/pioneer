@@ -6,6 +6,7 @@
  */
 
 #include "Sound.h"
+#include "GameConfig.h"
 #ifdef PI_BUILD_WITH_OPENAL
 	#include "AlAudioBackend.h"
 #endif
@@ -253,11 +254,14 @@ namespace Sound {
 			for (auto sample_copy : m_samples) {
 				m_backend->AddSample(sample_copy.first, std::move(sample_copy.second));
 			}
-			Pause(0);
 		}
 
-		/* silence any sound events */
-		DestroyAllEvents();
+		SetMasterVolume(Pi::config->Float("MasterVolume"));
+		SetSfxVolume(Pi::config->Float("SfxVolume"));
+		EnableBinaural(Pi::config->Int("BinauralRendering"));
+		if (Pi::config->Int("SfxMuted")) Sound::SetSfxVolume(0.f);
+
+		Pause(Pi::config->Int("MasterMuted"));
 
 		return true;
 	}
