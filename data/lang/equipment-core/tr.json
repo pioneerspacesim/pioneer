@@ -409,79 +409,79 @@
   },
   "MISSILE_RACK_221_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "This quality missile rack from Hydri Defense allows you to carry more bangs per hardpoint, essential for taking on those pesky pirates."
+    "message": "Hydri Defense'in bu kaliteli füze rafı, her monte noktasında daha fazla patlayıcı taşıyarak korsanlarla mücadelenize ek güç katar."
   },
   "MISSILE_RACK_322": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
-    "message": "Hydra LH-220 Missile Rack"
+    "message": "Hydra LH-220 Füze Rafı"
   },
   "MISSILE_RACK_322_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 2 medium missiles."
+    "message": "2 orta boy füze kapasiteli harici füze rafı."
   },
   "MISSILE_RACK_322_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "A missile rack for the more discerning Hydri Defense customer. Bigger bangs for your bucks!"
+    "message": "Daha seçici Hydri Defense müşterileri için bir füze rafı. Paranızın karşılığını fazlasıyla alın!"
   },
   "MISSILE_RACK_341": {
     "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
-    "message": "Medusa LH-140 Missile Rack"
+    "message": "Medusa LH-140 Füze Rafı"
   },
   "MISSILE_RACK_341_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 4 small missiles."
+    "message": "4 küçük füze kapasiteli harici füze rafı."
   },
   "MISSILE_RACK_341_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "This one is a real beauty, coming straight to you from the R&D labs at Hydri Defense. We've squeezed even more missiles into this rack to allow you to really make some fireworks!"
+    "message": "Bu bebek size doğrudan Hydri Defense ArGe labından geliyor. Daha büyük bir havai fişek şöleni için bu rafa daha çok füze sığdırdık!"
   },
   "MISSILE_RACK_423": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
-    "message": "Hydra LH-320 Missile Rack"
+    "message": "Hydra LH-320 Füze Rafı"
   },
   "MISSILE_RACK_423_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 2 large missiles."
+    "message": "2 büyük füze kapasiteli harici füze rafı."
   },
   "MISSILE_RACK_423_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "Make sure to keep your distance after firing! Hydri Defense has packed 2 large missiles into this rack for some truly spectacular booms."
+    "message": "Ateşlemeden sonra mesafenizi korumaya özen gösterin! Hydri Defense, bu raflara 2 büyük füze sığdırarak muntazam patlamalar göstermeye hazırlandı."
   },
   "MISSILE_RACK_442": {
     "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
-    "message": "Medusa LH-240 Missile Rack"
+    "message": "Medusa LH-240 Füze Rafı"
   },
   "MISSILE_RACK_442_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 4 medium missiles."
+    "message": "4 orta boy füze kapasiteli harici füze rafı."
   },
   "MISSILE_RACK_442_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "Ready to take on the big league? With this big rack from Hydri Defense, you'll always be fully loaded to unleash fiery destruction."
+    "message": "Büyük lige katılmaya hazır mısınız? Hydri Defense'ten bu büyük raf ile ölüm savurmak için her zaman hazır olacaksınız."
   },
   "MISSILE_RACK_524": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
-    "message": "Hydra LH-420 Missile Rack"
+    "message": "Hydra LH-420 Füze Rafı"
   },
   "MISSILE_RACK_524_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 2 huge missiles."
+    "message": "2 devasa füze kapasiteli harici füze rafı."
   },
   "MISSILE_RACK_524_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "Space for 2 huge missiles. Even we've run out of superlatives for what you can do with these.. we just hope you packed your sunnies!"
+    "message": "2 devasa füze için yer. Bunlarla yapaileceğiniz şeyler için artık kelimelerimiz yetersiz kalıyor. Güneş kremi sürmeyi unutmayın!"
   },
   "MISSILE_RACK_543": {
     "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
-    "message": "Medusa LH-340 Missile Rack"
+    "message": "Medusa LH-340 Füze Rafı"
   },
   "MISSILE_RACK_543_DESCRIPTION": {
     "description": "Equipment tooltip",
-    "message": "External missile rack with a capacity of 4 large missiles."
+    "message": "4 büyük füze kapasiteli harici füze rafı."
   },
   "MISSILE_RACK_543_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "First Hydri Defense brought you the awesome LH-320, now we've doubled its capacity! Go ahead, and make your mark on any system that dares to defy your might."
+    "message": "Hydri Defense size ilk olarak LH-320'yi getirdi, şimdi ise kapasitesini ikiye katladık! Hadi şimdi size karşı duran sistemlerde bir iz bırakın."
   },
   "MISSILE_RAIL_S1": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
@@ -489,11 +489,11 @@
   },
   "MISSILE_RAIL_S1_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "External launcher for a single small missile."
+    "message": "Tek bir küçük füze için harici fırlatıcı."
   },
   "MISSILE_RAIL_S1_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "Hydri Defense's entry point rail, this is a quality piece of equipment for all S1 missiles adhering to ISAAEEE standards."
+    "message": "Hydri Defense'in başlangıç seviyesi rayı. Bu kaliteli ekipman S1 füzeleri için ISAAEEE standartlarına uygundur."
   },
   "MISSILE_RAIL_S2": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
@@ -501,11 +501,11 @@
   },
   "MISSILE_RAIL_S2_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "External launcher for a single medium missile."
+    "message": "Tek bir orta boy füze için harici fırlatıcı."
   },
   "MISSILE_RAIL_S2_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "A quality missile rail from Hydri Defense, this provides a secure mounting point for S2 class missiles."
+    "message": "Hydri Defense'ten yüksek kaliteli bir füze rayı. S2 sınıfı füzeler için güvenli bir montaj noktası sunar."
   },
   "MISSILE_RAIL_S3": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
@@ -513,23 +513,23 @@
   },
   "MISSILE_RAIL_S3_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "External launcher for a single large missile."
+    "message": "Tek bir büyük füze için harici fırlatıcı."
   },
   "MISSILE_RAIL_S3_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "A quality missile rail from Hydri Defense, this provides a secure mounting point for S3 class missiles."
+    "message": "Hydri Defense'ten yüksek kaliteli bir füze rayı. S3 sınıfı füzeler için güvenli bir montaj noktası sunar."
   },
   "MISSILE_RAIL_S4": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
-    "message": "Cnida-104 Missile Rail"
+    "message": "Cnida-104 Füze Rayı"
   },
   "MISSILE_RAIL_S4_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "External launcher for a single huge missile."
+    "message": "Tek bir devasa füze için harici fırlatıcı."
   },
   "MISSILE_RAIL_S4_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "A quality missile rail from Hydri Defense, this provides a secure mounting point for S4 class missiles."
+    "message": "Hydri Defense'ten kaliteli bir füze rayı. S4 sınıfı füzeler için güvenli bir montaj noktası sunar."
   },
   "MISSILE_SMART": {
     "description": "",
@@ -537,11 +537,11 @@
   },
   "MISSILE_SMART_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "A guided missile somewhat resistant to ECM."
+    "message": "ECM'e bir miktar karşı koyabilen güdümlü bir füze."
   },
   "MISSILE_SMART_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "A smart rocket capable of tracking down your target using an advanced sensor suite with an integrated AI module. Make sure not to call it HAL and we're sure it will home in on your intended target, and not you.."
+    "message": "Entegre yapay zeka, gelişmiş hedefleme ve sensör paketi ile hedefinizi takip eden akıllı bir füze. Adını HAL koymadığınız sürece size değil de hedefinize gideceğinden eminiz."
   },
   "MISSILE_UNGUIDED": {
     "description": "",
@@ -549,19 +549,19 @@
   },
   "MISSILE_UNGUIDED_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "Dumb aim-and-fire missile."
+    "message": "Basit, nişan alınarak ateşlenen füze."
   },
   "MISSILE_UNGUIDED_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "Mass-produced by local manufacturers on most worlds. These range from being lovingly hand-crafted by artisans on developing worlds to being mindlessly churned out by the millions in automated mega-factories on hyper-industrialised ones.\nBut regardless from where they are sourced, the specifications are tightly controlled by the ISAEEE and should work in most compatible ship systems."
+    "message": "Çoğu dünyada yerel üreticiler tarafından seri üretilirler. Gelişmekte olan dünyalarda zanaatkarlar tarafından el gücü ve aşkla üretilenlerinden endüstriyel dünyalarda otomatik mega-fabrikalarda milyonlarca üretilenlerine kadar...\nNerede üretilirse üretilsinler, spesifikasyonları ISAAEEE tarafından sıkı kontrole tabi tutulur ve pek çok gemi sistemleriyle uyumludurlar."
   },
   "NO_SUITABLE_EQUIPMENT": {
     "description": "Message in the start menu when editing equipment",
-    "message": "No suitable equipment"
+    "message": "Uygun ekipman yok"
   },
   "NO_SUITABLE_SLOTS": {
     "description": "Message in the start menu when editing equipment",
-    "message": "No suitable slots"
+    "message": "Uygun slot yok"
   },
   "OCCUPIED_BERTHS": {
     "description": "Label for the number of passenger berths currently occupied in a cabin equipment item",
@@ -577,7 +577,7 @@
   },
   "OPLI_INTERNAL_MISSILE_RACK_S2_DESCRIPTION": {
     "description": "Short description and tooltip.",
-    "message": "Internal missile bay for 5x medium missiles."
+    "message": "5x orta boy füze için dahili füze bölmesi."
   },
   "OPLI_INTERNAL_MISSILE_RACK_S3": {
     "description": "Equipment name for an OPLI internal missile rack",
@@ -585,7 +585,7 @@
   },
   "OPLI_INTERNAL_MISSILE_RACK_S3_DESCRIPTION": {
     "description": "Short description and tooltip.",
-    "message": "Internal missile bay for 8x medium missiles."
+    "message": "8x orta boy füze için dahili füze bölmesi."
   },
   "OPLI_INTERNAL_MISSILE_RACK_S4": {
     "description": "Equipment name for an OPLI internal missile rack",
@@ -593,7 +593,7 @@
   },
   "OPLI_INTERNAL_MISSILE_RACK_S4_DESCRIPTION": {
     "description": "Short description and tooltip.",
-    "message": "Internal missile bay for 12x medium missiles."
+    "message": "12x orta boy füze için dahili füze bölmesi."
   },
   "ORBIT_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
@@ -673,11 +673,11 @@
   },
   "REINFORCED_STRUCTURE_DESCRIPTION": {
     "description": "Description of the Reinforced Structure equipment item",
-    "message": "Aftermarket strengthening kit for the ship's frame. Increases resistance to high atmospheric pressures."
+    "message": "Gemi iskeleti için güçlendirme kiti. Yüksek atmosfer basıncına dayanıklılığı arttırır."
   },
   "REQUIRED_SLOT_IS_EMPTY": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Required slot is empty"
+    "message": "Gerekli slot boş"
   },
   "SCAN_COMPLETED": {
     "description": "",
@@ -733,7 +733,7 @@
   },
   "SLOTLESS": {
     "description": "",
-    "message": "Slotless"
+    "message": "Slotsuz"
   },
   "SLOT_CABIN": {
     "description": "Name for a generic room slot inside the pressurized living space",
@@ -765,7 +765,7 @@
   },
   "SLOT_IS_NOT_EMPTY_REPLACE_THE_EQUIPMENT_QUESTION": {
     "description": "",
-    "message": "Slot is not empty, replace the equipment?"
+    "message": "Slot boş değil, ekipmanı değiştir?"
   },
   "SLOT_SENSOR": {
     "description": "Name for a generic (flight/navigation) sensor slot",
@@ -801,23 +801,23 @@
   },
   "STAT_ATMO_SHIELD": {
     "description": "Stat name for atmospheric shielding. 'Atmospheric' is abbreviated.",
-    "message": "Atm. Pressure Resistance"
+    "message": "Atm. Basınç Direnci"
   },
   "STAT_HYPERDRIVE_EFFICIENCY": {
     "description": "",
-    "message": "Fuel Efficiency Rating"
+    "message": "Yakıt Verim Derecesi"
   },
   "STAT_HYPERDRIVE_RESERVOIR": {
     "description": "",
-    "message": "Fuel Reservoir Size"
+    "message": "Yakıt Haznesi Boyutu"
   },
   "STAT_MISSILE_RADIUS": {
     "description": "",
-    "message": "Fuzing Radius"
+    "message": "Tapa Aktivasyon Çapı"
   },
   "STAT_MISSILE_WARHEAD": {
     "description": "",
-    "message": "Explosive Yield (Equivalent)"
+    "message": "Patlayıcı Gücü (Denkleştirilmiş)"
   },
   "STAT_POWER_DRAW": {
     "description": "Stat label for equipment power draw",
@@ -825,11 +825,11 @@
   },
   "STAT_SHIELD": {
     "description": "Stat name for shield generator effectiveness.",
-    "message": "Effective Shield Strength"
+    "message": "Etkin Kalkan Gücü"
   },
   "STAT_THRUSTER_POWER": {
     "description": "Stat name for thruster upgrades",
-    "message": "Maximum Thrust Increase"
+    "message": "Maksimum İtki Artışı"
   },
   "STAT_VOLUME": {
     "description": "Stat label for equipment volume",
@@ -865,11 +865,11 @@
   },
   "TARGET_SLOT_IS_NOT_EMPTY_PUT_THE_REPLACED_ONE_IN_THE_CLIPBOARD_QUESTION": {
     "description": "Message in the start menu when editing equipment",
-    "message": "Target slot is not empty, put the replaced one in the clipboard?"
+    "message": "Hedef slot boş değil, değiştirileni panoya al?"
   },
   "THE_SAME_EQUIPMENT_HAS_BEEN_ALREADY_INSTALLED": {
     "description": "Message in the start menu when editing equipment",
-    "message": "The same equipment has been already installed."
+    "message": "Aynı ekipman halihazırda kurulu."
   },
   "THRUSTERS_DEFAULT": {
     "description": "Equipment name for default RCS thrusters",
@@ -877,19 +877,19 @@
   },
   "THRUSTERS_IMPROVED": {
     "description": "",
-    "message": "Improved Thrusters"
+    "message": "İyileştirilmiş İticiler"
   },
   "THRUSTERS_IMPROVED_DESCRIPTION": {
     "description": "",
-    "message": "An improved type of thrusters approved for your ship."
+    "message": "Geminize uygun iyileştirilmiş bir itici türü."
   },
   "THRUSTERS_NAVAL": {
     "description": "",
-    "message": "Naval Thrusters"
+    "message": "Donanma İticileri"
   },
   "THRUSTERS_NAVAL_DESCRIPTION": {
     "description": "",
-    "message": "Naval thrusters specifically tailored for your ship to provide the best possible output."
+    "message": "Geminize en uygun şekilde yapılmış, en iyi performans çıktısını verecek donanma iticileri."
   },
   "THRUSTERS_OPTIMISED": {
     "description": "",
@@ -929,7 +929,7 @@
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",
-    "message": "Required for transporting passengers"
+    "message": "Yolcu taşımak için gerekli"
   },
   "UTILITY": {
     "description": "Category name of utility equipment",
