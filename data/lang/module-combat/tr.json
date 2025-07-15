@@ -173,7 +173,7 @@
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} will pay {cash} for {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We have reason to believe that a ruthless market competitor is responsible for the disappearance of our freighters at {area}. Distance to the target area is {dist} ly."
+    "message": "{org} size {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {mission} görevi için {cash} ödeyecek. Amansız bir market rakibimizin kargo gemilerimizin {area} civarında ortadan kaybolmasından sorumlu olduğunu düşünüyoruz. Hedef alana mesafe {dist} ıy."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
@@ -217,7 +217,7 @@
   },
   "MILITARY_3": {
     "description": "",
-    "message": "The counter intelligence corps needs a civil pilot who asks no questions for {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pay is {cash}."
+    "message": "İstihbaratla mücadele ekibinin soru sormayan sivil bir pilotun {dist} ıy uzaklıktaki {system} ({sectorx}, {sectory}, {sectorz}) sisteminde {mission} görevini yerine getirmesine ihtiyacı var. Ödeme {cash}."
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "I work for the {org}. Some of our freighters will arrive shortly at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To increase the safety of our employees and to protect the equipment we are willing to pay {cash} for {mission} mission. Distance to {area} is {dist} ly."
+    "message": "{org} için çalışıyorum. Yakın bir zamanda kargo gemilerimiz {system} ({sectorx}, {sectory}, {sectorz}) sisteminde {area} bölgesine ulaşacak. Çalışanlarımızın güveliğini arttırmak ve ekipmanlarımızı korumak için  {mission} görevine karşılık {cash} ödemek istiyoruz. {area} bölgesine mesafe {dist} ıy."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -273,15 +273,15 @@
   },
   "MISSION_TYPE_CONVO_1": {
     "description": "Name of mission type, used in conversation",
-    "message": "a reconnaissance"
+    "message": "bir keşif"
   },
   "MISSION_TYPE_CONVO_2": {
     "description": "Name of mission type, used in conversation",
-    "message": "an armed reconnaissance"
+    "message": "bir silahlı keşif"
   },
   "MISSION_TYPE_CONVO_3": {
     "description": "Name of mission type, used in conversation. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
-    "message": "an area sweep"
+    "message": "bir alan taraması"
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",
