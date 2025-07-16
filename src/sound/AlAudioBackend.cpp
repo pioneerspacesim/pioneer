@@ -11,6 +11,7 @@
 #include "AL/alext.h"
 
 #include <algorithm>
+#include <random>
 #include <utility>
 
 #define CHECK_OPENAL_ERROR_IMPL(file, line, fn, ...)                                                                                    \
@@ -56,6 +57,10 @@ Sound::AlAudioBackend::AlAudioBackend()
 
 	CHECK_OPENAL_ERROR(alDistanceModel, AL_INVERSE_DISTANCE_CLAMPED);
 	CHECK_OPENAL_ERROR(alSpeedOfSound, 1000.f);
+
+	std::default_random_engine prng(std::random_device{}());
+	std::uniform_int_distribution<decltype(m_next_event_id)> dist;
+	m_next_event_id = dist(prng);
 
 	Output("Initialized OpenAL audio backend");
 }
@@ -154,7 +159,7 @@ Sound::AudioBackend::eventid Sound::AlAudioBackend::Play(std::string_view key, c
 		Output("Could not find %s in samples", key_str.c_str());
 		return 0;
 	}
-	auto it = m_events.emplace(++next_event_id, sample_it->second).first;
+	auto it = m_events.emplace(++m_next_event_id, sample_it->second).first;
 	it->second.SetOp(op);
 	it->second.SetGain(volume_left * m_sfxVolume, volume_right * m_sfxVolume);
 	CHECK_OPENAL_ERROR(alSourcePlay, it->second.GetSource());
@@ -178,7 +183,7 @@ void Sound::AlAudioBackend::BodyMakeNoise(const Body *b, std::string_view key, f
 		return;
 	}
 
-	auto it = m_events.emplace(++next_event_id, sample_it->second).first;
+	auto it = m_events.emplace(++m_next_event_id, sample_it->second).first;
 	it->second.SetGain(m_sfxVolume);
 
 	CHECK_OPENAL_ERROR(alSource3f, it->second.GetSource(), AL_POSITION, pos.x, pos.y, pos.z);
