@@ -1,3 +1,8 @@
+July
+  * Internal
+    * Save settings to disk when closing the settings window (#6179)
+    * Migrate renderer to use explicit vertex attribute format descriptors (#6141)
+
 June
   * New Features
     * Redesign Sector Map interface, allow jumping from Sector Map (#6148)
@@ -18,6 +23,7 @@ June
     * Optimization: Replace onShip*() with onPlayer*() events where functional (#6163)
     * Optimization: Redefine meaning of onEnterSystem/onLeaveSystem events (#6177)
     * Fix breakages introduced by the updated version of Dear ImGui (#6157)
+    * Minor Terrain files cleanup (#6187)
 
 May
   * New Features
