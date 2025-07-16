@@ -23,6 +23,17 @@
 
 #define CHECK_OPENAL_ERROR(fn, ...) CHECK_OPENAL_ERROR_IMPL(__FILE__, __LINE__, fn, __VA_ARGS__)
 
+namespace {
+	float calculate_pan(float left, float right)
+	{
+		if (left == 0.f && right == 0.f)
+		{
+			return 0.f;
+		}
+		return (right - left) / (right + left);
+	}
+} //namespace
+
 Sound::AlAudioBackend::AlAudioBackend()
 {
 	m_device = alcOpenDevice(nullptr);
@@ -43,7 +54,7 @@ Sound::AlAudioBackend::AlAudioBackend()
 		throw std::exception();
 	}
 
-	CHECK_OPENAL_ERROR(alDistanceModel, AL_INVERSE_DISTANCE);
+	CHECK_OPENAL_ERROR(alDistanceModel, AL_INVERSE_DISTANCE_CLAMPED);
 	CHECK_OPENAL_ERROR(alSpeedOfSound, 1000.f);
 
 	Output("Initialized OpenAL audio backend");
@@ -101,23 +112,23 @@ bool Sound::AlAudioBackend::EventSetOp(eventid eid, Op op)
 	return true;
 }
 
-bool Sound::AlAudioBackend::EventVolumeAnimate(eventid eid, const float targetVol1, const float /*targetVol2*/, const float dv_dt1, const float /*dv_dt2*/)
+bool Sound::AlAudioBackend::EventVolumeAnimate(eventid eid, const float targetVol1, const float targetVol2, const float dv_dt1, const float /*dv_dt2*/)
 {
 	auto it = m_events.find(eid);
 	if (it == m_events.end()) {
 		return false;
 	}
-	it->second.SetTargetGain(targetVol1, dv_dt1);
+	it->second.SetTargetGain(targetVol1, targetVol2, dv_dt1);
 	return true;
 }
 
-bool Sound::AlAudioBackend::EventSetVolume(eventid eid, const float vol_left, const float /*vol_right*/)
+bool Sound::AlAudioBackend::EventSetVolume(eventid eid, const float vol_left, const float vol_right)
 {
 	auto it = m_events.find(eid);
 	if (it == m_events.end()) {
 		return false;
 	}
-	it->second.SetGain(vol_left);
+	it->second.SetGain(vol_left, vol_right);
 	return true;
 }
 
@@ -135,7 +146,7 @@ void Sound::AlAudioBackend::Pause(int on)
 	}
 }
 
-Sound::AudioBackend::eventid Sound::AlAudioBackend::Play(std::string_view key, const float volume_left, const float /*volume_right*/, const Op op)
+Sound::AudioBackend::eventid Sound::AlAudioBackend::Play(std::string_view key, const float volume_left, const float volume_right, const Op op)
 {
 	const std::string key_str(key);
 	auto sample_it = m_samples.find(key_str);
@@ -145,7 +156,7 @@ Sound::AudioBackend::eventid Sound::AlAudioBackend::Play(std::string_view key, c
 	}
 	auto it = m_events.emplace(++next_event_id, sample_it->second).first;
 	it->second.SetOp(op);
-	it->second.SetGain(volume_left * m_sfxVolume);
+	it->second.SetGain(volume_left * m_sfxVolume, volume_right * m_sfxVolume);
 	CHECK_OPENAL_ERROR(alSourcePlay, it->second.GetSource());
 	return it->first;
 }
@@ -156,8 +167,7 @@ void Sound::AlAudioBackend::BodyMakeNoise(const Body *b, std::string_view key, f
 	auto pos = b->GetPositionRelTo(Pi::player);
 	pos = pos * Pi::player->GetOrient();
 
-	if (pos.Length() > distance_threshold)
-	{
+	if (pos.Length() > distance_threshold) {
 		return;
 	}
 
@@ -249,9 +259,10 @@ void Sound::AlAudioBackend::EnableBinaural(bool enabled)
 }
 
 Sound::AlAudioBackend::SoundEvent::SoundEvent(const Sample &sample) :
-	channels(sample.channels), samplerate(sample.samplerate), target_gain(1.F), fade_rate(0.F), streaming_finished(false), is_music(sample.isMusic), op(0)
+	channels(sample.channels), samplerate(sample.samplerate), target_gain(1.F), target_pan(0.F), fade_rate(0.F), pan_rate(0.F), streaming_finished(false), is_music(sample.isMusic), op(0)
 {
 	CHECK_OPENAL_ERROR(alGenSources, 1, &source);
+	CHECK_OPENAL_ERROR(alSourcei, source, AL_REFERENCE_DISTANCE, 1);
 	if (!sample.buf.empty()) {
 		CHECK_OPENAL_ERROR(alGenBuffers, 1, &buffers[0]);
 		CHECK_OPENAL_ERROR(alBufferData,
@@ -381,25 +392,41 @@ void Sound::AlAudioBackend::SoundEvent::Update(float delta_t)
 		}
 	}
 	if (fade_rate != 0.f) {
-		float current_gain;
+		float current_gain, current_pan, y, z;
 		CHECK_OPENAL_ERROR(alGetSourcef, source, AL_GAIN, &current_gain);
+		CHECK_OPENAL_ERROR(alGetSource3f, source, AL_POSITION, &current_pan, &y, &z);
 		float new_gain = current_gain + fade_rate * delta_t;
+		float new_pan = current_pan + pan_rate * delta_t;
 		if ((fade_rate > 0.F && new_gain >= target_gain) || (fade_rate < 0.F && new_gain < target_gain)) {
 			if (op & OP_STOP_AT_TARGET_VOLUME) {
 				CHECK_OPENAL_ERROR(alSourceStop, source);
 				return;
 			}
 			new_gain = target_gain;
+			new_pan = target_pan;
+			fade_rate = 0.f;
+			pan_rate = 0.f;
 		}
 		CHECK_OPENAL_ERROR(alSourcef, source, AL_GAIN, new_gain);
+		CHECK_OPENAL_ERROR(alSource3f, source, AL_POSITION, new_pan, y, z);
 	}
 }
 
 void Sound::AlAudioBackend::SoundEvent::SetGain(float gain)
 {
-	target_gain = gain;
+	SetGain(gain, gain);
+}
+
+void Sound::AlAudioBackend::SoundEvent::SetGain(float gainL, float gainR)
+{
+	target_gain = (gainL + gainR) * 0.5f;
+	target_pan = calculate_pan(gainL, gainR);
 	fade_rate = 0.f;
-	CHECK_OPENAL_ERROR(alSourcef, source, AL_GAIN, gain);
+	pan_rate = 0.f;
+	CHECK_OPENAL_ERROR(alSourcef, source, AL_GAIN, target_gain);
+	if (target_pan != 0.f) {
+		CHECK_OPENAL_ERROR(alSource3f, source, AL_POSITION, target_pan, 0.f, 0.f);
+	}
 }
 
 void Sound::AlAudioBackend::SoundEvent::SetOp(Op new_op)
@@ -418,8 +445,17 @@ void Sound::AlAudioBackend::SoundEvent::SetOp(Op new_op)
 
 void Sound::AlAudioBackend::SoundEvent::SetTargetGain(float gain, float rate)
 {
-	target_gain = gain;
+	SetTargetGain(gain, gain, rate);
+}
+
+void Sound::AlAudioBackend::SoundEvent::SetTargetGain(float gainL, float gainR, float rate)
+{
+	target_gain = (gainL + gainR) * 0.5f;
 	fade_rate = rate;
+	target_pan = calculate_pan(gainL, gainR);
+	float current_pan, y, z;
+	CHECK_OPENAL_ERROR(alGetSource3f, source, AL_POSITION, &current_pan, &y, &z);
+	pan_rate = rate * (target_pan - current_pan);
 }
 
 #endif

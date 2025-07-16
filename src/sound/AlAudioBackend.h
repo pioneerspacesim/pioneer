@@ -62,8 +62,10 @@ namespace Sound {
 			bool IsDone() const;
 			void Update(float delta_t);
 			void SetGain(float gain);
+			void SetGain(float gainL, float gainR);
 			void SetOp(Op op);
 			void SetTargetGain(float gain, float rate);
+			void SetTargetGain(float gainL, float gainR, float rate);
 			bool IsMusic() const { return is_music; }
 
 		private:
@@ -75,7 +77,9 @@ namespace Sound {
 			int channels;
 			int samplerate;
 			float target_gain;
+			float target_pan;
 			float fade_rate;
+			float pan_rate;
 			bool streaming_finished;
 			bool is_music;
 			Op op;
