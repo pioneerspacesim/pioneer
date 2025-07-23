@@ -209,7 +209,7 @@ double SystemBody::GetAtmPressure(double altitude) const
 		return atmosPressure;
 	} else {
 		// above tropopause
-		const double tropopauseTemp = surfaceTemperature_T0 - lapseRate_L * m_tropopause;
+		const double tropopauseTemp = GetAtmAverageTemp(m_tropopause);
 		return 0.1 * exp((-surfaceGravity_g * gasMolarMass * (altitude - m_tropopause)) / (GAS_CONSTANT_R * tropopauseTemp));
 	}
 }
@@ -371,7 +371,7 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 	const double massPlanet_in_kg = (m_mass.ToDouble() * EARTH_MASS);
 	const double g = G * massPlanet_in_kg / (radiusPlanet_in_m * radiusPlanet_in_m);
 
-	double T = static_cast<double>(m_averageTemp);
+	double T = static_cast<double>(GetAtmAverageTemp(m_tropopause));
 
 	// XXX hack to avoid issues with sysgen giving 0 temps
 	// temporary as part of sysgen needs to be rewritten before the proper fix can be used
@@ -391,9 +391,11 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 
 	const float radiusPlanet_in_km = radiusPlanet_in_m / 1000;
 	const float atmosHeight_in_km = radiusPlanet_in_km * (params.atmosRadius - 1);
+	const float tropopause_in_km = static_cast<float>(m_tropopause / 1000);
 	params.rayleighCoefficients = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, atmosScaleHeight);
 	params.mieCoefficients = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, atmosScaleHeight / 6.66); // 7994 / 1200 = 6.61
 	params.scaleHeight = vector2f(atmosScaleHeight, atmosScaleHeight / 6.66);
+	params.tropoHeight = vector2f(tropopause_in_km, tropopause_in_km / 6.66);
 
 	return params;
 }

@@ -30,6 +30,7 @@ layout(std140) uniform BaseSphereData {
 
 	// Eclipse data
 	Eclipse eclipse;
+	vec2 tropoHeight;			// height for (R, M) in km, pressure is 0.1 atm
 };
 
 // NOTE: you must include attributes.glsl first!
