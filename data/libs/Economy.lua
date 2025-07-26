@@ -41,8 +41,41 @@ local kMaxCommodityVariance = 15
 -- pricemod is computed as pricemod + variance * (ln(supply) - supply_flow)
 -- local kSurplusDeficitVariance = 20
 
+-- Stddev of the random walk for commodity supply/demand values, expressed as a fraction of the
+-- equilibrium stock/demand.
+-- This controls how quickly commodity supply/demand will wander about over a unit of time
+-- equal to kSupplyDemandScale * kMarketUpdateTick.
+local kSupplyDemandDeviation = 0.16
+
+-- Stddev of the random walk bounds for commodity supply/demand values, expressed as a fraction
+-- of the equilibrium supply/demand.
+-- Supply/demand values will lie within +-2*kSupplyDemandBound proportions of the mean under 95% of conditions.
+-- (For an equilibrium supply of 100, this means commodity supply will almost never dip below 60 nor go above 140.)
+local kSupplyDemandBound = 0.3
+
+-- Time period for the deviation value, in multiples of kMarketUpdateTick
+-- It is expected for the walk to wander with a std.dev. of kSupplyDemandDeviation
+-- over a time period of kSupplyDemandScale * kMarketUpdateTick
+local kSupplyDemandScale = 30
+
+-- Stddev of the random walk for commodity stocking values at stations
+local kStockDeviation = 0.15
+
+-- Time period for the station commodity stock value, in multiples of kMarketUpdateTick
+-- Commodity stock values at a station are expected to wander with a std.dev. of kStockDeviation
+-- (relative to the current equilibrium) over this time period.
+local kStockUpdateScale = 10
+
+-- Duration of a single "market update" step, primarily used when in-system for regular market updates.
+-- When returning to a system, commodity markets will be extrapolated based on the various duration
+-- scalars listed above.
+local kMarketUpdateTick = 60 * 60 -- 1hr for debug testing
+
 local Economies = {}
 local Commodities = Economy.GetCommodities()
+
+local CommodityList = utils.build_array(utils.keys(Commodities))
+table.sort(CommodityList)
 
 -- Create a stable iteration order for economies to avoid non-deterministic results
 for _, econ in pairs(Economy.GetEconomies()) do
@@ -76,6 +109,18 @@ local stationMarket = {}
 ---@field supply table<string, integer>
 ---@field starports SystemPath[]
 
+---@class Economy.StationMarket2
+--- Station supply values are the instantaneous production rate of the given commodity at this specific station.
+---@field supply table<string, number>
+--- Station demand values are the instantaneous consumption rate of the given commodity at this specific station.
+---@field demand table<string, number>
+--- Stock values are the transient, instantaneous available quantity of the commodity for purchase by the player.
+--- Commodity stock does not currently inform pricing, as it is just a "window" into the export or import status
+--- of the commodity.
+---@field stock table<string, number>
+---@field history table<string, number>
+---@field updated number
+
 -- cache of deterministic station economies
 ---@type table<SystemPath, Economy.EconomyDef>
 local economyCache = {}
@@ -90,13 +135,15 @@ local neighborhoodCache = {}
 local supplyGroupCache = utils.automagic()
 
 -- persistent cache of local modifiers to station trade
----@type table<SystemPath, { supply: table<string, number>, demand: table<string, number>, stock: table<string, number> }>
+---@type table<SystemPath, Economy.StationMarket2>
 local persistentMarket = {}
 
 local sEmptyMarket = {
 	supply = {},
 	demand = {},
 	stock = {},
+	history = {},
+	updated = 0,
 }
 
 local populationDef = Industry.NewIndustry("population", Json.LoadJson('economy/population.json'))
@@ -114,6 +161,8 @@ end
 local function invFlow(amount)
 	return amount > 0 and math.log(amount) - 2 or 0
 end
+
+Economy.FlowToAmount = flowToAmount
 
 --=============================================================================
 -- New Economy
@@ -359,6 +408,83 @@ function Economy.GetSupplyGroups(system)
 	return supplyGroupCache[system.path]
 end
 
+-- Function: GetCommodityStockEquilibrium
+--
+-- Returns the average stock quantity of a commodity at this station under
+-- equilibrium conditions. This should be used to compute the initial state
+-- of a station, or otherwise determine the nominal condition of the station
+-- in absence of any other factors.
+--
+-- For the current equilibrium stock quantity affected by perturbed supply
+-- and demand values, see [GetCommodityStockTargetEquilibrium].
+--
+-- Parameters:
+--
+--    sbody - SystemBody, the station for which to compute the equilibrium
+--    commodityId - string, the id of the commodity in question
+--
+-- Returns:
+--
+--    equilibrium - number, total commodity stock expected to be present at this station
+--
+---@param sbody SystemBody
+---@param commodityId string
+function Economy.GetCommodityStockEquilibrium(sbody, commodityId)
+	local econ = Economy.GetStationEconomy2(sbody)
+
+	-- Supply/demand flow values
+	local fS = econ.supply[commodityId] or 0
+	local fD = econ.demand[commodityId] or 0
+
+	return Economy.GetCommodityStockTargetEquilibrium(sbody, commodityId, flowToAmount(fS), flowToAmount(fD))
+end
+
+-- Function: GetCommodityStockTargetEquilibrium
+--
+-- Returns the equilibrium stocking of a commodity at this station, given the
+-- current supply and demand for the commodity.
+--
+-- This computes the expected amount of commodity stock available from station
+-- arbitrage brokers under the given conditions, assuming the market is at
+-- equilibrium (i.e. has not been perturbed by player activity).
+--
+-- The result should be modified by a small random factor to determine actual
+-- commodity stock numbers to avoid visible "sameness".
+--
+-- Parameters:
+--
+--    sbody - SystemBody, the station for which to compute the equilibrium
+--    commodityId - string, the id of the commodity in question
+--
+-- Returns:
+--
+--    equilibrium - number, total commodity stock expected to be present at this station
+--
+function Economy.GetCommodityStockTargetEquilibrium(sbody, commodityId, supply, demand)
+	local import = flowToAmount(Economy.GetLocalSupply(sbody, commodityId))
+	-- The amount of imported goods is related to the demand at this station.
+	-- With no demand, minimal quantities will be in stock.
+	local import_avail = math.min(demand * math.exp(-1), import)
+
+	-- The 'median' value is the amount of commodities available on the market when the station production
+	-- is equal to its consumption rate.
+	-- The station arbitrage market opportunistically imports goods to cover temporary production shortfalls,
+	-- and thus a minimal amount of goods are available.
+	local median = supply * 0.33 + import_avail
+
+	if supply >= demand then
+		-- If we produce much more than we consume, the full production is available on the market with no imports.
+		-- If we produce in equilibrium with the demand, a portion of our production plus imports is available on the market.
+		return math.lerp(supply - demand + import_avail, median, demand / supply)
+	else
+		-- If we consume more than we locally produce, the station arbitrage market buys in advance. The amount of commodities
+		-- available from the arbitrage market reduces as the ratio of production to consumption decreases.
+		local avail = (supply + demand + import_avail) * math.exp(-1)
+
+		return math.lerp(avail, median, supply / demand)
+	end
+end
+
 -- Function: GetCommodityPriceMod
 --
 -- Returns the instantaneous price modifier for the given commodity at this station.
@@ -376,22 +502,19 @@ end
 --
 ---@param sbody SystemBody
 ---@param commodityId string
-function Economy.GetCommodityPriceMod(sbody, commodityId)
-	local supply_flow, demand_flow = Economy.GetCommodityFlowParams(sbody, commodityId)
+---@param market Economy.StationMarket2?
+function Economy.GetCommodityPriceMod(sbody, commodityId, market)
 	local local_supply = Economy.GetLocalSupply(sbody, commodityId)
+	local persist = market or persistentMarket[sbody.path] or sEmptyMarket
 
-	local persist = persistentMarket[sbody.path] or sEmptyMarket
+	-- TODO: allow affecting demand values with transient events
 
-	local rand = Rand.New(sbody.seed .. "-econ-state")
-
-	-- TODO: approximation of an instantaneous supply value via random walks
-	-- TODO: approximation of an instantaneous demand value
-	-- TODO: connect transient supply value to trade history / events
-
-	-- NOTE: this is not the current commodity stock value, but rather the persistent supply
-	-- adjusted for the effects of repeated purchases and local events
-	local supply = math.ceil(flowToAmount(supply_flow) * rand:Normal(1.0, 0.1)) -- persist.supply[commodityId]
-	local demand = math.ceil(flowToAmount(demand_flow) * rand:Normal(1.0, 0.2)) -- persist.demand[commodityId]
+	-- NOTE: this is not the current commodity stock value, but rather the persistent
+	-- supply adjusted for the effects of repeated purchases and local events.
+	-- The effective supply value can go negative if the player has purchased enough
+	-- commodities from the local market in a short enough period of time.
+	local supply = (persist.supply[commodityId] or 0) + (persist.history[commodityId] or 0)
+	local demand = (persist.demand[commodityId] or 0)
 
 	-- TODO: approximation of instantaneous import satisfaction based on import capacity
 	local imported = math.max(demand - supply, 0)
@@ -403,9 +526,9 @@ function Economy.GetCommodityPriceMod(sbody, commodityId)
 	-- TODO: handle deficit (greater demand than interstellar import capacity)
 
 	if supply >= demand then
-		return math.clamp(invFlow(supply - demand) / est_max_flow, 0, 1)^2 * -kMaxCommodityVariance
+		return math.clamp(invFlow(supply - demand) / est_max_flow, 0, 2) * -kMaxCommodityVariance
 	else
-		local pricemod = math.clamp(invFlow(imported) / est_max_flow, 0, 1) * kMaxCommodityVariance
+		local pricemod = math.clamp(invFlow(imported) / est_max_flow, 0, 2) * kMaxCommodityVariance
 		-- scale price based on proportion of imported goods available nearby; 1x at fully imported,
 		-- 0.5x when all demand is sourced from nearby starports
 		return pricemod * (1.0 - nearby_import / (imported * 2))
@@ -432,61 +555,153 @@ function Economy.GetMaxFlowForPrice(price)
 	return 30 / math.log(math.abs(price) + 7.38)
 end
 
--- Function: GetCommodityStockEquilibrium
+-- Function: CreateCommodityMarket
 --
--- Returns the equilibrium (maximum) stocking of a commodity at this station.
---
--- This computes the maximum amount of commodity stock available from station
--- arbitrage brokers under equilibrium conditions.
--- The result should be modified by a small random factor to determine actual
--- commodity stock numbers to avoid visible "sameness".
---
--- This function does not yet take into account transient supply modifiers from
--- events or player actions.
---
--- Parameters:
---
---    sbody - SystemBody, the station for which to compute the equilibrium
---    commodityId - string, the id of the commodity in question
---
--- Returns:
---
---    equilibrium - number, total commodity stock expected to be present at this station
---
+-- Initialize the commodity market for the given {station, commodity} pair.
+-- This function generates deterministic values for the random market state at
+-- the t0 point of the station's history.
 ---@param sbody SystemBody
 ---@param commodityId string
-function Economy.GetCommodityStockEquilibrium(sbody, commodityId)
-	local econ = Economy.GetStationEconomy2(sbody)
+---@param market Economy.StationMarket2
+function Economy.CreateCommodityMarket(sbody, commodityId, market)
+	local fS, fD = Economy.GetCommodityFlowParams(sbody, commodityId)
+	local equilibrium = Economy.GetCommodityStockEquilibrium(sbody, commodityId)
+	local rand_init = Rand.New("{}-state-{}" % { sbody.seed, commodityId })
 
-	local supply = econ.supply[commodityId] or 0
-	local demand = econ.demand[commodityId] or 0
+	market.supply[commodityId] = math.ceil(flowToAmount(fS) * rand_init:Normal(1.0, kSupplyDemandDeviation))
+	market.demand[commodityId] = math.ceil(flowToAmount(fD) * rand_init:Normal(1.0, kSupplyDemandDeviation))
 
-	local supply_amt = flowToAmount(supply)
-	local demand_amt = flowToAmount(demand)
+	market.stock[commodityId] = math.ceil(equilibrium * rand_init:Normal(1.0, kStockDeviation))
+end
 
-	if supply > demand then
+-- https://www.gameaipro.com/GameAIPro3/GameAIPro3_Chapter02_Creating_the_Past_Present_and_Future_with_Random_Walks.pdf
+---@param rand Rand
+---@param x0 number Initial value to extrapolate from
+---@param dT number Elapsed time to extrapolate over
+---@param stddev number Standard deviation of the random walk, controlling how far it will deviate from x0 over unit time
+---@param mean number Mean value to bound the result around
+---@param bound_dev number Standard deviation of the result relative to the mean
+local function extrapolate_bounded_walk(rand, x0, dT, stddev, mean, bound_dev)
+	-- variance of the random walk
+	local v = stddev^2
+	-- variance of the bounding normal distribution
+	local vBound = bound_dev^2
 
-		-- We produce more than we consume; the full production is available on the market (no imports)
-		return supply_amt - demand_amt
+	-- The result will be x0 +-1.96*stddev over dT=1, with a probability of ~95%
+	local term_a = (x0 / (dT * v) + mean / vBound)
+	local term_b = (1 / (dT * v) + 1 / vBound)
 
-	elseif supply > 0 and supply == demand then
+	return rand:Normal(term_a / term_b, math.sqrt(1 / term_b))
+end
 
-		-- We produce in equilibrium with our consumption; goods are priced right about market rates
-		-- and we have half our production value available for purchase from the market.
-		return supply_amt * 0.5
+-- Extrapolate a bounded walk for commodity supply/demand values based on the commodity flow
+local function extrapolate_bounded_sd_walk(rand, x0, dT, flow)
+	local mean = flowToAmount(flow)
+	local stddev = mean * kSupplyDemandDeviation
+	local bound = mean * kSupplyDemandBound
 
-	else
+	return extrapolate_bounded_walk(rand, x0, dT, stddev, mean, bound)
+end
 
-		local local_supply = Economy.GetLocalSupply(sbody, commodityId)
-		local local_import = flowToAmount(local_supply) - supply_amt
+-- Function: UpdateStationMarket2
+--
+-- Perform a market update, extrapolating the supply, demand, and stock values
+-- based on the time since the last market update.
+--
+-- This function also handles decay of the history register which records the
+-- player's effects on the market.
+--
+-- TODO: this function does not yet take into account any sort of "local event"
+-- system which would affect the supply/demand/stock values.
+---@param sbody SystemBody
+---@param market Economy.StationMarket2?
+function Economy.UpdateStationMarket2(sbody, market)
+	market = market or persistentMarket[sbody.path]
+	if not market then return end
 
-		-- Compute a "fudge" number determining how many commodities are floating around in station arbitrage
-		-- for a desparate pilot to purchase at above-market rates.
-		-- Any station with indigenous production will have more goods available at any one time,
-		-- and stock will scale with nearby supply and local demand.
-		return (supply_amt + (demand_amt + local_import) * 0.5) * math.exp(-1)
+	local lastStockUpdate = market.updated
+	local timeSinceUpdate = Game.time - lastStockUpdate
+	if timeSinceUpdate <= kMarketUpdateTick then return end
+
+	-- make sure the next tick happens at the correct time
+	local numTicks = math.floor(timeSinceUpdate / kMarketUpdateTick)
+	local delta = kMarketUpdateTick * numTicks
+	market.updated = lastStockUpdate + delta
+
+	-- use a unique random function to tally up restocks
+	-- this ensures that each restock uses a different random number based on game start time
+	local randRestock = Rand.New(sbody.seed .. '-stockMarketUpdate-' .. math.floor(lastStockUpdate))
+
+	for _, id in ipairs(CommodityList) do
+
+		-- Delta for supply/demand random walk
+		local dT = delta / (kSupplyDemandScale * kMarketUpdateTick)
+		-- Delta for stock quantity random walk
+		local dR = delta / (kStockUpdateScale * kMarketUpdateTick)
+
+		local fS, fD = Economy.GetCommodityFlowParams(sbody, id)
+		local eStock = Economy.GetCommodityStockEquilibrium(sbody, id)
+
+		-- Go on a random walk to determine what the local supply/demand values are at the station
+		-- TODO: allow events to influence the outcomes of these walks
+		market.supply[id] = extrapolate_bounded_sd_walk(randRestock, market.supply[id], dT, fS)
+		market.demand[id] = extrapolate_bounded_sd_walk(randRestock, market.demand[id], dT, fD)
+
+		-- Instantaneous stock quantity equilibrium based on current supply/demand value
+		local eiStock = Economy.GetCommodityStockTargetEquilibrium(sbody, id, market.supply[id], market.demand[id])
+		-- sigma stock, std deviation of stock value wander step size
+		local sStock = eStock * kStockDeviation
+		-- sigma stock bounds, std deviation of instantaneous stock quantity
+		local siStock = eiStock * kStockDeviation
+
+		-- Update the current commodity stock value, tending to stay within +- 2*siStock of the current stock equilibrium
+		-- based on the instantaneous supply/demand of the commodity at this station.
+		-- This random walk uses the current commodity stock value and handles "decay" of commodities sold/purchased by the player.
+		-- TODO: should the history value have a persistent effect on the equilibrium available stock?
+		market.stock[id] = extrapolate_bounded_walk(randRestock, market.stock[id], dR, sStock, eiStock, siStock)
+
+		if market.history[id] then
+
+			local history = math.abs(market.history[id])
+
+			-- This step causes the player's effect on the persistent market to decay over time.
+			-- We do this by sampling a normal distribution, with a std. deviation proportional to the std. deviation of the "restock" step.
+			-- The last scalar causes large history magnitudes to decay more quickly than small history magnitudes.
+			local variance = sStock^2 * math.exp(-1) * math.max(history / (eStock * 4), 1)^2
+
+			history = history - math.abs(randRestock:Normal(0, math.sqrt(dR * variance)))
+
+			-- Clamp the walk to prevent it crossing below 0
+			market.history[id] = history > 0 and math.sign(market.history[id]) * history or nil
+
+		end
 
 	end
+
+end
+
+-- Function: CreateStationMarket2
+--
+-- Initialize a station market for the given space station.
+function Economy.CreateStationMarket2(sbody)
+	---@type Economy.StationMarket2
+	local market = {
+		supply = {},
+		demand = {},
+		stock = {},
+		history = {},
+		updated = Game.time
+	}
+
+	persistentMarket[sbody.path] = market
+
+	for key, comm in pairs(Commodities) do
+		Economy.CreateCommodityMarket(sbody, key, market)
+	end
+end
+
+function Economy.GetStationMarket2(path)
+	return persistentMarket[path] or sEmptyMarket
 end
 
 --=============================================================================
@@ -723,9 +938,9 @@ function Economy.UpdateCommodityPriceMod(sBody, key, commMarket)
 	commMarket[3] = utils.round(stockPrice + demandPrice, 0.01) + systemMod
 end
 
--- Function: GetStationCommodityPrice
+-- Function: GetMarketPrice
 --
--- Return a modified price according to the given commodity market conditions
+-- Return a modified price according to the given price modifier factor
 function Economy.GetMarketPrice(price, pricemod)
 	return price * (1 + pricemod * 0.01)
 end
