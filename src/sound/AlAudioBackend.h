@@ -91,6 +91,7 @@ namespace Sound {
 		eventid m_next_event_id;
 		std::map<std::string, Sample> m_samples;
 		std::map<eventid, SoundEvent> m_events;
+		float m_masterVolume = 1.F;
 		float m_sfxVolume = 1.F;
 	};
 
