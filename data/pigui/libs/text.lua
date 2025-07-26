@@ -345,7 +345,7 @@ ui.Format = {
 				res = string.format(",%03d%s", number % 1e3, res)
 				number = number / 1e3
 			end
-			return string.format("%d%s%s", number, res, deci)
+			return string.format("%s%d%s%s", s, number, res, deci)
 		end
 	end,
 	-- Format a volume quantity in cubic meters
