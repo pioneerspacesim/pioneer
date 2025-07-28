@@ -1,3 +1,5 @@
+#define FAST 0
+
 float height(const in vec3 orig, const in vec3 center)
 {
 	vec3 r = orig - center;
@@ -13,9 +15,9 @@ void scatter(out vec2 density, const in vec3 orig, const in vec3 center)
 	density = -height / scaleHeight;
 
 	// earth atmospheric density: 1.225 kg/m^3, divided by 1e5
-	// 1/1.225e-5 = 81632.65306
-	float earthDensities = geosphereAtmosFogDensity * 81632.65306f;
-	density /= earthDensities;
+	// 1/1.225e-5 = 81632.65306, ln(81632.65306) ~= 11.31
+	float earthDensities = log(geosphereAtmosFogDensity) + 11.31f;
+	density += earthDensities;
 }
 
 // orig: ray origin
@@ -87,6 +89,8 @@ float predictDensityIn(const in float radius, const in float atmosphereHeight, c
 	}
 }
 
+const float INV_AU = 1.f / 149598000000.f;
+
 // predict "scattering density" along the ray
 // sample: starting point of the ray
 // dir:    direction of ray
@@ -147,6 +151,11 @@ void processRay(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, const
 	      atmosphereHeight = atmosphereRadius - geosphereRadius;
 
 	float tCurrent = boundaries.x;
+	float maxSegment = atmosphereHeight / numSamples;
+
+	if (height(tCurrent * dir, center) > 0 && numSamples * maxSegment < (boundaries.y - boundaries.x)) {
+		numSamples = min(int(ceil((boundaries.y - boundaries.x) / maxSegment)), 256); // max 256 segments
+	}
 	float segmentLength = (boundaries.y - boundaries.x) / numSamples;
 	for (int i = 0; i < numSamples; ++i) {
 		vec3 samplePosition = vec3(tCurrent + segmentLength * 0.5f) * dir;
@@ -155,25 +164,34 @@ void processRay(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, const
 		scatter(density, samplePosition, center);
 		opticalDepth += exp(density) * segmentLength;
 
-		// light optical depth
 		vec2 opticalDepthLight = vec2(0.f);
-		vec3 samplePositionLight = samplePosition;
-
 		vec3 sampleGeoCenter = center - samplePosition;
+#if FAST
+		// light optical depth
+		vec3 samplePositionLight = samplePosition;
 		opticalDepthLight.x = predictDensityInOut(samplePositionLight, sunDirection, sampleGeoCenter, geosphereRadius, atmosphereHeight, coefficientsR);
 		opticalDepthLight.y = predictDensityInOut(samplePositionLight, sunDirection, sampleGeoCenter, geosphereRadius, atmosphereHeight, coefficientsM);
+#else // FAST
+		int numSamplesLight = 8;
+		vec2 boundariesLight = raySphereIntersect(sampleGeoCenter, sunDirection, geosphereRadius * geosphereAtmosTopRad);
+		float segmentLengthLight = boundariesLight.y / numSamplesLight;
+		float tCurrentLight = 0.f;
+		for (int j = 0; j < numSamplesLight; ++j) {
+			vec3 samplePositionLight = vec3(segmentLengthLight * 0.5f + tCurrentLight) * sunDirection + samplePosition;
+			vec2 densityLDir = vec2(0.f);
+			scatter(densityLDir, samplePositionLight, center);
+			opticalDepthLight += exp(densityLDir) * segmentLengthLight;
 
+			tCurrentLight += segmentLengthLight;
+		}
+#endif // FAST
 		vec3 surfaceNorm = -normalize(sampleGeoCenter);
 		vec4 atmosDiffuse = vec4(0.f);
 		CalcPlanetDiffuse(atmosDiffuse, diffuse, sunDirection, surfaceNorm, uneclipsed);
 
-		vec3 tau = -(betaR * (opticalDepth.x + opticalDepthLight.x) + betaM * 1.1f * (opticalDepth.y + opticalDepthLight.y));
-		vec3 tauR = tau + vec3(density.x);
-		vec3 tauM = tau + vec3(density.y);
-		vec3 attenuationR = exp(tauR) * segmentLength;
-		vec3 attenuationM = exp(tauM) * segmentLength;
-		sumR += attenuationR * atmosDiffuse.xyz;
-		sumM += attenuationM * atmosDiffuse.xyz;
+		vec3 tau = -(betaR * opticalDepth.x + betaR * opticalDepthLight.x + betaM * 1.1f * opticalDepth.y + betaM * 1.1f * opticalDepthLight.y);
+		sumR += exp(tau + vec3(density.x)) * segmentLength * atmosDiffuse.xyz;
+		sumM += exp(tau + vec3(density.y)) * segmentLength * atmosDiffuse.xyz;
 		tCurrent += segmentLength;
 	}
 }
