@@ -27,36 +27,28 @@ local function formatMass(massInTonnes)
 	return string.format("%d %s", massInTonnes or 0, lc.UNIT_TONNES)
 end
 
--- draw a 2-column table of name/value data
-local function drawTable(data, maxWidth)
+-- draw a 2-column table of name/value data with optional headings
+local function drawTable(data, heading1, heading2)
 	-- data is a table containing:
 	-- - name of item
 	-- - value of item
-	if not data or #data == 0 then return end
-	maxWidth = maxWidth or ui.gauge_width
-	local nameWidth = 0
-	local valueWidth = 0
-	ui.columns(2, "Attributes", false)
-	for _, item in pairs(data) do
-		local nWidth = ui.calcTextSize(item.name).x + ui.getItemSpacing().x
-		local vWidth = ui.calcTextSize(item.value).x + ui.getItemSpacing().x
-		ui.text(item.name)
-		ui.nextColumn()
-		ui.text(item.value)
-		ui.nextColumn()
-
-		nameWidth = math.max(nameWidth, nWidth)
-		valueWidth = math.max(valueWidth, vWidth)
+	if ui.beginTable("Data", 2) then
+		if heading1 or heading2 then
+			ui.tableSetupColumn(heading1 or "")
+			ui.tableSetupColumn(heading2 or "")
+			ui.withFont(font_heading, function()
+				ui.tableHeadersRow()
+			end)
+		end
+		for _, item in pairs(data) do
+			ui.tableNextRow()
+			ui.tableNextColumn()
+			ui.text(item.name)
+			ui.tableNextColumn()
+			ui.text(item.value)
+		end
+		ui.endTable()
 	end
-	if nameWidth + valueWidth > maxWidth then
-		nameWidth = math.max(maxWidth - valueWidth, maxWidth * 0.1)
-	else
-		nameWidth = maxWidth - valueWidth
-	end
-	ui.setColumnWidth(0, nameWidth)
-
-	-- Reset number of columns for next calls
-	ui.columns(1)
 end
 
 ---@param target Ship
@@ -66,7 +58,6 @@ local function displayTargetScannerFor(target, maxWidth)
 	local engine = target:GetInstalledHyperdrive()
 
 	local data = {
-		{ name = target.label, value = target:GetShipType() },
 		{ name = lui.HYPERDRIVE, value = engine and engine:GetName() or lui.NO_DRIVE },
 		{ name = lui.HUD_MASS, value = formatMass(target.staticMass) },
 		{ name = lui.HUD_CARGO_MASS, value = formatMass(target.usedCargo) },
@@ -104,9 +95,13 @@ local function displayTargetScanner(min, max)
 	end
 
 	local textHeight = ui.getTextLineHeightWithSpacing()
+	local headingHeight = textHeight
+	ui.withFont(font_heading, function()
+		headingHeight = ui.getTextLineHeightWithSpacing()
+	end)
 	-- TODO : it would be nice if we didn't have to pre-calculate this and could
 	-- instead somehow get it from the displayTargetScannerFor() function
-	local height = (ui.gauge_height * 1.4) * 2 + textHeight * 4 + ui.gauge_height * 0.5
+	local height = (ui.gauge_height * 1.4) * 2 + textHeight * 3 + headingHeight + ui.gauge_height * 0.5
 
 	local pos, size = ui.rectcut(min, max, height, ui.sides.bottom)
 
@@ -138,6 +133,7 @@ local function displayCloudScanner(min, max)
 	ui.setNextWindowSize(size, "Always")
 	ui.setNextWindowPadding(Vector2(0, 0))
 	ui.window("CloudScanner", scannerWindowFlags, function()
+		ui.addRectFilled(pos, pos + Vector2(ui.getContentRegion().x, ui.getFrameHeight()), colors.tableHeaderBg, 0, ui.RoundCornersNone)
 		ui.withFont(font_heading, function()
 			ui.text(target:GetLabel())
 		end)

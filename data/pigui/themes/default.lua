@@ -40,6 +40,7 @@ local styleColors = {
 	gray_500 		= Color "9B9B9C",
 	gray_600 		= Color "727273",
 	gray_700 		= Color "5F5F5F",
+	gray_800		= Color "303033", --<-- colour used by ui.tableHeaderRow()
 
 	-- Panel colors are partially based on the Material Design system, but
 	-- shifted about half a shade darker to be a good background for the
@@ -206,6 +207,7 @@ theme.colors = {
 	notificationBackground	= styleColors.panel_800,
 	modalBackground			= styleColors.panel_900,
 	tableBackground			= styleColors.primary_900,
+	tableHeaderBg			= styleColors.gray_800,
 	tableHighlight			= styleColors.primary_800,
 	tableSelection			= styleColors.primary_700,
 	tableHighlightDisabled  = styleColors.panel_800,
