@@ -148,7 +148,7 @@ local function displayCloudScanner(min, max)
 			-- the future. While clever reuse of existing state, it makes for
 			-- challenging maintenance and understanding of the code.
 			local _,systemName = ship:GetHyperspaceDestination()
-			local systemLabel = arrival and lui.HUD_HYPERSPACE_ORIGIN or lui.HYPERSPACE_DESTINATION
+			local systemLabel = arrival and lui.HUD_HYPERSPACE_ORIGIN or lui.HUD_HYPERSPACE_DESTINATION
 
 			local data = {
 				{ name = lui.HUD_MASS, value = formatMass(ship.staticMass) },
