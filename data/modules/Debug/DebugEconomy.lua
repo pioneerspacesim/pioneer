@@ -34,40 +34,17 @@ local selected_commodity = 1
 
 ---@param sbody SystemBody
 local function drawIndustries(sbody, economy)
-	ui.text("Population (thousands): " .. sbody.population * 1000000)
-	ui.text("Size class: " .. Economy.GetStationSizeClass(sbody))
 
-	for _, id in pairs(economy.industries) do
-		ui.text(id)
-	end
+	if ui.collapsingHeader("Station Stats") then
+		ui.text("Population (thousands): " .. sbody.population * 1000000)
+		ui.text("Size class: " .. Economy.GetStationSizeClass(sbody))
+		ui.text("Station industries:")
 
-	ui.spacing()
-
-	if ui.collapsingHeader("Industry Stats") then
-
-		ui.separatorText("Production:")
-
-		for k, v in pairs(economy.supply) do
-			ui.text(k .. " => " .. v)
+		for _, id in pairs(economy.industries) do
+			ui.text(id)
 		end
 
 		ui.spacing()
-
-		ui.separatorText("Demand:")
-
-		for k, v in pairs(economy.demand) do
-			ui.text(k .. " => " .. v)
-		end
-
-		ui.spacing()
-
-		ui.separatorText("Aggregate:")
-
-		local aggregate = tsub(table.copy(economy.supply), economy.demand)
-
-		for k, v in pairs(aggregate) do
-			ui.text(k .. " => " .. v)
-		end
 	end
 
 	if ui.collapsingHeader("Commodity Stock Debug") then
@@ -94,19 +71,15 @@ local function drawIndustries(sbody, economy)
 			ui.plotHistogram("##Stock Values", stock_data)
 		end
 
+		ui.spacing()
+
 	end
 
-	if ui.collapsingHeader("Market Stats") then
+	if ui.collapsingHeader("Market Debug") then
 
-		local market = Economy.GetStationMarket2(sbody.path)
+		local market = Economy.GetStationMarket(sbody.path)
 
-		if ui.button("Update Market") then
-			Economy.UpdateStationMarket2(sbody, market)
-		end
-
-		ui.sameLine()
-
-		if ui.button("Buy 100") then
+		if ui.button("Buy All x100") then
 			for _, id in pairs(comm_list) do
 				local amt = math.min(market.stock[id], 100)
 
@@ -117,7 +90,7 @@ local function drawIndustries(sbody, economy)
 
 		ui.sameLine()
 
-		if ui.button("Sell 100") then
+		if ui.button("Sell All x100") then
 			for _, id in pairs(comm_list) do
 				local amt = 100
 
@@ -150,7 +123,7 @@ local function drawIndustries(sbody, economy)
 				ui.text(comm:GetName())
 
 				local s, d = Economy.GetCommodityFlowParams(sbody, id)
-				local ls = Economy.GetLocalSupply(sbody, id)
+				local ls = Economy.GetLocalSupply(sbody.path, id)
 
 				ui.tableNextColumn()
 				ui.textColored(s > 0 and colors.econMinorExport or colors.fontDim, "+" .. ui.Format.Number(s, 0))
@@ -187,7 +160,7 @@ local function drawIndustries(sbody, economy)
 				ui.tableNextColumn()
 				ui.text(ui.Format.Number(market.history[id] or 0, 0))
 
-				local pricemod = Economy.GetCommodityPriceMod(sbody, id, market) or 0
+				local pricemod = Economy.GetCommodityPriceMod(sbody.path, id, market) or 0
 
 				ui.tableNextColumn()
 				ui.text(ui.Format.Number(pricemod, 3))
@@ -233,7 +206,11 @@ debugView.registerTab("Loader", {
 	show = function() return Game.player end,
 	draw = function(self)
 		local body = Game.player:GetNavTarget()
-		if not body then return end
+		if not body then
+			ui.text("Select a station or planet to inspect economy data.")
+
+			return
+		end
 
 		local sbody = body:GetSystemBody()
 		if not sbody then return end
@@ -244,13 +221,15 @@ debugView.registerTab("Loader", {
 			ui.spacing()
 		end)
 
-		drawConditions(sbody)
+		if ui.collapsingHeader("Condition Tags") then
+			drawConditions(sbody)
+		end
 
 		if not body:IsStation() then
 			return
 		end
 
-		local econ = Economy.GetStationEconomy2(sbody)
+		local econ = Economy.GetStationEconomy(sbody)
 
 		ui.spacing()
 		ui.separatorText("Starport Industries")
@@ -258,16 +237,3 @@ debugView.registerTab("Loader", {
 		drawIndustries(sbody, econ)
 	end
 })
-
-require 'Event'.Register("onGameStart", function()
-	Economy.PrecacheSystem(Game.system)
-
-	for _, path in ipairs(Game.system:GetStationPaths()) do
-		Economy.CreateStationMarket2(path:GetSystemBody())
-
-		Timer:CallEvery(60 * 60, function()
-			Economy.UpdateStationMarket2(path:GetSystemBody())
-		end)
-	end
-
-end)
