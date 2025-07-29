@@ -33,9 +33,9 @@ local function drawTable(data, heading1, heading2)
 	-- - name of item
 	-- - value of item
 	if ui.beginTable("Data", 2) then
+		ui.tableSetupColumn(heading1 or "", { "WidthStretch" })
+		ui.tableSetupColumn(heading2 or "", { "WidthFixed" } )
 		if heading1 or heading2 then
-			ui.tableSetupColumn(heading1 or "")
-			ui.tableSetupColumn(heading2 or "")
 			ui.withFont(font_heading, function()
 				ui.tableHeadersRow()
 			end)
@@ -104,6 +104,10 @@ local function displayTargetScanner(min, max)
 	local height = (ui.gauge_height * 1.4) * 2 + textHeight * 3 + headingHeight + ui.gauge_height * 0.5
 
 	local pos, size = ui.rectcut(min, max, height, ui.sides.bottom)
+	if ui.timeWindowSize and size.x > ui.timeWindowSize.x then
+		pos.x = pos.x + (size.x - ui.timeWindowSize.x)
+		size.x = ui.timeWindowSize.x
+	end
 
 	ui.setNextWindowPos(pos, "Always")
 	ui.setNextWindowSize(size, "Always")
@@ -127,7 +131,13 @@ local function displayCloudScanner(min, max)
 	local height = ui.getTextLineHeightWithSpacing(font_heading)
 		+ ui.getTextLineHeightWithSpacing() * 4
 		+ ui.getItemSpacing().y
+
 	local pos, size = ui.rectcut(min, max, height, ui.sides.bottom)
+	if ui.timeWindowSize and size.x > ui.timeWindowSize.x then
+		pos.x = pos.x + (size.x - ui.timeWindowSize.x)
+		size.x = ui.timeWindowSize.x
+	end
+
 
 	ui.setNextWindowPos(pos, "Always")
 	ui.setNextWindowSize(size, "Always")
