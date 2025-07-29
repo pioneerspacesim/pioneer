@@ -72,6 +72,10 @@ local function displayTargetScannerFor(target, maxWidth)
 		{ name = lui.HUD_CARGO_MASS, value = formatMass(target.usedCargo) },
 	}
 
+	ui.withFont(font_content, function()
+		drawTable(data, target.label, target:GetShipType())
+	end)
+
 	local spacing = ui.gauge_height * 1.4
 	local yOff = Vector2(0, ui.gauge_height * 0.5)
 	local uiPos = ui.getCursorScreenPos()
@@ -84,11 +88,6 @@ local function displayTargetScannerFor(target, maxWidth)
 	ui.gauge(uiPos + yOff, hull, nil, nil, 0, 100, icons.hull,
 		colors.gaugeHull, lui.HUD_HULL_STRENGTH, maxWidth)
 	yOff.y = yOff.y + spacing
-
-	ui.setCursorPos(yOff)
-	ui.withFont(font_content, function()
-		drawTable(data, maxWidth)
-	end)
 end
 
 local function displayTargetScanner(min, max)
