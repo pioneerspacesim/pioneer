@@ -131,7 +131,7 @@ local function displayCloudScanner(min, max)
 	local ship = target:GetShip()
 
 	local height = ui.getTextLineHeightWithSpacing(font_heading)
-		+ ui.getTextLineHeightWithSpacing() * 3
+		+ ui.getTextLineHeightWithSpacing() * 4
 		+ ui.getItemSpacing().y
 	local pos, size = ui.rectcut(min, max, height, ui.sides.bottom)
 
@@ -151,6 +151,7 @@ local function displayCloudScanner(min, max)
 			local systemLabel = arrival and lui.HUD_HYPERSPACE_ORIGIN or lui.HUD_HYPERSPACE_DESTINATION
 
 			local data = {
+				{ name = lui.SHIP_TYPE, value = ship:GetShipType()},
 				{ name = lui.HUD_MASS, value = formatMass(ship.staticMass) },
 				{ name = systemLabel, value = systemName },
 				{ name = lui.HUD_ARRIVAL_DATE, value = ui.Format.Datetime(target:GetDueDate()) }
