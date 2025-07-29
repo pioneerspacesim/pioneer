@@ -342,6 +342,7 @@ local onPlayerDocked = function (ship, station)
 		if currentSystem:IsSameSystem(n.syspath) then
 			-- send a grateful greeting from the station if the player cargo is right
 			local cargo_item = Commodities[n.cargo]
+			local id = cargo_item.name
 
 			if ship:GetComponent('CargoManager'):CountCommodity(cargo_item) > 0 and n.multiplier > 0 then
 				local greeting = string.interp(l["GRATEFUL_GREETING_"..Engine.rand:Integer(0,maxIndexOfGreetings)],
@@ -350,30 +351,40 @@ local onPlayerDocked = function (ship, station)
 			end
 
 			local price = station:GetCommodityPrice(cargo_item)
-			local flow, affinity = Economy.GetStationFlowParams(station, cargo_item)
-			local stock, demand = Economy.GetCommodityStockFromFlow(cargo_item, flow, affinity)
+			local market = station:GetCommodityMarket()
+
+			local supply, demand = market.supply[id], market.demand[id]
+			local stock = market.stock[id]
 
 			-- Store original stats for commodity, to reset to later
-			cache = {commodity = cargo_item, price=price, stock = stock, demand = demand}
+			cache = {commodity = cargo_item, price = price, supply = supply, demand = demand, stock = stock }
 
 			-- How close to finish? Linear decrease from 1.0 at start -> 0 at end of event
 			local progress = (n.expires - Game.time) / (n.expires - n.date)
 
-			local newPrice, newStock, newDemand
+			local newPrice, newSupply, newDemand
 			if n.multiplier > 0 then
 				newPrice = n.multiplier * price                             -- increase price
-				newStock = 0                                                -- remove all stock
-				newDemand = demand * math.ceil(1 + progress*n.multiplier)   -- demand
+				newSupply = 0                                               -- remove all production
+				newDemand = demand * math.ceil(1 + progress*n.multiplier)   -- increase demand
 			elseif n.multiplier < 0 then
 				newPrice = math.ceil(price / (1 + math.abs(n.multiplier)))  -- dump price
-				newStock = math.ceil(math.abs(n.multiplier * stock))        -- spam stock
-				newDemand = 0                                               -- station does not buy it
+				newSupply = math.ceil(math.abs(n.multiplier * supply))      -- spam supply
+				newDemand = 0                                               -- station does not buy/consume it
 			end
+
+			local newStock = Economy.GetCommodityStockTargetEquilibrium(station:GetSystemBody(), id, newSupply, newDemand)
+
+			-- Blend from absolutely no stock to normal stock levels for this demand as the event goes on
+			if newDemand > 0 then
+				newStock = newStock * (1.0 - progress)^2
+			end
+
 			-- print("--- NewsEvent old:", cargo_item:GetName(), "price:", price, "stock:", stock, "demand:", demand)
 			-- print("--- NewsEvent new:", cargo_item:GetName(), "price:", newPrice, "stock:", newStock, "demand", newDemand)
 
 			station:SetCommodityPrice(cargo_item, newPrice)
-			station:SetCommodityStock(cargo_item, newStock, newDemand)
+			station:SetCommodityStock(cargo_item, newStock, newSupply, newDemand)
 		end
 	end
 end
@@ -385,7 +396,7 @@ end
 local onPlayerUndocked = function (ship, station)
 	if cache then
 		station:SetCommodityPrice(cache.commodity, cache.price)
-		station:SetCommodityStock(cache.commodity, cache.stock, cache.demand)
+		station:SetCommodityStock(cache.commodity, cache.stock, cache.supply, cache.demand)
 
 		-- print("Reset price, stock, demand: ")
 		-- local price = station:GetCommodityPrice(cache.commodity)
