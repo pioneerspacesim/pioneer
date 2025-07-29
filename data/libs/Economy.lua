@@ -722,10 +722,6 @@ function Economy.InitPersistentMarket(sbody)
 	return persistentMarket[sbody.path]
 end
 
---=============================================================================
--- Old Economy
---=============================================================================
-
 -- Function: GetMaxStockForPrice
 --
 -- Returns the maximum commodity stocking at any station based on price
@@ -736,69 +732,6 @@ end
 -- as a function of commodity price.
 function Economy.GetMaxStockForPrice(price)
 	return 290000 / price^1.217
-end
-
--- weight a scalar in the range -1..1 away from 0 to generate more interesting results
-local function weight_affinity(a)
-	local v = math.abs(a) - 1
-	return math.sign(a) * ( 1 + v * v * v ) -- out cubic easing
-end
-
----@param stationBody SystemBody
----@param comm table the commodity data involved
----@deprecated
-function Economy.GetStationFlowParams(stationBody, comm)
-	local affinities = {}
-
-	-- use a deterministic random function to determine target stock numbers
-	local rand = Rand.New('station-{}-stock-{}' % { stationBody.seed, comm.name })
-
-	-- Calculate the total flow for a commodity at this station based on a
-	-- normal distribution.
-
-	-- "Flow" models both supply and demand of a commodity, and is used to
-	-- determine equilibrium state
-	-- NOTE: a better model for calculating commodity flow would be nice -
-	-- this produces varied but irrational results
-	local flow = (rand:Number() + rand:Number()) * 0.5
-
-	-- Calculate this station's proportion of export to import based on its
-	-- affinity to the producing economy.
-	-- A station with positive affinity primarily exports the commodity while a
-	-- station with negative affinity primarily imports the commodity.
-	local affinity = (affinities[comm.producer] or 1) * 2 - 1
-
-	-- Randomly scale or invert commodity affinity at this station to provide more variance
-	-- TODO: this should be removed (or its intensity reduced) once more economy types exist
-	-- This term is only here to avoid all stations in the galaxy being primarily agrarian
-	affinity = affinity * rand:Normal(0, 1)
-
-	-- Weight and clamp the affinity away from 0 to ensure stations have at least minimal trade
-	affinity = weight_affinity(affinity)
-	affinity = math.clamp(affinity, -0.99, 0.99)
-
-	-- Adjust the flow at this station to reduce stocking for minimal trade commodities
-	-- The smaller the absolute value of affinity is, the lower commodity trade at this station
-	-- Apply the weighting function to affinity again to reduce the chance of a commodity having
-	-- no trade at all
-	flow = flow * math.abs(weight_affinity(affinity) * 1.2)
-
-	-- logVerbose("{}: flow {}, affinity: {}" % { comm.name, flow, affinity })
-
-	return flow, affinity
-end
-
----@deprecated
-function Economy.GetCommodityStockFromFlow(comm, flow, affinity)
-	affinity = affinity * 0.5 + 0.5
-
-	local flowQuant = flow * Economy.GetMaxStockForPrice(math.abs(comm.price))
-
-	-- Compute real stock and demand numbers in commodity units
-	local stock = math.ceil(affinity * flowQuant)
-	local demand = math.ceil((1 - affinity) * flowQuant)
-
-	return stock, demand
 end
 
 -- Function: GetMarketPrice
