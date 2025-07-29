@@ -5,8 +5,8 @@ local ui = require 'pigui'
 local Vector2 = _G.Vector2
 
 -- cache ui
-local font_heading = ui.fonts.pionillium.medlarge
-local font_content = ui.fonts.pionicons.medium
+local font_heading = ui.fonts.pionillium.heading
+local font_content = ui.fonts.pionillium.body
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
