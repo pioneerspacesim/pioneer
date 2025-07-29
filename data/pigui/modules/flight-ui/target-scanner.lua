@@ -153,7 +153,7 @@ local function displayCloudScanner(min, max)
 			local data = {
 				{ name = lui.HUD_MASS, value = formatMass(ship.staticMass) },
 				{ name = systemLabel, value = systemName },
-				{ name = lui.DATE, value = ui.Format.Datetime(target:GetDueDate()) }
+				{ name = lui.HUD_ARRIVAL_DATE, value = ui.Format.Datetime(target:GetDueDate()) }
 			}
 			ui.withFont(font_content, function()
 				drawTable(data)
