@@ -31,6 +31,27 @@
 		},
 		"workforce": 5
 	},
+	"telluric_ore_refinery": {
+		"l10n_key": "TELLURIC_ORE_REFINING",
+		"context": "surface",
+		"conditions": [ "airless" ],
+		"conditions_any": [ "zero_g", "low_gravity", "planet_asteroid" ],
+		"inputs": {
+			"metal_ore": 5,
+			"carbon_ore": 4,
+			"water": 4,
+			"radioactives": 4,
+			"liquid_oxygen": 4
+		},
+		"outputs": {
+			"metal_alloys": 5,
+			"precious_metals": 3
+		},
+		"modifiers": {
+			"rare_metals": [ "i:metal_ore+1", "o:precious_metals+1" ]
+		},
+		"workforce": 4
+	},
 	"orbital_gas_refining": {
 		"l10n_key": "ZERO_G_GAS_REFINING",
 		"context": "orbital",
@@ -63,6 +84,25 @@
 		},
 		"workforce": 5
 	},
+	"pharmaceutical_complex": {
+		"l10n_key": "PHARMACEUTICAL_COMPLEX",
+		"context": "surface",
+		"conditions": [ "planet_terrestrial", "biosphere_basic", "!lawless" ],
+		"inputs": {
+			"computers": 3,
+			"grain": 4,
+			"fruit_and_veg": 4,
+			"live_animals": 2,
+			"robots": 3,
+			"industrial_machinery": 4,
+			"precious_metals": 3
+		},
+		"outputs": {
+			"medicines": 4,
+			"narcotics": 4
+		},
+		"workforce": 5
+	},
 	"orbital_lab": {
 		"l10n_key": "ORBITAL_LABORATORY",
 		"context": "orbital",
@@ -75,12 +115,12 @@
 			"industrial_machinery": 3
 		},
 		"outputs": {
-			"medicine": 3,
+			"medicines": 3,
 			"narcotics": 3,
 			"animal_meat": 3
 		},
 		"modifiers": {
-			"rare_microbial_life": [ "o:medicine+1", "o:narcotics+1" ],
+			"rare_microbial_life": [ "o:medicines+1", "o:narcotics+1" ],
 			"biosphere_rich": [ "o:animal_meat+1" ]
 		}
 	},
