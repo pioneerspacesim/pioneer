@@ -6,6 +6,7 @@
 #include "AnimationCurves.h"
 #include "Background.h"
 #include "Game.h"
+#include "HyperspaceCloud.h"
 #include "Input.h"
 #include "Pi.h"
 #include "Player.h"
@@ -145,6 +146,20 @@ void SystemView::RefreshShips(void)
 	}
 }
 
+void SystemView::RefreshClouds(void)
+{
+	m_clouds.clear();
+	for (auto body : m_game->GetSpace()->GetBodies()) {
+		if (body->GetType() == ObjectType::HYPERSPACECLOUD) {
+			const auto cloud = static_cast<HyperspaceCloud *>(body);
+			// Never show cloud remnants
+			if (cloud->GetShip() != nullptr) {
+				m_clouds.push_back(cloud);
+			}
+		}
+	}
+}
+
 void SystemView::AddShipTracks(double time)
 {
 	using Col = SystemMapViewport::ColorIndex;
@@ -163,6 +178,20 @@ void SystemView::AddShipTracks(double time)
 			vector3d framepos(0.0);
 			CalculateFramePositionAtTime(s->first->GetFrame(), time, framepos);
 			m_map->AddOrbitTrack({ Projectable::ORBIT, Projectable::SHIP, s->first, framepos }, &s->second, orbitColor, 0);
+		}
+	}
+}
+
+void SystemView::AddCloudTracks(double time)
+{
+	auto mode = m_map->GetCloudDrawing();
+	auto frame = m_game->GetSpace()->GetRootFrame();
+	for (auto cloud : m_clouds) {
+		Projectable p = { Projectable::OBJECT, Projectable::BODY, cloud, cloud->GetPositionRelTo(frame) };
+		if (cloud->IsArrival() && (mode == CLOUD_ON || mode == CLOUD_ARRIVAL)) {
+			m_map->AddObjectTrack(p);
+		} else if(!cloud->IsArrival() && (mode == CLOUD_ON || mode == CLOUD_DEPARTURE)) {
+			m_map->AddObjectTrack(p);
 		}
 	}
 }
@@ -215,6 +244,10 @@ void SystemView::Update()
 		}
 	}
 
+	if (m_map->GetCloudDrawing() != CLOUD_OFF) {
+		RefreshClouds();
+	}
+
 	if (m_game->IsNormalSpace() && m_viewingCurrentSystem) {
 		using Col = SystemMapViewport::ColorIndex;
 
@@ -223,6 +256,11 @@ void SystemView::Update()
 		// draw ships
 		if (m_map->GetShipDrawing() != OFF) {
 			AddShipTracks(time);
+		}
+
+		// draw clouds
+		if (m_map->GetCloudDrawing() != CLOUD_OFF) {
+			AddCloudTracks(time);
 		}
 
 		// draw player and planner
@@ -314,6 +352,7 @@ SystemMapViewport::SystemMapViewport(GuiApplication *app) :
 	m_showGravpoints(false),
 	m_showL4L5(LAG_OFF),
 	m_shipDrawing(OFF),
+	m_cloudDrawing(CLOUD_ON),
 	m_gridDrawing(GridDrawing::OFF),
 	m_rot_x(50),
 	m_rot_y(0),
@@ -1099,33 +1138,42 @@ void SystemMapViewport::AddProjected(Projectable p, Projectable::types type, con
 
 void SystemMapViewport::SetVisibility(const std::string &param)
 {
-	if (param == "RESET_VIEW")
+	if (param == "RESET_VIEW") {
 		ResetViewpoint();
-	else if (param == "GRID_OFF")
+	} else if (param == "GRID_OFF") {
 		m_gridDrawing = GridDrawing::OFF;
-	else if (param == "GRID_ON")
+	} else if (param == "GRID_ON") {
 		m_gridDrawing = GridDrawing::GRID;
-	else if (param == "GRID_AND_LEGS")
+	} else if (param == "GRID_AND_LEGS") {
 		m_gridDrawing = GridDrawing::GRID_AND_LEGS;
-	else if (param == "LAG_OFF")
+	} else if (param == "LAG_OFF") {
 		m_showL4L5 = LAG_OFF;
-	else if (param == "LAG_ICON")
+	} else if (param == "LAG_ICON") {
 		m_showL4L5 = LAG_ICON;
-	else if (param == "LAG_ICONTEXT")
+	} else if (param == "LAG_ICONTEXT") {
 		m_showL4L5 = LAG_ICONTEXT;
-	else if (param == "SHIPS_OFF") {
-		m_shipDrawing = OFF;
+	} else if (param == "SHIPS_OFF") {
+		m_shipDrawing = ShipDrawing::OFF;
 		// if we are attached to the ship, reset view, since the ship was hidden
 		if (m_selectedObject.type != Projectable::NONE && m_selectedObject.base == Projectable::SHIP)
 			m_selectedObject.type = Projectable::NONE;
 		if (m_viewedObject.type != Projectable::NONE && m_viewedObject.base == Projectable::SHIP)
 			ResetViewpoint();
-	} else if (param == "SHIPS_ON")
-		m_shipDrawing = BOXES;
-	else if (param == "SHIPS_ORBITS")
-		m_shipDrawing = ORBITS;
-	else
+	} else if (param == "SHIPS_ON") {
+		m_shipDrawing = ShipDrawing::BOXES;
+	} else if (param == "SHIPS_ORBITS") {
+		m_shipDrawing = ShipDrawing::ORBITS;
+	} else if (param == "CLOUDS_OFF") {
+		m_cloudDrawing = CLOUD_OFF;
+	} else if (param == "CLOUDS_ON") {
+		m_cloudDrawing = CLOUD_ON;
+	} else if (param == "CLOUDS_ARRIVAL") {
+		m_cloudDrawing = CLOUD_ARRIVAL;
+	} else if (param == "CLOUDS_DEPARTURE") {
+		m_cloudDrawing = CLOUD_DEPARTURE;
+	} else {
 		Output("Unknown visibility: %s\n", param.c_str());
+	}
 }
 
 void SystemMapViewport::SetZoomMode(bool enable)

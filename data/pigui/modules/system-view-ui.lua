@@ -846,6 +846,7 @@ function makePopup()
 		local isObject = popup_object.type == Projectable.OBJECT
 		local isSystemBody = isObject and popup_object.base == Projectable.SYSTEMBODY
 		local isShip = isObject and not isSystemBody and popup_object.ref:IsShip()
+		local isCloud = isObject and not isSystemBody and popup_object.ref:IsHyperspaceCloud()
 		ui.text(getLabel(popup_object))
 		ui.separator()
 		if isOrrery and ui.selectable(lc.CENTER, false, {}) then
@@ -853,9 +854,12 @@ function makePopup()
 			systemView:SetSelectedObject(popup_object.type, popup_object.base, popup_object.ref)
 			systemView:ViewSelectedObject()
 		end
-		if (isShip or isSystemBody and popup_object.ref.physicsBody) and ui.selectable(lc.SET_AS_TARGET, false, {}) then
+		if (isShip or isCloud or isSystemBody and popup_object.ref.physicsBody) and ui.selectable(lc.SET_AS_TARGET, false, {}) then
 			if isSystemBody then
 				player:SetNavTarget(popup_object.ref.physicsBody)
+				ui.playSfx("OK")
+			elseif isCloud then
+				player:SetNavTarget(popup_object.ref)
 				ui.playSfx("OK")
 			else
 				if combatTarget == popup_object.ref then player:SetCombatTarget(nil) end
@@ -957,7 +961,7 @@ local function displayOnScreenObjects()
 			end
 		end
 
-		if mainObject.type == Projectable.OBJECT and (mainObject.base == Projectable.SYSTEMBODY or mainObject.base == Projectable.SHIP or mainObject.base == Projectable.PLAYER) then
+		if mainObject.type == Projectable.OBJECT and (mainObject.base == Projectable.SYSTEMBODY or mainObject.base == Projectable.SHIP or mainObject.base == Projectable.PLAYER or mainObject.base == Projectable.OBJECT) then
 			-- mouse release handler for right button
 			if mouseover then
 				if not ui.isAnyWindowHovered() and ui.isMouseReleased(1) then
