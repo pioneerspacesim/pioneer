@@ -285,28 +285,6 @@ function SpaceStation:GetCommodityStock(itemType)
 end
 
 --
--- Method: GetCommodityDemand
---
--- Get the quantity of a cargo item this station wants to purchase
---
--- > demand = station:GetCommodityDemand(itemType)
---
--- Parameters:
---
---   itemType - the <CommodityType> of the commodity item in question
---
--- Returns:
---
---   demand - the amount the station is willing to buy
---
----@param itemType CommodityType
----@return integer stock
----@deprecated
-function SpaceStation:GetCommodityDemand(itemType)
-	return self:GetCommodityMarket().stock[itemType.name]
-end
-
---
 -- Method: AddCommodityStock
 --
 -- Modify the quantity of a cargo item this station has available for trade.
