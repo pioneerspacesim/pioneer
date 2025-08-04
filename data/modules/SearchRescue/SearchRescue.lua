@@ -804,12 +804,13 @@ local onChat = function (form, ref, option)
 			-- these variables are hardcoded and need to be filled
 			type	            = "searchrescue",
 			client             = ad.client,
-			location           = ad.location,
+			destination        = ad.location,
 			due                = ad.due,
 			reward             = ad.reward,
 			status             = "ACTIVE",
 
 			-- these variables are script specific
+			location           = ad.location,
 			station_local      = ad.station_local,
 			planet_local       = ad.planet_local,
 			system_local       = ad.system_local,
@@ -1499,7 +1500,7 @@ local pickupCrew = function (mission)
 			local resulttxt = string.interp(l.RESULT_PICKUP_CREW, {todo = todo, done = done})
 			Comms.ImportantMessage(resulttxt)
 			mission.pickup_crew_check = "COMPLETE"
-			mission.location = mission.system_local
+			mission.destination = mission.station_local
 		end
 	end
 end
