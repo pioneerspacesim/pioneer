@@ -37,7 +37,7 @@ std::unique_ptr<Graphics::Material> Projectile::s_glowMat;
 
 void Projectile::BuildModel()
 {
-	Graphics::AttributeSet vtxAttribs = Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE;
+	Graphics::AttributeSet vtxAttribs = Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0;
 	auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(vtxAttribs);
 
 	//set up materials
