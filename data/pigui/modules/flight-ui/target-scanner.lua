@@ -104,10 +104,6 @@ local function displayTargetScanner(min, max)
 	local height = (ui.gauge_height * 1.4) * 2 + textHeight * 3 + headingHeight + ui.gauge_height * 0.5
 
 	local pos, size = ui.rectcut(min, max, height, ui.sides.bottom)
-	if ui.timeWindowSize and size.x > ui.timeWindowSize.x then
-		pos.x = pos.x + (size.x - ui.timeWindowSize.x)
-		size.x = ui.timeWindowSize.x
-	end
 
 	ui.setNextWindowPos(pos, "Always")
 	ui.setNextWindowSize(size, "Always")
@@ -133,11 +129,6 @@ local function displayCloudScanner(min, max)
 		+ ui.getItemSpacing().y
 
 	local pos, size = ui.rectcut(min, max, height, ui.sides.bottom)
-	if ui.timeWindowSize and size.x > ui.timeWindowSize.x then
-		pos.x = pos.x + (size.x - ui.timeWindowSize.x)
-		size.x = ui.timeWindowSize.x
-	end
-
 
 	ui.setNextWindowPos(pos, "Always")
 	ui.setNextWindowSize(size, "Always")
@@ -180,6 +171,10 @@ gameView.registerHudModule('target-scanner', {
 		colors = ui.theme.colors
 		icons = ui.theme.icons
 		player = gameView.player
+		-- restrict this HUD module to the width of the time window
+		if ui.timeWindowSize then
+			min.x = math.max(min.x, max.x - ui.timeWindowSize.x)
+		end
 		displayTargetScanner(min, max)
 	end
 })
@@ -192,6 +187,10 @@ gameView.registerHudModule('hyperspacecloud-scanner', {
 		colors = ui.theme.colors
 		icons = ui.theme.icons
 		player = gameView.player
+		-- restrict this HUD module to the width of the time window
+		if ui.timeWindowSize then
+			min.x = math.max(min.x, max.x - ui.timeWindowSize.x)
+		end
 		displayCloudScanner(min, max)
 	end
 })
