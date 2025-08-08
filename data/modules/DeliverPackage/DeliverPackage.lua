@@ -186,6 +186,7 @@ local onChat = function (form, ref, option)
 			type	 = "Delivery",
 			client	 = ad.client,
 			location = ad.location,
+			destination = ad.location,
 			risk	 = ad.risk,
 			reward	 = ad.reward,
 			due	 = ad.due,

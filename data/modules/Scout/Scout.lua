@@ -263,6 +263,7 @@ local onChat = function (form, ref, option)
 			station     = station,
 			client      = ad.client,
 			location    = ad.location,
+			destination = ad.location,
 			difficulty  = ad.difficulty,
 			reward      = ad.reward,
 			due         = ad.due,
@@ -661,6 +662,7 @@ local onScanComplete = function (player, scanId)
 		end
 		mission.station = newlocation
 	end
+	mission.destination = newlocation
 
 	-- Set navigation target to the station
 	if Game.system and mission.station:IsSameSystem(Game.system.path) then
@@ -769,7 +771,7 @@ local buildMissionDescription = function (mission)
 			{
 				date = Format.Date(mission.due),
 				location = mission.station:GetSystemBody().name
-				           .. "," .. mission.station:GetStarSystem().name
+				           .. ", " .. mission.station:GetStarSystem().name
 			})
 	end
 
