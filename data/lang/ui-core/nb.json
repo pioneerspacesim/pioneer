@@ -903,6 +903,10 @@
     "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
     "message": "3D planar projection"
   },
+  "HUD_ARRIVAL_DATE": {
+    "description": "Label for Hyperspace Cloud arrival date",
+    "message": "Arrival Date"
+  },
   "HUD_ATMOSPHERIC_PRESSURE": {
     "description": "Tooltip: Atmospheric Pressure.",
     "message": "Atmospheric Pressure"
@@ -1182,6 +1186,14 @@
   "HUD_HULL_TEMPERATURE": {
     "description": "Tooltip: Hull Temperature.",
     "message": "Hull Temperature"
+  },
+  "HUD_HYPERSPACE_DESTINATION": {
+    "description": "HUD Label indicating the hyperspace destination system. Should just be Destination.",
+    "message": "Destinasjon"
+  },
+  "HUD_HYPERSPACE_ORIGIN": {
+    "description": "HUD Label indicating the hyperspace origin system. Should just be Origin.",
+    "message": "Origin"
   },
   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
     "description": "",
