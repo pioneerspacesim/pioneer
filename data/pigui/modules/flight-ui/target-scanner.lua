@@ -5,116 +5,193 @@ local ui = require 'pigui'
 local Vector2 = _G.Vector2
 
 -- cache ui
-local pionillium = ui.fonts.pionillium
+local font_heading = ui.fonts.pionillium.heading
+local font_content = ui.fonts.pionillium.body
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
 local lc = require 'Lang'.GetResource("core")
 local lui = require 'Lang'.GetResource("ui-core")
+local gameView = require 'pigui.views.game'
 
 -- cache player each frame
 local player = nil ---@type Player
 
-local gameView = require 'pigui.views.game'
+local scannerWindowFlags = ui.WindowFlags { "NoTitleBar", "NoResize",
+	"NoFocusOnAppearing", "NoBringToFrontOnFocus" }
 
-local shipInfoLowerBound
+-- Format the mass in tonnes
+-- The ui.Format() function reformats the units whereas we always want to
+-- display using tonnes.
+local function formatMass(massInTonnes)
+	return string.format("%d %s", massInTonnes or 0, lc.UNIT_TONNES)
+end
+
+-- draw a 2-column table of name/value data with optional headings
+local function drawTable(data, heading1, heading2)
+	-- data is a table containing:
+	-- - name of item
+	-- - value of item
+	if ui.beginTable("Data", 2) then
+		ui.tableSetupColumn(heading1 or "", { "WidthStretch" })
+		ui.tableSetupColumn(heading2 or "", { "WidthFixed" } )
+		if heading1 or heading2 then
+			ui.withFont(font_heading, function()
+				ui.tableHeadersRow()
+			end)
+		end
+		for _, item in pairs(data) do
+			ui.tableNextRow()
+			ui.tableNextColumn()
+			ui.text(item.name)
+			ui.tableNextColumn()
+			ui.text(item.value)
+		end
+		ui.endTable()
+	end
+end
+
 ---@param target Ship
-local function displayTargetScannerFor(target, offset)
+local function displayTargetScannerFor(target, maxWidth)
 	local hull = target:GetHullPercent()
-	local shield = target:GetShieldsPercent()
-	local class = target:GetShipType()
-	local label = target.label
+	local shield = target:GetShieldsPercent() or 0
 	local engine = target:GetInstalledHyperdrive()
-	local mass = target.staticMass
-	local cargo = target.usedCargo
-	if engine then
-		engine = engine:GetName()
-	else
-		engine = 'No Hyperdrive'
-	end
-	local uiPos = Vector2(ui.screenWidth - 30, 1 * ui.gauge_height)
+
+	local data = {
+		{ name = lui.HYPERDRIVE, value = engine and engine:GetName() or lui.NO_DRIVE },
+		{ name = lui.HUD_MASS, value = formatMass(target.staticMass) },
+		{ name = lui.HUD_CARGO_MASS, value = formatMass(target.usedCargo) },
+	}
+
+	ui.withFont(font_content, function()
+		drawTable(data, target.label, target:GetShipType())
+	end)
+
+	local spacing = ui.gauge_height * 1.4
+	local yOff = Vector2(0, ui.gauge_height * 0.5)
+	local uiPos = ui.getCursorScreenPos()
+
 	if shield then
-		ui.gauge(uiPos - Vector2(ui.gauge_width, 0), shield, nil, nil, 0, 100, icons.shield, colors.gaugeShield, lui.HUD_SHIELD_STRENGTH)
+		ui.gauge(uiPos + yOff, shield, nil, nil, 0, 100, icons.shield,
+			colors.gaugeShield, lui.HUD_SHIELD_STRENGTH, maxWidth)
+		yOff.y = yOff.y + spacing
 	end
-	uiPos.y = uiPos.y + ui.gauge_height * 1.5
-	ui.gauge(uiPos - Vector2(ui.gauge_width, 0), hull, nil, nil, 0, 100, icons.hull, colors.gaugeHull, lui.HUD_HULL_STRENGTH)
-	uiPos.y = uiPos.y + ui.gauge_height * 0.8
-	local r = ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, label, colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
-	uiPos.y = uiPos.y + r.y + offset
-	r = ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, class, colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
-	uiPos.y = uiPos.y + r.y + offset
-	r = ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, engine, colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
-	uiPos.y = uiPos.y + r.y + offset
-	r = ui.addFancyText(uiPos, ui.anchor.right, ui.anchor.top, {
-		{ text=lui.HUD_MASS .. ' ', color=colors.reticuleCircleDark, font=pionillium.medium },
-		{ text=mass, color=colors.reticuleCircle, font=pionillium.medium, },
-		{ text=lc.UNIT_TONNES, color=colors.reticuleCircleDark, font=pionillium.medium }
-	}, colors.lightBlackBackground)
-	uiPos.y = uiPos.y + r.y + offset
-	r = ui.addFancyText(uiPos, ui.anchor.right, ui.anchor.top, {
-		{ text=lui.HUD_CARGO_MASS .. ' ', color=colors.reticuleCircleDark, font=pionillium.medium, },
-		{ text=cargo, color=colors.reticuleCircle, font=pionillium.medium },
-		{ text=lc.UNIT_TONNES, color=colors.reticuleCircleDark, font=pionillium.medium }
-	}, colors.lightBlackBackground)
-	shipInfoLowerBound = uiPos + Vector2(0, r.y + 15)
+	ui.gauge(uiPos + yOff, hull, nil, nil, 0, 100, icons.hull,
+		colors.gaugeHull, lui.HUD_HULL_STRENGTH, maxWidth)
+	yOff.y = yOff.y + spacing
 end
 
-local function displayTargetScanner()
-	local offset = 7
-	shipInfoLowerBound = Vector2(ui.screenWidth - 30, 1 * ui.gauge_height)
-
+local function displayTargetScanner(min, max)
 	local scanner_level = (player["target_scanner_level_cap"] or 0)
-	local hypercloud_level = (player["hypercloud_analyzer_cap"] or 0)
+	if scanner_level == 0 then return end
 
-	if scanner_level > 0 then
-           -- what is the difference between target_scanner and advanced_target_scanner?
-		local target = player:GetNavTarget()
-		if target and target:IsShip() then
-			displayTargetScannerFor(target, offset)
-		else
-			target = player:GetCombatTarget()
-			if target and target:IsShip() then
-				displayTargetScannerFor(target, offset)
-			end
-		end
+	-- what is the difference between target_scanner and advanced_target_scanner?
+	local target = player:GetNavTarget()
+	if not target or not target:IsShip() then
+		target = player:GetCombatTarget()
+	end
+	if not target or not target:IsShip() then
+		return
 	end
 
-	if hypercloud_level > 0 then
-		local target = player:GetNavTarget()
+	local textHeight = ui.getTextLineHeightWithSpacing()
+	local headingHeight = textHeight
+	ui.withFont(font_heading, function()
+		headingHeight = ui.getTextLineHeightWithSpacing()
+	end)
+	-- TODO : it would be nice if we didn't have to pre-calculate this and could
+	-- instead somehow get it from the displayTargetScannerFor() function
+	local height = (ui.gauge_height * 1.4) * 2 + textHeight * 3 + headingHeight + ui.gauge_height * 0.5
 
-		if target and target:IsHyperspaceCloud() then
-			local arrival = target:IsArrival()
-			local ship = target:GetShip()
-			if ship then
-				local mass = ship.staticMass
-				local path,destName = ship:GetHyperspaceDestination()
-				local date = target:GetDueDate()
-				local dueDate = ui.Format.Datetime(date)
-				local uiPos = shipInfoLowerBound + Vector2(0, 15)
-				local name = (arrival and lc.HYPERSPACE_ARRIVAL_CLOUD or lc.HYPERSPACE_DEPARTURE_CLOUD)
-				local r = ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, name , colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
-				uiPos = uiPos + Vector2(0, r.y + offset)
-				r = ui.addFancyText(uiPos, ui.anchor.right, ui.anchor.top, {
-					{ text=lui.HUD_MASS .. ' ', color=colors.reticuleCircleDark, font=pionillium.medium },
-					{ text=mass, color=colors.reticuleCircle, font=pionillium.medium },
-					{ text=lc.UNIT_TONNES, color=colors.reticuleCircleDark, font=pionillium.medium }
-				}, colors.lightBlackBackground)
-				uiPos.y = uiPos.y + r.y + offset
-				r = ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, destName, colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
-				uiPos.y = uiPos.y + r.y + offset
-				ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, dueDate, colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
-			else
-				local uiPos = Vector2(ui.screenWidth - 30, 1 * ui.gauge_height)
-				ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.top, lc.HYPERSPACE_ARRIVAL_CLOUD_REMNANT , colors.frame, pionillium.medium, nil, colors.lightBlackBackground)
-			end
-		end
-	end
+	local pos, size = ui.rectcut(min, max, height, ui.sides.bottom)
+
+	ui.setNextWindowPos(pos, "Always")
+	ui.setNextWindowSize(size, "Always")
+	ui.setNextWindowPadding(Vector2(0, 0))
+	ui.window("TargetScanner", scannerWindowFlags, function()
+		displayTargetScannerFor(target, size.x)
+	end)
 end
 
-gameView.registerModule('target-scanner', {
-    showInHyperspace = false,
-    draw = function(self, dT)
-        player = gameView.player
-        displayTargetScanner()
-    end
+local function displayCloudScanner(min, max)
+	local hypercloud_level = (player["hypercloud_analyzer_cap"] or 0)
+	local target = player:GetNavTarget()
+
+	if hypercloud_level == 0 or not target or not target:IsHyperspaceCloud() then
+		return
+	end
+
+	local arrival = target:IsArrival()
+	local ship = target:GetShip()
+
+	local height = ui.getTextLineHeightWithSpacing(font_heading)
+		+ ui.getTextLineHeightWithSpacing() * 4
+		+ ui.getItemSpacing().y
+
+	local pos, size = ui.rectcut(min, max, height, ui.sides.bottom)
+
+	ui.setNextWindowPos(pos, "Always")
+	ui.setNextWindowSize(size, "Always")
+	ui.setNextWindowPadding(Vector2(0, 0))
+	ui.window("CloudScanner", scannerWindowFlags, function()
+		ui.addRectFilled(pos, pos + Vector2(ui.getContentRegion().x,
+		                 ui.getFrameHeight()), colors.TableHeaderBg, 0,
+		                 ui.RoundCornersNone)
+		ui.withFont(font_heading, function()
+			ui.text(target:GetLabel())
+		end)
+		if ship then
+			-- NOTE: ships in arrival clouds have their destination set to the
+			-- source system. This should probably get refactored some time in
+			-- the future. While clever reuse of existing state, it makes for
+			-- challenging maintenance and understanding of the code.
+			local _,systemName = ship:GetHyperspaceDestination()
+			local systemLabel = arrival and lui.HUD_HYPERSPACE_ORIGIN or lui.HUD_HYPERSPACE_DESTINATION
+
+			local data = {
+				{ name = lui.HUD_MASS, value = formatMass(ship.staticMass) },
+				{ name = systemLabel, value = systemName },
+				{ name = lui.HUD_ARRIVAL_DATE, value = ui.Format.Datetime(target:GetDueDate()) }
+			}
+			ui.withFont(font_content, function()
+				drawTable(data)
+			end)
+		end
+	end) -- window function
+end
+
+local function onDebugReload()
+	package.reimport()
+end
+
+gameView.registerHudModule('target-scanner', {
+	side = "right",
+	showInHyperspace = false,
+	debugReload = onDebugReload,
+	draw = function(_, min, max)
+		colors = ui.theme.colors
+		icons = ui.theme.icons
+		player = gameView.player
+		-- restrict this HUD module to the width of the time window
+		if ui.timeWindowSize then
+			min.x = math.max(min.x, max.x - ui.timeWindowSize.x)
+		end
+		displayTargetScanner(min, max)
+	end
+})
+
+gameView.registerHudModule('hyperspacecloud-scanner', {
+	side = "right",
+	showInHyperspace = false,
+	debugReload = onDebugReload,
+	draw = function(_, min, max)
+		colors = ui.theme.colors
+		icons = ui.theme.icons
+		player = gameView.player
+		-- restrict this HUD module to the width of the time window
+		if ui.timeWindowSize then
+			min.x = math.max(min.x, max.x - ui.timeWindowSize.x)
+		end
+		displayCloudScanner(min, max)
+	end
 })
