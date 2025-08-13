@@ -20,9 +20,12 @@ local Color = _G.Color
 -- makes that somewhat difficult.
 --
 -- Most colors in this table are defined in terms of a palette containing up to
--- nine luminance breakpoints. These breakpoints are intended to ensure that
--- UI styling is clear and accessible, regardless of colorblindness or other
--- mitigating factors.
+-- nine luminance breakpoints from darkest (900) to lightest (100). These
+-- breakpoints are intended to ensure that UI styling is clear and accessible,
+-- regardless of colorblindness or other mitigating factors.
+--
+-- This system is based on the idea of a semantic colour system. For more
+-- details, see: https://dev.to/ynab/a-semantic-color-system-the-theory-hk7
 local styleColors = {
 	black			= Color "000000",
 	transparent		= Color "00000000",
@@ -212,7 +215,7 @@ theme.colors = {
 	buttonBlue				= theme.buttonColors.selected.normal,
 	buttonInk				= styleColors.white,
 
-	-- ImGui theme default colors
+	-- ImGui theme default colors - these override the C++ definitions
 	Text					= styleColors.gray_100,
 	Button					= theme.buttonColors.default.normal,
 	ButtonHovered			= theme.buttonColors.default.hovered,
@@ -237,6 +240,8 @@ theme.colors = {
 
 	SliderGrab				= styleColors.primary_500a,
 	SliderGrabActive		= styleColors.primary_300a,
+
+	TableHeaderBg			= styleColors.panel_800,
 
 	white					= styleColors.white,
 	lightGrey				= styleColors.gray_300,
