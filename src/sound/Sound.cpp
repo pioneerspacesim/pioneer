@@ -8,7 +8,7 @@
 #include "Sound.h"
 #include "GameConfig.h"
 #ifdef PI_BUILD_WITH_OPENAL
-	#include "AlAudioBackend.h"
+#include "AlAudioBackend.h"
 #endif
 #include "AudioBackend.h"
 #include "Body.h"
@@ -206,12 +206,9 @@ namespace Sound {
 
 	std::string_view GetBackend()
 	{
-		if (dynamic_cast<SdlAudioBackend*>(m_backend) != nullptr)
-		{
+		if (dynamic_cast<SdlAudioBackend *>(m_backend) != nullptr) {
 			return SDLBackendName;
-		}
-		else if (dynamic_cast<AlAudioBackend*>(m_backend) != nullptr)
-		{
+		} else if (dynamic_cast<AlAudioBackend *>(m_backend) != nullptr) {
 			return OpenALBackendName;
 		}
 		return "Unknown Sound Backend";
@@ -238,18 +235,15 @@ namespace Sound {
 		}
 
 		try {
-			if (backend == SDLBackendName)
-			{
+			if (backend == SDLBackendName) {
 				m_backend = new SdlAudioBackend();
 			}
 #ifdef PI_BUILD_WITH_OPENAL
-			else if (backend == OpenALBackendName)
-			{
+			else if (backend == OpenALBackendName) {
 				m_backend = new AlAudioBackend();
 			}
 #endif
-			else
-			{
+			else {
 				throw std::runtime_error("Sound Backend does not exist");
 			}
 		} catch (...) {
@@ -354,8 +348,7 @@ namespace Sound {
 	const std::vector<std::string> GetMusicFiles()
 	{
 		std::vector<std::string> keys;
-		for (const auto& sample : m_samples)
-		{
+		for (const auto &sample : m_samples) {
 			keys.push_back(sample.first);
 		}
 		return keys;
