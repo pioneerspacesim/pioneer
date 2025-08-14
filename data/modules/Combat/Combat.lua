@@ -454,7 +454,7 @@ local onEnterSystem = function (player)
 				local ship = ShipBuilder.MakeShipNear(Game.player, template)
 				assert(ship)
 
-				local path = mission.location:GetStarSystem().path
+				local path = mission.location:SystemOnly()
 				finishMission(ref, mission)
 				ship:HyperjumpTo(path)
 			end
