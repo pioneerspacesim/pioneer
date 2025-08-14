@@ -6,7 +6,9 @@
  */
 
 #include "Sound.h"
-#include "AlAudioBackend.h"
+#ifdef PI_BUILD_WITH_OPENAL
+	#include "AlAudioBackend.h"
+#endif
 #include "AudioBackend.h"
 #include "Body.h"
 #include "FileSystem.h"
@@ -197,7 +199,11 @@ namespace Sound {
 
 	BackendFlags GetAvailableBackends()
 	{
-		return AudioBackend_SDL | AudioBackend_OpenAL;
+		BackendFlags backends = AudioBackend_SDL;
+#ifdef PI_BUILD_WITH_OPENAL
+		backends |= AudioBackend_OpenAL;
+#endif
+		return backends;
 	}
 
 	BackendId GetBackendId()
@@ -219,6 +225,7 @@ namespace Sound {
 
 		try {
 			switch (backend) {
+#ifdef PI_BUILD_WITH_OPENAL
 			case AudioBackend_OpenAL:
 				try {
 					m_backend = new AlAudioBackend();
@@ -226,6 +233,7 @@ namespace Sound {
 				} catch (...) {
 					Output("Could not initialize OpenAL audio backend, falling back to default");
 				}
+#endif
 			default:
 				m_backend = new SdlAudioBackend();
 				break;
