@@ -338,4 +338,14 @@ namespace Sound {
 		m_backend->Update(delta_t);
 	}
 
+	bool IsBinauralSupported()
+	{
+		return m_backend->IsBinauralSupported();
+	}
+
+	void EnableBinaural(bool enabled)
+	{
+		m_backend->EnableBinaural(enabled);
+	}
+
 } /* namespace Sound */

@@ -538,6 +538,7 @@ void StartupScreen::Start()
 		Sound::SetMasterVolume(Pi::config->Float("MasterVolume"));
 		Sound::SetSfxVolume(Pi::config->Float("SfxVolume"));
 		Pi::GetMusicPlayer().SetVolume(Pi::config->Float("MusicVolume"));
+		Sound::EnableBinaural(Pi::config->Int("BinauralRendering"));
 
 		Sound::Pause(0);
 		if (Pi::config->Int("MasterMuted")) Sound::Pause(1);
