@@ -905,7 +905,7 @@
   },
   "HUD_ARRIVAL_DATE": {
     "description": "Label for Hyperspace Cloud arrival date",
-    "message": "Arrival Date"
+    "message": "Ankomst"
   },
   "HUD_ATMOSPHERIC_PRESSURE": {
     "description": "Tooltip: Atmospheric Pressure.",
