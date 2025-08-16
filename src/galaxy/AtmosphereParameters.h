@@ -14,6 +14,7 @@ struct AtmosphereParameters {
 	vector3f rayleighCoefficients;
 	vector3f mieCoefficients;
 	vector2f scaleHeight;
+	vector2f tropoHeight;
 };
 
 #endif // ATMOSPHEREPARAMETERS_H_INCLUDED
