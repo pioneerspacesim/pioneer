@@ -83,7 +83,7 @@ local radial_menu_actions_hyperspace_cloud = {
 				-- implicitly drops second return value of GetHyperspaceDestination() when using this "and" construct
 				local destPath = ship and ship:GetHyperspaceDestination()
 				if destPath then
-					local target = destPath:IsBodyPath() and destPath:GetSystemBody().nearestJumpable.path or destPath:GetStarSystem().path
+					local target = destPath:IsBodyPath() and destPath:GetSystemBody().nearestJumpable.path or destPath:SystemOnly()
 					Game.player:SetHyperspaceTarget(target)
 					Game.sectorView:ClearRoute()
 					Game.sectorView:AddToRoute(target)
