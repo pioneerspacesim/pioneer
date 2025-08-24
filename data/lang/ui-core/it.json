@@ -2063,6 +2063,22 @@
     "description": "Drain the fuel tank",
     "message": "Scarica"
   },
+  "PUMP_DOWN_FROM_CARGO_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pompa %i T dalla stiva"
+  },
+  "PUMP_DOWN_FROM_HYPERDRIVE_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pompa %i T dall'iperguida ai serbatoi"
+  },
+  "PUMP_DOWN_TO_CARGO_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pompa %i T verso la stiva"
+  },
+  "PUMP_DOWN_TO_HYPERDRIVE_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pompa %i T dai serbatoi all'iperguida"
+  },
   "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
     "message": "Chiedi una riverniciatura"
