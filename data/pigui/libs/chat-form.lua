@@ -142,7 +142,7 @@ function ChatForm:Clear ()
 	self.market = nil
 end
 
-local tradeFuncKeys = { "canTrade", "getDemand", "getStock", "getBuyPrice", "getSellPrice", "onClickBuy", "onClickSell", "canDisplayItem", "bought", "sold"}
+local tradeFuncKeys = { "canTrade", "getStock", "getBuyPrice", "getSellPrice", "onClickBuy", "onClickSell", "canDisplayItem", "bought", "sold"}
 function ChatForm:AddGoodsTrader (funcs)
 	self.equipWidgetConfig = {
 		stationColumns = { "icon", "name", "price", "stock" },

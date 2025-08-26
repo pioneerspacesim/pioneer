@@ -151,13 +151,6 @@ onChat = function (form, ref, option)
 				ad.stock[commodity.name] = cur
 				return cur
 			end,
-			getDemand = function (market, commodity)
-				if commodity == Commodities.radioactives then
-					return math.max(membership.milrads, 0)
-				else
-					return Game.player:GetDockedWith():GetCommodityDemand(commodity)
-				end
-			end,
 			getBuyPrice = function (market, commodity)
 				return ad.station:GetCommodityPrice(commodity) * saleables[commodity]
 			end,
