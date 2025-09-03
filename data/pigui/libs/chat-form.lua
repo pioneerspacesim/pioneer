@@ -175,7 +175,7 @@ function ChatForm:AddNavButton (target)
 				end
 			elseif not Game.InHyperspace() then
 				-- if a specific systembody is given, set the sector map to the correct star (if the system is multiple)
-				Game.sectorView:SwitchToPath(target:IsBodyPath() and target:GetSystemBody().nearestJumpable.path or target:GetStarSystem().path)
+				Game.sectorView:SwitchToPath(target:IsBodyPath() and target:GetSystemBody().nearestJumpable.path or target:SystemOnly())
 				ui.playBoinkNoise()
 			end
 		end

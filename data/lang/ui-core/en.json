@@ -2579,6 +2579,10 @@
     "description": "Arm of the Milky Way galaxy",
     "message": "3kpc arm"
   },
+  "TO_PICK_UP": {
+    "description": "Mission status",
+    "message": "To pick up"
+  },
   "TOGGLE_CARGO_WINDOW": {
     "description": "Label for a button toggling the cargo display window.",
     "message": "Toggle Cargo Window"
