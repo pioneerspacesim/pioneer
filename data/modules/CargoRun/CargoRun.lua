@@ -80,13 +80,27 @@ local getNumberOfFlavours = function (str)
 end
 
 local getRiskMsg = function (mission)
+	local branch
+	if mission.wholesaler then branch = "WHOLESALER" else branch = mission.branch end
+	local risk = math.floor(mission.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1
+				or math.floor(mission.risk * (getNumberOfFlavours("RISK") - 1)) + 1
+
+	-- If the risk is low, then maybe there is an alternative message available?
+	local cargoRiskMessage = mission.cargotype:GetRiskMessage() or ""
+	print("cargoRiskMessage: " .. cargoRiskMessage)
+	if risk < 2 and Engine.rand:Integer(0, 9) < 1 then
+		if not (cargoRiskMessage == "") then
+			return cargoRiskMessage -- Alternative string (_RISK_MESSAGE)
+		end
+	end
+
 	if mission.localdelivery then
 		return l.RISK_1 -- very low risk -> no specific text to give no confusing answer
 	else
-		local branch
 		if mission.wholesaler then branch = "WHOLESALER" else branch = mission.branch end
-		return l:get("RISK_" .. branch .. "_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1)
-			or l["RISK_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK") - 1)) + 1]
+		print("risk: " .. risk)
+		return l:get("RISK_" .. branch .. "_" .. risk + 1)
+			or l["RISK_" .. risk + 1]
 	end
 end
 
