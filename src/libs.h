@@ -48,6 +48,8 @@
 #include "Aabb.h"
 #include "Color.h"
 #include "Random.h"
+#include "Random64.h"
+#include "Using.h"
 
 #include "FloatComparison.h"
 #include "RefCounted.h"
