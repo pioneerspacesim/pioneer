@@ -41,7 +41,18 @@ Shader::Shader(const std::string &name) :
 	}
 
 	RefCountedPtr<FileSystem::FileData> fileData = fileInfo.Read();
-	ShaderParser::ShaderInfo info = ShaderParser::Parser().Parse(fileInfo.GetName(), { fileData->GetData(), fileData->GetSize() });
+
+	ShaderParser::ShaderInfo info {};
+
+	Config::Parser parser { new ShaderParser::ParserContext(&info), '#' };
+	parser.Init(fileInfo.GetPath(), fileData->AsStringView());
+
+	Config::Parser::Result result = parser.Parse();
+
+	if (result == Config::Parser::Result::ParseFailure) {
+		Log::Warning("Failed to parse shaderdef file {}!", fileInfo.GetPath());
+		throw ShaderException();
+	}
 
 	if (info.name == "<unknown>") {
 		Log::Warning("Shaderdef file {} is missing shader name declaration! Defaulting to {}.\n",
