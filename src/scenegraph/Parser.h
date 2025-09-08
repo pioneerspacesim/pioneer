@@ -8,6 +8,7 @@
  * It's pretty bad, someone please redesign.
  *
  * sturnclaw (05-2025): redesign in progress
+ * sturnclaw (09-2025): redesign complete (kept old version for backwards compat)
  */
 #include "FileSystem.h"
 
