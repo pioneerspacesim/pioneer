@@ -67,7 +67,7 @@ Shader::Shader(const std::string &name) :
 	m_programDef.fragmentShader = FileSystem::JoinPathBelow("shaders/opengl", info.fragmentPath);
 
 	for (const auto &info : info.textureBindings) {
-		AddTextureBinding(info.bindName, info.type, info.binding);
+		AddTextureBinding(info.name.empty() ? info.bindName : info.name, info.bindName, info.type, info.binding);
 	}
 
 	for (const auto &info : info.bufferBindings) {
@@ -229,23 +229,22 @@ uint32_t CalcOffset(uint32_t last, ConstantDataFormat lastFormat, ConstantDataFo
 
 size_t Shader::AddBufferBinding(const std::string &name, uint32_t binding)
 {
-	size_t hash = Renderer::GetName(name);
+	size_t hash = InternName(name);
 	m_bufferBindingInfo.push_back({ hash, uint32_t(m_bufferBindingInfo.size()), binding, 0 });
-	m_nameMap[hash] = name;
 	return hash;
 }
 
-size_t Shader::AddTextureBinding(const std::string &name, TextureType type, uint32_t binding)
+size_t Shader::AddTextureBinding(const std::string &name, const std::string &bindName, TextureType type, uint32_t binding)
 {
-	size_t hash = Renderer::GetName(name);
-	m_textureBindingInfo.push_back({ hash, uint32_t(m_textureBindingInfo.size()), binding, type });
-	m_nameMap[hash] = name;
+	size_t hash = InternName(name);
+	size_t bindHash = InternName(bindName);
+	m_textureBindingInfo.push_back({ hash, bindHash, uint32_t(m_textureBindingInfo.size()), binding, type });
 	return hash;
 }
 
 size_t Shader::AddConstantBinding(const std::string &name, ConstantDataFormat format, uint32_t binding)
 {
-	size_t hash = Renderer::GetName(name);
+	size_t hash = InternName(name);
 	GLuint offset = 0;
 	if (m_pushConstantInfo.size()) {
 		auto &lastConstant = m_pushConstantInfo.back();
@@ -254,6 +253,12 @@ size_t Shader::AddConstantBinding(const std::string &name, ConstantDataFormat fo
 
 	m_pushConstantInfo.push_back({ hash, uint32_t(m_pushConstantInfo.size()), binding, offset, format });
 	m_constantStorageSize = offset + CalcSize(format);
+	return hash;
+}
+
+size_t Shader::InternName(const std::string &name)
+{
+	size_t hash = Renderer::GetName(name);
 	m_nameMap[hash] = name;
 	return hash;
 }
@@ -275,7 +280,7 @@ TextureBindingData Shader::GetTextureBindingInfo(size_t name) const
 	auto *data = vector_search(m_textureBindingInfo, name);
 	if (data != nullptr) return *data;
 
-	return { 0, 0, InvalidBinding, TextureType::TEXTURE_2D };
+	return { 0, 0, 0, InvalidBinding, TextureType::TEXTURE_2D };
 }
 
 PushConstantData Shader::GetPushConstantInfo(size_t name) const

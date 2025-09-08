@@ -5,7 +5,7 @@
 
 Shader label
 
-Texture sampler2D texture0 name=diffuse
+Texture sampler2D texture0 name=texture0
 
 PushConstant vec4 lightIntensity binding=1
 
