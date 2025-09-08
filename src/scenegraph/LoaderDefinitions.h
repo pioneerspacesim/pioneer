@@ -115,15 +115,16 @@ namespace SceneGraph {
 		std::string shader;
 		std::vector<std::pair<std::string, std::string>> textureBinds;
 
-		Color diffuse;
-		Color specular;
-		Color ambient;
-		Color emissive;
-		float shininess;
-		float opacity;
+		Color diffuse = Color::WHITE;
+		Color specular = Color::WHITE;
+		Color ambient = Color::BLANK;
+		Color emissive = Color::BLANK;
+		float shininess = 100;
+		float opacity = 100;
 		Graphics::RenderStateDesc renderState;
-		bool unlit;
-		bool use_patterns;
+		bool unlit = false;
+		bool use_patterns = false;
+		bool alpha_test = false;
 	};
 
 	struct ModelDefinitionV2 {

@@ -264,7 +264,7 @@ namespace SceneGraph {
 
 	// ============================================================================
 
-	using namespace Config;
+	using Token = Config::Token;
 
 	// Helper function to parse an <r> <g> <b> color triplet
 	static Config::Parser::Result parseColor(Color &out, Config::Parser *parser)
@@ -386,8 +386,8 @@ namespace SceneGraph {
 	// ============================================================================
 
 	struct ParseMaterialCtx : Config::Parser::Context {
-		ParseMaterialCtx(MaterialDefinitionV2 *m) :
-			mat(m) {}
+		ParseMaterialCtx(MaterialDefinitionV2 *m, const std::string &dirname) :
+			mat(m), dirname(dirname) {}
 
 		Result operator()(Config::Parser *parser, const Token &tok) final
 		{
@@ -427,7 +427,8 @@ namespace SceneGraph {
 				if (!parser->Acquire(Token::Identifier, &binding) || !parser->Acquire(Token::String, &path))
 					return Result::ParseFailure;
 
-				mat->textureBinds.emplace_back(binding.contents(), path.contents());
+				std::string texpath = FileSystem::NormalisePath(FileSystem::JoinPath(dirname, std::string(path.contents())));
+				mat->textureBinds.emplace_back(binding.contents(), texpath);
 				return Result::Parsed;
 			}
 
@@ -436,6 +437,11 @@ namespace SceneGraph {
 					return Result::ParseFailure;
 
 				parser->PushContext(new ParseRenderStateCtx(&mat->renderState));
+				return Result::Parsed;
+			}
+
+			if (tok.isKeyword("alpha_test")) {
+				mat->alpha_test = true;
 				return Result::Parsed;
 			}
 
@@ -449,13 +455,14 @@ namespace SceneGraph {
 		}
 
 		MaterialDefinitionV2 *mat;
+		const std::string &dirname;
 	};
 
 	// ============================================================================
 
 	struct ParseLodCtx : Config::Parser::Context {
-		ParseLodCtx(LodDefinition *node) :
-			node(node) {}
+		ParseLodCtx(LodDefinition *node, const std::string &dirname) :
+			node(node), dirname(dirname) {}
 
 		Result operator()(Config::Parser *parser, const Token &tok) final
 		{
@@ -465,7 +472,8 @@ namespace SceneGraph {
 				if (!parser->Acquire(Token::String, &meshName))
 					return Result::ParseFailure;
 
-				node->meshNames.emplace_back(meshName.contents());
+				std::string path = FileSystem::NormalisePath(FileSystem::JoinPath(dirname, std::string(meshName.contents())));
+				node->meshNames.emplace_back(path);
 				return Result::Parsed;
 			}
 
@@ -479,16 +487,31 @@ namespace SceneGraph {
 		}
 
 		LodDefinition *node;
+		const std::string &dirname;
 	};
 
 	// ============================================================================
 
 	struct TopLevelCtx : Config::Parser::Context {
-		TopLevelCtx(ModelDefinitionV2 *m) :
-			model(m) {}
+		TopLevelCtx(ModelDefinitionV2 *m, const std::string &dirname) :
+			model(m), dirname(dirname) {}
 
 		Result operator()(Config::Parser *parser, const Token &tok) final
 		{
+			// Handle the version keyword
+			if (tok.isKeyword("version")) {
+				Token version;
+				if (!parser->Acquire(Token::Number, &version))
+					return Result::ParseFailure;
+
+				if (version.value != 2) {
+					Log::Warning("{} Material format version {} not recognized.", parser->MakeLineInfo(), version.value);
+					return Result::ParseFailure;
+				}
+
+				return Result::Parsed;
+			}
+
 			if (tok.isKeyword("material")) {
 				Token name;
 
@@ -507,10 +530,12 @@ namespace SceneGraph {
 					}
 				}
 
-				model->matDefs.emplace_back();
-				model->matDefs.back().name = name.toString();
+				MaterialDefinitionV2 &mat = model->matDefs.emplace_back();
+				mat.name = name.toString();
+				// Default to multi if no shader is explicitly selected.
+				mat.shader = "multi";
 
-				return parser->PushContext(new ParseMaterialCtx(&model->matDefs.back()));
+				return parser->PushContext(new ParseMaterialCtx(&model->matDefs.back(), dirname));
 			}
 
 			if (tok.isKeyword("lod")) {
@@ -525,7 +550,7 @@ namespace SceneGraph {
 				}
 
 				model->lodDefs.push_back(LodDefinition(featuresize.value));
-				parser->PushContext(new ParseLodCtx(&model->lodDefs.back()));
+				parser->PushContext(new ParseLodCtx(&model->lodDefs.back(), dirname));
 
 				return Result::Parsed;
 			}
@@ -536,7 +561,8 @@ namespace SceneGraph {
 				if (!parser->Acquire(Token::String, &collMesh))
 					return Result::ParseFailure;
 
-				model->collisionDefs.emplace_back(collMesh.contents());
+				std::string path = FileSystem::NormalisePath(FileSystem::JoinPath(dirname, std::string(collMesh.contents())));
+				model->collisionDefs.emplace_back(path);
 				return Result::Parsed;
 			}
 
@@ -592,6 +618,7 @@ namespace SceneGraph {
 		}
 
 		ModelDefinitionV2 *model;
+		const std::string &dirname;
 	};
 
 	// ============================================================================
@@ -602,7 +629,8 @@ namespace SceneGraph {
 
 	bool ParserV2::Parse(FileSystem::FileData &file, ModelDefinitionV2 *outModel)
 	{
-		Config::Parser parser { new TopLevelCtx(outModel), '#' };
+		const std::string &dirname = file.GetInfo().GetDir();
+		Config::Parser parser { new TopLevelCtx(outModel, dirname), '#' };
 
 		parser.Init(file.GetInfo().GetName(), file.AsStringView());
 
@@ -616,8 +644,10 @@ namespace SceneGraph {
 		//model without materials is not very useful, but not fatal - add white default mat
 		if (outModel->matDefs.empty()) {
 			Log::Warning("{}: no materials defined!", file.GetInfo().GetName());
-			outModel->matDefs.emplace_back();
-			outModel->matDefs.back().name = "Default";
+			MaterialDefinitionV2 &mat = outModel->matDefs.emplace_back();
+
+			mat.name = "Default";
+			mat.shader = "multi";
 		}
 
 		//sort lods by feature size
