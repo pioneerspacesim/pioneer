@@ -7,6 +7,7 @@
 #include "Parser.h"
 #include "StringF.h"
 #include "core/LZ4Format.h"
+#include "graphics/Types.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/Label3D.h"
 #include "scenegraph/MatrixTransform.h"
@@ -148,7 +149,7 @@ void BinaryConverter::Save(const std::string &filename, const std::string &savep
 	try {
 		std::string compressedData = lz4::CompressLZ4(data, 6);
 		outSize = compressedData.size();
-		Output("Compressed model (%s): %.2f KB -> %.2f KB\n", filename.c_str(), data.size() / 1024.f, outSize / 1024.f);
+		Output("Compressed model (%s): %.1f%% (%.2f KB -> %.2f KB)\n", filename.c_str(), outSize / float(data.size()) * 100.f, data.size() / 1024.f, outSize / 1024.f);
 		fwrite(compressedData.data(), outSize, 1, f);
 		fclose(f);
 	} catch (std::runtime_error &e) {
@@ -294,17 +295,18 @@ void BinaryConverter::SaveMaterials(Serializer::Writer &wr, Model *model)
 	PROFILE_SCOPED()
 	//Look for the .model definition and parse it
 	//for material definitions
-	const ModelDefinition &modelDef = FindModelDefinition(model->GetName());
+	std::unique_ptr<const ModelDefinition> modelDef(FindModelDefinition(model->GetName()));
 
-	wr.Int32(modelDef.matDefs.size());
+	wr.Int32(modelDef->matDefs.size());
 
-	for (const auto &m : modelDef.matDefs) {
+	for (const auto &m : modelDef->matDefs) {
 		wr.String(m.name);
-		wr.String(m.tex_diff);
-		wr.String(m.tex_spec);
-		wr.String(m.tex_glow);
-		wr.String(m.tex_ambi);
-		wr.String(m.tex_norm);
+		wr.String(m.shader);
+		wr.Int32(m.textureBinds.size());
+		for (const auto &bind : m.textureBinds) {
+			wr.String(bind.first);
+			wr.String(bind.second);
+		}
 		wr.Color4UB(m.diffuse);
 		wr.Color4UB(m.specular);
 		wr.Color4UB(m.ambient);
@@ -313,21 +315,33 @@ void BinaryConverter::SaveMaterials(Serializer::Writer &wr, Model *model)
 		wr.Int16(m.opacity);
 		wr.Bool(m.alpha_test);
 		wr.Bool(m.unlit);
-		wr.Bool(m.use_pattern);
+		wr.Bool(m.use_patterns);
+		wr.Int16(m.renderState.blendMode);
+		wr.Int16(m.renderState.cullMode);
+		wr.Bool(m.renderState.depthTest);
+		wr.Bool(m.renderState.depthWrite);
+		wr.Bool(m.renderState.scissorTest);
+		// PrimitiveType is always Triangles
 	}
+
 }
 
 void BinaryConverter::LoadMaterials(Serializer::Reader &rd)
 {
 	PROFILE_SCOPED()
 	for (Uint32 numMats = rd.Int32(); numMats > 0; numMats--) {
-		MaterialDefinition m("");
+		MaterialDefinition m = {};
+
 		m.name = rd.String();
-		m.tex_diff = rd.String();
-		m.tex_spec = rd.String();
-		m.tex_glow = rd.String();
-		m.tex_ambi = rd.String();
-		m.tex_norm = rd.String();
+		m.shader = rd.String();
+		uint32_t numTex = rd.Int32();
+
+		for (uint32_t i = 0; i < numTex; i++) {
+			std::string binding = rd.String();
+			std::string path = rd.String();
+			m.textureBinds.push_back({ binding, path });
+		}
+
 		m.diffuse = rd.Color4UB();
 		m.specular = rd.Color4UB();
 		m.ambient = rd.Color4UB();
@@ -336,9 +350,15 @@ void BinaryConverter::LoadMaterials(Serializer::Reader &rd)
 		m.opacity = rd.Int16();
 		m.alpha_test = rd.Bool();
 		m.unlit = rd.Bool();
-		m.use_pattern = rd.Bool();
+		m.use_patterns = rd.Bool();
 
-		if (m.use_pattern) m_patternsUsed = true;
+		m.renderState.blendMode = Graphics::BlendMode(rd.Int16());
+		m.renderState.cullMode = Graphics::FaceCullMode(rd.Int16());
+		m.renderState.depthTest = rd.Bool();
+		m.renderState.depthWrite = rd.Bool();
+		m.renderState.scissorTest = rd.Bool();
+
+		if (m.use_patterns) m_patternsUsed = true;
 
 		m_modelDef->matDefs.emplace_back(std::move(m));
 	}
@@ -410,42 +430,25 @@ void BinaryConverter::LoadAnimations(Serializer::Reader &rd)
 	}
 }
 
-ModelDefinition BinaryConverter::FindModelDefinition(const std::string &shortname)
+ModelDefinition *BinaryConverter::FindModelDefinition(const std::string &shortname)
 {
 	PROFILE_SCOPED()
 	const std::string basepath = "models";
 
-	FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
-	for (FileSystem::FileEnumerator files(fileSource, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
-		const FileSystem::FileInfo &info = files.Current();
-		const std::string &fpath = info.GetPath();
+	for (const FileSystem::FileInfo &info : FileSystem::gameDataFiles.Recurse(basepath)) {
+		const std::string filename = shortname + ".model";
 
-		//check it's the expected type
-		if (info.IsFile() && ends_with_ci(fpath, ".model")) {
-			//check it's the wanted name & load it
-			const std::string name = info.GetName();
+		//check it's the wanted name & load it
+		if (info.IsFile() && info.GetName() == filename) {
+			ModelDefinition *model = LoadModelDefinition(info.GetPath());
 
-			if (shortname == name.substr(0, name.length() - 6)) {
-				ModelDefinition modelDefinition;
-				try {
-					//curPath is used to find textures, patterns,
-					//possibly other data files for this model.
-					//Strip trailing slash
-					m_curPath = info.GetDir();
-					assert(!m_curPath.empty());
-					if (m_curPath[m_curPath.length() - 1] == '/')
-						m_curPath = m_curPath.substr(0, m_curPath.length() - 1);
+			if (!model)
+				throw LoadingError(fmt::format("Could not load model file {}.", info.GetPath()));
 
-					Parser p(fileSource, fpath, m_curPath);
-					p.Parse(&modelDefinition);
-					return modelDefinition;
-				} catch (ParseError &err) {
-					Output("%s\n", err.what());
-					throw LoadingError(err.what());
-				}
-			}
+			return model;
 		}
 	}
+
 	throw(LoadingError("File not found"));
 }
 

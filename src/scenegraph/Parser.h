@@ -50,7 +50,7 @@ namespace SceneGraph {
 	public:
 		ParserV2();
 
-		bool Parse(FileSystem::FileData &file, ModelDefinitionV2 *m);
+		bool Parse(FileSystem::FileData &file, ModelDefinition *m);
 	};
 
 } // namespace SceneGraph

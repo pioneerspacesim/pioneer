@@ -16,41 +16,6 @@
 
 namespace SceneGraph {
 
-	struct MaterialDefinition {
-		MaterialDefinition(const std::string &n) :
-			name(n),
-			tex_diff(""),
-			tex_spec(""),
-			tex_glow(""),
-			tex_ambi(""),
-			tex_norm(""),
-			diffuse(Color::WHITE),
-			specular(Color::WHITE),
-			ambient(Color::BLANK),
-			emissive(Color::BLANK),
-			shininess(100),
-			opacity(100),
-			alpha_test(false),
-			unlit(false),
-			use_pattern(false)
-		{}
-		std::string name;
-		std::string tex_diff;
-		std::string tex_spec;
-		std::string tex_glow;
-		std::string tex_ambi;
-		std::string tex_norm;
-		Color diffuse;
-		Color specular;
-		Color ambient;
-		Color emissive;
-		unsigned int shininess; //specular power, 0-128
-		unsigned int opacity; //0-100
-		bool alpha_test;
-		bool unlit;
-		bool use_pattern;
-	};
-
 	struct LodDefinition {
 		LodDefinition(float size) :
 			pixelSize(size)
@@ -100,17 +65,7 @@ namespace SceneGraph {
 
 	};
 
-	struct ModelDefinition {
-		std::string name;
-		std::vector<LodDefinition> lodDefs;
-		std::vector<MaterialDefinition> matDefs;
-		std::vector<std::string> collisionDefs;
-		std::vector<AnimDefinition> animDefs;
-		std::vector<BoundDefinition> boundsDefs;
-	};
-
-
-	struct MaterialDefinitionV2 {
+	struct MaterialDefinition {
 		std::string name;
 		std::string shader;
 		std::vector<std::pair<std::string, std::string>> textureBinds;
@@ -127,10 +82,10 @@ namespace SceneGraph {
 		bool alpha_test = false;
 	};
 
-	struct ModelDefinitionV2 {
+	struct ModelDefinition {
 		std::string name;
 		std::vector<LodDefinition> lodDefs;
-		std::vector<MaterialDefinitionV2> matDefs;
+		std::vector<MaterialDefinition> matDefs;
 		std::vector<std::string> collisionDefs;
 		std::vector<AnimDefinition> animDefs;
 		std::vector<BoundDefinition> boundsDefs;

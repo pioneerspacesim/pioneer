@@ -145,17 +145,23 @@ namespace SceneGraph {
 
 		std::vector<std::string> list_model;
 		std::vector<std::string> list_sgm;
-		FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
-		for (FileSystem::FileEnumerator files(fileSource, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
-			const FileSystem::FileInfo &info = files.Current();
+
+		for (const FileSystem::FileInfo &info : FileSystem::gameDataFiles.Recurse(basepath)) {
 			const std::string &fpath = info.GetPath();
 
 			//check it's the expected type
 			if (info.IsFile()) {
+				std::string filename = info.GetName();
+				std::string_view basename = std::string_view(filename).substr(0, filename.find_last_of('.'));
+
+				if (basename != shortname) {
+					continue;
+				}
+
 				if (ends_with_ci(fpath, ".model")) { // store the path for ".model" files
 					list_model.push_back(fpath);
 				} else if (m_loadSGMs & ends_with_ci(fpath, ".sgm")) { // store only the shortname for ".sgm" files.
-					list_sgm.push_back(info.GetName().substr(0, info.GetName().size() - 4));
+					list_sgm.push_back(shortname);
 				}
 			}
 		}
@@ -175,58 +181,35 @@ namespace SceneGraph {
 		}
 
 		for (auto &fpath : list_model) {
-			RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(fpath);
-			if (!filedata) {
-				Output("LoadModel: %s: could not read file\n", fpath.c_str());
+
+			std::unique_ptr<ModelDefinition> modelDef(LoadModelDefinition(fpath));
+
+			if (!modelDef) {
+				Log::Warning("LoadModel: {} could not read file.", fpath);
 				return nullptr;
 			}
 
-			//check it's the wanted name & load it
-			const FileSystem::FileInfo &info = filedata->GetInfo();
-			const std::string name = info.GetName();
-			if (name.substr(0, name.length() - 6) == shortname) {
-				ModelDefinition modelDefinition;
+			return CreateModel(*modelDef);
 
-				auto lookup = fileSource.Lookup(info.GetPath().substr(0, info.GetPath().size() - 6) + ".model2");
-				if (lookup.Exists()) {
-					RefCountedPtr<FileSystem::FileData> data2 = lookup.Read();
-					ModelDefinitionV2 mdl = {};
-
-					ParserV2 parser = {};
-					bool ok = parser.Parse(*data2, &mdl);
-					if (!ok) {
-						throw LoadingError("Failed to parse!");
-					}
-
-				}
-				try {
-					//curPath is used to find textures, patterns,
-					//possibly other data files for this model.
-					//Strip trailing slash
-					m_curPath = info.GetDir();
-					assert(!m_curPath.empty());
-					if (m_curPath[m_curPath.length() - 1] == '/')
-						m_curPath = m_curPath.substr(0, m_curPath.length() - 1);
-
-					Parser p(fileSource, fpath, m_curPath);
-					p.Parse(&modelDefinition);
-				} catch (ParseError &err) {
-					Output("%s\n", err.what());
-					throw LoadingError(err.what());
-				}
-				modelDefinition.name = shortname;
-				return CreateModel(modelDefinition);
-			}
 		}
-		throw(LoadingError("File not found"));
+
+		throw LoadingError("File not found");
 	}
 
 	Model *Loader::CreateModel(ModelDefinition &def)
 	{
 		PROFILE_SCOPED()
 		using Graphics::Material;
-		if (def.matDefs.empty()) return 0;
-		if (def.lodDefs.empty()) return 0;
+
+		if (def.matDefs.empty()) {
+			Log::Warning("Model {} has no material definitions, cannot render any meshes!", def.name);
+			return 0;
+		}
+
+		if (def.lodDefs.empty()) {
+			Log::Warning("Model {} has no LOD definitions, no meshes are defined!", def.name);
+			return 0;
+		}
 
 		Model *model = new Model(m_renderer, def.name);
 		m_model = model;
@@ -238,7 +221,7 @@ namespace SceneGraph {
 
 		bool patternsUsed = false;
 		for (const auto &matDef : m_modelDef->matDefs) {
-			if (matDef.use_pattern) {
+			if (matDef.use_patterns) {
 				patternsUsed = true;
 				break;
 			}
@@ -353,10 +336,10 @@ namespace SceneGraph {
 
 		//remove path from filename for nicer logging
 		size_t slashpos = filename.rfind("/");
-		m_curMeshDef = filename.substr(slashpos + 1, filename.length() - slashpos);
+		m_curMeshDef = slashpos != std::string::npos ? filename.substr(slashpos + 1, filename.length() - slashpos) : filename;
 
 		std::string_view ext = filename;
-		ext = ext.substr(ext.rfind("."));
+		ext = ext.substr(ext.find_last_of('.'));
 
 		if (ext == ".dae")
 			m_modelFormat = ModelFormat::COLLADA;

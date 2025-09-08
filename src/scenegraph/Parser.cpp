@@ -66,8 +66,11 @@ namespace SceneGraph {
 			throw ParseError("No meshes defined");
 
 		//model without materials is not very useful, but not fatal - add white default mat
-		if (m->matDefs.empty())
-			m->matDefs.push_back(MaterialDefinition("Default"));
+		if (m->matDefs.empty()) {
+			MaterialDefinition &mat = m->matDefs.emplace_back();
+			mat.name = "Default";
+			mat.shader = "multi";
+		}
 
 		//sort lods by feature size
 		std::sort(m->lodDefs.begin(), m->lodDefs.end(), LodSortPredicate);
@@ -141,8 +144,9 @@ namespace SceneGraph {
 				m_isMaterial = true;
 				string matname;
 				checkMaterialName(ss, matname);
-				m_model->matDefs.push_back(MaterialDefinition(matname));
-				m_curMat = &m_model->matDefs.back();
+				m_curMat = &m_model->matDefs.emplace_back();
+				m_curMat->name = matname;
+				m_curMat->shader = "multi";
 				return true;
 			} else if (match(token, "lod")) {
 				endMaterial();
@@ -207,17 +211,23 @@ namespace SceneGraph {
 			} else {
 				if (m_isMaterial) {
 					//material definition in progress, check known parameters
-					if (match(token, "tex_diff"))
-						return checkTexture(ss, m_curMat->tex_diff);
-					else if (match(token, "tex_spec"))
-						return checkTexture(ss, m_curMat->tex_spec);
-					else if (match(token, "tex_glow"))
-						return checkTexture(ss, m_curMat->tex_glow);
-					else if (match(token, "tex_ambi"))
-						return checkTexture(ss, m_curMat->tex_ambi);
-					else if (match(token, "tex_norm"))
-						return checkTexture(ss, m_curMat->tex_norm);
-					else if (match(token, "diffuse"))
+					string texname;
+					if (match(token, "tex_diff") && checkTexture(ss, texname)) {
+						m_curMat->textureBinds.push_back({ "diffuse", texname });
+						return true;
+					} else if (match(token, "tex_spec") && checkTexture(ss, texname)) {
+						m_curMat->textureBinds.push_back({ "specular", texname });
+						return true;
+					} else if (match(token, "tex_glow") && checkTexture(ss, texname)) {
+						m_curMat->textureBinds.push_back({ "glow", texname });
+						return true;
+					} else if (match(token, "tex_ambi") && checkTexture(ss, texname)) {
+						m_curMat->textureBinds.push_back({ "ambient", texname });
+						return true;
+					} else if (match(token, "tex_norm") && checkTexture(ss, texname)) {
+						m_curMat->textureBinds.push_back({ "normal", texname });
+						return true;
+					} else if (match(token, "diffuse"))
 						return checkColor(ss, m_curMat->diffuse);
 					else if (match(token, "specular"))
 						return checkColor(ss, m_curMat->specular);
@@ -234,6 +244,11 @@ namespace SceneGraph {
 						int opacity;
 						ss >> opacity;
 						m_curMat->opacity = Clamp(opacity, 0, 100);
+
+						if (m_curMat->opacity < 100) {
+							m_curMat->renderState.blendMode = Graphics::BLEND_ALPHA;
+							m_curMat->renderState.depthWrite = false;
+						}
 						return true;
 					} else if (match(token, "alpha_test")) {
 						m_curMat->alpha_test = true;
@@ -242,7 +257,7 @@ namespace SceneGraph {
 						m_curMat->unlit = true;
 						return true;
 					} else if (match(token, "use_patterns")) {
-						m_curMat->use_pattern = true;
+						m_curMat->use_patterns = true;
 						return true;
 					} else
 						throw ParseError("Unknown instruction");
@@ -386,7 +401,7 @@ namespace SceneGraph {
 	// ============================================================================
 
 	struct ParseMaterialCtx : Config::Parser::Context {
-		ParseMaterialCtx(MaterialDefinitionV2 *m, const std::string &dirname) :
+		ParseMaterialCtx(MaterialDefinition *m, const std::string &dirname) :
 			mat(m), dirname(dirname) {}
 
 		Result operator()(Config::Parser *parser, const Token &tok) final
@@ -454,7 +469,7 @@ namespace SceneGraph {
 			return Result::DidNotMatch;
 		}
 
-		MaterialDefinitionV2 *mat;
+		MaterialDefinition *mat;
 		const std::string &dirname;
 	};
 
@@ -493,7 +508,7 @@ namespace SceneGraph {
 	// ============================================================================
 
 	struct TopLevelCtx : Config::Parser::Context {
-		TopLevelCtx(ModelDefinitionV2 *m, const std::string &dirname) :
+		TopLevelCtx(ModelDefinition *m, const std::string &dirname) :
 			model(m), dirname(dirname) {}
 
 		Result operator()(Config::Parser *parser, const Token &tok) final
@@ -530,7 +545,7 @@ namespace SceneGraph {
 					}
 				}
 
-				MaterialDefinitionV2 &mat = model->matDefs.emplace_back();
+				MaterialDefinition &mat = model->matDefs.emplace_back();
 				mat.name = name.toString();
 				// Default to multi if no shader is explicitly selected.
 				mat.shader = "multi";
@@ -617,7 +632,7 @@ namespace SceneGraph {
 			return Result::DidNotMatch;
 		}
 
-		ModelDefinitionV2 *model;
+		ModelDefinition *model;
 		const std::string &dirname;
 	};
 
@@ -627,7 +642,7 @@ namespace SceneGraph {
 	{
 	}
 
-	bool ParserV2::Parse(FileSystem::FileData &file, ModelDefinitionV2 *outModel)
+	bool ParserV2::Parse(FileSystem::FileData &file, ModelDefinition *outModel)
 	{
 		const std::string &dirname = file.GetInfo().GetDir();
 		Config::Parser parser { new TopLevelCtx(outModel, dirname), '#' };
@@ -644,7 +659,7 @@ namespace SceneGraph {
 		//model without materials is not very useful, but not fatal - add white default mat
 		if (outModel->matDefs.empty()) {
 			Log::Warning("{}: no materials defined!", file.GetInfo().GetName());
-			MaterialDefinitionV2 &mat = outModel->matDefs.emplace_back();
+			MaterialDefinition &mat = outModel->matDefs.emplace_back();
 
 			mat.name = "Default";
 			mat.shader = "multi";
