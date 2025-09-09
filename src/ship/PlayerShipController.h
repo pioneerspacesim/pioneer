@@ -43,8 +43,6 @@ public:
 	void SelectTarget();
 	void CycleHostiles();
 
-
-
 	//targeting
 	//XXX AI should utilize one or more of these
 	Body *GetCombatTarget() const;
@@ -66,6 +64,16 @@ public:
 	enum FollowMode { // <enum scope='PlayerShipController' name=FollowMode public>
 		FOLLOW_POS,
 		FOLLOW_ORI
+	};
+
+	static constexpr double maxFollowDistance[] = {
+		1000000.0, // FOLLOW_POS
+		10000.0    // FOLLOW_ORI
+	};
+
+	static constexpr double maxFollowDistanceSqr[] = {
+		maxFollowDistance[0] * maxFollowDistance[0],
+		maxFollowDistance[1] * maxFollowDistance[1]
 	};
 
 	void SetCruiseDirection(CruiseDirection mode);

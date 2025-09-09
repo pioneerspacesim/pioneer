@@ -699,6 +699,30 @@ static int l_player_set_follow_mode(lua_State *l)
 }
 
 /*
+ * Function: GetMaxFollowDistance(mode)
+ *
+ * Parameters:
+ *
+ *   mode - a string 'FOLLOW_POS' or 'FOLLOW_ORI'
+ *
+ * Returns:
+ *
+ *   number, distance in meters for specified mode
+ *
+ */
+static int l_player_get_max_follow_distance(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	auto mode_name = LuaPull<const char *>(l, 2);
+	int value = EnumStrings::GetValue("FollowMode", mode_name);
+	if (value == -1)
+		return luaL_error(l, "Player:GetMaxFollowDistance(): invalid follow mode '%s' specified\n", mode_name);
+	auto mode = static_cast<PlayerShipController::FollowMode>(value);
+	LuaPush(l, PlayerShipController::maxFollowDistance[mode]);
+	return 1;
+}
+
+/*
  * Function: GetSpeedLimit(speed_limit)
  *
  * Returns:
@@ -820,6 +844,7 @@ void LuaObject<Player>::RegisterClass()
 		{ "SetCruiseDirection", l_player_set_cruise_direction },
 		{ "GetFollowMode", l_player_get_follow_mode },
 		{ "SetFollowMode", l_player_set_follow_mode },
+		{ "GetMaxFollowDistance", l_player_get_max_follow_distance },
 		{ "GetSpeedLimit", l_player_get_speed_limit },
 		{ "SetSpeedLimit", l_player_set_speed_limit },
 		{ "SetSpeedLimiterActive", l_player_set_speed_limiter_active },
