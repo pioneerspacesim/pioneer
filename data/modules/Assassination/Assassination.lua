@@ -136,6 +136,7 @@ local onChat = function (form, ref, option)
 			due			= ad.due,
 			flavour		= ad.flavour,
 			location	= ad.location,
+			destination	= ad.location,
 			reward		= ad.reward,
 			threat		= ad.threat,
 			shipid		= ad.shipid,
@@ -257,7 +258,7 @@ local onShipDestroyed = function (ship, body)
 				mission.notplayer = 'TRUE'
 			else -- well done, comrade
 				mission.status = 'COMPLETED'
-				mission.location = mission.backstation
+				mission.destination = mission.backstation
 				mission.notplayer = 'FALSE'
 			end
 			mission.ship = nil

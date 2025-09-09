@@ -340,7 +340,7 @@ local transferCargo = function (mission, ref)
 
 			if mission.amount == 0 then
 				mission.status = "COMPLETED"
-			elseif mission.destination == nil then
+			elseif mission.location == nil then
 				mission.status = "FAILED"
 			end
 		end
@@ -438,7 +438,7 @@ local onChat = function (form, ref, option)
 
 		local mission = {
 			type              = "Scoop",
-			location          = ad.location,
+			location          = debris[1].body,
 			introtext         = ad.introtext,
 			client            = ad.client,
 			station           = ad.station.path,
@@ -453,7 +453,7 @@ local onChat = function (form, ref, option)
 			deliver_to_ship   = ad.deliver_to_ship,
 			client_ship       = ship,
 			ship_label        = ad.ship_label,
-			destination       = debris[1].body
+			destination       = ad.location
 		}
 
 		table.insert(missions, Mission.New(mission))
@@ -566,7 +566,7 @@ local onPlayerCargoChanged = function (comm, amount)
 	if Game.system:IsCommodityLegal(comm.name) or Game.player:IsDocked() then return end
 
 	for ref, mission in pairs(missions) do
-		if not mission.police and mission.location:IsSameSystem(Game.system.path) then
+		if not mission.police and mission.planet:IsSameSystem(Game.system.path) then
 			if (1 - Game.system.lawlessness) > Engine.rand:Number(4) then
 				local station = Game.player:FindNearestTo("SPACESTATION")
 				if station then mission.police = spawnPolice(station) end
@@ -582,20 +582,27 @@ local onCargoDestroyed = function (body, attacker)
 		for i, e in pairs(mission.debris) do
 			if body == e.body then
 				e.body = nil
-				if body == mission.destination then
+				if body == mission.location then
 					-- remove NavButton
-					mission.destination = nil
+					mission.location = nil
 				end
 				if attacker and (mission.return_to_station or mission.deliver_to_ship) then
 					mission.status = "FAILED"
 				end
-				if mission.destination == nil then
+				if mission.location == nil then
 					for i, e in pairs(mission.debris) do
 						if e.body ~= nil then
 							-- set next target
-							mission.destination = e.body
+							mission.location = e.body
 							break
 						end
+					end
+				end
+				if not mission.location and mission.status ~= "FAILED" then
+					if mission.deliver_to_ship then
+						mission.destination = l.SHIP .. "\n" .. mission.ship_label
+					else
+						mission.destination = "-\n-"
 					end
 				end
 				break
@@ -657,6 +664,7 @@ local onShipDestroyed = function (ship, attacker)
 				station = mission.station:GetSystemBody().name
 			})
 			Comms.ImportantMessage(msg, mission.client.name)
+			mission.destination = mission.station
 			break
 		end
 	end
@@ -689,7 +697,7 @@ local onPlayerDocked = function (player, station)
 			end
 			if mission.amount == 0 then
 				mission.status = "COMPLETED"
-			elseif mission.destination == nil then
+			elseif mission.location == nil then
 				mission.status = "FAILED"
 			end
 
@@ -699,7 +707,7 @@ local onPlayerDocked = function (player, station)
 
 		-- remove stale missions, if any
 		-- all cargo related to flavour 1 and 2 scooped or destroyed
-		elseif mission.reward < 0 and mission.destination == nil then
+		elseif mission.reward < 0 and mission.location == nil then
 			mission:Remove()
 			missions[ref] = nil
 		end
@@ -754,7 +762,7 @@ end
 
 local onLeaveSystem = function (ship)
 	for ref, mission in pairs(missions) do
-		mission.destination = nil
+		mission.location = nil
 		mission.police = nil
 		if mission.client_ship then
 			mission.client_ship = nil
@@ -799,7 +807,7 @@ local buildMissionDescription = function(mission)
 	}
 
 	desc.client = mission.client
-	desc.location = mission.destination or nil
+	desc.location = mission.location or nil
 	if mission.deliver_to_ship then
 		desc.returnLocation = mission.client_ship or mission.station
 	end

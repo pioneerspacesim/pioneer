@@ -90,9 +90,9 @@ Mission = {
 	reward = 0,
 
 --
--- Attribute:Location
+-- Attribute: destination
 --
--- A [SystemPath] for the destination space station
+-- A [SystemPath] or string for the (next) destination
 --
 -- Availability:
 --
@@ -102,7 +102,7 @@ Mission = {
 --
 --   experimental
 --
-	location = nil,
+	destination = nil,
 
 --
 -- Attribute: status
@@ -187,12 +187,12 @@ Mission = {
 -- Create a new mission and add it to the player's mission list
 --
 -- >	missionRef = Mission.New({
--- >		'type'     = type,
--- >		'client'   = client,
--- >		'due'      = due,
--- >		'reward'   = reward,
--- >		'location' = location,
--- >		'status'   = status,
+-- >		'type'        = type,
+-- >		'client'      = client,
+-- >		'due'         = due,
+-- >		'reward'      = reward,
+-- >		'destination' = destination,
+-- >		'status'      = status,
 -- >	})
 --
 -- Parameters:
@@ -207,12 +207,12 @@ Mission = {
 -- Example:
 --
 -- >  local ref = Mission.New({
--- >      'type'     = 'Delivery', -- Must be a translatable token!
--- >      'client'   = Character.New()
--- >      'due'      = Game.time + 3*24*60*60,    -- three days
--- >      'reward'   = 123.45,
--- >      'location' = SystemPath:New(0,0,0,0,16),  -- Mars High, Sol
--- >      'status'   = 'ACTIVE',
+-- >      'type'        = 'Delivery', -- Must be a translatable token!
+-- >      'client'      = Character.New()
+-- >      'due'         = Game.time + 3*24*60*60,    -- three days
+-- >      'reward'      = 123.45,
+-- >      'destination' = SystemPath:New(0,0,0,0,16),  -- Mars High, Sol
+-- >      'status'      = 'ACTIVE',
 -- >  })
 --
 -- Availability:
@@ -253,7 +253,7 @@ Mission = {
 		end
 		if not (type(newMission.due) == "number") then newMission.due = nil end
 		if not (type(newMission.reward) == "number") then newMission.reward = nil end
-		if not (type(newMission.location) == "userdata") then newMission.location = Game.system.path end
+		if not (type(newMission.destination) == "string" or type(newMission.destination) == "userdata") then newMission.destination = Game.system.path end
 		table.insert(Character.persistent.player.missions,newMission)
 		return newMission;
 	end,

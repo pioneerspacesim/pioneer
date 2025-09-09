@@ -127,8 +127,8 @@ local onChat = function (form, ref, option)
 			client      = ad.client,
 			wanted      = ad.wanted,
 			company     = ad.company,
-			location    = ad.location:GetStarSystem().path,
-			destination = ad.location,
+			location    = ad.location,
+			destination = ad.location:SystemOnly(),
 			visited     = {},
 			shipid      = ad.shipid,
 			ship        = nil,
@@ -285,18 +285,18 @@ local onFrameChanged = function (player)
 	if not player:isa("Ship") or not player:IsPlayer() then return end
 
 	for ref, mission in pairs(missions) do
-		if mission.destination:IsSameSystem(Game.system.path) and player.frameBody
-			and player.frameBody.path == Space.GetBody(mission.destination:GetSystemBody().parent.index).path
+		if mission.location:IsSameSystem(Game.system.path) and player.frameBody
+			and player.frameBody.path == Space.GetBody(mission.location:GetSystemBody().parent.index).path
 			and not mission.flavour.ship and not mission.interceptor then
 
 			local riskmargin = Engine.rand:Number(-0.3, 0.0) -- Add some random luck
 			if (mission.risk + riskmargin) > Engine.rand:Number(1) then
 				-- The wanted person or one of his/her enemies has hired a mercenary to intercept
 				local threat = 10.0 + mission.risk * 25.0
-				local ship = ShipBuilder.MakeShipDocked(Space.GetBody(mission.destination.bodyIndex), MercenaryTemplate, threat)
+				local ship = ShipBuilder.MakeShipDocked(Space.GetBody(mission.location.bodyIndex), MercenaryTemplate, threat)
 				mission.interceptor = ship
-				if mission.destination.type == "STARPORT_SURFACE" then
-					ship:AIEnterLowOrbit(Space.GetBody(mission.destination:GetSystemBody().parent.index))
+				if mission.location.type == "STARPORT_SURFACE" then
+					ship:AIEnterLowOrbit(Space.GetBody(mission.location:GetSystemBody().parent.index))
 				end
 				Timer:CallAt(Game.time + 5, function () ship:AIKill(player) end)
 			end
@@ -310,7 +310,7 @@ end
 
 local onEnterSystem = function (player)
 	for ref, mission in pairs(missions) do
-		if mission.destination:IsSameSystem(Game.system.path) and mission.status == "ACTIVE" and mission.flavour.ship then
+		if mission.location:IsSameSystem(Game.system.path) and mission.status == "ACTIVE" and mission.flavour.ship then
 
 			local ship, pirate_msg
 			local threat = 10.0 + mission.risk * 25.0
@@ -333,12 +333,13 @@ local onEnterSystem = function (player)
 					else
 						pirate_msg = string.interp(l["PIRATE_ANSWER_" .. Engine.rand:Integer(1, getNumberOfFlavours("PIRATE_ANSWER"))], { client = mission.client.name })
 						Comms.ImportantMessage(pirate_msg, ship.label)
-						ship:AIDockWith(Space.GetBody(mission.destination.bodyIndex))
+						ship:AIDockWith(Space.GetBody(mission.location.bodyIndex))
 					end
+					mission.destination = mission.domicile
 					mission.status = "PENDING_RETURN"
 				end)
 			else
-				ship = ShipBuilder.MakeShipDocked(Space.GetBody(mission.destination.bodyIndex), PirateTemplate, threat)
+				ship = ShipBuilder.MakeShipDocked(Space.GetBody(mission.location.bodyIndex), PirateTemplate, threat)
 				ship:SetLabel(mission.shipid)
 			end
 			mission.ship = ship
@@ -394,23 +395,25 @@ local onPlayerDocked = function (player, station)
 				missions[ref] = nil
 			end
 		else
-			if mission.destination == station.path then
+			if mission.location == station.path then
 				msg = string.interp(l["GREETING_" .. mission.flavour.id], { client = mission.client.name })
 				Comms.ImportantMessage(msg, mission.wanted.name)
 				if mission.flavour.taxi then
 					if Passengers.CountFreeBerths(player) > 0 then
 						Passengers.EmbarkPassenger(player, mission.wanted)
+						mission.destination = mission.domicile
 						mission.status = "PENDING_RETURN"
 					else
 						-- cabin occupied or player has removed cabin?
 						Comms.ImportantMessage(l.YOU_DO_NOT_HAVE_A_CABIN, mission.wanted.name)
 					end
 				else
+					mission.destination = mission.domicile
 					mission.status = "PENDING_RETURN"
 				end
 			else
 				-- do nothing if not in the right system or a tipster was already there
-				if mission.destination:IsSameSystem(Game.system.path) and not mission.tipster then
+				if mission.location:IsSameSystem(Game.system.path) and not mission.tipster then
 					-- don't increase probability if last station is current station
 					if station.path ~= mission.visited[#mission.visited] then
 						table.insert(mission.visited, station.path)
@@ -418,7 +421,7 @@ local onPlayerDocked = function (player, station)
 					if #mission.visited > Engine.rand:Number(4) then
 						local tipster = Character.New()
 						local tip = "TIP_" .. (mission.wanted.female and "FEMALE" or "MALE")
-						msg = string.interp(l[tip .. "_" .. Engine.rand:Integer(1, getNumberOfFlavours(tip))], { wanted = mission.wanted.name, station = mission.destination:GetSystemBody().name })
+						msg = string.interp(l[tip .. "_" .. Engine.rand:Integer(1, getNumberOfFlavours(tip))], { wanted = mission.wanted.name, station = mission.location:GetSystemBody().name })
 						Comms.ImportantMessage(msg, tipster.name)
 						mission.tipster = true
 					end
@@ -475,7 +478,7 @@ end
 local buildMissionDescription = function (mission)
 	local ui = require 'pigui'
 	local desc = {}
-	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
+	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location:SystemOnly())) or "???"
 	local domicileDist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.domicile)) or "???"
 	local danger = getRiskMsg(mission)
 
@@ -483,17 +486,17 @@ local buildMissionDescription = function (mission)
 		client = mission.client.name,
 		wanted = mission.wanted.name,
 		company = mission.company,
-		system = mission.destination:GetStarSystem().name,
-		sectorx = mission.destination.sectorX,
-		sectory = mission.destination.sectorY,
-		sectorz = mission.destination.sectorZ,
+		system = mission.location:GetStarSystem().name,
+		sectorx = mission.location.sectorX,
+		sectory = mission.location.sectorY,
+		sectorz = mission.location.sectorZ,
 		shipid = mission.shipid,
 		domicile = mission.domicile:GetSystemBody().name,
 		cash = ui.Format.Money(mission.reward, false),
 		dist = dist
 	})
 
-	desc.location = mission.location
+	desc.location = mission.location:SystemOnly()
 	desc.client = mission.client
 	desc.returnLocation = mission.domicile
 

@@ -17,10 +17,7 @@ local PlayerState = require 'PlayerState'
 local MissionUtils = require 'modules.MissionUtils'
 local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
 
-local OutfitRules = ShipBuilder.OutfitRules
-
 local l = Lang.GetResource("module-cargorun")
-local l_ui_core = Lang.GetResource("ui-core")
 local lc = Lang.GetResource 'core'
 
 local PirateTemplate = MissionUtils.ShipTemplates.WeakPirate
@@ -232,6 +229,7 @@ onChat = function (form, ref, option)
 			domicile        = ad.domicile,
 			client          = ad.client,
 			location        = ad.location,
+			destination     = ad.location,
 			localdelivery   = ad.localdelivery,
 			wholesaler      = ad.wholesaler,
 			pickup          = ad.pickup,
@@ -243,6 +241,7 @@ onChat = function (form, ref, option)
 			amount          = ad.negotiated_amount,
 			branch          = ad.branch,
 			cargotype       = ad.cargotype,
+			status          = cargo_picked_up and "ACTIVE" or "TO_PICK_UP",
 		}
 		table.insert(missions,Mission.New(mission))
 
@@ -730,7 +729,8 @@ local onPlayerDocked = function (player, station)
 					cargoMgr:AddCommodity(mission.cargotype, mission.amount);
 					mission.cargo_picked_up = true
 					Comms.ImportantMessage(l.WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP, mission.client.name)
-					mission.status = "PENDING_RETURN"
+					mission.status = "ACTIVE"
+					mission.destination = mission.domicile
 				end
 
 			else
