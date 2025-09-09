@@ -2631,6 +2631,10 @@
     "description": "",
     "message": "Massa total"
   },
+  "TO_PICK_UP": {
+    "description": "Mission status",
+    "message": "To pick up"
+  },
   "TRADING_AT": {
     "description": "Indicates the current system for inspecting commodities.",
     "message": "At {system}:"
