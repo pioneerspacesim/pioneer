@@ -90,17 +90,29 @@ std::vector<CollisionContact> Geom::Collide(Geom *b) const
 	return contacts;
 }
 
-static AABBd rotateAaabb(const AABBd &a, const matrix4x4d transA)
+static AABBd rotateAabbFast(const AABBd &a, const matrix4x4d &transA)
+{
+
+	const vector3d extent((a.max - a.min) * 0.5f);
+	const vector3d center(a.min + extent);
+
+	const vector3d new_center(transA * center);
+	const vector3d new_extent(transA.GetOrientAbs() * extent);
+
+	return AABBd{ new_center - new_extent, new_center + new_extent };
+}
+
+static AABBd rotateAabb(const AABBd &a, const matrix4x4d &transA)
 {
 	AABBd arot = AABBd::Invalid();
-	arot.Update(transA * vector3d(a.min.x, a.min.y, a.min.z));
+	arot.Update(transA * a.min);
 	arot.Update(transA * vector3d(a.min.x, a.min.y, a.max.z));
 	arot.Update(transA * vector3d(a.min.x, a.max.y, a.min.z));
 	arot.Update(transA * vector3d(a.min.x, a.max.y, a.max.z));
 	arot.Update(transA * vector3d(a.max.x, a.min.y, a.min.z));
 	arot.Update(transA * vector3d(a.max.x, a.min.y, a.max.z));
 	arot.Update(transA * vector3d(a.max.x, a.max.y, a.min.z));
-	arot.Update(transA * vector3d(a.max.x, a.max.y, a.max.z));
+	arot.Update(transA * a.max);
 	return arot;
 }
 
@@ -154,11 +166,16 @@ void Geom::CollideEdgesWithTrisOf(std::vector<CollisionContact> &contacts, size_
 		} else {
 			// does the edgeNode (with its aabb described in 6 planes transformed and rotated to
 			// b's coordinates) intersect with one or other of b's child nodes?
-			AABBd rotAabb = rotateAaabb(edgeNode->aabb, transTo);
+			AABBd rotAabb = rotateAabbFast(edgeNode->aabb, transTo);
+#if 0 //def _DEBUG
+			// useful for sanity checking the rotateAabbFast
+			AABBd rotAabbSlow = rotateAabb(edgeNode->aabb, transTo);
+			assert(abs((rotAabb.min - rotAabb.max).LengthSqr() - (rotAabbSlow.min - rotAabbSlow.max).LengthSqr()) < 0.01);
+#endif // _DEBUG
 			const bool left = rotAabb.Intersects(triBvh->GetNode(triNode->kids[0])->aabb);
 			const bool right = rotAabb.Intersects(triBvh->GetNode(triNode->kids[1])->aabb);
 
-			if (left & right) {
+			if (left && right) {
 				// Recurse into edge nodes until we find one that's smaller than the tri node
 				// (or hit a single edge leaf)
 				stack[++stackpos] = stackobj { edgeNode->kids[1], curr.triNode };

@@ -12,6 +12,8 @@
 template <typename T>
 class matrix3x3 {
 private:
+	// row-major ordering
+	// TODO row-major is at odds with matrix4x4 which is column-major, this needs fixing
 	T cell[9];
 	using other_float_t = typename std::conditional<std::is_same<T, float>::value, double, float>::type;
 

@@ -5,6 +5,7 @@
 #define _SHIP_H
 
 #include <unordered_map>
+#include <deque>
 
 #include "DynamicBody.h"
 #include "ShipType.h"
@@ -140,7 +141,8 @@ public:
 	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
 	int GetWheelTransition() const { return m_wheelTransition; }
-	bool SpawnCargo(CargoBody *c_body) const;
+	bool SpawnCargo(CargoBody *c_body);
+	void ProcessSpawnQueue();
 
 	bool IsInSpace() const override { return (m_flightState != HYPERSPACE); }
 
@@ -339,6 +341,9 @@ private:
 	std::string m_shipName;
 
 	double m_hydrogenScoopedAccumulator = 0;
+
+	double m_latestSpawnTime = 0.0;
+	std::deque<CargoBody *> m_cargoSpawnQueue;
 
 public:
 	// FIXME: these methods are deprecated; all calls should use the propulsion object directly.
