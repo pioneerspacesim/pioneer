@@ -6,9 +6,14 @@
 /*
  * Newmodel .model config file parser.
  * It's pretty bad, someone please redesign.
+ *
+ * sturnclaw (05-2025): redesign in progress
+ * sturnclaw (09-2025): redesign complete (kept old version for backwards compat)
  */
 #include "FileSystem.h"
-#include "Loader.h"
+
+#include "scenegraph/LoaderDefinitions.h"
+
 #include <stdexcept>
 
 namespace SceneGraph {
@@ -40,6 +45,13 @@ namespace SceneGraph {
 		inline bool checkMaterialName(std::stringstream &ss, std::string &out);
 		inline bool checkMesh(std::stringstream &ss, std::string &out);
 		void endMaterial();
+	};
+
+	class ParserV2 {
+	public:
+		ParserV2();
+
+		bool Parse(FileSystem::FileData &file, ModelDefinition *m);
 	};
 
 } // namespace SceneGraph

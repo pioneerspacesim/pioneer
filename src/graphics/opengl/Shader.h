@@ -31,6 +31,8 @@ namespace Graphics {
 
 		struct TextureBindingData {
 			size_t name;
+			// name of the texture variable in the shader, for glGetUniformLocation
+			size_t bindName;
 			uint32_t index;
 			// texture unit location
 			GLuint binding;
@@ -98,9 +100,11 @@ namespace Graphics {
 			std::string GetProgramDefines(const MaterialDescriptor &desc);
 			Program *LoadProgram(const MaterialDescriptor &desc);
 
-			size_t AddTextureBinding(const std::string &name, TextureType type, uint32_t binding);
+			size_t AddTextureBinding(const std::string &name, const std::string &bindName, TextureType type, uint32_t binding);
 			size_t AddConstantBinding(const std::string &name, ConstantDataFormat format, uint32_t binding);
 			size_t AddBufferBinding(const std::string &name, uint32_t binding);
+
+			size_t InternName(const std::string &name);
 
 		protected:
 			ProgramDef m_programDef;

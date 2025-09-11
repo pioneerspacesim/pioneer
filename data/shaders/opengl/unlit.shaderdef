@@ -5,7 +5,7 @@
 
 Shader unlit
 
-Texture sampler2D texture0 name=diffuse
+Texture sampler2D texture0 name=texture0
 Buffer DrawData binding=1
 
 Vertex "unlit.vert"

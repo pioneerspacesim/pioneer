@@ -25,7 +25,7 @@ namespace Graphics {
 			bool IsProgramLoaded() const final { return false; }
 			virtual void SetProgram(Program *p) {}
 
-			bool SetTexture(size_t name, Texture *tex) override { return false; }
+			bool SetTexture(size_t name, Texture *tex) override { return true; }
 			bool SetBuffer(size_t name, BufferBinding<Graphics::UniformBuffer>) override { return false; }
 			bool SetBufferDynamic(size_t name, void *data, size_t size) override { return false; }
 
