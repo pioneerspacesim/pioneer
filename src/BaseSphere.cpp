@@ -32,8 +32,10 @@ struct BaseSphereDataBlock {
 	alignas(16) vector3f srad;
 	alignas(16) vector3f lrad;
 	alignas(16) vector3f sdivlrad;
+
+	alignas(16) vector2f tropoHeight;
 };
-static_assert(sizeof(BaseSphereDataBlock) == 192, "");
+static_assert(sizeof(BaseSphereDataBlock) == 208, "");
 
 std::unique_ptr<Graphics::Drawables::Sphere3D> BaseSphere::m_atmos;
 
@@ -122,6 +124,8 @@ void BaseSphere::SetMaterialParameters(const matrix4x4d &trans, const float radi
 		++it;
 		++j;
 	}
+
+	matData.tropoHeight = ap.tropoHeight;
 
 	// FIXME: these two should share the same buffer data instead of making two separate allocs
 	m_surfaceMaterial->SetBufferDynamic(s_baseSphereData, &matData);
