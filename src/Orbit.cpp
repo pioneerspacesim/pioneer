@@ -165,12 +165,35 @@ double Orbit::MeanAnomalyAtTime(double time) const
 	}
 }
 
+double Orbit::MeanAnomalyDiff(double M, double dt) const
+{
+	const double e = m_eccentricity;
+	if (e < 1.0) { // elliptic orbit
+		return 2.0 * M_PI * dt / Period() + M;
+	} else {
+		return -2.0 * dt * m_velocityAreaPerSecond / (m_semiMajorAxis * m_semiMajorAxis * sqrt(e * e - 1)) + M;
+	}
+}
+
 vector3d Orbit::OrbitalPosAtTime(double t) const
 {
 	if (is_zero_general(m_semiMajorAxis)) return m_positionForStaticBody;
 	double cos_v, sin_v, r;
 	calc_position_from_mean_anomaly(MeanAnomalyAtTime(t), m_eccentricity, m_semiMajorAxis, cos_v, sin_v, &r);
 	return m_orient * vector3d(-cos_v * r, sin_v * r, 0);
+}
+
+vector3d Orbit::OrbitalDisplacementAtTime(double t, double dt) const
+{
+	if (is_zero_general(m_semiMajorAxis)) return m_positionForStaticBody;
+	double cos_v_t1, sin_v_t1, r1, M1 = MeanAnomalyAtTime(t);
+	double cos_v_t2, sin_v_t2, r2, M2 = MeanAnomalyDiff(M1, dt);
+	calc_position_from_mean_anomaly(M1, m_eccentricity, m_semiMajorAxis, cos_v_t1, sin_v_t1, &r1);
+	calc_position_from_mean_anomaly(M2, m_eccentricity, m_semiMajorAxis, cos_v_t2, sin_v_t2, &r2);
+
+	vector3d pos1 = r1 * vector3d(-cos_v_t1, sin_v_t1, 0);
+	vector3d pos2 = r2 * vector3d(-cos_v_t2, sin_v_t2, 0);
+	return m_orient * (pos2 - pos1);
 }
 
 double Orbit::OrbitalTimeAtPos(const vector3d &pos, double centralMass) const
