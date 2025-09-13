@@ -41,6 +41,8 @@ local atlasfont_highlight = ui.fonts.pionillium.medlarge
 local atlas_line_length = ui.rescaleUI(24)
 local atlas_label_offset = ui.rescaleUI(Vector2(12, -8))
 
+local comboStyle = require 'pigui.styles'.combo
+
 --load enums Projectable::types and Projectable::bases in one table "Projectable"
 local Projectable = {}
 for _, key in pairs(Constants.ProjectableTypes) do Projectable[key] = Engine.GetEnumValue("ProjectableTypes", key) end
@@ -519,34 +521,34 @@ local settingsView = {
 	title = luc.SETTINGS,
 
 	drawBody = function(self)
-		--sidebarStyle:push()
 		if systemView:GetDisplayMode() == "Orrery" then
-			local c,ret
+			comboStyle:withStyle(function()
+				local c,ret
 
-			ui.text(lc.SHIPS_DISPLAY_MODE)
-			c,ret = ui.combo("##Ships", shipModeCombo.selected, shipModeCombo.items)
-			if c then
-				shipModeCombo:update{selected = ret}
-			end
+				ui.text(lc.SHIPS_DISPLAY_MODE)
+				c,ret = ui.combo("##Ships", shipModeCombo.selected, shipModeCombo.items)
+				if c then
+					shipModeCombo:update{selected = ret}
+				end
 
-			ui.text(lc.L4L5_DISPLAY_MODE)
-			c,ret = ui.combo("##LagrangePoint", lagrangePointModeCombo.selected, lagrangePointModeCombo.items)
-			if c then
-				lagrangePointModeCombo:update{selected = ret}
-			end
+				ui.text(lc.L4L5_DISPLAY_MODE)
+				c,ret = ui.combo("##LagrangePoint", lagrangePointModeCombo.selected, lagrangePointModeCombo.items)
+				if c then
+					lagrangePointModeCombo:update{selected = ret}
+				end
 
-			ui.text(lc.GRID_DISPLAY_MODE)
-			c,ret = ui.combo("##Grid", gridModeCombo.selected, gridModeCombo.items)
-			if c then
-				gridModeCombo:update{selected = ret}
-			end
+				ui.text(lc.GRID_DISPLAY_MODE)
+				c,ret = ui.combo("##Grid", gridModeCombo.selected, gridModeCombo.items)
+				if c then
+					gridModeCombo:update{selected = ret}
+				end
 
-			ui.text(lc.HYPERSPACE_CLOUDS_DISPLAY_MODE)
-			c,ret = ui.combo("##Cloud", cloudModeCombo.selected, cloudModeCombo.items)
-			if c then
-				cloudModeCombo:update{selected = ret}
-			end
-		--sidebarStyle:pop()
+				ui.text(lc.HYPERSPACE_CLOUDS_DISPLAY_MODE)
+				c,ret = ui.combo("##Cloud", cloudModeCombo.selected, cloudModeCombo.items)
+				if c then
+					cloudModeCombo:update{selected = ret}
+				end
+			end)
 		end
 	end
 }
