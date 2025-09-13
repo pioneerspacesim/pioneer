@@ -475,6 +475,21 @@ local lagrangePointModeCombo = displayComboBase:new{
 	displayOff = "LAG_OFF"
 }
 
+local cloudModeCombo = displayComboBase:new{
+	items = {
+		lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL,
+		lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY,
+		lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY
+	},
+	displayModes = {
+		"CLOUDS_ON",
+		"CLOUDS_ARRIVAL",
+		"CLOUDS_DEPARTURE"
+	},
+	displayOff = "CLOUDS_OFF"
+
+}
+
 ---@type UI.Sidebar.Module
 local settingsView = {
 	icon = icons.settings,
@@ -502,6 +517,12 @@ local settingsView = {
 			c,ret = ui.combo("##Grid", gridModeCombo.selected, gridModeCombo.items)
 			if c then
 				gridModeCombo:update{selected = ret}
+			end
+
+			ui.text(lc.HYPERSPACE_CLOUDS_DISPLAY_MODE)
+			c,ret = ui.combo("##Cloud", cloudModeCombo.selected, cloudModeCombo.items)
+			if c then
+				cloudModeCombo:update{selected = ret}
 			end
 		--sidebarStyle:pop()
 		end
@@ -627,6 +648,9 @@ function Windows.edgeButtons.Show()
 			end
 			if ui.mainMenuButton(icons.toggle_grid, lc.GRID_DISPLAY_MODE_TOGGLE, buttonState[gridModeCombo.displayOn].state) then
 				gridModeCombo:toggleDisplay()
+			end
+			if ui.mainMenuButton(icons.hyperspace, lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE, buttonState[cloudModeCombo.displayOn].state) then
+				cloudModeCombo:toggleDisplay()
 			end
 		end
 	end)
