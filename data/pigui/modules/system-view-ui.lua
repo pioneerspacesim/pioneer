@@ -176,6 +176,13 @@ local function timeButton(icon, tooltip, factor)
 	return active
 end
 
+-- Format the mass in tonnes
+-- The ui.Format() function reformats the units whereas we always want to
+-- display using tonnes.
+local function formatMass(massInTonnes)
+	return string.format("%d %s", massInTonnes or 0, lc.UNIT_TONNES)
+end
+
 -- cache some data to reduce per-frame overheads
 local data_cache = {
 	body = {},
@@ -264,6 +271,21 @@ local function getObjectData(obj)
 				table.insert(data, { name = luc.HYPERDRIVE, value = hd and hd:GetName() or lc.NO_HYPERDRIVE })
 				table.insert(data, { name = luc.MASS, value = Format.MassTonnes(body.staticMass) })
 				table.insert(data, { name = luc.CARGO, value = Format.MassTonnes(body.usedCargo) })
+			end
+		elseif obj.ref:IsHyperspaceCloud() then
+			---@cast body HyperspaceCloud
+			local hypercloud_level = (player["hypercloud_analyzer_cap"] or 0)
+			local ship = body:GetShip()
+			-- TODO: different levels of hypercloud analyser should provide
+			-- increasingly detailed amounts of information.
+			if hypercloud_level > 0 and ship then
+				local _,systemName = ship:GetHyperspaceDestination()
+				local systemLabel = body:IsArrival() and luc.HUD_HYPERSPACE_ORIGIN or luc.HUD_HYPERSPACE_DESTINATION
+
+				table.insert(data, { name = luc.SHIP_TYPE, value = ship:GetShipType() })
+				table.insert(data, { name = luc.HUD_MASS, value = formatMass(ship.staticMass) })
+				table.insert(data, { name = systemLabel, value = systemName })
+				table.insert(data, { name = luc.HUD_ARRIVAL_DATE, value = ui.Format.Datetime(body:GetDueDate()) })
 			end
 		else
 			data = {}
