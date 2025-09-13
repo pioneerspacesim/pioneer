@@ -28,117 +28,122 @@ TerrainHeightFractal<TerrainHeightMountainsRivers>::TerrainHeightFractal(const S
 }
 
 template <>
-double TerrainHeightFractal<TerrainHeightMountainsRivers>::GetHeight(const vector3d &p) const
+void TerrainHeightFractal<TerrainHeightMountainsRivers>::GetHeights(const vector3d *vP, double *heightsOut, const size_t count) const
 {
-	double continents = octavenoise(GetFracDef(0), 0.7 * ridged_octavenoise(GetFracDef(8), 0.58, p), p) - m_sealevel * 0.65;
-	if (continents < 0) return 0;
-	double n = (river_function(GetFracDef(9), p) *
-				   river_function(GetFracDef(7), p) *
-				   river_function(GetFracDef(6), p) *
-				   canyon3_normal_function(GetFracDef(1), p) * continents) -
-		(GetFracDef(0).amplitude * m_sealevel * 0.1);
-	n *= 0.5;
+	for (size_t i = 0; i < count; i++) {
+		const vector3d &p = vP[i];
+		double continents = octavenoise(m_fracdef[0], 0.7 * ridged_octavenoise(m_fracdef[8], 0.58, p), p) - m_sealevel * 0.65;
+		if (continents < 0.0)
+			heightsOut[i] = 0.0;
 
-	double h = n;
+		double n = (river_function(m_fracdef[9], p) *
+					river_function(m_fracdef[7], p) *
+					river_function(m_fracdef[6], p) *
+					canyon3_normal_function(m_fracdef[1], p) * continents) -
+					(m_fracdef[0].amplitude * m_sealevel * 0.1);
+		n *= 0.5;
 
-	if (n > 0.0) {
-		// smooth in hills at shore edges
-		//large mountainous shapes
-		n += h * river_octavenoise(GetFracDef(7), 0.5 * octavenoise(GetFracDef(6), 0.5, p), p);
+		double h = n;
 
-		//if (n < 0.2) n += canyon3_billow_function(GetFracDef(9), p) * n * 5;
-		//else if (n < 0.4) n += canyon3_billow_function(GetFracDef(9), p);
-		//else n += canyon3_billow_function(GetFracDef(9), p) * (0.4/n);
-		//n += -0.5;
+		if (n > 0.0) {
+			// smooth in hills at shore edges
+			//large mountainous shapes
+			n += h * river_octavenoise(m_fracdef[7], 0.5 * octavenoise(m_fracdef[6], 0.5, p), p);
+
+			//if (n < 0.2) n += canyon3_billow_function(m_fracdef[9], p) * n * 5;
+			//else if (n < 0.4) n += canyon3_billow_function(m_fracdef[9], p);
+			//else n += canyon3_billow_function(m_fracdef[9], p) * (0.4/n);
+			//n += -0.5;
+		}
+
+		if (n > 0.0) {
+			if (n < 0.4) {
+				n += n * 2.5 * river_octavenoise(m_fracdef[6], Clamp(h * 0.00002, 0.3, 0.7) * ridged_octavenoise(m_fracdef[5], 0.5, p), p);
+			} else {
+				n += 1.0 * river_octavenoise(m_fracdef[6], Clamp(h * 0.00002, 0.3, 0.7) * ridged_octavenoise(m_fracdef[5], 0.5, p), p);
+			}
+		}
+
+		if (n > 0.0) {
+			if (n < 0.2) {
+				n += n * 5.0 * billow_octavenoise(m_fracdef[6], Clamp(h * 0.00002, 0.5, 0.7), p);
+			} else {
+				n += billow_octavenoise(m_fracdef[6],
+					Clamp(h * 0.00002, 0.5, 0.7), p);
+			}
+		}
+
+		if (n > 0.0) {
+			if (n < 0.4) {
+				n += n * 2.0 * river_octavenoise(m_fracdef[6], 0.5 * octavenoise(m_fracdef[5], 0.5, p), p);
+			} else {
+				n += (0.32 / n) * river_octavenoise(m_fracdef[6], 0.5 * octavenoise(m_fracdef[5], 0.5, p), p);
+			}
+
+			if (n < 0.2) {
+				n += n * ridged_octavenoise(m_fracdef[5], 0.5 * octavenoise(m_fracdef[5], 0.5, p), p);
+			} else {
+				n += (0.04 / n) * ridged_octavenoise(m_fracdef[5], 0.5 * octavenoise(m_fracdef[5], 0.5, p), p);
+			}
+			//smaller ridged mountains
+			n += n * 0.7 * ridged_octavenoise(m_fracdef[5], 0.7 * octavenoise(m_fracdef[6], 0.6, p), p);
+
+			//n += n*0.7*voronoiscam_octavenoise(m_fracdef[5],
+			//	0.7*octavenoise(m_fracdef[6], 0.6, p), p);
+
+			//n = n*0.6667;
+
+			//jagged surface for mountains
+			if (n > 0.25) {
+				n += (n - 0.25) * 0.1 * octavenoise(m_fracdef[3], Clamp(h * 0.0002 * octavenoise(m_fracdef[5], 0.6, p), 0.5 * octavenoise(m_fracdef[3], 0.5, p), 0.6 * octavenoise(m_fracdef[4], 0.6, p)), p);
+			}
+
+			if (n > 0.2 && n <= 0.25) {
+				n += (0.25 - n) * 0.2 * ridged_octavenoise(m_fracdef[3], Clamp(h * 0.0002 * octavenoise(m_fracdef[5], 0.5, p), 0.5 * octavenoise(m_fracdef[3], 0.5, p), 0.5 * octavenoise(m_fracdef[4], 0.5, p)), p);
+			} else if (n > 0.05) {
+				n += ((n - 0.05) / 15) * ridged_octavenoise(m_fracdef[3], Clamp(h * 0.0002 * octavenoise(m_fracdef[5], 0.5, p), 0.5 * octavenoise(m_fracdef[3], 0.5, p), 0.5 * octavenoise(m_fracdef[4], 0.5, p)), p);
+			}
+			//n = n*0.2;
+
+			if (n < 0.01) {
+				n += n * voronoiscam_octavenoise(m_fracdef[3], Clamp(h * 0.00002, 0.5, 0.5), p);
+			} else if (n < 0.02) {
+				n += 0.01 * voronoiscam_octavenoise(m_fracdef[3], Clamp(h * 0.00002, 0.5, 0.5), p);
+			} else {
+				n += (0.02 / n) * 0.01 * voronoiscam_octavenoise(m_fracdef[3], Clamp(h * 0.00002, 0.5, 0.5), p);
+			}
+
+			if (n < 0.001) {
+				n += n * 3 * dunes_octavenoise(m_fracdef[2], 1.0 * octavenoise(m_fracdef[2], 0.5, p), p);
+			} else if (n < 0.01) {
+				n += 0.003 * dunes_octavenoise(m_fracdef[2], 1.0 * octavenoise(m_fracdef[2], 0.5, p), p);
+			} else {
+				n += (0.01 / n) * 0.003 * dunes_octavenoise(m_fracdef[2], 1.0 * octavenoise(m_fracdef[2], 0.5, p), p);
+			}
+
+			//if (n < 0.001){
+			//	n += n*0.2*ridged_octavenoise(m_fracdef[2],
+			//		0.5*octavenoise(m_fracdef[2], 0.5, p), p);
+			//} else if (n <0.01){
+			//	n += 0.0002*ridged_octavenoise(m_fracdef[2],
+			//		0.5*octavenoise(m_fracdef[2], 0.5, p), p);
+			//} else {
+			//	n += (0.01/n)*0.0002*ridged_octavenoise(m_fracdef[2],
+			//		0.5*octavenoise(m_fracdef[2], 0.5, p), p);
+			//}
+
+			if (n < 0.1) {
+				n += n * 0.05 * dunes_octavenoise(m_fracdef[2], n * river_octavenoise(m_fracdef[2], 0.5, p), p);
+			} else if (n < 0.2) {
+				n += 0.005 * dunes_octavenoise(m_fracdef[2], ((n * n * 10.0) + (3 * (n - 0.1))) * river_octavenoise(m_fracdef[2], 0.5, p), p);
+			} else {
+				n += (0.2 / n) * 0.005 * dunes_octavenoise(m_fracdef[2], Clamp(0.7 - (1 - (5 * n)), 0.0, 0.7) * river_octavenoise(m_fracdef[2], 0.5, p), p);
+			}
+
+			n *= 0.3;
+		}
+
+		n *= m_maxHeight;
+		heightsOut[i] = (n > 0.0 ? n : 0.0);
 	}
-
-	if (n > 0.0) {
-		if (n < 0.4) {
-			n += n * 2.5 * river_octavenoise(GetFracDef(6), Clamp(h * 0.00002, 0.3, 0.7) * ridged_octavenoise(GetFracDef(5), 0.5, p), p);
-		} else {
-			n += 1.0 * river_octavenoise(GetFracDef(6), Clamp(h * 0.00002, 0.3, 0.7) * ridged_octavenoise(GetFracDef(5), 0.5, p), p);
-		}
-	}
-
-	if (n > 0.0) {
-		if (n < 0.2) {
-			n += n * 5.0 * billow_octavenoise(GetFracDef(6), Clamp(h * 0.00002, 0.5, 0.7), p);
-		} else {
-			n += billow_octavenoise(GetFracDef(6),
-				Clamp(h * 0.00002, 0.5, 0.7), p);
-		}
-	}
-
-	if (n > 0.0) {
-		if (n < 0.4) {
-			n += n * 2.0 * river_octavenoise(GetFracDef(6), 0.5 * octavenoise(GetFracDef(5), 0.5, p), p);
-		} else {
-			n += (0.32 / n) * river_octavenoise(GetFracDef(6), 0.5 * octavenoise(GetFracDef(5), 0.5, p), p);
-		}
-
-		if (n < 0.2) {
-			n += n * ridged_octavenoise(GetFracDef(5), 0.5 * octavenoise(GetFracDef(5), 0.5, p), p);
-		} else {
-			n += (0.04 / n) * ridged_octavenoise(GetFracDef(5), 0.5 * octavenoise(GetFracDef(5), 0.5, p), p);
-		}
-		//smaller ridged mountains
-		n += n * 0.7 * ridged_octavenoise(GetFracDef(5), 0.7 * octavenoise(GetFracDef(6), 0.6, p), p);
-
-		//n += n*0.7*voronoiscam_octavenoise(GetFracDef(5),
-		//	0.7*octavenoise(GetFracDef(6), 0.6, p), p);
-
-		//n = n*0.6667;
-
-		//jagged surface for mountains
-		if (n > 0.25) {
-			n += (n - 0.25) * 0.1 * octavenoise(GetFracDef(3), Clamp(h * 0.0002 * octavenoise(GetFracDef(5), 0.6, p), 0.5 * octavenoise(GetFracDef(3), 0.5, p), 0.6 * octavenoise(GetFracDef(4), 0.6, p)), p);
-		}
-
-		if (n > 0.2 && n <= 0.25) {
-			n += (0.25 - n) * 0.2 * ridged_octavenoise(GetFracDef(3), Clamp(h * 0.0002 * octavenoise(GetFracDef(5), 0.5, p), 0.5 * octavenoise(GetFracDef(3), 0.5, p), 0.5 * octavenoise(GetFracDef(4), 0.5, p)), p);
-		} else if (n > 0.05) {
-			n += ((n - 0.05) / 15) * ridged_octavenoise(GetFracDef(3), Clamp(h * 0.0002 * octavenoise(GetFracDef(5), 0.5, p), 0.5 * octavenoise(GetFracDef(3), 0.5, p), 0.5 * octavenoise(GetFracDef(4), 0.5, p)), p);
-		}
-		//n = n*0.2;
-
-		if (n < 0.01) {
-			n += n * voronoiscam_octavenoise(GetFracDef(3), Clamp(h * 0.00002, 0.5, 0.5), p);
-		} else if (n < 0.02) {
-			n += 0.01 * voronoiscam_octavenoise(GetFracDef(3), Clamp(h * 0.00002, 0.5, 0.5), p);
-		} else {
-			n += (0.02 / n) * 0.01 * voronoiscam_octavenoise(GetFracDef(3), Clamp(h * 0.00002, 0.5, 0.5), p);
-		}
-
-		if (n < 0.001) {
-			n += n * 3 * dunes_octavenoise(GetFracDef(2), 1.0 * octavenoise(GetFracDef(2), 0.5, p), p);
-		} else if (n < 0.01) {
-			n += 0.003 * dunes_octavenoise(GetFracDef(2), 1.0 * octavenoise(GetFracDef(2), 0.5, p), p);
-		} else {
-			n += (0.01 / n) * 0.003 * dunes_octavenoise(GetFracDef(2), 1.0 * octavenoise(GetFracDef(2), 0.5, p), p);
-		}
-
-		//if (n < 0.001){
-		//	n += n*0.2*ridged_octavenoise(GetFracDef(2),
-		//		0.5*octavenoise(GetFracDef(2), 0.5, p), p);
-		//} else if (n <0.01){
-		//	n += 0.0002*ridged_octavenoise(GetFracDef(2),
-		//		0.5*octavenoise(GetFracDef(2), 0.5, p), p);
-		//} else {
-		//	n += (0.01/n)*0.0002*ridged_octavenoise(GetFracDef(2),
-		//		0.5*octavenoise(GetFracDef(2), 0.5, p), p);
-		//}
-
-		if (n < 0.1) {
-			n += n * 0.05 * dunes_octavenoise(GetFracDef(2), n * river_octavenoise(GetFracDef(2), 0.5, p), p);
-		} else if (n < 0.2) {
-			n += 0.005 * dunes_octavenoise(GetFracDef(2), ((n * n * 10.0) + (3 * (n - 0.1))) * river_octavenoise(GetFracDef(2), 0.5, p), p);
-		} else {
-			n += (0.2 / n) * 0.005 * dunes_octavenoise(GetFracDef(2), Clamp(0.7 - (1 - (5 * n)), 0.0, 0.7) * river_octavenoise(GetFracDef(2), 0.5, p), p);
-		}
-
-		n *= 0.3;
-	}
-
-	n = m_maxHeight * n;
-	return (n > 0.0 ? n : 0.0);
 }
