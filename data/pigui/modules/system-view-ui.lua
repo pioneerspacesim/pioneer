@@ -70,27 +70,13 @@ local svColor = {
 }
 
 -- button states
-local function loop3items(a, b, c) return a, { [a] = b, [b] = c, [c] = a } end
 local colorset = ui.theme.buttonColors
 
 local buttonState = {
-	SHIPS_OFF     = { icon = icons.ships_no_orbits,    state = colorset.transparent },
-	SHIPS_ON      = { icon = icons.ships_no_orbits,    state = colorset.dark },
-	SHIPS_ORBITS  = { icon = icons.ships_with_orbits },
-	LAG_OFF       = { icon = icons.lagrange_no_text,   state = colorset.transparent },
-	LAG_ICON      = { icon = icons.lagrange_no_text,   state = colorset.dark },
-	LAG_ICONTEXT  = { icon = icons.lagrange_with_text },
-	GRID_OFF      = { icon = icons.toggle_grid,        state = colorset.transparent },
-	GRID_ON       = { icon = icons.toggle_grid,        state = colorset.dark },
-	GRID_AND_LEGS = { icon = icons.toggle_grid },
 	[true]        = {                                  state = colorset.default },
 	[false]       = {                                  state = colorset.transparent },
 	DISABLED      = {                                  state = colorset.dark }
 }
-
-local ship_drawing,  nextShipDrawings = loop3items("SHIPS_OFF", "SHIPS_ON", "SHIPS_ORBITS")
-local show_lagrange, nextShowLagrange = loop3items("LAG_OFF", "LAG_ICON", "LAG_ICONTEXT")
-local show_grid,     nextShowGrid     = loop3items("GRID_OFF", "GRID_ON", "GRID_AND_LEGS")
 
 local onGameStart = function ()
 	--connect to class SystemView
@@ -100,9 +86,7 @@ local onGameStart = function ()
 		systemView:SetColor(key, svColor[key])
 	end
 	-- update visibility states
-	systemView:SetVisibility(ship_drawing)
-	systemView:SetVisibility(show_lagrange)
-	systemView:SetVisibility(show_grid)
+	-- TODO: load from settings
 end
 
 local onEnterSystem = function (ship)
@@ -412,36 +396,113 @@ local economyView = {
 	end
 }
 
+local displayComboBase = {
+	new = function(self, o)
+		o = o or {}
+		setmetatable(o, self)
+		self.__index = self
+		return o
+	end,
+
+	displayOn = false,
+	selected = 0,
+	items = {
+	},
+	displayModes = {
+	},
+	displayOff = "",
+
+	-- Returns the currently-selected mode
+	getMode = function(self)
+		if self.displayOn then
+			return self.displayModes[self.selected+1]
+		else
+			return self.displayOff
+		end
+	end,
+
+	-- update current mode and update the system view
+	update = function(self, args)
+		if args.displayOn ~= nil then
+			self.displayOn = args.displayOn
+		end
+		self.selected = args.selected or self.selected
+
+		local on = self.displayOn and "ON" or "OFF"
+		print("Update called;  displayOn = " .. on .. ", selected = " .. self.selected)
+		systemView:SetVisibility(self:getMode())
+	end,
+
+	-- Toggle visibility on/off
+	toggleDisplay = function(self)
+		self:update{displayOn = not self.displayOn}
+	end
+}
+
+local shipModeCombo = displayComboBase:new{
+	items = {
+		lc.SHIPS_DISPLAY_MODE_SHIPS_ONLY,
+		lc.SHIPS_DISPLAY_MODE_SHIPS_ORBITS
+	},
+	displayModes = {
+		"SHIPS_ON",
+		"SHIPS_ORBITS"
+	},
+	displayOff = "SHIPS_OFF"
+}
+
+local gridModeCombo = displayComboBase:new{
+	items = {
+		lc.GRID_DISPLAY_MODE_GRID_ONLY,
+		lc.GRID_DISPLAY_MODE_GRID_AND_LEGS
+	},
+	displayModes = {
+		"GRID_ON",
+		"GRID_AND_LEGS"
+	},
+	displayOff = "GRID_OFF"
+}
+
+local lagrangePointModeCombo = displayComboBase:new{
+	items = {
+		lc.L4L5_DISPLAY_MODE_ICONS_ONLY,
+		lc.L4L5_DISPLAY_MODE_ICONS_AND_TEXT
+	},
+	displayModes = {
+		"LAG_ICON",
+		"LAG_ICONTEXT"
+	},
+	displayOff = "LAG_OFF"
+}
+
 ---@type UI.Sidebar.Module
 local settingsView = {
 	icon = icons.settings,
 	tooltip = luc.SETTINGS,
 	title = luc.SETTINGS,
+
 	drawBody = function(self)
 		--sidebarStyle:push()
 		if systemView:GetDisplayMode() == "Orrery" then
-			ui.spacing()
-			if ui.mainMenuButton(buttonState[ship_drawing].icon, lc.SHIPS_DISPLAY_MODE_TOGGLE, buttonState[ship_drawing].state) then
-				ship_drawing = nextShipDrawings[ship_drawing]
-				systemView:SetVisibility(ship_drawing)
+			local c,ret
+
+			ui.text(lc.SHIPS_DISPLAY_MODE)
+			c,ret = ui.combo("##Ships", shipModeCombo.selected, shipModeCombo.items)
+			if c then
+				shipModeCombo:update{selected = ret}
 			end
-			ui.sameLine()
-			ui.alignTextToLineHeight()
-			ui.text("Ship Display Mode")
-			if ui.mainMenuButton(buttonState[show_lagrange].icon, lc.L4L5_DISPLAY_MODE_TOGGLE, buttonState[show_lagrange].state) then
-				show_lagrange = nextShowLagrange[show_lagrange]
-				systemView:SetVisibility(show_lagrange)
+
+			ui.text(lc.L4L5_DISPLAY_MODE)
+			c,ret = ui.combo("##LagrangePoint", lagrangePointModeCombo.selected, lagrangePointModeCombo.items)
+			if c then
+				lagrangePointModeCombo:update{selected = ret}
 			end
-			ui.sameLine()
-			ui.alignTextToLineHeight()
-			ui.text("Lagrange Point Display Mode")
-			if ui.mainMenuButton(buttonState[show_grid].icon, lc.GRID_DISPLAY_MODE_TOGGLE, buttonState[show_grid].state) then
-				show_grid = nextShowGrid[show_grid]
-				systemView:SetVisibility(show_grid)
+
+			ui.text(lc.GRID_DISPLAY_MODE)
+			c,ret = ui.combo("##Grid", gridModeCombo.selected, gridModeCombo.items)
+			if c then
+				gridModeCombo:update{selected = ret}
 			end
-			ui.sameLine()
-			ui.alignTextToLineHeight()
-			ui.text("Grid Display Mode")
 		--sidebarStyle:pop()
 		end
 	end
@@ -558,17 +619,14 @@ function Windows.edgeButtons.Show()
 		-- view settings buttons
 		if isOrrery then
 			ui.spacing()
-			if ui.mainMenuButton(buttonState[ship_drawing].icon, lc.SHIPS_DISPLAY_MODE_TOGGLE, buttonState[ship_drawing].state) then
-				ship_drawing = nextShipDrawings[ship_drawing]
-				systemView:SetVisibility(ship_drawing)
+			if ui.mainMenuButton(icons.ships_no_orbits, lc.SHIPS_DISPLAY_MODE_TOGGLE, buttonState[shipModeCombo.displayOn].state) then
+				shipModeCombo:toggleDisplay()
 			end
-			if ui.mainMenuButton(buttonState[show_lagrange].icon, lc.L4L5_DISPLAY_MODE_TOGGLE, buttonState[show_lagrange].state) then
-				show_lagrange = nextShowLagrange[show_lagrange]
-				systemView:SetVisibility(show_lagrange)
+			if ui.mainMenuButton(icons.lagrange_with_text, lc.L4L5_DISPLAY_MODE_TOGGLE, buttonState[lagrangePointModeCombo.displayOn].state) then
+				lagrangePointModeCombo:toggleDisplay()
 			end
-			if ui.mainMenuButton(buttonState[show_grid].icon, lc.GRID_DISPLAY_MODE_TOGGLE, buttonState[show_grid].state) then
-				show_grid = nextShowGrid[show_grid]
-				systemView:SetVisibility(show_grid)
+			if ui.mainMenuButton(icons.toggle_grid, lc.GRID_DISPLAY_MODE_TOGGLE, buttonState[gridModeCombo.displayOn].state) then
+				gridModeCombo:toggleDisplay()
 			end
 		end
 	end)
@@ -600,8 +658,10 @@ local function getLabel(obj)
 		if obj.base == Projectable.SYSTEMBODY then return obj.ref.name
 		elseif obj.base == Projectable.PLANNER then return ""
 		else return obj.ref:GetLabel() end
-	elseif obj.type == Projectable.L4 and show_lagrange == "LAG_ICONTEXT" then return "L4"
-	elseif obj.type == Projectable.L5 and show_lagrange == "LAG_ICONTEXT" then return "L5"
+	--elseif obj.type == Projectable.L4 and show_lagrange == "LAG_ICONTEXT" then return "L4"
+	elseif obj.type == Projectable.L4 and lagrangePointModeCombo:getMode() == "LAG_ICONTEXT" then return "L4"
+	--elseif obj.type == Projectable.L4 and show_lagrange == "LAG_ICONTEXT" then return "L4"
+	elseif obj.type == Projectable.L5 and lagrangePointModeCombo:getMode() == "LAG_ICONTEXT" then return "L5"
 	else return ""
 	end
 end
