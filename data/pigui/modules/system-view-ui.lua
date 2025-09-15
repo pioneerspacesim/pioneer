@@ -80,6 +80,127 @@ local buttonState = {
 	DISABLED      = {                                  state = colorset.dark }
 }
 
+--- A base-class to represent a combo dropdown state used to control the
+--- visibility of something in the system view. Whenever the update() function
+--- is called the visibility of the managed item is updated in the system view.
+--- Each option is a direct mapping to the corresponding system view visibility
+--- setting.
+local SystemViewComboState = {
+	new = function(self, o)
+		o = o or {}
+		setmetatable(o, self)
+		self.__index = self
+		return o
+	end,
+
+	--- The currently selected item
+	selectedItem = 0,
+	--- The human-readable strings to be displayed in the combo box
+	items = {
+	},
+	--- The system view display modes corresponding to each item in items.
+	displayModes = {
+	},
+
+	-- Returns the currently-selected mode
+	getMode = function(self)
+		return self.displayModes[self.selectedItem+1]
+	end,
+
+	-- update current mode and update the system view
+	update = function(self, args)
+		self.selectedItem = args.selectedItem or self.selectedItem
+		systemView:SetVisibility(self:getMode())
+	end
+}
+
+--- A base class extending the functionality of SystemViewComboState to provide
+--- for a separate on/off toggle.
+--- The options are only to select the display state, a separate state is
+--- defined for when the display mode should be Off.
+local SystemViewComboStateOnOff = SystemViewComboState:new {
+	--- Whether the system view item should be displayed or not
+	doDisplay = false,
+	--- The system view setting for when the item should not be displayed
+	displayModeOff = "",
+
+	--- Override the getMode() method to select between one of the displayModes
+	--- settings or the special displayOff setting
+	getMode = function(self)
+		if self.doDisplay then
+			return self.displayModes[self.selectedItem+1]
+		else
+			return self.displayModeOff
+		end
+	end,
+
+	-- Override the update() method
+	update = function(self, args)
+		if args.doDisplay ~= nil then
+			self.doDisplay = args.doDisplay
+		end
+		self.selectedItem = args.selectedItem or self.selectedItem
+		systemView:SetVisibility(self:getMode())
+	end,
+
+	-- Toggle visibility on/off
+	toggleDisplay = function(self)
+		self:update{doDisplay = not self.doDisplay}
+	end
+}
+
+local shipDisplayMode = SystemViewComboStateOnOff:new{
+	items = {
+		lc.SHIPS_DISPLAY_MODE_SHIPS_ONLY,
+		lc.SHIPS_DISPLAY_MODE_SHIPS_ORBITS
+	},
+	displayModes = {
+		"SHIPS_ON",
+		"SHIPS_ORBITS"
+	},
+	displayModeOff = "SHIPS_OFF"
+}
+
+local cloudDisplayMode = SystemViewComboStateOnOff:new{
+	items = {
+		lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL,
+		lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY,
+		lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY
+	},
+	displayModes = {
+		"CLOUDS_ON",
+		"CLOUDS_ARRIVAL",
+		"CLOUDS_DEPARTURE"
+	},
+	displayModeOff = "CLOUDS_OFF"
+}
+
+local gridDisplayMode = SystemViewComboState:new{
+	items = {
+		lc.GRID_DISPLAY_MODE_OFF,
+		lc.GRID_DISPLAY_MODE_GRID_ONLY,
+		lc.GRID_DISPLAY_MODE_GRID_AND_LEGS
+	},
+	displayModes = {
+		"GRID_OFF",
+		"GRID_ON",
+		"GRID_AND_LEGS"
+	},
+}
+
+local l4l5DisplayMode = SystemViewComboState:new{
+	items = {
+		lc.L4L5_DISPLAY_MODE_OFF,
+		lc.L4L5_DISPLAY_MODE_ICONS_ONLY,
+		lc.L4L5_DISPLAY_MODE_ICONS_AND_TEXT
+	},
+	displayModes = {
+		"LAG_OFF",
+		"LAG_ICON",
+		"LAG_ICONTEXT"
+	},
+}
+
 local onGameStart = function ()
 	--connect to class SystemView
 	systemView = Game.systemView
@@ -420,130 +541,6 @@ local economyView = {
 	end
 }
 
-local displayComboBaseBasic = {
-	new = function(self, o)
-		o = o or {}
-		setmetatable(o, self)
-		self.__index = self
-		return o
-	end,
-
-	selected = 0,
-	items = {
-	},
-	displayModes = {
-	},
-
-	-- Returns the currently-selected mode
-	getMode = function(self)
-		return self.displayModes[self.selected+1]
-	end,
-
-	-- update current mode and update the system view
-	update = function(self, args)
-		self.selected = args.selected or self.selected
-		systemView:SetVisibility(self:getMode())
-	end
-}
-
-local displayComboBase = {
-	new = function(self, o)
-		o = o or {}
-		setmetatable(o, self)
-		self.__index = self
-		return o
-	end,
-
-	displayOn = false,
-	selected = 0,
-	items = {
-	},
-	displayModes = {
-	},
-	displayOff = "",
-
-	-- Returns the currently-selected mode
-	getMode = function(self)
-		if self.displayOn then
-			return self.displayModes[self.selected+1]
-		else
-			return self.displayOff
-		end
-	end,
-
-	-- update current mode and update the system view
-	update = function(self, args)
-		if args.displayOn ~= nil then
-			self.displayOn = args.displayOn
-		end
-		self.selected = args.selected or self.selected
-
-		local on = self.displayOn and "ON" or "OFF"
-		print("Update called;  displayOn = " .. on .. ", selected = " .. self.selected)
-		systemView:SetVisibility(self:getMode())
-	end,
-
-	-- Toggle visibility on/off
-	toggleDisplay = function(self)
-		self:update{displayOn = not self.displayOn}
-	end
-}
-
-local shipModeCombo = displayComboBase:new{
-	items = {
-		lc.SHIPS_DISPLAY_MODE_SHIPS_ONLY,
-		lc.SHIPS_DISPLAY_MODE_SHIPS_ORBITS
-	},
-	displayModes = {
-		"SHIPS_ON",
-		"SHIPS_ORBITS"
-	},
-	displayOff = "SHIPS_OFF"
-}
-
-local gridModeCombo = displayComboBaseBasic:new{
-	items = {
-		lc.GRID_DISPLAY_MODE_OFF,
-		lc.GRID_DISPLAY_MODE_GRID_ONLY,
-		lc.GRID_DISPLAY_MODE_GRID_AND_LEGS
-	},
-	displayModes = {
-		"GRID_OFF",
-		"GRID_ON",
-		"GRID_AND_LEGS"
-	},
-	displayOff = "GRID_OFF"
-}
-
-local lagrangePointModeCombo = displayComboBaseBasic:new{
-	items = {
-		lc.L4L5_DISPLAY_MODE_OFF,
-		lc.L4L5_DISPLAY_MODE_ICONS_ONLY,
-		lc.L4L5_DISPLAY_MODE_ICONS_AND_TEXT
-	},
-	displayModes = {
-		"LAG_OFF",
-		"LAG_ICON",
-		"LAG_ICONTEXT"
-	},
-	displayOff = "LAG_OFF"
-}
-
-local cloudModeCombo = displayComboBase:new{
-	items = {
-		lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL,
-		lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY,
-		lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY
-	},
-	displayModes = {
-		"CLOUDS_ON",
-		"CLOUDS_ARRIVAL",
-		"CLOUDS_DEPARTURE"
-	},
-	displayOff = "CLOUDS_OFF"
-
-}
-
 ---@type UI.Sidebar.Module
 local settingsView = {
 	icon = icons.settings,
@@ -556,27 +553,27 @@ local settingsView = {
 				local c,ret
 
 				ui.text(lc.SHIPS_DISPLAY_MODE)
-				c,ret = ui.combo("##Ships", shipModeCombo.selected, shipModeCombo.items)
+				c,ret = ui.combo("##Ships", shipDisplayMode.selectedItem, shipDisplayMode.items)
 				if c then
-					shipModeCombo:update{selected = ret}
+					shipDisplayMode:update{selectedItem = ret}
 				end
 
 				ui.text(lc.L4L5_DISPLAY_MODE)
-				c,ret = ui.combo("##LagrangePoint", lagrangePointModeCombo.selected, lagrangePointModeCombo.items)
+				c,ret = ui.combo("##LagrangePoint", l4l5DisplayMode.selectedItem, l4l5DisplayMode.items)
 				if c then
-					lagrangePointModeCombo:update{selected = ret}
+					l4l5DisplayMode:update{selectedItem = ret}
 				end
 
 				ui.text(lc.GRID_DISPLAY_MODE)
-				c,ret = ui.combo("##Grid", gridModeCombo.selected, gridModeCombo.items)
+				c,ret = ui.combo("##Grid", gridDisplayMode.selectedItem, gridDisplayMode.items)
 				if c then
-					gridModeCombo:update{selected = ret}
+					gridDisplayMode:update{selectedItem = ret}
 				end
 
 				ui.text(lc.HYPERSPACE_CLOUDS_DISPLAY_MODE)
-				c,ret = ui.combo("##Cloud", cloudModeCombo.selected, cloudModeCombo.items)
+				c,ret = ui.combo("##Cloud", cloudDisplayMode.selectedItem, cloudDisplayMode.items)
 				if c then
-					cloudModeCombo:update{selected = ret}
+					cloudDisplayMode:update{selectedItem = ret}
 				end
 			end)
 		end
@@ -694,11 +691,11 @@ function Windows.edgeButtons.Show()
 		-- view settings buttons
 		if isOrrery then
 			ui.spacing()
-			if ui.mainMenuButton(icons.ships_no_orbits, lc.SHIPS_DISPLAY_MODE_TOGGLE, buttonState[shipModeCombo.displayOn].state) then
-				shipModeCombo:toggleDisplay()
+			if ui.mainMenuButton(icons.ships_no_orbits, lc.SHIPS_DISPLAY_MODE_TOGGLE, buttonState[shipDisplayMode.doDisplay].state) then
+				shipDisplayMode:toggleDisplay()
 			end
-			if ui.mainMenuButton(icons.hyperspace, lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE, buttonState[cloudModeCombo.displayOn].state) then
-				cloudModeCombo:toggleDisplay()
+			if ui.mainMenuButton(icons.hyperspace, lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE, buttonState[cloudDisplayMode.doDisplay].state) then
+				cloudDisplayMode:toggleDisplay()
 			end
 		end
 	end)
@@ -731,9 +728,9 @@ local function getLabel(obj)
 		elseif obj.base == Projectable.PLANNER then return ""
 		else return obj.ref:GetLabel() end
 	--elseif obj.type == Projectable.L4 and show_lagrange == "LAG_ICONTEXT" then return "L4"
-	elseif obj.type == Projectable.L4 and lagrangePointModeCombo:getMode() == "LAG_ICONTEXT" then return "L4"
+	elseif obj.type == Projectable.L4 and l4l5DisplayMode:getMode() == "LAG_ICONTEXT" then return "L4"
 	--elseif obj.type == Projectable.L4 and show_lagrange == "LAG_ICONTEXT" then return "L4"
-	elseif obj.type == Projectable.L5 and lagrangePointModeCombo:getMode() == "LAG_ICONTEXT" then return "L5"
+	elseif obj.type == Projectable.L5 and l4l5DisplayMode:getMode() == "LAG_ICONTEXT" then return "L5"
 	else return ""
 	end
 end
