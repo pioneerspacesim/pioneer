@@ -511,6 +511,10 @@
     "description": "like wheat or barley",
     "message": "Grain"
   },
+  "GRID_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for Grid display off.",
+    "message": "Grid Off"
+  },
   "GRID_DISPLAY_MODE_GRID_ONLY": {
     "description": "Combobox option for Grid Only",
     "message": "Grid Only"
@@ -714,6 +718,10 @@
   "JOYSTICK_INPUT": {
     "description": "",
     "message": "Joystick input"
+  },
+  "L4L5_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for lagrange point display off.",
+    "message": "Off"
   },
   "L4L5_DISPLAY_MODE_ICONS_ONLY": {
     "description": "Combobox option for lagrange point display as icons only.",

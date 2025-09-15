@@ -420,6 +420,32 @@ local economyView = {
 	end
 }
 
+local displayComboBaseBasic = {
+	new = function(self, o)
+		o = o or {}
+		setmetatable(o, self)
+		self.__index = self
+		return o
+	end,
+
+	selected = 0,
+	items = {
+	},
+	displayModes = {
+	},
+
+	-- Returns the currently-selected mode
+	getMode = function(self)
+		return self.displayModes[self.selected+1]
+	end,
+
+	-- update current mode and update the system view
+	update = function(self, args)
+		self.selected = args.selected or self.selected
+		systemView:SetVisibility(self:getMode())
+	end
+}
+
 local displayComboBase = {
 	new = function(self, o)
 		o = o or {}
@@ -475,24 +501,28 @@ local shipModeCombo = displayComboBase:new{
 	displayOff = "SHIPS_OFF"
 }
 
-local gridModeCombo = displayComboBase:new{
+local gridModeCombo = displayComboBaseBasic:new{
 	items = {
+		lc.GRID_DISPLAY_MODE_OFF,
 		lc.GRID_DISPLAY_MODE_GRID_ONLY,
 		lc.GRID_DISPLAY_MODE_GRID_AND_LEGS
 	},
 	displayModes = {
+		"GRID_OFF",
 		"GRID_ON",
 		"GRID_AND_LEGS"
 	},
 	displayOff = "GRID_OFF"
 }
 
-local lagrangePointModeCombo = displayComboBase:new{
+local lagrangePointModeCombo = displayComboBaseBasic:new{
 	items = {
+		lc.L4L5_DISPLAY_MODE_OFF,
 		lc.L4L5_DISPLAY_MODE_ICONS_ONLY,
 		lc.L4L5_DISPLAY_MODE_ICONS_AND_TEXT
 	},
 	displayModes = {
+		"LAG_OFF",
 		"LAG_ICON",
 		"LAG_ICONTEXT"
 	},
@@ -666,12 +696,6 @@ function Windows.edgeButtons.Show()
 			ui.spacing()
 			if ui.mainMenuButton(icons.ships_no_orbits, lc.SHIPS_DISPLAY_MODE_TOGGLE, buttonState[shipModeCombo.displayOn].state) then
 				shipModeCombo:toggleDisplay()
-			end
-			if ui.mainMenuButton(icons.lagrange_with_text, lc.L4L5_DISPLAY_MODE_TOGGLE, buttonState[lagrangePointModeCombo.displayOn].state) then
-				lagrangePointModeCombo:toggleDisplay()
-			end
-			if ui.mainMenuButton(icons.toggle_grid, lc.GRID_DISPLAY_MODE_TOGGLE, buttonState[gridModeCombo.displayOn].state) then
-				gridModeCombo:toggleDisplay()
 			end
 			if ui.mainMenuButton(icons.hyperspace, lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE, buttonState[cloudModeCombo.displayOn].state) then
 				cloudModeCombo:toggleDisplay()
