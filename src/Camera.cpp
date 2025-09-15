@@ -139,7 +139,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 	if (body && !frame->IsRotFrame() && (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)) {
 		vector3d lpos = frame->GetPositionRelTo(camFrame->GetId());
 
-		const Color &col = StarSystem::starRealColors[body->GetType()];
+		const Color &col = body->GetStarColor();
 
 		const Color lightCol(col[0], col[1], col[2], 0);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
@@ -205,7 +205,7 @@ void Camera::Update()
 				// limit the minimum billboard size for planets so they're always a little visible
 				attrs.billboardSize = std::max(1.0f, pixSize);
 				if (b->IsType(ObjectType::STAR)) {
-					attrs.billboardColor = StarSystem::starRealColors[b->GetSystemBody()->GetType()];
+					attrs.billboardColor = b->GetSystemBody()->GetStarColor();
 				} else if (b->IsType(ObjectType::PLANET)) {
 					// XXX this should incorporate some lighting effect
 					// (ie, colour of the illuminating star(s))

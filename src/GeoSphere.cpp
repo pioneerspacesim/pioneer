@@ -446,7 +446,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 		// stars should emit light and terrain should be visible from distance
 		ambient.r = ambient.g = ambient.b = 51;
 		ambient.a = 255;
-		emission = StarSystem::starRealColors[GetSystemBody()->GetType()];
+		emission = GetSystemBody()->GetStarColor();
 		emission.a = 255;
 	} else {
 		// give planet some ambient lighting if the viewer is close to it

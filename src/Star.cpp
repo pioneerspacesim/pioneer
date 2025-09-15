@@ -57,7 +57,7 @@ void Star::BuildHaloBuffer(Graphics::Renderer *renderer, double rad)
 	// build halo vertex buffer
 	Random rand;
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
-	const Color bright(StarSystem::starRealColors[GetSystemBody()->GetType()]);
+	const Color bright(GetSystemBody()->GetStarColor());
 	const Color dark(Color::BLANK);
 
 	va.Add(vector3f(0.f), bright);

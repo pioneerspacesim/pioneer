@@ -271,6 +271,7 @@ public:
 		// which is rendered when the body has a small screen size
 		return Color(200, 200, 200, 255);
 	}
+	Color GetStarColor() const;
 
 	// Returns color, density in kg/m^3 at sea level
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const
