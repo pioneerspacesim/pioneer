@@ -1441,11 +1441,11 @@
   },
   "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
     "description": "Combobox option for ships only.",
-    "message": "Ship Only"
+    "message": "Ships Only"
   },
   "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
     "description": "Combobox option for ships with orbits.",
-    "message": "Ship with Orbits"
+    "message": "Ships with Orbits"
   },
   "SHIPS_DISPLAY_MODE": {
     "description": "Label for ship display modes.",
