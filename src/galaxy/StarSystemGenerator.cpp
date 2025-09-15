@@ -28,6 +28,14 @@ static const fixed AU_SOL_RADIUS = fixed(305, 65536);
 static const fixed AU_EARTH_RADIUS = fixed(3, 65536); // XXX Duplication from StarSystem.cpp
 static const fixed FIXED_PI = fixed(103993, 33102);	  // XXX Duplication from StarSystem.cpp
 static const double CELSIUS = 273.15;
+static const fixed ONEEUMASS = fixed::FromDouble(1);
+static const fixed TWOHUNDREDEUMASSES = fixed::FromDouble(200.0);
+
+// Estimate "prototype" body radius from sphere-density formula:
+// Convert 1 Earth Mass to a volume in cubic megameters (10^18 * m^3) then premultiply by 3/4pi
+static const fixedf<48> EARTH_MASS_TO_VOL_MM3 = fixedf<48>(2599, 10); // 259.901 = (3 / EARTH_DENSITY / 4*PI) * 5.9742
+// Convert a distance in megameters to earth radii
+static const fixedf<48> MM_TO_EARTH_RAD = fixedf<48>(15678, 100000);
 
 // max surface gravity for a permanent human settlement
 static const double MAX_SETTLEMENT_SURFACE_GRAVITY = 50; // m/s2 .. roughly 5 g
@@ -655,20 +663,20 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 	const SystemBody *star = FindStarAndTrueOrbitalRange(sbody, minDistToStar, maxDistToStar);
 	averageDistToStar = (minDistToStar + maxDistToStar) >> 1;
 
-	/* first calculate blackbody temp (no greenhouse effect, zero albedo) */
-	int bbody_temp = CalcSurfaceTemp(star, averageDistToStar, albedo, greenhouse);
+	// first calculate blackbody temp (no greenhouse effect, zero albedo)
+	sbody->m_averageTemp = CalcSurfaceTemp(star, averageDistToStar, albedo, greenhouse);
 
-	sbody->m_averageTemp = bbody_temp;
-
-	static const fixed ONEEUMASS = fixed::FromDouble(1);
-	static const fixed TWOHUNDREDEUMASSES = fixed::FromDouble(200.0);
 	// We get some more fractional bits for small bodies otherwise we can easily end up with 0 radius which breaks stuff elsewhere
 	//
 	// AndyC - Updated to use the empirically gathered data from this site:
 	// https://phl.upr.edu/library/labnotes/standard-mass-radius-relation-for-exoplanets
 	// but we still limit at the lowest end
 	if (sbody->GetMassAsFixed() <= fixed(1, 1)) {
-		sbody->m_radius = fixed(fixedf<48>::CubeRootOf(fixedf<48>(sbody->GetMassAsFixed())));
+		// We know the upper bound on this value is +259.9, so 16 integer bits is fine.
+		fixedf<48> vol = fixedf<48>(sbody->GetMassAsFixed()) * EARTH_MASS_TO_VOL_MM3;
+		// If the cube-root continues to underflow, pre-shift vol left by 6 bits, then post-shift the result by 2 bits.
+		// sbody->m_radius = (fixedf<48>::CubeRootOf(vol << 6) >> 2) * MM_TO_EARTH_RAD;
+		sbody->m_radius = fixedf<48>::CubeRootOf(vol) * MM_TO_EARTH_RAD;
 	} else if (sbody->GetMassAsFixed() < ONEEUMASS) {
 		// smaller than 1 Earth mass is almost certainly a rocky body
 		sbody->m_radius = fixed::FromDouble(pow(sbody->GetMassAsFixed().ToDouble(), 0.3));
