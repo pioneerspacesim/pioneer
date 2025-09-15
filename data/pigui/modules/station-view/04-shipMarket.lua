@@ -519,7 +519,7 @@ local tradeMenu = function()
 end
 
 shipMarket = Table.New("shipMarketWidget", false, {
-	columnCount = 4,
+	columnCount = 5,
 	initTable = function(self)
 		local iconColumnWidth = widgetSizes.iconSize.x + widgetSizes.itemSpacing.x
 		local columnWidth = (self.style.size.x - iconColumnWidth) / (self.columnCount-1)
@@ -527,6 +527,7 @@ shipMarket = Table.New("shipMarketWidget", false, {
 		ui.setColumnWidth(1, columnWidth)
 		ui.setColumnWidth(2, columnWidth)
 		ui.setColumnWidth(3, columnWidth)
+		ui.setColumnWidth(4, columnWidth)
 	end,
 	renderHeaderRow = function(_)
 		ui.withFont(orbiteer.heading, function()
@@ -537,6 +538,8 @@ shipMarket = Table.New("shipMarketWidget", false, {
 			ui.text(l.PRICE)
 			ui.nextColumn()
 			ui.text(l.CAPACITY)
+			ui.nextColumn()
+			ui.text(l.CARGO)
 			ui.nextColumn()
 		end)
 	end,
@@ -565,7 +568,10 @@ shipMarket = Table.New("shipMarketWidget", false, {
 			ui.text(Format.Money(advertDataCache[item].price, false))
 			ui.nextColumn()
 			ui.dummy(widgetSizes.rowVerticalSpacing)
-			ui.text(item.def.equipCapacity.." t")
+			ui.text(item.def.equipCapacity .." t")
+			ui.nextColumn()
+			ui.dummy(widgetSizes.rowVerticalSpacing)
+			ui.text(item.def.cargo .." t")
 			ui.nextColumn()
 		end)
 	end,
