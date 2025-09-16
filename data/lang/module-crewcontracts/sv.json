@@ -17,11 +17,11 @@
   },
   "CREW_FOR_HIRE": {
     "description": "",
-    "message": "Arbetssökande besättning"
+    "message": "Arbetssökande"
   },
   "CREW_FOR_HIRE_DESC": {
     "description": "",
-    "message": "Potentiella bestättningsmän tillgängliga för tjänst på den här stationen."
+    "message": "Potentiell besättning tillgänglig för anställning på den här stationen."
   },
   "CREW_FOR_HIRE_TITLE": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "POTENTIAL_CREW_MEMBERS": {
     "description": "",
-    "message": "Potentiella bestättningsmän som är registrerade som arbetssökande på {station}:"
+    "message": "Potentiella besättningsmedlemmar registrerade som arbetssökande på {station}:"
   },
   "SIMULATOR_TRAINING_ONLY": {
     "description": "",
