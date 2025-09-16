@@ -6,13 +6,14 @@
 
 GalaxyConfig::GalaxyConfig()
 {
-	// set defaults
-	std::map<std::string, std::string> &map = m_map[""];
-	map["GalaxyExploredMax"] = "90";
-	map["GalaxyExploredMin"] = "65";
-	map["GalaxyExploredMix"] = "40";
-
 	Read(FileSystem::userFiles, "galaxy.ini");
 
-	Save();
+	// set defaults
+	SetInt("GalaxyExploredMax", 90);
+	SetInt("GalaxyExploredMin", 65);
+	SetInt("GalaxyExploredMix", 40);
+
+	if (HasUnsavedChanges()) {
+		Save();
+	}
 }
