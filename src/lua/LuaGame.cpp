@@ -6,6 +6,7 @@
 #include "DeathView.h"
 #include "FileSystem.h"
 #include "Game.h"
+#include "GameConfig.h"
 #include "GameSaveError.h"
 #include "Json.h"
 #include "Lang.h"
@@ -738,6 +739,75 @@ static int l_game_get_parts_from_date_time(lua_State *l)
 	return 6;
 }
 
+template<typename T>
+static int l_game_get_config(lua_State *l)
+{
+	// Restrict the template function to only a few types
+	static_assert(
+		std::is_same_v<T, bool> ||
+		std::is_same_v<T, int> ||
+		std::is_same_v<T, float> ||
+		std::is_same_v<T, std::string>
+	);
+
+	if (lua_isnone(l, 1)) {
+		return luaL_error(l, "GetConfig takes at least a key argument");
+	}
+	int arg = 1;
+	std::string section = std::string();
+	if (!lua_isnone(l, 2)) {
+		section = LuaPull<std::string>(l, arg++);
+	}
+	const std::string key = LuaPull<std::string>(l, arg++);
+	T value;
+	if constexpr (std::is_same_v<std::decay_t<T>,bool>) {
+		value = Pi::config->Int(section, key, 0) == 0? false : true;
+	} else if constexpr (std::is_same_v<std::decay_t<T>,int>) {
+		value = Pi::config->Int(section, key, 0);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,float>) {
+		value = Pi::config->Float(section, 0.0f);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,std::string>) {
+		value = Pi::config->String(section, "");
+	} else {
+		return luaL_error(l, "GetConfig was invoked with an unsupported type.");
+	}
+	LuaPush(l, value);
+	return 1;
+}
+template<typename T>
+static int l_game_set_config(lua_State *l)
+{
+	// Restrict the template function to only a few types
+	static_assert(
+		std::is_same_v<T, bool> ||
+		std::is_same_v<T, int> ||
+		std::is_same_v<T, float> ||
+		std::is_same_v<T, std::string>
+	);
+
+	if (lua_isnone(l, 1) || lua_isnone(l, 2))
+		return luaL_error(l, "SetConfig takes at least a key and a value argument");
+	int arg = 1;
+	std::string section = std::string();
+	if (!lua_isnone(l, 3)) {
+		section = LuaPull<std::string>(l, arg++);
+	}
+	const std::string key = LuaPull<std::string>(l, arg++);
+	const T value = LuaPull<T>(l, arg++);
+	if constexpr (std::is_same_v<std::decay_t<T>,bool>) {
+		Pi::config->SetInt(section, key, value == 0? 0 : 1);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,int>) {
+		Pi::config->SetInt(section, key, value);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,float>) {
+		Pi::config->SetFloat(section, key, value);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,std::string>) {
+		Pi::config->SetString(section, key, value);
+	} else {
+		return luaL_error(l, "GetConfig was invoked with an unsupported type.");
+	}
+	return 0;
+}
+
 void LuaGame::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -768,6 +838,15 @@ void LuaGame::Register()
 
 		{ "SetWorldCamType", l_game_set_world_cam_type },
 		{ "GetWorldCamType", l_game_get_world_cam_type },
+
+		{ "GetConfigBool", l_game_get_config<bool> },
+		{ "SetConfigBool", l_game_set_config<bool> },
+		{ "GetConfigInt", l_game_get_config<int> },
+		{ "SetConfigInt", l_game_set_config<int> },
+		{ "GetConfigFloat", l_game_get_config<float> },
+		{ "SetConfigFloat", l_game_set_config<float> },
+		{ "GetConfigString", l_game_get_config<std::string> },
+		{ "SetConfigString", l_game_set_config<std::string> },
 
 		{ 0, 0 }
 	};
