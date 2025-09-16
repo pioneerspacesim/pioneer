@@ -119,14 +119,14 @@ local SystemViewComboState = {
 	-- loads the configuration and applies it
 	loadConfig = function(self)
 		self:update{
-			selectedItem = Game.GetConfigInt(self.configKeySelectedItem)
+			selectedItem = Game.GetConfigInt("SystemView", self.configKeySelectedItem)
 		}
 		print("Loaded " .. self.configKeySelectedItem .. ", value=" .. self.selectedItem)
 	end,
 
 	-- saves the configuration
 	saveConfig = function(self)
-		Game.SetConfigInt(self.configKeySelectedItem, self.selectedItem)
+		Game.SetConfigInt("SystemView", self.configKeySelectedItem, self.selectedItem)
 		print("Saved " .. self.configKeySelectedItem .. ", value=" .. self.selectedItem)
 	end
 }
@@ -166,8 +166,8 @@ local SystemViewComboStateOnOff = SystemViewComboState:new {
 	-- Override the loadConfig() method
 	loadConfig = function(self)
 		self:update{
-			selectedItem = Game.GetConfigInt(self.configKeySelectedItem),
-			doDisplay = Game.GetConfigBool(self.configKeyDoDisplay)
+			selectedItem = Game.GetConfigInt("SystemView", self.configKeySelectedItem),
+			doDisplay = Game.GetConfigBool("SystemView", self.configKeyDoDisplay)
 		}
 		local doDisplayStr = self.doDisplay and "TRUE" or "FALSE"
 		print("Loaded " .. self.configKeySelectedItem .. ", selectedItem=" ..
@@ -176,8 +176,8 @@ local SystemViewComboStateOnOff = SystemViewComboState:new {
 
 	-- saves the configuration
 	saveConfig = function(self)
-		Game.SetConfigInt(self.configKeySelectedItem, self.selectedItem)
-		Game.SetConfigBool(self.configKeyDoDisplay, self.doDisplay)
+		Game.SetConfigInt("SystemView", self.configKeySelectedItem, self.selectedItem)
+		Game.SetConfigBool("SystemView", self.configKeyDoDisplay, self.doDisplay)
 		print("Saved " .. self.configKeySelectedItem .. ", value=" .. self.selectedItem)
 		local doDisplayStr = self.doDisplay and "TRUE" or "FALSE"
 		print("Saved " .. self.configKeyDoDisplay .. ", value=" .. doDisplayStr)
@@ -199,8 +199,8 @@ local shipDisplayMode = SystemViewComboStateOnOff:new{
 		"SHIPS_ORBITS"
 	},
 	displayModeOff = "SHIPS_OFF",
-	configKeySelectedItem = "SystemView.ShipDisplayMode",
-	configKeyDoDisplay = "SystemView.ShipDisplayModeOn"
+	configKeySelectedItem = "ShipDisplayMode",
+	configKeyDoDisplay = "ShipDisplayModeOn"
 }
 
 local cloudDisplayMode = SystemViewComboStateOnOff:new{
@@ -215,8 +215,8 @@ local cloudDisplayMode = SystemViewComboStateOnOff:new{
 		"CLOUDS_DEPARTURE"
 	},
 	displayModeOff = "CLOUDS_OFF",
-	configKeySelectedItem = "SystemView.CloudDisplayMode",
-	configKeyDoDisplay = "SystemView.CloudDisplayModeOn"
+	configKeySelectedItem = "CloudDisplayMode",
+	configKeyDoDisplay = "CloudDisplayModeOn"
 }
 
 local gridDisplayMode = SystemViewComboState:new{
@@ -230,7 +230,7 @@ local gridDisplayMode = SystemViewComboState:new{
 		"GRID_ON",
 		"GRID_AND_LEGS"
 	},
-	configKeySelectedItem = "SystemView.GridDisplayMode",
+	configKeySelectedItem = "GridDisplayMode",
 }
 
 local l4l5DisplayMode = SystemViewComboState:new{
@@ -244,7 +244,7 @@ local l4l5DisplayMode = SystemViewComboState:new{
 		"LAG_ICON",
 		"LAG_ICONTEXT"
 	},
-	configKeySelectedItem = "SystemView.L4L5DisplayMode",
+	configKeySelectedItem = "L4L5DisplayMode",
 }
 
 local onGameStart = function ()
@@ -269,6 +269,7 @@ local onGameEnd = function ()
 	cloudDisplayMode:saveConfig()
 	gridDisplayMode:saveConfig()
 	l4l5DisplayMode:saveConfig()
+	Engine.SaveSettings()
 end
 
 local onEnterSystem = function (ship)
