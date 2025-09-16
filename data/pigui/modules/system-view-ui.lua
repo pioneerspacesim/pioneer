@@ -102,6 +102,9 @@ local SystemViewComboState = {
 	displayModes = {
 	},
 
+	--- The configuration key
+	configKeySelectedItem = "",
+
 	-- Returns the currently-selected mode
 	getMode = function(self)
 		return self.displayModes[self.selectedItem+1]
@@ -111,6 +114,20 @@ local SystemViewComboState = {
 	update = function(self, args)
 		self.selectedItem = args.selectedItem or self.selectedItem
 		systemView:SetVisibility(self:getMode())
+	end,
+
+	-- loads the configuration and applies it
+	loadConfig = function(self)
+		self:update{
+			selectedItem = Game.GetConfigInt(self.configKeySelectedItem)
+		}
+		print("Loaded " .. self.configKeySelectedItem .. ", value=" .. self.selectedItem)
+	end,
+
+	-- saves the configuration
+	saveConfig = function(self)
+		Game.SetConfigInt(self.configKeySelectedItem, self.selectedItem)
+		print("Saved " .. self.configKeySelectedItem .. ", value=" .. self.selectedItem)
 	end
 }
 
@@ -134,6 +151,9 @@ local SystemViewComboStateOnOff = SystemViewComboState:new {
 		end
 	end,
 
+	--- Configuration key for doDisplay
+	configKeyDoDisplay = "",
+
 	-- Override the update() method
 	update = function(self, args)
 		if args.doDisplay ~= nil then
@@ -141,6 +161,26 @@ local SystemViewComboStateOnOff = SystemViewComboState:new {
 		end
 		self.selectedItem = args.selectedItem or self.selectedItem
 		systemView:SetVisibility(self:getMode())
+	end,
+
+	-- Override the loadConfig() method
+	loadConfig = function(self)
+		self:update{
+			selectedItem = Game.GetConfigInt(self.configKeySelectedItem),
+			doDisplay = Game.GetConfigBool(self.configKeyDoDisplay)
+		}
+		local doDisplayStr = self.doDisplay and "TRUE" or "FALSE"
+		print("Loaded " .. self.configKeySelectedItem .. ", selectedItem=" ..
+			self.selectedItem .. ", doDisplay=" .. doDisplayStr)
+	end,
+
+	-- saves the configuration
+	saveConfig = function(self)
+		Game.SetConfigInt(self.configKeySelectedItem, self.selectedItem)
+		Game.SetConfigBool(self.configKeyDoDisplay, self.doDisplay)
+		print("Saved " .. self.configKeySelectedItem .. ", value=" .. self.selectedItem)
+		local doDisplayStr = self.doDisplay and "TRUE" or "FALSE"
+		print("Saved " .. self.configKeyDoDisplay .. ", value=" .. doDisplayStr)
 	end,
 
 	-- Toggle visibility on/off
@@ -158,7 +198,9 @@ local shipDisplayMode = SystemViewComboStateOnOff:new{
 		"SHIPS_ON",
 		"SHIPS_ORBITS"
 	},
-	displayModeOff = "SHIPS_OFF"
+	displayModeOff = "SHIPS_OFF",
+	configKeySelectedItem = "SystemView.ShipDisplayMode",
+	configKeyDoDisplay = "SystemView.ShipDisplayModeOn"
 }
 
 local cloudDisplayMode = SystemViewComboStateOnOff:new{
@@ -172,7 +214,9 @@ local cloudDisplayMode = SystemViewComboStateOnOff:new{
 		"CLOUDS_ARRIVAL",
 		"CLOUDS_DEPARTURE"
 	},
-	displayModeOff = "CLOUDS_OFF"
+	displayModeOff = "CLOUDS_OFF",
+	configKeySelectedItem = "SystemView.CloudDisplayMode",
+	configKeyDoDisplay = "SystemView.CloudDisplayModeOn"
 }
 
 local gridDisplayMode = SystemViewComboState:new{
@@ -186,6 +230,7 @@ local gridDisplayMode = SystemViewComboState:new{
 		"GRID_ON",
 		"GRID_AND_LEGS"
 	},
+	configKeySelectedItem = "SystemView.GridDisplayMode",
 }
 
 local l4l5DisplayMode = SystemViewComboState:new{
@@ -199,6 +244,7 @@ local l4l5DisplayMode = SystemViewComboState:new{
 		"LAG_ICON",
 		"LAG_ICONTEXT"
 	},
+	configKeySelectedItem = "SystemView.L4L5DisplayMode",
 }
 
 local onGameStart = function ()
@@ -209,7 +255,20 @@ local onGameStart = function ()
 		systemView:SetColor(key, svColor[key])
 	end
 	-- update visibility states
-	-- TODO: load from settings
+	print("Loading SystemView display mode configuration")
+	shipDisplayMode:loadConfig()
+	cloudDisplayMode:loadConfig()
+	gridDisplayMode:loadConfig()
+	l4l5DisplayMode:loadConfig()
+end
+
+local onGameEnd = function ()
+	-- save visibility states
+	print("Saving SystemView display mode configuration")
+	shipDisplayMode:saveConfig()
+	cloudDisplayMode:saveConfig()
+	gridDisplayMode:saveConfig()
+	l4l5DisplayMode:saveConfig()
 end
 
 local onEnterSystem = function (ship)
@@ -1122,6 +1181,7 @@ local function displaySystemViewUI()
 end
 
 Event.Register("onGameStart", onGameStart)
+Event.Register("onGameEnd", onGameEnd)
 Event.Register("onEnterSystem", onEnterSystem)
 ui.registerHandler("SystemView", ui.makeFullScreenHandler("SystemView", displaySystemViewUI))
 
