@@ -1,19 +1,26 @@
-material DefaultMaterial
-tex_diff newbuilding.dds
-tex_glow glowmap.dds
-tex_spec specular.dds
-diffuse 1.0 1.0 1.0
-specular 0.6 0.6 0.8
-shininess 40
-use_patterns
+version 2
 
-lod 6
-mesh newbuilding6LQ.obj
+material "DefaultMaterial" {
+	shader "multi"
+	texture diffuse  "newbuilding.dds"
+	texture glow     "glowmap.dds"
+	texture specular "specular.dds"
+	diffuse 1.0 1.0 1.0
+	specular 0.6 0.6 0.8
+	shininess 40
+	use_patterns
+}
 
-lod 30
-mesh newbuilding6MQ.obj
+lod 6 {
+	mesh "newbuilding6LQ.obj"
+}
 
-lod 100
-mesh newbuilding6HQ.obj
+lod 30 {
+	mesh "newbuilding6MQ.obj"
+}
 
-collision newbuilding6LQ.obj
+lod 100 {
+	mesh "newbuilding6HQ.obj"
+}
+
+collision "newbuilding6LQ.obj"

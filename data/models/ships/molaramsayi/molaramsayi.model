@@ -1,23 +1,30 @@
-material Fuselage
-diffuse 1.0 1.0 1.0
-specular 0.9 0.9 0.9
-shininess 69
-use_patterns
+version 2
 
-tex_diff molaramsayi_diff.dds
-tex_spec molaramsayi_spec.dds
-tex_glow molaramsayi_glow.dds
-tex_norm molaramsayi_norm.dds
+material "Fuselage" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.9 0.9 0.9
+	shininess 69
+	use_patterns
 
-lod 300
-mesh molaramsayi_hi.dae
+	texture diffuse  "molaramsayi_diff.dds"
+	texture specular "molaramsayi_spec.dds"
+	texture glow     "molaramsayi_glow.dds"
+	texture normal   "molaramsayi_norm.dds"
+}
 
-lod 50
-mesh molaramsayi_med.dae
+lod 300 {
+	mesh "molaramsayi_hi.dae"
+}
 
-lod 10
-mesh molaramsayi_low.dae
+lod 50 {
+	mesh "molaramsayi_med.dae"
+}
 
-collision molaramsayi_col.dae
+lod 10 {
+	mesh "molaramsayi_low.dae"
+}
 
-anim gear_down 0 100
+collision "molaramsayi_col.dae"
+
+anim "gear_down" 0 100

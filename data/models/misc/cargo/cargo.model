@@ -1,9 +1,15 @@
-material cargo
-tex_diff cargopod.dds
-tex_glow glow.dds
-tex_spec specular.dds
-specular 0.7 0.7 0.7
-shininess 40
-use_patterns
+version 2
 
-mesh cargopod.dae
+material "cargo" {
+	shader "multi"
+	texture diffuse  "cargopod.dds"
+	texture glow     "glow.dds"
+	texture specular "specular.dds"
+	specular 0.7 0.7 0.7
+	shininess 40
+	use_patterns
+}
+
+lod 100 {
+	mesh "cargopod.dae"
+}
