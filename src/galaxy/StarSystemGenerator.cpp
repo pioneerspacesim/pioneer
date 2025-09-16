@@ -33,7 +33,7 @@ static const fixed TWOHUNDREDEUMASSES = fixed::FromDouble(200.0);
 
 // Estimate "prototype" body radius from sphere-density formula:
 // Convert 1 Earth Mass to a volume in cubic megameters (10^18 * m^3) then premultiply by 3/4pi
-static const fixedf<48> EARTH_MASS_TO_VOL_MM3 = fixedf<48>(2599, 10); // 259.901 = (3 / EARTH_DENSITY / 4*PI) * 5.9742
+static const fixedf<48> EARTH_MASS_TO_VOL_MM3 = fixedf<48>(25946, 100); // 259.46 = (3 / EARTH_DENSITY / 4*PI) * 5.9742
 // Convert a distance in megameters to earth radii
 static const fixedf<48> MM_TO_EARTH_RAD = fixedf<48>(15678, 100000);
 
