@@ -1,1 +1,7 @@
-mesh lodos_shield.dae
+version 2
+
+lod 100 {
+	mesh "lodos_shield.dae"
+}
+
+
