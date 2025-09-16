@@ -104,4 +104,32 @@ function Game.GetWorldCamType() end
 ---@param type string
 function Game.SetWorldCamType(type) end
 
+---@return boolean value
+---@param string key
+function Game.GetConfigBool(key) end
+---@param string key
+---@param boolean value
+function Game.SetConfigBool(key, value) end
+
+---@return integer value
+---@param string key
+function Game.GetConfigInt(key) end
+---@param string key
+---@param integer value
+function Game.SetConfigInt(key, value) end
+
+---@return number value
+---@param string key
+function Game.GetConfigFloat(key) end
+---@param string key
+---@param number value
+function Game.SetConfigFloat(key, value) end
+
+---@return string value
+---@param string key
+function Game.GetConfigString(key) end
+---@param string key
+---@param string value
+function Game.SetConfigString(key, value) end
+
 return Game

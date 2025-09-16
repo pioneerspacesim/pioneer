@@ -6,6 +6,7 @@
 #include "DeathView.h"
 #include "FileSystem.h"
 #include "Game.h"
+#include "GameConfig.h"
 #include "GameSaveError.h"
 #include "Json.h"
 #include "Lang.h"
@@ -738,6 +739,82 @@ static int l_game_get_parts_from_date_time(lua_State *l)
 	return 6;
 }
 
+static int l_game_get_config_bool(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "GetConfigBool takes a string key argument");
+	const std::string key = LuaPull<std::string>(l, 1);
+	bool value = Pi::config->Int(key) != 0;
+	LuaPush(l, value);
+	return 1;
+}
+static int l_game_set_config_bool(lua_State *l)
+{
+	if (lua_isnone(l, 1) || lua_isnone(l, 2))
+		return luaL_error(l, "SetConfigInt takes a string key and an integer value argument");
+	const std::string key = LuaPull<std::string>(l, 1);
+	bool value = LuaPull<bool>(l, 2);
+	Pi::config->SetInt(key, value? 1 : 0);
+	return 0;
+}
+
+static int l_game_get_config_int(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "GetConfigInt takes a string key argument");
+	const std::string key = LuaPull<std::string>(l, 1);
+	int value = Pi::config->Int(key);
+	LuaPush(l, value);
+	return 1;
+}
+static int l_game_set_config_int(lua_State *l)
+{
+	if (lua_isnone(l, 1) || lua_isnone(l, 2))
+		return luaL_error(l, "SetConfigInt takes a string key and an integer value argument");
+	const std::string key = LuaPull<std::string>(l, 1);
+	int value = LuaPull<int>(l, 2);
+	Pi::config->SetInt(key, value);
+	return 0;
+}
+
+static int l_game_get_config_float(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "GetConfigFloat takes a string key argument");
+	const std::string key = LuaPull<std::string>(l, 1);
+	float value = Pi::config->Float(key);
+	LuaPush(l, value);
+	return 1;
+}
+static int l_game_set_config_float(lua_State *l)
+{
+	if (lua_isnone(l, 1) || lua_isnone(l, 2))
+		return luaL_error(l, "SetConfigFloat takes a string key and a number value argument");
+	const std::string key = LuaPull<std::string>(l, 1);
+	float value = LuaPull<float>(l, 2);
+	Pi::config->SetFloat(key, value);
+	return 0;
+}
+
+static int l_game_get_config_string(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "GetConfigString takes a string key argument");
+	const std::string key = LuaPull<std::string>(l, 1);
+	std::string value = Pi::config->String(key);
+	LuaPush(l, value);
+	return 1;
+}
+static int l_game_set_config_string(lua_State *l)
+{
+	if (lua_isnone(l, 1) || lua_isnone(l, 2))
+		return luaL_error(l, "SetConfigString takes a string key and a string value argument");
+	const std::string key = LuaPull<std::string>(l, 1);
+	const std::string value = LuaPull<std::string>(l, 2);
+	Pi::config->SetString(key, value);
+	return 0;
+}
+
 void LuaGame::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -768,6 +845,15 @@ void LuaGame::Register()
 
 		{ "SetWorldCamType", l_game_set_world_cam_type },
 		{ "GetWorldCamType", l_game_get_world_cam_type },
+
+		{ "GetConfigBool", l_game_get_config_bool },
+		{ "SetConfigBool", l_game_set_config_bool },
+		{ "GetConfigInt", l_game_get_config_int },
+		{ "SetConfigInt", l_game_set_config_int },
+		{ "GetConfigFloat", l_game_get_config_float },
+		{ "SetConfigFloat", l_game_set_config_float },
+		{ "GetConfigString", l_game_get_config_string },
+		{ "SetConfigString", l_game_set_config_string },
 
 		{ 0, 0 }
 	};
