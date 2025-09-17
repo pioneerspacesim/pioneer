@@ -739,43 +739,6 @@ static int l_game_get_parts_from_date_time(lua_State *l)
 	return 6;
 }
 
-// Helper functions for the generic l_game_get_config and l_game_set_config
-// template functions since C++ does not have a "static_if" yet.
-// TODO: These should probably go into "IniConfig.h"..
-static inline void getConfigValue(const std::string& section, const std::string& key, bool& value)
-{
-	value = Pi::config->Int(section, key, 0) != 0;
-}
-static inline void getConfigValue(const std::string& section, const std::string& key, int& value)
-{
-	value = Pi::config->Int(section, key, 0);
-}
-static inline void getConfigValue(const std::string& section, const std::string& key, float& value)
-{
-	value = Pi::config->Float(section, key, 0);
-}
-static inline void getConfigValue(const std::string& section, const std::string& key, std::string& value)
-{
-	value = Pi::config->String(section, key, 0);
-}
-
-static inline void setConfigValue(const std::string& section, const std::string& key, const bool& value)
-{
-	Pi::config->SetInt(section, key, value? 1 : 0);
-}
-static inline void setConfigValue(const std::string& section, const std::string& key, const int& value)
-{
-	Pi::config->SetInt(section, key, value);
-}
-static inline void setConfigValue(const std::string& section, const std::string& key, const float& value)
-{
-	Pi::config->SetFloat(section, key, value);
-}
-static inline void setConfigValue(const std::string& section, const std::string& key, const std::string& value)
-{
-	Pi::config->SetString(section, key, value);
-}
-
 template<typename T>
 static int l_game_get_config(lua_State *l)
 {
@@ -797,7 +760,17 @@ static int l_game_get_config(lua_State *l)
 	}
 	const std::string key = LuaPull<std::string>(l, arg++);
 	T value;
-	getConfigValue(section, key, value);
+	if constexpr (std::is_same_v<std::decay_t<T>,bool>) {
+		value = Pi::config->Int(section, key, 0) == 0? false : true;
+	} else if constexpr (std::is_same_v<std::decay_t<T>,int>) {
+		value = Pi::config->Int(section, key, 0);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,float>) {
+		value = Pi::config->Float(section, 0.0f);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,std::string>) {
+		value = Pi::config->String(section, "");
+	} else {
+		return luaL_error(l, "GetConfig was invoked with an unsupported type.");
+	}
 	LuaPush(l, value);
 	return 1;
 }
@@ -821,7 +794,17 @@ static int l_game_set_config(lua_State *l)
 	}
 	const std::string key = LuaPull<std::string>(l, arg++);
 	const T value = LuaPull<T>(l, arg++);
-	setConfigValue(section, key, value);
+	if constexpr (std::is_same_v<std::decay_t<T>,bool>) {
+		Pi::config->SetInt(section, key, value == 0? 0 : 1);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,int>) {
+		Pi::config->SetInt(section, key, value);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,float>) {
+		Pi::config->SetFloat(section, key, value);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,std::string>) {
+		Pi::config->SetString(section, key, value);
+	} else {
+		return luaL_error(l, "GetConfig was invoked with an unsupported type.");
+	}
 	return 0;
 }
 
