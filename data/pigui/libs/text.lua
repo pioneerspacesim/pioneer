@@ -286,12 +286,8 @@ ui.Format = {
 			return string.format(fmt, mass / 1e18), lc.UNIT_PETATONNES
 		elseif m < EARTH_MASS * 1e3 then
 			return oldFmt(lc.N_EARTH_MASSES, { mass = mass / EARTH_MASS }), ""
-			-- fmt = "%0." .. (digits or 3) .. "f"
-			--return string.format(fmt, mass / EARTH_MASS), "EM" -- Should be: "M🜨"
 		end
 		return oldFmt(lc.N_SOLAR_MASSES, { mass = mass / SOL_MASS }), ""
-		-- fmt = "%0." .. (digits or 3) .. "f"
-		--return string.format(fmt, mass / SOL_MASS), "SM" -- Should be : "M☉"
 	end,
 	Mass = function(mass, digits)
 		local m, u = ui.Format.MassUnit(mass, digits)
