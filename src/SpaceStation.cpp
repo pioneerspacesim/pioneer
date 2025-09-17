@@ -875,8 +875,8 @@ void SpaceStation::LockPort(const int bay, const bool lockIt)
 }
 
 matrix4x4d SpaceStation::GetBayTransform(Uint32 bay) const {
-	matrix4x4d bayTrans = matrix4x4d::Translation(GetPosition()) * GetOrient();
-	bayTrans = bayTrans * matrix4x4d(m_type->GetStageTransform(bay, DockStage::DOCKED));
+	matrix4x4d bayTrans = matrix4x4d::Translation(GetPosition()) * GetOrient().Normalized() * m_type->GetStageTransform(bay, DockStage::DOCKED);
+	bayTrans.Renormalize();
 	return bayTrans;
 }
 
