@@ -92,8 +92,8 @@ public:
 	T LengthSqr() const { return x * x + y * y; }
 	vector2 Normalized() const
 	{
-		const T invlen = 1.0f / sqrt(x * x + y * y);
-		return vector2(x * invlen, y * invlen);
+		const T len = sqrt(x * x + y * y);
+		return vector2(x / len, y / len);
 	}
 	vector2 NormalizedSafe() const
 	{
@@ -101,8 +101,8 @@ public:
 		if (lenSqr < 1e-18) // sqrt(lenSqr) < 1e-9
 			return vector2(1, 0);
 		else {
-			const T invlen = sqrt(lenSqr);
-			return vector2(x / invlen, y / invlen);
+			const T len = sqrt(lenSqr);
+			return vector2(x / len, y / len);
 		}
 	}
 	vector2 Rotate(T alpha) // Rotate around center
