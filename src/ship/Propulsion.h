@@ -60,10 +60,12 @@ public:
 	// corresponds to the thrust from GetThrust().
 	double ClampLinThrusterState(int axis, double level) const;
 	vector3d ClampLinThrusterState(const vector3d &levels) const;
+	vector3d ClampLinThrust(const vector3d &levels) const;
 
 	// A level of 1 corresponds to the thrust from GetThrust().
 	void SetLinThrusterState(int axis, double level);
 	void SetLinThrusterState(const vector3d &levels);
+	void SetLinThrust(const vector3d &levels);
 
 	inline void SetAngThrusterState(int axis, double level) { m_angThrusters[axis] = Clamp(level, -1.0, 1.0); }
 	void SetAngThrusterState(const vector3d &levels);

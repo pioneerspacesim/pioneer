@@ -147,6 +147,17 @@ vector3d Propulsion::ClampLinThrusterState(const vector3d &levels) const
 	return clamped;
 }
 
+vector3d Propulsion::ClampLinThrust(const vector3d &levels) const
+{
+	vector3d clamped = levels;
+
+	clamped.x = Clamp(clamped.x, -1.0, 1.0);
+	clamped.y = Clamp(clamped.y, -1.0, 1.0);
+	clamped.z = Clamp(clamped.z, -1.0, 1.0);
+
+	return clamped;
+}
+
 void Propulsion::SetLinThrusterState(int axis, double level)
 {
 	if (m_thrusterFuel <= 0.f) level = 0.0;
@@ -159,6 +170,15 @@ void Propulsion::SetLinThrusterState(const vector3d &levels)
 		m_linThrusters = vector3d(0.0);
 	} else {
 		m_linThrusters = ClampLinThrusterState(levels);
+	}
+}
+
+void Propulsion::SetLinThrust(const vector3d &levels)
+{
+	if (m_thrusterFuel <= 0.f) {
+		m_linThrusters = vector3d(0.0);
+	} else {
+		m_linThrusters = ClampLinThrust(levels);
 	}
 }
 
@@ -341,7 +361,8 @@ bool Propulsion::AIChangeVelBy(const vector3d &diffvel, const vector3d &powerLim
 		Clamp(intdvGoal.y / intdv.y, -powerLimit.y, powerLimit.y),
 		Clamp(intdvGoal.z / intdv.z, -powerLimit.z, powerLimit.z));
 
-	SetLinThrusterState(thrust); // use clamping
+	SetLinThrust(thrust); // no clamping
+
 	if (thrust.x * thrust.x > 1.0 || thrust.y * thrust.y > 1.0 || thrust.z * thrust.z > 1.0) return false;
 	return true;
 }
