@@ -885,8 +885,8 @@ double SpaceStation::GetDockAnimStageDuration(int bay, DockStage stage) const
 	if (stage == DockStage::NONE) return 0.0;
 	if (m_type->IsSurfaceStation()) return 0.0;
 	auto dt = m_shipDocking[bay];
-	vector3f p1 = vector3f(dt.fromPos);
-	vector3f p2 = m_type->GetStageTransform(bay, stage).GetTranslate();
+	vector3d p1 = dt.fromPos;
+	vector3d p2 = m_type->GetStageTransform(bay, stage).GetTranslate();
 	float stageLength = (p2 - p1).Length();
 	float averageVelocity = stage == m_type->LastDockStage() ? 10 : 30; // m/s
 	return stageLength / averageVelocity;
@@ -896,8 +896,8 @@ double SpaceStation::GetUndockAnimStageDuration(int bay, DockStage stage) const
 {
 	if (m_type->IsSurfaceStation()) return 0.0;
 	auto dt = m_shipDocking[bay];
-	vector3f p1 = vector3f(dt.fromPos);
-	vector3f p2 = m_type->GetStageTransform(bay, stage).GetTranslate();
+	vector3d p1 = dt.fromPos;
+	vector3d p2 = m_type->GetStageTransform(bay, stage).GetTranslate();
 	float stageLength = (p2 - p1).Length();
 	float averageVelocity = 10; // m/s
 	return stageLength / averageVelocity;
