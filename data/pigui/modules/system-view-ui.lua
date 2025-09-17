@@ -80,11 +80,17 @@ local buttonState = {
 	DISABLED      = {                                  state = colorset.dark }
 }
 
---- A base-class to represent a combo dropdown state used to control the
+--- @param s string A string to test
+--- @return boolean if string "s" is nil or the empty string
+local function isEmptyString(s)
+	return s == nil or s == ""
+end
+
+--- A helper-class to represent a combo dropdown state used to control the
 --- visibility of something in the system view. Whenever the update() function
 --- is called the visibility of the managed item is updated in the system view.
---- Each option is a direct mapping to the corresponding system view visibility
---- setting.
+--- Options in the drop-down map to direct systemview visibility settings and
+--- optionally there is support for a separate on/off toggle as well.
 local SystemViewComboState = {
 	new = function(self, o)
 		o = o or {}
@@ -101,60 +107,31 @@ local SystemViewComboState = {
 	--- The system view display modes corresponding to each item in items.
 	displayModes = {
 	},
+	--- Whether the system view item should be displayed or not. This is only
+	--- used when "displayModeOff" is not nil or empty.
+	--- If "displayModeOff" is nil or empty, the "Off" system view mode should
+	--- be part of "displayModes".
+	doDisplay = false,
+	--- The system view setting for when the item should not be displayed. When
+	--- this is set, "configKeyDoDisplay" should also be set in order to
+	--- correctly save the configuration.
+	displayModeOff = nil,
 
-	--- The configuration key
+	--- The game configuration key
 	configKeySelectedItem = "",
+	--- The game configuration key for doDisplay, should only be set if
+	--- "displayModeOff" has been set.
+	configKeyDoDisplay = nil,
 
 	-- Returns the currently-selected mode
 	getMode = function(self)
+		if not self.doDisplay and not isEmptyString(self.displayModeOff) then
+			return self.displayModeOff
+		end
 		return self.displayModes[self.selectedItem+1]
 	end,
 
 	-- update current mode and update the system view
-	update = function(self, args)
-		self.selectedItem = args.selectedItem or self.selectedItem
-		systemView:SetVisibility(self:getMode())
-	end,
-
-	-- loads the configuration and applies it
-	loadConfig = function(self)
-		self:update{
-			selectedItem = Game.GetConfigInt("SystemView", self.configKeySelectedItem)
-		}
-		print("Loaded " .. self.configKeySelectedItem .. ", value=" .. self.selectedItem)
-	end,
-
-	-- saves the configuration
-	saveConfig = function(self)
-		Game.SetConfigInt("SystemView", self.configKeySelectedItem, self.selectedItem)
-		print("Saved " .. self.configKeySelectedItem .. ", value=" .. self.selectedItem)
-	end
-}
-
---- A base class extending the functionality of SystemViewComboState to provide
---- for a separate on/off toggle.
---- The options are only to select the display state, a separate state is
---- defined for when the display mode should be Off.
-local SystemViewComboStateOnOff = SystemViewComboState:new {
-	--- Whether the system view item should be displayed or not
-	doDisplay = false,
-	--- The system view setting for when the item should not be displayed
-	displayModeOff = "",
-
-	--- Override the getMode() method to select between one of the displayModes
-	--- settings or the special displayOff setting
-	getMode = function(self)
-		if self.doDisplay then
-			return self.displayModes[self.selectedItem+1]
-		else
-			return self.displayModeOff
-		end
-	end,
-
-	--- Configuration key for doDisplay
-	configKeyDoDisplay = "",
-
-	-- Override the update() method
 	update = function(self, args)
 		if args.doDisplay ~= nil then
 			self.doDisplay = args.doDisplay
@@ -163,33 +140,35 @@ local SystemViewComboStateOnOff = SystemViewComboState:new {
 		systemView:SetVisibility(self:getMode())
 	end,
 
-	-- Override the loadConfig() method
+	-- loads the configuration and applies it
 	loadConfig = function(self)
+		local selectedItemSetting = Game.GetConfigInt("SystemView", self.configKeySelectedItem)
+		local doDisplaySetting = false
+		if not isEmptyString(self.configKeyDoDisplay) then
+			doDisplaySetting = Game.GetConfigBool("SystemView", self.configKeyDoDisplay)
+		end
 		self:update{
-			selectedItem = Game.GetConfigInt("SystemView", self.configKeySelectedItem),
-			doDisplay = Game.GetConfigBool("SystemView", self.configKeyDoDisplay)
+			doDisplay = doDisplaySetting,
+			selectedItem = selectedItemSetting
 		}
-		local doDisplayStr = self.doDisplay and "TRUE" or "FALSE"
-		print("Loaded " .. self.configKeySelectedItem .. ", selectedItem=" ..
-			self.selectedItem .. ", doDisplay=" .. doDisplayStr)
 	end,
 
 	-- saves the configuration
 	saveConfig = function(self)
 		Game.SetConfigInt("SystemView", self.configKeySelectedItem, self.selectedItem)
-		Game.SetConfigBool("SystemView", self.configKeyDoDisplay, self.doDisplay)
-		print("Saved " .. self.configKeySelectedItem .. ", value=" .. self.selectedItem)
-		local doDisplayStr = self.doDisplay and "TRUE" or "FALSE"
-		print("Saved " .. self.configKeyDoDisplay .. ", value=" .. doDisplayStr)
+		if not isEmptyString(self.configKeyDoDisplay) then
+			Game.SetConfigBool("SystemView", self.configKeyDoDisplay, self.doDisplay)
+		end
 	end,
 
-	-- Toggle visibility on/off
+	--- Toggle visibility on/off
+	--- This function is only active if the "displayModeOff" member is set
 	toggleDisplay = function(self)
 		self:update{doDisplay = not self.doDisplay}
 	end
 }
 
-local shipDisplayMode = SystemViewComboStateOnOff:new{
+local shipDisplayMode = SystemViewComboState:new{
 	items = {
 		lc.SHIPS_DISPLAY_MODE_SHIPS_ONLY,
 		lc.SHIPS_DISPLAY_MODE_SHIPS_ORBITS
@@ -203,7 +182,7 @@ local shipDisplayMode = SystemViewComboStateOnOff:new{
 	configKeyDoDisplay = "ShipDisplayModeOn"
 }
 
-local cloudDisplayMode = SystemViewComboStateOnOff:new{
+local cloudDisplayMode = SystemViewComboState:new{
 	items = {
 		lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL,
 		lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY,
