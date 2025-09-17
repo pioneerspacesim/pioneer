@@ -40,6 +40,7 @@ namespace SceneGraph {
 		//create a material from definition and add it to m_model
 		RefCountedPtr<Graphics::Material> ConvertMaterialDefinition(const MaterialDefinition &, const Graphics::VertexFormatDesc &vtxFormat);
 
+		ModelDefinition *LoadModelDefinition(std::string_view modelPath);
 
 		//find pattern texture files from the model directory
 		void FindPatterns(PatternContainer &output);

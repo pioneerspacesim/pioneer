@@ -114,7 +114,7 @@ void SetupRenderer()
 void RunCompiler(const std::string &modelName, const std::string &filepath, const bool bInPlace)
 {
 	PROFILE_SCOPED()
-	Profiler::Timer timer;
+	Profiler::Clock timer;
 	timer.Start();
 	Output("\n---\nStarting compiler for (%s)\n", modelName.c_str());
 
@@ -143,7 +143,7 @@ void RunCompiler(const std::string &modelName, const std::string &filepath, cons
 	}
 
 	timer.Stop();
-	Output("Compiling \"%s\" took: %lf\n", modelName.c_str(), timer.millicycles());
+	Output("Compiling \"%s\" took: %0.2fms\n", modelName.c_str(), timer.milliseconds());
 }
 
 // ********************************************************************************

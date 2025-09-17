@@ -290,7 +290,7 @@ namespace Graphics {
 
 			// Bind texture sampler locations to texture units
 			for (auto &texInfo : shader->GetTextureBindings()) {
-				GLuint location = glGetUniformLocation(m_program, shader->GetString(texInfo.name).c_str());
+				GLuint location = glGetUniformLocation(m_program, shader->GetString(texInfo.bindName).c_str());
 				if (location == GL_INVALID_INDEX)
 					continue;
 
