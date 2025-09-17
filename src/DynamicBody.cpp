@@ -187,6 +187,8 @@ vector3d DynamicBody::CalcAtmosphericForce() const
 
 void DynamicBody::CalcExternalForce()
 {
+	m_externalForce = vector3d(0.0);
+
 	// gravity
 	Frame *f = Frame::GetFrame(GetFrame());
 	if (!f) return; // no external force if not in a frame
@@ -194,12 +196,12 @@ void DynamicBody::CalcExternalForce()
 	if (body && !body->IsType(ObjectType::SPACESTATION)) { // they ought to have mass though...
 		vector3d b1b2 = GetPosition();
 		double m1m2 = GetMass() * body->GetMass();
-		double invrsqr = 1.0 / b1b2.LengthSqr();
-		double force = G * m1m2 * invrsqr;
-		m_externalForce = -b1b2 * sqrt(invrsqr) * force;
+		double sqr = b1b2.LengthSqr();
+		double force = G * m1m2 / sqr;
+		m_gravityForce = -b1b2 * force / sqrt(sqr);
 	} else
-		m_externalForce = vector3d(0.0);
-	m_gravityForce = m_externalForce;
+		m_gravityForce = vector3d(0.0);
+	m_externalForce += m_gravityForce;
 
 	// atmospheric drag
 	if (body && f->IsRotFrame() && body->IsType(ObjectType::PLANET)) {
@@ -213,10 +215,9 @@ void DynamicBody::CalcExternalForce()
 			m_atmosForce = f1g;
 		else
 			m_atmosForce = fAtmoForce;
-
-		m_externalForce += m_atmosForce;
 	} else
 		m_atmosForce = vector3d(0.0);
+	m_externalForce += m_atmosForce;
 
 	// centrifugal and coriolis forces for rotating frames
 	if (f->IsRotFrame()) {
