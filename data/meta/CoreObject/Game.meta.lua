@@ -112,7 +112,7 @@ function Game.SetWorldCamType(type) end
 --- Options are saved into sections and identified by unique keys within that
 --- section. The global section is identified by the empty string ("").
 ---
---- Options are only saved to disk when the Engine.SaveSettings() call is
+--- Options are only saved to disk when Engine.SaveSettings() is
 --- explicitly called, so there is no significant performance overhead or
 --- disk/SSD wear when loading/saving the options via the getters and setters.
 ---
