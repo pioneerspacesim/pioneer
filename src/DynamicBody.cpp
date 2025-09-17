@@ -239,7 +239,7 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		if (len > 1e-16) {
 			vector3d axis = m_angVel * (1.0 / len);
 			matrix3x3d r = matrix3x3d::Rotate(len * timeStep, axis);
-			SetOrient(r * GetOrient());
+			SetOrient(r * GetOrient().Normalized());
 		}
 		m_oldAngDisplacement = m_angVel * timeStep;
 
