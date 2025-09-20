@@ -7,6 +7,10 @@
     "description": "",
     "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
   },
+  "FLAVOUR_PIRATE": {
+    "description": "",
+    "message": "Ever noticed how the rise in global temperature since the 18th century coincides with the waning of piracy in the same era? If you think this is a coincidence then think again! Support your local pirate in need - for the sake of our climate, if not out of brotherly love."
+  },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
     "message": "Please select an amount to donate to the Church of the Celestial Flying Spaghetti Monster."
