@@ -85,7 +85,7 @@
   },
   "BODY_IN_ROUTE": {
     "description": "Label indicating a star is part of a planned hyperjump route",
-    "message": "Body in planned HyperJump Route"
+    "message": "Kropp i planerad hyperrymdsrutt"
   },
   "BOOKMARK": {
     "description": "Label introducing a bookmark",
@@ -2065,19 +2065,19 @@
   },
   "PUMP_DOWN_FROM_CARGO_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t from cargo"
+    "message": "Pumpa %i ton från lastrum"
   },
   "PUMP_DOWN_FROM_HYPERDRIVE_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t from hyperdrive to fuel tanks"
+    "message": "Pumpa %i ton från hypermotor till bränsletank"
   },
   "PUMP_DOWN_TO_CARGO_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t to cargo"
+    "message": "Pumpa %i ton till lastrum"
   },
   "PUMP_DOWN_TO_HYPERDRIVE_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t to hyperdrive from fuel tanks"
+    "message": "Pumpa %i ton till hypermotor från bränsletank"
   },
   "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
