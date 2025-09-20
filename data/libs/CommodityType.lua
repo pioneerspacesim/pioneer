@@ -1,6 +1,7 @@
 -- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Engine = require 'Engine'
 local Lang = require 'Lang'
 local Serializer = require 'Serializer'
 local utils = require 'utils'
@@ -67,10 +68,26 @@ function CommodityType:Constructor(name, data)
 	for k, v in pairs(data) do self[k] = v end
 
 	local l = Lang.GetResource(self.l10n_resource)
+
+	-- This function returns the number of flavours of the given string str
+	-- It is assumed that the first flavour has suffix '_1'
+	local getNumberOfFlavours = function (str)
+		local num = 1
+
+		while l:get(str .. num) do
+			num = num + 1
+		end
+		return num - 1
+	end
+
+	local numriskmessages = getNumberOfFlavours(self.l10n_key .. "_RISK_MESSAGE_")
+
 	---@type { name: string, description: string }
+	--local numriskmessage = getNumberOfFlavours( "_RISK_MESSAGE")
 	self.lang = {
 		name = l[self.l10n_key],
-		description = l:get(self.l10n_key .. "_DESCRIPTION") or ""
+		description = l:get(self.l10n_key .. "_DESCRIPTION") or "",
+		numriskmessages = numriskmessages
 	}
 end
 
@@ -86,6 +103,21 @@ end
 -- Returns the translated description of this commodity
 function CommodityType:GetDescription()
 	return self.lang.description
+end
+
+-- Method: GetRiskMessage()
+--
+-- Returns alternative string for possible danger of the mission. Not all
+-- cargo has the same danger involved.
+function CommodityType:GetRiskMessage()
+	local l = Lang.GetResource(self.l10n_resource)
+
+	print("numrisk: " .. self.lang.numriskmessages)
+	local riskmessage = Engine.rand:Integer(self.lang.numriskmessages)
+	print("riskmessage: " .. riskmessage)
+	local string = l:get(self.l10n_key .. "_RISK_MESSAGE_" .. riskmessage) or ""
+	print("string: " .. string)
+	return string
 end
 
 ---@type table<string, CommodityType>
