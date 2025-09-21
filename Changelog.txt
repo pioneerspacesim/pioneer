@@ -1,3 +1,23 @@
+September
+  * New Features
+    * Improve the follow modes for too far ranges (#6190)
+    * Show the return location in the mission list, if available (#6200)
+
+  * Fixes
+    * Fix game slowdown after jettisoning A LOT of cargo (#6139)
+
+  * Internal
+    * Scenegraph .model Format v2 (#6206)
+
+August
+  * New Features
+    * UI: target radial support hyperspace clouds (#6180)
+    * UI: rework target scanner display (#6181)
+    * Add tooltip for pump down buttons on info view (#6193)
+
+  * Fixes
+    * Fix crash when weapons fired (#6203)
+
 July
   * Internal
     * Save settings to disk when closing the settings window (#6179)
