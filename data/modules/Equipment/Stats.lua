@@ -21,7 +21,7 @@ local EquipType = EquipTypes.EquipType
 
 local format_integrity = function(v) return string.format("%d%%", v * 100) end
 local format_mass = function(v) return ui.Format.Mass(v * 1000, 1) end
-local format_power = function(v) return string.format("%.1f KW", v) end
+local format_power = function(v) return string.format("%.1f kW", v) end
 local format_multiplier = function(v) return string.format("%.1fx", v) end
 
 ---@return EquipType.UI.Stats[]
@@ -64,7 +64,7 @@ end
 local LaserType = EquipTypes.LaserType
 
 local format_rpm = function(v) return string.format("%d RPM", v == 0 and 0 or 60 / v) end
-local format_speed = function(v) return string.format("%.1f%s", v, lc.UNIT_METERS_PER_SECOND) end
+local format_speed = function(v) return string.format("%.1f %s", v, lc.UNIT_METERS_PER_SECOND) end
 
 function LaserType:GetDetailedStats()
 	local out = self:Super().GetDetailedStats(self)
@@ -94,7 +94,7 @@ end
 
 --==============================================================================
 
-local format_efficiency = function(v) return string.format("%d%s", v, le.UNIT_HYPERDRIVE_EFFICIENCY) end
+local format_efficiency = function(v) return string.format("%d %s", v, le.UNIT_HYPERDRIVE_EFFICIENCY) end
 
 ---@class Equipment.HyperdriveType
 local HyperdriveType = EquipTypes.HyperdriveType
@@ -110,7 +110,7 @@ end
 
 --==============================================================================
 
-local format_damage = function(v) return string.format("%d%s", v, le.UNIT_WARHEAD_DAMAGE) end
+local format_damage = function(v) return string.format("%d %s", v, le.UNIT_WARHEAD_DAMAGE) end
 
 ---@class Equipment.MissileType
 local MissileType = EquipTypes.MissileType
