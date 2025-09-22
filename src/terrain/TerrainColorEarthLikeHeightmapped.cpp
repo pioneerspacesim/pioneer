@@ -23,6 +23,17 @@ TerrainColorFractal<TerrainColorEarthLikeHeightmapped>::TerrainColorFractal(cons
 template <>
 vector3d TerrainColorFractal<TerrainColorEarthLikeHeightmapped>::GetColor(const vector3d &p, double height, const vector3d &norm) const
 {
+#if 0
+	// debug colour code
+	// if within city region set colour to debug pink
+	for (size_t ii = 0; ii < m_positions.size(); ii++) { //used for 2 vecs
+		const vector3d &pos = m_positions[ii];
+		if (pos.Dot(p) >= m_regionTypes[ii].outer) {
+			return vector3d(1, 0, 1);
+		}
+	}
+	return vector3d(.3, .3, .3);
+#endif
 	double n = m_invMaxHeight * height;
 	double flatness = pow(p.Dot(norm), 8.0);
 
