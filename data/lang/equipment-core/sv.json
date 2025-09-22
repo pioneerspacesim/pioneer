@@ -617,7 +617,7 @@
   },
   "PASSENGER_BERTHS": {
     "description": "Label for the total number of passenger berths in a cabin equipment item",
-    "message": "Passenger Berths"
+    "message": "Passagerarplatser"
   },
   "PASSENGER_CABIN": {
     "description": "",
@@ -753,7 +753,7 @@
   },
   "SLOT_ENGINE": {
     "description": "Name for the ship's primary travel engines",
-    "message": "Engines"
+    "message": "Motorer"
   },
   "SLOT_HULL": {
     "description": "Name for an equipment slot that augments or modifies the ship hull",
@@ -809,7 +809,7 @@
   },
   "STAT_HYPERDRIVE_RESERVOIR": {
     "description": "",
-    "message": "Fuel Reservoir Size"
+    "message": "Bränslebehållare"
   },
   "STAT_MISSILE_RADIUS": {
     "description": "",
@@ -821,7 +821,7 @@
   },
   "STAT_POWER_DRAW": {
     "description": "Stat label for equipment power draw",
-    "message": "Power Draw"
+    "message": "Energiförbrukning"
   },
   "STAT_SHIELD": {
     "description": "Stat name for shield generator effectiveness.",
