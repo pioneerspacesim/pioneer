@@ -201,8 +201,17 @@ double SystemBody::GetAtmPressure(double altitude) const
 	const double lapseRate_L = surfaceGravity_g / specificHeat; // deg/m
 	const double surfaceTemperature_T0 = GetAverageTemp();	//K
 
-	return m_atmosPressure * pow((1 - lapseRate_L * altitude / surfaceTemperature_T0),
-		(specificHeat * gasMolarMass / GAS_CONSTANT_R)); // in ATM since p0 was in ATM
+	// pressure below tropopause
+	const double atmosPressure = m_atmosPressure * pow((1 - lapseRate_L * altitude / surfaceTemperature_T0),
+					(specificHeat * gasMolarMass / GAS_CONSTANT_R)); // in ATM since p0 was in ATM
+
+	if (atmosPressure > 0.1) {
+		return atmosPressure;
+	} else {
+		// above tropopause
+		const double tropopauseTemp = GetAtmAverageTemp(m_tropopause);
+		return 0.1 * exp((-surfaceGravity_g * gasMolarMass * (altitude - m_tropopause)) / (GAS_CONSTANT_R * tropopauseTemp));
+	}
 }
 
 double SystemBody::GetAtmDensity(double altitude, double pressure) const
@@ -217,6 +226,10 @@ double SystemBody::GetAtmAverageTemp(double altitude) const
 {
 	// temperature at height
 	const double lapseRate_L = CalcSurfaceGravity() / GetSpecificHeat(GetSuperType()); // deg/m
+	if (altitude > m_tropopause) {
+		return double(GetAverageTemp()) - lapseRate_L * m_tropopause;
+	}
+
 	return double(GetAverageTemp()) - lapseRate_L * altitude;
 }
 
@@ -241,7 +254,18 @@ void SystemBody::SetAtmFromParameters()
 		// want height for pressure 0.001 atm:
 		// h = (1 - exp(RL/gM * log(P/p0))) * T0 / l
 		double RLdivgM = (GAS_CONSTANT_R * lapseRate_L) / (surfaceGravity_g * GetMolarMass(GetSuperType()));
-		m_atmosRadius = (1.0 - exp(RLdivgM * log(0.001 / m_atmosPressure))) * surfaceTemperature_T0 / lapseRate_L;
+//		m_atmosRadius = (1.0 - exp(RLdivgM * log(0.001 / m_atmosPressure))) * surfaceTemperature_T0 / lapseRate_L;
+
+		// get tropopause: height for pressure 0.1 atm
+		m_tropopause = (1.0 - exp(RLdivgM * log(0.1 / m_atmosPressure))) * surfaceTemperature_T0 / lapseRate_L;
+
+		// if tropopause is below surface (surface pressure < 0.1 atm)
+		if (m_tropopause < 0.0) {
+			m_tropopause = 0.0;
+		}
+
+		double tropopause_temperature = surfaceTemperature_T0 - lapseRate_L * m_tropopause;
+		m_atmosRadius = log(0.001 / 0.1) * GAS_CONSTANT_R * tropopause_temperature / (-surfaceGravity_g * GetMolarMass(GetSuperType())) + m_tropopause;
 	}
 }
 
@@ -347,7 +371,7 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 	const double massPlanet_in_kg = (m_mass.ToDouble() * EARTH_MASS);
 	const double g = G * massPlanet_in_kg / (radiusPlanet_in_m * radiusPlanet_in_m);
 
-	double T = static_cast<double>(m_averageTemp);
+	double T = static_cast<double>(GetAtmAverageTemp(m_tropopause));
 
 	// XXX hack to avoid issues with sysgen giving 0 temps
 	// temporary as part of sysgen needs to be rewritten before the proper fix can be used
@@ -361,17 +385,17 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 
 	// min of 2.0 corresponds to a scale height of 1/20 of the planet's radius,
 	params.atmosInvScaleHeight = std::max(20.0f, static_cast<float>(GetRadius() / atmosScaleHeight));
-	// integrate atmospheric density between surface and this radius. this is 10x the scale
-	// height, which should be a height at which the atmospheric density is negligible
-	params.atmosRadius = 1.0f + static_cast<float>(10.0f * atmosScaleHeight) / GetRadius();
+	params.atmosRadius = 1.0f + static_cast<float>(m_atmosRadius) / radiusPlanet_in_m;
 
 	params.planetRadius = static_cast<float>(radiusPlanet_in_m);
 
 	const float radiusPlanet_in_km = radiusPlanet_in_m / 1000;
 	const float atmosHeight_in_km = radiusPlanet_in_km * (params.atmosRadius - 1);
+	const float tropopause_in_km = static_cast<float>(m_tropopause / 1000);
 	params.rayleighCoefficients = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, atmosScaleHeight);
 	params.mieCoefficients = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, atmosScaleHeight / 6.66); // 7994 / 1200 = 6.61
 	params.scaleHeight = vector2f(atmosScaleHeight, atmosScaleHeight / 6.66);
+	params.tropoHeight = vector2f(tropopause_in_km, tropopause_in_km / 6.66);
 
 	return params;
 }
