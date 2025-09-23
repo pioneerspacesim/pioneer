@@ -565,7 +565,7 @@
   },
   "OCCUPIED_BERTHS": {
     "description": "Label for the number of passenger berths currently occupied in a cabin equipment item",
-    "message": "Occupied Berths"
+    "message": "Upptagna passagerarplatser"
   },
   "OKB_KALURI_BOWFIN_MISSILE_RACK": {
     "description": "Equipment name for an OKB-Kaluri Bowfin internal missile launcher",
