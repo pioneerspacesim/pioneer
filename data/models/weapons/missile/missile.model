@@ -1,4 +1,10 @@
-material Missile
-tex_diff diffuse.dds
+version 2
 
-mesh missile.dae
+material "Missile" {
+	shader "multi"
+	texture diffuse  "diffuse.dds"
+}
+
+lod 100 {
+	mesh "missile.dae"
+}

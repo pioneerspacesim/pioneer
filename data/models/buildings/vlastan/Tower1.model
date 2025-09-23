@@ -1,18 +1,25 @@
-material Tower1
-tex_diff Tower1_D.dds
-tex_glow Tower1_G.dds
-tex_spec Tower1_S.dds
-diffuse 1.0 1.0 1.0
-specular 1.0 1.0 1.0
-shininess 70
+version 2
 
-lod 50
-mesh Tower1LQ.obj
+material "Tower1" {
+	shader "multi"
+	texture diffuse  "Tower1_D.dds"
+	texture glow     "Tower1_G.dds"
+	texture specular "Tower1_S.dds"
+	diffuse 1.0 1.0 1.0
+	specular 1.0 1.0 1.0
+	shininess 70
+}
 
-lod 70
-mesh Tower1MQ.obj
+lod 50 {
+	mesh "Tower1LQ.obj"
+}
 
-lod 100
-mesh Tower1HQ.obj
+lod 70 {
+	mesh "Tower1MQ.obj"
+}
 
-collision Tower1LQ.obj
+lod 100 {
+	mesh "Tower1HQ.obj"
+}
+
+collision "Tower1LQ.obj"

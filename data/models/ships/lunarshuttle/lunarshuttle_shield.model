@@ -1,1 +1,7 @@
-mesh lunar_shuttle_shield.dae
+version 2
+
+lod 100 {
+	mesh "lunar_shuttle_shield.dae"
+}
+
+

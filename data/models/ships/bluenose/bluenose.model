@@ -1,21 +1,27 @@
-material Fuselage
-diffuse 1.0 1.0 1.0
-specular 0.8 0.8 0.8
-use_patterns
-tex_diff bluenose_diff.dds
-tex_spec bluenose_spec.dds
-tex_glow bluenose_glow.dds
-tex_norm bluenose_norm.png
+version 2
 
-lod 300
-mesh bluenose_hi.dae
+material "Fuselage" {
+	diffuse 1.0 1.0 1.0
+	specular 0.8 0.8 0.8
+	texture diffuse  "bluenose_diff.dds"
+	texture specular "bluenose_spec.dds"
+	texture glow     "bluenose_glow.dds"
+	texture normal   "bluenose_norm.png"
+	use_patterns
+}
 
-lod 100
-mesh bluenose_med.dae
+lod 300 {
+	mesh "bluenose_hi.dae"
+}
 
-lod 50
-mesh bluenose_low.dae
+lod 100 {
+	mesh "bluenose_med.dae"
+}
 
-anim gear_down 1 121
+lod 50 {
+	mesh "bluenose_low.dae"
+}
 
-collision bluenose_collision.dae
+anim "gear_down" 1 121
+
+collision "bluenose_collision.dae"

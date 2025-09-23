@@ -1,16 +1,23 @@
-material Material
-diffuse 1.0 1.0 1.0
-specular 0.8 0.8 0.8
-use_patterns
-tex_diff nerodia_tex.dds
-tex_spec nerodia_spec.dds
-tex_glow nerodia_glow.dds
-mesh nerodia.dae
+version 2
 
-anim gear_down 1 80
+material "Material" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.8 0.8 0.8
+	use_patterns
+	texture diffuse  "nerodia_tex.dds"
+	texture specular "nerodia_spec.dds"
+	texture glow     "nerodia_glow.dds"
+}
 
-collision nerodia_col.obj 
+lod 100 {
+	mesh "nerodia.dae"
+}
 
+lod 75 {
+	mesh "nerodia_LOD.dae"
+}
 
-lod 75
-mesh nerodia_LOD.dae
+anim "gear_down" 1 80
+
+collision "nerodia_col.obj"

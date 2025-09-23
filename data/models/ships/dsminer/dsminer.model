@@ -1,20 +1,24 @@
-material fuselage
-tex_diff dsminer_diff.dds
-tex_spec dsminer_spec.dds
-tex_glow dsminer_glow.dds
-use_patterns
-diffuse 1.0 1.0 1.0
-specular 1.0 1.0 1.0
-shininess 80
+version 2
 
+material "fuselage" {
+	shader "multi"
+	texture diffuse  "dsminer_diff.dds"
+	texture specular "dsminer_spec.dds"
+	texture glow     "dsminer_glow.dds"
+	use_patterns
+	diffuse 1.0 1.0 1.0
+	specular 1.0 1.0 1.0
+	shininess 80
+}
 
-lod 1000
-mesh dsminer_hi.dae
+lod 1000 {
+	mesh "dsminer_hi.dae"
+}
 
-lod 100
-mesh dsminer_med.dae
+lod 100 {
+	mesh "dsminer_med.dae"
+}
 
-collision dsminer_col.dae
+collision "dsminer_col.dae"
 
-
-anim gear_down 0 133
+anim "gear_down" 0 133

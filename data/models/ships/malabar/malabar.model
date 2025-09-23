@@ -1,18 +1,24 @@
-material malabar
-diffuse 1.0 1.0 1.0
-specular 0.9 0.9 0.9
-shininess 100
-use_patterns
-tex_diff malabar_diff.dds
-tex_glow malabar_glow.dds
-tex_spec malabar_spec.dds
+version 2
 
-lod 300
-mesh malabar_hi.dae
+material "malabar" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.9 0.9 0.9
+	shininess 100
+	use_patterns
+	texture diffuse  "malabar_diff.dds"
+	texture glow     "malabar_glow.dds"
+	texture specular "malabar_spec.dds"
+}
 
-lod 100
-mesh malabar_med.dae
+lod 300 {
+	mesh "malabar_hi.dae"
+}
 
-collision malabar_col.dae
+lod 100 {
+	mesh "malabar_med.dae"
+}
 
-anim gear_down 0 122
+collision "malabar_col.dae"
+
+anim "gear_down" 0 122

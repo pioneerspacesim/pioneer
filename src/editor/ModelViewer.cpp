@@ -500,10 +500,16 @@ void ModelViewer::DrawModelSelector()
 	}
 
 	if (ImGui::BeginChild("FileList")) {
+		// Use ImGui::PushID()/PopID() to make all entries unique
+		// fixes issue with `sinonatrix_cockpit.model`
+		int i = 0;
 		for (const auto &name : m_fileNames) {
+			ImGui::PushID(i);
 			if (ImGui::Selectable(name.c_str())) {
 				m_requestedModelName = name;
 			}
+			ImGui::PopID();
+			i++;
 		}
 	}
 	ImGui::EndChild();

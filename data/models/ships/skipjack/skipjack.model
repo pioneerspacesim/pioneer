@@ -1,21 +1,28 @@
-material fuselage-material
-diffuse 1.0 1.0 1.0
-specular 0.8 0.8 0.8
-use_patterns
-tex_norm skipjack_norm.png
-tex_diff skipjack_diff.dds
-tex_spec skipjack_spec.dds
-tex_glow skipjack_glow.dds
+version 2
 
-lod 300
-mesh skipjack_hi.dae
+material "fuselage-material" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.8 0.8 0.8
+	use_patterns
+	texture normal   "skipjack_norm.png"
+	texture diffuse  "skipjack_diff.dds"
+	texture specular "skipjack_spec.dds"
+	texture glow     "skipjack_glow.dds"
+}
 
-lod 100
-mesh skipjack_med.dae
+lod 300 {
+	mesh "skipjack_hi.dae"
+}
 
-lod 50
-mesh skipjack_low.dae
+lod 100 {
+	mesh "skipjack_med.dae"
+}
 
-anim gear_down 1 121
+lod 50 {
+	mesh "skipjack_low.dae"
+}
 
-collision skipjack_collision.dae
+anim "gear_down" 1 121
+
+collision "skipjack_collision.dae"
