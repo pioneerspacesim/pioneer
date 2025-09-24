@@ -26,6 +26,7 @@ class StarSystem;
 class SystemBody;
 class Orbit;
 class Ship;
+class HyperspaceCloud;
 class Game;
 class Body;
 
@@ -37,6 +38,13 @@ enum ShipDrawing {
 	BOXES,
 	ORBITS,
 	OFF
+};
+
+enum CloudDrawing {
+	CLOUD_ON,
+	CLOUD_ARRIVAL,
+	CLOUD_DEPARTURE,
+	CLOUD_OFF
 };
 
 enum class GridDrawing {
@@ -194,6 +202,9 @@ private:
 	void RefreshShips(void);
 	void AddShipTracks(double atTime);
 
+	void RefreshClouds(void);
+	void AddCloudTracks(double atTime);
+
 	void CalculateShipPositionAtTime(const Ship *s, const Orbit &o, double t, vector3d &pos);
 	void CalculateFramePositionAtTime(FrameId frameId, double t, vector3d &pos);
 
@@ -205,6 +216,7 @@ private:
 	std::unique_ptr<SystemMapViewport> m_map;
 	TransferPlanner *m_planner;
 	std::list<std::pair<Ship *, Orbit>> m_contacts;
+	std::list<HyperspaceCloud *> m_clouds;
 
 	Mode m_displayMode;
 	SystemSelectionMode m_systemSelectionMode;
@@ -257,6 +269,7 @@ public:
 
 	ShowLagrange GetShowLagrange() { return m_showL4L5; }
 	ShipDrawing GetShipDrawing() { return m_shipDrawing; }
+	CloudDrawing GetCloudDrawing() { return m_cloudDrawing; }
 	GridDrawing GetGridDrawing() { return m_gridDrawing; }
 
 	// Generate a sorted list of non-overlapping projectable icon groups
@@ -363,6 +376,7 @@ private:
 	bool m_showGravpoints;
 	ShowLagrange m_showL4L5;
 	ShipDrawing m_shipDrawing;
+	CloudDrawing m_cloudDrawing;
 	GridDrawing m_gridDrawing;
 
 	bool m_rotateWithMouseButton = false;

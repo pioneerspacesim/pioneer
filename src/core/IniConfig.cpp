@@ -73,6 +73,9 @@ std::string IniConfig::String(const std::string &section, const std::string &key
 
 void IniConfig::Read(FileSystem::FileSource &fs, const std::string &path)
 {
+	// If we can't read the data, assume we have unsaved data in memory
+	m_unsaved = true;
+
 	// FIXME: add a mechanism to determine if a FileSource is suitable for writing
 	// We use dynamic_cast here as a very simple hack because IniConfig::Read isn't
 	// intended to be called very often.
@@ -90,6 +93,10 @@ void IniConfig::Read(FileSystem::FileSource &fs, const std::string &path)
 		return;
 
 	Read(*data);
+
+	// Successfully read data from file, the in-memory buffer should now
+	// match the file contents
+	m_unsaved = false;
 }
 
 void IniConfig::Read(const FileSystem::FileData &data)

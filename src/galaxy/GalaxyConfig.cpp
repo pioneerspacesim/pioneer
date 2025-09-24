@@ -14,5 +14,8 @@ GalaxyConfig::GalaxyConfig()
 
 	Read(FileSystem::userFiles, "galaxy.ini");
 
-	Save();
+	// Only save the data if the "galaxy.ini" file did not exist already
+	if (HasUnsavedChanges()) {
+		Save();
+	}
 }
