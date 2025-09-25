@@ -6,7 +6,6 @@
 
 #include "vector3.h"
 #include <math.h>
-#include <stdio.h>
 #include <type_traits>
 
 template <typename T>
@@ -231,13 +230,6 @@ public:
 	void Renormalize()
 	{
 		*this = Normalized();
-	}
-	void Print() const
-	{
-		for (int i = 0; i < 3; i++) {
-			printf("%.2f %.2f %.2f\n", cell[3 * i], cell[3 * i + 1], cell[3 * i + 2]);
-		}
-		printf("\n");
 	}
 };
 
