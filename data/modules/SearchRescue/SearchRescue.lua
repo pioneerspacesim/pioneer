@@ -56,6 +56,7 @@ local OutfitRules  = ShipBuilder.OutfitRules
 
 local l = Lang.GetResource("module-searchrescue")
 local lc = Lang.GetResource 'core'
+local ls = Lang.GetResource 'ships'
 
 -- basic variables for mission creation
 local max_mission_dist = 30          -- max distance for long distance mission target location [ly]
@@ -727,7 +728,8 @@ local onChat = function (form, ref, option)
 			entity       = ad.entity,
 			problem      = ad.problem,
 			cash         = Format.Money(ad.reward),
-			ship         = shipdef.name,
+			shipname     = shipdef.name,				-- Ship name, base form ex. 'Malabar'
+			shipsing     = ls[shipdef.modelName],		-- Ship name, singular form ex. 'a Malabar'
 			starport     = ad.station_local:GetSystemBody().name,
 			shiplabel    = ad.shiplabel,
 			planet       = ad.planet_target:GetSystemBody().name,
@@ -2120,7 +2122,7 @@ local buildMissionDescription = function(mission)
 			l.LON.." "..decToDegMinSec(math.rad2deg(mission.long))
 	end
 
-	local shipname = ShipDef[mission.shipid].name
+	local shipname = ShipDef[mission.shipid].name -- local shipname = ls[ShipDef[mission.shipid].modelName]
 
 	desc.details = {
 		{ l.TARGET_SHIP_ID, shipname.." <"..mission.shiplabel..">" },
