@@ -18,11 +18,13 @@ local l = Lang.GetResource("ui-core")
 -- Different types of crimes and law offences
 --
 -- DUMPING - jettison of hazardous rubble/waste
+-- ILLEGAL_JUMP - jumping into hyperspace too close to station
 -- MURDER - destruction of ship
 -- PIRACY - fired on ship
 -- TRADING_ILLEGAL_GOODS - attempted to sell illegal goods
 -- WEAPONS_DISCHARGE - weapons discharged too close to station
 -- ECM_DISCHARGE - ECM discharged too close to station
+-- CONTRACT_FRAUD - crime committed by intentionally breaking a contract
 --
 
 local Legal = {}
@@ -44,7 +46,7 @@ end
 
 function Legal:notifyOfCrime (ship, crime)
 	if not ship:IsPlayer() then return end
-	-- TODO: can this be called in hyperpace?
+	-- TODO: can this be called in hyperspace?
 
 	-- find closest law enforcing station
 	local station = Game.player:FindNearestTo("SPACESTATION")

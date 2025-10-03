@@ -138,9 +138,9 @@ NameGen = {
 --
 -- Parameters:
 --
---   body - the <SystemBody> object to provide a name for. Currently must of type
---          STARPORT_ORBITAL, STARPORT_SURFACE or ROCKY_PLANET. Any other types
---          a Lua error.
+--   body - the <SystemBody> object to provide a name for. Currently must be of type
+--          STARPORT_ORBITAL, STARPORT_SURFACE or ROCKY_PLANET. Any other types will
+--          generate a Lua error.
 --
 --   rand - optional, the <Rand> object to use to generate the name. if
 --          omitted, <Engine.rand> will be used
