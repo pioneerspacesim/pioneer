@@ -727,7 +727,7 @@ end
 --
 -- > station:RemoveAdvert(ref)
 --
--- If the deletefunc parameter was supplied to <AddAdvert> when the ad was
+-- If the onDelete parameter was supplied to <AddAdvert> when the ad was
 -- created, it will be called as part of this call.
 --
 -- Parameters:

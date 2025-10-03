@@ -174,7 +174,7 @@ Character = {
 -- Attribute: charisma
 --
 -- Integer attribute for RPG style dice tests.  Charisma is intended to reflect
--- the character's ability to win contracts or favrouable deals.
+-- the character's ability to win contracts or favourable deals.
 -- Tested with 4xD16; useful values are 4 (always hated) to 65 (always liked).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
 --
@@ -206,7 +206,7 @@ Character = {
 -- (Crew skill)
 --
 -- Integer attribute for RPG style dice tests.  Engineering is intended to reflect
--- the character's mechanical, electrical or other tecnical skills.  Tests might
+-- the character's mechanical, electrical or other technical skills.  Tests might
 -- be made against this attribute to see whether a character can repair a
 -- damaged piece of equipment, partially repair a ship, fit new equipment and
 -- so on.
@@ -401,7 +401,7 @@ Character = {
 --
 -- Return:
 --
---   roll - Integer value between 4 and 265 (inclusive), most likely 34
+--   roll - Integer value between 4 and 64 (inclusive), most likely 34
 --
 -- Example:
 --

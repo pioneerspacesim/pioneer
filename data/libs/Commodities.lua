@@ -11,7 +11,7 @@ local Economy       = require 'Economy'
 --
 -- It automatically registers all commodities defined in the economy JSON files,
 -- and any commodity in the game can be retrieved by indexing the table with the
--- name of the commodity in questino.
+-- name of the commodity in question.
 --
 
 local Commodities = CommodityType.registry

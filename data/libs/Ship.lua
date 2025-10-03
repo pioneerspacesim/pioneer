@@ -107,10 +107,10 @@ end
 -- Return:
 --
 --   is_allowed - Boolean. True if allowed at ships current position,
---                flase otherwise
+--                false otherwise
 --
 --   distance - The minimum allowed altitude from planetary body, or
---              distance from orbital space station, for a legal hyper juump.
+--              distance from orbital space station, for a legal hyper jump.
 --
 Ship.IsHyperjumpAllowed = function(self)
 
@@ -147,8 +147,8 @@ end
 --
 -- Method: HyperjumpTo
 --
--- Hyperjump ship to system. Makes sure the ship has a hyper drive,
--- that target is withn range, and ship has enough fuel, before
+-- Hyperjump ship to system. Makes sure the ship has a hyperdrive,
+-- that target is within range, and ship has enough fuel, before
 -- initiating the hyperjump countdown. In addition, through the
 -- optional argument, the ship can fly to a safe distance, compliant
 -- with local authorities' regulation, before initiating the jump.
@@ -161,8 +161,8 @@ end
 --   path - a <SystemPath> for the destination system
 --
 --   isLegal - an optional Boolean argument, defaults to false. If
---             true AI will fly the ship ship to legal distance
---             before jumping
+--             true AI will fly the ship to legal distance before
+--             jumping
 --
 -- Return:
 --
@@ -350,7 +350,7 @@ end
 --
 --   quantity - how many of the item to jettison
 --
---   lifetime - how long should the jettisoned item life before exploding
+--   lifetime - how long should the jettisoned item live before exploding
 --
 -- Result:
 --
