@@ -24,15 +24,6 @@ local l = Lang.GetResource("ui-core")
 -- WEAPONS_DISCHARGE - weapons discharged too close to station
 -- ECM_DISCHARGE - ECM discharged too close to station
 --
--- Availability:
---
---   2015 July
---
--- Status:
---
---   experimental
---
-
 
 local Legal = {}
 Legal.CrimeType = {}

@@ -118,14 +118,6 @@ local equipmentPrice = {}
 --
 --   price - the price of the equipment item
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
---
 function SpaceStation:GetEquipmentPrice (e)
 	assert(self:exists())
 
@@ -149,14 +141,6 @@ end
 --
 --   price - the new price of the equipment item
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
---
 function SpaceStation:SetEquipmentPrice (e, price)
 	assert(self:exists())
 	if not equipmentPrice[self] then equipmentPrice[self] = {} end
@@ -178,14 +162,6 @@ end
 --
 --   stock - the amount available for trade
 --
--- Availability:
---
---   201308
---
--- Status:
---
---   stable
---
 function SpaceStation:GetEquipmentStock (e)
 	assert(self:exists())
 	return equipmentStock[self] and equipmentStock[self][e.id] or 0
@@ -203,14 +179,6 @@ end
 --   equip - the <Constants.EquipType> string for the equipment item
 --
 --   amount - the amount of the item to add (or subtract) from the station stock
---
--- Availability:
---
---   201308
---
--- Status:
---
---   stable
 --
 function SpaceStation:AddEquipmentStock (e, stock)
 	assert(self:exists())
@@ -240,14 +208,6 @@ local commodityPrice = utils.automagic()
 --
 --   market - the market information for the specified commodity in
 --            { stock, demand, pricemod } triplet form
---
--- Availability:
---
---   January 2023
---
--- Status:
---
---   stable
 --
 ---@param itemType CommodityType
 ---@return table market
@@ -284,14 +244,6 @@ end
 --
 --   price - the price of the commodity item
 --
--- Availability:
---
---   June 2022
---
--- Status:
---
---   stable
---
 ---@param itemType CommodityType
 ---@return number price
 function SpaceStation:GetCommodityPrice(itemType)
@@ -323,14 +275,6 @@ end
 --
 --   price - the new price of the commodity item
 --
--- Availability:
---
---   June 2022
---
--- Status:
---
---   stable
---
 ---@param itemType CommodityType
 ---@param price number
 function SpaceStation:SetCommodityPrice(itemType, price)
@@ -353,14 +297,6 @@ end
 -- Returns:
 --
 --   stock - the amount available for trade
---
--- Availability:
---
---   June 2022
---
--- Status:
---
---   stable
 --
 ---@param itemType CommodityType
 ---@return integer stock
@@ -385,14 +321,6 @@ end
 --
 --   demand - the amount the station is willing to buy
 --
--- Availability:
---
---   January 2023
---
--- Status:
---
---   stable
---
 ---@param itemType CommodityType
 ---@return integer stock
 function SpaceStation:GetCommodityDemand(itemType)
@@ -413,14 +341,6 @@ end
 --   itemType - a <CommodityType> cargo item
 --
 --   amount - the amount of the item to add (or subtract) from the station stock
---
--- Availability:
---
---   June 2022
---
--- Status:
---
---   stable
 --
 ---@param itemType CommodityType
 ---@param amount integer
@@ -455,14 +375,6 @@ end
 --
 --   stock - optional, the new stock number for the commodity type
 --   demand - optional, the new demand number for the commodity type
---
--- Availability:
---
---   January 2023
---
--- Status:
---
---   stable
 --
 ---@param itemType CommodityType
 ---@param stock integer? new commodity stock number
@@ -635,14 +547,6 @@ end
 --   The distance, in meters, at which a station upholds the law,
 --   (is 50 km for all at the moment)
 --
--- Availability:
---
---   2015 September
---
--- Status:
---
---   experimental
---
 SpaceStation.lawEnforcedRange = 50000
 
 
@@ -658,14 +562,6 @@ local police = {}
 -- Parameters:
 --
 --   targetShip - the ship to intercept
---
--- Availability:
---
---   2015 September
---
--- Status:
---
---   experimental
 --
 function SpaceStation:LaunchPolice(targetShip)
 	if not targetShip then error("Ship targeted invalid") end
@@ -717,15 +613,6 @@ end
 -- Clear any target assigned and land flying station police.
 --
 -- > station:LandPolice()
---
---
--- Availability:
---
---   2015 September
---
--- Status:
---
---   experimental
 --
 function SpaceStation:LandPolice()
 	-- land command issued before creation of police
@@ -806,14 +693,6 @@ SpaceStation.adverts = {}
 -- >     function (ref) ... end
 -- > )
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
---
 local nextRef = 0
 function SpaceStation:AddAdvert (description, onChat, onDelete)
 	assert(self:exists())
@@ -855,14 +734,6 @@ end
 --
 --   ref - the advert reference number returned by <AddAdvert>
 --
--- Availability:
---
---  alpha 10
---
--- Status:
---
---  stable
---
 function SpaceStation:RemoveAdvert (ref)
 	assert(self:exists())
 	if not SpaceStation.adverts[self] then return end
@@ -889,14 +760,6 @@ end
 -- Parameters:
 --
 --   ref - the advert reference number returned by <AddAdvert>
---
--- Availability:
---
---  September 2014
---
--- Status:
---
---  experimental
 --
 function SpaceStation:LockAdvert (ref)
 	assert(self:exists())
@@ -937,14 +800,6 @@ end
 -- Parameters:
 --
 --   ref - the advert reference number returned by <AddAdvert>
---
--- Availability:
---
---  September 2014
---
--- Status:
---
---  experimental
 --
 function SpaceStation:UnlockAdvert (ref)
 	assert(SpaceStation.lockedAdvert == ref, "Attempt to unlock ref "..ref
