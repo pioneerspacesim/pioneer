@@ -87,10 +87,6 @@ local CrewRoster = {}
 --
 -- > if ship:GetInstalledHyperdrive() then HyperdriveOverloadAndExplode(ship) end
 --
--- Status:
---
---   stable
---
 ---@return Equipment.HyperdriveType? hyperdrive
 function Ship:GetInstalledHyperdrive()
 	---@type Equipment.HyperdriveType[]
@@ -115,14 +111,6 @@ end
 --
 --   distance - The minimum allowed altitude from planetary body, or
 --              distance from orbital space station, for a legal hyper juump.
---
--- Availability:
---
---  2016 August
---
--- Status:
---
---  experimental
 --
 Ship.IsHyperjumpAllowed = function(self)
 
@@ -180,14 +168,6 @@ end
 --
 --   status - a <Constants.ShipJumpStatus> string that tells if the ship can
 --            hyperspace and if not, describes the reason
---
--- Availability:
---
---  2015
---
--- Status:
---
---  experimental
 --
 Ship.HyperjumpTo = function (self, path, is_legal)
 	local engine = self:GetInstalledHyperdrive()
@@ -280,14 +260,6 @@ end
 --   missile_object - the fired missile (a <Missile> object),
 --                    or nil if no missile was fired
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   experimental
---
 ---@param missile EquipType
 function Ship:FireMissileAt(missile, target)
 	local equipSet = self:GetComponent("EquipSet")
@@ -344,14 +316,6 @@ end
 --
 --   used_units - how much fuel units have been used to fuel the tank.
 --
--- Availability:
---
---   alpha 26
---
--- Status:
---
---   experimental
---
 ---@param fuelType CommodityType
 ---@param amount integer
 function Ship:Refuel(fuelType, amount)
@@ -392,14 +356,6 @@ end
 --
 --   success - true if the item was jettisoned, false if the ship has no items
 --             of that type or the ship is not in open flight
---
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   experimental
 --
 ---@param cargoType CommodityType
 ---@param quantity integer
@@ -477,14 +433,6 @@ end
 --
 --   lon - longitude
 --
--- Availability:
---
---   November, 2023
---
--- Status:
---
---   experimental
---
 function Ship:GetGPS()
    if not self.frameBody then return end
    local lat, lon, altitude = self:GetGroundPosition()
@@ -511,14 +459,6 @@ end
 --             that the Character did not become a member of the crew, either because there
 --             is no room for the Character on the crew roster, or because they are already
 --             enrolled as crew on another ship.
---
--- Availability:
---
---   alpha 31
---
--- Status:
---
---   experimental
 --
 local isNotAlreadyEnrolled = function (crewmember)
 	for ship,crew in pairs(CrewRoster) do
@@ -572,15 +512,6 @@ end
 --             special case. Currently the only special case is that the player's Character
 --             cannot be dismissed from a crew.
 --
--- Availability:
---
---   alpha 31
---
--- Status:
---
---   experimental
---
-
 Ship.Dismiss = function (self,crewMember)
 	if not CrewRoster[self] then return false end
 	if not (
@@ -611,14 +542,6 @@ end
 --
 -- > ship:GenerateCrew()
 --
--- Availability:
---
---   alpha 31
---
--- Status:
---
---   experimental
---
 Ship.GenerateCrew = function (self)
 	if CrewRoster[self] then return end -- Bottle out if there's ever been a crew
 	for i = 1, ShipDef[self.shipId].maxCrew do
@@ -635,14 +558,6 @@ end
 --
 -- > ship:CrewNumber()
 --
--- Availability:
---
---   20140404
---
--- Status:
---
---   experimental
---
 Ship.CrewNumber = function (self)
 	return CrewRoster[self] and #CrewRoster[self] or 0
 end
@@ -657,14 +572,6 @@ end
 -- Returns:
 --
 --   crew - A [Character], once per crew member per call
---
--- Availability:
---
---   alpha 31
---
--- Status:
---
---   experimental
 --
 Ship.EachCrewMember = function (self)
 	-- If there's no crew, magic one up.
@@ -687,14 +594,6 @@ end
 -- Returns:
 --
 --   canLaunch - Boolean, true if ship has minimum required crew for launch, otherwise false/nil
---
--- Availability:
---
---   alpha 31
---
--- Status:
---
---   experimental
 --
 Ship.HasCorrectCrew = function (self)
 	return (CrewRoster[self] and (

@@ -41,21 +41,11 @@ NameGen = {
 --
 --   name - a string containing the name
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
---
-
 	FullName = function (isfemale, rand)
 		if not rand then rand = Engine.rand end
 
 		return Culture:FullName(isfemale, rand)
 	end,
-
 
 --
 -- Function: Names
@@ -79,7 +69,6 @@ NameGen = {
 --
 --   name2 - a string containing the surname
 --
-
 	Names = function (isfemale, rand)
 		if not rand then rand = Engine.rand end
 
@@ -105,7 +94,6 @@ NameGen = {
 --
 --   name - a string containing the name
 --
-
 	FirstName = function (isfemale, rand)
 		if not rand then rand = Engine.rand end
 
@@ -132,15 +120,6 @@ NameGen = {
 --
 --   name - a string containing the name
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
---
-
 	Surname = function (rand, ascii)
 		if not rand then rand = Engine.rand end
 
@@ -170,15 +149,6 @@ NameGen = {
 --
 --   name - a string containing the name
 --
--- Availability:
---
---   alpha 19
---
--- Status:
---
---   experimental
---
-
 	BodyName = function (body, rand)
 		local ascii = true -- want only ascii compatible characers in name
 

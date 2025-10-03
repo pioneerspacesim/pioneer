@@ -51,7 +51,6 @@ local affinityCache = {}
 -- interesting and sometimes-useful results until a more complete and
 -- parameter-rich implementation can be added to system generation directly.
 --
--- Status: experimental
 ---@param stationBody SystemBody
 ---@return table<integer, number> affinity Station's affinity to a specific economic type
 function Economy.GetStationEconomy(stationBody)

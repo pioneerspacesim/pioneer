@@ -70,28 +70,12 @@ Character = {
 -- slightest chance of the player's own sheet getting mixed up with those of
 -- NPCs.
 --
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
---
 	player = false, -- Almost always.  One exception. (-:
 
 --
 -- Attribute: name
 --
 --   Full name of character. First name + surname.
---
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
 --
 -- Attribute: firstname
 --
@@ -105,37 +89,13 @@ Character = {
 --
 --   Gender of character.  If true, character is female.  If false, male.
 --
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
---
 -- Attribute: seed
 --
 --   Seed for predictable randomness, if one is required.
 --
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
---
 -- Attribute: title
 --
 --   Job title, for use in BBS faces
---
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
 --
 
 --
@@ -146,14 +106,6 @@ Character = {
 --   same character at the same time.  Not particularly meaningful for transient
 --   characters.
 --
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
---
 	available = true,
 
 --
@@ -162,14 +114,6 @@ Character = {
 --   Count of the number of times a script has used this character.  Used to
 --   determine how well used a character is.
 --
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
---
 	useCount = 0,
 
 --
@@ -177,14 +121,6 @@ Character = {
 --
 --   The game time, in seconds since 12:00 01-01-3200, that this character was
 --   last saved.
---
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
 --
 	lastSavedTime = 0,
 
@@ -196,28 +132,12 @@ Character = {
 --   sheets have no intrinsic location.  Can be directly set immediately after
 --   the call to Save() if it needs to be some other path.
 --
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
---
 	lastSavedSystemPath = nil,
 
 --
 -- Attribute: dead
 --
 -- Boolean attribute. If set to a true value, character is deceased and all test rolls will fail.
---
--- Availability:
---
---   alpha 31
---
--- Status:
---
---   experimental
 --
 
 --
@@ -227,14 +147,6 @@ Character = {
 -- intended to reflect the character's willingness to accommodate the player.
 -- Tested with 4xD16; useful values are 4 (despise) to 65 (adore).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
---
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
 --
 	playerRelationship = 34,
 
@@ -246,14 +158,6 @@ Character = {
 -- Tested with 4xD16; useful values are 4 (never lucky) to 65 (always lucky).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
 --
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
---
 	luck = 34,
 
 --
@@ -263,14 +167,6 @@ Character = {
 -- reflect the character's ability to learn.
 -- Tested with 4xD16; useful values are 4 (moron) to 65 (genius).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
---
--- Availability:
---
---   alpha 30
---
--- Status:
---
---   experimental
 --
 	intelligence = 34,
 
@@ -282,14 +178,6 @@ Character = {
 -- Tested with 4xD16; useful values are 4 (always hated) to 65 (always liked).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
 --
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
---
 	charisma = 34,
 
 --
@@ -300,14 +188,6 @@ Character = {
 -- Tested against 4xD16; useful values are 4 (complete nobody) to 65 (celebrity).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
 --
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
---
 	notoriety = 15, -- Few people are notorious, so a low default
 
 --
@@ -317,14 +197,6 @@ Character = {
 -- the character's willingness to break the law.
 -- Tested with 4xD16; useful values are 4 (going straight) to 65 (criminal).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
---
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
 --
 	lawfulness = 34,
 
@@ -341,14 +213,6 @@ Character = {
 -- Tested with 4xD16; useful values are 4 (always fails) to 65 (always succeeds).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
 --
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
---
 	engineering = 15,
 
 --
@@ -360,14 +224,6 @@ Character = {
 -- the character's skill at flying spacecraft.
 -- Tested with 4xD16; useful values are 4 (always crashes) to 65 (aerobat).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
---
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
 --
 	piloting = 15,
 
@@ -384,14 +240,6 @@ Character = {
 -- Tested with 4xD16; useful values are 4 (always lost) to 65 (human compass).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
 --
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
---
 	navigation = 15,
 
 --
@@ -406,14 +254,6 @@ Character = {
 -- Tested with 4xD16; useful values are 4 (blind) to 65 (no hiding from this guy).
 -- Modifiers can cause numbers outside this range to become useful (see TestRoll).
 --
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
---
 	sensors = 15,
 
 --
@@ -421,14 +261,6 @@ Character = {
 --
 -- Integer value; number of objects destroyed by this character. Automatically
 -- incremented in the case of the player by one of the stock scripts.
---
--- Availability:
---
---   alpha 29
---
--- Status:
---
---   experimental
 --
 	killcount = 0,
 
@@ -439,14 +271,6 @@ Character = {
 -- subsequently destroyed by something else. Automatically incremented
 -- in the case of the player by one of the stock scripts.
 --
--- Availability:
---
---   alpha 29
---
--- Status:
---
---   experimental
---
 	assistcount = 0,
 
 --
@@ -455,14 +279,6 @@ Character = {
 -- Integer value; reflects the reputation amassed through taking missions.
 -- It should be reduced for failed missions, and increased for successful
 -- missions.
---
--- Availability:
---
---   January 2014
---
--- Status:
---
---   experimental
 --
 	reputation = 0,
 
@@ -492,14 +308,6 @@ Character = {
 -- > regular_joe = Character.New()
 --
 -- > lucky_guy = Character.New({luck = 180})
---
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
 --
 	New = function (template,rand)
 		if template and (type(template) ~= 'table') then
@@ -551,14 +359,6 @@ Character = {
 -- > -- How to clone lucky_guy
 -- > new_guy = lucky_guy:Clone()
 --
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
---
 	Clone = function (self)
 		local test
 		local clone
@@ -607,14 +407,6 @@ Character = {
 --
 -- > new_character.charisma = Character.DiceRoll()
 --
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
---
 	DiceRoll = function ()
 		return ( -- 4xD16, range is 4..64 averaging 34)
 			  Engine.rand:Integer(1,16)
@@ -649,14 +441,6 @@ Character = {
 -- > new_character:RollNew()
 --
 -- > new_character:RollNew(true)
---
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
 --
 	RollNew = function (self,crew)
 		self.luck = self.DiceRoll()
@@ -854,14 +638,6 @@ Character = {
 -- >   print(party_girl.name)
 -- > end
 --
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
---
 	Find = function (filter)
 		-- We want a nice default filter
 		local filter = filter or function () return true end
@@ -901,14 +677,6 @@ Character = {
 -- >   print(person.name)
 -- > end
 --
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
---
 	FindAvailable = function ()
 		-- We want a nice default filter
 		local NPC = 0
@@ -938,14 +706,6 @@ Character = {
 --
 --   false - The character wasn't available, or didn't exist
 --
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
---
 	CheckOut = function (self)
 		if self and (type(self) == 'table') then
 			local test = getmetatable(self)
@@ -963,14 +723,6 @@ Character = {
 --   Removes a character from the persistent characters table
 --
 -- ch:UnSave()
---
--- Availability:
---
---   alpha 17
---
--- Status:
---
---   experimental
 --
 	UnSave = function (self)
 		for num,NPC in ipairs(Character.persistent) do
@@ -1010,14 +762,6 @@ Character = {
 -- >     rating = l[Character.persistent.player:GetCombatRating(]),
 -- > }))
 --
--- Availability:
---
---   alpha 29
---
--- Status:
---
---   experimental
---
 	GetCombatRating = function (self)
 		return utils.getFromIntervals(self.combatRatings, self.killcount)
 	end,
@@ -1049,14 +793,6 @@ Character = {
 -- > if Character.persistent.player:IsCombatRated('DEADLY') then
 -- >   DoSomethingDeadly() -- Player is rated "Deadly" or higher
 -- > end
---
--- Availability:
---
---   alpha 29
---
--- Status:
---
---   experimental
 --
 	IsCombatRated = function (self,rating)
 		-- This function is completely agnostic of the values of the ratings.
@@ -1110,14 +846,6 @@ Character = {
 -- > UI.Message(('Your reputation is {reputation}'):interp({
 -- >     reputation = l[Character.persistent.player:GetReputationRating(]),
 -- > }))
---
--- Availability:
---
---   January 2014
---
--- Status:
---
---   experimental
 --
 	GetReputationRating = function (self)
 		return utils.getFromIntervals(self.reputations, self.reputation)

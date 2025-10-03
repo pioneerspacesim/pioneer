@@ -28,12 +28,6 @@ Comms.Priority = {
 -- Example:
 -- > Comms.Message("Please repair my ship.", "Gary Jones")
 --
--- Availability:
---   alpha 10
---
--- Status:
---   experimental
-
 function Comms.Message(msg, from)
 	Game.AddCommsLogLine(msg, from, Comms.Priority.Normal)
 end
@@ -54,12 +48,6 @@ end
 -- Example:
 -- > Comms.ImportantMessage("Prepare to die!", "AB-1234")
 --
--- Availability:
---   alpha 10
---
--- Status:
---   experimental
-
 function Comms.ImportantMessage(msg, from)
 	Game.AddCommsLogLine(msg, from, Comms.Priority.Important)
 end

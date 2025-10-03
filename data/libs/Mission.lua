@@ -35,14 +35,6 @@ Mission = {
 --
 -- The type of mission.  This can be any registered mission typeid.
 --
--- Availability:
---
---   alpha 30
---
--- Status:
---
---   experimental
---
 	type = 'NONE',
 
 --
@@ -50,27 +42,11 @@ Mission = {
 --
 -- The [Character] object that offered the mission
 --
--- Availability:
---
---   alpha 30
---
--- Status:
---
---   experimental
---
 
 --
 -- Attribute: due
 --
 -- Due date/time, in seconds since 12:00 01-01-3200
---
--- Availability:
---
---   alpha 30
---
--- Status:
---
---   experimental
 --
 	due = 0,
 
@@ -79,14 +55,6 @@ Mission = {
 --
 -- Reward for mission completion, in dollars
 --
--- Availability:
---
---   alpha 30
---
--- Status:
---
---   experimental
---
 	reward = 0,
 
 --
@@ -94,28 +62,12 @@ Mission = {
 --
 -- A [SystemPath] or string for the (next) destination
 --
--- Availability:
---
---   alpha 30
---
--- Status:
---
---   experimental
---
 	destination = nil,
 
 --
 -- Attribute: status
 --
 -- A string for the current mission status.
---
--- Availability:
---
---   alpha 30
---
--- Status:
---
---   experimental
 --
 	status = 'ACTIVE',
 
@@ -153,15 +105,6 @@ Mission = {
 -- >   }
 -- > end)
 --
--- Availability:
---
---   alpha 30
---
--- Status:
---
---    experimental
---
-
 	RegisterType = function (typeid, display, onClick)
 		if not typeid or (type(typeid)~='string') then
 			error('typeid: String expected')
@@ -215,14 +158,6 @@ Mission = {
 -- >      'status'      = 'ACTIVE',
 -- >  })
 --
--- Availability:
---
--- alpha 29
---
--- Status:
---
--- testing
---
 	New = function (template)
 		-- Data sanitation
 		if not template or (type(template) ~= 'table') then
@@ -269,14 +204,6 @@ Mission = {
 -- > ourMission:Remove() -- Remove mission from list
 -- > ourMission = nil    -- Remove our reference too
 --
--- Availability:
---
--- alpha 30
---
--- Status:
---
--- testing
---
 	Remove = function (self)
 		for k,v in pairs(Character.persistent.player.missions) do
 			if v == self then
@@ -300,14 +227,6 @@ Mission = {
 --             button. handler will be passed the mission as its sole argument
 --             and is expected to return an [Engine.UI] object, or nil.
 --
--- Availability:
---
--- alpha 29
---
--- Status:
---
--- experimental
---
 	GetClick = function (self)
 		return MissionRegister[self.type].onClick
 		-- return (MissionRegister[self.type] and MissionRegister[self.type].onClick)
@@ -327,14 +246,6 @@ Mission = {
 --
 --   displayType - a ready-translated string describing the mission's type, or nil.
 --                 A nil return value indicates an unregistered mission type.
---
--- Availability:
---
--- alpha 30
---
--- Status:
---
--- experimental
 --
 	GetTypeDescription = function (self)
 		return MissionRegister[self.type] and MissionRegister[self.type].display
