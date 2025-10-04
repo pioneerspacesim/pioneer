@@ -513,7 +513,7 @@ def main():
             if path == '-':
                 es = list(extract_enums(sys.stdin))
             else:
-                with open(path, 'rU') as fl:
+                with open(path, 'r') as fl:
                     # skip an optional UTF-8 Byte Order Mark
                     if sys.version_info[0] >= 3:
                         hasbom = (fl.read(1) == '\uFEFF')
