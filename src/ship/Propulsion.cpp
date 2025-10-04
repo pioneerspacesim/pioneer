@@ -149,11 +149,11 @@ vector3d Propulsion::ClampLinThrusterState(const vector3d &levels) const
 
 vector3d Propulsion::ClampLinThrust(const vector3d &levels) const
 {
-	vector3d clamped = levels;
+	vector3d clamped;
 
-	clamped.x = Clamp(clamped.x, -1.0, 1.0);
-	clamped.y = Clamp(clamped.y, -1.0, 1.0);
-	clamped.z = Clamp(clamped.z, -1.0, 1.0);
+	clamped.x = Clamp(levels.x, -1.0, 1.0);
+	clamped.y = Clamp(levels.y, -1.0, 1.0);
+	clamped.z = Clamp(levels.z, -1.0, 1.0);
 
 	return clamped;
 }
