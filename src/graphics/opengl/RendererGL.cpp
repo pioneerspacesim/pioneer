@@ -274,7 +274,8 @@ namespace Graphics {
 		glClearDepth(0.0);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+		if (glewIsSupported("GL_ARB_seamless_cube_map"))
+			glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 		glEnable(GL_PROGRAM_POINT_SIZE);
 
 		glHint(GL_TEXTURE_COMPRESSION_HINT, GL_NICEST);
