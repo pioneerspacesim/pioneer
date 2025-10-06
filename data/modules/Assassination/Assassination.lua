@@ -64,7 +64,10 @@ end
 
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
-
+	local target = ad.target
+	local gender = ad.target.female and "_FEMALE" or "_MALE"
+	local suffix = (Engine.rand:Integer(0,2) < 2) and gender or ""	-- Three way selector. Gender or
+																	-- a third option.
 	form:Clear()
 
 	if option == -1 then
@@ -90,7 +93,8 @@ local onChat = function (form, ref, option)
 		local introtext = string.interp(flavours[ad.flavour].introtext, {
 			name	= ad.client.name,
 			cash	= Format.Money(ad.reward,false),
-			target	= ad.target,
+			target	= target.name,
+			title	= target.title,
 			system	= sys.name,
 		})
 		form:SetMessage(introtext)
@@ -99,9 +103,9 @@ local onChat = function (form, ref, option)
 		local sys = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
 
-		form:SetMessage(string.interp(l.X_WILL_BE_LEAVING, {
-		  target    = ad.targetsurname or ad.target, -- If targetsurname is missing, then older version.
-		  spaceport = sbody.name,                    -- Instead hand over previously used full name + title.
+		form:SetMessage(string.interp(l["X_WILL_BE_LEAVING" .. suffix ], {
+		  target    = target.surname,
+		  spaceport = sbody.name,
 		  system    = sys.name,
 		  sectorX   = ad.location.sectorX,
 		  sectorY   = ad.location.sectorY,
@@ -116,8 +120,8 @@ local onChat = function (form, ref, option)
 	elseif option == 2 then
 		local sbody = ad.location:GetSystemBody()
 
-		form:SetMessage(string.interp(l.IT_MUST_BE_DONE_AFTER, {
-		  target    = ad.target,
+		form:SetMessage(string.interp(l["IT_MUST_BE_DONE_AFTER" .. suffix], {
+		  target    = target.surname,
 		  spaceport = sbody.name,
 		}))
 
@@ -154,7 +158,7 @@ local onChat = function (form, ref, option)
 	elseif option == 4 then
 		form:SetMessage(l.RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID)
 	end
-	form:AddOption(string.interp(l.WHERE_CAN_I_FIND_X, {target = ad.target}), 1);
+	form:AddOption(string.interp(l.WHERE_CAN_I_FIND_X), 1);
 	form:AddOption(l.COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST, 0);
 	form:AddOption(l.HOW_SOON_MUST_IT_BE_DONE, 2);
 	form:AddOption(l.HOW_WILL_I_BE_PAID, 4);
@@ -163,7 +167,7 @@ end
 
 local placeAdvert = function(station, ad)
 	local desc = string.interp(flavours[ad.flavour].adtext, {
-		target	= ad.target,
+		target	= ad.target.title .. " " .. ad.target.name,
 		system	= ad.location:GetStarSystem().name,
 	})
 
@@ -187,9 +191,7 @@ local makeAdvert = function (station)
 	end
 	if #nearbysystems == 0 then return end
 	local client = Character.New()
-	local targetIsfemale = Engine.rand:Integer(1) == 1
-	local firstname, surname = NameGen.Names(targetIsfemale)
-	local target = l["TITLE_"..Engine.rand:Integer(1, num_titles)-1] .. " " .. firstname .. " " .. surname
+	local target = Character.New({title = l["TITLE_"..Engine.rand:Integer(1, num_titles)-1]})
 	local flavour = Engine.rand:Integer(1, #flavours)
 	local location = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 	local dist = location:DistanceTo(Game.system)
@@ -207,9 +209,9 @@ local makeAdvert = function (station)
 
 	local ad = {
 		client = client,
+		target = target,
 		danger = danger,
 		due = due,
-		faceseed = Engine.rand:Integer(),
 		flavour = flavour,
 		location = location,
 		dist = dist,
@@ -219,8 +221,6 @@ local makeAdvert = function (station)
 		shipname = ShipDef[hullConfig.id].name,
 		shipregid = Ship.MakeRandomLabel(),
 		station = station,
-		targetsurname = surname,
-		target = target,
 		timeout = timeout,
 	}
 
@@ -331,7 +331,7 @@ local onShipDocked = function (ship, station)
 			if mission.status == 'COMPLETED' and
 			   mission.backstation == station.path then
 				local text = string.interp(flavours[mission.flavour].successmsg, {
-					target	= mission.target,
+					target	= mission.target.name,
 					cash	= Format.Money(mission.reward,false),
 				})
 				Comms.ImportantMessage(text, mission.client.name)
@@ -343,11 +343,11 @@ local onShipDocked = function (ship, station)
 				local text
 				if mission.notplayer == 'TRUE' then
 					text = string.interp(flavours[mission.flavour].failuremsg2, {
-						target	= mission.target,
+						target	= mission.target.name,
 					})
 				else
 					text = string.interp(flavours[mission.flavour].failuremsg, {
-						target	= mission.target,
+						target	= mission.target.name,
 					})
 				end
 				Comms.ImportantMessage(text, mission.client.name)
@@ -478,14 +478,14 @@ local function buildMissionDescription(mission)
 
 	desc.description = flavours[mission.flavour].introtext:interp({
 		name   = mission.client.name,
-		target = mission.target,
+		target = mission.target.name,
 		system = mission.location:GetStarSystem().name,
 		cash   = ui.Format.Money(mission.reward,false),
 		dist  = dist
 	})
 
 	desc.details = {
-		{ l.TARGET_NAME, mission.target },
+		{ l.TARGET_NAME, mission.target.title .. " " .. mission.target.name },
 		{ l.SPACEPORT, mission.location:GetSystemBody().name },
 		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
 		{ l.DISTANCE, dist.." "..lc.UNIT_LY },
