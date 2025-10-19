@@ -42,7 +42,7 @@ widgetSizes.buttonLaunchSize = Vector2(widgetSizes.buttonSizeBase.x*5, widgetSiz
 widgetSizes.iconSize = Vector2(0, widgetSizes.buttonSizeBase.y)
 
 local face = nil
-local stationSeed = 0
+local stationSeed = false
 local shipDef
 
 local hyperdrive ---@type Equipment.HyperdriveType?
