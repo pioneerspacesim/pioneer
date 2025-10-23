@@ -1,0 +1,99 @@
+{
+	"distillery": {
+		"l10n_key": "DISTILLERY",
+		"inputs": {
+			"grain": 4,
+			"fruit_and_veg": 3,
+			"plastics": 2,
+			"industrial_machinery": 2
+		},
+		"outputs": {
+			"liquor": 3
+		},
+		"workforce": 3
+	},
+	"ore_refining": {
+		"l10n_key": "REFINING",
+		"inputs": {
+			"metal_ore": 6,
+			"carbon_ore": 5,
+			"water": 4,
+			"liquid_oxygen": 4
+		},
+		"outputs": {
+			"metal_alloys": 6,
+			"plastics": 6,
+			"precious_metals": 1
+		},
+		"modifiers": {
+			"rare_metals": [ "i:metal_ore+1", "o:precious_metals+2" ]
+		},
+		"workforce": 5
+	},
+	"textile_mill": {
+		"l10n_key": "TEXTILE_MILL",
+		"context": "surface",
+		"conditions": [],
+		"inputs": {
+			"grain": 6,
+			"industrial_machinery": 3
+		},
+		"outputs": {
+			"textiles": 6
+		},
+		"workforce": 4
+	},
+	"consumer_industry": {
+		"l10n_key": "CONSUMER_INDUSTRIAL_PRODUCTION",
+		"context": "surface",
+		"conditions": [],
+		"inputs": {
+			"metal_alloys": 3,
+			"plastics": 4,
+			"grain": 4,
+			"industrial_machinery": 3
+		},
+		"outputs": {
+			"consumer_goods": 5,
+			"textiles": 4
+		},
+		"workforce": 4
+	},
+	"heavy_industry": {
+		"l10n_key": "HEAVY_INDUSTRIAL_PRODUCTION",
+		"context": "surface",
+		"conditions": [ "planet_terrestrial" ],
+		"inputs": {
+			"metal_alloys": 6,
+			"hydrogen": 6,
+			"plastics": 5,
+			"robots": 2
+		},
+		"outputs": {
+			"mining_machinery": 4,
+			"farm_machinery": 4,
+			"industrial_machinery": 4
+		},
+		"workforce": 6
+	},
+	"civil_industry": {
+		"l10n_key": "CIVIL_INDUSTRY",
+		"context": "surface",
+		"conditions": [ "planet_terrestrial" ],
+		"inputs": {
+			"metal_alloys": 6,
+			"plastics": 5,
+			"industrial_machinery": 4,
+			"grain": 3,
+			"computers": 3,
+			"robots": 2
+		},
+		"outputs": {
+			"mining_machinery": 5,
+			"air_processors": 5,
+			"consumer_goods": 4,
+			"medicines": 2
+		},
+		"workforce": 6
+	}
+}

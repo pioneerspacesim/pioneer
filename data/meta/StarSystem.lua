@@ -10,6 +10,7 @@
 ---@field name string
 ---@field other_names string[]
 ---@field path SystemPath
+---@field seed integer
 ---
 --- The lawlessness value for the system, 0 for peaceful, 1 for raging hordes of pirates
 ---@field lawlessness number
