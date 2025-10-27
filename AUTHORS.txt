@@ -166,11 +166,6 @@ Pioneer includes the following third-party software:
   Copyright (C) 2016, Adi Shavit
   Licensed under the BSD 3-clause license (see licenses/BSD-3-Clause.txt)
 
-  string-view lite, a C++17-like string_view for C++98 and later.
-  https://github.com/martinmoene/string-view-lite
-  Copyright 2017-2019 by Martin Moene
-  Distributed under the Boost Software License, Version 1.0. (see licenses/Boost-1.0.txt)
-
   miniz by Rich Geldreich, April 2012
   Public domain (see contrib/miniz/miniz.h)
 
@@ -220,6 +215,15 @@ Pioneer includes the following third-party software:
   High Performance C++ Profiler
   https://code.google.com/p/high-performance-cplusplus-profiler/
   Licensed under the MIT license
+
+  nanosvg
+  Copyright (c) 2013-14 Mikko Mononen memon@inside.org
+  Licensed under the zlib License
+  https://github.com/memononen/nanosvg
+
+  pcg-cpp
+  Copyright 2014 Melissa O'Neill <oneill@pcg-random.org>
+  Licensed under the Apache License, Version 2.0
 
   Pionillium Text font
   Copyright (c) 2015, Pioneer Developers

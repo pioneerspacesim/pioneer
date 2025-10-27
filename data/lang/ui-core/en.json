@@ -3,6 +3,10 @@
     "description": "",
     "message": "Above Average"
   },
+  "ABOUT": {
+    "description": "main menu button (implied 'about' the game)",
+    "message": "About"
+  },
   "ACTIVE": {
     "description": "",
     "message": "Active"
