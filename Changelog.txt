@@ -1,3 +1,14 @@
+October
+  * New Features
+    * Added 'About' button in Main Menu (#6145)
+
+  * Fixes
+    * Fix missing station manager in the lobby of Torvalds station (#6224)
+    * Fix wrong station message at starting in space (#6220)
+
+  * Internal
+    * Clean up API code documentation strings (#6228)
+
 September
   * New Features
     * Improve the follow modes for too far ranges (#6190)
