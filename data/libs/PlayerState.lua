@@ -185,6 +185,11 @@ function PlayerState.AddCrime (crime, fine, faction)
 	local forFaction = (faction and faction.id) or Game.system.faction.id
 	local record = crime_record[forFaction]
 
+	if not record.crimetype[crime] then
+		print('first-time offender for',crime)
+		record.crimetype[crime] = {count=0}
+	end
+
 	record.crimetype[crime].count = record.crimetype[crime].count + 1
 	record.fine = record.fine + fine
 end
