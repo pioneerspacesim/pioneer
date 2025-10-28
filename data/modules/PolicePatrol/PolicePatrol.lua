@@ -12,6 +12,7 @@ local Serializer = require 'Serializer'
 local Timer = require 'Timer'
 local Commodities = require 'Commodities'
 local PlayerState = require 'PlayerState'
+local ui = require 'pigui'
 
 local MissionUtils = require 'modules.MissionUtils'
 local ShipBuilder  = require 'modules.MissionUtils.ShipBuilder'
@@ -21,7 +22,7 @@ local l_ui_core = Lang.GetResource("ui-core")
 
 -- Fine at which police will hunt down outlaw player
 -- This is a copy from CrimeTracking.lua.
-local maxFineTolerated = 300
+local maxFineTolerated = 5500
 --   The distance, in meters, at which the police patrol upholds the law
 local lawEnforcedRange = 4000000
 
@@ -140,37 +141,58 @@ local onEnterSystem = function (player)
 		label = system.faction.policeName
 	}
 
-	for i = 1, n do
-		ship = ShipBuilder.MakeShipNear(player, template, threat, 50, 100)
-		assert(ship)
+	-- The scene is set for a police patrol, just wait!
+	Timer:CallAt(Game.time + Engine.rand:Integer(5, 10), function ()
+		if not Game.system then return end -- Shut up when the player is already in hyperspace
 
-		table.insert(patrol, ship)
-	end
+		for i = 1, n do
+			ship = ShipBuilder.MakeShipNear(player, template, threat, 50, 100) -- "Ship detected nearby"
+			assert(ship)
 
-	if Engine.rand:Number(1) < system.lawlessness then
-		-- You are lucky. They are busy, eating donuts ;-)
-		Comms.ImportantMessage(string.interp(l["RESPECT_THE_LAW_" .. Engine.rand:Integer(1, getNumberOfFlavours("RESPECT_THE_LAW"))], { system = system.name }), ship.label)
-	else
-		if fine > maxFineTolerated then
-			Comms.ImportantMessage(string.interp(l["OUTLAW_DETECTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("OUTLAW_DETECTED"))], { ship_label = player.label }), ship.label)
-			showMercy = false
-			attackShip(player)
-		else
-			Comms.ImportantMessage(l["INITIATE_CARGO_SCAN_" .. Engine.rand:Integer(1, getNumberOfFlavours("INITIATE_CARGO_SCAN"))], ship.label)
-			Timer:CallAt(Game.time + Engine.rand:Integer(3, 9), function ()
-				if not Game.system then return end -- Shut up when the player is already in hyperspace
-
-				local manifest = player:GetComponent('CargoManager').commodities
-				if hasIllegalGoods(manifest) then
-					Comms.ImportantMessage(l.ILLEGAL_GOODS_DETECTED, ship.label)
-					attackShip(player)
-					Comms.ImportantMessage(l["POLICE_TAUNT_" .. Engine.rand:Integer(1, getNumberOfFlavours("POLICE_TAUNT"))], ship.label)
-				else
-					Comms.ImportantMessage(l.NOTHING_DETECTED, ship.label)
-				end
-			end)
+			table.insert(patrol, ship)
 		end
-	end
+
+		Timer:CallAt(Game.time + Engine.rand:Integer(5, 10), function () -- Oh crap, it's the police!
+			if not Game.system or Game.system.path ~= system.path then return end -- Shut up if the player has jumped away
+
+			if Engine.rand:Number(1) < system.lawlessness then
+				-- You are lucky. They are busy, eating donuts ;-)
+				Comms.ImportantMessage(string.interp(l["RESPECT_THE_LAW_" .. Engine.rand:Integer(1, getNumberOfFlavours("RESPECT_THE_LAW"))], { system = system.name }), ship.label)
+			else
+				if fine > maxFineTolerated then
+					Comms.ImportantMessage(string.interp(l["OUTLAW_DETECTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("OUTLAW_DETECTED"))], { ship_label = player.label }), ship.label)
+					showMercy = false
+					attackShip(player)
+				else
+					Comms.ImportantMessage(l["INITIATE_CARGO_SCAN_" .. Engine.rand:Integer(1, getNumberOfFlavours("INITIATE_CARGO_SCAN"))], ship.label)
+					Timer:CallAt(Game.time + Engine.rand:Integer(3, 9), function ()
+						if not Game.system or Game.system.path ~= system.path then return end -- Shut up when the player is already in hyperspace
+
+						local manifest = player:GetComponent('CargoManager').commodities
+						if hasIllegalGoods(manifest) then
+							Comms.ImportantMessage(l.ILLEGAL_GOODS_DETECTED, ship.label)
+							attackShip(player)
+							Comms.ImportantMessage(l["POLICE_TAUNT_" .. Engine.rand:Integer(1, getNumberOfFlavours("POLICE_TAUNT"))], ship.label)
+						else
+							Comms.ImportantMessage(l.NOTHING_DETECTED, ship.label)
+							if fine > 100 then
+								local message = l["FINES_INTRO_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_INTRO"))]
+								message = message .. " " .. l["FINES_MESSAGE_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_MESSAGE"))]
+								if fine > 1000 then
+									message = message .. " " .. l["FINES_ADMONISHING_HARSH_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_ADMONISHING_HARSH"))]
+								else
+									message = message .. " " .. l["FINES_ADMONISHING_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_ADMONISHING"))]
+								end
+								local policeforce = Game.system.faction.policeName
+								local ship_label = player.label
+								Comms.ImportantMessage(string.interp(message, {policeforce = policeforce, ship_label = ship_label, fine = ui.Format.Money(fine)}), ship.label)
+							end
+						end
+					end)
+				end
+			end
+		end)
+	end)
 
 	local policeId = system.faction.policeShip
 	Timer:CallEvery(15, function ()
@@ -203,6 +225,14 @@ local onLeaveSystem = function (ship)
 	target = nil
 end
 
+local onShipDocked = function (player)
+	if not player:IsPlayer() then return end
+	local crimes, fine = PlayerState.GetCrimeOutstanding()
+	if fine > 0 then
+		Comms.ImportantMessage("[" .. string.upper(Game.system.faction.policeName) .. " - " ..
+			l_ui_core.AUTOMATED_MESSAGE .. "] " .. l_ui_core.OUTSTANDING_FINES .. ": " .. ui.Format.Money(fine))
+	end
+end
 
 local loaded_data
 
@@ -233,6 +263,7 @@ end
 
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onLeaveSystem", onLeaveSystem)
+Event.Register("onShipDocked", onShipDocked)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onShipHit", onShipHit)
 Event.Register("onShipFiring", onShipFiring)

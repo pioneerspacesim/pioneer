@@ -71,6 +71,10 @@
     "description": "Automatically find shortest jump route (measured in time) in star map",
     "message": "Auto Route"
   },
+  "AUTOMATED_MESSAGE": {
+    "description": "For comm messages from bots",
+    "message": "AUTOMATED MESSAGE"
+  },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "Market header when buying items",
     "message": "Available For Purchase"

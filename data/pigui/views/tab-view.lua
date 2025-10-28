@@ -66,6 +66,8 @@ function PiGuiTabView.registerView(self, view)
 	self.viewCount = self.viewCount + 1
 	self.tabs[view.id] = self.viewCount
 	self:resize()
+
+	return view
 end
 
 function PiGuiTabView:refreshTab(i)
