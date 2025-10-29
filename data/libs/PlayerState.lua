@@ -49,15 +49,17 @@ local finances = {
 ---@field clone fun(): CrimeRecord
 local CrimeRecord = utils.proto("CrimeRecord")
 
+local function initializeCrimetype(record)
+    record.crimetype = setmetatable(record.crimetype or {}, { __index = function(t, crime)
+        local crimetype = { count = 0 }
+        rawset(t, crime, crimetype)
+        return crimetype
+    end})
+end
+
 function CrimeRecord:__clone()
-	-- automagically create empty crimetype records on access
-	-- This would be entirely unnecessary if crimetype records weren't tables with a single value set :(
-	self.crimetype = setmetatable({}, { __index = function(t, crime)
-		local crimetype = { count = 0 }
-		rawset(t, crime, crimetype)
-		return crimetype
-	end})
-	self.fine = 0
+    initializeCrimetype(self)
+    self.fine = 0
 end
 
 -- Append another crime record's list of crimes. Does not append the fine.
@@ -71,7 +73,8 @@ end
 -- Automagically create empty crime records on access
 local automagic_record = {
 	__index = function(t, faction)
-		local record = CrimeRecord:clone()
+		print('__index called on an automagic record!')
+		local record = CrimeRecord:__clone()
 		rawset(t, faction, record)
 		return record
 	end
@@ -185,10 +188,11 @@ function PlayerState.AddCrime (crime, fine, faction)
 	local forFaction = (faction and faction.id) or Game.system.faction.id
 	local record = crime_record[forFaction]
 
-	if not record.crimetype[crime] then
-		print('first-time offender for',crime)
-		record.crimetype[crime] = {count=0}
-	end
+
+	print('crime_record', getmetatable(crime_record))
+	print('record', getmetatable(record))
+	print('record.crimetype', getmetatable(record.crimetype))
+	print('record.crimetype[crime]', getmetatable(record.crimetype[crime]))
 
 	record.crimetype[crime].count = record.crimetype[crime].count + 1
 	record.fine = record.fine + fine
@@ -380,6 +384,15 @@ local function unserialize(data)
 
 	crime_record = setmetatable(data.crime_record, automagic_record)
 	past_record = setmetatable(data.past_record, automagic_record)
+
+	for _, record in pairs(crime_record) do
+		setmetatable(record, CrimeRecord)
+		initializeCrimetype(record)
+	end
+	for _, record in pairs(past_record) do
+		setmetatable(record, CrimeRecord)
+		initializeCrimetype(record)
+	end
 end
 
 Event.Register("onGameStart", onGameStart)
@@ -393,6 +406,7 @@ if Game.CurrentSaveVersion() == 91 then
 
 	local function unserialize_player(data)
 		if data.record then
+			print('setting the metatables.')
 			crime_record = setmetatable(data.record, automagic_record)
 			past_record = setmetatable(data.record_old, automagic_record)
 		end
