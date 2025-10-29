@@ -1,5 +1,5 @@
 [
-    {"name": "Castor", "stars": ["STAR_A"], "sector": [5, 2, 3], "pos": [0.096, 1.552, 3.232]},
+    {"name": "Castor", "stars": ["STAR_A"], "otherNames": ["Alpha Geminorum", "北河二"], "sector": [5, 2, 3], "pos": [0.096, 1.552, 3.232]},
     {"name": "Lambda Velorum", "stars": ["STAR_K_SUPER_GIANT"], "sector": [35, 38, -50], "pos": [3.896, 0.432, 5.912]},
     {"name": "Eta Canis Majoris", "stars": ["STAR_B_SUPER_GIANT"], "sector": [325, 125, -196], "pos": [2.888, 0.392, 2.96]},
     {"name": "Diphda", "stars": ["STAR_K_GIANT"], "sector": [2, -12, -4], "pos": [1.232, 6.512, 2.408]},

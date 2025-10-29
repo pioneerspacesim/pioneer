@@ -16,7 +16,6 @@
     {"name": "Gliese 486", "stars": ["STAR_M"], "sector": [-1, 3, 0], "pos": [2.52, 1.816, 4.536]},
     {"name": "NN 3417", "stars": ["STAR_M"], "sector": [1, 0, 2], "pos": [3.368, 2.936, 6.392]},
     {"name": "YZ Ceti", "stars": ["STAR_M"], "sector": [0, -2, -1], "pos": [3.608, 4.984, 4.456]},
-    {"name": "Gliese 251", "stars": ["STAR_M"], "sector": [1, 0, 1], "pos": [7.256, 3.72, 2.312]},
     {"name": "GJ 1270", "stars": ["STAR_M"], "sector": [-2, -4, 3], "pos": [3.024, 0.784, 5.88]},
     {"name": "GJ 1276", "stars": ["WHITE_DWARF"], "sector": [-1, -4, -1], "pos": [0.568, 7.008, 4.904]},
     {"name": "GJ 1277", "stars": ["STAR_M"], "sector": [-1, -3, -4], "pos": [3.048, 6.592, 0.6]},
