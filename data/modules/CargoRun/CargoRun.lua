@@ -77,13 +77,21 @@ local getNumberOfFlavours = function (str)
 end
 
 local getRiskMsg = function (mission)
+	local cargo = mission.cargotype.l10n_key .. "_RISK_MESSAGE"
+	local num_custom_risk = getNumberOfFlavours(cargo)
+	local test_custom = num_custom_risk > 0 and Engine.rand:Integer(1,10) < 2 -- 1 in 10
 	if mission.localdelivery then
-		return l.RISK_1 -- very low risk -> no specific text to give no confusing answer
+		return test_custom and l[cargo .. "_" .. Engine.rand:Integer(1, num_custom_risk)]
+			or l.RISK_1	-- very low risk -> no specific text to give no confusing answer
 	else
 		local branch
 		if mission.wholesaler then branch = "WHOLESALER" else branch = mission.branch end
-		return l:get("RISK_" .. branch .. "_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1)
+		if test_custom and mission.risk < 0.2 then
+			return l[cargo .. "_" .. Engine.rand:Integer(1, num_custom_risk)]
+		else
+			return l:get("RISK_" .. branch .. "_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1)
 			or l["RISK_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK") - 1)) + 1]
+		end
 	end
 end
 
