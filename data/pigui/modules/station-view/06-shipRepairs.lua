@@ -105,7 +105,6 @@ local function determinePaintshopAvailability()
 	-- high population stations often have them
 	local pop = station:GetSystemBody().population
 	if pop > 0.00005 then -- Mars is about 0.0002
-		stationSeed = station.seed
 		local rand = Rand.New(station.seed .. '-paintshop')
 		if rand:Number(0,1) < 0.75 then
 			return true
