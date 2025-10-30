@@ -1,18 +1,25 @@
-material DefaultMaterial
-tex_diff Dome2_D.dds
-tex_glow Dome2_G.dds
-tex_spec Dome2_S.dds
-diffuse 1.0 1.0 1.0
-specular 0.8 0.8 0.8
-shininess 90
+version 2
 
-lod 30
-mesh Dome2LQ.obj
+material "DefaultMaterial" {
+	shader "multi"
+	texture diffuse  "Dome2_D.dds"
+	texture glow     "Dome2_G.dds"
+	texture specular "Dome2_S.dds"
+	diffuse 1.0 1.0 1.0
+	specular 0.8 0.8 0.8
+	shininess 90
+}
 
-lod 70
-mesh Dome2MQ.obj
+lod 30 {
+	mesh "Dome2LQ.obj"
+}
 
-lod 100
-mesh Dome2HQ.obj
+lod 70 {
+	mesh "Dome2MQ.obj"
+}
 
-collision Dome2LQ.obj
+lod 100 {
+	mesh "Dome2HQ.obj"
+}
+
+collision "Dome2LQ.obj"

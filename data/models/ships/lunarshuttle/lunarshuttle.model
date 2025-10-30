@@ -1,19 +1,25 @@
+version 2
+
 # Lunar Shuttle
 
-material lunarshuttle_fuselage
-tex_diff lunarshuttle_diff.dds
-tex_spec lunarshuttle_spec.dds
-tex_glow lunarshuttle_glow.dds
-diffuse 0.75 0.75 0.75
-specular 0.2 0.2 0.2
-use_patterns
+material "lunarshuttle_fuselage" {
+	shader "multi"
+	texture diffuse  "lunarshuttle_diff.dds"
+	texture specular "lunarshuttle_spec.dds"
+	texture glow     "lunarshuttle_glow.dds"
+	diffuse 0.75 0.75 0.75
+	specular 0.2 0.2 0.2
+	use_patterns
+}
 
-lod 500
-mesh lunar_shuttle_hi.dae
+lod 500 {
+	mesh "lunar_shuttle_hi.dae"
+}
 
-lod 100 
-mesh lunar_shuttle_lo.dae
+lod 100 {
+	mesh "lunar_shuttle_lo.dae"
+}
 
-collision lunar_shuttle_col.dae
+collision "lunar_shuttle_col.dae"
 
-anim gear_down 1 100
+anim "gear_down" 1 100

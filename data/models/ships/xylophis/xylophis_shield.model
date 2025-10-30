@@ -1,1 +1,5 @@
-mesh xylophis_shield.dae
+version 2
+
+lod 100 {
+	mesh "xylophis_shield.dae"
+}

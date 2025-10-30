@@ -1,26 +1,33 @@
-material Body_Hi
+version 2
 
-tex_diff venturestar.dds
-tex_spec venturestar_spec.dds
-tex_glow venturestar_glow.dds
+material "Body_Hi" {
+	shader "multi"
 
-use_patterns
+	texture diffuse  "venturestar.dds"
+	texture specular "venturestar_spec.dds"
+	texture glow     "venturestar_glow.dds"
 
-collision venturestar_collision.obj
+	use_patterns
+}
 
 #LOD
-lod 1000
-mesh venturestar.dae
+lod 1000 {
+	mesh "venturestar.dae"
+}
 
-lod 350
-mesh venturestar_high.dae
+lod 350 {
+	mesh "venturestar_high.dae"
+}
 
-#lod 50
-#mesh venturestar_med.dae
+#lod 50 {
+#	mesh "venturestar_med.dae"
+#}
 
-lod 5
-mesh venturestar_low.dae
+lod 5 {
+	mesh "venturestar_low.dae"
+}
 
 # Animations
-anim gear_down 0 72	
+anim "gear_down" 0 72	
 
+collision "venturestar_collision.obj"

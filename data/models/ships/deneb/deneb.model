@@ -1,25 +1,33 @@
-material Body
+version 2
 
-tex_diff deneb.dds
-tex_glow deneb_glow.dds
-tex_spec deneb_spec.dds
+material "Body" {
+	shader "multi"
 
-use_patterns
+	texture diffuse  "deneb.dds"
+	texture glow     "deneb_glow.dds"
+	texture specular "deneb_spec.dds"
 
-collision deneb_collision.obj
+	use_patterns
+}
 
-# LOD
-lod 1001
-mesh deneb.dae
+# LODs
+lod 1001 {
+	mesh "deneb.dae"
+}
 
-lod 350
-mesh deneb_medhigh.dae
+lod 350 {
+	mesh "deneb_medhigh.dae"
+}
 
-#lod 50
-#mesh deneb_med.dae
+#lod 50 {
+#	mesh "deneb_med.dae"
+#}
 
-lod 5
-mesh deneb_low.dae
+lod 5 {
+	mesh "deneb_low.dae"
+}
 
 # Animations
-anim gear_down 0 72
+anim "gear_down" 0 72
+
+collision "deneb_collision.obj"

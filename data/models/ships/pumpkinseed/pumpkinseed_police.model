@@ -1,20 +1,27 @@
-material smallship_fuselage
-diffuse 1.0 1.0 1.0
-specular 0.9 0.9 0.9
-shininess 70
-tex_diff pumpkinseed_police_diff.dds
-tex_glow pumpkinseed_police_glow.dds
-tex_spec pumpkinseed_police_spec.dds
+version 2
 
-lod 50
-mesh pumpkinseed_3low.dae
+material "smallship_fuselage" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.9 0.9 0.9
+	shininess 70
+	texture diffuse  "pumpkinseed_police_diff.dds"
+	texture glow     "pumpkinseed_police_glow.dds"
+	texture specular "pumpkinseed_police_spec.dds"
+}
 
-lod 100
-mesh pumpkinseed_2med.dae
+lod 50 {
+	mesh "pumpkinseed_3low.dae"
+}
 
-lod 300
-mesh pumpkinseed_1hi.dae
+lod 100 {
+	mesh "pumpkinseed_2med.dae"
+}
 
-collision pumpkinseed_collision.dae
+lod 300 {
+	mesh "pumpkinseed_1hi.dae"
+}
 
-anim gear_down 0 100
+collision "pumpkinseed_collision.dae"
+
+anim "gear_down" 0 100

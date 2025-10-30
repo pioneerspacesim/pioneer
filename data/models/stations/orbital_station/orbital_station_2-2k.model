@@ -1,54 +1,73 @@
-material facade
-tex_diff facades_diff.dds
-tex_glow facades_diff.dds
-specular 0.1 0.1 0.1
-unlit
+version 2
 
-material floor
-tex_diff floors_diff.dds
-tex_glow floors_diff.dds
-specular 0.1 0.1 0.1
-unlit
+material "facade" {
+	shader "multi"
+	texture diffuse  "facades_diff.dds"
+	texture glow     "facades_diff.dds"
+	specular 0.1 0.1 0.1
+	unlit
+}
 
-material tunnels
-tex_diff spoke_n_misc_diff.dds
-tex_glow spoke_n_misc_diff.dds
-specular 0.1 0.1 0.1
-unlit
+material "floor" {
+	shader "multi"
+	texture diffuse  "floors_diff.dds"
+	texture glow     "floors_diff.dds"
+	specular 0.1 0.1 0.1
+	unlit
+}
 
-material facade_window
-tex_diff facades_diff.dds
-tex_glow facades_diff.dds
-specular 0.6 0.6 0.6
-opacity 13
+material "tunnels" {
+	shader "multi"
+	texture diffuse  "spoke_n_misc_diff.dds"
+	texture glow     "spoke_n_misc_diff.dds"
+	specular 0.1 0.1 0.1
+	unlit
+}
 
-material ring
-tex_diff ring_diff.dds
-tex_spec ring_diff_s.dds
-tex_glow ring_glow.dds
+material "facade_window" {
+	shader "multi"
+	texture diffuse  "facades_diff.dds"
+	texture glow     "facades_diff.dds"
+	specular 0.6 0.6 0.6
+	opacity 13
+}
 
-material ring_glass
-tex_diff ring_diff.dds
-specular 0.7 0.7 0.7
-opacity 20
+material "ring" {
+	shader "multi"
+	texture diffuse  "ring_diff.dds"
+	texture specular "ring_diff_s.dds"
+	texture glow     "ring_glow.dds"
+}
 
-material strut
-tex_diff struts_diff.dds
-specular 0.1 0.1 0.1
+material "ring_glass" {
+	shader "multi"
+	texture diffuse  "ring_diff.dds"
+	specular 0.7 0.7 0.7
+	opacity 20
+}
 
-material spokes
-tex_diff spoke_n_misc_diff.dds
-specular 0.1 0.1 0.1
-use_patterns
+material "strut" {
+	shader "multi"
+	texture diffuse  "struts_diff.dds"
+	specular 0.1 0.1 0.1
+}
 
-mesh station_hub_B.dae
-mesh station_docking_B.dae
-mesh station_ring_2-2k.dae
+material "spokes" {
+	shader "multi"
+	texture diffuse  "spoke_n_misc_diff.dds"
+	specular 0.1 0.1 0.1
+	use_patterns
+}
 
+lod 100 {
+	mesh "station_hub_B.dae"
+	mesh "station_docking_B.dae"
+	mesh "station_ring_2-2k.dae"
+}
 
-collision station_B_coll.dae	
-#collision station_ring_2-5k_coll.dae
+collision "station_B_coll.dae"
+#collision "station_ring_2-5k_coll.dae"
 
-bound capsule interior tag_interior1 tag_interior2 70
-bound capsule interior tag_interior2 tag_interior3 120
-bound capsule interior tag_interior3 tag_interior4 70
+bound capsule interior "tag_interior1" "tag_interior2" 70
+bound capsule interior "tag_interior2" "tag_interior3" 120
+bound capsule interior "tag_interior3" "tag_interior4" 70

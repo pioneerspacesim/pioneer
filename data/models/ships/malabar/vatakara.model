@@ -1,18 +1,24 @@
-material malabar_001
-diffuse 1.0 1.0 1.0
-specular 0.9 0.9 0.9
-shininess 100
-use_patterns
-tex_diff vatakara_diff.dds
-tex_glow vatakara_glow.dds
-tex_spec vatakara_spec.dds
+version 2
 
-lod 300
-mesh vatakara_hi.dae
+material "malabar_001" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.9 0.9 0.9
+	shininess 100
+	use_patterns
+	texture diffuse  "vatakara_diff.dds"
+	texture glow     "vatakara_glow.dds"
+	texture specular "vatakara_spec.dds"
+}
 
-lod 100
-mesh malabar_med.dae
+lod 300 {
+	mesh "vatakara_hi.dae"
+}
 
-collision malabar_col.dae
+lod 100 {
+	mesh "malabar_med.dae"
+}
 
-anim gear_down 0 122
+collision "malabar_col.dae"
+
+anim "gear_down" 0 122

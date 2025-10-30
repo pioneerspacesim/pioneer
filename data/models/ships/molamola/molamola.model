@@ -1,23 +1,28 @@
-material Fuselage
-diffuse 1.0 1.0 1.0
-specular 0.9 0.9 0.9
-shininess 69
-use_patterns
-tex_diff molamola_diff.dds
-tex_glow molamola_glow.dds
-tex_spec molamola_spec.dds
+version 2
 
+material "Fuselage" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.9 0.9 0.9
+	shininess 69
+	use_patterns
+	texture diffuse  "molamola_diff.dds"
+	texture glow     "molamola_glow.dds"
+	texture specular "molamola_spec.dds"
+}
 
-lod 300
-mesh molamola_1hi.dae
+lod 300 {
+	mesh "molamola_1hi.dae"
+}
 
-lod 100
-mesh molamola_2med.dae
+lod 100 {
+	mesh "molamola_2med.dae"
+}
 
-lod 50
-mesh molamola_3low.dae
+lod 50 {
+	mesh "molamola_3low.dae"
+}
 
+collision "molamola_4col.dae"
 
-collision molamola_4col.dae
-
-anim gear_down 0 100
+anim "gear_down" 0 100

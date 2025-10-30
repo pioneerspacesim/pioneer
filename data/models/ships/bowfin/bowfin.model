@@ -1,34 +1,40 @@
-material Fuselage
-diffuse 1.0 1.0 1.0
-specular 0.9 0.9 0.9
-shininess 69
-use_patterns
-tex_diff bowfin_diff.dds
-#tex_glow bowfin_glow.dds
-tex_spec bowfin_spec.dds
-tex_norm bowfin_norm.dds
+version 2
 
-material Canopy
-diffuse 1.0 1.0 1.0
-specular 0.9 0.9 0.9
-shininess 69
-opacity 46
-#use_patterns
-tex_diff bowfin_diff.dds
-tex_glow bowfin_glow.dds
-tex_spec bowfin_spec.dds
-#tex_norm bowfin_norm.dds
+material "Fuselage" {
+	diffuse 1.0 1.0 1.0
+	specular 0.9 0.9 0.9
+	shininess 69
+	use_patterns
+	texture diffuse  "bowfin_diff.dds"
+	#texture glow     "bowfin_glow.dds"
+	texture specular "bowfin_spec.dds"
+	texture normal   "bowfin_norm.dds"
+}
 
+material "Canopy" {
+	diffuse 1.0 1.0 1.0
+	specular 0.9 0.9 0.9
+	shininess 69
+	opacity 46
+	#use_patterns
+	texture diffuse  "bowfin_diff.dds"
+	texture glow     "bowfin_glow.dds"
+	texture specular "bowfin_spec.dds"
+	#texture normal   "bowfin_norm.dds"
+}
 
-lod 300
-mesh bowfin_hi.dae
+lod 300 {
+	mesh "bowfin_hi.dae"
+}
 
-lod 100
-mesh bowfin_med.dae
+lod 100 {
+	mesh "bowfin_med.dae"
+}
 
-lod 10
-mesh bowfin_low.dae
+lod 10 {
+	mesh "bowfin_low.dae"
+}
 
-collision bowfin_col.dae
+collision "bowfin_col.dae"
 
-anim gear_down 0 100
+anim "gear_down" 0 100

@@ -1,22 +1,28 @@
-material keszeg_fuselage
-diffuse 1.0 1.0 1.0
-specular 0.9 0.9 0.9
-shininess 69
-use_patterns
-tex_diff varada_diff.dds
-tex_glow varada_glow.dds
-tex_spec varada_spec.dds
+version 2
 
+material "keszeg_fuselage" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.9 0.9 0.9
+	shininess 69
+	use_patterns
+	texture diffuse  "varada_diff.dds"
+	texture glow     "varada_glow.dds"
+	texture specular "varada_spec.dds"
+}
 
-lod 300
-mesh varada_hi.dae
+lod 300 {
+	mesh "varada_hi.dae"
+}
 
-lod 50
-mesh varada_med.dae
+lod 50 {
+	mesh "varada_med.dae"
+}
 
-#lod 10
-#mesh kanara_low.dae
+#lod 10 {
+#	mesh "kanara_low.dae"
+#}
 
-collision varada_col.dae
+collision "varada_col.dae"
 
-anim gear_down 0 76
+anim "gear_down" 0 76

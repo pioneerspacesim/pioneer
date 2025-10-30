@@ -1,41 +1,51 @@
-material Hull
-diffuse 1.0 1.0 1.0
-specular 0.8 0.8 0.8
-shininess 100
-tex_diff fuselage_diff_police.dds
-tex_spec fuselage_spec.dds
-tex_norm fuselage_norm.png
-tex_glow fuselage_glow.dds
+version 2
 
-material Canopy
-diffuse 1.0 1.0 1.0
-specular 0.8 0.8 0.8
-shininess 120
-opacity 30
-tex_diff fuselage_diff.dds
-tex_spec fuselage_spec.dds
-tex_norm fuselage_norm.png
-tex_glow fuselage_glow.dds
+material "Hull" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.8 0.8 0.8
+	shininess 100
+	texture diffuse  "fuselage_diff_police.dds"
+	texture specular "fuselage_spec.dds"
+	texture normal   "fuselage_norm.png"
+	texture glow     "fuselage_glow.dds"
+}
 
-material Engine
-diffuse 1.0 1.0 1.0
-specular 0.4 0.4 0.4
-shininess 80
-tex_diff engine_diff.dds
-tex_spec engine_spec.dds
-tex_norm engine_norm.png
-tex_glow engine_glow.dds
+material "Canopy" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.8 0.8 0.8
+	shininess 120
+	opacity 30
+	texture diffuse  "fuselage_diff.dds"
+	texture specular "fuselage_spec.dds"
+	texture normal   "fuselage_norm.png"
+	texture glow     "fuselage_glow.dds"
+}
 
-lod 300
-mesh sinonatrix_hi.dae
+material "Engine" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.4 0.4 0.4
+	shininess 80
+	texture diffuse  "engine_diff.dds"
+	texture specular "engine_spec.dds"
+	texture normal   "engine_norm.png"
+	texture glow     "engine_glow.dds"
+}
 
-lod 100
-mesh sinonatrix_med.dae
+lod 300 {
+	mesh "sinonatrix_hi.dae"
+}
 
-lod 50
-mesh sinonatrix_low.dae
+lod 100 {
+	mesh "sinonatrix_med.dae"
+}
 
+lod 50 {
+	mesh "sinonatrix_low.dae"
+}
 
-anim gear_down 1 100
+anim "gear_down" 1 100
 
-collision sinonatrix_coll.dae
+collision "sinonatrix_coll.dae"

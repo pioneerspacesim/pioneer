@@ -1,18 +1,25 @@
-material DefaultMaterial
-tex_diff Library_D.dds
-tex_glow Library_G.dds
-tex_spec Library_S.dds
-diffuse 1.0 1.0 1.0
-specular 0.8 0.8 0.8
-shininess 90
+version 2
 
-lod 50
-mesh LibraryLQ.obj
+material "DefaultMaterial" {
+	shader "multi"
+	texture diffuse  "Library_D.dds"
+	texture glow     "Library_G.dds"
+	texture specular "Library_S.dds"
+	diffuse 1.0 1.0 1.0
+	specular 0.8 0.8 0.8
+	shininess 90
+}
 
-lod 70
-mesh LibraryMQ.obj
+lod 50 {
+	mesh "LibraryLQ.obj"
+}
 
-lod 100
-mesh LibraryHQ.obj
+lod 70 {
+	mesh "LibraryMQ.obj"
+}
 
-collision LibraryLQ.obj
+lod 100 {
+	mesh "LibraryHQ.obj"
+}
+
+collision "LibraryLQ.obj"

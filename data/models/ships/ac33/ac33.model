@@ -1,26 +1,33 @@
-material Body_Hi
+version 2
 
-tex_diff ac33.dds
-tex_spec ac33_spec.dds
-tex_glow ac33_glow.dds
+material "Body_Hi" {
+	shader "multi"
+	texture diffuse "ac33.dds"
+	texture specular "ac33_spec.dds"
+	texture glow "ac33_glow.dds"
 
-use_patterns
+	use_patterns
+}
 
-collision ac33_collision.obj
 
-#LOD
-lod 1000
-mesh ac33.dae
+# LODs
+lod 1000 {
+	mesh "ac33.dae"
+}
 
-lod 350
-mesh ac33_high.dae
+lod 350 {
+	mesh "ac33_high.dae"
+}
 
-lod 50
-mesh ac33_med.dae
+lod 50 {
+	mesh "ac33_med.dae"
+}
 
-lod 5
-mesh ac33_low.dae
+lod 5 {
+	mesh "ac33_low.dae"
+}
 
 # Animations
-anim gear_down 0 72	
+anim "gear_down" 0 72	
 
+collision "ac33_collision.obj"

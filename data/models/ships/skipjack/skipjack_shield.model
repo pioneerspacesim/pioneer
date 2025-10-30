@@ -1,1 +1,5 @@
-mesh skipjack_shield.dae
+version 2
+
+lod 100 {
+	mesh "skipjack_shield.dae"
+}
