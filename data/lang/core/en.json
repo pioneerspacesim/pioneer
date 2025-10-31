@@ -607,6 +607,26 @@
     "description": "",
     "message": "Hyperspace arrival cloud remnant"
   },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
+    "description": "Label for hyperspace cloud display modes.",
+    "message": "Hyperspace Cloud Display Mode"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL": {
+    "description": "Combobox option for all hyperspace clouds.",
+    "message": "All Hyperspace Clouds"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY": {
+    "description": "Combobox option for arrival hyperspace clouds.",
+    "message": "Arrival Hyperspace Clouds"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY": {
+    "description": "Combobox option for departure hyperspace clouds.",
+    "message": "Departure Hyperspace Clouds"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE": {
+    "description": "Tooltip for the button which toggles the display mode of hyperspace clouds.",
+    "message": "Toggle visibility of Hyperspace Clouds."
+  },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
     "message": "Hyperspace departure cloud"

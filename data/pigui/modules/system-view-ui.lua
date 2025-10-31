@@ -182,6 +182,22 @@ local shipDisplayMode = SystemViewComboState:new{
 	configKeyDoDisplay = "ShipDisplayModeOn"
 }
 
+local cloudDisplayMode = SystemViewComboState:new{
+	items = {
+		lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL,
+		lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY,
+		lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY
+	},
+	displayModes = {
+		"CLOUDS_ON",
+		"CLOUDS_ARRIVAL",
+		"CLOUDS_DEPARTURE"
+	},
+	displayModeOff = "CLOUDS_OFF",
+	configKeySelectedItem = "CloudDisplayMode",
+	configKeyDoDisplay = "CloudDisplayModeOn"
+}
+
 local gridDisplayMode = SystemViewComboState:new{
 	items = {
 		lc.GRID_DISPLAY_MODE_OFF,
@@ -219,6 +235,7 @@ local onGameStart = function ()
 	end
 	-- update visibility states
 	shipDisplayMode:loadConfig()
+	cloudDisplayMode:loadConfig()
 	gridDisplayMode:loadConfig()
 	l4l5DisplayMode:loadConfig()
 end
@@ -226,6 +243,7 @@ end
 local onGameEnd = function ()
 	-- save visibility states
 	shipDisplayMode:saveConfig()
+	cloudDisplayMode:saveConfig()
 	gridDisplayMode:saveConfig()
 	l4l5DisplayMode:saveConfig()
 	Engine.SaveSettings()
@@ -318,6 +336,13 @@ local function timeButton(icon, tooltip, factor)
 	return active
 end
 
+-- Format the mass in tonnes
+-- The ui.Format() function reformats the units whereas we always want to
+-- display using tonnes.
+local function formatMass(massInTonnes)
+	return string.format("%d %s", massInTonnes or 0, lc.UNIT_TONNES)
+end
+
 -- cache some data to reduce per-frame overheads
 local data_cache = {
 	body = {},
@@ -406,6 +431,21 @@ local function getObjectData(obj)
 				table.insert(data, { name = luc.HYPERDRIVE, value = hd and hd:GetName() or lc.NO_HYPERDRIVE })
 				table.insert(data, { name = luc.MASS, value = Format.MassTonnes(body.staticMass) })
 				table.insert(data, { name = luc.CARGO, value = Format.MassTonnes(body.usedCargo) })
+			end
+		elseif obj.ref:IsHyperspaceCloud() then
+			---@cast body HyperspaceCloud
+			local hypercloud_level = (player["hypercloud_analyzer_cap"] or 0)
+			local ship = body:GetShip()
+			-- TODO: different levels of hypercloud analyser should provide
+			-- increasingly detailed amounts of information.
+			if hypercloud_level > 0 and ship then
+				local _,systemName = ship:GetHyperspaceDestination()
+				local systemLabel = body:IsArrival() and luc.HUD_HYPERSPACE_ORIGIN or luc.HUD_HYPERSPACE_DESTINATION
+
+				table.insert(data, { name = luc.SHIP_TYPE, value = ship:GetShipType() })
+				table.insert(data, { name = luc.HUD_MASS, value = formatMass(ship.staticMass) })
+				table.insert(data, { name = systemLabel, value = systemName })
+				table.insert(data, { name = luc.HUD_ARRIVAL_DATE, value = ui.Format.Datetime(body:GetDueDate()) })
 			end
 		else
 			data = {}
@@ -567,6 +607,11 @@ local settingsView = {
 					gridDisplayMode:update{selectedItem = ret}
 				end
 
+				ui.text(lc.HYPERSPACE_CLOUDS_DISPLAY_MODE)
+				c,ret = ui.combo("##Cloud", cloudDisplayMode.selectedItem, cloudDisplayMode.items)
+				if c then
+					cloudDisplayMode:update{selectedItem = ret}
+				end
 			end)
 		end
 	end
@@ -684,6 +729,9 @@ function Windows.edgeButtons.Show()
 			ui.spacing()
 			if ui.mainMenuButton(icons.ships_no_orbits, lc.SHIPS_DISPLAY_MODE_TOGGLE, buttonState[shipDisplayMode.doDisplay].state) then
 				shipDisplayMode:toggleDisplay()
+			end
+			if ui.mainMenuButton(icons.hyperspace, lc.HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE, buttonState[cloudDisplayMode.doDisplay].state) then
+				cloudDisplayMode:toggleDisplay()
 			end
 		end
 	end)
@@ -903,6 +951,7 @@ function makePopup()
 		local isObject = popup_object.type == Projectable.OBJECT
 		local isSystemBody = isObject and popup_object.base == Projectable.SYSTEMBODY
 		local isShip = isObject and not isSystemBody and popup_object.ref:IsShip()
+		local isCloud = isObject and not isSystemBody and popup_object.ref:IsHyperspaceCloud()
 		ui.text(getLabel(popup_object))
 		ui.separator()
 		if isOrrery and ui.selectable(lc.CENTER, false, {}) then
@@ -910,9 +959,12 @@ function makePopup()
 			systemView:SetSelectedObject(popup_object.type, popup_object.base, popup_object.ref)
 			systemView:ViewSelectedObject()
 		end
-		if (isShip or isSystemBody and popup_object.ref.physicsBody) and ui.selectable(lc.SET_AS_TARGET, false, {}) then
+		if (isShip or isCloud or isSystemBody and popup_object.ref.physicsBody) and ui.selectable(lc.SET_AS_TARGET, false, {}) then
 			if isSystemBody then
 				player:SetNavTarget(popup_object.ref.physicsBody)
+				ui.playSfx("OK")
+			elseif isCloud then
+				player:SetNavTarget(popup_object.ref)
 				ui.playSfx("OK")
 			else
 				if combatTarget == popup_object.ref then player:SetCombatTarget(nil) end
@@ -1014,7 +1066,7 @@ local function displayOnScreenObjects()
 			end
 		end
 
-		if mainObject.type == Projectable.OBJECT and (mainObject.base == Projectable.SYSTEMBODY or mainObject.base == Projectable.SHIP or mainObject.base == Projectable.PLAYER) then
+		if mainObject.type == Projectable.OBJECT and (mainObject.base == Projectable.SYSTEMBODY or mainObject.base == Projectable.SHIP or mainObject.base == Projectable.PLAYER or mainObject.base == Projectable.OBJECT) then
 			-- mouse release handler for right button
 			if mouseover then
 				if not ui.isAnyWindowHovered() and ui.isMouseReleased(1) then
