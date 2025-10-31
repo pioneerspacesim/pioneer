@@ -657,6 +657,8 @@ void CustomSystem::LoadFromJson(const Json &systemdef)
 	sectorY = sector[1].get<int32_t>();
 	sectorZ = sector[2].get<int32_t>();
 
+	systemIndex = systemdef.value<uint32_t>("index", 0);
+
 	const Json &position = systemdef["pos"];
 	pos.x = position[0].get<float>();
 	pos.y = position[1].get<float>();
@@ -669,6 +671,7 @@ void CustomSystem::LoadFromJson(const Json &systemdef)
 	want_rand_seed = !systemdef.count("seed");
 	want_rand_explored = !systemdef.count("explored");
 	want_rand_lawlessness = !systemdef.count("lawlessness");
+	override_random_system = systemdef.value("overrideRandom", false);
 
 	govType = Polit::GovType(EnumStrings::GetValue("PolitGovType", systemdef.value<std::string>("govType", "NONE").c_str()));
 
@@ -701,6 +704,11 @@ void CustomSystem::SaveToJson(Json &obj)
 		obj["explored"] = explored;
 	if(!want_rand_lawlessness)
 		obj["lawlessness"] = lawlessness;
+
+	if (override_random_system) {
+		obj["overrideRandom"] = true;
+		obj["index"] = systemIndex;
+	}
 
 	obj["govType"] = EnumStrings::GetString("PolitGovType", govType);
 
@@ -991,7 +999,9 @@ void CustomSystemsDatabase::AddCustomSystem(const SystemPath &path, CustomSystem
 		return;
 	}
 
-	csys->systemIndex = sectorSystems.size();
+	if (!csys->override_random_system)
+		csys->systemIndex = sectorSystems.size();
+
 	m_lastAddedSystem = SystemIndex(path, csys->systemIndex);
 	sectorSystems.push_back(csys);
 }
@@ -1075,6 +1085,7 @@ CustomSystem::CustomSystem() :
 	seed(0),
 	want_rand_seed(true),
 	want_rand_explored(true),
+	override_random_system(false),
 	faction(nullptr),
 	govType(Polit::GOV_INVALID),
 	want_rand_lawlessness(true)

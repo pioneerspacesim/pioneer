@@ -55,6 +55,7 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string &name, Version v
 			galgen.Reset((new GalaxyGenerator(name, version))
 							 ->AddSectorStage(new SectorCustomSystemsGenerator(CustomSystem::CUSTOM_ONLY_RADIUS))
 							 ->AddSectorStage(new SectorRandomSystemsGenerator)
+							 ->AddSectorStage(new SectorOverrideSystemsGenerator)
 							 ->AddSectorStage(new SectorPersistenceGenerator(version))
 							 ->AddStarSystemStage(new StarSystemFromSectorGenerator)
 							 ->AddStarSystemStage(new StarSystemCustomGenerator)

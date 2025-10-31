@@ -72,6 +72,7 @@ public:
 	// NOTE: these are only intended to be used for Lua system generation
 	bool want_rand_seed;
 	bool want_rand_explored;
+	bool override_random_system;
 	bool explored;
 	const Faction *faction;
 	Polit::GovType govType;

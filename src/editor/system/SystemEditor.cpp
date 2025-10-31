@@ -254,7 +254,7 @@ bool SystemEditor::LoadSystemFromFile(const FileSystem::FileInfo &file)
 
 bool SystemEditor::WriteSystem(const std::string &filepath)
 {
-	Log::Info("Writing to path: {}/{}", FileSystem::GetDataDir(), filepath);
+	Log::Info("Writing to path: {}", filepath);
 	// FIXME: need better file-saving interface for the user
 	// FileSystem::FileSourceFS(FileSystem::GetDataDir()).OpenWriteStream(filepath, FileSystem::FileSourceFS::WRITE_TEXT);
 
@@ -285,11 +285,18 @@ bool SystemEditor::WriteSystem(const std::string &filepath)
 	else
 		systemdef["explored"] = m_systemInfo.explored == CustomSystemInfo::EXPLORE_ExploredAtStart;
 
+	if (m_systemInfo.overrideRandom) {
+		systemdef["overrideRandom"] = true;
+		systemdef["index"] = m_system->GetPath().systemIndex;
+	}
+
 	systemdef["comment"] = m_systemInfo.comment;
 
 	std::string jsonData = systemdef.dump(1, '\t');
 
 	fwrite(jsonData.data(), 1, jsonData.size(), f);
+	fwrite("\n", 1, 1, f); // write trailing newline
+
 	fclose(f);
 
 	OnSaveComplete(true);
@@ -329,6 +336,7 @@ bool SystemEditor::LoadCustomSystem(const CustomSystem *csys)
 	m_systemInfo.explored = csys->want_rand_explored ? CustomSystemInfo::EXPLORE_Random : explored;
 	m_systemInfo.randomLawlessness = csys->want_rand_lawlessness;
 	m_systemInfo.randomFaction = csys->faction == nullptr;
+	m_systemInfo.overrideRandom = csys->override_random_system;
 	m_systemInfo.faction = csys->faction ? csys->faction->name : "";
 
 	return true;
@@ -353,6 +361,7 @@ void SystemEditor::LoadSystemFromGalaxy(RefCountedPtr<StarSystem> system)
 	m_systemInfo.explored = explored ? CustomSystemInfo::EXPLORE_ExploredAtStart : CustomSystemInfo::EXPLORE_Unexplored;
 	m_systemInfo.randomLawlessness = false;
 	m_systemInfo.randomFaction = system->GetFaction();
+	m_systemInfo.overrideRandom = true;
 	m_systemInfo.faction = system->GetFaction() ? system->GetFaction()->name : "";
 }
 

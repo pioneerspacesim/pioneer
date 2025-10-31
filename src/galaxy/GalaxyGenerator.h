@@ -53,9 +53,11 @@ public:
 
 	struct SectorConfig {
 		bool isCustomOnly;
+		uint32_t numCustomSystems;
 
 		SectorConfig() :
-			isCustomOnly(false) {}
+			isCustomOnly(false),
+			numCustomSystems(0) {}
 	};
 
 	struct StarSystemConfig {

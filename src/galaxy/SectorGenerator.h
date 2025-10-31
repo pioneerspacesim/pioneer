@@ -52,6 +52,23 @@ private:
 	GalaxyConfig m_galaxyConfig;
 };
 
+class SectorOverrideSystemsGenerator : public SectorGeneratorStage {
+public:
+	SectorOverrideSystemsGenerator() {
+		GalaxyConfig cfg = GalaxyConfig();
+
+		m_GalaxyExploredMax = cfg.Int("GalaxyExploredMax");
+		m_GalaxyExploredMin = cfg.Int("GalaxyExploredMin");
+		m_GalaxyExploredMix = cfg.Int("GalaxyExploredMix");
+	}
+	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config);
+
+private:
+	int m_GalaxyExploredMax;
+	int m_GalaxyExploredMin;
+	int m_GalaxyExploredMix;
+};
+
 class SectorPersistenceGenerator : public SectorGeneratorStage {
 public:
 	SectorPersistenceGenerator(GalaxyGenerator::Version version) :
