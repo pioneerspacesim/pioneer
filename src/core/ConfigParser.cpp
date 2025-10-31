@@ -5,6 +5,7 @@
 #include "core/Log.h"
 
 #include <string_view>
+#include <fast_float/fast_float.h>
 
 using namespace Config;
 
@@ -82,9 +83,8 @@ size_t Tokenizer::default_classifier(Tokenizer *t, std::string_view remaining, T
 	// a Number token type means there's an optional '-' and at least one leading digit;
 	// parse its value as an optionally-floating point number
 	if (out.type == Token::Number) {
-		char *end = nullptr;
-		out.value = std::strtod(remaining.data(), &end);
-		length = std::distance<const char *>(remaining.data(), end);
+		const char *end = fast_float::from_chars(remaining.data(), remaining.data() + remaining.size(), out.value).ptr;
+		length = std::distance<>(remaining.data(), end);
 	}
 
 	// if it's a string, continue until we find a string terminator character
