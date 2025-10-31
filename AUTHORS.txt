@@ -225,6 +225,11 @@ Pioneer includes the following third-party software:
   Copyright 2014 Melissa O'Neill <oneill@pcg-random.org>
   Licensed under the Apache License, Version 2.0
 
+  fast_float
+  Copyright (c) 2021 The fast_float authors
+  Licensed under the MIT license. (See contrib/fast_float/fast_float.h)
+  https://github.com/fastfloat/fast_float
+
   Pionillium Text font
   Copyright (c) 2015, Pioneer Developers
   Based on Titillium
