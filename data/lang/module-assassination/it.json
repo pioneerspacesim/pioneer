@@ -203,6 +203,14 @@
     "description": "",
     "message": "Dev'essere fatto dopo che {target} avrà lasciato {spaceport}. Non si faccia sfuggire l'occasione."
   },
+  "IT_MUST_BE_DONE_AFTER_FEMALE": {
+    "description": "",
+    "message": "Dev'essere fatto dopo che lei avrà lasciato {spaceport}. Non si faccia sfuggire l'occasione."
+  },
+  "IT_MUST_BE_DONE_AFTER_MALE": {
+    "description": "",
+    "message": "Dev'essere fatto dopo che lui avrà lasciato {spaceport}. Non si faccia sfuggire l'occasione."
+  },
   "OK_AGREED": {
     "description": "",
     "message": "Ok, accordato."
@@ -345,10 +353,18 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "Dove posso trovare {target}?"
+    "message": "Dove posso trovare il bersaglio?"
   },
   "X_WILL_BE_LEAVING": {
     "description": "",
     "message": "{target} lascerà {spaceport} nel sistema {system} ({sectorX}, {sectorY}, {sectorZ}), distanza {dist} AL, alle {date}. L'astronave è una {shipname} ed ha codice di registrazione {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_FEMALE": {
+    "description": "",
+    "message": "{target} lascerà {spaceport} nel sistema {system} ({sectorX}, {sectorY}, {sectorZ}), distanza {dist} AL, alle {date}. La sua astronave è una {shipname} ed ha codice di registrazione {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_MALE": {
+    "description": "",
+    "message": "{target} lascerà {spaceport} nel sistema {system} ({sectorX}, {sectorY}, {sectorZ}), distanza {dist} AL, alle {date}. La sua astronave è una {shipname} ed ha codice di registrazione {shipregid}."
   }
 }

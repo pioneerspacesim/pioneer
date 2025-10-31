@@ -203,6 +203,14 @@
     "description": "",
     "message": "Det måste göras efter att {target} har lämnat {spaceport}. Missa inte detta tillfälle."
   },
+  "IT_MUST_BE_DONE_AFTER_FEMALE": {
+    "description": "",
+    "message": "Det måste göras efter att hon har lämnat {spaceport}. Missa inte detta tillfälle."
+  },
+  "IT_MUST_BE_DONE_AFTER_MALE": {
+    "description": "",
+    "message": "Det måste göras efter att han har lämnat {spaceport}. Missa inte detta tillfälle."
+  },
   "OK_AGREED": {
     "description": "",
     "message": "Ok, överenskommet."
@@ -345,10 +353,18 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "Var kan jag hitta {target}?"
+    "message": "Var kan jag hitta målet?"
   },
   "X_WILL_BE_LEAVING": {
     "description": "",
     "message": "{target} kommer att lämna {spaceport} i {system} systemet ({sectorX}, {sectorY}, {sectorZ}), avstånd {dist} ly, vid {date}. Skeppet är en {shipname} och har registrerings id {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_FEMALE": {
+    "description": "",
+    "message": "{target} kommer att lämna {spaceport} i {system} systemet ({sectorX}, {sectorY}, {sectorZ}), avstånd {dist} ly, vid {date}. Hennes skeppet är en {shipname} och har registrerings id {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_MALE": {
+    "description": "",
+    "message": "{target} kommer att lämna {spaceport} i {system} systemet ({sectorX}, {sectorY}, {sectorZ}), avstånd {dist} ly, vid {date}. Hans skeppet är en {shipname} och har registrerings id {shipregid}."
   }
 }

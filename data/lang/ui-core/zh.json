@@ -1,4 +1,8 @@
 {
+  "ABOUT": {
+    "description": "main menu button (implied 'about' the game)",
+    "message": "About"
+  },
   "ABOVE_AVERAGE": {
     "description": "",
     "message": "高于平均值"
@@ -62,6 +66,10 @@
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
     "message": "尝试修理船体"
+  },
+  "AUTOMATED_MESSAGE": {
+    "description": "For comm messages from bots",
+    "message": "AUTOMATED MESSAGE"
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",

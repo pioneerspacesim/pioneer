@@ -137,7 +137,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": " {target} doit être réduit en poussière spatiale. Je vous offrirais {cash} pour ce travail."
+    "message": "{target} doit être réduit en poussière spatiale. Je vous offrirais {cash} pour ce travail."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -202,6 +202,14 @@
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
     "message": "Ce doit être fait dès que {target} quittera {spaceport}. Ne loupez pas cette opportunité."
+  },
+  "IT_MUST_BE_DONE_AFTER_FEMALE": {
+    "description": "",
+    "message": "Cela doit être fait lorsque {target} aura quitté {spaceport}. Ne loupez pas cette opportunité."
+  },
+  "IT_MUST_BE_DONE_AFTER_MALE": {
+    "description": "",
+    "message": "Cela doit être fait lorsque {target} aura quitté {spaceport}. Ne loupez pas cette opportunité."
   },
   "OK_AGREED": {
     "description": "",
@@ -345,10 +353,18 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "Ou puis-je trouver {target} ?"
+    "message": "Où puis-je trouver la cible ?"
   },
   "X_WILL_BE_LEAVING": {
     "description": "",
-    "message": "{target} quittera {spaceport} dans le système {system} ({sectorX}, {sectorY}, {sectorZ}), à une distance de {dist} al, en date du {date}. Le transport sera un modèle {shipname} et sera enregistré sous l'ID {shipregid}."
+    "message": "{target} quittera {spaceport} dans le système {system} ({sectorX}, {sectorY}, {sectorZ}), distant de {dist} al., à la date du {date}. Le nom du vaisseau est {shipname} et son immatriculation est {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_FEMALE": {
+    "description": "",
+    "message": "{target} quittera {spaceport} dans le système {system} ({sectorX}, {sectorY}, {sectorZ}), distant de {dist} al., à la date du {date}. Le nom de son vaisseau est {shipname} et son immatriculation est {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_MALE": {
+    "description": "",
+    "message": "{target} quittera {spaceport} dans le système {system} ({sectorX}, {sectorY}, {sectorZ}), distant de {dist} al., à la date du {date}. Le nom de son vaisseau est {shipname} et son immatriculation est {shipregid}."
   }
 }

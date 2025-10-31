@@ -7,6 +7,10 @@
     "description": "",
     "message": "Acknowledgements"
   },
+  "CONTENT": {
+    "description": "",
+    "message": "Content"
+  },
   "CONTENT_CONTRIBUTION": {
     "description": "",
     "message": "Content contribution"
@@ -18,10 +22,6 @@
   "CONTRIBUTE_BODY": {
     "description": "",
     "message": "Pioneer is the sum of the many contributions from its players and developers. See anything you want to change, improve, or ideas for new content to add? (E.g. translations, coding, art, 2D & 3D assets, music, designing custom star systems, improve our documentation, wiki, etc.) Follow the links for details on how you can contribute!"
-  },
-  "CONTENT": {
-    "description": "",
-    "message": "Content"
   },
   "DEVELOPER_DOCUMENTATION": {
     "description": "",
@@ -59,45 +59,45 @@
     "description": "",
     "message": "The game is open-ended, and you are free to explore the millions of star systems in the game. You can land on planets, slingshot past gas giants, and burn yourself to a crisp flying between binary star systems. You can try your hand at piracy, make your fortune trading between systems, or do missions for the various factions fighting for power, freedom or self-determination."
   },
-  "LINK_HOMEPAGE": {
+  "LICENSE": {
     "description": "",
-    "message": "Homepage"
-  },
-  "LINK_BUG_TRACKER": {
-    "description": "",
-    "message": "Bug Tracker"
-  },
-  "LINK_DEVELOPER_FORUM": {
-    "description": "",
-    "message": "Developer Forum"
-  },
-  "LINK_COMMUNITY_FORUM": {
-    "description": "",
-    "message": "Community Forum"
-  },
-  "LINK_COMMUNITY_CHAT": {
-    "description": "",
-    "message": "Community chat (Discord)"
-  },
-  "LINK_DEVELOPER_CHAT": {
-    "description": "",
-    "message": "Developer chat (IRC)"
-  },
-  "LINK_MANUAL": {
-    "description": "",
-    "message": "Manual"
-  },
-  "LINK_FAQ": {
-    "description": "",
-    "message": "FAQ"
+    "message": "License"
   },
   "LINK_BASIC_FLIGHT": {
     "description": "",
     "message": "Basic flight"
   },
-  "LICENSE": {
+  "LINK_BUG_TRACKER": {
     "description": "",
-    "message": "License"
+    "message": "Bug Tracker"
+  },
+  "LINK_COMMUNITY_CHAT": {
+    "description": "",
+    "message": "Community chat (Discord)"
+  },
+  "LINK_COMMUNITY_FORUM": {
+    "description": "",
+    "message": "Community Forum"
+  },
+  "LINK_DEVELOPER_CHAT": {
+    "description": "",
+    "message": "Developer chat (IRC)"
+  },
+  "LINK_DEVELOPER_FORUM": {
+    "description": "",
+    "message": "Developer Forum"
+  },
+  "LINK_FAQ": {
+    "description": "",
+    "message": "FAQ"
+  },
+  "LINK_HOMEPAGE": {
+    "description": "",
+    "message": "Homepage"
+  },
+  "LINK_MANUAL": {
+    "description": "",
+    "message": "Manual"
   },
   "SOFTWARE": {
     "description": "",
@@ -120,7 +120,7 @@
     "message": "Your current version"
   },
   "VERSION_LATEST": {
-      "description": "This sentence continues into string VERSION_LATEST_CONTINUED, to read 'Latest version from source', referring to the source code",
+    "description": "This sentence continues into string VERSION_LATEST_CONTINUED, to read 'Latest version from source', referring to the source code",
     "message": "Latest version from"
   },
   "VERSION_LATEST_CONTINUED": {

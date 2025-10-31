@@ -1,4 +1,8 @@
 {
+  "ABOUT": {
+    "description": "main menu button (implied 'about' the game)",
+    "message": "Névjegy"
+  },
   "ABOVE_AVERAGE": {
     "description": "",
     "message": "Átlag feletti"
@@ -62,6 +66,10 @@
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
     "message": "Kíséreld meg a hajótest javítását"
+  },
+  "AUTOMATED_MESSAGE": {
+    "description": "For comm messages from bots",
+    "message": "AUTOMATED MESSAGE"
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
@@ -905,7 +913,7 @@
   },
   "HUD_ARRIVAL_DATE": {
     "description": "Label for Hyperspace Cloud arrival date",
-    "message": "Arrival Date"
+    "message": "Érkezési dátum"
   },
   "HUD_ATMOSPHERIC_PRESSURE": {
     "description": "Tooltip: Atmospheric Pressure.",
@@ -2065,19 +2073,19 @@
   },
   "PUMP_DOWN_FROM_CARGO_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t from cargo"
+    "message": "%t pumpálása a raktérből"
   },
   "PUMP_DOWN_FROM_HYPERDRIVE_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t from hyperdrive to fuel tanks"
+    "message": "%t pumpálása a hiperhajtómű tankjából az üzemanyagtartályba"
   },
   "PUMP_DOWN_TO_CARGO_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t to cargo"
+    "message": "%t pumpálása a raktérbe"
   },
   "PUMP_DOWN_TO_HYPERDRIVE_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t to hyperdrive from fuel tanks"
+    "message": "%t pumpálása az üzemanyagtartályból a hiperhajtómű tankjába"
   },
   "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
@@ -2633,7 +2641,7 @@
   },
   "TO_PICK_UP": {
     "description": "Mission status",
-    "message": "To pick up"
+    "message": "Begyűjteni"
   },
   "TRADING_AT": {
     "description": "Indicates the current system for inspecting commodities.",

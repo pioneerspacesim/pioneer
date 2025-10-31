@@ -1,4 +1,8 @@
 {
+  "ABOUT": {
+    "description": "main menu button (implied 'about' the game)",
+    "message": "Om Pioneer"
+  },
   "ABOVE_AVERAGE": {
     "description": "",
     "message": "Över medel"
@@ -62,6 +66,10 @@
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
     "message": "Försök att reparera skrov"
+  },
+  "AUTOMATED_MESSAGE": {
+    "description": "For comm messages from bots",
+    "message": "AUTOMATISKT MEDDELANDE"
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",

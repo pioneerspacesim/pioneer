@@ -137,7 +137,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "Τον {target} πρέπει να τον συρρικνώσετε σε διαστημική σκόνη. Θα σας ανταμείψω με {cash} για να το κάνετε αυτό."
+    "message": "{target} must be reduced to space dust. I'll award you {cash} to do this."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -202,6 +202,14 @@
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
     "message": "Πρέπει να εμπλακείτε με τον {target} αφού απομακρυνθεί από το {spaceport}. Μην χάσετε αυτήν την ευκαιρία."
+  },
+  "IT_MUST_BE_DONE_AFTER_FEMALE": {
+    "description": "",
+    "message": "It must be done after she leaves {spaceport}. Do not miss this opportunity."
+  },
+  "IT_MUST_BE_DONE_AFTER_MALE": {
+    "description": "",
+    "message": "It must be done after he leaves {spaceport}. Do not miss this opportunity."
   },
   "OK_AGREED": {
     "description": "",
@@ -345,10 +353,18 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "Πού μπορώ να βρω τον {target};"
+    "message": "Where can I find the target?"
   },
   "X_WILL_BE_LEAVING": {
     "description": "",
-    "message": "Η αναχώρηση με τον {target} θα γίνει από το {spaceport} του {system} ({sectorX}, {sectorY}, {sectorZ}) συστήματος, απόστασης {dist} ly, στις {date}. Το σκάφος είναι {shipname} και έχει αναγνωριστικό εγγραφής {shipregid}."
+    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is a {shipname} and has registration id {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_FEMALE": {
+    "description": "",
+    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. Her ship is a {shipname} and has registration id {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_MALE": {
+    "description": "",
+    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. His ship is a {shipname} and has registration id {shipregid}."
   }
 }

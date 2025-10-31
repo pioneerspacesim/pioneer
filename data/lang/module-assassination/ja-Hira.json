@@ -137,7 +137,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "{target} を宇宙塵に縮める必要がある。私はこれを実行した者に {cash} を授与するつもりだ。"
+    "message": "{target} must be reduced to space dust. I'll award you {cash} to do this."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -202,6 +202,14 @@
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
     "message": "{target} が {spaceport} を出発した後にこれを実行する必要がある。この機会を逃さないように。"
+  },
+  "IT_MUST_BE_DONE_AFTER_FEMALE": {
+    "description": "",
+    "message": "It must be done after she leaves {spaceport}. Do not miss this opportunity."
+  },
+  "IT_MUST_BE_DONE_AFTER_MALE": {
+    "description": "",
+    "message": "It must be done after he leaves {spaceport}. Do not miss this opportunity."
   },
   "OK_AGREED": {
     "description": "",
@@ -345,10 +353,18 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "どこで {target} を見つけられるか?"
+    "message": "Where can I find the target?"
   },
   "X_WILL_BE_LEAVING": {
     "description": "",
-    "message": "{target} は {system} 星系 ({sectorX}, {sectorY}, {sectorZ}), 距離 {dist} ly, にある {spaceport} を {date} に出発するだろう。船は {shipname} で登録 id は {shipregid}。"
+    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is a {shipname} and has registration id {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_FEMALE": {
+    "description": "",
+    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. Her ship is a {shipname} and has registration id {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_MALE": {
+    "description": "",
+    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. His ship is a {shipname} and has registration id {shipregid}."
   }
 }

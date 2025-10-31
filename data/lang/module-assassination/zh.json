@@ -137,7 +137,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "{target} 一定要被轰杀至渣渣. 我给你 {cash} 去做."
+    "message": "{target} must be reduced to space dust. I'll award you {cash} to do this."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -202,6 +202,14 @@
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
     "message": "在 {target} 离开 {spaceport} 的时候就动手. 别错过了这机会."
+  },
+  "IT_MUST_BE_DONE_AFTER_FEMALE": {
+    "description": "",
+    "message": "It must be done after she leaves {spaceport}. Do not miss this opportunity."
+  },
+  "IT_MUST_BE_DONE_AFTER_MALE": {
+    "description": "",
+    "message": "It must be done after he leaves {spaceport}. Do not miss this opportunity."
   },
   "OK_AGREED": {
     "description": "",
@@ -345,10 +353,18 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "我在哪能找到 {target} ?"
+    "message": "Where can I find the target?"
   },
   "X_WILL_BE_LEAVING": {
     "description": "",
-    "message": "{target} 会在 {date} 离开 {system} 星系 ({sectorX}, {sectorY}, {sectorZ}) 的 {spaceport}. 他的飞船名称是 {shipname}, 飞船ID {shipregid}."
+    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is a {shipname} and has registration id {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_FEMALE": {
+    "description": "",
+    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. Her ship is a {shipname} and has registration id {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_MALE": {
+    "description": "",
+    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. His ship is a {shipname} and has registration id {shipregid}."
   }
 }
