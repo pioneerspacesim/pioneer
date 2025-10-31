@@ -165,7 +165,7 @@ extern "C" int main(int argc, char **argv)
 	Profiler::detect(argc, argv);
 #endif
 
-	RunMode mode = MODE_MODELCOMPILER;
+	RunMode mode = (argc <= 1) ? MODE_USAGE_ERROR : MODE_MODELCOMPILER;
 
 	if (argc > 1) {
 		const char switchchar = argv[1][0];
@@ -303,16 +303,20 @@ start:
 	case MODE_VERSION: {
 		std::string version(PIONEER_VERSION);
 		if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
-		Output("modelcompiler %s\n", version.c_str());
+		printf("modelcompiler %s\n", version.c_str());
 		break;
 	}
 
 	case MODE_USAGE_ERROR:
-		Output("modelcompiler: unknown mode %s\n", argv[1]);
+		if (argc > 1) {
+			printf("modelcompiler: unknown mode %s\n", argv[1]);
+		} else {
+			printf("modelcompiler: no arguments passed\n\n");
+		}
 		// fall through
 
 	case MODE_USAGE:
-		Output(
+		printf(
 			"usage: modelcompiler [mode] [options...]\n"
 			"available modes:\n"
 			"    -compile          [-c ...]          model compiler\n"
