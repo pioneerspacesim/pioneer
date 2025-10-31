@@ -1924,12 +1924,12 @@
     "message": "°C"
   },
   "UNIT_TEMPERATURE_FAHRENHEIT": {
-    "description": "Temperature unit: Fahrenheit (F)",
-    "message": "F"
+    "description": "Temperature unit: Fahrenheit (°F)",
+    "message": "°F"
   },
   "UNIT_TEMPERATURE_KELVIN": {
-    "description": "Temperature unit: degrees Kelvin (°K)",
-    "message": "°K"
+    "description": "Temperature unit: degrees Kelvin (K)",
+    "message": "K"
   },
   "UNIT_TERATONNES": {
     "description": "Mass unit: one teratonne",
