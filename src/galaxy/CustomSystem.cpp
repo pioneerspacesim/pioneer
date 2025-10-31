@@ -780,22 +780,6 @@ void CustomSystemsDatabase::Load()
 
 	LoadAllLuaSystems();
 
-	// Load Json array files containing random-fill system definitions
-	std::string partialPath = FileSystem::JoinPathBelow(m_customSysDirectory, "partial");
-	for (auto &file : FileSystem::gameDataFiles.Recurse(partialPath)) {
-		if (!ends_with_ci(file.GetPath(), ".json"))
-			continue;
-
-		PROFILE_SCOPED_DESC("Load Partial System List")
-		const Json fileData = JsonUtils::LoadJsonDataFile(file.GetPath());
-		for (const Json &sysdef : fileData) {
-			if (!sysdef.is_object())
-				continue;
-
-			LoadSystemFromJSON(file.GetPath(), sysdef);
-		}
-	}
-
 	// Load top-level custom system defines
 	for (auto &file : FileSystem::gameDataFiles.Enumerate(m_customSysDirectory, 0)) {
 		if (!ends_with_ci(file.GetPath(), ".json"))
@@ -811,6 +795,22 @@ void CustomSystemsDatabase::Load()
 			continue;
 
 		LoadSystemFromJSON(file.GetPath(), JsonUtils::LoadJsonDataFile(file.GetPath()));
+	}
+
+	// Load Json array files containing random-fill system definitions
+	std::string partialPath = FileSystem::JoinPathBelow(m_customSysDirectory, "partial");
+	for (auto &file : FileSystem::gameDataFiles.Recurse(partialPath)) {
+		if (!ends_with_ci(file.GetPath(), ".json"))
+			continue;
+
+		PROFILE_SCOPED_DESC("Load Partial System List")
+		const Json fileData = JsonUtils::LoadJsonDataFile(file.GetPath());
+		for (const Json &sysdef : fileData) {
+			if (!sysdef.is_object())
+				continue;
+
+			LoadSystemFromJSON(file.GetPath(), sysdef);
+		}
 	}
 }
 
