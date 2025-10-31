@@ -303,7 +303,20 @@ ui.Format = {
 		return string.format("%0.2f", grav) .. " " .. lc.UNIT_EARTH_GRAVITY
 	end,
 	Pressure = function(pres)
-		return string.format("%0.2f", pres) .. lc.UNIT_PRESSURE_ATMOSPHERES
+		return string.format("%0.2f ", pres) .. lc.UNIT_PRESSURE_ATMOSPHERES
+	end,
+	TemperatureCelsius = function(tempInKelvin)
+		return string.format("%0.2f", tempInKelvin - 273.15) .. lc.UNIT_TEMPERATURE_CELSIUS
+	end,
+	TemperatureFahrenheit = function(tempInKelvin)
+		return string.format("%0.2f", (tempInKelvin - 273.15) * 9/5 + 32) .. lc.UNIT_TEMPERATURE_FAHRENHEIT
+	end,
+	TemperatureKelvin = function(tempInKelvin)
+		return string.format("%0.2f ", tempInKelvin) .. lc.UNIT_TEMPERATURE_KELVIN
+	end,
+	Temperature = function(tempInKelvin)
+		-- TODO: use user preference
+		return ui.Format.TemperatureCelsius(tempInKelvin)
 	end,
 	-- produce number..denominator format
 	NumberAbbv = function(number, places)

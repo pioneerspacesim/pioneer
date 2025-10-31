@@ -16,6 +16,8 @@ local luc = Lang.GetResource("ui-core")
 local layout = require 'pigui.libs.window-layout'
 local Sidebar = require 'pigui.libs.sidebar'
 
+local systemEconView = require 'pigui.modules.system-econ-view'.New()
+
 local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
@@ -38,6 +40,8 @@ local atlasfont_highlight = ui.fonts.pionillium.medlarge
 
 local atlas_line_length = ui.rescaleUI(24)
 local atlas_label_offset = ui.rescaleUI(Vector2(12, -8))
+
+local comboStyle = require 'pigui.styles'.combo
 
 --load enums Projectable::types and Projectable::bases in one table "Projectable"
 local Projectable = {}
@@ -68,27 +72,143 @@ local svColor = {
 }
 
 -- button states
-local function loop3items(a, b, c) return a, { [a] = b, [b] = c, [c] = a } end
 local colorset = ui.theme.buttonColors
 
 local buttonState = {
-	SHIPS_OFF     = { icon = icons.ships_no_orbits,    state = colorset.transparent },
-	SHIPS_ON      = { icon = icons.ships_no_orbits,    state = colorset.dark },
-	SHIPS_ORBITS  = { icon = icons.ships_with_orbits },
-	LAG_OFF       = { icon = icons.lagrange_no_text,   state = colorset.transparent },
-	LAG_ICON      = { icon = icons.lagrange_no_text,   state = colorset.dark },
-	LAG_ICONTEXT  = { icon = icons.lagrange_with_text },
-	GRID_OFF      = { icon = icons.toggle_grid,        state = colorset.transparent },
-	GRID_ON       = { icon = icons.toggle_grid,        state = colorset.dark },
-	GRID_AND_LEGS = { icon = icons.toggle_grid },
 	[true]        = {                                  state = colorset.default },
 	[false]       = {                                  state = colorset.transparent },
 	DISABLED      = {                                  state = colorset.dark }
 }
 
-local ship_drawing,  nextShipDrawings = loop3items("SHIPS_OFF", "SHIPS_ON", "SHIPS_ORBITS")
-local show_lagrange, nextShowLagrange = loop3items("LAG_OFF", "LAG_ICON", "LAG_ICONTEXT")
-local show_grid,     nextShowGrid     = loop3items("GRID_OFF", "GRID_ON", "GRID_AND_LEGS")
+--- @param s string A string to test
+--- @return boolean if string "s" is nil or the empty string
+local function isEmptyString(s)
+	return s == nil or s == ""
+end
+
+--- A helper-class to represent a combo dropdown state used to control the
+--- visibility of something in the system view. Whenever the update() function
+--- is called the visibility of the managed item is updated in the system view.
+--- Options in the drop-down map to direct systemview visibility settings and
+--- optionally there is support for a separate on/off toggle as well.
+local SystemViewComboState = {
+	new = function(self, o)
+		o = o or {}
+		setmetatable(o, self)
+		self.__index = self
+		return o
+	end,
+
+	--- The currently selected item
+	selectedItem = 0,
+	--- The human-readable strings to be displayed in the combo box
+	items = {
+	},
+	--- The system view display modes corresponding to each item in items.
+	displayModes = {
+	},
+	--- Whether the system view item should be displayed or not. This is only
+	--- used when "displayModeOff" is not nil or empty.
+	--- If "displayModeOff" is nil or empty, the "Off" system view mode should
+	--- be part of "displayModes".
+	doDisplay = false,
+	--- The system view setting for when the item should not be displayed. When
+	--- this is set, "configKeyDoDisplay" should also be set in order to
+	--- correctly save the configuration.
+	displayModeOff = nil,
+
+	--- The game configuration key
+	configKeySelectedItem = "",
+	--- The game configuration key for doDisplay, should only be set if
+	--- "displayModeOff" has been set.
+	configKeyDoDisplay = nil,
+
+	-- Returns the currently-selected mode
+	getMode = function(self)
+		if not self.doDisplay and not isEmptyString(self.displayModeOff) then
+			return self.displayModeOff
+		end
+		return self.displayModes[self.selectedItem+1]
+	end,
+
+	-- update current mode and update the system view
+	update = function(self, args)
+		if args.doDisplay ~= nil then
+			self.doDisplay = args.doDisplay
+		end
+		self.selectedItem = args.selectedItem or self.selectedItem
+		systemView:SetVisibility(self:getMode())
+	end,
+
+	-- loads the configuration and applies it
+	loadConfig = function(self)
+		local selectedItemSetting = Game.GetConfigInt("SystemView", self.configKeySelectedItem)
+		local doDisplaySetting = false
+		if not isEmptyString(self.configKeyDoDisplay) then
+			doDisplaySetting = Game.GetConfigBool("SystemView", self.configKeyDoDisplay)
+		end
+		self:update{
+			doDisplay = doDisplaySetting,
+			selectedItem = selectedItemSetting
+		}
+	end,
+
+	-- saves the configuration
+	saveConfig = function(self)
+		Game.SetConfigInt("SystemView", self.configKeySelectedItem, self.selectedItem)
+		if not isEmptyString(self.configKeyDoDisplay) then
+			Game.SetConfigBool("SystemView", self.configKeyDoDisplay, self.doDisplay)
+		end
+	end,
+
+	--- Toggle visibility on/off
+	--- This function is only active if the "displayModeOff" member is set
+	toggleDisplay = function(self)
+		self:update{doDisplay = not self.doDisplay}
+	end
+}
+
+local shipDisplayMode = SystemViewComboState:new{
+	items = {
+		lc.SHIPS_DISPLAY_MODE_SHIPS_ONLY,
+		lc.SHIPS_DISPLAY_MODE_SHIPS_ORBITS
+	},
+	displayModes = {
+		"SHIPS_ON",
+		"SHIPS_ORBITS"
+	},
+	displayModeOff = "SHIPS_OFF",
+	configKeySelectedItem = "ShipDisplayMode",
+	configKeyDoDisplay = "ShipDisplayModeOn"
+}
+
+local gridDisplayMode = SystemViewComboState:new{
+	items = {
+		lc.GRID_DISPLAY_MODE_OFF,
+		lc.GRID_DISPLAY_MODE_GRID_ONLY,
+		lc.GRID_DISPLAY_MODE_GRID_AND_LEGS
+	},
+	displayModes = {
+		"GRID_OFF",
+		"GRID_ON",
+		"GRID_AND_LEGS"
+	},
+	configKeySelectedItem = "GridDisplayMode",
+}
+
+local l4l5DisplayMode = SystemViewComboState:new{
+	items = {
+		lc.L4L5_DISPLAY_MODE_OFF,
+		lc.L4L5_DISPLAY_MODE_ICONS_ONLY,
+		lc.L4L5_DISPLAY_MODE_ICONS_AND_TEXT
+	},
+	displayModes = {
+		"LAG_OFF",
+		"LAG_ICON",
+		"LAG_ICONTEXT"
+	},
+	configKeySelectedItem = "L4L5DisplayMode",
+}
 
 local onGameStart = function ()
 	--connect to class SystemView
@@ -98,14 +218,53 @@ local onGameStart = function ()
 		systemView:SetColor(key, svColor[key])
 	end
 	-- update visibility states
-	systemView:SetVisibility(ship_drawing)
-	systemView:SetVisibility(show_lagrange)
-	systemView:SetVisibility(show_grid)
+	shipDisplayMode:loadConfig()
+	gridDisplayMode:loadConfig()
+	l4l5DisplayMode:loadConfig()
+end
+
+local onGameEnd = function ()
+	-- save visibility states
+	shipDisplayMode:saveConfig()
+	gridDisplayMode:saveConfig()
+	l4l5DisplayMode:saveConfig()
+	Engine.SaveSettings()
 end
 
 local onEnterSystem = function (ship)
 	Game.systemView:SetVisibility("RESET_VIEW");
 end
+
+-- all windows in this view
+local Windows = {
+	systemName = layout.NewWindow("SystemMapSystemName"),
+	edgeButtons = layout.NewWindow("SystemMapEdgeButtons"),
+	timeButtons = layout.NewWindow("SystemMapTimeButtons"),
+	unexplored = layout.NewWindow("SystemMapUnexplored")
+}
+
+Windows.systemName.style_colors["WindowBg"] = colors.transparent
+
+local systemViewLayout = layout.New(Windows)
+systemViewLayout.mainFont = winfont
+
+local leftSidebar = Sidebar.New("##SystemMapLeft", "left")
+local rightSidebar = Sidebar.New("##SystemMapRight", "right")
+
+local systemOverviewWidget = require 'pigui.modules.system-overview-window'.New()
+systemOverviewWidget.visible = true
+
+function systemOverviewWidget:onBodySelected(sBody)
+	systemView:SetSelectedObject(Projectable.OBJECT, Projectable.SYSTEMBODY, sBody)
+end
+
+function systemOverviewWidget:onBodyDoubleClicked(sBody)
+	systemView:ViewSelectedObject()
+end
+
+--
+-- Helper functions
+--
 
 local function textIcon(icon, tooltip)
 	ui.icon(icon, Vector2(ui.getTextLineHeight()), svColor.FONT, tooltip)
@@ -159,37 +318,164 @@ local function timeButton(icon, tooltip, factor)
 	return active
 end
 
--- all windows in this view
-local Windows = {
-	systemName = layout.NewWindow("SystemMapSystemName"),
-	objectInfo = layout.NewWindow("SystemMapObjectIngo"),
-	edgeButtons = layout.NewWindow("SystemMapEdgeButtons"),
-	orbitPlanner = layout.NewWindow("SystemMapOrbitPlanner"),
-	timeButtons = layout.NewWindow("SystemMapTimeButtons"),
-	unexplored = layout.NewWindow("SystemMapUnexplored")
+-- cache some data to reduce per-frame overheads
+local data_cache = {
+	body = {},
+	prev_body = nil
 }
+-- populate a data structure with information about the currently selected body
+local function getObjectData(obj)
+	local isSystemBody = obj.base == Projectable.SYSTEMBODY
+	local body = obj.ref
 
-Windows.systemName.style_colors["WindowBg"] = colors.transparent
+	local data = {}
 
-local systemViewLayout = layout.New(Windows)
-systemViewLayout.mainFont = winfont
+	--SystemBody data is static so we use cache
+	--Ship data migh be dynamic in the future
+	if isSystemBody and data_cache.prev_body == body then
+		data = data_cache.body
+	else
+		data_cache.prev_body = body
 
-local leftSidebar = Sidebar.New("##SidebarL", "left")
+		if isSystemBody then -- system body
+			local parent = body.parent
+			local starport = body.superType == "STARPORT"
+			local surface = body.type == "STARPORT_SURFACE"
+			local sma = body.semiMajorAxis
+			local semimajoraxis = nil
+			if sma and sma > 0 then
+				semimajoraxis = ui.Format.Distance(sma)
+			end
+			local rp = body.rotationPeriod * 24 * 60 * 60
+			local op = body.orbitPeriod * 24 * 60 * 60
+			local pop = math.round(body.population * 1e9)
+			local techLevel = starport and SpaceStation.GetTechLevel(body) or nil
+			if techLevel == 11 then
+				techLevel = luc.MILITARY
+			end
+			data = {
+				{ name = lc.MASS, icon = icons.body_radius,
+					value = (not starport) and ui.Format.Mass(body.mass) or nil },
+				{ name = lc.RADIUS, icon = icons.body_radius,
+					value = (not starport) and ui.Format.Distance(body.radius) or nil },
+				{ name = lc.SURFACE_TEMPERATURE, icon = icons.temperature,
+					value = (not starport) and ui.Format.Temperature(body.averageTemp) or nil },
+				{ name = lc.SURFACE_PRESSURE, icon = icons.pressure,
+					value = (not starport) and ui.Format.Pressure(body.surfacePressure) or nil },
+				{ name = lc.SURFACE_GRAVITY, icon = icons.body_radius,
+					value = (not starport) and ui.Format.Speed(body.gravity, true).."²"..
+												" ("..ui.Format.Gravity(body.gravity / 9.80665)..")" or nil },
+				{ name = lc.ESCAPE_VELOCITY, icon = icons.body_radius,
+					value = (not starport) and ui.Format.Speed(body.escapeVelocity , true) or nil },
+				{ name = lc.MEAN_DENSITY, icon = icons.body_radius,
+					value = (not starport) and ui.Format.Number(body.meanDensity, 0).." "..lc.UNIT_DENSITY or nil },
+				{ name = lc.ORBITAL_PERIOD, icon = icons.body_orbit_period,
+					value = op and op > 0 and ui.Format.Duration(op, 2) or nil },
+				{ name = lc.DAY_LENGTH, icon = icons.body_day_length,
+					value = rp > 0 and ui.Format.Duration(rp, 2) or nil },
+				{ name = luc.ORBIT_APOAPSIS, icon = icons.body_semi_major_axis,
+					value = (parent and not surface) and ui.Format.Distance(body.apoapsis) or nil },
+				{ name = luc.ORBIT_PERIAPSIS, icon = icons.body_semi_major_axis,
+					value = (parent and not surface) and ui.Format.Distance(body.periapsis) or nil },
+				{ name = lc.SEMI_MAJOR_AXIS, icon = icons.body_semi_major_axis,
+					value = semimajoraxis },
+				{ name = lc.ECCENTRICITY, icon = icons.body_semi_major_axis,
+					value = (parent and not surface) and string.format("%0.2f", body.eccentricity) or nil },
+				{ name = lc.AXIAL_TILT, icon = icons.body_semi_major_axis,
+					value = (not starport) and string.format("%0.2f", body.axialTilt) or nil },
+				{ name = lc.POPULATION, icon = icons.personal,
+					value = pop > 0 and ui.Format.NumberAbbv(pop) or nil },
+				{ name = luc.TECH_LEVEL, icon = icons.equipment,
+					value = starport and techLevel or nil }
+			}
 
-local systemOverviewWidget = require 'pigui.modules.system-overview-window'.New()
-systemOverviewWidget.visible = true
+			--change the internal cached data only when new is fully built
+			--prevents additional flickering
+			data_cache.body = data
 
-function systemOverviewWidget:onBodySelected(sBody)
-	systemView:SetSelectedObject(Projectable.OBJECT, Projectable.SYSTEMBODY, sBody)
+		elseif obj.ref:IsShip() then -- physical body
+			---@cast body Ship
+			-- TODO: the advanced target scanner should add additional data here,
+			-- but we really do not want to hardcode that here. there should be
+			-- some kind of hook that the target scanner can hook into to display
+			-- more info here.
+			-- This is what should be inserted:
+			table.insert(data, { name = luc.SHIP_TYPE, value = body:GetShipType() })
+			if (player["target_scanner_level_cap"] or 0) > 0 then
+				local hd = body:GetInstalledHyperdrive()
+				table.insert(data, { name = luc.HYPERDRIVE, value = hd and hd:GetName() or lc.NO_HYPERDRIVE })
+				table.insert(data, { name = luc.MASS, value = Format.MassTonnes(body.staticMass) })
+				table.insert(data, { name = luc.CARGO, value = Format.MassTonnes(body.usedCargo) })
+			end
+		else
+			data = {}
+		end
+	end
+	return data
 end
 
-function systemOverviewWidget:onBodyDoubleClicked(sBody)
-	systemView:ViewSelectedObject()
+-- render a two-column dataset
+local function tabular(data, maxSize)
+	if data and #data > 0 then
+		ui.columns(2, "Attributes", false)
+		local nameWidth = 0
+		local valueWidth = 0
+
+		for _,item in pairs(data) do
+			if item.value then
+				local nWidth = ui.calcTextSize(item.name).x + ui.getItemSpacing().x
+				local vWidth = ui.calcTextSize(item.value).x + ui.getItemSpacing().x
+				if ui.getColumnWidth() < nWidth then
+					textIcon(item.icon or icons.info, item.name)
+				else
+					ui.text(item.name)
+				end
+				ui.nextColumn()
+				ui.text(item.value)
+				ui.nextColumn()
+
+				nameWidth = math.max(nameWidth, nWidth)
+				valueWidth = math.max(valueWidth, vWidth)
+			end
+		end
+		if maxSize > 0 and nameWidth + valueWidth > maxSize then
+			-- first of all, we want to see the values, but the keys should not be too small either
+			nameWidth = math.max(maxSize - valueWidth, maxSize * 0.1)
+		end
+		ui.setColumnWidth(0, nameWidth)
+
+		-- reset columns
+		ui.columns(1)
+	end
 end
 
-table.insert(leftSidebar.modules, {
-	priority = 1,
-	side = "left",
+local _getBodyIcon = require 'pigui.modules.flight-ui.body-icons'
+local function getBodyIcon(obj, forWorld, isOrrery)
+	if obj.type == Projectable.APOAPSIS then return icons.apoapsis
+	elseif obj.type == Projectable.PERIAPSIS then return icons.periapsis
+	elseif obj.type == Projectable.L4 then return icons.lagrange_marker
+	elseif obj.type == Projectable.L5 then return icons.lagrange_marker
+	elseif obj.base == Projectable.PLAYER or obj.base == Projectable.PLANNER then
+		local shipClass = obj.ref:GetShipClass()
+		if icons[shipClass] then
+			return icons[shipClass]
+		else
+			return icons.ship
+		end
+	elseif forWorld and not isOrrery and obj.ref.superType ~= "STARPORT" and obj.ref.type ~= "PLANET_ASTEROID" then
+		return icons.empty
+	else
+		return _getBodyIcon(obj.ref, forWorld)
+	end
+end
+
+
+--
+-- The sidebar views
+--
+
+---@type UI.Sidebar.Module
+local overviewView = {
 	showInHyperspace = false,
 	icon = icons.system_overview,
 	tooltip = luc.TOGGLE_OVERVIEW_WINDOW,
@@ -218,13 +504,10 @@ table.insert(leftSidebar.modules, {
 
 		systemOverviewWidget:display(Game.system, root, selected)
 	end
-})
+}
 
-local systemEconView = require 'pigui.modules.system-econ-view'.New()
-
-table.insert(leftSidebar.modules, {
-	priority = 2,
-	side = "left",
+---@type UI.Sidebar.Module
+local economyView = {
 	showInHyperspace = false,
 	icon = icons.money,
 	tooltip = luc.ECONOMY_TRADE,
@@ -253,91 +536,160 @@ table.insert(leftSidebar.modules, {
 			systemEconView:drawStationComparison(selected, current)
 		end
 	end
-})
+}
 
-local function drawWindowControlButton(window, icon, tooltip)
-	local isWindowActive = true
-	if window.ShouldShow then isWindowActive = window:ShouldShow() end
+---@type UI.Sidebar.Module
+local settingsView = {
+	icon = icons.settings,
+	tooltip = luc.SETTINGS,
+	title = luc.SETTINGS,
 
-	-- tristate: invisible, inactive, visible
-	local state = (isWindowActive or not window.visible) and buttonState[window.visible].state or buttonState['DISABLED'].state
-	if ui.mainMenuButton(icon, tooltip, state) then
-		window.visible = not window.visible
-	end
-end
+	drawBody = function(self)
+		if systemView:GetDisplayMode() == "Orrery" then
+			comboStyle:withStyle(function()
+				local c,ret
 
-function Windows.edgeButtons.Show()
-	local isOrrery = systemView:GetDisplayMode() == "Orrery"
-	local isCurrent = systemView:GetSystemSelectionMode() == "CURRENT_SYSTEM"
+				ui.text(lc.SHIPS_DISPLAY_MODE)
+				c,ret = ui.combo("##Ships", shipDisplayMode.selectedItem, shipDisplayMode.items)
+				if c then
+					shipDisplayMode:update{selectedItem = ret}
+				end
 
-	if ui.mainMenuButton(icons.reset_view, luc.RESET_ORIENTATION_AND_ZOOM) then
-		systemView:SetVisibility("RESET_VIEW")
-	end
-	ui.mainMenuButton(icons.rotate_view, luc.ROTATE_VIEW)
-	systemView:SetRotateMode(ui.isItemActive())
-	ui.mainMenuButton(icons.search_lens, luc.ZOOM)
-	systemView:SetZoomMode(ui.isItemActive())
+				ui.text(lc.L4L5_DISPLAY_MODE)
+				c,ret = ui.combo("##LagrangePoint", l4l5DisplayMode.selectedItem, l4l5DisplayMode.items)
+				if c then
+					l4l5DisplayMode:update{selectedItem = ret}
+				end
 
-	ui.newLine()
+				ui.text(lc.GRID_DISPLAY_MODE)
+				c,ret = ui.combo("##Grid", gridDisplayMode.selectedItem, gridDisplayMode.items)
+				if c then
+					gridDisplayMode:update{selectedItem = ret}
+				end
 
-	drawWindowControlButton(Windows.objectInfo, icons.info, lc.OBJECT_INFO)
-
-	-- view control buttons
-	if not isCurrent and ui.mainMenuButton(icons.planet_grid, luc.HUD_BUTTON_SWITCH_TO_CURRENT_SYSTEM) then
-		systemView:SetSystemSelectionMode("CURRENT_SYSTEM")
-	end
-
-	if isCurrent and ui.mainMenuButton(icons.galaxy_map, luc.HUD_BUTTON_SWITCH_TO_SELECTED_SYSTEM) then
-		systemView:SetSystemSelectionMode("SELECTED_SYSTEM")
-	end
-
-	-- visibility control buttons
-	if isOrrery then
-		if ui.mainMenuButton(buttonState[ship_drawing].icon, lc.SHIPS_DISPLAY_MODE_TOGGLE, buttonState[ship_drawing].state) then
-			ship_drawing = nextShipDrawings[ship_drawing]
-			systemView:SetVisibility(ship_drawing)
+			end)
 		end
-		if ui.mainMenuButton(buttonState[show_lagrange].icon, lc.L4L5_DISPLAY_MODE_TOGGLE, buttonState[show_lagrange].state) then
-			show_lagrange = nextShowLagrange[show_lagrange]
-			systemView:SetVisibility(show_lagrange)
-		end
-		if ui.mainMenuButton(buttonState[show_grid].icon, lc.GRID_DISPLAY_MODE_TOGGLE, buttonState[show_grid].state) then
-			show_grid = nextShowGrid[show_grid]
-			systemView:SetVisibility(show_grid)
-		end
-		drawWindowControlButton(Windows.orbitPlanner, icons.semi_major_axis, lc.ORBIT_PLANNER)
 	end
-end
+}
 
-function Windows.orbitPlanner.ShouldShow()
-	return systemView:GetDisplayMode() == 'Orrery'
+---@type UI.Sidebar.Module
+local infoView = {
+	icon = icons.info,
+	tooltip = lc.OBJECT_INFO,
+	showInHyperspace = false,
+	--exclusive = true,
+
+	drawTitle = function()
+		local obj = systemView:GetSelectedObject()
+		if obj ~= nil and obj.ref ~= nil then
+			local isSystemBody = obj.base == Projectable.SYSTEMBODY
+			local body = obj.ref
+			ui.text(ui.get_icon_glyph(getBodyIcon(obj)) .. " " .. (isSystemBody and body.name or body.label))
+		end
+	end,
+
+	drawBody = function()
+		local obj = systemView:GetSelectedObject()
+
+		if obj ~= nil and obj.ref ~= nil then
+			local isSystemBody = obj.base == Projectable.SYSTEMBODY
+			local body = obj.ref
+
+			if isSystemBody then
+				ui.textWrapped(body.astroDescription)
+
+				ui.separator()
+				ui.spacing()
+			end
+
+			local data = getObjectData(obj)
+			tabular(data, 0)
+		end
+	end
+}
+
+---@type UI.Sidebar.Module
+local plannerView = {
+	icon = icons.semi_major_axis,
+	tooltip = lc.ORBIT_PLANNER,
+	title = lc.ORBIT_PLANNER,
+	disabled = false,
+
+	drawBody = function(self)
+		showDvLine(icons.decrease, icons.delta, icons.increase, "factor", function(i) return i, "x" end, luc.DECREASE, lc.PLANNER_RESET_FACTOR, luc.INCREASE)
+		showDvLine(icons.decrease, icons.clock, icons.increase, "starttime",
+			function(_)
+				local now = Game.time
+				local start = systemView:GetOrbitPlannerStartTime()
+				if start then
+					return ui.Format.Duration(math.floor(start - now)), ""
+				else
+					return lc.NOW, ""
+				end
+			end,
+			luc.DECREASE, lc.PLANNER_RESET_START, luc.INCREASE)
+		showDvLine(icons.decrease, icons.orbit_prograde, icons.increase, "prograde", ui.Format.SpeedUnit, luc.DECREASE, lc.PLANNER_RESET_PROGRADE, luc.INCREASE)
+		showDvLine(icons.decrease, icons.orbit_normal, icons.increase, "normal", ui.Format.SpeedUnit, luc.DECREASE, lc.PLANNER_RESET_NORMAL, luc.INCREASE)
+		showDvLine(icons.decrease, icons.orbit_radial, icons.increase, "radial", ui.Format.SpeedUnit, luc.DECREASE, lc.PLANNER_RESET_RADIAL, luc.INCREASE)
+	end
+}
+
+table.insert(leftSidebar.modules, infoView)
+table.insert(leftSidebar.modules, economyView)
+table.insert(leftSidebar.modules, settingsView)
+
+table.insert(rightSidebar.modules, overviewView)
+table.insert(rightSidebar.modules, plannerView)
+
+--
+-- Window functions
+--
+
+function Windows.edgeButtons.ShouldShow()
+	return true
 end
 
 function Windows.timeButtons.ShouldShow()
 	return systemView:GetDisplayMode() == 'Orrery'
 end
 
-function Windows.orbitPlanner.Show()
-	textIcon(icons.semi_major_axis)
-	ui.text(lc.ORBIT_PLANNER)
-	ui.separator()
-	showDvLine(icons.decrease, icons.delta, icons.increase, "factor", function(i) return i, "x" end, luc.DECREASE, lc.PLANNER_RESET_FACTOR, luc.INCREASE)
-	showDvLine(icons.decrease, icons.clock, icons.increase, "starttime",
-		function(_)
-			local now = Game.time
-			local start = systemView:GetOrbitPlannerStartTime()
-			if start then
-				return ui.Format.Duration(math.floor(start - now)), ""
-			else
-				return lc.NOW, ""
+function Windows.edgeButtons.Show()
+	local isCurrent = systemView:GetSystemSelectionMode() == "CURRENT_SYSTEM"
+	local isOrrery = systemView:GetDisplayMode() == "Orrery"
+
+	ui.horizontalGroup(function()
+		-- system selection button (current/selected)
+		if not isCurrent and ui.mainMenuButton(icons.planet_grid, luc.HUD_BUTTON_SWITCH_TO_CURRENT_SYSTEM) then
+			systemView:SetSystemSelectionMode("CURRENT_SYSTEM")
+		end
+		if isCurrent and ui.mainMenuButton(icons.galaxy_map, luc.HUD_BUTTON_SWITCH_TO_SELECTED_SYSTEM) then
+			systemView:SetSystemSelectionMode("SELECTED_SYSTEM")
+		end
+
+		-- view control buttons (reset, rotate, zoom)
+		if ui.mainMenuButton(icons.reset_view, luc.RESET_ORIENTATION_AND_ZOOM) then
+			systemView:SetVisibility("RESET_VIEW")
+		end
+		if isOrrery then
+			ui.mainMenuButton(icons.rotate_view, luc.ROTATE_VIEW)
+		else
+			ui.mainMenuButton(icons.distance, luc.TRANSLATE_VIEW)
+		end
+		systemView:SetRotateMode(ui.isItemActive())
+		ui.mainMenuButton(icons.search_lens, luc.ZOOM)
+		systemView:SetZoomMode(ui.isItemActive())
+
+		-- view settings buttons
+		if isOrrery then
+			ui.spacing()
+			if ui.mainMenuButton(icons.ships_no_orbits, lc.SHIPS_DISPLAY_MODE_TOGGLE, buttonState[shipDisplayMode.doDisplay].state) then
+				shipDisplayMode:toggleDisplay()
 			end
-		end,
-		luc.DECREASE, lc.PLANNER_RESET_START, luc.INCREASE)
-	showDvLine(icons.decrease, icons.orbit_prograde, icons.increase, "prograde", ui.Format.SpeedUnit, luc.DECREASE, lc.PLANNER_RESET_PROGRADE, luc.INCREASE)
-	showDvLine(icons.decrease, icons.orbit_normal, icons.increase, "normal", ui.Format.SpeedUnit, luc.DECREASE, lc.PLANNER_RESET_NORMAL, luc.INCREASE)
-	showDvLine(icons.decrease, icons.orbit_radial, icons.increase, "radial", ui.Format.SpeedUnit, luc.DECREASE, lc.PLANNER_RESET_RADIAL, luc.INCREASE)
+		end
+	end)
 end
 
+-- time conntrol buttons
 function Windows.timeButtons.Show()
 	local t = systemView:GetOrbitPlannerTime()
 	ui.text(t and ui.Format.Datetime(t) or lc.NOW)
@@ -358,33 +710,15 @@ function Windows.timeButtons.Show()
 	end
 end
 
-local _getBodyIcon = require 'pigui.modules.flight-ui.body-icons'
-local function getBodyIcon(obj, forWorld, isOrrery)
-	if obj.type == Projectable.APOAPSIS then return icons.apoapsis
-	elseif obj.type == Projectable.PERIAPSIS then return icons.periapsis
-	elseif obj.type == Projectable.L4 then return icons.lagrange_marker
-	elseif obj.type == Projectable.L5 then return icons.lagrange_marker
-	elseif obj.base == Projectable.PLAYER or obj.base == Projectable.PLANNER then
-		local shipClass = obj.ref:GetShipClass()
-		if icons[shipClass] then
-			return icons[shipClass]
-		else
-			return icons.ship
-		end
-	elseif forWorld and not isOrrery and obj.ref.superType ~= "STARPORT" and obj.ref.type ~= "PLANET_ASTEROID" then
-		return icons.empty
-	else
-		return _getBodyIcon(obj.ref, forWorld)
-	end
-end
-
 local function getLabel(obj)
 	if obj.type == Projectable.OBJECT then
 		if obj.base == Projectable.SYSTEMBODY then return obj.ref.name
 		elseif obj.base == Projectable.PLANNER then return ""
 		else return obj.ref:GetLabel() end
-	elseif obj.type == Projectable.L4 and show_lagrange == "LAG_ICONTEXT" then return "L4"
-	elseif obj.type == Projectable.L5 and show_lagrange == "LAG_ICONTEXT" then return "L5"
+	--elseif obj.type == Projectable.L4 and show_lagrange == "LAG_ICONTEXT" then return "L4"
+	elseif obj.type == Projectable.L4 and l4l5DisplayMode:getMode() == "LAG_ICONTEXT" then return "L4"
+	--elseif obj.type == Projectable.L4 and show_lagrange == "LAG_ICONTEXT" then return "L4"
+	elseif obj.type == Projectable.L5 and l4l5DisplayMode:getMode() == "LAG_ICONTEXT" then return "L5"
 	else return ""
 	end
 end
@@ -719,165 +1053,10 @@ local function displayOnScreenObjects()
 	end
 end
 
-local function tabular(data, maxSize)
-	if data and #data > 0 then
-		ui.columns(2, "Attributes", false)
-		local nameWidth = 0
-		local valueWidth = 0
-		for _,item in pairs(data) do
-			if item.value then
-				local nWidth = ui.calcTextSize(item.name).x + ui.getItemSpacing().x
-				local vWidth = ui.calcTextSize(item.value).x + ui.getItemSpacing().x
-				if ui.getColumnWidth() < nWidth then
-					textIcon(item.icon or icons.info, item.name)
-				else
-					ui.text(item.name)
-				end
-				ui.nextColumn()
-				ui.text(item.value)
-				ui.nextColumn()
-
-				nameWidth = math.max(nameWidth, nWidth)
-				valueWidth = math.max(valueWidth, vWidth)
-			end
-		end
-		if nameWidth + valueWidth > maxSize then
-			-- first of all, we want to see the values, but the keys should not be too small either
-			nameWidth = math.max(maxSize - valueWidth, maxSize * 0.1)
-		end
-		ui.setColumnWidth(0, nameWidth)
-	end
-end
-
-function Windows.objectInfo.ShouldShow()
-	local obj = systemView:GetSelectedObject()
-
-	if obj.type ~= Projectable.OBJECT or obj.base ~= Projectable.SHIP and obj.base ~= Projectable.SYSTEMBODY then
-		return false
-	end
-
-	return true
-end
-
-function Windows.objectInfo:Show()
-	local obj = systemView:GetSelectedObject()
-	local isSystemBody = obj.base == Projectable.SYSTEMBODY
-	local body = obj.ref
-
-	--FIXME there is some flickering when changing from one info to another
-	--which has different lenght. If the new one is shorter then the first header drawing
-	--seems to be too high (accodring to positioning relative to old info).
-	--Probably only durring the second drawing the position is ok. The window is anchored at bottom
-	textIcon(getBodyIcon(obj))
-	ui.text(isSystemBody and body.name or body.label)
-	ui.spacing()
-
-	if isSystemBody then
-		ui.withFont(detailfont, function()
-			ui.textWrapped(body.astroDescription)
-		end)
-	end
-
-	ui.separator()
-	ui.spacing()
-
-	local data = {}
-
-	--SystemBody data is static so we use cache
-	--Ship data migh be dynamic in the future
-	if isSystemBody and self.prev_body == body then
-		data = self.data
-	else
-		self.prev_body = body
-
-		if isSystemBody then -- system body
-			local parent = body.parent
-			local starport = body.superType == "STARPORT"
-			local surface = body.type == "STARPORT_SURFACE"
-			local sma = body.semiMajorAxis
-			local semimajoraxis = nil
-			if sma and sma > 0 then
-				semimajoraxis = ui.Format.Distance(sma)
-			end
-			local rp = body.rotationPeriod * 24 * 60 * 60
-			local op = body.orbitPeriod * 24 * 60 * 60
-			local pop = math.round(body.population * 1e9)
-			local techLevel = starport and SpaceStation.GetTechLevel(body) or nil
-			if techLevel == 11 then
-				techLevel = luc.MILITARY
-			end
-			data = {
-				{ name = lc.MASS, icon = icons.body_radius,
-					value = (not starport) and ui.Format.Mass(body.mass) or nil },
-				{ name = lc.RADIUS, icon = icons.body_radius,
-					value = (not starport) and ui.Format.Distance(body.radius) or nil },
-				{ name = lc.SURFACE_GRAVITY, icon = icons.body_radius,
-					value = (not starport) and ui.Format.Speed(body.gravity, true).."²"..
-												" ("..ui.Format.Gravity(body.gravity / 9.80665)..")" or nil },
-				{ name = lc.ESCAPE_VELOCITY, icon = icons.body_radius,
-					value = (not starport) and ui.Format.Speed(body.escapeVelocity , true) or nil },
-				{ name = lc.MEAN_DENSITY, icon = icons.body_radius,
-					value = (not starport) and ui.Format.Number(body.meanDensity, 0).." "..lc.UNIT_DENSITY or nil },
-				{ name = lc.ORBITAL_PERIOD, icon = icons.body_orbit_period,
-					value = op and op > 0 and ui.Format.Duration(op, 2) or nil },
-				{ name = lc.DAY_LENGTH, icon = icons.body_day_length,
-					value = rp > 0 and ui.Format.Duration(rp, 2) or nil },
-				{ name = luc.ORBIT_APOAPSIS, icon = icons.body_semi_major_axis,
-					value = (parent and not surface) and ui.Format.Distance(body.apoapsis) or nil },
-				{ name = luc.ORBIT_PERIAPSIS, icon = icons.body_semi_major_axis,
-					value = (parent and not surface) and ui.Format.Distance(body.periapsis) or nil },
-				{ name = lc.SEMI_MAJOR_AXIS, icon = icons.body_semi_major_axis,
-					value = semimajoraxis },
-				{ name = lc.ECCENTRICITY, icon = icons.body_semi_major_axis,
-					value = (parent and not surface) and string.format("%0.2f", body.eccentricity) or nil },
-				{ name = lc.AXIAL_TILT, icon = icons.body_semi_major_axis,
-					value = (not starport) and string.format("%0.2f", body.axialTilt) or nil },
-				{ name = lc.POPULATION, icon = icons.personal,
-					value = pop > 0 and ui.Format.NumberAbbv(pop) or nil },
-				{ name = luc.TECH_LEVEL, icon = icons.equipment,
-					value = starport and techLevel or nil }
-			}
-
-			--change the internal cached data only when new is fully built
-			--prevents additional flickering
-			self.data = data
-
-		elseif obj.ref:IsShip() then -- physical body
-			---@cast body Ship
-			-- TODO: the advanced target scanner should add additional data here,
-			-- but we really do not want to hardcode that here. there should be
-			-- some kind of hook that the target scanner can hook into to display
-			-- more info here.
-			-- This is what should be inserted:
-			table.insert(data, { name = luc.SHIP_TYPE, value = body:GetShipType() })
-			if (player["target_scanner_level_cap"] or 0) > 0 then
-				local hd = body:GetInstalledHyperdrive()
-				table.insert(data, { name = luc.HYPERDRIVE, value = hd and hd:GetName() or lc.NO_HYPERDRIVE })
-				table.insert(data, { name = luc.MASS, value = Format.MassTonnes(body.staticMass) })
-				table.insert(data, { name = luc.CARGO, value = Format.MassTonnes(body.usedCargo) })
-			end
-		else
-			data = {}
-		end
-	end
-
-	ui.withFont(detailfont, function()
-		tabular(data, Windows.objectInfo.size.x)
-	end)
-end
-
-function Windows.objectInfo.Dummy()
-	ui.withFont(detailfont, function()
-		ui.text("Tiny rocky planet with no significant")
-	end)
-end
-
 function systemViewLayout:onUpdateWindowPivots(w)
 	w.systemName.anchors   = { ui.anchor.center, ui.anchor.top }
-	w.edgeButtons.anchors  = { ui.anchor.right,  ui.anchor.top }
+	w.edgeButtons.anchors  = { ui.anchor.center,  ui.anchor.bottom }
 	w.timeButtons.anchors  = { ui.anchor.right,  ui.anchor.bottom }
-	w.orbitPlanner.anchors = { ui.anchor.right,  ui.anchor.bottom }
-	w.objectInfo.anchors   = { ui.anchor.right,  ui.anchor.bottom }
 	w.unexplored.anchors   = { ui.anchor.center, ui.anchor.center }
 end
 
@@ -887,12 +1066,7 @@ function systemViewLayout:onUpdateWindowConstraints(w)
 	w.systemName.pos.y = styles.MainButtonSize.y + styles.WindowPadding.y * 2 -- matches fx-window.lua
 	w.systemName.size.x = 0 -- adaptive width
 
-	w.edgeButtons.size.y = 0 -- adaptive height
-
-	w.orbitPlanner.pos = w.timeButtons.pos - Vector2(w.edgeButtons.size.x, w.timeButtons.size.y)
-	w.orbitPlanner.size.x = w.timeButtons.size.x - w.edgeButtons.size.x
-	w.objectInfo.pos = Vector2(w.edgeButtons.pos.x - w.edgeButtons.size.x, w.orbitPlanner.pos.y - w.orbitPlanner.size.y)
-	w.objectInfo.size = Vector2(math.max(w.objectInfo.size.x, w.orbitPlanner.size.x), 0) -- adaptive height
+	w.edgeButtons.size.x = 0 -- adaptive width
 end
 
 local function displaySystemViewUI()
@@ -906,10 +1080,16 @@ local function displaySystemViewUI()
 			systemViewLayout.enabled = not systemViewLayout.enabled
 		end
 
+		plannerView.disabled = systemView:GetDisplayMode() ~= "Orrery"
+		plannerView.icon = plannerView.disabled and icons.square_dashed or icons.semi_major_axis
+
 		systemViewLayout:display()
-		ui.withStyleColors({ WindowBg = colors.transparent }, function()
-			leftSidebar:Draw()
-		end)
+		if systemViewLayout.enabled then
+			ui.withStyleColors({ WindowBg = colors.transparent }, function()
+				leftSidebar:Draw()
+				rightSidebar:Draw()
+			end)
+		end
 
 		displayOnScreenObjects()
 
@@ -919,13 +1099,14 @@ local function displaySystemViewUI()
 
 		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
 			package.reimport 'pigui.modules.system-overview-window'
-			package.reimport 'pigui.modules.system-econ-view'
+			systemEconView = package.reimport('pigui.modules.system-econ-view').New()
 			package.reimport()
 		end
 	end
 end
 
 Event.Register("onGameStart", onGameStart)
+Event.Register("onGameEnd", onGameEnd)
 Event.Register("onEnterSystem", onEnterSystem)
 ui.registerHandler("SystemView", ui.makeFullScreenHandler("SystemView", displaySystemViewUI))
 
