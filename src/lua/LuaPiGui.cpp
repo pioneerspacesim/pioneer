@@ -1470,7 +1470,7 @@ static int l_pigui_bullet_text(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string text = LuaPull<std::string>(l, 1);
-	ImGui::BulletText(text.c_str());
+	ImGui::BulletText("%s", text.c_str());
 	return 0;
 }
 

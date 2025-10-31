@@ -104,4 +104,64 @@ function Game.GetWorldCamType() end
 ---@param type string
 function Game.SetWorldCamType(type) end
 
+--------------------------------------------------------------------------------
+--- Setters and Getters for game configuration options.
+---
+--- Game configuration options are applied to the entire game, not to each save.
+---
+--- Options are saved into sections and identified by unique keys within that
+--- section. The global section is identified by the empty string ("").
+---
+--- Options are only saved to disk when Engine.SaveSettings() is
+--- explicitly called, so there is no significant performance overhead or
+--- disk/SSD wear when loading/saving the options via the getters and setters.
+---
+--- This means that there is no need to cache or otherwise manage the options within
+--- client code.
+--------------------------------------------------------------------------------
+
+--- Retrieve a boolean game configuration from section:key
+---@return boolean value - the value stored in section:key
+---@param section string - the optional configuration section from which to retrieve the value
+---@param key string - the configuration key from which to retrieve the value
+function Game.GetConfigBool(section, key) end
+--- Store a boolean game configuration to section:key
+---@param section string - the optional configuration section to which to store the value
+---@param key string - the configuration key to which to store the value
+---@param value boolean - the value to store to section:key
+function Game.SetConfigBool(section, key, value) end
+
+--- Retrieve an integer game configuration from section:key
+---@return integer value - the value stored in section:key
+---@param section string - the optional configuration section from which to retrieve the value
+---@param key string - the configuration key from which to retrieve the value
+function Game.GetConfigInt(section, key) end
+--- Store an integer game configuration to section:key
+---@param section string - the optional configuration section to which to store the value
+---@param key string - the configuration key to which to store the value
+---@param value integer - the value to store to section:key
+function Game.SetConfigInt(section, key, value) end
+
+--- Retrieve a number game configuration from section:key
+---@return number value - the value stored in section:key
+---@param section string - the optional configuration section from which to retrieve the value
+---@param key string - the configuration key from which to retrieve the value
+function Game.GetConfigFloat(section, key) end
+--- Store a number game configuration to section:key
+---@param section string - the optional configuration section to which to store the value
+---@param key string - the configuration key to which to store the value
+---@param value number - the value to store to section:key
+function Game.SetConfigFloat(section, key, value) end
+
+--- Retrieve a string game configuration from section:key
+---@return string value - the value stored in section:key
+---@param section string - the optional configuration section from which to retrieve the value
+---@param key string - the configuration key from which to retrieve the value
+function Game.GetConfigString(section, key) end
+--- Store a string game configuration to section:key
+---@param section string - the optional configuration section to which to store the value
+---@param key string  - the configuration key to which to store the value
+---@param value string - the value to store to section:key
+function Game.SetConfigString(section, key, value) end
+
 return Game
