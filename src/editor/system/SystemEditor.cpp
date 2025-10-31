@@ -313,8 +313,13 @@ bool SystemEditor::LoadCustomSystem(const CustomSystem *csys)
 	auto customStage = std::make_unique<StarSystemCustomGenerator>();
 
 	if (!customStage->ApplyToSystem(rng, system, csys)) {
-		Log::Error("System is fully random, cannot load from file");
-		return false;
+		Log::Error("System is fully random, cannot load from file. Loading from galaxy instead.");
+
+		// Fall back to loading from random galaxy generation.
+		LoadSystemFromGalaxy(m_galaxy->GetStarSystem(path));
+		m_systemInfo.overrideRandom = false;
+
+		return true;
 	}
 
 	// NOTE: we don't run the PopulateSystem generator here, due to its
@@ -360,7 +365,7 @@ void SystemEditor::LoadSystemFromGalaxy(RefCountedPtr<StarSystem> system)
 
 	m_systemInfo.explored = explored ? CustomSystemInfo::EXPLORE_ExploredAtStart : CustomSystemInfo::EXPLORE_Unexplored;
 	m_systemInfo.randomLawlessness = false;
-	m_systemInfo.randomFaction = system->GetFaction();
+	m_systemInfo.randomFaction = !system->GetFaction();
 	m_systemInfo.overrideRandom = true;
 	m_systemInfo.faction = system->GetFaction() ? system->GetFaction()->name : "";
 }
