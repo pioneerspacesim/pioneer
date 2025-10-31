@@ -277,6 +277,7 @@ public:
 	void SetCurrentSystem(RefCountedPtr<StarSystem> system);
 
 	void AccelerateTime(float step);
+	bool IsRealTime() const { return m_realtime; }
 	void SetRealTime();
 	void SetReferenceTime(double time) { m_refTime = time; }
 	double GetTime() { return m_time; }
