@@ -477,11 +477,11 @@
 			"volcanicity": "f0/27021706"
 		}
 	],
-	"comment": "j2000: 6h54m47.48s/+33°15'56.1\", dist: 18.2   https://en.wikipedia.org/wiki/Gliese_251\nhttps://www.stellarcatalog.com/exoplanet.php?planetID=100056\n  data point from local stars to correct positions in pioneer local_stars: {\"name\": \"HD 265866\", \"stars\": [\"STAR_K\"], \"sector\": [1, 0, 1], \"pos\": [6.608, 3.552, 1.864]},\nand :     {\"name\": \"Gliese 251\", \"stars\": [\"STAR_M\"], \"sector\": [1, 0, 1], \"pos\": [7.256, 3.72, 2.312]},\n",
+	"comment": "j2000:6h54m47.48s/+33°15'56.1\"@18.2ly   https://en.wikipedia.org/wiki/Gliese_251\nhttps://www.stellarcatalog.com/exoplanet.php?planetID=100056\n  data point from local stars to correct positions in pioneer local_stars: {\"name\": \"HD 265866\", \"stars\": [\"STAR_K\"], \"sector\": [1, 0, 1], \"pos\": [6.608, 3.552, 1.864]},\nand :     {\"name\": \"Gliese 251\", \"stars\": [\"STAR_M\"], \"sector\": [1, 0, 1], \"pos\": [7.256, 3.72, 2.312]},\n",
 	"explored": true,
 	"govType": "NONE",
 	"lawlessness": "f0/4284095261",
-	"longDesc": "Gliese 251 is a red dwarf with a super earth in orbit. Viewed from Sol it is located near the constellation of Auriga. Its metallicity is slightly less than that of the Sun",
+	"longDesc": "Gliese 251 is a red dwarf with a super earth in orbit. Its metallicity is slightly less than that of the Sun. Due to its proximity to Sol the Solar Federation built an observation post. Control of the system is in constant flux as it is on the disputed border with the Commonwealth of Independent Worlds who currently control part of the system. While the super earth is prime realestate for development is undeveloped as conflicts rise nobody can justify the massive development cost in such a risky location.",
 	"name": "Gliese 251",
 	"otherNames": [
 		"HD 265866",
@@ -490,7 +490,7 @@
 	"sector": [ 1, 0, 1 ],
 	"pos": [ 7.217693397544485, 3.603571197370645, 1.9830760619325627 ],
 	"seed": 3464555875,
-	"shortDesc": "The nearest start to Sol in the constellation of Gemini. Although its light is drowned by its neighborhood from view, it hosts a super earth.",
+	"shortDesc": "The nearest star to Sol in the constellation of Gemini, it hosts a super earth.",
 	"stars": [
 		"STAR_M"
 	]

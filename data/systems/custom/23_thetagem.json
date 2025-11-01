@@ -387,10 +387,10 @@
 			"volcanicity": "f0/13128512"
 		}
 	],
-	"comment": "j2000: 06h52m47.33887s/+33°57'40.5175\"@189ly  Referenced:  https://en.wikipedia.org/wiki/Theta_Geminorum,  http://stars.astro.illinois.edu/sow/thetagem.html",
+	"comment": "j2000:06h52m47.33887s/+33°57'40.5175\"@189ly  Referenced:  https://en.wikipedia.org/wiki/Theta_Geminorum,  http://stars.astro.illinois.edu/sow/thetagem.html",
 	"faction": "Independent",
 	"govType": "DISORDER",
-	"longDesc": "Theta Gem is a bright star. From Sol it is less then one degree seperated from Gliese 251, despite being 173.8 light years further away its massive white type A sub-giant star at 5 times the radius of Sol its sparkling over 100 times brighter making it visible from earth out shining the much closer red dwarf. You may find a nice cold pilsner at the outpost if you make it there the system is in a state of shanty disorder so fly safe and be kind.",
+	"longDesc": "In the initial expansion of the Solar Federation a city was created on a moon of the main planet of Theta Gem. Since then the ability to project power this far out has deteriorated. Due to a strong economic output of the city and manufacturing base the city became independent relying on informal agreements with the nearby systems it maintains its independence since then although its reach only extends to the city limits it remains a small gem among the stars. You will find all sorts at the distant shanty outpost but ensure you bring fuel and fly safe.",
 	"name": "Theta Geminorum",
 	"otherNames": [
 		"θ Gem",
@@ -409,7 +409,7 @@
 		13
 	],
 	"seed": 34,
-	"shortDesc": "Theta Geminorum, powered by a single Type A sub-giant star. Despite its distance it shines at 101 times the brightness of Sol.",
+	"shortDesc": "After the reduction of the Solar Federations expansion θ Gem became a Independent safe haven for merchants and traders. A moto is written on the outpost wall \"Steloj nevicigitaj (Δθ!=0) estas perfekte en loko.\"",
 	"stars": [
 		"STAR_A"
 	]
