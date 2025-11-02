@@ -628,8 +628,9 @@
 	"comment": "",
 	"explored": true,
 	"govType": "DISORDER",
+	"faction": "Independent",
 	"lawlessness": "f0/203838384",
-	"longDesc": "In the initial expansion of the Solar Federation a city was created on a moon of the main planet of Theta Gem. Since then the ability to project power this far out has deteriorated. Due to a strong economic output of the city and manufacturing base the city became independent relying on informal agreements with the nearby systems it maintains its independence since then although its reach only extends to the city limits it remains a small gem among the stars. You will find all sorts at the distant shanty outpost but ensure you bring fuel and fly safe.",
+	"longDesc": "In the initial expansion of the Solar Federation a city was created on the main planet of Theta Gem. Since then the ability to project power this far out has deteriorated. Due to the strong economic output of the city and manufacturing base the system became independent relying on informal agreements with the nearby systems it maintains its independence since then although its reach only extends to the city limits. You will find all sorts at the distant shanty outpost but ensure you bring fuel and fly safe.",
 	"name": "Theta Geminorum",
 	"otherNames": [
 		"θ Gem",
@@ -648,7 +649,7 @@
 		13
 	],
 	"seed": 70,
-	"shortDesc": "After the reduction of the Solar Federations expansion θ Gem became a Independent safe haven for merchants and traders. A moto is written on the outpost wall \"Steloj nevicigitaj (Δθ!=0) estas perfekte en loko.\"",
+	"shortDesc": "After the reduction of the Solar Federations expansion θ Gem became a safe haven for merchants and traders. A moto is written on the outpost wall \"Steloj nevicigitaj (Δθ!=0) estas perfekte en loko.\"",
 	"stars": [
 		"STAR_A"
 	]
