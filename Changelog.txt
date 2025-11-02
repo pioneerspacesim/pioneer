@@ -1,13 +1,22 @@
 October
   * New Features
     * Added 'About' button in Main Menu (#6145)
+    * Assassination - minor string improvements and code refactor (#6218)
+    * Several new tweaks to tame the police (#6128)
+    * UI of system view reworked (#6173)
+    * Advice module - Three new advises (#6234)
 
   * Fixes
     * Fix missing station manager in the lobby of Torvalds station (#6224)
     * Fix wrong station message at starting in space (#6220)
+    * Fix correct temperature display units (#6239)
 
   * Internal
     * Clean up API code documentation strings (#6228)
+    * CMakeList and scan_enums update to python3 (#6217)
+    * CMake: Generalize to any OpenGL binding (#6050)
+    * Updating all .model files to v2 format (#6213)
+    * Fix CMake OpenGL binding for MSVC (#6237)
 
 September
   * New Features
