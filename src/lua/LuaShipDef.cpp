@@ -19,14 +19,6 @@
  * Attribute: name
  *
  * The name of the ship type
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 
 /*
@@ -34,28 +26,12 @@
  *
  * The amount of angular thrust this ship can achieve. This is the value
  * responsible for the rate that the ship can turn at.
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: capacity
  *
  * The maximum space available for cargo and equipment, in tonnes
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 
 /*
@@ -64,14 +40,6 @@
  * The total mass of the ship's hull, independent of any equipment or cargo
  * inside it, in tonnes. This is the value used when calculating hyperjump
  * ranges and hull damage.
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 
 /*
@@ -79,42 +47,18 @@
  *
  * The base price of the ship. This typically receives some adjustment before
  * being used as a buy or sell price (eg based on supply or demand)
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: minCrew
  *
  * Minimum number of crew required to launch.
- *
- * Availability:
- *
- *   alpha 30
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: maxCrew
  *
  * Maximum number of crew the ship can carry.
- *
- * Availability:
- *
- *   alpha 30
- *
- * Status:
- *
- *   experimental
  */
 
 /*
@@ -123,14 +67,6 @@
  * An integer representing the power of the hyperdrive usually installed on
  * those ships. If zero, it means the ship usually isn't equipped with one,
  * although this does not necessarily mean one cannot be installed.
- *
- * Availability:
- *
- *   April 2014
- *
- * Status:
- *
- *   experimental
  */
 
 /*
@@ -138,14 +74,6 @@
  *
  * Table keyed on <Constants.ShipTypeThruster>, containing linear thrust of
  * that thruster in newtons
- *
- * Availability:
- *
- *   alpha 32
- *
- * Status:
- *
- *   experimental
  */
 
 /*
@@ -153,7 +81,6 @@
  *
  * Table keyed on <Constants.ShipTypeThruster>, containing acceleration cap of
  * that thruster direction in m/s/s
- *
  */
 
 /*
@@ -161,68 +88,36 @@
  *
  * Ship thruster efficiency as the effective exhaust velocity in m/s.
  * See http://en.wikipedia.org/wiki/Specific_impulse for an explanation of this value.
- *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: thrusterFuelUse
  *
  * Ship thruster efficiency as a percentage-of-tank-used per second of thrust.
- *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: shipClass
  *
  * Class of the ship (e.g. "medium_courier").
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: manufacturer
  *
  * Manufacturer of the ship (e.g. "kaluri").
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: modelName
  *
  * Name for the model of this ship. Important for looking up the actual ship model (Engine.GetModel(ShipDef.modelName)).
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: shieldModelName
  *
  * Name for the shield model of this ship. Can be useful for debug purposes to determine the shield model used by the ship.
- *
- * Status:
- *
- *   experimental
  */
 
 void LuaShipDef::Register()

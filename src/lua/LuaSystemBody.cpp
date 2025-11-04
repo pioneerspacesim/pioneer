@@ -29,14 +29,6 @@
  * Attribute: index
  *
  * The body index of the body in its system
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_sbody_attr_index(lua_State *l)
 {
@@ -49,14 +41,6 @@ static int l_sbody_attr_index(lua_State *l)
  * Attribute: name
  *
  * The name of the body
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_sbody_attr_name(lua_State *l)
 {
@@ -69,14 +53,6 @@ static int l_sbody_attr_name(lua_State *l)
  * Attribute: type
  *
  * The type of the body, as a <Constants.BodyType> constant
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_sbody_attr_type(lua_State *l)
 {
@@ -89,14 +65,6 @@ static int l_sbody_attr_type(lua_State *l)
  * Attribute: superType
  *
  * The supertype of the body, as a <Constants.BodySuperType> constant
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_sbody_attr_super_type(lua_State *l)
 {
@@ -115,14 +83,6 @@ static int l_sbody_attr_super_type(lua_State *l)
  *
  * This value is the same is the one available via <Body.seed> once you enter
  * this system.
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_sbody_attr_seed(lua_State *l)
 {
@@ -135,14 +95,6 @@ static int l_sbody_attr_seed(lua_State *l)
  * Attribute: parent
  *
  * The parent of the body, as a <SystemBody>. A body orbits its parent.
- *
- * Availability:
- *
- *   alpha 14
- *
- * Status:
- *
- *   stable
  */
 static int l_sbody_attr_parent(lua_State *l)
 {
@@ -164,14 +116,6 @@ static int l_sbody_attr_parent(lua_State *l)
  * Attribute: system
  *
  * The StarSystem which contains this SystemBody
- *
- * Availability:
- *
- *   alpha 16
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_system(lua_State *l)
 {
@@ -184,14 +128,6 @@ static int l_sbody_attr_system(lua_State *l)
  * Attribute: population
  *
  * The population of the body, in billions of people.
- *
- * Availability:
- *
- *   alpha 16
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_population(lua_State *l)
 {
@@ -204,14 +140,6 @@ static int l_sbody_attr_population(lua_State *l)
  * Attribute: radius
  *
  * The radius of the body, in metres (m).
- *
- * Availability:
- *
- *   alpha 16
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_radius(lua_State *l)
 {
@@ -224,14 +152,6 @@ static int l_sbody_attr_radius(lua_State *l)
  * Attribute: mass
  *
  * The mass of the body, in kilograms (kg).
- *
- * Availability:
- *
- *   alpha 16
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_mass(lua_State *l)
 {
@@ -244,14 +164,6 @@ static int l_sbody_attr_mass(lua_State *l)
  * Attribute: gravity
  *
  * The gravity on the surface of the body (m/s).
- *
- * Availability:
- *
- *   alpha 21
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_gravity(lua_State *l)
 {
@@ -265,14 +177,6 @@ static int l_sbody_attr_gravity(lua_State *l)
  *
  * The speed an object need to break free from the gravitational influence
  * of a body and leave it behind with no further acceleration.
- *
- * Availability:
- *
- *   July 2023
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_escape_velocity(lua_State *l)
 {
@@ -285,14 +189,6 @@ static int l_sbody_attr_escape_velocity(lua_State *l)
  * Attribute: meanDensity
  *
  * The mean density of a body (kg/m3).
- *
- * Availability:
- *
- *   July 2023
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_mean_density(lua_State *l)
 {
@@ -305,14 +201,6 @@ static int l_sbody_attr_mean_density(lua_State *l)
  * Attribute: periapsis
  *
  * The periapsis of the body's orbit, in metres (m).
- *
- * Availability:
- *
- *   alpha 16
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_periapsis(lua_State *l)
 {
@@ -325,14 +213,6 @@ static int l_sbody_attr_periapsis(lua_State *l)
  * Attribute: apoapsis
  *
  * The apoapsis of the body's orbit, in metres (m).
- *
- * Availability:
- *
- *   alpha 16
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_apoapsis(lua_State *l)
 {
@@ -345,14 +225,6 @@ static int l_sbody_attr_apoapsis(lua_State *l)
  * Attribute: orbitPeriod
  *
  * The orbit of the body, around its parent, in days, as a float
- *
- * Availability:
- *
- *   201708
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_orbital_period(lua_State *l)
 {
@@ -365,14 +237,6 @@ static int l_sbody_attr_orbital_period(lua_State *l)
  * Attribute: rotationPeriod
  *
  * The rotation period of the body, in days
- *
- * Availability:
- *
- *   alpha 16
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_rotation_period(lua_State *l)
 {
@@ -385,14 +249,6 @@ static int l_sbody_attr_rotation_period(lua_State *l)
  * Attribute: semiMajorAxis
  *
  * The semi-major axis of the orbit, in metres (m).
- *
- * Availability:
- *
- *   alpha 16
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_semi_major_axis(lua_State *l)
 {
@@ -405,14 +261,6 @@ static int l_sbody_attr_semi_major_axis(lua_State *l)
  * Attribute: eccentricity
  *
  * The orbital eccentricity of the body
- *
- * Availability:
- *
- *   alpha 16
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_eccentricty(lua_State *l)
 {
@@ -425,14 +273,6 @@ static int l_sbody_attr_eccentricty(lua_State *l)
  * Attribute: axialTilt
  *
  * The axial tilt of the body, in radians
- *
- * Availability:
- *
- *   alpha 16
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_axial_tilt(lua_State *l)
 {
@@ -445,14 +285,6 @@ static int l_sbody_attr_axial_tilt(lua_State *l)
  * Attribute: averageTemp
  *
  * The average surface temperature of the body, in degrees kelvin
- *
- * Availability:
- *
- *   alpha 16
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_average_temp(lua_State *l)
 {
@@ -466,14 +298,6 @@ static int l_sbody_attr_average_temp(lua_State *l)
  *
  * Returns the measure of metallicity of the body
  * (crust) 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)
- *
- * Availability:
- *
- *   January 2018
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_metallicity(lua_State *l)
 {
@@ -487,14 +311,6 @@ static int l_sbody_attr_metallicity(lua_State *l)
  *
  * Returns the atmospheric density at "surface level" of the body
  * 0.0 = no atmosphere, 1.225 = earth atmosphere density, 64+ ~= venus
- *
- * Availability:
- *
- *   January 2018
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_atmosDensity(lua_State *l)
 {
@@ -508,14 +324,6 @@ static int l_sbody_attr_atmosDensity(lua_State *l)
  *
  * Returns the compositional value of any atmospheric gasses in the bodys atmosphere (if any)
  * 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
- *
- * Availability:
- *
- *   January 2018
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_atmosOxidizing(lua_State *l)
 {
@@ -528,14 +336,6 @@ static int l_sbody_attr_atmosOxidizing(lua_State *l)
  * Attribute: surfacePressure
  *
  * The pressure of the atmosphere at the surface of the body (atm).
- *
- * Availability:
- *
- *   2024
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_surfacePressure(lua_State *l)
 {
@@ -549,14 +349,6 @@ static int l_sbody_attr_surfacePressure(lua_State *l)
  *
  * Returns the measure of volatile liquids present on the body
  * 0.0 = none, 1.0 = waterworld (earth = 70%)
- *
- * Availability:
- *
- *   January 2018
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_volatileLiquid(lua_State *l)
 {
@@ -570,14 +362,6 @@ static int l_sbody_attr_volatileLiquid(lua_State *l)
  *
  * Returns the measure of volatile ices present on the body
  * 0.0 = none, 1.0 = total ice cover (earth = 3%)
- *
- * Availability:
- *
- *   January 2018
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_volatileIces(lua_State *l)
 {
@@ -591,14 +375,6 @@ static int l_sbody_attr_volatileIces(lua_State *l)
  *
  * Returns the measure of volcanicity of the body
  * 0.0 = none, 1.0 = lava planet
- *
- * Availability:
- *
- *   January 2018
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_volcanicity(lua_State *l)
 {
@@ -612,14 +388,6 @@ static int l_sbody_attr_volcanicity(lua_State *l)
  *
  * Returns the measure of life present on the body
  * 0.0 = dead, 1.0 = teeming (~= pandora)
- *
- * Availability:
- *
- *   January 2018
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_life(lua_State *l)
 {
@@ -633,14 +401,6 @@ static int l_sbody_attr_life(lua_State *l)
  *
  * Returns the measure of agricultural activity present on the body
  * 0.0 = dead, 1.0 = teeming (~= breadbasket)
- *
- * Availability:
- *
- *   January 2023
- *
- * Status:
- *
- *   experimental
  */
 static int l_sbody_attr_agricultural(lua_State *l)
 {
@@ -653,14 +413,6 @@ static int l_sbody_attr_agricultural(lua_State *l)
  * Attribute: hasRings
  *
  * Returns true if the body has a ring or rings of debris or ice in orbit around it
- *
- * Availability:
- *
- *   January 2018
- *
- * Status:
- *
- *  experimental
  */
 
 static int l_sbody_attr_has_rings(lua_State *l)
@@ -674,14 +426,6 @@ static int l_sbody_attr_has_rings(lua_State *l)
  * Attribute: hasAtmosphere
  *
  * Returns true if an atmosphere is present, false if not
- *
- * Availability:
- *
- *   alpha 21
- *
- * Status:
- *
- *  experimental
  */
 
 static int l_sbody_attr_has_atmosphere(lua_State *l)
@@ -695,14 +439,6 @@ static int l_sbody_attr_has_atmosphere(lua_State *l)
  * Attribute: isScoopable
  *
  * Returns true if the system body can be scoopable, false if not
- *
- * Availablility:
- *
- *   alpha 21
- *
- * Status:
- *
- *  experimental
  */
 
 static int l_sbody_attr_is_scoopable(lua_State *l)

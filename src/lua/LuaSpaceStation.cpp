@@ -32,14 +32,6 @@
  * > local lat, long = la:GetGroundPosition()
  * > lat = math.rad2deg(lat)
  * > long = math.rad2deg(long)
- *
- * Availability:
- *
- *   July 2013
- *
- * Status:
- *
- *   experimental
  */
 static int l_spacestation_get_ground_position(lua_State *l)
 {
@@ -70,14 +62,6 @@ static int l_spacestation_get_ground_position(lua_State *l)
  * Returns:
  *   clearanceGranted - a boolean indicating whether the ship has been
  *                      approved by ATC to land at this station.
- *
- * Availability:
- *
- *   Nov 2020
- *
- * Status:
- *
- *   stable
  */
 static int l_spacestation_request_docking_clearance(lua_State *l)
 {
@@ -104,14 +88,6 @@ static int l_spacestation_request_docking_clearance(lua_State *l)
  * > -- Get our current bay number and print it
  * > local num = station:GetAssignedBayNumber(Game.player)
  * > Game.AddCommsLogLine(string.interp("Please proceed to dock at bay {}, thank you!", num + 1), station)
- *
- * Availability:
- *
- *   Nov 2020
- *
- * Status:
- *
- *   stable
  */
 static int l_spacestation_get_assigned_bay_number(lua_State *l)
 {
@@ -131,14 +107,6 @@ static int l_spacestation_get_assigned_bay_number(lua_State *l)
  *
  * Returns:
  *   nearby - the number of ships within the specified radius of the station.
- *
- * Availability:
- *
- *   Nov 2020
- *
- * Status:
- *
- *   stable
  */
 static int l_spacestation_get_nearby_traffic(lua_State *l)
 {
@@ -153,14 +121,6 @@ static int l_spacestation_get_nearby_traffic(lua_State *l)
  * Attribute: numDocks
  *
  * The number of docking ports a spacestation has.
- *
- * Availability:
- *
- *   alpha 21
- *
- * Status:
- *
- *   stable
  */
 static int l_spacestation_attr_num_docks(lua_State *l)
 {
@@ -173,14 +133,6 @@ static int l_spacestation_attr_num_docks(lua_State *l)
  * Attribute: numShipsDocked
  *
  * The number of ships docked at spacestation
- *
- * Availability:
- *
- *   201404
- *
- * Status:
- *
- *   stable
  */
 static int l_spacestation_attr_num_ships_docked(lua_State *l)
 {
@@ -193,14 +145,6 @@ static int l_spacestation_attr_num_ships_docked(lua_State *l)
  * Attribute: isGroundStation
  *
  * true if station is on the ground, false if its an orbital
- *
- * Availability:
- *
- *   alpha 30
- *
- * Status:
- *
- *   stable
  */
 static int l_spacestation_attr_is_ground_station(lua_State *l)
 {

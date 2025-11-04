@@ -49,14 +49,6 @@
  *
  * > if not ship:exists() then return
  *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
- *
  *
  * Method: isa
  *
@@ -82,14 +74,6 @@
  * > if body:isa("Ship") then
  * >     body:AIKill(Game.player)
  * > end
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 
 static std::map<std::string, std::map<std::string, PromotionTest>> promotions;

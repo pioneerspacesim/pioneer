@@ -516,14 +516,6 @@ bool LuaConsole::ExecOrContinue(const std::string &stmt, bool repeatStatement)
  * Parameters:
  *
  *   text - the line of text to add (without a terminating newline character)
- *
- * Availability:
- *
- *   alpha 15
- *
- * Status:
- *
- *   stable
  */
 static int l_console_addline(lua_State *L)
 {

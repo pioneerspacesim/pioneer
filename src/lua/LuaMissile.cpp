@@ -22,14 +22,6 @@
  * Arms the missile
  *
  * > missile:Arm()
- *
- * Availability:
- *
- *  alpha 31
- *
- * Status:
- *
- *  experimental
  */
 static int l_missile_arm(lua_State *l)
 {
@@ -44,14 +36,6 @@ static int l_missile_arm(lua_State *l)
  * Disarms the missile
  *
  * > missile:Disarm()
- *
- * Availability:
- *
- *  alpha 31
- *
- * Status:
- *
- *  experimental
  */
 static int l_missile_disarm(lua_State *l)
 {
@@ -73,14 +57,6 @@ static int l_missile_disarm(lua_State *l)
  *
  * Returns:
  *   true if the command could be enacted, false otherwise
- *
- * Availability:
- *
- *  Gen 2017
- *
- * Status:
- *
- *  experimental
  */
 static int l_missile_ai_kamikaze(lua_State *l)
 {
@@ -109,14 +85,6 @@ static int l_missile_ai_kamikaze(lua_State *l)
  * > if approaching_missile:isArmed then
  * >     print("DANGER! DANGER!")
  * > end
- *
- * Availability:
- *
- *  alpha 31
- *
- * Status:
- *
- *  experimental
  */
 static int l_missile_attr_is_armed(lua_State *l)
 {

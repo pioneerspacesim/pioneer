@@ -18,14 +18,6 @@
  * Attribute: name
  *
  * The name of the faction
- *
- * Availability:
- *
- *  alpha 28
- *
- * Status:
- *
- *  experimental
  */
 static int l_faction_attr_name(lua_State *l)
 {
@@ -38,14 +30,6 @@ static int l_faction_attr_name(lua_State *l)
  * Attribute: id
  *
  * A unique identification number of the faction
- *
- * Availability:
- *
- *  2014-06
- *
- * Status:
- *
- *  experimental
  */
 static int l_faction_attr_id(lua_State *l)
 {
@@ -59,14 +43,6 @@ static int l_faction_attr_id(lua_State *l)
  * Attribute: descriptionShort
  *
  * The short description of the faction
- *
- * Availability:
- *
- *  alpha 28
- *
- * Status:
- *
- *  experimental
  */
 static int l_faction_attr_description_short(lua_State *l)
 {
@@ -79,14 +55,6 @@ static int l_faction_attr_description_short(lua_State *l)
  * Attribute: description
  *
  * The full length description of the faction
- *
- * Availability:
- *
- *  alpha 28
- *
- * Status:
- *
- *  experimental
  */
 static int l_faction_attr_description(lua_State *l)
 {
@@ -99,14 +67,6 @@ static int l_faction_attr_description(lua_State *l)
  * Attribute: hasHomeworld
  *
  * Does the faction have a homeworld?
- *
- * Availability:
- *
- *  alpha 28
- *
- * Status:
- *
- *  experimental
  */
 static int l_faction_attr_has_homeworld(lua_State *l)
 {
@@ -119,14 +79,6 @@ static int l_faction_attr_has_homeworld(lua_State *l)
  * Attribute: homeworld
  *
  * Get the factions homeworld if it has one or a default SystemPath(0,0,0,0,0) if it doesn't
- *
- * Availability:
- *
- *  alpha 28
- *
- * Status:
- *
- *  experimental
  */
 static int l_faction_attr_homeworld(lua_State *l)
 {
@@ -140,14 +92,6 @@ static int l_faction_attr_homeworld(lua_State *l)
  *
  * The date that the faction came into being.
  * Used in conjunction with expansionRate it can be used to calculate the volume of occupied space.
- *
- * Availability:
- *
- *  alpha 28
- *
- * Status:
- *
- *  experimental
  */
 static int l_faction_attr_founding_date(lua_State *l)
 {
@@ -162,14 +106,6 @@ static int l_faction_attr_founding_date(lua_State *l)
  * The rate at which the faction has been expanding since it's foundation.
  * Measured in light-years per-year of expansion.
  * So for a value of 1.0 the volumes _RADIUS_ will expand by 1 light-year.
- *
- * Availability:
- *
- *  alpha 28
- *
- * Status:
- *
- *  experimental
  */
 static int l_faction_attr_expansion_rate(lua_State *l)
 {
@@ -183,14 +119,6 @@ static int l_faction_attr_expansion_rate(lua_State *l)
  *
  * The radius in light years of the the spherical volume the faction
  * encompasses as at the year 3200
- *
- * Availability:
- *
- *  alpha 29
- *
- * Status:
- *
- *  experimental
  */
 static int l_faction_attr_radius(lua_State *l)
 {
@@ -203,14 +131,6 @@ static int l_faction_attr_radius(lua_State *l)
  * Attribute: militaryName
  *
  * The military name used by the faction
- *
- * Availability:
- *
- *  alpha 28
- *
- * Status:
- *
- *  experimental
  */
 static int l_faction_attr_military_name(lua_State *l)
 {
@@ -223,14 +143,6 @@ static int l_faction_attr_military_name(lua_State *l)
  * Attribute: policeName
  *
  * The name of the law enforcing agency in the faction
- *
- * Availability:
- *
- *  alpha 28
- *
- * Status:
- *
- *  experimental
  */
 static int l_faction_attr_police_name(lua_State *l)
 {
@@ -243,14 +155,6 @@ static int l_faction_attr_police_name(lua_State *l)
  * Attribute: policeShip
  *
  * The ships used by the police
- *
- * Availability:
- *
- *  2015 September
- *
- * Status:
- *
- *  experimental
  */
 static int l_faction_attr_police_ship(lua_State *l)
 {
@@ -267,14 +171,6 @@ static int l_faction_attr_police_ship(lua_State *l)
  * Attribute: colour
  *
  * The colour used to represent the faction in the SectorView screen
- *
- * Availability:
- *
- *  alpha 28
- *
- * Status:
- *
- *  experimental
  */
 static int l_faction_attr_colour(lua_State *l)
 {

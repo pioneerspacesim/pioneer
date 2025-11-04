@@ -176,14 +176,6 @@ static int _finish_timer_create(lua_State *l, int callbackIdx)
  * > Timer:CallAt(Game.time+30, function ()
  * >     Comms.Message("Special offer expired, sorry.")
  * > end)
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_timer_call_at(lua_State *l)
 {
@@ -242,14 +234,6 @@ static int l_timer_call_at(lua_State *l)
  * >     local did_dump = Game.player:Jettison(Equipment.cargo.hydrogen)
  * >     return not did_dump
  * > end)
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_timer_call_every(lua_State *l)
 {

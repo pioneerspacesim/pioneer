@@ -174,14 +174,6 @@ static void _fail_callback(const std::string &error, void *userdata)
  *   onFailure - optional. a function to call if the remote call fails for any
  *               reason. The text of the error will be passed as the first
  *               argument to the function.
- *
- * Availability:
- *
- *   alpha 29
- *
- * Status:
- *
- *   experimental
  */
 static int l_serveragent_call(lua_State *l)
 {
