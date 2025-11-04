@@ -1,5 +1,6 @@
 {
 	"model": "coronatrix_police",
+	"i18n_key": "CORONATRIX_POLICE",
 	"name": "Coronatrix (Police)",
 	"cockpit": "coronatrix_cockpit",
 	"shield_model": "coronatrix_shield",

@@ -1,5 +1,6 @@
 {
 	"model": "natrix",
+	"i18n_key": "NATRIX",
 	"name": "Natrix",
 	"cockpit": "natrix_cockpit",
 	"shield_model": "natrix_shield",

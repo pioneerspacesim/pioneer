@@ -1,5 +1,6 @@
 {
 	"model": "sinonatrix",
+	"i18n_key": "SINONATRIX",
 	"name": "Sinonatrix",
 	"cockpit": "sinonatrix_cockpit",
 	"shield_model": "sinonatrix_shield",

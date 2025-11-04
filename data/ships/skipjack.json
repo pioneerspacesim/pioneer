@@ -1,5 +1,6 @@
 {
 	"model": "skipjack",
+	"i18n_key": "SKIPJACK",
 	"name": "Skipjack",
 	"cockpit": "",
 	"shield_model": "skipjack_shield",

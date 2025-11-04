@@ -1,5 +1,6 @@
 {
 	"model": "vatakara",
+	"i18n_key": "VATAKARA",
 	"name": "Vatakara",
 	"cockpit": "",
 	"shield_model": "malabar_shield",

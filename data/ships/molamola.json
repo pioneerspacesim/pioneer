@@ -1,5 +1,6 @@
 {
 	"model": "molamola",
+	"i18n_key": "MOLAMOLA",
 	"name": "Mola Mola",
 	"cockpit": "",
 	"shield_model": "molamola_shield",

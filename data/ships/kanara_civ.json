@@ -1,5 +1,6 @@
 {
 	"model": "kanara_civ",
+	"i18n_key": "KANARA",
 	"name": "Kanara (Civilian)",
 	"cockpit": "",
 	"shield_model": "kanara_shield",

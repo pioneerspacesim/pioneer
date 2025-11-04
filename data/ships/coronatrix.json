@@ -1,5 +1,6 @@
 {
 	"model": "coronatrix",
+	"i18n_key": "CORONATRIX",
 	"name": "Coronatrix",
 	"cockpit": "coronatrix_cockpit",
 	"shield_model": "coronatrix_shield",

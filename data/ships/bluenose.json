@@ -1,5 +1,6 @@
 {
 	"model": "bluenose",
+	"i18n_key": "BLUENOSE",
 	"name": "Bluenose",
 	"cockpit": "",
 	"shield_model": "bluenose_shield",

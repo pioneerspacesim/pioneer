@@ -1,5 +1,6 @@
 {
 	"model": "molaramsayi",
+	"i18n_key": "MOLARAMSAYI",
 	"name": "Mola Ramsayi",
 	"cockpit": "",
 	"shield_model": "molaramsayi_shield",

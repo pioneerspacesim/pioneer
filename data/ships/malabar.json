@@ -1,5 +1,6 @@
 {
 	"model": "malabar",
+	"i18n_key": "MALABAR",
 	"name": "Malabar",
 	"cockpit": "",
 	"shield_model": "malabar_shield",

@@ -1,5 +1,6 @@
 {
 	"model": "xylophis",
+	"i18n_key": "XYLOPHIS",
 	"name": "Xylophis",
 	"cockpit": "xylophis_cockpit",
 	"shield_model": "xylophis_shield",
