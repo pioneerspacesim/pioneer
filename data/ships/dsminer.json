@@ -1,5 +1,6 @@
 {
 	"model": "dsminer",
+	"i18n_key": "DSMINER",
 	"name": "Deep Space Miner",
 	"cockpit": "",
 	"shield_model": "dsminer_shield",

@@ -1,5 +1,6 @@
 {
 	"model": "sinonatrix_police",
+	"i18n_key": "SINONATRIX_POLICE",
 	"name": "Sinonatrix (Police)",
 	"cockpit": "sinonatrix_cockpit",
 	"shield_model": "sinonatrix_shield",

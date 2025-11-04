@@ -1,5 +1,6 @@
 {
 	"model": "wave",
+	"i18n_key": "WAVE",
 	"name": "Wave",
 	"cockpit": "",
 	"shield_model": "wave_shield",

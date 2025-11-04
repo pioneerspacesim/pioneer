@@ -1,5 +1,6 @@
 {
 	"model": "nerodia",
+	"i18n_key": "NERODIA",
 	"name": "Nerodia",
 	"cockpit": "",
 	"shield_model": "nerodia_shield",

@@ -1,5 +1,6 @@
 {
 	"model": "storeria",
+	"i18n_key": "STORERIA",
 	"name": "Storeria",
 	"cockpit": "",
 	"shield_model": "storeria_shield",

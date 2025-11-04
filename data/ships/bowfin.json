@@ -1,5 +1,6 @@
 {
 	"model": "bowfin",
+	"i18n_key": "BOWFIN",
 	"name": "Bowfin",
 	"cockpit": "",
 	"shield_model": "bowfin_shield",

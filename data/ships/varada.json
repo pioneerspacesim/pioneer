@@ -1,5 +1,6 @@
 {
 	"model": "varada",
+	"i18n_key": "VARADA",
 	"name": "Varada",
 	"cockpit": "",
 	"shield_model": "varada_shield",

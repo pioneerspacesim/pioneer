@@ -1,5 +1,6 @@
 {
 	"model": "deneb",
+	"i18n_key": "DENEB",
 	"name": "Deneb",
 	"cockpit": "",
 	"shield_model": "deneb_shield",
