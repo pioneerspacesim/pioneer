@@ -33,14 +33,6 @@
  *       CountSystemNames
  *       CountPopulation
  *       PlanetsGravity
- *
- * Availability:
- *
- *   2020
- *
- * Status:
- *
- *   experimental
  */
 
 static int l_dev_galaxy_stats(lua_State *l)

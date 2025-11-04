@@ -52,14 +52,6 @@
  *
  *   ship_type - string, ship id, i.e. 'sinonatrix'
  *
- *
- * Availability:
- *
- *   2023
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_start_game(lua_State *l)
 {
@@ -142,19 +134,11 @@ static void onSaveGameStatsJobFinished(std::string_view filename, const Json &ro
  *   filename - The filename of the save game to retrieve stats for.
  *              Stats will be loaded from the 'savefiles' directory in the user's game directory.
  *
- * Availability:
- *
- *   2018-02-10
- *
  * Modified:
  *
  *   2024-10-11 - the function no longer returns the Stats directly, but starts
  *                a Job. The Lua caller is responsible for registering an
  *                "onSaveGameStats" event handler to process the data.
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_savegame_stats(lua_State *l)
 {
@@ -193,14 +177,6 @@ static int l_game_current_save_version(lua_State *l)
  *
  *   filename - Filename to load. It will be loaded from the 'savefiles'
  *              directory in the user's game directory.
- *
- * Availability:
- *
- *   alpha 28
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_load_game(lua_State *l)
 {
@@ -238,15 +214,6 @@ static int l_game_load_game(lua_State *l)
  * Return:
  *
  *   bool - can the filename be found to load
- *
- * Availability:
- *
- *   YYYY - MM - DD
- *   2016 - 06 - 25
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_can_load_game(lua_State *l)
 {
@@ -273,14 +240,6 @@ static int l_game_can_load_game(lua_State *l)
  * Return:
  *
  *   path - the full path to the saved file (so it can be displayed)
- *
- * Availability:
- *
- *   June 2013
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_save_game(lua_State *l)
 {
@@ -325,14 +284,6 @@ static int l_game_save_game(lua_State *l)
  * Return:
  *
  *   bool - is save deleted successfully
- *
- * Availability:
- *
- *   November 2023
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_delete_save(lua_State *l)
 {
@@ -353,14 +304,6 @@ static int l_game_delete_save(lua_State *l)
  * Return:
  *
  *   saves - a list of save-games as names and modification-date
- *
- * Availability:
- *
- *   September 2024
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_list_saves(lua_State *l)
 {
@@ -388,14 +331,6 @@ static int l_game_list_saves(lua_State *l)
  * End the current game and return to the main menu.
  *
  * > Game.EndGame(filename)
- *
- * Availability:
- *
- *   June 2013
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_end_game(lua_State *l)
 {
@@ -411,14 +346,6 @@ static int l_game_end_game(lua_State *l)
  * Attribute: player
  *
  * The <Player> object for the current player.
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_game_attr_player(lua_State *l)
 {
@@ -433,14 +360,6 @@ static int l_game_attr_player(lua_State *l)
  * Attribute: system
  *
  * The <StarSystem> object for the system the player is currently in.
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_game_attr_system(lua_State *l)
 {
@@ -455,14 +374,6 @@ static int l_game_attr_system(lua_State *l)
  * Attribute: systemView
  *
  * The <SystemView> object for the system map view class
- *
- * Availability:
- *
- *  February 2020
- *
- * Status:
- *
- *  experiment
  */
 static int l_game_attr_systemview(lua_State *l)
 {
@@ -477,14 +388,6 @@ static int l_game_attr_systemview(lua_State *l)
  * Attribute: sectorView
  *
  * The <SectorView> object for the sector map view class
- *
- * Availability:
- *
- *  April 2020
- *
- * Status:
- *
- *  experiment
  */
 static int l_game_attr_sectorview(lua_State *l)
 {
@@ -499,14 +402,6 @@ static int l_game_attr_sectorview(lua_State *l)
  * Attribute: time
  *
  * The current game time, in seconds since 12:00 01-01-3200
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_game_attr_time(lua_State *l)
 {
@@ -521,14 +416,6 @@ static int l_game_attr_time(lua_State *l)
  * Attribute: paused
  *
  * True if the game is paused.
- *
- * Availability:
- *
- *  September 2014
- *
- * Status:
- *
- *  experimental
  */
 static int l_game_attr_paused(lua_State *l)
 {
@@ -549,14 +436,6 @@ static int l_game_attr_paused(lua_State *l)
  * Return:
  *
  *   hyperspace - true if the game is currently in hyperspace
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 
 static int l_game_in_hyperspace(lua_State *l)
@@ -575,14 +454,6 @@ static int l_game_in_hyperspace(lua_State *l)
  * Return:
  *
  *   view - a string describing the game view: "WorldView", "StationView", "InfoView", "SectorView", "SystemView", "DeathView"
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 
 static int l_game_current_view(lua_State *l)

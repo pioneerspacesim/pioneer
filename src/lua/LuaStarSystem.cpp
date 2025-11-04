@@ -47,14 +47,6 @@
  * Return:
  *
  *   paths - an array of <SystemPath> objects, one for each space station
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 static int l_starsystem_get_station_paths(lua_State *l)
 {
@@ -86,14 +78,6 @@ static int l_starsystem_get_station_paths(lua_State *l)
  * Return:
  *
  *   paths - an array of <SystemPath> objects, one for each <SystemBody>
- *
- * Availability:
- *
- *   alpha 13
- *
- * Status:
- *
- *   experimental
  */
 static int l_starsystem_get_body_paths(lua_State *l)
 {
@@ -142,14 +126,6 @@ static int l_starsystem_get_body_by_path(lua_State *l)
  *                positive values make the commodity more expensive,
  *                indicating it is in demand, while negative values make the
  *                commodity cheaper, indicating a surplus.
- *
- * Availability:
- *
- *   June 2014
- *
- * Status:
- *
- *   experimental
  */
 static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 {
@@ -185,14 +161,6 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
  * Return:
  *
  *   is_legal  - true if the commodity is legal, otherwise false
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 static int l_starsystem_is_commodity_legal(lua_State *l)
 {
@@ -230,14 +198,6 @@ static int l_starsystem_is_commodity_legal(lua_State *l)
  * Return:
  *
  *  systems - an array of systems in range that matched the filter
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 static int l_starsystem_get_nearby_systems(lua_State *l)
 {
@@ -344,14 +304,6 @@ static int l_starsystem_get_jumpable(lua_State *l)
  * Return:
  *
  *   dist - the distance, in light years
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_starsystem_distance_to(lua_State *l)
 {
@@ -387,14 +339,6 @@ static int l_starsystem_distance_to(lua_State *l)
  * Method: ExportToLua
  *
  * Export of generated system for personal interest, customisation, etc
- *
- * Availability:
- *
- *   alpha 33
- *
- * Status:
- *
- *   experimental
  */
 static int l_starsystem_export_to_lua(lua_State *l)
 {
@@ -433,14 +377,6 @@ static int l_starsystem_export_to_lua(lua_State *l)
  *
  *   time - optional, the game time at which the system was explored.
  *          Defaults to current game time.
- *
- * Availability:
- *
- *   October 2014
- *
- * Status:
- *
- *   experimental
  */
 static int l_starsystem_explore(lua_State *l)
 {
@@ -464,14 +400,6 @@ static int l_starsystem_explore(lua_State *l)
  *
  * The name of the system. This is usually the same as the name of the primary
  * star.
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_starsystem_attr_name(lua_State *l)
 {
@@ -499,14 +427,6 @@ static int l_starsystem_attr_other_names(lua_State *l)
  * Attribute: path
  *
  * The <SystemPath> to the system
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_starsystem_attr_path(lua_State *l)
 {
@@ -522,14 +442,6 @@ static int l_starsystem_attr_path(lua_State *l)
  *
  * The lawlessness value for the system, 0 for peaceful, 1 for raging
  * hordes of pirates
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 static int l_starsystem_attr_lawlessness(lua_State *l)
 {
@@ -543,14 +455,6 @@ static int l_starsystem_attr_lawlessness(lua_State *l)
  * Attribute: population
  *
  * The population of this system, in billions of people
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 static int l_starsystem_attr_population(lua_State *l)
 {
@@ -564,14 +468,6 @@ static int l_starsystem_attr_population(lua_State *l)
  * Attribute: faction
  *
  * The <Faction> that controls this system
- *
- * Availability:
- *
- *   alpha 28
- *
- * Status:
- *
- *   experimental
  */
 static int l_starsystem_attr_faction(lua_State *l)
 {
@@ -632,14 +528,6 @@ static int l_starsystem_attr_long_description(lua_State *l)
 * Attribute: govDescription
 *
 * The translated description of the system's government type.
-*
-* Availability:
-*
-*   November 2020
-*
-* Status:
-*
-*   experimental
 */
 static int l_starsystem_attr_gov_description(lua_State *l)
 {
@@ -652,14 +540,6 @@ static int l_starsystem_attr_gov_description(lua_State *l)
 * Attribute: econDescription
 *
 * The translated description of the system's economy type.
-*
-* Availability:
-*
-*   November 2020
-*
-* Status:
-*
-*   experimental
 */
 static int l_starsystem_attr_econ_description(lua_State *l)
 {
@@ -673,14 +553,6 @@ static int l_starsystem_attr_econ_description(lua_State *l)
 *
 * The government type used in the system
 * (PolitGovType string constant, EARTHCOLONIAL, EARTHDEMOC, EMPIRERULE, etc.
-*
-* Availability:
-*
-*   december 2017
-*
-* Status:
-*
-*   experimental
 */
 static int l_starsystem_attr_govtype(lua_State *l)
 {
@@ -694,14 +566,6 @@ static int l_starsystem_attr_govtype(lua_State *l)
  * Attribute: explored
  *
  *   If this system has been explored then returns true
- *
- * Availability:
- *
- *   alpha 30
- *
- * Status:
- *
- *   experimental
  */
 
 static int l_starsystem_attr_explored(lua_State *l)

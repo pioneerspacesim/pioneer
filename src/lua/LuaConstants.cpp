@@ -173,14 +173,6 @@ void LuaConstants::Register(lua_State *l)
 	 * PLANET_TERRESTRIAL - terrestrial planet
 	 * STARPORT_ORBITAL - orbital starport (space station)
 	 * STARPORT_SURFACE - surface starport
-	 *
-	 * Availability:
-	 *
-	 *   alpha 10
-	 *
-	 * Status:
-	 *
-	 *   stable
 	 */
 
 	/*
@@ -193,14 +185,6 @@ void LuaConstants::Register(lua_State *l)
 	 * ROCKY_PLANET - a solid planet (terrestrial or asteroid)
 	 * GAS_GIANT - gas giant
 	 * STARPORT - surface or orbital starport
-	 *
-	 * Availability:
-	 *
-	 *   alpha 10
-	 *
-	 * Status:
-	 *
-	 *   stable
 	 */
 
 	/*
@@ -217,14 +201,6 @@ void LuaConstants::Register(lua_State *l)
 	 *	  STAR - .
 	 *	  CARGOBODY - .
 	 *	  MISSILE - .
-	 *
-	 * Availability:
-	 *
-	 *   2014 April
-	 *
-	 * Status:
-	 *
-	 *   experimental
 	 */
 
 	/*
@@ -237,14 +213,6 @@ void LuaConstants::Register(lua_State *l)
 	 * CAPITALIST - .
 	 * MIXED - .
 	 * PLANNED - .
-	 *
-	 * Availability:
-	 *
-	 *   alpha 10
-	 *
-	 * Status:
-	 *
-	 *   experimental
 	 */
 
 	/*
@@ -268,14 +236,6 @@ void LuaConstants::Register(lua_State *l)
 	 * COMMUNIST - .
 	 * PLUTOCRATIC - .
 	 * DISORDER - .
-	 *
-	 * Availability:
-	 *
-	 *   alpha 10
-	 *
-	 * Status:
-	 *
-	 *   experimental
 	 */
 
 	/*
@@ -314,14 +274,6 @@ void LuaConstants::Register(lua_State *l)
 	 * MILITARY_FUEL - military fuel
 	 * RUBBISH - rubbish
 	 * RADIOACTIVES - radioactives
-	 *
-	 * Availability:
-	 *
-	 *   alpha 10
-	 *
-	 * Status:
-	 *
-	 *   experimental
 	 */
 
 	/*
@@ -331,14 +283,6 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 * HORIZONTAL - Lasers are mounted left and right
 	 * VERTICAL   - Lasers are mounted top and bottom
-	 *
-	 * Availability:
-	 *
-	 *   alpha 27
-	 *
-	 * Status:
-	 *
-	 *   experimental
 	 */
 
 	/*
@@ -354,14 +298,6 @@ void LuaConstants::Register(lua_State *l)
 	 *               are used for mission specific functions (large supply
 	 *               ships, warships, etc)
 	 * MISSILE - missiles.
-	 *
-	 * Availability:
-	 *
-	 *   alpha 10
-	 *
-	 * Status:
-	 *
-	 *   stable
 	 */
 
 	/*
@@ -376,14 +312,6 @@ void LuaConstants::Register(lua_State *l)
 	 * DOWN - top/back (dorsal) thruster
 	 * LEFT - right-side (starboard) thruster
 	 * RIGHT - left-side (port) thruster
-	 *
-	 * Availability:
-	 *
-	 *   alpha 10
-	 *
-	 * Status:
-	 *
-	 *   stable
 	 */
 
 	/*
@@ -401,14 +329,6 @@ void LuaConstants::Register(lua_State *l)
 	 *                     enough fuel
 	 * SAFETY_LOCKOUT - drive locked out for safety reasons
 	 *                  (currently this happens if landed, docked or docking)
-	 *
-	 * Availability:
-	 *
-	 *   alpha 10
-	 *
-	 * Status:
-	 *
-	 *   stable
 	 */
 
 	/*
@@ -420,14 +340,6 @@ void LuaConstants::Register(lua_State *l)
 	 * SHIP_NEARBY - ship within 100km (yellow)
 	 * SHIP_FIRING - ship within 100km is firing lasers (though not
 	 * necessarily at us) (red)
-	 *
-	 * Availability:
-	 *
-	 *   alpha 10
-	 *
-	 * Status:
-	 *
-	 *   experimental
 	 */
 
 	/*
@@ -438,14 +350,6 @@ void LuaConstants::Register(lua_State *l)
 	 * OK - more than 5% fuel remaining
 	 * WARNING - less than 5% fuel remaining
 	 * EMPTY - no fuel remaining
-	 *
-	 * Availability:
-	 *
-	 *   alpha 20
-	 *
-	 * Status:
-	 *
-	 *   experimental
 	 */
 
 	/*
@@ -460,14 +364,6 @@ void LuaConstants::Register(lua_State *l)
 	 * LANDED     - rough landed (not docked)
 	 * JUMPING    - just initiating hyperjump (as of February 2014)
 	 * HYPERSPACE - in hyperspace
-	 *
-	 * Availability:
-	 *
-	 *   alpha 16
-	 *
-	 * Status:
-	 *
-	 *   experimental
 	 */
 
 	/*
@@ -480,14 +376,6 @@ void LuaConstants::Register(lua_State *l)
 	 * REFUSED_PERM     - AI was refused docking permission
 	 * ORBIT_IMPOSSIBLE - AI was asked to enter an impossible orbit (orbit is
 	 *                    outside target's frame)
-	 *
-	 * Availability:
-	 *
-	 *   alpha 17
-	 *
-	 * Status:
-	 *
-	 *   experimental
 	 */
 
 	/*
@@ -498,14 +386,6 @@ void LuaConstants::Register(lua_State *l)
 	 * USER - directory containing Pioneer's config, savefiles, mods and other
 	 * user-specific data
 	 * DATA - directory containing Pioneer's data files
-	 *
-	 * Availability:
-	 *
-	 *   alpha 25
-	 *
-	 * Status:
-	 *
-	 *   experimental
 	 */
 
 	// XXX document UI tables

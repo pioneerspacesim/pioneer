@@ -96,14 +96,6 @@ static int l_systemview_set_selected_object(lua_State *l)
  *
  * }
  *
- *
- * Availability:
- *
- *   2020-03
- *
- * Status:
- *
- *   experimental
  */
 
 static int l_systemview_get_projected_grouped(lua_State *l)

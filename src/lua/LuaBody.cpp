@@ -68,14 +68,6 @@ static LuaFlags<ObjectType> s_bodyFlags ({
  *
  * The label for the body. This is what is displayed in the HUD and usually
  * matches the name of the planet, space station, etc if appropriate.
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 
 /*
@@ -85,14 +77,6 @@ static LuaFlags<ObjectType> s_bodyFlags ({
  * same for this body across runs of the same build of the game, and should be
  * used to seed a <Rand> object when you want to ensure the same random
  * numbers come out each time.
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_body_attr_seed(lua_State *l)
 {
@@ -112,14 +96,6 @@ static int l_body_attr_seed(lua_State *l)
  *
  * If the body is a dynamic body it has no persistent path data, and its
  * <path> value will be nil.
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_body_attr_path(lua_State *l)
 {
@@ -143,14 +119,6 @@ static int l_body_attr_path(lua_State *l)
  * Returns a handle to the specified LuaComponent or C++ Component attached
  * to the given body, if present. Will return nil if the specified component
  * does not exist on this body.
- *
- * Availability:
- *
- *   June 2022
- *
- * Status:
- *
- *   stable
  */
 static int l_body_get_component(lua_State *l)
 {
@@ -186,14 +154,6 @@ static int l_body_get_component(lua_State *l)
  *
  *   comp - a table object to be used as the component value or nil to remove
  *          the component from the Body.
- *
- * Availability:
- *
- *   June 2022
- *
- * Status:
- *
- *   stable
  */
 static int l_body_set_component(lua_State *l)
 {
@@ -231,14 +191,6 @@ static int l_body_set_component(lua_State *l)
  * Parameters:
  *
  *   other - the other body
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 static int l_body_get_velocity_rel_to(lua_State *l)
 {
@@ -364,14 +316,6 @@ static int l_body_is_more_important_than(lua_State *l)
  * Parameters:
  *
  *   other - the other body
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 static int l_body_get_position_rel_to(lua_State *l)
 {
@@ -400,14 +344,6 @@ static int l_body_get_position_rel_to(lua_State *l)
  *
  * > -- Get relative above terrain altitude to other body
  * > body:GetAltitudeRelTo(otherBody, true)
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 static int l_body_get_altitude_rel_to(lua_State *l)
 {
@@ -429,14 +365,6 @@ static int l_body_get_altitude_rel_to(lua_State *l)
  * The type of the body, as a <Constants.BodyType> constant.
  *
  * Only valid for non-dynamic <Bodies>. For dynamic bodies <type> will be nil.
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_body_attr_type(lua_State *l)
 {
@@ -457,14 +385,6 @@ static int l_body_attr_type(lua_State *l)
  * The supertype of the body, as a <Constants.BodySuperType> constant
  *
  * Only valid for non-dynamic <Bodies>. For dynamic bodies <superType> will be nil.
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_body_attr_super_type(lua_State *l)
 {
@@ -490,14 +410,6 @@ static int l_body_attr_super_type(lua_State *l)
  * <frameBody> can also be nil if this dynamic body is in a frame with no
  * non-dynamic body. This most commonly occurs when the player is in
  * hyperspace.
- *
- * Availability:
- *
- *   alpha 12
- *
- * Status:
- *
- *   experimental
  */
 static int l_body_attr_frame_body(lua_State *l)
 {
@@ -525,14 +437,6 @@ static int l_body_attr_frame_body(lua_State *l)
  *
  * Only valid for dynamic <Bodies>. For non-dynamic bodies <frameRotating>
  * will be nil.
- *
- * Availability:
- *
- *   alpha 12
- *
- * Status:
- *
- *   experimental
  */
 static int l_body_attr_frame_rotating(lua_State *l)
 {
@@ -573,14 +477,6 @@ static int l_body_attr_frame_rotating(lua_State *l)
  * The above list of static/dynamic bodies may change in the future. Scripts
  * should use this method to determine the difference rather than checking
  * types directly.
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_body_is_dynamic(lua_State *l)
 {
@@ -603,14 +499,6 @@ static int l_body_is_dynamic(lua_State *l)
  * Returns:
  *
  *   dist - distance between the two bodies in meters
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_body_distance_to(lua_State *l)
 {
@@ -653,14 +541,6 @@ static int l_body_distance_to(lua_State *l)
  * > local lat, long, alt = Game.player:GetGroundPosition(false)
  * > lat = math.rad2deg(lat)
  * > long = math.rad2deg(long)
- *
- * Availability:
- *
- *   July 2013
- *
- * Status:
- *
- *   experimental
  */
 static int l_body_get_ground_position(lua_State *l)
 {
@@ -719,14 +599,6 @@ static int l_body_get_ground_position(lua_State *l)
  * > closestStar = Game.player:FindNearestTo("STAR")
  * > closestStation = Game.player:FindNearestTo("SPACESTATION")
  * > closestPlanet = Game.player:FindNearestTo("PLANET")
- *
- * Availability:
- *
- *   2014 April
- *
- * Status:
- *
- *   experimental
  */
 static int l_body_find_nearest_to(lua_State *l)
 {
@@ -745,14 +617,6 @@ static int l_body_find_nearest_to(lua_State *l)
  * Get the body's physical radius
  *
  * > body:GetPhysRadius()
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 static int l_body_get_phys_radius(lua_State *l)
 {

@@ -46,14 +46,6 @@
  * The global <Rand> object. Its stream of values will be different across
  * multiple Pioneer runs. Use this when you just need a random number and
  * don't care about the seed.
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_engine_attr_rand(lua_State *l)
 {
@@ -67,14 +59,6 @@ static int l_engine_attr_rand(lua_State *l)
  * Number of milliseconds since Pioneer was started. This should be used for
  * debugging purposes only (eg timing) and should never be used for game logic
  * of any kind.
- *
- * Availability:
- *
- *   alpha 26
- *
- * Status:
- *
- *   debug
  */
 static int l_engine_attr_ticks(lua_State *l)
 {
@@ -88,14 +72,6 @@ static int l_engine_attr_ticks(lua_State *l)
  * Number of real-time seconds since Pioneer was started. This should be used
  * for debugging or UI purposes only (eg animations), and should never be used
  * in game logic of any kind.
- *
- * Availability:
- *
- *   July 2022
- *
- * Status:
- *
- *   stable
  */
 static int l_engine_attr_time(lua_State *l)
 {
@@ -110,14 +86,6 @@ static int l_engine_attr_time(lua_State *l)
  * to the precise time this value is accessed. This should be used only for
  * profiling and debugging purposes to calculate a duration in sub-millisecond
  * units.
- *
- * Availability:
- *
- *   October 2024
- *
- * Status:
- *
- *   experimental
  */
 static int l_engine_attr_now_time(lua_State *l)
 {
@@ -131,14 +99,6 @@ static int l_engine_attr_now_time(lua_State *l)
  * Length of the last frame in seconds. This should be used for debugging or UI
  * purposes only (e.g. animations) and should never be used in game logic of
  * any kind.
- *
- * Availability:
- *
- *   July 2022
- *
- * Status:
- *
- *   stable
  */
 static int l_engine_attr_frame_time(lua_State *l)
 {
@@ -150,14 +110,6 @@ static int l_engine_attr_frame_time(lua_State *l)
  * Attribute: pigui
  *
  * The global PiGui object. It provides an interface to ImGui functions
- *
- * Availability:
- *
- *   2016-10-06
- *
- * Status:
- *
- *   experimental
  */
 static int l_engine_attr_pigui(lua_State *l)
 {
@@ -169,14 +121,6 @@ static int l_engine_attr_pigui(lua_State *l)
  * Attribute: version
  *
  * String describing the version of Pioneer
- *
- * Availability:
- *
- *   alpha 25
- *
- * Status:
- *
- *   experimental
  */
 static int l_engine_attr_version(lua_State *l)
 {
@@ -192,14 +136,6 @@ static int l_engine_attr_version(lua_State *l)
  * Exit the program. If there is a game running it ends the game first.
  *
  * > Engine.Quit()
- *
- * Availability:
- *
- *   alpha 28
- *
- * Status:
- *
- *   experimental
  */
 static int l_engine_quit(lua_State *l)
 {
@@ -213,14 +149,6 @@ static int l_engine_quit(lua_State *l)
  * Get the available video modes
  *
  * > Engine.GetVideoModeList()
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 
 static int l_engine_get_video_mode_list(lua_State *l)
@@ -245,20 +173,12 @@ static int l_engine_get_video_mode_list(lua_State *l)
 }
 
 /*
-* Method: GetMaximumAASamples
-*
-* Get the maximum number of samples the current OpenGL context supports
-*
-* > Engine.GetMaximumAASamples()
-*
-* Availability:
-*
-*   2017-12
-*
-* Status:
-*
-*   stable
-*/
+ * Method: GetMaximumAASamples
+ *
+ * Get the maximum number of samples the current OpenGL context supports
+ *
+ * > Engine.GetMaximumAASamples()
+ */
 
 static int l_engine_get_maximum_aa_samples(lua_State *l)
 {
@@ -281,14 +201,6 @@ static int l_engine_get_maximum_aa_samples(lua_State *l)
  * Get the current video resolution width and height
  *
  * > width,height = Engine.GetVideoResolution()
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 
 static int l_engine_get_video_resolution(lua_State *l)
@@ -309,14 +221,6 @@ static int l_engine_get_video_resolution(lua_State *l)
  *
  *   width - the new width in pixels
  *   height - the new height in pixels
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 
 static int l_engine_set_video_resolution(lua_State *l)
@@ -334,14 +238,6 @@ static int l_engine_set_video_resolution(lua_State *l)
  * Return true if fullscreen is enabled
  *
  * > fullscreen = Engine.GetFullscreen()
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 
 static int l_engine_get_fullscreen(lua_State *l)
@@ -360,14 +256,6 @@ static int l_engine_get_fullscreen(lua_State *l)
  * Parameters:
  *
  *   fullscreen - true to turn on
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 
 static int l_engine_set_fullscreen(lua_State *l)
@@ -391,10 +279,6 @@ static int l_engine_set_fullscreen(lua_State *l)
  * Parameters:
  *
  *   enabled - true to show, false to hide. If not present, toggles the state instead
- *
- * Availability: 2020-05
- *
- * Status: experimental
  */
 static int l_engine_set_show_debug_info(lua_State *l)
 {
@@ -900,14 +784,6 @@ static int l_engine_get_intro_current_model_name(lua_State *l)
  * Parameters:
  *
  *   camera_space - a Vector in camera space
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 
 static int l_engine_world_space_to_ship_space(lua_State *l)
@@ -929,14 +805,6 @@ static int l_engine_world_space_to_ship_space(lua_State *l)
  * Parameters:
  *
  *   ship_space - a Vector in ship space
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 
 static int l_engine_ship_space_to_screen_space(lua_State *l)
@@ -957,14 +825,6 @@ static int l_engine_ship_space_to_screen_space(lua_State *l)
  * Parameters:
  *
  *   camera_space - a Vector in camera space
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 
 static int l_engine_camera_space_to_screen_space(lua_State *l)
@@ -986,13 +846,6 @@ static int l_engine_camera_space_to_screen_space(lua_State *l)
  *
  *   rel_space - a position Vector in player-relative space
  *               (e.g. `body:GetPositionRelTo(player)`)*
- * Availability:
- *
- *   2020-12
- *
- * Status:
- *
- *   stable
  */
 
 static int l_engine_project_rel_position(lua_State *l)
@@ -1014,14 +867,6 @@ static int l_engine_project_rel_position(lua_State *l)
  *
  *   rel_space - a direction Vector in player-relative space
  *               (e.g. `body:GetVelocityRelTo(player)`)
- *
- * Availability:
- *
- *   2020-12
- *
- * Status:
- *
- *   stable
  */
 
 static int l_engine_project_rel_direction(lua_State *l)
@@ -1047,14 +892,6 @@ static int l_engine_project_rel_direction(lua_State *l)
  *   position - the screen-space position of the body if onscreen.
  *   direction - the screen-space direction from the center of the screen
  *               to the body if offscreen.
- *
- * Availability:
- *
- *   2020-12
- *
- * Status:
- *
- *   experimental
  */
 
 static int l_engine_get_projected_screen_position(lua_State *l)
@@ -1079,14 +916,6 @@ static int l_engine_get_projected_screen_position(lua_State *l)
  *   position - the screen-space position of the body if onscreen.
  *   direction - the screen-space direction from the center of the screen
  *               to the body if offscreen.
- *
- * Availability:
- *
- *   2020-12
- *
- * Status:
- *
- *   experimental
  */
 
 static int l_engine_get_target_indicator_screen_position(lua_State *l)

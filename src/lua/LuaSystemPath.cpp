@@ -95,14 +95,6 @@ void LuaObject<SystemPath>::PushToLua(const SystemPath &o)
  *   bodyIndex - optional. the numeric index of a specific body within the
  *               system. Defaults to 0, which typically corresponds to the
  *               primary star.
- *
- * Availability:
- *
- *   alpha 10, alpha 13 (updated)
- *
- * Status:
- *
- *   stable
  */
 static int l_sbodypath_new(lua_State *l)
 {
@@ -152,14 +144,6 @@ static int l_sbodypath_new(lua_State *l)
  * Return:
  *
  *   is_same - true if the path's point to the same system, false otherwise
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_sbodypath_is_same_system(lua_State *l)
 {
@@ -189,14 +173,6 @@ static int l_sbodypath_is_same_system(lua_State *l)
  * Return:
  *
  *   is_same - true if the path's point to the same sector, false otherwise
- *
- * Availability:
- *
- *   alpha 17
- *
- * Status:
- *
- *   stable
  */
 static int l_sbodypath_is_same_sector(lua_State *l)
 {
@@ -217,14 +193,6 @@ static int l_sbodypath_is_same_sector(lua_State *l)
  * Return:
  *
  *   system_path - the SystemPath that represents just the system
- *
- * Availability:
- *
- *   alpha 17
- *
- * Status:
- *
- *   stable
  */
 static int l_sbodypath_system_only(lua_State *l)
 {
@@ -249,14 +217,6 @@ static int l_sbodypath_system_only(lua_State *l)
  * Return:
  *
  *   sector_path - the SystemPath that represents just the sector
- *
- * Availability:
- *
- *   alpha 17
- *
- * Status:
- *
- *   stable
  */
 static int l_sbodypath_sector_only(lua_State *l)
 {
@@ -282,14 +242,6 @@ static int l_sbodypath_sector_only(lua_State *l)
  * Return:
  *
  *   dist - the distance, in light years
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_sbodypath_distance_to(lua_State *l)
 {
@@ -330,14 +282,6 @@ static int l_sbodypath_distance_to(lua_State *l)
  * Return:
  *
  *   system - the <StarSystem>
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_sbodypath_get_star_system(lua_State *l)
 {
@@ -363,14 +307,6 @@ static int l_sbodypath_get_star_system(lua_State *l)
  * Return:
  *
  *   body - the <SystemBody>
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_sbodypath_get_system_body(lua_State *l)
 {
@@ -427,14 +363,6 @@ static int l_sbodypath_is_system_path(lua_State *l)
 * Return:
 *
 *   sector_path - the SystemPath that represents just the sector
-*
-* Availability:
-*
-*   2018-06-16
-*
-* Status:
-*
-*   experimental
 */
 static int l_sbodypath_parse_string(lua_State *l)
 {
@@ -453,14 +381,6 @@ static int l_sbodypath_parse_string(lua_State *l)
  * Attribute: sectorX
  *
  * The X component of the path
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_sbodypath_attr_sector_x(lua_State *l)
 {
@@ -473,14 +393,6 @@ static int l_sbodypath_attr_sector_x(lua_State *l)
  * Attribute: sectorY
  *
  * The Y component of the path
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 
 static int l_sbodypath_attr_sector_y(lua_State *l)
@@ -494,14 +406,6 @@ static int l_sbodypath_attr_sector_y(lua_State *l)
  * Attribute: sectorZ
  *
  * The Z component of the path
- *
- * Availability:
- *
- *   alpha 13
- *
- * Status:
- *
- *   stable
  */
 
 static int l_sbodypath_attr_sector_z(lua_State *l)
@@ -516,14 +420,6 @@ static int l_sbodypath_attr_sector_z(lua_State *l)
  *
  * The system index component of the path, or nil if the SystemPath does
  * not point to a system.
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_sbodypath_attr_system_index(lua_State *l)
 {
@@ -540,14 +436,6 @@ static int l_sbodypath_attr_system_index(lua_State *l)
  *
  * The body index component of the path, or nil if the SystemPath does
  * not point to a body.
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_sbodypath_attr_body_index(lua_State *l)
 {

@@ -34,14 +34,6 @@
  * Return:
  *
  *   string - the string representation
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_format_date(lua_State *l)
 {
@@ -64,10 +56,6 @@ static int l_format_date(lua_State *l)
  * Return:
  *
  *   string - the string representation of the date
- *
- * Status:
- *
- *   stable
  */
 static int l_format_date_only(lua_State *l)
 {
@@ -90,14 +78,6 @@ static int l_format_date_only(lua_State *l)
  * Return:
  *
  *   string - the string representation
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_format_distance(lua_State *l)
 {
@@ -125,14 +105,6 @@ static int l_format_distance(lua_State *l)
  * Return:
  *
  *   string - the string representation
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_format_money(lua_State *l)
 {

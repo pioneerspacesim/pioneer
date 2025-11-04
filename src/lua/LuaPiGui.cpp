@@ -602,14 +602,6 @@ static int l_pigui_lineOnClock(lua_State *l)
 /* ****************************** Lua imgui functions ****************************** */
 /*
  * Function: begin
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 static int l_pigui_begin(lua_State *l)
 {
@@ -630,14 +622,6 @@ static int l_pigui_begin(lua_State *l)
  * blocked by a modal window rendering underneath it. To render a window on top
  * of a modal, it must be submitted within that modal's begin()/end() block.
  * (See data/pigui/libs/modal-win.lua).
- *
- * Availability:
- *
- *   2024-07
- *
- * Status:
- *
- *   experimental
  */
 static int l_pigui_bring_window_to_display_front(lua_State *l)
 {
@@ -652,10 +636,6 @@ static int l_pigui_bring_window_to_display_front(lua_State *l)
  * Gets imgui internal time
  *
  * > local currentTime = ui.getTime()
- *
- * Status:
- *
- *   stable
  */
 static int l_pigui_get_time(lua_State *l)
 {
@@ -2470,14 +2450,6 @@ bool PiGui::first_body_is_more_important_than(Body *body, Body *other)
  *   hasFollowTarget - true if group contains the follow target
  *   multiple - true if group consists of more than one body
  *   bodies - array of all <Body> objects in the group, sorted by importance
- *
- * Availability:
- *
- *   2019-12
- *
- * Status:
- *
- *   stable
  */
 static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 {

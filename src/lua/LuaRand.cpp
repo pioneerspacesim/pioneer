@@ -30,14 +30,6 @@ extern "C" {
  * Return:
  *
  *   rand - the newly-created generator
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_rand_new(lua_State *l)
 {
@@ -88,14 +80,6 @@ static int l_rand_new(lua_State *l)
  * Return:
  *
  *   number - the random number
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_rand_number(lua_State *l)
 {
@@ -134,14 +118,6 @@ static int l_rand_number(lua_State *l)
  * Return:
  *
  *   number - the random integer number
- *
- * Availability:
- *
- *   November 2014
- *
- * Status:
- *
- *   Experimental
  */
 static int l_rand_poisson(lua_State *l)
 {
@@ -176,14 +152,6 @@ static int l_rand_poisson(lua_State *l)
  * Return:
  *
  *   number - the random number
- *
- * Availability:
- *
- *   January 2014
- *
- * Status:
- *
- *   Experimental
  */
 static int l_rand_normal(lua_State *l)
 {
@@ -228,14 +196,6 @@ static int l_rand_normal(lua_State *l)
  * Return:
  *
  *   number - the random number
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_rand_integer(lua_State *l)
 {

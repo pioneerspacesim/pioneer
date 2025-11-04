@@ -694,14 +694,6 @@ static void setup_binding_table(lua_State *l, const char *id, const char *type)
  * >	},
  * >	-- ... more pages
  * > }
- *
- * Availability:
- *
- *   September 2018
- *
- * Status:
- *
- *   permanent
  */
 static int l_input_get_binding_pages(lua_State *l)
 {

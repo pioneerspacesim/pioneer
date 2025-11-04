@@ -33,14 +33,6 @@ extern "C" {
  *   m, n - optional. If called as hash_random(seed), the result is in the range 0 <= x < 1.
  *          If called as hash_random(seed, m, n), the result is an integer in the range m <= x <= n.
  *          m must be less than n. (n - m) must be less than 2^32.
- *
- * Availability:
- *
- *   alpha 24
- *
- * Status:
- *
- *   experimental
  */
 static int l_hash_random(lua_State *L)
 {
@@ -134,14 +126,6 @@ static int l_hash_random(lua_State *L)
  * Parameters:
  *
  *   str - A string.
- *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
  */
 static int l_trim(lua_State *l)
 {
@@ -181,14 +165,6 @@ static int l_trim(lua_State *l)
  * Return:
  *
  *   gameTime - number, 0 means 3200-01-01 00:00:00
- *
- * Availability:
- *
- *   2023
- *
- * Status:
- *
- *   experimental
  */
 static int l_time_parts_to_game_time(lua_State *L)
 {
@@ -212,14 +188,6 @@ static int l_time_parts_to_game_time(lua_State *L)
  * Return:
  *
  *   year, month, day, hour, minute, second - numbers
- *
- * Availability:
- *
- *   2023
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_time_to_time_parts(lua_State *L)
 {
@@ -242,14 +210,6 @@ static int l_game_time_to_time_parts(lua_State *L)
  * Return:
  *
  *   gameTime - number, 0 means 3200-01-01 00:00:00
- *
- * Availability:
- *
- *   2023
- *
- * Status:
- *
- *   experimental
  */
 static int l_standard_game_start_time(lua_State *L)
 {

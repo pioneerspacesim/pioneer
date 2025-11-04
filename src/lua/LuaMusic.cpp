@@ -19,14 +19,6 @@
  *
  * This event does not not trigger when a song finishes
  * prematurely (sound system stopped, another song starts playing).
- *
- * Availability:
- *
- *   alpha 12
- *
- * Status:
- *
- *   experimental
  */
 
 /*
@@ -39,14 +31,6 @@
  * > name = Music.GetSongName()
  *
  * The name does not include the data/music/ prefix or .ogg suffix.
- *
- * Availability:
- *
- *   alpha 12
- *
- * Status:
- *
- *   experimental
  */
 static int l_music_get_song(lua_State *l)
 {
@@ -67,14 +51,6 @@ static int l_music_get_song(lua_State *l)
  *
  *   name - song file name, without data/music/ or file extension
  *   repeat - true or false, default false
- *
- * Availability:
- *
- *   alpha 12
- *
- * Status:
- *
- *   experimental
  */
 static int l_music_play(lua_State *l)
 {
@@ -92,14 +68,6 @@ static int l_music_play(lua_State *l)
  * Example:
  *
  * > Music.Stop()
- *
- * Availability:
- *
- *   alpha 12
- *
- * Status:
- *
- *   experimental
  */
 static int l_music_stop(lua_State *l)
 {
@@ -121,14 +89,6 @@ static int l_music_stop(lua_State *l)
  *   name - song file name, without data/music/ or file extension
  *   fade factor - 0.1 = slow fade, 1.0 = instant. The fade factor of our sound system does not represent any natural unit. Sorry.
  *   repeat - true or false, default false
- *
- * Availability:
- *
- *   alpha 12
- *
- * Status:
- *
- *   experimental
  */
 static int l_music_fade_in(lua_State *l)
 {
@@ -151,14 +111,6 @@ static int l_music_fade_in(lua_State *l)
  * Parameters:
  *
  *   fade factor - 0.1 = slow fade, 1.0 = instant.
- *
- * Availability:
- *
- *   alpha 12
- *
- * Status:
- *
- *   experimental
  */
 static int l_music_fade_out(lua_State *l)
 {
@@ -181,14 +133,6 @@ static int l_music_fade_out(lua_State *l)
  * > -- prints:
  * > -- 1   tingle
  * > -- 2   action/knighty
- *
- * Availability:
- *
- *   alpha 12
- *
- * Status:
- *
- *   experimental
  */
 static int l_music_get_song_list(lua_State *l)
 {
@@ -214,14 +158,6 @@ static int l_music_get_song_list(lua_State *l)
  * Returns:
  *
  *   true or false
- *
- * Availability:
- *
- *   alpha 12
- *
- * Status:
- *
- *   experimental
  */
 static int l_music_is_playing(lua_State *l)
 {

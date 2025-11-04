@@ -160,14 +160,6 @@ static vector3d _orbital_velocity_random_direction(const SystemBody *sb, const v
  * >     "flowerfairy", 9, 11,
  * >     { SystemPath:New(0,0,0), Game.time + 600 }
  * > )
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 static int l_space_spawn_ship(lua_State *l)
 {
@@ -243,14 +235,6 @@ extern double MaxEffectRad(const Body *body, Propulsion *prop);
  *
  * > -- move a ship to the middle of the route (by time)
  * > Space.PutShipOnRoute(ship, some_staport, 0.5)
- *
- * Availability:
- *
- *   2020
- *
- * Status:
- *
- *   experimental
  */
 static int l_space_put_ship_on_route(lua_State *l)
 {
@@ -335,14 +319,6 @@ static int l_space_put_ship_on_route(lua_State *l)
  *   ship - a <Ship> object to be moved
  *
  *   target - the <Star> or <Planet> to orbit
- *
- * Availability:
- *
- *  October 2023
- *
- * Status:
- *
- *  experimental
  */
 static int l_put_ship_into_orbit(lua_State *l)
 {
@@ -417,14 +393,6 @@ static int l_put_ship_into_orbit(lua_State *l)
  *
  * > -- spawn a ship 10km from the player with the players velocity
  * > local ship = Space.SpawnShipNear("viper_police_craft", Game.player, 10, 10, nil, Game.player:velocity)
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 static int l_space_spawn_ship_near(lua_State *l)
 {
@@ -497,14 +465,6 @@ static int l_space_spawn_ship_near(lua_State *l)
  *
  *   ship - a <Ship> object for the new ship, or nil if there was no space
  *          inside the station
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_space_spawn_ship_docked(lua_State *l)
 {
@@ -561,13 +521,6 @@ static int l_space_spawn_ship_docked(lua_State *l)
  *
  *   ship - a <Ship> object for the new ship, or nil if there was no space
  *          inside the station
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 static int l_space_spawn_ship_parked(lua_State *l)
 {
@@ -641,14 +594,6 @@ static int l_space_spawn_ship_parked(lua_State *l)
  * > -- spawn 16km from L.A. when in Sol system
  * > local earth = Space.GetBody(3)
  * > local ship = Space.SpawnShipLanded("viper_police", earth, math.deg2rad(34.06473923), math.deg2rad(-118.1591568))
- *
- * Availability:
- *
- *   July 2013
- *
- * Status:
- *
- *   experimental
  */
 static int l_space_spawn_ship_landed(lua_State *l)
 {
@@ -706,14 +651,6 @@ static int l_space_spawn_ship_landed(lua_State *l)
  *
  * > -- spawn a ship 10km from the player
  * > local ship = Space.SpawnShipLandedNear("viper_police", Game.player, 10, 10)
- *
- * Availability:
- *
- *   July 2013
- *
- * Status:
- *
- *   experimental
  */
 static int l_space_spawn_ship_landed_near(lua_State *l)
 {
@@ -937,14 +874,6 @@ static int l_space_spawn_ship_orbit(lua_State *l)
  *
  *   body - the <Body> object for the requested body, or nil if no such body
  *          exists
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_space_get_body(lua_State *l)
 {
@@ -975,14 +904,6 @@ static int l_space_get_body(lua_State *l)
  * Return:
  *
  *   num - the number of bodies currently existing in Space
- *
- * Availability:
- *
- *   Oct. 2023
- *
- * Status:
- *
- *   stable
  */
 static int l_space_get_num_bodies(lua_State *l)
 {
@@ -1017,14 +938,6 @@ static int l_space_get_num_bodies(lua_State *l)
  * > local stations = utils.filter_array(Space.GetBodies("SpaceStation"), function(body)
  * >     return body.type == "STARPORT_SURFACE"
  * > end)
- *
- * Availability:
- *
- *   Oct. 2023
- *
- * Status:
- *
- *   stable
  */
 static int l_space_get_bodies(lua_State *l)
 {
@@ -1084,14 +997,6 @@ static int l_space_get_bodies(lua_State *l)
  *
  * > -- get all stations within 50,000m
  * > local stations = Space.GetBodiesNear(Game.player, 50000, "SPACE_STATION")
- *
- * Availability:
- *
- *   Oct. 2023
- *
- * Status:
- *
- *   stable
  */
 static int l_space_get_bodies_near(lua_State *l)
 {
