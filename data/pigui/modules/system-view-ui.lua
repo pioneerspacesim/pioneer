@@ -1091,7 +1091,9 @@ local function displayOnScreenObjects()
 
 	-- click once: select or deselect a body
 	-- double click: zoom to body or reset viewpoint
-	local clicked = not ui.isAnyWindowHovered() and (ui.isMouseClicked(0) or ui.isMouseDoubleClicked(0))
+	local clicked = not ui.isAnyWindowHovered()
+	                and not ui.ctrlHeld()
+	                and (ui.isMouseClicked(0) or ui.isMouseDoubleClicked(0))
 	if clicked then
 		if hoveredObject then
 			selectedObject = hoveredObject.ref

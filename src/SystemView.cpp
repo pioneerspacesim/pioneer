@@ -885,12 +885,12 @@ void SystemMapViewport::HandleInput(float ft)
 	Input::Manager *inputMgr = m_app->GetInput();
 
 	// to capture mouse when button was pressed and release when released
-	if (inputMgr->MouseButtonState(SDL_BUTTON_MIDDLE) != m_rotateWithMouseButton) {
+	if (inputMgr->IsMouseRotatePressed() != m_rotateWithMouseButton) {
 		m_rotateWithMouseButton = !m_rotateWithMouseButton;
 		inputMgr->SetCapturingMouse(m_rotateWithMouseButton);
 	}
 
-	float speedMod = inputMgr->KeyState(SDLK_LSHIFT) ? 10.f : (inputMgr->KeyState(SDLK_LCTRL) ? 0.1f : 1.f);
+	float speedMod = inputMgr->GetRotateSpeedShiftModifier();
 
 	if (m_rotateWithMouseButton || m_rotateView) {
 		int motion[2];
