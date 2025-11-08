@@ -23,6 +23,8 @@ class GalaxyObjectCache {
 public:
 	static const std::string CACHE_NAME;
 
+	using Self = GalaxyObjectCache<T, CompareT>;
+
 	GalaxyObjectCache(Galaxy *galaxy) :
 		m_galaxy(galaxy),
 		m_cacheHits(0),
@@ -31,7 +33,7 @@ public:
 	~GalaxyObjectCache();
 
 	RefCountedPtr<T> GetCached(const SystemPath &path);
-	RefCountedPtr<T> GetIfCached(const SystemPath &path);
+	RefCountedPtr<T> GetIfCached(const SystemPath &path) const;
 
 	void ClearCache(); // Completely clear slave caches
 	bool IsEmpty() { return m_attic.empty(); }

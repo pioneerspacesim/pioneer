@@ -71,11 +71,13 @@ public:
 	void SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi, Sint32 axisChange);
 	RefCountedPtr<const Sector> GetHomeSector() const;
 
+	void GenerateHomeSector();
+
 private:
 	static const double FACTION_CURRENT_YEAR; // used to calculate faction radius
 
 	Galaxy *const m_galaxy;							  // galaxy we are part of
-	mutable RefCountedPtr<const Sector> m_homesector; // cache of home sector to use in distance calculations
+	RefCountedPtr<const Sector> m_homesector; // cache of home sector to use in distance calculations
 	bool IsCloserAndContains(double &closestFactionDist, const Sector::System *sys) const;
 };
 

@@ -347,6 +347,24 @@ void StarSystem::EditorAPI::EditProperties(StarSystem *system, CustomSystemInfo 
 	if (Draw::UndoHelper("Edit System Sector", undo))
 		AddUndoSingleValue(undo, &system->m_path);
 
+	ImGui::TextUnformatted("Override Generated System");
+	ImGui::Checkbox("##Override Random", &custom.overrideRandom);
+
+	ImGui::SameLine(0.f, ImGui::GetStyle().ItemInnerSpacing.x);
+
+	if (Draw::UndoHelper("Edit System Override", undo))
+		AddUndoSingleValue(undo, &custom.overrideRandom);
+
+	ImGui::BeginDisabled(!custom.overrideRandom);
+
+	ImGui::InputInt("System Index", reinterpret_cast<int *>(&system->m_path.systemIndex), 0, 0);
+
+	if (Draw::UndoHelper("Edit System Index", undo))
+		AddUndoSingleValue(undo, &system->m_path.systemIndex);
+
+	ImGui::EndDisabled();
+
+
 	if (Draw::LayoutHorizontal("Position in Sector", 3, ImGui::GetFontSize())) {
 		ImGui::SliderFloat("X", &system->m_pos.x, 0.f, 8.f, "%.3f ly", ImGuiSliderFlags_AlwaysClamp);
 		ImGui::SliderFloat("Y", &system->m_pos.y, 0.f, 8.f, "%.3f ly", ImGuiSliderFlags_AlwaysClamp);

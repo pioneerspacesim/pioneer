@@ -153,52 +153,74 @@ void SystemEditorViewport::OnDraw()
 	split.Merge(ImGui::GetWindowDrawList());
 }
 
+bool IconButton(ImFont *font, const char *icon, const char *tooltip)
+{
+	ImGui::PushFont(font);
+	bool ret = ImGui::Button(icon);
+	ImGui::PopFont();
+
+	ImGui::SetItemTooltip("%s", tooltip);
+	return ret;
+}
+
 void SystemEditorViewport::DrawTimelineControls()
 {
 	double timeAccel = 0.0;
 
-	ImGui::PushFont(m_app->GetPiGui()->GetFont("icons", ImGui::GetFrameHeight()));
+	ImFont *iconfont = m_app->GetPiGui()->GetFont("icons", ImGui::GetFrameHeight());
+
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.f, 0.f));
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImGui::GetStyle().ItemInnerSpacing);
 
-	ImGui::Button(EICON_REWIND3);
+	if (IconButton(iconfont, EICON_TIMERESET, "Set map time to Epoch (Jan 1 3200)")) {
+		m_map->SetRealTime();
+		m_map->SetReferenceTime(0);
+	}
+
+	if (IconButton(iconfont, EICON_TIMECURRENT, "Set map time to current time")) {
+		m_map->SetRealTime();
+
+		time_t now;
+		time(&now);
+
+		// Friday, 31 December 1999 23:59:59 GMT+00:00 as UNIX epoch time in seconds
+		// Copied from LuaUtil.cpp
+		m_map->SetReferenceTime(difftime(now, 946684799));
+	}
+
+	IconButton(iconfont, EICON_REWIND3, "Reverse time by 2 years / second");
 	if (ImGui::IsItemActive())
 		timeAccel = -3600.0 * 24.0 * 730.0; // 2 years per second
 
-	ImGui::Button(EICON_REWIND2);
+	IconButton(iconfont, EICON_REWIND2, "Reverse time by 2 months / second");
 	if (ImGui::IsItemActive())
 		timeAccel = -3600.0 * 24.0 * 60.0; // 2 months per second
 
-	ImGui::Button(EICON_REWIND1);
+	IconButton(iconfont, EICON_REWIND1, "Reverse time by 5 days / second");
 	if (ImGui::IsItemActive())
 		timeAccel = -3600.0 * 24.0 * 5.0; // 5 days per second
 
-	bool timeStop = ImGui::ButtonEx(EICON_TIMESTOP, ImVec2(0,0), ImGuiButtonFlags_PressedOnClick);
-
-	ImGui::Button(EICON_FORWARD1);
+	IconButton(iconfont, EICON_FORWARD1, "Advance time by 5 days / second");
 	if (ImGui::IsItemActive())
 		timeAccel = 3600.0 * 24.0 * 5.0; // 5 days per second
 
-	ImGui::Button(EICON_FORWARD2);
+	IconButton(iconfont, EICON_FORWARD2, "Advance time by 2 months / second");
 	if (ImGui::IsItemActive())
 		timeAccel = 3600.0 * 24.0 * 60.0; // 2 months per second
 
-	ImGui::Button(EICON_FORWARD3);
+	IconButton(iconfont, EICON_FORWARD3, "Advance time by 2 years / second");
 	if (ImGui::IsItemActive())
 		timeAccel = 3600.0 * 24.0 * 730.0; // 2 years per second
 
 	ImGui::PopStyleVar(2);
-	ImGui::PopFont();
 
 	ImGui::AlignTextToFramePadding();
 
 	if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl))
 		timeAccel *= 0.1;
 
-	if (!timeStop)
+	if (timeAccel != 0.f || !m_map->IsRealTime())
 		m_map->AccelerateTime(timeAccel);
-	else
-		m_map->SetRealTime();
 
 	ImGui::Text("%s", format_date(m_map->GetTime()).c_str());
 }

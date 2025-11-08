@@ -90,13 +90,15 @@ public:
 		}
 		SystemPath GetPath() const { return SystemPath(sx, sy, sz, idx); }
 
-		const int sx, sy, sz;
-		const Uint32 idx;
+		// Don't modify these after Sector generation stage
+		int sx, sy, sz;
+		Uint32 idx;
 
 	private:
 		friend class Sector;
 		friend class SectorCustomSystemsGenerator;
 		friend class SectorRandomSystemsGenerator;
+		friend class SectorOverrideSystemsGenerator;
 		friend class SectorPersistenceGenerator;
 
 		void AssignFaction() const;

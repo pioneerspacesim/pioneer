@@ -30,9 +30,11 @@ bool SectorCustomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 	if (systems.size() == 0) return true;
 
 	Uint32 sysIdx = 0;
-	for (std::vector<const CustomSystem *>::const_iterator it = systems.begin(); it != systems.end(); ++it, ++sysIdx) {
-		const CustomSystem *cs = *it;
-		Sector::System s(sector.Get(), sx, sy, sz, sysIdx);
+	for (const CustomSystem *cs : systems) {
+		if (cs->override_random_system)
+			continue; // will be applied last
+
+		Sector::System s(sector.Get(), sx, sy, sz, sysIdx++);
 		s.m_pos = cs->pos;
 		s.m_name = cs->name;
 		s.m_other_names = cs->other_names;
@@ -60,8 +62,12 @@ bool SectorCustomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 			else
 				s.m_explored = StarSystem::eUNEXPLORED;
 		}
+
 		sector->m_systems.push_back(s);
 	}
+
+	config->numCustomSystems = sector->m_systems.size();
+
 	return true;
 }
 
@@ -326,6 +332,75 @@ bool SectorRandomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 		s.m_seed = rng.Int32();
 
 		sector->m_systems.push_back(s);
+	}
+	return true;
+}
+
+bool SectorOverrideSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config)
+{
+	const int sx = sector->sx;
+	const int sy = sector->sy;
+	const int sz = sector->sz;
+	const Sint64 dist = (1 + sx * sx + sy * sy + sz * sz);
+
+	const std::vector<const CustomSystem *> &systems = galaxy->GetCustomSystems()->GetCustomSystemsForSector(sx, sy, sz);
+	if (systems.size() == 0) return true;
+
+	Uint32 sysIdx = 0;
+	for (const CustomSystem *cs : systems) {
+		if (!cs->override_random_system)
+			continue;
+
+		uint32_t sysIdx = cs->systemIndex;
+
+		if (sector->m_systems.size() <= cs->systemIndex || cs->systemIndex < config->numCustomSystems) {
+			Log::Warning("Custom system {} specifies it wants to override random system with index {} but no such random system exists.",
+				cs->name, cs->systemIndex);
+
+			sysIdx = sector->m_systems.size();
+		}
+
+		// XXX: lots of duplicated code with an algorithmic dependency on the definition of a randomly-explored system.
+		// This could be moved into a static function if it weren't for the GalaxyConfig infecting everything.
+		Sector::System s(sector.Get(), sx, sy, sz, sysIdx);
+		s.m_pos = cs->pos;
+		s.m_name = cs->name;
+		s.m_other_names = cs->other_names;
+		for (s.m_numStars = 0; s.m_numStars < cs->numStars; s.m_numStars++) {
+			if (cs->primaryType[s.m_numStars] == 0) break;
+			s.m_starType[s.m_numStars] = cs->primaryType[s.m_numStars];
+		}
+		s.m_customSys = cs;
+		s.m_seed = cs->seed;
+
+		if (cs->want_rand_explored) {
+
+			/*
+			 * 0 - ~500ly from sol: explored
+			 * ~500ly - ~700ly (65-90 sectors): gradual
+			 * ~700ly+: unexplored
+			 */
+			if (((dist <= Square(m_GalaxyExploredMax)) && (dist <= Square(m_GalaxyExploredMin) || rng.Int32(dist) <= Square(m_GalaxyExploredMix))) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, sysIdx)))
+				s.m_explored = StarSystem::eEXPLORED_AT_START;
+			else
+				s.m_explored = StarSystem::eUNEXPLORED;
+		} else {
+			if (cs->explored)
+				s.m_explored = StarSystem::eEXPLORED_AT_START;
+			else
+				s.m_explored = StarSystem::eUNEXPLORED;
+		}
+
+		if (sysIdx >= sector->m_systems.size()) {
+			sector->m_systems.push_back(s);
+		} else {
+			// Since copy-assignment is prohibited by a const data member, we're just going to destruct and construct the system.
+			// Yes, this is a hack. It's arguably not worse than trying to protect access to a non-const object by making all members const.
+			Sector::System &dst = sector->m_systems.at(sysIdx);
+
+			dst.~System();
+			new (&dst) Sector::System(s);
+		}
 	}
 	return true;
 }

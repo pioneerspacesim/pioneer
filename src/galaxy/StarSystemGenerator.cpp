@@ -188,10 +188,9 @@ const StarSystemLegacyGeneratorBase::StarTypeInfo StarSystemLegacyGeneratorBase:
 		10, 24 }
 };
 
-bool StarSystemFromSectorGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
+bool StarSystemFromSectorGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, const Sector *sec, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
 {
 	PROFILE_SCOPED()
-	RefCountedPtr<const Sector> sec = galaxy->GetSector(system->GetPath());
 	assert(system->GetPath().systemIndex < sec->m_systems.size());
 	const Sector::System &secSys = sec->m_systems[system->GetPath().systemIndex];
 
@@ -488,10 +487,9 @@ bool StarSystemCustomGenerator::ApplyToSystem(Random &rng, RefCountedPtr<StarSys
 	return true;
 }
 
-bool StarSystemCustomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
+bool StarSystemCustomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, const Sector *sec, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
 {
 	PROFILE_SCOPED()
-	RefCountedPtr<const Sector> sec = galaxy->GetSector(system->GetPath());
 	system->SetCustom(false, false);
 
 	// No system entry in the Sector, may be a "new" custom system from the Editor
@@ -1273,10 +1271,9 @@ void StarSystemRandomGenerator::MakeBinaryPair(SystemBody *a, SystemBody *b, fix
 	b->m_orbMax = orbMax;
 }
 
-bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
+bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, const Sector *sec, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
 {
 	PROFILE_SCOPED()
-	RefCountedPtr<const Sector> sec = galaxy->GetSector(system->GetPath());
 	const Sector::System &secSys = sec->m_systems[system->GetPath().systemIndex];
 
 	if (config->isCustomOnly)
@@ -1797,13 +1794,12 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 	system->SetTotalPop(totalPop);
 }
 
-void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, const fixed &human_infestedness)
+void PopulateStarSystemGenerator::SetSysPolit(const Sector *sec, RefCountedPtr<StarSystem::GeneratorAPI> system, const fixed &human_infestedness)
 {
 	SystemPath path = system->GetPath();
 	const Uint32 _init[5] = { Uint32(system->GetSeed()), Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), POLIT_SEED };
 	Random rand(_init, 5);
 
-	RefCountedPtr<const Sector> sec = galaxy->GetSector(path);
 	const CustomSystem *customSystem = sec->m_systems[path.systemIndex].GetCustomSystem();
 	SysPolit sysPolit = system->GetSysPolit();
 
@@ -1871,7 +1867,7 @@ void PopulateStarSystemGenerator::SetEconType(RefCountedPtr<StarSystem::Generato
 /* percent */
 static const int MAX_COMMODITY_BASE_PRICE_ADJUSTMENT = 25;
 
-bool PopulateStarSystemGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system,
+bool PopulateStarSystemGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, const Sector *sec, RefCountedPtr<StarSystem::GeneratorAPI> system,
 	GalaxyGenerator::StarSystemConfig *config)
 {
 	PROFILE_SCOPED()
@@ -1913,7 +1909,7 @@ bool PopulateStarSystemGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galax
 	//		Output("%s: %d%%\n", type.name, m_tradeLevel[t]);
 	//	}
 	//	Output("System total population %.3f billion\n", m_totalPop.ToFloat());
-	SetSysPolit(galaxy, system, system->GetTotalPop());
+	SetSysPolit(sec, system, system->GetTotalPop());
 	SetCommodityLegality(system);
 
 	if (addSpaceStations) {

@@ -40,10 +40,10 @@ void GalaxyObjectCache<T, CompareT>::AddToCache(std::vector<RefCountedPtr<T>> &o
 }
 
 template <typename T, typename CompareT>
-RefCountedPtr<T> GalaxyObjectCache<T, CompareT>::GetIfCached(const SystemPath &path)
+RefCountedPtr<T> GalaxyObjectCache<T, CompareT>::GetIfCached(const SystemPath &path) const
 {
 	RefCountedPtr<T> s;
-	typename AtticMap::iterator i = m_attic.find(path);
+	typename AtticMap::const_iterator i = m_attic.find(path);
 	if (i != m_attic.end()) {
 		s.Reset(i->second);
 	}
@@ -57,7 +57,7 @@ RefCountedPtr<T> GalaxyObjectCache<T, CompareT>::GetCached(const SystemPath &pat
 	RefCountedPtr<T> s = this->GetIfCached(path);
 	if (!s) {
 		++m_cacheMisses;
-		s = m_galaxy->GetGenerator()->Generate<T, GalaxyObjectCache<T, CompareT>>(RefCountedPtr<Galaxy>(m_galaxy), path, this);
+		s = m_galaxy->GetGenerator()->Generate<T, Self>(RefCountedPtr<Galaxy>(m_galaxy), path, this);
 		m_attic.insert(std::make_pair(path, s.Get()));
 	} else {
 		++m_cacheHits;
@@ -179,13 +179,17 @@ void GalaxyObjectCache<T, CompareT>::Slave::AddToCache(std::vector<RefCountedPtr
 }
 
 template <typename T, typename CompareT>
-void GalaxyObjectCache<T, CompareT>::Slave::FillCache(const typename GalaxyObjectCache<T, CompareT>::PathVector &paths,
-	typename GalaxyObjectCache<T, CompareT>::CacheFilledCallback callback)
+void GalaxyObjectCache<T, CompareT>::Slave::FillCache(const PathVector &paths, CacheFilledCallback callback)
 {
 	// allocate some space for what we're about to chunk up
+	// there will be at most N paths, but potentially M<=N of those paths are already cached in another slave
+	// so don't allocate storage upfront for the entire list of paths
 	std::vector<std::unique_ptr<PathVector>> vec_paths;
 	vec_paths.reserve(paths.size() / CACHE_JOB_SIZE + 1);
-	std::unique_ptr<PathVector> current_paths;
+	vec_paths.emplace_back(new PathVector());
+
+	PathVector *current_paths = vec_paths.back().get();
+	current_paths->reserve(CACHE_JOB_SIZE);
 #ifdef DEBUG_CACHE
 	size_t alreadyCached = m_cache.size();
 	unsigned masterCached = 0;
@@ -193,21 +197,19 @@ void GalaxyObjectCache<T, CompareT>::Slave::FillCache(const typename GalaxyObjec
 #endif
 
 	// chop the paths into groups of CACHE_JOB_SIZE
-	for (auto it = paths.begin(), itEnd = paths.end(); it != itEnd; ++it) {
-		RefCountedPtr<T> s = m_master->GetIfCached(*it);
+	for (const SystemPath &path : paths) {
+		RefCountedPtr<T> s = m_master->GetIfCached(path);
 		if (s) {
-			m_cache[*it] = s;
+			m_cache[path] = s;
 #ifdef DEBUG_CACHE
 			++masterCached;
 #endif
 		} else {
-			if (!current_paths) {
-				current_paths.reset(new PathVector);
-				current_paths->reserve(CACHE_JOB_SIZE);
-			}
-			current_paths->push_back(*it);
+			current_paths->push_back(path);
+
 			if (current_paths->size() >= CACHE_JOB_SIZE) {
-				vec_paths.push_back(std::move(current_paths));
+				current_paths = vec_paths.emplace_back(new PathVector()).get();
+				current_paths->reserve(CACHE_JOB_SIZE);
 			}
 #ifdef DEBUG_CACHE
 			++toBeCreated;
@@ -215,30 +217,25 @@ void GalaxyObjectCache<T, CompareT>::Slave::FillCache(const typename GalaxyObjec
 		}
 	}
 
-	// catch the last loop in case it's got some entries (could be less than the spread width)
-	if (current_paths) {
-		vec_paths.push_back(std::move(current_paths));
-	}
-
 #ifdef DEBUG_CACHE
 	Output("%s: FillCache: " SIZET_FMT " cached, %u in master cache, %u to be created, will use " SIZET_FMT " jobs\n", CACHE_NAME.c_str(),
 		alreadyCached, masterCached, toBeCreated, vec_paths.size());
 #endif
 
-	if (vec_paths.empty()) {
+	// No paths need to be generated
+	if (vec_paths.front()->empty()) {
 		if (callback)
 			callback();
 	} else {
 		// now add the batched jobs
-		for (auto it = vec_paths.begin(), itEnd = vec_paths.end(); it != itEnd; ++it)
-			m_jobs.Order(new GalaxyObjectCache<T, CompareT>::CacheJob(std::move(*it), this, m_galaxy, callback));
+		for (std::unique_ptr<PathVector> &vec : vec_paths)
+			m_jobs.Order(new CacheJob(std::move(vec), this, m_galaxy, callback));
 	}
 }
 
 template <typename T, typename CompareT>
 GalaxyObjectCache<T, CompareT>::CacheJob::CacheJob(std::unique_ptr<std::vector<SystemPath>> path,
-	typename GalaxyObjectCache<T, CompareT>::Slave *slaveCache, RefCountedPtr<Galaxy> galaxy,
-	typename GalaxyObjectCache<T, CompareT>::CacheFilledCallback callback) :
+	Slave *slaveCache, RefCountedPtr<Galaxy> galaxy, CacheFilledCallback callback) :
 	Job(),
 	m_paths(std::move(path)),
 	m_slaveCache(slaveCache),
@@ -255,7 +252,7 @@ void GalaxyObjectCache<T, CompareT>::CacheJob::OnRun() // RUNS IN ANOTHER THREAD
 {
 	PROFILE_SCOPED()
 	for (auto it = m_paths->begin(), itEnd = m_paths->end(); it != itEnd; ++it)
-		m_objects.push_back(m_galaxyGenerator->Generate<T, GalaxyObjectCache<T, CompareT>>(m_galaxy, *it, nullptr));
+		m_objects.push_back(m_galaxyGenerator->Generate<T, Self>(m_galaxy, *it, nullptr));
 }
 
 //virtual
@@ -271,14 +268,15 @@ void GalaxyObjectCache<T, CompareT>::CacheJob::OnFinish() // runs in primary thr
 /****** SectorCache ******/
 
 template <>
-const std::string GalaxyObjectCache<Sector, SystemPath::LessSectorOnly>::CACHE_NAME("SectorCache");
+const std::string SectorCache::CACHE_NAME("SectorCache");
 
+// Explicit instantiation of SectorCache template
 template class GalaxyObjectCache<Sector, SystemPath::LessSectorOnly>;
 
 /****** StarSystemCache ******/
 
 template <>
-GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly>::Slave::Slave(GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly> *master, RefCountedPtr<Galaxy> galaxy, JobQueue *jobQueue) :
+StarSystemCache::Slave::Slave(Self *master, RefCountedPtr<Galaxy> galaxy, JobQueue *jobQueue) :
 	m_master(master),
 	m_galaxy(galaxy),
 	m_jobs(Pi::GetSyncJobQueue())
@@ -287,6 +285,7 @@ GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly>::Slave::Slave(GalaxyOb
 }
 
 template <>
-const std::string GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly>::CACHE_NAME("StarSystemCache");
+const std::string StarSystemCache::CACHE_NAME("StarSystemCache");
 
+// Explicit instantiation of StarSystemCache template
 template class GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly>;

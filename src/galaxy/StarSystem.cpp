@@ -342,7 +342,8 @@ StarSystem::~StarSystem()
 	PROFILE_SCOPED()
 	// clear parent and children pointers. someone (Lua) might still have a
 	// reference to things that are about to be deleted
-	m_rootBody->Orphan();
+	if (m_rootBody)
+		m_rootBody->Orphan();
 	if (m_cache)
 		m_cache->RemoveFromAttic(m_path);
 }

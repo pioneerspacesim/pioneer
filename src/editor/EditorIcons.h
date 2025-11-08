@@ -28,6 +28,9 @@
 #define EICON_FORWARD2 u8"\uF069"
 #define EICON_FORWARD3 u8"\uF06A"
 
+#define EICON_TIMERESET u8"\uF077"
+#define EICON_TIMECURRENT u8"\uF0EB"
+
 #define EICON_INFO u8"\uF088"
 
 #define EICON_RANDOM u8"\uF0C7"

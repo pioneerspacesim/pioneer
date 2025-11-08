@@ -254,7 +254,7 @@ bool SystemEditor::LoadSystemFromFile(const FileSystem::FileInfo &file)
 
 bool SystemEditor::WriteSystem(const std::string &filepath)
 {
-	Log::Info("Writing to path: {}/{}", FileSystem::GetDataDir(), filepath);
+	Log::Info("Writing to path: {}", filepath);
 	// FIXME: need better file-saving interface for the user
 	// FileSystem::FileSourceFS(FileSystem::GetDataDir()).OpenWriteStream(filepath, FileSystem::FileSourceFS::WRITE_TEXT);
 
@@ -285,11 +285,18 @@ bool SystemEditor::WriteSystem(const std::string &filepath)
 	else
 		systemdef["explored"] = m_systemInfo.explored == CustomSystemInfo::EXPLORE_ExploredAtStart;
 
+	if (m_systemInfo.overrideRandom) {
+		systemdef["overrideRandom"] = true;
+		systemdef["index"] = m_system->GetPath().systemIndex;
+	}
+
 	systemdef["comment"] = m_systemInfo.comment;
 
 	std::string jsonData = systemdef.dump(1, '\t');
 
 	fwrite(jsonData.data(), 1, jsonData.size(), f);
+	fwrite("\n", 1, 1, f); // write trailing newline
+
 	fclose(f);
 
 	OnSaveComplete(true);
@@ -306,8 +313,13 @@ bool SystemEditor::LoadCustomSystem(const CustomSystem *csys)
 	auto customStage = std::make_unique<StarSystemCustomGenerator>();
 
 	if (!customStage->ApplyToSystem(rng, system, csys)) {
-		Log::Error("System is fully random, cannot load from file");
-		return false;
+		Log::Error("System is fully random, cannot load from file. Loading from galaxy instead.");
+
+		// Fall back to loading from random galaxy generation.
+		LoadSystemFromGalaxy(m_galaxy->GetStarSystem(path));
+		m_systemInfo.overrideRandom = false;
+
+		return true;
 	}
 
 	// NOTE: we don't run the PopulateSystem generator here, due to its
@@ -329,6 +341,7 @@ bool SystemEditor::LoadCustomSystem(const CustomSystem *csys)
 	m_systemInfo.explored = csys->want_rand_explored ? CustomSystemInfo::EXPLORE_Random : explored;
 	m_systemInfo.randomLawlessness = csys->want_rand_lawlessness;
 	m_systemInfo.randomFaction = csys->faction == nullptr;
+	m_systemInfo.overrideRandom = csys->override_random_system;
 	m_systemInfo.faction = csys->faction ? csys->faction->name : "";
 
 	return true;
@@ -352,7 +365,8 @@ void SystemEditor::LoadSystemFromGalaxy(RefCountedPtr<StarSystem> system)
 
 	m_systemInfo.explored = explored ? CustomSystemInfo::EXPLORE_ExploredAtStart : CustomSystemInfo::EXPLORE_Unexplored;
 	m_systemInfo.randomLawlessness = false;
-	m_systemInfo.randomFaction = system->GetFaction();
+	m_systemInfo.randomFaction = !system->GetFaction();
+	m_systemInfo.overrideRandom = true;
 	m_systemInfo.faction = system->GetFaction() ? system->GetFaction()->name : "";
 }
 
@@ -362,6 +376,7 @@ bool SystemEditor::RegenerateSystem(uint32_t newSeed)
 	uint32_t _init[5] = { newSeed, uint32_t(path.sectorX), uint32_t(path.sectorY), uint32_t(path.sectorZ), UNIVERSE_SEED };
 	Random rng(_init, 5);
 
+	RefCountedPtr<const Sector> sec = m_galaxy->GetSector(path);
 	RefCountedPtr<StarSystem::GeneratorAPI> system(new StarSystem::GeneratorAPI(path, m_galaxy, nullptr, rng));
 
 	GalaxyGenerator::StarSystemConfig config;
@@ -370,7 +385,7 @@ bool SystemEditor::RegenerateSystem(uint32_t newSeed)
 	auto stage3 = std::make_unique<StarSystemRandomGenerator>();
 	auto stage4 = std::make_unique<PopulateStarSystemGenerator>();
 
-	if (!stage1->Apply(rng, m_galaxy, system, &config)) {
+	if (!stage1->Apply(rng, m_galaxy, sec.Get(), system, &config)) {
 		Log::Error("Cannot apply stage1 generator");
 		return false;
 	}
@@ -378,17 +393,17 @@ bool SystemEditor::RegenerateSystem(uint32_t newSeed)
 	// Stage1 uses the seed created by sector generation
 	system->SetSeed(newSeed);
 
-	if (!stage2->Apply(rng, m_galaxy, system, &config)) {
+	if (!stage2->Apply(rng, m_galaxy, sec.Get(), system, &config)) {
 		Log::Error("Cannot apply stage2 generator");
 		return false;
 	}
 
-	if (!stage3->Apply(rng, m_galaxy, system, &config)) {
+	if (!stage3->Apply(rng, m_galaxy, sec.Get(), system, &config)) {
 		Log::Error("Cannot apply stage3 generator");
 		return false;
 	}
 
-	if (!stage4->Apply(rng, m_galaxy, system, &config)) {
+	if (!stage4->Apply(rng, m_galaxy, sec.Get(), system, &config)) {
 		Log::Error("Cannot apply stage4 generator");
 		return false;
 	}

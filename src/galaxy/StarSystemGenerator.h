@@ -9,7 +9,7 @@
 
 class StarSystemFromSectorGenerator : public StarSystemGeneratorStage {
 public:
-	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config);
+	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, const Sector *sec, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config);
 };
 
 class StarSystemLegacyGeneratorBase : public StarSystemGeneratorStage {
@@ -31,7 +31,7 @@ protected:
 
 class StarSystemCustomGenerator : public StarSystemLegacyGeneratorBase {
 public:
-	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config);
+	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, const Sector *sec, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config);
 
 	// returns true if the system is custom, false if the contents should be randomly generated
 	bool ApplyToSystem(Random &rng, RefCountedPtr<StarSystem::GeneratorAPI> system, const CustomSystem *customSys);
@@ -44,7 +44,7 @@ class StarSystemRandomGenerator : public StarSystemLegacyGeneratorBase {
 public:
 	static constexpr uint32_t BODY_SATELLITE_SALT = 0xf5123a90;
 
-	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config);
+	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, const Sector *sec, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config);
 
 	// Calculate the min, max distances from the primary where satellites should be generated
 	// Returns the mass density of a 2d slice through the center of the shell
@@ -65,10 +65,10 @@ private:
 
 class PopulateStarSystemGenerator : public StarSystemLegacyGeneratorBase {
 public:
-	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config);
+	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, const Sector *sec, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config);
 
 private:
-	void SetSysPolit(RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, const fixed &human_infestedness);
+	void SetSysPolit(const Sector *sec, RefCountedPtr<StarSystem::GeneratorAPI> system, const fixed &human_infestedness);
 	void SetCommodityLegality(RefCountedPtr<StarSystem::GeneratorAPI> system);
 	void SetEconType(RefCountedPtr<StarSystem::GeneratorAPI> system);
 

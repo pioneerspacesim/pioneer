@@ -23,6 +23,8 @@ namespace Editor {
 		bool randomLawlessness = true;
 		bool randomFaction = true;
 
+		bool overrideRandom = false;
+
 		std::string faction;
 		std::string comment;
 	};

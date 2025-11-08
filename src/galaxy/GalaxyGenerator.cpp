@@ -55,6 +55,7 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string &name, Version v
 			galgen.Reset((new GalaxyGenerator(name, version))
 							 ->AddSectorStage(new SectorCustomSystemsGenerator(CustomSystem::CUSTOM_ONLY_RADIUS))
 							 ->AddSectorStage(new SectorRandomSystemsGenerator)
+							 ->AddSectorStage(new SectorOverrideSystemsGenerator)
 							 ->AddSectorStage(new SectorPersistenceGenerator(version))
 							 ->AddStarSystemStage(new StarSystemFromSectorGenerator)
 							 ->AddStarSystemStage(new StarSystemCustomGenerator)
@@ -68,6 +69,7 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string &name, Version v
 			Output("Clearing and re-using previous Galaxy object\n");
 			s_galaxy->SetGalaxyGenerator(galgen);
 			s_galaxy->FlushCaches();
+			s_galaxy->GetFactions()->PostInit();
 			return s_galaxy;
 		}
 
@@ -171,28 +173,43 @@ GalaxyGenerator *GalaxyGenerator::AddStarSystemStage(StarSystemGeneratorStage *s
 RefCountedPtr<Sector> GalaxyGenerator::GenerateSector(RefCountedPtr<Galaxy> galaxy, const SystemPath &path, SectorCache *cache)
 {
 	const Uint32 _init[4] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
+
 	Random rng(_init, 4);
 	SectorConfig config;
+
 	RefCountedPtr<Sector> sector(new Sector(galaxy, path, cache));
 	for (SectorGeneratorStage *secgen : m_sectorStage)
 		if (!secgen->Apply(rng, galaxy, sector, &config))
 			break;
+
 	return sector;
 }
 
 RefCountedPtr<StarSystem> GalaxyGenerator::GenerateStarSystem(RefCountedPtr<Galaxy> galaxy, const SystemPath &path, StarSystemCache *cache)
 {
 	PROFILE_SCOPED()
-	RefCountedPtr<const Sector> sec = galaxy->GetSector(path);
+	// NOTE: the original call to GetSector(path) would create a new sector with no underlying cache storage, leading to deletion upon return
+	RefCountedPtr<const Sector> sec = galaxy->GetSectorCache()->GetIfCached(path); // GetSector(path);
+
+	// Exploit the fact that sector generation is deterministic and just generate a temporary version of the sector.
+	// Avoid mutating the galaxy's cache as we would like to be thread-safe here.
+	if (!sec.Valid()) {
+		sec = GenerateSector(galaxy, path, nullptr);
+	}
+
 	assert(path.systemIndex < sec->m_systems.size());
+
 	Uint32 seed = sec->m_systems[path.systemIndex].GetSeed();
 	std::string name = sec->m_systems[path.systemIndex].GetName();
 	Uint32 _init[5] = { Uint32(seed), Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
+
 	Random rng(_init, 5);
 	StarSystemConfig config;
+
 	RefCountedPtr<StarSystem::GeneratorAPI> system(new StarSystem::GeneratorAPI(path, galaxy, cache, rng));
 	for (StarSystemGeneratorStage *sysgen : m_starSystemStage)
-		if (!sysgen->Apply(rng, galaxy, system, &config))
+		if (!sysgen->Apply(rng, galaxy, sec.Get(), system, &config))
 			break;
+
 	return system;
 }
