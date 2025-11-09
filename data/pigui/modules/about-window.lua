@@ -316,6 +316,13 @@ local function showSoftwareUsed()
 			ui.text("Licensed under the Apache License, Version 2.0")
 			ui.treePop()
 		end
+
+		if ui.treeNode("fast_float") then
+			ui.textWrapped("Copyright (c) 2021 The fast_float authors")
+			ui.text("Licensed under the MIT license")
+			ui.textLinkOpenURL("https://github.com/fastfloat/fast_float")
+			ui.treePop()
+		end
 	end
 
 	if ui.collapsingHeader(l.CONTENT) then
