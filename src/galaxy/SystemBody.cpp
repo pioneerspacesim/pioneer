@@ -98,6 +98,7 @@ void SystemBodyData::LoadFromJson(const Json &obj)
 	m_inclination = obj.value<fixed>("inclination", 0);
 	m_argOfPeriapsis = obj.value<fixed>("argOfPeriapsis", 0);
 	m_averageTemp = obj.value<uint32_t>("averageTemp", 0);
+	GenerateStarColor();
 
 	m_metallicity = obj.value<fixed>("metallicity", 0);
 	m_volcanicity = obj.value<fixed>("volcanicity", 0);
@@ -318,7 +319,7 @@ const vector3d nm_to_rgb[48] = {
     vector3d( 0.000002f, 0.000001f, 0.000000f )     // 830 nm
 };
 
-Color SystemBody::GetStarColor() const
+void SystemBody::GenerateStarColor()
 {
 	// https://www.shadertoy.com/view/NlGXzz
 
@@ -349,7 +350,7 @@ Color SystemBody::GetStarColor() const
 	rgb.y = std::max(rgb.y, 0.0);
 	rgb.z = std::max(rgb.z, 0.0);
 
-	return Color(rgb.x, rgb.y, rgb.z, 255);
+	m_starColor = Color(rgb.x, rgb.y, rgb.z, 255);
 }
 
 bool SystemBody::IsScoopable() const

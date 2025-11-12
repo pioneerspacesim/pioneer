@@ -271,7 +271,8 @@ public:
 		// which is rendered when the body has a small screen size
 		return Color(200, 200, 200, 255);
 	}
-	Color GetStarColor() const;
+	void GenerateStarColor();
+	Color GetStarColor() const { return m_starColor; };
 
 	// Returns color, density in kg/m^3 at sea level
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const
@@ -341,6 +342,9 @@ private:
 	double m_atmosPressure;
 	// atmosphere radius at 0.01atm, unit: meters
 	double m_atmosRadius;
+
+	// star color
+	Color m_starColor;
 };
 
 #endif // SYSTEMBODY_H

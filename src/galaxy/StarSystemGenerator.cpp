@@ -714,6 +714,7 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 		//Radius is too high as it now uses the planetary calculations to work out radius (Cube root of mass)
 		// So tell it to use the star data instead:
 		sbody->m_radius = fixed(rand.Int32(starTypeInfo[sbody->GetType()].radius[0], starTypeInfo[sbody->GetType()].radius[1]), 100);
+		sbody->GenerateStarColor();
 	} else if (sbody->GetMassAsFixed() > 6) {
 		sbody->m_type = SystemBody::TYPE_PLANET_GAS_GIANT;
 		// Generate a random "surface" density for gas giants roughly fitted to real-life estimation of Jupiter at "cloud deck" level
@@ -1201,6 +1202,7 @@ void StarSystemRandomGenerator::MakeStarOfType(SystemBody *sbody, SystemBody::Bo
 	}
 	sbody->m_mass = fixed(rand.Int32(starTypeInfo[type].mass[0], starTypeInfo[type].mass[1]), 100);
 	sbody->m_averageTemp = rand.Int32(starTypeInfo[type].tempMin, starTypeInfo[type].tempMax);
+	sbody->GenerateStarColor();
 }
 
 void StarSystemRandomGenerator::MakeRandomStar(SystemBody *sbody, Random &rand)
