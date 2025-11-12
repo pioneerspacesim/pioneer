@@ -326,10 +326,16 @@ Color SystemBody::GetStarColor() const
 	vector3d rgb = vector3d(0.f);
 	int T = GetAverageTemp();
 
+	const matrix3x3d xyz2rgb = matrix3x3d::FromVectors(
+		vector3d( 3.2404542,-0.9692660, 0.0556434),
+		vector3d(-1.5371385, 1.8760108,-0.2040259),
+		vector3d(-0.4985314, 0.0415560, 1.0572252)
+	);
+
 	for (int i = 0; i < 48; i++) {
 		double wavelength = 360 + (10 * i);
-		double brightness = GetPlanckBrightness(wavelength, T);
-		rgb += brightness * nm_to_rgb[i];
+
+		rgb += GetPlanckBrightness(wavelength, T) * (xyz2rgb * nm_to_rgb[i]);
 	}
 
 	// normalize
@@ -340,6 +346,9 @@ Color SystemBody::GetStarColor() const
 	} else {
 		rgb /= (max / 255);
 	}
+	rgb.x = std::max(rgb.x, 0.0);
+	rgb.y = std::max(rgb.y, 0.0);
+	rgb.z = std::max(rgb.z, 0.0);
 
 	return Color(rgb.x, rgb.y, rgb.z, 255);
 }
