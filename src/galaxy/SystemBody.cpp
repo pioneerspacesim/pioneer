@@ -324,7 +324,6 @@ Color SystemBody::GetStarColor() const
 
 	// [360-830 nm]
 	vector3d rgb = vector3d(0.f);
-	int T = GetAverageTemp();
 
 	const matrix3x3d xyz2rgb = matrix3x3d::FromVectors(
 		vector3d( 3.2404542,-0.9692660, 0.0556434),
@@ -335,7 +334,7 @@ Color SystemBody::GetStarColor() const
 	for (int i = 0; i < 48; i++) {
 		double wavelength = 360 + (10 * i);
 
-		rgb += GetPlanckBrightness(wavelength, T) * (xyz2rgb * nm_to_rgb[i]);
+		rgb += GetPlanckBrightness(wavelength, m_averageTemp) * (xyz2rgb * nm_to_rgb[i]);
 	}
 
 	// normalize
