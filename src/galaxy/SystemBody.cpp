@@ -23,6 +23,7 @@ SystemBodyData::SystemBodyData() :
 	m_averageTemp(0),
 	m_heightMapFractal(0)
 {
+	m_starColor = Color(255, 0, 255, 255);
 }
 
 void SystemBodyData::SaveToJson(Json &out)

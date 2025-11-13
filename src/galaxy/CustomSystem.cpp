@@ -135,7 +135,6 @@ static double *getDoubleOrFixed(lua_State *L, int which)
 
 CSB_FIELD_SETTER_FIXED(radius, bodyData.m_radius)
 CSB_FIELD_SETTER_FIXED(mass, bodyData.m_mass)
-CSB_FIELD_SETTER_INT(temp, bodyData.m_averageTemp)
 CSB_FIELD_SETTER_FIXED(semi_major_axis, bodyData.m_semiMajorAxis)
 CSB_FIELD_SETTER_FIXED(eccentricity, bodyData.m_eccentricity)
 CSB_FIELD_SETTER_FIXED(rotation_period, bodyData.m_rotationPeriod)
@@ -152,6 +151,16 @@ CSB_FIELD_SETTER_STRING(space_station_type, bodyData.m_spaceStationType)
 #undef CSB_FIELD_SETTER_FIXED
 #undef CSB_FIELD_SETTER_FLOAT
 #undef CSB_FIELD_SETTER_INT
+
+static int l_csb_temp(lua_State *L)
+{
+	CustomSystemBody *csb = l_csb_check(L, 1);
+	int value = luaL_checkinteger(L, 2);
+	csb->bodyData.m_averageTemp = value;
+	csb->bodyData.GenerateStarColor();
+	lua_settop(L, 1);
+	return 1;
+}
 
 static int l_csb_radius_km(lua_State *L)
 {
