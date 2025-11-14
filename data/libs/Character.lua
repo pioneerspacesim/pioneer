@@ -332,8 +332,8 @@ Character = {
 		setmetatable(newCharacter,Character.meta)
 		-- initialize face characteristics if they weren't fully specified
 		if newCharacter.female == nil then newCharacter.female = (rand:Integer(1) ==1) end
-		if newCharacter.firstname == nil or newCharacter.surname == nil then
-			newCharacter.firstname, newCharacter.surname = NameGen.Names(newCharacter.female,rand)
+		if newCharacter.firstname == nil or newCharacter.surname == nil or newCharacter.culture == nil then
+			newCharacter.firstname, newCharacter.surname, newCharacter.culture = NameGen.Names(newCharacter.female,rand)
 		end
 		newCharacter.name = newCharacter.firstname .. " " .. newCharacter.surname
 		newCharacter.seed = newCharacter.seed or rand:Integer()
