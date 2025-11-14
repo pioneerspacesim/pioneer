@@ -109,7 +109,7 @@ local onChat = function (form, ref, option)
 		form:SetMessage(l["HOW_TO_" .. ad.flavour.id .. gender])
 
 	elseif option == 2 then
-		form:SetMessage(string.interp(getRiskMsg(ad), { wanted = ad.wanted.name }))
+		form:SetMessage(string.interp(getRiskMsg(ad), { wanted = ad.wanted.surname }))
 
 	elseif option == 3 then
 		form:SetMessage(string.interp(l["HOW_MUCH_TIME_" .. ad.flavour.id], { date = Format.Date(ad.due) }))
