@@ -222,7 +222,7 @@ local makeAdvert = function (station)
 end
 
 local onCreateBB = function (station)
-	local num = Engine.rand:Integer(0, math.ceil(Game.system.population) / 2)
+	local num = Engine.rand:Integer(math.ceil(Game.system.population / 6))
 	for _ = 1, num do
 		makeAdvert(station)
 	end
