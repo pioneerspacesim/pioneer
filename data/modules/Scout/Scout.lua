@@ -680,7 +680,7 @@ local onPlayerDocked = function (player, station)
 
 	for ref, mission in pairs(missions) do
 
-		if mission.status == "ACTIVE" and Game.time > mission.due then
+		if Game.time > mission.due then
 			mission.status = "FAILED"
 		end
 
