@@ -1,78 +1,78 @@
 {
 	"lawless": {
 		"context": "system",
-		"conditions": [ "lawlessness > 0.8" ]
+		"required": [ "lawlessness > 0.8" ]
 	},
 	"zero_g" : {
 		"context": "planet",
-		"conditions": [ "gravity <= 3.3" ]
+		"required": [ "gravity <= 3.3" ]
 	},
 	"low_gravity": {
 		"context": "planet",
-		"conditions": [ "gravity > 3.3" ]
+		"required": [ "gravity > 3.3" ]
 	},
 	"norm_gravity": {
 		"context": "planet",
-		"conditions": [ "gravity > 6.0" ]
+		"required": [ "gravity > 6.0" ]
 	},
 	"atmos_airless": {
 		"context": "planet",
-		"conditions": [ "atmosDensity < 0.1" ]
+		"required": [ "atmosDensity < 0.1" ]
 	},
 	"atmos_tenuous": {
 		"context": "planet",
-		"conditions": [ "atmosDensity >= 0.1", "atmosDensity < 1.0" ]
+		"required": [ "atmosDensity >= 0.1", "atmosDensity < 1.0" ]
 	},
 	"atmos_unbreathable": {
 		"context": "planet",
-		"conditions": [ "atmosDensity >= 1.0", "atmosOxidizing <= 0.7" ]
+		"required": [ "atmosDensity >= 1.0", "atmosOxidizing <= 0.7" ]
 	},
 	"atmos_breathable": {
 		"context": "planet",
-		"conditions": [ "atmosDensity >= 1.0", "atmosOxidizing > 0.7" ]
+		"required": [ "atmosDensity >= 1.0", "atmosOxidizing > 0.7" ]
 	},
 	"gas_giant_o2": {
 		"context": "planet",
-		"conditions": [ "type = PLANET_GAS_GIANT", "atmosOxidizing > 0.1" ]
+		"required": [ "type = PLANET_GAS_GIANT", "atmosOxidizing > 0.1" ]
 	},
 	"ice_abundant": {
 		"context": "planet",
-		"conditions": [ "volatileIces > 0.6" ]
+		"required": [ "volatileIces > 0.6" ]
 	},
 	"ice_moderate": {
 		"context": "planet",
-		"conditions": [ "volatileIces > 0.3" ]
+		"required": [ "volatileIces > 0.3" ]
 	},
 	"carbon_ores": {
 		"context": "planet",
-		"conditions": [ "metallicity < 0.7", "volatileIces < 0.3" ]
+		"required": [ "metallicity < 0.7", "volatileIces < 0.3" ]
 	},
 	"carbon_ores_rich": {
 		"context": "planet",
-		"conditions": [ "metallicity < 0.4", "volatileIces < 0.3", "random > 0.5" ]
+		"required": [ "metallicity < 0.4", "volatileIces < 0.3", "random > 0.5" ]
 	},
 	"metal_abundant": {
 		"context": "planet",
-		"conditions": [ "metallicity > 0.7" ]
+		"required": [ "metallicity > 0.7" ]
 	},
 	"metal_moderate": {
 		"context": "planet",
-		"conditions": [ "metallicity > 0.4" ]
+		"required": [ "metallicity > 0.4" ]
 	},
 	"rare_metals": {
 		"context": "planet",
-		"conditions": [ "metallicity > 0.4", "random > 0.6" ]
+		"required": [ "metallicity > 0.4", "random > 0.6" ]
 	},
 	"biosphere_basic": {
 		"context": "planet",
-		"conditions": [ "life > 0.3", "atmosDensity > 0.7" ]
+		"required": [ "life > 0.3", "atmosDensity > 0.7" ]
 	},
 	"biosphere_rich": {
 		"context": "planet",
-		"conditions": [ "life > 0.6", "atmosDensity > 0.7" ]
+		"required": [ "life > 0.6", "atmosDensity > 0.7" ]
 	},
 	"rare_microbial_life": {
 		"context": "planet",
-		"conditions": [ "life > 0.1", "atmosDensity > 0.1", "random > 0.7" ]
+		"required": [ "life > 0.1", "atmosDensity > 0.1", "random > 0.7" ]
 	}
 }

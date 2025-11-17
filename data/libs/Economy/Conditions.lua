@@ -23,7 +23,7 @@ local Op = {
 ---@field id string lowercase string id of this condition, used as i18n_key
 ---@field context string type of body this condition applies to
 ---@field hasRandomCond boolean? implementation detail
----@field conditions { field: string, op: Economy.ConditionOp, value: number|string }[]
+---@field required { field: string, op: Economy.ConditionOp, value: number|string }[]
 ---@field clone fun(self, table): self
 local ConditionDef = utils.proto('Economy.ConditionDef')
 
@@ -32,7 +32,7 @@ function ConditionDef:evaluate(context)
 
 	local random = self.hasRandomCond and Rand.New(context.seed .. "-cond-" .. self.id)
 
-	for _, cond in ipairs(self.conditions) do
+	for _, cond in ipairs(self.required) do
 
 		local val = 0.0
 		local pass = nil
@@ -80,10 +80,10 @@ local function newCondDef(id, tab)
 	local def = ConditionDef:clone({
 		id = id,
 		context = tab.context,
-		conditions = utils.map_array(tab.conditions, parseCondition)
+		required = utils.map_array(tab.required, parseCondition)
 	})
 
-	for _, cond in ipairs(def.conditions) do
+	for _, cond in ipairs(def.required) do
 		if cond.field == "random" then
 			def.hasRandomCond = true
 			break
