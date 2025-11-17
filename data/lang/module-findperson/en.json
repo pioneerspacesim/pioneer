@@ -95,6 +95,78 @@
     "description": "Distance in space, between two locations",
     "message": "Distance:"
   },
+  "EMPLOYEE_FEMALE_1": {
+    "description": "",
+    "message": "an engineer"
+  },
+  "EMPLOYEE_FEMALE_2": {
+    "description": "",
+    "message": "a scientist"
+  },
+  "EMPLOYEE_FEMALE_3": {
+    "description": "",
+    "message": "a technician"
+  },
+  "EMPLOYEE_FEMALE_4": {
+    "description": "",
+    "message": "an inventor"
+  },
+  "EMPLOYEE_FEMALE_5": {
+    "description": "",
+    "message": "a contractor"
+  },
+  "EMPLOYEE_FEMALE_6": {
+    "description": "",
+    "message": "a chief mechanic"
+  },
+  "EMPLOYEE_FEMALE_7": {
+    "description": "",
+    "message": "a manager"
+  },
+  "EMPLOYEE_FEMALE_8": {
+    "description": "",
+    "message": "a developer"
+  },
+  "EMPLOYEE_FEMALE_9": {
+    "description": "",
+    "message": "a co-worker"
+  },
+  "EMPLOYEE_MALE_1": {
+    "description": "",
+    "message": "an engineer"
+  },
+  "EMPLOYEE_MALE_2": {
+    "description": "",
+    "message": "a scientist"
+  },
+  "EMPLOYEE_MALE_3": {
+    "description": "",
+    "message": "a technician"
+  },
+  "EMPLOYEE_MALE_4": {
+    "description": "",
+    "message": "an inventor"
+  },
+  "EMPLOYEE_MALE_5": {
+    "description": "",
+    "message": "a contractor"
+  },
+  "EMPLOYEE_MALE_6": {
+    "description": "",
+    "message": "a chief mechanic"
+  },
+  "EMPLOYEE_MALE_7": {
+    "description": "",
+    "message": "a manager"
+  },
+  "EMPLOYEE_MALE_8": {
+    "description": "",
+    "message": "a developer"
+  },
+  "EMPLOYEE_MALE_9": {
+    "description": "",
+    "message": "a co-worker"
+  },
   "FAILUREMSG_1": {
     "description": "",
     "message": "I'm not satisfied with your performance. I won't pay you!"
@@ -106,6 +178,70 @@
   "FIND_PERSON": {
     "description": "Name of mission type",
     "message": "Find person"
+  },
+  "FRIEND_FEMALE_1": {
+    "description": "",
+    "message": "a friend"
+  },
+  "FRIEND_FEMALE_2": {
+    "description": "",
+    "message": "an old friend"
+  },
+  "FRIEND_FEMALE_3": {
+    "description": "",
+    "message": "an old neighbour"
+  },
+  "FRIEND_FEMALE_4": {
+    "description": "",
+    "message": "a band mate"
+  },
+  "FRIEND_FEMALE_5": {
+    "description": "",
+    "message": "a friend from school"
+  },
+  "FRIEND_FEMALE_6": {
+    "description": "",
+    "message": "a friend from university"
+  },
+  "FRIEND_FEMALE_7": {
+    "description": "",
+    "message": "an army buddy"
+  },
+  "FRIEND_FEMALE_8": {
+    "description": "",
+    "message": "a colleague"
+  },
+  "FRIEND_MALE_1": {
+    "description": "",
+    "message": "a friend"
+  },
+  "FRIEND_MALE_2": {
+    "description": "",
+    "message": "an old friend"
+  },
+  "FRIEND_MALE_3": {
+    "description": "",
+    "message": "an old neighbour"
+  },
+  "FRIEND_MALE_4": {
+    "description": "",
+    "message": "a band mate"
+  },
+  "FRIEND_MALE_5": {
+    "description": "",
+    "message": "a school friend"
+  },
+  "FRIEND_MALE_6": {
+    "description": "",
+    "message": "a friend from university"
+  },
+  "FRIEND_MALE_7": {
+    "description": "",
+    "message": "an army buddy"
+  },
+  "FRIEND_MALE_8": {
+    "description": "",
+    "message": "a colleague"
   },
   "GREETING_DELIVER_DOCUMENT": {
     "description": "",
@@ -233,19 +369,19 @@
   },
   "INTROTEXT_DELIVER_MESSAGE_FEMALE_1": {
     "description": "",
-    "message": "Hi, my name is {client}. I'm looking for my stepsister {wanted}. She left the family in anger a few years ago. A friend of mine has seen her recently in the {system} ({sectorx}, {sectory}, {sectorz}) system. I would like to see if she is ready for a reconciliation. I pay you {cash} if you can deliver a message to her and return to {domicile} with an answer. Please do it! Will you?"
+    "message": "Hi, my name is {client}. I'm looking for my {relative} {wanted}. She left the family in anger a few years ago. A friend of mine has seen her recently in the {system} ({sectorx}, {sectory}, {sectorz}) system. I would like to see if she is ready for a reconciliation. I pay you {cash} if you can deliver a message to her and return to {domicile} with an answer. Please do it! Will you?"
   },
   "INTROTEXT_DELIVER_MESSAGE_FEMALE_2": {
     "description": "",
-    "message": "Hello. I'm {client}. I'm looking for an old friend. Her name is {wanted}. I know she resides in the {system} ({sectorx}, {sectory}, {sectorz}) system, but I don't know her exact location. I will pay you {cash} if you can deliver a message to her."
+    "message": "Hello. I'm {client}. I'm looking for {friend}. Her name is {wanted}. I know she resides in the {system} ({sectorx}, {sectory}, {sectorz}) system, but I don't know her exact location. I will pay you {cash} if you can deliver a message to her."
   },
   "INTROTEXT_DELIVER_MESSAGE_MALE_1": {
     "description": "",
-    "message": "Hi, my name is {client}. I'm looking for my stepbrother {wanted}. He left the family in anger a few years ago. A friend of mine has seen him recently in the {system} ({sectorx}, {sectory}, {sectorz}) system. I would like to see if he is ready for a reconciliation. I pay you {cash} if you can deliver a message to him and return to {domicile} with an answer. Please do it! Will you?"
+    "message": "Hi, my name is {client}. I'm looking for my {relative} {wanted}. He left the family in anger a few years ago. A friend of mine has seen him recently in the {system} ({sectorx}, {sectory}, {sectorz}) system. I would like to see if he is ready for a reconciliation. I pay you {cash} if you can deliver a message to him and return to {domicile} with an answer. Please do it! Will you?"
   },
   "INTROTEXT_DELIVER_MESSAGE_MALE_2": {
     "description": "",
-    "message": "Hello. I'm {client}. I'm looking for an old friend. His name is {wanted}. I know he resides in the {system} ({sectorx}, {sectory}, {sectorz}) system, but I don't know his exact location. I will pay you {cash} if you can deliver a message to him."
+    "message": "Hello. I'm {client}. I'm looking for {friend}. His name is {wanted}. I know he resides in the {system} ({sectorx}, {sectory}, {sectorz}) system, but I don't know his exact location. I will pay you {cash} if you can deliver a message to him."
   },
   "INTROTEXT_EVACUATION_FEMALE_1": {
     "description": "",
@@ -378,6 +514,62 @@
   "PIRATE_TAUNTS_3": {
     "description": "",
     "message": "You actually went all this way to deliver this silly message to me? You better get out of here!"
+  },
+  "RELATIVE_FEMALE_1": {
+    "description": "",
+    "message": "aunt"
+  },
+  "RELATIVE_FEMALE_2": {
+    "description": "",
+    "message": "sister"
+  },
+  "RELATIVE_FEMALE_3": {
+    "description": "cousin female",
+    "message": "cousin"
+  },
+  "RELATIVE_FEMALE_4": {
+    "description": "",
+    "message": "sister-in-law"
+  },
+  "RELATIVE_FEMALE_5": {
+    "description": "",
+    "message": "mother-in-law"
+  },
+  "RELATIVE_FEMALE_6": {
+    "description": "",
+    "message": "stepsister"
+  },
+  "RELATIVE_FEMALE_7": {
+    "description": "relative, female",
+    "message": "relative"
+  },
+  "RELATIVE_MALE_1": {
+    "description": "",
+    "message": "uncle"
+  },
+  "RELATIVE_MALE_2": {
+    "description": "",
+    "message": "brother"
+  },
+  "RELATIVE_MALE_3": {
+    "description": "cousin male",
+    "message": "cousin"
+  },
+  "RELATIVE_MALE_4": {
+    "description": "",
+    "message": "brother-in-law"
+  },
+  "RELATIVE_MALE_5": {
+    "description": "",
+    "message": "father-in-law"
+  },
+  "RELATIVE_MALE_6": {
+    "description": "",
+    "message": "stepbrother"
+  },
+  "RELATIVE_MALE_7": {
+    "description": "relative, male",
+    "message": "relative"
   },
   "REPEAT_THE_REQUEST": {
     "description": "",
