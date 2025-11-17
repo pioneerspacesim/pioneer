@@ -363,7 +363,7 @@ find_program(NATURALDOCS NAMES naturaldocs)
 if (NATURALDOCS)
 	add_custom_target(codedoc
 		${CMAKE_COMMAND} -E make_directory codedoc
-		COMMAND naturaldocs -i src/ -i data/libs/ -xi src/data/ -o HTML codedoc/ -p nd/ -do -ro -s Default Local
+		COMMAND naturaldocs -p nd/ -s Default
 	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 endif()
 

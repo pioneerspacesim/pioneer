@@ -22,7 +22,7 @@ env:
       "mono-runtime"
       "unzip"
   nd-src: >
-      "https://www.naturaldocs.org/download/natural_docs/2.2/Natural_Docs_2.2.zip"
+      "https://naturaldocs.org/download/natural_docs/2.3.1/Natural_Docs_2.3.1.zip"
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
@@ -59,7 +59,7 @@ jobs:
       run: |
           mkdir -p docs
           unzip nd.zip
-          mono Natural\ Docs/NaturalDocs.exe -i . -o HTML docs -p nd
+          mono Natural\ Docs/NaturalDocs.exe -p nd
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4

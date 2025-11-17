@@ -1,4 +1,4 @@
-﻿Format: 2.2
+﻿Format: 2.3.1
 
 # This is the main file you use to configure Natural Docs for your project.
 
@@ -6,21 +6,37 @@
 # Project Information
 # ------------------------------------------------------------------------
 
+Title: Pioneer
+Subtitle: API documentation
+
+Timestamp: yyyy-mm-dd
+#    m     - Single digit month, when possible.  January is "1".
+#    mm    - Always double digit month.  January is "01".
+#    mon   - Short month word.  January is "Jan".
+#    month - Long month word.  January is "January".
+#    d     - Single digit day, when possible.  1 is "1".
+#    dd    - Always double digit day.  1 is "01".
+#    day   - Day with text extension.  1 is "1st".
+#    yy    - Double digit year.  2022 is "22".
+#    yyyy  - Four digit year.  2022 is "2022".
+#    year  - Four digit year.  2022 is "2022".
+
+
 # This is where you put general information about your project.  None of these
 # settings are required, though Title is recommended.
 #
-Title: Pioneer
+# Title: [text]
 #    The name of your project.  (R) and (TM) will be converted to their
 #    respective symbols.
 #
-Subtitle: API documentation
+# Subtitle: [text]
 #    A subtitle for your project, if desired.
 #
 # Copyright: [text]
 #    The copyright notice for your project.  (C) will be converted to the
 #    copyright symbol.
 #
-Timestamp: yyyy-mm-dd
+# Timestamp: [text]
 #    Text explaining when the documentation was generated, such as "Last
 #    Updated Month Day Year", if you want that to be included.  The following
 #    substitutions are performed:
@@ -40,7 +56,7 @@ Timestamp: yyyy-mm-dd
 #    A custom style to apply to the generated documentation.  See
 #    https://naturaldocs.org/reference/styles for more information.
 #
-# Home Page:
+# Home Page: [file]
 #    A custom home page for the generated documentation.  It could be a
 #    documented file in one of the source folders or a HTML file in any
 #    location.
@@ -65,7 +81,11 @@ Timestamp: yyyy-mm-dd
 # Source Code
 # ------------------------------------------------------------------------
 
-Source Folder: ..
+Source Folder: ../src
+   Name: pioneer
+
+Source Folder 2: ../data
+   Name: data
 
 
 # This is where you tell Natural Docs which folders it should scan for source
@@ -186,3 +206,5 @@ HTML Output Folder: ../docs
 #
 # Auto Group: [yes|no]
 #    Whether groups should automatically apply to you code.  Defaults to yes.
+
+
