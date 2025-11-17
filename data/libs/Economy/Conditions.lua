@@ -3,12 +3,52 @@
 
 local Json = require 'Json'
 local Rand  = require 'Rand'
+local FileSystem = require 'FileSystem'
 
 local utils = require 'utils'
 
+-- Interface: Economy.Conditions
+--
 -- Economic conditions are generic string tags applied to systems, planets, and
 -- starports. They provide a moddable, data-driven way to express specific
 -- attribute breakpoints as boolean flags.
+--
+-- Conditions are defined by JSON objects authored in data/economy/conditions/*.json.
+-- A definition of the syntax is as follows:
+--
+-- >  "context": "system" | "planet" | "orbital" | "surface"
+-- >  "required": string[]
+--
+-- For a condition to be applied to a body, all of the expressions in the `required`
+-- field must evaluate to true.
+--
+-- Expression syntax is fairly simple, and takes the form:
+--
+-- >  <param> OP <value>
+--
+-- The parameter is any parameter of a <SystemBody> object, or the special value "random".
+-- OP is defined below in <Economy.ConditionOp>.
+-- The value is either a floating-point number value or a string identifier (no spaces allowed).
+-- The comparison specified by OP is evaluated between the value stored in the <SystemBody> being
+-- evaluated and the literal value in the expression.
+--
+-- Note that comparisons between a number and a string (e.g. type >= 0.4) are undefined
+-- and likely to cause Lua runtime errors.
+--
+-- If the parameter is the special string "random", a deterministic random number from 0..1 is
+-- generated and compared to the numeric value specified in the expression. This deterministic
+-- random number is designed to be persistent across multiple runs of the program and will not
+-- change if additional conditions are defined (e.g. by a mod).
+
+-- Interface: Economy
+
+-- Enum: ConditionOp
+--
+-- GREATER - evaluates to true if the value of `parameter` is numerically greater than the literal value.
+-- LESS    - evaluates to true if the value of `parameter` is numerically smaller than the literal value.
+-- GE      - evaluates to true if the value of `parameter` is numerically greater or equal to the literal value.
+-- LE      - evaluates to true if the value of `parameter` is numerically smaller or equal to the literal value.
+-- EQUAL   - evaluates to true if the value of `parameter` is equal to the number or string specified as the literal value.
 
 ---@enum Economy.ConditionOp
 local Op = {
@@ -19,6 +59,10 @@ local Op = {
 	EQUAL = '='
 }
 
+-- Class: Economy.ConditionDef
+--
+-- Defines an economic condition tag.
+
 ---@class Economy.ConditionDef
 ---@field id string lowercase string id of this condition, used as i18n_key
 ---@field context string type of body this condition applies to
@@ -27,6 +71,14 @@ local Op = {
 ---@field clone fun(self, table): self
 local ConditionDef = utils.proto('Economy.ConditionDef')
 
+-- Function: evaluate
+--
+-- Returns whether this condition applies to the passed context object.
+--
+-- Parameters:
+--
+--    context - a <SystemBody> or <StarSystem> object to be evaluated against this condition
+--
 ---@param context SystemBody|StarSystem
 function ConditionDef:evaluate(context)
 
@@ -68,7 +120,9 @@ function ConditionDef:evaluate(context)
 
 end
 
+-- Parse a condition definition expression, returning a table
 ---@param cond string
+---@return { field: string, op: string, value: string|number }
 local function parseCondition(cond)
 	local field, op, val = cond:match("(%g+)%s*([><=]+)%s*(%g+)")
 	assert(field and op and val, "Invalid condition definition string '" .. cond .. "'")
@@ -76,6 +130,7 @@ local function parseCondition(cond)
 	return { field = field, op = op, value = tonumber(val) or val }
 end
 
+-- Process a JSON object condition definition and convert it to a ConditionDef object
 local function newCondDef(id, tab)
 	local def = ConditionDef:clone({
 		id = id,
@@ -93,20 +148,47 @@ local function newCondDef(id, tab)
 	return def
 end
 
+-- Interface: Economy.Conditions
 local Conditions = {}
 
+-- Table: planet
+-- A list of conditions which apply to the "planet" context. Evaluated against <SystemBodies>
+-- which are not starports.
 ---@type Economy.ConditionDef[]
 Conditions.planet = {}
+-- Table: system
+-- A list of conditions which apply to the "system" context. Evaluated against <StarSystems>.
 ---@type Economy.ConditionDef[]
 Conditions.system = {}
+-- Table: surface
+-- A list of conditions which apply to the "surface" context. Evaluated against <SystemBodies>
+-- with a type of STARPORT_SURFACE.
 ---@type Economy.ConditionDef[]
 Conditions.surface = {}
+-- Table: orbital
+-- A list of conditions which apply to the "orbital" context. Evaluated against <SystemBodies>
+-- with a type of STARPORT_ORBITAL.
 ---@type Economy.ConditionDef[]
 Conditions.orbital = {}
 
+-- Table: by_name
+-- A map of all registered condition definitions keyed by their names.
 ---@type table<string, Economy.ConditionDef>
 Conditions.by_name = {}
 
+-- Function: Evaluate
+--
+-- Given an input context object (either a <SystemBody> or <StarSystem>) and an
+-- optional set of pre-existing condition tags, evaluate all applicable <ConditionDefs>
+-- against the context and add them to the condition tags.
+--
+-- Parameters:
+--    context: a <SystemBody> or <StarSystem> object
+--    tags: optional, a table mapping strings to boolean true values.
+--
+-- Returns:
+--    tags: the input list of tags or a new table, with all applicable condition IDs listed as true.
+--
 ---@param context SystemBody | StarSystem
 ---@param tags table<string, boolean>?
 ---@return table<string, boolean>
@@ -142,11 +224,20 @@ function Conditions.Evaluate(context, tags)
 
 end
 
-for id, def in pairs(Json.LoadJson('economy/conditions/basic.json')) do
-	local cond = newCondDef(id, def)
+local function loadJsonFile(filepath)
+	for id, def in pairs(Json.LoadJson(filepath)) do
+		local cond = newCondDef(id, def)
 
-	table.insert(Conditions[cond.context], cond)
-	Conditions.by_name[cond.id] = cond
+		table.insert(Conditions[cond.context], cond)
+		Conditions.by_name[cond.id] = cond
+	end
 end
+
+for _, fileinfo in ipairs(FileSystem.ReadDirectory('economy/conditions/')) do
+	if fileinfo.name:match(".json$") then
+		loadJsonFile(fileinfo.path)
+	end
+end
+
 
 return Conditions
