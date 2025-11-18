@@ -2663,6 +2663,10 @@
     "description": "Label indicating the ability to transfer fuel between equipment tanks",
     "message": "Transfert de carburant"
   },
+  "TRANSLATE_VIEW": {
+    "description": "Indicates that the button must be kept pressed down, to translate the camera view with mouse",
+    "message": "Laisser appuyé pour déplacer la vue"
+  },
   "TRUSTWORTHY": {
     "description": "For player reputation",
     "message": "De confiance"

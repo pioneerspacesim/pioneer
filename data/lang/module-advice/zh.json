@@ -15,6 +15,30 @@
     "description": "A reference to the song 'The Harder They Come', by Jimmy Cliff",
     "message": "g 越重, 膝盖就越痛 (g, 重力加速度)"
   },
+  "ADVICE_12_BODYTEXT": {
+    "description": "",
+    "message": "When you find yourself in the outskirts of a system and need to return to the inner planets, a detour to a sufficiently close neighbouring system might be the fastest way."
+  },
+  "ADVICE_12_HEADLINE": {
+    "description": "",
+    "message": "The Billie Bounce detour"
+  },
+  "ADVICE_13_BODYTEXT": {
+    "description": "",
+    "message": "Lower mass means less fuel consumption and a faster ship. Fuel has mass. For some routes, running light with less fuel in the tanks can save both time and money."
+  },
+  "ADVICE_13_HEADLINE": {
+    "description": "",
+    "message": "Running on fumes"
+  },
+  "ADVICE_14_BODYTEXT": {
+    "description": "",
+    "message": "When stringing multiple jumps together, queuing them before departure will save you both a headache and perhaps your life, depending on how welcome you will be during your route."
+  },
+  "ADVICE_14_HEADLINE": {
+    "description": "",
+    "message": "A clear way out"
+  },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
     "message": "当你返回空间站时，要提防那些你不熟悉的非正规市场，以免惹上法律麻烦。"

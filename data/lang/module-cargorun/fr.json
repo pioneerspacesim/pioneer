@@ -107,6 +107,18 @@
     "description": "custom cargo",
     "message": "Objets d'art"
   },
+  "ART_OBJECTS_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "À moins de considérer les critiques d'art comme un risque, non."
+  },
+  "ART_OBJECTS_RISK_MESSAGE_2": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Entre vous et moi... ne regardez pas les \"oeuvres\" d'art et vous vous en tirerez."
+  },
+  "ART_OBJECTS_RISK_MESSAGE_3": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Le seul danger que l'impressionisme posait au 25ème siècle était pour l'artiste originel, vous devriez être en sécurité."
+  },
   "CARGO": {
     "description": "",
     "message": "Cargaison:"
@@ -223,6 +235,10 @@
     "description": "custom cargo",
     "message": "Explosifs"
   },
+  "EXPLOSIVES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Non. En fait ce sont des explosifs, donc ne les faites donc pas tomber."
+  },
   "FAILUREMSG_1": {
     "description": "",
     "message": "Je suis déçu par votre dernière livraison. Je ne vous paierai pas."
@@ -262,6 +278,10 @@
   "HAZARDOUS_SUBSTANCES": {
     "description": "custom cargo",
     "message": "Substances dangeureuses"
+  },
+  "HAZARDOUS_SUBSTANCES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Vous ne devriez pas ouvrir les conteneurs, je suppose."
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
@@ -475,6 +495,14 @@
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
     "message": "Quibules"
   },
+  "QUIBBLES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Non. Veuillez bien à ne pas les mouiller et à ne pas les nourrir après minuit."
+  },
+  "QUIBBLES_RISK_MESSAGE_2": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Bien sûr que non ! Regardez-les, ils sont si doux."
+  },
   "RISK_1": {
     "description": "",
     "message": "Je ne prévois pas de difficultés."
@@ -626,6 +654,10 @@
   "WEDDING_DRESSES": {
     "description": "custom cargo",
     "message": "Robes de mariée"
+  },
+  "WEDDING_DRESSES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Pour des robes de mariées ?"
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",

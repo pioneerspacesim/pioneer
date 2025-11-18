@@ -107,6 +107,18 @@
     "description": "custom cargo",
     "message": "Sanatsal eşyalar"
   },
+  "ART_OBJECTS_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Unless you consider art critics a risk, no."
+  },
+  "ART_OBJECTS_RISK_MESSAGE_2": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Between you and me... Don't look at the art and you'll be fine."
+  },
+  "ART_OBJECTS_RISK_MESSAGE_3": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "The only danger of 25th century impressionism was to the original artist, you should be safe."
+  },
   "CARGO": {
     "description": "",
     "message": "Kargo:"
@@ -223,6 +235,10 @@
     "description": "custom cargo",
     "message": "Patlayıcılar"
   },
+  "EXPLOSIVES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "No. Well, it's explosives, just don't drop it."
+  },
   "FAILUREMSG_1": {
     "description": "",
     "message": "Geç teslimat yüzünden hayal kırıklığına uğradım. Ödeme almayacaksın."
@@ -262,6 +278,10 @@
   "HAZARDOUS_SUBSTANCES": {
     "description": "custom cargo",
     "message": "Zararlı maddeler"
+  },
+  "HAZARDOUS_SUBSTANCES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "I guess you shouldn't open the containers."
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
@@ -475,6 +495,14 @@
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
     "message": "Ivır-zıvır"
   },
+  "QUIBBLES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "No. Just don't get them wet and never feed them after midnight."
+  },
+  "QUIBBLES_RISK_MESSAGE_2": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Of course not! Look at them, they're so fluffy!"
+  },
   "RISK_1": {
     "description": "",
     "message": "Tehlike beklemiyorum."
@@ -626,6 +654,10 @@
   "WEDDING_DRESSES": {
     "description": "custom cargo",
     "message": "Evlilik giysileri"
+  },
+  "WEDDING_DRESSES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Over wedding dresses?"
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",

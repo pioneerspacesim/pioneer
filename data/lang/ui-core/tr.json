@@ -2663,6 +2663,10 @@
     "description": "Label indicating the ability to transfer fuel between equipment tanks",
     "message": "Yakıt Aktar"
   },
+  "TRANSLATE_VIEW": {
+    "description": "Indicates that the button must be kept pressed down, to translate the camera view with mouse",
+    "message": "Hold down to Translate view"
+  },
   "TRUSTWORTHY": {
     "description": "For player reputation",
     "message": "İtimat edilir"

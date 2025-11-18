@@ -107,6 +107,18 @@
     "description": "custom cargo",
     "message": "Konstföremål"
   },
+  "ART_OBJECTS_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Inte såvida du räknar konstkritiker som en risk"
+  },
+  "ART_OBJECTS_RISK_MESSAGE_2": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Bara mellan dig och mig... Titta inte på konsten så kommer det att gå bra."
+  },
+  "ART_OBJECTS_RISK_MESSAGE_3": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Den enda faran med 2500-talets impressionism var för den ursprungliga konstnären. Du borde vara säker."
+  },
   "CARGO": {
     "description": "",
     "message": "Last:"
@@ -223,6 +235,10 @@
     "description": "custom cargo",
     "message": "Sprängämnen"
   },
+  "EXPLOSIVES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Nej, Det är förstås sprängämnen så tappa det inte."
+  },
   "FAILUREMSG_1": {
     "description": "",
     "message": "Jag är mycket besviken på dig för denna sena leverans. Du kommer inte bli betald."
@@ -262,6 +278,10 @@
   "HAZARDOUS_SUBSTANCES": {
     "description": "custom cargo",
     "message": "Farligt gods"
+  },
+  "HAZARDOUS_SUBSTANCES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Jag antar att du inte ska öppna behållarna."
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
@@ -475,6 +495,14 @@
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
     "message": "Quibbler"
   },
+  "QUIBBLES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Nej. Blöta inte ner dem bara och mata dem aldrig efter midnatt."
+  },
+  "QUIBBLES_RISK_MESSAGE_2": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Självklart inte! Titta på dom bara, så fluffiga!"
+  },
   "RISK_1": {
     "description": "",
     "message": "Jag förväntar mig inga problem."
@@ -626,6 +654,10 @@
   "WEDDING_DRESSES": {
     "description": "custom cargo",
     "message": "Bröllopsklänningar"
+  },
+  "WEDDING_DRESSES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Över brudklänningar?"
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",

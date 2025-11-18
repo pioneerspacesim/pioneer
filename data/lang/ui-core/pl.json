@@ -1,7 +1,7 @@
 {
   "ABOUT": {
     "description": "main menu button (implied 'about' the game)",
-    "message": "About"
+    "message": "O grze"
   },
   "ABOVE_AVERAGE": {
     "description": "",
@@ -69,7 +69,7 @@
   },
   "AUTOMATED_MESSAGE": {
     "description": "For comm messages from bots",
-    "message": "AUTOMATED MESSAGE"
+    "message": "AUTOMATYCZNA WIADOMOŚĆ"
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
@@ -2073,19 +2073,19 @@
   },
   "PUMP_DOWN_FROM_CARGO_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t from cargo"
+    "message": "Przepompuj %i t z luku bagażowego"
   },
   "PUMP_DOWN_FROM_HYPERDRIVE_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t from hyperdrive to fuel tanks"
+    "message": "Przepompuj %i t z hiper napędu do zbiorników paliwa"
   },
   "PUMP_DOWN_TO_CARGO_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t to cargo"
+    "message": "Przepompuj %i t do luku bagażowego"
   },
   "PUMP_DOWN_TO_HYPERDRIVE_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t to hyperdrive from fuel tanks"
+    "message": "Przepompuj %i t do hiper napędu ze zbiorników paliwa"
   },
   "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
@@ -2641,7 +2641,7 @@
   },
   "TO_PICK_UP": {
     "description": "Mission status",
-    "message": "To pick up"
+    "message": "Do odbioru"
   },
   "TRADING_AT": {
     "description": "Indicates the current system for inspecting commodities.",
@@ -2662,6 +2662,10 @@
   "TRANSFER_FUEL": {
     "description": "Label indicating the ability to transfer fuel between equipment tanks",
     "message": "Przeniesienie paliwa"
+  },
+  "TRANSLATE_VIEW": {
+    "description": "Indicates that the button must be kept pressed down, to translate the camera view with mouse",
+    "message": "Przytrzymaj żeby sterować"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",

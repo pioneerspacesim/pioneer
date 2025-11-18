@@ -511,9 +511,25 @@
     "description": "like wheat or barley",
     "message": "Grain"
   },
+  "GRID_DISPLAY_MODE": {
+    "description": "Label for grid display modes",
+    "message": "Grid Display Mode"
+  },
+  "GRID_DISPLAY_MODE_GRID_AND_LEGS": {
+    "description": "Combobox option for Grid with Legs",
+    "message": "Grid with Legs"
+  },
+  "GRID_DISPLAY_MODE_GRID_ONLY": {
+    "description": "Combobox option for Grid Only",
+    "message": "Grid Only"
+  },
+  "GRID_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for Grid display off.",
+    "message": "Grid Off"
+  },
   "GRID_DISPLAY_MODE_TOGGLE": {
-    "description": "Switch show no grid",
-    "message": "Switch between grid display modes."
+    "description": "Tooltip for toggle grid display button.",
+    "message": "Toggle visibility of the grid."
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -590,6 +606,26 @@
   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
     "description": "",
     "message": "Hyperspace arrival cloud remnant"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
+    "description": "Label for hyperspace cloud display modes.",
+    "message": "Hyperspace Cloud Display Mode"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL": {
+    "description": "Combobox option for all hyperspace clouds.",
+    "message": "All Hyperspace Clouds"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY": {
+    "description": "Combobox option for arrival hyperspace clouds.",
+    "message": "Arrival Hyperspace Clouds"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY": {
+    "description": "Combobox option for departure hyperspace clouds.",
+    "message": "Departure Hyperspace Clouds"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE": {
+    "description": "Tooltip for the button which toggles the display mode of hyperspace clouds.",
+    "message": "Toggle visibility of Hyperspace Clouds."
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
@@ -683,9 +719,25 @@
     "description": "",
     "message": "Joystick input"
   },
+  "L4L5_DISPLAY_MODE": {
+    "description": "Label for the lagrange point display modes.",
+    "message": "Lagrange Point Display Mode"
+  },
+  "L4L5_DISPLAY_MODE_ICONS_AND_TEXT": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Icons and Labels"
+  },
+  "L4L5_DISPLAY_MODE_ICONS_ONLY": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Icons Only"
+  },
+  "L4L5_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for lagrange point display off.",
+    "message": "Av"
+  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
-    "description": "Either show L4/L5 points or don't",
-    "message": "Switch between Lagrange L4/L5 point display modes."
+    "description": "Tooltip for the L4/L5 Lagrange points toggle button.",
+    "message": "Toggle visibility of the L4/L5 lagrange points."
   },
   "LANDED": {
     "description": "",
@@ -1387,9 +1439,21 @@
     "description": "",
     "message": "Skip"
   },
+  "SHIPS_DISPLAY_MODE": {
+    "description": "Label for ship display modes.",
+    "message": "Ship Display Mode"
+  },
+  "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
+    "description": "Combobox option for ships only.",
+    "message": "Ships Only"
+  },
+  "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
+    "description": "Combobox option for ships with orbits.",
+    "message": "Ships with Orbits"
+  },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
-    "description": "Either show no ships, show ships, or show ships + their orbits",
-    "message": "Switch between ship display modes."
+    "description": "Tooltip for ship display toggle button.",
+    "message": "Toggle visibility of ships."
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
@@ -1602,6 +1666,10 @@
   "SURFACE_GRAVITY": {
     "description": "",
     "message": "Overflategravitasjon"
+  },
+  "SURFACE_PRESSURE": {
+    "description": "",
+    "message": "Surface pressure"
   },
   "SURFACE_TEMPERATURE": {
     "description": "",
@@ -1850,6 +1918,18 @@
   "UNIT_SQUARE_METERS": {
     "description": "Area unit: square meter (m²)",
     "message": "m²"
+  },
+  "UNIT_TEMPERATURE_CELSIUS": {
+    "description": "Temperature unit: degrees Celsius (°C)",
+    "message": "°C"
+  },
+  "UNIT_TEMPERATURE_FAHRENHEIT": {
+    "description": "Temperature unit: Fahrenheit (°F)",
+    "message": "°F"
+  },
+  "UNIT_TEMPERATURE_KELVIN": {
+    "description": "Temperature unit: degrees Kelvin (K)",
+    "message": "K"
   },
   "UNIT_TERATONNES": {
     "description": "Mass unit: one teratonne",

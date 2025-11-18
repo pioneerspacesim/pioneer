@@ -1889,7 +1889,7 @@
   },
   "OPEN_USER_FOLDER": {
     "description": "",
-    "message": "Cartella Utente"
+    "message": "Dir. Utente"
   },
   "OPTIONS": {
     "description": "",
@@ -2157,7 +2157,7 @@
   },
   "REFUEL_FULL": {
     "description": "",
-    "message": "Rifornimento completo"
+    "message": "100% pieno"
   },
   "REGISTRATION_NUMBER": {
     "description": "",
@@ -2662,6 +2662,10 @@
   "TRANSFER_FUEL": {
     "description": "Label indicating the ability to transfer fuel between equipment tanks",
     "message": "Trasferimento Carburante"
+  },
+  "TRANSLATE_VIEW": {
+    "description": "Indicates that the button must be kept pressed down, to translate the camera view with mouse",
+    "message": "Tieni premuto per Traslare la visuale"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",

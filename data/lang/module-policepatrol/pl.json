@@ -1,47 +1,47 @@
 {
   "FINES_ADMONISHING_1": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "Please visit the nearest {policeforce} office to pay your fines."
+    "message": "Prosze odwiedzić najbliższy posterunek {policeforce}, żeby opłacić swoje mandaty."
   },
   "FINES_ADMONISHING_2": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "Visit the nearest {policeforce} office and resolve this."
+    "message": "Prosze odwiedzić najbliższy posterunek {policeforce}, żeby rozwiązać te sprawe."
   },
   "FINES_ADMONISHING_3": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "You need to sort this out or it will only get worse."
+    "message": "Musisz to wyjaśnić, bo będzie tylko co raz gorzej."
   },
   "FINES_ADMONISHING_4": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "There's a {policeforce} office on every large station. Pay your fines!"
+    "message": "Na każdej większej stacji jest {policeforce}. Opłać swoje mandaty!"
   },
   "FINES_ADMONISHING_HARSH_1": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "This needs to be resolved or there will be consequences!"
+    "message": "To musi zostać wyjaśnione, albo czekają konsekwencje!"
   },
   "FINES_ADMONISHING_HARSH_2": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "Unpaid fines will be prosecuted to the fullest extent of the law."
+    "message": "Nieopłacone mandaty będą sciągane za pomocą prawa."
   },
   "FINES_ADMONISHING_HARSH_3": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "This is serious and you need to resolve it. The sooner the better."
+    "message": "To poważna sprawa i musisz ją wyjaśnić. Im szybciej, tym lepiej."
   },
   "FINES_ADMONISHING_HARSH_4": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "If you don't pay your fines you will end up as an outlaw. Pay your fines today!"
+    "message": "Jeśli nie opłacisz swoich mandatów, skończysz jako kryminalista. Opłać swoje zaległości jeszcze dzisiaj!"
   },
   "FINES_INTRO_1": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "Wait, there's more."
+    "message": "Czekaj, to nie wszystko."
   },
   "FINES_INTRO_2": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "One more thing {ship_label}."
+    "message": "Jeszcze jedno {ship_label}."
   },
   "FINES_INTRO_3": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "Wait!"
+    "message": "Czekaj!"
   },
   "FINES_INTRO_4": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
@@ -49,19 +49,19 @@
   },
   "FINES_MESSAGE_1": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "You have outstanding fines."
+    "message": "Masz zaległe grzywny."
   },
   "FINES_MESSAGE_2": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "You are flagged with outstanding fines."
+    "message": "Jesteś oznaczony jako zalegający z opłatami za grzywny."
   },
   "FINES_MESSAGE_3": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "We see that you have fines to pay."
+    "message": "Widzimy że masz zaległe grzywny do zapłacenia."
   },
   "FINES_MESSAGE_4": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "You have a total of ${fine} in unpaid fines."
+    "message": "W sumie masz {fine} grzywny do opłacenia."
   },
   "ILLEGAL_GOODS_DETECTED": {
     "description": "",

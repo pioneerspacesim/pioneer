@@ -511,21 +511,21 @@
     "description": "like wheat or barley",
     "message": "Grain"
   },
-  "GRID_DISPLAY_MODE_OFF": {
-    "description": "Combobox option for Grid display off.",
-    "message": "Grid Off"
-  },
-  "GRID_DISPLAY_MODE_GRID_ONLY": {
-    "description": "Combobox option for Grid Only",
-    "message": "Grid Only"
+  "GRID_DISPLAY_MODE": {
+    "description": "Label for grid display modes",
+    "message": "Grid Display Mode"
   },
   "GRID_DISPLAY_MODE_GRID_AND_LEGS": {
     "description": "Combobox option for Grid with Legs",
     "message": "Grid with Legs"
   },
-  "GRID_DISPLAY_MODE": {
-    "description": "Label for grid display modes",
-    "message": "Grid Display Mode"
+  "GRID_DISPLAY_MODE_GRID_ONLY": {
+    "description": "Combobox option for Grid Only",
+    "message": "Grid Only"
+  },
+  "GRID_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for Grid display off.",
+    "message": "Grid Off"
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for toggle grid display button.",
@@ -719,21 +719,21 @@
     "description": "",
     "message": "Joystick input"
   },
-  "L4L5_DISPLAY_MODE_OFF": {
-    "description": "Combobox option for lagrange point display off.",
-    "message": "Off"
-  },
-  "L4L5_DISPLAY_MODE_ICONS_ONLY": {
-    "description": "Combobox option for lagrange point display as icons only.",
-    "message": "Icons Only"
+  "L4L5_DISPLAY_MODE": {
+    "description": "Label for the lagrange point display modes.",
+    "message": "Lagrange Point Display Mode"
   },
   "L4L5_DISPLAY_MODE_ICONS_AND_TEXT": {
     "description": "Combobox option for lagrange point display as icons only.",
     "message": "Icons and Labels"
   },
-  "L4L5_DISPLAY_MODE": {
-    "description": "Label for the lagrange point display modes.",
-    "message": "Lagrange Point Display Mode"
+  "L4L5_DISPLAY_MODE_ICONS_ONLY": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Icons Only"
+  },
+  "L4L5_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for lagrange point display off.",
+    "message": "Off"
   },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for the L4/L5 Lagrange points toggle button.",
@@ -1439,6 +1439,10 @@
     "description": "",
     "message": "Ship"
   },
+  "SHIPS_DISPLAY_MODE": {
+    "description": "Label for ship display modes.",
+    "message": "Ship Display Mode"
+  },
   "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
     "description": "Combobox option for ships only.",
     "message": "Ships Only"
@@ -1446,10 +1450,6 @@
   "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
     "description": "Combobox option for ships with orbits.",
     "message": "Ships with Orbits"
-  },
-  "SHIPS_DISPLAY_MODE": {
-    "description": "Label for ship display modes.",
-    "message": "Ship Display Mode"
   },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for ship display toggle button.",
