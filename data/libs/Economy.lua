@@ -23,6 +23,13 @@ local Industry   = require 'Economy.Industry'
 -- the "local neighborhood"; commodities not produced locally are assumed to
 -- be imported from distant planets or via interstellar trade.
 --
+-- It is important that the operations to create an initial equilibrium remain
+-- something that can be easily implemented in C++ code. The overall goal of
+-- this economy system is to be computable at system generation time to inform
+-- system-wide economic data. As such, both the Conditions and Industries
+-- abstractions must remain possible to move to C++ without dependencies on Lua-
+-- specific operations or concepts.
+--
 
 local AU = 149598000000
 
@@ -67,17 +74,13 @@ local kStockUpdateScale = 10
 -- scalars listed above.
 local kMarketUpdateTick = 60 * 60 -- 1hr for debug testing
 
-local Economies = {}
+local Economies = utils.to_array(Economy.GetEconomies())
 local Commodities = Economy.GetCommodities()
 
 local CommodityList = utils.build_array(utils.keys(Commodities))
 table.sort(CommodityList)
 
 -- Create a stable iteration order for economies to avoid non-deterministic results
-for _, econ in pairs(Economy.GetEconomies()) do
-	table.insert(Economies, econ)
-end
-
 table.sort(Economies, function(a, b) return a.id < b.id end)
 
 -- Percentage modifier applied to buying/selling commodities
