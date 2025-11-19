@@ -180,13 +180,15 @@ onChat = function (form, ref, option)
 
 	elseif option == 1 then
 		local n = getNumberOfFlavours("WHYSOMUCH_" .. ad.branch)
+		local whysomuch
 		if n >= 1 then
-			form:SetMessage(string.interp(l["WHYSOMUCH_" .. ad.branch .. "_" .. Engine.rand:Integer(1, n)], { cargoname = ad.cargotype:GetName() }))
+			whysomuch = string.interp(l["WHYSOMUCH_" .. ad.branch .. "_" .. Engine.rand:Integer(1, n)], { cargoname = ad.cargotype:GetName() })
 		elseif ad.urgency >= 0.8 then
-			form:SetMessage(string.interp(l["WHYSOMUCH_URGENT_" .. Engine.rand:Integer( 1, getNumberOfFlavours("WHYSOMUCH_URGENT"))], { cargoname = ad.cargotype:GetName() }))
+			whysomuch = string.interp(l["WHYSOMUCH_URGENT_" .. Engine.rand:Integer( 1, getNumberOfFlavours("WHYSOMUCH_URGENT"))], { cargoname = ad.cargotype:GetName() })
 		else
-			form:SetMessage(string.interp(l["WHYSOMUCH_" .. Engine.rand:Integer( 1, getNumberOfFlavours("WHYSOMUCH"))], { cargoname = ad.cargotype:GetName() }))
+			whysomuch = string.interp(l["WHYSOMUCH_" .. Engine.rand:Integer( 1, getNumberOfFlavours("WHYSOMUCH"))], { cargoname = ad.cargotype:GetName() })
 		end
+		form:SetMessage(whysomuch:scase())
 
 	elseif option == 2 then
 		local howmuch
@@ -305,7 +307,7 @@ onChat = function (form, ref, option)
 			howmuch = string.interp(l["NEGOTIABLE_NO_" .. Engine.rand:Integer(1,getNumberOfFlavours("NEGOTIABLE_NO"))],
 				{amount = ad.amount})
 		end
-		form:SetMessage(howmuch)
+		form:SetMessage(howmuch:scase())
 
 	elseif option > 10 then
 		ad.negotiated_amount = option - 10
@@ -833,7 +835,7 @@ local buildMissionDescription = function(mission)
 			{ l.DISTANCE,	dist.." "..lc.UNIT_LY },
 			false,
 			{ l.DEADLINE,	ui.Format.Date(mission.due) },
-			{ l.CARGO,		mission.cargotype:GetName() },
+			{ l.CARGO,		mission.cargotype:GetName():scase() },
 			{ l.AMOUNT,		mission.amount.."t " },
 			{ l.DANGER,		danger },
 		}
@@ -852,7 +854,7 @@ local buildMissionDescription = function(mission)
 			{ l.DISTANCE,	domicileDist.. " " .. lc.UNIT_LY },
 			false,
 			{ l.DEADLINE,	ui.Format.Date(mission.due) },
-			{ l.CARGO,		mission.cargotype:GetName() },
+			{ l.CARGO,		(mission.cargotype:GetName():scase()) },
 			{ l.AMOUNT,		mission.amount.."t "..is_cargo_loaded },
 			{ l.DANGER,		danger },
 		}
