@@ -8,6 +8,18 @@ string.trim = function(s)
 	return string.gsub(s or "", "^%s*(.-)%s*$", "%1")
 end
 
+-- Convert the input string to s(entence) case, capitalizing the first letter of
+-- the string and any first letters of consecutive sentences in the string.
+string.scase = function (s)
+    s = s:gsub("^%l", string.upper)
+
+    s = s:gsub("([.!?]%s*)(%l)", function(punct, letter)
+        return punct .. letter:upper()
+    end)
+
+    return s
+end
+
 math.round = function(v)
 	return (math.modf(v + (v < 0.0 and -.5 or .5)))
 end
