@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "FileSystem.h"
+#include "core/OS.h"
 #include "buildopts.h"
 #include "utils.h"
 #include <dirent.h>
@@ -343,3 +344,17 @@ namespace FileSystem {
 		return !unlink(combinedPath.c_str());
 	}
 } // namespace FileSystem
+
+namespace OS {
+
+	FILE *OpenReadStream(std::string_view path)
+	{
+		return fopen(std::string(path).c_str(), "rb");
+	}
+
+	FILE *OpenWriteStream(std::string_view path, FileStreamMode mode)
+	{
+		return fopen(std::string(path).c_str(), mode == FileStreamMode::FS_WRITE ? "wb" : "w");
+	}
+
+} // namespace OS
