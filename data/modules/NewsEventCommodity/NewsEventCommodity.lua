@@ -467,7 +467,7 @@ debugView.registerTab("news", {
 
 		for i ,n in pairs(news) do
 			local system_name = n.syspath:GetStarSystem().name
-			local commodity_name = Commodities[n.cargo]:GetName()
+			local commodity_name = Commodities[n.cargo]:GetName():scase()
 
 			local distance = 0
 			if Game.system then

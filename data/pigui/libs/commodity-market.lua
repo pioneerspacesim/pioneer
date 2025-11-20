@@ -108,7 +108,7 @@ function CommodityMarketWidget.New(id, title, config)
 			local price = self.station:GetCommodityPrice(item)
 
 			ui.dummy(vZero)
-			ui.text(item:GetName())
+			ui.text(item:GetName():scase())
 
 			local pricemod = get_pricemod(item, price) - Game.system:GetCommodityBasePriceAlterations(item.name)
 			local cls = EconView.ClassifyPrice(pricemod)
@@ -421,7 +421,7 @@ function CommodityMarketWidget:TradeMenu()
 				ui.withFont(orbiteer.heading, function()
 					-- align the height to the center relative to the icon
 					ui.alignTextToLineHeight(commodityIconSize.y)
-					ui.text(self.selectedItem:GetName())
+					ui.text(self.selectedItem:GetName():scase())
 				end)
 			end)
 			ui.columns(1, "", false)
