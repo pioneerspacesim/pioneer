@@ -218,7 +218,7 @@ local policeTabs = {
 
 			-- Build a list of illegal goods in this system
 			local illegal = utils.map_array(utils.build_array(pairs(Commodities)), function(comm)
-				return not Game.system:IsCommodityLegal(comm.name) and comm:GetName() or nil
+				return not Game.system:IsCommodityLegal(comm.name) and comm:GetName():scase() or nil
 			end)
 
 			-- Sort the list lexicographically
