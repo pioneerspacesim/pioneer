@@ -1,0 +1,34 @@
+{
+  "ADTEXT": {
+    "description": "",
+    "message": "Wanted: {commodity}. Will pay {price} per tonne"
+  },
+  "AMOUNT": {
+    "description": "The amount (for now in tonne) of goods person wants to buy",
+    "message": "I'll buy anything you have, up to the full {amount}t that I need."
+  },
+  "MESSAGE": {
+    "description": "",
+    "message": "I'm {name}. I need {commodity} urgently, and I'll pay twice the market price ({price})."
+  },
+  "NOT_IN_STOCK": {
+    "description": "Regarding selling more than the player has",
+    "message": "Not enough {commodity} in stock."
+  },
+  "SELL_1": {
+    "description": "Sell one single unit (probably tonne)",
+    "message": "Sell 1"
+  },
+  "SELL_ALL": {
+    "description": "Sell everything player has of the good/commodity",
+    "message": "Sell all"
+  },
+  "SELL_N": {
+    "description": "Sell several units (probably in tonne), i.e. N > 1",
+    "message": "Sell {N}"
+  },
+  "TITLE": {
+    "description": "",
+    "message": "COMMODITY WANTED"
+  }
+}

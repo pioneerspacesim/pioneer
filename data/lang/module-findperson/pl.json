@@ -1,0 +1,550 @@
+{
+  "ACCEPTED_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "Bardzo dobrze. Wysłałem ci dokument."
+  },
+  "ACCEPTED_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "Doskonale. Skopiowałem wiadomość do twojego komputera."
+  },
+  "ACCEPTED_EVACUATION": {
+    "description": "",
+    "message": "Doskonale. Uważaj na siebie!"
+  },
+  "ACCEPTED_PRIVATEER": {
+    "description": "",
+    "message": "Dobrze. Myślę, że znajdziesz ten statek bardzo szybko."
+  },
+  "ACCEPTED_TAXI": {
+    "description": "",
+    "message": "Bardzo dobrze. Śpiesz się!"
+  },
+  "ACCEPTED_TRAITOR": {
+    "description": "",
+    "message": "OK. Przesłałem dane do twojego komputera pokładowego."
+  },
+  "ADTEXT_1": {
+    "description": "",
+    "message": "Znajdź osobę w układzie {system}. Nagroda {cash}."
+  },
+  "ADTEXT_2": {
+    "description": "",
+    "message": "Misja poszukiwawcza w układzie {system}. Zapłata {cash}."
+  },
+  "ADTEXT_3": {
+    "description": "",
+    "message": "Zwrot kosztów {cash}."
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "POSZUKIWANA OSOBA"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "POTRZEBNY PILOT DO MISJI POSZUKIWAWCZEJ"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "WYMAGANY STATEK DO POSZUKIWAŃ"
+  },
+  "CLIENT": {
+    "description": "",
+    "message": "Klient:"
+  },
+  "COMPANY": {
+    "description": "",
+    "message": "Firma:"
+  },
+  "COMPANY_1": {
+    "description": "Name of a company",
+    "message": "{name} Korporacja Lotnicza"
+  },
+  "COMPANY_2": {
+    "description": "Name of a company",
+    "message": "{name} Korporacja Zbrojeniowa"
+  },
+  "COMPANY_3": {
+    "description": "Name of a company",
+    "message": "{name} Fundacja Gwiezdnych Flot"
+  },
+  "COMPANY_4": {
+    "description": "Name of a company",
+    "message": "{name} Firma systemów obronnych"
+  },
+  "COMPANY_5": {
+    "description": "Name of a company",
+    "message": "{name} Korporacja narzędzi obserwacyjnych"
+  },
+  "COMPANY_6": {
+    "description": "Name of a company",
+    "message": "{name} Fundacja usług Specjalistycznego IT"
+  },
+  "DANGER": {
+    "description": "The risk level",
+    "message": "Zagrożenie:"
+  },
+  "DEADLINE": {
+    "description": "Must be delivered by",
+    "message": "Termin:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Wybaczy Pan, ale potrzebuję pilota o większym doświadczeniu."
+  },
+  "DISTANCE": {
+    "description": "Distance in space, between two locations",
+    "message": "Odległość:"
+  },
+  "FAILUREMSG_1": {
+    "description": "",
+    "message": "Nie jestem zadowolony z twojej wydajności. Nie zapłacę ci!"
+  },
+  "FAILUREMSG_2": {
+    "description": "",
+    "message": "Jesteś za późno! Przykro mi, nie dostaniesz zapłaty!"
+  },
+  "FIND_PERSON": {
+    "description": "Name of mission type",
+    "message": "Znajdź osobę"
+  },
+  "GREETING_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "Cholera, masz mnie. OK, podpisałem ten dokument. Zwróć go, proszę, do {client}!"
+  },
+  "GREETING_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "Dziękuję za wiadomość. Przesłałem odpowiedź dla {client} do komputera twojego statku."
+  },
+  "GREETING_EVACUATION": {
+    "description": "",
+    "message": "O nieba, miło cię widzieć! Możemy natychmiast startować. Nic mnie już tutaj nie trzyma."
+  },
+  "GREETING_PRIVATEER": {
+    "description": "",
+    "message": "Ah, pracujesz dla {client}? Skopiowałem cenne dane do komputera twojego statku. {client} oceni je jako użyteczne."
+  },
+  "GREETING_TAXI": {
+    "description": "",
+    "message": "O nie. To złe wieści. Natychmiast odlatujmy."
+  },
+  "GREETING_TRAITOR": {
+    "description": "",
+    "message": "Co? {client} chce raportu? OK, proszę wrócić i dostarczyć mu ten dokument!"
+  },
+  "HOW_CAN_I_FIND_HER": {
+    "description": "",
+    "message": "Jak ją znajdę?"
+  },
+  "HOW_CAN_I_FIND_HIM": {
+    "description": "",
+    "message": "Jak go znajdę?"
+  },
+  "HOW_MUCH_TIME": {
+    "description": "",
+    "message": "Ile mam czasu?"
+  },
+  "HOW_MUCH_TIME_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "Proszę być z powrotem do {date}."
+  },
+  "HOW_MUCH_TIME_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "Jeśli nie usłyszę od ciebie do {date}, wynajmę innego pilota!"
+  },
+  "HOW_MUCH_TIME_EVACUATION": {
+    "description": "",
+    "message": "Musisz wrócić do {date}! Inaczej jesteśmy w poważnych kłopotach."
+  },
+  "HOW_MUCH_TIME_PRIVATEER": {
+    "description": "",
+    "message": "Jeżeli nie wrócisz do {date}, nasza umowa jest nieważna!"
+  },
+  "HOW_MUCH_TIME_TAXI": {
+    "description": "",
+    "message": "Nasza umowa wygasa {date}."
+  },
+  "HOW_MUCH_TIME_TRAITOR": {
+    "description": "",
+    "message": "Czas jest krytyczny! Jeżeli nie wrócisz do {date}, jesteśmy skończeni."
+  },
+  "HOW_TO_DELIVER_DOCUMENT_FEMALE": {
+    "description": "",
+    "message": "Znajdź jej statek. Potem znajdź ją."
+  },
+  "HOW_TO_DELIVER_DOCUMENT_MALE": {
+    "description": "",
+    "message": "Wszystko, co musisz, to zlokalizować jego statek. On sam nie powinien być z dala od niego."
+  },
+  "HOW_TO_DELIVER_MESSAGE_FEMALE": {
+    "description": "",
+    "message": "Wszystko, co wiem, to że powinna pracować na stacji kosmicznej."
+  },
+  "HOW_TO_DELIVER_MESSAGE_MALE": {
+    "description": "",
+    "message": "Pracuje w biurze blisko portu kosmicznego. To wszystko, co wiem."
+  },
+  "HOW_TO_EVACUATION_FEMALE": {
+    "description": "",
+    "message": "Z pewnością skontaktuje się z tobą gdy się zorientuje, że przybyłeś!"
+  },
+  "HOW_TO_EVACUATION_MALE": {
+    "description": "",
+    "message": "Skontaktuje się z tobą gdy się zorientuje, że przybyłeś!"
+  },
+  "HOW_TO_PRIVATEER_FEMALE": {
+    "description": "",
+    "message": "Bardzo często uszkadza swój statek podczas niebezpiecznych misji. Warsztaty naprawcze dla statków byłyby dobrym punktem startu."
+  },
+  "HOW_TO_PRIVATEER_MALE": {
+    "description": "",
+    "message": "Robi wiele ryzykownych przelotów. Jego statek często ląduje w warsztacie stacji kosmicznej."
+  },
+  "HOW_TO_TAXI_FEMALE": {
+    "description": "",
+    "message": "Nie wiem. To zależy od ciebie!"
+  },
+  "HOW_TO_TAXI_MALE": {
+    "description": "",
+    "message": "Nie mam pojęcia. To twój problem!"
+  },
+  "HOW_TO_TRAITOR_FEMALE": {
+    "description": "",
+    "message": "Znając ją dobrze, spędza czas w barach blisko portów kosmicznych."
+  },
+  "HOW_TO_TRAITOR_MALE": {
+    "description": "",
+    "message": "Jest znany ze spędzania czasu w portowych tawernach."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_FEMALE_1": {
+    "description": "",
+    "message": "Pozdrowienia! Jestem {client} i mówię w imieniu {company}. Jeden z naszych statków miał kolizję z innym statkiem zaledwie kilka sekund przed wejściem w nadprzestrzeń. Nie było czasu na zatrzymanie sekwencji hiperskoku. Teraz potrzebujemy kogoś, kto może zlokalizować statek o numerze ID {shipid} w układzie {system} ({sectorx}, {sectory}, {sectorz}) i przekazać propozycję o pozasądowym osiedleniu Komendanta {wanted}. Proszę powrócić do {domicile} po swoją zapłatę {cash}. W tym celu masz do przelecenia {dist} lś."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_FEMALE_2": {
+    "description": "",
+    "message": "Miło cię spotkać. Nazywam się {client}. Szukamy starego partnera biznesowego, który wciąż wisi nam przysługę. Nazywa się {wanted}. Ukryła się ona w układzie {system} ({sectorx}, {sectory}, {sectorz}). Jeżeli możesz ją znaleźć, przekaż jej zaszyfrowany dokument a potem wróć tutaj, do Biura {company} na {domicile}. Zapłacimy {cash} w przypadku sukcesu. {system} jest {dist} lś stąd."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_MALE_1": {
+    "description": "",
+    "message": "Pozdrowienia! Jestem {client} i mówię w imieniu {company}. Jeden z naszych statków miał kolizję z innym statkiem zaledwie kilka sekund przed wejściem w nadprzestrzeń. Nie było czasu na zatrzymanie sekwencji hiperskoku. Teraz potrzebujemy kogoś, kto może zlokalizować statek o numerze ID {shipid} w układzie {system}, {sectorx}, {sectory}, {sectorz} i przekazać propozycję o pozasądowym osiedleniu Komendanta {wanted}. Proszę powrócić do {domicile} po swoją zapłatę {cash}. W tym celu masz do przelecenia {dist} lś."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_MALE_2": {
+    "description": "",
+    "message": "Miło cię spotkać. Nazywam się {client}. Poszukujemy starego partnera biznesowego, który wciąż wisi nam przysługę. Nazywa się {wanted}. Ukrywa się on w układzie {system} ({sectorx}, {sectory}, {sectorz}). Jeżeli go znajdziesz, przekaż mu zaszyfrowany dokument i potem wróć tutaj, do Biura {company} na {domicile}. Płacimy {cash} w razie sukcesu. {system} jest {dist} lś stąd."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_1": {
+    "description": "",
+    "message": "Hej, nazywam się {client}. Szukam swojej przyrodniej siostry {wanted}. Opuściła rodzinę w gniewie kilka lat temu. Mój przyjaciel widział ją ostatnio w układzie {system} ({sectorx}, {sectory}, {sectorz}). Chcę wiedzieć, czy jest gotowa na pojednanie. Płacę {cash}, jeżeli będziesz w stanie dostarczyć do niej wiadomość i wrócić do {domicile} z odpowiedzią. Proszę, zrób to! Zrobisz?"
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_2": {
+    "description": "",
+    "message": "Cześć. Jestem {client}. Szukam starego przyjaciela. Nazywa się {wanted}. Wiem, że rezyduje w układzie {system} ({sectorx}, {sectory}, {sectorz}), ale nie znam dokładnej lokalizacji. Zapłacę ci {cash}, jeżeli dostarczysz jej wiadomość."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_1": {
+    "description": "",
+    "message": "Hej, nazywam się {client}. Szukam swojego przyrodniego brata {wanted}. Opuścił rodzinę w gniewie kilka lat temu. Mój przyjaciel widział go ostatnio w układzie {system} ({sectorx}, {sectory}, {sectorz}). Chcę wiedzieć, czy jest gotowy na pojednanie. Zapłacę ci {cash}, jeżeli dostarczysz mu wiadomość i powrócisz do {domicile} z odpowiedzią. Proszę, zrób to! Zrobisz?"
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_2": {
+    "description": "",
+    "message": "Cześć. Jestem {client}. Szukam starego przyjaciela. Nazywa się {wanted}. Wiem, że rezyduje w układzie {system} ({sectorx}, {sectory}, {sectorz}), ale nie znam dokładnej lokalizacji. Zapłacę ci {cash}, jeżeli dostarczysz mu wiadomość."
+  },
+  "INTROTEXT_EVACUATION_FEMALE_1": {
+    "description": "",
+    "message": "Hej. {company} jest w wielkim kłopocie. Negocjacje z agresywnym konkurentem rynkowym w układzie {system} ({sectorx}, {sectory}, {sectorz}), w odległości {dist} lś, poszły bardzo źle. Nasz wysłannik {wanted} musi być ewakuowany. Komunikacja z nią jest bardzo ograniczona, więc nie znamy jej dokładnego położenia. Zapłacimy {cash} za ten przelot."
+  },
+  "INTROTEXT_EVACUATION_FEMALE_2": {
+    "description": "",
+    "message": "Cześć. Nazywaj mnie {client}. Zatrudnia mnie {company}. Nasza przedstawicielka sprzedażowa, {wanted}, w układzie {system} ({sectorx}, {sectory}, {sectorz}), w odległości {dist} lś, weszła w konflikt z pewnymi niebezpiecznymi oszustami. Nie ufa ona lokalnym władzom, ukryła się. Zapłacimy {cash}, jeżeli ją odnajdziesz i zabierzesz bezpiecznie z powrotem do {domicile}."
+  },
+  "INTROTEXT_EVACUATION_MALE_1": {
+    "description": "",
+    "message": "Hej. {company} jest w wielkim kłopocie. Negocjacje z agresywnym konkurentem rynkowym w układzie {system} ({sectorx}, {sectory}, {sectorz}), w odległości {dist} lś, poszły bardzo źle. Nasza wysłannik {wanted} musi być ewakuowany. Komunikacja z nim jest bardzo ograniczona, więc nie znamy jego dokładnego położenia. Zapłacimy {cash} za ten przelot."
+  },
+  "INTROTEXT_EVACUATION_MALE_2": {
+    "description": "",
+    "message": "Cześć. Nazywaj mnie {client}. Zatrudnia mnie {company}. Nasz przedstawiciel sprzedażowy, {wanted}, w układzie {system} ({sectorx}, {sectory}, {sectorz}), w odległości {dist} lś, wszedł w konflikt z pewnymi niebezpiecznymi oszustami. Nie ufa on lokalnym władzom, ukrył się. Zapłacimy {cash}, jeżeli go odnajdziesz i zabierzesz bezpiecznie z powrotem do {domicile}."
+  },
+  "INTROTEXT_PRIVATEER_FEMALE_1": {
+    "description": "",
+    "message": "Hej tam! Nazywam się {client}. Poszukuję {wanted}. Wisi mi ona sporo pieniędzy. Według ostatniej informacji odbywa ona misję w układzie {system} ({sectorx}, {sectory}, {sectorz}). Przekaż jej, proszę, że moja cierpliwość się wyczerpuje. Wróć do {domicile} po swoją zapłatę {cash}."
+  },
+  "INTROTEXT_PRIVATEER_FEMALE_2": {
+    "description": "",
+    "message": "Jak się masz. Jestem Prywatny Śledczy {client}. Muszę znaleźć korsarza imieniem {wanted} w układzie {system} ({sectorx}, {sectory}, {sectorz}) i zadać jej parę pytań. Jej statek ma numer rejestracyjny {shipid}. Nie mogę teraz opuścić {domicile} z powodu innej sprawy kryminalnej. Chciałbym więc zlecić to zadanie. Zapłacę {cash} za tę misję."
+  },
+  "INTROTEXT_PRIVATEER_MALE_1": {
+    "description": "",
+    "message": "Hej tam! Nazywam się {client}. Poszukuję {wanted}. Wisi mi ona sporo pieniędzy. Według ostatniej informacji odbywa on misję w układzie {system} ({sectorx}, {sectory}, {sectorz}). Przekaż mu, proszę, że moja cierpliwość się wyczerpuje. Wróć do {domicile} po swoją zapłatę {cash}."
+  },
+  "INTROTEXT_PRIVATEER_MALE_2": {
+    "description": "",
+    "message": "Jak się masz. Jestem Prywatny Śledczy {client}. Muszę znaleźć korsarza imieniem {wanted} w układzie {system} ({sectorx}, {sectory}, {sectorz}) i zadać mu parę pytań. Jego statek ma numer rejestracyjny {shipid}. Nie mogę teraz opuścić {domicile} z powodu innej sprawy kryminalnej. Chciałbym więc zlecić to zadanie. Zapłacę {cash} za tę misję."
+  },
+  "INTROTEXT_TAXI_FEMALE_1": {
+    "description": "",
+    "message": "Hej. Jestem {client}. Poszukuję krewnej w układzie {system} ({sectorx}, {sectory}, {sectorz}). Nazywa się {wanted}. Czas jest najważniejszy z powodu nagłego wypadku medycznego w rodzinie. Proszę, odnajdź ją i sprowadź z powrotem do {domicile}. Zapłacę ci {cash}."
+  },
+  "INTROTEXT_TAXI_FEMALE_2": {
+    "description": "",
+    "message": "Dobrego dnia. Jestem Asesor Ubezpieczeniowy {client}. Szybki dron dostawczy obrał zły kurs, wbił się przez zamknięte okno i poważnie uszkodził zabytkowy, drewniany mebel w apartamencie. Na szczęście nikomu nic się nie stało. Ale jak dotąd nie możemy zlokalizować właścicielki apartamentu w układzie {system} ({sectorx}, {sectory}, {sectorz}). Zapłacę ci {cash}, jeżeli ją odnajdziesz. Potrzebna jest jej osobista obecność, aby wyklarować roszczenie."
+  },
+  "INTROTEXT_TAXI_MALE_1": {
+    "description": "",
+    "message": "Hej. Jestem {client}. Poszukuję krewnego w układzie {system} ({sectorx}, {sectory}, {sectorz}). Nazywa się {wanted}. Czas jest najważniejszy z powodu nagłego wypadku medycznego w rodzinie. Proszę, odnajdź go i sprowadź z powrotem do {domicile}. Zapłacę ci {cash}."
+  },
+  "INTROTEXT_TAXI_MALE_2": {
+    "description": "",
+    "message": "Dobrego dnia. Jestem Asesor Ubezpieczeniowy {client}. Szybki dron dostawczy obrał zły kurs, wbił się przez zamknięte okno i poważnie uszkodził zabytkowy, drewniany mebel w apartamencie. Na szczęście nikomu nic się nie stało. Ale jak dotąd nie możemy zlokalizować właściciela apartamentu w układzie {system} ({sectorx}, {sectory}, {sectorz}). Zapłacę ci {cash}, jeżeli go odnajdziesz. Potrzebna jest jego osobista obecność, aby wyklarować roszczenie."
+  },
+  "INTROTEXT_TRAITOR_FEMALE_1": {
+    "description": "",
+    "message": "Cześć, nazywam się {client}. {wanted} nie powróciła z wakacyjnej wycieczki do swojego miejsca pracy w {company}. Była ostatnio widziana w układzie {system} ({sectorx}, {sectory}, {sectorz}). {wanted} ma wiedzę o pewnych istotnych tajemnicach biznesowych. Potrzebujemy więc kogoś, kto wyciągnie od niej parę odpowiedzi o jej nieobecności. Zapłacimy {cash} za tę misję. {system} jest {dist} lś stąd."
+  },
+  "INTROTEXT_TRAITOR_FEMALE_2": {
+    "description": "",
+    "message": "Dobrego dnia. {company} poszukuje pracowniczki, która ukradła pewne tajne dokumenty. Nazywa się {wanted}. Zarząd nazwał ją zdrajczynią, ale chce dać jej okazję do przemyślenia i żalu. Zapłacimy {cash}, jeżeli odnajdziesz ją w układzie {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś stąd, i dostarczysz jej wiadomość."
+  },
+  "INTROTEXT_TRAITOR_MALE_1": {
+    "description": "",
+    "message": "Cześć, nazywam się {client}. {wanted} nie powrócił z wakacyjnej wycieczki do swojego miejsca pracy w {company}. Był ostatnio widziany w układzie {system} ({sectorx}, {sectory}, {sectorz}). {wanted} ma wiedzę o pewnych istotnych tajemnicach biznesowych. Potrzebujemy więc kogoś, kto wyciągnie od niego parę odpowiedzi o jego nieobecności. Zapłacimy {cash} za tę misję. {system} jest {dist} lś stąd."
+  },
+  "INTROTEXT_TRAITOR_MALE_2": {
+    "description": "",
+    "message": "Dobrego dnia. {company} poszukuje pracownika, który ukradł pewne tajne dokumenty. Nazywa się {wanted}. Zarząd nazwał go zdrajcą, ale chce dać mu okazję do przemyślenia i żalu. Zapłacimy {cash}, jeżeli odnajdziesz go w układzie {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś stąd, i dostarczysz mu wiadomość."
+  },
+  "IS_THERE_A_RISK": {
+    "description": "",
+    "message": "Czy jest jakieś ryzyko?"
+  },
+  "MERCENARY_GREETING_FEMALE_1": {
+    "description": "",
+    "message": "Przykro mi. Twoja śmierć to mój biznes!"
+  },
+  "MERCENARY_GREETING_FEMALE_2": {
+    "description": "",
+    "message": "Potnę cię na plasterki!"
+  },
+  "MERCENARY_GREETING_FEMALE_3": {
+    "description": "",
+    "message": "Chcesz spotkać {wanted}? Sprawię, że najpierw spotkasz się ze stwórcą!"
+  },
+  "MERCENARY_GREETING_MALE_1": {
+    "description": "",
+    "message": "To nic osobistego. Zabijam cię dla zapłaty!"
+  },
+  "MERCENARY_GREETING_MALE_2": {
+    "description": "",
+    "message": "Wyślę cię do piekła!"
+  },
+  "MERCENARY_GREETING_MALE_3": {
+    "description": "",
+    "message": "Chcesz się spotkać z {wanted}? Po twoim trupie!"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Ok, zgoda."
+  },
+  "PIRATE_ANSWER_1": {
+    "description": "",
+    "message": "Przesyłam do ciebie wiadomość dla {client}. Do widzenia."
+  },
+  "PIRATE_ANSWER_2": {
+    "description": "",
+    "message": "Podaj wiadomość, którą ci właśnie przesyłam, do {client}. Pa."
+  },
+  "PIRATE_ANSWER_3": {
+    "description": "",
+    "message": "Haha, proszę powiedzieć temu {client}, że nie mam nic do powiedzenia. Miłego dnia."
+  },
+  "PIRATE_GREETING_1": {
+    "description": "",
+    "message": "Słyszałem, że mnie szukasz. Masz moją uwagę. Czego chcesz?"
+  },
+  "PIRATE_GREETING_2": {
+    "description": "",
+    "message": "OK, dostałeś mnie. Nie marnuj czasu i powiedz mi, czego chcesz!"
+  },
+  "PIRATE_GREETING_3": {
+    "description": "",
+    "message": "Słyszałem, że masz mi dać wiadomość?"
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "Chcesz odpowiedzi? Cóż, oto ona!"
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "Dosyć tego! Przygotuj się na pójście do piekła!"
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "Przebyłeś całą tę drogę aby dostarczyć mi tę głupią wiadomość? Lepiej się stąd wynoś!"
+  },
+  "REPEAT_THE_REQUEST": {
+    "description": "",
+    "message": "Czy można powtórzyć prośbę?"
+  },
+  "RISK_EVACUATION_FEMALE_1": {
+    "description": "",
+    "message": "Sytuacja jest napięta. Myślimy, że {wanted} jest w niebezpieczeństwie."
+  },
+  "RISK_EVACUATION_FEMALE_2": {
+    "description": "",
+    "message": "{wanted} is in extreme danger. Powinna opuścić układ najszybciej, jak to możliwe."
+  },
+  "RISK_EVACUATION_MALE_1": {
+    "description": "",
+    "message": "{wanted} uważa, że powinien wkrótce opuścić układ."
+  },
+  "RISK_EVACUATION_MALE_2": {
+    "description": "",
+    "message": "{wanted} jest w wielkich kłopotach! Lepiej, żeby opuścił układ szybciej niż później!"
+  },
+  "RISK_FEMALE_1": {
+    "description": "",
+    "message": "Nie ma żadnego."
+  },
+  "RISK_FEMALE_2": {
+    "description": "",
+    "message": "Nie sądzę."
+  },
+  "RISK_FEMALE_3": {
+    "description": "",
+    "message": "Nie wiem. Jest nieco dziwna."
+  },
+  "RISK_FEMALE_4": {
+    "description": "",
+    "message": "Możliwe. {wanted} jest czasami porywczy."
+  },
+  "RISK_FEMALE_5": {
+    "description": "",
+    "message": "W mojej opinii {wanted} jest zupełnie szalony. Doradzam ostrożność!"
+  },
+  "RISK_MALE_1": {
+    "description": "",
+    "message": "Nie, nie ma ryzyka."
+  },
+  "RISK_MALE_2": {
+    "description": "",
+    "message": "Nie spodziewam się problemów. Ale kto wie?"
+  },
+  "RISK_MALE_3": {
+    "description": "",
+    "message": "Nie jestem pewien. To ciekawy facet."
+  },
+  "RISK_MALE_4": {
+    "description": "",
+    "message": "{wanted} jest paranoikiem. Bądź ostrożny!"
+  },
+  "RISK_MALE_5": {
+    "description": "",
+    "message": "O tak, w istocie. {wanted} to maniak. Bądź gotów na wszystko!"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Ustaw jako cel nawigacyjny."
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Ustaw trasę powrotną"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Statek:"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Port kosmiczny:"
+  },
+  "SUCCESS_ATK_1": {
+    "description": "",
+    "message": "Co? {wanted} cię zaatakował? Proszę przyjąć te pieniądze jako rekompensatę!"
+  },
+  "SUCCESS_ATK_2": {
+    "description": "",
+    "message": "Na prawdę? {wanted} cię zaatakował? Nie do wiary! Nieważne. Przesłałem pieniądze."
+  },
+  "SUCCESS_ATK_3": {
+    "description": "",
+    "message": "Spotkałeś {wanted} i przeżyłeś? Wspaniale! Oto twoje pieniądze."
+  },
+  "SUCCESS_INT_1": {
+    "description": "",
+    "message": "Słyszałem, że miałeś kłopoty. Dobrze cię widzieć mimo wszystko. Płacę całość."
+  },
+  "SUCCESS_INT_2": {
+    "description": "",
+    "message": "Miałeś różnicę zdań z najemnikiem? Cóż, oto twoja rekompensata!"
+  },
+  "SUCCESS_INT_3": {
+    "description": "",
+    "message": "Właśnie ci zapłaciłem. Słyszałem, że miałeś najemnika na karku. Wspaniała robota!"
+  },
+  "SUCCESS_MSG_1": {
+    "description": "",
+    "message": "Dziękuję za tę usługę. Zapłaciłem wynagrodzenie."
+  },
+  "SUCCESS_MSG_2": {
+    "description": "",
+    "message": "Dzięki za usługę. Twoja wypłata została przelana."
+  },
+  "SUCCESS_MSG_3": {
+    "description": "",
+    "message": "Dobra robota! Przelałem pieniądze."
+  },
+  "SUCCESS_MSG_4": {
+    "description": "",
+    "message": "Wielkie dzięki! Płacę całość."
+  },
+  "SUCCESS_MSG_5": {
+    "description": "",
+    "message": "Znalazłeś {wanted}? Wspaniale! Oto twoja zapłata."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "System:"
+  },
+  "TIP_FEMALE_1": {
+    "description": "",
+    "message": "Nie jestem pewien, ale sądzę, że {wanted} jest obecnie na {station}."
+  },
+  "TIP_FEMALE_2": {
+    "description": "",
+    "message": "Myślę, że znam osobę, której szukasz. Widziałem ją niedawno na {station}."
+  },
+  "TIP_FEMALE_3": {
+    "description": "",
+    "message": "Znam {wanted}. Możesz ją znaleźć na {station}."
+  },
+  "TIP_FEMALE_4": {
+    "description": "",
+    "message": "Myślę, że znam osobę pasującą do twojego opisu. Powinieneś odwiedzić {station} po więcej informacji."
+  },
+  "TIP_MALE_1": {
+    "description": "",
+    "message": "Myślę, że {wanted} jest obecnie na {station}. Ale nie jestem pewien!"
+  },
+  "TIP_MALE_2": {
+    "description": "",
+    "message": "Myślę, że znam {wanted}. Widziałem go na {station}."
+  },
+  "TIP_MALE_3": {
+    "description": "",
+    "message": "Poszukujesz {wanted}? Jest obecnie na {station}."
+  },
+  "TIP_MALE_4": {
+    "description": "",
+    "message": "Twój opis pasuje do osoby, którą spotkałem blisko {station}."
+  },
+  "TRANSMITTING_MSG": {
+    "description": "Message from the ship's computer",
+    "message": "Przesyłanie wiadomości do statku {shipid}"
+  },
+  "WANTED": {
+    "description": "",
+    "message": "Poszukiwana osoba:"
+  },
+  "YOU_DO_NOT_HAVE_A_CABIN": {
+    "description": "",
+    "message": "Przykro mi, nie masz kabiny pasażerskiej."
+  }
+}

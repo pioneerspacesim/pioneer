@@ -137,7 +137,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "{target} must be reduced to space dust. I'll award you {cash} to do this."
+    "message": "{target} muss zu Weltraumstaub reduziert werden. Ich zahle {cash} für diesen Job."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -205,11 +205,11 @@
   },
   "IT_MUST_BE_DONE_AFTER_FEMALE": {
     "description": "",
-    "message": "It must be done after she leaves {spaceport}. Do not miss this opportunity."
+    "message": "Es muss passieren nachdem sie {spaceport} verlässt. Verpassen Sie diese Gelegenheit nicht."
   },
   "IT_MUST_BE_DONE_AFTER_MALE": {
     "description": "",
-    "message": "It must be done after he leaves {spaceport}. Do not miss this opportunity."
+    "message": "Es muss passieren nachdem er {spaceport} verlässt. Verpassen Sie diese Gelegenheit nicht."
   },
   "OK_AGREED": {
     "description": "",
@@ -353,18 +353,18 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "Where can I find the target?"
+    "message": "Wo kann ich das Ziel finden?"
   },
   "X_WILL_BE_LEAVING": {
     "description": "",
-    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is a {shipname} and has registration id {shipregid}."
+    "message": "{target} wird {spaceport} im {system}-System ({sectorX}, {sectorY}, {sectorZ}), Entfernung {dist} Lj, am {date} verlassen. Das Schiff ist ein {shipname} und hat die Registrierungsnummer {shipregid}."
   },
   "X_WILL_BE_LEAVING_FEMALE": {
     "description": "",
-    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. Her ship is a {shipname} and has registration id {shipregid}."
+    "message": "{target} wird {spaceport} im {system}-System ({sectorX}, {sectorY}, {sectorZ}), Entfernung {dist} Lj, am {date} verlassen. Ihr Schiff ist ein {shipname} und hat die Registrierungsnummer {shipregid}."
   },
   "X_WILL_BE_LEAVING_MALE": {
     "description": "",
-    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. His ship is a {shipname} and has registration id {shipregid}."
+    "message": "{target} wird {spaceport} im {system}-System ({sectorX}, {sectorY}, {sectorZ}), Entfernung {dist} Lj, am {date} verlassen. Sein Schiff ist ein {shipname} und hat die Registrierungsnummer {shipregid}."
   }
 }

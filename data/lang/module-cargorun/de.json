@@ -109,15 +109,15 @@
   },
   "ART_OBJECTS_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "Unless you consider art critics a risk, no."
+    "message": "Nein, außer Sie halten Kunstkritiker für besonders gefährlich."
   },
   "ART_OBJECTS_RISK_MESSAGE_2": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "Between you and me... Don't look at the art and you'll be fine."
+    "message": "Das bleibt unter uns, aber... Solange Sie sich das grässliche Kunstwerk nicht ansehen, sollten Sie es unbeschadet überstehen."
   },
   "ART_OBJECTS_RISK_MESSAGE_3": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "The only danger of 25th century impressionism was to the original artist, you should be safe."
+    "message": "Der einzige, der vom Impressionismus des 25. Jahrhunderts Schaden erlangt haben könnte, ist der Künstler selbst. Sie sollten sicher sein."
   },
   "CARGO": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "EXPLOSIVES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "No. Well, it's explosives, just don't drop it."
+    "message": "Nein. Naja, es ist halt Sprengstoff. Solange Sie ihn nicht fallen lassen..."
   },
   "FAILUREMSG_1": {
     "description": "",
@@ -281,7 +281,7 @@
   },
   "HAZARDOUS_SUBSTANCES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "I guess you shouldn't open the containers."
+    "message": "Ich vermute, Sie sollten die Container besser nicht öffnen."
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
@@ -497,11 +497,11 @@
   },
   "QUIBBLES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "No. Just don't get them wet and never feed them after midnight."
+    "message": "Nein. Schützen Sie sie nur gut vor Feuchtigkeit und füttern Sie sie nicht nach Mitternacht."
   },
   "QUIBBLES_RISK_MESSAGE_2": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "Of course not! Look at them, they're so fluffy!"
+    "message": "Natürlich nicht! Schauen Sie doch, sie sind so wuschelig!"
   },
   "RISK_1": {
     "description": "",
@@ -657,7 +657,7 @@
   },
   "WEDDING_DRESSES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "Over wedding dresses?"
+    "message": "Wegen eines Hochzeitkleids?"
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",

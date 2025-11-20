@@ -1,0 +1,550 @@
+{
+  "ACCEPTED_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "Nagyszerű. Továbbítottam a dokumentumot."
+  },
+  "ACCEPTED_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "Kiváló! Elküldtem az üzenetet a számítógépére."
+  },
+  "ACCEPTED_EVACUATION": {
+    "description": "",
+    "message": "Nagyszerű. Vigyázzon magára!"
+  },
+  "ACCEPTED_PRIVATEER": {
+    "description": "",
+    "message": "Rendben. Ez alapján gyorsan megtalálom a hajót, azt hiszem."
+  },
+  "ACCEPTED_TAXI": {
+    "description": "",
+    "message": "Nagyon jó. Siessen!"
+  },
+  "ACCEPTED_TRAITOR": {
+    "description": "",
+    "message": "OKÉ. Átküldtem az adatokat a hajója számítógépére."
+  },
+  "ADTEXT_1": {
+    "description": "",
+    "message": "Keresek valakit {system} rendszerben. Jutalom: {cash}."
+  },
+  "ADTEXT_2": {
+    "description": "",
+    "message": "Kutató küldetés {system} rendszerben. Fizetség: {cash}."
+  },
+  "ADTEXT_3": {
+    "description": "",
+    "message": "Kompenzáció a kiadásokra: {cash}."
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "ELTŰNT SZEMÉLY"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "PILÓTÁT KERESEK KUTATÓ KÜLDETÉSRE"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "HAJÓT KERESEK SZEMÉLY FELKUTATÁSÁHOZ"
+  },
+  "CLIENT": {
+    "description": "",
+    "message": "Kliens:"
+  },
+  "COMPANY": {
+    "description": "",
+    "message": "Vállalat:"
+  },
+  "COMPANY_1": {
+    "description": "Name of a company",
+    "message": "{name} Avionikai Vállalat"
+  },
+  "COMPANY_2": {
+    "description": "Name of a company",
+    "message": "{name} Fegyvergyár"
+  },
+  "COMPANY_3": {
+    "description": "Name of a company",
+    "message": "{name} Flotta Rendszerek Alap"
+  },
+  "COMPANY_4": {
+    "description": "Name of a company",
+    "message": "{name} Védelmi Rendszergyártó Vállalat"
+  },
+  "COMPANY_5": {
+    "description": "Name of a company",
+    "message": "{name} Felügyeleti Műszergyártó Társaság"
+  },
+  "COMPANY_6": {
+    "description": "Name of a company",
+    "message": "{name} Speciális IT Szolgáltató Szövetség"
+  },
+  "DANGER": {
+    "description": "The risk level",
+    "message": "Veszély:"
+  },
+  "DEADLINE": {
+    "description": "Must be delivered by",
+    "message": "Határidő:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Bocsássa meg uram, de tapasztaltabb pilótát keresek."
+  },
+  "DISTANCE": {
+    "description": "Distance in space, between two locations",
+    "message": "Távolság:"
+  },
+  "FAILUREMSG_1": {
+    "description": "",
+    "message": "Nem vagyok elégedett a teljesítményével. Nem fizetek!"
+  },
+  "FAILUREMSG_2": {
+    "description": "",
+    "message": "Késett! Sajnálom, de így nem tudok fizetni."
+  },
+  "FIND_PERSON": {
+    "description": "Name of mission type",
+    "message": "Ember felkutatása"
+  },
+  "GREETING_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "Megtalált, a fene egye meg! Rendben, aláírtam a dokumentumot. Kérem juttassa vissza a megbízójának!"
+  },
+  "GREETING_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "Köszönöm, hogy továbbította az üzenetet. Átküldtem a válaszomat, kérem juttassa el a megbízójának."
+  },
+  "GREETING_EVACUATION": {
+    "description": "",
+    "message": "El nem tudja képzelni, mennyire örülök magának. Azonnal fel is szállhatunk, már semmi sem köt engem ide."
+  },
+  "GREETING_PRIVATEER": {
+    "description": "",
+    "message": "{client}? Ohh, neki dolgozik? Értékes adatokat továbbítottam önnek. A megbízója hasznát fogja venni!"
+  },
+  "GREETING_TAXI": {
+    "description": "",
+    "message": "Ja ne. Rossz hírek. Azonnal vissza kell repülnünk!"
+  },
+  "GREETING_TRAITOR": {
+    "description": "",
+    "message": "Micsoda? {client} vallomást akar? Rendben, kérem juttassa el hozzá ezt a dokumentumot!"
+  },
+  "HOW_CAN_I_FIND_HER": {
+    "description": "",
+    "message": "Hogyan találhatom meg?"
+  },
+  "HOW_CAN_I_FIND_HIM": {
+    "description": "",
+    "message": "Hogyan találhatom meg?"
+  },
+  "HOW_MUCH_TIME": {
+    "description": "",
+    "message": "Mennyi időm van?"
+  },
+  "HOW_MUCH_TIME_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "Kérem {date} előzz térjen vissza."
+  },
+  "HOW_MUCH_TIME_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "Ha {date} előtt nem hallok ön felől, másik pilótát keresek!"
+  },
+  "HOW_MUCH_TIME_EVACUATION": {
+    "description": "",
+    "message": "{date} a végső határidő. Ha addig nem ér vissza, nagy bajban vagyunk."
+  },
+  "HOW_MUCH_TIME_PRIVATEER": {
+    "description": "",
+    "message": "{date}! Ha eddig nem tér vissza, nincs üzlet!"
+  },
+  "HOW_MUCH_TIME_TAXI": {
+    "description": "",
+    "message": "Határidő: {date}."
+  },
+  "HOW_MUCH_TIME_TRAITOR": {
+    "description": "",
+    "message": "Idő szűkében vagyunk! {date} a legkésőbbi időpont, különben végünk."
+  },
+  "HOW_TO_DELIVER_DOCUMENT_FEMALE": {
+    "description": "",
+    "message": "Találja meg a hajóját, és megtalálja őt is."
+  },
+  "HOW_TO_DELIVER_DOCUMENT_MALE": {
+    "description": "",
+    "message": "Csak meg kell keresnie a hajóját. Ott lesz ő is a közelben."
+  },
+  "HOW_TO_DELIVER_MESSAGE_FEMALE": {
+    "description": "",
+    "message": "Annyit tudok, hogy egy űrállomáson kell dolgoznia."
+  },
+  "HOW_TO_DELIVER_MESSAGE_MALE": {
+    "description": "",
+    "message": "Az iroda a hol dolgozik egy űrkikötő közelében van. Ennyit tudok."
+  },
+  "HOW_TO_EVACUATION_FEMALE": {
+    "description": "",
+    "message": "Biztosan kapcsolatba lép önnel, ha tudomást szerez az érkezéséről."
+  },
+  "HOW_TO_EVACUATION_MALE": {
+    "description": "",
+    "message": "Ha megtudja, hogy megérkezett, meg keresni fogja önt."
+  },
+  "HOW_TO_PRIVATEER_FEMALE": {
+    "description": "",
+    "message": "Gyakran totálkárosra töri a hajóját veszélyes küldetéseken. Egy hajó javító műhely jó kiindulópont lesz."
+  },
+  "HOW_TO_PRIVATEER_MALE": {
+    "description": "",
+    "message": "Gyakran vállal rizikós megbízásokat. A hajója többet van szervízben mint az űrben."
+  },
+  "HOW_TO_TAXI_FEMALE": {
+    "description": "",
+    "message": "Nem tudom, ez a maga feladata!"
+  },
+  "HOW_TO_TAXI_MALE": {
+    "description": "",
+    "message": "Ötletem sincs. Magának kell megoldania!"
+  },
+  "HOW_TO_TRAITOR_FEMALE": {
+    "description": "",
+    "message": "Jól ismerem. Biztosan egy bárban lógatja a lábát valamelyik űrállomás környékén."
+  },
+  "HOW_TO_TRAITOR_MALE": {
+    "description": "",
+    "message": "Jellemzően űrkikötők kocsmáiban tölti az idejét."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_FEMALE_1": {
+    "description": "",
+    "message": "Üdvözlöm! {client} vagyok, {company} megbízásából. Az egyik hajónk közvetlenül a hiperűrbe lépés előtt ütközött egy másik járművel és nem volt idejük leállítani az ugrási szekvenciát. Keresünk valakit, aki fel tudja számunkra kutatni a hajót (lajstromjel: {shipid}), {system} rendszerben ({sectorx}, {sectory}, {sectorz}, {dist} fényév). A feladat: átadni {wanted} kapitánynak a peren kívüli megegyezési javaslatunk dokumentumait. Kérem az átadást követően térjen vissza {domicile} rendszerbe a fizetségért. "
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_FEMALE_2": {
+    "description": "",
+    "message": "Örülök, hogy megismerhetem. {client} vagyok. Egy régi üzleti partnerünket keressük, aki tartozik nekünk egy szívességgel. A neve {wanted}. {system} rendszerben bújkál ({sectorx}, {sectory}, {sectorz}, {dist} fényév). Ha megtalálja, át kellene adnia neki ezt a titkosított dokumentumot, és visszatérni ide, {company} {domicile}-i irodájába. Siker esetén {cash} díjazást fizetünk."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_MALE_1": {
+    "description": "",
+    "message": "Üdvözlöm! {client} vagyok, {company} megbízásából. Az egyik hajónk közvetlenül a hiperűrbe lépés előtt ütközött egy másik járművel és nem volt idejük leállítani az ugrási szekvenciát. Keresünk valakit, aki fel tudja számunkra kutatni a hajót (lajstromjel: {shipid}), {system} rendszerben ({sectorx}, {sectory}, {sectorz}, {dist} fényév). A feladat: átadni {wanted} kapitánynak a peren kívüli megegyezési javaslatunk dokumentumait. Kérem az átadást követően térjen vissza {domicile} rendszerbe a fizetségért. "
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_MALE_2": {
+    "description": "",
+    "message": "Örülök, hogy megismerhetem. {client} vagyok. Egy régi üzleti partnerünket keressük, aki tartozik nekünk egy szívességgel. A neve {wanted}. {system} rendszerben bújkál ({sectorx}, {sectory}, {sectorz}, {dist} fényév). Ha megtalálja, át kellene adnia neki ezt a titkosított dokumentumot, és visszatérni ide, {company} {domicile}-i irodájába. Siker esetén {cash} díjazást fizetünk."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_1": {
+    "description": "",
+    "message": "Hello, {client}-nek hívnak. A mostohahúgom, {wanted} után kutatok. Néhány éve egy vita után elhagyta a családunkat. Egy barátom nemrég látta {system} rendszerben ({sectorx}, {sectory}, {sectorz}). Szeretném megtudni, készen áll e a kibékülésra. {cash} creditet fizetek, ha eljuttatja neki az üzenetemet, és visszatér ide {domicile} kikötőjébe a válaszával. Kérem, megtenné?"
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_2": {
+    "description": "",
+    "message": "Helló! {client} vagyok. Egy régi barátomat keresem, akinek a neve {wanted}. Tudom, hogy {system} rendszerben él ({sectorx}, {sectory}, {sectorz}), de nem tudom, pontosan hol. {cash} díjazást tudok fizetni önnek, ha eljuttat neki egy üzenetet. "
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_1": {
+    "description": "",
+    "message": "Hello, {client}-nek hívnak. A mostohabáttyám, {wanted} után kutatok. Néhány éve egy vita után elhagyta a családunkat. Egy barátom nemrég látta {system} rendszerben ({sectorx}, {sectory}, {sectorz}). Szeretném megtudni, készen áll e a kibékülésra. {cash} creditet fizetek, ha eljuttatja neki az üzenetemet, és visszatér ide {domicile} kikötőjébe a válaszával. Kérem, megtenné?"
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_2": {
+    "description": "",
+    "message": "Helló! {client} vagyok. Egy régi barátomat keresem, akinek a neve {wanted}. Tudom, hogy {system} rendszerben él ({sectorx}, {sectory}, {sectorz}), de nem tudom, pontosan hol. {cash} díjazást tudok fizetni önnek, ha eljuttat neki egy üzenetet. "
+  },
+  "INTROTEXT_EVACUATION_FEMALE_1": {
+    "description": "",
+    "message": "Üdv! {company} nagy bajban van. Rosszul alakultak a tárgyalások egy {system}-beli agresszív konkurenssel ({sectorx}, {sectory}, {sectorz}, {dist} fé). A küldöttünket evakuálni kell. Korlátozottan tudunk vele kommunikálni, nem ismerjük a pontos tartózkodási helyét. {cash} díjazást ajánlunk a feladat elvégzéséért. "
+  },
+  "INTROTEXT_EVACUATION_FEMALE_2": {
+    "description": "",
+    "message": "Hello! A nevem {client}. {company} alkalmazásában állok. Kereskedelmi képviselőnk, {wanted} veszélyes bűnözőkkel került összeütközésbe {system} rendszerben ({sectorx}, {sectory}, {sectorz}, {dist} fé). Nem bízik a helyi hatóságokban, ezért elrejtőzött. {cash}-t fizetünk, ha megtalálja, és biztonságosan visszahozza őt {domicile}-i irodánkba."
+  },
+  "INTROTEXT_EVACUATION_MALE_1": {
+    "description": "",
+    "message": "Üdv! {company} nagy bajban van. Rosszul alakultak a tárgyalások egy {system}-beli agresszív konkurenssel ({sectorx}, {sectory}, {sectorz}, {dist} fé). A küldöttünket evakuálni kell. Korlátozottan tudunk vele kommunikálni, nem ismerjük a pontos tartózkodási helyét. {cash} díjazást ajánlunk a feladat elvégzéséért. "
+  },
+  "INTROTEXT_EVACUATION_MALE_2": {
+    "description": "",
+    "message": "Hello! A nevem {client}. {company} alkalmazásában állok. Kereskedelmi képviselőnk, {wanted} veszélyes bűnözőkkel került összeütközésbe {system} rendszerben ({sectorx}, {sectory}, {sectorz}, {dist} fé). Nem bízik a helyi hatóságokban, ezért elrejtőzött. {cash}-t fizetünk, ha megtalálja, és biztonságosan visszahozza őt {domicile}-i irodánkba."
+  },
+  "INTROTEXT_PRIVATEER_FEMALE_1": {
+    "description": "",
+    "message": "Hi there! My name is {client}. I'm looking for {wanted}. She owes me a lot of money. According to the latest information, she's doing missions in the {system} ({sectorx}, {sectory}, {sectorz}) system. Please tell her that my patience is running thin. Return to {domicile} for your payment of {cash}."
+  },
+  "INTROTEXT_PRIVATEER_FEMALE_2": {
+    "description": "",
+    "message": "How are you. I'm Private Investigator {client}. I have to find privateer {wanted} in the {system} ({sectorx}, {sectory}, {sectorz}) system and ask her a few questions. Her ship has registration number {shipid}. I can't leave {domicile} right now because of another criminal case. So I would like to outsource this task. I will pay {cash} for this mission."
+  },
+  "INTROTEXT_PRIVATEER_MALE_1": {
+    "description": "",
+    "message": "Hi there! My name is {client}. I'm looking for {wanted}. He owes me a lot of money. According to the latest information, he's doing missions in the {system} ({sectorx}, {sectory}, {sectorz}) system. Please tell him that my patience is running thin. Return to {domicile} for your payment of {cash}."
+  },
+  "INTROTEXT_PRIVATEER_MALE_2": {
+    "description": "",
+    "message": "How are you. I'm Private Investigator {client}. I have to find privateer {wanted} in the {system} ({sectorx}, {sectory}, {sectorz}) system and ask him a few questions. His ship has registration number {shipid}. I can't leave {domicile} right now because of another criminal case. So I would like to outsource this task. I will pay {cash} for this mission."
+  },
+  "INTROTEXT_TAXI_FEMALE_1": {
+    "description": "",
+    "message": "Hi. I'm {client}. I'm looking for a relative in the {system} ({sectorx}, {sectory}, {sectorz}) system. Her name is {wanted}. Time is of the essence due to a medical emergency in the family. Please find her and bring her back to {domicile}. I pay you {cash}."
+  },
+  "INTROTEXT_TAXI_FEMALE_2": {
+    "description": "",
+    "message": "Good day. I'm Insurance Assessor {client}. A high speed delivery drone failed to set a proper course, broke through a window and damaged the antique wooden furniture inside an apartment seriously. Fortunately no one was injured. But we couldn't locate the owner of the apartment in the {system} ({sectorx}, {sectory}, {sectorz}) system so far. So I will pay you {cash} if you can find her. Her personal presence is necessary to clarify the claim."
+  },
+  "INTROTEXT_TAXI_MALE_1": {
+    "description": "",
+    "message": "Hi. I'm {client}. I'm looking for a relative in the {system} ({sectorx}, {sectory}, {sectorz}) system. His name is {wanted}. Time is of the essence due to a medical emergency in the family. Please find him and bring him back to {domicile}. I pay you {cash}."
+  },
+  "INTROTEXT_TAXI_MALE_2": {
+    "description": "",
+    "message": "Good day. I'm Insurance Assessor {client}. A high speed delivery drone failed to set a proper course, broke through a window and damaged the antique wooden furniture inside an apartment seriously. Fortunately no one was injured. But we couldn't locate the owner of the apartment in the {system} ({sectorx}, {sectory}, {sectorz}) system so far. So I will pay you {cash} if you can find him. His personal presence is necessary to clarify the claim."
+  },
+  "INTROTEXT_TRAITOR_FEMALE_1": {
+    "description": "",
+    "message": "Hello, my name is {client}. {wanted} didn't return from a holiday trip to her workplace at the {company}. She was last seen in the {system} ({sectorx}, {sectory}, {sectorz}) system. {wanted} has knowledge of some vital business secrets. So we need someone who can get a few answers from her about her ongoing absence. We pay {cash} for this mission. {system} is in a distance of {dist} ly."
+  },
+  "INTROTEXT_TRAITOR_FEMALE_2": {
+    "description": "",
+    "message": "Good day. The {company} is searching for an employee who stole some classified documents. Her name is {wanted}. Management calls her a traitor, but wants to give her the opportunity to reconsider and repent. We pay {cash} if you can find her in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distance, and deliver a message to her."
+  },
+  "INTROTEXT_TRAITOR_MALE_1": {
+    "description": "",
+    "message": "Hello, my name is {client}. {wanted} didn't return from a holiday trip to his workplace at the {company}. He was last seen in the {system} ({sectorx}, {sectory}, {sectorz}) system. {wanted} has knowledge of some vital business secrets. So we need someone who can get a few answers from him about his ongoing absence. We pay {cash} for this mission. {system} is in a distance of {dist} ly."
+  },
+  "INTROTEXT_TRAITOR_MALE_2": {
+    "description": "",
+    "message": "Good day. The {company} is searching for an employee who stole some classified documents. His name is {wanted}. Management calls him a traitor, but wants to give him the opportunity to reconsider and repent. We pay {cash} if you can find him in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distance, and deliver a message to him."
+  },
+  "IS_THERE_A_RISK": {
+    "description": "",
+    "message": "Mennyire rizikós?"
+  },
+  "MERCENARY_GREETING_FEMALE_1": {
+    "description": "",
+    "message": "Sajnálom, de a halálod nekem üzlet!"
+  },
+  "MERCENARY_GREETING_FEMALE_2": {
+    "description": "",
+    "message": "Felszeletellek!"
+  },
+  "MERCENARY_GREETING_FEMALE_3": {
+    "description": "",
+    "message": "{wanted} után kutatsz? Előbb küldelek vissza a teremtődhöz!"
+  },
+  "MERCENARY_GREETING_MALE_1": {
+    "description": "",
+    "message": "Semmi személyes. Vérdíjért öllek meg!"
+  },
+  "MERCENARY_GREETING_MALE_2": {
+    "description": "",
+    "message": "Pokolba küldelek!"
+  },
+  "MERCENARY_GREETING_MALE_3": {
+    "description": "",
+    "message": "{wanted} kellene? Csak a holttestemen át!"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "OK, rendben."
+  },
+  "PIRATE_ANSWER_1": {
+    "description": "",
+    "message": "Átküldtem a választ {client} számára. Viszlát!"
+  },
+  "PIRATE_ANSWER_2": {
+    "description": "",
+    "message": "Kérem továbbítsa az üzenetet amit küldök. Viszlát."
+  },
+  "PIRATE_ANSWER_3": {
+    "description": "",
+    "message": "Haha! {client}? Nincs mit mondanom neki. Legyen szép napja."
+  },
+  "PIRATE_GREETING_1": {
+    "description": "",
+    "message": "Úgy hallottam, engem keres. Figyelek. Mit akar?"
+  },
+  "PIRATE_GREETING_2": {
+    "description": "",
+    "message": "Rendben, megtalált. Ne pocsékolja az időmet, halljam mit akar!"
+  },
+  "PIRATE_GREETING_3": {
+    "description": "",
+    "message": "Úgy tudom, át kell adnia nekem egy üzenetet?"
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "Választ vár? Már adom is!"
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "Ebből elég! Készüljön a pokolra!"
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "Tényleg elutazott ilyen messze csak, hogy átadja ezt az ostoba üzenetet? Jobb ha lelép!"
+  },
+  "REPEAT_THE_REQUEST": {
+    "description": "",
+    "message": "Megismételné az eredeti kérést?"
+  },
+  "RISK_EVACUATION_FEMALE_1": {
+    "description": "",
+    "message": "A helyzet feszült. Úgy hisszük, {wanted} veszélyben van."
+  },
+  "RISK_EVACUATION_FEMALE_2": {
+    "description": "",
+    "message": "{wanted} nagy veszélynek van kitéve. Amint lehet el kell hagynia a rendszert."
+  },
+  "RISK_EVACUATION_MALE_1": {
+    "description": "",
+    "message": "{wanted} úgy gondolja, sürgősen távoznia kell a rendszerből."
+  },
+  "RISK_EVACUATION_MALE_2": {
+    "description": "",
+    "message": "{wanted} nagy bajban van. Jobb ha mielőbb távozik ebből a rendszerből."
+  },
+  "RISK_FEMALE_1": {
+    "description": "",
+    "message": "Semmiképp."
+  },
+  "RISK_FEMALE_2": {
+    "description": "",
+    "message": "Nem hinném."
+  },
+  "RISK_FEMALE_3": {
+    "description": "",
+    "message": "Nem tudom. Kissé fura ember."
+  },
+  "RISK_FEMALE_4": {
+    "description": "",
+    "message": "Lehetséges. {wanted} elég lobbanékony tud lenni."
+  },
+  "RISK_FEMALE_5": {
+    "description": "",
+    "message": "Véleményem szerint {wanted} teljesen megőrült. Azt javaslom, legyen óvatos!"
+  },
+  "RISK_MALE_1": {
+    "description": "",
+    "message": "Nem, nincs kockázat."
+  },
+  "RISK_MALE_2": {
+    "description": "",
+    "message": "Nem számítok problémára, bár ki tudja?"
+  },
+  "RISK_MALE_3": {
+    "description": "",
+    "message": "Nem tudom biztosan. Kiváncsi természetű ember. "
+  },
+  "RISK_MALE_4": {
+    "description": "",
+    "message": "{wanted} paranoiás. Legyen óvatos!"
+  },
+  "RISK_MALE_5": {
+    "description": "",
+    "message": "Ó, valóban. {wanted} mániákus. Készüljön, hogy bármi megtörténhet!"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Navigációs célnak beállít."
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Visszatérő útvonal beállítása"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Hajó:"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Kikötő:"
+  },
+  "SUCCESS_ATK_1": {
+    "description": "",
+    "message": "Micsoda? {wanted} megtámadta? Kérem fogadja el ezt a pénzt kompenzációként!"
+  },
+  "SUCCESS_ATK_2": {
+    "description": "",
+    "message": "Tényleg? {wanted} megtámadta? Hihetetlen! Mindegy. Átutaltam a pénzét."
+  },
+  "SUCCESS_ATK_3": {
+    "description": "",
+    "message": "Találkozott vele és túlélte? Nagyszerű! Utalom a pénzét."
+  },
+  "SUCCESS_INT_1": {
+    "description": "",
+    "message": "Hallottam voltak gondok. Örülök, hogy egyben láthatom mindezek után. Átutaltam a fizetségét."
+  },
+  "SUCCESS_INT_2": {
+    "description": "",
+    "message": "Összetűzésbe került egy zsoldossal? Rendben, itt a kompenzációja!"
+  },
+  "SUCCESS_INT_3": {
+    "description": "",
+    "message": "Átutaltam a pénzét. Hallottam, hogy összakaszkodott egy zsoldossal. Nagyszerű munkát végzett!"
+  },
+  "SUCCESS_MSG_1": {
+    "description": "",
+    "message": "Köszönöm a szolgálatát! Átutaltam a javadalmazását."
+  },
+  "SUCCESS_MSG_2": {
+    "description": "",
+    "message": "Köszönet a munkájáért. A fizetségét átutaltam."
+  },
+  "SUCCESS_MSG_3": {
+    "description": "",
+    "message": "Szép munka! Átküldtem a pénzt."
+  },
+  "SUCCESS_MSG_4": {
+    "description": "",
+    "message": "Hálásan köszönöm! Kifizettem a teljes összeget."
+  },
+  "SUCCESS_MSG_5": {
+    "description": "",
+    "message": "{wanted}? Megtalálta? Nagyszerű! Itt a fizetsége."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Rendszer:"
+  },
+  "TIP_FEMALE_1": {
+    "description": "",
+    "message": "Nem vagyok biztos benne, de úgy gondolom {wanted} jelenleg {station} állomáson tartózkodik."
+  },
+  "TIP_FEMALE_2": {
+    "description": "",
+    "message": "Azt hiszem, ismerem azt akit keres. Mostanában láttam {station} kikötőjében."
+  },
+  "TIP_FEMALE_3": {
+    "description": "",
+    "message": "{wanted}? Ismerem. {station} állomáson megtalálja."
+  },
+  "TIP_FEMALE_4": {
+    "description": "",
+    "message": "Azt hiszem ismerek valakit, akire illik a leírás. Látogasson el {station} kikötőjébe, több információhoz juthat."
+  },
+  "TIP_MALE_1": {
+    "description": "",
+    "message": "Azt gondolom, {wanted} {station} állomáson tartózkodik, de nem vagyok benne biztos!"
+  },
+  "TIP_MALE_2": {
+    "description": "",
+    "message": "{wanted}? Azt hiszem ismerem. {station} kikötőjében láttam."
+  },
+  "TIP_MALE_3": {
+    "description": "",
+    "message": "{wanted}? Őt keresi? Épp {station} állomáson tartózkodik."
+  },
+  "TIP_MALE_4": {
+    "description": "",
+    "message": "A leírása illik egy emberre, akivel {station} kikötőjében találkoztam."
+  },
+  "TRANSMITTING_MSG": {
+    "description": "Message from the ship's computer",
+    "message": "Üzenet továbbítása: {shipid}"
+  },
+  "WANTED": {
+    "description": "",
+    "message": "Keresett személy:"
+  },
+  "YOU_DO_NOT_HAVE_A_CABIN": {
+    "description": "",
+    "message": "Sajnálom, de nincs kabin a hajóján."
+  }
+}

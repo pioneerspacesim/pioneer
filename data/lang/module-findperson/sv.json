@@ -1,0 +1,550 @@
+{
+  "ACCEPTED_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "Mycket bra. Jag har fört över dokumentet."
+  },
+  "ACCEPTED_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "Utmärkt. Jag har kopierat meddelandet till din dator."
+  },
+  "ACCEPTED_EVACUATION": {
+    "description": "",
+    "message": "Utmärkt! Var försiktig."
+  },
+  "ACCEPTED_PRIVATEER": {
+    "description": "",
+    "message": "Bra. Jag tror att du kommer att hitta skeppet ganska lätt."
+  },
+  "ACCEPTED_TAXI": {
+    "description": "",
+    "message": "Mycket bra. Snabba ryck!"
+  },
+  "ACCEPTED_TRAITOR": {
+    "description": "",
+    "message": "OK. Jag har fört över informationen till din skeppsdator."
+  },
+  "ADTEXT_1": {
+    "description": "",
+    "message": "Hitta en person i {system} systemet. Belöning {cash}."
+  },
+  "ADTEXT_2": {
+    "description": "",
+    "message": "Sökuppdrag i {system} systemet. Betalning {cash}."
+  },
+  "ADTEXT_3": {
+    "description": "",
+    "message": "Kompensation för utgifter {cash}."
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "PERSON SÖKES"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "PILOT FÖR ETT SÖKUPPDRAG"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "SKEPP FÖR SÖKUPPDRAG"
+  },
+  "CLIENT": {
+    "description": "",
+    "message": "Klient:"
+  },
+  "COMPANY": {
+    "description": "",
+    "message": "Företag:"
+  },
+  "COMPANY_1": {
+    "description": "Name of a company",
+    "message": "{name} Avionics Corporation"
+  },
+  "COMPANY_2": {
+    "description": "Name of a company",
+    "message": "{name} Firearms Company"
+  },
+  "COMPANY_3": {
+    "description": "Name of a company",
+    "message": "{name} Fleet Systems Foundation"
+  },
+  "COMPANY_4": {
+    "description": "Name of a company",
+    "message": "{name} Defence Systems Company"
+  },
+  "COMPANY_5": {
+    "description": "Name of a company",
+    "message": "{name} Surveillance Tools Corporation"
+  },
+  "COMPANY_6": {
+    "description": "Name of a company",
+    "message": "{name} Special IT Services Foundation"
+  },
+  "DANGER": {
+    "description": "The risk level",
+    "message": "Varning:"
+  },
+  "DEADLINE": {
+    "description": "Must be delivered by",
+    "message": "Deadline:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Ursäkta mig, men jag behöver en pilot med mer erfarenhet."
+  },
+  "DISTANCE": {
+    "description": "Distance in space, between two locations",
+    "message": "Avstånd:"
+  },
+  "FAILUREMSG_1": {
+    "description": "",
+    "message": "Jag är inte nöjd med din insats. Jag tänker inte betala!"
+  },
+  "FAILUREMSG_2": {
+    "description": "",
+    "message": "Du är för sen! Det här kan jag tyvärr inte betala för!"
+  },
+  "FIND_PERSON": {
+    "description": "Name of mission type",
+    "message": "Hitta person"
+  },
+  "GREETING_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "Jäklar, du har mig. Okej, jag har skrivit under dokumentet. Vänligen returnera det till {client}!"
+  },
+  "GREETING_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "Tack för meddelandet. Jag har skickat ett svar för {client} till ert fartygs dator. "
+  },
+  "GREETING_EVACUATION": {
+    "description": "",
+    "message": "Herregud, vad skönt att se dig! Vi kan åka direkt. Det finns inget som håller mig kvar här längre."
+  },
+  "GREETING_PRIVATEER": {
+    "description": "",
+    "message": "Öh, jobbar du för {client}? Jag har kopierat värdefull data till din skepps dator. {client} kommer att finna det användbart!"
+  },
+  "GREETING_TAXI": {
+    "description": "",
+    "message": "Åh nej. Det var dåliga nyheter. Låt oss flyga tillbaka omedelbart."
+  },
+  "GREETING_TRAITOR": {
+    "description": "",
+    "message": "Vad? {client} vill ha ett uttalande? OK, var god återvänd och lämna över detta dokument!"
+  },
+  "HOW_CAN_I_FIND_HER": {
+    "description": "",
+    "message": "Hur kan jag hitta henne?"
+  },
+  "HOW_CAN_I_FIND_HIM": {
+    "description": "",
+    "message": "Hur kan jag hitta honom?"
+  },
+  "HOW_MUCH_TIME": {
+    "description": "",
+    "message": "Hur mycket tid har jag på mig?"
+  },
+  "HOW_MUCH_TIME_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "Var tillbaka senast {date}."
+  },
+  "HOW_MUCH_TIME_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "Om jag inte hör från dig senast {date} kommer jag att anställa en annan pilot!"
+  },
+  "HOW_MUCH_TIME_EVACUATION": {
+    "description": "",
+    "message": "Du måste vara tillbaka senast {date}! Annars får vi allvarliga problem."
+  },
+  "HOW_MUCH_TIME_PRIVATEER": {
+    "description": "",
+    "message": "Om du inte är tillbaka senast {date} är vår överenskommelse över!"
+  },
+  "HOW_MUCH_TIME_TAXI": {
+    "description": "",
+    "message": "Vårt avtal löper ut {date}."
+  },
+  "HOW_MUCH_TIME_TRAITOR": {
+    "description": "",
+    "message": "Tid är avgörande! Om du inte är tillbaka senast {date} har vi inget avtal längre."
+  },
+  "HOW_TO_DELIVER_DOCUMENT_FEMALE": {
+    "description": "",
+    "message": "Hitta hennes skepp så hittar du henne."
+  },
+  "HOW_TO_DELIVER_DOCUMENT_MALE": {
+    "description": "",
+    "message": "Allt du behöver göra är att lokalisera hans skepp. Han borde inte vara långt borta."
+  },
+  "HOW_TO_DELIVER_MESSAGE_FEMALE": {
+    "description": "",
+    "message": "Allt jag vet är att hon ska jobba på en rymdstation."
+  },
+  "HOW_TO_DELIVER_MESSAGE_MALE": {
+    "description": "",
+    "message": "Han jobbar på ett kontor nära en rymdstation. Det är allt jag vet."
+  },
+  "HOW_TO_EVACUATION_FEMALE": {
+    "description": "",
+    "message": "Hon kommer definitivt att kontakta dig om hon får reda på att du har kommit!"
+  },
+  "HOW_TO_EVACUATION_MALE": {
+    "description": "",
+    "message": "Han kommer att kontakta dig när han inser att du har kommit!"
+  },
+  "HOW_TO_PRIVATEER_FEMALE": {
+    "description": "",
+    "message": "Hon kvaddar ofta sitt skepp genom farliga uppdrag. En verkstad skulle vara ett bra ställe att börja leta på."
+  },
+  "HOW_TO_PRIVATEER_MALE": {
+    "description": "",
+    "message": "Han gör många riskfyllda turer. Hans skepp finns ofta i verkstaden på någon rymdstation."
+  },
+  "HOW_TO_TAXI_FEMALE": {
+    "description": "",
+    "message": "Jag vet inte. Det är upp till dig!"
+  },
+  "HOW_TO_TAXI_MALE": {
+    "description": "",
+    "message": "Jag har ingen aning. Det är din sak!"
+  },
+  "HOW_TO_TRAITOR_FEMALE": {
+    "description": "",
+    "message": "Om jag känner henne väl så hänger hon på barerna nära någon rymdstation."
+  },
+  "HOW_TO_TRAITOR_MALE": {
+    "description": "",
+    "message": "Han är känd för att hänga på krogar runt rymdstationer."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_FEMALE_1": {
+    "description": "",
+    "message": "Hälsningar! Jag är {client} och jag företräder {company}. Ett av våra skepp kolliderade med ett annat fartyg bara några sekunder innan det gick in i hyperrymden. Det fanns inte tillräckligt med tid för att stoppa hoppsekvensen. Nu behöver vi någon som kan lokalisera skeppet med ID-nummer {shipid} i {system}-systemet ({sectorx}, {sectory}, {sectorz}) och överlämna ett förslag till en utomrättslig förlikning till befälhavare {wanted}. Vänligen återvänd till {domicile} för din betalning av {cash}. Du kommer behöva resa {dist}."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_FEMALE_2": {
+    "description": "",
+    "message": "Trevligt att träffas. Jag heter {client}. Vi letar efter en gammal affärspartner som fortfarande är skyldig oss en tjänst. Hennes namn är {wanted}. Hon har gömt sig i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Om du kan hitta henne, lämna över ett krypterat dokument och returnera det sedan till {company}-kontoret här på {domicile}. Vi betalar {cash} om det lyckas. {system} ligger {dist} ly bort."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_MALE_1": {
+    "description": "",
+    "message": "God dag! Jag är {client} och jag företräder {company}. Ett av våra skepp kolliderade med ett annat fartyg bara några sekunder innan det gick in i hyperrymden. Det fanns inte tillräckligt med tid för att stoppa hoppsekvensen. Nu behöver vi någon som kan lokalisera skeppet med ID-nummer {shipid} i {system}-systemet ({sectorx}, {sectory}, {sectorz}) och överlämna ett förslag till en utomrättslig förlikning till befälhavare {wanted}. Vänligen återvänd till {domicile} för din betalning av {cash}. Du kommer behöva resa {dist}."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_MALE_2": {
+    "description": "",
+    "message": "Hej! Jag heter {client}. Vi letar efter en gammal affärspartner som fortfarande är skyldig oss en tjänst. Hans namn är {wanted}. Han har gömt sig i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Om du kan hitta honom, lämna över ett krypterat dokument och returnera det sedan till {company}-kontoret här på {domicile}. Vi betalar {cash} om det lyckas. {system} ligger {dist} ly bort."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_1": {
+    "description": "",
+    "message": "Hej, jag heter {client}. Jag söker min styvsyster {wanted}. Hon lämnade familjen i ilska för några år sedan. En vän till mig har nyligen sett henne i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Jag skulle vilja se om hon är redo för en försoning. Jag betalar dig {cash} om du kan lämna ett meddelande till henne och återvända till {domicile} med ett svar. Snälla gör det!"
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_2": {
+    "description": "",
+    "message": "Hej. Jag heter {client}. Jag söker en gammal vän. Hon heter {wanted}. Jag vet att hon bor i {system}-systemet ({sectorx}, {sectory}, {sectorz}), men jag vet inte hennes exakta plats. Jag betalar dig {cash} om du kan leverera ett meddelande till henne."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_1": {
+    "description": "",
+    "message": "Hej, jag heter {client}. Jag söker min styvbror {wanted}. Han lämnade familjen i ilska för några år sedan. En vän till mig har nyligen sett honom i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Jag skulle vilja se om han är redo för en försoning. Jag betalar dig {cash} om du kan lämna ett meddelande till honom och återvända till {domicile} med ett svar. Snälla gör det!"
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_2": {
+    "description": "",
+    "message": "Hej. Jag heter {client}. Jag söker en gammal vän. Han heter {wanted}. Jag vet att han bor i {system}-systemet ({sectorx}, {sectory}, {sectorz}), men jag vet inte hans exakta plats. Jag betalar dig {cash} om du kan leverera ett meddelande till honom."
+  },
+  "INTROTEXT_EVACUATION_FEMALE_1": {
+    "description": "",
+    "message": "Hej. {company} har stora problem. Förhandlingar med en aggressiv marknadskonkurrent i {system}-systemet ({sectorx}, {sectory}, {sectorz}), ett avstånd på {dist}, gick mycket dåligt. Vårt sändebud {wanted} måste evakueras. Kommunikationen med henne är mycket begränsad så vi vet inte hennes exakta plats. Vi betalar {cash} för den här körningen."
+  },
+  "INTROTEXT_EVACUATION_FEMALE_2": {
+    "description": "",
+    "message": "Hej. Kalla mig {client}. Jag är anställd av {company}. Vår säljansvarige {wanted} i {system}-systemet ({sectorx}, {sectory}, {sectorz}), avstånd {dist} ly, har hamnat i konflikt med några farliga skurkar. Hon litar inte på de lokala myndigheterna, så hon har gömt sig. Vi betalar {cash} om du kan hitta henne och föra tillbaka henne till {domicile} i säkerhet."
+  },
+  "INTROTEXT_EVACUATION_MALE_1": {
+    "description": "",
+    "message": "Hej. {company} har stora problem. Förhandlingar med en aggressiv marknadskonkurrent i {system}-systemet ({sectorx}, {sectory}, {sectorz}), ett avstånd på {dist}, gick mycket dåligt. Vårt sändebud {wanted} måste evakueras. Kommunikationen med honom är mycket begränsad så vi vet inte hans exakta plats. Vi betalar {cash} för den här körningen."
+  },
+  "INTROTEXT_EVACUATION_MALE_2": {
+    "description": "",
+    "message": "Hej. Kalla mig {client}. Jag är anställd av {company}. Vår säljansvarige {wanted} i {system}-systemet ({sectorx}, {sectory}, {sectorz}), avstånd {dist} ly, har hamnat i konflikt med några farliga skurkar. Han litar inte på de lokala myndigheterna, så han håller sig gömd. Vi betalar {cash} om du kan hitta honom och föra tillbaka honom till {domicile} i säkerhet."
+  },
+  "INTROTEXT_PRIVATEER_FEMALE_1": {
+    "description": "",
+    "message": "Hej! Jag heter {client}. Jag söker {wanted}. Hon är skyldig mig mycket pengar. Enligt den senaste informationen utför hon uppdrag i {system}-systemet ({sectorx}, {sector}, {sectorz}). Säg till henne att mitt tålamod börjar ta slut. Återvänd till {domicile} för din ersättning {cash}."
+  },
+  "INTROTEXT_PRIVATEER_FEMALE_2": {
+    "description": "",
+    "message": "Hej! {client} privatdetektiv. Jag måste hitta en kaparen {wanted} i {system}-systemet ({sectorx}, {sectory}, {sectorz}) och ställa några frågor till henne. Hennes skepp har registreringsnummer {shipid}. Jag kan inte lämna {domicile} just nu på grund av ett annat brottmål så jag skulle vilja lägga ut den här uppgiften på entreprenad. Jag betalar {cash} för uppdraget."
+  },
+  "INTROTEXT_PRIVATEER_MALE_1": {
+    "description": "",
+    "message": "Hej! Jag heter {client}. Jag söker {wanted}. Han är skyldig mig mycket pengar. Enligt den senaste informationen utför han uppdrag i {system}-systemet ({sectorx}, {sector}, {sectorz}). Säg till honom att mitt tålamod börjar ta slut. Återvänd till {domicile} för din ersättning {cash}."
+  },
+  "INTROTEXT_PRIVATEER_MALE_2": {
+    "description": "",
+    "message": "Hej! {client} privatdetektiv. Jag måste hitta en kaparen {wanted} i {system}-systemet ({sectorx}, {sectory}, {sectorz}) och ställa några frågor till henne. Hennes skepp har registreringsnummer {shipid}. Jag kan inte lämna {domicile} just nu på grund av ett annat brottmål så jag skulle vilja lägga ut den här uppgiften på entreprenad. Jag betalar {cash} för uppdraget."
+  },
+  "INTROTEXT_TAXI_FEMALE_1": {
+    "description": "",
+    "message": "Hej. Jag heter {client}. Jag söker en släkting i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Hennes namn är {wanted}. Tiden är av yttersta vikt på grund av en medicinsk nödsituation i familjen. Var vänlig och hitta henne och för tillbaka henne till {domicile}. Jag betalar dig {cash}."
+  },
+  "INTROTEXT_TAXI_FEMALE_2": {
+    "description": "",
+    "message": "God dag. Jag är försäkringsskadeinspektör {client}. En höghastighetsdrönare misslyckades med att sätta rätt kurs, bröt igenom ett fönster och skadade de antika trämöblerna i en lägenhet allvarligt. Lyckligtvis skadades ingen men vi har inte kunnat hitta lägenhetsägaren i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Jag betalar dig {cash} om du kan hitta henne. Hennes personliga närvaro är nödvändig för att klargöra ärendet."
+  },
+  "INTROTEXT_TAXI_MALE_1": {
+    "description": "",
+    "message": "Hej. Jag heter {client}. Jag söker en släkting i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Hans namn är {wanted}. Tiden är av yttersta vikt på grund av en medicinsk nödsituation i familjen. Var vänlig och hitta honom och för tillbaka honom till {domicile}. Jag betalar dig {cash}."
+  },
+  "INTROTEXT_TAXI_MALE_2": {
+    "description": "",
+    "message": "God dag. Jag är försäkringsskadeinspektör {client}. En höghastighetsdrönare misslyckades med att sätta rätt kurs, bröt igenom ett fönster och skadade de antika trämöblerna i en lägenhet allvarligt. Lyckligtvis skadades ingen men vi har inte kunnat hitta lägenhetsägaren i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Jag betalar dig {cash} om du kan hitta honom. Hans personliga närvaro är nödvändig för att klargöra ärendet."
+  },
+  "INTROTEXT_TRAITOR_FEMALE_1": {
+    "description": "",
+    "message": "Hej, jag heter {client}. {wanted} kom inte tillbaka från en semesterresa till sin arbetsplats på {company}. Hon sågs senast i {system}-systemet ({sectorx}, {sectory}, {sectorz}). {wanted} har kännedom om några viktiga affärshemligheter. Så vi behöver någon som kan få några svar från henne om hennes pågående frånvaro. Vi betalar {cash} för detta uppdrag. {system} befinner sig på ett avstånd av {dist} ly."
+  },
+  "INTROTEXT_TRAITOR_FEMALE_2": {
+    "description": "",
+    "message": "God dag. {company} söker efter en anställd som stal några hemligstämplade dokument. Hennes namn är {wanted}. Ledningen kallar henne förrädare men vill ge henne möjlighet till eftertanke och se om hon ångrar sig. Vi betalar {cash} om ni kan hitta henne i {system} ({sectorx}, {sectory}, {sectorz}) systemet, {dist} ly bort, och leverera ett meddelande till henne."
+  },
+  "INTROTEXT_TRAITOR_MALE_1": {
+    "description": "",
+    "message": "Hej, jag heter {client}. {wanted} kom inte tillbaka från en semesterresa till sin arbetsplats på {company}. Han sågs senast i {system}-systemet ({sectorx}, {sectory}, {sectorz}). {wanted} har kännedom om några viktiga affärshemligheter. Så vi behöver någon som kan få några svar från honom om hans pågående frånvaro. Vi betalar {cash} för detta uppdrag. {system} befinner sig på ett avstånd av {dist} ly."
+  },
+  "INTROTEXT_TRAITOR_MALE_2": {
+    "description": "",
+    "message": "God dag. {company} söker efter en anställd som stal några hemligstämplade dokument. Hans namn är {wanted}. Ledningen kallar honom förrädare men vill ge honom möjlighet till eftertanke och se om han ångrar sig. Vi betalar {cash} om ni kan hitta honom i {system} ({sectorx}, {sectory}, {sectorz}) systemet, {dist} ly bort, och leverera ett meddelande till honom."
+  },
+  "IS_THERE_A_RISK": {
+    "description": "",
+    "message": "Innebär det någon risk?"
+  },
+  "MERCENARY_GREETING_FEMALE_1": {
+    "description": "",
+    "message": "Jag är ledsen men din död är min branch!"
+  },
+  "MERCENARY_GREETING_FEMALE_2": {
+    "description": "",
+    "message": "Jag ska skär dig i bitar!"
+  },
+  "MERCENARY_GREETING_FEMALE_3": {
+    "description": "",
+    "message": "Så du vill träffa {wanted}? Jag ska se till att du träffar din skapare först!"
+  },
+  "MERCENARY_GREETING_MALE_1": {
+    "description": "",
+    "message": "Det är inget personligt. Jag dödar dig mot en avgift!"
+  },
+  "MERCENARY_GREETING_MALE_2": {
+    "description": "",
+    "message": "Jag ska skicka dig till helvetet!"
+  },
+  "MERCENARY_GREETING_MALE_3": {
+    "description": "",
+    "message": "Vill du träffa {wanted}? Över din döda kropp!"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "OK, överenskommet."
+  },
+  "PIRATE_ANSWER_1": {
+    "description": "",
+    "message": "Jag har skickat ett svar för {client} till dig. Hej då."
+  },
+  "PIRATE_ANSWER_2": {
+    "description": "",
+    "message": "Vidarebefordra meddelandet jag just nu överför till dig till {client}. Hej då."
+  },
+  "PIRATE_ANSWER_3": {
+    "description": "",
+    "message": "Haha, säg till den här {client} att jag inte har något att säga. Ha en bra dag."
+  },
+  "PIRATE_GREETING_1": {
+    "description": "",
+    "message": "Jag hörde att du letade efter mig. Du har min uppmärksamhet. Vad vill du?"
+  },
+  "PIRATE_GREETING_2": {
+    "description": "",
+    "message": "Okej, du hittade mig. Slösa inte bort tid och säg vad du vill!"
+  },
+  "PIRATE_GREETING_3": {
+    "description": "",
+    "message": "Jag hörde att du hade ett meddelande till mig?"
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "Vill du ha ett svar? Här kommer det!"
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "Nog med det här! Gör dig redo att dra åt helvete!"
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "Du reste verkligen hela vägen hit bara för att lämna det här löjliga meddelandet till mig? Du borde ge dig av härifrån!"
+  },
+  "REPEAT_THE_REQUEST": {
+    "description": "",
+    "message": "Kan du vara så snäll och upprepa begäran?"
+  },
+  "RISK_EVACUATION_FEMALE_1": {
+    "description": "",
+    "message": "Situationen är spänd. Vi tror att {wanted} är i fara."
+  },
+  "RISK_EVACUATION_FEMALE_2": {
+    "description": "",
+    "message": "{wanted} befinner sig i livsfara. Hon borde lämna systemet så snart som möjligt."
+  },
+  "RISK_EVACUATION_MALE_1": {
+    "description": "",
+    "message": "{wanted} anser att han borde lämna systemet snarast."
+  },
+  "RISK_EVACUATION_MALE_2": {
+    "description": "",
+    "message": "{wanted} befinner sig i en mycket svår situation. Han borde lämna systemet förr snarare än senare."
+  },
+  "RISK_FEMALE_1": {
+    "description": "",
+    "message": "Inte alls."
+  },
+  "RISK_FEMALE_2": {
+    "description": "",
+    "message": "Det tror jag inte."
+  },
+  "RISK_FEMALE_3": {
+    "description": "",
+    "message": "Jag vet inte. Hon är lite konstig."
+  },
+  "RISK_FEMALE_4": {
+    "description": "",
+    "message": "Kanske. {wanted} kan ha lite kort stubin ibland."
+  },
+  "RISK_FEMALE_5": {
+    "description": "",
+    "message": "Enligt min åsikt är {wanted} fullständigt vansinnig. Var försiktig!"
+  },
+  "RISK_MALE_1": {
+    "description": "",
+    "message": "Nej, det finns ingen risk."
+  },
+  "RISK_MALE_2": {
+    "description": "",
+    "message": "Jag förväntar mig inga problem, men vem vet?"
+  },
+  "RISK_MALE_3": {
+    "description": "",
+    "message": "Jag är inte säker. Han är ganska udda."
+  },
+  "RISK_MALE_4": {
+    "description": "",
+    "message": "{wanted} är en paranoid galning. Var försiktig!"
+  },
+  "RISK_MALE_5": {
+    "description": "",
+    "message": "Ja, verkligen. {wanted} är en galning. Förvänta dig vad som helst!"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Använd destination som navigationsmål"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Ställ in returmål"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Skepp:"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Rymdstation:"
+  },
+  "SUCCESS_ATK_1": {
+    "description": "",
+    "message": "Vad? {wanted} attackerade dig? Var snäll och acceptera dessa pengar som kompensation!"
+  },
+  "SUCCESS_ATK_2": {
+    "description": "",
+    "message": "Verkligen? {wanted} attackerade dig? Otroligt! Hur som helst. Jag har fört över pengarna."
+  },
+  "SUCCESS_ATK_3": {
+    "description": "",
+    "message": "Du träffade {wanted} och överlevde? Toppen! Här är dina pengar. "
+  },
+  "SUCCESS_INT_1": {
+    "description": "",
+    "message": "Jag hörde att du fick problem. Kul att se dig trots allt. Jag har betalat dig fullt ut. "
+  },
+  "SUCCESS_INT_2": {
+    "description": "",
+    "message": "Du hade en oenighet med en legosoldat? Tja, här är din ersättning! "
+  },
+  "SUCCESS_INT_3": {
+    "description": "",
+    "message": "Jag betalade dig precis. Jag hörde att du hade en legosoldat på halsen. Bra jobbat!"
+  },
+  "SUCCESS_MSG_1": {
+    "description": "",
+    "message": "Tack för tjänsten. Avgiften är betald."
+  },
+  "SUCCESS_MSG_2": {
+    "description": "",
+    "message": "Stort tack för det här! Din lön har förts över."
+  },
+  "SUCCESS_MSG_3": {
+    "description": "",
+    "message": "Bra jobbat! Jag har fört över pengarna."
+  },
+  "SUCCESS_MSG_4": {
+    "description": "",
+    "message": "Tack så mycket! Jag har betalat dig hela summan."
+  },
+  "SUCCESS_MSG_5": {
+    "description": "",
+    "message": "Hittade du {wanted}? Utmärkt! Här är din betalning. "
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "System:"
+  },
+  "TIP_FEMALE_1": {
+    "description": "",
+    "message": "Jag är inte säker men jag tror att {wanted} är på {station}."
+  },
+  "TIP_FEMALE_2": {
+    "description": "",
+    "message": "Jag tror att jag känner personen du letar efter. Jag har sett henne på {station} nyligen."
+  },
+  "TIP_FEMALE_3": {
+    "description": "",
+    "message": "Jag känner {wanted}. Du hittar henne på {station}."
+  },
+  "TIP_FEMALE_4": {
+    "description": "",
+    "message": "Jag tror att jag känner en person som passar din beskrivning. Du borde besöka {station} för mer information."
+  },
+  "TIP_MALE_1": {
+    "description": "",
+    "message": "Jag tror att {wanted} är på {station} just nu. Men jag är inte säker!"
+  },
+  "TIP_MALE_2": {
+    "description": "",
+    "message": "Jag tror jag känner igen {wanted}. Jag har sett honom på {station}."
+  },
+  "TIP_MALE_3": {
+    "description": "",
+    "message": "Letar du efter {wanted}? Han är för närvarande på {station}."
+  },
+  "TIP_MALE_4": {
+    "description": "",
+    "message": "Din beskrivning matchar en person jag träffade nära {station}."
+  },
+  "TRANSMITTING_MSG": {
+    "description": "Message from the ship's computer",
+    "message": "För över meddelande till {shipid}"
+  },
+  "WANTED": {
+    "description": "",
+    "message": "Eftersökt person:"
+  },
+  "YOU_DO_NOT_HAVE_A_CABIN": {
+    "description": "",
+    "message": "Ledsen, du har inget passagerarutrymme."
+  }
+}

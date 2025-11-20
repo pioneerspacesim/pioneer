@@ -1,0 +1,142 @@
+{
+  "BUY": {
+    "description": "Buy a piece of ship equipment",
+    "message": "Buy"
+  },
+  "EQUIPMENT_NO_COMPATIBLE_SLOT": {
+    "description": "Message given when the second-hand equipment is not compatible with the ship slots.",
+    "message": "This equipment item is not compatible with your ship."
+  },
+  "EQUIPMENT_NO_FREE_SLOT": {
+    "description": "Message shown by second-hand market if the ship does not have a free slot for the equipment.",
+    "message": "Your ship does not have a free slot for this equipment item."
+  },
+  "EQUIPMENT_NO_SPACE": {
+    "description": "Message shown by second-hand market if the equipment requires a free slot or free capacity to fit",
+    "message": "Your ship does not have enough free space for this equipment item."
+  },
+  "EQUIPMENT_SLOT_NO_SPACE": {
+    "description": "Message given when the ship has a compatible slot, but not enough space left to fit the equipment item.",
+    "message": "Your ship has a compatible slot, but not enough space to install this equipment item."
+  },
+  "FITTING_IS_INCLUDED_IN_THE_PRICE": {
+    "description": "Regarding installing a component on the ship",
+    "message": "Fitting is included in the price."
+  },
+  "FLAVOUR_0_BODY": {
+    "description": "",
+    "message": "Hi! My name is {name} and I'm selling off my {equipment} from my old rusty bucket. I want {price} for it."
+  },
+  "FLAVOUR_0_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Special offer, selling one {equipment}."
+  },
+  "FLAVOUR_0_TITLE": {
+    "description": "Selling second hand ship equipment",
+    "message": "FOR SALE"
+  },
+  "FLAVOUR_1_BODY": {
+    "description": "",
+    "message": "Hi! My name is {name}. I have an almost brand new {equipment} which I'm selling for just {price}."
+  },
+  "FLAVOUR_1_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Practically unused {equipment}, at an affordable price!"
+  },
+  "FLAVOUR_1_TITLE": {
+    "description": "Selling second hand ship equipment",
+    "message": "SELLING EQUIPMENT"
+  },
+  "FLAVOUR_2_BODY": {
+    "description": "",
+    "message": "Greetings! I'm {name} and I have a very fine {equipment} which could be yours for just {price}."
+  },
+  "FLAVOUR_2_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Selling one {equipment}, for a reasonable price!"
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "Selling second hand ship equipment",
+    "message": "SELLING EQUIPMENT"
+  },
+  "FLAVOUR_3_BODY": {
+    "description": "",
+    "message": "Hello! I have an extra {equipment} which I need to get off my hands, my asking price is {price}."
+  },
+  "FLAVOUR_3_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Offering one {equipment}, in good condition."
+  },
+  "FLAVOUR_3_TITLE": {
+    "description": "Selling second hand ship equipment",
+    "message": "FOR SALE"
+  },
+  "FLAVOUR_4_BODY": {
+    "description": "",
+    "message": "Hi! We have an extra {equipment} which could be yours for {price}."
+  },
+  "FLAVOUR_4_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "For sale: leftover {equipment}, in fine condition."
+  },
+  "FLAVOUR_4_TITLE": {
+    "description": "Selling second hand ship equipment",
+    "message": "FOR SALE"
+  },
+  "FLAVOUR_5_BODY": {
+    "description": "",
+    "message": "Greetings! Do you want to buy my old {equipment}? It has served me well, but I have now upgraded and don't need it. The price is {price}."
+  },
+  "FLAVOUR_5_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "On offer: old {equipment}, in working condition."
+  },
+  "FLAVOUR_5_TITLE": {
+    "description": "Selling second hand ship equipment",
+    "message": "SELLING EQUIPMENT"
+  },
+  "HAS_BEEN_FITTED_TO_YOUR_SHIP": {
+    "description": "",
+    "message": "The {equipment} has been fitted to your ship."
+  },
+  "HOW_DO_I_FITT_IT": {
+    "description": "Regarding installing a component on the ship",
+    "message": "How do I fit it?"
+  },
+  "NOT_ENOUGH_MONEY_0": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "You don't have enough money to afford this."
+  },
+  "NOT_ENOUGH_MONEY_1": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Come back when you have enough money."
+  },
+  "NOT_ENOUGH_MONEY_2": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "I'm not a charity, come back when you can afford this."
+  },
+  "NOT_ENOUGH_MONEY_3": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "It may be used, but the price is not negotiable."
+  },
+  "NO_LONGER_AVAILABLE_0": {
+    "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
+    "message": "Sorry, it has just been sold!"
+  },
+  "NO_LONGER_AVAILABLE_1": {
+    "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
+    "message": "It seems like my colleague just sold it to another customer. Sorry!"
+  },
+  "NO_LONGER_AVAILABLE_2": {
+    "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
+    "message": "I've changed my mind, it's not for sale anymore."
+  },
+  "REPEAT_OFFER": {
+    "description": "",
+    "message": "Repeat offer"
+  },
+  "YOU_DONT_HAVE_ENOUGH_MONEY": {
+    "description": "",
+    "message": "You don't have enough money."
+  }
+}

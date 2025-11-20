@@ -1,0 +1,550 @@
+{
+  "ACCEPTED_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "Pekala. Dokümanları size aktardım."
+  },
+  "ACCEPTED_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "Harika. Mesajı bilgisayarınıza kopyaladım."
+  },
+  "ACCEPTED_EVACUATION": {
+    "description": "",
+    "message": "Muhteşem. Kendine dikkat et!"
+  },
+  "ACCEPTED_PRIVATEER": {
+    "description": "",
+    "message": "İyi. Gemiyi hızla bulacağınızı düşünüyorum."
+  },
+  "ACCEPTED_TAXI": {
+    "description": "",
+    "message": "Çok iyi. Acele et!"
+  },
+  "ACCEPTED_TRAITOR": {
+    "description": "",
+    "message": "Tamamdır. Veriyi gemi bilgisayarınıza aktardım."
+  },
+  "ADTEXT_1": {
+    "description": "",
+    "message": "{system} sisteminde birini bul. Ödül {cash}."
+  },
+  "ADTEXT_2": {
+    "description": "",
+    "message": "{system} sisteminde arama görevi. Ödeme {cash}."
+  },
+  "ADTEXT_3": {
+    "description": "",
+    "message": "Giderlerinize karşılık {cash}."
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "KAYIP KİŞİ"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "ARAMA GÖREVİNE PİLOT GEREKLİ"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "ARAMA İÇİN GEMİ LAZIM"
+  },
+  "CLIENT": {
+    "description": "",
+    "message": "Müşteri:"
+  },
+  "COMPANY": {
+    "description": "",
+    "message": "Şirket:"
+  },
+  "COMPANY_1": {
+    "description": "Name of a company",
+    "message": "{name} Aviyonik Şirketi"
+  },
+  "COMPANY_2": {
+    "description": "Name of a company",
+    "message": "{name} Ateşli Silah Şirketi"
+  },
+  "COMPANY_3": {
+    "description": "Name of a company",
+    "message": "{name} Filo Sistemleri Vakfı"
+  },
+  "COMPANY_4": {
+    "description": "Name of a company",
+    "message": "{name} Savunma Sistemleri Şirketi"
+  },
+  "COMPANY_5": {
+    "description": "Name of a company",
+    "message": "{name} Gözetleme Araçları Şirketi"
+  },
+  "COMPANY_6": {
+    "description": "Name of a company",
+    "message": "{name} Özel Bilişim Hizmetleri Vakfı"
+  },
+  "DANGER": {
+    "description": "The risk level",
+    "message": "Tehlike:"
+  },
+  "DEADLINE": {
+    "description": "Must be delivered by",
+    "message": "Bitiş:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Kusura bakmayın, daha tecrübeli bir pilot arıyorum."
+  },
+  "DISTANCE": {
+    "description": "Distance in space, between two locations",
+    "message": "Mesafe:"
+  },
+  "FAILUREMSG_1": {
+    "description": "",
+    "message": "Performansınızdan memnum kalmadım. Size ödeme yapmayacağım!"
+  },
+  "FAILUREMSG_2": {
+    "description": "",
+    "message": "Çok geciktin! Üzgünüm, ödeme yok!"
+  },
+  "FIND_PERSON": {
+    "description": "Name of mission type",
+    "message": "Kişi bul"
+  },
+  "GREETING_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "Kahretsin, beni yakaladın. Tamam, dokümanı imzaladım. Lütfen {client} dokümanı geri alsın."
+  },
+  "GREETING_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "Mesaj için teşekkürker. {client} için geminizin bilgisayarına bir cevap gönderdim."
+  },
+  "GREETING_EVACUATION": {
+    "description": "",
+    "message": "Tanrım, sizi görmek güzel! Hemen kalkış yapabiliriz. Artık beni burada tutan birşey yok."
+  },
+  "GREETING_PRIVATEER": {
+    "description": "",
+    "message": "Imm, {client} için mi çalışıyorsun? Gemi bilgisayarına değerli veriler kopyaladım. {client} bunu yararlı bulacaktır."
+  },
+  "GREETING_TAXI": {
+    "description": "",
+    "message": "Olamaz. Bu kötü bir haber. Hemen geri uçalım."
+  },
+  "GREETING_TRAITOR": {
+    "description": "",
+    "message": "Ne? {client} bir beyan mi istiyormuş? Tamam, lütfen bu dokümanı geri götürüp  teslim edin!"
+  },
+  "HOW_CAN_I_FIND_HER": {
+    "description": "",
+    "message": "Onu nasıl bulabilirim?"
+  },
+  "HOW_CAN_I_FIND_HIM": {
+    "description": "",
+    "message": "Onu nasıl bulabilirim?"
+  },
+  "HOW_MUCH_TIME": {
+    "description": "",
+    "message": "Ne kadar zamanım var?"
+  },
+  "HOW_MUCH_TIME_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "{date} öncesi geri gelmiş olun."
+  },
+  "HOW_MUCH_TIME_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "{date} tarihine kadar sizden haber almazsam başka bir pilot kiralayacağım!"
+  },
+  "HOW_MUCH_TIME_EVACUATION": {
+    "description": "",
+    "message": "{date} tarihinden önce geri gelmiş olmalısınız! Yoksa büyük belaya girmiş oluruz."
+  },
+  "HOW_MUCH_TIME_PRIVATEER": {
+    "description": "",
+    "message": "{date} öncesi geri dönmezseniz, anlaşmamız biter!"
+  },
+  "HOW_MUCH_TIME_TAXI": {
+    "description": "",
+    "message": "Anlaşmamız {date} günü son bulur."
+  },
+  "HOW_MUCH_TIME_TRAITOR": {
+    "description": "",
+    "message": "Zamanlama kritik! {date} öncesi geri gelmezseniz her şey biter."
+  },
+  "HOW_TO_DELIVER_DOCUMENT_FEMALE": {
+    "description": "",
+    "message": "Gemisini bul. Kendisini de bulmuş olacaksın."
+  },
+  "HOW_TO_DELIVER_DOCUMENT_MALE": {
+    "description": "",
+    "message": "Gemisini bulmanız yeterli. Kendisi uzağında olmayacaktır."
+  },
+  "HOW_TO_DELIVER_MESSAGE_FEMALE": {
+    "description": "",
+    "message": "Sadece bir uzay istasyonunda çalıştığını biliyorum."
+  },
+  "HOW_TO_DELIVER_MESSAGE_MALE": {
+    "description": "",
+    "message": "Bir uzay limanı yakınındaki bir ofiste çalışıyor. Ancak bu kadarını biliyorum."
+  },
+  "HOW_TO_EVACUATION_FEMALE": {
+    "description": "",
+    "message": "Geldiğinizi öğrenirse sizinle mutlaka iletişime geçer!"
+  },
+  "HOW_TO_EVACUATION_MALE": {
+    "description": "",
+    "message": "Geldiğinizi anlarsa sizinle iletişim kuracaktır!"
+  },
+  "HOW_TO_PRIVATEER_FEMALE": {
+    "description": "",
+    "message": "Genelde gemisini tehlikeli görevlerde kullanır. Bir uzay gemisi atölyesi başlamak için iyi bir nokta olabilir."
+  },
+  "HOW_TO_PRIVATEER_MALE": {
+    "description": "",
+    "message": "Sıkça riskli uçuşlara çıkar. Gemisi genelde bir uzay istasynunun atölyesinde  bulunabilir."
+  },
+  "HOW_TO_TAXI_FEMALE": {
+    "description": "",
+    "message": "Bilmiyorum. Bu sana kalmış!"
+  },
+  "HOW_TO_TAXI_MALE": {
+    "description": "",
+    "message": "Hiçbir fikrim yok. Bu senin işin."
+  },
+  "HOW_TO_TRAITOR_FEMALE": {
+    "description": "",
+    "message": "Onu biliyorsam uzay limanı yakınlarındaki barlarda takılıyordur."
+  },
+  "HOW_TO_TRAITOR_MALE": {
+    "description": "",
+    "message": "Uzay limanı tavernalarında takıldığı bilinir."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_FEMALE_1": {
+    "description": "",
+    "message": "Selamlar! Ben {company} adına konuşan {client}. Gemilerimizden biri hiperuzaya sıçramadan birkaç saniye önce başka bir araçla çarpıştı. Hiperuzay sıçramasını durduracak vakit yoktu. Şimdi {system} ({sectorx}, {sectory}, {sectorz}) sisteminde {shipid} ID'li gemiyi bulacak ve mahkemesiz çözüm önerimizi Komutan {wanted} tarafına teslim edecek birini arıyoruz. Lütfen {cash} ödeme için {domicile} noktasına teslimat gerçekleştirin. Bunun için {dist} ıy bir yolculuk yapmanız gerekecek."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_FEMALE_2": {
+    "description": "",
+    "message": "Tanıştığımıza memnum oldum. Adım {client}. Bize bir iyilik borcu olan eski bir iş arkadaşımıza bakıyoruz. Adı {wanted}. Kendisi {system} ({sectorx}, {sectory}, {sectorz}) sisteminde saklanmakta. Onu bulursanız, şifreli bir doküman verip {domicile} tarafındaki {company} ofisine dönün. Başarınız için {cash} ödeyeceğiz. {system}, {dist} ıy uzaklıkta."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_MALE_1": {
+    "description": "",
+    "message": "Selamlar! Ben {company} adına konuşan {client}. Gemilerimizden biri hiperuzaya sıçramadan birkaç saniye önce başka bir araçla çarpıştı. Hiperuzay sıçramasını durduracak vakit yoktu. Şimdi {system} ({sectorx}, {sectory}, {sectorz}) sisteminde {shipid} ID'li gemiyi bulacak ve mahkemesiz çözüm önerimizi Komutan {wanted} tarafına teslim edecek birini arıyoruz. Lütfen {cash} ödeme için bu {domicile} teslimatını gerçekleştirin. Bunun için {dist} ıy bir yolculuk yapmanız gerekecek."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_MALE_2": {
+    "description": "",
+    "message": "Tanıştığımıza memnun oldum. Benim adım {client}. Bize hala bir iyilik borcu olan eski bir iş ortağımızı arıyoruz. Adı {wanted}. {system} ({sectorx}, {sectory}, {sectorz}) sisteminde saklanıyor. Onu bulabilirseniz, şifreli bir belge verin ve ardından {domicile} adresindeki {company} ofisine geri dönün. Başarılı olursanız {cash} ödeyeceğiz. {system}, {dist} uzaklıkta."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_1": {
+    "description": "",
+    "message": "Merhaba, adım {client}. Üvey kız kardeşim olan {wanted} kişisini arıyorum. Birkaç yıl önce öfkeyle aileyi terk etti. Bir arkadaşım onu yakın zamanda {system} ({sectorx}, {sectory}, {sectorz}) sisteminde görmüş. Barışmaya hazır olup olmadığını öğrenmek istiyorum. Ona bir mesaj iletip {domicile} noktasına bir cevapla geri dönerseniz size {cash} öderim. Lütfen yapın! Yapar mısınız?"
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_2": {
+    "description": "",
+    "message": "Merhaba. Ben {client}. Eski bir arkadaşımı arıyorum. Adı {wanted}. {system} ({sectorx}, {sectory}, {sectorz}) sisteminde yaşadığını biliyorum ama tam olarak nerede olduğunu bilmiyorum. Ona bir mesaj iletebilirseniz size {cash} öderim."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_1": {
+    "description": "",
+    "message": "Merhaba, adım {client}. Üvey kardeşim olan {wanted} kişisini arıyorum. Birkaç yıl önce öfkeyle aileyi terk etti. Bir arkadaşım onu yakın zamanda {system} ({sectorx}, {sectory}, {sectorz}) sisteminde görmüş. Barışmaya hazır olup olmadığını öğrenmek istiyorum. Ona bir mesaj iletip {domicile} noktasına bir cevapla geri dönerseniz size {cash} öderim. Lütfen yapın! Yapar mısınız?"
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_2": {
+    "description": "",
+    "message": "Merhaba. Ben {client}. Eski bir arkadaşımı arıyorum. Adı {wanted}. {system} ({sectorx}, {sectory}, {sectorz}) sisteminde yaşadığını biliyorum ama tam olarak nerede olduğunu bilmiyorum. Ona bir mesaj iletebilirseniz size {cash} öderim."
+  },
+  "INTROTEXT_EVACUATION_FEMALE_1": {
+    "description": "",
+    "message": "Merhaba. {Şirket} büyük bir sıkıntı içinde. {dist} ıy mesafedeki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki agresif bir pazar rakibiyle görüşmeler çok kötü gitti. {wanted} adlı elçimiz tahliye edilmeli. Onunla iletişimimiz çok sınırlı, bu yüzden tam yerini bilmiyoruz. Bu sefer için {cash} ödüyoruz."
+  },
+  "INTROTEXT_EVACUATION_FEMALE_2": {
+    "description": "",
+    "message": "Merhaba. Bana {client} deyin. {company} personeliyim. {dist} ıy mesafedeki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {wanted} isimli satış temsilcimiz tehlikeli dolandırıcılarla çatışmaya girdi. Yerel yetkililere güvenmiyor, bu yüzden saklanıyor. Onu bulup {domicile} noktasına güvenli bir şekilde geri getirebilirseniz {cash} ödüyoruz."
+  },
+  "INTROTEXT_EVACUATION_MALE_1": {
+    "description": "",
+    "message": "Merhaba. {Şirket} büyük bir sıkıntı içinde. {dist} ıy mesafedeki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki agresif bir pazar rakibiyle görüşmeler çok kötü gitti. {wanted} adlı elçimiz tahliye edilmeli. Onunla iletişimimiz çok sınırlı, bu yüzden tam yerini bilmiyoruz. Bu sefer için {cash} ödüyoruz."
+  },
+  "INTROTEXT_EVACUATION_MALE_2": {
+    "description": "",
+    "message": "Merhaba. Bana {client} deyin. {company} personeliyim. {dist} ıy mesafedeki {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {wanted} isimli satış temsilcimiz tehlikeli dolandırıcılarla çatışmaya girdi. Yerel yetkililere güvenmiyor, bu yüzden saklanıyor. Onu bulup {domicile} noktasına güvenli bir şekilde geri getirebilirseniz {cash} ödüyoruz."
+  },
+  "INTROTEXT_PRIVATEER_FEMALE_1": {
+    "description": "",
+    "message": "Merhabalar! Adım {client}, {wanted} kişisini arıyorum. Bana yüklü miktarda borcu var. Son bilgilere göre {system} ({sectorx}, {sectory}, {sectorz}) sisteminde görevlere çıkıyor. Sabrımın tükenmek üzere olduğunu ona bildirin. {cash} ödemeniz için {domicile} adresine dönün."
+  },
+  "INTROTEXT_PRIVATEER_FEMALE_2": {
+    "description": "",
+    "message": "Nasılsınız? Ben Özel Dedektif {client}. {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {wanted} adlı kişiyi bulup birkaç soru sormam lazım. Gemi kayıt numarası {shipid}. Şu an {domicile} adresini terk edmiyorum çünkü başka bir suç davası var. Bu yüzden bu görevi dış kaynaklarla halletmek istiyorum. Bu görev için {cash} öderim."
+  },
+  "INTROTEXT_PRIVATEER_MALE_1": {
+    "description": "",
+    "message": "Merhabalar! Adım {client}, {wanted} kişisini arıyorum. Bana yüklü miktarda borcu var. Son bilgilere göre {system} ({sectorx}, {sectory}, {sectorz}) sisteminde görevlere çıkıyor. Sabrımın tükenmek üzere olduğunu ona bildirin. {cash} ödemeniz için {domicile} adresine dönün."
+  },
+  "INTROTEXT_PRIVATEER_MALE_2": {
+    "description": "",
+    "message": "Nasılsınız? Ben Özel Dedektif {client}. {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {wanted} adlı kişiyi bulup birkaç soru sormam lazım. Gemi kayıt numarası {shipid}. Şu an {domicile} adresini terk edmiyorum çünkü başka bir suç davası var. Bu yüzden bu görevi dış kaynaklarla halletmek istiyorum. Bu görev için {cash} öderim."
+  },
+  "INTROTEXT_TAXI_FEMALE_1": {
+    "description": "",
+    "message": "Merhaba. Ben {client}. {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki bir akrabamı arıyorum. Adı {wanted}. Ailedeki bir sağlık vakası nedeniyle zaman çok değerli. Lütfen onu bulun ve {domicile} adresine getirin. Size {cash} öderim."
+  },
+  "INTROTEXT_TAXI_FEMALE_2": {
+    "description": "",
+    "message": "İyi günler. Ben Sigorta Bilirkişisi {client}. Yüksek hızlı bir teslimat dronu doğru bir rota çizemedi, bir apartmanın penceresini kırarak içeri daldı ve içerideki antika ahşap mobilyaları parçaladı. Neyse ki kimse yaralanmadı. Ancak apartman sahibine henüz {system} ({sectorx}, {sectory}, {sectorz}) sisteminde ulaşamadık. Bu yüzden eğer onu bulabilirseniz size {cash} ödeyeceğim. Tazminat ödemeleri için kendisinin şahsen bulunması gerekiyor."
+  },
+  "INTROTEXT_TAXI_MALE_1": {
+    "description": "",
+    "message": "Merhaba. Ben {client}. {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki bir akrabamı arıyorum. Adı {wanted}. Ailedeki bir sağlık vakası nedeniyle zaman çok değerli. Lütfen onu bulun ve {domicile} adresine getirin. Size {cash} öderim."
+  },
+  "INTROTEXT_TAXI_MALE_2": {
+    "description": "",
+    "message": "İyi günler. Ben Sigorta Bilirkişisi {client}. Yüksek hızlı bir teslimat dronu doğru bir rota çizemedi, bir apartmanın penceresini kırarak içeri daldı ve içerideki antika ahşap mobilyaları parçaladı. Neyse ki kimse yaralanmadı. Ancak apartman sahibine henüz {system} ({sectorx}, {sectory}, {sectorz}) sisteminde ulaşamadık. Bu yüzden eğer onu bulabilirseniz size {cash} ödeyeceğim. Tazminat ödemeleri için kendisinin şahsen bulunması gerekiyor."
+  },
+  "INTROTEXT_TRAITOR_FEMALE_1": {
+    "description": "",
+    "message": "Merhaba, adım {client}. {wanted}, {company} işyerine yaptığı tatil gezisinden dönmedi. En son {system} ({sectorx}, {sectory}, {sectorz}) sisteminde görülmüş. {wanted}, bazı hayati ticari sırlara vakıf. Bu yüzden, bu devam eden yokluğu hakkında ondan birkaç cevap alabilecek birine ihtiyacımız var. Bu görev için {cash} ödüyoruz. {system}, {dist} ıy uzaklıkta."
+  },
+  "INTROTEXT_TRAITOR_FEMALE_2": {
+    "description": "",
+    "message": "İyi günler. {company}, bazı gizli belgelerini çalan bir çalışanını arıyor. Adı {wanted}. Yönetim onu bir hain olarak görse de, yaptıklarını yeniden düşünmesi ve özür dilemesi için ona fırsat vermek istiyor. Onu {dist} ıy mesafedeki {system} ({sectorx}, {sectory}, {sectorz}) sisteminde bulabilir ve bir mesaj iletebilirseniz {cash} ödüyoruz."
+  },
+  "INTROTEXT_TRAITOR_MALE_1": {
+    "description": "",
+    "message": "Merhaba, adım {client}. {wanted}, {company} işyerine yaptığı tatil gezisinden dönmedi. En son {system} ({sectorx}, {sectory}, {sectorz}) sisteminde görülmüş. {wanted}, bazı hayati ticari sırlara vakıf. Bu yüzden, bu devam eden yokluğu hakkında ondan birkaç cevap alabilecek birine ihtiyacımız var. Bu görev için {cash} ödüyoruz. {system}, {dist} ıy uzaklıkta."
+  },
+  "INTROTEXT_TRAITOR_MALE_2": {
+    "description": "",
+    "message": "İyi günler. {company}, bazı gizli belgelerini çalan bir çalışanını arıyor. Adı {wanted}. Yönetim onu bir hain olarak görse de, yaptıklarını yeniden düşünmesi ve özür dilemesi için ona fırsat vermek istiyor. Onu {dist} ıy mesafedeki {system} ({sectorx}, {sectory}, {sectorz}) sisteminde bulabilir ve bir mesaj iletebilirseniz {cash} ödüyoruz."
+  },
+  "IS_THERE_A_RISK": {
+    "description": "",
+    "message": "Görev riskli mi?"
+  },
+  "MERCENARY_GREETING_FEMALE_1": {
+    "description": "",
+    "message": "Üzgünüm. Benim işim senin ölümün!"
+  },
+  "MERCENARY_GREETING_FEMALE_2": {
+    "description": "",
+    "message": "Seni parçalara ayıracağım!"
+  },
+  "MERCENARY_GREETING_FEMALE_3": {
+    "description": "",
+    "message": "{wanted} ile buluşmak mı istiyorsun? Önce seni yaratanla buluşturacağım!"
+  },
+  "MERCENARY_GREETING_MALE_1": {
+    "description": "",
+    "message": "Kişisel algılama. Seni para için öldüreceğim."
+  },
+  "MERCENARY_GREETING_MALE_2": {
+    "description": "",
+    "message": "Seni cehenneme göndereceğim!"
+  },
+  "MERCENARY_GREETING_MALE_3": {
+    "description": "",
+    "message": "{wanted} ile buluşmak mı istiyorsun? Ancak öldükten sonra!"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Tamam, kabul."
+  },
+  "PIRATE_ANSWER_1": {
+    "description": "",
+    "message": "{client} için bir mesajı sana yolladım. Görüşmek üzere."
+  },
+  "PIRATE_ANSWER_2": {
+    "description": "",
+    "message": "Şu an size gönderdiğim mesajı {client} tarafına aktarın. Hoşça kalın."
+  },
+  "PIRATE_ANSWER_3": {
+    "description": "",
+    "message": "Haha, bu {client} duysun ki ona söyleyeceğim birşey yok. İyi günler dilerim."
+  },
+  "PIRATE_GREETING_1": {
+    "description": "",
+    "message": "Beni aradığınızı duydum. Dikkatimi size verdim. Ne istiyorsunuz?"
+  },
+  "PIRATE_GREETING_2": {
+    "description": "",
+    "message": "Peki, beni yakaladın. Zamanımı harcama da ne istediğini söyle!"
+  },
+  "PIRATE_GREETING_3": {
+    "description": "",
+    "message": "Bana bir mesaj iletmek istiyorsunuz diye duydum?"
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "Cevap mı istiyorsun? İşte geliyor!"
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "Bu kadarı yeter! Chenneme gitmeye hazırlan!"
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "Gerçekten bu mesajı vermek için mi bunca yolu geldiniz? Defolun!"
+  },
+  "REPEAT_THE_REQUEST": {
+    "description": "",
+    "message": "Lütfen isteğinizi tekrarlar mısınız?"
+  },
+  "RISK_EVACUATION_FEMALE_1": {
+    "description": "",
+    "message": "Durumlar gergin. {wanted} tehlikede olabilir."
+  },
+  "RISK_EVACUATION_FEMALE_2": {
+    "description": "",
+    "message": "{wanted} çok büyük tehlike altında. Sistemi en kısa sürede terk etmeli."
+  },
+  "RISK_EVACUATION_MALE_1": {
+    "description": "",
+    "message": "{wanted} sistemi kısa sürede terk etmeyi düşünüyor."
+  },
+  "RISK_EVACUATION_MALE_2": {
+    "description": "",
+    "message": "{wanted} büyük belada! Sistemi kısa sürede terk etse iyi olur."
+  },
+  "RISK_FEMALE_1": {
+    "description": "",
+    "message": "Asla."
+  },
+  "RISK_FEMALE_2": {
+    "description": "",
+    "message": "Öyle düşünmüyorum."
+  },
+  "RISK_FEMALE_3": {
+    "description": "",
+    "message": "Bilmem. Kendisi biraz tuhaftır."
+  },
+  "RISK_FEMALE_4": {
+    "description": "",
+    "message": "Belki. {wanted} bazen biraz aksi olabiliyor."
+  },
+  "RISK_FEMALE_5": {
+    "description": "",
+    "message": "Fikrimce {wanted} tamamen deli. Dikkatli olmanızı öneririm!"
+  },
+  "RISK_MALE_1": {
+    "description": "",
+    "message": "Hayır, hiçbir risk yok."
+  },
+  "RISK_MALE_2": {
+    "description": "",
+    "message": "Bela beklemiyorum. Ama kim bilebilir?"
+  },
+  "RISK_MALE_3": {
+    "description": "",
+    "message": "Emin değilim. İlginç birisidir."
+  },
+  "RISK_MALE_4": {
+    "description": "",
+    "message": "{wanted} paranoyaktır. Dikkatli olun!"
+  },
+  "RISK_MALE_5": {
+    "description": "",
+    "message": "Ah, tabiki. {wanted} manyaktır. Her şey için hazırlıklı olmalısınız."
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Navigasyon hedefi olarak seç"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Dönüş rotasını seç"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Gemi:"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Yıldız Limanı:"
+  },
+  "SUCCESS_ATK_1": {
+    "description": "",
+    "message": "Ne? {wanted} size saldırdı mı? Lütfen bu parayı tazminat olarak kabul edin!"
+  },
+  "SUCCESS_ATK_2": {
+    "description": "",
+    "message": "Gerçekten mi? {wanted} size mi saldırdı? İnanılmaz! Her neyse. Parayı aktardım."
+  },
+  "SUCCESS_ATK_3": {
+    "description": "",
+    "message": "{wanted} ile karşılaşıp hayatta mı kaldınız? Harika! Paranız burada."
+  },
+  "SUCCESS_INT_1": {
+    "description": "",
+    "message": "Belaya bulaştığınızı duydum. Bütün bunların sonunda sizi tekrar görmek güzel. Paranızı tamamiyle ödedim."
+  },
+  "SUCCESS_INT_2": {
+    "description": "",
+    "message": "Bir paralı askerle mi çatıştınız? Tazminatınız buradadır!"
+  },
+  "SUCCESS_INT_3": {
+    "description": "",
+    "message": "Paranızı şimdi ödedim. Bir paralı asker boğazınıza sarılmış demek? İyi iş çıkardınız."
+  },
+  "SUCCESS_MSG_1": {
+    "description": "",
+    "message": "Bu hizmetiniz için teşekkür ederim. Ücretinizi ödedim."
+  },
+  "SUCCESS_MSG_2": {
+    "description": "",
+    "message": "Hizmet için teşekkürler. Ödemeniz aktarıldı."
+  },
+  "SUCCESS_MSG_3": {
+    "description": "",
+    "message": "İyi iş çıkardınız! Parayı aktardım."
+  },
+  "SUCCESS_MSG_4": {
+    "description": "",
+    "message": "Çok teşekkürler! Ödemenizi tamamladım."
+  },
+  "SUCCESS_MSG_5": {
+    "description": "",
+    "message": "{wanted} kişisini buldunuz mu? Harika! Ödemeniz yapıldı."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Sistem:"
+  },
+  "TIP_FEMALE_1": {
+    "description": "",
+    "message": "Emin değilim ama {wanted} şu an {station} limanında olabilir."
+  },
+  "TIP_FEMALE_2": {
+    "description": "",
+    "message": "Sanırım aradığınız kişiyi biliyorum. Onu geçenlerde {station} civarında gördüm."
+  },
+  "TIP_FEMALE_3": {
+    "description": "",
+    "message": "{wanted} ile tanışırız. Onu {station} civarında bulabilirsin."
+  },
+  "TIP_FEMALE_4": {
+    "description": "",
+    "message": "Anlattığınız kişiye uyan birini bildiğimi düşünüyorum. Daha fazla bilgi için {station} istasyonuna uğrayın."
+  },
+  "TIP_MALE_1": {
+    "description": "",
+    "message": "{wanted} şu an {station} istasyonundadır diye düşünüyorum. Ama emin değilim."
+  },
+  "TIP_MALE_2": {
+    "description": "",
+    "message": "{wanted} kişisini tanıyor olabilirim. Onu {station} civarında görmüştüm."
+  },
+  "TIP_MALE_3": {
+    "description": "",
+    "message": "{wanted} kişisini mi arıyorsunuz? Kendisi şu an {station} istasyonunda."
+  },
+  "TIP_MALE_4": {
+    "description": "",
+    "message": "Tanımladığınız kişi {station} yakınlarında gördüğüm biri ile uyuşuyor."
+  },
+  "TRANSMITTING_MSG": {
+    "description": "Message from the ship's computer",
+    "message": "{shipid} gemisine mesaj iletiliyor"
+  },
+  "WANTED": {
+    "description": "",
+    "message": "Aranan kişi:"
+  },
+  "YOU_DO_NOT_HAVE_A_CABIN": {
+    "description": "",
+    "message": "Üzgünüm, yolcu kabininiz yok."
+  }
+}

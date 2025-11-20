@@ -1,0 +1,409 @@
+{
+  "AXIS": {
+    "description": "Cardinal name used to compose Joystick <X> Button <Y>",
+    "message": " Axis "
+  },
+  "BIND_AXIS_PITCH": {
+    "description": "Descriptive name for the Pitch axis.",
+    "message": "Pitch"
+  },
+  "BIND_AXIS_ROLL": {
+    "description": "Descriptive name for the Roll axis",
+    "message": "Roll"
+  },
+  "BIND_AXIS_THRUST_FORWARD": {
+    "description": "Descriptive name for the ThrustForward axis",
+    "message": "Thrust Forward / Backwards"
+  },
+  "BIND_AXIS_THRUST_LEFT": {
+    "description": "Descriptive name for the ThrustLeft axis",
+    "message": "Thrust Left / Right"
+  },
+  "BIND_AXIS_THRUST_UP": {
+    "description": "Descriptive name for the ThrustUp axis",
+    "message": "Thrust Up / Down"
+  },
+  "BIND_AXIS_YAW": {
+    "description": "Descriptive name for the Yaw axis.",
+    "message": "Yaw"
+  },
+  "BIND_BOTTOM_CAMERA": {
+    "description": "Descriptive name for the BottomCamera action.",
+    "message": "Switch to Bottom Camera"
+  },
+  "BIND_CAMERA_PITCH": {
+    "description": "Descriptive name for the Camera Pitch axis.",
+    "message": "Camera Pitch"
+  },
+  "BIND_CAMERA_ROLL": {
+    "description": "Descriptive name for the Camera Roll axis",
+    "message": "Camera Roll"
+  },
+  "BIND_CAMERA_YAW": {
+    "description": "Descriptive name for the Camera Yaw axis.",
+    "message": "Camera Yaw"
+  },
+  "BIND_CONTROL_LANDING_GEAR": {
+    "description": "Axis description",
+    "message": "Raise / Lower Landing Gear"
+  },
+  "BIND_CYCLE_CAMERA_MODE": {
+    "description": "Descriptive name for the CycleCameraMode action.",
+    "message": "Cycle Camera Mode"
+  },
+  "BIND_CYCLE_HOSTILES": {
+    "description": "Descriptive name for the CycleHostiles action.",
+    "message": "Cycle Hostiles"
+  },
+  "BIND_DECREASE_TIME_ACCELERATION": {
+    "description": "Descriptive name for the DecreaseTimeAcceleration action.",
+    "message": "Decrease Time Acceleration"
+  },
+  "BIND_FIXHEADING_RADIAL": {
+    "description": "Descriptive name for the action binding.",
+    "message": "Open Attitude Hold Radial Menu"
+  },
+  "BIND_FLIGHT_ASSIST_RADIAL": {
+    "description": "Descriptive name for the action binding.",
+    "message": "Open Flight Assist Radial Menu"
+  },
+  "BIND_FRONT_CAMERA": {
+    "description": "Descriptive name for the FrontCamera action.",
+    "message": "Switch to Front Camera"
+  },
+  "BIND_INCREASE_TIME_ACCELERATION": {
+    "description": "Descriptive name for the IncreaseTimeAcceleration action.",
+    "message": "Increase Time Acceleration"
+  },
+  "BIND_KILL_ROT": {
+    "description": "Descriptive name for the KillRot action.",
+    "message": "Kill Rotation"
+  },
+  "BIND_LEFT_CAMERA": {
+    "description": "Descriptive name for the LeftCamera action.",
+    "message": "Switch to Left Camera"
+  },
+  "BIND_LOOK_PITCH": {
+    "description": "Descriptive name for the Freelook Pitch axis.",
+    "message": "Freelook Pitch"
+  },
+  "BIND_LOOK_YAW": {
+    "description": "Descriptive name for the Freelook Yaw axis.",
+    "message": "Freelook Yaw"
+  },
+  "BIND_MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
+    "description": "Descriptive name for the MapToggleSelectionFollowView action.",
+    "message": "Toggle Selection Following View"
+  },
+  "BIND_MAP_VIEW_MOVE_FORWARD": {
+    "description": "Axis binding",
+    "message": "Shift Map Longitudinally"
+  },
+  "BIND_MAP_VIEW_MOVE_LEFT": {
+    "description": "Axis binding",
+    "message": "Shift Map Horizontally"
+  },
+  "BIND_MAP_VIEW_MOVE_UP": {
+    "description": "Axis binding",
+    "message": "Shift Map Vertically"
+  },
+  "BIND_MAP_VIEW_PITCH": {
+    "description": "Axis binding",
+    "message": "Map Pitch"
+  },
+  "BIND_MAP_VIEW_YAW": {
+    "description": "Axis binding",
+    "message": "Map Yaw"
+  },
+  "BIND_MAP_VIEW_ZOOM": {
+    "description": "Axis binding",
+    "message": "Map Zoom"
+  },
+  "BIND_MAP_WARP_TO_CURRENT_SYSTEM": {
+    "description": "Descriptive name for the MapWarpToCurrentSystem action.",
+    "message": "Warp to Current System"
+  },
+  "BIND_MAP_WARP_TO_SELECTED_SYSTEM": {
+    "description": "Descriptive name for the MapWarpToSelectedSystem action.",
+    "message": "Warp to Selected System"
+  },
+  "BIND_PRIMARY_FIRE": {
+    "description": "Descriptive name for the PrimaryFire action.",
+    "message": "Primary Fire"
+  },
+  "BIND_RADAR_TOGGLE_MODE": {
+    "description": "Descriptive name for the RadarToggle action.",
+    "message": "Toggle Radar Display Mode"
+  },
+  "BIND_RADAR_ZOOM_IN": {
+    "description": "Descriptive name for the RadarZoomIn action.",
+    "message": "Manual Zoom Radar In"
+  },
+  "BIND_RADAR_ZOOM_OUT": {
+    "description": "Descriptive name for the RadarZoomOut action.",
+    "message": "Manual Zoom Radar Out"
+  },
+  "BIND_RADAR_ZOOM_RESET": {
+    "description": "Descriptive name for the RadarZoomReset action.",
+    "message": "Reset Radar Zoom"
+  },
+  "BIND_RADIAL_HORIZONTAL_SELECTION": {
+    "description": "Input axis name to select in the radial menu.",
+    "message": "Radial Menu Left/Right"
+  },
+  "BIND_RADIAL_VERTICAL_SELECTION": {
+    "description": "Input axis name to select in the radial menu.",
+    "message": "Radial Menu Up/Down"
+  },
+  "BIND_REAR_CAMERA": {
+    "description": "Descriptive name for the RearCamera action.",
+    "message": "Switch to Rear Camera"
+  },
+  "BIND_RESET_CAMERA": {
+    "description": "Descriptive name for the ResetCamera action.",
+    "message": "Reset Camera View to Default"
+  },
+  "BIND_RESET_ORIENTATION_AND_ZOOM": {
+    "description": "Descriptive name for the ResetOrientationAndZoom action.",
+    "message": "Reset Orientation and Zoom"
+  },
+  "BIND_RIGHT_CAMERA": {
+    "description": "Descriptive name for the RightCamera action.",
+    "message": "Switch to Right Camera"
+  },
+  "BIND_SECONDARY_FIRE": {
+    "description": "Descriptive name for the SecondaryFire action.",
+    "message": "Secondary Fire"
+  },
+  "BIND_SPEED_CONTROL": {
+    "description": "Descriptive name for the SpeedControl axis.",
+    "message": "Set Target Speed"
+  },
+  "BIND_TARGET_OBJECT": {
+    "description": "Descriptive name for the TargetObject action.",
+    "message": "Target Object"
+  },
+  "BIND_TARGET_RADIAL": {
+    "description": "Descriptive name for opening the TargetRadial popup.",
+    "message": "Open Target Radial Menu"
+  },
+  "BIND_THRUST_LOW_POWER": {
+    "description": "Descriptive name for the ThrustLowPower action.",
+    "message": "Low Power Thrust Mode (hold)"
+  },
+  "BIND_TOGGLE_CRUISE": {
+    "description": "Descriptive name for the action binding.",
+    "message": "Toggle Cruise Mode"
+  },
+  "BIND_TOGGLE_HUD_MODE": {
+    "description": "Descriptive name for the ToggleHudMode action.",
+    "message": "Toggle HUD Mode"
+  },
+  "BIND_TOGGLE_LANDING_GEAR": {
+    "description": "Action description",
+    "message": "Toggle Landing Gear"
+  },
+  "BIND_TOGGLE_LUA_CONSOLE": {
+    "description": "Descriptive name for the ToggleLuaConsole action.",
+    "message": "Toggle Lua console"
+  },
+  "BIND_TOGGLE_ROTATION_DAMPING": {
+    "description": "Descriptive name for the ToggleRotationDamping action.",
+    "message": "Toggle Rotation Damping"
+  },
+  "BIND_TOGGLE_SPEED_LIMITER": {
+    "description": "Descriptive name for the action binding.",
+    "message": "Toggle Speed Limiter"
+  },
+  "BIND_TOP_CAMERA": {
+    "description": "Descriptive name for the TopCamera action.",
+    "message": "Switch to Top Camera"
+  },
+  "BIND_VIEW_ZOOM": {
+    "description": "Descriptive name for the View Zoom axis",
+    "message": "View Zoom"
+  },
+  "BUTTON": {
+    "description": "",
+    "message": "\" Button \""
+  },
+  "CONNECTED": {
+    "description": "Joystick status in the list",
+    "message": "Connected"
+  },
+  "CURRENT_VALUE": {
+    "description": "",
+    "message": "Current value:"
+  },
+  "CURVE": {
+    "description": "",
+    "message": "Curve"
+  },
+  "DEADZONE": {
+    "description": "",
+    "message": "Deadzone"
+  },
+  "DIRECTION": {
+    "description": "Direction",
+    "message": "\" Dir \""
+  },
+  "GROUP_GENERAL_VIEW_CONTROLS": {
+    "description": "Header for the GeneralViewControls input group.",
+    "message": "General View Controls"
+  },
+  "GROUP_LANDING_CONTROL": {
+    "description": "Group label for landing-related inputs",
+    "message": "Landing Control"
+  },
+  "GROUP_MANUAL_CONTROL": {
+    "description": "Header for the ManualControl input group.",
+    "message": "Manual Thrust Control"
+  },
+  "GROUP_MISCELLANEOUS": {
+    "message": "Miscellaneous"
+  },
+  "GROUP_RADAR_CONTROL": {
+    "description": "Group label for radar-related inputs",
+    "message": "Radar Control"
+  },
+  "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
+    "description": "Header for the SectorMapViewControls input group.",
+    "message": "Sector Map View Controls"
+  },
+  "GROUP_SHIP_ORIENT": {
+    "description": "Header for the ShipOrient input group.",
+    "message": "Ship Orientation"
+  },
+  "GROUP_SPEED_CONTROL": {
+    "description": "Header for the SpeedControl input group.",
+    "message": "Set-Speed Thrust Control"
+  },
+  "GROUP_WEAPONS": {
+    "description": "Header for the Weapons input group.",
+    "message": "Weapons"
+  },
+  "HALF_AXIS_MODE": {
+    "description": "",
+    "message": "Half-Axis mode"
+  },
+  "HAT": {
+    "description": "Hat switch: Is the top button on a joystick",
+    "message": "\" Hat\""
+  },
+  "JOY": {
+    "description": "An acronym for the joystick",
+    "message": "Joy"
+  },
+  "JOYSTICKS": {
+    "description": "Header for the joystick's list.",
+    "message": "Joysticks"
+  },
+  "MOUSE": {
+    "description": "A computer mouse, used to create the name for a mouse button binding",
+    "message": "Mouse "
+  },
+  "MOUSE_LMB": {
+    "description": "An acronym for the left mouse button",
+    "message": "LMB"
+  },
+  "MOUSE_MMB": {
+    "description": "An acronym for the middle mouse button",
+    "message": "MMB"
+  },
+  "MOUSE_RMB": {
+    "description": "An acronym for the right mouse button",
+    "message": "RMB"
+  },
+  "NOT_CONNECTED": {
+    "description": "Joystick status in the list",
+    "message": "Not connected"
+  },
+  "NUM_AXES": {
+    "description": "",
+    "message": "Number of axes:"
+  },
+  "NUM_BUTTONS": {
+    "description": "",
+    "message": "Number of buttons:"
+  },
+  "NUM_HATS": {
+    "description": "",
+    "message": "Number of hats:"
+  },
+  "PAGE_GENERAL": {
+    "description": "Header for the General input page.",
+    "message": "General Controls"
+  },
+  "PAGE_MAP_CONTROLS": {
+    "description": "Header for the MapControls input page.",
+    "message": "Map Controls"
+  },
+  "PAGE_SHIP_CONTROLS": {
+    "description": "Header for the ShipControls input page.",
+    "message": "Ship - Controls"
+  },
+  "PAGE_SHIP_HUD": {
+    "description": "Header for the ShipHUD input page.",
+    "message": "Ship - HUD"
+  },
+  "PAGE_SHIP_VIEW": {
+    "description": "Header for the ShipView input page.",
+    "message": "Ship - View"
+  },
+  "RX": {
+    "description": "keybinding: second x axis",
+    "message": "RX"
+  },
+  "RY": {
+    "description": "keybinding: second y axis",
+    "message": "RY"
+  },
+  "RZ": {
+    "description": "keybinding: second z axis",
+    "message": "RZ"
+  },
+  "TEXT_ALT_BINDING": {
+    "description": "",
+    "message": "Alt. Binding:"
+  },
+  "TEXT_AXIS_DEADZONE": {
+    "description": "Message shown for the axis deadzone slider.",
+    "message": "Axis Deadzone"
+  },
+  "TEXT_AXIS_SENSITIVITY": {
+    "description": "Message shown for the axis sensitivity slider.",
+    "message": "Axis Sensitivity"
+  },
+  "TEXT_BINDING": {
+    "description": "",
+    "message": "Binding:"
+  },
+  "TEXT_INVERT_AXIS": {
+    "description": "Message shown for the invert axis checkbox.",
+    "message": "Invert Axis"
+  },
+  "TEXT_KEY_BINDINGS": {
+    "description": "Section header for an axis or action's key bindings.",
+    "message": "Key Bindings:"
+  },
+  "TEXT_KEY_NEGATIVE": {
+    "description": "Indicates the negative half of a key-binding pair.",
+    "message": "Negative:"
+  },
+  "TEXT_KEY_POSITIVE": {
+    "description": "Indicates the positive half of a key-binding pair.",
+    "message": "Positive:"
+  },
+  "X": {
+    "description": "keybinding: x axis",
+    "message": "X"
+  },
+  "Y": {
+    "description": "keybinding: y axis",
+    "message": "Y"
+  },
+  "Z": {
+    "description": "keybinding: z axis",
+    "message": "Z"
+  }
+}

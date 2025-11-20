@@ -1,0 +1,550 @@
+{
+  "ACCEPTED_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "很好。文件已发送给你。"
+  },
+  "ACCEPTED_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "棒极了。我已将讯息复制到你的电脑中。"
+  },
+  "ACCEPTED_EVACUATION": {
+    "description": "",
+    "message": "太好了。请保重！"
+  },
+  "ACCEPTED_PRIVATEER": {
+    "description": "",
+    "message": "很好。我想你会很快找到那艘飞船的。"
+  },
+  "ACCEPTED_TAXI": {
+    "description": "",
+    "message": "非常好。 快去！"
+  },
+  "ACCEPTED_TRAITOR": {
+    "description": "",
+    "message": "好的。我已将数据传输到你的飞船电脑。"
+  },
+  "ADTEXT_1": {
+    "description": "",
+    "message": "在{system}星系搜寻某人。奖励：{cash}。"
+  },
+  "ADTEXT_2": {
+    "description": "",
+    "message": "{system}星系的搜寻任务。报酬：{cash}。"
+  },
+  "ADTEXT_3": {
+    "description": "",
+    "message": "费用补偿：{cash}。"
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "失踪人口"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "征募搜寻任务飞行员"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "搜寻任务需要飞船"
+  },
+  "CLIENT": {
+    "description": "",
+    "message": "客户端："
+  },
+  "COMPANY": {
+    "description": "",
+    "message": "公司："
+  },
+  "COMPANY_1": {
+    "description": "Name of a company",
+    "message": "{name} 航空电子公司"
+  },
+  "COMPANY_2": {
+    "description": "Name of a company",
+    "message": "{name} 军火公司"
+  },
+  "COMPANY_3": {
+    "description": "Name of a company",
+    "message": "{name} 舰队系统基金会"
+  },
+  "COMPANY_4": {
+    "description": "Name of a company",
+    "message": "{name} 防御系统公司"
+  },
+  "COMPANY_5": {
+    "description": "Name of a company",
+    "message": "{name} 监控工具公司"
+  },
+  "COMPANY_6": {
+    "description": "Name of a company",
+    "message": "{name} 特殊信息技术服务基金会"
+  },
+  "DANGER": {
+    "description": "The risk level",
+    "message": "危险:"
+  },
+  "DEADLINE": {
+    "description": "Must be delivered by",
+    "message": "截止日期:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "抱歉，先生，但我需要一个更有经验的飞行员。"
+  },
+  "DISTANCE": {
+    "description": "Distance in space, between two locations",
+    "message": "距离："
+  },
+  "FAILUREMSG_1": {
+    "description": "",
+    "message": "我对你的表现不满意。我不会付钱给你！"
+  },
+  "FAILUREMSG_2": {
+    "description": "",
+    "message": "你来太晚了！抱歉，你拿不到报酬了！"
+  },
+  "FIND_PERSON": {
+    "description": "Name of mission type",
+    "message": "寻找人员"
+  },
+  "GREETING_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "该死，被你逮住了。好吧，文件我签了。请把它交还给{client}！"
+  },
+  "GREETING_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "感谢你的讯息。我已经将给{client}的回复发送到你的飞船电脑了。"
+  },
+  "GREETING_EVACUATION": {
+    "description": "",
+    "message": "真是太棒了，见到你真好！我们可以立刻起飞了。我在这里已经没什么留恋的了。"
+  },
+  "GREETING_PRIVATEER": {
+    "description": "",
+    "message": "呃，你是为{client}工作的？我已将重要数据复制到你的飞船电脑。{client}会觉得这很有用！"
+  },
+  "GREETING_TAXI": {
+    "description": "",
+    "message": "噢，不。这是个坏消息。我们立刻飞回去吧。"
+  },
+  "GREETING_TRAITOR": {
+    "description": "",
+    "message": "什么？{client}想要一份声明？好的，请折返并将这份文件交给他！"
+  },
+  "HOW_CAN_I_FIND_HER": {
+    "description": "",
+    "message": "我该如何找到她？"
+  },
+  "HOW_CAN_I_FIND_HIM": {
+    "description": "",
+    "message": "我该如何找到他？"
+  },
+  "HOW_MUCH_TIME": {
+    "description": "",
+    "message": "我有多少时间？"
+  },
+  "HOW_MUCH_TIME_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "请在{date}前回来。 "
+  },
+  "HOW_MUCH_TIME_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "如果在{date}前没有你的消息，我将另雇一名飞行员！"
+  },
+  "HOW_MUCH_TIME_EVACUATION": {
+    "description": "",
+    "message": "你必须在{date}前回来！否则，我们就麻烦大了。"
+  },
+  "HOW_MUCH_TIME_PRIVATEER": {
+    "description": "",
+    "message": "如果你不能在{date}前回来，我们的交易就取消了！"
+  },
+  "HOW_MUCH_TIME_TAXI": {
+    "description": "",
+    "message": "我们的交易将在{date}终止。"
+  },
+  "HOW_MUCH_TIME_TRAITOR": {
+    "description": "",
+    "message": "时间至关重要！如果你不能在{date}前回来，我们就彻底完了。"
+  },
+  "HOW_TO_DELIVER_DOCUMENT_FEMALE": {
+    "description": "",
+    "message": "找到她的飞船。然后你就能找到她了。"
+  },
+  "HOW_TO_DELIVER_DOCUMENT_MALE": {
+    "description": "",
+    "message": "你所要做的就是找到他的飞船。他应该不会离得太远。"
+  },
+  "HOW_TO_DELIVER_MESSAGE_FEMALE": {
+    "description": "",
+    "message": "我只知道她应该在某个空间站工作。"
+  },
+  "HOW_TO_DELIVER_MESSAGE_MALE": {
+    "description": "",
+    "message": "他在航天港附近的一间办公室工作。这就是我所知道的全部了。"
+  },
+  "HOW_TO_EVACUATION_FEMALE": {
+    "description": "",
+    "message": "如果她发现你抵达了，她一定会联系你的！"
+  },
+  "HOW_TO_EVACUATION_MALE": {
+    "description": "",
+    "message": "当他意识到你已经抵达时，他会联系你的！"
+  },
+  "HOW_TO_PRIVATEER_FEMALE": {
+    "description": "",
+    "message": "她经常在危险任务中弄坏她的飞船。飞船维修厂会是个很好的起点。"
+  },
+  "HOW_TO_PRIVATEER_MALE": {
+    "description": "",
+    "message": "他经常进行高风险飞行。他的飞船经常在空间站的维修车间里被找到。"
+  },
+  "HOW_TO_TAXI_FEMALE": {
+    "description": "",
+    "message": "我不知道。这取决于你！"
+  },
+  "HOW_TO_TAXI_MALE": {
+    "description": "",
+    "message": "我不知道。那是你的事！"
+  },
+  "HOW_TO_TRAITOR_FEMALE": {
+    "description": "",
+    "message": "我很了解她，她常在航天港附近的酒吧里闲逛。"
+  },
+  "HOW_TO_TRAITOR_MALE": {
+    "description": "",
+    "message": "众所周知，他常在航天港的酒馆里鬼混。"
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_FEMALE_1": {
+    "description": "",
+    "message": "问候！我是{client}，代表{company}。我们的一艘飞船在进入超空间前几秒与另一艘船发生了碰撞。没有足够的时间停止超空间跳跃程序。现在我们需要有人能在{system} ({sectorx}, {sectory}, {sectorz})星系中找到ID编号为{shipid}的飞船，并向{wanted}指挥官递交一份庭外和解提案。请返回{domicile}领取你的{cash}报酬。为此你将不得不飞行{dist}光年。"
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_FEMALE_2": {
+    "description": "",
+    "message": "很高兴认识你。我的名字是{client}。我们正在寻找一位仍然欠我们人情的旧商业伙伴。她的名字是{wanted}。她藏匿在{system} ({sectorx}, {sectory}, {sectorz})星系中。如果你能找到她，递交一份加密文件，然后返回{domicile}这里的{company}办公室。事成之后，我们支付{cash}。{system}距离这里{dist}光年。"
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_MALE_1": {
+    "description": "",
+    "message": "问候！我是{client}，代表{company}。我们的一艘飞船在进入超空间前几秒与另一艘船发生了碰撞。没有足够的时间停止超空间跳跃程序。现在我们需要有人能在{system} ({sectorx}, {sectory}, {sectorz})星系中找到ID编号为{shipid}的飞船，并向{wanted}指挥官递交一份庭外和解提案。请返回{domicile}领取你的{cash}报酬。为此你将不得不飞行{dist}光年。"
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_MALE_2": {
+    "description": "",
+    "message": "很高兴认识你。我的名字是{client}。我们正在寻找一位仍然欠我们人情的旧商业伙伴。他的名字是{wanted}。他藏匿在{system} ({sectorx}, {sectory}, {sectorz})星系中。如果你能找到他，递交一份加密文件，然后返回{domicile}这里的{company}办公室。事成之后，我们支付{cash}。{system}距离这里{dist}光年。"
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_1": {
+    "description": "",
+    "message": "嗨，我叫{client}。我在找我的继姐{wanted}。她几年前生气离开了家。我有个朋友最近在{system} ({sectorx}, {sectory}, {sectorz})星系见过她。我想看看她是否愿意和解。如果你能给她带个信并带着回复返回{domicile}，我就付你{cash}。拜托了！你愿意吗？"
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_2": {
+    "description": "",
+    "message": "你好。我是{client}。我在找一位老朋友。她的名字是{wanted}。我知道她住在{system} ({sectorx}, {sectory}, {sectorz})星系，但我不知道她的确切位置。如果你能给她带个信，我会付你{cash}。"
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_1": {
+    "description": "",
+    "message": "嗨，我叫{client}。我在找我的继兄{wanted}。他几年前生气离开了家。我有个朋友最近在{system} ({sectorx}, {sectory}, {sectorz})星系见过他。我想看看他是否愿意和解。如果你能给他带个信并带着回复返回{domicile}，我就付你{cash}。拜托了！你愿意吗？"
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_2": {
+    "description": "",
+    "message": "你好。我是{client}。我在找一位老朋友。他的名字是{wanted}。我知道他住在{system} ({sectorx}, {sectory}, {sectorz})星系，但我不知道他的确切位置。如果你能给他带个信，我会付你{cash}。"
+  },
+  "INTROTEXT_EVACUATION_FEMALE_1": {
+    "description": "",
+    "message": "嗨。{company}遇到大麻烦了。在距离{dist}光年的{system} ({sectorx}, {sectory}, {sectorz})星系，与一个好斗的市场竞争者的谈判进行得非常糟糕。我们的特使{wanted}必须被疏散。我们与她的通讯非常有限，因此不知道她的确切位置。我们为这次航行支付{cash}。"
+  },
+  "INTROTEXT_EVACUATION_FEMALE_2": {
+    "description": "",
+    "message": "你好。叫我{client}。我在{company}任职。我们在距离{dist}光年的{system} ({sectorx}, {sectory}, {sectorz})星系的销售代表{wanted}与一些危险的恶棍发生了冲突。她不信任当地政府，所以躲起来了。如果你能找到她并安全地将她带回{domicile}，我们支付{cash}。"
+  },
+  "INTROTEXT_EVACUATION_MALE_1": {
+    "description": "",
+    "message": "嗨。{company}遇到大麻烦了。在距离{dist}光年的{system} ({sectorx}, {sectory}, {sectorz})星系，与一个好斗的市场竞争者的谈判进行得非常糟糕。我们的特使{wanted}必须被疏散。我们与他的通讯非常有限，因此不知道他的确切位置。我们为这次航行支付{cash}。"
+  },
+  "INTROTEXT_EVACUATION_MALE_2": {
+    "description": "",
+    "message": "你好。叫我{client}。我在{company}任职。我们在距离{dist}光年的{system} ({sectorx}, {sectory}, {sectorz})星系的销售代表{wanted}与一些危险的恶棍发生了冲突。他不信任当地政府，所以躲起来了。如果你能找到他并安全地将他带回{domicile}，我们支付{cash}。"
+  },
+  "INTROTEXT_PRIVATEER_FEMALE_1": {
+    "description": "",
+    "message": "嗨，你好！我叫{client}。我在找{wanted}。她欠了我很多钱。根据最新情报，她正在{system} ({sectorx}, {sectory}, {sectorz})星系执行任务。请告诉她，我的耐心快要耗尽了。请返回{domicile}领取你的{cash}报酬。"
+  },
+  "INTROTEXT_PRIVATEER_FEMALE_2": {
+    "description": "",
+    "message": "你好。我是私人侦探{client}。我必须在{system} ({sectorx}, {sectory}, {sectorz})星系找到私掠者{wanted}，问她几个问题。她的飞船注册编号是{shipid}。我目前因另一起刑事案件无法离开{domicile}，所以我想外包这项任务。我将为这次任务支付{cash}。"
+  },
+  "INTROTEXT_PRIVATEER_MALE_1": {
+    "description": "",
+    "message": "嗨，你好！我叫{client}。我在找{wanted}。他欠了我很多钱。根据最新情报，他正在{system} ({sectorx}, {sectory}, {sectorz})星系执行任务。请告诉他，我的耐心快要耗尽了。请返回{domicile}领取你的{cash}报酬。"
+  },
+  "INTROTEXT_PRIVATEER_MALE_2": {
+    "description": "",
+    "message": "你好。我是私人侦探{client}。我必须在{system} ({sectorx}, {sectory}, {sectorz})星系找到私掠者{wanted}，问他几个问题。他的飞船注册编号是{shipid}。我目前因另一起刑事案件无法离开{domicile}，所以我想外包这项任务。我将为这次任务支付{cash}。"
+  },
+  "INTROTEXT_TAXI_FEMALE_1": {
+    "description": "",
+    "message": "嗨。我是{client}。我在{system} ({sectorx}, {sectory}, {sectorz})星系寻找一位亲戚。她的名字是{wanted}。由于家庭医疗紧急情况，时间至关重要。请找到她并带她回{domicile}。我付你{cash}。"
+  },
+  "INTROTEXT_TAXI_FEMALE_2": {
+    "description": "",
+    "message": "日安。我是保险估价师{client}。一架高速送货无人机未能设定正确航线，撞破窗户，严重损坏了公寓内的古董木制家具。幸运的是无人受伤。但到目前为止，我们仍未在{system} ({sectorx}, {sectory}, {sectorz})星系找到该公寓的业主。如果你能找到她，我将付你{cash}。她的亲自到场对于澄清索赔至关重要。"
+  },
+  "INTROTEXT_TAXI_MALE_1": {
+    "description": "",
+    "message": "嗨。我是{client}。我在{system} ({sectorx}, {sectory}, {sectorz})星系寻找一位亲戚。他的名字是{wanted}。由于家庭医疗紧急情况，时间至关重要。请找到他并带他回{domicile}。我付你{cash}。"
+  },
+  "INTROTEXT_TAXI_MALE_2": {
+    "description": "",
+    "message": "日安。我是保险估价师{client}。一架高速送货无人机未能设定正确航线，撞破窗户，严重损坏了公寓内的古董木制家具。幸运的是无人受伤。但到目前为止，我们仍未在{system} ({sectorx}, {sectory}, {sectorz})星系找到该公寓的业主。如果你能找到他，我将付你{cash}。他的亲自到场对于澄清索赔至关重要。"
+  },
+  "INTROTEXT_TRAITOR_FEMALE_1": {
+    "description": "",
+    "message": "你好，我叫{client}。{wanted}度假后没有返回她在{company}的工作岗位。她最后一次出现在{system} ({sectorx}, {sectory}, {sectorz})星系。{wanted}掌握一些重要的商业机密。因此我们需要有人能向她问询关于她持续缺勤的一些情况。我们为这次任务支付{cash}。{system}的距离是{dist}光年。"
+  },
+  "INTROTEXT_TRAITOR_FEMALE_2": {
+    "description": "",
+    "message": "日安。{company}正在寻找一名偷窃了机密文件的员工。她的名字是{wanted}。管理层称她为叛徒，但希望给她一个重新考虑和悔改的机会。如果你能在距离{dist}光年的{system} ({sectorx}, {sectory}, {sectorz})星系找到她，并向她传达讯息，我们支付{cash}。"
+  },
+  "INTROTEXT_TRAITOR_MALE_1": {
+    "description": "",
+    "message": "你好，我叫{client}。{wanted}度假后没有返回他在{company}的工作岗位。他最后一次出现在{system} ({sectorx}, {sectory}, {sectorz})星系。{wanted}掌握一些重要的商业机密。因此我们需要有人能向他问询关于他持续缺勤的一些情况。我们为这次任务支付{cash}。{system}的距离是{dist}光年。"
+  },
+  "INTROTEXT_TRAITOR_MALE_2": {
+    "description": "",
+    "message": "日安。{company}正在寻找一名偷窃了机密文件的员工。他的名字是{wanted}。管理层称他为叛徒，但希望给他一个重新考虑和悔改的机会。如果你能在距离{dist}光年的{system} ({sectorx}, {sectory}, {sectorz})星系找到他，并向他传达讯息，我们支付{cash}。"
+  },
+  "IS_THERE_A_RISK": {
+    "description": "",
+    "message": "有风险吗？"
+  },
+  "MERCENARY_GREETING_FEMALE_1": {
+    "description": "",
+    "message": "抱歉。你的死是我的生意！"
+  },
+  "MERCENARY_GREETING_FEMALE_2": {
+    "description": "",
+    "message": "我会把你大卸八块！"
+  },
+  "MERCENARY_GREETING_FEMALE_3": {
+    "description": "",
+    "message": "你想见{wanted}？我先送你去见造物主！"
+  },
+  "MERCENARY_GREETING_MALE_1": {
+    "description": "",
+    "message": "这不是针对你。我杀你是为了佣金！"
+  },
+  "MERCENARY_GREETING_MALE_2": {
+    "description": "",
+    "message": "我会送你下地狱！"
+  },
+  "MERCENARY_GREETING_MALE_3": {
+    "description": "",
+    "message": "你想见{wanted}？除非你踏着我的尸体过去！"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "好的，同意。"
+  },
+  "PIRATE_ANSWER_1": {
+    "description": "",
+    "message": "我已将给{client}的答复传输给你。再见。"
+  },
+  "PIRATE_ANSWER_2": {
+    "description": "",
+    "message": "请将我正在传输给你的讯息转交给{client}。再会。"
+  },
+  "PIRATE_ANSWER_3": {
+    "description": "",
+    "message": "哈哈，请转告{client}我没什么好说的。祝你愉快。"
+  },
+  "PIRATE_GREETING_1": {
+    "description": "",
+    "message": "我听说你在找我。你成功引起了我的注意。你想要什么？"
+  },
+  "PIRATE_GREETING_2": {
+    "description": "",
+    "message": "好了，你找到我了。别浪费时间，告诉我你想要什么！"
+  },
+  "PIRATE_GREETING_3": {
+    "description": "",
+    "message": "我听说你是来给我送信的？"
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "你想要个答复？好吧，给你！"
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "够了！准备下地狱吧！"
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "You actually went all this way to deliver this silly message to me? You better get out of here!"
+  },
+  "REPEAT_THE_REQUEST": {
+    "description": "",
+    "message": "你能重复一下这个要求吗？"
+  },
+  "RISK_EVACUATION_FEMALE_1": {
+    "description": "",
+    "message": "The situation is tense. We think {wanted} is in danger."
+  },
+  "RISK_EVACUATION_FEMALE_2": {
+    "description": "",
+    "message": "{wanted} is in extreme danger. She should leave the system as soon as possible."
+  },
+  "RISK_EVACUATION_MALE_1": {
+    "description": "",
+    "message": "{wanted} thinks he should leave the system very soon."
+  },
+  "RISK_EVACUATION_MALE_2": {
+    "description": "",
+    "message": "{wanted} is in big trouble! He'd better leave the system sooner than later."
+  },
+  "RISK_FEMALE_1": {
+    "description": "",
+    "message": "By no means."
+  },
+  "RISK_FEMALE_2": {
+    "description": "",
+    "message": "I don't think so."
+  },
+  "RISK_FEMALE_3": {
+    "description": "",
+    "message": "I don't know. She's a bit weird."
+  },
+  "RISK_FEMALE_4": {
+    "description": "",
+    "message": "Maybe. {wanted} can be a little quick-tempered sometimes."
+  },
+  "RISK_FEMALE_5": {
+    "description": "",
+    "message": "In my opinion, {wanted} is completely insane. I advise you to be careful!"
+  },
+  "RISK_MALE_1": {
+    "description": "",
+    "message": "No, there's no risk."
+  },
+  "RISK_MALE_2": {
+    "description": "",
+    "message": "I expect no trouble. But who knows?"
+  },
+  "RISK_MALE_3": {
+    "description": "",
+    "message": "I'm not sure. He's a curious guy."
+  },
+  "RISK_MALE_4": {
+    "description": "",
+    "message": "{wanted} is a paranoid nut. Be careful!"
+  },
+  "RISK_MALE_5": {
+    "description": "",
+    "message": "Oh yes indeed. {wanted} is a maniac. You should be prepared for everything!"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "设置为导航目标"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Set return route"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "飞船:"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "星港:"
+  },
+  "SUCCESS_ATK_1": {
+    "description": "",
+    "message": "What? {wanted} attacked you? Please accept this money as compensation!"
+  },
+  "SUCCESS_ATK_2": {
+    "description": "",
+    "message": "Really? {wanted} attacked you? Unbelievable! Whatever. I transferred the money."
+  },
+  "SUCCESS_ATK_3": {
+    "description": "",
+    "message": "You met {wanted} and survived? Great! Here's your money."
+  },
+  "SUCCESS_INT_1": {
+    "description": "",
+    "message": "I heard you had trouble. Good to see you after all. I've paid you in full."
+  },
+  "SUCCESS_INT_2": {
+    "description": "",
+    "message": "You had a disagreement with a mercenary? Well, here's your compensation!"
+  },
+  "SUCCESS_INT_3": {
+    "description": "",
+    "message": "I just paid you. I heard you had a mercenary on your neck. Great job!"
+  },
+  "SUCCESS_MSG_1": {
+    "description": "",
+    "message": "Thank you for this service. I have paid the fee."
+  },
+  "SUCCESS_MSG_2": {
+    "description": "",
+    "message": "Thanks for the service. Your salary has been transferred."
+  },
+  "SUCCESS_MSG_3": {
+    "description": "",
+    "message": "Good job! I have transferred the money."
+  },
+  "SUCCESS_MSG_4": {
+    "description": "",
+    "message": "Thank you very much! I've paid you in full."
+  },
+  "SUCCESS_MSG_5": {
+    "description": "",
+    "message": "You found {wanted}? Great! Here's your payment."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "System:"
+  },
+  "TIP_FEMALE_1": {
+    "description": "",
+    "message": "I'm not sure, but I think {wanted} is currently at {station}."
+  },
+  "TIP_FEMALE_2": {
+    "description": "",
+    "message": "I think I know the person you are looking for. I have seen her at {station} recently."
+  },
+  "TIP_FEMALE_3": {
+    "description": "",
+    "message": "I know {wanted}. You can find her at {station}."
+  },
+  "TIP_FEMALE_4": {
+    "description": "",
+    "message": "I think I know a person that fits your description. You should visit {station} for more information."
+  },
+  "TIP_MALE_1": {
+    "description": "",
+    "message": "I think {wanted} is currently at {station}. But I'm not sure!"
+  },
+  "TIP_MALE_2": {
+    "description": "",
+    "message": "I think I know {wanted}. I have seen him at {station}."
+  },
+  "TIP_MALE_3": {
+    "description": "",
+    "message": "You are looking for {wanted}?. He is currently at {station}."
+  },
+  "TIP_MALE_4": {
+    "description": "",
+    "message": "Your description matches a person I met near {station}."
+  },
+  "TRANSMITTING_MSG": {
+    "description": "Message from the ship's computer",
+    "message": "Transmitting message to ship {shipid}"
+  },
+  "WANTED": {
+    "description": "",
+    "message": "Person wanted:"
+  },
+  "YOU_DO_NOT_HAVE_A_CABIN": {
+    "description": "",
+    "message": "Sorry, you do not have a passenger cabin."
+  }
+}
