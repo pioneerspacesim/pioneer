@@ -558,19 +558,19 @@ void from_json(const Json &obj, fixed &f)
 		std::string str = obj;
 		// must have at least f1/1, though can be f1234567/135758548 etc.
 		if (str.size() < 4 || str[0] != 'f')
-			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
+			throw Json::type_error::create(320, "cannot pickle string to fixed point number", &obj);
 
 		char *next_str = const_cast<char *>(str.c_str()) + 1;
 		int64_t integer = std::strtoll(next_str, &next_str, 10);
 
 		// handle cases: f/34, f1356, f14+4
 		if (next_str == nullptr || size_t(next_str - str.c_str()) >= str.size() || *next_str++ != '/')
-			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
+			throw Json::type_error::create(320, "cannot pickle string to fixed point number", &obj);
 
 		int64_t fractional = std::strtoll(next_str, &next_str, 10);
 		// handle cases f1345/7684gfrty; fixed numbers should not have any garbage data involved
 		if (next_str != str.c_str() + str.size())
-			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
+			throw Json::type_error::create(320, "cannot pickle string to fixed point number", &obj);
 
 		f = fixed(integer << f.FRAC | fractional);
 	}
