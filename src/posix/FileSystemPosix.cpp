@@ -30,10 +30,10 @@ namespace FileSystem {
 
 	static FileInfo::FileType stat_path(const char *, Time::DateTime &);
 
-	static std::string absolute_path(const std::string &path)
+	static std::string absolute_path(std::string_view path)
 	{
 		if (!path.empty() && path[0] == '/') {
-			return path;
+			return std::string(path);
 		} else {
 			const size_t bufsize = 512;
 			std::unique_ptr<char, FreeDeleter> buf(static_cast<char *>(std::malloc(bufsize)));
@@ -355,6 +355,11 @@ namespace OS {
 	FILE *OpenWriteStream(std::string_view path, FileStreamMode mode)
 	{
 		return fopen(std::string(path).c_str(), mode == FileStreamMode::FS_WRITE ? "wb" : "w");
+	}
+
+	std::string GetAbsolutePath(std::string_view relpath)
+	{
+		return FileSystem::absolute_path(relpath);
 	}
 
 } // namespace OS

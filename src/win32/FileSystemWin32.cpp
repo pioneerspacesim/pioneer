@@ -39,9 +39,9 @@ namespace FileSystem {
 		return std::wstring(buf, len);
 	}
 
-	static std::string absolute_path(const std::string &path)
+	static std::string absolute_path(std::string_view path)
 	{
-		std::wstring wpath = transcode_utf8_to_utf16(path);
+		std::wstring wpath = transcode_utf8_to_utf16(path.data(), path.size());
 		wchar_t buf[MAX_PATH + 1];
 		DWORD len = GetFullPathNameW(wpath.c_str(), MAX_PATH, buf, 0);
 		buf[len] = L'\0';
@@ -379,6 +379,11 @@ namespace OS {
 	FILE *OpenWriteStream(std::string_view path, OS::FileStreamMode mode)
 	{
 		return _wfopen(FileSystem::absolute_path_w(path).c_str(), mode == FileStreamMode::FS_WRITE_TEXT ? L"w" : L"wb");
+	}
+
+	std::string GetAbsolutePath(std::string_view relpath)
+	{
+		return FileSystem::absolute_path(relpath);
 	}
 
 } // namespace OS
