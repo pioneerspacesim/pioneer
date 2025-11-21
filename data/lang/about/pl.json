@@ -5,67 +5,67 @@
   },
   "ACKNOWLEDGEMENTS": {
     "description": "",
-    "message": "Acknowledgements"
+    "message": "Podziękowania"
   },
   "CONTENT": {
     "description": "",
-    "message": "Content"
+    "message": "Zawartość"
   },
   "CONTENT_CONTRIBUTION": {
     "description": "",
-    "message": "Content contribution"
+    "message": "Wkład do zawartości"
   },
   "CONTRIBUTE": {
     "description": "",
-    "message": "Contribute"
+    "message": "Kontrybuuj"
   },
   "CONTRIBUTE_BODY": {
     "description": "",
-    "message": "Pioneer is the sum of the many contributions from its players and developers. See anything you want to change, improve, or ideas for new content to add? (E.g. translations, coding, art, 2D & 3D assets, music, designing custom star systems, improve our documentation, wiki, etc.) Follow the links for details on how you can contribute!"
+    "message": "Pioneer jest sumą wielu kontrybucji od jego graczy i deweloperów. Widzisz cokolwiek , co chcesz zmienić, poprawić, lub masz pomysł na dodanie nowej zawartości? (Np. tłumaczenia, kod, sztukę, assety 2D & 3D, muzykę, projekt układu gwiezdnego, poprawę naszej dokumentacji, wiki, etc.) Po więcej szczegółów jak kontrybuować, podążaj za linkami!"
   },
   "DEVELOPER_DOCUMENTATION": {
     "description": "",
-    "message": "Developer Documentation"
+    "message": "Dokumentacja deweloperska"
   },
   "DOCUMENTATION": {
     "description": "",
-    "message": "Documentation"
+    "message": "Dokumentacja"
   },
   "DONATE_BODY": {
     "description": "",
-    "message": "If you enjoy playing Pioneer and would like to support its continued development, please consider donating - no donation is too small."
+    "message": "Jeżeli podoba ci się granie w Pioneera i chcesz wesprzeć jego ciągły rozwój, proszę, rozważ donację - żadna suma nie jest zbyt mała."
   },
   "DONATE_OPTIONS": {
     "description": "Sentence continues in 'DONATE_OPTIONS_CONTINUED'",
-    "message": "For additional donation options, please see our"
+    "message": "Po dodatkowe opcje donacji, proszę zobaczyć naszą"
   },
   "DONATE_OPTIONS_CONTINUED": {
     "description": "hyperlink, ending part of sentence in 'DONATE_OPTIONS'",
-    "message": "donations page"
+    "message": "stronę donacji"
   },
   "DONATE_THANKS": {
     "description": "",
-    "message": "Thank you all for your continued support of Pioneer!"
+    "message": "Dziękujemy wam wszystkim za wasze stałe wsparcie Pioneera!"
   },
   "GAME_RELEASE": {
     "description": "",
-    "message": "Stable versions are released annually on February 3, but development is continuous. Brave pilots are thus encouraged to play from the latest source and report bugs."
+    "message": "Stabilne wersje są wydawane dorocznie 3 lutego, ale rozwój jest ciągły. Dzielni piloci są więc zachęcani do ogrywania najnowszych źródeł i zgłaszania błędów."
   },
   "INFO_BLURB": {
     "description": "",
-    "message": "Pioneer is a single player space adventure game set in the Milky Way galaxy at the turn of the 31st century."
+    "message": "Pioneer jest jednoosobową grą przygodową osadzoną w galaktyce Drogi Mlecznej na przełomie 31-go wieku."
   },
   "INFO_BODY": {
     "description": "",
-    "message": "The game is open-ended, and you are free to explore the millions of star systems in the game. You can land on planets, slingshot past gas giants, and burn yourself to a crisp flying between binary star systems. You can try your hand at piracy, make your fortune trading between systems, or do missions for the various factions fighting for power, freedom or self-determination."
+    "message": "Gra ma otwarty koniec, masz swobodę do eksplorowania milionów systemów gwiezdnych. Możesz lądować na planetach, korzystać z procy grawitacyjnej gazowych olbrzymów, i spalić się na frytki pomiędzy podwójnymi układami gwiezdnymi. Możesz się sprawdzić w piractwie, zbić fortunę na handlu między układami, lub wykonywać misje pomiędzy różnymi frakcjami walczącymi o władzę, wolność lub samostanowienie."
   },
   "LICENSE": {
     "description": "",
-    "message": "License"
+    "message": "Licencja"
   },
   "LINK_BASIC_FLIGHT": {
     "description": "",
-    "message": "Basic flight"
+    "message": "Podstawowy lot"
   },
   "LINK_BUG_TRACKER": {
     "description": "",
@@ -73,19 +73,19 @@
   },
   "LINK_COMMUNITY_CHAT": {
     "description": "",
-    "message": "Community chat (Discord)"
+    "message": "Czat społeczności (Discord)"
   },
   "LINK_COMMUNITY_FORUM": {
     "description": "",
-    "message": "Community Forum"
+    "message": "Forum społeczności"
   },
   "LINK_DEVELOPER_CHAT": {
     "description": "",
-    "message": "Developer chat (IRC)"
+    "message": "Czat deweloperów (IRC)"
   },
   "LINK_DEVELOPER_FORUM": {
     "description": "",
-    "message": "Developer Forum"
+    "message": "Forum deweloperów"
   },
   "LINK_FAQ": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "LINK_HOMEPAGE": {
     "description": "",
-    "message": "Homepage"
+    "message": "Strona domowa"
   },
   "LINK_MANUAL": {
     "description": "",
@@ -101,30 +101,30 @@
   },
   "SOFTWARE": {
     "description": "",
-    "message": "Software"
+    "message": "Oprogramowanie"
   },
   "SOFTWARE_BODY": {
     "description": "",
-    "message": "Pioneer includes the following third-party software"
+    "message": "Pioneer zawiera następujące oprogramowanie stron trzecich"
   },
   "SUPPORT_DEVELOPMENT": {
     "description": "",
-    "message": "Support Development"
+    "message": "Wesprzyj rozwój"
   },
   "TRANSLATIONS": {
     "description": "",
-    "message": "Translations"
+    "message": "Tłumaczenia"
   },
   "VERSION_CURRENT": {
     "description": "",
-    "message": "Your current version"
+    "message": "Twoja obecna wersja"
   },
   "VERSION_LATEST": {
     "description": "This sentence continues into string VERSION_LATEST_CONTINUED, to read 'Latest version from source', referring to the source code",
-    "message": "Latest version from"
+    "message": "Ostatnia wersja od"
   },
   "VERSION_LATEST_CONTINUED": {
     "description": "is continued from string VERSION_LATEST, to read 'Latest version from source'. Here, 'source' refers to the source code",
-    "message": "source code"
+    "message": "Kod źródłowy"
   }
 }
