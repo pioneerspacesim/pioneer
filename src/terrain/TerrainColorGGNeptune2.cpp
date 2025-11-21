@@ -25,11 +25,11 @@ template <>
 vector3d TerrainColorFractal<TerrainColorGGNeptune2>::GetColor(const vector3d &p, double height, const vector3d &norm) const
 {
 	double n;
-	const double h = billow_octavenoise(GetFracDef(0), 0.5 * m_entropy[0] + 0.25f,
+	const double h = billow_octavenoise(m_fracdef[0], 0.5 * m_entropy + 0.25f,
 						 vector3d(noise(vector3d(p.x * 8, p.y * 32, p.z * 8)))) *
 		.125;
-	const double equatorial_region_1 = billow_octavenoise(GetFracDef(0), 0.54, p) * p.y * p.x;
-	const double equatorial_region_2 = octavenoise(GetFracDef(1), 0.58, p) * p.x * p.x;
+	const double equatorial_region_1 = billow_octavenoise(m_fracdef[0], 0.54, p) * p.y * p.x;
+	const double equatorial_region_2 = octavenoise(m_fracdef[1], 0.58, p) * p.x * p.x;
 	vector3d col;
 	col = interpolate_color(equatorial_region_1, vector3d(.01, .01, .1), m_ggdarkColor[0]);
 	col = interpolate_color(equatorial_region_2, col, vector3d(0, 0, .2));
@@ -38,9 +38,9 @@ vector3d TerrainColorFractal<TerrainColorGGNeptune2>::GetColor(const vector3d &p
 		for (float i = -1; i < 1; i += 0.6f) {
 			double temp = p.y - i;
 			if (temp < .07 + h && temp > -.07 + h) {
-				n = 2.0 * billow_octavenoise(GetFracDef(2), 0.5 * m_entropy[0], noise(vector3d(p.x, p.y * m_planetEarthRadii * 0.3, p.z)) * p);
-				n += 0.8 * octavenoise(GetFracDef(1), 0.5 * m_entropy[0], noise(vector3d(p.x, p.y * m_planetEarthRadii, p.z)) * p);
-				n += 0.5 * billow_octavenoise(GetFracDef(3), 0.6, p);
+				n = 2.0 * billow_octavenoise(m_fracdef[2], 0.5 * m_entropy, noise(vector3d(p.x, p.y * m_planetEarthRadii * 0.3, p.z)) * p);
+				n += 0.8 * octavenoise(m_fracdef[1], 0.5 * m_entropy, noise(vector3d(p.x, p.y * m_planetEarthRadii, p.z)) * p);
+				n += 0.5 * billow_octavenoise(m_fracdef[3], 0.6, p);
 				n *= n;
 				n = (n < 0.0 ? -n : n);
 				n = (n > 1.0 ? 2.0 - n : n);
@@ -73,9 +73,9 @@ vector3d TerrainColorFractal<TerrainColorGGNeptune2>::GetColor(const vector3d &p
 		}
 	}
 	//if is not a stripe.
-	n = octavenoise(GetFracDef(1), 0.5 * m_entropy[0] + 0.25f, noise(vector3d(p.x * 0.2, p.y * m_planetEarthRadii * 10, p.z)) * p);
+	n = octavenoise(m_fracdef[1], 0.5 * m_entropy + 0.25f, noise(vector3d(p.x * 0.2, p.y * m_planetEarthRadii * 10, p.z)) * p);
 	//n += 0.5;
-	//n += octavenoise(GetFracDef(0), 0.6*m_entropy[0], 3.142*p.z*p.z);
+	//n += octavenoise(m_fracdef[0], 0.6*m_entropy, 3.142*p.z*p.z);
 	n *= n * n * n;
 	n = (n < 0.0 ? -n : n);
 	n = (n > 1.0 ? 2.0 - n : n);

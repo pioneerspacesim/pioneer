@@ -36,6 +36,9 @@ public:
 	// implements calls to all relevant terrain management sub-systems
 	static void OnChangeDetailLevel(Graphics::Renderer *r);
 
+	const char *GetHeightFractalName() const;
+	const char *GetColorFractalName() const;
+
 protected:
 	TerrainBody() = delete;
 	TerrainBody(SystemBody *);

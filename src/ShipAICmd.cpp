@@ -106,7 +106,7 @@ bool AICmdKill::TimeStepUpdate()
 	// ok, so now pick new direction
 	vector3d targdir = m_target->GetPositionRelTo(m_ship).Normalized();
 	vector3d tdir1 = targdir.Cross(vector3d(targdir.z+0.1, targdir.x, targdir.y));
-	tdir1 = tdir1.Normalized();
+	tdir1.Normalize();
 	vector3d tdir2 = targdir.Cross(tdir1);
 
 	double d1 = Pi::rng.Double() - 0.5;

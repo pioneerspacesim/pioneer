@@ -35,15 +35,16 @@ public:
 	void Update() override;
 	void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) override;
 
-	double GetHeight(const vector3d &p) const final
+	double GetTerrainHeight(const vector3d &p) const final
 	{
-		const double h = m_terrain->GetHeight(p);
+		double h;
+		m_terrain->GetHeights(&p, &h, 1);
 #ifndef NDEBUG
 		// XXX don't remove this. Fix your fractals instead
 		// Fractals absolutely MUST return heights >= 0.0 (one planet radius)
 		// otherwise atmosphere and other things break.
 		if (h < 0.0) {
-			Output("GetHeight({ %f, %f, %f }) returned %f\n", p.x, p.y, p.z, h);
+			Output("GetTerrainHeight({ %f, %f, %f }) returned %f\n", p.x, p.y, p.z, h);
 			m_terrain->DebugDump();
 			assert(h >= 0.0);
 		}

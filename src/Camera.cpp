@@ -382,7 +382,7 @@ void Camera::CalcLighting(const Body *b, double &ambient, double &direct) const
 	vector3d upDir = b->GetInterpPositionRelTo(rotFrame);
 	const double planetRadius = planet->GetSystemBody()->GetRadius();
 	const double dist = std::max(planetRadius, upDir.Length());
-	upDir = upDir.Normalized();
+	upDir.Normalize();
 
 	double pressure, density;
 	planet->GetAtmosphericState(dist, &pressure, &density);

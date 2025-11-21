@@ -394,7 +394,7 @@ double Propulsion::AIFaceUpdir(const vector3d &updir, double av)
 	vector3d uphead = updir * m_dBody->GetOrient(); // create desired object-space updir
 	if (uphead.z > 0.99999) return 0;				// bail out if facing updir
 	uphead.z = 0;
-	uphead = uphead.Normalized(); // only care about roll axis
+	uphead.Normalize(); // only care about roll axis
 
 	double ang = 0.0, dav = 0.0;
 	if (uphead.y < 0.99999999) {

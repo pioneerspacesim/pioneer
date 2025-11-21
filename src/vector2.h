@@ -109,8 +109,6 @@ public:
 	{
 		return vector2(x * cos(alpha) - y * sin(alpha), y * cos(alpha) + x * sin(alpha));
 	}
-
-	void Print() const { printf("v(%f,%f)\n", x, y); }
 };
 
 template <>
