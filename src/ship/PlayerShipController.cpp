@@ -205,7 +205,7 @@ PlayerShipController::PlayerShipController() :
 
 	m_toggleSpeedLimiter = InputBindings.toggleSpeedLimiter->onPressed.connect(
 		[this]() {
-			this->SetSpeedLimiterActive(not this->IsSpeedLimiterActive());
+			this->SetSpeedLimiterActive(!this->IsSpeedLimiterActive());
 		});
 
 	m_selectTarget = InputBindings.targetObject->onPressed.connect (

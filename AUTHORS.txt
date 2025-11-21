@@ -189,7 +189,7 @@ Pioneer includes the following third-party software:
     (see contrib/PicoDDS/PicoDDS.h)
 
   JSON for Modern C++
-  Copyright © 2013-2018 Niels Lohmann.
+  Copyright © 2013-2025 Niels Lohmann.
   Licensed under the MIT License (see contrib/json/json.hpp)
 
   Base64 Encode / Decode

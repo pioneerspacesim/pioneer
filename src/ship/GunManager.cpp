@@ -76,13 +76,13 @@ void GunManager::LoadFromJson(const Json &jsonObj, Space *space)
 	m_coolingBoost = jsonObj.value<float>("coolingBoost", 1.0);
 
 	const Json &mounts = jsonObj["mounts"];
-	for (const auto &pair : mounts.items()) {
-		WeaponMount mount = pair.value().get<WeaponMount>();
+	for (const auto &[key, value] : mounts.items()) {
+		WeaponMount mount = value.get<WeaponMount>();
 
 		// Find the tag for this weapon mount
-		mount.tag = m_parent->GetModel()->FindTagByName(pair.value()["tag"]);
+		mount.tag = m_parent->GetModel()->FindTagByName(value["tag"].get<std::string_view>());
 
-		m_mounts.try_emplace(std::string_view(pair.key()), std::move(mount));
+		m_mounts.try_emplace(std::string_view(key), std::move(mount));
 	}
 
 	const Json &weapons = jsonObj["weapons"];

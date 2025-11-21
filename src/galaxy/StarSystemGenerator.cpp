@@ -1662,7 +1662,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 		}
 
 		// Always generate a station around a populated high-gravity world
-		if ((NumToMake == 0) and (sbody->CalcSurfaceGravity() > 10.5)) {  // 10.5 m/s2 = 1,07 g
+		if ((NumToMake == 0) && (sbody->CalcSurfaceGravity() > 10.5)) {  // 10.5 m/s2 = 1,07 g
 			NumToMake = 1;
 		}
 
