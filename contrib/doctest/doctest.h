@@ -496,6 +496,7 @@ DOCTEST_GCC_SUPPRESS_WARNING_POP
 // https://github.com/doctest/doctest/issues/126
 // https://github.com/doctest/doctest/issues/356
 #if DOCTEST_CLANG
+#pragma GCC diagnostic ignored "-W#warnings"
 #include <ciso646>
 #endif // clang
 
@@ -3904,7 +3905,7 @@ const char* skipPathFromFilename(const char* file) {
         {
             const auto prefix_start = pos;
             pos = std::min(prefixes.find(separator, prefix_start), prefixes.size());
-            
+
             const auto prefix_size = pos - prefix_start;
             if(prefix_size > longest_match)
             {
