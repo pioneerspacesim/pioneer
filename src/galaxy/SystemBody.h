@@ -92,6 +92,7 @@ public:
 
 	void SaveToJson(Json &out);
 	void LoadFromJson(const Json &obj);
+	void GenerateStarColor();
 
 	std::string m_name;
 	SystemBodyType::BodyType m_type = SystemBodyType::TYPE_GRAVPOINT;
@@ -132,6 +133,9 @@ public:
 	unsigned int m_heightMapFractal;
 
 	std::string m_spaceStationType;
+
+	// star color
+	Color m_starColor;
 };
 
 class SystemBody : public RefCounted, public SystemBodyType, protected SystemBodyData {
@@ -271,6 +275,7 @@ public:
 		// which is rendered when the body has a small screen size
 		return Color(200, 200, 200, 255);
 	}
+	Color GetStarColor() const { return m_starColor; };
 
 	// Returns color, density in kg/m^3 at sea level
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const
