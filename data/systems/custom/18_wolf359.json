@@ -1,0 +1,101 @@
+{
+	"bodies": [
+		{
+			"agricultural": "f0/0",
+			"argOfPeriapsis": "f2/81162052",
+			"aspectRatio": "f1/0",
+			"atmosColor": [
+				0,
+				0,
+				0,
+				255
+			],
+			"atmosDensity": "f0/0",
+			"atmosOxidizing": "f0/0",
+			"averageTemp": 2800,
+			"axialTilt": "f0/0",
+			"children": [
+				1
+			],
+			"eccentricity": "f0/0",
+			"hasRings": false,
+			"humanActivity": "f0/0",
+			"inclination": "f0/0",
+			"life": "f0/0",
+			"mass": "f0/390451572",
+			"metallicity": "f0/0",
+			"name": "Wolf 359",
+			"orbitalOffset": "f0/3093977952",
+			"orbitalPhase": "f4/2917729947",
+			"population": "f0/0",
+			"radius": "f0/687194767",
+			"rotationPeriod": "f0/0",
+			"rotationPhase": "f0/0",
+			"seed": 1832678874,
+			"semiMajorAxis": "f0/0",
+			"type": "STAR_M",
+			"volatileIces": "f0/0",
+			"volatileLiquid": "f0/0",
+			"volcanicity": "f0/0"
+		},
+		{
+			"agricultural": "f0/0",
+			"argOfPeriapsis": "f5/1484375687",
+			"aspectRatio": "f1/0",
+			"atmosColor": [
+				0,
+				0,
+				0,
+				0
+			],
+			"atmosDensity": "f0/0",
+			"atmosOxidizing": "f0/0",
+			"averageTemp": 0,
+			"axialTilt": "f0/0",
+			"eccentricity": "f0/0",
+			"hasRings": false,
+			"humanActivity": "f0/0",
+			"inclination": "f0/0",
+			"life": "f0/0",
+			"mass": "f0/0",
+			"metallicity": "f0/0",
+			"name": "Hephaestus",
+			"orbitalOffset": "f0/1431655765",
+			"orbitalPhase": "f5/280879451",
+			"parent": 0,
+			"population": "f0/0",
+			"radius": "f0/0",
+			"rotationPeriod": "f0/0",
+			"rotationPhase": "f0/0",
+			"seed": 380475769,
+			"semiMajorAxis": "f0/103079215",
+			"type": "STARPORT_ORBITAL",
+			"volatileIces": "f0/0",
+			"volatileLiquid": "f0/0",
+			"volcanicity": "f0/0"
+		}
+	],
+	"comment": "",
+	"govType": "NONE",
+	"longDesc": "The system is best known for the old 'deep space' research and signal station Hephaestus, that is still orbiting the red dwarf of Wolf 359. It harkens back to when humanity took its first trying steps out from its birth system of Sol.\nAs more information of its operation emerges, Hephaestus is becoming an epicentre of many legends and myths. It is rumoured that the then comparative seclusion of the system made it ideal for prying human minds with nefarious intentions. Officially, many of the rumours are attributed as being artefacts of the deteriorating mental state of the minimal skeletal crew that manned the station, which are chronicled in their audio logs, some of which have survived to this day. One of the controversies is whether the supposedly alien signal intercepted from Gliese 163 was merely an hallucinogenic effect from listening to too much static.\nThe low mass and temperature of Wolf 359 puts it right on the lower limit of being able to maintain hydrogen fusion. Coincidentally, it bears many features in common with Gliese 163. ",
+	"name": "Wolf 359",
+	"otherNames": [
+		"CN Leonis",
+		"CN Leo"
+	],
+	"pos": [
+		2.111999988555908,
+		7.447999954223633,
+		0.9599999785423279
+	],
+	"sector": [
+		0,
+		0,
+		0
+	],
+	"seed": 0,
+	"shortDesc": "Deep space survey system of legend",
+	"stars": [
+		"STAR_M"
+	]
+}
