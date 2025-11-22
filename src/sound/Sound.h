@@ -25,7 +25,7 @@ namespace Sound {
 			eid(0) {}
 		void Play(const char *fx, const float volume_left, const float volume_right, Op op);
 		void Play(const char *fx) { Play(fx, 1.0f, 1.0f, 0); }
-		void PlayMusic(const char *fx, float volume, float fadeDelta, bool repeat, Event* fadeOut = nullptr);
+		void PlayMusic(const char *fx, float volume, float fadeDelta, bool repeat, Event *fadeOut = nullptr);
 		bool Stop();
 		bool IsPlaying() const;
 		bool SetOp(Op op);
