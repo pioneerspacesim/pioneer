@@ -588,9 +588,7 @@ namespace Sound {
 		std::map<std::string, Sample> m_loadedSounds;
 	};
 
-	std::vector<std::string> s_audioDeviceNames = {};
-
-	bool Init(bool automaticallyOpenDevice)
+	bool Init()
 	{
 		PROFILE_SCOPED()
 		if (m_audioDevice) {
@@ -608,13 +606,6 @@ namespace Sound {
 
 		//I'd rather do this in MusicPlayer and store in a different map too, this will do for now
 		Pi::GetApp()->GetAsyncStartupQueue()->Order(new LoadSoundJob("music", true));
-
-		UpdateAudioDevices();
-
-		// If we're going to manually pick a device later, don't open a default one now.
-		if (!automaticallyOpenDevice) {
-			return true;
-		}
 
 		SDL_AudioSpec wanted;
 		wanted.freq = FREQ;
@@ -638,33 +629,6 @@ namespace Sound {
 		return true;
 	}
 
-	bool InitDevice(std::string &name)
-	{
-		if (m_audioDevice) {
-			DestroyAllEvents();
-			SDL_PauseAudioDevice(m_audioDevice, 1);
-			SDL_CloseAudioDevice(m_audioDevice);
-			m_audioDevice = 0;
-		}
-
-		SDL_AudioSpec wanted = {};
-		wanted.freq = FREQ;
-		wanted.channels = 2;
-		wanted.format = AUDIO_S16;
-		wanted.samples = BUF_SIZE;
-		wanted.callback = fill_audio;
-		wanted.userdata = 0;
-
-		m_audioDevice = SDL_OpenAudioDevice(name.c_str(), 0, &wanted, nullptr, 0);
-		if (!m_audioDevice) {
-			Output("Could not open audio device: %s\n", SDL_GetError());
-			return false;
-		}
-
-		DestroyAllEvents();
-		return true;
-	}
-
 	void Uninit()
 	{
 		if (!m_audioDevice)
@@ -676,16 +640,6 @@ namespace Sound {
 			delete[](*i).second.buf;
 		SDL_CloseAudioDevice(m_audioDevice);
 		m_audioDevice = 0;
-	}
-
-	void UpdateAudioDevices()
-	{
-		PROFILE_SCOPED()
-		s_audioDeviceNames.clear();
-		for (int idx = 0; idx < SDL_GetNumAudioDevices(0); idx++) {
-			const char *name = SDL_GetAudioDeviceName(idx, 0);
-			s_audioDeviceNames.emplace_back(name);
-		}
 	}
 
 	void Pause(int on)
