@@ -49,6 +49,9 @@ namespace Sound {
 
 		virtual void AddSample(std::string_view key, Sample &&sample) = 0;
 		virtual void Update(float delta_t) {}
+
+		virtual bool IsBinauralSupported() { return false; }
+		virtual void EnableBinaural(bool enabled) {}
 	};
 
 } // namespace Sound

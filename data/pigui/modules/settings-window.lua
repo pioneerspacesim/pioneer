@@ -342,10 +342,12 @@ local function showSoundOptions()
 	local musicLevel = Engine.GetMusicVolume()*100
 	local effectsMuted = Engine.GetEffectsMuted()
 	local effectsLevel = Engine.GetEffectsVolume()*100
+	local binaural_supported = Engine.IsBinauralRenderingSupported()
+	local binaural_enabled = Engine.GetBinauralRendering()
 
 	local c
 
-	c,new_backend_id = combo("Audio Backend", current_backend_id - 1, available_backends)
+	c,new_backend_id = combo(lui.AUDIO_BACKEND, current_backend_id - 1, available_backends)
 	if c then Engine.SetSoundBackend(new_backend_id + 1) end
 
 	c,masterMuted = checkbox(lui.MUTE.."##master", masterMuted)
@@ -365,6 +367,11 @@ local function showSoundOptions()
 	ui.sameLine()
 	c,effectsLevel = slider(lui.EFFECTS, effectsLevel, 0, 100)
 	if c then Engine.SetEffectsVolume(effectsLevel/100) end
+
+	if binaural_supported then
+		c,binaural_enabled = checkbox(lui.BINAURAL_RENDERING, binaural_enabled, lui.BINAURAL_RENDERING_DESC)
+		if c then Engine.SetBinauralRendering(binaural_enabled) end
+	end
 end
 
 local function showLanguageOptions()

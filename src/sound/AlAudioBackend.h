@@ -43,6 +43,9 @@ namespace Sound {
 		void AddSample(std::string_view key, Sample &&sample) override;
 		void Update(float delta_t) override;
 
+		bool IsBinauralSupported() override;
+		void EnableBinaural(bool enabled) override;
+
 	private:
 		class SoundEvent {
 		public:
