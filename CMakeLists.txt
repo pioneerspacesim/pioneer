@@ -268,6 +268,7 @@ endif (MSVC)
 find_package(Threads REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED COMPONENTS OpenGL)
+find_package(OpenAL CONFIG REQUIRED)
 
 set(FMT_INSTALL OFF CACHE BOOL "Enable install of libfmt" FORCE)
 
@@ -377,7 +378,7 @@ else()
 	message(WARNING, "Python 3 not found; enums will not be scanned.")
 endif()
 
-target_link_libraries(pioneer-lib PUBLIC lz4 fmt::fmt)
+target_link_libraries(pioneer-lib PUBLIC lz4 fmt::fmt OpenAL::OpenAL)
 
 list(APPEND pioneerLibs
 	pioneer-core

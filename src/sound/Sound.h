@@ -63,6 +63,7 @@ namespace Sound {
 	void SetSfxVolume(const float vol);
 	float GetSfxVolume();
 	const std::vector<std::string> GetMusicFiles();
+	void Update(float delta_t);
 
 } /* namespace Sound */
 
