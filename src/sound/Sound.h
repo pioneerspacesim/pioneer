@@ -46,11 +46,8 @@ namespace Sound {
 		uint32_t eid;
 	};
 
-	bool Init(bool automaticallyOpenDevice = true);
-	bool InitDevice(std::string &name);
+	bool Init();
 	void Uninit();
-	std::vector<std::string> &GetAudioDevices();
-	void UpdateAudioDevices();
 	/**
 	 * Silence all active sound events.
 	 */
