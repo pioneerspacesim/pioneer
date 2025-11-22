@@ -6,147 +6,44 @@
  */
 
 #include "Sound.h"
+#include "AudioBackend.h"
 #include "Body.h"
 #include "FileSystem.h"
 #include "JobQueue.h"
 #include "Pi.h"
 #include "Player.h"
+#include "SdlAudioBackend.h"
 #include "utils.h"
 
-#include "SDL_audio.h"
-#include "SDL_events.h"
-#include <SDL.h>
-#include <vorbis/vorbisfile.h>
-
 #include <cassert>
-#include <cerrno>
-#include <cstdio>
 #include <string>
 #include <vector>
 
 namespace Sound {
 
 	static const unsigned int FREQ = 44100;
-	static const unsigned int BUF_SIZE = 4096;
-	static const unsigned int MAX_WAVSTREAMS = 10; //first two are for music
 	static const double STREAM_IF_LONGER_THAN = 10.0;
 
-	static SDL_AudioDeviceID m_audioDevice = 0;
-
-	class OggFileDataStream {
-	public:
-		static const ov_callbacks CALLBACKS;
-
-		OggFileDataStream() :
-			m_cursor(nullptr) {}
-		explicit OggFileDataStream(const RefCountedPtr<FileSystem::FileData> &data) :
-			m_data(data),
-			m_cursor(data->GetData()) { assert(data); }
-
-		void Reset()
-		{
-			m_data.Reset();
-			m_cursor = nullptr;
-		}
-
-		void Reset(const RefCountedPtr<FileSystem::FileData> &data)
-		{
-			assert(data);
-			m_data = data;
-			m_cursor = m_data->GetData();
-		}
-
-		size_t read(char *buf, size_t sz, int n)
-		{
-			assert(n >= 0);
-			ptrdiff_t offset = tell();
-			// clamp to available data
-			n = std::min(n, int((m_data->GetSize() - offset) / sz));
-			size_t fullsize = sz * n;
-			assert(offset + fullsize <= m_data->GetSize());
-			memcpy(buf, m_cursor, fullsize);
-			m_cursor += fullsize;
-			return n;
-		}
-
-		int seek(ogg_int64_t offset, int whence)
-		{
-			switch (whence) {
-			case SEEK_SET: m_cursor = m_data->GetData() + offset; break;
-			case SEEK_END: m_cursor = m_data->GetData() + (m_data->GetSize() + offset); break;
-			case SEEK_CUR: m_cursor += offset; break;
-			default: return -1;
-			}
-			return 0;
-		}
-
-		long tell()
-		{
-			assert(m_data && m_cursor);
-			return long(m_cursor - m_data->GetData());
-		}
-
-		int close()
-		{
-			if (m_data) {
-				m_data.Reset();
-				m_cursor = nullptr;
-				return 0;
-			} else {
-				return -1;
-			}
-		}
-
-	private:
-		static size_t ov_callback_read(void *buf, size_t sz, size_t n, void *stream)
-		{
-			return reinterpret_cast<OggFileDataStream *>(stream)->read(reinterpret_cast<char *>(buf), sz, n);
-		}
-		static int ov_callback_seek(void *stream, ogg_int64_t offset, int whence)
-		{
-			return reinterpret_cast<OggFileDataStream *>(stream)->seek(offset, whence);
-		}
-		static long ov_callback_tell(void *stream)
-		{
-			return reinterpret_cast<OggFileDataStream *>(stream)->tell();
-		}
-		static int ov_callback_close(void *stream)
-		{
-			return reinterpret_cast<OggFileDataStream *>(stream)->close();
-		}
-
-		RefCountedPtr<FileSystem::FileData> m_data;
-		const char *m_cursor;
-	};
-
-	const ov_callbacks OggFileDataStream::CALLBACKS = {
-		&OggFileDataStream::ov_callback_read,
-		&OggFileDataStream::ov_callback_seek,
-		&OggFileDataStream::ov_callback_close,
-		&OggFileDataStream::ov_callback_tell
-	};
-
-	static float m_masterVol = 1.0f;
-	static float m_sfxVol = 1.0f;
+	static AudioBackend *m_backend = nullptr;
 
 	void SetMasterVolume(const float vol)
 	{
-		m_masterVol = vol;
+		m_backend->SetMasterVolume(vol);
 	}
 
 	float GetMasterVolume()
 	{
-		return m_masterVol;
+		return m_backend->GetMasterVolume();
 	}
 
 	void SetSfxVolume(const float vol)
 	{
-		m_sfxVol = vol;
+		m_backend->SetSfxVolume(vol);
 	}
 
 	float GetSfxVolume()
 	{
-		return m_sfxVol;
+		return m_backend->GetSfxVolume();
 	}
 
 	void CalculateStereo(const Body *b, float vol, float *volLeftOut, float *volRightOut)
@@ -172,321 +69,26 @@ namespace Sound {
 		(*volRightOut) = Clamp((*volRightOut), 0.0f, 1.0f);
 	}
 
+	static std::vector<std::string> music_sample_keys;
+
 	void BodyMakeNoise(const Body *b, const char *sfx, float vol)
 	{
-		float vl, vr;
-		CalculateStereo(b, vol, &vl, &vr);
-		Sound::PlaySfx(sfx, vl, vr, 0);
-	}
-
-	struct Sample {
-		uint16_t *buf;
-		uint32_t buf_len;
-		uint32_t channels;
-		int upsample; // 1 = 44100, 2=22050
-		/* if buf is null, this will be path to an ogg we must stream */
-		std::string path;
-		bool isMusic;
-	};
-
-	typedef uint32_t eventid;
-
-	struct SoundEvent {
-		const Sample *sample;
-		OggVorbis_File *oggv; // if sample->buf = 0 then stream this
-		OggFileDataStream ogg_data_stream;
-		uint32_t buf_pos;
-		float volume[2]; // left and right channels
-		eventid identifier;
-		uint32_t op;
-
-		float targetVolume[2];
-		float rateOfChange[2]; // per sample
-		bool ascend[2];
-	};
-
-	static std::map<std::string, Sample> sfx_samples;
-	struct SoundEvent wavstream[MAX_WAVSTREAMS];
-
-	static Sample *GetSample(const char *filename)
-	{
-		if (sfx_samples.find(filename) != sfx_samples.end()) {
-			return &sfx_samples[filename];
-		} else {
-			//SilentWarning("Unknown sound sample: %s", filename);
-			return 0;
-		}
-	}
-
-	static SoundEvent *GetEvent(eventid id)
-	{
-		for (unsigned int i = 0; i < MAX_WAVSTREAMS; i++) {
-			if (wavstream[i].sample && (wavstream[i].identifier == id))
-				return &wavstream[i];
-		}
-		return nullptr;
-	}
-
-	static void DestroyEvent(SoundEvent *ev)
-	{
-		if (ev->oggv) {
-			// streaming ogg
-			ov_clear(ev->oggv);
-			delete ev->oggv;
-			ev->oggv = 0;
-			ev->ogg_data_stream.Reset();
-		}
-		ev->sample = nullptr;
-	}
-
-	/*
- * Volume should be 0-65535
- */
-	static uint32_t identifier = 1;
-	static eventid PlaySfxSample(Sample *sample, const float volume_left, const float volume_right, const Op op)
-	{
-		SDL_LockAudioDevice(m_audioDevice);
-		unsigned int idx;
-		uint32_t age;
-		/* find free wavstream (first two reserved for music) */
-		for (idx = 2; idx < MAX_WAVSTREAMS; idx++) {
-			if (!wavstream[idx].sample) break;
-		}
-		if (idx == MAX_WAVSTREAMS) {
-			/* otherwise overwrite oldest one */
-			age = 0;
-			idx = 0;
-			for (unsigned int i = 2; i < MAX_WAVSTREAMS; i++) {
-				if ((i == 0) || (wavstream[i].buf_pos > age)) {
-					idx = i;
-					age = wavstream[i].buf_pos;
-				}
-			}
-			DestroyEvent(&wavstream[idx]);
-		}
-		wavstream[idx].sample = sample;
-		wavstream[idx].oggv = 0;
-		wavstream[idx].buf_pos = 0;
-		wavstream[idx].volume[0] = volume_left * GetSfxVolume();
-		wavstream[idx].volume[1] = volume_right * GetSfxVolume();
-		wavstream[idx].op = op;
-		wavstream[idx].identifier = identifier;
-		wavstream[idx].targetVolume[0] = volume_left * GetSfxVolume();
-		wavstream[idx].targetVolume[1] = volume_right * GetSfxVolume();
-		wavstream[idx].rateOfChange[0] = wavstream[idx].rateOfChange[1] = 0.0f;
-		SDL_UnlockAudioDevice(m_audioDevice);
-		return identifier++;
+		m_backend->BodyMakeNoise(b, sfx, vol);
 	}
 
 	void PlaySfx(const char *fx, const float volume_left, const float volume_right, const Op op)
 	{
-		Sample* sample = GetSample(fx);
-		if (sample) {
-			PlaySfxSample(sample, volume_left, volume_right, op);
-		}
-	}
-
-	//unlike PlaySfxSample, we want uninterrupted play and do not care about age
-	//alternate between two streams for crossfade
-	static int nextMusicStream = 0;
-	static eventid PlayMusicSample(Sample *sample, const float volume_left, const float volume_right, const Op op)
-	{
-		const int idx = nextMusicStream;
-		nextMusicStream ^= 1;
-		SDL_LockAudioDevice(m_audioDevice);
-		if (wavstream[idx].sample)
-			DestroyEvent(&wavstream[idx]);
-		wavstream[idx].sample = sample;
-		wavstream[idx].oggv = nullptr;
-		wavstream[idx].buf_pos = 0;
-		wavstream[idx].volume[0] = volume_left;
-		wavstream[idx].volume[1] = volume_right;
-		wavstream[idx].op = op;
-		wavstream[idx].identifier = identifier;
-		wavstream[idx].targetVolume[0] = volume_left; //already scaled in MusicPlayer
-		wavstream[idx].targetVolume[1] = volume_right;
-		wavstream[idx].rateOfChange[0] = wavstream[idx].rateOfChange[1] = 0.0f;
-		SDL_UnlockAudioDevice(m_audioDevice);
-		return identifier++;
-	}
-
-	/*
- * len is the number of floats to put in buffer, NOT full samples (a sample would be 2 floats since stereo)
- */
-	template <int T_channels, int T_upsample>
-	static void fill_audio_1stream(float *buffer, int len, int stream_num)
-	{
-		// inbuf will be smaller for mono and for 22050hz samples
-		Sint16 *inbuf = static_cast<Sint16 *>(alloca(len * T_channels / T_upsample));
-		// hm pity to put this here ^^ since not used by ev.sample->buf case
-		SoundEvent &ev = wavstream[stream_num];
-		int inbuf_pos = 0;
-		int pos = 0;
-		while ((pos < len) && ev.sample) {
-			if (ev.sample->buf) {
-				// already decoded
-				inbuf = reinterpret_cast<Sint16 *>(ev.sample->buf);
-				inbuf_pos = ev.buf_pos;
-			} else {
-				// stream ogg vorbis
-				// ogg vorbis streaming
-				if (!ev.oggv) {
-					// open file to start streaming
-					ev.oggv = new OggVorbis_File;
-					RefCountedPtr<FileSystem::FileData> oggdata = FileSystem::gameDataFiles.ReadFile(ev.sample->path);
-					if (!oggdata) {
-						Output("Could not open '%s'", ev.sample->path.c_str());
-						ev.sample = nullptr;
-						return;
-					}
-					ev.ogg_data_stream.Reset(oggdata);
-					oggdata.Reset();
-					if (ov_open_callbacks(&ev.ogg_data_stream, ev.oggv, 0, 0, OggFileDataStream::CALLBACKS) < 0) {
-						Output("Vorbis could not understand '%s'", ev.sample->path.c_str());
-						ev.sample = nullptr;
-						return;
-					}
-				}
-				int i = 0;
-				// (len-pos) = num floats the destination buffer wants.
-				// if we are stereo then to fill this we need (len-pos)*2 bytes
-				// if we are mono we want (len-pos) bytes
-				int wanted_bytes = (len - pos) * T_channels / T_upsample;
-				for (;;) {
-					int music_section;
-					if (wanted_bytes == 0) break;
-					int amt = ov_read(ev.oggv, reinterpret_cast<char *>(inbuf) + i,
-						wanted_bytes, 0, 2, 1, &music_section);
-					i += amt;
-					wanted_bytes -= amt;
-					if (amt == 0) break;
-				}
-			}
-
-			while (pos < len) {
-				/* Volume animations */
-				for (int chan = 0; chan < 2; chan++) {
-					if (ev.ascend[chan]) {
-						ev.volume[chan] = std::min(ev.volume[chan] + ev.rateOfChange[chan], ev.targetVolume[chan]);
-					} else {
-						ev.volume[chan] = std::max(ev.volume[chan] - ev.rateOfChange[chan], ev.targetVolume[chan]);
-					}
-				}
-
-				float s0, s1;
-
-				if (T_channels == 1) {
-					s0 = float(inbuf[inbuf_pos++]);
-					s1 = ev.volume[1] * s0;
-					s0 = ev.volume[0] * s0;
-					ev.buf_pos += 1;
-				} else /* stereo */ {
-					s0 = ev.volume[0] * float(inbuf[inbuf_pos++]);
-					s1 = ev.volume[1] * float(inbuf[inbuf_pos++]);
-					ev.buf_pos += 2;
-				}
-
-				if (T_upsample == 1) {
-					buffer[pos] += s0;
-					buffer[pos + 1] += s1;
-					pos += 2;
-				} else {
-					buffer[pos] += s0;
-					buffer[pos + 1] += s1;
-					buffer[pos + 2] += s0;
-					buffer[pos + 3] += s1;
-					pos += 4;
-				}
-
-				/* Repeat or end? */
-				if (ev.buf_pos >= ev.sample->buf_len) {
-					ev.buf_pos = 0;
-					inbuf_pos = 0;
-					if (!(ev.op & OP_REPEAT)) {
-						DestroyEvent(&ev);
-						break;
-					}
-					if (ev.oggv) {
-						// streaming ogg
-						ov_pcm_seek(ev.oggv, 0);
-						// repeat outer loop to decode some
-						// more vorbis from the start of the stream
-						break;
-					}
-				}
-			}
-		}
-	}
-
-	static void fill_audio(void *udata, Uint8 *dsp_buf, int len)
-	{
-		const int len_in_floats = len >> 1;
-		float *tmpbuf = static_cast<float *>(alloca(sizeof(float) * len_in_floats)); // len is in chars not samples
-		memset(static_cast<void *>(tmpbuf), 0, sizeof(float) * len_in_floats);
-
-		for (unsigned int i = 0; i < MAX_WAVSTREAMS; i++) {
-			if (!wavstream[i].sample) continue;
-
-			wavstream[i].ascend[0] = (wavstream[i].targetVolume[0] > wavstream[i].volume[0]);
-			wavstream[i].ascend[1] = (wavstream[i].targetVolume[1] > wavstream[i].volume[1]);
-
-			if (wavstream[i].op & OP_STOP_AT_TARGET_VOLUME) {
-				if (wavstream[i].ascend[0] && wavstream[i].ascend[1]) {
-					if ((wavstream[i].targetVolume[0] <= wavstream[i].volume[0]) &&
-						(wavstream[i].targetVolume[1] <= wavstream[i].volume[1])) {
-						DestroyEvent(&wavstream[i]);
-						continue;
-					}
-				} else {
-					if ((wavstream[i].targetVolume[0] >= wavstream[i].volume[0]) &&
-						(wavstream[i].targetVolume[1] >= wavstream[i].volume[1])) {
-						DestroyEvent(&wavstream[i]);
-						continue;
-					}
-				}
-			}
-
-			if (wavstream[i].sample->channels == 1) {
-				if (wavstream[i].sample->upsample == 1) {
-					fill_audio_1stream<1, 1>(tmpbuf, len_in_floats, i);
-				} else {
-					fill_audio_1stream<1, 2>(tmpbuf, len_in_floats, i);
-				}
-			} else {
-				if (wavstream[i].sample->upsample == 1) {
-					fill_audio_1stream<2, 1>(tmpbuf, len_in_floats, i);
-				} else {
-					fill_audio_1stream<2, 2>(tmpbuf, len_in_floats, i);
-				}
-			}
-		}
-
-		/* Convert float sample buffer to Sint16 samples the hardware likes */
-		for (int pos = 0; pos < len_in_floats; pos++) {
-			const float val = m_masterVol * tmpbuf[pos];
-			(reinterpret_cast<Sint16 *>(dsp_buf))[pos] = Sint16(Clamp(val, -32768.0f, 32767.0f));
-		}
+		m_backend->Play(fx, volume_left, volume_right, op);
 	}
 
 	void DestroyAllEvents()
 	{
-		/* silence any sound events */
-		SDL_LockAudioDevice(m_audioDevice);
-		for (unsigned int idx = 0; idx < MAX_WAVSTREAMS; idx++) {
-			DestroyEvent(&wavstream[idx]);
-		}
-		SDL_UnlockAudioDevice(m_audioDevice);
+		m_backend->DestroyAllEvents();
 	}
 
 	void DestroyAllEventsExceptMusic()
 	{
-		/* silence any sound events EXCEPT music
-		   which are on wavstream[0] and [1] */
-		SDL_LockAudioDevice(m_audioDevice);
-		for (unsigned int idx = 2; idx < MAX_WAVSTREAMS; idx++) {
-			DestroyEvent(&wavstream[idx]);
-		}
-		SDL_UnlockAudioDevice(m_audioDevice);
+		m_backend->DestroyAllEventsExceptMusic();
 	}
 
 	static std::pair<std::string, Sample> load_sound(const std::string &basename, const std::string &path, bool is_music)
@@ -516,14 +118,12 @@ namespace Sound {
 			Error("Vorbis file %s is not mono or stereo. Bad!", path.c_str());
 		}
 
-		int resample_multiplier = ((info->rate == (FREQ >> 1)) ? 2 : 1);
 		const Sint64 num_samples = ov_pcm_total(&oggv, -1);
 		// since samples are 16 bits we have:
 
-		sample.buf = 0;
 		sample.buf_len = num_samples * info->channels;
 		sample.channels = info->channels;
-		sample.upsample = resample_multiplier;
+		sample.samplerate = info->rate;
 		sample.path = path;
 
 		const float seconds = num_samples / float(info->rate);
@@ -531,12 +131,12 @@ namespace Sound {
 
 		// immediately decode and store as raw sample if short enough
 		if (seconds < STREAM_IF_LONGER_THAN) {
-			sample.buf = new Uint16[sample.buf_len];
+			sample.buf.resize(sample.buf_len);
 
 			int i = 0;
 			for (;;) {
 				int music_section;
-				int amt = ov_read(&oggv, reinterpret_cast<char *>(sample.buf) + i,
+				int amt = ov_read(&oggv, reinterpret_cast<char *>(sample.buf.data()) + i,
 					2 * sample.buf_len - i, 0, 2, 1, &music_section);
 				i += amt;
 				if (amt == 0) break;
@@ -561,7 +161,8 @@ namespace Sound {
 		LoadSoundJob(const std::string &directory, bool isMusic) :
 			m_directory(directory),
 			m_isMusic(isMusic)
-		{}
+		{
+		}
 
 		void OnRun() override
 		{
@@ -577,8 +178,11 @@ namespace Sound {
 
 		void OnFinish() override
 		{
-			for (const auto &pair : m_loadedSounds) {
-				sfx_samples.emplace(std::move(pair));
+			for (auto &pair : m_loadedSounds) {
+				if (pair.second.isMusic) {
+					music_sample_keys.emplace_back(pair.first);
+				}
+				m_backend->AddSample(pair.first, std::move(pair.second));
 			}
 		}
 
@@ -591,13 +195,14 @@ namespace Sound {
 	bool Init()
 	{
 		PROFILE_SCOPED()
-		if (m_audioDevice) {
+		if (m_backend != nullptr) {
 			DestroyAllEvents();
 			return true;
 		}
 
-		if (SDL_Init(SDL_INIT_AUDIO) == -1) {
-			Output("Could not initialize SDL Audio: %s.\n", SDL_GetError());
+		try {
+			m_backend = new SdlAudioBackend();
+		} catch (...) {
 			return false;
 		}
 
@@ -607,22 +212,6 @@ namespace Sound {
 		//I'd rather do this in MusicPlayer and store in a different map too, this will do for now
 		Pi::GetApp()->GetAsyncStartupQueue()->Order(new LoadSoundJob("music", true));
 
-		SDL_AudioSpec wanted;
-		wanted.freq = FREQ;
-		wanted.channels = 2;
-		wanted.format = AUDIO_S16;
-		wanted.samples = BUF_SIZE;
-		wanted.callback = fill_audio;
-		wanted.userdata = 0;
-
-		// Automatically pick the best device.
-		// TODO: allow the user to select which device they'd like to use.
-		m_audioDevice = SDL_OpenAudioDevice(nullptr, 0, &wanted, nullptr, 0);
-		if (!m_audioDevice) {
-			Output("Could not open audio device: %s\n", SDL_GetError());
-			return false;
-		}
-
 		/* silence any sound events */
 		DestroyAllEvents();
 
@@ -631,36 +220,29 @@ namespace Sound {
 
 	void Uninit()
 	{
-		if (!m_audioDevice)
+		if (m_backend == nullptr) {
 			return;
+		}
 
 		DestroyAllEvents();
-		std::map<std::string, Sample>::iterator i;
-		for (i = sfx_samples.begin(); i != sfx_samples.end(); ++i)
-			delete[](*i).second.buf;
-		SDL_CloseAudioDevice(m_audioDevice);
-		m_audioDevice = 0;
+		delete m_backend;
+		m_backend = nullptr;
+
+		music_sample_keys.clear();
 	}
 
 	void Pause(int on)
 	{
-		if (bool(on) == (SDL_AUDIO_PAUSED == SDL_GetAudioDeviceStatus(m_audioDevice)))
-		{
-			return;
-		}
-		SDL_PauseAudioDevice(m_audioDevice, on);
+		m_backend->Pause(on);
 	}
 
 	void Event::Play(const char *fx, float volume_left, float volume_right, Op op)
 	{
 		Stop();
-		Sample* sample = GetSample(fx);
-		if (sample) {
-			eid = PlaySfxSample(sample, volume_left, volume_right, op);
-		}
+		eid = m_backend->Play(fx, volume_left, volume_right, op);
 	}
 
-	void Event::PlayMusic(const char *fx, float volume, float fadeDelta, bool repeat, Event* fadeOut)
+	void Event::PlayMusic(const char *fx, float volume, float fadeDelta, bool repeat, Event *fadeOut)
 	{
 		// The FadeOut, Stop, PlayMusicSample & VolumeAnimate calls perform
 		// five mutex lock operations. These could be reduced to a single
@@ -670,103 +252,46 @@ namespace Sound {
 			fadeOut->FadeOut(fadeDelta);
 		}
 		Stop();
-		Sample* sample = GetSample(fx);
-		if (sample) {
-			float start = fadeDelta ? 0.0f : volume;
-			eid = PlayMusicSample(sample, start, start, repeat ? Sound::OP_REPEAT : 0);
-			if (fadeDelta) {
-				VolumeAnimate(volume, volume, fadeDelta, fadeDelta);
-			}
+		float start = fadeDelta ? 0.0f : volume;
+		eid = m_backend->Play(fx, start, start, repeat ? Sound::OP_REPEAT : 0);
+		if (fadeDelta) {
+			VolumeAnimate(volume, volume, fadeDelta, fadeDelta);
 		}
 	}
 
 	bool Event::Stop()
 	{
-		if (eid) {
-			SDL_LockAudioDevice(m_audioDevice);
-			SoundEvent *s = GetEvent(eid);
-			if (s) {
-				DestroyEvent(s);
-			}
-			SDL_UnlockAudioDevice(m_audioDevice);
-			return s != nullptr;
-		} else {
-			return false;
-		}
+		return m_backend->EventStop(eid);
 	}
 
 	bool Event::IsPlaying() const
 	{
-		if (eid == 0)
-			return false;
-		else
-			return GetEvent(eid) != nullptr;
+		return m_backend->IsEventPlaying(eid);
 	}
 
 	bool Event::SetOp(Op op)
 	{
-		if (eid == 0) return false;
-		bool ret = false;
-		SDL_LockAudioDevice(m_audioDevice);
-		SoundEvent *se = GetEvent(eid);
-		if (se) {
-			se->op = op;
-			ret = true;
-		}
-		SDL_UnlockAudioDevice(m_audioDevice);
-		return ret;
+		return m_backend->EventSetOp(eid, op);
 	}
 
 	bool Event::VolumeAnimate(const float targetVol1, const float targetVol2, const float dv_dt1, const float dv_dt2)
 	{
-		SDL_LockAudioDevice(m_audioDevice);
-		SoundEvent *ev = GetEvent(eid);
-		if (ev) {
-			ev->targetVolume[0] = targetVol1;
-			ev->targetVolume[1] = targetVol2;
-			ev->rateOfChange[0] = dv_dt1 / float(FREQ);
-			ev->rateOfChange[1] = dv_dt2 / float(FREQ);
-		}
-		SDL_UnlockAudioDevice(m_audioDevice);
-		return (ev != nullptr);
+		return m_backend->EventVolumeAnimate(eid, targetVol1, targetVol2, dv_dt1, dv_dt2);
 	}
 
 	bool Event::SetVolume(const float vol_left, const float vol_right)
 	{
-		SDL_LockAudioDevice(m_audioDevice);
-		bool status = false;
-		for (unsigned int i = 0; i < MAX_WAVSTREAMS; i++) {
-			if (wavstream[i].sample && (wavstream[i].identifier == eid)) {
-				wavstream[i].volume[0] = vol_left;
-				wavstream[i].volume[1] = vol_right;
-				wavstream[i].targetVolume[0] = vol_left;
-				wavstream[i].targetVolume[1] = vol_right;
-				status = true;
-				break;
-			}
-		}
-		SDL_UnlockAudioDevice(m_audioDevice);
-		return status;
+		return m_backend->EventSetVolume(eid, vol_left, vol_right);
 	}
 
 	bool Event::FadeOut(float dv_dt, Op op)
 	{
-		bool found = VolumeAnimate(0.0f, 0.0f, dv_dt, dv_dt);
-		if (found)
-			SetOp(op | Sound::OP_STOP_AT_TARGET_VOLUME);
-		return found;
+		return m_backend->EventFadeOut(eid, dv_dt, op);
 	}
 
 	const std::vector<std::string> GetMusicFiles()
 	{
-		std::vector<std::string> songs;
-		songs.reserve(sfx_samples.size());
-		for (std::map<std::string, Sample>::const_iterator it = sfx_samples.begin();
-			 it != sfx_samples.end(); ++it) {
-			if (it->second.isMusic)
-				songs.emplace_back(it->first.c_str());
-		}
-		return songs;
+		return music_sample_keys;
 	}
 
 } /* namespace Sound */
