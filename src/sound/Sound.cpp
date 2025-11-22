@@ -26,6 +26,7 @@ namespace Sound {
 	static const double STREAM_IF_LONGER_THAN = 10.0;
 
 	static AudioBackend *m_backend = nullptr;
+	static std::vector<std::pair<std::string, Sample>> m_samples;
 
 	void SetMasterVolume(const float vol)
 	{
@@ -183,6 +184,7 @@ namespace Sound {
 				if (pair.second.isMusic) {
 					music_sample_keys.emplace_back(pair.first);
 				}
+				m_samples.emplace_back(pair.first, pair.second);
 				m_backend->AddSample(pair.first, std::move(pair.second));
 			}
 		}
@@ -193,25 +195,58 @@ namespace Sound {
 		std::map<std::string, Sample> m_loadedSounds;
 	};
 
-	bool Init()
+	BackendFlags GetAvailableBackends()
+	{
+		return AudioBackend_SDL | AudioBackend_OpenAL;
+	}
+
+	BackendId GetBackendId()
+	{
+		return m_backend->GetId();
+	}
+
+	bool Init(BackendId backend)
 	{
 		PROFILE_SCOPED()
 		if (m_backend != nullptr) {
-			DestroyAllEvents();
-			return true;
+			if (backend == m_backend->GetId()) {
+				DestroyAllEvents();
+				return true;
+			} else {
+				Uninit();
+			}
 		}
 
 		try {
-			m_backend = new AlAudioBackend();
+			switch (backend) {
+			case AudioBackend_OpenAL:
+				try {
+					m_backend = new AlAudioBackend();
+					break;
+				} catch (...) {
+					Output("Could not initialize OpenAL audio backend, falling back to default");
+				}
+			default:
+				m_backend = new SdlAudioBackend();
+				break;
+			}
 		} catch (...) {
+			Error("Could not initialize backend %u", backend);
 			return false;
 		}
 
-		// load all the wretched effects
-		Pi::GetApp()->GetAsyncStartupQueue()->Order(new LoadSoundJob("sounds", false));
+		if (m_samples.empty()) {
+			// load all the wretched effects
+			Pi::GetApp()->GetAsyncStartupQueue()->Order(new LoadSoundJob("sounds", false));
 
-		//I'd rather do this in MusicPlayer and store in a different map too, this will do for now
-		Pi::GetApp()->GetAsyncStartupQueue()->Order(new LoadSoundJob("music", true));
+			//I'd rather do this in MusicPlayer and store in a different map too, this will do for now
+			Pi::GetApp()->GetAsyncStartupQueue()->Order(new LoadSoundJob("music", true));
+		} else {
+			for (auto sample_copy : m_samples) {
+				m_backend->AddSample(sample_copy.first, std::move(sample_copy.second));
+			}
+			Pause(0);
+		}
 
 		/* silence any sound events */
 		DestroyAllEvents();
