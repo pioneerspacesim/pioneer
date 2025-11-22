@@ -1,15 +1,40 @@
+November
+  * New Features
+    * Cargo Run custom risk message (#6192)
+    * Advice module - Three new advises (#6234)
+    * Allow custom systems to override randomly-generated ones (#6238)
+    * Calculate star colors using Planck's law (#6210)
+
+  * Fixes
+    * Only add systems once in system search function GetNearbyStarSystemsByName (#6244)
+    * Add trailing newlines to model files (#6243)
+    * Fix correct temperature display units (#6239)
+    * ConfigParser: fix read-past-end-of-string (#6246)
+    * Fix payment for delayed Scout mission (#6250)
+    * Fix icon for find missing person (#6250)
+    * Reduce number of find missing person adverts (#6250)
+    * Fix station staff face - only set stationSeed from one place (#6236)
+    * Prevent spiky asteroids in random systems (#6209)
+    * Correctly capitalize names of goods (#6252)
+
+  * Internal
+    * Clean up API code documentation strings: Remove 'Availability' & 'Status' in C++ (#6242)
+    * Update Ship JSON Files (#6241)
+    * Update About menu with newly added fast_float copyright info (#6247)
+    * Upgrade nlohmann::json, fix #include ciso646 warnings (#6253)
+    * Minor (terrain) performance optimizations and tweaks (#6087)
+    * Update transifex script (#6254)
+
 October
   * New Features
     * Added 'About' button in Main Menu (#6145)
     * Assassination - minor string improvements and code refactor (#6218)
     * Several new tweaks to tame the police (#6128)
     * UI of system view reworked (#6173)
-    * Advice module - Three new advises (#6234)
 
   * Fixes
     * Fix missing station manager in the lobby of Torvalds station (#6224)
     * Fix wrong station message at starting in space (#6220)
-    * Fix correct temperature display units (#6239)
 
   * Internal
     * Clean up API code documentation strings (#6228)
