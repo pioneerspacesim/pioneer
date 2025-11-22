@@ -163,14 +163,6 @@ bool Sound::SdlAudioBackend::EventSetVolume(eventid eid, const float vol_left, c
 	return status;
 }
 
-bool Sound::SdlAudioBackend::EventFadeOut(eventid eid, float dv_dt, Op op)
-{
-	bool found = EventVolumeAnimate(eid, 0.0f, 0.0f, dv_dt, dv_dt);
-	if (found)
-		EventSetOp(eid, op | Sound::OP_STOP_AT_TARGET_VOLUME);
-	return found;
-}
-
 void Sound::SdlAudioBackend::Pause(int on)
 {
 	if (bool(on) == (SDL_AUDIO_PAUSED == SDL_GetAudioDeviceStatus(m_audioDevice))) {
@@ -211,6 +203,11 @@ void Sound::SdlAudioBackend::BodyMakeNoise(const Body *b, std::string_view key, 
 	float vl, vr;
 	CalculateStereo(b, vol, &vl, &vr);
 	this->Play(key, vl, vr, 0);
+}
+
+void Sound::SdlAudioBackend::AddSample(std::string_view key, Sample &&sample)
+{
+	m_samples.emplace(std::string(key), std::move(sample));
 }
 
 Sound::SdlAudioBackend::SoundEvent *Sound::SdlAudioBackend::GetEvent(eventid id)
