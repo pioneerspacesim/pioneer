@@ -1937,11 +1937,11 @@
   },
   "PAINTSHOP": {
     "description": "Station tab title",
-    "message": "Carrozziere"
+    "message": "Officina"
   },
   "PAINTSHOP_NOT_AVAILABLE": {
     "description": "",
-    "message": "In questo porto spaziale non è disponibile un carrozziere."
+    "message": "In questo spazioporto non è disponibile un'officina."
   },
   "PAINTSHOP_WELCOME_0": {
     "description": "Welcome message to the paintshop.",
@@ -2409,7 +2409,7 @@
   },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
-    "message": "Carrozziere di Astronavi"
+    "message": "Officina di Astronavi"
   },
   "SHIP_TYPE": {
     "description": "",
@@ -2761,7 +2761,7 @@
   },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",
-    "message": "Visita la Carrozzeria"
+    "message": "Visita l'officina"
   },
   "VISIT_REPAIR_SERVICES": {
     "description": "Ship Repair tab button.",

@@ -97,7 +97,7 @@
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
-    "message": "Aluminiumtuber"
+    "message": "aluminiumtuber"
   },
   "AMOUNT": {
     "description": "Shown in mission summary. The amount of cargo",
@@ -105,7 +105,7 @@
   },
   "ART_OBJECTS": {
     "description": "custom cargo",
-    "message": "Konstföremål"
+    "message": "konstföremål"
   },
   "ART_OBJECTS_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
@@ -141,7 +141,7 @@
   },
   "CLUS": {
     "description": "custom cargo",
-    "message": "Bostadsmoduler"
+    "message": "mobila bostadsmoduler"
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
@@ -197,11 +197,11 @@
   },
   "DIAMONDS": {
     "description": "custom cargo",
-    "message": "Diamanter"
+    "message": "diamanter"
   },
   "DIGESTERS": {
     "description": "custom cargo",
-    "message": "Rötkammare"
+    "message": "rötkammare"
   },
   "DISTANCE": {
     "description": "distance in space, between two locations",
@@ -209,7 +209,7 @@
   },
   "ELECTRICAL_APPLIANCES": {
     "description": "custom cargo",
-    "message": "Elektriska hushållsvaror"
+    "message": "elektriska hushållsvaror"
   },
   "ESCORT_CHATTER_1": {
     "description": "",
@@ -233,7 +233,7 @@
   },
   "EXPLOSIVES": {
     "description": "custom cargo",
-    "message": "Sprängämnen"
+    "message": "sprängämnen"
   },
   "EXPLOSIVES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
@@ -261,7 +261,7 @@
   },
   "FURNITURE": {
     "description": "custom cargo",
-    "message": "Möbler"
+    "message": "möbler"
   },
   "GO_BACK": {
     "description": "Shown on a button in a sub-menu, to move back, to previous menu",
@@ -269,7 +269,7 @@
   },
   "GREENHOUSES": {
     "description": "custom cargo",
-    "message": "Växthus"
+    "message": "växthus"
   },
   "GUNS_GUNS_GUNS": {
     "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
@@ -277,7 +277,7 @@
   },
   "HAZARDOUS_SUBSTANCES": {
     "description": "custom cargo",
-    "message": "Farligt gods"
+    "message": "farligt gods"
   },
   "HAZARDOUS_SUBSTANCES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
@@ -405,7 +405,7 @@
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
-    "message": "Maskinverktyg"
+    "message": "maskinverktyg"
   },
   "NEGOTIABLE_1": {
     "description": "regarding mass, always more than 1t",
@@ -429,7 +429,7 @@
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
-    "message": "Neptunium"
+    "message": "neptunium"
   },
   "OFFER": {
     "description": "",
@@ -489,11 +489,11 @@
   },
   "PLUTONIUM": {
     "description": "custom cargo",
-    "message": "Plutonium"
+    "message": "plutonium"
   },
   "QUIBBLES": {
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-    "message": "Quibbler"
+    "message": "quibbler"
   },
   "QUIBBLES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
@@ -557,7 +557,7 @@
   },
   "SEMI_FINISHED_PRODUCTS": {
     "description": "custom cargo",
-    "message": "Halvfärdiga produkter"
+    "message": "halvfärdiga produkter"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -573,11 +573,11 @@
   },
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
-    "message": "Rymdskeppsdelar"
+    "message": "rymdskeppsdelar"
   },
   "STEM_BOLTS": {
     "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
-    "message": "Självslutande stambultar"
+    "message": "självslutande stambultar"
   },
   "SUCCESSMSG_1": {
     "description": "",
@@ -609,7 +609,7 @@
   },
   "TITANIUM": {
     "description": "custom cargo",
-    "message": "Titan"
+    "message": "titanium"
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
@@ -617,11 +617,11 @@
   },
   "TUNGSTEN": {
     "description": "custom cargo",
-    "message": "Volfram"
+    "message": "volfram"
   },
   "URANIUM": {
     "description": "custom cargo",
-    "message": "Uran"
+    "message": "uran"
   },
   "URGENCY_1": {
     "description": "",
@@ -653,7 +653,7 @@
   },
   "WEDDING_DRESSES": {
     "description": "custom cargo",
-    "message": "Bröllopsklänningar"
+    "message": "bröllopsklänningar"
   },
   "WEDDING_DRESSES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
