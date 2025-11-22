@@ -268,7 +268,15 @@ endif (MSVC)
 find_package(Threads REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED COMPONENTS OpenGL)
-find_package(OpenAL CONFIG REQUIRED)
+if(NOT TARGET OpenAL::OpenAL)
+	find_package(OpenAL)
+endif()
+if (CACHE{BUILD_WITH_OPENAL} AND NOT OpenAL_FOUND)
+	message(FATAL_ERROR "Requested BUILD_WITH_OPENAL=ON, but the library is not found")
+elseif(NOT DEFINED CACHE{BUILD_WITH_OPENAL} AND OpenAL_FOUND)
+	message(STATUS "Found OpenAL, building with support")
+	set(BUILD_WITH_OPENAL ON CACHE BOOL "Enable or disable support for OpenAL")
+endif()
 
 set(FMT_INSTALL OFF CACHE BOOL "Enable install of libfmt" FORCE)
 
@@ -378,7 +386,8 @@ else()
 	message(WARNING, "Python 3 not found; enums will not be scanned.")
 endif()
 
-target_link_libraries(pioneer-lib PUBLIC lz4 fmt::fmt OpenAL::OpenAL)
+target_link_libraries(pioneer-lib PUBLIC lz4 fmt::fmt $<$<BOOL:${BUILD_WITH_OPENAL}>:OpenAL::OpenAL>)
+target_compile_definitions(pioneer-lib PUBLIC $<$<BOOL:${BUILD_WITH_OPENAL}>:PI_BUILD_WITH_OPENAL>)
 
 list(APPEND pioneerLibs
 	pioneer-core

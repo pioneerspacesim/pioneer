@@ -534,7 +534,7 @@ void StartupScreen::Start()
 		if (Pi::GetApp()->HeadlessMode() || Pi::config->Int("DisableSound"))
 			return;
 
-		Sound::Init(Pi::config->Int("AudioBackendId", Sound::AudioBackend_OpenAL));
+		Sound::Init(Pi::config->Int("AudioBackendId", Sound::AudioBackend_Default));
 		Sound::SetMasterVolume(Pi::config->Float("MasterVolume"));
 		Sound::SetSfxVolume(Pi::config->Float("SfxVolume"));
 		Pi::GetMusicPlayer().SetVolume(Pi::config->Float("MusicVolume"));
