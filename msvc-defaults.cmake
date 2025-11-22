@@ -28,4 +28,5 @@ set_target_properties(OpenAL PROPERTIES
     IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/bin/${MSVC_ARCH}/vs2019/OpenAL32.dll
     IMPORTED_IMPLIB ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/lib/${MSVC_ARCH}/vs2019/libOpenAL32.dll.a
 )
+target_include_directories(OpenAL INTERFACE ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/include)
 set(OpenAL_FOUND ON)

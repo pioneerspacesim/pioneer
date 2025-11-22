@@ -1,10 +1,10 @@
 #include "SdlAudioBackend.h"
 #include "MathUtil.h"
+#include "Pi.h"
 #include "core/Log.h"
 
 #include "SDL.h"
 
-#include <random>
 #include <utility>
 
 namespace {
@@ -70,9 +70,7 @@ Sound::SdlAudioBackend::SdlAudioBackend()
 		throw std::exception();
 	}
 
-	std::default_random_engine prng(std::random_device{}());
-	std::uniform_int_distribution<decltype(identifier)> dist;
-	identifier = dist(prng);
+	identifier = Pi::rng.Int32();
 
 	Output("Initialized SDL audio backend");
 }
