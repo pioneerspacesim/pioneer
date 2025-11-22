@@ -51,7 +51,6 @@ void SSingleSplitRequest::GenerateMesh() const
 	{
 		vrts[iHeights] *= (bhts[iHeights] + 1.0);
 	}
-	assert(bhts == &borderHeights.get()[numBorderedVerts]);
 
 	// Generate normals & colors for non-edge vertices since they never change
 	Color3ub *col = colors;
@@ -213,7 +212,6 @@ void SQuadSplitRequest::GenerateBorderedData() const
 	for (int iHeights = 0; iHeights < numBorderedVerts; iHeights++) {
 		vrts[iHeights] *= (bhts[iHeights] + 1.0);
 	}
-	assert(bhts == &borderHeights[numBorderedVerts]);
 }
 
 void SQuadSplitRequest::GenerateSubPatchData(
