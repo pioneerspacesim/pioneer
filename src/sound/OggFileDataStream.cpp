@@ -1,7 +1,9 @@
 #include "OggFileDataStream.h"
 
 Sound::OggFileDataStream::OggFileDataStream() :
-	m_cursor(nullptr) {}
+	m_cursor(nullptr)
+{
+}
 
 Sound::OggFileDataStream::OggFileDataStream(const RefCountedPtr<FileSystem::FileData> &data) :
 	m_data(data),
