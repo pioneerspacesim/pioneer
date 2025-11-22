@@ -3,6 +3,7 @@
 
 #ifndef __AL_AUDIO_BACKEND_H
 #define __AL_AUDIO_BACKEND_H
+#ifdef PI_BUILD_WITH_OPENAL
 
 #include "AudioBackend.h"
 #include "OggFileDataStream.h"
@@ -96,4 +97,5 @@ namespace Sound {
 
 } // namespace Sound
 
+#endif
 #endif // __AL_AUDIO_BACKEND_H

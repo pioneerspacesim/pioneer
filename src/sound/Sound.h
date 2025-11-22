@@ -21,6 +21,11 @@ namespace Sound {
 		// Bitflags!
 		AudioBackend_SDL = 1 << 0,
 		AudioBackend_OpenAL = 1 << 1,
+#ifdef PI_BUILD_WITH_OPENAL
+		AudioBackend_Default = AudioBackend_OpenAL,
+#else
+		AudioBackend_Default = AudioBackend_SDL,
+#endif
 	};
 	typedef uint32_t BackendId;
 	typedef uint32_t BackendFlags;

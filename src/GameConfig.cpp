@@ -26,7 +26,7 @@ GameConfig::GameConfig(const map_string &override_)
 	map["DisplayNavTunnel"] = "0";
 	map["CompactRadar"] = "1";
 	map["ConfirmQuit"] = "1";
-	map["AudioBackendId"] = Sound::AudioBackend_SDL;
+	map["AudioBackendId"] = Sound::AudioBackend_Default;
 	map["MasterVolume"] = "0.8";
 	map["MusicVolume"] = "0.8";
 	map["MasterMuted"] = "0";
