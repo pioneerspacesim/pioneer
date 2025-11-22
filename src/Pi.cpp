@@ -535,14 +535,7 @@ void StartupScreen::Start()
 			return;
 
 		Sound::Init(Pi::config->Int("AudioBackendId", Sound::AudioBackend_Default));
-		Sound::SetMasterVolume(Pi::config->Float("MasterVolume"));
-		Sound::SetSfxVolume(Pi::config->Float("SfxVolume"));
 		Pi::GetMusicPlayer().SetVolume(Pi::config->Float("MusicVolume"));
-		Sound::EnableBinaural(Pi::config->Int("BinauralRendering"));
-
-		Sound::Pause(0);
-		if (Pi::config->Int("MasterMuted")) Sound::Pause(1);
-		if (Pi::config->Int("SfxMuted")) Sound::SetSfxVolume(0.f);
 		if (Pi::config->Int("MusicMuted")) Pi::GetMusicPlayer().SetEnabled(false);
 	});
 
