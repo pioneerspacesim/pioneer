@@ -292,6 +292,10 @@ Sound::AlAudioBackend::SoundEvent::SoundEvent(const Sample &sample) :
 		FillBuffer(1);
 		CHECK_OPENAL_ERROR(alSourceQueueBuffers, source, 2, &buffers[0]);
 	}
+	if (is_music)
+	{
+		CHECK_OPENAL_ERROR(alSourcei, source, AL_DIRECT_CHANNELS_SOFT, AL_TRUE);
+	}
 }
 
 Sound::AlAudioBackend::SoundEvent::~SoundEvent()
