@@ -713,6 +713,7 @@ void MainMenu::Update(float deltaTime)
 
 	Pi::renderer->ClearDepthBuffer();
 	Pi::pigui->Render();
+	Sound::Update(deltaTime);
 
 	if (Pi::game) {
 		RequestEndLifecycle();
@@ -1095,6 +1096,7 @@ void GameLoop::Update(float deltaTime)
 	}
 
 	Pi::GetMusicPlayer().Update();
+	Sound::Update(deltaTime);
 
 	perfInfoDisplay->Update(deltaTime);
 	perfInfoDisplay->UpdateCounter(PiGui::PerfInfo::COUNTER_PHYS, phys_time);
