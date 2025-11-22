@@ -135,13 +135,14 @@ bool Sound::AlAudioBackend::EventSetVolume(eventid eid, const float vol_left, co
 
 void Sound::AlAudioBackend::Pause(int on)
 {
+	m_paused = on;
 	for (auto &[id, ev] : m_events) {
 		ALint state;
 		CHECK_OPENAL_ERROR(alGetSourcei, ev.GetSource(), AL_SOURCE_STATE, &state);
 
-		if (on && state == AL_PLAYING) {
+		if (on && state != AL_PAUSED) {
 			CHECK_OPENAL_ERROR(alSourcePause, ev.GetSource());
-		} else if (!on && state == AL_PAUSED) {
+		} else if (!on && (state == AL_PAUSED || state == AL_INITIAL)) {
 			CHECK_OPENAL_ERROR(alSourcePlay, ev.GetSource());
 		}
 	}
@@ -158,7 +159,9 @@ Sound::AudioBackend::eventid Sound::AlAudioBackend::Play(std::string_view key, c
 	auto it = m_events.emplace(++m_next_event_id, sample_it->second).first;
 	it->second.SetOp(op);
 	it->second.SetGain(volume_left * m_sfxVolume, volume_right * m_sfxVolume);
-	CHECK_OPENAL_ERROR(alSourcePlay, it->second.GetSource());
+	if (!m_paused) {
+		CHECK_OPENAL_ERROR(alSourcePlay, it->second.GetSource());
+	}
 	return it->first;
 }
 
@@ -207,6 +210,11 @@ float Sound::AlAudioBackend::GetMasterVolume()
 void Sound::AlAudioBackend::SetSfxVolume(float vol)
 {
 	m_sfxVolume = vol;
+	for (auto &[id, ev] : m_events) {
+		if (!ev.IsMusic()) {
+			ev.SetVolume(m_sfxVolume);
+		}
+	}
 }
 
 float Sound::AlAudioBackend::GetSfxVolume()
@@ -259,7 +267,7 @@ void Sound::AlAudioBackend::EnableBinaural(bool enabled)
 }
 
 Sound::AlAudioBackend::SoundEvent::SoundEvent(const Sample &sample) :
-	channels(sample.channels), samplerate(sample.samplerate), target_gain(1.F), target_pan(0.F), fade_rate(0.F), pan_rate(0.F), streaming_finished(false), is_music(sample.isMusic), op(0)
+	channels(sample.channels), samplerate(sample.samplerate), target_gain(1.F), target_pan(0.F), current_gain(1.F), current_pan(0.F), fade_rate(0.F), pan_rate(0.F), volume(1.F), streaming_finished(false), is_music(sample.isMusic), op(0)
 {
 	CHECK_OPENAL_ERROR(alGenSources, 1, &source);
 	CHECK_OPENAL_ERROR(alSourcei, source, AL_REFERENCE_DISTANCE, 1);
@@ -351,8 +359,8 @@ bool Sound::AlAudioBackend::SoundEvent::IsDone() const
 void Sound::AlAudioBackend::SoundEvent::FillBuffer(int idx)
 {
 	constexpr int buffer_bytes = 44100 * 2;
-	char data[buffer_bytes] {};
-	int bitstream {};
+	char data[buffer_bytes]{};
+	int bitstream{};
 	int remaining_bytes = buffer_bytes;
 	while (remaining_bytes > 0) {
 		const int bytes_read = ov_read(oggv.get(), &data[0] + buffer_bytes - remaining_bytes,
@@ -392,23 +400,20 @@ void Sound::AlAudioBackend::SoundEvent::Update(float delta_t)
 		}
 	}
 	if (fade_rate != 0.f) {
-		float current_gain, current_pan, y, z;
-		CHECK_OPENAL_ERROR(alGetSourcef, source, AL_GAIN, &current_gain);
-		CHECK_OPENAL_ERROR(alGetSource3f, source, AL_POSITION, &current_pan, &y, &z);
-		float new_gain = current_gain + fade_rate * delta_t;
-		float new_pan = current_pan + pan_rate * delta_t;
-		if ((fade_rate > 0.F && new_gain >= target_gain) || (fade_rate < 0.F && new_gain < target_gain)) {
+		current_gain = current_gain + fade_rate * delta_t;
+		current_pan = current_pan + pan_rate * delta_t;
+		if ((fade_rate > 0.F && current_gain >= target_gain) || (fade_rate < 0.F && current_gain < target_gain)) {
 			if (op & OP_STOP_AT_TARGET_VOLUME) {
 				CHECK_OPENAL_ERROR(alSourceStop, source);
 				return;
 			}
-			new_gain = target_gain;
-			new_pan = target_pan;
+			current_gain = target_gain;
+			current_pan = target_pan;
 			fade_rate = 0.f;
 			pan_rate = 0.f;
 		}
-		CHECK_OPENAL_ERROR(alSourcef, source, AL_GAIN, new_gain);
-		CHECK_OPENAL_ERROR(alSource3f, source, AL_POSITION, new_pan, y, z);
+		CHECK_OPENAL_ERROR(alSourcef, source, AL_GAIN, current_gain * volume);
+		CHECK_OPENAL_ERROR(alSource3f, source, AL_POSITION, current_pan, 0.F, 0.F);
 	}
 }
 
@@ -419,14 +424,20 @@ void Sound::AlAudioBackend::SoundEvent::SetGain(float gain)
 
 void Sound::AlAudioBackend::SoundEvent::SetGain(float gainL, float gainR)
 {
-	target_gain = (gainL + gainR) * 0.5f;
-	target_pan = calculate_pan(gainL, gainR);
+	current_gain = target_gain = (gainL + gainR) * 0.5f;
+	current_pan = target_pan = calculate_pan(gainL, gainR);
 	fade_rate = 0.f;
 	pan_rate = 0.f;
-	CHECK_OPENAL_ERROR(alSourcef, source, AL_GAIN, target_gain);
+	CHECK_OPENAL_ERROR(alSourcef, source, AL_GAIN, current_gain * volume);
 	if (target_pan != 0.f) {
-		CHECK_OPENAL_ERROR(alSource3f, source, AL_POSITION, target_pan, 0.f, 0.f);
+		CHECK_OPENAL_ERROR(alSource3f, source, AL_POSITION, current_pan, 0.f, 0.f);
 	}
+}
+
+void Sound::AlAudioBackend::SoundEvent::SetVolume(float vol)
+{
+	volume = vol;
+	CHECK_OPENAL_ERROR(alSourcef, source, AL_GAIN, current_gain * volume);
 }
 
 void Sound::AlAudioBackend::SoundEvent::SetOp(Op new_op)
