@@ -11,7 +11,6 @@
 #include "AL/alext.h"
 
 #include <algorithm>
-#include <random>
 #include <utility>
 
 #define CHECK_OPENAL_ERROR_IMPL(file, line, fn, ...)                                                                                    \
@@ -27,8 +26,7 @@
 namespace {
 	float calculate_pan(float left, float right)
 	{
-		if (left == 0.f && right == 0.f)
-		{
+		if (left == 0.f && right == 0.f) {
 			return 0.f;
 		}
 		return (right - left) / (right + left);
@@ -58,9 +56,7 @@ Sound::AlAudioBackend::AlAudioBackend()
 	CHECK_OPENAL_ERROR(alDistanceModel, AL_INVERSE_DISTANCE_CLAMPED);
 	CHECK_OPENAL_ERROR(alSpeedOfSound, 1000.f);
 
-	std::default_random_engine prng(std::random_device{}());
-	std::uniform_int_distribution<decltype(m_next_event_id)> dist;
-	m_next_event_id = dist(prng);
+	m_next_event_id = Pi::rng.Int32();
 
 	Output("Initialized OpenAL audio backend");
 }
@@ -199,14 +195,13 @@ void Sound::AlAudioBackend::BodyMakeNoise(const Body *b, std::string_view key, f
 
 void Sound::AlAudioBackend::SetMasterVolume(float vol)
 {
-	CHECK_OPENAL_ERROR(alListenerf, AL_GAIN, vol);
+	m_masterVolume = vol;
+	CHECK_OPENAL_ERROR(alListenerf, AL_GAIN, m_masterVolume);
 }
 
 float Sound::AlAudioBackend::GetMasterVolume()
 {
-	float vol;
-	CHECK_OPENAL_ERROR(alGetListenerf, AL_GAIN, &vol);
-	return vol;
+	return m_masterVolume;
 }
 
 void Sound::AlAudioBackend::SetSfxVolume(float vol)
@@ -356,8 +351,8 @@ bool Sound::AlAudioBackend::SoundEvent::IsDone() const
 void Sound::AlAudioBackend::SoundEvent::FillBuffer(int idx)
 {
 	constexpr int buffer_bytes = 44100 * 2;
-	char data[buffer_bytes]{};
-	int bitstream{};
+	char data[buffer_bytes] {};
+	int bitstream {};
 	int remaining_bytes = buffer_bytes;
 	while (remaining_bytes > 0) {
 		const int bytes_read = ov_read(oggv.get(), &data[0] + buffer_bytes - remaining_bytes,
@@ -437,8 +432,7 @@ void Sound::AlAudioBackend::SoundEvent::SetGain(float gainL, float gainR)
 void Sound::AlAudioBackend::SoundEvent::SetOp(Op new_op)
 {
 	op = new_op;
-	if (oggv) // streamed shouldn't use AL_LOOPING
-	{
+	if (oggv) { // streamed shouldn't use AL_LOOPING
 		return;
 	}
 	if (op & OP_REPEAT) {
