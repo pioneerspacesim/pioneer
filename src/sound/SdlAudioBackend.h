@@ -24,12 +24,18 @@ namespace Sound {
 		bool EventSetOp(eventid eid, Op op) override;
 		bool EventVolumeAnimate(eventid eid, const float targetVol1, const float targetVol2, const float dv_dt1, const float dv_dt2) override;
 		bool EventSetVolume(eventid eid, const float vol_left, const float vol_right) override;
-		bool EventFadeOut(eventid eid, float dv_dt, Op op) override;
 
 		void Pause(int on) override;
 
 		eventid Play(std::string_view key, const float volume_left, const float volume_right, const Op op) override;
 		void BodyMakeNoise(const Body *b, std::string_view key, float vol) override;
+
+		void SetMasterVolume(float vol) override { m_masterVolume = vol; }
+		float GetMasterVolume() override { return m_masterVolume; }
+		void SetSfxVolume(float vol) override { m_sfxVolume = vol; }
+		float GetSfxVolume() override { return m_sfxVolume; }
+
+		void AddSample(std::string_view key, Sample &&sample) override;
 
 	private:
 		struct SoundEvent {
@@ -59,10 +65,13 @@ namespace Sound {
 		void fill_audio(Uint8 *dsp_buf, int len);
 		static void fill_audio_callback(void *udata, Uint8 *dsp_buf, int len);
 
+		float m_masterVolume = 1.F;
+		float m_sfxVolume = 1.F;
 		SDL_AudioDeviceID m_audioDevice;
 		uint32_t identifier = 1;
 		int nextMusicStream = 0;
 		SoundEvent wavstream[MAX_WAVSTREAMS]{};
+		std::map<std::string, Sample> m_samples;
 	};
 
 } // namespace Sound

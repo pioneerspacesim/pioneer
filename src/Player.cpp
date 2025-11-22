@@ -306,7 +306,7 @@ void Player::StaticUpdate(const float timeStep)
 
 	if (playCreak) {
 		if (!m_creakSound.IsPlaying()) {
-			float creakVol = fmin(float((m_atmosJerk.Length() - 50) * 0.05f), 0.3f);
+			float creakVol = fmax(0.f, fmin(float((m_atmosJerk.Length() - 50) * 0.05f), 0.3f));
 			m_creakSound.Play("metal_creaking", creakVol, creakVol, Sound::OP_REPEAT);
 			m_creakSound.VolumeAnimate(creakVol, creakVol, 0.3f, 0.3f);
 		}
