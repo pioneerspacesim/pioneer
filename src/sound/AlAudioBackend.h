@@ -20,6 +20,7 @@ namespace Sound {
 		AlAudioBackend();
 		~AlAudioBackend();
 
+		BackendId GetId() override { return AudioBackend_OpenAL; }
 		void DestroyAllEvents() override;
 		void DestroyAllEventsExceptMusic() override;
 
@@ -84,7 +85,7 @@ namespace Sound {
 
 		ALCdevice *m_device;
 		ALCcontext *m_context;
-		eventid next_event_id = 0;
+		eventid m_next_event_id;
 		std::map<std::string, Sample> m_samples;
 		std::map<eventid, SoundEvent> m_events;
 		float m_sfxVolume = 1.F;

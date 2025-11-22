@@ -5,7 +5,6 @@
 #define __SOUND_H
 
 #include <cstdint>
-#include <map>
 #include <string>
 #include <vector>
 
@@ -18,6 +17,14 @@ namespace Sound {
 		OP_STOP_AT_TARGET_VOLUME = (1 << 1)
 	};
 	typedef uint32_t Op;
+	enum
+	{
+		// Bitflags!
+		AudioBackend_SDL = 1 << 0,
+		AudioBackend_OpenAL = 1 << 1,
+	};
+	typedef uint32_t BackendId;
+	typedef uint32_t BackendFlags;
 
 	class Event {
 	public:
@@ -46,7 +53,10 @@ namespace Sound {
 		uint32_t eid;
 	};
 
-	bool Init();
+	BackendFlags GetAvailableBackends();
+	BackendId GetBackendId();
+
+	bool Init(BackendId backend);
 	void Uninit();
 	/**
 	 * Silence all active sound events.
