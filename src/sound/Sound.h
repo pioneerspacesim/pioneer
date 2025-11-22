@@ -17,8 +17,7 @@ namespace Sound {
 		OP_STOP_AT_TARGET_VOLUME = (1 << 1)
 	};
 	typedef uint32_t Op;
-	enum
-	{
+	enum {
 		// Bitflags!
 		AudioBackend_SDL = 1 << 0,
 		AudioBackend_OpenAL = 1 << 1,
@@ -75,6 +74,8 @@ namespace Sound {
 	const std::vector<std::string> GetMusicFiles();
 	void Update(float delta_t);
 
+	bool IsBinauralSupported();
+	void EnableBinaural(bool enabled);
 } /* namespace Sound */
 
 #endif /* __SOUND_H */
