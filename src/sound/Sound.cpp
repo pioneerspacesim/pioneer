@@ -27,6 +27,8 @@ namespace Sound {
 
 	static const unsigned int FREQ = 44100;
 	static const double STREAM_IF_LONGER_THAN = 10.0;
+	constexpr std::string_view SDLBackendName = "SDL";
+	constexpr std::string_view OpenALBackendName = "OpenAL";
 
 	static AudioBackend *m_backend = nullptr;
 	static std::vector<std::pair<std::string, Sample>> m_samples;
@@ -193,25 +195,33 @@ namespace Sound {
 		std::map<std::string, Sample> m_loadedSounds;
 	};
 
-	BackendFlags GetAvailableBackends()
+	std::vector<std::string_view> GetAvailableBackends()
 	{
-		BackendFlags backends = AudioBackend_SDL;
+		std::vector<std::string_view> backends{ SDLBackendName };
 #ifdef PI_BUILD_WITH_OPENAL
-		backends |= AudioBackend_OpenAL;
+		backends.push_back(OpenALBackendName);
 #endif
 		return backends;
 	}
 
-	BackendId GetBackendId()
+	std::string_view GetBackend()
 	{
-		return m_backend->GetId();
+		if (dynamic_cast<SdlAudioBackend*>(m_backend) != nullptr)
+		{
+			return SDLBackendName;
+		}
+		else if (dynamic_cast<AlAudioBackend*>(m_backend) != nullptr)
+		{
+			return OpenALBackendName;
+		}
+		return "Unknown Sound Backend";
 	}
 
-	bool Init(BackendId backend)
+	bool Init(std::string_view backend)
 	{
 		PROFILE_SCOPED()
 		if (m_backend != nullptr) {
-			if (backend == m_backend->GetId()) {
+			if (backend == GetBackend()) {
 				DestroyAllEvents();
 				return true;
 			} else {
@@ -219,20 +229,28 @@ namespace Sound {
 			}
 		}
 
-		try {
-			switch (backend) {
+		if (backend.empty()) {
 #ifdef PI_BUILD_WITH_OPENAL
-			case AudioBackend_OpenAL:
-				try {
-					m_backend = new AlAudioBackend();
-					break;
-				} catch (...) {
-					Output("Could not initialize OpenAL audio backend, falling back to default");
-				}
+			backend = OpenALBackendName;
+#else
+			backend = SDLBackendName;
 #endif
-			default:
+		}
+
+		try {
+			if (backend == SDLBackendName)
+			{
 				m_backend = new SdlAudioBackend();
-				break;
+			}
+#ifdef PI_BUILD_WITH_OPENAL
+			else if (backend == OpenALBackendName)
+			{
+				m_backend = new AlAudioBackend();
+			}
+#endif
+			else
+			{
+				throw std::runtime_error("Sound Backend does not exist");
 			}
 		} catch (...) {
 			Error("Could not initialize backend %u", backend);

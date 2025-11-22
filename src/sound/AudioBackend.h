@@ -27,7 +27,6 @@ namespace Sound {
 
 		virtual ~AudioBackend() = default;
 
-		virtual BackendId GetId() = 0;
 		virtual void DestroyAllEvents() = 0;
 		virtual void DestroyAllEventsExceptMusic() = 0;
 

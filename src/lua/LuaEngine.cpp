@@ -610,22 +610,21 @@ static int l_engine_get_star_field_star_size_factor(lua_State *l)
 
 static int l_engine_get_available_sound_backends(lua_State *l)
 {
-	const Sound::BackendFlags backends = Sound::GetAvailableBackends();
+	const std::vector<std::string_view> backends = Sound::GetAvailableBackends();
 	lua_newtable(l);
-	if (backends & Sound::AudioBackend_SDL) {
-		lua_pushstring(l, "SDL");
-		lua_rawseti(l, -2, 1);
-	}
-	if (backends & Sound::AudioBackend_OpenAL) {
-		lua_pushstring(l, "OpenAL");
-		lua_rawseti(l, -2, 2);
+	int idx = 1;
+	for (std::string_view backend : backends)
+	{
+		lua_pushlstring(l, backend.data(), backend.size());
+		lua_rawseti(l, -2, idx++);
 	}
 	return 1;
 }
 
-static int l_engine_get_sound_backend_id(lua_State *l)
+static int l_engine_get_sound_backend(lua_State *l)
 {
-	lua_pushnumber(l, Sound::GetBackendId());
+	std::string_view backend = Sound::GetBackend();
+	lua_pushlstring(l, backend.data(), backend.size());
 	return 1;
 }
 
@@ -633,11 +632,10 @@ static void set_music_volume(const bool muted, const float volume);
 
 static int l_engine_set_sound_backend(lua_State *l)
 {
-	const Sound::BackendId id = luaL_checkinteger(l, 1);
-	Sound::Init(id);
+	const std::string backend = luaL_checkstring(l, 1);
+	Sound::Init(backend);
 	Pi::GetMusicPlayer().PlayAgain();
-	set_music_volume(Pi::config->Int("MusicMuted") != 0, Pi::config->Float("MusicVolume"));
-	Pi::config->SetInt("AudioBackendId", Sound::GetBackendId());
+	Pi::config->SetString("AudioBackend", backend);
 	return 0;
 }
 
@@ -1104,9 +1102,8 @@ void LuaEngine::Register()
 		{ "GetStarFieldStarSizeFactor", l_engine_get_star_field_star_size_factor },
 
 		{ "GetAvailableSoundBackends", l_engine_get_available_sound_backends },
-		{ "GetSoundBackendId", l_engine_get_sound_backend_id },
+		{ "GetSoundBackend", l_engine_get_sound_backend },
 		{ "SetSoundBackend", l_engine_set_sound_backend },
-		{ "GetAvailableSoundBackends", l_engine_get_available_sound_backends },
 		{ "GetMasterMuted", l_engine_get_master_muted },
 		{ "SetMasterMuted", l_engine_set_master_muted },
 		{ "GetMasterVolume", l_engine_get_master_volume },

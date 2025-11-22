@@ -335,7 +335,7 @@ end)
 
 local function showSoundOptions()
 	local available_backends = Engine.GetAvailableSoundBackends()
-	local current_backend_id = Engine.GetSoundBackendId()
+	local current_backend = Engine.GetSoundBackend()
 	local masterMuted = Engine.GetMasterMuted()
 	local masterLevel = Engine.GetMasterVolume()*100
 	local musicMuted = Engine.GetMusicMuted()
@@ -346,9 +346,17 @@ local function showSoundOptions()
 	local binaural_enabled = Engine.GetBinauralRendering()
 
 	local c
+	local new_backend_idx
+	local current_backend_idx
 
-	c,new_backend_id = combo(lui.AUDIO_BACKEND, current_backend_id - 1, available_backends)
-	if c then Engine.SetSoundBackend(new_backend_id + 1) end
+	for i, v in ipairs(available_backends) do
+		if v == current_backend then
+			current_backend_idx = i
+		end
+	end
+
+	c, new_backend_idx = combo(lui.AUDIO_BACKEND, current_backend_idx - 1, available_backends)
+	if c then Engine.SetSoundBackend(available_backends[new_backend_idx + 1]) end
 
 	c,masterMuted = checkbox(lui.MUTE.."##master", masterMuted)
 	if c then Engine.SetMasterMuted(masterMuted) end
