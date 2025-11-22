@@ -6,6 +6,7 @@
  */
 
 #include "Sound.h"
+#include "GameConfig.h"
 #ifdef PI_BUILD_WITH_OPENAL
 	#include "AlAudioBackend.h"
 #endif
@@ -72,8 +73,6 @@ namespace Sound {
 		(*volLeftOut) = Clamp((*volLeftOut), 0.0f, 1.0f);
 		(*volRightOut) = Clamp((*volRightOut), 0.0f, 1.0f);
 	}
-
-	static std::vector<std::string> music_sample_keys;
 
 	void BodyMakeNoise(const Body *b, const char *sfx, float vol)
 	{
@@ -183,9 +182,6 @@ namespace Sound {
 		void OnFinish() override
 		{
 			for (auto &pair : m_loadedSounds) {
-				if (pair.second.isMusic) {
-					music_sample_keys.emplace_back(pair.first);
-				}
 				m_samples.emplace_back(pair.first, pair.second);
 				m_backend->AddSample(pair.first, std::move(pair.second));
 			}
@@ -253,11 +249,14 @@ namespace Sound {
 			for (auto sample_copy : m_samples) {
 				m_backend->AddSample(sample_copy.first, std::move(sample_copy.second));
 			}
-			Pause(0);
 		}
 
-		/* silence any sound events */
-		DestroyAllEvents();
+		SetMasterVolume(Pi::config->Float("MasterVolume"));
+		SetSfxVolume(Pi::config->Float("SfxVolume"));
+		EnableBinaural(Pi::config->Int("BinauralRendering"));
+		if (Pi::config->Int("SfxMuted")) Sound::SetSfxVolume(0.f);
+
+		Pause(Pi::config->Int("MasterMuted"));
 
 		return true;
 	}
@@ -271,8 +270,6 @@ namespace Sound {
 		DestroyAllEvents();
 		delete m_backend;
 		m_backend = nullptr;
-
-		music_sample_keys.clear();
 	}
 
 	void Pause(int on)
@@ -338,7 +335,12 @@ namespace Sound {
 
 	const std::vector<std::string> GetMusicFiles()
 	{
-		return music_sample_keys;
+		std::vector<std::string> keys;
+		for (const auto& sample : m_samples)
+		{
+			keys.push_back(sample.first);
+		}
+		return keys;
 	}
 
 	void Update(float delta_t)

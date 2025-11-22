@@ -629,10 +629,14 @@ static int l_engine_get_sound_backend_id(lua_State *l)
 	return 1;
 }
 
+static void set_music_volume(const bool muted, const float volume);
+
 static int l_engine_set_sound_backend(lua_State *l)
 {
 	const Sound::BackendId id = luaL_checkinteger(l, 1);
 	Sound::Init(id);
+	Pi::GetMusicPlayer().PlayAgain();
+	set_music_volume(Pi::config->Int("MusicMuted") != 0, Pi::config->Float("MusicVolume"));
 	Pi::config->SetInt("AudioBackendId", Sound::GetBackendId());
 	return 0;
 }
