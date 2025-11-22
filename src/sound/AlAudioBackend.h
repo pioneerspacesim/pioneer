@@ -62,6 +62,7 @@ namespace Sound {
 			void Update(float delta_t);
 			void SetGain(float gain);
 			void SetGain(float gainL, float gainR);
+			void SetVolume(float vol);
 			void SetOp(Op op);
 			void SetTargetGain(float gain, float rate);
 			void SetTargetGain(float gainL, float gainR, float rate);
@@ -77,8 +78,11 @@ namespace Sound {
 			int samplerate;
 			float target_gain;
 			float target_pan;
+			float current_gain;
+			float current_pan;
 			float fade_rate;
 			float pan_rate;
+			float volume;
 			bool streaming_finished;
 			bool is_music;
 			Op op;
@@ -93,6 +97,7 @@ namespace Sound {
 		std::map<eventid, SoundEvent> m_events;
 		float m_masterVolume = 1.F;
 		float m_sfxVolume = 1.F;
+		bool m_paused = false;
 	};
 
 } // namespace Sound
