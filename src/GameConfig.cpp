@@ -4,7 +4,6 @@
 #include "GameConfig.h"
 #include "FileSystem.h"
 #include "core/OS.h"
-#include "sound/Sound.h"
 
 GameConfig::GameConfig(const map_string &override_)
 {
@@ -26,7 +25,7 @@ GameConfig::GameConfig(const map_string &override_)
 	map["DisplayNavTunnel"] = "0";
 	map["CompactRadar"] = "1";
 	map["ConfirmQuit"] = "1";
-	map["AudioBackendId"] = Sound::AudioBackend_Default;
+	map["AudioBackend"] = "";
 	map["MasterVolume"] = "0.8";
 	map["MusicVolume"] = "0.8";
 	map["MasterMuted"] = "0";
