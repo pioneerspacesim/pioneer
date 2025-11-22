@@ -7,7 +7,7 @@
 #include "AudioBackend.h"
 #include "OggFileDataStream.h"
 
-#include "SDL2/SDL_audio.h"
+#include "SDL_audio.h"
 
 namespace Sound {
 

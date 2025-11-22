@@ -1,6 +1,8 @@
 // Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#ifdef PI_BUILD_WITH_OPENAL
+
 #include "AlAudioBackend.h"
 #include "Pi.h"
 #include "Player.h"
@@ -460,3 +462,5 @@ void Sound::AlAudioBackend::SoundEvent::SetTargetGain(float gainL, float gainR, 
 	CHECK_OPENAL_ERROR(alGetSource3f, source, AL_POSITION, &current_pan, &y, &z);
 	pan_rate = rate * (target_pan - current_pan);
 }
+
+#endif
