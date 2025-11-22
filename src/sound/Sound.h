@@ -17,18 +17,6 @@ namespace Sound {
 		OP_STOP_AT_TARGET_VOLUME = (1 << 1)
 	};
 	typedef uint32_t Op;
-	enum {
-		// Bitflags!
-		AudioBackend_SDL = 1 << 0,
-		AudioBackend_OpenAL = 1 << 1,
-#ifdef PI_BUILD_WITH_OPENAL
-		AudioBackend_Default = AudioBackend_OpenAL,
-#else
-		AudioBackend_Default = AudioBackend_SDL,
-#endif
-	};
-	typedef uint32_t BackendId;
-	typedef uint32_t BackendFlags;
 
 	class Event {
 	public:
@@ -57,10 +45,10 @@ namespace Sound {
 		uint32_t eid;
 	};
 
-	BackendFlags GetAvailableBackends();
-	BackendId GetBackendId();
+	std::vector<std::string_view> GetAvailableBackends();
+	std::string_view GetBackend();
 
-	bool Init(BackendId backend);
+	bool Init(std::string_view backend);
 	void Uninit();
 	/**
 	 * Silence all active sound events.
