@@ -5,9 +5,11 @@
  * Sound, dude
  */
 
+#include "buildopts.h"
+
 #include "Sound.h"
 #include "GameConfig.h"
-#ifdef PI_BUILD_WITH_OPENAL
+#if BUILD_WITH_OPENAL
 #include "AlAudioBackend.h"
 #endif
 #include "AudioBackend.h"
@@ -198,7 +200,7 @@ namespace Sound {
 	std::vector<std::string_view> GetAvailableBackends()
 	{
 		std::vector<std::string_view> backends{ SDLBackendName };
-#ifdef PI_BUILD_WITH_OPENAL
+#if BUILD_WITH_OPENAL
 		backends.push_back(OpenALBackendName);
 #endif
 		return backends;
@@ -208,8 +210,10 @@ namespace Sound {
 	{
 		if (dynamic_cast<SdlAudioBackend *>(m_backend) != nullptr) {
 			return SDLBackendName;
+#if BUILD_WITH_OPENAL
 		} else if (dynamic_cast<AlAudioBackend *>(m_backend) != nullptr) {
 			return OpenALBackendName;
+#endif
 		}
 		return "Unknown Sound Backend";
 	}
@@ -227,7 +231,7 @@ namespace Sound {
 		}
 
 		if (backend.empty()) {
-#ifdef PI_BUILD_WITH_OPENAL
+#if BUILD_WITH_OPENAL
 			backend = OpenALBackendName;
 #else
 			backend = SDLBackendName;
@@ -238,7 +242,7 @@ namespace Sound {
 			if (backend == SDLBackendName) {
 				m_backend = new SdlAudioBackend();
 			}
-#ifdef PI_BUILD_WITH_OPENAL
+#if BUILD_WITH_OPENAL
 			else if (backend == OpenALBackendName) {
 				m_backend = new AlAudioBackend();
 			}
