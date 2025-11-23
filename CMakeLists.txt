@@ -387,7 +387,6 @@ else()
 endif()
 
 target_link_libraries(pioneer-lib PUBLIC lz4 fmt::fmt $<$<BOOL:${BUILD_WITH_OPENAL}>:OpenAL::OpenAL>)
-target_compile_definitions(pioneer-lib PUBLIC $<$<BOOL:${BUILD_WITH_OPENAL}>:PI_BUILD_WITH_OPENAL>)
 
 list(APPEND pioneerLibs
 	pioneer-core
