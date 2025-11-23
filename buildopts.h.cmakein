@@ -9,6 +9,7 @@
 #cmakedefine01 WITH_OBJECTVIEWER
 #cmakedefine01 WITH_DEVKEYS
 #cmakedefine01 HAS_FPE_OPS
+#cmakedefine01 BUILD_WITH_OPENAL
 #cmakedefine REMOTE_LUA_REPL
 
 #endif /* BUILDOPTS_H */

@@ -381,7 +381,6 @@ else()
 endif()
 
 target_link_libraries(pioneer-lib PUBLIC lz4 fmt::fmt $<$<BOOL:${BUILD_WITH_OPENAL}>:OpenAL::OpenAL>)
-target_compile_definitions(pioneer-lib PUBLIC $<$<BOOL:${BUILD_WITH_OPENAL}>:PI_BUILD_WITH_OPENAL>)
 
 # Fallback available on most legacy systems
 set(PIONEER_GL_LINK_TARGET OpenGL::GL)
