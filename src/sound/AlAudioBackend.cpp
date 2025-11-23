@@ -167,7 +167,11 @@ Sound::AudioBackend::eventid Sound::AlAudioBackend::Play(std::string_view key, c
 
 void Sound::AlAudioBackend::BodyMakeNoise(const Body *b, std::string_view key, float vol)
 {
+	// Not ideal, but currently we prune every sound source beyond 3 km.
+	// This is needed not to run out of OpenAL sources, but a more involved pruning logic
+	// would be beneficial.
 	constexpr double distance_threshold = 3000;
+
 	auto pos = b->GetPositionRelTo(Pi::player);
 	pos = pos * Pi::player->GetOrient();
 
