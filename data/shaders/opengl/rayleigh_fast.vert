@@ -40,7 +40,7 @@ void main(void)
 		vec3 lightPosAU = uLight[i].position.xyz / AU;
 		float intensity = 1.f / dot(lightPosAU, lightPosAU); // magic to avoid calculating length and then squaring it
 
-		specularHighlight += computeIncidentLight(lightDir, eyenorm, center, atmosDist, toLinear(uLight[i].diffuse), uneclipsed) * intensity;
+		specularHighlight += computeIncidentLight(lightDir, eyenorm, center, toLinear(uLight[i].diffuse), uneclipsed) * intensity;
 
 	}
 #endif

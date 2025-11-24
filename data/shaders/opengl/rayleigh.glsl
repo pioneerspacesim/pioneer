@@ -200,13 +200,10 @@ vec4 segmentSubtraction(const in vec2 a, const in vec2 b)
 	return c;
 }
 
-vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const in vec3 center, const in vec2 atmosDist, const in vec4 diffuse, const in float uneclipsed)
+vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const in vec3 center, const in vec4 diffuse, const in float uneclipsed)
 {
 	vec3 betaR = vec3(3.8e-6f, 13.5e-6f, 33.1e-6f);
 	vec3 betaM = vec3(21e-6f);
-
-	float atmosMin = atmosDist.x * geosphereRadius;
-	float atmosMax = atmosDist.y * geosphereRadius;
 
 	// solve Cylinder entry/exit dist
 	vec2 cylinder_intersect = rayCylinderIntersect(dir, center, sunDirection, geosphereRadius);
