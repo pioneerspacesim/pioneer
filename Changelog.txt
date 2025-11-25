@@ -4,6 +4,8 @@ November
     * Advice module - Three new advises (#6234)
     * Allow custom systems to override randomly-generated ones (#6238)
     * Calculate star colors using Planck's law (#6210)
+    * Increase the probability of being intercepted by pirates (#6248)
+    * Make ships translatable (#6103)
 
   * Fixes
     * Only add systems once in system search function GetNearbyStarSystemsByName (#6244)

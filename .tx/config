@@ -165,3 +165,8 @@ source_lang = en
 file_filter = data/lang/module-taxi/<lang>.json
 source_file = data/lang/module-taxi/en.json
 source_lang = en
+
+[o:pioneer:p:pioneer:r:ships]
+file_filter = data/lang/ships/<lang>.json
+source_file = data/lang/ships/en.json
+source_lang = en
