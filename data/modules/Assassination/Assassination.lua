@@ -22,6 +22,7 @@ local utils = require 'utils'
 local PlayerState = require 'PlayerState'
 
 local lc = Lang.GetResource 'core'
+local ls = Lang.GetResource 'ships'
 local l = Lang.GetResource("module-assassination")
 
 -- don't produce missions for further than this many light years away
@@ -102,6 +103,8 @@ local onChat = function (form, ref, option)
 	elseif option == 1 then
 		local sys = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
+		local shipdef = ShipDef[ad.shipid]
+		local ship = shipdef.i18n_key
 
 		form:SetMessage(string.interp(l["X_WILL_BE_LEAVING" .. suffix ], {
 		  target    = target.surname,
@@ -112,7 +115,7 @@ local onChat = function (form, ref, option)
 		  sectorZ   = ad.location.sectorZ,
 		  dist      = string.format("%.2f", ad.dist),
 		  date      = Format.Date(ad.due),
-		  shipname  = ad.shipname,
+		  ship_indef  = ls[ship .. "_INDEF"],
 		  shipregid = ad.shipregid,
 		  })
 		)
@@ -144,7 +147,6 @@ local onChat = function (form, ref, option)
 			reward		= ad.reward,
 			threat		= ad.threat,
 			shipid		= ad.shipid,
-			shipname	= ad.shipname,
 			shipregid	= ad.shipregid,
 			status		= 'ACTIVE',
 			target		= ad.target,
@@ -218,7 +220,6 @@ local makeAdvert = function (station)
 		reward = reward,
 		threat = threat,
 		shipid = hullConfig.id,
-		shipname = ShipDef[hullConfig.id].name,
 		shipregid = Ship.MakeRandomLabel(),
 		station = station,
 		timeout = timeout,
@@ -475,6 +476,7 @@ local function buildMissionDescription(mission)
 	local ui = require 'pigui'
 	local desc = {}
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
+	local shipdef = ShipDef[mission.shipid]
 
 	desc.description = flavours[mission.flavour].introtext:interp({
 		name   = mission.client.name,
@@ -490,7 +492,7 @@ local function buildMissionDescription(mission)
 		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
 		{ l.DISTANCE, dist.." "..lc.UNIT_LY },
 		false,
-		{ l.SHIP, mission.shipname },
+		{ l.SHIP, ls[shipdef.i18n_key] },
 		{ l.SHIP_ID, mission.shipregid },
 		{ l.TARGET_WILL_BE_LEAVING_SPACEPORT_AT, ui.Format.Date(mission.due) }
 	}

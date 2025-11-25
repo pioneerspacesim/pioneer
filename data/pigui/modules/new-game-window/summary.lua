@@ -12,6 +12,7 @@ local ShipDef = require 'ShipDef'
 local Lang = require 'Lang'
 local lui = Lang.GetResource("ui-core")
 local lc = Lang.GetResource("core")
+local ls = Lang.GetResource("ships")
 
 local Summary = {}
 
@@ -66,7 +67,7 @@ function Summary:draw()
 				ui.text(Format.Money(Crew.Player.Money.value, false))
 			end)
 			Widgets.alignLabel(lui.SHIP_TYPE, layout.playerParam, function()
-				ui.text(ShipDef[Ship.Type.value].name)
+				ui.text(ls[ShipDef[Ship.Type.value].i18n_key])
 			end)
 			Widgets.alignLabel(lui.SHIP_NAME, layout.playerParam, function()
 				ui.text(Ship.Name.value)
