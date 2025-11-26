@@ -5,11 +5,11 @@
   },
   "AC33_DEF": {
     "description": "ship - definite form",
-    "message": "the AC-33 Dropstar"
+    "message": "το AC-33 Dropstar"
   },
   "AC33_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "an AC-33 Dropstar"
+    "message": "ένα AC-33 Dropstar"
   },
   "BLUENOSE": {
     "description": "ship name - base form",
@@ -17,11 +17,11 @@
   },
   "BLUENOSE_DEF": {
     "description": "ship - definite form",
-    "message": "the Bluenose"
+    "message": "το Bluenose"
   },
   "BLUENOSE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Bluenose"
+    "message": "ένα Bluenose"
   },
   "BOWFIN": {
     "description": "ship name - base form",

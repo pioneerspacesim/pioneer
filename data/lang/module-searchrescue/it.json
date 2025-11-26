@@ -180,8 +180,8 @@
     "message": "Per il rimborso completo delle spese dovrà tornare entro il {due}."
   },
   "FLAVOUR_1_INTROTEXT": {
-    "description": "",
-    "message": "Il controllo traffico aereo di {starport} richiede il suo aiuto IMMEDIATO in risposta allo schianto di un'astronave di tipo {ship} sul pianeta {planet}. Lo stato dei sistemi di supporto vitale è sconosciuto. L'astronave era stata assicurata con la polizza dell'astroporto {starport} ed è coperta da una franchigia di {cash} in caso di richieste di soccorso."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "Il controllo traffico aereo di {starport} richiede il suo aiuto IMMEDIATO in risposta allo schianto di  {ship_indef} sul pianeta {planet}. Lo stato dei sistemi di supporto vitale è sconosciuto. L'astronave era stata assicurata con la polizza dell'astroporto {starport} ed è coperta da una franchigia di {cash} in caso di richieste di soccorso."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
@@ -360,8 +360,8 @@
     "message": "Deve tornare entro il {due}."
   },
   "FLAVOUR_6_INTROTEXT": {
-    "description": "",
-    "message": "Il mio nome è {name} {entity}. Abbiamo perso i contatti con la nostra {ship} {shiplabel} per {problem}. Siamo disposti a pagare {cash} per un aiuto immediato."
+    "description": "{ship_base} is translated in /data/lang/ships/",
+    "message": "Il mio nome è {name} {entity}. Abbiamo perso i contatti con la nostra {ship_base} {shiplabel} per {problem}. Siamo disposti a pagare {cash} per un aiuto immediato."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
@@ -396,8 +396,8 @@
     "message": "L'equipaggio sostitutivo deve raggiungere la nave entro il {due}."
   },
   "FLAVOUR_7_INTROTEXT": {
-    "description": "",
-    "message": "Il mio nome è {name} {entity}. La nostra astronave {ship} {shiplabel} con un equipaggio di {crew} persone è alla deriva per {problem}. Siamo disposti a pagare {cash} per un aiuto immediato."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "Il mio nome è {name} {entity}. La nostra astronave, {ship_indef} {shiplabel} con un equipaggio di {crew} persone è alla deriva per {problem}. Siamo disposti a pagare {cash} per un aiuto immediato."
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",

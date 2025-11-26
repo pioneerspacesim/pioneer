@@ -180,8 +180,8 @@
     "message": "Voor volledige vergoeding van uitgaven moet u terug zijn op {due}."
   },
   "FLAVOUR_1_INTROTEXT": {
-    "description": "",
-    "message": "{starport} verkeersleiding heeft uw ONMIDDELLIJKE hulp nodig bij {ship}-type ruimteschip dat op {planet} een noodlanding gemaakt heeft. Status van levensondersteunende systemen is onbekend. Het schip is verzekerd door {starport} Ruimtehaven Verzekeringen en verzekeraar vergoed {cash} voor assistentie bij noodgevallen."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{starport} air traffic control needs your IMMEDIATE help responding to the crash landing of {ship_indef} on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
@@ -360,8 +360,8 @@
     "message": "Je moet terug zijn op {due}."
   },
   "FLAVOUR_6_INTROTEXT": {
-    "description": "",
-    "message": "Ik ben {name} van {entity}. Wij zijn het contact kwijt met onze {ship} {shiplabel} na {problem}. We zijn bereid {cash} te betalen voor onmiddellijke hulp."
+    "description": "{ship_base} is translated in /data/lang/ships/",
+    "message": "My name is {name} of {entity}. We lost contact with our {ship_base} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
@@ -396,8 +396,8 @@
     "message": "De vervangende bemanning moet het schip hebben bereikt op {due}."
   },
   "FLAVOUR_7_INTROTEXT": {
-    "description": "",
-    "message": "Ik ben {name} van {entity}. Ons enig schip, {ship} {shiplabel}, is op drift met een bemanning van {crew} na {problem}. Ik ben bereid {cash} te betalen voor onmiddellijke hulp."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "My name is {name} of {entity}. Our only ship, {ship_indef} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",

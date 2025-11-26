@@ -180,8 +180,8 @@
     "message": "要获得全额报销费用，您必须在{due}之前返回。"
   },
   "FLAVOUR_1_INTROTEXT": {
-    "description": "",
-    "message": "{starport}空中交通管制需要您立即帮助响应{ship}类型星舰在{planet}上的坠落着陆。 生命支持系统的状况未知。 该船已通过{starport} 星际站保险投保，并在紧急响应报销中享受{cash}保障。"
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{starport} air traffic control needs your IMMEDIATE help responding to the crash landing of {ship_indef} on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
@@ -360,8 +360,8 @@
     "message": "你必须在{due}之前回来。"
   },
   "FLAVOUR_6_INTROTEXT": {
-    "description": "",
-    "message": "我是{entity}的{name}。 我们在{problem}后失去了与{ship} {shiplabel}的联系。 我们愿意支付{cash}以获得即时帮助。"
+    "description": "{ship_base} is translated in /data/lang/ships/",
+    "message": "My name is {name} of {entity}. We lost contact with our {ship_base} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
@@ -396,8 +396,8 @@
     "message": "替换船员必须在 {due}之前到达船上。"
   },
   "FLAVOUR_7_INTROTEXT": {
-    "description": "",
-    "message": "我是{entity}的{name}。 在{problem}之后，我们唯一的船{ship} {shiplabel}正在与{crew}船员一起漂流。 我愿意立即支付{cash}换取救援。"
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "My name is {name} of {entity}. Our only ship, {ship_indef} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",

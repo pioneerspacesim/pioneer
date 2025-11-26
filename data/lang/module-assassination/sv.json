@@ -356,15 +356,15 @@
     "message": "Var kan jag hitta målet?"
   },
   "X_WILL_BE_LEAVING": {
-    "description": "",
-    "message": "{target} kommer att lämna {spaceport} i {system} systemet ({sectorX}, {sectorY}, {sectorZ}), avstånd {dist} ly, vid {date}. Skeppet är en {shipname} och har registrerings id {shipregid}."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target} kommer att lämna {spaceport} i {system} systemet ({sectorX}, {sectorY}, {sectorZ}), avstånd {dist} ly, vid {date}. Skeppet är {ship_indef} och har registrerings id {shipregid}."
   },
   "X_WILL_BE_LEAVING_FEMALE": {
-    "description": "",
-    "message": "{target} kommer att lämna {spaceport} i {system} systemet ({sectorX}, {sectorY}, {sectorZ}), avstånd {dist} ly, vid {date}. Hennes skeppet är en {shipname} och har registrerings id {shipregid}."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target} kommer att lämna {spaceport} i {system} systemet ({sectorX}, {sectorY}, {sectorZ}), avstånd {dist} ly, vid {date}. Hennes skepp är {ship_indef} och har registrerings id {shipregid}."
   },
   "X_WILL_BE_LEAVING_MALE": {
-    "description": "",
-    "message": "{target} kommer att lämna {spaceport} i {system} systemet ({sectorX}, {sectorY}, {sectorZ}), avstånd {dist} ly, vid {date}. Hans skeppet är en {shipname} och har registrerings id {shipregid}."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target} kommer att lämna {spaceport} i {system} systemet ({sectorX}, {sectorY}, {sectorZ}), avstånd {dist} ly, vid {date}. Hans skepp är {ship_indef} och har registrerings id {shipregid}."
   }
 }

@@ -137,7 +137,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "{target} must be reduced to space dust. I'll award you {cash} to do this."
+    "message": "O {target} πρέπει να γίνει αστρόσκονη. Θα σε πληρώσω {cash} αν το καταφέρεις."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -205,11 +205,11 @@
   },
   "IT_MUST_BE_DONE_AFTER_FEMALE": {
     "description": "",
-    "message": "It must be done after she leaves {spaceport}. Do not miss this opportunity."
+    "message": "Η δουλειά πρέπει να γίνει μόλις αυτή αναχωρήσει από το κοσμοδρόμιο {spaceport}. Μην χάσεις αυτή την ευκαιρία."
   },
   "IT_MUST_BE_DONE_AFTER_MALE": {
     "description": "",
-    "message": "It must be done after he leaves {spaceport}. Do not miss this opportunity."
+    "message": "Η δουλειά πρέπει να γίνει μόλις αυτός αναχωρήσει από το κοσμοδρόμιο {spaceport}. Μην χάσεις αυτή την ευκαιρία."
   },
   "OK_AGREED": {
     "description": "",
@@ -353,18 +353,18 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "Where can I find the target?"
+    "message": "Που μπορώ να βρώ τον στόχο;"
   },
   "X_WILL_BE_LEAVING": {
-    "description": "",
-    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is a {shipname} and has registration id {shipregid}."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "Ο {target} αναμένεται να αναχωρήσει από το {spaceport} στο σύστημα {system} ({sectorX}, {sectorY}, {sectorZ}), απόσταση {dist} ly, στις {date}. Το σκάφος του είναι ένα {ship_indef} με αναγνωριστικό κωδικό {shipregid}."
   },
   "X_WILL_BE_LEAVING_FEMALE": {
-    "description": "",
-    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. Her ship is a {shipname} and has registration id {shipregid}."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. Her ship is {ship_indef} and has registration id {shipregid}."
   },
   "X_WILL_BE_LEAVING_MALE": {
-    "description": "",
-    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. His ship is a {shipname} and has registration id {shipregid}."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. His ship is {ship_indef} and has registration id {shipregid}."
   }
 }

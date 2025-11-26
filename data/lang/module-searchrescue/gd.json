@@ -180,8 +180,8 @@
     "message": "Feumaidh tu bhith air ais gu ruige {due} gus ath-phàigheadh slàn na coisgaise fhaighinn."
   },
   "FLAVOUR_1_INTROTEXT": {
-    "description": "",
-    "message": "Tha stiùireadh trafaige aig {starport} feumach air do thaic SA BHAD gus cobhair a thoirt dha shoitheach-fànais dhen t-seòrsa {ship} a dh’fhulaing tubaist air {planet}. Chan eil fios againn an obraich na siostaman taice-beatha fhathast. Tha àrachas aig an t-soitheach le àrachas reul-phort {starport} agus còmhdachadh dhe {cash} aige airson ath-phàigheadh cobharach èiginnich."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{starport} air traffic control needs your IMMEDIATE help responding to the crash landing of {ship_indef} on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
@@ -360,8 +360,8 @@
     "message": "Feumaidh tu tilleadh ro {due}."
   },
   "FLAVOUR_6_INTROTEXT": {
-    "description": "",
-    "message": "Is mise {name} aig {entity}. Chaill sinn an conaltradh leis an t-soitheach {ship} {shiplabel} againn às dèidh {problem} a thighinn air. Bidh sinn deònach {cash} a phàigheadh dhut ma chuidicheas tu sa bhad."
+    "description": "{ship_base} is translated in /data/lang/ships/",
+    "message": "My name is {name} of {entity}. We lost contact with our {ship_base} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
@@ -396,8 +396,8 @@
     "message": "Feumaidh an sgioba ionaid an soitheach a ruigsinn {due}."
   },
   "FLAVOUR_7_INTROTEXT": {
-    "description": "",
-    "message": "Is mise {name} aig {entity}. Chaill an t-aon soitheach againn, {ship} {shiplabel}, an comas stiùiridh ri linn {problem} agus criutha dhe {crew} air. Phàighinn {cash} nam faigheadh iad cobhair sa bhad."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "My name is {name} of {entity}. Our only ship, {ship_indef} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
