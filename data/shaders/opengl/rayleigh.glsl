@@ -200,11 +200,19 @@ vec4 segmentSubtraction(const in vec2 a, const in vec2 b)
 	return c;
 }
 
-vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const in vec3 center, const in vec4 diffuse, const in float uneclipsed)
+/*
+ * given:
+ * sunDirection - direction from camera to light source, normalized
+ * dir - direction from camera to pixel being rendered, normalized
+ * center - position of planet relative to camera, in absolute scale
+ *
+ * splits given ray into parts by planet shadow:
+ * - xy: ray before shadow
+ * - yz: ray inside shadow
+ * - zw: ray after shadow
+ */
+vec4 getRaySegment(const in vec3 sunDirection, const in vec3 dir, const in vec3 center)
 {
-	vec3 betaR = vec3(3.8e-6f, 13.5e-6f, 33.1e-6f);
-	vec3 betaM = vec3(21e-6f);
-
 	// solve Cylinder entry/exit dist
 	vec2 cylinder_intersect = rayCylinderIntersect(dir, center, sunDirection, geosphereRadius);
 	bool hasIntersect = cylinder_intersect.x != 0 || cylinder_intersect.y != 0;
@@ -240,13 +248,23 @@ vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const i
 		atmosphere_minus_shadow.xyz = max(atmosphere_minus_shadow.xyz, ground_intersect.y);
 	}
 
+	return atmosphere_minus_shadow;
+}
+
+vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const in vec3 center, const in vec4 diffuse, const in float uneclipsed)
+{
+	vec3 betaR = vec3(3.8e-6f, 13.5e-6f, 33.1e-6f);
+	vec3 betaM = vec3(21e-6f);
+
 	vec3 sumR = vec3(0.f);
 	vec3 sumM = vec3(0.f);
 	vec2 opticalDepth = vec2(0.f);
 
-	processRay(sumR, sumM, opticalDepth, sunDirection, dir, atmosphere_minus_shadow.xy, center, diffuse, uneclipsed);
-	skipRay(opticalDepth, dir, atmosphere_minus_shadow.yz, center);
-	processRay(sumR, sumM, opticalDepth, sunDirection, dir, atmosphere_minus_shadow.zw, center, diffuse, uneclipsed);
+	vec4 segment = getRaySegment(sunDirection, dir, center);
+
+	processRay(sumR, sumM, opticalDepth, sunDirection, dir, segment.xy, center, diffuse, uneclipsed);
+	skipRay(opticalDepth, dir, segment.yz, center);
+	processRay(sumR, sumM, opticalDepth, sunDirection, dir, segment.zw, center, diffuse, uneclipsed);
 
 	float mu = dot(dir, sunDirection); // mu in the paper which is the cosine of the angle between the sun direction and the ray direction
 	float phaseR = rayleighPhaseFunction(mu);
