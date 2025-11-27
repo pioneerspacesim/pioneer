@@ -291,8 +291,8 @@ void PerfInfo::DrawCounter(CounterInfo &counter, const char *label, float min, f
 {
 	if (drawStats) {
 		std::string line1 = fmt::format("{}: {:.1f} {}", counter.name, counter.recent, counter.unit);
-		std::string line2 = fmt::format("Min: {:.1f} {unit} | Avg: {:.1f} {unit} | Max: {:.1f} {unit}",
-			counter.min, counter.average, counter.max, fmt::arg("unit", counter.unit));
+		std::string line2 = fmt::format("Min: {:.1f} {} | Avg: {:.1f} {} | Max: {:.1f} {}",
+			counter.min, counter.unit, counter.average, counter.unit, counter.max, counter.unit);
 
 		ImGui::TextUnformatted(line1.c_str());
 		ImGui::TextUnformatted(line2.c_str());
