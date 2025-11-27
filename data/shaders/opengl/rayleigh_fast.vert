@@ -29,18 +29,19 @@ void main(void)
 	float AU = 149598000000.0;
 
 #if (NUM_LIGHTS > 0)
+	// coordinates, in planet radius
+	vec4 planet = vec4(geosphereCenter, geosphereRadius);
+	vec4 atmosphere = vec4(geosphereCenter, geosphereAtmosTopRad);
+
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		vec3 lightDir = normalize(vec3(uLight[i].position));
 
 		float uneclipsed = clamp(calcUneclipsedSky(eclipse, NumShadows, a, b, lightDir), 0.0, 1.0);
 
-		// Convert from radius-relative to real coordinates
-		vec3 center = geosphereCenter * geosphereRadius;
-
 		vec3 lightPosAU = uLight[i].position.xyz / AU;
 		float intensity = 1.f / dot(lightPosAU, lightPosAU); // magic to avoid calculating length and then squaring it
 
-		specularHighlight += computeIncidentLight(lightDir, eyenorm, center, toLinear(uLight[i].diffuse), uneclipsed) * intensity;
+		specularHighlight += calculateAtmosphereColor(planet, atmosphere, toLinear(uLight[i].diffuse), lightDir, vec3(0.0), eyenorm, uneclipsed) * intensity;
 
 	}
 #endif
