@@ -97,7 +97,7 @@
   },
   "KANARA_CIV_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Kanara Civ"
+    "message": "en Kanara Civ"
   },
   "KANARA_DEF": {
     "description": "ship - definite form",
@@ -121,15 +121,15 @@
   },
   "LUNARSHUTTLE": {
     "description": "ship name - base form",
-    "message": "Lunar Shuttle"
+    "message": "månfärja"
   },
   "LUNARSHUTTLE_DEF": {
     "description": "ship - definite form",
-    "message": "the Lunar Shuttle"
+    "message": "månfärjan"
   },
   "LUNARSHUTTLE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Lunar Shuttle"
+    "message": "en månfärja"
   },
   "MALABAR": {
     "description": "ship name - base form",
@@ -217,7 +217,7 @@
   },
   "PUMPKINSEED_POLICE": {
     "description": "ship name - base form",
-    "message": "Pumpkinseed police ship"
+    "message": "Pumpkinseed polisskepp"
   },
   "PUMPKINSEED_POLICE_DEF": {
     "description": "ship - definite form",
@@ -225,7 +225,7 @@
   },
   "PUMPKINSEED_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Pumpkinseed police ship"
+    "message": "ett Pumpkinseed polisskepp"
   },
   "SHIP": {
     "description": "ship name - base form",
