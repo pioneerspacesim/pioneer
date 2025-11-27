@@ -255,3 +255,13 @@ vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const i
 	vec3 ret = (sumR * betaR * phaseR + sumM * betaM * phaseM);
 	return ret;
 }
+
+vec3 calculateAtmosphereColor(const in vec4 planet, const in vec4 atmosphere, const in vec4 lightColor, const in vec3 lightDir, const in vec3 rayStart, const in vec3 rayDir, const in float uneclipsed)
+{
+    // rayStart is already multiplied by planet radius
+    vec3 planetPosition = planet.xyz * planet.w + rayStart;
+
+    vec3 atmospherePosition = atmosphere.xyz * atmosphere.w;
+
+    return computeIncidentLight(lightDir, rayDir, planetPosition, lightColor, uneclipsed);
+}
