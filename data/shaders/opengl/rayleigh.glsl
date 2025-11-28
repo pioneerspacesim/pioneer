@@ -18,7 +18,7 @@ vec2 getDensityAtPoint(const in vec3 orig, const in vec3 center)
 	// 1/1.225e-5 = 81632.65306
 	float earthDensities = geosphereAtmosFogDensity * 81632.65306f;
 	density /= earthDensities;
-	return density;
+	return exp(density);
 }
 
 // orig: ray origin
@@ -129,7 +129,7 @@ void skipRay(inout vec2 opticalDepth, const in vec3 dir, const in vec2 boundarie
 
 		// primary ray is approximated by (density * isegmentLength)
 		vec2 density = getDensityAtPoint(samplePosition, center);
-		opticalDepth += exp(density) * segmentLength;
+		opticalDepth += density * segmentLength;
 
 		tCurrent += segmentLength;
 	}
@@ -154,7 +154,8 @@ void processRayFast(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 		vec3 samplePosition = vec3(tCurrent + segmentLength * 0.5f) * dir;
 
 		vec2 density = getDensityAtPoint(samplePosition, center);
-		opticalDepth += exp(density) * segmentLength;
+		vec2 depthAdd = density * segmentLength;
+		opticalDepth += depthAdd;
 
 		// light optical depth
 		vec2 opticalDepthLight = vec2(0.f);
@@ -168,13 +169,9 @@ void processRayFast(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 		vec4 atmosDiffuse = vec4(0.f);
 		CalcPlanetDiffuse(atmosDiffuse, diffuse, sunDirection, surfaceNorm, uneclipsed);
 
-		vec3 tau = -(betaR * (opticalDepth.x + opticalDepthLight.x) + betaM * 1.1f * (opticalDepth.y + opticalDepthLight.y));
-		vec3 tauR = tau + vec3(density.x);
-		vec3 tauM = tau + vec3(density.y);
-		vec3 attenuationR = exp(tauR) * segmentLength;
-		vec3 attenuationM = exp(tauM) * segmentLength;
-		sumR += attenuationR * atmosDiffuse.xyz;
-		sumM += attenuationM * atmosDiffuse.xyz;
+		vec3 tau = exp(-(betaR * (opticalDepth.x + opticalDepthLight.x) + betaM * 1.1f * (opticalDepth.y + opticalDepthLight.y)));
+		sumR += tau * depthAdd.x * atmosDiffuse.xyz;
+		sumM += tau * depthAdd.y * atmosDiffuse.xyz;
 		tCurrent += segmentLength;
 	}
 }
@@ -198,7 +195,8 @@ void processRayFull(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 		vec3 samplePosition = vec3(tCurrent + segmentLength * 0.5f) * dir;
 
 		vec2 density = getDensityAtPoint(samplePosition, center);
-		opticalDepth += exp(density) * segmentLength;
+		vec2 depthAdd = density * segmentLength;
+		opticalDepth += depthAdd;
 
 		// light optical depth
 		vec2 opticalDepthLight = vec2(0.f);
@@ -211,7 +209,7 @@ void processRayFull(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 		for (int j = 0; j < numSamplesLight; ++j) {
 			vec3 samplePositionLight = vec3(segmentLengthLight * 0.5f + tCurrentLight) * sunDirection + samplePosition;
 			vec2 densityLDir = getDensityAtPoint(samplePositionLight, center);
-			opticalDepthLight += exp(densityLDir) * segmentLengthLight;
+			opticalDepthLight += densityLDir * segmentLengthLight;
 
 			tCurrentLight += segmentLengthLight;
 		}
@@ -220,13 +218,9 @@ void processRayFull(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 		vec4 atmosDiffuse = vec4(0.f);
 		CalcPlanetDiffuse(atmosDiffuse, diffuse, sunDirection, surfaceNorm, uneclipsed);
 
-		vec3 tau = -(betaR * (opticalDepth.x + opticalDepthLight.x) + betaM * 1.1f * (opticalDepth.y + opticalDepthLight.y));
-		vec3 tauR = tau + vec3(density.x);
-		vec3 tauM = tau + vec3(density.y);
-		vec3 attenuationR = exp(tauR) * segmentLength;
-		vec3 attenuationM = exp(tauM) * segmentLength;
-		sumR += attenuationR * atmosDiffuse.xyz;
-		sumM += attenuationM * atmosDiffuse.xyz;
+		vec3 tau = exp(-(betaR * (opticalDepth.x + opticalDepthLight.x) + betaM * 1.1f * (opticalDepth.y + opticalDepthLight.y)));
+		sumR += tau * depthAdd.x * atmosDiffuse.xyz;
+		sumM += tau * depthAdd.y * atmosDiffuse.xyz;
 		tCurrent += segmentLength;
 	}
 }
