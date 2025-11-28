@@ -1,3 +1,4 @@
+// get height in m
 float height(const in vec3 orig, const in vec3 center)
 {
 	vec3 r = orig - center;
@@ -6,16 +7,18 @@ float height(const in vec3 orig, const in vec3 center)
 	return height;
 }
 
-void scatter(out vec2 density, const in vec3 orig, const in vec3 center)
+// get density at given point
+vec2 getDensityAtPoint(const in vec3 orig, const in vec3 center)
 {
-	float height = height(orig, center);
+	float height = height(orig, center); // in meters
 
-	density = -height / scaleHeight;
+	vec2 density = -height / scaleHeight;
 
 	// earth atmospheric density: 1.225 kg/m^3, divided by 1e5
 	// 1/1.225e-5 = 81632.65306
 	float earthDensities = geosphereAtmosFogDensity * 81632.65306f;
 	density /= earthDensities;
+	return density;
 }
 
 // orig: ray origin
@@ -125,8 +128,7 @@ void skipRay(inout vec2 opticalDepth, const in vec3 dir, const in vec2 boundarie
 		vec3 samplePosition = vec3(tCurrent + segmentLength * 0.5f) * dir;
 
 		// primary ray is approximated by (density * isegmentLength)
-		vec2 density;
-		scatter(density, samplePosition, center);
+		vec2 density = getDensityAtPoint(samplePosition, center);
 		opticalDepth += exp(density) * segmentLength;
 
 		tCurrent += segmentLength;
@@ -151,8 +153,7 @@ void processRayFast(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 	for (int i = 0; i < numSamples; ++i) {
 		vec3 samplePosition = vec3(tCurrent + segmentLength * 0.5f) * dir;
 
-		vec2 density;
-		scatter(density, samplePosition, center);
+		vec2 density = getDensityAtPoint(samplePosition, center);
 		opticalDepth += exp(density) * segmentLength;
 
 		// light optical depth
@@ -196,8 +197,7 @@ void processRayFull(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 	for (int i = 0; i < numSamples; ++i) {
 		vec3 samplePosition = vec3(tCurrent + segmentLength * 0.5f) * dir;
 
-		vec2 density;
-		scatter(density, samplePosition, center);
+		vec2 density = getDensityAtPoint(samplePosition, center);
 		opticalDepth += exp(density) * segmentLength;
 
 		// light optical depth
@@ -210,8 +210,7 @@ void processRayFull(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 		float tCurrentLight = 0.f;
 		for (int j = 0; j < numSamplesLight; ++j) {
 			vec3 samplePositionLight = vec3(segmentLengthLight * 0.5f + tCurrentLight) * sunDirection + samplePosition;
-			vec2 densityLDir = vec2(0.f);
-			scatter(densityLDir, samplePositionLight, center);
+			vec2 densityLDir = getDensityAtPoint(samplePositionLight, center);
 			opticalDepthLight += exp(densityLDir) * segmentLengthLight;
 
 			tCurrentLight += segmentLengthLight;
