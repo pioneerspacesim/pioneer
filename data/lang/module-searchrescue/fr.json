@@ -181,7 +181,7 @@
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "{ship_indef} is translated in /data/lang/ships/",
-    "message": "{starport} air traffic control needs your IMMEDIATE help responding to the crash landing of {ship_indef} on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
+    "message": "Les contrôleurs du trafic aérien ont besoin de votre aide IMMEDIATE en réponse à un atterrissage en catastrophe d'un vaisseau de type {ship_indef} sur la planète {planet}. L'état des systèmes de survie est inconnu. Le vaisseau a été assuré par le spatioport {starport} et est couvert pour un montant {cash} dans le cas d'une réponse d'urgence."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
@@ -361,7 +361,7 @@
   },
   "FLAVOUR_6_INTROTEXT": {
     "description": "{ship_base} is translated in /data/lang/ships/",
-    "message": "My name is {name} of {entity}. We lost contact with our {ship_base} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
+    "message": "Mon nom est {name} de {entity}. Nous avons perdu le contact avec notre vaisseau {ship_base} {shiplabel} à la suite de {problem}. Nous sommes prêt à payer {cash} pour une aide immédiate."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
@@ -397,7 +397,7 @@
   },
   "FLAVOUR_7_INTROTEXT": {
     "description": "{ship_indef} is translated in /data/lang/ships/",
-    "message": "My name is {name} of {entity}. Our only ship, {ship_indef} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
+    "message": "Mon nom est {name} de {entity}. Notre unique vaisseau, {ship_indef} {shiplabel}, dérive actuellement avec un équipage de {crew} à la suite d'une avarie ({problem}). Je suis prêt à payer {cash} pour une aide immédiate."
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
