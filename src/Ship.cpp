@@ -872,7 +872,12 @@ void Ship::Blastoff()
 		SetFlightState(FLYING);
 
 		SetPosition(up * planetRadius - GetAabb().min.y * up);
-		SetThrusterState(1, 1.0); // thrust upwards
+		if (GetShipType()->CanTailSit()) {
+			SetThrusterState(2, -1.0); // thrust forwards
+		} else {
+			SetThrusterState(1, 1.0); // thrust upwards
+		}
+		
 	}
 
 	OnTakeoff(f->GetBody());
