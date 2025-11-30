@@ -250,8 +250,9 @@ public:
 	void SetRelations(Body *other, Uint8 percent);
 
 	double GetLandingPosOffset() const { return m_landingMinOffset; }
+	double GetTailLandingPosOffset() const { return m_tailLandingMinOffset; }
 
-	Propulsion *GetPropulsion() { return m_propulsion; }
+	Propulsion *GetPropulsion() const { return m_propulsion; }
 
 protected:
 	vector3d CalcAtmosphericForce() const override;
@@ -332,6 +333,7 @@ private:
 	AICommand *m_curAICmd;
 
 	double m_landingMinOffset; // offset from the centre of the ship used during docking
+	double m_tailLandingMinOffset; // offset from the centre of the ship used during docking
 
 	int m_dockedWithIndex; // deserialisation
 

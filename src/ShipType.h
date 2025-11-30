@@ -21,6 +21,11 @@ struct ShipType {
 		TAG_MISSILE,
 		TAG_MAX // <enum skip>
 	};
+	enum LandedOrientation { // <enum scope='ShipType' name='LandedOrientation' prefix='LANDED_' public>
+		LANDED_HORIZONTAL, // Ships that only land on their belly
+		LANDED_VERTICAL, // Expanse style tail-sitters
+		LANDED_EITHER // Ships that can do either depending on situation (terrain, port, orbit, etc)
+	};
 	typedef std::string Id;
 
 	ShipType(){};
@@ -74,11 +79,14 @@ struct ShipType {
 	int hyperdriveClass;
 	int minCrew, maxCrew; // XXX really only for Lua, but needs to be declared in the ship def
 
+	LandedOrientation landedOrientation;
+
 	std::string definitionPath;
 	///////
 
 	// percentage (ie, 0--100) of tank used per second at full thrust
 	float GetFuelUseRate() const;
+	bool CanTailSit() const { return ((landedOrientation == LandedOrientation::LANDED_VERTICAL) || (landedOrientation == LandedOrientation::LANDED_EITHER)); }
 
 	static const std::string POLICE;
 

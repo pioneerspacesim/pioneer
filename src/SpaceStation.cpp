@@ -434,8 +434,10 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags, double relVel)
 		// must be oriented sensibly and have wheels down
 		matrix4x4d bayTrans = GetBayTransform(bay);
 
+		const bool canTailSit = s->GetShipType()->CanTailSit();
+
 		vector3d dockingNormal = bayTrans.Up();
-		const double dot = s->GetOrient().VectorY().Dot(dockingNormal);
+		const double dot = canTailSit ? -(s->GetOrient().VectorZ()).Dot(dockingNormal) : s->GetOrient().VectorY().Dot(dockingNormal);
 		if ((dot < 0.99) || (s->GetWheelState() < 1.0))
 		{
 			return DoShipDamage(s, flags, relVel); // <0.99 harsh?
