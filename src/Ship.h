@@ -146,6 +146,9 @@ public:
 
 	bool IsInSpace() const override { return (m_flightState != HYPERSPACE); }
 
+	bool AreWheelsRetracted() const { return is_equal_exact(m_wheelState, 0.0f); }
+	bool AreWheelsDeployed() const { return is_equal_exact(m_wheelState, 1.0f); }
+
 	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
 	const SystemPath &GetHyperspaceDest() const { return m_hyperspace.dest; }
 	double GetHyperspaceDuration() const { return m_hyperspace.duration; }

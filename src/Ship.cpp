@@ -1303,7 +1303,7 @@ void Ship::StaticUpdate(const float timeStep)
 	if (m_wheelTransition) {
 		m_wheelState += m_wheelTransition * 0.3f * timeStep;
 		m_wheelState = Clamp(m_wheelState, 0.0f, 1.0f);
-		if (is_equal_exact(m_wheelState, 0.0f) || is_equal_exact(m_wheelState, 1.0f)) {
+		if (AreWheelsRetracted() || AreWheelsDeployed()) {
 			m_wheelTransition = 0;
 			// TODO: this really needs to be driven by the animation; work around it by forcing an update for the last frame of the animation
 			m_forceWheelUpdate = true;
@@ -1345,7 +1345,7 @@ void Ship::StaticUpdate(const float timeStep)
 			AbortHyperjump();
 		} else {
 			m_hyperspace.countdown = m_hyperspace.countdown - timeStep;
-			if (!abort && m_hyperspace.countdown <= 0.0f && (is_equal_exact(m_wheelState, 0.0f))) {
+			if (!abort && m_hyperspace.countdown <= 0.0f && (AreWheelsRetracted())) {
 				m_hyperspace.countdown = 0;
 				m_hyperspace.now = true;
 				SetFlightState(JUMPING);
@@ -1354,7 +1354,7 @@ void Ship::StaticUpdate(const float timeStep)
 				// after the whole physics update, which means the flight state on next
 				// step would be HYPERSPACE, thus breaking quite a few things.
 				OnBeforeEnterHyperspace();
-			} else if (!(is_equal_exact(m_wheelState, 0.0f)) && this->IsType(ObjectType::PLAYER)) {
+			} else if (!(AreWheelsRetracted()) && this->IsType(ObjectType::PLAYER)) {
 				AbortHyperjump();
 				Sound::BodyMakeNoise(this, "Missile_Inbound", 1.0f);
 			}
