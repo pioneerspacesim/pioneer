@@ -1460,7 +1460,7 @@ bool AICmdDock::TimeStepUpdate()
 	if (af < 0.01) {
 		af = m_prop->AIFaceUpdir(trot * m_dockupdir, av) - ang;
 	}
-	if (m_state < eInvalidDockingStage && af < 0.01 && ship->GetWheelState() >= 1.0f) {
+	if (m_state < eInvalidDockingStage && af < 0.01 && ship->AreWheelsDeployed()) {
 		IncrementState();
 	}
 
