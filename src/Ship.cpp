@@ -251,6 +251,15 @@ void Ship::Init()
 		m_landingMinOffset = 0.0; // GetAabb().min.y;
 	}
 
+	// If we've got the tag_landing_tail set then use it for an offset
+	// otherwise use zero so that it will dock but look clearly incorrect
+	const SceneGraph::Tag *tagTailNode = GetModel()->FindTagByName("tag_landing_tail");
+	if (tagTailNode) {
+		m_tailLandingMinOffset = -(tagTailNode->GetGlobalTransform().GetTranslate().z); // invert this due to forward being -z for ships
+	} else {
+		m_tailLandingMinOffset = 0.0; // GetAabb().min.z;
+	}
+
 	InitMaterials();
 }
 

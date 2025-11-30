@@ -1394,6 +1394,8 @@ bool AICmdDock::TimeStepUpdate()
 		}
 	}
 
+	const bool canTailSit = ship->GetShipType()->CanTailSit();
+
 	// state 0,2: Get docking data
 	if (m_state == eDockGetDataStart || m_state == eDockGetDataEnd || m_state == eDockingComplete) {
 		const SpaceStationType *type = m_target->GetStationType();
@@ -1412,7 +1414,11 @@ bool AICmdDock::TimeStepUpdate()
 		if (type->IsOrbitalStation()) {
 			m_dockupdir = -m_dockupdir;
 		} else if (m_state == eDockingComplete) {
-			m_dockpos -= m_dockupdir * (ship->GetLandingPosOffset() + 0.1);
+			if (canTailSit) {
+				m_dockpos -= m_dockupdir * (ship->GetTailLandingPosOffset() + 0.1);
+			} else {
+				m_dockpos -= m_dockupdir * (ship->GetLandingPosOffset() + 0.1);
+			}
 		}
 
 		if (m_state != eDockGetDataEnd) {
@@ -1455,7 +1461,11 @@ bool AICmdDock::TimeStepUpdate()
 	if (m_target->GetStationType()->IsOrbitalStation()) {
 		af = m_prop->AIFaceDirection(trot * m_dockdir);
 	} else {
-		af = m_prop->AIFaceDirection(m_dBody->GetPosition().Cross(m_dBody->GetOrient().VectorX()));
+		if (canTailSit) {
+			af = m_prop->AIFaceDirection(m_dBody->GetPosition().Normalized());							// tailsitting
+		} else {
+			af = m_prop->AIFaceDirection(m_dBody->GetPosition().Cross(m_dBody->GetOrient().VectorX())); // horizontal
+		}
 	}
 	if (af < 0.01) {
 		af = m_prop->AIFaceUpdir(trot * m_dockupdir, av) - ang;
