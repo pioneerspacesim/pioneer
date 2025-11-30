@@ -497,7 +497,11 @@ void SpaceStation::SwitchToStage(Uint32 bay, DockStage stage)
 		dt.ship->ClearThrusterState();
 		// remember the position of the ship relative to the pad
 		matrix4x4d padSpace = GetBayTransform(bay);
-		padSpace.Translate(0.0, -dt.ship->GetLandingPosOffset(), 0.0);
+		if (dt.ship->GetShipType()->CanTailSit()) {
+			padSpace.Translate(0.0, -dt.ship->GetTailLandingPosOffset(), 0.0);
+		} else {
+			padSpace.Translate(0.0, -dt.ship->GetLandingPosOffset(), 0.0);
+		}
 		padSpace = padSpace.Inverse();
 		matrix3x3d shipToPadOrient = padSpace.GetOrient() * dt.ship->GetOrient();
 		// the position of the ship relative to the pad will be saved here
@@ -528,7 +532,7 @@ void SpaceStation::SwitchToStage(Uint32 bay, DockStage stage)
 
 	case DockStage::UNDOCK_END:
 		dt.ship->SetAngVelocity(GetAngVelocity());
-		if (m_type->IsSurfaceStation()) {
+		if (m_type->IsSurfaceStation() && !dt.ship->GetShipType()->CanTailSit()) {
 			dt.ship->SetThrusterState(1, 1.0); // up
 		} else {
 			dt.ship->SetThrusterState(2, -1.0); // forward
@@ -647,10 +651,13 @@ bool SpaceStation::LevelShip(Ship *ship, int bay, const float timeStep)
 	shipDocking_t &dt = m_shipDocking[bay];
 
 	auto shipOrient = dt.fromRot.ToMatrix3x3<double>();
+
+	const vector3d shipUpVector = (ship->GetShipType()->CanTailSit()) ? -shipOrient.VectorZ() : shipOrient.VectorY();
+
 	vector3d dist = dt.fromPos;
 	vector3d dockingNormal(0.0, 1.0, 0.0);
 
-	double cosUp = dockingNormal.Dot(shipOrient.VectorY());
+	double cosUp = dockingNormal.Dot(shipUpVector);
 	if (cosUp < 0.999999) {
 		// need level ship
 		double angle;
@@ -658,7 +665,7 @@ bool SpaceStation::LevelShip(Ship *ship, int bay, const float timeStep)
 			angle = -0.8 * timeStep;
 		else
 			angle = -acos(cosUp);
-		vector3d rotAxis = dockingNormal.Cross(shipOrient.VectorY());
+		vector3d rotAxis = dockingNormal.Cross(shipUpVector);
 		rotAxis = rotAxis.NormalizedSafe();
 
 		Quaterniond rot(angle, rotAxis);
@@ -688,7 +695,12 @@ void SpaceStation::PositionDockingShip(Ship *ship, int bay) const
 	// the last stage of the docking animation should take into account the
 	// displacement of the center of the ship
 	if (dt.stage == m_type->LastDockStage()) {
-		stageTrans.Translate(0.0, -dt.ship->GetLandingPosOffset(), 0.0);
+		if (ship->GetShipType()->CanTailSit()) {
+			stageTrans.Translate(0.0, -dt.ship->GetTailLandingPosOffset(), 0.0);
+		} else {
+			stageTrans.Translate(0.0, -dt.ship->GetLandingPosOffset(), 0.0);
+		}
+		
 	}
 
 	float ratio = pStage == DockStage::DOCK_ANIMATION_1 ?
@@ -712,7 +724,11 @@ void SpaceStation::PositionDockedShip(Ship *ship, int bay) const
 	// pad placement in the world:
 	auto padTrans = GetBayTransform(bay);
 	// ship center height
-	padTrans.Translate(0.0, -ship->GetLandingPosOffset(), 0.0);
+	if (ship->GetShipType()->CanTailSit()) {
+		padTrans.Translate(0.0, -dt.ship->GetTailLandingPosOffset(), 0.0);
+	} else {
+		padTrans.Translate(0.0, -ship->GetLandingPosOffset(), 0.0);
+	}
 
 	ship->SetPosition(padTrans * dt.fromPos);
 	ship->SetOrient(padTrans.GetOrient() * dt.fromRot.ToMatrix3x3<double>());

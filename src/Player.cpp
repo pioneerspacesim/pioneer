@@ -353,7 +353,11 @@ vector3d Player::GetManeuverVelocity() const
 void Player::DoFixspeedTakeoff(SpaceStation *from)
 {
 	auto con = GetPlayerController();
-	con->SetCruiseDirection(PlayerShipController::CRUISE_UP);
+	if (from && !from->IsGroundStation()) {
+		con->SetCruiseDirection(GetShipType()->CanTailSit() ? PlayerShipController::CRUISE_FWD : PlayerShipController::CRUISE_UP);
+	} else {
+		con->SetCruiseDirection(PlayerShipController::CRUISE_UP);
+	}
 	SetFlightState(Ship::FLYING);
 	GetPlayerController()->SetFlightControlState(CONTROL_FIXSPEED);
 	double curSpeed = con->GetCruiseSpeed();
