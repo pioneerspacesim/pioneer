@@ -252,6 +252,8 @@ public:
 	double GetLandingPosOffset() const { return m_landingMinOffset; }
 	double GetTailLandingPosOffset() const { return m_tailLandingMinOffset; }
 
+	inline bool CanTailSit() const { return m_type->CanTailSit(); }
+
 	Propulsion *GetPropulsion() const { return m_propulsion; }
 
 protected:
