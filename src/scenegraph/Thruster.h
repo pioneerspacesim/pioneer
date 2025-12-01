@@ -44,6 +44,7 @@ namespace SceneGraph {
 		vector3f dir;
 		vector3f pos;
 		Color currentColor;
+		float displayedPower; // used to fade in/out to power (size) of thruster shown
 	};
 
 } // namespace SceneGraph
