@@ -1394,7 +1394,7 @@ bool AICmdDock::TimeStepUpdate()
 		}
 	}
 
-	const bool canTailSit = ship->GetShipType()->CanTailSit();
+	const bool canTailSit = ship->CanTailSit();
 
 	// state 0,2: Get docking data
 	if (m_state == eDockGetDataStart || m_state == eDockGetDataEnd || m_state == eDockingComplete) {
