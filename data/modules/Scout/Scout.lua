@@ -286,6 +286,7 @@ local onChat = function (form, ref, option)
 		mission = Mission.New(mission)
 		table.insert(missions, mission)
 		missionKey[mission.scanId] = mission
+		MissionUtils.SetupOverdueTimer(mission)
 
 		form:SetMessage(l.EXCELLENT_I_AWAIT_YOUR_REPORT)
 		return
@@ -719,7 +720,6 @@ local onPlayerDocked = function (player, station)
 	end
 end
 
-
 local loaded_data
 
 local onGameStart = function ()
@@ -741,21 +741,10 @@ local onGameStart = function ()
 		missions = loaded_data.missions
 		for ref, mission in pairs(missions) do
 			if mission.scanId then missionKey[mission.scanId] = mission end
+			MissionUtils.SetupOverdueTimer(mission)
 		end
 
 		loaded_data = nil
-	end
-
-	local currentBody = Game.player.frameBody
-	local mission
-	for ref,mission in pairs(missions) do
-		if currentBody and currentBody.path ~= mission.location then return end
-		if Game.time > mission.due then
-			mission.status = "FAILED"
-			mission:Remove()
-			missions[ref] = nil
-			return
-		end
 	end
 end
 
