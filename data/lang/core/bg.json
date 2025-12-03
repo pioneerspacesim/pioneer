@@ -1669,7 +1669,7 @@
   },
   "SURFACE_PRESSURE": {
     "description": "",
-    "message": "Surface pressure"
+    "message": "Повърхностно налягане"
   },
   "SURFACE_TEMPERATURE": {
     "description": "",

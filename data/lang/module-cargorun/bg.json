@@ -97,7 +97,7 @@
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
-    "message": "aluminium tubes"
+    "message": "алуминиеви тръби"
   },
   "AMOUNT": {
     "description": "Shown in mission summary. The amount of cargo",
@@ -105,7 +105,7 @@
   },
   "ART_OBJECTS": {
     "description": "custom cargo",
-    "message": "art objects"
+    "message": "произведения на изкуството"
   },
   "ART_OBJECTS_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
@@ -141,7 +141,7 @@
   },
   "CLUS": {
     "description": "custom cargo",
-    "message": "containerized living units"
+    "message": "жилищни контейнери"
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
@@ -197,11 +197,11 @@
   },
   "DIAMONDS": {
     "description": "custom cargo",
-    "message": "diamonds"
+    "message": "диаманти"
   },
   "DIGESTERS": {
     "description": "custom cargo",
-    "message": "digesters"
+    "message": "дигестори"
   },
   "DISTANCE": {
     "description": "distance in space, between two locations",
@@ -209,7 +209,7 @@
   },
   "ELECTRICAL_APPLIANCES": {
     "description": "custom cargo",
-    "message": "electrical appliances"
+    "message": "електрически уреди"
   },
   "ESCORT_CHATTER_1": {
     "description": "",
@@ -233,7 +233,7 @@
   },
   "EXPLOSIVES": {
     "description": "custom cargo",
-    "message": "explosives"
+    "message": "експлозиви"
   },
   "EXPLOSIVES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
@@ -261,7 +261,7 @@
   },
   "FURNITURE": {
     "description": "custom cargo",
-    "message": "furniture"
+    "message": "мебели"
   },
   "GO_BACK": {
     "description": "Shown on a button in a sub-menu, to move back, to previous menu",
@@ -269,7 +269,7 @@
   },
   "GREENHOUSES": {
     "description": "custom cargo",
-    "message": "greenhouses"
+    "message": "оранжерии"
   },
   "GUNS_GUNS_GUNS": {
     "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
@@ -277,7 +277,7 @@
   },
   "HAZARDOUS_SUBSTANCES": {
     "description": "custom cargo",
-    "message": "hazardous substances"
+    "message": "опасни вещества"
   },
   "HAZARDOUS_SUBSTANCES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
@@ -405,7 +405,7 @@
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
-    "message": "machine tools"
+    "message": "машинни инструменти"
   },
   "NEGOTIABLE_1": {
     "description": "regarding mass, always more than 1t",
@@ -429,7 +429,7 @@
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
-    "message": "neptunium"
+    "message": "нептуний"
   },
   "OFFER": {
     "description": "",
@@ -489,11 +489,11 @@
   },
   "PLUTONIUM": {
     "description": "custom cargo",
-    "message": "plutonium"
+    "message": "плутоний"
   },
   "QUIBBLES": {
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-    "message": "quibbles"
+    "message": "куибъли"
   },
   "QUIBBLES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
@@ -557,7 +557,7 @@
   },
   "SEMI_FINISHED_PRODUCTS": {
     "description": "custom cargo",
-    "message": "semi-finished products"
+    "message": "полуготови продукти"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -573,11 +573,11 @@
   },
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
-    "message": "spaceship parts"
+    "message": "части за космически кораби"
   },
   "STEM_BOLTS": {
     "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
-    "message": "self-sealing stem bolts"
+    "message": "самозапечатващи се стволови болтове"
   },
   "SUCCESSMSG_1": {
     "description": "",
@@ -609,7 +609,7 @@
   },
   "TITANIUM": {
     "description": "custom cargo",
-    "message": "titanium"
+    "message": "титан"
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
@@ -617,11 +617,11 @@
   },
   "TUNGSTEN": {
     "description": "custom cargo",
-    "message": "tungsten"
+    "message": "волфрам"
   },
   "URANIUM": {
     "description": "custom cargo",
-    "message": "uranium"
+    "message": "уран"
   },
   "URGENCY_1": {
     "description": "",
@@ -653,7 +653,7 @@
   },
   "WEDDING_DRESSES": {
     "description": "custom cargo",
-    "message": "wedding dresses"
+    "message": "сватбени рокли"
   },
   "WEDDING_DRESSES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
