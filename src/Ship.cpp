@@ -894,17 +894,16 @@ void Ship::TestLanded()
 
 	if (f->GetBody()->IsType(ObjectType::PLANET)) {
 		double speed = GetVelocity().Length();
-		vector3d up = GetPosition().Normalized();
-		const double planetRadius = static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
-
 		if (speed < MAX_LANDING_SPEED) {
 			// check player is sortof sensibly oriented for landing
-			if (GetOrient().VectorY().Dot(up) > 0.99) {
+			const vector3d up = GetPosition().Normalized();
+			if (GetDockingOrientation().Dot(up) > 0.99) {
 				// position at zero altitude
+				const double planetRadius = static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
 				SetPosition(up * (planetRadius - GetAabb().min.y));
 
 				// position facing in roughly the same direction
-				vector3d right = up.Cross(GetOrient().VectorZ()).Normalized();
+				const vector3d right = up.Cross(GetDockingOrientation()).Normalized();
 				SetOrient(matrix3x3d::FromVectors(right, up));
 
 				SetVelocity(vector3d::Zero);

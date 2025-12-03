@@ -434,10 +434,8 @@ bool SpaceStation::OnCollision(Body *b, Uint32 flags, double relVel)
 		// must be oriented sensibly and have wheels down
 		matrix4x4d bayTrans = GetBayTransform(bay);
 
-		const bool canTailSit = s->CanTailSit();
-
 		vector3d dockingNormal = bayTrans.Up();
-		const double dot = canTailSit ? -(s->GetOrient().VectorZ()).Dot(dockingNormal) : s->GetOrient().VectorY().Dot(dockingNormal);
+		const double dot = s->GetDockingOrientation().Dot(dockingNormal);
 		if ((dot < 0.99) || (s->GetWheelState() < 1.0))
 		{
 			return DoShipDamage(s, flags, relVel); // <0.99 harsh?
@@ -652,7 +650,8 @@ bool SpaceStation::LevelShip(Ship *ship, int bay, const float timeStep)
 
 	auto shipOrient = dt.fromRot.ToMatrix3x3<double>();
 
-	const vector3d shipUpVector = (ship->CanTailSit()) ? -shipOrient.VectorZ() : shipOrient.VectorY();
+	// If we're a tail-sitter and this is a ground station, then we're allowed to tail-sit. Orbitals are always belly sitting
+	const vector3d shipUpVector = (ship->CanTailSit() && IsGroundStation()) ? -shipOrient.VectorZ() : shipOrient.VectorY();
 
 	vector3d dist = dt.fromPos;
 	vector3d dockingNormal(0.0, 1.0, 0.0);
@@ -725,7 +724,7 @@ void SpaceStation::PositionDockedShip(Ship *ship, int bay) const
 	auto padTrans = GetBayTransform(bay);
 	// ship center height
 	if (ship->CanTailSit()) {
-		padTrans.Translate(0.0, -dt.ship->GetTailLandingPosOffset(), 0.0);
+		padTrans.Translate(0.0, -ship->GetTailLandingPosOffset(), 0.0);
 	} else {
 		padTrans.Translate(0.0, -ship->GetLandingPosOffset(), 0.0);
 	}
