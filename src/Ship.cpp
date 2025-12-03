@@ -902,10 +902,13 @@ void Ship::TestLanded()
 				const double planetRadius = static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
 				SetPosition(up * (planetRadius - GetAabb().min.y));
 
-				// position facing in roughly the same direction
-				const vector3d right = up.Cross(GetDockingOrientation()).Normalized();
-				SetOrient(matrix3x3d::FromVectors(right, up));
-
+				// if we're tail sitting then stuck with however we cam in?
+				if (!CanTailSit()) {
+					// position facing in roughly the same direction
+					const vector3d right = up.Cross(GetOrient().VectorZ()).Normalized();
+					SetOrient(matrix3x3d::FromVectors(right, up));
+				}
+				
 				SetVelocity(vector3d::Zero);
 				SetAngVelocity(vector3d::Zero);
 				ClearThrusterState();
