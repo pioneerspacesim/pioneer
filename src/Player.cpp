@@ -354,9 +354,9 @@ void Player::DoFixspeedTakeoff(SpaceStation *from)
 {
 	auto con = GetPlayerController();
 	if (from && !from->IsGroundStation()) {
-		con->SetCruiseDirection(CanTailSit() ? PlayerShipController::CRUISE_FWD : PlayerShipController::CRUISE_UP);
-	} else {
 		con->SetCruiseDirection(PlayerShipController::CRUISE_UP);
+	} else {
+		con->SetCruiseDirection(CanTailSit() ? PlayerShipController::CRUISE_FWD : PlayerShipController::CRUISE_UP);
 	}
 	SetFlightState(Ship::FLYING);
 	GetPlayerController()->SetFlightControlState(CONTROL_FIXSPEED);
