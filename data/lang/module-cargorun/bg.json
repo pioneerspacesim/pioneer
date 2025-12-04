@@ -109,15 +109,15 @@
   },
   "ART_OBJECTS_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "Unless you consider art critics a risk, no."
+    "message": "Освен ако не смятате критиците на изкуствата за риск, не."
   },
   "ART_OBJECTS_RISK_MESSAGE_2": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "Between you and me... Don't look at the art and you'll be fine."
+    "message": "Между нас казано... Не поглеждайте произведенията на изкуството и всичко ще е наред."
   },
   "ART_OBJECTS_RISK_MESSAGE_3": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "The only danger of 25th century impressionism was to the original artist, you should be safe."
+    "message": "Единствената опасност на импресионизма от 25-ти век е оригиналният автор, трябва да сте в безопасност."
   },
   "CARGO": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "EXPLOSIVES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "No. Well, it's explosives, just don't drop it."
+    "message": "Не. Ами, експлозиви са, просто не ги изпускайте."
   },
   "FAILUREMSG_1": {
     "description": "",
@@ -281,7 +281,7 @@
   },
   "HAZARDOUS_SUBSTANCES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "I guess you shouldn't open the containers."
+    "message": "Предполагам, че не трябва да отваряте контейнерите."
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
@@ -497,11 +497,11 @@
   },
   "QUIBBLES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "No. Just don't get them wet and never feed them after midnight."
+    "message": "Не. Само не ги мокрете и никога не ги хранете след полунощ."
   },
   "QUIBBLES_RISK_MESSAGE_2": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "Of course not! Look at them, they're so fluffy!"
+    "message": "Разбира се, че не! Вижте ги, толкова са пухкави!"
   },
   "RISK_1": {
     "description": "",
@@ -529,7 +529,7 @@
   },
   "RISK_ART_1": {
     "description": "",
-    "message": "Тези стоки са мишена на любителите на изкуството."
+    "message": "Тези стоки са мишена на любителите на изкуствата."
   },
   "RISK_EXPENSIVE_1": {
     "description": "",
@@ -657,7 +657,7 @@
   },
   "WEDDING_DRESSES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "Over wedding dresses?"
+    "message": "Заради сватбените рокли?"
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
@@ -689,7 +689,7 @@
   },
   "WHYSOMUCH_6": {
     "description": "",
-    "message": "Е, ще се радваме да Ви платим по-малко кредити."
+    "message": "Ами, ще се радваме да Ви платим по-малко кредити."
   },
   "WHYSOMUCH_CENTRIFUGES_1": {
     "description": "",
