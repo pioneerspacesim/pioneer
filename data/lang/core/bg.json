@@ -513,23 +513,23 @@
   },
   "GRID_DISPLAY_MODE": {
     "description": "Label for grid display modes",
-    "message": "Grid Display Mode"
+    "message": "Изглед на решетката"
   },
   "GRID_DISPLAY_MODE_GRID_AND_LEGS": {
     "description": "Combobox option for Grid with Legs",
-    "message": "Grid with Legs"
+    "message": "Решетка с етапи"
   },
   "GRID_DISPLAY_MODE_GRID_ONLY": {
     "description": "Combobox option for Grid Only",
-    "message": "Grid Only"
+    "message": "Решетка"
   },
   "GRID_DISPLAY_MODE_OFF": {
     "description": "Combobox option for Grid display off.",
-    "message": "Grid Off"
+    "message": "Изключен"
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for toggle grid display button.",
-    "message": "Toggle visibility of the grid."
+    "message": "Видимост на решетката."
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -601,35 +601,35 @@
   },
   "HYPERSPACE_ARRIVAL_CLOUD": {
     "description": "",
-    "message": "Хиперпространствен облак на пристигане"
+    "message": "Хиперпространствен облак от пристигане"
   },
   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
     "description": "",
-    "message": "Останки от хиперпространствен облак на пристигане"
+    "message": "Останки на хиперпространствен облак от пристигане"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
     "description": "Label for hyperspace cloud display modes.",
-    "message": "Hyperspace Cloud Display Mode"
+    "message": "Изглед на хиперпространствените облаци"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL": {
     "description": "Combobox option for all hyperspace clouds.",
-    "message": "All Hyperspace Clouds"
+    "message": "Всички хиперпространствени облаци"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY": {
     "description": "Combobox option for arrival hyperspace clouds.",
-    "message": "Arrival Hyperspace Clouds"
+    "message": "Хиперпространствени облаци от пристигане"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY": {
     "description": "Combobox option for departure hyperspace clouds.",
-    "message": "Departure Hyperspace Clouds"
+    "message": "Хиперпространствени облаци от тръгване"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for the button which toggles the display mode of hyperspace clouds.",
-    "message": "Toggle visibility of Hyperspace Clouds."
+    "message": "Видимост на хиперпространствените облаци"
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
-    "message": "Хиперпространствен облак на тръгване"
+    "message": "Хиперпространствен облак от тръгване"
   },
   "HYPERSPACE_JUMP_ABORT": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
@@ -721,15 +721,15 @@
   },
   "L4L5_DISPLAY_MODE": {
     "description": "Label for the lagrange point display modes.",
-    "message": "Lagrange Point Display Mode"
+    "message": "Изглед на точките на Лагранж"
   },
   "L4L5_DISPLAY_MODE_ICONS_AND_TEXT": {
     "description": "Combobox option for lagrange point display as icons only.",
-    "message": "Icons and Labels"
+    "message": "Икони и наименования"
   },
   "L4L5_DISPLAY_MODE_ICONS_ONLY": {
     "description": "Combobox option for lagrange point display as icons only.",
-    "message": "Icons Only"
+    "message": "Икони"
   },
   "L4L5_DISPLAY_MODE_OFF": {
     "description": "Combobox option for lagrange point display off.",
@@ -737,7 +737,7 @@
   },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for the L4/L5 Lagrange points toggle button.",
-    "message": "Toggle visibility of the L4/L5 lagrange points."
+    "message": "Видимост на точките на Лагранж L4 и L5."
   },
   "LANDED": {
     "description": "",
@@ -1441,19 +1441,19 @@
   },
   "SHIPS_DISPLAY_MODE": {
     "description": "Label for ship display modes.",
-    "message": "Ship Display Mode"
+    "message": "Изглед на корабите"
   },
   "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
     "description": "Combobox option for ships only.",
-    "message": "Ships Only"
+    "message": "Кораби"
   },
   "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
     "description": "Combobox option for ships with orbits.",
-    "message": "Ships with Orbits"
+    "message": "Кораби с орбити"
   },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for ship display toggle button.",
-    "message": "Toggle visibility of ships."
+    "message": "Видимост на корабите."
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",

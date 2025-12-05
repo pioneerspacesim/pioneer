@@ -1,47 +1,47 @@
 {
   "FINES_ADMONISHING_1": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "Please visit the nearest {policeforce} office to pay your fines."
+    "message": "Моля, посетете най-близкия офис на {policeforce}, за да платите глобите си."
   },
   "FINES_ADMONISHING_2": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "Visit the nearest {policeforce} office and resolve this."
+    "message": "Посетете най-близкия офис на {policeforce} и решете този проблем."
   },
   "FINES_ADMONISHING_3": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "You need to sort this out or it will only get worse."
+    "message": "Трябва да оправите този проблем, иначе нещата ще се влошат."
   },
   "FINES_ADMONISHING_4": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "There's a {policeforce} office on every large station. Pay your fines!"
+    "message": "Има офис на {policeforce} във всяка голяма станция. Платете си глобите!"
   },
   "FINES_ADMONISHING_HARSH_1": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "This needs to be resolved or there will be consequences!"
+    "message": "Решете този проблем, иначе ще има последствия!"
   },
   "FINES_ADMONISHING_HARSH_2": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "Unpaid fines will be prosecuted to the fullest extent of the law."
+    "message": "Неплатените глоби ще бъдат преследвани с цялата строгост на закона."
   },
   "FINES_ADMONISHING_HARSH_3": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "This is serious and you need to resolve it. The sooner the better."
+    "message": "Това е сериозен проблем и трябва да го разрешите. Колкото по-скоро, толкова по-добре."
   },
   "FINES_ADMONISHING_HARSH_4": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "If you don't pay your fines you will end up as an outlaw. Pay your fines today!"
+    "message": "Ако не платите глобите си, ще станете престъпник. Платете глобите си още днес!"
   },
   "FINES_INTRO_1": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "Wait, there's more."
+    "message": "Почакайте, има още."
   },
   "FINES_INTRO_2": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "One more thing {ship_label}."
+    "message": "Един момент, {ship_label}."
   },
   "FINES_INTRO_3": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "Wait!"
+    "message": "Почакайте!"
   },
   "FINES_INTRO_4": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
@@ -49,19 +49,19 @@
   },
   "FINES_MESSAGE_1": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "You have outstanding fines."
+    "message": "Имате неплатени глоби."
   },
   "FINES_MESSAGE_2": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "You are flagged with outstanding fines."
+    "message": "Проверихме, че имате неплатени глоби."
   },
   "FINES_MESSAGE_3": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "We see that you have fines to pay."
+    "message": "Виждаме, че имате глоби за плащане."
   },
   "FINES_MESSAGE_4": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "You have a total of ${fine} in unpaid fines."
+    "message": "Имате неплатени глоби за общо {fine} кредита."
   },
   "ILLEGAL_GOODS_DETECTED": {
     "description": "",

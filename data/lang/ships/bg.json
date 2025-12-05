@@ -1,15 +1,15 @@
 {
   "AC33": {
     "description": "ship name - base form",
-    "message": "Дропстар АС-33"
+    "message": "Десантна звезда АС-33"
   },
   "AC33_DEF": {
     "description": "ship - definite form",
-    "message": "Дропстарът АС-33"
+    "message": "Десантната звезда АС-33"
   },
   "AC33_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "Дропстар АС-33"
+    "message": "Десантна звезда АС-33"
   },
   "BLUENOSE": {
     "description": "ship name - base form",
@@ -313,15 +313,15 @@
   },
   "VENTURESTAR": {
     "description": "ship name - base form",
-    "message": "Венчърстар"
+    "message": "Авантюрна звезда"
   },
   "VENTURESTAR_DEF": {
     "description": "ship - definite form",
-    "message": "Венчърстарът"
+    "message": "Авантюрната звезда"
   },
   "VENTURESTAR_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "Венчърстар"
+    "message": "Авантюрна звезда"
   },
   "WAVE": {
     "description": "ship name - base form",

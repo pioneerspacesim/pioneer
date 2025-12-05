@@ -1913,7 +1913,7 @@
   },
   "OUTLAW": {
     "description": "Legal status of player",
-    "message": "Разбойник"
+    "message": "Престъпник"
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
