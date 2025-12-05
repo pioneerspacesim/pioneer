@@ -94,7 +94,7 @@ TEST_CASE("PropertyValidation")
 		CHECK(prop.get_number() == 0.0);
 		CHECK(prop.get_integer() == 0);
 		CHECK(prop.get_vector2() == vector2d(0, 0));
-		CHECK(prop.get_vector3() == vector3d(0, 0, 0));
+		CHECK(prop.get_vector3() == vector3d::Zero);
 		CHECK(prop.get_quat() == Quaternionf(1, 0, 0, 0));
 		CHECK(prop.get_color() == Color4ub(0, 0, 0, 255));
 		CHECK(prop.get_string() == "");

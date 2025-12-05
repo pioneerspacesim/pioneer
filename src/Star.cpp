@@ -82,7 +82,7 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		len *= 0.25;
 	}
 
-	matrix4x4d trans = matrix4x4d::Identity();
+	matrix4x4d trans = matrix4x4d::Identity;
 	trans.Translate(float(fpos.x), float(fpos.y), float(fpos.z));
 
 	// face the camera dammit

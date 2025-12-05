@@ -116,7 +116,7 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 		// be moved into EvictShip()
 		m_ship->SetPosition(GetPosition());
 		m_ship->SetVelocity(m_vel);
-		m_ship->SetOrient(matrix3x3d::Identity());
+		m_ship->SetOrient(matrix3x3d::Identity);
 		m_ship->SetFrame(GetFrame());
 		Pi::game->GetSpace()->AddBody(m_ship);
 
@@ -156,7 +156,7 @@ static void make_circle_thing(VertexArray &va, float radius, const Color &colCen
 
 void HyperspaceCloud::UpdateInterpTransform(double alpha)
 {
-	m_interpOrient = matrix3x3d::Identity();
+	m_interpOrient = matrix3x3d::Identity;
 	const vector3d oldPos = GetPosition() - m_vel * Pi::game->GetTimeStep();
 	m_interpPos = alpha * GetPosition() + (1.0 - alpha) * oldPos;
 }
@@ -169,7 +169,7 @@ void HyperspaceCloud::Render(Renderer *renderer, const Camera *camera, const vec
 	if (!s_cloudMat)
 		InitGraphics(renderer);
 
-	matrix4x4d trans = matrix4x4d::Identity();
+	matrix4x4d trans = matrix4x4d::Identity;
 	trans.Translate(float(viewCoords.x), float(viewCoords.y), float(viewCoords.z));
 
 	// precise to the rendered frame (better than PHYSICS_HZ granularity)

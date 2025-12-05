@@ -43,13 +43,6 @@ public:
 	vector3<T> VectorY() const { return vector3<T>(cell[1], cell[4], cell[7]); }
 	vector3<T> VectorZ() const { return vector3<T>(cell[2], cell[5], cell[8]); }
 
-	static matrix3x3 Identity()
-	{
-		matrix3x3 m;
-		m.cell[1] = m.cell[2] = m.cell[3] = m.cell[5] = m.cell[6] = m.cell[7] = 0.0f;
-		m.cell[0] = m.cell[4] = m.cell[8] = 1.0f;
-		return m;
-	}
 	static matrix3x3 Scale(T x, T y, T z)
 	{
 		matrix3x3 m;
@@ -231,12 +224,20 @@ public:
 	{
 		*this = Normalized();
 	}
+
+	static matrix3x3 IdentityFunc()
+	{
+		constexpr T IDENTITY3x3[] = { 1, 0, 0, 0, 1, 0, 0, 0, 1 };
+		return matrix3x3(IDENTITY3x3);
+	}
+
+	static const matrix3x3 Identity;
 };
+
+template <typename T>
+const matrix3x3<T> matrix3x3<T>::Identity(IdentityFunc());
 
 typedef matrix3x3<float> matrix3x3f;
 typedef matrix3x3<double> matrix3x3d;
-
-static const matrix3x3f matrix3x3fIdentity(matrix3x3f::Identity());
-static const matrix3x3d matrix3x3dIdentity(matrix3x3d::Identity());
 
 #endif /* _MATRIX3x3_H */

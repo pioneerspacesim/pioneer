@@ -858,8 +858,8 @@ void Ship::Blastoff()
 		p->DoFixspeedTakeoff();
 	} else {
 		const double planetRadius = 2.0 + static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
-		SetVelocity(vector3d(0, 0, 0));
-		SetAngVelocity(vector3d(0, 0, 0));
+		SetVelocity(vector3d::Zero);
+		SetAngVelocity(vector3d::Zero);
 		SetFlightState(FLYING);
 
 		SetPosition(up * planetRadius - GetAabb().min.y * up);
@@ -893,8 +893,8 @@ void Ship::TestLanded()
 				vector3d right = up.Cross(GetOrient().VectorZ()).Normalized();
 				SetOrient(matrix3x3d::FromVectors(right, up));
 
-				SetVelocity(vector3d(0, 0, 0));
-				SetAngVelocity(vector3d(0, 0, 0));
+				SetVelocity(vector3d::Zero);
+				SetAngVelocity(vector3d::Zero);
 				ClearThrusterState();
 				SetFlightState(LANDED);
 				Sound::BodyMakeNoise(this, "Rough_Landing", 1.0f);
@@ -918,8 +918,8 @@ void Ship::SetLandedOn(Planet *p, float latitude, float longitude)
 	SetPosition(up * (planetRadius - GetAabb().min.y));
 	vector3d right = up.Cross(vector3d(0, 0, 1)).Normalized();
 	SetOrient(matrix3x3d::FromVectors(right, up));
-	SetVelocity(vector3d(0, 0, 0));
-	SetAngVelocity(vector3d(0, 0, 0));
+	SetVelocity(vector3d::Zero);
+	SetAngVelocity(vector3d::Zero);
 	ClearThrusterState();
 	SetFlightState(LANDED);
 	OnLanded(p);

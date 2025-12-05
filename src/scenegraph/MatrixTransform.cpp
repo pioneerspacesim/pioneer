@@ -44,7 +44,7 @@ namespace SceneGraph {
 		RenderChildren(t, rd);
 	}
 
-	static const matrix4x4f s_ident(matrix4x4f::Identity());
+	static const matrix4x4f s_ident(matrix4x4f::Identity);
 	void MatrixTransform::RenderInstanced(const std::vector<matrix4x4f> &trans, const RenderData *rd)
 	{
 		if (0 == memcmp(&m_transform, &s_ident, sizeof(matrix4x4f))) {

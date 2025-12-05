@@ -224,7 +224,12 @@ public:
 	inline vector2<T> yz() { return vector2<T>(y, z); }
 	inline vector2<T> yx() { return vector2<T>(y, x); }
 	inline vector2<T> zx() { return vector2<T>(z, x); }
+
+	static const vector3 Zero;
 };
+
+template <typename T>
+const vector3<T> vector3<T>::Zero(T(0));
 
 // These are here in this manner to enforce that only float and double versions are possible.
 template <>

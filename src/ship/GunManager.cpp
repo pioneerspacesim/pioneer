@@ -367,11 +367,11 @@ void GunManager::SetGroupFireWithoutTargeting(uint32_t group, bool enabled)
 vector3d GunManager::GetGroupLeadPos(uint32_t group)
 {
 	if (group >= m_groups.size() || !m_groups[group].target || m_groups[group].weapons.none())
-		return vector3d(0, 0, 0);
+		return vector3d::Zero;
 
 	GroupState &gs = m_groups[group];
 	double inv_count = 1.0 / double(gs.weapons.count());
-	vector3d lead_pos = vector3d(0, 0, 0);
+	vector3d lead_pos = vector3d::Zero;
 
 	for (size_t idx = 0; idx < m_weapons.size(); idx++) {
 		if (gs.weapons[idx]) {
@@ -421,7 +421,7 @@ void GunManager::StaticUpdate(float deltaTime)
 			const matrix3x3d &orient = m_parent->GetOrient();
 			const vector3d relPosition = gs.target->GetPositionRelTo(m_parent);
 			const vector3d relVelocity = gs.target->GetVelocityRelTo(m_parent->GetFrame()) - m_parent->GetVelocity();
-			vector3d relAccel = vector3d(0, 0, 0);
+			vector3d relAccel = vector3d::Zero;
 
 			if (gs.target->IsType(ObjectType::DYNAMICBODY)) {
 				relAccel = static_cast<const DynamicBody *>(gs.target)->GetLastForce() / gs.target->GetMass();
@@ -431,7 +431,7 @@ void GunManager::StaticUpdate(float deltaTime)
 			CalcWeaponLead(gun, relPosition * orient, relVelocity * orient, relAccel * orient);
 		} else {
 			gun.currentLead = vector3f(0, 0, 1);
-			gun.currentLeadPos = vector3d(0, 0, 0);
+			gun.currentLeadPos = vector3d::Zero;
 		}
 
 		// Update gun cooling per tick

@@ -194,7 +194,7 @@ void MatrixToJson(Json &jsonObj, const matrix3x3f &mat)
 {
 	PROFILE_SCOPED()
 #ifdef USE_STRING_VERSIONS
-	if (!memcmp(&matrix3x3fIdentity, &mat, sizeof(matrix3x3f))) return;
+	if (!memcmp(&matrix3x3f::Identity, &mat, sizeof(matrix3x3f))) return;
 	char str[512];
 	Matrix3x3fToStr(mat, str, 512);
 	jsonObj = str;
@@ -209,7 +209,7 @@ void MatrixToJson(Json &jsonObj, const matrix3x3d &mat)
 {
 	PROFILE_SCOPED()
 #ifdef USE_STRING_VERSIONS
-	if (!memcmp(&matrix3x3dIdentity, &mat, sizeof(matrix3x3d))) return;
+	if (!memcmp(&matrix3x3d::Identity, &mat, sizeof(matrix3x3d))) return;
 	char str[512];
 	Matrix3x3dToStr(mat, str, 512);
 	jsonObj = str;
@@ -224,7 +224,7 @@ void MatrixToJson(Json &jsonObj, const matrix4x4f &mat)
 {
 	PROFILE_SCOPED()
 #ifdef USE_STRING_VERSIONS
-	if (!memcmp(&matrix4x4fIdentity, &mat, sizeof(matrix4x4f))) return;
+	if (!memcmp(&matrix4x4f::Identity, &mat, sizeof(matrix4x4f))) return;
 	char str[512];
 	Matrix4x4fToStr(mat, str, 512);
 	jsonObj = str;
@@ -254,7 +254,7 @@ void MatrixToJson(Json &jsonObj, const matrix4x4d &mat)
 {
 	PROFILE_SCOPED()
 #ifdef USE_STRING_VERSIONS
-	if (!memcmp(&matrix4x4dIdentity, &mat, sizeof(matrix4x4d))) return;
+	if (!memcmp(&matrix4x4d::Identity, &mat, sizeof(matrix4x4d))) return;
 	char str[512];
 	Matrix4x4dToStr(mat, str, 512);
 	jsonObj = str;
@@ -400,7 +400,7 @@ void JsonToMatrix(matrix3x3f *pMat, const Json &jsonObj)
 	PROFILE_SCOPED()
 #ifdef USE_STRING_VERSIONS
 	if (!jsonObj.is_string()) {
-		*pMat = matrix3x3fIdentity;
+		*pMat = matrix3x3f::Identity;
 		return;
 	}
 	std::string matStr = jsonObj;
@@ -423,7 +423,7 @@ void JsonToMatrix(matrix3x3d *pMat, const Json &jsonObj)
 	PROFILE_SCOPED()
 #ifdef USE_STRING_VERSIONS
 	if (!jsonObj.is_string()) {
-		*pMat = matrix3x3dIdentity;
+		*pMat = matrix3x3d::Identity;
 		return;
 	}
 	std::string matStr = jsonObj;
@@ -446,7 +446,7 @@ void JsonToMatrix(matrix4x4f *pMat, const Json &jsonObj)
 	PROFILE_SCOPED()
 #ifdef USE_STRING_VERSIONS
 	if (!jsonObj.is_string()) {
-		*pMat = matrix4x4fIdentity;
+		*pMat = matrix4x4f::Identity;
 		return;
 	}
 	std::string matStr = jsonObj;
@@ -476,7 +476,7 @@ void JsonToMatrix(matrix4x4d *pMat, const Json &jsonObj)
 	PROFILE_SCOPED()
 #ifdef USE_STRING_VERSIONS
 	if (!jsonObj.is_string()) {
-		*pMat = matrix4x4dIdentity;
+		*pMat = matrix4x4d::Identity;
 		return;
 	}
 	std::string matStr = jsonObj;

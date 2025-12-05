@@ -210,7 +210,7 @@ void NavLights::Update(float time)
 void NavLights::Render(Graphics::Renderer *renderer)
 {
 	if (!m_billboardTris.IsEmpty()) {
-		renderer->SetTransform(matrix4x4f::Identity());
+		renderer->SetTransform(matrix4x4f::Identity);
 		renderer->DrawBuffer(&m_billboardTris, matHalos4x4.Get());
 		renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_BILLBOARD, m_billboardTris.GetNumVerts());
 

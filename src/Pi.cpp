@@ -1027,7 +1027,7 @@ void GameLoop::Update(float deltaTime)
 		}
 	}
 
-	Pi::renderer->SetTransform(matrix4x4f::Identity());
+	Pi::renderer->SetTransform(matrix4x4f::Identity);
 
 	/* Calculate position for this rendered frame (interpolated between two physics ticks */
 	// XXX should this be here? what is this anyway?

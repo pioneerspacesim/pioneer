@@ -72,7 +72,7 @@ void InstanceRenderer::RenderDrawData(ImDrawData *draw_data)
 	float T = draw_data->DisplayPos.y;
 	float B = draw_data->DisplayPos.y + draw_data->DisplaySize.y;
 
-	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_renderer->SetTransform(matrix4x4f::Identity);
 	m_renderer->SetProjection(matrix4x4f::OrthoFrustum(L, R, B, T, -1.0, 0.0));
 
 	RenderDrawData(draw_data, m_material.get());

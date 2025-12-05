@@ -92,7 +92,7 @@ void ModelSpinner::Render()
 	r->ClearScreen(Color(0, 0, 0, 0));
 
 	r->SetProjection(matrix4x4f::PerspectiveMatrix(DEG2RAD(SPINNER_FOV), m_size.x / m_size.y, 1.f, 10000.f, true));
-	r->SetTransform(matrix4x4f::Identity());
+	r->SetTransform(matrix4x4f::Identity);
 
 	r->SetLights(1, &m_light);
 	AnimationCurves::Approach(m_zoom, m_zoomTo, Pi::GetFrameTime(), 5.0f, 0.4f);
@@ -114,7 +114,7 @@ matrix4x4f ModelSpinner::MakeModelViewMat()
 {
 	const float dist = m_model->GetDrawClipRadius() / sinf(DEG2RAD(SPINNER_FOV * 0.5f));
 
-	matrix4x4f rot = matrix4x4f::Identity();
+	matrix4x4f rot = matrix4x4f::Identity;
 	rot.Translate(vector3f(0, 0, -dist * m_zoom));
 	rot.RotateX(m_rot.x);
 	rot.RotateY(m_rot.y);

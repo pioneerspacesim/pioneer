@@ -1490,7 +1490,7 @@ AICmdHoldPosition::AICmdHoldPosition(const Json &jsonObj) :
 bool AICmdHoldPosition::TimeStepUpdate()
 {
 	// XXX perhaps try harder to move back to the original position
-	m_prop->AIMatchVel(vector3d(0, 0, 0));
+	m_prop->AIMatchVel(vector3d::Zero);
 	return false;
 }
 

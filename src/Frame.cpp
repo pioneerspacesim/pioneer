@@ -19,8 +19,8 @@ Frame::Frame(const Dummy &d, FrameId parent, const char *label, unsigned int fla
 	m_sbody(nullptr),
 	m_astroBody(nullptr),
 	m_pos(vector3d(0.0)),
-	m_initialOrient(matrix3x3d::Identity()),
-	m_orient(matrix3x3d::Identity()),
+	m_initialOrient(matrix3x3d::Identity),
+	m_orient(matrix3x3d::Identity),
 	m_vel(vector3d(0.0)),
 	m_angSpeed(0.0),
 	m_radius(radius),
@@ -51,8 +51,8 @@ Frame::Frame(const Dummy &d, FrameId parent) :
 	m_sbody(nullptr),
 	m_astroBody(nullptr),
 	m_pos(vector3d(0.0)),
-	m_initialOrient(matrix3x3d::Identity()),
-	m_orient(matrix3x3d::Identity()),
+	m_initialOrient(matrix3x3d::Identity),
+	m_orient(matrix3x3d::Identity),
 	m_vel(vector3d(0.0)),
 	m_angSpeed(0.0),
 	m_label("camera"),
@@ -328,7 +328,7 @@ void Frame::AddStaticGeom(Geom *g) { m_collisionSpace->AddStaticGeom(g); }
 void Frame::RemoveStaticGeom(Geom *g) { m_collisionSpace->RemoveStaticGeom(g); }
 void Frame::SetPlanetGeom(double radius, Body *obj)
 {
-	m_collisionSpace->SetSphere(vector3d(0, 0, 0), radius, static_cast<void *>(obj));
+	m_collisionSpace->SetSphere(vector3d::Zero, radius, static_cast<void *>(obj));
 }
 
 CollisionSpace *Frame::GetCollisionSpace() const
@@ -339,7 +339,7 @@ CollisionSpace *Frame::GetCollisionSpace() const
 // doesn't consider stasis velocity
 vector3d Frame::GetVelocityRelTo(FrameId relToId) const
 {
-	if (m_thisId == relToId) return vector3d(0, 0, 0); // early-out to avoid unnecessary computation
+	if (m_thisId == relToId) return vector3d::Zero; // early-out to avoid unnecessary computation
 
 	const Frame *relTo = Frame::GetFrame(relToId);
 	vector3d diff = m_rootVel - relTo->m_rootVel;
@@ -352,7 +352,7 @@ vector3d Frame::GetVelocityRelTo(FrameId relToId) const
 vector3d Frame::GetPositionRelTo(FrameId relToId) const
 {
 	// early-outs for simple cases, required for accuracy in large systems
-	if (m_thisId == relToId) return vector3d(0, 0, 0);
+	if (m_thisId == relToId) return vector3d::Zero;
 
 	const Frame *relTo = Frame::GetFrame(relToId);
 
@@ -383,7 +383,7 @@ vector3d Frame::GetInterpPositionRelTo(FrameId relToId) const
 	const Frame *relTo = Frame::GetFrame(relToId);
 
 	// early-outs for simple cases, required for accuracy in large systems
-	if (m_thisId == relToId) return vector3d(0, 0, 0);
+	if (m_thisId == relToId) return vector3d::Zero;
 	if (GetParent() == relTo->GetId()) return m_interpPos; // relative to parent
 	if (relTo->GetParent() == m_thisId) {				   // relative to child
 		if (!relTo->IsRotFrame())
@@ -407,20 +407,20 @@ vector3d Frame::GetInterpPositionRelTo(FrameId relToId) const
 
 matrix3x3d Frame::GetOrientRelTo(FrameId relToId) const
 {
-	if (m_thisId == relToId) return matrix3x3d::Identity();
+	if (m_thisId == relToId) return matrix3x3d::Identity;
 	return Frame::GetFrame(relToId)->m_rootOrient.Transpose() * m_rootOrient;
 }
 
 matrix3x3d Frame::GetInterpOrientRelTo(FrameId relToId) const
 {
-	if (m_thisId == relToId) return matrix3x3d::Identity();
+	if (m_thisId == relToId) return matrix3x3d::Identity;
 	return Frame::GetFrame(relToId)->m_rootInterpOrient.Transpose() * m_rootInterpOrient;
 	/*	if (IsRotFrame()) {
 		if (relTo->IsRotFrame()) return m_interpOrient * relTo->m_interpOrient.Transpose();
 		else return m_interpOrient;
 	}
 	if (relTo->IsRotFrame()) return relTo->m_interpOrient.Transpose();
-	else return matrix3x3d::Identity();
+	else return matrix3x3d::Identity;
 */
 }
 
@@ -540,8 +540,8 @@ void Frame::UpdateRootRelativeVars()
 	// update pos & vel relative to parent frame
 	Frame *parent = Frame::GetFrame(m_parent);
 	if (!parent) {
-		m_rootPos = m_rootVel = vector3d(0, 0, 0);
-		m_rootOrient = matrix3x3d::Identity();
+		m_rootPos = m_rootVel = vector3d::Zero;
+		m_rootOrient = matrix3x3d::Identity;
 	} else {
 		m_rootPos = parent->m_rootOrient * m_pos + parent->m_rootPos;
 		m_rootVel = parent->m_rootOrient * m_vel + parent->m_rootVel;

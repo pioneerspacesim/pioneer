@@ -15,7 +15,7 @@ namespace SceneGraph {
 
 	Tag::Tag(Graphics::Renderer *r, const matrix4x4f &m) :
 		MatrixTransform(r, m),
-		m_globalTransform(matrix4x4f::Identity())
+		m_globalTransform(matrix4x4f::Identity)
 	{
 	}
 

@@ -139,7 +139,7 @@ void Intro::Draw(float deltaTime)
 	Graphics::Renderer::StateTicket ticket(m_renderer);
 
 	m_renderer->SetPerspectiveProjection(75, m_aspectRatio, 1.f, 10000.f);
-	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_renderer->SetTransform(matrix4x4f::Identity);
 
 	m_renderer->SetAmbientColor(m_ambientColor);
 

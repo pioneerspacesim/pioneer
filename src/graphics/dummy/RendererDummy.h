@@ -25,7 +25,7 @@ namespace Graphics {
 
 		RendererDummy() :
 			Renderer(0, 0, 0),
-			m_identity(matrix4x4f::Identity())
+			m_identity(matrix4x4f::Identity)
 		{}
 
 		const char *GetName() const final { return "Dummy"; }
@@ -54,11 +54,11 @@ namespace Graphics {
 		ViewportExtents GetViewport() const final { return {}; }
 
 		bool SetTransform(const matrix4x4f &m) final { return true; }
-		matrix4x4f GetTransform() const final { return matrix4x4f::Identity(); }
+		matrix4x4f GetTransform() const final { return matrix4x4f::Identity; }
 		bool SetPerspectiveProjection(float fov, float aspect, float near_, float far_) final { return true; }
 		bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax) final { return true; }
 		bool SetProjection(const matrix4x4f &m) final { return true; }
-		matrix4x4f GetProjection() const final { return matrix4x4f::Identity(); }
+		matrix4x4f GetProjection() const final { return matrix4x4f::Identity; }
 
 		bool SetWireFrameMode(bool enabled) final { return true; }
 

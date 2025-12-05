@@ -47,7 +47,7 @@ public:
 
 	virtual void ApplyMatrixTransform(SceneGraph::MatrixTransform &m)
 	{
-		matrix4x4f matrix = matrix4x4f::Identity();
+		matrix4x4f matrix = matrix4x4f::Identity;
 		if (!m_matrixStack.empty()) matrix = m_matrixStack.back();
 
 		m_matrixStack.push_back(matrix * m.GetTransform());
@@ -168,7 +168,7 @@ void ModelBody::RebuildCollisionMesh()
 	//dynamic geoms
 	for (auto it = m_collMesh->GetDynGeomTrees().begin(); it != m_collMesh->GetDynGeomTrees().end(); ++it) {
 		Geom *dynG = new Geom(*it, GetOrient(), GetPosition(), this);
-		dynG->m_animTransform = matrix4x4d::Identity();
+		dynG->m_animTransform = matrix4x4d::Identity;
 		SceneGraph::CollisionGeometry *cg = dgf.GetCgForTree(*it);
 		if (cg)
 			cg->SetGeom(dynG);

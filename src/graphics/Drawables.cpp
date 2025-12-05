@@ -525,7 +525,7 @@ namespace Graphics {
 		{
 			subdivs = Clamp(subdivs, 0, 10);
 			scale = fabs(scale);
-			matrix4x4f trans = matrix4x4f::Identity();
+			matrix4x4f trans = matrix4x4f::Identity;
 			trans.Scale(scale, scale, scale);
 
 			// Reserve space for vertices and indices

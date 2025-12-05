@@ -193,7 +193,7 @@ static int l_space_spawn_ship(lua_State *l)
 		// XXX broken. this is ignoring min_dist & max_dist. otoh, what's the
 		// correct behaviour given there's now a fixed hyperspace exit point?
 		thing->SetPosition(Pi::game->GetSpace()->GetHyperspaceExitPoint(*source, *dest));
-	thing->SetVelocity(vector3d(0, 0, 0));
+	thing->SetVelocity(vector3d::Zero);
 	Pi::game->GetSpace()->AddBody(thing);
 
 	LuaObject<Ship>::PushToLua(ship);

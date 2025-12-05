@@ -25,7 +25,7 @@ public:
 		m_semiMajorAxis(0.0),
 		m_orbitalPhaseAtStart(0.0),
 		m_velocityAreaPerSecond(0.0),
-		m_orient(matrix3x3d::Identity())
+		m_orient(matrix3x3d::Identity)
 	{}
 
 	void SetShapeAroundBarycentre(double semiMajorAxis, double totalMass, double bodyMass, double eccentricity);

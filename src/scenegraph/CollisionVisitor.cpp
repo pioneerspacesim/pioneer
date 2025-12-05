@@ -39,7 +39,7 @@ namespace SceneGraph {
 	void CollisionVisitor::ApplyMatrixTransform(MatrixTransform &m)
 	{
 		PROFILE_SCOPED()
-		matrix4x4f matrix = matrix4x4f::Identity();
+		matrix4x4f matrix = matrix4x4f::Identity;
 		if (!m_matrixStack.empty()) matrix = m_matrixStack.back();
 
 		m_matrixStack.push_back(matrix * m.GetTransform());
@@ -54,7 +54,7 @@ namespace SceneGraph {
 
 		if (cg.IsDynamic()) return ApplyDynamicCollisionGeometry(cg);
 
-		const matrix4x4f matrix = m_matrixStack.empty() ? matrix4x4f::Identity() : m_matrixStack.back();
+		const matrix4x4f matrix = m_matrixStack.empty() ? matrix4x4f::Identity : m_matrixStack.back();
 
 		//copy data (with index offset)
 		int idxOffset = m_vertices.size();

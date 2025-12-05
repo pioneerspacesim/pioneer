@@ -71,8 +71,8 @@ public:
 	inline vector3d GetLinThrusterState() const { return m_linThrusters; };
 	inline vector3d GetAngThrusterState() const { return m_angThrusters; }
 
-	inline void ClearLinThrusterState() { m_linThrusters = vector3d(0, 0, 0); }
-	inline void ClearAngThrusterState() { m_angThrusters = vector3d(0, 0, 0); }
+	inline void ClearLinThrusterState() { m_linThrusters = vector3d::Zero; }
+	inline void ClearAngThrusterState() { m_angThrusters = vector3d::Zero; }
 
 	inline vector3d GetActualLinThrust() const { return m_linThrusters * GetThrustUncapped(m_linThrusters); }
 	inline vector3d GetActualAngThrust() const { return m_angThrusters * m_angThrust; }
