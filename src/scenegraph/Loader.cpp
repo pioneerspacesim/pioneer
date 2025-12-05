@@ -394,7 +394,7 @@ namespace SceneGraph {
 		// special features that are absolute-positioned (thrusters)
 		RefCountedPtr<Node> meshRoot(new Group(m_renderer));
 
-		ConvertNodes(scene, scene->mRootNode, static_cast<Group *>(meshRoot.Get()), matrix4x4f::Identity());
+		ConvertNodes(scene, scene->mRootNode, static_cast<Group *>(meshRoot.Get()), matrix4x4f::Identity);
 		ConvertAnimations(scene, animDefs, static_cast<Group *>(meshRoot.Get()));
 
 		return meshRoot;

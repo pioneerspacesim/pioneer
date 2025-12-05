@@ -503,7 +503,7 @@ void ModelViewerWidget::OnRender(Graphics::Renderer *r)
 void ModelViewerWidget::DrawBackground()
 {
 	m_renderer->SetOrthographicProjection(0.f, 1.f, 0.f, 1.f, 0.f, 1.f);
-	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_renderer->SetTransform(matrix4x4f::Identity);
 
 	if (!m_bgMesh) {
 		const Color top = Color::BLACK;
@@ -528,7 +528,7 @@ void ModelViewerWidget::UpdateCamera()
 {
 	Graphics::ViewportExtents extents = GetViewportExtents();
 
-	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_renderer->SetTransform(matrix4x4f::Identity);
 
 	// setup rendering
 	if (!m_options.orthoView) {
@@ -551,7 +551,7 @@ void ModelViewerWidget::UpdateCamera()
 		m_modelViewMat = m_viewRot.Transpose() * matrix4x4f::Translation(-m_viewPos);
 	} else {
 		m_rot.x = Clamp(m_rot.x, -90.0f, 90.0f);
-		matrix4x4f rot = matrix4x4f::Identity();
+		matrix4x4f rot = matrix4x4f::Identity;
 		rot.RotateX(DEG2RAD(-m_rot.x));
 		rot.RotateY(DEG2RAD(-m_rot.y));
 		if (m_options.orthoView)

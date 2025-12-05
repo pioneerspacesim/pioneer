@@ -541,9 +541,9 @@ void Game::SwitchToHyperspace()
 
 	// put player at the origin. kind of unnecessary since it won't be moving
 	// but at least it gives some consistency
-	m_player->SetPosition(vector3d(0, 0, 0));
-	m_player->SetVelocity(vector3d(0, 0, 0));
-	m_player->SetOrient(matrix3x3d::Identity());
+	m_player->SetPosition(vector3d::Zero);
+	m_player->SetVelocity(vector3d::Zero);
+	m_player->SetOrient(matrix3x3d::Identity);
 
 	// animation and end time counters
 	m_hyperspaceProgress = 0;
@@ -605,7 +605,7 @@ void Game::SwitchToNormalSpace()
 
 			ship->SetFrame(m_space->GetRootFrame());
 			ship->SetVelocity(vector3d(0, 0, -100.0));
-			ship->SetOrient(matrix3x3d::Identity());
+			ship->SetOrient(matrix3x3d::Identity);
 			ship->SetFlightState(Ship::FLYING);
 
 			const SystemPath &sdest = ship->GetHyperspaceDest();
@@ -716,8 +716,8 @@ void Game::SetTimeAccel(TimeAccel t)
 	// don't want player to spin like mad when hitting time accel
 	if ((t != m_timeAccel) && (t > TIMEACCEL_1X) &&
 		m_player->GetPlayerController()->GetRotationDamping()) {
-		m_player->SetAngVelocity(vector3d(0, 0, 0));
-		m_player->SetTorque(vector3d(0, 0, 0));
+		m_player->SetAngVelocity(vector3d::Zero);
+		m_player->SetTorque(vector3d::Zero);
 		m_player->SetAngThrusterState(vector3d(0.0));
 	}
 

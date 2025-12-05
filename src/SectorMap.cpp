@@ -577,7 +577,7 @@ void SectorMap::SaveToJson(Json &jsonObj)
 }
 
 matrix4x4f SectorMap::PointOfView() {
-	matrix4x4f result = matrix4x4f::Identity();
+	matrix4x4f result = matrix4x4f::Identity;
 	// units are lightyears, my friend
 	result.Translate(0.f, 0.f, -10.f - 10.f * m_zoom); // not zoomClamped, let us zoom out a bit beyond what we're drawing
 	result.Rotate(DEG2RAD(m_rotX), 1.f, 0.f, 0.f);
@@ -629,7 +629,7 @@ void SectorMap::Draw3D()
 		m_customlines.Draw(renderer, m_lineMat.Get());
 	}
 
-	renderer->SetTransform(matrix4x4f::Identity());
+	renderer->SetTransform(matrix4x4f::Identity);
 
 	//draw star billboards in one go
 	renderer->SetAmbientColor(Color(30, 30, 30));
@@ -1115,7 +1115,7 @@ void SectorMap::Update(float frameTime)
 
 	auto input = m_context.input;
 
-	matrix4x4f rot = matrix4x4f::Identity();
+	matrix4x4f rot = matrix4x4f::Identity;
 	rot.RotateX(DEG2RAD(-m_rotX));
 	rot.RotateZ(DEG2RAD(-m_rotZ));
 

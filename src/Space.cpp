@@ -885,7 +885,7 @@ void Space::GenBody(const double at_time, SystemBody *sbody, FrameId fId, std::v
 			posAccum.clear();
 		}
 		b->SetLabel(sbody->GetName().c_str());
-		b->SetPosition(vector3d(0, 0, 0));
+		b->SetPosition(vector3d::Zero);
 		AddBody(b);
 	}
 	fId = MakeFramesFor(at_time, sbody, b, fId, posAccum);

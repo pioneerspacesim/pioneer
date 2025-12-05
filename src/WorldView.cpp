@@ -185,7 +185,7 @@ void WorldView::Draw3D()
 	// setup orthographic projection the indicator coordinate system expects
 	// (could also draw this using ImGui methods in DrawPiGui, but this is a quick patch for release)
 	m_renderer->SetProjection(matrix4x4f::OrthoFrustum(0, m_renderer->GetWindowWidth(), m_renderer->GetWindowHeight(), 0, 0, 1));
-	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_renderer->SetTransform(matrix4x4f::Identity);
 
 	// combat target indicator
 	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, red);
@@ -575,7 +575,7 @@ static vector3d projectToScreenSpace(const vector3d &pos, RefCountedPtr<CameraCo
 vector3d WorldView::WorldSpaceToScreenSpace(const Body *body) const
 {
 	if (body->IsType(ObjectType::PLAYER) && !shipView->IsExteriorView())
-		return vector3d(0, 0, 0);
+		return vector3d::Zero;
 
 	vector3d pos = body->GetInterpPositionRelTo(m_cameraContext->GetCameraFrame());
 	return WorldSpaceToScreenSpace(pos);
@@ -604,7 +604,7 @@ vector3d WorldView::CameraSpaceToScreenSpace(const vector3d &pos) const
 vector3d WorldView::GetTargetIndicatorScreenPosition(const Body *body) const
 {
 	if (body->IsType(ObjectType::PLAYER) && !shipView->IsExteriorView())
-		return vector3d(0, 0, 0);
+		return vector3d::Zero;
 
 	// get the target indicator position in body-local coordinates
 	vector3d pos = body->GetInterpPositionRelTo(m_cameraContext->GetCameraFrame());

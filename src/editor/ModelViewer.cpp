@@ -538,7 +538,7 @@ void ModelViewer::DrawTagNames()
 		return;
 
 	auto size = ImGui::GetWindowSize();
-	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_renderer->SetTransform(matrix4x4f::Identity);
 
 	vector3f point = m_modelWindow->GetModelViewMat() * m_selectedTag->GetGlobalTransform().GetTranslate();
 	point = Graphics::ProjectToScreen(m_renderer, point);
@@ -578,7 +578,7 @@ void ModelViewer::BuildGeomTreeVisualizer(Graphics::VertexArray &va, SingleBVHTr
 			stack[stackLevel++] = node->kids[0];
 		}
 
-		Graphics::Drawables::AABB::DrawVertices(va, matrix4x4fIdentity, Aabb(node->aabb.min, node->aabb.max, 0.1), get_color(colIndexBase));
+		Graphics::Drawables::AABB::DrawVertices(va, matrix4x4f::Identity, Aabb(node->aabb.min, node->aabb.max, 0.1), get_color(colIndexBase));
 	}
 }
 

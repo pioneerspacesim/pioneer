@@ -260,7 +260,7 @@ namespace GasGiantJobs {
 
 		// enter ortho
 		Pi::renderer->SetOrthographicProjection(0, mData->UVDims(), mData->UVDims(), 0, -1, 1);
-		Pi::renderer->SetTransform(matrix4x4f::Identity());
+		Pi::renderer->SetTransform(matrix4x4f::Identity);
 
 		// render to offscreen rt
 		Pi::renderer->SetRenderTarget(GasGiant::GetRenderTarget());

@@ -32,7 +32,7 @@ ObjectViewerView::ObjectViewerView() :
 	m_systemBody(nullptr),
 	m_state{},
 	viewingDist(1000.0f),
-	m_camRot(matrix4x4d::Identity())
+	m_camRot(matrix4x4d::Identity)
 {
 	float znear;
 	float zfar;
@@ -44,7 +44,7 @@ ObjectViewerView::ObjectViewerView() :
 
 	m_cameraContext->SetCameraFrame(Pi::player->GetFrame());
 	m_cameraContext->SetCameraPosition(Pi::player->GetInterpPosition() + vector3d(0, 0, viewingDist));
-	m_cameraContext->SetCameraOrient(matrix3x3d::Identity());
+	m_cameraContext->SetCameraOrient(matrix3x3d::Identity);
 }
 
 void ObjectViewerView::Draw3D()
@@ -54,7 +54,7 @@ void ObjectViewerView::Draw3D()
 	float znear, zfar;
 	m_renderer->GetNearFarRange(znear, zfar);
 	m_renderer->SetPerspectiveProjection(75.f, m_renderer->GetDisplayAspect(), znear, zfar);
-	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_renderer->SetTransform(matrix4x4f::Identity);
 
 	Graphics::Light light;
 	light.SetType(Graphics::Light::LIGHT_DIRECTIONAL);

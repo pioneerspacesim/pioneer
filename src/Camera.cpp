@@ -39,7 +39,7 @@ CameraContext::CameraContext(float width, float height, float fovAng, float zNea
 	m_projMatrix(matrix4x4f::InfinitePerspectiveMatrix(DEG2RAD(m_fovAng), m_width / m_height, m_zNear)),
 	m_frame(FrameId::Invalid),
 	m_pos(0.0),
-	m_orient(matrix3x3d::Identity()),
+	m_orient(matrix3x3d::Identity),
 	m_camFrame(FrameId::Invalid)
 {
 }
@@ -89,7 +89,7 @@ void CameraContext::ApplyDrawTransforms(Graphics::Renderer *r)
 {
 	Graphics::SetFov(m_fovAng);
 	r->SetProjection(GetProjectionMatrix());
-	r->SetTransform(matrix4x4f::Identity());
+	r->SetTransform(matrix4x4f::Identity);
 }
 
 bool Camera::BodyAttrs::sort_BodyAttrs(const BodyAttrs &a, const BodyAttrs &b)
@@ -348,7 +348,7 @@ void Camera::Draw(const Body *excludeBody)
 	RestoreLighting();
 
 	if (!billboards.IsEmpty()) {
-		Graphics::Renderer::MatrixTicket mt(m_renderer, matrix4x4f::Identity());
+		Graphics::Renderer::MatrixTicket mt(m_renderer, matrix4x4f::Identity);
 		m_renderer->DrawBuffer(&billboards, m_billboardMaterial.get());
 	}
 

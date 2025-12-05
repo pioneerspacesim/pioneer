@@ -283,7 +283,7 @@ void SystemView::Update()
 			m_map->AddOrbitTrack({ Projectable::ORBIT, Projectable::PLAYER, PlayerBody, offset }, &playerOrbit, m_map->svColor[Col::PLAYER_ORBIT], planetRadius);
 
 			const double plannerStartTime = m_planner->GetStartTime();
-			if (!m_planner->GetPosition().ExactlyEqual(vector3d(0, 0, 0))) {
+			if (!m_planner->GetPosition().ExactlyEqual(vector3d::Zero)) {
 				Orbit plannedOrbit = Orbit::FromBodyState(m_planner->GetPosition(),
 					m_planner->GetVel(),
 					playerAround->GetMass());
@@ -632,7 +632,7 @@ void SystemMapViewport::DrawOrreryView()
 	m_renderer->SetPerspectiveProjection(CAMERA_FOV, float(m_viewportSize.w) / m_viewportSize.h, 1.f, 1500.f);
 
 	// Background is rotated around (0,0,0) and drawn
-	matrix4x4d trans2bg = matrix4x4d::Identity();
+	matrix4x4d trans2bg = matrix4x4d::Identity;
 	trans2bg.RotateX(DEG2RAD(-m_rot_x));
 	trans2bg.RotateY(DEG2RAD(-m_rot_y));
 
@@ -667,7 +667,7 @@ void SystemMapViewport::DrawOrreryView()
 	// the coordinates of the objects are scaled, but the shift is not.
 	// The surface distance translation ensures the view does not go inside of a planet.
 	// This matrix operation is read in reverse order (bottom-to-top).
-	m_cameraSpace = matrix4x4f::Identity();
+	m_cameraSpace = matrix4x4f::Identity;
 	m_cameraSpace.Translate(0, 0, -DEFAULT_VIEW_DISTANCE);
 	m_cameraSpace.Translate(0, 0, -surfaceDistance * m_zoom); // apply scale from m_zoom
 	m_cameraSpace.Rotate(DEG2RAD(m_rot_x), 1, 0, 0);
@@ -811,7 +811,7 @@ void SystemMapViewport::RenderAtlasBody(const AtlasBodyLayout &layout, vector3f 
 	pos += vector3f(layout.offset.x, -layout.offset.y, 0.f);
 
 	if (layout.body->GetType() != SystemBody::TYPE_GRAVPOINT) {
-		matrix4x4f bodyTrans = matrix4x4f::Identity();
+		matrix4x4f bodyTrans = matrix4x4f::Identity;
 		bodyTrans.Translate(pos);
 		bodyTrans.Scale(layout.radius);
 		m_renderer->SetTransform(cameraTrans * bodyTrans);
@@ -825,7 +825,7 @@ void SystemMapViewport::RenderAtlasBody(const AtlasBodyLayout &layout, vector3f 
 		AddProjected({ Projectable::OBJECT, Projectable::SYSTEMBODY, layout.body }, Projectable::OBJECT, vector3d(), layout.radius * pixPerUnit);
 	}
 	/* else { // gravpoint debugging
-		matrix4x4f bodyTrans = matrix4x4f::Identity();
+		matrix4x4f bodyTrans = matrix4x4f::Identity;
 		bodyTrans.Translate(pos - vector3f(layout.offset.x, -layout.offset.y, 0.f));
 		m_renderer->SetTransform(cameraTrans * bodyTrans);
 
@@ -843,7 +843,7 @@ void SystemMapViewport::DrawAtlasView()
 	m_renderer->SetPerspectiveProjection(CAMERA_FOV, float(m_viewportSize.w) / m_viewportSize.h, 1.f, 1500.f);
 
 	// Background is rotated around (0,0,0), adjusted for parallax effect, and drawn
-	matrix4x4d trans2bg = matrix4x4d::Identity();
+	matrix4x4d trans2bg = matrix4x4d::Identity;
 
 	// parallax effect
 	trans2bg.Translate(m_atlasPos.x, -m_atlasPos.y, 0.0);
@@ -862,10 +862,10 @@ void SystemMapViewport::DrawAtlasView()
 	// Pick an orthographic projection scale that has the same apparent size as a perspective projection at 30m.
 	m_renderer->SetProjection(matrix4x4f::OrthoMatrix(m_atlasViewW * m_atlasZoom, m_atlasViewH * m_atlasZoom, 1.0, 1000.0));
 
-	matrix4x4f cameraTrans = matrix4x4f::Identity();
+	matrix4x4f cameraTrans = matrix4x4f::Identity;
 	cameraTrans.Translate(vector3f(m_atlasPos.x, -m_atlasPos.y, -10.0));
 
-	matrix4x4f gridTransform = matrix4x4f::Identity();
+	matrix4x4f gridTransform = matrix4x4f::Identity;
 	gridTransform.Translate(vector3f(0, 0, -1.0f));
 	gridTransform.RotateX(M_PI / 2.0);
 	gridTransform.Scale(4.0 / float(AU)); // one grid square = one earth diameter = two units
@@ -987,7 +987,7 @@ void SystemMapViewport::Update(float ft)
 	if (m_displayMode == SystemView::Mode::Orrery) {
 		if (m_system && !m_system->GetUnexplored() && m_system->GetRootBody()) {
 			// all systembodies draws here
-			AddBodyTrack(m_system->GetRootBody().Get(), vector3d(0, 0, 0));
+			AddBodyTrack(m_system->GetRootBody().Get(), vector3d::Zero);
 		}
 	}
 }

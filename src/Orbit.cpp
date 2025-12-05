@@ -273,7 +273,7 @@ vector3d Orbit::Apogeum() const
 	if (m_eccentricity < 1) {
 		return m_semiMajorAxis * (1 + m_eccentricity) * (m_orient * vector3d(1, 0, 0));
 	} else {
-		return vector3d(0, 0, 0);
+		return vector3d::Zero;
 	}
 }
 

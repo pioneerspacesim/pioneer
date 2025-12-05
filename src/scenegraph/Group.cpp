@@ -104,7 +104,7 @@ namespace SceneGraph {
 
 	matrix4x4f Group::CalcGlobalTransform() const
 	{
-		return GetParent() ? GetParent()->CalcGlobalTransform() : matrix4x4fIdentity;
+		return GetParent() ? GetParent()->CalcGlobalTransform() : matrix4x4f::Identity;
 	}
 
 	void Group::Accept(NodeVisitor &nv)

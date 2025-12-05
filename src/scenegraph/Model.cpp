@@ -582,7 +582,7 @@ namespace SceneGraph {
 		}
 	}
 
-	static void AddAABBVisualizer(const Aabb &aabb, Color color, Graphics::VertexArray &lines, const matrix4x4f &transform = matrix4x4fIdentity)
+	static void AddAABBVisualizer(const Aabb &aabb, Color color, Graphics::VertexArray &lines, const matrix4x4f &transform = matrix4x4f::Identity)
 	{
 		PROFILE_SCOPED()
 
@@ -616,7 +616,7 @@ namespace SceneGraph {
 		ModelAABBVisitor(Graphics::VertexArray &lines) :
 			lines(lines)
 		{
-			matrixStack.push_back(matrix4x4fIdentity);
+			matrixStack.push_back(matrix4x4f::Identity);
 		}
 
 		void ApplyMatrixTransform(MatrixTransform &mt) override

@@ -25,9 +25,9 @@
 Body::Body() :
 	PropertiedObject(),
 	m_interpPos(0.0),
-	m_interpOrient(matrix3x3d::Identity()),
+	m_interpOrient(matrix3x3d::Identity),
 	m_pos(0.0),
-	m_orient(matrix3x3d::Identity()),
+	m_orient(matrix3x3d::Identity),
 	m_frame(FrameId::Invalid),
 	m_dead(false),
 	m_clipRadius(0.0),
@@ -39,7 +39,7 @@ Body::Body() :
 Body::Body(const Json &jsonObj, Space *space) :
 	PropertiedObject(),
 	m_interpPos(0.0),
-	m_interpOrient(matrix3x3d::Identity()),
+	m_interpOrient(matrix3x3d::Identity),
 	m_frame(FrameId::Invalid)
 {
 	try {
@@ -345,7 +345,7 @@ void Body::UpdateFrame()
 
 vector3d Body::GetTargetIndicatorPosition() const
 {
-	return vector3d(0, 0, 0);
+	return vector3d::Zero;
 }
 
 void Body::SetLabel(const std::string &label)

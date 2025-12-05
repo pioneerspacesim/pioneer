@@ -137,12 +137,6 @@ public:
 		c[3] = a[12]; c[7] = a[13]; c[11] = a[14]; c[15] = a[15];
 		return m;
 	}
-	static matrix4x4 Identity()
-	{
-		matrix4x4 m = matrix4x4(0.0);
-		m.cell[0] = m.cell[5] = m.cell[10] = m.cell[15] = 1.0f;
-		return m;
-	}
 	//glscale equivalent
 	void Scale(T x, T y, T z)
 	{
@@ -640,7 +634,7 @@ public:
 	}
 	void Translate(T x, T y, T z)
 	{
-		matrix4x4 m = Identity();
+		matrix4x4 m = Identity;
 		m[12] = x;
 		m[13] = y;
 		m[14] = z;
@@ -652,7 +646,7 @@ public:
 	}
 	static matrix4x4 Translation(T x, T y, T z)
 	{
-		matrix4x4 m = Identity();
+		matrix4x4 m = Identity;
 		m[12] = x;
 		m[13] = y;
 		m[14] = z;
@@ -717,12 +711,20 @@ public:
 	{
 		return vector3<T>(cell[8], cell[9], cell[10]);
 	}
+
+	static matrix4x4 IdentityFunc()
+	{
+		constexpr T IDENTITY4x4[] = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
+		return matrix4x4(IDENTITY4x4);
+	}
+
+	static const matrix4x4 Identity;
 };
+
+template <typename T>
+const matrix4x4<T> matrix4x4<T>::Identity(IdentityFunc());
 
 typedef matrix4x4<float> matrix4x4f;
 typedef matrix4x4<double> matrix4x4d;
-
-static const matrix4x4f matrix4x4fIdentity(matrix4x4f::Identity());
-static const matrix4x4d matrix4x4dIdentity(matrix4x4d::Identity());
 
 #endif /* _MATRIX4X4_H */

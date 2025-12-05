@@ -206,7 +206,7 @@ public:
 	// Apply in YXZ order because euler angles are non-ideal.
 	void SetRotationAngles(vector3f rotation) override
 	{
-		m_sidOrient = matrix3x3d::Identity();
+		m_sidOrient = matrix3x3d::Identity;
 		YawCamera(rotation.y);
 		PitchCamera(rotation.x);
 		RollCamera(rotation.z);

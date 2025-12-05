@@ -313,7 +313,7 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	vector3f dir = vector3f(_dir).Normalized();
 
 	vector3f v1, v2;
-	matrix4x4f m = matrix4x4f::Identity();
+	matrix4x4f m = matrix4x4f::Identity;
 	v1.x = dir.y;
 	v1.y = dir.z;
 	v1.z = dir.x;

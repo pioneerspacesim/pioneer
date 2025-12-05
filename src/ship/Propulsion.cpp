@@ -60,8 +60,8 @@ Propulsion::Propulsion()
 	m_thrusterFuel = 0.0; //0.0-1.0, remaining fuel
 	m_reserveFuel = 0.0;
 	m_fuelStateChange = false;
-	m_linThrusters = vector3d(0, 0, 0);
-	m_angThrusters = vector3d(0, 0, 0);
+	m_linThrusters = vector3d::Zero;
+	m_angThrusters = vector3d::Zero;
 	m_smodel = nullptr;
 	m_dBody = nullptr;
 }
