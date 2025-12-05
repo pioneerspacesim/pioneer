@@ -194,6 +194,7 @@ local onChat = function (form, ref, option)
 		}
 
 		table.insert(missions,Mission.New(mission))
+		MissionUtils.FailedWhenOverdue(missions[#missions])
 
 		form:SetMessage(l.EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY)
 
@@ -385,10 +386,6 @@ local onEnterSystem = function (player)
 				Comms.ImportantMessage(pirate_greeting, ship.label)
 			end
 		end
-
-		if mission.status == "ACTIVE" and Game.time > mission.due then
-			mission.status = 'FAILED'
-		end
 	end
 end
 
@@ -421,11 +418,7 @@ local onPlayerDocked = function (player, station)
 
 			mission:Remove()
 			missions[ref] = nil
-
-		elseif mission.status == "ACTIVE" and Game.time > mission.due then
-			mission.status = 'FAILED'
 		end
-
 	end
 end
 
@@ -451,6 +444,12 @@ local onGameStart = function ()
 	end
 
 	missions = loaded_data.missions
+
+	for _, mission in pairs(missions) do
+		if Game.time < mission.due then
+			MissionUtils.FailedWhenOverdue(mission)
+		end
+	end
 
 	loaded_data = nil
 end

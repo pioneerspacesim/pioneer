@@ -254,6 +254,7 @@ onChat = function (form, ref, option)
 			status          = cargo_picked_up and "ACTIVE" or "TO_PICK_UP",
 		}
 		table.insert(missions,Mission.New(mission))
+		MissionUtils.FailedWhenOverdue(missions[#missions])
 
 		if ad.amount ~= ad.negotiated_amount then
 			-- recreate advert with the rest of the cargo
@@ -559,10 +560,6 @@ local onEnterSystem = function (player)
 				end
 			end
 		end
-
-		if mission.status == "ACTIVE" and Game.time > mission.due then
-			mission.status = 'FAILED'
-		end
 	end
 end
 
@@ -717,9 +714,6 @@ local onPlayerDocked = function (player, station)
 
 			mission:Remove()
 			missions[ref] = nil
-
-		elseif mission.status == "ACTIVE" and Game.time > mission.due then
-			mission.status = 'FAILED'
 		end
 	end
 
@@ -782,6 +776,13 @@ local onGameStart = function ()
 			postAdvert(ad.station, ad)
 		end
 		missions = loaded_data.missions
+
+		for _, mission in pairs(missions) do
+			if Game.time < mission.due then
+				MissionUtils.FailedWhenOverdue(mission)
+			end
+		end
+
 		custom_cargo = loaded_data.custom_cargo
 		custom_cargo_weight_sum = loaded_data.custom_cargo_weight_sum
 		loaded_data = nil
