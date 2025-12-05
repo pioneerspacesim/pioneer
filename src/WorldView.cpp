@@ -575,7 +575,7 @@ static vector3d projectToScreenSpace(const vector3d &pos, RefCountedPtr<CameraCo
 vector3d WorldView::WorldSpaceToScreenSpace(const Body *body) const
 {
 	if (body->IsType(ObjectType::PLAYER) && !shipView->IsExteriorView())
-		return vector3d(0, 0, 0);
+		return vector3d::ZERO;
 
 	vector3d pos = body->GetInterpPositionRelTo(m_cameraContext->GetCameraFrame());
 	return WorldSpaceToScreenSpace(pos);
@@ -604,7 +604,7 @@ vector3d WorldView::CameraSpaceToScreenSpace(const vector3d &pos) const
 vector3d WorldView::GetTargetIndicatorScreenPosition(const Body *body) const
 {
 	if (body->IsType(ObjectType::PLAYER) && !shipView->IsExteriorView())
-		return vector3d(0, 0, 0);
+		return vector3d::ZERO;
 
 	// get the target indicator position in body-local coordinates
 	vector3d pos = body->GetInterpPositionRelTo(m_cameraContext->GetCameraFrame());

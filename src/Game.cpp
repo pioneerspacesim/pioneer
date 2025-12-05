@@ -541,8 +541,8 @@ void Game::SwitchToHyperspace()
 
 	// put player at the origin. kind of unnecessary since it won't be moving
 	// but at least it gives some consistency
-	m_player->SetPosition(vector3d(0, 0, 0));
-	m_player->SetVelocity(vector3d(0, 0, 0));
+	m_player->SetPosition(vector3d::ZERO);
+	m_player->SetVelocity(vector3d::ZERO);
 	m_player->SetOrient(matrix3x3d::Identity());
 
 	// animation and end time counters
@@ -716,8 +716,8 @@ void Game::SetTimeAccel(TimeAccel t)
 	// don't want player to spin like mad when hitting time accel
 	if ((t != m_timeAccel) && (t > TIMEACCEL_1X) &&
 		m_player->GetPlayerController()->GetRotationDamping()) {
-		m_player->SetAngVelocity(vector3d(0, 0, 0));
-		m_player->SetTorque(vector3d(0, 0, 0));
+		m_player->SetAngVelocity(vector3d::ZERO);
+		m_player->SetTorque(vector3d::ZERO);
 		m_player->SetAngThrusterState(vector3d(0.0));
 	}
 

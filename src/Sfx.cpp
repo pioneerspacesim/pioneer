@@ -213,7 +213,7 @@ void SfxManager::AddThrustSmoke(const Body *b, const float speed, const vector3d
 	SfxManager *sfxman = AllocSfxInFrame(b->GetFrame());
 	if (!sfxman) return;
 
-	Sfx sfx(b->GetPosition() + adjustpos, vector3d(0, 0, 0), speed, TYPE_SMOKE);
+	Sfx sfx(b->GetPosition() + adjustpos, vector3d::ZERO, speed, TYPE_SMOKE);
 	sfxman->AddInstance(sfx);
 }
 
