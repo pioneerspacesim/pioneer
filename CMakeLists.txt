@@ -206,8 +206,6 @@ else (WIN32)
 	)
 endif (WIN32)
 
-configure_file(buildopts.h.cmakein buildopts.h @ONLY)
-
 LIST(APPEND PIONEER_CXX_FILES ${FILESYSTEM_CXX_FILES})
 
 option(USE_PIONEER_THIRDPARTY "Use pioneer's thirdparty library repository." OFF)
@@ -279,6 +277,8 @@ elseif(NOT DEFINED CACHE{BUILD_WITH_OPENAL} AND OpenAL_FOUND)
 endif()
 
 set(FMT_INSTALL OFF CACHE BOOL "Enable install of libfmt" FORCE)
+
+configure_file(buildopts.h.cmakein buildopts.h @ONLY)
 
 add_subdirectory(contrib/lz4)
 add_subdirectory(contrib/fmt)
