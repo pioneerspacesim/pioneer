@@ -325,7 +325,7 @@
   },
   "MERCENARY_GREETING_FEMALE_3": {
     "description": "",
-    "message": "You want to meet {wanted}? I will make you meet your maker first!"
+    "message": "Искате да се срещнете с {wanted}? Ще Ви накарам първо да се срещнете със създателя си!"
   },
   "MERCENARY_GREETING_MALE_1": {
     "description": "",
@@ -337,7 +337,7 @@
   },
   "MERCENARY_GREETING_MALE_3": {
     "description": "",
-    "message": "You want to meet {wanted}? Over your dead body!"
+    "message": "Искате да се срещнете с {wanted}? Първо ще умрете!"
   },
   "OK_AGREED": {
     "description": "",
@@ -365,7 +365,7 @@
   },
   "PIRATE_GREETING_3": {
     "description": "",
-    "message": "I heard you were supposed to give me a message?"
+    "message": "Чух, че трябваше да ми съобщиш нещо?"
   },
   "PIRATE_TAUNTS_1": {
     "description": "",
@@ -373,7 +373,7 @@
   },
   "PIRATE_TAUNTS_2": {
     "description": "",
-    "message": "Enough of this! Prepare to go to hell!"
+    "message": "Достатъчно! Пригответе се да отидете в ада!"
   },
   "PIRATE_TAUNTS_3": {
     "description": "",
@@ -409,7 +409,7 @@
   },
   "RISK_FEMALE_3": {
     "description": "",
-    "message": "I don't know. She's a bit weird."
+    "message": "Не знам. Тя е малко странна."
   },
   "RISK_FEMALE_4": {
     "description": "",
@@ -425,7 +425,7 @@
   },
   "RISK_MALE_2": {
     "description": "",
-    "message": "I expect no trouble. But who knows?"
+    "message": "Не очаквам неприятности. Но кой знае?"
   },
   "RISK_MALE_3": {
     "description": "",

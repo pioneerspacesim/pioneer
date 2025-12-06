@@ -1,91 +1,91 @@
 {
   "ABOUT": {
     "description": "",
-    "message": "About"
+    "message": "Относно"
   },
   "ACKNOWLEDGEMENTS": {
     "description": "",
-    "message": "Acknowledgements"
+    "message": "Благодарности"
   },
   "CONTENT": {
     "description": "",
-    "message": "Content"
+    "message": "Съдържание"
   },
   "CONTENT_CONTRIBUTION": {
     "description": "",
-    "message": "Content contribution"
+    "message": "Допринасяне към съдържанието"
   },
   "CONTRIBUTE": {
     "description": "",
-    "message": "Contribute"
+    "message": "Допринасяне"
   },
   "CONTRIBUTE_BODY": {
     "description": "",
-    "message": "Pioneer is the sum of the many contributions from its players and developers. See anything you want to change, improve, or ideas for new content to add? (E.g. translations, coding, art, 2D & 3D assets, music, designing custom star systems, improve our documentation, wiki, etc.) Follow the links for details on how you can contribute!"
+    "message": "Pioneer е резултат от многобройните приноси на своите играчи и разработчици. Виждате ли нещо, което искате да промените, подобрите или имате идеи за ново съдържание, което да добавите? (Например преводи, програмен код, текстури, 2D и 3D ресурси, музика, разработка на персонализирани звездни системи, подобряване на документацията и други.) Тогава отворете връзките за подробности как може да допринесете!"
   },
   "DEVELOPER_DOCUMENTATION": {
     "description": "",
-    "message": "Developer Documentation"
+    "message": "Документация за разработчици"
   },
   "DOCUMENTATION": {
     "description": "",
-    "message": "Documentation"
+    "message": "Документация"
   },
   "DONATE_BODY": {
     "description": "",
-    "message": "If you enjoy playing Pioneer and would like to support its continued development, please consider donating - no donation is too small."
+    "message": "Ако харесвате Pioneer и бихте искали да подкрепите неговото непрекъснато развитие, моля, помислете за дарение – никое дарение не е твърде малко."
   },
   "DONATE_OPTIONS": {
     "description": "Sentence continues in 'DONATE_OPTIONS_CONTINUED'",
-    "message": "For additional donation options, please see our"
+    "message": "За допълнителни опции, моля, вижте нашата"
   },
   "DONATE_OPTIONS_CONTINUED": {
     "description": "hyperlink, ending part of sentence in 'DONATE_OPTIONS'",
-    "message": "donations page"
+    "message": "страница за дарения"
   },
   "DONATE_THANKS": {
     "description": "",
-    "message": "Thank you all for your continued support of Pioneer!"
+    "message": "Благодарим на всички за продължаващата подкрепа за Pioneer!"
   },
   "GAME_RELEASE": {
     "description": "",
-    "message": "Stable versions are released annually on February 3, but development is continuous. Brave pilots are thus encouraged to play from the latest source and report bugs."
+    "message": "Стабилните версии излизат ежегодно на 3 февруари, но разработката е непрекъсната. Поради това смелите пилоти се насърчават да използват най-новия изходен код и да докладват за грешки."
   },
   "INFO_BLURB": {
     "description": "",
-    "message": "Pioneer is a single player space adventure game set in the Milky Way galaxy at the turn of the 31st century."
+    "message": "Pioneer е космическа приключенска игра за един играч, развиваща се в Млечния път в началото на 31-ви век."
   },
   "INFO_BODY": {
     "description": "",
-    "message": "The game is open-ended, and you are free to explore the millions of star systems in the game. You can land on planets, slingshot past gas giants, and burn yourself to a crisp flying between binary star systems. You can try your hand at piracy, make your fortune trading between systems, or do missions for the various factions fighting for power, freedom or self-determination."
+    "message": "Играта е с отворен край и сте свободни да изследвате милионите звездни системи в нея. Може да кацате на планети, да прелитате покрай газови гиганти и да се стоплите, ако летите между двойни звездни системи. Може да станете пират, да натрупате състояние, търгувайки между системите или да изпълнявате мисии за различните групировки, борещи се за власт, свобода или самоопределение."
   },
   "LICENSE": {
     "description": "",
-    "message": "License"
+    "message": "Лиценз"
   },
   "LINK_BASIC_FLIGHT": {
     "description": "",
-    "message": "Basic flight"
+    "message": "Пилотиране"
   },
   "LINK_BUG_TRACKER": {
     "description": "",
-    "message": "Bug Tracker"
+    "message": "Проследяване на грешки"
   },
   "LINK_COMMUNITY_CHAT": {
     "description": "",
-    "message": "Community chat (Discord)"
+    "message": "Чат на общността"
   },
   "LINK_COMMUNITY_FORUM": {
     "description": "",
-    "message": "Community Forum"
+    "message": "Форум на общността"
   },
   "LINK_DEVELOPER_CHAT": {
     "description": "",
-    "message": "Developer chat (IRC)"
+    "message": "Чат за разработчици"
   },
   "LINK_DEVELOPER_FORUM": {
     "description": "",
-    "message": "Developer Forum"
+    "message": "Форум за разработчици"
   },
   "LINK_FAQ": {
     "description": "",
@@ -93,38 +93,38 @@
   },
   "LINK_HOMEPAGE": {
     "description": "",
-    "message": "Homepage"
+    "message": "Начална страница"
   },
   "LINK_MANUAL": {
     "description": "",
-    "message": "Manual"
+    "message": "Ръководство"
   },
   "SOFTWARE": {
     "description": "",
-    "message": "Software"
+    "message": "Софтуер"
   },
   "SOFTWARE_BODY": {
     "description": "",
-    "message": "Pioneer includes the following third-party software"
+    "message": "Pioneer включва следния софтуер на трети страни"
   },
   "SUPPORT_DEVELOPMENT": {
     "description": "",
-    "message": "Support Development"
+    "message": "Подкрепа"
   },
   "TRANSLATIONS": {
     "description": "",
-    "message": "Translations"
+    "message": "Преводи"
   },
   "VERSION_CURRENT": {
     "description": "",
-    "message": "Your current version"
+    "message": "Текуща версия"
   },
   "VERSION_LATEST": {
     "description": "This sentence continues into string VERSION_LATEST_CONTINUED, to read 'Latest version from source', referring to the source code",
-    "message": "Latest version from"
+    "message": "Последната версия от"
   },
   "VERSION_LATEST_CONTINUED": {
     "description": "is continued from string VERSION_LATEST, to read 'Latest version from source'. Here, 'source' refers to the source code",
-    "message": "source code"
+    "message": "изходния код"
   }
 }
