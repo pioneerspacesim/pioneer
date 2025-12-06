@@ -345,7 +345,7 @@ void Body::UpdateFrame()
 
 vector3d Body::GetTargetIndicatorPosition() const
 {
-	return vector3d(0, 0, 0);
+	return vector3d::ZERO;
 }
 
 void Body::SetLabel(const std::string &label)
