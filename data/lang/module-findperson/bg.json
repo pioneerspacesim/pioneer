@@ -97,11 +97,11 @@
   },
   "FAILUREMSG_1": {
     "description": "",
-    "message": "I'm not satisfied with your performance. I won't pay you!"
+    "message": "Не съм доволен от Вашето представяне. Нищо няма да платя!"
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "You are too late! Sorry, you won't get paid!"
+    "message": "Твърде късно е! Съжалявам, няма да получите заплащане!"
   },
   "FIND_PERSON": {
     "description": "Name of mission type",
@@ -365,7 +365,7 @@
   },
   "PIRATE_GREETING_3": {
     "description": "",
-    "message": "Чух, че трябваше да ми съобщиш нещо?"
+    "message": "Чух, че трябваше да ми съобщите нещо?"
   },
   "PIRATE_TAUNTS_1": {
     "description": "",
@@ -385,15 +385,15 @@
   },
   "RISK_EVACUATION_FEMALE_1": {
     "description": "",
-    "message": "The situation is tense. We think {wanted} is in danger."
+    "message": "Ситуацията е напрегната. Предполагаме, че {wanted} е в опасност."
   },
   "RISK_EVACUATION_FEMALE_2": {
     "description": "",
-    "message": "{wanted} is in extreme danger. She should leave the system as soon as possible."
+    "message": "{wanted} е в изключителна опасност. Тя трябва да напусне системата възможно най-скоро."
   },
   "RISK_EVACUATION_MALE_1": {
     "description": "",
-    "message": "{wanted} thinks he should leave the system very soon."
+    "message": "{wanted} предполага, че трябва да напусне системата много скоро."
   },
   "RISK_EVACUATION_MALE_2": {
     "description": "",
@@ -429,7 +429,7 @@
   },
   "RISK_MALE_3": {
     "description": "",
-    "message": "I'm not sure. He's a curious guy."
+    "message": "Не знам със сигурност. Той е любопитен човек."
   },
   "RISK_MALE_4": {
     "description": "",
@@ -497,7 +497,7 @@
   },
   "SUCCESS_MSG_5": {
     "description": "",
-    "message": "You found {wanted}? Great! Here's your payment."
+    "message": "Намерихте {wanted}? Чудесно! Това е за Вас."
   },
   "SYSTEM": {
     "description": "",
