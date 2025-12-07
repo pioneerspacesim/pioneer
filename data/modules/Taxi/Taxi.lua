@@ -215,6 +215,7 @@ local onChat = function (form, ref, option)
 		}
 
 		table.insert(missions, Mission.New(mission))
+		MissionUtils.FailedWhenOverdue(missions[#missions])
 
 		form:SetMessage(l.EXCELLENT)
 
@@ -377,8 +378,7 @@ local onEnterSystem = function (player)
 			end
 		end
 
-		if mission.status == "ACTIVE" and Game.time > mission.due then
-			mission.status = 'FAILED'
+		if Game.time > mission.due then
 			Comms.ImportantMessage(flavours[mission.flavour].wherearewe, mission.client.name)
 		end
 	end
@@ -452,6 +452,12 @@ local onGameStart = function ()
 
 	missions = loaded_data.missions
 	passengers = loaded_data.passengers
+
+	for _, mission in pairs(missions) do
+		if Game.time < mission.due then
+			MissionUtils.FailedWhenOverdue(mission)
+		end
+	end
 
 	loaded_data = nil
 end

@@ -3,6 +3,7 @@
 
 local Game   = require "Game"
 local Engine = require "Engine"
+local Timer  = require "Timer"
 local utils  = require "utils"
 
 local AU = 149598000000
@@ -232,6 +233,14 @@ function MissionUtils.TravelTime(distance, location)
 	end
 
 	return distance * 1.75*Days + ltt
+end
+
+function MissionUtils.FailedWhenOverdue(mission)
+	Timer:CallAt(mission.due, function ()
+		if mission and mission.status then
+			mission.status = 'FAILED'
+		end
+	end)
 end
 
 return MissionUtils
