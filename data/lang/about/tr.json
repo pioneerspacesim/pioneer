@@ -1,99 +1,99 @@
 {
   "ABOUT": {
     "description": "",
-    "message": "About"
+    "message": "Hakkında"
   },
   "ACKNOWLEDGEMENTS": {
     "description": "",
-    "message": "Acknowledgements"
+    "message": "Teşekkürler"
   },
   "CONTENT": {
     "description": "",
-    "message": "Content"
+    "message": "İçerik"
   },
   "CONTENT_CONTRIBUTION": {
     "description": "",
-    "message": "Content contribution"
+    "message": "İçerik katkıları"
   },
   "CONTRIBUTE": {
     "description": "",
-    "message": "Contribute"
+    "message": "Katkı Sağla"
   },
   "CONTRIBUTE_BODY": {
     "description": "",
-    "message": "Pioneer is the sum of the many contributions from its players and developers. See anything you want to change, improve, or ideas for new content to add? (E.g. translations, coding, art, 2D & 3D assets, music, designing custom star systems, improve our documentation, wiki, etc.) Follow the links for details on how you can contribute!"
+    "message": "Pioneer, pek çok oyunucu ve geliştiricinin katkılarının toplamıdır. Değiştirmek, geliştirmek istediğiniz şeyler ya da eklemek için yeni fikirleriniz mi var? (örn. tercümeler, kod, sanat, 2D & 3D assetler, müzik, yıldız sistemleri, belgelemeler, wiki vb.) Linkleri takip edin ve nasıl katkı sağlayabileceğinizi görün!"
   },
   "DEVELOPER_DOCUMENTATION": {
     "description": "",
-    "message": "Developer Documentation"
+    "message": "Geliştirici Dokümantasyonu"
   },
   "DOCUMENTATION": {
     "description": "",
-    "message": "Documentation"
+    "message": "Dokümantasyon"
   },
   "DONATE_BODY": {
     "description": "",
-    "message": "If you enjoy playing Pioneer and would like to support its continued development, please consider donating - no donation is too small."
+    "message": "Pioneer oynamaktan zevk alıyor ve süren geliştirmesine destek olmak istiyorsanız, lütfen bağış yapmayı düşünün - hiçbir bağış az değildir."
   },
   "DONATE_OPTIONS": {
     "description": "Sentence continues in 'DONATE_OPTIONS_CONTINUED'",
-    "message": "For additional donation options, please see our"
+    "message": "Lütfen ek bağış seçenekleri için"
   },
   "DONATE_OPTIONS_CONTINUED": {
     "description": "hyperlink, ending part of sentence in 'DONATE_OPTIONS'",
-    "message": "donations page"
+    "message": "bağış sayfamıza bakın"
   },
   "DONATE_THANKS": {
     "description": "",
-    "message": "Thank you all for your continued support of Pioneer!"
+    "message": "Pioneer'e desteğiniz için teşekkür ederiz!"
   },
   "GAME_RELEASE": {
     "description": "",
-    "message": "Stable versions are released annually on February 3, but development is continuous. Brave pilots are thus encouraged to play from the latest source and report bugs."
+    "message": "Stabil sürümler yıllık olarak 3 Şubat'ta yayımlanır, ama geliştirme devamlıdır. Bu yüzden cesur pilotları son kaynak kodundan oynamaya ve hataları raporlamaya davet ediyoruz."
   },
   "INFO_BLURB": {
     "description": "",
-    "message": "Pioneer is a single player space adventure game set in the Milky Way galaxy at the turn of the 31st century."
+    "message": "Pioneer, 31. yüzyılın başında Samanyolu galaksisinden geçen tek oyunculu bir uzay macerası oyunudur."
   },
   "INFO_BODY": {
     "description": "",
-    "message": "The game is open-ended, and you are free to explore the millions of star systems in the game. You can land on planets, slingshot past gas giants, and burn yourself to a crisp flying between binary star systems. You can try your hand at piracy, make your fortune trading between systems, or do missions for the various factions fighting for power, freedom or self-determination."
+    "message": "Oyunun ucu açıktır, oyundaki milyonlarca yıldız sistemini keşfetmek için serbestsiniz. Gezegenlere inebilir, gaz devlerinin kütleçekimini hissedebilir ve ikili yıldız sistemlerinin arasından uçarak sıcaklığı hissedebilirsiniz. Korsanlıkta elinizi deneyebilir, sistemler arası ticaretle zenginleşebilir, veya güç, özgürlük ve egemenlik için savaşan farklı güçler için görevler yapabilirsiniz."
   },
   "LICENSE": {
     "description": "",
-    "message": "License"
+    "message": "Lisans"
   },
   "LINK_BASIC_FLIGHT": {
     "description": "",
-    "message": "Basic flight"
+    "message": "Basit uçuş"
   },
   "LINK_BUG_TRACKER": {
     "description": "",
-    "message": "Bug Tracker"
+    "message": "Bug Takibi"
   },
   "LINK_COMMUNITY_CHAT": {
     "description": "",
-    "message": "Community chat (Discord)"
+    "message": "Topluluk chat'i (Discord)"
   },
   "LINK_COMMUNITY_FORUM": {
     "description": "",
-    "message": "Community Forum"
+    "message": "Topluluk Forumu"
   },
   "LINK_DEVELOPER_CHAT": {
     "description": "",
-    "message": "Developer chat (IRC)"
+    "message": "Gelitrici chat'i (IRC)"
   },
   "LINK_DEVELOPER_FORUM": {
     "description": "",
-    "message": "Developer Forum"
+    "message": "Geliştirici Forumu"
   },
   "LINK_FAQ": {
     "description": "",
-    "message": "FAQ"
+    "message": "SSS"
   },
   "LINK_HOMEPAGE": {
     "description": "",
-    "message": "Homepage"
+    "message": "Ana sayfa"
   },
   "LINK_MANUAL": {
     "description": "",
@@ -101,30 +101,30 @@
   },
   "SOFTWARE": {
     "description": "",
-    "message": "Software"
+    "message": "Yazılım"
   },
   "SOFTWARE_BODY": {
     "description": "",
-    "message": "Pioneer includes the following third-party software"
+    "message": "Pioneer şu üçüncü-parti yazılımları içerir"
   },
   "SUPPORT_DEVELOPMENT": {
     "description": "",
-    "message": "Support Development"
+    "message": "Geliştirmeyi Destekle"
   },
   "TRANSLATIONS": {
     "description": "",
-    "message": "Translations"
+    "message": "Tercümeler"
   },
   "VERSION_CURRENT": {
     "description": "",
-    "message": "Your current version"
+    "message": "Şu anki sürümünüz"
   },
   "VERSION_LATEST": {
     "description": "This sentence continues into string VERSION_LATEST_CONTINUED, to read 'Latest version from source', referring to the source code",
-    "message": "Latest version from"
+    "message": "Son sürüm"
   },
   "VERSION_LATEST_CONTINUED": {
     "description": "is continued from string VERSION_LATEST, to read 'Latest version from source'. Here, 'source' refers to the source code",
-    "message": "source code"
+    "message": "kaynak kodu"
   }
 }

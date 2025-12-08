@@ -97,7 +97,7 @@
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
-    "message": "aluminium tubes"
+    "message": "alüminyum tüpler"
   },
   "AMOUNT": {
     "description": "Shown in mission summary. The amount of cargo",
@@ -105,19 +105,19 @@
   },
   "ART_OBJECTS": {
     "description": "custom cargo",
-    "message": "art objects"
+    "message": "sanatsal ögeler"
   },
   "ART_OBJECTS_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "Unless you consider art critics a risk, no."
+    "message": "Sanat eleştirmenlerini tehlike saymıyorsanız hayır."
   },
   "ART_OBJECTS_RISK_MESSAGE_2": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "Between you and me... Don't look at the art and you'll be fine."
+    "message": "Aramızda kalsın... Sanat eserlerine bakmazsanız güvende olacaksınız."
   },
   "ART_OBJECTS_RISK_MESSAGE_3": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "The only danger of 25th century impressionism was to the original artist, you should be safe."
+    "message": "25'inci yüzyıl empresyonizminin tehlikesi yalnızca orijinal sanatçıyı hedef aldı, siz güvendesiniz."
   },
   "CARGO": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "CLUS": {
     "description": "custom cargo",
-    "message": "containerized living units"
+    "message": "konteynır yaşam üniteleri"
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
@@ -197,11 +197,11 @@
   },
   "DIAMONDS": {
     "description": "custom cargo",
-    "message": "diamonds"
+    "message": "elmaslar"
   },
   "DIGESTERS": {
     "description": "custom cargo",
-    "message": "digesters"
+    "message": "öğütücüler"
   },
   "DISTANCE": {
     "description": "distance in space, between two locations",
@@ -209,7 +209,7 @@
   },
   "ELECTRICAL_APPLIANCES": {
     "description": "custom cargo",
-    "message": "electrical appliances"
+    "message": "elektrikli eşyalar"
   },
   "ESCORT_CHATTER_1": {
     "description": "",
@@ -233,11 +233,11 @@
   },
   "EXPLOSIVES": {
     "description": "custom cargo",
-    "message": "explosives"
+    "message": "patlayıcılar"
   },
   "EXPLOSIVES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "No. Well, it's explosives, just don't drop it."
+    "message": "Hayır. Yani, elbette bunlar patlayıcı malzemeler, ama düşürmediğiniz sürece sorun yok."
   },
   "FAILUREMSG_1": {
     "description": "",
@@ -261,7 +261,7 @@
   },
   "FURNITURE": {
     "description": "custom cargo",
-    "message": "furniture"
+    "message": "mobilya"
   },
   "GO_BACK": {
     "description": "Shown on a button in a sub-menu, to move back, to previous menu",
@@ -269,7 +269,7 @@
   },
   "GREENHOUSES": {
     "description": "custom cargo",
-    "message": "greenhouses"
+    "message": "seralar"
   },
   "GUNS_GUNS_GUNS": {
     "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
@@ -277,11 +277,11 @@
   },
   "HAZARDOUS_SUBSTANCES": {
     "description": "custom cargo",
-    "message": "hazardous substances"
+    "message": "tehlikeli maddeler"
   },
   "HAZARDOUS_SUBSTANCES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "I guess you shouldn't open the containers."
+    "message": "Konteynırları açmamanız iyi olabilir."
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
@@ -405,7 +405,7 @@
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
-    "message": "machine tools"
+    "message": "makine parçaları"
   },
   "NEGOTIABLE_1": {
     "description": "regarding mass, always more than 1t",
@@ -429,7 +429,7 @@
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
-    "message": "neptunium"
+    "message": "neptünyum"
   },
   "OFFER": {
     "description": "",
@@ -489,19 +489,19 @@
   },
   "PLUTONIUM": {
     "description": "custom cargo",
-    "message": "plutonium"
+    "message": "plütonyum"
   },
   "QUIBBLES": {
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-    "message": "quibbles"
+    "message": "quibblelar"
   },
   "QUIBBLES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "No. Just don't get them wet and never feed them after midnight."
+    "message": "Hayır. Yalnızca onları ıslatmayın ve gece yarısından sonra beslemeyin."
   },
   "QUIBBLES_RISK_MESSAGE_2": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "Of course not! Look at them, they're so fluffy!"
+    "message": "Tabiki hayır! Baksanıza, ne kadar tüylüler!"
   },
   "RISK_1": {
     "description": "",
@@ -557,7 +557,7 @@
   },
   "SEMI_FINISHED_PRODUCTS": {
     "description": "custom cargo",
-    "message": "semi-finished products"
+    "message": "yarı-bitirilmiş ürünler"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -573,11 +573,11 @@
   },
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
-    "message": "spaceship parts"
+    "message": "uzay gemisi parçaları"
   },
   "STEM_BOLTS": {
     "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
-    "message": "self-sealing stem bolts"
+    "message": "kendini-mühürleyen gövde civataları"
   },
   "SUCCESSMSG_1": {
     "description": "",
@@ -609,7 +609,7 @@
   },
   "TITANIUM": {
     "description": "custom cargo",
-    "message": "titanium"
+    "message": "titanyum"
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
@@ -621,7 +621,7 @@
   },
   "URANIUM": {
     "description": "custom cargo",
-    "message": "uranium"
+    "message": "uranyum"
   },
   "URGENCY_1": {
     "description": "",
@@ -653,11 +653,11 @@
   },
   "WEDDING_DRESSES": {
     "description": "custom cargo",
-    "message": "wedding dresses"
+    "message": "düğün giysileri"
   },
   "WEDDING_DRESSES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "Over wedding dresses?"
+    "message": "Düğün giysilerinden mi?"
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",

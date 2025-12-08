@@ -1,7 +1,7 @@
 {
   "ABOUT": {
     "description": "main menu button (implied 'about' the game)",
-    "message": "About"
+    "message": "Hakkında"
   },
   "ABOVE_AVERAGE": {
     "description": "",
@@ -69,7 +69,7 @@
   },
   "AUTOMATED_MESSAGE": {
     "description": "For comm messages from bots",
-    "message": "AUTOMATED MESSAGE"
+    "message": "OTOMATİK MESAJ"
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
@@ -2665,7 +2665,7 @@
   },
   "TRANSLATE_VIEW": {
     "description": "Indicates that the button must be kept pressed down, to translate the camera view with mouse",
-    "message": "Hold down to Translate view"
+    "message": "Görüntüyü ötelemek için basılı tutun"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",

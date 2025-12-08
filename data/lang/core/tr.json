@@ -513,23 +513,23 @@
   },
   "GRID_DISPLAY_MODE": {
     "description": "Label for grid display modes",
-    "message": "Grid Display Mode"
+    "message": "Izgara Görüntüleme Modu"
   },
   "GRID_DISPLAY_MODE_GRID_AND_LEGS": {
     "description": "Combobox option for Grid with Legs",
-    "message": "Grid with Legs"
+    "message": "Bacaklı Izgara"
   },
   "GRID_DISPLAY_MODE_GRID_ONLY": {
     "description": "Combobox option for Grid Only",
-    "message": "Grid Only"
+    "message": "Yalnızca Izgara"
   },
   "GRID_DISPLAY_MODE_OFF": {
     "description": "Combobox option for Grid display off.",
-    "message": "Grid Off"
+    "message": "Izgara Kapalı"
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for toggle grid display button.",
-    "message": "Toggle visibility of the grid."
+    "message": "Izgaranın görünürlüğünü değiştir."
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -609,23 +609,23 @@
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
     "description": "Label for hyperspace cloud display modes.",
-    "message": "Hyperspace Cloud Display Mode"
+    "message": "Hiperuzay Bulutu Görüntüleme Modu"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL": {
     "description": "Combobox option for all hyperspace clouds.",
-    "message": "All Hyperspace Clouds"
+    "message": "Bütün Hiperuzay Bulutları"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY": {
     "description": "Combobox option for arrival hyperspace clouds.",
-    "message": "Arrival Hyperspace Clouds"
+    "message": "Varış Hiperuzay Bulutları"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY": {
     "description": "Combobox option for departure hyperspace clouds.",
-    "message": "Departure Hyperspace Clouds"
+    "message": "Ayrılış Hiperuzay Bulutları"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for the button which toggles the display mode of hyperspace clouds.",
-    "message": "Toggle visibility of Hyperspace Clouds."
+    "message": "Hiperuzay Bulutlarının görünürlüğünü değiştir."
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
@@ -721,15 +721,15 @@
   },
   "L4L5_DISPLAY_MODE": {
     "description": "Label for the lagrange point display modes.",
-    "message": "Lagrange Point Display Mode"
+    "message": "Lagrange Noktası Görüntüleme Modu"
   },
   "L4L5_DISPLAY_MODE_ICONS_AND_TEXT": {
     "description": "Combobox option for lagrange point display as icons only.",
-    "message": "Icons and Labels"
+    "message": "İkon ve Etiketler"
   },
   "L4L5_DISPLAY_MODE_ICONS_ONLY": {
     "description": "Combobox option for lagrange point display as icons only.",
-    "message": "Icons Only"
+    "message": "Yalnızca İkonlar"
   },
   "L4L5_DISPLAY_MODE_OFF": {
     "description": "Combobox option for lagrange point display off.",
@@ -737,7 +737,7 @@
   },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for the L4/L5 Lagrange points toggle button.",
-    "message": "Toggle visibility of the L4/L5 lagrange points."
+    "message": "L4/L5 lagrange noktalarının görünürlüğünü değiştir."
   },
   "LANDED": {
     "description": "",
@@ -1441,19 +1441,19 @@
   },
   "SHIPS_DISPLAY_MODE": {
     "description": "Label for ship display modes.",
-    "message": "Ship Display Mode"
+    "message": "Gemi Görüntüleme Modu"
   },
   "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
     "description": "Combobox option for ships only.",
-    "message": "Ships Only"
+    "message": "Yalnızca Gemiler"
   },
   "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
     "description": "Combobox option for ships with orbits.",
-    "message": "Ships with Orbits"
+    "message": "Gemiler ve Yörüngeler"
   },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for ship display toggle button.",
-    "message": "Toggle visibility of ships."
+    "message": "Gemilerin görünürlüğünü değiştir."
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
@@ -1669,7 +1669,7 @@
   },
   "SURFACE_PRESSURE": {
     "description": "",
-    "message": "Surface pressure"
+    "message": "Yüzey basıncı"
   },
   "SURFACE_TEMPERATURE": {
     "description": "",

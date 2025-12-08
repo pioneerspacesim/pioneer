@@ -137,7 +137,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "{target} must be reduced to space dust. I'll award you {cash} to do this."
+    "message": "{target} uzay tozu olmalı. Bunun için size {cash} vereceğim."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -205,11 +205,11 @@
   },
   "IT_MUST_BE_DONE_AFTER_FEMALE": {
     "description": "",
-    "message": "It must be done after she leaves {spaceport}. Do not miss this opportunity."
+    "message": "Hedef {spaceport} limanından ayrılınca olay gerçekleşmeli. Bu şansı kaçırma."
   },
   "IT_MUST_BE_DONE_AFTER_MALE": {
     "description": "",
-    "message": "It must be done after he leaves {spaceport}. Do not miss this opportunity."
+    "message": "Hedef {spaceport} limanından ayrılınca olay gerçekleşmeli. Bu şansı kaçırma."
   },
   "OK_AGREED": {
     "description": "",
@@ -353,18 +353,18 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "Where can I find the target?"
+    "message": "Hedefi nerede bulabilirim?"
   },
   "X_WILL_BE_LEAVING": {
     "description": "{ship_indef} is translated in /data/lang/ships/",
-    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {ship_indef} and has registration id {shipregid}."
+    "message": "{target}, {dist} ıy uzaklıktaki {system} sistemindeki ({sectorX}, {sectorY}, {sectorZ}) {spaceport} limanını {date} tarihinde terk edecek. Gemi {ship_indef} ve kayıt kimliği {shipregid}."
   },
   "X_WILL_BE_LEAVING_FEMALE": {
     "description": "{ship_indef} is translated in /data/lang/ships/",
-    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. Her ship is {ship_indef} and has registration id {shipregid}."
+    "message": "{target}, {dist} ıy uzaklıktaki {system} sistemindeki ({sectorX}, {sectorY}, {sectorZ}) {spaceport} limanını {date} tarihinde terk edecek. Gemi {ship_indef} ve kayıt kimliği {shipregid}."
   },
   "X_WILL_BE_LEAVING_MALE": {
     "description": "{ship_indef} is translated in /data/lang/ships/",
-    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. His ship is {ship_indef} and has registration id {shipregid}."
+    "message": "{target}, {dist} ıy uzaklıktaki {system} sistemindeki ({sectorX}, {sectorY}, {sectorZ}) {spaceport} limanını {date} tarihinde terk edecek. Gemi {ship_indef} ve kayıt kimliği {shipregid}."
   }
 }
