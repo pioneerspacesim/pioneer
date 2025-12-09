@@ -5,7 +5,7 @@
   },
   "ADVICE_10_HEADLINE": {
     "description": "",
-    "message": "Знайте кога да си обирате крушите."
+    "message": "Знайте кога да си обирате крушите"
   },
   "ADVICE_11_BODYTEXT": {
     "description": "",
@@ -17,27 +17,27 @@
   },
   "ADVICE_12_BODYTEXT": {
     "description": "",
-    "message": "When you find yourself in the outskirts of a system and need to return to the inner planets, a detour to a sufficiently close neighbouring system might be the fastest way."
+    "message": "Когато се окажете в покрайнините на системата и трябва да се върнете към вътрешните планети, отклонение към достатъчно близка съседна система може да е най-бързият начин."
   },
   "ADVICE_12_HEADLINE": {
     "description": "",
-    "message": "The Billie Bounce detour"
+    "message": "Отклонението на Били Баунс"
   },
   "ADVICE_13_BODYTEXT": {
     "description": "",
-    "message": "Lower mass means less fuel consumption and a faster ship. Fuel has mass. For some routes, running light with less fuel in the tanks can save both time and money."
+    "message": "По-ниската маса означава по-малък разход на гориво и по-бърз кораб. Горивото има маса. За някои маршрути, движението с по-лекия кораб, с по-малко гориво в резервоарите, може да спести както време, така и пари."
   },
   "ADVICE_13_HEADLINE": {
     "description": "",
-    "message": "Running on fumes"
+    "message": "Движение на изпарения"
   },
   "ADVICE_14_BODYTEXT": {
     "description": "",
-    "message": "When stringing multiple jumps together, queuing them before departure will save you both a headache and perhaps your life, depending on how welcome you will be during your route."
+    "message": "Когато комбинирате няколко скока заедно, подреждането им на опашка преди тръгване ще спести както главоболие, така и може би живот, в зависимост от това колко добре дошли ще бъдете по време на маршрута си."
   },
   "ADVICE_14_HEADLINE": {
     "description": "",
-    "message": "A clear way out"
+    "message": "Планирайте маршрута си"
   },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
@@ -45,7 +45,7 @@
   },
   "ADVICE_1_HEADLINE": {
     "description": "",
-    "message": "Опитомете черния пазар!"
+    "message": "Опитомете черния пазар"
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "ADVICE_3_HEADLINE": {
     "description": "",
-    "message": "Не се изгубвайте – планирайте пътуването си предварително!"
+    "message": "Не се изгубвайте – планирайте пътуването си предварително"
   },
   "ADVICE_4_BODYTEXT": {
     "description": "",
@@ -69,7 +69,7 @@
   },
   "ADVICE_4_HEADLINE": {
     "description": "",
-    "message": "Всичко е относително..."
+    "message": "Всичко е относително"
   },
   "ADVICE_5_BODYTEXT": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "ADVICE_5_HEADLINE": {
     "description": "",
-    "message": "Никога не губете кредити!"
+    "message": "Никога не губете кредити"
   },
   "ADVICE_6_BODYTEXT": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "ADVICE_6_HEADLINE": {
     "description": "",
-    "message": "Бъдете нащрек."
+    "message": "Бъдете нащрек"
   },
   "ADVICE_7_BODYTEXT": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "ADVICE_7_HEADLINE": {
     "description": "",
-    "message": "Бъдете щедри."
+    "message": "Бъдете щедри"
   },
   "ADVICE_8_BODYTEXT": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "ADVICE_8_HEADLINE": {
     "description": "",
-    "message": "Избягвайте двойните неприятности!"
+    "message": "Избягвайте двойните неприятности"
   },
   "ADVICE_9_BODYTEXT": {
     "description": "",
@@ -109,7 +109,7 @@
   },
   "ADVICE_9_HEADLINE": {
     "description": "",
-    "message": "Грижете се добре за кораба си."
+    "message": "Грижете се добре за кораба си"
   },
   "RUMOUR": {
     "description": "Headline starts with this pre-headline",
@@ -129,7 +129,7 @@
   },
   "TALE_1_HEADLINE": {
     "description": "Blade runner?",
-    "message": "Виждал съм неща, на които Вие хората няма да повярвате!"
+    "message": "„Виждал съм неща, на които Вие хората няма да повярвате“"
   },
   "TRAVELLERS_ADVICE": {
     "description": "Headline starts with this pre-headline",
