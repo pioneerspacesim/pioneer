@@ -5,7 +5,6 @@
 #define __SOUND_H
 
 #include <cstdint>
-#include <map>
 #include <string>
 #include <vector>
 
@@ -25,7 +24,7 @@ namespace Sound {
 			eid(0) {}
 		void Play(const char *fx, const float volume_left, const float volume_right, Op op);
 		void Play(const char *fx) { Play(fx, 1.0f, 1.0f, 0); }
-		void PlayMusic(const char *fx, float volume, float fadeDelta, bool repeat, Event* fadeOut = nullptr);
+		void PlayMusic(const char *fx, float volume, float fadeDelta, bool repeat, Event *fadeOut = nullptr);
 		bool Stop();
 		bool IsPlaying() const;
 		bool SetOp(Op op);
@@ -46,11 +45,11 @@ namespace Sound {
 		uint32_t eid;
 	};
 
-	bool Init(bool automaticallyOpenDevice = true);
-	bool InitDevice(std::string &name);
+	std::vector<std::string_view> GetAvailableBackends();
+	std::string_view GetBackend();
+
+	bool Init(std::string_view backend);
 	void Uninit();
-	std::vector<std::string> &GetAudioDevices();
-	void UpdateAudioDevices();
 	/**
 	 * Silence all active sound events.
 	 */
@@ -66,7 +65,10 @@ namespace Sound {
 	void SetSfxVolume(const float vol);
 	float GetSfxVolume();
 	const std::vector<std::string> GetMusicFiles();
+	void Update(float delta_t);
 
+	bool IsBinauralSupported();
+	void EnableBinaural(bool enabled);
 } /* namespace Sound */
 
 #endif /* __SOUND_H */
