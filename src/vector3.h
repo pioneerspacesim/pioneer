@@ -65,18 +65,16 @@ public:
 	}
 	inline vector3 &operator/=(const float a)
 	{
-		const T inva = T(1.0 / a);
-		x *= inva;
-		y *= inva;
-		z *= inva;
+		x /= a;
+		y /= a;
+		z /= a;
 		return *this;
 	}
 	inline vector3 &operator/=(const double a)
 	{
-		const T inva = T(1.0 / a);
-		x *= inva;
-		y *= inva;
-		z *= inva;
+		x /= a;
+		y /= a;
+		z /= a;
 		return *this;
 	}
 	inline vector3 operator-(const vector3 &a) const { return vector3(x - a.x, y - a.y, z - a.z); }
@@ -103,13 +101,11 @@ public:
 	//friend vector3 operator*(const double scalar, const vector3 &a) { return a*scalar; }
 	inline friend vector3 operator/(const vector3 &a, const float scalar)
 	{
-		const T inv = 1.0 / scalar;
-		return vector3(a.x * inv, a.y * inv, a.z * inv);
+		return vector3(a.x / scalar, a.y / scalar, a.z / scalar);
 	}
 	inline friend vector3 operator/(const vector3 &a, const double scalar)
 	{
-		const T inv = 1.0 / scalar;
-		return vector3(a.x * inv, a.y * inv, a.z * inv);
+		return vector3(a.x / scalar, a.y / scalar, a.z / scalar);
 	}
 	inline friend vector3 operator/(const T scalar, const vector3 &a)
 	{
@@ -142,12 +138,12 @@ public:
 	}
 	inline vector3 Normalized() const
 	{
-		const T l = 1.0f / sqrt(x * x + y * y + z * z);
-		return vector3(x * l, y * l, z * l);
+		const T l = Length();
+		return vector3(x / l, y / l, z / l);
 	}
 	inline vector3 NormalizedSafe() const
 	{
-		const T lenSqr = x * x + y * y + z * z;
+		const T lenSqr = LengthSqr();
 		if (lenSqr < 1e-18) // sqrt(lenSqr) < 1e-9
 			return vector3(1, 0, 0);
 		else {
@@ -168,16 +164,14 @@ public:
 		T w = __v.z;
 		T cos_a = cos(ang);
 		T sin_a = sin(ang);
-		T inv_poo = 1.0f / (u * u + v * v + w * w);
+		T poo = __v.LengthSqr();
 		t.x = a * (v * v + w * w) + u * (-b * v - c * w + u * x + v * y + w * z) + (-a * (v * v + w * w) + u * (b * v + c * w - v * y - w * z) + (v * v + w * w) * x) * cos_a +
 			sqrtf(u * u + v * v + w * w) * (-c * v + b * w - w * y + v * z) * sin_a;
-		t.x *= inv_poo;
 		t.y = b * (u * u + w * w) + v * (-a * u - c * w + u * x + v * y + w * z) + (-b * (u * u + w * w) + v * (a * u + c * w - u * x - w * z) + (u * u + w * w) * y) * cos_a +
 			sqrtf(u * u + v * v + w * w) * (-c * u - a * w + w * x - u * z) * sin_a;
-		t.y *= inv_poo;
 		t.z = c * (u * u + v * v) + w * (-a * u + b * v + u * x + v * y + w * z) + (-c * (u * u + v * v) + w * (a * u + b * v - u * x - v * y) + (u * u + v * v) * z) * cos_a +
 			sqrtf(u * u + v * v + w * w) * (-b * u + a * v - v * x + u * y) * sin_a;
-		t.z *= inv_poo;
+		t /= poo;
 		*this = t;
 	}
 
@@ -190,16 +184,14 @@ public:
 		T w = __v.z;
 		T cos_a = cos(ang);
 		T sin_a = sin(ang);
-		T inv_poo = 1.0f / (u * u + v * v + w * w);
+		T poo = __v.LengthSqr();
 		t.x = u * (u * x + v * y + w * z) + (u * (-v * y - w * z) + (v * v + w * w) * x) * cos_a +
 			sqrtf(u * u + v * v + w * w) * (-w * y + v * z) * sin_a;
-		t.x *= inv_poo;
 		t.y = v * (u * x + v * y + w * z) + (v * (-u * x - w * z) + (u * u + w * w) * y) * cos_a +
 			sqrtf(u * u + v * v + w * w) * (w * x - u * z) * sin_a;
-		t.y *= inv_poo;
 		t.z = w * (u * x + v * y + w * z) + (w * (-u * x - v * y) + (u * u + v * v) * z) * cos_a +
 			sqrtf(u * u + v * v + w * w) * (-v * x + u * y) * sin_a;
-		t.z *= inv_poo;
+		t /= poo;
 		*this = t;
 	}
 
