@@ -283,7 +283,7 @@ void SystemView::Update()
 			m_map->AddOrbitTrack({ Projectable::ORBIT, Projectable::PLAYER, PlayerBody, offset }, &playerOrbit, m_map->svColor[Col::PLAYER_ORBIT], planetRadius);
 
 			const double plannerStartTime = m_planner->GetStartTime();
-			if (!m_planner->GetPosition().ExactlyEqual(vector3d(0, 0, 0))) {
+			if (!m_planner->GetPosition().ExactlyEqual(vector3d::ZERO)) {
 				Orbit plannedOrbit = Orbit::FromBodyState(m_planner->GetPosition(),
 					m_planner->GetVel(),
 					playerAround->GetMass());
@@ -987,7 +987,7 @@ void SystemMapViewport::Update(float ft)
 	if (m_displayMode == SystemView::Mode::Orrery) {
 		if (m_system && !m_system->GetUnexplored() && m_system->GetRootBody()) {
 			// all systembodies draws here
-			AddBodyTrack(m_system->GetRootBody().Get(), vector3d(0, 0, 0));
+			AddBodyTrack(m_system->GetRootBody().Get(), vector3d::ZERO);
 		}
 	}
 }
