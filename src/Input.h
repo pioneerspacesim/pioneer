@@ -69,6 +69,9 @@ namespace Input {
 
 		Action *AddAction(const std::string &id);
 		Axis *AddAxis(const std::string &id);
+
+		Action *AddAction(Action *action);
+		Axis *AddAxis(Axis *axis);
 	};
 
 	struct JoystickInfo {
