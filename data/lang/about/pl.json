@@ -1,7 +1,7 @@
 {
   "ABOUT": {
     "description": "",
-    "message": "About"
+    "message": "O grze"
   },
   "ACKNOWLEDGEMENTS": {
     "description": "",
@@ -69,7 +69,7 @@
   },
   "LINK_BUG_TRACKER": {
     "description": "",
-    "message": "Bug Tracker"
+    "message": "Zgłoś błąd"
   },
   "LINK_COMMUNITY_CHAT": {
     "description": "",
@@ -97,7 +97,7 @@
   },
   "LINK_MANUAL": {
     "description": "",
-    "message": "Manual"
+    "message": "Instrukcja"
   },
   "SOFTWARE": {
     "description": "",
