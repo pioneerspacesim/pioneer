@@ -157,15 +157,15 @@
   },
   "HOW_MUCH_TIME_PRIVATEER": {
     "description": "",
-    "message": "If you're not back by {date}, our deal's over!"
+    "message": "Ако не се върнете до {date}, нашата сделка приключва!"
   },
   "HOW_MUCH_TIME_TAXI": {
     "description": "",
-    "message": "Our deal is over by {date}."
+    "message": "Нашата сделка е до {date}."
   },
   "HOW_MUCH_TIME_TRAITOR": {
     "description": "",
-    "message": "Time is critical! If you're not back by {date}, we're finished."
+    "message": "Времето е от решаващо значение! Ако не се върнете до {date}, с нас е свършено."
   },
   "HOW_TO_DELIVER_DOCUMENT_FEMALE": {
     "description": "",
@@ -433,11 +433,11 @@
   },
   "RISK_MALE_4": {
     "description": "",
-    "message": "{wanted} is a paranoid nut. Be careful!"
+    "message": "{wanted} е луд. Внимавайте!"
   },
   "RISK_MALE_5": {
     "description": "",
-    "message": "Oh yes indeed. {wanted} is a maniac. You should be prepared for everything!"
+    "message": "О, да, наистина. {wanted} е маниак. Трябва да сте подготвени за всичко!"
   },
   "SET_AS_TARGET": {
     "description": "",
