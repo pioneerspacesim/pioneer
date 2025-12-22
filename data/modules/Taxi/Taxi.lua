@@ -214,8 +214,9 @@ local onChat = function (form, ref, option)
 			flavour	 = ad.flavour
 		}
 
-		table.insert(missions, Mission.New(mission))
-		MissionUtils.FailedWhenOverdue(missions[#missions])
+		mission = Mission.New(mission)
+		table.insert(missions, mission)
+		MissionUtils.FailedWhenOverdue(mission)
 
 		form:SetMessage(l.EXCELLENT)
 

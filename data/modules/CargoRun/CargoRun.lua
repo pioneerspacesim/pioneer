@@ -253,8 +253,10 @@ onChat = function (form, ref, option)
 			cargotype       = ad.cargotype,
 			status          = cargo_picked_up and "ACTIVE" or "TO_PICK_UP",
 		}
-		table.insert(missions,Mission.New(mission))
-		MissionUtils.FailedWhenOverdue(missions[#missions])
+
+		mission = Mission.New(mission)
+		table.insert(missions, mission)
+		MissionUtils.FailedWhenOverdue(mission)
 
 		if ad.amount ~= ad.negotiated_amount then
 			-- recreate advert with the rest of the cargo

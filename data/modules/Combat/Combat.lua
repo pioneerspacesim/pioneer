@@ -161,8 +161,9 @@ local onChat = function (form, ref, option)
 			bonus       = -(math.ceil(ad.dedication * 3) - 1),
 			due         = ad.due,
 		}
-		table.insert(missions,Mission.New(mission))
-		MissionUtils.FailedWhenOverdue(missions[#missions])
+		mission = Mission.New(mission)
+		table.insert(missions, mission)
+		MissionUtils.FailedWhenOverdue(mission)
 		form:SetMessage(l["ACCEPTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("ACCEPTED"))])
 		return
 

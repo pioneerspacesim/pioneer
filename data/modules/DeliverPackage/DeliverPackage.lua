@@ -193,8 +193,9 @@ local onChat = function (form, ref, option)
 			flavour	 = ad.flavour
 		}
 
-		table.insert(missions,Mission.New(mission))
-		MissionUtils.FailedWhenOverdue(missions[#missions])
+		mission = Mission.New(mission)
+		table.insert(missions, mission)
+		MissionUtils.FailedWhenOverdue(mission)
 
 		form:SetMessage(l.EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY)
 
