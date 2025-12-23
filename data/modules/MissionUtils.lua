@@ -236,11 +236,13 @@ function MissionUtils.TravelTime(distance, location)
 end
 
 function MissionUtils.SetupOverdueTimer(mission)
-	Timer:CallAt(mission.due, function ()
-		if mission and mission.status then
-			mission.status = 'FAILED'
-		end
-	end)
+	if Game.time < mission.due then
+		Timer:CallAt(mission.due, function ()
+			if mission and mission.status then
+				mission.status = 'FAILED'
+			end
+		end)
+	end
 end
 
 return MissionUtils

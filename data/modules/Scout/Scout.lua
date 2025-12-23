@@ -741,9 +741,7 @@ local onGameStart = function ()
 		missions = loaded_data.missions
 		for ref, mission in pairs(missions) do
 			if mission.scanId then missionKey[mission.scanId] = mission end
-			if Game.time < mission.due then
-				MissionUtils.SetupOverdueTimer(mission)
-			end
+			MissionUtils.SetupOverdueTimer(mission)
 		end
 
 		loaded_data = nil

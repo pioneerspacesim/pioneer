@@ -780,9 +780,7 @@ local onGameStart = function ()
 		missions = loaded_data.missions
 
 		for _, mission in pairs(missions) do
-			if Game.time < mission.due then
-				MissionUtils.SetupOverdueTimer(mission)
-			end
+			MissionUtils.SetupOverdueTimer(mission)
 		end
 
 		custom_cargo = loaded_data.custom_cargo

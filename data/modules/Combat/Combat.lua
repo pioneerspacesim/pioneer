@@ -501,9 +501,7 @@ local onGameStart = function ()
 		loaded_data = nil
 
 		for _, mission in pairs(missions) do
-			if Game.time < mission.due then
-				MissionUtils.SetupOverdueTimer(mission)
-			end
+			MissionUtils.SetupOverdueTimer(mission)
 			if mission.duration then
 				missionTimer(mission)
 			end
