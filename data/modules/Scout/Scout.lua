@@ -286,7 +286,7 @@ local onChat = function (form, ref, option)
 		mission = Mission.New(mission)
 		table.insert(missions, mission)
 		missionKey[mission.scanId] = mission
-		MissionUtils.FailedWhenOverdue(mission)
+		MissionUtils.SetupOverdueTimer(mission)
 
 		form:SetMessage(l.EXCELLENT_I_AWAIT_YOUR_REPORT)
 		return
@@ -742,7 +742,7 @@ local onGameStart = function ()
 		for ref, mission in pairs(missions) do
 			if mission.scanId then missionKey[mission.scanId] = mission end
 			if Game.time < mission.due then
-				MissionUtils.FailedWhenOverdue(mission)
+				MissionUtils.SetupOverdueTimer(mission)
 			end
 		end
 

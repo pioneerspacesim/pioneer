@@ -216,7 +216,7 @@ local onChat = function (form, ref, option)
 
 		mission = Mission.New(mission)
 		table.insert(missions, mission)
-		MissionUtils.FailedWhenOverdue(mission)
+		MissionUtils.SetupOverdueTimer(mission)
 
 		form:SetMessage(l.EXCELLENT)
 
@@ -456,7 +456,7 @@ local onGameStart = function ()
 
 	for _, mission in pairs(missions) do
 		if Game.time < mission.due then
-			MissionUtils.FailedWhenOverdue(mission)
+			MissionUtils.SetupOverdueTimer(mission)
 		end
 	end
 

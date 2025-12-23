@@ -235,7 +235,7 @@ function MissionUtils.TravelTime(distance, location)
 	return distance * 1.75*Days + ltt
 end
 
-function MissionUtils.FailedWhenOverdue(mission)
+function MissionUtils.SetupOverdueTimer(mission)
 	Timer:CallAt(mission.due, function ()
 		if mission and mission.status then
 			mission.status = 'FAILED'
