@@ -1,250 +1,250 @@
 {
   "AIR_PROCESSORS": {
     "description": "",
-    "message": "air processors"
+    "message": "oro apdorojimo įrenginiai"
   },
   "AIR_PROCESSORS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Clean air is only taken for granted when already abundant. The technique behind air purification is rumoured to come from alien artifacts found on Mars. Many companies produce various types of air processors, capable of turning even the most hostile atmospheres into a workable environment, and governments do not tolerate monopoly on air production."
+    "message": "Švarus oras laikomas savaime suprantamu dalyku tik tada, kai jo gausu.Teigiama, kad oro valymo technologijos kilmė siejama su Marse rastais ateivių artefaktais. Daugybė bendrovių gamina įvairių tipų oro apdorojimo įrenginius, galinčius net pačias priešiškiausias atmosferas paversti tinkama aplinka, o vyriausybės netoleruoja monopolio oro gamybos srityje."
   },
   "ANIMAL_MEAT": {
     "description": "",
-    "message": "animal meat"
+    "message": "gyvūnų mėsa"
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "A major point of controversy, meat is the flesh of animals. With synthetic protein readily available, most people believe that animals should not be killed. While meats are illegal in most core systems, live animals and their meat is an important part of the lives of people on more traditional worlds."
+    "message": "Mėsa - vienas labiausiai ginčytinų klausimų - yra gyvūnų kūno audinys. Kadangi sintetiniai baltymai yra lengvai prieinami, dauguma žmonių mano, jog gyvūnai neturėtų būti žudomi. Nors daugumoje šerdinių sistemų mėsa yra nelegali, gyvi gyvūnai ir jų mėsa tebėra svarbi gyvenimo dalis žmonėms, gyvenantiems tradiciškesniuose pasauliuose."
   },
   "BATTLE_WEAPONS": {
     "description": "",
-    "message": "battle weapons"
+    "message": "kariniai ginklai"
   },
   "BATTLE_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Heavy military-grade weapons, like armoured hover tanks, and surface-to-space missiles. Trading in them is usually a governmental monopoly. On the black market, however, these can often fetch a hefty sum of money."
+    "message": "Sunkioji karinė ginkluotė, tokia kaip šarvuoti levituojantys tankai ar žemė-kosmosas klasės raketos. Prekyba jais paprastai yra valstybinis monopolis. Tačiau juodojoje rinkoje tokie ginklai neretai pasiekia itin aukštą kainą."
   },
   "CARBON_ORE": {
     "description": "",
-    "message": "carbon ore"
+    "message": "anglies rūda"
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Carbon is one of the most diverse elements we know of. Used in almost everything from plastics to alloys and sometimes even power production, carbon is an inexpensive, but important commodity. As such, almost all industrial settlements import carbon ore."
+    "message": "Anglis yra vienas universaliausių mums žinomų cheminių elementų. Naudojama beveik visur - nuo plastikų iki lydinių, o kartais net energijos gamyboje - anglis yra nebrangi, tačiau itin svarbi žaliava. Todėl beveik visos pramoninės gyvenvietės importuoja anglies rūdą."
   },
   "COMPUTERS": {
     "description": "",
-    "message": "computers"
+    "message": "kompiuteriai"
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "From over a thousand years ago, with the Abacus, PDP-11, and Motorola 68k chip, down to our modern HAL 9001 and Multivac line, computers marked the dawn of the information age. Equally essential for entering hyperspace as for sharing videos of cute quibbles over the UniNet."
+    "message": "Nuo daugiau nei tūkstančio metų senumo abako, PDP-11 ir Motorola 68k lustų, iki šiuolaikinių HAL 9001 ir Multivac sistemų - kompiuteriai pažymėjo informacijos amžiaus aušrą. Jie vienodai būtini tiek įžengiant į hipererdvę, tiek dalijantis vaizdo įrašais apie mielus kvailiojimus per UniNet."
   },
   "CONSUMER_GOODS": {
     "description": "",
-    "message": "consumer goods"
+    "message": "vartojimo prekės"
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The end products ready for the general consumer public, without need for further processing. Everything from toothbrushes, kitchen appliances to hover cars."
+    "message": "Galutiniai produktai, skirti plačiajai vartotojų visuomenei, kuriems nereikia tolesnio apdorojimo. Viskas - nuo dantų šepetėlių ir virtuvės prietaisų iki levituojančių automobilių."
   },
   "FARM_MACHINERY": {
     "description": "",
-    "message": "farm machinery"
+    "message": "žemės ūkio technika"
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Although rare, it is still possible to catch the occasional farmer with an ox-driven plow. But in almost any place where there is agriculture, machines are used in the cultivation of the land, be it the hydroponics of an underground habitat or the endless fields of a garden world."
+    "message": "Nors tai reta, vis dar pasitaiko sutikti ūkininką, dirbantį laukus jaučių traukiamu plūgu. Tačiau beveik visur, kur egzistuoja žemės ūkis, žemės dirbimui naudojamos mašinos - nesvarbu, ar tai būtų požeminės buveinės hidroponika, ar nesibaigiantys sodo pasaulio laukai."
   },
   "FERTILIZER": {
     "description": "",
-    "message": "fertilizer"
+    "message": "trąšos"
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Fertilizers are crucial for growing crops at an industrial scale, allowing mono-cultures, and yielding higher dividends than possible using plain dirt. This often comes with an ecological cost, not evident at the onset."
+    "message": "Trąšos yra itin svarbios auginant pasėlius pramoniniu mastu - jos leidžia taikyti monokultūras ir užtikrina didesnį derlių, nei būtų įmanoma naudojant vien paprastą dirvožemį. Tai dažnai turi ekologinę kainą, kuri iš pradžių nėra akivaizdi."
   },
   "FRUIT_AND_VEG": {
     "description": "",
-    "message": "fruit & vegetables"
+    "message": "vaisiai ir daržovės"
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "While there are lots of synthetic alternatives, real fruits and vegetables are still an important part of our cuisine and nutrition. Grown on agricultural worlds or as part of the life support of habitats, and exported to systems in which growing plants is not feasible."
+    "message": "Nors egzistuoja daugybė sintetinių alternatyvų, tikri vaisiai ir daržovės vis dar sudaro svarbią mūsų virtuvės ir mitybos dalį. Jie auginami žemės ūkio pasauliuose arba kaip buveinių gyvybės palaikymo sistemų dalis ir eksportuojami į sistemas, kuriose auginti augalus nėra galimybių."
   },
   "GRAIN": {
     "description": "",
-    "message": "grain"
+    "message": "grūdai"
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The backbone of many peoples' diets. It is used in farming, to feed animals, and as a supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal and baked goods. Most star faring cultures grow and consume at least some grains, that have been adopted to the climate of their habitat."
+    "message": "Daugelio žmonių mitybos pagrindas. Jis naudojamas žemės ūkyje gyvūnams šerti ir kaip sintetinių maisto produktų papildas. Grūdai taip pat naudojami daugelyje kitų maisto produktų, pavyzdžiui, avižinėje košėje ir kepiniuose. Dauguma kosmines keliones vykdančių kultūrų augina ir vartoja bent tam tikras grūdines kultūras, pritaikytas jų buveinės klimatui."
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "small arms"
+    "message": "lengvieji šaunamieji ginklai"
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Providing insurance beyond the long arm of the law, hand weapons are essential for space traders in far-out systems. However, many governments see them as a threat to their own control over their population and strictly control their trade and possession."
+    "message": "Suteikdami savotišką apsaugą ten, kur įstatymo ranka nepasiekia, rankiniai ginklai yra būtini kosmoso prekeiviams atokiose sistemose. Tačiau daugelis vyriausybių juos laiko grėsme savo kontrolei gyventojų atžvilgiu ir griežtai reguliuoja jų prekybą bei laikymą."
   },
   "HYDROGEN": {
     "description": "",
-    "message": "hydrogen"
+    "message": "vandenilis"
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Used as fuel for hyperdrives and propellant for starships, hydrogen is an extremely important element. Fortunately it is also the most common element in the universe, although storing it isn't trivial. It is usually among the cheapest commodities on the stock market. Starports are well supplied at any given time."
+    "message": "Naudojamas kaip hipererdvinių variklių kuras ir žvaigždėlaivių propelentas, vandenilis yra itin svarbus cheminis elementas. Laimei, tai taip pat pats gausiausias elementas visatoje, nors jo laikymas nėra paprastas. Paprastai jis priskiriamas prie pigiausių biržoje prekiaujamų žaliavų. Žvaigždėuostai bet kuriuo metu yra gerai juo aprūpinti."
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
-    "message": "industrial machinery"
+    "message": "pramoninė technika"
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Needed for assembly lines, refineries, smelters, and production of machinery that will in turn produce other goods. High competence is needed to produce these advanced machines."
+    "message": "Reikalinga surinkimo linijoms, perdirbimo gamykloms, lydykloms ir tokios įrangos gamybai, kuri vėliau pati gamins kitas prekes. Šių pažangių mašinų gamybai būtina aukšta kompetencija."
   },
   "LIQUID_OXYGEN": {
     "description": "",
-    "message": "liquid oxygen"
+    "message": "skystasis deguonis"
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Liquid oxygen has many purposes, most commonly in medical and industrial applications and sometimes also used in waste treatment. It is very affordable, as oxygen is easy to obtain from water."
+    "message": "Skystasis deguonis turi daugybę paskirčių - dažniausiai medicinos ir pramonės srityse, o kartais taip pat naudojamas atliekų apdorojimui. Jis yra labai prieinamas, nes deguonį nesunku išgauti iš vandens."
   },
   "LIQUOR": {
     "description": "",
-    "message": "liquor"
+    "message": "stiprus alkoholis"
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Most outposts have a local brew that outsiders find hard to stomach. Alcohol can be banned in some systems as it is deemed to cloud the mind. Regardless of the law, a shot of scotch is almost always available on the black market, for a price."
+    "message": "Dauguma forpostų turi vietinį gėrimą, kurį atvykėliams sunku nuryti. Kai kuriose sistemose alkoholis gali būti draudžiamas, nes laikoma, kad jis aptemdo protą. Nepriklausomai nuo įstatymų, škotiško viskio taurelę juodojoje rinkoje beveik visada galima rasti - už atitinkamą kainą."
   },
   "LIVE_ANIMALS": {
     "description": "",
-    "message": "live animals"
+    "message": "gyvi gyvūnai"
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Partly due to humanistic, economic and ecological reasons, animal rearing and trade is strictly regulated, or even illegal in many core systems. Going outward, livestock becomes a more important part of the livelihood of the people, both as a source of nutrition and a beast of burden. Exotic zoos and wildlife reserves contribute to the trade of animals around the galaxy, usually under strict state regulations, to combat illegal hunting grounds."
+    "message": "Iš dalies dėl humanistinių, ekonominių ir ekologinių priežasčių gyvūnų auginimas ir prekyba jais daugelyje šerdinių sistemų yra griežtai reguliuojami arba net visiškai draudžiami. Tolstant nuo centro, gyvuliai tampa vis svarbesne žmonių pragyvenimo dalimi - tiek kaip maisto šaltinis, tiek kaip traukos ar naštos gyvūnai. Egzotiniai zoologijos sodai ir laukinės gamtos rezervatai taip pat prisideda prie prekybos gyvūnais visoje galaktikoje, dažniausiai veikdami pagal griežtas valstybines taisykles, siekiant kovoti su nelegaliomis medžioklės teritorijomis."
   },
   "MEDICINES": {
     "description": "",
-    "message": "medicines"
+    "message": "vaistai"
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Derived from natural sources, or synthesized artificially, medicines are needed everywhere humans go. From curing the common cold to combat the adverse effects of prolonged space travel, medicines are essential to the prosperity of an interstellar humanity. Carefully watched by customs agents, as it is not uncommon to disguise narcotics as medical drugs."
+    "message": "Gaunami iš natūralių šaltinių arba sintetinami dirbtinai, vaistai reikalingi visur, kur tik keliauja žmonės. Nuo paprasto peršalimo gydymo iki kovos su neigiamais ilgalaikių kosminių kelionių padariniais - vaistai yra būtini tarpžvaigždinės žmonijos klestėjimui. Todėl muitinės pareigūnai juos atidžiai stebi, nes neretai narkotinės medžiagos maskuojamos kaip medicininiai preparatai."
   },
   "METAL_ALLOYS": {
     "description": "",
-    "message": "metal alloys"
+    "message": "metalo lydiniai"
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "After metal ore is extracted and refined, it is processed and ends up as various alloys. An alloy is an amalgamation of metals, rather than a single pure element, combined in exact proportions to gain specific desirable traits. Therefore, most consumer metals are alloys."
+    "message": "Išgavus ir išgryninus metalų rūdą, ji toliau apdorojama ir virsta įvairiais lydiniais. Lydinys yra metalų junginys, o ne vienas grynas elementas - metalai jame sujungiami tiksliomis proporcijomis, siekiant įgyti tam tikras pageidaujamas savybes. Todėl dauguma vartojamųjų metalų yra lydiniai."
   },
   "METAL_ORE": {
     "description": "",
-    "message": "metal ore"
+    "message": "metalo rūda"
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Many colonies mine metal ores for export, to be refined and used in industrial manufacturing. Used in everything from small toys to spaceships, metal in all its forms is essential to modern civilization."
+    "message": "Daugelis kolonijų kasa metalų rūdas eksportui, kad jos būtų išgrynintos ir panaudotos pramoninėje gamyboje. Metalas, visomis savo formomis naudojamas nuo mažų žaislų iki kosminių laivų, yra būtinas šiuolaikinei civilizacijai."
   },
   "MILITARY_FUEL": {
     "description": "",
-    "message": "military fuel"
+    "message": "karinis kuras"
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Used as fuel in the more advanced military drives. These drives produce radioactive waste during operation, which must be disposed of. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
+    "message": "Naudojamas pažangesniuose kariniuose varikliuose. Šių variklių veikimo metu susidaro radioaktyviosios atliekos, kurias būtina utilizuoti. Dėl savo sintetinės prigimties karinis kuras yra brangesnis ir retesnis nei vandenilis, be to, natūraliai gamtoje neaptinkamas."
   },
   "MINING_MACHINERY": {
     "description": "",
-    "message": "mining machinery"
+    "message": "kasybos technika"
   },
   "MINING_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The traditionally back breaking work of mining is alleviated by the use of machines that help miners in locating and retrieving various ores, and transporting them to the closest processing facilities."
+    "message": "Tradiciškai nugarą laužantis kasybos darbas palengvinamas naudojant mašinas, kurios padeda kalnakasiams aptikti ir išgauti įvairias rūdas bei gabenti jas į artimiausius perdirbimo objektus."
   },
   "NARCOTICS": {
     "description": "",
-    "message": "narcotics"
+    "message": "narkotikai"
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Natural or synthetic substances that alter the state of mind and body. Although the use of narcotics, both for recreational and medical purposes, is as old as humanity itself, shipping and trading is commonly outlawed."
+    "message": "Natūralios arba sintetinės medžiagos, keičiančios proto ir kūno būseną. Nors narkotinių medžiagų vartojimas - tiek pramoginiais, tiek medicininiais tikslais - yra toks pat senas kaip ir pati žmonija, jų gabenimas ir prekyba dažniausiai yra uždrausti."
   },
   "NERVE_GAS": {
     "description": "",
-    "message": "nerve gas"
+    "message": "nervinės dujos"
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "It is generally accepted to be a weapon of mass destruction, shunned even by the military in most systems, and thus illegal in most systems."
+    "message": "Paprastai laikomos masinio naikinimo ginklu, kurio vengia net kariuomenės daugumoje sistemų, todėl jos yra nelegalios daugumoje sistemų."
   },
   "PLASTICS": {
     "description": "",
-    "message": "plastics"
+    "message": "plastikai"
   },
   "PLASTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Synthetical and semi-synthetical materials used in everything from everyday items to spaceship construction. They are relatively easy to use in manufacture, versatile and cheap to make, thus an important part of human civilization."
+    "message": "Sintetinės ir pusiau sintetinės medžiagos, naudojamos viskam - nuo kasdienių daiktų iki kosminių laivų statybos. Jos palyginti lengvai pritaikomos gamyboje, universalios ir pigios pagaminti, todėl sudaro svarbią žmonių civilizacijos dalį."
   },
   "PRECIOUS_METALS": {
     "description": "",
-    "message": "precious metals"
+    "message": "taurieji metalai"
   },
   "PRECIOUS_METALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Precious metals are, generally, less reactive, more difficult to mine, and more scarce, resulting in a considerable economic value. This often includes gold, silver, platinum, and rare earths. Certain elements such as gold and silicon, or rare earths, are crucial for the construction of computers and other electronics."
+    "message": "Taurieji metalai paprastai yra mažiau reaktyvūs, sunkiau išgaunami ir retesni, todėl pasižymi didele ekonomine verte. Prie jų dažnai priskiriami auksas, sidabras, platina ir retieji žemės elementai. Kai kurie elementai, tokie kaip auksas ir silicis, taip pat retieji žemės elementai, yra itin svarbūs kompiuterių ir kitos elektronikos gamybai."
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "radioactive waste"
+    "message": "radioaktyvios atliekos"
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Created by nuclear reactors, and military hyperdrives, radioactive waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping radioactive waste is a severe offence."
+    "message": "Susidarančios branduoliniuose reaktoriuose ir kariniuose hipererdviniuose varikliuose, radioaktyviosios atliekos yra pavojingiausia ir sunkiausiai transportuojama bei utilizuojama žaliava. Dėl šios priežasties dauguma žvaigždėuostų yra pasirengę mokėti už perteklinių atsargų atsikratymą. Radioaktyviųjų atliekų išmetimas laikomas itin sunkiu nusikaltimu."
   },
   "ROBOTS": {
     "description": "",
-    "message": "robots"
+    "message": "robotai"
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Robots are often imported into industrial and mining systems, due to their ability to easily perform tasks that would be too difficult, tedious, or unsafe for human workers. They can also serve as politicians and lawyers."
+    "message": "Robotai dažnai importuojami į pramonines ir kasybos sistemas dėl savo gebėjimo lengvai atlikti darbus, kurie žmonėms būtų per sunkūs, varginantys ar pavojingi. Jie taip pat gali eiti politikų ir teisininkų pareigas."
   },
   "RUBBISH": {
     "description": "",
-    "message": "rubbish"
+    "message": "šiukšlės"
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The byproduct of civilization, consisting of industrial waste, household garbage, and worn down equipment. Most waste is reprocessed, recycled or sent to starports for transport off-world. Dumping garbage in inhabited systems is almost always illegal. Starports usually charge a fee for waste disposal, but will also pay you to take it away."
+    "message": "Civilizacijos šalutinis produktas, sudarytas iš pramoninių atliekų, buitinių šiukšlių ir susidėvėjusios įrangos. Didžioji dalis atliekų yra perdirbama, perrūšiuojama arba siunčiama į žvaigždėuostus išgabenimui už pasaulio ribų. Šiukšlių išmetimas apgyvendintose sistemose beveik visada yra nelegalus. Žvaigždėuostai paprastai ima mokestį už atliekų šalinimą, tačiau taip pat gali sumokėti, kad jas išsivežtumėte."
   },
   "SLAVES": {
     "description": "",
-    "message": "slaves"
+    "message": "vergai"
   },
   "SLAVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "As machines have replaced slaves as the engine that powers civilization, slavery is now almost universally seen as immoral, and transgression against a ban draws the strictest punishment. However, despite the best efforts of humanitarians, slavery is still prevalent, even in developed worlds."
+    "message": "Kadangi mašinos pakeitė vergus kaip civilizaciją varančią jėgą, vergovė dabar beveik visuotinai laikoma amoralia, o draudimo pažeidimas užtraukia griežčiausias bausmes. Tačiau, nepaisant didžiausių humanitarų pastangų, vergovė vis dar yra paplitusi - net ir išsivysčiusiuose pasauliuose."
   },
   "TEXTILES": {
     "description": "",
-    "message": "textiles"
+    "message": "tekstilė"
   },
   "TEXTILES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Textiles are simple fabric, woven from either synthetic, plant or animal derived yarn. Usually produced by robots in large factories, it is still possible to find the occasional weaver who makes their own textiles."
+    "message": "Tekstilė - tai paprasti audiniai, audžiami iš sintetinių, augalinės ar gyvūninės kilmės siūlų. Dažniausiai ji gaminama robotų didelėse gamyklose, tačiau vis dar galima sutikti pavienį audėją, kuris tekstilę gamina pats."
   },
   "WATER": {
     "description": "",
-    "message": "water"
+    "message": "vanduo"
   },
   "WATER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Essential for life as we know it, an often overlooked commodity, water is needed wherever humanity roams. As such, the vast majority of off-world colonies import water from comets or planets like Earth. Water is used on a massive scale for hydrogen and oxygen production."
+    "message": "Gyvybei, kokią ją pažįstame, būtinas, tačiau dažnai nuvertinamas išteklius - vanduo - reikalingas visur, kur tik klajoja žmonija. Todėl didžioji dauguma už pasaulio ribų esančių kolonijų importuoja vandenį iš kometų arba tokių planetų kaip Žemė. Vanduo taip pat naudojamas milžinišku mastu vandenilio ir deguonies gamybai."
   }
 }

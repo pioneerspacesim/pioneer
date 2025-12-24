@@ -1,130 +1,130 @@
 {
   "ABOUT": {
     "description": "",
-    "message": "About"
+    "message": "Apie"
   },
   "ACKNOWLEDGEMENTS": {
     "description": "",
-    "message": "Acknowledgements"
+    "message": "Padėkos"
   },
   "CONTENT": {
     "description": "",
-    "message": "Content"
+    "message": "Turinys"
   },
   "CONTENT_CONTRIBUTION": {
     "description": "",
-    "message": "Content contribution"
+    "message": "Turinio indėlis"
   },
   "CONTRIBUTE": {
     "description": "",
-    "message": "Contribute"
+    "message": "Prisidėti"
   },
   "CONTRIBUTE_BODY": {
     "description": "",
-    "message": "Pioneer is the sum of the many contributions from its players and developers. See anything you want to change, improve, or ideas for new content to add? (E.g. translations, coding, art, 2D & 3D assets, music, designing custom star systems, improve our documentation, wiki, etc.) Follow the links for details on how you can contribute!"
+    "message": "Pionierius yra daugelio žaidėjų ir kūrėjų indėlio suma. Matote ką nors, ką galima pakeisti, patobulinti, ar turite idėjų kokį naują turinį galėtume pridėti? (Pvz. vertimai, programavimas, menas, 2D ir 3D turinys, muzika, naujų žvaigždžių sistemų dizainas, dokumentacijos tobulinimas, viki ir t.t.) Sek nuorodas, kad sužinotum, kaip gali prisidėti!"
   },
   "DEVELOPER_DOCUMENTATION": {
     "description": "",
-    "message": "Developer Documentation"
+    "message": "Kūrėjų Dokumentacija"
   },
   "DOCUMENTATION": {
     "description": "",
-    "message": "Documentation"
+    "message": "Dokumentacija"
   },
   "DONATE_BODY": {
     "description": "",
-    "message": "If you enjoy playing Pioneer and would like to support its continued development, please consider donating - no donation is too small."
+    "message": "Jei jums patinka žaisti Pionierių ir norėtumėte paremti jo tolimesnį kūrimą, apsvarstykite galimybę paaukoti - jokia auka nėra per maža."
   },
   "DONATE_OPTIONS": {
     "description": "Sentence continues in 'DONATE_OPTIONS_CONTINUED'",
-    "message": "For additional donation options, please see our"
+    "message": "Dėl daugiau aukų galimybių, prašome apsilankyti mūsų"
   },
   "DONATE_OPTIONS_CONTINUED": {
     "description": "hyperlink, ending part of sentence in 'DONATE_OPTIONS'",
-    "message": "donations page"
+    "message": "aukų puslapyje"
   },
   "DONATE_THANKS": {
     "description": "",
-    "message": "Thank you all for your continued support of Pioneer!"
+    "message": "Dėkojame visiems už nuolatinį Pionieriaus palaikymą!"
   },
   "GAME_RELEASE": {
     "description": "",
-    "message": "Stable versions are released annually on February 3, but development is continuous. Brave pilots are thus encouraged to play from the latest source and report bugs."
+    "message": "Stabilios versijos yra išleidžiamos kasmet vasario 3 d., tačiau kūrimas yra nuolatinis. Drąsūs pilotai yra raginami žaisti iš naujausių šaltinių ir pranešti apie klaidas."
   },
   "INFO_BLURB": {
     "description": "",
-    "message": "Pioneer is a single player space adventure game set in the Milky Way galaxy at the turn of the 31st century."
+    "message": "Pionierius yra vieno žaidėjo kosminių nuotykių žaidimas, kurio veiksmas vyksta Paukščių Tako galaktikoje 31 amžiaus sandūroje."
   },
   "INFO_BODY": {
     "description": "",
-    "message": "The game is open-ended, and you are free to explore the millions of star systems in the game. You can land on planets, slingshot past gas giants, and burn yourself to a crisp flying between binary star systems. You can try your hand at piracy, make your fortune trading between systems, or do missions for the various factions fighting for power, freedom or self-determination."
+    "message": "Žaidimas yra atviro turinio, todėl galite laisvai tyrinėti milijonus žvaigždžių sistemų, esančių žaidime. Jūs galite nusileisti planetose, skrieti pro dujų milžines ir susideginti save į pelenus skrendant tarp binarinių žvaigždžių sistemų. Galite išbandyti savo galimybes pirataujant, užsidirbti turtus prekiaujant tarp sistemų arba vykdyti užduotis įvairioms šalims, kovojančioms už valdžią, laisvę ir apsisprendimo teisę."
   },
   "LICENSE": {
     "description": "",
-    "message": "License"
+    "message": "Licenzija"
   },
   "LINK_BASIC_FLIGHT": {
     "description": "",
-    "message": "Basic flight"
+    "message": "Skrydžio pagrindai"
   },
   "LINK_BUG_TRACKER": {
     "description": "",
-    "message": "Bug Tracker"
+    "message": "Klaidų seklys"
   },
   "LINK_COMMUNITY_CHAT": {
     "description": "",
-    "message": "Community chat (Discord)"
+    "message": "Bendruomenės pokalbiai (Discord)"
   },
   "LINK_COMMUNITY_FORUM": {
     "description": "",
-    "message": "Community Forum"
+    "message": "Bendruomenės forumas"
   },
   "LINK_DEVELOPER_CHAT": {
     "description": "",
-    "message": "Developer chat (IRC)"
+    "message": "Kūrėjų pokalbiai (IRC)"
   },
   "LINK_DEVELOPER_FORUM": {
     "description": "",
-    "message": "Developer Forum"
+    "message": "Kūrėjų forumas"
   },
   "LINK_FAQ": {
     "description": "",
-    "message": "FAQ"
+    "message": "DUK"
   },
   "LINK_HOMEPAGE": {
     "description": "",
-    "message": "Homepage"
+    "message": "Pradinis puslapis"
   },
   "LINK_MANUAL": {
     "description": "",
-    "message": "Manual"
+    "message": "Instrukcijos"
   },
   "SOFTWARE": {
     "description": "",
-    "message": "Software"
+    "message": "Programinė įranga"
   },
   "SOFTWARE_BODY": {
     "description": "",
-    "message": "Pioneer includes the following third-party software"
+    "message": "Pionierius naudoja šią trečiųjų šalių programinę įrangą"
   },
   "SUPPORT_DEVELOPMENT": {
     "description": "",
-    "message": "Support Development"
+    "message": "Paremti kūrimą"
   },
   "TRANSLATIONS": {
     "description": "",
-    "message": "Translations"
+    "message": "Vertimai"
   },
   "VERSION_CURRENT": {
     "description": "",
-    "message": "Your current version"
+    "message": "Jūsų dabartinė versija"
   },
   "VERSION_LATEST": {
     "description": "This sentence continues into string VERSION_LATEST_CONTINUED, to read 'Latest version from source', referring to the source code",
-    "message": "Latest version from"
+    "message": "Naujausia versija iš"
   },
   "VERSION_LATEST_CONTINUED": {
     "description": "is continued from string VERSION_LATEST, to read 'Latest version from source'. Here, 'source' refers to the source code",
-    "message": "source code"
+    "message": "šaltinio kodo"
   }
 }
