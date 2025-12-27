@@ -161,7 +161,9 @@ local onChat = function (form, ref, option)
 			bonus       = -(math.ceil(ad.dedication * 3) - 1),
 			due         = ad.due,
 		}
-		table.insert(missions,Mission.New(mission))
+		mission = Mission.New(mission)
+		table.insert(missions, mission)
+		MissionUtils.SetupOverdueTimer(mission)
 		form:SetMessage(l["ACCEPTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("ACCEPTED"))])
 		return
 
@@ -407,9 +409,6 @@ local onFrameChanged = function (player)
 				Comms.ImportantMessage(l.TARGET_AREA_REACHED)
 			end
 		end
-		if mission.status == "ACTIVE" and Game.time > mission.due then
-			mission.status = "FAILED"
-		end
 	end
 end
 
@@ -502,6 +501,7 @@ local onGameStart = function ()
 		loaded_data = nil
 
 		for _, mission in pairs(missions) do
+			MissionUtils.SetupOverdueTimer(mission)
 			if mission.duration then
 				missionTimer(mission)
 			end
