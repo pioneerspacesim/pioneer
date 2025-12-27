@@ -400,7 +400,7 @@ void FlyByCameraController::Reset()
 {
 	m_dist = 500;
 	m_distTo = m_dist;
-	SetPosition(vector3d(0, 0, 0));
+	SetPosition(vector3d::ZERO);
 }
 
 void FlyByCameraController::Update()
@@ -412,7 +412,7 @@ void FlyByCameraController::Update()
 	vector3d camerap;
 
 	Frame *shipFrame = Frame::GetFrame(ship->GetFrame());
-	if (GetPosition() == vector3d(0, 0, 0) || m_old_frame != shipFrame) {
+	if (GetPosition() == vector3d::ZERO || m_old_frame != shipFrame) {
 		m_old_pos = ship_pos;
 		m_old_frame = shipFrame;
 	}

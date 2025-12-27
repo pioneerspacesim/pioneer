@@ -328,7 +328,7 @@ void Frame::AddStaticGeom(Geom *g) { m_collisionSpace->AddStaticGeom(g); }
 void Frame::RemoveStaticGeom(Geom *g) { m_collisionSpace->RemoveStaticGeom(g); }
 void Frame::SetPlanetGeom(double radius, Body *obj)
 {
-	m_collisionSpace->SetSphere(vector3d(0, 0, 0), radius, static_cast<void *>(obj));
+	m_collisionSpace->SetSphere(vector3d::ZERO, radius, static_cast<void *>(obj));
 }
 
 CollisionSpace *Frame::GetCollisionSpace() const
@@ -339,7 +339,7 @@ CollisionSpace *Frame::GetCollisionSpace() const
 // doesn't consider stasis velocity
 vector3d Frame::GetVelocityRelTo(FrameId relToId) const
 {
-	if (m_thisId == relToId) return vector3d(0, 0, 0); // early-out to avoid unnecessary computation
+	if (m_thisId == relToId) return vector3d::ZERO; // early-out to avoid unnecessary computation
 
 	const Frame *relTo = Frame::GetFrame(relToId);
 	vector3d diff = m_rootVel - relTo->m_rootVel;
@@ -352,7 +352,7 @@ vector3d Frame::GetVelocityRelTo(FrameId relToId) const
 vector3d Frame::GetPositionRelTo(FrameId relToId) const
 {
 	// early-outs for simple cases, required for accuracy in large systems
-	if (m_thisId == relToId) return vector3d(0, 0, 0);
+	if (m_thisId == relToId) return vector3d::ZERO;
 
 	const Frame *relTo = Frame::GetFrame(relToId);
 
@@ -383,7 +383,7 @@ vector3d Frame::GetInterpPositionRelTo(FrameId relToId) const
 	const Frame *relTo = Frame::GetFrame(relToId);
 
 	// early-outs for simple cases, required for accuracy in large systems
-	if (m_thisId == relToId) return vector3d(0, 0, 0);
+	if (m_thisId == relToId) return vector3d::ZERO;
 	if (GetParent() == relTo->GetId()) return m_interpPos; // relative to parent
 	if (relTo->GetParent() == m_thisId) {				   // relative to child
 		if (!relTo->IsRotFrame())
@@ -540,7 +540,7 @@ void Frame::UpdateRootRelativeVars()
 	// update pos & vel relative to parent frame
 	Frame *parent = Frame::GetFrame(m_parent);
 	if (!parent) {
-		m_rootPos = m_rootVel = vector3d(0, 0, 0);
+		m_rootPos = m_rootVel = vector3d::ZERO;
 		m_rootOrient = matrix3x3d::Identity();
 	} else {
 		m_rootPos = parent->m_rootOrient * m_pos + parent->m_rootPos;
