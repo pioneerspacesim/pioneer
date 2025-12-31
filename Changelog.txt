@@ -18,6 +18,7 @@ November
     * Fix station staff face - only set stationSeed from one place (#6236)
     * Prevent spiky asteroids in random systems (#6209)
     * Correctly capitalize names of goods (#6252)
+    * fmt::arg("unit", counter.unit) causes crash, hard code counter.unit (#6256)
 
   * Internal
     * Clean up API code documentation strings: Remove 'Availability' & 'Status' in C++ (#6242)
