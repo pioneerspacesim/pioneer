@@ -14,6 +14,14 @@ class GeomTree;
 struct isect_t;
 struct Sphere;
 
+/*
+ * Geom is the collision-space counterpart to a Body.
+ *
+ * It wraps a GeomTree with transform state and more advanced collision logic
+ * suitable for its role as a static or dynamic body. Note that static vs. dynamic
+ * is treated the same at this level of abstraction; Geom is only concerned with
+ * collision detection and not full rigidbody simulation.
+ */
 class Geom {
 public:
 	Geom(const GeomTree *geomtree, const matrix4x4d &m, const vector3d &pos, void *data);
