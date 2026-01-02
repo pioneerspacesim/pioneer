@@ -696,7 +696,10 @@ theme.icons = {
 	map_checkmark = 322,
 	about_questionmark = 323,
 	map_selectsystem = 324,
-	-- 325 - 335 : empty
+	gavel = 325,
+	gavel_horizontal = 326, -- unused
+	towel = 327,
+	-- 328 - 335 : empty
 
 	shipmarket_compare_better = 38,
 	shipmarket_compare_worse = 40,
