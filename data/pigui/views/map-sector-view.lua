@@ -327,6 +327,8 @@ local infoView = {
 			[0] = lui.AN_ERROR_HAS_OCCURRED
 		}
 
+		local securityIdx = math.ceil(system.lawlessness * 5)
+
 		ui.textWrapped(system.shortDescription)
 
 		if #system.other_names > 0 then
@@ -359,11 +361,21 @@ local infoView = {
 			textIcon(icons.maneuver)
 			ui.text(lc.SECTOR_X_Y_Z % path)
 
-			textIcon(icons.shield, lui.FACTION)
-			ui.text(system.faction.name)
+			ui.withTooltip(lui.SYSTEM_FACTION, function()
+				textIcon(icons.gavel, lui.FACTION)
+				ui.text(system.faction.name)
+			end)
 
-			textIcon(icons.galaxy_map)
-			ui.text(numstarsText[system.numberOfStars])
+			ui.withTooltip(lui.SYSTEM_SECURITY_TOOLTIP, function()
+				textIcon(icons.shield)
+				local color = (securityIdx == 5 and colors.alertRed) or (securityIdx == 4) and colors.alertYellow or colors.font
+				ui.textColored(color, lui["SYSTEM_SECURITY_" .. securityIdx])
+			end)
+
+			ui.withTooltip(lui.SYSTEM_NUM_STARS, function()
+				textIcon(icons.galaxy_map)
+				ui.text(numstarsText[system.numberOfStars])
+			end)
 
 			ui.withTooltip(lc.GOVERNMENT_TYPE, function()
 				textIcon(icons.language)
@@ -545,16 +557,19 @@ local function drawRouteList(route)
 			ui.text(i)
 			ui.tableNextColumn()
 
-			ui.textColored(jump.color, jump.path:GetSystemBody().name)
+			ui.withStyleColors({ Text = jump.color }, function()
+				ui.textAligned(ui.get_icon_glyph(jump.reachable and icons.map_checkmark or icons.fuel), 0.0)
+			end)
+
+			ui.setItemTooltip(jump.reachable and lui.JUMP_REACHABLE or lui.INSUFFICIENT_FUEL)
+
+			ui.sameLine()
+
+			ui.textColored(colors.font, jump.path:GetSystemBody().name)
 			ui.tableNextColumn()
 
 			ui.withFont(pionillium.details, function()
 				ui.text(ui.get_icon_glyph(icons.route_dist) .. ui.Format.Number(jump.distance, 2) .. " " .. lc.UNIT_LY)
-				if not jump.reachable then
-					ui.sameLine()
-					textIcon(icons.alert_generic, lui.INSUFFICIENT_FUEL)
-				end
-
 				ui.tableNextColumn()
 				ui.text(ui.get_icon_glyph(icons.fuel) .. ui.Format.Number(jump.fuel, 1) .. " " .. lc.UNIT_TONNES)
 			end)
