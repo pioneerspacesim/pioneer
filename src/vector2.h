@@ -28,7 +28,7 @@ public:
 	vector2() :
 		x(0.0f),
 		y(0.0f) {}
-	vector2(T _x, T _y) :
+	constexpr vector2(T _x, T _y) :
 		x(_x),
 		y(_y) {}
 	explicit vector2(int v) :

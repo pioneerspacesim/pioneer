@@ -129,7 +129,7 @@ namespace SceneGraph {
 		// generated once per frame, not for every vertex
 		float hash = pos.x + pos.y + pos.z;
 		hash = (uint16_t(hash32(*reinterpret_cast<uint32_t *>(&hash)) & 0xFFFF)) / 65535.f;
-		const float flicker = abs(sin(rd->renderTime * 55. * (0.75 + hash * 0.5)));
+		const float flicker = abs(sin(static_cast<float>(rd->renderTime) * 55.f * (0.75f + hash * 0.5f)));
 
 		// pass the power setting and flicker value using the material emissive
 		// emissive.a is the flicker value for the flame
@@ -227,10 +227,10 @@ namespace SceneGraph {
 			vector3f four(w, -w, 0.f); //bottom left
 
 			//uv coords
-			static const vector2f topLeft(0.f, 1.f);
-			static const vector2f topRight(1.f, 1.f);
-			static const vector2f botLeft(0.f, 0.f);
-			static const vector2f botRight(1.f, 0.f);
+			static constexpr vector2f const topLeft(0.f, 1.f);
+			static constexpr vector2f const topRight(1.f, 1.f);
+			static constexpr vector2f const botLeft(0.f, 0.f);
+			static constexpr vector2f const botRight(1.f, 0.f);
 
 			for (int i = 0; i < 5; i++) {
 				verts.Add(one, topLeft);
