@@ -58,20 +58,21 @@ namespace SceneGraph {
 
 		//copy data (with index offset)
 		int idxOffset = m_vertices.size();
-		for (vector<vector3f>::const_iterator it = cg.GetVertices().begin(); it != cg.GetVertices().end(); ++it) {
-			const vector3f pos = matrix * (*it);
+		for (const vector3f &vec : cg.GetVertices()) {
+			const vector3f pos = matrix * vec;
 			m_vertices.push_back(pos);
 			m_collMesh->GetAabb().Update(pos.x, pos.y, pos.z);
 		}
 
-		for (vector<Uint32>::const_iterator it = cg.GetIndices().begin(); it != cg.GetIndices().end(); ++it)
-			m_indices.push_back(*it + idxOffset);
+		uint32_t numTris = cg.GetIndices().size() / 3;
+		for (uint32_t idx : cg.GetIndices())
+			m_indices.push_back(idx + idxOffset);
 
 		//at least some of the geoms should be default collision
 		if (cg.GetTriFlag() == 0)
 			m_properData = true;
 
-		for (unsigned int i = 0; i < cg.GetIndices().size() / 3; i++)
+		for (uint32_t i = 0; i < numTris; i++)
 			m_flags.push_back(cg.GetTriFlag());
 	}
 
@@ -163,7 +164,7 @@ namespace SceneGraph {
 	RefCountedPtr<CollMesh> CollisionVisitor::CreateCollisionMesh()
 	{
 		PROFILE_SCOPED()
-		Profiler::Timer timer;
+		Profiler::Clock timer;
 		timer.Start();
 
 		//convert from model AABB if no collisiongeoms found
@@ -194,7 +195,7 @@ namespace SceneGraph {
 		m_flags.clear();
 
 		timer.Stop();
-		//Output(" - CreateCollisionMesh took: %lf milliseconds\n", timer.millicycles());
+		//Output(" - CreateCollisionMesh took: %lf milliseconds\n", timer.milliseconds());
 
 		return m_collMesh;
 	}

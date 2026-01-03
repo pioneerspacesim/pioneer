@@ -305,6 +305,20 @@ InputBindings::Axis *InputFrame::AddAxis(const std::string &id)
 	return axis;
 }
 
+InputBindings::Action *InputFrame::AddAction(Action *action)
+{
+	assert(action && "Cannot register a null InputAction");
+	actions.push_back(action);
+	return action;
+}
+
+InputBindings::Axis *InputFrame::AddAxis(Axis *axis)
+{
+	assert(axis && "Cannot register a null InputAxis");
+	axes.push_back(axis);
+	return axis;
+}
+
 bool Manager::AddInputFrame(InputFrame *frame)
 {
 	auto iter = std::find(m_inputFrames.begin(), m_inputFrames.end(), frame);

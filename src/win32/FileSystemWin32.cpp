@@ -5,6 +5,7 @@
 
 #include "FileSystem.h"
 #include "TextUtils.h"
+#include "core/OS.h"
 #include "libs.h"
 #include "utils.h"
 #include <algorithm>
@@ -29,9 +30,18 @@ namespace FileSystem {
 		L'"', L'|', L'?', L'*'
 	};
 
-	static std::string absolute_path(const std::string &path)
+	static std::wstring absolute_path_w(std::string_view path)
 	{
-		std::wstring wpath = transcode_utf8_to_utf16(path);
+		std::wstring wpath = transcode_utf8_to_utf16(path.data(), path.size());
+		wchar_t buf[MAX_PATH + 1];
+		DWORD len = GetFullPathNameW(wpath.c_str(), MAX_PATH, buf, 0);
+		buf[len] = L'\0';
+		return std::wstring(buf, len);
+	}
+
+	static std::string absolute_path(std::string_view path)
+	{
+		std::wstring wpath = transcode_utf8_to_utf16(path.data(), path.size());
 		wchar_t buf[MAX_PATH + 1];
 		DWORD len = GetFullPathNameW(wpath.c_str(), MAX_PATH, buf, 0);
 		buf[len] = L'\0';
@@ -358,3 +368,22 @@ namespace FileSystem {
 		return DeleteFileW(combinedPath.c_str());
 	}
 } // namespace FileSystem
+
+namespace OS {
+
+	FILE *OpenReadStream(std::string_view path)
+	{
+		return _wfopen(FileSystem::absolute_path_w(path).c_str(), L"rb");
+	}
+
+	FILE *OpenWriteStream(std::string_view path, OS::FileStreamMode mode)
+	{
+		return _wfopen(FileSystem::absolute_path_w(path).c_str(), mode == FileStreamMode::FS_WRITE_TEXT ? L"w" : L"wb");
+	}
+
+	std::string GetAbsolutePath(std::string_view relpath)
+	{
+		return FileSystem::absolute_path(relpath);
+	}
+
+} // namespace OS
