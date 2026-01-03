@@ -1,0 +1,12 @@
+## Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
+## Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+# Basic shader for drawing unlit, possibly textured models that are animated
+
+Shader thruster
+
+Texture sampler2D texture0 name=texture0
+Buffer DrawData binding=1
+
+Vertex "thruster.vert"
+Fragment "thruster.frag"
