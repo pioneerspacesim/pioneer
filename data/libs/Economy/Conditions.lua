@@ -233,7 +233,7 @@ local function loadJsonFile(filepath)
 	end
 end
 
-for _, fileinfo in ipairs(FileSystem.ReadDirectory('economy/conditions/')) do
+for _, fileinfo in ipairs(FileSystem.ReadDirectory('data://economy/conditions')) do
 	if fileinfo.name:match(".json$") then
 		loadJsonFile(fileinfo.path)
 	end
