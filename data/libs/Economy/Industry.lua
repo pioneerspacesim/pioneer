@@ -6,16 +6,31 @@ local FileSystem = require 'FileSystem'
 
 local utils = require 'utils'
 
--- This file implements a generic "station industry".
+-- Class: Economy.Industry
 --
--- It is purposefully written in such a way that industry selection and
--- aggregation can be moved to C++ in a trivial fashion to improve
+-- This module implements a generic "station industry" system. Industries
+-- represent an aggregate of individual commercial endeavors within a specific
+-- economic sector of a starport. They are a way to express commodity
+-- production and consumption in a manner that matches the fiction of the game
+-- with an aim towards making intuitive station economies.
+--
+-- This module is purposefully written in such a way that industry selection
+-- and aggregation can be moved to C++ in a trivial fashion to improve
 -- performance.
 --
 -- To that end, please do not mutate the list of available industries
 -- at runtime from Lua; if you plan to mod the list of industries, you
--- should use a JSON patch to one of the data/economy/industries/*.json
--- files instead.
+-- should instead author a JSON patch or define a new file within
+-- data/economy/industries/
+--
+-- Starport industry selection is deterministic, but not stable with regards
+-- to new content being authored. Adding or removing industry definitions will
+-- cause the list of industries at a specific starport to change, potentially
+-- necessitating a savegame bump.
+--
+-- At current, serialization of an IndustryDef is not recommended. Industry
+-- lists are deterministic and should be computed on startup rather than
+-- serialized.
 
 -- Modifiers to an industry's commodity consumption/production
 ---@class Economy.IndustryModifier
@@ -53,17 +68,24 @@ IndustryDef.modifiers = {}
 -- Amount of workforce required to operate this industry
 IndustryDef.workforce = 1
 
-local function parseModifierString(i, o, str)
-	local io, comm, effect, val = string.match(str, "([io]):(%g+)([%+%-])(%d+)")
+-- Parse a modifier string and accumulate it into the id-value pair table passed for inputs/outputs.
+--
+-- The format of modifiers is expected to be similar to one of the following:
+--  i:commodity_id+1
+--  o:commodity_id-2
+--  i:*+3
+local function parseModifierString(inputs, outputs, str)
+	local input_output, comm, effect, val = string.match(str, "([io]):(%g+)([%+%-])(%d+)")
 	local amt = effect == "-" and -tonumber(val) or tonumber(val)
 
-	if io == "i" then
-		i[comm] = (i[comm] or 0) + amt
+	if input_output == "i" then
+		inputs[comm] = (inputs[comm] or 0) + amt
 	else
-		o[comm] = (o[comm] or 0) + amt
+		outputs[comm] = (outputs[comm] or 0) + amt
 	end
 end
 
+-- Convert a JSON modifiers block into a list of commodity-effect pairs for input and output commodities.
 local function parseModifiers(tbl)
 	local modifiers = {}
 
@@ -84,6 +106,7 @@ end
 
 local Industry = {}
 
+-- Convert a JSON industry definition into the runtime data structure.
 ---@return Economy.IndustryDef
 function Industry.NewIndustry(id, tbl)
 	local def = IndustryDef:clone(tbl)
@@ -101,6 +124,9 @@ Industry.industries = {}
 ---@type string[]
 Industry.industryList = {}
 
+-- Iterate through a list of condition names, checking if all the listed
+-- conditions are present in the passed tags table.
+-- Handles a simple inversion via the prefix '!'
 ---@param tags table<string, boolean>
 ---@param conditions string[]
 local function checkConditions(tags, conditions)
@@ -116,25 +142,33 @@ local function checkConditions(tags, conditions)
 	return true
 end
 
+-- Iterate through a list of condition names, checking for the presence of any
+-- of the listed conditions in the passed tags parameter. Supports inversions.
 local function checkConditionsAny(tags, conditions)
-	for _, cond in ipairs(conditions) do
-		if tags[cond] then return true end
+	for _, str in ipairs(conditions) do
+		local inv, cond = str:match("(!?)(%g+)")
+
+		if (inv ~= "!") == (tags[cond] and true or false) then return true end
 	end
 
 	return #conditions == 0
 end
 
--- Apply the set of condition modifiers to commodity values
+-- Apply the set of condition modifiers to commodity values.
+-- The '*' wildcard applies the modifier to all currently defined inputs/outputs.
+-- A commodity modifier which references a commodity that is not currently
+-- part of the industry adds that commodity as a new input / output.
+-- No attempt is made to process wildcards before modifiers which add new commodities.
 ---@param mods table<string, integer>
----@param vals table<string, integer>
-local function applyModifiers(mods, vals)
+---@param values table<string, integer>
+local function applyModifiers(mods, values)
 	for id, amt in pairs(mods) do
 		if id == '*' then
-			for k, v in pairs(vals) do
-				vals[k] = v + amt
+			for commodity, modifier in pairs(values) do
+				values[commodity] = modifier + amt
 			end
 		else
-			vals[id] = (vals[id] or 0) + amt
+			values[id] = (values[id] or 0) + amt
 		end
 	end
 end
@@ -155,8 +189,11 @@ local function sumIndustryVal(value, current, maxValue)
 	end
 end
 
+-- Function: GenerateIndustries
+--
 -- Generate the list of industries present on this starport and the economic effects
--- of those industries.
+-- of those industries. This is a very expensive call, and should be cached rather
+-- than regenerated on demand.
 --
 ---@param sbody SystemBody
 ---@param tags table<string, boolean>
@@ -173,12 +210,24 @@ function Industry.GenerateIndustries(sbody, tags, sizeClass, rand, supply, deman
 
 	-- print(sbody.name .. "\nValid industries: " .. table.concat(avail_industries, ",\t"))
 
-	-- TODO: smarter industry selection loop
 	for i = 1, numIndustries do
 		local idx = rand:Integer(1, #avail_industries)
 
 		table.insert(industries, avail_industries[idx])
 		table.remove(avail_industries, idx)
+
+		-- TODO:
+		-- The intent is for the list of industries at a starport to appear
+		-- rational, as though they were built by human hands in response to
+		-- realistic economic pressures, but to avoid all starports around a
+		-- body (sharing the same set of condition tags) from having the same
+		-- industry list.
+		--
+		-- To that end, a potential improvement is to define a list of
+		-- follow-on industries to (randomly) build one of after the selected
+		-- industry. For example, if a carbon mine is built here, a chemical
+		-- refinery might also be built to take advantage of the nearby carbon
+		-- ore production.
 
 		if #avail_industries == 0 then
 			break
@@ -193,7 +242,12 @@ function Industry.GenerateIndustries(sbody, tags, sizeClass, rand, supply, deman
 	return industries, supply, demand
 end
 
--- Sum together all supply and demand numbers for the given list of industries, computing modifiers
+-- Apply modifiers and sum together all supply and demand numbers for the given list of industries.
+--
+---@param industries string[]
+---@param tags table<string, boolean>
+---@param supply table<string, number>
+---@param demand table<string, number>
 function Industry.ComputeSupplyDemand(industries, tags, supply, demand)
 	local maxSupply = table.copy(supply)
 	local maxDemand = table.copy(demand)
@@ -250,13 +304,14 @@ function Industry.ComputeModifiers(industry, tags)
 	return supply, demand
 end
 
+-- Load all industry defs from JSON and process into runtime data structures.
 local industry_files = FileSystem.ReadDirectory('data://economy/industries')
 
 for _, file in ipairs(industry_files) do
 	table.merge(Industry.industries, Json.LoadJson(file.path), function(id, tbl) return id, Industry.NewIndustry(id, tbl) end)
 end
 
-Industry.industryList = utils.build_array(utils.keys(Industry.industries))
+Industry.industryList = utils.keys_to_array(Industry.industries)
 table.sort(Industry.industryList)
 
 return Industry
