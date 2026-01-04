@@ -54,7 +54,7 @@
 		},
 		"modifiers": {
 			"lawless": [ "o:slaves+3" ],
-			"biosphere_rich": [ "o:*+1" ],
+			"biosphere_rich": [ "o:*+1", "i:farm_machinery+1" ],
 			"atmos_breathable": [ "i:air_processors-3" ]
 		},
 		"workforce": 5

@@ -5,6 +5,7 @@
 		"inputs": {
 			"metal_alloys": 4,
 			"plastics": 4,
+			"chemicals": 3,
 			"industrial_machinery": 3
 		},
 		"outputs": {
@@ -19,6 +20,7 @@
 		"conditions": [],
 		"inputs": {
 			"metal_alloys": 5,
+			"chemicals": 5,
 			"plastics": 4,
 			"industrial_machinery": 4,
 			"precious_metals": 2,
@@ -40,6 +42,7 @@
 			"metal_ore": 5,
 			"carbon_ore": 4,
 			"water": 4,
+			"chemicals": 4,
 			"radioactives": 4,
 			"liquid_oxygen": 4
 		},
@@ -61,7 +64,9 @@
 		},
 		"outputs": {
 			"hydrogen": 7,
-			"liquid_oxygen": 5
+			"liquid_oxygen": 5,
+			"chemicals": 2,
+			"military_fuel": 2
 		},
 		"modifiers": {
 			"ice_abundant": [ "i:water+1", "o:*+1" ]
@@ -90,8 +95,8 @@
 		"conditions": [ "planet_terrestrial", "biosphere_basic", "!lawless" ],
 		"inputs": {
 			"computers": 3,
-			"grain": 4,
-			"fruit_and_veg": 4,
+			"chemicals": 5,
+			"air_processors": 3,
 			"live_animals": 2,
 			"robots": 3,
 			"industrial_machinery": 4,
@@ -101,6 +106,9 @@
 			"medicines": 4,
 			"narcotics": 4
 		},
+		"modifiers": {
+			"atmos_tenuous": [ "i:air_processors+1" ]
+		},
 		"workforce": 5
 	},
 	"orbital_lab": {
@@ -108,8 +116,9 @@
 		"context": "orbital",
 		"conditions": [ "!lawless" ],
 		"inputs": {
+			"chemicals": 5,
 			"computers": 3,
-			"grain": 3,
+			"air_processors": 3,
 			"robots": 2,
 			"plastics": 1,
 			"industrial_machinery": 3
@@ -129,7 +138,8 @@
 		"conditions": [ "lawless" ],
 		"inputs": {
 			"grain": 4,
-			"fruit_and_veg": 3,
+			"chemicals": 4,
+			"air_processors": 2,
 			"plastics": 1,
 			"industrial_machinery": 1
 		},
@@ -151,13 +161,16 @@
 			"liquid_oxygen": 4,
 			"water": 5,
 			"industrial_machinery": 4,
+			"radioactives": 3,
 			"robots": 3
 		},
 		"outputs": {
 			"plastics": 4,
 			"metal_alloys": 4,
 			"textiles": 3,
+			"military_fuel": 2,
 			"computers": 2,
+			"chemicals": 1,
 			"precious_metals": 1
 		},
 		"workforce": 4
