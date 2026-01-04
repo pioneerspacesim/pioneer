@@ -49,7 +49,8 @@ local icon_names = {
 	farm_machinery = "Farm_machinery",
 	mining_machinery = "Mining_machinery",
 	battle_weapons = "Battle_weapons",
-	industrial_machinery = "Industrial_machinery"
+	industrial_machinery = "Industrial_machinery",
+	chemicals = "Industrial_machinery",
 }
 
 local economies = Economy.GetEconomies()

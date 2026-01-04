@@ -1,11 +1,16 @@
 {
-	"//TODO": "assign these commodities to be produced by a high-tech economy instead of just INDUSTRIAL",
 	"commodities": {
 		"medicines": {
 			"l10n_key": "MEDICINES",
 			"inputs": [ "carbon_ore", [ "computers", 0.4 ] ],
 			"producer": "industrial",
-			"price": 563
+			"price": 712
+		},
+		"chemicals": {
+			"l10n_key": "CHEMICALS",
+			"inputs": [ [ "grain", 1 ], "industrial_machinery" ],
+			"producer": "industrial",
+			"price": 124
 		},
 		"computers": {
 			"l10n_key": "COMPUTERS",
@@ -23,7 +28,7 @@
 			"l10n_key": "INDUSTRIAL_MACHINERY",
 			"inputs": [ "metal_alloys", "robots" ],
 			"producer": "industrial",
-			"price": 124
+			"price": 358
 		},
 		"air_processors": {
 			"l10n_key": "AIR_PROCESSORS",
