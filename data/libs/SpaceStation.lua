@@ -55,7 +55,7 @@ end
 local visited = {}
 local equipmentStock = {}
 
--- transientMarket is a cache for commodity markets associated with the curren stations
+-- transientMarket is a cache for commodity markets associated with the current stations
 -- It's used to handle market queries to non-visited stations without causing crashes...
 local marketCache = {}
 
