@@ -2539,9 +2539,41 @@
     "description": "Message when restoring savegame",
     "message": "System body index is out of range"
   },
+  "SYSTEM_FACTION": {
+    "description": "Tooltip indicating the faction controlling this system",
+    "message": "Controlling faction jurisdiction"
+  },
   "SYSTEM_INFORMATION": {
     "description": "Tooltip / label indicating information about a selected star system",
     "message": "System Information"
+  },
+  "SYSTEM_NUM_STARS": {
+    "description": "Tooltip indicating the system stellar arrangement",
+    "message": "Number of stars in system"
+  },
+  "SYSTEM_SECURITY_1": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Safe"
+  },
+  "SYSTEM_SECURITY_2": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Vrijwel ongevaarlijk"
+  },
+  "SYSTEM_SECURITY_3": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Gevaarlijk"
+  },
+  "SYSTEM_SECURITY_4": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Very Dangerous"
+  },
+  "SYSTEM_SECURITY_5": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Dodelijk"
+  },
+  "SYSTEM_SECURITY_TOOLTIP": {
+    "description": "Tooltip introducing the system security rating",
+    "message": "System safety rating"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
