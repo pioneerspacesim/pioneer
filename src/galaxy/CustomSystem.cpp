@@ -938,7 +938,14 @@ CustomSystem *CustomSystemsDatabase::LoadSystemFromJSON(std::string_view filenam
 
 		}
 
-		sys->sBody = sys->bodies[0];
+		size_t rootIdx = systemdef.value("root", 0);
+		if (rootIdx >= numBodies) {
+			Log::Warning("System {} has invalid root index {} (out-of-range with {} bodies), using index 0 as root instead.",
+				sys->name, rootIdx, numBodies);
+			rootIdx = 0;
+		}
+
+		sys->sBody = sys->bodies[rootIdx];
 
 		// Resolve body children pointers
 		for (CustomSystemBody *body : sys->bodies) {

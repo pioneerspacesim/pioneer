@@ -404,7 +404,10 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 
 		// parent gravpoint mass = sum of masses of its children
 		for (const auto *child : children) {
-			if (child->bodyData.m_type > SystemBody::TYPE_GRAVPOINT && child->bodyData.m_type <= SystemBody::TYPE_STAR_MAX)
+			// FIXME: this implicitly requires that gravpoint children have a precomputed mass sum
+			// gravpoint mass calculation needs a first-pass over the body data to properly sum masses before orbits are applied
+			// this function can only handle a single incorrect-mass gravpoint with no gravpoint children as written
+			if (child->bodyData.m_type >= SystemBody::TYPE_GRAVPOINT && child->bodyData.m_type <= SystemBody::TYPE_STAR_MAX)
 				parent->m_mass += child->bodyData.m_mass;
 			else
 				parent->m_mass += child->bodyData.m_mass / SUN_MASS_TO_EARTH_MASS;
@@ -1375,6 +1378,8 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 			superCentGrav->m_type = SystemBody::TYPE_GRAVPOINT;
 			superCentGrav->m_parent = 0;
 			superCentGrav->m_name = sec->m_systems[system->GetPath().systemIndex].GetName();
+			superCentGrav->m_mass = centGrav1->GetMassAsFixed() + centGrav2->GetMassAsFixed();
+
 			centGrav1->m_parent = superCentGrav;
 			centGrav2->m_parent = superCentGrav;
 			system->SetRootBody(superCentGrav);
