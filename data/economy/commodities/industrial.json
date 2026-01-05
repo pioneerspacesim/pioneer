@@ -4,7 +4,7 @@
 			"l10n_key": "METAL_ALLOYS",
 			"inputs": [ "metal_ore", "industrial_machinery" ],
 			"producer": "industrial",
-			"price": 43
+			"price": 75
 		},
 		"plastics": {
 			"l10n_key": "PLASTICS",
@@ -16,13 +16,13 @@
 			"l10n_key": "TEXTILES",
 			"inputs": [ "plastics" ],
 			"producer": "industrial",
-			"price": 65
+			"price": 91
 		},
 		"fertilizer": {
 			"l10n_key": "FERTILIZER",
 			"inputs": [ "carbon_ore" ],
 			"producer": "industrial",
-			"price": 15
+			"price": 25
 		},
 		"consumer_goods": {
 			"l10n_key": "CONSUMER_GOODS",
@@ -34,7 +34,7 @@
 			"l10n_key": "FARM_MACHINERY",
 			"inputs": [ "metal_alloys", "robots" ],
 			"producer": "industrial",
-			"price": 80
+			"price": 419
 		},
 		"mining_machinery": {
 			"l10n_key": "MINING_MACHINERY",

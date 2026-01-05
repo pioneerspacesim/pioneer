@@ -40,7 +40,7 @@
 			"l10n_key": "BATTLE_WEAPONS",
 			"inputs": [ "metal_alloys", "industrial_machinery" ],
 			"producer": "industrial",
-			"price": 607,
+			"price": 1285,
 			"default_legality": [ 1, 3 ]
 		},
 		"nerve_gas": {
