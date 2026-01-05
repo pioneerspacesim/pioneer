@@ -86,6 +86,12 @@ namespace Editor {
 		s->AddUndoStep<UndoSingleValueStep<T>>(dataRef, newValue)->Swap();
 	}
 
+	template<typename T>
+	inline void AddUndoSingleValue(UndoSystem *s, const T &oldValue, T *dataRef)
+	{
+		s->AddUndoStep<UndoSingleValueStep<T>>(dataRef, oldValue);
+	}
+
 	template<typename T, typename UpdateClosure>
 	inline void AddUndoSingleValueClosure(UndoSystem *s, T *dataRef, UpdateClosure closure)
 	{
@@ -96,6 +102,12 @@ namespace Editor {
 	inline void AddUndoSingleValueClosure(UndoSystem *s, T *dataRef, const T &newValue, UpdateClosure closure)
 	{
 		s->AddUndoStep<UndoClosure<UpdateClosure, UndoSingleValueStep<T>>>(std::move(closure), dataRef, newValue)->Swap();
+	}
+
+	template<typename T, typename UpdateClosure>
+	inline void AddUndoSingleValueClosure(UndoSystem *s, const T &oldValue, T *dataRef, UpdateClosure closure)
+	{
+		s->AddUndoStep<UndoClosure<UpdateClosure, UndoSingleValueStep<T>>>(std::move(closure), dataRef, oldValue);
 	}
 
 	// ========================================================================

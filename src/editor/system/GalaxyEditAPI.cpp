@@ -319,9 +319,10 @@ void StarSystem::EditorAPI::EditProperties(StarSystem *system, CustomSystemInfo 
 {
 	ImGui::SeparatorText("Generation Parameters");
 
+	uint32_t old_seed = system->m_seed;
 	ImGui::InputInt("Seed", reinterpret_cast<int *>(&system->m_seed));
 	if (Draw::UndoHelper("Edit Seed", undo))
-		AddUndoSingleValue(undo, &system->m_seed);
+		AddUndoSingleValue(undo, old_seed, &system->m_seed);
 
 	bool comboOpen = Draw::ComboUndoHelper("Edit System Exploration State", "Explored State", explored_labels[custom.explored], undo);
 	if (comboOpen) {
@@ -515,9 +516,10 @@ void SystemBody::EditorAPI::EditOrbitalParameters(SystemBody *body, UndoSystem *
 	bool orbitChanged = false;
 	auto updateBodyOrbit = [=](){ body->SetOrbitFromParameters(); };
 
+	fixed old_sma = body->m_semiMajorAxis;
 	orbitChanged |= Draw::InputFixedDistance("Semi-Major Axis", &body->m_semiMajorAxis);
 	if (Draw::UndoHelper("Edit Semi-Major Axis", undo))
-		AddUndoSingleValueClosure(undo, &body->m_semiMajorAxis, updateBodyOrbit);
+		AddUndoSingleValueClosure(undo, old_sma, &body->m_semiMajorAxis, updateBodyOrbit);
 
 	orbitChanged |= Draw::InputFixedSlider("Eccentricity", &body->m_eccentricity);
 	if (Draw::UndoHelper("Edit Eccentricity", undo))
@@ -584,9 +586,10 @@ void SystemBody::EditorAPI::EditOrbitalParameters(SystemBody *body, UndoSystem *
 	if (Draw::UndoHelper("Edit Rotational Phase at Start", undo))
 		AddUndoSingleValueClosure(undo, &body->m_rotationalPhaseAtStart, updateBodyOrbit);
 
+	fixed old_rotPeriod = body->m_rotationPeriod;
 	orbitChanged |= ImGui::InputFixed("Rotation Period", &body->m_rotationPeriod, 1.0, 10.0, "%.3f days");
 	if (Draw::UndoHelper("Edit Rotation Period", undo))
-		AddUndoSingleValueClosure(undo, &body->m_rotationPeriod, updateBodyOrbit);
+		AddUndoSingleValueClosure(undo, old_rotPeriod, &body->m_rotationPeriod, updateBodyOrbit);
 
 	if (orbitChanged)
 		body->SetOrbitFromParameters();
@@ -694,9 +697,10 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSy
 
 	Draw::EditEnum("Edit Body Type", "Body Type", "BodyType", reinterpret_cast<int *>(&body->m_type), BodyType::TYPE_MAX, undo);
 
+	uint32_t old_seed = body->m_seed;
 	ImGui::InputInt("Seed", reinterpret_cast<int *>(&body->m_seed));
 	if (Draw::UndoHelper("Edit Seed", undo))
-		AddUndoSingleValue(undo, &body->m_seed);
+		AddUndoSingleValue(undo, old_seed, &body->m_seed);
 
 	if (body->GetSuperType() < SUPERTYPE_STARPORT) {
 
@@ -711,13 +715,15 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSy
 
 		ImGui::BeginDisabled(body->GetType() == TYPE_GRAVPOINT);
 
+		fixed old_mass = body->m_mass;
 		bodyChanged |= Draw::InputFixedMass("Mass", &body->m_mass, isStar);
 		if (Draw::UndoHelper("Edit Mass", undo))
-			AddUndoSingleValueClosure(undo, &body->m_mass, updateBodyDerived);
+			AddUndoSingleValueClosure(undo, old_mass, &body->m_mass, updateBodyDerived);
 
+		fixed old_radius = body->m_radius;
 		bodyChanged |= Draw::InputFixedRadius("Radius",  &body->m_radius, isStar);
 		if (Draw::UndoHelper("Edit Radius", undo))
-			AddUndoSingleValueClosure(undo, &body->m_radius, updateBodyDerived);
+			AddUndoSingleValueClosure(undo, old_radius, &body->m_radius, updateBodyDerived);
 
 		ImGui::BeginDisabled();
 
@@ -739,9 +745,10 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSy
 
 		}
 
+		int old_temp = body->m_averageTemp;
 		bodyChanged |= ImGui::InputInt("Temperature (K)", &body->m_averageTemp, 1, 10, "%d°K");
 		if (Draw::UndoHelper("Edit Temperature", undo))
-			AddUndoSingleValueClosure(undo, &body->m_averageTemp, updateBodyDerived);
+			AddUndoSingleValueClosure(undo, old_temp, &body->m_averageTemp, updateBodyDerived);
 
 		ImGui::EndDisabled();
 
