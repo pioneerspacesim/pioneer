@@ -797,6 +797,15 @@ void CustomSystemsDatabase::Load()
 		LoadSystemFromJSON(file.GetPath(), JsonUtils::LoadJsonDataFile(file.GetPath()));
 	}
 
+	// Load all faction homeworld custom system definitions
+	std::string factionPath = FileSystem::JoinPathBelow(m_customSysDirectory, "factions");
+	for (auto &file : FileSystem::gameDataFiles.Recurse(factionPath)) {
+		if (!ends_with_ci(file.GetPath(), ".json"))
+			continue;
+
+		LoadSystemFromJSON(file.GetPath(), JsonUtils::LoadJsonDataFile(file.GetPath()));
+	}
+
 	// Load all complete custom system definitions
 	std::string customPath = FileSystem::JoinPathBelow(m_customSysDirectory, "custom");
 	for (auto &file : FileSystem::gameDataFiles.Recurse(customPath)) {
