@@ -53,8 +53,9 @@ CameraContext::~CameraContext()
 void CameraContext::SetFovAng(float newAng)
 {
 	m_fovAng = newAng;
-	m_frustum = Frustum(m_width, m_height, m_fovAng, m_zNear, m_zFar);
-	m_projMatrix = matrix4x4f::InfinitePerspectiveMatrix(DEG2RAD(m_fovAng), m_width / m_height, m_zNear);
+	const float fovAngRadians = DEG2RAD(m_fovAng);
+	m_frustum = Frustum(m_width, m_height, fovAngRadians, m_zNear, m_zFar);
+	m_projMatrix = matrix4x4f::InfinitePerspectiveMatrix(fovAngRadians, m_width / m_height, m_zNear);
 }
 
 void CameraContext::BeginFrame()
