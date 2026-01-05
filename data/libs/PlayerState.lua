@@ -49,14 +49,18 @@ local finances = {
 ---@field clone fun(): CrimeRecord
 local CrimeRecord = utils.proto("CrimeRecord")
 
+local crimetype_mt = {
+	__index = function(self, crime)
+		local crimetype = { count = 0 }
+		rawset(self, crime, crimetype)
+		return crimetype
+	end
+}
+
 function CrimeRecord:__clone()
 	-- automagically create empty crimetype records on access
 	-- This would be entirely unnecessary if crimetype records weren't tables with a single value set :(
-	self.crimetype = setmetatable({}, { __index = function(t, crime)
-		local crimetype = { count = 0 }
-		rawset(t, crime, crimetype)
-		return crimetype
-	end})
+	self.crimetype = setmetatable({}, crimetype_mt)
 	self.fine = 0
 end
 
@@ -375,6 +379,16 @@ local function unserialize(data)
 
 	crime_record = setmetatable(data.crime_record, automagic_record)
 	past_record = setmetatable(data.past_record, automagic_record)
+
+	local fix_record = function(records)
+		for faction, record in pairs(records) do
+			setmetatable(record.crimetype, crimetype_mt)
+		end
+	end
+
+	fix_record(crime_record)
+	fix_record(past_record)
+
 end
 
 Event.Register("onGameStart", onGameStart)
