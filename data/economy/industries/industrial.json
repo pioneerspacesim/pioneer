@@ -16,7 +16,7 @@
 		"l10n_key": "METAL_REFINERY",
 		"inputs": {
 			"metal_ore": 6,
-			"carbon_ore": 5,
+			"carbon_ore": 4,
 			"water": 4,
 			"liquid_oxygen": 4,
 			"chemicals": 3,
@@ -24,13 +24,19 @@
 		},
 		"outputs": {
 			"metal_alloys": 6,
-			"plastics": 4,
+			"plastics": 3,
 			"fertilizer": 2,
 			"precious_metals": 1
 		},
 		"modifiers": {
-			"rare_metals": [ "i:metal_ore+1", "o:precious_metals+2" ]
-		}
+			"rare_metals": [ "i:metal_ore+1", "o:precious_metals+2" ],
+			"starport_orbital": [ "i:*-2", "o:metal_alloys-2", "o:plastics-1" ]
+		},
+		"build_next": [
+			{ "id": "consumer_industry", "chance": 0.33 },
+			{ "id": "civil_industry" },
+			{ "id": "heavy_industry" }
+		]
 	},
 	"plastics_refinery": {
 		"l10n_key": "PLASTIC_REFINERY",
@@ -47,6 +53,7 @@
 			"plastics": 6
 		},
 		"modifiers": {
+			"starport_orbital": [ "i:carbon_ore-2", "i:water-1", "o:plastics-2", "o:metal_alloys-1" ],
 			"rare_metals": [ "i:metal_ore+1", "o:metal_alloys+1", "o:precious_metals+1" ],
 			"carbon_ores_rich": [ "i:carbon_ore+1", "o:plastics+1" ],
 			"lawless": [ "o:narcotics+2" ]
@@ -68,7 +75,9 @@
 			"liquor": 2
 		},
 		"modifiers": {
-			"lawless": [ "o:narcotics+2", "i:grain+2", "i:industrial_machinery-1" ]
+			"lawless": [ "o:narcotics+2", "i:grain+2", "i:industrial_machinery-1" ],
+			"biosphere_basic": [ "i:grain-1" ],
+			"biosphere_rich": [ "i:grain-1", "o:liquor+1" ]
 		}
 	},
 	"textile_mill": {

@@ -14,7 +14,11 @@
 		},
 		"modifiers": {
 			"rare_microbial_life": [ "i:fertilizer-1", "o:*+1" ]
-		}
+		},
+		"build_next": [
+			{ "id": "drug_lab", "chance": 0.8 },
+			{ "id": "distillery", "chance": "0.4" }
+		]
 	},
 	"surface_aquaponics": {
 		"l10n_key": "TERRESTRIAL_AQUAPONICS",
@@ -32,7 +36,12 @@
 		},
 		"modifiers": {
 			"rare_microbial_life": [ "i:fertilizer-1", "o:*+1" ]
-		}
+		},
+		"build_next": [
+			{ "id": "distillery", "chance": 0.3 },
+			{ "id": "chemical_refinery" },
+			{ "id": "drug_lab" }
+		]
 	},
 	"outdoor_farm": {
 		"l10n_key": "FARMING",
@@ -54,6 +63,11 @@
 			"lawless": [ "o:slaves+3" ],
 			"biosphere_rich": [ "o:*+1", "i:farm_machinery+1" ],
 			"atmos_breathable": [ "i:air_processors-3" ]
-		}
+		},
+		"build_next": [
+			{ "id": "textile_mill" },
+			{ "id": "civil_industry" },
+			{ "id": "distillery", "chance": 0.8 }
+		]
 	}
 }

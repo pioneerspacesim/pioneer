@@ -65,6 +65,9 @@ IndustryDef.outputs = {}
 ---@type table<string, Economy.IndustryModifier>
 IndustryDef.modifiers = {}
 
+---@type { if: string[]?, id: string, chance: number? }
+IndustryDef.build_next = {}
+
 -- Parse a modifier string and accumulate it into the id-value pair table passed for inputs/outputs.
 --
 -- The format of modifiers is expected to be similar to one of the following:
@@ -207,26 +210,63 @@ function Industry.GenerateIndustries(sbody, tags, sizeClass, rand, supply, deman
 
 	-- print(sbody.name .. "\nValid industries: " .. table.concat(avail_industries, ",\t"))
 
+	-- After an industry is built, one element from the list of follow-up
+	-- industries can be chosen, to take advantage of the economic opportunity
+	-- this industry provides.
+	--
+	-- A random chance is involved so that starports feel somewhat random,
+	-- rather than always following the exact same formula. This presents a
+	-- model in which multiple builders are competing for a limited industrial
+	-- footprint rather than a pre-planned "optimal" economy. From a Doylist
+	-- view, this inefficiency creates natural trade routes through which the
+	-- player can engage in a commercial game loop.
+	--
+	-- This selection process can chain to multiple industries, though the
+	-- chance naturally becomes exponentially less likely with each industry. An
+	-- "optimal" local arrangement of industries which need no imported goods is
+	-- thus very unlikely to be encountered.
+
+	---@param id string
+	local function eval_followup(id)
+
+		if #industries == numIndustries or #avail_industries == 0 then
+			return
+		end
+
+		for _, def in ipairs(Industry.industries[id].build_next) do
+
+			-- Check the random chance first, as it is the most inexpensive
+			-- condition to compute in the list
+			local do_build = rand:Number() <= (tonumber(def.chance) or 0.5)
+				and (not def["if"] or checkConditions(tags, def["if"]))
+				and utils.contains(avail_industries, def.id)
+
+			if do_build then
+
+				print('building follow-on industry {} after {} at station {}' % { def.id, id, sbody.name })
+
+				utils.remove_elem(avail_industries, def.id)
+				table.insert(industries, def.id)
+
+				-- tail-call optimization prevents stack exhaustion regardless of how many industries are selected
+				return eval_followup(def.id)
+
+			end
+
+		end
+
+	end
+
 	for i = 1, numIndustries do
 		local idx = rand:Integer(1, #avail_industries)
 
-		table.insert(industries, avail_industries[idx])
+		local id = avail_industries[idx]
 		table.remove(avail_industries, idx)
+		table.insert(industries, id)
 
-		-- TODO:
-		-- The intent is for the list of industries at a starport to appear
-		-- rational, as though they were built by human hands in response to
-		-- realistic economic pressures, but to avoid all starports around a
-		-- body (sharing the same set of condition tags) from having the same
-		-- industry list.
-		--
-		-- To that end, a potential improvement is to define a list of
-		-- follow-on industries to (randomly) build one of after the selected
-		-- industry. For example, if a carbon mine is built here, a chemical
-		-- refinery might also be built to take advantage of the nearby carbon
-		-- ore production.
+		eval_followup(id)
 
-		if #avail_industries == 0 then
+		if #industries == numIndustries or #avail_industries == 0 then
 			break
 		end
 	end

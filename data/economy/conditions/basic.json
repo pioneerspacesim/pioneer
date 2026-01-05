@@ -49,7 +49,7 @@
 	},
 	"carbon_ores_rich": {
 		"context": "planet",
-		"required": [ "metallicity < 0.4", "volatileIces < 0.3", "random > 0.5" ]
+		"required": [ "metallicity < 0.4", "volatileIces < 0.3", "random > 0.3" ]
 	},
 	"metal_abundant": {
 		"context": "planet",
