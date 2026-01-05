@@ -10,6 +10,7 @@ end
 
 -- Convert the input string to s(entence) case, capitalizing the first letter of
 -- the string and any first letters of consecutive sentences in the string.
+---@param s string
 string.scase = function (s)
     s = s:gsub("^%l", string.upper)
 

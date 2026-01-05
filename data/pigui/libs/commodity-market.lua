@@ -108,7 +108,7 @@ function CommodityMarketWidget.New(id, title, config)
 			local pricemod = Economy.GetCommodityPriceMod(self.station.path, item.name, market)
 
 			ui.dummy(vZero)
-			ui.text(item:GetName():scase())
+			ui.text(item:GetProperName())
 
 			local cls = EconView.ClassifyPrice(pricemod)
 
@@ -411,7 +411,7 @@ function CommodityMarketWidget:TradeMenu()
 				ui.withFont(orbiteer.heading, function()
 					-- align the height to the center relative to the icon
 					ui.alignTextToLineHeight(commodityIconSize.y)
-					ui.text(self.selectedItem:GetName():scase())
+					ui.text(self.selectedItem:GetProperName())
 				end)
 			end)
 			ui.columns(1, "", false)
