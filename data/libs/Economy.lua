@@ -433,8 +433,8 @@ end
 
 -- Function: GetCommodityStockTargetEquilibrium
 --
--- Returns the equilibrium stocking of a commodity at this station, given the
--- current supply and demand for the commodity.
+-- Returns the equilibrium stocking of a commodity at this station, given a
+-- reference supply and demand for the commodity.
 --
 -- This computes the expected amount of commodity stock available from station
 -- arbitrage brokers under the given conditions, assuming the market is at
@@ -447,6 +447,8 @@ end
 --
 --    sbody - SystemBody, the station for which to compute the equilibrium
 --    commodityId - string, the id of the commodity in question
+--    supply - table mapping commodity IDs to reference integer supply
+--    demand - table mapping commodity IDs to reference integer demand
 --
 -- Returns:
 --
