@@ -422,7 +422,8 @@ void Sound::AlAudioBackend::SoundEvent::Update(float delta_t)
 			pan_rate = 0.f;
 		}
 		CHECK_OPENAL_ERROR(alSourcef, source, AL_GAIN, current_gain * volume);
-		CHECK_OPENAL_ERROR(alSource3f, source, AL_POSITION, current_pan, 0.F, 0.F);
+		// Panning is simulated by moving the sound source on a unit circle on the horizontal plane
+		CHECK_OPENAL_ERROR(alSource3f, source, AL_POSITION, current_pan, std::sqrt(1 - current_pan * current_pan), 0.F);
 	}
 }
 
