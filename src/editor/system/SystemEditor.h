@@ -51,6 +51,8 @@ public:
 	bool LoadSystem(SystemPath path);
 	bool LoadSystemFromDisk(const std::string &absolutePath);
 
+	Json DumpSystemFromGalaxy(SystemPath path);
+
 	// Write the currently edited system out to disk as a JSON file
 	bool WriteSystem(const std::string &filepath);
 

@@ -10,6 +10,7 @@
 
 #include "FileSystem.h"
 #include "Lang.h"
+#include "Json.h"
 #include "ModManager.h"
 #include "ModelViewer.h"
 #include "SDL_keycode.h"
@@ -42,7 +43,14 @@ EditorApp *EditorApp::Get()
 	return &app;
 }
 
-void EditorApp::Initialize(argh::parser &cmdline)
+void EditorApp::PreStartup(argh::parser &cmdline)
+{
+	if (cmdline["--dump"]) {
+		m_headless = true;
+	}
+}
+
+bool EditorApp::Initialize(argh::parser &cmdline)
 {
 	// Load / register editor modules and frames here
 
@@ -57,7 +65,7 @@ void EditorApp::Initialize(argh::parser &cmdline)
 
 		QueueLifecycle(modelViewer);
 		SetAppName("ModelViewer");
-		return;
+		return true;
 	}
 
 	if (cmdline["--system"]) {
@@ -72,10 +80,40 @@ void EditorApp::Initialize(argh::parser &cmdline)
 
 		QueueLifecycle(systemEditor);
 		SetAppName("SystemEditor");
-		return;
+		return true;
+	}
+
+	if (cmdline["--dump"]) {
+		SystemPath path = {};
+
+		cmdline(1, 0) >> path.sectorX;
+		cmdline(2, 0) >> path.sectorY;
+		cmdline(3, 0) >> path.sectorZ;
+		cmdline(4, 0) >> path.systemIndex;
+
+		std::string filename;
+		cmdline({"-o", "--output"}, "dump.json") >> filename;
+
+		FILE *f = OS::OpenWriteStream(filename);
+		if (!f) {
+			Log::Error("Could not open file {} to dump system json.", filename);
+			return false;
+		}
+
+		RefCountedPtr<SystemEditor> ed(new SystemEditor(this));
+
+		std::string data = ed->DumpSystemFromGalaxy(path).dump(1, '\t');
+		fwrite(data.c_str(), 1, data.size(), f);
+		fwrite("\n", 1, 1, f);
+
+		fflush(f);
+		fclose(f);
+
+		return false;
 	}
 
 	QueueLifecycle(RefCountedPtr<Application::Lifecycle>(new EditorWelcomeScreen(this)));
+	return true;
 }
 
 void EditorApp::AddLoadingTask(TaskSet::Handle handle)
@@ -121,31 +159,35 @@ void EditorApp::OnStartup()
 	Lang::Resource &res(Lang::GetResource("core", m_editorCfg->String("Lang", "en")));
 	Lang::MakeCore(res);
 
-	Graphics::RendererOGL::RegisterRenderer();
+	if (!m_headless) {
+		Graphics::RendererOGL::RegisterRenderer();
 
-	m_renderer = StartupRenderer(m_editorCfg.get(), false, true);
-	StartupInput(m_editorCfg.get());
+		m_renderer = StartupRenderer(m_editorCfg.get(), false, true);
+		StartupInput(m_editorCfg.get());
 
-	StartupPiGui();
+		StartupPiGui();
 
-	// precache the editor font
-	GetPiGui()->GetFont("pionillium", 13);
-	GetPiGui()->SetDebugStyle();
+		// precache the editor font
+		GetPiGui()->GetFont("pionillium", 13);
+		GetPiGui()->SetDebugStyle();
 
-	RefCountedPtr<LoadingPhase> loader (new LoadingPhase(this));
-	QueueLifecycle(loader);
+		RefCountedPtr<LoadingPhase> loader (new LoadingPhase(this));
+		QueueLifecycle(loader);
+	}
 }
 
 void EditorApp::OnShutdown()
 {
 	Lua::Uninit();
-	Graphics::Uninit();
+
+	if (!m_headless) {
+		Graphics::Uninit();
+		ShutdownPiGui();
+		ShutdownRenderer();
+		ShutdownInput();
+	}
 
 	ModManager::Uninit();
-
-	ShutdownPiGui();
-	ShutdownRenderer();
-	ShutdownInput();
 
 	m_editorCfg.reset();
 }
