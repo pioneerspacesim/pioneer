@@ -14,8 +14,7 @@
 		},
 		"modifiers": {
 			"rare_microbial_life": [ "i:fertilizer-1", "o:*+1" ]
-		},
-		"workforce": 2
+		}
 	},
 	"surface_aquaponics": {
 		"l10n_key": "TERRESTRIAL_AQUAPONICS",
@@ -33,8 +32,7 @@
 		},
 		"modifiers": {
 			"rare_microbial_life": [ "i:fertilizer-1", "o:*+1" ]
-		},
-		"workforce": 3
+		}
 	},
 	"outdoor_farm": {
 		"l10n_key": "FARMING",
@@ -56,7 +54,6 @@
 			"lawless": [ "o:slaves+3" ],
 			"biosphere_rich": [ "o:*+1", "i:farm_machinery+1" ],
 			"atmos_breathable": [ "i:air_processors-3" ]
-		},
-		"workforce": 5
+		}
 	}
 }

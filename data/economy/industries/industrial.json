@@ -10,8 +10,7 @@
 		},
 		"outputs": {
 			"liquor": 3
-		},
-		"workforce": 3
+		}
 	},
 	"ore_refinery": {
 		"l10n_key": "METAL_REFINERY",
@@ -31,8 +30,7 @@
 		},
 		"modifiers": {
 			"rare_metals": [ "i:metal_ore+1", "o:precious_metals+2" ]
-		},
-		"workforce": 5
+		}
 	},
 	"plastics_refinery": {
 		"l10n_key": "PLASTIC_REFINERY",
@@ -83,8 +81,7 @@
 		},
 		"outputs": {
 			"textiles": 6
-		},
-		"workforce": 4
+		}
 	},
 	"consumer_industry": {
 		"l10n_key": "CONSUMER_INDUSTRIAL_PRODUCTION",
@@ -99,8 +96,7 @@
 		"outputs": {
 			"consumer_goods": 5,
 			"textiles": 4
-		},
-		"workforce": 4
+		}
 	},
 	"heavy_industry": {
 		"l10n_key": "HEAVY_INDUSTRIAL_PRODUCTION",
@@ -117,8 +113,7 @@
 			"farm_machinery": 4,
 			"industrial_machinery": 4,
 			"hand_weapons": 2
-		},
-		"workforce": 6
+		}
 	},
 	"civil_industry": {
 		"l10n_key": "CIVIL_INDUSTRY",
@@ -138,8 +133,7 @@
 			"consumer_goods": 4,
 			"fertilizer": 2,
 			"medicines": 2
-		},
-		"workforce": 6
+		}
 	},
 	"military_industry": {
 		"l10n_key": "MILITARY_INDUSTRY",

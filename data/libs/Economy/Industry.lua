@@ -65,9 +65,6 @@ IndustryDef.outputs = {}
 ---@type table<string, Economy.IndustryModifier>
 IndustryDef.modifiers = {}
 
--- Amount of workforce required to operate this industry
-IndustryDef.workforce = 1
-
 -- Parse a modifier string and accumulate it into the id-value pair table passed for inputs/outputs.
 --
 -- The format of modifiers is expected to be similar to one of the following:
