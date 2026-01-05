@@ -239,6 +239,8 @@ function SpaceStation:GetCommodityPrice(itemType)
 
 	-- determine the commodity price modifier for the current market conditions
 	local pricemod = Economy.GetCommodityPriceMod(self.path, itemType.name, self:GetCommodityMarket())
+	pricemod = pricemod + Game.system:GetCommodityBasePriceAlterations(itemType.name)
+
 	return Economy.GetMarketPrice(itemType.price, pricemod)
 end
 

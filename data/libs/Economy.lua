@@ -707,6 +707,7 @@ function Economy.CreateStationMarket(sbody, time)
 end
 
 ---@param path SystemPath
+---@return Economy.StationMarket
 function Economy.GetStationMarket(path)
 	return persistentMarket[path] or sEmptyMarket
 end
