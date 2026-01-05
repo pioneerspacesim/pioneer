@@ -17,6 +17,7 @@
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystemGenerator.h"
 
+#include "galaxy/SystemBody.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_stdlib.h"
 #include "lua/LuaNameGen.h"
@@ -678,6 +679,17 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSy
 	bool bodyChanged = false;
 	auto updateBodyDerived = [=]() {
 		body->SetAtmFromParameters();
+
+		SystemBody *p = body->GetParent();
+		while (p && p->GetType() == TYPE_GRAVPOINT) {
+			p->m_mass = fixed(0);
+
+			for (auto &child : p->GetChildren()) {
+				p->m_mass += child->GetMassInSols();
+			}
+
+			p = p->GetParent();
+		}
 	};
 
 	Draw::EditEnum("Edit Body Type", "Body Type", "BodyType", reinterpret_cast<int *>(&body->m_type), BodyType::TYPE_MAX, undo);
@@ -696,6 +708,8 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSy
 		ImGui::SetItemTooltip("Generate body type, radius, temperature, and surface parameters using the same method as procedural system generation.");
 
 		ImGui::SeparatorText("Body Parameters");
+
+		ImGui::BeginDisabled(body->GetType() == TYPE_GRAVPOINT);
 
 		bodyChanged |= Draw::InputFixedMass("Mass", &body->m_mass, isStar);
 		if (Draw::UndoHelper("Edit Mass", undo))
@@ -728,6 +742,8 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSy
 		bodyChanged |= ImGui::InputInt("Temperature (K)", &body->m_averageTemp, 1, 10, "%d°K");
 		if (Draw::UndoHelper("Edit Temperature", undo))
 			AddUndoSingleValueClosure(undo, &body->m_averageTemp, updateBodyDerived);
+
+		ImGui::EndDisabled();
 
 		ImGui::Spacing();
 
@@ -762,6 +778,10 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSy
 	}
 
 	if (isStar) {
+		if (bodyChanged) {
+			updateBodyDerived();
+		}
+
 		return;
 	}
 
@@ -824,8 +844,9 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSy
 	if (Draw::DerivedValues("Surface Parameters")) {
 		ImGui::BeginDisabled();
 
-		if (bodyChanged)
-			body->SetAtmFromParameters();
+		if (bodyChanged) {
+			updateBodyDerived();
+		}
 
 		double pressure_p0 = body->GetAtmSurfacePressure();
 		ImGui::InputDouble("Surface Pressure", &pressure_p0, 0.0, 0.0, "%.4f atm");
