@@ -2541,7 +2541,7 @@
   },
   "SYSTEM_FACTION": {
     "description": "Tooltip indicating the faction controlling this system",
-    "message": "Controlling faction jurisdiction"
+    "message": "Контролираща групировка"
   },
   "SYSTEM_INFORMATION": {
     "description": "Tooltip / label indicating information about a selected star system",
@@ -2573,7 +2573,7 @@
   },
   "SYSTEM_SECURITY_TOOLTIP": {
     "description": "Tooltip introducing the system security rating",
-    "message": "System safety rating"
+    "message": "Ниво на опасност в системата"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
