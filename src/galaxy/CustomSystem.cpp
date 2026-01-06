@@ -797,6 +797,15 @@ void CustomSystemsDatabase::Load()
 		LoadSystemFromJSON(file.GetPath(), JsonUtils::LoadJsonDataFile(file.GetPath()));
 	}
 
+	// Load all faction homeworld custom system definitions
+	std::string factionPath = FileSystem::JoinPathBelow(m_customSysDirectory, "factions");
+	for (auto &file : FileSystem::gameDataFiles.Recurse(factionPath)) {
+		if (!ends_with_ci(file.GetPath(), ".json"))
+			continue;
+
+		LoadSystemFromJSON(file.GetPath(), JsonUtils::LoadJsonDataFile(file.GetPath()));
+	}
+
 	// Load all complete custom system definitions
 	std::string customPath = FileSystem::JoinPathBelow(m_customSysDirectory, "custom");
 	for (auto &file : FileSystem::gameDataFiles.Recurse(customPath)) {
@@ -938,7 +947,14 @@ CustomSystem *CustomSystemsDatabase::LoadSystemFromJSON(std::string_view filenam
 
 		}
 
-		sys->sBody = sys->bodies[0];
+		size_t rootIdx = systemdef.value("root", 0);
+		if (rootIdx >= numBodies) {
+			Log::Warning("System {} has invalid root index {} (out-of-range with {} bodies), using index 0 as root instead.",
+				sys->name, rootIdx, numBodies);
+			rootIdx = 0;
+		}
+
+		sys->sBody = sys->bodies[rootIdx];
 
 		// Resolve body children pointers
 		for (CustomSystemBody *body : sys->bodies) {

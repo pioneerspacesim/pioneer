@@ -205,6 +205,13 @@ public:
 		else
 			return m_mass;
 	}
+	fixed GetMassInSols() const
+	{
+		if (GetSuperType() <= SUPERTYPE_STAR)
+			return m_mass;
+		else
+			return m_mass / 332998;
+	}
 	bool IsRotating() const { return m_rotationPeriod != fixed(0); }
 	// returned in seconds
 	double GetRotationPeriodInDays() const { return m_rotationPeriod.ToDouble(); }

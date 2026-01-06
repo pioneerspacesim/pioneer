@@ -129,14 +129,20 @@ SystemEditor::SystemEditor(EditorApp *app) :
 	m_galaxy = GalaxyGenerator::Create();
 	m_systemLoader.reset(new CustomSystemsDatabase(m_galaxy.Get(), "systems"));
 
-	m_viewport.reset(new SystemEditorViewport(m_app, this));
-	m_viewport->SetCanBeClosed(false);
-
 	m_random.seed({
 		// generate random values not dependent on app runtime
 		uint32_t(std::chrono::system_clock::now().time_since_epoch().count()),
 		UNIVERSE_SEED
 	});
+
+	// In headless mode, we will not run the usual application lifecycle methods.
+	// We will only dump systems from the galaxy to disk, and do not need any UI.
+	if (m_app->IsHeadless()) {
+		return;
+	}
+
+	m_viewport.reset(new SystemEditorViewport(m_app, this));
+	m_viewport->SetCanBeClosed(false);
 
 	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
@@ -368,6 +374,20 @@ void SystemEditor::LoadSystemFromGalaxy(RefCountedPtr<StarSystem> system)
 	m_systemInfo.randomFaction = !system->GetFaction();
 	m_systemInfo.overrideRandom = true;
 	m_systemInfo.faction = system->GetFaction() ? system->GetFaction()->name : "";
+}
+
+Json SystemEditor::DumpSystemFromGalaxy(SystemPath path)
+{
+	RefCountedPtr<StarSystem> system = m_galaxy->GetStarSystem(path);
+	Json out_obj = Json {};
+
+	if (!system) {
+		Log::Error("No system at path {} to dump");
+		return out_obj;
+	}
+
+	system->DumpToJson(out_obj);
+	return out_obj;
 }
 
 bool SystemEditor::RegenerateSystem(uint32_t newSeed)

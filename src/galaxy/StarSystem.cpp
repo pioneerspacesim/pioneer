@@ -592,6 +592,11 @@ void StarSystem::DumpToJson(Json &obj)
 	if (m_faction)
 		obj["faction"] = m_faction->name;
 
+	if (m_rootBody.Valid()) {
+		// bodyIndex is (at least informally) guaranteed to be the index in m_bodies
+		obj["root"] = m_rootBody->GetPath().bodyIndex;
+	}
+
 	Json &bodies = obj["bodies"] = Json::array();
 
 	for (RefCountedPtr<SystemBody> &body : m_bodies) {

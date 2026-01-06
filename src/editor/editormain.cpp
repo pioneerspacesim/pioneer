@@ -13,10 +13,12 @@ extern "C" int main(int argc, char **argv) {
 
 	Editor::EditorApp *app = Editor::EditorApp::Get(); // instance the editor application
 
+	app->PreStartup(cmdline);
 	app->Startup();
-	app->Initialize(cmdline);
 
-	app->Run();
+	if (app->Initialize(cmdline)) {
+		app->Run();
+	}
 
 	app->Shutdown();
 
