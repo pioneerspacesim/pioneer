@@ -183,8 +183,8 @@ Uint8 DensityMapGalaxy::GetSectorDensity(const int sx, const int sy, const int s
 
 	const float fx = offset_x * (m_mapWidth - 1);
 	const float fy = offset_y * (m_mapHeight - 1);
-	const float mf = std::fmodf(fx, 1.f);
-	const float my = std::fmodf(fy, 1.f);
+	const float mf = std::fmod(fx, 1.f);
+	const float my = std::fmod(fy, 1.f);
 
 	// Sample four times against the density map texture (clamped internally)
 	const float val1 = sample(m_galaxyMap.get(), fx, fy, m_mapWidth, m_mapHeight);
