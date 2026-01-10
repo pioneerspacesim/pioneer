@@ -1,3 +1,22 @@
+January 2026
+  * New Features
+    * Animate thruster flame (#6204)
+    * Add system lawlessness rating to sector map (#6265)
+    * Add context-based station economic industries (#6199)
+
+  * Fixes
+    * Fix crime record error on loading saved games (#6268)
+    * Fix mapping missions not "failing" if overdue (#6258)
+    * Fix Planet layer flicker on zoom, FOV->Radians before Frustum (#6121)
+    * Fix bugs in fixed division (#5698)
+
+  * Internal
+    * Happy new year (#6264)
+    * Alias Vector3 ZERO (#6259)
+    * Minor fixes and additions (#6266)
+    * Update to Assimp 6.0.2 lib name (PR #6267)
+    * Dump all current faction home systems to JSON (#6271)
+
 November
   * New Features
     * Cargo Run custom risk message (#6192)
