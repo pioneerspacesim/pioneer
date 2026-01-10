@@ -7,11 +7,11 @@
 #include "GalaxyGenerator.h"
 #include "GameSaveError.h"
 #include "Json.h"
+#include "MathUtil.h"
 #include "Sector.h"
 #include "core/Log.h"
 
-// FIXME(sturnclaw): don't need to be pulling in SDL_image here
-#include <SDL_image.h>
+#include <SDL_surface.h>
 
 Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, float sol_offset_x, float sol_offset_y,
 	const std::string &factionsDir, const std::string &customSysDir) :
@@ -123,7 +123,9 @@ DensityMapGalaxy::DensityMapGalaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerato
 	m_mapWidth(0),
 	m_mapHeight(0)
 {
-	// FIXME(sturnclaw): why are we using raw SDL ops here - use an image loader!
+	// None of our subsystems are fully initialized at galaxy load time and we
+	// need access to the raw pixel data rather than a GPU texture.
+	// Could still benefit from being loaded through a resource system instead.
 	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(mapfile);
 	if (!filedata) {
 		Error("Galaxy: couldn't load '%s'\n", mapfile.c_str());
@@ -135,21 +137,27 @@ DensityMapGalaxy::DensityMapGalaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerato
 		Error("Galaxy: couldn't load: %s (%s)\n", mapfile.c_str(), SDL_GetError());
 	}
 
+	if (galaxyImg->format->BytesPerPixel != 1) {
+		Error("Galaxy: density map image is not a grayscale bitmap!");
+	}
+
 	// now that we have our raw image loaded
 	// allocate the space for our processed representation
-	m_galaxyMap.reset(new float[(galaxyImg->w * galaxyImg->h)]);
+	m_galaxyMap.reset(new uint8_t[(galaxyImg->w * galaxyImg->h)]);
 	// lock the image once so we can read from it
 	SDL_LockSurface(galaxyImg);
 	// setup our map dimensions for later
 	m_mapWidth = galaxyImg->w;
 	m_mapHeight = galaxyImg->h;
-	// copy every pixel value from the red channel (image is greyscale, channel is irrelevant)
-	for (int x = 0; x < galaxyImg->w; x++) {
-		for (int y = 0; y < galaxyImg->h; y++) {
-			const float val = float(static_cast<unsigned char *>(galaxyImg->pixels)[x + y * galaxyImg->pitch]);
+
+	// copy every pixel value from the image - the image must be in a 1Bpp grayscale image format
+	for (int y = 0; y < galaxyImg->h; y++) {
+		for (int x = 0; x < galaxyImg->w; x++) {
+			const uint8_t val = static_cast<uint8_t *>(galaxyImg->pixels)[x + y * galaxyImg->pitch];
 			m_galaxyMap.get()[x + y * m_mapWidth] = val;
 		}
 	}
+
 	// unlock the surface and then release it
 	SDL_UnlockSurface(galaxyImg);
 	if (galaxyImg)
@@ -160,8 +168,8 @@ static const float one_over_256(1.0f / 256.0f);
 Uint8 DensityMapGalaxy::GetSectorDensity(const int sx, const int sy, const int sz) const
 {
 	// -1.0 to 1.0 then limited to 0.0 to 1.0
-	const float offset_x = (((sx * Sector::SIZE + SOL_OFFSET_X) / GALAXY_RADIUS) + 1.0f) * 0.5f;
-	const float offset_y = (((-sy * Sector::SIZE + SOL_OFFSET_Y) / GALAXY_RADIUS) + 1.0f) * 0.5f;
+	const float offset_x = Clamp((((sx * Sector::SIZE + SOL_OFFSET_X) / GALAXY_RADIUS) + 1.0f) * 0.5f, 0.f, 1.f);
+	const float offset_y = Clamp((((-sy * Sector::SIZE + SOL_OFFSET_Y) / GALAXY_RADIUS) + 1.0f) * 0.5f, 0.f, 1.f);
 
 	const int x = int(floor(offset_x * (m_mapWidth - 1)));
 	const int y = int(floor(offset_y * (m_mapHeight - 1)));

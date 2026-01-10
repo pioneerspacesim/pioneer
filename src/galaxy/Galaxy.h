@@ -79,7 +79,7 @@ public:
 	virtual Uint8 GetSectorDensity(const int sx, const int sy, const int sz) const;
 
 private:
-	std::unique_ptr<float[]> m_galaxyMap;
+	std::unique_ptr<uint8_t[]> m_galaxyMap;
 	Sint32 m_mapWidth, m_mapHeight;
 };
 
