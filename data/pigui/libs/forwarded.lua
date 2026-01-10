@@ -39,6 +39,7 @@ ui.getTime = pigui.GetTime
 
 ui.dummy = pigui.Dummy
 ui.newLine = pigui.NewLine
+ui.sameLine = pigui.SameLine
 ui.spacing = pigui.Spacing
 ui.bulletText = pigui.BulletText
 ui.text = pigui.Text

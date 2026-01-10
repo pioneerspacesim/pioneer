@@ -67,15 +67,6 @@ local onChat = function (form, ref, option)
 			return ad.stock[commodity]
 		end,
 
-		-- Police supply+demand numbers sum to 50, legit GoodsTraders use the station's demand numbers
-		getDemand = function (self, commodity)
-			if ad.ispolice then
-				return 50 - ad.stock[commodity]
-			else
-				return station:GetCommodityDemand(commodity)
-			end
-		end,
-
 		-- what do we charge for this commodity?
 		getBuyPrice = function (self, commodity)
 			return ad.price[commodity] * (1.0 + Economy.TradeFeeSplit * 0.01)

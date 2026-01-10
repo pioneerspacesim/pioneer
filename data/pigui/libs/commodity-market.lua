@@ -57,7 +57,7 @@ function CommodityMarketWidget.New(id, title, config)
 	config.style = config.style or {}
 	config.style.size = config.style.size or Vector2(0,0)
 	config.itemTypes = config.itemTypes or { Commodities }
-	config.columnCount = config.columnCount or 7
+	config.columnCount = config.columnCount or 6
 
 	config.initTable = config.initTable or function(self)
 		ui.setColumnWidth(0, commodityIconSize.x + ui.getItemSpacing().x)
@@ -93,7 +93,6 @@ function CommodityMarketWidget.New(id, title, config)
 		config.columnText(l.BUY_PRICE, "MIDDLE")
 		config.columnText(l.SELL_PRICE, "MIDDLE")
 		config.columnText(l.IN_STOCK, "MIDDLE")
-		config.columnText(l.DEMAND, "MIDDLE")
 		config.columnText(l.IN_HOLD, "MIDDLE")
 	end
 
@@ -105,12 +104,12 @@ function CommodityMarketWidget.New(id, title, config)
 		ui.nextColumn()
 
 		ui.withStyleVars({ItemSpacing = (self.style.itemSpacing / 2)}, function()
-			local price = self.station:GetCommodityPrice(item)
+			local market = self.station:GetCommodityMarket()
+			local pricemod = Economy.GetCommodityPriceMod(self.station.path, item.name, market)
 
 			ui.dummy(vZero)
-			ui.text(item:GetName():scase())
+			ui.text(item:GetProperName())
 
-			local pricemod = get_pricemod(item, price) - Game.system:GetCommodityBasePriceAlterations(item.name)
 			local cls = EconView.ClassifyPrice(pricemod)
 
 			if cls then
@@ -129,8 +128,6 @@ function CommodityMarketWidget.New(id, title, config)
 			ui.dummy(vZero)
 			config.columnText(config.getStock(self, item), "RIGHT")
 			ui.dummy(vZero)
-			config.columnText(config.getDemand(self, item), "RIGHT")
-			ui.dummy(vZero)
 			local n = self.cargoMgr:CountCommodity(item)
 			config.columnText(n > 0 and n or '', "RIGHT")
 		end)
@@ -144,10 +141,6 @@ function CommodityMarketWidget.New(id, title, config)
     config.getStock = config.getStock or function (self, commodity)
         return self.station:GetCommodityStock(commodity)
     end
-
-	config.getDemand = config.getDemand or function (self, commodity)
-		return self.station:GetCommodityDemand(commodity)
-	end
 
     -- what do we charge for this item if we are buying
     config.getBuyPrice = config.getBuyPrice or function (self, commodity)
@@ -210,7 +203,6 @@ function CommodityMarketWidget.New(id, title, config)
 	self.station = nil
 
 	self.funcs.getStock = config.getStock
-	self.funcs.getDemand = config.getDemand
 	self.funcs.getBuyPrice = config.getBuyPrice
 	self.funcs.getSellPrice = config.getSellPrice
 	self.funcs.onClickBuy = config.onClickBuy
@@ -243,7 +235,7 @@ function CommodityMarketWidget:ChangeTradeAmount(delta)
 	local playerCash = PlayerState.GetMoney()
 
 	--blank value, needs to be initialized or later on lua will complain
-	local stock, demand
+	local stock
 
 	if self.tradeModeBuy then
 		price = self.funcs.getBuyPrice(self, self.selectedItem)
@@ -263,7 +255,6 @@ function CommodityMarketWidget:ChangeTradeAmount(delta)
 	else
 		price = self.funcs.getSellPrice(self, self.selectedItem)
 		stock = self.cargoMgr:CountCommodity(self.selectedItem)
-		demand = self.funcs.getDemand(self, self.selectedItem)
 	end
 
 	--we cant trade more units than we have in stock
@@ -296,7 +287,6 @@ function CommodityMarketWidget:ChangeTradeAmount(delta)
 			--enough credits to sell 5, this kludge will ignore the +100 completely
 			--todo: change amount to 5 instead
 		end
-		wantamount = math.min(wantamount, demand)
 
 		self.tradeText = l.MARKET_SELLINE
 	end
@@ -421,7 +411,7 @@ function CommodityMarketWidget:TradeMenu()
 				ui.withFont(orbiteer.heading, function()
 					-- align the height to the center relative to the icon
 					ui.alignTextToLineHeight(commodityIconSize.y)
-					ui.text(self.selectedItem:GetName():scase())
+					ui.text(self.selectedItem:GetProperName())
 				end)
 			end)
 			ui.columns(1, "", false)

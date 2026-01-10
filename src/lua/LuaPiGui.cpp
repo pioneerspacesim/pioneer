@@ -1848,8 +1848,8 @@ static int l_pigui_add_rect_faded(lua_State *l)
  */
 static int l_pigui_same_line(lua_State *l)
 {
-	float pos_x = LuaPull<float>(l, 1);
-	float spacing_w = LuaPull<float>(l, 2);
+	float pos_x = LuaPull<float>(l, 1, 0.f);
+	float spacing_w = LuaPull<float>(l, 2, -1.f);
 
 	if (pos_x < 0.0) {
 		ImGuiWindow *window = ImGui::GetCurrentWindow();

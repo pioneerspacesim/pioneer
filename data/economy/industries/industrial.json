@@ -1,0 +1,172 @@
+{
+	"distillery": {
+		"l10n_key": "DISTILLERY",
+		"inputs": {
+			"grain": 4,
+			"fruit_and_veg": 3,
+			"chemicals": 3,
+			"plastics": 2,
+			"industrial_machinery": 2
+		},
+		"outputs": {
+			"liquor": 3
+		}
+	},
+	"ore_refinery": {
+		"l10n_key": "METAL_REFINERY",
+		"inputs": {
+			"metal_ore": 6,
+			"carbon_ore": 4,
+			"water": 4,
+			"liquid_oxygen": 4,
+			"chemicals": 3,
+			"industrial_machinery": 3
+		},
+		"outputs": {
+			"metal_alloys": 6,
+			"plastics": 3,
+			"fertilizer": 2,
+			"precious_metals": 1
+		},
+		"modifiers": {
+			"rare_metals": [ "i:metal_ore+1", "o:precious_metals+2" ],
+			"starport_orbital": [ "i:*-2", "o:metal_alloys-2", "o:plastics-1" ]
+		},
+		"build_next": [
+			{ "id": "consumer_industry", "chance": 0.33 },
+			{ "id": "civil_industry" },
+			{ "id": "heavy_industry" }
+		]
+	},
+	"plastics_refinery": {
+		"l10n_key": "PLASTIC_REFINERY",
+		"inputs": {
+			"metal_ore": 2,
+			"carbon_ore": 6,
+			"water": 5,
+			"liquid_oxygen": 3,
+			"chemicals": 2,
+			"industrial_machinery": 2
+		},
+		"outputs": {
+			"metal_alloys": 2,
+			"plastics": 6
+		},
+		"modifiers": {
+			"starport_orbital": [ "i:carbon_ore-2", "i:water-1", "o:plastics-2", "o:metal_alloys-1" ],
+			"rare_metals": [ "i:metal_ore+1", "o:metal_alloys+1", "o:precious_metals+1" ],
+			"carbon_ores_rich": [ "i:carbon_ore+1", "o:plastics+1" ],
+			"lawless": [ "o:narcotics+2" ]
+		}
+	},
+	"chemical_refinery":  {
+		"l10n_key": "CHEMICAL_REFINERY",
+		"context": "surface",
+		"conditions": [],
+		"inputs": {
+			"grain": 4,
+			"carbon_ore": 6,
+			"industrial_machinery": 3,
+			"metal_alloys": 2
+		},
+		"outputs": {
+			"chemicals": 5,
+			"plastics": 4,
+			"liquor": 2
+		},
+		"modifiers": {
+			"lawless": [ "o:narcotics+2", "i:grain+2", "i:industrial_machinery-1" ],
+			"biosphere_basic": [ "i:grain-1" ],
+			"biosphere_rich": [ "i:grain-1", "o:liquor+1" ]
+		}
+	},
+	"textile_mill": {
+		"l10n_key": "TEXTILE_MILL",
+		"context": "surface",
+		"conditions": [],
+		"inputs": {
+			"grain": 6,
+			"industrial_machinery": 3
+		},
+		"outputs": {
+			"textiles": 6
+		}
+	},
+	"consumer_industry": {
+		"l10n_key": "CONSUMER_INDUSTRIAL_PRODUCTION",
+		"context": "surface",
+		"conditions": [],
+		"inputs": {
+			"metal_alloys": 3,
+			"plastics": 4,
+			"grain": 4,
+			"industrial_machinery": 3
+		},
+		"outputs": {
+			"consumer_goods": 5,
+			"textiles": 4
+		}
+	},
+	"heavy_industry": {
+		"l10n_key": "HEAVY_INDUSTRIAL_PRODUCTION",
+		"context": "surface",
+		"conditions": [ "planet_terrestrial" ],
+		"inputs": {
+			"metal_alloys": 6,
+			"hydrogen": 6,
+			"plastics": 5,
+			"robots": 2
+		},
+		"outputs": {
+			"mining_machinery": 4,
+			"farm_machinery": 4,
+			"industrial_machinery": 4,
+			"hand_weapons": 2
+		}
+	},
+	"civil_industry": {
+		"l10n_key": "CIVIL_INDUSTRY",
+		"context": "surface",
+		"conditions": [ "planet_terrestrial" ],
+		"inputs": {
+			"metal_alloys": 6,
+			"plastics": 5,
+			"industrial_machinery": 4,
+			"grain": 3,
+			"computers": 3,
+			"robots": 2
+		},
+		"outputs": {
+			"mining_machinery": 5,
+			"air_processors": 5,
+			"consumer_goods": 4,
+			"fertilizer": 2,
+			"medicines": 2
+		}
+	},
+	"military_industry": {
+		"l10n_key": "MILITARY_INDUSTRY",
+		"conditions": [ "!lawless" ],
+		"inputs": {
+			"metal_alloys": 5,
+			"plastics": 5,
+			"industrial_machinery": 4,
+			"air_processors": 3,
+			"computers": 3,
+			"robots": 3,
+			"military_fuel": 3
+		},
+		"outputs": {
+			"hand_weapons": 4,
+			"battle_weapons": 3,
+			"medicines": 3,
+			"nerve_gas": 3,
+			"narcotics": 1
+		},
+		"modifiers": {
+			"rare_metals": [ "o:battle_weapons+1" ],
+			"airless": [ "i:air_processors+2" ],
+			"atmos_tenuous": [ "i:air_processors+1" ]
+		}
+	}
+}

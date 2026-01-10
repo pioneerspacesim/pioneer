@@ -119,7 +119,14 @@ public:
 	fixed m_volatileLiquid; // 1.0 = 100% ocean cover (earth = 70%)
 	fixed m_volatileIces;	// 1.0 = 100% ice cover (earth = 3%)
 	fixed m_volatileGas;	// 1.225 = earth atmosphere density, kg/m^3
+	// TODO: atmosphere hydrogen-nitrogen ratio from mass, carbon-oxygen ratio from atmosCarbon
+	// (approximate the distribution of nitrogen vs. hydrogen by using the mass of the body; < 5 Me predominantly nitrogen, > 7 Me predominantly hydrogen)
+	// this differentiates nitrogen-rich and hydrogen rich atmospheres, as well as (hydro)carbon-rich from oxygen-rich atmospheres
+	// thus, an earth-like atmosphere would be atmosOxidizing = 0.3, atmosCarbon <= 0.05
+	// See Photochemistry in Terrestrial Exoplanet Atmospheres[...] (http://dx.doi.org/10.1088/0004-637X/784/1/63)
+	// particularly Fig. 5: https://www.researchgate.net/figure/Mixing-ratios-of-common-molecules-in-thick-atmospheres-on-a-GJ-1214-b-like-exoplanet-The_fig2_259578190
 	fixed m_atmosOxidizing; // 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
+	// fixed m_atmosCarbon;    // 0.0 = oxygen (H2O, O2), 1.0 = carbon (CO, CO2, CH4, C2H4, etc)
 	fixed m_life;			// 0.0 = dead, 1.0 = teeming
 
 	/* economy type stuff */

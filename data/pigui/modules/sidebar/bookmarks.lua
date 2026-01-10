@@ -142,13 +142,32 @@ function BookmarkView:rebuildBookmarks()
 	function sorts.NAME(a, b)
 		local name_a = get_bookmark_name(bookmarks[a].path)
 		local name_b = get_bookmark_name(bookmarks[b].path)
-		return name_a < name_b or (name_a == name_b and a < b)
+
+		if name_a ~= name_b then return name_a < name_b end
+
+		local route_a = bookmarks[a].route_to
+		local route_b = bookmarks[b].route_to
+		if not (route_a and route_b) then return route_a == route_b and a < b or route_b end
+
+		local dest_a = get_bookmark_name(bookmarks[a].route_to)
+		local dest_b = get_bookmark_name(bookmarks[b].route_to)
+		return dest_a < dest_b or (dest_a == dest_b and a < b)
 	end
 
 	function sorts.DISTANCE(a, b)
 		local dist_a = bookmarks[a].path:DistanceTo(current)
 		local dist_b = bookmarks[b].path:DistanceTo(current)
-		return dist_a < dist_b or (dist_a == dist_b and a < b)
+		if dist_a ~= dist_b then return dist_a < dist_b end
+
+		if bookmarks[a].path ~= bookmarks[b].path then return a < b end
+
+		local route_a = bookmarks[a].route_to
+		local route_b = bookmarks[b].route_to
+		if not (route_a and route_b) then return route_a == route_b and a < b or route_b end
+
+		local r_dist_a = bookmarks[a].path:DistanceTo(route_a)
+		local r_dist_b = bookmarks[b].path:DistanceTo(route_b)
+		return r_dist_a < r_dist_b or (r_dist_a == r_dist_b and a < b)
 	end
 
 	function sorts.COMMODITY(a, b)
@@ -243,7 +262,7 @@ function BookmarkView:drawBookmark(bookmark, id)
 
 	self:drawTitleLine(bookmark, id)
 
-	self:drawDetails(bookmark)
+	self:drawDetails(bookmark, id)
 end
 
 ---@param bookmark SystemBookmark
@@ -308,20 +327,38 @@ function BookmarkView:drawTitleLine(bookmark, id)
 end
 
 ---@param bookmark SystemBookmark
-function BookmarkView:drawDetails(bookmark)
+function BookmarkView:drawDetails(bookmark, id)
+
+	local iconSize = pionillium.body.size
 
 	ui.withFont(pionillium.details, function()
+
+		ui.alignTextToLineHeight(iconSize)
 
 		if bookmark.route_to then
 
 			if bookmark.commodity then
-				ui.text(Commodities[bookmark.commodity]:GetName())
+				local comm = Commodities[bookmark.commodity]
+
+				ui.text(comm and comm:GetProperName() or lc.UNKNOWN)
 				ui.sameLine()
+				ui.text(ui.get_icon_glyph(icons.econ_major_export))
+			else
+				ui.text(ui.get_icon_glyph(icons.route_destination))
 			end
 
-			ui.text(ui.get_icon_glyph(icons.route))
+			local route_name = get_bookmark_name(bookmark.route_to)
+			if bookmark.route_to:IsBodyPath() then
+				route_name = route_name .. ", " .. bookmark.route_to:GetStarSystem().name
+			end
+
 			ui.sameLine()
-			ui.textEllipsis(bookmark.route_to:GetStarSystem().name)
+			ui.textEllipsis(route_name, ui.getContentRegion().x - iconSize)
+
+			ui.sameLine(-iconSize)
+			if ui.iconButton("view_dest_" .. id, icons.route, lui.VIEW_DESTINATION, nil, Vector2(iconSize)) then
+				self:selectPath(bookmark.route_to)
+			end
 
 		end
 

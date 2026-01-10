@@ -145,6 +145,7 @@ static int l_filesystem_read_dir(lua_State *l)
 	{
 		LuaTable entryTime(l);
 		entryTime.Set("name", info.GetName());
+		entryTime.Set("path", info.GetPath());
 		entryTime.Set("mtime", info.GetModificationTime());
 
 		if (info.IsDir())

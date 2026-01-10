@@ -438,6 +438,20 @@ static int l_starsystem_attr_path(lua_State *l)
 }
 
 /*
+ * Attribute: seed
+ *
+ * The integer seed of the system
+ *
+ */
+static int l_starsystem_attr_seed(lua_State *l)
+{
+	PROFILE_SCOPED()
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	LuaPush(l, s->GetSeed());
+	return 1;
+}
+
+/*
  * Attribute: lawlessness
  *
  * The lawlessness value for the system, 0 for peaceful, 1 for raging
@@ -607,6 +621,7 @@ void LuaObject<StarSystem>::RegisterClass()
 		{ "name", l_starsystem_attr_name },
 		{ "other_names", l_starsystem_attr_other_names },
 		{ "path", l_starsystem_attr_path },
+		{ "seed", l_starsystem_attr_seed },
 
 		{ "lawlessness", l_starsystem_attr_lawlessness },
 		{ "population", l_starsystem_attr_population },

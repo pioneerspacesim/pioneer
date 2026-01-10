@@ -865,7 +865,7 @@ ui.registerModule("game", { id = 'map-sector-view', draw = function()
 		end
 
 		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
-			systemEconView = package.reimport('pigui.modules.system-econ-view').New()
+			package.reimport('pigui.modules.system-econ-view')
 			bookmarkView:debugReload()
 			package.reimport('pigui.modules.hyperjump-planner')
 			package.reimport()

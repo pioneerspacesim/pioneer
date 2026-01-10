@@ -9,6 +9,8 @@ local debugView = require 'pigui.views.debug'
 local Format = require 'Format'
 local Commodities = require 'Commodities'
 
+local utils = require 'utils'
+
 -- (local) Global options
 local radius = 20
 local N = 0
@@ -138,13 +140,6 @@ local build_nearby_systems = function (dist, display)
 end
 
 
-local getprice = function (equip, system)
-	-- Hack: taken from libs/SpaceStation.lua, to check without needing a "station" object
-	return equip.price * ((100 + system:GetCommodityBasePriceAlterations(equip.name)) / 100.0)
-end
-
-
-
 -- scan all systems within radius dist from current position
 local scan_systems = function(dist)
 
@@ -167,7 +162,7 @@ local scan_systems = function(dist)
 			end
 
 			local name = comm:GetName()
-			local price = getprice(comm, sys)
+			local price = Economy.GetMarketPrice(comm.price, sys:GetCommodityBasePriceAlterations(comm.name))
 
 			if include and not commodities[name] then
 				commodities[name] = Commodity:new(name, comm.name, comm.price)
@@ -312,32 +307,31 @@ local function station_economy(commodities, clicked, station)
 	if not clicked or not station then
 		return
 	end
-	-- random selection, element 4 out of my ass
-	local cargo_item = commodities[clicked]
-	cargo_item = Commodities[cargo_item.id_name]
 
-	local flow, affinity = Economy.GetStationFlowParams(station, cargo_item)
+	local cargo_item = Commodities[commodities[clicked].id_name]
+	local market = Economy.GetStationMarket(station.path)
 
-	local equilibrium_stock, equilibrium_demand = Economy.GetCommodityStockFromFlow(cargo_item, flow, affinity)
+	local fS, fD = Economy.GetCommodityFlowParams(station:GetSystemBody(), cargo_item.name)
+	local supply, demand = market.supply[cargo_item.name], market.demand[cargo_item.name]
+
+	local equilibrium_stock = Economy.GetCommodityStockEquilibrium(station:GetSystemBody(), cargo_item.name)
 
 	local price = station:GetCommodityPrice(cargo_item)
 	local stock = station:GetCommodityStock(cargo_item)
-	local demand = station:GetCommodityDemand(cargo_item)
 
 	ui.text("At station: " .. station.label)
-	ui.text("Local price " .. price)
+	ui.text("Local price $" .. utils.round(price, 0.01))
 	ui.text("Local stock " .. stock)
+	ui.text("Local supply: " .. supply)
 	ui.text("Local demand: " .. demand)
-	ui.text("Local flow: " .. flow)
-	ui.text("Local affinity: " .. affinity)
-	ui.text("equilibrium_stock: " .. equilibrium_stock)
-	ui.text("equilibrium_demand: " .. equilibrium_demand)
+	ui.text("Local flow: fS +{} / fD -{}" % { fS, fD })
+	ui.text("Equilibrium_stock: " .. equilibrium_stock)
 
 	-- Just stub for experiment with changing market prices
 	local mod = 2
 	if ui.button("Double", Vector2(100, 0)) then
 		station:SetCommodityPrice(cargo_item, mod*price)
-		station:SetCommodityStock(cargo_item, mod*stock, mod*demand)
+		station:SetCommodityStock(cargo_item, mod*stock, mod*supply, mod*demand)
 	end
 end
 

@@ -63,7 +63,7 @@ static int l_rand_new(lua_State *l)
 /*
  * Method: Number
  *
- * Generates a real (non-integer) number in an open interval
+ * Generates a real (non-integer) number in a half-open interval
  *
  * > number = rand:Number()
  * > number = rand:Number(max)
@@ -71,7 +71,7 @@ static int l_rand_new(lua_State *l)
  *
  * Parameters:
  *
- *   min - optional, lower (exclusive) bound for random number.
+ *   min - optional, lower (inclusive) bound for random number.
  *         If omitted, defaults to 0.
  *
  *   max - optional, upper (exclusive) bound for random number.

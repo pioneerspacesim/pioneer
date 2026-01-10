@@ -1,0 +1,28 @@
+{
+	"inputs": {
+		"grain": 3,
+		"fruit_and_veg": 3,
+		"animal_meat": 2,
+		"liquor": 1,
+		"air_processors": 2,
+		"medicines": 2,
+		"consumer_goods": 3,
+		"textiles": 3,
+		"computers": 1,
+		"robots": 1,
+		"hydrogen": 6,
+		"water": 6,
+		"liquid_oxygen": 1,
+		"narcotics": 1,
+		"hand_weapons": 0
+	},
+	"outputs": {
+		"rubbish": 4,
+		"radioactives": 2
+	},
+	"modifiers": {
+		"atmos_breathable": [ "i:air_processors-3" ],
+		"lawless": [ "i:hand_weapons+1", "i:battle_weapons+0", "i:nerve_gas+1", "o:slaves+1" ],
+		"ice_abundant": [ "i:water-1" ]
+	}
+}

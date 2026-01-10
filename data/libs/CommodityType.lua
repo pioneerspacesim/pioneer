@@ -67,9 +67,10 @@ function CommodityType:Constructor(name, data)
 	for k, v in pairs(data) do self[k] = v end
 
 	local l = Lang.GetResource(self.l10n_resource)
-	---@type { name: string, description: string }
+	---@type { name: string, proper_name: string, description: string }
 	self.lang = {
 		name = l[self.l10n_key],
+		proper_name = string.scase(l[self.l10n_key]),
 		description = l:get(self.l10n_key .. "_DESCRIPTION") or ""
 	}
 end
@@ -79,6 +80,16 @@ end
 -- Returns the translated name of this commodity
 function CommodityType:GetName()
 	return self.lang.name
+end
+
+-- Method: GetProperName()
+--
+-- Returns the translated name of this commodity, capitalized for use as a
+-- label or proper name according to the rules of English capitalization.
+-- TODO: this function does not work properly on Cyrillic or other non-Latin
+-- scripts.
+function CommodityType:GetProperName()
+	return self.lang.proper_name
 end
 
 -- Method: GetDescription()
