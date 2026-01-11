@@ -2791,6 +2791,10 @@
     "description": "Tooltip for video mode/resultion setting",
     "message": "Yüksek çözünürlük, ekrana daha fazla ve daha küçük bilgiler gönderir, performansı düşürebilir."
   },
+  "VIEW_DESTINATION": {
+    "description": "Tooltip indicating the button will change the current view to the destination of a route.",
+    "message": "View Destination"
+  },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",
     "message": "Boya Atölyesini Ziyaret Et"

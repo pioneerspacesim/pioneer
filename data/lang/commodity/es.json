@@ -31,6 +31,14 @@
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
     "message": "El carbón es uno de los elementos más diversos de los que tenemos constancia. Usado en casi todo, desde plásticos hasta aleaciones, en ocasiones incluso en producción energética, el carbón es un producto barato pero importante. Como tal, casi todos los asentamientos industriales importan mineral de carbón."
   },
+  "CHEMICALS": {
+    "description": "",
+    "message": "chemicals"
+  },
+  "CHEMICALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Industrial precursors, caustic cleaning agents, and biochemical feedstock, chemicals are used in both consumer and industrial settings. Chemicals are shipped in industrial-strength containers to prevent corrosion of a ship's cargo hold."
+  },
   "COMPUTERS": {
     "description": "",
     "message": "computers"

@@ -31,6 +31,14 @@
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
     "message": "Углерод-один из самых разнообразных известных нам элементов. Используемый почти во всём, от пластмасс до сплавов, а иногда даже в производстве энергии, углерод является недорогим, но важным товаром. Таким образом, почти все промышленные поселения импортируют углеродистую руду."
   },
+  "CHEMICALS": {
+    "description": "",
+    "message": "chemicals"
+  },
+  "CHEMICALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Industrial precursors, caustic cleaning agents, and biochemical feedstock, chemicals are used in both consumer and industrial settings. Chemicals are shipped in industrial-strength containers to prevent corrosion of a ship's cargo hold."
+  },
   "COMPUTERS": {
     "description": "",
     "message": "computers"

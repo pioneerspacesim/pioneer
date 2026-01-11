@@ -2791,6 +2791,10 @@
     "description": "Tooltip for video mode/resultion setting",
     "message": "更高的分辨率以更小的尺寸显示更多的信息，可能会降低性能。"
   },
+  "VIEW_DESTINATION": {
+    "description": "Tooltip indicating the button will change the current view to the destination of a route.",
+    "message": "View Destination"
+  },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",
     "message": "访问油漆店"

@@ -31,6 +31,14 @@
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
     "message": "Uhlík je jedním z nejrozmanitějších prvků, o kterých víme. Uhlík, který se používá téměř ve všem od plastů po slitiny a někdy i na výrobu energie, je levnou, ale důležitou komoditou. Proto téměř všechna průmyslová sídla dovážejí uhlíkovou rudu."
   },
+  "CHEMICALS": {
+    "description": "",
+    "message": "chemicals"
+  },
+  "CHEMICALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Industrial precursors, caustic cleaning agents, and biochemical feedstock, chemicals are used in both consumer and industrial settings. Chemicals are shipped in industrial-strength containers to prevent corrosion of a ship's cargo hold."
+  },
   "COMPUTERS": {
     "description": "",
     "message": "computers"

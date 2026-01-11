@@ -31,6 +31,14 @@
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
     "message": "Carbonul este unul dintre cele mai diverse elemente pe care le cunoaștem. Folosit în aproape totul de la plastice până la aliaje și uneori chiar producția de curent, carbonul este o comoditate ieftină dar importantă. Din acest motiv, aproape toate așezările industriale importă cărbune."
   },
+  "CHEMICALS": {
+    "description": "",
+    "message": "chemicals"
+  },
+  "CHEMICALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Industrial precursors, caustic cleaning agents, and biochemical feedstock, chemicals are used in both consumer and industrial settings. Chemicals are shipped in industrial-strength containers to prevent corrosion of a ship's cargo hold."
+  },
   "COMPUTERS": {
     "description": "",
     "message": "computers"

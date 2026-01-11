@@ -31,6 +31,14 @@
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
     "message": "’S e tè dhe na h-eileamaidean as sùbailte a tha sa charbon. Thèid a cleachdadh ann an iomadh rud, can plastaig, co-mheatailt no solar cumhachd. ’S e bathar saor ach cudromach a tha sa chlach-charboin agus bidh a’ mhòrchuid a thuineachaidhean gnìomhachail feumach oirre."
   },
+  "CHEMICALS": {
+    "description": "",
+    "message": "chemicals"
+  },
+  "CHEMICALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Industrial precursors, caustic cleaning agents, and biochemical feedstock, chemicals are used in both consumer and industrial settings. Chemicals are shipped in industrial-strength containers to prevent corrosion of a ship's cargo hold."
+  },
   "COMPUTERS": {
     "description": "",
     "message": "computers"

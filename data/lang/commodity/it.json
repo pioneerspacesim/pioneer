@@ -31,6 +31,14 @@
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
     "message": "Il carbone è uno degli elementi più vari conosciuti. Usato per quasi ogni impiego dalle plastiche alle leghe e talvolta anche nella produzione di energia, il carbone è una merce economica ma importante. Come tale, quasi tutti gli insediamenti industriali importano carbone minerale."
   },
+  "CHEMICALS": {
+    "description": "",
+    "message": "prodotti chimici"
+  },
+  "CHEMICALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Precursori chimici, agenti di pulizia caustici e materie prime biochimiche. I prodotti chimici vengono usati in ambiti industriali e casalinghi. I prodotti vengono trasportati in container industriali rinforzati per prevenire la corrosione dello scafo delle navi."
+  },
   "COMPUTERS": {
     "description": "",
     "message": "computer"

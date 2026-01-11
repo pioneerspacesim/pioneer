@@ -31,6 +31,14 @@
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
     "message": "Le carbone est l'un des éléments les plus polyvalents que nous connaissions. Utilisé dans presque tout: du plastique à certains alliages et quelquefois même dans la production d'énergie, le carbone est peu cher, mais est une ressource importante. Pour cette raison, presque toutes les installations industrielles importent du carbone."
   },
+  "CHEMICALS": {
+    "description": "",
+    "message": "produits chimiques"
+  },
+  "CHEMICALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Précurseurs industriels, produits nettoyants caustiques ou bien matières premières biochimiques, les produits chimiques sont aussi bien utilisés dans par des consommateurs que dans des environnements industriels. Les produits chimiques sont transportés dans des conteneurs de grade industriels afin d'empêcher la corrosion de la soute du vaisseau."
+  },
   "COMPUTERS": {
     "description": "",
     "message": "ordinateurs"
