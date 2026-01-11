@@ -21,7 +21,7 @@ env:
   packages: >
       "mono-runtime"
       "unzip"
-  nd-src: >
+  ND_SRC: >
       "https://naturaldocs.org/download/natural_docs/2.3.1/Natural_Docs_2.3.1.zip"
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
@@ -52,7 +52,7 @@ jobs:
 
     - name: Download Natural Docs
       run: |
-        wget ${{ env.nd-src }} -O nd.zip
+        wget -O nd.zip $ND_SRC
 
     - name: Run natural docs
       run: |
