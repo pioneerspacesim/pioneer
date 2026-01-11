@@ -50,10 +50,9 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y ${{ env.packages }}
 
-    - name: Download natural docs
-      uses: wei/wget@v1
-      with:
-          args: -O nd.zip ${{ env.nd-src }}
+    - name: Download Natural Docs
+      run: |
+        wget ${{ env.nd-src }} -O nd.zip
 
     - name: Run natural docs
       run: |
