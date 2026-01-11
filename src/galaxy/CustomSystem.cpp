@@ -451,6 +451,8 @@ static int l_csys_faction(lua_State *L)
 	CustomSystem *cs = l_csys_check(L, 1);
 
 	std::string factionName = luaL_checkstring(L, 2);
+	cs->factionName = factionName;
+
 	if (!s_activeCustomSystemsDatabase->GetGalaxy()->GetFactions()->IsInitialized()) {
 		s_activeCustomSystemsDatabase->GetGalaxy()->GetFactions()->RegisterCustomSystem(cs, factionName);
 		lua_settop(L, 1);
@@ -891,6 +893,8 @@ CustomSystem *CustomSystemsDatabase::LoadSystemFromJSON(std::string_view filenam
 		// Set system faction pointer
 		auto factionName = systemdef.value<std::string>("faction", "");
 		if (!factionName.empty()) {
+			sys->factionName = factionName;
+
 			if (!GetGalaxy()->GetFactions()->IsInitialized()) {
 				GetGalaxy()->GetFactions()->RegisterCustomSystem(sys, factionName);
 			} else {
@@ -996,7 +1000,7 @@ const CustomSystemsDatabase::SystemList &CustomSystemsDatabase::GetCustomSystems
 	return (it != m_sectorMap.end()) ? it->second : s_emptySystemList;
 }
 
-void CustomSystemsDatabase::AddCustomSystem(const SystemPath &path, CustomSystem *csys)
+bool CustomSystemsDatabase::AddCustomSystem(const SystemPath &path, CustomSystem *csys)
 {
 	SystemList &sectorSystems = m_sectorMap[path];
 
@@ -1012,16 +1016,18 @@ void CustomSystemsDatabase::AddCustomSystem(const SystemPath &path, CustomSystem
 		// system already loaded with that name in that sector
 		if (csys->IsRandom()) {
 			delete csys;
-			return;
+			return false;
 		}
 
 		// Fully-defined custom systems override existing systems
 		csys->systemIndex = system->systemIndex;
 		m_lastAddedSystem = SystemIndex(path, csys->systemIndex);
 
+		GetGalaxy()->GetFactions()->UnregisterCustomSystem(system, system->factionName);
 		delete system;
+
 		system = csys;
-		return;
+		return true;
 	}
 
 	if (!csys->override_random_system)
@@ -1029,6 +1035,7 @@ void CustomSystemsDatabase::AddCustomSystem(const SystemPath &path, CustomSystem
 
 	m_lastAddedSystem = SystemIndex(path, csys->systemIndex);
 	sectorSystems.push_back(csys);
+	return true;
 }
 
 void CustomSystemsDatabase::RunLuaSystemSanityChecks(CustomSystem *csys)

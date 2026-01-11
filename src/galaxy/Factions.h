@@ -102,6 +102,7 @@ public:
 	bool IsInitialized() const;
 	Galaxy *GetGalaxy() const { return m_galaxy; }
 	void RegisterCustomSystem(CustomSystem *cs, const std::string &factionName);
+	void UnregisterCustomSystem(const CustomSystem *cs, const std::string &factionName);
 	void AddFaction(Faction *faction);
 
 	const Faction *GetFaction(const Uint32 index) const;

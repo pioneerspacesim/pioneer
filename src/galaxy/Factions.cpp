@@ -530,6 +530,18 @@ void FactionsDatabase::RegisterCustomSystem(CustomSystem *cs, const std::string 
 	m_missingFactionsMap[factionName].push_back(cs);
 }
 
+void FactionsDatabase::UnregisterCustomSystem(const CustomSystem *cs, const std::string &factionName)
+{
+	auto &list = m_missingFactionsMap[factionName];
+
+	for (auto iter = list.begin(); iter != list.end(); iter++) {
+		if (*iter == cs) {
+			list.erase(iter);
+			break;
+		}
+	}
+}
+
 void FactionsDatabase::AddFaction(Faction *faction)
 {
 	// add the faction to the various faction data structures
