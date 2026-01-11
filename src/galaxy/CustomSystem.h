@@ -74,6 +74,7 @@ public:
 	bool want_rand_explored;
 	bool override_random_system;
 	bool explored;
+	std::string factionName;
 	const Faction *faction;
 	Polit::GovType govType;
 	bool want_rand_lawlessness;
@@ -107,7 +108,7 @@ public:
 	typedef std::vector<const CustomSystem *> SystemList;
 	// XXX this is not as const-safe as it should be
 	const SystemList &GetCustomSystemsForSector(int sectorX, int sectorY, int sectorZ) const;
-	void AddCustomSystem(const SystemPath &path, CustomSystem *csys);
+	bool AddCustomSystem(const SystemPath &path, CustomSystem *csys);
 	Galaxy *GetGalaxy() const { return m_galaxy; }
 
 	void RunLuaSystemSanityChecks(CustomSystem *csys);
