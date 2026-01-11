@@ -7,11 +7,11 @@
 #include "GalaxyGenerator.h"
 #include "GameSaveError.h"
 #include "Json.h"
+#include "MathUtil.h"
 #include "Sector.h"
 #include "core/Log.h"
 
-// FIXME(sturnclaw): don't need to be pulling in SDL_image here
-#include <SDL_image.h>
+#include <SDL_surface.h>
 
 Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, float sol_offset_x, float sol_offset_y,
 	const std::string &factionsDir, const std::string &customSysDir) :
@@ -123,7 +123,9 @@ DensityMapGalaxy::DensityMapGalaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerato
 	m_mapWidth(0),
 	m_mapHeight(0)
 {
-	// FIXME(sturnclaw): why are we using raw SDL ops here - use an image loader!
+	// None of our subsystems are fully initialized at galaxy load time and we
+	// need access to the raw pixel data rather than a GPU texture.
+	// Could still benefit from being loaded through a resource system instead.
 	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(mapfile);
 	if (!filedata) {
 		Error("Galaxy: couldn't load '%s'\n", mapfile.c_str());
@@ -135,21 +137,27 @@ DensityMapGalaxy::DensityMapGalaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerato
 		Error("Galaxy: couldn't load: %s (%s)\n", mapfile.c_str(), SDL_GetError());
 	}
 
+	if (galaxyImg->format->BytesPerPixel != 1) {
+		Error("Galaxy: density map image is not a grayscale bitmap!");
+	}
+
 	// now that we have our raw image loaded
 	// allocate the space for our processed representation
-	m_galaxyMap.reset(new float[(galaxyImg->w * galaxyImg->h)]);
+	m_galaxyMap.reset(new uint8_t[(galaxyImg->w * galaxyImg->h)]);
 	// lock the image once so we can read from it
 	SDL_LockSurface(galaxyImg);
 	// setup our map dimensions for later
 	m_mapWidth = galaxyImg->w;
 	m_mapHeight = galaxyImg->h;
-	// copy every pixel value from the red channel (image is greyscale, channel is irrelevant)
-	for (int x = 0; x < galaxyImg->w; x++) {
-		for (int y = 0; y < galaxyImg->h; y++) {
-			const float val = float(static_cast<unsigned char *>(galaxyImg->pixels)[x + y * galaxyImg->pitch]);
+
+	// copy every pixel value from the image - the image must be in a 1Bpp grayscale image format
+	for (int y = 0; y < galaxyImg->h; y++) {
+		for (int x = 0; x < galaxyImg->w; x++) {
+			const uint8_t val = static_cast<uint8_t *>(galaxyImg->pixels)[x + y * galaxyImg->pitch];
 			m_galaxyMap.get()[x + y * m_mapWidth] = val;
 		}
 	}
+
 	// unlock the surface and then release it
 	SDL_UnlockSurface(galaxyImg);
 	if (galaxyImg)
@@ -157,22 +165,46 @@ DensityMapGalaxy::DensityMapGalaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerato
 }
 
 static const float one_over_256(1.0f / 256.0f);
+
+// Simple clamped texture sample
+static float sample(uint8_t pixels[], float x, float y, uint32_t w, uint32_t h)
+{
+	int tex_x = Clamp<int>(floor(x), 0, w);
+	int tex_y = Clamp<int>(floor(y), 0, h);
+
+	return pixels[tex_x + tex_y * w] * one_over_256;
+}
+
 Uint8 DensityMapGalaxy::GetSectorDensity(const int sx, const int sy, const int sz) const
 {
 	// -1.0 to 1.0 then limited to 0.0 to 1.0
 	const float offset_x = (((sx * Sector::SIZE + SOL_OFFSET_X) / GALAXY_RADIUS) + 1.0f) * 0.5f;
 	const float offset_y = (((-sy * Sector::SIZE + SOL_OFFSET_Y) / GALAXY_RADIUS) + 1.0f) * 0.5f;
 
-	const int x = int(floor(offset_x * (m_mapWidth - 1)));
-	const int y = int(floor(offset_y * (m_mapHeight - 1)));
+	const float fx = offset_x * (m_mapWidth - 1);
+	const float fy = offset_y * (m_mapHeight - 1);
+	const float mf = std::fmod(fx, 1.f);
+	const float my = std::fmod(fy, 1.f);
 
-	float val = m_galaxyMap.get()[x + y * m_mapWidth];
+	// Sample four times against the density map texture (clamped internally)
+	const float val1 = sample(m_galaxyMap.get(), fx, fy, m_mapWidth, m_mapHeight);
+	const float val2 = sample(m_galaxyMap.get(), fx + 1.0f, fy, m_mapWidth, m_mapHeight);
+	const float val3 = sample(m_galaxyMap.get(), fx, fy + 1.0f, m_mapWidth, m_mapHeight);
+	const float val4 = sample(m_galaxyMap.get(), fx + 1.0f, fy + 1.0f, m_mapWidth, m_mapHeight);
 
-	// crappy unrealistic but currently adequate density dropoff with sector z
-	val = val * (256.0f - std::min(float(abs(sz)), 256.0f)) * one_over_256;
+	// Do a bilinear interpolation
+	const float interp_1 = val1 * (1.f - mf) + val2 * mf;
+	const float interp_2 = val3 * (1.f - mf) + val4 * mf;
 
-	// reduce density somewhat to match real (gliese) density
-	val *= 0.5f;
+	float val = interp_1 * (1.f - my) + interp_2 * my;
 
-	return Uint8(val);
+	// Slightly improved and currently adequate density dropoff with sector z
+	// Produces ~1000ly thick "arms" and a significant bulge in the center
+	const float dropoff_scale = std::max(1.f, 3.5f - val * 2.5f);
+	const float dropoff = 1.0f - Clamp(std::min(abs(sz), 256) * one_over_256 * dropoff_scale, 0.f, 1.f);
+
+	val = val * dropoff;
+
+	// Return an integer value normalized to 256... sigh
+	return Clamp<uint8_t>(val * 256.0f, 0, 255);
 }
