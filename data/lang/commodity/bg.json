@@ -33,11 +33,11 @@
   },
   "CHEMICALS": {
     "description": "",
-    "message": "chemicals"
+    "message": "химикали"
   },
   "CHEMICALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Industrial precursors, caustic cleaning agents, and biochemical feedstock, chemicals are used in both consumer and industrial settings. Chemicals are shipped in industrial-strength containers to prevent corrosion of a ship's cargo hold."
+    "message": "Това са предшествениците на индустрията, каустични почистващи агенти и биохимични суровини, използват се както в потребителски, така и в индустриални условия. Химикалите се превозват в контейнери с индустриална здравина, за да се предотврати корозията на товарното отделение на кораба."
   },
   "COMPUTERS": {
     "description": "",

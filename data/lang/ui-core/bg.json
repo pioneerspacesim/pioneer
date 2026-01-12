@@ -2793,7 +2793,7 @@
   },
   "VIEW_DESTINATION": {
     "description": "Tooltip indicating the button will change the current view to the destination of a route.",
-    "message": "View Destination"
+    "message": "Преглед на дестинацията"
   },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",
