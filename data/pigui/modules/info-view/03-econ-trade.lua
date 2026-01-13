@@ -31,7 +31,7 @@ local jettison = function (item)
 	local button = ui.iconButton("Jettison " .. item:GetName(), icons.cargo_crate_illegal, l.JETTISON, variant)
 
 	if button and enabled then
-		Game.player:Jettison(item)
+		Game.player:Jettison(item, 1, 1800)
 	end
 
 	return button

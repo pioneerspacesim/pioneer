@@ -361,6 +361,11 @@ end
 ---@param quantity integer
 ---@param lifetime float
 function Ship:Jettison(cargoType, quantity, lifetime)
+	-- basic sanity checking
+	if cargoType == nil or quantity == nil or lifetime == nil then
+		return false
+	end
+	-- state checking
 	if self.flightState ~= "FLYING" and self.flightState ~= "DOCKED" and self.flightState ~= "LANDED" then
 		return false
 	end
