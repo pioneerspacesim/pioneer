@@ -137,7 +137,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "{target} must be reduced to space dust. I'll award you {cash} to do this."
+    "message": "{target} должен быть превращён в космическую пыль. Я заплачу вам {cash} за это."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -205,11 +205,11 @@
   },
   "IT_MUST_BE_DONE_AFTER_FEMALE": {
     "description": "",
-    "message": "It must be done after she leaves {spaceport}. Do not miss this opportunity."
+    "message": "Это должно быть сделано после того, как она покинет {spaceport}. Не упустите эту возможность."
   },
   "IT_MUST_BE_DONE_AFTER_MALE": {
     "description": "",
-    "message": "It must be done after he leaves {spaceport}. Do not miss this opportunity."
+    "message": "Это должно быть сделано после того, как он покинет {spaceport}. Не упустите эту возможность."
   },
   "OK_AGREED": {
     "description": "",
@@ -353,18 +353,18 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "Where can I find the target?"
+    "message": "Где я могу найти цель?"
   },
   "X_WILL_BE_LEAVING": {
     "description": "{ship_indef} is translated in /data/lang/ships/",
-    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {ship_indef} and has registration id {shipregid}."
+    "message": "{target} покинет {spaceport} в системе {system} ({sectorX}, {sectorY}, {sectorZ}), расстояние {dist} св. года(лет), {date}. Корабль — это {ship_indef} с регистрационным номером {shipregid}."
   },
   "X_WILL_BE_LEAVING_FEMALE": {
     "description": "{ship_indef} is translated in /data/lang/ships/",
-    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. Her ship is {ship_indef} and has registration id {shipregid}."
+    "message": "{target} покинет {spaceport} в системе {system} ({sectorX}, {sectorY}, {sectorZ}), расстояние {dist} св. года(лет), {date}. Её корабль — это {ship_indef} с регистрационным номером {shipregid}."
   },
   "X_WILL_BE_LEAVING_MALE": {
     "description": "{ship_indef} is translated in /data/lang/ships/",
-    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. His ship is {ship_indef} and has registration id {shipregid}."
+    "message": "{target} покинет {spaceport} в системе {system} ({sectorX}, {sectorY}, {sectorZ}), расстояние {dist} св. года(лет), {date}. Его корабль — это {ship_indef} с регистрационным номером {shipregid}."
   }
 }

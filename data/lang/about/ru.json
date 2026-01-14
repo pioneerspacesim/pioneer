@@ -1,130 +1,130 @@
 {
   "ABOUT": {
     "description": "",
-    "message": "About"
+    "message": "О проекте"
   },
   "ACKNOWLEDGEMENTS": {
     "description": "",
-    "message": "Acknowledgements"
+    "message": "Благодарности"
   },
   "CONTENT": {
     "description": "",
-    "message": "Content"
+    "message": "Контент"
   },
   "CONTENT_CONTRIBUTION": {
     "description": "",
-    "message": "Content contribution"
+    "message": "Создание контента"
   },
   "CONTRIBUTE": {
     "description": "",
-    "message": "Contribute"
+    "message": "Внести вклад"
   },
   "CONTRIBUTE_BODY": {
     "description": "",
-    "message": "Pioneer is the sum of the many contributions from its players and developers. See anything you want to change, improve, or ideas for new content to add? (E.g. translations, coding, art, 2D & 3D assets, music, designing custom star systems, improve our documentation, wiki, etc.) Follow the links for details on how you can contribute!"
+    "message": "Pioneer — это сумма множества вкладов его игроков и разработчиков. Видите что-то, что хотели бы изменить, улучшить, или есть идеи для нового контента? (Например: переводы, программирование, графика, 2D и 3D ресурсы, музыка, создание пользовательских звёздных систем, улучшение нашей документации, вики и т.д.) Перейдите по ссылкам для получения подробной информации о том, как вы можете внести свой вклад!"
   },
   "DEVELOPER_DOCUMENTATION": {
     "description": "",
-    "message": "Developer Documentation"
+    "message": "Документация для разработчиков"
   },
   "DOCUMENTATION": {
     "description": "",
-    "message": "Documentation"
+    "message": "Документация"
   },
   "DONATE_BODY": {
     "description": "",
-    "message": "If you enjoy playing Pioneer and would like to support its continued development, please consider donating - no donation is too small."
+    "message": "Если вам нравится играть в Pioneer и вы хотите поддержать его дальнейшую разработку, пожалуйста, рассмотрите возможность пожертвования — любая сумма важна."
   },
   "DONATE_OPTIONS": {
     "description": "Sentence continues in 'DONATE_OPTIONS_CONTINUED'",
-    "message": "For additional donation options, please see our"
+    "message": "Для дополнительных вариантов пожертвований, пожалуйста, посетите нашу"
   },
   "DONATE_OPTIONS_CONTINUED": {
     "description": "hyperlink, ending part of sentence in 'DONATE_OPTIONS'",
-    "message": "donations page"
+    "message": "страницу поддержки"
   },
   "DONATE_THANKS": {
     "description": "",
-    "message": "Thank you all for your continued support of Pioneer!"
+    "message": "Спасибо всем за постоянную поддержку Pioneer!"
   },
   "GAME_RELEASE": {
     "description": "",
-    "message": "Stable versions are released annually on February 3, but development is continuous. Brave pilots are thus encouraged to play from the latest source and report bugs."
+    "message": "Стабильные версии выходят ежегодно 3 февраля, но разработка ведётся непрерывно. Поэтому смелым пилотам рекомендуется играть на последней версии из исходного кода и сообщать об ошибках."
   },
   "INFO_BLURB": {
     "description": "",
-    "message": "Pioneer is a single player space adventure game set in the Milky Way galaxy at the turn of the 31st century."
+    "message": "Pioneer — это однопользовательская космическая приключенческая игра, действие которой происходит в галактике Млечный Путь на рубеже 31-го века."
   },
   "INFO_BODY": {
     "description": "",
-    "message": "The game is open-ended, and you are free to explore the millions of star systems in the game. You can land on planets, slingshot past gas giants, and burn yourself to a crisp flying between binary star systems. You can try your hand at piracy, make your fortune trading between systems, or do missions for the various factions fighting for power, freedom or self-determination."
+    "message": "Игра открыта, и вы свободны исследовать миллионы звёздных систем. Вы можете приземляться на планеты, использовать гравитационные манёвры у газовых гигантов и сгореть дотла, пролетая между двойными звёздами. Вы можете попробовать себя в пиратстве, сколотить состояние на межсистемной торговле или выполнять миссии для различных фракций, сражающихся за власть, свободу или самоопределение."
   },
   "LICENSE": {
     "description": "",
-    "message": "License"
+    "message": "Лицензия"
   },
   "LINK_BASIC_FLIGHT": {
     "description": "",
-    "message": "Basic flight"
+    "message": "Основы полёта"
   },
   "LINK_BUG_TRACKER": {
     "description": "",
-    "message": "Bug Tracker"
+    "message": "Трекер ошибок"
   },
   "LINK_COMMUNITY_CHAT": {
     "description": "",
-    "message": "Community chat (Discord)"
+    "message": "Чат (Discord) сообщества"
   },
   "LINK_COMMUNITY_FORUM": {
     "description": "",
-    "message": "Community Forum"
+    "message": "Форум сообщества"
   },
   "LINK_DEVELOPER_CHAT": {
     "description": "",
-    "message": "Developer chat (IRC)"
+    "message": "Чат (IRC) разработчиков"
   },
   "LINK_DEVELOPER_FORUM": {
     "description": "",
-    "message": "Developer Forum"
+    "message": "Форум разработчиков"
   },
   "LINK_FAQ": {
     "description": "",
-    "message": "FAQ"
+    "message": "Часто задаваемые вопросы"
   },
   "LINK_HOMEPAGE": {
     "description": "",
-    "message": "Homepage"
+    "message": "Домашняя страница"
   },
   "LINK_MANUAL": {
     "description": "",
-    "message": "Manual"
+    "message": "Руководство"
   },
   "SOFTWARE": {
     "description": "",
-    "message": "Software"
+    "message": "Программное обеспечение"
   },
   "SOFTWARE_BODY": {
     "description": "",
-    "message": "Pioneer includes the following third-party software"
+    "message": "Pioneer включает следующее стороннее программное обеспечение"
   },
   "SUPPORT_DEVELOPMENT": {
     "description": "",
-    "message": "Support Development"
+    "message": "Поддержать разработку"
   },
   "TRANSLATIONS": {
     "description": "",
-    "message": "Translations"
+    "message": "Переводы"
   },
   "VERSION_CURRENT": {
     "description": "",
-    "message": "Your current version"
+    "message": "Ваша текущая версия"
   },
   "VERSION_LATEST": {
     "description": "This sentence continues into string VERSION_LATEST_CONTINUED, to read 'Latest version from source', referring to the source code",
-    "message": "Latest version from"
+    "message": "Последняя версия из"
   },
   "VERSION_LATEST_CONTINUED": {
     "description": "is continued from string VERSION_LATEST, to read 'Latest version from source'. Here, 'source' refers to the source code",
-    "message": "source code"
+    "message": "исходного кода"
   }
 }

@@ -405,7 +405,7 @@
   },
   "ECONOMY_TYPE": {
     "description": "",
-    "message": "Economy type"
+    "message": "Тип экономики:"
   },
   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
     "description": "",
@@ -505,7 +505,7 @@
   },
   "GOVERNMENT_TYPE": {
     "description": "",
-    "message": "Government type"
+    "message": "Тип правления"
   },
   "GRAIN": {
     "description": "like wheat or barley",
@@ -513,7 +513,7 @@
   },
   "GRID_DISPLAY_MODE": {
     "description": "Label for grid display modes",
-    "message": "Grid Display Mode"
+    "message": "Режим отображения сетки"
   },
   "GRID_DISPLAY_MODE_GRID_AND_LEGS": {
     "description": "Combobox option for Grid with Legs",
@@ -521,15 +521,15 @@
   },
   "GRID_DISPLAY_MODE_GRID_ONLY": {
     "description": "Combobox option for Grid Only",
-    "message": "Grid Only"
+    "message": "Только сетка"
   },
   "GRID_DISPLAY_MODE_OFF": {
     "description": "Combobox option for Grid display off.",
-    "message": "Grid Off"
+    "message": "Выключение сетки"
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for toggle grid display button.",
-    "message": "Toggle visibility of the grid."
+    "message": "Переключает видимость сетки."
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -609,23 +609,23 @@
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
     "description": "Label for hyperspace cloud display modes.",
-    "message": "Hyperspace Cloud Display Mode"
+    "message": "Режим отображения гиперпространственного облака"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL": {
     "description": "Combobox option for all hyperspace clouds.",
-    "message": "All Hyperspace Clouds"
+    "message": "Все гиперпространственные облака"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY": {
     "description": "Combobox option for arrival hyperspace clouds.",
-    "message": "Arrival Hyperspace Clouds"
+    "message": "Облака прибытия из гиперпространства"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY": {
     "description": "Combobox option for departure hyperspace clouds.",
-    "message": "Departure Hyperspace Clouds"
+    "message": "Облака ухода в гиперпространстве"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for the button which toggles the display mode of hyperspace clouds.",
-    "message": "Toggle visibility of Hyperspace Clouds."
+    "message": "Переключатель видимости облаков ухода и прихода из гиперпространства"
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
@@ -721,15 +721,15 @@
   },
   "L4L5_DISPLAY_MODE": {
     "description": "Label for the lagrange point display modes.",
-    "message": "Lagrange Point Display Mode"
+    "message": "Режим отображения точек Лагранжа"
   },
   "L4L5_DISPLAY_MODE_ICONS_AND_TEXT": {
     "description": "Combobox option for lagrange point display as icons only.",
-    "message": "Icons and Labels"
+    "message": "Значки и подписи"
   },
   "L4L5_DISPLAY_MODE_ICONS_ONLY": {
     "description": "Combobox option for lagrange point display as icons only.",
-    "message": "Icons Only"
+    "message": "Только значки"
   },
   "L4L5_DISPLAY_MODE_OFF": {
     "description": "Combobox option for lagrange point display off.",
@@ -737,7 +737,7 @@
   },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for the L4/L5 Lagrange points toggle button.",
-    "message": "Toggle visibility of the L4/L5 lagrange points."
+    "message": "Переключить отображения точек Лагранжа L4/L5."
   },
   "LANDED": {
     "description": "",
@@ -1081,7 +1081,7 @@
   },
   "NUMBER_TONNES": {
     "description": "",
-    "message": "%{mass} t"
+    "message": "%{mass} т"
   },
   "N_ATMOSPHERE": {
     "description": "",
@@ -1241,7 +1241,7 @@
   },
   "POPULATION": {
     "description": "",
-    "message": "Population"
+    "message": "Население:"
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -1369,7 +1369,7 @@
   },
   "SECTOR_X_Y_Z": {
     "description": "",
-    "message": "Sector: {sectorX}, {sectorY}, {sectorZ}"
+    "message": "Секторr: {sectorX}, {sectorY}, {sectorZ}"
   },
   "SELECTED_SYSTEM": {
     "description": "",
@@ -1441,19 +1441,19 @@
   },
   "SHIPS_DISPLAY_MODE": {
     "description": "Label for ship display modes.",
-    "message": "Ship Display Mode"
+    "message": "Режим экрана корабля"
   },
   "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
     "description": "Combobox option for ships only.",
-    "message": "Ships Only"
+    "message": "Только корабли"
   },
   "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
     "description": "Combobox option for ships with orbits.",
-    "message": "Ships with Orbits"
+    "message": "Корабли и орбиты"
   },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for ship display toggle button.",
-    "message": "Toggle visibility of ships."
+    "message": "Переключение видимости кораблей"
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
@@ -1669,7 +1669,7 @@
   },
   "SURFACE_PRESSURE": {
     "description": "",
-    "message": "Surface pressure"
+    "message": "Давление на поверхности"
   },
   "SURFACE_TEMPERATURE": {
     "description": "",
@@ -1833,7 +1833,7 @@
   },
   "UNIT_DENSITY": {
     "description": "Density unit: kilos per cubic meter",
-    "message": "kg/m³"
+    "message": "кг/м³"
   },
   "UNIT_EARTH_GRAVITY": {
     "description": "Acceleration unit: one earth gravity (g)",
@@ -1845,7 +1845,7 @@
   },
   "UNIT_HECTARES": {
     "description": "Area unit: one hectare (ha) -10,000 m²",
-    "message": "ha"
+    "message": "га"
   },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
@@ -1909,15 +1909,15 @@
   },
   "UNIT_SQUARE_KILOMETERS": {
     "description": "Area unit: square kilometer (km²) - 1,000,000 m²",
-    "message": "km²"
+    "message": "км²"
   },
   "UNIT_SQUARE_MEGAMETERS": {
     "description": "Area unit: square megameter (Mm²) - 10^12 m²",
-    "message": "Mm²"
+    "message": "Мм²"
   },
   "UNIT_SQUARE_METERS": {
     "description": "Area unit: square meter (m²)",
-    "message": "m²"
+    "message": "м²"
   },
   "UNIT_TEMPERATURE_CELSIUS": {
     "description": "Temperature unit: degrees Celsius (°C)",

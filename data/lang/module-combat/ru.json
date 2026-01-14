@@ -29,7 +29,7 @@
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "{mission} миссия: Зарплата {cash}."
+    "message": "Миссия {mission}: Зарплата {cash}."
   },
   "ADTITLE_1": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} will pay {cash} for {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We have reason to believe that a ruthless market competitor is responsible for the disappearance of our freighters at {area}. Distance to the target area is {dist} ly."
+    "message": "Организация {org} заплатит {cash} за {mission} в системе {system} ({sectorx}, {sectory}, {sectorz}). У нас есть основания полагать, что безжалостный конкурент на рынке ответственен за исчезновение наших грузовых судов в районе {area}. Расстояние до целевого района составляет {dist} св. года(лет)."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
@@ -189,7 +189,7 @@
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "We have a salesperson in every nearby star system. Land at a station before the deadline and our staff will contact you about the payment."
+    "message": "У нас есть торговый представитель в каждой ближайшей звёздной системе. Прибудьте на станцию до истечения срока, и наш сотрудник свяжется с вами для выплаты вознаграждения."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "Meet me in the {rendezvous} system before the due date!"
+    "message": "Встретьтесь со мной в системе {rendezvous} до назначенного срока!"
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
@@ -217,7 +217,7 @@
   },
   "MILITARY_3": {
     "description": "",
-    "message": "The counter intelligence corps needs a civil pilot who asks no questions for {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pay is {cash}."
+    "message": "Отдел контрразведки нуждается в гражданском пилоте, который не задаёт вопросов, для миссии {mission} в системе {system} ({sectorx}, {sectory}, {sectorz}), {dist} св. года(лет). Оплата составляет {cash}."
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -225,7 +225,7 @@
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "Visit a station in the territory protected by the {org}! The operation requires that the mission objective is achieved on time."
+    "message": "Посетите станцию на территории, находящейся под защитой {org}! Операция требует, чтобы цель миссии была достигнута в срок."
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
@@ -237,7 +237,7 @@
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "I work for the {org}. Some of our freighters will arrive shortly at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To increase the safety of our employees and to protect the equipment we are willing to pay {cash} for {mission} mission. Distance to {area} is {dist} ly."
+    "message": "Я работаю на {org}. Некоторые из наших грузовых судов вскоре прибудут в район {area} в системе {system} ({sectorx}, {sectory}, {sectorz}). Чтобы повысить безопасность наших сотрудников и защитить оборудование, мы готовы заплатить {cash} за миссию {mission}. Расстояние до {area} составляет {dist} св. года(лет)."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -245,7 +245,7 @@
   },
   "MINING_LAND_THERE": {
     "description": "",
-    "message": "We have employees in every nearby star system. Just visit the nearest station before the due date and get in contact with the local office there."
+    "message": "У нас есть сотрудники в каждой ближайшей звёздной системе. Просто посетите ближайшую станцию до истечения срока и свяжитесь с местным отделением."
   },
   "MISSION": {
     "description": "",
@@ -273,15 +273,15 @@
   },
   "MISSION_TYPE_CONVO_1": {
     "description": "Name of mission type, used in conversation",
-    "message": "a reconnaissance"
+    "message": "разведка"
   },
   "MISSION_TYPE_CONVO_2": {
     "description": "Name of mission type, used in conversation",
-    "message": "an armed reconnaissance"
+    "message": "вооружённая разведка"
   },
   "MISSION_TYPE_CONVO_3": {
     "description": "Name of mission type, used in conversation. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
-    "message": "an area sweep"
+    "message": "зачистка территории"
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",
@@ -329,7 +329,7 @@
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "Just land at a station with a {org} office. This must be done before the due date in order not to jeopardise the entire mission!"
+    "message": "Просто прибудьте на станцию, где есть офис {org}. Это должно быть сделано до истечения срока, чтобы не поставить под угрозу всю миссию!"
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",

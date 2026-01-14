@@ -1,51 +1,51 @@
 {
   "ACCEPTED_DELIVER_DOCUMENT": {
     "description": "",
-    "message": "Very well. I have transferred the document to you."
+    "message": "Очень хорошо. Я переправил документ вам."
   },
   "ACCEPTED_DELIVER_MESSAGE": {
     "description": "",
-    "message": "Excellent. I have copied the message to your computer."
+    "message": "Отлично. Я скопировал сообщение на ваш компьютер."
   },
   "ACCEPTED_EVACUATION": {
     "description": "",
-    "message": "Excellent. Take care of you!"
+    "message": "Отлично. Берегите себя!"
   },
   "ACCEPTED_PRIVATEER": {
     "description": "",
-    "message": "Good. I think you will find the ship very quickly."
+    "message": "Хорошо. Думаю, вы найдёте корабль очень быстро."
   },
   "ACCEPTED_TAXI": {
     "description": "",
-    "message": "Very good. Hurry up!"
+    "message": "Очень хорошо. Скорее!"
   },
   "ACCEPTED_TRAITOR": {
     "description": "",
-    "message": "OK. I've transferred the data to your ship's computer."
+    "message": "ОК. Я передал данные на компьютер вашего корабля."
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Find a person in the {system} system. Reward {cash}."
+    "message": "Найдите человека в системе {system}. Вознаграждение {cash}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "Search mission in the {system} system. Payment {cash}."
+    "message": "Поисковая миссия в системе {system}. Оплата {cash}."
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "Compensation for expenses {cash}."
+    "message": "Компенсация за расходы {cash}."
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "MISSING PERSON"
+    "message": "ПРОПАЛ ЧЕЛОВЕК"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "PILOT FOR A SEARCH MISSION NEEDED"
+    "message": "НУЖЕН ПИЛОТ ДЛЯ ПОИСКОВОЙ МИССИИ"
   },
   "ADTITLE_3": {
     "description": "",
-    "message": "SHIP FOR SEARCH REQUIRED"
+    "message": "ТРЕБУЕТСЯ КОРАБЛЬ ДЛЯ ПОИСКА"
   },
   "CLIENT": {
     "description": "",
@@ -53,11 +53,11 @@
   },
   "COMPANY": {
     "description": "",
-    "message": "Company:"
+    "message": "Компания:"
   },
   "COMPANY_1": {
     "description": "Name of a company",
-    "message": "{name} Avionics Corporation"
+    "message": "Корпорация авионики {name}"
   },
   "COMPANY_2": {
     "description": "Name of a company",
@@ -93,7 +93,7 @@
   },
   "DISTANCE": {
     "description": "Distance in space, between two locations",
-    "message": "Distance:"
+    "message": "Расстояние:"
   },
   "FAILUREMSG_1": {
     "description": "",

@@ -833,7 +833,7 @@
   },
   "STAT_VOLUME": {
     "description": "Stat label for equipment volume",
-    "message": "Volume"
+    "message": "Объём"
   },
   "STAT_WEIGHT": {
     "description": "Stat label for equipment weight",

@@ -1,7 +1,7 @@
 {
   "ABOUT": {
     "description": "main menu button (implied 'about' the game)",
-    "message": "About"
+    "message": "О проекте"
   },
   "ABOVE_AVERAGE": {
     "description": "",
@@ -13,7 +13,7 @@
   },
   "ADD_BOOKMARK": {
     "description": "Button to add a singular bookmark",
-    "message": "Add Bookmark"
+    "message": "Добавить закладку"
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
@@ -69,7 +69,7 @@
   },
   "AUTOMATED_MESSAGE": {
     "description": "For comm messages from bots",
-    "message": "AUTOMATED MESSAGE"
+    "message": "АВТОМАТИЧЕСКОЕ СООБЩЕНИЕ"
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
@@ -81,7 +81,7 @@
   },
   "AVAILABLE_STOCK": {
     "description": "Market stat showing number of items in stock",
-    "message": "Available Stock"
+    "message": "Наличие"
   },
   "AVERAGE": {
     "description": "",
@@ -93,15 +93,15 @@
   },
   "BODY_IN_ROUTE": {
     "description": "Label indicating a star is part of a planned hyperjump route",
-    "message": "Body in planned HyperJump Route"
+    "message": "Тело на запланированном маршруте"
   },
   "BOOKMARK": {
     "description": "Label introducing a bookmark",
-    "message": "Bookmark"
+    "message": "Закладка"
   },
   "BOOKMARKS": {
     "description": "Label introducing a list of bookmarks",
-    "message": "Bookmarks"
+    "message": "Закладки"
   },
   "BULLETIN_BOARD": {
     "description": "",
@@ -113,7 +113,7 @@
   },
   "BUY_EQUIP": {
     "description": "Button text to buy selected equipment. May be used in a singular or plural context.",
-    "message": "Buy {name}"
+    "message": "Купить {name}"
   },
   "BUY_PRICE": {
     "description": "Title for buy-price column in commodity market",
@@ -145,7 +145,7 @@
   },
   "CANNOT_SELL_NONEMPTY_EQUIP": {
     "description": "",
-    "message": "Cannot sell an equipment item unless it is empty."
+    "message": "Нельзя продать элемент оборудования, если он не пуст."
   },
   "CANT_FIND_PATH": {
     "description": "Message when restoring savegame, file path",
@@ -201,7 +201,7 @@
   },
   "CENTER_ON_CURRENT_SYSTEM": {
     "description": "Center on current star system",
-    "message": "Center on Current System"
+    "message": "Центр текущей системы"
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
@@ -265,7 +265,7 @@
   },
   "COLLAPSE": {
     "description": "Close / collapse an open folder or group",
-    "message": "Collapse"
+    "message": "Свернуть"
   },
   "COLOR": {
     "description": "",
@@ -281,7 +281,7 @@
   },
   "COMMODITY": {
     "description": "Title for commodity name column in commodity market",
-    "message": "Commodity"
+    "message": "Товар"
   },
   "COMMODITY_MARKET": {
     "description": "",
@@ -293,15 +293,15 @@
   },
   "COMMODITY_TRADE_ANALYSIS_SYSTEM": {
     "description": "",
-    "message": "System-wide trade analysis of:"
+    "message": "Обзор рынка системы:"
   },
   "COMMODITY_TRADE_ANALYSIS_TOOLTIP_1": {
     "description": "",
-    "message": "Average interstellar trade flow for all commodities bought and sold in the system."
+    "message": "Средний межзвёздный товарооборот для всех товаров, покупаемых и продаваемых в системе."
   },
   "COMMODITY_TRADE_ANALYSIS_TOOLTIP_2": {
     "description": "",
-    "message": "Data may not reflect individual market prices."
+    "message": "Данные могут не отражать индивидуальные рыночные цены."
   },
   "COMPETENT": {
     "description": "Combat rating",
@@ -345,7 +345,7 @@
   },
   "COPY": {
     "description": "As for clipboard",
-    "message": "Copy"
+    "message": "Копировать"
   },
   "COULD_NOT_DELETE_SAVE": {
     "description": "",
@@ -361,7 +361,7 @@
   },
   "COULD_NOT_LOAD_SAVE_FILES": {
     "description": "Label indicating the list of save files could not be loaded",
-    "message": "Could not load save files"
+    "message": "Не удалось загрузить файл сохранения"
   },
   "COULD_NOT_READ_THE_SAVE_VERSION": {
     "description": "Message when restoring savegame",
@@ -369,7 +369,7 @@
   },
   "COULD_NOT_SAVE_GAME": {
     "description": "Label indicating a specific file could not be saved",
-    "message": "Could not save game: "
+    "message": "Не удалось сохранить игру:"
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -393,7 +393,7 @@
   },
   "CRIME": {
     "description": "Heading introducing a single crime name or list of crime names",
-    "message": "Crime"
+    "message": "Преступления"
   },
   "CRIMINAL": {
     "description": "Legal status of player",
@@ -401,11 +401,11 @@
   },
   "CRIMINAL_RECORD": {
     "description": "Heading for past crimes / crime history of character, proper noun",
-    "message": "Criminal Record"
+    "message": "История преступлений"
   },
   "CURRENT_FUEL": {
     "description": "Label indicating the current fuel state",
-    "message": "Current Fuel"
+    "message": "Топливо"
   },
   "CURRENT_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
@@ -417,11 +417,11 @@
   },
   "CURRENT_SYSTEM": {
     "description": "Label indicating the system the player currently occupies",
-    "message": "Current System"
+    "message": "Система"
   },
   "CUT": {
     "description": "As for clipboard",
-    "message": "Cut"
+    "message": "Вырезать"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
@@ -445,7 +445,7 @@
   },
   "DELETE_BOOKMARK": {
     "description": "Button to remove a singular bookmark",
-    "message": "Delete Bookmark"
+    "message": "Удалить закладку"
   },
   "DELETE_SAVE_CONFIRMATION": {
     "description": "",
@@ -549,7 +549,7 @@
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "Time left:"
+    "message": "Времени осталось:"
   },
   "ECONOMY_TRADE": {
     "description": "",
@@ -561,11 +561,11 @@
   },
   "EDIT_BOOKMARK": {
     "description": "Button to edit a singular bookmark",
-    "message": "Edit Bookmark"
+    "message": "Редактировать закладку"
   },
   "EDIT_NOTE": {
     "description": "",
-    "message": "Edit Note"
+    "message": "Редактировать заметку"
   },
   "EFFECTS": {
     "description": "",
@@ -613,7 +613,7 @@
   },
   "ENTER_CUSTOM_NOTE": {
     "description": "Label indicating a note should be entered here",
-    "message": "Enter custom note..."
+    "message": "Ввести заметку..."
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
@@ -625,7 +625,7 @@
   },
   "EQUIPMENT_CAPACITY": {
     "description": "The equipment capacity of a ship",
-    "message": "Equipment Capacity"
+    "message": "Вместимость оборудования"
   },
   "EQUIPMENT_MARKET": {
     "description": "",
@@ -657,7 +657,7 @@
   },
   "EXPAND": {
     "description": "Open / expand a collapsed folder or group",
-    "message": "Expand"
+    "message": "Развернуть"
   },
   "EXPERIENCED": {
     "description": "For player reputation",
@@ -673,7 +673,7 @@
   },
   "FACTION": {
     "description": "Label indicating the factional allegiance of an object",
-    "message": "Faction"
+    "message": "Фракция"
   },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
@@ -685,7 +685,7 @@
   },
   "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
     "description": "",
-    "message": "Failed to recover some equipment"
+    "message": "Не удалось восстановить часть оборудования"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
@@ -741,7 +741,7 @@
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "Final Target"
+    "message": "Конечная цель"
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
@@ -749,7 +749,7 @@
   },
   "FINE": {
     "description": "Cost of a criminal action",
-    "message": "Fine"
+    "message": "Штраф"
   },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
@@ -837,7 +837,7 @@
   },
   "GAME_OPTIONS": {
     "description": "GameOptions - tooltip for the Game Options tab in the Settings Window",
-    "message": "Game Options"
+    "message": "Настройки игры"
   },
   "GAME_TIME": {
     "description": "",
@@ -913,7 +913,7 @@
   },
   "HUD_ARRIVAL_DATE": {
     "description": "Label for Hyperspace Cloud arrival date",
-    "message": "Arrival Date"
+    "message": "Дата прибытия"
   },
   "HUD_ATMOSPHERIC_PRESSURE": {
     "description": "Tooltip: Atmospheric Pressure.",
@@ -1065,7 +1065,7 @@
   },
   "HUD_BUTTON_SWITCH_TO_CURRENT_SYSTEM": {
     "description": "Tooltip: Switch to current system",
-    "message": "Switch to current system"
+    "message": "Переключиться на текущую систему"
   },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
@@ -1077,7 +1077,7 @@
   },
   "HUD_BUTTON_SWITCH_TO_SELECTED_SYSTEM": {
     "description": "Tooltip: Switch to selected system",
-    "message": "Switch to selected system"
+    "message": "Переключиться на выбранную систему"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
     "description": "Tooltip: Switch to system map",
@@ -1257,15 +1257,15 @@
   },
   "HUD_RADAR_TOGGLE_MODE": {
     "description": "Tooltip: Toggle radar mode.",
-    "message": "Toggle radar between 2D and 3D modes"
+    "message": "Переключение радара между 2D и 3D режимами"
   },
   "HUD_RADAR_ZOOM_MODE_AUTOMATIC": {
     "description": "Tooltip: Current radar zoom mode.",
-    "message": "Automatic zoom"
+    "message": "Автоматический масштаб"
   },
   "HUD_RADAR_ZOOM_MODE_MANUAL": {
     "description": "Tooltip: Current radar zoom mode.",
-    "message": "Manual zoom"
+    "message": "Ручной масштаб"
   },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
@@ -1349,7 +1349,7 @@
   },
   "HYPERJUMP_ROUTING": {
     "description": "Label indicating a category division",
-    "message": "HyperJump Routing"
+    "message": "Планирование гиперпрыжка"
   },
   "HYPERSPACE_RANGE": {
     "description": "",
@@ -1357,7 +1357,7 @@
   },
   "ILLEGAL_COMMODITIES": {
     "description": "Commodities illegal in the current system or polity",
-    "message": "Illegal Commodities"
+    "message": "Незаконные товары"
   },
   "ILLEGAL_IN_SYSTEM": {
     "description": "An illegal action or commodity",
@@ -1393,11 +1393,11 @@
   },
   "INSTALL": {
     "description": "Install something",
-    "message": "Install"
+    "message": "Установка"
   },
   "INSTALLED": {
     "description": "Label indicating something is installed",
-    "message": "Installed"
+    "message": "Установлено"
   },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
@@ -1425,7 +1425,7 @@
   },
   "IN_HOLD": {
     "description": "Column title of the Commodity Market screen",
-    "message": "In hold"
+    "message": "В трюме"
   },
   "IN_STOCK": {
     "description": "Column title of Commodity and Ship Equipment markets showing current station stock level.",
@@ -1461,7 +1461,7 @@
   },
   "KNOWN_AS": {
     "description": "Indicates alternate names/aliases for an object",
-    "message": "Known as"
+    "message": "Известен как"
   },
   "LANGUAGE": {
     "description": "",
@@ -1501,11 +1501,11 @@
   },
   "LEGAL_RULES": {
     "description": "Refers to laws, rules and regulations",
-    "message": "Legal rules applicable in station controlled space. Laws are sensor enforced within a distance of: {distance}"
+    "message": "Правовые нормы, действующие в контролируемом станцией пространстве отслеживается сенсорами в радиусе: {distance}"
   },
   "LEGAL_RULES_AND_REGULATIONS": {
     "description": "Heading on a tab, keep it short",
-    "message": "Rules and Regulations"
+    "message": "Правила и нормы"
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1833,7 +1833,7 @@
   },
   "NO_BOOKMARKS_FOUND": {
     "description": "Label indicating a lack of bookmarks to display",
-    "message": "No Bookmarks Found"
+    "message": "Закладки не найдены"
   },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
@@ -1917,7 +1917,7 @@
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
-    "message": "Outstanding Fines"
+    "message": "Неуплаченные штрафы"
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
@@ -1925,7 +1925,7 @@
   },
   "OUT_OF_STOCK": {
     "description": "Equipment availability",
-    "message": "Out of stock"
+    "message": "Нет в наличии"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
@@ -1969,7 +1969,7 @@
   },
   "PASTE": {
     "description": "As for clipboard",
-    "message": "Paste"
+    "message": "Вставить"
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",
@@ -1989,7 +1989,7 @@
   },
   "PENDING_RETURN": {
     "description": "Status if the mission has not yet been fully completed",
-    "message": "Pending Return"
+    "message": "Ожидает возвращения"
   },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -2041,7 +2041,7 @@
   },
   "POSESSION_OF_COMMODITIES_ILLEGAL": {
     "description": "",
-    "message": "Possession of certain commodities is illegal in this system."
+    "message": "Владение определёнными товарами является незаконным в данной системе."
   },
   "POSITION": {
     "description": "The job title/position of crew memeber",
@@ -2073,19 +2073,19 @@
   },
   "PUMP_DOWN_FROM_CARGO_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t from cargo"
+    "message": "Перекачать %i т из груза"
   },
   "PUMP_DOWN_FROM_HYPERDRIVE_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t from hyperdrive to fuel tanks"
+    "message": "Перекачать %i т из гипердвигателя в топливные баки"
   },
   "PUMP_DOWN_TO_CARGO_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t to cargo"
+    "message": "Перекачать %i т в груз"
   },
   "PUMP_DOWN_TO_HYPERDRIVE_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t to hyperdrive from fuel tanks"
+    "message": "Перекачать %i т в гипердвигатель из топливных баков"
   },
   "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
@@ -2105,7 +2105,7 @@
   },
   "RANDOM_COLORS": {
     "description": "Paint shop. Randomize colors",
-    "message": "Random Colors"
+    "message": "Случайные цвета"
   },
   "RANDOM_FACE": {
     "description": "Generate random face",
@@ -2185,7 +2185,7 @@
   },
   "REPLACE_EQUIPMENT": {
     "description": "Market header when replacing equipped items",
-    "message": "Replace Equipment"
+    "message": "Заменить оборудование"
   },
   "REPUTATION": {
     "description": "",
@@ -2197,7 +2197,7 @@
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "Required Fuel"
+    "message": "Требуемое топливо"
   },
   "RESET": {
     "description": "",
@@ -2213,11 +2213,11 @@
   },
   "RESET_VIEW_ON_HYPERSPACE_EXIT": {
     "description": "Reset View on Hyperspace Exit option",
-    "message": "Reset View on Hyperspace Exit"
+    "message": "Сбросить вид при выходе из гиперпространства"
   },
   "RESET_VIEW_ON_HYPERSPACE_EXIT_DESC": {
     "description": "The tooltip of Reset View on Hyperspace Exit in the settings menu",
-    "message": "Reset view to main game view when exiting from hyperspace"
+    "message": "Восстановить основной игровой вид при выходе из гиперпространства"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -2265,11 +2265,11 @@
   },
   "SAVED_GAMES": {
     "description": "Header for save/load window",
-    "message": "Saved Games"
+    "message": "Сохранения"
   },
   "SAVE_AS": {
     "description": "",
-    "message": "Save As"
+    "message": "Сохранить как"
   },
   "SAVE_DELETED_SUCCESSFULLY": {
     "description": "",
@@ -2293,7 +2293,7 @@
   },
   "SELECTED": {
     "description": "Label indicating the following item is selected",
-    "message": "Selected"
+    "message": "Выбрано"
   },
   "SELECTED_SAVE_DOESNT_EXISTS": {
     "description": "",
@@ -2325,7 +2325,7 @@
   },
   "SELL_EQUIP": {
     "description": "Button text to sell installed equipment. May be used in a singular or plural context.",
-    "message": "Sell {name}"
+    "message": "Продать {name}"
   },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
@@ -2353,7 +2353,7 @@
   },
   "SET_JUMP_TARGET": {
     "description": "Button tooltip which sets the jump route to the selected body",
-    "message": "Set Jump Target"
+    "message": "Задать цель прыжка"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
@@ -2417,7 +2417,7 @@
   },
   "SHOW_AUTOSAVES": {
     "description": "Button tooltip indicating whether to show autosave files",
-    "message": "Show Autosaves"
+    "message": "Показывать файлы автосохранений"
   },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
@@ -2429,15 +2429,15 @@
   },
   "SORT_COMMODITY": {
     "description": "Indicates the list of objects should be sorted by commodity",
-    "message": "Commodity"
+    "message": "Товар"
   },
   "SORT_DISTANCE": {
     "description": "Indicates the list of objects should be sorted by distance",
-    "message": "Distance"
+    "message": "Расстояние"
   },
   "SORT_MODE": {
     "description": "Label indicating the current sorting mode of a list of objects",
-    "message": "Sort Mode"
+    "message": "Сортировка"
   },
   "SORT_NAME": {
     "description": "Indicates the list of objects should be sorted by name",
@@ -2541,19 +2541,19 @@
   },
   "SYSTEM_FACTION": {
     "description": "Tooltip indicating the faction controlling this system",
-    "message": "Controlling faction jurisdiction"
+    "message": "Юрисдикция правящей фракции"
   },
   "SYSTEM_INFORMATION": {
     "description": "Tooltip / label indicating information about a selected star system",
-    "message": "System Information"
+    "message": "Информация о системе"
   },
   "SYSTEM_NUM_STARS": {
     "description": "Tooltip indicating the system stellar arrangement",
-    "message": "Number of stars in system"
+    "message": "Количество звёзд в системе"
   },
   "SYSTEM_SECURITY_1": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
-    "message": "Safe"
+    "message": "Безопасно"
   },
   "SYSTEM_SECURITY_2": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
@@ -2565,7 +2565,7 @@
   },
   "SYSTEM_SECURITY_4": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
-    "message": "Very Dangerous"
+    "message": "Очень опасно"
   },
   "SYSTEM_SECURITY_5": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
@@ -2573,7 +2573,7 @@
   },
   "SYSTEM_SECURITY_TOOLTIP": {
     "description": "Tooltip introducing the system security rating",
-    "message": "System safety rating"
+    "message": "Рейтинг безопасности системы"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
@@ -2585,7 +2585,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Tech Level"
+    "message": "Технологический уровень"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -2605,7 +2605,7 @@
   },
   "THESE_ITEMS_ARE_PUNISHABLE_BY_FINE": {
     "description": "",
-    "message": "Purchase, sale, and transportation of these items is punishable by a fine and possible confiscation"
+    "message": "Покупка, продажа и транспортировка этих предметов карается штрафом и возможной конфискацией"
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
@@ -2661,11 +2661,11 @@
   },
   "TOTAL_DISTANCE": {
     "description": "Total distance of a (possibly series) of hyper jump(s)",
-    "message": "Total Distance"
+    "message": "Общее расстояние"
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "Total Duration"
+    "message": "Общая продолжительность"
   },
   "TOTAL_MASS": {
     "description": "",
@@ -2673,7 +2673,7 @@
   },
   "TO_PICK_UP": {
     "description": "Mission status",
-    "message": "To pick up"
+    "message": "Забрать"
   },
   "TRADING_AT": {
     "description": "Indicates the current system for inspecting commodities.",
@@ -2693,11 +2693,11 @@
   },
   "TRANSFER_FUEL": {
     "description": "Label indicating the ability to transfer fuel between equipment tanks",
-    "message": "Transfer Fuel"
+    "message": "Перекачать топливо"
   },
   "TRANSLATE_VIEW": {
     "description": "Indicates that the button must be kept pressed down, to translate the camera view with mouse",
-    "message": "Hold down to Translate view"
+    "message": "Перемещение камеры"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
@@ -2733,7 +2733,7 @@
   },
   "UNLAWFUL_ECM_DISCHARGE": {
     "description": "",
-    "message": "Unlawful ECM discharge"
+    "message": "Незаконный разряд блока управления"
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
@@ -2793,7 +2793,7 @@
   },
   "VIEW_DESTINATION": {
     "description": "Tooltip indicating the button will change the current view to the destination of a route.",
-    "message": "View Destination"
+    "message": "Просмотр пункта назначения"
   },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",
@@ -2805,7 +2805,7 @@
   },
   "VOLUME": {
     "description": "The volume property of some object",
-    "message": "Volume"
+    "message": "Объём"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",
