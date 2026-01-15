@@ -78,6 +78,8 @@ private:
 	bool RegenerateSystem(uint32_t newSeed);
 	void ClearSystem();
 
+	std::string GetFileDialogPath() const;
+
 	void OnFilepathChanged();
 
 	void RegisterMenuActions();

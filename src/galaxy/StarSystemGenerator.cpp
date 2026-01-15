@@ -455,6 +455,7 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 bool StarSystemCustomGenerator::ApplyToSystem(Random &rng, RefCountedPtr<StarSystem::GeneratorAPI> system, const CustomSystem *customSys)
 {
 	system->SetCustom(true, false);
+	system->SetSeed(customSys->seed);
 	system->SetNumStars(customSys->numStars);
 	system->SetPosition(customSys->pos);
 	system->SetOtherNames(customSys->other_names);
