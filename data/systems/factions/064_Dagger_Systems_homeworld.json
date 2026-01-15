@@ -1358,9 +1358,11 @@
 	"explored": true,
 	"faction": "Dagger Systems",
 	"govType": "NONE",
+	"index": 2,
 	"lawlessness": "f0/1094893876",
 	"longDesc": "",
 	"name": "Grezedo",
+	"overrideRandom": true,
 	"pos": [
 		6.703899383544922,
 		1.6590162515640259,

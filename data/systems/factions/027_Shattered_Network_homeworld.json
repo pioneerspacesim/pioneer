@@ -1169,9 +1169,11 @@
 	"explored": true,
 	"faction": "Shattered Network",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/1724433538",
 	"longDesc": "",
 	"name": "Obudrorn",
+	"overrideRandom": true,
 	"pos": [
 		7.100994110107422,
 		2.635720729827881,

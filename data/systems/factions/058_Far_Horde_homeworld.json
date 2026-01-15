@@ -154,9 +154,11 @@
 	"explored": true,
 	"faction": "Far Horde",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/3346893638",
 	"longDesc": "",
 	"name": "Morormarg",
+	"overrideRandom": true,
 	"pos": [
 		6.392413139343262,
 		7.318493366241455,

@@ -655,9 +655,11 @@
 	"explored": true,
 	"faction": "Provisional Systems",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/2102647670",
 	"longDesc": "",
 	"name": "Dewa",
+	"overrideRandom": true,
 	"pos": [
 		0.08565722405910492,
 		5.534317493438721,

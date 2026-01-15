@@ -4,7 +4,7 @@
 local f = Faction:new('Dagger Council')
 	:description_short('Dagger Council')
 	:description('Very little is currently known about The Dagger Council')
-	:homeworld(-25,-53,-53,0,1)
+	:homeworld(-25,-53,-54,0,1)
 	:foundingDate(3066)
 	:expansionRate(0.684718)
 	:military_name('Council Navy')

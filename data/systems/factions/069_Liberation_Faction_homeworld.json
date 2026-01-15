@@ -230,9 +230,11 @@
 	"explored": true,
 	"faction": "Liberation Faction",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/3018477387",
 	"longDesc": "",
 	"name": "Shiror",
+	"overrideRandom": true,
 	"pos": [
 		2.912550210952759,
 		0.11301553249359131,

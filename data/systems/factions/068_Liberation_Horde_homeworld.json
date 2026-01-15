@@ -176,9 +176,11 @@
 	"explored": true,
 	"faction": "Liberation Horde",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/168171405",
 	"longDesc": "",
 	"name": "Qudu",
+	"overrideRandom": true,
 	"pos": [
 		0.03995724767446518,
 		0.11331440508365631,

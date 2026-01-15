@@ -4,7 +4,7 @@
 local f = Faction:new('Inner Kingdoms')
 	:description_short('Inner Kingdoms')
 	:description('Very little is currently known about The Inner Kingdoms')
-	:homeworld(-33,-55,-54,2,3)
+	:homeworld(-33,-55,-54,0,3)
 	:foundingDate(3118)
 	:expansionRate(1.27892)
 	:military_name('Inner Space Arm')

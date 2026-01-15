@@ -1158,9 +1158,11 @@
 	"explored": true,
 	"faction": "Inner Faction",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/2906458923",
 	"longDesc": "",
 	"name": "Zemerashi",
+	"overrideRandom": true,
 	"pos": [
 		6.350750923156738,
 		3.2986061573028564,

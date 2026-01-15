@@ -154,9 +154,11 @@
 	"explored": true,
 	"faction": "Independent Expanse",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/1240257641",
 	"longDesc": "",
 	"name": "Asorthay",
+	"overrideRandom": true,
 	"pos": [
 		4.975924491882324,
 		1.2602870464324951,

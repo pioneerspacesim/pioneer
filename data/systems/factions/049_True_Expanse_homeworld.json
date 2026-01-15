@@ -115,9 +115,11 @@
 	"explored": true,
 	"faction": "True Expanse",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/2546041724",
 	"longDesc": "",
 	"name": "Iumiummar",
+	"overrideRandom": true,
 	"pos": [
 		7.687342166900635,
 		5.599941253662109,

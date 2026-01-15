@@ -343,9 +343,11 @@
 	"explored": true,
 	"faction": "True Systems",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/3769183585",
 	"longDesc": "",
 	"name": "Sobi",
+	"overrideRandom": true,
 	"pos": [
 		4.727614879608154,
 		6.407015323638916,

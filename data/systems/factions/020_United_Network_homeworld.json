@@ -357,9 +357,11 @@
 	"explored": true,
 	"faction": "United Network",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/511434915",
 	"longDesc": "",
 	"name": "Sasheon",
+	"overrideRandom": true,
 	"pos": [
 		5.694869518280029,
 		5.074192047119141,

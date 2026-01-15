@@ -75,7 +75,7 @@
 			"orbitalOffset": "f4/731084249",
 			"orbitalPhase": "f3/724389809",
 			"parent": 0,
-			"population": "f0/1986998523",
+			"population": "f0/2161312869",
 			"radius": "f0/958802316",
 			"rotationPeriod": "f19/343885078",
 			"rotationPhase": "f0/0",
@@ -1047,9 +1047,11 @@
 	"explored": true,
 	"faction": "Rim Systems",
 	"govType": "COMMUNIST",
+	"index": 0,
 	"lawlessness": "f0/419548475",
 	"longDesc": "",
 	"name": "Zeosa",
+	"overrideRandom": true,
 	"pos": [
 		0.3834768533706665,
 		2.9608919620513916,
@@ -1062,7 +1064,7 @@
 		-58
 	],
 	"seed": 2618100864,
-	"shortDesc": "Mining colony.",
+	"shortDesc": "Extensive mining operations.",
 	"stars": [
 		"STAR_M"
 	]

@@ -800,9 +800,11 @@
 	"explored": true,
 	"faction": "Provisional Expanse",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/2163174202",
 	"longDesc": "",
 	"name": "Lalele",
+	"overrideRandom": true,
 	"pos": [
 		1.0033107995986938,
 		2.9549002647399902,

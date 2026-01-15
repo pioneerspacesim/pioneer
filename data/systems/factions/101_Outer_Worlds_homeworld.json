@@ -115,9 +115,11 @@
 	"explored": true,
 	"faction": "Outer Worlds",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/177078380",
 	"longDesc": "",
 	"name": "Wanatame",
+	"overrideRandom": true,
 	"pos": [
 		2.9242827892303467,
 		6.176877021789551,

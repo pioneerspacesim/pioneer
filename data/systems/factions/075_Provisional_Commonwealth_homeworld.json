@@ -154,9 +154,11 @@
 	"explored": true,
 	"faction": "Provisional Commonwealth",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/2751361355",
 	"longDesc": "",
 	"name": "Hagisad",
+	"overrideRandom": true,
 	"pos": [
 		2.7092888355255127,
 		4.436396598815918,

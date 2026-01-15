@@ -39,9 +39,11 @@
 	"explored": true,
 	"faction": "Free Horde",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/797227006",
 	"longDesc": "",
 	"name": "Aneeth",
+	"overrideRandom": true,
 	"pos": [
 		3.6876044273376465,
 		0.21657581627368927,

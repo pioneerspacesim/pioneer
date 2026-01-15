@@ -273,9 +273,11 @@
 	"explored": true,
 	"faction": "Obsidian Union",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/29487263",
 	"longDesc": "",
 	"name": "Asinorn",
+	"overrideRandom": true,
 	"pos": [
 		4.660604953765869,
 		6.496373176574707,

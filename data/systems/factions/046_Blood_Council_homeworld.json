@@ -230,9 +230,11 @@
 	"explored": true,
 	"faction": "Blood Council",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/2110902501",
 	"longDesc": "",
 	"name": "Hoguso",
+	"overrideRandom": true,
 	"pos": [
 		4.636811256408691,
 		0.3465110659599304,

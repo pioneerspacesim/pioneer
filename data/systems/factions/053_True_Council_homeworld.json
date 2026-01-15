@@ -1191,9 +1191,11 @@
 	"explored": true,
 	"faction": "True Council",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/2480314821",
 	"longDesc": "",
 	"name": "Kemigitto",
+	"overrideRandom": true,
 	"pos": [
 		5.661196231842041,
 		2.5148847103118896,

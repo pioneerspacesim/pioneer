@@ -811,9 +811,11 @@
 	"explored": true,
 	"faction": "Blood Kingdoms",
 	"govType": "COMMUNIST",
+	"index": 0,
 	"lawlessness": "f0/630555838",
 	"longDesc": "",
 	"name": "Kuri",
+	"overrideRandom": true,
 	"pos": [
 		3.6119611263275146,
 		3.5776021480560303,

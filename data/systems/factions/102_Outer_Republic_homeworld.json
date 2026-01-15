@@ -2646,9 +2646,11 @@
 	"explored": true,
 	"faction": "Outer Republic",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/3391886973",
 	"longDesc": "",
 	"name": "Sunorce",
+	"overrideRandom": true,
 	"pos": [
 		6.521110534667969,
 		1.716473937034607,

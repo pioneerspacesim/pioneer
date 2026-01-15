@@ -815,9 +815,11 @@
 	"explored": true,
 	"faction": "Obsidian Alliance",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/2911544649",
 	"longDesc": "",
 	"name": "Heshi",
+	"overrideRandom": true,
 	"pos": [
 		1.1904622316360474,
 		2.608835220336914,
