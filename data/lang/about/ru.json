@@ -37,15 +37,15 @@
   },
   "DONATE_OPTIONS": {
     "description": "Sentence continues in 'DONATE_OPTIONS_CONTINUED'",
-    "message": "Для дополнительных вариантов пожертвований, пожалуйста, посетите нашу"
+    "message": "Другие способы пожертвований на нашей"
   },
   "DONATE_OPTIONS_CONTINUED": {
     "description": "hyperlink, ending part of sentence in 'DONATE_OPTIONS'",
-    "message": "страницу поддержки"
+    "message": "странице поддержки"
   },
   "DONATE_THANKS": {
     "description": "",
-    "message": "Спасибо всем за постоянную поддержку Pioneer!"
+    "message": "Благодарим за вашу неизменную поддержку Pioneer!"
   },
   "GAME_RELEASE": {
     "description": "",

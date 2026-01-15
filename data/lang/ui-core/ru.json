@@ -2581,7 +2581,7 @@
   },
   "TECH_CERTIFIED_MILITARY": {
     "description": "Lobby screen shows the tech level of the station",
-    "message": "This installation holds a military technology clearance."
+    "message": "На этом объекте действует допуск к военным технологиям."
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",

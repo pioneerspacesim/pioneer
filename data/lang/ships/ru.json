@@ -121,15 +121,15 @@
   },
   "LUNARSHUTTLE": {
     "description": "ship name - base form",
-    "message": "Лунный Шатл"
+    "message": "Lunar Shuttle"
   },
   "LUNARSHUTTLE_DEF": {
     "description": "ship - definite form",
-    "message": "Лунный Шатл"
+    "message": "Lunar Shuttle"
   },
   "LUNARSHUTTLE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "Лунный Шатл"
+    "message": "Lunar Shuttle"
   },
   "MALABAR": {
     "description": "ship name - base form",
@@ -157,15 +157,15 @@
   },
   "MOLARAMSAYI": {
     "description": "ship name - base form",
-    "message": "Мола Рамси"
+    "message": "Mola Ramsayi"
   },
   "MOLARAMSAYI_DEF": {
     "description": "ship - definite form",
-    "message": "Мола Рамси"
+    "message": "Mola Ramsayi"
   },
   "MOLARAMSAYI_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "Мола Рамси"
+    "message": "Mola Ramsayi"
   },
   "NATRIX": {
     "description": "ship name - base form",
@@ -205,27 +205,27 @@
   },
   "PUMPKINSEED": {
     "description": "ship name - base form",
-    "message": "Тыквенное семечко"
+    "message": "Pumpkinseed"
   },
   "PUMPKINSEED_DEF": {
     "description": "ship - definite form",
-    "message": "Тыквенное семечко"
+    "message": "Pumpkinseed"
   },
   "PUMPKINSEED_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "Тыквенное семечко"
+    "message": "Pumpkinseed"
   },
   "PUMPKINSEED_POLICE": {
     "description": "ship name - base form",
-    "message": "Тыквенное семечко (в полицейском исполнении)"
+    "message": "Pumpkinseed (в полицейском исполнении)"
   },
   "PUMPKINSEED_POLICE_DEF": {
     "description": "ship - definite form",
-    "message": "Тыквенное семечко (в полицейском исполнении)"
+    "message": "Pumpkinseed (в полицейском исполнении)"
   },
   "PUMPKINSEED_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "Тыквенное семечко (в полицейском исполнении)"
+    "message": "Pumpkinseed (в полицейском исполнении)"
   },
   "SHIP": {
     "description": "ship name - base form",
@@ -325,15 +325,15 @@
   },
   "WAVE": {
     "description": "ship name - base form",
-    "message": "Волна"
+    "message": "Wave"
   },
   "WAVE_DEF": {
     "description": "ship - definite form",
-    "message": "Волна"
+    "message": "Wave"
   },
   "WAVE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "Волна"
+    "message": "Wave"
   },
   "XYLOPHIS": {
     "description": "ship name - base form",

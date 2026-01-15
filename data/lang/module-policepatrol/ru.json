@@ -1,47 +1,47 @@
 {
   "FINES_ADMONISHING_1": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "Please visit the nearest {policeforce} office to pay your fines."
+    "message": "Пожалуйста, посетите ближайшее отделение {policeforce} для уплаты штрафов."
   },
   "FINES_ADMONISHING_2": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "Visit the nearest {policeforce} office and resolve this."
+    "message": "Посетите ближайшее отделение {policeforce} и урегулируйте этот вопрос."
   },
   "FINES_ADMONISHING_3": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "You need to sort this out or it will only get worse."
+    "message": "Вам нужно разобраться с этим, иначе ситуация будет только ухудшаться."
   },
   "FINES_ADMONISHING_4": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "There's a {policeforce} office on every large station. Pay your fines!"
+    "message": "На каждой крупной станции есть отделение {policeforce}. Оплатите штрафы!"
   },
   "FINES_ADMONISHING_HARSH_1": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "This needs to be resolved or there will be consequences!"
+    "message": "Это нужно уладить, иначе будут последствия!"
   },
   "FINES_ADMONISHING_HARSH_2": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "Unpaid fines will be prosecuted to the fullest extent of the law."
+    "message": "Неуплаченные штрафы будут преследоваться по всей строгости закона."
   },
   "FINES_ADMONISHING_HARSH_3": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "This is serious and you need to resolve it. The sooner the better."
+    "message": "Это серьёзно, и вам нужно это уладить. Чем скорее, тем лучше."
   },
   "FINES_ADMONISHING_HARSH_4": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "If you don't pay your fines you will end up as an outlaw. Pay your fines today!"
+    "message": "Если вы не заплатите штрафы, то станете вне закона. Оплатите штрафы сегодня же!"
   },
   "FINES_INTRO_1": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "Wait, there's more."
+    "message": "Подождите, это ещё не всё."
   },
   "FINES_INTRO_2": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "One more thing {ship_label}."
+    "message": "Ещё кое-что, {ship_label}."
   },
   "FINES_INTRO_3": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "Wait!"
+    "message": "Подождите!"
   },
   "FINES_INTRO_4": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
@@ -49,19 +49,19 @@
   },
   "FINES_MESSAGE_1": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "You have outstanding fines."
+    "message": "За вами числятся неоплаченные штрафы."
   },
   "FINES_MESSAGE_2": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "You are flagged with outstanding fines."
+    "message": "За вами числятся неоплаченные штрафы."
   },
   "FINES_MESSAGE_3": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "We see that you have fines to pay."
+    "message": "Мы видим, что у вас есть штрафы к оплате."
   },
   "FINES_MESSAGE_4": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "You have a total of ${fine} in unpaid fines."
+    "message": "Общая сумма ваших неоплаченных штрафов составляет ${fine}."
   },
   "ILLEGAL_GOODS_DETECTED": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "POLICE_TAUNT_2": {
     "description": "",
-    "message": "Smuggler, you will pay the ultimate price!"
+    "message": "Контрабандист, ты дорого заплатишь за это!"
   },
   "POLICE_TAUNT_3": {
     "description": "",
@@ -117,19 +117,19 @@
   },
   "RESTRICTIONS_ESTABLISHED_1": {
     "description": "",
-    "message": "The threat has been eliminated. {ship_label}, weapons fire restrictions are now in effect."
+    "message": "Угроза нейтрализована. {ship_label}, вступают в силу ограничения на ведение огня."
   },
   "RESTRICTIONS_ESTABLISHED_2": {
     "description": "",
-    "message": "{ship_label}, cease fire, cease fire!"
+    "message": "{ship_label}, прекратите огонь, прекратите огонь!"
   },
   "RESTRICTIONS_WITHDRAWN_1": {
     "description": "",
-    "message": "{ship_label}, you are authorized to open fire."
+    "message": "{ship_label}, вам разрешено открыть огонь."
   },
   "RESTRICTIONS_WITHDRAWN_2": {
     "description": "",
-    "message": "{ship_label}, fire at will!"
+    "message": "{ship_label}, огонь на поражение!"
   },
   "TAKE_A_HIKE": {
     "description": "",
