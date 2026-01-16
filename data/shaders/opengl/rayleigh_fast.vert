@@ -26,8 +26,6 @@ void main(void)
 	vec3 a = atmosDist.x * eyenorm - geosphereCenter;
 	vec3 b = atmosDist.y * eyenorm - geosphereCenter;
 
-	float AU = 149598000000.0;
-
 #if (NUM_LIGHTS > 0)
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		vec3 lightDir = normalize(vec3(uLight[i].position));
@@ -37,7 +35,7 @@ void main(void)
 		// Convert from radius-relative to real coordinates
 		vec3 center = geosphereCenter * geosphereRadius;
 
-		vec3 lightPosAU = uLight[i].position.xyz / AU;
+		vec3 lightPosAU = uLight[i].position.xyz * INV_AU;
 		float intensity = 1.f / dot(lightPosAU, lightPosAU); // magic to avoid calculating length and then squaring it
 
 		specularHighlight += computeIncidentLight(lightDir, eyenorm, center, atmosDist, toLinear(uLight[i].diffuse), uneclipsed) * intensity;
