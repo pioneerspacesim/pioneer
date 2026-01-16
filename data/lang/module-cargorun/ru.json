@@ -97,7 +97,7 @@
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
-    "message": "aluminium tubes"
+    "message": "алюминиевые трубы"
   },
   "AMOUNT": {
     "description": "Shown in mission summary. The amount of cargo",
@@ -105,19 +105,19 @@
   },
   "ART_OBJECTS": {
     "description": "custom cargo",
-    "message": "art objects"
+    "message": "предметы искусства"
   },
   "ART_OBJECTS_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "Unless you consider art critics a risk, no."
+    "message": "Только если вы считаете арт-критиков угрозой. А так — нет."
   },
   "ART_OBJECTS_RISK_MESSAGE_2": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "Between you and me... Don't look at the art and you'll be fine."
+    "message": "Между нами... Не смотрите на произведения искусства, и с вами всё будет в порядке."
   },
   "ART_OBJECTS_RISK_MESSAGE_3": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "The only danger of 25th century impressionism was to the original artist, you should be safe."
+    "message": "Единственной опасностью импрессионизма XXV века был сам художник, с вами всё должно быть в порядке."
   },
   "CARGO": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "CLUS": {
     "description": "custom cargo",
-    "message": "containerized living units"
+    "message": "контейнерные жилые модули"
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
@@ -197,7 +197,7 @@
   },
   "DIAMONDS": {
     "description": "custom cargo",
-    "message": "diamonds"
+    "message": "алмазы"
   },
   "DIGESTERS": {
     "description": "custom cargo",
@@ -209,7 +209,7 @@
   },
   "ELECTRICAL_APPLIANCES": {
     "description": "custom cargo",
-    "message": "electrical appliances"
+    "message": "бытовые электроприборы"
   },
   "ESCORT_CHATTER_1": {
     "description": "",
@@ -233,11 +233,11 @@
   },
   "EXPLOSIVES": {
     "description": "custom cargo",
-    "message": "explosives"
+    "message": "взрывчатые вещества"
   },
   "EXPLOSIVES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "No. Well, it's explosives, just don't drop it."
+    "message": "Нет. Вернее, это взрывчатка, просто не бросайте её."
   },
   "FAILUREMSG_1": {
     "description": "",
@@ -261,7 +261,7 @@
   },
   "FURNITURE": {
     "description": "custom cargo",
-    "message": "furniture"
+    "message": "мебель"
   },
   "GO_BACK": {
     "description": "Shown on a button in a sub-menu, to move back, to previous menu",
@@ -269,7 +269,7 @@
   },
   "GREENHOUSES": {
     "description": "custom cargo",
-    "message": "greenhouses"
+    "message": "теплицы"
   },
   "GUNS_GUNS_GUNS": {
     "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
@@ -277,11 +277,11 @@
   },
   "HAZARDOUS_SUBSTANCES": {
     "description": "custom cargo",
-    "message": "hazardous substances"
+    "message": "опасные вещества"
   },
   "HAZARDOUS_SUBSTANCES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "I guess you shouldn't open the containers."
+    "message": "Полагаю, вам не стоит открывать контейнеры."
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
@@ -293,23 +293,23 @@
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "The mass is {amount} t."
+    "message": "Масса составляет {amount} т."
   },
   "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "There are {amount} t."
+    "message": "Имеется {amount} т."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "It's only {amount} t."
+    "message": "Это всего лишь {amount} т."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "There are {amount} t of {cargoname}."
+    "message": "Имеется {amount} т {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount} t {cargoname}"
+    "message": "{amount} т {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
@@ -405,7 +405,7 @@
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
-    "message": "machine tools"
+    "message": "станки"
   },
   "NEGOTIABLE_1": {
     "description": "regarding mass, always more than 1t",
@@ -413,7 +413,7 @@
   },
   "NEGOTIABLE_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount} t {cargoname} can be divided as follows:"
+    "message": "{amount} т {cargoname} можно разделить следующим образом:"
   },
   "NEGOTIABLE_3": {
     "description": "regarding mass, always more than 1t",
@@ -425,15 +425,15 @@
   },
   "NEGOTIABLE_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "No it is not. It's only {amount} t."
+    "message": "Нет, это не так. Это всего лишь {amount} т."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
-    "message": "neptunium"
+    "message": "нептуний"
   },
   "OFFER": {
     "description": "",
-    "message": "Transport {amount} t for {reward}"
+    "message": "Доставить {amount} т за {reward}"
   },
   "OK_AGREED": {
     "description": "",
@@ -441,7 +441,7 @@
   },
   "OK_WE_AGREE": {
     "description": "",
-    "message": "OK, we agree on {amount} t for {reward}."
+    "message": "Хорошо, мы договорились на {amount} т за {reward}."
   },
   "PICKUP_FROM": {
     "description": "from a location",
@@ -489,19 +489,19 @@
   },
   "PLUTONIUM": {
     "description": "custom cargo",
-    "message": "plutonium"
+    "message": "плутоний"
   },
   "QUIBBLES": {
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-    "message": "quibbles"
+    "message": "квибблы"
   },
   "QUIBBLES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "No. Just don't get them wet and never feed them after midnight."
+    "message": "Нет. Просто не мочите их и никогда не кормите после полуночи."
   },
   "QUIBBLES_RISK_MESSAGE_2": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "Of course not! Look at them, they're so fluffy!"
+    "message": "Конечно, нет! Посмотрите на них, они такие пушистые!"
   },
   "RISK_1": {
     "description": "",
@@ -557,7 +557,7 @@
   },
   "SEMI_FINISHED_PRODUCTS": {
     "description": "custom cargo",
-    "message": "semi-finished products"
+    "message": "полуфабрикаты"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -573,11 +573,11 @@
   },
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
-    "message": "spaceship parts"
+    "message": "детали космических кораблей"
   },
   "STEM_BOLTS": {
     "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
-    "message": "self-sealing stem bolts"
+    "message": "самозакручивающиеся стеблевые болты"
   },
   "SUCCESSMSG_1": {
     "description": "",
@@ -609,7 +609,7 @@
   },
   "TITANIUM": {
     "description": "custom cargo",
-    "message": "titanium"
+    "message": "титан"
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
@@ -617,11 +617,11 @@
   },
   "TUNGSTEN": {
     "description": "custom cargo",
-    "message": "tungsten"
+    "message": "вольфрам"
   },
   "URANIUM": {
     "description": "custom cargo",
-    "message": "uranium"
+    "message": "уран"
   },
   "URGENCY_1": {
     "description": "",
@@ -653,11 +653,11 @@
   },
   "WEDDING_DRESSES": {
     "description": "custom cargo",
-    "message": "wedding dresses"
+    "message": "свадебные платья"
   },
   "WEDDING_DRESSES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
-    "message": "Over wedding dresses?"
+    "message": "От свадебных платьев?"
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",

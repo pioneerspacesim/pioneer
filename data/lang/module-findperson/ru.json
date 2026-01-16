@@ -61,23 +61,23 @@
   },
   "COMPANY_2": {
     "description": "Name of a company",
-    "message": "{name} Firearms Company"
+    "message": "Оружейная компания {name}"
   },
   "COMPANY_3": {
     "description": "Name of a company",
-    "message": "{name} Fleet Systems Foundation"
+    "message": "Флотский системный фонд {name}"
   },
   "COMPANY_4": {
     "description": "Name of a company",
-    "message": "{name} Defence Systems Company"
+    "message": "Оборонная компания {name}"
   },
   "COMPANY_5": {
     "description": "Name of a company",
-    "message": "{name} Surveillance Tools Corporation"
+    "message": "Корпорация средств наблюдения {name}"
   },
   "COMPANY_6": {
     "description": "Name of a company",
-    "message": "{name} Special IT Services Foundation"
+    "message": "Фонд специальных IT-услуг {name}"
   },
   "DANGER": {
     "description": "The risk level",
@@ -89,7 +89,7 @@
   },
   "DENY_1": {
     "description": "",
-    "message": "Excuse me Sir, but I need a pilot who has more experience."
+    "message": "Простите, сэр, но мне нужен пилот с бо́льшим опытом."
   },
   "DISTANCE": {
     "description": "Distance in space, between two locations",
@@ -97,11 +97,11 @@
   },
   "FAILUREMSG_1": {
     "description": "",
-    "message": "I'm not satisfied with your performance. I won't pay you!"
+    "message": "Меня не устраивает ваша работа. Я вам не заплачу!"
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "You are too late! Sorry, you won't get paid!"
+    "message": "Вы опоздали! Извините, но вы не получите оплаты!"
   },
   "FIND_PERSON": {
     "description": "Name of mission type",
