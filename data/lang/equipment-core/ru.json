@@ -737,15 +737,15 @@
   },
   "SLOT_CABIN": {
     "description": "Name for a generic room slot inside the pressurized living space",
-    "message": "Cabin"
+    "message": "Каюта"
   },
   "SLOT_CABIN_FORE": {
     "description": "Name for a cabin slot towards the front of the ship",
-    "message": "Fore Cabin"
+    "message": "Передняя каюта"
   },
   "SLOT_CABIN_REAR": {
     "description": "Name for a cabin slot towards the rear of the ship",
-    "message": "Rear Cabin"
+    "message": "Задняя каюта"
   },
   "SLOT_COMPUTER": {
     "description": "Name for a generic computer equipment slot",
@@ -765,7 +765,7 @@
   },
   "SLOT_IS_NOT_EMPTY_REPLACE_THE_EQUIPMENT_QUESTION": {
     "description": "",
-    "message": "Slot is not empty, replace the equipment?"
+    "message": "Слот не пуст. Заменить оборудование?"
   },
   "SLOT_SENSOR": {
     "description": "Name for a generic (flight/navigation) sensor slot",
@@ -785,11 +785,11 @@
   },
   "SLOT_STRUCTURE": {
     "description": "Name for the ship's internal structure modification slot",
-    "message": "Structure"
+    "message": "Конструкция"
   },
   "SLOT_THRUSTER": {
     "description": "Generic name for secondary attitude or maneuvering thrusters",
-    "message": "Thrusters"
+    "message": "Маневровые двигатели"
   },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
@@ -801,35 +801,35 @@
   },
   "STAT_ATMO_SHIELD": {
     "description": "Stat name for atmospheric shielding. 'Atmospheric' is abbreviated.",
-    "message": "Atm. Pressure Resistance"
+    "message": "Сопротивление атмосферному давлению"
   },
   "STAT_HYPERDRIVE_EFFICIENCY": {
     "description": "",
-    "message": "Fuel Efficiency Rating"
+    "message": "Рейтинг топливной эффективности"
   },
   "STAT_HYPERDRIVE_RESERVOIR": {
     "description": "",
-    "message": "Fuel Reservoir Size"
+    "message": "Объём ёмкостей для топлива"
   },
   "STAT_MISSILE_RADIUS": {
     "description": "",
-    "message": "Fuzing Radius"
+    "message": "Радиус подрыва"
   },
   "STAT_MISSILE_WARHEAD": {
     "description": "",
-    "message": "Explosive Yield (Equivalent)"
+    "message": "Мощность взрыва (эквивалент)"
   },
   "STAT_POWER_DRAW": {
     "description": "Stat label for equipment power draw",
-    "message": "Power Draw"
+    "message": "Потребляемая мощность"
   },
   "STAT_SHIELD": {
     "description": "Stat name for shield generator effectiveness.",
-    "message": "Effective Shield Strength"
+    "message": "Эффективная сила щита"
   },
   "STAT_THRUSTER_POWER": {
     "description": "Stat name for thruster upgrades",
-    "message": "Maximum Thrust Increase"
+    "message": "Увеличение максимальной маневровой тяги"
   },
   "STAT_VOLUME": {
     "description": "Stat label for equipment volume",
@@ -837,7 +837,7 @@
   },
   "STAT_WEIGHT": {
     "description": "Stat label for equipment weight",
-    "message": "Weight"
+    "message": "Масса"
   },
   "SURFACE_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude. Model manufacturer name is meant to sound like a cheap brand.",
@@ -865,31 +865,31 @@
   },
   "TARGET_SLOT_IS_NOT_EMPTY_PUT_THE_REPLACED_ONE_IN_THE_CLIPBOARD_QUESTION": {
     "description": "Message in the start menu when editing equipment",
-    "message": "Target slot is not empty, put the replaced one in the clipboard?"
+    "message": "Целевой слот не пуст. Поместить заменяемое оборудование в буфер обмена?"
   },
   "THE_SAME_EQUIPMENT_HAS_BEEN_ALREADY_INSTALLED": {
     "description": "Message in the start menu when editing equipment",
-    "message": "The same equipment has been already installed."
+    "message": "Такое же оборудование уже установлено."
   },
   "THRUSTERS_DEFAULT": {
     "description": "Equipment name for default RCS thrusters",
-    "message": "Default Thrusters"
+    "message": "Стандартные маневровые двигатели"
   },
   "THRUSTERS_IMPROVED": {
     "description": "",
-    "message": "Improved Thrusters"
+    "message": "Улучшенные маневровые двигатели"
   },
   "THRUSTERS_IMPROVED_DESCRIPTION": {
     "description": "",
-    "message": "An improved type of thrusters approved for your ship."
+    "message": "Усовершенствованный тип маневровых двигателей, одобренный для установки на ваш корабль."
   },
   "THRUSTERS_NAVAL": {
     "description": "",
-    "message": "Naval Thrusters"
+    "message": "Маневровые двигатели военного класса"
   },
   "THRUSTERS_NAVAL_DESCRIPTION": {
     "description": "",
-    "message": "Naval thrusters specifically tailored for your ship to provide the best possible output."
+    "message": "Военные маневровые двигатели, специально адаптированные под ваш корабль для максимальной эффективности."
   },
   "THRUSTERS_OPTIMISED": {
     "description": "",
@@ -917,11 +917,11 @@
   },
   "UNIT_HYPERDRIVE_EFFICIENCY": {
     "description": "Fictional unit abbreviation for hyperdrive efficiency",
-    "message": "kF"
+    "message": "кF"
   },
   "UNIT_WARHEAD_DAMAGE": {
     "description": "Unit abbreviation for missile warhead damage.",
-    "message": "kg TNT"
+    "message": "кг TNT"
   },
   "UNOCCUPIED_CABIN": {
     "description": "",
@@ -929,7 +929,7 @@
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",
-    "message": "Required for transporting passengers"
+    "message": "Требуется для перевозки пассажиров"
   },
   "UTILITY": {
     "description": "Category name of utility equipment",

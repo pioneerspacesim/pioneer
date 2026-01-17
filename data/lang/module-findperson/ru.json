@@ -105,39 +105,39 @@
   },
   "FIND_PERSON": {
     "description": "Name of mission type",
-    "message": "Find person"
+    "message": "Поиск людей"
   },
   "GREETING_DELIVER_DOCUMENT": {
     "description": "",
-    "message": "Damn, you got me. OK, I have signed the document. Please return it to {client}!"
+    "message": "Чёрт, вы меня поймали. Ладно, я подписал документ. Пожалуйста, верните его {client}!"
   },
   "GREETING_DELIVER_MESSAGE": {
     "description": "",
-    "message": "Thank you for the message. I have transmitted an answer for {client} to your ship's computer."
+    "message": "Спасибо за сообщение. Я передал ответ для {client} на компьютер вашего корабля."
   },
   "GREETING_EVACUATION": {
     "description": "",
-    "message": "Heaven, it's nice to see you! We can take off immediately. There's nothing keeping me here anymore."
+    "message": "Боже, как я рад вас видеть! Мы можем взлетать немедленно. Меня здесь больше ничего не держит."
   },
   "GREETING_PRIVATEER": {
     "description": "",
-    "message": "Uh, you work for {client}? I have copied valuable data to your ship's computer. {client} will find this useful!"
+    "message": "Э-э, вы работаете на {client}? Я скопировал ценные данные на компьютер вашего корабля. {client} найдёт это полезным!"
   },
   "GREETING_TAXI": {
     "description": "",
-    "message": "Oh, no. That's bad news. Let's fly back immediately."
+    "message": "О, нет. Это плохие новости. Давайте немедленно летим обратно."
   },
   "GREETING_TRAITOR": {
     "description": "",
-    "message": "What? {client} wants a statement? OK, please return and hand over this document!"
+    "message": "Что? {client} хочет доказательств? Хорошо, пожалуйста, вернитесь и передайте ему этот документ!"
   },
   "HOW_CAN_I_FIND_HER": {
     "description": "",
-    "message": "How can I find her?"
+    "message": "Как мне её найти?"
   },
   "HOW_CAN_I_FIND_HIM": {
     "description": "",
-    "message": "How can I find him?"
+    "message": "Как мне его найти?"
   },
   "HOW_MUCH_TIME": {
     "description": "",
@@ -145,51 +145,51 @@
   },
   "HOW_MUCH_TIME_DELIVER_DOCUMENT": {
     "description": "",
-    "message": "Please be back by {date}."
+    "message": "Пожалуйста, вернитесь к {date}."
   },
   "HOW_MUCH_TIME_DELIVER_MESSAGE": {
     "description": "",
-    "message": "If I don't hear from you by {date}, I will hire another pilot!"
+    "message": "Если я не получу от вас вестей до {date}, я найму другого пилота!"
   },
   "HOW_MUCH_TIME_EVACUATION": {
     "description": "",
-    "message": "You have to be back by {date}! If not, we are in serious trouble."
+    "message": "Вы должны вернуться к {date}! Если нет, у нас будут серьёзные проблемы."
   },
   "HOW_MUCH_TIME_PRIVATEER": {
     "description": "",
-    "message": "If you're not back by {date}, our deal's over!"
+    "message": "Если вы не вернётесь к {date}, наша сделка аннулируется!"
   },
   "HOW_MUCH_TIME_TAXI": {
     "description": "",
-    "message": "Our deal is over by {date}."
+    "message": "Наша сделка действительна до {date}."
   },
   "HOW_MUCH_TIME_TRAITOR": {
     "description": "",
-    "message": "Time is critical! If you're not back by {date}, we're finished."
+    "message": "Время на исходе! Если вы не вернётесь к {date}, нам конец."
   },
   "HOW_TO_DELIVER_DOCUMENT_FEMALE": {
     "description": "",
-    "message": "Find her ship. Then you'll find her."
+    "message": "Ищите её корабль. Она будет там."
   },
   "HOW_TO_DELIVER_DOCUMENT_MALE": {
     "description": "",
-    "message": "All you have to do is locate his ship. He shouldn't be far away."
+    "message": "Всё, что вам нужно — это найти его корабль. Сам пилот должен быть где-то неподалёку."
   },
   "HOW_TO_DELIVER_MESSAGE_FEMALE": {
     "description": "",
-    "message": "All I know is that she's supposed to be working at a space station."
+    "message": "Всё, что я знаю — это то, что она, предположительно, работает на космической станции."
   },
   "HOW_TO_DELIVER_MESSAGE_MALE": {
     "description": "",
-    "message": "He works in an office near a spaceport. That's all I know."
+    "message": "Он работает в офисе неподалёку от космопорта. Это всё, что я знаю."
   },
   "HOW_TO_EVACUATION_FEMALE": {
     "description": "",
-    "message": "She will certainly contact you if she finds out that you arrived!"
+    "message": "Она обязательно свяжется с вами, если узнает, что вы прибыли!"
   },
   "HOW_TO_EVACUATION_MALE": {
     "description": "",
-    "message": "He will contact you when he realizes you've arrived!"
+    "message": "Он свяжется с вами, когда поймёт, что вы прибыли!"
   },
   "HOW_TO_PRIVATEER_FEMALE": {
     "description": "",
@@ -477,74 +477,74 @@
   },
   "SUCCESS_INT_3": {
     "description": "",
-    "message": "I just paid you. I heard you had a mercenary on your neck. Great job!"
+    "message": "Я только что выплатил вам вознаграждение. Я слышал, за вами гнался наёмник. Отличная работа!"
   },
   "SUCCESS_MSG_1": {
     "description": "",
-    "message": "Thank you for this service. I have paid the fee."
+    "message": "Спасибо за эту услугу. Я оплатил вознаграждение."
   },
   "SUCCESS_MSG_2": {
     "description": "",
-    "message": "Thanks for the service. Your salary has been transferred."
+    "message": "Спасибо за услугу. Ваше вознаграждение переведено."
   },
   "SUCCESS_MSG_3": {
     "description": "",
-    "message": "Good job! I have transferred the money."
+    "message": "Хорошая работа! Я перевёл деньги."
   },
   "SUCCESS_MSG_4": {
     "description": "",
-    "message": "Thank you very much! I've paid you in full."
+    "message": "Большое спасибо! Я выплатил вам полное вознаграждение."
   },
   "SUCCESS_MSG_5": {
     "description": "",
-    "message": "You found {wanted}? Great! Here's your payment."
+    "message": "Вы нашли {wanted}? Отлично! Вот ваша оплата."
   },
   "SYSTEM": {
     "description": "",
-    "message": "System:"
+    "message": "Система:"
   },
   "TIP_FEMALE_1": {
     "description": "",
-    "message": "I'm not sure, but I think {wanted} is currently at {station}."
+    "message": "Я не уверен(а), но думаю, что {wanted} сейчас находится на {station}."
   },
   "TIP_FEMALE_2": {
     "description": "",
-    "message": "I think I know the person you are looking for. I have seen her at {station} recently."
+    "message": "Кажется, я знаю человека, которого вы ищете. Я недавно видел её на {station}."
   },
   "TIP_FEMALE_3": {
     "description": "",
-    "message": "I know {wanted}. You can find her at {station}."
+    "message": "Я знаю {wanted}. Вы можете найти её на {station}."
   },
   "TIP_FEMALE_4": {
     "description": "",
-    "message": "I think I know a person that fits your description. You should visit {station} for more information."
+    "message": "Кажется, я знаю человека, подходящего под ваше описание. Вам стоит заглянуть на {station} для получения дополнительной информации."
   },
   "TIP_MALE_1": {
     "description": "",
-    "message": "I think {wanted} is currently at {station}. But I'm not sure!"
+    "message": "Думаю, {wanted} сейчас на {station}. Но я не уверен!"
   },
   "TIP_MALE_2": {
     "description": "",
-    "message": "I think I know {wanted}. I have seen him at {station}."
+    "message": "Кажется, я знаю {wanted}. Я видел его на {station}."
   },
   "TIP_MALE_3": {
     "description": "",
-    "message": "You are looking for {wanted}?. He is currently at {station}."
+    "message": "Вы ищете {wanted}? Он сейчас находится на {station}."
   },
   "TIP_MALE_4": {
     "description": "",
-    "message": "Your description matches a person I met near {station}."
+    "message": "Ваше описание совпадает с человеком, которого я встречал недалеко от {station}."
   },
   "TRANSMITTING_MSG": {
     "description": "Message from the ship's computer",
-    "message": "Transmitting message to ship {shipid}"
+    "message": "Передача сообщения на корабль {shipid}"
   },
   "WANTED": {
     "description": "",
-    "message": "Person wanted:"
+    "message": "Разыскивается:"
   },
   "YOU_DO_NOT_HAVE_A_CABIN": {
     "description": "",
-    "message": "Sorry, you do not have a passenger cabin."
+    "message": "Извините, у вас нет пассажирской каюты."
   }
 }
