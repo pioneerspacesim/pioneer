@@ -388,9 +388,11 @@
 	"explored": true,
 	"faction": "United Union",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/668604862",
 	"longDesc": "",
 	"name": "Canveen",
+	"overrideRandom": true,
 	"pos": [
 		6.143665313720703,
 		1.5435642004013062,

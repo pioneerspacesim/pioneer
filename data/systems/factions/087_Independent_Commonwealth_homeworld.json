@@ -731,9 +731,11 @@
 	"explored": true,
 	"faction": "Independent Commonwealth",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/934834900",
 	"longDesc": "",
 	"name": "Andedio",
+	"overrideRandom": true,
 	"pos": [
 		4.700756072998047,
 		5.247227191925049,

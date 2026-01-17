@@ -244,9 +244,11 @@
 	"explored": true,
 	"faction": "Outer League",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/1150897708",
 	"longDesc": "",
 	"name": "Olurfa",
+	"overrideRandom": true,
 	"pos": [
 		6.100039482116699,
 		1.101998209953308,

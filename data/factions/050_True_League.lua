@@ -4,7 +4,7 @@
 local f = Faction:new('True League')
 	:description_short('True League')
 	:description('Very little is currently known about The True League')
-	:homeworld(-27,-59,-59,2,8)
+	:homeworld(-27,-59,-59,0,8)
 	:foundingDate(3121)
 	:expansionRate(1.31987)
 	:military_name('True Space Arm')

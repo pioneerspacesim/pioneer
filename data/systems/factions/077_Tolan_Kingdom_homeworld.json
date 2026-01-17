@@ -160,9 +160,11 @@
 	"explored": true,
 	"faction": "Tolan Kingdom",
 	"govType": "NONE",
+	"index": 2,
 	"lawlessness": "f0/937896362",
 	"longDesc": "",
 	"name": "Yatsuotto",
+	"overrideRandom": true,
 	"pos": [
 		5.591001510620117,
 		4.6045708656311035,

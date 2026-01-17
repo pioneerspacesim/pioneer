@@ -665,9 +665,11 @@
 	"explored": true,
 	"faction": "Blood Territories",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/1773973094",
 	"longDesc": "",
 	"name": "Varangrane",
+	"overrideRandom": true,
 	"pos": [
 		1.3438162803649902,
 		3.906327724456787,

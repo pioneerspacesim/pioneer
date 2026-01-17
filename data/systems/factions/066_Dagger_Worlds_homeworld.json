@@ -275,9 +275,11 @@
 	"explored": true,
 	"faction": "Dagger Worlds",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/74874946",
 	"longDesc": "",
 	"name": "Necela",
+	"overrideRandom": true,
 	"pos": [
 		0.6262030005455017,
 		1.963565707206726,

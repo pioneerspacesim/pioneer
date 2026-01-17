@@ -4,7 +4,7 @@
 local f = Faction:new('Dagger Kingdoms')
 	:description_short('Dagger Kingdoms')
 	:description('Very little is currently known about The Dagger Kingdoms')
-	:homeworld(35,58,58,2,9)
+	:homeworld(35,58,58,0,9)
 	:foundingDate(3069)
 	:expansionRate(0.723071)
 	:military_name('Kingdoms Navy')

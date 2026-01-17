@@ -306,9 +306,11 @@
 	"explored": true,
 	"faction": "Inner Systems",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/4032696569",
 	"longDesc": "",
 	"name": "Grecean",
+	"overrideRandom": true,
 	"pos": [
 		0.002696709707379341,
 		6.7719035148620605,

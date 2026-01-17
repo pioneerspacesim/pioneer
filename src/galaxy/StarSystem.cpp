@@ -619,4 +619,7 @@ void StarSystem::DumpToJson(Json &obj)
 		bodies.emplace_back(std::move(bodyObj));
 
 	}
+
+	obj["index"] = m_path.systemIndex;
+	obj["overrideRandom"] = true;
 }

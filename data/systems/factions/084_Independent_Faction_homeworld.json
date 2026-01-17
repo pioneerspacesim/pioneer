@@ -187,7 +187,7 @@
 			"orbitalOffset": "f1/671440315",
 			"orbitalPhase": "f0/1708190130",
 			"parent": 1,
-			"population": "f0/2094495963",
+			"population": "f0/2186929018",
 			"radius": "f0/219169833",
 			"rotationPeriod": "f4/1789569706",
 			"rotationPhase": "f0/0",
@@ -238,9 +238,11 @@
 	"explored": true,
 	"faction": "Independent Faction",
 	"govType": "LIBDEM",
+	"index": 0,
 	"lawlessness": "f0/951644861",
 	"longDesc": "",
 	"name": "Lorirak",
+	"overrideRandom": true,
 	"pos": [
 		6.350828647613525,
 		7.995015621185303,
@@ -253,7 +255,7 @@
 		-30
 	],
 	"seed": 536667733,
-	"shortDesc": "Mining colony.",
+	"shortDesc": "Extensive mining operations.",
 	"stars": [
 		"STAR_M_GIANT"
 	]

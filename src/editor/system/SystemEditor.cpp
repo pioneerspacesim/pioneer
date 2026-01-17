@@ -459,6 +459,15 @@ void SystemEditor::ClearSystem()
 // Here to avoid needing to drag in the Galaxy header in SystemEditor.h
 RefCountedPtr<Galaxy> SystemEditor::GetGalaxy() { return m_galaxy; }
 
+std::string SystemEditor::GetFileDialogPath() const
+{
+	if (m_filedir.empty()) {
+		return FileSystem::JoinPath(FileSystem::GetDataDir(), "systems");
+	} else {
+		return FileSystem::JoinPath(FileSystem::GetDataDir(), m_filedir);
+	}
+}
+
 void SystemEditor::SetSelectedBody(SystemBody *body)
 {
 	// note: using const_cast here to work with Projectables which store a const pointer
@@ -662,7 +671,7 @@ void SystemEditor::ActivateOpenDialog()
 	// FIXME: need to handle loading files outside of game data dir
 	m_openFile.reset(new pfd::open_file(
 		"Open Custom System File",
-		FileSystem::JoinPath(FileSystem::GetDataDir(), m_filedir),
+		GetFileDialogPath(),
 		{
 			"All System Definition Files", "*.lua *.json",
 			"Lua System Definition (.lua)", "*.lua",
@@ -677,7 +686,7 @@ void SystemEditor::ActivateSaveDialog()
 {
 	m_saveFile.reset(new pfd::save_file(
 		"Save Custom System File",
-		FileSystem::JoinPath(FileSystem::GetDataDir(), m_filedir),
+		GetFileDialogPath(),
 		{
 			"JSON System Definition (.json)", "*.json"
 		})

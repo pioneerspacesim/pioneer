@@ -115,9 +115,11 @@
 	"explored": true,
 	"faction": "Provisional Empire",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/2477165811",
 	"longDesc": "",
 	"name": "Duorash",
+	"overrideRandom": true,
 	"pos": [
 		4.436828136444092,
 		4.487246513366699,

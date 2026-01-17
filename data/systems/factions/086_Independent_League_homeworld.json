@@ -486,9 +486,11 @@
 	"explored": true,
 	"faction": "Independent League",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/1609312887",
 	"longDesc": "",
 	"name": "Faolan",
+	"overrideRandom": true,
 	"pos": [
 		6.263300895690918,
 		6.15482759475708,

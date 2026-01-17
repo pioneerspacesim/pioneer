@@ -852,9 +852,11 @@
 	"explored": true,
 	"faction": "Stellar Network",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/2925846805",
 	"longDesc": "",
 	"name": "Miio",
+	"overrideRandom": true,
 	"pos": [
 		6.32174015045166,
 		7.353658199310303,

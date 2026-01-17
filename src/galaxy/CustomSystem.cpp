@@ -974,7 +974,7 @@ CustomSystem *CustomSystemsDatabase::LoadSystemFromJSON(std::string_view filenam
 
 		return sys;
 
-	} catch (Json::out_of_range &e) {
+	} catch (std::exception &e) {
 		Log::Warning("Could not load JSON system definition {}!", filename);
 
 		delete sys;

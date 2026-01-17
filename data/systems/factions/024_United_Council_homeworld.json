@@ -191,9 +191,11 @@
 	"explored": true,
 	"faction": "United Council",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/112606436",
 	"longDesc": "",
 	"name": "Pimoris",
+	"overrideRandom": true,
 	"pos": [
 		4.988216876983643,
 		3.61881685256958,

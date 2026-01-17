@@ -574,9 +574,11 @@
 	"explored": true,
 	"faction": "True Territories",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/846724764",
 	"longDesc": "",
 	"name": "Vangatti",
+	"overrideRandom": true,
 	"pos": [
 		5.413995265960693,
 		4.021908283233643,

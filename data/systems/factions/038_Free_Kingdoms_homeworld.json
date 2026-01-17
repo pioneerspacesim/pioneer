@@ -860,9 +860,11 @@
 	"explored": true,
 	"faction": "Free Kingdoms",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/3254444494",
 	"longDesc": "",
 	"name": "Phiso",
+	"overrideRandom": true,
 	"pos": [
 		0.9235015511512756,
 		7.839005947113037,

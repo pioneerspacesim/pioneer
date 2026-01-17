@@ -846,9 +846,11 @@
 	"explored": true,
 	"faction": "United League",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/929230954",
 	"longDesc": "",
 	"name": "Todetora",
+	"overrideRandom": true,
 	"pos": [
 		4.784422874450684,
 		0.9726046323776245,

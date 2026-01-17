@@ -188,7 +188,7 @@
 			"orbitalOffset": "f2/304310",
 			"orbitalPhase": "f0/1640426253",
 			"parent": 1,
-			"population": "f0/2521242073",
+			"population": "f0/2482525267",
 			"radius": "f0/2445325022",
 			"ringsBaseColor": [
 				132,
@@ -659,9 +659,11 @@
 	"explored": true,
 	"faction": "True Worlds",
 	"govType": "PLUTOCRATIC",
+	"index": 0,
 	"lawlessness": "f0/694155428",
 	"longDesc": "",
 	"name": "Obinad",
+	"overrideRandom": true,
 	"pos": [
 		5.062489032745361,
 		0.22833357751369476,

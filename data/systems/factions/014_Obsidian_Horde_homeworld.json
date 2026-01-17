@@ -115,9 +115,11 @@
 	"explored": true,
 	"faction": "Obsidian Horde",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/2250005075",
 	"longDesc": "",
 	"name": "Ilmidu",
+	"overrideRandom": true,
 	"pos": [
 		3.8427553176879883,
 		7.8447113037109375,

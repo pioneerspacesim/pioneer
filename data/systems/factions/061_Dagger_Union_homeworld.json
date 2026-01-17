@@ -115,9 +115,11 @@
 	"explored": true,
 	"faction": "Dagger Union",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/2508291412",
 	"longDesc": "",
 	"name": "Exzonisk",
+	"overrideRandom": true,
 	"pos": [
 		4.850697994232178,
 		7.625563621520996,

@@ -213,9 +213,11 @@
 	"explored": true,
 	"faction": "Provisional Faction",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/3554390321",
 	"longDesc": "",
 	"name": "Zedu",
+	"overrideRandom": true,
 	"pos": [
 		0.9770358800888062,
 		4.957484722137451,

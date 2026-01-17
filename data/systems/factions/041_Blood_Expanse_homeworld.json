@@ -454,9 +454,11 @@
 	"explored": true,
 	"faction": "Blood Expanse",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/2975998261",
 	"longDesc": "",
 	"name": "Liadoho",
+	"overrideRandom": true,
 	"pos": [
 		4.163392066955566,
 		4.313061714172363,

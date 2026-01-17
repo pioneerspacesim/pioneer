@@ -838,9 +838,11 @@
 	"explored": true,
 	"faction": "Dagger Expanse",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/2686345481",
 	"longDesc": "",
 	"name": "Andess",
+	"overrideRandom": true,
 	"pos": [
 		5.715545654296875,
 		2.6205713748931885,

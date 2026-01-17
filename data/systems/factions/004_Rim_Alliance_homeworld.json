@@ -1076,9 +1076,11 @@
 	"explored": true,
 	"faction": "Rim Alliance",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/2731454112",
 	"longDesc": "",
 	"name": "Duinay",
+	"overrideRandom": true,
 	"pos": [
 		5.412910461425781,
 		4.989043235778809,

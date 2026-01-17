@@ -578,9 +578,11 @@
 	"explored": true,
 	"faction": "United Commonwealth",
 	"govType": "NONE",
+	"index": 1,
 	"lawlessness": "f0/846373645",
 	"longDesc": "",
 	"name": "Philia",
+	"overrideRandom": true,
 	"pos": [
 		7.386368751525879,
 		5.069199562072754,

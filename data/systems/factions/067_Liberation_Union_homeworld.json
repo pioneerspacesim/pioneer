@@ -415,9 +415,11 @@
 	"explored": true,
 	"faction": "Liberation Union",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/3830393376",
 	"longDesc": "",
 	"name": "Ackho",
+	"overrideRandom": true,
 	"pos": [
 		3.742952823638916,
 		7.2224650382995605,

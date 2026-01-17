@@ -267,9 +267,11 @@
 	"explored": true,
 	"faction": "True Commonwealth",
 	"govType": "NONE",
+	"index": 0,
 	"lawlessness": "f0/3913921571",
 	"longDesc": "",
 	"name": "Ethargzon",
+	"overrideRandom": true,
 	"pos": [
 		5.492343425750732,
 		6.277209281921387,

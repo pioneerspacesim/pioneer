@@ -75,7 +75,7 @@
 			"orbitalOffset": "f3/1585582438",
 			"orbitalPhase": "f4/857036680",
 			"parent": 0,
-			"population": "f0/3516454725",
+			"population": "f0/3424557141",
 			"radius": "f0/2278035526",
 			"ringsBaseColor": [
 				172,
@@ -907,9 +907,11 @@
 	"explored": true,
 	"faction": "Inner Council",
 	"govType": "CORPORATE",
+	"index": 1,
 	"lawlessness": "f0/464745384",
 	"longDesc": "",
 	"name": "Esscankon",
+	"overrideRandom": true,
 	"pos": [
 		7.59544038772583,
 		4.914785861968994,
