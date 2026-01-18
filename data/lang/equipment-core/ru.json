@@ -185,7 +185,7 @@
   },
   "EMPTY_EQUIPMENT_PROVIDING_SLOTS": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Empty equipment providing slots"
+    "message": "Пустое оборудование, предоставляющее слоты"
   },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
@@ -381,7 +381,7 @@
   },
   "MISSILE_GUIDED_DESCRIPTION": {
     "description": "Equipment description",
-    "message": "Стандартные управляемые ракеты класса «выстрелил-забыл»."
+    "message": "Стандартные управляемые ракеты класса «выстрелил-и-забыл»."
   },
   "MISSILE_GUIDED_FLAVOURTEXT": {
     "description": "Equipment description",

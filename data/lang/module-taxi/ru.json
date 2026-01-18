@@ -317,7 +317,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Корабль, необходимый для перехода с высоким риском в систему {system}. Плачу {cash}."
+    "message": "Требуется корабль для перехода с высоким риском в систему {system}. Оплата {cash}."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
@@ -425,7 +425,7 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "Репортеру нужна близость к сюжету, развивающемуся в системе {system}. Заплатит {cash}."
+    "message": "Репортёру хочет подоюраться поближе к истории, развивающейся в системе {system}. Оплата {cash}."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",

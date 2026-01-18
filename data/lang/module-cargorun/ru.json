@@ -25,7 +25,7 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Корабль, необходимый для доставки груза в систему {system}."
+    "message": "Требуется корабль для доставки груза в систему {system}."
   },
   "ADTEXT_2": {
     "description": "",
@@ -53,11 +53,11 @@
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "Необходима услуга по перемещению груза. Требуется перемещение груза в этот звездный порт из {starport}."
+    "message": "Необходима услуга по доставке груза. Требуется привезти груз в этот звездный порт из {starport}."
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Квалифицированный подрядчик, необходимый для перевозки грузов. Нам требуется корабль для массовой доставки в систему {system}."
+    "message": "Ищем квалифицированного подрядчика, для перевозки грузов. Нам требуется корабль для массовой доставки в систему {system}."
   },
   "ADTITLE_1": {
     "description": "",
@@ -201,7 +201,7 @@
   },
   "DIGESTERS": {
     "description": "custom cargo",
-    "message": "digesters"
+    "message": "дигестеры"
   },
   "DISTANCE": {
     "description": "distance in space, between two locations",

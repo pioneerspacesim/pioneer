@@ -109,7 +109,7 @@
   },
   "BUY": {
     "description": "Commodities and equipment prices",
-    "message": "[+]"
+    "message": "Купить"
   },
   "BUY_EQUIP": {
     "description": "Button text to buy selected equipment. May be used in a singular or plural context.",
@@ -117,7 +117,7 @@
   },
   "BUY_PRICE": {
     "description": "Title for buy-price column in commodity market",
-    "message": "Купить"
+    "message": "Покупка"
   },
   "BUY_SHIP": {
     "description": "",
@@ -1429,7 +1429,7 @@
   },
   "IN_STOCK": {
     "description": "Column title of Commodity and Ship Equipment markets showing current station stock level.",
-    "message": "Склад"
+    "message": "На складе"
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
@@ -2321,7 +2321,7 @@
   },
   "SELL": {
     "description": "Commodities and equipment prices",
-    "message": "[-]"
+    "message": "Продажа"
   },
   "SELL_EQUIP": {
     "description": "Button text to sell installed equipment. May be used in a singular or plural context.",
@@ -2333,7 +2333,7 @@
   },
   "SELL_PRICE": {
     "description": "Title for sell-price column in commodity market",
-    "message": "[-]"
+    "message": "Продажа"
   },
   "SENSORS": {
     "description": "Crew skill",

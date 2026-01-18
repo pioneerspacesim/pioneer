@@ -193,151 +193,151 @@
   },
   "HOW_TO_PRIVATEER_FEMALE": {
     "description": "",
-    "message": "She very often scraps her ship through dangerous missions. A spaceship workshop would be a good place to start."
+    "message": "Она очень часто гробит свой корабль на опасных миссиях. Поищи для начала на космоверфи."
   },
   "HOW_TO_PRIVATEER_MALE": {
     "description": "",
-    "message": "He does a lot of risky runs. His ship is often found in the workshop of a space station."
+    "message": "Он делает много рискованных рейсов. Его корабль часто можно найти в ремонтном доке космической станции."
   },
   "HOW_TO_TAXI_FEMALE": {
     "description": "",
-    "message": "I don't know. That's up to you!"
+    "message": "Я не знаю. Это вам решать!"
   },
   "HOW_TO_TAXI_MALE": {
     "description": "",
-    "message": "I have no idea. That's your business!"
+    "message": "Понятия не имею. Это ваше дело!"
   },
   "HOW_TO_TRAITOR_FEMALE": {
     "description": "",
-    "message": "Knowing her well, she hangs out in bars near spaceports."
+    "message": "Зная её, могу сказать, что она тусуется в барах около космопортов."
   },
   "HOW_TO_TRAITOR_MALE": {
     "description": "",
-    "message": "He's been known to hang out in spaceport taverns."
+    "message": "У него есть привычка тусоваться в тавернах космопортов."
   },
   "INTROTEXT_DELIVER_DOCUMENT_FEMALE_1": {
     "description": "",
-    "message": "Greetings! I'm {client} and I speak for the {company}. One of our ships had a collision with another vessel just a few seconds before entering hyperspace. There wasn't enough time to stop the hyperjump sequence. Now we need someone who can locate the ship with ID number {shipid} in the {system} ({sectorx}, {sectory}, {sectorz}) system and hand over a proposal for an out-of-court settlement to Commander {wanted}. Please return to {domicile} for your payment of {cash}. You'll have to travel {dist} ly for this."
+    "message": "Приветствую! Я {client} и представляю компанию {company}. Один из наших кораблей столкнулся с другим судном за несколько секунд до прыжка в гиперпространство. Было уже поздно для остановки гиперпрыжка. Теперь нам нужен кто-то, кто сможет найти корабль с идентификатором {shipid} в системе {system} ({sectorx}, {sectory}, {sectorz}) и вручить предложение о внесудебном урегулировании командиру {wanted}. Затем летите в {domicile} для получения вашего вознаграждения в размере {cash}. Для этого вам предстоит преодолеть {dist} св. года(лет)."
   },
   "INTROTEXT_DELIVER_DOCUMENT_FEMALE_2": {
     "description": "",
-    "message": "Nice to meet you. My name is {client}. We are looking for an old business partner who still owes us a favour. Her name is {wanted}. She's gone into hiding in the {system} ({sectorx}, {sectory}, {sectorz}) system. If you can find her, hand over an encrypted document and then return to the {company} Office here at {domicile}. We pay {cash} in case of success. {system} is {dist} ly away."
+    "message": "Приятно познакомиться. Меня зовут {client}. Мы разыскиваем старого делового партнёра, который всё ещё перед нами в долгу. Её зовут {wanted}. Она скрывается где-то в системе {system} ({sectorx}, {sectory}, {sectorz}). Если вы сможете её найти, вручите зашифрованный документ, а затем вернитесь в офис {company} здесь, в {domicile}. В случае успеха мы заплатим {cash}. {system} находится на расстоянии {dist} св. года(лет)."
   },
   "INTROTEXT_DELIVER_DOCUMENT_MALE_1": {
     "description": "",
-    "message": "Greetings! I'm {client} and I speak for the {company}. One of our ships had a collision with another vessel just a few seconds before entering hyperspace. There wasn't enough time to stop the hyperjump sequence. Now we need someone who can locate the ship with ID number {shipid} in the {system} ({sectorx}, {sectory}, {sectorz}) system and hand over a proposal for an out-of-court settlement to Commander {wanted}. Please return to {domicile} for your payment of {cash}. You'll have to travel {dist} ly for this."
+    "message": "Приветствую! Я {client} и представляю компанию {company}. Один из наших кораблей столкнулся с другим судном за несколько секунд до прыжка в гиперпространство. Было уже поздно для остановки гиперпрыжка. Теперь нам нужен кто-то, кто сможет найти корабль с идентификатором {shipid} в системе {system} ({sectorx}, {sectory}, {sectorz}) и вручить предложение о внесудебном урегулировании командиру {wanted}. Затем летите в {domicile} для получения вашего вознаграждения в размере {cash}. Для этого вам предстоит преодолеть {dist} св. года(лет)."
   },
   "INTROTEXT_DELIVER_DOCUMENT_MALE_2": {
     "description": "",
-    "message": "Nice to meet you. My name is {client}. We are looking for an old business partner who still owes us a favour. His name is {wanted}. He's gone into hiding in the {system} ({sectorx}, {sectory}, {sectorz}) system. If you can find him, hand over an encrypted document and then return to the {company} Office here at {domicile}. We pay {cash} in case of success. {system} is {dist} ly away."
+    "message": "Приятно познакомиться. Меня зовут {client}. Мы разыскиваем старого делового партнёра, который всё ещё в долгу перед нами. Его зовут {wanted}. Он скрывается в системе {system} ({sectorx}, {sectory}, {sectorz}). Если вы сможете его найти, вручите ему зашифрованный документ, а затем вернитесь в офис {company} здесь, в {domicile}. В случае успеха мы заплатим {cash}. {system} находится на расстоянии {dist} св. года(лет)."
   },
   "INTROTEXT_DELIVER_MESSAGE_FEMALE_1": {
     "description": "",
-    "message": "Hi, my name is {client}. I'm looking for my stepsister {wanted}. She left the family in anger a few years ago. A friend of mine has seen her recently in the {system} ({sectorx}, {sectory}, {sectorz}) system. I would like to see if she is ready for a reconciliation. I pay you {cash} if you can deliver a message to her and return to {domicile} with an answer. Please do it! Will you?"
+    "message": "Привет, меня зовут {client}. Я ищу свою сводную сестру {wanted}. Она ушла из семьи в гневе несколько лет назад. Мой друг недавно видел её в системе {system} ({sectorx}, {sectory}, {sectorz}). Я хотел бы узнать, готова ли она к примирению. Я заплачу вам {cash}, если вы передадите ей сообщение и вернётесь в {domicile} с ответом. Пожалуйста, сделайте это! Вы согласны?"
   },
   "INTROTEXT_DELIVER_MESSAGE_FEMALE_2": {
     "description": "",
-    "message": "Hello. I'm {client}. I'm looking for an old friend. Her name is {wanted}. I know she resides in the {system} ({sectorx}, {sectory}, {sectorz}) system, but I don't know her exact location. I will pay you {cash} if you can deliver a message to her."
+    "message": "Здравствуйте. Я {client}. Я ищу старую подругу. Её зовут {wanted}. Я знаю, что она проживает в системе {system} ({sectorx}, {sectory}, {sectorz}), но не знаю её точного местонахождения. Я заплачу вам {cash}, если вы сможете передать ей сообщение."
   },
   "INTROTEXT_DELIVER_MESSAGE_MALE_1": {
     "description": "",
-    "message": "Hi, my name is {client}. I'm looking for my stepbrother {wanted}. He left the family in anger a few years ago. A friend of mine has seen him recently in the {system} ({sectorx}, {sectory}, {sectorz}) system. I would like to see if he is ready for a reconciliation. I pay you {cash} if you can deliver a message to him and return to {domicile} with an answer. Please do it! Will you?"
+    "message": "Привет, меня зовут {client}. Я ищу своего сводного брата {wanted}. Он ушёл из семьи в гневе несколько лет назад. Мой друг недавно видел его в системе {system} ({sectorx}, {sectory}, {sectorz}). Я хотел бы узнать, готов ли он к примирению. Я заплачу вам {cash}, если вы передадите ему сообщение и вернётесь в {domicile} с ответом. Пожалуйста, сделайте это! Вы согласны?"
   },
   "INTROTEXT_DELIVER_MESSAGE_MALE_2": {
     "description": "",
-    "message": "Hello. I'm {client}. I'm looking for an old friend. His name is {wanted}. I know he resides in the {system} ({sectorx}, {sectory}, {sectorz}) system, but I don't know his exact location. I will pay you {cash} if you can deliver a message to him."
+    "message": "Здравствуйте. Я {client}. Я ищу старого друга. Его зовут {wanted}. Я знаю, что он проживает в системе {system} ({sectorx}, {sectory}, {sectorz}), но не знаю его точного местонахождения. Я заплачу вам {cash}, если вы сможете передать ему сообщение."
   },
   "INTROTEXT_EVACUATION_FEMALE_1": {
     "description": "",
-    "message": "Hi. The {company} is in big trouble. Negotiations with an aggressive market competitor in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly, went very badly. Our envoy {wanted} must be evacuated. Communication with her is very limited, so we don't know her exact location. We pay {cash} for this run."
+    "message": "Привет. У {company} большие проблемы. Переговоры с агрессивным рыночным конкурентом в системе {system} ({sectorx}, {sectory}, {sectorz}), на расстоянии {dist} св. года(лет), прошли очень плохо. Наша посланница {wanted} должна быть эвакуирована. Связь с ней сильно ограничена, поэтому мы не знаем её точного местонахождения. Мы платим {cash} за этот рейс."
   },
   "INTROTEXT_EVACUATION_FEMALE_2": {
     "description": "",
-    "message": "Hello. Call me {client}. I'm employed by the {company}. Our sales representative {wanted} in the {system} ({sectorx}, {sectory}, {sectorz}) system, distance {dist} ly, has come into conflict with some dangerous crooks. She doesn't trust the local authorities, so she's gone into hiding. We pay {cash} if you can find her and bring her back to {domicile} safely."
+    "message": "Здравствуйте. Можете звать меня {client}. Я работаю на компанию {company}. Наш торговый представитель {wanted} в системе {system} ({sectorx}, {sectory}, {sectorz}), расстояние {dist} св. года(лет), вступила в конфликт с некоторыми опасными мошенниками. Она не доверяет местным властям, поэтому ушла в подполье. Мы заплатим {cash}, если вы сможете её найти и благополучно доставить обратно в {domicile}."
   },
   "INTROTEXT_EVACUATION_MALE_1": {
     "description": "",
-    "message": "Hi. The {company} is in big trouble. Negotiations with an aggressive market competitor in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly, went very badly. Our envoy {wanted} must be evacuated. Communication with him is very limited, so we don't know his exact location. We pay {cash} for this run."
+    "message": "Привет. У {company} большие проблемы. Переговоры с агрессивным рыночным конкурентом в системе {system} ({sectorx}, {sectory}, {sectorz}), на расстоянии {dist} св. года(лет), прошли очень плохо. Наш посланник {wanted} должен быть эвакуирован. Связь с ним сильно ограничена, поэтому мы не знаем его точного местонахождения. Мы платим {cash} за этот рейс."
   },
   "INTROTEXT_EVACUATION_MALE_2": {
     "description": "",
-    "message": "Hello. Call me {client}. I'm employed by the {company}. Our sales representative {wanted} in the {system} ({sectorx}, {sectory}, {sectorz}) system, distance {dist} ly, has come into conflict with some dangerous crooks. He doesn't trust the local authorities, so he's gone into hiding. We pay {cash} if you can find him and bring him back to {domicile} safely."
+    "message": "Здравствуйте. Можете звать меня {client}. Я работаю на компанию {company}. Наш торговый представитель {wanted} в системе {system} ({sectorx}, {sectory}, {sectorz}), расстояние {dist} св. года(лет), вступил в конфликт с некоторыми опасными мошенниками. Он не доверяет местным властям, поэтому ушёл в подполье. Мы заплатим {cash}, если вы сможете его найти и благополучно доставить обратно в {domicile}."
   },
   "INTROTEXT_PRIVATEER_FEMALE_1": {
     "description": "",
-    "message": "Hi there! My name is {client}. I'm looking for {wanted}. She owes me a lot of money. According to the latest information, she's doing missions in the {system} ({sectorx}, {sectory}, {sectorz}) system. Please tell her that my patience is running thin. Return to {domicile} for your payment of {cash}."
+    "message": "Приветствую! Меня зовут {client}. Я разыскиваю {wanted}. Она должна мне крупную сумму денег. Согласно последней информации, она выполняет миссии в системе {system} ({sectorx}, {sectory}, {sectorz}). Пожалуйста, передайте ей, что моё терпение на исходе. Вернитесь в {domicile} для получения вашего вознаграждения в размере {cash}."
   },
   "INTROTEXT_PRIVATEER_FEMALE_2": {
     "description": "",
-    "message": "How are you. I'm Private Investigator {client}. I have to find privateer {wanted} in the {system} ({sectorx}, {sectory}, {sectorz}) system and ask her a few questions. Her ship has registration number {shipid}. I can't leave {domicile} right now because of another criminal case. So I would like to outsource this task. I will pay {cash} for this mission."
+    "message": "Здравствуйте. Я частный детектив {client}. Я должен найти контрактницу {wanted} в системе {system} ({sectorx}, {sectory}, {sectorz}) и задать ей несколько вопросов. Её корабль имеет регистрационный номер {shipid}. Я не могу покинуть {domicile} прямо сейчас из-за другого уголовного дела. Поэтому я хотел бы передать эту задачу на аутсорсинг. Я заплачу {cash} за эту миссию."
   },
   "INTROTEXT_PRIVATEER_MALE_1": {
     "description": "",
-    "message": "Hi there! My name is {client}. I'm looking for {wanted}. He owes me a lot of money. According to the latest information, he's doing missions in the {system} ({sectorx}, {sectory}, {sectorz}) system. Please tell him that my patience is running thin. Return to {domicile} for your payment of {cash}."
+    "message": "Приветствую! Меня зовут {client}. Я разыскиваю {wanted}. Он должен мне крупную сумму денег. Согласно последней информации, он выполняет миссии в системе {system} ({sectorx}, {sectory}, {sectorz}). Пожалуйста, передайте ему, что моё терпение на исходе. Вернитесь в {domicile} для получения вашего вознаграждения в размере {cash}."
   },
   "INTROTEXT_PRIVATEER_MALE_2": {
     "description": "",
-    "message": "How are you. I'm Private Investigator {client}. I have to find privateer {wanted} in the {system} ({sectorx}, {sectory}, {sectorz}) system and ask him a few questions. His ship has registration number {shipid}. I can't leave {domicile} right now because of another criminal case. So I would like to outsource this task. I will pay {cash} for this mission."
+    "message": "Здравствуйте. Я частный детектив {client}. Я должен найти контрактника {wanted} в системе {system} ({sectorx}, {sectory}, {sectorz}) и задать ему несколько вопросов. Его корабль имеет регистрационный номер {shipid}. Я не могу покинуть {domicile} прямо сейчас из-за другого уголовного дела. Поэтому я хотел бы передать эту задачу на аутсорсинг. Я заплачу {cash} за эту миссию."
   },
   "INTROTEXT_TAXI_FEMALE_1": {
     "description": "",
-    "message": "Hi. I'm {client}. I'm looking for a relative in the {system} ({sectorx}, {sectory}, {sectorz}) system. Her name is {wanted}. Time is of the essence due to a medical emergency in the family. Please find her and bring her back to {domicile}. I pay you {cash}."
+    "message": "Привет. Я {client}. Я ищу родственницу в системе {system} ({sectorx}, {sectory}, {sectorz}). Её зовут {wanted}. Время крайне важно из-за медицинской чрезвычайной ситуации в семье. Пожалуйста, найдите её и доставьте обратно в {domicile}. Я заплачу вам {cash}."
   },
   "INTROTEXT_TAXI_FEMALE_2": {
     "description": "",
-    "message": "Good day. I'm Insurance Assessor {client}. A high speed delivery drone failed to set a proper course, broke through a window and damaged the antique wooden furniture inside an apartment seriously. Fortunately no one was injured. But we couldn't locate the owner of the apartment in the {system} ({sectorx}, {sectory}, {sectorz}) system so far. So I will pay you {cash} if you can find her. Her personal presence is necessary to clarify the claim."
+    "message": "Добрый день. Я страховой оценщик {client}. Высокоскоростной курьерский дрон не смог задать правильный курс, врезался в окно и серьёзно повредил антикварную деревянную мебель внутри квартиры. К счастью, никто не пострадал. Но нам до сих пор не удалось разыскать владельца квартиры в системе {system} ({sectorx}, {sectory}, {sectorz}). Поэтому я заплачу вам {cash}, если вы сможете её найти. Её личное присутствие необходимо для урегулирования претензии."
   },
   "INTROTEXT_TAXI_MALE_1": {
     "description": "",
-    "message": "Hi. I'm {client}. I'm looking for a relative in the {system} ({sectorx}, {sectory}, {sectorz}) system. His name is {wanted}. Time is of the essence due to a medical emergency in the family. Please find him and bring him back to {domicile}. I pay you {cash}."
+    "message": "Привет. Я {client}. Я ищу родственника в системе {system} ({sectorx}, {sectory}, {sectorz}). Его зовут {wanted}. Время крайне важно из-за медицинской чрезвычайной ситуации в семье. Пожалуйста, найдите его и доставьте обратно в {domicile}. Я заплачу вам {cash}."
   },
   "INTROTEXT_TAXI_MALE_2": {
     "description": "",
-    "message": "Good day. I'm Insurance Assessor {client}. A high speed delivery drone failed to set a proper course, broke through a window and damaged the antique wooden furniture inside an apartment seriously. Fortunately no one was injured. But we couldn't locate the owner of the apartment in the {system} ({sectorx}, {sectory}, {sectorz}) system so far. So I will pay you {cash} if you can find him. His personal presence is necessary to clarify the claim."
+    "message": "Добрый день. Я страховой оценщик {client}. Высокоскоростной курьерский дрон не смог задать правильный курс, врезался в окно и серьёзно повредил антикварную деревянную мебель внутри квартиры. К счастью, никто не пострадал. Но нам до сих пор не удалось разыскать владельца квартиры в системе {system} ({sectorx}, {sectory}, {sectorz}). Поэтому я заплачу вам {cash}, если вы сможете его найти. Его личное присутствие необходимо для урегулирования претензии."
   },
   "INTROTEXT_TRAITOR_FEMALE_1": {
     "description": "",
-    "message": "Hello, my name is {client}. {wanted} didn't return from a holiday trip to her workplace at the {company}. She was last seen in the {system} ({sectorx}, {sectory}, {sectorz}) system. {wanted} has knowledge of some vital business secrets. So we need someone who can get a few answers from her about her ongoing absence. We pay {cash} for this mission. {system} is in a distance of {dist} ly."
+    "message": "Здравствуйте, меня зовут {client}. {wanted} не вернулась с отпуска на своё рабочее место в компании {company}. Её последний раз видели в системе {system} ({sectorx}, {sectory}, {sectorz}). {wanted} обладает знаниями о некоторых жизненно важных коммерческих секретах. Поэтому нам нужен кто-то, кто сможет получить от неё несколько ответов о причинах её продолжительного отсутствия. Мы платим {cash} за эту миссию. {system} находится на расстоянии {dist} св. года(лет)."
   },
   "INTROTEXT_TRAITOR_FEMALE_2": {
     "description": "",
-    "message": "Good day. The {company} is searching for an employee who stole some classified documents. Her name is {wanted}. Management calls her a traitor, but wants to give her the opportunity to reconsider and repent. We pay {cash} if you can find her in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distance, and deliver a message to her."
+    "message": "Добрый день. Компания {company} разыскивает сотрудницу, похитившую некоторые секретные документы. Её зовут {wanted}. Руководство называет её предательницей, но хочет дать ей возможность передумать и раскаяться. Мы заплатим {cash}, если вы сможете найти её в системе {system} ({sectorx}, {sectory}, {sectorz}), расстояние {dist} св. года(лет), и передать ей сообщение."
   },
   "INTROTEXT_TRAITOR_MALE_1": {
     "description": "",
-    "message": "Hello, my name is {client}. {wanted} didn't return from a holiday trip to his workplace at the {company}. He was last seen in the {system} ({sectorx}, {sectory}, {sectorz}) system. {wanted} has knowledge of some vital business secrets. So we need someone who can get a few answers from him about his ongoing absence. We pay {cash} for this mission. {system} is in a distance of {dist} ly."
+    "message": "Здравствуйте, меня зовут {client}. {wanted} не вернулся с отпуска на своё рабочее место в компании {company}. Его последний раз видели в системе {system} ({sectorx}, {sectory}, {sectorz}). {wanted} обладает знаниями о некоторых жизненно важных коммерческих секретах. Поэтому нам нужен кто-то, кто сможет получить от него несколько ответов о причинах его продолжительного отсутствия. Мы платим {cash} за эту миссию. {system} находится на расстоянии {dist} св. года(лет)."
   },
   "INTROTEXT_TRAITOR_MALE_2": {
     "description": "",
-    "message": "Good day. The {company} is searching for an employee who stole some classified documents. His name is {wanted}. Management calls him a traitor, but wants to give him the opportunity to reconsider and repent. We pay {cash} if you can find him in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distance, and deliver a message to him."
+    "message": "Добрый день. Компания {company} разыскивает сотрудника, похитившего некоторые секретные документы. Его зовут {wanted}. Руководство называет его предателем, но хочет дать ему возможность передумать и раскаяться. Мы заплатим {cash}, если вы сможете найти его в системе {system} ({sectorx}, {sectory}, {sectorz}), расстояние {dist} св. года(лет), и передать ему сообщение."
   },
   "IS_THERE_A_RISK": {
     "description": "",
-    "message": "Is there any risk?"
+    "message": "Есть ли какой-нибудь риск?"
   },
   "MERCENARY_GREETING_FEMALE_1": {
     "description": "",
-    "message": "I'm sorry. Your death is my business!"
+    "message": "Мне жаль. Но ваша смерть — это моё дело!"
   },
   "MERCENARY_GREETING_FEMALE_2": {
     "description": "",
-    "message": "I'll cut you to slices!"
+    "message": "Я порежу тебя на куски!"
   },
   "MERCENARY_GREETING_FEMALE_3": {
     "description": "",
-    "message": "You want to meet {wanted}? I will make you meet your maker first!"
+    "message": "Хочешь встретиться с {wanted}? Сначала я устрою твою встречу с творцом!"
   },
   "MERCENARY_GREETING_MALE_1": {
     "description": "",
-    "message": "It's nothing personal. I kill you for a fee!"
+    "message": "Ничего личного. Я убиваю тебя за деньги!"
   },
   "MERCENARY_GREETING_MALE_2": {
     "description": "",
-    "message": "I'll send you to hell!"
+    "message": "Я отправлю тебя в ад!"
   },
   "MERCENARY_GREETING_MALE_3": {
     "description": "",
-    "message": "You want to meet {wanted}? Over your dead body!"
+    "message": "Хочешь встретиться с {wanted}? Через твой труп!"
   },
   "OK_AGREED": {
     "description": "",
@@ -345,39 +345,39 @@
   },
   "PIRATE_ANSWER_1": {
     "description": "",
-    "message": "I have transferred an answer for {client} to you. Good bye."
+    "message": "Я передал вам ответ для {client}. Прощайте."
   },
   "PIRATE_ANSWER_2": {
     "description": "",
-    "message": "Please pass the message I'm currently transferring to you to {client}. Bye."
+    "message": "Я вам сейчас пересылаю сообщение, пожалуйста, передайте его {client}. Прощайте."
   },
   "PIRATE_ANSWER_3": {
     "description": "",
-    "message": "Haha, Please tell this {client} I've nothing to say. Have a nice day."
+    "message": "Ха-ха, пожалуйста, передайте этому {client}, что мне нечего сказать. Хорошего дня."
   },
   "PIRATE_GREETING_1": {
     "description": "",
-    "message": "I heard you were looking for me. You have my attention. What do you want?"
+    "message": "Я слышал, вы меня искали. Я вас слушаю. Что вам нужно?"
   },
   "PIRATE_GREETING_2": {
     "description": "",
-    "message": "OK, you got me. Don't waste time and tell me what you want!"
+    "message": "Ладно, вы меня нашли. Не тратьте время и скажите, чего вы хотите!"
   },
   "PIRATE_GREETING_3": {
     "description": "",
-    "message": "I heard you were supposed to give me a message?"
+    "message": "Я слышал, вы должны были передать мне сообщение?"
   },
   "PIRATE_TAUNTS_1": {
     "description": "",
-    "message": "You want an answer? Well, here it comes!"
+    "message": "Хочешь ответ? Что ж, вот он!"
   },
   "PIRATE_TAUNTS_2": {
     "description": "",
-    "message": "Enough of this! Prepare to go to hell!"
+    "message": "Довольно! Готовься отправиться в ад!"
   },
   "PIRATE_TAUNTS_3": {
     "description": "",
-    "message": "You actually went all this way to deliver this silly message to me? You better get out of here!"
+    "message": "Ты и вправду проделал весь этот путь, чтобы передать мне это глупое сообщение? Тебе лучше убраться отсюда!"
   },
   "REPEAT_THE_REQUEST": {
     "description": "",
@@ -385,59 +385,59 @@
   },
   "RISK_EVACUATION_FEMALE_1": {
     "description": "",
-    "message": "The situation is tense. We think {wanted} is in danger."
+    "message": "Ситуация напряжённая. Мы считаем, что {wanted} в опасности."
   },
   "RISK_EVACUATION_FEMALE_2": {
     "description": "",
-    "message": "{wanted} is in extreme danger. She should leave the system as soon as possible."
+    "message": "{wanted} в крайней опасности. Ей следует покинуть систему как можно скорее."
   },
   "RISK_EVACUATION_MALE_1": {
     "description": "",
-    "message": "{wanted} thinks he should leave the system very soon."
+    "message": "{wanted} считает, что ему следует покинуть систему как можно скорее."
   },
   "RISK_EVACUATION_MALE_2": {
     "description": "",
-    "message": "{wanted} is in big trouble! He'd better leave the system sooner than later."
+    "message": "{wanted} в большой беде! Ему бы лучше как можно раньше покинуть систему."
   },
   "RISK_FEMALE_1": {
     "description": "",
-    "message": "By no means."
+    "message": "Ни в коем случае."
   },
   "RISK_FEMALE_2": {
     "description": "",
-    "message": "I don't think so."
+    "message": "Я так не думаю."
   },
   "RISK_FEMALE_3": {
     "description": "",
-    "message": "I don't know. She's a bit weird."
+    "message": "Я не знаю. Она немного странная."
   },
   "RISK_FEMALE_4": {
     "description": "",
-    "message": "Maybe. {wanted} can be a little quick-tempered sometimes."
+    "message": "Возможно. {wanted} иногда может быть немного вспыльчивой."
   },
   "RISK_FEMALE_5": {
     "description": "",
-    "message": "In my opinion, {wanted} is completely insane. I advise you to be careful!"
+    "message": "По моему мнению, {wanted} совершенно невменяема. Советую вам быть осторожным!"
   },
   "RISK_MALE_1": {
     "description": "",
-    "message": "No, there's no risk."
+    "message": "Нет, никакого риска нет."
   },
   "RISK_MALE_2": {
     "description": "",
-    "message": "I expect no trouble. But who knows?"
+    "message": "Я не ожидаю неприятностей. Но кто знает?"
   },
   "RISK_MALE_3": {
     "description": "",
-    "message": "I'm not sure. He's a curious guy."
+    "message": "Я не уверен. Он любопытный парень."
   },
   "RISK_MALE_4": {
     "description": "",
-    "message": "{wanted} is a paranoid nut. Be careful!"
+    "message": "{wanted} — параноидальный псих. Будьте осторожны!"
   },
   "RISK_MALE_5": {
     "description": "",
-    "message": "Oh yes indeed. {wanted} is a maniac. You should be prepared for everything!"
+    "message": "О да, несомненно. {wanted} — маньяк. Вы должны быть готовы ко всему!"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -445,7 +445,7 @@
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Set return route"
+    "message": "Задать обратный маршрут"
   },
   "SHIP": {
     "description": "",
@@ -457,23 +457,23 @@
   },
   "SUCCESS_ATK_1": {
     "description": "",
-    "message": "What? {wanted} attacked you? Please accept this money as compensation!"
+    "message": "Что? Вы были атакованы {wanted}? Пожалуйста, примите эти деньги в качестве компенсации!"
   },
   "SUCCESS_ATK_2": {
     "description": "",
-    "message": "Really? {wanted} attacked you? Unbelievable! Whatever. I transferred the money."
+    "message": "Правда? {wanted} напал(а) на вас? Невероятно! Неважно. Я перечислю вам деньги."
   },
   "SUCCESS_ATK_3": {
     "description": "",
-    "message": "You met {wanted} and survived? Great! Here's your money."
+    "message": "Вы встретили {wanted} и выжили? Отлично! Вот ваши деньги."
   },
   "SUCCESS_INT_1": {
     "description": "",
-    "message": "I heard you had trouble. Good to see you after all. I've paid you in full."
+    "message": "Я слышал, у вас были неприятности. Рад всё же вас видеть. Я заплатил вам в полном объёме."
   },
   "SUCCESS_INT_2": {
     "description": "",
-    "message": "You had a disagreement with a mercenary? Well, here's your compensation!"
+    "message": "У вас вышел конфликт с наёмником? Что ж, вот ваша компенсация!"
   },
   "SUCCESS_INT_3": {
     "description": "",
