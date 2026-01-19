@@ -482,6 +482,37 @@ end
 
 local planets = nil
 
+local placeAdvert = function (station, ad)
+		ad.desc = string.interp(l["ADTEXT_" .. ad.id], { cash = Format.Money(ad.reward, false) })
+
+		local ref
+		if ad.reward < 0 then
+			ref = station:AddAdvert({
+				title       = l["ADTITLE_" .. ad.id],
+				description = ad.desc,
+				icon        = "haul",
+				onChat      = onChat,
+				onDelete    = onDelete,
+				isEnabled   = isEnabled
+			})
+		else
+			local p = Game.player.frameBody
+			ref = station:AddAdvert({
+				title       = l["ADTITLE_" .. ad.id],
+				description = ad.desc,
+				icon        = ad.id == "RESCUE" and "searchrescue" or "haul",
+				due         = ad.due,
+				dist        = p.path == ad.planet and p:GetPhysicalRadius() * 3 or nil,
+				reward      = ad.reward,
+				location    = ad.location,
+				onChat      = onChat,
+				onDelete    = onDelete,
+				isEnabled   = isEnabled
+			})
+		end
+		ads[ref] = ad
+end
+
 local makeAdvert = function (station)
 	if planets == nil then planets = getPlanets(Game.system) end
 	if #planets == 0 then return end
@@ -527,17 +558,7 @@ local makeAdvert = function (station)
 			ship_label        = flavour.deliver_to_ship and Ship.MakeRandomLabel() or nil
 		}
 
-		ad.desc = string.interp(l["ADTEXT_" .. flavour.id], { cash = Format.Money(ad.reward, false) })
-
-		local ref = station:AddAdvert({
-			title       = l["ADTITLE_" .. flavour.id],
-			description = ad.desc,
-			icon        = flavour.id == "RESCUE" and "searchrescue" or "haul",
-			onChat      = onChat,
-			onDelete    = onDelete,
-			isEnabled   = isEnabled
-		})
-		ads[ref] = ad
+		placeAdvert(station, ad)
 	end
 end
 
@@ -823,16 +844,8 @@ local onGameStart = function ()
 
 	if loaded_data and loaded_data.ads then
 
-		for k, ad in pairs(loaded_data.ads) do
-			local ref = ad.station:AddAdvert({
-				title       = l["ADTITLE_" .. ad.id],
-				description = ad.desc,
-				icon        = ad.id == "RESCUE" and "searchrescue" or "haul",
-				onChat      = onChat,
-				onDelete    = onDelete,
-				isEnabled   = isEnabled
-			})
-			ads[ref] = ad
+		for _, ad in pairs(loaded_data.ads) do
+			placeAdvert(ad.station, ad)
 		end
 
 		missions = loaded_data.missions
