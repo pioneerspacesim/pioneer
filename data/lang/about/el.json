@@ -1,130 +1,130 @@
 {
   "ABOUT": {
     "description": "",
-    "message": "About"
+    "message": "Σχετικά"
   },
   "ACKNOWLEDGEMENTS": {
     "description": "",
-    "message": "Acknowledgements"
+    "message": "Ευχαριστίες"
   },
   "CONTENT": {
     "description": "",
-    "message": "Content"
+    "message": "Περιεχόμενο"
   },
   "CONTENT_CONTRIBUTION": {
     "description": "",
-    "message": "Content contribution"
+    "message": "Συνεισφορά"
   },
   "CONTRIBUTE": {
     "description": "",
-    "message": "Contribute"
+    "message": "Συνεισφέρω"
   },
   "CONTRIBUTE_BODY": {
     "description": "",
-    "message": "Pioneer is the sum of the many contributions from its players and developers. See anything you want to change, improve, or ideas for new content to add? (E.g. translations, coding, art, 2D & 3D assets, music, designing custom star systems, improve our documentation, wiki, etc.) Follow the links for details on how you can contribute!"
+    "message": "Το Pioneer είναι το αποτέλεσμα της συνεισφοράς προγραμματιστών και των παικτών του. Έχεις κάτι που επιθυμείς να αλλάξεις, βελτιώσεις ή να προσθέσεις; (π.χ. μεταφράσεις, κώδικας, σχεδιασμό αντικειμένων 2D και 3D, μουσική, σχεδιασμό αστρικών συστημάτων, συγγραφή / βελτίωση εγχειριδίων, wiki κτλ). Ακολουθήστε τους συνδέσμους για πληροφορίες σχετικά με το πως μπορείτε να συνεισφέρετε."
   },
   "DEVELOPER_DOCUMENTATION": {
     "description": "",
-    "message": "Developer Documentation"
+    "message": "Εγχειρίδια προγραμματιστών"
   },
   "DOCUMENTATION": {
     "description": "",
-    "message": "Documentation"
+    "message": "Εγχειρίδια"
   },
   "DONATE_BODY": {
     "description": "",
-    "message": "If you enjoy playing Pioneer and would like to support its continued development, please consider donating - no donation is too small."
+    "message": "Αν σας αρέσει το Pioneer και θα θέλατε να το υποστηρίξετε, παρακαλώ εξετάστε το ενδεχόμενο μιας χρηματικής δωρεάς. Καμμία δωρεά δεν είναι ασήμαντη."
   },
   "DONATE_OPTIONS": {
     "description": "Sentence continues in 'DONATE_OPTIONS_CONTINUED'",
-    "message": "For additional donation options, please see our"
+    "message": "Για επιπλέον επιλογές δωρεάς, παρακαλώ κοιτάξτε"
   },
   "DONATE_OPTIONS_CONTINUED": {
     "description": "hyperlink, ending part of sentence in 'DONATE_OPTIONS'",
-    "message": "donations page"
+    "message": "Σελίδα δωρεών"
   },
   "DONATE_THANKS": {
     "description": "",
-    "message": "Thank you all for your continued support of Pioneer!"
+    "message": "Σας ευχαριστούμε όλους για την συνεχιζόμενη υποστήριξή σας!"
   },
   "GAME_RELEASE": {
     "description": "",
-    "message": "Stable versions are released annually on February 3, but development is continuous. Brave pilots are thus encouraged to play from the latest source and report bugs."
+    "message": "Σταθερές εκδόσεις βγαίνουν ετησίως, στις 3 Φεβρουαρίου αλλά η ανάπτυξη γίνεται συνεχώς. ¨Ετσι, είναι ευπρόσδεκτοι γενναίοι πιλότοι, πρόθυμοι να δοκιμάσουν το παιχνίδι και να αναφέρουν σφάλματα."
   },
   "INFO_BLURB": {
     "description": "",
-    "message": "Pioneer is a single player space adventure game set in the Milky Way galaxy at the turn of the 31st century."
+    "message": "Το Pioneer είναι ένα παχνίδι διαστημικής περιπέτειας ενός παίκτη, που διαδραματίζεται στον γαλαξία μας στις αρχές του 31ου αιώνα."
   },
   "INFO_BODY": {
     "description": "",
-    "message": "The game is open-ended, and you are free to explore the millions of star systems in the game. You can land on planets, slingshot past gas giants, and burn yourself to a crisp flying between binary star systems. You can try your hand at piracy, make your fortune trading between systems, or do missions for the various factions fighting for power, freedom or self-determination."
+    "message": "Το παιχνίδι είναι ανοιχτού τύπου, μπορείτε να εξερευνήσετε κατά βούληση τα εκατομμύρια αστρικά συστήματα του παιχνιδιού. Μπορείτε να προσγειωθείτε σε όποιον πλανήτη θέλετε, να εκτελέσετε διαστημική σφεντόνα με τη βοήθεια αεριωδών γιγάντων και να καείτε ζωντανοί πετώντας ανάμεσα στα άστρα δυαδικών συστημάτων. Μπορείτε να δοκιμάσετε την ζωή του πειρατή, να κερδίσετε μια περιουσία κάνοντας εμπόριο ή να κάνετε αποστολές για τις διάφορες φατρίες του παιχνιδιού που αγωνίζονται για κυριαρχία, ελευθερία ή αυτοδιάθεση."
   },
   "LICENSE": {
     "description": "",
-    "message": "License"
+    "message": "Άδεια"
   },
   "LINK_BASIC_FLIGHT": {
     "description": "",
-    "message": "Basic flight"
+    "message": "Βασική πτήση"
   },
   "LINK_BUG_TRACKER": {
     "description": "",
-    "message": "Bug Tracker"
+    "message": "Εντοπιστής σφαλμάτων"
   },
   "LINK_COMMUNITY_CHAT": {
     "description": "",
-    "message": "Community chat (Discord)"
+    "message": "Συζήτηση κοινότητας"
   },
   "LINK_COMMUNITY_FORUM": {
     "description": "",
-    "message": "Community Forum"
+    "message": "Φόρουμ κοινότητας"
   },
   "LINK_DEVELOPER_CHAT": {
     "description": "",
-    "message": "Developer chat (IRC)"
+    "message": "Συζήτηση προγραμματιστών (IRC)"
   },
   "LINK_DEVELOPER_FORUM": {
     "description": "",
-    "message": "Developer Forum"
+    "message": "Φόρουμ προγραμματιστών"
   },
   "LINK_FAQ": {
     "description": "",
-    "message": "FAQ"
+    "message": "Συχνές Ερωτήσεις"
   },
   "LINK_HOMEPAGE": {
     "description": "",
-    "message": "Homepage"
+    "message": "Αρχική σελίδα"
   },
   "LINK_MANUAL": {
     "description": "",
-    "message": "Manual"
+    "message": "Εγχειρίδιο"
   },
   "SOFTWARE": {
     "description": "",
-    "message": "Software"
+    "message": "Λογισμικό"
   },
   "SOFTWARE_BODY": {
     "description": "",
-    "message": "Pioneer includes the following third-party software"
+    "message": "Το Pioneer περιλαμβάνει το παρακάτω λογισμικό τρίτων"
   },
   "SUPPORT_DEVELOPMENT": {
     "description": "",
-    "message": "Support Development"
+    "message": "Υποστήριξη ανάπτυξης"
   },
   "TRANSLATIONS": {
     "description": "",
-    "message": "Translations"
+    "message": "Μεταφράσεις"
   },
   "VERSION_CURRENT": {
     "description": "",
-    "message": "Your current version"
+    "message": "Τωρινή έκδοση"
   },
   "VERSION_LATEST": {
     "description": "This sentence continues into string VERSION_LATEST_CONTINUED, to read 'Latest version from source', referring to the source code",
-    "message": "Latest version from"
+    "message": "Τελευταία έκδοση από"
   },
   "VERSION_LATEST_CONTINUED": {
     "description": "is continued from string VERSION_LATEST, to read 'Latest version from source'. Here, 'source' refers to the source code",
-    "message": "source code"
+    "message": "πηγαίος κώδικας"
   }
 }

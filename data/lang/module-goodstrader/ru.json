@@ -17,19 +17,19 @@
   },
   "GOODS_TRADER_0": {
     "description": "",
-    "message": "Торговый Центр {name}"
+    "message": "Торговый центр {name}"
   },
   "GOODS_TRADER_1": {
     "description": "",
-    "message": "Торговый Дом {name}"
+    "message": "Торговый дом {name}"
   },
   "GOODS_TRADER_2": {
     "description": "",
-    "message": "Складской Комплекс {name}"
+    "message": "Складской комплекс {name}"
   },
   "GOODS_TRADER_3": {
     "description": "",
-    "message": "Товарная Биржа {name}"
+    "message": "Товарная биржа {name}"
   },
   "GOODS_TRADER_4": {
     "description": "",

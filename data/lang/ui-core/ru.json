@@ -109,7 +109,7 @@
   },
   "BUY": {
     "description": "Commodities and equipment prices",
-    "message": "Купить"
+    "message": "Покупка"
   },
   "BUY_EQUIP": {
     "description": "Button text to buy selected equipment. May be used in a singular or plural context.",

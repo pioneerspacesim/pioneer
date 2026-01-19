@@ -513,23 +513,23 @@
   },
   "GRID_DISPLAY_MODE": {
     "description": "Label for grid display modes",
-    "message": "Grid Display Mode"
+    "message": "Προβολή πλέγματος"
   },
   "GRID_DISPLAY_MODE_GRID_AND_LEGS": {
     "description": "Combobox option for Grid with Legs",
-    "message": "Grid with Legs"
+    "message": "Πλέγμα με προεκτάσεις"
   },
   "GRID_DISPLAY_MODE_GRID_ONLY": {
     "description": "Combobox option for Grid Only",
-    "message": "Grid Only"
+    "message": "Πλέγμα μόνο"
   },
   "GRID_DISPLAY_MODE_OFF": {
     "description": "Combobox option for Grid display off.",
-    "message": "Grid Off"
+    "message": "Χωρίς πλέγμα"
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for toggle grid display button.",
-    "message": "Toggle visibility of the grid."
+    "message": "Εναλλαγή ορατότητας στο πλέγμα"
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -609,23 +609,23 @@
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
     "description": "Label for hyperspace cloud display modes.",
-    "message": "Hyperspace Cloud Display Mode"
+    "message": "Εμφάνιση νεφών υπερδιαστήματος"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL": {
     "description": "Combobox option for all hyperspace clouds.",
-    "message": "All Hyperspace Clouds"
+    "message": "Όλα τα νέφη υπερδιαστήματος"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY": {
     "description": "Combobox option for arrival hyperspace clouds.",
-    "message": "Arrival Hyperspace Clouds"
+    "message": "Νέφη υπερδιαστήματος άφιξης"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY": {
     "description": "Combobox option for departure hyperspace clouds.",
-    "message": "Departure Hyperspace Clouds"
+    "message": "Νέφη υπερδιαστήματος αναχώρησης"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for the button which toggles the display mode of hyperspace clouds.",
-    "message": "Toggle visibility of Hyperspace Clouds."
+    "message": "Εναλλαγή ορατότητας νεφών υπερδιαστήματος"
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
@@ -721,15 +721,15 @@
   },
   "L4L5_DISPLAY_MODE": {
     "description": "Label for the lagrange point display modes.",
-    "message": "Lagrange Point Display Mode"
+    "message": "Λειτουργία εμφάνισης σημείων Lagrange"
   },
   "L4L5_DISPLAY_MODE_ICONS_AND_TEXT": {
     "description": "Combobox option for lagrange point display as icons only.",
-    "message": "Icons and Labels"
+    "message": "Εικονίδια και υπότιτλοι"
   },
   "L4L5_DISPLAY_MODE_ICONS_ONLY": {
     "description": "Combobox option for lagrange point display as icons only.",
-    "message": "Icons Only"
+    "message": "Εικονίδια μόνο"
   },
   "L4L5_DISPLAY_MODE_OFF": {
     "description": "Combobox option for lagrange point display off.",
@@ -737,7 +737,7 @@
   },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for the L4/L5 Lagrange points toggle button.",
-    "message": "Toggle visibility of the L4/L5 lagrange points."
+    "message": "Εναλλαγή ορατότητας σημείων Lagrange L4/L5"
   },
   "LANDED": {
     "description": "",
@@ -1441,19 +1441,19 @@
   },
   "SHIPS_DISPLAY_MODE": {
     "description": "Label for ship display modes.",
-    "message": "Ship Display Mode"
+    "message": "Λειτουργία Εμφάνιση σκαφών"
   },
   "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
     "description": "Combobox option for ships only.",
-    "message": "Ships Only"
+    "message": "Σκάφη μόνο"
   },
   "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
     "description": "Combobox option for ships with orbits.",
-    "message": "Ships with Orbits"
+    "message": "Σκάφη με επισήμανση τροχιάς"
   },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for ship display toggle button.",
-    "message": "Toggle visibility of ships."
+    "message": "Εναλλαγή ορατότητας σκαφών"
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
@@ -1669,7 +1669,7 @@
   },
   "SURFACE_PRESSURE": {
     "description": "",
-    "message": "Surface pressure"
+    "message": "Επιφανειακή ατμοσφαιρική πίεση"
   },
   "SURFACE_TEMPERATURE": {
     "description": "",
@@ -1929,7 +1929,7 @@
   },
   "UNIT_TEMPERATURE_KELVIN": {
     "description": "Temperature unit: degrees Kelvin (K)",
-    "message": "K"
+    "message": "Κ"
   },
   "UNIT_TERATONNES": {
     "description": "Mass unit: one teratonne",

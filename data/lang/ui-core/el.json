@@ -1,7 +1,7 @@
 {
   "ABOUT": {
     "description": "main menu button (implied 'about' the game)",
-    "message": "About"
+    "message": "Σχετικά"
   },
   "ABOVE_AVERAGE": {
     "description": "",
@@ -69,7 +69,7 @@
   },
   "AUTOMATED_MESSAGE": {
     "description": "For comm messages from bots",
-    "message": "AUTOMATED MESSAGE"
+    "message": "Αυτοματοποιημένο μήνυμα"
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
@@ -913,7 +913,7 @@
   },
   "HUD_ARRIVAL_DATE": {
     "description": "Label for Hyperspace Cloud arrival date",
-    "message": "Arrival Date"
+    "message": "Ημερομηνία Άφιξης"
   },
   "HUD_ATMOSPHERIC_PRESSURE": {
     "description": "Tooltip: Atmospheric Pressure.",
@@ -2073,19 +2073,19 @@
   },
   "PUMP_DOWN_FROM_CARGO_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t from cargo"
+    "message": "Μεταφορά &i τόνων από το αμπάρι"
   },
   "PUMP_DOWN_FROM_HYPERDRIVE_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t from hyperdrive to fuel tanks"
+    "message": "Μεταφορά &i τόνων από τον υπερκινητήρα στις εσωτερικές δεξαμενές"
   },
   "PUMP_DOWN_TO_CARGO_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t to cargo"
+    "message": "Μεταφορά &i τόνων στο αμπάρι"
   },
   "PUMP_DOWN_TO_HYPERDRIVE_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Pump %i t to hyperdrive from fuel tanks"
+    "message": "Μεταφορά %i τόνων στον υπερκινητήρα από τις εσωτερικές δεξαμενές"
   },
   "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
@@ -2541,7 +2541,7 @@
   },
   "SYSTEM_FACTION": {
     "description": "Tooltip indicating the faction controlling this system",
-    "message": "Controlling faction jurisdiction"
+    "message": "Εξουσιάζεται από"
   },
   "SYSTEM_INFORMATION": {
     "description": "Tooltip / label indicating information about a selected star system",
@@ -2549,11 +2549,11 @@
   },
   "SYSTEM_NUM_STARS": {
     "description": "Tooltip indicating the system stellar arrangement",
-    "message": "Number of stars in system"
+    "message": "Αριθμός αστέρων στο σύστημα"
   },
   "SYSTEM_SECURITY_1": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
-    "message": "Safe"
+    "message": "Ασφαλές"
   },
   "SYSTEM_SECURITY_2": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
@@ -2565,7 +2565,7 @@
   },
   "SYSTEM_SECURITY_4": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
-    "message": "Very Dangerous"
+    "message": "Πολύ επικίνδυνο"
   },
   "SYSTEM_SECURITY_5": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
@@ -2573,7 +2573,7 @@
   },
   "SYSTEM_SECURITY_TOOLTIP": {
     "description": "Tooltip introducing the system security rating",
-    "message": "System safety rating"
+    "message": "Επίπεδο ασφαλείας συστήματος"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
@@ -2673,7 +2673,7 @@
   },
   "TO_PICK_UP": {
     "description": "Mission status",
-    "message": "To pick up"
+    "message": "Προς παραλαβή"
   },
   "TRADING_AT": {
     "description": "Indicates the current system for inspecting commodities.",
@@ -2697,7 +2697,7 @@
   },
   "TRANSLATE_VIEW": {
     "description": "Indicates that the button must be kept pressed down, to translate the camera view with mouse",
-    "message": "Hold down to Translate view"
+    "message": "Πατήστε και κρατήστε για αλλαγή οπτικής γωνίας"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
@@ -2793,7 +2793,7 @@
   },
   "VIEW_DESTINATION": {
     "description": "Tooltip indicating the button will change the current view to the destination of a route.",
-    "message": "View Destination"
+    "message": "Προβολή προορισμού"
   },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",

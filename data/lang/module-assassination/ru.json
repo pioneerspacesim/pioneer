@@ -169,7 +169,7 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Некоторые поклонники желают смерти {target}. Квалифицированные специалисты по ликвидации могут откликнуться."
+    "message": "{target}, по мнению некоторых поклонников, должен умереть. Квалифицированные специалисты по ликвидации могут откликнуться."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
@@ -253,103 +253,103 @@
   },
   "TITLE_0": {
     "description": "",
-    "message": "адмирал"
+    "message": "Адмирал"
   },
   "TITLE_1": {
     "description": "",
-    "message": "посол"
+    "message": "Посол"
   },
   "TITLE_10": {
     "description": "",
-    "message": "энсин"
+    "message": "Мичман"
   },
   "TITLE_11": {
     "description": "",
-    "message": "генерал"
+    "message": "Генерал"
   },
   "TITLE_12": {
     "description": "",
-    "message": "судья"
+    "message": "Судья"
   },
   "TITLE_13": {
     "description": "",
-    "message": "адвокат"
+    "message": "Адвокат"
   },
   "TITLE_14": {
     "description": "",
-    "message": "лейтенант"
+    "message": "Лейтенант"
   },
   "TITLE_15": {
     "description": "",
-    "message": "маршал"
+    "message": "Маршал"
   },
   "TITLE_16": {
     "description": "",
-    "message": "торговец"
+    "message": "Торговец"
   },
   "TITLE_17": {
     "description": "",
-    "message": "офицер"
+    "message": "Офицер"
   },
   "TITLE_18": {
     "description": "",
-    "message": "рядовой"
+    "message": "Рядовой"
   },
   "TITLE_19": {
     "description": "",
-    "message": "профессор"
+    "message": "Профессор"
   },
   "TITLE_2": {
     "description": "",
-    "message": "бригадир"
+    "message": "Бригадир"
   },
   "TITLE_20": {
     "description": "",
-    "message": "прокурор"
+    "message": "Прокурор"
   },
   "TITLE_21": {
     "description": "",
-    "message": "ректор"
+    "message": "Ректор"
   },
   "TITLE_22": {
     "description": "",
-    "message": "матрос"
+    "message": "Матрос"
   },
   "TITLE_23": {
     "description": "",
-    "message": "сенатор"
+    "message": "Сенатор"
   },
   "TITLE_24": {
     "description": "",
-    "message": "сержант"
+    "message": "Сержант"
   },
   "TITLE_3": {
     "description": "",
-    "message": "кадет"
+    "message": "Кадет"
   },
   "TITLE_4": {
     "description": "",
-    "message": "капитан"
+    "message": "Капитан"
   },
   "TITLE_5": {
     "description": "",
-    "message": "кардинал"
+    "message": "Кардинал"
   },
   "TITLE_6": {
     "description": "",
-    "message": "полковник"
+    "message": "Полковник"
   },
   "TITLE_7": {
     "description": "",
-    "message": "командир"
+    "message": "Командир"
   },
   "TITLE_8": {
     "description": "",
-    "message": "командор"
+    "message": "Командор"
   },
   "TITLE_9": {
     "description": "",
-    "message": "капрал"
+    "message": "Капрал"
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
