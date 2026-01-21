@@ -63,6 +63,7 @@ questions are welcome anytime.
     libassimp-dev >= 5.0.1
     libsdl2-dev
     libsdl2-image-dev
+    libopenal-dev (optional, used for the OpenAL sound backend)
 
    If your platform doesn't have assimp 5, you'll need to build it from
    source. It's available in pioneer-thirdparty, see below.

@@ -534,14 +534,8 @@ void StartupScreen::Start()
 		if (Pi::GetApp()->HeadlessMode() || Pi::config->Int("DisableSound"))
 			return;
 
-		Sound::Init();
-		Sound::SetMasterVolume(Pi::config->Float("MasterVolume"));
-		Sound::SetSfxVolume(Pi::config->Float("SfxVolume"));
+		Sound::Init(Pi::config->String("AudioBackend"));
 		Pi::GetMusicPlayer().SetVolume(Pi::config->Float("MusicVolume"));
-
-		Sound::Pause(0);
-		if (Pi::config->Int("MasterMuted")) Sound::Pause(1);
-		if (Pi::config->Int("SfxMuted")) Sound::SetSfxVolume(0.f);
 		if (Pi::config->Int("MusicMuted")) Pi::GetMusicPlayer().SetEnabled(false);
 	});
 
@@ -715,6 +709,7 @@ void MainMenu::Update(float deltaTime)
 
 	Pi::renderer->ClearDepthBuffer();
 	Pi::pigui->Render();
+	Sound::Update(deltaTime);
 
 	if (Pi::game) {
 		RequestEndLifecycle();
@@ -1097,6 +1092,7 @@ void GameLoop::Update(float deltaTime)
 	}
 
 	Pi::GetMusicPlayer().Update();
+	Sound::Update(deltaTime);
 
 	perfInfoDisplay->Update(deltaTime);
 	perfInfoDisplay->UpdateCounter(PiGui::PerfInfo::COUNTER_PHYS, phys_time);

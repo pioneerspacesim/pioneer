@@ -206,8 +206,6 @@ else (WIN32)
 	)
 endif (WIN32)
 
-configure_file(buildopts.h.cmakein buildopts.h @ONLY)
-
 LIST(APPEND PIONEER_CXX_FILES ${FILESYSTEM_CXX_FILES})
 
 option(USE_PIONEER_THIRDPARTY "Use pioneer's thirdparty library repository." OFF)
@@ -268,8 +266,19 @@ endif (MSVC)
 find_package(Threads REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED COMPONENTS OpenGL)
+if(NOT TARGET OpenAL::OpenAL)
+	find_package(OpenAL)
+endif()
+if (CACHE{BUILD_WITH_OPENAL} AND NOT OpenAL_FOUND)
+	message(FATAL_ERROR "Requested BUILD_WITH_OPENAL=ON, but the library is not found")
+elseif(NOT DEFINED CACHE{BUILD_WITH_OPENAL} AND OpenAL_FOUND)
+	message(STATUS "Found OpenAL, building with support")
+	set(BUILD_WITH_OPENAL ON CACHE BOOL "Enable or disable support for OpenAL")
+endif()
 
 set(FMT_INSTALL OFF CACHE BOOL "Enable install of libfmt" FORCE)
+
+configure_file(buildopts.h.cmakein buildopts.h @ONLY)
 
 add_subdirectory(contrib/lz4)
 add_subdirectory(contrib/fmt)
@@ -377,7 +386,7 @@ else()
 	message(WARNING, "Python 3 not found; enums will not be scanned.")
 endif()
 
-target_link_libraries(pioneer-lib PUBLIC lz4 fmt::fmt)
+target_link_libraries(pioneer-lib PUBLIC lz4 fmt::fmt $<$<BOOL:${BUILD_WITH_OPENAL}>:OpenAL::OpenAL>)
 
 list(APPEND pioneerLibs
 	pioneer-core

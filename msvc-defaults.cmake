@@ -21,3 +21,12 @@ set(VORBISFILE_LIBRARIES ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/lib/${M
 
 set(SIGCPP_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/include/sigc++-2.0)
 set(SIGCPP_LIBRARIES optimized ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/lib/${MSVC_ARCH}/vs2019/sigc-vc140-2_0.lib debug ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/lib/${MSVC_ARCH}/vs2019/sigc-vc140-d-2_0.lib)
+
+add_library(OpenAL SHARED IMPORTED)
+add_library(OpenAL::OpenAL ALIAS OpenAL)
+set_target_properties(OpenAL PROPERTIES
+    IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/bin/${MSVC_ARCH}/vs2019/OpenAL32.dll
+    IMPORTED_IMPLIB ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/lib/${MSVC_ARCH}/vs2019/libOpenAL32.dll.a
+)
+target_include_directories(OpenAL INTERFACE ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/include)
+set(OpenAL_FOUND ON)
