@@ -25,7 +25,7 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Требуется корабль для доставки груза в систему {system}."
+    "message": "Нужен корабль для доставки груза в систему {system}."
   },
   "ADTEXT_2": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "ADTEXT_LOCAL_1": {
     "description": "",
-    "message": "Требуются перевозчики для внутрисистемного транспорта. Перемещение товаров в {starport}."
+    "message": "Ищем перевозчиков для внутрисистемных работ. Перемещение товаров в {starport}."
   },
   "ADTEXT_LOCAL_2": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "Требуется забор груза из системы {system}. Подробная информация предоставляется по запросу."
+    "message": "Нужно забрать груз из системы {system}. Подробная информация по запросу."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
@@ -129,7 +129,7 @@
   },
   "CARGO_IS_LOADED": {
     "description": "",
-    "message": "нагруженный"
+    "message": "загружен"
   },
   "CARGO_IS_NOT_LOADED": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "DENY_4": {
     "description": "",
-    "message": "Извините меня, но я не думаю, что у вас есть что-то такое, чтобы получить работу."
+    "message": "Простите, но я не думаю, что у вас есть всё необходимое, чтобы выполнить эту работу."
   },
   "DENY_5": {
     "description": "",
@@ -193,7 +193,7 @@
   },
   "DENY_AGAIN_3": {
     "description": "",
-    "message": "Сэр, пожалуйста, сначала доставьте мой груз. Тогда я буду вести с тобой больше дел."
+    "message": "Сэр, пожалуйста, сначала доставьте мой груз. Только тогда я буду вести с вами дальнейший бизнес."
   },
   "DIAMONDS": {
     "description": "custom cargo",
@@ -245,7 +245,7 @@
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "Вы опоздали! Что вы мне прикажете с этим делать?! Теперь оно ничего не стоит!"
+    "message": "Вы опоздали! Что вы мне прикажете с этим делать?! Теперь это ничего не стоит!"
   },
   "FAILUREMSG_3": {
     "description": "",
@@ -273,7 +273,7 @@
   },
   "GUNS_GUNS_GUNS": {
     "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
-    "message": "Орудие, орудие, орудие."
+    "message": "Пушки, пушки, пушки."
   },
   "HAZARDOUS_SUBSTANCES": {
     "description": "custom cargo",
@@ -421,7 +421,7 @@
   },
   "NEGOTIABLE_NO_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "Нет, извини. Разделить груз невозможно. Вы должны перевезти все {amount} тонны сразу."
+    "message": "Нет, извини. Разделить груз невозможно. Вы должны перевезти все {amount} т сразу."
   },
   "NEGOTIABLE_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
@@ -525,7 +525,7 @@
   },
   "RISK_6": {
     "description": "",
-    "message": "Не рассчитывайте достигнуть места назначения целым и невредимым. "
+    "message": "Не рассчитывайте добраться до места целым и невредимым. "
   },
   "RISK_ART_1": {
     "description": "",
