@@ -251,6 +251,15 @@ void Ship::Init()
 		m_landingMinOffset = 0.0; // GetAabb().min.y;
 	}
 
+	// If we've got the tag_landing_tail set then use it for an offset
+	// otherwise use zero so that it will dock but look clearly incorrect
+	const SceneGraph::Tag *tagTailNode = GetModel()->FindTagByName("tag_landing_tail");
+	if (tagTailNode) {
+		m_tailLandingMinOffset = -(tagTailNode->GetGlobalTransform().GetTranslate().z); // invert this due to forward being -z for ships
+	} else {
+		m_tailLandingMinOffset = 0.0; // GetAabb().min.z;
+	}
+
 	InitMaterials();
 }
 
@@ -863,7 +872,12 @@ void Ship::Blastoff()
 		SetFlightState(FLYING);
 
 		SetPosition(up * planetRadius - GetAabb().min.y * up);
-		SetThrusterState(1, 1.0); // thrust upwards
+		if (CanTailSit()) {
+			SetThrusterState(2, -1.0); // thrust forwards
+		} else {
+			SetThrusterState(1, 1.0); // thrust upwards
+		}
+		
 	}
 
 	OnTakeoff(f->GetBody());
@@ -880,19 +894,21 @@ void Ship::TestLanded()
 
 	if (f->GetBody()->IsType(ObjectType::PLANET)) {
 		double speed = GetVelocity().Length();
-		vector3d up = GetPosition().Normalized();
-		const double planetRadius = static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
-
 		if (speed < MAX_LANDING_SPEED) {
 			// check player is sortof sensibly oriented for landing
-			if (GetOrient().VectorY().Dot(up) > 0.99) {
+			const vector3d up = GetPosition().Normalized();
+			if (GetDockingOrientation().Dot(up) > 0.99) {
 				// position at zero altitude
+				const double planetRadius = static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
 				SetPosition(up * (planetRadius - GetAabb().min.y));
 
-				// position facing in roughly the same direction
-				vector3d right = up.Cross(GetOrient().VectorZ()).Normalized();
-				SetOrient(matrix3x3d::FromVectors(right, up));
-
+				// if we're tail sitting then stuck with however we cam in?
+				if (!CanTailSit()) {
+					// position facing in roughly the same direction
+					const vector3d right = up.Cross(GetOrient().VectorZ()).Normalized();
+					SetOrient(matrix3x3d::FromVectors(right, up));
+				}
+				
 				SetVelocity(vector3d::Zero);
 				SetAngVelocity(vector3d::Zero);
 				ClearThrusterState();
@@ -1303,7 +1319,7 @@ void Ship::StaticUpdate(const float timeStep)
 	if (m_wheelTransition) {
 		m_wheelState += m_wheelTransition * 0.3f * timeStep;
 		m_wheelState = Clamp(m_wheelState, 0.0f, 1.0f);
-		if (is_equal_exact(m_wheelState, 0.0f) || is_equal_exact(m_wheelState, 1.0f)) {
+		if (AreWheelsRetracted() || AreWheelsDeployed()) {
 			m_wheelTransition = 0;
 			// TODO: this really needs to be driven by the animation; work around it by forcing an update for the last frame of the animation
 			m_forceWheelUpdate = true;
@@ -1345,7 +1361,7 @@ void Ship::StaticUpdate(const float timeStep)
 			AbortHyperjump();
 		} else {
 			m_hyperspace.countdown = m_hyperspace.countdown - timeStep;
-			if (!abort && m_hyperspace.countdown <= 0.0f && (is_equal_exact(m_wheelState, 0.0f))) {
+			if (!abort && m_hyperspace.countdown <= 0.0f && (AreWheelsRetracted())) {
 				m_hyperspace.countdown = 0;
 				m_hyperspace.now = true;
 				SetFlightState(JUMPING);
@@ -1354,7 +1370,7 @@ void Ship::StaticUpdate(const float timeStep)
 				// after the whole physics update, which means the flight state on next
 				// step would be HYPERSPACE, thus breaking quite a few things.
 				OnBeforeEnterHyperspace();
-			} else if (!(is_equal_exact(m_wheelState, 0.0f)) && this->IsType(ObjectType::PLAYER)) {
+			} else if (!(AreWheelsRetracted()) && this->IsType(ObjectType::PLAYER)) {
 				AbortHyperjump();
 				Sound::BodyMakeNoise(this, "Missile_Inbound", 1.0f);
 			}
