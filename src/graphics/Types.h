@@ -4,7 +4,7 @@
 #ifndef GRAPHICS_TYPES_H
 #define GRAPHICS_TYPES_H
 
-#include "SDL_stdinc.h"
+#include <SDL_stdinc.h>
 
 namespace Graphics {
 

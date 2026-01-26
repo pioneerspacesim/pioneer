@@ -13,8 +13,6 @@
 #include "Player.h"
 #include "utils.h"
 
-#include "SDL_audio.h"
-#include "SDL_events.h"
 #include <SDL.h>
 #include <vorbis/vorbisfile.h>
 

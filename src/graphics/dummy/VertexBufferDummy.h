@@ -69,9 +69,9 @@ namespace Graphics {
 		class MeshObject final : public Graphics::MeshObject {
 		public:
 			MeshObject(const VertexFormatDesc &d, VertexBuffer *v, IndexBuffer *i) :
-				m_desc(d),
 				m_vtxBuffer(v),
-				m_idxBuffer(i)
+				m_idxBuffer(i),
+				m_desc(d)
 			{}
 			~MeshObject() final {}
 

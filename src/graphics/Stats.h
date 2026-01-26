@@ -6,7 +6,7 @@
 
 #include "PerfStats.h"
 
-#include "SDL_stdinc.h"
+#include <SDL_stdinc.h>
 #include <utility>
 #include <vector>
 

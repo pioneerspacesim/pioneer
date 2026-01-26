@@ -2,7 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaMetaType.h"
-#include "SDL_keycode.h"
+#include <SDL_keycode.h>
 #include "buildopts.h"
 
 #include "FileSystem.h"

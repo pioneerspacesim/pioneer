@@ -953,11 +953,11 @@ namespace Graphics {
 		};
 
 		GridSphere::GridSphere(Graphics::Renderer *r, uint32_t num_subdivs) :
+			m_sphereMesh(Icosphere::Generate(r, num_subdivs, 1.f, Graphics::ATTRIB_POSITION)),
 			m_minorColor(Color(160, 160, 160)),
 			m_majorColor(Color(255, 255, 255)),
 			m_lineWidth(2.0f),
-			m_numSubdivs(num_subdivs),
-			m_sphereMesh(Icosphere::Generate(r, num_subdivs, 1.f, Graphics::ATTRIB_POSITION))
+			m_numSubdivs(num_subdivs)
 		{
 			Graphics::RenderStateDesc rsd = {};
 			rsd.blendMode = Graphics::BLEND_ALPHA;

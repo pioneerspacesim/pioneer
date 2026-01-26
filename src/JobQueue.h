@@ -4,7 +4,7 @@
 #ifndef JOBQUEUE_H
 #define JOBQUEUE_H
 
-#include "SDL_thread.h"
+#include <SDL_thread.h>
 #include "core/TaskGraph.h"
 #include <atomic>
 #include <cassert>

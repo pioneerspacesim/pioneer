@@ -3,8 +3,8 @@
 
 #include "InputBindings.h"
 #include "Input.h"
-#include "SDL_events.h"
-#include "SDL_joystick.h"
+#include <SDL_events.h>
+#include <SDL_joystick.h>
 #include "utils.h"
 
 #include <ostream>

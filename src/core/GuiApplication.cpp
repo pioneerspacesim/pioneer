@@ -6,8 +6,8 @@
 #include "Input.h"
 #include "OS.h"
 
-#include "SDL.h"
-#include "SDL_video.h"
+#include <SDL.h>
+#include <SDL_video.h>
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/RenderState.h"
