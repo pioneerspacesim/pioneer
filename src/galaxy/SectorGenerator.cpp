@@ -346,7 +346,6 @@ bool SectorOverrideSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> ga
 	const std::vector<const CustomSystem *> &systems = galaxy->GetCustomSystems()->GetCustomSystemsForSector(sx, sy, sz);
 	if (systems.size() == 0) return true;
 
-	Uint32 sysIdx = 0;
 	for (const CustomSystem *cs : systems) {
 		if (!cs->override_random_system)
 			continue;
