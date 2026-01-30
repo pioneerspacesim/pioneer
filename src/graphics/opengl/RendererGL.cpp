@@ -4,7 +4,7 @@
 #include "RendererGL.h"
 #include "MathUtil.h"
 #include "RefCounted.h"
-#include "SDL_video.h"
+#include <SDL_video.h>
 #include "StringF.h"
 
 #include "graphics/Graphics.h"
@@ -843,7 +843,7 @@ namespace Graphics {
 			const VertexFormatDesc desc = VertexFormatDesc::FromAttribSet(attrs);
 
 			uint32_t numVertices = std::max(v->GetNumVerts(), DYNAMIC_DRAW_BUFFER_SIZE / desc.bindings[0].stride);
-			size_t stateHash = m_renderStateCache->CacheVertexDesc(desc);
+			m_renderStateCache->CacheVertexDesc(desc);
 
 			VertexBuffer *vb = CreateVertexBuffer(BUFFER_USAGE_DYNAMIC, numVertices, desc.bindings[0].stride);
 			CheckRenderErrors(__FUNCTION__, __LINE__);

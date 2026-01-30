@@ -8,10 +8,10 @@
 #include "Pi.h"
 #include "utils.h"
 
-#include "SDL.h"
-#include "SDL_events.h"
-#include "SDL_joystick.h"
-#include "SDL_mouse.h"
+#include <SDL.h>
+#include <SDL_events.h>
+#include <SDL_joystick.h>
+#include <SDL_mouse.h>
 
 #include <algorithm>
 #include <array>

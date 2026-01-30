@@ -5,12 +5,12 @@
 #include "FileSystem.h"
 #include "JobQueue.h"
 #include "OS.h"
-#include "SDL.h"
+#include <SDL.h>
 #include "StringName.h"
 #include "TaskGraph.h"
 #include "profiler/Profiler.h"
 
-#include "SDL_timer.h"
+#include <SDL_timer.h>
 
 #include <stdexcept>
 

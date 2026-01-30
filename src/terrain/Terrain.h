@@ -39,7 +39,7 @@ public:
 	void SetFracDef(const unsigned int index, const double featureHeightMeters, const double featureWidthMeters, const double smallestOctaveMeters = 20.0);
 	inline const fracdef_t &GetFracDef(const unsigned int index) const
 	{
-		assert(0 <= index && index < MAX_FRACDEFS);
+		assert(index < MAX_FRACDEFS);
 		return m_fracdef[index];
 	}
 

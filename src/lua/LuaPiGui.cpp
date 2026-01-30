@@ -15,8 +15,8 @@
 #include "LuaVector2.h"
 #include "Pi.h"
 #include "Player.h"
-#include "SDL_keycode.h"
-#include "SDL_scancode.h"
+#include <SDL_keycode.h>
+#include <SDL_scancode.h>
 #include "Space.h"
 #include "WorldView.h"
 #include "graphics/Graphics.h"
