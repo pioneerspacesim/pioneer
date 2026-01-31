@@ -3,12 +3,25 @@ January 2026
     * Animate thruster flame (#6204)
     * Add system lawlessness rating to sector map (#6265)
     * Add context-based station economic industries (#6199)
+    * Show main mission parameters for regular scoop missions (#6279)
 
   * Fixes
     * Fix crime record error on loading saved games (#6268)
     * Fix mapping missions not "failing" if overdue (#6258)
     * Fix Planet layer flicker on zoom, FOV->Radians before Frustum (#6121)
     * Fix bugs in fixed division (#5698)
+    * Fix crash jettisoning in player Economy & Trade window (#6276)
+    * Fix duplicate faction home systems (#6278)
+    * Fix use-after-free with multiple custom system redefinition (#6274)
+    * Fix infinite galaxy, remove visible density "blocks" in sector generation (#6273)
+    * Pre-release bugfixes, see below (#6282)
+    * Fix Equipment rewrite: Market allows to buy yet installed equipment repeatedly (#6182)
+    * Fix No warning, confirmation, or criminal charges for selling an occupied passenger cabin (#5954)
+    * Fix Unexpected thruster flames on the ship view in the "Ship information" tab (#6272)
+    * Fix Input mappings are ignored on master (#6262)
+    * Fix Rotation damping and Cruise mode share key mapping (#6263)
+    * Fix Crash to desktop when landing on a procedurally generated planet (#6118)
+    * Fix OPLI Internal Missile Rack - Inconsistent number of missiles (#6227)
 
   * Internal
     * Happy new year (#6264)
@@ -16,6 +29,7 @@ January 2026
     * Minor fixes and additions (#6266)
     * Update to Assimp 6.0.2 lib name (PR #6267)
     * Dump all current faction home systems to JSON (#6271)
+    * Fix GCC warnings (#6280)
 
 November
   * New Features
