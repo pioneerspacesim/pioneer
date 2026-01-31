@@ -45,6 +45,7 @@ local misc = {}
 ---@field slots table -- deprecated
 ---@field count integer?
 ---@field provides_slots table<string, HullConfig.Slot>?
+---@field inhibit_removal boolean?
 ---@field __proto EquipType?
 local EquipType = utils.inherits(nil, "EquipType")
 
@@ -155,6 +156,16 @@ end
 ---@param slot HullConfig.Slot?
 function EquipType:OnRemove(ship, slot)
 	-- Override this for any custom uninstallation logic needed
+end
+
+-- Method: CanBeSold
+--
+-- Returns whether the equipment item has some condition preventing its removal
+-- and sale from the craft. This should almost always be true, unless the item
+-- has been installed by some scripted event or otherwise cannot be sold (e.g.
+-- a passenger cabin with a passenger in it.)
+function EquipType:CanBeSold()
+	return not self.inhibit_removal
 end
 
 -- Method: isProto
