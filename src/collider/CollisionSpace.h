@@ -81,6 +81,7 @@ private:
 	Sphere sphere;
 
 	bool m_needStaticGeomRebuild;
+	bool m_dynamicGeomsInvalid;
 	bool m_duringCollision;
 
 	static int s_nextHandle;

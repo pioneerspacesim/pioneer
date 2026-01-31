@@ -21,6 +21,8 @@
 
 using namespace Input;
 
+static const char *s_InputIniSection = "Input";
+
 namespace Input {
 	std::vector<sigc::slot<void, Input::Manager *>> *m_registrations;
 
@@ -389,7 +391,7 @@ InputBindings::Action *Manager::AddActionBinding(const std::string &id, BindingG
 	group->bindings[id] = BindingGroup::ENTRY_ACTION;
 
 	// Load from the config
-	std::string config_str = m_config->String("Input", id.c_str());
+	std::string config_str = m_config->String(s_InputIniSection, id.c_str(), "");
 	if (!config_str.empty()) {
 		std::string_view str(config_str);
 		str >> binding;
@@ -407,7 +409,7 @@ InputBindings::Axis *Manager::AddAxisBinding(const std::string &id, BindingGroup
 	group->bindings[id] = BindingGroup::ENTRY_AXIS;
 
 	// Load from the config
-	std::string config_str = m_config->String("Input", id.c_str());
+	std::string config_str = m_config->String(s_InputIniSection, id.c_str(), "");
 	if (!config_str.empty()) {
 		std::string_view str(config_str);
 		str >> binding;
@@ -434,6 +436,28 @@ bool Manager::HasActionBinding(const std::string &id) const
 bool Manager::HasAxisBinding(const std::string &id) const
 {
 	return axisBindings.count(id) > 0;
+}
+
+void Manager::SaveActionBinding(InputBindings::Action *action, const std::string &id)
+{
+	std::ostringstream buffer;
+	buffer << *action;
+
+	m_config->SetString(s_InputIniSection, id, buffer.str());
+
+	if (m_config->HasUnsavedChanges())
+		m_config->Save();
+}
+
+void Manager::SaveAxisBinding(InputBindings::Axis *axis, const std::string &id)
+{
+	std::ostringstream buffer;
+	buffer << *axis;
+
+	m_config->SetString(s_InputIniSection, id, buffer.str());
+
+	if (m_config->HasUnsavedChanges())
+		m_config->Save();
 }
 
 /*

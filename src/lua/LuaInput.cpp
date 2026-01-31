@@ -17,7 +17,6 @@
 
 #include <SDL_keyboard.h>
 #include <SDL_keycode.h>
-#include <sstream>
 
 using namespace InputBindings;
 
@@ -748,13 +747,10 @@ static int l_input_save_binding(lua_State *l)
 	LuaInputAction *action = LuaObject<LuaInputAction>::GetFromLua(1);
 	LuaInputAxis *axis = LuaObject<LuaInputAxis>::GetFromLua(1);
 
-	std::ostringstream buffer;
 	if (action) {
-		buffer << *action->getAction();
-		Pi::config->SetString("Input", action->id, buffer.str());
+		Pi::input->SaveActionBinding(action->getAction(), action->id);
 	} else if (axis) {
-		buffer << *axis->getAxis();
-		Pi::config->SetString("Input", axis->id, buffer.str());
+		Pi::input->SaveAxisBinding(axis->getAxis(), axis->id);
 	}
 
 	return 0;

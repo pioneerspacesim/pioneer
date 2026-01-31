@@ -194,8 +194,12 @@ function EquipmentWidget:onSelectSlot(slotData, children)
 
 		self.market.filterSlot = self.selectedSlot
 		self.market.replaceEquip = self.selectedEquip
-		self.market.canReplaceEquip = not hasChildren
-		self.market.canSellEquip = not (self.selectedSlot and self.selectedSlot.required or hasChildren)
+
+		local canBeSold = not self.selectedEquip or self.selectedEquip:CanBeSold()
+
+		self.market.canReplaceEquip = not hasChildren and canBeSold
+		self.market.canSellEquip = not (self.selectedSlot and self.selectedSlot.required or hasChildren) and canBeSold
+
 		self.market:refresh()
 	end
 end

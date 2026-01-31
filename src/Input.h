@@ -168,6 +168,10 @@ public:
 	// you're recording a new input binding or are in a modal window.
 	void EnableBindings(bool enabled) { m_enableBindings = enabled; }
 
+	// Save the given action or axis bindings back to the config
+	void SaveActionBinding(InputBindings::Action *action, const std::string &id);
+	void SaveAxisBinding(InputBindings::Axis *axis, const std::string &id);
+
 	bool KeyState(SDL_Keycode k) { return IsKeyDown(k); }
 
 	// returns true if key K is currently pressed

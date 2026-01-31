@@ -19,6 +19,7 @@ CollisionSpace::CollisionSpace() :
 	m_enabledStaticGeoms(0),
 	m_enabledDynGeoms(0),
 	m_needStaticGeomRebuild(true),
+	m_dynamicGeomsInvalid(true),
 	m_duringCollision(false)
 {
 	sphere.radius = 0;
@@ -33,6 +34,7 @@ void CollisionSpace::AddGeom(Geom *geom)
 	PROFILE_SCOPED()
 	assert(!m_duringCollision);
 
+	// Adding a new geom just goes on the end of the list and doesn't invalidate the current geomtree
 	m_geoms.push_back(geom);
 }
 
@@ -44,6 +46,10 @@ void CollisionSpace::RemoveGeom(Geom *geom)
 	auto iter = std::find(m_geoms.begin(), m_geoms.end(), geom);
 	if (iter == m_geoms.end())
 		return;
+
+	// Removal of an enabled geom invalidates the built geomtree
+	if ((*iter)->IsEnabled())
+		m_dynamicGeomsInvalid = true;
 
 	if (m_geoms.size() > 1)
 		std::swap(*iter, m_geoms.back());
@@ -119,14 +125,17 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double
 		m_staticObjectTree->TraceRay(start, invDir, len, isect_result);
 
 		for (uint32_t &idx : isect_result) {
+			assert(idx <= m_staticGeoms.size());
 			Geom *g = m_staticGeoms[idx];
-			TraceRayGeom(g, start, dir, len, c);
+
+			if (g != ignore)
+				TraceRayGeom(g, start, dir, len, c);
 		}
 
 		isect_result.clear();
 	}
 
-	if (m_enabledDynGeoms > 0) {
+	if (m_enabledDynGeoms > 0 && !m_dynamicGeomsInvalid) {
 		m_dynamicObjectTree->TraceRay(start, invDir, len, isect_result);
 
 		for (uint32_t &idx : isect_result) {
@@ -228,6 +237,7 @@ void CollisionSpace::RebuildObjectTrees()
 	// in a cache-friendly order.
 	m_enabledDynGeoms = SortEnabledGeoms(m_geoms);
 	RebuildBVHTree(m_dynamicObjectTree.get(), m_enabledDynGeoms, m_geoms, m_geomAabbs);
+	m_dynamicGeomsInvalid = false;
 }
 
 uint32_t CollisionSpace::SortEnabledGeoms(std::vector<Geom *> &geoms)

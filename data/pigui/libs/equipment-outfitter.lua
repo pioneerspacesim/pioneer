@@ -51,7 +51,7 @@ local customButton = function(label, icon, infoText, variant)
 
 	local iconOffset = framePadding + Vector2(rounding, 0)
 	local textOffset = iconOffset   + Vector2(icon_size.x + framePadding.x, pionillium.heading.size * 0.25)
-	local fontCol = ui.theme.colors.font
+	local fontCol = variant == ui.theme.buttonColors.disabled and colors.fontDisabled or colors.font
 
 	local startPos = ui.getCursorScreenPos()
 
@@ -96,11 +96,26 @@ end
 local EquipCardAvailable = EquipCard.New()
 EquipCardAvailable.tooltipStats = false
 
+---@param data UI.EquipmentOutfitter.EquipData
+function EquipCardAvailable:tooltipContents(data, isSelected)
+	EquipCard.tooltipContents(self, data, isSelected)
+	ui.spacing()
+
+	if data.installed then
+		ui.withStyleColors({ Text = colors.fontDim }, function()
+			ui.withFont(pionillium.details, function()
+				ui.textWrapped(l.EQUIPMENT_ALREADY_INSTALLED_HERE)
+			end)
+		end)
+	end
+end
+
 ---@class UI.EquipmentOutfitter.EquipData : UI.EquipCard.Data
 ---@field canInstall boolean
 ---@field canReplace boolean
 ---@field outOfStock boolean
 ---@field available boolean
+---@field installed boolean
 ---@field price number
 ---@field techLevel number
 
@@ -323,6 +338,7 @@ function Outfitter:buildEquipmentList()
 
 		if equip:GetPrototype() == currentProto then
 			data.type = l.INSTALLED
+			data.installed = true
 		end
 
 		return data
@@ -439,7 +455,11 @@ function Outfitter:drawBuyButton(data)
 	local icon = icons.autopilot_dock
 	local price_text = ui.Format.Money(self:getInstallPrice(data.equip))
 
-	local variant = data.available and ui.theme.buttonColors.dark or ui.theme.buttonColors.disabled
+	-- TODO: currently, you are prevented from buying a duplicate item
+	-- This does not take into account per-item information like item condition (when implemented)
+	local can_buy = data.available and not data.installed
+	local variant = can_buy and ui.theme.buttonColors.dark or ui.theme.buttonColors.disabled
+
 	if customButton(l.BUY_EQUIP % data, icon, price_text, variant) and data.available then
 		self:message("onBuyItem", data.equip)
 	end

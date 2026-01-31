@@ -344,6 +344,10 @@ function CabinType:OnRemove(ship, slot)
 	end
 end
 
+function CabinType:CanBeSold()
+	return (not self.passengers or #self.passengers == 0) and EquipType.CanBeSold(self)
+end
+
 --==============================================================================
 
 ---@class Equipment.ThrusterType : EquipType
