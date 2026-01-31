@@ -79,7 +79,7 @@ namespace SceneGraph {
 
 	Node *Thruster::Clone(NodeCopyCache *cache)
 	{
-		return this; //thrusters are shared
+		return new Thruster(*this, cache); //thrusters are not shared, since they have a DisplayedPower node
 	}
 
 	void Thruster::Accept(NodeVisitor &nv)
@@ -134,10 +134,10 @@ namespace SceneGraph {
 		// pass the power setting and flicker value using the material emissive
 		// emissive.a is the flicker value for the flame
 		m_tMat->emissive.a = m_glowMat->emissive.a = flicker * 255.f;
-		
+
 		// emissive.r is the thruster power setting which effects flame length and brightness
 		m_tMat->emissive.r = m_glowMat->emissive.r = 255.0f * displayedPower;
-		
+
 		m_tMat->diffuse = m_glowMat->diffuse = currentColor;
 
 		//directional fade
