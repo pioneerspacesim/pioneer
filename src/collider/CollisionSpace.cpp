@@ -119,6 +119,7 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double
 		m_staticObjectTree->TraceRay(start, invDir, len, isect_result);
 
 		for (uint32_t &idx : isect_result) {
+			assert(idx <= m_staticGeoms.size());
 			Geom *g = m_staticGeoms[idx];
 			TraceRayGeom(g, start, dir, len, c);
 		}
