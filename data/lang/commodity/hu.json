@@ -1,7 +1,7 @@
 {
   "AIR_PROCESSORS": {
     "description": "",
-    "message": "air processors"
+    "message": "levegőfeldolgozók"
   },
   "AIR_PROCESSORS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -9,7 +9,7 @@
   },
   "ANIMAL_MEAT": {
     "description": "",
-    "message": "animal meat"
+    "message": "állati hús"
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -17,7 +17,7 @@
   },
   "BATTLE_WEAPONS": {
     "description": "",
-    "message": "battle weapons"
+    "message": "csatafegyverek"
   },
   "BATTLE_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -25,7 +25,7 @@
   },
   "CARBON_ORE": {
     "description": "",
-    "message": "carbon ore"
+    "message": "szénérc"
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -33,15 +33,15 @@
   },
   "CHEMICALS": {
     "description": "",
-    "message": "chemicals"
+    "message": "vegyi anyagok"
   },
   "CHEMICALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Industrial precursors, caustic cleaning agents, and biochemical feedstock, chemicals are used in both consumer and industrial settings. Chemicals are shipped in industrial-strength containers to prevent corrosion of a ship's cargo hold."
+    "message": "Legyenek azok ipari alapanyagok, maró tisztító vegyszerek és biokémiai tápoldatok, vegyi anyagok fogysztói és ipari kontextusban is megkerülhetetlenek. Szállításuk ipari minőségű tartályokban történik, az űrhajók rakterében történő károkozást elkerülendő."
   },
   "COMPUTERS": {
     "description": "",
-    "message": "computers"
+    "message": "számítógépek"
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -49,7 +49,7 @@
   },
   "CONSUMER_GOODS": {
     "description": "",
-    "message": "consumer goods"
+    "message": "fogyasztási cikkek"
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -57,7 +57,7 @@
   },
   "FARM_MACHINERY": {
     "description": "",
-    "message": "farm machinery"
+    "message": "mezőgazdasági gépek"
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -65,7 +65,7 @@
   },
   "FERTILIZER": {
     "description": "",
-    "message": "fertilizer"
+    "message": "trágya"
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -73,7 +73,7 @@
   },
   "FRUIT_AND_VEG": {
     "description": "",
-    "message": "fruit & vegetables"
+    "message": "zöldség és gyümölcs"
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -81,7 +81,7 @@
   },
   "GRAIN": {
     "description": "",
-    "message": "grain"
+    "message": "gabona"
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -89,7 +89,7 @@
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "small arms"
+    "message": "kézi fegyverek"
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -97,7 +97,7 @@
   },
   "HYDROGEN": {
     "description": "",
-    "message": "hydrogen"
+    "message": "hidrogén"
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -105,7 +105,7 @@
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
-    "message": "industrial machinery"
+    "message": "ipari gépek"
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -113,7 +113,7 @@
   },
   "LIQUID_OXYGEN": {
     "description": "",
-    "message": "liquid oxygen"
+    "message": "folyékony oxigén"
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -121,7 +121,7 @@
   },
   "LIQUOR": {
     "description": "",
-    "message": "liquor"
+    "message": "Szeszes italok"
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -129,7 +129,7 @@
   },
   "LIVE_ANIMALS": {
     "description": "",
-    "message": "live animals"
+    "message": "élő állatok"
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -137,7 +137,7 @@
   },
   "MEDICINES": {
     "description": "",
-    "message": "medicines"
+    "message": "gyógyszerek"
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -145,7 +145,7 @@
   },
   "METAL_ALLOYS": {
     "description": "",
-    "message": "metal alloys"
+    "message": "fém ötvözetek"
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -153,7 +153,7 @@
   },
   "METAL_ORE": {
     "description": "",
-    "message": "metal ore"
+    "message": "fémércek"
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -161,7 +161,7 @@
   },
   "MILITARY_FUEL": {
     "description": "",
-    "message": "military fuel"
+    "message": "katonai üzemanyag"
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -169,7 +169,7 @@
   },
   "MINING_MACHINERY": {
     "description": "",
-    "message": "mining machinery"
+    "message": "bányagépek"
   },
   "MINING_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -177,7 +177,7 @@
   },
   "NARCOTICS": {
     "description": "",
-    "message": "narcotics"
+    "message": "kábítószerek"
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -185,7 +185,7 @@
   },
   "NERVE_GAS": {
     "description": "",
-    "message": "nerve gas"
+    "message": "ideggáz"
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -193,7 +193,7 @@
   },
   "PLASTICS": {
     "description": "",
-    "message": "plastics"
+    "message": "műanyagok"
   },
   "PLASTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -201,7 +201,7 @@
   },
   "PRECIOUS_METALS": {
     "description": "",
-    "message": "precious metals"
+    "message": "nemesfémek"
   },
   "PRECIOUS_METALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -209,7 +209,7 @@
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "radioactive waste"
+    "message": "radioaktív hulladék"
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -217,7 +217,7 @@
   },
   "ROBOTS": {
     "description": "",
-    "message": "robots"
+    "message": "robotok"
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -225,7 +225,7 @@
   },
   "RUBBISH": {
     "description": "",
-    "message": "rubbish"
+    "message": "hulladék"
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -233,7 +233,7 @@
   },
   "SLAVES": {
     "description": "",
-    "message": "slaves"
+    "message": "rabszolgák"
   },
   "SLAVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -241,7 +241,7 @@
   },
   "TEXTILES": {
     "description": "",
-    "message": "textiles"
+    "message": "textil"
   },
   "TEXTILES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -249,7 +249,7 @@
   },
   "WATER": {
     "description": "",
-    "message": "water"
+    "message": "víz"
   },
   "WATER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",

@@ -585,7 +585,7 @@
   },
   "OPLI_INTERNAL_MISSILE_RACK_S3_DESCRIPTION": {
     "description": "Short description and tooltip.",
-    "message": "Interner Raketenschacht für 8x mittlere Raketen."
+    "message": "Internal missile bay for 3x large missiles."
   },
   "OPLI_INTERNAL_MISSILE_RACK_S4": {
     "description": "Equipment name for an OPLI internal missile rack",
@@ -593,7 +593,7 @@
   },
   "OPLI_INTERNAL_MISSILE_RACK_S4_DESCRIPTION": {
     "description": "Short description and tooltip.",
-    "message": "Interner Raketenschacht für 12x mittlere Raketen"
+    "message": "Internal missile bay mounting 5x large missiles and 4x medium missiles."
   },
   "ORBIT_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",

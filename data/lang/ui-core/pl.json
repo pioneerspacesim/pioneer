@@ -623,6 +623,10 @@
     "description": "",
     "message": "Wyposażenie"
   },
+  "EQUIPMENT_ALREADY_INSTALLED_HERE": {
+    "description": "Message indicating this equipment item is already installed.",
+    "message": "Ten ekwipunek jest już zamontowany."
+  },
   "EQUIPMENT_CAPACITY": {
     "description": "The equipment capacity of a ship",
     "message": "Pojemność ekwipunku"
@@ -2541,7 +2545,7 @@
   },
   "SYSTEM_FACTION": {
     "description": "Tooltip indicating the faction controlling this system",
-    "message": "Controlling faction jurisdiction"
+    "message": "Jurysdykcja pod kontrolą frakcji"
   },
   "SYSTEM_INFORMATION": {
     "description": "Tooltip / label indicating information about a selected star system",
@@ -2549,11 +2553,11 @@
   },
   "SYSTEM_NUM_STARS": {
     "description": "Tooltip indicating the system stellar arrangement",
-    "message": "Number of stars in system"
+    "message": "Liczba gwiazd w systemie"
   },
   "SYSTEM_SECURITY_1": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
-    "message": "Safe"
+    "message": "Bezpieczny"
   },
   "SYSTEM_SECURITY_2": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
@@ -2565,7 +2569,7 @@
   },
   "SYSTEM_SECURITY_4": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
-    "message": "Very Dangerous"
+    "message": "Bardzo niebezpieczny"
   },
   "SYSTEM_SECURITY_5": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
@@ -2573,7 +2577,7 @@
   },
   "SYSTEM_SECURITY_TOOLTIP": {
     "description": "Tooltip introducing the system security rating",
-    "message": "System safety rating"
+    "message": "Ocena bezpieczeństwa"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
@@ -2793,7 +2797,7 @@
   },
   "VIEW_DESTINATION": {
     "description": "Tooltip indicating the button will change the current view to the destination of a route.",
-    "message": "View Destination"
+    "message": "Zobacz punkt docelowy"
   },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",

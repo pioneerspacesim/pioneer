@@ -623,6 +623,10 @@
     "description": "",
     "message": "Equipment"
   },
+  "EQUIPMENT_ALREADY_INSTALLED_HERE": {
+    "description": "Message indicating this equipment item is already installed.",
+    "message": "This equipment item is already installed here."
+  },
   "EQUIPMENT_CAPACITY": {
     "description": "The equipment capacity of a ship",
     "message": "Equipment Capacity"
@@ -2882,9 +2886,5 @@
   "ZOOM": {
     "description": "Label for a zoom (magnification) control bar.",
     "message": "Zoom"
-  },
-  "EQUIPMENT_ALREADY_INSTALLED_HERE": {
-    "description": "Message indicating this equipment item is already installed.",
-    "message": "This equipment item is already installed here."
   }
 }

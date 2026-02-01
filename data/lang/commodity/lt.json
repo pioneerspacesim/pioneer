@@ -33,11 +33,11 @@
   },
   "CHEMICALS": {
     "description": "",
-    "message": "chemicals"
+    "message": "cheminės medžiagos"
   },
   "CHEMICALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Industrial precursors, caustic cleaning agents, and biochemical feedstock, chemicals are used in both consumer and industrial settings. Chemicals are shipped in industrial-strength containers to prevent corrosion of a ship's cargo hold."
+    "message": "Pramoniniai pirmtakai, ėsdinantys valikliai ir biocheminės žaliavos, cheminės medžiagos naudojamos tiek vartotojų, tiek pramoninėje aplinkoje. Cheminės medžiagos gabenamos pramoninio atsparumo talpyklose, kad būtų išvengta laivo krovinių skyriaus korozijos."
   },
   "COMPUTERS": {
     "description": "",

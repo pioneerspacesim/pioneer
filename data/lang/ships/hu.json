@@ -5,11 +5,11 @@
   },
   "AC33_DEF": {
     "description": "ship - definite form",
-    "message": "the AC-33 Dropstar"
+    "message": "az AC-33 Dropstar"
   },
   "AC33_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "an AC-33 Dropstar"
+    "message": "egy AC-33 Dropstar"
   },
   "BLUENOSE": {
     "description": "ship name - base form",
@@ -17,11 +17,11 @@
   },
   "BLUENOSE_DEF": {
     "description": "ship - definite form",
-    "message": "the Bluenose"
+    "message": "a Bluenose"
   },
   "BLUENOSE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Bluenose"
+    "message": "egy Bluenose"
   },
   "BOWFIN": {
     "description": "ship name - base form",
@@ -29,11 +29,11 @@
   },
   "BOWFIN_DEF": {
     "description": "ship - definite form",
-    "message": "the Bowfin"
+    "message": "a Bowfin"
   },
   "BOWFIN_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Bowfin"
+    "message": "egy Bowfin"
   },
   "CORONATRIX": {
     "description": "ship name - base form",
@@ -41,23 +41,23 @@
   },
   "CORONATRIX_DEF": {
     "description": "ship - definite form",
-    "message": "the Coronatrix"
+    "message": "a Coronatrix"
   },
   "CORONATRIX_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Coronatrix"
+    "message": "egy Coronatrix"
   },
   "CORONATRIX_POLICE": {
     "description": "ship name - base form",
-    "message": "Coronatrix police ship"
+    "message": "Coronatrix rendőr-naszád"
   },
   "CORONATRIX_POLICE_DEF": {
     "description": "ship - definite form",
-    "message": "the Coronatrix police ship"
+    "message": "a Coronatrix rendőr-naszád"
   },
   "CORONATRIX_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Coronatrix police ship"
+    "message": "egy Coronatrix rendőr-naszád"
   },
   "DENEB": {
     "description": "ship name - base form",
@@ -65,23 +65,23 @@
   },
   "DENEB_DEF": {
     "description": "ship - definite form",
-    "message": "the Deneb"
+    "message": "a Deneb"
   },
   "DENEB_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Deneb"
+    "message": "egy Deneb"
   },
   "DSMINER": {
     "description": "ship name - base form",
-    "message": "DS Miner"
+    "message": "M.Ű. Bányász"
   },
   "DSMINER_DEF": {
     "description": "ship - definite form",
-    "message": "the DS Miner"
+    "message": "a M.Ű. Bányász"
   },
   "DSMINER_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a DS Miner"
+    "message": "egy M.Ű. Bányász"
   },
   "KANARA": {
     "description": "ship name - base form",
@@ -89,23 +89,23 @@
   },
   "KANARA_CIV": {
     "description": "ship name - base form",
-    "message": "Kanara Civ"
+    "message": "Civil Kanara"
   },
   "KANARA_CIV_DEF": {
     "description": "ship - definite form",
-    "message": "the Kanara Civ"
+    "message": "a Civil Kanara"
   },
   "KANARA_CIV_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Kanara Civ"
+    "message": "egy Civil Kanara"
   },
   "KANARA_DEF": {
     "description": "ship - definite form",
-    "message": "the Kanara"
+    "message": "a Kanara"
   },
   "KANARA_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Kanara"
+    "message": "egy Kanara"
   },
   "LODOS": {
     "description": "ship name - base form",
@@ -113,23 +113,23 @@
   },
   "LODOS_DEF": {
     "description": "ship - definite form",
-    "message": "the Lodos"
+    "message": " Lodos"
   },
   "LODOS_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Lodos"
+    "message": "egy Lodos"
   },
   "LUNARSHUTTLE": {
     "description": "ship name - base form",
-    "message": "Lunar Shuttle"
+    "message": "Holdkomp"
   },
   "LUNARSHUTTLE_DEF": {
     "description": "ship - definite form",
-    "message": "the Lunar Shuttle"
+    "message": "a Holdkomp"
   },
   "LUNARSHUTTLE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Lunar Shuttle"
+    "message": "egy Holdkomp"
   },
   "MALABAR": {
     "description": "ship name - base form",
@@ -137,11 +137,11 @@
   },
   "MALABAR_DEF": {
     "description": "ship - definite form",
-    "message": "the Malabar"
+    "message": "a Malabar"
   },
   "MALABAR_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Malabar"
+    "message": "egy Malabar"
   },
   "MOLAMOLA": {
     "description": "ship name - base form",
@@ -149,11 +149,11 @@
   },
   "MOLAMOLA_DEF": {
     "description": "ship - definite form",
-    "message": "the Mola Mola"
+    "message": "a Mola Mola"
   },
   "MOLAMOLA_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Mola Mola"
+    "message": "egy Mola Mola"
   },
   "MOLARAMSAYI": {
     "description": "ship name - base form",
@@ -161,11 +161,11 @@
   },
   "MOLARAMSAYI_DEF": {
     "description": "ship - definite form",
-    "message": "the Mola Ramsayi"
+    "message": "a Mola Ramsayi"
   },
   "MOLARAMSAYI_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Mola Ramsayi"
+    "message": "egy Mola Ramsayi"
   },
   "NATRIX": {
     "description": "ship name - base form",
@@ -173,11 +173,11 @@
   },
   "NATRIX_DEF": {
     "description": "ship - definite form",
-    "message": "the Natrix"
+    "message": "a Natrix"
   },
   "NATRIX_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Natrix"
+    "message": "egy Natrix"
   },
   "NERODIA": {
     "description": "ship name - base form",
@@ -185,23 +185,23 @@
   },
   "NERODIA_DEF": {
     "description": "ship - definite form",
-    "message": "the Nerodia"
+    "message": "a Nerodia"
   },
   "NERODIA_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Nerodia"
+    "message": "egy Nerodia"
   },
   "POLICE_SHIP": {
     "description": "ship name - base form",
-    "message": "police ship"
+    "message": "rendőr-naszád"
   },
   "POLICE_SHIP_DEF": {
     "description": "ship - definite form",
-    "message": "the police ship"
+    "message": "a rendőr-naszád"
   },
   "POLICE_SHIP_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a police ship"
+    "message": "egy rendőr-naszád"
   },
   "PUMPKINSEED": {
     "description": "ship name - base form",
@@ -209,35 +209,35 @@
   },
   "PUMPKINSEED_DEF": {
     "description": "ship - definite form",
-    "message": "the Pumpkinseed"
+    "message": "a Pumpkinseed"
   },
   "PUMPKINSEED_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Pumpkinseed"
+    "message": "egy Pumpkinseed"
   },
   "PUMPKINSEED_POLICE": {
     "description": "ship name - base form",
-    "message": "Pumpkinseed police ship"
+    "message": "Rendőrségi Pumpkinseed"
   },
   "PUMPKINSEED_POLICE_DEF": {
     "description": "ship - definite form",
-    "message": "the Pumpkinseed police ship"
+    "message": "a Rendőrségi Pumpkinseed"
   },
   "PUMPKINSEED_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Pumpkinseed police ship"
+    "message": "egy Rendőrségi Pumpkinseed"
   },
   "SHIP": {
     "description": "ship name - base form",
-    "message": "ship"
+    "message": "hajó"
   },
   "SHIP_DEF": {
     "description": "ship - definite form",
-    "message": "the ship"
+    "message": "hajó"
   },
   "SHIP_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a ship"
+    "message": "egy hajó"
   },
   "SINONATRIX": {
     "description": "ship name - base form",
@@ -245,23 +245,23 @@
   },
   "SINONATRIX_DEF": {
     "description": "ship - definite form",
-    "message": "the Sinonatrix"
+    "message": "a Sinonatrix"
   },
   "SINONATRIX_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Sinonatrix"
+    "message": "egy Sinonatrix"
   },
   "SINONATRIX_POLICE": {
     "description": "ship name - base form",
-    "message": "Sinonatrix police ship"
+    "message": "Rendfenntartó Sinonatrix"
   },
   "SINONATRIX_POLICE_DEF": {
     "description": "ship - definite form",
-    "message": "the Sinonatrix police ship"
+    "message": "a Rendfenntartó Sinonatrix"
   },
   "SINONATRIX_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Sinonatrix police ship"
+    "message": "egy Rendfenntartó Sinonatrix"
   },
   "SKIPJACK": {
     "description": "ship name - base form",
@@ -269,11 +269,11 @@
   },
   "SKIPJACK_DEF": {
     "description": "ship - definite form",
-    "message": "the Skipjack"
+    "message": "a Skipjack"
   },
   "SKIPJACK_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Skipjack"
+    "message": "egy Skipjack"
   },
   "STORERIA": {
     "description": "ship name - base form",
@@ -281,11 +281,11 @@
   },
   "STORERIA_DEF": {
     "description": "ship - definite form",
-    "message": "the Storeria"
+    "message": "a Storeria"
   },
   "STORERIA_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Storeria"
+    "message": "egy Storeria"
   },
   "VARADA": {
     "description": "ship name - base form",
@@ -293,11 +293,11 @@
   },
   "VARADA_DEF": {
     "description": "ship - definite form",
-    "message": "the Varada"
+    "message": "a Varada"
   },
   "VARADA_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Varada"
+    "message": "egy Varada"
   },
   "VATAKARA": {
     "description": "ship name - base form",
@@ -305,11 +305,11 @@
   },
   "VATAKARA_DEF": {
     "description": "ship - definite form",
-    "message": "the Vatakara"
+    "message": " Vatakara"
   },
   "VATAKARA_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Vatakara"
+    "message": "egy Vatakara"
   },
   "VENTURESTAR": {
     "description": "ship name - base form",
@@ -317,11 +317,11 @@
   },
   "VENTURESTAR_DEF": {
     "description": "ship - definite form",
-    "message": "the Venturestar"
+    "message": "a Venturestar"
   },
   "VENTURESTAR_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Venturestar"
+    "message": "egy Venturastar"
   },
   "WAVE": {
     "description": "ship name - base form",
@@ -329,11 +329,11 @@
   },
   "WAVE_DEF": {
     "description": "ship - definite form",
-    "message": "the Wave"
+    "message": "a Wave"
   },
   "WAVE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Wave"
+    "message": "egy Wave"
   },
   "XYLOPHIS": {
     "description": "ship name - base form",
@@ -341,10 +341,10 @@
   },
   "XYLOPHIS_DEF": {
     "description": "ship - definite form",
-    "message": "the Xylophis"
+    "message": "a Xylopshis"
   },
   "XYLOPHIS_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a Xylophis"
+    "message": "egy Xylophis"
   }
 }

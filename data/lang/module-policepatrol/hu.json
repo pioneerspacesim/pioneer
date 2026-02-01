@@ -1,47 +1,47 @@
 {
   "FINES_ADMONISHING_1": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "Please visit the nearest {policeforce} office to pay your fines."
+    "message": "Kérem keresse fel a legközelebbi {policeforce} őrsöt és rendezze büntetéseit."
   },
   "FINES_ADMONISHING_2": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "Visit the nearest {policeforce} office and resolve this."
+    "message": "Keresse fel a legközelebbi {policeforce} irodát ennek rendezésére."
   },
   "FINES_ADMONISHING_3": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "You need to sort this out or it will only get worse."
+    "message": "Jobb, ha ezt rendbe rakja, mielőtt tovább romlik a helyzet."
   },
   "FINES_ADMONISHING_4": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
-    "message": "There's a {policeforce} office on every large station. Pay your fines!"
+    "message": "Minden nagyobb állomáson található {policeforce} őrs. Fizesse be büntetéseit!"
   },
   "FINES_ADMONISHING_HARSH_1": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "This needs to be resolved or there will be consequences!"
+    "message": "Ha nem rendezi, annak következményei lesznek!"
   },
   "FINES_ADMONISHING_HARSH_2": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "Unpaid fines will be prosecuted to the fullest extent of the law."
+    "message": "A be nem fizetett büntetéseket a törvény teljes szigorával üldözzük."
   },
   "FINES_ADMONISHING_HARSH_3": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "This is serious and you need to resolve it. The sooner the better."
+    "message": "Ez komoly probléma, melyet rendeznie kell. Minél előbb, annál jobb."
   },
   "FINES_ADMONISHING_HARSH_4": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
-    "message": "If you don't pay your fines you will end up as an outlaw. Pay your fines today!"
+    "message": "Ha nem fizeti be a büntetéseit, könnyen törvényen kívül találhatja magát. Még ma rendezze!"
   },
   "FINES_INTRO_1": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "Wait, there's more."
+    "message": "Jaj, majdnem elfelejtettem! Csak még egy dolog!"
   },
   "FINES_INTRO_2": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "One more thing {ship_label}."
+    "message": "Még valami, {ship_label}."
   },
   "FINES_INTRO_3": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "Wait!"
+    "message": "Várjon!"
   },
   "FINES_INTRO_4": {
     "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
@@ -49,19 +49,19 @@
   },
   "FINES_MESSAGE_1": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "You have outstanding fines."
+    "message": "Befizetetlen büntetései vannak."
   },
   "FINES_MESSAGE_2": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "You are flagged with outstanding fines."
+    "message": "A rendszer szerint be nem fizetett bírságai vannak."
   },
   "FINES_MESSAGE_3": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "We see that you have fines to pay."
+    "message": "Úgy látszik, befizetetlen bírságai vannak."
   },
   "FINES_MESSAGE_4": {
     "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
-    "message": "You have a total of ${fine} in unpaid fines."
+    "message": "${fine} befizetetlen büntetése van."
   },
   "ILLEGAL_GOODS_DETECTED": {
     "description": "",

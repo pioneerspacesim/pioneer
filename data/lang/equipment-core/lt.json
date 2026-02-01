@@ -5,7 +5,7 @@
   },
   "ADVANCED_TARGET_SCANNER_DESCRIPTION": {
     "description": "",
-    "message": "Long range target scanner with system wide coverage."
+    "message": "Didelio nuotolio taikinių skeneris, apimantis visą sistemą."
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "",
@@ -17,19 +17,19 @@
   },
   "ATMOSPHERIC_SHIELDING_FLAVOURTEXT": {
     "description": "",
-    "message": "Provides a moderate level of protection against atmospheric friction and pressure at a minimal mass cost."
+    "message": "Suteikia vidutinio lygio apsaugą nuo atmosferos trinties ir slėgio, išlaikant minimalų masės prieaugį."
   },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
-    "message": "Heavy Atmospheric Shielding"
+    "message": "Sunkus Atmosferinis Skydas"
   },
   "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
     "description": "",
-    "message": "A more capable version of Atmospheric Shields"
+    "message": "Pajėgesnė Atmosfernio Skydo versija."
   },
   "ATMOSPHERIC_SHIELDING_HEAVY_FLAVOURTEXT": {
     "description": "",
-    "message": "Specialized for scientific expeditions within dense atmospheres, this shielding trades weight and efficiency for a significant increase in the atmospheric pressures it can withstand."
+    "message": "Specialiai pritaikyta mokslinėms ekspedicijoms tankiose atmosferose, ši apsauga iškeičia svorį ir efektyvumą į ženkliai didesnį atmosferos slėgį, kurį gali atlaikyti."
   },
   "AUTOPILOT": {
     "description": "",
@@ -41,27 +41,27 @@
   },
   "BEAMLASER_1MW": {
     "description": "",
-    "message": "1MW beam laser"
+    "message": "1MW spindulinis lazeris"
   },
   "BEAMLASER_DUAL_1MW": {
     "description": "",
-    "message": "1MW dual-fire beam laser"
+    "message": "1MW dvigubo šūvio spindulinis lazeris"
   },
   "BEAMLASER_RAPID_2MW": {
     "description": "",
-    "message": "2MW rapid-fire beam laser"
+    "message": "2MW greitosios ugnies spindulinis lazeris"
   },
   "BY_ITEM": {
     "description": "Button in the start menu when editing equipment",
-    "message": "By item"
+    "message": "Pagal elementą"
   },
   "BY_SLOT": {
     "description": "Button in the start menu when editing equipment",
-    "message": "By slot"
+    "message": "Pagal lizdą"
   },
   "CABINS": {
     "description": "Category header for pressurized cabin slots",
-    "message": "Cabins"
+    "message": "Kajutės"
   },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
@@ -81,11 +81,11 @@
   },
   "COMPUTER_MODULES": {
     "description": "Category name of computer-related equipment",
-    "message": "Computer Modules"
+    "message": "Kompiuterio Moduliai"
   },
   "DAMAGE_PER_SHOT": {
     "description": "Tooltip explaining weapon damage per shot",
-    "message": "Damage Per Shot"
+    "message": "Žala Per Šūvį"
   },
   "DRIVE_CLASS1": {
     "description": "",
@@ -141,23 +141,23 @@
   },
   "DRIVE_MIL5": {
     "description": "",
-    "message": "Class 5 Military drive"
+    "message": "5 klasės sukarintas variklis"
   },
   "DRIVE_MIL6": {
     "description": "",
-    "message": "Class 6 Military drive"
+    "message": "6 klasės sukarintas variklis"
   },
   "DRIVE_MIL7": {
     "description": "",
-    "message": "Class 7 Military drive"
+    "message": "7 klasės sukarintas variklis"
   },
   "DRIVE_MIL8": {
     "description": "",
-    "message": "Class 8 Military drive"
+    "message": "8 klasės sukarintas variklis"
   },
   "DRIVE_MIL9": {
     "description": "",
-    "message": "Class 9 Military drive"
+    "message": "9 klasės sukarintas variklis"
   },
   "ECM_ADVANCED": {
     "description": "",
@@ -177,31 +177,31 @@
   },
   "ECM_HOVER_MESSAGE": {
     "description": "",
-    "message": "Activate Electronic Countermeasures"
+    "message": "Aktyvuoti elektronines atsakomąsias priemones"
   },
   "EDIT_EQUIPMENT": {
     "description": "Dialog title",
-    "message": "Edit equipment"
+    "message": "Redaguoti įrangą"
   },
   "EMPTY_EQUIPMENT_PROVIDING_SLOTS": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Empty equipment providing slots"
+    "message": "Tušti įrangos lizdai"
   },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
-    "message": "EMPTY"
+    "message": "TUŠČIA"
   },
   "EQUIPMENT_DOES_NOT_FIT_INTO_THE_SLOT": {
     "description": "Tooltip for wrong equipment item",
-    "message": "Equipment does not fit into the slot"
+    "message": "Įranga netelpa į lizdą"
   },
   "EQUIPMENT_INTEGRITY": {
     "description": "Tooltip explaining remaining equipment integrity",
-    "message": "Equipment Integrity"
+    "message": "Įrangos būklė"
   },
   "EQUIPMENT_WEIGHT": {
     "description": "Tooltip explaining equipment weight",
-    "message": "Equipment Weight"
+    "message": "Įrangos Svoris"
   },
   "FUEL_SCOOP": {
     "description": "",
@@ -585,7 +585,7 @@
   },
   "OPLI_INTERNAL_MISSILE_RACK_S3_DESCRIPTION": {
     "description": "Short description and tooltip.",
-    "message": "Internal missile bay for 8x medium missiles."
+    "message": "Internal missile bay for 3x large missiles."
   },
   "OPLI_INTERNAL_MISSILE_RACK_S4": {
     "description": "Equipment name for an OPLI internal missile rack",
@@ -593,7 +593,7 @@
   },
   "OPLI_INTERNAL_MISSILE_RACK_S4_DESCRIPTION": {
     "description": "Short description and tooltip.",
-    "message": "Internal missile bay for 12x medium missiles."
+    "message": "Internal missile bay mounting 5x large missiles and 4x medium missiles."
   },
   "ORBIT_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",

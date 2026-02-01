@@ -513,23 +513,23 @@
   },
   "GRID_DISPLAY_MODE": {
     "description": "Label for grid display modes",
-    "message": "Grid Display Mode"
+    "message": "Rács megjelenítési mód"
   },
   "GRID_DISPLAY_MODE_GRID_AND_LEGS": {
     "description": "Combobox option for Grid with Legs",
-    "message": "Grid with Legs"
+    "message": "Rács és függőleges vonal"
   },
   "GRID_DISPLAY_MODE_GRID_ONLY": {
     "description": "Combobox option for Grid Only",
-    "message": "Grid Only"
+    "message": "Rács"
   },
   "GRID_DISPLAY_MODE_OFF": {
     "description": "Combobox option for Grid display off.",
-    "message": "Grid Off"
+    "message": "Rács kikapcsolva"
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for toggle grid display button.",
-    "message": "Toggle visibility of the grid."
+    "message": "A rács láthatóságának kapcsolása"
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -609,23 +609,23 @@
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
     "description": "Label for hyperspace cloud display modes.",
-    "message": "Hyperspace Cloud Display Mode"
+    "message": "Hiperűr-felhő megjelenítési mód"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL": {
     "description": "Combobox option for all hyperspace clouds.",
-    "message": "All Hyperspace Clouds"
+    "message": "Minden hiperűr-felhő"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY": {
     "description": "Combobox option for arrival hyperspace clouds.",
-    "message": "Arrival Hyperspace Clouds"
+    "message": "Bejövő hiperűr-felhő"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY": {
     "description": "Combobox option for departure hyperspace clouds.",
-    "message": "Departure Hyperspace Clouds"
+    "message": "Kimenő hiperűr-felhő"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for the button which toggles the display mode of hyperspace clouds.",
-    "message": "Toggle visibility of Hyperspace Clouds."
+    "message": "A hiperűr-felhők láthatóságának kapcsolása"
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
@@ -721,15 +721,15 @@
   },
   "L4L5_DISPLAY_MODE": {
     "description": "Label for the lagrange point display modes.",
-    "message": "Lagrange Point Display Mode"
+    "message": "Lagrange pontok megjelenítési módja"
   },
   "L4L5_DISPLAY_MODE_ICONS_AND_TEXT": {
     "description": "Combobox option for lagrange point display as icons only.",
-    "message": "Icons and Labels"
+    "message": "Ikon és felirat"
   },
   "L4L5_DISPLAY_MODE_ICONS_ONLY": {
     "description": "Combobox option for lagrange point display as icons only.",
-    "message": "Icons Only"
+    "message": "Ikon"
   },
   "L4L5_DISPLAY_MODE_OFF": {
     "description": "Combobox option for lagrange point display off.",
@@ -737,7 +737,7 @@
   },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for the L4/L5 Lagrange points toggle button.",
-    "message": "Toggle visibility of the L4/L5 lagrange points."
+    "message": "Az L4/L5 lagrange pontok megjelenítése"
   },
   "LANDED": {
     "description": "",
@@ -1441,19 +1441,19 @@
   },
   "SHIPS_DISPLAY_MODE": {
     "description": "Label for ship display modes.",
-    "message": "Ship Display Mode"
+    "message": "Hajó megjelenítési mód"
   },
   "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
     "description": "Combobox option for ships only.",
-    "message": "Ships Only"
+    "message": "Hajók"
   },
   "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
     "description": "Combobox option for ships with orbits.",
-    "message": "Ships with Orbits"
+    "message": "Hajók és pályájuk"
   },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for ship display toggle button.",
-    "message": "Toggle visibility of ships."
+    "message": "Hajók láthatóságának kapcsolása"
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
@@ -1669,7 +1669,7 @@
   },
   "SURFACE_PRESSURE": {
     "description": "",
-    "message": "Surface pressure"
+    "message": "Felszíni nyomás"
   },
   "SURFACE_TEMPERATURE": {
     "description": "",
@@ -1921,11 +1921,11 @@
   },
   "UNIT_TEMPERATURE_CELSIUS": {
     "description": "Temperature unit: degrees Celsius (°C)",
-    "message": "°C"
+    "message": "C°"
   },
   "UNIT_TEMPERATURE_FAHRENHEIT": {
     "description": "Temperature unit: Fahrenheit (°F)",
-    "message": "°F"
+    "message": "F°"
   },
   "UNIT_TEMPERATURE_KELVIN": {
     "description": "Temperature unit: degrees Kelvin (K)",

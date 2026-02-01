@@ -1,103 +1,103 @@
 {
   "ABOUT": {
     "description": "",
-    "message": "About"
+    "message": "Névjegy"
   },
   "ACKNOWLEDGEMENTS": {
     "description": "",
-    "message": "Acknowledgements"
+    "message": "Elismerések"
   },
   "CONTENT": {
     "description": "",
-    "message": "Content"
+    "message": "Tartalom"
   },
   "CONTENT_CONTRIBUTION": {
     "description": "",
-    "message": "Content contribution"
+    "message": "Tartalmi közreműködés"
   },
   "CONTRIBUTE": {
     "description": "",
-    "message": "Contribute"
+    "message": "Hogyan segíthetek?"
   },
   "CONTRIBUTE_BODY": {
     "description": "",
-    "message": "Pioneer is the sum of the many contributions from its players and developers. See anything you want to change, improve, or ideas for new content to add? (E.g. translations, coding, art, 2D & 3D assets, music, designing custom star systems, improve our documentation, wiki, etc.) Follow the links for details on how you can contribute!"
+    "message": "Pioneer a játékosaink és fejlesztőink közreműködésének gyümölcse. Megváltoztatnál, javítanál, valamit? Ötleteid vannak?Részt vennél a fejlesztésben? (például fordítással, kódolással, 3D modellek, 2D-s tartalmak, zene, egyedi naprendszerek készítésével? Netán a dokumentáció csiszolásával?) Az alábbi linkeken megtalálod a részleteket arról, hogyan járulhatsz hozzá a játék fejlődéséhez!"
   },
   "DEVELOPER_DOCUMENTATION": {
     "description": "",
-    "message": "Developer Documentation"
+    "message": "Fejlesztői dokumentáció"
   },
   "DOCUMENTATION": {
     "description": "",
-    "message": "Documentation"
+    "message": "umentáció"
   },
   "DONATE_BODY": {
     "description": "",
-    "message": "If you enjoy playing Pioneer and would like to support its continued development, please consider donating - no donation is too small."
+    "message": "Ha tetszik a játékunk, és szeretnéd támogatni a fejlesztők munkáját, kérjük fontold meg, hogy anyagilag támogatsz minket. Nincs túl kicsi adomány."
   },
   "DONATE_OPTIONS": {
     "description": "Sentence continues in 'DONATE_OPTIONS_CONTINUED'",
-    "message": "For additional donation options, please see our"
+    "message": "További támogatási lehetőségekkel kapcsolatban a "
   },
   "DONATE_OPTIONS_CONTINUED": {
     "description": "hyperlink, ending part of sentence in 'DONATE_OPTIONS'",
-    "message": "donations page"
+    "message": "támogatási oldalunkon"
   },
   "DONATE_THANKS": {
     "description": "",
-    "message": "Thank you all for your continued support of Pioneer!"
+    "message": "találhatsz információt. Köszönjük mindenkinek a támogatást!"
   },
   "GAME_RELEASE": {
     "description": "",
-    "message": "Stable versions are released annually on February 3, but development is continuous. Brave pilots are thus encouraged to play from the latest source and report bugs."
+    "message": "Évente, február 3.-án adunk közre stabil verziót, de a fejlesztési munkák folyamatosan folynak. Bátorítjuk pilótáinkat, hogy a legfrissebb build-ekkel való játékra, és a talált hibák jelentésére."
   },
   "INFO_BLURB": {
     "description": "",
-    "message": "Pioneer is a single player space adventure game set in the Milky Way galaxy at the turn of the 31st century."
+    "message": "Pioneer egy a 31. században a Tejút-rendszerben játszódó egyjátékos űr-kalandjáték."
   },
   "INFO_BODY": {
     "description": "",
-    "message": "The game is open-ended, and you are free to explore the millions of star systems in the game. You can land on planets, slingshot past gas giants, and burn yourself to a crisp flying between binary star systems. You can try your hand at piracy, make your fortune trading between systems, or do missions for the various factions fighting for power, freedom or self-determination."
+    "message": "A játék nyitott végű, milliónyi naprendszer várja a felfedezőket. Leszálhatsz bolygókon, parittya-manőverel suhanhatsz el gázóriások mellett, vagy ropogósra sülhetsz egy kettős csillagrendszerben. Felcsaphatsz kalóznak, vagy csillagközi kereskedőként gyűjthetsz vagyont, netán a külöböző egymással a hatalomért, szabadságért, önös érdekekért küzdő frakciók küldetéseit végrehajtva juthatsz előre."
   },
   "LICENSE": {
     "description": "",
-    "message": "License"
+    "message": "Licensz"
   },
   "LINK_BASIC_FLIGHT": {
     "description": "",
-    "message": "Basic flight"
+    "message": "Repülési alapok"
   },
   "LINK_BUG_TRACKER": {
     "description": "",
-    "message": "Bug Tracker"
+    "message": "Bug és hiba követő"
   },
   "LINK_COMMUNITY_CHAT": {
     "description": "",
-    "message": "Community chat (Discord)"
+    "message": "Közösségi chat (Discord)"
   },
   "LINK_COMMUNITY_FORUM": {
     "description": "",
-    "message": "Community Forum"
+    "message": "Közösségi fórum"
   },
   "LINK_DEVELOPER_CHAT": {
     "description": "",
-    "message": "Developer chat (IRC)"
+    "message": "Fejlesztői chat (IRC)"
   },
   "LINK_DEVELOPER_FORUM": {
     "description": "",
-    "message": "Developer Forum"
+    "message": "Fejlesztői fórum"
   },
   "LINK_FAQ": {
     "description": "",
-    "message": "FAQ"
+    "message": "GYIK"
   },
   "LINK_HOMEPAGE": {
     "description": "",
-    "message": "Homepage"
+    "message": "Honlap"
   },
   "LINK_MANUAL": {
     "description": "",
-    "message": "Manual"
+    "message": "Kézikönyv"
   },
   "SOFTWARE": {
     "description": "",
@@ -105,26 +105,26 @@
   },
   "SOFTWARE_BODY": {
     "description": "",
-    "message": "Pioneer includes the following third-party software"
+    "message": "Pioneer az alábbi harmadik fél álltal fejlesztett szoftverek és tartalmak felhasználásával készül"
   },
   "SUPPORT_DEVELOPMENT": {
     "description": "",
-    "message": "Support Development"
+    "message": "Támogasd a fejlesztést"
   },
   "TRANSLATIONS": {
     "description": "",
-    "message": "Translations"
+    "message": "Fordítások"
   },
   "VERSION_CURRENT": {
     "description": "",
-    "message": "Your current version"
+    "message": "Jelenlegi verzió:"
   },
   "VERSION_LATEST": {
     "description": "This sentence continues into string VERSION_LATEST_CONTINUED, to read 'Latest version from source', referring to the source code",
-    "message": "Latest version from"
+    "message": "Legfrissebb verzió a"
   },
   "VERSION_LATEST_CONTINUED": {
     "description": "is continued from string VERSION_LATEST, to read 'Latest version from source'. Here, 'source' refers to the source code",
-    "message": "source code"
+    "message": "forráskódból"
   }
 }

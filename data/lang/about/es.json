@@ -1,99 +1,99 @@
 {
   "ABOUT": {
     "description": "",
-    "message": "About"
+    "message": "Acerca"
   },
   "ACKNOWLEDGEMENTS": {
     "description": "",
-    "message": "Acknowledgements"
+    "message": "Agradecimientos"
   },
   "CONTENT": {
     "description": "",
-    "message": "Content"
+    "message": "Contenido"
   },
   "CONTENT_CONTRIBUTION": {
     "description": "",
-    "message": "Content contribution"
+    "message": "Contribucion del contenido"
   },
   "CONTRIBUTE": {
     "description": "",
-    "message": "Contribute"
+    "message": "Contribuya"
   },
   "CONTRIBUTE_BODY": {
     "description": "",
-    "message": "Pioneer is the sum of the many contributions from its players and developers. See anything you want to change, improve, or ideas for new content to add? (E.g. translations, coding, art, 2D & 3D assets, music, designing custom star systems, improve our documentation, wiki, etc.) Follow the links for details on how you can contribute!"
+    "message": "Pioneer es la suma de las numerosas contribuciones de sus jugadores y desarrolladores. ¿Ves algo que te gustaría cambiar, mejorar o ideas para añadir nuevo contenido? (Por ejemplo: traducciones, programación, arte, recursos 2D y 3D, música, diseño de sistemas estelares personalizados, mejorar nuestra documentación, wiki, etc.). ¡Sigue los enlaces para conocer los detalles sobre cómo puedes contribuir!"
   },
   "DEVELOPER_DOCUMENTATION": {
     "description": "",
-    "message": "Developer Documentation"
+    "message": "Documentacion del desarrollador"
   },
   "DOCUMENTATION": {
     "description": "",
-    "message": "Documentation"
+    "message": "Documentación"
   },
   "DONATE_BODY": {
     "description": "",
-    "message": "If you enjoy playing Pioneer and would like to support its continued development, please consider donating - no donation is too small."
+    "message": "Si disfrutas jugando Pioneer y te gustaría apoyar su desarrollo continuo, por favor considera hacer una donación, ninguna donación es demasiado pequeña."
   },
   "DONATE_OPTIONS": {
     "description": "Sentence continues in 'DONATE_OPTIONS_CONTINUED'",
-    "message": "For additional donation options, please see our"
+    "message": "Para opciones de donación adicionales, por favor vea nuestra"
   },
   "DONATE_OPTIONS_CONTINUED": {
     "description": "hyperlink, ending part of sentence in 'DONATE_OPTIONS'",
-    "message": "donations page"
+    "message": "página de donaciones."
   },
   "DONATE_THANKS": {
     "description": "",
-    "message": "Thank you all for your continued support of Pioneer!"
+    "message": "¡Gracias a todos por su continuo apoyo a Pioneer!"
   },
   "GAME_RELEASE": {
     "description": "",
-    "message": "Stable versions are released annually on February 3, but development is continuous. Brave pilots are thus encouraged to play from the latest source and report bugs."
+    "message": "Las versiones estables se publican anualmente el 3 de febrero, pero el desarrollo es continuo. Por ello, se anima a los pilotos valientes a jugar con la versión más reciente del código fuente y a reportar errores."
   },
   "INFO_BLURB": {
     "description": "",
-    "message": "Pioneer is a single player space adventure game set in the Milky Way galaxy at the turn of the 31st century."
+    "message": "Pioneer es un juego de aventuras espaciales para un solo jugador ambientado en la galaxia de la Vía Láctea a comienzos del siglo 31."
   },
   "INFO_BODY": {
     "description": "",
-    "message": "The game is open-ended, and you are free to explore the millions of star systems in the game. You can land on planets, slingshot past gas giants, and burn yourself to a crisp flying between binary star systems. You can try your hand at piracy, make your fortune trading between systems, or do missions for the various factions fighting for power, freedom or self-determination."
+    "message": "El juego es de mundo abierto, y eres libre de explorar los millones de sistemas estelares que existen en él. Puedes aterrizar en planetas, impulsarte con la gravedad de gigantes gaseosos y quemarte hasta quedar hecho cenizas al volar entre sistemas estelares binarios. Puedes probar suerte en la piratería, hacer fortuna comerciando entre sistemas o realizar misiones para las distintas facciones que luchan por el poder, la libertad o la autodeterminación."
   },
   "LICENSE": {
     "description": "",
-    "message": "License"
+    "message": "Licencia"
   },
   "LINK_BASIC_FLIGHT": {
     "description": "",
-    "message": "Basic flight"
+    "message": "Vuelo básico"
   },
   "LINK_BUG_TRACKER": {
     "description": "",
-    "message": "Bug Tracker"
+    "message": "Seguimiento de errores"
   },
   "LINK_COMMUNITY_CHAT": {
     "description": "",
-    "message": "Community chat (Discord)"
+    "message": "Chat de la comunidad (Discord)"
   },
   "LINK_COMMUNITY_FORUM": {
     "description": "",
-    "message": "Community Forum"
+    "message": "Foro de la comunidad"
   },
   "LINK_DEVELOPER_CHAT": {
     "description": "",
-    "message": "Developer chat (IRC)"
+    "message": "Chat de desarrolladores (IRC)"
   },
   "LINK_DEVELOPER_FORUM": {
     "description": "",
-    "message": "Developer Forum"
+    "message": "Foro de desarrolladores"
   },
   "LINK_FAQ": {
     "description": "",
-    "message": "FAQ"
+    "message": "Preguntas frecuentes (FAQ)"
   },
   "LINK_HOMEPAGE": {
     "description": "",
-    "message": "Homepage"
+    "message": "Página principal"
   },
   "LINK_MANUAL": {
     "description": "",
@@ -105,26 +105,26 @@
   },
   "SOFTWARE_BODY": {
     "description": "",
-    "message": "Pioneer includes the following third-party software"
+    "message": "Pioneer incluye el siguiente software de terceros"
   },
   "SUPPORT_DEVELOPMENT": {
     "description": "",
-    "message": "Support Development"
+    "message": "Soporte de desarollo"
   },
   "TRANSLATIONS": {
     "description": "",
-    "message": "Translations"
+    "message": "Traducciones"
   },
   "VERSION_CURRENT": {
     "description": "",
-    "message": "Your current version"
+    "message": "Tu versión actual"
   },
   "VERSION_LATEST": {
     "description": "This sentence continues into string VERSION_LATEST_CONTINUED, to read 'Latest version from source', referring to the source code",
-    "message": "Latest version from"
+    "message": "Última versión de"
   },
   "VERSION_LATEST_CONTINUED": {
     "description": "is continued from string VERSION_LATEST, to read 'Latest version from source'. Here, 'source' refers to the source code",
-    "message": "source code"
+    "message": "Código fuente"
   }
 }

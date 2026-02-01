@@ -265,51 +265,51 @@
   },
   "INTROTEXT_PRIVATEER_FEMALE_1": {
     "description": "",
-    "message": "Hi there! My name is {client}. I'm looking for {wanted}. She owes me a lot of money. According to the latest information, she's doing missions in the {system} ({sectorx}, {sectory}, {sectorz}) system. Please tell her that my patience is running thin. Return to {domicile} for your payment of {cash}."
+    "message": "Üdv! {client} vagyok, keresek valakit.  {wanted} sok pénzzel tartozik nekem. Legfrissebb információim szerint  {system} rendszerben ({sectorx}, {sectory}, {sectorz}) dolgozik jelenleg. Kérem tolmácsolja neki, hogy kezd elfogyni a türelmem. Ha megtalálta, térjen vissza {domicile} kikötőjébe a fizettségéért. "
   },
   "INTROTEXT_PRIVATEER_FEMALE_2": {
     "description": "",
-    "message": "How are you. I'm Private Investigator {client}. I have to find privateer {wanted} in the {system} ({sectorx}, {sectory}, {sectorz}) system and ask her a few questions. Her ship has registration number {shipid}. I can't leave {domicile} right now because of another criminal case. So I would like to outsource this task. I will pay {cash} for this mission."
+    "message": "Hogy s mint? {client} vagyok, magánnyomozó. Meg kell találnom egy kőrözött kalózt, {wanted}-t, hogy feltehessek neki néhány kérdést. Tartózkodási helye {system} rendszer ({sectorx}, {sectory}, {sectorz}), hajója lajstromjele {shipid}. Jelenleg nem tudom elhagyni {domicle}-t egy másik bűnügy miatt. Úgyhogy alvállalkozóra lenne szükségem, {cash} díjazás ellenében."
   },
   "INTROTEXT_PRIVATEER_MALE_1": {
     "description": "",
-    "message": "Hi there! My name is {client}. I'm looking for {wanted}. He owes me a lot of money. According to the latest information, he's doing missions in the {system} ({sectorx}, {sectory}, {sectorz}) system. Please tell him that my patience is running thin. Return to {domicile} for your payment of {cash}."
+    "message": "Üdv! {client} vagyok, keresek valakit.  {wanted} sok pénzzel tartozik nekem. Legfrissebb információim szerint  {system} rendszerben ({sectorx}, {sectory}, {sectorz}) dolgozik jelenleg. Kérem tolmácsolja neki, hogy kezd elfogyni a türelmem. Ha megtalálta, térjen vissza {domicile} kikötőjébe a fizettségéért. "
   },
   "INTROTEXT_PRIVATEER_MALE_2": {
     "description": "",
-    "message": "How are you. I'm Private Investigator {client}. I have to find privateer {wanted} in the {system} ({sectorx}, {sectory}, {sectorz}) system and ask him a few questions. His ship has registration number {shipid}. I can't leave {domicile} right now because of another criminal case. So I would like to outsource this task. I will pay {cash} for this mission."
+    "message": "Hogy s mint? {client} vagyok, magánnyomozó. Meg kell találnom egy kőrözött kalózt, {wanted}-t, hogy feltehessek neki néhány kérdést. Tartózkodási helye {system} rendszer ({sectorx}, {sectory}, {sectorz}), hajója lajstromjele {shipid}. Jelenleg nem tudom elhagyni {domicle}-t egy másik bűnügy miatt. Úgyhogy alvállalkozóra lenne szükségem, {cash} díjazás ellenében."
   },
   "INTROTEXT_TAXI_FEMALE_1": {
     "description": "",
-    "message": "Hi. I'm {client}. I'm looking for a relative in the {system} ({sectorx}, {sectory}, {sectorz}) system. Her name is {wanted}. Time is of the essence due to a medical emergency in the family. Please find her and bring her back to {domicile}. I pay you {cash}."
+    "message": "Üdv! {client} vagyok, egy rokonomat keresem {system} rendszerben ({sectorx}, {sectory}, {sectorz}). Neve {wanted}. Sürgős lenne megtalálnom, családi egészségügyi vészhelyzet miatt. Kérem keresse meg, és hozza vissza {domicile} kikötőjébe. {cash} összeget tudok fizetni segítségéért."
   },
   "INTROTEXT_TAXI_FEMALE_2": {
     "description": "",
-    "message": "Good day. I'm Insurance Assessor {client}. A high speed delivery drone failed to set a proper course, broke through a window and damaged the antique wooden furniture inside an apartment seriously. Fortunately no one was injured. But we couldn't locate the owner of the apartment in the {system} ({sectorx}, {sectory}, {sectorz}) system so far. So I will pay you {cash} if you can find her. Her personal presence is necessary to clarify the claim."
+    "message": "Szép napot! {client} vagyok, biztosítási értékbecslő. Egy nagy sebességű szállító-drón téves útvonalon közlekedett, és komoly károkat okozott egy lakás antik bútorzatában, miután berepült az ablakon. Szerencsére nem sérült meg senki. Azonban nem tudjuk elérni a lakás tulajdonosát, aki {system} rendszerben ({sectorx}, {sectory}, {sectorz}) tartózkodik. {cash} díjazás ellenében szeretném megbízni az illető felkutatásában. Személyes jelenlétére van szükség az ügy rendezéséhez."
   },
   "INTROTEXT_TAXI_MALE_1": {
     "description": "",
-    "message": "Hi. I'm {client}. I'm looking for a relative in the {system} ({sectorx}, {sectory}, {sectorz}) system. His name is {wanted}. Time is of the essence due to a medical emergency in the family. Please find him and bring him back to {domicile}. I pay you {cash}."
+    "message": "Üdv! {client} vagyok, egy rokonomat keresem {system} rendszerben ({sectorx}, {sectory}, {sectorz}). Neve {wanted}. Sürgős lenne megtalálnom, családi egészségügyi vészhelyzet miatt. Kérem keresse meg, és hozza vissza {domicile} kikötőjébe. {cash} összeget tudok fizetni segítségéért."
   },
   "INTROTEXT_TAXI_MALE_2": {
     "description": "",
-    "message": "Good day. I'm Insurance Assessor {client}. A high speed delivery drone failed to set a proper course, broke through a window and damaged the antique wooden furniture inside an apartment seriously. Fortunately no one was injured. But we couldn't locate the owner of the apartment in the {system} ({sectorx}, {sectory}, {sectorz}) system so far. So I will pay you {cash} if you can find him. His personal presence is necessary to clarify the claim."
+    "message": "Szép napot! {client} vagyok, biztosítási értékbecslő. Egy nagy sebességű szállító-drón téves útvonalon közlekedett, és komoly károkat okozott egy lakás antik bútorzatában, miután berepült az ablakon. Szerencsére nem sérült meg senki. Azonban nem tudjuk elérni a lakás tulajdonosát, aki {system} rendszerben ({sectorx}, {sectory}, {sectorz}) tartózkodik. {cash} díjazás ellenében szeretném megbízni az illető felkutatásában. Személyes jelenlétére van szükség az ügy rendezéséhez."
   },
   "INTROTEXT_TRAITOR_FEMALE_1": {
     "description": "",
-    "message": "Hello, my name is {client}. {wanted} didn't return from a holiday trip to her workplace at the {company}. She was last seen in the {system} ({sectorx}, {sectory}, {sectorz}) system. {wanted} has knowledge of some vital business secrets. So we need someone who can get a few answers from her about her ongoing absence. We pay {cash} for this mission. {system} is in a distance of {dist} ly."
+    "message": "Hello! A nevem {client}. {wanted} {company} alkalmazásában ál, de nyaralása után nem tért vissza munkahelyére. Utoljára {system} rendszerben ({sectorx}, {sectory}, {sectorz}) látták. {wanted} létfontosságú üzleti titkok birtokában van. Ezért szükségünk van valakire, aki kideríti távollétének okát. {cash} díjazást ajánlunk. {system} {dist} fényév távolságra található."
   },
   "INTROTEXT_TRAITOR_FEMALE_2": {
     "description": "",
-    "message": "Good day. The {company} is searching for an employee who stole some classified documents. Her name is {wanted}. Management calls her a traitor, but wants to give her the opportunity to reconsider and repent. We pay {cash} if you can find her in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distance, and deliver a message to her."
+    "message": "Jó napot. {company} egy alkalmazottja után kutat, aki titkos dokumentumokat lopott munkáltatójától. Neve {wanted}. A cégvezetők árulónak tekintik, de lehetőséget akarnak adni neki, hogy meggondolja magát bűnbánatot tanusítson. {cash} ellentételezést ajánlunk, ha megtalálja őt {system} rendszerben ({sectorx}, {sectory}, {sectorz}, {dist} ly) és átadja neki üzenetünket."
   },
   "INTROTEXT_TRAITOR_MALE_1": {
     "description": "",
-    "message": "Hello, my name is {client}. {wanted} didn't return from a holiday trip to his workplace at the {company}. He was last seen in the {system} ({sectorx}, {sectory}, {sectorz}) system. {wanted} has knowledge of some vital business secrets. So we need someone who can get a few answers from him about his ongoing absence. We pay {cash} for this mission. {system} is in a distance of {dist} ly."
+    "message": "Hello! A nevem {client}. {wanted} {company} alkalmazásában ál, de nyaralása után nem tért vissza munkahelyére. Utoljára {system} rendszerben ({sectorx}, {sectory}, {sectorz}) látták. {wanted} létfontosságú üzleti titkok birtokában van. Ezért szükségünk van valakire, aki kideríti távollétének okát. {cash} díjazást ajánlunk. {system} {dist} fényév távolságra található."
   },
   "INTROTEXT_TRAITOR_MALE_2": {
     "description": "",
-    "message": "Good day. The {company} is searching for an employee who stole some classified documents. His name is {wanted}. Management calls him a traitor, but wants to give him the opportunity to reconsider and repent. We pay {cash} if you can find him in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distance, and deliver a message to him."
+    "message": "Jó napot. {company} egy alkalmazottja után kutat, aki titkos dokumentumokat lopott munkáltatójától. Neve {wanted}. A cégvezetők árulónak tekintik, de lehetőséget akarnak adni neki, hogy meggondolja magát bűnbánatot tanusítson. {cash} ellentételezést ajánlunk, ha megtalálja őt {system} rendszerben ({sectorx}, {sectory}, {sectorz}, {dist} ly) és átadja neki üzenetünket."
   },
   "IS_THERE_A_RISK": {
     "description": "",
