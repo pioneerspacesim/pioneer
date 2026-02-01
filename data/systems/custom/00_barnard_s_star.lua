@@ -113,7 +113,7 @@ local impression = CustomSystemBody:new('Impression', 'PLANET_GAS_GIANT')
 
 local impression_moons = {
 		CustomSystemBody:new('Name and Form', 'PLANET_ASTEROID')
-		:seed(-9812342)
+		:seed(-542012498)
 		:radius(f(137,10000))
 		:mass(f(81,1000000))
 		:temp(121)
