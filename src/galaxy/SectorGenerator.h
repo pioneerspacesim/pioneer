@@ -7,6 +7,7 @@
 #include "GalaxyConfig.h"
 #include "GalaxyGenerator.h"
 #include "Random.h"
+#include "Random64.h"
 #include "RefCounted.h"
 #include "Sector.h"
 #include "StarSystem.h"
@@ -21,7 +22,7 @@ public:
 		m_GalaxyExploredMin = m_galaxyConfig.Int("GalaxyExploredMin");
 		m_GalaxyExploredMix = m_galaxyConfig.Int("GalaxyExploredMix");
 	}
-	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config);
+	virtual bool Apply(Random &rng, Random64& rng64, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config);
 
 private:
 	int m_GalaxyExploredMax;
@@ -41,14 +42,14 @@ public:
 		m_GalaxyExploredMin = m_galaxyConfig.Int("GalaxyExploredMin");
 		m_GalaxyExploredMix = m_galaxyConfig.Int("GalaxyExploredMix");
 	}
-	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config);
+	virtual bool Apply(Random &rng, Random64 &rng64, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config);
 
 private:
 	int m_GalaxyExploredMax;
 	int m_GalaxyExploredMin;
 	int m_GalaxyExploredMix;
 
-	const std::string GenName(RefCountedPtr<Galaxy> galaxy, const Sector &sec, Sector::System &sys, int si, Random &rand);
+	const std::string GenName(RefCountedPtr<Galaxy> galaxy, const Sector &sec, Sector::System &sys, int si, Random &rand, Random64& rand64 );
 	GalaxyConfig m_galaxyConfig;
 };
 
@@ -73,7 +74,7 @@ class SectorPersistenceGenerator : public SectorGeneratorStage {
 public:
 	SectorPersistenceGenerator(GalaxyGenerator::Version version) :
 		m_version(version) {}
-	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config);
+	virtual bool Apply(Random &rng, Random64& rng64, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config);
 	virtual void FromJson(const Json &jsonObj, RefCountedPtr<Galaxy> galaxy);
 	virtual void ToJson(Json &jsonObj, RefCountedPtr<Galaxy> galaxy);
 
