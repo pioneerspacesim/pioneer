@@ -11,6 +11,7 @@
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/Types.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
 #include "profiler/Profiler.h"
@@ -52,7 +53,7 @@ namespace SceneGraph {
 		rsd.depthWrite = false;
 		rsd.cullMode = Graphics::CULL_NONE;
 
-		auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+		auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0 | Graphics::ATTRIB_NORMAL);
 
 		m_tMat.Reset(r->CreateMaterial("thruster", desc, rsd, vtxFormat));
 		m_tMat->SetTexture("texture0"_hash,
@@ -129,7 +130,8 @@ namespace SceneGraph {
 		// generated once per frame, not for every vertex
 		float hash = pos.x + pos.y + pos.z;
 		hash = (uint16_t(hash32(*reinterpret_cast<uint32_t *>(&hash)) & 0xFFFF)) / 65535.f;
-		const float flicker = abs(sin(static_cast<float>(rd->renderTime) * 55.f * (0.75f + hash * 0.5f)));
+		const float x = static_cast<float>(rd->renderTime) * 35.f * (0.75f + hash * 0.5f);
+		const float flicker = abs(sin(x) * sin(pow(x, 1.1)));
 
 		// pass the power setting and flicker value using the material emissive
 		// emissive.a is the flicker value for the flame
@@ -175,7 +177,7 @@ namespace SceneGraph {
 
 	void Thruster::CreateThrusterGeometry(Graphics::Renderer *r)
 	{
-		Graphics::VertexArray verts(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+		Graphics::VertexArray verts(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0 | Graphics::ATTRIB_NORMAL);
 		{
 			// Create volumetric thrust geometry
 
@@ -189,6 +191,7 @@ namespace SceneGraph {
 			vector3f two(0.f, w, 0.f);	 //top right
 			vector3f three(0.f, w, 1.f); //bottom right
 			vector3f four(0.f, -w, 1.f); //bottom left
+			vector3f norm(1.f, 0.f, 0.f); // perpendicular to plane (orientation doesn't matter)
 
 			//uv coords
 			const vector2f topLeft(0.f, 1.f);
@@ -198,18 +201,19 @@ namespace SceneGraph {
 
 			//add four intersecting planes to create a volumetric effect
 			for (int i = 0; i < 4; i++) {
-				verts.Add(one, topLeft);
-				verts.Add(two, topRight);
-				verts.Add(three, botRight);
+				verts.Add(one, norm, topLeft);
+				verts.Add(two, norm, topRight);
+				verts.Add(three, norm, botRight);
 
-				verts.Add(three, botRight);
-				verts.Add(four, botLeft);
-				verts.Add(one, topLeft);
+				verts.Add(three, norm, botRight);
+				verts.Add(four, norm, botLeft);
+				verts.Add(one, norm, topLeft);
 
 				one.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
 				two.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
 				three.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
 				four.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
+				norm.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
 			}
 		}
 
@@ -225,6 +229,7 @@ namespace SceneGraph {
 			vector3f two(-w, w, 0.f);  //top right
 			vector3f three(w, w, 0.f); //bottom right
 			vector3f four(w, -w, 0.f); //bottom left
+			vector3f norm(0.f, 0.f, 1.f); //direction of thrust
 
 			//uv coords
 			static constexpr vector2f const topLeft(0.f, 1.f);
@@ -233,13 +238,13 @@ namespace SceneGraph {
 			static constexpr vector2f const botRight(1.f, 0.f);
 
 			for (int i = 0; i < 5; i++) {
-				verts.Add(one, topLeft);
-				verts.Add(two, topRight);
-				verts.Add(three, botRight);
+				verts.Add(one, norm, topLeft);
+				verts.Add(two, norm, topRight);
+				verts.Add(three, norm, botRight);
 
-				verts.Add(three, botRight);
-				verts.Add(four, botLeft);
-				verts.Add(one, topLeft);
+				verts.Add(three, norm, botRight);
+				verts.Add(four, norm, botLeft);
+				verts.Add(one, norm, topLeft);
 
 				one.z += .1f;
 				two.z = three.z = four.z = one.z;

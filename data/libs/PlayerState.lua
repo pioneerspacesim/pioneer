@@ -370,9 +370,6 @@ end
 
 ---@param data table
 local function unserialize(data)
-	-- SAVEBUMP: compatibility with v91 save before PlayerStateDB merge
-	if next(data) == nil then return end
-
 	bookmarkIdx = data.bookmarkIdx
 	bookmarks = data.bookmarks
 	finances = data.finances
@@ -396,21 +393,5 @@ Event.Register("onGameEnd", onGameEnd)
 
 Serializer:Register("PlayerStateDB", serialize, unserialize)
 Serializer:RegisterClass("CrimeRecord", CrimeRecord)
-
--- SAVEBUMP: remove when >v91
-if Game.CurrentSaveVersion() == 91 then
-
-	local function unserialize_player(data)
-		if data.record then
-			crime_record = setmetatable(data.record, automagic_record)
-			past_record = setmetatable(data.record_old, automagic_record)
-		end
-	end
-
-	local function _serialize() return nil end
-
-	Serializer:Register("Player", _serialize, unserialize_player)
-
-end
 
 return PlayerState

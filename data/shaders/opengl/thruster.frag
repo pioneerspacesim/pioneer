@@ -7,6 +7,7 @@
 uniform sampler2D texture0; //diffuse
 
 in vec2 texCoord0;
+in vec3 face_norm;
 in vec4 flame_color;
 in float ramp;
 
@@ -22,6 +23,11 @@ void main(void)
 	color.g += ramp2 * ramp2 * old_color.g;
 	color.r += ramp2 * ramp * old_color.r;
 	color.b += ramp2 * old_color.b;
+
+	// Thruster volumetrics: fade thruster planes out to 50% intensity
+	// as they approach edge-on to the camera. Still appears 3d with
+	// less strong artifacts from each individual plane.
+	color.a *= 0.5 + 0.5 * abs(dot(face_norm, vec3(0, 0, -1)));
 
 	frag_color = color;
 }
