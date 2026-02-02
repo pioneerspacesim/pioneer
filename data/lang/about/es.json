@@ -1,7 +1,7 @@
 {
   "ABOUT": {
     "description": "",
-    "message": "Acerca"
+    "message": "Acerca de"
   },
   "ACKNOWLEDGEMENTS": {
     "description": "",
@@ -13,7 +13,7 @@
   },
   "CONTENT_CONTRIBUTION": {
     "description": "",
-    "message": "Contribucion del contenido"
+    "message": "Contribución de contenido"
   },
   "CONTRIBUTE": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "DONATE_OPTIONS": {
     "description": "Sentence continues in 'DONATE_OPTIONS_CONTINUED'",
-    "message": "Para opciones de donación adicionales, por favor vea nuestra"
+    "message": "Para opciones de donación adicionales, por favor consulta nuestra"
   },
   "DONATE_OPTIONS_CONTINUED": {
     "description": "hyperlink, ending part of sentence in 'DONATE_OPTIONS'",

@@ -165,7 +165,7 @@
   },
   "DENY_2": {
     "description": "",
-    "message": "Не знам нищо за Вас. Не Ви познавам и не мога да Ви се доверя."
+    "message": "Не знам нищо за Вас. Не се познаваме и не мога да Ви се доверя."
   },
   "DENY_3": {
     "description": "",
@@ -253,7 +253,7 @@
   },
   "FAILUREMSG_4": {
     "description": "",
-    "message": "Отсега нататък Вие ще бъдете в моя черен списък."
+    "message": "Отсега нататък ще бъдете в моя черен списък."
   },
   "FAILUREMSG_FLUFFY_1": {
     "description": "",
@@ -345,7 +345,7 @@
   },
   "INTROTEXT_LOCAL_1": {
     "description": "",
-    "message": "Радвам се да се запознаем. Аз съм {name} и работя в администрацията на {starport}. Ще платим {cash} на всеки, който може да премести {cargoname} в {starport}."
+    "message": "Приятно ми е да се запознаем. Аз съм {name} и работя в администрацията на {starport}. Ще платим {cash} на всеки, който може да премести {cargoname} в {starport}."
   },
   "INTROTEXT_LOCAL_2": {
     "description": "",
@@ -409,7 +409,7 @@
   },
   "NEGOTIABLE_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "Мога да предложа следните варианти:"
+    "message": "Мога да предложа следните товарни пътувания:"
   },
   "NEGOTIABLE_2": {
     "description": "regarding mass, always more than 1t",
@@ -481,11 +481,11 @@
   },
   "PIRATE_TAUNTS_6": {
     "description": "",
-    "message": "Корабът Ви изглежда доста натоварен. Ей сега ще Ви помогна да го разтоварим."
+    "message": "Корабът изглежда доста натоварен. Ей сега ще помогна да го разтоварим."
   },
   "PIRATE_TAUNTS_7": {
     "description": "",
-    "message": "Късметът Ви беше дотук!"
+    "message": "Късметът беше дотук!"
   },
   "PLUTONIUM": {
     "description": "custom cargo",
@@ -581,7 +581,7 @@
   },
   "SUCCESSMSG_1": {
     "description": "",
-    "message": "Благодаря Ви за доставката. Получихте възнаграждението си."
+    "message": "Благодаря за доставката. Получихте възнаграждението си."
   },
   "SUCCESSMSG_2": {
     "description": "",
@@ -689,7 +689,7 @@
   },
   "WHYSOMUCH_6": {
     "description": "",
-    "message": "Ами, ще се радваме да Ви платим по-малко кредити."
+    "message": "Ами, ще се радваме да платим по-малко кредити."
   },
   "WHYSOMUCH_CENTRIFUGES_1": {
     "description": "",
@@ -701,7 +701,7 @@
   },
   "WHYSOMUCH_EXPENSIVE_1": {
     "description": "",
-    "message": "Ценните стоки са търсени."
+    "message": "Ценните стоки са с голямо търсене."
   },
   "WHYSOMUCH_EXPENSIVE_2": {
     "description": "",

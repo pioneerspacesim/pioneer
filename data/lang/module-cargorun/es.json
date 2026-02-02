@@ -289,7 +289,7 @@
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount} t"
+    "message": "%{masa} t"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",

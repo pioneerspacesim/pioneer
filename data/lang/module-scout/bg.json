@@ -5,7 +5,7 @@
   },
   "ADDITIONAL_INFORMATION_ORBITAL": {
     "description": "Note. 'orbital scanner' is the name of an equipment, that should be translated the same as the equipment",
-    "message": "Ще имате нужда от орбитален скенер. Когато достигнете целта, активирайте скенера и спазвайте висока надморска височина, докато сканирането завърши. След това, ще ми предоставите данните."
+    "message": "Ще имате нужда от орбитален скенер. Когато достигнете целта, активирайте скенера и спазвайте висока надморска височина, докато сканирането завърши. След това ще ми предоставите данните."
   },
   "ADDITIONAL_INFORMATION_SURFACE": {
     "description": "Note. 'surface scanner' is the name of an equipment, that should be translated the same as the equipment",
@@ -85,7 +85,7 @@
   },
   "ADTEXT_4_SUCCESSMSG": {
     "description": "",
-    "message": "Благодаря Ви! Надявам се, че тези данни ще помогнат за моето революционно научно изследване."
+    "message": "Благодаря! Надявам се, че тези данни ще помогнат за моето революционно научно изследване."
   },
   "ADTEXT_4_WHYSOMUCH": {
     "description": "'High impact journals' is a recognized term for journals like Nature and Science, yielding many citations.",
@@ -105,7 +105,7 @@
   },
   "ADTEXT_5_SUCCESSMSG": {
     "description": "",
-    "message": "Благодаря за Вашите усилия. Платих Ви договореното заплащане."
+    "message": "Благодаря за усилията. Платих Ви договореното заплащане."
   },
   "ADTEXT_5_WHYSOMUCH": {
     "description": "",
@@ -145,7 +145,7 @@
   },
   "ADTEXT_7_SUCCESSMSG": {
     "description": "",
-    "message": "Оценяваме бързата Ви работа. Възнаграждението е преведено по Вашата сметка."
+    "message": "Оценяваме бързата работа. Възнаграждението е преведено по Вашата сметка."
   },
   "ADTEXT_7_WHYSOMUCH": {
     "description": "",
@@ -453,6 +453,6 @@
   },
   "YOU_WILL_BE_PAID_ON_MY_BEHALF_AT_NEW_DESTINATION": {
     "description": "",
-    "message": "Ще Ви бъде платено от мое име в НОВАТА ДЕСТИНАЦИЯ"
+    "message": "Ще бъде платено от мое име в НОВАТА ДЕСТИНАЦИЯ"
   }
 }

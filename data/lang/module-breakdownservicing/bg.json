@@ -61,7 +61,7 @@
   },
   "FLAVOUR_2_RESPONSE": {
     "description": "",
-    "message": "Обслужването е завършено. Благодарим Ви, че избрахте нашите услуги."
+    "message": "Обслужването е завършено. Благодарим, че избрахте нашите услуги."
   },
   "FLAVOUR_2_TITLE": {
     "description": "",
@@ -149,11 +149,11 @@
   },
   "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
     "description": "",
-    "message": "Поправих хипердвигателя преди да се повреди."
+    "message": "Поправих хипердвигателя, преди да се повреди."
   },
   "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION": {
     "description": "",
-    "message": "Хипердвигателят на кораба се разруши, поради неизправност."
+    "message": "Хипердвигателят на кораба се разруши поради неизправност."
   },
   "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED": {
     "description": "",
@@ -169,6 +169,6 @@
   },
   "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
     "description": "",
-    "message": "Вие поправихте хипердвигателя преди да се повреди."
+    "message": "Поправихте хипердвигателя, преди да се повреди."
   }
 }

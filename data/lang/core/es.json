@@ -405,7 +405,7 @@
   },
   "ECONOMY_TYPE": {
     "description": "",
-    "message": "Economy type"
+    "message": "Tipo de economía"
   },
   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
     "description": "",
@@ -505,7 +505,7 @@
   },
   "GOVERNMENT_TYPE": {
     "description": "",
-    "message": "Government type"
+    "message": "Tipo de gobierno"
   },
   "GRAIN": {
     "description": "like wheat or barley",
@@ -513,23 +513,23 @@
   },
   "GRID_DISPLAY_MODE": {
     "description": "Label for grid display modes",
-    "message": "Grid Display Mode"
+    "message": "Modo de visualización de cuadrícula"
   },
   "GRID_DISPLAY_MODE_GRID_AND_LEGS": {
     "description": "Combobox option for Grid with Legs",
-    "message": "Grid with Legs"
+    "message": "Cuadrícula con patas"
   },
   "GRID_DISPLAY_MODE_GRID_ONLY": {
     "description": "Combobox option for Grid Only",
-    "message": "Grid Only"
+    "message": "Solo cuadrícula"
   },
   "GRID_DISPLAY_MODE_OFF": {
     "description": "Combobox option for Grid display off.",
-    "message": "Grid Off"
+    "message": "Cuadrícula desactivada"
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for toggle grid display button.",
-    "message": "Toggle visibility of the grid."
+    "message": "Alternar la visibilidad de la cuadrícula."
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -609,23 +609,23 @@
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
     "description": "Label for hyperspace cloud display modes.",
-    "message": "Hyperspace Cloud Display Mode"
+    "message": "Modo de visualización de la nube de hiperespacio"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL": {
     "description": "Combobox option for all hyperspace clouds.",
-    "message": "All Hyperspace Clouds"
+    "message": "Todas las nubes de hiperespacio"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY": {
     "description": "Combobox option for arrival hyperspace clouds.",
-    "message": "Arrival Hyperspace Clouds"
+    "message": "Nubes de hiperespacio de llegada"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY": {
     "description": "Combobox option for departure hyperspace clouds.",
-    "message": "Departure Hyperspace Clouds"
+    "message": "Nubes de hiperespacio de salida"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for the button which toggles the display mode of hyperspace clouds.",
-    "message": "Toggle visibility of Hyperspace Clouds."
+    "message": "Alternar la visibilidad de las nubes de hiperespacio."
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
@@ -721,15 +721,15 @@
   },
   "L4L5_DISPLAY_MODE": {
     "description": "Label for the lagrange point display modes.",
-    "message": "Lagrange Point Display Mode"
+    "message": "Modo de visualización de los puntos de Lagrange"
   },
   "L4L5_DISPLAY_MODE_ICONS_AND_TEXT": {
     "description": "Combobox option for lagrange point display as icons only.",
-    "message": "Icons and Labels"
+    "message": "Iconos y etiquetas"
   },
   "L4L5_DISPLAY_MODE_ICONS_ONLY": {
     "description": "Combobox option for lagrange point display as icons only.",
-    "message": "Icons Only"
+    "message": "Solo iconos"
   },
   "L4L5_DISPLAY_MODE_OFF": {
     "description": "Combobox option for lagrange point display off.",
@@ -737,7 +737,7 @@
   },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for the L4/L5 Lagrange points toggle button.",
-    "message": "Toggle visibility of the L4/L5 lagrange points."
+    "message": "Alternar la visibilidad de los puntos de Lagrange L4/L5."
   },
   "LANDED": {
     "description": "",
@@ -1081,7 +1081,7 @@
   },
   "NUMBER_TONNES": {
     "description": "",
-    "message": "%{mass} t"
+    "message": "%{masa} t"
   },
   "N_ATMOSPHERE": {
     "description": "",
@@ -1241,7 +1241,7 @@
   },
   "POPULATION": {
     "description": "",
-    "message": "Population"
+    "message": "Población"
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -1441,19 +1441,19 @@
   },
   "SHIPS_DISPLAY_MODE": {
     "description": "Label for ship display modes.",
-    "message": "Ship Display Mode"
+    "message": "Modo de visualización de naves"
   },
   "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
     "description": "Combobox option for ships only.",
-    "message": "Ships Only"
+    "message": "Solo naves"
   },
   "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
     "description": "Combobox option for ships with orbits.",
-    "message": "Ships with Orbits"
+    "message": "Naves con órbitas"
   },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for ship display toggle button.",
-    "message": "Toggle visibility of ships."
+    "message": "Alternar la visibilidad de las naves."
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
@@ -1669,7 +1669,7 @@
   },
   "SURFACE_PRESSURE": {
     "description": "",
-    "message": "Surface pressure"
+    "message": "Presión superficial"
   },
   "SURFACE_TEMPERATURE": {
     "description": "",
