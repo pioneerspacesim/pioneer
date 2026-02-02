@@ -123,13 +123,35 @@ void BaseSphere::SetMaterialParameters(const matrix4x4d &trans, const float radi
 		++j;
 	}
 
+	const vector3f texSize(2, DENSITY_STEPS + 1, 0.f);
+	const Graphics::TextureDescriptor texDesc(
+		Graphics::TEXTURE_R32, texSize, Graphics::LINEAR_CLAMP, false, true, true, 0, Graphics::TEXTURE_2D);
+
+	std::unique_ptr<vector2f, FreeDeleter> buf(
+		static_cast<vector2f *>(malloc((DENSITY_STEPS + 1) * sizeof(vector2f))));
+
+	for (int i = 0; i <= DENSITY_STEPS; ++i) {
+		vector2f *row = buf.get() + i;
+
+		// map [-128; 128) to [0; 1)
+		row->x = 0.5 + (ap.logDensityMap[i].x / 256);
+		row->y = 0.5 + (ap.logDensityMap[i].y / 256);
+	}
+
+	m_scatteringTexture.Reset(Pi::renderer->CreateTexture(texDesc));
+	m_scatteringTexture->Update(
+		static_cast<void *>(buf.get()), texSize,
+		Graphics::TEXTURE_R32);
+
 	// FIXME: these two should share the same buffer data instead of making two separate allocs
 	m_surfaceMaterial->SetBufferDynamic(s_baseSphereData, &matData);
 	m_surfaceMaterial->SetPushConstant(s_numShadows, int(shadows.size()));
+	m_surfaceMaterial->SetTexture("scatterLUT"_hash, m_scatteringTexture.Get());
 
 	if (m_atmosphereMaterial.Valid() && ap.atmosDensity > 0.0) {
 		m_atmosphereMaterial->SetBufferDynamic(s_baseSphereData, &matData);
 		m_atmosphereMaterial->SetPushConstant(s_numShadows, int(shadows.size()));
+		m_atmosphereMaterial->SetTexture("scatterLUT"_hash, m_scatteringTexture.Get());
 	}
 }
 

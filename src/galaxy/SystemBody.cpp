@@ -477,6 +477,21 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 	params.mieCoefficients = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, atmosScaleHeight / 6.66); // 7994 / 1200 = 6.61
 	params.scaleHeight = vector2f(atmosScaleHeight, atmosScaleHeight / 6.66);
 
+	float atmosHeight = radiusPlanet_in_m * (params.atmosRadius - 1);;
+	float atmosLogDensity = log(atmosDensity / 1.225e-5); // in earth surface densities
+	//Output("%s: atmos density at surface %f\n", GetName(), atmosDensity);
+	for (int i = 0; i <= DENSITY_STEPS; i++) {
+		float height = i * atmosHeight / DENSITY_STEPS;
+
+		// mie decays ~6.66 times faster
+		float rLogDensity, mLogDensity;
+		rLogDensity = atmosLogDensity - (height / atmosScaleHeight);
+		mLogDensity = atmosLogDensity - (6.66 * height / atmosScaleHeight);
+
+		//Output("  %s: scale height = %f, density at %f m: rayleigh = %f, mie = %f\n", GetName(), atmosScaleHeight, height, rLogDensity, mLogDensity);
+		params.logDensityMap[i] = vector2f(rLogDensity, mLogDensity);
+	}
+
 	return params;
 }
 
