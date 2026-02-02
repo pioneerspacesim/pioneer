@@ -295,6 +295,8 @@ void ModelBody::MoveGeoms(const matrix4x4d &m, const vector3d &p)
 
 void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
+	// HACK: this uses the global application time as a "render clock". This should be accessible through the Camera instead.
+	m_model->SetRenderTime(Pi::GetApp()->GetTime());
 	m_model->Render(matrix4x4f(viewTransform * GetInterpMatrix()));
 }
 
