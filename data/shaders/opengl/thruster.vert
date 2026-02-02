@@ -7,6 +7,7 @@
 #include "lib.glsl"
 
 out vec2 texCoord0;
+out vec3 face_norm;
 out vec4 flame_color;
 out float ramp;
 
@@ -21,24 +22,29 @@ void main(void)
 	float thruster_power = material.emission.r;
 	// emission.a is the random flicker value
 	float random = material.emission.a;
-	
+
 	// power setting effects the brightness and opacity of the flame
-	float brightness = map_percentage(thruster_power, 0.25);
+	float brightness = map_percentage(thruster_power, 0.35);
 	// flicker should only change the brightness a small amount each frame
 	float flicker = map_percentage(random, 0.95);
-	
+	float flicker_len = map_percentage(1 - random, 0.90);
+
 	flame_color = material.diffuse * flicker * brightness;
 	// a very light blue flickering glow around flame
 	flame_color.rg *= vec2(flicker);
 
+	float flame_width = map_percentage(thruster_power, 0.8) * flicker;
 	// the power setting also controls the length of the flame
-	// flame length can range from 50% to 100%
-	float flame_length = map_percentage(thruster_power, 0.5);
+	// flame length can range from 20% to 100%
+	// random flicker can adjust the flame length by up to 20%
+	float flame_length = map_percentage(thruster_power, 0.2) * flicker_len;
 	// modulate the flame shape using flicker
 	// flame_length only effects the z axis which is the thrust direction
-	vec4 scale = vec4(flicker, flicker, flicker * flame_length, 1.0);
-	
+	vec4 scale = vec4(flame_width, flame_width, flame_length, 1.0);
+
 	gl_Position = uViewProjectionMatrix * (a_vertex * scale);
+
+	face_norm = normalize(normalMatrix() * a_normal);
 
 	texCoord0 = a_uv0.xy;
 	// set the blend ramp
