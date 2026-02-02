@@ -11,6 +11,7 @@
 uniform sampler2D texture0;
 uniform sampler2D texture1;
 in vec2 texCoord0;
+uniform sampler2D scatterLUT;
 
 uniform int NumShadows;
 
@@ -78,7 +79,7 @@ void main(void)
 			vec3 lightPosAU = uLight[i].position.xyz / AU;
 			float intensity = 1.f / dot(lightPosAU, lightPosAU); // magic to avoid calculating length and then squaring it
 
-			waterSpecular.xyz += calculateAtmosphereColor(planet, atmosphere, toLinear(uLight[i].diffuse), reflect(L, I), (I - geosphereCenter) * geosphereRadius, eyenorm, uneclipsed) * intensity;
+			waterSpecular.xyz += calculateAtmosphereColor(planet, atmosphere, toLinear(uLight[i].diffuse), reflect(L, I), (I - geosphereCenter) * geosphereRadius, eyenorm, uneclipsed, scatterLUT) * intensity;
 			//waterSpecular.xyz += computeIncidentLight(reflect(L, I), eyenorm, I * geosphereRadius, toLinear(uLight[i].diffuse), uneclipsed) * intensity;
 		}
 #endif

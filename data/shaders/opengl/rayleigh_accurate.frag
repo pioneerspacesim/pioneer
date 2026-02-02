@@ -7,6 +7,7 @@
 #include "rayleigh.glsl"
 
 uniform int NumShadows;
+uniform sampler2D scatterLUT;
 
 in vec4 varyingEyepos;
 in vec4 vertexColor;
@@ -45,7 +46,7 @@ void main(void)
 		vec3 lightPosAU = uLight[i].position.xyz / AU;
 		float intensity = 1.f / dot(lightPosAU, lightPosAU); // magic to avoid calculating length and then squaring it
 
-		specularHighlight += calculateAtmosphereColor(planet, atmosphere, toLinear(uLight[i].diffuse), lightDir, vec3(0.0), eyenorm, uneclipsed) * intensity;
+		specularHighlight += calculateAtmosphereColor(planet, atmosphere, toLinear(uLight[i].diffuse), lightDir, vec3(0.0), eyenorm, uneclipsed, scatterLUT) * intensity;
 	}
 #endif
 

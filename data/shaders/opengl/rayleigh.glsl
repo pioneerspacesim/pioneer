@@ -8,7 +8,7 @@ float height(const in vec3 orig, const in vec3 center)
 }
 
 // get density at given point
-vec2 getDensityAtPoint(const in vec3 orig, const in vec3 center)
+vec2 getDensityAtPointOld(const in vec3 orig, const in vec3 center, const in sampler2D texture_LUT)
 {
 	float height = height(orig, center); // in meters
 
@@ -16,9 +16,35 @@ vec2 getDensityAtPoint(const in vec3 orig, const in vec3 center)
 
 	// earth atmospheric density: 1.225 kg/m^3, divided by 1e5
 	// 1/1.225e-5 = 81632.65306
-	float earthDensities = geosphereAtmosFogDensity * 81632.65306f;
-	density /= earthDensities;
+	float earthDensities = log(geosphereAtmosFogDensity * 81632.65306f);
+	density += earthDensities;
 	return exp(density);
+}
+
+// get density at given point
+vec2 getDensityAtPointNew(const in vec3 orig, const in vec3 center, const in sampler2D texture_LUT)
+{
+	float height = height(orig, center); // in meters
+	float maxHeight = (geosphereAtmosTopRad - 1.f) * geosphereRadius;
+
+	float ratio = height / maxHeight;
+
+	vec2 density = vec2(0.f);
+	// normalized to [0; 1) - remap back to [-128; 128)
+	density.x = texture(texture_LUT, vec2(0.0, ratio)).x;
+	density.y = texture(texture_LUT, vec2(1.0, ratio)).x;
+
+	density = density * 256 - 128;
+	return exp(density);
+}
+
+vec2 getDensityAtPoint(const in vec3 orig, const in vec3 center, const in sampler2D texture_LUT)
+{
+#if 1
+    return getDensityAtPointNew(orig, center, texture_LUT);
+#else
+    return getDensityAtPointOld(orig, center, texture_LUT);
+#endif
 }
 
 // orig: ray origin
@@ -115,7 +141,7 @@ float predictDensityInOut(const in vec3 sample, const in vec3 dir, const in vec3
     return opticalDepth;
 }
 
-void skipRay(inout vec2 opticalDepth, const in vec3 dir, const in vec2 boundaries, const in vec3 center)
+void skipRay(inout vec2 opticalDepth, const in vec3 dir, const in vec2 boundaries, const in vec3 center, const in sampler2D texture_LUT)
 {
 	if (boundaries.y == boundaries.x)
 		return;
@@ -128,14 +154,14 @@ void skipRay(inout vec2 opticalDepth, const in vec3 dir, const in vec2 boundarie
 		vec3 samplePosition = vec3(tCurrent + segmentLength * 0.5f) * dir;
 
 		// primary ray is approximated by (density * isegmentLength)
-		vec2 density = getDensityAtPoint(samplePosition, center);
+		vec2 density = getDensityAtPoint(samplePosition, center, texture_LUT);
 		opticalDepth += density * segmentLength;
 
 		tCurrent += segmentLength;
 	}
 }
 
-void processRayFast(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, const in vec3 sunDirection, const in vec3 dir, const in vec2 boundaries, const in vec3 center, const in vec4 diffuse, const in float uneclipsed)
+void processRayFast(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, const in vec3 sunDirection, const in vec3 dir, const in vec2 boundaries, const in vec3 center, const in vec4 diffuse, const in float uneclipsed, const in sampler2D texture_LUT)
 {
 	if (boundaries.y == boundaries.x)
 		return;
@@ -153,7 +179,7 @@ void processRayFast(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 	for (int i = 0; i < numSamples; ++i) {
 		vec3 samplePosition = vec3(tCurrent + segmentLength * 0.5f) * dir;
 
-		vec2 density = getDensityAtPoint(samplePosition, center);
+		vec2 density = getDensityAtPoint(samplePosition, center, texture_LUT);
 		vec2 depthAdd = density * segmentLength;
 		opticalDepth += depthAdd;
 
@@ -176,7 +202,7 @@ void processRayFast(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 	}
 }
 
-void processRayFull(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, const in vec3 sunDirection, const in vec3 dir, const in vec2 boundaries, const in vec3 center, const in vec4 diffuse, const in float uneclipsed)
+void processRayFull(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, const in vec3 sunDirection, const in vec3 dir, const in vec2 boundaries, const in vec3 center, const in vec4 diffuse, const in float uneclipsed, const in sampler2D texture_LUT)
 {
 	if (boundaries.y == boundaries.x)
 		return;
@@ -194,7 +220,7 @@ void processRayFull(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 	for (int i = 0; i < numSamples; ++i) {
 		vec3 samplePosition = vec3(tCurrent + segmentLength * 0.5f) * dir;
 
-		vec2 density = getDensityAtPoint(samplePosition, center);
+		vec2 density = getDensityAtPoint(samplePosition, center, texture_LUT);
 		vec2 depthAdd = density * segmentLength;
 		opticalDepth += depthAdd;
 
@@ -208,7 +234,7 @@ void processRayFull(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 		float tCurrentLight = 0.f;
 		for (int j = 0; j < numSamplesLight; ++j) {
 			vec3 samplePositionLight = vec3(segmentLengthLight * 0.5f + tCurrentLight) * sunDirection + samplePosition;
-			vec2 densityLDir = getDensityAtPoint(samplePositionLight, center);
+			vec2 densityLDir = getDensityAtPoint(samplePositionLight, center, texture_LUT);
 			opticalDepthLight += densityLDir * segmentLengthLight;
 
 			tCurrentLight += segmentLengthLight;
@@ -223,6 +249,15 @@ void processRayFull(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 		sumM += tau * depthAdd.y * atmosDiffuse.xyz;
 		tCurrent += segmentLength;
 	}
+}
+
+void processRay(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, const in vec3 sunDirection, const in vec3 dir, const in vec2 boundaries, const in vec3 center, const in vec4 diffuse, const in float uneclipsed, const in sampler2D texture_LUT)
+{
+#if 1
+    processRayFull(sumR, sumM, opticalDepth, sunDirection, dir, boundaries, center, diffuse, uneclipsed, texture_LUT);
+#else
+    processRayFast(sumR, sumM, opticalDepth, sunDirection, dir, boundaries, center, diffuse, uneclipsed, texture_LUT);
+#endif
 }
 
 // replace (a, b) by (b, a) if a > b
@@ -298,7 +333,7 @@ vec4 getRaySegment(const in vec3 sunDirection, const in vec3 dir, const in vec3 
 	return atmosphere_minus_shadow;
 }
 
-vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const in vec3 center, const in vec4 diffuse, const in float uneclipsed)
+vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const in vec3 center, const in vec4 diffuse, const in float uneclipsed, const in sampler2D texture_LUT)
 {
 	vec3 betaR = vec3(3.8e-6f, 13.5e-6f, 33.1e-6f);
 	vec3 betaM = vec3(21e-6f);
@@ -309,9 +344,9 @@ vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const i
 
 	vec4 segment = getRaySegment(sunDirection, dir, center);
 
-	processRayFull(sumR, sumM, opticalDepth, sunDirection, dir, segment.xy, center, diffuse, uneclipsed);
-	skipRay(opticalDepth, dir, segment.yz, center);
-	processRayFull(sumR, sumM, opticalDepth, sunDirection, dir, segment.zw, center, diffuse, uneclipsed);
+	processRay(sumR, sumM, opticalDepth, sunDirection, dir, segment.xy, center, diffuse, uneclipsed, texture_LUT);
+	skipRay(opticalDepth, dir, segment.yz, center, texture_LUT);
+	processRay(sumR, sumM, opticalDepth, sunDirection, dir, segment.zw, center, diffuse, uneclipsed, texture_LUT);
 
 	float mu = dot(dir, sunDirection); // mu in the paper which is the cosine of the angle between the sun direction and the ray direction
 	float phaseR = rayleighPhaseFunction(mu);
@@ -321,12 +356,12 @@ vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const i
 	return ret;
 }
 
-vec3 calculateAtmosphereColor(const in vec4 planet, const in vec4 atmosphere, const in vec4 lightColor, const in vec3 lightDir, const in vec3 rayStart, const in vec3 rayDir, const in float uneclipsed)
+vec3 calculateAtmosphereColor(const in vec4 planet, const in vec4 atmosphere, const in vec4 lightColor, const in vec3 lightDir, const in vec3 rayStart, const in vec3 rayDir, const in float uneclipsed, const in sampler2D texture_LUT)
 {
     // rayStart is already multiplied by planet radius
     vec3 planetPosition = planet.xyz * planet.w + rayStart;
 
     vec3 atmospherePosition = atmosphere.xyz * atmosphere.w;
 
-    return computeIncidentLight(lightDir, rayDir, planetPosition, lightColor, uneclipsed);
+    return computeIncidentLight(lightDir, rayDir, planetPosition, lightColor, uneclipsed, texture_LUT);
 }
