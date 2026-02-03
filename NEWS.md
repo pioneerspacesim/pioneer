@@ -1,7 +1,183 @@
 These release announcement notes includes notable changes relevant to the end player sourced and elaborated on from Changelog.txt. It does not include internal changes to code, refactoring, build system changes listed in said file.
 
 
-# # Pioneer 2025-05-01
+
+# Pioneer 2026-02-03
+
+The Pioneer development team is proud to announce the release of Pioneer 2026-02-03, our ninth annual "Pioneer Day" release! This past year was mostly spent on laying frameworks for new content to be created and improving old code - but that doesn't mean this release is devoid of new exciting features.
+
+This release touts an entirely new mission with 12 unique variations, major additions to the system and sector map interfaces, animated ship thrusters, gameplay changes to police and pirates, a completely new underlying economic simulation for station markets, the ability to bookmark systems and trade routes for later return, and more!
+
+We've also continued to improve our custom system editor, making it easier (and more bug-free) than ever before to create custom systems. We gladly welcome contributors interested in expanding the Pioneer universe with hand-crafted systems for the player to visit - feel free to stop by #pioneer on [Libera.chat](https://web.libera.chat/#pioneer) and discuss it with us!
+
+## Animated Thruster Flames
+
+Thrusters are a static glow volume no longer; your ship has embraced chaos and now merrily spits a lively tongue of flame into the empty void of space!
+
+https://github.com/user-attachments/assets/d1697a8f-7eec-46a0-9c1f-ecdd1f41a1b9
+
+## Planck Star Colors
+
+All stars in game now calculate their lighting based on a real-world spectral formula, yielding much more believable lighting based on star temperature. We've attached a development comparison here so you can see the effects:
+
+<details>
+<summary>Preview</summary>
+
+![512039975-ff67adbb-cf6d-4716-9d4a-14d46fed3574](https://github.com/user-attachments/assets/66acbbe6-a4cd-4215-a834-a0d67edd98dc)
+
+</details>
+
+## User Interface
+
+The map interfaces have received some polish and new features. Both map screens now follow a common layout, with sidebars containing information panels and options, with navigation controls available in a centralized toolbar at the bottom.
+
+A headlining new feature is the ability to bookmark systems, and (with a trade computer) commodity trading routes between the current station and a destination. These bookmarks can have custom notes attached, so you will always be able to remember which system you were waylaid by pirates in.
+
+Speaking of pirates, the new layout for system information displays a "security rating" for the targeted system. While you're never guaranteed to be attacked (or safe) in a system, you'd do well to minimize time spent in high-risk systems unless you're spoiling for a fight. You can now also view the extended description for a system - if a contributor has written one. _Pssst... you could write one yourself and contribute it to the game!_
+
+<img width="2496" height="1416" alt="screenshot-20260131-211547" src="https://github.com/user-attachments/assets/48e69d1e-b77f-4cb9-a889-4823d9ba1e80" />
+
+For those pilots not looking to take in the sights, the sector map now has the ability to trigger a legal hyperjump directly from the map screen via a button on the toolbar. This pairs nicely with the gameplay setting to leave the map screen open during a hyperjump!
+
+The system map now shows information about a ship or hypercloud target, if a Target Scanner or Hypercloud Analyzer is installed on the ship.
+
+<img width="2496" height="1416" alt="screenshot-20260131-210613" src="https://github.com/user-attachments/assets/2047d68c-9c2d-45b3-9119-9488f0507425" />
+
+The HUD now displays this target information in a similar way as well. And the target context menu now provides a way to set your hyperspace destination to the other "end" of a hypercloud if an analyzer is installed.
+
+<img width="2496" height="1416" alt="screenshot-20260131-211951" src="https://github.com/user-attachments/assets/4b39b039-164f-4bd5-be8a-f05a0f3da75e" />
+
+## Police and Pirates
+
+Have you ever found yourself running afoul of the law because you fired your weapons at the wrong time? Station police now have a much more generous threshold before they attempt to shoot you down and take you in the old-fashioned way. You'll still be fined for shooting in a no-fire zone, so be careful!
+
+Pirates have become much sneakier. Instead of hanging out right next to your arrival cloud to ambush your ship as it comes out of hyperspace, they will loiter around planets in the target system, burning to intercept you and steal all your valuables as you approach.
+
+## Finding people
+
+A new mission type is introduced, where the player is tasked with finding a person and either bringing them back, or to deliver a message to them.
+
+<img width="2486" height="1409" alt="image" src="https://github.com/user-attachments/assets/f2c9d110-0d22-487b-b9c3-1c62783e0c30" />
+
+## Economy Changes
+
+The economic simulation that determines commodity prices and availability at a station has undergone a major rewrite. Starports now determine their commodity market based on a randomized set of industries in operation at that starport. Industries consume goods to produce other goods, meaning that if you find a starport producing a lot of ore, they will likely need mining machinery to keep producing that ore.
+
+Starports also participate in a "local network" of trade, shuffling goods back and forth between starports orbiting the same major body. If they need a commodity that isn't produced in sufficient quantity within this local network, they'll be willing to pay higher prices to enterprising players willing to sell it to them (and inversely for buying commodities).
+
+This information is currently only visible via the <kbd>Ctrl+I</kbd> debug menu, but we hope to make it visible to players during the next release cycle.
+
+## About menu
+
+Pioneer now has an in-game about menu containing lots of useful information about the project and where to find help. We hope this will guide curious players seeking information on how to contribute.
+
+<img width="1114" height="625" alt="2026-01-17-174629_1114x625_scrot" src="https://github.com/user-attachments/assets/8d1360fb-8dc5-4b52-aaca-8ee21b435eb5" />
+
+# Full Changelog
+
+## Major changes and new features
+* Animate thruster flame (#6204)
+* Add system lawlessness rating to sector map (#6265)
+* Add context-based station economic industries (#6199)
+* Cargo Run custom risk message (#6192)
+* New mission: Find person (#4746)
+* Advice module - Three new advises (#6234)
+* Calculate star colors using Planck's law (#6210)
+* Added 'About' button in Main Menu (#6145)
+* Assassination - minor string improvements and code refactor (#6218)
+* UI of system view reworked (#6173)
+* Improve the follow modes for too far ranges (#6190)
+* Show the return location in the mission list, if available (#6200)
+* UI: target radial support hyperspace clouds (#6180)
+* UI: rework target scanner display (#6181)
+* Redesign Sector Map interface, allow jumping from Sector Map (#6148)
+* Add System and Trade Route Bookmark Interface (#6154)
+* ECM crime - Don't allow ECM use near stations (#5916)
+* Show main mission parameters for regular scoop missions (#6279)
+* Increase the probability of being intercepted by pirates (#6248)
+* Make ships translatable (#6103)
+* Several new tweaks to tame the police (#6128)
+* Add tooltip for pump down buttons on info view (#6193)
+* Allow custom systems to override randomly-generated ones (#6238)
+* Support 'custom_only' key in station.json file (#6153)
+
+## Bugfixes / Tweaks
+* Fix crime record error on loading saved games (#6268)
+* Fix mapping missions not "failing" if overdue (#6258)
+* Fix Planet layer flicker on zoom, FOV->Radians before Frustum (#6121)
+* Fix bugs in fixed division (#5698)
+* Only add systems once in system search function GetNearbyStarSystemsByName (#6244)
+* Add trailing newlines to model files (#6243)
+* Fix correct temperature display units (#6239)
+* ConfigParser: fix read-past-end-of-string (#6246)
+* Fix payment for delayed Scout mission (#6250)
+* Fix icon for find missing person (#6250)
+* Reduce number of find missing person adverts (#6250)
+* Fix station staff face - only set stationSeed from one place (#6236)
+* Prevent spiky asteroids in random systems (#6209)
+* Correctly capitalize names of goods (#6252)
+* fmt::arg("unit", counter.unit) causes crash, hard code counter.unit (#6256)
+* Fix missing station manager in the lobby of Torvalds station (#6224)
+* Fix wrong station message at starting in space (#6220)
+* Fix game slowdown after jettisoning A LOT of cargo (#6139)
+* Fix crash when weapons fired (#6203)
+* Prevent invoking SDL_PauseAudioDevice when it's already paused (#6156)
+* fix: select correct star for hyperspace target after route planned (#6158)
+* fix: crash in info screen (#6176)
+* SecondHand equipment market: add clearer error messages (#6159)
+* Fix/minor fixes: (un)muting settings, saving settings, UI events, etc. (#6175)
+* Fix hyperspace fuel cheat (#6129)
+* Explore system on game start (#6132)
+* CrewContracts - add onUpdateBB, to spawn new crew with time (#5596)
+* Formatting fixes (#6058)
+* Fix crash jettisoning in player Economy & Trade window (#6276)
+* Fix duplicate faction home systems (#6278)
+* Fix use-after-free with multiple custom system redefinition (#6274)
+* Fix infinite galaxy, remove visible density "blocks" in sector generation (#6273)
+* Pre-release bugfixes, see below (#6282)
+* Fix Equipment rewrite: Market allows to buy yet installed equipment repeatedly (#6182)
+* Fix No warning, confirmation, or criminal charges for selling an occupied passenger cabin (#5954)
+* Fix Unexpected thruster flames on the ship view in the "Ship information" tab (#6272)
+* Fix Input mappings are ignored on master (#6262)
+* Fix Rotation damping and Cruise mode share key mapping (#6263)
+* Fix Crash to desktop when landing on a procedurally generated planet (#6118)
+* Changing seed for Impression to avoid station being partially underground (#6283)
+
+## Internal Changes
+* Alias Vector3 ZERO (#6259)
+* Minor fixes and additions (#6266)
+* Update to Assimp 6.0.2 lib name (PR #6267)
+* Dump all current faction home systems to JSON (#6271)
+* Clean up API code documentation strings: Remove 'Availability' & 'Status' in C++ (#6242)
+* Update Ship JSON Files (#6241)
+* Update About menu with newly added fast_float copyright info (#6247)
+* Upgrade nlohmann::json, fix #include ciso646 warnings (#6253)
+* Minor (terrain) performance optimizations and tweaks (#6087)
+* Update transifex script (#6254)
+* Clean up API code documentation strings (#6228)
+* CMakeList and scan_enums update to python3 (#6217)
+* CMake: Generalize to any OpenGL binding (#6050)
+* Updating all .model files to v2 format (#6213)
+* Fix CMake OpenGL binding for MSVC (#6237)
+* Scenegraph .model Format v2 (#6206)
+* Save settings to disk when closing the settings window (#6179)
+* Migrate renderer to use explicit vertex attribute format descriptors (#6141)
+* Cleaning up unused icons (#6147)
+* Update to Windows 2022 build runner (#6149)
+* Add persistent "player state" datastore, player versions of dock/undock/landing events (#6150)
+* Optimization: Replace onShip*() with onPlayer*() events where functional (#6163)
+* Optimization: Redefine meaning of onEnterSystem/onLeaveSystem events (#6177)
+* Fix breakages introduced by the updated version of Dear ImGui (#6157)
+* Minor Terrain files cleanup (#6187)
+* Update minimum required version of CMake to 3.5 (#6124)
+* Expose long description & clean dead code (#6144)
+* Upgrade Imgui to 1.91.9b (#6143)
+* Adding new icons for sector map and about (#6146)
+* Fix GCC warnings (#6280)
+
+
+
+# Pioneer 2025-05-01
 
 This is a bug fix release bringing many fixes that were reported after our February release. This includes many crucial fixes, like the save file corruption (when equipping scanner for scout mission), and crashes triggered from the ship equipment list, and many other bugs. There is also a few new small features, like option to randomize colors in the paint shop.
 

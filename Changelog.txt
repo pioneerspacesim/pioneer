@@ -1,3 +1,7 @@
+Pioneer 2026-02-03 Release
+  * Fixes
+    * Changing seed for Impression to avoid station being partially underground (#6283)
+
 January 2026
   * New Features
     * Animate thruster flame (#6204)
@@ -60,6 +64,7 @@ November
     * Upgrade nlohmann::json, fix #include ciso646 warnings (#6253)
     * Minor (terrain) performance optimizations and tweaks (#6087)
     * Update transifex script (#6254)
+    * Asserts invalid after code changes (#6255)
 
 October
   * New Features
