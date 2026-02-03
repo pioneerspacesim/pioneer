@@ -465,9 +465,8 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 
 	// min of 2.0 corresponds to a scale height of 1/20 of the planet's radius,
 	params.atmosInvScaleHeight = std::max(20.0f, static_cast<float>(GetRadius() / atmosScaleHeight));
-	// integrate atmospheric density between surface and this radius. this is 10x the scale
-	// height, which should be a height at which the atmospheric density is negligible
-	params.atmosRadius = 1.0f + static_cast<float>(10.0f * atmosScaleHeight) / GetRadius();
+
+	params.atmosRadius = 1.0f + static_cast<float>(m_atmosRadius) / GetRadius();
 
 	params.planetRadius = static_cast<float>(radiusPlanet_in_m);
 
@@ -478,17 +477,19 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 	params.scaleHeight = vector2f(atmosScaleHeight, atmosScaleHeight / 6.66);
 
 	float atmosHeight = radiusPlanet_in_m * (params.atmosRadius - 1);;
-	float atmosLogDensity = log(atmosDensity / 1.225e-5); // in earth surface densities
-	//Output("%s: atmos density at surface %f\n", GetName(), atmosDensity);
 	for (int i = 0; i <= DENSITY_STEPS; i++) {
 		float height = i * atmosHeight / DENSITY_STEPS;
 
 		// mie decays ~6.66 times faster
 		float rLogDensity, mLogDensity;
-		rLogDensity = atmosLogDensity - (height / atmosScaleHeight);
-		mLogDensity = atmosLogDensity - (6.66 * height / atmosScaleHeight);
 
-		//Output("  %s: scale height = %f, density at %f m: rayleigh = %f, mie = %f\n", GetName(), atmosScaleHeight, height, rLogDensity, mLogDensity);
+		rLogDensity = log(GetAtmDensity(height, GetAtmPressure(height)));
+
+		// ugly fallback, will be fixed with new atmosphere model
+		mLogDensity = log(GetAtmDensity(6.66 * height, GetAtmPressure(6.66 * height)));
+		if (std::isnan(mLogDensity))
+			mLogDensity = -128.0;
+
 		params.logDensityMap[i] = vector2f(rLogDensity, mLogDensity);
 	}
 
