@@ -625,7 +625,7 @@
   },
   "EQUIPMENT_ALREADY_INSTALLED_HERE": {
     "description": "Message indicating this equipment item is already installed.",
-    "message": "This equipment item is already installed here."
+    "message": "Diese Ausrüstung ist hier schon installiert."
   },
   "EQUIPMENT_CAPACITY": {
     "description": "The equipment capacity of a ship",
@@ -2553,11 +2553,11 @@
   },
   "SYSTEM_NUM_STARS": {
     "description": "Tooltip indicating the system stellar arrangement",
-    "message": "Number of stars in system"
+    "message": "Anzahl der Sterne im System"
   },
   "SYSTEM_SECURITY_1": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
-    "message": "Safe"
+    "message": "Sicher"
   },
   "SYSTEM_SECURITY_2": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
@@ -2569,7 +2569,7 @@
   },
   "SYSTEM_SECURITY_4": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
-    "message": "Very Dangerous"
+    "message": "Sehr gefährlich"
   },
   "SYSTEM_SECURITY_5": {
     "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
@@ -2577,7 +2577,7 @@
   },
   "SYSTEM_SECURITY_TOOLTIP": {
     "description": "Tooltip introducing the system security rating",
-    "message": "System safety rating"
+    "message": "System-Sicherheitsbewertung"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
@@ -2797,7 +2797,7 @@
   },
   "VIEW_DESTINATION": {
     "description": "Tooltip indicating the button will change the current view to the destination of a route.",
-    "message": "View Destination"
+    "message": "Reiseziel anzeigen"
   },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",
