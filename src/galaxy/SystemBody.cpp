@@ -345,7 +345,7 @@ void SystemBody::SetAtmFromParameters()
 		// want height for pressure 0.001 atm:
 		// h = (1 - exp(RL/gM * log(P/p0))) * T0 / l
 		double RLdivgM = (GAS_CONSTANT_R * lapseRate_L) / (surfaceGravity_g * GetMolarMass(GetSuperType()));
-		m_atmosRadius = (1.0 - exp(RLdivgM * log(0.001 / m_atmosPressure))) * surfaceTemperature_T0 / lapseRate_L;
+		m_atmosRadius = (1.0 - exp(RLdivgM * log(1e-15 / m_atmosPressure))) * surfaceTemperature_T0 / lapseRate_L;
 	}
 }
 
