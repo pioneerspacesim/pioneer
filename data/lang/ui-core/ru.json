@@ -625,7 +625,7 @@
   },
   "EQUIPMENT_ALREADY_INSTALLED_HERE": {
     "description": "Message indicating this equipment item is already installed.",
-    "message": "This equipment item is already installed here."
+    "message": "Это оборудование уже установлено здесь."
   },
   "EQUIPMENT_CAPACITY": {
     "description": "The equipment capacity of a ship",
