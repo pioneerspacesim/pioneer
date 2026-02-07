@@ -371,12 +371,10 @@ local function showLanguageOptions()
 
 	ui.withFont(pionillium.body, function()
 		ui.child("##LanguageList", Vector2(0, 0), function()
-			local incme = 0
 			for _, lang in ipairs(langs) do
-				if ui.selectable(Lang.GetResource("core",lang).LANG_NAME .. "##" .. incme, Lang.currentLanguage==lang, {}) then
+				if ui.selectable(Lang.GetResource("core",lang).LANG_NAME .. "##" .. lang, Lang.currentLanguage==lang, {}) then
 					Lang.SetCurrentLanguage(lang)
 				end
-				incme = incme + 1
 			end
 		end)
 	end)
