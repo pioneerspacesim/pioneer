@@ -9,6 +9,7 @@
 #include "graphics/RenderTarget.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
+#include "Input.h"
 #include "scenegraph/Tag.h"
 
 #include <algorithm>
@@ -17,6 +18,8 @@ using namespace PiGui;
 
 ModelSpinner::ModelSpinner() :
 	m_spinning(true),
+	m_middleMouseButton(false),
+	m_rotateWithMouseButton(false),
 	m_pauseTime(.0f),
 	m_rot(vector2f(DEG2RAD(-15.0), DEG2RAD(120.0))),
 	m_zoom(1.0f),
@@ -136,7 +139,13 @@ void ModelSpinner::DrawPiGui()
 
 	const ImGuiIO &io = ImGui::GetIO();
 	bool hovered = ImGui::IsItemHovered();
-	if (hovered && ImGui::IsMouseDown(0)) {
+	// TODO: This should be unified with Input::Manager::IsMouseRotatePressed()
+	bool isMouseRotatePressed = ImGui::IsMouseDown(2) || ImGui::IsKeyDown(ImGuiKey_LeftCtrl) && ImGui::IsMouseDown(0);
+	if (hovered && isMouseRotatePressed != m_rotateWithMouseButton) {
+		m_rotateWithMouseButton = !m_rotateWithMouseButton;
+		Pi::input->SetCapturingMouse(m_rotateWithMouseButton);
+	}
+	if (m_rotateWithMouseButton) {
 		m_rot.x -= 0.005 * io.MouseDelta.y;
 		m_rot.y -= 0.005 * io.MouseDelta.x;
 		m_pauseTime = 1.0f;

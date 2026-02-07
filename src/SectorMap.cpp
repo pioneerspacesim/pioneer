@@ -1153,7 +1153,7 @@ void SectorMap::Update(float frameTime)
 	if (InputBindings.mapViewPitch->IsActive()) m_rotXMovingTo += 0.5f * moveSpeed * InputBindings.mapViewPitch->GetValue();
 
 	// to capture mouse when button was pressed and release when released
-	if (input->MouseButtonState(SDL_BUTTON_MIDDLE) != m_rotateWithMouseButton) {
+	if (input->IsMouseRotatePressed() != m_rotateWithMouseButton) {
 		m_rotateWithMouseButton = !m_rotateWithMouseButton;
 		input->SetCapturingMouse(m_rotateWithMouseButton);
 	}
@@ -1161,8 +1161,9 @@ void SectorMap::Update(float frameTime)
 	if (m_rotateWithMouseButton || m_rotateView) {
 		int motion[2];
 		input->GetMouseMotion(motion);
-		m_rotXMovingTo += 0.2f * float(motion[1]);
-		m_rotZMovingTo += 0.2f * float(motion[0]);
+		float speed = 0.2f * input->GetRotateSpeedShiftModifier();
+		m_rotXMovingTo += speed * float(motion[1]);
+		m_rotZMovingTo += speed * float(motion[0]);
 	} else if (m_zoomView) {
 		input->SetCapturingMouse(true);
 		int motion[2];
