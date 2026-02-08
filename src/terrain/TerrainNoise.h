@@ -4,6 +4,7 @@
 #ifndef _TERRAINNOISE_H
 #define _TERRAINNOISE_H
 
+#include "Random.h"
 #include "perlin.h"
 #include "MathUtil.h"
 
@@ -174,6 +175,27 @@ namespace TerrainNoise {
 	{
 		const double nClamped = Clamp(n, 0.0, 1.0);
 		return start * (1.0 - nClamped) + end * nClamped;
+	}
+
+	inline double GetRandWithinRangeAndMul(Random &rand, const double centre, const double rangePc, const double multiplier)
+	{
+		const double minOrig = centre - (centre * rangePc);
+		const double maxOrig = centre + (centre * rangePc);
+		return rand.Double(minOrig, maxOrig) * multiplier;
+	}
+
+	inline void SetVector3Random(Random &rand, vector3d &vOut)
+	{
+		vOut.x = rand.Double(-1.0, 1.0);
+		vOut.y = rand.Double(-1.0, 1.0);
+		vOut.z = rand.Double(-1.0, 1.0);
+	}
+
+	inline vector3d GetVector3Random(Random &rand)
+	{
+		return vector3d(rand.Double(-1.0, 1.0),
+			rand.Double(-1.0, 1.0),
+			rand.Double(-1.0, 1.0)).Normalized();
 	}
 
 } // namespace TerrainNoise
