@@ -33,8 +33,10 @@ void TerrainHeightFractal<TerrainHeightHillsRivers>::GetHeights(const vector3d *
 	for (size_t i = 0; i < count; i++) {
 		const vector3d &p = vP[i];
 		double continents = river_octavenoise(m_fracdef[3], 0.65, p) * (1.0 - m_sealevel) - (m_sealevel * 0.1);
-		if (continents < 0.0)
+		if (continents < 0.0) {
 			heightsOut[i] = 0.0;
+			continue;
+		}
 		double n = continents;
 
 		double distrib = voronoiscam_octavenoise(m_fracdef[4], 0.5 * m_fracdef[5].amplitude, p);
