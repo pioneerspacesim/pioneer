@@ -173,7 +173,7 @@
   },
   "CAPITALIST": {
     "description": "",
-    "message": "Капиталистическа"
+    "message": "Капитализъм"
   },
   "CARBON_ORE": {
     "description": "",
@@ -521,7 +521,7 @@
   },
   "GRID_DISPLAY_MODE_GRID_ONLY": {
     "description": "Combobox option for Grid Only",
-    "message": "Решетка"
+    "message": "Решетка без етапи"
   },
   "GRID_DISPLAY_MODE_OFF": {
     "description": "Combobox option for Grid display off.",
@@ -537,7 +537,7 @@
   },
   "HARD_CAPITALIST": {
     "description": "",
-    "message": "Изцяло капиталистическа, без намеса от правителството"
+    "message": "Капитализъм, без правителствени социални помощи."
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -613,15 +613,15 @@
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL": {
     "description": "Combobox option for all hyperspace clouds.",
-    "message": "Всички хиперпространствени облаци"
+    "message": "Всички"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY": {
     "description": "Combobox option for arrival hyperspace clouds.",
-    "message": "Хиперпространствени облаци от пристигане"
+    "message": "От пристигане"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY": {
     "description": "Combobox option for departure hyperspace clouds.",
-    "message": "Хиперпространствени облаци от тръгване"
+    "message": "От тръгване"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for the button which toggles the display mode of hyperspace clouds.",
@@ -681,7 +681,7 @@
   },
   "IMPERIAL_RULE": {
     "description": "",
-    "message": "Имперска власт"
+    "message": "Имперско управление"
   },
   "INCREASE_RADAR_RANGE": {
     "description": "",
@@ -733,7 +733,7 @@
   },
   "L4L5_DISPLAY_MODE_OFF": {
     "description": "Combobox option for lagrange point display off.",
-    "message": "Изключено"
+    "message": "Изключен"
   },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for the L4/L5 Lagrange points toggle button.",
@@ -1069,7 +1069,7 @@
   },
   "NUMBER_GROUP_SEP": {
     "description": "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-    "message": "​"
+    "message": "​ "
   },
   "NUMBER_HOURS": {
     "description": "",
@@ -1153,7 +1153,7 @@
   },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
-    "message": "Селскостопански отворен свят."
+    "message": "Селскостопански свят на открито."
   },
   "OVER_N_BILLION": {
     "description": "",
@@ -1445,7 +1445,7 @@
   },
   "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
     "description": "Combobox option for ships only.",
-    "message": "Кораби"
+    "message": "Кораби без орбити"
   },
   "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
     "description": "Combobox option for ships with orbits.",
@@ -1733,7 +1733,7 @@
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
-    "message": "Процъфтяващ отворен свят."
+    "message": "Процъфтяващ свят на открито."
   },
   "THRUSTER_DORSAL": {
     "description": "",

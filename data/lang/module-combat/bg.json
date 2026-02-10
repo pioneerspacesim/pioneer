@@ -29,7 +29,7 @@
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "Мисия {mission}: Възнаграждение {cash}."
+    "message": "{mission}: Възнаграждение {cash}."
   },
   "ADTITLE_1": {
     "description": "",

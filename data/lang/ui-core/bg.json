@@ -21,7 +21,7 @@
   },
   "AFTER_TRADE_IN": {
     "description": "",
-    "message": "След покупка"
+    "message": "Втора употреба"
   },
   "ALLEGIANCE": {
     "description": "",
@@ -1369,7 +1369,7 @@
   },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
-    "message": "Засечен е безразсъден хиперскок"
+    "message": "Безразсъден хиперскок"
   },
   "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
     "description": "",
@@ -2509,7 +2509,7 @@
   },
   "STATION_DOCKS": {
     "description": "Information shown in the station lobby, for total number of docking pads",
-    "message": "Разполагаме с {total_docking_pads} площадки за скачване."
+    "message": "Тази станция има {total_docking_pads} площадки за скачване."
   },
   "STATION_LOCAL_GRAVITY": {
     "description": "",
@@ -2525,7 +2525,7 @@
   },
   "STATION_ORBIT": {
     "description": "Information shown in the station loby",
-    "message": "Ние сме в {orbit_period} дневен орбитален период около {parent_body}."
+    "message": "Тази станция се намира в орбита около {parent_body} с период на обиколка от {orbit_period} дни."
   },
   "STATION_TECH_TOO_LOW": {
     "description": "",
@@ -2741,7 +2741,7 @@
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
-    "message": "Незаконно използване на оръжие"
+    "message": "Незаконно използване на оръжия"
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
