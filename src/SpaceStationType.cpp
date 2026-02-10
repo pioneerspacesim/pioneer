@@ -100,18 +100,18 @@ void SpaceStationType::OnSetupComplete()
 		PiVerify(1 == sscanf(tag->GetName().c_str(), "entrance_port%d", &portId));
 		PiVerify(portId > 0);
 
-		const matrix4x4f &trans = tag->GetGlobalTransform();
+		const matrix4x4d &trans = matrix4x4d(tag->GetGlobalTransform());
 
 		SPort new_port;
 		new_port.portId = portId;
 		new_port.name = tag->GetName();
 
 		if (SURFACE == dockMethod) {
-			const vector3f offDir = trans.Up().Normalized();
+			const vector3d offDir = trans.Up().Normalized();
 			new_port.m_approach[DockStage::APPROACH1] = trans;
 			new_port.m_approach[DockStage::APPROACH1].SetTranslate(trans.GetTranslate() + (offDir * 500.0f));
 		} else {
-			const vector3f offDir = -trans.Back().Normalized();
+			const vector3d offDir = -trans.Back().Normalized();
 			new_port.m_approach[DockStage::APPROACH1] = trans;
 			new_port.m_approach[DockStage::APPROACH1].SetTranslate(trans.GetTranslate() + (offDir * 1500.0f));
 		}
@@ -125,7 +125,7 @@ void SpaceStationType::OnSetupComplete()
 		int bay, portId;
 		int minSize, maxSize;
 		char padname[8];
-		matrix4x4f locTransform = locIter->GetGlobalTransform();
+		matrix4x4d locTransform = matrix4x4d(locIter->GetGlobalTransform());
 		locTransform.Renormalize();
 
 		// eg:loc_A001_p01_s0_500_b01
@@ -136,8 +136,8 @@ void SpaceStationType::OnSetupComplete()
 #ifndef NDEBUG
 		bool bFoundPort = false;
 #endif
-		matrix4x4f approach1(0.0);
-		matrix4x4f approach2(0.0);
+		matrix4x4d approach1(0.0);
+		matrix4x4d approach2(0.0);
 		for (auto &rPort : m_ports) {
 			if (rPort.portId == portId) {
 				rPort.minShipSize = std::min(minSize, rPort.minShipSize);
@@ -162,16 +162,16 @@ void SpaceStationType::OnSetupComplete()
 		} else {
 			struct TPointLine {
 				// for reference: http://paulbourke.net/geometry/pointlineplane/
-				static bool ClosestPointOnLine(const vector3f &Point, const vector3f &LineStart, const vector3f &LineEnd, vector3f &Intersection)
+				static bool ClosestPointOnLine(const vector3d &Point, const vector3d &LineStart, const vector3d &LineEnd, vector3d &Intersection)
 				{
-					const float LineMag = (LineStart - LineEnd).Length();
+					const double LineMag = (LineStart - LineEnd).Length();
 
-					const float U = (((Point.x - LineStart.x) * (LineEnd.x - LineStart.x)) +
+					const double U = (((Point.x - LineStart.x) * (LineEnd.x - LineStart.x)) +
 										((Point.y - LineStart.y) * (LineEnd.y - LineStart.y)) +
 										((Point.z - LineStart.z) * (LineEnd.z - LineStart.z))) /
 						(LineMag * LineMag);
 
-					if (U < 0.0f || U > 1.0f)
+					if (U < 0.0 || U > 1.0)
 						return false; // closest point does not fall within the line segment
 
 					Intersection.x = LineStart.x + U * (LineEnd.x - LineStart.x);
@@ -185,13 +185,13 @@ void SpaceStationType::OnSetupComplete()
 			// create the docking locators
 
 			// above the pad
-			vector3f intersectionPos(0.0f);
-			const vector3f approach1Pos = approach1.GetTranslate();
-			const vector3f approach2Pos = approach2.GetTranslate();
+			vector3d intersectionPos(0.0);
+			const vector3d approach1Pos = approach1.GetTranslate();
+			const vector3d approach2Pos = approach2.GetTranslate();
 			{
-				const vector3f p0 = locTransform.GetTranslate();			   // plane position
-				const vector3f l = (approach2Pos - approach1Pos).Normalized(); // ray direction
-				const vector3f l0 = approach1Pos + (l * 10000.0f);
+				const vector3d p0 = locTransform.GetTranslate();			   // plane position
+				const vector3d l = (approach2Pos - approach1Pos).Normalized(); // ray direction
+				const vector3d l0 = approach1Pos + (l * 10000.0f);
 
 				if (!TPointLine::ClosestPointOnLine(p0, approach1Pos, l0, intersectionPos)) {
 					Output("No point found on line segment");
@@ -253,7 +253,7 @@ bool SpaceStationType::GetShipApproachWaypoints(const unsigned int port, DockSta
 	if (pPort) {
 		TMapBayIDMat::const_iterator stageDataIt = pPort->m_approach.find(stage);
 		if (stageDataIt != pPort->m_approach.end()) {
-			const matrix4x4f &mt = pPort->m_approach.at(stage);
+			const matrix4x4d &mt = pPort->m_approach.at(stage);
 			outPosOrient.pos = vector3d(mt.GetTranslate());
 			outPosOrient.xaxis = vector3d(mt.GetOrient().VectorX());
 			outPosOrient.yaxis = vector3d(mt.GetOrient().VectorY());
@@ -346,7 +346,7 @@ const char *SpaceStationType::DockStageName(DockStage s) const {
 	return EnumStrings::GetString("DockStage", int(s));
 }
 
-matrix4x4f SpaceStationType::GetStageTransform(int bay, DockStage stage) const
+matrix4x4d SpaceStationType::GetStageTransform(int bay, DockStage stage) const
 {
 	return m_bayPaths.at(bay + 1).m_docking.at(stage);
 }

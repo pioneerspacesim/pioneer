@@ -876,8 +876,8 @@ void SpaceStation::LockPort(const int bay, const bool lockIt)
 }
 
 matrix4x4d SpaceStation::GetBayTransform(Uint32 bay) const {
-	matrix4x4d bayTrans = matrix4x4d::Translation(GetPosition()) * GetOrient();
-	bayTrans = bayTrans * matrix4x4d(m_type->GetStageTransform(bay, DockStage::DOCKED));
+	matrix4x4d bayTrans = matrix4x4d::Translation(GetPosition()) * GetOrient().Normalized() * m_type->GetStageTransform(bay, DockStage::DOCKED);
+	bayTrans.Renormalize();
 	return bayTrans;
 }
 
@@ -886,8 +886,8 @@ double SpaceStation::GetDockAnimStageDuration(int bay, DockStage stage) const
 	if (stage == DockStage::NONE) return 0.0;
 	if (m_type->IsSurfaceStation()) return 0.0;
 	auto dt = m_shipDocking[bay];
-	vector3f p1 = vector3f(dt.fromPos);
-	vector3f p2 = m_type->GetStageTransform(bay, stage).GetTranslate();
+	vector3d p1 = dt.fromPos;
+	vector3d p2 = m_type->GetStageTransform(bay, stage).GetTranslate();
 	float stageLength = (p2 - p1).Length();
 	float averageVelocity = stage == m_type->LastDockStage() ? 10 : 30; // m/s
 	return stageLength / averageVelocity;
@@ -897,8 +897,8 @@ double SpaceStation::GetUndockAnimStageDuration(int bay, DockStage stage) const
 {
 	if (m_type->IsSurfaceStation()) return 0.0;
 	auto dt = m_shipDocking[bay];
-	vector3f p1 = vector3f(dt.fromPos);
-	vector3f p2 = m_type->GetStageTransform(bay, stage).GetTranslate();
+	vector3d p1 = dt.fromPos;
+	vector3d p2 = m_type->GetStageTransform(bay, stage).GetTranslate();
 	float stageLength = (p2 - p1).Length();
 	float averageVelocity = 10; // m/s
 	return stageLength / averageVelocity;
