@@ -18,7 +18,7 @@ namespace Graphics {
 		TEXTURE_RGB_888,
 		TEXTURE_RG_88,
 		TEXTURE_R8,
-		TEXTURE_R32,
+		TEXTURE_R32F,
 
 		TEXTURE_DXT1, // data is expected to be pre-compressed
 		TEXTURE_DXT5,

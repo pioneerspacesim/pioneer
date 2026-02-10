@@ -125,7 +125,7 @@ void BaseSphere::SetMaterialParameters(const matrix4x4d &trans, const float radi
 
 	const vector3f texSize(2, DENSITY_STEPS + 1, 0.f);
 	const Graphics::TextureDescriptor texDesc(
-		Graphics::TEXTURE_R32, texSize, Graphics::LINEAR_CLAMP, false, true, true, 0, Graphics::TEXTURE_2D);
+		Graphics::TEXTURE_R32F, texSize, Graphics::LINEAR_CLAMP, false, true, true, 0, Graphics::TEXTURE_2D);
 
 	std::unique_ptr<vector2f, FreeDeleter> buf(
 		static_cast<vector2f *>(malloc((DENSITY_STEPS + 1) * sizeof(vector2f))));
@@ -141,7 +141,7 @@ void BaseSphere::SetMaterialParameters(const matrix4x4d &trans, const float radi
 	m_scatteringTexture.Reset(Pi::renderer->CreateTexture(texDesc));
 	m_scatteringTexture->Update(
 		static_cast<void *>(buf.get()), texSize,
-		Graphics::TEXTURE_R32);
+		Graphics::TEXTURE_R32F);
 
 	// FIXME: these two should share the same buffer data instead of making two separate allocs
 	m_surfaceMaterial->SetBufferDynamic(s_baseSphereData, &matData);
