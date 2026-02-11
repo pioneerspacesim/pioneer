@@ -92,15 +92,15 @@ public:
 private:
 
 	template <typename HeightFractal>
-	static Terrain *InstanceGenerator(const SystemBody *body, const Uint32 surfaceEffects, const ETerrainColours terrainColour)
+	static Terrain *InstanceGenerator(const SystemBody *body, const Uint32 surfaceEffects, const Terrain::ETerrainColours terrainColour)
 	{
 		return new TerrainGenerator<HeightFractal>(body, surfaceEffects, terrainColour);
 	}
 
-	typedef Terrain *(*GeneratorInstancer)(const SystemBody *, const Uint32, const ETerrainColours);
+	typedef Terrain *(*GeneratorInstancer)(const SystemBody *, const Uint32, const Terrain::ETerrainColours);
 
 protected:
-	Terrain(const SystemBody *body, const Uint32 surfaceEffects, const ETerrainColours terrainColour);
+	Terrain(const SystemBody *body, const Uint32 surfaceEffects, const Terrain::ETerrainColours terrainColour);
 
 	const RefCountedPtr<SystemBody> m_body;
 
@@ -144,7 +144,7 @@ public:
 	const char *GetHeightFractalName() const final;
 
 protected:
-	TerrainHeightFractal(const SystemBody *body, const Uint32 surfaceEffects, const ETerrainColours terrainColour);
+	TerrainHeightFractal(const SystemBody *body, const Uint32 surfaceEffects, const Terrain::ETerrainColours terrainColour);
 
 private:
 };
@@ -153,7 +153,7 @@ template <typename HeightFractal>
 class TerrainGenerator : public TerrainHeightFractal<HeightFractal> {
 public:
 	TerrainGenerator() = delete;
-	TerrainGenerator(const SystemBody *body, const Uint32 surfaceEffects, const ETerrainColours terrainColour) :
+	TerrainGenerator(const SystemBody *body, const Uint32 surfaceEffects, const Terrain::ETerrainColours terrainColour) :
 		Terrain(body, surfaceEffects, terrainColour),
 		TerrainHeightFractal<HeightFractal>(body, surfaceEffects, terrainColour) {}
 
