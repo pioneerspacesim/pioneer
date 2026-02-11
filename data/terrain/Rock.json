@@ -1,15 +1,15 @@
 {
    "name" : "template",
-   "LUT" : "terrainLUT",
-   "Layers" : 16,
+   "LUT" : "textures/terrain/rockLUT.png",
+   "Layers" : 3,
    "detailTextureHigh" : "high.dds",
    "detailTextureLow" : "low.dds",
    "atlas" : [
       {
-         "description" : "none",
+         "description" : "flat",
          "textures" : [
             {
-               "texture" : "atlas0.dds",
+               "texture" : "flat_rock.dds",
                "minAverageTemp" : 0,
                "minLife" : 0,
                "minVolatileGas" : 0,
@@ -20,10 +20,10 @@
          ]
       },
       {
-         "description" : "none",
+         "description" : "slope",
          "textures" : [
             {
-               "texture" : "atlas1.dds",
+               "texture" : "slope_rock.dds",
                "minAverageTemp" : 0,
                "minLife" : 0,
                "minVolatileGas" : 0,
@@ -34,192 +34,10 @@
          ]
       },
       {
-         "description" : "none",
+         "description" : " steep slope",
          "textures" : [
             {
-               "texture" : "atlas2.dds",
-               "minAverageTemp" : 0,
-               "minLife" : 0,
-               "minVolatileGas" : 0,
-               "minVolatileIces" : 0,
-               "minVolatileLiquid" : 0,
-               "minVolcanicity" : 0
-            }
-         ]
-      },
-      {
-         "description" : "none",
-         "textures" : [
-            {
-               "texture" : "atlas3.dds",
-               "minAverageTemp" : 0,
-               "minLife" : 0,
-               "minVolatileGas" : 0,
-               "minVolatileIces" : 0,
-               "minVolatileLiquid" : 0,
-               "minVolcanicity" : 0
-            }
-         ]
-      },
-      {
-         "description" : "none",
-         "textures" : [
-            {
-               "texture" : "atlas4.dds",
-               "minAverageTemp" : 0,
-               "minLife" : 0,
-               "minVolatileGas" : 0,
-               "minVolatileIces" : 0,
-               "minVolatileLiquid" : 0,
-               "minVolcanicity" : 0
-            }
-         ]
-      },
-      {
-         "description" : "none",
-         "textures" : [
-            {
-               "texture" : "atlas5.dds",
-               "minAverageTemp" : 0,
-               "minLife" : 0,
-               "minVolatileGas" : 0,
-               "minVolatileIces" : 0,
-               "minVolatileLiquid" : 0,
-               "minVolcanicity" : 0
-            }
-         ]
-      },
-      {
-         "description" : "none",
-         "textures" : [
-            {
-               "texture" : "atlas6.dds",
-               "minAverageTemp" : 0,
-               "minLife" : 0,
-               "minVolatileGas" : 0,
-               "minVolatileIces" : 0,
-               "minVolatileLiquid" : 0,
-               "minVolcanicity" : 0
-            }
-         ]
-      },
-      {
-         "description" : "none",
-         "textures" : [
-            {
-               "texture" : "atlas7.dds",
-               "minAverageTemp" : 0,
-               "minLife" : 0,
-               "minVolatileGas" : 0,
-               "minVolatileIces" : 0,
-               "minVolatileLiquid" : 0,
-               "minVolcanicity" : 0
-            }
-         ]
-      },
-      {
-         "description" : "none",
-         "textures" : [
-            {
-               "texture" : "atlas8.dds",
-               "minAverageTemp" : 0,
-               "minLife" : 0,
-               "minVolatileGas" : 0,
-               "minVolatileIces" : 0,
-               "minVolatileLiquid" : 0,
-               "minVolcanicity" : 0
-            }
-         ]
-      },
-      {
-         "description" : "none",
-         "textures" : [
-            {
-               "texture" : "atlas9.dds",
-               "minAverageTemp" : 0,
-               "minLife" : 0,
-               "minVolatileGas" : 0,
-               "minVolatileIces" : 0,
-               "minVolatileLiquid" : 0,
-               "minVolcanicity" : 0
-            }
-         ]
-      },
-      {
-         "description" : "none",
-         "textures" : [
-            {
-               "texture" : "atlas10.dds",
-               "minAverageTemp" : 0,
-               "minLife" : 0,
-               "minVolatileGas" : 0,
-               "minVolatileIces" : 0,
-               "minVolatileLiquid" : 0,
-               "minVolcanicity" : 0
-            }
-         ]
-      },
-      {
-         "description" : "none",
-         "textures" : [
-            {
-               "texture" : "atlas11.dds",
-               "minAverageTemp" : 0,
-               "minLife" : 0,
-               "minVolatileGas" : 0,
-               "minVolatileIces" : 0,
-               "minVolatileLiquid" : 0,
-               "minVolcanicity" : 0
-            }
-         ]
-      },
-      {
-         "description" : "none",
-         "textures" : [
-            {
-               "texture" : "atlas12.dds",
-               "minAverageTemp" : 0,
-               "minLife" : 0,
-               "minVolatileGas" : 0,
-               "minVolatileIces" : 0,
-               "minVolatileLiquid" : 0,
-               "minVolcanicity" : 0
-            }
-         ]
-      },
-      {
-         "description" : "none",
-         "textures" : [
-            {
-               "texture" : "atlas13.dds",
-               "minAverageTemp" : 0,
-               "minLife" : 0,
-               "minVolatileGas" : 0,
-               "minVolatileIces" : 0,
-               "minVolatileLiquid" : 0,
-               "minVolcanicity" : 0
-            }
-         ]
-      },
-      {
-         "description" : "none",
-         "textures" : [
-            {
-               "texture" : "atlas14.dds",
-               "minAverageTemp" : 0,
-               "minLife" : 0,
-               "minVolatileGas" : 0,
-               "minVolatileIces" : 0,
-               "minVolatileLiquid" : 0,
-               "minVolcanicity" : 0
-            }
-         ]
-      },
-      {
-         "description" : "none",
-         "textures" : [
-            {
-               "texture" : "atlas15.dds",
+               "texture" : "steep_rock.dds",
                "minAverageTemp" : 0,
                "minLife" : 0,
                "minVolatileGas" : 0,
