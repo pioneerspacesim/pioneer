@@ -6,7 +6,7 @@
 #include "ModelCache.h"
 #include "NavLights.h"
 #include "Pi.h"
-#include "SDL_hints.h"
+#include "SDL_stdinc.h"
 #include "Shields.h"
 #include "Ship.h"
 #include "ShipAICmd.h"
@@ -71,7 +71,7 @@ class TestApp {
 public:
 	TestApp()
 	{
-		SDL_SetHint("SDL_VIDEODRIVER", "offscreen");
+		SDL_setenv("SDL_VIDEODRIVER", "offscreen", 1);
 		std::map<std::string, std::string> options;
 		Pi::Init(options, true);
 
