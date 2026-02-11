@@ -407,7 +407,7 @@ endif (WIN32)
 add_subdirectory(src/editor)
 
 target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs} ${winLibs})
-target_link_libraries(unittest LINK_PRIVATE ${pioneerLibs} ${winLibs})
+target_link_libraries(unittest LINK_PRIVATE pioneer-lib ${pioneerLibs} ${winLibs})
 target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(savegamedump LINK_PRIVATE pioneer-core ${SDL2_IMAGE_LIBRARIES} ${winLibs})
 
