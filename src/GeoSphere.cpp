@@ -33,6 +33,7 @@ RefCountedPtr<GeoPatchContext> GeoSphere::s_patchContext;
 
 namespace {
 	// points around a unit sphere for sampling height data at uniformally
+	double g_sampleHeights[41] = {};
 	const vector3d g_samplePoints[] = {
 		{ vector3d(-0.160622, -0.160622, -0.160622) },
 		{ vector3d(-0.16246, -0.16246, -0.16246) },
@@ -707,8 +708,9 @@ void GeoSphere::SetUpMaterials()
 	// by sampling the terrain at N points, 41 at time of writing this comment.
 	const size_t numSamplePts = sizeof(g_samplePoints) / sizeof(vector3d);
 	double minh = DBL_MAX, maxh = DBL_MIN;
+	m_terrain->GetHeights(&g_samplePoints[0], &g_sampleHeights[0], numSamplePts);
 	for (int sp = 0; sp < numSamplePts; sp++) {
-		const double h = m_terrain->GetHeight(g_samplePoints[sp]);
+		const double h = g_sampleHeights[sp];
 		minh = std::min(minh, h);
 		maxh = std::max(maxh, h);
 	}
