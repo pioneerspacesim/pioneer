@@ -537,7 +537,7 @@
   },
   "HARD_CAPITALIST": {
     "description": "",
-    "message": "Капитализъм, без правителствени социални помощи."
+    "message": "Капитализъм, без правителствени социални помощи"
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
