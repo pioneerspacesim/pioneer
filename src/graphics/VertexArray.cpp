@@ -153,6 +153,8 @@ namespace Graphics {
 			normal.reserve(size);
 		if (m_attribs & ATTRIB_UV0)
 			uv0.reserve(size);
+		if (m_attribs & ATTRIB_UV1)
+			uv1.reserve(size);
 		if (m_attribs & ATTRIB_TANGENT)
 			tangent.reserve(size);
 	}
@@ -163,6 +165,7 @@ namespace Graphics {
 		diffuse.clear();
 		normal.clear();
 		uv0.clear();
+		uv1.clear();
 		tangent.clear();
 
 		if (size > 0)

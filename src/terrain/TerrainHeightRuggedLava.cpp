@@ -12,8 +12,8 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightRuggedLava>::GetHeightFractalName() const { return "RuggedLava"; }
 
 template <>
-TerrainHeightFractal<TerrainHeightRuggedLava>::TerrainHeightFractal(const SystemBody *body) :
-	Terrain(body)
+TerrainHeightFractal<TerrainHeightRuggedLava>::TerrainHeightFractal(const SystemBody *body, const Uint32 surfaceEffects, const ETerrainColours terrainColour) :
+	Terrain(body, surfaceEffects, terrainColour)
 {
 	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6, 1e7));
 	double height = m_maxHeightInMeters * 1.0;

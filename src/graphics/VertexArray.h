@@ -80,6 +80,7 @@ namespace Graphics {
 		std::vector<vector3f> normal;
 		std::vector<Color> diffuse;
 		std::vector<vector2f> uv0;
+		std::vector<vector2f> uv1;
 		std::vector<vector3f> tangent;
 
 	private:

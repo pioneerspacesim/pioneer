@@ -15,6 +15,8 @@
 
 #include <sstream>
 
+#include <sstream>
+
 namespace Graphics {
 
 	namespace Drawables {

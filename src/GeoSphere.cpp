@@ -21,13 +21,63 @@
 #include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"
 #include "graphics/VertexArray.h"
+#include "JsonUtils.h"
 #include "perlin.h"
+#include "StringF.h"
 #include "utils.h"
 #include "vcacheopt/vcacheopt.h"
 #include <algorithm>
 #include <deque>
 
 RefCountedPtr<GeoPatchContext> GeoSphere::s_patchContext;
+
+namespace {
+	// points around a unit sphere for sampling height data at uniformally
+	double g_sampleHeights[41] = {};
+	const vector3d g_samplePoints[] = {
+		{ vector3d(-0.160622, -0.160622, -0.160622) },
+		{ vector3d(-0.16246, -0.16246, -0.16246) },
+		{ vector3d(-0.259892, -0.259892, -0.259892) },
+		{ vector3d(-0.262866, -0.262866, -0.262866) },
+		{ vector3d(-0.273266, -0.273266, -0.273266) },
+		{ vector3d(-0.309017, -0.309017, -0.309017) },
+		{ vector3d(-0.425325, -0.425325, -0.425325) },
+		{ vector3d(-0.433889, -0.433889, -0.433889) },
+		{ vector3d(-0.525731, -0.525731, -0.525731) },
+		{ vector3d(-0.587785, -0.587785, -0.587785) },
+		{ vector3d(-0.5, -0.5, -0.5) },
+		{ vector3d(-0.688191, -0.688191, -0.688191) },
+		{ vector3d(-0.69378, -0.69378, -0.69378) },
+		{ vector3d(-0.702046, -0.702046, -0.702046) },
+		{ vector3d(-0.809017, -0.809017, -0.809017) },
+		{ vector3d(-0.850651, -0.850651, -0.850651) },
+		{ vector3d(-0.862669, -0.862669, -0.862669) },
+		{ vector3d(-0.951057, -0.951057, -0.951057) },
+		{ vector3d(-0.961938, -0.961938, -0.961938) },
+		{ vector3d(-1., -1., -1.) },
+		{ vector3d(0.160622, 0.160622, 0.160622) },
+		{ vector3d(0.16246, 0.16246, 0.16246) },
+		{ vector3d(0.259892, 0.259892, 0.259892) },
+		{ vector3d(0.262866, 0.262866, 0.262866) },
+		{ vector3d(0.273266, 0.273266, 0.273266) },
+		{ vector3d(0.309017, 0.309017, 0.309017) },
+		{ vector3d(0.425325, 0.425325, 0.425325) },
+		{ vector3d(0.433889, 0.433889, 0.433889) },
+		{ vector3d(0.525731, 0.525731, 0.525731) },
+		{ vector3d(0.587785, 0.587785, 0.587785) },
+		{ vector3d(0.5, 0.5, 0.5) },
+		{ vector3d(0.688191, 0.688191, 0.688191) },
+		{ vector3d(0.69378, 0.69378, 0.69378) },
+		{ vector3d(0.702046, 0.702046, 0.702046) },
+		{ vector3d(0.809017, 0.809017, 0.809017) },
+		{ vector3d(0.850651, 0.850651, 0.850651) },
+		{ vector3d(0.862669, 0.862669, 0.862669) },
+		{ vector3d(0.951057, 0.951057, 0.951057) },
+		{ vector3d(0.961938, 0.961938, 0.961938) },
+		{ vector3d(0., 0., 0.) },
+		{ vector3d(1., 1., 1.) },
+	};
+} //namespace
 
 // must be odd numbers
 static const int detail_edgeLen[5] = {
@@ -390,7 +440,7 @@ void GeoSphere::AddQuadSplitRequest(double dist, SQuadSplitRequest *pReq, GeoPat
 
 void GeoSphere::ProcessQuadSplitRequests()
 {
-	std::sort(mQuadSplitRequests.begin(), mQuadSplitRequests.end(), [](TDistanceRequest &a, TDistanceRequest &b) { return a.mDistance < b.mDistance; });
+	std::sort(mQuadSplitRequests.begin(), mQuadSplitRequests.end(), [](const TDistanceRequest &a, const TDistanceRequest &b) { return a.mDistance < b.mDistance; });
 
 	for (auto iter : mQuadSplitRequests) {
 		SQuadSplitRequest *ssrd = iter.mpRequest;
@@ -500,6 +550,102 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_PLANETS, 1);
 }
 
+void GeoSphere::LoadTerrainJSON(const std::string &path)
+{
+	Json rootNode = JsonUtils::LoadJsonDataFile(path);
+
+	if (!rootNode.is_object()) {
+		Output("couldn't open json terrain definition '%s'\n", path.c_str());
+		return;
+	}
+
+	if (rootNode.size() == 0) {
+		Output("couldn't read json terrain definition '%s'\n", path.c_str());
+		return;
+	}
+
+	Output("\n%s\n", path.c_str());
+
+	// load the look-up-table
+	Json lut = rootNode["LUT"];
+	assert(!lut.empty() && lut.is_string());
+	m_surfaceLUT.Reset(Graphics::TextureBuilder::LookUpTable(stringf("textures/terrain/%0", lut.get<std::string>())).GetOrCreateTexture(Pi::renderer, "lut"));
+
+	// what detail textures does this terrain use
+	const std::string detailTextureHigh = rootNode["detailTextureHigh"];
+	m_texHi.Reset(Graphics::TextureBuilder::Model(stringf("textures/%0", detailTextureHigh)).GetOrCreateTexture(Pi::renderer, "model"));
+	const std::string detailTextureLow = rootNode["detailTextureLow"];
+	m_texLo.Reset(Graphics::TextureBuilder::Model(stringf("textures/%0", detailTextureLow)).GetOrCreateTexture(Pi::renderer, "model"));
+
+	// find the texture filenames this terrain uses
+	const int numberLayers = rootNode["Layers"];
+
+	struct Atlas {
+		struct TextureCandidate {
+			std::string textureName;
+			int minAverageTemp;
+			int minLife;
+			int minVolatileGas;
+			int minVolatileIces;
+			int minVolatileLiquid;
+			int minVolcanicity;
+		};
+
+		std::string description;
+		std::vector<TextureCandidate> textureCandidates;
+	};
+	std::vector<Atlas> atlases;
+	atlases.reserve(numberLayers);
+
+	Json atlas = rootNode["atlas"];
+	if (!atlas.empty()) {
+		for (auto j = atlas.begin(), jEnd = atlas.end(); j != jEnd; ++j) {
+			Atlas newAtlas;
+			Json description = (*j)["description"];
+			if (!description.empty()) {
+				const std::string desc = description;
+				newAtlas.description = desc;
+			}
+
+			Json textures = (*j)["textures"];
+			if (!textures.empty()) {
+				for (auto tex = textures.begin(), texEnd = textures.end(); tex != texEnd; ++tex) {
+					// the texture itself
+					Atlas::TextureCandidate tc;
+					std::string textureName = (*tex)["texture"];
+					tc.textureName = textureName;
+					tc.minAverageTemp = (*tex)["minAverageTemp"];
+					tc.minLife = (*tex)["minLife"];
+					tc.minVolatileGas = (*tex)["minVolatileGas"];
+					tc.minVolatileIces = (*tex)["minVolatileIces"];
+					tc.minVolatileLiquid = (*tex)["minVolatileLiquid"];
+					tc.minVolcanicity = (*tex)["minVolcanicity"];
+
+					newAtlas.textureCandidates.push_back(tc);
+				}
+			}
+			atlases.push_back(newAtlas);
+		}
+	}
+
+	// choose the textures based on the planets properties
+	std::vector<std::string> textureFilenames;
+	textureFilenames.reserve(numberLayers);
+	// do the choosing...
+	//???
+	for (auto atlas : atlases) {
+		//???
+		for (auto tc : atlas.textureCandidates) {
+			// just take the first one for now
+			textureFilenames.push_back(stringf("textures/terrain/%0", tc.textureName));
+			break;
+		}
+	}
+
+	// load 'em
+	m_surfaceAtlas.Reset(Graphics::TextureBuilder::Array(textureFilenames, numberLayers).GetOrCreateTexture(Pi::renderer, "array"));
+}
+
 void GeoSphere::SetUpMaterials()
 {
 	// XXX: this has to be synced with the vertex format used in GeoPatch
@@ -545,11 +691,32 @@ void GeoSphere::SetUpMaterials()
 
 		m_texHi.Reset(Graphics::TextureBuilder::Model("textures/high.dds").GetOrCreateTexture(Pi::renderer, "model"));
 		m_texLo.Reset(Graphics::TextureBuilder::Model("textures/low.dds").GetOrCreateTexture(Pi::renderer, "model"));
+		//m_surfaceLUT.Reset(Graphics::TextureBuilder::LookUpTable("textures/terrain/terrainLUT.png").GetOrCreateTexture(Pi::renderer, "lut"));
+		//const std::vector<std::string> &filenames{ std::string("textures/terrain/atlas.dds") };
+		//m_surfaceAtlas.Reset(Graphics::TextureBuilder::Array(filenames, 16).GetOrCreateTexture(Pi::renderer, "array"));
+		LoadTerrainJSON(stringf("terrain/%0.json", m_terrain->GetColorFractalName()));
+
 		m_surfaceMaterial->SetTexture("texture0"_hash, m_texHi.Get());
 		m_surfaceMaterial->SetTexture("texture1"_hash, m_texLo.Get());
+		m_surfaceMaterial->SetTexture("texture2"_hash, m_surfaceLUT.Get());
+		m_surfaceMaterial->SetTexture("texture3"_hash, m_surfaceAtlas.Get());
 	}
 
 	CreateAtmosphereMaterial();
+
+	// Horrible sampling hackyness that attempts to establish the min and max heights around the planet
+	// by sampling the terrain at N points, 41 at time of writing this comment.
+	const size_t numSamplePts = sizeof(g_samplePoints) / sizeof(vector3d);
+	double minh = DBL_MAX, maxh = DBL_MIN;
+	m_terrain->GetHeights(&g_samplePoints[0], &g_sampleHeights[0], numSamplePts);
+	for (int sp = 0; sp < numSamplePts; sp++) {
+		const double h = g_sampleHeights[sp];
+		minh = std::min(minh, h);
+		maxh = std::max(maxh, h);
+	}
+	//Output("min (%.3lf), max (%.3lf), inverse max (%.3lf)\n", minh, maxh, 1.0 / maxh);
+	m_heightNormaliserMin = minh;
+	m_heightNormaliserMax = 1.0 / maxh;
 }
 
 void GeoSphere::CreateAtmosphereMaterial()

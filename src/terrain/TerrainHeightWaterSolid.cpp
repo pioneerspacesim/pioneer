@@ -12,8 +12,8 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightWaterSolid>::GetHeightFractalName() const { return "WaterSolid"; }
 
 template <>
-TerrainHeightFractal<TerrainHeightWaterSolid>::TerrainHeightFractal(const SystemBody *body) :
-	Terrain(body)
+TerrainHeightFractal<TerrainHeightWaterSolid>::TerrainHeightFractal(const SystemBody *body, const Uint32 surfaceEffects, const ETerrainColours terrainColour) :
+	Terrain(body, surfaceEffects, terrainColour)
 {
 	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(5e6, 1e8));
 	double height = m_maxHeightInMeters * 0.3;
