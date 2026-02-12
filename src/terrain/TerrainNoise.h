@@ -193,9 +193,10 @@ namespace TerrainNoise {
 
 	inline vector3d GetVector3Random(Random &rand)
 	{
-		return vector3d(rand.Double(-1.0, 1.0),
-			rand.Double(-1.0, 1.0),
-			rand.Double(-1.0, 1.0)).Normalized();
+		double x = rand.Double(-1.0, 1.0);
+		double y = rand.Double(-1.0, 1.0);
+		double z = rand.Double(-1.0, 1.0);
+		return vector3d(x, y, z).Normalized();
 	}
 
 } // namespace TerrainNoise

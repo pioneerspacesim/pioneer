@@ -110,7 +110,7 @@ protected:
 	   using more than 10 then things will be slow as hell */
 	static const Uint32 MAX_FRACDEFS = 10;
 	fracdef_t m_fracdef[MAX_FRACDEFS];
-	Quaterniond n_quatDefs[MAX_FRACDEFS];
+	Quaterniond m_quatDefs[MAX_FRACDEFS];
 
 	struct MinBodyData {
 		MinBodyData(const SystemBody *body);
