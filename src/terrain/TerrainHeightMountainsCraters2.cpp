@@ -8,6 +8,23 @@
 using namespace TerrainNoise;
 using namespace TerrainFeature;
 
+namespace {
+	constexpr double _featureWidthCentre[] = {
+		1000000.0,
+		 900000.0,
+		 800000.0,
+		1100000.0,
+		1200000.0
+	};
+	constexpr double _maxHeightMultiplier[] = {
+		0.05,
+		0.04,
+		0.05,
+		0.04,
+		0.07
+	};
+}
+
 template <>
 const char *TerrainHeightFractal<TerrainHeightMountainsCraters2>::GetHeightFractalName() const { return "MountainsCraters2"; }
 
@@ -23,16 +40,18 @@ TerrainHeightFractal<TerrainHeightMountainsCraters2>::TerrainHeightFractal(const
 	height = m_maxHeightInMeters * 0.4;
 	SetFracDef(3, height, m_rand.Double(2.5, 3.5) * height);
 	SetFracDef(4, m_maxHeightInMeters, m_rand.Double(100.0, 200.0) * m_maxHeightInMeters);
-	SetFracDef(5, m_maxHeightInMeters * 0.05, GetRandWithinRangeAndMul(m_rand, 1000000, 0.05, invRadiusMul), GetRandWithinRangeAndMul(m_rand, 10000.0, 0.05, invRadiusMul));
-	SetFracDef(6, m_maxHeightInMeters * 0.04, GetRandWithinRangeAndMul(m_rand,  900000, 0.05, invRadiusMul), GetRandWithinRangeAndMul(m_rand, 10000.0, 0.05, invRadiusMul));
-	SetFracDef(7, m_maxHeightInMeters * 0.05, GetRandWithinRangeAndMul(m_rand,  800000, 0.05, invRadiusMul), GetRandWithinRangeAndMul(m_rand, 10000.0, 0.05, invRadiusMul));
-	SetFracDef(8, m_maxHeightInMeters * 0.04, GetRandWithinRangeAndMul(m_rand, 1100000, 0.05, invRadiusMul), GetRandWithinRangeAndMul(m_rand, 10000.0, 0.05, invRadiusMul));
-	SetFracDef(9, m_maxHeightInMeters * 0.07, GetRandWithinRangeAndMul(m_rand, 1200000, 0.05, invRadiusMul), GetRandWithinRangeAndMul(m_rand, 10000.0, 0.05, invRadiusMul));
 
-	for (size_t i = 0; i < MAX_FRACDEFS; i++) {
+	for (size_t i = 0; i < 5; i++) {
+		const double featureWidthMetres = GetRandWithinRangeAndMul(m_rand, _featureWidthCentre[i], 0.05, invRadiusMul);
+		const double smallestOctaveMeters = GetRandWithinRangeAndMul(m_rand, 10000.0, 0.05, invRadiusMul);
+		SetFracDef(i+5, m_maxHeightInMeters * _maxHeightMultiplier[i], featureWidthMetres, smallestOctaveMeters);
+	}
+
+	// only used from 5 <> 9 so start at 5
+	for (size_t i = 5; i < MAX_FRACDEFS; i++) {
 		const double angle = m_rand.Double(0.0, DEG2RAD(360.0));
 		const vector3d axis(GetVector3Random(m_rand));
-		n_quatDefs[i].SetAxisAngle(angle, axis);
+		m_quatDefs[i].SetAxisAngle(angle, axis);
 	}
 }
 
@@ -63,7 +82,7 @@ void TerrainHeightFractal<TerrainHeightMountainsCraters2>::GetHeights(const vect
 			n += m;
 
 		for (size_t i = 5; i < 10; i++) {
-			n += crater_function(m_fracdef[i], n_quatDefs[i] * p);
+			n += crater_function(m_fracdef[i], m_quatDefs[i] * p);
 		}
 		n *= m_maxHeight;
 		heightsOut[i] = (n > 0.0 ? n : 0.0);
