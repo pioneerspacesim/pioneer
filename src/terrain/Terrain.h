@@ -8,6 +8,7 @@
 #include "../Random.h"
 #include "../RefCounted.h"
 #include "../vector3.h"
+#include "../Quaternion.h"
 #include "../galaxy/SystemPath.h"
 
 #include <memory>
@@ -109,10 +110,12 @@ protected:
 	   using more than 10 then things will be slow as hell */
 	static const Uint32 MAX_FRACDEFS = 10;
 	fracdef_t m_fracdef[MAX_FRACDEFS];
+	Quaterniond m_quatDefs[MAX_FRACDEFS];
 
 	struct MinBodyData {
 		MinBodyData(const SystemBody *body);
 		double m_radius;
+		double m_radiusEarthRatio;
 		double m_aspectRatio;
 		SystemPath m_path;
 		std::string m_name;
