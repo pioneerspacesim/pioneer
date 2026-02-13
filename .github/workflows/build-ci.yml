@@ -115,8 +115,8 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        sudo apt-fast update
-        sudo apt-fast install -y ${{ env.packages }}
+        sudo apt-get update
+        sudo apt-get install -y ${{ env.packages }}
 
     - name: Setup CMake
       run: |
@@ -153,8 +153,8 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        sudo apt-fast update
-        sudo apt-fast install -y clang-12 ${{ env.packages }}
+        sudo apt-get update
+        sudo apt-get install -y clang-12 ${{ env.packages }}
 
     - name: Setup CMake
       run: |
@@ -181,8 +181,8 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        sudo apt-fast update
-        sudo apt-fast install -y ${{ env.packages }}
+        sudo apt-get update
+        sudo apt-get install -y ${{ env.packages }}
 
     - name: Setup CMake
       run: |
