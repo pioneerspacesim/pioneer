@@ -145,8 +145,6 @@ public:
 	// FIXME: hacked-in singleton pattern, find a better way to locate the application
 	static App *GetApp() { return m_instance; }
 
-	static bool IsNavTunnelDisplayed() { return navTunnelDisplayed; }
-	static void SetNavTunnelDisplayed(bool state) { navTunnelDisplayed = state; }
 	static bool AreSpeedLinesDisplayed() { return speedLinesDisplayed; }
 	static void SetSpeedLinesDisplayed(bool state) { speedLinesDisplayed = state; }
 	static bool AreHudTrailsDisplayed() { return hudTrailsDisplayed; }
@@ -233,7 +231,6 @@ private:
 
 	static Sound::MusicPlayer musicPlayer;
 
-	static bool navTunnelDisplayed;
 	static bool speedLinesDisplayed;
 	static bool hudTrailsDisplayed;
 	static bool bRefreshBackgroundStars;
