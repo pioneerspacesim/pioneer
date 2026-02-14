@@ -88,10 +88,15 @@ local onChat = function (form, ref, option)
 
 	form:AddNavButton(ad.location)
 
+	local gender = ad.wanted.female and "_FEMALE" or "_MALE"
+
 	if option == 0 then
 		local introtext = string.interp(ad.introtext, {
 			client   = ad.client.name,
 			wanted   = ad.wanted.name,
+			employee = l["EMPLOYEE" .. gender .. "_" .. ad.employee],
+			relative = l["RELATIVE" .. gender .. "_" .. ad.relative],
+			friend   = l["FRIEND" .. gender .. "_" .. ad.friend],
 			company  = ad.company,
 			cash     = Format.Money(ad.reward, false),
 			system   = ad.location:GetStarSystem().name,
@@ -105,11 +110,10 @@ local onChat = function (form, ref, option)
 		form:SetMessage(introtext)
 
 	elseif option == 1 then
-		local gender = ad.wanted.female and "_FEMALE" or "_MALE"
 		form:SetMessage(l["HOW_TO_" .. ad.flavour.id .. gender])
 
 	elseif option == 2 then
-		form:SetMessage(string.interp(getRiskMsg(ad), { wanted = ad.wanted.name }))
+		form:SetMessage(string.interp(getRiskMsg(ad), { wanted = ad.wanted.surname }))
 
 	elseif option == 3 then
 		form:SetMessage(string.interp(l["HOW_MUCH_TIME_" .. ad.flavour.id], { date = Format.Date(ad.due) }))
@@ -126,6 +130,9 @@ local onChat = function (form, ref, option)
 			type        = "FindPerson",
 			client      = ad.client,
 			wanted      = ad.wanted,
+			employee    = ad.employee,
+			relative    = ad.relative,
+			friend      = ad.friend,
 			company     = ad.company,
 			location    = ad.location,
 			destination = ad.location:SystemOnly(),
@@ -191,15 +198,20 @@ local makeAdvert = function (station)
 	local location = nearbysystems[Engine.rand:Integer(1, #nearbysystems)]
 	local dist = location:DistanceTo(Game.system)
 
+	local female = Engine.rand:Integer(1) == 1
+	local gender = female and "_FEMALE" or "_MALE"
+
 	local flavour = flavours[Engine.rand:Integer(1, #flavours)]
+	local employee = Engine.rand:Integer(1, getNumberOfFlavours("EMPLOYEE" .. gender))
+	local relative = Engine.rand:Integer(1, getNumberOfFlavours("RELATIVE" .. gender))
+	local friend = Engine.rand:Integer(1, getNumberOfFlavours("FRIEND" .. gender))
 	local risk = Engine.rand:Number(0.01, flavour.max_risk)
 	local urgency = Engine.rand:Number(1)
 	local ns = location:GetStarSystem().numberOfStations
 	local reward = math.ceil(dist * (typical_reward + ns) * (1 + risk) * (1.5 + urgency) * Engine.rand:Number(0.8, 1.2))
 	local due = Game.time + ns * 86400 + MissionUtils.TravelTime(dist) * 1.75 * (1.5 - urgency) * Engine.rand:Number(0.9, 1.1)
 
-	local female = Engine.rand:Integer(1) == 1
-	local introtext = "INTROTEXT_" .. flavour.id .. (female and "_FEMALE" or "_MALE")
+	local introtext = "INTROTEXT_" .. flavour.id .. gender
 
 	local ad = {
 		station   = station,
@@ -208,6 +220,9 @@ local makeAdvert = function (station)
 		flavour   = flavour,
 		client    = Character.New(),
 		wanted    = Character.New({ female = female }),
+		employee  = employee,
+		relative  = relative,
+		friend    = friend,
 		company   = flavour.company and string.interp(l["COMPANY_" .. Engine.rand:Integer(1, getNumberOfFlavours("COMPANY"))], { name = NameGen.Surname() }) or nil,
 		location  = location,
 		shipid    = flavour.ship and Ship.MakeRandomLabel() or nil,
@@ -421,7 +436,8 @@ local onPlayerDocked = function (player, station)
 					if #mission.visited > Engine.rand:Number(4) then
 						local tipster = Character.New()
 						local tip = "TIP_" .. (mission.wanted.female and "FEMALE" or "MALE")
-						msg = string.interp(l[tip .. "_" .. Engine.rand:Integer(1, getNumberOfFlavours(tip))], { wanted = mission.wanted.name, station = mission.location:GetSystemBody().name })
+						local name = Engine.rand:Integer(0, 1) < 1 and mission.wanted.name or mission.wanted.firstname
+						msg = string.interp(l[tip .. "_" .. Engine.rand:Integer(1, getNumberOfFlavours(tip))], { wanted = name, station = mission.location:GetSystemBody().name })
 						Comms.ImportantMessage(msg, tipster.name)
 						mission.tipster = true
 					end
@@ -481,10 +497,14 @@ local buildMissionDescription = function (mission)
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location:SystemOnly())) or "???"
 	local domicileDist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.domicile)) or "???"
 	local danger = getRiskMsg(mission)
+	local gender = (mission.wanted.female and "_FEMALE" or "_MALE")
 
 	desc.description = mission.introtext:interp({
 		client = mission.client.name,
 		wanted = mission.wanted.name,
+		employee = l["EMPLOYEE" .. gender .. "_" .. mission.employee],
+		relative = l["RELATIVE" .. gender .. "_" .. mission.relative],
+		friend   = l["FRIEND" .. gender .. "_" .. mission.friend],
 		company = mission.company,
 		system = mission.location:GetStarSystem().name,
 		sectorx = mission.location.sectorX,
