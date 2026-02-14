@@ -343,6 +343,10 @@
     "description": "",
     "message": "OK, agreed."
   },
+  "ON_BOARD": {
+    "description": "",
+    "message": "On board"
+  },
   "PIRATE_ANSWER_1": {
     "description": "",
     "message": "I have transferred an answer for {client} to you. Good bye."
@@ -455,6 +459,10 @@
     "description": "",
     "message": "Spaceport:"
   },
+  "STATUS": {
+    "description": "",
+    "message": "Status:"
+  },
   "SUCCESS_ATK_1": {
     "description": "",
     "message": "What? {wanted} attacked you? Please accept this money as compensation!"
@@ -538,6 +546,10 @@
   "TRANSMITTING_MSG": {
     "description": "Message from the ship's computer",
     "message": "Transmitting message to ship {shipid}"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "Unknown"
   },
   "WANTED": {
     "description": "",
