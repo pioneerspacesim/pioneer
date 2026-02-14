@@ -403,6 +403,7 @@ local onPlayerDocked = function (player, station)
 						Passengers.EmbarkPassenger(player, mission.wanted)
 						mission.destination = mission.domicile
 						mission.status = "PENDING_RETURN"
+						mission.tipster = true
 					else
 						-- cabin occupied or player has removed cabin?
 						Comms.ImportantMessage(l.YOU_DO_NOT_HAVE_A_CABIN, mission.wanted.name)
@@ -410,6 +411,7 @@ local onPlayerDocked = function (player, station)
 				else
 					mission.destination = mission.domicile
 					mission.status = "PENDING_RETURN"
+					mission.tipster = true
 				end
 			else
 				-- do nothing if not in the right system or a tipster was already there
@@ -503,6 +505,8 @@ local buildMissionDescription = function (mission)
 	desc.details = {
 		{ l.WANTED, mission.wanted.name },
 		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
+		{ l.SPACEPORT, mission.tipster and mission.location:GetSystemBody().name or l.UNKNOWN },
+		{ l.STATUS, mission.flavour.taxi and mission.status == "PENDING_RETURN" and l.ON_BOARD or l.UNKNOWN },
 		{ l.DISTANCE, dist .. " " .. lc.UNIT_LY },
 		mission.flavour.ship and { l.SHIP, mission.shipid },
 		false,
