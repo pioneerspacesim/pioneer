@@ -743,9 +743,12 @@ void Space::UpdateStarSystemCache(const SystemPath *here)
 			for (int z = here_z - sectorRadius; z <= here_z + sectorRadius; z++) {
 				SystemPath path(x, y, z);
 				RefCountedPtr<Sector> sec(m_sectorCache->GetIfCached(path));
-				assert(sec);
-				for (const Sector::System &ss : sec->m_systems)
-					paths.push_back(SystemPath(ss.sx, ss.sy, ss.sz, ss.idx));
+				Log::WarningCond(sec, fmt::format("Not found in SectorCache {}!", to_string(path)).c_str());
+				if (sec) {
+					for (const Sector::System &ss : sec->m_systems) {
+						paths.push_back(SystemPath(ss.sx, ss.sy, ss.sz, ss.idx));
+					}
+				}
 			}
 		}
 	}
