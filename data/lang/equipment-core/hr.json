@@ -165,7 +165,7 @@
   },
   "ECM_ADVANCED_DESCRIPTION": {
     "description": "",
-    "message": "Elektronski sustav obrane od raketa, sposoban za uništavanje naprednijih raketa."
+    "message": "Elektronski sustav za obranu od raketa, sposoban uništavati i naprednije rakete."
   },
   "ECM_BASIC": {
     "description": "",
@@ -397,7 +397,7 @@
   },
   "MISSILE_NAVAL_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "Ove se rakete proizvode u visoko specijaliziranim i tajnim pomorskim tvornicama u strogo kontroliranim pogonima i općenito nisu dostupne civilnom osoblju. Sposobne odoljeti većini poznatih vrsta protumjera, ove su rakete brze za svoju veličinu i obično imaju egzotične bojeve glave za ekstremni razorni potencijal. Često je na brodovima koji ih nose potrebna specijalizirana oprema kako bi se rakete ispravno naoružale i programirale prije lansiranja."
+    "message": "Ove se rakete proizvode u visoko specijaliziranim tajnim pomorskim tvornicama unutar strogo kontroliranih pogona Generalno nisu dostupne civilnom osoblju. Sposobne su odoljeti većini poznatih protumjera, vrlo su brze za svoju veličinu i obično imaju egzotične bojeve glave za ekstremni razorni potencijal. Često su na brodovima koji sadrže specijaliziranu opremu kako bi se rakete ispravno naoružale i programirale prije lansiranja."
   },
   "MISSILE_RACK_221": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
@@ -481,7 +481,7 @@
   },
   "MISSILE_RACK_543_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "Prvo vam je Hydri Defense donio sjajni LH-320, a sada smo udvostručili njegov kapacitet! Samo naprijed i ostavite svoj trag na svakom sustavu koji se usudi prkositi vašoj moći."
+    "message": "Prvo vam je Hydri Defense donio sjajni LH-320, a sada smo udvostručili njegov kapacitet! Samo naprijed, ostavite svoj trag na svakom sustavu koji se usudi prkositi vašoj moći."
   },
   "MISSILE_RAIL_S1": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
@@ -493,7 +493,7 @@
   },
   "MISSILE_RAIL_S1_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "Hydri Defenseova ulazna šina, ovo je kvalitetan komad opreme za sve S1 projektile koji se pridržava ISAEEE standarda."
+    "message": "Hydri Defenseova ulazna šina je kvalitetan komad opreme za sve S1 projektile koje se pridržavaju ISAEEE standarda."
   },
   "MISSILE_RAIL_S2": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
@@ -553,7 +553,7 @@
   },
   "MISSILE_UNGUIDED_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "Masovno ih proizvode lokalni proizvođači na većini svjetova. U ponudi su oni koji s ljubavlju ručno izrađuju obrtnici na svjetovima u razvoju, a milijuni ih bezumno proizvode u automatiziranim mega-tvornicama na hiperindustrijaliziranim svjetovima.\nNo, bez obzira na izvor, specifikacije su strogo kontrolirane od strane ISAEEE-a i trebale bi raditi u većini kompatibilnih brodskih sustava."
+    "message": "Masovno ih proizvode lokalni proizvođači na većini svjetova. U ponudi su oni koje s ljubavlju ručno izrađuju obrtnici na svjetovima u razvoju, bezumno proizvođeni na milijune u automatiziranim mega-tvornicama širom hiperindustrijaliziranih svjetovia.\nNo, bez obzira otkud dolaze, njihove specifikacije su strogo kontrolirane od strane ISAEEE-a i trebale bi raditi u većini kompatibilnih brodskih sustava."
   },
   "NO_SUITABLE_EQUIPMENT": {
     "description": "Message in the start menu when editing equipment",
@@ -793,7 +793,7 @@
   },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
-    "message": "Mali akcelerator plazme"
+    "message": "Mali plazma akcelerator"
   },
   "STARTING_SCAN": {
     "description": "",
