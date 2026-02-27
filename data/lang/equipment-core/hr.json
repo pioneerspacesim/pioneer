@@ -165,7 +165,7 @@
   },
   "ECM_ADVANCED_DESCRIPTION": {
     "description": "",
-    "message": "Elektronski sustav za obranu od raketa, sposoban uništavati i naprednije rakete."
+    "message": "Elektronski sustav za obranu od raketa, sposoban uništavati i naprednije samonavođne rakete."
   },
   "ECM_BASIC": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "ECM_BASIC_DESCRIPTION": {
     "description": "",
-    "message": "Elektronski sustav obrane od raketa, sposoban za uništavanje nekih raketa."
+    "message": "Elektronski sustav obrane od raketa, sposoban za uništavanje nekih vrsta samonavodnih raketa."
   },
   "ECM_HOVER_MESSAGE": {
     "description": "",
@@ -353,19 +353,19 @@
   },
   "MININGCANNON_17MW": {
     "description": "",
-    "message": "17MW top eksplozivnih mina"
+    "message": "17MW rudarski top"
   },
   "MININGCANNON_17MW_DESCRIPTION": {
     "description": "",
-    "message": "Koristi se za rušenje asteroida bogatih mineralima."
+    "message": "Koristi se za razaranje asteroida bogatih mineralima."
   },
   "MININGCANNON_5MW": {
     "description": "",
-    "message": "5MW top eksplozivnih mina"
+    "message": "5MW rudarski top"
   },
   "MININGCANNON_5MW_DESCRIPTION": {
     "description": "",
-    "message": "Koristi se za rušenje asteroida bogatih mineralima."
+    "message": "Koristi se za razaranje asteroida bogatih mineralima."
   },
   "MISC_EQUIPMENT": {
     "description": "Category header for miscellaneous equipment",
