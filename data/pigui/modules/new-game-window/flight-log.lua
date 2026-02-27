@@ -153,7 +153,7 @@ local function systemPathFromTable(t)
 
 	local system = Location:getGalaxy():GetStarSystem(path)
 	if not system then
-		return SystemPath:SectorOnly()
+		return path:SectorOnly()
 	end
 	if path:IsSystemPath() then return path end
 
