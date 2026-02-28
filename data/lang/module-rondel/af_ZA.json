@@ -1,0 +1,66 @@
+{
+  "CREDITS_PROMISE": {
+    "description": "",
+    "message": "250,000 in cash. Right now. I would find that interesting."
+  },
+  "DEFENSE_CRAFT_ELIMINATED": {
+    "description": "",
+    "message": "System defense craft eliminated. Incident has been logged."
+  },
+  "HABER_DEFENSE_CRAFT": {
+    "description": "",
+    "message": "Haber Defense Craft"
+  },
+  "HEY_OVER_HERE": {
+    "description": "",
+    "message": "Hey, over here."
+  },
+  "HOSTILE_ACTION_REPORTED": {
+    "description": "",
+    "message": "Hostile action reported. Intercept and destroy!"
+  },
+  "INTERCEPTION_SUCCESSFUL": {
+    "description": "",
+    "message": "Interception successful. Hostile craft destroyed."
+  },
+  "JETTISON_DEFENSIVE_PRECAUTION": {
+    "description": "",
+    "message": "Jettison detected. Apply defensive precautions!"
+  },
+  "NOT_INTERESTED": {
+    "description": "",
+    "message": "What if I'm not interested?"
+  },
+  "PERFECT": {
+    "description": "",
+    "message": "Perfect. If anyone asks... Surely no one will ask, but if anyone asks, please remember that we were just haggling over a second hand shield generator."
+  },
+  "RONDEL_RESTRICTED_ZONE": {
+    "description": "",
+    "message": "{playerShipLabel}, this star system is a restricted zone. You must leave within {seconds} seconds. Should you fail to comply, you will be assumed hostile and defensive precautions will be taken."
+  },
+  "SOLFED_INTEL": {
+    "description": "",
+    "message": "Solar Federation Intelligence"
+  },
+  "SOLFED_INTEL_INTRO": {
+    "description": "",
+    "message": "Keep your voice down, pilot. I'm an undercover agent working for Solar Federation Intelligence. Your ship's computer memory has some data we are interested in."
+  },
+  "WEAPONS_EVASIVE_ACTION": {
+    "description": "",
+    "message": "Weapons discharge detected. Take evasive action!"
+  },
+  "WHAT_IS_THIS_ABOUT": {
+    "description": "",
+    "message": "What data? What is this all about?"
+  },
+  "YOU_SHALL_HAVE_THE_DATA": {
+    "description": "",
+    "message": "You shall have the data."
+  },
+  "YOU_VISITED_STAR_SYSTEM": {
+    "description": "",
+    "message": "You may or may not have visited some star system we would like to know more about."
+  }
+}
