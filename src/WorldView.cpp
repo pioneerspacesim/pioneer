@@ -222,21 +222,15 @@ void WorldView::Update()
 	FrameId playerFrameId = Pi::player->GetFrame();
 	FrameId camFrameId = m_cameraContext->GetTempFrame();
 
-	//speedlines and contact trails need camFrame for transform, so they
-	//must be updated here
-	if (Pi::AreSpeedLinesDisplayed()) {
+	//speedlines and contact trails need camFrame for transform, so they must be updated here
+	if (m_speedLines.get() && Pi::AreSpeedLinesDisplayed()) {
 		m_speedLines->Update(m_game->GetTimeStep());
 
 		matrix4x4d trans;
 		Frame::GetFrameTransform(playerFrameId, camFrameId, trans);
-
-		if (m_speedLines.get() && Pi::AreSpeedLinesDisplayed()) {
-			m_speedLines->Update(m_game->GetTimeStep());
-
-			trans[12] = trans[13] = trans[14] = 0.0;
-			trans[15] = 1.0;
-			m_speedLines->SetTransform(trans);
-		}
+		trans[12] = trans[13] = trans[14] = 0.0;
+		trans[15] = 1.0;
+		m_speedLines->SetTransform(trans);
 	}
 
 	if (Pi::AreHudTrailsDisplayed()) {

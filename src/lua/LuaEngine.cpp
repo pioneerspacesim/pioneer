@@ -481,7 +481,6 @@ static int l_engine_set_display_nav_tunnels(lua_State *l)
 		return luaL_error(l, "SetDisplayNavTunnels takes one boolean argument");
 	const bool enabled = lua_toboolean(l, 1);
 	Pi::config->SetInt("DisplayNavTunnel", (enabled ? 1 : 0));
-	Pi::SetNavTunnelDisplayed(enabled);
 	return 0;
 }
 
