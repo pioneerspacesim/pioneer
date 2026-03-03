@@ -343,6 +343,10 @@
     "description": "",
     "message": "好的，同意。"
   },
+  "ON_BOARD": {
+    "description": "Status indicator showing if a passenger is currently onboard the player's ship.",
+    "message": "On board"
+  },
   "PIRATE_ANSWER_1": {
     "description": "",
     "message": "我已将给{client}的答复传输给你。再见。"
@@ -455,6 +459,10 @@
     "description": "",
     "message": "星港:"
   },
+  "STATUS": {
+    "description": "Label indicating the status display of a requested passenger.",
+    "message": "Status:"
+  },
   "SUCCESS_ATK_1": {
     "description": "",
     "message": "What? {wanted} attacked you? Please accept this money as compensation!"
@@ -538,6 +546,10 @@
   "TRANSMITTING_MSG": {
     "description": "Message from the ship's computer",
     "message": "Transmitting message to ship {shipid}"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "未知"
   },
   "WANTED": {
     "description": "",

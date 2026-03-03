@@ -343,6 +343,10 @@
     "description": "",
     "message": "Ok, c'est d'accord."
   },
+  "ON_BOARD": {
+    "description": "Status indicator showing if a passenger is currently onboard the player's ship.",
+    "message": "À bord"
+  },
   "PIRATE_ANSWER_1": {
     "description": "",
     "message": "Je vous ai transféré une réponse pour {client}. Bonne journée."
@@ -455,6 +459,10 @@
     "description": "",
     "message": "Astroport:"
   },
+  "STATUS": {
+    "description": "Label indicating the status display of a requested passenger.",
+    "message": "Status : "
+  },
   "SUCCESS_ATK_1": {
     "description": "",
     "message": "Quoi ? {wanted} vous a attaqué ? Veuillez accepter cet argent en compensation !"
@@ -538,6 +546,10 @@
   "TRANSMITTING_MSG": {
     "description": "Message from the ship's computer",
     "message": "Transmission en cours du message vers le vaisseau {shipid}"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "Inconnu"
   },
   "WANTED": {
     "description": "",

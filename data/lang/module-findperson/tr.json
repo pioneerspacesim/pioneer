@@ -343,6 +343,10 @@
     "description": "",
     "message": "Tamam, kabul."
   },
+  "ON_BOARD": {
+    "description": "Status indicator showing if a passenger is currently onboard the player's ship.",
+    "message": "On board"
+  },
   "PIRATE_ANSWER_1": {
     "description": "",
     "message": "{client} için bir mesajı sana yolladım. Görüşmek üzere."
@@ -455,6 +459,10 @@
     "description": "",
     "message": "Yıldız Limanı:"
   },
+  "STATUS": {
+    "description": "Label indicating the status display of a requested passenger.",
+    "message": "Status:"
+  },
   "SUCCESS_ATK_1": {
     "description": "",
     "message": "Ne? {wanted} size saldırdı mı? Lütfen bu parayı tazminat olarak kabul edin!"
@@ -538,6 +546,10 @@
   "TRANSMITTING_MSG": {
     "description": "Message from the ship's computer",
     "message": "{shipid} gemisine mesaj iletiliyor"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "Bilinmeyen"
   },
   "WANTED": {
     "description": "",

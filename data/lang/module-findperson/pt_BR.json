@@ -343,6 +343,10 @@
     "description": "",
     "message": "OK, combinado."
   },
+  "ON_BOARD": {
+    "description": "Status indicator showing if a passenger is currently onboard the player's ship.",
+    "message": "On board"
+  },
   "PIRATE_ANSWER_1": {
     "description": "",
     "message": "I have transferred an answer for {client} to you. Good bye."
@@ -455,6 +459,10 @@
     "description": "",
     "message": "Base de Lançamento:"
   },
+  "STATUS": {
+    "description": "Label indicating the status display of a requested passenger.",
+    "message": "Status:"
+  },
   "SUCCESS_ATK_1": {
     "description": "",
     "message": "What? {wanted} attacked you? Please accept this money as compensation!"
@@ -538,6 +546,10 @@
   "TRANSMITTING_MSG": {
     "description": "Message from the ship's computer",
     "message": "Transmitting message to ship {shipid}"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "Unknown"
   },
   "WANTED": {
     "description": "",

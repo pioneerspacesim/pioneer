@@ -343,6 +343,10 @@
     "description": "",
     "message": "Добре, става."
   },
+  "ON_BOARD": {
+    "description": "Status indicator showing if a passenger is currently onboard the player's ship.",
+    "message": "On board"
+  },
   "PIRATE_ANSWER_1": {
     "description": "",
     "message": "Прехвърлих отговор за {client} към Вас. Довиждане."
@@ -455,6 +459,10 @@
     "description": "",
     "message": "Космодрум:"
   },
+  "STATUS": {
+    "description": "Label indicating the status display of a requested passenger.",
+    "message": "Status:"
+  },
   "SUCCESS_ATK_1": {
     "description": "",
     "message": "Какво? {wanted} Ви нападна? Моля, приемете тези кредити като обезщетение!"
@@ -538,6 +546,10 @@
   "TRANSMITTING_MSG": {
     "description": "Message from the ship's computer",
     "message": "Изпращане на съобщение до кораб {shipid}"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "Неизвестно"
   },
   "WANTED": {
     "description": "",

@@ -343,6 +343,10 @@
     "description": "",
     "message": "OK, överenskommet."
   },
+  "ON_BOARD": {
+    "description": "Status indicator showing if a passenger is currently onboard the player's ship.",
+    "message": "On board"
+  },
   "PIRATE_ANSWER_1": {
     "description": "",
     "message": "Jag har skickat ett svar för {client} till dig. Hej då."
@@ -455,6 +459,10 @@
     "description": "",
     "message": "Rymdstation:"
   },
+  "STATUS": {
+    "description": "Label indicating the status display of a requested passenger.",
+    "message": "Status:"
+  },
   "SUCCESS_ATK_1": {
     "description": "",
     "message": "Vad? {wanted} attackerade dig? Var snäll och acceptera dessa pengar som kompensation!"
@@ -538,6 +546,10 @@
   "TRANSMITTING_MSG": {
     "description": "Message from the ship's computer",
     "message": "För över meddelande till {shipid}"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "Okänd"
   },
   "WANTED": {
     "description": "",

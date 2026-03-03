@@ -343,6 +343,10 @@
     "description": "",
     "message": "OK, rendben."
   },
+  "ON_BOARD": {
+    "description": "Status indicator showing if a passenger is currently onboard the player's ship.",
+    "message": "On board"
+  },
   "PIRATE_ANSWER_1": {
     "description": "",
     "message": "Átküldtem a választ {client} számára. Viszlát!"
@@ -455,6 +459,10 @@
     "description": "",
     "message": "Kikötő:"
   },
+  "STATUS": {
+    "description": "Label indicating the status display of a requested passenger.",
+    "message": "Status:"
+  },
   "SUCCESS_ATK_1": {
     "description": "",
     "message": "Micsoda? {wanted} megtámadta? Kérem fogadja el ezt a pénzt kompenzációként!"
@@ -538,6 +546,10 @@
   "TRANSMITTING_MSG": {
     "description": "Message from the ship's computer",
     "message": "Üzenet továbbítása: {shipid}"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "Ismeretlen"
   },
   "WANTED": {
     "description": "",

@@ -343,6 +343,10 @@
     "description": "",
     "message": "Ok, ich bin dabei."
   },
+  "ON_BOARD": {
+    "description": "Status indicator showing if a passenger is currently onboard the player's ship.",
+    "message": "On board"
+  },
   "PIRATE_ANSWER_1": {
     "description": "",
     "message": "Ich habe Ihnen eine Antwort für {client} geschickt. Auf Wiedersehen. "
@@ -455,6 +459,10 @@
     "description": "",
     "message": "Raumhafen:"
   },
+  "STATUS": {
+    "description": "Label indicating the status display of a requested passenger.",
+    "message": "Status:"
+  },
   "SUCCESS_ATK_1": {
     "description": "",
     "message": "Wie bitte? {wanted} hatte Sie attackiert? Bitte akzeptieren Sie dieses Geld als Entschädigung."
@@ -538,6 +546,10 @@
   "TRANSMITTING_MSG": {
     "description": "Message from the ship's computer",
     "message": "Sende Nachricht an Schiff {shipid}."
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "Unbekannt"
   },
   "WANTED": {
     "description": "",

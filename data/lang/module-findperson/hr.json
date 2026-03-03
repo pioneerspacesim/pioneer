@@ -343,6 +343,10 @@
     "description": "",
     "message": "U redu, slažem se."
   },
+  "ON_BOARD": {
+    "description": "Status indicator showing if a passenger is currently onboard the player's ship.",
+    "message": "On board"
+  },
   "PIRATE_ANSWER_1": {
     "description": "",
     "message": "Proslijedio/la sam vam odgovor za {client}. Doviđenja."
@@ -455,6 +459,10 @@
     "description": "",
     "message": "Svemirska luka:"
   },
+  "STATUS": {
+    "description": "Label indicating the status display of a requested passenger.",
+    "message": "Status:"
+  },
   "SUCCESS_ATK_1": {
     "description": "",
     "message": "Što? Napao te je {wanted}? Molim te, prihvati ovaj novac kao odštetu!"
@@ -538,6 +546,10 @@
   "TRANSMITTING_MSG": {
     "description": "Message from the ship's computer",
     "message": "Slanje poruke brodu {shipid}"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "Nepoznato"
   },
   "WANTED": {
     "description": "",
