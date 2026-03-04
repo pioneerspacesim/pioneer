@@ -345,7 +345,7 @@
   },
   "ON_BOARD": {
     "description": "Status indicator showing if a passenger is currently onboard the player's ship.",
-    "message": "On board"
+    "message": "На борда"
   },
   "PIRATE_ANSWER_1": {
     "description": "",
@@ -461,7 +461,7 @@
   },
   "STATUS": {
     "description": "Label indicating the status display of a requested passenger.",
-    "message": "Status:"
+    "message": "Статус:"
   },
   "SUCCESS_ATK_1": {
     "description": "",
@@ -549,7 +549,7 @@
   },
   "UNKNOWN": {
     "description": "",
-    "message": "Неизвестно"
+    "message": "Неизвестен"
   },
   "WANTED": {
     "description": "",
