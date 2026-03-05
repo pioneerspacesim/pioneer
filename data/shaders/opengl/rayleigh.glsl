@@ -1,3 +1,6 @@
+int _iSamples = 16;
+int _oSamples = 8;
+
 // get height in m
 float height(const in vec3 rayStart)
 {
@@ -7,7 +10,7 @@ float height(const in vec3 rayStart)
 }
 
 // get density at given point
-vec2 getDensityAtPointNew(const in vec3 rayStart, const in sampler2D texture_LUT)
+vec2 getDensityAtPoint(const in vec3 rayStart, const in sampler2D texture_LUT)
 {
 	float height = height(rayStart); // in meters
 	float maxHeight = (geosphereAtmosTopRad - 1.f) * geosphereRadius;
@@ -21,11 +24,6 @@ vec2 getDensityAtPointNew(const in vec3 rayStart, const in sampler2D texture_LUT
 
 	density = density * 256 - 128;
 	return exp(density);
-}
-
-vec2 getDensityAtPoint(const in vec3 rayStart, const in sampler2D texture_LUT)
-{
-    return getDensityAtPointNew(rayStart, texture_LUT);
 }
 
 // replace (a, b) by (b, a) if a > b
@@ -101,25 +99,55 @@ vec4 getRaySegment(const in vec3 sunDirection, const in vec3 rayDirection, const
 	return atmosphere_minus_shadow;
 }
 
+vec3 directLight2dLUT(const in vec3 a, const in vec3 b, const in sampler2D rayleigh_LUT, const in sampler2D mie_LUT) {
+	float height = height(a);
+	float maxHeight = geosphereAtmosTopRad * geosphereRadius - geosphereRadius;
 
-vec3 calculateDirectLight(const in vec3 sunDirection, const in vec3 a, const in vec3 b, const in sampler2D texture_LUT, const int samples)
-{
+	float height_scaled = height / maxHeight;
+
+	float cos_phi = dot(normalize(b - a), normalize(a));
+
+	// acos() returns [0; PI], we need [0; 1]
+	float rad_phi = acos(-cos_phi) / PI;
+
+	vec2 density = vec2(0.f);
+	density.x = texture(rayleigh_LUT, vec2(rad_phi, height_scaled)).x;
+	density.y = texture(mie_LUT,      vec2(rad_phi, height_scaled)).x;
+
+	density = exp(density * 256 - 128);
+
 	vec3 betaR = 1e-6 * vec3(3.8, 13.5, 33.1);
 	vec3 betaM = 1e-6 * vec3(21.0);
 
+	return exp(-(betaR * density.x + betaM * density.y));
+}
+
+
+vec3 directLight1dLUT(const in vec3 a, const in vec3 b, const in sampler2D texture_LUT, const int samples) {
+
 	float segmentLength = length(b - a) / samples;
 
-	vec2 density = vec2(0.0);
+	vec2 density = vec2(0.f);
 	for (int i = 0; i < samples; ++i) {
 		vec3 c = mix(a, b, vec3(i + 0.5) / samples);
 
 		density += segmentLength * getDensityAtPoint(c, texture_LUT);
 	}
 
+	vec3 betaR = 1e-6 * vec3(3.8, 13.5, 33.1);
+	vec3 betaM = 1e-6 * vec3(21.0);
+
 	return exp(-(betaR * density.x + betaM * density.y));
 }
 
-void processLight(const in vec3 a, const in vec3 b, inout vec2 iDensity, inout vec3 color, const in vec3 sunDirection, const in vec3 rayDirection, const in vec4 diffuse, const in float uneclipsed, const in sampler2D texture_LUT) {
+
+vec3 calculateDirectLight(const in vec3 a, const in vec3 b, const in sampler2D texture_LUT, const int samples, const in sampler2D rayleigh_LUT, const in sampler2D mie_LUT)
+{
+    //return directLight1dLUT(a, b, texture_LUT, samples);
+    return directLight2dLUT(a, b, rayleigh_LUT, mie_LUT);
+}
+
+void processLight(const in vec3 a, const in vec3 b, inout vec2 iDensity, inout vec3 color, const in vec3 sunDirection, const in vec3 rayDirection, const in vec4 diffuse, const in float uneclipsed, const in sampler2D texture_LUT, const in sampler2D rayleigh_LUT, const in sampler2D mie_LUT) {
 	if (a == b)
 		return;
 
@@ -129,21 +157,19 @@ void processLight(const in vec3 a, const in vec3 b, inout vec2 iDensity, inout v
 	vec3 betaR = 1e-6 * vec3(3.8, 13.5, 33.1);
 	vec3 betaM = 1e-6 * vec3(21.0);
 
-	int iSamples = 16;
-	int oSamples = 8;
+	int iSamples = _iSamples;
+	int oSamples = _oSamples;
 	float iSegmentLength = length(b - a) / iSamples;
+	if (iSegmentLength == 0.0) {
+		return;
+	}
 
 	for (int i = 0; i < iSamples; ++i) {
-		if (iSegmentLength == 0.0) {
-			break;
-		}
-
-		vec3 c = mix(a, b, vec3(i + 0.5) / iSamples);
+		vec3 c = mix(b, a, vec3(i + 0.5f) / iSamples);
 
 		vec2 deltaDensity = iSegmentLength * getDensityAtPoint(c, texture_LUT);
 
-		if (raySphereIntersect(-c, sunDirection, geosphereRadius).y > 0.0)
-			continue;
+		vec2 intersect = raySphereIntersect(-c, sunDirection, geosphereRadius);
 
 		float d_scal = raySphereIntersect(-c, sunDirection, geosphereRadius * geosphereAtmosTopRad).y;
 		vec3 d = c + sunDirection * d_scal;
@@ -153,7 +179,7 @@ void processLight(const in vec3 a, const in vec3 b, inout vec2 iDensity, inout v
 		vec3 sunColor = atmosDiffuse.xyz; // incoming color
 
 		// before scattering
-		vec3 color0 = sunColor * calculateDirectLight(sunDirection, c, d, texture_LUT, oSamples);
+		vec3 color0 = sunColor * calculateDirectLight(c, d, texture_LUT, oSamples, rayleigh_LUT, mie_LUT);
 
 		// during scattering
 		vec3 color1R = color0 * betaR * phaseR * deltaDensity.x;
@@ -164,11 +190,11 @@ void processLight(const in vec3 a, const in vec3 b, inout vec2 iDensity, inout v
 		vec3 color2 = color1 * exp(-(betaR * iDensity.x + betaM * iDensity.y));
 
 		iDensity += deltaDensity;
-		color += color2;
+		color += (intersect.y > 0.f) ? vec3(0.f) : color2;
 	}
 }
 
-vec3 calculateIncidentLight(const in vec3 sunDirection, const in vec3 rayDirection, const in vec3 rayStart, const in vec4 diffuse, const in float uneclipsed, const in sampler2D texture_LUT)
+vec3 calculateIncidentLight(const in vec3 sunDirection, const in vec3 rayDirection, const in vec3 rayStart, const in vec4 diffuse, const in float uneclipsed, const in sampler2D texture_LUT, const in sampler2D rayleigh_LUT, const in sampler2D mie_LUT)
 {
 	vec4 segment = getRaySegment(sunDirection, rayDirection, rayStart);
 
@@ -188,14 +214,14 @@ vec3 calculateIncidentLight(const in vec3 sunDirection, const in vec3 rayDirecti
 	vec2 density = vec2(0.0);
 	vec3 color = vec3(0.f);
 
-	processLight(a, b, density, color, sunDirection, rayDirection, diffuse, uneclipsed, texture_LUT);
-	processLight(b, c, density, color, sunDirection, rayDirection, diffuse, uneclipsed, texture_LUT);
-	processLight(c, d, density, color, sunDirection, rayDirection, diffuse, uneclipsed, texture_LUT);
+	processLight(a, b, density, color, sunDirection, rayDirection, diffuse, uneclipsed, texture_LUT, rayleigh_LUT, mie_LUT);
+	processLight(b, c, density, color, sunDirection, rayDirection, diffuse, uneclipsed, texture_LUT, rayleigh_LUT, mie_LUT);
+	processLight(c, d, density, color, sunDirection, rayDirection, diffuse, uneclipsed, texture_LUT, rayleigh_LUT, mie_LUT);
 
 	return color;
 }
 
-vec3 calculateTerrainLight(const in vec3 sunDirection, const in vec3 rayDirection, const in vec3 camera, const in sampler2D texture_LUT, const int samples)
+vec3 calculateTerrainLight(const in vec3 sunDirection, const in vec3 rayDirection, const in vec3 camera, const in sampler2D texture_LUT, const int samples, const in sampler2D rayleigh_LUT, const in sampler2D mie_LUT)
 {
 	// get terrain intersection
 	vec2 sectTerrain = raySphereIntersect(camera, rayDirection, geosphereRadius);
@@ -204,25 +230,29 @@ vec3 calculateTerrainLight(const in vec3 sunDirection, const in vec3 rayDirectio
 	vec2 sectAtm = raySphereIntersect(-rayStart, sunDirection, geosphereRadius * geosphereAtmosTopRad);
 	vec3 rayFinish = sunDirection * sectAtm.y + rayStart;
 
-	return calculateDirectLight(sunDirection, rayStart, rayFinish, texture_LUT, samples);
+	vec3 light = calculateDirectLight(rayStart, rayFinish, texture_LUT, samples, rayleigh_LUT, mie_LUT);
+
+	return light;
 }
 
-vec3 calculateTerrainColor(const in vec4 planet, const in vec4 atmosphere, const in vec4 lightColor, const in vec3 lightDir, const in vec3 rayStart, const in vec3 rayDir, const in float uneclipsed, const in sampler2D texture_LUT)
+vec3 calculateTerrainColor(const in vec4 planet, const in vec4 atmosphere, const in vec4 lightColor, const in vec3 lightDir, const in vec3 rayStart, const in vec3 rayDir, const in float uneclipsed, const in sampler2D texture_LUT, const in sampler2D rayleigh_LUT, const in sampler2D mie_LUT)
 {
 	// rayStart is already multiplied by planet radius
 	vec3 planetPosition = planet.xyz * planet.w + rayStart;
 
 	vec3 atmospherePosition = atmosphere.xyz * atmosphere.w;
 
-	return calculateTerrainLight(lightDir, rayDir, planetPosition, texture_LUT, 16);
+	vec3 light = calculateTerrainLight(lightDir, rayDir, planetPosition, texture_LUT, _iSamples, rayleigh_LUT, mie_LUT);
+
+	return light;
 }
 
-vec3 calculateAtmosphereColor(const in vec4 planet, const in vec4 atmosphere, const in vec4 lightColor, const in vec3 lightDir, const in vec3 rayStart, const in vec3 rayDir, const in float uneclipsed, const in sampler2D texture_LUT)
+vec3 calculateAtmosphereColor(const in vec4 planet, const in vec4 atmosphere, const in vec4 lightColor, const in vec3 lightDir, const in vec3 rayStart, const in vec3 rayDir, const in float uneclipsed, const in sampler2D texture_LUT, const in sampler2D rayleigh_LUT, const in sampler2D mie_LUT)
 {
     // rayStart is already multiplied by planet radius
     vec3 planetPosition = planet.xyz * planet.w + rayStart;
 
     vec3 atmospherePosition = atmosphere.xyz * atmosphere.w;
 
-    return calculateIncidentLight(lightDir, rayDir, -planetPosition, lightColor, uneclipsed, texture_LUT);;
+    return calculateIncidentLight(lightDir, rayDir, -planetPosition, lightColor, uneclipsed, texture_LUT, rayleigh_LUT, mie_LUT);
 }

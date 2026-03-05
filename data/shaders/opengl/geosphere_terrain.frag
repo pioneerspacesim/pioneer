@@ -11,7 +11,10 @@
 uniform sampler2D texture0;
 uniform sampler2D texture1;
 in vec2 texCoord0;
+
 uniform sampler2D scatterLUT;
+uniform sampler2D rayleighLUT;
+uniform sampler2D mieLUT;
 
 uniform int NumShadows;
 
@@ -84,31 +87,29 @@ void main(void)
 		lightColor.xyz = vec3(1.f, 1.f, 1.f);
 
 		// Color loss through atmosphere from sun to terrain
-		terrainDiffIn = calculateTerrainColor(planet, atmosphere, lightColor, L, (I - geosphereCenter) * geosphereRadius, eyenorm, uneclipsed, scatterLUT);
+		terrainDiffIn = calculateTerrainColor(planet, atmosphere, lightColor, L, (I - geosphereCenter) * geosphereRadius, eyenorm, uneclipsed, scatterLUT, rayleighLUT, mieLUT);
 #ifdef TERRAIN_WITH_WATER
 		//water only for specular
 		if (vertexColor.b > 0.05 && vertexColor.r < 0.05) {
-			waterSpecular = calculateAtmosphereColor(planet, atmosphere, lightColor, reflect(L, I), (I - geosphereCenter) * geosphereRadius, eyenorm, uneclipsed, scatterLUT);
+			waterSpecular = calculateAtmosphereColor(planet, atmosphere, lightColor, reflect(L, I), (I - geosphereCenter) * geosphereRadius, eyenorm, uneclipsed, scatterLUT, rayleighLUT, mieLUT);
 
 			terrainDiffIn = vec3(0.f);
 		}
 #endif
 		// start with diffuse terrain color
-		vec3 terrain = vertexColor.xyz * diff.xyz;
-
-		terrain *= max(0.f, dot(L, I));
-
+		vec3 terrain = vertexColor.xyz;
 		terrain *= terrainDiffIn;
+		terrain *= max(0.f, dot(L, I));
 
 		// add water reflections
 		terrain += waterSpecular * 20;
 
-		terrainDiffOut = calculateTerrainColor(planet, atmosphere, lightColor, L, (I - geosphereCenter) * geosphereRadius, -eyenorm, uneclipsed, scatterLUT);
+		terrainDiffOut = calculateTerrainColor(planet, atmosphere, lightColor, I, (I - geosphereCenter) * geosphereRadius, eyenorm, uneclipsed, scatterLUT, rayleighLUT, mieLUT);
 
 		// some light is again lost in atmosphere
 		terrain *= terrainDiffOut;
 
-		atmosphereDiff = calculateAtmosphereColor(planet, atmosphere, lightColor, L, vec3(0.0), eyenorm, uneclipsed, scatterLUT);
+		atmosphereDiff = calculateAtmosphereColor(planet, atmosphere, lightColor, L, vec3(0.0), eyenorm, uneclipsed, scatterLUT, rayleighLUT, mieLUT);
 
 		terrain += atmosphereDiff * 20;
 

@@ -66,6 +66,8 @@ protected:
 	AtmosphereParameters m_atmosphereParameters;
 
 	RefCountedPtr<Graphics::Texture> m_scatteringTexture;
+	RefCountedPtr<Graphics::Texture> m_scatteringTextureR;
+	RefCountedPtr<Graphics::Texture> m_scatteringTextureM;
 
 private:
 	static void ResetAtmosphereGeometry(Graphics::Renderer *renderer);
