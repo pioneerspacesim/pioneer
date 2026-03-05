@@ -8,6 +8,8 @@
 
 uniform int NumShadows;
 uniform sampler2D scatterLUT;
+uniform sampler2D rayleighLUT;
+uniform sampler2D mieLUT;
 
 in vec4 varyingEyepos;
 in vec4 vertexColor;
@@ -54,4 +56,21 @@ void main(void)
 
 	frag_color = toSRGB(1 - exp(-color));
 
+#if 1
+    frag_color = vec4(0.f, 0.f, 0.f, 1.f);
+
+    // gl_FragCoord: [0-1280], [0, 720]
+
+    frag_color.x = texelFetch(rayleighLUT, ivec2(gl_FragCoord.x - 512, gl_FragCoord.y - 232), 0).x;
+    //frag_color.y = texture(mieLUT, vec2(gl_FragCoord.x / (64 * 2), gl_FragCoord.y / (36 * 256))).x;
+    // draw border
+    bool outer_range = (136 < gl_FragCoord.x) || (620 < gl_FragCoord.y);
+    bool inner_range = (gl_FragCoord.x < 128) && (gl_FragCoord.y < 612);
+
+    if (!inner_range && !outer_range) {
+        frag_color.xyz = vec3(0.f, 0.f, 0.25f);
+    }
+
+    //frag_color.xyz = texelFetch(scatterLUT, ivec2(gl_FragCoord.x / 64, gl_FragCoord.y / 36), 0).x == 0 ? vec3(0.1f, 0.0f, 0.1f) : vec3(0.0f, 0.0f, 0.1f);
+#endif
 }
