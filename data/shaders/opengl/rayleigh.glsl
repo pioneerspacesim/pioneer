@@ -1,16 +1,16 @@
 // get height in m
-float height(const in vec3 orig, const in vec3 center)
+float height(const in vec3 orig, const in vec3 rayStart)
 {
-	vec3 r = orig - center;
+	vec3 r = orig - rayStart;
 	float height = sqrt(dot(r, r)) - geosphereRadius;
 
 	return height;
 }
 
 // get density at given point
-vec2 getDensityAtPointOld(const in vec3 orig, const in vec3 center, const in sampler2D texture_LUT)
+vec2 getDensityAtPointOld(const in vec3 orig, const in vec3 rayStart, const in sampler2D texture_LUT)
 {
-	float height = height(orig, center); // in meters
+	float height = height(orig, rayStart); // in meters
 
 	vec2 density = -height / scaleHeight;
 
@@ -22,9 +22,9 @@ vec2 getDensityAtPointOld(const in vec3 orig, const in vec3 center, const in sam
 }
 
 // get density at given point
-vec2 getDensityAtPointNew(const in vec3 orig, const in vec3 center, const in sampler2D texture_LUT)
+vec2 getDensityAtPointNew(const in vec3 orig, const in vec3 rayStart, const in sampler2D texture_LUT)
 {
-	float height = height(orig, center); // in meters
+	float height = height(orig, rayStart); // in meters
 	float maxHeight = (geosphereAtmosTopRad - 1.f) * geosphereRadius;
 
 	float ratio = height / maxHeight;
@@ -38,12 +38,12 @@ vec2 getDensityAtPointNew(const in vec3 orig, const in vec3 center, const in sam
 	return exp(density);
 }
 
-vec2 getDensityAtPoint(const in vec3 orig, const in vec3 center, const in sampler2D texture_LUT)
+vec2 getDensityAtPoint(const in vec3 orig, const in vec3 rayStart, const in sampler2D texture_LUT)
 {
 #if 1
-    return getDensityAtPointNew(orig, center, texture_LUT);
+    return getDensityAtPointNew(orig, rayStart, texture_LUT);
 #else
-    return getDensityAtPointOld(orig, center, texture_LUT);
+    return getDensityAtPointOld(orig, rayStart, texture_LUT);
 #endif
 }
 
@@ -61,13 +61,13 @@ vec2 getDensityAtPoint(const in vec3 orig, const in vec3 center, const in sample
  *              |
  *              * O
  */
-void findClosestHeight(out float h, out float t, const in vec3 orig, const in vec3 dir, const in vec3 center)
+void findClosestHeight(out float h, out float t, const in vec3 orig, const in vec3 rayDirection, const in vec3 rayStart)
 {
-	vec3 radiusVector = center - orig;
-	vec3 tangent = dot(dir, radiusVector) * dir;
+	vec3 radiusVector = rayStart - orig;
+	vec3 tangent = dot(rayDirection, radiusVector) * rayDirection;
 	vec3 normal = radiusVector - tangent;
 	h = sqrt(dot(normal, normal));
-	t = dot(tangent, dir);
+	t = dot(tangent, rayDirection);
 }
 
 // error function approx., used in predictDensityIn
@@ -126,10 +126,10 @@ float predictDensityIn(const in float radius, const in float atmosphereHeight, c
 //     k * exp(-height * b) for out-scattering density: k = density along the ray tangent to planet surface
 //                                                      b = height at which density reduces by e
 //     erf(c * t) for in-scattering density: c = density derivative per 1 km along the ray, assuming: k = 1, height = 0, t = 0 at tangent point
-float predictDensityInOut(const in vec3 sample, const in vec3 dir, const in vec3 center, const in float radius, const in float atmosphereHeight, const in vec3 coefficients)
+float predictDensityInOut(const in vec3 sample, const in vec3 rayDirection, const in vec3 rayStart, const in float radius, const in float atmosphereHeight, const in vec3 coefficients)
 {
     float h, t;
-    findClosestHeight(h, t, sample, dir, center);
+    findClosestHeight(h, t, sample, rayDirection, rayStart);
     h -= radius;
 
     float opticalDepth = 0.f;
@@ -141,7 +141,7 @@ float predictDensityInOut(const in vec3 sample, const in vec3 dir, const in vec3
     return opticalDepth;
 }
 
-void skipRay(inout vec2 opticalDepth, const in vec3 dir, const in vec2 boundaries, const in vec3 center, const in sampler2D texture_LUT)
+void skipRay(inout vec2 opticalDepth, const in vec3 rayDirection, const in vec2 boundaries, const in vec3 rayStart, const in sampler2D texture_LUT)
 {
 	if (boundaries.y == boundaries.x)
 		return;
@@ -151,17 +151,17 @@ void skipRay(inout vec2 opticalDepth, const in vec3 dir, const in vec2 boundarie
 	float tCurrent = boundaries.x;
 	float segmentLength = (boundaries.y - boundaries.x) / numSamples;
 	for (int i = 0; i < numSamples; ++i) {
-		vec3 samplePosition = vec3(tCurrent + segmentLength * 0.5f) * dir;
+		vec3 samplePosition = vec3(tCurrent + segmentLength * 0.5f) * rayDirection;
 
 		// primary ray is approximated by (density * isegmentLength)
-		vec2 density = getDensityAtPoint(samplePosition, center, texture_LUT);
+		vec2 density = getDensityAtPoint(samplePosition, rayStart, texture_LUT);
 		opticalDepth += density * segmentLength;
 
 		tCurrent += segmentLength;
 	}
 }
 
-void processRayFast(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, const in vec3 sunDirection, const in vec3 dir, const in vec2 boundaries, const in vec3 center, const in vec4 diffuse, const in float uneclipsed, const in sampler2D texture_LUT)
+void processRayFast(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, const in vec3 sunDirection, const in vec3 rayDirection, const in vec2 boundaries, const in vec3 rayStart, const in vec4 diffuse, const in float uneclipsed, const in sampler2D texture_LUT)
 {
 	if (boundaries.y == boundaries.x)
 		return;
@@ -177,9 +177,9 @@ void processRayFast(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 	float tCurrent = boundaries.x;
 	float segmentLength = (boundaries.y - boundaries.x) / numSamples;
 	for (int i = 0; i < numSamples; ++i) {
-		vec3 samplePosition = vec3(tCurrent + segmentLength * 0.5f) * dir;
+		vec3 samplePosition = vec3(tCurrent + segmentLength * 0.5f) * rayDirection;
 
-		vec2 density = getDensityAtPoint(samplePosition, center, texture_LUT);
+		vec2 density = getDensityAtPoint(samplePosition, rayStart, texture_LUT);
 		vec2 depthAdd = density * segmentLength;
 		opticalDepth += depthAdd;
 
@@ -187,7 +187,7 @@ void processRayFast(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 		vec2 opticalDepthLight = vec2(0.f);
 		vec3 samplePositionLight = samplePosition;
 
-		vec3 sampleGeoCenter = center - samplePosition;
+		vec3 sampleGeoCenter = rayStart - samplePosition;
 		opticalDepthLight.x = predictDensityInOut(samplePositionLight, sunDirection, sampleGeoCenter, geosphereRadius, atmosphereHeight, coefficientsR);
 		opticalDepthLight.y = predictDensityInOut(samplePositionLight, sunDirection, sampleGeoCenter, geosphereRadius, atmosphereHeight, coefficientsM);
 
@@ -202,7 +202,7 @@ void processRayFast(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 	}
 }
 
-void processRayFull(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, const in vec3 sunDirection, const in vec3 dir, const in vec2 boundaries, const in vec3 center, const in vec4 diffuse, const in float uneclipsed, const in sampler2D texture_LUT)
+void processRayFull(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, const in vec3 sunDirection, const in vec3 rayDirection, const in vec2 boundaries, const in vec3 rayStart, const in vec4 diffuse, const in float uneclipsed, const in sampler2D texture_LUT)
 {
 	if (boundaries.y == boundaries.x)
 		return;
@@ -218,15 +218,15 @@ void processRayFull(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 	float tCurrent = boundaries.x;
 	float segmentLength = (boundaries.y - boundaries.x) / numSamples;
 	for (int i = 0; i < numSamples; ++i) {
-		vec3 samplePosition = vec3(tCurrent + segmentLength * 0.5f) * dir;
+		vec3 samplePosition = vec3(tCurrent + segmentLength * 0.5f) * rayDirection;
 
-		vec2 density = getDensityAtPoint(samplePosition, center, texture_LUT);
+		vec2 density = getDensityAtPoint(samplePosition, rayStart, texture_LUT);
 		vec2 depthAdd = density * segmentLength;
 		opticalDepth += depthAdd;
 
 		// light optical depth
 		vec2 opticalDepthLight = vec2(0.f);
-		vec3 sampleGeoCenter = center - samplePosition;
+		vec3 sampleGeoCenter = rayStart - samplePosition;
 
 		int numSamplesLight = 8;
 		vec2 boundariesLight = raySphereIntersect(sampleGeoCenter, sunDirection, geosphereRadius * geosphereAtmosTopRad);
@@ -234,7 +234,7 @@ void processRayFull(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 		float tCurrentLight = 0.f;
 		for (int j = 0; j < numSamplesLight; ++j) {
 			vec3 samplePositionLight = vec3(segmentLengthLight * 0.5f + tCurrentLight) * sunDirection + samplePosition;
-			vec2 densityLDir = getDensityAtPoint(samplePositionLight, center, texture_LUT);
+			vec2 densityLDir = getDensityAtPoint(samplePositionLight, rayStart, texture_LUT);
 			opticalDepthLight += densityLDir * segmentLengthLight;
 
 			tCurrentLight += segmentLengthLight;
@@ -251,12 +251,12 @@ void processRayFull(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, c
 	}
 }
 
-void processRay(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, const in vec3 sunDirection, const in vec3 dir, const in vec2 boundaries, const in vec3 center, const in vec4 diffuse, const in float uneclipsed, const in sampler2D texture_LUT)
+void processRay(inout vec3 sumR, inout vec3 sumM, inout vec2 opticalDepth, const in vec3 sunDirection, const in vec3 rayDirection, const in vec2 boundaries, const in vec3 rayStart, const in vec4 diffuse, const in float uneclipsed, const in sampler2D texture_LUT)
 {
 #if 1
-    processRayFull(sumR, sumM, opticalDepth, sunDirection, dir, boundaries, center, diffuse, uneclipsed, texture_LUT);
+    processRayFull(sumR, sumM, opticalDepth, sunDirection, rayDirection, boundaries, rayStart, diffuse, uneclipsed, texture_LUT);
 #else
-    processRayFast(sumR, sumM, opticalDepth, sunDirection, dir, boundaries, center, diffuse, uneclipsed, texture_LUT);
+    processRayFast(sumR, sumM, opticalDepth, sunDirection, rayDirection, boundaries, rayStart, diffuse, uneclipsed, texture_LUT);
 #endif
 }
 
@@ -293,21 +293,21 @@ vec4 segmentSubtraction(const in vec2 a, const in vec2 b)
  * - yz: ray inside shadow
  * - zw: ray after shadow
  */
-vec4 getRaySegment(const in vec3 sunDirection, const in vec3 dir, const in vec3 center)
+vec4 getRaySegment(const in vec3 sunDirection, const in vec3 rayDirection, const in vec3 rayStart)
 {
 	// solve Cylinder entry/exit dist
-	vec2 cylinder_intersect = rayCylinderIntersect(dir, center, sunDirection, geosphereRadius);
+	vec2 cylinder_intersect = rayCylinderIntersect(rayDirection, rayStart, sunDirection, geosphereRadius);
 	bool hasIntersect = cylinder_intersect.x != 0 || cylinder_intersect.y != 0;
 
-	vec3 cylinder_near = center - dir * cylinder_intersect.x;
-	vec3 cylinder_far  = center - dir * cylinder_intersect.y;
+	vec3 cylinder_near = rayStart - rayDirection * cylinder_intersect.x;
+	vec3 cylinder_far  = rayStart - rayDirection * cylinder_intersect.y;
 
 	// test if ray passes through shadow
 	float a = dot(cylinder_near, sunDirection);
 	float b = dot(cylinder_far , sunDirection);
 	bool intersectsShadow = hasIntersect && (a > 0.f || b > 0.f);
 
-	vec2 ground_intersect = raySphereIntersect(center, dir, geosphereRadius);
+	vec2 ground_intersect = raySphereIntersect(rayStart, rayDirection, geosphereRadius);
 	bool shadowVisible = intersectsShadow && ground_intersect.x == 0.f;
 
 	/*
@@ -320,7 +320,7 @@ vec4 getRaySegment(const in vec3 sunDirection, const in vec3 dir, const in vec3 
 	*    (tmin, cylinder_intersect.x) + (cylinder_intersect.y, tmax)
 	*/
 
-	vec2 atmosphere_intersect = raySphereIntersect(center, dir, geosphereRadius * geosphereAtmosTopRad);
+	vec2 atmosphere_intersect = raySphereIntersect(rayStart, rayDirection, geosphereRadius * geosphereAtmosTopRad);
 	vec4 atmosphere_minus_shadow = shadowVisible ? segmentSubtraction(atmosphere_intersect, cylinder_intersect) : vec4(atmosphere_intersect.x, atmosphere_intersect.y, atmosphere_intersect.y, atmosphere_intersect.y);
 
 	if (ground_intersect.x > 0.f) {
@@ -333,7 +333,7 @@ vec4 getRaySegment(const in vec3 sunDirection, const in vec3 dir, const in vec3 
 	return atmosphere_minus_shadow;
 }
 
-vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const in vec3 center, const in vec4 diffuse, const in float uneclipsed, const in sampler2D texture_LUT)
+vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 rayDirection, const in vec3 rayStart, const in vec4 diffuse, const in float uneclipsed, const in sampler2D texture_LUT)
 {
 	vec3 betaR = vec3(3.8e-6f, 13.5e-6f, 33.1e-6f);
 	vec3 betaM = vec3(21e-6f);
@@ -342,13 +342,13 @@ vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 dir, const i
 	vec3 sumM = vec3(0.f);
 	vec2 opticalDepth = vec2(0.f);
 
-	vec4 segment = getRaySegment(sunDirection, dir, center);
+	vec4 segment = getRaySegment(sunDirection, rayDirection, rayStart);
 
-	processRay(sumR, sumM, opticalDepth, sunDirection, dir, segment.xy, center, diffuse, uneclipsed, texture_LUT);
-	skipRay(opticalDepth, dir, segment.yz, center, texture_LUT);
-	processRay(sumR, sumM, opticalDepth, sunDirection, dir, segment.zw, center, diffuse, uneclipsed, texture_LUT);
+	processRay(sumR, sumM, opticalDepth, sunDirection, rayDirection, segment.xy, rayStart, diffuse, uneclipsed, texture_LUT);
+	skipRay(opticalDepth, rayDirection, segment.yz, rayStart, texture_LUT);
+	processRay(sumR, sumM, opticalDepth, sunDirection, rayDirection, segment.zw, rayStart, diffuse, uneclipsed, texture_LUT);
 
-	float mu = dot(dir, sunDirection); // mu in the paper which is the cosine of the angle between the sun direction and the ray direction
+	float mu = dot(rayDirection, sunDirection); // mu in the paper which is the cosine of the angle between the sun direction and the ray direction
 	float phaseR = rayleighPhaseFunction(mu);
 	float phaseM = miePhaseFunction(0.76f, mu);
 
