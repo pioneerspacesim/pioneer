@@ -1,20 +1,27 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game    = require 'Game'
 local Economy = require 'Economy'
 local ui      = require 'pigui'
 local utils   = require 'utils'
+local PlayerState = require 'PlayerState'
 
 local lc = require 'Lang'.GetResource('core')
 local lui = require 'Lang'.GetResource('ui-core')
 local lcomm = require 'Lang'.GetResource('commodity')
 
 local Commodities = Economy.GetCommodities()
+local CommodityType = require 'CommodityType'
 
 local icons = ui.theme.icons
 local colors = ui.theme.colors
 local pionillium = ui.fonts.pionillium
+
+local sidebarStyle = require 'pigui.styles'.sidebar
+local childFlags = ui.ChildFlags { 'AlwaysUseWindowPadding', 'Borders' }
+
+local noScrollbar = ui.WindowFlags{ 'NoScrollbar' }
 
 ---@class UI.SystemEconView
 ---@field New fun(): self
@@ -70,9 +77,10 @@ function SystemEconView.GetPricemod(item, price)
 end
 
 function SystemEconView:Constructor()
+	self.cachedSystems = {}
 	self.compareMode = CompareMode.BySystem
 	self.selectedCommodity = nil
-	self.savedMarket = nil
+	self.savedMarkets = {}
 end
 
 ---@param sys StarSystem
@@ -86,7 +94,8 @@ function SystemEconView.buildCommodityList(sys, otherSys)
 		local otherLegal = otherSys and otherSys:IsCommodityLegal(name)
 
 		local tab = {
-			lcomm[info.l10n_key],
+			name = name,
+			CommodityType.GetCommodity(name):GetProperName(),
 			legal and sys:GetCommodityBasePriceAlterations(name),
 			otherSys and otherLegal and otherSys:GetCommodityBasePriceAlterations(name)
 		}
@@ -117,7 +126,8 @@ function SystemEconView.buildStationCommodityList(system, station, otherStation)
 		local otherPrice = otherStation and otherStation:GetCommodityPrice(item)
 
 		local tab = {
-			lcomm[item.l10n_key],
+			name = name,
+			CommodityType.GetCommodity(name):GetProperName(),
 			legal and SystemEconView.GetPricemod(item, price) - systemPrice,
 			legal and otherPrice and SystemEconView.GetPricemod(item, otherPrice) - systemPrice
 		}
@@ -149,7 +159,7 @@ end
 local function drawExportTooltip(price)
 	local cls = SystemEconView.ClassifyPrice(price) or priceModTab.minimal_trade
 	ui.sameLine()
-	ui.textColored(cls[2], cls[3])
+	ui.textColored(cls[2], cls[3] .. (cls[1] and " " .. ui.get_icon_glyph(cls[1]) or ""))
 end
 
 local function drawCommodityTooltip(info, thisSystem, otherSystem)
@@ -176,51 +186,77 @@ local function drawCommodityTooltip(info, thisSystem, otherSystem)
 	end)
 end
 
----@param thisSystem table
----@param otherSystem table?
+local function add_bookmark(commInfo, thisSystem, otherSystem)
+	if commInfo[2] and commInfo[3] and commInfo[2] < commInfo[3] then
+		PlayerState.AddBookmark(thisSystem.path, { route_to = otherSystem.path, commodity = commInfo.name })
+	else
+		PlayerState.AddBookmark(otherSystem.path, { route_to = thisSystem.path, commodity = commInfo.name })
+	end
+end
+
+---@param thisSystem StarSystem|SystemBody
+---@param otherSystem StarSystem|SystemBody?
 function SystemEconView:drawCommodityList(commList, illegalList, thisSystem, otherSystem)
-	local width = ui.getColumnWidth()
+	sidebarStyle:push()
+
 	local iconWidth = ui.getTextLineHeight() + 4
 	local iconSize = Vector2(iconWidth, iconWidth)
 
-	ui.child("CommodityList", Vector2(0, 0), ui.WindowFlags{"NoScrollbar"}, function()
+	local spacing = ui.getItemSpacing().x
+
+	ui.child("CommodityList", Vector2(0, 0), noScrollbar, childFlags, function()
 		for _, info in ipairs(commList) do
-			ui.group(function()
+			if otherSystem then
+				local bookmark = ui.iconButton("bookmark_" .. info.name, icons.bookmark, lui.ADD_BOOKMARK, nil, iconSize)
+				ui.sameLine()
+
+				if bookmark then
+					add_bookmark(info, thisSystem, otherSystem)
+				end
+			end
+
+			ui.horizontalGroup(function()
+
+				ui.alignTextToLineHeight(iconWidth)
 				ui.text(info[1])
-				ui.sameLine(width - iconWidth * 3)
+				ui.sameLine(-iconWidth * 3 -spacing * 2)
 
 				drawIcon(otherSystem and getProfitabilityInfo(info[2], info[3]), iconSize)
 
 				if otherSystem then
-					ui.sameLine(0, 0)
 					drawIcon(SystemEconView.ClassifyPrice(info[3]), iconSize)
-					ui.sameLine(0, 0)
 				else
-					ui.sameLine(0, iconWidth)
+					ui.sameLine(-iconWidth)
 				end
 
 				drawIcon(SystemEconView.ClassifyPrice(info[2]), iconSize)
 			end)
 
-			if ui.isItemHovered() then
+			if ui.isItemHovered("ForTooltip") then
 				drawCommodityTooltip(info, thisSystem, otherSystem)
 			end
 		end
 
 		if not illegalList or #illegalList == 0 then return end
 
-		ui.spacing()
-		ui.separator()
-		ui.spacing()
 		ui.withStyleColors({ Text = colors.econIllegalCommodity }, function()
-			ui.text(lc.ILLEGAL_GOODS)
+			ui.separatorText(lc.ILLEGAL_GOODS)
 		end)
-		ui.spacing()
 
 		for _, info in ipairs(illegalList) do
+
+			if otherSystem then
+				local bookmark = ui.iconButton("bookmark_" .. info[1], icons.bookmark, lui.ADD_BOOKMARK, nil, iconSize)
+				ui.sameLine()
+
+				if bookmark then
+					add_bookmark(info, thisSystem, otherSystem)
+				end
+			end
+
 			ui.group(function()
 				ui.text(info[1])
-				ui.sameLine(width - iconWidth * 2, 0)
+				ui.sameLine(-iconWidth * 2)
 
 				-- only display illegal icon if the commodity is actually legal in the other system
 				if otherSystem and (info[2] or info[3]) then
@@ -230,11 +266,13 @@ function SystemEconView:drawCommodityList(commList, illegalList, thisSystem, oth
 				end
 			end)
 
-			if ui.isItemHovered() then
+			if ui.isItemHovered("ForTooltip") then
 				drawCommodityTooltip(info, thisSystem, otherSystem)
 			end
 		end
 	end)
+
+	sidebarStyle:pop()
 end
 
 ---@param selected StarSystem
@@ -275,11 +313,11 @@ function SystemEconView:drawSystemComparison(selected, current)
 			ui.text(selected.name)
 		end)
 
-		ui.spacing()
-		ui.separator()
-		ui.spacing()
-
 		if selected.population <= 0 then
+			ui.spacing()
+			ui.separator()
+			ui.spacing()
+
 			ui.icon(icons.alert_generic, Vector2(ui.getTextLineHeight()), ui.theme.colors.font)
 			ui.sameLine()
 			ui.text(lc.NO_REGISTERED_INHABITANTS)
@@ -309,17 +347,25 @@ function SystemEconView:drawStationComparison(selected, current)
 		ui.withFont(pionillium.heading, function()
 			if current then
 				ui.text(current.name)
-				ui.sameLine(ui.getContentRegion().x - ui.calcTextSize(selected.name).x)
+				ui.sameLine()
+
+				local spacing = ui.getContentRegion().x - ui.calcTextSize(selected.name).x
+
+				if spacing < 0.0 then
+					ui.newLine()
+				else
+					ui.addCursorPos(Vector2(spacing, 0))
+				end
 			end
 
 			ui.text(selected.name)
 		end)
 
-		ui.spacing()
-		ui.separator()
-		ui.spacing()
-
 		if not station or (showComparison and not otherStation) then
+			ui.spacing()
+			ui.separator()
+			ui.spacing()
+
 			ui.icon(icons.alert_generic, Vector2(ui.getTextLineHeight()), ui.theme.colors.font)
 			ui.sameLine()
 			ui.text(lui.NO_AVAILABLE_DATA)
@@ -346,6 +392,8 @@ function SystemEconView:drawPriceList(key, prices)
 	ui.tableSetupColumn("Indicators")
 	ui.tableSetupColumn("Amount")
 
+	local currentMarket = self.savedMarkets[Game.player:GetDockedWith().path]
+
 	for i, info in ipairs(prices) do
 		ui.tableNextRow()
 
@@ -356,7 +404,7 @@ function SystemEconView:drawPriceList(key, prices)
 		ui.tableSetColumnIndex(1)
 
 		local price = ui.Format.Money(info[2])
-		local profit = (info[2] - self.savedMarket[key] > 0) and profitTab.profit or profitTab.loss
+		local profit = (info[2] - currentMarket[key] > 0) and profitTab.profit or profitTab.loss
 		drawIcon(profit, iconSize)
 
 		ui.tableSetColumnIndex(2)
@@ -373,22 +421,18 @@ function SystemEconView:drawSystemFinder()
 	local key = commodityOptions[selectedIndex]
 	local comm = Commodities[key]
 	local commName = lcomm[comm.l10n_key]
-	local station = Game.player:GetDockedWith() ---@type SpaceStation
+	local station = assert(Game.player:GetDockedWith())
 
 	ui.withFont(pionillium.body, function()
 
 		if self.compareMode == CompareMode.BySystem then
 			if ui.button("[Nearby Systems]") then self.compareMode = CompareMode.ByStation end
 		elseif self.compareMode == CompareMode.ByStation then
-			if ui.button("[This System]") then self.compareMode = CompareMode.BySystem end
+			if ui.button("[Selected System]") then self.compareMode = CompareMode.BySystem end
 		end
 
 		if station then
-			ui.sameLine()
-
-			if ui.button("Load Market Data") then
-				self:loadMarketData(Economy.GetStationMarket(station.path).commodities)
-			end
+			self:loadMarketData(assert(station:GetSystemBody()))
 		end
 
 		ui.nextItemWidth(-1)
@@ -397,14 +441,14 @@ function SystemEconView:drawSystemFinder()
 		if changed then self.selectedCommodity = index + 1 end
 
 
-		if not self.savedMarket then
-
+		if not self.savedMarkets[station.path] then
+			-- Do nothing
 		else
 			ui.text(lui.COMMODITY_TRADE_ANALYSIS)
 			ui.spacing()
 
 			ui.withFont(pionillium.heading, function()
-				local price = ui.Format.Money(self.savedMarket[key])
+				local price = ui.Format.Money(self.savedMarkets[station.path][key])
 				ui.text(commName)
 				ui.sameLine(ui.getContentRegion().x - ui.calcTextSize(price).x)
 				ui.text(price)
@@ -432,20 +476,18 @@ function SystemEconView:drawSystemFinder()
 
 			elseif self.compareMode == CompareMode.ByStation then
 
-				local stations = utils.map_array(Game.system:GetStationPaths(), function(path)
-					local sBody = path:GetSystemBody()
-					local station = sBody.physicsBody --[[@as SpaceStation]]
-					local price = station:GetCommodityPrice(Commodities[key])
+				local selected = Game.sectorView:GetSelectedSystemPath() ---@type SystemPath
 
-					return { sBody.name, price, path }
+				local stations = utils.map_array(selected:GetStarSystem():GetStationPaths(), function(path)
+					local sbody = path:GetSystemBody()
+					self:loadMarketData(sbody)
+
+					return { sbody.name, self.savedMarkets[path][key], path }
 				end)
 
 				table.sort(stations, function(a, b) return a[2] > b[2] end)
 
-				local idx = self:drawPriceList(key, stations)
-				if idx then
-					Game.player:SetNavTarget(stations[idx][3])
-				end
+				self:drawPriceList(key, stations)
 
 			end
 
@@ -454,13 +496,27 @@ function SystemEconView:drawSystemFinder()
 	end)
 end
 
-function SystemEconView:loadMarketData(market)
-	self.savedMarket = {}
+---@param sbody SystemBody
+function SystemEconView:loadMarketData(sbody)
+	local system = sbody.system
 
-	for key, data in pairs(market) do
-		local comm = Commodities[key]
-		self.savedMarket[key] = Economy.GetMarketPrice(comm.price, data[3])
+	if not self.cachedSystems[system] then
+		Economy.PrecacheSystem(system)
+		self.cachedSystems[system] = true
 	end
+
+	if self.savedMarkets[sbody.path] then return end
+
+	local market = Economy.CreateStationMarket(sbody, Game.time)
+	local savedMarket = {}
+
+	for name, comm in pairs(Commodities) do
+		local pricemod = Economy.GetCommodityPriceMod(sbody.path, name, market)
+		pricemod = pricemod + system:GetCommodityBasePriceAlterations(name)
+		savedMarket[name] = Economy.GetMarketPrice(comm.price, pricemod)
+	end
+
+	self.savedMarkets[sbody.path] = savedMarket
 end
 
 return SystemEconView

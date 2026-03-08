@@ -1,0 +1,130 @@
+{
+  "ABOUT": {
+    "description": "",
+    "message": "Hakkında"
+  },
+  "ACKNOWLEDGEMENTS": {
+    "description": "",
+    "message": "Teşekkürler"
+  },
+  "CONTENT": {
+    "description": "",
+    "message": "İçerik"
+  },
+  "CONTENT_CONTRIBUTION": {
+    "description": "",
+    "message": "İçerik katkıları"
+  },
+  "CONTRIBUTE": {
+    "description": "",
+    "message": "Katkı Sağla"
+  },
+  "CONTRIBUTE_BODY": {
+    "description": "",
+    "message": "Pioneer, pek çok oyunucu ve geliştiricinin katkılarının toplamıdır. Değiştirmek, geliştirmek istediğiniz şeyler ya da eklemek için yeni fikirleriniz mi var? (örn. tercümeler, kod, sanat, 2D & 3D assetler, müzik, yıldız sistemleri, belgelemeler, wiki vb.) Linkleri takip edin ve nasıl katkı sağlayabileceğinizi görün!"
+  },
+  "DEVELOPER_DOCUMENTATION": {
+    "description": "",
+    "message": "Geliştirici Dokümantasyonu"
+  },
+  "DOCUMENTATION": {
+    "description": "",
+    "message": "Dokümantasyon"
+  },
+  "DONATE_BODY": {
+    "description": "",
+    "message": "Pioneer oynamaktan zevk alıyor ve süren geliştirmesine destek olmak istiyorsanız, lütfen bağış yapmayı düşünün - hiçbir bağış az değildir."
+  },
+  "DONATE_OPTIONS": {
+    "description": "Sentence continues in 'DONATE_OPTIONS_CONTINUED'",
+    "message": "Lütfen ek bağış seçenekleri için"
+  },
+  "DONATE_OPTIONS_CONTINUED": {
+    "description": "hyperlink, ending part of sentence in 'DONATE_OPTIONS'",
+    "message": "bağış sayfamıza bakın"
+  },
+  "DONATE_THANKS": {
+    "description": "",
+    "message": "Pioneer'e desteğiniz için teşekkür ederiz!"
+  },
+  "GAME_RELEASE": {
+    "description": "",
+    "message": "Stabil sürümler yıllık olarak 3 Şubat'ta yayımlanır, ama geliştirme devamlıdır. Bu yüzden cesur pilotları son kaynak kodundan oynamaya ve hataları raporlamaya davet ediyoruz."
+  },
+  "INFO_BLURB": {
+    "description": "",
+    "message": "Pioneer, 31. yüzyılın başında Samanyolu galaksisinden geçen tek oyunculu bir uzay macerası oyunudur."
+  },
+  "INFO_BODY": {
+    "description": "",
+    "message": "Oyunun ucu açıktır, oyundaki milyonlarca yıldız sistemini keşfetmek için serbestsiniz. Gezegenlere inebilir, gaz devlerinin kütleçekimini hissedebilir ve ikili yıldız sistemlerinin arasından uçarak sıcaklığı hissedebilirsiniz. Korsanlıkta elinizi deneyebilir, sistemler arası ticaretle zenginleşebilir, veya güç, özgürlük ve egemenlik için savaşan farklı güçler için görevler yapabilirsiniz."
+  },
+  "LICENSE": {
+    "description": "",
+    "message": "Lisans"
+  },
+  "LINK_BASIC_FLIGHT": {
+    "description": "",
+    "message": "Basit uçuş"
+  },
+  "LINK_BUG_TRACKER": {
+    "description": "",
+    "message": "Bug Takibi"
+  },
+  "LINK_COMMUNITY_CHAT": {
+    "description": "",
+    "message": "Topluluk chat'i (Discord)"
+  },
+  "LINK_COMMUNITY_FORUM": {
+    "description": "",
+    "message": "Topluluk Forumu"
+  },
+  "LINK_DEVELOPER_CHAT": {
+    "description": "",
+    "message": "Gelitrici chat'i (IRC)"
+  },
+  "LINK_DEVELOPER_FORUM": {
+    "description": "",
+    "message": "Geliştirici Forumu"
+  },
+  "LINK_FAQ": {
+    "description": "",
+    "message": "SSS"
+  },
+  "LINK_HOMEPAGE": {
+    "description": "",
+    "message": "Ana sayfa"
+  },
+  "LINK_MANUAL": {
+    "description": "",
+    "message": "Manual"
+  },
+  "SOFTWARE": {
+    "description": "",
+    "message": "Yazılım"
+  },
+  "SOFTWARE_BODY": {
+    "description": "",
+    "message": "Pioneer şu üçüncü-parti yazılımları içerir"
+  },
+  "SUPPORT_DEVELOPMENT": {
+    "description": "",
+    "message": "Geliştirmeyi Destekle"
+  },
+  "TRANSLATIONS": {
+    "description": "",
+    "message": "Tercümeler"
+  },
+  "VERSION_CURRENT": {
+    "description": "",
+    "message": "Şu anki sürümünüz"
+  },
+  "VERSION_LATEST": {
+    "description": "This sentence continues into string VERSION_LATEST_CONTINUED, to read 'Latest version from source', referring to the source code",
+    "message": "Son sürüm"
+  },
+  "VERSION_LATEST_CONTINUED": {
+    "description": "is continued from string VERSION_LATEST, to read 'Latest version from source'. Here, 'source' refers to the source code",
+    "message": "kaynak kodu"
+  }
+}

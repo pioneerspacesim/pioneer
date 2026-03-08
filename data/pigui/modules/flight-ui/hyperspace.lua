@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui'
@@ -9,7 +9,6 @@ local Vector2 = _G.Vector2
 local pionillium = ui.fonts.pionillium
 local colors = ui.theme.colors
 
-local lc = require 'Lang'.GetResource("core")
 local lui = require 'Lang'.GetResource("ui-core")
 
 local gameView = require 'pigui.views.game'

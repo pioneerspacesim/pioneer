@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _MATHUTIL_H
@@ -92,6 +92,22 @@ namespace MathUtil {
 	}
 
 	inline float Dot(const vector3f &a, const vector3f &b) { return a.x * b.x + a.y * b.y + a.z * b.z; }
+
+	// Remap the given value from the input range [min1, max1] to the output range [min2, max2]
+	// Values outside the input range will be proportionately outside the output range
+	template<typename T>
+	inline T Remap(const T &v, const T &min1, const T &max1, const T &min2, const T &max2)
+	{
+		return min2 + (v - min1) / (max1 - min1) * (max2 - min2);
+	}
+
+	// Remap the given value from the given input range to 0..1.
+	// Values outside the input range will be proportionately outside of the 0..1 range.
+	template<typename T>
+	inline T Remap01(const T &v, const T &min, const T &max)
+	{
+		return (v - min) / (max - min);
+	}
 
 	// unit vector orthogonal to given vector
 	template <typename T>

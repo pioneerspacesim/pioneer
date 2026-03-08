@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SectorMap.h"
@@ -539,19 +539,21 @@ void SectorMap::InitObject()
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 
 	Graphics::MaterialDescriptor bbMatDesc;
-	m_starMaterial.Reset(m_context.renderer->CreateMaterial("sphereimpostor", bbMatDesc, rsd));
+
+	auto vfmt = Graphics::VertexFormatDesc::FromAttribSet(m_starVerts->GetAttributeSet());
+	m_starMaterial.Reset(m_context.renderer->CreateMaterial("sphereimpostor", bbMatDesc, rsd, vfmt));
 
 	rsd.depthWrite = false;
 	rsd.cullMode = CULL_NONE;
 
 	Graphics::MaterialDescriptor starPointDesc;
 	starPointDesc.vertexColors = true;
-	m_farStarsMat.Reset(m_context.renderer->CreateMaterial("unlit", starPointDesc, rsd));
+	m_farStarsMat.Reset(m_context.renderer->CreateMaterial("unlit", starPointDesc, rsd, m_farstarsPoints.GetVertexFormat()));
 
 	rsd.primitiveType = Graphics::LINE_SINGLE;
 
 	Graphics::MaterialDescriptor lineDesc;
-	m_lineMat.Reset(m_context.renderer->CreateMaterial("vtxColor", lineDesc, rsd));
+	m_lineMat.Reset(m_context.renderer->CreateMaterial("vtxColor", lineDesc, rsd, m_lines.GetVertexFormat()));
 
 	m_drawList.reset(new ImDrawList(ImGui::GetDrawListSharedData()));
 }
@@ -575,7 +577,7 @@ void SectorMap::SaveToJson(Json &jsonObj)
 }
 
 matrix4x4f SectorMap::PointOfView() {
-	matrix4x4f result = matrix4x4f::Identity();
+	matrix4x4f result = matrix4x4f::Identity;
 	// units are lightyears, my friend
 	result.Translate(0.f, 0.f, -10.f - 10.f * m_zoom); // not zoomClamped, let us zoom out a bit beyond what we're drawing
 	result.Rotate(DEG2RAD(m_rotX), 1.f, 0.f, 0.f);
@@ -627,7 +629,7 @@ void SectorMap::Draw3D()
 		m_customlines.Draw(renderer, m_lineMat.Get());
 	}
 
-	renderer->SetTransform(matrix4x4f::Identity());
+	renderer->SetTransform(matrix4x4f::Identity);
 
 	//draw star billboards in one go
 	renderer->SetAmbientColor(Color(30, 30, 30));
@@ -696,7 +698,7 @@ void SectorMap::DrawEmbed()
 	// Draw the image and stretch it over the available region.
 	// ImGui inverts the vertical axis to get top-left coordinates, so we need to invert our UVs to match.
 	ImVec2 imagePos = ImGui::GetCursorScreenPos();
-	ImGui::Image(m_renderTarget->GetColorTexture(), m_size, ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::Image(reinterpret_cast<ImTextureID>(m_renderTarget->GetColorTexture()), m_size, ImVec2(0, 1), ImVec2(1, 0));
 
 	auto *r = m_context.renderer;
 	const auto &desc = m_renderTarget.get()->GetDesc();
@@ -713,7 +715,7 @@ void SectorMap::DrawEmbed()
 	}
 
 	if (ImGui::IsItemHovered()) {
-		ImGui::CaptureMouseFromApp(false);
+		ImGui::SetNextFrameWantCaptureMouse(false);
 	}
 }
 
@@ -1113,7 +1115,7 @@ void SectorMap::Update(float frameTime)
 
 	auto input = m_context.input;
 
-	matrix4x4f rot = matrix4x4f::Identity();
+	matrix4x4f rot = matrix4x4f::Identity;
 	rot.RotateX(DEG2RAD(-m_rotX));
 	rot.RotateZ(DEG2RAD(-m_rotZ));
 
@@ -1204,6 +1206,8 @@ void SectorMap::Update(float frameTime)
 	ShrinkCache();
 
 	if (!m_sphere) {
+		m_sphere.reset(new Graphics::Drawables::Sphere3D(m_context.renderer, 4, 1.0f));
+
 		Graphics::RenderStateDesc rsd;
 		rsd.blendMode = Graphics::BLEND_ALPHA;
 		rsd.depthTest = false;
@@ -1211,9 +1215,9 @@ void SectorMap::Update(float frameTime)
 		rsd.cullMode = Graphics::CULL_NONE;
 
 		Graphics::MaterialDescriptor matdesc;
-		m_fresnelMat.Reset(m_context.renderer->CreateMaterial("fresnel_sphere", matdesc, rsd));
+
+		m_fresnelMat.Reset(m_context.renderer->CreateMaterial("fresnel_sphere", matdesc, rsd, m_sphere->GetVertexFormat()));
 		m_fresnelMat->diffuse = Color::WHITE;
-		m_sphere.reset(new Graphics::Drawables::Sphere3D(m_context.renderer, 4, 1.0f));
 	}
 	m_sphereParams.clear();
 	m_lineVerts->Clear();
@@ -1272,15 +1276,18 @@ std::vector<SystemPath> SectorMap::GetNearbyStarSystemsByName(std::string patter
 				SystemPath match((*i).first);
 				match.systemIndex = systemIndex;
 				result.push_back(match);
-			}
-			// now also check other names of this system, if there are any
-			for (const std::string &other_name : ss->GetOtherNames()) {
-				if (strncasecmp(pattern.c_str(), other_name.c_str(), pattern.size()) == 0
-					// look for the pattern term somewhere within the current system
-					|| pi_strcasestr(other_name.c_str(), pattern.c_str())) {
-					SystemPath match((*i).first);
-					match.systemIndex = systemIndex;
-					result.push_back(match);
+				continue; // only need to add once
+			} else {
+				// If we didn't match the main name also check other names of this system, if there are any
+				for (const std::string &other_name : ss->GetOtherNames()) {
+					if (strncasecmp(pattern.c_str(), other_name.c_str(), pattern.size()) == 0
+						// look for the pattern term somewhere within the current system
+						|| pi_strcasestr(other_name.c_str(), pattern.c_str())) {
+						SystemPath match((*i).first);
+						match.systemIndex = systemIndex;
+						result.push_back(match);
+						continue; // only need to add once
+					}
 				}
 			}
 		}

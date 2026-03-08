@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _USE_MATH_DEFINES
@@ -194,7 +194,7 @@ void MatrixToJson(Json &jsonObj, const matrix3x3f &mat)
 {
 	PROFILE_SCOPED()
 #ifdef USE_STRING_VERSIONS
-	if (!memcmp(&matrix3x3fIdentity, &mat, sizeof(matrix3x3f))) return;
+	if (!memcmp(&matrix3x3f::Identity, &mat, sizeof(matrix3x3f))) return;
 	char str[512];
 	Matrix3x3fToStr(mat, str, 512);
 	jsonObj = str;
@@ -209,7 +209,7 @@ void MatrixToJson(Json &jsonObj, const matrix3x3d &mat)
 {
 	PROFILE_SCOPED()
 #ifdef USE_STRING_VERSIONS
-	if (!memcmp(&matrix3x3dIdentity, &mat, sizeof(matrix3x3d))) return;
+	if (!memcmp(&matrix3x3d::Identity, &mat, sizeof(matrix3x3d))) return;
 	char str[512];
 	Matrix3x3dToStr(mat, str, 512);
 	jsonObj = str;
@@ -224,7 +224,7 @@ void MatrixToJson(Json &jsonObj, const matrix4x4f &mat)
 {
 	PROFILE_SCOPED()
 #ifdef USE_STRING_VERSIONS
-	if (!memcmp(&matrix4x4fIdentity, &mat, sizeof(matrix4x4f))) return;
+	if (!memcmp(&matrix4x4f::Identity, &mat, sizeof(matrix4x4f))) return;
 	char str[512];
 	Matrix4x4fToStr(mat, str, 512);
 	jsonObj = str;
@@ -254,7 +254,7 @@ void MatrixToJson(Json &jsonObj, const matrix4x4d &mat)
 {
 	PROFILE_SCOPED()
 #ifdef USE_STRING_VERSIONS
-	if (!memcmp(&matrix4x4dIdentity, &mat, sizeof(matrix4x4d))) return;
+	if (!memcmp(&matrix4x4d::Identity, &mat, sizeof(matrix4x4d))) return;
 	char str[512];
 	Matrix4x4dToStr(mat, str, 512);
 	jsonObj = str;
@@ -400,7 +400,7 @@ void JsonToMatrix(matrix3x3f *pMat, const Json &jsonObj)
 	PROFILE_SCOPED()
 #ifdef USE_STRING_VERSIONS
 	if (!jsonObj.is_string()) {
-		*pMat = matrix3x3fIdentity;
+		*pMat = matrix3x3f::Identity;
 		return;
 	}
 	std::string matStr = jsonObj;
@@ -423,7 +423,7 @@ void JsonToMatrix(matrix3x3d *pMat, const Json &jsonObj)
 	PROFILE_SCOPED()
 #ifdef USE_STRING_VERSIONS
 	if (!jsonObj.is_string()) {
-		*pMat = matrix3x3dIdentity;
+		*pMat = matrix3x3d::Identity;
 		return;
 	}
 	std::string matStr = jsonObj;
@@ -446,7 +446,7 @@ void JsonToMatrix(matrix4x4f *pMat, const Json &jsonObj)
 	PROFILE_SCOPED()
 #ifdef USE_STRING_VERSIONS
 	if (!jsonObj.is_string()) {
-		*pMat = matrix4x4fIdentity;
+		*pMat = matrix4x4f::Identity;
 		return;
 	}
 	std::string matStr = jsonObj;
@@ -476,7 +476,7 @@ void JsonToMatrix(matrix4x4d *pMat, const Json &jsonObj)
 	PROFILE_SCOPED()
 #ifdef USE_STRING_VERSIONS
 	if (!jsonObj.is_string()) {
-		*pMat = matrix4x4dIdentity;
+		*pMat = matrix4x4d::Identity;
 		return;
 	}
 	std::string matStr = jsonObj;
@@ -558,19 +558,19 @@ void from_json(const Json &obj, fixed &f)
 		std::string str = obj;
 		// must have at least f1/1, though can be f1234567/135758548 etc.
 		if (str.size() < 4 || str[0] != 'f')
-			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
+			throw Json::type_error::create(320, "cannot pickle string to fixed point number", &obj);
 
 		char *next_str = const_cast<char *>(str.c_str()) + 1;
 		int64_t integer = std::strtoll(next_str, &next_str, 10);
 
 		// handle cases: f/34, f1356, f14+4
 		if (next_str == nullptr || size_t(next_str - str.c_str()) >= str.size() || *next_str++ != '/')
-			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
+			throw Json::type_error::create(320, "cannot pickle string to fixed point number", &obj);
 
 		int64_t fractional = std::strtoll(next_str, &next_str, 10);
 		// handle cases f1345/7684gfrty; fixed numbers should not have any garbage data involved
 		if (next_str != str.c_str() + str.size())
-			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
+			throw Json::type_error::create(320, "cannot pickle string to fixed point number", &obj);
 
 		f = fixed(integer << f.FRAC | fractional);
 	}

@@ -1,17 +1,24 @@
-material kbuilding
-tex_diff diffuse.dds
-tex_glow glow.dds
-diffuse 1.0 1.0 1.0
-specular 0.6 0.6 0.8
-shininess 40
+version 2
 
-lod 12
-mesh kbuilding03LQ.obj
+material "kbuilding" {
+	shader "multi"
+	texture diffuse  "diffuse.dds"
+	texture glow     "glow.dds"
+	diffuse 1.0 1.0 1.0
+	specular 0.6 0.6 0.8
+	shininess 40
+}
 
-lod 70
-mesh kbuilding03MQ.obj
+lod 12 {
+	mesh "kbuilding03LQ.obj"
+}
 
-lod 100
-mesh kbuilding03HQ.obj
+lod 70 {
+	mesh "kbuilding03MQ.obj"
+}
 
-collision kbuilding03LQ.obj
+lod 100 {
+	mesh "kbuilding03HQ.obj"
+}
+
+collision "kbuilding03LQ.obj"

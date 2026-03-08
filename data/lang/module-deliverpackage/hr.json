@@ -1,390 +1,390 @@
 {
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
-    "message": "Could you repeat the original request?"
+    "message": "Možete li ponoviti izvorni zahtjev?"
   },
   "DANGER": {
     "description": "",
-    "message": "Danger:"
+    "message": "Opasnost:"
   },
   "DEADLINE": {
     "description": "",
-    "message": "Deadline:"
+    "message": "Rok:"
   },
   "DELIVERY": {
     "description": "",
-    "message": "Delivery"
+    "message": "Dostava"
   },
   "DENY_0": {
     "description": "",
-    "message": "I'm sorry, but I don't think I can trust you with this delivery."
+    "message": "Žao mi je, ali mislim da vam ne mogu vjerovati s ovom dostavom."
   },
   "DENY_1": {
     "description": "",
-    "message": "Come back when you have some qualifications."
+    "message": "Vrati se kad budeš imao neke kvalifikacije."
   },
   "DENY_2": {
     "description": "",
-    "message": "I don't think you're the pilot I'm looking for."
+    "message": "Mislim da nisi pilot kojeg tražim."
   },
   "DENY_3": {
     "description": "",
-    "message": "You don't look like someone I can trust with this delivery."
+    "message": "Ne izgledaš kao netko kome mogu vjerovati s ovom dostavom."
   },
   "DENY_4": {
     "description": "",
-    "message": "You're not the kind of pilot I'm looking for."
+    "message": "Nisi pilot kakvog tražim."
   },
   "DENY_5": {
     "description": "",
-    "message": "You seem much too inexperienced to handle a task of this importance."
+    "message": "Čini se da si previše neiskusan da bi se nosio s ovako važnim zadatkom."
   },
   "DENY_6": {
     "description": "",
-    "message": "I have never heard of you. I need someone experienced for this delivery."
+    "message": "Nikad nisam čuo/čula za vas. Trebam nekoga iskusnog za ovu dostavu."
   },
   "DENY_7": {
     "description": "",
-    "message": "I'm not willing to risk this delivery on someone without any qualifications like you."
+    "message": "Nisam spreman riskirati ovu dostavu nekome bez ikakvih kvalifikacija poput tebe."
   },
   "DISTANCE": {
     "description": "",
-    "message": "Distance:"
+    "message": "Udaljenost:"
   },
   "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY": {
     "description": "",
-    "message": "Excellent. I will let the recipient know you are on your way."
+    "message": "Izvrsno. Obavijestit ću primatelja da ste na putu."
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "Going to the {system} system? Money paid for delivery of a small package."
+    "message": "Idete u sustav {system}? Plaćeno je za dostavu malog paketa."
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "INTERSTELLAR DELIVERY"
+    "message": "MEĐUZVJEZDANA DOSTAVA"
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
-    "message": "Unacceptable! You took forever over that delivery. I'm not willing to pay you."
+    "message": "Neprihvatljivo! Predugo si se zadržavao na toj dostavi. Nisam spreman platiti."
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Hi, I'm {name}. I'll pay you {cash} if you will deliver a small package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+    "message": "Bok, ja sam {name}. Platit ću vam {cash} ako dostavite mali paket u {starport} u sustavu {system} ({sectorx}, {sectory}, {sectorz}), na udaljenosti od {dist} ly."
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you for the delivery. You have been paid in full."
+    "message": "Hvala na dostavi. Plaćeno vam je u cijelosti."
   },
   "FLAVOUR_0_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "When a friend visited me she left behind some clothes and antique paper books. I'd like to have them returned to her."
+    "message": "Kad me prijateljica posjetila, ostavila je nešto odjeće i antiknih papirnatih knjiga. Voljela bih da joj ih vratim."
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Wanted: Delivery of a package to the {system} system."
+    "message": "Traži se: Dostava paketa u sustav {system}."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "DELIVERY WANTED"
+    "message": "TRAŽIM DOSTAVU"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "I'm frustrated by the late delivery of my package, and I refuse to pay you."
+    "message": "Frustriran sam zbog kašnjenja u isporuci mog paketa i odbijam vam platiti."
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+    "message": "Pozdrav. Ja sam {name}. Spreman/na sam platiti {cash} za brod koji će prevesti paket do {starport} u sustavu {system} ({sectorx}, {sectory}, {sectorz}), na udaljenosti od {dist} ly."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
-    "message": "The package has been received and you have been paid in full."
+    "message": "Paket je primljen i uplaćen vam je puni iznos."
   },
   "FLAVOUR_1_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "It is nothing special."
+    "message": "Nije to ništa posebno."
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "Urgent! Fast ship needed to deliver a package to the {system} system."
+    "message": "Hitno! Potrebna je brza dostava paketa u sustav {system}."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "URGENT DELIVERY"
+    "message": "HITNA DOSTAVA"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "I was quite clear about the deadline and am very disappointed by the late delivery. You will not be paid."
+    "message": "Bio sam prilično jasan u vezi roka i jako sam razočaran kašnjenjem isporuke. Nećete biti plaćeni."
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+    "message": "Pozdrav. Ja sam {name}. Spreman/na sam platiti {cash} za brod koji će prevesti paket do {starport} u sustavu {system} ({sectorx}, {sectory}, {sectorz}), na udaljenosti od {dist} ly."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
-    "message": "You have been paid in full for the delivery. Thank you."
+    "message": "U potpunosti ste plaćeni za dostavu. Hvala vam."
   },
   "FLAVOUR_2_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "It is a research proposal and must be delivered by the deadline or we may not get funding."
+    "message": "To je istraživački prijedlog i mora biti dostavljen do roka ili možda nećemo dobiti financiranje."
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Delivery of sensitive documents to the {system} system. {cash} to an experienced pilot."
+    "message": "Dostava osjetljivih dokumenata u {system} sustav. {cash} iskusnom pilotu."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "DOCUMENT DELIVERY"
+    "message": "DOSTAVA DOKUMENATA"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
-    "message": "Useless! I will never depend on you again! Needless to say, you will not be paid for this."
+    "message": "Beskorisno! Nikada se više neću oslanjati na tebe! Ne moram ni reći da za ovo nećeš biti plaćen."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+    "message": "Pozdrav. Ja sam {name}. Spreman/na sam platiti {cash} za brod koji će prevesti paket do {starport} u sustavu {system} ({sectorx}, {sectory}, {sectorz}), na udaljenosti od {dist} ly."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "Your timely and discreet service is much appreciated. You have been paid in full."
+    "message": "Vaša pravovremena i diskretna usluga je izuzetno cijenjena. Plaćeni ste u cijelosti."
   },
   "FLAVOUR_3_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "Some extremely sensitive documents have fallen into my hands, and I have reason to believe that the leak has been traced to me."
+    "message": "U moje su ruke dospjeli neki iznimno osjetljivi dokumenti i imam razloga vjerovati da je curenje informacija povezano s mnom."
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Interstellar Postal Services. We require a ship for the delivery run to {system} system."
+    "message": "Međuzvjezdane poštanske usluge. Potreban nam je brod za dostavu u sustav {system}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "POSTAL SERVICE"
+    "message": "POŠTANSKA USLUGA"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
-    "message": "Your ship registration has been noted, we will reject all further applications for work from you."
+    "message": "Vaša registracija broda je zabilježena, odbit ćemo sve vaše daljnje prijave za posao."
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "Greetings. This is an automated message from Bedford and {name} Courier Services. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+    "message": "Pozdrav. Ovo je automatska poruka od Bedforda i {name} Courier Services. Plaćamo {cash} za prijevoz do {starport} u sustavu {system} ({sectorx}, {sectory}, {sectorz}), na udaljenosti od {dist} ly."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "Your timely and discreet service is much appreciated. You have been paid in full."
+    "message": "Vaša pravovremena i diskretna usluga je izuzetno cijenjena. Plaćeni ste u cijelosti."
   },
   "FLAVOUR_4_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "We would be happy to pay you less money."
+    "message": "Rado bismo vam platili manje novca."
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Transport belongings to {starport} from port storage facility."
+    "message": "Prevezite stvari iz skladišta u luci u {starport}."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "MOVING HOME"
+    "message": "SELIDBA KUĆE"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
-    "message": "What are these? Oh, you took so long that I forgot I'd even sent this!"
+    "message": "Što je ovo? Oh, toliko ti je trebalo da sam zaboravio/la da sam ovo uopće poslao/la!"
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "Nice to meet you. I am {name} and I'm willing to pay {cash} for someone with a ship to help me move my belongings to {starport}. No rush, they are just some leftovers from moving house."
+    "message": "Drago mi je. Ja sam {name} i spreman/na sam platiti {cash} za nekoga tko ima brod da mi pomogne preseliti moje stvari u {starport}. Nema žurbe, to su samo ostaci od selidbe."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
-    "message": "Oh wonderful. I'll start unloading immediately. Thanks again."
+    "message": "O, divno. Odmah ću početi s istovarom. Hvala još jednom."
   },
   "FLAVOUR_5_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "Is it a lot? I should rethink my offer!"
+    "message": "Je li to puno? Trebao bih ponovno razmisliti o svojoj ponudi!"
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "In-system courier services required. Delivery of a small package to {starport}."
+    "message": "Potrebne su kurirske usluge unutar sustava. Dostava malog paketa u {starport}."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "SHORT-RANGE COURIER"
+    "message": "KRATKODOMETNA DOSTAVA"
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
-    "message": "I could have delivered it faster myself. I'm not paying you."
+    "message": "Mogao sam to sam brže dostaviti. Ne plaćam te."
   },
   "FLAVOUR_6_INTROTEXT": {
     "description": "",
-    "message": "Hi. I'm {name} and I will pay {cash} for a ship to deliver this package to {starport}."
+    "message": "Bok. Ja sam {name} i platit ću {cash} za brod koji će dostaviti ovaj paket u {starport}."
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you for the package, you have been paid in full."
+    "message": "Hvala na paketu, uplaćeni ste u cijelosti."
   },
   "FLAVOUR_6_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "I don't think it's a lot."
+    "message": "Mislim da nije puno."
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Standardized inter-planetary transport contract. Freight of local cargo to {starport}."
+    "message": "Standardizirani ugovor o međuplanetarnom prijevozu. Prijevoz lokalnog tereta do  {starport}."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "INTER-PLANETARY CARGO"
+    "message": "MEĐUPLANETARNI TERET"
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
-    "message": "Our customers are not going to be happy with this. Do not expect to be paid."
+    "message": "Naši kupci neće biti zadovoljni s ovim. Ne očekujte da ćete biti plaćeni."
   },
   "FLAVOUR_7_INTROTEXT": {
     "description": "",
-    "message": "Hello. We need these crates delivered to {starport} as soon as possible. Standard payment for this shipment is {cash}."
+    "message": "Pozdrav. Trebamo da se ovi sanduci što prije dostave u {starport}. Standardno plaćanje za ovu pošiljku je {cash}."
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
-    "message": "Excellent, we've credited the funds into your account."
+    "message": "Odlično, uplatili smo sredstva na vaš račun."
   },
   "FLAVOUR_7_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "Standard rates, we work with the market."
+    "message": "Standardne cijene, radimo s tržištem."
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "Urgent personal delivery contract. Require quick delivery of an item to {starport}."
+    "message": "Hitni ugovor o osobnoj dostavi. Potrebna je brza dostava artikla u {starport}."
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
-    "message": "NEARBY DELIVERY"
+    "message": "DOSTAVA U BLIZINI"
   },
   "FLAVOUR_8_FAILUREMSG": {
     "description": "",
-    "message": "You were offered a premium for quick delivery! I refuse to pay for this."
+    "message": "Ponuđena vam je premija za brzu dostavu! Odbijam platiti za ovo."
   },
   "FLAVOUR_8_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} and I need this item delivered to a friend at {starport} pronto, I'll pay you {cash} credits if you get it there in a reasonable time."
+    "message": "Zovem se {name} i trebam da se ova stavka što prije dostavi prijatelju u {starport}. Platit ću vam {cash} kredita ako je dostavite tamo u razumnom roku."
   },
   "FLAVOUR_8_SUCCESSMSG": {
     "description": "",
-    "message": "Your prompt delivery is appreciated, I have credited your account accordingly."
+    "message": "Cijenimo vašu brzu dostavu, uplatio sam odgovarajući iznos na vaš račun."
   },
   "FLAVOUR_8_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "It's really urgent."
+    "message": "Stvarno je hitno."
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "Package drop-off required. Urgent dispatch of perishables to {starport}."
+    "message": "Potrebna je dostava paketa. Hitna dostava kvarljive robe u {starport}."
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
-    "message": "PACKAGE DROP"
+    "message": "DOSTAVA PAKETA"
   },
   "FLAVOUR_9_FAILUREMSG": {
     "description": "",
-    "message": "It's all spoilt, this is of no use to anyone! We cannot and will not pay you."
+    "message": "Sve je pokvareno, ovo nikome ne koristi! Ne možemo i nećemo vam platiti."
   },
   "FLAVOUR_9_INTROTEXT": {
     "description": "",
-    "message": "Greetings, we're behind with our produce shipment and need it delivered to {starport} urgently. We'll pay you {cash} for your troubles."
+    "message": "Pozdrav, kasnimo s isporukom naših proizvoda i hitno ih trebamo dostaviti u {starport}. Platit ćemo vam {cash} za vaš trud."
   },
   "FLAVOUR_9_SUCCESSMSG": {
     "description": "",
-    "message": "Grand! We'll start unpacking immediately. I'll have your account updated right away."
+    "message": "Odlično! Odmah ćemo početi s raspakiranjem. Odmah ću ti ažurirati račun."
   },
   "FLAVOUR_9_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "Our livelihood depends on it."
+    "message": "Naša egzistencija ovisi o tome."
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
-    "message": "How soon must it be delivered?"
+    "message": "Koliko brzo mora biti dostavljeno?"
   },
   "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED": {
     "description": "",
-    "message": "It could be dangerous, you should make sure you're adequately prepared."
+    "message": "Moglo bi biti opasno, trebali biste se dobro pripremiti."
   },
   "IT_MUST_BE_DELIVERED_BY": {
     "description": "",
-    "message": "It must be delivered by "
+    "message": "Mora biti dostavljeno od strane"
   },
   "I_HIGHLY_DOUBT_IT": {
     "description": "",
-    "message": "I highly doubt it."
+    "message": "Sumnjam u to."
   },
   "NOT_ANY_MORE_THAN_USUAL": {
     "description": "",
-    "message": "Not any more than usual."
+    "message": "Ne više nego inače."
   },
   "OK_AGREED": {
     "description": "",
-    "message": "Ok, agreed."
+    "message": "U redu, slažem se."
   },
   "PIRATE_TAUNTS_0": {
     "description": "",
-    "message": "You're going to regret dealing with {client}"
+    "message": "Požalit ćeš što si imao posla s {client}"
   },
   "PIRATE_TAUNTS_1": {
     "description": "",
-    "message": "Looks like my paycheck has arrived!"
+    "message": "Izgleda da mi je stigla plaća!"
   },
   "PIRATE_TAUNTS_2": {
     "description": "",
-    "message": "You're working for {client}? That was a bad idea."
+    "message": "Radiš za {client}? To je bila loša ideja."
   },
   "PIRATE_TAUNTS_3": {
     "description": "",
-    "message": "Your cargo and your life, pilot!"
+    "message": "Tvoj teret i tvoj život, pilote!"
   },
   "PIRATE_TAUNTS_4": {
     "description": "",
-    "message": "I'm sure this will bring a pretty penny on the market"
+    "message": "Siguran sam da će ovo donijeti lijepu zaradu na tržištu"
   },
   "PIRATE_TAUNTS_5": {
     "description": "",
-    "message": "Today isn't your lucky day! Prepare to die."
+    "message": "Danas nije tvoj sretan dan! Pripremi se za smrt."
   },
   "PIRATE_TAUNTS_6": {
     "description": "",
-    "message": "Tell my old friend {client} that I'll see them in hell!"
+    "message": "Reci mom starom prijatelju {client} da ćemo se vidjeti u paklu!"
   },
   "PIRATE_TAUNTS_7": {
     "description": "",
-    "message": "That package isn't going to reach its destination today."
+    "message": "Taj paket danas neće stići na odredište."
   },
   "PIRATE_TAUNTS_8": {
     "description": "",
-    "message": "You're not getting to {location} today!"
+    "message": "Danas ne stižeš na {location}!"
   },
   "PIRATE_TAUNTS_9": {
     "description": "",
-    "message": "You'll pay for that cargo, with your life."
+    "message": "Platit ćeš za taj teret, svojim životom."
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Postavi kao cilj navigacije"
   },
   "SPACEPORT": {
     "description": "",
-    "message": "Spaceport:"
+    "message": "Svemirska luka:"
   },
   "SYSTEM": {
     "description": "",
-    "message": "System:"
+    "message": "Sustav:"
   },
   "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN": {
     "description": "",
-    "message": "This is a valuable package, you should keep your eyes open."
+    "message": "Ovo je vrijedan paket, trebali biste držati oči otvorene."
   },
   "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE": {
     "description": "",
-    "message": "This is very risky, you will almost certainly run into resistance."
+    "message": "Ovo je vrlo rizično, gotovo sigurno ćete naići na otpor."
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",
-    "message": "Why so much money?"
+    "message": "Zašto toliko novca?"
   },
   "WILL_I_BE_IN_ANY_DANGER": {
     "description": "",
-    "message": "Will I be in any danger?"
+    "message": "Hoću li biti u ikakvoj opasnosti?"
   }
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Space.h"
@@ -743,9 +743,12 @@ void Space::UpdateStarSystemCache(const SystemPath *here)
 			for (int z = here_z - sectorRadius; z <= here_z + sectorRadius; z++) {
 				SystemPath path(x, y, z);
 				RefCountedPtr<Sector> sec(m_sectorCache->GetIfCached(path));
-				assert(sec);
-				for (const Sector::System &ss : sec->m_systems)
-					paths.push_back(SystemPath(ss.sx, ss.sy, ss.sz, ss.idx));
+				Log::WarningCond(sec, fmt::format("Not found in SectorCache {}!", to_string(path)).c_str());
+				if (sec) {
+					for (const Sector::System &ss : sec->m_systems) {
+						paths.push_back(SystemPath(ss.sx, ss.sy, ss.sz, ss.idx));
+					}
+				}
 			}
 		}
 	}
@@ -885,7 +888,7 @@ void Space::GenBody(const double at_time, SystemBody *sbody, FrameId fId, std::v
 			posAccum.clear();
 		}
 		b->SetLabel(sbody->GetName().c_str());
-		b->SetPosition(vector3d(0, 0, 0));
+		b->SetPosition(vector3d::Zero);
 		AddBody(b);
 	}
 	fId = MakeFramesFor(at_time, sbody, b, fId, posAccum);
@@ -937,7 +940,7 @@ static void hitCallback(CollisionContact *c)
 		const vector3d hitVel2 = linVel2 + angVel2.Cross(hitPos2);
 		const double relVel = (hitVel1 - hitVel2).Dot(c->normal);
 		// moving away so no collision
-		if (relVel > 0) return;
+		if (relVel > 0.0) return;
 		if (!OnCollision(po1, po2, c, -relVel)) return;
 		const double invAngInert1 = 1.0 / b1->GetAngularInertia();
 		const double invAngInert2 = 1.0 / b2->GetAngularInertia();
@@ -978,7 +981,7 @@ static void hitCallback(CollisionContact *c)
 		const vector3d hitVel1 = linVel1 + angVel1.Cross(hitPos1);
 		const double relVel = hitVel1.Dot(c->normal);
 		// moving away so no collision
-		if (relVel > 0) return;
+		if (relVel > 0.0) return;
 		if (!OnCollision(po1, po2, c, -relVel)) return;
 		const double invAngInert = 1.0 / mover->GetAngularInertia();
 		const double numerator = -(1.0 + coeff_rest) * relVel;

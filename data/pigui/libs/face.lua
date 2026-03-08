@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -14,7 +14,8 @@ local colors = ui.theme.colors
 local icons = ui.theme.icons
 local orbiteer = ui.fonts.orbiteer
 local noSavedSettings = ui.WindowFlags {"NoSavedSettings"}
-local charInfoFlags = ui.WindowFlags {"AlwaysUseWindowPadding", "NoScrollbar", "NoSavedSettings", "NoScrollWithMouse"}
+local useWindowPadding = ui.ChildFlags { 'AlwaysUseWindowPadding' }
+local charInfoFlags = ui.WindowFlags { "NoScrollbar", "NoSavedSettings", "NoScrollWithMouse"}
 
 local ensureCharacter = function (character)
 	if not (character and (type(character)=='table') and getmetatable(character) and (getmetatable(character).class == 'Character'))
@@ -141,7 +142,7 @@ function PiGuiFace:renderFaceGenButtons(can_random)
 		local numFeatures = #faceFeatures
 		if can_random then numFeatures = numFeatures + 1 end
 		facegenSize.y = (buttonSize.y + facegenSpacing.y) * numFeatures - facegenSpacing.y
-		ui.child("FaceGen", facegenSize, {'AlwaysAutoResize'}, function()
+		ui.child("FaceGen", facegenSize, nil, {'AlwaysAutoResize','AutoResizeX','AutoResizeY'}, function()
 			for _, v in ipairs(faceFeatures) do
 				faceGenButton(self, v)
 			end
@@ -181,7 +182,7 @@ function PiGuiFace:render()
 		local lastPos = ui.getCursorPos()
 		local itemSpacing = self.style.itemSpacing
 
-		ui.child("Face", Vector2(ui.getColumnWidth() - (facegenSize.x + itemSpacing.x), 0), {}, function()
+		ui.child("Face", Vector2(ui.getColumnWidth() - (facegenSize.x + itemSpacing.x), 0), function()
 			self:renderFaceDisplay()
 		end)
 
@@ -211,7 +212,7 @@ function PiGuiFace:renderFaceDisplay ()
 
 		ui.withStyleColorsAndVars({ChildBg = self.style.charInfoBgColor}, styles, function ()
 
-			ui.child("PlayerInfoDetails", Vector2(size, self.style.charInfoHeight), charInfoFlags, function ()
+			ui.child("PlayerInfoDetails", Vector2(size, self.style.charInfoHeight), charInfoFlags, useWindowPadding, function ()
 				ui.withFont(self.style.nameFont.name, self.style.nameFont.size, function()
 					ui.text(self.character.name)
 				end)

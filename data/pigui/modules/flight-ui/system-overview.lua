@@ -1,15 +1,13 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
 local Space = require 'Space'
 local Lang = require 'Lang'
-local Vector2 = _G.Vector2
 
 local ui = require 'pigui'
 local gameView = require 'pigui.views.game'
 
-local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core");
 
 local height_fraction = 1.6

@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _DRAWABLES_H
@@ -49,6 +49,8 @@ namespace Graphics {
 			Disk(Renderer *r, const int edges = 72, const float radius = 1.0f);
 			void Draw(Renderer *r, Material *mat);
 
+			Graphics::VertexFormatDesc GetVertexFormat() const;
+
 		private:
 			std::unique_ptr<MeshObject> m_diskMesh;
 		};
@@ -89,6 +91,8 @@ namespace Graphics {
 			void SetData(const Uint32 vertCount, const vector3f *vertices, const Color *colors);
 			void Draw(Renderer *, Material *);
 
+			Graphics::VertexFormatDesc GetVertexFormat() const;
+
 		private:
 			bool m_refreshVertexBuffer;
 			RefCountedPtr<MeshObject> m_lineMesh;
@@ -108,6 +112,8 @@ namespace Graphics {
 
 			void Draw(Renderer *, Material *);
 
+			Graphics::VertexFormatDesc GetVertexFormat() const;
+
 		private:
 			bool m_refreshVertexBuffer;
 			RefCountedPtr<Graphics::MeshObject> m_pointData;
@@ -122,6 +128,8 @@ namespace Graphics {
 			void SetData(Renderer *, const int count, const vector3f *positions, const matrix4x4f &trans, const Color &color, const float size);
 			void SetData(Renderer *, const int count, const vector3f *positions, const Color *color, const matrix4x4f &trans, const float size);
 			void Draw(Renderer *, Material *);
+
+			Graphics::VertexFormatDesc GetVertexFormat() const;
 
 		private:
 			bool m_refreshVertexBuffer;
@@ -153,6 +161,8 @@ namespace Graphics {
 			//subdivisions must be 0-10
 			Sphere3D(Renderer *, int subdivisions = 0, float scale = 1.f, AttributeSet attribs = (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0));
 			void Draw(Renderer *r, Material *m);
+
+			Graphics::VertexFormatDesc GetVertexFormat() const;
 
 		private:
 			std::unique_ptr<MeshObject> m_sphereMesh;

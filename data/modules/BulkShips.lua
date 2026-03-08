@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -38,8 +38,6 @@ local spawnShips = function ()
 end
 
 local onEnterSystem = function (player)
-	if not player:IsPlayer() then return end
-
 	spawnShips()
 end
 

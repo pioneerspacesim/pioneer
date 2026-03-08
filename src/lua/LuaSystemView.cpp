@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "EnumStrings.h"
@@ -96,14 +96,6 @@ static int l_systemview_set_selected_object(lua_State *l)
  *
  * }
  *
- *
- * Availability:
- *
- *   2020-03
- *
- * Status:
- *
- *   experimental
  */
 
 static int l_systemview_get_projected_grouped(lua_State *l)

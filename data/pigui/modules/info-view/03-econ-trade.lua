@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui'
@@ -10,6 +10,7 @@ local StationView = require 'pigui.views.station-view'
 local Passengers = require 'Passengers'
 local Commodities = require 'Commodities'
 local CommodityType = require 'CommodityType'
+local PlayerState   = require 'PlayerState'
 
 local l = Lang.GetResource("ui-core")
 
@@ -19,8 +20,6 @@ local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local Vector2 = _G.Vector2
 
-local iconSize = ui.rescaleUI(Vector2(28, 28))
-local buttonSpaceSize = iconSize
 -- FIXME: need to manually set itemSpacing to be able to properly size columns
 -- Need a style-var query system for best effect
 local itemSpacing = ui.rescaleUI(Vector2(6, 12), Vector2(1600, 900))
@@ -32,7 +31,7 @@ local jettison = function (item)
 	local button = ui.iconButton("Jettison " .. item:GetName(), icons.cargo_crate_illegal, l.JETTISON, variant)
 
 	if button and enabled then
-		Game.player:Jettison(item)
+		Game.player:Jettison(item, 1, 1800)
 	end
 
 	return button
@@ -135,7 +134,7 @@ local function gauge_bar(x, text, min, max, icon)
 	ui.gauge(gaugePos, x, '', text, min, max, icon,
 		colors.gaugeEquipmentMarket, '', gaugeWidth, height)
 
-	-- ui.addRect(cursorPos, cursorPos + Vector2(gaugeWidth, height), colors.gaugeCargo, 0, 0, 1)
+	-- ui.addRect(cursorPos, cursorPos + Vector2(gaugeWidth, height), colors.gaugeCargo, 0, ui.RoundCornersNone, 1)
 	ui.dummy(Vector2(gaugeWidth, height))
 end
 
@@ -143,7 +142,7 @@ end
 local function gauge_fuel()
 	local player = Game.player
 	local tankSize = ShipDef[player.shipId].fuelTankMass
-	local text = string.format(l.FUEL .. ": %dt \t" .. l.DELTA_V .. ": %d km/s",
+	local text = string.format(l.FUEL .. ": %d t \t" .. l.DELTA_V .. ": %d km/s",
 		tankSize/100 * player.fuel, player:GetRemainingDeltaV()/1000)
 
 	gauge_bar(player.fuel, text, 0, 100, icons.fuel)
@@ -151,7 +150,7 @@ end
 
 -- Gauge bar for hyperdrive fuel / range
 local function gauge_hyperdrive(drive)
-	local text = string.format(l.FUEL .. ": %%0.1ft \t" .. l.HYPERSPACE_RANGE .. ": %0.1f " .. l.LY, Game.player:GetHyperspaceRange())
+	local text = string.format(l.FUEL .. ": %%0.1f t \t" .. l.HYPERSPACE_RANGE .. ": %0.1f " .. l.LY, Game.player:GetHyperspaceRange())
 
 	gauge_bar(drive.storedFuel, text, 0, drive:GetMaxFuel(), icons.hyperspace)
 end
@@ -161,7 +160,7 @@ local function gauge_cargo()
 	---@type CargoManager
 	local cargoMgr = Game.player:GetComponent('CargoManager')
 
-	local fmtString = string.format('%%it %s / %it %s', l.USED, cargoMgr:GetFreeSpace(), l.FREE)
+	local fmtString = string.format('%%i t %s / %i t %s', l.USED, cargoMgr:GetFreeSpace(), l.FREE)
 	gauge_bar(cargoMgr:GetUsedSpace(), fmtString, 0, cargoMgr:GetFreeSpace() + cargoMgr:GetUsedSpace(), icons.market)
 end
 
@@ -217,16 +216,27 @@ local function transfer_hyperfuel_mil(hyperdrive, amt)
 end
 
 local function fuelTransferButton(drive, amt)
+	local driveEnabled = false
+
+	-- Don't allow transferring fuel while the hyperdrive is doing its thing
+	if Game.player:IsHyperspaceActive() or
+			Game.player.flightState == "JUMPING" or
+			Game.player.flightState == "HYPERSPACE" then
+		driveEnabled = true
+	end
+
+	local color = driveEnabled and ui.theme.buttonColors.disabled or ui.theme.buttonColors.default
 	local icon = amt < 0 and icons.chevron_down or icons.chevron_up
+	local tooltip = amt < 0 and l.PUMP_DOWN_FROM_HYPERDRIVE_TOOLTIP or l.PUMP_DOWN_TO_HYPERDRIVE_TOOLTIP
 
-	if ui.button(ui.get_icon_glyph(icon) .. tostring(math.abs(amt))) then
-
-		if drive.fuel == Commodities.hydrogen then
-			transfer_hyperfuel_hydrogen(drive, amt)
-		elseif drive.fuel == Commodities.military_fuel then
-			transfer_hyperfuel_mil(drive, amt)
+	if ui.button(ui.get_icon_glyph(icon) .. tostring(math.abs(amt)), Vector2(100, 0), color, string.format(tooltip, math.abs(amt))) then
+		if not driveEnabled then
+			if drive.fuel == Commodities.hydrogen then
+				transfer_hyperfuel_hydrogen(drive, amt)
+			elseif drive.fuel == Commodities.military_fuel then
+				transfer_hyperfuel_mil(drive, amt)
+			end
 		end
-
 	end
 end
 
@@ -246,9 +256,6 @@ local function drawCentered(id, fun)
 end
 
 local function drawFuelTransfer(drive)
-	-- Don't allow transferring fuel while the hyperdrive is doing its thing
-	if Game.player:IsHyperspaceActive() then return end
-
 	drawCentered("Hyperdrive", function()
 		ui.horizontalGroup(function()
 			fuelTransferButton(drive, 10)
@@ -278,7 +285,7 @@ local function drawPumpDialog()
 	ui.sameLine(width)
 	local options = {1, 10, 100}
 	for _, k in ipairs(options) do
-		if ui.button(tostring(k)  .. "##fuel", Vector2(100, 0)) then
+		if ui.button(tostring(k)  .. "##fuel", Vector2(100, 0), nil, string.format(l.PUMP_DOWN_FROM_CARGO_TOOLTIP, k)) then
 			-- Refuel k tonnes from cargo hold
 			Game.player:Refuel(Commodities.hydrogen, k)
 		end
@@ -293,7 +300,7 @@ local function drawPumpDialog()
 	ui.sameLine(width)
 	for _, v in ipairs(options) do
 		local fuel = -1*v
-		if ui.button(fuel .. "##pump", Vector2(100, 0)) then
+		if ui.button(fuel .. "##pump", Vector2(100, 0), nil, string.format(l.PUMP_DOWN_TO_CARGO_TOOLTIP, v)) then
 			pumpDown(fuel)
 		end
 		ui.sameLine()
@@ -330,7 +337,7 @@ local function drawEconTrade()
 	ui.withFont(orbiteer.heading, function() ui.text(l.FINANCE) end)
 	ui.text(l.CASH)
 	ui.sameLine()
-	ui.text(ui.Format.Money(player:GetMoney()))
+	ui.text(ui.Format.Money(PlayerState.GetMoney()))
 
 end
 

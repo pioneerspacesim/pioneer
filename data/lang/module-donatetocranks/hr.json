@@ -1,138 +1,138 @@
 {
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "DONIRAJ!"
   },
   "FLAVOUR_0_DESC": {
     "description": "",
-    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+    "message": "Crkva Nebeskog Letećeg Špagetnog Čudovišta treba VAŠ novac za širenje Božje riječi."
   },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
-    "message": "Please select an amount to donate to the Church of the Celestial Flying Spaghetti Monster."
+    "message": "Molimo odaberite iznos koji želite donirati Crkvi Nebeskog Letećeg Špagetnog Čudovišta."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "DONATE"
+    "message": "DONIRAJ"
   },
   "FLAVOUR_1_DESC": {
     "description": "",
-    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
+    "message": "Čuvari Slobodnog Duha ponizno mole vašu dobrotvornu pomoć za potporu našim samostanima."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
-    "message": "Peace be with you, brother. Please select an amount to donate to the Guardians of the Free Spirit."
+    "message": "Mir s tobom, brate. Molimo odaberite iznos koji ćete donirati Čuvarima Slobodnog Duha."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "FEELING GENEROUS?"
+    "message": "OSJEĆATE SE VELIKODUŠNO?"
   },
   "FLAVOUR_2_DESC": {
     "description": "",
-    "message": "War Orphan's Support needs your help to keep up its essential work."
+    "message": "Udruga za podršku ratnoj siročadi treba vašu pomoć kako bi nastavila svoj osnovni rad."
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
-    "message": "Please select an amount to donate to War Orphan's Support, and end the suffering of children all over the galaxy."
+    "message": "Molimo odaberite iznos koji želite donirati za podršku ratnoj siročadi i okončati patnju djece diljem galaksije."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "CONTRIBUTE"
+    "message": "DOPRINESITE"
   },
   "FLAVOUR_3_DESC": {
     "description": "",
-    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+    "message": "Kampanja Prijatelji galaksije 'Zabranite vojne vožnje' treba vaš novac."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
-    "message": "Please select an amount to donate to the GreenWatch, and end the pollution of our galaxy."
+    "message": "Molimo odaberite iznos koji želite donirati GreenWatchu i zaustaviti zagađenje naše galaksije."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "DONIRAJ!"
   },
   "FLAVOUR_4_DESC": {
     "description": "",
-    "message": "Save our species. Stop the carnage of newly settled worlds."
+    "message": "Spasite našu vrstu. Zaustavite pokolj novonaseljenih svjetova."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
-    "message": "Please select an amount to donate."
+    "message": "Molimo odaberite iznos za donaciju."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "SUPPORT FREEDOM!"
+    "message": "PODRŽITE SLOBODU!"
   },
   "FLAVOUR_5_DESC": {
     "description": "",
-    "message": "Stop the great injustice of proprietary software controlling your ship."
+    "message": "Zaustavite veliku nepravdu vlasničkog softvera koji kontrolira vaš brod."
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",
-    "message": "Liberate your ship! Please choose amount to donate. Happy hacking."
+    "message": "Oslobodite svoj brod! Molimo odaberite iznos za donaciju. Sretno hakiranje."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "VETERANS DAY!"
+    "message": "DAN VETERANA!"
   },
   "FLAVOUR_6_DESC": {
     "description": "",
-    "message": "Support the veterans of the {MILITARY}."
+    "message": "Podržite veterane  {MILITARY}."
   },
   "FLAVOUR_6_MESSAGE": {
     "description": "",
-    "message": "The {MILITARY}. You can always count on them.\nCan they count on you?"
+    "message": "{MILITARY}. Uvijek možete računati na njih.\nMogu li oni računati na vas?"
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "DO THEY HAVE YOUR SUPPORT?"
+    "message": "IMAJU LI VAŠU PODRŠKU?"
   },
   "FLAVOUR_7_DESC": {
     "description": "",
-    "message": "Support the veterans of the {POLICE}."
+    "message": "Podržite veterane  {POLICE}."
   },
   "FLAVOUR_7_MESSAGE": {
     "description": "",
-    "message": "Those brave men and women of the {POLICE} who have dedicated their lives to keeping {SYSTEM} safe need your support!"
+    "message": "Hrabri muškarci i žene iz {POLICE} koji su posvetili svoje živote sigurnosti {SYSTEM} trebaju vašu podršku!"
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
-    "message": "SUPPORT OUR VETERANS!"
+    "message": "PODRŽITE NAŠE VETERANE!"
   },
   "FLAVOUR_8_DESC": {
     "description": "",
-    "message": "Support the veterans of our armed forces."
+    "message": "Podržimo veterane naših oružanih snaga."
   },
   "FLAVOUR_8_MESSAGE": {
     "description": "",
-    "message": "The brave soldiers of the {MILITARY} place themselves in harm's way for you!"
+    "message": "Hrabri vojnici {MILITARY} izlažu se opasnosti za vas!"
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
-    "message": "END POVERTY!"
+    "message": "KRAJ SIROMAŠTVA!"
   },
   "FLAVOUR_9_DESC": {
     "description": "",
-    "message": "Support the fight against poverty in the {FACTION}."
+    "message": "Podržite borbu protiv siromaštva u {FACTION}."
   },
   "FLAVOUR_9_MESSAGE": {
     "description": "",
-    "message": "We empower families in the {FACTION} to create a better future for all."
+    "message": "Osnažujemo obitelji u {FACTION} kako bismo stvorili bolju budućnost za sve."
   },
   "SALES_PITCH": {
     "description": "",
-    "message": "Your reputation would benefit by donating {cash} to our cause, but any donation would help."
+    "message": "Doniranje {cash} našoj misiji bi poboljšalo vaš ugled, ali svaka donacija bi nam pomogla."
   },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",
-    "message": "Thank you. All donations are welcome."
+    "message": "Hvala vam. Sve donacije su dobrodošle."
   },
   "WOW_THAT_WAS_VERY_GENEROUS": {
     "description": "",
-    "message": "Wow! That was very generous."
+    "message": "Vau! To je bilo vrlo velikodušno."
   },
   "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
     "description": "",
-    "message": "You do not have enough money."
+    "message": "Nemaš dovoljno novca."
   }
 }

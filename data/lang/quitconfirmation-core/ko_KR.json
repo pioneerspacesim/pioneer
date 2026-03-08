@@ -1,0 +1,102 @@
+{
+  "MSG_1": {
+    "description": "",
+    "message": "Say {yes} to get out of here and go back to your boring programs?"
+  },
+  "MSG_10": {
+    "description": "",
+    "message": "Please choose {no} to waste a few more productive hours. Please?"
+  },
+  "MSG_11": {
+    "description": "",
+    "message": "Explorers don't quit, but go ahead and click {yes} if you aren't one."
+  },
+  "MSG_12": {
+    "description": "",
+    "message": "Choose {no} If you are a tough bounty hunter, if not, click {yes} daintily."
+  },
+  "MSG_13": {
+    "description": "\"Seeing\" as in having an affair / being unfaithful",
+    "message": "We never talk anymore. Are you seeing someone else?"
+  },
+  "MSG_14": {
+    "description": "",
+    "message": "Do you really have something better to do?"
+  },
+  "MSG_15": {
+    "description": "",
+    "message": "Giving up already?"
+  },
+  "MSG_16": {
+    "description": "A little homage to the movie 2001 A Space Odyssey",
+    "message": "Just what do you think you're doing, Dave?"
+  },
+  "MSG_17": {
+    "description": "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
+    "message": "Quitting is for WIMPs!"
+  },
+  "MSG_18": {
+    "description": "Catch phrase of 2016?",
+    "message": "Make Pioneer great again! Only losers quit, sure about this?"
+  },
+  "MSG_19": {
+    "description": "Alluding to / inviting the player to contribute content to the game",
+    "message": "Done testing, back to contributing?"
+  },
+  "MSG_2": {
+    "description": "",
+    "message": "Don't go now, there's a pirate waiting for you in the other program."
+  },
+  "MSG_20": {
+    "description": "",
+    "message": "Do you really have to go?"
+  },
+  "MSG_21": {
+    "description": "alluding to suicide",
+    "message": "Taking the cowards way out?"
+  },
+  "MSG_22": {
+    "description": "alluding to suicide",
+    "message": "Don't do it! It can only get better from here! Still want to give up?"
+  },
+  "MSG_3": {
+    "description": "",
+    "message": "Are you sure you want to quit this great game that cost you nothing?"
+  },
+  "MSG_4": {
+    "description": "",
+    "message": "Doest thou wish to leave with such hasty abandon?"
+  },
+  "MSG_5": {
+    "description": "(Inspired by Wolfenstein 3D)",
+    "message": "Choose {no} for guns and glory, {yes} for work and worry."
+  },
+  "MSG_6": {
+    "description": "",
+    "message": "Click {no} to be brave, click {yes} to cower in shame."
+  },
+  "MSG_7": {
+    "description": "Doom 1 anyone? Although it said DOS instead of Command line",
+    "message": "I wouldn't leave if I were you. The command line is much worse."
+  },
+  "MSG_8": {
+    "description": "",
+    "message": "I'm thinking you want to click {no} to play more. You do it."
+  },
+  "MSG_9": {
+    "description": "",
+    "message": "Clicking {yes} means you must return to the humdrum workday world."
+  },
+  "NO": {
+    "description": "No, don't quit program",
+    "message": "No"
+  },
+  "QUIT": {
+    "description": "Quit game, as a question",
+    "message": "Quit?"
+  },
+  "YES": {
+    "description": "Yes, quit program",
+    "message": "Yes"
+  }
+}

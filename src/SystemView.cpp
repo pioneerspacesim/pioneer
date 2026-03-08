@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SystemView.h"
@@ -6,12 +6,14 @@
 #include "AnimationCurves.h"
 #include "Background.h"
 #include "Game.h"
+#include "HyperspaceCloud.h"
 #include "Input.h"
 #include "Pi.h"
 #include "Player.h"
 #include "SectorView.h"
 #include "Space.h"
 #include "gameconsts.h"
+#include "graphics/VertexBuffer.h"
 #include "matrix4x4.h"
 #include "core/Log.h"
 
@@ -30,7 +32,7 @@
 
 #include "imgui/imgui.h"
 #include "profiler/Profiler.h"
-#include "SDL_keycode.h"
+#include <SDL_keycode.h>
 
 using namespace Graphics;
 
@@ -144,6 +146,20 @@ void SystemView::RefreshShips(void)
 	}
 }
 
+void SystemView::RefreshClouds(void)
+{
+	m_clouds.clear();
+	for (auto body : m_game->GetSpace()->GetBodies()) {
+		if (body->GetType() == ObjectType::HYPERSPACECLOUD) {
+			const auto cloud = static_cast<HyperspaceCloud *>(body);
+			// Never show cloud remnants
+			if (cloud->GetShip() != nullptr) {
+				m_clouds.push_back(cloud);
+			}
+		}
+	}
+}
+
 void SystemView::AddShipTracks(double time)
 {
 	using Col = SystemMapViewport::ColorIndex;
@@ -162,6 +178,20 @@ void SystemView::AddShipTracks(double time)
 			vector3d framepos(0.0);
 			CalculateFramePositionAtTime(s->first->GetFrame(), time, framepos);
 			m_map->AddOrbitTrack({ Projectable::ORBIT, Projectable::SHIP, s->first, framepos }, &s->second, orbitColor, 0);
+		}
+	}
+}
+
+void SystemView::AddCloudTracks(double time)
+{
+	auto mode = m_map->GetCloudDrawing();
+	auto frame = m_game->GetSpace()->GetRootFrame();
+	for (auto cloud : m_clouds) {
+		Projectable p = { Projectable::OBJECT, Projectable::BODY, cloud, cloud->GetPositionRelTo(frame) };
+		if (cloud->IsArrival() && (mode == CLOUD_ON || mode == CLOUD_ARRIVAL)) {
+			m_map->AddObjectTrack(p);
+		} else if(!cloud->IsArrival() && (mode == CLOUD_ON || mode == CLOUD_DEPARTURE)) {
+			m_map->AddObjectTrack(p);
 		}
 	}
 }
@@ -214,6 +244,10 @@ void SystemView::Update()
 		}
 	}
 
+	if (m_map->GetCloudDrawing() != CLOUD_OFF) {
+		RefreshClouds();
+	}
+
 	if (m_game->IsNormalSpace() && m_viewingCurrentSystem) {
 		using Col = SystemMapViewport::ColorIndex;
 
@@ -222,6 +256,11 @@ void SystemView::Update()
 		// draw ships
 		if (m_map->GetShipDrawing() != OFF) {
 			AddShipTracks(time);
+		}
+
+		// draw clouds
+		if (m_map->GetCloudDrawing() != CLOUD_OFF) {
+			AddCloudTracks(time);
 		}
 
 		// draw player and planner
@@ -244,7 +283,7 @@ void SystemView::Update()
 			m_map->AddOrbitTrack({ Projectable::ORBIT, Projectable::PLAYER, PlayerBody, offset }, &playerOrbit, m_map->svColor[Col::PLAYER_ORBIT], planetRadius);
 
 			const double plannerStartTime = m_planner->GetStartTime();
-			if (!m_planner->GetPosition().ExactlyEqual(vector3d(0, 0, 0))) {
+			if (!m_planner->GetPosition().ExactlyEqual(vector3d::Zero)) {
 				Orbit plannedOrbit = Orbit::FromBodyState(m_planner->GetPosition(),
 					m_planner->GetVel(),
 					playerAround->GetMass());
@@ -313,6 +352,7 @@ SystemMapViewport::SystemMapViewport(GuiApplication *app) :
 	m_showGravpoints(false),
 	m_showL4L5(LAG_OFF),
 	m_shipDrawing(OFF),
+	m_cloudDrawing(CLOUD_ON),
 	m_gridDrawing(GridDrawing::OFF),
 	m_rot_x(50),
 	m_rot_y(0),
@@ -328,10 +368,12 @@ SystemMapViewport::SystemMapViewport(GuiApplication *app) :
 	Graphics::RenderStateDesc rsd;
 	rsd.primitiveType = Graphics::LINE_STRIP;
 
-	m_lineMat.reset(m_renderer->CreateMaterial("vtxColor", lineMatDesc, rsd)); //m_renderer not set yet
+	Graphics::VertexFormatDesc vfmt = m_lines.GetVertexFormat();
+
+	m_lineMat.reset(m_renderer->CreateMaterial("vtxColor", lineMatDesc, rsd, vfmt));
 
 	rsd.primitiveType = Graphics::LINE_SINGLE;
-	m_gridMat.reset(m_renderer->CreateMaterial("vtxColor", lineMatDesc, rsd));
+	m_gridMat.reset(m_renderer->CreateMaterial("vtxColor", lineMatDesc, rsd, vfmt));
 
 	ResetViewpoint();
 
@@ -560,8 +602,8 @@ void SystemMapViewport::Draw3D()
 		Graphics::RenderStateDesc rsd;
 		rsd.primitiveType = Graphics::TRIANGLE_FAN;
 
-		m_bodyMat.reset(m_renderer->CreateMaterial("unlit", desc, rsd));
 		m_bodyIcon.reset(new Graphics::Drawables::Disk(m_renderer));
+		m_bodyMat.reset(m_renderer->CreateMaterial("unlit", desc, rsd, m_bodyIcon->GetVertexFormat()));
 	}
 
 	if (!m_atlasMat) {
@@ -572,7 +614,7 @@ void SystemMapViewport::Draw3D()
 		rsd.primitiveType = Graphics::TRIANGLE_FAN;
 		rsd.depthTest = false;
 
-		m_atlasMat.reset(m_renderer->CreateMaterial("unlit", desc, rsd));
+		m_atlasMat.reset(m_renderer->CreateMaterial("unlit", desc, rsd, m_bodyIcon->GetVertexFormat()));
 		m_atlasMat->SetTexture(Graphics::Renderer::GetName("texture0"), TextureBuilder::GetWhiteTexture(m_renderer));
 	}
 
@@ -590,7 +632,7 @@ void SystemMapViewport::DrawOrreryView()
 	m_renderer->SetPerspectiveProjection(CAMERA_FOV, float(m_viewportSize.w) / m_viewportSize.h, 1.f, 1500.f);
 
 	// Background is rotated around (0,0,0) and drawn
-	matrix4x4d trans2bg = matrix4x4d::Identity();
+	matrix4x4d trans2bg = matrix4x4d::Identity;
 	trans2bg.RotateX(DEG2RAD(-m_rot_x));
 	trans2bg.RotateY(DEG2RAD(-m_rot_y));
 
@@ -625,7 +667,7 @@ void SystemMapViewport::DrawOrreryView()
 	// the coordinates of the objects are scaled, but the shift is not.
 	// The surface distance translation ensures the view does not go inside of a planet.
 	// This matrix operation is read in reverse order (bottom-to-top).
-	m_cameraSpace = matrix4x4f::Identity();
+	m_cameraSpace = matrix4x4f::Identity;
 	m_cameraSpace.Translate(0, 0, -DEFAULT_VIEW_DISTANCE);
 	m_cameraSpace.Translate(0, 0, -surfaceDistance * m_zoom); // apply scale from m_zoom
 	m_cameraSpace.Rotate(DEG2RAD(m_rot_x), 1, 0, 0);
@@ -769,7 +811,7 @@ void SystemMapViewport::RenderAtlasBody(const AtlasBodyLayout &layout, vector3f 
 	pos += vector3f(layout.offset.x, -layout.offset.y, 0.f);
 
 	if (layout.body->GetType() != SystemBody::TYPE_GRAVPOINT) {
-		matrix4x4f bodyTrans = matrix4x4f::Identity();
+		matrix4x4f bodyTrans = matrix4x4f::Identity;
 		bodyTrans.Translate(pos);
 		bodyTrans.Scale(layout.radius);
 		m_renderer->SetTransform(cameraTrans * bodyTrans);
@@ -783,7 +825,7 @@ void SystemMapViewport::RenderAtlasBody(const AtlasBodyLayout &layout, vector3f 
 		AddProjected({ Projectable::OBJECT, Projectable::SYSTEMBODY, layout.body }, Projectable::OBJECT, vector3d(), layout.radius * pixPerUnit);
 	}
 	/* else { // gravpoint debugging
-		matrix4x4f bodyTrans = matrix4x4f::Identity();
+		matrix4x4f bodyTrans = matrix4x4f::Identity;
 		bodyTrans.Translate(pos - vector3f(layout.offset.x, -layout.offset.y, 0.f));
 		m_renderer->SetTransform(cameraTrans * bodyTrans);
 
@@ -801,7 +843,7 @@ void SystemMapViewport::DrawAtlasView()
 	m_renderer->SetPerspectiveProjection(CAMERA_FOV, float(m_viewportSize.w) / m_viewportSize.h, 1.f, 1500.f);
 
 	// Background is rotated around (0,0,0), adjusted for parallax effect, and drawn
-	matrix4x4d trans2bg = matrix4x4d::Identity();
+	matrix4x4d trans2bg = matrix4x4d::Identity;
 
 	// parallax effect
 	trans2bg.Translate(m_atlasPos.x, -m_atlasPos.y, 0.0);
@@ -820,10 +862,10 @@ void SystemMapViewport::DrawAtlasView()
 	// Pick an orthographic projection scale that has the same apparent size as a perspective projection at 30m.
 	m_renderer->SetProjection(matrix4x4f::OrthoMatrix(m_atlasViewW * m_atlasZoom, m_atlasViewH * m_atlasZoom, 1.0, 1000.0));
 
-	matrix4x4f cameraTrans = matrix4x4f::Identity();
+	matrix4x4f cameraTrans = matrix4x4f::Identity;
 	cameraTrans.Translate(vector3f(m_atlasPos.x, -m_atlasPos.y, -10.0));
 
-	matrix4x4f gridTransform = matrix4x4f::Identity();
+	matrix4x4f gridTransform = matrix4x4f::Identity;
 	gridTransform.Translate(vector3f(0, 0, -1.0f));
 	gridTransform.RotateX(M_PI / 2.0);
 	gridTransform.Scale(4.0 / float(AU)); // one grid square = one earth diameter = two units
@@ -945,7 +987,7 @@ void SystemMapViewport::Update(float ft)
 	if (m_displayMode == SystemView::Mode::Orrery) {
 		if (m_system && !m_system->GetUnexplored() && m_system->GetRootBody()) {
 			// all systembodies draws here
-			AddBodyTrack(m_system->GetRootBody().Get(), vector3d(0, 0, 0));
+			AddBodyTrack(m_system->GetRootBody().Get(), vector3d::Zero);
 		}
 	}
 }
@@ -1096,33 +1138,42 @@ void SystemMapViewport::AddProjected(Projectable p, Projectable::types type, con
 
 void SystemMapViewport::SetVisibility(const std::string &param)
 {
-	if (param == "RESET_VIEW")
+	if (param == "RESET_VIEW") {
 		ResetViewpoint();
-	else if (param == "GRID_OFF")
+	} else if (param == "GRID_OFF") {
 		m_gridDrawing = GridDrawing::OFF;
-	else if (param == "GRID_ON")
+	} else if (param == "GRID_ON") {
 		m_gridDrawing = GridDrawing::GRID;
-	else if (param == "GRID_AND_LEGS")
+	} else if (param == "GRID_AND_LEGS") {
 		m_gridDrawing = GridDrawing::GRID_AND_LEGS;
-	else if (param == "LAG_OFF")
+	} else if (param == "LAG_OFF") {
 		m_showL4L5 = LAG_OFF;
-	else if (param == "LAG_ICON")
+	} else if (param == "LAG_ICON") {
 		m_showL4L5 = LAG_ICON;
-	else if (param == "LAG_ICONTEXT")
+	} else if (param == "LAG_ICONTEXT") {
 		m_showL4L5 = LAG_ICONTEXT;
-	else if (param == "SHIPS_OFF") {
-		m_shipDrawing = OFF;
+	} else if (param == "SHIPS_OFF") {
+		m_shipDrawing = ShipDrawing::OFF;
 		// if we are attached to the ship, reset view, since the ship was hidden
 		if (m_selectedObject.type != Projectable::NONE && m_selectedObject.base == Projectable::SHIP)
 			m_selectedObject.type = Projectable::NONE;
 		if (m_viewedObject.type != Projectable::NONE && m_viewedObject.base == Projectable::SHIP)
 			ResetViewpoint();
-	} else if (param == "SHIPS_ON")
-		m_shipDrawing = BOXES;
-	else if (param == "SHIPS_ORBITS")
-		m_shipDrawing = ORBITS;
-	else
+	} else if (param == "SHIPS_ON") {
+		m_shipDrawing = ShipDrawing::BOXES;
+	} else if (param == "SHIPS_ORBITS") {
+		m_shipDrawing = ShipDrawing::ORBITS;
+	} else if (param == "CLOUDS_OFF") {
+		m_cloudDrawing = CLOUD_OFF;
+	} else if (param == "CLOUDS_ON") {
+		m_cloudDrawing = CLOUD_ON;
+	} else if (param == "CLOUDS_ARRIVAL") {
+		m_cloudDrawing = CLOUD_ARRIVAL;
+	} else if (param == "CLOUDS_DEPARTURE") {
+		m_cloudDrawing = CLOUD_DEPARTURE;
+	} else {
 		Output("Unknown visibility: %s\n", param.c_str());
+	}
 }
 
 void SystemMapViewport::SetZoomMode(bool enable)

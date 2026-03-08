@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Model.h"
@@ -136,8 +136,8 @@ namespace SceneGraph {
 		if (m_curPattern) {
 			for (auto &mat : m_materials) {
 				if (mat.second->GetDescriptor().usePatterns) {
-					mat.second->SetTexture("texture4"_hash, m_curPattern);
-					mat.second->SetTexture("texture5"_hash, m_colorMap.GetTexture());
+					mat.second->SetTexture("pattern"_hash, m_curPattern);
+					mat.second->SetTexture("color"_hash, m_colorMap.GetTexture());
 				}
 			}
 		}
@@ -145,7 +145,7 @@ namespace SceneGraph {
 		//update decals (materials and geometries are shared)
 		for (unsigned int i = 0; i < MAX_DECAL_MATERIALS; i++)
 			if (m_decalMaterials[i])
-				m_decalMaterials[i]->SetTexture("texture0"_hash, m_curDecals[i]);
+				m_decalMaterials[i]->SetTexture("diffuse"_hash, m_curDecals[i]);
 
 		//Override renderdata if this model is called from ModelNode
 		RenderData params = (rd != 0) ? (*rd) : m_renderData;
@@ -182,7 +182,7 @@ namespace SceneGraph {
 				rsd.depthWrite = false;
 				rsd.primitiveType = Graphics::LINE_SINGLE;
 
-				m_debugLineMat.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd));
+				m_debugLineMat.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd, m_debugMesh->GetFormat()));
 			}
 
 			m_renderer->SetTransform(trans);
@@ -198,8 +198,8 @@ namespace SceneGraph {
 		if (m_curPattern) {
 			for (auto &mat : m_materials) {
 				if (mat.second->GetDescriptor().usePatterns) {
-					mat.second->SetTexture("texture4"_hash, m_curPattern);
-					mat.second->SetTexture("texture5"_hash, m_colorMap.GetTexture());
+					mat.second->SetTexture("pattern"_hash, m_curPattern);
+					mat.second->SetTexture("color"_hash, m_colorMap.GetTexture());
 				}
 			}
 		}
@@ -207,7 +207,7 @@ namespace SceneGraph {
 		//update decals (materials and geometries are shared)
 		for (unsigned int i = 0; i < MAX_DECAL_MATERIALS; i++)
 			if (m_decalMaterials[i])
-				m_decalMaterials[i]->SetTexture("texture0"_hash, m_curDecals[i]);
+				m_decalMaterials[i]->SetTexture("diffuse"_hash, m_curDecals[i]);
 
 		//Override renderdata if this model is called from ModelNode
 		RenderData params = (rd != 0) ? (*rd) : m_renderData;
@@ -242,15 +242,6 @@ namespace SceneGraph {
 		m_collMesh = cv.CreateCollisionMesh();
 		m_boundingRadius = cv.GetBoundingRadius();
 		return m_collMesh;
-	}
-
-	RefCountedPtr<Graphics::Material> Model::GetMaterialByName(const std::string &name) const
-	{
-		for (auto it : m_materials) {
-			if (it.first == name)
-				return it.second;
-		}
-		return RefCountedPtr<Graphics::Material>(); //return invalid
 	}
 
 	RefCountedPtr<Graphics::Material> Model::GetMaterialByIndex(const int i) const
@@ -591,7 +582,7 @@ namespace SceneGraph {
 		}
 	}
 
-	static void AddAABBVisualizer(const Aabb &aabb, Color color, Graphics::VertexArray &lines, const matrix4x4f &transform = matrix4x4fIdentity)
+	static void AddAABBVisualizer(const Aabb &aabb, Color color, Graphics::VertexArray &lines, const matrix4x4f &transform = matrix4x4f::Identity)
 	{
 		PROFILE_SCOPED()
 
@@ -625,7 +616,7 @@ namespace SceneGraph {
 		ModelAABBVisitor(Graphics::VertexArray &lines) :
 			lines(lines)
 		{
-			matrixStack.push_back(matrix4x4fIdentity);
+			matrixStack.push_back(matrix4x4f::Identity);
 		}
 
 		void ApplyMatrixTransform(MatrixTransform &mt) override

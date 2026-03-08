@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 /*
@@ -13,8 +13,6 @@
 #include "Player.h"
 #include "utils.h"
 
-#include "SDL_audio.h"
-#include "SDL_events.h"
 #include <SDL.h>
 #include <vorbis/vorbisfile.h>
 
@@ -690,6 +688,10 @@ namespace Sound {
 
 	void Pause(int on)
 	{
+		if (bool(on) == (SDL_AUDIO_PAUSED == SDL_GetAudioDeviceStatus(m_audioDevice)))
+		{
+			return;
+		}
 		SDL_PauseAudioDevice(m_audioDevice, on);
 	}
 

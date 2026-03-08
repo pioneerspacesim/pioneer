@@ -69,7 +69,7 @@
   },
   "DENY_2": {
     "description": "",
-    "message": "Non credo che tu sia il pilota che siamo cercando."
+    "message": "Non credo che tu sia il pilota che sto cercando."
   },
   "DENY_3": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "DENY_6": {
     "description": "",
-    "message": "Non ho mai sentito parlare di te. Ho bisogno di qualcuno con dell'esperienza, per questo viaggio."
+    "message": "Non ho mai sentito parlare di te. Ho bisogno di qualcuno con dell'esperienza per questo viaggio."
   },
   "DENY_7": {
     "description": "",
@@ -113,7 +113,7 @@
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
-    "message": "Assolutamente non professionale. Ci ha messo troppo e non intendiamo pagarle quando era stato stabilito."
+    "message": "Assolutamente non professionale. Ci ha messo troppo e non intendiamo pagarle quanto era stato stabilito."
   },
   "FLAVOUR_0_HOWMANY": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "FLAVOUR_11_WHYSOMUCH": {
     "description": "",
-    "message": "Sono un ispettore di fabbrica che fa la sua ronda."
+    "message": "Sono un ispettore di fabbrica che sta facendo alcune trasferte"
   },
   "FLAVOUR_12_ADTEXT": {
     "description": "",
@@ -257,7 +257,7 @@
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "Siamo molto contrariati! Ci ha messo un era geologica ad arrivare qua. Abbiamo deciso di non pagarla."
+    "message": "Siamo molto contrariati! Ci ha messo un'eternità ad arrivare qua. Abbiamo deciso di non pagarla."
   },
   "FLAVOUR_1_HOWMANY": {
     "description": "",
@@ -293,7 +293,7 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "Non possiamo accetarlo! C'è voluta un'eternità. Non le pagheremo nulla."
+    "message": "Inaccettabile! C'è voluta un'eternità. Non le pagheremo nulla."
   },
   "FLAVOUR_2_HOWMANY": {
     "description": "",
@@ -385,7 +385,7 @@
   },
   "FLAVOUR_4_WHYSOMUCH": {
     "description": "",
-    "message": "Sono un commesso viaggiatore."
+    "message": "Sono un funzionario commerciale in trasferta"
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -401,7 +401,7 @@
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
-    "message": "Cos'ha fatto! La mia tounee è rovinata ed avrò perso metà dei miei ammiratori."
+    "message": "Cos'ha fatto! La mia tournee è rovinata ed avrò perso metà dei miei ammiratori."
   },
   "FLAVOUR_5_HOWMANY": {
     "description": "",

@@ -1,10 +1,10 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Log.h"
 #include "DateTime.h"
 #include "FileSystem.h"
-#include "SDL_messagebox.h"
+#include <SDL_messagebox.h>
 #include <SDL.h>
 #include <chrono>
 #include <cstdio>

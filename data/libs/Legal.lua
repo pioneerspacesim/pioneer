@@ -1,7 +1,8 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 local Comms = require 'Comms'
 local Game = require 'Game'
+local PlayerState = require 'PlayerState'
 
 local Lang = require 'Lang'
 local l = Lang.GetResource("ui-core")
@@ -17,20 +18,14 @@ local l = Lang.GetResource("ui-core")
 -- Different types of crimes and law offences
 --
 -- DUMPING - jettison of hazardous rubble/waste
+-- ILLEGAL_JUMP - jumping into hyperspace too close to station
 -- MURDER - destruction of ship
 -- PIRACY - fired on ship
 -- TRADING_ILLEGAL_GOODS - attempted to sell illegal goods
 -- WEAPONS_DISCHARGE - weapons discharged too close to station
+-- ECM_DISCHARGE - ECM discharged too close to station
+-- CONTRACT_FRAUD - crime committed by intentionally breaking a contract
 --
--- Availability:
---
---   2015 July
---
--- Status:
---
---   experimental
---
-
 
 local Legal = {}
 Legal.CrimeType = {}
@@ -41,6 +36,7 @@ Legal.CrimeType["MURDER"] = {basefine = 1.5e6, name = l.MURDER}
 Legal.CrimeType["PIRACY"] = {basefine = 1e5, name = l.PIRACY}
 Legal.CrimeType["TRADING_ILLEGAL_GOODS"] = {basefine = 5e3, name = l.TRADING_ILLEGAL_GOODS}
 Legal.CrimeType["WEAPONS_DISCHARGE"] = {basefine = 5e2, name = l.UNLAWFUL_WEAPONS_DISCHARGE}
+Legal.CrimeType["ECM_DISCHARGE"] = {basefine = 7.5e2, name = l.UNLAWFUL_ECM_DISCHARGE}
 Legal.CrimeType["CONTRACT_FRAUD"] = {basefine = 5e2, name = l.CONTRACT_FRAUD}
 
 
@@ -50,7 +46,7 @@ end
 
 function Legal:notifyOfCrime (ship, crime)
 	if not ship:IsPlayer() then return end
-	-- TODO: can this be called in hyperpace?
+	-- TODO: can this be called in hyperspace?
 
 	-- find closest law enforcing station
 	local station = Game.player:FindNearestTo("SPACESTATION")
@@ -67,12 +63,12 @@ function Legal:notifyOfCrime (ship, crime)
 						   station.label)
 
 	local lawlessness = Game.system.lawlessness
-	local _, outstandingfines = Game.player:GetCrimeOutstanding()
+	local _, outstandingfines = PlayerState.GetCrimeOutstanding()
 	local newFine = self:fine(crime, lawlessness)
 
 	-- don't keep compounding fines, except for murder
 	if crime ~= "MURDER" and newFine < outstandingfines then newFine = 0 end
-	Game.player:AddCrime(crime, newFine)
+	PlayerState.AddCrime(crime, newFine)
 end
 
 

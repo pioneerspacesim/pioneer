@@ -97,7 +97,7 @@
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
-    "message": "Tubes d'aluminium"
+    "message": "tubes en aluminium"
   },
   "AMOUNT": {
     "description": "Shown in mission summary. The amount of cargo",
@@ -105,7 +105,19 @@
   },
   "ART_OBJECTS": {
     "description": "custom cargo",
-    "message": "Objets d'art"
+    "message": "objets d'art"
+  },
+  "ART_OBJECTS_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "À moins de considérer les critiques d'art comme un risque, non."
+  },
+  "ART_OBJECTS_RISK_MESSAGE_2": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Entre vous et moi... ne regardez pas les \"oeuvres\" d'art et vous vous en tirerez."
+  },
+  "ART_OBJECTS_RISK_MESSAGE_3": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Le seul danger que l'impressionisme posait au 25ème siècle était pour l'artiste originel, vous devriez être en sécurité."
   },
   "CARGO": {
     "description": "",
@@ -129,7 +141,7 @@
   },
   "CLUS": {
     "description": "custom cargo",
-    "message": "Unités vivantes compartimentées"
+    "message": "résidence conteneurisée"
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
@@ -185,11 +197,11 @@
   },
   "DIAMONDS": {
     "description": "custom cargo",
-    "message": "Diamants"
+    "message": "diamants"
   },
   "DIGESTERS": {
     "description": "custom cargo",
-    "message": "Digesteurs"
+    "message": "digesteurs"
   },
   "DISTANCE": {
     "description": "distance in space, between two locations",
@@ -197,7 +209,7 @@
   },
   "ELECTRICAL_APPLIANCES": {
     "description": "custom cargo",
-    "message": "Appareils électriques"
+    "message": "appareils électriques"
   },
   "ESCORT_CHATTER_1": {
     "description": "",
@@ -221,7 +233,11 @@
   },
   "EXPLOSIVES": {
     "description": "custom cargo",
-    "message": "Explosifs"
+    "message": "explosifs"
+  },
+  "EXPLOSIVES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Non. En fait ce sont des explosifs, donc ne les faites donc pas tomber."
   },
   "FAILUREMSG_1": {
     "description": "",
@@ -245,7 +261,7 @@
   },
   "FURNITURE": {
     "description": "custom cargo",
-    "message": "Meubles"
+    "message": "meubles"
   },
   "GO_BACK": {
     "description": "Shown on a button in a sub-menu, to move back, to previous menu",
@@ -253,7 +269,7 @@
   },
   "GREENHOUSES": {
     "description": "custom cargo",
-    "message": "Serres"
+    "message": "serres"
   },
   "GUNS_GUNS_GUNS": {
     "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
@@ -261,7 +277,11 @@
   },
   "HAZARDOUS_SUBSTANCES": {
     "description": "custom cargo",
-    "message": "Substances dangeureuses"
+    "message": "substances dangereuses"
+  },
+  "HAZARDOUS_SUBSTANCES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Vous ne devriez pas ouvrir les conteneurs, je suppose."
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
@@ -269,27 +289,27 @@
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}t"
+    "message": "{amount} t"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Le poids est de {amount}t."
+    "message": "La masse est de {amount} t."
   },
   "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "Il y a {amount}t."
+    "message": "Il y a {amount} t."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "C'est seulement {amount}t."
+    "message": "Cela pèse seulement {amount} t."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "Il y a {amount}t de {cargoname}."
+    "message": "Il y a {amount} t de {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}t {cargoname}"
+    "message": "{amount} t {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
@@ -385,7 +405,7 @@
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
-    "message": "machines-outils"
+    "message": "machine-outils"
   },
   "NEGOTIABLE_1": {
     "description": "regarding mass, always more than 1t",
@@ -393,7 +413,7 @@
   },
   "NEGOTIABLE_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "Lest {amount}t de {cargoname} peuvent être divisés comme suit:"
+    "message": "Les {amount} t de {cargoname} peuvent être divisés comme suit:"
   },
   "NEGOTIABLE_3": {
     "description": "regarding mass, always more than 1t",
@@ -405,15 +425,15 @@
   },
   "NEGOTIABLE_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "Non. C'est seulement {amount}t."
+    "message": "Non. Cela pèse seulement {amount} t."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
-    "message": "Neptunium"
+    "message": "neptunium"
   },
   "OFFER": {
     "description": "",
-    "message": "Transporter {amount}t pour un montant de {reward}"
+    "message": "Transportez {amount} t pour un montant de {reward}"
   },
   "OK_AGREED": {
     "description": "",
@@ -421,7 +441,7 @@
   },
   "OK_WE_AGREE": {
     "description": "",
-    "message": "Ok, nous sommes d'accord pour {amount}t à {reward}."
+    "message": "OK, nous sommes d'accord pour {amount} t pour un montant de {reward}"
   },
   "PICKUP_FROM": {
     "description": "from a location",
@@ -469,11 +489,19 @@
   },
   "PLUTONIUM": {
     "description": "custom cargo",
-    "message": "Plutonium"
+    "message": "plutonium"
   },
   "QUIBBLES": {
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-    "message": "Quibules"
+    "message": "triboules"
+  },
+  "QUIBBLES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Non. Veuillez bien à ne pas les mouiller et à ne pas les nourrir après minuit."
+  },
+  "QUIBBLES_RISK_MESSAGE_2": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Bien sûr que non ! Regardez-les, ils sont si doux."
   },
   "RISK_1": {
     "description": "",
@@ -529,7 +557,7 @@
   },
   "SEMI_FINISHED_PRODUCTS": {
     "description": "custom cargo",
-    "message": "Produits à demi-terminés"
+    "message": "produits semi-finis"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -545,11 +573,11 @@
   },
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
-    "message": "Pièces de vaisseau spatial"
+    "message": "pièces de vaisseau spatial"
   },
   "STEM_BOLTS": {
     "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
-    "message": "Boulons à auto-fermeture"
+    "message": "pieds de boulons auto-régénérants"
   },
   "SUCCESSMSG_1": {
     "description": "",
@@ -581,7 +609,7 @@
   },
   "TITANIUM": {
     "description": "custom cargo",
-    "message": "Titane"
+    "message": "titane"
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
@@ -589,11 +617,11 @@
   },
   "TUNGSTEN": {
     "description": "custom cargo",
-    "message": "Tungsten"
+    "message": "tungstène"
   },
   "URANIUM": {
     "description": "custom cargo",
-    "message": "Uranium"
+    "message": "uranium"
   },
   "URGENCY_1": {
     "description": "",
@@ -625,7 +653,11 @@
   },
   "WEDDING_DRESSES": {
     "description": "custom cargo",
-    "message": "Robes de mariée"
+    "message": "robes de mariées"
+  },
+  "WEDDING_DRESSES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Pour des robes de mariées ?"
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",

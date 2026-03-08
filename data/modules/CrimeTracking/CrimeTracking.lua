@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Event = require 'Event'
@@ -7,9 +7,12 @@ local Engine = require 'Engine'
 local Timer = require 'Timer'
 local Serializer = require 'Serializer'
 local Legal = require 'Legal'
+local PlayerState = require 'PlayerState'
 
--- Fine at which police will launch and hunt donwn outlaw player
-local maxFineTolerated = 300
+-- Fine at which police will launch and hunt down outlaw player
+-- This is the level above which the player counts as a criminal
+-- in data/libs/PlayerState.lua
+local maxFineTolerated = 5500
 
 -- store which station sent them out
 local policeDispatched = false
@@ -18,7 +21,7 @@ local policeDispatched = false
 local function doLawAndOrder ()
 	if Game.player.flightState == "HYPERSPACE" then return end
 
-	local crimes, fine = Game.player:GetCrimeOutstanding()
+	local crimes, fine = PlayerState.GetCrimeOutstanding()
 	if not policeDispatched then
 		if fine > maxFineTolerated and
 		Game.player.flightState == "FLYING" and
@@ -102,8 +105,14 @@ local onShipFiring = function(ship)
 end
 
 
+local unlawfulDischargeECM = function(ship)
+	if ship:IsPlayer() then
+		Legal:notifyOfCrime(ship,"ECM_DISCHARGE")
+	end
+end
+
+
 local onLeaveSystem = function(ship)
-	if not ship:IsPlayer() then return end
 	-- if we leave the system, the space station object will be invalid
 	policeDispatched = nil
 
@@ -121,6 +130,7 @@ end
 Event.Register("onShipHit", onShipHit)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onShipFiring", onShipFiring)
+Event.Register("unlawfulDischargeECM", unlawfulDischargeECM)
 Event.Register("onJettison", onJettison)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)

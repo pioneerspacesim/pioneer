@@ -1,0 +1,354 @@
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+local Json = require 'Json'
+local FileSystem = require 'FileSystem'
+
+local utils = require 'utils'
+
+-- Class: Economy.Industry
+--
+-- This module implements a generic "station industry" system. Industries
+-- represent an aggregate of individual commercial endeavors within a specific
+-- economic sector of a starport. They are a way to express commodity
+-- production and consumption in a manner that matches the fiction of the game
+-- with an aim towards making intuitive station economies.
+--
+-- This module is purposefully written in such a way that industry selection
+-- and aggregation can be moved to C++ in a trivial fashion to improve
+-- performance.
+--
+-- To that end, please do not mutate the list of available industries
+-- at runtime from Lua; if you plan to mod the list of industries, you
+-- should instead author a JSON patch or define a new file within
+-- data/economy/industries/
+--
+-- Starport industry selection is deterministic, but not stable with regards
+-- to new content being authored. Adding or removing industry definitions will
+-- cause the list of industries at a specific starport to change, potentially
+-- necessitating a savegame bump.
+--
+-- At current, serialization of an IndustryDef is not recommended. Industry
+-- lists are deterministic and should be computed on startup rather than
+-- serialized.
+
+-- Modifiers to an industry's commodity consumption/production
+---@class Economy.IndustryModifier
+---@field inputs table<string, integer>
+---@field outputs table<string, integer>
+
+---@class Economy.IndustryDef
+---@field id string
+---@field clone fun(self, table): self
+local IndustryDef = utils.proto('Economy.IndustryDef')
+
+-- Required host starport type for this industry
+---@type "orbital"|"surface"?
+IndustryDef.context = nil
+
+-- List of conditions required to select this industry (all must be met)
+---@type string[]
+IndustryDef.conditions = {}
+
+-- List of conditions required to select this industry (one must be met)
+---@type string[]
+IndustryDef.conditions_any = {}
+
+-- Commodities consumed by this industry
+---@type table<string, integer>
+IndustryDef.inputs = {}
+-- Commodities produced by this industry
+---@type table<string, integer>
+IndustryDef.outputs = {}
+
+-- Map of optional conditions to demand/production modifiers
+---@type table<string, Economy.IndustryModifier>
+IndustryDef.modifiers = {}
+
+---@type { if: string[]?, id: string, chance: number? }
+IndustryDef.build_next = {}
+
+-- Parse a modifier string and accumulate it into the id-value pair table passed for inputs/outputs.
+--
+-- The format of modifiers is expected to be similar to one of the following:
+--  i:commodity_id+1
+--  o:commodity_id-2
+--  i:*+3
+local function parseModifierString(inputs, outputs, str)
+	local input_output, comm, effect, val = string.match(str, "([io]):(%g+)([%+%-])(%d+)")
+	local amt = effect == "-" and -tonumber(val) or tonumber(val)
+
+	if input_output == "i" then
+		inputs[comm] = (inputs[comm] or 0) + amt
+	else
+		outputs[comm] = (outputs[comm] or 0) + amt
+	end
+end
+
+-- Convert a JSON modifiers block into a list of commodity-effect pairs for input and output commodities.
+local function parseModifiers(tbl)
+	local modifiers = {}
+
+	for id, mod in pairs(tbl) do
+
+		local inputs = {}
+		local outputs = {}
+
+		for _, str in ipairs(mod) do
+			parseModifierString(inputs, outputs, str)
+		end
+
+		modifiers[id] = { inputs = inputs, outputs = outputs }
+	end
+
+	return modifiers
+end
+
+local Industry = {}
+
+-- Convert a JSON industry definition into the runtime data structure.
+---@return Economy.IndustryDef
+function Industry.NewIndustry(id, tbl)
+	local def = IndustryDef:clone(tbl)
+
+	def.id = id
+	def.modifiers = parseModifiers(tbl.modifiers or {})
+
+	return def
+end
+
+---@type table<string, Economy.IndustryDef>
+Industry.industries = {}
+
+-- List of industry ids present in the industries table
+---@type string[]
+Industry.industryList = {}
+
+-- Iterate through a list of condition names, checking if all the listed
+-- conditions are present in the passed tags table.
+-- Handles a simple inversion via the prefix '!'
+---@param tags table<string, boolean>
+---@param conditions string[]
+local function checkConditions(tags, conditions)
+	for _, str in ipairs(conditions) do
+		local inv, cond = str:match("(!?)(%g+)")
+
+		-- Logical XNOR: return false if condition is missing when we want it, or present when we don't
+		if (inv ~= "") == (tags[cond] and true or false) then
+			return false
+		end
+	end
+
+	return true
+end
+
+-- Iterate through a list of condition names, checking for the presence of any
+-- of the listed conditions in the passed tags parameter. Supports inversions.
+local function checkConditionsAny(tags, conditions)
+	for _, str in ipairs(conditions) do
+		local inv, cond = str:match("(!?)(%g+)")
+
+		if (inv ~= "!") == (tags[cond] and true or false) then return true end
+	end
+
+	return #conditions == 0
+end
+
+-- Apply the set of condition modifiers to commodity values.
+-- The '*' wildcard applies the modifier to all currently defined inputs/outputs.
+-- A commodity modifier which references a commodity that is not currently
+-- part of the industry adds that commodity as a new input / output.
+-- No attempt is made to process wildcards before modifiers which add new commodities.
+---@param mods table<string, integer>
+---@param values table<string, integer>
+local function applyModifiers(mods, values)
+	for id, amt in pairs(mods) do
+		if id == '*' then
+			for commodity, modifier in pairs(values) do
+				values[commodity] = modifier + amt
+			end
+		else
+			values[id] = (values[id] or 0) + amt
+		end
+	end
+end
+
+-- Compute the maximum commodity value using the logic:
+-- 1. A commodity output of N can supply a singular industry input of amount N
+-- 2. A commodity output of N can supply infinite industry inputs of amount N-1
+-- 3. A singular industry with an output of N produces a station-wide output of N
+-- 4. 2+ industries with outputs of N produce a station-wide output of N+1
+--
+-- Thus, two or more commodity values of the same underlying N sum to N+1,
+-- but two values of N do not sum with a third value of N+1 to produce N+2.
+local function sumIndustryVal(value, current, maxValue)
+	if value == maxValue then
+		return math.max(value + 1, current), maxValue
+	else
+		return math.max(value, current or 0), math.max(value, maxValue or 0)
+	end
+end
+
+-- Function: GenerateIndustries
+--
+-- Generate the list of industries present on this starport and the economic effects
+-- of those industries. This is a very expensive call, and should be cached rather
+-- than regenerated on demand.
+--
+---@param sbody SystemBody
+---@param tags table<string, boolean>
+---@param sizeClass integer
+---@param rand Rand
+---
+---@return string[] industries
+---@return table<string, number> production
+---@return table<string, number> demand
+function Industry.GenerateIndustries(sbody, tags, sizeClass, rand, supply, demand)
+	local avail_industries = Industry.GetAvailableIndustries(sbody, tags)
+	local numIndustries = 2 + sizeClass
+	local industries = {}
+
+	-- print(sbody.name .. "\nValid industries: " .. table.concat(avail_industries, ",\t"))
+
+	-- After an industry is built, one element from the list of follow-up
+	-- industries can be chosen, to take advantage of the economic opportunity
+	-- this industry provides.
+	--
+	-- A random chance is involved so that starports feel somewhat random,
+	-- rather than always following the exact same formula. This presents a
+	-- model in which multiple builders are competing for a limited industrial
+	-- footprint rather than a pre-planned "optimal" economy. From a Doylist
+	-- view, this inefficiency creates natural trade routes through which the
+	-- player can engage in a commercial game loop.
+	--
+	-- This selection process can chain to multiple industries, though the
+	-- chance naturally becomes exponentially less likely with each industry. An
+	-- "optimal" local arrangement of industries which need no imported goods is
+	-- thus very unlikely to be encountered.
+
+	---@param id string
+	local function eval_followup(id)
+
+		if #industries == numIndustries or #avail_industries == 0 then
+			return
+		end
+
+		for _, def in ipairs(Industry.industries[id].build_next) do
+
+			-- Check the random chance first, as it is the most inexpensive
+			-- condition to compute in the list
+			local do_build = rand:Number() <= (tonumber(def.chance) or 0.5)
+				and (not def["if"] or checkConditions(tags, def["if"]))
+				and utils.contains(avail_industries, def.id)
+
+			if do_build then
+
+				print('building follow-on industry {} after {} at station {}' % { def.id, id, sbody.name })
+
+				utils.remove_elem(avail_industries, def.id)
+				table.insert(industries, def.id)
+
+				-- tail-call optimization prevents stack exhaustion regardless of how many industries are selected
+				return eval_followup(def.id)
+
+			end
+
+		end
+
+	end
+
+	for i = 1, numIndustries do
+		local idx = rand:Integer(1, #avail_industries)
+
+		local id = avail_industries[idx]
+		table.remove(avail_industries, idx)
+		table.insert(industries, id)
+
+		eval_followup(id)
+
+		if #industries == numIndustries or #avail_industries == 0 then
+			break
+		end
+	end
+
+	supply = supply or {}
+	demand = demand or {}
+
+	Industry.ComputeSupplyDemand(industries, tags, supply, demand)
+
+	return industries, supply, demand
+end
+
+-- Apply modifiers and sum together all supply and demand numbers for the given list of industries.
+--
+---@param industries string[]
+---@param tags table<string, boolean>
+---@param supply table<string, number>
+---@param demand table<string, number>
+function Industry.ComputeSupplyDemand(industries, tags, supply, demand)
+	local maxSupply = table.copy(supply)
+	local maxDemand = table.copy(demand)
+
+	for _, id in ipairs(industries) do
+
+		local s, d = Industry.ComputeModifiers(Industry.industries[id], tags)
+
+		for commodity, value in pairs(s) do
+			supply[commodity], maxSupply[commodity] = sumIndustryVal(value, supply[commodity], maxSupply[commodity])
+		end
+
+		for commodity, value in pairs(d) do
+			demand[commodity], maxDemand[commodity] = sumIndustryVal(value, demand[commodity], maxDemand[commodity])
+		end
+
+	end
+end
+
+-- Get a list of industry IDs which are valid for this specific body and set of condition tags.
+--
+---@param sbody SystemBody
+---@param tags table<string, boolean>
+---@return string[]
+function Industry.GetAvailableIndustries(sbody, tags)
+	local context = sbody.type == "STARPORT_ORBITAL" and "orbital" or "surface"
+
+	return utils.filter_array(Industry.industryList, function(id)
+		local industry = Industry.industries[id]
+
+		return (not industry.context or industry.context == context)
+			and checkConditions(tags, industry.conditions)
+			and checkConditionsAny(tags, industry.conditions_any)
+	end)
+end
+
+-- Compute the total modified supply and demand for a specific industry, given the local conditions.
+--
+---@param industry Economy.IndustryDef
+---@param tags table<string, boolean>
+function Industry.ComputeModifiers(industry, tags)
+	local supply = table.copy(industry.outputs)
+	local demand = table.copy(industry.inputs)
+
+	for cond, mod in pairs(industry.modifiers) do
+		if tags[cond] then
+
+			applyModifiers(mod.outputs, supply)
+			applyModifiers(mod.inputs, demand)
+
+		end
+	end
+
+	return supply, demand
+end
+
+-- Load all industry defs from JSON and process into runtime data structures.
+local industry_files = FileSystem.ReadDirectory('data://economy/industries')
+
+for _, file in ipairs(industry_files) do
+	table.merge(Industry.industries, Json.LoadJson(file.path), function(id, tbl) return id, Industry.NewIndustry(id, tbl) end)
+end
+
+Industry.industryList = utils.keys_to_array(Industry.industries)
+table.sort(Industry.industryList)
+
+return Industry

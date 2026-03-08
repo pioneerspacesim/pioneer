@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _NODE_H
@@ -50,13 +50,15 @@ namespace SceneGraph {
 		Color customColor;
 
 		float boundingRadius; //updated by model and passed to submodels
-		unsigned int nodemask;
+		uint32_t nodemask;
+		double renderTime;
 
 		RenderData() :
 			linthrust(),
 			angthrust(),
 			boundingRadius(0.f),
-			nodemask(NODE_SOLID) //draw solids
+			nodemask(NODE_SOLID), //draw solids
+			renderTime(0.0)
 		{
 		}
 	};

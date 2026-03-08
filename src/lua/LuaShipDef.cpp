@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaShipDef.h"
@@ -19,14 +19,29 @@
  * Attribute: name
  *
  * The name of the ship type
+ */
+
+/*
+ * Attribute: i18n
  *
- * Availability:
+ * The capitalized ship name that pairs with a suffix to address a ship in
+ * it's correct singular form in the translated names in /data/lang/ships.
  *
- *   alpha 10
+ * SHIP			- ship, base form.
+ * SHIP_DEF		- the ship, definitive form.
+ * SHIP_INDEF	- a ship, indefinite form.
  *
- * Status:
+ * Example:
  *
- *   stable
+ * > local ship = ShipDef[ad.shipid].i18n_key            -- 'NATRIX'
+ * >
+ * > local ship_def = ls[ship .. "_DEF"],                -- 'NATRIX_DEF' - 'the Natrix'
+ * > print("We're counting on " .. ship_def .. " to give us some resistance!")
+ * >
+ * > local ship_indef = ls[ship .. "_INDEF"],            -- 'NATRIX_INDEF' - 'a Natrix'
+ * > local body = ad.location:GetSystemBody()
+ * > print("There are rumours of an abandoned " .. ship_undef ..
+ * > ", drifting in a close orbit around " .. body .. ".")
  */
 
 /*
@@ -34,28 +49,12 @@
  *
  * The amount of angular thrust this ship can achieve. This is the value
  * responsible for the rate that the ship can turn at.
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: capacity
  *
  * The maximum space available for cargo and equipment, in tonnes
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 
 /*
@@ -64,14 +63,6 @@
  * The total mass of the ship's hull, independent of any equipment or cargo
  * inside it, in tonnes. This is the value used when calculating hyperjump
  * ranges and hull damage.
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 
 /*
@@ -79,42 +70,18 @@
  *
  * The base price of the ship. This typically receives some adjustment before
  * being used as a buy or sell price (eg based on supply or demand)
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: minCrew
  *
  * Minimum number of crew required to launch.
- *
- * Availability:
- *
- *   alpha 30
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: maxCrew
  *
  * Maximum number of crew the ship can carry.
- *
- * Availability:
- *
- *   alpha 30
- *
- * Status:
- *
- *   experimental
  */
 
 /*
@@ -123,14 +90,6 @@
  * An integer representing the power of the hyperdrive usually installed on
  * those ships. If zero, it means the ship usually isn't equipped with one,
  * although this does not necessarily mean one cannot be installed.
- *
- * Availability:
- *
- *   April 2014
- *
- * Status:
- *
- *   experimental
  */
 
 /*
@@ -138,14 +97,6 @@
  *
  * Table keyed on <Constants.ShipTypeThruster>, containing linear thrust of
  * that thruster in newtons
- *
- * Availability:
- *
- *   alpha 32
- *
- * Status:
- *
- *   experimental
  */
 
 /*
@@ -153,7 +104,6 @@
  *
  * Table keyed on <Constants.ShipTypeThruster>, containing acceleration cap of
  * that thruster direction in m/s/s
- *
  */
 
 /*
@@ -161,68 +111,36 @@
  *
  * Ship thruster efficiency as the effective exhaust velocity in m/s.
  * See http://en.wikipedia.org/wiki/Specific_impulse for an explanation of this value.
- *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: thrusterFuelUse
  *
  * Ship thruster efficiency as a percentage-of-tank-used per second of thrust.
- *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: shipClass
  *
  * Class of the ship (e.g. "medium_courier").
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: manufacturer
  *
  * Manufacturer of the ship (e.g. "kaluri").
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: modelName
  *
  * Name for the model of this ship. Important for looking up the actual ship model (Engine.GetModel(ShipDef.modelName)).
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: shieldModelName
  *
  * Name for the shield model of this ship. Can be useful for debug purposes to determine the shield model used by the ship.
- *
- * Status:
- *
- *   experimental
  */
 
 void LuaShipDef::Register()
@@ -240,6 +158,7 @@ void LuaShipDef::Register()
 		pi_lua_settable(l, "id", iter.first.c_str());
 		pi_lua_settable(l, "path", st.definitionPath.c_str());
 		pi_lua_settable(l, "name", st.name.c_str());
+		pi_lua_settable(l, "i18n_key", st.i18n_key.c_str());
 		pi_lua_settable(l, "shipClass", st.shipClass.c_str());
 		pi_lua_settable(l, "manufacturer", st.manufacturer.c_str());
 		pi_lua_settable(l, "modelName", st.modelName.c_str());

@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ViewportWindow.h"
@@ -117,8 +117,8 @@ void ViewportWindow::Update(float deltaTime)
 				ImVec2 mousePos = ImClamp(ImGui::GetIO().MousePos, area.Min, area.Max) - area.Min;
 
 				// disable mouse/keyboard capture so input subsystem can be used in viewport
-				ImGui::CaptureMouseFromApp(false);
-				ImGui::CaptureKeyboardFromApp(false);
+				ImGui::SetNextFrameWantCaptureMouse(false);
+				ImGui::SetNextFrameWantCaptureKeyboard(false);
 
 				OnHandleInput(clicked, wasPressed && !m_viewportActive, mousePos);
 			}

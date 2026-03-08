@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local HullConfig = require 'HullConfig'
@@ -268,6 +268,40 @@ function EquipSet:GetAllSlotsOfType(type, hardpoint)
 	end
 
 	return t
+end
+
+-- Method: HasCompatibleSlotForEquipment
+--
+-- Return true if the ship has at least one slot which is compatible with the
+-- equipment item regardless of whether the ship currently has the space to
+-- fit the equipemnt.
+--
+-- Parameters:
+--
+--  equip - EquipType, the equipment item instance to attempt to slot.
+--
+-- Returns:
+--
+--  True if the ship has at least one slot compatible with the equipment,
+--          otherwise false.
+--
+---@param equip EquipType
+---@return boolean
+function EquipSet:HasCompatibleSlotForEquipment(equip)
+	if not equip.slot then return false end
+
+	local isCompatible = function(equip, slot)
+		return slot.hardpoint == equip.slot.hardpoint
+			and self.CompatibleWithSlot(equip, slot)
+	end
+
+	for _, slot in pairs(self.slotCache) do
+		if isCompatible(equip, slot) then
+			return true
+		end
+	end
+
+	return false
 end
 
 -- Method: GetInstalledWithFilter

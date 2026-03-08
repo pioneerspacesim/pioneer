@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifdef ENABLE_SERVER_AGENT
@@ -174,14 +174,6 @@ static void _fail_callback(const std::string &error, void *userdata)
  *   onFailure - optional. a function to call if the remote call fails for any
  *               reason. The text of the error will be passed as the first
  *               argument to the function.
- *
- * Availability:
- *
- *   alpha 29
- *
- * Status:
- *
- *   experimental
  */
 static int l_serveragent_call(lua_State *l)
 {

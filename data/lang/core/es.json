@@ -405,7 +405,7 @@
   },
   "ECONOMY_TYPE": {
     "description": "",
-    "message": "Sistema económico:"
+    "message": "Tipo de economía"
   },
   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
     "description": "",
@@ -505,15 +505,31 @@
   },
   "GOVERNMENT_TYPE": {
     "description": "",
-    "message": "Sistema de gobierno:"
+    "message": "Tipo de gobierno"
   },
   "GRAIN": {
     "description": "like wheat or barley",
     "message": "Cereales"
   },
+  "GRID_DISPLAY_MODE": {
+    "description": "Label for grid display modes",
+    "message": "Modo de visualización de cuadrícula"
+  },
+  "GRID_DISPLAY_MODE_GRID_AND_LEGS": {
+    "description": "Combobox option for Grid with Legs",
+    "message": "Cuadrícula con patas"
+  },
+  "GRID_DISPLAY_MODE_GRID_ONLY": {
+    "description": "Combobox option for Grid Only",
+    "message": "Solo cuadrícula"
+  },
+  "GRID_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for Grid display off.",
+    "message": "Cuadrícula desactivada"
+  },
   "GRID_DISPLAY_MODE_TOGGLE": {
-    "description": "Switch show no grid",
-    "message": "Alternar modos de rejilla"
+    "description": "Tooltip for toggle grid display button.",
+    "message": "Alternar la visibilidad de la cuadrícula."
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -590,6 +606,26 @@
   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
     "description": "",
     "message": "Remanente de nube hiperespacial de llegada"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
+    "description": "Label for hyperspace cloud display modes.",
+    "message": "Modo de visualización de la nube de hiperespacio"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL": {
+    "description": "Combobox option for all hyperspace clouds.",
+    "message": "Todas las nubes de hiperespacio"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY": {
+    "description": "Combobox option for arrival hyperspace clouds.",
+    "message": "Nubes de hiperespacio de llegada"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY": {
+    "description": "Combobox option for departure hyperspace clouds.",
+    "message": "Nubes de hiperespacio de salida"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE": {
+    "description": "Tooltip for the button which toggles the display mode of hyperspace clouds.",
+    "message": "Alternar la visibilidad de las nubes de hiperespacio."
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
@@ -683,9 +719,25 @@
     "description": "",
     "message": "Joystick"
   },
+  "L4L5_DISPLAY_MODE": {
+    "description": "Label for the lagrange point display modes.",
+    "message": "Modo de visualización de los puntos de Lagrange"
+  },
+  "L4L5_DISPLAY_MODE_ICONS_AND_TEXT": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Iconos y etiquetas"
+  },
+  "L4L5_DISPLAY_MODE_ICONS_ONLY": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Solo iconos"
+  },
+  "L4L5_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for lagrange point display off.",
+    "message": "Off"
+  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
-    "description": "Either show L4/L5 points or don't",
-    "message": "Alternar entre modos de pantalla punto Lagrange L4/L5"
+    "description": "Tooltip for the L4/L5 Lagrange points toggle button.",
+    "message": "Alternar la visibilidad de los puntos de Lagrange L4/L5."
   },
   "LANDED": {
     "description": "",
@@ -1029,7 +1081,7 @@
   },
   "NUMBER_TONNES": {
     "description": "",
-    "message": "%{mass} T"
+    "message": "%{masa} t"
   },
   "N_ATMOSPHERE": {
     "description": "",
@@ -1189,7 +1241,7 @@
   },
   "POPULATION": {
     "description": "",
-    "message": "Habitantes:"
+    "message": "Población"
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -1317,7 +1369,7 @@
   },
   "SECTOR_X_Y_Z": {
     "description": "",
-    "message": "Sector: %x,%y,%z"
+    "message": "Sector: {sectorX}, {sectorY}, {sectorZ}"
   },
   "SELECTED_SYSTEM": {
     "description": "",
@@ -1387,9 +1439,21 @@
     "description": "",
     "message": "Nave"
   },
+  "SHIPS_DISPLAY_MODE": {
+    "description": "Label for ship display modes.",
+    "message": "Modo de visualización de naves"
+  },
+  "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
+    "description": "Combobox option for ships only.",
+    "message": "Solo naves"
+  },
+  "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
+    "description": "Combobox option for ships with orbits.",
+    "message": "Naves con órbitas"
+  },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
-    "description": "Either show no ships, show ships, or show ships + their orbits",
-    "message": "Cambiar entre modos de pantalla."
+    "description": "Tooltip for ship display toggle button.",
+    "message": "Alternar la visibilidad de las naves."
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
@@ -1603,6 +1667,10 @@
     "description": "",
     "message": "Gravedad superficial"
   },
+  "SURFACE_PRESSURE": {
+    "description": "",
+    "message": "Presión superficial"
+  },
   "SURFACE_TEMPERATURE": {
     "description": "",
     "message": "Temperatura superficial"
@@ -1763,6 +1831,10 @@
     "description": "Duration unit: one 24-hour day",
     "message": "d"
   },
+  "UNIT_DENSITY": {
+    "description": "Density unit: kilos per cubic meter",
+    "message": "kg/m³"
+  },
   "UNIT_EARTH_GRAVITY": {
     "description": "Acceleration unit: one earth gravity (g)",
     "message": "g"
@@ -1846,6 +1918,18 @@
   "UNIT_SQUARE_METERS": {
     "description": "Area unit: square meter (m²)",
     "message": "m²"
+  },
+  "UNIT_TEMPERATURE_CELSIUS": {
+    "description": "Temperature unit: degrees Celsius (°C)",
+    "message": "°C"
+  },
+  "UNIT_TEMPERATURE_FAHRENHEIT": {
+    "description": "Temperature unit: Fahrenheit (°F)",
+    "message": "°F"
+  },
+  "UNIT_TEMPERATURE_KELVIN": {
+    "description": "Temperature unit: degrees Kelvin (K)",
+    "message": "K"
   },
   "UNIT_TERATONNES": {
     "description": "Mass unit: one teratonne",

@@ -3,6 +3,22 @@
     "description": "Buy a piece of ship equipment",
     "message": "Satın al"
   },
+  "EQUIPMENT_NO_COMPATIBLE_SLOT": {
+    "description": "Message given when the second-hand equipment is not compatible with the ship slots.",
+    "message": "Bu ekipman geminizle uyumlu değil."
+  },
+  "EQUIPMENT_NO_FREE_SLOT": {
+    "description": "Message shown by second-hand market if the ship does not have a free slot for the equipment.",
+    "message": "Geminiz bu ekipman için boş bir slota sahip değil."
+  },
+  "EQUIPMENT_NO_SPACE": {
+    "description": "Message shown by second-hand market if the equipment requires a free slot or free capacity to fit",
+    "message": "Geminizde bu ekipman için yeterli boş yer yok."
+  },
+  "EQUIPMENT_SLOT_NO_SPACE": {
+    "description": "Message given when the ship has a compatible slot, but not enough space left to fit the equipment item.",
+    "message": "Bu ekipmanın kurulumu için geminizde uygun bir slot var, ancak ekipmanı yerleştirecek yeterli boş yer yok."
+  },
   "FITTING_IS_INCLUDED_IN_THE_PRICE": {
     "description": "Regarding installing a component on the ship",
     "message": "Takılması fiyata dahil."
@@ -86,6 +102,22 @@
   "HOW_DO_I_FITT_IT": {
     "description": "Regarding installing a component on the ship",
     "message": "Nasıl takabilirim?"
+  },
+  "NOT_ENOUGH_MONEY_0": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Buna yetecek paranız yok."
+  },
+  "NOT_ENOUGH_MONEY_1": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Yeterli parayı biriktirince geri gelin."
+  },
+  "NOT_ENOUGH_MONEY_2": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Ben hayır kurumu değilim, bana para bulup da gelin."
+  },
+  "NOT_ENOUGH_MONEY_3": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "İkinci el olduğunu biliyorum ama fiyatta pazarlık yok."
   },
   "NO_LONGER_AVAILABLE_0": {
     "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",

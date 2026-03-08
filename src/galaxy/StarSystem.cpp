@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StarSystem.h"
@@ -342,7 +342,8 @@ StarSystem::~StarSystem()
 	PROFILE_SCOPED()
 	// clear parent and children pointers. someone (Lua) might still have a
 	// reference to things that are about to be deleted
-	m_rootBody->Orphan();
+	if (m_rootBody)
+		m_rootBody->Orphan();
 	if (m_cache)
 		m_cache->RemoveFromAttic(m_path);
 }
@@ -494,7 +495,7 @@ void StarSystem::ExportToLua(const char *filename)
 	if (f == 0)
 		return;
 
-	fprintf(f, "-- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details\n");
+	fprintf(f, "-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details\n");
 	fprintf(f, "-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt\n\n");
 
 	std::string stars_in_system = GetStarTypes(m_rootBody.Get());
@@ -591,6 +592,11 @@ void StarSystem::DumpToJson(Json &obj)
 	if (m_faction)
 		obj["faction"] = m_faction->name;
 
+	if (m_rootBody.Valid()) {
+		// bodyIndex is (at least informally) guaranteed to be the index in m_bodies
+		obj["root"] = m_rootBody->GetPath().bodyIndex;
+	}
+
 	Json &bodies = obj["bodies"] = Json::array();
 
 	for (RefCountedPtr<SystemBody> &body : m_bodies) {
@@ -613,4 +619,7 @@ void StarSystem::DumpToJson(Json &obj)
 		bodies.emplace_back(std::move(bodyObj));
 
 	}
+
+	obj["index"] = m_path.systemIndex;
+	obj["overrideRandom"] = true;
 }

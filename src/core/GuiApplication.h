@@ -1,11 +1,11 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
 
 #include "Application.h"
 #include "RefCounted.h"
-#include "SDL_events.h"
+#include <SDL_events.h>
 
 #include "graphics/Graphics.h"
 
@@ -77,6 +77,10 @@ protected:
 
 	// Override point to handle an application quit notification
 	virtual void HandleQuit(SDL_QuitEvent &ev) { RequestQuit(); }
+
+	// Override to handle the game window gaining or losing keyboard focus
+	// newFocus: true - window has keyboard focus, false - window does not have keyboard focus
+	virtual void OnWindowKeyboardFocusChanged(bool newFocus) {}
 
 private:
 	Graphics::RenderTarget *CreateRenderTarget(const Graphics::Settings &settings);

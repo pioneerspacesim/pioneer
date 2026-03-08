@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = require 'Lang'
@@ -149,17 +149,15 @@ function ChatForm:AddGoodsTrader (funcs)
 		shipColumns = { "icon", "name", "amount" },
 	}
 
-	self.market = CommodityWidget.New("chatTrader", false)
-	for i = 1,#tradeFuncKeys do
-		local key = tradeFuncKeys[i]
-		local fn = funcs[key]
-		if fn then
-			self.market.funcs[key] = function (s, e)
-				return fn(self.ref, e, s)
-			end
+	local config = {}
+
+	for _, key in ipairs(tradeFuncKeys) do
+		if funcs[key] then
+			config[key] = funcs[key]
 		end
 	end
 
+	self.market = CommodityWidget.New("chatTrader", false, config)
 	self.resizeFunc()
 	self.market:Refresh()
 end
@@ -177,7 +175,7 @@ function ChatForm:AddNavButton (target)
 				end
 			elseif not Game.InHyperspace() then
 				-- if a specific systembody is given, set the sector map to the correct star (if the system is multiple)
-				Game.sectorView:SwitchToPath(target:IsBodyPath() and target:GetSystemBody().nearestJumpable.path or target:GetStarSystem().path)
+				Game.sectorView:SwitchToPath(target:IsBodyPath() and target:GetSystemBody().nearestJumpable.path or target:SystemOnly())
 				ui.playBoinkNoise()
 			end
 		end

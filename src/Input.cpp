@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Input.h"
@@ -8,10 +8,10 @@
 #include "Pi.h"
 #include "utils.h"
 
-#include "SDL.h"
-#include "SDL_events.h"
-#include "SDL_joystick.h"
-#include "SDL_mouse.h"
+#include <SDL.h>
+#include <SDL_events.h>
+#include <SDL_joystick.h>
+#include <SDL_mouse.h>
 
 #include <algorithm>
 #include <array>
@@ -20,6 +20,8 @@
 #include <type_traits>
 
 using namespace Input;
+
+static const char *s_InputIniSection = "Input";
 
 namespace Input {
 	std::vector<sigc::slot<void, Input::Manager *>> *m_registrations;
@@ -305,6 +307,20 @@ InputBindings::Axis *InputFrame::AddAxis(const std::string &id)
 	return axis;
 }
 
+InputBindings::Action *InputFrame::AddAction(Action *action)
+{
+	assert(action && "Cannot register a null InputAction");
+	actions.push_back(action);
+	return action;
+}
+
+InputBindings::Axis *InputFrame::AddAxis(Axis *axis)
+{
+	assert(axis && "Cannot register a null InputAxis");
+	axes.push_back(axis);
+	return axis;
+}
+
 bool Manager::AddInputFrame(InputFrame *frame)
 {
 	auto iter = std::find(m_inputFrames.begin(), m_inputFrames.end(), frame);
@@ -375,7 +391,7 @@ InputBindings::Action *Manager::AddActionBinding(const std::string &id, BindingG
 	group->bindings[id] = BindingGroup::ENTRY_ACTION;
 
 	// Load from the config
-	std::string config_str = m_config->String(id.c_str());
+	std::string config_str = m_config->String(s_InputIniSection, id.c_str(), "");
 	if (!config_str.empty()) {
 		std::string_view str(config_str);
 		str >> binding;
@@ -393,7 +409,7 @@ InputBindings::Axis *Manager::AddAxisBinding(const std::string &id, BindingGroup
 	group->bindings[id] = BindingGroup::ENTRY_AXIS;
 
 	// Load from the config
-	std::string config_str = m_config->String(id.c_str());
+	std::string config_str = m_config->String(s_InputIniSection, id.c_str(), "");
 	if (!config_str.empty()) {
 		std::string_view str(config_str);
 		str >> binding;
@@ -420,6 +436,28 @@ bool Manager::HasActionBinding(const std::string &id) const
 bool Manager::HasAxisBinding(const std::string &id) const
 {
 	return axisBindings.count(id) > 0;
+}
+
+void Manager::SaveActionBinding(InputBindings::Action *action, const std::string &id)
+{
+	std::ostringstream buffer;
+	buffer << *action;
+
+	m_config->SetString(s_InputIniSection, id, buffer.str());
+
+	if (m_config->HasUnsavedChanges())
+		m_config->Save();
+}
+
+void Manager::SaveAxisBinding(InputBindings::Axis *axis, const std::string &id)
+{
+	std::ostringstream buffer;
+	buffer << *axis;
+
+	m_config->SetString(s_InputIniSection, id, buffer.str());
+
+	if (m_config->HasUnsavedChanges())
+		m_config->Save();
 }
 
 /*
@@ -502,19 +540,13 @@ float Manager::JoystickAxisState(int joystick, int axis)
 void Manager::SetJoystickEnabled(bool state)
 {
 	joystickEnabled = state;
-	if (m_enableConfigSaving) {
-		m_config->SetInt("EnableJoystick", joystickEnabled);
-		m_config->Save();
-	}
+	m_config->SetInt("EnableJoystick", joystickEnabled);
 }
 
 void Manager::SetMouseYInvert(bool state)
 {
 	mouseYInvert = state;
-	if (m_enableConfigSaving) {
-		m_config->SetInt("InvertMouseY", mouseYInvert);
-		m_config->Save();
-	}
+	m_config->SetInt("InvertMouseY", mouseYInvert);
 }
 
 void Manager::GetMousePosition(int position[2])

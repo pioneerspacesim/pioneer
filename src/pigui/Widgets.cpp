@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Input.h"
@@ -54,7 +54,7 @@ int Draw::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int m
 			drag_delta = ImVec2(-horizontalSelection->GetValue() * length, -verticalSelection->GetValue() * length);
 		}
 		const float drag_dist2 = drag_delta.x * drag_delta.x + drag_delta.y * drag_delta.y;
-		const int ITEMS_MIN = 4;
+		const int ITEMS_MIN = 2;
 		const float border_inout = 0.3 * psize;
 		const float border_thickness = 0.1 * psize;
 		ImDrawList *draw_list = ImGui::GetWindowDrawList();
@@ -86,7 +86,7 @@ int Draw::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int m
 			int arc_segments = static_cast<int>((64 * item_arc_span / (2 * IM_PI))) + 1;
 			draw_list->_PathArcToN(center, RADIUS_MAX - border_inout, item_outer_ang_min, item_outer_ang_max, arc_segments);
 			draw_list->_PathArcToN(center, RADIUS_MIN + border_inout, item_inner_ang_max, item_inner_ang_min, arc_segments);
-			draw_list->PathFillConvex(hovered ? itemHoveredCol : itemBgCol);
+			draw_list->PathFillConcave(hovered ? itemHoveredCol : itemBgCol);
 
 			if (hovered) {
 				// draw outer / inner extra segments
@@ -456,7 +456,7 @@ bool Draw::GlyphButton(const char *str_id, const char *glyph, const ImVec2 &size
     ImVec2 size = ImGui::CalcItemSize(size_arg, glyph_size.x + style.FramePadding.x * 2.0f, glyph_size.y + style.FramePadding.y * 2.0f);
 
     const ImRect bb(pos, pos + size);
-    ImGui::ItemSize(size, style.FramePadding.y);
+    ImGui::ItemSize(size);
     if (!ImGui::ItemAdd(bb, id))
         return false;
 

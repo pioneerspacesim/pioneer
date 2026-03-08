@@ -133,19 +133,19 @@
   },
   "BIND_RADAR_TOGGLE_MODE": {
     "description": "Descriptive name for the RadarToggle action.",
-    "message": "Toggle Radar Display Mode"
+    "message": "Växla Radarläge"
   },
   "BIND_RADAR_ZOOM_IN": {
     "description": "Descriptive name for the RadarZoomIn action.",
-    "message": "Manual Zoom Radar In"
+    "message": "Manuell Zoom Radar In"
   },
   "BIND_RADAR_ZOOM_OUT": {
     "description": "Descriptive name for the RadarZoomOut action.",
-    "message": "Manual Zoom Radar Out"
+    "message": "Manuell Zoom Radar Ut"
   },
   "BIND_RADAR_ZOOM_RESET": {
     "description": "Descriptive name for the RadarZoomReset action.",
-    "message": "Reset Radar Zoom"
+    "message": "Nollställ Radar Zoom "
   },
   "BIND_RADIAL_HORIZONTAL_SELECTION": {
     "description": "Input axis name to select in the radial menu.",
@@ -264,7 +264,7 @@
   },
   "GROUP_RADAR_CONTROL": {
     "description": "Group label for radar-related inputs",
-    "message": "Radar Control"
+    "message": "Radarkontroll"
   },
   "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
     "description": "Header for the SectorMapViewControls input group.",
@@ -344,7 +344,7 @@
   },
   "PAGE_SHIP_HUD": {
     "description": "Header for the ShipHUD input page.",
-    "message": "Ship - HUD"
+    "message": "Skepp - HUD"
   },
   "PAGE_SHIP_VIEW": {
     "description": "Header for the ShipView input page.",

@@ -1,4 +1,8 @@
 {
+  "ABOUT": {
+    "description": "main menu button (implied 'about' the game)",
+    "message": "About"
+  },
   "ABOVE_AVERAGE": {
     "description": "",
     "message": "高于平均值"
@@ -6,6 +10,10 @@
   "ACTIVE": {
     "description": "",
     "message": "开启"
+  },
+  "ADD_BOOKMARK": {
+    "description": "Button to add a singular bookmark",
+    "message": "Add Bookmark"
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
@@ -59,6 +67,10 @@
     "description": "",
     "message": "尝试修理船体"
   },
+  "AUTOMATED_MESSAGE": {
+    "description": "For comm messages from bots",
+    "message": "AUTOMATED MESSAGE"
+  },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
     "message": "自动路线"
@@ -69,7 +81,7 @@
   },
   "AVAILABLE_STOCK": {
     "description": "Market stat showing number of items in stock",
-    "message": "Available Stock"
+    "message": "可用库存"
   },
   "AVERAGE": {
     "description": "",
@@ -78,6 +90,18 @@
   "BACKWARD_ACCEL": {
     "description": "",
     "message": "向后加速度"
+  },
+  "BODY_IN_ROUTE": {
+    "description": "Label indicating a star is part of a planned hyperjump route",
+    "message": "Body in planned HyperJump Route"
+  },
+  "BOOKMARK": {
+    "description": "Label introducing a bookmark",
+    "message": "Bookmark"
+  },
+  "BOOKMARKS": {
+    "description": "Label introducing a list of bookmarks",
+    "message": "Bookmarks"
   },
   "BULLETIN_BOARD": {
     "description": "",
@@ -174,6 +198,10 @@
   "CASH_N": {
     "description": "",
     "message": "现金: {money}"
+  },
+  "CENTER_ON_CURRENT_SYSTEM": {
+    "description": "Center on current star system",
+    "message": "Center on Current System"
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
@@ -317,7 +345,7 @@
   },
   "COPY": {
     "description": "As for clipboard",
-    "message": "Copy"
+    "message": "复制"
   },
   "COULD_NOT_DELETE_SAVE": {
     "description": "",
@@ -376,8 +404,8 @@
     "message": "犯罪记录"
   },
   "CURRENT_FUEL": {
-    "description": "For hyperjump planner",
-    "message": "当前燃料:"
+    "description": "Label indicating the current fuel state",
+    "message": "Current Fuel"
   },
   "CURRENT_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
@@ -388,12 +416,12 @@
     "message": "当前飞船"
   },
   "CURRENT_SYSTEM": {
-    "description": "For hyperjump planner",
-    "message": "当前星系"
+    "description": "Label indicating the system the player currently occupies",
+    "message": "Current System"
   },
   "CUT": {
     "description": "As for clipboard",
-    "message": "Cut"
+    "message": "剪切"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
@@ -414,6 +442,10 @@
   "DELETE": {
     "description": "",
     "message": "删除"
+  },
+  "DELETE_BOOKMARK": {
+    "description": "Button to remove a singular bookmark",
+    "message": "Delete Bookmark"
   },
   "DELETE_SAVE_CONFIRMATION": {
     "description": "",
@@ -517,7 +549,7 @@
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "Time left:"
+    "message": "时限："
   },
   "ECONOMY_TRADE": {
     "description": "",
@@ -526,6 +558,14 @@
   "EDIT": {
     "description": "Tooltip, to edit a flight log entry",
     "message": "编辑"
+  },
+  "EDIT_BOOKMARK": {
+    "description": "Button to edit a singular bookmark",
+    "message": "Edit Bookmark"
+  },
+  "EDIT_NOTE": {
+    "description": "",
+    "message": "Edit Note"
   },
   "EFFECTS": {
     "description": "",
@@ -571,6 +611,10 @@
     "description": "Engineering skills of crew",
     "message": "工程"
   },
+  "ENTER_CUSTOM_NOTE": {
+    "description": "Label indicating a note should be entered here",
+    "message": "Enter custom note..."
+  },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
     "message": "进入"
@@ -578,6 +622,10 @@
   "EQUIPMENT": {
     "description": "",
     "message": "装备"
+  },
+  "EQUIPMENT_ALREADY_INSTALLED_HERE": {
+    "description": "Message indicating this equipment item is already installed.",
+    "message": "This equipment item is already installed here."
   },
   "EQUIPMENT_CAPACITY": {
     "description": "The equipment capacity of a ship",
@@ -627,6 +675,10 @@
     "description": "For player reputation",
     "message": "专家"
   },
+  "FACTION": {
+    "description": "Label indicating the factional allegiance of an object",
+    "message": "Faction"
+  },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
     "message": "派系"
@@ -637,7 +689,7 @@
   },
   "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
     "description": "",
-    "message": "Failed to recover some equipment"
+    "message": "部分装备恢复失败"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
@@ -693,7 +745,7 @@
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "最终目标："
+    "message": "Final Target"
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
@@ -862,6 +914,10 @@
   "HUD_3D_RADAR": {
     "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
     "message": "3D 平面投影"
+  },
+  "HUD_ARRIVAL_DATE": {
+    "description": "Label for Hyperspace Cloud arrival date",
+    "message": "Arrival Date"
   },
   "HUD_ATMOSPHERIC_PRESSURE": {
     "description": "Tooltip: Atmospheric Pressure.",
@@ -1143,6 +1199,14 @@
     "description": "Tooltip: Hull Temperature.",
     "message": "船体温度"
   },
+  "HUD_HYPERSPACE_DESTINATION": {
+    "description": "HUD Label indicating the hyperspace destination system. Should just be Destination.",
+    "message": "目的地"
+  },
+  "HUD_HYPERSPACE_ORIGIN": {
+    "description": "HUD Label indicating the hyperspace origin system. Should just be Origin.",
+    "message": "起源"
+  },
   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
     "description": "",
     "message": "在{countdown}秒后超间跳跃到{destination}"
@@ -1287,6 +1351,10 @@
     "description": "",
     "message": "超跳跃路线"
   },
+  "HYPERJUMP_ROUTING": {
+    "description": "Label indicating a category division",
+    "message": "HyperJump Routing"
+  },
   "HYPERSPACE_RANGE": {
     "description": "",
     "message": "超空间范围"
@@ -1329,7 +1397,7 @@
   },
   "INSTALL": {
     "description": "Install something",
-    "message": "Install"
+    "message": "安装"
   },
   "INSTALLED": {
     "description": "Label indicating something is installed",
@@ -1394,6 +1462,10 @@
   "KILLS": {
     "description": "",
     "message": "击杀数量:"
+  },
+  "KNOWN_AS": {
+    "description": "Indicates alternate names/aliases for an object",
+    "message": "Known as"
   },
   "LANGUAGE": {
     "description": "",
@@ -1763,6 +1835,10 @@
     "description": "Message displaying no stored data available",
     "message": "无可用数据"
   },
+  "NO_BOOKMARKS_FOUND": {
+    "description": "Label indicating a lack of bookmarks to display",
+    "message": "No Bookmarks Found"
+  },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
     "message": "没有货物"
@@ -1853,7 +1929,7 @@
   },
   "OUT_OF_STOCK": {
     "description": "Equipment availability",
-    "message": "Out of stock"
+    "message": "缺货"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
@@ -1897,7 +1973,7 @@
   },
   "PASTE": {
     "description": "As for clipboard",
-    "message": "Paste"
+    "message": "粘贴"
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",
@@ -1914,6 +1990,10 @@
   "PAY_FINE_OF_N": {
     "description": "",
     "message": "缴纳 {amount} 罚金"
+  },
+  "PENDING_RETURN": {
+    "description": "Status if the mission has not yet been fully completed",
+    "message": "待完成任务"
   },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1995,6 +2075,22 @@
     "description": "Drain the fuel tank",
     "message": "抽空"
   },
+  "PUMP_DOWN_FROM_CARGO_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pump %i t from cargo"
+  },
+  "PUMP_DOWN_FROM_HYPERDRIVE_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pump %i t from hyperdrive to fuel tanks"
+  },
+  "PUMP_DOWN_TO_CARGO_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pump %i t to cargo"
+  },
+  "PUMP_DOWN_TO_HYPERDRIVE_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pump %i t to hyperdrive from fuel tanks"
+  },
   "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
     "message": "购买喷漆作业"
@@ -2010,6 +2106,10 @@
   "QUIT_CONFIRMATION": {
     "description": "For the checkbox in settings window",
     "message": "确认退出"
+  },
+  "RANDOM_COLORS": {
+    "description": "Paint shop. Randomize colors",
+    "message": "随机颜色"
   },
   "RANDOM_FACE": {
     "description": "Generate random face",
@@ -2101,7 +2201,7 @@
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "需要燃料："
+    "message": "Required Fuel"
   },
   "RESET": {
     "description": "",
@@ -2255,6 +2355,10 @@
     "description": "",
     "message": "将目的地设置为导航目标. "
   },
+  "SET_JUMP_TARGET": {
+    "description": "Button tooltip which sets the jump route to the selected body",
+    "message": "Set Jump Target"
+  },
   "SET_RETURN_ROUTE": {
     "description": "",
     "message": "设置返程航线"
@@ -2326,6 +2430,22 @@
   "SOME_PARAMETERS_ARE_NOT_OK": {
     "description": "Diagnostics at game start",
     "message": "某些参数尚未准备就绪："
+  },
+  "SORT_COMMODITY": {
+    "description": "Indicates the list of objects should be sorted by commodity",
+    "message": "商品"
+  },
+  "SORT_DISTANCE": {
+    "description": "Indicates the list of objects should be sorted by distance",
+    "message": "Distance"
+  },
+  "SORT_MODE": {
+    "description": "Label indicating the current sorting mode of a list of objects",
+    "message": "Sort Mode"
+  },
+  "SORT_NAME": {
+    "description": "Indicates the list of objects should be sorted by name",
+    "message": "姓名"
   },
   "SOUND": {
     "description": "",
@@ -2423,6 +2543,42 @@
     "description": "Message when restoring savegame",
     "message": "系统主体索引超出范围"
   },
+  "SYSTEM_FACTION": {
+    "description": "Tooltip indicating the faction controlling this system",
+    "message": "Controlling faction jurisdiction"
+  },
+  "SYSTEM_INFORMATION": {
+    "description": "Tooltip / label indicating information about a selected star system",
+    "message": "System Information"
+  },
+  "SYSTEM_NUM_STARS": {
+    "description": "Tooltip indicating the system stellar arrangement",
+    "message": "Number of stars in system"
+  },
+  "SYSTEM_SECURITY_1": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Safe"
+  },
+  "SYSTEM_SECURITY_2": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "几乎无害的"
+  },
+  "SYSTEM_SECURITY_3": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "危险"
+  },
+  "SYSTEM_SECURITY_4": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Very Dangerous"
+  },
+  "SYSTEM_SECURITY_5": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "致命的"
+  },
+  "SYSTEM_SECURITY_TOOLTIP": {
+    "description": "Tooltip introducing the system security rating",
+    "message": "System safety rating"
+  },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
     "message": "该站拥有{tech_level}级的技术证书。"
@@ -2433,7 +2589,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Tech Level"
+    "message": "科技等级"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -2509,15 +2665,19 @@
   },
   "TOTAL_DISTANCE": {
     "description": "Total distance of a (possibly series) of hyper jump(s)",
-    "message": "总距离："
+    "message": "Total Distance"
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "总持续时间："
+    "message": "Total Duration"
   },
   "TOTAL_MASS": {
     "description": "",
     "message": "总质量"
+  },
+  "TO_PICK_UP": {
+    "description": "Mission status",
+    "message": "To pick up"
   },
   "TRADING_AT": {
     "description": "Indicates the current system for inspecting commodities.",
@@ -2537,7 +2697,11 @@
   },
   "TRANSFER_FUEL": {
     "description": "Label indicating the ability to transfer fuel between equipment tanks",
-    "message": "Transfer Fuel"
+    "message": "转移燃料"
+  },
+  "TRANSLATE_VIEW": {
+    "description": "Indicates that the button must be kept pressed down, to translate the camera view with mouse",
+    "message": "Hold down to Translate view"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
@@ -2570,6 +2734,10 @@
   "UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",
     "message": "未知的系统日志条目格式"
+  },
+  "UNLAWFUL_ECM_DISCHARGE": {
+    "description": "",
+    "message": "Unlawful ECM discharge"
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
@@ -2626,6 +2794,10 @@
   "VIDEO_RESOLUTION_DESC": {
     "description": "Tooltip for video mode/resultion setting",
     "message": "更高的分辨率以更小的尺寸显示更多的信息，可能会降低性能。"
+  },
+  "VIEW_DESTINATION": {
+    "description": "Tooltip indicating the button will change the current view to the destination of a route.",
+    "message": "View Destination"
   },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",

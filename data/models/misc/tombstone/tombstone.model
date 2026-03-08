@@ -1,6 +1,12 @@
-material Default
-diffuse 0.8 0.8 0.8
-specular 0.3 0.3 0.3
-shininess 40
+version 2
 
-mesh tombstone.dae
+material "Default" {
+	shader "multi"
+	diffuse 0.8 0.8 0.8
+	specular 0.3 0.3 0.3
+	shininess 40
+}
+
+lod 100 {
+	mesh "tombstone.dae"
+}

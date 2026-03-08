@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipType.h"
@@ -62,6 +62,7 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	definitionPath = path;
 
 	name = data.value("name", "");
+	i18n_key = data.value("i18n_key", "");
 	shipClass = data.value("ship_class", "");
 	manufacturer = data.value("manufacturer", "");
 	modelName = data.value("model", "");

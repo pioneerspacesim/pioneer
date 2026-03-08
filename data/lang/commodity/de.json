@@ -5,7 +5,7 @@
   },
   "AIR_PROCESSORS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Saubere Luft wird nur als selbstverständlich wahrgenommen, wenn sie frei verfügbar ist. Gerüchten zufolge soll die Technologie der Luftaufbereitung von Alien-Artefakten vom Mars stammen. Viele Firmen produzieren Luftaufbereiter, die selbst die lebensfeindlichste Atmosphäre in nutzbare Luft umwandeln kann."
+    "message": "Saubere Luft wird nur als selbstverständlich wahrgenommen, wenn sie frei verfügbar ist. Gerüchten zufolge soll die Technologie der Luftaufbereitung von Alien-Artefakten vom Mars stammen. Viele Firmen produzieren Luftaufbereiter, das selbst die lebensfeindlichste Atmosphäre in nutzbare Luft umwandeln kann."
   },
   "ANIMAL_MEAT": {
     "description": "",
@@ -30,6 +30,14 @@
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
     "message": "Kohlenstoff ist eins der verbreitetsten Elemente das wir kennen. Er ist ein günstiger, aber wichtiger Rohstoff, der in fast allem vom Kunststoff bis hin zu Legierungen benutzt wird. Fast alle industriellen Siedlungen importieren darum Kohlenstofferz."
+  },
+  "CHEMICALS": {
+    "description": "",
+    "message": "chemicals"
+  },
+  "CHEMICALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Industrial precursors, caustic cleaning agents, and biochemical feedstock, chemicals are used in both consumer and industrial settings. Chemicals are shipped in industrial-strength containers to prevent corrosion of a ship's cargo hold."
   },
   "COMPUTERS": {
     "description": "",
@@ -57,7 +65,7 @@
   },
   "FERTILIZER": {
     "description": "",
-    "message": "Düngemittel"
+    "message": "Dünger"
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -65,7 +73,7 @@
   },
   "FRUIT_AND_VEG": {
     "description": "",
-    "message": "Obst und Gemüse"
+    "message": "Obst & Gemüse"
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -121,7 +129,7 @@
   },
   "LIVE_ANIMALS": {
     "description": "",
-    "message": "Lebende Tiere"
+    "message": "Lebendige Tiere"
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -129,7 +137,7 @@
   },
   "MEDICINES": {
     "description": "",
-    "message": "Pharmazeutika"
+    "message": "Medikamente"
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -137,7 +145,7 @@
   },
   "METAL_ALLOYS": {
     "description": "",
-    "message": "Legierungen"
+    "message": "Metall-Legierungen"
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -217,7 +225,7 @@
   },
   "RUBBISH": {
     "description": "",
-    "message": "Abfälle"
+    "message": "Müll"
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",

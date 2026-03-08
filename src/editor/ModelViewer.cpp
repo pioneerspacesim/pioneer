@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelViewer.h"
@@ -19,6 +19,7 @@
 #include "editor/EditorDraw.h"
 
 #include "graphics/RenderState.h"
+#include "graphics/VertexBuffer.h"
 #include "scenegraph/BinaryConverter.h"
 #include "scenegraph/DumpVisitor.h"
 #include "scenegraph/FindNodeVisitor.h"
@@ -165,8 +166,8 @@ void ModelViewer::HitIt()
 			Random rng(uint32_t(m_app->GetTime()));
 
 			// Please don't do this in game, no speed guarantee
-			const Uint32 posOffs = mesh.vertexBuffer->GetDesc().GetOffset(Graphics::ATTRIB_POSITION);
-			const Uint32 stride = mesh.vertexBuffer->GetDesc().stride;
+			const Uint32 posOffs = mesh.meshObject->GetFormat().attribs[0].offset;
+			const Uint32 stride = mesh.vertexBuffer->GetStride();
 			const Uint32 vtxIdx = rng.Int32() % mesh.vertexBuffer->GetSize();
 
 			const Uint8 *vtxPtr = mesh.vertexBuffer->Map<Uint8>(Graphics::BUFFER_MAP_READ);
@@ -450,22 +451,23 @@ void ModelViewer::OnPostRender()
 	RenderModelExtras();
 
 	if (!m_modelWindow->GetModel())
-		return;
+	return;
 
 	RefCountedPtr<CollMesh> collMesh = m_modelWindow->GetModel()->GetCollisionMesh();
 
 	static std::unique_ptr<Graphics::Material> s_debugLinesMat;
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, 256);
 
 	if (!s_debugLinesMat) {
 		Graphics::MaterialDescriptor desc;
 		Graphics::RenderStateDesc rsd;
+		auto vfmt = Graphics::VertexFormatDesc::FromAttribSet(va.GetAttributeSet());
 		rsd.depthWrite = false;
 		rsd.primitiveType = Graphics::LINE_SINGLE;
 
-		s_debugLinesMat.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd));
+		s_debugLinesMat.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd, vfmt));
 	}
 
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, 256);
 	if (m_showStaticCollTriBVH)
 		BuildGeomTreeVisualizer(va, collMesh->GetGeomTree()->GetTriTree(), 1);
 
@@ -498,10 +500,16 @@ void ModelViewer::DrawModelSelector()
 	}
 
 	if (ImGui::BeginChild("FileList")) {
+		// Use ImGui::PushID()/PopID() to make all entries unique
+		// fixes issue with `sinonatrix_cockpit.model`
+		int i = 0;
 		for (const auto &name : m_fileNames) {
+			ImGui::PushID(i);
 			if (ImGui::Selectable(name.c_str())) {
 				m_requestedModelName = name;
 			}
+			ImGui::PopID();
+			i++;
 		}
 	}
 	ImGui::EndChild();
@@ -530,7 +538,7 @@ void ModelViewer::DrawTagNames()
 		return;
 
 	auto size = ImGui::GetWindowSize();
-	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_renderer->SetTransform(matrix4x4f::Identity);
 
 	vector3f point = m_modelWindow->GetModelViewMat() * m_selectedTag->GetGlobalTransform().GetTranslate();
 	point = Graphics::ProjectToScreen(m_renderer, point);
@@ -570,7 +578,7 @@ void ModelViewer::BuildGeomTreeVisualizer(Graphics::VertexArray &va, SingleBVHTr
 			stack[stackLevel++] = node->kids[0];
 		}
 
-		Graphics::Drawables::AABB::DrawVertices(va, matrix4x4fIdentity, Aabb(node->aabb.min, node->aabb.max, 0.1), get_color(colIndexBase));
+		Graphics::Drawables::AABB::DrawVertices(va, matrix4x4f::Identity, Aabb(node->aabb.min, node->aabb.max, 0.1), get_color(colIndexBase));
 	}
 }
 
@@ -790,7 +798,7 @@ void ModelViewer::SetupLayout(ImGuiID dockspaceID)
 	// ImGuiID centerDown = ImGui::DockBuilderSplitNode(nodeID, ImGuiDir_Down, 0.2, nullptr, &nodeID);
 
 	ImGui::DockBuilderGetNode(nodeID)->LocalFlags |= ImGuiDockNodeFlags_HiddenTabBar;
-	ImGui::DockBuilderGetNode(dockspaceID)->LocalFlags |= ImGuiDockNodeFlags_NoDockingSplitMe;
+	ImGui::DockBuilderGetNode(dockspaceID)->LocalFlags |= ImGuiDockNodeFlags_NoDockingSplit;
 
 	ImGui::DockBuilderDockWindow(SELECTOR_WND_NAME, sideUp);
 	ImGui::DockBuilderDockWindow(TAGS_WND_NAME, sideUp);

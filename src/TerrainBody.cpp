@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TerrainBody.h"
@@ -143,7 +143,7 @@ double TerrainBody::GetTerrainHeight(const vector3d &pos_) const
 {
 	double radius = m_sbody->GetRadius();
 	if (m_baseSphere) {
-		return radius * (1.0 + m_baseSphere->GetHeight(pos_));
+		return radius * (1.0 + m_baseSphere->GetTerrainHeight(pos_));
 	} else {
 		assert(0);
 		return radius;
@@ -154,4 +154,20 @@ double TerrainBody::GetTerrainHeight(const vector3d &pos_) const
 void TerrainBody::OnChangeDetailLevel(Graphics::Renderer *r)
 {
 	BaseSphere::OnChangeDetailLevel(r);
+}
+
+const char *TerrainBody::GetHeightFractalName() const
+{
+	if (Terrain* terrain = m_baseSphere->GetTerrain()) {
+		return terrain->GetHeightFractalName();
+	}
+	return nullptr;
+}
+
+const char* TerrainBody::GetColorFractalName() const
+{
+	if (Terrain *terrain = m_baseSphere->GetTerrain()) {
+		return terrain->GetColorFractalName();
+	}
+	return nullptr;
 }

@@ -1,90 +1,154 @@
 {
+  "FINES_ADMONISHING_1": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Molimo Vas da posjetite najbliži {policeforce} ured kako biste platili kazne."
+  },
+  "FINES_ADMONISHING_2": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Posjetite najbližu policijsku postaju i riješite ovaj problem."
+  },
+  "FINES_ADMONISHING_3": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Moraš to riješiti ili će biti samo gore."
+  },
+  "FINES_ADMONISHING_4": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Na svakoj većoj postaji postoji {policijska} postaja. Platite kazne!"
+  },
+  "FINES_ADMONISHING_HARSH_1": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Ovo se mora riješiti ili će biti posljedica!"
+  },
+  "FINES_ADMONISHING_HARSH_2": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Neplaćene kazne bit će procesuirane u punoj mjeri zakonom propisanoj."
+  },
+  "FINES_ADMONISHING_HARSH_3": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Ovo je ozbiljno i morate to riješiti. Što prije to bolje."
+  },
+  "FINES_ADMONISHING_HARSH_4": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Ako ne platiš kazne, završit ćeš kao odmetnik. Plati kazne danas!"
+  },
+  "FINES_INTRO_1": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Čekaj, ima još."
+  },
+  "FINES_INTRO_2": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Još jedna stvar {ship_label}."
+  },
+  "FINES_INTRO_3": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Čekajte!"
+  },
+  "FINES_INTRO_4": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "{ship_label}."
+  },
+  "FINES_MESSAGE_1": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Imate neplaćene kazne."
+  },
+  "FINES_MESSAGE_2": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Označeni ste neplaćenim kaznama."
+  },
+  "FINES_MESSAGE_3": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Vidimo da imate kazne za platiti."
+  },
+  "FINES_MESSAGE_4": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Imate ukupno ${fine} neplaćenih kazni."
+  },
   "ILLEGAL_GOODS_DETECTED": {
     "description": "",
-    "message": "Illegal goods detected."
+    "message": "Otkrivena ilegalna roba."
   },
   "INITIATE_CARGO_SCAN_1": {
     "description": "",
-    "message": "Initiate cargo scan."
+    "message": "Započnite skeniranje tereta."
   },
   "INITIATE_CARGO_SCAN_2": {
     "description": "",
-    "message": "Maintain speed and course for a cargo scan."
+    "message": "Održavajte brzinu i kurs za skeniranje tereta."
   },
   "INITIATE_CARGO_SCAN_3": {
     "description": "",
-    "message": "Initiate contraband search."
+    "message": "Pokrenite pretragu za krijumčarenom robom."
   },
   "NOTHING_DETECTED": {
     "description": "",
-    "message": "No illegal cargo detected. You may proceed."
+    "message": "Nije otkriven ilegalni teret. Možete nastaviti."
   },
   "OUTLAW_DETECTED_1": {
     "description": "",
-    "message": "{ship_label} is flown by a known outlaw. Attack and destroy!"
+    "message": "{ship_label} pilotira poznati odmetnik. Napadni i uništi!"
   },
   "OUTLAW_DETECTED_2": {
     "description": "",
-    "message": "Bandit, your days are numbered!"
+    "message": "Bandite, tvoji dani su odbrojani!"
   },
   "OUTLAW_DETECTED_3": {
     "description": "",
-    "message": "Hah, caught! You will not leave this system alive!"
+    "message": "Ha, uhvaćen! Nećeš živ izaći iz ovog sustava!"
   },
   "POLICE_TAUNT_1": {
     "description": "",
-    "message": "Boy, this was a bad idea!"
+    "message": "Dečko, ovo je bila loša ideja!"
   },
   "POLICE_TAUNT_2": {
     "description": "",
-    "message": "Smuggler, you will pay the ultimate price!"
+    "message": "Krijumčaru, platit ćeš najvišu cijenu!"
   },
   "POLICE_TAUNT_3": {
     "description": "",
-    "message": "Fool, crime doesn't pay off!"
+    "message": "Budalo, zločin se ne isplati!"
   },
   "RESPECT_THE_LAW_1": {
     "description": "",
-    "message": "Respect the law! Crime doesn't pay off in the {system} system!"
+    "message": "Poštujte zakon! Zločin se ne isplati u {system} sustavu!"
   },
   "RESPECT_THE_LAW_2": {
     "description": "",
-    "message": "You have entered the {system} system. Respect the law!"
+    "message": "Ušli ste u sustav {system}. Poštujte zakon!"
   },
   "RESTRICTIONS_ESTABLISHED_1": {
     "description": "",
-    "message": "The threat has been eliminated. {ship_label}, weapons fire restrictions are now in effect."
+    "message": "Prijetnja je uklonjena. {ship_label}, ograničenja vatrenog oružja su sada na snazi."
   },
   "RESTRICTIONS_ESTABLISHED_2": {
     "description": "",
-    "message": "{ship_label}, cease fire, cease fire!"
+    "message": "{ship_label}, prekid vatre, prekid vatre!"
   },
   "RESTRICTIONS_WITHDRAWN_1": {
     "description": "",
-    "message": "{ship_label}, you are authorized to open fire."
+    "message": "{ship_label}, ovlašteni ste otvoriti vatru."
   },
   "RESTRICTIONS_WITHDRAWN_2": {
     "description": "",
-    "message": "{ship_label}, fire at will!"
+    "message": "{ship_label}, pucaj po volji!"
   },
   "TAKE_A_HIKE": {
     "description": "",
-    "message": "Ok, you got a second chance. Take a hike!"
+    "message": "U redu, imaš drugu priliku. Prošeći!"
   },
   "TARGET_DESTROYED_1": {
     "description": "",
-    "message": "Target destroyed!"
+    "message": "Meta uništena!"
   },
   "TARGET_DESTROYED_2": {
     "description": "",
-    "message": "Yeah!"
+    "message": "Da!"
   },
   "TARGET_DESTROYED_3": {
     "description": "",
-    "message": "Rest in pieces! Haha."
+    "message": "Počivaj u komadićima! Haha."
   },
   "TARGET_DESTROYED_4": {
     "description": "",
-    "message": "Another one bites the dust!"
+    "message": "Još jedan zagrize prašinu!"
   }
 }

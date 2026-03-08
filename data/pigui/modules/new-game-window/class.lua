@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = require 'Lang'
@@ -13,6 +13,7 @@ local ModalWindow = require 'pigui.libs.modal-win'
 local ModelSkin = require 'SceneGraph.ModelSkin'
 local ShipDef = require "ShipDef"
 local SystemPath = require 'SystemPath'
+local PlayerState = require 'PlayerState'
 
 local Defs = require 'pigui.modules.new-game-window.defs'
 local Layout = require 'pigui.modules.new-game-window.layout'
@@ -113,8 +114,9 @@ local function startGame(gameParams)
 	Game.StartGame(gameParams.location.path, startTime, gameParams.ship.type)
 	local player = Game.player
 
+	PlayerState.SetMoney(gameParams.player.money)
+
 	player:SetLabel(gameParams.ship.label)
-	player:SetMoney(gameParams.player.money)
 	player:SetShipName(gameParams.ship.name)
 
 	local pattern = gameParams.ship.model.pattern

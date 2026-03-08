@@ -1,7 +1,7 @@
 {
   "ATMO_PRESSURE_OVER_LIMIT": {
     "description": "",
-    "message": "Atmospheric pressure above ship limits"
+    "message": "Atmosferos slėgis viršija laivo limitą"
   },
   "AUTOPILOT": {
     "description": "",
@@ -9,14 +9,14 @@
   },
   "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY": {
     "description": "",
-    "message": "Cannot compensate for local gravity"
+    "message": "Negalima kompensuoti už vietinę trauką"
   },
   "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
     "description": "",
-    "message": "Negaliu apskaičiuoti orbitos parametrų"
+    "message": "Negalima apskaičiuoti orbitos parametrų"
   },
   "STARPORT_REFUSED_DOCKING_PERMISSION": {
     "description": "",
-    "message": "Starport refused docking permission"
+    "message": "Kosmouostas atsisakė duoti leidimą prisišvartuoti"
   }
 }

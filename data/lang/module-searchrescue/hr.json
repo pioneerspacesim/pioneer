@@ -1,7 +1,7 @@
 {
   "ACCIDENT_DESTROYED_TARGET": {
     "description": "",
-    "message": "The sad news has reached us that {shiplabel} has been destroyed. We will pay half of the agreed price for you efforts."
+    "message": "Stigla nam je tužna vijest da je {shiplabel} uništen. Platit ćemo vam polovicu dogovorene cijene za vaš trud."
   },
   "AU": {
     "description": "",
@@ -9,79 +9,79 @@
   },
   "BOARDED_PASSENGER": {
     "description": "",
-    "message": "{name} has boarded the ship."
+    "message": "{name} se ukrcao/ukrcala na brod."
   },
   "COMMODITIES": {
     "description": "",
-    "message": "Commodities"
+    "message": "Robe"
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
-    "message": "Could you repeat the original request?"
+    "message": "Možete li ponoviti izvorni zahtjev?"
   },
   "CREW": {
     "description": "",
-    "message": "Crew"
+    "message": "Posada"
   },
   "DEADLINE": {
     "description": "",
-    "message": "Deadline:"
+    "message": "Rok:"
   },
   "DELIVERED_PASSENGER": {
     "description": "",
-    "message": "{name} has left the ship."
+    "message": "{name} je napustio/la brod."
   },
   "DELIVERY": {
     "description": "",
-    "message": "DELIVERY"
+    "message": "DOSTAVA"
   },
   "DISTANCE": {
     "description": "",
-    "message": "Distance:"
+    "message": "Udaljenost:"
   },
   "ENTITY_FAMILY_BUSINESS_1": {
     "description": "",
-    "message": "{name} and Sons"
+    "message": "{name} i sinovi"
   },
   "ENTITY_FAMILY_BUSINESS_10": {
     "description": "",
-    "message": "{name} Taxi Services"
+    "message": "Taksi usluge {name}"
   },
   "ENTITY_FAMILY_BUSINESS_2": {
     "description": "",
-    "message": "{name} and Daughters"
+    "message": "{name} i kćeri"
   },
   "ENTITY_FAMILY_BUSINESS_3": {
     "description": "",
-    "message": "{name} Flowers of {locality}"
+    "message": "Cvijeće {name} u {localitude}"
   },
   "ENTITY_FAMILY_BUSINESS_4": {
     "description": "",
-    "message": "{name} Custom Painted Missiles"
+    "message": "{name} Prilagođeno oslikane rakete"
   },
   "ENTITY_FAMILY_BUSINESS_5": {
     "description": "",
-    "message": "{name} Courier Services"
+    "message": "Kurirske usluge {name}"
   },
   "ENTITY_FAMILY_BUSINESS_6": {
     "description": "",
-    "message": "{name} Space Pets"
+    "message": "{name} Svemirski ljubimci"
   },
   "ENTITY_FAMILY_BUSINESS_7": {
     "description": "",
-    "message": "{name} & {name}"
+    "message": "{name} i {name}"
   },
   "ENTITY_FAMILY_BUSINESS_8": {
     "description": "",
-    "message": "{name} Authentic {locality} Foods"
+    "message": "{name} Autentična {locality} hrana"
   },
   "ENTITY_FAMILY_BUSINESS_9": {
     "description": "",
-    "message": "{name} Transports"
+    "message": "{name} Prijevozi"
   },
   "ENTITY_GENERAL_1": {
     "description": "",
-    "message": "the {locality} General Prospectors Inc"
+    "message": "General Prospectors Inc. u {locality}"
   },
   "ENTITY_GENERAL_10": {
     "description": "",
@@ -89,27 +89,27 @@
   },
   "ENTITY_GENERAL_2": {
     "description": "",
-    "message": "the {locality} Society for Ecological Preservation"
+    "message": "Društvo za očuvanje okoliša u {lokalitetu}"
   },
   "ENTITY_GENERAL_3": {
     "description": "",
-    "message": "the Interest Rights Groups for {locality}"
+    "message": "Grupe za prava interesa za {locality}"
   },
   "ENTITY_GENERAL_4": {
     "description": "",
-    "message": "the {locality} Mining Rights Office"
+    "message": "Ured za prava rudarstva u {locality}"
   },
   "ENTITY_GENERAL_5": {
     "description": "",
-    "message": "the Landowners Association of {locality}"
+    "message": "Udruga zemljoposjednika {locality}"
   },
   "ENTITY_GENERAL_6": {
     "description": "",
-    "message": "the Statistical Institute of {locality}"
+    "message": "Statistički zavod {locality}"
   },
   "ENTITY_GENERAL_7": {
     "description": "",
-    "message": "the {locality} branch office of SpaceCruise Inc"
+    "message": "podružnica SpaceCruise Inc. u {locality}"
   },
   "ENTITY_GENERAL_8": {
     "description": "",
@@ -117,351 +117,351 @@
   },
   "ENTITY_GENERAL_9": {
     "description": "",
-    "message": "{locality} Burial-Services Corp"
+    "message": "{locality} Pogrebno poduzeće"
   },
   "ENTITY_RESEARCH_1": {
     "description": "",
-    "message": "the {locality} Biological Society"
+    "message": "Biološko društvo {locality}"
   },
   "ENTITY_RESEARCH_10": {
     "description": "",
-    "message": "the {locality} Center of Zoological Research"
+    "message": "Centar za zoološka istraživanja u {locality}"
   },
   "ENTITY_RESEARCH_2": {
     "description": "",
-    "message": "the {locality} Microbiological Society"
+    "message": "Mikrobiološko društvo {locality}"
   },
   "ENTITY_RESEARCH_3": {
     "description": "",
-    "message": "the {locality} Chemical Society"
+    "message": "Kemijsko društvo u {lokalitetu}"
   },
   "ENTITY_RESEARCH_4": {
     "description": "",
-    "message": "the {locality} Astrobiological Society"
+    "message": "Astrobiološko društvo {locality}"
   },
   "ENTITY_RESEARCH_5": {
     "description": "",
-    "message": "the {locality} Geological Society"
+    "message": "Geološko društvo {locality}"
   },
   "ENTITY_RESEARCH_6": {
     "description": "",
-    "message": "the {locality} Society for Astropaleontology"
+    "message": "Društvo za astropaleontologiju u {lokalitetu}"
   },
   "ENTITY_RESEARCH_7": {
     "description": "",
-    "message": "the {locality} Astrophysics Research Center"
+    "message": "Istraživački centar za astrofiziku u {locality}"
   },
   "ENTITY_RESEARCH_8": {
     "description": "",
-    "message": "the {locality} Astrochemistry Research Center"
+    "message": "Istraživački centar za astrokemiju u {locality}"
   },
   "ENTITY_RESEARCH_9": {
     "description": "",
-    "message": "the {locality} Center for Botany"
+    "message": "Centar za botaniku u {locality}"
   },
   "EQUIPMENT": {
     "description": "",
-    "message": "You are not equipped to handle this mission. {unit} {equipment} required."
+    "message": "Niste opremljeni za ovu misiju. Potrebna je {unit} {equipment}."
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Local STC reports ship crash landed on {planet}. Assistance required."
+    "message": "Lokalni STC izvještava da je brod srušio i sletio na {planet}. Potrebna pomoć."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "SHIP CRASH LANDED"
+    "message": "BROD SE SRUŠIO PRI SLJETANJU"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "I can't believe you are just returning now! How much time has been wasted!"
+    "message": "Ne mogu vjerovati da se tek sada vraćaš! Koliko je vremena uzalud potrošeno!"
   },
   "FLAVOUR_1_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "For full reimbursement of expenses you have to be back by {due}."
+    "message": "Za puni povrat troškova morate se vratiti do {due}."
   },
   "FLAVOUR_1_INTROTEXT": {
-    "description": "",
-    "message": "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "Kontrola zračnog prometa {starport} treba vašu HITNU pomoć prilikom reagiranja na srušeno slijetanje {ship_indef} na {planet}. Status sustava za održavanje života nije poznat. Brod je osiguran od strane {starport} starport insurance i pokriven je s {cash} naknadom za hitne intervencije."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
-    "message": "Last known location for this ship was {planet} at latitude/longitude coordinates: {lat} / {long}. Ship ID is {shiplabel}."
+    "message": "Posljednja poznata lokacija ovog broda bila je {planet} na koordinatama geografske širine/dužine: {lat} / {long}. ID broda je {shiplabel}."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you, this is a great relief! We will transmit the money momentarily."
+    "message": "Hvala vam, ovo je veliko olakšanje! Novac ćemo poslati odmah."
   },
   "FLAVOUR_1_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has boarded the ship."
+    "message": "{unit} se ukrcao/ukrcala na brod."
   },
   "FLAVOUR_1_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
+    "message": "Izvještava se da se na brodu nalazi posada od {crew} i {pass} putnika. Trebamo nekoga tko će locirati brod, pokupiti sve preživjele s mjesta nesreće i odmah ih dovesti ovamo."
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "{starport} STC received low fuel message from incoming ship. Refueling services requested."
+    "message": "{starport} STC je primio poruku o niskoj razini goriva s nadolazećeg broda. Zatražene su usluge dopunjavanja goriva."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "SHIP OUT OF FUEL"
+    "message": "U BRODU NEMA GORIVA"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "I can't believe you kept me waiting out here this long! Forget about your payment!"
+    "message": "Ne mogu vjerovati da si me pustio/la da čekam ovdje ovoliko dugo! Zaboravi na uplatu!"
   },
   "FLAVOUR_2_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "To receive full payment you are asked to deliver the fuel by {due}."
+    "message": "Za primanje pune uplate potrebno je dostaviti gorivo do {due}."
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land. The pilot is willing to pay {cash} for refueling services."
+    "message": "Kontrola zračnog prometa {starport} upravo je primila obavijest da je dolazni let {shiplabel} ostao bez goriva i morao je prisilno sletjeti. Pilot je spreman platiti {cash} za usluge dopunjavanja goriva."
   },
   "FLAVOUR_2_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship is presently waiting at latitude {lat} / longitude {long} on planet {planet}."
+    "message": "Brod trenutno čeka na geografskoj širini {lat} / geografskoj dužini {long} na planetu {planet}."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you so much! I have transferred the full reward."
+    "message": "Puno vam hvala! Prebacio sam cijelu nagradu."
   },
   "FLAVOUR_2_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "Prebačena je {unit} tona goriva."
   },
   "FLAVOUR_2_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "The pilot is requesting {unit} tons of {cargo}."
+    "message": "Pilot traži {unit} tona {cargo}."
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Ship close to {starport} signalled medical emergency. Urgent hospital transport required."
+    "message": "Brod blizu {starport} signalizirao je medicinsku hitnost. Potreban je hitan prijevoz do bolnice."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "MEDICAL EMERGENCY"
+    "message": "MEDICINSKA UZBUNA"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
-    "message": "Unacceptable performance! We will update our records accordingly."
+    "message": "Neprihvatljiva izvedba! Ažurirat ćemo naše zapise u skladu s tim."
   },
   "FLAVOUR_3_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "The substitute pilot will need to reach the ship by {due}."
+    "message": "Zamjenski pilot morat će stići na brod do {due}."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+    "message": "Zovem se {name} iz kontrole zračnog prometa {starport}. Tražim pomoć u vezi s medicinskom hitnošću pilota leta {shiplabel} koji je letio za {starport}."
   },
   "FLAVOUR_3_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship had to emergency land at the coordinates: {lat} / {long}. "
+    "message": "Brod je morao prisilno sletjeti na koordinate: {lat} / {long}."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you, commander! Your help has been duly noted."
+    "message": "Hvala vam, zapovjedniče! Vaša pomoć je uredno zabilježena."
   },
   "FLAVOUR_3_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has left the ship."
+    "message": "{unit} je napustio/la brod."
   },
   "FLAVOUR_3_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
+    "message": "Molimo vas da prevezete zamjenskog pilota iz {starport} na brod kako bi mogao vratiti brod natrag u {starport}."
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Distress signal received: ship is stranded and out of fuel on {planet}."
+    "message": "Primljen signal za pomoć: brod je nasukan i ostao bez goriva na {planetu}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "SHIP OUT OF FUEL"
+    "message": "U BRODU NEMA GORIVA"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
-    "message": "I will send someone else. Don't bother anymore."
+    "message": "Poslat ću nekog drugog. Ne trudi se više."
   },
   "FLAVOUR_4_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "For full pay the pilot expects you to deliver the fuel by {due}."
+    "message": "Za punu uplatu pilot očekuje da gorivo dostavite do {due}."
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
+    "message": "Pilot leta {shiplabel} kontaktirao je kontrolu zračnog prometa {starport}. Zaglavljeni su s praznim spremnikom goriva i obećali su platiti {cash} svakome tko napuni brod gorivom."
   },
   "FLAVOUR_4_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship is stranded on {planet} at coordinates {lat} / {long}."
+    "message": "Brod je nasukan na planetu {planet} na koordinatama {lat} / {long}."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "Very good. We will recommend you for future assignments."
+    "message": "Vrlo dobro. Preporučit ćemo vas za buduće zadatke."
   },
   "FLAVOUR_4_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "Prebačena je {unit} tona goriva."
   },
   "FLAVOUR_4_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "The pilot is asking for {unit} tons of {cargo}. {high_gravity}"
+    "message": "Pilot traži {unit} tona {cargo}. {high_gravity}"
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Stranded ship is requesting refuelling operation close to {starport}."
+    "message": "Nasukani brod traži operaciju punjenja gorivom u blizini {starport}."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "SHIP OUT OF FUEL"
+    "message": "U BRODU NEMA GORIVA"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
-    "message": "People are just not dependable anymore."
+    "message": "Ljudi jednostavno više nisu pouzdani."
   },
   "FLAVOUR_5_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "Please complete refueling by {due}."
+    "message": "Molimo vas da dovršite točenje goriva do {due}."
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
+    "message": "Kontrola zračnog prometa {starport} identificirala je zvjezdani brod s ID-om {shiplabel} koji pluta bez goriva u blizini. Platit ćemo {cash} svakome tko napuni brod gorivom kako bi mogao napustiti blizinu {starport}."
   },
   "FLAVOUR_5_LOCATIONTEXT": {
     "description": "",
-    "message": "The target ship is currently drifting within {dist} km from here. You will have to track down the exact location yourself."
+    "message": "Ciljani brod trenutno pluta unutar {dist} km odavde. Točnu lokaciju morat ćete sami pronaći."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
-    "message": "We will make record of your timely completion of the task."
+    "message": "Zabilježit ćemo vaše pravovremeno dovršetak zadatka."
   },
   "FLAVOUR_5_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "Prebačena je {unit} tona goriva."
   },
   "FLAVOUR_5_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "We request the delivery of {unit} tons of {cargo} to the ship."
+    "message": "Molimo Vas da nam se dostavi {unit} tona {tereta} na brod."
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "Emergency: corporate vessel unresponsive in the {system} system."
+    "message": "Hitno stanje: korporativno plovilo ne reagira u sustavu {system}."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "VESSEL UNRESPONSIVE"
+    "message": "PLOVILO NE REAGUJE"
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
-    "message": "What a disaster! This is a death sentence for our poor colleagues!"
+    "message": "Kakva katastrofa! Ovo je smrtna presuda za naše jadne kolege!"
   },
   "FLAVOUR_6_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "You have to be back by {due}."
+    "message": "Moraš se vratiti do {due}."
   },
   "FLAVOUR_6_INTROTEXT": {
-    "description": "",
-    "message": "My name is {name} of {entity}. We lost contact with our {ship} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
+    "description": "{ship_base} is translated in /data/lang/ships/",
+    "message": "Moje ime je {name} iz {entity}. Izgubili smo kontakt s našom {ship_base} {shiplabel} zbog {problem}. Spremni smo platiti {cash} za hitnu pomoć."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
-    "message": "Last known position was the vicinity of {planet} in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly away from here."
+    "message": "Posljednja poznata pozicija bila je blizina planeta {planet} u sustavu {system} [{sector},{sector},{sector}], {dist} ly udaljen odavde."
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you! You can't imagine how relieved we are."
+    "message": "Hvala vam! Ne možete ni zamisliti koliko nam je laknulo."
   },
   "FLAVOUR_6_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has boarded the ship."
+    "message": "{unit} se ukrcao/ukrcala na brod."
   },
   "FLAVOUR_6_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "I need someone willing to leave immediately and bring our colleagues back to {starport}, should they be alive. The ship had {crew} crew and {pass} passengers on board."
+    "message": "Trebam nekoga tko je spreman odmah otići i vratiti naše kolege u {starport}, ako su živi. Na brodu je bilo {crew} članova posade i {pass} putnika."
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Immediate crew transport to drifting ship in the {system} system requested."
+    "message": "Zatražen je hitan prijevoz posade na brod koji pluta u sustavu {system}."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "EMERGENCY CREW TRANSPORT"
+    "message": "HITNI PRIJEVOZ POSADE"
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
-    "message": "Thank you very much, but you are too late!"
+    "message": "Puno vam hvala, ali prekasno je!"
   },
   "FLAVOUR_7_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "The replacement crew has to reach the ship by {due}."
+    "message": "Zamjenska posada mora stići na brod do {due}."
   },
   "FLAVOUR_7_INTROTEXT": {
-    "description": "",
-    "message": "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "Moje ime je {name} od {entity}. Naš jedini brod, {ship_indef} {shiplabel}, pluta s posadom od {crew} nakon {problem}. Spreman sam platiti {cash} za hitnu pomoć."
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
-    "message": "You will find the ship in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly from here. It is being kept in orbit around {planet}."
+    "message": "Brod ćete pronaći u sustavu {system} [{sector},{sector},{sector}], {dist} ky odavde. Drži se u orbiti oko {planeta}."
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you! I have been authorized to transmit the full payment."
+    "message": "Hvala! Ovlašten sam za slanje punog iznosa."
   },
   "FLAVOUR_7_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has transferred to the target ship."
+    "message": "{unit} se prebacio na ciljni brod."
   },
   "FLAVOUR_7_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "We can't return the ship without minimal crew present. I am searching for someone willing to transport a replacement crew of {deliver_crew} to our starship immediately."
+    "message": "Ne možemo vratiti brod bez minimalne posade. Tražim nekoga tko je spreman odmah prevesti zamjensku posadu od {deliver_crew} na naš svemirski brod."
   },
   "FULL_CARGO": {
     "description": "",
-    "message": "Ship full. No more room for additional cargo."
+    "message": "Brod pun. Nema više mjesta za dodatni teret."
   },
   "FULL_CREW": {
     "description": "",
-    "message": "Crew roster full. No more space for more crew."
+    "message": "Popis posade je pun. Nema više mjesta za dodatnu posadu."
   },
   "FULL_PASSENGERS": {
     "description": "",
-    "message": "All cabins full. No more space for more passengers."
+    "message": "Sve kabine su pune. Nema više mjesta za putnike."
   },
   "HIGHGRAVITY_0": {
     "description": "",
-    "message": "The surface gravity on {planet} is {gravity} g. Please take this into consideration."
+    "message": "Površinska gravitacija na {planetu} je {gravitacija} g. Molimo vas da to uzmete u obzir."
   },
   "HIGHGRAVITY_1": {
     "description": "",
-    "message": "You should know that {planet} is {gravity} g."
+    "message": "Trebali biste znati da je {planet} {gravitacija} g."
   },
   "HIGHGRAVITY_2": {
     "description": "",
-    "message": "You will land and take off in {gravity} g."
+    "message": "Sletjet ćete i poletjeti u {gravitaciji} g."
   },
   "HIGHGRAVITY_3": {
     "description": "",
-    "message": "{planet} is {gravity} g."
+    "message": "{planet} je {gravitacija} g."
   },
   "HOW_FAR": {
     "description": "",
-    "message": "How far away is the target?"
+    "message": "Koliko je meta udaljena?"
   },
   "HOW_MUCH_TIME": {
     "description": "",
-    "message": "How much time do I have?"
+    "message": "Koliko vremena imam?"
   },
   "INTERACTION_ABORTED": {
     "description": "",
-    "message": "Interaction aborted. Please come closer and try again."
+    "message": "Interakcija prekinuta. Molimo vas da se približite i pokušate ponovno."
   },
   "INTERACTION_DISTANCE_REACHED": {
     "description": "",
-    "message": "Interaction distance reached."
+    "message": "Dostignuta je interakcijska udaljenost."
   },
   "IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It must be completed by "
+    "message": "Mora biti dovršeno do"
   },
   "KM": {
     "description": "",
@@ -469,11 +469,11 @@
   },
   "LAST_KNOWN_LOCATION": {
     "description": "",
-    "message": "Last known location:"
+    "message": "Posljednja poznata lokacija:"
   },
   "LAT": {
     "description": "",
-    "message": "Lat:"
+    "message": "Geografska širina:"
   },
   "LON": {
     "description": "",
@@ -481,266 +481,266 @@
   },
   "MISSING_COMM": {
     "description": "",
-    "message": "Cannot complete transfer. {cargotype} missing."
+    "message": "Prijenos nije moguće dovršiti. Nedostaje {cargotype}."
   },
   "MISSING_CREW": {
     "description": "",
-    "message": "Cannot complete transfer. Crew missing."
+    "message": "Prijenos nije moguće dovršiti. Nedostaje posada."
   },
   "MISSING_PASS": {
     "description": "",
-    "message": "Cannot complete transfer. Passengers missing."
+    "message": "Prijevoz nije moguće dovršiti. Nedostaju putnici."
   },
   "MISSING_PASSENGER": {
     "description": "",
-    "message": "Cannot complete transfer. Passenger missing."
+    "message": "Transfer nije moguć. Putnik nedostaje."
   },
   "OK_AGREED": {
     "description": "",
-    "message": "Ok, agreed."
+    "message": "U redu, slažem se."
   },
   "ORBIT": {
     "description": "",
-    "message": "Orbit"
+    "message": "Orbita"
   },
   "PARTIAL": {
     "description": "",
-    "message": "Thank you for your efforts. I hope you will return to complete the task!"
+    "message": "Hvala vam na trudu. Nadam se da ćete se vratiti i dovršiti zadatak!"
   },
   "PASSENGERS": {
     "description": "",
-    "message": "Passengers"
+    "message": "Putnici"
   },
   "PAYMENT_LOCATION": {
     "description": "",
-    "message": "Payment location:"
+    "message": "Mjesto plaćanja:"
   },
   "PICKUP": {
     "description": "",
-    "message": "PICKUP"
+    "message": "POKUPI"
   },
   "PLACE_OF_ASSISTANCE": {
     "description": "",
-    "message": "At the place of assistance"
+    "message": "Na mjestu pružanja pomoći"
   },
   "PLAYER_DESTROYED_TARGET": {
     "description": "",
-    "message": "We have heard of your deeds, captain! Rest assured that we will report you to the local authorities for destroying the very ship you were sent out to help. A criminal lawsuit will follow."
+    "message": "Čuli smo za vaša djela, kapetane! Budite uvjereni da ćemo vas prijaviti lokalnim vlastima zbog uništenja upravo onog broda kojem ste poslani pomoći. Uslijedit će kaznena tužba."
   },
   "PLEASE_LAND": {
     "description": "",
-    "message": "Please land ship to allow transfer."
+    "message": "Molimo pristanite na brod kako biste omogućili transfer."
   },
   "PROBLEM_CREW_1": {
     "description": "",
-    "message": "a deadly fight among the crew members"
+    "message": "smrtonosna borba među članovima posade"
   },
   "PROBLEM_CREW_10": {
     "description": "",
-    "message": "a mutiny"
+    "message": "pobuna"
   },
   "PROBLEM_CREW_2": {
     "description": "",
-    "message": "the crew had to chase a deadly {locality} snake found loose on the ship"
+    "message": "Posada je morala loviti smrtonosnu zmiju iz {locality} pronađenu slobodnu na brodu"
   },
   "PROBLEM_CREW_3": {
     "description": "",
-    "message": "a {locality} spider killed all the others"
+    "message": "pauk iz {locality} ubio je sve ostale"
   },
   "PROBLEM_CREW_4": {
     "description": "",
-    "message": "what it seems like a {locality} scorpion got into the crew quarters at night"
+    "message": "Čini se da je škorpion u {locality} noću ušao u prostorije za posadu"
   },
   "PROBLEM_CREW_5": {
     "description": "",
-    "message": "a severe form of {locality} fever killed the others"
+    "message": "Teški oblik groznice u {lokalitetu} ubio je ostale"
   },
   "PROBLEM_CREW_6": {
     "description": "",
-    "message": "the other crew members did not return from a space walk"
+    "message": "ostali članovi posade nisu se vratili sa svemirske šetnje"
   },
   "PROBLEM_CREW_7": {
     "description": "",
-    "message": "a severe form of food poisoning on the ship"
+    "message": "teški oblik trovanja hranom na brodu"
   },
   "PROBLEM_CREW_8": {
     "description": "",
-    "message": "a terrible accident that lead to the ejection of the others into space"
+    "message": "strašna nesreća koja je dovela do izbacivanja ostalih u svemir"
   },
   "PROBLEM_CREW_9": {
     "description": "",
-    "message": "a circumstance that I can't comment on publicly"
+    "message": "okolnost koju ne mogu javno komentirati"
   },
   "PROBLEM_GENERAL_1": {
     "description": "",
-    "message": "a fire in the cargo hold"
+    "message": "požar u teretnom prostoru"
   },
   "PROBLEM_GENERAL_10": {
     "description": "",
-    "message": "the receipt of a distress call from within {locality}"
+    "message": "prijem poziva u pomoć iz {locality}"
   },
   "PROBLEM_GENERAL_2": {
     "description": "",
-    "message": "a power failure in the engine core"
+    "message": "nestanak struje u jezgri motora"
   },
   "PROBLEM_GENERAL_3": {
     "description": "",
-    "message": "an air leak"
+    "message": "curenje zraka"
   },
   "PROBLEM_GENERAL_4": {
     "description": "",
-    "message": "a severe form of food poisoning involving all personnel on board the ship"
+    "message": "težak oblik trovanja hranom koji zahvata sve članove osoblja na brodu"
   },
   "PROBLEM_GENERAL_5": {
     "description": "",
-    "message": "a small meteor impact"
+    "message": "udar malog meteora"
   },
   "PROBLEM_GENERAL_6": {
     "description": "",
-    "message": "a fight among crew members"
+    "message": "tučnjava među članovima posade"
   },
   "PROBLEM_GENERAL_7": {
     "description": "",
-    "message": "contact with an unidentified flight object"
+    "message": "kontakt s neidentificiranim letećim objektom"
   },
   "PROBLEM_GENERAL_8": {
     "description": "",
-    "message": "a dispute with a competitor's vessel"
+    "message": "spor s brodom konkurenta"
   },
   "PROBLEM_GENERAL_9": {
     "description": "",
-    "message": "a reboot of the main computer"
+    "message": "ponovno pokretanje glavnog računala"
   },
   "PROBLEM_RESEARCH_1": {
     "description": "",
-    "message": "an unexpected chemical reaction in one of the reaction chambers"
+    "message": "neočekivana kemijska reakcija u jednoj od reakcijskih komora"
   },
   "PROBLEM_RESEARCH_10": {
     "description": "",
-    "message": "a major discovery at {locality} that I am not at liberty to disclose at this time"
+    "message": "veliko otkriće na {locality} koje trenutno ne smijem otkriti"
   },
   "PROBLEM_RESEARCH_2": {
     "description": "",
-    "message": "an infection of a crew member with a pathogen local to {locality}"
+    "message": "infekcija člana posade patogenom lokalnim za {locality}"
   },
   "PROBLEM_RESEARCH_3": {
     "description": "",
-    "message": "a leak of experimental pathogens into the main air supply"
+    "message": "curenje eksperimentalnih patogena u glavni dovod zraka"
   },
   "PROBLEM_RESEARCH_4": {
     "description": "",
-    "message": "crew exposure to a specimen collected at {locality}"
+    "message": "izloženost posade uzorku prikupljenom na lokaciji {locality}"
   },
   "PROBLEM_RESEARCH_5": {
     "description": "",
-    "message": "a chemical explosion in one of the on-board fume hoods"
+    "message": "kemijska eksplozija u jednoj od digestora na vozilu"
   },
   "PROBLEM_RESEARCH_6": {
     "description": "",
-    "message": "an experimental recreation of {locality} atmospheric gases"
+    "message": "eksperimentalna rekreacija atmosferskih plinova u {locality}"
   },
   "PROBLEM_RESEARCH_7": {
     "description": "",
-    "message": "a heated dispute between scientists on board the ship"
+    "message": "žestoka rasprava između znanstvenika na brodu"
   },
   "PROBLEM_RESEARCH_8": {
     "description": "",
-    "message": "the sudden disappearance of a lead investigator on board the ship"
+    "message": "iznenadni nestanak glavnog istražitelja na brodu"
   },
   "PROBLEM_RESEARCH_9": {
     "description": "",
-    "message": "the accidental combination of incompatible specimens from {locality}"
+    "message": "slučajna kombinacija nekompatibilnih uzoraka iz {locality}"
   },
   "RESULT_DELIVERY_COMM": {
     "description": "",
-    "message": "Transferred {done} of {todo} tons of {cargotype} to target ship."
+    "message": "Prebačeno {done} od {todo} tona {cargotype} na ciljani brod."
   },
   "RESULT_DELIVERY_CREW": {
     "description": "",
-    "message": "Transferred {done} of {todo} crew members to target ship."
+    "message": "Prebačeno {done} od {todo} članova posade na ciljani brod."
   },
   "RESULT_DELIVERY_PASS": {
     "description": "",
-    "message": "Transferred {done} of {todo} passengers to target ship."
+    "message": "Prebačeno {done} od {todo} putnika na ciljani brod."
   },
   "RESULT_PICKUP_COMM": {
     "description": "",
-    "message": "Picked up {done} of {todo} tons of {cargotype} from target ship."
+    "message": "S ciljanog broda preuzeto je {done} od {todo} tona {cargotype}."
   },
   "RESULT_PICKUP_CREW": {
     "description": "",
-    "message": "Picked up {done} of {todo} crew members from target ship."
+    "message": "Pokupljeno {done} od {todo} članova posade s ciljanog broda."
   },
   "RESULT_PICKUP_PASS": {
     "description": "",
-    "message": "Picked up {done} of {todo} passengers from target ship."
+    "message": "S ciljanog broda preuzeto je {done} od {todo} putnika."
   },
   "RETURN_TO": {
     "description": "",
-    "message": "Return To:"
+    "message": "Povratak na:"
   },
   "REWARD": {
     "description": "",
-    "message": "Reward:"
+    "message": "Nagrada:"
   },
   "SEARCH_RESCUE": {
     "description": "",
-    "message": "Search & Rescue"
+    "message": "Potraga i spašavanje"
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Postavi kao cilj navigacije"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Set return route"
+    "message": "Postavi povratnu rutu"
   },
   "SHIP_UNRESPONSIVE": {
     "description": "",
-    "message": "Target ship unresponsive."
+    "message": "Ciljani brod ne reagira."
   },
   "SYSTEM": {
     "description": "",
-    "message": "System:"
+    "message": "Sustav:"
   },
   "TARGET_SHIP_ID": {
     "description": "",
-    "message": "Target ship ID:"
+    "message": "ID ciljnog broda:"
   },
   "THANK_YOU_ACCEPTANCE_TXT": {
     "description": "",
-    "message": "Thank you so much. Your help is greatly appreciated."
+    "message": "Puno vam hvala. Vaša pomoć je izuzetno cijenjena."
   },
   "TONS_OF_FREE_CARGO_SPACE": {
     "description": "",
-    "message": "tons of free cargo space"
+    "message": "tone slobodnog teretnog prostora"
   },
   "TRANSFER_ABORTED": {
     "description": "",
-    "message": "Transfer has been aborted!"
+    "message": "Transfer je prekinut!"
   },
   "TRANSFER_COMPLETE": {
     "description": "",
-    "message": "Transfer has been completed!"
+    "message": "Prijenos je završen!"
   },
   "TRANSFER_PARTIAL": {
     "description": "",
-    "message": "Transfer has been partially completed. Please return to finish transfer."
+    "message": "Prijenos je djelomično dovršen. Molimo vas da se vratite kako biste dovršili prijenos."
   },
   "TRANSFER_TIME": {
     "description": "",
-    "message": "Please allow {minutes} minutes for transfer."
+    "message": "Molimo pričekajte {minutes} minuta za prijenos."
   },
   "TYPE_OF_HELP": {
     "description": "",
-    "message": "What type of help is needed?"
+    "message": "Kakva je vrsta pomoći potrebna?"
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "unoccupied passenger cabins"
+    "message": "prazne putničke kabine"
   },
   "WHERE_IS_THE_TARGET": {
     "description": "",
-    "message": "Where do I find the target?"
+    "message": "Gdje da nađem metu?"
   }
 }

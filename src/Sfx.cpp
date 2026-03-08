@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Sfx.h"
@@ -213,7 +213,7 @@ void SfxManager::AddThrustSmoke(const Body *b, const float speed, const vector3d
 	SfxManager *sfxman = AllocSfxInFrame(b->GetFrame());
 	if (!sfxman) return;
 
-	Sfx sfx(b->GetPosition() + adjustpos, vector3d(0, 0, 0), speed, TYPE_SMOKE);
+	Sfx sfx(b->GetPosition() + adjustpos, vector3d::Zero, speed, TYPE_SMOKE);
 	sfxman->AddInstance(sfx);
 }
 
@@ -300,7 +300,7 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId)
 				pointArray.Add(pos, vector3f(offset, Clamp(speed, 0.1f, FLT_MAX)));
 			}
 
-			renderer->SetTransform(matrix4x4f::Identity());
+			renderer->SetTransform(matrix4x4f::Identity);
 			renderer->DrawBuffer(&pointArray, material);
 		}
 	}
@@ -397,13 +397,15 @@ void SfxManager::Init(Graphics::Renderer *r)
 	additiveAlphaState.depthWrite = false;
 	additiveAlphaState.primitiveType = Graphics::POINTS;
 
+	Graphics::VertexFormatDesc vfmt = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
+
 	// materials
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 1;
 
 	// ECM effect is different, not managed by Sfx at all, should it be factored out?
 	desc.effect = Graphics::EFFECT_BILLBOARD;
-	ecmParticle.reset(r->CreateMaterial("billboards", desc, additiveAlphaState));
+	ecmParticle.reset(r->CreateMaterial("billboards", desc, additiveAlphaState, vfmt));
 	ecmParticle->SetTexture("texture0"_hash,
 		Graphics::TextureBuilder::Billboard("textures/ecm.png").GetOrCreateTexture(r, "billboard"));
 
@@ -413,7 +415,7 @@ void SfxManager::Init(Graphics::Renderer *r)
 	SplitMaterialData(cfg.String("smokePacking"), m_materialData[TYPE_SMOKE]);
 
 	desc.effect = m_materialData[TYPE_DAMAGE].effect;
-	damageParticle.reset(r->CreateMaterial("billboards", desc, additiveAlphaState));
+	damageParticle.reset(r->CreateMaterial("billboards", desc, additiveAlphaState, vfmt));
 	damageParticle->SetTexture("texture0"_hash,
 		Graphics::TextureBuilder::Billboard(cfg.String("damageFile")).GetOrCreateTexture(r, "billboard"));
 	if (desc.effect == Graphics::EFFECT_BILLBOARD_ATLAS)
@@ -421,7 +423,7 @@ void SfxManager::Init(Graphics::Renderer *r)
 			m_materialData[TYPE_DAMAGE].coord_downscale);
 
 	desc.effect = m_materialData[TYPE_SMOKE].effect;
-	smokeParticle.reset(r->CreateMaterial("billboards", desc, alphaState));
+	smokeParticle.reset(r->CreateMaterial("billboards", desc, alphaState, vfmt));
 	smokeParticle->SetTexture("texture0"_hash,
 		Graphics::TextureBuilder::Billboard(cfg.String("smokeFile")).GetOrCreateTexture(r, "billboard"));
 	if (desc.effect == Graphics::EFFECT_BILLBOARD_ATLAS)
@@ -429,7 +431,7 @@ void SfxManager::Init(Graphics::Renderer *r)
 			m_materialData[TYPE_SMOKE].coord_downscale);
 
 	desc.effect = m_materialData[TYPE_EXPLOSION].effect;
-	explosionParticle.reset(r->CreateMaterial("billboards", desc, alphaState));
+	explosionParticle.reset(r->CreateMaterial("billboards", desc, alphaState, vfmt));
 	explosionParticle->SetTexture("texture0"_hash,
 		Graphics::TextureBuilder::Billboard(cfg.String("explosionFile")).GetOrCreateTexture(r, "billboard"));
 	if (desc.effect == Graphics::EFFECT_BILLBOARD_ATLAS)

@@ -1,4 +1,8 @@
 {
+  "ABOUT": {
+    "description": "main menu button (implied 'about' the game)",
+    "message": "Σχετικά"
+  },
   "ABOVE_AVERAGE": {
     "description": "",
     "message": "Άνω του μέσου όρου"
@@ -6,6 +10,10 @@
   "ACTIVE": {
     "description": "",
     "message": "Ενεργό"
+  },
+  "ADD_BOOKMARK": {
+    "description": "Button to add a singular bookmark",
+    "message": "Προσθέστε σελιδοδείκτη"
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
@@ -59,6 +67,10 @@
     "description": "",
     "message": "Απόπειρα επισκευής του κύτους"
   },
+  "AUTOMATED_MESSAGE": {
+    "description": "For comm messages from bots",
+    "message": "Αυτοματοποιημένο μήνυμα"
+  },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
     "message": "Αυτοματοποιημένη διαδρομή"
@@ -69,7 +81,7 @@
   },
   "AVAILABLE_STOCK": {
     "description": "Market stat showing number of items in stock",
-    "message": "Available Stock"
+    "message": "Σε απόθεμα."
   },
   "AVERAGE": {
     "description": "",
@@ -78,6 +90,18 @@
   "BACKWARD_ACCEL": {
     "description": "",
     "message": "Επιτάχυνση προς τα πίσω"
+  },
+  "BODY_IN_ROUTE": {
+    "description": "Label indicating a star is part of a planned hyperjump route",
+    "message": "Σώμα σε σχεδιασμένη διαδρομή υπεράλματος"
+  },
+  "BOOKMARK": {
+    "description": "Label introducing a bookmark",
+    "message": "Σελιδοδείκτης"
+  },
+  "BOOKMARKS": {
+    "description": "Label introducing a list of bookmarks",
+    "message": "Σελιδοδείκτες"
   },
   "BULLETIN_BOARD": {
     "description": "",
@@ -89,7 +113,7 @@
   },
   "BUY_EQUIP": {
     "description": "Button text to buy selected equipment. May be used in a singular or plural context.",
-    "message": "Buy {name}"
+    "message": "Αγορά"
   },
   "BUY_PRICE": {
     "description": "Title for buy-price column in commodity market",
@@ -121,7 +145,7 @@
   },
   "CANNOT_SELL_NONEMPTY_EQUIP": {
     "description": "",
-    "message": "Cannot sell an equipment item unless it is empty."
+    "message": "Αδύνατο να πωληθεί ένα κομμάτι εξοπλισμού εκτός αν είναι κενό"
   },
   "CANT_FIND_PATH": {
     "description": "Message when restoring savegame, file path",
@@ -174,6 +198,10 @@
   "CASH_N": {
     "description": "",
     "message": "Μετρητά: {money}"
+  },
+  "CENTER_ON_CURRENT_SYSTEM": {
+    "description": "Center on current star system",
+    "message": "Επικεντρώστε στο τρέχον σύστημα"
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
@@ -237,7 +265,7 @@
   },
   "COLLAPSE": {
     "description": "Close / collapse an open folder or group",
-    "message": "Collapse"
+    "message": "Σύμπτηξη"
   },
   "COLOR": {
     "description": "",
@@ -253,7 +281,7 @@
   },
   "COMMODITY": {
     "description": "Title for commodity name column in commodity market",
-    "message": "Commodity"
+    "message": "Εμπόρευμα."
   },
   "COMMODITY_MARKET": {
     "description": "",
@@ -265,15 +293,15 @@
   },
   "COMMODITY_TRADE_ANALYSIS_SYSTEM": {
     "description": "",
-    "message": "System-wide trade analysis of:"
+    "message": "Ανάλυση εμπορίου του συστήματος"
   },
   "COMMODITY_TRADE_ANALYSIS_TOOLTIP_1": {
     "description": "",
-    "message": "Average interstellar trade flow for all commodities bought and sold in the system."
+    "message": "Μέση ροή εμπορίου μεταξύ συστημάτων για όλα τα εμπορεύματα."
   },
   "COMMODITY_TRADE_ANALYSIS_TOOLTIP_2": {
     "description": "",
-    "message": "Data may not reflect individual market prices."
+    "message": "Η πληροφορία μπορεί να μην αντανακλά τις επιμέρους τιμές στην αγορά"
   },
   "COMPETENT": {
     "description": "Combat rating",
@@ -317,7 +345,7 @@
   },
   "COPY": {
     "description": "As for clipboard",
-    "message": "Copy"
+    "message": "Αντιγραφή"
   },
   "COULD_NOT_DELETE_SAVE": {
     "description": "",
@@ -333,7 +361,7 @@
   },
   "COULD_NOT_LOAD_SAVE_FILES": {
     "description": "Label indicating the list of save files could not be loaded",
-    "message": "Could not load save files"
+    "message": "Αδυναμία φόρτωσης του παιχνιδιού."
   },
   "COULD_NOT_READ_THE_SAVE_VERSION": {
     "description": "Message when restoring savegame",
@@ -341,7 +369,7 @@
   },
   "COULD_NOT_SAVE_GAME": {
     "description": "Label indicating a specific file could not be saved",
-    "message": "Could not save game: "
+    "message": "Αδυναμία αποθήκευσης παιχνιδιού"
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -365,7 +393,7 @@
   },
   "CRIME": {
     "description": "Heading introducing a single crime name or list of crime names",
-    "message": "Crime"
+    "message": "¨Εγκλημα."
   },
   "CRIMINAL": {
     "description": "Legal status of player",
@@ -373,11 +401,11 @@
   },
   "CRIMINAL_RECORD": {
     "description": "Heading for past crimes / crime history of character, proper noun",
-    "message": "Criminal Record"
+    "message": "Ποινικό μητρώο."
   },
   "CURRENT_FUEL": {
-    "description": "For hyperjump planner",
-    "message": "Τρέχον καύσιμο:"
+    "description": "Label indicating the current fuel state",
+    "message": "Καύσιμο"
   },
   "CURRENT_SAVEGAME_VERSION": {
     "description": "Message when restoring savegame",
@@ -388,12 +416,12 @@
     "message": "Current Ship"
   },
   "CURRENT_SYSTEM": {
-    "description": "For hyperjump planner",
+    "description": "Label indicating the system the player currently occupies",
     "message": "Τρέχον σύστημα"
   },
   "CUT": {
     "description": "As for clipboard",
-    "message": "Cut"
+    "message": "Αποκοπή"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
@@ -414,6 +442,10 @@
   "DELETE": {
     "description": "",
     "message": "Delete"
+  },
+  "DELETE_BOOKMARK": {
+    "description": "Button to remove a singular bookmark",
+    "message": "Αφαίρεση σελιδοδείκτη"
   },
   "DELETE_SAVE_CONFIRMATION": {
     "description": "",
@@ -517,7 +549,7 @@
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "Time left:"
+    "message": "Εναπομένων χρόνος."
   },
   "ECONOMY_TRADE": {
     "description": "",
@@ -526,6 +558,14 @@
   "EDIT": {
     "description": "Tooltip, to edit a flight log entry",
     "message": "Επεξεργασία"
+  },
+  "EDIT_BOOKMARK": {
+    "description": "Button to edit a singular bookmark",
+    "message": "Επεξεργασία σελιδοδείκτη"
+  },
+  "EDIT_NOTE": {
+    "description": "",
+    "message": "Επεξεργασία σημείωσης"
   },
   "EFFECTS": {
     "description": "",
@@ -571,6 +611,10 @@
     "description": "Engineering skills of crew",
     "message": "Engineering"
   },
+  "ENTER_CUSTOM_NOTE": {
+    "description": "Label indicating a note should be entered here",
+    "message": "Προσθήκη σημείωσης"
+  },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
     "message": "Καταχώρηση"
@@ -579,9 +623,13 @@
     "description": "",
     "message": "Εξοπλισμός"
   },
+  "EQUIPMENT_ALREADY_INSTALLED_HERE": {
+    "description": "Message indicating this equipment item is already installed.",
+    "message": "Το εν λόγω εξάρτημα είναι ήδη εγκατεστημένο εδώ."
+  },
   "EQUIPMENT_CAPACITY": {
     "description": "The equipment capacity of a ship",
-    "message": "Equipment Capacity"
+    "message": "Χωρητικότητα σε εξοπλισμό"
   },
   "EQUIPMENT_MARKET": {
     "description": "",
@@ -613,7 +661,7 @@
   },
   "EXPAND": {
     "description": "Open / expand a collapsed folder or group",
-    "message": "Expand"
+    "message": "Ανάπτυξη"
   },
   "EXPERIENCED": {
     "description": "For player reputation",
@@ -627,6 +675,10 @@
     "description": "For player reputation",
     "message": "Ειδικός"
   },
+  "FACTION": {
+    "description": "Label indicating the factional allegiance of an object",
+    "message": "Φατρία"
+  },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
     "message": "Φατρίες"
@@ -637,7 +689,7 @@
   },
   "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
     "description": "",
-    "message": "Failed to recover some equipment"
+    "message": "Αδυναμία ανάκτησης όλου του εξοπλισμού"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
@@ -693,7 +745,7 @@
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "Τελικός προορισμός:"
+    "message": "Τελικός στόχος"
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
@@ -701,7 +753,7 @@
   },
   "FINE": {
     "description": "Cost of a criminal action",
-    "message": "Fine"
+    "message": "Πρόστιμο"
   },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
@@ -789,7 +841,7 @@
   },
   "GAME_OPTIONS": {
     "description": "GameOptions - tooltip for the Game Options tab in the Settings Window",
-    "message": "Game Options"
+    "message": "Επιλογές."
   },
   "GAME_TIME": {
     "description": "",
@@ -862,6 +914,10 @@
   "HUD_3D_RADAR": {
     "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
     "message": "3Δ επίπεδη προβολή"
+  },
+  "HUD_ARRIVAL_DATE": {
+    "description": "Label for Hyperspace Cloud arrival date",
+    "message": "Ημερομηνία Άφιξης"
   },
   "HUD_ATMOSPHERIC_PRESSURE": {
     "description": "Tooltip: Atmospheric Pressure.",
@@ -1013,7 +1069,7 @@
   },
   "HUD_BUTTON_SWITCH_TO_CURRENT_SYSTEM": {
     "description": "Tooltip: Switch to current system",
-    "message": "Switch to current system"
+    "message": "Γυρίστε στο τρέχων ηλιακό σύστημα"
   },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
@@ -1025,7 +1081,7 @@
   },
   "HUD_BUTTON_SWITCH_TO_SELECTED_SYSTEM": {
     "description": "Tooltip: Switch to selected system",
-    "message": "Switch to selected system"
+    "message": "Γυρίστε στο επιλεγμένο ηλιακό σύστημα"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
     "description": "Tooltip: Switch to system map",
@@ -1143,6 +1199,14 @@
     "description": "Tooltip: Hull Temperature.",
     "message": "Θερμοκρασία κύτους"
   },
+  "HUD_HYPERSPACE_DESTINATION": {
+    "description": "HUD Label indicating the hyperspace destination system. Should just be Destination.",
+    "message": "Προορισμός"
+  },
+  "HUD_HYPERSPACE_ORIGIN": {
+    "description": "HUD Label indicating the hyperspace origin system. Should just be Origin.",
+    "message": "Προέλευση"
+  },
   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
     "description": "",
     "message": "Πραγματοποίηση υπεράλματος προς τον {destination} σε {countdown} δευτερόλεπτα"
@@ -1197,15 +1261,15 @@
   },
   "HUD_RADAR_TOGGLE_MODE": {
     "description": "Tooltip: Toggle radar mode.",
-    "message": "Toggle radar between 2D and 3D modes"
+    "message": "Εναλλαγή της απεικόνισης του ραντάρ μεταξύ 2D και 3D."
   },
   "HUD_RADAR_ZOOM_MODE_AUTOMATIC": {
     "description": "Tooltip: Current radar zoom mode.",
-    "message": "Automatic zoom"
+    "message": "Αυτόματη εστίαση."
   },
   "HUD_RADAR_ZOOM_MODE_MANUAL": {
     "description": "Tooltip: Current radar zoom mode.",
-    "message": "Manual zoom"
+    "message": "Χειροκίνητη εστίαση."
   },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
@@ -1287,13 +1351,17 @@
     "description": "",
     "message": "Διαδρομή υπεραλμάτων"
   },
+  "HYPERJUMP_ROUTING": {
+    "description": "Label indicating a category division",
+    "message": "Σχεδιασμός υπεράλματος"
+  },
   "HYPERSPACE_RANGE": {
     "description": "",
     "message": "Υπερδιαστημική εμβέλεια"
   },
   "ILLEGAL_COMMODITIES": {
     "description": "Commodities illegal in the current system or polity",
-    "message": "Illegal Commodities"
+    "message": "Απαγορευμένα εμπορεύματα."
   },
   "ILLEGAL_IN_SYSTEM": {
     "description": "An illegal action or commodity",
@@ -1329,11 +1397,11 @@
   },
   "INSTALL": {
     "description": "Install something",
-    "message": "Install"
+    "message": "Εγκαταστήστε"
   },
   "INSTALLED": {
     "description": "Label indicating something is installed",
-    "message": "Installed"
+    "message": "Εγκατεστημένο"
   },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
@@ -1361,11 +1429,11 @@
   },
   "IN_HOLD": {
     "description": "Column title of the Commodity Market screen",
-    "message": "In hold"
+    "message": "Στο σκάφος"
   },
   "IN_STOCK": {
     "description": "Column title of Commodity and Ship Equipment markets showing current station stock level.",
-    "message": "Stock"
+    "message": "Σε απόθεμα"
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
@@ -1394,6 +1462,10 @@
   "KILLS": {
     "description": "",
     "message": "Φόνοι:"
+  },
+  "KNOWN_AS": {
+    "description": "Indicates alternate names/aliases for an object",
+    "message": "Γνωστό και ως"
   },
   "LANGUAGE": {
     "description": "",
@@ -1433,11 +1505,11 @@
   },
   "LEGAL_RULES": {
     "description": "Refers to laws, rules and regulations",
-    "message": "Legal rules applicable in station controlled space. Laws are sensor enforced within a distance of: {distance}"
+    "message": "Οι κανόνες που ισχύουν εντός της περιοχής του κοσμοδρομίου. Η εφαρμογή τους ισχύει σε ακτίνα: {distance}"
   },
   "LEGAL_RULES_AND_REGULATIONS": {
     "description": "Heading on a tab, keep it short",
-    "message": "Rules and Regulations"
+    "message": "Νόμοι και κανονισμοί."
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1763,6 +1835,10 @@
     "description": "Message displaying no stored data available",
     "message": "Δεν υπάρχουν διαθέσιμα δεδομένα"
   },
+  "NO_BOOKMARKS_FOUND": {
+    "description": "Label indicating a lack of bookmarks to display",
+    "message": "Δεν βρέθηκαν σελιδοδείκτες"
+  },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
     "message": "NO CARGO"
@@ -1845,7 +1921,7 @@
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
-    "message": "Outstanding Fines"
+    "message": "Ληξιπρόθεσμα πρόστιμα."
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
@@ -1853,7 +1929,7 @@
   },
   "OUT_OF_STOCK": {
     "description": "Equipment availability",
-    "message": "Out of stock"
+    "message": "Εξαντλημένο"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
@@ -1897,7 +1973,7 @@
   },
   "PASTE": {
     "description": "As for clipboard",
-    "message": "Paste"
+    "message": "Επικόλληση"
   },
   "PATH_FOUND_BUT_VERIFICATION_FAILED": {
     "description": "Message when restoring savegame",
@@ -1914,6 +1990,10 @@
   "PAY_FINE_OF_N": {
     "description": "",
     "message": "Πληρωμή προστίμου ύψους {amount}"
+  },
+  "PENDING_RETURN": {
+    "description": "Status if the mission has not yet been fully completed",
+    "message": "Αναμονή για επιστροφή"
   },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1965,7 +2045,7 @@
   },
   "POSESSION_OF_COMMODITIES_ILLEGAL": {
     "description": "",
-    "message": "Possession of certain commodities is illegal in this system."
+    "message": "Η κατοχή ορισμένων εμπορευμάτων είναι παράνομη στο σύστημα."
   },
   "POSITION": {
     "description": "The job title/position of crew memeber",
@@ -1995,6 +2075,22 @@
     "description": "Drain the fuel tank",
     "message": "Αντλήστε κάτω"
   },
+  "PUMP_DOWN_FROM_CARGO_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Μεταφορά &i τόνων από το αμπάρι"
+  },
+  "PUMP_DOWN_FROM_HYPERDRIVE_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Μεταφορά &i τόνων από τον υπερκινητήρα στις εσωτερικές δεξαμενές"
+  },
+  "PUMP_DOWN_TO_CARGO_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Μεταφορά &i τόνων στο αμπάρι"
+  },
+  "PUMP_DOWN_TO_HYPERDRIVE_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Μεταφορά %i τόνων στον υπερκινητήρα από τις εσωτερικές δεξαμενές"
+  },
   "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
     "message": "Purchase Paintjob"
@@ -2010,6 +2106,10 @@
   "QUIT_CONFIRMATION": {
     "description": "For the checkbox in settings window",
     "message": "Επιβεβαίωση παραίτησης"
+  },
+  "RANDOM_COLORS": {
+    "description": "Paint shop. Randomize colors",
+    "message": "Τυχαία χρώματα"
   },
   "RANDOM_FACE": {
     "description": "Generate random face",
@@ -2089,7 +2189,7 @@
   },
   "REPLACE_EQUIPMENT": {
     "description": "Market header when replacing equipped items",
-    "message": "Replace Equipment"
+    "message": "Αντικατάσταση εξοπλισμού"
   },
   "REPUTATION": {
     "description": "",
@@ -2101,7 +2201,7 @@
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "Απαιτούμενα καύσιμα:"
+    "message": "Απαιτούμενο καύσιμο"
   },
   "RESET": {
     "description": "",
@@ -2117,11 +2217,11 @@
   },
   "RESET_VIEW_ON_HYPERSPACE_EXIT": {
     "description": "Reset View on Hyperspace Exit option",
-    "message": "Reset View on Hyperspace Exit"
+    "message": "Επαναφορά της κάμερας κατά την έξοδο από το υπερδιάστημα"
   },
   "RESET_VIEW_ON_HYPERSPACE_EXIT_DESC": {
     "description": "The tooltip of Reset View on Hyperspace Exit in the settings menu",
-    "message": "Reset view to main game view when exiting from hyperspace"
+    "message": "Επαναφέρει την κάμερα στην αρχική, κατά την έξοδο από το υπερδιάστημα."
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -2169,11 +2269,11 @@
   },
   "SAVED_GAMES": {
     "description": "Header for save/load window",
-    "message": "Saved Games"
+    "message": "Αποθηκευμένα παιχνίδια"
   },
   "SAVE_AS": {
     "description": "",
-    "message": "Save As"
+    "message": "Αποθηκεύστε ως"
   },
   "SAVE_DELETED_SUCCESSFULLY": {
     "description": "",
@@ -2197,7 +2297,7 @@
   },
   "SELECTED": {
     "description": "Label indicating the following item is selected",
-    "message": "Selected"
+    "message": "Επιλεγμένο"
   },
   "SELECTED_SAVE_DOESNT_EXISTS": {
     "description": "",
@@ -2229,7 +2329,7 @@
   },
   "SELL_EQUIP": {
     "description": "Button text to sell installed equipment. May be used in a singular or plural context.",
-    "message": "Sell {name}"
+    "message": "Πουλήστε {name}"
   },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
@@ -2254,6 +2354,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Ορίστε τον προορισμό ως προορισμό πλοήγησης."
+  },
+  "SET_JUMP_TARGET": {
+    "description": "Button tooltip which sets the jump route to the selected body",
+    "message": "Θέστε στόχο υπεράλματος"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
@@ -2317,7 +2421,7 @@
   },
   "SHOW_AUTOSAVES": {
     "description": "Button tooltip indicating whether to show autosave files",
-    "message": "Show Autosaves"
+    "message": "Δείξτε τα αυτο-αποθηκευμένα παιχνίδια."
   },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
@@ -2326,6 +2430,22 @@
   "SOME_PARAMETERS_ARE_NOT_OK": {
     "description": "Diagnostics at game start",
     "message": "Some parameters are not OK:"
+  },
+  "SORT_COMMODITY": {
+    "description": "Indicates the list of objects should be sorted by commodity",
+    "message": "Εμπόρευμα."
+  },
+  "SORT_DISTANCE": {
+    "description": "Indicates the list of objects should be sorted by distance",
+    "message": "Απόσταση"
+  },
+  "SORT_MODE": {
+    "description": "Label indicating the current sorting mode of a list of objects",
+    "message": "Τρόπος κατάταξης"
+  },
+  "SORT_NAME": {
+    "description": "Indicates the list of objects should be sorted by name",
+    "message": "Ονοματεπώνυμο"
   },
   "SOUND": {
     "description": "",
@@ -2423,6 +2543,42 @@
     "description": "Message when restoring savegame",
     "message": "System body index is out of range"
   },
+  "SYSTEM_FACTION": {
+    "description": "Tooltip indicating the faction controlling this system",
+    "message": "Εξουσιάζεται από"
+  },
+  "SYSTEM_INFORMATION": {
+    "description": "Tooltip / label indicating information about a selected star system",
+    "message": "Πληφορορίες συστήματος"
+  },
+  "SYSTEM_NUM_STARS": {
+    "description": "Tooltip indicating the system stellar arrangement",
+    "message": "Αριθμός αστέρων στο σύστημα"
+  },
+  "SYSTEM_SECURITY_1": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Ασφαλές"
+  },
+  "SYSTEM_SECURITY_2": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Κατά βάση ακίνδυνος"
+  },
+  "SYSTEM_SECURITY_3": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Επικίνδυνος"
+  },
+  "SYSTEM_SECURITY_4": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Πολύ επικίνδυνο"
+  },
+  "SYSTEM_SECURITY_5": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Θανάσιμος"
+  },
+  "SYSTEM_SECURITY_TOOLTIP": {
+    "description": "Tooltip introducing the system security rating",
+    "message": "Επίπεδο ασφαλείας συστήματος"
+  },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
     "message": "Αυτός ο σταθμός διαθέτει πιστοποιητικό τεχνολογίας επιπέδου {tech_level}."
@@ -2433,7 +2589,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Tech Level"
+    "message": "Τεχνολογικό επίπεδο"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -2453,7 +2609,7 @@
   },
   "THESE_ITEMS_ARE_PUNISHABLE_BY_FINE": {
     "description": "",
-    "message": "Purchase, sale, and transportation of these items is punishable by a fine and possible confiscation"
+    "message": "Η αγορά, πώληση και μεταφορά αυτών των εμπορευμάτων τιμωρείται με πρόστιμο και πιθανή κατάσχεση του σκάφους."
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
@@ -2509,15 +2665,19 @@
   },
   "TOTAL_DISTANCE": {
     "description": "Total distance of a (possibly series) of hyper jump(s)",
-    "message": "Συνολική απόσταση:"
+    "message": "Συνολική απόσταση"
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "Συνολική διάρκεια:"
+    "message": "Συνολική διάρκεια ταξιδιού"
   },
   "TOTAL_MASS": {
     "description": "",
     "message": "Ολική μάζα"
+  },
+  "TO_PICK_UP": {
+    "description": "Mission status",
+    "message": "Προς παραλαβή"
   },
   "TRADING_AT": {
     "description": "Indicates the current system for inspecting commodities.",
@@ -2537,7 +2697,11 @@
   },
   "TRANSFER_FUEL": {
     "description": "Label indicating the ability to transfer fuel between equipment tanks",
-    "message": "Transfer Fuel"
+    "message": "Μεταφορά καυσίμου"
+  },
+  "TRANSLATE_VIEW": {
+    "description": "Indicates that the button must be kept pressed down, to translate the camera view with mouse",
+    "message": "Πατήστε και κρατήστε για αλλαγή οπτικής γωνίας"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
@@ -2570,6 +2734,10 @@
   "UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",
     "message": "Unknown system log entry format"
+  },
+  "UNLAWFUL_ECM_DISCHARGE": {
+    "description": "",
+    "message": "Παράνομη ενεργοποίηση ECM"
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
@@ -2627,6 +2795,10 @@
     "description": "Tooltip for video mode/resultion setting",
     "message": "Οι υψηλότερες αναλύσεις εμφανίζουν περισσότερες πληροφορίες σε μικρότερο μέγεθος και μπορεί να μειώσουν την απόδοση."
   },
+  "VIEW_DESTINATION": {
+    "description": "Tooltip indicating the button will change the current view to the destination of a route.",
+    "message": "Προβολή προορισμού"
+  },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",
     "message": "Visit Paintshop"
@@ -2637,7 +2809,7 @@
   },
   "VOLUME": {
     "description": "The volume property of some object",
-    "message": "Volume"
+    "message": "Όγκος"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",

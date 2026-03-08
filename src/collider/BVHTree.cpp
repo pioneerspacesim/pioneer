@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "BVHTree.h"
@@ -8,6 +8,7 @@
 #include "core/Log.h"
 #include "core/macros.h"
 #include "profiler/Profiler.h"
+#include <cstdint>
 
 SingleBVHTreeBase::SingleBVHTreeBase() :
 	m_treeHeight(0),
@@ -26,8 +27,7 @@ void SingleBVHTreeBase::Clear()
 	m_nodes.clear();
 
 	// Build a default / invalid node for this BVHTree
-	Node invalid = {};
-	invalid.aabb = AABBd::Invalid();
+	Node invalid = { AABBd::Invalid(), { 0, 0 }, UINT32_MAX, 0 };
 
 	m_treeHeight = 1;
 	m_nodes.push_back(invalid);

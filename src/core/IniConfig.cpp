@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "IniConfig.h"
@@ -24,7 +24,12 @@ void IniConfig::SetFloat(const std::string &section, const std::string &key, flo
 
 void IniConfig::SetString(const std::string &section, const std::string &key, const std::string &val)
 {
-	m_map[section][key] = val;
+	std::string &store = m_map[section][key];
+
+	if (store != val) {
+		store = val;
+		m_unsaved = true;
+	}
 }
 
 int IniConfig::Int(const std::string &section, const std::string &key, int defval) const
@@ -68,6 +73,9 @@ std::string IniConfig::String(const std::string &section, const std::string &key
 
 void IniConfig::Read(FileSystem::FileSource &fs, const std::string &path)
 {
+	// If we can't read the data, assume we have unsaved data in memory
+	m_unsaved = true;
+
 	// FIXME: add a mechanism to determine if a FileSource is suitable for writing
 	// We use dynamic_cast here as a very simple hack because IniConfig::Read isn't
 	// intended to be called very often.
@@ -85,6 +93,10 @@ void IniConfig::Read(FileSystem::FileSource &fs, const std::string &path)
 		return;
 
 	Read(*data);
+
+	// Successfully read data from file, the in-memory buffer should now
+	// match the file contents
+	m_unsaved = false;
 }
 
 void IniConfig::Read(const FileSystem::FileData &data)
@@ -162,5 +174,10 @@ bool IniConfig::Save()
 		return false;
 	}
 
-	return Write(*m_fs, m_path);
+	if (!Write(*m_fs, m_path)) {
+		return false;
+	}
+
+	m_unsaved = false;
+	return true;
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "buildopts.h"
@@ -43,6 +43,8 @@
 #include "Tombstone.h"
 #include "TransferPlanner.h"
 #include "WorldView.h"
+#include "graphics/Types.h"
+#include "graphics/VertexBuffer.h"
 
 #if WITH_OBJECTVIEWER
 #include "ObjectViewerView.h"
@@ -119,7 +121,6 @@ int Pi::statSceneTris = 0;
 int Pi::statNumPatches = 0;
 GameConfig *Pi::config;
 DetailLevel Pi::detail;
-bool Pi::navTunnelDisplayed = false;
 bool Pi::speedLinesDisplayed = false;
 bool Pi::hudTrailsDisplayed = false;
 bool Pi::bRefreshBackgroundStars = true;
@@ -291,14 +292,17 @@ void TestGPUJobsSupport()
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.primitiveType = Graphics::TRIANGLE_STRIP;
 
-	std::unique_ptr<Graphics::Material> mat(Pi::renderer->CreateMaterial("gen_gas_giant_colour", desc, rsd));
+	// XXX: has to be synced with GasGiantJobs.cpp
+	auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
+
+	std::unique_ptr<Graphics::Material> mat(Pi::renderer->CreateMaterial("gen_gas_giant_colour", desc, rsd, vtxFormat));
 
 	// failed - retry
 	// reduce the number of octaves
 	if (!mat->IsProgramLoaded()) {
 		octaves = 5;
 		desc.quality = Graphics::MaterialQuality::HAS_OCTAVES | (octaves << 16);
-		mat.reset(Pi::renderer->CreateMaterial("gen_gas_giant_colour", desc, rsd));
+		mat.reset(Pi::renderer->CreateMaterial("gen_gas_giant_colour", desc, rsd, vtxFormat));
 
 		// if this works correctly with fewer octaves, enable the config flag.
 		if (mat->IsProgramLoaded())
@@ -371,7 +375,6 @@ void Pi::App::OnStartup()
 	Pi::pigui = StartupPiGui();
 
 	// FIXME: move these into the appropriate class!
-	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
 	speedLinesDisplayed = (config->Int("SpeedLines")) ? true : false;
 	hudTrailsDisplayed = (config->Int("HudTrails")) ? true : false;
 
@@ -865,6 +868,14 @@ void Pi::App::HandleRequests()
 	internalRequests.clear();
 }
 
+void Pi::App::OnWindowKeyboardFocusChanged(bool newFocus)
+{
+    if (!PiGui::GetEventQueue().IsValid()) {
+        return;
+	}
+    LuaEvent::Queue(PiGui::GetEventQueue(), newFocus ? "onFocusGained" : "onFocusLost");
+}
+
 /*
 ===============================================================================
 	GAME LOOP
@@ -1014,7 +1025,7 @@ void GameLoop::Update(float deltaTime)
 		}
 	}
 
-	Pi::renderer->SetTransform(matrix4x4f::Identity());
+	Pi::renderer->SetTransform(matrix4x4f::Identity);
 
 	/* Calculate position for this rendered frame (interpolated between two physics ticks */
 	// XXX should this be here? what is this anyway?

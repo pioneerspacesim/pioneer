@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "buildopts.h"
@@ -273,7 +273,14 @@ void Game::ToJson(Json &jsonObj)
 	// Stuff to show in the preview in load game window
 	// some may be redundant, but this won't require loading up a game to get it all
 	Json gameInfo = Json::object();
-	float credits = LuaObject<Player>::CallMethod<float>(Pi::player, "GetMoney");
+	float credits = 0;
+
+	{
+		pi_lua_import(Lua::manager->GetLuaState(), "PlayerState");
+		ScopedTable state(LuaTable(Lua::manager->GetLuaState(), -1));
+
+		credits = state.Call<float>("GetMoney");
+	}
 
 	// Get the player's character name
 	// TODO: add an easier way to get the player's character object once player+ship are split more firmly
@@ -534,9 +541,9 @@ void Game::SwitchToHyperspace()
 
 	// put player at the origin. kind of unnecessary since it won't be moving
 	// but at least it gives some consistency
-	m_player->SetPosition(vector3d(0, 0, 0));
-	m_player->SetVelocity(vector3d(0, 0, 0));
-	m_player->SetOrient(matrix3x3d::Identity());
+	m_player->SetPosition(vector3d::Zero);
+	m_player->SetVelocity(vector3d::Zero);
+	m_player->SetOrient(matrix3x3d::Identity);
 
 	// animation and end time counters
 	m_hyperspaceProgress = 0;
@@ -598,7 +605,7 @@ void Game::SwitchToNormalSpace()
 
 			ship->SetFrame(m_space->GetRootFrame());
 			ship->SetVelocity(vector3d(0, 0, -100.0));
-			ship->SetOrient(matrix3x3d::Identity());
+			ship->SetOrient(matrix3x3d::Identity);
 			ship->SetFlightState(Ship::FLYING);
 
 			const SystemPath &sdest = ship->GetHyperspaceDest();
@@ -670,10 +677,12 @@ void Game::SwitchToNormalSpace()
 
 			m_space->AddBody(ship);
 
-			LuaEvent::Queue("onEnterSystem", ship);
+			LuaEvent::Queue("onShipEnterSystem", ship);
 		}
 	}
 	m_hyperspaceClouds.clear();
+
+	LuaEvent::Queue("onEnterSystem", m_player.get());
 
 	m_space->GetBackground()->SetDrawFlags(Background::Container::DRAW_SKYBOX | Background::Container::DRAW_STARS);
 
@@ -707,8 +716,8 @@ void Game::SetTimeAccel(TimeAccel t)
 	// don't want player to spin like mad when hitting time accel
 	if ((t != m_timeAccel) && (t > TIMEACCEL_1X) &&
 		m_player->GetPlayerController()->GetRotationDamping()) {
-		m_player->SetAngVelocity(vector3d(0, 0, 0));
-		m_player->SetTorque(vector3d(0, 0, 0));
+		m_player->SetAngVelocity(vector3d::Zero);
+		m_player->SetTorque(vector3d::Zero);
 		m_player->SetAngThrusterState(vector3d(0.0));
 	}
 

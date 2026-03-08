@@ -1,10 +1,11 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui'
 local Lang = require 'Lang'
 local leq = Lang.GetResource("equipment-core")
 local lc = Lang.GetResource("core")
+local ls = Lang.GetResource("ships")
 local lui = Lang.GetResource("ui-core")
 local msgbox = require 'pigui.libs.message-box'
 local utils = require 'utils'
@@ -48,7 +49,7 @@ ShipType.selected = 0
 table.sort(ShipType.shipIDs)
 
 for _, id in ipairs(ShipType.shipIDs) do
-	table.insert(ShipType.shipNames, ShipDef[id].name)
+	table.insert(ShipType.shipNames, ls[ShipDef[id].i18n_key])
 	ShipType.idMap[id] = true
 end
 
@@ -340,7 +341,9 @@ function ShipCargo:draw()
 
 	-- Indent the table slightly
 	ui.addCursorPos(Vector2(ui.getItemSpacing().x, 0))
-	ui.beginTable("#cargotable", 3, { "SizingFixedFit" })
+
+	if not ui.beginTable("#cargotable", 3, { "SizingFixedFit" }) then return end
+
 	ui.tableSetupColumn("label", { "WidthStretch" })
 
 	for _, v in ipairs(self.textTable) do
@@ -575,7 +578,8 @@ function ShipEquip:draw()
 
 	ui.withStyleVars({ CellPadding = Vector2(Defs.gap.x * 2, Defs.gap.y * 0.5) }, function()
 
-		ui.beginTable("equip_table", 4, { "SizingFixedFit", "ScrollY" }, Vector2(0, self.layout.height - h))
+		if not ui.beginTable("equip_table", 4, { "SizingFixedFit", "ScrollY" }, Vector2(0, self.layout.height - h)) then return end
+
 		ui.tableSetupScrollFreeze(0, 1)
 		ui.tableSetupColumn(lc.NAME_OBJECT, { "WidthStretch" })
 		ui.tableSetupColumn(leq.SLOT)
@@ -1812,7 +1816,7 @@ local function rowWithAlert(output, label, current, project, alertIf, unitStr, f
 	local valid = not alertIf(current, project)
 	if not valid then color = ui.theme.colors.alertRed end
 	output.valid = output.valid and valid
-	return { label .. ":", string.format(format .. " / " .. format .. unitStr .. " ", current, project), color = color }
+	return { label .. ":", string.format(format .. " / " .. format .. " " .. unitStr .. " ", current, project), color = color }
 end
 
 -- prepare a table for output and at the same time check the parameters
@@ -1888,7 +1892,7 @@ function ShipSummary:draw()
 	ui.child("##param_table2", Vector2(self.layout.width, self.layout.table2_height), function()
 		local p1 = ui.getCursorPos()
 		textTable.drawTable(2, { self.layout.width - self.valueWidth, self.valueWidth }, {
-		{ lui.ALL_UP_WEIGHT..":", string.format("%dt", mass_with_fuel ) },
+		{ lui.ALL_UP_WEIGHT..":", string.format("%d t", mass_with_fuel ) },
 		{ lui.HYPERSPACE_RANGE..":", string.format("%.1f / %.1f " .. lui.LY, hyper_range, range_max) },
 		{ lui.DELTA_V..":",      string.format("%s %s", ui.Format.SpeedUnit(delta_v)) },
 		{ lui.REFUEL .. " " .. lui.DELTA_V..":", string.format("%s %s", ui.Format.SpeedUnit(p_delta_v)) },

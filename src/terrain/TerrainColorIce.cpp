@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Terrain.h"
@@ -25,8 +25,8 @@ vector3d TerrainColorFractal<TerrainColorIce>::GetColor(const vector3d &p, doubl
 	const double flatness = pow(p.Dot(norm), 24.0);
 	double equatorial_desert = (2.0 - m_icyness) * (-1.0 + 2.0 * octavenoise(12, 0.5, 2.0, (n * 2.0) * p)) *
 		1.0 * (2.0 - m_icyness) * (1.0 - p.y * p.y);
-	double equatorial_region_1 = billow_octavenoise(GetFracDef(0), 0.5, p) * p.y * p.y;
-	double equatorial_region_2 = ridged_octavenoise(GetFracDef(5), 0.5, p) * p.x * p.x;
+	double equatorial_region_1 = billow_octavenoise(m_fracdef[0], 0.5, p) * p.y * p.y;
+	double equatorial_region_2 = ridged_octavenoise(m_fracdef[5], 0.5, p) * p.x * p.x;
 	// cliff colours
 	vector3d color_cliffs;
 	// adds some variation

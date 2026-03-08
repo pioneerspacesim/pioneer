@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -202,14 +202,12 @@ Event.Register("onShipDestroyed", function (ship, attacker)
 end)
 
 -- player docked
-Event.Register("onShipDocked", function (ship, station)
-	if not ship:IsPlayer() then return end
+Event.Register("onPlayerDocked", function (ship, station)
 	MusicPlayer.playRandomSongFromCategory("docked")
 end)
 
 -- player undocked
-Event.Register("onShipUndocked", function (ship, station)
-	if not ship:IsPlayer() then return end
+Event.Register("onPlayerUndocked", function (ship, station)
 	MusicPlayer.playRandomSongFromCategory("undocked")
 end)
 

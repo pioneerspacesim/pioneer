@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _CUSTOMSYSTEM_H
@@ -72,7 +72,9 @@ public:
 	// NOTE: these are only intended to be used for Lua system generation
 	bool want_rand_seed;
 	bool want_rand_explored;
+	bool override_random_system;
 	bool explored;
+	std::string factionName;
 	const Faction *faction;
 	Polit::GovType govType;
 	bool want_rand_lawlessness;
@@ -106,7 +108,7 @@ public:
 	typedef std::vector<const CustomSystem *> SystemList;
 	// XXX this is not as const-safe as it should be
 	const SystemList &GetCustomSystemsForSector(int sectorX, int sectorY, int sectorZ) const;
-	void AddCustomSystem(const SystemPath &path, CustomSystem *csys);
+	bool AddCustomSystem(const SystemPath &path, CustomSystem *csys);
 	Galaxy *GetGalaxy() const { return m_galaxy; }
 
 	void RunLuaSystemSanityChecks(CustomSystem *csys);

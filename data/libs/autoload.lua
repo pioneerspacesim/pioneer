@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- this is the only library automatically loaded at startup
@@ -6,6 +6,19 @@
 
 string.trim = function(s)
 	return string.gsub(s or "", "^%s*(.-)%s*$", "%1")
+end
+
+-- Convert the input string to s(entence) case, capitalizing the first letter of
+-- the string and any first letters of consecutive sentences in the string.
+---@param s string
+string.scase = function (s)
+    s = s:gsub("^%l", string.upper)
+
+    s = s:gsub("([.!?]%s*)(%l)", function(punct, letter)
+        return punct .. letter:upper()
+    end)
+
+    return s
 end
 
 math.round = function(v)

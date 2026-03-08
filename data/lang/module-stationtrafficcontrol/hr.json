@@ -1,82 +1,82 @@
 {
   "CLEARANCE_ALREADY_GRANTED_BAY_N": {
     "description": "",
-    "message": "Clearance already granted. Proceed to docking bay {bay}."
+    "message": "Odobrenje je već odobreno. Nastavite prema pristaništu {bay}."
   },
   "CLEARANCE_DENIED_NO_BAYS": {
     "description": "",
-    "message": "Spajanje odbijeno. Nema slobodnih mjesta."
+    "message": "Odobrenje odbijeno. Nema slobodnih pristaništa."
   },
   "CLEARANCE_DENIED_TOO_FAR": {
     "description": "Shown if player requests docking too far away from station",
-    "message": "Clearance denied. Your ship is too far away for ID verification."
+    "message": "Odobrenje odbijeno. Vaš brod je previše udaljen za provjeru identiteta."
   },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
-    "message": "Clearance granted. Proceed to docking bay {bay}."
+    "message": "Odobrenje odobreno. Nastavite prema pristaništu {bay}."
   },
   "DOCKING_CLEARANCE_EXPIRED": {
     "description": "",
-    "message": "Odobrenje za spajanje isteklo. Ako se želite spojiti ponovite zahtjev."
+    "message": "Istekla je dozvola za pristajanje. Ako želite pristati, morate ponoviti svoj zahtjev."
   },
   "STATION_GRAV": {
     "description": "Like an airline pilot announcing local weather conditions",
-    "message": "Local gravity is {grav}."
+    "message": "Lokalna gravitacija je {grav}."
   },
   "STATION_GRAV_PRESS": {
     "description": "Like an airline pilot announcing local weather conditions",
-    "message": "Local gravity is {grav}, pressure is {press}."
+    "message": "Lokalna gravitacija je {grav}, tlak je {press}."
   },
   "WATCH_FOR_TRAFFIC_ON_APPROACH": {
     "description": "",
-    "message": "Please watch for traffic on your approach."
+    "message": "Molimo vas da pripazite na promet na vašem prilazu."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_1": {
     "description": "",
-    "message": "{playerShipLabel} you are entering {station} space. Please follow local regulations."
+    "message": "{playerShipLabel} ulazite u prostor {station}. Molimo vas da se pridržavate lokalnih propisa."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_2": {
     "description": "",
-    "message": "{playerShipLabel}, we have you on the radar. You are in {station} controlled space."
+    "message": "{playerShipLabel}, imamo te na radaru. Nalaziš se u prostoru koji kontrolira {station}."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_3": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC. You are entering our controlled space."
+    "message": "{playerShipLabel}, ovdje {station} STC. Ulazite u naš kontrolirani prostor."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_4": {
     "description": "",
-    "message": "We have you flying into {station} controlled space, {playerShipLabel}."
+    "message": "Uletite u kontrolirani prostor {station}, {playerShipLabel}."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_5": {
     "description": "",
-    "message": "{playerShipLabel}, welcome to {station}. Please keep in mind that regulations apply as you are flying through our jurisdiction."
+    "message": "{playerShipLabel}, dobrodošli u {station}. Imajte na umu da se primjenjuju propisi dok letite kroz našu jurisdikciju."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_6": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC speaking. You are entering controlled space, and I would appreciate it if you didn't make me fill out any paperwork today."
+    "message": "{playerShipLabel}, ovdje {station} STC govori. Ulazite u kontrolirani prostor i bio bih vam zahvalan ako me danas ne tjerate da ispunjavam nikakvu papirologiju."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_1": {
     "description": "",
-    "message": "{playerShipLabel}, you are clear of {station} controlled space."
+    "message": "{playerShipLabel}, izvan ste kontroliranog prostora {station}."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_2": {
     "description": "",
-    "message": "You have left {station} space, {playerShipLabel}."
+    "message": "Napustili ste mjesto {station}, {playerShipLabel}."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_3": {
     "description": "",
-    "message": "{playerShipLabel}, you have cleared {station} controlled space. Restrictions withdrawn."
+    "message": "{playerShipLabel}, očistili ste kontrolirani prostor {station}. Ograničenja su ukinuta."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_4": {
     "description": "",
-    "message": "You are flying out of {station} space, {playerShipLabel}. Logging you out."
+    "message": "Izlijećeš iz prostora {station}, {playerShipLabel}. Odjavljujem te."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_5": {
     "description": "",
-    "message": "{playerShipLabel}, you are leaving {station} space. Have a pleasant journey."
+    "message": "{playerShipLabel}, napuštate prostor {station}. Sretan put."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_6": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC. I see you exiting our controlled space, be safe out there."
+    "message": "{playerShipLabel}, ovdje {station} STC. Vidim da izlazite iz našeg kontroliranog prostora, budite oprezni."
   }
 }

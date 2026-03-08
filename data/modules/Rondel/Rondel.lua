@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -11,6 +11,7 @@ local ShipDef = require 'ShipDef'
 local SystemPath = require 'SystemPath'
 local Timer = require 'Timer'
 local Commodities = require 'Commodities'
+local PlayerState = require 'PlayerState'
 
 local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
 local OutfitRules = ShipBuilder.OutfitRules
@@ -18,7 +19,7 @@ local OutfitRules = ShipBuilder.OutfitRules
 --local Character = require 'Character'
 
 local l_rondel = Lang.GetResource("module-rondel")
-local l_ui_core = Lang.GetResource("ui-core")
+local lui = Lang.GetResource("ui-core")
 
 local HaberPatrolCraft = ShipBuilder.Template:clone {
 	label = l_rondel.HABER_DEFENSE_CRAFT,
@@ -66,7 +67,7 @@ local onChat = function (form, ref, option)
 		ads[ref] = nil
 		form:RemoveAdvertOnClose()
 		form:SetMessage(l_rondel.PERFECT)
-		Game.player:AddMoney(250000)
+		PlayerState.AddMoney(250000)
 		rondel_prize = true
 		return
 	elseif option == 2 then
@@ -154,8 +155,6 @@ local onJettison = function (ship, cargo)
 end
 
 local onEnterSystem = function (player)
-	if not player:IsPlayer() then return end
-
 	local system = assert(Game.system)
 	if not system.path:IsSameSystem(rondel_syspath) then return end
 
@@ -192,11 +191,9 @@ local onEnterSystem = function (player)
 end
 
 local onLeaveSystem = function (ship)
-	if ship:IsPlayer() then
-		shipFiring = false
-		jetissionedCargo = false
-		patrol = {}
-	end
+	shipFiring = false
+	jetissionedCargo = false
+	patrol = {}
 end
 
 local loaded_data

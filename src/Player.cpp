@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Player.h"
@@ -16,6 +16,7 @@
 #include "StringF.h"
 #include "SystemView.h" // for the transfer planner
 #include "WorldView.h"
+#include "lua/LuaEvent.h"
 #include "lua/LuaObject.h"
 #include "lua/LuaTable.h"
 #include "ship/PlayerShipController.h"
@@ -107,10 +108,18 @@ bool Player::OnDamage(Body *attacker, float kgDamage, const CollisionContact &co
 	return r;
 }
 
-//XXX handle killcounts in lua
-void Player::SetDockedWith(SpaceStation *s, int port)
+void Player::OnDocked(SpaceStation *s, int port)
 {
-	Ship::SetDockedWith(s, port);
+	Ship::OnDocked(s, port);
+
+	LuaEvent::Queue("onPlayerDocked", this, s, port);
+}
+
+void Player::OnUndocked(SpaceStation *s, int port)
+{
+	Ship::OnUndocked(s, port);
+
+	LuaEvent::Queue("onPlayerUndocked", this, s, port);
 }
 
 //XXX all ships should make this sound
@@ -188,6 +197,13 @@ void Player::NotifyRemoved(const Body *const removedBody)
 	}
 
 	Ship::NotifyRemoved(removedBody);
+}
+
+void Player::OnBeforeEnterHyperspace()
+{
+	Ship::OnBeforeEnterHyperspace();
+
+	LuaEvent::Queue("onLeaveSystem", this);
 }
 
 //XXX ui stuff
@@ -307,7 +323,7 @@ void Player::StaticUpdate(const float timeStep)
 
 int Player::GetManeuverTime() const
 {
-	if (Pi::planner->GetOffsetVel().ExactlyEqual(vector3d(0, 0, 0))) {
+	if (Pi::planner->GetOffsetVel().ExactlyEqual(vector3d::Zero)) {
 		return 0;
 	}
 	return Pi::planner->GetStartTime();
@@ -320,8 +336,8 @@ vector3d Player::GetManeuverVelocity() const
 		frame = Frame::GetFrame(frame->GetNonRotFrame());
 	const SystemBody *systemBody = frame->GetSystemBody();
 
-	if (Pi::planner->GetOffsetVel().ExactlyEqual(vector3d(0, 0, 0))) {
-		return vector3d(0, 0, 0);
+	if (Pi::planner->GetOffsetVel().ExactlyEqual(vector3d::Zero)) {
+		return vector3d::Zero;
 	} else if (systemBody) {
 		Orbit playerOrbit = ComputeOrbit();
 		if (!is_zero_exact(playerOrbit.GetSemiMajorAxis())) {
@@ -331,7 +347,7 @@ vector3d Player::GetManeuverVelocity() const
 			return velocity;
 		}
 	}
-	return vector3d(0, 0, 0);
+	return vector3d::Zero;
 }
 
 void Player::DoFixspeedTakeoff(SpaceStation *from)

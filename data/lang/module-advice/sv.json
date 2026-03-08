@@ -15,6 +15,30 @@
     "description": "A reference to the song 'The Harder They Come', by Jimmy Cliff",
     "message": "Ju högre g, ju hårdare blir fallet."
   },
+  "ADVICE_12_BODYTEXT": {
+    "description": "",
+    "message": "När du befinner dig i utkanten av ett system och behöver återvända till de inre planeterna, kan en omväg till ett tillräckligt nära angränsande system vara den snabbaste vägen."
+  },
+  "ADVICE_12_HEADLINE": {
+    "description": "",
+    "message": "The Billie Bounce detour"
+  },
+  "ADVICE_13_BODYTEXT": {
+    "description": "",
+    "message": "Lägre massa innebär mindre bränsleförbrukning och ett snabbare fartyg. Bränsle har massa. För vissa rutter kan en resa med mindre bränsle i tankarna spara både tid och pengar."
+  },
+  "ADVICE_13_HEADLINE": {
+    "description": "",
+    "message": "Köra på ångor"
+  },
+  "ADVICE_14_BODYTEXT": {
+    "description": "",
+    "message": "När du planerar flera hopp tillsammans, kan det spara dig både huvudvärk och kanske livet att ställa dem i kö före avgång, beroende på hur välkommen du blir under din rutt."
+  },
+  "ADVICE_14_HEADLINE": {
+    "description": "",
+    "message": "En tydlig väg ut"
+  },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
     "message": "Var vaksam på aktörer på svarta marknaden som du inte känner igen från föregående besök på stationen, så undviker du problem med lagen."

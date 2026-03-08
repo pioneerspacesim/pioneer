@@ -137,7 +137,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "Τον {target} πρέπει να τον συρρικνώσετε σε διαστημική σκόνη. Θα σας ανταμείψω με {cash} για να το κάνετε αυτό."
+    "message": "O {target} πρέπει να γίνει αστρόσκονη. Θα σε πληρώσω {cash} αν το καταφέρεις."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -202,6 +202,14 @@
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
     "message": "Πρέπει να εμπλακείτε με τον {target} αφού απομακρυνθεί από το {spaceport}. Μην χάσετε αυτήν την ευκαιρία."
+  },
+  "IT_MUST_BE_DONE_AFTER_FEMALE": {
+    "description": "",
+    "message": "Η δουλειά πρέπει να γίνει μόλις αυτή αναχωρήσει από το κοσμοδρόμιο {spaceport}. Μην χάσεις αυτή την ευκαιρία."
+  },
+  "IT_MUST_BE_DONE_AFTER_MALE": {
+    "description": "",
+    "message": "Η δουλειά πρέπει να γίνει μόλις αυτός αναχωρήσει από το κοσμοδρόμιο {spaceport}. Μην χάσεις αυτή την ευκαιρία."
   },
   "OK_AGREED": {
     "description": "",
@@ -345,10 +353,18 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "Πού μπορώ να βρω τον {target};"
+    "message": "Που μπορώ να βρώ τον στόχο;"
   },
   "X_WILL_BE_LEAVING": {
-    "description": "",
-    "message": "Η αναχώρηση με τον {target} θα γίνει από το {spaceport} του {system} ({sectorX}, {sectorY}, {sectorZ}) συστήματος, απόστασης {dist} ly, στις {date}. Το σκάφος είναι {shipname} και έχει αναγνωριστικό εγγραφής {shipregid}."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "Ο {target} αναμένεται να αναχωρήσει από το {spaceport} στο σύστημα {system} ({sectorX}, {sectorY}, {sectorZ}), απόσταση {dist} ly, στις {date}. Το σκάφος του είναι ένα {ship_indef} με αναγνωριστικό κωδικό {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_FEMALE": {
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "Η {target} θα φύγει από το {spaceport} του συστήματος ({sectorX}, {sectorY}, {sectorZ}), που βρίσκεται {dist} ly μακριά στις {date}. Το σκάφος της είναι ένα {ship_indef} με αναγνωριστικό κωδικό {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_MALE": {
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "O {target} θα φύγει από το {spaceport} του συστήματος ({sectorX}, {sectorY}, {sectorZ}), που βρίσκεται {dist} ly μακριά στις {date}. Το σκάφος του είναι ένα {ship_indef} με αναγνωριστικό κωδικό {shipregid}."
   }
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Input.h"
@@ -15,8 +15,8 @@
 #include "LuaVector2.h"
 #include "Pi.h"
 #include "Player.h"
-#include "SDL_keycode.h"
-#include "SDL_scancode.h"
+#include <SDL_keycode.h>
+#include <SDL_scancode.h>
 #include "Space.h"
 #include "WorldView.h"
 #include "graphics/Graphics.h"
@@ -39,8 +39,27 @@
 // undef it, to avoid including yet another header that undefs it
 #undef RegisterClass
 
+#define IMPL_FLAGS_TABLE(TypeName, table)                                     \
+	void pi_lua_generic_pull(lua_State *l, int index, TypeName &theflags)     \
+	{                                                                         \
+		theflags = static_cast<TypeName>(parse_imgui_flags(l, index, table)); \
+	}                                                                         \
+	int l_pigui_check_##table(lua_State *l)                                   \
+	{                                                                         \
+		luaL_checktype(l, 1, LUA_TTABLE);                                     \
+		TypeName fl = static_cast<TypeName>(table.LookupTable(l, 1));         \
+		LuaPush<TypeName>(l, fl);                                             \
+		return 1;                                                             \
+	}
+
+#define IMPL_ENUM_TABLE(TypeName, table)                                    \
+	void pi_lua_generic_pull(lua_State *l, int index, TypeName &outEnum)    \
+	{                                                                       \
+		outEnum = static_cast<TypeName>(parse_imgui_enum(l, index, table)); \
+	}
+
 namespace ImGui {
-	void AlignTextToLineHeight(float lineHeight = -1.0f)
+	void AlignTextToLineHeight(float lineHeight = -1.0f, float proportion_y = 0.5)
 	{
 		ImGuiWindow *window = ImGui::GetCurrentWindow();
 		if (window->SkipItems)
@@ -48,7 +67,7 @@ namespace ImGui {
 
 		ImGuiContext &g = *GetCurrentContext();
 		window->DC.CurrLineSize.y = ImMax(window->DC.CurrLineSize.y, ImMax(lineHeight, g.FontSize));
-		window->DC.CurrLineTextBaseOffset = ImMax(window->DC.CurrLineTextBaseOffset, (window->DC.CurrLineSize.y - g.FontSize) / 2.0f);
+		window->DC.CurrLineTextBaseOffset = ImMax(window->DC.CurrLineTextBaseOffset, (window->DC.CurrLineSize.y - g.FontSize) * proportion_y);
 	}
 
 	// Horribly abuse the internals to allow submitting a window without padding and adding it later (e.g. drawing custom decorations).
@@ -97,6 +116,8 @@ static Type parse_imgui_flags(lua_State *l, int index, LuaFlags<Type> &lookupTab
 		theFlags = lookupTable.LookupTable(l, index);
 	} else if (lua_isstring(l, index)) {
 		theFlags = lookupTable.LookupEnum(l, index);
+	} else if (lua_isnil(l, index)) {
+		theFlags = Type(0);
 	} else {
 		luaL_traceback(l, l, NULL, 1);
 		Error("Expected a table, string, or integer, got %s.\n%s\n", luaL_typename(l, index), lua_tostring(l, -1));
@@ -146,7 +167,7 @@ int PiGui::pushOnScreenPositionDirection(lua_State *l, vector3d position)
 	const int width = Pi::renderer->GetWindowWidth();
 	const int height = Pi::renderer->GetWindowHeight();
 	vector3d direction = (position - vector3d(width / 2.0, height / 2.0, 0)).Normalized();
-	if (vector3d(0, 0, 0) == position || position.x < 0 || position.y < 0 || position.x > width || position.y > height || position.z > 0) {
+	if (vector3d::Zero == position || position.x < 0 || position.y < 0 || position.x > width || position.y > height || position.z > 0) {
 		LuaPush<bool>(l, false);
 		LuaPush<vector2d>(l, vector2d(position.x, position.y));
 		LuaPush<vector3d>(l, direction * (position.z > 0 ? -1 : 1)); // reverse direction if behind camera
@@ -166,78 +187,44 @@ void pi_lua_generic_pull(lua_State *l, int index, ImColor &color)
 	color = ImColor(tr.r, tr.g, tr.b, tr.a);
 }
 
-static LuaFlags<ImGuiSelectableFlags_> imguiSelectableFlagsTable = {
+// ============================================================================
+// ImGui Flag and Enum Tables
+// ============================================================================
+
+static LuaFlags<ImGuiSelectableFlags_> selectable_flags = {
 	{ "DontClosePopups", ImGuiSelectableFlags_DontClosePopups },
 	{ "SpanAllColumns", ImGuiSelectableFlags_SpanAllColumns },
 	{ "AllowDoubleClick", ImGuiSelectableFlags_AllowDoubleClick },
 	{ "AllowItemOverlap", ImGuiSelectableFlags_AllowItemOverlap }
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiSelectableFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiSelectableFlagsTable);
-}
-
-int l_pigui_check_selectable_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiSelectableFlags_ fl = imguiSelectableFlagsTable.LookupTable(l, 1);
-	lua_pushinteger(l, fl);
-	return 1;
-}
-
 // Can't use ImGuiButtonFlags_ here, as PressedOnClick etc. are in the ImGuiButtonFlagsPrivate_ enum instead
-static LuaFlags<ImGuiButtonFlags> imguiButtonFlagsTable = {
+static LuaFlags<ImGuiButtonFlags> button_flags = {
 	{ "MouseButtonLeft", ImGuiButtonFlags_MouseButtonLeft },
 	{ "MouseButtonRight", ImGuiButtonFlags_MouseButtonRight },
 	{ "MouseButtonMiddle", ImGuiButtonFlags_MouseButtonMiddle },
 	{ "PressedOnClick", ImGuiButtonFlags_PressedOnClick },
 	{ "PressedOnClickRelease", ImGuiButtonFlags_PressedOnClickRelease },
 	{ "PressedOnDoubleClick", ImGuiButtonFlags_PressedOnDoubleClick },
-	{ "Repeat", ImGuiButtonFlags_Repeat },
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiButtonFlags_ &theflags)
-{
-	theflags = static_cast<ImGuiButtonFlags_>(parse_imgui_flags(l, index, imguiButtonFlagsTable));
-}
-
-int l_pigui_check_button_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiButtonFlags_ fl = static_cast<ImGuiButtonFlags_>(imguiButtonFlagsTable.LookupTable(l, 1));
-	lua_pushinteger(l, fl);
-	return 1;
-}
-
-static LuaFlags<ImGuiTreeNodeFlags_> imguiTreeNodeFlagsTable = {
+static LuaFlags<ImGuiTreeNodeFlags_> tree_node_flags = {
 	{ "Selected", ImGuiTreeNodeFlags_Selected },
 	{ "Framed", ImGuiTreeNodeFlags_Framed },
+	{ "AllowOverlap", ImGuiTreeNodeFlags_AllowOverlap },
 	{ "NoTreePushOnOpen", ImGuiTreeNodeFlags_NoTreePushOnOpen },
 	{ "NoAutoOpenOnLog", ImGuiTreeNodeFlags_NoAutoOpenOnLog },
 	{ "DefaultOpen", ImGuiTreeNodeFlags_DefaultOpen },
 	{ "OpenOnDoubleClick", ImGuiTreeNodeFlags_OpenOnDoubleClick },
 	{ "OpenOnArrow", ImGuiTreeNodeFlags_OpenOnArrow },
-	{ "FramePadding", ImGuiTreeNodeFlags_FramePadding },
 	{ "Leaf", ImGuiTreeNodeFlags_Leaf },
 	{ "Bullet", ImGuiTreeNodeFlags_Bullet },
+	{ "FramePadding", ImGuiTreeNodeFlags_FramePadding },
+	{ "SpanAllColumns", ImGuiTreeNodeFlags_SpanAllColumns },
 	{ "CollapsingHeader", ImGuiTreeNodeFlags_CollapsingHeader },
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiTreeNodeFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiTreeNodeFlagsTable);
-}
-
-int l_pigui_check_tree_node_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiTreeNodeFlags_ fl = imguiTreeNodeFlagsTable.LookupTable(l, 1);
-	lua_pushinteger(l, fl);
-	return 1;
-}
-
-static LuaFlags<ImGuiInputTextFlags_> imguiInputTextFlagsTable = {
+static LuaFlags<ImGuiInputTextFlags_> input_text_flags = {
 	{ "CharsDecimal", ImGuiInputTextFlags_CharsDecimal },
 	{ "CharsHexadecimal", ImGuiInputTextFlags_CharsHexadecimal },
 	{ "CharsUppercase", ImGuiInputTextFlags_CharsUppercase },
@@ -256,33 +243,15 @@ static LuaFlags<ImGuiInputTextFlags_> imguiInputTextFlagsTable = {
 	{ "Password", ImGuiInputTextFlags_Password }
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiInputTextFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiInputTextFlagsTable);
-}
-
-int l_pigui_check_input_text_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiInputTextFlags_ fl = imguiInputTextFlagsTable.LookupTable(l, 1);
-	lua_pushinteger(l, fl);
-	return 1;
-}
-
-static LuaFlags<ImGuiCond_> imguiSetCondTable = {
+static LuaFlags<ImGuiCond_> imgui_cond_enums = {
 	{ "Always", ImGuiCond_Always },
 	{ "Once", ImGuiCond_Once },
 	{ "FirstUseEver", ImGuiCond_FirstUseEver },
 	{ "Appearing", ImGuiCond_Appearing }
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiCond_ &value)
-{
-	value = parse_imgui_enum(l, index, imguiSetCondTable);
-}
-
 /* clang-format off */
-static LuaFlags<ImGuiCol_> imguiColTable = {
+static LuaFlags<ImGuiCol_> imgui_col_enums = {
 	{ "Text", ImGuiCol_Text },
 	{ "TextDisabled", ImGuiCol_TextDisabled },
 	{ "WindowBg", ImGuiCol_WindowBg },
@@ -316,30 +285,35 @@ static LuaFlags<ImGuiCol_> imguiColTable = {
 	{ "ResizeGrip", ImGuiCol_ResizeGrip },
 	{ "ResizeGripHovered", ImGuiCol_ResizeGripHovered },
 	{ "ResizeGripActive", ImGuiCol_ResizeGripActive },
-	{ "Tab", ImGuiCol_Tab, },
 	{ "TabHovered", ImGuiCol_TabHovered, },
-	{ "TabActive", ImGuiCol_TabActive, },
-	{ "TabUnfocused", ImGuiCol_TabUnfocused, },
-	{ "TabUnfocusedActive", ImGuiCol_TabUnfocusedActive, },
+	{ "Tab", ImGuiCol_Tab, },
+	{ "TabSelected", ImGuiCol_TabSelected, },
+	{ "TabSelectedOverline", ImGuiCol_TabSelectedOverline, },
+	{ "TabDimmed", ImGuiCol_TabDimmed, },
+	{ "TabDimmedSelected", ImGuiCol_TabDimmedSelected, },
+	{ "TabDimmedSelectedOverline", ImGuiCol_TabDimmedSelectedOverline, },
+	{ "DockingPreview", ImGuiCol_DockingPreview },
+	{ "DockingEmptyBg", ImGuiCol_DockingEmptyBg },
 	{ "PlotLines", ImGuiCol_PlotLines },
 	{ "PlotLinesHovered", ImGuiCol_PlotLinesHovered },
 	{ "PlotHistogram", ImGuiCol_PlotHistogram },
 	{ "PlotHistogramHovered", ImGuiCol_PlotHistogramHovered },
+	{ "TableHeaderBg", ImGuiCol_TableHeaderBg },
+	{ "TableBorderStrong", ImGuiCol_TableBorderStrong },
+	{ "TableBorderLight", ImGuiCol_TableBorderLight },
+	{ "TableRowBg", ImGuiCol_TableRowBg },
+	{ "TableRowBgAlt", ImGuiCol_TableRowBgAlt },
+	{ "TextLink", ImGuiCol_TextLink },
 	{ "TextSelectedBg", ImGuiCol_TextSelectedBg },
 	{ "DragDropTarget", ImGuiCol_DragDropTarget, },
-	{ "NavHighlight", ImGuiCol_NavHighlight, },
+	{ "NavCursor", ImGuiCol_NavCursor, },
 	{ "NavWindowingHighlight", ImGuiCol_NavWindowingHighlight, },
 	{ "NavWindowingDimBg", ImGuiCol_NavWindowingDimBg, },
 	{ "ModalWindowDimBg", ImGuiCol_ModalWindowDimBg, },
 };
 /* clang-format on */
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiCol_ &value)
-{
-	value = parse_imgui_enum(l, index, imguiColTable);
-}
-
-static LuaFlags<ImGuiStyleVar_> imguiStyleVarTable = {
+static LuaFlags<ImGuiStyleVar_> imgui_style_var_enums = {
 	{ "Alpha", ImGuiStyleVar_Alpha },
 	{ "WindowPadding", ImGuiStyleVar_WindowPadding },
 	{ "WindowRounding", ImGuiStyleVar_WindowRounding },
@@ -363,15 +337,13 @@ static LuaFlags<ImGuiStyleVar_> imguiStyleVarTable = {
 	{ "GrabRounding", ImGuiStyleVar_GrabRounding },
 	{ "TabRounding", ImGuiStyleVar_TabRounding },
 	{ "ButtonTextAlign", ImGuiStyleVar_ButtonTextAlign },
-	{ "SelectableTextAlign", ImGuiStyleVar_SelectableTextAlign }
+	{ "SelectableTextAlign", ImGuiStyleVar_SelectableTextAlign },
+	{ "SeparatorTextBorderSize", ImGuiStyleVar_SeparatorTextBorderSize },
+	{ "SeparatorTextAlign", ImGuiStyleVar_SeparatorTextAlign },
+	{ "SeparatorTextPadding", ImGuiStyleVar_SeparatorTextPadding },
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiStyleVar_ &value)
-{
-	value = parse_imgui_enum(l, index, imguiStyleVarTable);
-}
-
-static LuaFlags<ImGuiWindowFlags_> imguiWindowFlagsTable = {
+static LuaFlags<ImGuiWindowFlags_> window_flags = {
 	{ "NoTitleBar", ImGuiWindowFlags_NoTitleBar },
 	{ "NoResize", ImGuiWindowFlags_NoResize },
 	{ "NoMove", ImGuiWindowFlags_NoMove },
@@ -381,31 +353,29 @@ static LuaFlags<ImGuiWindowFlags_> imguiWindowFlagsTable = {
 	{ "AlwaysAutoResize", ImGuiWindowFlags_AlwaysAutoResize },
 	{ "NoBackground", ImGuiWindowFlags_NoBackground },
 	{ "NoSavedSettings", ImGuiWindowFlags_NoSavedSettings },
-	{ "NoInputs", ImGuiWindowFlags_NoInputs },
-	{ "NoDecoration", ImGuiWindowFlags_NoDecoration },
 	{ "MenuBar", ImGuiWindowFlags_MenuBar },
 	{ "HorizontalScrollbar", ImGuiWindowFlags_HorizontalScrollbar },
 	{ "NoFocusOnAppearing", ImGuiWindowFlags_NoFocusOnAppearing },
 	{ "NoBringToFrontOnFocus", ImGuiWindowFlags_NoBringToFrontOnFocus },
 	{ "AlwaysVerticalScrollbar", ImGuiWindowFlags_AlwaysVerticalScrollbar },
 	{ "AlwaysHorizontalScrollbar", ImGuiWindowFlags_AlwaysHorizontalScrollbar },
-	{ "AlwaysUseWindowPadding", ImGuiWindowFlags_AlwaysUseWindowPadding }
+	{ "NoDecoration", ImGuiWindowFlags_NoDecoration },
+	{ "NoInputs", ImGuiWindowFlags_NoInputs },
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiWindowFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiWindowFlagsTable);
-}
+static LuaFlags<ImGuiChildFlags_> child_window_flags = {
+	{ "Borders", ImGuiChildFlags_Borders },
+	{ "AlwaysUseWindowPadding", ImGuiChildFlags_AlwaysUseWindowPadding },
+	{ "ResizeX", ImGuiChildFlags_ResizeX },
+	{ "ResizeY", ImGuiChildFlags_ResizeY },
+	{ "AutoResizeX", ImGuiChildFlags_AutoResizeX },
+	{ "AutoResizeY", ImGuiChildFlags_AutoResizeY },
+	{ "AlwaysAutoResize", ImGuiChildFlags_AlwaysAutoResize },
+	{ "FrameStyle", ImGuiChildFlags_FrameStyle },
+	{ "NavFlattened", ImGuiChildFlags_NavFlattened },
+};
 
-int l_pigui_check_window_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiWindowFlags_ fl = imguiWindowFlagsTable.LookupTable(l, 1);
-	lua_pushinteger(l, fl);
-	return 1;
-}
-
-static LuaFlags<ImGuiFocusedFlags_> imguiFocusedFlagsTable = {
+static LuaFlags<ImGuiFocusedFlags_> focused_flags = {
 	{ "None", ImGuiFocusedFlags_None },
 	{ "ChildWindows", ImGuiFocusedFlags_ChildWindows },
 	{ "RootWindow", ImGuiFocusedFlags_RootWindow },
@@ -415,20 +385,7 @@ static LuaFlags<ImGuiFocusedFlags_> imguiFocusedFlagsTable = {
 	{ "RootAndChildWindows", ImGuiFocusedFlags_RootAndChildWindows }
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiFocusedFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiFocusedFlagsTable);
-}
-
-int l_pigui_check_focused_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiFocusedFlags_ fl = imguiFocusedFlagsTable.LookupTable(l, 1);
-	LuaPush<ImGuiFocusedFlags_>(l, fl);
-	return 1;
-}
-
-static LuaFlags<ImGuiHoveredFlags_> imguiHoveredFlagsTable = {
+static LuaFlags<ImGuiHoveredFlags_> hovered_flags = {
 	{ "None", ImGuiHoveredFlags_None },
 	{ "ChildWindows", ImGuiHoveredFlags_ChildWindows },
 	{ "RootWindow", ImGuiHoveredFlags_RootWindow },
@@ -442,20 +399,7 @@ static LuaFlags<ImGuiHoveredFlags_> imguiHoveredFlagsTable = {
 	{ "ForTooltip", ImGuiHoveredFlags_ForTooltip }
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiHoveredFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiHoveredFlagsTable);
-}
-
-int l_pigui_check_hovered_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiHoveredFlags_ fl = imguiHoveredFlagsTable.LookupTable(l, 1);
-	LuaPush<ImGuiHoveredFlags_>(l, fl);
-	return 1;
-}
-
-static LuaFlags<ImGuiTableFlags_> imguiTableFlagsTable = {
+static LuaFlags<ImGuiTableFlags_> table_flags = {
 	{ "None", ImGuiTableFlags_None },
 	{ "Resizable", ImGuiTableFlags_Resizable },
 	{ "Reorderable", ImGuiTableFlags_Reorderable },
@@ -491,41 +435,16 @@ static LuaFlags<ImGuiTableFlags_> imguiTableFlagsTable = {
 	{ "SortTristate", ImGuiTableFlags_SortTristate }
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiTableFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiTableFlagsTable);
-}
-
-int l_pigui_check_table_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiTableFlags_ fl = imguiTableFlagsTable.LookupTable(l, 1);
-	LuaPush<ImGuiTableFlags_>(l, fl);
-	return 1;
-}
-
-static LuaFlags<ImGuiTableBgTarget_> imguiTableBgFlagsTable = {
+static LuaFlags<ImGuiTableBgTarget_> table_bg_target_flags = {
 	{ "None", ImGuiTableBgTarget_None },
 	{ "RowBg0", ImGuiTableBgTarget_RowBg0 },
 	{ "RowBg1", ImGuiTableBgTarget_RowBg1 },
 	{ "CellBg", ImGuiTableBgTarget_CellBg },
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiTableBgTarget_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiTableBgFlagsTable);
-}
-
-int l_pigui_check_table_bg_target(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiTableBgTarget_ fl = imguiTableBgFlagsTable.LookupTable(l, 1);
-	LuaPush<ImGuiTableBgTarget_>(l, fl);
-	return 1;
-}
-
-static LuaFlags<ImGuiTableColumnFlags_> imguiTableColumnFlagsTable = {
+static LuaFlags<ImGuiTableColumnFlags_> table_column_flags = {
 	{ "None", ImGuiTableColumnFlags_None },
+	{ "Disabled", ImGuiTableColumnFlags_Disabled },
 	{ "DefaultHide", ImGuiTableColumnFlags_DefaultHide },
 	{ "DefaultSort", ImGuiTableColumnFlags_DefaultSort },
 	{ "WidthStretch", ImGuiTableColumnFlags_WidthStretch },
@@ -537,27 +456,16 @@ static LuaFlags<ImGuiTableColumnFlags_> imguiTableColumnFlagsTable = {
 	{ "NoSort", ImGuiTableColumnFlags_NoSort },
 	{ "NoSortAscending", ImGuiTableColumnFlags_NoSortAscending },
 	{ "NoSortDescending", ImGuiTableColumnFlags_NoSortDescending },
+	{ "NoHeaderLabel", ImGuiTableColumnFlags_NoHeaderLabel },
 	{ "NoHeaderWidth", ImGuiTableColumnFlags_NoHeaderWidth },
 	{ "PreferSortAscending", ImGuiTableColumnFlags_PreferSortAscending },
 	{ "PreferSortDescending", ImGuiTableColumnFlags_PreferSortDescending },
 	{ "IndentEnable", ImGuiTableColumnFlags_IndentEnable },
 	{ "IndentDisable", ImGuiTableColumnFlags_IndentDisable },
+	{ "AngledHeader", ImGuiTableColumnFlags_AngledHeader },
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiTableColumnFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiTableColumnFlagsTable);
-}
-
-int l_pigui_check_table_column_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiTableColumnFlags_ fl = imguiTableColumnFlagsTable.LookupTable(l, 1);
-	LuaPush<ImGuiTableColumnFlags_>(l, fl);
-	return 1;
-}
-
-static LuaFlags<ImGuiColorEditFlags_> imguiColorEditFlagsTable = {
+static LuaFlags<ImGuiColorEditFlags_> color_edit_flags = {
 	{ "None", ImGuiColorEditFlags_None },
 	{ "NoAlpha", ImGuiColorEditFlags_NoAlpha },
 	{ "NoPicker", ImGuiColorEditFlags_NoPicker },
@@ -585,12 +493,7 @@ static LuaFlags<ImGuiColorEditFlags_> imguiColorEditFlagsTable = {
 	{ "DefaultOptions", ImGuiColorEditFlags_DefaultOptions_ }
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiColorEditFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiColorEditFlagsTable);
-}
-
-static LuaFlags<ImGuiComboFlags_> imguiComboFlagsTable = {
+static LuaFlags<ImGuiComboFlags_> combo_flags = {
 	{ "None", ImGuiComboFlags_None },
 	{ "PopupAlignLeft", ImGuiComboFlags_PopupAlignLeft },
 	{ "HeightSmall", ImGuiComboFlags_HeightSmall },
@@ -601,18 +504,25 @@ static LuaFlags<ImGuiComboFlags_> imguiComboFlagsTable = {
 	{ "NoPreview", ImGuiComboFlags_NoPreview },
 };
 
-void pi_lua_generic_pull(lua_State *l, int index, ImGuiComboFlags_ &theflags)
-{
-	theflags = parse_imgui_flags(l, index, imguiComboFlagsTable);
-}
+IMPL_FLAGS_TABLE(ImGuiSelectableFlags_, selectable_flags)
+IMPL_FLAGS_TABLE(ImGuiButtonFlags_, button_flags);
+IMPL_FLAGS_TABLE(ImGuiTreeNodeFlags_, tree_node_flags);
+IMPL_FLAGS_TABLE(ImGuiInputTextFlags_, input_text_flags);
+IMPL_FLAGS_TABLE(ImGuiWindowFlags_, window_flags);
+IMPL_FLAGS_TABLE(ImGuiChildFlags_, child_window_flags);
+IMPL_FLAGS_TABLE(ImGuiFocusedFlags_, focused_flags);
+IMPL_FLAGS_TABLE(ImGuiHoveredFlags_, hovered_flags);
+IMPL_FLAGS_TABLE(ImGuiTableFlags_, table_flags);
+IMPL_FLAGS_TABLE(ImGuiTableBgTarget_, table_bg_target_flags);
+IMPL_FLAGS_TABLE(ImGuiTableColumnFlags_, table_column_flags);
+IMPL_FLAGS_TABLE(ImGuiColorEditFlags_, color_edit_flags);
+IMPL_FLAGS_TABLE(ImGuiComboFlags_, combo_flags);
 
-int l_pigui_check_combo_flags(lua_State *l)
-{
-	luaL_checktype(l, 1, LUA_TTABLE);
-	ImGuiComboFlags_ fl = imguiComboFlagsTable.LookupTable(l, 1);
-	LuaPush<ImGuiComboFlags_>(l, fl);
-	return 1;
-}
+IMPL_ENUM_TABLE(ImGuiCond_, imgui_cond_enums);
+IMPL_ENUM_TABLE(ImGuiCol_, imgui_col_enums);
+IMPL_ENUM_TABLE(ImGuiStyleVar_, imgui_style_var_enums);
+
+// ============================================================================
 
 static vector2d s_center(0., 0.);
 
@@ -692,14 +602,6 @@ static int l_pigui_lineOnClock(lua_State *l)
 /* ****************************** Lua imgui functions ****************************** */
 /*
  * Function: begin
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 static int l_pigui_begin(lua_State *l)
 {
@@ -720,14 +622,6 @@ static int l_pigui_begin(lua_State *l)
  * blocked by a modal window rendering underneath it. To render a window on top
  * of a modal, it must be submitted within that modal's begin()/end() block.
  * (See data/pigui/libs/modal-win.lua).
- *
- * Availability:
- *
- *   2024-07
- *
- * Status:
- *
- *   experimental
  */
 static int l_pigui_bring_window_to_display_front(lua_State *l)
 {
@@ -742,10 +636,6 @@ static int l_pigui_bring_window_to_display_front(lua_State *l)
  * Gets imgui internal time
  *
  * > local currentTime = ui.getTime()
- *
- * Status:
- *
- *   stable
  */
 static int l_pigui_get_time(lua_State *l)
 {
@@ -1452,7 +1342,7 @@ static int l_pigui_low_thrust_button(lua_State *l)
 static int l_pigui_button_image_sized(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImTextureID id = pi_lua_checklightuserdata(l, 1);
+	ImTextureID id = reinterpret_cast<ImTextureID>(pi_lua_checklightuserdata(l, 1));
 	ImVec2 size = LuaPull<ImVec2>(l, 2);
 	ImVec2 imgSize = LuaPull<ImVec2>(l, 3);
 	ImVec2 uv0 = LuaPull<ImVec2>(l, 4);
@@ -1487,6 +1377,50 @@ static int l_pigui_text_wrapped(lua_State *l)
 }
 
 /*
+ * Function: textEllipsis
+ *
+ * Render text with an optional ellipsis if it is too long. Returns true
+ * if the text was rendered with an ellipsis.
+ *
+ * > local elided = ui.textEllipsis(text, clipWidth)
+ *
+ * Parameters:
+ *
+ *   text      - string, text string, possibly longer than a single line
+ *   clipWidth - number, optional width at which to render the ellipsis
+ *
+ */
+static int l_pigui_text_ellipsis(lua_State *l)
+{
+	PROFILE_SCOPED()
+	ImGuiWindow *window = ImGui::GetCurrentWindow();
+	float avail_x = ImGui::GetContentRegionAvail().x;
+	float text_height = ImGui::GetTextLineHeight();
+
+	std::string text = LuaPull<std::string>(l, 1);
+	float clipWidth = LuaPull<float>(l, 2, avail_x);
+
+	float clip_max_x = window->DC.CursorPos.x + clipWidth;
+	ImVec2 text_size = ImGui::CalcTextSize(text.c_str(), text.c_str() + text.size());
+
+	ImVec2 size = ImVec2(ImMin(text_size.x, clipWidth), text_height);
+	ImVec2 textPos = window->DC.CursorPos + ImVec2(0, window->DC.CurrLineTextBaseOffset);
+
+	const ImRect bb(textPos, textPos + size);
+    ImGui::ItemSize(size);
+    ImGui::ItemAdd(bb, 0);
+
+	ImGui::RenderTextEllipsis(ImGui::GetWindowDrawList(),
+		textPos, textPos + size,
+		clip_max_x, clip_max_x,
+		text.c_str(), text.c_str() + text.size(),
+		&text_size);
+
+	LuaPush<bool>(l, text_size.x > clipWidth);
+	return 1;
+}
+
+/*
  * Function: textColored
  *
  * Print text, with color
@@ -1512,13 +1446,51 @@ static int l_pigui_text_colored(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_bullet_text(lua_State *l)
+{
+	PROFILE_SCOPED()
+	std::string text = LuaPull<std::string>(l, 1);
+	ImGui::BulletText("%s", text.c_str());
+	return 0;
+}
+
+/*
+ * Function: textLinkOpenURL
+ *
+ * Draw clickable hyperlink to screen
+ *
+ * > ui.textLinkOpenURL(label, link)
+ * > ui.textLinkOpenURL(link)
+ *
+ * Parameters:
+ *
+ *   label - string, text to print
+ *   link - url to open
+ *
+ */
+static int l_pigui_text_link_open_url(lua_State *l)
+{
+	PROFILE_SCOPED()
+
+	if (lua_gettop(l) == 1) {
+		std::string link = LuaPull<std::string>(l, 1);
+		ImGui::TextLinkOpenURL(link.c_str());
+	}
+	else{
+		std::string label = LuaPull<std::string>(l, 1);
+		std::string link = LuaPull<std::string>(l, 2);
+		ImGui::TextLinkOpenURL(label.c_str(), link.c_str());
+	}
+	return 0;
+}
+
+
 static int l_pigui_get_axisbinding(lua_State *l)
 {
 	PROFILE_SCOPED()
 
 	// Escape is used to clear an existing binding
-	// io.KeysDown uses scancodes, but we want to use keycodes.
-	if (ImGui::IsKeyDown(ImGui_ImplSDL2_KeycodeToImGuiKey(SDLK_ESCAPE))) {
+	if (ImGui::IsKeyDown(ImGuiKey_Escape)) {
 		LuaPush(l, true);
 		lua_pushnil(l);
 		return 2;
@@ -1614,9 +1586,13 @@ static int l_pigui_get_keybinding(lua_State *l)
 
 	// keys
 	for (int i = 0; i < 512; i++) {
-		if (ImGui::GetIO().KeysDown[i]) {
-			// io.KeysDown uses scancodes, but we need keycodes.
-			binds[bind_count++] = SDL_GetKeyFromScancode(static_cast<SDL_Scancode>(i));
+		SDL_Scancode scancode = static_cast<SDL_Scancode>(i);
+		SDL_Keycode keycode = SDL_GetKeyFromScancode(scancode);
+		ImGuiKey key = ImGui_ImplSDL2_KeyEventToImGuiKey(keycode, scancode);
+
+		// KeyData uses ImGuiKeys, but we use SDL_Keycodes internally
+		if (key != ImGuiKey_None && ImGui::GetKeyData(key)->Down) {
+			binds[bind_count++] = keycode;
 			if (bind_count == MAX_BIND_KEYS) break;
 		}
 	}
@@ -1730,9 +1706,10 @@ static int l_pigui_add_rect(lua_State *l)
 	ImVec2 b = LuaPull<ImVec2>(l, 2);
 	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 3).Value);
 	float rounding = LuaPull<double>(l, 4);
-	int round_corners = LuaPull<int>(l, 5);
+	// Convert from the legacy values used in LUA to the new Dear ImGui v1.91 values
+	ImDrawFlags draw_flags = (LuaPull<int>(l, 5) & 0x0F) << 4;
 	float thickness = LuaPull<double>(l, 6);
-	draw_list->AddRect(a, b, color, rounding, round_corners, thickness);
+	draw_list->AddRect(a, b, color, rounding, draw_flags, thickness);
 	return 0;
 }
 
@@ -1755,7 +1732,7 @@ static int l_pigui_add_image(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	ImTextureID id = pi_lua_checklightuserdata(l, 1);
+	ImTextureID id = reinterpret_cast<ImTextureID>(pi_lua_checklightuserdata(l, 1));
 	ImVec2 a = LuaPull<ImVec2>(l, 2);
 	ImVec2 b = LuaPull<ImVec2>(l, 3);
 	ImVec2 uv0 = LuaPull<ImVec2>(l, 4);
@@ -1769,7 +1746,7 @@ static int l_pigui_add_image_quad(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	ImTextureID id = pi_lua_checklightuserdata(l, 1);
+	ImTextureID id = reinterpret_cast<ImTextureID>(pi_lua_checklightuserdata(l, 1));
 	ImVec2 a = LuaPull<ImVec2>(l, 2);
 	ImVec2 b = LuaPull<ImVec2>(l, 3);
 	ImVec2 c = LuaPull<ImVec2>(l, 4);
@@ -1791,8 +1768,9 @@ static int l_pigui_add_rect_filled(lua_State *l)
 	ImVec2 b = LuaPull<ImVec2>(l, 2);
 	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 3).Value);
 	float rounding = LuaPull<double>(l, 4);
-	int round_corners = LuaPull<int>(l, 5);
-	draw_list->AddRectFilled(a, b, color, rounding, round_corners);
+	// Convert from the legacy values used in LUA to the new Dear ImGui v1.91 values
+	ImDrawFlags draw_flags = (LuaPull<int>(l, 5) & 0x0F) << 4;
+	draw_list->AddRectFilled(a, b, color, rounding, draw_flags);
 	return 0;
 }
 
@@ -1822,24 +1800,63 @@ static int l_pigui_add_triangle_filled(lua_State *l)
 	return 0;
 }
 
+// Partially-transparent rectangle
+static int l_pigui_add_rect_faded(lua_State *l)
+{
+	PROFILE_SCOPED()
+	ImDrawList *draw_list = ImGui::GetWindowDrawList();
+	ImVec2 a = LuaPull<ImVec2>(l, 1);
+	ImVec2 b = LuaPull<ImVec2>(l, 2);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 3).Value);
+	ImColor color_b { color };
+	color_b.Value.w = LuaPull<double>(l, 4);
+	// Convert from the legacy values used in LUA to the new Dear ImGui v1.91 values
+	ImDrawFlags draw_flags = (LuaPull<int>(l, 5) & 0x0F) << 4;
+
+	draw_list->PrimReserve(6, 4);
+	ImDrawVert *vertices = draw_list->_VtxWritePtr;
+	draw_list->PrimRect(a, b, color);
+
+	if (draw_flags & ImDrawFlags_RoundCornersTopLeft)
+		vertices[0].col = color_b;
+	if (draw_flags & ImDrawFlags_RoundCornersTopRight)
+		vertices[1].col = color_b;
+	if (draw_flags & ImDrawFlags_RoundCornersBottomRight)
+		vertices[2].col = color_b;
+	if (draw_flags & ImDrawFlags_RoundCornersBottomLeft)
+		vertices[3].col = color_b;
+
+	return 0;
+}
+
+
 /*
  * Function: sameLine
  *
  * Draw the next command on the same line as previous
  *
  * > ui.sameLine(pos_x, spacing_w)
+ * > ui.sameLine(-width)
  *
  * Parameters:
  *
- *   pos_x - optional float, X position for next draw command
+ *   pos_x - optional float, X position for next draw command.
+ *           If negative, this is the distance from the right side of the
+ *           content region to position the cursor.
  *   spacing_w - optional float, draw with spacing relative to previous
  *
  */
 static int l_pigui_same_line(lua_State *l)
 {
-	double pos_x = LuaPull<double>(l, 1);
-	double spacing_w = LuaPull<double>(l, 2);
-	ImGui::SameLine(pos_x, spacing_w);
+	float pos_x = LuaPull<float>(l, 1, 0.f);
+	float spacing_w = LuaPull<float>(l, 2, -1.f);
+
+	if (pos_x < 0.0) {
+		ImGuiWindow *window = ImGui::GetCurrentWindow();
+		ImGui::SameLine(window->WorkRect.Max.x - window->Pos.x - window->DC.ColumnsOffset.x - window->DC.GroupOffset.x + pos_x - (spacing_w > 0.f ? spacing_w : 0.f));
+	} else {
+		ImGui::SameLine(pos_x, spacing_w);
+	}
 	return 0;
 }
 
@@ -1851,8 +1868,9 @@ static int l_pigui_align_to_frame_padding(lua_State *l)
 
 static int l_pigui_align_to_line_height(lua_State *l)
 {
-	double lineHeight = LuaPull<double>(l, 1, -1.0f);
-	ImGui::AlignTextToLineHeight(lineHeight);
+	float lineHeight = LuaPull<float>(l, 1, -1.0f);
+	float offset = LuaPull<float>(l, 2, 0.5f);
+	ImGui::AlignTextToLineHeight(lineHeight, offset);
 	return 0;
 }
 
@@ -1898,6 +1916,21 @@ static int l_pigui_separator(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: separatorText
+ *
+ * Draw a horisontal line interrupted by text
+ *
+ * > ui.separatorText(label)
+ *
+ */
+static int l_pigui_separator_text(lua_State *l)
+{
+	const char *label = LuaPull<const char *>(l, 1);
+	ImGui::SeparatorText(label);
+	return 0;
+}
+
 static int l_pigui_spacing(lua_State *l)
 {
 	ImGui::Spacing();
@@ -1935,7 +1968,8 @@ static int l_pigui_begin_popup(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string id = LuaPull<std::string>(l, 1);
-	LuaPush<bool>(l, ImGui::BeginPopup(id.c_str()));
+	ImGuiWindowFlags flags = LuaPull<ImGuiWindowFlags_>(l, 2, ImGuiWindowFlags_None);
+	LuaPush<bool>(l, ImGui::BeginPopup(id.c_str(), flags));
 	return 1;
 }
 
@@ -1984,9 +2018,10 @@ static int l_pigui_begin_child(lua_State *l)
 	const vector2d v1 = LuaPull<vector2d>(l, 2);
 
 	ImVec2 size(v1.x, v1.y);
-	ImGuiWindowFlags theflags = LuaPull<ImGuiWindowFlags_>(l, 3);
+	ImGuiChildFlags childFlags = LuaPull<ImGuiChildFlags_>(l, 3, ImGuiChildFlags_None);
+	ImGuiWindowFlags windowFlags = LuaPull<ImGuiWindowFlags_>(l, 4, ImGuiWindowFlags_None);
 
-	ImGui::BeginChild(id.c_str(), size, false, theflags);
+	ImGui::BeginChild(id.c_str(), size, childFlags, windowFlags);
 	return 0;
 }
 
@@ -2017,6 +2052,20 @@ static int l_pigui_is_item_clicked(lua_State *l)
 	PROFILE_SCOPED()
 	int button = LuaPull<int>(l, 1);
 	LuaPush(l, ImGui::IsItemClicked(button));
+	return 1;
+}
+
+static int l_pigui_is_item_activated(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LuaPush(l, ImGui::IsItemActivated());
+	return 1;
+}
+
+static int l_pigui_is_item_deactivated(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LuaPush(l, ImGui::IsItemDeactivated());
 	return 1;
 }
 
@@ -2233,27 +2282,26 @@ static int l_pigui_get_content_region(lua_State *l)
 static int l_pigui_image(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImTextureID id = pi_lua_checklightuserdata(l, 1);
+	ImTextureID id = reinterpret_cast<ImTextureID>(pi_lua_checklightuserdata(l, 1));
 	ImVec2 size = LuaPull<ImVec2>(l, 2);
 	ImVec2 uv0 = LuaPull<ImVec2>(l, 3);
 	ImVec2 uv1 = LuaPull<ImVec2>(l, 4);
-	ImColor tint_col = LuaPull<ImColor>(l, 5);
-	ImGui::Image(id, size, uv0, uv1, tint_col); //,  border_col
+	ImColor tint_color = LuaPull<ImColor>(l, 5);
+	ImGui::ImageWithBg(id, size, uv0, uv1, ImVec4(0, 0, 0, 0), tint_color); //,  border_col
 	return 0;
 }
 
 static int l_pigui_image_button(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImTextureID id = pi_lua_checklightuserdata(l, 1);
-	ImVec2 size = LuaPull<ImVec2>(l, 2);
-	ImVec2 uv0 = LuaPull<ImVec2>(l, 3);
-	ImVec2 uv1 = LuaPull<ImVec2>(l, 4);
-	int frame_padding = LuaPull<int>(l, 5);
-	ImColor bg_col = LuaPull<ImColor>(l, 6);
-	ImColor tint_col = LuaPull<ImColor>(l, 7);
-	bool res = ImGui::ImageButton(id, size, uv0, uv1,
-		frame_padding, bg_col, tint_col);
+	const char *str_id = LuaPull<const char *>(l, 1);
+	ImTextureID id = reinterpret_cast<ImTextureID>(pi_lua_checklightuserdata(l, 2));
+	ImVec2 size = LuaPull<ImVec2>(l, 3);
+	ImVec2 uv0 = LuaPull<ImVec2>(l, 4);
+	ImVec2 uv1 = LuaPull<ImVec2>(l, 5);
+	ImColor bg_col = LuaPull<ImColor>(l, 7);
+	ImColor tint_col = LuaPull<ImColor>(l, 8);
+	bool res = ImGui::ImageButton(str_id, id, size, uv0, uv1, bg_col, tint_col);
 	LuaPush<bool>(l, res);
 	return 1;
 }
@@ -2262,7 +2310,7 @@ static int l_pigui_capture_mouse_from_app(lua_State *l)
 {
 	PROFILE_SCOPED()
 	bool b = LuaPull<bool>(l, 1);
-	ImGui::CaptureMouseFromApp(b);
+	ImGui::SetNextFrameWantCaptureMouse(b);
 	return 0;
 }
 
@@ -2284,7 +2332,7 @@ PiGui::TScreenSpace lua_world_space_to_screen_space(const Body *body)
 	const int width = Pi::renderer->GetWindowWidth();
 	const int height = Pi::renderer->GetWindowHeight();
 	const vector3d direction = (p - vector3d(width / 2.0, height / 2.0, 0)).Normalized();
-	if (vector3d(0, 0, 0) == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
+	if (vector3d::Zero == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
 		return PiGui::TScreenSpace(false, vector2d(0, 0), direction * (p.z > 0 ? -1 : 1));
 	} else {
 		return PiGui::TScreenSpace(true, vector2d(p.x, p.y), direction);
@@ -2402,14 +2450,6 @@ bool PiGui::first_body_is_more_important_than(Body *body, Body *other)
  *   hasFollowTarget - true if group contains the follow target
  *   multiple - true if group consists of more than one body
  *   bodies - array of all <Body> objects in the group, sorted by importance
- *
- * Availability:
- *
- *   2019-12
- *
- * Status:
- *
- *   stable
  */
 static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 {
@@ -2759,7 +2799,7 @@ static int l_pigui_radial_menu(lua_State *l)
 			break;
 		}
 		lua_getfield(l, -1, "id");
-		ImTextureID tid = pi_lua_checklightuserdata(l, -1);
+		ImTextureID tid = reinterpret_cast<ImTextureID>(pi_lua_checklightuserdata(l, -1));
 		lua_pop(l, 1);
 
 		lua_getfield(l, -1, "uv0");
@@ -2912,7 +2952,16 @@ static int l_pigui_input_text(lua_State *l)
 	PROFILE_SCOPED()
 	std::string label = LuaPull<std::string>(l, 1);
 	std::string text = LuaPull<std::string>(l, 2);
-	int flags = LuaPull<ImGuiInputTextFlags_>(l, 3, ImGuiInputTextFlags_None);
+	std::string hint;
+	int flags;
+
+	if (lua_gettop(l) > 3) {
+		hint = LuaPull<std::string>(l, 3);
+		flags = LuaPull<ImGuiInputTextFlags_>(l, 4, ImGuiInputTextFlags_None);
+	} else {
+		flags = LuaPull<ImGuiInputTextFlags_>(l, 3, ImGuiInputTextFlags_None);
+	}
+
 
 	if (label.empty())
 		return luaL_error(l, "label parameter to ui.inputText() cannot be empty! Use \"##\" for an invisible label.");
@@ -2922,7 +2971,14 @@ static int l_pigui_input_text(lua_State *l)
 	char buffer[1024];
 	memset(buffer, 0, 1024);
 	strncpy(buffer, text.c_str(), 1023);
-	bool result = ImGui::InputText(label.c_str(), buffer, 1024, flags);
+	bool result;
+
+	if (!hint.empty()) {
+		result = ImGui::InputTextWithHint(label.c_str(), hint.c_str(), buffer, 1024, flags);
+	} else {
+		result = ImGui::InputText(label.c_str(), buffer, 1024, flags);
+	}
+
 	LuaPush<const char *>(l, buffer);
 	LuaPush<bool>(l, result);
 	return 2;
@@ -3088,7 +3144,9 @@ static int l_pigui_color_edit(lua_State *l)
 static int l_pigui_is_key_released(lua_State *l)
 {
 	SDL_Keycode key = LuaPull<int>(l, 1);
-	LuaPush<bool>(l, ImGui::IsKeyReleased(ImGui_ImplSDL2_KeycodeToImGuiKey(key)));
+	SDL_Scancode code = SDL_GetScancodeFromKey(key);
+
+	LuaPush<bool>(l, ImGui::IsKeyReleased(ImGui_ImplSDL2_KeyEventToImGuiKey(key, code)));
 	return 1;
 }
 
@@ -3228,11 +3286,11 @@ static int l_pigui_load_texture_from_svg(lua_State *l)
 	int height = LuaPull<int>(l, 4);
 
 	ImTextureID id = PiGui::RenderSVG(Pi::renderer, svg_filename, width, height);
-	if (id == nullptr) {
+	if (id == 0) {
 		return luaL_error(l, "LoadTextureFromSVG: error loading file %s", svg_filename.c_str());
 	}
 
-	lua_pushlightuserdata(l, id);
+	lua_pushlightuserdata(l, reinterpret_cast<void *>(id));
 	return 1;
 }
 
@@ -3483,6 +3541,12 @@ static int l_pigui_table_headers_row(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_table_angled_headers_row(lua_State *l)
+{
+	ImGui::TableAngledHeadersRow();
+	return 0;
+}
+
 static int l_pigui_table_header(lua_State *l)
 {
 	const char *label = luaL_checkstring(l, 1);
@@ -3538,7 +3602,7 @@ static ImVec4 to_ImVec4(Color4ub c)
 void PiGui::load_theme_from_table(LuaTable &table, ImGuiStyle &style)
 {
 	ScopedTable colors = table.Sub("colors");
-	for (auto &pair : imguiColTable.LUT) {
+	for (auto &pair : imgui_col_enums.LUT) {
 		Color4ub defaultColor = to_Color4ub(style.Colors[pair.second]);
 		style.Colors[pair.second] = to_ImVec4(colors.Get<Color4ub>(pair.first, defaultColor));
 	}
@@ -3573,6 +3637,9 @@ void PiGui::load_theme_from_table(LuaTable &table, ImGuiStyle &style)
 	SET_STYLE(TabBorderSize);
 	SET_STYLE(ButtonTextAlign);
 	SET_STYLE(SelectableTextAlign);
+	SET_STYLE(SeparatorTextBorderSize);
+	SET_STYLE(SeparatorTextAlign);
+	SET_STYLE(SeparatorTextPadding);
 
 #undef SET_STYLE
 }
@@ -3600,6 +3667,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "AddQuad", l_pigui_add_quad },
 		{ "AddRect", l_pigui_add_rect },
 		{ "AddRectFilled", l_pigui_add_rect_filled },
+		{ "AddRectFaded", l_pigui_add_rect_faded },
 		{ "AddImage", l_pigui_add_image },
 		{ "AddImageQuad", l_pigui_add_image_quad },
 		{ "AddBezierCurve", l_pigui_add_bezier_curve },
@@ -3626,9 +3694,12 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "SetColumnWidth", l_pigui_set_column_width },
 		{ "SetColumnOffset", l_pigui_set_column_offset },
 		{ "GetScrollY", l_pigui_get_scroll_y },
+		{ "BulletText", l_pigui_bullet_text },
 		{ "Text", l_pigui_text },
 		{ "TextWrapped", l_pigui_text_wrapped },
+		{ "TextEllipsis", l_pigui_text_ellipsis },
 		{ "TextColored", l_pigui_text_colored },
+		{ "TextLinkOpenURL", l_pigui_text_link_open_url },
 		{ "SetScrollHereY", l_pigui_set_scroll_here_y },
 		{ "Button", l_pigui_button },
 		{ "GlyphButton", l_pigui_glyph_button },
@@ -3646,9 +3717,12 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "EndHorizontalGroup", l_pigui_end_horizontal_group },
 		{ "SameLine", l_pigui_same_line },
 		{ "Separator", l_pigui_separator },
+		{ "SeparatorText", l_pigui_separator_text },
 		{ "IsItemHovered", l_pigui_is_item_hovered },
 		{ "IsItemActive", l_pigui_is_item_active },
 		{ "IsItemClicked", l_pigui_is_item_clicked },
+		{ "IsItemActivated", l_pigui_is_item_activated },
+		{ "IsItemDeactivated", l_pigui_is_item_deactivated },
 		{ "IsAnyItemActive", l_pigui_is_any_item_active },
 		{ "Spacing", l_pigui_spacing },
 		{ "Dummy", l_pigui_dummy },
@@ -3744,16 +3818,23 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "PlaySfx", l_pigui_play_sfx },
 		{ "DisableMouseFacing", l_pigui_disable_mouse_facing },
 		{ "SetMouseButtonState", l_pigui_set_mouse_button_state },
+
+		// Flags Builders
 		{ "SelectableFlags", l_pigui_check_selectable_flags },
 		{ "ButtonFlags", l_pigui_check_button_flags },
 		{ "TreeNodeFlags", l_pigui_check_tree_node_flags },
 		{ "InputTextFlags", l_pigui_check_input_text_flags },
 		{ "WindowFlags", l_pigui_check_window_flags },
+		{ "ChildFlags", l_pigui_check_child_window_flags },
 		{ "FocusedFlags", l_pigui_check_focused_flags },
 		{ "HoveredFlags", l_pigui_check_hovered_flags },
 		{ "TableFlags", l_pigui_check_table_flags },
+		{ "TableBgTargetFlags", l_pigui_check_table_bg_target_flags },
 		{ "TableColumnFlags", l_pigui_check_table_column_flags },
-		{ "TableBgTargetFlags", l_pigui_check_table_bg_target },
+		{ "ColorEditFlags", l_pigui_check_color_edit_flags },
+		{ "ComboFlags", l_pigui_check_combo_flags },
+
+		// TabBar API
 		{ "BeginTabBar", l_pigui_begin_tab_bar },
 		{ "BeginTabItem", l_pigui_begin_tab_item },
 		{ "EndTabBar", l_pigui_end_tab_bar },
@@ -3768,6 +3849,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "TableSetupColumn", l_pigui_table_setup_column },
 		{ "TableSetupScrollFreeze", l_pigui_table_setup_scroll_freeze },
 		{ "TableHeadersRow", l_pigui_table_headers_row },
+		{ "TableAngledHeadersRow", l_pigui_table_angled_headers_row },
 		{ "TableHeader", l_pigui_table_header },
 		{ "TableSetBgColor", l_pigui_table_set_bg_color },
 		// TODO: finish exposing Tables API
@@ -3797,19 +3879,20 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 
 	lua_State *l = Lua::manager->GetLuaState();
 
-	imguiSelectableFlagsTable.Register(l, "ImGuiSelectableFlags");
-	imguiButtonFlagsTable.Register(l, "ImGuiButtonFlags");
-	imguiTreeNodeFlagsTable.Register(l, "ImGuiTreeNodeFlags");
-	imguiInputTextFlagsTable.Register(l, "ImGuiInputTextFlags");
-	imguiSetCondTable.Register(l, "ImGuiCond");
-	imguiColTable.Register(l, "ImGuiCol");
-	imguiStyleVarTable.Register(l, "ImGuiStyleVar");
-	imguiWindowFlagsTable.Register(l, "ImGuiWindowFlags");
-	imguiFocusedFlagsTable.Register(l, "ImGuiFocusedFlags");
-	imguiHoveredFlagsTable.Register(l, "ImGuiHoveredFlags");
-	imguiTableFlagsTable.Register(l, "ImGuiTableFlags");
-	imguiTableColumnFlagsTable.Register(l, "ImGuiTableColumnFlags");
-	imguiTableBgFlagsTable.Register(l, "ImGuiTableBgTargetFlags");
-	imguiColorEditFlagsTable.Register(l, "ImGuiTableColumnFlags");
-	imguiComboFlagsTable.Register(l, "ImGuiComboFlags");
+	selectable_flags.Register(l, "ImGuiSelectableFlags");
+	button_flags.Register(l, "ImGuiButtonFlags");
+	tree_node_flags.Register(l, "ImGuiTreeNodeFlags");
+	input_text_flags.Register(l, "ImGuiInputTextFlags");
+	imgui_cond_enums.Register(l, "ImGuiCond");
+	imgui_col_enums.Register(l, "ImGuiCol");
+	imgui_style_var_enums.Register(l, "ImGuiStyleVar");
+	window_flags.Register(l, "ImGuiWindowFlags");
+	child_window_flags.Register(l, "ImGuiChildWindowFlags");
+	focused_flags.Register(l, "ImGuiFocusedFlags");
+	hovered_flags.Register(l, "ImGuiHoveredFlags");
+	table_flags.Register(l, "ImGuiTableFlags");
+	table_column_flags.Register(l, "ImGuiTableColumnFlags");
+	table_bg_target_flags.Register(l, "ImGuiTableBgTargetFlags");
+	color_edit_flags.Register(l, "ImGuiColorEditFlags");
+	combo_flags.Register(l, "ImGuiComboFlags");
 }

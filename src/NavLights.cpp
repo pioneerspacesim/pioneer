@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "NavLights.h"
@@ -9,6 +9,8 @@
 #include "core/IniConfig.h"
 #include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/Types.h"
+#include "graphics/VertexBuffer.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "scenegraph/SceneGraph.h"
 #include "utils.h"
@@ -83,7 +85,9 @@ void NavLights::Init(Graphics::Renderer *renderer)
 	rsd.depthWrite = false;
 	rsd.primitiveType = Graphics::POINTS;
 
-	matHalos4x4.Reset(renderer->CreateMaterial("billboards", desc, rsd));
+	Graphics::VertexFormatDesc vfmt = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
+
+	matHalos4x4.Reset(renderer->CreateMaterial("billboards", desc, rsd, vfmt));
 	matHalos4x4->SetTexture("texture0"_hash, texHalos4x4.Get());
 	matHalos4x4->SetPushConstant("coordDownScale"_hash, 0.5f);
 
@@ -206,7 +210,7 @@ void NavLights::Update(float time)
 void NavLights::Render(Graphics::Renderer *renderer)
 {
 	if (!m_billboardTris.IsEmpty()) {
-		renderer->SetTransform(matrix4x4f::Identity());
+		renderer->SetTransform(matrix4x4f::Identity);
 		renderer->DrawBuffer(&m_billboardTris, matHalos4x4.Get());
 		renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_BILLBOARD, m_billboardTris.GetNumVerts());
 

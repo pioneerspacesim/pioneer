@@ -173,7 +173,7 @@
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Az {org} {cash}-ben fizet egy {mission} küldetésért a {system} rendszerben ({sectorx}, {sectory}, {sectorz}). Jó okunk van feltételezni, hogy egy könyörtelen versenytárs a felelős a szállítóhajóink eltűnéséért az {area}-ban. Az úticél távolsága {dist} fényév."
+    "message": "Az {org} {cash}-creditet fizet egy {mission} küldetésért a {system} rendszerben ({sectorx}, {sectory}, {sectorz}). Jó okunk van feltételezni, hogy egy könyörtelen versenytárs a felelős a szállítóhajóink eltűnéséért {area} környékén. Az úticél távolsága {dist} fényév."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
@@ -217,7 +217,7 @@
   },
   "MILITARY_3": {
     "description": "",
-    "message": "A kémelhárítás pilótát keres,  {mission} feladat elvégzésére, aki nem kérdezősködik. Helyszín: [system] rendszer ({sectorx}, sectory}, {sectorz}), {dist} fényévre. Fizetség: {cash}."
+    "message": "A kémelhárítás civil pilótát keres,  {mission} feladat elvégzésére, aki nem kérdezősködik. Helyszín: [system] rendszer ({sectorx}, sectory}, {sectorz}), {dist} fényévre. Fizetség: {cash}."
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "{org} alkalmazottja vagyok. Teherhajóink fognak hamarosan áthajózni {area} régiión a {system} rendszerben  ({sectorx}, {sectory}, {sectorz}, {dist} fé).  Alkalmazottjaink és felszerelésünk biztonságának szavatolása érdekében hajlandóak vagyunk {cash} ellentételezést felajánlani egy {mission} küldetés teljesítésére."
+    "message": "{org} alkalmazottja vagyok. Teherhajóink hamarosan megrkeznek {area} régiójába {system} rendszerben  ({sectorx}, {sectory}, {sectorz}, {dist} fé).  Alkalmazottjaink és felszerelésünk biztonságának szavatolása érdekében hajlandóak vagyunk {cash} ellentételezést felajánlani egy {mission} küldetés elvégzéséért."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -270,6 +270,18 @@
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
     "message": "Terület megtisztítása"
+  },
+  "MISSION_TYPE_CONVO_1": {
+    "description": "Name of mission type, used in conversation",
+    "message": "felderítő"
+  },
+  "MISSION_TYPE_CONVO_2": {
+    "description": "Name of mission type, used in conversation",
+    "message": "fegyveres felderítő"
+  },
+  "MISSION_TYPE_CONVO_3": {
+    "description": "Name of mission type, used in conversation. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
+    "message": "terület-tisztító"
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",

@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GALAXY_H
@@ -43,9 +43,11 @@ public:
 	RefCountedPtr<const Sector> GetSector(const SystemPath &path) { return m_sectorCache.GetCached(path); }
 	RefCountedPtr<Sector> GetMutableSector(const SystemPath &path) { return m_sectorCache.GetCached(path); }
 	RefCountedPtr<SectorCache::Slave> NewSectorSlaveCache() { return m_sectorCache.NewSlaveCache(); }
+	const SectorCache *GetSectorCache() const { return &m_sectorCache; }
 
 	RefCountedPtr<StarSystem> GetStarSystem(const SystemPath &path) { return m_starSystemCache.GetCached(path); }
 	RefCountedPtr<StarSystemCache::Slave> NewStarSystemSlaveCache() { return m_starSystemCache.NewSlaveCache(); }
+	const StarSystemCache *GetStarSystemCache() const { return &m_starSystemCache; }
 
 	void FlushCaches();
 	void Dump(FILE *file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius);
@@ -77,7 +79,7 @@ public:
 	virtual Uint8 GetSectorDensity(const int sx, const int sy, const int sz) const;
 
 private:
-	std::unique_ptr<float[]> m_galaxyMap;
+	std::unique_ptr<uint8_t[]> m_galaxyMap;
 	Sint32 m_mapWidth, m_mapHeight;
 };
 

@@ -1,5 +1,6 @@
 {
 	"model": "kanara_civ",
+	"i18n_key": "KANARA",
 	"name": "Kanara (Civilian)",
 	"cockpit": "",
 	"shield_model": "kanara_shield",
@@ -17,10 +18,11 @@
 	"cargo": 8,
 
 	"equipment_slots": {
-		"tag_weapon_s2": {
+		"weapon_s2": {
 			"type": "weapon",
 			"size": 2,
-			"tag": "tag_tag_weapon_s2",
+			"size_min": 1,
+			"tag": "tag_weapon_s2",
 			"hardpoint": true,
 			"gimbal": [3,3]
 		},
@@ -81,9 +83,9 @@
 
 	"forward_thrust": 700000,
 	"forward_acceleration_cap": 38.7495,
-	"reverse_thrust": 600000,
+	"reverse_thrust": 500000,
 	"reverse_acceleration_cap": 24.525,
-	"up_thrust": 300000,
+	"up_thrust": 500000,
 	"up_acceleration_cap": 19.62,
 	"down_thrust": 200000,
 	"down_acceleration_cap": 10.0062,

@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaInput.h"
@@ -17,7 +17,6 @@
 
 #include <SDL_keyboard.h>
 #include <SDL_keycode.h>
-#include <sstream>
 
 using namespace InputBindings;
 
@@ -694,14 +693,6 @@ static void setup_binding_table(lua_State *l, const char *id, const char *type)
  * >	},
  * >	-- ... more pages
  * > }
- *
- * Availability:
- *
- *   September 2018
- *
- * Status:
- *
- *   permanent
  */
 static int l_input_get_binding_pages(lua_State *l)
 {
@@ -756,15 +747,10 @@ static int l_input_save_binding(lua_State *l)
 	LuaInputAction *action = LuaObject<LuaInputAction>::GetFromLua(1);
 	LuaInputAxis *axis = LuaObject<LuaInputAxis>::GetFromLua(1);
 
-	std::ostringstream buffer;
 	if (action) {
-		buffer << *action->getAction();
-		Pi::config->SetString(action->id, buffer.str());
-		Pi::config->Save();
+		Pi::input->SaveActionBinding(action->getAction(), action->id);
 	} else if (axis) {
-		buffer << *axis->getAxis();
-		Pi::config->SetString(axis->id, buffer.str());
-		Pi::config->Save();
+		Pi::input->SaveAxisBinding(axis->getAxis(), axis->id);
 	}
 
 	return 0;
@@ -800,7 +786,6 @@ static int l_input_save_joystick_config(lua_State *l)
 	uint32_t joystick = LuaPull<uint32_t>(l, 1);
 	if (joystick < Input::GetJoysticks().size()) {
 		Input::SaveJoystickConfig(joystick, Pi::config);
-		Pi::config->Save();
 	}
 
 	return 0;
@@ -884,8 +869,6 @@ static int l_input_set_mouse_y_inverted(lua_State *l)
 	if (lua_isnone(l, 1))
 		return luaL_error(l, "SetMouseYInverted takes one boolean argument");
 	const bool inverted = lua_toboolean(l, 1);
-	Pi::config->SetInt("InvertMouseY", (inverted ? 1 : 0));
-	Pi::config->Save();
 	Pi::input->SetMouseYInvert(inverted);
 	return 0;
 }
@@ -907,8 +890,6 @@ static int l_input_set_joystick_enabled(lua_State *l)
 	if (lua_isnone(l, 1))
 		return luaL_error(l, "SetJoystickEnabled takes one boolean argument");
 	const bool enabled = lua_toboolean(l, 1);
-	Pi::config->SetInt("EnableJoystick", (enabled ? 1 : 0));
-	Pi::config->Save();
 	Pi::input->SetJoystickEnabled(enabled);
 	return 0;
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "pigui/ModelSpinner.h"
@@ -92,7 +92,7 @@ void ModelSpinner::Render()
 	r->ClearScreen(Color(0, 0, 0, 0));
 
 	r->SetProjection(matrix4x4f::PerspectiveMatrix(DEG2RAD(SPINNER_FOV), m_size.x / m_size.y, 1.f, 10000.f, true));
-	r->SetTransform(matrix4x4f::Identity());
+	r->SetTransform(matrix4x4f::Identity);
 
 	r->SetLights(1, &m_light);
 	AnimationCurves::Approach(m_zoom, m_zoomTo, Pi::GetFrameTime(), 5.0f, 0.4f);
@@ -114,7 +114,7 @@ matrix4x4f ModelSpinner::MakeModelViewMat()
 {
 	const float dist = m_model->GetDrawClipRadius() / sinf(DEG2RAD(SPINNER_FOV * 0.5f));
 
-	matrix4x4f rot = matrix4x4f::Identity();
+	matrix4x4f rot = matrix4x4f::Identity;
 	rot.Translate(vector3f(0, 0, -dist * m_zoom));
 	rot.RotateX(m_rot.x);
 	rot.RotateY(m_rot.y);
@@ -129,7 +129,7 @@ void ModelSpinner::DrawPiGui()
 	if (m_renderTarget) {
 		// Draw the image and stretch it over the available region.
 		// ImGui inverts the vertical axis to get top-left coordinates, so we need to invert our UVs to match.
-		ImGui::Image(m_resolveTarget->GetColorTexture(), size, ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::Image(reinterpret_cast<ImTextureID>(m_resolveTarget->GetColorTexture()), size, ImVec2(0, 1), ImVec2(1, 0));
 	} else {
 		ImGui::Dummy(size);
 	}

@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 --
@@ -12,6 +12,7 @@ local Game = require 'Game'
 local Event = require 'Event'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
+local PlayerState= require 'PlayerState'
 
 local utils = require 'utils'
 
@@ -206,7 +207,7 @@ function FlightLog.MakeCustomEntry(text)
 		location = {state, sysname}
 	end
 
-	FlightLog.AddEntry( FlightLogEntry.Custom.New( path, Game.time, Game.player:GetMoney(), location, text ) )
+	FlightLog.AddEntry( FlightLogEntry.Custom.New( path, Game.time, PlayerState.GetMoney(), location, text ) )
 end
 
 --
@@ -345,23 +346,17 @@ end
 
 -- onLeaveSystem
 local AddSystemDepartureToLog = function (ship)
-	if not ship:IsPlayer() then return end
-
 	FlightLog.AddEntry( FlightLogEntry.System.New( Game.system.path, nil, Game.time, nil ) )
 end
 
 -- onEnterSystem
 local AddSystemArrivalToLog = function (ship)
-	if not ship:IsPlayer() then return end
-
 	FlightLog.AddEntry( FlightLogEntry.System.New( Game.system.path, Game.time, nil, nil ) )
 end
 
--- onShipDocked
+-- onPlayerDocked
 local AddStationToLog = function (ship, station)
-	if not ship:IsPlayer() then return end
-
-	FlightLog.AddEntry( FlightLogEntry.Station.New( station.path, Game.time, Game.player:GetMoney(), nil ) )
+	FlightLog.AddEntry( FlightLogEntry.Station.New( station.path, Game.time, PlayerState.GetMoney(), nil ) )
 end
 
 function FlightLog.OrganizeEntries()
@@ -412,7 +407,7 @@ end
 
 Event.Register("onEnterSystem", AddSystemArrivalToLog)
 Event.Register("onLeaveSystem", AddSystemDepartureToLog)
-Event.Register("onShipDocked", AddStationToLog)
+Event.Register("onPlayerDocked", AddStationToLog)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Serializer:Register("FlightLog", serialize, unserialize)

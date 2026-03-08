@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local CommodityType = require 'CommodityType'
@@ -11,7 +11,7 @@ local Economy       = require 'Economy'
 --
 -- It automatically registers all commodities defined in the economy JSON files,
 -- and any commodity in the game can be retrieved by indexing the table with the
--- name of the commodity in questino.
+-- name of the commodity in question.
 --
 
 local Commodities = CommodityType.registry
@@ -49,7 +49,8 @@ local icon_names = {
 	farm_machinery = "Farm_machinery",
 	mining_machinery = "Mining_machinery",
 	battle_weapons = "Battle_weapons",
-	industrial_machinery = "Industrial_machinery"
+	industrial_machinery = "Industrial_machinery",
+	chemicals = "Industrial_machinery",
 }
 
 local economies = Economy.GetEconomies()

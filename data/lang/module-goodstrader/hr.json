@@ -1,74 +1,74 @@
 {
   "ADTITLE_0": {
     "description": "",
-    "message": "CARGO EMPORIUM"
+    "message": "TERETNI EMPORIJ"
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "TRADING HOUSE"
+    "message": "TRGOVAČKA KUĆA"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "TRADE WAREHOUSE"
+    "message": "TRGOVAČKO SKLADIŠTE"
   },
   "ADTITLE_3": {
     "description": "",
-    "message": "GOODS EXCHANGE"
+    "message": "RAZMJENA ROBE"
   },
   "GOODS_TRADER_0": {
     "description": "",
-    "message": "Honest {name}'s Goods Emporium"
+    "message": "Trgovina robe Honest {name}"
   },
   "GOODS_TRADER_1": {
     "description": "",
-    "message": "{name}'s Trading House"
+    "message": "Trgovačka kuća tvrtke {name}"
   },
   "GOODS_TRADER_2": {
     "description": "",
-    "message": "{name}'s Warehouse"
+    "message": "{name}-ovo skladište"
   },
   "GOODS_TRADER_3": {
     "description": "",
-    "message": "{name}'s Goods Exchange"
+    "message": "{name}-ova burza robe"
   },
   "GOODS_TRADER_4": {
     "description": "",
-    "message": "{name} Holdings"
+    "message": "{name} Skladište"
   },
   "GOODS_TRADER_5": {
     "description": "",
-    "message": "{name} & Sons"
+    "message": "{name} i sinovi"
   },
   "SLOGAN_0": {
     "description": "",
-    "message": "We deal in what others don't."
+    "message": "Bavimo se onim čime se drugi ne bave."
   },
   "SLOGAN_1": {
     "description": "",
-    "message": "A truly free market."
+    "message": "Pravo slobodno tržište."
   },
   "SLOGAN_2": {
     "description": "",
-    "message": "Bringing the best unconventional goods to you!"
+    "message": "Donosimo vam najbolje nekonvencionalne proizvode!"
   },
   "SLOGAN_3": {
     "description": "",
-    "message": "We believe in a market without restrictions."
+    "message": "Vjerujemo u tržište bez ograničenja."
   },
   "SLOGAN_4": {
     "description": "",
-    "message": "The unregulated market, for your freedom."
+    "message": "Neregulirano tržište, za vašu slobodu."
   },
   "SLOGAN_5": {
     "description": "",
-    "message": "The trustworthy dealer."
+    "message": "Pouzdani trgovac."
   },
   "SLOGAN_6": {
     "description": "",
-    "message": "Always a special price just for you."
+    "message": "Uvijek posebna cijena samo za vas."
   },
   "WELCOME_TO": {
     "description": "",
-    "message": "Welcome to "
+    "message": "Dobrodošli u"
   }
 }

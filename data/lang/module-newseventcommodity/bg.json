@@ -121,7 +121,7 @@
   },
   "FLAVOUR_21_HEADLINE": {
     "description": "",
-    "message": "НОВИНИ {date}: В системата {system} се сключи договор за „хуманна“ война."
+    "message": "НОВИНИ {date}: В системата {system} се сключи договор за хуманна война."
   },
   "FLAVOUR_21_NEWSBODY": {
     "description": "Imply vast abundance of NERVE_GAS.",

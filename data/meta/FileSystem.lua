@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- This file implements type information about C++ classes for Lua static analysis
@@ -9,9 +9,14 @@
 ---@class FileSystem
 local FileSystem = {}
 
+---@class FileSystem.FileInfo
+---@field name string File name without directory component
+---@field path string File path including all directory components to the root of the FileSource.
+---@field mtime table DateTime table indicating the last modified time
+
 ---@param path string The directory to read the contents of.
----@return table[] files  A list of files as full paths from the root
----@return table[] dirs   A list of dirs as full paths from the root
+---@return FileSystem.FileInfo[] files  A list of files as full paths from the root
+---@return FileSystem.FileInfo[] dirs   A list of dirs as full paths from the root
 ---
 --- Example:
 ---  > local files, dirs = FileSystem.ReadDirectory("user://savefiles")

@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _OS_H
@@ -8,9 +8,15 @@
  * raising a message dialog
  */
 
+#include <cstdint>
 #include <string>
 
 namespace OS {
+
+	enum FileStreamMode {
+		FS_WRITE,
+		FS_WRITE_TEXT,
+	};
 
 	void NotifyLoadBegin();
 	void NotifyLoadEnd();
@@ -40,6 +46,14 @@ namespace OS {
 
 	// Mark application as DPI-aware
 	void SetDPIAware();
+
+	// Low-level FILE stream primitives
+	FILE *OpenReadStream(std::string_view path);
+	FILE *OpenWriteStream(std::string_view path, FileStreamMode mode = FS_WRITE);
+
+	// Transform a relative path into an OS-specific absolute path
+	std::string GetAbsolutePath(std::string_view relpath);
+
 } // namespace OS
 
 #endif

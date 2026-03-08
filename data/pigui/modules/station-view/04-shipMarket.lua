@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = require 'Lang'
@@ -12,6 +12,7 @@ local PiImage = require 'pigui.libs.image'
 local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
 local EquipSet = require 'EquipSet'
 local HullConfig = require 'HullConfig'
+local PlayerState= require 'PlayerState'
 
 local ui = require 'pigui'
 
@@ -20,6 +21,7 @@ local utils = require 'utils'
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local l = Lang.GetResource("ui-core")
+local ls = Lang.GetResource("ships")
 local Vector2 = _G.Vector2
 
 local vZero = Vector2(0,0)
@@ -119,12 +121,19 @@ local function refreshShipMarket()
 	widgetSizes.rowVerticalSpacing = Vector2(0, (widgetSizes.iconSize.y + widgetSizes.itemSpacing.y - pionillium.large.size)/2)
 
 	local station = Game.player:GetDockedWith()
-	shipMarket.items = station:GetShipsOnSale()
+	if station then
+		shipMarket.items = station:GetShipsOnSale()
+
+		advertDataCache = utils.map_table(shipMarket.items, function(_, sos)
+			return sos, makeAdvertDataCacheEntry(sos)
+		end)
+	else
+		shipMarket.items = {}
+		advertDataCache = {}
+	end
+
 	selectedItem = nil
 	shipMarket.selectedItem = nil
-	advertDataCache = utils.map_table(shipMarket.items, function(_, sos)
-		return sos, makeAdvertDataCacheEntry(sos)
-	end)
 end
 
 local function manufacturerIcon (manufacturer)
@@ -161,7 +170,7 @@ local function buyShip (mkt, sos)
 	if math.floor(cost) ~= cost then
 		error("Ship price non-integer value.")
 	end
-	if player:GetMoney() < cost then
+	if PlayerState.GetMoney() < cost then
 		mkt.popup.msg = l.YOU_NOT_ENOUGH_MONEY
 		mkt.popup:open()
 		return
@@ -180,7 +189,7 @@ local function buyShip (mkt, sos)
 		return
 	end
 
-	player:AddMoney(-cost)
+	PlayerState.AddMoney(-cost)
 
 	station:ReplaceShipOnSale(sos, {
 		def     = ShipDef[player.shipId],
@@ -428,7 +437,7 @@ local tradeMenu = function()
 				ui.setColumnWidth(0, colHeadingWidth)
 
 				ui.withFont(orbiteer.title, function()
-					ui.text(selectedItem.def.name)
+					ui.text(ls[selectedItem.def.i18n_key])
 				end)
 				ui.withFont(orbiteer.body, function()
 					ui.text(shipClassString[selectedItem.def.shipClass])
@@ -526,22 +535,28 @@ shipMarket = Table.New("shipMarketWidget", false, {
 		if(icons[item.def.shipClass] == nil) then
 			icons[item.def.shipClass] = PiImage.New("icons/shipclass/".. item.def.shipClass ..".png")
 		end
+
 		if not selectedItem then
 			selectedItem = item
 			shipMarket.selectedItem = item
 			refreshModelSpinner()
 		end
+
+		if not advertDataCache[item] then
+			advertDataCache[item] = makeAdvertDataCacheEntry(item)
+		end
+
 		icons[item.def.shipClass]:Draw(widgetSizes.iconSize)
 		ui.nextColumn()
 		ui.withStyleVars({ItemSpacing = vZero}, function()
 			ui.dummy(widgetSizes.rowVerticalSpacing)
-			ui.text(item.def.name)
+			ui.text(ls[item.def.i18n_key])
 			ui.nextColumn()
 			ui.dummy(widgetSizes.rowVerticalSpacing)
 			ui.text(Format.Money(advertDataCache[item].price, false))
 			ui.nextColumn()
 			ui.dummy(widgetSizes.rowVerticalSpacing)
-			ui.text(item.def.equipCapacity.."t")
+			ui.text(item.def.equipCapacity.." t")
 			ui.nextColumn()
 		end)
 	end,
@@ -550,7 +565,9 @@ shipMarket = Table.New("shipMarketWidget", false, {
 		shipMarket.selectedItem = e
 		refreshModelSpinner()
 	end,
-	sortingFunction = function(s1,s2) return s1.def.name < s2.def.name end
+	sortingFunction = function(s1,s2)
+		return ls[s1.def.i18n_key] < ls[s2.def.i18n_key]
+	end
 })
 
 StationView:registerView({

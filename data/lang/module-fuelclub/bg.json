@@ -129,7 +129,7 @@
   },
   "YOU_ARE_NOW_A_MEMBER": {
     "description": "",
-    "message": "Вече сте част от нас. Кандидатурата Ви ще изтече на {expiry_date}."
+    "message": "Вече сте част от нас. Кандидатурата ще изтече на {expiry_date}."
   },
   "YOU_MUST_BUY": {
     "description": "",

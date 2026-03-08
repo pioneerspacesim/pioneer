@@ -1,8 +1,9 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game   = require "Game"
 local Engine = require "Engine"
+local Timer  = require "Timer"
 local utils  = require "utils"
 
 local AU = 149598000000
@@ -232,6 +233,16 @@ function MissionUtils.TravelTime(distance, location)
 	end
 
 	return distance * 1.75*Days + ltt
+end
+
+function MissionUtils.SetupOverdueTimer(mission)
+	if Game.time < mission.due then
+		Timer:CallAt(mission.due, function ()
+			if mission and mission.status then
+				mission.status = 'FAILED'
+			end
+		end)
+	end
 end
 
 return MissionUtils

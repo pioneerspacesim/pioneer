@@ -13,7 +13,7 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Търси се квалифициран пилот за тайна мисия с заплащане от {cash}."
+    "message": "Търси се квалифициран пилот за тайна мисия със заплащане от {cash}."
   },
   "ADTEXT_2": {
     "description": "",
@@ -25,11 +25,11 @@
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "{org} търси безстрашен наемник за мисия към системата {system} с заплащане от {cash}."
+    "message": "{org} търси безстрашен наемник за мисия към системата {system} със заплащане от {cash}."
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "Мисия {mission}: Възнаграждение {cash}."
+    "message": "{mission}: Възнаграждение {cash}."
   },
   "ADTITLE_1": {
     "description": "",
@@ -65,11 +65,11 @@
   },
   "BONUS_2": {
     "description": "",
-    "message": "Доволни сме от свършеното! Ще Ви платим {cash} допълнително."
+    "message": "Доволни сме от свършеното! Ще платим {cash} допълнително."
   },
   "BONUS_3": {
     "description": "",
-    "message": " Много впечатляващо! Упълномощен съм да Ви платя {cash} допълнително."
+    "message": " Много впечатляващо! Упълномощен съм да платя {cash} допълнително."
   },
   "BONUS_4": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "Твърде късно е! Вашето забавяне ни причини огромни загуби. Нищо няма да платим!"
+    "message": "Твърде късно е! Вашето забавяне ни причини големи загуби. Нищо няма да платим!"
   },
   "FAILUREMSG_3": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Ние от {org} ще платим {cash} за мисия {mission} в системата {system} ({sectorx}, {sectory}, {sectorz}). Вярваме, че наш безскрупулен конкурент е отговорен за изчезването на товарните ни кораби около {area}. Разстоянието до целта е {dist} сг."
+    "message": "Ние от {org} ще платим {cash} за {mission} в системата {system} ({sectorx}, {sectory}, {sectorz}). Вярваме, че наш безскрупулен конкурент е отговорен за изчезването на товарните ни кораби около {area}. Разстоянието до целта е {dist} сг."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
@@ -217,7 +217,7 @@
   },
   "MILITARY_3": {
     "description": "",
-    "message": "Контраразузнаването се нуждае от граждански пилот, който да не задава въпроси за мисия {mission} в системата {system} ({sectorx}, {sectory}, {sectorz}), {dist} сг. Заплащането е {cash}."
+    "message": "Контраразузнаването се нуждае от граждански пилот, който да не задава въпроси за {mission} в системата {system} ({sectorx}, {sectory}, {sectorz}), {dist} сг. Заплащането е {cash}."
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Работя за {org}. Някои от товарните ни кораби ще пристигнат на {area} в системата {system} ({sectorx}, {sectory}, {sectorz}). За да увеличим безопасността на нашите работници и за да защитим оборудването ни ще платим {cash} за мисия {mission}. Разстоянието до {area} е {dist} сг."
+    "message": "Работя за {org}. Някои от товарните ни кораби ще пристигнат на {area} в системата {system} ({sectorx}, {sectory}, {sectorz}). За да увеличим безопасността на нашите работници и за да защитим оборудването ни ще платим {cash} за {mission}. Разстоянието до {area} е {dist} сг."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -270,6 +270,18 @@
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
     "message": "Избиване на вредителите"
+  },
+  "MISSION_TYPE_CONVO_1": {
+    "description": "Name of mission type, used in conversation",
+    "message": "разузнаване"
+  },
+  "MISSION_TYPE_CONVO_2": {
+    "description": "Name of mission type, used in conversation",
+    "message": "въоръжено разузнаване"
+  },
+  "MISSION_TYPE_CONVO_3": {
+    "description": "Name of mission type, used in conversation. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
+    "message": "избиване на вредителите"
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",
@@ -305,7 +317,7 @@
   },
   "POLICE_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "Ние от {org} ще платим {cash} за бойна мисия в системата {system} ({sectorx}, {sectory}, {sectorz}). Нямаме достатъчно пилоти и кораби. Поради тази причина, това може да е Вашият шанс да изкарате повече кредити. Целта е малка пиратска база на {area}.  Ще Ви трябва хипердвигател с гориво за {dist} сг и допълнително гориво за връщане."
+    "message": "Ние от {org} ще платим {cash} за бойна мисия в системата {system} ({sectorx}, {sectory}, {sectorz}). Нямаме достатъчно пилоти и кораби. Затова използвайте този шанс да изкарате повече кредити. Целта е малка пиратска база на {area}.  Ще Ви трябва хипердвигател с гориво за {dist} сг и допълнително гориво за връщане."
   },
   "POLICE_3": {
     "description": "{area} is an asteroid or planet",
@@ -333,7 +345,7 @@
   },
   "RISK_3": {
     "description": "",
-    "message": "Съперникът е добре оборудван. Дръжте си очите отворени!"
+    "message": "Конкурентът е добре оборудван. Дръжте си очите отворени!"
   },
   "RISK_4": {
     "description": "",
@@ -349,7 +361,7 @@
   },
   "SUCCESSMSG_2": {
     "description": "",
-    "message": "Благодаря Ви, че го направихте. Преведох кредитите по Вашата сметка."
+    "message": "Благодаря, че го направихте. Преведох кредитите по Вашата сметка."
   },
   "SUCCESSMSG_3": {
     "description": "",
@@ -381,6 +393,6 @@
   },
   "YOU_NEED_A_RADAR": {
     "description": "",
-    "message": "Да, имате нужда от радар! Ако се съгласите, ще програмирам компютъра на Вашия кораб да записва данните от радара. Те ще бъдат прехвърлени към мен, когато се върнете."
+    "message": "Да, имате нужда от радар! Ако се съгласите, ще програмирам Вашия корабен компютър да записва данните от радара. Те ще бъдат прехвърлени към мен, когато се върнете."
   }
 }

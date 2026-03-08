@@ -1,10 +1,11 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = require 'Lang'
 local Game = require 'Game'
 local Format = require 'Format'
 local Passengers = require 'Passengers'
+local PlayerState= require 'PlayerState'
 
 local l = Lang.GetResource("ui-core")
 
@@ -15,6 +16,8 @@ local pionillium = ui.fonts.pionillium
 local TabView = require 'pigui.views.tab-view'
 
 local stationView
+
+local useWindowPadding = ui.ChildFlags { 'AlwaysUseWindowPadding' }
 
 if not stationView then
 	stationView = TabView.New("StationView")
@@ -29,7 +32,7 @@ if not stationView then
 
 	function stationView:renderTab(tabFn)
 		ui.withStyleVars({WindowPadding = self.style.windowPadding}, function()
-			ui.child("Container", Vector2(0, -self.style.height), {"AlwaysUseWindowPadding"}, tabFn)
+			ui.child("Container", Vector2(0, -self.style.height), nil, useWindowPadding, tabFn)
 		end)
 		self:shipSummary()
 	end
@@ -39,9 +42,9 @@ if not stationView then
 
 		ui.withFont(pionillium.medlarge.name, self.style.fontSize, function()
 			ui.withStyleVars({WindowPadding = self.style.inventoryPadding, ItemSpacing = self.style.itemSpacing}, function()
-				ui.child("shipInventoryContainer", Vector2(0, 0), {"AlwaysUseWindowPadding"}, function()
-					local moneyText = l.CASH .. ': ' ..  Format.Money(Game.player:GetMoney())
-					local legalText = l.LEGAL_STATUS .. ': ' .. l[Game.player:GetLegalStatus()]
+				ui.child("shipInventoryContainer", Vector2(0, 0), nil, useWindowPadding, function()
+					local moneyText = l.CASH .. ': ' ..  Format.Money(PlayerState.GetMoney())
+					local legalText = l.LEGAL_STATUS .. ': ' .. l[PlayerState.GetLegalStatus()]
 					local moneySize = ui.calcTextSize(moneyText) + self.style.inventoryPadding + self.style.itemSpacing
 					local legalSize = ui.calcTextSize(legalText) + self.style.inventoryPadding + self.style.itemSpacing
 					local gaugeSize = (ui.getContentRegion().x - moneySize.x - legalSize.x) / 2

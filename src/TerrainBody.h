@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TERRAINBODY_H
@@ -35,6 +35,9 @@ public:
 
 	// implements calls to all relevant terrain management sub-systems
 	static void OnChangeDetailLevel(Graphics::Renderer *r);
+
+	const char *GetHeightFractalName() const;
+	const char *GetColorFractalName() const;
 
 protected:
 	TerrainBody() = delete;

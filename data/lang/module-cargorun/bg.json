@@ -97,7 +97,7 @@
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
-    "message": "Алуминиеви тръби"
+    "message": "алуминиеви тръби"
   },
   "AMOUNT": {
     "description": "Shown in mission summary. The amount of cargo",
@@ -105,7 +105,19 @@
   },
   "ART_OBJECTS": {
     "description": "custom cargo",
-    "message": "Произведения на изкуството"
+    "message": "произведения на изкуството"
+  },
+  "ART_OBJECTS_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Освен ако не смятате критиците на изкуствата за риск, не."
+  },
+  "ART_OBJECTS_RISK_MESSAGE_2": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Между нас казано... Не поглеждайте произведенията на изкуството и всичко ще е наред."
+  },
+  "ART_OBJECTS_RISK_MESSAGE_3": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Единствената опасност на импресионизма от 25-ти век е оригиналният автор, трябва да сте в безопасност."
   },
   "CARGO": {
     "description": "",
@@ -129,7 +141,7 @@
   },
   "CLUS": {
     "description": "custom cargo",
-    "message": "Животински контейнери"
+    "message": "жилищни контейнери"
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
@@ -153,7 +165,7 @@
   },
   "DENY_2": {
     "description": "",
-    "message": "Не знам нищо за Вас. Не Ви познавам и не мога да Ви се доверя."
+    "message": "Не знам нищо за Вас. Не се познаваме и не мога да Ви се доверя."
   },
   "DENY_3": {
     "description": "",
@@ -185,11 +197,11 @@
   },
   "DIAMONDS": {
     "description": "custom cargo",
-    "message": "Диаманти"
+    "message": "диаманти"
   },
   "DIGESTERS": {
     "description": "custom cargo",
-    "message": "Биореактори"
+    "message": "дигестори"
   },
   "DISTANCE": {
     "description": "distance in space, between two locations",
@@ -197,7 +209,7 @@
   },
   "ELECTRICAL_APPLIANCES": {
     "description": "custom cargo",
-    "message": "Електрически уреди"
+    "message": "електрически уреди"
   },
   "ESCORT_CHATTER_1": {
     "description": "",
@@ -221,7 +233,11 @@
   },
   "EXPLOSIVES": {
     "description": "custom cargo",
-    "message": "Експлозиви"
+    "message": "експлозиви"
+  },
+  "EXPLOSIVES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Не. Ами, експлозиви са, просто не ги изпускайте."
   },
   "FAILUREMSG_1": {
     "description": "",
@@ -237,7 +253,7 @@
   },
   "FAILUREMSG_4": {
     "description": "",
-    "message": "Отсега нататък Вие ще бъдете в моя черен списък."
+    "message": "Отсега нататък ще бъдете в моя черен списък."
   },
   "FAILUREMSG_FLUFFY_1": {
     "description": "",
@@ -245,7 +261,7 @@
   },
   "FURNITURE": {
     "description": "custom cargo",
-    "message": "Мебели"
+    "message": "мебели"
   },
   "GO_BACK": {
     "description": "Shown on a button in a sub-menu, to move back, to previous menu",
@@ -253,7 +269,7 @@
   },
   "GREENHOUSES": {
     "description": "custom cargo",
-    "message": "Парници"
+    "message": "оранжерии"
   },
   "GUNS_GUNS_GUNS": {
     "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
@@ -261,7 +277,11 @@
   },
   "HAZARDOUS_SUBSTANCES": {
     "description": "custom cargo",
-    "message": "Опасни вещества"
+    "message": "опасни вещества"
+  },
+  "HAZARDOUS_SUBSTANCES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Предполагам, че не трябва да отваряте контейнерите."
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
@@ -325,7 +345,7 @@
   },
   "INTROTEXT_LOCAL_1": {
     "description": "",
-    "message": "Радвам се да се запознаем. Аз съм {name} и работя в администрацията на {starport}. Ще платим {cash} на всеки, който може да премести {cargoname} в {starport}."
+    "message": "Приятно ми е да се запознаем. Аз съм {name} и работя в администрацията на {starport}. Ще платим {cash} на всеки, който може да премести {cargoname} в {starport}."
   },
   "INTROTEXT_LOCAL_2": {
     "description": "",
@@ -385,11 +405,11 @@
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
-    "message": "Машинни инструменти"
+    "message": "машинни инструменти"
   },
   "NEGOTIABLE_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "Мога да предложа следните варианти:"
+    "message": "Мога да предложа следните товарни пътувания:"
   },
   "NEGOTIABLE_2": {
     "description": "regarding mass, always more than 1t",
@@ -409,7 +429,7 @@
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
-    "message": "Нептуний"
+    "message": "нептуний"
   },
   "OFFER": {
     "description": "",
@@ -437,7 +457,7 @@
   },
   "PIRATE_GRIPES_3": {
     "description": "said with vengeance",
-    "message": "Сега ще видиш ти."
+    "message": "Чакай, сега ще видиш ти."
   },
   "PIRATE_TAUNTS_1": {
     "description": "",
@@ -461,19 +481,27 @@
   },
   "PIRATE_TAUNTS_6": {
     "description": "",
-    "message": "Корабът Ви изглежда доста натоварен. Ей сега ще Ви помогна да го разтоварим."
+    "message": "Корабът изглежда доста натоварен. Ей сега ще помогна да го разтоварим."
   },
   "PIRATE_TAUNTS_7": {
     "description": "",
-    "message": "Късметът Ви беше дотук!"
+    "message": "Късметът беше дотук!"
   },
   "PLUTONIUM": {
     "description": "custom cargo",
-    "message": "Плутоний"
+    "message": "плутоний"
   },
   "QUIBBLES": {
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-    "message": "Куибъли"
+    "message": "куибъли"
+  },
+  "QUIBBLES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Не. Само не ги мокрете и никога не ги хранете след полунощ."
+  },
+  "QUIBBLES_RISK_MESSAGE_2": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Разбира се, че не! Вижте ги, толкова са пухкави!"
   },
   "RISK_1": {
     "description": "",
@@ -489,7 +517,7 @@
   },
   "RISK_4": {
     "description": "",
-    "message": "Може да е опасно, трябва да се внимава."
+    "message": "Може да е опасно, трябва да сте подготвени адекватно."
   },
   "RISK_5": {
     "description": "",
@@ -501,7 +529,7 @@
   },
   "RISK_ART_1": {
     "description": "",
-    "message": "Тези стоки са мишена на любителите на изкуството."
+    "message": "Тези стоки са мишена на любителите на изкуствата."
   },
   "RISK_EXPENSIVE_1": {
     "description": "",
@@ -529,7 +557,7 @@
   },
   "SEMI_FINISHED_PRODUCTS": {
     "description": "custom cargo",
-    "message": "Полузавършени продукти"
+    "message": "полуготови продукти"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -545,15 +573,15 @@
   },
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
-    "message": "Части за космически кораби"
+    "message": "части за космически кораби"
   },
   "STEM_BOLTS": {
     "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
-    "message": "Самозапечатващи се стволови болтове"
+    "message": "самозапечатващи се стволови болтове"
   },
   "SUCCESSMSG_1": {
     "description": "",
-    "message": "Благодаря Ви за доставката. Получихте възнаграждението си."
+    "message": "Благодаря за доставката. Получихте възнаграждението си."
   },
   "SUCCESSMSG_2": {
     "description": "",
@@ -581,7 +609,7 @@
   },
   "TITANIUM": {
     "description": "custom cargo",
-    "message": "Титаний"
+    "message": "титан"
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
@@ -589,11 +617,11 @@
   },
   "TUNGSTEN": {
     "description": "custom cargo",
-    "message": "Волфрам"
+    "message": "волфрам"
   },
   "URANIUM": {
     "description": "custom cargo",
-    "message": "Уран"
+    "message": "уран"
   },
   "URGENCY_1": {
     "description": "",
@@ -625,7 +653,11 @@
   },
   "WEDDING_DRESSES": {
     "description": "custom cargo",
-    "message": "Сватбени дрехи"
+    "message": "сватбени рокли"
+  },
+  "WEDDING_DRESSES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Заради сватбените рокли?"
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
@@ -657,7 +689,7 @@
   },
   "WHYSOMUCH_6": {
     "description": "",
-    "message": "Е, ще се радваме да Ви платим по-малко кредити."
+    "message": "Ами, ще се радваме да платим по-малко."
   },
   "WHYSOMUCH_CENTRIFUGES_1": {
     "description": "",
@@ -669,7 +701,7 @@
   },
   "WHYSOMUCH_EXPENSIVE_1": {
     "description": "",
-    "message": "Ценните стоки са търсени."
+    "message": "Ценните стоки са с голямо търсене."
   },
   "WHYSOMUCH_EXPENSIVE_2": {
     "description": "",
@@ -701,7 +733,7 @@
   },
   "WHYSOMUCH_WEDDING_1": {
     "description": "",
-    "message": "Досега не можах да намеря някой, който да извърши този транспорт. Когато сезонът свърши, стоката ми ще е безполезна."
+    "message": "Досега не можах да намеря някой, който да извърши този транспорт. Когато сезонът приключи, стоката ми ще е безполезна."
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",
@@ -713,10 +745,10 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Нямате достатъчно товарно пространство."
+    "message": "Нямате достатъчно товарно място."
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Моля, върнете се, когато имате достатъчно товарно пространство."
+    "message": "Моля, върнете се, когато имате достатъчно товарно място."
   }
 }

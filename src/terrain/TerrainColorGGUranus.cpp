@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Terrain.h"
@@ -22,9 +22,9 @@ TerrainColorFractal<TerrainColorGGUranus>::TerrainColorFractal(const SystemBody 
 template <>
 vector3d TerrainColorFractal<TerrainColorGGUranus>::GetColor(const vector3d &p, double height, const vector3d &norm) const
 {
-	double n = 0.5 * ridged_octavenoise(GetFracDef(0), 0.7, vector3d(3.142 * p.y * p.y));
-	n += 0.5 * octavenoise(GetFracDef(1), 0.6, vector3d(3.142 * p.y * p.y));
-	n += 0.2 * octavenoise(GetFracDef(2), 0.5, vector3d(3.142 * p.y * p.y));
+	double n = 0.5 * ridged_octavenoise(m_fracdef[0], 0.7, vector3d(3.142 * p.y * p.y));
+	n += 0.5 * octavenoise(m_fracdef[1], 0.6, vector3d(3.142 * p.y * p.y));
+	n += 0.2 * octavenoise(m_fracdef[2], 0.5, vector3d(3.142 * p.y * p.y));
 	n /= 2.0;
 	n *= n * n;
 	return interpolate_color(n, vector3d(.4, .5, .55), vector3d(.85, .95, .96));

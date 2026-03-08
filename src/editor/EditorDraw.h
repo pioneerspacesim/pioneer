@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -82,9 +82,4 @@ namespace Editor::Draw {
 	// Show a help tooltip
 	void HelpMarker(const char* desc, bool same_line = true);
 
-}
-
-inline bool operator==(const ImVec2 &a, const ImVec2 &b)
-{
-	return is_equal_general(a.x, b.x) && is_equal_general(a.y, b.y);
 }

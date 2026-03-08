@@ -1,6 +1,11 @@
 [main]
 host = https://www.transifex.com
 
+[o:pioneer:p:pioneer:r:about]
+file_filter = data/lang/about/<lang>.json
+source_file = data/lang/about/en.json
+source_lang = en
+
 [o:pioneer:p:pioneer:r:core]
 file_filter = data/lang/core/<lang>.json
 source_file = data/lang/core/en.json
@@ -81,6 +86,11 @@ file_filter = data/lang/module-easteregg-message/<lang>.json
 source_file = data/lang/module-easteregg-message/en.json
 source_lang = en
 
+[o:pioneer:p:pioneer:r:module-findperson]
+file_filter = data/lang/module-findperson/<lang>.json
+source_file = data/lang/module-findperson/en.json
+source_lang = en
+
 [o:pioneer:p:pioneer:r:module-fuelclub]
 file_filter = data/lang/module-fuelclub/<lang>.json
 source_file = data/lang/module-fuelclub/en.json
@@ -154,4 +164,9 @@ source_lang = en
 [o:pioneer:p:pioneer:r:module-taxi]
 file_filter = data/lang/module-taxi/<lang>.json
 source_file = data/lang/module-taxi/en.json
+source_lang = en
+
+[o:pioneer:p:pioneer:r:ships]
+file_filter = data/lang/ships/<lang>.json
+source_file = data/lang/ships/en.json
 source_lang = en

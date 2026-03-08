@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Game.h"
@@ -25,6 +25,7 @@ void LuaObject<SectorView>::RegisterClass()
 		.AddFunction("GetSelectedSystemPath", &SectorView::GetSelected)
 		.AddFunction("GetHyperspaceTargetSystemPath", &SectorView::GetHyperspaceTarget)
 		.AddFunction("AddToRoute", &SectorView::AddToRoute)
+		.AddFunction("SetSelectedPath", &SectorView::SetSelectedPath)
 		.AddFunction("SwitchToPath", &SectorView::SwitchToPath)
 		.AddFunction("ResetView", &SectorView::ResetView)
 		.AddFunction("SetHyperspaceTarget", &SectorView::SetHyperspaceTarget)
@@ -70,8 +71,8 @@ void LuaObject<SectorView>::RegisterClass()
 			return 1;
 		})
 		.AddFunction("AutoRoute", [](lua_State *l, SectorView *sv) {
-			SystemPath current_path = sv->GetCurrent();
-			SystemPath target_path = sv->GetSelected();
+			SystemPath current_path = LuaPull<SystemPath>(l, 2, sv->GetCurrent());
+			SystemPath target_path = LuaPull<SystemPath>(l, 3, sv->GetSelected());
 			std::vector<SystemPath> route;
 			const std::string result = sv->AutoRoute(current_path, target_path, route);
 			if (result == "OKAY") {

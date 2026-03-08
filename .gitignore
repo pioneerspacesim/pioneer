@@ -12,6 +12,7 @@ debian/pioneer*/
 autom4te.cache/
 codedoc/
 nd/Data/
+nd/Working Data/
 doxygen/html
 doxygen/latex
 /release

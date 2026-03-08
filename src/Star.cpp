@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Star.h"
@@ -47,7 +47,9 @@ void Star::InitStar()
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.depthWrite = false;
 	rsd.primitiveType = Graphics::TRIANGLE_FAN;
-	m_haloMat.reset(Pi::renderer->CreateMaterial("vtxColor", desc, rsd));
+
+	auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
+	m_haloMat.reset(Pi::renderer->CreateMaterial("vtxColor", desc, rsd, vtxFormat));
 }
 
 void Star::BuildHaloBuffer(Graphics::Renderer *renderer, double rad)
@@ -55,7 +57,7 @@ void Star::BuildHaloBuffer(Graphics::Renderer *renderer, double rad)
 	// build halo vertex buffer
 	Random rand;
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
-	const Color bright(StarSystem::starRealColors[GetSystemBody()->GetType()]);
+	const Color bright(GetSystemBody()->GetStarColor());
 	const Color dark(Color::BLANK);
 
 	va.Add(vector3f(0.f), bright);
@@ -80,7 +82,7 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		len *= 0.25;
 	}
 
-	matrix4x4d trans = matrix4x4d::Identity();
+	matrix4x4d trans = matrix4x4d::Identity;
 	trans.Translate(float(fpos.x), float(fpos.y), float(fpos.z));
 
 	// face the camera dammit

@@ -180,8 +180,8 @@
     "message": "Para un reembolso completo de los gastos tiene que estar de vuelta en {due}."
   },
   "FLAVOUR_1_INTROTEXT": {
-    "description": "",
-    "message": "Control de tráfico aereo de {starport} necesita su ayuda INMEDIATAMENTE respondiendo al accidente de una nave tipo {ship} en {planet}. El estatus de los soportes vitales es desconocido. La nave ha sido asegurada por el puerto estelar {starport} y está cubierta por {cash} en caso de emergencia."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{starport} air traffic control needs your IMMEDIATE help responding to the crash landing of {ship_indef} on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
@@ -360,8 +360,8 @@
     "message": "Debe estar de vuelta en {due}. "
   },
   "FLAVOUR_6_INTROTEXT": {
-    "description": "",
-    "message": "Mi nombre es {name} de {entity}. Acabamos de perder contacto con nuetra nave {ship} {shiplabel} siguiente {problem}. Tenemos intención de pagarle {cash} por ayuda inmediata."
+    "description": "{ship_base} is translated in /data/lang/ships/",
+    "message": "My name is {name} of {entity}. We lost contact with our {ship_base} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
@@ -396,8 +396,8 @@
     "message": "La tripulación de reemplazo debe llegar a bordo en {due}."
   },
   "FLAVOUR_7_INTROTEXT": {
-    "description": "",
-    "message": "Mi nombre es {name} de {entity}. Nuestra única nave, {ship} {shiplabel}, se encuentra a la deriva con una tripulación de {crew} tras un/a {problem}. Tengo intención de pagar {cash} por ayuda inmediata."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "My name is {name} of {entity}. Our only ship, {ship_indef} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",

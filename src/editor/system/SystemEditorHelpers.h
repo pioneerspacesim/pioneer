@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -12,7 +12,9 @@ namespace ImGui {
 	inline bool InputFixed(const char *str, fixed *val, double step = 0.01, double step_fast = 0.1, const char *format = "%.4f", ImGuiInputTextFlags flags = 0)
 	{
 		double val_d = val->ToDouble();
-		bool changed = ImGui::InputDouble(str, &val_d, step, step_fast, format, flags | ImGuiInputTextFlags_EnterReturnsTrue);
+		ImGui::InputDouble(str, &val_d, step, step_fast, format, flags);
+
+		bool changed = ImGui::IsItemDeactivatedAfterEdit();
 		if (changed)
 			*val = fixed::FromDouble(val_d);
 

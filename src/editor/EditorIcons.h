@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -27,6 +27,9 @@
 #define EICON_FORWARD1 u8"\uF068"
 #define EICON_FORWARD2 u8"\uF069"
 #define EICON_FORWARD3 u8"\uF06A"
+
+#define EICON_TIMERESET u8"\uF077"
+#define EICON_TIMECURRENT u8"\uF0EB"
 
 #define EICON_INFO u8"\uF088"
 

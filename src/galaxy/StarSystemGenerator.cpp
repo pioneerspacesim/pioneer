@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StarSystemGenerator.h"
@@ -28,6 +28,14 @@ static const fixed AU_SOL_RADIUS = fixed(305, 65536);
 static const fixed AU_EARTH_RADIUS = fixed(3, 65536); // XXX Duplication from StarSystem.cpp
 static const fixed FIXED_PI = fixed(103993, 33102);	  // XXX Duplication from StarSystem.cpp
 static const double CELSIUS = 273.15;
+static const fixed ONEEUMASS = fixed::FromDouble(1);
+static const fixed TWOHUNDREDEUMASSES = fixed::FromDouble(200.0);
+
+// Estimate "prototype" body radius from sphere-density formula:
+// Convert 1 Earth Mass to a volume in cubic megameters (10^18 * m^3) then premultiply by 3/4pi
+static const fixedf<48> EARTH_MASS_TO_VOL_MM3 = fixedf<48>(25946, 100); // 259.46 = (3 / EARTH_DENSITY / 4*PI) * 5.9742
+// Convert a distance in megameters to earth radii
+static const fixedf<48> MM_TO_EARTH_RAD = fixedf<48>(15678, 100000);
 
 // max surface gravity for a permanent human settlement
 static const double MAX_SETTLEMENT_SURFACE_GRAVITY = 50; // m/s2 .. roughly 5 g
@@ -188,10 +196,9 @@ const StarSystemLegacyGeneratorBase::StarTypeInfo StarSystemLegacyGeneratorBase:
 		10, 24 }
 };
 
-bool StarSystemFromSectorGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
+bool StarSystemFromSectorGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, const Sector *sec, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
 {
 	PROFILE_SCOPED()
-	RefCountedPtr<const Sector> sec = galaxy->GetSector(system->GetPath());
 	assert(system->GetPath().systemIndex < sec->m_systems.size());
 	const Sector::System &secSys = sec->m_systems[system->GetPath().systemIndex];
 
@@ -397,7 +404,10 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 
 		// parent gravpoint mass = sum of masses of its children
 		for (const auto *child : children) {
-			if (child->bodyData.m_type > SystemBody::TYPE_GRAVPOINT && child->bodyData.m_type <= SystemBody::TYPE_STAR_MAX)
+			// FIXME: this implicitly requires that gravpoint children have a precomputed mass sum
+			// gravpoint mass calculation needs a first-pass over the body data to properly sum masses before orbits are applied
+			// this function can only handle a single incorrect-mass gravpoint with no gravpoint children as written
+			if (child->bodyData.m_type >= SystemBody::TYPE_GRAVPOINT && child->bodyData.m_type <= SystemBody::TYPE_STAR_MAX)
 				parent->m_mass += child->bodyData.m_mass;
 			else
 				parent->m_mass += child->bodyData.m_mass / SUN_MASS_TO_EARTH_MASS;
@@ -445,6 +455,7 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 bool StarSystemCustomGenerator::ApplyToSystem(Random &rng, RefCountedPtr<StarSystem::GeneratorAPI> system, const CustomSystem *customSys)
 {
 	system->SetCustom(true, false);
+	system->SetSeed(customSys->seed);
 	system->SetNumStars(customSys->numStars);
 	system->SetPosition(customSys->pos);
 	system->SetOtherNames(customSys->other_names);
@@ -488,10 +499,9 @@ bool StarSystemCustomGenerator::ApplyToSystem(Random &rng, RefCountedPtr<StarSys
 	return true;
 }
 
-bool StarSystemCustomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
+bool StarSystemCustomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, const Sector *sec, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
 {
 	PROFILE_SCOPED()
-	RefCountedPtr<const Sector> sec = galaxy->GetSector(system->GetPath());
 	system->SetCustom(false, false);
 
 	// No system entry in the Sector, may be a "new" custom system from the Editor
@@ -655,20 +665,20 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 	const SystemBody *star = FindStarAndTrueOrbitalRange(sbody, minDistToStar, maxDistToStar);
 	averageDistToStar = (minDistToStar + maxDistToStar) >> 1;
 
-	/* first calculate blackbody temp (no greenhouse effect, zero albedo) */
-	int bbody_temp = CalcSurfaceTemp(star, averageDistToStar, albedo, greenhouse);
+	// first calculate blackbody temp (no greenhouse effect, zero albedo)
+	sbody->m_averageTemp = CalcSurfaceTemp(star, averageDistToStar, albedo, greenhouse);
 
-	sbody->m_averageTemp = bbody_temp;
-
-	static const fixed ONEEUMASS = fixed::FromDouble(1);
-	static const fixed TWOHUNDREDEUMASSES = fixed::FromDouble(200.0);
 	// We get some more fractional bits for small bodies otherwise we can easily end up with 0 radius which breaks stuff elsewhere
 	//
 	// AndyC - Updated to use the empirically gathered data from this site:
 	// https://phl.upr.edu/library/labnotes/standard-mass-radius-relation-for-exoplanets
 	// but we still limit at the lowest end
 	if (sbody->GetMassAsFixed() <= fixed(1, 1)) {
-		sbody->m_radius = fixed(fixedf<48>::CubeRootOf(fixedf<48>(sbody->GetMassAsFixed())));
+		// We know the upper bound on this value is +259.9, so 16 integer bits is fine.
+		fixedf<48> vol = fixedf<48>(sbody->GetMassAsFixed()) * EARTH_MASS_TO_VOL_MM3;
+		// If the cube-root continues to underflow, pre-shift vol left by 6 bits, then post-shift the result by 2 bits.
+		// sbody->m_radius = (fixedf<48>::CubeRootOf(vol << 6) >> 2) * MM_TO_EARTH_RAD;
+		sbody->m_radius = fixedf<48>::CubeRootOf(vol) * MM_TO_EARTH_RAD;
 	} else if (sbody->GetMassAsFixed() < ONEEUMASS) {
 		// smaller than 1 Earth mass is almost certainly a rocky body
 		sbody->m_radius = fixed::FromDouble(pow(sbody->GetMassAsFixed().ToDouble(), 0.3));
@@ -714,6 +724,7 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 		//Radius is too high as it now uses the planetary calculations to work out radius (Cube root of mass)
 		// So tell it to use the star data instead:
 		sbody->m_radius = fixed(rand.Int32(starTypeInfo[sbody->GetType()].radius[0], starTypeInfo[sbody->GetType()].radius[1]), 100);
+		sbody->GenerateStarColor();
 	} else if (sbody->GetMassAsFixed() > 6) {
 		sbody->m_type = SystemBody::TYPE_PLANET_GAS_GIANT;
 		// Generate a random "surface" density for gas giants roughly fitted to real-life estimation of Jupiter at "cloud deck" level
@@ -1201,6 +1212,7 @@ void StarSystemRandomGenerator::MakeStarOfType(SystemBody *sbody, SystemBody::Bo
 	}
 	sbody->m_mass = fixed(rand.Int32(starTypeInfo[type].mass[0], starTypeInfo[type].mass[1]), 100);
 	sbody->m_averageTemp = rand.Int32(starTypeInfo[type].tempMin, starTypeInfo[type].tempMax);
+	sbody->GenerateStarColor();
 }
 
 void StarSystemRandomGenerator::MakeRandomStar(SystemBody *sbody, Random &rand)
@@ -1273,10 +1285,9 @@ void StarSystemRandomGenerator::MakeBinaryPair(SystemBody *a, SystemBody *b, fix
 	b->m_orbMax = orbMax;
 }
 
-bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
+bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, const Sector *sec, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
 {
 	PROFILE_SCOPED()
-	RefCountedPtr<const Sector> sec = galaxy->GetSector(system->GetPath());
 	const Sector::System &secSys = sec->m_systems[system->GetPath().systemIndex];
 
 	if (config->isCustomOnly)
@@ -1368,6 +1379,8 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 			superCentGrav->m_type = SystemBody::TYPE_GRAVPOINT;
 			superCentGrav->m_parent = 0;
 			superCentGrav->m_name = sec->m_systems[system->GetPath().systemIndex].GetName();
+			superCentGrav->m_mass = centGrav1->GetMassAsFixed() + centGrav2->GetMassAsFixed();
+
 			centGrav1->m_parent = superCentGrav;
 			centGrav2->m_parent = superCentGrav;
 			system->SetRootBody(superCentGrav);
@@ -1665,7 +1678,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 		}
 
 		// Always generate a station around a populated high-gravity world
-		if ((NumToMake == 0) and (sbody->CalcSurfaceGravity() > 10.5)) {  // 10.5 m/s2 = 1,07 g
+		if ((NumToMake == 0) && (sbody->CalcSurfaceGravity() > 10.5)) {  // 10.5 m/s2 = 1,07 g
 			NumToMake = 1;
 		}
 
@@ -1797,13 +1810,12 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 	system->SetTotalPop(totalPop);
 }
 
-void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, const fixed &human_infestedness)
+void PopulateStarSystemGenerator::SetSysPolit(const Sector *sec, RefCountedPtr<StarSystem::GeneratorAPI> system, const fixed &human_infestedness)
 {
 	SystemPath path = system->GetPath();
 	const Uint32 _init[5] = { Uint32(system->GetSeed()), Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), POLIT_SEED };
 	Random rand(_init, 5);
 
-	RefCountedPtr<const Sector> sec = galaxy->GetSector(path);
 	const CustomSystem *customSystem = sec->m_systems[path.systemIndex].GetCustomSystem();
 	SysPolit sysPolit = system->GetSysPolit();
 
@@ -1871,7 +1883,7 @@ void PopulateStarSystemGenerator::SetEconType(RefCountedPtr<StarSystem::Generato
 /* percent */
 static const int MAX_COMMODITY_BASE_PRICE_ADJUSTMENT = 25;
 
-bool PopulateStarSystemGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system,
+bool PopulateStarSystemGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, const Sector *sec, RefCountedPtr<StarSystem::GeneratorAPI> system,
 	GalaxyGenerator::StarSystemConfig *config)
 {
 	PROFILE_SCOPED()
@@ -1913,7 +1925,7 @@ bool PopulateStarSystemGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galax
 	//		Output("%s: %d%%\n", type.name, m_tradeLevel[t]);
 	//	}
 	//	Output("System total population %.3f billion\n", m_totalPop.ToFloat());
-	SetSysPolit(galaxy, system, system->GetTotalPop());
+	SetSysPolit(sec, system, system->GetTotalPop());
 	SetCommodityLegality(system);
 
 	if (addSpaceStations) {

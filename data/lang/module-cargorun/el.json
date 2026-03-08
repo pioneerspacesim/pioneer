@@ -97,7 +97,7 @@
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
-    "message": "Σωλήνων αλουμινίου"
+    "message": "σωλήνες αλουμινίου"
   },
   "AMOUNT": {
     "description": "Shown in mission summary. The amount of cargo",
@@ -105,7 +105,19 @@
   },
   "ART_OBJECTS": {
     "description": "custom cargo",
-    "message": "Έργων τέχνης"
+    "message": "αντικείμενα τέχνης"
+  },
+  "ART_OBJECTS_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Αν δεν φοβάσαι τους κριτικούς τέχνης, όχι."
+  },
+  "ART_OBJECTS_RISK_MESSAGE_2": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Μεταξύ μας, μην τα κοιτάξεις καν και δεν θα έχεις πρόβλημα."
+  },
+  "ART_OBJECTS_RISK_MESSAGE_3": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Ο μόνος που κινδυνεύει από τον ιμπρεσσιονισμού του 25ου αιώνα είναι ο ίδιος ο καλλιτέχνης. Δεν θα έχεις πρόβλημα."
   },
   "CARGO": {
     "description": "",
@@ -129,7 +141,7 @@
   },
   "CLUS": {
     "description": "custom cargo",
-    "message": "Εμπορευματοκιβωτίων μονάδων διαβίωσης"
+    "message": "εγκιβωτισμένες ζώντες μονάδες."
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
@@ -185,11 +197,11 @@
   },
   "DIAMONDS": {
     "description": "custom cargo",
-    "message": "Διαμαντιών"
+    "message": "διαμάντια"
   },
   "DIGESTERS": {
     "description": "custom cargo",
-    "message": "Χωνευτών"
+    "message": "χωνευτήρες"
   },
   "DISTANCE": {
     "description": "distance in space, between two locations",
@@ -197,7 +209,7 @@
   },
   "ELECTRICAL_APPLIANCES": {
     "description": "custom cargo",
-    "message": "Ηλεκτρικών συσκευών"
+    "message": "ηλεκτρικές συσκευές"
   },
   "ESCORT_CHATTER_1": {
     "description": "",
@@ -221,7 +233,11 @@
   },
   "EXPLOSIVES": {
     "description": "custom cargo",
-    "message": "Εκρηκτικών"
+    "message": "εκρηκτικά"
+  },
+  "EXPLOSIVES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Όχι. Βασικά μιλάμε για εκρηκτικά, οπότε μην τα πολυ-ταρακουνήσεις."
   },
   "FAILUREMSG_1": {
     "description": "",
@@ -245,7 +261,7 @@
   },
   "FURNITURE": {
     "description": "custom cargo",
-    "message": "Επίπλων"
+    "message": "έπιπλα"
   },
   "GO_BACK": {
     "description": "Shown on a button in a sub-menu, to move back, to previous menu",
@@ -253,7 +269,7 @@
   },
   "GREENHOUSES": {
     "description": "custom cargo",
-    "message": "Θερμοκηπίων"
+    "message": "υλικά θερμοκηπίου"
   },
   "GUNS_GUNS_GUNS": {
     "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
@@ -261,7 +277,11 @@
   },
   "HAZARDOUS_SUBSTANCES": {
     "description": "custom cargo",
-    "message": "Επικίνδυνων ουσιών"
+    "message": "επικίνδυνες ουσίες"
+  },
+  "HAZARDOUS_SUBSTANCES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Υποθέτω δεν θα πρέπει να ανοίξεις τα εμπορευματοκιβώτια."
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
@@ -269,27 +289,27 @@
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}t"
+    "message": "%(mass) τόννοι"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Το βάρος είναι {amount}t."
+    "message": "Η ποσότητα είναι {amount} τόννοι."
   },
   "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "Υπάρχουν {amount}t."
+    "message": "Πρόκειται για {amount} τόννους."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "Είναι μόνον {amount}t."
+    "message": "Είναι μόλις {amount} τόννοι."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "Υπάρχουν {amount}t {cargoname}."
+    "message": "Είναι {amount} τόννοι {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}t {cargoname}"
+    "message": "{amount} τόννοι {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
@@ -385,7 +405,7 @@
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
-    "message": "Εργαλείων μηχανών"
+    "message": "εργαλεία για μηχανές"
   },
   "NEGOTIABLE_1": {
     "description": "regarding mass, always more than 1t",
@@ -393,7 +413,7 @@
   },
   "NEGOTIABLE_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}t {cargoname} μπορούν να διαιρεθούν ως εξής:"
+    "message": "{amount} τόννοι {cargoname} μπορούν να χωριστούν ως εξής:"
   },
   "NEGOTIABLE_3": {
     "description": "regarding mass, always more than 1t",
@@ -405,15 +425,15 @@
   },
   "NEGOTIABLE_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "Όχι, δεν είναι. Είναι μόνο {amount}t."
+    "message": "Δυστυχώς δε γίνεται, είναι μόλις {amount} τόννοι."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
-    "message": "Ποσειδωνίου"
+    "message": "Ποσειδώνιο"
   },
   "OFFER": {
     "description": "",
-    "message": "Μεταφέρετε {amount}t για {reward}"
+    "message": "Μεταφέρετε {amount} τόννους έναντι {reward}"
   },
   "OK_AGREED": {
     "description": "",
@@ -421,7 +441,7 @@
   },
   "OK_WE_AGREE": {
     "description": "",
-    "message": "Εντάξει, συμφωνούμε στους {amount} για {reward}."
+    "message": "ΟΚ, είμαστε σύμφωνοι για {amount} τόννους έναντι {reward}."
   },
   "PICKUP_FROM": {
     "description": "from a location",
@@ -469,11 +489,19 @@
   },
   "PLUTONIUM": {
     "description": "custom cargo",
-    "message": "Πλουτωνίου"
+    "message": "Πλουτώνιο"
   },
   "QUIBBLES": {
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-    "message": "Quibbles"
+    "message": "μπιχλιμπίδια"
+  },
+  "QUIBBLES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Όχι. Βασικά μην τα βρέξεις και μην τα ταϊσεις μεταμεσονυκτίως."
+  },
+  "QUIBBLES_RISK_MESSAGE_2": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Όχι βέβαια! Κοίταξέ τα, είναι τόσο χαριτωμένα."
   },
   "RISK_1": {
     "description": "",
@@ -529,7 +557,7 @@
   },
   "SEMI_FINISHED_PRODUCTS": {
     "description": "custom cargo",
-    "message": "Ημιτελή προϊόντα"
+    "message": "Ημιτελή προϊόντα."
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -545,11 +573,11 @@
   },
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
-    "message": "Εξαρτημάτων διαστημοπλοίου"
+    "message": "Εξαρτήματα διαστημοπλοίων"
   },
   "STEM_BOLTS": {
     "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
-    "message": "Αυτοσφραγιζόμενων μπουλονιών"
+    "message": "αυτοσφραγιζόμενα παξιμάδια"
   },
   "SUCCESSMSG_1": {
     "description": "",
@@ -581,7 +609,7 @@
   },
   "TITANIUM": {
     "description": "custom cargo",
-    "message": "Τιτανίου"
+    "message": "Τιτάνιο"
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
@@ -589,11 +617,11 @@
   },
   "TUNGSTEN": {
     "description": "custom cargo",
-    "message": "Βολφραμίου"
+    "message": "Βολφράμιο"
   },
   "URANIUM": {
     "description": "custom cargo",
-    "message": "Ουρανίου"
+    "message": "Ουράνιο"
   },
   "URGENCY_1": {
     "description": "",
@@ -625,7 +653,11 @@
   },
   "WEDDING_DRESSES": {
     "description": "custom cargo",
-    "message": "Νυφικών"
+    "message": "νυφικά"
+  },
+  "WEDDING_DRESSES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Ποια, τα νυφικά;"
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",

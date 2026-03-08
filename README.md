@@ -86,7 +86,7 @@ We do not condemn the use of AI-powered autocomplete as a secondary assistive to
 
 ## Localization
 
-Localization for Pioneer is handled trough Transifex, and pulled to the source from there automatically. Because of this please don't make pull requests for translations. [You can find the localization project here.](https://www.transifex.com/pioneer/pioneer/dashboard/)
+Localization for Pioneer is handled trough Transifex, and pulled to the source from there automatically. Because of this please don't make pull requests for translations. [You can find the localization project here.](https://explore.transifex.com/pioneer/pioneer/)
 You need to register at transifex to be able to access the translations.
 
 If you want a new language introduced, [please request it on the Libera IRC channel of Pioneer](https://web.libera.chat/#pioneer), or here by making an issue for it.

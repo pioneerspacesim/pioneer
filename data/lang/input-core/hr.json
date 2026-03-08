@@ -1,7 +1,7 @@
 {
   "AXIS": {
     "description": "Cardinal name used to compose Joystick <X> Button <Y>",
-    "message": " Axis "
+    "message": " Os"
   },
   "BIND_AXIS_PITCH": {
     "description": "Descriptive name for the Pitch axis.",
@@ -13,15 +13,15 @@
   },
   "BIND_AXIS_THRUST_FORWARD": {
     "description": "Descriptive name for the ThrustForward axis",
-    "message": "Thrust Forward / Backwards"
+    "message": "Potisak naprijed / nazad"
   },
   "BIND_AXIS_THRUST_LEFT": {
     "description": "Descriptive name for the ThrustLeft axis",
-    "message": "Thrust Left / Right"
+    "message": "Potisak lijevo / desno"
   },
   "BIND_AXIS_THRUST_UP": {
     "description": "Descriptive name for the ThrustUp axis",
-    "message": "Thrust Up / Down"
+    "message": "Potisak gore / dolje"
   },
   "BIND_AXIS_YAW": {
     "description": "Descriptive name for the Yaw axis.",
@@ -29,103 +29,103 @@
   },
   "BIND_BOTTOM_CAMERA": {
     "description": "Descriptive name for the BottomCamera action.",
-    "message": "Switch to Bottom Camera"
+    "message": "Prebaci na donju kameru"
   },
   "BIND_CAMERA_PITCH": {
     "description": "Descriptive name for the Camera Pitch axis.",
-    "message": "Camera Pitch"
+    "message": "Nagib kamere"
   },
   "BIND_CAMERA_ROLL": {
     "description": "Descriptive name for the Camera Roll axis",
-    "message": "Camera Roll"
+    "message": "Zakretanje kamere"
   },
   "BIND_CAMERA_YAW": {
     "description": "Descriptive name for the Camera Yaw axis.",
-    "message": "Camera Yaw"
+    "message": "Skretanje kamere"
   },
   "BIND_CONTROL_LANDING_GEAR": {
     "description": "Axis description",
-    "message": "Raise / Lower Landing Gear"
+    "message": "Podizanje/spuštanje stajnog trapa"
   },
   "BIND_CYCLE_CAMERA_MODE": {
     "description": "Descriptive name for the CycleCameraMode action.",
-    "message": "Cycle Camera Mode"
+    "message": "Ciklus načina rada kamere"
   },
   "BIND_CYCLE_HOSTILES": {
     "description": "Descriptive name for the CycleHostiles action.",
-    "message": "Cycle Hostiles"
+    "message": "Neprijateljski ciklus"
   },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
-    "message": "Decrease Time Acceleration"
+    "message": "Smanjite ubrzanje vremena"
   },
   "BIND_FIXHEADING_RADIAL": {
     "description": "Descriptive name for the action binding.",
-    "message": "Open Attitude Hold Radial Menu"
+    "message": "Otvori radijalni izbornik za zadržavanje položaja"
   },
   "BIND_FLIGHT_ASSIST_RADIAL": {
     "description": "Descriptive name for the action binding.",
-    "message": "Open Flight Assist Radial Menu"
+    "message": "Otvori radijalni izbornik pomoći u letu"
   },
   "BIND_FRONT_CAMERA": {
     "description": "Descriptive name for the FrontCamera action.",
-    "message": "Switch to Front Camera"
+    "message": "Prebaci na prednju kameru"
   },
   "BIND_INCREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the IncreaseTimeAcceleration action.",
-    "message": "Increase Time Acceleration"
+    "message": "Povećanje ubrzanja vremena"
   },
   "BIND_KILL_ROT": {
     "description": "Descriptive name for the KillRot action.",
-    "message": "Kill Rotation"
+    "message": "Ubijanje rotacije"
   },
   "BIND_LEFT_CAMERA": {
     "description": "Descriptive name for the LeftCamera action.",
-    "message": "Switch to Left Camera"
+    "message": "Prebaci na lijevu kameru"
   },
   "BIND_LOOK_PITCH": {
     "description": "Descriptive name for the Freelook Pitch axis.",
-    "message": "Freelook Pitch"
+    "message": "Nagib slobodnog pogleda"
   },
   "BIND_LOOK_YAW": {
     "description": "Descriptive name for the Freelook Yaw axis.",
-    "message": "Freelook Yaw"
+    "message": "Skretanje slobodnog pogleda"
   },
   "BIND_MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
     "description": "Descriptive name for the MapToggleSelectionFollowView action.",
-    "message": "Toggle Selection Following View"
+    "message": "Uključi/isključi odabir nakon prikaza"
   },
   "BIND_MAP_VIEW_MOVE_FORWARD": {
     "description": "Axis binding",
-    "message": "Shift Map Longitudinally"
+    "message": "Pomakni kartu uzdužno"
   },
   "BIND_MAP_VIEW_MOVE_LEFT": {
     "description": "Axis binding",
-    "message": "Shift Map Horizontally"
+    "message": "Pomakni kartu vodoravno"
   },
   "BIND_MAP_VIEW_MOVE_UP": {
     "description": "Axis binding",
-    "message": "Shift Map Vertically"
+    "message": "Pomakni kartu okomito"
   },
   "BIND_MAP_VIEW_PITCH": {
     "description": "Axis binding",
-    "message": "Map Pitch"
+    "message": "Nagib karte"
   },
   "BIND_MAP_VIEW_YAW": {
     "description": "Axis binding",
-    "message": "Map Yaw"
+    "message": "Skretanje s putanje karte"
   },
   "BIND_MAP_VIEW_ZOOM": {
     "description": "Axis binding",
-    "message": "Map Zoom"
+    "message": "Zumiranje karte"
   },
   "BIND_MAP_WARP_TO_CURRENT_SYSTEM": {
     "description": "Descriptive name for the MapWarpToCurrentSystem action.",
-    "message": "Warp to Current System"
+    "message": "Skoči u trenutni sustav"
   },
   "BIND_MAP_WARP_TO_SELECTED_SYSTEM": {
     "description": "Descriptive name for the MapWarpToSelectedSystem action.",
-    "message": "Warp to Selected System"
+    "message": "Skoči u odabrani sustav"
   },
   "BIND_PRIMARY_FIRE": {
     "description": "Descriptive name for the PrimaryFire action.",
@@ -133,43 +133,43 @@
   },
   "BIND_RADAR_TOGGLE_MODE": {
     "description": "Descriptive name for the RadarToggle action.",
-    "message": "Toggle Radar Display Mode"
+    "message": "Uključi/isključi način prikaza radara"
   },
   "BIND_RADAR_ZOOM_IN": {
     "description": "Descriptive name for the RadarZoomIn action.",
-    "message": "Manual Zoom Radar In"
+    "message": "Ručno zumiranje radara"
   },
   "BIND_RADAR_ZOOM_OUT": {
     "description": "Descriptive name for the RadarZoomOut action.",
-    "message": "Manual Zoom Radar Out"
+    "message": "Ručno Odzumiranje radara"
   },
   "BIND_RADAR_ZOOM_RESET": {
     "description": "Descriptive name for the RadarZoomReset action.",
-    "message": "Reset Radar Zoom"
+    "message": "Resetirajte zumiranje radara"
   },
   "BIND_RADIAL_HORIZONTAL_SELECTION": {
     "description": "Input axis name to select in the radial menu.",
-    "message": "Radial Menu Left/Right"
+    "message": "Radijalni izbornik lijevo/desno"
   },
   "BIND_RADIAL_VERTICAL_SELECTION": {
     "description": "Input axis name to select in the radial menu.",
-    "message": "Radial Menu Up/Down"
+    "message": "Radijalni izbornik gore/dolje"
   },
   "BIND_REAR_CAMERA": {
     "description": "Descriptive name for the RearCamera action.",
-    "message": "Switch to Rear Camera"
+    "message": "Prebaci na stražnju kameru"
   },
   "BIND_RESET_CAMERA": {
     "description": "Descriptive name for the ResetCamera action.",
-    "message": "Reset Camera View to Default"
+    "message": "Vrati prikaz kamere na zadane vrijednosti"
   },
   "BIND_RESET_ORIENTATION_AND_ZOOM": {
     "description": "Descriptive name for the ResetOrientationAndZoom action.",
-    "message": "Reset Orientation and Zoom"
+    "message": "Resetirajte orijentaciju i zumiranje na zadane vrijednosti"
   },
   "BIND_RIGHT_CAMERA": {
     "description": "Descriptive name for the RightCamera action.",
-    "message": "Switch to Right Camera"
+    "message": "Prebaci na desnu kameru"
   },
   "BIND_SECONDARY_FIRE": {
     "description": "Descriptive name for the SecondaryFire action.",
@@ -177,51 +177,51 @@
   },
   "BIND_SPEED_CONTROL": {
     "description": "Descriptive name for the SpeedControl axis.",
-    "message": "Set Target Speed"
+    "message": "Postavite ciljanu brzinu"
   },
   "BIND_TARGET_OBJECT": {
     "description": "Descriptive name for the TargetObject action.",
-    "message": "Target Object"
+    "message": "Ciljni objekt"
   },
   "BIND_TARGET_RADIAL": {
     "description": "Descriptive name for opening the TargetRadial popup.",
-    "message": "Open Target Radial Menu"
+    "message": "Otvori radijalni izbornik cilja"
   },
   "BIND_THRUST_LOW_POWER": {
     "description": "Descriptive name for the ThrustLowPower action.",
-    "message": "Low Power Thrust Mode (hold)"
+    "message": "Način potiska niske snage"
   },
   "BIND_TOGGLE_CRUISE": {
     "description": "Descriptive name for the action binding.",
-    "message": "Toggle Cruise Mode"
+    "message": "Uključi/isključi način rada za krstarenje"
   },
   "BIND_TOGGLE_HUD_MODE": {
     "description": "Descriptive name for the ToggleHudMode action.",
-    "message": "Toggle HUD Mode"
+    "message": "Uključi/isključi HUD"
   },
   "BIND_TOGGLE_LANDING_GEAR": {
     "description": "Action description",
-    "message": "Toggle Landing Gear"
+    "message": "Uključi/isključi stajni trap"
   },
   "BIND_TOGGLE_LUA_CONSOLE": {
     "description": "Descriptive name for the ToggleLuaConsole action.",
-    "message": "Prekidač Lua konzole"
+    "message": "Uključi/isključi Lua konzolu"
   },
   "BIND_TOGGLE_ROTATION_DAMPING": {
     "description": "Descriptive name for the ToggleRotationDamping action.",
-    "message": "Toggle Rotation Damping"
+    "message": "Uključi/isključi usporavanje rotacije"
   },
   "BIND_TOGGLE_SPEED_LIMITER": {
     "description": "Descriptive name for the action binding.",
-    "message": "Toggle Speed Limiter"
+    "message": "Uključi/isključi ograničivač brzine"
   },
   "BIND_TOP_CAMERA": {
     "description": "Descriptive name for the TopCamera action.",
-    "message": "Switch to Top Camera"
+    "message": "Prebaci na gornju kameru"
   },
   "BIND_VIEW_ZOOM": {
     "description": "Descriptive name for the View Zoom axis",
-    "message": "View Zoom"
+    "message": "Zumiranje prikaza"
   },
   "BUTTON": {
     "description": "",
@@ -229,19 +229,19 @@
   },
   "CONNECTED": {
     "description": "Joystick status in the list",
-    "message": "Connected"
+    "message": "Povezano"
   },
   "CURRENT_VALUE": {
     "description": "",
-    "message": "Current value:"
+    "message": "Trenutna vrijednost:"
   },
   "CURVE": {
     "description": "",
-    "message": "Curve"
+    "message": "Krivulja"
   },
   "DEADZONE": {
     "description": "",
-    "message": "Deadzone"
+    "message": "Mrtva zona"
   },
   "DIRECTION": {
     "description": "Direction",
@@ -249,34 +249,34 @@
   },
   "GROUP_GENERAL_VIEW_CONTROLS": {
     "description": "Header for the GeneralViewControls input group.",
-    "message": "General View Controls"
+    "message": "Kontrole općeg prikaza"
   },
   "GROUP_LANDING_CONTROL": {
     "description": "Group label for landing-related inputs",
-    "message": "Landing Control"
+    "message": "Kontrola slijetanja"
   },
   "GROUP_MANUAL_CONTROL": {
     "description": "Header for the ManualControl input group.",
-    "message": "Manual Thrust Control"
+    "message": "Ručna kontrola potiska"
   },
   "GROUP_MISCELLANEOUS": {
-    "message": "Miscellaneous"
+    "message": "Razno"
   },
   "GROUP_RADAR_CONTROL": {
     "description": "Group label for radar-related inputs",
-    "message": "Radar Control"
+    "message": "Radarska kontrola"
   },
   "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
     "description": "Header for the SectorMapViewControls input group.",
-    "message": "Sector Map View Controls"
+    "message": "Kontrole prikaza karte sektora"
   },
   "GROUP_SHIP_ORIENT": {
     "description": "Header for the ShipOrient input group.",
-    "message": "Ship Orientation"
+    "message": "Orijentacija broda"
   },
   "GROUP_SPEED_CONTROL": {
     "description": "Header for the SpeedControl input group.",
-    "message": "Set-Speed Thrust Control"
+    "message": "Kontrola potiska postavljenom brzinom"
   },
   "GROUP_WEAPONS": {
     "description": "Header for the Weapons input group.",
@@ -284,11 +284,11 @@
   },
   "HALF_AXIS_MODE": {
     "description": "",
-    "message": "Half-Axis mode"
+    "message": "Polu-osni način rada"
   },
   "HAT": {
     "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" Hat\""
+    "message": "\"Gljiva\""
   },
   "JOY": {
     "description": "An acronym for the joystick",
@@ -300,7 +300,7 @@
   },
   "MOUSE": {
     "description": "A computer mouse, used to create the name for a mouse button binding",
-    "message": "Mouse "
+    "message": "Miš"
   },
   "MOUSE_LMB": {
     "description": "An acronym for the left mouse button",
@@ -316,39 +316,39 @@
   },
   "NOT_CONNECTED": {
     "description": "Joystick status in the list",
-    "message": "Not connected"
+    "message": "Nije povezano"
   },
   "NUM_AXES": {
     "description": "",
-    "message": "Number of axes:"
+    "message": "Broj osi:"
   },
   "NUM_BUTTONS": {
     "description": "",
-    "message": "Number of buttons:"
+    "message": "Broj tipki:"
   },
   "NUM_HATS": {
     "description": "",
-    "message": "Number of hats:"
+    "message": "Broj gljiva:"
   },
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",
-    "message": "General Controls"
+    "message": "Opće kontrole"
   },
   "PAGE_MAP_CONTROLS": {
     "description": "Header for the MapControls input page.",
-    "message": "Map Controls"
+    "message": "Kontrole karte"
   },
   "PAGE_SHIP_CONTROLS": {
     "description": "Header for the ShipControls input page.",
-    "message": "Ship - Controls"
+    "message": "Brod - Kontrole"
   },
   "PAGE_SHIP_HUD": {
     "description": "Header for the ShipHUD input page.",
-    "message": "Ship - HUD"
+    "message": "HUD-Broda"
   },
   "PAGE_SHIP_VIEW": {
     "description": "Header for the ShipView input page.",
-    "message": "Ship - View"
+    "message": "Brod - Pogled"
   },
   "RX": {
     "description": "keybinding: second x axis",
@@ -364,19 +364,19 @@
   },
   "TEXT_ALT_BINDING": {
     "description": "",
-    "message": "Alt. Binding:"
+    "message": "Alt. Dodavanje:"
   },
   "TEXT_AXIS_DEADZONE": {
     "description": "Message shown for the axis deadzone slider.",
-    "message": "Axis Deadzone"
+    "message": "Mrtva zona osi"
   },
   "TEXT_AXIS_SENSITIVITY": {
     "description": "Message shown for the axis sensitivity slider.",
-    "message": "Axis Sensitivity"
+    "message": "Osjetljivost osi"
   },
   "TEXT_BINDING": {
     "description": "",
-    "message": "Binding:"
+    "message": "Dodaj:"
   },
   "TEXT_INVERT_AXIS": {
     "description": "Message shown for the invert axis checkbox.",
@@ -388,11 +388,11 @@
   },
   "TEXT_KEY_NEGATIVE": {
     "description": "Indicates the negative half of a key-binding pair.",
-    "message": "Negative:"
+    "message": "Negativan:"
   },
   "TEXT_KEY_POSITIVE": {
     "description": "Indicates the positive half of a key-binding pair.",
-    "message": "Positive:"
+    "message": "Pozitivan:"
   },
   "X": {
     "description": "keybinding: x axis",

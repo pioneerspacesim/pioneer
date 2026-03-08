@@ -1,11 +1,11 @@
 {
   "BASE": {
     "description": "",
-    "message": "base"
+    "message": "baza"
   },
   "BASES": {
     "description": "",
-    "message": "bases"
+    "message": "baze"
   },
   "BODIES": {
     "description": "",
@@ -17,22 +17,22 @@
   },
   "DISCOVERED_HIDDEN_BASES": {
     "description": "",
-    "message": "You have discovered {portcount} hidden {bases}!"
+    "message": "Otkrili ste {portcount} skrivenih {bases}!"
   },
   "EXPLORED_SYSTEM": {
     "description": "",
-    "message": "Explored system with {bodycount} major {bodies}."
+    "message": "Istraženi sustav s {bodycount} glavnim {bodies}."
   },
   "GETTING_SENSOR_DATA": {
     "description": "Shown when entering an unexplored system",
-    "message": "System data gathering and analysis in progress..."
+    "message": "Prikupljanje i analiza podataka sustava u tijeku..."
   },
   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
     "description": "",
-    "message": "Your fuel tank is almost empty."
+    "message": "Spremnik goriva vam je gotovo prazan."
   },
   "YOUR_FUEL_TANK_IS_EMPTY": {
     "description": "",
-    "message": "Your fuel tank is empty."
+    "message": "Vaš spremnik goriva je prazan."
   }
 }

@@ -10,6 +10,7 @@ local Character = require 'Character'
 local Format = require 'Format'
 local Timer = require 'Timer'
 local utils = require 'utils'
+local PlayerState = require 'PlayerState'
 
 -- This module allows the player to hire crew members through BB adverts
 -- on stations, and handles periodic events such as their wages.
@@ -77,8 +78,8 @@ local scheduleWages = function (crewMember)
 		-- Check if crew member has been dismissed
 		if not contract then return end
 
-		if Game.player:GetMoney() > contract.wage then
-			Game.player:AddMoney(0 - contract.wage)
+		if PlayerState.GetMoney() > contract.wage then
+			PlayerState.AddMoney(0 - contract.wage)
 			-- Being paid can make awkward crew like you more
 			if not crewMember:TestRoll('playerRelationship') then
 				crewMember.playerRelationship = crewMember.playerRelationship + 1
@@ -90,8 +91,8 @@ local scheduleWages = function (crewMember)
 		end
 
 		-- Attempt to pay off any arrears
-		local arrears = math.min(Game.player:GetMoney(),contract.outstanding)
-		Game.player:AddMoney(0 - arrears)
+		local arrears = math.min(PlayerState.GetMoney(),contract.outstanding)
+		PlayerState.AddMoney(0 - arrears)
 		contract.outstanding = contract.outstanding - arrears
 
 		-- The crew gain experience each week, and might get better
@@ -379,6 +380,41 @@ local isEnabled = function (ref)
 	return numCrewmenAvailable > 0
 end
 
+local function N_equilibrium(station) -- This function is included unchanged from the Ship Market
+	local pop = station.path:GetSystemBody().parent.population -- E.g. Earth=7, Mars=0.3
+	local pop_bonus = 9 * math.log(pop * 0.45 + 1)       -- something that gives resonable result
+	if station.type == "STARPORT_SURFACE" then
+		pop_bonus = pop_bonus * 1.5
+	end
+
+	return 2 + pop_bonus
+end
+
+local newCrew = function()
+	local hopefulCrew = Character.New()
+	-- Roll new stats, with a 1/3 chance that they're utterly inexperienced
+	hopefulCrew:RollNew(Engine.rand:Integer(0, 2) > 0)
+	-- Make them a title if they're good at anything
+	local maxScore = math.max(hopefulCrew.engineering,
+								hopefulCrew.piloting,
+								hopefulCrew.navigation,
+								hopefulCrew.sensors)
+	if maxScore > 45 then
+		if hopefulCrew.engineering == maxScore then hopefulCrew.title = lui.SHIPS_ENGINEER end
+		if hopefulCrew.piloting == maxScore then hopefulCrew.title = lui.PILOT end
+		if hopefulCrew.navigation == maxScore then hopefulCrew.title = lui.NAVIGATOR end
+		if hopefulCrew.sensors == maxScore then hopefulCrew.title = lui.SENSORS_AND_DEFENCE end
+	end
+	return hopefulCrew
+end
+
+local function removeAd (station, num)
+	if not nonPersistentCharactersForCrew[station] then
+		nonPersistentCharactersForCrew[station] = {}
+	end
+	table.remove(nonPersistentCharactersForCrew[station], num)
+end
+
 local onCreateBB = function (station)
 	-- Create non-persistent Characters as available crew
 	nonPersistentCharactersForCrew[station] = {}
@@ -392,33 +428,37 @@ local onCreateBB = function (station)
 		isEnabled   = isEnabled})] = station
 
 	-- Number is based on population, nicked from Assassinations.lua and tweaked
-	for i = 1, Engine.rand:Integer(0, math.ceil(Game.system.population) * 2 + 1) do
-		local hopefulCrew = Character.New()
-		-- Roll new stats, with a 1/3 chance that they're utterly inexperienced
-		hopefulCrew:RollNew(Engine.rand:Integer(0, 2) > 0)
-		-- Make them a title if they're good at anything
-		local maxScore = math.max(hopefulCrew.engineering,
-									hopefulCrew.piloting,
-									hopefulCrew.navigation,
-									hopefulCrew.sensors)
-		if maxScore > 45 then
-			if hopefulCrew.engineering == maxScore then hopefulCrew.title = lui.SHIPS_ENGINEER end
-			if hopefulCrew.piloting == maxScore then hopefulCrew.title = lui.PILOT end
-			if hopefulCrew.navigation == maxScore then hopefulCrew.title = lui.NAVIGATOR end
-			if hopefulCrew.sensors == maxScore then hopefulCrew.title = lui.SENSORS_AND_DEFENCE end
-		end
-		table.insert(nonPersistentCharactersForCrew[station],hopefulCrew)
+	for i = 1, Engine.rand:Poisson(N_equilibrium(station)) do
+		table.insert(nonPersistentCharactersForCrew[station],newCrew())
 	end
 end
-
 Event.Register("onCreateBB", onCreateBB)
+
+local onUpdateBB = function (station)
+	local tau = 7*24                              -- half life of a crew advert in hours
+	local lambda = 0.693147 / tau                 -- removal probability= ln(2) / tau
+	local prod = N_equilibrium(station) * lambda  -- creation probability
+
+	-- remove with decay rate lambda. Call ONCE/hour for each crew advert in station
+	for k,v in pairs(nonPersistentCharactersForCrew[station]) do
+		if Engine.rand:Number(0,1) < lambda then  -- remove one random crew
+			table.remove(nonPersistentCharactersForCrew[station],k)
+		end
+	end
+
+	-- spawn a new crew advert, call for each station
+	if Engine.rand:Number(0,1) <= prod then
+		table.insert(nonPersistentCharactersForCrew[station], 1, newCrew())
+	end
+
+	if prod > 1 then print("Warning: crew market not in equilibrium") end
+end
+Event.Register("onUpdateBB", onUpdateBB)
 
 -- Wipe temporary crew out when hyperspacing
 Event.Register("onEnterSystem", function(ship)
-	if ship:IsPlayer() then
-		nonPersistentCharactersForCrew = {}
-		stationsWithAdverts = {}
-	end
+	nonPersistentCharactersForCrew = {}
+	stationsWithAdverts = {}
 end)
 
 -- Load temporary crew from saved data

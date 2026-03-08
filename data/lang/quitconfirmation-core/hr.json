@@ -1,102 +1,102 @@
 {
   "MSG_1": {
     "description": "",
-    "message": "Say {yes} to get out of here and go back to your boring programs?"
+    "message": "Reci {yes} da odeš odavde i vratiš se svojim dosadnim rutinama?"
   },
   "MSG_10": {
     "description": "",
-    "message": "Please choose {no} to waste a few more productive hours. Please?"
+    "message": "Molimo odaberite {no} kako biste izgubili još nekoliko produktivnih sati. Molim?"
   },
   "MSG_11": {
     "description": "",
-    "message": "Explorers don't quit, but go ahead and click {yes} if you aren't one."
+    "message": "Istraživači ne odustaju, ali samo naprijed i kliknite {yes} ako niste jedan od njih."
   },
   "MSG_12": {
     "description": "",
-    "message": "Choose {no} If you are a tough bounty hunter, if not, click {yes} daintily."
+    "message": "Odaberite {no} Ako ste žestoki lovac na glave, ako ne, elegantno kliknite {yes}."
   },
   "MSG_13": {
     "description": "\"Seeing\" as in having an affair / being unfaithful",
-    "message": "We never talk anymore. Are you seeing someone else?"
+    "message": "Više ne razgovaramo. Viđaš li se s nekim drugim?"
   },
   "MSG_14": {
     "description": "",
-    "message": "Do you really have something better to do?"
+    "message": "Imaš li stvarno nešto pametnije za raditi?"
   },
   "MSG_15": {
     "description": "",
-    "message": "Giving up already?"
+    "message": "Već odustaješ?"
   },
   "MSG_16": {
     "description": "A little homage to the movie 2001 A Space Odyssey",
-    "message": "Just what do you think you're doing, Dave?"
+    "message": "Što misliš da radiš, Dave?"
   },
   "MSG_17": {
     "description": "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
-    "message": "Quitting is for WIMPs!"
+    "message": "Odustajanje je za slabiće!"
   },
   "MSG_18": {
     "description": "Catch phrase of 2016?",
-    "message": "Make Pioneer great again! Only losers quit, sure about this?"
+    "message": "Učinimo Pioneer opet velikim! Samo gubitnici odustaju, jesi li siguran?"
   },
   "MSG_19": {
     "description": "Alluding to / inviting the player to contribute content to the game",
-    "message": "Done testing, back to contributing?"
+    "message": "Završili s testiranjem, vratili se doprinosu?"
   },
   "MSG_2": {
     "description": "",
-    "message": "Don't go now, there's a pirate waiting for you in the other program."
+    "message": "Nemoj sada ići, u drugom programu te čeka gusar."
   },
   "MSG_20": {
     "description": "",
-    "message": "Do you really have to go?"
+    "message": "Moraš li stvarno ići?"
   },
   "MSG_21": {
     "description": "alluding to suicide",
-    "message": "Taking the cowards way out?"
+    "message": "Kukavice bježe?"
   },
   "MSG_22": {
     "description": "alluding to suicide",
-    "message": "Don't do it! It can only get better from here! Still want to give up?"
+    "message": "Nemoj to raditi! Ovdje može biti samo bolje! Još uvijek želiš odustati?"
   },
   "MSG_3": {
     "description": "",
-    "message": "Are you sure you want to quit this great game that cost you nothing?"
+    "message": "Jesi li siguran da želiš odustati od ove sjajne igre koja te ništa nije koštala?"
   },
   "MSG_4": {
     "description": "",
-    "message": "Doest thou wish to leave with such hasty abandon?"
+    "message": "Želiš li otići s tako brzopletim odustajanjem?"
   },
   "MSG_5": {
     "description": "(Inspired by Wolfenstein 3D)",
-    "message": "Choose {no} for guns and glory, {yes} for work and worry."
+    "message": "Odaberite {no} za oružje i slavu, {yes} za posao i brigu."
   },
   "MSG_6": {
     "description": "",
-    "message": "Click {no} to be brave, click {yes} to cower in shame."
+    "message": "Kliknite {no} da biste bili hrabri, kliknite {yes} da biste se sramili."
   },
   "MSG_7": {
     "description": "Doom 1 anyone? Although it said DOS instead of Command line",
-    "message": "I wouldn't leave if I were you. The command line is much worse."
+    "message": "Ne bih otišao da sam na tvom mjestu. Biti u jedinici je mnogo gore."
   },
   "MSG_8": {
     "description": "",
-    "message": "I'm thinking you want to click {no} to play more. You do it."
+    "message": "Mislim da želiš kliknuti {no} da se još igraš. Samo klikni."
   },
   "MSG_9": {
     "description": "",
-    "message": "Clicking {yes} means you must return to the humdrum workday world."
+    "message": "Klikom na {yes} znači da se morate vratiti u monotoni radni svijet."
   },
   "NO": {
     "description": "No, don't quit program",
-    "message": "No"
+    "message": "Ne"
   },
   "QUIT": {
     "description": "Quit game, as a question",
-    "message": "Quit?"
+    "message": "Gasiš?"
   },
   "YES": {
     "description": "Yes, quit program",
-    "message": "Yes"
+    "message": "Da"
   }
 }

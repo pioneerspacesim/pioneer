@@ -1,10 +1,10 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Dagger Council')
 	:description_short('Dagger Council')
 	:description('Very little is currently known about The Dagger Council')
-	:homeworld(-25,-53,-53,0,1)
+	:homeworld(-25,-53,-54,0,1)
 	:foundingDate(3066)
 	:expansionRate(0.684718)
 	:military_name('Council Navy')

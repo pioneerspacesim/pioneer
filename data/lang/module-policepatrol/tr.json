@@ -1,4 +1,68 @@
 {
+  "FINES_ADMONISHING_1": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Lütfen cezalarınızı ödemek için en yakın {policeforce} ofisini ziyaret edin."
+  },
+  "FINES_ADMONISHING_2": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Bunu halletmek için en yakın {policeforce} ofisini ziyaret edin."
+  },
+  "FINES_ADMONISHING_3": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Bunu halletmeniz lazım yoksa ileride daha kötü olacak."
+  },
+  "FINES_ADMONISHING_4": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Bütün büyük istasyonlarda {policeforce} ofisi vardır. Cezalarınız ödeyin!"
+  },
+  "FINES_ADMONISHING_HARSH_1": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Bunun icabına bakın yoksa sonuçları olacak!"
+  },
+  "FINES_ADMONISHING_HARSH_2": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Ödenmemiş cezalar yasa tarafından verilen yetkiyle cezalandırılacaktır."
+  },
+  "FINES_ADMONISHING_HARSH_3": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Bu iş ciddi ve halledilmesi lazım. Ne kadar çabuk, o kadar iyi."
+  },
+  "FINES_ADMONISHING_HARSH_4": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Cezalarınızı ödemezseniz yasadışı statüsüne düşebilirsiniz. Cezalarınızı bugün ödeyin!"
+  },
+  "FINES_INTRO_1": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Bekleyin, dahası da var."
+  },
+  "FINES_INTRO_2": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Bir şey daha var {ship_label}."
+  },
+  "FINES_INTRO_3": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Bekle!"
+  },
+  "FINES_INTRO_4": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "{ship_label}."
+  },
+  "FINES_MESSAGE_1": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Ödenmemiş cezalarınız var."
+  },
+  "FINES_MESSAGE_2": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Ödenmemiş cezalarınız olduğu biliniyor."
+  },
+  "FINES_MESSAGE_3": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Ödenmemiş cezalarınız olduğunu görebiliyoruz."
+  },
+  "FINES_MESSAGE_4": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Ödenmemiş ${fine} kadar cezanız var."
+  },
   "ILLEGAL_GOODS_DETECTED": {
     "description": "",
     "message": "Yasa dışı mal tespit edildi."

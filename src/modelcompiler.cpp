@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "buildopts.h"
@@ -114,7 +114,7 @@ void SetupRenderer()
 void RunCompiler(const std::string &modelName, const std::string &filepath, const bool bInPlace)
 {
 	PROFILE_SCOPED()
-	Profiler::Timer timer;
+	Profiler::Clock timer;
 	timer.Start();
 	Output("\n---\nStarting compiler for (%s)\n", modelName.c_str());
 
@@ -143,7 +143,7 @@ void RunCompiler(const std::string &modelName, const std::string &filepath, cons
 	}
 
 	timer.Stop();
-	Output("Compiling \"%s\" took: %lf\n", modelName.c_str(), timer.millicycles());
+	Output("Compiling \"%s\" took: %0.2fms\n", modelName.c_str(), timer.milliseconds());
 }
 
 // ********************************************************************************
@@ -165,7 +165,7 @@ extern "C" int main(int argc, char **argv)
 	Profiler::detect(argc, argv);
 #endif
 
-	RunMode mode = MODE_MODELCOMPILER;
+	RunMode mode = (argc <= 1) ? MODE_USAGE_ERROR : MODE_MODELCOMPILER;
 
 	if (argc > 1) {
 		const char switchchar = argv[1][0];
@@ -303,16 +303,20 @@ start:
 	case MODE_VERSION: {
 		std::string version(PIONEER_VERSION);
 		if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
-		Output("modelcompiler %s\n", version.c_str());
+		printf("modelcompiler %s\n", version.c_str());
 		break;
 	}
 
 	case MODE_USAGE_ERROR:
-		Output("modelcompiler: unknown mode %s\n", argv[1]);
+		if (argc > 1) {
+			printf("modelcompiler: unknown mode %s\n", argv[1]);
+		} else {
+			printf("modelcompiler: no arguments passed\n\n");
+		}
 		// fall through
 
 	case MODE_USAGE:
-		Output(
+		printf(
 			"usage: modelcompiler [mode] [options...]\n"
 			"available modes:\n"
 			"    -compile          [-c ...]          model compiler\n"

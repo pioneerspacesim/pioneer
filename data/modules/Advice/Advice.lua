@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- This module is a substitute for not having a propper "bar" /
@@ -33,6 +33,9 @@ local travellers_advice_indices = {481, -- tame black market
 								   52,  -- service ship
 								   248, -- change faction
 								   171, -- the harder the g
+								   203, -- the billie bounce
+								   194, -- running on fumes
+								   49,	-- a clear way out
 }
 
 -- Hold all different types of advice/rumours available:

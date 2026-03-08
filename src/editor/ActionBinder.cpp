@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ActionBinder.h"
@@ -30,10 +30,7 @@ ActionBinder::~ActionBinder()
 // static
 std::string ActionBinder::FormatShortcut(ImGuiKeyChord shortcut)
 {
-	char name[24];
-	ImGui::GetKeyChordName(shortcut, name, sizeof(name));
-
-	return std::string(name);
+	return std::string(ImGui::GetKeyChordName(shortcut));
 }
 
 void ActionBinder::Update()
@@ -50,7 +47,7 @@ void ActionBinder::Update()
 		if (!action.shortcut)
 			continue;
 
-		if (ImGui::Shortcut(action.shortcut, 0, ImGuiInputFlags_RouteGlobal)) {
+		if (ImGui::Shortcut(action.shortcut, ImGuiInputFlags_RouteGlobal, 0)) {
 			if (action.predicate.empty() || action.predicate())
 				action.action();
 		}

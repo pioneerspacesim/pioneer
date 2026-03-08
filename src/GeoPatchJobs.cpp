@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GeoPatchJobs.h"
@@ -30,25 +30,27 @@ void SSingleSplitRequest::GenerateMesh() const
 {
 	PROFILE_SCOPED()
 	const int borderedEdgeLen = edgeLen + (BORDER_SIZE * 2);
-#ifndef NDEBUG
 	const int numBorderedVerts = borderedEdgeLen * borderedEdgeLen;
-#endif
 
 	// generate heights plus a 1 unit border
-	double *bhts = borderHeights.get();
-	vector3d *vrts = borderVertexs.get();
+	vector3d *fill_verts = borderVertexs.get();
 	for (int y = -BORDER_SIZE; y < borderedEdgeLen - BORDER_SIZE; y++) {
 		const double yfrac = double(y) * fracStep;
 		for (int x = -BORDER_SIZE; x < borderedEdgeLen - BORDER_SIZE; x++) {
 			const double xfrac = double(x) * fracStep;
 			const vector3d p = GetSpherePoint(v0, v1, v2, v3, xfrac, yfrac);
-			const double height = pTerrain->GetHeight(p);
-			assert(height >= 0.0f && height <= 1.0f);
-			*(bhts++) = height;
-			*(vrts++) = p * (height + 1.0);
+			*(fill_verts++) = p;
 		}
 	}
-	assert(bhts == &borderHeights.get()[numBorderedVerts]);
+
+	vector3d *vrts = borderVertexs.get();
+	double *bhts = borderHeights.get();
+	pTerrain->GetHeights(vrts, bhts, numBorderedVerts);
+
+	for (int iHeights = 0; iHeights < numBorderedVerts; iHeights++)
+	{
+		vrts[iHeights] *= (bhts[iHeights] + 1.0);
+	}
 
 	// Generate normals & colors for non-edge vertices since they never change
 	Color3ub *col = colors;
@@ -190,25 +192,26 @@ void SQuadSplitRequest::GenerateBorderedData() const
 {
 	PROFILE_SCOPED()
 	const int borderedEdgeLen = (edgeLen * 2) + (BORDER_SIZE * 2) - 1;
-#ifndef NDEBUG
 	const int numBorderedVerts = borderedEdgeLen * borderedEdgeLen;
-#endif
 
 	// generate heights plus a N=BORDER_SIZE unit border
-	double *bhts = borderHeights.get();
-	vector3d *vrts = borderVertexs.get();
+	vector3d *fill_verts = borderVertexs.get();
 	for (int y = -BORDER_SIZE; y < (borderedEdgeLen - BORDER_SIZE); y++) {
 		const double yfrac = double(y) * (fracStep * 0.5);
 		for (int x = -BORDER_SIZE; x < (borderedEdgeLen - BORDER_SIZE); x++) {
 			const double xfrac = double(x) * (fracStep * 0.5);
 			const vector3d p = GetSpherePoint(v0, v1, v2, v3, xfrac, yfrac);
-			const double height = pTerrain->GetHeight(p);
-			assert(height >= 0.0f && height <= 1.0f);
-			*(bhts++) = height;
-			*(vrts++) = p * (height + 1.0);
+			*(fill_verts++) = p;
 		}
 	}
-	assert(bhts == &borderHeights[numBorderedVerts]);
+
+	vector3d *vrts = borderVertexs.get();
+	double *bhts = borderHeights.get();
+	pTerrain->GetHeights(vrts, bhts, numBorderedVerts);
+
+	for (int iHeights = 0; iHeights < numBorderedVerts; iHeights++) {
+		vrts[iHeights] *= (bhts[iHeights] + 1.0);
+	}
 }
 
 void SQuadSplitRequest::GenerateSubPatchData(

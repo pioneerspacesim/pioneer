@@ -53,7 +53,7 @@
   },
   "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY": {
     "description": "",
-    "message": "Eccellente. Farò sapere al richiedente che state arrivando."
+    "message": "Eccellente. Farò sapere al destinatario che state arrivando."
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
@@ -349,7 +349,7 @@
   },
   "PIRATE_TAUNTS_7": {
     "description": "",
-    "message": "Questo pacco oggi non riuscirà a raggiungere il proprio destinatario."
+    "message": "Oggi questo pacco non riuscirà a raggiungere il proprio destinatario."
   },
   "PIRATE_TAUNTS_8": {
     "description": "",
@@ -377,7 +377,7 @@
   },
   "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE": {
     "description": "",
-    "message": "È molto rischioso, incontrerà quasi cetramente resistenza."
+    "message": "È molto rischioso, incontrerà quasi certamente resistenza."
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",

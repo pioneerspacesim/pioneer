@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Graphics.h"
@@ -35,7 +35,6 @@ namespace Graphics {
 	}
 
 	static bool initted = false;
-	Material *vtxColorMaterial;
 	static float g_fov = 85.f;
 	static float g_fovFactor = 1.f;
 
@@ -125,15 +124,11 @@ namespace Graphics {
 
 		initted = true;
 
-		vtxColorMaterial = renderer->CreateMaterial("vtxColor", MaterialDescriptor(), RenderStateDesc());
-		vtxColorMaterial->IncRefCount();
-
 		return renderer;
 	}
 
 	void Uninit()
 	{
-		delete vtxColorMaterial;
 	}
 
 	static bool operator==(const VideoMode &a, const VideoMode &b)

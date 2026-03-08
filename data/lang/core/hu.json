@@ -405,7 +405,7 @@
   },
   "ECONOMY_TYPE": {
     "description": "",
-    "message": "Gazdaság:"
+    "message": "Gazdaság"
   },
   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
     "description": "",
@@ -505,15 +505,31 @@
   },
   "GOVERNMENT_TYPE": {
     "description": "",
-    "message": "Kormányzat:"
+    "message": "Közigazgatás"
   },
   "GRAIN": {
     "description": "like wheat or barley",
     "message": "Búza"
   },
+  "GRID_DISPLAY_MODE": {
+    "description": "Label for grid display modes",
+    "message": "Rács megjelenítési mód"
+  },
+  "GRID_DISPLAY_MODE_GRID_AND_LEGS": {
+    "description": "Combobox option for Grid with Legs",
+    "message": "Rács és függőleges vonal"
+  },
+  "GRID_DISPLAY_MODE_GRID_ONLY": {
+    "description": "Combobox option for Grid Only",
+    "message": "Rács"
+  },
+  "GRID_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for Grid display off.",
+    "message": "Rács kikapcsolva"
+  },
   "GRID_DISPLAY_MODE_TOGGLE": {
-    "description": "Switch show no grid",
-    "message": "Váltás rács megjelenítési módjai között"
+    "description": "Tooltip for toggle grid display button.",
+    "message": "A rács láthatóságának kapcsolása"
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -590,6 +606,26 @@
   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
     "description": "",
     "message": "Érkezési hiperűrfelhő maradvány"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
+    "description": "Label for hyperspace cloud display modes.",
+    "message": "Hiperűr-felhő megjelenítési mód"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL": {
+    "description": "Combobox option for all hyperspace clouds.",
+    "message": "Minden hiperűr-felhő"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY": {
+    "description": "Combobox option for arrival hyperspace clouds.",
+    "message": "Bejövő hiperűr-felhő"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY": {
+    "description": "Combobox option for departure hyperspace clouds.",
+    "message": "Kimenő hiperűr-felhő"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE": {
+    "description": "Tooltip for the button which toggles the display mode of hyperspace clouds.",
+    "message": "A hiperűr-felhők láthatóságának kapcsolása"
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
@@ -683,9 +719,25 @@
     "description": "",
     "message": "Joystick bevitel"
   },
+  "L4L5_DISPLAY_MODE": {
+    "description": "Label for the lagrange point display modes.",
+    "message": "Lagrange pontok megjelenítési módja"
+  },
+  "L4L5_DISPLAY_MODE_ICONS_AND_TEXT": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Ikon és felirat"
+  },
+  "L4L5_DISPLAY_MODE_ICONS_ONLY": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Ikon"
+  },
+  "L4L5_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for lagrange point display off.",
+    "message": "Ki"
+  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
-    "description": "Either show L4/L5 points or don't",
-    "message": "L4/L5 Lagrange pont megjelenítése."
+    "description": "Tooltip for the L4/L5 Lagrange points toggle button.",
+    "message": "Az L4/L5 lagrange pontok megjelenítése"
   },
   "LANDED": {
     "description": "",
@@ -1029,7 +1081,7 @@
   },
   "NUMBER_TONNES": {
     "description": "",
-    "message": "%{mass}t"
+    "message": "%{mass} t"
   },
   "N_ATMOSPHERE": {
     "description": "",
@@ -1189,7 +1241,7 @@
   },
   "POPULATION": {
     "description": "",
-    "message": "Népesség:"
+    "message": "Népesség"
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -1317,7 +1369,7 @@
   },
   "SECTOR_X_Y_Z": {
     "description": "",
-    "message": "Szektor: %x,%y,%z"
+    "message": "Szektor: {sectorX}, {sectorY}, {sectorZ}"
   },
   "SELECTED_SYSTEM": {
     "description": "",
@@ -1387,9 +1439,21 @@
     "description": "",
     "message": "Hajó"
   },
+  "SHIPS_DISPLAY_MODE": {
+    "description": "Label for ship display modes.",
+    "message": "Hajó megjelenítési mód"
+  },
+  "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
+    "description": "Combobox option for ships only.",
+    "message": "Hajók"
+  },
+  "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
+    "description": "Combobox option for ships with orbits.",
+    "message": "Hajók és pályájuk"
+  },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
-    "description": "Either show no ships, show ships, or show ships + their orbits",
-    "message": "Hajó kijelzési mód váltása."
+    "description": "Tooltip for ship display toggle button.",
+    "message": "Hajók láthatóságának kapcsolása"
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
@@ -1603,6 +1667,10 @@
     "description": "",
     "message": "Felszíni gravitáció"
   },
+  "SURFACE_PRESSURE": {
+    "description": "",
+    "message": "Felszíni nyomás"
+  },
   "SURFACE_TEMPERATURE": {
     "description": "",
     "message": "Felszíni hőmérséklet"
@@ -1763,6 +1831,10 @@
     "description": "Duration unit: one 24-hour day",
     "message": "n"
   },
+  "UNIT_DENSITY": {
+    "description": "Density unit: kilos per cubic meter",
+    "message": "kg/m³"
+  },
   "UNIT_EARTH_GRAVITY": {
     "description": "Acceleration unit: one earth gravity (g)",
     "message": "g"
@@ -1846,6 +1918,18 @@
   "UNIT_SQUARE_METERS": {
     "description": "Area unit: square meter (m²)",
     "message": "m²"
+  },
+  "UNIT_TEMPERATURE_CELSIUS": {
+    "description": "Temperature unit: degrees Celsius (°C)",
+    "message": "C°"
+  },
+  "UNIT_TEMPERATURE_FAHRENHEIT": {
+    "description": "Temperature unit: Fahrenheit (°F)",
+    "message": "F°"
+  },
+  "UNIT_TEMPERATURE_KELVIN": {
+    "description": "Temperature unit: degrees Kelvin (K)",
+    "message": "K"
   },
   "UNIT_TERATONNES": {
     "description": "Mass unit: one teratonne",

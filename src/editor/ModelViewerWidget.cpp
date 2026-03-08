@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelViewerWidget.h"
@@ -17,6 +17,7 @@
 #include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
 
+#include "graphics/VertexBuffer.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/BinaryConverter.h"
 #include "scenegraph/DumpVisitor.h"
@@ -70,7 +71,9 @@ ModelViewerWidget::ModelViewerWidget(EditorApp *app) :
 	rsd.depthWrite = false;
 	rsd.cullMode = Graphics::CULL_NONE;
 	rsd.primitiveType = Graphics::TRIANGLES;
-	m_bgMaterial.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd));
+
+	auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
+	m_bgMaterial.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd, vtxFormat));
 
 	m_gridLines.reset(new Graphics::Drawables::GridLines(m_renderer));
 
@@ -231,19 +234,17 @@ void ModelViewerWidget::SetupInputAxes()
 	auto *group = page->GetBindingGroup("View");
 
 	// Don't add this to REGISTER_INPUT_BINDING because these bindings aren't used by the game
-#define AXIS(val, name, axis, positive, negative)                                                \
-	m_input->AddAxisBinding(name, group, InputBindings::Axis(axis, { positive }, { negative })); \
-	m_bindings.val = m_bindings.AddAxis(name)
+#define AXIS(name, axis, positive, negative)                                                \
+	m_bindings.AddAxis(m_input->AddAxisBinding(name, group, InputBindings::Axis(axis, { positive }, { negative })));
 
-#define ACTION(val, name, b1, b2)                                                  \
-	m_input->AddActionBinding(name, group, InputBindings::Action({ b1 }, { b2 })); \
-	m_bindings.val = m_bindings.AddAction(name)
+#define ACTION(name, b1, b2)                                                  \
+	m_bindings.AddAction(m_input->AddActionBinding(name, group, InputBindings::Action({ b1 }, { b2 })));
 
-	AXIS(zoomAxis, "BindZoomAxis", {}, SDLK_EQUALS, SDLK_MINUS);
+	m_bindings.zoomAxis = AXIS("BindZoomAxis", {}, SDLK_EQUALS, SDLK_MINUS);
 
-	AXIS(moveForward, "BindMoveForward", {}, SDLK_w, SDLK_s);
-	AXIS(moveLeft, "BindMoveLeft", {}, SDLK_a, SDLK_d);
-	AXIS(moveUp, "BindMoveUp", {}, SDLK_q, SDLK_e);
+	m_bindings.moveForward = AXIS("BindMoveForward", {}, SDLK_w, SDLK_s);
+	m_bindings.moveLeft = AXIS("BindMoveLeft", {}, SDLK_a, SDLK_d);
+	m_bindings.moveUp = AXIS("BindMoveUp", {}, SDLK_q, SDLK_e);
 
 	// Like Blender, but a bit different because we like that
 	// 1 - front (+ctrl back)
@@ -251,23 +252,23 @@ void ModelViewerWidget::SetupInputAxes()
 	// 3 - left (+ctrl right)
 	// 2,4,6,8 incrementally rotate
 
-	ACTION(viewFront, "BindViewFront", SDLK_KP_1, SDLK_m);
+	m_bindings.viewFront = ACTION("BindViewFront", SDLK_KP_1, SDLK_m);
 	m_bindings.viewFront->onPressed.connect([=]() {
 		this->ChangeCameraPreset(m_input->KeyModState() & KMOD_CTRL ? CameraPreset::Back : CameraPreset::Front);
 	});
 
-	ACTION(viewLeft, "BindViewLeft", SDLK_KP_3, SDLK_PERIOD);
+	m_bindings.viewLeft = ACTION("BindViewLeft", SDLK_KP_3, SDLK_PERIOD);
 	m_bindings.viewLeft->onPressed.connect([=]() {
 		this->ChangeCameraPreset(m_input->KeyModState() & KMOD_CTRL ? CameraPreset::Right : CameraPreset::Left);
 	});
 
-	ACTION(viewTop, "BindViewTop", SDLK_KP_7, SDLK_u);
+	m_bindings.viewTop = ACTION("BindViewTop", SDLK_KP_7, SDLK_u);
 	m_bindings.viewTop->onPressed.connect([=]() {
 		this->ChangeCameraPreset(m_input->KeyModState() & KMOD_CTRL ? CameraPreset::Bottom : CameraPreset::Top);
 	});
 
-	AXIS(rotateViewLeft, "BindRotateViewLeft", {}, SDLK_KP_6, SDLK_KP_4);
-	AXIS(rotateViewUp, "BindRotateViewUp", {}, SDLK_KP_8, SDLK_KP_2);
+	m_bindings.rotateViewLeft = AXIS("BindRotateViewLeft", {}, SDLK_KP_6, SDLK_KP_4);
+	m_bindings.rotateViewUp = AXIS("BindRotateViewUp", {}, SDLK_KP_8, SDLK_KP_2);
 
 #undef AXIS
 #undef ACTION
@@ -500,7 +501,7 @@ void ModelViewerWidget::OnRender(Graphics::Renderer *r)
 void ModelViewerWidget::DrawBackground()
 {
 	m_renderer->SetOrthographicProjection(0.f, 1.f, 0.f, 1.f, 0.f, 1.f);
-	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_renderer->SetTransform(matrix4x4f::Identity);
 
 	if (!m_bgMesh) {
 		const Color top = Color::BLACK;
@@ -525,7 +526,7 @@ void ModelViewerWidget::UpdateCamera()
 {
 	Graphics::ViewportExtents extents = GetViewportExtents();
 
-	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_renderer->SetTransform(matrix4x4f::Identity);
 
 	// setup rendering
 	if (!m_options.orthoView) {
@@ -548,7 +549,7 @@ void ModelViewerWidget::UpdateCamera()
 		m_modelViewMat = m_viewRot.Transpose() * matrix4x4f::Translation(-m_viewPos);
 	} else {
 		m_rot.x = Clamp(m_rot.x, -90.0f, 90.0f);
-		matrix4x4f rot = matrix4x4f::Identity();
+		matrix4x4f rot = matrix4x4f::Identity;
 		rot.RotateX(DEG2RAD(-m_rot.x));
 		rot.RotateY(DEG2RAD(-m_rot.y));
 		if (m_options.orthoView)
@@ -575,6 +576,7 @@ void ModelViewerWidget::DrawModel(matrix4x4f trans)
 		(m_options.showGeomBBox ? SceneGraph::Model::DEBUG_GEOMBBOX : 0x0) |
 		(m_options.wireframe ? SceneGraph::Model::DEBUG_WIREFRAME : 0x0));
 
+	m_model->SetRenderTime(GetApp()->GetTime());
 	m_model->Render(m_modelViewMat);
 	m_navLights->Render(m_renderer);
 }

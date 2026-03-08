@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaGame.h"
@@ -6,6 +6,7 @@
 #include "DeathView.h"
 #include "FileSystem.h"
 #include "Game.h"
+#include "GameConfig.h"
 #include "GameSaveError.h"
 #include "Json.h"
 #include "Lang.h"
@@ -51,14 +52,6 @@
  *
  *   ship_type - string, ship id, i.e. 'sinonatrix'
  *
- *
- * Availability:
- *
- *   2023
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_start_game(lua_State *l)
 {
@@ -141,19 +134,11 @@ static void onSaveGameStatsJobFinished(std::string_view filename, const Json &ro
  *   filename - The filename of the save game to retrieve stats for.
  *              Stats will be loaded from the 'savefiles' directory in the user's game directory.
  *
- * Availability:
- *
- *   2018-02-10
- *
  * Modified:
  *
  *   2024-10-11 - the function no longer returns the Stats directly, but starts
  *                a Job. The Lua caller is responsible for registering an
  *                "onSaveGameStats" event handler to process the data.
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_savegame_stats(lua_State *l)
 {
@@ -192,14 +177,6 @@ static int l_game_current_save_version(lua_State *l)
  *
  *   filename - Filename to load. It will be loaded from the 'savefiles'
  *              directory in the user's game directory.
- *
- * Availability:
- *
- *   alpha 28
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_load_game(lua_State *l)
 {
@@ -237,15 +214,6 @@ static int l_game_load_game(lua_State *l)
  * Return:
  *
  *   bool - can the filename be found to load
- *
- * Availability:
- *
- *   YYYY - MM - DD
- *   2016 - 06 - 25
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_can_load_game(lua_State *l)
 {
@@ -272,14 +240,6 @@ static int l_game_can_load_game(lua_State *l)
  * Return:
  *
  *   path - the full path to the saved file (so it can be displayed)
- *
- * Availability:
- *
- *   June 2013
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_save_game(lua_State *l)
 {
@@ -324,14 +284,6 @@ static int l_game_save_game(lua_State *l)
  * Return:
  *
  *   bool - is save deleted successfully
- *
- * Availability:
- *
- *   November 2023
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_delete_save(lua_State *l)
 {
@@ -352,14 +304,6 @@ static int l_game_delete_save(lua_State *l)
  * Return:
  *
  *   saves - a list of save-games as names and modification-date
- *
- * Availability:
- *
- *   September 2024
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_list_saves(lua_State *l)
 {
@@ -387,14 +331,6 @@ static int l_game_list_saves(lua_State *l)
  * End the current game and return to the main menu.
  *
  * > Game.EndGame(filename)
- *
- * Availability:
- *
- *   June 2013
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_end_game(lua_State *l)
 {
@@ -410,14 +346,6 @@ static int l_game_end_game(lua_State *l)
  * Attribute: player
  *
  * The <Player> object for the current player.
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_game_attr_player(lua_State *l)
 {
@@ -432,14 +360,6 @@ static int l_game_attr_player(lua_State *l)
  * Attribute: system
  *
  * The <StarSystem> object for the system the player is currently in.
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_game_attr_system(lua_State *l)
 {
@@ -454,14 +374,6 @@ static int l_game_attr_system(lua_State *l)
  * Attribute: systemView
  *
  * The <SystemView> object for the system map view class
- *
- * Availability:
- *
- *  February 2020
- *
- * Status:
- *
- *  experiment
  */
 static int l_game_attr_systemview(lua_State *l)
 {
@@ -476,14 +388,6 @@ static int l_game_attr_systemview(lua_State *l)
  * Attribute: sectorView
  *
  * The <SectorView> object for the sector map view class
- *
- * Availability:
- *
- *  April 2020
- *
- * Status:
- *
- *  experiment
  */
 static int l_game_attr_sectorview(lua_State *l)
 {
@@ -498,14 +402,6 @@ static int l_game_attr_sectorview(lua_State *l)
  * Attribute: time
  *
  * The current game time, in seconds since 12:00 01-01-3200
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_game_attr_time(lua_State *l)
 {
@@ -520,14 +416,6 @@ static int l_game_attr_time(lua_State *l)
  * Attribute: paused
  *
  * True if the game is paused.
- *
- * Availability:
- *
- *  September 2014
- *
- * Status:
- *
- *  experimental
  */
 static int l_game_attr_paused(lua_State *l)
 {
@@ -548,14 +436,6 @@ static int l_game_attr_paused(lua_State *l)
  * Return:
  *
  *   hyperspace - true if the game is currently in hyperspace
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 
 static int l_game_in_hyperspace(lua_State *l)
@@ -574,14 +454,6 @@ static int l_game_in_hyperspace(lua_State *l)
  * Return:
  *
  *   view - a string describing the game view: "WorldView", "StationView", "InfoView", "SectorView", "SystemView", "DeathView"
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 
 static int l_game_current_view(lua_State *l)
@@ -738,6 +610,75 @@ static int l_game_get_parts_from_date_time(lua_State *l)
 	return 6;
 }
 
+template<typename T>
+static int l_game_get_config(lua_State *l)
+{
+	// Restrict the template function to only a few types
+	static_assert(
+		std::is_same_v<T, bool> ||
+		std::is_same_v<T, int> ||
+		std::is_same_v<T, float> ||
+		std::is_same_v<T, std::string>
+	);
+
+	if (lua_isnone(l, 1)) {
+		return luaL_error(l, "GetConfig takes at least a key argument");
+	}
+	int arg = 1;
+	std::string section = std::string();
+	if (!lua_isnone(l, 2)) {
+		section = LuaPull<std::string>(l, arg++);
+	}
+	const std::string key = LuaPull<std::string>(l, arg++);
+	T value;
+	if constexpr (std::is_same_v<std::decay_t<T>,bool>) {
+		value = Pi::config->Int(section, key, 0) == 0? false : true;
+	} else if constexpr (std::is_same_v<std::decay_t<T>,int>) {
+		value = Pi::config->Int(section, key, 0);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,float>) {
+		value = Pi::config->Float(section, 0.0f);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,std::string>) {
+		value = Pi::config->String(section, "");
+	} else {
+		return luaL_error(l, "GetConfig was invoked with an unsupported type.");
+	}
+	LuaPush(l, value);
+	return 1;
+}
+template<typename T>
+static int l_game_set_config(lua_State *l)
+{
+	// Restrict the template function to only a few types
+	static_assert(
+		std::is_same_v<T, bool> ||
+		std::is_same_v<T, int> ||
+		std::is_same_v<T, float> ||
+		std::is_same_v<T, std::string>
+	);
+
+	if (lua_isnone(l, 1) || lua_isnone(l, 2))
+		return luaL_error(l, "SetConfig takes at least a key and a value argument");
+	int arg = 1;
+	std::string section = std::string();
+	if (!lua_isnone(l, 3)) {
+		section = LuaPull<std::string>(l, arg++);
+	}
+	const std::string key = LuaPull<std::string>(l, arg++);
+	const T value = LuaPull<T>(l, arg++);
+	if constexpr (std::is_same_v<std::decay_t<T>,bool>) {
+		Pi::config->SetInt(section, key, value == 0? 0 : 1);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,int>) {
+		Pi::config->SetInt(section, key, value);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,float>) {
+		Pi::config->SetFloat(section, key, value);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,std::string>) {
+		Pi::config->SetString(section, key, value);
+	} else {
+		return luaL_error(l, "GetConfig was invoked with an unsupported type.");
+	}
+	return 0;
+}
+
 void LuaGame::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -768,6 +709,15 @@ void LuaGame::Register()
 
 		{ "SetWorldCamType", l_game_set_world_cam_type },
 		{ "GetWorldCamType", l_game_get_world_cam_type },
+
+		{ "GetConfigBool", l_game_get_config<bool> },
+		{ "SetConfigBool", l_game_set_config<bool> },
+		{ "GetConfigInt", l_game_get_config<int> },
+		{ "SetConfigInt", l_game_set_config<int> },
+		{ "GetConfigFloat", l_game_get_config<float> },
+		{ "SetConfigFloat", l_game_set_config<float> },
+		{ "GetConfigString", l_game_get_config<std::string> },
+		{ "SetConfigString", l_game_set_config<std::string> },
 
 		{ 0, 0 }
 	};

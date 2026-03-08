@@ -40,23 +40,6 @@ std::unique_ptr<Graphics::Material> Beam::s_glowMat;
 
 void Beam::BuildModel()
 {
-	//set up materials
-	Graphics::MaterialDescriptor desc;
-	desc.textures = 1;
-
-	Graphics::RenderStateDesc rsd;
-	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
-	rsd.depthWrite = false;
-	rsd.cullMode = Graphics::CULL_NONE;
-
-	s_sideMat.reset(Pi::renderer->CreateMaterial("unlit", desc, rsd));
-	s_sideMat->SetTexture("texture0"_hash,
-		Graphics::TextureBuilder::Billboard("textures/beam_l.dds").GetOrCreateTexture(Pi::renderer, "billboard"));
-
-	s_glowMat.reset(Pi::renderer->CreateMaterial("unlit", desc, rsd));
-	s_glowMat->SetTexture("texture0"_hash,
-		Graphics::TextureBuilder::Billboard("textures/projectile_w.dds").GetOrCreateTexture(Pi::renderer, "billboard"));
-
 	//zero at projectile position
 	//+x down
 	//+y right
@@ -113,6 +96,25 @@ void Beam::BuildModel()
 
 	s_sideMesh.reset(Pi::renderer->CreateMeshObjectFromArray(&sideVerts));
 	s_glowMesh.reset(Pi::renderer->CreateMeshObjectFromArray(&glowVerts));
+
+	//set up materials
+	Graphics::MaterialDescriptor desc;
+	desc.textures = 1;
+
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
+	rsd.depthWrite = false;
+	rsd.cullMode = Graphics::CULL_NONE;
+
+	Graphics::VertexFormatDesc vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(vertexAttrs);
+
+	s_sideMat.reset(Pi::renderer->CreateMaterial("unlit", desc, rsd, vtxFormat));
+	s_sideMat->SetTexture("texture0"_hash,
+		Graphics::TextureBuilder::Billboard("textures/beam_l.dds").GetOrCreateTexture(Pi::renderer, "billboard"));
+
+	s_glowMat.reset(Pi::renderer->CreateMaterial("unlit", desc, rsd, vtxFormat));
+	s_glowMat->SetTexture("texture0"_hash,
+		Graphics::TextureBuilder::Billboard("textures/projectile_w.dds").GetOrCreateTexture(Pi::renderer, "billboard"));
 }
 
 void Beam::FreeModel()
@@ -312,7 +314,7 @@ void Beam::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	const vector3f dir = vector3f(_dir).Normalized();
 
 	vector3f v1, v2;
-	matrix4x4f m = matrix4x4f::Identity();
+	matrix4x4f m = matrix4x4f::Identity;
 	v1.x = dir.y;
 	v1.y = dir.z;
 	v1.z = dir.x;

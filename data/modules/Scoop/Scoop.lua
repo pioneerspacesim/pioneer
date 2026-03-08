@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -13,6 +13,7 @@ local Format = require 'Format'
 local Mission = require 'Mission'
 local Character = require 'Character'
 local Serializer = require 'Serializer'
+local PlayerState= require 'PlayerState'
 
 local MissionUtils = require 'modules.MissionUtils'
 local ShipBuilder  = require 'modules.MissionUtils.ShipBuilder'
@@ -291,7 +292,7 @@ local removeMission = function (mission, ref)
 
 	if mission.status == "COMPLETED" then
 		Character.persistent.player.reputation = oldReputation + mission_reputation
-		Game.player:AddMoney(mission.reward)
+		PlayerState.AddMoney(mission.reward)
 		Comms.ImportantMessage(l["SUCCESS_MSG_" .. mission.id], sender)
 	elseif mission.status == "FAILED" then
 		Character.persistent.player.reputation = oldReputation - mission_reputation
@@ -339,7 +340,7 @@ local transferCargo = function (mission, ref)
 
 			if mission.amount == 0 then
 				mission.status = "COMPLETED"
-			elseif mission.destination == nil then
+			elseif mission.location == nil then
 				mission.status = "FAILED"
 			end
 		end
@@ -411,7 +412,7 @@ local onChat = function (form, ref, option)
 			return
 		end
 
-		if ad.reward < 0 and player:GetMoney() < math.abs(ad.reward) then
+		if ad.reward < 0 and PlayerState.GetMoney() < math.abs(ad.reward) then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_MONEY)
 			form:RemoveNavButton()
 			return
@@ -430,14 +431,14 @@ local onChat = function (form, ref, option)
 		end
 		debris = spawnDebris(ad.debris_type, ad.amount, ad.planet, mindist, maxdist, ad.due - Game.time)
 
-		if ad.reward < 0 then player:AddMoney(ad.reward) end
+		if ad.reward < 0 then PlayerState.AddMoney(ad.reward) end
 		if ad.deliver_to_ship then
 			ship = spawnClientShip(ad.star, ad.ship_label)
 		end
 
 		local mission = {
 			type              = "Scoop",
-			location          = ad.location,
+			location          = debris[1].body,
 			introtext         = ad.introtext,
 			client            = ad.client,
 			station           = ad.station.path,
@@ -452,7 +453,7 @@ local onChat = function (form, ref, option)
 			deliver_to_ship   = ad.deliver_to_ship,
 			client_ship       = ship,
 			ship_label        = ad.ship_label,
-			destination       = debris[1].body
+			destination       = ad.location
 		}
 
 		table.insert(missions, Mission.New(mission))
@@ -480,6 +481,37 @@ local getPlanets = function (system)
 end
 
 local planets = nil
+
+local placeAdvert = function (station, ad)
+		ad.desc = string.interp(l["ADTEXT_" .. ad.id], { cash = Format.Money(ad.reward, false) })
+
+		local ref
+		if ad.reward < 0 then
+			ref = station:AddAdvert({
+				title       = l["ADTITLE_" .. ad.id],
+				description = ad.desc,
+				icon        = "haul",
+				onChat      = onChat,
+				onDelete    = onDelete,
+				isEnabled   = isEnabled
+			})
+		else
+			local p = Game.player.frameBody
+			ref = station:AddAdvert({
+				title       = l["ADTITLE_" .. ad.id],
+				description = ad.desc,
+				icon        = ad.id == "RESCUE" and "searchrescue" or "haul",
+				due         = ad.due,
+				dist        = p.path == ad.planet and p:GetPhysicalRadius() * 3 or nil,
+				reward      = ad.reward,
+				location    = ad.location,
+				onChat      = onChat,
+				onDelete    = onDelete,
+				isEnabled   = isEnabled
+			})
+		end
+		ads[ref] = ad
+end
 
 local makeAdvert = function (station)
 	if planets == nil then planets = getPlanets(Game.system) end
@@ -526,17 +558,7 @@ local makeAdvert = function (station)
 			ship_label        = flavour.deliver_to_ship and Ship.MakeRandomLabel() or nil
 		}
 
-		ad.desc = string.interp(l["ADTEXT_" .. flavour.id], { cash = Format.Money(ad.reward, false) })
-
-		local ref = station:AddAdvert({
-			title       = l["ADTITLE_" .. flavour.id],
-			description = ad.desc,
-			icon        = flavour.id == "RESCUE" and "searchrescue" or "haul",
-			onChat      = onChat,
-			onDelete    = onDelete,
-			isEnabled   = isEnabled
-		})
-		ads[ref] = ad
+		placeAdvert(station, ad)
 	end
 end
 
@@ -565,7 +587,7 @@ local onPlayerCargoChanged = function (comm, amount)
 	if Game.system:IsCommodityLegal(comm.name) or Game.player:IsDocked() then return end
 
 	for ref, mission in pairs(missions) do
-		if not mission.police and mission.location:IsSameSystem(Game.system.path) then
+		if not mission.police and mission.planet:IsSameSystem(Game.system.path) then
 			if (1 - Game.system.lawlessness) > Engine.rand:Number(4) then
 				local station = Game.player:FindNearestTo("SPACESTATION")
 				if station then mission.police = spawnPolice(station) end
@@ -581,20 +603,27 @@ local onCargoDestroyed = function (body, attacker)
 		for i, e in pairs(mission.debris) do
 			if body == e.body then
 				e.body = nil
-				if body == mission.destination then
+				if body == mission.location then
 					-- remove NavButton
-					mission.destination = nil
+					mission.location = nil
 				end
 				if attacker and (mission.return_to_station or mission.deliver_to_ship) then
 					mission.status = "FAILED"
 				end
-				if mission.destination == nil then
+				if mission.location == nil then
 					for i, e in pairs(mission.debris) do
 						if e.body ~= nil then
 							-- set next target
-							mission.destination = e.body
+							mission.location = e.body
 							break
 						end
+					end
+				end
+				if not mission.location and mission.status ~= "FAILED" then
+					if mission.deliver_to_ship then
+						mission.destination = l.SHIP .. "\n" .. mission.ship_label
+					else
+						mission.destination = "-\n-"
 					end
 				end
 				break
@@ -656,14 +685,13 @@ local onShipDestroyed = function (ship, attacker)
 				station = mission.station:GetSystemBody().name
 			})
 			Comms.ImportantMessage(msg, mission.client.name)
+			mission.destination = mission.station
 			break
 		end
 	end
 end
 
-local onShipDocked = function (player, station)
-	if not player:IsPlayer() then return end
-
+local onPlayerDocked = function (player, station)
 	for ref, mission in pairs(missions) do
 		if mission.police then
 			for _, s in pairs(mission.police) do
@@ -690,7 +718,7 @@ local onShipDocked = function (player, station)
 			end
 			if mission.amount == 0 then
 				mission.status = "COMPLETED"
-			elseif mission.destination == nil then
+			elseif mission.location == nil then
 				mission.status = "FAILED"
 			end
 
@@ -700,16 +728,14 @@ local onShipDocked = function (player, station)
 
 		-- remove stale missions, if any
 		-- all cargo related to flavour 1 and 2 scooped or destroyed
-		elseif mission.reward < 0 and mission.destination == nil then
+		elseif mission.reward < 0 and mission.location == nil then
 			mission:Remove()
 			missions[ref] = nil
 		end
 	end
 end
 
-local onShipUndocked = function (player, station)
-	if not player:IsPlayer() then return end
-
+local onPlayerUndocked = function (player, station)
 	for ref, mission in pairs(missions) do
 		if mission.police then
 			for _, s in pairs(mission.police) do
@@ -736,7 +762,7 @@ local getPopulatedPlanets = function (system)
 end
 
 local onEnterSystem = function (ship)
-	if not ship:IsPlayer() or Game.system.population == 0 then return end
+	if Game.system.population == 0 then return end
 
 	local planets = getPopulatedPlanets(Game.system)
 	local num = Engine.rand:Integer(0, math.ceil(Game.system.population * Game.system.lawlessness))
@@ -756,22 +782,20 @@ local onEnterSystem = function (ship)
 end
 
 local onLeaveSystem = function (ship)
-	if ship:IsPlayer() then
-		for ref, mission in pairs(missions) do
-			mission.destination = nil
-			mission.police = nil
-			if mission.client_ship then
-				mission.client_ship = nil
-				mission.status = "FAILED"
-			end
-			for i, e in pairs(mission.debris) do
-				e.body = nil
-			end
+	for ref, mission in pairs(missions) do
+		mission.location = nil
+		mission.police = nil
+		if mission.client_ship then
+			mission.client_ship = nil
+			mission.status = "FAILED"
 		end
-		planets = nil
-		flavours[LEGAL].cargo_type = nil
-		flavours[ILLEGAL].cargo_type = nil
+		for i, e in pairs(mission.debris) do
+			e.body = nil
+		end
 	end
+	planets = nil
+	flavours[LEGAL].cargo_type = nil
+	flavours[ILLEGAL].cargo_type = nil
 end
 
 local onReputationChanged = function (oldRep, oldKills, newRep, newKills)
@@ -804,7 +828,7 @@ local buildMissionDescription = function(mission)
 	}
 
 	desc.client = mission.client
-	desc.location = mission.destination or nil
+	desc.location = mission.location or nil
 	if mission.deliver_to_ship then
 		desc.returnLocation = mission.client_ship or mission.station
 	end
@@ -820,16 +844,8 @@ local onGameStart = function ()
 
 	if loaded_data and loaded_data.ads then
 
-		for k, ad in pairs(loaded_data.ads) do
-			local ref = ad.station:AddAdvert({
-				title       = l["ADTITLE_" .. ad.id],
-				description = ad.desc,
-				icon        = ad.id == "RESCUE" and "searchrescue" or "haul",
-				onChat      = onChat,
-				onDelete    = onDelete,
-				isEnabled   = isEnabled
-			})
-			ads[ref] = ad
+		for _, ad in pairs(loaded_data.ads) do
+			placeAdvert(ad.station, ad)
 		end
 
 		missions = loaded_data.missions
@@ -863,8 +879,8 @@ end
 
 Event.Register("onCreateBB", onCreateBB)
 Event.Register("onUpdateBB", onUpdateBB)
-Event.Register("onShipDocked", onShipDocked)
-Event.Register("onShipUndocked", onShipUndocked)
+Event.Register("onPlayerDocked", onPlayerDocked)
+Event.Register("onPlayerUndocked", onPlayerUndocked)
 Event.Register("onShipHit", onShipHit)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onJettison", onJettison)

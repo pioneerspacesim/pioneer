@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -12,14 +12,12 @@ local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
 local utils = require 'utils'
+local PlayerState = require 'PlayerState'
 
 local MissionUtils = require 'modules.MissionUtils'
 local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
 
-local OutfitRules = ShipBuilder.OutfitRules
-
 local l = Lang.GetResource("module-cargorun")
-local l_ui_core = Lang.GetResource("ui-core")
 local lc = Lang.GetResource 'core'
 
 local PirateTemplate = MissionUtils.ShipTemplates.WeakPirate
@@ -79,13 +77,21 @@ local getNumberOfFlavours = function (str)
 end
 
 local getRiskMsg = function (mission)
+	local cargo = mission.cargotype.l10n_key .. "_RISK_MESSAGE"
+	local num_custom_risk = getNumberOfFlavours(cargo)
+	local test_custom = num_custom_risk > 0 and Engine.rand:Integer(1,10) < 2 -- 1 in 10
 	if mission.localdelivery then
-		return l.RISK_1 -- very low risk -> no specific text to give no confusing answer
+		return test_custom and l[cargo .. "_" .. Engine.rand:Integer(1, num_custom_risk)]
+			or l.RISK_1	-- very low risk -> no specific text to give no confusing answer
 	else
 		local branch
 		if mission.wholesaler then branch = "WHOLESALER" else branch = mission.branch end
-		return l:get("RISK_" .. branch .. "_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1)
+		if test_custom and mission.risk < 0.2 then
+			return l[cargo .. "_" .. Engine.rand:Integer(1, num_custom_risk)]
+		else
+			return l:get("RISK_" .. branch .. "_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1)
 			or l["RISK_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK") - 1)) + 1]
+		end
 	end
 end
 
@@ -174,13 +180,15 @@ onChat = function (form, ref, option)
 
 	elseif option == 1 then
 		local n = getNumberOfFlavours("WHYSOMUCH_" .. ad.branch)
+		local whysomuch
 		if n >= 1 then
-			form:SetMessage(string.interp(l["WHYSOMUCH_" .. ad.branch .. "_" .. Engine.rand:Integer(1, n)], { cargoname = ad.cargotype:GetName() }))
+			whysomuch = string.interp(l["WHYSOMUCH_" .. ad.branch .. "_" .. Engine.rand:Integer(1, n)], { cargoname = ad.cargotype:GetName() })
 		elseif ad.urgency >= 0.8 then
-			form:SetMessage(string.interp(l["WHYSOMUCH_URGENT_" .. Engine.rand:Integer( 1, getNumberOfFlavours("WHYSOMUCH_URGENT"))], { cargoname = ad.cargotype:GetName() }))
+			whysomuch = string.interp(l["WHYSOMUCH_URGENT_" .. Engine.rand:Integer( 1, getNumberOfFlavours("WHYSOMUCH_URGENT"))], { cargoname = ad.cargotype:GetName() })
 		else
-			form:SetMessage(string.interp(l["WHYSOMUCH_" .. Engine.rand:Integer( 1, getNumberOfFlavours("WHYSOMUCH"))], { cargoname = ad.cargotype:GetName() }))
+			whysomuch = string.interp(l["WHYSOMUCH_" .. Engine.rand:Integer( 1, getNumberOfFlavours("WHYSOMUCH"))], { cargoname = ad.cargotype:GetName() })
 		end
+		form:SetMessage(whysomuch:scase())
 
 	elseif option == 2 then
 		local howmuch
@@ -231,6 +239,7 @@ onChat = function (form, ref, option)
 			domicile        = ad.domicile,
 			client          = ad.client,
 			location        = ad.location,
+			destination     = ad.location,
 			localdelivery   = ad.localdelivery,
 			wholesaler      = ad.wholesaler,
 			pickup          = ad.pickup,
@@ -242,8 +251,12 @@ onChat = function (form, ref, option)
 			amount          = ad.negotiated_amount,
 			branch          = ad.branch,
 			cargotype       = ad.cargotype,
+			status          = cargo_picked_up and "ACTIVE" or "TO_PICK_UP",
 		}
-		table.insert(missions,Mission.New(mission))
+
+		mission = Mission.New(mission)
+		table.insert(missions, mission)
+		MissionUtils.SetupOverdueTimer(mission)
 
 		if ad.amount ~= ad.negotiated_amount then
 			-- recreate advert with the rest of the cargo
@@ -297,7 +310,7 @@ onChat = function (form, ref, option)
 			howmuch = string.interp(l["NEGOTIABLE_NO_" .. Engine.rand:Integer(1,getNumberOfFlavours("NEGOTIABLE_NO"))],
 				{amount = ad.amount})
 		end
-		form:SetMessage(howmuch)
+		form:SetMessage(howmuch:scase())
 
 	elseif option > 10 then
 		ad.negotiated_amount = option - 10
@@ -490,8 +503,6 @@ local escort_chatter_time
 local escort_switch_target
 
 local onEnterSystem = function (player)
-	if (not player:IsPlayer()) then return end
-
 	local syspath = Game.system.path
 
 	for ref,mission in pairs(missions) do
@@ -550,10 +561,6 @@ local onEnterSystem = function (player)
 					pirate_switch_target = Game.time + Engine.rand:Integer(90, 120)
 				end
 			end
-		end
-
-		if mission.status == "ACTIVE" and Game.time > mission.due then
-			mission.status = 'FAILED'
 		end
 	end
 end
@@ -656,15 +663,12 @@ local onShipHit = function (ship, attacker)
 end
 
 local onLeaveSystem = function (ship)
-	if ship:IsPlayer() then
-		nearbysystems = nil
-		pirate_ships = {}
-		escort_ships = {}
-	end
+	nearbysystems = nil
+	pirate_ships = {}
+	escort_ships = {}
 end
 
-local onShipDocked = function (player, station)
-	if not player:IsPlayer() then return end
+local onPlayerDocked = function (player, station)
 
 	-- First drop off cargo (if any such missions)
 	for ref,mission in pairs(missions) do
@@ -677,7 +681,7 @@ local onShipDocked = function (player, station)
 			local oldReputation = Character.persistent.player.reputation
 
 			---@type CargoManager
-			local cargoMgr = Game.player:GetComponent('CargoManager')
+			local cargoMgr = player:GetComponent('CargoManager')
 			local amount = cargoMgr:RemoveCommodity(mission.cargotype, mission.amount)
 
 			if Game.time <= mission.due and amount == mission.amount then
@@ -689,11 +693,11 @@ local onShipDocked = function (player, station)
 				end
 
 				Character.persistent.player.reputation = Character.persistent.player.reputation + reputation
-				player:AddMoney(mission.reward)
+				PlayerState.AddMoney(mission.reward)
 			else
 				if amount < mission.amount then
 					Comms.ImportantMessage(l.WHAT_IS_THIS, mission.client.name)
-					player:AddMoney((amount - mission.amount) * mission.cargotype.price) -- pay for the missing
+					PlayerState.AddMoney((amount - mission.amount) * mission.cargotype.price) -- pay for the missing
 					Comms.ImportantMessage(l.I_HAVE_DEBITED_YOUR_ACCOUNT, mission.client.name)
 				else
 					local n = getNumberOfFlavours("FAILUREMSG_" .. mission.branch)
@@ -712,9 +716,6 @@ local onShipDocked = function (player, station)
 
 			mission:Remove()
 			missions[ref] = nil
-
-		elseif mission.status == "ACTIVE" and Game.time > mission.due then
-			mission.status = 'FAILED'
 		end
 	end
 
@@ -726,7 +727,7 @@ local onShipDocked = function (player, station)
 			if Game.time < mission.due then
 
 				---@type CargoManager
-				local cargoMgr = Game.player:GetComponent('CargoManager')
+				local cargoMgr = player:GetComponent('CargoManager')
 
 				if cargoMgr:GetFreeSpace() < mission.amount then
 					Comms.ImportantMessage(l.YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE, mission.client.name)
@@ -734,6 +735,8 @@ local onShipDocked = function (player, station)
 					cargoMgr:AddCommodity(mission.cargotype, mission.amount);
 					mission.cargo_picked_up = true
 					Comms.ImportantMessage(l.WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP, mission.client.name)
+					mission.status = "ACTIVE"
+					mission.destination = mission.domicile
 				end
 
 			else
@@ -775,6 +778,11 @@ local onGameStart = function ()
 			postAdvert(ad.station, ad)
 		end
 		missions = loaded_data.missions
+
+		for _, mission in pairs(missions) do
+			MissionUtils.SetupOverdueTimer(mission)
+		end
+
 		custom_cargo = loaded_data.custom_cargo
 		custom_cargo_weight_sum = loaded_data.custom_cargo_weight_sum
 		loaded_data = nil
@@ -828,7 +836,7 @@ local buildMissionDescription = function(mission)
 			{ l.DISTANCE,	dist.." "..lc.UNIT_LY },
 			false,
 			{ l.DEADLINE,	ui.Format.Date(mission.due) },
-			{ l.CARGO,		mission.cargotype:GetName() },
+			{ l.CARGO,		mission.cargotype:GetName():scase() },
 			{ l.AMOUNT,		mission.amount.."t " },
 			{ l.DANGER,		danger },
 		}
@@ -847,7 +855,7 @@ local buildMissionDescription = function(mission)
 			{ l.DISTANCE,	domicileDist.. " " .. lc.UNIT_LY },
 			false,
 			{ l.DEADLINE,	ui.Format.Date(mission.due) },
-			{ l.CARGO,		mission.cargotype:GetName() },
+			{ l.CARGO,		(mission.cargotype:GetName():scase()) },
 			{ l.AMOUNT,		mission.amount.."t "..is_cargo_loaded },
 			{ l.DANGER,		danger },
 		}
@@ -870,7 +878,7 @@ Event.Register("onCreateBB", onCreateBB)
 Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onLeaveSystem", onLeaveSystem)
-Event.Register("onShipDocked", onShipDocked)
+Event.Register("onPlayerDocked", onPlayerDocked)
 Event.Register("onShipFiring", onShipFiring)
 Event.Register("onShipHit", onShipHit)
 Event.Register("onShipDestroyed", onShipDestroyed)

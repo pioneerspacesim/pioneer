@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GEOMTREE_H
@@ -22,6 +22,15 @@ struct isect_t {
 
 class SingleBVHTreeBase;
 
+/*
+ * GeomTree is a minimal container for mesh collision data.
+ * It implements tri- and edge-list storage and basic ray-triangle collision testing.
+ *
+ * See Also:
+ * Geom - wraps GeomTree and provides more advanced collision testing algorithms.
+ * BVHTree - minimal bounding-volume-hierarchy tree, used here to spatially accelerate
+ * triangle and edge tests.
+ */
 class GeomTree {
 public:
 	GeomTree(const int numVerts, const int numTris, const std::vector<vector3f> &vertices, const std::vector<Uint32> &indices, const std::vector<Uint32> &triFlags);

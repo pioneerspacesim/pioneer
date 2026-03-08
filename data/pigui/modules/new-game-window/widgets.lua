@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Defs = require 'pigui.modules.new-game-window.defs'
@@ -169,7 +169,7 @@ Widgets.filledHeader = function(label, width)
 
 	local p1 = ui.getCursorScreenPos()
 	local p2 = Vector2(p1.x + width, p1.y + fillHeight)
-	ui.addRectFilled(p1, p2, ui.theme.colors.tableHighlight, 0, 0)
+	ui.addRectFilled(p1, p2, ui.theme.colors.tableHighlight, 0, ui.RoundCornersNone)
 
 	ui.addCursorPos(Defs.gap)
 	ui.text(label)

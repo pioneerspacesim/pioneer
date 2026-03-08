@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local EquipType = require 'EquipType'
@@ -53,6 +53,8 @@ function LaserType:OnInstall(ship, slot)
 	EquipType.OnInstall(self, ship, slot)
 
 	ship:GetComponent('GunManager'):MountWeapon(slot.id, self.weapon_data)
+	--- TEMP: enable always-on firing until a UI is provided to the player
+	ship:GetComponent('GunManager'):SetGroupFireWithoutTargeting(0, true)
 end
 
 ---@param ship Ship
@@ -340,6 +342,10 @@ function CabinType:OnRemove(ship, slot)
 		logWarning("Removing passenger cabin with passengers onboard!")
 		ship:setprop("cabin_occupied_cap", ship["cabin_occupied_cap"] - #self.passengers)
 	end
+end
+
+function CabinType:CanBeSold()
+	return (not self.passengers or #self.passengers == 0) and EquipType.CanBeSold(self)
 end
 
 --==============================================================================

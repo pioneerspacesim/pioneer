@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SaveGameManager.h"
@@ -15,8 +15,9 @@
 
 static const char s_saveDirName[] = "savefiles";
 
-// Last incremented: 01/2025 prior to 02-03-2025 release
-static const int s_saveVersion = 91;
+// SAVEBUMP: increment before release after breaking saved-game compatibility
+// Last incremented: 02/2026 prior to 02-03-2026 release
+static const int s_saveVersion = 92;
 
 // A simple job to load a savegame into a Json object
 class LoadGameToJsonJob : public Job

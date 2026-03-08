@@ -53,7 +53,7 @@
   },
   "BIND_CYCLE_HOSTILES": {
     "description": "Descriptive name for the CycleHostiles action.",
-    "message": "Durch Feinde Ziele schalten"
+    "message": "Durch feindliche Ziele schalten"
   },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
@@ -61,11 +61,11 @@
   },
   "BIND_FIXHEADING_RADIAL": {
     "description": "Descriptive name for the action binding.",
-    "message": "Open Attitude Hold Radial Menu"
+    "message": "Öffne Pop-up für das Halten der radialen Ausrichtung"
   },
   "BIND_FLIGHT_ASSIST_RADIAL": {
     "description": "Descriptive name for the action binding.",
-    "message": "Open Flight Assist Radial Menu"
+    "message": "Öffne Pop-up des Flight Assists"
   },
   "BIND_FRONT_CAMERA": {
     "description": "Descriptive name for the FrontCamera action.",
@@ -133,27 +133,27 @@
   },
   "BIND_RADAR_TOGGLE_MODE": {
     "description": "Descriptive name for the RadarToggle action.",
-    "message": "Toggle Radar Display Mode"
+    "message": "Modus der Radaranzeige umschalten"
   },
   "BIND_RADAR_ZOOM_IN": {
     "description": "Descriptive name for the RadarZoomIn action.",
-    "message": "Manual Zoom Radar In"
+    "message": "Radar manuell hereinzoomen"
   },
   "BIND_RADAR_ZOOM_OUT": {
     "description": "Descriptive name for the RadarZoomOut action.",
-    "message": "Manual Zoom Radar Out"
+    "message": "Radar manuell herauszoomen"
   },
   "BIND_RADAR_ZOOM_RESET": {
     "description": "Descriptive name for the RadarZoomReset action.",
-    "message": "Reset Radar Zoom"
+    "message": "Radarzoom zurücksetzen"
   },
   "BIND_RADIAL_HORIZONTAL_SELECTION": {
     "description": "Input axis name to select in the radial menu.",
-    "message": "Radial Menu Left/Right"
+    "message": "Pop-up Menü-Auswahl Links/Rechts"
   },
   "BIND_RADIAL_VERTICAL_SELECTION": {
     "description": "Input axis name to select in the radial menu.",
-    "message": "Radial Menu Up/Down"
+    "message": "Pop-up Menü-Auswahl Oben/Unten"
   },
   "BIND_REAR_CAMERA": {
     "description": "Descriptive name for the RearCamera action.",
@@ -185,7 +185,7 @@
   },
   "BIND_TARGET_RADIAL": {
     "description": "Descriptive name for opening the TargetRadial popup.",
-    "message": "Open Target Radial Menu"
+    "message": "Öffne Pop-up für radiale Ausrichtung"
   },
   "BIND_THRUST_LOW_POWER": {
     "description": "Descriptive name for the ThrustLowPower action.",
@@ -193,7 +193,7 @@
   },
   "BIND_TOGGLE_CRUISE": {
     "description": "Descriptive name for the action binding.",
-    "message": "Toggle Cruise Mode"
+    "message": "Automatische Reglung umschalten"
   },
   "BIND_TOGGLE_HUD_MODE": {
     "description": "Descriptive name for the ToggleHudMode action.",
@@ -213,7 +213,7 @@
   },
   "BIND_TOGGLE_SPEED_LIMITER": {
     "description": "Descriptive name for the action binding.",
-    "message": "Toggle Speed Limiter"
+    "message": "Geschwindigkeitslimit umschalten"
   },
   "BIND_TOP_CAMERA": {
     "description": "Descriptive name for the TopCamera action.",
@@ -229,7 +229,7 @@
   },
   "CONNECTED": {
     "description": "Joystick status in the list",
-    "message": "Connected"
+    "message": "Verbunden"
   },
   "CURRENT_VALUE": {
     "description": "",
@@ -264,7 +264,7 @@
   },
   "GROUP_RADAR_CONTROL": {
     "description": "Group label for radar-related inputs",
-    "message": "Radar Control"
+    "message": "Radarsteuerung"
   },
   "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
     "description": "Header for the SectorMapViewControls input group.",
@@ -316,7 +316,7 @@
   },
   "NOT_CONNECTED": {
     "description": "Joystick status in the list",
-    "message": "Not connected"
+    "message": "Nicht verbunden"
   },
   "NUM_AXES": {
     "description": "",
@@ -344,7 +344,7 @@
   },
   "PAGE_SHIP_HUD": {
     "description": "Header for the ShipHUD input page.",
-    "message": "Ship - HUD"
+    "message": "Schiff - HUD"
   },
   "PAGE_SHIP_VIEW": {
     "description": "Header for the ShipView input page.",

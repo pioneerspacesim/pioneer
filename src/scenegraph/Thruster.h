@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SCENEGRAPH_THRUSTER_H
@@ -44,6 +44,7 @@ namespace SceneGraph {
 		vector3f dir;
 		vector3f pos;
 		Color currentColor;
+		float displayedPower; // used to fade in/out to power (size) of thruster shown
 	};
 
 } // namespace SceneGraph

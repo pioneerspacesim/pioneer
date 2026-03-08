@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -6,6 +6,7 @@ local ShipDef = require 'ShipDef'
 local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
 local EquipCard = require 'pigui.libs.equip-card'
 local EquipSet  = require 'EquipSet'
+local PlayerState = require 'PlayerState'
 local pigui = require 'Engine'.pigui
 local Vector2 = Vector2
 
@@ -17,6 +18,7 @@ local Outfitter = require 'pigui.libs.equipment-outfitter'
 local Lang = require 'Lang'
 local l = Lang.GetResource("ui-core")
 local le = Lang.GetResource("equipment-core")
+local ls = Lang.GetResource("ships")
 
 local ui = require 'pigui'
 local colors = ui.theme.colors
@@ -25,6 +27,7 @@ local pionillium = ui.fonts.pionillium
 
 local lineSpacing = ui.rescaleUI(Vector2(8, 6))
 local iconSize = Vector2(pionillium.body.size)
+local noSavedSettings = ui.WindowFlags { 'NoSavedSettings' }
 
 local equipmentInfoTab
 
@@ -62,7 +65,7 @@ function EquipmentWidget:onBuyItem(equip)
 		equip = equip:Instance()
 	end
 
-	player:AddMoney(-self.market:getBuyPrice(equip))
+	PlayerState.AddMoney(-self.market:getBuyPrice(equip))
 	self.station:AddEquipmentStock(equip:GetPrototype(), -1)
 
 	assert(self.ship:GetComponent("EquipSet"):Install(equip, self.selectedSlot))
@@ -78,7 +81,7 @@ function EquipmentWidget:onSellItem(equip)
 
 	local player = Game.player
 
-	player:AddMoney(self.market:getSellPrice(equip))
+	PlayerState.AddMoney(self.market:getSellPrice(equip))
 	self.station:AddEquipmentStock(equip:GetPrototype(), 1)
 
 	assert(self.ship:GetComponent("EquipSet"):Remove(equip))
@@ -191,8 +194,12 @@ function EquipmentWidget:onSelectSlot(slotData, children)
 
 		self.market.filterSlot = self.selectedSlot
 		self.market.replaceEquip = self.selectedEquip
-		self.market.canReplaceEquip = not hasChildren
-		self.market.canSellEquip = not (self.selectedSlot and self.selectedSlot.required or hasChildren)
+
+		local canBeSold = not self.selectedEquip or self.selectedEquip:CanBeSold()
+
+		self.market.canReplaceEquip = not hasChildren and canBeSold
+		self.market.canSellEquip = not (self.selectedSlot and self.selectedSlot.required or hasChildren) and canBeSold
+
 		self.market:refresh()
 	end
 end
@@ -456,7 +463,7 @@ function EquipmentWidget:drawOpenHeader(id, defaultOpen, fun)
 	local tl, br = ui.getItemRect()
 
 	local color = ui.getButtonColor(ui.theme.buttonColors.transparent, ui.isItemHovered(), ui.isItemActive())
-	ui.addRectFilled(tl, br, color, ui.theme.styles.ItemCardRounding, 0xF)
+	ui.addRectFilled(tl, br, color, ui.theme.styles.ItemCardRounding, ui.RoundCornersAll)
 
 	ui.addIconSimple((tl + br - iconSize) * 0.5,
 		isOpen and icons.chevron_up or icons.chevron_down,
@@ -519,11 +526,11 @@ function EquipmentWidget:drawShipSpinner()
 	ui.group(function ()
 
 		ui.withFont(ui.fonts.orbiteer.large, function()
-
+			shipname = ls[shipDef.i18n_key]
 			if self.showShipNameEdit then
 
 				ui.alignTextToFramePadding()
-				ui.text(shipDef.name)
+				ui.text(shipname)
 				ui.sameLine()
 
 				ui.pushItemWidth(-1.0)
@@ -535,7 +542,7 @@ function EquipmentWidget:drawShipSpinner()
 				end
 
 			else
-				ui.text(shipDef.name)
+				ui.text(shipname)
 			end
 
 		end)
@@ -564,7 +571,7 @@ end
 
 function EquipmentWidget:render()
 	ui.withFont(pionillium.body, function()
-		ui.child("ShipInfo", Vector2(ui.getContentRegion().x * 1 / 3, 0), { "NoSavedSettings" }, function()
+		ui.child("ShipInfo", Vector2(ui.getContentRegion().x * 1 / 3, 0), noSavedSettings, function()
 			if #self.tabs > 1 then
 				self.activeTab = ui.tabBarFont("##tabs", self.tabs, pionillium.heading, self)
 			else

@@ -1,15 +1,11 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
 local Game = require 'Game'
-local Ship = require 'Ship'
 local ShipDef = require 'ShipDef'
-local Equipment = require 'Equipment'
 local MusicPlayer = require 'modules.MusicPlayer'
 local Lang = require 'Lang'
-local FlightLog = require 'modules.FlightLog.FlightLog'
-local Character = require 'Character'
 local Vector2 = _G.Vector2
 local NewGameWindow = require("pigui.modules.new-game-window.class")
 
@@ -88,6 +84,10 @@ end
 
 local function showOptions()
 	ui.optionsWindow:open()
+end
+
+local function showAbout()
+	ui.aboutWindow:open()
 end
 
 local function quitGame()
@@ -188,6 +188,7 @@ local function showMainMenu()
 			end)
 
 			mainTextButton(lui.OPTIONS, nil, true, showOptions)
+			mainTextButton(lui.ABOUT, nil, true, showAbout)
 			mainTextButton(lui.QUIT, nil, true, quitGame)
 
 			if showQuitConfirm then confirmQuit() end

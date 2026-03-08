@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Camera.h"
@@ -17,6 +17,7 @@
 #include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"
 #include "graphics/RenderState.h"
+#include "graphics/VertexBuffer.h"
 
 #include "profiler/Profiler.h"
 
@@ -38,7 +39,7 @@ CameraContext::CameraContext(float width, float height, float fovAng, float zNea
 	m_projMatrix(matrix4x4f::InfinitePerspectiveMatrix(DEG2RAD(m_fovAng), m_width / m_height, m_zNear)),
 	m_frame(FrameId::Invalid),
 	m_pos(0.0),
-	m_orient(matrix3x3d::Identity()),
+	m_orient(matrix3x3d::Identity),
 	m_camFrame(FrameId::Invalid)
 {
 }
@@ -52,8 +53,9 @@ CameraContext::~CameraContext()
 void CameraContext::SetFovAng(float newAng)
 {
 	m_fovAng = newAng;
-	m_frustum = Frustum(m_width, m_height, m_fovAng, m_zNear, m_zFar);
-	m_projMatrix = matrix4x4f::InfinitePerspectiveMatrix(DEG2RAD(m_fovAng), m_width / m_height, m_zNear);
+	const float fovAngRadians = DEG2RAD(m_fovAng);
+	m_frustum = Frustum(m_width, m_height, fovAngRadians, m_zNear, m_zFar);
+	m_projMatrix = matrix4x4f::InfinitePerspectiveMatrix(fovAngRadians, m_width / m_height, m_zNear);
 }
 
 void CameraContext::BeginFrame()
@@ -88,7 +90,7 @@ void CameraContext::ApplyDrawTransforms(Graphics::Renderer *r)
 {
 	Graphics::SetFov(m_fovAng);
 	r->SetProjection(GetProjectionMatrix());
-	r->SetTransform(matrix4x4f::Identity());
+	r->SetTransform(matrix4x4f::Identity);
 }
 
 bool Camera::BodyAttrs::sort_BodyAttrs(const BodyAttrs &a, const BodyAttrs &b)
@@ -121,7 +123,9 @@ Camera::Camera(RefCountedPtr<CameraContext> context, Graphics::Renderer *rendere
 	rsd.depthWrite = false;
 	rsd.primitiveType = Graphics::POINTS;
 
-	m_billboardMaterial.reset(m_renderer->CreateMaterial("billboards", desc, rsd));
+	Graphics::VertexFormatDesc vfmt = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
+
+	m_billboardMaterial.reset(m_renderer->CreateMaterial("billboards", desc, rsd, vfmt));
 	m_billboardMaterial->SetTexture("texture0"_hash,
 		Graphics::TextureBuilder::Billboard("textures/planet_billboard.dds").GetOrCreateTexture(m_renderer, "billboard"));
 }
@@ -136,7 +140,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 	if (body && !frame->IsRotFrame() && (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)) {
 		vector3d lpos = frame->GetPositionRelTo(camFrame->GetId());
 
-		const Color &col = StarSystem::starRealColors[body->GetType()];
+		const Color &col = body->GetStarColor();
 
 		const Color lightCol(col[0], col[1], col[2], 0);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
@@ -202,7 +206,7 @@ void Camera::Update()
 				// limit the minimum billboard size for planets so they're always a little visible
 				attrs.billboardSize = std::max(1.0f, pixSize);
 				if (b->IsType(ObjectType::STAR)) {
-					attrs.billboardColor = StarSystem::starRealColors[b->GetSystemBody()->GetType()];
+					attrs.billboardColor = b->GetSystemBody()->GetStarColor();
 				} else if (b->IsType(ObjectType::PLANET)) {
 					// XXX this should incorporate some lighting effect
 					// (ie, colour of the illuminating star(s))
@@ -345,7 +349,7 @@ void Camera::Draw(const Body *excludeBody)
 	RestoreLighting();
 
 	if (!billboards.IsEmpty()) {
-		Graphics::Renderer::MatrixTicket mt(m_renderer, matrix4x4f::Identity());
+		Graphics::Renderer::MatrixTicket mt(m_renderer, matrix4x4f::Identity);
 		m_renderer->DrawBuffer(&billboards, m_billboardMaterial.get());
 	}
 
@@ -379,7 +383,7 @@ void Camera::CalcLighting(const Body *b, double &ambient, double &direct) const
 	vector3d upDir = b->GetInterpPositionRelTo(rotFrame);
 	const double planetRadius = planet->GetSystemBody()->GetRadius();
 	const double dist = std::max(planetRadius, upDir.Length());
-	upDir = upDir.Normalized();
+	upDir.Normalize();
 
 	double pressure, density;
 	planet->GetAtmosphericState(dist, &pressure, &density);

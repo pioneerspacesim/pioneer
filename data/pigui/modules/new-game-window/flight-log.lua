@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txtl
 
 local ui = require 'pigui'
@@ -153,7 +153,7 @@ local function systemPathFromTable(t)
 
 	local system = Location:getGalaxy():GetStarSystem(path)
 	if not system then
-		return SystemPath:SectorOnly()
+		return path:SectorOnly()
 	end
 	if path:IsSystemPath() then return path end
 

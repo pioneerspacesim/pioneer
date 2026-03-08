@@ -1,38 +1,49 @@
-material Fuselage
-diffuse 1.0 1.0 1.0
-specular 0.7 0.7 0.7
-shininess 69
-tex_diff xylophis_diff.dds
-tex_spec xylophis_spec.dds
-tex_norm xylophis_norm.png
-tex_glow xylophis_glow.dds
-use_patterns
+version 2
 
-material Transparent
-diffuse 1.0 1.0 1.0
-specular 0.7 0.7 0.7
-shininess 69
-opacity 70
-tex_diff xylophis_diff.dds
-tex_spec xylophis_spec.dds
-tex_norm xylophis_norm.png
-tex_glow xylophis_glow.dds
+material "Fuselage" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.7 0.7 0.7
+	shininess 69
+	texture diffuse  "xylophis_diff.dds"
+	texture specular "xylophis_spec.dds"
+	texture normal   "xylophis_norm.png"
+	texture glow     "xylophis_glow.dds"
+	use_patterns
+}
 
-material int
-diffuse 0.1 0.1 0.1
-specular 0.0 0.0 0.0
-shininess 0	
-tex_ambi xylophis_int_diff.dds
+material "Transparent" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.7 0.7 0.7
+	shininess 69
+	opacity 70
+	texture diffuse  "xylophis_diff.dds"
+	texture specular "xylophis_spec.dds"
+	texture normal   "xylophis_norm.png"
+	texture glow     "xylophis_glow.dds"
+}
 
-lod 300
-mesh xylophis_hi.dae
+material "int" {
+	shader "multi"
+	diffuse 0.1 0.1 0.1
+	specular 0.0 0.0 0.0
+	shininess 0	
+	texture ambient "xylophis_int_diff.dds"
+}
 
-lod 100
-mesh xylophis_med.dae
+lod 300 {
+	mesh "xylophis_hi.dae"
+}
 
-lod 50
-mesh xylophis_low.dae
+lod 100 {
+	mesh "xylophis_med.dae"
+}
 
-anim gear_down 0 70
+lod 50 {
+	mesh "xylophis_low.dae"
+}
 
-collision xylophis_coll.dae
+anim "gear_down" 0 70
+
+collision "xylophis_coll.dae"

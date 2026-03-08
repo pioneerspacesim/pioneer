@@ -1,4 +1,68 @@
 {
+  "FINES_ADMONISHING_1": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Prosze odwiedzić najbliższy posterunek {policeforce}, żeby opłacić swoje mandaty."
+  },
+  "FINES_ADMONISHING_2": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Prosze odwiedzić najbliższy posterunek {policeforce}, żeby rozwiązać te sprawe."
+  },
+  "FINES_ADMONISHING_3": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Musisz to wyjaśnić, bo będzie tylko co raz gorzej."
+  },
+  "FINES_ADMONISHING_4": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Na każdej większej stacji jest {policeforce}. Opłać swoje mandaty!"
+  },
+  "FINES_ADMONISHING_HARSH_1": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "To musi zostać wyjaśnione, albo czekają konsekwencje!"
+  },
+  "FINES_ADMONISHING_HARSH_2": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Nieopłacone mandaty będą sciągane za pomocą prawa."
+  },
+  "FINES_ADMONISHING_HARSH_3": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "To poważna sprawa i musisz ją wyjaśnić. Im szybciej, tym lepiej."
+  },
+  "FINES_ADMONISHING_HARSH_4": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Jeśli nie opłacisz swoich mandatów, skończysz jako kryminalista. Opłać swoje zaległości jeszcze dzisiaj!"
+  },
+  "FINES_INTRO_1": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Czekaj, to nie wszystko."
+  },
+  "FINES_INTRO_2": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Jeszcze jedno {ship_label}."
+  },
+  "FINES_INTRO_3": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Czekaj!"
+  },
+  "FINES_INTRO_4": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "{ship_label}."
+  },
+  "FINES_MESSAGE_1": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Masz zaległe grzywny."
+  },
+  "FINES_MESSAGE_2": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Jesteś oznaczony jako zalegający z opłatami za grzywny."
+  },
+  "FINES_MESSAGE_3": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Widzimy że masz zaległe grzywny do zapłacenia."
+  },
+  "FINES_MESSAGE_4": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "W sumie masz {fine} grzywny do opłacenia."
+  },
   "ILLEGAL_GOODS_DETECTED": {
     "description": "",
     "message": "Wykryto nielegalne dobra."

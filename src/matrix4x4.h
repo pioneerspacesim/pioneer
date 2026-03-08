@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _MATRIX4X4_H
@@ -9,13 +9,13 @@
 
 #include <cassert>
 #include <math.h>
-#include <stdio.h>
-#include <cassert>
 #include <type_traits>
 
 template <typename T>
 class matrix4x4 {
 private:
+	// column-major ordering
+	// TODO column-major is at odds with matrix3x3 which is row-major, this needs fixing
 	T cell[16];
 	using other_float_t = typename std::conditional<std::is_same<T, float>::value, double, float>::type;
 
@@ -58,6 +58,7 @@ public:
 		for (int i = 0; i < 12; i++)
 			cell[i] = m.cell[i];
 	}
+
 	matrix3x3<T> GetOrient() const
 	{
 		matrix3x3<T> m;
@@ -72,6 +73,23 @@ public:
 		m[8] = cell[10];
 		return m;
 	}
+
+	// used by Geom.cpp rotateAabbFast function, where we need a 3x3 orientation matrix but with abs values
+	matrix3x3<T> GetOrientAbs() const
+	{
+		matrix3x3<T> m;
+		m[0] = abs(cell[0]);
+		m[1] = abs(cell[4]);
+		m[2] = abs(cell[8]);
+		m[3] = abs(cell[1]);
+		m[4] = abs(cell[5]);
+		m[5] = abs(cell[9]);
+		m[6] = abs(cell[2]);
+		m[7] = abs(cell[6]);
+		m[8] = abs(cell[10]);
+		return m;
+	}
+
 	// row-major 3x3 matrix
 	void LoadFrom3x3Matrix(const T *r)
 	{
@@ -117,12 +135,6 @@ public:
 		c[1] = a[4];  c[5] = a[5];  c[9]  = a[6];  c[13] = a[7];
 		c[2] = a[8];  c[6] = a[9];  c[10] = a[10]; c[14] = a[11];
 		c[3] = a[12]; c[7] = a[13]; c[11] = a[14]; c[15] = a[15];
-		return m;
-	}
-	static matrix4x4 Identity()
-	{
-		matrix4x4 m = matrix4x4(0.0);
-		m.cell[0] = m.cell[5] = m.cell[10] = m.cell[15] = 1.0f;
 		return m;
 	}
 	//glscale equivalent
@@ -479,7 +491,7 @@ public:
 		vector3<T> x(cell[0], cell[4], cell[8]);
 		vector3<T> y(cell[1], cell[5], cell[9]);
 		vector3<T> z(cell[2], cell[6], cell[10]);
-		x = x.Normalized();
+		x.Normalize();
 		z = x.Cross(y).Normalized();
 		y = z.Cross(x).Normalized();
 		cell[0] = x.x;
@@ -622,7 +634,7 @@ public:
 	}
 	void Translate(T x, T y, T z)
 	{
-		matrix4x4 m = Identity();
+		matrix4x4 m = Identity;
 		m[12] = x;
 		m[13] = y;
 		m[14] = z;
@@ -634,7 +646,7 @@ public:
 	}
 	static matrix4x4 Translation(T x, T y, T z)
 	{
-		matrix4x4 m = Identity();
+		matrix4x4 m = Identity;
 		m[12] = x;
 		m[13] = y;
 		m[14] = z;
@@ -682,13 +694,6 @@ public:
 		m[15] = cell[15];
 		return m;
 	}
-	void Print() const
-	{
-		for (int i = 0; i < 4; i++) {
-			printf("%.12f %.12f %.12f %.12f\n", cell[i], cell[i + 4], cell[i + 8], cell[i + 12]);
-		}
-		printf("\n");
-	}
 
 	//convenience accessors for getting right/up/back vectors
 	//from rotation matrices
@@ -706,12 +711,20 @@ public:
 	{
 		return vector3<T>(cell[8], cell[9], cell[10]);
 	}
+
+	static matrix4x4 IdentityFunc()
+	{
+		constexpr T IDENTITY4x4[] = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
+		return matrix4x4(IDENTITY4x4);
+	}
+
+	static const matrix4x4 Identity;
 };
+
+template <typename T>
+const matrix4x4<T> matrix4x4<T>::Identity(IdentityFunc());
 
 typedef matrix4x4<float> matrix4x4f;
 typedef matrix4x4<double> matrix4x4d;
-
-static const matrix4x4f matrix4x4fIdentity(matrix4x4f::Identity());
-static const matrix4x4d matrix4x4dIdentity(matrix4x4d::Identity());
 
 #endif /* _MATRIX4X4_H */

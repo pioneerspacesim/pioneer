@@ -1,12 +1,12 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TEXTUREBUILDER_H
 #define _TEXTUREBUILDER_H
 
 #include "Renderer.h"
-#include "SDLWrappers.h"
-#include "SDL_mutex.h"
+#include <SDLWrappers.h>
+#include <SDL_mutex.h>
 #include "Texture.h"
 #include <string>
 

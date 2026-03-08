@@ -1,10 +1,11 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui'
 local StationView = require 'pigui.views.station-view'
 local ShipDef = require "ShipDef"
 local Game = require "Game"
+local Engine = require 'Engine'
 local Rand = require "Rand"
 local PiGuiFace = require 'pigui.libs.face'
 local Format = require "Format"
@@ -13,6 +14,7 @@ local ModalWindow = require 'pigui.libs.modal-win'
 local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
 local ModelSkin = require 'SceneGraph.ModelSkin'
 local Lang = require 'Lang'
+local PlayerState = require 'PlayerState'
 local l = Lang.GetResource("ui-core")
 
 local rescaleVector = ui.rescaleUI(Vector2(1, 1), Vector2(1600, 900), true)
@@ -21,7 +23,6 @@ local colors = ui.theme.colors
 local icons = ui.theme.icons
 
 local pionillium = ui.fonts.pionillium
-local orbiteer = ui.fonts.orbiteer
 
 local face = nil
 local stationSeed = false
@@ -61,8 +62,8 @@ local popup = ModalWindow.New('ChiefMechanicPopup', function(self)
 end)
 
 local tryRepair = function (damage, price)
-	if Game.player:GetMoney() >= price then
-		Game.player:AddMoney(-price)
+	if PlayerState.GetMoney() >= price then
+		PlayerState.AddMoney(-price)
 		Game.player:SetHullPercent(Game.player:GetHullPercent() + damage)
 		ui.playSfx("Repairing_Ship")
 	else
@@ -104,7 +105,6 @@ local function determinePaintshopAvailability()
 	-- high population stations often have them
 	local pop = station:GetSystemBody().population
 	if pop > 0.00005 then -- Mars is about 0.0002
-		stationSeed = station.seed
 		local rand = Rand.New(station.seed .. '-paintshop')
 		if rand:Number(0,1) < 0.75 then
 			return true
@@ -167,10 +167,10 @@ end
 local function applyChanges()
 	local player = Game.player
 	if not changesMade then return end
-	if price < player:GetMoney() then
+	if price < PlayerState.GetMoney() then
 		player.model:SetPattern(previewPattern)
 		player:SetSkin(previewSkin)
-		player:AddMoney(-price)
+		PlayerState.AddMoney(-price)
 		ui.playSfx("Painting_Ship")
 		popupChangesApplied:open()
 		changesMade = false
@@ -200,7 +200,7 @@ local function drawShipRepair()
 	ui.withStyleVars({ItemSpacing = widgetSizes.itemSpacing}, function ()
 		local infoColumnWidth = ui.getContentRegion().x - widgetSizes.faceSize.x - widgetSizes.itemSpacing.x
 
-		ui.child("ShipStatus", Vector2(infoColumnWidth, 0), {}, function ()
+		ui.child("ShipStatus", Vector2(infoColumnWidth, 0), function ()
 
 			ui.withFont(pionillium.body, function ()
 				if hullPercent > 99.9 then
@@ -274,7 +274,7 @@ local function drawPaintshop()
 	local rand = Rand.New(station.seed)
 
 	local priceColor = textColorDefault
-	if price > player:GetMoney() then
+	if price > PlayerState.GetMoney() then
 		priceColor = textColorWarning
 	end
 
@@ -282,14 +282,14 @@ local function drawPaintshop()
 	local itemSpacing = Vector2(8, 6)
 	local verticalDummy = Vector2(0, 50)
 	ui.withStyleVars({ ItemSpacing = itemSpacing }, function ()
-		ui.child("PaintshopModelSpinner", Vector2(columnWidth, 0), {}, function()
+		ui.child("PaintshopModelSpinner", Vector2(columnWidth, 0), function()
 			modelSpinner:setSize(ui.getContentRegion())
 			modelSpinner:draw()
 		end)
 
 		ui.sameLine()
 
-		ui.child("PaintshopControls", Vector2(columnWidth, 0), {}, function ()
+		ui.child("PaintshopControls", Vector2(columnWidth, 0), function ()
 			ui.text(l["PAINTSHOP_WELCOME_" .. rand:Integer(NUM_WELCOME_MESSAGES - 1)])
 			ui.dummy(verticalDummy)
 			ui.text(l.PLEASE_DESIGN_NEW_PAINTJOB)
@@ -297,15 +297,6 @@ local function drawPaintshop()
 			priChanged, previewColors[1] = ui.colorEdit((l.COLOR.." 1"), previewColors[1], { "NoAlpha" })
 			secChanged, previewColors[2] = ui.colorEdit((l.COLOR.." 2"), previewColors[2], { "NoAlpha" })
 			triChanged, previewColors[3] = ui.colorEdit((l.COLOR.." 3"), previewColors[3], { "NoAlpha" })
-
-			local colorChanged = (priChanged or secChanged or triChanged)
-			if colorChanged then
-				changesMade = true
-			end
-
-			if colorChanged then
-				changeColor()
-			end
 
 			ui.withFont(pionillium.body, function()
 
@@ -320,9 +311,45 @@ local function drawPaintshop()
 				end
 
 				ui.sameLine()
-
-				if ui.button(l.RESET_PREVIEW, Vector2(200, 36)) then
+				if ui.button(l.RESET_PREVIEW, Vector2(columnWidth/4, 36)) then
 					resetPreview()
+				end
+
+				ui.sameLine()
+				if ui.button(l.RANDOM_COLORS, Vector2(columnWidth/4, 36)) then
+
+					local function randomColor()
+						return Color(Engine.rand:Integer(0,255), Engine.rand:Integer(0,255), Engine.rand:Integer(0,255))
+					end
+
+					previewColors[1] = randomColor()
+					previewColors[2] = randomColor()
+					previewColors[3] = randomColor()
+
+					-- preview colors may be the same
+					if Engine.rand:Integer(0,2) < 1 then
+						local color = Engine.rand:Integer(1,4)
+						if color == 1 then
+							previewColors[2] = previewColors[1]
+						elseif color == 2 then
+							previewColors[3] = previewColors[1]
+						elseif color == 3 then
+							previewColors[3] = previewColors[2]
+						else -- All colors the same
+							previewColors[2] = previewColors[1]
+							previewColors[3] = previewColors[1]
+						end
+					end
+					priChanged = true -- All colors changed but we only need to hint one
+				end
+
+				local colorChanged = (priChanged or secChanged or triChanged)
+				if colorChanged then
+					changesMade = true
+				end
+
+				if colorChanged then
+					changeColor()
 				end
 
 				ui.dummy(verticalDummy)

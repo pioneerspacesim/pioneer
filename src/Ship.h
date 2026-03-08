@@ -1,10 +1,11 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SHIP_H
 #define _SHIP_H
 
 #include <unordered_map>
+#include <deque>
 
 #include "DynamicBody.h"
 #include "ShipType.h"
@@ -85,6 +86,11 @@ public:
 	bool IsDocked() const { return GetFlightState() == Ship::DOCKED; }
 	bool IsLanded() const { return GetFlightState() == Ship::LANDED; }
 
+	virtual void OnDocked(SpaceStation *, int port);
+	virtual void OnUndocked(SpaceStation *, int port);
+	virtual void OnLanded(Body *);
+	virtual void OnTakeoff(Body *);
+
 	virtual void SetLandedOn(Planet *p, float latitude, float longitude);
 
 	void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
@@ -135,7 +141,8 @@ public:
 	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
 	int GetWheelTransition() const { return m_wheelTransition; }
-	bool SpawnCargo(CargoBody *c_body) const;
+	bool SpawnCargo(CargoBody *c_body);
+	void ProcessSpawnQueue();
 
 	bool IsInSpace() const override { return (m_flightState != HYPERSPACE); }
 
@@ -252,6 +259,7 @@ protected:
 
 	virtual void SetAlertState(AlertState as);
 
+	virtual void OnBeforeEnterHyperspace();
 	virtual void OnEnterHyperspace();
 	virtual void OnEnterSystem();
 
@@ -333,6 +341,9 @@ private:
 	std::string m_shipName;
 
 	double m_hydrogenScoopedAccumulator = 0;
+
+	double m_latestSpawnTime = 0.0;
+	std::deque<CargoBody *> m_cargoSpawnQueue;
 
 public:
 	// FIXME: these methods are deprecated; all calls should use the propulsion object directly.

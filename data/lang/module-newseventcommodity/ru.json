@@ -9,7 +9,7 @@
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "GALACTIC REPORT"
+    "message": "ГАЛАКТИЧЕСКИЙ ОТЧЁТ"
   },
   "ADTITLE_3": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "The system wide power outage wreaks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as the producer has run out of raw material."
+    "message": "Общесистемное отключение электроэнергии сеет хаос в системе {system} ({sectorx}, {sectory}, {sectorz}). Потребители выстраиваются в очереди, чтобы купить последний \"Trapperware\" на замену своим холодильникам, поскольку у производителя закончилось сырьё."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",

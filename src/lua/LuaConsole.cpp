@@ -1,8 +1,8 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaMetaType.h"
-#include "SDL_keycode.h"
+#include <SDL_keycode.h>
 #include "buildopts.h"
 
 #include "FileSystem.h"
@@ -516,14 +516,6 @@ bool LuaConsole::ExecOrContinue(const std::string &stmt, bool repeatStatement)
  * Parameters:
  *
  *   text - the line of text to add (without a terminating newline character)
- *
- * Availability:
- *
- *   alpha 15
- *
- * Status:
- *
- *   stable
  */
 static int l_console_addline(lua_State *L)
 {

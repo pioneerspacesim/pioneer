@@ -15,6 +15,30 @@
     "description": "A reference to the song 'The Harder They Come', by Jimmy Cliff",
     "message": "Plus forte sera la gravité, plus dure sera la chute"
   },
+  "ADVICE_12_BODYTEXT": {
+    "description": "",
+    "message": "Quand vous vous retrouvez aux limites d'un système et avez besoin de revenir vers les planètes intérieures, un détour vers un système voisins proche peut s'avérer être le chemin le plus rapide."
+  },
+  "ADVICE_12_HEADLINE": {
+    "description": "",
+    "message": "Le détour Billie Bounce"
+  },
+  "ADVICE_13_BODYTEXT": {
+    "description": "",
+    "message": "Une plus faible masse signifie une plus faible consommation de fuel et un vaisseau plus rapide. Le carburant a une masse. Pour certaines routes, se déplacer avec moins de carburant dans le réservoir peut sauver du temps et de l'argent."
+  },
+  "ADVICE_13_HEADLINE": {
+    "description": "",
+    "message": "Se déplacer sur la réserve"
+  },
+  "ADVICE_14_BODYTEXT": {
+    "description": "",
+    "message": "Enchaîner plusieurs sauts, en les programmant avant le départ vous épargnera un mal de tête et peut-être votre vie, selon a quel point vous serez bienvenu le long de votre chemin."
+  },
+  "ADVICE_14_HEADLINE": {
+    "description": "",
+    "message": "Se frayer un chemin"
+  },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
     "message": "Lorsque vous revenez sur une station, faites attention à ces marchés alternatifs que vous ne reconnaissez pas et vous n'aurez pas d'ennuis avec la loi."

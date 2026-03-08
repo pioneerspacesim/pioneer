@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -12,6 +12,7 @@ local Serializer = require 'Serializer'
 local ModalWindow = require 'pigui.libs.modal-win'
 local ui = require 'pigui'
 local Commodities = require 'Commodities'
+local PlayerState = require 'PlayerState'
 
 local rescaleVector = ui.rescaleUI(Vector2(1, 1), Vector2(1600, 900), true)
 local popupSpacer = Vector2(0,0)
@@ -131,13 +132,13 @@ onChat = function (form, ref, option)
 		-- members get the trader interface
 		form:SetMessage(string.interp(ad.flavour.member_intro, {radioactives=Commodities.radioactives:GetName()}))
 		form:AddGoodsTrader({
-			canTrade = function (ref, commodity)
+			canTrade = function (market, commodity)
 				return saleables[commodity] and true or false
 			end,
-			canDisplayItem = function (ref, commodity)
+			canDisplayItem = function (market, commodity)
 				return saleables[commodity] and true or false
 			end,
-			getStock = function (ref, commodity)
+			getStock = function (market, commodity)
 				local prev = ad.stock[commodity.name]
 				if prev then
 					return prev
@@ -150,19 +151,19 @@ onChat = function (form, ref, option)
 				ad.stock[commodity.name] = cur
 				return cur
 			end,
-			getBuyPrice = function (ref, commodity)
+			getBuyPrice = function (market, commodity)
 				return ad.station:GetCommodityPrice(commodity) * saleables[commodity]
 			end,
-			getSellPrice = function (ref, commodity)
+			getSellPrice = function (market, commodity)
 				return ad.station:GetCommodityPrice(commodity) * saleables[commodity]
 			end,
 			-- Next two functions: If your membership is nearly up, you'd better
 			-- trade quickly, because we do check!
 			-- Also checking that the player isn't abusing radioactives sales...
-			onClickBuy = function (ref, commodity)
+			onClickBuy = function (market, commodity)
 				return membership.joined + membership.expiry > Game.time
 			end,
-			onClickSell = function (ref, commodity, market)
+			onClickSell = function (market, commodity)
 				local count = 1
 				if market.tradeAmount ~= nil then
 					count = market.tradeAmount
@@ -178,22 +179,16 @@ onChat = function (form, ref, option)
 				end
 				return	membership.joined + membership.expiry > Game.time
 			end,
-			bought = function (ref, commodity, market)
-				local count = 1
-				if market.tradeAmount ~= nil then
-					count = market.tradeAmount
-				end
+			bought = function (market, commodity, amount)
+				local count = amount or 1
 
 				ad.stock[commodity.name] = ad.stock[commodity.name] - count
 				if commodity == Commodities.radioactives or commodity == Commodities.military_fuel then
 					membership.milrads = membership.milrads + count
 				end
 			end,
-			sold = function (ref, commodity, market)
-				local count = 1
-				if market.tradeAmount ~= nil then
-					count = market.tradeAmount
-				end
+			sold = function (market, commodity, amount)
+				local count = amount or 1
 
 				ad.stock[commodity.name] = ad.stock[commodity.name] + count
 				if commodity == Commodities.radioactives or commodity == Commodities.military_fuel then
@@ -220,7 +215,7 @@ onChat = function (form, ref, option)
 
 	elseif option == 2 then
 		-- Player applied for membership
-		if Game.player:GetMoney() > 500 then
+		if PlayerState.GetMoney() > 500 then
 			-- Membership application successful
 			memberships[ad.flavour.clubname] = {
 				joined = Game.time,
@@ -229,7 +224,7 @@ onChat = function (form, ref, option)
 				refueled = false,
 				refueling_date = 0,
 			}
-			Game.player:AddMoney(0 - ad.flavour.annual_fee)
+			PlayerState.AddMoney(0 - ad.flavour.annual_fee)
 			form:SetMessage(l.YOU_ARE_NOW_A_MEMBER:interp({
 				expiry_date = Format.Date(memberships[ad.flavour.clubname].joined + memberships[ad.flavour.clubname].expiry)
 			}))

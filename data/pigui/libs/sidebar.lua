@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -40,6 +40,17 @@ end
 ---@class UI.Sidebar
 ---@field New fun(id, side?, offset?): UI.Sidebar
 local Sidebar = utils.class("UI.Sidebar")
+
+---@class UI.Sidebar.Module
+---@field icon any
+---@field tooltip string
+---@field title string?
+---@field active boolean?
+---@field exclusive boolean?
+---@field refresh? fun(self)
+---@field draw? fun(self, min, max)
+---@field drawTitle? fun(self)
+---@field drawBody fun(self)
 
 function Sidebar:Constructor(id, side, offset)
 	self.modules = {}
@@ -143,8 +154,8 @@ function Sidebar:DrawModule(module)
 	local titleBg = buttonColors.default.normal
 
 	-- Draw backgrounds for title area and icon
-	ui.addRectFilled(screenPos, screenPos + Vector2(ui.getContentRegion().x, frameSize), titleBg, 0, 0)
-	ui.addRectFilled(screenPos, screenPos + Vector2(frameSize), iconBg, 0, 0)
+	ui.addRectFilled(screenPos, screenPos + Vector2(ui.getContentRegion().x, frameSize), titleBg, 0, ui.RoundCornersNone)
+	ui.addRectFilled(screenPos, screenPos + Vector2(frameSize), iconBg, 0, ui.RoundCornersNone)
 
 	local iconPos = screenPos + Vector2(mainButtonPadding)
 	ui.addIconSimple(iconPos, module.icon, Vector2(iconSize), colors.white, module.tooltip)
@@ -176,6 +187,10 @@ function Sidebar:DrawModule(module)
 end
 
 function Sidebar:Draw()
+	for _, module in ipairs(self.modules) do
+		self:SafeCall(module, module.update)
+	end
+
 	local activeModules = utils.filter_array(self.modules, function(v) return v.active and not v.disabled end)
 
 	self:UpdateCoords()
@@ -271,6 +286,11 @@ function Sidebar:Refresh()
 
 	for i, v in ipairs(activeModules) do
 		self:SafeCall(v, v.refresh)
+	end
+
+	-- Handle the case where an exclusive module is default-open at startup or e.g. after hot-reload
+	if activeModules[1] and activeModules[1].exclusive then
+		self.active = activeModules[1]
 	end
 end
 

@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -14,6 +14,7 @@ local Serializer = require 'Serializer'
 local Character = require 'Character'
 local NameGen = require 'NameGen'
 local utils = require 'utils'
+local PlayerState = require 'PlayerState'
 
 local MissionUtils = require 'modules.MissionUtils'
 local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
@@ -110,7 +111,7 @@ local onChat = function (form, ref, option)
 			sectorx = ad.location.sectorX,
 			sectory = ad.location.sectorY,
 			sectorz = ad.location.sectorZ,
-			mission = l["MISSION_TYPE_" .. math.ceil(ad.dedication * NUMSUBTYPES)],
+			mission = l["MISSION_TYPE_CONVO_" .. math.ceil(ad.dedication * NUMSUBTYPES)],
 			dist    = string.format("%.2f", ad.dist),
 		})
 		form:SetMessage(introtext)
@@ -144,8 +145,10 @@ local onChat = function (form, ref, option)
 			type        = "Combat",
 			client      = ad.client,
 			faction     = Game.system.faction.id,
+			factionName = Game.system.faction.name,
 			org         = ad.org,
 			location    = ad.location,
+			destination = ad.location,
 			rendezvous  = ad.rendezvous,
 			mercenaries = {},
 			introtext   = ad.introtext,
@@ -158,9 +161,12 @@ local onChat = function (form, ref, option)
 			bonus       = -(math.ceil(ad.dedication * 3) - 1),
 			due         = ad.due,
 		}
-		table.insert(missions,Mission.New(mission))
+		mission = Mission.New(mission)
+		table.insert(missions, mission)
+		MissionUtils.SetupOverdueTimer(mission)
 		form:SetMessage(l["ACCEPTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("ACCEPTED"))])
 		return
+
 	elseif option == 6 then
 		form:SetMessage(l.YOU_NEED_A_RADAR)
 	end
@@ -295,6 +301,19 @@ local onUpdateBB = function (station)
 	end
 end
 
+local setReturnLocation = function (mission)
+		if mission.rendezvous then
+			mission.destination = mission.rendezvous
+		else
+			if mission.flavour.is_multi then
+				mission.destination = mission.org .. "\n-"
+			else
+				mission.destination = mission.org .. "\n" .. mission.factionName
+			end
+		end
+		mission.status = "PENDING_RETURN"
+end
+
 local onShipDestroyed = function (ship, attacker)
 	if ship:IsPlayer() then return end
 
@@ -304,6 +323,7 @@ local onShipDestroyed = function (ship, attacker)
 				table.remove(mission.mercenaries, i)
 				if not mission.complete and (#mission.mercenaries == 0 or mission.dedication <= ARMEDRECON) then
 					mission.complete = true
+					setReturnLocation(mission)
 					Comms.ImportantMessage(l.MISSION_COMPLETE)
 				end
 				if attacker and attacker:isa("Ship") and attacker:IsPlayer() then
@@ -320,6 +340,7 @@ local missionTimer = function (mission)
 		if mission.complete or Game.time > mission.due then return true end -- already complete or too late
 		if Game.player.frameBody and Game.player.frameBody.path == mission.location then
 			mission.complete = true
+			setReturnLocation(mission)
 			Comms.ImportantMessage(l.MISSION_COMPLETE)
 			return true
 		else
@@ -388,9 +409,6 @@ local onFrameChanged = function (player)
 				Comms.ImportantMessage(l.TARGET_AREA_REACHED)
 			end
 		end
-		if mission.status == "ACTIVE" and Game.time > mission.due then
-			mission.status = "FAILED"
-		end
 	end
 end
 
@@ -402,12 +420,12 @@ local finishMission = function (ref, mission)
 	elseif mission.complete then
 		Comms.ImportantMessage(l["SUCCESSMSG_" .. Engine.rand:Integer(1, getNumberOfFlavours("SUCCESSMSG"))], mission.client.name)
 		delta_reputation = 2.5
-		Game.player:AddMoney(mission.reward)
+		PlayerState.AddMoney(mission.reward)
 		if mission.bonus > 0 then
 			local bonus = math.ceil(mission.reward/5 * mission.bonus)
 			local addition = string.interp(l["BONUS_" .. Engine.rand:Integer(1, getNumberOfFlavours("BONUS"))], { cash = Format.Money(bonus, false) })
 			Comms.ImportantMessage(addition, mission.client.name)
-			Game.player:AddMoney(bonus)
+			PlayerState.AddMoney(bonus)
 		end
 	end
 	if delta_reputation ~= 0 then
@@ -421,8 +439,6 @@ local finishMission = function (ref, mission)
 end
 
 local onEnterSystem = function (player)
-	if not player:IsPlayer() then return end
-
 	for ref, mission in pairs(missions) do
 		if mission.rendezvous and mission.rendezvous:IsSameSystem(Game.system.path) then
 			if mission.complete or Game.time > mission.due then
@@ -437,7 +453,7 @@ local onEnterSystem = function (player)
 				local ship = ShipBuilder.MakeShipNear(Game.player, template)
 				assert(ship)
 
-				local path = mission.location:GetStarSystem().path
+				local path = mission.location:SystemOnly()
 				finishMission(ref, mission)
 				ship:HyperjumpTo(path)
 			end
@@ -446,19 +462,15 @@ local onEnterSystem = function (player)
 end
 
 local onLeaveSystem = function (ship)
-	if ship:IsPlayer() then
-		for _, f in pairs(flavours) do
-			f.planets = nil
-		end
-		for ref, mission in pairs(missions) do
-			mission.mercenaries = {}
-		end
+	for _, f in pairs(flavours) do
+		f.planets = nil
+	end
+	for ref, mission in pairs(missions) do
+		mission.mercenaries = {}
 	end
 end
 
-local onShipDocked = function (player, station)
-	if not player:IsPlayer() then return end
-
+local onPlayerDocked = function (player, station)
 	for ref, mission in pairs(missions) do
 		if not mission.rendezvous and (mission.flavour.is_multi or mission.faction == Game.system.faction.id) then
 			finishMission(ref, mission)
@@ -489,6 +501,7 @@ local onGameStart = function ()
 		loaded_data = nil
 
 		for _, mission in pairs(missions) do
+			MissionUtils.SetupOverdueTimer(mission)
 			if mission.duration then
 				missionTimer(mission)
 			end
@@ -507,7 +520,9 @@ local buildMissionDescription = function(mission)
 
 	local desc = {}
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
-	local type = l["MISSION_TYPE_" .. math.ceil(mission.dedication * NUMSUBTYPES)]
+	local subtype = math.ceil(mission.dedication * NUMSUBTYPES)
+	local missiontype = l["MISSION_TYPE_" .. subtype]
+	local missiontypeconvo = l["MISSION_TYPE_CONVO_" .. subtype]
 
 	desc.description = mission.introtext:interp({
 		name    = mission.client.name,
@@ -518,18 +533,20 @@ local buildMissionDescription = function(mission)
 		sectorx = mission.location.sectorX,
 		sectory = mission.location.sectorY,
 		sectorz = mission.location.sectorZ,
-		mission = type,
+		mission = missiontypeconvo,
 		dist    = dist
 	})
 
 	desc.client = mission.client
+
 	desc.location = mission.location
+	desc.returnLocation = mission.rendezvous or nil
 
 	local paymentLoc = mission.rendezvous and ui.Format.SystemPath(mission.rendezvous)
 		or string.interp(l[mission.flavour.id .. "_LAND_THERE"], { org = mission.org })
 
 	desc.details = {
-		{ l.MISSION, type },
+		{ l.MISSION, missiontype },
 		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
 		{ l.AREA, mission.location:GetSystemBody().name },
 		{ l.DISTANCE, dist.." "..lc.UNIT_LY },
@@ -554,7 +571,7 @@ Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onFrameChanged", onFrameChanged)
 Event.Register("onLeaveSystem", onLeaveSystem)
-Event.Register("onShipDocked", onShipDocked)
+Event.Register("onPlayerDocked", onPlayerDocked)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)

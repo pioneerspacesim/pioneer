@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "PerfInfo.h"
@@ -291,8 +291,8 @@ void PerfInfo::DrawCounter(CounterInfo &counter, const char *label, float min, f
 {
 	if (drawStats) {
 		std::string line1 = fmt::format("{}: {:.1f} {}", counter.name, counter.recent, counter.unit);
-		std::string line2 = fmt::format("Min: {:.1f} {unit} | Avg: {:.1f} {unit} | Max: {:.1f} {unit}",
-			counter.min, counter.average, counter.max, fmt::arg("unit", counter.unit));
+		std::string line2 = fmt::format("Min: {:.1f} {} | Avg: {:.1f} {} | Max: {:.1f} {}",
+			counter.min, counter.unit, counter.average, counter.unit, counter.max, counter.unit);
 
 		ImGui::TextUnformatted(line1.c_str());
 		ImGui::TextUnformatted(line2.c_str());
@@ -667,7 +667,6 @@ void PerfInfo::DrawImGuiStats()
 	auto &io = ImGui::GetIO();
 	ImGui::Text("%d verts, %d tris", io.MetricsRenderVertices, io.MetricsRenderIndices / 3);
 	ImGui::Text("%d active windows (%d visible)", io.MetricsActiveWindows, io.MetricsRenderWindows);
-	ImGui::Text("%d current allocations", io.MetricsActiveAllocations);
 
 	if (ImGui::Button("Toggle Metrics Window")) {
 		m_state->metricsWindowOpen = !m_state->metricsWindowOpen;

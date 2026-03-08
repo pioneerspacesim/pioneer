@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui'
@@ -7,7 +7,6 @@ local InfoView = require 'pigui.views.info-view'
 local Lang = require 'Lang'
 local FlightLog = require 'modules.FlightLog.FlightLog'
 local FlightLogExporter = require 'modules.FlightLog.FlightLogExporter'
-local Format = require 'Format'
 local Color = _G.Color
 local Vector2 = _G.Vector2
 

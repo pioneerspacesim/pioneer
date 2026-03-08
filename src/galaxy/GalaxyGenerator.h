@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef GALAXYGENERATOR_H
@@ -53,9 +53,11 @@ public:
 
 	struct SectorConfig {
 		bool isCustomOnly;
+		uint32_t numCustomSystems;
 
 		SectorConfig() :
-			isCustomOnly(false) {}
+			isCustomOnly(false),
+			numCustomSystems(0) {}
 	};
 
 	struct StarSystemConfig {
@@ -124,7 +126,7 @@ class StarSystemGeneratorStage : public GalaxyGeneratorStage {
 public:
 	virtual ~StarSystemGeneratorStage() {}
 
-	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config) = 0;
+	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, const Sector *sec, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config) = 0;
 };
 
 #endif

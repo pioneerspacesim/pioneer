@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine' -- rand
@@ -10,6 +10,22 @@ local Engine = require 'Engine' -- rand
 -- containers or class-like objects.
 --
 local utils = {}
+
+--
+-- Function: n_args
+--
+-- Return the index of the greatest non-nil argument passed to this function
+--
+function utils.n_args(...)
+	local args = table.pack(...)
+	for i = args.n, 1, -1 do
+		if args[i] ~= nil then
+			return i
+		end
+	end
+
+	return 0
+end
 
 --
 -- Function: keys
@@ -213,16 +229,42 @@ end
 
 -- Function: to_array
 --
--- Filters the values of the given table and converts them to an array.
+-- Iterates through the values of the given table and returns them as an array.
+-- An optional predicate is used to filter the values.
 -- Key iteration order is undefined (uses pairs() internally).
 ---@generic K, V
 ---@param t table<K, V>
----@param predicate fun(v: V): boolean
+---@param predicate? fun(v: V): boolean
 ---@return V[]
 utils.to_array = function(t, predicate)
 	local out = {}
-	for _, v in pairs(t) do
-		if predicate(v) then table.insert(out, v) end
+	if predicate then
+		for _, v in pairs(t) do
+			if predicate(v) then table.insert(out, v) end
+		end
+	else
+		for _, v in pairs(t) do table.insert(out, v) end
+	end
+	return out
+end
+
+-- Function: keys_to_array
+--
+-- Iterates through the keys of the given table and returns them as an array.
+-- An optional predicate is used to filter the keys.
+-- Key iteration order is undefined (uses pairs() internally).
+---@generic K, V
+---@param t table<K, V>
+---@param predicate? fun(v: K): boolean
+---@return K[]
+utils.keys_to_array = function(t, predicate)
+	local out = {}
+	if predicate then
+		for k in pairs(t) do
+			if predicate(k) then table.insert(out, k) end
+		end
+	else
+		for k in pairs(t) do table.insert(out, k) end
 	end
 	return out
 end

@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game        = require 'Game'
@@ -6,6 +6,7 @@ local HullConfig  = require 'HullConfig'
 local ShipDef     = require 'ShipDef'
 local Lang        = require 'Lang'
 local Timer       = require 'Timer'
+local PlayerState = require 'PlayerState'
 
 local utils       = require 'utils'
 
@@ -212,7 +213,7 @@ function DebugShipTool:onSetPlayerShipType()
 		refundTotal = refundTotal + equip.price
 	end
 
-	Game.player:AddMoney(refundTotal)
+	PlayerState.AddMoney(refundTotal)
 	Game.player:SetShipType(hull.id)
 
 	Notification.add(Notification.Type.Info,

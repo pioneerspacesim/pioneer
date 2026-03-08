@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -35,14 +35,6 @@ Mission = {
 --
 -- The type of mission.  This can be any registered mission typeid.
 --
--- Availability:
---
---   alpha 30
---
--- Status:
---
---   experimental
---
 	type = 'NONE',
 
 --
@@ -50,27 +42,11 @@ Mission = {
 --
 -- The [Character] object that offered the mission
 --
--- Availability:
---
---   alpha 30
---
--- Status:
---
---   experimental
---
 
 --
 -- Attribute: due
 --
 -- Due date/time, in seconds since 12:00 01-01-3200
---
--- Availability:
---
---   alpha 30
---
--- Status:
---
---   experimental
 --
 	due = 0,
 
@@ -79,43 +55,19 @@ Mission = {
 --
 -- Reward for mission completion, in dollars
 --
--- Availability:
---
---   alpha 30
---
--- Status:
---
---   experimental
---
 	reward = 0,
 
 --
--- Attribute:Location
+-- Attribute: destination
 --
--- A [SystemPath] for the destination space station
+-- A [SystemPath] or string for the (next) destination
 --
--- Availability:
---
---   alpha 30
---
--- Status:
---
---   experimental
---
-	location = nil,
+	destination = nil,
 
 --
 -- Attribute: status
 --
 -- A string for the current mission status.
---
--- Availability:
---
---   alpha 30
---
--- Status:
---
---   experimental
 --
 	status = 'ACTIVE',
 
@@ -153,15 +105,6 @@ Mission = {
 -- >   }
 -- > end)
 --
--- Availability:
---
---   alpha 30
---
--- Status:
---
---    experimental
---
-
 	RegisterType = function (typeid, display, onClick)
 		if not typeid or (type(typeid)~='string') then
 			error('typeid: String expected')
@@ -187,12 +130,12 @@ Mission = {
 -- Create a new mission and add it to the player's mission list
 --
 -- >	missionRef = Mission.New({
--- >		'type'     = type,
--- >		'client'   = client,
--- >		'due'      = due,
--- >		'reward'   = reward,
--- >		'location' = location,
--- >		'status'   = status,
+-- >		'type'        = type,
+-- >		'client'      = client,
+-- >		'due'         = due,
+-- >		'reward'      = reward,
+-- >		'destination' = destination,
+-- >		'status'      = status,
 -- >	})
 --
 -- Parameters:
@@ -207,21 +150,13 @@ Mission = {
 -- Example:
 --
 -- >  local ref = Mission.New({
--- >      'type'     = 'Delivery', -- Must be a translatable token!
--- >      'client'   = Character.New()
--- >      'due'      = Game.time + 3*24*60*60,    -- three days
--- >      'reward'   = 123.45,
--- >      'location' = SystemPath:New(0,0,0,0,16),  -- Mars High, Sol
--- >      'status'   = 'ACTIVE',
+-- >      'type'        = 'Delivery', -- Must be a translatable token!
+-- >      'client'      = Character.New()
+-- >      'due'         = Game.time + 3*24*60*60,    -- three days
+-- >      'reward'      = 123.45,
+-- >      'destination' = SystemPath:New(0,0,0,0,16),  -- Mars High, Sol
+-- >      'status'      = 'ACTIVE',
 -- >  })
---
--- Availability:
---
--- alpha 29
---
--- Status:
---
--- testing
 --
 	New = function (template)
 		-- Data sanitation
@@ -253,7 +188,7 @@ Mission = {
 		end
 		if not (type(newMission.due) == "number") then newMission.due = nil end
 		if not (type(newMission.reward) == "number") then newMission.reward = nil end
-		if not (type(newMission.location) == "userdata") then newMission.location = Game.system.path end
+		if not (type(newMission.destination) == "string" or type(newMission.destination) == "userdata") then newMission.destination = Game.system.path end
 		table.insert(Character.persistent.player.missions,newMission)
 		return newMission;
 	end,
@@ -268,14 +203,6 @@ Mission = {
 --
 -- > ourMission:Remove() -- Remove mission from list
 -- > ourMission = nil    -- Remove our reference too
---
--- Availability:
---
--- alpha 30
---
--- Status:
---
--- testing
 --
 	Remove = function (self)
 		for k,v in pairs(Character.persistent.player.missions) do
@@ -300,14 +227,6 @@ Mission = {
 --             button. handler will be passed the mission as its sole argument
 --             and is expected to return an [Engine.UI] object, or nil.
 --
--- Availability:
---
--- alpha 29
---
--- Status:
---
--- experimental
---
 	GetClick = function (self)
 		return MissionRegister[self.type].onClick
 		-- return (MissionRegister[self.type] and MissionRegister[self.type].onClick)
@@ -327,14 +246,6 @@ Mission = {
 --
 --   displayType - a ready-translated string describing the mission's type, or nil.
 --                 A nil return value indicates an unregistered mission type.
---
--- Availability:
---
--- alpha 30
---
--- Status:
---
--- experimental
 --
 	GetTypeDescription = function (self)
 		return MissionRegister[self.type] and MissionRegister[self.type].display

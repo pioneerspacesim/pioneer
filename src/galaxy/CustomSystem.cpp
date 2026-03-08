@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CustomSystem.h"
@@ -135,7 +135,6 @@ static double *getDoubleOrFixed(lua_State *L, int which)
 
 CSB_FIELD_SETTER_FIXED(radius, bodyData.m_radius)
 CSB_FIELD_SETTER_FIXED(mass, bodyData.m_mass)
-CSB_FIELD_SETTER_INT(temp, bodyData.m_averageTemp)
 CSB_FIELD_SETTER_FIXED(semi_major_axis, bodyData.m_semiMajorAxis)
 CSB_FIELD_SETTER_FIXED(eccentricity, bodyData.m_eccentricity)
 CSB_FIELD_SETTER_FIXED(rotation_period, bodyData.m_rotationPeriod)
@@ -152,6 +151,16 @@ CSB_FIELD_SETTER_STRING(space_station_type, bodyData.m_spaceStationType)
 #undef CSB_FIELD_SETTER_FIXED
 #undef CSB_FIELD_SETTER_FLOAT
 #undef CSB_FIELD_SETTER_INT
+
+static int l_csb_temp(lua_State *L)
+{
+	CustomSystemBody *csb = l_csb_check(L, 1);
+	int value = luaL_checkinteger(L, 2);
+	csb->bodyData.m_averageTemp = value;
+	csb->bodyData.GenerateStarColor();
+	lua_settop(L, 1);
+	return 1;
+}
 
 static int l_csb_radius_km(lua_State *L)
 {
@@ -442,6 +451,8 @@ static int l_csys_faction(lua_State *L)
 	CustomSystem *cs = l_csys_check(L, 1);
 
 	std::string factionName = luaL_checkstring(L, 2);
+	cs->factionName = factionName;
+
 	if (!s_activeCustomSystemsDatabase->GetGalaxy()->GetFactions()->IsInitialized()) {
 		s_activeCustomSystemsDatabase->GetGalaxy()->GetFactions()->RegisterCustomSystem(cs, factionName);
 		lua_settop(L, 1);
@@ -657,6 +668,8 @@ void CustomSystem::LoadFromJson(const Json &systemdef)
 	sectorY = sector[1].get<int32_t>();
 	sectorZ = sector[2].get<int32_t>();
 
+	systemIndex = systemdef.value<uint32_t>("index", 0);
+
 	const Json &position = systemdef["pos"];
 	pos.x = position[0].get<float>();
 	pos.y = position[1].get<float>();
@@ -669,6 +682,7 @@ void CustomSystem::LoadFromJson(const Json &systemdef)
 	want_rand_seed = !systemdef.count("seed");
 	want_rand_explored = !systemdef.count("explored");
 	want_rand_lawlessness = !systemdef.count("lawlessness");
+	override_random_system = systemdef.value("overrideRandom", false);
 
 	govType = Polit::GovType(EnumStrings::GetValue("PolitGovType", systemdef.value<std::string>("govType", "NONE").c_str()));
 
@@ -701,6 +715,11 @@ void CustomSystem::SaveToJson(Json &obj)
 		obj["explored"] = explored;
 	if(!want_rand_lawlessness)
 		obj["lawlessness"] = lawlessness;
+
+	if (override_random_system) {
+		obj["overrideRandom"] = true;
+		obj["index"] = systemIndex;
+	}
 
 	obj["govType"] = EnumStrings::GetString("PolitGovType", govType);
 
@@ -772,6 +791,32 @@ void CustomSystemsDatabase::Load()
 
 	LoadAllLuaSystems();
 
+	// Load top-level custom system defines
+	for (auto &file : FileSystem::gameDataFiles.Enumerate(m_customSysDirectory, 0)) {
+		if (!ends_with_ci(file.GetPath(), ".json"))
+			continue;
+
+		LoadSystemFromJSON(file.GetPath(), JsonUtils::LoadJsonDataFile(file.GetPath()));
+	}
+
+	// Load all faction homeworld custom system definitions
+	std::string factionPath = FileSystem::JoinPathBelow(m_customSysDirectory, "factions");
+	for (auto &file : FileSystem::gameDataFiles.Recurse(factionPath)) {
+		if (!ends_with_ci(file.GetPath(), ".json"))
+			continue;
+
+		LoadSystemFromJSON(file.GetPath(), JsonUtils::LoadJsonDataFile(file.GetPath()));
+	}
+
+	// Load all complete custom system definitions
+	std::string customPath = FileSystem::JoinPathBelow(m_customSysDirectory, "custom");
+	for (auto &file : FileSystem::gameDataFiles.Recurse(customPath)) {
+		if (!ends_with_ci(file.GetPath(), ".json"))
+			continue;
+
+		LoadSystemFromJSON(file.GetPath(), JsonUtils::LoadJsonDataFile(file.GetPath()));
+	}
+
 	// Load Json array files containing random-fill system definitions
 	std::string partialPath = FileSystem::JoinPathBelow(m_customSysDirectory, "partial");
 	for (auto &file : FileSystem::gameDataFiles.Recurse(partialPath)) {
@@ -786,23 +831,6 @@ void CustomSystemsDatabase::Load()
 
 			LoadSystemFromJSON(file.GetPath(), sysdef);
 		}
-	}
-
-	// Load top-level custom system defines
-	for (auto &file : FileSystem::gameDataFiles.Enumerate(m_customSysDirectory, 0)) {
-		if (!ends_with_ci(file.GetPath(), ".json"))
-			continue;
-
-		LoadSystemFromJSON(file.GetPath(), JsonUtils::LoadJsonDataFile(file.GetPath()));
-	}
-
-	// Load all complete custom system definitions
-	std::string customPath = FileSystem::JoinPathBelow(m_customSysDirectory, "custom");
-	for (auto &file : FileSystem::gameDataFiles.Recurse(customPath)) {
-		if (!ends_with_ci(file.GetPath(), ".json"))
-			continue;
-
-		LoadSystemFromJSON(file.GetPath(), JsonUtils::LoadJsonDataFile(file.GetPath()));
 	}
 }
 
@@ -865,6 +893,8 @@ CustomSystem *CustomSystemsDatabase::LoadSystemFromJSON(std::string_view filenam
 		// Set system faction pointer
 		auto factionName = systemdef.value<std::string>("faction", "");
 		if (!factionName.empty()) {
+			sys->factionName = factionName;
+
 			if (!GetGalaxy()->GetFactions()->IsInitialized()) {
 				GetGalaxy()->GetFactions()->RegisterCustomSystem(sys, factionName);
 			} else {
@@ -921,7 +951,14 @@ CustomSystem *CustomSystemsDatabase::LoadSystemFromJSON(std::string_view filenam
 
 		}
 
-		sys->sBody = sys->bodies[0];
+		size_t rootIdx = systemdef.value("root", 0);
+		if (rootIdx >= numBodies) {
+			Log::Warning("System {} has invalid root index {} (out-of-range with {} bodies), using index 0 as root instead.",
+				sys->name, rootIdx, numBodies);
+			rootIdx = 0;
+		}
+
+		sys->sBody = sys->bodies[rootIdx];
 
 		// Resolve body children pointers
 		for (CustomSystemBody *body : sys->bodies) {
@@ -937,7 +974,7 @@ CustomSystem *CustomSystemsDatabase::LoadSystemFromJSON(std::string_view filenam
 
 		return sys;
 
-	} catch (Json::out_of_range &e) {
+	} catch (std::exception &e) {
 		Log::Warning("Could not load JSON system definition {}!", filename);
 
 		delete sys;
@@ -963,7 +1000,7 @@ const CustomSystemsDatabase::SystemList &CustomSystemsDatabase::GetCustomSystems
 	return (it != m_sectorMap.end()) ? it->second : s_emptySystemList;
 }
 
-void CustomSystemsDatabase::AddCustomSystem(const SystemPath &path, CustomSystem *csys)
+bool CustomSystemsDatabase::AddCustomSystem(const SystemPath &path, CustomSystem *csys)
 {
 	SystemList &sectorSystems = m_sectorMap[path];
 
@@ -979,21 +1016,26 @@ void CustomSystemsDatabase::AddCustomSystem(const SystemPath &path, CustomSystem
 		// system already loaded with that name in that sector
 		if (csys->IsRandom()) {
 			delete csys;
-			return;
+			return false;
 		}
 
 		// Fully-defined custom systems override existing systems
 		csys->systemIndex = system->systemIndex;
 		m_lastAddedSystem = SystemIndex(path, csys->systemIndex);
 
+		GetGalaxy()->GetFactions()->UnregisterCustomSystem(system, system->factionName);
 		delete system;
+
 		system = csys;
-		return;
+		return true;
 	}
 
-	csys->systemIndex = sectorSystems.size();
+	if (!csys->override_random_system)
+		csys->systemIndex = sectorSystems.size();
+
 	m_lastAddedSystem = SystemIndex(path, csys->systemIndex);
 	sectorSystems.push_back(csys);
+	return true;
 }
 
 void CustomSystemsDatabase::RunLuaSystemSanityChecks(CustomSystem *csys)
@@ -1075,6 +1117,7 @@ CustomSystem::CustomSystem() :
 	seed(0),
 	want_rand_seed(true),
 	want_rand_explored(true),
+	override_random_system(false),
 	faction(nullptr),
 	govType(Polit::GOV_INVALID),
 	want_rand_lawlessness(true)

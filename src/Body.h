@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _BODY_H
@@ -210,7 +210,7 @@ public:
 
 	// TODO: abstract this functionality into a component of some fashion
 	// Return the position in body-local coordinates where the target indicator should be displayed.
-	// Usually equal to the center of the body == vector3d(0, 0, 0)
+	// Usually equal to the center of the body == vector3d::Zero
 	virtual vector3d GetTargetIndicatorPosition() const;
 
 	enum {

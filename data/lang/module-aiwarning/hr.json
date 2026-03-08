@@ -1,22 +1,22 @@
 {
   "ATMO_PRESSURE_OVER_LIMIT": {
     "description": "",
-    "message": "Atmospheric pressure above ship limits"
+    "message": "Atmosferski tlak iznad granica broda"
   },
   "AUTOPILOT": {
     "description": "",
-    "message": "Automatski pilot"
+    "message": "Autopilot"
   },
   "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY": {
     "description": "",
-    "message": "Cannot compensate for local gravity"
+    "message": "Ne može kompenzirati lokalnu gravitaciju"
   },
   "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
     "description": "",
-    "message": "Cannot compute orbit parameters"
+    "message": "Ne mogu izračunati parametre orbite"
   },
   "STARPORT_REFUSED_DOCKING_PERMISSION": {
     "description": "",
-    "message": "Starport refused docking permission"
+    "message": "Zvjezdana luka odbila je dozvolu za pristajanje"
   }
 }

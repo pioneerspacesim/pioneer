@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -173,9 +173,9 @@ local speed_limiter = (function()
 		local cp = ui.getCursorScreenPos() + Vector2(0 - ui.getItemSpacing().x, 0)
 		local full_height = mainButtonSize.y
 		local txt_shift = full_height / 2 - ui.getFrameHeight() / 2
-		ui.addRectFilled(cp, cp + Vector2(full_width, full_height), colors.Button, 0, 0)
+		ui.addRectFilled(cp, cp + Vector2(full_width, full_height), colors.Button, 0, ui.RoundCornersNone)
 		if anim_active then
-			ui.addRectFilled(cp + Vector2(0, txt_shift), cp + Vector2(full_width - ui.getItemSpacing().x, full_height - txt_shift), colors.lightBlackBackground, 0, 0)
+			ui.addRectFilled(cp + Vector2(0, txt_shift), cp + Vector2(full_width - ui.getItemSpacing().x, full_height - txt_shift), colors.lightBlackBackground, 0, ui.RoundCornersNone)
 			ui.addCursorPos(Vector2(full_width, 0))
 		else
 			-- because of this, the window became larger by <txt_shift> pixels from

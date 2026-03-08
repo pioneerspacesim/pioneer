@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Propulsion.h"
@@ -60,8 +60,8 @@ Propulsion::Propulsion()
 	m_thrusterFuel = 0.0; //0.0-1.0, remaining fuel
 	m_reserveFuel = 0.0;
 	m_fuelStateChange = false;
-	m_linThrusters = vector3d(0, 0, 0);
-	m_angThrusters = vector3d(0, 0, 0);
+	m_linThrusters = vector3d::Zero;
+	m_angThrusters = vector3d::Zero;
 	m_smodel = nullptr;
 	m_dBody = nullptr;
 }
@@ -241,7 +241,10 @@ void Propulsion::Render(Graphics::Renderer *r, const Camera *camera, const vecto
 	 * thruster and so on)... this code is :-/
 	*/
 	//angthrust negated, for some reason
-	if (m_smodel != nullptr) m_smodel->SetThrust(vector3f(GetLinThrusterState()), -vector3f(GetAngThrusterState()));
+	if (m_smodel != nullptr) {
+		m_smodel->SetThrust(vector3f(GetLinThrusterState()), -vector3f(GetAngThrusterState()));
+		m_smodel->SetRenderTime(Pi::game->GetTime());
+	}
 }
 
 void Propulsion::AIModelCoordsMatchSpeedRelTo(const vector3d &v, const DynamicBody *other)
@@ -394,7 +397,7 @@ double Propulsion::AIFaceUpdir(const vector3d &updir, double av)
 	vector3d uphead = updir * m_dBody->GetOrient(); // create desired object-space updir
 	if (uphead.z > 0.99999) return 0;				// bail out if facing updir
 	uphead.z = 0;
-	uphead = uphead.Normalized(); // only care about roll axis
+	uphead.Normalize(); // only care about roll axis
 
 	double ang = 0.0, dav = 0.0;
 	if (uphead.y < 0.99999999) {

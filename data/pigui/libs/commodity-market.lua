@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -6,6 +6,7 @@ local Lang = require 'Lang'
 local Format = require 'Format'
 local Commodities = require 'Commodities'
 local Economy     = require 'Economy'
+local PlayerState = require 'PlayerState'
 
 local ui = require 'pigui'
 local pionillium = ui.fonts.pionillium
@@ -56,7 +57,7 @@ function CommodityMarketWidget.New(id, title, config)
 	config.style = config.style or {}
 	config.style.size = config.style.size or Vector2(0,0)
 	config.itemTypes = config.itemTypes or { Commodities }
-	config.columnCount = config.columnCount or 7
+	config.columnCount = config.columnCount or 6
 
 	config.initTable = config.initTable or function(self)
 		ui.setColumnWidth(0, commodityIconSize.x + ui.getItemSpacing().x)
@@ -92,7 +93,6 @@ function CommodityMarketWidget.New(id, title, config)
 		config.columnText(l.BUY_PRICE, "MIDDLE")
 		config.columnText(l.SELL_PRICE, "MIDDLE")
 		config.columnText(l.IN_STOCK, "MIDDLE")
-		config.columnText(l.DEMAND, "MIDDLE")
 		config.columnText(l.IN_HOLD, "MIDDLE")
 	end
 
@@ -104,12 +104,12 @@ function CommodityMarketWidget.New(id, title, config)
 		ui.nextColumn()
 
 		ui.withStyleVars({ItemSpacing = (self.style.itemSpacing / 2)}, function()
-			local price = self.station:GetCommodityPrice(item)
+			local market = self.station:GetCommodityMarket()
+			local pricemod = Economy.GetCommodityPriceMod(self.station.path, item.name, market)
 
 			ui.dummy(vZero)
-			ui.text(item:GetName())
+			ui.text(item:GetProperName())
 
-			local pricemod = get_pricemod(item, price) - Game.system:GetCommodityBasePriceAlterations(item.name)
 			local cls = EconView.ClassifyPrice(pricemod)
 
 			if cls then
@@ -128,8 +128,6 @@ function CommodityMarketWidget.New(id, title, config)
 			ui.dummy(vZero)
 			config.columnText(config.getStock(self, item), "RIGHT")
 			ui.dummy(vZero)
-			config.columnText(config.getDemand(self, item), "RIGHT")
-			ui.dummy(vZero)
 			local n = self.cargoMgr:CountCommodity(item)
 			config.columnText(n > 0 and n or '', "RIGHT")
 		end)
@@ -144,10 +142,6 @@ function CommodityMarketWidget.New(id, title, config)
         return self.station:GetCommodityStock(commodity)
     end
 
-	config.getDemand = function (self, commodity)
-		return self.station:GetCommodityDemand(commodity)
-	end
-
     -- what do we charge for this item if we are buying
     config.getBuyPrice = config.getBuyPrice or function (self, commodity)
 		local price = self.station:GetCommodityPrice(commodity)
@@ -160,12 +154,15 @@ function CommodityMarketWidget.New(id, title, config)
 		return price * (1.0 - math.sign(price) * Economy.TradeFeeSplit * 0.01)
     end
 
-	config.bought = function (self, commodity, tradeamount)
+	config.onClickBuy = config.onClickBuy or function(self, commodity) return true end
+	config.onClickSell = config.onClickSell or function(self, commodity) return true end
+
+	config.bought = config.bought or function (self, commodity, tradeamount)
 		local count = tradeamount or 1
         self.station:AddCommodityStock(commodity, -count)
     end
 
-    config.sold = function (self, commodity, tradeamount)
+    config.sold = config.sold or function (self, commodity, tradeamount)
 		local count = tradeamount or 1
         self.station:AddCommodityStock(commodity, count)
     end
@@ -206,9 +203,10 @@ function CommodityMarketWidget.New(id, title, config)
 	self.station = nil
 
 	self.funcs.getStock = config.getStock
-	self.funcs.getDemand = config.getDemand
 	self.funcs.getBuyPrice = config.getBuyPrice
 	self.funcs.getSellPrice = config.getSellPrice
+	self.funcs.onClickBuy = config.onClickBuy
+	self.funcs.onClickSell = config.onClickSell
 	self.funcs.bought = config.bought
 	self.funcs.sold = config.sold
 
@@ -234,10 +232,10 @@ function CommodityMarketWidget:ChangeTradeAmount(delta)
 	local price = 0
 
 	--do you have any money?
-	local playerCash = Game.player:GetMoney()
+	local playerCash = PlayerState.GetMoney()
 
 	--blank value, needs to be initialized or later on lua will complain
-	local stock, demand
+	local stock
 
 	if self.tradeModeBuy then
 		price = self.funcs.getBuyPrice(self, self.selectedItem)
@@ -257,7 +255,6 @@ function CommodityMarketWidget:ChangeTradeAmount(delta)
 	else
 		price = self.funcs.getSellPrice(self, self.selectedItem)
 		stock = self.cargoMgr:CountCommodity(self.selectedItem)
-		demand = self.station:GetCommodityDemand(self.selectedItem)
 	end
 
 	--we cant trade more units than we have in stock
@@ -290,7 +287,6 @@ function CommodityMarketWidget:ChangeTradeAmount(delta)
 			--enough credits to sell 5, this kludge will ignore the +100 completely
 			--todo: change amount to 5 instead
 		end
-		wantamount = math.min(wantamount, demand)
 
 		self.tradeText = l.MARKET_SELLINE
 	end
@@ -313,7 +309,7 @@ function CommodityMarketWidget:DoBuy()
 	local orderAmount = price * self.tradeAmount
 
 	--check cash (should never happen since trade amount buttons wont let it happen)
-	if orderAmount > Game.player:GetMoney() then
+	if orderAmount > PlayerState.GetMoney() then
 		self.popup.msg = l.YOU_NOT_ENOUGH_MONEY
 		self.popup:open()
 		return
@@ -334,9 +330,14 @@ function CommodityMarketWidget:DoBuy()
 		return
 	end
 
+	-- user validation code
+	if not self.funcs.onClickBuy(self, self.selectedItem) then
+		return
+	end
+
 	--all checks passed
 	assert(self.cargoMgr:AddCommodity(self.selectedItem, self.tradeAmount))
-	Game.player:AddMoney(-orderAmount) --grab the money
+	PlayerState.AddMoney(-orderAmount) --grab the money
 
 	self.funcs.bought(self, self.selectedItem, self.tradeAmount)
 	self:ChangeTradeAmount(-self.tradeAmount) --reset the trade amount
@@ -353,8 +354,13 @@ function CommodityMarketWidget:DoSell()
 	--if commodity price is negative (radioactives, garbage), player needs to have enough cash
 	local orderamount = price * self.tradeAmount
 
+	-- user validation code
+	if not self.funcs.onClickSell(self, self.selectedItem) then
+		return
+	end
+
 	assert(self.cargoMgr:RemoveCommodity(self.selectedItem, self.tradeAmount) == self.tradeAmount)
-	Game.player:AddMoney(orderamount) --grab the money
+	PlayerState.AddMoney(orderamount) --grab the money
 
 	self.funcs.sold(self, self.selectedItem, self.tradeAmount)
 	self:ChangeTradeAmount(-self.tradeAmount) --reset the trade amount
@@ -405,7 +411,7 @@ function CommodityMarketWidget:TradeMenu()
 				ui.withFont(orbiteer.heading, function()
 					-- align the height to the center relative to the icon
 					ui.alignTextToLineHeight(commodityIconSize.y)
-					ui.text(self.selectedItem:GetName())
+					ui.text(self.selectedItem:GetProperName())
 				end)
 			end)
 			ui.columns(1, "", false)

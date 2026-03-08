@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- Convenience wrappers for the C++ UI functions and general functions
@@ -9,6 +9,22 @@ local pigui = Engine.pigui
 
 ---@class ui
 local ui = require 'pigui.libs.forwarded'
+
+
+-- Legacy ImDrawFlags values
+--
+-- These are used to be more performant and avoid expensive string lookups
+-- when invoking the "addRect", "addRectFilled", and "addRectFaded" calls.
+ui.RoundCornersNone = 0x00
+ui.RoundCornersTopLeft = 0x01
+ui.RoundCornersTopRight = 0x02
+ui.RoundCornertBottomLeft = 0x04
+ui.RoundCornersBottomRight = 0x08
+ui.RoundCornersLeft = 0x05
+ui.RoundCornersRight = 0x0A
+ui.RoundCornersTop = 0x03
+ui.RoundCornersBottom = 0x0C
+ui.RoundCornersAll = 0x0F
 
 --
 -- Function: ui.pcall
@@ -204,8 +220,14 @@ end
 --
 --   nil
 --
-function ui.popup(name, fun)
-	if pigui.BeginPopup(name) then
+---@overload fun(name: string, flags: any, fun: fun())
+---@overload fun(name: string, fun: fun())
+function ui.popup(name, flags, fun)
+	if not fun then
+		fun, flags = flags, nil
+	end
+
+	if pigui.BeginPopup(name, flags) then
 		fun()
 		pigui.EndPopup()
 	end
@@ -254,6 +276,22 @@ end
 --   id    - String, a unique name for the window,
 --           used to group its children
 --   size  - (Optional)Vector2
+--   childFlags - (Optional)Table, options:
+--              - Borders                   : Show an outer border and enable WindowPadding.
+--              - AlwaysUseWindowPadding    : Ensure child windows without border uses
+--                                            style.WindowPadding (ignored by default for
+--                                            non-bordered child windows, because more convenient)
+--              - ResizeX                   : Allow resize from right border.
+--              - ResizeY                   : Allow resize from bottom border.
+--              - AutoResizeX               : Enable auto-resizing width.
+--              - AutoResizeY               : Enable auto-resizing height.
+--              - AlwaysAutoResize          : Resize every window to its content every frame (must
+--                                            be used with AutoRezizeX and/or AutoResizeY)
+--              - FrameStyle                : Style the child window like a framed item: use
+--                                            FrameBg, FrameRounding, FrameBord
+--              - NavFlattened              : Share focus scope, allow keyboard/gamepad navigation
+--                                            to cross over parent border to this child or between
+--                                            sibling child windows.
 --   flags - (Optional)Table, options:
 --              - NoTitleBar                : Disable title-bar
 --              - NoResize                  : Disable user resizing with the lower-right grip
@@ -288,23 +326,24 @@ end
 --
 ---@overload fun(id, fun)
 ---@overload fun(id, size, fun)
-function ui.child(id, size, flags, fun)
-	if flags == nil and fun == nil then -- size is optional
-		fun = size
-		size = Vector2(-1,-1)
-		flags = {}
-	elseif fun == nil then
-		fun = flags
-		flags = {}
+---@overload fun(id, size, flags, fun)
+function ui.child(id, size, flags, childFlags, fun)
+	local arg_n = utils.n_args(id, size, flags, childFlags, fun)
+	if arg_n == 2 then -- size is optional
+		fun, size = size, Vector2(-1, -1)
+	elseif arg_n == 3 then -- flags are optional
+		fun, flags = flags, nil
+	elseif arg_n == 4 then
+		fun, childFlags = childFlags, nil
 	end
 
 	if _nextWindowPadding then
 		pigui.PushStyleVar("WindowPadding", _nextWindowPadding)
-		pigui.BeginChild(id, size, flags)
+		pigui.BeginChild(id, size, childFlags, flags)
 		pigui.PopStyleVar()
 		_nextWindowPadding = nil
 	else
-		pigui.BeginChild(id, size, flags)
+		pigui.BeginChild(id, size, childFlags, flags)
 	end
 
 	fun()
@@ -838,31 +877,6 @@ end
 --
 function ui.setNextWindowPosCenter(cond)
 	ui.setNextWindowPos(ui.screenSize() / 2, cond, Vector2(0.5, 0.5))
-end
-
---
--- Function: ui.sameLine
---
--- ui.sameLine(pos_x, spacing_w)
---
--- Draw the next command on the same line as the previous
---
--- Example:
---
--- >
---
--- Parameters:
---   pos_x     - (Optional) number, X position for next draw command, default 0
---   spacing_w - (Optional) number, draw with spacing relative to previous, default -1
---
--- Returns:
---
---   nil
---
-function ui.sameLine(pos_x, spacing_w)
-	local px = pos_x or 0.0
-	local sw = spacing_w or -1.0
-	pigui.SameLine(px, sw)
 end
 
 --

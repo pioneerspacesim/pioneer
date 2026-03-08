@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SECTORVIEW_H
@@ -40,6 +40,7 @@ public:
 	void GotoCurrentSystem();
 	void GotoSelectedSystem();
 	void GotoHyperspaceTarget();
+	void SetSelectedPath(const SystemPath &path);
 	void SwitchToPath(const SystemPath &path);
 	void SetHyperspaceTarget(const SystemPath &path);
 	void SetDrawOutRangeLabels(bool value) { m_drawOutRangeLabels = value; }
@@ -82,7 +83,6 @@ private:
 	void InitDefaults();
 	void InitObject();
 	const SystemPath &CheckPathInRoute(const SystemPath &path);
-	void SetSelected(const SystemPath &path);
 	void SetupLines(const vector3f &playerAbsPos, const matrix4x4f &trans);
 	void GetPlayerPosAndStarSize(vector3f &playerPosOut, float &currentStarSizeOut);
 

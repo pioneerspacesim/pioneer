@@ -1,10 +1,10 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Inner Kingdoms')
 	:description_short('Inner Kingdoms')
 	:description('Very little is currently known about The Inner Kingdoms')
-	:homeworld(-33,-55,-54,2,3)
+	:homeworld(-33,-55,-54,0,3)
 	:foundingDate(3118)
 	:expansionRate(1.27892)
 	:military_name('Inner Space Arm')

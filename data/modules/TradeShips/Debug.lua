@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ShipDef = require 'ShipDef'
@@ -53,6 +53,8 @@ local statuses = {
 	'unknown'
 }
 
+local windowFlags = ui.WindowFlags { 'NoSavedSettings', 'HorizontalScrollbar' }
+
 debugView.registerTab('debug-trade-ships', {
 	icon = ui.theme.icons.heavy_freighter,
 	label = "Tradeships",
@@ -67,7 +69,7 @@ debugView.registerTab('debug-trade-ships', {
 			ui.text(value)
 		end
 
-		ui.child("tradeships_as_child", Vector2(-1, -infosize), {"NoSavedSettings", "HorizontalScrollbar"}, function()
+		ui.child("tradeships_as_child", Vector2(-1, -infosize), windowFlags, function()
 			if Core.params then
 			if ui.collapsingHeader("System summary", {"DefaultOpen"}) then
 				local precalculated = {}

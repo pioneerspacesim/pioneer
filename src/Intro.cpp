@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Intro.h"
@@ -97,7 +97,7 @@ void Intro::Reset()
 	if (m_modelIndex == m_models.size()) m_modelIndex = 0;
 	m_skin.SetRandomColors(Pi::rng);
 	m_skin.Apply(m_model);
-	if (m_model->SupportsPatterns())
+	if (m_model->SupportsPatterns() && m_model->GetNumPatterns() > 0)
 		m_model->SetPattern(Pi::rng.Int32(0, m_model->GetNumPatterns() - 1));
 	m_zoomBegin = -10000.0f;
 	m_zoomEnd = -m_model->GetDrawClipRadius() * 1.7f;
@@ -139,7 +139,7 @@ void Intro::Draw(float deltaTime)
 	Graphics::Renderer::StateTicket ticket(m_renderer);
 
 	m_renderer->SetPerspectiveProjection(75, m_aspectRatio, 1.f, 10000.f);
-	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_renderer->SetTransform(matrix4x4f::Identity);
 
 	m_renderer->SetAmbientColor(m_ambientColor);
 
@@ -160,5 +160,8 @@ void Intro::Draw(float deltaTime)
 		matrix4x4f::Translation(0, 0, m_dist) *
 		matrix4x4f::RotateXMatrix(DEG2RAD(-15.0f)) *
 		matrix4x4f::RotateYMatrix(duration);
+
+	m_model->SetThrust(vector3f(0.3f * sin(duration), 0.f, -0.6 * cos(duration)), vector3f(0.f));
+	m_model->SetRenderTime(duration);
 	m_model->Render(trans);
 }

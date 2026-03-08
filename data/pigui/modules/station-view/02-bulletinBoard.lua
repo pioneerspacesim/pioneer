@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = require 'Lang'
@@ -86,7 +86,7 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 
 		local active = adActive(item.__ref, item)
 
-		local adTextColor = active and colors.font or colors.fontDim
+		local adTextColor = active and colors.font or colors.fontDisabled
 
 		ui.withFont(pionillium.title, function()
 			images[icon]:Draw(Vector2(ui.getTextLineHeight()))
@@ -153,14 +153,14 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 		local size = ui.getWindowSize()
 
 		if Game.paused then
-			ui.addRectFilled(tl, tl + size, colors.uiBackground:opacity(0.4), 0, 0)
+			ui.addRectFilled(tl, tl + size, colors.uiBackground:opacity(0.4), 0, ui.RoundCornersNone)
 
 			ui.withFont(orbiteer.heading, function()
 				local textSize = ui.calcTextSize(l.PAUSED)
 				local textPos = tl + (size - textSize) * 0.5
 				local padding = ui.theme.styles.WindowPadding
 
-				ui.addRectFilled(textPos - padding, textPos + textSize + padding, colors.uiSurface, padding.x, 0xF)
+				ui.addRectFilled(textPos - padding, textPos + textSize + padding, colors.uiSurface, padding.x, ui.RoundCornersAll)
 
 				ui.addText(textPos, colors.font, l.PAUSED)
 			end)

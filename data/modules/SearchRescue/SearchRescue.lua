@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 
@@ -47,6 +47,7 @@ local utils = require 'utils'
 local Timer = require 'Timer'
 local Rand = require 'Rand'
 local ModelSkin = require 'SceneGraph.ModelSkin'
+local PlayerState = require 'PlayerState'
 
 local MissionUtils = require 'modules.MissionUtils'
 local ShipBuilder  = require 'modules.MissionUtils.ShipBuilder'
@@ -55,6 +56,7 @@ local OutfitRules  = ShipBuilder.OutfitRules
 
 local l = Lang.GetResource("module-searchrescue")
 local lc = Lang.GetResource 'core'
+local ls = Lang.GetResource 'ships'
 
 -- basic variables for mission creation
 local max_mission_dist = 30          -- max distance for long distance mission target location [ly]
@@ -279,14 +281,6 @@ local getNumberOfFlavours = function (str)
 		num = num + 1
 	end
 	return num - 1
-end
-
-local splitName = function (name)
-	-- Splits the supplied name into first and last name and returns a table of both separately.
-	-- Idea from http://stackoverflow.com/questions/2779700/lua-split-into-words.
-	local names = {}
-	for word in name:gmatch("%w+") do table.insert(names, word) end
-	return names
 end
 
 local decToDegMinSec = function (coord_orig)
@@ -727,14 +721,15 @@ local onChat = function (form, ref, option)
 	--   end
 
 	if option == 0 then  -- repeat original request
-		local shipdef = ShipDef[ad.shipid]
+		local ship = ShipDef[ad.shipid].i18n_key
 
 		local introtext = string.interp(ad.flavour.introtext, {
 			name         = ad.client.name,
 			entity       = ad.entity,
 			problem      = ad.problem,
 			cash         = Format.Money(ad.reward),
-			ship         = shipdef.name,
+			ship_base    = ls[ship],					-- Ship name, base form ex. 'Malabar'
+			ship_indef   = ls[ship .. "_INDEF"],	-- Ship name, singular form ex. 'a Malabar'
 			starport     = ad.station_local:GetSystemBody().name,
 			shiplabel    = ad.shiplabel,
 			planet       = ad.planet_target:GetSystemBody().name,
@@ -811,12 +806,13 @@ local onChat = function (form, ref, option)
 			-- these variables are hardcoded and need to be filled
 			type	            = "searchrescue",
 			client             = ad.client,
-			location           = ad.location,
+			destination        = ad.location,
 			due                = ad.due,
 			reward             = ad.reward,
 			status             = "ACTIVE",
 
 			-- these variables are script specific
+			location           = ad.location,
 			station_local      = ad.station_local,
 			planet_local       = ad.planet_local,
 			system_local       = ad.system_local,
@@ -1276,11 +1272,11 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 
 	elseif flavour.id == 7 then
 		client = Character.New()
-		local lastname = splitName(client.name)[2]
+		local surname = string.gsub(client.surname, "^%l", string.upper)
 
 		-- select posting entity
 		entity = string.interp(l["ENTITY_FAMILY_BUSINESS_" .. Engine.rand:Integer(1, getNumberOfFlavours("ENTITY_FAMILY_BUSINESS"))],
-			{ locality = localities_local[Engine.rand:Integer(1,#localities_local)], name = lastname })
+			{ locality = localities_local[Engine.rand:Integer(1,#localities_local)], name = surname })
 
 		-- select problem
 		problem = string.interp(l["PROBLEM_CREW_" .. Engine.rand:Integer(1, getNumberOfFlavours("PROBLEM_CREW"))],
@@ -1418,7 +1414,7 @@ local closeMission = function (mission)
 		else
 			local destroyedtxt = string.interp(l.ACCIDENT_DESTROYED_TARGET, {shiplabel = mission.shiplabel})
 			Comms.ImportantMessage(destroyedtxt)
-			Game.player:AddMoney(mission.reward/2)
+			PlayerState.AddMoney(mission.reward/2)
 			Character.persistent.player.reputation = Character.persistent.player.reputation + delta_reputation
 			Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
 			            Character.persistent.player.reputation, Character.persistent.player.killcount)
@@ -1429,7 +1425,7 @@ local closeMission = function (mission)
 		if missionStatus(mission) == "COMPLETE" then
 			local successtxt = string.interp(mission.flavour.successmsg, {cash = Format.Money(mission.reward)})
 			Comms.ImportantMessage(successtxt)
-			Game.player:AddMoney(mission.reward)
+			PlayerState.AddMoney(mission.reward)
 			Character.persistent.player.reputation = Character.persistent.player.reputation + delta_reputation
 			Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
 			            Character.persistent.player.reputation, Character.persistent.player.killcount)
@@ -1499,12 +1495,14 @@ local pickupCrew = function (mission)
 
 		-- if all necessary crew transferred print result message
 		mission.pickup_crew = mission.pickup_crew - 1
+		mission.pickup_crew_check = nil -- clear PARTIAL flag if present
+
 		local done = mission.pickup_crew_orig - mission.pickup_crew
 		if todo == done then
 			local resulttxt = string.interp(l.RESULT_PICKUP_CREW, {todo = todo, done = done})
 			Comms.ImportantMessage(resulttxt)
 			mission.pickup_crew_check = "COMPLETE"
-			mission.location = mission.system_local
+			mission.destination = mission.station_local
 		end
 	end
 end
@@ -1538,6 +1536,8 @@ local pickupPassenger = function (mission)
 
 		-- if all necessary passengers have been picked up show result message
 		mission.pickup_pass = mission.pickup_pass - 1
+		mission.pickup_pass_check = nil -- clear PARTIAL flag if present
+
 		local done = mission.pickup_pass_orig - mission.pickup_pass
 		if todo == done then
 			local resulttxt = string.interp(l.RESULT_PICKUP_PASS, {todo = todo, done = done})
@@ -1576,6 +1576,8 @@ local pickupCommodity = function (mission, commodity)
 
 		-- show result message if done picking up this commodity
 		mission.pickup_comm[commodity] = mission.pickup_comm[commodity] - 1
+		mission.pickup_comm_check[commodity] = nil -- clear PARTIAL flag if present
+
 		local done = mission.pickup_comm_orig[commodity] - mission.pickup_comm[commodity]
 		if todo == done then
 			local resulttxt = string.interp(l.RESULT_PICKUP_COMM, {cargotype = commodity_name, todo = todo, done = done})
@@ -1612,6 +1614,8 @@ local deliverCrew = function (mission)
 
 		-- if all necessary crew transferred print result message
 		mission.deliver_crew = mission.deliver_crew - 1
+		mission.deliver_crew_check = nil -- clear PARTIAL flag if present
+
 		local done = mission.deliver_crew_orig - mission.deliver_crew
 		if todo == done then
 			local resulttxt = string.interp(l.RESULT_DELIVERY_CREW, {todo = todo, done = done})
@@ -1646,6 +1650,8 @@ local deliverPassenger = function (mission)
 
 		-- if all necessary passengers have been transferred show result message
 		mission.deliver_pass = mission.deliver_pass - 1
+		mission.deliver_pass_check = nil -- clear PARTIAL flag if present
+
 		local done = mission.deliver_pass_orig - mission.deliver_pass
 		if todo == done then
 			local resulttxt = string.interp(l.RESULT_DELIVERY_PASS, {todo = todo, done = done})
@@ -1687,6 +1693,8 @@ local deliverCommodity = function (mission, commodity)
 
 		-- show result message if done delivering this commodity
 		mission.deliver_comm[commodity] = mission.deliver_comm[commodity] - 1
+		mission.deliver_comm_check[commodity] = nil -- clear PARTIAL flag if present
+
 		local done = mission.deliver_comm_orig[commodity] - mission.deliver_comm[commodity]
 		if todo == done then
 			local resulttxt = string.interp(l.RESULT_DELIVERY_COMM, {done = done, todo = todo, cargotype = commodity_name})
@@ -1904,9 +1912,10 @@ local onFrameChanged = function (body)
 	end
 end
 
-local onShipUndocked = function (ship, station)
+---@param ship Ship
+---@param station SpaceStation?
+local onPlayerUndocked = function (ship, station)
 	-- Start search immediately if the target is on the same planet as the station.
-	if not ship:IsPlayer() then return end
 	for _,mission in pairs(missions) do
 		if mission.target and ship.frameBody == mission.target.frameBody then
 			searchForTarget(mission)
@@ -1978,7 +1987,6 @@ local onUpdateBB = function (station)
 end
 
 local onEnterSystem = function (player)
-	if (not player:IsPlayer()) then return end
 	leaving_system = false
 
 	local syspath = Game.system.path
@@ -1994,21 +2002,19 @@ local onEnterSystem = function (player)
 end
 
 local onLeaveSystem = function (ship)
-	if ship:IsPlayer() then
-		leaving_system = true    --checked by searchForTarget to abort search
+	leaving_system = true    --checked by searchForTarget to abort search
 
-		local syspath = Game.system.path
+	local syspath = Game.system.path
 
-		-- remove references to ships that are left behind (cause serialization crash otherwise)
-		for _,mission in pairs(missions) do
-			if mission.system_target:IsSameSystem(syspath) then
-				mission.target = nil
-			end
+	-- remove references to ships that are left behind (cause serialization crash otherwise)
+	for _,mission in pairs(missions) do
+		if mission.system_target:IsSameSystem(syspath) then
+			mission.target = nil
 		end
-
-		discarded_ships = {}
-		-- TODO: put in tracker to recreate mission targets (already transferred personnel, cargo, etc.)
 	end
+
+	discarded_ships = {}
+	-- TODO: put in tracker to recreate mission targets (already transferred personnel, cargo, etc.)
 end
 
 ---@param ship Ship
@@ -2116,7 +2122,8 @@ local buildMissionDescription = function(mission)
 			l.LON.." "..decToDegMinSec(math.rad2deg(mission.long))
 	end
 
-	local shipname = ShipDef[mission.shipid].name
+	local shipdef = ShipDef[mission.shipid]
+	local shipname = ls[shipdef.i18n_key]
 
 	desc.details = {
 		{ l.TARGET_SHIP_ID, shipname.." <"..mission.shiplabel..">" },
@@ -2211,7 +2218,8 @@ Event.Register("onShipDocked", onShipDocked)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
-Event.Register("onShipUndocked", onShipUndocked)
+Event.Register("onPlayerUndocked", onPlayerUndocked)
+Event.Register("onPlayerTakeOff", onPlayerUndocked)
 Event.Register("onFrameChanged", onFrameChanged)
 Event.Register("onShipDestroyed", onShipDestroyed)
 

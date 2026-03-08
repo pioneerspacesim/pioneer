@@ -1,1 +1,6 @@
-mesh sinonatrix_shld.dae
+version 2
+
+lod 100 {
+	mesh "sinonatrix_shld.dae"
+}
+

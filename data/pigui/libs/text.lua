@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 local Engine = require 'Engine'
 local Format = require 'Format'
@@ -265,7 +265,7 @@ ui.Format = {
 	end,
 	Speed = function(distance, fractional)
 		local s, u = ui.Format.SpeedUnit(distance, fractional)
-		return s .. u
+		return s .. " " .. u
 	end,
 	MassUnit = function(mass, digits)
 		local m = math.abs(mass)
@@ -291,7 +291,7 @@ ui.Format = {
 	end,
 	Mass = function(mass, digits)
 		local m, u = ui.Format.MassUnit(mass, digits)
-		return m .. u
+		return m .. " " .. u
 	end,
 	Money = Format.Money,
 	Date = Format.Date,
@@ -300,10 +300,23 @@ ui.Format = {
 		return string.format("%4i-%02i-%02i %02i:%02i:%02i", year, month, day, hour, minute, second)
 	end,
 	Gravity = function(grav)
-		return string.format("%0.2f", grav) .. lc.UNIT_EARTH_GRAVITY
+		return string.format("%0.2f", grav) .. " " .. lc.UNIT_EARTH_GRAVITY
 	end,
 	Pressure = function(pres)
-		return string.format("%0.2f", pres) .. lc.UNIT_PRESSURE_ATMOSPHERES
+		return string.format("%0.2f ", pres) .. lc.UNIT_PRESSURE_ATMOSPHERES
+	end,
+	TemperatureCelsius = function(tempInKelvin)
+		return string.format("%0.2f", tempInKelvin - 273.15) .. lc.UNIT_TEMPERATURE_CELSIUS
+	end,
+	TemperatureFahrenheit = function(tempInKelvin)
+		return string.format("%0.2f", (tempInKelvin - 273.15) * 9/5 + 32) .. lc.UNIT_TEMPERATURE_FAHRENHEIT
+	end,
+	TemperatureKelvin = function(tempInKelvin)
+		return string.format("%0.2f ", tempInKelvin) .. lc.UNIT_TEMPERATURE_KELVIN
+	end,
+	Temperature = function(tempInKelvin)
+		-- TODO: use user preference
+		return ui.Format.TemperatureCelsius(tempInKelvin)
 	end,
 	-- produce number..denominator format
 	NumberAbbv = function(number, places)
@@ -311,9 +324,9 @@ ui.Format = {
 		number = math.abs(number)
 		local fmt = "%." .. (places or '2') .. "f%s"
 		if number < 1e3 then return s .. fmt:format(number, "")
-		elseif number < 1e6 then return s .. fmt:format(number / 1e3, "k")
-		elseif number < 1e9 then return s .. fmt:format(number / 1e6, "mil")
-		elseif number < 1e12 then return s .. fmt:format(number / 1e9, "bil")
+		elseif number < 1e6 then return s .. fmt:format(number / 1e3, " k")
+		elseif number < 1e9 then return s .. fmt:format(number / 1e6, " mil")
+		elseif number < 1e12 then return s .. fmt:format(number / 1e9, " bil")
 		else return s .. fmt:format(number / 1e12, "trn") end
 	end,
 	-- write the entire number using thousands-place grouping
@@ -332,12 +345,12 @@ ui.Format = {
 				res = string.format(",%03d%s", number % 1e3, res)
 				number = number / 1e3
 			end
-			return string.format("%d%s%s", number, res, deci)
+			return string.format("%s%d%s%s", s, number, res, deci)
 		end
 	end,
 	-- Format a volume quantity in cubic meters
 	Volume = function(number, places)
-		return ui.Format.Number(number, places or 1) .. lc.UNIT_CUBIC_METERS
+		return ui.Format.Number(number, places or 1) .. " " .. lc.UNIT_CUBIC_METERS
 	end,
 	-- Format an Area quantity, scaling from square meters to square megameters
 	-- Returns the formatted value, the units, and the number of digits following the decimal point
@@ -431,7 +444,7 @@ ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, b
 	if bg_color then
 		pigui.AddRectFilled(position - Vector2(textBackgroundMarginPixels, max_offset + textBackgroundMarginPixels),
 			position + Vector2(size.x + textBackgroundMarginPixels, size.y - max_offset + textBackgroundMarginPixels),
-			bg_color, 0, 0)
+			bg_color, 0, ui.RoundCornersNone)
 	end
 
 	for i=1,#data do
@@ -458,7 +471,7 @@ ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, 
 		if bg_color then
 			pigui.AddRectFilled(Vector2(position.x - textBackgroundMarginPixels, position.y - textBackgroundMarginPixels),
 				Vector2(position.x + size.x + textBackgroundMarginPixels, position.y + size.y + textBackgroundMarginPixels),
-				bg_color, 0, 0)
+				bg_color, 0, ui.RoundCornersNone)
 		end
 		pigui.AddText(position, color, text)
 	end)

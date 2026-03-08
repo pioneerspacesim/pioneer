@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipAICmd.h"
@@ -106,7 +106,7 @@ bool AICmdKill::TimeStepUpdate()
 	// ok, so now pick new direction
 	vector3d targdir = m_target->GetPositionRelTo(m_ship).Normalized();
 	vector3d tdir1 = targdir.Cross(vector3d(targdir.z+0.1, targdir.x, targdir.y));
-	tdir1 = tdir1.Normalized();
+	tdir1.Normalize();
 	vector3d tdir2 = targdir.Cross(tdir1);
 
 	double d1 = Pi::rng.Double() - 0.5;
@@ -1490,7 +1490,7 @@ AICmdHoldPosition::AICmdHoldPosition(const Json &jsonObj) :
 bool AICmdHoldPosition::TimeStepUpdate()
 {
 	// XXX perhaps try harder to move back to the original position
-	m_prop->AIMatchVel(vector3d(0, 0, 0));
+	m_prop->AIMatchVel(vector3d::Zero);
 	return false;
 }
 

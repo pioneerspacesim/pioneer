@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _DUMMY_MATERIAL_H
@@ -25,7 +25,7 @@ namespace Graphics {
 			bool IsProgramLoaded() const final { return false; }
 			virtual void SetProgram(Program *p) {}
 
-			bool SetTexture(size_t name, Texture *tex) override { return false; }
+			bool SetTexture(size_t name, Texture *tex) override { return true; }
 			bool SetBuffer(size_t name, BufferBinding<Graphics::UniformBuffer>) override { return false; }
 			bool SetBufferDynamic(size_t name, void *data, size_t size) override { return false; }
 

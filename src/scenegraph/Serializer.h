@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SERIALIZE_H
@@ -78,6 +78,7 @@ namespace Serializer {
 			return *this;
 		}
 
+		void Raw(const uint8_t *data, size_t size) { m_str.append(reinterpret_cast<const char *>(data), size); }
 		void Blob(ByteRange range)
 		{
 			assert(range.Size() < SDL_MAX_UINT32);
@@ -179,6 +180,13 @@ namespace Serializer {
 		{
 			readObject(out);
 			return *this;
+		}
+
+		const uint8_t *Raw(size_t size)
+		{
+			auto *out = reinterpret_cast<const uint8_t *>(m_at);
+			m_at += size;
+			return out;
 		}
 
 		ByteRange Blob()

@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "HudTrail.h"
@@ -28,7 +28,7 @@ HudTrail::HudTrail(Body *b, const Color &c) :
 	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
 	rsd.depthWrite = false;
 	rsd.primitiveType = Graphics::LINE_STRIP;
-	m_lineMat.reset(Pi::renderer->CreateMaterial("vtxColor", desc, rsd));
+	m_lineMat.reset(Pi::renderer->CreateMaterial("vtxColor", desc, rsd, m_lines.GetVertexFormat()));
 }
 
 void HudTrail::Update(float time)

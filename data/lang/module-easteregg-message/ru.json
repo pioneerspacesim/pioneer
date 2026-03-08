@@ -25,14 +25,14 @@
   },
   "FLAVOUR_2_BODY": {
     "description": "A very rare easter egg, referencing a online myth from 90s: https://en.wikipedia.org/wiki/John_Titor",
-    "message": "I'm John Titor of the Time Travel Institute, from the year 4036. I'm heading to 1975 to pick up an IBM 5100 computer to degbug legacy computer programs that haven't been ported properly to the machines of my time, but I'm stopping by here to collect information about your time before it's lost in the great calamity.\n\nI intend to return with a six part description on what's needed for time machines to operate. In short, my time machine is a stationary mass, temporal displacement unit, powered by two top-spin dual-positive singularities that produce a standard off-set tipler sinusoid. The displacement unit moves through time, not space.\n\nI will be happy to post pictures of the unit upon request."
+    "message": "Я — Джон Титор из Института Путешествий во Времени, 4036 года. Я направляюсь в 1975-й, чтобы забрать компьютер IBM 5100 для отладки устаревших программ, которые некорректно перенесли на машины моего времени, но заглянул сюда, чтобы собрать информацию о вашей эпохе, прежде чем она будет утрачена при Великом бедствии.\n\nЯ намерен вернуться с описанием, состоящим из шести частей, о том, что необходимо для работы машины времени. Вкратце: моя машина времени — это стационарный массовый блок временного смещения, питаемый двумя двухположительными сингулярностями с обратным вращением, которые создают стандартную синусоиду Типлера со смещением. Блок смещается во времени, а не в пространстве.\n\nБуду рад выложить фотографии устройства по запросу."
   },
   "FLAVOUR_2_DESC": {
     "description": "Note: string has quotes",
-    "message": "'If time travel is real, where are all the time travelers?'"
+    "message": "'Если путешествия во времени реальны, где же все путешественники?'"
   },
   "FLAVOUR_2_TITLE": {
     "description": "A very rare Easter egg, referencing Internet myth of John Titor.",
-    "message": "People of the past, be wary of the GREAT CALAMITY!"
+    "message": "Люди прошлого, остерегайтесь ВЕЛИКОГО БЕДСТВИЯ!"
   }
 }

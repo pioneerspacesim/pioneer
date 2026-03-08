@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Game.h"
@@ -31,6 +31,10 @@ extern "C" int main(int argc, char **argv)
 #ifdef PIONEER_PROFILER
 	Profiler::detect(argc, argv);
 #endif
+
+	/* SDL2 does not enable Wayland by default, but we want to prefer it
+	 * when available, over X11 */
+	SDL_setenv("SDL_VIDEODRIVER", "windows,wayland,x11", 0);
 
 	OS::SetDPIAware();
 

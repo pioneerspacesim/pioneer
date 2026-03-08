@@ -3,6 +3,22 @@
     "description": "Buy a piece of ship equipment",
     "message": "Купить"
   },
+  "EQUIPMENT_NO_COMPATIBLE_SLOT": {
+    "description": "Message given when the second-hand equipment is not compatible with the ship slots.",
+    "message": "Это оборудование несовместимо с вашим кораблем."
+  },
+  "EQUIPMENT_NO_FREE_SLOT": {
+    "description": "Message shown by second-hand market if the ship does not have a free slot for the equipment.",
+    "message": "На вашем корабле нет свободного слота для этого оборудования."
+  },
+  "EQUIPMENT_NO_SPACE": {
+    "description": "Message shown by second-hand market if the equipment requires a free slot or free capacity to fit",
+    "message": "На вашем корабле недостаточно свободного места для этого оборудования."
+  },
+  "EQUIPMENT_SLOT_NO_SPACE": {
+    "description": "Message given when the ship has a compatible slot, but not enough space left to fit the equipment item.",
+    "message": "На вашем корабле есть совместимый слот, но мало места для установки этого оборудования."
+  },
   "FITTING_IS_INCLUDED_IN_THE_PRICE": {
     "description": "Regarding installing a component on the ship",
     "message": "Монтаж включён в стоимость."
@@ -37,7 +53,7 @@
   },
   "FLAVOUR_2_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Продажа одного {equipment}, по разумной цене!"
+    "message": "Продам один {equipment}, по разумной цене!"
   },
   "FLAVOUR_2_TITLE": {
     "description": "Selling second hand ship equipment",
@@ -86,6 +102,22 @@
   "HOW_DO_I_FITT_IT": {
     "description": "Regarding installing a component on the ship",
     "message": "Как мне это установить?"
+  },
+  "NOT_ENOUGH_MONEY_0": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "У вас недостаточно денег для покупки этого."
+  },
+  "NOT_ENOUGH_MONEY_1": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Возвращайтесь, когда у вас будет достаточно денег."
+  },
+  "NOT_ENOUGH_MONEY_2": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Я не благотворительный фонд, возвращайтесь, когда сможете это себе позволить."
+  },
+  "NOT_ENOUGH_MONEY_3": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Оно может быть и б/у, но цена не обсуждается."
   },
   "NO_LONGER_AVAILABLE_0": {
     "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",

@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang         = require "Lang"
@@ -14,6 +14,7 @@ local Format       = require "Format"
 local Serializer   = require "Serializer"
 local Character    = require "Character"
 local utils        = require 'utils'
+local PlayerState  = require 'PlayerState'
 
 local ui = require 'pigui'
 
@@ -262,6 +263,7 @@ local onChat = function (form, ref, option)
 			station     = station,
 			client      = ad.client,
 			location    = ad.location,
+			destination = ad.location,
 			difficulty  = ad.difficulty,
 			reward      = ad.reward,
 			due         = ad.due,
@@ -284,6 +286,7 @@ local onChat = function (form, ref, option)
 		mission = Mission.New(mission)
 		table.insert(missions, mission)
 		missionKey[mission.scanId] = mission
+		MissionUtils.SetupOverdueTimer(mission)
 
 		form:SetMessage(l.EXCELLENT_I_AWAIT_YOUR_REPORT)
 		return
@@ -568,21 +571,20 @@ end
 local onUpdateBB = function (station)
 	for ref,ad in pairs(ads) do
 		if not flavours[ad.flavour].localscout
-			and ad.due < Game.time + 432000 then -- 5 days
+			and ad.due < Game.time + 5*24*60*60 then
 			ad.station:RemoveAdvert(ref)
 		elseif flavours[ad.flavour].localscout
-			and ad.due < Game.time + 172800 then -- 2 days
+			and ad.due < Game.time + 2*24*60*60 then
 			ad.station:RemoveAdvert(ref)
 		end
 	end
-	if Engine.rand:Integer(43200) < 3600 then    -- 12 h < 1 h
+	if Engine.rand:Integer(3*24*60*60) < 60*60 then
 		makeAdvert(station)
 	end
 end
 
 
 local onEnterSystem = function (playership)
-	if not playership:IsPlayer() then return end
 	nearbysystems = nil
 
 	for ref,mission in pairs(missions) do
@@ -661,6 +663,7 @@ local onScanComplete = function (player, scanId)
 		end
 		mission.station = newlocation
 	end
+	mission.destination = newlocation
 
 	-- Set navigation target to the station
 	if Game.system and mission.station:IsSameSystem(Game.system.path) then
@@ -673,13 +676,12 @@ end
 
 ---@param player Player
 ---@param station SpaceStation
-local onShipDocked = function (player, station)
-	if not player:IsPlayer() then return end
+local onPlayerDocked = function (player, station)
 	local scanMgr = player:GetComponent("ScanManager")
 
 	for ref, mission in pairs(missions) do
 
-		if mission.status == "ACTIVE" and Game.time > mission.due then
+		if Game.time > mission.due then
 			mission.status = "FAILED"
 		end
 
@@ -696,7 +698,7 @@ local onShipDocked = function (player, station)
 				-- You get some of the reward if you're back late with the data
 				Comms.ImportantMessage((flavour.failmsg), mission.client.name)
 				Character.persistent.player.reputation = Character.persistent.player.reputation - 1
-				player:AddMoney(mission.reward * mission_failed_reward)
+				PlayerState.AddMoney(mission.reward * mission_failed_reward)
 
 			elseif failed then
 				-- You get no money if you're back without data or entirely too late
@@ -707,7 +709,7 @@ local onShipDocked = function (player, station)
 				-- You get all of the money and reputation if you're back in time with the data!
 				Comms.ImportantMessage((flavour.successmsg), mission.client.name)
 				Character.persistent.player.reputation = Character.persistent.player.reputation + 1
-				player:AddMoney(mission.reward)
+				PlayerState.AddMoney(mission.reward)
 			end
 
 			mission:Remove()
@@ -717,7 +719,6 @@ local onShipDocked = function (player, station)
 
 	end
 end
-
 
 local loaded_data
 
@@ -740,21 +741,10 @@ local onGameStart = function ()
 		missions = loaded_data.missions
 		for ref, mission in pairs(missions) do
 			if mission.scanId then missionKey[mission.scanId] = mission end
+			MissionUtils.SetupOverdueTimer(mission)
 		end
 
 		loaded_data = nil
-	end
-
-	local currentBody = Game.player.frameBody
-	local mission
-	for ref,mission in pairs(missions) do
-		if currentBody and currentBody.path ~= mission.location then return end
-		if Game.time > mission.due then
-			mission.status = "FAILED"
-			mission:Remove()
-			missions[ref] = nil
-			return
-		end
 	end
 end
 
@@ -770,7 +760,7 @@ local buildMissionDescription = function (mission)
 			{
 				date = Format.Date(mission.due),
 				location = mission.station:GetSystemBody().name
-				           .. "," .. mission.station:GetStarSystem().name
+				           .. ", " .. mission.station:GetStarSystem().name
 			})
 	end
 
@@ -826,7 +816,7 @@ Event.Register("onGameEnd", onGameEnd)
 Event.Register("onCreateBB", onCreateBB)
 Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onEnterSystem", onEnterSystem)
-Event.Register("onShipDocked", onShipDocked)
+Event.Register("onPlayerDocked", onPlayerDocked)
 
 Event.Register("onScanRangeEnter", onScanRangeEnter)
 Event.Register("onScanRangeExit", onScanRangeExit)

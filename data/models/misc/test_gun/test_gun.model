@@ -1,9 +1,15 @@
-material laser
-tex_diff laser_diff.dds
-tex_glow laser_emit.dds
-tex_spec laser_spec.dds
-emissive 1.0 1.0 1.0
-specular 1.0 1.0 1.0
-shininess 200
+version 2
 
-mesh test_gun.obj
+material "laser" {
+	shader "multi"
+	texture diffuse  "laser_diff.dds"
+	texture glow     "laser_emit.dds"
+	texture specular "laser_spec.dds"
+	emissive 1.0 1.0 1.0
+	specular 1.0 1.0 1.0
+	shininess 200
+}
+
+lod 100 {
+	mesh "test_gun.obj"
+}

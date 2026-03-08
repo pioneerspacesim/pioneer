@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -88,15 +88,36 @@ namespace Log {
 	}
 
 	template <typename... Args>
+	inline void InfoCond(const bool condition, const char *message, Args... args)
+	{
+		if (!condition)
+			LogInternal(Severity::Info, message, fmt::make_format_args(args...));
+	}
+
+	template <typename... Args>
 	inline void Debug(const char *message, Args... args)
 	{
 		LogInternal(Severity::Debug, message, fmt::make_format_args(args...));
 	}
 
 	template <typename... Args>
+	inline void DebugCond(const bool condition, const char *message, Args... args)
+	{
+		if (!condition)
+			LogInternal(Severity::Debug, message, fmt::make_format_args(args...));
+	}
+
+	template <typename... Args>
 	inline void Warning(const char *message, Args... args)
 	{
 		LogInternal(Severity::Warning, message, fmt::make_format_args(args...));
+	}
+
+	template <typename... Args>
+	inline void WarningCond(const bool condition, const char *message, Args... args)
+	{
+		if (!condition)
+			LogInternal(Severity::Warning, message, fmt::make_format_args(args...));
 	}
 
 	template <typename... Args>

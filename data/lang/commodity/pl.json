@@ -1,7 +1,7 @@
 {
   "AIR_PROCESSORS": {
     "description": "",
-    "message": "Klimatyzacja"
+    "message": "klimatyzatory"
   },
   "AIR_PROCESSORS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -9,7 +9,7 @@
   },
   "ANIMAL_MEAT": {
     "description": "",
-    "message": "Mięso ze zwierząt"
+    "message": "mięso zwierzęce"
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -17,7 +17,7 @@
   },
   "BATTLE_WEAPONS": {
     "description": "",
-    "message": "Broń ciężka"
+    "message": "broń ciężka"
   },
   "BATTLE_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -25,15 +25,23 @@
   },
   "CARBON_ORE": {
     "description": "",
-    "message": "Paliwa kopalne"
+    "message": "ruda węgla"
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
     "message": "Węgiel to jeden z najpowszechniejszych znanych nam pierwiastków. Używany jest w niemal wszystkim, od plastiku po stopy a nawet produkcję energii. Jest niedrogim, ale ważnym towarem. Jako taki, jest importowany przez niemal wszystkie osady przemysłowe."
   },
+  "CHEMICALS": {
+    "description": "",
+    "message": "chemikalia"
+  },
+  "CHEMICALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Różne artykuły takie jak żrące środki chemiczne i biochemiczny surowiec, chemikalia te są stosowane zarówno w warunkach konsumenckich, jak i przemysłowych. Substancje chemiczne są wysyłane w kontenerach o wytrzymałości przemysłowej, aby zapobiec korozji ładowni statku."
+  },
   "COMPUTERS": {
     "description": "",
-    "message": "Komputery"
+    "message": "komputery"
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -41,7 +49,7 @@
   },
   "CONSUMER_GOODS": {
     "description": "",
-    "message": "Towary konsumpcyjne"
+    "message": "towary konsumpcyjne"
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -49,7 +57,7 @@
   },
   "FARM_MACHINERY": {
     "description": "",
-    "message": "Maszyny rolnicze"
+    "message": "maszyny rolnicze"
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -57,7 +65,7 @@
   },
   "FERTILIZER": {
     "description": "",
-    "message": "Nawozy"
+    "message": "nawóz"
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -65,7 +73,7 @@
   },
   "FRUIT_AND_VEG": {
     "description": "",
-    "message": "Owoce i warzywa"
+    "message": "owoce i warzywa"
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -73,7 +81,7 @@
   },
   "GRAIN": {
     "description": "",
-    "message": "Zboże"
+    "message": "zboża"
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -81,7 +89,7 @@
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Broń ręczna"
+    "message": "mniejsze uzbrojenie"
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -89,7 +97,7 @@
   },
   "HYDROGEN": {
     "description": "",
-    "message": "Wodór"
+    "message": "wodór"
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -97,7 +105,7 @@
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
-    "message": "Maszyny przemysłowe"
+    "message": "maszyny przemysłowe"
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -105,7 +113,7 @@
   },
   "LIQUID_OXYGEN": {
     "description": "",
-    "message": "Ciekły tlen"
+    "message": "ciekły tlen"
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -113,7 +121,7 @@
   },
   "LIQUOR": {
     "description": "",
-    "message": "Trunki"
+    "message": "mocny alkohol"
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -121,7 +129,7 @@
   },
   "LIVE_ANIMALS": {
     "description": "",
-    "message": "Żywe zwierzęta"
+    "message": "żywe zwierzęta"
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -129,7 +137,7 @@
   },
   "MEDICINES": {
     "description": "",
-    "message": "Lekarstwa"
+    "message": "lekarstwa"
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -137,7 +145,7 @@
   },
   "METAL_ALLOYS": {
     "description": "",
-    "message": "Stopy metali"
+    "message": "stopy metali"
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -145,7 +153,7 @@
   },
   "METAL_ORE": {
     "description": "",
-    "message": "Rudy metali"
+    "message": "rudy metali"
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -153,7 +161,7 @@
   },
   "MILITARY_FUEL": {
     "description": "",
-    "message": "Paliwo wojskowe"
+    "message": "paliwo wojskowe"
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -161,7 +169,7 @@
   },
   "MINING_MACHINERY": {
     "description": "",
-    "message": "Maszyny górnicze"
+    "message": "maszyny górnicze"
   },
   "MINING_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -169,7 +177,7 @@
   },
   "NARCOTICS": {
     "description": "",
-    "message": "Narkotyki"
+    "message": "narkotyki"
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -177,7 +185,7 @@
   },
   "NERVE_GAS": {
     "description": "",
-    "message": "Gaz paraliżujący"
+    "message": "gaz paraliżujący"
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -185,7 +193,7 @@
   },
   "PLASTICS": {
     "description": "",
-    "message": "Tworzywa sztuczne"
+    "message": "tworzywa sztuczne"
   },
   "PLASTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -193,7 +201,7 @@
   },
   "PRECIOUS_METALS": {
     "description": "",
-    "message": "Metale szlachetne"
+    "message": "metale szlachetne"
   },
   "PRECIOUS_METALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -201,7 +209,7 @@
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Odpady radioaktywne"
+    "message": "odpady radioaktywne"
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -209,7 +217,7 @@
   },
   "ROBOTS": {
     "description": "",
-    "message": "Roboty"
+    "message": "roboty"
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -217,7 +225,7 @@
   },
   "RUBBISH": {
     "description": "",
-    "message": "Odpady"
+    "message": "odpady"
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -225,7 +233,7 @@
   },
   "SLAVES": {
     "description": "",
-    "message": "Niewolnicy"
+    "message": "niewolnicy"
   },
   "SLAVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -233,7 +241,7 @@
   },
   "TEXTILES": {
     "description": "",
-    "message": "Tekstylia"
+    "message": "tekstylia"
   },
   "TEXTILES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -241,7 +249,7 @@
   },
   "WATER": {
     "description": "",
-    "message": "Woda"
+    "message": "woda"
   },
   "WATER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",

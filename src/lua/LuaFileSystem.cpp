@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaFileSystem.h"
@@ -109,14 +109,6 @@ int LuaFileSystem::l_patched_io_open(lua_State* L)
  *
  *   files - a list of files as full paths from the root
  *   dirs - a list of dirs as full paths from the root
- *
- * Availability:
- *
- *   alpha 26
- *
- * Status:
- *
- *   experimental
  */
 static int l_filesystem_read_dir(lua_State *l)
 {
@@ -153,6 +145,7 @@ static int l_filesystem_read_dir(lua_State *l)
 	{
 		LuaTable entryTime(l);
 		entryTime.Set("name", info.GetName());
+		entryTime.Set("path", info.GetPath());
 		entryTime.Set("mtime", info.GetModificationTime());
 
 		if (info.IsDir())
@@ -171,14 +164,6 @@ static int l_filesystem_read_dir(lua_State *l)
  *
  * Join the passed arguments into a path, correctly handling separators and .
  * and .. special dirs.
- *
- * Availability:
- *
- *   alpha 26
- *
- * Status:
- *
- *   experimental
  */
 static int l_filesystem_join_path(lua_State *l)
 {
@@ -202,14 +187,6 @@ static int l_filesystem_join_path(lua_State *l)
  *
  * Creating the given directory if it's missing, returning a boolean
  * indicating success
- *
- * Availability:
- *
- *   Oct 2023
- *
- * Status:
- *
- *   experimental
  */
 static int l_filesystem_make_directory(lua_State *l)
 {

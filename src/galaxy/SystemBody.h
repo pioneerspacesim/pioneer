@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef SYSTEMBODY_H
@@ -92,6 +92,7 @@ public:
 
 	void SaveToJson(Json &out);
 	void LoadFromJson(const Json &obj);
+	void GenerateStarColor();
 
 	std::string m_name;
 	SystemBodyType::BodyType m_type = SystemBodyType::TYPE_GRAVPOINT;
@@ -118,7 +119,14 @@ public:
 	fixed m_volatileLiquid; // 1.0 = 100% ocean cover (earth = 70%)
 	fixed m_volatileIces;	// 1.0 = 100% ice cover (earth = 3%)
 	fixed m_volatileGas;	// 1.225 = earth atmosphere density, kg/m^3
+	// TODO: atmosphere hydrogen-nitrogen ratio from mass, carbon-oxygen ratio from atmosCarbon
+	// (approximate the distribution of nitrogen vs. hydrogen by using the mass of the body; < 5 Me predominantly nitrogen, > 7 Me predominantly hydrogen)
+	// this differentiates nitrogen-rich and hydrogen rich atmospheres, as well as (hydro)carbon-rich from oxygen-rich atmospheres
+	// thus, an earth-like atmosphere would be atmosOxidizing = 0.3, atmosCarbon <= 0.05
+	// See Photochemistry in Terrestrial Exoplanet Atmospheres[...] (http://dx.doi.org/10.1088/0004-637X/784/1/63)
+	// particularly Fig. 5: https://www.researchgate.net/figure/Mixing-ratios-of-common-molecules-in-thick-atmospheres-on-a-GJ-1214-b-like-exoplanet-The_fig2_259578190
 	fixed m_atmosOxidizing; // 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
+	// fixed m_atmosCarbon;    // 0.0 = oxygen (H2O, O2), 1.0 = carbon (CO, CO2, CH4, C2H4, etc)
 	fixed m_life;			// 0.0 = dead, 1.0 = teeming
 
 	/* economy type stuff */
@@ -132,6 +140,9 @@ public:
 	unsigned int m_heightMapFractal;
 
 	std::string m_spaceStationType;
+
+	// star color
+	Color m_starColor;
 };
 
 class SystemBody : public RefCounted, public SystemBodyType, protected SystemBodyData {
@@ -200,6 +211,13 @@ public:
 			return m_mass * 332998;
 		else
 			return m_mass;
+	}
+	fixed GetMassInSols() const
+	{
+		if (GetSuperType() <= SUPERTYPE_STAR)
+			return m_mass;
+		else
+			return m_mass / 332998;
 	}
 	bool IsRotating() const { return m_rotationPeriod != fixed(0); }
 	// returned in seconds
@@ -271,6 +289,7 @@ public:
 		// which is rendered when the body has a small screen size
 		return Color(200, 200, 200, 255);
 	}
+	Color GetStarColor() const { return m_starColor; };
 
 	// Returns color, density in kg/m^3 at sea level
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const

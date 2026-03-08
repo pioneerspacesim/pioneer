@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Ship.h"
@@ -60,6 +60,7 @@ Ship::Ship(const ShipType::Id &shipId) :
 
 	SetFuel(1.0);
 	SetFuelReserve(0.0);
+	m_latestSpawnTime = 0.0;
 	m_lastAlertUpdate = 0.0;
 	m_lastFiringAlert = 0.0;
 	m_shipNear = false;
@@ -167,6 +168,8 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 		m_curAICmd = 0;
 		m_curAICmd = AICommand::LoadFromJson(shipObj);
 		m_aiMessage = AIError(shipObj["ai_message"]);
+
+		m_latestSpawnTime = 0.0;
 
 		// NOTE: needs to happen before shield data is loaded from JSON
 		SetupShields();
@@ -515,7 +518,7 @@ bool Ship::OnCollision(Body *b, Uint32 flags, double relVel)
 	int cargoscoop_cap = Properties().Get("cargo_scoop_cap");
 	if (cargoscoop_cap > 0 && b->IsType(ObjectType::CARGOBODY) && !b->IsDead()) {
 		bool scooped = LuaObject<Ship>::CallMethod<bool>(this, "OnScoopCargo",
-			static_cast<CargoBody *>(b)->GetCargoType());
+			static_cast<CargoBody *>(b)->GetCargoType(), static_cast<CargoBody *>(b)->GetCargoQuantity());
 
 		if (scooped) {
 			Pi::game->GetSpace()->KillBody(b);
@@ -727,15 +730,20 @@ Ship::ECMResult Ship::UseECM()
 		Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(this, ECM_RADIUS);
 		for (Body *body : nearby) {
 			if (body->GetFrame() != GetFrame()) continue;
-			if (!body->IsType(ObjectType::MISSILE)) continue;
 
 			double dist = (body->GetPosition() - GetPosition()).Length();
-			if (dist < ECM_RADIUS) {
-				// increasing chance of destroying it with proximity
-				if (Pi::rng.Double() > (dist / ECM_RADIUS)) {
-					static_cast<Missile *>(body)->ECMAttack(ecm_power_cap);
+			if (body->IsType(ObjectType::MISSILE)) {
+				if (dist < ECM_RADIUS) {
+					// increasing chance of destroying it with proximity
+					if (Pi::rng.Double() > (dist / ECM_RADIUS)) {
+						static_cast<Missile *>(body)->ECMAttack(ecm_power_cap);
+					}
 				}
 			}
+			else if (body->IsType(ObjectType::SPACESTATION) && dist < ECM_RADIUS) {
+				LuaEvent::Queue("unlawfulDischargeECM", this);
+			}
+			else { continue; }
 		}
 		return ECM_ACTIVATED;
 	} else
@@ -850,15 +858,15 @@ void Ship::Blastoff()
 		p->DoFixspeedTakeoff();
 	} else {
 		const double planetRadius = 2.0 + static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
-		SetVelocity(vector3d(0, 0, 0));
-		SetAngVelocity(vector3d(0, 0, 0));
+		SetVelocity(vector3d::Zero);
+		SetAngVelocity(vector3d::Zero);
 		SetFlightState(FLYING);
 
 		SetPosition(up * planetRadius - GetAabb().min.y * up);
 		SetThrusterState(1, 1.0); // thrust upwards
 	}
 
-	LuaEvent::Queue("onShipTakeOff", this, f->GetBody());
+	OnTakeoff(f->GetBody());
 }
 
 void Ship::TestLanded()
@@ -885,12 +893,12 @@ void Ship::TestLanded()
 				vector3d right = up.Cross(GetOrient().VectorZ()).Normalized();
 				SetOrient(matrix3x3d::FromVectors(right, up));
 
-				SetVelocity(vector3d(0, 0, 0));
-				SetAngVelocity(vector3d(0, 0, 0));
+				SetVelocity(vector3d::Zero);
+				SetAngVelocity(vector3d::Zero);
 				ClearThrusterState();
 				SetFlightState(LANDED);
 				Sound::BodyMakeNoise(this, "Rough_Landing", 1.0f);
-				LuaEvent::Queue("onShipLanded", this, f->GetBody());
+				OnLanded(f->GetBody());
 				onLanded.emit();
 			}
 		}
@@ -910,11 +918,11 @@ void Ship::SetLandedOn(Planet *p, float latitude, float longitude)
 	SetPosition(up * (planetRadius - GetAabb().min.y));
 	vector3d right = up.Cross(vector3d(0, 0, 1)).Normalized();
 	SetOrient(matrix3x3d::FromVectors(right, up));
-	SetVelocity(vector3d(0, 0, 0));
-	SetAngVelocity(vector3d(0, 0, 0));
+	SetVelocity(vector3d::Zero);
+	SetAngVelocity(vector3d::Zero);
 	ClearThrusterState();
 	SetFlightState(LANDED);
-	LuaEvent::Queue("onShipLanded", this, p);
+	OnLanded(p);
 	onLanded.emit();
 }
 
@@ -943,6 +951,10 @@ void Ship::TimeStepUpdate(const float timeStep)
 			m_landingGearAnimation->Interpolate();
 			m_forceWheelUpdate = false;
 		}
+	}
+
+	if (!m_cargoSpawnQueue.empty()) {
+		ProcessSpawnQueue();
 	}
 
 	m_dragCoeff = DynamicBody::DEFAULT_DRAG_COEFF * (1.0 + 0.25 * m_wheelState);
@@ -1341,7 +1353,7 @@ void Ship::StaticUpdate(const float timeStep)
 				// We have to fire it here, because the event isn't actually fired until
 				// after the whole physics update, which means the flight state on next
 				// step would be HYPERSPACE, thus breaking quite a few things.
-				LuaEvent::Queue("onLeaveSystem", this);
+				OnBeforeEnterHyperspace();
 			} else if (!(is_equal_exact(m_wheelState, 0.0f)) && this->IsType(ObjectType::PLAYER)) {
 				AbortHyperjump();
 				Sound::BodyMakeNoise(this, "Missile_Inbound", 1.0f);
@@ -1353,6 +1365,26 @@ void Ship::StaticUpdate(const float timeStep)
 void Ship::NotifyRemoved(const Body *const removedBody)
 {
 	if (m_curAICmd) m_curAICmd->OnDeleted(removedBody);
+}
+
+void Ship::OnDocked(SpaceStation *s, int port)
+{
+	LuaEvent::Queue("onShipDocked", this, s, port);
+}
+
+void Ship::OnUndocked(SpaceStation *s, int port)
+{
+	LuaEvent::Queue("onShipUndocked", this, s, port);
+}
+
+void Ship::OnLanded(Body *b)
+{
+	LuaEvent::Queue("onShipLanded", this, b);
+}
+
+void Ship::OnTakeoff(Body *b)
+{
+	LuaEvent::Queue("onShipTakeOff", this, b);
 }
 
 bool Ship::Undock()
@@ -1453,15 +1485,48 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	}
 }
 
-bool Ship::SpawnCargo(CargoBody *c_body) const
+bool Ship::SpawnCargo(CargoBody *c_body)
 {
-	if (m_flightState != FLYING) return false;
-	vector3d pos = GetOrient() * vector3d(0, GetAabb().min.y - 5, 0);
+	if (m_flightState != FLYING) {
+		// cleanup the allocated CargoBody
+		delete c_body;
+		return false;
+	}
+
+	// don't actually spawn the cargo just yet, add it to a queue for spawning later
+	m_cargoSpawnQueue.push_back(c_body);
+	return true;
+}
+
+void Ship::ProcessSpawnQueue()
+{
+	// check we're due to spawn something
+	const double latestTime = Pi::game->GetTime();
+	if (m_latestSpawnTime > latestTime)
+		m_latestSpawnTime = 0.0; // don't allow time to be in the future, reset it
+
+	if (m_latestSpawnTime + 0.2 <= latestTime) {
+		// time to spawn again
+		m_latestSpawnTime = latestTime;
+	} else {
+		return; // not ready to spawn
+	}
+
+	// add one CargoBody to space at a time per timestep, this will happen over several steps
+	// and spread out the bodies in physical space
+	CargoBody *c_body = m_cargoSpawnQueue.front();
+	m_cargoSpawnQueue.pop_front();
+	if (!c_body)
+		return; // sanity check
+
+	const double r1 = (Pi::rng.Double() - 0.5);
+	const double r2 = (Pi::rng.Double() - 0.5);
+	const double r3 = (Pi::rng.Double() - 0.5);
+	vector3d pos = GetOrient() * vector3d(0., GetAabb().min.y - 5., 0.);
 	c_body->SetFrame(GetFrame());
 	c_body->SetPosition(GetPosition() + pos);
-	c_body->SetVelocity(GetVelocity() + GetOrient() * vector3d(0, -10, 0));
+	c_body->SetVelocity(GetVelocity() + GetOrient() * vector3d(r1, -10. + r2, r3));
 	Pi::game->GetSpace()->AddBody(c_body);
-	return true;
 }
 
 void Ship::EnterHyperspace()
@@ -1480,6 +1545,11 @@ void Ship::EnterHyperspace()
 
 	// virtual call, do class-specific things
 	OnEnterHyperspace();
+}
+
+void Ship::OnBeforeEnterHyperspace()
+{
+	LuaEvent::Queue("onShipLeaveSystem", this);
 }
 
 void Ship::OnEnterHyperspace()
@@ -1505,7 +1575,7 @@ void Ship::EnterSystem()
 
 	SetFlightState(Ship::FLYING);
 
-	LuaEvent::Queue("onEnterSystem", this);
+	LuaEvent::Queue("onShipEnterSystem", this);
 }
 
 void Ship::OnEnterSystem()

@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local GameParam = require 'pigui.modules.new-game-window.game-param'
@@ -82,7 +82,10 @@ end
 PlayerMoney.reader = Helpers.versioned {{
 	version = 89,
 	fnc = function(saveGame)
-		return Helpers.getByPath(saveGame, "lua_modules_json/Player/cash")
+		return Helpers.getByPath(saveGame, {
+			"lua_modules_json/PlayerStateDB/finances/cash", -- v91.1
+			"lua_modules_json/Player/cash" -- v91.0 and older
+		})
 	end
 }}
 
@@ -310,7 +313,7 @@ function Crew:drawMember(memberEntry)
 
 	ui.sameLine()
 
-	ui.child("Face", Vector2(crewPictureSize, crewPictureSize), {}, function()
+	ui.child("Face", Vector2(crewPictureSize, crewPictureSize), function()
 		memberEntry.face:renderFaceDisplay()
 	end)
 

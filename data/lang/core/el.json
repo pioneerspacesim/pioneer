@@ -197,7 +197,7 @@
   },
   "CARGO_SCOOP_ATTEMPTED": {
     "description": "",
-    "message": "Απόπειρα συλλογής φορτίου. Δεν υπάρχει αρκετός χώρος στο τμήμα αποθήκευσης φορτίου."
+    "message": "Απόπειρα συλλογής φορτίου. Δεν υπάρχει αρκετός χώρος στο σκάφος."
   },
   "CENTER": {
     "description": "",
@@ -405,7 +405,7 @@
   },
   "ECONOMY_TYPE": {
     "description": "",
-    "message": "Τύπος οικονομίας:"
+    "message": "Είδος οικονομίας"
   },
   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
     "description": "",
@@ -505,15 +505,31 @@
   },
   "GOVERNMENT_TYPE": {
     "description": "",
-    "message": "Τύπος κυβέρνησης:"
+    "message": "Είδος διακυβέρνησης"
   },
   "GRAIN": {
     "description": "like wheat or barley",
     "message": "Σιτηρά"
   },
+  "GRID_DISPLAY_MODE": {
+    "description": "Label for grid display modes",
+    "message": "Προβολή πλέγματος"
+  },
+  "GRID_DISPLAY_MODE_GRID_AND_LEGS": {
+    "description": "Combobox option for Grid with Legs",
+    "message": "Πλέγμα με προεκτάσεις"
+  },
+  "GRID_DISPLAY_MODE_GRID_ONLY": {
+    "description": "Combobox option for Grid Only",
+    "message": "Πλέγμα μόνο"
+  },
+  "GRID_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for Grid display off.",
+    "message": "Χωρίς πλέγμα"
+  },
   "GRID_DISPLAY_MODE_TOGGLE": {
-    "description": "Switch show no grid",
-    "message": "Εναλλαγή μεταξύ τρόπων εμφάνισης πλέγματος."
+    "description": "Tooltip for toggle grid display button.",
+    "message": "Εναλλαγή ορατότητας στο πλέγμα"
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -590,6 +606,26 @@
   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
     "description": "",
     "message": "Υπόλειμμα νέφους άφιξης υπερδιαστήματος"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
+    "description": "Label for hyperspace cloud display modes.",
+    "message": "Εμφάνιση νεφών υπερδιαστήματος"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL": {
+    "description": "Combobox option for all hyperspace clouds.",
+    "message": "Όλα τα νέφη υπερδιαστήματος"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY": {
+    "description": "Combobox option for arrival hyperspace clouds.",
+    "message": "Νέφη υπερδιαστήματος άφιξης"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY": {
+    "description": "Combobox option for departure hyperspace clouds.",
+    "message": "Νέφη υπερδιαστήματος αναχώρησης"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE": {
+    "description": "Tooltip for the button which toggles the display mode of hyperspace clouds.",
+    "message": "Εναλλαγή ορατότητας νεφών υπερδιαστήματος"
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
@@ -683,9 +719,25 @@
     "description": "",
     "message": "Εισαγωγή Joystick"
   },
+  "L4L5_DISPLAY_MODE": {
+    "description": "Label for the lagrange point display modes.",
+    "message": "Λειτουργία εμφάνισης σημείων Lagrange"
+  },
+  "L4L5_DISPLAY_MODE_ICONS_AND_TEXT": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Εικονίδια και υπότιτλοι"
+  },
+  "L4L5_DISPLAY_MODE_ICONS_ONLY": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Εικονίδια μόνο"
+  },
+  "L4L5_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for lagrange point display off.",
+    "message": "Απενεργοποίηση"
+  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
-    "description": "Either show L4/L5 points or don't",
-    "message": "Εναλλαγή μεταξύ τρόπων εμφάνισης σημείου Lagrange L4 / L5."
+    "description": "Tooltip for the L4/L5 Lagrange points toggle button.",
+    "message": "Εναλλαγή ορατότητας σημείων Lagrange L4/L5"
   },
   "LANDED": {
     "description": "",
@@ -1029,7 +1081,7 @@
   },
   "NUMBER_TONNES": {
     "description": "",
-    "message": "%{mass}t"
+    "message": "%(mass) τόννοι"
   },
   "N_ATMOSPHERE": {
     "description": "",
@@ -1189,7 +1241,7 @@
   },
   "POPULATION": {
     "description": "",
-    "message": "Πληθυσμός:"
+    "message": "Πληθυσμός"
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -1317,7 +1369,7 @@
   },
   "SECTOR_X_Y_Z": {
     "description": "",
-    "message": "Τομέας: %x,%y,%z"
+    "message": "Τομέας: {sectorX}, {sectorY}, {sectorZ}"
   },
   "SELECTED_SYSTEM": {
     "description": "",
@@ -1387,9 +1439,21 @@
     "description": "",
     "message": "Σκάφος"
   },
+  "SHIPS_DISPLAY_MODE": {
+    "description": "Label for ship display modes.",
+    "message": "Λειτουργία Εμφάνιση σκαφών"
+  },
+  "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
+    "description": "Combobox option for ships only.",
+    "message": "Σκάφη μόνο"
+  },
+  "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
+    "description": "Combobox option for ships with orbits.",
+    "message": "Σκάφη με επισήμανση τροχιάς"
+  },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
-    "description": "Either show no ships, show ships, or show ships + their orbits",
-    "message": "Εναλλαγή μεταξύ τρόπων εμφάνισης σκάφους."
+    "description": "Tooltip for ship display toggle button.",
+    "message": "Εναλλαγή ορατότητας σκαφών"
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
@@ -1603,6 +1667,10 @@
     "description": "",
     "message": "Επιτάχυνση βαρύτητας στην επιφάνεια"
   },
+  "SURFACE_PRESSURE": {
+    "description": "",
+    "message": "Επιφανειακή ατμοσφαιρική πίεση"
+  },
   "SURFACE_TEMPERATURE": {
     "description": "",
     "message": "Θερμοκρασία στην επιφάνεια"
@@ -1753,7 +1821,7 @@
   },
   "UNIT_CREDITS": {
     "description": "Unit of money, used when $ isn't specific enough",
-    "message": "Cr"
+    "message": "μονάδες"
   },
   "UNIT_CUBIC_METERS": {
     "description": "Volume unit: cubic meter",
@@ -1762,6 +1830,10 @@
   "UNIT_DAYS": {
     "description": "Duration unit: one 24-hour day",
     "message": "μ"
+  },
+  "UNIT_DENSITY": {
+    "description": "Density unit: kilos per cubic meter",
+    "message": "kg/m³"
   },
   "UNIT_EARTH_GRAVITY": {
     "description": "Acceleration unit: one earth gravity (g)",
@@ -1773,7 +1845,7 @@
   },
   "UNIT_HECTARES": {
     "description": "Area unit: one hectare (ha) -10,000 m²",
-    "message": "ha"
+    "message": "εκτ"
   },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
@@ -1837,15 +1909,27 @@
   },
   "UNIT_SQUARE_KILOMETERS": {
     "description": "Area unit: square kilometer (km²) - 1,000,000 m²",
-    "message": "km²"
+    "message": "χλμ2"
   },
   "UNIT_SQUARE_MEGAMETERS": {
     "description": "Area unit: square megameter (Mm²) - 10^12 m²",
-    "message": "Mm²"
+    "message": "Μμ2"
   },
   "UNIT_SQUARE_METERS": {
     "description": "Area unit: square meter (m²)",
-    "message": "m²"
+    "message": "μ2"
+  },
+  "UNIT_TEMPERATURE_CELSIUS": {
+    "description": "Temperature unit: degrees Celsius (°C)",
+    "message": "°C"
+  },
+  "UNIT_TEMPERATURE_FAHRENHEIT": {
+    "description": "Temperature unit: Fahrenheit (°F)",
+    "message": "°F"
+  },
+  "UNIT_TEMPERATURE_KELVIN": {
+    "description": "Temperature unit: degrees Kelvin (K)",
+    "message": "Κ"
   },
   "UNIT_TERATONNES": {
     "description": "Mass unit: one teratonne",

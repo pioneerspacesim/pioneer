@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef ORBIT_H
@@ -25,7 +25,7 @@ public:
 		m_semiMajorAxis(0.0),
 		m_orbitalPhaseAtStart(0.0),
 		m_velocityAreaPerSecond(0.0),
-		m_orient(matrix3x3d::Identity())
+		m_orient(matrix3x3d::Identity)
 	{}
 
 	void SetShapeAroundBarycentre(double semiMajorAxis, double totalMass, double bodyMass, double eccentricity);

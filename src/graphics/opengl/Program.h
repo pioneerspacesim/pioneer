@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -33,10 +33,13 @@ namespace Graphics {
 			GLuint GetConstantLocation(uint32_t index) const { return m_constants[index]; }
 			GLuint GetProgramID() const { return m_program; }
 
+			const Shader *GetShader() const { return m_shader; }
+
 		protected:
 			GLuint LoadShaders(const ProgramDef &def);
 			void InitUniforms(Shader *shader);
 
+			const Shader *m_shader;
 			GLuint m_program;
 			bool success;
 

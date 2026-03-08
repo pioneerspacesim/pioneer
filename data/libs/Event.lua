@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 --
@@ -45,9 +45,10 @@ end
 ---@field debugger table
 local Event = utils.inherits(nil, "Event")
 
-function Event:Register(name, module, func)
+function Event:Register(name, module, func, priority)
+	local callbacks = self.callbacks[name]
 
-	for _, cb in ipairs(self.callbacks[name]) do
+	for _, cb in ipairs(callbacks) do
 		-- Update registered callback
 		if cb.module == module then
 			logWarning("Module {} overwriting event callback {}" % { module, func })
@@ -56,7 +57,8 @@ function Event:Register(name, module, func)
 		end
 	end
 
-	table.insert(self.callbacks[name], { module = module, func = func })
+	local pos = priority and 1 or #callbacks + 1
+	table.insert(callbacks, pos, { module = module, func = func })
 end
 
 function Event:Deregister(name, module, func)
@@ -106,7 +108,7 @@ Event.New = function()
 	-- Register a function with a specific type of event. When an event with
 	-- the named type is processed, the function will be called.
 	--
-	-- > Event.Register(name, function)
+	-- > Event.Register(name, function, [priority])
 	--
 	-- Parameters:
 	--
@@ -116,6 +118,8 @@ Event.New = function()
 	--              The function will recieve a copy of the parameters attached to
 	--              the event.
 	--
+	--   priority - optional boolean. If true, the event handler is inserted at the
+	--              start of the list of handlers.
 	--
 	-- Example:
 	--
@@ -123,18 +127,11 @@ Event.New = function()
 	-- >     print("welcome to "..Game.system.name..", "..ship.label)
 	-- > end)
 	--
-	-- Availability:
-	--
-	--   alpha 26
-	--
-	-- Status:
-	--
-	--   stable
-	--
 	---@param name string
 	---@param cb function
-	self.Register = function (name, cb)
-		super.Register(self, name, package.modulename(2), cb)
+	---@param priority boolean?
+	self.Register = function (name, cb, priority)
+		super.Register(self, name, package.modulename(2), cb, priority)
 	end
 
 	--
@@ -153,14 +150,6 @@ Event.New = function()
 	--
 	--   function - a function that was previously connected to this queue with
 	--              <Connect>
-	--
-	-- Availability:
-	--
-	--   alpha 26
-	--
-	-- Status:
-	--
-	--   stable
 	--
 	self.Deregister = function (name, cb)
 		super.Deregister(self, name, package.modulename(2), cb)
@@ -184,14 +173,6 @@ Event.New = function()
 	--
 	-- > Event.Queue("onEnterSystem", ship)
 	--
-	-- Availability:
-	--
-	--   alpha 26
-	--
-	-- Status:
-	--
-	--   stable
-	--
 	self.Queue = function (name, ...)
 		table.insert(self, { name = name, ... })
 	end
@@ -212,15 +193,6 @@ Event.New = function()
 	--   enabled - a true value to enable the timer, or a false value to
 	--             disable it.
 	--
-	-- Availability:
-	--
-	--   alpha 26
-	--
-	-- Status:
-	--
-	--   debug
-    --
-
     self.DebugTimer = function (name, enabled)
 		do_callback[name] = enabled and do_callback_timed or do_callback_normal
 	end
@@ -253,14 +225,6 @@ end
 -- This is a good place to perform startup checks, including checking for
 -- errors and making them visible to the player
 --
--- Availability:
---
---   2025-02-03
---
--- Status:
---
---   stable
---
 
 --
 -- Event: onGameStart
@@ -276,14 +240,6 @@ end
 -- This is a good place to add equipment to the Player ship or spawn objects
 -- in the space. You should also initialise your module data for the game
 -- here.
---
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
 --
 
 --
@@ -301,25 +257,56 @@ end
 -- re-used if the player begins another game. You probably don't want any data
 -- from a previous game to leak into a new one.
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
---
 
 --
 -- Event: onEnterSystem
 --
--- Triggered when a ship enters a system after hyperspace.
+-- Triggered when a new system is loaded after hyperspace.
+-- For the event that is called when any ship enters the current system, see <onShipEnterSystem>.
 --
--- > local onEnterSystem = function (ship) ... end
+-- > local onEnterSystem = function (player) ... end
 -- > Event.Register("onEnterSystem", onEnterSystem)
 --
 -- This is the place to spawn pirates and other attack ships to give the
--- illusion that the ship was followed through hyperspace.
+-- illusion that the player's ship was followed through hyperspace.
+--
+-- Note that this event is *not* triggered at game start.
+--
+-- Parameters:
+--
+--   player - the player's <Ship> that entered the system
+--
+
+--
+-- Event: onLeaveSystem
+--
+-- Triggered immediately before the player leaves a system and enters hyperspace.
+-- For the event that is called when any ship leaves the current system, see <onShipLeaveSystem>.
+--
+-- > local onLeaveSystem = function (player) ... end
+-- > Event.Register("onLeaveSystem", onLeaveSystem)
+--
+-- This is the place to clean up per-system caches and other data structures that
+-- track ship objects.
+--
+-- All physics <Body> objects are invalid after this method returns, as the
+-- underlying <Space> is unloaded.
+--
+-- Parameters:
+--
+--   player - the player's <Ship> that left the system
+--
+
+--
+-- Event: onShipEnterSystem
+--
+-- Triggered when a <Ship> enters the current system from a hyperspace cloud.
+-- This event is also called for the player's <Ship> when a new system is entered.
+--
+-- > local onShipEnterSystem = function (ship) ... end
+-- > Event.Register("onShipEnterSystem", onShipEnterSystem)
+--
+-- This is the place to give AI commands and track ship objects in mission modules.
 --
 -- Note that this event is *not* triggered at game start.
 --
@@ -327,37 +314,22 @@ end
 --
 --   ship - the <Ship> that entered the system
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
---
 
 --
--- Event: onLeaveSystem
+-- Event: onShipLeaveSystem
 --
--- Triggered immediately before ship leaves a system and enters hyperspace.
+-- Triggered immediately before a <Ship> enters hyperspace and leaves the current system.
+-- This event is also called for the player's <Ship> when the current system is unloaded.
 --
--- > local onLeaveSystem = function (ship) ... end
--- > Event.Register("onLeaveSystem", onLeaveSystem)
+-- > local onShipLeaveSystem = function (ship) ... end
+-- > Event.Register("onShipLeaveSystem", onShipLeaveSystem)
 --
--- If the ship was the player then all physics <Body> objects are invalid after
--- this method returns.
+-- All physics <Body> objects are invalid after this method returns, as the
+-- underlying <Space> is unloaded.
 --
 -- Parameters:
 --
 --   ship - the <Ship> that left the system
---
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
 --
 
 --
@@ -371,14 +343,6 @@ end
 -- Parameters:
 --
 --   system - the <StarSystem> that has just been explored
---
--- Availability:
---
---   October 2014
---
--- Status:
---
---   experimental
 --
 
 --
@@ -396,15 +360,6 @@ end
 --
 --   body - the dynamic <Body> that changed frames
 --
--- Availability:
---
---   alpha 12
---
--- Status:
---
---   experimental
---
-
 
 --
 -- Event: onShipCreated
@@ -419,14 +374,6 @@ end
 -- Parameters:
 --
 --   ship - the ship that was created
---
--- Availability:
---
---   June 2022
---
--- Status:
---
---   stable
 --
 
 --
@@ -447,14 +394,6 @@ end
 --   another <Body> (eg <Planet> or <SpaceStation>) if the ship was destroyed
 --   by a collision.
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
---
 
 --
 -- Event: onShipHit
@@ -470,14 +409,6 @@ end
 --
 --   attacker - the <Ship> that fired the laser or missile
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
---
 
 --
 -- Event: onShipFiring
@@ -490,14 +421,6 @@ end
 -- Parameters:
 --
 --   ship - the <Ship> that is firing its weapons
---
--- Availability:
---
---   2014 May
---
--- Status:
---
---   experimental
 --
 
 --
@@ -523,14 +446,6 @@ end
 --
 --   other - the <Body> that the ship collided with
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
---
 
 --
 -- Event: onShipDocked
@@ -546,14 +461,6 @@ end
 --
 --   station - the <SpaceStation> the ship docked with
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
---
 
 --
 -- Event: onShipUndocked
@@ -568,14 +475,6 @@ end
 --   ship - the <Ship> that docked
 --
 --   station - the <SpaceStation> the ship undocked with
---
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
 --
 
 --
@@ -593,14 +492,6 @@ end
 --
 --   body - the <Body> the ship landed on
 --
--- Availability:
---
---   alpha 13
---
--- Status:
---
---   experimental
---
 
 --
 -- Event: onShipTakeOff
@@ -617,13 +508,33 @@ end
 --
 --   body - the <Body> the ship took off from
 --
--- Availability:
+
 --
---   alpha 13
+-- Event: onPlayerDocked
+-- See: onShipDocked
 --
--- Status:
+-- Triggered when the player docks to a starport.
 --
---   experimental
+
+--
+-- Event: onPlayerUndocked
+-- See: onShipUndocked
+--
+-- Triggered when the player undocks from a starport.
+--
+
+--
+-- Event: onPlayerLanded
+-- See: onShipLanded
+--
+-- Triggered when the player lands on a planet.
+--
+
+--
+-- Event: onPlayerTakeOff
+-- See: onShipTakeOff
+--
+-- Triggered when the player takes off from a planet.
 --
 
 --
@@ -640,14 +551,6 @@ end
 --
 --   alert - the new <Constants.ShipAlertStatus>
 --
---  Availability:
---
---    alpha 10
---
---  Status:
---
---    stable
---
 
 --
 -- Event: onJettison
@@ -662,14 +565,6 @@ end
 --   ship - the <Ship> that jettisoned the cargo item
 --
 --   cargo - the <CargoBody> now drifting in space
---
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   experimental
 --
 
 --
@@ -686,14 +581,6 @@ end
 --
 --   cargoType - <EquipType> of the unloaded cargo
 --
--- Availability:
---
---   alpha 18
---
--- Status:
---
---   experimental
---
 
 --
 -- Event: onAICompleted
@@ -708,14 +595,6 @@ end
 --   ship - the <Ship>
 --
 --   error - the <Constants.ShipAIError>
---
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
 --
 
 --
@@ -736,14 +615,6 @@ end
 -- Parameters:
 --
 --   station - the <SpaceStation> the bulletin board is being created for
---
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
 --
 
 --
@@ -769,14 +640,6 @@ end
 --
 --   station - the <SpaceStation> the bulletin board is being updated for
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
---
 
 --
 -- Event: onShipTypeChanged
@@ -789,14 +652,6 @@ end
 -- Parameters:
 --
 --   ship - the <Ship> whose type just changed
---
--- Availability:
---
---   alpha 32
---
--- Status:
---
---   experimental
 --
 
 --
@@ -812,14 +667,6 @@ end
 --   ship - the <Ship> whose fuel status just changed
 --
 --   fuelStatus - the new <Constants.PropulsionFuelStatus>
---
--- Availability:
---
---   alpha 20
---
--- Status:
---
---   experimental
 --
 
 --
@@ -837,14 +684,6 @@ end
 --
 --   body - the <SystemBody> the fuel was scooped from
 --
--- Availability:
---
---   June 2022
---
--- Status:
---
---   experimental
---
 
 --
 -- Event: onShipScoopCargo
@@ -859,14 +698,6 @@ end
 --
 --   cargoType - the <CommodityType> contained in the cargo item
 --
--- Availability:
---
---   June 2022
---
--- Status:
---
---   experimental
---
 
 --
 -- Event: onGamePaused
@@ -875,14 +706,6 @@ end
 --
 -- > local onGamePaused = function () ... end
 -- > Event.Register("onGamePaused", onGamePaused)
---
--- Availability:
---
---   September 2014
---
--- Status:
---
---   experimental
 --
 
 --
@@ -893,14 +716,6 @@ end
 --
 -- > local onGameResumed = function () ... end
 -- > Event.Register("onGameResumed", onGameResumed)
---
--- Availability:
---
---   September 2014
---
--- Status:
---
---   experimental
 --
 
 return Event.New()

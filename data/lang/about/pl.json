@@ -1,0 +1,130 @@
+{
+  "ABOUT": {
+    "description": "",
+    "message": "O grze"
+  },
+  "ACKNOWLEDGEMENTS": {
+    "description": "",
+    "message": "Podziękowania"
+  },
+  "CONTENT": {
+    "description": "",
+    "message": "Zawartość"
+  },
+  "CONTENT_CONTRIBUTION": {
+    "description": "",
+    "message": "Wkład do zawartości"
+  },
+  "CONTRIBUTE": {
+    "description": "",
+    "message": "Kontrybuuj"
+  },
+  "CONTRIBUTE_BODY": {
+    "description": "",
+    "message": "Pioneer jest sumą wielu kontrybucji od jego graczy i deweloperów. Widzisz cokolwiek , co chcesz zmienić, poprawić, lub masz pomysł na dodanie nowej zawartości? (Np. tłumaczenia, kod, sztukę, assety 2D & 3D, muzykę, projekt układu gwiezdnego, poprawę naszej dokumentacji, wiki, etc.) Po więcej szczegółów jak kontrybuować, podążaj za linkami!"
+  },
+  "DEVELOPER_DOCUMENTATION": {
+    "description": "",
+    "message": "Dokumentacja deweloperska"
+  },
+  "DOCUMENTATION": {
+    "description": "",
+    "message": "Dokumentacja"
+  },
+  "DONATE_BODY": {
+    "description": "",
+    "message": "Jeżeli podoba ci się granie w Pioneera i chcesz wesprzeć jego ciągły rozwój, proszę, rozważ donację - żadna suma nie jest zbyt mała."
+  },
+  "DONATE_OPTIONS": {
+    "description": "Sentence continues in 'DONATE_OPTIONS_CONTINUED'",
+    "message": "Po dodatkowe opcje donacji, proszę zobaczyć naszą"
+  },
+  "DONATE_OPTIONS_CONTINUED": {
+    "description": "hyperlink, ending part of sentence in 'DONATE_OPTIONS'",
+    "message": "stronę donacji"
+  },
+  "DONATE_THANKS": {
+    "description": "",
+    "message": "Dziękujemy wam wszystkim za wasze stałe wsparcie Pioneera!"
+  },
+  "GAME_RELEASE": {
+    "description": "",
+    "message": "Stabilne wersje są wydawane dorocznie 3 lutego, ale rozwój jest ciągły. Dzielni piloci są więc zachęcani do ogrywania najnowszych źródeł i zgłaszania błędów."
+  },
+  "INFO_BLURB": {
+    "description": "",
+    "message": "Pioneer jest jednoosobową grą przygodową osadzoną w galaktyce Drogi Mlecznej na przełomie 31-go wieku."
+  },
+  "INFO_BODY": {
+    "description": "",
+    "message": "Gra ma otwarty koniec, masz swobodę do eksplorowania milionów systemów gwiezdnych. Możesz lądować na planetach, korzystać z procy grawitacyjnej gazowych olbrzymów, i spalić się na frytki pomiędzy podwójnymi układami gwiezdnymi. Możesz się sprawdzić w piractwie, zbić fortunę na handlu między układami, lub wykonywać misje pomiędzy różnymi frakcjami walczącymi o władzę, wolność lub samostanowienie."
+  },
+  "LICENSE": {
+    "description": "",
+    "message": "Licencja"
+  },
+  "LINK_BASIC_FLIGHT": {
+    "description": "",
+    "message": "Podstawowy lot"
+  },
+  "LINK_BUG_TRACKER": {
+    "description": "",
+    "message": "Zgłoś błąd"
+  },
+  "LINK_COMMUNITY_CHAT": {
+    "description": "",
+    "message": "Czat społeczności (Discord)"
+  },
+  "LINK_COMMUNITY_FORUM": {
+    "description": "",
+    "message": "Forum społeczności"
+  },
+  "LINK_DEVELOPER_CHAT": {
+    "description": "",
+    "message": "Czat deweloperów (IRC)"
+  },
+  "LINK_DEVELOPER_FORUM": {
+    "description": "",
+    "message": "Forum deweloperów"
+  },
+  "LINK_FAQ": {
+    "description": "",
+    "message": "FAQ"
+  },
+  "LINK_HOMEPAGE": {
+    "description": "",
+    "message": "Strona domowa"
+  },
+  "LINK_MANUAL": {
+    "description": "",
+    "message": "Instrukcja"
+  },
+  "SOFTWARE": {
+    "description": "",
+    "message": "Oprogramowanie"
+  },
+  "SOFTWARE_BODY": {
+    "description": "",
+    "message": "Pioneer zawiera następujące oprogramowanie stron trzecich"
+  },
+  "SUPPORT_DEVELOPMENT": {
+    "description": "",
+    "message": "Wesprzyj rozwój"
+  },
+  "TRANSLATIONS": {
+    "description": "",
+    "message": "Tłumaczenia"
+  },
+  "VERSION_CURRENT": {
+    "description": "",
+    "message": "Twoja obecna wersja"
+  },
+  "VERSION_LATEST": {
+    "description": "This sentence continues into string VERSION_LATEST_CONTINUED, to read 'Latest version from source', referring to the source code",
+    "message": "Ostatnia wersja od"
+  },
+  "VERSION_LATEST_CONTINUED": {
+    "description": "is continued from string VERSION_LATEST, to read 'Latest version from source'. Here, 'source' refers to the source code",
+    "message": "Kod źródłowy"
+  }
+}

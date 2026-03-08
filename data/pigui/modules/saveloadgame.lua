@@ -1,9 +1,8 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game       = require 'Game'
 local Event      = require 'Event'
-local FileSystem = require 'FileSystem'
 local Lang       = require 'Lang'
 local ShipDef    = require 'ShipDef'
 local Vector2    = _G.Vector2
@@ -146,7 +145,7 @@ local function drawSaveEntryRow(entry, selected)
 
 	-- Draw the background of the whole save file
 	local backgroundColor = selected and cardSelectedCol or cardBackgroundCol
-	ui.addRectFilled(pos, pos + size, ui.getButtonColor(backgroundColor, hovered, active), 0, 0)
+	ui.addRectFilled(pos, pos + size, ui.getButtonColor(backgroundColor, hovered, active), 0, ui.RoundCornersNone)
 
 	local indicatorColor = ui.theme.styleColors.danger_900
 
@@ -155,7 +154,7 @@ local function drawSaveEntryRow(entry, selected)
 	end
 
 	-- Indicator bar for compatible / autosave / incompatible saves
-	ui.addRectFilled(pos, pos + Vector2(spacing.x, size.y), indicatorColor, 0, 0)
+	ui.addRectFilled(pos, pos + Vector2(spacing.x, size.y), indicatorColor, 0, ui.RoundCornersNone)
 
 	ui.withStyleVars({ CellPadding = padding, ItemSpacing = ui.theme.styles.ItemInnerSpacing }, function()
 
@@ -510,7 +509,12 @@ function SaveLoadWindow:drawSaveList()
 				self:message("onFileSelected", f.name)
 
 				if ui.isMouseDoubleClicked(0) then
-					self:message("loadSelectedSave")
+
+					if self.mode == SaveLoadWindow.Modes.Load then
+						self:message("loadSelectedSave")
+					else
+						self:message("saveToFilePath")
+					end
 				end
 			end
 		end

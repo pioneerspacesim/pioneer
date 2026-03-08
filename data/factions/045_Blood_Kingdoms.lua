@@ -1,10 +1,10 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Blood Kingdoms')
 	:description_short('Blood Kingdoms')
 	:description('Very little is currently known about The Blood Kingdoms')
-	:homeworld(-53,52,52,0,9)
+	:homeworld(53,52,52,0,9)
 	:foundingDate(3089)
 	:expansionRate(0.95249)
 	:military_name('Blood Guards')

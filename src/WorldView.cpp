@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "WorldView.h"
@@ -13,7 +13,7 @@
 #include "Json.h"
 #include "Pi.h"
 #include "Player.h"
-#include "SDL_keycode.h"
+#include <SDL_keycode.h>
 #include "SectorView.h"
 #include "Sensors.h"
 #include "SpeedLines.h"
@@ -95,7 +95,7 @@ void WorldView::InitObject()
 	rsd.depthWrite = false;
 	rsd.depthTest = false;
 	rsd.primitiveType = Graphics::LINE_SINGLE;
-	m_indicatorMat.reset(Pi::renderer->CreateMaterial("vtxColor", desc, rsd));
+	m_indicatorMat.reset(Pi::renderer->CreateMaterial("vtxColor", desc, rsd, m_indicator.GetVertexFormat()));
 
 	/*
 	  NEW UI
@@ -185,7 +185,7 @@ void WorldView::Draw3D()
 	// setup orthographic projection the indicator coordinate system expects
 	// (could also draw this using ImGui methods in DrawPiGui, but this is a quick patch for release)
 	m_renderer->SetProjection(matrix4x4f::OrthoFrustum(0, m_renderer->GetWindowWidth(), m_renderer->GetWindowHeight(), 0, 0, 1));
-	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_renderer->SetTransform(matrix4x4f::Identity);
 
 	// combat target indicator
 	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, red);
@@ -222,21 +222,15 @@ void WorldView::Update()
 	FrameId playerFrameId = Pi::player->GetFrame();
 	FrameId camFrameId = m_cameraContext->GetTempFrame();
 
-	//speedlines and contact trails need camFrame for transform, so they
-	//must be updated here
-	if (Pi::AreSpeedLinesDisplayed()) {
+	//speedlines and contact trails need camFrame for transform, so they must be updated here
+	if (m_speedLines.get() && Pi::AreSpeedLinesDisplayed()) {
 		m_speedLines->Update(m_game->GetTimeStep());
 
 		matrix4x4d trans;
 		Frame::GetFrameTransform(playerFrameId, camFrameId, trans);
-
-		if (m_speedLines.get() && Pi::AreSpeedLinesDisplayed()) {
-			m_speedLines->Update(m_game->GetTimeStep());
-
-			trans[12] = trans[13] = trans[14] = 0.0;
-			trans[15] = 1.0;
-			m_speedLines->SetTransform(trans);
-		}
+		trans[12] = trans[13] = trans[14] = 0.0;
+		trans[15] = 1.0;
+		m_speedLines->SetTransform(trans);
 	}
 
 	if (Pi::AreHudTrailsDisplayed()) {
@@ -265,33 +259,6 @@ void WorldView::OnSwitchFrom()
 	Pi::input->RemoveInputFrame(&InputBindings);
 	Pi::DrawGUI = true;
 }
-
-// XXX paying fine remotely can't really be done until crime and
-// worldview are in Lua. I'm leaving this code here so its not
-// forgotten
-/*
-static void PlayerPayFine()
-{
-	Sint64 crime, fine;
-	Polit::GetCrime(&crime, &fine);
-	if (Pi::player->GetMoney() == 0) {
-		m_game->log->Add(Lang::YOU_NO_MONEY);
-	} else if (fine > Pi::player->GetMoney()) {
-		Polit::AddCrime(0, -Pi::player->GetMoney());
-		Polit::GetCrime(&crime, &fine);
-		m_game->log->Add(stringf(
-			Lang::FINE_PAID_N_BUT_N_REMAINING,
-				formatarg("paid", format_money(Pi::player->GetMoney())),
-				formatarg("fine", format_money(fine))));
-		Pi::player->SetMoney(0);
-	} else {
-		Pi::player->SetMoney(Pi::player->GetMoney() - fine);
-		m_game->log->Add(stringf(Lang::FINE_PAID_N,
-				formatarg("fine", format_money(fine))));
-		Polit::AddCrime(0, -fine);
-	}
-}
-*/
 
 int WorldView::GetActiveWeapon() const
 {
@@ -602,7 +569,7 @@ static vector3d projectToScreenSpace(const vector3d &pos, RefCountedPtr<CameraCo
 vector3d WorldView::WorldSpaceToScreenSpace(const Body *body) const
 {
 	if (body->IsType(ObjectType::PLAYER) && !shipView->IsExteriorView())
-		return vector3d(0, 0, 0);
+		return vector3d::Zero;
 
 	vector3d pos = body->GetInterpPositionRelTo(m_cameraContext->GetCameraFrame());
 	return WorldSpaceToScreenSpace(pos);
@@ -631,7 +598,7 @@ vector3d WorldView::CameraSpaceToScreenSpace(const vector3d &pos) const
 vector3d WorldView::GetTargetIndicatorScreenPosition(const Body *body) const
 {
 	if (body->IsType(ObjectType::PLAYER) && !shipView->IsExteriorView())
-		return vector3d(0, 0, 0);
+		return vector3d::Zero;
 
 	// get the target indicator position in body-local coordinates
 	vector3d pos = body->GetInterpPositionRelTo(m_cameraContext->GetCameraFrame());

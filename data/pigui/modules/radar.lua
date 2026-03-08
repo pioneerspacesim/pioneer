@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -241,7 +241,7 @@ local function drawTarget(target, scale, center, color)
 	local tooltip = {}
 
 	ui.addLine(basePos, blobPos, color:shade(0.1), 2)
-	ui.addRectFilled(blobPos - blobHalfSize, blobPos + blobHalfSize, color, 0, 0)
+	ui.addRectFilled(blobPos - blobHalfSize, blobPos + blobHalfSize, color, 0, ui.RoundCornersNone)
 	local mouse_position = ui.getMousePos()
 	if (mouse_position - blobPos):length() < 4 then
 		table.insert(tooltip, target.label)

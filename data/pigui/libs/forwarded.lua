@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- Stuff from the C++ side that we want available directly in Lua
@@ -39,15 +39,22 @@ ui.getTime = pigui.GetTime
 
 ui.dummy = pigui.Dummy
 ui.newLine = pigui.NewLine
+ui.sameLine = pigui.SameLine
 ui.spacing = pigui.Spacing
+ui.bulletText = pigui.BulletText
 ui.text = pigui.Text
 ui.combo = pigui.Combo ---@type fun(label: string, selected: integer, items: string[]): changed: boolean, selected: integer
 ui.listBox = pigui.ListBox
-ui.textWrapped = pigui.TextWrapped
-ui.textColored = pigui.TextColored
+ui.textWrapped = pigui.TextWrapped ---@type fun(text: string)
+ui.textEllipsis = pigui.TextEllipsis ---@type fun(text: string, clipWidth: number?)
+ui.textColored = pigui.TextColored ---@type fun(color: Color, text: string)
+---@type fun(label: string, text: string, flags: any?)
+---@overload fun(label: string, text: string, hint: string, flags: any?)
 ui.inputText = pigui.InputText
+ui.textLinkOpenURL = pigui.TextLinkOpenURL
 ui.checkbox = pigui.Checkbox ---@type fun(label: string, checked: boolean): changed:boolean, value:boolean
 ui.separator = pigui.Separator
+ui.separatorText = pigui.SeparatorText
 ui.pushTextWrapPos = pigui.PushTextWrapPos
 ui.popTextWrapPos = pigui.PopTextWrapPos
 ui.setScrollHereY = pigui.SetScrollHereY
@@ -58,8 +65,9 @@ ui.plotHistogram = pigui.PlotHistogram
 -- ui.setItemTooltip = pigui.SetItemTooltip
 ui.addCircle = pigui.AddCircle
 ui.addCircleFilled = pigui.AddCircleFilled
-ui.addRect = pigui.AddRect ---@type fun(a: Vector2, b: Vector2, col: Color, rounding: number, edges: integer, thickness: number)
-ui.addRectFilled = pigui.AddRectFilled ---@type fun(a: Vector2, b: Vector2, col: Color, rounding: number, edges: integer)
+ui.addRect = pigui.AddRect ---@type fun(a: Vector2, b: Vector2, col: Color, rounding: number, draw_flags: integer, thickness: number)
+ui.addRectFilled = pigui.AddRectFilled ---@type fun(a: Vector2, b: Vector2, col: Color, rounding: number, draw_flags: integer)
+ui.addRectFaded = pigui.AddRectFaded ---@type fun(a: Vector2, b: Vector2, col: Color, fadeToAlpha: number, draw_flags: integer)
 ui.addLine = pigui.AddLine ---@type fun(a: Vector2, b: Vector2, col: Color, thickness: number)
 ui.addText = pigui.AddText ---@type fun(pos: Vector2, col: Color, text: string, wrapWidth: number?)
 ui.pathArcTo = pigui.PathArcTo
@@ -129,6 +137,8 @@ ui.isKeyReleased = pigui.IsKeyReleased
 ui.playSfx = pigui.PlaySfx
 ui.isItemHovered = pigui.IsItemHovered
 ui.isItemActive = pigui.IsItemActive
+ui.isItemActivated = pigui.IsItemActivated
+ui.isItemDeactivated = pigui.IsItemDeactivated
 ui.isItemClicked = pigui.IsItemClicked
 ui.isAnyItemActive = pigui.IsAnyItemActive ---@type fun()
 ui.isWindowHovered = pigui.IsWindowHovered ---@type fun(flags: any)
@@ -155,6 +165,7 @@ ui.tableSetColumnIndex = pigui.TableSetColumnIndex
 ui.tableSetupColumn = pigui.TableSetupColumn ---@type fun(id: string, flags: any, width_or_weight: number?)
 ui.tableSetupScrollFreeze = pigui.TableSetupScrollFreeze
 ui.tableHeadersRow = pigui.TableHeadersRow
+ui.tableAngledHeadersRow = pigui.TableAngledHeadersRow
 ui.tableHeader = pigui.TableHeader
 ui.tableSetBgColor = pigui.TableSetBgColor ---@type fun(target: string, color: Color, column_idx: integer?)
 
@@ -163,6 +174,7 @@ ui.SelectableFlags = pigui.SelectableFlags
 ui.TreeNodeFlags = pigui.TreeNodeFlags
 ui.InputTextFlags = pigui.InputTextFlags
 ui.WindowFlags = pigui.WindowFlags
+ui.ChildFlags = pigui.ChildFlags
 ui.HoveredFlags = pigui.HoveredFlags
 ui.TableFlags = pigui.TableFlags
 ui.TableColumnFlags = pigui.TableColumnFlags
@@ -227,4 +239,5 @@ ui.image = pigui.Image
 --   changed - boolean, whether the passed value has changed
 --
 ui.dragFloat = pigui.DragFloat
+
 return ui

@@ -23,7 +23,7 @@ ShipCockpit::ShipCockpit(const std::string &modelName, Body *ship) :
 	m_offset(0.f),
 	m_shipVel(0.f),
 	m_translate(0.0),
-	m_transform(matrix4x4d::Identity())
+	m_transform(matrix4x4d::Identity)
 {
 	assert(!modelName.empty());
 	SetModel(modelName.c_str());
@@ -63,7 +63,7 @@ void ShipCockpit::Update(const Player *player, float timeStep)
 		resetInternalCameraController();
 	}
 
-	m_transform = matrix4x4d::Identity();
+	m_transform = matrix4x4d::Identity;
 	double rotX;
 	double rotY;
 	m_icc->getRots(rotX, rotY);
@@ -195,6 +195,7 @@ void ShipCockpit::Update(const Player *player, float timeStep)
 		vector3f linthrust{ prop->GetLinThrusterState() };
 		vector3f angthrust{ prop->GetAngThrusterState() };
 		GetModel()->SetThrust(linthrust, -angthrust);
+		GetModel()->SetRenderTime(Pi::game->GetTime());
 	}
 }
 

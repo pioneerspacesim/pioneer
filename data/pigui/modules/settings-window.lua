@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -57,11 +57,11 @@ local function checkbox(label, checked, tooltip)
 end
 
 local function slider(lbl, value, min, max, tooltip)
-	local ret = ui.sliderInt(lbl, value, min, max)
+	local ret,c = ui.sliderInt(lbl, value, min, max)
 	if ui.isItemHovered() and tooltip then
 		Engine.pigui.SetTooltip(tooltip) -- bypass the mouse check, Game.player isn't valid yet
 	end
-	return value ~= ret, ret
+	return c, ret
 end
 
 local function keyOf(t, value)
@@ -186,9 +186,9 @@ local function showVideoOptions()
 		Engine.SetMultisampling(aa)
 	end
 
-	c,scattering = combo(lui.REALISTIC_SCATTERING, realisticScattering, scatteringLabels, lui.REALISTIC_SCATTERING_DESC)
+	c,realisticScattering = combo(lui.REALISTIC_SCATTERING, realisticScattering, scatteringLabels, lui.REALISTIC_SCATTERING_DESC)
 	if c then
-		Engine.SetRealisticScattering(scattering)
+		Engine.SetRealisticScattering(realisticScattering)
 	end
 
 	ui.columns(2,"video_checkboxes",false)
@@ -372,7 +372,7 @@ local function showLanguageOptions()
 	ui.withFont(pionillium.body, function()
 		ui.child("##LanguageList", Vector2(0, 0), function()
 			for _, lang in ipairs(langs) do
-				if ui.selectable(Lang.GetResource("core",lang).LANG_NAME, Lang.currentLanguage==lang, {}) then
+				if ui.selectable(Lang.GetResource("core",lang).LANG_NAME .. "##" .. lang, Lang.currentLanguage==lang, {}) then
 					Lang.SetCurrentLanguage(lang)
 				end
 			end
@@ -524,7 +524,7 @@ local function showJoystickInfo(id)
 		pos.y = pos.y + ui.getItemSpacing().y * 0.5
 
 		local size = Vector2(width - ui.getItemSpacing().x, ui.getTextLineHeight())
-		ui.addRectFilled(pos, pos + size, colors.uiBackground, 0, 0)
+		ui.addRectFilled(pos, pos + size, colors.uiBackground, 0, ui.RoundCornersNone)
 
 		if isHalfAxis then
 			size.x = size.x * value
@@ -533,7 +533,7 @@ local function showJoystickInfo(id)
 			size.x = size.x * 0.5 * value
 		end
 
-		ui.addRectFilled(pos, pos + size, colors.uiForeground, 0, 0)
+		ui.addRectFilled(pos, pos + size, colors.uiForeground, 0, ui.RoundCornersNone)
 		ui.newLine()
 
 		-- Draw axis details
@@ -741,6 +741,9 @@ end
 function ui.optionsWindow:close()
 	if not captureBindingWindow.isOpen then
 		ModalWindow.close(self)
+
+		-- Write any changed settings to disk
+		Engine.SaveSettings()
 		if Game.player then
 			Game.SetTimeAcceleration("1x")
 			Event.Queue("onPauseMenuClosed")

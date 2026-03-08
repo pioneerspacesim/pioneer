@@ -1,214 +1,214 @@
 {
   "ACCEPTED_ARMS_DEALER": {
     "description": "",
-    "message": "Great! Thank you."
+    "message": "Odlično! Hvala vam."
   },
   "ACCEPTED_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Thanks. You won't regret it!"
+    "message": "Hvala. Nećete požaliti!"
   },
   "ACCEPTED_LEGAL_GOODS": {
     "description": "",
-    "message": "Thank you. You know a good deal when you see one!"
+    "message": "Hvala. Znaš što je dobro kad ga vidiš!"
   },
   "ACCEPTED_RESCUE": {
     "description": "",
-    "message": "Thank you very much. The crew will appreciate that."
+    "message": "Puno vam hvala. Posada će to cijeniti."
   },
   "ADTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "Pick-up mission: prompt recovery of drifting container required."
+    "message": "Misija prikupljanja: potrebno je brzo spašavanje plutajućeg kontejnera."
   },
   "ADTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Have a cargo scoop and looking for your next score? Valuable information for sale."
+    "message": "Imate pregled tereta i tražite sljedeći put uspješan pogodak? Vrijedni podaci na prodaju."
   },
   "ADTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "Derelict Brokerage Services: information regarding a debris field with valuable cargo."
+    "message": "Usluge posredovanja u prometu napuštenih predmeta: informacije o polju otpada s vrijednim teretom."
   },
   "ADTEXT_RESCUE": {
     "description": "",
-    "message": "HELP NEEDED: Urgent escape capsule rescue operation."
+    "message": "POTREBNA POMOĆ: Hitna operacija spašavanja kapsulom za bijeg."
   },
   "ADTITLE_ARMS_DEALER": {
     "description": "",
-    "message": "CARGO RECOVERY"
+    "message": "POVRATAK TERETA"
   },
   "ADTITLE_ILLEGAL_GOODS": {
     "description": "",
-    "message": "EASY MONEY"
+    "message": "LAKI NOVAC"
   },
   "ADTITLE_LEGAL_GOODS": {
     "description": "",
-    "message": "INFORMATION FOR SALE"
+    "message": "INFORMACIJE ZA PRODAJU"
   },
   "ADTITLE_RESCUE": {
     "description": "",
-    "message": "HELP NEEDED"
+    "message": "POTREBNA POMOĆ"
   },
   "CLIENT": {
     "description": "",
-    "message": "Client:"
+    "message": "Klijent:"
   },
   "DANGER": {
     "description": "The risk level",
-    "message": "Danger:"
+    "message": "Opasnost:"
   },
   "DEADLINE": {
     "description": "Must be delivered by",
-    "message": "Deadline:"
+    "message": "Rok:"
   },
   "DENY_1": {
     "description": "",
-    "message": "Excuse me, sir? I don't think your current qualification is sufficient."
+    "message": "Oprostite, gospodine? Mislim da vaša trenutna kvalifikacija nije dovoljna."
   },
   "DENY_2": {
     "description": "",
-    "message": "Sorry, I think this task is beyond your ability as a pilot."
+    "message": "Žao mi je, mislim da je ovaj zadatak izvan tvojih sposobnosti kao pilota."
   },
   "DETONATORS": {
     "description": "",
-    "message": "Detonators"
+    "message": "Detonatori"
   },
   "DOCKING_INSTRUCTION": {
     "description": "",
-    "message": "Nice to meet you. Please approach to within 100m to complete the cargo transfer!"
+    "message": "Drago mi je. Molimo vas da se približite na 100 m kako biste dovršili prijenos tereta!"
   },
   "FAILURE_MSG_ARMS_DEALER": {
     "description": "",
-    "message": "You fool. The client's not gonna like this!"
+    "message": "Budalo. Klijentu se ovo neće svidjeti!"
   },
   "FAILURE_MSG_RESCUE": {
     "description": "",
-    "message": "Your unreliability has caused great harm. Get out of my sight!"
+    "message": "Tvoja nepouzdanost je prouzročila veliku štetu. Gubi mi se iz očiju!"
   },
   "HOW_MUCH_TIME": {
     "description": "",
-    "message": "How much time do I have?"
+    "message": "Koliko vremena imam?"
   },
   "HOW_MUCH_TIME_ARMS_DEALER": {
     "description": "",
-    "message": "My business partner is in orbit around {star} to avoid detection. It would be great if you could reach him before {date}."
+    "message": "Moj poslovni partner je u orbiti oko {zvijezde} kako bi izbjegao otkrivanje. Bilo bi sjajno kada biste ga mogli kontaktirati prije {date}."
   },
   "HOW_MUCH_TIME_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Don't waste time. Only the early bird catches the worm!"
+    "message": "Ne gubi vrijeme. Samo tko rano rani, ima sreće!"
   },
   "HOW_MUCH_TIME_LEGAL_GOODS": {
     "description": "",
-    "message": "I don't know. But if I were you, I would be quick!"
+    "message": "Ne znam. Ali da sam na tvom mjestu, bio bih brz!"
   },
   "HOW_MUCH_TIME_RESCUE": {
     "description": "",
-    "message": "It would be good if you could reach the location before {date}."
+    "message": "Bilo bi dobro da stignete na lokaciju prije {date}."
   },
   "INTROTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "Hello Commander. My name is {client}. It would be great if you could help me out. An unreliable freighter captain dropped my cargo near {planet} and has disappeared since. Your task would be to pick up one container and deliver it to ship {shipid} in orbit around {star}. I would pay you {cash}."
+    "message": "Pozdrav Zapovjedniče. Moje ime je {client}. Bilo bi sjajno kad biste mi mogli pomoći. Nepouzdani kapetan teretnog broda ispustio je moj teret u blizini {planeta} i od tada je nestao. Vaš zadatak bi bio pokupiti jedan kontejner i dostaviti ga brodu {shipid} u orbiti oko {star}. Platio bih vam {cash}."
   },
   "INTROTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Hey buddy, I know about a debris field with illegal goods. The police caught a smuggler close to {planet}. They haven't had time to clean up the area yet. If you are quick, you can make easy money! I can give you the coordinates. It only costs you {cash}. Don't let the chance slip by!"
+    "message": "Hej prijatelju, znam za polje otpada s ilegalnom robom. Policija je uhvatila krijumčara blizu {planeta}. Još nisu stigli očistiti područje. Ako si brz, možeš lako zaraditi! Mogu ti dati koordinate. Košta te samo {cash}. Ne propusti priliku!"
   },
   "INTROTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "Hello my friend. I'm {client}. I heard about a cargo hauler that got into trouble near {planet} because of bad ship maintenance. Amazing who gets to fly a spaceship these days, isn't it? Anyway, they had to dump a lot of the cargo. If you're quick, you can grab the cargo very easily! This info is as good as new! I'll sell you the coordinates for lousy {cash}. What do you say?"
+    "message": "Bok prijatelju. Ja sam {client}. Čuo sam za teretni brod koji je upao u nevolje blizu {planeta} zbog lošeg održavanja broda. Nevjerojatno tko danas leti svemirskim brodom, zar ne? Uglavnom, morali su se riješiti puno tereta. Ako si brz, možeš vrlo lako zgrabiti teret! Ova informacija je kao nova! Prodat ću ti koordinate za jadne {cash}. Što kažeš?"
   },
   "INTROTEXT_RESCUE": {
     "description": "",
-    "message": "Hi, my name is {client}. The crew of a freighter had to abandon their ship after an incident. The ship owner is willing to pay {cash} for a discreet rescue mission. The accident site is near {planet}. Please pick up the crew and bring them to a station!"
+    "message": "Bok, moje ime je {client}. Posada teretnog broda morala je napustiti svoj brod nakon incidenta. Vlasnik broda je spreman platiti {cash} za diskretnu akciju spašavanja. Mjesto nesreće je blizu {planet}. Molim vas, pokupite posadu i odvedite je na stanicu!"
   },
   "NUCLEAR_MISSILE": {
     "description": "A cargo item",
-    "message": "Nuclear missile"
+    "message": "Nuklearni projektil"
   },
   "OK_AGREED": {
     "description": "",
-    "message": "OK, agreed."
+    "message": "U redu, slažem se."
   },
   "REPEAT_THE_REQUEST": {
     "description": "",
-    "message": "Could you please repeat the request?"
+    "message": "Možete li, molim vas, ponoviti zahtjev?"
   },
   "RESCUE_CAPSULE": {
     "description": "",
-    "message": "Rescue capsule"
+    "message": "Spasilačka kapsula"
   },
   "ROCKET_LAUNCHERS": {
     "description": "",
-    "message": "Rocket launchers"
+    "message": "Raketni bacači"
   },
   "SCOOP": {
     "description": "Name of mission type",
-    "message": "Scoop"
+    "message": "Hvataljka"
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Postavi kao cilj navigacije"
   },
   "SHIP": {
     "description": "",
-    "message": "Ship:"
+    "message": "Brod:"
   },
   "SHIP_DESTROYED": {
     "description": "",
-    "message": "Oh no. {shipid} has been destroyed. Deliver the cargo to {station} now!"
+    "message": "O ne. {shipid} je uništen. Dostavite teret na {station} odmah!"
   },
   "SPACEPORT": {
     "description": "",
-    "message": "Spaceport:"
+    "message": "Svemirska luka:"
   },
   "SPOILED_FOOD": {
     "description": "cargo item",
-    "message": "Spoiled food"
+    "message": "Pokvarena hrana"
   },
   "SUCCESS_MSG_ARMS_DEALER": {
     "description": "",
-    "message": "Hey Ace, nice flying! Money has been transferred."
+    "message": "Hej Ace, lijepo letenje! Novac je prebačen."
   },
   "SUCCESS_MSG_RESCUE": {
     "description": "",
-    "message": "Thank you very much! The crew would also like to express their thanks."
+    "message": "Puno vam hvala! Posada bi također željela izraziti svoju zahvalnost."
   },
   "TOXIC_WASTE": {
     "description": "cargo item",
-    "message": "Toxic waste"
+    "message": "Toksični otpad"
   },
   "UNKNOWN": {
     "description": "",
-    "message": "Unknown"
+    "message": "Nepoznato"
   },
   "WARNING": {
     "description": "",
-    "message": "Hey! What are you trying to do? Our contract is at risk! Please pick that up again!"
+    "message": "Hej! Što pokušavaš učiniti? Naš ugovor je ugrožen! Molim te, uzmi to ponovno!"
   },
   "WHY_NOT_YOURSELF": {
     "description": "",
-    "message": "Why don't you do it yourself?"
+    "message": "Zašto to ne napraviš sam/a?"
   },
   "WHY_NOT_YOURSELF_ARMS_DEALER": {
     "description": "",
-    "message": "The local authorities are watching me! I have to keep a low profile for a few weeks."
+    "message": "Lokalne vlasti me promatraju! Moram se držati po strani nekoliko tjedana."
   },
   "WHY_NOT_YOURSELF_ILLEGAL_GOODS": {
     "description": "",
-    "message": "I'm just an office clerk. I don't own a ship."
+    "message": "Ja sam samo uredski službenik. Ne posjedujem brod."
   },
   "WHY_NOT_YOURSELF_LEGAL_GOODS": {
     "description": "",
-    "message": "I don't have a ship."
+    "message": "Nemam brod."
   },
   "WHY_NOT_YOURSELF_RESCUE": {
     "description": "",
-    "message": "I have no ship available at this time."
+    "message": "Trenutno nemam dostupan brod."
   },
   "YOU_DO_NOT_HAVE_A_SCOOP": {
     "description": "",
-    "message": "Sorry, you do not have a cargo scoop."
+    "message": "Žao nam je, nemate utovarnu hvataljku."
   },
   "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
     "description": "",
-    "message": "You don't have enough money."
+    "message": "Nemaš dovoljno novca."
   }
 }

@@ -1,5 +1,6 @@
 {
 	"model": "pumpkinseed",
+	"i18n_key": "PUMPKINSEED",
 	"name": "Pumpkinseed",
 	"cockpit": "",
 	"shield_model": "pumpkinseed_shield",

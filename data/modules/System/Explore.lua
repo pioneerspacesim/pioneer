@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -39,11 +39,16 @@ local exploreSystem = function (system)
 end
 
 local onEnterSystem = function (player)
-	if not player:IsPlayer() then return end
-
 	if not Game.system.explored then
 		exploreSystem(Game.system)
 	end
 end
 
+local onGameStart = function ()
+    if not Game.system.explored then
+        exploreSystem(Game.system)
+    end
+end
+
 Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onGameStart", onGameStart)

@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 ---@meta
@@ -10,7 +10,7 @@ local Rand = {}
 ---@return Rand
 function Rand.New(seed) end
 
--- Returns a random number in the range [min, max), exclusive.
+-- Returns a random number in the half-open interval [min, max).
 ---@param min number inclusive minimum value, defaults to 0
 ---@param max number exclusive maximum value, defaults to 1
 ---@return number
@@ -18,7 +18,7 @@ function Rand.New(seed) end
 ---@overload fun(self: self, max: number): number
 function Rand:Number(min, max) end
 
--- Returns a random integer in the range [min, max), exclusive.
+-- Returns a random integer in the range [min, max], inclusive.
 ---@param min integer inclusive minimum value, defaults to 0
 ---@param max integer exclusive maximum value, defaults to 1
 ---@return integer

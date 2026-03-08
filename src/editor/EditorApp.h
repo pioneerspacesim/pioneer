@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -24,7 +24,8 @@ namespace Editor {
 
 		static EditorApp *Get();
 
-		void Initialize(argh::parser &cmdline);
+		void PreStartup(argh::parser &cmdline);
+		bool Initialize(argh::parser &cmdline);
 
 		void AddLoadingTask(TaskSet::Handle handle);
 
@@ -37,6 +38,8 @@ namespace Editor {
 			PushModalInternal(modal);
 			return RefCountedPtr<T>(modal);
 		}
+
+		bool IsHeadless() const { return m_headless; }
 
 	protected:
 		void OnStartup() override;
@@ -58,6 +61,7 @@ namespace Editor {
 		std::unique_ptr<IniConfig> m_editorCfg;
 
 		std::string m_appName;
+		bool m_headless = false;
 	};
 
 	class LoadingPhase : public Application::Lifecycle {

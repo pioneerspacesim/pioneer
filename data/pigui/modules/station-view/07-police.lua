@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require "Game"
@@ -7,11 +7,13 @@ local ui = require 'pigui'
 local StationView = require 'pigui.views.station-view'
 local Lang = require 'Lang'
 local Legal = require "Legal"
+local Event = require 'Event'
 local utils = require "utils"
 local PiGuiFace = require 'pigui.libs.face'
 local Format = require "Format"
 local Character = require "Character"
 local Commodities = require 'Commodities'
+local PlayerState = require 'PlayerState'
 local l = Lang.GetResource("ui-core")
 
 local ModalWindow = require 'pigui.libs.modal-win'
@@ -25,6 +27,13 @@ local stationSeed = false
 
 local crimeTableID = "##CrimeTable"
 
+local view
+
+local function refreshStatusIcon()
+	local crimes, fine = PlayerState.GetCrimeOutstanding()
+	view.icon = fine > 0 and ui.theme.icons.police_tab_fined or ui.theme.icons.police_tab_normal
+end
+
 local popup = ModalWindow.New('policePopup', function(self)
 	ui.text(l.YOU_NOT_ENOUGH_MONEY .. ".")
 	ui.dummy(Vector2((ui.getContentRegion().x - 100*rescaleVector.x) / 2, 0))
@@ -33,8 +42,6 @@ local popup = ModalWindow.New('policePopup', function(self)
 		self:close()
 	end
 end)
-
-local gray = Color(100, 100, 100)
 
 local widgetSizes = ui.rescaleUI({
 	itemSpacing = Vector2(4, 9),
@@ -48,12 +55,13 @@ local widgetSizes = ui.rescaleUI({
 
 
 local function payfine(fine)
-	if Game.player:GetMoney() < fine then
+	if PlayerState.GetMoney() < fine then
 		popup:open()
 		return
 	end
-	Game.player:AddMoney(-fine)
-	Game.player:ClearCrimeFine()
+	PlayerState.AddMoney(-fine)
+	PlayerState.ClearCrimeFine()
+	refreshStatusIcon()
 end
 
 local function make_crime_list(record)
@@ -90,7 +98,7 @@ local function crime_table(crimes)
 end
 
 local function crime_record()
-	local past_crimes = make_crime_list(Game.player:GetCrimeRecord())
+	local past_crimes = make_crime_list(PlayerState.GetCrimeRecord())
 
 	if #past_crimes > 0 then
 		ui.withFont(orbiteer.heading, function()
@@ -105,7 +113,7 @@ end
 
 
 local function outstanding_fines()
-	local crimes, fine = Game.player:GetCrimeOutstanding()
+	local crimes, fine = PlayerState.GetCrimeOutstanding()
 
 	local crime_list = make_crime_list(crimes)
 	if #crime_list > 0 then
@@ -120,7 +128,7 @@ local function outstanding_fines()
 			crime_table(crime_list)
 			ui.spacing()
 
-			local canPay = Game.player:GetMoney() >= fine
+			local canPay = PlayerState.GetMoney() >= fine
 			local pay_fine_text = string.interp(l.PAY_FINE_OF_N,
 				{ amount = Format.Money(fine) })
 
@@ -210,7 +218,7 @@ local policeTabs = {
 
 			-- Build a list of illegal goods in this system
 			local illegal = utils.map_array(utils.build_array(pairs(Commodities)), function(comm)
-				return not Game.system:IsCommodityLegal(comm.name) and comm:GetName() or nil
+				return not Game.system:IsCommodityLegal(comm.name) and comm:GetProperName() or nil
 			end)
 
 			-- Sort the list lexicographically
@@ -232,7 +240,7 @@ local function drawPolice()
 		local infoColumnWidth = ui.getContentRegion().x
 			- widgetSizes.faceSize.x - padding.x * 2
 
-		ui.child("CrimeStats", Vector2(infoColumnWidth, 0), {}, function()
+		ui.child("CrimeStats", Vector2(infoColumnWidth, 0), function()
 			ui.withFont(pionillium.heading, function ()
 				ui.text(intro_txt)
 			end)
@@ -245,13 +253,13 @@ local function drawPolice()
 	end)
 end
 
-StationView:registerView({
+view = StationView:registerView({
 	id = "police",
 	name = l.POLICE,
-	icon = ui.theme.icons.shield_other,
+	icon = ui.theme.icons.police_tab_normal,
 	showView = true,
 	draw = drawPolice,
-	refresh = function()
+	refresh = function(self)
 		local station = Game.player:GetDockedWith()
 		if (station) then
 			if (stationSeed ~= station.seed) then
@@ -261,8 +269,16 @@ StationView:registerView({
 					{itemSpacing = widgetSizes.itemSpacing})
 			end
 		end
+
+		refreshStatusIcon()
 	end,
 	debugReload = function()
 		package.reimport()
 	end
 })
+
+Event.Register("onShipDocked", function(player, station)
+	if player:IsPlayer() then
+		refreshStatusIcon()
+	end
+end)

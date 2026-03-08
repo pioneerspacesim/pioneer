@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaLang.h"
@@ -132,7 +132,6 @@ static int l_lang_set_current_language(lua_State *l)
 	if (std::find(langs.begin(), langs.end(), lang) == langs.end())
 		return luaL_error(l, "The language '%s' is not known.", lang.c_str());
 	Pi::config->SetString("Lang", lang);
-	Pi::config->Save();
 	// XXX change it!
 	return 0;
 }

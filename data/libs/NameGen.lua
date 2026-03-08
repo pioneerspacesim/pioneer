@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 --
@@ -41,19 +41,63 @@ NameGen = {
 --
 --   name - a string containing the name
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
---
-
 	FullName = function (isfemale, rand)
 		if not rand then rand = Engine.rand end
 
 		return Culture:FullName(isfemale, rand)
+	end,
+
+--
+-- Function: Names
+--
+-- Create first and surname strings. Both names can be composed of more
+-- than one name. Ex. 'Maria Luisa' or 'van der Velden'.
+--
+-- > name1, name2 = Namegen.Names(isfemale, rand)
+--
+-- Parameters:
+--
+--   isfemale - whether to generate a male or female name. true for female,
+--              false for male
+--
+--   rand - optional, the <Rand> object to use to generate the name. if
+--          omitted/nil, <Engine.rand> will be used
+--
+-- Return:
+--
+--   name1 - a string containing the first name
+--
+--   name2 - a string containing the surname
+--
+	Names = function (isfemale, rand)
+		if not rand then rand = Engine.rand end
+
+		return Culture:Names(isfemale, rand)
+	end,
+
+--
+-- Function: FirstName
+--
+-- Create a first name string
+--
+-- > name = Namegen.FirstName(isfemale, rand)
+--
+-- Parameters:
+--
+--   isfemale - whether to generate a male or female name. true for female,
+--              false for male
+--
+--   rand - optional, the <Rand> object to use to generate the name. if
+--          omitted/nil, <Engine.rand> will be used
+--
+-- Return:
+--
+--   name - a string containing the name
+--
+	FirstName = function (isfemale, rand)
+		if not rand then rand = Engine.rand end
+
+		return Culture:FirstName(isfemale, rand)
 	end,
 
 --
@@ -76,15 +120,6 @@ NameGen = {
 --
 --   name - a string containing the name
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   stable
---
-
 	Surname = function (rand, ascii)
 		if not rand then rand = Engine.rand end
 
@@ -103,9 +138,9 @@ NameGen = {
 --
 -- Parameters:
 --
---   body - the <SystemBody> object to provide a name for. Currently must of type
---          STARPORT_ORBITAL, STARPORT_SURFACE or ROCKY_PLANET. Any other types
---          a Lua error.
+--   body - the <SystemBody> object to provide a name for. Currently must be of type
+--          STARPORT_ORBITAL, STARPORT_SURFACE or ROCKY_PLANET. Any other types will
+--          generate a Lua error.
 --
 --   rand - optional, the <Rand> object to use to generate the name. if
 --          omitted, <Engine.rand> will be used
@@ -114,15 +149,6 @@ NameGen = {
 --
 --   name - a string containing the name
 --
--- Availability:
---
---   alpha 19
---
--- Status:
---
---   experimental
---
-
 	BodyName = function (body, rand)
 		local ascii = true -- want only ascii compatible characers in name
 

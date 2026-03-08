@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Commodities = require 'Commodities'
@@ -25,8 +25,8 @@ local gameView = require 'pigui.views.game'
 
 local function draw_cargo_bar(pos, size, pct, color, tooltip)
 	local section = Vector2(size.x * pct, size.y)
-	ui.addRectFilled(pos, pos + size, colors.lightBlackBackground, 0, 0)
-	ui.addRectFilled(pos, pos + section, color, 0, 0)
+	ui.addRectFilled(pos, pos + size, colors.lightBlackBackground, 0, ui.RoundCornersNone)
+	ui.addRectFilled(pos, pos + section, color, 0, ui.RoundCornersNone)
 
 	if ui.isWindowHovered() and ui.isMouseHoveringRect(pos, pos + size) then
 		ui.setTooltip(tooltip)
@@ -35,7 +35,7 @@ end
 
 local function draw_cargo_bar_section(pos, size, pct, color, tooltip)
 	local section = Vector2(size.x * pct, size.y)
-	ui.addRectFilled(pos, pos + section, color, 0, 0)
+	ui.addRectFilled(pos, pos + section, color, 0, ui.RoundCornersNone)
 
 	if ui.isWindowHovered() and ui.isMouseHoveringRect(pos, pos + section) then
 		ui.setTooltip(tooltip)
@@ -90,8 +90,15 @@ table.insert(module.transferModes, {
 	action = function(ship, manifest)
 		for k, v in pairs(manifest) do
 			local commodity = Commodities[k]
-			for i = 1, v do
-				ship:Jettison(commodity)
+			-- fill cargo bodies with N items
+			local deci = math.floor(v / 10)
+			for i = 1, deci do
+				ship:Jettison(commodity, 10, 1800)
+			end
+			-- fill a cargo body with any remaining entries
+			local remaining = v % 10
+			if remaining > 0 then
+				ship:Jettison(commodity, remaining, 1800)
 			end
 		end
 	end,

@@ -4,8 +4,9 @@ project(pioneer LANGUAGES CXX)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 17)
 
-set(PIONEER_VERSION "20250203"
-	CACHE STRING "Version identifier for current compiled build")
+# Version identifier for current compiled build
+# Do not cache this variable
+set(PIONEER_VERSION "20260203-dev")
 
 set(PROJECT_VERSION_INFO ""
 	CACHE STRING "Additional version information (optional)")
@@ -267,7 +268,7 @@ endif (MSVC)
 
 find_package(Threads REQUIRED)
 find_package(Freetype REQUIRED)
-find_package(OpenGL REQUIRED)
+find_package(OpenGL REQUIRED COMPONENTS OpenGL)
 
 set(FMT_INSTALL OFF CACHE BOOL "Enable install of libfmt" FORCE)
 
@@ -363,18 +364,18 @@ find_program(NATURALDOCS NAMES naturaldocs)
 if (NATURALDOCS)
 	add_custom_target(codedoc
 		${CMAKE_COMMAND} -E make_directory codedoc
-		COMMAND naturaldocs -i src/ -i data/libs/ -xi src/data/ -o HTML codedoc/ -p nd/ -do -ro -s Default Local
+		COMMAND naturaldocs -p nd/ -s Default
 	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 endif()
 
-find_package(Python2 COMPONENTS Interpreter)
-if (Python2_Interpreter_FOUND)
+find_package(Python3 COMPONENTS Interpreter)
+if (Python3_Interpreter_FOUND)
 	add_custom_target(enums
-		COMMAND "${Python2_EXECUTABLE}" scripts/scan_enums.py -o src/enum_table.cpp --pattern='*.h' -r src
+		COMMAND "${Python3_EXECUTABLE}" scripts/scan_enums.py -o src/enum_table.cpp --pattern='*.h' -r src
 		WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
 	)
 else()
-	message(WARNING, "Python 2 not found; enums will not be scanned.")
+	message(WARNING, "Python 3 not found; enums will not be scanned.")
 endif()
 
 target_link_libraries(pioneer-lib PUBLIC lz4 fmt::fmt)
@@ -385,7 +386,7 @@ list(APPEND pioneerLibs
 	pioneer-lua
 	${ASSIMP_LIBRARIES}
 	${FREETYPE_LIBRARIES}
-	${OPENGL_LIBRARIES}
+	OpenGL::GL
 	${SDL2_LIBRARIES}
 	${SDL2_IMAGE_LIBRARIES}
 	${SIGCPP_LIBRARIES}

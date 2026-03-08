@@ -1,118 +1,142 @@
 {
   "ADVICE_10_BODYTEXT": {
     "description": "",
-    "message": "Relocating to another faction might be a good idea when in trouble with local authorities."
+    "message": "Preseljenje u drugu frakciju može biti dobra ideja kada ste u problemima s lokalnim vlastima."
   },
   "ADVICE_10_HEADLINE": {
     "description": "",
-    "message": "Know when to leave town"
+    "message": "Saznajte kada napustiti grad"
   },
   "ADVICE_11_BODYTEXT": {
     "description": "",
-    "message": "Make sure you know the surface gravity of a planet before you even think of landing on it."
+    "message": "Prije nego što uopće pomislite na slijetanje na planet, provjerite znate li površinsku gravitaciju."
   },
   "ADVICE_11_HEADLINE": {
     "description": "A reference to the song 'The Harder They Come', by Jimmy Cliff",
-    "message": "The harder the g, the harder the fall"
+    "message": "Što je jača g sila, to se brže rušite"
+  },
+  "ADVICE_12_BODYTEXT": {
+    "description": "",
+    "message": "Kada se nađete na rubu sustava i trebate se vratiti na unutarnje planete, zaobilaženje u dovoljno bliski susjedni sustav mogao bi biti najbrži način."
+  },
+  "ADVICE_12_HEADLINE": {
+    "description": "",
+    "message": "Obilaznica Billie Bounce"
+  },
+  "ADVICE_13_BODYTEXT": {
+    "description": "",
+    "message": "Manja masa znači manju potrošnju goriva i brži brod. Gorivo ima masu. Za neke rute, vožnja s malo goriva u spremnicima može uštedjeti i vrijeme i novac."
+  },
+  "ADVICE_13_HEADLINE": {
+    "description": "",
+    "message": "Ponestaje mi goriva."
+  },
+  "ADVICE_14_BODYTEXT": {
+    "description": "",
+    "message": "Prilikom povezivanja više skokova, njihovo stavljanje u red prije polaska uštedjet će vam glavobolju, a možda i život, ovisno o tome koliko ćete biti dobrodošli tijekom rute."
+  },
+  "ADVICE_14_HEADLINE": {
+    "description": "",
+    "message": "Jasan put za izlaz"
   },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
-    "message": "As you return to a station, be wary of those alternative market places you do not recognize, and you will stay out of trouble with the law."
+    "message": "Dok se vraćate u stanicu, budite oprezni s onim alternativnim tržnicama koje ne prepoznajete i izbjeći ćete probleme sa zakonom."
   },
   "ADVICE_1_HEADLINE": {
     "description": "",
-    "message": "Tame the Black Market"
+    "message": "Ukrotite crno tržište"
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
-    "message": "Many small distances are faster travelled than their sum, but at the expense of using more fuel."
+    "message": "Mnoge male udaljenosti prijeđu se brže od njihovog zbroja, ali na štetu potrošnje veće količine goriva."
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
-    "message": "The Road Faster Taken"
+    "message": "Brže odabrani put"
   },
   "ADVICE_3_BODYTEXT": {
     "description": "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
-    "message": "Avoid jumping into uninhabited systems without the means to leave."
+    "message": "Izbjegavajte skakanje u nenaseljene sustave bez mogućnosti odlaska."
   },
   "ADVICE_3_HEADLINE": {
     "description": "",
-    "message": "Avoid getting stranded: plan your jump sequence ahead"
+    "message": "Izbjegavajte zaglavljivanje: unaprijed isplanirajte slijed skokova"
   },
   "ADVICE_4_BODYTEXT": {
     "description": "",
-    "message": "Choose your frame of reference. Especially when wanting to match speed and course of a moving target."
+    "message": "Odaberite svoj referentni sustav. Pogotovo kada želite uskladiti brzinu i smjer pokretne mete."
   },
   "ADVICE_4_HEADLINE": {
     "description": "",
-    "message": "It's all relative"
+    "message": "Sve je relativno"
   },
   "ADVICE_5_BODYTEXT": {
     "description": "",
-    "message": "Buy low and sell high."
+    "message": "Kupujte jeftino i prodajte skupo."
   },
   "ADVICE_5_HEADLINE": {
     "description": "",
-    "message": "Never lose money"
+    "message": "Nikad ne gubite novac"
   },
   "ADVICE_6_BODYTEXT": {
     "description": "",
-    "message": "Pay close attention to any news reported, as information can affect market prices."
+    "message": "Pažljivo pratite sve vijesti koje se objavljuju, jer informacije mogu utjecati na tržišne cijene."
   },
   "ADVICE_6_HEADLINE": {
     "description": "",
-    "message": "Keep your ear to the ground"
+    "message": "Drži uho na tlu"
   },
   "ADVICE_7_BODYTEXT": {
     "description": "",
-    "message": "Donations can earn you a good standing in society, but not all charities will earn you a reputation."
+    "message": "Donacije vam mogu donijeti dobar ugled u društvu, ali neće vam sve dobrotvorne organizacije donijeti reputaciju."
   },
   "ADVICE_7_HEADLINE": {
     "description": "",
-    "message": "Be generous"
+    "message": "Budi velikodušan"
   },
   "ADVICE_8_BODYTEXT": {
     "description": "",
-    "message": "When journeying to binary systems, make sure to target the right star."
+    "message": "Prilikom putovanja u binarne sustave, pazite da ciljate na pravu zvijezdu."
   },
   "ADVICE_8_HEADLINE": {
     "description": "",
-    "message": "Stay out of double trouble"
+    "message": "Izbjegavajte dvostruke probleme"
   },
   "ADVICE_9_BODYTEXT": {
     "description": "",
-    "message": "Regularly maintain your engines, but remember: you get what you pay for."
+    "message": "Redovito održavajte svoje motore, ali zapamtite: dobivate ono što platite."
   },
   "ADVICE_9_HEADLINE": {
     "description": "",
-    "message": "Treat your ship well"
+    "message": "Dobro se ponašaj prema svom brodu"
   },
   "RUMOUR": {
     "description": "Headline starts with this pre-headline",
-    "message": "RUMOUR"
+    "message": "GLASINA"
   },
   "RUMOUR_1_BODYTEXT": {
     "description": "",
-    "message": "Someone in the Federal Navy told me that one day, one of their corvettes accidentally jumped to a Haber outpost system about 50ly out from Sol, called Rondel; almost causing open conflict. Not many people seem to know about the incident itself outside of the navy, but some say Rondel administration has been more aggressive towards visitors since, and freight pilots started avoiding the system."
+    "message": "Netko u Federalnoj mornarici mi je rekao da je jednog dana jedna od njihovih korveta slučajno skočila na Haberov sustav ispostave oko 50 metara od Sola, zvan Rondel; gotovo je izazvala otvoreni sukob. Čini se da ne zna mnogo ljudi izvan mornarice za sam incident, ali neki kažu da je uprava Rondela od tada agresivnija prema posjetiteljima, a piloti teretnih brodova počeli su izbjegavati sustav."
   },
   "RUMOUR_1_HEADLINE": {
     "description": "",
-    "message": "The Rondel Incident"
+    "message": "Incident s Rondelom"
   },
   "TALE_1_BODYTEXT": {
     "description": "",
-    "message": "Don't miss the beautiful eclipse on New Hope as Hades blocks out the light from Epsilon Eridani."
+    "message": "Ne propustite prekrasnu pomrčinu na New Hopeu dok Had blokira svjetlost s Epsilon Eridani."
   },
   "TALE_1_HEADLINE": {
     "description": "Blade runner?",
-    "message": "\"I've seen things you people wouldn't believe\""
+    "message": "\"Vidio sam stvari u koje vi ljudi ne biste vjerovali\""
   },
   "TRAVELLERS_ADVICE": {
     "description": "Headline starts with this pre-headline",
-    "message": "TRAVELLER'S ADVICE"
+    "message": "SAVJETI ZA PUTNIKE"
   },
   "TRAVELLERS_TALE": {
     "description": "Headline starts with this pre-headline",
-    "message": "TRAVELLER'S TALE"
+    "message": "PRIČE PUTNIKA"
   }
 }

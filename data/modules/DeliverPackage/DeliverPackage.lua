@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -12,6 +12,7 @@ local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
 local utils = require 'utils'
+local PlayerState = require 'PlayerState'
 
 local MissionUtils = require 'modules.MissionUtils'
 local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
@@ -185,13 +186,16 @@ local onChat = function (form, ref, option)
 			type	 = "Delivery",
 			client	 = ad.client,
 			location = ad.location,
+			destination = ad.location,
 			risk	 = ad.risk,
 			reward	 = ad.reward,
 			due	 = ad.due,
 			flavour	 = ad.flavour
 		}
 
-		table.insert(missions,Mission.New(mission))
+		mission = Mission.New(mission)
+		table.insert(missions, mission)
+		MissionUtils.SetupOverdueTimer(mission)
 
 		form:SetMessage(l.EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY)
 
@@ -347,8 +351,6 @@ local onUpdateBB = function (station)
 end
 
 local onEnterSystem = function (player)
-	if (not player:IsPlayer()) then return end
-
 	local syspath = Game.system.path
 
 	for ref,mission in pairs(missions) do
@@ -385,22 +387,14 @@ local onEnterSystem = function (player)
 				Comms.ImportantMessage(pirate_greeting, ship.label)
 			end
 		end
-
-		if mission.status == "ACTIVE" and Game.time > mission.due then
-			mission.status = 'FAILED'
-		end
 	end
 end
 
 local onLeaveSystem = function (ship)
-	if ship:IsPlayer() then
-		nearbysystems = nil
-	end
+	nearbysystems = nil
 end
 
-local onShipDocked = function (player, station)
-	if not player:IsPlayer() then return end
-
+local onPlayerDocked = function (player, station)
 	for ref,mission in pairs(missions) do
 
 		if mission.location == station.path then
@@ -417,7 +411,7 @@ local onShipDocked = function (player, station)
 				Character.persistent.player.reputation = Character.persistent.player.reputation - reward
 			else
 				Comms.ImportantMessage(flavours[mission.flavour].successmsg, mission.client.name)
-				player:AddMoney(mission.reward)
+				PlayerState.AddMoney(mission.reward)
 				Character.persistent.player.reputation = Character.persistent.player.reputation + reward
 			end
 			Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
@@ -425,11 +419,7 @@ local onShipDocked = function (player, station)
 
 			mission:Remove()
 			missions[ref] = nil
-
-		elseif mission.status == "ACTIVE" and Game.time > mission.due then
-			mission.status = 'FAILED'
 		end
-
 	end
 end
 
@@ -455,6 +445,10 @@ local onGameStart = function ()
 	end
 
 	missions = loaded_data.missions
+
+	for _, mission in pairs(missions) do
+		MissionUtils.SetupOverdueTimer(mission)
+	end
 
 	loaded_data = nil
 end
@@ -505,7 +499,7 @@ Event.Register("onCreateBB", onCreateBB)
 Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onLeaveSystem", onLeaveSystem)
-Event.Register("onShipDocked", onShipDocked)
+Event.Register("onPlayerDocked", onPlayerDocked)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)

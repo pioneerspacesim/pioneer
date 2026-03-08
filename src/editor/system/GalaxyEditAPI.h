@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -22,6 +22,8 @@ namespace Editor {
 		ExplorationState explored = EXPLORE_Random;
 		bool randomLawlessness = true;
 		bool randomFaction = true;
+
+		bool overrideRandom = false;
 
 		std::string faction;
 		std::string comment;

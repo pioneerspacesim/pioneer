@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -12,6 +12,7 @@ local Serializer = require 'Serializer'
 local Character = require 'Character'
 local utils = require 'utils'
 local Commodities = require 'Commodities'
+local PlayerState = require 'PlayerState'
 
 local l = Lang.GetResource("module-breakdownservicing")
 local lui = Lang.GetResource("ui-core")
@@ -138,7 +139,7 @@ local onChat = function (form, ref, option)
 		form:SetMessage(message)
 		if not hyperdrive then
 			-- er, do nothing, I suppose.
-		elseif Game.player:GetMoney() < price then
+		elseif PlayerState.GetMoney() < price then
 			form:AddOption(l.I_DONT_HAVE_ENOUGH_MONEY, -1)
 		else
 			form:AddOption(ad.yesplease, 1)
@@ -151,10 +152,10 @@ local onChat = function (form, ref, option)
 		form:Clear()
 		form:SetTitle(ad.title)
 		form:SetFace(ad.mechanic)
-		if Game.player:GetMoney() >= price then -- We did check earlier, but...
+		if PlayerState.GetMoney() >= price then -- We did check earlier, but...
 			-- Say thanks
 			form:SetMessage(ad.response)
-			Game.player:AddMoney(-price)
+			PlayerState.AddMoney(-price)
 			service_history.lastdate = Game.time
 			service_history.service_period = ad.strength * oneyear
 			service_history.company = ad.title
@@ -259,11 +260,7 @@ end
 
 ---@param ship Ship
 local onEnterSystem = function (ship)
-	if ship:IsPlayer() then
-		print(('DEBUG: Jumps since warranty: %d\nWarranty expires: %s'):format(service_history.jumpcount,Format.Date(service_history.lastdate + service_history.service_period)))
-	else
-		return -- Don't care about NPC ships
-	end
+	print(('DEBUG: Jumps since warranty: %d\nWarranty expires: %s'):format(service_history.jumpcount,Format.Date(service_history.lastdate + service_history.service_period)))
 
 	local engine = ship:GetInstalledHyperdrive()
 	if not engine then

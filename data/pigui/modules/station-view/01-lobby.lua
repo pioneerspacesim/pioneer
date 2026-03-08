@@ -1,14 +1,14 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui'
 local StationView = require 'pigui.views.station-view'
 local AutoSave    = require 'modules.AutoSave.AutoSave'
+local PlayerState = require 'PlayerState'
 
 local Game = require 'Game'
 local Rand = require 'Rand'
 local Format = require 'Format'
-local Equipment = require 'Equipment'
 local ShipDef = require 'ShipDef'
 local Character = require 'Character'
 local Commodities = require 'Commodities'
@@ -42,7 +42,7 @@ widgetSizes.buttonLaunchSize = Vector2(widgetSizes.buttonSizeBase.x*5, widgetSiz
 widgetSizes.iconSize = Vector2(0, widgetSizes.buttonSizeBase.y)
 
 local face = nil
-local stationSeed = 0
+local stationSeed = false
 local shipDef
 
 local hyperdrive ---@type Equipment.HyperdriveType?
@@ -61,7 +61,7 @@ local popup = ModalWindow.New('lobbyPopup', function(self)
 end)
 
 local requestLaunch = function (station)
-	local _, fine = Game.player:GetCrimeOutstanding()
+	local _, fine = PlayerState.GetCrimeOutstanding()
 	local nearbyTraffic = station:GetNearbyTraffic(50000) -- ships within 50km of station
 
 	if not Game.player:HasCorrectCrew() then
@@ -115,8 +115,8 @@ local refuelInternalTank = function (delta)
 	local mass = shipDef.fuelTankMass/100 * delta
 	local total = price * mass
 
-	if total > Game.player:GetMoney() then
-		total = Game.player:GetMoney()
+	if total > PlayerState.GetMoney() then
+		total = PlayerState.GetMoney()
 		mass = total / price
 		fuel = Game.player.fuel + mass * 100 / shipDef.fuelTankMass
 	end
@@ -127,7 +127,7 @@ local refuelInternalTank = function (delta)
 		fuel = Game.player.fuel + mass * 100 / shipDef.fuelTankMass
 	end
 
-	Game.player:AddMoney(-total)
+	PlayerState.AddMoney(-total)
 	local commodityChangeAmount = mass < 0 and math.floor(mass) or math.ceil(mass)
 	station:AddCommodityStock(Commodities.hydrogen, -commodityChangeAmount)
 	Game.player:SetFuelPercent(fuel)
@@ -150,8 +150,8 @@ local refuelHyperdrive = function (mass)
 	mass = math.clamp(mass, -hyperdrive.storedFuel, hyperdrive:GetMaxFuel() - hyperdrive.storedFuel)
 
 	-- Can't buy any more than the station has in stock or we have money for
-	mass = math.min(mass, math.min(stock, Game.player:GetMoney() / price))
-	Game.player:AddMoney(-price * mass)
+	mass = math.min(mass, math.min(stock, PlayerState.GetMoney() / price))
+	PlayerState.AddMoney(-price * mass)
 
 	hyperdrive:SetFuel(Game.player, hyperdrive.storedFuel + mass)
 	station:AddCommodityStock(hyperdrive_fuel, -math.round(mass))
@@ -191,7 +191,7 @@ local function lobbyMenu()
 	local gaugeHeight = widgetSizes.buttonSizeBase.y
 	gaugePos.y = gaugePos.y + widgetSizes.buttonSizeBase.y/2
 	local gaugeWidth = ui.getContentRegion().x
-	ui.gauge(gaugePos, Game.player.fuel, '', string.format(l.FUEL .. ": %dt \t" .. l.DELTA_V .. ": %d km/s",
+	ui.gauge(gaugePos, Game.player.fuel, '', string.format(l.FUEL .. ": %d t \t" .. l.DELTA_V .. ": %d km/s",
 		shipDef.fuelTankMass/100 * Game.player.fuel, Game.player:GetRemainingDeltaV()/1000),
 		0, 100, icons.fuel,
 		colors.gaugeEquipmentMarket, '', gaugeWidth, gaugeHeight, pionillium.body)
@@ -226,7 +226,7 @@ local function lobbyMenu()
 	-- hyperspace fuel gauge
 	gaugePos = ui.getCursorScreenPos()
 	gaugePos.y = gaugePos.y + widgetSizes.buttonSizeBase.y/2
-	ui.gauge(gaugePos, stored_hyperfuel, '', string.format(l.FUEL .. ": %0.1ft \t" .. l.HYPERSPACE_RANGE .. ": %d " .. l.LY,
+	ui.gauge(gaugePos, stored_hyperfuel, '', string.format(l.FUEL .. ": %0.1f t \t" .. l.HYPERSPACE_RANGE .. ": %d " .. l.LY,
 		stored_hyperfuel, Game.player:GetHyperspaceRange()),
 		0, hyperdrive:GetMaxFuel(),
 		icons.hyperspace, colors.gaugeEquipmentMarket, '',
@@ -275,7 +275,7 @@ local function drawPlayerInfo()
 			local buttonSizeSpacing = widgetSizes.buttonLaunchSize.y + widgetSizes.itemSpacing.y
 			local lobbyMenuHeight = widgetSizes.buttonSizeBase.y*2 + widgetSizes.itemSpacing.y*3 -- use an extra itemSpacing to avoid scrollbar
 
-			ui.child("Wrapper", Vector2(0, -lobbyMenuHeight), {}, function()
+			ui.child("Wrapper", Vector2(0, -lobbyMenuHeight), function()
 				-- face display has 1:1 aspect ratio, and we need size for a launch button underneath
 				local infoColumnWidth = -math.min(ui.getContentRegion().y - buttonSizeSpacing, widgetSizes.faceSize.x) - widgetSizes.itemSpacing.x
 				ui.child("PlayerShipFuel", Vector2(infoColumnWidth, 0), function()

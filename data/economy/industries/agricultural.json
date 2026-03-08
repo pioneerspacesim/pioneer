@@ -1,0 +1,73 @@
+{
+	"station_aquaponics": {
+		"l10n_key": "ZERO_G_AQUAPONICS",
+		"conditions_any": [ "starport_orbital", "zero_g" ],
+		"inputs": {
+			"farm_machinery": 1,
+			"fertilizer": 2,
+			"air_processors": 1,
+			"water": 4
+		},
+		"outputs": {
+			"fruit_and_veg": 3,
+			"grain": 3
+		},
+		"modifiers": {
+			"rare_microbial_life": [ "i:fertilizer-1", "o:*+1" ]
+		},
+		"build_next": [
+			{ "id": "drug_lab", "chance": 0.8 },
+			{ "id": "distillery", "chance": "0.4" }
+		]
+	},
+	"surface_aquaponics": {
+		"l10n_key": "TERRESTRIAL_AQUAPONICS",
+		"context": "surface",
+		"conditions": [ "planet_terrestrial", "!atmos_breathable" ],
+		"inputs": {
+			"farm_machinery": 2,
+			"fertilizer": 3,
+			"air_processors": 1,
+			"water": 5
+		},
+		"outputs": {
+			"fruit_and_veg": 4,
+			"grain": 5
+		},
+		"modifiers": {
+			"rare_microbial_life": [ "i:fertilizer-1", "o:*+1" ]
+		},
+		"build_next": [
+			{ "id": "distillery", "chance": 0.3 },
+			{ "id": "chemical_refinery" },
+			{ "id": "drug_lab" }
+		]
+	},
+	"outdoor_farm": {
+		"l10n_key": "FARMING",
+		"context": "surface",
+		"conditions": [ "planet_terrestrial", "biosphere_basic", "norm_gravity" ],
+		"inputs": {
+			"farm_machinery": 3,
+			"air_processors": 3,
+			"consumer_goods": 4
+		},
+		"outputs": {
+			"fruit_and_veg": 5,
+			"grain": 6,
+			"animal_meat": 4,
+			"fertilizer": 3,
+			"live_animals": 3
+		},
+		"modifiers": {
+			"lawless": [ "o:slaves+3" ],
+			"biosphere_rich": [ "o:*+1", "i:farm_machinery+1" ],
+			"atmos_breathable": [ "i:air_processors-3" ]
+		},
+		"build_next": [
+			{ "id": "textile_mill" },
+			{ "id": "civil_industry" },
+			{ "id": "distillery", "chance": 0.8 }
+		]
+	}
+}

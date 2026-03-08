@@ -1,7 +1,7 @@
 {
   "AIR_PROCESSORS": {
     "description": "",
-    "message": "Въздухопречистватели"
+    "message": "въздухопречистватели"
   },
   "AIR_PROCESSORS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -9,15 +9,15 @@
   },
   "ANIMAL_MEAT": {
     "description": "",
-    "message": "Животинско месо"
+    "message": "животинско месо"
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Болезнената тема за веганите, месото е плътта на животните. Благодарение на синтетичните протеини, много хора вече са на мнение, че животните не трябва да се убиват. Месото е незаконно в повечето развити системи, но в традиционните то си остава важна част от живота на хората."
+    "message": "Болезнената тема за веганите, месото е плътта на животните. Благодарение на синтетичните протеини, много хора вече са на мнение, че животните не трябва да се убиват. Месото е незаконно в повечето развити системи, но в традиционните си остава важна част от живота на хората."
   },
   "BATTLE_WEAPONS": {
     "description": "",
-    "message": "Големи оръжия"
+    "message": "големи оръжия"
   },
   "BATTLE_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -25,15 +25,23 @@
   },
   "CARBON_ORE": {
     "description": "",
-    "message": "Въглеродна руда"
+    "message": "въглеродна руда"
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
     "message": "Въглеродът е един от най-универсалните елементи, които познаваме. Използва се в производството на различни видове материали, той е евтин и важен като стока. Почти всички индустриални средища внасят въглеродна руда."
   },
+  "CHEMICALS": {
+    "description": "",
+    "message": "химикали"
+  },
+  "CHEMICALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Това са предшествениците на индустрията, каустични почистващи агенти и биохимични суровини, използват се както в потребителски, така и в индустриални условия. Химикалите се превозват в контейнери с индустриална здравина, за да се предотврати корозията на товарното отделение на кораба."
+  },
   "COMPUTERS": {
     "description": "",
-    "message": "Компютри"
+    "message": "компютри"
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -41,7 +49,7 @@
   },
   "CONSUMER_GOODS": {
     "description": "",
-    "message": "Потребителски стоки"
+    "message": "потребителски стоки"
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -49,7 +57,7 @@
   },
   "FARM_MACHINERY": {
     "description": "",
-    "message": "Селскостопанско оборудване"
+    "message": "селскостопанско оборудване"
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -57,7 +65,7 @@
   },
   "FERTILIZER": {
     "description": "",
-    "message": "Тор"
+    "message": "тор"
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -65,7 +73,7 @@
   },
   "FRUIT_AND_VEG": {
     "description": "",
-    "message": "Плодове и зеленчуци"
+    "message": "плодове и зеленчуци"
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -73,7 +81,7 @@
   },
   "GRAIN": {
     "description": "",
-    "message": "Жито"
+    "message": "жито"
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -81,7 +89,7 @@
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Малки оръжия"
+    "message": "малки оръжия"
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -89,7 +97,7 @@
   },
   "HYDROGEN": {
     "description": "",
-    "message": "Водород"
+    "message": "водород"
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -97,7 +105,7 @@
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
-    "message": "Промишлено оборудване"
+    "message": "индустриално оборудване"
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -105,7 +113,7 @@
   },
   "LIQUID_OXYGEN": {
     "description": "",
-    "message": "Течен кислород"
+    "message": "течен кислород"
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -113,7 +121,7 @@
   },
   "LIQUOR": {
     "description": "",
-    "message": "Алкохол"
+    "message": "алкохол"
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -121,7 +129,7 @@
   },
   "LIVE_ANIMALS": {
     "description": "",
-    "message": "Живи животни"
+    "message": "живи животни"
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -129,15 +137,15 @@
   },
   "MEDICINES": {
     "description": "",
-    "message": "Лекарства"
+    "message": "лекарства"
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Извличани от естествени или синтетични източници, лекарствата са нужни навсякъде където има хора. От лечение на настинка до лекуване на ефектите от дългите космически пътувания, лекарствата са от съществено значение за просперитета на човешката междузвездна цивилизация. Лекарствата подлежат на строг контрол, понеже не е трудно наркотиците да бъдат представени като лечебни средства."
+    "message": "Извличани от естествени или синтетични източници, лекарствата са нужни навсякъде, където има хора. От лечение на настинка до лекуване на ефектите от дългите космически пътувания, лекарствата са от съществено значение за просперитета на човешката междузвездна цивилизация. Лекарствата подлежат на строг контрол, понеже не е трудно наркотиците да бъдат представени като лечебни средства."
   },
   "METAL_ALLOYS": {
     "description": "",
-    "message": "Метални сплави"
+    "message": "метални сплави"
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -145,7 +153,7 @@
   },
   "METAL_ORE": {
     "description": "",
-    "message": "Желязна руда"
+    "message": "желязна руда"
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -153,7 +161,7 @@
   },
   "MILITARY_FUEL": {
     "description": "",
-    "message": "Военно гориво"
+    "message": "военно гориво"
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -161,7 +169,7 @@
   },
   "MINING_MACHINERY": {
     "description": "",
-    "message": "Минно оборудване"
+    "message": "минно оборудване"
   },
   "MINING_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -169,15 +177,15 @@
   },
   "NARCOTICS": {
     "description": "",
-    "message": "Наркотици"
+    "message": "наркотици"
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Естествена или синтетична субстанция, която засяга разума и тялото. Въпреки, че използването на наркотици за лечебна цел съществува от древни времена, преноса и търговията им са забранени от закона. "
+    "message": "Естествена или синтетична субстанция, която засяга разума и тялото. Въпреки, че използването на наркотици за лечебна цел съществува от древни времена, преносът и търговията им са престъпление. "
   },
   "NERVE_GAS": {
     "description": "",
-    "message": "Нервопаралитичен газ"
+    "message": "нервнопаралитичен газ"
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -185,7 +193,7 @@
   },
   "PLASTICS": {
     "description": "",
-    "message": "Пластмаси"
+    "message": "пластмаси"
   },
   "PLASTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -193,7 +201,7 @@
   },
   "PRECIOUS_METALS": {
     "description": "",
-    "message": "Скъпоценни метали"
+    "message": "скъпоценни метали"
   },
   "PRECIOUS_METALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -201,7 +209,7 @@
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Радиоактивни отпадъци"
+    "message": "радиоактивни отпадъци"
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -209,7 +217,7 @@
   },
   "ROBOTS": {
     "description": "",
-    "message": "Роботи"
+    "message": "роботи"
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -217,7 +225,7 @@
   },
   "RUBBISH": {
     "description": "",
-    "message": "Боклуци"
+    "message": "боклуци"
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -225,7 +233,7 @@
   },
   "SLAVES": {
     "description": "",
-    "message": "Роби"
+    "message": "роби"
   },
   "SLAVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -233,7 +241,7 @@
   },
   "TEXTILES": {
     "description": "",
-    "message": "Текстилни изделия"
+    "message": "текстилни изделия"
   },
   "TEXTILES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -241,7 +249,7 @@
   },
   "WATER": {
     "description": "",
-    "message": "Вода"
+    "message": "вода"
   },
   "WATER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",

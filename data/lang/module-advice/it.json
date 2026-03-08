@@ -15,6 +15,30 @@
     "description": "A reference to the song 'The Harder They Come', by Jimmy Cliff",
     "message": "Maggiori i G, maggiore il tonfo cadendo"
   },
+  "ADVICE_12_BODYTEXT": {
+    "description": "",
+    "message": "Quando ti trovi nella periferia di un sistema e devi tornare ai pianeti più interni, una deviazione verso un sistema adiacente sufficientemente vicino, può essere la via più rapida."
+  },
+  "ADVICE_12_HEADLINE": {
+    "description": "",
+    "message": "La deviazione Roby Rimbalzino"
+  },
+  "ADVICE_13_BODYTEXT": {
+    "description": "",
+    "message": "Poca massa implica meno consumi e nave più veloce. Il carburante ha massa. Per alcune rotte, viaggiare leggeri con meno carburante può far risparmiare tempo e denaro."
+  },
+  "ADVICE_13_HEADLINE": {
+    "description": "",
+    "message": "Andare coi vapori"
+  },
+  "ADVICE_14_BODYTEXT": {
+    "description": "",
+    "message": "Quando si concatenano più salti assieme, accordarli prima della partenza può evitarvi dei mal di testa o anche salvarvi la vita, a seconda di quanto siate i benvenuti nei sistemi in cui passerete."
+  },
+  "ADVICE_14_HEADLINE": {
+    "description": "",
+    "message": "Una chiara via d'uscita"
+  },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
     "message": "Al ritorno su ogni stazione, prendi nota dei mercanti alternativi che non riconosci. In questo modo potrai stare fuori dai guai con la legge."

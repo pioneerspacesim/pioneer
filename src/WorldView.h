@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _WORLDVIEW_H
@@ -12,7 +12,6 @@
 class Body;
 class Camera;
 class SpeedLines;
-class NavTunnelWidget;
 class Game;
 
 enum VelIconType {
@@ -30,7 +29,6 @@ enum PlaneType {
 class WorldView : public View {
 public:
 	static void RegisterInputBindings();
-	friend class NavTunnelWidget;
 	WorldView(Game *game);
 	WorldView(const Json &jsonObj, Game *game);
 	~WorldView() override;

@@ -1,3 +1,192 @@
+Pioneer 2026-02-03 Release
+  * Fixes
+    * Changing seed for Impression to avoid station being partially underground (#6283)
+
+January 2026
+  * New Features
+    * Animate thruster flame (#6204)
+    * Add system lawlessness rating to sector map (#6265)
+    * Add context-based station economic industries (#6199)
+    * Show main mission parameters for regular scoop missions (#6279)
+
+  * Fixes
+    * Fix crime record error on loading saved games (#6268)
+    * Fix mapping missions not "failing" if overdue (#6258)
+    * Fix Planet layer flicker on zoom, FOV->Radians before Frustum (#6121)
+    * Fix bugs in fixed division (#5698)
+    * Fix crash jettisoning in player Economy & Trade window (#6276)
+    * Fix duplicate faction home systems (#6278)
+    * Fix use-after-free with multiple custom system redefinition (#6274)
+    * Fix infinite galaxy, remove visible density "blocks" in sector generation (#6273)
+    * Pre-release bugfixes, see below (#6282)
+    * Fix Equipment rewrite: Market allows to buy yet installed equipment repeatedly (#6182)
+    * Fix No warning, confirmation, or criminal charges for selling an occupied passenger cabin (#5954)
+    * Fix Unexpected thruster flames on the ship view in the "Ship information" tab (#6272)
+    * Fix Input mappings are ignored on master (#6262)
+    * Fix Rotation damping and Cruise mode share key mapping (#6263)
+    * Fix Crash to desktop when landing on a procedurally generated planet (#6118)
+    * Fix OPLI Internal Missile Rack - Inconsistent number of missiles (#6227)
+
+  * Internal
+    * Happy new year (#6264)
+    * Alias Vector3 ZERO (#6259)
+    * Minor fixes and additions (#6266)
+    * Update to Assimp 6.0.2 lib name (PR #6267)
+    * Dump all current faction home systems to JSON (#6271)
+    * Fix GCC warnings (#6280)
+
+November
+  * New Features
+    * Cargo Run custom risk message (#6192)
+    * Advice module - Three new advises (#6234)
+    * Allow custom systems to override randomly-generated ones (#6238)
+    * Calculate star colors using Planck's law (#6210)
+    * Increase the probability of being intercepted by pirates (#6248)
+    * Make ships translatable (#6103)
+
+  * Fixes
+    * Only add systems once in system search function GetNearbyStarSystemsByName (#6244)
+    * Add trailing newlines to model files (#6243)
+    * Fix correct temperature display units (#6239)
+    * ConfigParser: fix read-past-end-of-string (#6246)
+    * Fix payment for delayed Scout mission (#6250)
+    * Fix icon for find missing person (#6250)
+    * Reduce number of find missing person adverts (#6250)
+    * Fix station staff face - only set stationSeed from one place (#6236)
+    * Prevent spiky asteroids in random systems (#6209)
+    * Correctly capitalize names of goods (#6252)
+    * fmt::arg("unit", counter.unit) causes crash, hard code counter.unit (#6256)
+
+  * Internal
+    * Clean up API code documentation strings: Remove 'Availability' & 'Status' in C++ (#6242)
+    * Update Ship JSON Files (#6241)
+    * Update About menu with newly added fast_float copyright info (#6247)
+    * Upgrade nlohmann::json, fix #include ciso646 warnings (#6253)
+    * Minor (terrain) performance optimizations and tweaks (#6087)
+    * Update transifex script (#6254)
+    * Asserts invalid after code changes (#6255)
+
+October
+  * New Features
+    * Added 'About' button in Main Menu (#6145)
+    * Assassination - minor string improvements and code refactor (#6218)
+    * Several new tweaks to tame the police (#6128)
+    * UI of system view reworked (#6173)
+
+  * Fixes
+    * Fix missing station manager in the lobby of Torvalds station (#6224)
+    * Fix wrong station message at starting in space (#6220)
+
+  * Internal
+    * Clean up API code documentation strings (#6228)
+    * CMakeList and scan_enums update to python3 (#6217)
+    * CMake: Generalize to any OpenGL binding (#6050)
+    * Updating all .model files to v2 format (#6213)
+    * Fix CMake OpenGL binding for MSVC (#6237)
+
+September
+  * New Features
+    * Improve the follow modes for too far ranges (#6190)
+    * Show the return location in the mission list, if available (#6200)
+
+  * Fixes
+    * Fix game slowdown after jettisoning A LOT of cargo (#6139)
+
+  * Internal
+    * Scenegraph .model Format v2 (#6206)
+
+August
+  * New Features
+    * UI: target radial support hyperspace clouds (#6180)
+    * UI: rework target scanner display (#6181)
+    * Add tooltip for pump down buttons on info view (#6193)
+
+  * Fixes
+    * Fix crash when weapons fired (#6203)
+
+July
+  * Internal
+    * Save settings to disk when closing the settings window (#6179)
+    * Migrate renderer to use explicit vertex attribute format descriptors (#6141)
+
+June
+  * New Features
+    * Redesign Sector Map interface, allow jumping from Sector Map (#6148)
+    * Support 'custom_only' key in station.json file (#6153)
+    * Add System and Trade Route Bookmark Interface (#6154)
+
+  * Fixes
+    * Prevent invoking SDL_PauseAudioDevice when it's already paused (#6156)
+    * fix: select correct star for hyperspace target after route planned (#6158)
+    * fix: crash in info screen (#6176)
+    * SecondHand equipment market: add clearer error messages (#6159)
+    * Fix/minor fixes: (un)muting settings, saving settings, UI events, etc. (#6175)
+
+  * Internal
+    * Cleaning up unused icons (#6147)
+    * Update to Windows 2022 build runner (#6149)
+    * Add persistent "player state" datastore, player versions of dock/undock/landing events (#6150)
+    * Optimization: Replace onShip*() with onPlayer*() events where functional (#6163)
+    * Optimization: Redefine meaning of onEnterSystem/onLeaveSystem events (#6177)
+    * Fix breakages introduced by the updated version of Dear ImGui (#6157)
+    * Minor Terrain files cleanup (#6187)
+
+May
+  * New Features
+    * New mission: Find person (#4746)
+    * ECM crime - Don't allow ECM use near stations (#5916)
+
+  * Fixes
+    * Fix hyperspace fuel cheat (#6129)
+    * Explore system on game start (#6132)
+    * CrewContracts - add onUpdateBB, to spawn new crew with time (#5596)
+    * Formatting fixes (#6058)
+
+  * Internal
+    * Update minimum required version of CMake to 3.5 (#6124)
+    * Expose long description & clean dead code (#6144)
+    * Upgrade Imgui to 1.91.9b (#6143)
+    * Adding new icons for sector map and about (#6146)
+
+April / Pioneer 2025-05-01 Release
+  * Fixes
+    * Ship Market - Crash: attempt to index field '?' (#6101)
+    * Police refuse to fight (#6065)
+    * Ship weapon ignores overheat (#6057)
+    * Size 5+ weapons cannot be equipped by any ship? (#6077)
+    * Follow orientation cannot be turned off if far from target (#6081)
+    * Duplicated "Heavy Atmospheric Shielding" on S3, instead of S3 and S4 (#6038)
+    * Station Name Overlap in System View Economy window Fix Suggestion (#6091)
+    * Low contrast between active and inactive BBS entry colors (#5966)
+    * Goods Trader - Glitch in prices (#6075)
+    * On sale keep mentionning ship fully equipped (#6049)
+    * Fix nav ligts and model (#6105)
+    * Fixing skipjack collision interfering with takeoffs. (#6111)
+    * Fix pressure limit value if no atmo shield is installed (#6117)
+    * Fix grammar in Combat mission Strings (#6102)
+    * Fix interrupted SAR missions, draggable popups in worldview (#6120)
+    * Fix pressure limit value if no atmo shield is installed (#6117)
+    * Fixing and cleaning up skipjack (#6123)
+
+  * Internal
+    * Character - Separate first name and surname (#6114)
+
+March
+  * New Features
+    * Show status "pending" if the cargo & combat missions has not yet been fully completed (#6082)
+    * Paint Shop - Randomize colors (#6069)
+
+  * Fixes
+    * Fix MILITARY tech level display and availability (#6062)
+    * Fix savegames not loading: Sort lua components during serialization (#6070)
+    * Fix crash at alt-tab in the start menu equip tab (#6097)
+    * Reduce Scout mission ad frequency on BBS (#6095)
+
+  * Internal
+    * Read/write save games from/to the savefiles folder (#6083)
+    * Detect Windows 11, update GL Renderer name (#6088)
+    * Update ubuntu version 20.04 -> 22.04 for build (#6072)
+
 February
   * Fixes
     * Replace `texture2D()` with `texture()` (#6045)
@@ -11,6 +200,7 @@ February
     * Conform to C.128, aka: Virtual functions should specify exactly one of virtual, override, or final (#5995)
     * Store AtmosphereParameters in BaseSphere, calculate with material setup (#6059)
     * Change modelcompiler single model filepathing, change Editor location for MSVC (#6063)
+    * Make Sphere3D/Icosphere reserve space better (#6067)
 
 Pioneer 2025-02-03 Release
   * Fixes

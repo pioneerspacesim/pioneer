@@ -1,7 +1,7 @@
 {
   "AIR_PROCESSORS": {
     "description": "",
-    "message": "Filtre de aer"
+    "message": "air processors"
   },
   "AIR_PROCESSORS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -9,7 +9,7 @@
   },
   "ANIMAL_MEAT": {
     "description": "",
-    "message": "Carne de animal"
+    "message": "animal meat"
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -17,47 +17,55 @@
   },
   "BATTLE_WEAPONS": {
     "description": "",
-    "message": "Arme de luptă"
+    "message": "battle weapons"
   },
   "BATTLE_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Heavy military-grade weapons, like armoured hover tanks, and surface-to-space missiles. Trading in them is usually a governmental monopoly. On the black market, however, these can often fetch a hefty sum of money."
+    "message": "Arme militare grele precum tancuri aeroglisoare şi rackete suprafaţă-spaţiu. Negoţul cu astfel de arme este de obicei rezervat de un monopol guvernamental. Pe piaţa neagră însă, acestea pot aduce un profit considerabil."
   },
   "CARBON_ORE": {
     "description": "",
-    "message": "Minereu din cărbune"
+    "message": "carbon ore"
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Carbon is one of the most diverse elements we know of. Used in almost everything from plastics to alloys and sometimes even power production, carbon is an inexpensive, but important commodity. As such, almost all industrial settlements import carbon ore."
+    "message": "Carbonul este unul dintre cele mai diverse elemente pe care le cunoaștem. Folosit în aproape totul de la plastice până la aliaje și uneori chiar producția de curent, carbonul este o comoditate ieftină dar importantă. Din acest motiv, aproape toate așezările industriale importă cărbune."
+  },
+  "CHEMICALS": {
+    "description": "",
+    "message": "chemicals"
+  },
+  "CHEMICALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Industrial precursors, caustic cleaning agents, and biochemical feedstock, chemicals are used in both consumer and industrial settings. Chemicals are shipped in industrial-strength containers to prevent corrosion of a ship's cargo hold."
   },
   "COMPUTERS": {
     "description": "",
-    "message": "Calculatoare"
+    "message": "computers"
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "From over a thousand years ago, with the Abacus, PDP-11, and Motorola 68k chip, down to our modern HAL 9001 and Multivac line, computers marked the dawn of the information age. Equally essential for entering hyperspace as for sharing videos of cute quibbles over the UniNet."
+    "message": "De acum mai bine de o mie de ani începând cu Abacus, PDP-11 si chip-ul Motorola 68k, până la modernul HAL 9001 și linia Multivac, calculatoarele au marcat era informatică. Esențiale în egală măsură pentru a intra in hiperspațiu cât și pentru a vedea pe UniNet ultimele trend-uri în modă."
   },
   "CONSUMER_GOODS": {
     "description": "",
-    "message": "Bunuri de consum"
+    "message": "consumer goods"
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The end products ready for the general consumer public, without need for further processing. Everything from toothbrushes, kitchen appliances to hover cars."
+    "message": "Produse finale, gata de consum, care nu mai au nevoie de procesare. Totul de la periuțe de dinți, aparate casnice până la mașini aeroglisoare."
   },
   "FARM_MACHINERY": {
     "description": "",
-    "message": "Utilaje fermiere"
+    "message": "farm machinery"
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Although rare, it is still possible to catch the occasional farmer with an ox-driven plow. But in almost any place where there is agriculture, machines are used in the cultivation of the land, be it the hydroponics of an underground habitat or the endless fields of a garden world."
+    "message": "Deși rar, este posibil să mai prinzi câte un fermier care folosește plug tras de boi. Însă, aproape în orice loc unde e agricultură, se folosesc mașinării care cultivă pământul, fie ca e vorba de sisteme hidroponice ale unui habitat de sub pământ sau o planetă grădină."
   },
   "FERTILIZER": {
     "description": "",
-    "message": "Îngrășământ"
+    "message": "fertilizer"
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -65,7 +73,7 @@
   },
   "FRUIT_AND_VEG": {
     "description": "",
-    "message": "Fructe & vegetale"
+    "message": "fruit & vegetables"
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -73,7 +81,7 @@
   },
   "GRAIN": {
     "description": "",
-    "message": "Grâne"
+    "message": "grain"
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -81,7 +89,7 @@
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Small arms"
+    "message": "small arms"
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -89,7 +97,7 @@
   },
   "HYDROGEN": {
     "description": "",
-    "message": "Hidrogen"
+    "message": "hydrogen"
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -97,7 +105,7 @@
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
-    "message": "Utilaje industriale"
+    "message": "industrial machinery"
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -105,7 +113,7 @@
   },
   "LIQUID_OXYGEN": {
     "description": "",
-    "message": "Liquid oxygen"
+    "message": "liquid oxygen"
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -113,7 +121,7 @@
   },
   "LIQUOR": {
     "description": "",
-    "message": "Lichior"
+    "message": "liquor"
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -121,7 +129,7 @@
   },
   "LIVE_ANIMALS": {
     "description": "",
-    "message": "Live animals"
+    "message": "live animals"
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -129,7 +137,7 @@
   },
   "MEDICINES": {
     "description": "",
-    "message": "Doctorii"
+    "message": "medicines"
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -137,7 +145,7 @@
   },
   "METAL_ALLOYS": {
     "description": "",
-    "message": "Aliaje din metal"
+    "message": "metal alloys"
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -145,7 +153,7 @@
   },
   "METAL_ORE": {
     "description": "",
-    "message": "Minereu din metal"
+    "message": "metal ore"
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -153,7 +161,7 @@
   },
   "MILITARY_FUEL": {
     "description": "",
-    "message": "Combustibil militar"
+    "message": "military fuel"
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -161,7 +169,7 @@
   },
   "MINING_MACHINERY": {
     "description": "",
-    "message": "Utilaje de minerit"
+    "message": "mining machinery"
   },
   "MINING_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -169,7 +177,7 @@
   },
   "NARCOTICS": {
     "description": "",
-    "message": "Narcotice"
+    "message": "narcotics"
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -177,7 +185,7 @@
   },
   "NERVE_GAS": {
     "description": "",
-    "message": "Nerve gas"
+    "message": "nerve gas"
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -185,7 +193,7 @@
   },
   "PLASTICS": {
     "description": "",
-    "message": "Plastice"
+    "message": "plastics"
   },
   "PLASTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -193,7 +201,7 @@
   },
   "PRECIOUS_METALS": {
     "description": "",
-    "message": "Metale prețioase"
+    "message": "precious metals"
   },
   "PRECIOUS_METALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -201,7 +209,7 @@
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Deșeuri radioactive"
+    "message": "radioactive waste"
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -209,7 +217,7 @@
   },
   "ROBOTS": {
     "description": "",
-    "message": "Roboți"
+    "message": "robots"
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -217,7 +225,7 @@
   },
   "RUBBISH": {
     "description": "",
-    "message": "Gunoi"
+    "message": "rubbish"
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -225,7 +233,7 @@
   },
   "SLAVES": {
     "description": "",
-    "message": "Sclavi"
+    "message": "slaves"
   },
   "SLAVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -233,7 +241,7 @@
   },
   "TEXTILES": {
     "description": "",
-    "message": "Textile"
+    "message": "textiles"
   },
   "TEXTILES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -241,7 +249,7 @@
   },
   "WATER": {
     "description": "",
-    "message": "Apă"
+    "message": "water"
   },
   "WATER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",

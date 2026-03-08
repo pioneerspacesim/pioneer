@@ -1,0 +1,130 @@
+{
+  "ABOUT": {
+    "description": "",
+    "message": "О проекте"
+  },
+  "ACKNOWLEDGEMENTS": {
+    "description": "",
+    "message": "Благодарности"
+  },
+  "CONTENT": {
+    "description": "",
+    "message": "Контент"
+  },
+  "CONTENT_CONTRIBUTION": {
+    "description": "",
+    "message": "Создание контента"
+  },
+  "CONTRIBUTE": {
+    "description": "",
+    "message": "Внести вклад"
+  },
+  "CONTRIBUTE_BODY": {
+    "description": "",
+    "message": "Pioneer — это сумма множества вкладов его игроков и разработчиков. Видите что-то, что хотели бы изменить, улучшить, или есть идеи для нового контента? (Например: переводы, программирование, графика, 2D и 3D ресурсы, музыка, создание пользовательских звёздных систем, улучшение нашей документации, вики и т.д.) Перейдите по ссылкам для получения подробной информации о том, как вы можете внести свой вклад!"
+  },
+  "DEVELOPER_DOCUMENTATION": {
+    "description": "",
+    "message": "Документация для разработчиков"
+  },
+  "DOCUMENTATION": {
+    "description": "",
+    "message": "Документация"
+  },
+  "DONATE_BODY": {
+    "description": "",
+    "message": "Если вам нравится играть в Pioneer и вы хотите поддержать его дальнейшую разработку, пожалуйста, рассмотрите возможность пожертвования — любая сумма важна."
+  },
+  "DONATE_OPTIONS": {
+    "description": "Sentence continues in 'DONATE_OPTIONS_CONTINUED'",
+    "message": "Другие способы пожертвований на нашей"
+  },
+  "DONATE_OPTIONS_CONTINUED": {
+    "description": "hyperlink, ending part of sentence in 'DONATE_OPTIONS'",
+    "message": "странице поддержки"
+  },
+  "DONATE_THANKS": {
+    "description": "",
+    "message": "Благодарим за вашу неизменную поддержку Pioneer!"
+  },
+  "GAME_RELEASE": {
+    "description": "",
+    "message": "Стабильные версии выходят ежегодно 3 февраля, но разработка ведётся непрерывно. Поэтому смелым пилотам рекомендуется играть на последней версии из исходного кода и сообщать об ошибках."
+  },
+  "INFO_BLURB": {
+    "description": "",
+    "message": "Pioneer — это однопользовательская космическая приключенческая игра, действие которой происходит в галактике Млечный Путь на рубеже 31-го века."
+  },
+  "INFO_BODY": {
+    "description": "",
+    "message": "Игра открыта, и вы свободны исследовать миллионы звёздных систем. Вы можете приземляться на планеты, использовать гравитационные манёвры у газовых гигантов и сгореть дотла, пролетая между двойными звёздами. Вы можете попробовать себя в пиратстве, сколотить состояние на межсистемной торговле или выполнять миссии для различных фракций, сражающихся за власть, свободу или самоопределение."
+  },
+  "LICENSE": {
+    "description": "",
+    "message": "Лицензия"
+  },
+  "LINK_BASIC_FLIGHT": {
+    "description": "",
+    "message": "Основы полёта"
+  },
+  "LINK_BUG_TRACKER": {
+    "description": "",
+    "message": "Трекер ошибок"
+  },
+  "LINK_COMMUNITY_CHAT": {
+    "description": "",
+    "message": "Чат (Discord) сообщества"
+  },
+  "LINK_COMMUNITY_FORUM": {
+    "description": "",
+    "message": "Форум сообщества"
+  },
+  "LINK_DEVELOPER_CHAT": {
+    "description": "",
+    "message": "Чат (IRC) разработчиков"
+  },
+  "LINK_DEVELOPER_FORUM": {
+    "description": "",
+    "message": "Форум разработчиков"
+  },
+  "LINK_FAQ": {
+    "description": "",
+    "message": "Часто задаваемые вопросы"
+  },
+  "LINK_HOMEPAGE": {
+    "description": "",
+    "message": "Домашняя страница"
+  },
+  "LINK_MANUAL": {
+    "description": "",
+    "message": "Руководство"
+  },
+  "SOFTWARE": {
+    "description": "",
+    "message": "Программное обеспечение"
+  },
+  "SOFTWARE_BODY": {
+    "description": "",
+    "message": "Pioneer включает следующее стороннее программное обеспечение"
+  },
+  "SUPPORT_DEVELOPMENT": {
+    "description": "",
+    "message": "Поддержать разработку"
+  },
+  "TRANSLATIONS": {
+    "description": "",
+    "message": "Переводы"
+  },
+  "VERSION_CURRENT": {
+    "description": "",
+    "message": "Ваша текущая версия"
+  },
+  "VERSION_LATEST": {
+    "description": "This sentence continues into string VERSION_LATEST_CONTINUED, to read 'Latest version from source', referring to the source code",
+    "message": "Последняя версия из"
+  },
+  "VERSION_LATEST_CONTINUED": {
+    "description": "is continued from string VERSION_LATEST, to read 'Latest version from source'. Here, 'source' refers to the source code",
+    "message": "исходного кода"
+  }
+}

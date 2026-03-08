@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _PLAYER_H
@@ -20,7 +20,9 @@ public:
 	Player(const Json &jsonObj, Space *space);
 	Player(const ShipType::Id &shipId);
 
-	virtual void SetDockedWith(SpaceStation *, int port) override;
+	void OnDocked(SpaceStation *, int) override;
+	void OnUndocked(SpaceStation *, int) override;
+
 	virtual bool DoDamage(float kgDamage) override final; // overloaded to add "crush" audio
 	virtual bool OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData) override;
 	virtual bool SetWheelState(bool down) override; // returns success of state change, NOT state itself
@@ -59,6 +61,7 @@ protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
 
 	virtual void OnEnterSystem() override;
+	virtual void OnBeforeEnterHyperspace() override;
 	virtual void OnEnterHyperspace() override;
 
 private:

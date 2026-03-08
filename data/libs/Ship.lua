@@ -1,4 +1,4 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 ---@class Ship
@@ -87,10 +87,6 @@ local CrewRoster = {}
 --
 -- > if ship:GetInstalledHyperdrive() then HyperdriveOverloadAndExplode(ship) end
 --
--- Status:
---
---   stable
---
 ---@return Equipment.HyperdriveType? hyperdrive
 function Ship:GetInstalledHyperdrive()
 	---@type Equipment.HyperdriveType[]
@@ -111,18 +107,10 @@ end
 -- Return:
 --
 --   is_allowed - Boolean. True if allowed at ships current position,
---                flase otherwise
+--                false otherwise
 --
 --   distance - The minimum allowed altitude from planetary body, or
---              distance from orbital space station, for a legal hyper juump.
---
--- Availability:
---
---  2016 August
---
--- Status:
---
---  experimental
+--              distance from orbital space station, for a legal hyper jump.
 --
 Ship.IsHyperjumpAllowed = function(self)
 
@@ -159,8 +147,8 @@ end
 --
 -- Method: HyperjumpTo
 --
--- Hyperjump ship to system. Makes sure the ship has a hyper drive,
--- that target is withn range, and ship has enough fuel, before
+-- Hyperjump ship to system. Makes sure the ship has a hyperdrive,
+-- that target is within range, and ship has enough fuel, before
 -- initiating the hyperjump countdown. In addition, through the
 -- optional argument, the ship can fly to a safe distance, compliant
 -- with local authorities' regulation, before initiating the jump.
@@ -173,21 +161,13 @@ end
 --   path - a <SystemPath> for the destination system
 --
 --   isLegal - an optional Boolean argument, defaults to false. If
---             true AI will fly the ship ship to legal distance
---             before jumping
+--             true AI will fly the ship to legal distance before
+--             jumping
 --
 -- Return:
 --
 --   status - a <Constants.ShipJumpStatus> string that tells if the ship can
 --            hyperspace and if not, describes the reason
---
--- Availability:
---
---  2015
---
--- Status:
---
---  experimental
 --
 Ship.HyperjumpTo = function (self, path, is_legal)
 	local engine = self:GetInstalledHyperdrive()
@@ -280,14 +260,6 @@ end
 --   missile_object - the fired missile (a <Missile> object),
 --                    or nil if no missile was fired
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   experimental
---
 ---@param missile EquipType
 function Ship:FireMissileAt(missile, target)
 	local equipSet = self:GetComponent("EquipSet")
@@ -344,14 +316,6 @@ end
 --
 --   used_units - how much fuel units have been used to fuel the tank.
 --
--- Availability:
---
---   alpha 26
---
--- Status:
---
---   experimental
---
 ---@param fuelType CommodityType
 ---@param amount integer
 function Ship:Refuel(fuelType, amount)
@@ -372,45 +336,48 @@ end
 --
 -- Method: Jettison
 --
--- Jettison one unit of the given cargo type.  The item must be present in
+-- Jettison units of the given cargo type.  The item(s) must be present in
 -- the ship's equipment/cargo set, and will be removed by this call.
 --
--- > success = ship:Jettison(item)
+-- > success = ship:Jettison(cargoType, quantity, lifetime)
 --
 -- On sucessful jettison, the <EventQueue.onJettison> event is triggered.
 --
 -- Parameters:
 --
---   item - a commodity type object (e.g., Commodity.radioactives)
+--   cargoType - a commodity type object (e.g., Commodity.radioactives)
 --          specifying the type of item to jettison.
+--
+--   quantity - how many of the item to jettison
+--
+--   lifetime - how long should the jettisoned item live before exploding
 --
 -- Result:
 --
 --   success - true if the item was jettisoned, false if the ship has no items
 --             of that type or the ship is not in open flight
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   experimental
---
 ---@param cargoType CommodityType
-function Ship:Jettison(cargoType)
+---@param quantity integer
+---@param lifetime float
+function Ship:Jettison(cargoType, quantity, lifetime)
+	-- basic sanity checking
+	if cargoType == nil or quantity == nil or lifetime == nil then
+		return false
+	end
+	-- state checking
 	if self.flightState ~= "FLYING" and self.flightState ~= "DOCKED" and self.flightState ~= "LANDED" then
 		return false
 	end
 
 	---@type CargoManager
 	local cargoMgr = self:GetComponent('CargoManager')
-	if cargoMgr:RemoveCommodity(cargoType, 1) < 1 then
+	if cargoMgr:RemoveCommodity(cargoType, quantity) < quantity then
 		return false
 	end
 
 	if self.flightState == "FLYING" then
-		self:SpawnCargo(cargoType)
+		self:SpawnCargo(cargoType, lifetime, quantity)
 		Event.Queue("onJettison", self, cargoType)
 	elseif self.flightState == "DOCKED" then
 		Event.Queue("onCargoUnload", self:GetDockedWith(), cargoType)
@@ -429,7 +396,7 @@ end
 --
 -- Returns true if the body was successfully scooped.
 --
-function Ship:OnScoopCargo(cargoType)
+function Ship:OnScoopCargo(cargoType, quantity)
 	---@type CargoManager
 	local cargoMgr = self:GetComponent('CargoManager')
 
@@ -446,7 +413,7 @@ function Ship:OnScoopCargo(cargoType)
 		self:setprop('last_scoop_time', Game.time)
 	end
 
-	local success = cargoMgr:AddCommodity(cargoType, 1)
+	local success = cargoMgr:AddCommodity(cargoType, quantity)
 
 	Event.Queue('onShipScoopCargo', self, success, cargoType)
 
@@ -470,14 +437,6 @@ end
 --   lat - latitude
 --
 --   lon - longitude
---
--- Availability:
---
---   November, 2023
---
--- Status:
---
---   experimental
 --
 function Ship:GetGPS()
    if not self.frameBody then return end
@@ -505,14 +464,6 @@ end
 --             that the Character did not become a member of the crew, either because there
 --             is no room for the Character on the crew roster, or because they are already
 --             enrolled as crew on another ship.
---
--- Availability:
---
---   alpha 31
---
--- Status:
---
---   experimental
 --
 local isNotAlreadyEnrolled = function (crewmember)
 	for ship,crew in pairs(CrewRoster) do
@@ -566,15 +517,6 @@ end
 --             special case. Currently the only special case is that the player's Character
 --             cannot be dismissed from a crew.
 --
--- Availability:
---
---   alpha 31
---
--- Status:
---
---   experimental
---
-
 Ship.Dismiss = function (self,crewMember)
 	if not CrewRoster[self] then return false end
 	if not (
@@ -605,14 +547,6 @@ end
 --
 -- > ship:GenerateCrew()
 --
--- Availability:
---
---   alpha 31
---
--- Status:
---
---   experimental
---
 Ship.GenerateCrew = function (self)
 	if CrewRoster[self] then return end -- Bottle out if there's ever been a crew
 	for i = 1, ShipDef[self.shipId].maxCrew do
@@ -629,14 +563,6 @@ end
 --
 -- > ship:CrewNumber()
 --
--- Availability:
---
---   20140404
---
--- Status:
---
---   experimental
---
 Ship.CrewNumber = function (self)
 	return CrewRoster[self] and #CrewRoster[self] or 0
 end
@@ -651,14 +577,6 @@ end
 -- Returns:
 --
 --   crew - A [Character], once per crew member per call
---
--- Availability:
---
---   alpha 31
---
--- Status:
---
---   experimental
 --
 Ship.EachCrewMember = function (self)
 	-- If there's no crew, magic one up.
@@ -681,14 +599,6 @@ end
 -- Returns:
 --
 --   canLaunch - Boolean, true if ship has minimum required crew for launch, otherwise false/nil
---
--- Availability:
---
---   alpha 31
---
--- Status:
---
---   experimental
 --
 Ship.HasCorrectCrew = function (self)
 	return (CrewRoster[self] and (
@@ -730,7 +640,7 @@ end
 
 -- Function to check whether ships exist after hyperspace, and if they do not,
 -- to remove their crew from the roster.
-local onEnterSystem = function (ship)
+local onShipEnterSystem = function (ship)
 	if ship:IsPlayer() then
 		for crewedShip,crew in pairs(CrewRoster) do
 			if not crewedShip:exists() then
@@ -738,6 +648,7 @@ local onEnterSystem = function (ship)
 			end
 		end
 	end
+
 	local engine = ship:GetInstalledHyperdrive()
 	if engine then
 		engine:OnLeaveHyperspace(ship)
@@ -761,7 +672,7 @@ local onShipTypeChanged = function (ship)
 	ship:GetComponent('CargoManager'):OnShipTypeChanged()
 end
 
-Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onShipEnterSystem", onShipEnterSystem)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)

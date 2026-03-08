@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ObjectViewerView.h"
@@ -32,7 +32,7 @@ ObjectViewerView::ObjectViewerView() :
 	m_systemBody(nullptr),
 	m_state{},
 	viewingDist(1000.0f),
-	m_camRot(matrix4x4d::Identity())
+	m_camRot(matrix4x4d::Identity)
 {
 	float znear;
 	float zfar;
@@ -44,7 +44,7 @@ ObjectViewerView::ObjectViewerView() :
 
 	m_cameraContext->SetCameraFrame(Pi::player->GetFrame());
 	m_cameraContext->SetCameraPosition(Pi::player->GetInterpPosition() + vector3d(0, 0, viewingDist));
-	m_cameraContext->SetCameraOrient(matrix3x3d::Identity());
+	m_cameraContext->SetCameraOrient(matrix3x3d::Identity);
 }
 
 void ObjectViewerView::Draw3D()
@@ -54,7 +54,7 @@ void ObjectViewerView::Draw3D()
 	float znear, zfar;
 	m_renderer->GetNearFarRange(znear, zfar);
 	m_renderer->SetPerspectiveProjection(75.f, m_renderer->GetDisplayAspect(), znear, zfar);
-	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_renderer->SetTransform(matrix4x4f::Identity);
 
 	Graphics::Light light;
 	light.SetType(Graphics::Light::LIGHT_DIRECTIONAL);
@@ -188,6 +188,17 @@ void ObjectViewerView::DrawControlsWindow()
 	if (m_isTerrainBody) {
 		bool didChange = false;
 		uint32_t prevSeed = m_state.seed;
+
+		// if we can get the TerrainBody display the height and color fractal names, very useful for dev and debugging
+		if (const TerrainBody *terrainBody = static_cast<const TerrainBody *>(m_targetBody)) {
+			const char *heightFractalName = terrainBody->GetHeightFractalName();
+			const char *colorFractalName = terrainBody->GetColorFractalName();
+			if (heightFractalName) ImGui::Text("Height fractal: %s", heightFractalName);
+			if (colorFractalName) ImGui::Text("Color fractal: %s", colorFractalName);
+			ImGui::Spacing();
+			ImGui::Separator();
+			ImGui::Spacing();
+		}
 
 		ImGui::TextUnformatted("Seed");
 		int *seed = reinterpret_cast<int32_t *>(&m_state.seed);

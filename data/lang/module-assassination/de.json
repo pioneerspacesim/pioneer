@@ -137,7 +137,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "{target} muss zu Sternenstaub werden. Ich werde Sie mit {cash} belohnen, wenn Sie es tun."
+    "message": "{target} muss zu Weltraumstaub reduziert werden. Ich zahle {cash} für diesen Job."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -202,6 +202,14 @@
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
     "message": "Es muss passieren, nachdem {target} {spaceport} verlässt. Lassen Sie sich diese Chance nicht entgehen!"
+  },
+  "IT_MUST_BE_DONE_AFTER_FEMALE": {
+    "description": "",
+    "message": "Es muss passieren nachdem sie {spaceport} verlässt. Verpassen Sie diese Gelegenheit nicht."
+  },
+  "IT_MUST_BE_DONE_AFTER_MALE": {
+    "description": "",
+    "message": "Es muss passieren nachdem er {spaceport} verlässt. Verpassen Sie diese Gelegenheit nicht."
   },
   "OK_AGREED": {
     "description": "",
@@ -345,10 +353,18 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "Wo kann ich {target} finden?"
+    "message": "Wo kann ich das Ziel finden?"
   },
   "X_WILL_BE_LEAVING": {
-    "description": "",
-    "message": "{target} wird {spaceport} im »{system}«-System ({sectorX}, {sectorY}, {sectorZ}) am Datum {date} verlassen. Das Schiff heißt »{shipname}« und hat die Registrations-ID {shipregid}."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target} wird {spaceport} im {system}-System ({sectorX}, {sectorY}, {sectorZ}), Entfernung {dist} Lj, am {date} verlassen. Das Schiff ist ein {ship_indef} und hat die Registrierungsnummer {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_FEMALE": {
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target} wird {spaceport} im {system}-System ({sectorX}, {sectorY}, {sectorZ}), Entfernung {dist} Lj, am {date} verlassen. Ihr Schiff ist ein {shipname} und hat die Registrierungsnummer {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_MALE": {
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target} wird {spaceport} im {system}-System ({sectorX}, {sectorY}, {sectorZ}), Entfernung {dist} Lj, am {date} verlassen. Sein Schiff ist ein {shipname} und hat die Registrierungsnummer {shipregid}."
   }
 }

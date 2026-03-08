@@ -1,0 +1,170 @@
+{
+	"circuit_fabrication": {
+		"l10n_key": "COMPUTER_FABRICATION",
+		"conditions": [],
+		"inputs": {
+			"metal_alloys": 4,
+			"plastics": 4,
+			"chemicals": 3,
+			"industrial_machinery": 3
+		},
+		"outputs": {
+			"computers": 4,
+			"robots": 2
+		}
+	},
+	"orbital_assembly": {
+		"l10n_key": "ZERO_G_ASSEMBLY",
+		"context": "orbital",
+		"conditions": [],
+		"inputs": {
+			"metal_alloys": 5,
+			"chemicals": 5,
+			"plastics": 4,
+			"industrial_machinery": 4,
+			"precious_metals": 2,
+			"computers": 3
+		},
+		"outputs": {
+			"robots": 4,
+			"air_processors": 3,
+			"battle_weapons": 3
+		}
+	},
+	"telluric_ore_refinery": {
+		"l10n_key": "TELLURIC_ORE_REFINING",
+		"context": "surface",
+		"conditions": [ "airless" ],
+		"conditions_any": [ "zero_g", "low_gravity", "planet_asteroid" ],
+		"inputs": {
+			"metal_ore": 5,
+			"carbon_ore": 4,
+			"water": 4,
+			"chemicals": 4,
+			"radioactives": 4,
+			"liquid_oxygen": 4
+		},
+		"outputs": {
+			"metal_alloys": 5,
+			"precious_metals": 3
+		},
+		"modifiers": {
+			"rare_metals": [ "i:metal_ore+1", "o:precious_metals+1" ]
+		}
+	},
+	"orbital_gas_refining": {
+		"l10n_key": "ZERO_G_GAS_REFINING",
+		"context": "orbital",
+		"conditions_any": [ "ice_moderate", "gas_giant" ],
+		"inputs": {
+			"water": 7
+		},
+		"outputs": {
+			"hydrogen": 7,
+			"liquid_oxygen": 5,
+			"chemicals": 2,
+			"military_fuel": 2
+		},
+		"modifiers": {
+			"ice_abundant": [ "i:water+1", "o:*+1" ]
+		}
+	},
+	"mil_refinery": {
+		"l10n_key": "MILITARY_REFINING",
+		"context": "orbital",
+		"inputs": {
+			"hydrogen": 6,
+			"water": 6,
+			"radioactives": 3,
+			"industrial_machinery": 3
+		},
+		"outputs": {
+			"military_fuel": 6,
+			"plastics": 3,
+			"nerve_gas": 3
+		}
+	},
+	"pharmaceutical_complex": {
+		"l10n_key": "PHARMACEUTICAL_COMPLEX",
+		"context": "surface",
+		"conditions": [ "planet_terrestrial", "biosphere_basic", "!lawless" ],
+		"inputs": {
+			"computers": 3,
+			"chemicals": 5,
+			"air_processors": 3,
+			"live_animals": 2,
+			"robots": 3,
+			"industrial_machinery": 4,
+			"precious_metals": 3
+		},
+		"outputs": {
+			"medicines": 4,
+			"narcotics": 4
+		},
+		"modifiers": {
+			"atmos_tenuous": [ "i:air_processors+1" ]
+		}
+	},
+	"orbital_lab": {
+		"l10n_key": "ORBITAL_LABORATORY",
+		"context": "orbital",
+		"conditions": [ "!lawless" ],
+		"inputs": {
+			"chemicals": 5,
+			"computers": 3,
+			"air_processors": 3,
+			"robots": 2,
+			"plastics": 1,
+			"industrial_machinery": 3
+		},
+		"outputs": {
+			"medicines": 3,
+			"narcotics": 3,
+			"animal_meat": 3
+		},
+		"modifiers": {
+			"rare_microbial_life": [ "o:medicines+1", "o:narcotics+1" ],
+			"biosphere_rich": [ "o:animal_meat+1" ]
+		}
+	},
+	"drug_lab": {
+		"l10n_key": "DRUG_LABORATORY",
+		"conditions": [ "lawless" ],
+		"inputs": {
+			"grain": 4,
+			"chemicals": 4,
+			"air_processors": 2,
+			"plastics": 1,
+			"industrial_machinery": 1
+		},
+		"outputs": {
+			"liquor": 3,
+			"narcotics": 3,
+			"nerve_gas": 2,
+			"medicines": 1
+		},
+		"modifiers": {
+			"rare_microbial_life": [ "o:narcotics+1", "o:medicines+1" ]
+		}
+	},
+	"recycling": {
+		"l10n_key": "RECYCLING_PLANT",
+		"inputs": {
+			"rubbish": 6,
+			"liquid_oxygen": 4,
+			"water": 5,
+			"industrial_machinery": 4,
+			"radioactives": 3,
+			"robots": 3
+		},
+		"outputs": {
+			"plastics": 4,
+			"metal_alloys": 4,
+			"textiles": 3,
+			"military_fuel": 2,
+			"computers": 2,
+			"chemicals": 1,
+			"precious_metals": 1
+		}
+	}
+}

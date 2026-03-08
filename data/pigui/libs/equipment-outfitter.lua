@@ -1,12 +1,12 @@
--- Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Game      = require 'Game'
 local Economy   = require 'Economy'
 local Equipment = require 'Equipment'
 local EquipSet  = require 'EquipSet'
 local Lang      = require 'Lang'
 local utils     = require 'utils'
+local PlayerState = require 'PlayerState'
 
 local ui = require 'pigui'
 
@@ -51,7 +51,7 @@ local customButton = function(label, icon, infoText, variant)
 
 	local iconOffset = framePadding + Vector2(rounding, 0)
 	local textOffset = iconOffset   + Vector2(icon_size.x + framePadding.x, pionillium.heading.size * 0.25)
-	local fontCol = ui.theme.colors.font
+	local fontCol = variant == ui.theme.buttonColors.disabled and colors.fontDisabled or colors.font
 
 	local startPos = ui.getCursorScreenPos()
 
@@ -67,7 +67,7 @@ local customButton = function(label, icon, infoText, variant)
 
 	if ui.isItemHovered() then
 		local tl, br = ui.getItemRect()
-		ui.addRectFilled(tl, tl + Vector2(rounding, size.y), fontCol, 4, 0x5)
+		ui.addRectFilled(tl, tl + Vector2(rounding, size.y), fontCol, 4, ui.RoundCornersLeft)
 	end
 
 	ui.withFont(pionillium.heading, function()
@@ -84,7 +84,7 @@ local customButton = function(label, icon, infoText, variant)
 			ui.addRectFilled(
 				startPos + Vector2(endOffset - width, framePadding.y),
 				startPos + Vector2(endOffset, height - framePadding.y),
-				variant.normal, 4, 0)
+				variant.normal, 4, ui.RoundCornersNone)
 		end
 	end)
 
@@ -96,11 +96,26 @@ end
 local EquipCardAvailable = EquipCard.New()
 EquipCardAvailable.tooltipStats = false
 
+---@param data UI.EquipmentOutfitter.EquipData
+function EquipCardAvailable:tooltipContents(data, isSelected)
+	EquipCard.tooltipContents(self, data, isSelected)
+	ui.spacing()
+
+	if data.installed then
+		ui.withStyleColors({ Text = colors.fontDim }, function()
+			ui.withFont(pionillium.details, function()
+				ui.textWrapped(l.EQUIPMENT_ALREADY_INSTALLED_HERE)
+			end)
+		end)
+	end
+end
+
 ---@class UI.EquipmentOutfitter.EquipData : UI.EquipCard.Data
 ---@field canInstall boolean
 ---@field canReplace boolean
 ---@field outOfStock boolean
 ---@field available boolean
+---@field installed boolean
 ---@field price number
 ---@field techLevel number
 
@@ -196,8 +211,12 @@ end
 --==================
 
 function Outfitter:stationHasTech(level)
-	level = level == "MILITARY" and 11 or level
-	return self.station.techLevel >= level
+	if level ~= "MILITARY" then
+		return self.station.techLevel >= level
+	else
+		level = 11
+		return self.station.techLevel == level
+	end
 end
 
 -- Override to support e.g. custom equipment shops
@@ -283,7 +302,7 @@ function Outfitter:buildEquipmentList()
 
 	local currentProto = self.replaceEquip and self.replaceEquip:GetPrototype()
 	local equipSet = self.ship:GetComponent("EquipSet")
-	local money = Game.player:GetMoney()
+	local money = PlayerState.GetMoney()
 
 	self.currentEquip = self.replaceEquip and EquipCard.getDataForEquip(self.replaceEquip) or nil
 
@@ -319,6 +338,7 @@ function Outfitter:buildEquipmentList()
 
 		if equip:GetPrototype() == currentProto then
 			data.type = l.INSTALLED
+			data.installed = true
 		end
 
 		return data
@@ -435,7 +455,11 @@ function Outfitter:drawBuyButton(data)
 	local icon = icons.autopilot_dock
 	local price_text = ui.Format.Money(self:getInstallPrice(data.equip))
 
-	local variant = data.available and ui.theme.buttonColors.dark or ui.theme.buttonColors.disabled
+	-- TODO: currently, you are prevented from buying a duplicate item
+	-- This does not take into account per-item information like item condition (when implemented)
+	local can_buy = data.available and not data.installed
+	local variant = can_buy and ui.theme.buttonColors.dark or ui.theme.buttonColors.disabled
+
 	if customButton(l.BUY_EQUIP % data, icon, price_text, variant) and data.available then
 		self:message("onBuyItem", data.equip)
 	end
@@ -490,8 +514,15 @@ function Outfitter:renderCompareRow(label, stat_a, stat_b)
 	ui.text(label)
 
 	local icon_size = Vector2(ui.getTextLineHeight())
+	local cmp_a, cmp_b = "", ""
+	if stat_a then
+		cmp_a = stat_a[3] == "MILITARY" and 11 or stat_a[3]
+	end
+	if stat_b then
+		cmp_b = stat_b[3] == "MILITARY" and 11 or stat_b[3]
+	end
 	local color = stat_a and stat_b
-		and compare(stat_a[3], stat_b[3], stat_a[5])
+		and compare(cmp_a, cmp_b, stat_a[5])
 		or colors.font
 
 	ui.tableNextColumn()
@@ -500,7 +531,11 @@ function Outfitter:renderCompareRow(label, stat_a, stat_b)
 		ui.sameLine()
 
 		local val, format = stat_a[3], stat_a[4]
-		ui.textColored(color, format(val))
+		if val ~= "MILITARY" then
+			ui.textColored(color, format(val))
+		else
+			ui.icon(icons.shield_other, icon_size, color)
+		end
 	end
 
 	ui.tableNextColumn()
@@ -509,7 +544,11 @@ function Outfitter:renderCompareRow(label, stat_a, stat_b)
 		ui.sameLine()
 
 		local val, format = stat_b[3], stat_b[4]
-		ui.text(format(val))
+		if val ~= "MILITARY" then
+			ui.textColored(color, format(val))
+		else
+			ui.icon(icons.shield_other, icon_size, color)
+		end
 	end
 end
 

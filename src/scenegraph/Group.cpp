@@ -1,4 +1,4 @@
-// Copyright © 2008-2025 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Group.h"
@@ -104,7 +104,7 @@ namespace SceneGraph {
 
 	matrix4x4f Group::CalcGlobalTransform() const
 	{
-		return GetParent() ? GetParent()->CalcGlobalTransform() : matrix4x4fIdentity;
+		return GetParent() ? GetParent()->CalcGlobalTransform() : matrix4x4f::Identity;
 	}
 
 	void Group::Accept(NodeVisitor &nv)

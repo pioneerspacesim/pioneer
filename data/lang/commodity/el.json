@@ -1,7 +1,7 @@
 {
   "AIR_PROCESSORS": {
     "description": "",
-    "message": "Επεξεργαστές αέρα"
+    "message": "επεξεργαστές αέρα"
   },
   "AIR_PROCESSORS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -9,7 +9,7 @@
   },
   "ANIMAL_MEAT": {
     "description": "",
-    "message": "Κρέας ζώων"
+    "message": "κρέας ζώων"
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -17,7 +17,7 @@
   },
   "BATTLE_WEAPONS": {
     "description": "",
-    "message": "Όπλα μάχης"
+    "message": "βαρέα όπλα"
   },
   "BATTLE_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -25,15 +25,23 @@
   },
   "CARBON_ORE": {
     "description": "",
-    "message": "Ανθρακικό μετάλλευμα"
+    "message": "άνθρακας"
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
     "message": "Ο άνθρακας είναι ένα από τα πιο πολυποίκιλα στοιχεία που γνωρίζουμε. Χρησιμοποιείται σε σχεδόν στα πάντα, από τα πλαστικά έως τα κράματα και μερικές φορές ακόμη και για παραγωγή ενέργειας. Ο άνθρακας είναι ένα φθηνό, αλλά σημαντικό αγαθό. Ως εκ τούτου, σχεδόν όλοι οι βιομηχανικοί οικισμοί εισάγουν μεταλλεύματα άνθρακα."
   },
+  "CHEMICALS": {
+    "description": "",
+    "message": "χημικά"
+  },
+  "CHEMICALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "βιομηχανικά χημικά, καυστικοί καθαριστικοί παράγοντες και βιοχημικές Α' ύλες. Τα χημικά χρησιμοποιούνται τόσο σε επίπεδο καταναλωτών όσο και βηιομηχανίας. Μεταφέρονται σε ενισχυμένα εμπορευματοκιβώτια ώστε να ελαχιστοποιηθεί ο κίνδυνος διαφυγής στο αμπάρι του σκάφους, σε περίπτωση ατυχήματος."
+  },
   "COMPUTERS": {
     "description": "",
-    "message": "Υπολογιστές"
+    "message": "υπολογιστές"
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -41,7 +49,7 @@
   },
   "CONSUMER_GOODS": {
     "description": "",
-    "message": "Καταναλωτικά αγαθά"
+    "message": "καταναλωτικά αγαθά"
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -49,7 +57,7 @@
   },
   "FARM_MACHINERY": {
     "description": "",
-    "message": "Αγροτικά Μηχανήματα "
+    "message": "αγροτικά μηχανήματα"
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -57,7 +65,7 @@
   },
   "FERTILIZER": {
     "description": "",
-    "message": "Λίπασμα"
+    "message": "λιπάσματα"
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -65,7 +73,7 @@
   },
   "FRUIT_AND_VEG": {
     "description": "",
-    "message": "Φρούτα και λαχανικά"
+    "message": "φρούτα και λαχανικά"
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -73,7 +81,7 @@
   },
   "GRAIN": {
     "description": "",
-    "message": "Σιτηρά"
+    "message": "σιτάρι"
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -81,7 +89,7 @@
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Ελαφρά όπλα"
+    "message": "όπλα χειρός"
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -89,7 +97,7 @@
   },
   "HYDROGEN": {
     "description": "",
-    "message": "Υδρογόνο"
+    "message": "υδρογόνο"
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -97,7 +105,7 @@
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
-    "message": "Βιομηχανικά μηχανήματα"
+    "message": "βιομηχανικά μηχανήματα"
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -105,7 +113,7 @@
   },
   "LIQUID_OXYGEN": {
     "description": "",
-    "message": "Υγρό οξυγόνο"
+    "message": "υγροποιημένο οξυγόνο"
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -113,7 +121,7 @@
   },
   "LIQUOR": {
     "description": "",
-    "message": "Αλκοόλ"
+    "message": "οινοπνευματώδη ποτά"
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -121,7 +129,7 @@
   },
   "LIVE_ANIMALS": {
     "description": "",
-    "message": "Ζωντανά ζώα"
+    "message": "ζώντα ζώα"
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -129,7 +137,7 @@
   },
   "MEDICINES": {
     "description": "",
-    "message": "Φάρμακα"
+    "message": "φάρμακα"
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -137,7 +145,7 @@
   },
   "METAL_ALLOYS": {
     "description": "",
-    "message": "Κράματα Μετάλλου"
+    "message": "μεταλλικά κράματα"
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -145,7 +153,7 @@
   },
   "METAL_ORE": {
     "description": "",
-    "message": "Μεταλλεύματα"
+    "message": "μεταλλεύματα"
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -153,7 +161,7 @@
   },
   "MILITARY_FUEL": {
     "description": "",
-    "message": "Στρατιωτικά καύσιμα"
+    "message": "στρατιωτικό καύσιμο"
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -161,7 +169,7 @@
   },
   "MINING_MACHINERY": {
     "description": "",
-    "message": "Μηχανήματα εξόρυξης"
+    "message": "μεταλλευτικά μηχανήματα"
   },
   "MINING_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -169,7 +177,7 @@
   },
   "NARCOTICS": {
     "description": "",
-    "message": "Ναρκωτικά"
+    "message": "ναρκωτικά"
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -177,7 +185,7 @@
   },
   "NERVE_GAS": {
     "description": "",
-    "message": "Αέριο νεύρων."
+    "message": "αέριο νεύρων"
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -185,7 +193,7 @@
   },
   "PLASTICS": {
     "description": "",
-    "message": "Πλαστικά είδη"
+    "message": "πλαστικά"
   },
   "PLASTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -193,7 +201,7 @@
   },
   "PRECIOUS_METALS": {
     "description": "",
-    "message": "Πολύτιμα μέταλλα"
+    "message": "πολύτιμα μέταλλα"
   },
   "PRECIOUS_METALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -201,7 +209,7 @@
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Ραδιενεργά απόβλητα"
+    "message": "ραδιενεργά απόβλητα"
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -209,7 +217,7 @@
   },
   "ROBOTS": {
     "description": "",
-    "message": "Ρομπότ"
+    "message": "ρομπότ"
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -217,7 +225,7 @@
   },
   "RUBBISH": {
     "description": "",
-    "message": "Σκουπίδια"
+    "message": "σκουπίδια"
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -225,7 +233,7 @@
   },
   "SLAVES": {
     "description": "",
-    "message": "Σκλάβοι"
+    "message": "σκλάβοι"
   },
   "SLAVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -233,7 +241,7 @@
   },
   "TEXTILES": {
     "description": "",
-    "message": "Υφάσματα"
+    "message": "υφάσματα"
   },
   "TEXTILES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -241,7 +249,7 @@
   },
   "WATER": {
     "description": "",
-    "message": "Νερό"
+    "message": "νερό"
   },
   "WATER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
