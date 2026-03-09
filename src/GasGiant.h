@@ -45,7 +45,6 @@ public:
 
 	void Reset() override;
 
-	static bool OnAddTextureFaceResult(const SystemPath &path, GasGiantJobs::STextureFaceResult *res);
 	static bool OnAddGPUGenResult(const SystemPath &path, GasGiantJobs::SGPUGenResult *res);
 	static void InitGasGiant();
 	static void UninitGasGiant();
@@ -59,7 +58,6 @@ public:
 private:
 	void BuildFirstPatches();
 	void GenerateTexture();
-	bool AddTextureFaceResult(GasGiantJobs::STextureFaceResult *res);
 	bool AddGPUGenResult(GasGiantJobs::SGPUGenResult *res);
 
 	static RefCountedPtr<GasPatchContext> s_patchContext;

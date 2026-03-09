@@ -278,9 +278,6 @@ void TestGPUJobsSupport()
 {
 	PROFILE_SCOPED()
 
-	if (!Pi::config->Int("EnableGPUJobs"))
-		return;
-
 	Uint32 octaves = 8;
 	Graphics::MaterialDescriptor desc;
 	desc.quality = Graphics::MaterialQuality::HAS_OCTAVES | (octaves << 16);
@@ -310,9 +307,7 @@ void TestGPUJobsSupport()
 	}
 
 	if (!mat->IsProgramLoaded()) {
-		Log::Warning("EnableGPUJobs is DISABLED: shader compilation produced errors. Check output.txt and opengl.txt.\n");
-		Pi::config->SetInt("EnableGPUJobs", 0);
-		Pi::config->Save();
+		Log::Error("GPU does not support generating textures: shader compilation produced errors. Check output.txt and opengl.txt.\n");
 	}
 }
 

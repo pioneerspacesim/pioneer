@@ -311,9 +311,7 @@ GasGiant::GasGiant(const SystemBody *body) :
 
 	Random rng(GetSystemBody()->GetSeed() + 4609837);
 
-	const bool bEnableGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
-	if (bEnableGPUJobs)
-		m_timeDelay = s_initialGPUDelayTime + (rng.Double() * (s_initialGPUDelayTime * 0.5));
+	m_timeDelay = s_initialGPUDelayTime + (rng.Double() * (s_initialGPUDelayTime * 0.5));
 
 	//SetUpMaterials is not called until first Render since light count is zero :)
 
@@ -350,24 +348,6 @@ void GasGiant::Reset()
 }
 
 //static
-bool GasGiant::OnAddTextureFaceResult(const SystemPath &path, GasGiantJobs::STextureFaceResult *res)
-{
-	// Find the correct GeoSphere via it's system path, and give it the split result
-	for (std::vector<GasGiant *>::iterator i = s_allGasGiants.begin(), iEnd = s_allGasGiants.end(); i != iEnd; ++i) {
-		if (path == (*i)->GetSystemBody()->GetPath()) {
-			(*i)->AddTextureFaceResult(res);
-			return true;
-		}
-	}
-	// GasGiant not found to return the data to, cancel (which deletes it) instead
-	if (res) {
-		res->OnCancel();
-		delete res;
-	}
-	return false;
-}
-
-//static
 bool GasGiant::OnAddGPUGenResult(const SystemPath &path, GasGiantJobs::SGPUGenResult *res)
 {
 	// Find the correct GeoSphere via it's system path, and give it the split result
@@ -383,60 +363,6 @@ bool GasGiant::OnAddGPUGenResult(const SystemPath &path, GasGiantJobs::SGPUGenRe
 		delete res;
 	}
 	return false;
-}
-
-bool GasGiant::AddTextureFaceResult(GasGiantJobs::STextureFaceResult *res)
-{
-	bool result = false;
-	assert(res);
-	assert(res->face() >= 0 && res->face() < NUM_PATCHES);
-	m_jobColorBuffers[res->face()].reset(res->data().colors);
-	m_hasJobRequest[res->face()] = false;
-	const Sint32 uvDims = res->data().uvDims;
-	assert(uvDims > 0 && uvDims <= 4096);
-
-	// tidyup
-	delete res;
-
-	bool bCreateTexture = true;
-	for (int i = 0; i < NUM_PATCHES; i++) {
-		bCreateTexture = bCreateTexture & (!m_hasJobRequest[i]);
-	}
-
-	if (bCreateTexture) {
-		// create texture
-		const vector2f texSize(1.0f, 1.0f);
-		const vector3f dataSize(uvDims, uvDims, 0.0f);
-		const Graphics::TextureDescriptor texDesc(
-			Graphics::TEXTURE_RGBA_8888,
-			dataSize, texSize, Graphics::LINEAR_CLAMP,
-			true, false, false, 0, Graphics::TEXTURE_CUBE_MAP);
-		m_surfaceTexture.Reset(Pi::renderer->CreateTexture(texDesc));
-
-		// update with buffer from above
-		Graphics::TextureCubeData tcd;
-		tcd.posX = m_jobColorBuffers[0].get();
-		tcd.negX = m_jobColorBuffers[1].get();
-		tcd.posY = m_jobColorBuffers[2].get();
-		tcd.negY = m_jobColorBuffers[3].get();
-		tcd.posZ = m_jobColorBuffers[4].get();
-		tcd.negZ = m_jobColorBuffers[5].get();
-		m_surfaceTexture->Update(tcd, dataSize, Graphics::TEXTURE_RGBA_8888);
-
-		// cleanup the temporary color buffer storage
-		for (int i = 0; i < NUM_PATCHES; i++) {
-			m_jobColorBuffers[i].reset();
-		}
-
-		// change the planet texture for the new higher resolution texture
-		if (m_surfaceMaterial.Get()) {
-			m_surfaceMaterial->SetTexture("texture0"_hash,
-				m_surfaceTexture.Get());
-			m_surfaceTextureSmall.Reset();
-		}
-	}
-
-	return result;
 }
 
 bool GasGiant::AddGPUGenResult(GasGiantJobs::SGPUGenResult *res)
@@ -485,9 +411,8 @@ void GasGiant::GenerateTexture()
 			return;
 	}
 
-	const bool bEnableGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
-
 	// scope the small texture generation
+	// this is used as a placeholder until the GPU has generated the main textures
 	{
 		const vector2f texSize(1.0f, 1.0f);
 		const vector3f dataSize(s_texture_size_small, s_texture_size_small, 0.0f);
@@ -501,51 +426,34 @@ void GasGiant::GenerateTexture()
 		const double fracStep = 1.0 / double(s_texture_size_small - 1);
 
 		Graphics::TextureCubeData tcd;
-		std::unique_ptr<Color[]> bufs[NUM_PATCHES];
-		for (int i = 0; i < NUM_PATCHES; i++) {
+		std::unique_ptr<Color[]> buffer;
+		{
 			Color *colors = new Color[(s_texture_size_small * s_texture_size_small)];
 			for (Uint32 v = 0; v < s_texture_size_small; v++) {
 				for (Uint32 u = 0; u < s_texture_size_small; u++) {
-					// where in this row & column are we now.
-					const double ustep = double(u) * fracStep;
-					const double vstep = double(v) * fracStep;
-
-					// get point on the surface of the sphere
-					const vector3d p = GetSpherePointFromCorners(ustep, vstep, &GetPatchFaces(i, 0));
-					// get colour using `p`
-					const vector3d colour = pTerrain->GetColor(p, 0.0, p);
-
 					// convert to ubyte and store
 					Color *col = colors + (u + (v * s_texture_size_small));
-					col[0].r = Uint8(colour.x * 255.0);
-					col[0].g = Uint8(colour.y * 255.0);
-					col[0].b = Uint8(colour.z * 255.0);
+					col[0].r = 0;
+					col[0].g = 0;
+					col[0].b = 0;
 					col[0].a = 255;
 				}
 			}
-			bufs[i].reset(colors);
+			buffer.reset(colors);
 		}
 
 		// update with buffer from above
-		tcd.posX = bufs[0].get();
-		tcd.negX = bufs[1].get();
-		tcd.posY = bufs[2].get();
-		tcd.negY = bufs[3].get();
-		tcd.posZ = bufs[4].get();
-		tcd.negZ = bufs[5].get();
+		tcd.posX = buffer.get();
+		tcd.negX = buffer.get();
+		tcd.posY = buffer.get();
+		tcd.negY = buffer.get();
+		tcd.posZ = buffer.get();
+		tcd.negZ = buffer.get();
 		m_surfaceTextureSmall->Update(tcd, dataSize, Graphics::TEXTURE_RGBA_8888);
 	}
 
-	// create small texture
-	if (!bEnableGPUJobs) {
-		for (int i = 0; i < NUM_PATCHES; i++) {
-			assert(!m_hasJobRequest[i]);
-			assert(!m_job[i].HasJob());
-			m_hasJobRequest[i] = true;
-			GasGiantJobs::STextureFaceRequest *ssrd = new GasGiantJobs::STextureFaceRequest(&GetPatchFaces(i, 0), GetSystemBody()->GetPath(), i, s_texture_size_cpu[Pi::detail.planets], GetTerrain());
-			m_job[i] = Pi::GetAsyncJobQueue()->Queue(new GasGiantJobs::SingleTextureFaceJob(ssrd));
-		}
-	} else {
+	// create main textures
+	{
 		// use m_surfaceTexture texture?
 		// create texture
 		const vector2f texSize(1.0f, 1.0f);

@@ -98,6 +98,8 @@ public:
 
 	inline bool HasHeightData() const { return (m_patchVBOData != nullptr) && (m_patchVBOData->m_heights.get() != nullptr); }
 
+	inline const vector3d &Centroid() const { return m_clipCentroid; }
+
 	// used by GeoSphere so must be public
 	inline void SetNeedToUpdateVBOs()
 	{
@@ -125,21 +127,18 @@ private:
 
 	struct PatchVBOData {
 		PatchVBOData() = delete;
-		PatchVBOData(double* h, vector3f* n, Color3ub* c)
+		PatchVBOData(double* h, vector3f* n)
 		{
 			m_heights.reset(h);
 			m_normals.reset(n);
-			m_colors.reset(c);
 		}
 		~PatchVBOData() {
 			m_heights.reset();
 			m_normals.reset();
-			m_colors.reset();
 			m_patchMesh.reset();
 		}
 		std::unique_ptr<double[]> m_heights;
 		std::unique_ptr<vector3f[]> m_normals;
-		std::unique_ptr<Color3ub[]> m_colors;
 		std::unique_ptr<Graphics::MeshObject> m_patchMesh;
 	};
 

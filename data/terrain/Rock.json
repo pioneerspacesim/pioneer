@@ -1,0 +1,51 @@
+{
+   "name" : "template",
+   "LUT" : "textures/terrain/rockLUT.png",
+   "Layers" : 3,
+   "detailTextureHigh" : "high.dds",
+   "detailTextureLow" : "low.dds",
+   "atlas" : [
+      {
+         "description" : "flat",
+         "textures" : [
+            {
+               "texture" : "flat_rock.dds",
+               "minAverageTemp" : 0,
+               "minLife" : 0,
+               "minVolatileGas" : 0,
+               "minVolatileIces" : 0,
+               "minVolatileLiquid" : 0,
+               "minVolcanicity" : 0
+            }
+         ]
+      },
+      {
+         "description" : "slope",
+         "textures" : [
+            {
+               "texture" : "slope_rock.dds",
+               "minAverageTemp" : 0,
+               "minLife" : 0,
+               "minVolatileGas" : 0,
+               "minVolatileIces" : 0,
+               "minVolatileLiquid" : 0,
+               "minVolcanicity" : 0
+            }
+         ]
+      },
+      {
+         "description" : " steep slope",
+         "textures" : [
+            {
+               "texture" : "steep_rock.dds",
+               "minAverageTemp" : 0,
+               "minLife" : 0,
+               "minVolatileGas" : 0,
+               "minVolatileIces" : 0,
+               "minVolatileLiquid" : 0,
+               "minVolcanicity" : 0
+            }
+         ]
+      }
+   ]
+}

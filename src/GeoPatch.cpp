@@ -58,7 +58,6 @@ static const vector2d sample[NUM_HORIZON_POINTS] = {
 	// { 0.2, 0.2 }, { 0.8, 0.2 }, // top
 	//{ 0.5, 0.5 }, // middle
 	//{ 0.2, 0.8 }, { 0.8, 0.8 } // bottom
-
 	// possibly more optimal elimination for early out
 	{ 0.5, 0.5 }, // centre
 	{ 0.2, 0.2 }, // top-left corner
@@ -120,8 +119,8 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		m_needUpdateVBOs = false;
 
 		//create buffer and upload data
-		auto vbd = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
-		Graphics::VertexBuffer *vtxBuffer = renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_STATIC, m_ctx->NUMVERTICES(), vbd.bindings[0].stride);
+		auto vfd = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0 | Graphics::ATTRIB_UV1);
+		Graphics::VertexBuffer *vtxBuffer = renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_STATIC, m_ctx->NUMVERTICES(), vfd.bindings[0].stride);
 
 		GeoPatchContext::VBOVertex *VBOVtxPtr = vtxBuffer->Map<GeoPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
 		assert(vtxBuffer->GetStride() == sizeof(GeoPatchContext::VBOVertex));
@@ -130,14 +129,16 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		const double frac = m_ctx->GetFrac();
 		const double *pHts = m_patchVBOData->m_heights.get();
 		const vector3f *pNorm = m_patchVBOData->m_normals.get();
-		const Color3ub *pColr = m_patchVBOData->m_colors.get();
 
 		double minh = DBL_MAX;
 
-		const vector3d v0 = m_corners->m_v0;
-		const vector3d v1 = m_corners->m_v1;
-		const vector3d v2 = m_corners->m_v2;
-		const vector3d v3 = m_corners->m_v3;
+		const double heightMin = m_geosphere->GetHeightNormaliserMin();
+		const double heightMul = m_geosphere->GetHeightNormaliserMax();
+
+		const vector3d &v0 = m_corners->m_v0;
+		const vector3d &v1 = m_corners->m_v1;
+		const vector3d &v2 = m_corners->m_v2;
+		const vector3d &v3 = m_corners->m_v3;
 
 		// ----------------------------------------------------
 		// inner loops
@@ -158,15 +159,15 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 				vtxPtr->norm = norma;
 				++pNorm; // next normal
 
-				vtxPtr->col[0] = pColr->r;
-				vtxPtr->col[1] = pColr->g;
-				vtxPtr->col[2] = pColr->b;
-				vtxPtr->col[3] = 255;
-				++pColr; // next colour
-
 				// uv coords
-				vtxPtr->uv.x = 1.0f - xFrac;
-				vtxPtr->uv.y = yFrac;
+				vtxPtr->uv0.x = 1.0f - xFrac;
+				vtxPtr->uv0.y = yFrac;
+
+				// slope & (normalised?) height
+				const vector3f p0(PatchMaths::GetSpherePoint(v0, v1, v2, v3, xFrac, yFrac));
+				const float slope = Clamp((1.0f - float(fabs(float(p0.Dot(norma))))) * 2.0f, 0.0f, 1.0f);
+				const float normHeight = float(height * heightMul);
+				vtxPtr->uv1 = vector2f(slope, normHeight);
 
 				++vtxPtr; // next vertex
 			}
@@ -189,8 +190,8 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 			GeoPatchContext::VBOVertex *vtxInr = &VBOVtxPtr[innerLeft + (y * edgeLen)];
 			vtxPtr->pos = vector3f(p);
 			vtxPtr->norm = vtxInr->norm;
-			vtxPtr->col = vtxInr->col;
-			vtxPtr->uv = vtxInr->uv;
+			vtxPtr->uv0 = vtxInr->uv0;
+			vtxPtr->uv1 = vtxInr->uv1;
 		}
 		// right-edge
 		for (Sint32 y = 1; y < edgeLen - 1; y++) {
@@ -203,8 +204,8 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 			GeoPatchContext::VBOVertex *vtxInr = &VBOVtxPtr[innerRight + (y * edgeLen)];
 			vtxPtr->pos = vector3f(p);
 			vtxPtr->norm = vtxInr->norm;
-			vtxPtr->col = vtxInr->col;
-			vtxPtr->uv = vtxInr->uv;
+			vtxPtr->uv0 = vtxInr->uv0;
+			vtxPtr->uv1 = vtxInr->uv1;
 		}
 		// ----------------------------------------------------
 		const Sint32 innerTop = 1;
@@ -223,8 +224,8 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 			GeoPatchContext::VBOVertex *vtxInr = &VBOVtxPtr[x + (innerTop * edgeLen)];
 			vtxPtr->pos = vector3f(p);
 			vtxPtr->norm = vtxInr->norm;
-			vtxPtr->col = vtxInr->col;
-			vtxPtr->uv = vtxInr->uv;
+			vtxPtr->uv0 = vtxInr->uv0;
+			vtxPtr->uv1 = vtxInr->uv1;
 		}
 		// bottom-edge
 		for (Sint32 x = 1; x < edgeLen - 1; x++) {
@@ -237,8 +238,8 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 			GeoPatchContext::VBOVertex *vtxInr = &VBOVtxPtr[x + (innerBottom * edgeLen)];
 			vtxPtr->pos = vector3f(p);
 			vtxPtr->norm = vtxInr->norm;
-			vtxPtr->col = vtxInr->col;
-			vtxPtr->uv = vtxInr->uv;
+			vtxPtr->uv0 = vtxInr->uv0;
+			vtxPtr->uv1 = vtxInr->uv1;
 		}
 		// ----------------------------------------------------
 		// corners
@@ -272,12 +273,11 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		vtxBuffer->Unmap();
 
 		// use the new vertex buffer and the shared index buffer
-		m_patchVBOData->m_patchMesh.reset(renderer->CreateMeshObject(vbd, vtxBuffer, m_ctx->GetIndexBuffer()));
+		m_patchVBOData->m_patchMesh.reset(renderer->CreateMeshObject(vfd, vtxBuffer, m_ctx->GetIndexBuffer()));
 
 		// Don't need this anymore so throw it away
 		//m_patchVBOData->m_heights.reset();
 		m_patchVBOData->m_normals.reset();
-		m_patchVBOData->m_colors.reset();
 
 #if DEBUG_PATCHES
 #ifdef DEBUG_BOUNDING_SPHERES
@@ -486,7 +486,7 @@ void GeoPatch::ReceiveHeightmap(const SSingleSplitResult *psr)
 
 void GeoPatch::ReceiveHeightResult(const SSplitResultData &data)
 {
-	m_patchVBOData.reset(new PatchVBOData(data.heights, data.normals, data.colors));
+	m_patchVBOData.reset(new PatchVBOData(data.heights, data.normals));
 
 	// skirt vertices are not present in the heights array
 	const int edgeLen = m_ctx->GetEdgeLen() - 2;

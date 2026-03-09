@@ -1,0 +1,107 @@
+{
+   "name" : "template",
+   "LUT" : "textures/terrain/earthlikeLUT.png",
+   "Layers" : 7,
+   "detailTextureHigh" : "high.dds",
+   "detailTextureLow" : "low.dds",
+   "atlas" : [
+      {
+         "description" : "sand / beach",
+         "textures" : [
+            {
+               "texture" : "lightsand.dds",
+               "minAverageTemp" : 0,
+               "minLife" : 0,
+               "minVolatileGas" : 0,
+               "minVolatileIces" : 0,
+               "minVolatileLiquid" : 0,
+               "minVolcanicity" : 0
+            }
+         ]
+      },
+      {
+         "description" : "grassy plains",
+         "textures" : [
+            {
+               "texture" : "lightgrass.dds",
+               "minAverageTemp" : 0,
+               "minLife" : 0,
+               "minVolatileGas" : 0,
+               "minVolatileIces" : 0,
+               "minVolatileLiquid" : 0,
+               "minVolcanicity" : 0
+            }
+         ]
+      },
+      {
+         "description" : "brush / small foliage ",
+         "textures" : [
+            {
+               "texture" : "greenbrush.dds",
+               "minAverageTemp" : 0,
+               "minLife" : 0,
+               "minVolatileGas" : 0,
+               "minVolatileIces" : 0,
+               "minVolatileLiquid" : 0,
+               "minVolcanicity" : 0
+            }
+         ]
+      },
+      {
+         "description" : "forest",
+         "textures" : [
+            {
+               "texture" : "forest.dds",
+               "minAverageTemp" : 0,
+               "minLife" : 0,
+               "minVolatileGas" : 0,
+               "minVolatileIces" : 0,
+               "minVolatileLiquid" : 0,
+               "minVolcanicity" : 0
+            }
+         ]
+      },
+      {
+         "description" : "stone / rock (mountains)",
+         "textures" : [
+            {
+               "texture" : "stone.dds",
+               "minAverageTemp" : 0,
+               "minLife" : 0,
+               "minVolatileGas" : 0,
+               "minVolatileIces" : 0,
+               "minVolatileLiquid" : 0,
+               "minVolcanicity" : 0
+            }
+         ]
+      },
+      {
+         "description" : "snow",
+         "textures" : [
+            {
+               "texture" : "snow.dds",
+               "minAverageTemp" : 0,
+               "minLife" : 0,
+               "minVolatileGas" : 0,
+               "minVolatileIces" : 0,
+               "minVolatileLiquid" : 0,
+               "minVolcanicity" : 0
+            }
+         ]
+      },
+      {
+         "description" : "water",
+         "textures" : [
+            {
+               "texture" : "water.dds",
+               "minAverageTemp" : 0,
+               "minLife" : 0,
+               "minVolatileGas" : 0,
+               "minVolatileIces" : 0,
+               "minVolatileLiquid" : 0,
+               "minVolcanicity" : 0
+            }
+         ]
+      }
+   ]
+}

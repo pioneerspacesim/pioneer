@@ -49,7 +49,6 @@ GameConfig::GameConfig(const map_string &override_)
 	map["UseAnisotropicFiltering"] = "0";
 	map["RendererName"] = "Opengl 3.x"; // default to our best renderer
 	map["EnableGLDebug"] = "0";
-	map["EnableGPUJobs"] = "1";
 	map["GL3ForwardCompatible"] = "1";
 	map["LogVerbose"] = "1";
 	map["ProfileSlowFrames"] = "0";
