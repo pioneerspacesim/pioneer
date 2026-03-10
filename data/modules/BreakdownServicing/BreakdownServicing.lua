@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -12,6 +12,7 @@ local Serializer = require 'Serializer'
 local Character = require 'Character'
 local utils = require 'utils'
 local Commodities = require 'Commodities'
+local PlayerState = require 'PlayerState'
 
 local l = Lang.GetResource("module-breakdownservicing")
 local lui = Lang.GetResource("ui-core")
@@ -86,7 +87,7 @@ end
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
-	local hyperdrive = Game.player:GetEquip('engine',1)
+	local hyperdrive = Game.player:GetInstalledHyperdrive()
 
 	-- Tariff!  ad.baseprice is from 2 to 10
 	local price = ad.baseprice
@@ -114,6 +115,7 @@ local onChat = function (form, ref, option)
 	local pricesuggestion = string.interp(ad.price, {
 		drive = hyperdrive and hyperdrive:GetName() or lui.NONE,
 		price = Format.Money(price),
+		lasttime = lastServiceMessage(hyperdrive),
 	})
 
 	if not hyperdrive then
@@ -134,12 +136,10 @@ local onChat = function (form, ref, option)
 		form:SetFace(ad.mechanic)
 		-- Replace token with details of last service (which might have
 		-- been seconds ago)
-		form:SetMessage(string.interp(message, {
-			lasttime = lastServiceMessage(hyperdrive),
-		}))
+		form:SetMessage(message)
 		if not hyperdrive then
 			-- er, do nothing, I suppose.
-		elseif Game.player:GetMoney() < price then
+		elseif PlayerState.GetMoney() < price then
 			form:AddOption(l.I_DONT_HAVE_ENOUGH_MONEY, -1)
 		else
 			form:AddOption(ad.yesplease, 1)
@@ -152,10 +152,10 @@ local onChat = function (form, ref, option)
 		form:Clear()
 		form:SetTitle(ad.title)
 		form:SetFace(ad.mechanic)
-		if Game.player:GetMoney() >= price then -- We did check earlier, but...
+		if PlayerState.GetMoney() >= price then -- We did check earlier, but...
 			-- Say thanks
 			form:SetMessage(ad.response)
-			Game.player:AddMoney(-price)
+			PlayerState.AddMoney(-price)
 			service_history.lastdate = Game.time
 			service_history.service_period = ad.strength * oneyear
 			service_history.company = ad.title
@@ -175,8 +175,9 @@ local onShipTypeChanged = function (ship)
 	end
 end
 
-local onShipEquipmentChanged = function (ship, equipment)
-	if ship:IsPlayer() and equipment and equipment:IsValidSlot("engine", ship) then
+---@type EquipSet.Listener
+local onShipEquipmentChanged = function (op, equipment, slot)
+	if slot and slot.type:match("^hyperdrive") then
 		service_history.company = nil
 		service_history.lastdate = Game.time
 		service_history.service_period = oneyear
@@ -245,6 +246,9 @@ local onGameStart = function ()
 
 		loaded_data = nil
 	end
+
+	-- Listen to changes in the player's equipment
+	Game.player:GetComponent('EquipSet'):AddListener(onShipEquipmentChanged)
 end
 
 local savedByCrew = function(ship)
@@ -254,11 +258,14 @@ local savedByCrew = function(ship)
 	return false
 end
 
+---@param ship Ship
 local onEnterSystem = function (ship)
-	if ship:IsPlayer() then
-		print(('DEBUG: Jumps since warranty: %d\nWarranty expires: %s'):format(service_history.jumpcount,Format.Date(service_history.lastdate + service_history.service_period)))
-	else
-		return -- Don't care about NPC ships
+	print(('DEBUG: Jumps since warranty: %d\nWarranty expires: %s'):format(service_history.jumpcount,Format.Date(service_history.lastdate + service_history.service_period)))
+
+	local engine = ship:GetInstalledHyperdrive()
+	if not engine then
+		-- somehow got here without a hyperdrive - were aliens involved?
+		return
 	end
 
 	-- Jump drive is getting worn and is running down
@@ -285,16 +292,14 @@ local onEnterSystem = function (ship)
 			service_history.jumpcount = service_history.jumpcount - fixup
 		else
 			-- Destroy the engine
-			local engine = ship:GetEquip('engine',1)
-
 			if engine.fuel.name == 'military_fuel' then
 				pigui.playSfx("Hyperdrive_Breakdown_Military", 1.0, 1.0)
 			else
 				pigui.playSfx("Hyperdrive_Breakdown", 1.0, 1.0)
 			end
 
-			ship:RemoveEquip(engine)
-			ship:GetComponent('CargoManager'):AddCommodity(Commodities.rubbish, engine.capabilities.mass)
+			ship:GetComponent('EquipSet'):Remove(engine)
+			ship:GetComponent('CargoManager'):AddCommodity(Commodities.rubbish, engine.mass)
 
 			Comms.Message(l.THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION)
 		end
@@ -312,7 +317,6 @@ end
 Event.Register("onCreateBB", onCreateBB)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onShipTypeChanged", onShipTypeChanged)
-Event.Register("onShipEquipmentChanged", onShipEquipmentChanged)
 Event.Register("onEnterSystem", onEnterSystem)
 
 Serializer:Register("BreakdownServicing", serialize, unserialize)

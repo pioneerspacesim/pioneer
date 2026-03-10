@@ -1,7 +1,7 @@
 {
   "APPLY_FOR_MEMBERSHIP": {
     "description": "",
-    "message": "Мне заинтересовало ваше предложения. Вот моя заявка на вступление в Содружество."
+    "message": "Мне интересно ваше предложения. Вот моя заявка."
   },
   "BEGIN_TRADE": {
     "description": "",
@@ -121,7 +121,7 @@
   },
   "WHAT_CONDITIONS_APPLY": {
     "description": "",
-    "message": "Какие ограничения имеются для реализации бесплатной утилизации {radioactives}?"
+    "message": "Каковы условия бесплатной утилизации {radioactives}?"
   },
   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
     "description": "",

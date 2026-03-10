@@ -1,5 +1,11 @@
-material error
-diffuse 1.0 0.0 0.0
-emissive 0.3 0.3 0.3
+version 2
 
-mesh error.dae
+material "error" {
+	shader "multi"
+	diffuse 1.0 0.0 0.0
+	emissive 0.3 0.3 0.3
+}
+
+lod 100 {
+	mesh "error.dae"
+}

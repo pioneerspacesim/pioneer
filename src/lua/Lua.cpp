@@ -1,11 +1,10 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Lua.h"
 #include "Pi.h"
 
 #include "LuaColor.h"
-#include "LuaConsole.h"
 #include "LuaConstants.h"
 #include "LuaDev.h"
 #include "LuaEconomy.h"
@@ -35,8 +34,9 @@
 #include "SystemView.h"
 
 #include "galaxy/StarSystem.h"
-#include "pigui/LuaPiGui.h"
 #include "scenegraph/Lua.h"
+
+#include "profiler/Profiler.h"
 
 namespace Lua {
 
@@ -44,9 +44,9 @@ namespace Lua {
 
 	void InitMath();
 
-	void Init()
+	void Init(JobQueue *asyncJobQueue)
 	{
-		manager = new LuaManager();
+		manager = new LuaManager(asyncJobQueue);
 		InitMath();
 	}
 
@@ -66,6 +66,8 @@ namespace Lua {
 		LuaColor::Register(manager->GetLuaState());
 
 		LuaEngine::Register();
+
+		pi_lua_dofile(manager->GetLuaState(), "libs/autoload.lua");
 	}
 
 	void InitModules()
@@ -90,14 +92,20 @@ namespace Lua {
 		LuaObject<SystemPath>::RegisterClass();
 		LuaObject<SystemView>::RegisterClass();
 		LuaObject<SectorView>::RegisterClass();
+		LuaObject<SectorMap>::RegisterClass();
 		LuaObject<SystemBody>::RegisterClass();
 		LuaObject<Faction>::RegisterClass();
+		LuaObject<Galaxy>::RegisterClass();
+
+		LuaObject<GunManager>::RegisterClass();
 
 		Pi::luaSerializer = new LuaSerializer();
 		Pi::luaTimer = new LuaTimer();
 
 		LuaObject<LuaSerializer>::RegisterClass();
 		LuaObject<LuaTimer>::RegisterClass();
+
+		LuaEvent::Init();
 
 		LuaConstants::Register(Lua::manager->GetLuaState());
 		LuaLang::Register();
@@ -120,7 +128,7 @@ namespace Lua {
 		SceneGraph::Lua::Init();
 
 		// XXX load everything. for now, just modules
-		pi_lua_dofile(l, "libs/autoload.lua");
+		// pi_lua_dofile(l, "libs/autoload.lua");
 		lua_pop(l, 1);
 
 		pi_lua_import(l, "pigui", true);
@@ -135,6 +143,9 @@ namespace Lua {
 
 	void UninitModules()
 	{
+		LuaEvent::Uninit();
+		LuaInput::Uninit();
+
 		delete Pi::luaNameGen;
 
 		delete Pi::luaSerializer;

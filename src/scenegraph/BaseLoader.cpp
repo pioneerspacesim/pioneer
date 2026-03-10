@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "BaseLoader.h"
@@ -6,7 +6,12 @@
 #include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"
+#include "graphics/VertexBuffer.h"
+#include "scenegraph/LoaderDefinitions.h"
+#include "scenegraph/Parser.h"
 #include "utils.h"
+
+#include "lz4/xxhash.h"
 
 using namespace SceneGraph;
 
@@ -20,39 +25,69 @@ BaseLoader::BaseLoader(Graphics::Renderer *r) :
 	m_labelFont.Reset(new Text::DistanceFieldFont("fonts/sdf_definition.txt", sdfTex));
 }
 
-void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
+RefCountedPtr<Graphics::Material> BaseLoader::GetMaterialForMesh(std::string_view name, const Graphics::VertexFormatDesc &vtxFormat)
+{
+	size_t vtxHash = vtxFormat.Hash();
+
+	// Intern the vertex format for debugging purposes
+	m_vtxFormatCache.try_emplace(vtxHash, vtxFormat);
+
+	// Create a hash key from the material name and the vertex format hash
+	uint64_t materialKey = XXH64(name.data(), name.size(), vtxHash);
+	auto iter = m_materialLookup.find(materialKey);
+
+	// If we already have the material cached, we can just use it.
+	if (iter != m_materialLookup.end()) {
+		return iter->second;
+	}
+
+	// Create a new material instance according to the material definition
+	auto mdef = std::find_if(m_modelDef->matDefs.begin(), m_modelDef->matDefs.end(), [&](const MaterialDefinition &v) {
+		return name.compare(v.name) == 0;
+	});
+
+	if (mdef == m_modelDef->matDefs.end()) {
+		Log::Warning("{}: No material definition found for material name {}, using material {}",
+			m_modelDef->name, name, m_modelDef->matDefs.front().name);
+		mdef = m_modelDef->matDefs.begin();
+	}
+
+	RefCountedPtr<Graphics::Material> mat = ConvertMaterialDefinition(*mdef, vtxFormat);
+
+	m_model->m_materials.push_back(std::make_pair(mdef->name, mat));
+	m_materialLookup.try_emplace(materialKey, mat);
+
+	return mat;
+}
+
+RefCountedPtr<Graphics::Material> BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef, const Graphics::VertexFormatDesc &vtxFormat)
 {
 	//Build material descriptor
-	const std::string &diffTex = mdef.tex_diff;
-	const std::string &specTex = mdef.tex_spec;
-	const std::string &glowTex = mdef.tex_glow;
-	const std::string &ambiTex = mdef.tex_ambi;
-	const std::string &normTex = mdef.tex_norm;
-
 	Graphics::MaterialDescriptor matDesc;
 	matDesc.lighting = !mdef.unlit;
 	matDesc.alphaTest = mdef.alpha_test;
 
-	matDesc.usePatterns = mdef.use_pattern;
+	matDesc.usePatterns = mdef.use_patterns;
 
 	//diffuse texture is a must. Will create a white dummy texture if one is not supplied
 	matDesc.textures = 1;
-	matDesc.specularMap = !specTex.empty();
-	matDesc.glowMap = !glowTex.empty();
-	matDesc.ambientMap = !ambiTex.empty();
-	matDesc.normalMap = !normTex.empty();
-	matDesc.quality = Graphics::HAS_HEAT_GRADIENT;
 
-	// FIXME: add render state properties to MaterialDefinition
-	// This is hacky and based off of the code in Loader.cpp
-	Graphics::RenderStateDesc rsd;
-	if (mdef.opacity < 100) {
-		rsd.blendMode = Graphics::BLEND_ALPHA;
-		rsd.depthWrite = false;
+	// TODO: kill with fire. Explicit variant selection via a `technique "XXYYZZ"` directive?
+	for (const auto &bind : mdef.textureBinds) {
+		if (bind.first == "specular")
+			matDesc.specularMap = true;
+		if (bind.first == "glow")
+			matDesc.glowMap = true;
+		if (bind.first == "ambient")
+			matDesc.ambientMap = true;
+		if (bind.first == "normal")
+			matDesc.normalMap = true;
 	}
 
+	matDesc.quality = Graphics::HAS_HEAT_GRADIENT;
+
 	//Create material and set parameters
-	RefCountedPtr<Graphics::Material> mat(m_renderer->CreateMaterial("multi", matDesc, rsd));
+	RefCountedPtr<Graphics::Material> mat(m_renderer->CreateMaterial(mdef.shader, matDesc, mdef.renderState, vtxFormat));
 	mat->diffuse = mdef.diffuse;
 	mat->specular = mdef.specular;
 	mat->emissive = mdef.emissive;
@@ -64,39 +99,29 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	if (mdef.opacity < 100)
 		mat->diffuse.a = (float(mdef.opacity) / 100.f) * 255;
 
-	Graphics::Texture *texture0 = nullptr;
-	Graphics::Texture *texture1 = nullptr;
-	Graphics::Texture *texture2 = nullptr;
-	Graphics::Texture *texture3 = nullptr;
-	Graphics::Texture *texture6 = nullptr;
-	if (!diffTex.empty())
-		texture0 = Graphics::TextureBuilder::Model(diffTex).GetOrCreateTexture(m_renderer, "model");
-	else
-		texture0 = Graphics::TextureBuilder::GetWhiteTexture(m_renderer);
-	if (!specTex.empty())
-		texture1 = Graphics::TextureBuilder::Model(specTex).GetOrCreateTexture(m_renderer, "model");
-	if (!glowTex.empty())
-		texture2 = Graphics::TextureBuilder::Model(glowTex).GetOrCreateTexture(m_renderer, "model");
-	if (!ambiTex.empty())
-		texture3 = Graphics::TextureBuilder::Model(ambiTex).GetOrCreateTexture(m_renderer, "model");
-	//texture4 is reserved for pattern
-	//texture5 is reserved for color gradient
-	if (!normTex.empty())
-		texture6 = Graphics::TextureBuilder::Normal(normTex).GetOrCreateTexture(m_renderer, "model");
+	// Fall back to an empty white texture if no textures specified.
+	if (mdef.textureBinds.empty()) {
+		Graphics::Texture *tex = Graphics::TextureBuilder::GetWhiteTexture(m_renderer);
+		mat->SetTexture("diffuse"_hash, tex);
+	}
 
-	mat->SetTexture("texture0"_hash, texture0);
-	mat->SetTexture("texture1"_hash, texture1);
-	mat->SetTexture("texture2"_hash, texture2);
-	mat->SetTexture("texture3"_hash, texture3);
-	mat->SetTexture("texture6"_hash, texture6);
+	// Bind textures to the material instance
+	for (const auto &bind : mdef.textureBinds) {
+		Graphics::Texture *tex = Graphics::TextureBuilder::Model(bind.second).GetOrCreateTexture(m_renderer, "model");
+		if (!mat->SetTexture(Graphics::Renderer::GetName(bind.first), tex)) {
+			Log::Warning("Model {}: Binding texture {} to slot {} failed for material {} (invalid slot).",
+				m_modelDef->name, bind.second, bind.first, mdef.name);
+		}
+	}
 
-	m_model->m_materials.push_back(std::make_pair(mdef.name, mat));
+	return mat;
 }
 
 RefCountedPtr<Graphics::Material> BaseLoader::GetDecalMaterial(unsigned int index)
 {
 	assert(index <= Model::MAX_DECAL_MATERIALS);
 	RefCountedPtr<Graphics::Material> &decMat = m_model->m_decalMaterials[index - 1];
+
 	if (!decMat.Valid()) {
 		Graphics::MaterialDescriptor matDesc;
 		matDesc.textures = 1;
@@ -106,14 +131,72 @@ RefCountedPtr<Graphics::Material> BaseLoader::GetDecalMaterial(unsigned int inde
 		rsd.depthWrite = false;
 		rsd.blendMode = Graphics::BLEND_ALPHA;
 
+		// Hardcoding the vertex format here to work around the design of decal materials in Model
+		// Ideally decals should be specified as a texture and a model-wide bind-group be updated
+		Graphics::VertexFormatDesc vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0 | Graphics::ATTRIB_TANGENT);
+
 		// XXX add depth bias to render state parameter
-		decMat.Reset(m_renderer->CreateMaterial("multi", matDesc, rsd));
+		decMat.Reset(m_renderer->CreateMaterial("multi", matDesc, rsd, vtxFormat));
 		decMat->SetTexture("texture0"_hash,
 			Graphics::TextureBuilder::GetTransparentTexture(m_renderer));
 		decMat->specular = Color::BLACK;
 		decMat->diffuse = Color::WHITE;
 	}
+
 	return decMat;
+}
+
+ModelDefinition *BaseLoader::LoadModelDefinition(std::string_view path)
+{
+	FileSystem::FileSource &fs = FileSystem::gameDataFiles;
+
+	RefCountedPtr<FileSystem::FileData> filedata = fs.ReadFile(std::string(path));
+	if (!filedata) {
+		Log::Warning("LoadModelDefinition: {}: could not read file\n", path);
+		return nullptr;
+	}
+
+	const FileSystem::FileInfo &info = filedata->GetInfo();
+
+	//curPath is used to find textures, patterns,
+	//possibly other data files for this model.
+	//Strip trailing slash
+	m_curPath = info.GetDir();
+	assert(!m_curPath.empty());
+
+	if (m_curPath[m_curPath.length() - 1] == '/')
+		m_curPath = m_curPath.substr(0, m_curPath.length() - 1);
+
+	ModelDefinition *modelDefinition = new ModelDefinition();
+
+	if (starts_with_ci(filedata->AsStringView(), "version 2")) {
+
+		ParserV2 parser = {};
+		bool ok = parser.Parse(*filedata, modelDefinition);
+
+		if (!ok) {
+			delete modelDefinition;
+			throw LoadingError("Failed to parse!");
+		}
+
+	} else {
+
+		try {
+			Parser p(fs, std::string(path), m_curPath);
+			p.Parse(modelDefinition);
+		} catch (ParseError &err) {
+			Output("%s\n", err.what());
+			delete modelDefinition;
+			throw LoadingError(err.what());
+		}
+
+	}
+
+	// Set name to filename minus extension
+	const std::string &filename = info.GetName();
+	modelDefinition->name = filename.substr(0, filename.find_last_of('.'));
+
+	return modelDefinition;
 }
 
 void BaseLoader::FindPatterns(PatternContainer &output)

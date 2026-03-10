@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include <stdio.h>
@@ -18,7 +18,7 @@ public:
 		y(v.y),
 		z(v.z) {}
 
-	V operator+(const V a) const { return V(a.x + x, a.y + y, a.z + z); }
+	V operator+(const V &a) const { return V(a.x + x, a.y + y, a.z + z); }
 	friend V operator*(const V a, const double s) { return V(a.x * s, a.y * s, a.z * s); }
 };
 

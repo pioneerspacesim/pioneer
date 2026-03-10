@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- Convenience wrappers for the C++ UI functions and general functions
@@ -6,7 +6,25 @@ local Engine = require 'Engine'
 local Game = require 'Game'
 local utils = require 'utils'
 local pigui = Engine.pigui
+
+---@class ui
 local ui = require 'pigui.libs.forwarded'
+
+
+-- Legacy ImDrawFlags values
+--
+-- These are used to be more performant and avoid expensive string lookups
+-- when invoking the "addRect", "addRectFilled", and "addRectFaded" calls.
+ui.RoundCornersNone = 0x00
+ui.RoundCornersTopLeft = 0x01
+ui.RoundCornersTopRight = 0x02
+ui.RoundCornertBottomLeft = 0x04
+ui.RoundCornersBottomRight = 0x08
+ui.RoundCornersLeft = 0x05
+ui.RoundCornersRight = 0x0A
+ui.RoundCornersTop = 0x03
+ui.RoundCornersBottom = 0x0C
+ui.RoundCornersAll = 0x0F
 
 --
 -- Function: ui.pcall
@@ -155,6 +173,32 @@ function ui.group(fun)
 end
 
 --
+-- Function: ui.horizontalGroup
+--
+-- ui.horizontalGroup(fun)
+--
+-- Display items in a group, using horizontal layout mode (effectively a ui.sameLine() call after every item)
+--
+--
+-- Example:
+--
+-- >
+--
+-- Parameters:
+--
+--   fun - Function, a function that is called to define the group contents
+--
+-- Returns:
+--
+--   nil
+--
+function ui.horizontalGroup(fun)
+	pigui.BeginHorizontalGroup()
+	fun()
+	pigui.EndHorizontalGroup()
+end
+
+--
 -- Function: ui.popup
 --
 -- ui.popup(name, params, fun)
@@ -176,8 +220,14 @@ end
 --
 --   nil
 --
-function ui.popup(name, fun)
-	if pigui.BeginPopup(name) then
+---@overload fun(name: string, flags: any, fun: fun())
+---@overload fun(name: string, fun: fun())
+function ui.popup(name, flags, fun)
+	if not fun then
+		fun, flags = flags, nil
+	end
+
+	if pigui.BeginPopup(name, flags) then
 		fun()
 		pigui.EndPopup()
 	end
@@ -226,6 +276,22 @@ end
 --   id    - String, a unique name for the window,
 --           used to group its children
 --   size  - (Optional)Vector2
+--   childFlags - (Optional)Table, options:
+--              - Borders                   : Show an outer border and enable WindowPadding.
+--              - AlwaysUseWindowPadding    : Ensure child windows without border uses
+--                                            style.WindowPadding (ignored by default for
+--                                            non-bordered child windows, because more convenient)
+--              - ResizeX                   : Allow resize from right border.
+--              - ResizeY                   : Allow resize from bottom border.
+--              - AutoResizeX               : Enable auto-resizing width.
+--              - AutoResizeY               : Enable auto-resizing height.
+--              - AlwaysAutoResize          : Resize every window to its content every frame (must
+--                                            be used with AutoRezizeX and/or AutoResizeY)
+--              - FrameStyle                : Style the child window like a framed item: use
+--                                            FrameBg, FrameRounding, FrameBord
+--              - NavFlattened              : Share focus scope, allow keyboard/gamepad navigation
+--                                            to cross over parent border to this child or between
+--                                            sibling child windows.
 --   flags - (Optional)Table, options:
 --              - NoTitleBar                : Disable title-bar
 --              - NoResize                  : Disable user resizing with the lower-right grip
@@ -258,23 +324,26 @@ end
 --
 --   nil
 --
-function ui.child(id, size, flags, fun)
-	if flags == nil and fun == nil then -- size is optional
-		fun = size
-		size = Vector2(-1,-1)
-		flags = {}
-	elseif fun == nil then
-		fun = flags
-		flags = {}
+---@overload fun(id, fun)
+---@overload fun(id, size, fun)
+---@overload fun(id, size, flags, fun)
+function ui.child(id, size, flags, childFlags, fun)
+	local arg_n = utils.n_args(id, size, flags, childFlags, fun)
+	if arg_n == 2 then -- size is optional
+		fun, size = size, Vector2(-1, -1)
+	elseif arg_n == 3 then -- flags are optional
+		fun, flags = flags, nil
+	elseif arg_n == 4 then
+		fun, childFlags = childFlags, nil
 	end
 
 	if _nextWindowPadding then
 		pigui.PushStyleVar("WindowPadding", _nextWindowPadding)
-		pigui.BeginChild(id, size, flags)
+		pigui.BeginChild(id, size, childFlags, flags)
 		pigui.PopStyleVar()
 		_nextWindowPadding = nil
 	else
-		pigui.BeginChild(id, size, flags)
+		pigui.BeginChild(id, size, childFlags, flags)
 	end
 
 	fun()
@@ -573,6 +642,36 @@ function ui.tabBarFont(id, items, font, ...)
 end
 
 --
+-- Function: ui.tabItem
+--
+-- ui.tabItem(label, [tooltip], function)
+--
+--
+-- Example:
+--
+-- > ui.tabItem("Test", "This Does Something", function() ... end)
+--
+-- Parameters:
+--   label   - string, Display label and unique ID for the tab.
+--   tooltip - string?, Tooltip to display when hovering the tab.
+--   fun     - function, Body code of the tab item
+--
+function ui.tabItem(label, tooltip, fun)
+	if not fun then
+		fun = tooltip
+		tooltip = nil
+	end
+
+	local open = pigui.BeginTabItem(label)
+	if tooltip then ui.setItemTooltip(tooltip) end
+	if not open then return end
+
+	fun()
+
+	pigui.EndTabItem()
+end
+
+--
 -- Function: ui.withFont
 --
 -- ui.withFont(name, size, fun)
@@ -639,9 +738,9 @@ function ui.withStyleColors(styles, fun)
 	for k,v in pairs(styles) do
 		pigui.PushStyleColor(k, v)
 	end
-	local res = fun()
+	local res = table.pack(fun())
 	pigui.PopStyleColor(utils.count(styles))
-	return res
+	return table.unpack(res, 1, res.n)
 end
 
 --
@@ -781,31 +880,6 @@ function ui.setNextWindowPosCenter(cond)
 end
 
 --
--- Function: ui.sameLine
---
--- ui.sameLine(pos_x, spacing_w)
---
--- Draw the next command on the same line as the previous
---
--- Example:
---
--- >
---
--- Parameters:
---   pos_x     - (Optional) number, X position for next draw command, default 0
---   spacing_w - (Optional) number, draw with spacing relative to previous, default -1
---
--- Returns:
---
---   nil
---
-function ui.sameLine(pos_x, spacing_w)
-	local px = pos_x or 0.0
-	local sw = spacing_w or -1.0
-	pigui.SameLine(px, sw)
-end
-
---
 -- Function: ui.withID
 --
 -- ui.withID(id, fun)
@@ -874,4 +948,69 @@ end
 --
 function ui.loadTexture(filename)
 	return pigui:LoadTexture(filename)
+end
+
+--
+-- Function: ui.incrementDrag
+--
+-- ui.incrementDrag(label, value, v_speed, v_min, v_max, format, draw_progress_bar)
+--
+-- Create a "drag with arrows and progress bar" widget, uses type double as value.
+--
+-- Example:
+--
+-- > value, changed = ui.incrementDrag("##mydrag", value, 1, 0, 20, "%.0f", false)
+--
+-- Parameters:
+--
+--   label - string, text, also used as ID
+--   value - int, set drag to this value
+--   v_speed - minimum change step
+--   v_min - int, lower bound
+--   v_max - int, upper bound
+--   format - string, format according to snprintf
+--   draw_progress_bar - optional boolean, whether to draw a progress bar as
+--                       the value changes from minimum to maximum
+--
+-- Returns:
+--
+--   value - the value that the drag was set to
+--   changed - nil, if the value has not changed
+--             1, if value is changed by mouse
+--             2, if the value is changed by keyboard input
+--
+function ui.incrementDrag(...)
+	local args = table.pack(...)
+	return ui.withButtonColors(ui.theme.buttonColors.transparent, function()
+		return pigui.IncrementDrag(table.unpack(args))
+	end)
+end
+
+-- Function: comboBox
+--
+-- Wrapper for BeginCombo() + EndCombo(). The given function is called while
+-- the combo box is open.
+--
+-- Parameters:
+--
+--  label   - string, label to display next to the combo box
+--  preview - string, label of currently selected item
+--  flags   - optional ComboFlags, table controlling display of the combo box
+--  fun     - function, renders the contents of the combo box while open
+--
+---@param label string
+---@param preview string
+---@param flags any
+---@param fun fun()
+---@overload fun(label: string, preview: string, fun: fun())
+function ui.comboBox(label, preview, flags, fun)
+	if not fun then
+		fun = flags
+		flags = nil
+	end
+
+	if pigui.BeginCombo(label, preview) then
+		fun()
+		pigui.EndCombo()
+	end
 end

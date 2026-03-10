@@ -1,10 +1,12 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Billboard.h"
 
+#include "MathUtil.h"
 #include "Model.h"
 #include "NodeVisitor.h"
+
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
@@ -12,6 +14,8 @@
 #include "graphics/Stats.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
+
+#include "profiler/Profiler.h"
 
 namespace SceneGraph {
 
@@ -44,7 +48,8 @@ namespace SceneGraph {
 		PROFILE_SCOPED()
 
 		//some hand-tweaked scaling, to make the lights seem larger from distance (final size is in pixels)
-		const float pixrad = Clamp(Graphics::GetScreenHeight() / trans.GetTranslate().Length(), 1.0f, 15.0f);
+		// FIXME: this should reference a camera object instead of querying the window height
+		const float pixrad = Clamp(m_renderer->GetWindowHeight() / trans.GetTranslate().Length(), 1.0f, 15.0f);
 		const float size = (m_size * Graphics::GetFovFactor()) * pixrad;
 		m_bbVA.Add(trans * vector3f(0.0f), vector3f(m_colorUVoffset, size));
 	}

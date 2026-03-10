@@ -1,0 +1,130 @@
+{
+  "ABOUT": {
+    "description": "",
+    "message": "O igri"
+  },
+  "ACKNOWLEDGEMENTS": {
+    "description": "",
+    "message": "Zahvale"
+  },
+  "CONTENT": {
+    "description": "",
+    "message": "Sadržaj"
+  },
+  "CONTENT_CONTRIBUTION": {
+    "description": "",
+    "message": "Doprinos sadržaju"
+  },
+  "CONTRIBUTE": {
+    "description": "",
+    "message": "Doprinesite"
+  },
+  "CONTRIBUTE_BODY": {
+    "description": "",
+    "message": "Pioneer je zbroj mnogih doprinosa svojih igrača i programera. Vidite li nešto što želite promijeniti, poboljšati ili ideje za novi sadržaj koji biste dodali? (Npr. prijevodi, kodiranje, umjetnost, 2D i 3D resursi, glazba, dizajniranje prilagođenih zvjezdanih sustava, poboljšanje naše dokumentacije, wiki itd.) Slijedite poveznice za detalje o tome kako možete doprinijeti!"
+  },
+  "DEVELOPER_DOCUMENTATION": {
+    "description": "",
+    "message": "Dokumentacija za developere"
+  },
+  "DOCUMENTATION": {
+    "description": "",
+    "message": "Dokumentacija"
+  },
+  "DONATE_BODY": {
+    "description": "",
+    "message": "Ako uživate u igranju Pioneera i želite podržati njegov daljnji razvoj, razmislite o donaciji - nijedna donacija nije premala."
+  },
+  "DONATE_OPTIONS": {
+    "description": "Sentence continues in 'DONATE_OPTIONS_CONTINUED'",
+    "message": "Za dodatne mogućnosti donacija, pogledajte naše"
+  },
+  "DONATE_OPTIONS_CONTINUED": {
+    "description": "hyperlink, ending part of sentence in 'DONATE_OPTIONS'",
+    "message": "Stranica za donacije"
+  },
+  "DONATE_THANKS": {
+    "description": "",
+    "message": "Hvala svima na kontinuiranoj podršci Pioneeru!"
+  },
+  "GAME_RELEASE": {
+    "description": "",
+    "message": "Stabilne verzije objavljuju se svake godine 3. veljače, ali razvoj je kontinuiran. Hrabre pilote se stoga potiče da igraju s najnovijeg izvornog koda i prijave greške."
+  },
+  "INFO_BLURB": {
+    "description": "",
+    "message": "Pioneer je svemirska avanturistička igra za jednog igrača smještena u galaksiji Mliječni put na prijelazu u 31. stoljeće."
+  },
+  "INFO_BODY": {
+    "description": "",
+    "message": "Igra je otvorenog tipa i slobodni ste istraživati ​​milijune zvjezdanih sustava u igri. Možete sletjeti na planete, proletjeti pored plinskih divova i letjeti između binarnih zvjezdanih sustava. Možete se okušati u piratstvu, zaraditi bogatstvo trgujući između sustava ili izvršavati misije za različite frakcije koje se bore za moć, slobodu ili samoodređenje."
+  },
+  "LICENSE": {
+    "description": "",
+    "message": "Licenca"
+  },
+  "LINK_BASIC_FLIGHT": {
+    "description": "",
+    "message": "Osnovni let"
+  },
+  "LINK_BUG_TRACKER": {
+    "description": "",
+    "message": "Praćenje Bug-ova"
+  },
+  "LINK_COMMUNITY_CHAT": {
+    "description": "",
+    "message": "Zajednica igrača (Discord)"
+  },
+  "LINK_COMMUNITY_FORUM": {
+    "description": "",
+    "message": "Forum zajednice"
+  },
+  "LINK_DEVELOPER_CHAT": {
+    "description": "",
+    "message": "Zajednica developera (IRC)"
+  },
+  "LINK_DEVELOPER_FORUM": {
+    "description": "",
+    "message": "Forum za developere"
+  },
+  "LINK_FAQ": {
+    "description": "",
+    "message": "Najčešća pitanja"
+  },
+  "LINK_HOMEPAGE": {
+    "description": "",
+    "message": "Početna stranica"
+  },
+  "LINK_MANUAL": {
+    "description": "",
+    "message": "Priručnik"
+  },
+  "SOFTWARE": {
+    "description": "",
+    "message": "Softver"
+  },
+  "SOFTWARE_BODY": {
+    "description": "",
+    "message": "Pioneer uključuje sljedeći softver trećih strana"
+  },
+  "SUPPORT_DEVELOPMENT": {
+    "description": "",
+    "message": "Podržite razvoj"
+  },
+  "TRANSLATIONS": {
+    "description": "",
+    "message": "Prijevodi"
+  },
+  "VERSION_CURRENT": {
+    "description": "",
+    "message": "Vaša trenutna verzija"
+  },
+  "VERSION_LATEST": {
+    "description": "This sentence continues into string VERSION_LATEST_CONTINUED, to read 'Latest version from source', referring to the source code",
+    "message": "Poslijednja verzija od"
+  },
+  "VERSION_LATEST_CONTINUED": {
+    "description": "is continued from string VERSION_LATEST, to read 'Latest version from source'. Here, 'source' refers to the source code",
+    "message": "Izvorni kod"
+  }
+}

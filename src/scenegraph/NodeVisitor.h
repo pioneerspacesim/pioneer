@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _NODEVISITOR_H
@@ -9,8 +9,6 @@
  *
  * Start traversal with node->Accept(visitor)!
  */
-#include "libs.h"
-
 namespace SceneGraph {
 
 	class Billboard;
@@ -21,6 +19,7 @@ namespace SceneGraph {
 	class MatrixTransform;
 	class Node;
 	class StaticGeometry;
+	class Tag;
 	class Thruster;
 
 	class NodeVisitor {
@@ -31,6 +30,7 @@ namespace SceneGraph {
 		virtual void ApplyStaticGeometry(StaticGeometry &);
 		virtual void ApplyLabel(Label3D &);
 		virtual void ApplyMatrixTransform(MatrixTransform &);
+		virtual void ApplyTag(Tag &);
 		virtual void ApplyBillboard(Billboard &);
 		virtual void ApplyThruster(Thruster &);
 		virtual void ApplyLOD(LOD &);

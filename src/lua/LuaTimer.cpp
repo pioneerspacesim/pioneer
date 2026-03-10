@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaTimer.h"
@@ -7,6 +7,7 @@
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Pi.h"
+#include "profiler/Profiler.h"
 
 #include <algorithm>
 
@@ -81,7 +82,10 @@ void LuaTimer::Tick()
 		}
 
 		lua_getfield(l, -1, "every");
-		double next = call.at + lua_tonumber(l, -1);
+		double every = lua_tonumber(l, -1);
+		// will take into account that we could skip the appointed time,
+		// but will maintain the original "alignment"
+		double next = now + every - fmod(now - call.at, every);
 		lua_pop(l, 1);
 
 		lua_pushnumber(l, next); // [ cb, next ]
@@ -172,14 +176,6 @@ static int _finish_timer_create(lua_State *l, int callbackIdx)
  * > Timer:CallAt(Game.time+30, function ()
  * >     Comms.Message("Special offer expired, sorry.")
  * > end)
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_timer_call_at(lua_State *l)
 {
@@ -238,14 +234,6 @@ static int l_timer_call_at(lua_State *l)
  * >     local did_dump = Game.player:Jettison(Equipment.cargo.hydrogen)
  * >     return not did_dump
  * > end)
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_timer_call_every(lua_State *l)
 {

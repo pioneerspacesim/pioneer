@@ -137,7 +137,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "В звездную пыль должен быть превращен {target}. За это я награжу вас {cash}."
+    "message": "{target} должен быть превращён в космическую пыль. Я заплачу вам {cash} за это."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -145,7 +145,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Скрытный оператор, необходимый для обеспечения фатального выхода из строя {target}."
+    "message": "Требуется осторожный исполнитель для гарантированного устранения {target}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
@@ -169,7 +169,7 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Некоторые поклонники желают смерти {target}. Квалифицированные специалисты по расторжению договора подают заявки внутри."
+    "message": "{target}, по мнению некоторых поклонников, должен умереть. Квалифицированные специалисты по ликвидации могут откликнуться."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
@@ -202,6 +202,14 @@
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
     "message": "Вы должны сделать это когда {target} покинет космопорт {spaceport}. Не упустите момент."
+  },
+  "IT_MUST_BE_DONE_AFTER_FEMALE": {
+    "description": "",
+    "message": "Это должно быть сделано после того, как она покинет {spaceport}. Не упустите эту возможность."
+  },
+  "IT_MUST_BE_DONE_AFTER_MALE": {
+    "description": "",
+    "message": "Это должно быть сделано после того, как он покинет {spaceport}. Не упустите эту возможность."
   },
   "OK_AGREED": {
     "description": "",
@@ -245,110 +253,118 @@
   },
   "TITLE_0": {
     "description": "",
-    "message": "адмирал"
+    "message": "Адмирал"
   },
   "TITLE_1": {
     "description": "",
-    "message": "посол"
+    "message": "Посол"
   },
   "TITLE_10": {
     "description": "",
-    "message": "энсин"
+    "message": "Мичман"
   },
   "TITLE_11": {
     "description": "",
-    "message": "генерал"
+    "message": "Генерал"
   },
   "TITLE_12": {
     "description": "",
-    "message": "судья"
+    "message": "Судья"
   },
   "TITLE_13": {
     "description": "",
-    "message": "адвокат"
+    "message": "Адвокат"
   },
   "TITLE_14": {
     "description": "",
-    "message": "лейтенант"
+    "message": "Лейтенант"
   },
   "TITLE_15": {
     "description": "",
-    "message": "маршал"
+    "message": "Маршал"
   },
   "TITLE_16": {
     "description": "",
-    "message": "торговец"
+    "message": "Торговец"
   },
   "TITLE_17": {
     "description": "",
-    "message": "офицер"
+    "message": "Офицер"
   },
   "TITLE_18": {
     "description": "",
-    "message": "рядовой"
+    "message": "Рядовой"
   },
   "TITLE_19": {
     "description": "",
-    "message": "профессор"
+    "message": "Профессор"
   },
   "TITLE_2": {
     "description": "",
-    "message": "бригадир"
+    "message": "Бригадир"
   },
   "TITLE_20": {
     "description": "",
-    "message": "прокурор"
+    "message": "Прокурор"
   },
   "TITLE_21": {
     "description": "",
-    "message": "ректор"
+    "message": "Ректор"
   },
   "TITLE_22": {
     "description": "",
-    "message": "матрос"
+    "message": "Матрос"
   },
   "TITLE_23": {
     "description": "",
-    "message": "сенатор"
+    "message": "Сенатор"
   },
   "TITLE_24": {
     "description": "",
-    "message": "сержант"
+    "message": "Сержант"
   },
   "TITLE_3": {
     "description": "",
-    "message": "кадет"
+    "message": "Кадет"
   },
   "TITLE_4": {
     "description": "",
-    "message": "капитан"
+    "message": "Капитан"
   },
   "TITLE_5": {
     "description": "",
-    "message": "кардинал"
+    "message": "Кардинал"
   },
   "TITLE_6": {
     "description": "",
-    "message": "полковник"
+    "message": "Полковник"
   },
   "TITLE_7": {
     "description": "",
-    "message": "командир"
+    "message": "Командир"
   },
   "TITLE_8": {
     "description": "",
-    "message": "командор"
+    "message": "Командор"
   },
   "TITLE_9": {
     "description": "",
-    "message": "капрал"
+    "message": "Капрал"
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "Где находится цель?"
+    "message": "Где я могу найти цель?"
   },
   "X_WILL_BE_LEAVING": {
-    "description": "",
-    "message": "Ваша цель - {target} - покинет космопорт {spaceport} в системе {system} ({sectorX}, {sectorY}, {sectorZ}), расстояние {dist}, ровно в {date} года.\nКорабль {shipname} имеет регистрационный номер {shipregid}."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target} покинет {spaceport} в системе {system} ({sectorX}, {sectorY}, {sectorZ}), расстояние {dist} св. года(лет), {date}. Корабль — это {ship_indef} с регистрационным номером {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_FEMALE": {
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target} покинет {spaceport} в системе {system} ({sectorX}, {sectorY}, {sectorZ}), расстояние {dist} св. года(лет), {date}. Её корабль — это {ship_indef} с регистрационным номером {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_MALE": {
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target} покинет {spaceport} в системе {system} ({sectorX}, {sectorY}, {sectorZ}), расстояние {dist} св. года(лет), {date}. Его корабль — это {ship_indef} с регистрационным номером {shipregid}."
   }
 }

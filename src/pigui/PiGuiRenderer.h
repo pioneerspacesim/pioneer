@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -18,7 +18,16 @@ namespace PiGui {
 		void Shutdown();
 
 		void NewFrame() {}
+
+		// Render a draw data to the screen using an orthographic projection
 		void RenderDrawData(ImDrawData *draw_data);
+
+		// Render a draw data struct using a user-defined material and rendering setup.
+		// The user is responsible for setting the transform and projection matrices before drawing.
+		// The provided material should support two parameters:
+		//  - texture0:     Texture2d
+		//  - vertexDepth:  float
+		void RenderDrawData(ImDrawData *draw_data, Graphics::Material* material);
 
 		void CreateFontsTexture();
 		void DestroyFontsTexture();

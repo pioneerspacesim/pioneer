@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Program.h"
@@ -45,7 +45,7 @@ namespace Graphics {
 
 			if (status == GL_FALSE) {
 				Log::Error("Error compiling shader: {}:\n {}\n OpenGL vendor: {}\nOpenGL renderer string: {}",
-					filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
+					filename, infoLog, glstr_to_str(glGetString(GL_VENDOR)), glstr_to_str(glGetString(GL_RENDERER)));
 				return false;
 			}
 
@@ -210,6 +210,7 @@ namespace Graphics {
 		//
 
 		Program::Program(Shader *shader, const ProgramDef &def) :
+			m_shader(shader),
 			m_program(0),
 			success(false)
 		{
@@ -289,7 +290,7 @@ namespace Graphics {
 
 			// Bind texture sampler locations to texture units
 			for (auto &texInfo : shader->GetTextureBindings()) {
-				GLuint location = glGetUniformLocation(m_program, shader->GetString(texInfo.name).c_str());
+				GLuint location = glGetUniformLocation(m_program, shader->GetString(texInfo.bindName).c_str());
 				if (location == GL_INVALID_INDEX)
 					continue;
 

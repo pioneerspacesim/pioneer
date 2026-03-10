@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SPACESTATION_H
@@ -44,18 +44,18 @@ public:
 	SpaceStation(const Json &jsonObj, Space *space);
 
 	virtual ~SpaceStation();
-	virtual vector3d GetAngVelocity() const override { return vector3d(0, m_type->AngVel(), 0); }
-	virtual bool OnCollision(Body *b, Uint32 flags, double relVel) override;
+	vector3d GetAngVelocity() const override { return vector3d(0, m_type->AngVel(), 0); }
+	bool OnCollision(Body *b, Uint32 flags, double relVel) override;
 	bool DoShipDamage(Ship *s, Uint32 flags, double relVel);
-	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
-	virtual void StaticUpdate(const float timeStep) override;
-	virtual void TimeStepUpdate(const float timeStep) override;
+	void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
+	void StaticUpdate(const float timeStep) override;
+	void TimeStepUpdate(const float timeStep) override;
 
-	virtual const SystemBody *GetSystemBody() const override { return m_sbody; }
-	virtual void PostLoadFixup(Space *space) override;
-	virtual void NotifyRemoved(const Body *const removedBody) override;
+	const SystemBody *GetSystemBody() const override { return m_sbody; }
+	void PostLoadFixup(Space *space) override;
+	void NotifyRemoved(const Body *const removedBody) override;
 
-	virtual void SetLabel(const std::string &label) override;
+	void SetLabel(const std::string &label) override;
 
 	// should call Ship::Undock and Ship::SetDockedWith instead
 	// Returns true on success, false if permission denied
@@ -80,34 +80,32 @@ public:
 	vector3d GetTargetIndicatorPosition() const override;
 
 	// need this now because stations rotate in their frame
-	virtual void UpdateInterpTransform(double alpha) override;
+	void UpdateInterpTransform(double alpha) override;
+
+	// Return true if any lightning changes were applied, only do so if body is inside
+	// or near enough to the station
+	bool CalcInteriorLighting(const Body *b, Color4ub& sLight, double& sIntensity) const;
+
 
 protected:
-	virtual void SaveToJson(Json &jsonObj, Space *space) override;
+	void SaveToJson(Json &jsonObj, Space *space) override;
 
 private:
 	void DockingUpdate(const double timeStep);
 	void PositionDockingShip(Ship *ship, int port) const;
 	void PositionDockedShip(Ship *ship, int port) const;
-	bool LevelShip(Ship *ship, int port, const float timeStep) const;
+	bool LevelShip(Ship *ship, int port, const float timeStep);
 	void DoLawAndOrder(const double timeStep);
 	bool IsPortLocked(const int bay) const;
 	void LockPort(const int bay, const bool lockIt);
+	double GetDockAnimStageDuration(const int bay, const DockStage stage) const;
+	double GetUndockAnimStageDuration(const int bay, const DockStage stage) const;
 
-	/* Stage 0 means docking port empty
-	 * Stage 1 means docking clearance granted to ->ship
-	 * Stage 2 to m_type->numDockingStages is docking animation
-	 * Stage m_type->numDockingStages+1 means evaluating repos
-	 * Stage m_type->numDockingStages+2 means ship is repositioning
-	 * Stage m_type->numDockingStages+3 means ship is just docked
-	 * Stage m_type->numDockingStages+4 means ship is docked
-	 * Stage -1 to -m_type->numUndockStages is undocking animation
-	 */
 	struct shipDocking_t {
 		shipDocking_t() :
 			ship(0),
 			shipIndex(0),
-			stage(0),
+			stage(DockStage::NONE),
 			stagePos(0),
 			fromPos(0.0),
 			fromRot(1.0, 0.0, 0.0, 0.0),
@@ -116,7 +114,7 @@ private:
 
 		Ship *ship;
 		int shipIndex; // deserialisation
-		int stage;
+		DockStage stage;
 		double stagePos;  // 0 -> 1.0
 		vector3d fromPos; // in station model coords
 		Quaterniond fromRot;
@@ -129,6 +127,9 @@ private:
 	SpaceStationType::TPorts m_ports;
 
 	double m_oldAngDisplacement;
+
+	void SwitchToStage(Uint32 bay, DockStage stage);
+	matrix4x4d GetBayTransform(Uint32 bay) const;
 
 	void InitStation();
 	const SpaceStationType *m_type;

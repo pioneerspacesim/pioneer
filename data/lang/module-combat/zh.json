@@ -5,7 +5,7 @@
   },
   "ACCEPTED_2": {
     "description": "",
-    "message": "杰出的！"
+    "message": "太棒了！"
   },
   "ACCEPTED_3": {
     "description": "",
@@ -13,23 +13,23 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "秘密任务所需的合格飞行员：支付{cash}。"
+    "message": "需要合格飞行员执行秘密任务：报酬{cash}。"
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "需要在{system}星系中执行作战任务的飞船和船员。"
+    "message": "寻找飞船和船员执行{system}系统中的战斗任务。"
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "需要有装备精良的飞船的合格佣兵。任务详情可按要求提供。"
+    "message": "需要一名装备精良的合格雇佣兵。任务详情可按需提供。"
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "{org}寻找无畏的雇佣军前往{system}星系执行任务。将支付{cash}。"
+    "message": "{org} 寻求无畏的雇佣兵前往 {system} 星系执行任务。报酬 {cash}。"
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "任务{mission} ：薪水 {cash}。"
+    "message": "任务{mission} ：报酬 {cash}。"
   },
   "ADTITLE_1": {
     "description": "",
@@ -131,13 +131,17 @@
     "description": "Distance in space, between two locations",
     "message": "距离:"
   },
+  "DO_I_NEED_SPECIAL_EQUIPMENT": {
+    "description": "",
+    "message": "我需要什么特殊设备吗?"
+  },
   "FAILUREMSG_1": {
     "description": "",
     "message": "你真差劲。离开我的视线。"
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "你太迟了！ 你造成了很大的损失。 你不会得到报酬！"
+    "message": "你来晚了！你造成了巨大的损失。你将不会获得报酬！"
   },
   "FAILUREMSG_3": {
     "description": "",
@@ -169,11 +173,11 @@
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "{org}将在{system}星系（{sectorx}，{sectory}，{sectorz}）中为{mission}任务支付{cash}。 我们有理由相信，一个无情的市场竞争者应对{area}货轮的失踪负责。 到目标区域的距离是{dist} 光年。"
+    "message": "{org}组织将支付{cash}现金，以完成{system}系统（{sectorx}, {sectory}, {sectorz}）中的{mission}任务。我们有理由相信，一个无情的竞争对手应对我们在{area}区域的货轮失踪负责。目标区域距离为{dist}光年。"
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "我们的市场竞争对手公然声称他拥有{system}星系{area}，{sectory}，{sectorz}）的{area}所有权。 {org}完全不同意并愿意在{area}支付{cash}进行战斗任务。 {area}距离{dist}。"
+    "message": "我们的市场竞争对手公然声称他拥有{area}星系{system}，{sectorx}，{sectory}）的{sectorz}所有权。 {org}完全不同意并愿意在{cash}支付{area}进行战斗任务。 {area}距离{dist}。"
   },
   "HARVESTING_3": {
     "description": "{area} is an asteroid or planet",
@@ -185,7 +189,7 @@
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "我们在附近的每个星系都有一个销售员。降落时他们将与您联系。"
+    "message": "我们在每个附近的星系都有销售人员。在截止日期前降落在空间站，我们的员工会联系你讨论付款事宜。"
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -201,19 +205,19 @@
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "在 {rendezvous}星系中与我会面以完成工作！"
+    "message": "在截止日期前在{rendezvous}星系与我见面！"
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "军事情报部门认为，敌对派系在{system}系统{areax}，{sectory}，{sectorz}）的{area}建立了一个秘密的侦听前哨站。 政府不能容忍这一点，并批准了一系列行动来消灭这一设施。 敌人试图仅使用民用航天器类型来伪装其起源。 我们这样做也是这样！ 所以我们愿意为{cash}雇佣雇佣兵。 {area}位于{dist}光年。"
+    "message": "军事情报部门认为，一个敌对派系在 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 的 {area} 建立了一个秘密监听前哨。政府无法容忍这一行为，并已批准一系列行动来摧毁这个设施。敌人试图通过只使用民用飞船类型来掩盖其来源。我们也是这么做的！因此，我们愿意雇佣一名雇佣兵，报酬为 {cash}。{area} 距此地 {dist} 光年。"
   },
   "MILITARY_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "针对{system}系统（{sectorx}，{sectory}，{sectorz}）中的盗版案例，{dist}，地方当局在{area}支付{cash}作战任务。"
+    "message": "针对{system}星系（{sectorx}，{sectory}，{sectorz}）中的盗版案例，{dist}，地方当局在{area}支付{cash}作战任务。"
   },
   "MILITARY_3": {
     "description": "",
-    "message": "反情报部队需要一名民事飞行员，他不会在{system}星系（{sectorx}，{sectory}，{sectorz}），{dist}中询问{mission}任务。 支付{cash}。"
+    "message": "反情报部队需要一名不问问题的民用飞行员来执行{system}系统（{sectorx}, {sectory}, {sectorz}）中的{mission}任务，距离为{dist}光年。报酬为{cash}现金。"
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -221,19 +225,19 @@
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "访问受{org}保护的地区的站点！"
+    "message": "访问{org}保护领土内的空间站！操作要求任务目标按时完成。"
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "{org}与竞争对手公司就{system}系统{areax}，{sectory}，{sectorz}中的{area}发生争执。 为了推动我们的主张，我们需要一个可靠且经验丰富的雇佣兵。 我们提供{cash}的费用。 到{system}的距离是{dist} 光年。"
+    "message": "{org}与竞争对手公司就{system}系统{sectorx}，{sectory}，{sectorz}中的{area}发生争执。 为了推动我们的主张，我们需要一个可靠且经验丰富的雇佣兵。 我们提供{cash}的费用。 到{system}的距离是{dist} 光年。"
   },
   "MINING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "我是{org}的经理。 我们需要额外的帮助，与竞争对手就{system}星系（{sectorx}，{sectory}，{sectorz}），{dist}的采矿权进行长期法律纠纷。 我们失去了耐心，并希望在法庭外加快速度。 您的任务是跳转到{area}以获取{cash}。"
+    "message": "我是 {org} 的经理。我们在与竞争对手关于 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 的矿产开采权的长期法律争议中需要额外的帮助，{dist} 光年远。我们已经失去耐心，想要在法庭外加速解决此事。你的任务是跳跃到 {area} 执行任务，报酬 {cash}。"
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "我为{org}工作。 我们的一些货轮将很快到达{system}星系{area}，{sectionx}，{sectory}，{sectorz}）。 为了提高员工的安全性并保护设备，我们愿意为{mission}任务支付{cash}。 到{area}的距离是{dist}光年。"
+    "message": "我为{org}组织工作。我们的一些货轮即将抵达{system}系统（{sectorx}, {sectory}, {sectorz}）中的{area}区域。为了增加我们员工的安全并保护设备，我们愿意支付{cash}现金来完成{mission}任务。距离{area}区域{dist}光年。"
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -241,7 +245,7 @@
   },
   "MINING_LAND_THERE": {
     "description": "",
-    "message": "我们在附近的每个星系都有员工。你只要去最近的站点和当地的办事处联系就行了。"
+    "message": "我们在每个附近的星系都有员工。只需在截止日期前访问最近的站点，并与当地办事处联系。"
   },
   "MISSION": {
     "description": "",
@@ -266,6 +270,18 @@
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
     "message": "扫描区域"
+  },
+  "MISSION_TYPE_CONVO_1": {
+    "description": "Name of mission type, used in conversation",
+    "message": "一次侦察"
+  },
+  "MISSION_TYPE_CONVO_2": {
+    "description": "Name of mission type, used in conversation",
+    "message": "一次武装侦察"
+  },
+  "MISSION_TYPE_CONVO_3": {
+    "description": "Name of mission type, used in conversation. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
+    "message": "一次区域扫描"
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",
@@ -297,7 +313,7 @@
   },
   "POLICE_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "警方侦探发现，一群海盗试图在{系统}星系（{sectorx}，{sectory}，{sectorz}）{dist} 光年的{area}建立一个据点。 这绝不允许。 地方当局支付{cash}用于摧毁{area}。"
+    "message": "警方侦探发现，一群海盗试图在{system}星系（{sectorx}，{sectory}，{sectorz}）{dist} 光年的{area}建立一个据点。 这绝不允许。 地方当局支付{cash}用于摧毁{area}。"
   },
   "POLICE_2": {
     "description": "{area} is an asteroid or planet",
@@ -305,7 +321,7 @@
   },
   "POLICE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "我们的市场被违禁品淹没。 该来源已被追溯到{system}星系{area}，{sectionx}，{sectory}，{sectorz}）的隐藏基地。 只有{dist} 光年的距离。 由于警察预算减少，地方当局希望将这项任务外包，并为此行动分配了{cash}信用点。"
+    "message": "我们的市场被违禁品淹没。 该来源已被追溯到{system}星系{area}，{sectorx}，{sectory}，{sectorz}）的隐藏基地。 只有{dist} 光年的距离。 由于警察预算减少，地方当局希望将这项任务外包，并为此行动分配了{cash}信用点。"
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -313,7 +329,7 @@
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "只需在一个有{org}办公室的站点停靠。"
+    "message": "只要在截止日期前降落在有{org}办公室的空间站。这必须完成，以免危及整个任务！"
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",
@@ -361,7 +377,7 @@
   },
   "TARGET_AREA_REACHED": {
     "description": "",
-    "message": "Target area reached. Start data logging."
+    "message": "已到达目标区域. 开始记录数据日志."
   },
   "TIME_LIMIT": {
     "description": "",
@@ -374,5 +390,9 @@
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",
     "message": "我会有麻烦吗？"
+  },
+  "YOU_NEED_A_RADAR": {
+    "description": "",
+    "message": "是的, 你需要一台雷达! 若你同意, 我将给你的飞船电脑编写程序, 让它记录咱们需要的雷达数据. 这些数据将在你归来后传输给我."
   }
 }

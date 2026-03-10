@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "EnumStrings.h"
@@ -38,16 +38,7 @@ static int l_player_is_player(lua_State *l)
  * Return:
  *
  *   target - nil, or a <Body>
- *
- * Availability:
- *
- *   alpha 15
- *
- * Status:
- *
- *   stable
  */
-
 static int l_get_nav_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
@@ -65,16 +56,7 @@ static int l_get_nav_target(lua_State *l)
  * Parameters:
  *
  *   target - a <Body> to which to set the navigation target, or nil
- *
- * Availability:
- *
- *   alpha 14
- *
- * Status:
- *
- *   stable
  */
-
 static int l_set_nav_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
@@ -138,16 +120,7 @@ static int l_change_cruise_speed(lua_State *l)
  * Return:
  *
  *   target - nil, or a <Body>
- *
- * Availability:
- *
- *   alpha 15
- *
- * Status:
- *
- *   stable
  */
-
 static int l_get_combat_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
@@ -165,16 +138,7 @@ static int l_get_combat_target(lua_State *l)
  * Parameters:
  *
  *   target - a <Body> to which to set the combat target, or nil
- *
- * Availability:
- *
- *   alpha 14
- *
- * Status:
- *
- *   stable
  */
-
 static int l_set_combat_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
@@ -193,16 +157,7 @@ static int l_set_combat_target(lua_State *l)
  * Return:
  *
  *   target - nil, or a <SystemPath>
- *
- * Availability:
- *
- *   alpha 32
- *
- * Status:
- *
- *   stable
  */
-
 static int l_get_hyperspace_target(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -225,16 +180,7 @@ static int l_get_hyperspace_target(lua_State *l)
  * Parameters:
  *
  *   target - a <SystemPath> to which to set the hyperspace target. Must be a system path or the path of a star.
- *
- * Availability:
- *
- *   alpha 32
- *
- * Status:
- *
- *   stable
  */
-
 static int l_set_hyperspace_target(lua_State *l)
 {
 	LuaObject<Player>::CheckFromLua(1);
@@ -271,16 +217,7 @@ static int l_get_mouse_direction(lua_State *l)
  * Return true if the player is using the mouse to rotate the ship (typically RMB held)
  *
  * > player:IsMouseActive()
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
-
 static int l_get_is_mouse_active(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -294,16 +231,7 @@ static int l_get_is_mouse_active(lua_State *l)
  * Get the player's ship's maximum Δv (excluding hydrogen in cargo space)
  *
  * > player:GetMaxDeltaV()
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
-
 static int l_get_max_delta_v(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -318,16 +246,7 @@ static int l_get_max_delta_v(lua_State *l)
  * Get the player's ship's current Δv capacity (excluding hydrogen in cargo space)
  *
  * > player:GetCurrentDeltaV()
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
-
 static int l_get_current_delta_v(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -341,16 +260,7 @@ static int l_get_current_delta_v(lua_State *l)
  * Get the player's ship's remaining Δv capacity (excluding hydrogen in cargo space)
  *
  * > player:GetRemainingDeltaV()
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
-
 static int l_get_remaining_delta_v(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -371,14 +281,6 @@ static int l_get_remaining_delta_v(lua_State *l)
  * Parameters:
  *
  *   thruster - a string specifying which thruster's acceleration to return. One of "forward", "reverse" or "up"
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 
 static std::map<std::string, Thruster> thrusters_map = {
@@ -407,16 +309,7 @@ static int l_get_acceleration(lua_State *l)
  *
  *   speed - speed in m/s
  *   thruster - a string specifying which thruster to user for deceleration. One of "forward", "reverse"
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
-
 static int l_get_distance_to_zero_v(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -434,16 +327,7 @@ static int l_get_distance_to_zero_v(lua_State *l)
  * Get the time remaining until start of maneuver in seconds
  *
  * > player:GetManeuverTime()
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
-
 static int l_get_maneuver_time(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -457,16 +341,7 @@ static int l_get_maneuver_time(lua_State *l)
  * Get the current maneuver velocity in m/s
  *
  * > player:GetManeuverVelocity()
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
-
 static int l_get_maneuver_velocity(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -485,16 +360,7 @@ static int l_get_maneuver_velocity(lua_State *l)
  * Parameters:
  *
  *   type - "system-wide" or "planet"
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
-
 static int l_get_heading_pitch_roll(lua_State *l)
 {
 	//  Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -576,65 +442,6 @@ static int l_toggle_rotation_damping(lua_State *l)
 	return 0;
 }
 
-/*
- * Function: GetGPS()
- *
- * Get altitude, speed, and position of player's ship
- *
- * Example:
- *
- * > alt, vspd, lat, long = player:GetGPS()
- *
- * Returns:
- *
- *   alt - altitude
- *
- *   vspd - vertical speed
- *
- *   latitude - latitude
- *
- *   longitude - longitude
- *
- */
-static int l_get_gps(lua_State *l)
-{
-	Player *player = LuaObject<Player>::CheckFromLua(1);
-	vector3d pos = Pi::player->GetPosition();
-	double center_dist = pos.Length();
-	FrameId playerFrameId = player->GetFrame();
-	Frame *playerFrame = Frame::GetFrame(playerFrameId);
-	if (playerFrameId.valid()) {
-		Body *astro = Frame::GetFrame(playerFrameId)->GetBody();
-		if (astro && astro->IsType(ObjectType::TERRAINBODY)) {
-			TerrainBody *terrain = static_cast<TerrainBody *>(astro);
-			if (!playerFrame->IsRotFrame())
-				playerFrame = Frame::GetFrame(playerFrame->GetRotFrame());
-			vector3d surface_pos = pos.Normalized();
-			double radius = terrain->GetSystemBody()->GetRadius();
-			if (center_dist <= 3.0 * terrain->GetMaxFeatureRadius()) {
-				radius = terrain->GetTerrainHeight(surface_pos);
-			}
-			double altitude = center_dist - radius;
-			vector3d velocity = player->GetVelocity();
-			double vspeed = velocity.Dot(surface_pos);
-			if (fabs(vspeed) < 0.05) vspeed = 0.0; // Avoid alternating between positive/negative zero
-
-			//			RefreshHeadingPitch();
-
-			if (altitude < 0) altitude = 0;
-			LuaPush(l, altitude);
-			LuaPush(l, vspeed);
-			const float lat = RAD2DEG(asin(surface_pos.y));
-			const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
-			LuaPush(l, lat);
-			LuaPush(l, lon);
-			return 4;
-			//				}
-		}
-	}
-	return 0;
-}
-
 static int l_get_alert_state(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -653,7 +460,7 @@ static int l_get_alert_state(lua_State *l)
 		LuaPush(l, "ship-firing");
 		break;
 	default:
-		Error("Unknown alert state %i", state);
+		Error("Unknown alert state %i", int(state));
 	}
 	return 1;
 }
@@ -772,6 +579,30 @@ static int l_player_set_follow_mode(lua_State *l)
 }
 
 /*
+ * Function: GetMaxFollowDistance(mode)
+ *
+ * Parameters:
+ *
+ *   mode - a string 'FOLLOW_POS' or 'FOLLOW_ORI'
+ *
+ * Returns:
+ *
+ *   number, distance in meters for specified mode
+ *
+ */
+static int l_player_get_max_follow_distance(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	auto mode_name = LuaPull<const char *>(l, 2);
+	int value = EnumStrings::GetValue("FollowMode", mode_name);
+	if (value == -1)
+		return luaL_error(l, "Player:GetMaxFollowDistance(): invalid follow mode '%s' specified\n", mode_name);
+	auto mode = static_cast<PlayerShipController::FollowMode>(value);
+	LuaPush(l, PlayerShipController::maxFollowDistance[mode]);
+	return 1;
+}
+
+/*
  * Function: GetSpeedLimit(speed_limit)
  *
  * Returns:
@@ -883,7 +714,6 @@ void LuaObject<Player>::RegisterClass()
 		{ "GetMouseDirection", l_get_mouse_direction },
 		{ "GetRotationDamping", l_get_rotation_damping },
 		{ "SetRotationDamping", l_set_rotation_damping },
-		{ "GetGPS", l_get_gps },
 		{ "ToggleRotationDamping", l_toggle_rotation_damping },
 		{ "GetAlertState", l_get_alert_state },
 		{ "GetLowThrustPower", l_get_low_thrust_power },
@@ -894,6 +724,7 @@ void LuaObject<Player>::RegisterClass()
 		{ "SetCruiseDirection", l_player_set_cruise_direction },
 		{ "GetFollowMode", l_player_get_follow_mode },
 		{ "SetFollowMode", l_player_set_follow_mode },
+		{ "GetMaxFollowDistance", l_player_get_max_follow_distance },
 		{ "GetSpeedLimit", l_player_get_speed_limit },
 		{ "SetSpeedLimit", l_player_set_speed_limit },
 		{ "SetSpeedLimiterActive", l_player_set_speed_limiter_active },

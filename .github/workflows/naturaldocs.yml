@@ -21,8 +21,7 @@ env:
   packages: >
       "mono-runtime"
       "unzip"
-  nd-src: >
-      "https://www.naturaldocs.org/download/natural_docs/2.2/Natural_Docs_2.2.zip"
+  ND_SRC: "https://naturaldocs.org/download/natural_docs/2.3.1/Natural_Docs_2.3.1.zip"
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
@@ -43,26 +42,25 @@ jobs:
 
     # Checkout the repository as $GITHUB_WORKSPACE
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Install Dependencies
       run: |
-        sudo apt-fast update
-        sudo apt-fast install -y ${{ env.packages }}
+        sudo apt-get update
+        sudo apt-get install -y ${{ env.packages }}
 
-    - name: Download natural docs
-      uses: wei/wget@v1
-      with:
-          args: -O nd.zip ${{ env.nd-src }}
+    - name: Download Natural Docs
+      run: |
+        wget -O nd.zip "$ND_SRC"
 
     - name: Run natural docs
       run: |
           mkdir -p docs
           unzip nd.zip
-          mono Natural\ Docs/NaturalDocs.exe -i . -o HTML docs -p nd
+          mono Natural\ Docs/NaturalDocs.exe -p nd
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: "Lua API documentation"
         path: docs
@@ -71,11 +69,11 @@ jobs:
       uses: actions/configure-pages@v3
 
     - name: Upload pages
-      uses: actions/upload-pages-artifact@v1
+      uses: actions/upload-pages-artifact@v3
       with:
         # only upload docs/ folder
         path: 'docs'
 
     - name: Deploy to GitHub Pages
       id: deployment
-      uses: actions/deploy-pages@v1
+      uses: actions/deploy-pages@v4

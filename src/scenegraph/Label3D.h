@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SCENEGRAPH_LABEL_H
@@ -10,6 +10,8 @@
 #include "graphics/Material.h"
 #include "graphics/VertexBuffer.h"
 #include "text/DistanceFieldFont.h"
+
+#include <memory>
 
 namespace Graphics {
 	class Renderer;

@@ -1,7 +1,7 @@
 {
   "AIR_PROCESSORS": {
     "description": "",
-    "message": "Purificatori d'aria"
+    "message": "purificatori d'aria"
   },
   "AIR_PROCESSORS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -9,15 +9,15 @@
   },
   "ANIMAL_MEAT": {
     "description": "",
-    "message": "Carni animali"
+    "message": "carne animale"
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Un elemento di grandi controversie, la carne è sostanzialmente pezzi di corpi di animali. Data la disponibilità di proteine sintetiche e vegetali, ormai la maggior parte della gente ritiene che gli animali non debbano più essere uccisi. La carne è illegale nella maggior parte dei sistemi centrali, mentre nei mondi più tradizionalisti e periferici, gli animali vivi e la loro carne sono considerati una parte importane nelle vite delle persone."
+    "message": "Un elemento di grandi controversie, la carne è sostanzialmente pezzi di corpi di animali. Data la disponibilità di proteine sintetiche e vegetali, ormai la maggior parte della gente ritiene che gli animali non debbano più essere uccisi. La carne è illegale nella maggior parte dei sistemi centrali, mentre nei mondi più tradizionalisti e periferici, gli animali vivi e la loro carne sono considerati una parte importante nelle vite delle persone."
   },
   "BATTLE_WEAPONS": {
     "description": "",
-    "message": "Armamenti da guerra"
+    "message": "armamenti da guerra"
   },
   "BATTLE_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -25,15 +25,23 @@
   },
   "CARBON_ORE": {
     "description": "",
-    "message": "Carbone minerale"
+    "message": "carbone minerale"
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
     "message": "Il carbone è uno degli elementi più vari conosciuti. Usato per quasi ogni impiego dalle plastiche alle leghe e talvolta anche nella produzione di energia, il carbone è una merce economica ma importante. Come tale, quasi tutti gli insediamenti industriali importano carbone minerale."
   },
+  "CHEMICALS": {
+    "description": "",
+    "message": "prodotti chimici"
+  },
+  "CHEMICALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Precursori chimici, agenti di pulizia caustici e materie prime biochimiche. I prodotti chimici vengono usati in ambiti industriali e casalinghi. I prodotti vengono trasportati in container industriali rinforzati per prevenire la corrosione dello scafo delle navi."
+  },
   "COMPUTERS": {
     "description": "",
-    "message": "Computer"
+    "message": "computer"
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -41,7 +49,7 @@
   },
   "CONSUMER_GOODS": {
     "description": "",
-    "message": "Beni di consumo"
+    "message": "beni di consumo"
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -49,15 +57,15 @@
   },
   "FARM_MACHINERY": {
     "description": "",
-    "message": "Macchinari agricoli"
+    "message": "macchinari agricoli"
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Anche se raro, è ancora possibile trovare l'occasionale contadino con l'aratro trainato da buoi. Ma in quasi qualsiasi luogo dove si faccia agricoltura, vengono usate delle macchine per coltivare la terra, siano coltivazioni idroponiche di un habitat sotterraneo, o i cambi sterminati di un mondo giardino."
+    "message": "Anche se raro, è ancora possibile trovare l'occasionale contadino con l'aratro trainato da buoi. Ma in quasi qualsiasi luogo dove si faccia agricoltura, vengono usate delle macchine per coltivare la terra, siano coltivazioni idroponiche di un habitat sotterraneo, o i campi sterminati di un mondo giardino."
   },
   "FERTILIZER": {
     "description": "",
-    "message": "Fertilizzanti"
+    "message": "fertilizzanti"
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -65,7 +73,7 @@
   },
   "FRUIT_AND_VEG": {
     "description": "",
-    "message": "Frutta e verdura"
+    "message": "frutta e verdura"
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -73,7 +81,7 @@
   },
   "GRAIN": {
     "description": "",
-    "message": "Grano e altri cereali"
+    "message": "grano e altri cereali"
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -81,7 +89,7 @@
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Armi leggere"
+    "message": "armi leggere"
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -89,7 +97,7 @@
   },
   "HYDROGEN": {
     "description": "",
-    "message": "Idrogeno"
+    "message": "idrogeno"
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -97,7 +105,7 @@
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
-    "message": "Macchinari industriali"
+    "message": "macchinari industriali"
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -105,7 +113,7 @@
   },
   "LIQUID_OXYGEN": {
     "description": "",
-    "message": "Ossigeno liquido"
+    "message": "ossigeno liquido"
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -113,15 +121,15 @@
   },
   "LIQUOR": {
     "description": "",
-    "message": "Alcoolici"
+    "message": "alcoolici"
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "La maggior parte degli avamposti ha il proprio locale miscuglio che i forestieri trovano difficile da digerire. L'alcool può essere bandito in alcuni sistemi, perché si ritiene che annebbi la mente. Incurante della legge, un cicchetto di scotch lo si trova sempre, pagando, sul mercato nero."
+    "message": "La maggior parte degli avamposti ha il proprio miscuglio locale che i forestieri trovano difficile da digerire. L'alcool può essere bandito in alcuni sistemi perché si ritiene che annebbi la mente. Incurante della legge, un cicchetto di scotch lo si trova sempre, pagando, sul mercato nero."
   },
   "LIVE_ANIMALS": {
     "description": "",
-    "message": "Animali vivi"
+    "message": "animali vivi"
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -129,7 +137,7 @@
   },
   "MEDICINES": {
     "description": "",
-    "message": "Medicinali"
+    "message": "medicinali"
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -137,15 +145,15 @@
   },
   "METAL_ALLOYS": {
     "description": "",
-    "message": "Leghe metalliche"
+    "message": "leghe metalliche"
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Dopo che i minerali metallici sono stati estratti e raffinati, vengono processati e finiscono col diventare leghe metalliche. Una lega è più un'amalgama di metalli, che un singolo puro elementi, combinati nelle proporzioni corrette per ottenere le caratteristiche desiderate. Pertanto, la maggior parte dei metalli di consumo sono leghe."
+    "message": "Dopo che i minerali metallici sono stati estratti e raffinati, vengono processati e finiscono col diventare leghe metalliche. Una lega è più un'amalgama di metalli, piuttosto che un singolo elemento puro, combinati nelle proporzioni corrette per ottenere le caratteristiche desiderate. Pertanto, la maggior parte dei metalli di consumo sono leghe."
   },
   "METAL_ORE": {
     "description": "",
-    "message": "Metalli minerali"
+    "message": "metalli minerali"
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -153,15 +161,15 @@
   },
   "MILITARY_FUEL": {
     "description": "",
-    "message": "Carburante militare"
+    "message": "carburante militare"
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Utilizzato come carburante nei più avanzati propulsori militari. Tali propulsori producono scorie radioattive, che debbono venir smaltite. A causa della sua origine sintetica, il carburante militare è più costoso e meno comune dell'idrogeno e non è possibile trovarlo allo stato brado."
+    "message": "Utilizzato come carburante nei più avanzati propulsori militari. Tali propulsori producono scorie radioattive, che debbono essere poi smaltite. A causa della sua origine sintetica, il carburante militare è più costoso e meno comune dell'idrogeno e non è possibile trovarlo allo stato naturale."
   },
   "MINING_MACHINERY": {
     "description": "",
-    "message": "Macchinari estrattivi"
+    "message": "macchinari estrattivi"
   },
   "MINING_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -169,7 +177,7 @@
   },
   "NARCOTICS": {
     "description": "",
-    "message": "Narcotici"
+    "message": "narcotici"
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -177,15 +185,15 @@
   },
   "NERVE_GAS": {
     "description": "",
-    "message": "Gas nervino"
+    "message": "gas nervino"
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "È generalmente considerato un'arma di distruzione di massa, evitato anche dai militari nella maggior parte dei sistemi, e considerato illegale quasi ovunque."
+    "message": "È generalmente considerato un'arma di distruzione di massa, evitato anche dai militari nella maggior parte dei sistemi, e considerato quindi illegale quasi ovunque."
   },
   "PLASTICS": {
     "description": "",
-    "message": "Plastiche"
+    "message": "plastica"
   },
   "PLASTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -193,15 +201,15 @@
   },
   "PRECIOUS_METALS": {
     "description": "",
-    "message": "Metalli preziosi"
+    "message": "metalli preziosi"
   },
   "PRECIOUS_METALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "I metalli preziosi sono, generalmente, meno reattivi, più difficili da estrarre e più rari, ottenendo per questa ragione un valore economico considerevole. Essi spesso includono oro, argento, platino e terre rare. Alcuni elementi come l'oro ed il silicone, o le terre rare, sono cruciali per la costruzione di computer ed apparati elettronici."
+    "message": "I metalli preziosi sono, generalmente, meno reattivi, più difficili da estrarre e più rari, ottenendo per questa ragione un valore economico considerevole. Essi spesso includono oro, argento, platino e terre rare. Alcuni elementi come l'oro ed il silicio, o le terre rare, sono cruciali per la costruzione di computer ed apparati elettronici."
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Scorie Radioattive"
+    "message": "scorie radioattive"
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -209,7 +217,7 @@
   },
   "ROBOTS": {
     "description": "",
-    "message": "Robot"
+    "message": "robot"
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -217,7 +225,7 @@
   },
   "RUBBISH": {
     "description": "",
-    "message": "Rifiuti"
+    "message": "rifiuti"
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -225,7 +233,7 @@
   },
   "SLAVES": {
     "description": "",
-    "message": "Schiavi"
+    "message": "schiavi"
   },
   "SLAVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -233,7 +241,7 @@
   },
   "TEXTILES": {
     "description": "",
-    "message": "Prodotti tessili"
+    "message": "prodotti tessili"
   },
   "TEXTILES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -241,7 +249,7 @@
   },
   "WATER": {
     "description": "",
-    "message": "Acqua"
+    "message": "acqua"
   },
   "WATER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",

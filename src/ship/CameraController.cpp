@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CameraController.h"
@@ -7,6 +7,7 @@
 #include "Frame.h"
 #include "Game.h"
 #include "GameSaveError.h"
+#include "JsonUtils.h"
 #include "MathUtil.h"
 #include "Pi.h"
 #include "Quaternion.h"
@@ -14,20 +15,20 @@
 #include "Space.h"
 #include "collider/CollisionContact.h"
 #include "collider/CollisionSpace.h"
-#include "scenegraph/MatrixTransform.h"
+#include "scenegraph/Tag.h"
 
 CameraController::CameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
 	m_camera(camera),
 	m_ship(ship),
 	m_pos(0.0),
-	m_orient(matrix3x3d::Identity())
+	m_orient(matrix3x3d::Identity)
 {
 }
 
 void CameraController::Reset()
 {
 	m_pos = vector3d(0.0);
-	m_orient = matrix3x3d::Identity();
+	m_orient = matrix3x3d::Identity;
 }
 
 void CameraController::Update()
@@ -56,7 +57,7 @@ InternalCameraController::InternalCameraController(RefCountedPtr<CameraContext> 
 	m_origFov(camera->GetFovAng()),
 	m_zoomPct(1),
 	m_zoomPctTo(1),
-	m_viewOrient(matrix3x3d::Identity()),
+	m_viewOrient(matrix3x3d::Identity),
 	m_smoothing(false)
 {
 	Reset();
@@ -64,10 +65,10 @@ InternalCameraController::InternalCameraController(RefCountedPtr<CameraContext> 
 
 static bool FillCameraPosOrient(const SceneGraph::Model *m, const char *tag, vector3d &pos, matrix3x3d &orient, matrix4x4f &trans, const matrix3x3d &fallbackOrient)
 {
-	matrix3x3d fixOrient(matrix3x3d::Identity());
+	matrix3x3d fixOrient(matrix3x3d::Identity);
 
-	const SceneGraph::MatrixTransform *mt = m->FindTagByName(tag);
-	if (!mt) {
+	const SceneGraph::Tag *tagNode = m->FindTagByName(tag);
+	if (!tagNode) {
 		fixOrient = fallbackOrient;
 	} else {
 		// camera points are have +Z pointing out of the ship, X left, so we
@@ -75,7 +76,7 @@ static bool FillCameraPosOrient(const SceneGraph::Model *m, const char *tag, vec
 		// the rest of the ship. this is not a bug, but rather a convenience to
 		// modellers. it makes sense to orient the camera point in the
 		// direction the camera will face
-		trans = mt->GetTransform() * matrix4x4f::RotateYMatrix(M_PI);
+		trans = tagNode->GetGlobalTransform() * matrix4x4f::RotateYMatrix(M_PI);
 	}
 
 	pos = vector3d(trans.GetTranslate());
@@ -91,11 +92,11 @@ void InternalCameraController::Reset()
 	const SceneGraph::Model *m = GetShip()->GetModel();
 
 	matrix4x4f fallbackTransform = matrix4x4f::Translation(vector3f(0.0));
-	const SceneGraph::MatrixTransform *fallback = m->FindTagByName("tag_camera");
+	const SceneGraph::Tag *fallback = m->FindTagByName("tag_camera");
 	if (fallback)
-		fallbackTransform = fallback->GetTransform() * matrix4x4f::RotateYMatrix(M_PI);
+		fallbackTransform = fallback->GetGlobalTransform() * matrix4x4f::RotateYMatrix(M_PI);
 
-	FillCameraPosOrient(m, "tag_camera_front", m_initPos[MODE_FRONT], m_initOrient[MODE_FRONT], fallbackTransform, matrix3x3d::Identity());
+	FillCameraPosOrient(m, "tag_camera_front", m_initPos[MODE_FRONT], m_initOrient[MODE_FRONT], fallbackTransform, matrix3x3d::Identity);
 	FillCameraPosOrient(m, "tag_camera_rear", m_initPos[MODE_REAR], m_initOrient[MODE_REAR], fallbackTransform, matrix3x3d::RotateY(M_PI));
 	FillCameraPosOrient(m, "tag_camera_left", m_initPos[MODE_LEFT], m_initOrient[MODE_LEFT], fallbackTransform, matrix3x3d::RotateY((M_PI / 2) * 3));
 	FillCameraPosOrient(m, "tag_camera_right", m_initPos[MODE_RIGHT], m_initOrient[MODE_RIGHT], fallbackTransform, matrix3x3d::RotateY(M_PI / 2));
@@ -203,7 +204,7 @@ ExternalCameraController::ExternalCameraController(RefCountedPtr<CameraContext> 
 	m_distTo(m_dist),
 	m_rotX(0),
 	m_rotY(0),
-	m_extOrient(matrix3x3d::Identity()),
+	m_extOrient(matrix3x3d::Identity),
 	m_smoothed_ship_orient(Quaternionf())
 {
 }
@@ -315,7 +316,7 @@ SiderealCameraController::SiderealCameraController(RefCountedPtr<CameraContext> 
 	MoveableCameraController(camera, ship),
 	m_dist(200),
 	m_distTo(m_dist),
-	m_sidOrient(matrix3x3d::Identity())
+	m_sidOrient(matrix3x3d::Identity)
 {
 }
 
@@ -379,7 +380,7 @@ FlyByCameraController::FlyByCameraController(RefCountedPtr<CameraContext> camera
 	m_dist(500),
 	m_distTo(m_dist),
 	m_roll(0),
-	m_flybyOrient(matrix3x3d::Identity())
+	m_flybyOrient(matrix3x3d::Identity)
 {
 }
 
@@ -399,7 +400,7 @@ void FlyByCameraController::Reset()
 {
 	m_dist = 500;
 	m_distTo = m_dist;
-	SetPosition(vector3d(0, 0, 0));
+	SetPosition(vector3d::Zero);
 }
 
 void FlyByCameraController::Update()
@@ -411,7 +412,7 @@ void FlyByCameraController::Update()
 	vector3d camerap;
 
 	Frame *shipFrame = Frame::GetFrame(ship->GetFrame());
-	if (GetPosition() == vector3d(0, 0, 0) || m_old_frame != shipFrame) {
+	if (GetPosition() == vector3d::Zero || m_old_frame != shipFrame) {
 		m_old_pos = ship_pos;
 		m_old_frame = shipFrame;
 	}

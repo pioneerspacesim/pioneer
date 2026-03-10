@@ -1,12 +1,14 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _CUTSCENE_H
 #define _CUTSCENE_H
 
+#include "Color.h"
 #include "graphics/Light.h"
 #include "graphics/Renderer.h"
-#include "libs.h"
+
+#include <vector>
 
 namespace SceneGraph {
 	class Model;

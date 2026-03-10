@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Intro.h"
@@ -16,18 +16,13 @@
 
 class PiRngWrapper {
 public:
-	PiRngWrapper(size_t maxValue) :
-		maxVal(maxValue) {}
 	typedef unsigned int result_type;
 	static constexpr unsigned int min() { return 0; }
 	static constexpr unsigned int max() { return std::numeric_limits<uint32_t>::max(); }
 	unsigned int operator()()
 	{
-		return Pi::rng.Int32(maxVal);
+		return Pi::rng.Int32();
 	}
-
-private:
-	const int32_t maxVal;
 };
 
 Intro::Intro(Graphics::Renderer *r, int width, int height) :
@@ -46,7 +41,7 @@ Intro::Intro(Graphics::Renderer *r, int width, int height) :
 	m_skin.SetDecal("pioneer");
 	m_skin.SetLabel(Lang::PIONEER);
 
-	for (auto i : ShipType::player_ships) {
+	for (const auto &i : ShipType::player_ships) {
 		SceneGraph::Model *model = Pi::FindModel(ShipType::types[i].modelName)->MakeInstance();
 		model->SetThrust(vector3f(0.f, 0.f, -0.6f), vector3f(0.f));
 		if (ShipType::types[i].isGlobalColorDefined) model->SetThrusterColor(ShipType::types[i].globalThrusterColor);
@@ -63,19 +58,15 @@ Intro::Intro(Graphics::Renderer *r, int width, int height) :
 			}
 			model->SetThrusterColor(dir, ShipType::types[i].directionThrusterColor[j]);
 		}
-		const Uint32 numMats = model->GetNumMaterials();
-		for (Uint32 m = 0; m < numMats; m++) {
-			RefCountedPtr<Graphics::Material> mat = model->GetMaterialByIndex(m);
-		}
 		m_models.push_back(model);
 	}
 
-	std::shuffle(m_models.begin(), m_models.end(), PiRngWrapper(m_models.size()));
+	std::shuffle(m_models.begin(), m_models.end(), PiRngWrapper());
 
 	m_modelIndex = 0;
 
-	const int w = Graphics::GetScreenWidth();
-	const int h = Graphics::GetScreenHeight();
+	const int w = r->GetWindowWidth();
+	const int h = r->GetWindowHeight();
 
 	// double-width viewport, centred, then offset 1/6th to centre on the left
 	// 2/3rds of the screen, to the left of the menu
@@ -96,7 +87,8 @@ void Intro::RefreshBackground(Graphics::Renderer *r)
 {
 	const SystemPath s(0, 0, 0);
 	RefCountedPtr<Galaxy> galaxy(GalaxyGenerator::Create());
-	m_background.reset(new Background::Container(r, Pi::rng, nullptr, galaxy, &s));
+	m_background.reset(new Background::Container(r, Pi::rng));
+	m_background->GetStarfield()->Fill(Pi::rng, &s, galaxy);
 }
 
 void Intro::Reset()
@@ -105,7 +97,7 @@ void Intro::Reset()
 	if (m_modelIndex == m_models.size()) m_modelIndex = 0;
 	m_skin.SetRandomColors(Pi::rng);
 	m_skin.Apply(m_model);
-	if (m_model->SupportsPatterns())
+	if (m_model->SupportsPatterns() && m_model->GetNumPatterns() > 0)
 		m_model->SetPattern(Pi::rng.Int32(0, m_model->GetNumPatterns() - 1));
 	m_zoomBegin = -10000.0f;
 	m_zoomEnd = -m_model->GetDrawClipRadius() * 1.7f;
@@ -147,10 +139,13 @@ void Intro::Draw(float deltaTime)
 	Graphics::Renderer::StateTicket ticket(m_renderer);
 
 	m_renderer->SetPerspectiveProjection(75, m_aspectRatio, 1.f, 10000.f);
-	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_renderer->SetTransform(matrix4x4f::Identity);
 
 	m_renderer->SetAmbientColor(m_ambientColor);
+
+	float intensity[4] = { 1.f, 1.f, 1.f, 1.f };
 	m_renderer->SetLights(m_lights.size(), &m_lights[0]);
+	m_renderer->SetLightIntensity(4, intensity);
 
 	// XXX all this stuff will be gone when intro uses a Camera
 	// rotate background by time, and a bit extra Z so it's not so flat
@@ -158,12 +153,15 @@ void Intro::Draw(float deltaTime)
 	m_renderer->ClearDepthBuffer();
 	m_background->Draw(brot);
 
-	m_renderer->SetViewport({ m_spinnerLeft, 0, m_spinnerWidth, Graphics::GetScreenHeight() });
+	m_renderer->SetViewport({ m_spinnerLeft, 0, m_spinnerWidth, m_renderer->GetWindowHeight() });
 	m_renderer->SetPerspectiveProjection(75, m_spinnerRatio, 1.f, 10000.f);
 
 	matrix4x4f trans =
 		matrix4x4f::Translation(0, 0, m_dist) *
 		matrix4x4f::RotateXMatrix(DEG2RAD(-15.0f)) *
 		matrix4x4f::RotateYMatrix(duration);
+
+	m_model->SetThrust(vector3f(0.3f * sin(duration), 0.f, -0.6 * cos(duration)), vector3f(0.f));
+	m_model->SetRenderTime(duration);
 	m_model->Render(trans);
 }

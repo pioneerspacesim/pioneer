@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUAVECTOR2_H
@@ -34,6 +34,23 @@ inline bool pi_lua_strict_pull(lua_State *l, int index, vector2d &out)
 	const vector2d *tmp = LuaVector2::GetFromLua(l, index);
 	if (tmp) {
 		out = *tmp;
+		return true;
+	}
+	return false;
+}
+
+inline void pi_lua_generic_push(lua_State *l, const vector2f &value) { LuaVector2::PushToLua(l, vector2d(value)); }
+
+inline void pi_lua_generic_pull(lua_State *l, int index, vector2f &out)
+{
+	out = vector2f(*LuaVector2::CheckFromLua(l, index));
+}
+
+inline bool pi_lua_strict_pull(lua_State *l, int index, vector2f &out)
+{
+	const vector2d *tmp = LuaVector2::GetFromLua(l, index);
+	if (tmp) {
+		out = vector2f(*tmp);
 		return true;
 	}
 	return false;

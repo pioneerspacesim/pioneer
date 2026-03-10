@@ -1,0 +1,79 @@
+From 8eb3c1ae01a7fbddae09a06c75ae1ef9be6cb144 Mon Sep 17 00:00:00 2001
+From: Axtel Sturnclaw <sturnclaw@protonmail.com>
+Date: Thu, 29 May 2025 18:41:41 -0400
+Subject: [PATCH 3/3] Patch: add MissingGlyphs mechanism to ImFont
+
+Report missing font glyphs and store them in a lookup table for on-demand font glyph loading.
+---
+ contrib/imgui/imgui.h        |  3 ++-
+ contrib/imgui/imgui_draw.cpp | 18 +++++++++++++-----
+ 2 files changed, 15 insertions(+), 6 deletions(-)
+
+diff --git a/contrib/imgui/imgui.h b/contrib/imgui/imgui.h
+index fa2772b0c..bc90f0ed6 100644
+--- a/contrib/imgui/imgui.h
++++ b/contrib/imgui/imgui.h
+@@ -3614,11 +3614,12 @@ struct ImFont
+     int                         MetricsTotalSurface;// 4     // out // Total surface in pixels to get an idea of the font rasterization/texture cost (not exact, we approximate the cost of padding between glyphs)
+     bool                        DirtyLookupTables;  // 1     // out //
+     ImU8                        Used8kPagesMap[(IM_UNICODE_CODEPOINT_MAX+1)/8192/8]; // 1 bytes if ImWchar=ImWchar16, 16 bytes if ImWchar==ImWchar32. Store 1-bit for each block of 4K codepoints that has one active glyph. This is mainly used to facilitate iterations across all used codepoints.
++    mutable ImVector<ImWchar>   MissingGlyphs;
+ 
+     // Methods
+     IMGUI_API ImFont();
+     IMGUI_API ~ImFont();
+-    IMGUI_API ImFontGlyph*      FindGlyph(ImWchar c);
++    IMGUI_API ImFontGlyph*      FindGlyph(ImWchar c, bool report_missing = false);
+     IMGUI_API ImFontGlyph*      FindGlyphNoFallback(ImWchar c);
+     float                       GetCharAdvance(ImWchar c)       { return ((int)c < IndexAdvanceX.Size) ? IndexAdvanceX[(int)c] : FallbackAdvanceX; }
+     bool                        IsLoaded() const                { return ContainerAtlas != NULL; }
+diff --git a/contrib/imgui/imgui_draw.cpp b/contrib/imgui/imgui_draw.cpp
+index e4f77e9f9..8b36e8a1e 100644
+--- a/contrib/imgui/imgui_draw.cpp
++++ b/contrib/imgui/imgui_draw.cpp
+@@ -3902,13 +3902,21 @@ void ImFont::AddRemapChar(ImWchar dst, ImWchar src, bool overwrite_dst)
+ }
+ 
+ // Find glyph, return fallback if missing
+-ImFontGlyph* ImFont::FindGlyph(ImWchar c)
++ImFontGlyph* ImFont::FindGlyph(ImWchar c, bool report_missing)
+ {
+-    if (c >= (size_t)IndexLookup.Size)
++    if (c >= (size_t)IndexLookup.Size) {
++		if (report_missing)
++			if (!MissingGlyphs.contains(c))
++				MissingGlyphs.push_back(c);
+         return FallbackGlyph;
++	}
+     const ImU16 i = IndexLookup.Data[c];
+-    if (i == (ImU16)-1)
++    if (i == (ImU16)-1) {
++		if (report_missing)
++			if (!MissingGlyphs.contains(c))
++				MissingGlyphs.push_back(c);
+         return FallbackGlyph;
++	}
+     return &Glyphs.Data[i];
+ }
+ 
+@@ -4116,7 +4124,7 @@ ImVec2 ImFont::CalcTextSizeA(float size, float max_width, float wrap_width, cons
+ // Note: as with every ImDrawList drawing function, this expects that the font atlas texture is bound.
+ void ImFont::RenderChar(ImDrawList* draw_list, float size, const ImVec2& pos, ImU32 col, ImWchar c)
+ {
+-    const ImFontGlyph* glyph = FindGlyph(c);
++    const ImFontGlyph* glyph = FindGlyph(c, true);
+     if (!glyph || !glyph->Visible)
+         return;
+     if (glyph->Colored)
+@@ -4236,7 +4244,7 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, const ImVec2& pos, Im
+                 continue;
+         }
+ 
+-        const ImFontGlyph* glyph = FindGlyph((ImWchar)c);
++        const ImFontGlyph* glyph = FindGlyph((ImWchar)c, true);
+         if (glyph == NULL)
+             continue;
+ 
+-- 
+2.49.0
+

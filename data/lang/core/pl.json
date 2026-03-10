@@ -405,11 +405,15 @@
   },
   "ECONOMY_TYPE": {
     "description": "",
-    "message": "Ekonomia:"
+    "message": "Ekonomia"
   },
   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
     "description": "",
     "message": "Stosunek średnicy równikowej do międzybiegunowej"
+  },
+  "ESCAPE_VELOCITY": {
+    "description": "",
+    "message": "Prędkość ucieczki"
   },
   "EXACT_MATCH_X": {
     "description": "",
@@ -491,21 +495,41 @@
     "description": "",
     "message": "Nie można zapisać gry z powodu błędu systemowego."
   },
+  "GAME_SAVE_INVALID_NAME": {
+    "description": "",
+    "message": "Ten plik zapisu gry nie mógł być zapisany z powodu nieprawidłowej nazwy."
+  },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
     "message": "Sterowanie w widoku ogólnym"
   },
   "GOVERNMENT_TYPE": {
     "description": "",
-    "message": "Rząd:"
+    "message": "Rząd"
   },
   "GRAIN": {
     "description": "like wheat or barley",
     "message": "Zboże"
   },
+  "GRID_DISPLAY_MODE": {
+    "description": "Label for grid display modes",
+    "message": "Tryb wyświetlania siatki"
+  },
+  "GRID_DISPLAY_MODE_GRID_AND_LEGS": {
+    "description": "Combobox option for Grid with Legs",
+    "message": "Siatka z podstawą"
+  },
+  "GRID_DISPLAY_MODE_GRID_ONLY": {
+    "description": "Combobox option for Grid Only",
+    "message": "Tylko siatka"
+  },
+  "GRID_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for Grid display off.",
+    "message": "Siatka wyłączona"
+  },
   "GRID_DISPLAY_MODE_TOGGLE": {
-    "description": "Switch show no grid",
-    "message": "Przełącz pomiędzy trybami wyświetlania siatki."
+    "description": "Tooltip for toggle grid display button.",
+    "message": "Przełącz widoczność siatki"
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -582,6 +606,26 @@
   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
     "description": "",
     "message": "Ślad wyjściowej chmury nadprzestrzennej"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
+    "description": "Label for hyperspace cloud display modes.",
+    "message": "Tryb wyświetlania chmury czasoprzestrzennej"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL": {
+    "description": "Combobox option for all hyperspace clouds.",
+    "message": "Wszystkie chmury nadprzestrzeni"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY": {
+    "description": "Combobox option for arrival hyperspace clouds.",
+    "message": "Chmury nadprzestrzeni po przybyciu"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY": {
+    "description": "Combobox option for departure hyperspace clouds.",
+    "message": "Chmury nadprzestrzeni po odlocie"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE": {
+    "description": "Tooltip for the button which toggles the display mode of hyperspace clouds.",
+    "message": "Przełącz widoczność chmur nadprzestrzeni"
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
@@ -675,9 +719,25 @@
     "description": "",
     "message": "Ustawienia joysticka"
   },
+  "L4L5_DISPLAY_MODE": {
+    "description": "Label for the lagrange point display modes.",
+    "message": "Tryb wyświetlania punktów Lagrange`a"
+  },
+  "L4L5_DISPLAY_MODE_ICONS_AND_TEXT": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Ikony i opisy"
+  },
+  "L4L5_DISPLAY_MODE_ICONS_ONLY": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Tylko ikony"
+  },
+  "L4L5_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for lagrange point display off.",
+    "message": "Wyłączony"
+  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
-    "description": "Either show L4/L5 points or don't",
-    "message": "Przełączanie między trybami wyświetlania punktów libracji L4/L5."
+    "description": "Tooltip for the L4/L5 Lagrange points toggle button.",
+    "message": "Przełącz wyświetlanie punktów Langrage`a L4/L5"
   },
   "LANDED": {
     "description": "",
@@ -782,6 +842,10 @@
   "MASS_N_TONNES": {
     "description": "",
     "message": "Masa: %{mass}t"
+  },
+  "MEAN_DENSITY": {
+    "description": "",
+    "message": "Średnia gęstość"
   },
   "MEDICINES": {
     "description": "",
@@ -1017,7 +1081,7 @@
   },
   "NUMBER_TONNES": {
     "description": "",
-    "message": "%{mass}t"
+    "message": "%{mass} t"
   },
   "N_ATMOSPHERE": {
     "description": "",
@@ -1177,7 +1241,7 @@
   },
   "POPULATION": {
     "description": "",
-    "message": "Populacja:"
+    "message": "Populacja"
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -1280,7 +1344,7 @@
     "message": "Odpady"
   },
   "SCOOP": {
-    "description": "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+    "description": "Is followed by a number, representing scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
     "message": "Mocowania czerpaków"
   },
   "SCREENSHOT_FILENAME_TEMPLATE": {
@@ -1305,7 +1369,7 @@
   },
   "SECTOR_X_Y_Z": {
     "description": "",
-    "message": "Sektor: %x,%y,%z"
+    "message": "Sektor: {sectorX}, {sectorY}, {sectorZ}"
   },
   "SELECTED_SYSTEM": {
     "description": "",
@@ -1375,9 +1439,21 @@
     "description": "",
     "message": "Statek"
   },
+  "SHIPS_DISPLAY_MODE": {
+    "description": "Label for ship display modes.",
+    "message": "Tryb wyświetlania statków"
+  },
+  "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
+    "description": "Combobox option for ships only.",
+    "message": "Tylko statki"
+  },
+  "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
+    "description": "Combobox option for ships with orbits.",
+    "message": "Statki z orbitami"
+  },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
-    "description": "Either show no ships, show ships, or show ships + their orbits",
-    "message": "Przełącz pomiędzy trybami wyświetlania statków."
+    "description": "Tooltip for ship display toggle button.",
+    "message": "Przełącz widoczność statków."
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
@@ -1591,6 +1667,10 @@
     "description": "",
     "message": "Grawitacja na powierzchni"
   },
+  "SURFACE_PRESSURE": {
+    "description": "",
+    "message": "Ciśnienie powierzchni"
+  },
   "SURFACE_TEMPERATURE": {
     "description": "",
     "message": "Średnia temperatura"
@@ -1739,9 +1819,21 @@
     "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
     "message": "JA"
   },
+  "UNIT_CREDITS": {
+    "description": "Unit of money, used when $ isn't specific enough",
+    "message": "Kr"
+  },
+  "UNIT_CUBIC_METERS": {
+    "description": "Volume unit: cubic meter",
+    "message": "m³"
+  },
   "UNIT_DAYS": {
     "description": "Duration unit: one 24-hour day",
     "message": "d"
+  },
+  "UNIT_DENSITY": {
+    "description": "Density unit: kilos per cubic meter",
+    "message": "kg/m³"
   },
   "UNIT_EARTH_GRAVITY": {
     "description": "Acceleration unit: one earth gravity (g)",
@@ -1750,6 +1842,10 @@
   "UNIT_GIGATONNES": {
     "description": "Mass unit: one gigatonne",
     "message": "Gt"
+  },
+  "UNIT_HECTARES": {
+    "description": "Area unit: one hectare (ha) -10,000 m²",
+    "message": "ha"
   },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
@@ -1810,6 +1906,30 @@
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",
     "message": "s"
+  },
+  "UNIT_SQUARE_KILOMETERS": {
+    "description": "Area unit: square kilometer (km²) - 1,000,000 m²",
+    "message": "km²"
+  },
+  "UNIT_SQUARE_MEGAMETERS": {
+    "description": "Area unit: square megameter (Mm²) - 10^12 m²",
+    "message": "Mm²"
+  },
+  "UNIT_SQUARE_METERS": {
+    "description": "Area unit: square meter (m²)",
+    "message": "m²"
+  },
+  "UNIT_TEMPERATURE_CELSIUS": {
+    "description": "Temperature unit: degrees Celsius (°C)",
+    "message": "°C"
+  },
+  "UNIT_TEMPERATURE_FAHRENHEIT": {
+    "description": "Temperature unit: Fahrenheit (°F)",
+    "message": "°F"
+  },
+  "UNIT_TEMPERATURE_KELVIN": {
+    "description": "Temperature unit: degrees Kelvin (K)",
+    "message": "K"
   },
   "UNIT_TERATONNES": {
     "description": "Mass unit: one teratonne",

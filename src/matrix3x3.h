@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _MATRIX3X3_H
@@ -6,12 +6,13 @@
 
 #include "vector3.h"
 #include <math.h>
-#include <stdio.h>
 #include <type_traits>
 
 template <typename T>
 class matrix3x3 {
 private:
+	// row-major ordering
+	// TODO row-major is at odds with matrix4x4 which is column-major, this needs fixing
 	T cell[9];
 	using other_float_t = typename std::conditional<std::is_same<T, float>::value, double, float>::type;
 
@@ -42,13 +43,6 @@ public:
 	vector3<T> VectorY() const { return vector3<T>(cell[1], cell[4], cell[7]); }
 	vector3<T> VectorZ() const { return vector3<T>(cell[2], cell[5], cell[8]); }
 
-	static matrix3x3 Identity()
-	{
-		matrix3x3 m;
-		m.cell[1] = m.cell[2] = m.cell[3] = m.cell[5] = m.cell[6] = m.cell[7] = 0.0f;
-		m.cell[0] = m.cell[4] = m.cell[8] = 1.0f;
-		return m;
-	}
 	static matrix3x3 Scale(T x, T y, T z)
 	{
 		matrix3x3 m;
@@ -230,19 +224,20 @@ public:
 	{
 		*this = Normalized();
 	}
-	void Print() const
+
+	static matrix3x3 IdentityFunc()
 	{
-		for (int i = 0; i < 3; i++) {
-			printf("%.2f %.2f %.2f\n", cell[3 * i], cell[3 * i + 1], cell[3 * i + 2]);
-		}
-		printf("\n");
+		constexpr T IDENTITY3x3[] = { 1, 0, 0, 0, 1, 0, 0, 0, 1 };
+		return matrix3x3(IDENTITY3x3);
 	}
+
+	static const matrix3x3 Identity;
 };
+
+template <typename T>
+const matrix3x3<T> matrix3x3<T>::Identity(IdentityFunc());
 
 typedef matrix3x3<float> matrix3x3f;
 typedef matrix3x3<double> matrix3x3d;
-
-static const matrix3x3f matrix3x3fIdentity(matrix3x3f::Identity());
-static const matrix3x3d matrix3x3dIdentity(matrix3x3d::Identity());
 
 #endif /* _MATRIX3x3_H */

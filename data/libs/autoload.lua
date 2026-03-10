@@ -1,13 +1,24 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- this is the only library automatically loaded at startup
 -- its the right place to extend core Lua tables
 
-require 'SpaceStation'
-
 string.trim = function(s)
 	return string.gsub(s or "", "^%s*(.-)%s*$", "%1")
+end
+
+-- Convert the input string to s(entence) case, capitalizing the first letter of
+-- the string and any first letters of consecutive sentences in the string.
+---@param s string
+string.scase = function (s)
+    s = s:gsub("^%l", string.upper)
+
+    s = s:gsub("([.!?]%s*)(%l)", function(punct, letter)
+        return punct .. letter:upper()
+    end)
+
+    return s
 end
 
 math.round = function(v)
@@ -51,16 +62,17 @@ string.interp = function (s, t)
 	local i = 0
 	return (s:gsub('(%b{})', function(w)
 		if #w > 2 then
-			return t[w:sub(2, -2)] or w
+			return tostring(t[w:sub(2, -2)]) or w
 		else
-			i = i + 1; return t[i] or w
+			i = i + 1; return tostring(t[i]) or w
 		end
 	end))
 end
 
--- allow using string.interp via "s" % { t }
 ---@class string
 ---@operator mod(table): string
+
+-- allow using string.interp via "s" % { t }
 getmetatable("").__mod = string.interp
 
 -- make a simple shallow copy of the passed-in table
@@ -74,6 +86,73 @@ table.copy = function(t)
 		ret[k] = v
 	end
 	return ret
+end
+
+-- Copy values from table b into a
+--
+-- Does not copy metatable nor recurse into the table.
+-- Pass an optional transformer to mutate the keys and values before assignment.
+---@generic K, V
+---@param a table
+---@param b table<K, V>
+---@param transformer nil|fun(k: K, v: V): any, any
+---@return table
+table.merge = function(a, b, transformer)
+	if transformer then
+		for k, v in pairs(b) do
+			k, v = transformer(k, v)
+			a[k] = v
+		end
+	else
+		for k, v in pairs(b) do
+			a[k] = v
+		end
+	end
+	return a
+end
+
+-- Copy table recursively using pairs()
+--
+-- Does not copy metatable
+---@generic T
+---@param t T
+---@return T
+table.deepcopy = function(t)
+
+	if not t then return nil end
+
+	local result = {}
+	for k, v in pairs(t) do
+		if type(v) == 'table' then
+			result[k] = table.deepcopy(v)
+		else
+			result[k] = v
+		end
+	end
+	return result
+end
+
+-- Append array b to array a
+--
+-- Does not copy metatable nor recurse into the table.
+-- Pass an optional transformer to mutate the keys and values before assignment.
+---@generic T
+---@param a table
+---@param b T[]
+---@param transformer nil|fun(v: T): any
+---@return table
+table.append = function(a, b, transformer)
+	if transformer then
+		for _, v in ipairs(b) do
+			v = transformer(v)
+			table.insert(a, v)
+		end
+	else
+		for _, v in ipairs(b) do
+			table.insert(a, v)
+		end
+	end
+	return a
 end
 
 -- make import break. you should never import this file

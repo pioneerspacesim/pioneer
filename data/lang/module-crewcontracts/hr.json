@@ -1,11 +1,11 @@
 {
   "ASK_CANDIDATE_TO_SIT_A_TEST": {
     "description": "",
-    "message": "Ask candidate to sit a test"
+    "message": "Zamolite kandidata da pristupi testu"
   },
   "CREWDETAILSHEETBB": {
     "description": "",
-    "message": "Name: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n"
+    "message": "Ime: {name}\nIskustvo: {experience}\nTražena plaća: {wage} tjedno\n\n{response}\n"
   },
   "CREWMEMBER_WAGE_PER_WEEK": {
     "description": "",
@@ -13,90 +13,90 @@
   },
   "CREWTESTRESULTSBB": {
     "description": "",
-    "message": "Examination results:\n\nGeneral crew competence: {general}%\nEngineering and repair: {engineering}%\nPiloting and spaceflight: {piloting}%\nNavigation and plotting: {navigation}%\nSensors and defence: {sensors}%\nOverall exam score: {overall}%"
+    "message": "Rezultati ispita:\n\nOpća kompetencija posade: {general}%\nInženjering i popravak: {engineering}%\nPilotiranje i svemirski letovi: {piloting}%\nNavigacija i crtanje: {navigation}%\nSenzori i obrana: {sensors}%\nUkupni rezultat ispita: {overall}%"
   },
   "CREW_FOR_HIRE": {
     "description": "",
-    "message": "Crew for hire"
+    "message": "Posada za zapošljavanje"
   },
   "CREW_FOR_HIRE_DESC": {
     "description": "",
-    "message": "Potential crew available for hire at this starport."
+    "message": "Potencijalna posada dostupna za najam u ovoj zvjezdanoj luci."
   },
   "CREW_FOR_HIRE_TITLE": {
     "description": "",
-    "message": "CREW FOR HIRE"
+    "message": "POSADA ZA NAJAM"
   },
   "GO_BACK": {
     "description": "",
-    "message": "Nazad"
+    "message": "Natrag"
   },
   "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER": {
     "description": "",
-    "message": "I'm sorry, I'm not prepared to go any lower."
+    "message": "Žao mi je, nisam spreman ići niže."
   },
   "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
     "description": "",
-    "message": "I'm sorry, your offer isn't attractive to me."
+    "message": "Žao mi je, vaša ponuda mi nije privlačna."
   },
   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
     "description": "",
-    "message": "Make offer of position on ship for stated amount"
+    "message": "Ponudite mjesto na brodu za navedeni iznos"
   },
   "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
     "description": "",
-    "message": "Minimal time served aboard ship"
+    "message": "Minimalno vrijeme provedeno na brodu"
   },
   "NO_CREW_AVAILABLE": {
     "description": "",
-    "message": "Sorry, no candidates are currently seeking employment at {station}"
+    "message": "Žao nam je, trenutno nema kandidata koji traže posao u {station}"
   },
   "NO_EXPERIENCE": {
     "description": "",
-    "message": "No experience"
+    "message": "Bez iskustva"
   },
   "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
     "description": "",
-    "message": "OK, I suppose that's all right."
+    "message": "U redu, pretpostavljam da je to u redu."
   },
   "POTENTIAL_CREW_MEMBERS": {
     "description": "",
-    "message": "Potential crew members are registered as seeking employment at {station}:"
+    "message": "Potencijalni članovi posade registrirani su kao tražitelji zaposlenja na {station}:"
   },
   "SIMULATOR_TRAINING_ONLY": {
     "description": "",
-    "message": "Simulator training only"
+    "message": "Samo obuka na simulatoru"
   },
   "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS": {
     "description": "",
-    "message": "Some experience in controlled environments"
+    "message": "Nešto iskustva u kontroliranim okruženjima"
   },
   "SUGGEST_NEW_WEEKLY_WAGE_OF_N": {
     "description": "",
-    "message": "Suggest new weekly wage of {newAmount}"
+    "message": "Predložite novu tjednu plaću od {newAmount}"
   },
   "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY": {
     "description": "",
-    "message": "Thanks, I'll get settled on board immediately."
+    "message": "Hvala, odmah ću se smjestiti na brod."
   },
   "THATS_EXTREMELY_GENEROUS_OF_YOU": {
     "description": "",
-    "message": "That's extremely generous of you!"
+    "message": "To je iznimno velikodušno od vas!"
   },
   "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER": {
     "description": "",
-    "message": "That certainly makes this offer look better!"
+    "message": "To svakako čini ovu ponudu boljom!"
   },
   "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD": {
     "description": "",
-    "message": "There doesn't seem to be space for me on board!"
+    "message": "Čini se da nema mjesta za mene na brodu!"
   },
   "TIME_SERVED_CREW_MEMBER": {
     "description": "",
-    "message": "Time served crew member"
+    "message": "Vrijeme provedeno u službi člana posade"
   },
   "VETERAN_TIME_SERVED_CREW_MEMBER": {
     "description": "",
-    "message": "Veteran, time served crew member"
+    "message": "Veteran, član posade s dugogodišnjom službom"
   }
 }

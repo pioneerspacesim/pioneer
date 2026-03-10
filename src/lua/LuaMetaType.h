@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -48,7 +48,8 @@ public:
 	{}
 
 	// Creates and registers the lua-side object for this type.
-	void CreateMetaType(lua_State *l);
+	// If pushToStack is true, leaves the created metatype object on the top of the stack
+	void CreateMetaType(lua_State *l, bool pushToStack = false);
 
 	const char *GetTypeName() const { return m_typeName.c_str(); }
 

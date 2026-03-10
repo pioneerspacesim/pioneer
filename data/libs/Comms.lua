@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -28,12 +28,6 @@ Comms.Priority = {
 -- Example:
 -- > Comms.Message("Please repair my ship.", "Gary Jones")
 --
--- Availability:
---   alpha 10
---
--- Status:
---   experimental
-
 function Comms.Message(msg, from)
 	Game.AddCommsLogLine(msg, from, Comms.Priority.Normal)
 end
@@ -54,12 +48,6 @@ end
 -- Example:
 -- > Comms.ImportantMessage("Prepare to die!", "AB-1234")
 --
--- Availability:
---   alpha 10
---
--- Status:
---   experimental
-
 function Comms.ImportantMessage(msg, from)
 	Game.AddCommsLogLine(msg, from, Comms.Priority.Important)
 end

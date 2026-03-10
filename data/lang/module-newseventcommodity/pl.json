@@ -61,7 +61,7 @@
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "W całym systemie {system}({sectorx},{sectory},{sectorz}) sieje spustoszenie awaria zasilania. Tworzą się kolejki konsumentów wykupujących ostatnie pojemniki na żywność zamiast lodówek. A producentom brakuje już na nie materiału."
+    "message": "W całym systemie {system}({sectorx},{sectory},{sectorz}) awaria zasilania sieje spustoszenie. Tworzą się kolejki konsumentów wykupujących ostatnie pojemniki na żywność w zastępstwie lodówek. A producentom brakuje już na nie materiału."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",

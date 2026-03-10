@@ -1,0 +1,562 @@
+{
+  "ACCEPTED_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "Vrlo dobro. Prenio sam vam dokument."
+  },
+  "ACCEPTED_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "Izvrsno. Kopirao/la sam poruku na tvoje računalo."
+  },
+  "ACCEPTED_EVACUATION": {
+    "description": "",
+    "message": "Odlično. Čuvaj se!"
+  },
+  "ACCEPTED_PRIVATEER": {
+    "description": "",
+    "message": "Dobro. Mislim da ćeš vrlo brzo pronaći brod."
+  },
+  "ACCEPTED_TAXI": {
+    "description": "",
+    "message": "Vrlo dobro. Požuri!"
+  },
+  "ACCEPTED_TRAITOR": {
+    "description": "",
+    "message": "U redu. Prenio sam podatke na računalo tvog broda."
+  },
+  "ADTEXT_1": {
+    "description": "",
+    "message": "Pronađite osobu u sustavu {system}. Nagradite je novcem (cash)."
+  },
+  "ADTEXT_2": {
+    "description": "",
+    "message": "Traži misiju u sustavu {system}. Plaćanje {cash}."
+  },
+  "ADTEXT_3": {
+    "description": "",
+    "message": "Naknada za troškove  {cash}."
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "NESTALA OSOBA"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "POTREBAN PILOT ZA MISIJU PRONALAŽENJA"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "POTREBAN BROD ZA POTRAGU"
+  },
+  "CLIENT": {
+    "description": "",
+    "message": "Klijent:"
+  },
+  "COMPANY": {
+    "description": "",
+    "message": "Tvrtka:"
+  },
+  "COMPANY_1": {
+    "description": "Name of a company",
+    "message": "{name} Avionska korporacija"
+  },
+  "COMPANY_2": {
+    "description": "Name of a company",
+    "message": "Tvrtka za vatreno oružje {name}"
+  },
+  "COMPANY_3": {
+    "description": "Name of a company",
+    "message": "{name} Zaklada za flotne sustave"
+  },
+  "COMPANY_4": {
+    "description": "Name of a company",
+    "message": "{name} Tvrtka za obrambene sustave"
+  },
+  "COMPANY_5": {
+    "description": "Name of a company",
+    "message": "{name} Korporacija za alate za nadzor"
+  },
+  "COMPANY_6": {
+    "description": "Name of a company",
+    "message": "{name} Zaklada za posebne IT usluge"
+  },
+  "DANGER": {
+    "description": "The risk level",
+    "message": "Opasnost:"
+  },
+  "DEADLINE": {
+    "description": "Must be delivered by",
+    "message": "Rok:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Oprostite, gospodine, ali trebam pilota s više iskustva."
+  },
+  "DISTANCE": {
+    "description": "Distance in space, between two locations",
+    "message": "Udaljenost:"
+  },
+  "FAILUREMSG_1": {
+    "description": "",
+    "message": "Nisam zadovoljan tvojim radom. Neću ti platiti!"
+  },
+  "FAILUREMSG_2": {
+    "description": "",
+    "message": "Prekasno! Žao mi je, nećete biti plaćeni!"
+  },
+  "FIND_PERSON": {
+    "description": "Name of mission type",
+    "message": "Pronađi osobu"
+  },
+  "GREETING_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "Dovraga, uhvatio si me. U redu, potpisao sam dokument. Molim te, vrati ga {client}!"
+  },
+  "GREETING_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "Hvala na poruci. Poslao sam odgovor za {client} na vaše brodsko računalo."
+  },
+  "GREETING_EVACUATION": {
+    "description": "",
+    "message": "Bože, drago mi je vidjeti te! Možemo odmah poletjeti. Više me ništa ovdje ne zadržava."
+  },
+  "GREETING_PRIVATEER": {
+    "description": "",
+    "message": "Uh, radite za {client}? Kopirao sam vrijedne podatke na vaše brodsko računalo. {client} će ovo smatrati korisnim!"
+  },
+  "GREETING_TAXI": {
+    "description": "",
+    "message": "O, ne. To su loše vijesti. Hajdemo se odmah vratiti."
+  },
+  "GREETING_TRAITOR": {
+    "description": "",
+    "message": "Što? {client}  želi izjavu? U redu, molim vas vratite i predajte ovaj dokument!"
+  },
+  "HOW_CAN_I_FIND_HER": {
+    "description": "",
+    "message": "Kako je mogu pronaći?"
+  },
+  "HOW_CAN_I_FIND_HIM": {
+    "description": "",
+    "message": "Kako ga mogu pronaći?"
+  },
+  "HOW_MUCH_TIME": {
+    "description": "",
+    "message": "Koliko vremena imam?"
+  },
+  "HOW_MUCH_TIME_DELIVER_DOCUMENT": {
+    "description": "",
+    "message": "Molimo vas da se vratite do {date}."
+  },
+  "HOW_MUCH_TIME_DELIVER_MESSAGE": {
+    "description": "",
+    "message": "Ako mi se ne javite do {date}, unajmit ću drugog pilota!"
+  },
+  "HOW_MUCH_TIME_EVACUATION": {
+    "description": "",
+    "message": "Morate se vratiti do {date}! Ako ne, u ozbiljnoj smo nevolji."
+  },
+  "HOW_MUCH_TIME_PRIVATEER": {
+    "description": "",
+    "message": "Ako se ne vratiš do {date}, naša ponuda je završena!"
+  },
+  "HOW_MUCH_TIME_TAXI": {
+    "description": "",
+    "message": "Naša ponuda završava do {date}."
+  },
+  "HOW_MUCH_TIME_TRAITOR": {
+    "description": "",
+    "message": "Vrijeme je ključno! Ako se ne vratite do {date}, gotovi smo."
+  },
+  "HOW_TO_DELIVER_DOCUMENT_FEMALE": {
+    "description": "",
+    "message": "Nađi njezin brod. Onda ćeš je naći."
+  },
+  "HOW_TO_DELIVER_DOCUMENT_MALE": {
+    "description": "",
+    "message": "Sve što trebaš učiniti je pronaći njegov brod. Ne bi trebao biti daleko."
+  },
+  "HOW_TO_DELIVER_MESSAGE_FEMALE": {
+    "description": "",
+    "message": "Sve što znam je da bi trebala raditi na svemirskoj postaji."
+  },
+  "HOW_TO_DELIVER_MESSAGE_MALE": {
+    "description": "",
+    "message": "Radi u uredu blizu svemirske luke. To je sve što znam."
+  },
+  "HOW_TO_EVACUATION_FEMALE": {
+    "description": "",
+    "message": "Sigurno će te kontaktirati ako sazna da si stigao/stigla!"
+  },
+  "HOW_TO_EVACUATION_MALE": {
+    "description": "",
+    "message": "Javit će ti se kad shvati da si stigao/stigla!"
+  },
+  "HOW_TO_PRIVATEER_FEMALE": {
+    "description": "",
+    "message": "Vrlo često uništava svoj brod tijekom opasnih misija. Radionica za svemirske brodove bila bi dobro mjesto za početak."
+  },
+  "HOW_TO_PRIVATEER_MALE": {
+    "description": "",
+    "message": "On obavlja mnogo rizičnih putovanja. Njegov brod se često nalazi u radionici svemirske stanice."
+  },
+  "HOW_TO_TAXI_FEMALE": {
+    "description": "",
+    "message": "Ne znam. To ovisi o tebi!"
+  },
+  "HOW_TO_TAXI_MALE": {
+    "description": "",
+    "message": "Nemam pojma. To je tvoja stvar!"
+  },
+  "HOW_TO_TRAITOR_FEMALE": {
+    "description": "",
+    "message": "Dobro je poznajući, druži se po barovima u blizini svemirskih luka."
+  },
+  "HOW_TO_TRAITOR_MALE": {
+    "description": "",
+    "message": "Poznat je po tome što se zadržavao u krčmama svemirske luke."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_FEMALE_1": {
+    "description": "",
+    "message": "Pozdrav! Ja sam {client} i govorim u ime {company}. Jedan od naših brodova sudario se s drugim brodom samo nekoliko sekundi prije ulaska u hiperprostor. Nije bilo dovoljno vremena za zaustavljanje sekvence hiperskoka. Sada nam treba netko tko može locirati brod s identifikacijskim brojem {shipid} u sustavu {system} ({sectorx}, {sectory}, {sectorz}) i predati prijedlog za izvansudsku nagodbu zapovjedniku {wanted}. Molimo vas da se vratite u {domicile} radi isplate {cash}. Morat ćete putovati {dist} ly za ovo."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_FEMALE_2": {
+    "description": "",
+    "message": "Drago mi je. Zovem se {client}. Tražimo staru poslovnu partnericu koja nam još uvijek duguje uslugu. Zove se {wanted}. Skriva se u sustavu {system} ({sectorx}, {sectory}, {sectorz}). Ako je možete pronaći, predajte joj šifrirani dokument i vratite ga u ured tvrtke {company} ovdje na adresi {domicile}. U slučaju uspjeha plaćamo {cash}. {system} je udaljen {dist}."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_MALE_1": {
+    "description": "",
+    "message": "Pozdrav! Ja sam {client} i govorim u ime {company}. Jedan od naših brodova sudario se s drugim brodom samo nekoliko sekundi prije ulaska u hiperprostor. Nije bilo dovoljno vremena za zaustavljanje sekvence hiperskoka. Sada nam treba netko tko može locirati brod s identifikacijskim brojem {shipid} u sustavu {system} ({sectorx}, {sectory}, {sectorz}) i predati prijedlog za izvansudsku nagodbu zapovjedniku {wanted}. Molimo vas da se vratite u {domicile} radi isplate {cash}. Morat ćete putovati {dist} ly za ovo."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_MALE_2": {
+    "description": "",
+    "message": "Drago mi je. Zovem se {client}. Tražimo starog poslovnog partnera koji nam još uvijek duguje uslugu. Zove se {wanted}. Skriva se u sustavu {system} ({sectorx}, {sectory}, {sectorz}). Ako ga možete pronaći, predajte mu šifrirani dokument i vratite ga u ured tvrtke {company} ovdje na adresi {domicile}. U slučaju uspjeha plaćamo {cash}. {system} je udaljen {dist}."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_1": {
+    "description": "",
+    "message": "Bok, moje ime je {client}. Tražim svoju polusestru {wanted}. Napustila je obitelj u ljutnji prije nekoliko godina. Prijatelj ju je nedavno vidio u sustavu {system} ({sectorx}, {sectory}, {sectorz}). Želio bih vidjeti je li spremna za pomirenje. Platit ću vam {cash} ako joj možete dostaviti poruku i vratiti se u {domicile} s odgovorom. Molim vas, učinite to! Hoćete li?"
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_2": {
+    "description": "",
+    "message": "Pozdrav. Ja sam {client}. Tražim staru prijateljicu. Zove se {wanted}. Znam da prebiva u sustavu {system} ({sectorx}, {sectory}, {sectorz}), ali ne znam njezinu točnu lokaciju. Platit ću vam {cash} ako joj možete dostaviti poruku."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_1": {
+    "description": "",
+    "message": "Bok, moje ime je {client}. Tražim svog polubrata {wanted}. Napustio je obitelj u ljutnji prije nekoliko godina. Prijatelj ga je nedavno vidio u sustavu {system} ({sectorx}, {sectory}, {sectorz}). Želio bih vidjeti je li spreman za pomirenje. Plaćam vam {cash} ako mu možete dostaviti poruku i vratiti se u {domicile} s odgovorom. Molim vas, učinite to! Hoćete li?"
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_2": {
+    "description": "",
+    "message": "Pozdrav. Ja sam {client}. Tražim starog prijatelja. Zove se {wanted}. Znam da prebiva u sustavu {system} ({sectorx}, {sectory}, {sectorz}), ali ne znam njegovu točnu lokaciju. Platit ću vam {cash} ako mu možete dostaviti poruku."
+  },
+  "INTROTEXT_EVACUATION_FEMALE_1": {
+    "description": "",
+    "message": "Pozdrav. {company} je u velikim problemima. Pregovori s agresivnim tržišnim konkurentom u sustavu {system} ({sectorx}, {sectory}, {sectorz}), na udaljenosti od {dist} ly, prošli su vrlo loše. Naša izaslanica {wanted} mora biti evakuirana. Komunikacija s njom je vrlo ograničena, tako da ne znamo njezinu točnu lokaciju. Za ovaj prijevoz plaćamo {cash}."
+  },
+  "INTROTEXT_EVACUATION_FEMALE_2": {
+    "description": "",
+    "message": "Pozdrav. Zovite me {client}. Zaposlen/a sam u tvrtki {company}. Naša prodajna predstavnica {wanted} u sustavu {system} ({sectorx}, {sectory}, {sectorz}), udaljenost {dist} ly, došla je u sukob s nekim opasnim kriminalcima. Ne vjeruje lokalnim vlastima, pa se sakrila. Plaćamo {cash} ako je pronađete i sigurno vratite u {domicile}."
+  },
+  "INTROTEXT_EVACUATION_MALE_1": {
+    "description": "",
+    "message": "Pozdrav. {company} je u velikim problemima. Pregovori s agresivnim tržišnim konkurentom u sustavu {system} ({sectorx}, {sectory}, {sectorz}), na udaljenosti od {dist} ly, prošli su vrlo loše. Naš izaslanik {wanted} mora biti evakuiran. Komunikacija s njim je vrlo ograničena, tako da ne znamo njegovu točnu lokaciju. Za ovaj prijevoz plaćamo {cash}."
+  },
+  "INTROTEXT_EVACUATION_MALE_2": {
+    "description": "",
+    "message": "Pozdrav. Zovite me {client}. Zaposlen sam u tvrtki {company}. Naš prodajni predstavnik {wanted} u sustavu {system} ({sectorx}, {sectory}, {sectorz}), udaljenost {dist} ly, došao je u sukob s nekim opasnim kriminalcima. Ne vjeruje lokalnim vlastima, pa se sakrio. Plaćamo {cash} ako ga pronađete i sigurno vratite u {domicile}."
+  },
+  "INTROTEXT_PRIVATEER_FEMALE_1": {
+    "description": "",
+    "message": "Pozdrav! Zovem se {client}. Tražim {wanted}. Duguje mi puno novca. Prema posljednjim informacijama, obavlja misije u sustavu {system} ({sectorx}, {sectory}, {sectorz}). Molim vas, recite joj da mi je strpljenje na izmaku. Vratite se u {domicile} po vašu uplatu {cash}."
+  },
+  "INTROTEXT_PRIVATEER_FEMALE_2": {
+    "description": "",
+    "message": "Kako ste? Ja sam privatni istražitelj {client}. Moram pronaći gusarku {wanted} u sustavu {system} ({sectorx}, {sectory}, {sectorz}) i postaviti joj nekoliko pitanja. Njen brod ima registracijski broj {shipid}. Trenutno ne mogu napustiti {domicile} zbog drugog kaznenog slučaja. Stoga bih želio prepustiti ovaj zadatak nekome drugome. Platit ću {cash} za ovu misiju."
+  },
+  "INTROTEXT_PRIVATEER_MALE_1": {
+    "description": "",
+    "message": "Pozdrav! Zovem se {client}. Tražim {wanted}. Duguje mi puno novca. Prema posljednjim informacijama, obavlja misije u sustavu {system} ({sectorx}, {sectory}, {sectorz}). Molim vas, recite mu da mi je strpljenje na izmaku. Vratite se u {domicile} po vašu uplatu {cash}."
+  },
+  "INTROTEXT_PRIVATEER_MALE_2": {
+    "description": "",
+    "message": "Kako ste? Ja sam privatni istražitelj {client}. Moram pronaći gusara {wanted} u sustavu {system} ({sectorx}, {sectory}, {sectorz}) i postaviti mu nekoliko pitanja. Njegov brod ima registracijski broj {shipid}. Trenutno ne mogu napustiti {domicile} zbog drugog kaznenog slučaja. Stoga bih želio prepustiti ovaj zadatak nekome drugome. Platit ću {cash} za ovu misiju."
+  },
+  "INTROTEXT_TAXI_FEMALE_1": {
+    "description": "",
+    "message": "Bok. Ja sam {client}. Tražim rođakinju u sustavu {system} ({sectorx}, {sectory}, {sectorz}). Zove se {wanted}. Vrijeme je ključno zbog medicinske hitnosti u obitelji. Molim vas, pronađite je i vratite je u {domicile}. Isplatit ću vam {cash}."
+  },
+  "INTROTEXT_TAXI_FEMALE_2": {
+    "description": "",
+    "message": "Dobar dan. Ja sam procjenitelj osiguranja {client}. Dron za dostavu velikom brzinom nije uspio odrediti pravilan kurs, probio je prozor i ozbiljno oštetio antikni drveni namještaj u stanu. Srećom, nitko nije ozlijeđen. Ali do sada nismo uspjeli pronaći vlasnicu stana u sustavu {system} ({sectorx}, {sectory}, {sectorz}). Stoga ću vam platiti {cash} ako je uspijete pronaći. Njena osobna prisutnost je potrebna za razjašnjenje zahtjeva."
+  },
+  "INTROTEXT_TAXI_MALE_1": {
+    "description": "",
+    "message": "Pozdrav. Ja sam {client}. Tražim rođaka u sustavu {system} ({sectorx}, {sectory}, {sectorz}). Zove se {wanted}. Vrijeme je ključno zbog medicinske hitnosti u obitelji. Molim vas, pronađite ga i vratite ga u {domicile}. Isplatit ću vam {cash}."
+  },
+  "INTROTEXT_TAXI_MALE_2": {
+    "description": "",
+    "message": "Dobar dan. Ja sam procjenitelj osiguranja {client}. Dron velike brzine nije uspio odrediti pravilan kurs, probio je prozor i ozbiljno oštetio antikni drveni namještaj u stanu. Srećom, nitko nije ozlijeđen. Ali do sada nismo uspjeli pronaći vlasnika stana u sustavu {system} ({sectorx}, {sectory}, {sectorz}). Stoga ću vam platiti {cash} ako ga uspijete pronaći. Njegova osobna prisutnost je potrebna za razjašnjenje zahtjeva."
+  },
+  "INTROTEXT_TRAITOR_FEMALE_1": {
+    "description": "",
+    "message": "Pozdrav, moje ime je {client}. {wanted} se nije vratila s odmora na svoje radno mjesto u {company}. Zadnji put je viđena u sustavu {system} ({sectorx}, {sectory}, {sectorz}). {wanted} zna neke važne poslovne tajne. Stoga nam treba netko tko može dobiti nekoliko odgovora od nje o njezinoj trenutnoj odsutnosti. Za ovu misiju plaćamo {cash}. {system} se nalazi na udaljenosti od {dist} ly."
+  },
+  "INTROTEXT_TRAITOR_FEMALE_2": {
+    "description": "",
+    "message": "Dobar dan. {company} traga za zaposlenicom koja je ukrala neke povjerljive dokumente. Njezino ime je {wanted}. Uprava je naziva izdajnicom, ali joj želi dati priliku da se predomisli i pokaje. Isplaćujemo {cash} ako je možete pronaći u sustavu {system} ({sectorx}, {sectory}, {sectorz}), na {dist} udaljenosti, i dostavljamo joj poruku."
+  },
+  "INTROTEXT_TRAITOR_MALE_1": {
+    "description": "",
+    "message": "Pozdrav, moje ime je {client}. {wanted} se nije vratio s odmora na svoje radno mjesto u {company}. Zadnji put je viđen u sustavu {system} ({sectorx}, {sectory}, {sectorz}). {wanted} zna neke važne poslovne tajne. Stoga nam treba netko tko od njega može dobiti nekoliko odgovora o njegovoj trenutnoj odsutnosti. Za ovu misiju plaćamo {cash}. {system} se nalazi na udaljenosti od {dist} ly."
+  },
+  "INTROTEXT_TRAITOR_MALE_2": {
+    "description": "",
+    "message": "Dobar dan. {company} traga za zaposlenikom koji je ukrao neke povjerljive dokumente. Njegovo ime je {wanted}. Uprava ga naziva izdajnikom, ali mu želi dati priliku da se predomisli i pokaje. Isplaćujemo {cash} ako ga možete pronaći u sustavu {system} ({sectorx}, {sectory}, {sectorz}), na {dist} udaljenosti, i dostavljamo mu poruku."
+  },
+  "IS_THERE_A_RISK": {
+    "description": "",
+    "message": "Postoji li ikakav rizik?"
+  },
+  "MERCENARY_GREETING_FEMALE_1": {
+    "description": "",
+    "message": "Žao mi je. Tvoja smrt je moja stvar!"
+  },
+  "MERCENARY_GREETING_FEMALE_2": {
+    "description": "",
+    "message": "Narezat ću te na komade!"
+  },
+  "MERCENARY_GREETING_FEMALE_3": {
+    "description": "",
+    "message": "Želiš li upoznati {wanted}? Prvo ću te upoznati s tvojim stvoriteljem!"
+  },
+  "MERCENARY_GREETING_MALE_1": {
+    "description": "",
+    "message": "Nije ništa osobno. Ubit ću te za naknadu!"
+  },
+  "MERCENARY_GREETING_MALE_2": {
+    "description": "",
+    "message": "Poslat ću te u pakao!"
+  },
+  "MERCENARY_GREETING_MALE_3": {
+    "description": "",
+    "message": "Želiš li upoznati {wanted}? Preko tebe mrtvog!"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "U redu, slažem se."
+  },
+  "ON_BOARD": {
+    "description": "Status indicator showing if a passenger is currently onboard the player's ship.",
+    "message": "On board"
+  },
+  "PIRATE_ANSWER_1": {
+    "description": "",
+    "message": "Proslijedio/la sam vam odgovor za {client}. Doviđenja."
+  },
+  "PIRATE_ANSWER_2": {
+    "description": "",
+    "message": "Molim te, proslijedi poruku koju ti trenutno prenosim {client}. Doviđenja."
+  },
+  "PIRATE_ANSWER_3": {
+    "description": "",
+    "message": "Haha, molim te, reci ovom {client} da nemam što reći. Ugodan dan."
+  },
+  "PIRATE_GREETING_1": {
+    "description": "",
+    "message": "Čuo sam da me tražiš. Imaš moju pažnju. Što želiš?"
+  },
+  "PIRATE_GREETING_2": {
+    "description": "",
+    "message": "U redu, shvatio/la si me. Ne gubi vrijeme i reci mi što želiš!"
+  },
+  "PIRATE_GREETING_3": {
+    "description": "",
+    "message": "Čuo sam da si mi trebao/trebala dati poruku?"
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "Želite odgovor? Pa, evo ga!"
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "Dosta ovoga! Spremi se za pakao!"
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "Stvarno si prošao sav ovaj put da mi dostaviš ovu glupu poruku? Bolje da odeš odavde!"
+  },
+  "REPEAT_THE_REQUEST": {
+    "description": "",
+    "message": "Možete li, molim vas, ponoviti zahtjev?"
+  },
+  "RISK_EVACUATION_FEMALE_1": {
+    "description": "",
+    "message": "Situacija je napeta. Mislimo da je {wanted} u opasnosti."
+  },
+  "RISK_EVACUATION_FEMALE_2": {
+    "description": "",
+    "message": "{wanted} je u ekstremnoj opasnosti. Trebala bi što prije napustiti sustav."
+  },
+  "RISK_EVACUATION_MALE_1": {
+    "description": "",
+    "message": "{wanted} misli da bi trebao vrlo brzo napustiti sustav."
+  },
+  "RISK_EVACUATION_MALE_2": {
+    "description": "",
+    "message": "{wanted} je u velikoj nevolji! Bolje da prije nego kasnije napusti sustav."
+  },
+  "RISK_FEMALE_1": {
+    "description": "",
+    "message": "Nipošto."
+  },
+  "RISK_FEMALE_2": {
+    "description": "",
+    "message": "Mislim da ne."
+  },
+  "RISK_FEMALE_3": {
+    "description": "",
+    "message": "Ne znam. Malo je čudna."
+  },
+  "RISK_FEMALE_4": {
+    "description": "",
+    "message": "Možda. {wanted} ponekad može biti malo nagle naravi."
+  },
+  "RISK_FEMALE_5": {
+    "description": "",
+    "message": "Po mom mišljenju, {wanted} je potpuno lud. Savjetujem ti da budeš oprezan!"
+  },
+  "RISK_MALE_1": {
+    "description": "",
+    "message": "Ne, nema rizika."
+  },
+  "RISK_MALE_2": {
+    "description": "",
+    "message": "Ne očekujem probleme. Ali tko zna?"
+  },
+  "RISK_MALE_3": {
+    "description": "",
+    "message": "Nisam siguran. On je znatiželjan tip."
+  },
+  "RISK_MALE_4": {
+    "description": "",
+    "message": "{wanted} je paranoični luđak. Budi oprezan!"
+  },
+  "RISK_MALE_5": {
+    "description": "",
+    "message": "O da, doista. {wanted} je manijak. Trebao bi biti spreman na sve!"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Postavi kao cilj navigacije"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Postavi povratnu rutu"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Brod:"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Svemirska luka:"
+  },
+  "STATUS": {
+    "description": "Label indicating the status display of a requested passenger.",
+    "message": "Status:"
+  },
+  "SUCCESS_ATK_1": {
+    "description": "",
+    "message": "Što? Napao te je {wanted}? Molim te, prihvati ovaj novac kao odštetu!"
+  },
+  "SUCCESS_ATK_2": {
+    "description": "",
+    "message": "Stvarno? {wanted} te napao? Nevjerojatno! Što god. Prebacio sam novac."
+  },
+  "SUCCESS_ATK_3": {
+    "description": "",
+    "message": "Upoznao/la si {wanted} i preživio/la? Super! Evo ti novac."
+  },
+  "SUCCESS_INT_1": {
+    "description": "",
+    "message": "Čuo sam da si imao problema. Drago mi je da te ipak vidim. Platio sam ti u cijelosti."
+  },
+  "SUCCESS_INT_2": {
+    "description": "",
+    "message": "Imali ste nesuglasice s plaćenikom? Pa, evo vaše odštete!"
+  },
+  "SUCCESS_INT_3": {
+    "description": "",
+    "message": "Upravo sam ti platio. Čuo sam da imaš plaćenika za vratom. Odlično!"
+  },
+  "SUCCESS_MSG_1": {
+    "description": "",
+    "message": "Hvala vam na ovoj usluzi. Platio/la sam naknadu."
+  },
+  "SUCCESS_MSG_2": {
+    "description": "",
+    "message": "Hvala na usluzi. Vaša plaća je prebačena."
+  },
+  "SUCCESS_MSG_3": {
+    "description": "",
+    "message": "Dobro obavljeno! Prebacio sam novac."
+  },
+  "SUCCESS_MSG_4": {
+    "description": "",
+    "message": "Puno vam hvala! Platio sam vam u cijelosti."
+  },
+  "SUCCESS_MSG_5": {
+    "description": "",
+    "message": "Pronašli ste {wanted}? Odlično! Evo vaše uplate."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Sustav:"
+  },
+  "TIP_FEMALE_1": {
+    "description": "",
+    "message": "Nisam siguran/sigurna, ali mislim da je {wanted} trenutno na stanici {station}."
+  },
+  "TIP_FEMALE_2": {
+    "description": "",
+    "message": "Mislim da poznajem osobu koju tražite. Nedavno sam je vidio na {station}."
+  },
+  "TIP_FEMALE_3": {
+    "description": "",
+    "message": "Znam {wanted}. Možeš je naći na {station}."
+  },
+  "TIP_FEMALE_4": {
+    "description": "",
+    "message": "Mislim da poznajem osobu koja odgovara tvom opisu. Za više informacija posjeti {station}."
+  },
+  "TIP_MALE_1": {
+    "description": "",
+    "message": "Mislim da je {wanted} trenutno na {station}. Ali nisam siguran/sigurna!"
+  },
+  "TIP_MALE_2": {
+    "description": "",
+    "message": "Mislim da znam {wanted}. Vidio sam ga na {station}."
+  },
+  "TIP_MALE_3": {
+    "description": "",
+    "message": "Tražite {wanted}? Trenutno se nalazi na lokaciji {station}."
+  },
+  "TIP_MALE_4": {
+    "description": "",
+    "message": "Tvoj opis odgovara osobi koju sam upoznao blizu {station}."
+  },
+  "TRANSMITTING_MSG": {
+    "description": "Message from the ship's computer",
+    "message": "Slanje poruke brodu {shipid}"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "Nepoznato"
+  },
+  "WANTED": {
+    "description": "",
+    "message": "Traži se osoba:"
+  },
+  "YOU_DO_NOT_HAVE_A_CABIN": {
+    "description": "",
+    "message": "Žao mi je, nemate putničku kabinu."
+  }
+}

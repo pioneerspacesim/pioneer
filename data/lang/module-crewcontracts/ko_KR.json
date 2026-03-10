@@ -1,0 +1,102 @@
+{
+  "ASK_CANDIDATE_TO_SIT_A_TEST": {
+    "description": "",
+    "message": "Ask candidate to sit a test"
+  },
+  "CREWDETAILSHEETBB": {
+    "description": "",
+    "message": "Name: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n"
+  },
+  "CREWMEMBER_WAGE_PER_WEEK": {
+    "description": "",
+    "message": "{potentialCrewMember} ({wage}/wk)"
+  },
+  "CREWTESTRESULTSBB": {
+    "description": "",
+    "message": "Examination results:\n\nGeneral crew competence: {general}%\nEngineering and repair: {engineering}%\nPiloting and spaceflight: {piloting}%\nNavigation and plotting: {navigation}%\nSensors and defence: {sensors}%\nOverall exam score: {overall}%"
+  },
+  "CREW_FOR_HIRE": {
+    "description": "",
+    "message": "Crew for hire"
+  },
+  "CREW_FOR_HIRE_DESC": {
+    "description": "",
+    "message": "Potential crew available for hire at this starport."
+  },
+  "CREW_FOR_HIRE_TITLE": {
+    "description": "",
+    "message": "CREW FOR HIRE"
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "Go back"
+  },
+  "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER": {
+    "description": "",
+    "message": "I'm sorry, I'm not prepared to go any lower."
+  },
+  "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
+    "description": "",
+    "message": "I'm sorry, your offer isn't attractive to me."
+  },
+  "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
+    "description": "",
+    "message": "Make offer of position on ship for stated amount"
+  },
+  "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
+    "description": "",
+    "message": "Minimal time served aboard ship"
+  },
+  "NO_CREW_AVAILABLE": {
+    "description": "",
+    "message": "Sorry, no candidates are currently seeking employment at {station}"
+  },
+  "NO_EXPERIENCE": {
+    "description": "",
+    "message": "No experience"
+  },
+  "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
+    "description": "",
+    "message": "OK, I suppose that's all right."
+  },
+  "POTENTIAL_CREW_MEMBERS": {
+    "description": "",
+    "message": "Potential crew members are registered as seeking employment at {station}:"
+  },
+  "SIMULATOR_TRAINING_ONLY": {
+    "description": "",
+    "message": "Simulator training only"
+  },
+  "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS": {
+    "description": "",
+    "message": "Some experience in controlled environments"
+  },
+  "SUGGEST_NEW_WEEKLY_WAGE_OF_N": {
+    "description": "",
+    "message": "Suggest new weekly wage of {newAmount}"
+  },
+  "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY": {
+    "description": "",
+    "message": "Thanks, I'll get settled on board immediately."
+  },
+  "THATS_EXTREMELY_GENEROUS_OF_YOU": {
+    "description": "",
+    "message": "That's extremely generous of you!"
+  },
+  "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER": {
+    "description": "",
+    "message": "That certainly makes this offer look better!"
+  },
+  "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD": {
+    "description": "",
+    "message": "There doesn't seem to be space for me on board!"
+  },
+  "TIME_SERVED_CREW_MEMBER": {
+    "description": "",
+    "message": "Time served crew member"
+  },
+  "VETERAN_TIME_SERVED_CREW_MEMBER": {
+    "description": "",
+    "message": "Veteran, time served crew member"
+  }
+}

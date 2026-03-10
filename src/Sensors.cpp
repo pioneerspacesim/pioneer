@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Sensors.h"
@@ -9,6 +9,8 @@
 #include "Player.h"
 #include "Ship.h"
 #include "Space.h"
+
+#include "profiler/Profiler.h"
 
 Sensors::RadarContact::RadarContact() :
 	body(0),
@@ -62,7 +64,7 @@ Body* Sensors::ChooseTarget(TargetingCriteria crit, const Body* oldTarget )
 
 	if(!m_owner->IsType(ObjectType::PLAYER))
 		return nullptr;
-		
+
 	const Body* currTarget = oldTarget;
 
 	m_radarContacts.sort(ContactDistanceSort);

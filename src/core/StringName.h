@@ -1,14 +1,10 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
 
-#include "StringHash.h"
-#include "profiler/Profiler.h"
-
 #include <atomic>
 #include <string_view>
-#include <type_traits>
 #include <vector>
 
 /*
@@ -88,11 +84,7 @@ class StringTable {
 public:
 	using Data = StringName::StringData *;
 
-	StringTable(uint32_t size) :
-		keys(size),
-		dist(size),
-		values(size),
-		entries(0) {}
+	StringTable(uint32_t size);
 
 	static StringTable *Get();
 
@@ -123,7 +115,7 @@ private:
 	std::vector<uint8_t> dist;
 	std::vector<Data> values;
 	uint32_t entries;
-	Profiler::Clock m_reclaimClock;
+	uint64_t m_lastReclaim;
 };
 
 inline StringName operator""_name(const char *c, size_t l) { return StringName(std::string_view(c, l)); }

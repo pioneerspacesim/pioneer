@@ -1,11 +1,12 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef PROPULSION_H
 #define PROPULSION_H
 
 #include "DynamicBody.h"
-#include "JsonUtils.h"
+#include "JsonFwd.h"
+#include "MathUtil.h"
 #include "scenegraph/Model.h"
 #include "vector3.h"
 
@@ -70,8 +71,8 @@ public:
 	inline vector3d GetLinThrusterState() const { return m_linThrusters; };
 	inline vector3d GetAngThrusterState() const { return m_angThrusters; }
 
-	inline void ClearLinThrusterState() { m_linThrusters = vector3d(0, 0, 0); }
-	inline void ClearAngThrusterState() { m_angThrusters = vector3d(0, 0, 0); }
+	inline void ClearLinThrusterState() { m_linThrusters = vector3d::Zero; }
+	inline void ClearAngThrusterState() { m_angThrusters = vector3d::Zero; }
 
 	inline vector3d GetActualLinThrust() const { return m_linThrusters * GetThrustUncapped(m_linThrusters); }
 	inline vector3d GetActualAngThrust() const { return m_angThrusters * m_angThrust; }

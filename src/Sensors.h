@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SENSORS_H
@@ -12,7 +12,8 @@
  *  - allow "pinned" radar contacts (visible at all ranges, for missions)
  */
 #include "Body.h"
-#include "libs.h"
+
+#include <list>
 
 class Body;
 class HudTrail;

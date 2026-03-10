@@ -1,71 +1,107 @@
 {
+  "ABOUT": {
+    "description": "main menu button (implied 'about' the game)",
+    "message": "O"
+  },
   "ABOVE_AVERAGE": {
     "description": "",
-    "message": "Above Average"
+    "message": "Iznad prosjeka"
   },
   "ACTIVE": {
     "description": "",
-    "message": "Active"
+    "message": "Aktivan"
+  },
+  "ADD_BOOKMARK": {
+    "description": "Button to add a singular bookmark",
+    "message": "Dodaj oznaku"
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
-    "message": "Add Jump"
+    "message": "Dodaj skok"
   },
   "AFTER_TRADE_IN": {
     "description": "",
-    "message": "After trade-in"
+    "message": "Nakon trgovanja"
   },
   "ALLEGIANCE": {
     "description": "",
-    "message": "Odanost:"
+    "message": "Vjernost:"
+  },
+  "ALL_PARAMETERS_WERE_RECOVERED_SUCCESSFULLY": {
+    "description": "Message when restoring savegame",
+    "message": "Svi parametri su uspješno oporavljeni."
   },
   "ALL_UP_WEIGHT": {
     "description": "",
-    "message": "All-up weight"
+    "message": "Ukupna težina"
   },
   "AMOUNT": {
     "description": "",
-    "message": "Amount"
+    "message": "Iznos"
   },
   "ANISOTROPIC_FILTERING_DESC": {
     "description": "",
-    "message": "Samples the texture across multiple mip levels to produce a much clearer texture when viewed at shallow angles. Stops the textures from becoming as blurred; however, it can come at a heavy performance cost."
+    "message": "Uzorkuje teksturu kroz više MIP razina kako bi se dobila mnogo jasnija tekstura kada se gleda pod plitkim kutovima. Sprječava zamućenje tekstura; međutim, to može imati veliki utjecaj na performanse."
   },
   "AN_ERROR_HAS_OCCURRED": {
     "description": "",
-    "message": "An error has occurred"
+    "message": "Došlo je do pogreške"
   },
   "ARRIVAL_DATE": {
     "description": "Time of arrival, used in flight log",
-    "message": "Arrival date"
+    "message": "Datum dolaska"
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
-    "message": "Atmospheric shielding"
+    "message": "Atmosferska zaštita"
   },
   "ATMO_PRESS_LIMIT": {
     "description": "Base external pressure limit of a ship (without atmo shield)",
-    "message": "Atmo. pressure limit"
+    "message": "Granica atmosferskog tlaka"
+  },
+  "ATTEMPTING_TO_RECOVER_GAME_PROGRESS_FROM_SAVE_X": {
+    "description": "Message when restoring savegame",
+    "message": "Pokušavam oporaviti napredak u igri iz spremanja: {save}"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
-    "message": "Attempt to repair hull"
+    "message": "Pokušaj popravka trupa"
+  },
+  "AUTOMATED_MESSAGE": {
+    "description": "For comm messages from bots",
+    "message": "AUTOMATSKA PORUKA"
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
-    "message": "Auto Route"
+    "message": "Automatska ruta"
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "Market header when buying items",
-    "message": "Available For Purchase"
+    "message": "Dostupno za kupnju"
+  },
+  "AVAILABLE_STOCK": {
+    "description": "Market stat showing number of items in stock",
+    "message": "Dostupne zalihe"
   },
   "AVERAGE": {
     "description": "",
-    "message": "Average"
+    "message": "Prosječno"
   },
   "BACKWARD_ACCEL": {
     "description": "",
-    "message": "Backward acceleration"
+    "message": "Ubrzanje unatrag"
+  },
+  "BODY_IN_ROUTE": {
+    "description": "Label indicating a star is part of a planned hyperjump route",
+    "message": "Tijelo u planiranoj ruti hiperskoka"
+  },
+  "BOOKMARK": {
+    "description": "Label introducing a bookmark",
+    "message": "Oznaka"
+  },
+  "BOOKMARKS": {
+    "description": "Label introducing a list of bookmarks",
+    "message": "Oznake"
   },
   "BULLETIN_BOARD": {
     "description": "",
@@ -73,31 +109,51 @@
   },
   "BUY": {
     "description": "Commodities and equipment prices",
-    "message": "Kupi"
+    "message": "Kupiti"
+  },
+  "BUY_EQUIP": {
+    "description": "Button text to buy selected equipment. May be used in a singular or plural context.",
+    "message": "Kupi {name}"
+  },
+  "BUY_PRICE": {
+    "description": "Title for buy-price column in commodity market",
+    "message": "Kupiti"
   },
   "BUY_SHIP": {
     "description": "",
-    "message": "Buy Ship"
+    "message": "Kupi brod"
   },
   "CABINS": {
     "description": "For passengers",
-    "message": "Cabins"
+    "message": "Kabine"
   },
   "CABIN_FREE": {
     "description": "Free capacity for passengers",
-    "message": "{amount} free"
+    "message": "{amount} besplatno"
   },
   "CABIN_USED": {
     "description": "Passengers using cabins",
-    "message": "{amount} used"
+    "message": "Iskorišteno je {amount}"
   },
   "CANCEL": {
     "description": "",
-    "message": "Cancel"
+    "message": "Otkazati"
   },
   "CANNOT_SELL_ITEM": {
     "description": "",
-    "message": "This item cannot be sold"
+    "message": "Ovaj artikl se ne može prodati"
+  },
+  "CANNOT_SELL_NONEMPTY_EQUIP": {
+    "description": "",
+    "message": "Ne možete prodati opremu osim ako nije prazna."
+  },
+  "CANT_FIND_PATH": {
+    "description": "Message when restoring savegame, file path",
+    "message": "Ne mogu pronaći put: %s"
+  },
+  "CANT_FIND_PLAYERS_SHIP_IN_SPACE": {
+    "description": "Message when restoring savegame",
+    "message": "Ne mogu pronaći igračev brod u svemiru"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -105,7 +161,7 @@
   },
   "CAPACITY_USED": {
     "description": "",
-    "message": "Capacity used"
+    "message": "Iskorišteni kapacitet"
   },
   "CARGO": {
     "description": "",
@@ -113,7 +169,7 @@
   },
   "CARGO_CAPACITY": {
     "description": "Label to show a ship's total cargo space.",
-    "message": "Cargo Capacity"
+    "message": "Kapacitet tereta"
   },
   "CARGO_SPACE": {
     "description": "",
@@ -121,55 +177,71 @@
   },
   "CARGO_SPACE_USED": {
     "description": "",
-    "message": "Cargo space used"
+    "message": "Iskorišteni teretni prostor"
   },
   "CARGO_T_FREE": {
     "description": "t for tonne",
-    "message": "{amount}t free"
+    "message": "{amount}t besplatno"
   },
   "CARGO_T_USED": {
     "description": "t for tonne",
-    "message": "{amount}t used"
+    "message": "Iskorišteno je {amount}t"
+  },
+  "CASE_SENSITIVE": {
+    "description": "",
+    "message": "Razlikuje velika i mala slova"
   },
   "CASH": {
     "description": "",
-    "message": "Novac"
+    "message": "Gotovina"
   },
   "CASH_N": {
     "description": "",
-    "message": "Cash: {money}"
+    "message": "Gotovina: {money}"
+  },
+  "CENTER_ON_CURRENT_SYSTEM": {
+    "description": "Center on current star system",
+    "message": "Centar za trenutni sustav"
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
-    "message": "Center on System"
+    "message": "Centar za sustav"
   },
   "CHANGE": {
     "description": "Face feature option",
-    "message": "Change:"
+    "message": "Promijeniti:"
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
-    "message": "Change Binding"
+    "message": "Promjenite gumb"
   },
   "CHANGE_COLOR": {
     "description": "Paintshop button",
-    "message": "Change Color"
+    "message": "Promijeni boju"
   },
   "CHANGE_PATTERN": {
     "description": "Paintshop button",
-    "message": "Change Pattern"
+    "message": "Promijeni uzorak"
+  },
+  "CHARACTER": {
+    "description": "",
+    "message": "Karakter"
+  },
+  "CHARISMA": {
+    "description": "Character parameter",
+    "message": "Karizma"
   },
   "CHIEF_MECHANIC": {
     "description": "",
-    "message": "Chief Mechanic"
+    "message": "Glavni mehaničar"
   },
   "CIRCULAR_ORBIT_SPEED": {
     "description": "",
-    "message": "Circular orbit speed"
+    "message": "Brzina kružne orbite"
   },
   "CITY_DETAIL_LEVEL": {
     "description": "Game graphics option",
-    "message": "City detail level"
+    "message": "Razina detalja grada"
   },
   "CLEAN": {
     "description": "Legal status of player",
@@ -177,71 +249,91 @@
   },
   "CLEAR": {
     "description": "Clear an option in game settings/options menu",
-    "message": "Clear"
+    "message": "Jasan"
   },
   "CLEAR_ROUTE": {
     "description": "Clear a planned route of hyperjumps",
-    "message": "Clear Route"
+    "message": "Jasna ruta"
   },
   "CLIENT": {
     "description": "",
-    "message": "Client"
+    "message": "Klijent"
   },
   "CLOSE": {
     "description": "",
-    "message": "Close"
+    "message": "Zatvoriti"
+  },
+  "COLLAPSE": {
+    "description": "Close / collapse an open folder or group",
+    "message": "Kolaps"
   },
   "COLOR": {
     "description": "",
-    "message": "Color"
+    "message": "Boja"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
-    "message": "Combat"
+    "message": "Borba"
   },
   "COMMANDER": {
     "description": "",
-    "message": "Commander"
+    "message": "Zapovjednik"
+  },
+  "COMMODITY": {
+    "description": "Title for commodity name column in commodity market",
+    "message": "Artikal"
   },
   "COMMODITY_MARKET": {
     "description": "",
-    "message": "Commodity Market"
+    "message": "Tržište artikala"
   },
   "COMMODITY_TRADE_ANALYSIS": {
     "description": "",
-    "message": "Commodity trade analysis of:"
+    "message": "Analiza trgovine robom:"
+  },
+  "COMMODITY_TRADE_ANALYSIS_SYSTEM": {
+    "description": "",
+    "message": "Analiza trgovinskog sustava na razini cijelog sustava:"
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_1": {
+    "description": "",
+    "message": "Prosječni međuzvjezdani trgovinski tok za svu robu kupljenu i prodanu u sustavu."
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_2": {
+    "description": "",
+    "message": "Podaci možda ne odražavaju pojedinačne tržišne cijene."
   },
   "COMPETENT": {
     "description": "Combat rating",
-    "message": "Competent"
+    "message": "Kompetentan"
   },
   "COMPLETED": {
     "description": "",
-    "message": "Completed"
+    "message": "Gotov"
   },
   "COMPRESS_TEXTURES": {
     "description": "graphics option in game settings menu ",
-    "message": "Compress Textures"
+    "message": "Komprimiraj teksture"
   },
   "CONFIRM_PURCHASE": {
     "description": "",
-    "message": "Confirm purchase"
+    "message": "Potvrdi kupnju"
   },
   "CONFIRM_SALE": {
     "description": "",
-    "message": "Confirm sale"
+    "message": "Potvrdi prodaju"
   },
   "CONSTABLE": {
     "description": "",
-    "message": "Constable"
+    "message": "Visoki činovnik"
   },
   "CONTINUE_GAME": {
     "description": "",
-    "message": "Continue game"
+    "message": "Nastavi igru"
   },
   "CONTRACT_FRAUD": {
     "description": "Crime committed by intentionally breaking a contract",
-    "message": "Contract fraud"
+    "message": "Ugovorna prijevara"
   },
   "CONTROLS": {
     "description": "",
@@ -249,59 +341,115 @@
   },
   "CONTROL_OPTIONS": {
     "description": "",
-    "message": "Control Options"
+    "message": "Opcije upravljanja"
+  },
+  "COPY": {
+    "description": "As for clipboard",
+    "message": "Kopirati"
+  },
+  "COULD_NOT_DELETE_SAVE": {
+    "description": "",
+    "message": "Nije moguće izbrisati spremljeno"
+  },
+  "COULD_NOT_FIND_SYSTEM_BODY_FOR_FRAME": {
+    "description": "Message when restoring savegame",
+    "message": "Nije moguće pronaći tijelo sustava za okvir"
   },
   "COULD_NOT_LOAD_GAME": {
-    "description": "",
-    "message": "Could not load game: "
+    "description": "Label indicating a specific file could not be loaded",
+    "message": "Nije moguće učitati igru:"
+  },
+  "COULD_NOT_LOAD_SAVE_FILES": {
+    "description": "Label indicating the list of save files could not be loaded",
+    "message": "Nije moguće učitati spremljene datoteke"
+  },
+  "COULD_NOT_READ_THE_SAVE_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Nije moguće pročitati spremljenu verziju"
+  },
+  "COULD_NOT_SAVE_GAME": {
+    "description": "Label indicating a specific file could not be saved",
+    "message": "Nije moguće spremiti igru:"
   },
   "CREDIBLE": {
     "description": "For player reputation",
-    "message": "Credible"
+    "message": "Vjerojatno"
   },
   "CREDITS": {
     "description": "in game currency",
-    "message": "Credits"
+    "message": "Zasluge"
+  },
+  "CREW": {
+    "description": "Tab item in the start game menu",
+    "message": "Posada"
   },
   "CREW_CABINS": {
     "description": "",
-    "message": "Crew cabins"
+    "message": "Kabine za posadu"
   },
   "CREW_ROSTER": {
     "description": "",
-    "message": "Crew Roster"
+    "message": "Popis posade"
+  },
+  "CRIME": {
+    "description": "Heading introducing a single crime name or list of crime names",
+    "message": "Zločin"
   },
   "CRIMINAL": {
     "description": "Legal status of player",
-    "message": "Criminal"
+    "message": "Kriminalni"
   },
   "CRIMINAL_RECORD": {
-    "description": "Past crimes / crime history of character",
-    "message": "Criminal record"
+    "description": "Heading for past crimes / crime history of character, proper noun",
+    "message": "Kazneni dosje"
   },
   "CURRENT_FUEL": {
-    "description": "For hyperjump planner",
-    "message": "Current Fuel:"
+    "description": "Label indicating the current fuel state",
+    "message": "Trenutno gorivo"
+  },
+  "CURRENT_SAVEGAME_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Trenutna verzija spremljene igre: %s"
+  },
+  "CURRENT_SHIP": {
+    "description": "For tooltip comparing current ship specs to one in the shipyard",
+    "message": "Trenutni brod"
   },
   "CURRENT_SYSTEM": {
-    "description": "For hyperjump planner",
+    "description": "Label indicating the system the player currently occupies",
     "message": "Trenutni sustav"
+  },
+  "CUT": {
+    "description": "As for clipboard",
+    "message": "Rez"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
-    "message": "Dangerous"
+    "message": "Opasno"
   },
   "DATE": {
     "description": "Date of an event, used in flight log",
-    "message": "Date"
+    "message": "Datum"
   },
   "DEADLY": {
     "description": "Player combat rating",
-    "message": "Deadly"
+    "message": "Smrtonosan"
   },
   "DECREASE": {
     "description": "Decrease something.",
-    "message": "Decrease"
+    "message": "Smanji"
+  },
+  "DELETE": {
+    "description": "",
+    "message": "Obriši"
+  },
+  "DELETE_BOOKMARK": {
+    "description": "Button to remove a singular bookmark",
+    "message": "Obriši bilješku"
+  },
+  "DELETE_SAVE_CONFIRMATION": {
+    "description": "",
+    "message": "Da li ste sigurni da želite da obrišete ovu sačuvanu igru?"
   },
   "DELTA_V": {
     "description": "",
@@ -309,103 +457,119 @@
   },
   "DELTA_V_EMPTY": {
     "description": "Delta-v capacity of a ship with no cargo or upgrades",
-    "message": "Delta-v (empty)"
+    "message": "Delta-v (prazan)"
   },
   "DELTA_V_FULL": {
     "description": "Delta-v capacity of a ship with maximum cargo",
-    "message": "Delta-v (full)"
+    "message": "Delta-v (pun)"
   },
   "DELTA_V_MAX": {
     "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
-    "message": "Delta-v (max)"
+    "message": "Delta-v (maksimalan)"
   },
   "DEMAND": {
     "description": "Column label for commodity demand at a market.",
-    "message": "Demand"
+    "message": "Potražnja"
   },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
-    "message": "Departure date"
+    "message": "Datum polaska"
+  },
+  "DESCRIPTION": {
+    "description": "Start game parameter, e.g. 'This is an easy start from Cydonia'",
+    "message": "Opis"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
-    "message": "Destroy enemy ship"
+    "message": "Uništi neprijateljski brod"
   },
   "DETAIL_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Lower gives better performance, at cost of visual aesthetics"
+    "message": "Niže vrijednosti daju bolje performanse, uz smanjen vizualni kvalitet"
   },
   "DISABLE_SCREENSHOT_INFO": {
     "description": "",
-    "message": "Disable Screenshot Info"
+    "message": "Onemogući informacije o snimci zaslona"
   },
   "DISABLE_SCREENSHOT_INFO_DESC": {
     "description": "",
-    "message": "Hide all displayed info, including system coordinates, when in screenshot mode (toggle HUD mode)."
+    "message": "Sakrij sve prikazane informacije, uključujući koordinate sustava, kada ste u načinu snimanja zaslona (prebaci HUD način rada)."
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
-    "message": "Dismiss"
+    "description": "Terminate crew member's contract",
+    "message": "Odbaciti"
   },
   "DISPLAY_HUD_TRAILS": {
     "description": "",
-    "message": "Display HUD trails"
+    "message": "Prikaz HUD tragova"
   },
   "DISPLAY_HUD_TRAILS_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Guides the eye by showing the trajectory of ships on the HUD"
+    "message": "Vodi oko prikazujući putanju brodova na HUD-u"
   },
   "DISPLAY_NAV_TUNNELS": {
     "description": "Settings option: hyperspace tunnel effect",
-    "message": "Display nav tunnels"
+    "message": "Prikaži navigacijske tunele"
   },
   "DISPLAY_NAV_TUNNELS_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Shows a virtual tunnel to current selected target on the HUD"
+    "message": "Prikazuje virtualni tunel do trenutno odabranog cilja na HUD-u"
   },
   "DISPLAY_SPEED_LINES": {
     "description": "Settings option: effect when travelling in space",
-    "message": "Display speed lines"
+    "message": "Prikaz linija brzine"
   },
   "DISPLAY_SPEED_LINES_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Assists the sense of direction of movement in space"
+    "message": "Pomaže u osjećaju smjera kretanja u prostoru"
   },
   "DOCKED_AT": {
     "description": "",
-    "message": "Docked at"
+    "message": "Usidreno na"
+  },
+  "DOCKED_TO_A_BODY_THAT_IS_NOT_A_STATION": {
+    "description": "Message when restoring savegame",
+    "message": "Usidreno na tijelo koje nije stanica"
   },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
-    "message": "Dock at current target"
+    "message": "Usidreno na trenutnom cilju"
   },
   "DRIVE_ACTIVE": {
     "description": "Ship jump status",
-    "message": "Drive active"
+    "message": "Pogon aktivan"
   },
   "DUE": {
     "description": "mission deadline date",
-    "message": "Due"
+    "message": "Dospijeće"
   },
   "DUMPING": {
     "description": "The illegal act of dumping waste",
-    "message": "Dumping"
+    "message": "Ispuštanje"
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "Days left: %d"
+    "message": "Preostalo vrijeme:"
   },
   "ECONOMY_TRADE": {
     "description": "",
-    "message": "Economy & Trade"
+    "message": "Gospodarstvo i trgovina"
   },
   "EDIT": {
     "description": "Tooltip, to edit a flight log entry",
-    "message": "Edit"
+    "message": "Uredi"
+  },
+  "EDIT_BOOKMARK": {
+    "description": "Button to edit a singular bookmark",
+    "message": "Uredi oznaku"
+  },
+  "EDIT_NOTE": {
+    "description": "",
+    "message": "Uredi bilješku"
   },
   "EFFECTS": {
     "description": "",
-    "message": "Effects:"
+    "message": "Efekti:"
   },
   "ELITE": {
     "description": "Player combat rating",
@@ -413,255 +577,299 @@
   },
   "EMPLOYMENT": {
     "description": "",
-    "message": "Employment"
+    "message": "Zaposlenost"
   },
   "ENABLE_ANISOTROPIC_FILTERING": {
     "description": "Use Anisotropic Filtering",
-    "message": "Anisotropic Filtering"
+    "message": "Anizotropno filtriranje"
   },
   "ENABLE_AUTOSAVE": {
     "description": "Allow the game to autosave when docking",
-    "message": "Enable Autosave"
+    "message": "Omogući automatsko spremanje"
   },
   "ENABLE_AUTOSAVE_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "save state when docking, might cause some lag depending on disk access time"
+    "message": "spremanje stanja prilikom usidrenja, može uzrokovati određeno kašnjenje ovisno o vremenu pristupa disku"
   },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
-    "message": "Enable cockpit (EXPERIMENTAL)"
+    "message": "Omogući kokpit (EKSPERIMENTALNO)"
   },
   "ENABLE_COCKPIT_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Display a 3D model of the pilot's cockpit. (Currently the dashboard is a placeholder)"
+    "message": "Prikaži 3D model pilotske kabine. (Trenutno je nadzorna ploča rezervirano mjesto)"
   },
   "ENABLE_JOYSTICK": {
     "description": "",
-    "message": "Enable joystick"
+    "message": "Omogući joystick"
   },
   "END_GAME": {
     "description": "",
-    "message": "End Game"
+    "message": "Kraj igre"
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
-    "message": "Engineering:"
+    "message": "Inženjering"
+  },
+  "ENTER_CUSTOM_NOTE": {
+    "description": "Label indicating a note should be entered here",
+    "message": "Unesite prilagođenu bilješku..."
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
-    "message": "Entry"
+    "message": "Ulaz"
   },
   "EQUIPMENT": {
     "description": "",
-    "message": "Equipment"
+    "message": "Oprema"
+  },
+  "EQUIPMENT_ALREADY_INSTALLED_HERE": {
+    "description": "Message indicating this equipment item is already installed.",
+    "message": "Ova oprema je već ovdje instalirana."
+  },
+  "EQUIPMENT_CAPACITY": {
+    "description": "The equipment capacity of a ship",
+    "message": "Kapacitet opreme"
   },
   "EQUIPMENT_MARKET": {
     "description": "",
-    "message": "Equipment Market"
+    "message": "Tržnica opreme"
   },
   "EQUIPPED": {
     "description": "",
-    "message": "Equipped"
+    "message": "Opremljen"
   },
   "ERROR": {
     "description": "",
-    "message": "Error"
+    "message": "Pogreška"
+  },
+  "ERROR_APPLYING_PATCH": {
+    "description": "Message when restoring savegame",
+    "message": "Pogreška pri primjeni zakrpe"
   },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
-    "message": "Can not initiate hyperjump; landing gear is not retracted!"
+    "message": "Ne mogu pokrenuti hiperskok; stajni trap nije uvučen!"
   },
   "ESCAPE_SPEED": {
     "description": "",
-    "message": "Escape speed:"
+    "message": "Brzina bijega:"
   },
   "EXIT_THIS_GAME": {
     "description": "",
-    "message": "Exit this game"
+    "message": "Izađi iz igre"
+  },
+  "EXPAND": {
+    "description": "Open / expand a collapsed folder or group",
+    "message": "Proširiti"
   },
   "EXPERIENCED": {
     "description": "For player reputation",
-    "message": "Experienced"
+    "message": "Iskusan"
+  },
+  "EXPERIMENTAL": {
+    "description": "Indicates feature/option is experimental",
+    "message": "Eksperimentalno"
   },
   "EXPERT": {
     "description": "For player reputation",
-    "message": "Expert"
+    "message": "Stručnjak"
+  },
+  "FACTION": {
+    "description": "Label indicating the factional allegiance of an object",
+    "message": "Frakcija"
   },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
-    "message": "Factions"
+    "message": "Frakcije"
   },
   "FAILED": {
     "description": "When failed mission",
-    "message": "Failed"
+    "message": "Neuspješno"
+  },
+  "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
+    "description": "",
+    "message": "Nije uspjelo oporaviti dio opreme"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Accessories"
+    "message": "Pribor"
   },
   "FEATURE_ARMOUR": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Armour"
+    "message": "Oklop"
   },
   "FEATURE_CLOTHES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Clothes"
+    "message": "Odjeća"
   },
   "FEATURE_EYES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Eyes"
+    "message": "Oči"
   },
   "FEATURE_GENDER": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Gender"
+    "message": "Spol"
   },
   "FEATURE_HAIRSTYLE": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Hairstyle"
+    "message": "Frizura"
   },
   "FEATURE_HEAD": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Head"
+    "message": "Glava"
   },
   "FEATURE_MOUTH": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Mouth"
+    "message": "Usta"
   },
   "FEATURE_NOSE": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Nose"
+    "message": "Nos"
   },
   "FEATURE_RACE": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Race"
+    "message": "Rasa"
   },
   "FEATURE_SPECIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Species"
+    "message": "Vrsta"
   },
   "FEMALE": {
     "description": "",
-    "message": "Female"
+    "message": "Žena"
+  },
+  "FILE_SAVEGAME_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Verzija spremljene datoteke: %s"
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "Final Target:"
+    "message": "Konačni cilj"
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
-    "message": "Finance"
+    "message": "Financije"
+  },
+  "FINE": {
+    "description": "Cost of a criminal action",
+    "message": "Kazna"
   },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
-    "message": "Docking at {primary_info}"
+    "message": "Pristajanje na {primary_info}"
   },
   "FLIGHTLOG_FLYING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the name of a space body",
-    "message": "Flying in space, relative {primary_info}"
+    "message": "Letenje u svemiru, relativno {primary_info}"
   },
   "FLIGHTLOG_HYPERSPACE": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
-    "message": "In Hyperspace, enroute to {primary_info}"
+    "message": "U hiperprostoru, na putu do {primary_info}"
   },
   "FLIGHTLOG_JUMPING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
-    "message": "Hyper jumping towards {primary_info}"
+    "message": "Hiperskakanje prema {primary_info}"
   },
   "FLIGHTLOG_LANDED": {
     "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
-    "message": "Landed on {primary_info}, position ({secondary_info}, {tertiary_info})"
+    "message": "Sletio na {primary_info}, pozicija ({secondary_info}, {tertiary_info})"
   },
   "FLIGHTLOG_STARPORT_ORBITAL": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
-    "message": "Docked at {primary_info}, in orbit around {secondary_info}"
+    "message": "Privezano na {primary_info}, u orbiti oko {secondary_info}"
   },
   "FLIGHTLOG_STARPORT_SURFACE": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
-    "message": "Docked at {primary_info}, on {secondary_info}"
+    "message": "Privezano u {primary_info}, na {secondary_info}"
   },
   "FLIGHTLOG_UNDOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
-    "message": "Undocking at {primary_info}"
+    "message": "Odvajanje na {primary_info}"
   },
   "FLIGHT_LOG": {
     "description": "Title for flight log screen, in info view",
-    "message": "Flight Log"
+    "message": "Dnevnik leta"
   },
   "FLIGHT_STATE": {
     "description": "",
-    "message": "Flight State"
+    "message": "Država leta"
   },
   "FLYING": {
     "description": "",
-    "message": "Flying"
+    "message": "Leteći"
   },
   "FORWARD_ACCEL": {
     "description": "",
-    "message": "Forward acceleration"
+    "message": "Ubrzanje naprijed"
   },
   "FORWARD_ACCEL_EMPTY": {
     "description": "",
-    "message": "Prednje ubrzanje (prazan)"
+    "message": "Ubrzanje naprijed (prazno)"
   },
   "FORWARD_ACCEL_FULL": {
     "description": "",
-    "message": "Forward accel (full)"
+    "message": "Ubrzanje naprijed (puno)"
   },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
-    "message": "free"
+    "message": "besplatno"
   },
   "FRONT_WEAPON": {
     "description": "",
-    "message": "Front weapon"
+    "message": "Prednje oružje"
   },
   "FUEL": {
     "description": "",
-    "message": "Fuel"
+    "message": "Gorivo"
   },
   "FUEL_TANK_FULL": {
     "description": "",
-    "message": "Fuel tank full."
+    "message": "Spremnik goriva pun."
   },
   "FUEL_WEIGHT": {
     "description": "",
-    "message": "Fuel weight"
+    "message": "Težina goriva"
   },
   "FUGITIVE": {
     "description": "Legal status of player",
-    "message": "Fugitive"
+    "message": "Bjegunac"
   },
   "FULL_SCREEN": {
     "description": "",
-    "message": "Full screen"
+    "message": "Cijeli zaslon"
+  },
+  "GAME_OPTIONS": {
+    "description": "GameOptions - tooltip for the Game Options tab in the Settings Window",
+    "message": "Opcije igre"
   },
   "GAME_TIME": {
     "description": "",
-    "message": "Game time"
+    "message": "Vrijeme igre"
   },
   "GENERAL_CREW": {
     "description": "",
-    "message": "General crew"
+    "message": "Opća posada"
   },
   "GIVE_ORDERS_TO_CREW": {
     "description": "",
-    "message": "Give orders to crew"
+    "message": "Dajte naredbe posadi"
   },
   "GOOD_RIDDANCE_TO_YOU_TOO": {
     "description": "",
-    "message": "Good riddance to you, too."
+    "message": "Sretno i tebi."
   },
   "GO_BACK": {
     "description": "",
-    "message": "Nazad"
+    "message": "Natrag"
   },
   "GPU_JOBS": {
     "description": "",
-    "message": "GPU Jobs"
+    "message": "Poslovi GPU-a"
   },
   "GPU_JOBS_DESC": {
     "description": "",
-    "message": "Utilize GPU for certain actions, possibly improving performance."
+    "message": "Koristite GPU za određene radnje, što potencijalno poboljšava performanse."
   },
   "HANG_UP": {
     "description": "",
@@ -669,99 +877,103 @@
   },
   "HARMLESS": {
     "description": "Player combat rating",
-    "message": "Harmless"
+    "message": "Bezopasan"
   },
   "HEAVY_CARGO_SHUTTLE": {
     "description": "",
-    "message": "Heavy cargo shuttle"
+    "message": "Prijevoz teškog tereta"
   },
   "HEAVY_COURIER": {
     "description": "",
-    "message": "Heavy courier"
+    "message": "Teški kurir"
   },
   "HEAVY_FIGHTER": {
     "description": "",
-    "message": "Heavy fighter"
+    "message": "Teški lovac"
   },
   "HEAVY_FREIGHTER": {
     "description": "",
-    "message": "Heavy freighter"
+    "message": "Teški teretni brod"
   },
   "HEAVY_PASSENGER_SHUTTLE": {
     "description": "",
-    "message": "Heavy passenger shuttle"
+    "message": "Prijevoz teških putnika"
   },
   "HEAVY_PASSENGER_TRANSPORT": {
     "description": "",
-    "message": "Heavy passenger transport"
+    "message": "Prijevoz teškog putnika"
   },
   "HIGH": {
     "description": "Game settings option: for graphics resolution",
-    "message": "High"
+    "message": "Visoko"
   },
   "HUD_2D_RADAR": {
     "description": "Popup text: the name of the azimuthal equidistant projection radar",
-    "message": "2D azimuthal equidistant projection"
+    "message": "2D azimutalna ekvidistantna projekcija"
   },
   "HUD_3D_RADAR": {
     "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
-    "message": "3D planar projection"
+    "message": "3D planska projekcija"
+  },
+  "HUD_ARRIVAL_DATE": {
+    "description": "Label for Hyperspace Cloud arrival date",
+    "message": "Datum dolaska"
   },
   "HUD_ATMOSPHERIC_PRESSURE": {
     "description": "Tooltip: Atmospheric Pressure.",
-    "message": "Atmospheric Pressure"
+    "message": "Atmosferski tlak"
   },
   "HUD_BACKWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Backward Gun Temperature.",
-    "message": "Backward Gun Temperature"
+    "message": "Temperatura oružja"
   },
   "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS": {
     "description": "Tooltip: The braking distance using the main thrusters.",
-    "message": "The braking distance using the main thrusters"
+    "message": "Kočni put korištenjem glavnih potisnika"
   },
   "HUD_BUTTON_AUTOPILOT_DOCKING": {
     "description": "Tooltip: Autopilot docking",
-    "message": "Autopilot docking"
+    "message": "Pristajanje autopilotom"
   },
   "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT": {
     "description": "Tooltip: Autopilot entering orbit",
-    "message": "Autopilot entering orbit"
+    "message": "Ulazak u orbitu s autopilotom"
   },
   "HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET": {
     "description": "Tooltip: Autopilot flying to target",
-    "message": "Autopilot flying to target"
+    "message": "Autopilot vozi prema cilju"
   },
   "HUD_BUTTON_BLASTOFF": {
     "description": "Tooltip: Blastoff",
-    "message": "Blastoff"
+    "message": "Poletanje"
   },
   "HUD_BUTTON_CRUISE_FORWARD": {
     "description": "Tooltip for button",
-    "message": "Forward cruise mode"
+    "message": "Način krstarenja naprijed"
   },
   "HUD_BUTTON_CRUISE_UP": {
     "description": "Tooltip for button",
-    "message": "Up cruise mode"
+    "message": "Način rada za krstarenje prema gore"
   },
   "HUD_BUTTON_DISABLE_AUTOPILOT": {
     "description": "Tooltip for button",
-    "message": "Disable autopilot"
+    "message": "Onemogući autopilot"
   },
   "HUD_BUTTON_DISABLE_CRUISE": {
     "description": "Tooltip for button",
-    "message": "Disable cruise mode"
+    "message": "Onemogući krstarenje"
   },
   "HUD_BUTTON_DISABLE_FIXHEADING": {
     "description": "Tooltip for button",
-    "message": "Disable fixheading mode"
+    "message": "Onemogući način rada s ispravljenim zaglavljima"
   },
   "HUD_BUTTON_DISABLE_FOLLOW_MODE": {
     "description": "Tooltip for button",
-    "message": "Disable follow mode"
+    "message": "Onemogući način praćenja"
   },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
-    "message": "Equipment"
+    "message": "Oprema"
   },
   "HUD_BUTTON_EXTERNAL_VIEW": {
     "description": "Tooltip: External camera view",
@@ -769,63 +981,63 @@
   },
   "HUD_BUTTON_FIX_ANTINORMAL": {
     "description": "Tooltip: fix heading antinormal",
-    "message": "Fix heading antinormal"
+    "message": "Ispravak antinormalnog smjera"
   },
   "HUD_BUTTON_FIX_NORMAL": {
     "description": "Tooltip: fix heading normal",
-    "message": "Fix heading normal"
+    "message": "Popravi normalan smjer"
   },
   "HUD_BUTTON_FIX_PROGRADE": {
     "description": "Tooltip: fix heading prograde",
-    "message": "Fix heading prograde"
+    "message": "Ispravak progradnog smjera"
   },
   "HUD_BUTTON_FIX_RADIAL_IN": {
     "description": "Tooltip: fix heading radially inward",
-    "message": "Fix heading radially inward"
+    "message": "Ispravak radijalnog smjera prema unutra"
   },
   "HUD_BUTTON_FIX_RADIAL_OUT": {
     "description": "Tooltip: fix heading radially outward",
-    "message": "Fix heading radially outward"
+    "message": "Ispravak radijalnog smjera prema vani"
   },
   "HUD_BUTTON_FIX_RETROGRADE": {
     "description": "Tooltip: fix heading retrograde",
-    "message": "Fix heading retrograde"
+    "message": "Ispravak retrogradnog smjera"
   },
   "HUD_BUTTON_FLYBY_VIEW": {
     "description": "Tooltip: Flyby camera view",
-    "message": "Flyby view"
+    "message": "Pogled iz zraka"
   },
   "HUD_BUTTON_HYPERDRIVE_DISABLED": {
     "description": "Tooltip: Hyperdrive disabled (docked or landed)",
-    "message": "Hyperdrive disabled"
+    "message": "Hiperpogon onemogućen"
   },
   "HUD_BUTTON_INITIATE_HYPERJUMP": {
     "description": "Tooltip: Initiate legal hyperjump",
-    "message": "Initiate hyperjump"
+    "message": "Pokreni hiperskok"
   },
   "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP": {
     "description": "Tooltip: Initiate illegal hyperjump",
-    "message": "Initiate illegal hyperjump"
+    "message": "Pokreni ilegalni hiperskok"
   },
   "HUD_BUTTON_INTERNAL_VIEW": {
     "description": "Tooltip: Internal camera view",
-    "message": "Internal view"
+    "message": "Unutarnji pogled"
   },
   "HUD_BUTTON_KILL_ROTATION": {
     "description": "Tooltip: kill rotation",
-    "message": "Kill rotation"
+    "message": "Ubij rotaciju"
   },
   "HUD_BUTTON_LANDING_GEAR_IS_DOWN": {
     "description": "Tooltip: Landing gear is down",
-    "message": "Landing gear is down"
+    "message": "Stajni trap je spušten"
   },
   "HUD_BUTTON_LANDING_GEAR_IS_MOVING": {
     "description": "Tooltip: Landing gear is moving",
-    "message": "Landing gear is moving"
+    "message": "Stajni trap se pomiče"
   },
   "HUD_BUTTON_LANDING_GEAR_IS_UP": {
     "description": "Tooltip: Landing gear is up",
-    "message": "Landing gear is up"
+    "message": "Stajni trap je podignut"
   },
   "HUD_BUTTON_MANUAL_CONTROL": {
     "description": "Tooltip: Manual control",
@@ -833,195 +1045,211 @@
   },
   "HUD_BUTTON_ROTATION_DAMPING_IS_OFF": {
     "description": "Tooltip: Rotation damping is off",
-    "message": "Rotation damping is off"
+    "message": "Prigušenje rotacije je isključeno"
   },
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
-    "message": "Rotation damping is on"
+    "message": "Prigušenje rotacije je uključeno"
   },
   "HUD_BUTTON_SET_SPEED": {
     "description": "Tooltip: set speed",
-    "message": "Set speed"
+    "message": "Postavi brzinu"
   },
   "HUD_BUTTON_SHOW_COMMS": {
     "description": "Tooltip: Show comms",
-    "message": "Show comms"
+    "message": "Prikaži komunikacije"
   },
   "HUD_BUTTON_SHOW_PERSONAL_INFO": {
     "description": "Tooltip: Show personal info",
-    "message": "Show personal info"
+    "message": "Prikaži osobne podatke"
   },
   "HUD_BUTTON_SIDEREAL_VIEW": {
     "description": "Tooltip: Sidereal camera view",
-    "message": "Sidereal view"
+    "message": "Zvjezdani pogled"
+  },
+  "HUD_BUTTON_SWITCH_TO_CURRENT_SYSTEM": {
+    "description": "Tooltip: Switch to current system",
+    "message": "Prebaci se na trenutni sustav"
   },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
-    "message": "Switch to galaxy map"
+    "message": "Prebaci na kartu galaksije"
   },
   "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
     "description": "Tooltip: Switch to sector map",
-    "message": "Switch to sector map"
+    "message": "Prebaci na kartu sektora"
+  },
+  "HUD_BUTTON_SWITCH_TO_SELECTED_SYSTEM": {
+    "description": "Tooltip: Switch to selected system",
+    "message": "Prebaci se na odabrani sustav"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
     "description": "Tooltip: Switch to system map",
-    "message": "Switch to system map"
+    "message": "Prebaci na kartu sustava"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW": {
     "description": "Tooltip: Switch to system overview",
-    "message": "Switch to system overview"
+    "message": "Prebaci na pregled sustava"
   },
   "HUD_BUTTON_SWITCH_TO_WORLD_VIEW": {
     "description": "Tooltip: Switch to world view",
-    "message": "Switch to world view"
+    "message": "Prebacite se na pogled na svijet"
   },
   "HUD_BUTTON_UNDOCK": {
     "description": "Tooltip: Undock",
-    "message": "Undock"
+    "message": "Odvoji"
   },
   "HUD_CARGO_MASS": {
     "description": "Cargo Mass",
-    "message": "Cargo Mass"
+    "message": "Masa tereta"
   },
   "HUD_CRUISE_SPEED": {
     "description": "Tooltip for cruise speed indicator",
-    "message": "Cruise speed"
+    "message": "Brzina krstarenja"
   },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
-    "message": "The current combat target"
+    "message": "Trenutna borbena meta"
   },
   "HUD_CURRENT_FRAME": {
     "description": "Tooltip: The current frame of reference.",
-    "message": "The current frame of reference"
+    "message": "Trenutni referentni okvir"
   },
   "HUD_CURRENT_HEADING": {
     "description": "Tooltip: the current heading.",
-    "message": "The current heading"
+    "message": "Trenutni smjer"
   },
   "HUD_CURRENT_NAV_TARGET": {
     "description": "Tooltip: The current navigational target.",
-    "message": "The current navigational target"
+    "message": "Trenutni navigacijski cilj"
   },
   "HUD_CURRENT_PITCH": {
     "description": "Tooltip: the current pitch.",
-    "message": "The current pitch"
+    "message": "Trenutni nagib"
   },
   "HUD_CURRENT_ROLL": {
     "description": "Tooltip: the current roll.",
-    "message": "The current roll"
+    "message": "Trenutni okret"
   },
   "HUD_DELTA_V": {
     "description": "Tooltip: The remaining Δv.",
-    "message": "Remaining Δv"
+    "message": "Preostali Δv"
   },
   "HUD_DELTA_V_OF_MANEUVER_BURN": {
     "description": "Tooltip: The Δv for the maneuver burn.",
-    "message": "The Δv for the maneuver burn"
+    "message": "Δv za manevar izgaranja"
   },
   "HUD_DELTA_V_PERCENT": {
     "description": "Tooltip: The remaining Δv in percent.",
-    "message": "% of max Δv"
+    "message": "% od maks. Δv"
   },
   "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
     "description": "Tooltip: Distance to the surface of the frame of reference.",
-    "message": "Distance to the surface of the frame of reference"
+    "message": "Udaljenost do površine referentnog okvira"
   },
   "HUD_DISTANCE_TO_SURFACE_OF_TARGET": {
     "description": "Tooltip: Distance to the surface of the target.",
-    "message": "Distance to the surface of the target"
+    "message": "Udaljenost do površine cilja"
   },
   "HUD_DURATION_OF_MANEUVER_BURN": {
     "description": "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
-    "message": "The approximate duration of the maneuver burn with main thrusters"
+    "message": "Približno trajanje manevra s glavnim potisnicima"
   },
   "HUD_DURATION_UNTIL_MANEUVER_BURN": {
     "description": "Tooltip: The duration until the middle of the maneuver burn.",
-    "message": "The duration until the middle of the maneuver burn"
+    "message": "Trajanje do sredine manevra paljenja"
   },
   "HUD_FOLLOW_ORIENTATION": {
     "description": "Tooltip for follow mode 'orientation' button",
-    "message": "{targetname}: Follow orientation"
+    "message": "{targetname}: Slijedite orijentaciju"
   },
   "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE": {
     "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object.",
-    "message": "{targetname}: Follow orientation is not available."
+    "message": "{targetname}: Praćenje orijentacije nije dostupno."
   },
   "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR": {
     "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object, because it's too far.",
-    "message": "{targetname}: Follow orientation is not available - too far."
+    "message": "{targetname}: Orijentacija praćenja nije dostupna - previše je daleko."
   },
   "HUD_FOLLOW_POSITION": {
     "description": "Tooltip for follow mode 'position' button",
-    "message": "{targetname}: Follow position"
+    "message": "{targetname}: Prati poziciju"
   },
   "HUD_FOLLOW_POSITION_NOT_AVAILABLE": {
     "description": "Tooltip for follow mode 'position' button, when it's not available for the current object.",
-    "message": "{targetname}: Follow position is not available."
+    "message": "{targetname}: Pozicija praćenja nije dostupna."
   },
   "HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR": {
     "description": "Tooltip for follow mode 'position' button, when it's not available for the current object, because it's too far.",
-    "message": "{targetname}: Follow position is not available - too far."
+    "message": "{targetname}: Pozicija praćenja nije dostupna - previše je daleko."
   },
   "HUD_FOLLOW_TARGET": {
     "description": "Tooltip for followed target's name in reticule",
-    "message": "Follow target"
+    "message": "Prati cilj"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
-    "message": "Forward Gun Temperature"
+    "message": "Temperatura prednjeg oružja"
   },
   "HUD_HULL_STRENGTH": {
     "description": "Tooltip: Hull Strength.",
-    "message": "Hull Strength"
+    "message": "Čvrstoća trupa"
   },
   "HUD_HULL_TEMPERATURE": {
     "description": "Tooltip: Hull Temperature.",
-    "message": "Hull Temperature"
+    "message": "Temperatura trupa"
+  },
+  "HUD_HYPERSPACE_DESTINATION": {
+    "description": "HUD Label indicating the hyperspace destination system. Should just be Destination.",
+    "message": "Odredište"
+  },
+  "HUD_HYPERSPACE_ORIGIN": {
+    "description": "HUD Label indicating the hyperspace origin system. Should just be Origin.",
+    "message": "Podrijetlo"
   },
   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
     "description": "",
-    "message": "Hyperspacing to {destination} in {countdown} seconds"
+    "message": "Hiperprostor do {destination} za {countdown} sekundi"
   },
   "HUD_INDICATOR_AWAY_FROM_FRAME": {
     "description": "Indicator: Away from the current frame.",
-    "message": "Away from the current frame"
+    "message": "Daleko od trenutnog okvira"
   },
   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current combat target.",
-    "message": "Prograde relative to current combat target"
+    "message": "Progradno u odnosu na trenutni borbeni cilj"
   },
   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current combat target.",
-    "message": "Retrograde relative to current combat target"
+    "message": "Retrogradno u odnosu na trenutni borbeni cilj"
   },
   "HUD_INDICATOR_FRAME_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current frame.",
-    "message": "Prograde relative to current frame of reference"
+    "message": "Progradno u odnosu na trenutni referentni sustav"
   },
   "HUD_INDICATOR_FRAME_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current frame.",
-    "message": "Retrograde relative to current frame of reference"
+    "message": "Retrogradno u odnosu na trenutni referentni sustav"
   },
   "HUD_INDICATOR_MANEUVER_PROGRADE": {
     "description": "Indicator: The prograde direction for the maneuver burn.",
-    "message": "Prograde for maneuver burn"
+    "message": "Progradno za manevar ubrzavanja"
   },
   "HUD_INDICATOR_NAV_TARGET_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current navigational target.",
-    "message": "Prograde relative to current navigational target"
+    "message": "Progradno u odnosu na trenutni navigacijski cilj"
   },
   "HUD_INDICATOR_NAV_TARGET_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current navigational target.",
-    "message": "Retrograde relative to current navigational target"
+    "message": "Retrogradno u odnosu na trenutni navigacijski cilj"
   },
   "HUD_IN_TRANSIT_TO_N_X_X_X": {
     "description": "",
-    "message": "In transit to {system} [{x},{y},{z}]"
+    "message": "U tranzitu do {system} [{x},{y},{z}]"
   },
   "HUD_JUMP_COMPLETE": {
     "description": "",
-    "message": "Jump complete: {percent}%"
+    "message": "Skok završen: {percent}%"
   },
   "HUD_MASS": {
     "description": "Mass",
@@ -1029,63 +1257,75 @@
   },
   "HUD_RADAR_DISTANCE": {
     "description": "Tooltip: Current distance of the radar.",
-    "message": "Active radar distance"
+    "message": "Aktivna radarska udaljenost"
+  },
+  "HUD_RADAR_TOGGLE_MODE": {
+    "description": "Tooltip: Toggle radar mode.",
+    "message": "Prebacivanje radara između 2D i 3D načina rada"
+  },
+  "HUD_RADAR_ZOOM_MODE_AUTOMATIC": {
+    "description": "Tooltip: Current radar zoom mode.",
+    "message": "Automatsko zumiranje"
+  },
+  "HUD_RADAR_ZOOM_MODE_MANUAL": {
+    "description": "Tooltip: Current radar zoom mode.",
+    "message": "Ručno zumiranje"
   },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
-    "message": "Request time acceleration: {time}"
+    "message": "Zahtjev za ubrzanje vremena: {time}"
   },
   "HUD_SHIELD_STRENGTH": {
     "description": "Tooltip: Shield Strength.",
-    "message": "Shield Strength"
+    "message": "Snaga štita"
   },
   "HUD_SHOW_COMBAT_TARGET": {
     "description": "Tooltip: Show the current combat target.",
-    "message": "Show the current combat target"
+    "message": "Prikaži trenutni borbeni cilj"
   },
   "HUD_SHOW_FRAME": {
     "description": "Tooltip: Show the current frame of reference.",
-    "message": "Show the current frame of reference"
+    "message": "Prikaži trenutni referentni okvir"
   },
   "HUD_SHOW_NAV_TARGET": {
     "description": "Tooltip: Show current navigational target.",
-    "message": "Show the current navigational target"
+    "message": "Prikaži trenutni navigacijski cilj"
   },
   "HUD_SPEED_LIMITER_ACTIVE": {
     "description": "Tooltip for the icon in the reticule that appears if the speed limiter is active",
-    "message": "Speed limiter is active"
+    "message": "Ograničivač brzine je aktivan"
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
-    "message": "The speed of approach towards the frame of reference"
+    "message": "Brzina približavanja referentnom sustavu"
   },
   "HUD_SPEED_OF_APPROACH_TO_TARGET": {
     "description": "Tooltip: The speed of approach relative to target.",
-    "message": "The speed of approach relative to target"
+    "message": "Brzina približavanja u odnosu na cilj"
   },
   "HUD_SPEED_RELATIVE_TO_TARGET": {
     "description": "Tooltip: The speed relative to the target.",
-    "message": "The speed relative to the target"
+    "message": "Brzina u odnosu na cilj"
   },
   "HUD_THRUST_INDICATOR": {
     "description": "Tooltip: describe what the thrust/velocity indicator shows",
-    "message": "Show current velocity for each direction (thin lines) and thrust (thick background)"
+    "message": "Prikažite trenutnu brzinu za svaki smjer (tanke linije) i potisak (debela pozadina)"
   },
   "HUD_WARNING_DESCENT_RATE": {
     "description": "Shown on HUD as a warning flasher",
-    "message": "DESCENT RATE"
+    "message": "BRZINA SPUŠTANJA"
   },
   "HUD_WARNING_IMPACT": {
     "description": "Alert tooltip",
-    "message": "Impact warning"
+    "message": "Upozorenje na udar"
   },
   "HUD_WARNING_IMPACT_IMMINENT": {
     "description": "Alert tooltip",
-    "message": "Impact imminent"
+    "message": "Neizbježan udar"
   },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
-    "message": "Hull does not require repair."
+    "message": "Trup ne zahtijeva popravak."
   },
   "HULL_INTEGRITY": {
     "description": "",
@@ -1093,215 +1333,271 @@
   },
   "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
     "description": "",
-    "message": "Hull repaired by {name}, now at {repairPercent}%"
+    "message": "Trup popravio/la {name}, sada je na {repairPercent}%"
   },
   "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE": {
     "description": "",
-    "message": "Hull repair attempt failed. Hull suffered minor damage."
+    "message": "Pokušaj popravka trupa nije uspio. Trup je pretrpio veću štetu."
   },
   "HYPERDRIVE": {
     "description": "",
-    "message": "Hyperdrive"
+    "message": "Hiperpogon"
   },
   "HYPERDRIVE_FITTED": {
     "description": "",
-    "message": "Montiran hiperpogon:"
+    "message": "Ugrađen hiperpogon:"
   },
   "HYPERJUMP_ROUTE": {
     "description": "",
-    "message": "HyperJump Route"
+    "message": "Ruta hiperskoka"
+  },
+  "HYPERJUMP_ROUTING": {
+    "description": "Label indicating a category division",
+    "message": "HyperJump usmjeravanje"
   },
   "HYPERSPACE_RANGE": {
     "description": "",
-    "message": "Hyperspace range"
+    "message": "Hiperprostorni raspon"
+  },
+  "ILLEGAL_COMMODITIES": {
+    "description": "Commodities illegal in the current system or polity",
+    "message": "Ilegalna roba"
   },
   "ILLEGAL_IN_SYSTEM": {
     "description": "An illegal action or commodity",
-    "message": "Illegal in System"
+    "message": "Ilegalno u sustavu"
   },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
-    "message": "Reckless hyperjump registered"
+    "message": "Registriran nepromišljeni hiperskok"
   },
   "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
     "description": "",
-    "message": "I'm tired of working for nothing. Don't you know what a contract is?"
+    "message": "Umoran sam od rada za ništa. Zar ne znaš što je ugovor?"
   },
   "INACTIVE": {
     "description": "",
-    "message": "Inactive"
+    "message": "Neaktivno"
   },
   "INCOMPETENT": {
     "description": "For player reputation",
-    "message": "Incompetent"
+    "message": "Nesposoban"
   },
   "INCREASE": {
     "description": "Increase something.",
-    "message": "Increase"
+    "message": "Povećati"
   },
   "INEXPERIENCED": {
     "description": "For player reputation",
-    "message": "Inexperienced"
+    "message": "Neiskusan"
   },
   "INITIATED": {
     "description": "Ship jump status",
-    "message": "Initiated"
+    "message": "Pokrenuto"
+  },
+  "INSTALL": {
+    "description": "Install something",
+    "message": "Instalirati"
+  },
+  "INSTALLED": {
+    "description": "Label indicating something is installed",
+    "message": "Instalirano"
   },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
-    "message": "Insufficient fuel"
+    "message": "Nedovoljno goriva"
   },
   "INSUFFICIENT_FUNDS": {
     "description": "",
-    "message": "Insufficient funds."
+    "message": "Nedovoljno sredstava."
+  },
+  "INTELLIGENCE": {
+    "description": "Character parameter",
+    "message": "Inteligencija"
   },
   "INTERSTELLAR_TRADE_AVG": {
     "description": "Label displaying commodity flow at a per-system level",
-    "message": "Interstellar Trade:"
+    "message": "Međuzvjezdana trgovina:"
   },
   "INVERT_MOUSE_Y": {
     "description": "",
-    "message": "Invert Mouse Y"
+    "message": "Invertirajte miša Y"
   },
   "IN_CARGO_HOLD": {
     "description": "",
-    "message": "In cargo hold"
+    "message": "U teretnom prostoru"
+  },
+  "IN_HOLD": {
+    "description": "Column title of the Commodity Market screen",
+    "message": "Na čekanju"
   },
   "IN_STOCK": {
-    "description": "",
-    "message": "In stock"
+    "description": "Column title of Commodity and Ship Equipment markets showing current station stock level.",
+    "message": "Zaliha"
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
-    "message": "In system"
+    "message": "U sustavu"
   },
   "ITEM_IS_OUT_OF_STOCK": {
     "description": "",
-    "message": "Ovaj proizvod je rasprodan."
+    "message": "Ovaj artikl je rasprodan."
   },
   "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE": {
     "description": "",
-    "message": "It's been great working for you. If you need me again, I'll be here a while."
+    "message": "Bilo je sjajno raditi za tebe. Ako me opet budeš trebao/la, bit ću tu neko vrijeme."
   },
   "JETTISON": {
     "description": "",
-    "message": "Jettison"
+    "message": "Odbacivanje"
   },
   "JETTISON_MODE": {
     "description": "",
-    "message": "Jettison Mode"
+    "message": "Način odbacivanja"
   },
   "JUMPING": {
     "description": "Flight State",
-    "message": "Jumping"
+    "message": "Skakanje"
   },
   "KILLS": {
     "description": "",
-    "message": "Kills:"
+    "message": "Ubijanja:"
+  },
+  "KNOWN_AS": {
+    "description": "Indicates alternate names/aliases for an object",
+    "message": "Poznat kao"
   },
   "LANGUAGE": {
     "description": "",
-    "message": "Language"
+    "message": "Jezik"
   },
   "LANGUAGE_RESTART_GAME_TO_APPLY": {
     "description": "",
-    "message": "Language (restart game to apply)"
+    "message": "Jezik (ponovno pokrenite igru ​​da biste primijenili)"
   },
   "LAUNCH_PERMISSION_DENIED_BUSY": {
     "description": "",
-    "message": "Dozvola za poljetanje odbijena: spojni vezovi zauzeti."
+    "message": "Dozvola za lansiranje odbijena: dok je zauzet."
   },
   "LAUNCH_PERMISSION_DENIED_CREW": {
     "description": "",
-    "message": "Permission to launch denied: not enough crew to handle this ship."
+    "message": "Dozvola za lansiranje odbijena: nema dovoljno posade za upravljanje ovim brodom."
   },
   "LAUNCH_PERMISSION_DENIED_FINED": {
     "description": "",
-    "message": "Permission to launch denied: you have outstanding fines."
+    "message": "Dozvola za lansiranje odbijena: imate nepodmirene kazne."
   },
   "LAUNCH_PERMISSION_GRANTED": {
     "description": "",
-    "message": "Launch permission granted."
+    "message": "Dozvola za lansiranje odobrena."
   },
   "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
     "description": "",
-    "message": "Permission granted. Please do not clutter the landing area and depart quickly."
+    "message": "Dozvola odobrena. Molimo vas da ne zatrpavate područje za slijetanje i brzo odete."
   },
   "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
     "description": "",
-    "message": "Permission granted. Watch for traffic on your departure."
+    "message": "Dozvola odobrena. Pripazite na promet prilikom odlaska."
+  },
+  "LAWFULNESS": {
+    "description": "Character parameter",
+    "message": "Zakonitost"
+  },
+  "LEGAL_RULES": {
+    "description": "Refers to laws, rules and regulations",
+    "message": "Pravna pravila koja se primjenjuju u prostoru kontroliranom stanicom. Zakoni se provode senzorima unutar udaljenosti od: {distance}"
+  },
+  "LEGAL_RULES_AND_REGULATIONS": {
+    "description": "Heading on a tab, keep it short",
+    "message": "Pravila i propisi"
   },
   "LEGAL_STATUS": {
     "description": "",
-    "message": "Pravni položaj"
+    "message": "Pravni status"
   },
   "LIGHT_CARGO_SHUTTLE": {
     "description": "",
-    "message": "Light cargo shuttle"
+    "message": "Laki teretni prijevoz"
   },
   "LIGHT_COURIER": {
     "description": "",
-    "message": "Light courier"
+    "message": "Laki kurir"
   },
   "LIGHT_FIGHTER": {
     "description": "",
-    "message": "Light fighter"
+    "message": "Laki lovac"
   },
   "LIGHT_FREIGHTER": {
     "description": "",
-    "message": "Light freighter"
+    "message": "Laki teretni brod"
   },
   "LIGHT_PASSENGER_SHUTTLE": {
     "description": "",
-    "message": "Light passenger shuttle"
+    "message": "Laki putnički prijevoz"
   },
   "LIGHT_PASSENGER_TRANSPORT": {
     "description": "",
-    "message": "Light passenger transport"
+    "message": "Laki prijevoz putnika"
   },
   "LOAD": {
     "description": "",
-    "message": "Load"
+    "message": "Opterećenje"
   },
   "LOAD_GAME": {
     "description": "",
-    "message": "Load game"
+    "message": "Učitaj igru"
   },
   "LOBBY": {
     "description": "",
-    "message": "Lobby"
+    "message": "Lobi"
   },
   "LOCAL_ARM": {
     "description": "Arm of the Milky Way galaxy",
-    "message": "Local arm"
+    "message": "Lokalni ogranak"
   },
   "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
     "description": "",
-    "message": "Located {distance}km from the centre of {name}:"
+    "message": "Nalazi se {distance}km od centra mjesta {name}:"
   },
   "LOCATION": {
     "description": "",
-    "message": "Location"
+    "message": "Mjesto"
   },
   "LOG_CUSTOM": {
     "description": "Label tab for showing custom logged events",
-    "message": "Custom Log"
+    "message": "Prilagođeni zapisnik"
+  },
+  "LOG_EARLIEST_FIRST": {
+    "description": "Show the log entries in chronological order, earliest first",
+    "message": "Naručite prvo najranije"
+  },
+  "LOG_EXPORT": {
+    "description": "Export the log",
+    "message": "Izvoz"
+  },
+  "LOG_HTML": {
+    "description": "Export the log as HTML or not",
+    "message": "HTML"
   },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
-    "message": "New Entry"
+    "message": "Novi unos"
   },
   "LOG_STATION": {
     "description": "Label tab for showing logged station events",
-    "message": "Station Log"
+    "message": "Dnevnik stanice"
   },
   "LOG_SYSTEM": {
     "description": "Label tab for showing logged system events",
-    "message": "System Log"
+    "message": "Sistemski zapisnik"
   },
   "LOW": {
     "description": "",
-    "message": "Low"
+    "message": "Nisko"
+  },
+  "LUCK": {
+    "description": "Character parameter",
+    "message": "Sreća"
   },
   "LY": {
     "description": "Light year",
@@ -1309,27 +1605,27 @@
   },
   "MAJOR_EXPORT": {
     "description": "For displaying commodity information",
-    "message": "Major Export"
+    "message": "Glavni izvoz"
   },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Major Import"
+    "message": "Glavni uvoz"
   },
   "MAKE_NEW_FACE": {
     "description": "",
-    "message": "Make new face"
+    "message": "Napravi novo lice"
   },
   "MALE": {
     "description": "",
-    "message": "Male"
+    "message": "Muško"
   },
   "MARKET_BUYLINE": {
     "description": "",
-    "message": "Buy {amount} units for {price}"
+    "message": "Kupite {amount} jedinica za {price}"
   },
   "MARKET_SELLINE": {
     "description": "",
-    "message": "Sell {amount} units for {price}"
+    "message": "Prodajte {amount} jedinica za {price}"
   },
   "MASS": {
     "description": "",
@@ -1345,39 +1641,39 @@
   },
   "MAX": {
     "description": "",
-    "message": "max"
+    "message": "maksimum"
   },
   "MAXIMUM_CREW": {
     "description": "",
-    "message": "Maximum crew"
+    "message": "Maksimalna posada"
   },
   "MEDIUM": {
     "description": "Game settings option: graphics resolution",
-    "message": "Medium"
+    "message": "Srednji"
   },
   "MEDIUM_CARGO_SHUTTLE": {
     "description": "",
-    "message": "Medium cargo shuttle"
+    "message": "Srednji teretni šatl"
   },
   "MEDIUM_COURIER": {
     "description": "",
-    "message": "Medium courier"
+    "message": "Srednji kurir"
   },
   "MEDIUM_FIGHTER": {
     "description": "",
-    "message": "Medium fighter"
+    "message": "Srednji lovac"
   },
   "MEDIUM_FREIGHTER": {
     "description": "",
-    "message": "Medium freighter"
+    "message": "Srednji teretni brod"
   },
   "MEDIUM_PASSENGER_SHUTTLE": {
     "description": "",
-    "message": "Medium passenger shuttle"
+    "message": "Srednji putnički prijevoz"
   },
   "MEDIUM_PASSENGER_TRANSPORT": {
     "description": "",
-    "message": "Medium passenger transport"
+    "message": "Prijevoz srednjeg broja putnika"
   },
   "METAL_ALLOYS": {
     "description": "",
@@ -1385,51 +1681,63 @@
   },
   "MILITARY": {
     "description": "",
-    "message": "Military"
+    "message": "Vojska"
   },
   "MINIMAL_TRADE": {
     "description": "Indicates a system does not have a significant amount of trade in a commodity.",
-    "message": "Minimal Trade"
+    "message": "Minimalna trgovina"
   },
   "MINIMUM_CREW": {
     "description": "",
-    "message": "Minimum crew"
+    "message": "Minimalna posada"
   },
   "MINOR_EXPORT": {
     "description": "For displaying commodity information",
-    "message": "Minor Export"
+    "message": "Manji izvoz"
   },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Minor Import"
+    "message": "Manji uvoz"
   },
   "MISSILE_MOUNTS": {
     "description": "",
-    "message": "Missile mounts"
+    "message": "Nosači raketa"
   },
   "MISSIONS": {
     "description": "",
-    "message": "Missions"
+    "message": "Misije"
   },
   "MISSION_DETAILS": {
     "description": "",
-    "message": "Mission Details"
+    "message": "Detalji misije"
+  },
+  "MODEL": {
+    "description": "3d model of the ship",
+    "message": "Model"
+  },
+  "MONEY": {
+    "description": "",
+    "message": "Novac"
   },
   "MORE_INFO": {
     "description": "",
-    "message": "More info..."
+    "message": "Više informacija..."
+  },
+  "MORE_THAN_ONE_PLAYERS_SHIP_FOUND_IN_SPACE": {
+    "description": "Message when restoring savegame",
+    "message": "U svemiru pronađeno više od jednog igračevog broda"
   },
   "MOSTLY_HARMLESS": {
     "description": "",
-    "message": "Mostly Harmless"
+    "message": "Uglavnom bezopasno"
   },
   "MOVE_DOWN": {
     "description": "move selection down in list",
-    "message": "Move Down"
+    "message": "Pomakni prema dolje"
   },
   "MOVE_UP": {
     "description": "move selection up in list",
-    "message": "Move Up"
+    "message": "Pomakni se gore"
   },
   "MULTISAMPLING": {
     "description": "",
@@ -1437,19 +1745,19 @@
   },
   "MULTISAMPLING_DESC": {
     "description": "",
-    "message": "A graphical fine-tuning feature, used to reduce jagged, pixelated contours. It can be quite resource-intensive."
+    "message": "Grafička značajka finog podešavanja koja se koristi za smanjenje nazubljenih, pikseliziranih kontura. Može zahtijevati dosta resursa."
   },
   "MURDER": {
     "description": "",
-    "message": "Umorstvo"
+    "message": "Ubojstvo"
   },
   "MUSIC": {
     "description": "",
-    "message": "Music:"
+    "message": "Glazba:"
   },
   "MUTE": {
     "description": "",
-    "message": "Mute"
+    "message": "Isključi zvuk"
   },
   "NAME_OBJECT": {
     "description": "For an item or object",
@@ -1460,8 +1768,8 @@
     "message": "Ime"
   },
   "NAVIGATION": {
-    "description": "",
-    "message": "Navigation:"
+    "description": "Crew skill",
+    "message": "Navigacija"
   },
   "NAVIGATOR": {
     "description": "",
@@ -1469,27 +1777,31 @@
   },
   "NEGOTIATE": {
     "description": "",
-    "message": "Negotiate"
+    "message": "Pregovarati"
+  },
+  "NEW_GAME": {
+    "description": "Main menu item",
+    "message": "Nova igra"
   },
   "NEW_PAINTJOB_APPLIED": {
     "description": "Paintshop popup",
-    "message": "The new paintjob has been applied to your ship."
+    "message": "Novi sloj boje je primijenjen na vaš brod."
   },
   "NEXT_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
-    "message": "Next"
+    "message": "Sljedeći"
   },
   "NEXT_PAID": {
     "description": "",
-    "message": "Next paid"
+    "message": "Sljedeće plaćeno"
   },
   "NO": {
     "description": "Negative answer to a question",
-    "message": "No"
+    "message": "Ne"
   },
   "NOBODY": {
     "description": "For player reputation",
-    "message": "Nobody"
+    "message": "Nitko"
   },
   "NONE": {
     "description": "",
@@ -1497,75 +1809,83 @@
   },
   "NONE_FOR_SALE_IN_THIS_STATION": {
     "description": "",
-    "message": "None for sale in this station."
+    "message": "Ništa nije na prodaju na ovoj stanici."
   },
   "NORMA_ARM": {
     "description": "Arm of the Milky Way galaxy",
-    "message": "Norma arm"
+    "message": "Normina ruka"
   },
   "NOTES": {
     "description": "",
-    "message": "Notes:"
+    "message": "Bilješke:"
+  },
+  "NOTORIETY": {
+    "description": "Character parameter",
+    "message": "Očitost"
   },
   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
     "description": "",
-    "message": "Not enough {alloy} to attempt a repair"
+    "message": "Nema dovoljno {alloy} za pokušaj popravka"
   },
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
-    "message": "{equipment} is not supported on this ship model"
+    "message": "{equipment} nije podržan na ovom modelu broda"
   },
   "NO_AVAILABLE_DATA": {
     "description": "Message displaying no stored data available",
-    "message": "No data available"
+    "message": "Nema dostupnih podataka"
+  },
+  "NO_BOOKMARKS_FOUND": {
+    "description": "Label indicating a lack of bookmarks to display",
+    "message": "Nisu pronađene oznake"
   },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
-    "message": "NO CARGO"
+    "message": "BEZ TERETA"
   },
   "NO_DRIVE": {
     "description": "Ship jump status",
-    "message": "No drive"
+    "message": "Nema pogona"
   },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
-    "message": "Nothing matches that filter"
+    "message": "Ništa ne odgovara tom filteru"
   },
   "NO_MISSIONS": {
     "description": "",
-    "message": "No missions."
+    "message": "Nema misija."
   },
   "NO_VALID_ROUTE": {
     "description": "Message in the sector map, issued by the autoroute function.",
-    "message": "No valid route to the selected system."
+    "message": "Nema valjane rute do odabranog sustava."
   },
   "N_LIGHT_YEARS_N_MAX": {
     "description": "",
-    "message": "{range} light years ({maxRange} max)"
+    "message": "{range} svjetlosnih godina ({maxRange} maks.)"
   },
   "N_OCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "{quantity} Occupied Passenger Cabins"
+    "message": "{quantity} Popunjene putničke kabine"
   },
   "N_SHIELD_GENERATORS": {
     "description": "",
-    "message": "{quantity} Shield Generators"
+    "message": "{quantity} Generatori štita"
   },
   "N_UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "{quantity} Unoccupied Passenger Cabins"
+    "message": "{quantity} Nepopunjene putničke kabine"
   },
   "OCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Occupied Passenger Cabins"
+    "message": "Zauzete putničke kabine"
   },
   "OFF": {
     "description": "",
-    "message": "Off"
+    "message": "Isključeno"
   },
   "OFFENDER": {
     "description": "Legal status of player",
-    "message": "Offender"
+    "message": "Prijestupnik"
   },
   "OK": {
     "description": "",
@@ -1573,151 +1893,171 @@
   },
   "OPEN_USER_FOLDER": {
     "description": "",
-    "message": "User Folder"
+    "message": "Korisnička datoteka"
   },
   "OPTIONS": {
     "description": "",
-    "message": "Options"
+    "message": "Opcije"
   },
   "ORBIT": {
     "description": "",
-    "message": "Orbit"
+    "message": "Orbita"
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
-    "message": "Apoapsis"
+    "message": "Apoapsija"
   },
   "ORBIT_PERIAPSIS": {
     "description": "Label for the point of an orbit nearest to the orbited body",
-    "message": "Periapsis"
+    "message": "Periapsa"
   },
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
-    "message": "Outer arm"
+    "message": "Vanjska ruka"
   },
   "OUTLAW": {
     "description": "Legal status of player",
-    "message": "Outlaw"
+    "message": "Odmetnik"
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
-    "message": "Outstanding fines"
+    "message": "Nepodmirene kazne"
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
-    "message": "Out of range"
+    "message": "Izvan dometa"
+  },
+  "OUT_OF_STOCK": {
+    "description": "Equipment availability",
+    "message": "Nema na zalihi"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
-    "message": "Filter overview window entries by name"
+    "message": "Filtriranje unosa u prozoru pregleda po imenu"
   },
   "OWED": {
     "description": "Player owing money to crew members",
-    "message": "Owed"
+    "message": "Dugovao"
   },
   "PAINTSHOP": {
     "description": "Station tab title",
-    "message": "Paintshop"
+    "message": "Lakirnica"
   },
   "PAINTSHOP_NOT_AVAILABLE": {
     "description": "",
-    "message": "Paintshop is not available in this spaceport."
+    "message": "Lakirnica nije dostupna u ovoj svemirskoj luci."
   },
   "PAINTSHOP_WELCOME_0": {
     "description": "Welcome message to the paintshop.",
-    "message": "Welcome! We will paint your ship pretty!"
+    "message": "Dobrodošli! Lijepo ćemo obojiti vaš brod!"
   },
   "PAINTSHOP_WELCOME_1": {
     "description": "Welcome message to the paintshop.",
-    "message": "Hi there! Looking for a change in aesthetics?"
+    "message": "Bok! Tražite promjenu u estetici?"
   },
   "PAINTSHOP_WELCOME_2": {
     "description": "Welcome message to the paintshop.",
-    "message": "We can't make your ship fly fast, but we can make it fly in style!"
+    "message": "Ne možemo natjerati vaš brod da leti brzo, ali možemo ga natjerati da leti sa stilom!"
   },
   "PAINTSHOP_WELCOME_3": {
     "description": "Welcome message to the paintshop.",
-    "message": "Welcome, traveller. Please take your time and let out your creativity."
+    "message": "Dobrodošli, putniče. Molimo vas da odvojite vrijeme i oslobodite svoju kreativnost."
   },
   "PAINTSHOP_WELCOME_4": {
     "description": "Welcome message to the paintshop.",
-    "message": "Looking the best in the galaxy has never been easier!"
+    "message": "Izgledati najbolje u galaksiji nikad nije bilo lakše!"
   },
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
-    "message": "Passenger cabin capacity"
+    "message": "Kapacitet putničke kabine"
+  },
+  "PASTE": {
+    "description": "As for clipboard",
+    "message": "Zalijepiti"
+  },
+  "PATH_FOUND_BUT_VERIFICATION_FAILED": {
+    "description": "Message when restoring savegame",
+    "message": "Put pronađen, ali provjera nije uspjela: %s"
   },
   "PATTERN": {
     "description": "Ship painting pattern.",
-    "message": "Pattern"
+    "message": "Uzorak"
   },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
-    "message": "Pay"
+    "message": "Platiti"
   },
   "PAY_FINE_OF_N": {
     "description": "",
-    "message": "Pay fine of {amount}"
+    "message": "Platite kaznu od {amount}"
+  },
+  "PENDING_RETURN": {
+    "description": "Status if the mission has not yet been fully completed",
+    "message": "Povrat na čekanju"
   },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
-    "message": "Perseus arm"
+    "message": "Perzejeva ruka"
   },
   "PERSONAL_INFORMATION": {
     "description": "",
-    "message": "Personal Information"
+    "message": "Osobni podaci"
   },
   "PILOT": {
     "description": "",
     "message": "Pilot"
   },
   "PILOTING": {
-    "description": "",
-    "message": "Piloting:"
+    "description": "Crew skill",
+    "message": "Pilotiranje"
   },
   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
     "description": "",
-    "message": "Pilot seat is now occupied by {name}"
+    "message": "Pilotsko mjesto sada zauzima {name}"
   },
   "PIRACY": {
     "description": "",
-    "message": "Razbojstvo"
+    "message": "Piratstvo"
   },
   "PLANET_DETAIL_DISTANCE": {
     "description": "",
-    "message": "Planet detail distance"
+    "message": "Udaljenost detalja planeta"
   },
   "PLANET_TEXTURES": {
     "description": "",
-    "message": "Planet textures"
+    "message": "Teksture planeta"
   },
   "PLEASE_DESIGN_NEW_PAINTJOB": {
     "description": "",
-    "message": "Please design your new paintjob:"
+    "message": "Molimo vas da dizajnirate svoj novi izgled boje:"
   },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
-    "message": "Oops, something went wrong here! Please report the steps to reproduce this error, the output log, and your save file to the Pioneer issue tracker on Github.\nYou can find your output log at: {path}/output.txt"
+    "message": "Ups, nešto je ovdje pošlo po zlu! Molimo vas da prijavite korake za reprodukciju ove greške, zapisnik izlaza i datoteku za spremanje u Pioneer sustav za praćenje problema na Githubu.\nZapisnik izlaza možete pronaći na: {path}/output.txt"
   },
   "POLICE": {
     "description": "",
-    "message": "Police"
+    "message": "Policija"
   },
   "POOR": {
     "description": "Player combat rating",
-    "message": "Poor"
+    "message": "Siromašno"
+  },
+  "POSESSION_OF_COMMODITIES_ILLEGAL": {
+    "description": "",
+    "message": "Posjedovanje određene robe je ilegalno u ovom sustavu."
   },
   "POSITION": {
     "description": "The job title/position of crew memeber",
-    "message": "Position"
+    "message": "Položaj"
   },
   "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
     "description": "",
-    "message": "Press a key or controller button or escape to clear"
+    "message": "Pritisnite tipku ili gumb kontrolera ili Escape za brisanje"
   },
   "PREVIOUS_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
-    "message": "Previous"
+    "message": "Prethodno"
   },
   "PRICE": {
     "description": "",
@@ -1725,215 +2065,315 @@
   },
   "PROFESSIONAL": {
     "description": "For player reputation",
-    "message": "Professional"
+    "message": "Profesionalno"
   },
   "PROFITABLE_TRADE": {
     "description": "Indicates a profitable trade route.",
-    "message": "Profitable Trade"
+    "message": "Profitabilna trgovina"
   },
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
-    "message": "Pump down"
+    "message": "Ispumpajte"
+  },
+  "PUMP_DOWN_FROM_CARGO_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pumpa %i t iz tereta"
+  },
+  "PUMP_DOWN_FROM_HYPERDRIVE_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pumpa %i t od hiperpogona do spremnika goriva"
+  },
+  "PUMP_DOWN_TO_CARGO_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pumpa %i t u teret"
+  },
+  "PUMP_DOWN_TO_HYPERDRIVE_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pumpa %i t za hiperpogon iz spremnika goriva"
   },
   "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
-    "message": "Purchase Paintjob"
+    "message": "Kupnja posla bojanja"
   },
   "QUALIFICATION_SCORES": {
     "description": "",
-    "message": "Qualification scores"
+    "message": "Rezultati kvalifikacija"
   },
   "QUIT": {
     "description": "",
-    "message": "Quit"
+    "message": "Prestati"
   },
   "QUIT_CONFIRMATION": {
     "description": "For the checkbox in settings window",
-    "message": "Quit confirmation"
+    "message": "Potvrda o odustajanju"
+  },
+  "RANDOM_COLORS": {
+    "description": "Paint shop. Randomize colors",
+    "message": "Nasumične boje"
   },
   "RANDOM_FACE": {
     "description": "Generate random face",
-    "message": "Random"
+    "message": "Nasumično"
   },
   "RANK": {
     "description": "",
-    "message": "Rank:"
+    "message": "Rang:"
   },
   "RATING": {
     "description": "",
-    "message": "Rating:"
+    "message": "Ocjena:"
+  },
+  "RAYLEIGH_ACCURATE": {
+    "description": "",
+    "message": "Rayleigh/Mie (točno, po pikselu)"
+  },
+  "RAYLEIGH_FAST": {
+    "description": "",
+    "message": "Rayleigh/Mie (brzo, po vršku)"
+  },
+  "REALISTIC_SCATTERING": {
+    "description": "",
+    "message": "Raspršivanje"
+  },
+  "REALISTIC_SCATTERING_DESC": {
+    "description": "",
+    "message": "Odaberite raspršenje prilikom renderiranja atmosfera. (Rayleigh/Mie se ne preporučuje za slabija računala)"
   },
   "REAR_WEAPON": {
     "description": "",
-    "message": "Rear weapon"
+    "message": "Stražnje oružje"
+  },
+  "RECOVER": {
+    "description": "Saveload menu button",
+    "message": "Oporavak"
+  },
+  "RECOVERED_BUT_NOT_VALID": {
+    "description": "Message when restoring savegame",
+    "message": "Oporavljeno, ali nije važeće"
+  },
+  "RECOVER_SAVEGAME": {
+    "description": "",
+    "message": "Oporavi spremljenu igru"
   },
   "REFUEL": {
     "description": "",
-    "message": "Refuel"
+    "message": "Dopunite gorivo"
   },
   "REFUEL_FULL": {
     "description": "",
-    "message": "Refuel full"
+    "message": "Napunite gorivo"
   },
   "REGISTRATION_NUMBER": {
     "description": "",
-    "message": "Registration number"
+    "message": "Registarski broj"
   },
   "RELIABLE": {
     "description": "For player reputation",
-    "message": "Reliable"
+    "message": "Pouzdan"
   },
   "REMOVE": {
     "description": "Remove, e.g. deleting a log entry",
-    "message": "Ukloni"
+    "message": "Ukloniti"
   },
   "REMOVE_JUMP": {
     "description": "UI-button: remove hyper jump from list of planned jumps",
-    "message": "Remove Jump"
+    "message": "Ukloni skok"
   },
   "REMOVE_WHEN_COMPLETED": {
     "description": "For UI hyperjump planner, referring to jump target system",
-    "message": "Remove jump when completed"
+    "message": "Uklonite skok kada završite"
   },
   "REPAIR_X_HULL_DAMAGE_FOR_X": {
     "description": "",
-    "message": "Repair {damage}% hull damage for {price}"
+    "message": "Popravite {damage}% oštećenja trupa za {price}"
   },
-  "REPLACE_EQUIPMENT_WITH": {
+  "REPLACE_EQUIPMENT": {
     "description": "Market header when replacing equipped items",
-    "message": "Replace Equipment With"
+    "message": "Zamijenite opremu"
   },
   "REPUTATION": {
     "description": "",
-    "message": "Reputation"
+    "message": "Ugled"
   },
   "REQUEST_LAUNCH": {
     "description": "",
-    "message": "Zahtjev za lansiranje"
+    "message": "Zahtjev za polijetanje"
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "Required Fuel:"
+    "message": "Potrebno gorivo"
   },
   "RESET": {
     "description": "",
-    "message": "Reset"
+    "message": "Resetiraj"
   },
   "RESET_ORIENTATION_AND_ZOOM": {
     "description": "",
-    "message": "Reset Orientation and Zoom"
+    "message": "Poništi orijentaciju i zumiranje"
   },
   "RESET_PREVIEW": {
     "description": "Paintshop button",
-    "message": "Reset Preview"
+    "message": "Resetiraj prikaz"
+  },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT": {
+    "description": "Reset View on Hyperspace Exit option",
+    "message": "Resetiraj prikaz pri izlasku iz hiperprostora"
+  },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT_DESC": {
+    "description": "The tooltip of Reset View on Hyperspace Exit in the settings menu",
+    "message": "Vrati prikaz na glavni prikaz igre prilikom izlaska iz hiperprostora"
   },
   "RETURN_TO_GAME": {
     "description": "",
-    "message": "Return to game"
+    "message": "Povratak u igru"
   },
   "RETURN_TO_MENU": {
     "description": "",
-    "message": "Return to menu"
+    "message": "Povratak na izbornik"
   },
   "REVERSE_ACCEL_EMPTY": {
     "description": "",
-    "message": "Stražnje ubrzanje (prazan)"
+    "message": "Ubrzanje unatrag (prazno)"
   },
   "REVERSE_ACCEL_FULL": {
     "description": "",
-    "message": "Reverse accel (full)"
+    "message": "Ubrzanje unatrag (puno)"
   },
   "REWARD": {
     "description": "",
-    "message": "Reward"
+    "message": "Nagrada"
   },
   "ROTATE_VIEW": {
     "description": "Indicates that the button must be kept pressed down, to rotate camera view with mouse",
-    "message": "Hold down to Rotate view"
+    "message": "Držite pritisnuto za rotiranje prikaza"
   },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
-    "message": "Route Info"
+    "message": "Informacije o ruti"
   },
   "ROUTE_JUMPS": {
     "description": "For hyperjump planner",
-    "message": "Route Jumps"
+    "message": "Skokovi rute"
   },
   "SAFETY_LOCKOUT": {
     "description": "Ship jump status",
-    "message": "Safety lockout"
+    "message": "Sigurnosna blokada"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
-    "message": "Sagittarius arm"
+    "message": "Ruka Strijelca"
   },
   "SAVE": {
     "description": "",
-    "message": "Save"
+    "message": "Spremi"
+  },
+  "SAVED_GAMES": {
+    "description": "Header for save/load window",
+    "message": "Spremljene igre"
+  },
+  "SAVE_AS": {
+    "description": "",
+    "message": "Spremi kao"
+  },
+  "SAVE_DELETED_SUCCESSFULLY": {
+    "description": "",
+    "message": "Spremanje uspješno izbrisano"
+  },
+  "SCATTERING_OLD": {
+    "description": "",
+    "message": "Legacy"
   },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
-    "message": "Scoop mounts"
+    "message": "Nosači za hvataljke"
   },
   "SCUTUM_CENTAURUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
-    "message": "Scutum-Centaurus arm"
+    "message": "Ruka Scutum-Centaurus"
   },
   "SELECT": {
     "description": "",
-    "message": "Select"
+    "message": "Odaberite"
+  },
+  "SELECTED": {
+    "description": "Label indicating the following item is selected",
+    "message": "Odabrano"
+  },
+  "SELECTED_SAVE_DOESNT_EXISTS": {
+    "description": "",
+    "message": "Odabrano spremanje ne postoji"
+  },
+  "SELECTED_SAVE_IS_NOT_A_VALID_SAVE": {
+    "description": "",
+    "message": "Odabrano spremanje nije valjano spremanje"
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",
-    "message": "Select a file to save to or enter a new filename"
+    "message": "Odaberite datoteku za spremanje ili unesite novi naziv datoteke"
   },
   "SELECT_FILE": {
     "description": "",
-    "message": "Select file..."
+    "message": "Odaberite datoteku..."
   },
   "SELECT_GAME_TO_LOAD": {
     "description": "",
-    "message": "Select game to load..."
+    "message": "Odaberite igru ​​za učitavanje..."
+  },
+  "SELECT_START_PROFILE": {
+    "description": "Combo box for selecting the starting position",
+    "message": "Odaberite početni profil:"
   },
   "SELL": {
     "description": "Commodities and equipment prices",
-    "message": "Prodaj"
+    "message": "Prodavati"
+  },
+  "SELL_EQUIP": {
+    "description": "Button text to sell installed equipment. May be used in a singular or plural context.",
+    "message": "Prodaj {name}"
   },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
-    "message": "Sell Equipped"
+    "message": "Prodaj opremljeno"
+  },
+  "SELL_PRICE": {
+    "description": "Title for sell-price column in commodity market",
+    "message": "Prodavati"
   },
   "SENSORS": {
-    "description": "",
-    "message": "Sensors:"
+    "description": "Crew skill",
+    "message": "Senzori"
   },
   "SENSORS_AND_DEFENCE": {
     "description": "",
-    "message": "Sensors and defence"
+    "message": "Senzori i obrana"
   },
   "SETTINGS": {
     "description": "UI option",
-    "message": "Settings"
+    "message": "Postavke"
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set destination as navigation target."
+    "message": "Postavi odredište kao cilj navigacije."
+  },
+  "SET_JUMP_TARGET": {
+    "description": "Button tooltip which sets the jump route to the selected body",
+    "message": "Postavi cilj skoka"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Set return route"
+    "message": "Postavi povratnu rutu"
   },
   "SET_TO_45PERCENT_OF_DELTAV": {
     "description": "For the speed limiter button",
-    "message": "Set to 45% of remaining delta-v"
+    "message": "Postavljeno na 45% preostalog delta-v"
   },
   "SET_TO_CURRENT_VELOCITY": {
     "description": "For the speed limiter button",
-    "message": "Set to current velocity"
+    "message": "Postavi na trenutnu brzinu"
   },
   "SET_TO_ZERO": {
     "description": "For the speed limiter button",
-    "message": "Set to zero"
+    "message": "Postavi na nulu"
   },
   "SHIP": {
     "description": "",
@@ -1941,271 +2381,403 @@
   },
   "SHIPS_ENGINEER": {
     "description": "",
-    "message": "Ship's Engineer"
+    "message": "Brodski inženjer"
   },
   "SHIP_INFORMATION": {
     "description": "",
-    "message": "Ship Information"
+    "message": "Podaci o brodu"
   },
   "SHIP_IS_ALREADY_FULLY_REPAIRED": {
     "description": "",
-    "message": "Vaš brod je u savršenom stanju."
+    "message": "Vaš brod je u savršenom radnom stanju."
   },
   "SHIP_IS_FULLY_EQUIPPED": {
     "description": "",
-    "message": "Your ship is fully equipped."
+    "message": "Vaš brod je potpuno opremljen."
   },
   "SHIP_IS_FULLY_LADEN": {
     "description": "",
-    "message": "Vaš brod je pun."
+    "message": "Vaš je brod potpuno natovaren."
   },
   "SHIP_MARKET": {
     "description": "",
-    "message": "Ship Market"
+    "message": "Trgovina brodovima"
+  },
+  "SHIP_NAME": {
+    "description": "",
+    "message": "Naziv broda"
+  },
+  "SHIP_PARAMETERS": {
+    "description": "",
+    "message": "Parametri broda"
   },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
-    "message": "Ship Repairs & Paintshop"
+    "message": "Popravak brodova i lakirnica"
   },
   "SHIP_TYPE": {
     "description": "",
-    "message": "Ship Type"
+    "message": "Vrsta broda"
+  },
+  "SHOW_AUTOSAVES": {
+    "description": "Button tooltip indicating whether to show autosave files",
+    "message": "Prikaži automatska spremanja"
   },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
-    "message": "Simulating evolution of the universe: {age} billion years ;-)"
+    "message": "Simulacija evolucije svemira: {age} milijardi godina ;-)"
+  },
+  "SOME_PARAMETERS_ARE_NOT_OK": {
+    "description": "Diagnostics at game start",
+    "message": "Neki parametri nisu u redu:"
+  },
+  "SORT_COMMODITY": {
+    "description": "Indicates the list of objects should be sorted by commodity",
+    "message": "Artikal"
+  },
+  "SORT_DISTANCE": {
+    "description": "Indicates the list of objects should be sorted by distance",
+    "message": "Udaljenost:"
+  },
+  "SORT_MODE": {
+    "description": "Label indicating the current sorting mode of a list of objects",
+    "message": "Način sortiranja"
+  },
+  "SORT_NAME": {
+    "description": "Indicates the list of objects should be sorted by name",
+    "message": "Ime"
   },
   "SOUND": {
     "description": "",
-    "message": "Sound"
+    "message": "Zvuk"
+  },
+  "STANDARD_GAME_START_TIME": {
+    "description": "Standard game start time, current moment + 1200 years",
+    "message": "Standardno vrijeme početka igre"
   },
   "START_AT_BARNARDS_STAR": {
     "description": "",
-    "message": "Start at Barnard's Star"
+    "message": "Započnite kod Barnardove zvijezde"
   },
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
-    "message": "This is a difficult start from the System Administration Resting prison station."
+    "message": "Ovo je težak početak iz zatvorske stanice za odmor u Administraciji sustava."
   },
   "START_AT_MARS": {
     "description": "",
-    "message": "Start on Mars"
+    "message": "Početak na Marsu"
   },
   "START_AT_MARS_DESC": {
     "description": "",
-    "message": "This is an easy start from Cydonia on Mars in the Sol system."
+    "message": "Ovo je jednostavan početak sa Cydonije na Marsu u Sunčevom sustavu."
   },
   "START_AT_NEW_HOPE": {
     "description": "New Hope is an in game location",
-    "message": "Start at New Hope"
+    "message": "Početak u New Hopeu"
   },
   "START_AT_NEW_HOPE_DESC": {
     "description": "",
-    "message": "This is a moderate start from Itzalean on New Hope in the Epsilon Eridani system."
+    "message": "Ovo je umjereni početak od Itzaleana na New Hopeu u sustavu Epsilon Eridani."
+  },
+  "START_GAME": {
+    "description": "Button",
+    "message": "Započni igru"
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
-    "message": "Unfortunately, uncle never showed me how to operate this old barge when he was alive, but I think I'm making an entry in the ship's log now. It's strange, I can still feel him, as if he's in the very walls of this ship. Maybe he can be my co-pilot, and together we will manifest our destiny in the great void. But first, I just need to buy some hydrogen for the jump drive, plot a course to lucrative trading opportunities, and pray to the heavens that traffic control will allow an inexperienced pilot like me to take off, then we'll see what this baby can do. Time to make a reputation for myself!"
+    "message": "Nažalost, ujak mi nikad nije pokazao kako upravljati ovom starom teglenicom dok je bio živ, ali mislim da to sada upisujem u brodski dnevnik. Čudno je, još ga osjećam, kao da je u samim zidovima ovog broda. Možda mi može biti kopilot i zajedno ćemo ostvariti svoju sudbinu u velikoj praznini. Ali prvo, samo trebam kupiti malo vodika za skokovni pogon, isplanirati kurs do unosnih trgovačkih prilika i moliti se nebesima da kontrola prometa dopusti neiskusnom pilotu poput mene da poletjeti, a onda ćemo vidjeti što ova beba može učiniti. Vrijeme je da si stvorim reputaciju!"
   },
   "START_LOG_ENTRY_2": {
     "description": "First custom log message when starting a new game, giving backstory to the character, here going for a Blade Runner feeling",
-    "message": "My boots are still wet from the heavy rainfall last night, back home. The pavement got so wet it - seemingly, in an act of revenge - drenched the night sky with the reflected glow from the neon signs that looked down on the wet street. But I made it, through the rain, to my connecting flight to the starport where my new ship was waiting for me. The starport security officer gave me a funny look when I told him I'm here to pick up a ship. I guess I didn't look like the typical spacer, having sold everything I had to invest in this rusty old bucket, as I was standing in front of him, wet boots and all. But I truly feel, that from now on, my future will be written in the stars. Now, I just need to find the start-key."
+    "message": "Čizme su mi još mokre od jake kiše sinoć, kod kuće. Pločnik se toliko namočio da je - naizgled, u činu osvete - preplavio noćno nebo reflektiranim sjajem neonskih znakova koji su gledali na mokru ulicu. Ali uspio sam, kroz kišu, doći do svog spojnog leta za zvjezdanu luku gdje me čekao moj novi brod. Zaštitar zvjezdane luke čudno me pogledao kad sam mu rekao da sam ovdje po brod. Pretpostavljam da nisam izgledao kao tipičan svemirac, prodavši sve što sam imao da uložim u ovu zahrđalu staru kantu, dok sam stajao pred njim, mokrih čizama i svega ostalog. Ali zaista osjećam da će od sada moja budućnost biti zapisana u zvijezdama. Sada samo trebam pronaći ključ za pokretanje."
   },
   "START_LOG_ENTRY_3": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Here explaining why there's no hyperdrive in the ship, and what to do about it.",
-    "message": "After a long bureaucratic process, I finally got my ship back from the impound, but they had stripped her down to the bare metal, to pay 'the debt' they claimed I had. Not only did they take my favourite coffee brewer, but those bastards also ripped out the hyper drive, so I'm stuck for now in this system, unless I sell whatever is left in the ship, to finance a new drive. But as they say: when life gives you lemons - make lemonade; so even if I'm back at square one, I will think of this as an opportunity instead of as a setback, a second chance. Without coffee. By letting go of what I am, I will become what I might be. The world will turn aside, and let me pass, as it does for those who know where they are going, and I am heading to the stars."
+    "message": "Nakon dugog birokratskog procesa, konačno sam dobio svoj brod natrag iz zapljene, ali su ga ogolili do golog metala kako bi platili 'dug' za koji su tvrdili da ga imam. Ne samo da su mi uzeli omiljeni aparat za kavu, već su ti gadovi i iščupali hiperpogon, tako da sam zasad zaglavljen u ovom sustavu, osim ako ne prodam ono što je ostalo u brodu kako bih financirao novi pogon. Ali kako kažu: kad ti život daje limune - napravi limunadu; pa čak i ako se vratim na početak, mislit ću o ovome kao o prilici, a ne kao o neuspjehu, drugoj šansi. Bez kave. Otpuštajući ono što jesam, postat ću ono što bih mogao biti. Svijet će se okrenuti i pustiti me da prođem, kao što to čini s onima koji znaju kamo idu, a ja idem prema zvijezdama."
   },
   "STAR_FIELD_DENSITY": {
     "description": "",
-    "message": "Density of Star field"
+    "message": "Gustoća zvjezdanog polja"
   },
   "STAR_FIELD_STAR_SIZE_FACTOR": {
     "description": "",
-    "message": "Size of stars in star field"
+    "message": "Veličina zvijezda u zvjezdanom polju"
   },
   "STATION": {
     "description": "Flight log info, will refer to a station by name",
-    "message": "Station"
+    "message": "Stanica"
   },
   "STATION_DOCKS": {
     "description": "Information shown in the station lobby, for total number of docking pads",
-    "message": "Our total capacity is {total_docking_pads} docking pads."
+    "message": "Naš ukupni kapacitet je {total_docking_pads} priključnih mjesta."
   },
   "STATION_LOCAL_GRAVITY": {
     "description": "",
-    "message": "Local gravity here is %.2f g."
+    "message": "Lokalna gravitacija ovdje je %,2f g."
   },
   "STATION_LOCAL_GRAVITY_PRESSURE": {
     "description": "",
-    "message": "Local gravity here is %.2f g, and atmospheric pressure is %.2f atm."
+    "message": "Lokalna gravitacija ovdje je %,2f g, a atmosferski tlak %,2f atm."
   },
   "STATION_MANAGER": {
     "description": "",
-    "message": "Station manager"
+    "message": "Upravitelj postaje"
   },
   "STATION_ORBIT": {
     "description": "Information shown in the station loby",
-    "message": "We are in a {orbit_period} day period orbit around {parent_body}."
+    "message": "Nalazimo se u orbiti oko {parent_body} u trajanju od {orbit_period} dana."
   },
   "STATION_TECH_TOO_LOW": {
     "description": "",
-    "message": "Station tech level too low to sell this item"
+    "message": "Razina tehnologije stanice preniska je za prodaju ovog predmeta"
   },
   "STATUS": {
     "description": "",
     "message": "Status"
   },
+  "SUMMARY": {
+    "description": "Tab item in the start game menu",
+    "message": "Sažetak"
+  },
+  "SYSTEM_BODY_INDEX_IS_OUT_OF_RANGE": {
+    "description": "Message when restoring savegame",
+    "message": "Indeks tijela sustava je izvan raspona"
+  },
+  "SYSTEM_FACTION": {
+    "description": "Tooltip indicating the faction controlling this system",
+    "message": "Kontroliranje jurisdikcije frakcije"
+  },
+  "SYSTEM_INFORMATION": {
+    "description": "Tooltip / label indicating information about a selected star system",
+    "message": "Informacije o sustavu"
+  },
+  "SYSTEM_NUM_STARS": {
+    "description": "Tooltip indicating the system stellar arrangement",
+    "message": "Broj zvijezda u sustavu"
+  },
+  "SYSTEM_SECURITY_1": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Siguran"
+  },
+  "SYSTEM_SECURITY_2": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Uglavnom bezopasno"
+  },
+  "SYSTEM_SECURITY_3": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Opasno"
+  },
+  "SYSTEM_SECURITY_4": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Vrlo opasno"
+  },
+  "SYSTEM_SECURITY_5": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Smrtonosan"
+  },
+  "SYSTEM_SECURITY_TOOLTIP": {
+    "description": "Tooltip introducing the system security rating",
+    "message": "Ocjena sigurnosti sustava"
+  },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
-    "message": "This station holds a level {tech_level} technology certificate."
+    "message": "Ova stanica posjeduje tehnološki certifikat razine {tech_level}."
   },
   "TECH_CERTIFIED_MILITARY": {
     "description": "Lobby screen shows the tech level of the station",
-    "message": "This installation holds a military technology clearance."
+    "message": "Ova instalacija ima odobrenje za vojnu tehnologiju."
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Tech level"
+    "message": "Tehnička razina"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
-    "message": "This frees up more memory for the graphics card, which is likely what you want, at the expense of compressing them during game start."
+    "message": "To oslobađa više memorije za grafičku karticu, što je vjerojatno ono što želite, na štetu njihove kompresije tijekom pokretanja igre."
   },
   "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
     "description": "",
-    "message": "Hvala vam na kupovini. Sjetite se ugraditi opremu i kupiti gorivo prije odlaska."
+    "message": "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart."
   },
   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
     "description": "",
-    "message": "There is nobody else on board able to fly this ship."
+    "message": "Nema nikoga drugog na brodu tko bi mogao upravljati ovim brodom."
+  },
+  "THERE_WERE_ERRORS_IN_RECOVERY": {
+    "description": "Message when restoring savegame",
+    "message": "Bilo je grešaka prilikom oporavka:"
+  },
+  "THESE_ITEMS_ARE_PUNISHABLE_BY_FINE": {
+    "description": "",
+    "message": "Kupnja, prodaja i prijevoz ovih predmeta kažnjivi su novčanom kaznom i mogućom oduzimanjem"
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
-    "message": "The ship is under station control, Commander."
+    "message": "Brod je pod kontrolom postaje, zapovjedniče."
   },
   "THIS_IS_FACTION_POLICE": {
     "description": "Greeting message in police station. 'faction' is one of (English, non-translatable) strings: 'Solar Federation', 'Commonwealth of Independent Worlds', or 'Haber Corporation', and 'faction_police' is one of: 'SolFed Police Force', 'Confederal Police' or, 'Haber Enforcement Division'",
-    "message": "This is the {faction_police} of the {faction}"
+    "message": "Ovo je {faction_police} od {faction}"
   },
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
-    "message": "3kpc arm"
+    "message": "3kpc ruka"
   },
   "TOGGLE_CARGO_WINDOW": {
     "description": "Label for a button toggling the cargo display window.",
-    "message": "Toggle Cargo Window"
+    "message": "Uključi/isključi prozor za teret"
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
-    "message": "Toggle full comms window"
+    "message": "Prikaži/sprebaci cijeli prozor za komunikaciju"
   },
   "TOGGLE_MALE_FEMALE": {
     "description": "player gender",
-    "message": "Toggle male/female"
+    "message": "Uključi/isključi muško/žensko"
   },
   "TOGGLE_OVERVIEW_SHOW_MOONS": {
     "description": "toggle whether the overview window shows moons or not",
-    "message": "Toggle showing moons in the overview"
+    "message": "Uključi/isključi prikaz mjeseca u pregledu"
   },
   "TOGGLE_OVERVIEW_SHOW_STATIONS": {
     "description": "toggle whether the overview window shows stations or not",
-    "message": "Toggle showing stations in the overview"
+    "message": "Uključi/isključi prikaz stanica u pregledu"
   },
   "TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE": {
     "description": "toggle whether the overview window sorts by distance from the player or from the system center",
-    "message": "Switch between sorting by distance from player and distance from system center"
+    "message": "Prebacivanje između sortiranja prema udaljenosti od igrača i udaljenosti od središta sustava"
   },
   "TOGGLE_OVERVIEW_WINDOW": {
     "description": "show/hide the overview window / navigation window",
-    "message": "Toggle the overview window"
+    "message": "Uključi/isključi prozor pregleda"
   },
   "TOO_SMALL_FOR_CURRENT_CREW": {
     "description": "",
-    "message": "Ship is too small for the current crew."
+    "message": "Brod je premalen za trenutnu posadu."
   },
   "TOO_SMALL_TO_TRANSSHIP": {
     "description": "Ship market error message",
-    "message": "New ship lacks capacity for current cargo and hyperdrive."
+    "message": "Novom brodu nedostaje kapaciteta za trenutni teret i hiperpogon."
   },
   "TOTAL": {
     "description": "",
-    "message": "Total: "
+    "message": "Ukupno:"
   },
   "TOTAL_DISTANCE": {
     "description": "Total distance of a (possibly series) of hyper jump(s)",
-    "message": "Total Distance:"
+    "message": "Ukupna udaljenost"
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "Total Duration:"
+    "message": "Ukupno trajanje"
   },
   "TOTAL_MASS": {
     "description": "",
-    "message": "Total mass"
+    "message": "Ukupna masa"
+  },
+  "TO_PICK_UP": {
+    "description": "Mission status",
+    "message": "Za preuzimanje"
   },
   "TRADING_AT": {
     "description": "Indicates the current system for inspecting commodities.",
-    "message": "At {system}:"
+    "message": "U {system}:"
   },
   "TRADING_FROM": {
     "description": "Indicates the source system of a commodity trade.",
-    "message": "From {system}:"
+    "message": "Iz {system}:"
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Nezakonito trgovanje dobrima"
+    "message": "Trgovina ilegalnom robom"
   },
   "TRADING_TO": {
     "description": "Indicates the destination system of a commodity trade.",
-    "message": "To {system}:"
+    "message": "Za {system}:"
+  },
+  "TRANSFER_FUEL": {
+    "description": "Label indicating the ability to transfer fuel between equipment tanks",
+    "message": "Prijenos goriva"
+  },
+  "TRANSLATE_VIEW": {
+    "description": "Indicates that the button must be kept pressed down, to translate the camera view with mouse",
+    "message": "Držite pritisnuto za prevođenje prikaza"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
-    "message": "Trustworthy"
+    "message": "Pouzdan"
   },
   "TURN_OFF": {
     "description": "",
-    "message": "Turn off"
+    "message": "Isključiti"
   },
   "TYPE": {
     "description": "",
-    "message": "Type"
+    "message": "Tip"
+  },
+  "UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Nepoznati prilagođeni format unosa u dnevnik"
+  },
+  "UNKNOWN_FACTION": {
+    "description": "For entry in the flight log",
+    "message": "Nepoznata frakcija"
+  },
+  "UNKNOWN_LOCATION_IN_SECTOR_X": {
+    "description": "For entry in the flight log",
+    "message": "Nepoznata lokacija u sektoru {sector}"
+  },
+  "UNKNOWN_STATION_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Nepoznati format zapisa u dnevniku stanice"
+  },
+  "UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Nepoznati format unosa sistemskog zapisnika"
+  },
+  "UNLAWFUL_ECM_DISCHARGE": {
+    "description": "",
+    "message": "Nezakonito ispuštanje ECM-a"
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
-    "message": "Nezakonito korištenje vatre"
+    "message": "Nezakonito ispaljivanje oružja"
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Unoccupied Passenger Cabins"
+    "message": "Prazne putničke kabine"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",
-    "message": "Unprofitable Trade"
+    "message": "Neprofitabilna trgovina"
   },
   "UNRELIABLE": {
     "description": "",
-    "message": "Unreliable"
+    "message": "Nepouzdano"
+  },
+  "UNSUCCESSFULLY_RECOVERED_PARAMETERS_ARE_NOW_UNLOCKED_PLEASE_SET_THEM_MANUALLY": {
+    "description": "Message when restoring savegame",
+    "message": "Parametri koji nisu uspješno oporavljeni sada su otključani, molimo vas da ih postavite ručno."
   },
   "UP_ACCEL": {
     "description": "",
-    "message": "Up acceleration"
+    "message": "Ubrzanje prema gore"
   },
   "USED": {
     "description": "",
-    "message": "Iskorišteno"
+    "message": "Rabljeno"
   },
   "VERY_HIGH": {
     "description": "Game settings option: graphic resolution",
-    "message": "Very high"
+    "message": "Vrlo visoko"
   },
   "VERY_LOW": {
     "description": "Game settings option: graphic resolution",
-    "message": "Very low"
+    "message": "Vrlo nisko"
   },
   "VICINITY_OF": {
     "description": "",
-    "message": "In vicinity of"
+    "message": "U blizini"
   },
   "VIDEO": {
     "description": "",
@@ -2213,23 +2785,31 @@
   },
   "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY": {
     "description": "",
-    "message": "Video configuration (restart game to apply)"
+    "message": "Konfiguracija videa (ponovno pokrenite igru ​​da biste je primijenili)"
   },
   "VIDEO_RESOLUTION": {
     "description": "",
-    "message": "Video resolution"
+    "message": "Rezolucija slike"
   },
   "VIDEO_RESOLUTION_DESC": {
     "description": "Tooltip for video mode/resultion setting",
-    "message": "Higher resolutions display more information at a smaller size and can decrease performance."
+    "message": "Veće rezolucije prikazuju više informacija u manjoj veličini i mogu smanjiti performanse."
+  },
+  "VIEW_DESTINATION": {
+    "description": "Tooltip indicating the button will change the current view to the destination of a route.",
+    "message": "Prikaži odredište"
   },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",
-    "message": "Visit Paintshop"
+    "message": "Posjetite lakirnicu"
   },
   "VISIT_REPAIR_SERVICES": {
     "description": "Ship Repair tab button.",
-    "message": "Visit Repair Services"
+    "message": "Posjetite servise za popravke"
+  },
+  "VOLUME": {
+    "description": "The volume property of some object",
+    "message": "Volumen"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",
@@ -2237,74 +2817,74 @@
   },
   "VSYNC_DESC": {
     "description": "",
-    "message": "Vertical Sync can eliminate visual tearing or artifacts, and input latency."
+    "message": "Vertikalna sinkronizacija može ukloniti vizualno kidanje ili artefakte i latenciju ulaza."
   },
   "WAGE": {
     "description": "Salary of crew shown in crew roster",
-    "message": "Wage"
+    "message": "Plata"
   },
   "WEIGHT_EMPTY": {
     "description": "",
-    "message": "Masa kad je prazan"
+    "message": "Težina praznog vozila"
   },
   "WEIGHT_FULLY_LOADED": {
     "description": "",
-    "message": "Masa kad je potpuno pun"
+    "message": "Težina potpuno natovarena"
   },
   "WE_ARE_IN_HYPERSPACE_COMMANDER": {
     "description": "",
-    "message": "We are in hyperspace, Commander."
+    "message": "U hipersvemiru smo, Zapovjedniče."
   },
   "WE_HAVE_NO_BUSINESS_WITH_YOU": {
     "description": "Said by the police to law abiding player",
-    "message": "Nemamo posla s vama ovog trena."
+    "message": "Trenutno nemamo nikakvih poslova s ​​vama."
   },
   "X_CANNOT_BE_TOLERATED_HERE": {
     "description": "Message to be sent over comms by police when crime is committed by player",
-    "message": "{crime} cannot be tolerated here!"
+    "message": "{crime} se ovdje ne može tolerirati!"
   },
   "YES": {
     "description": "Positive answer to a question",
-    "message": "Yes"
+    "message": "Da"
   },
   "YOURE_GOING_TO_REGRET_SACKING_ME": {
     "description": "",
-    "message": "You're going to regret sacking me!"
+    "message": "Zažalit ćeš što si me otpustio/la!"
   },
   "YOUR_HULL_IS_AT_X_INTEGRITY": {
     "description": "",
-    "message": "Your hull is at {value}% integrity."
+    "message": "Vaš trup ima integritet od {value}%."
   },
   "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION": {
     "description": "",
-    "message": "You don't have enough money for that option."
+    "message": "Nemaš dovoljno novca za tu opciju."
   },
   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD": {
     "description": "",
-    "message": "You have {units} units in your cargohold"
+    "message": "Imate {units} jedinica u teretnom prostoru"
   },
   "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER": {
     "description": "",
-    "message": "You must first select a combat target, Commander."
+    "message": "Prvo morate odabrati borbenu metu, Zapovjedniče."
   },
   "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER": {
     "description": "",
-    "message": "You must first select a suitable navigation target, Commander."
+    "message": "Prvo morate odabrati prikladnu navigacijsku metu, Zapovjedniče."
   },
   "YOU_MUST_LAUNCH_FIRST_COMMANDER": {
     "description": "",
-    "message": "You must launch first, Commander."
+    "message": "Morate prvi lansirati, Zapovjedniče."
   },
   "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER": {
     "description": "",
-    "message": "You must request launch clearance first, Commander."
+    "message": "Prvo morate zatražiti odobrenje za lansiranje, zapovjedniče."
   },
   "YOU_NOT_ENOUGH_MONEY": {
     "description": "",
-    "message": "Nemate dovoljno novaca"
+    "message": "Nemaš dovoljno novca"
   },
   "ZOOM": {
     "description": "Label for a zoom (magnification) control bar.",
-    "message": "Zoom"
+    "message": "Zum"
   }
 }

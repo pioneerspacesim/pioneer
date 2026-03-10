@@ -1,10 +1,10 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('True League')
 	:description_short('True League')
 	:description('Very little is currently known about The True League')
-	:homeworld(-27,-59,-59,2,8)
+	:homeworld(-27,-59,-59,0,8)
 	:foundingDate(3121)
 	:expansionRate(1.31987)
 	:military_name('True Space Arm')

@@ -1,26 +1,25 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _OBJECTVIEWERVIEW_H
 #define _OBJECTVIEWERVIEW_H
 
 #include "Camera.h"
-#include "libs.h"
-#include "pigui/PiGuiView.h"
+#include "View.h"
 
 class Body;
 class SystemBody;
 
-class ObjectViewerView : public PiGuiView {
+class ObjectViewerView : public View {
 public:
 	ObjectViewerView();
-	virtual void Update() override;
-	virtual void Draw3D() override;
+	void Update() override;
+	void Draw3D() override;
 
 protected:
-	virtual void OnSwitchTo() override;
+	void OnSwitchTo() override;
 
-	virtual void DrawPiGui() override;
+	void DrawPiGui() override;
 
 private:
 	void ReloadState();

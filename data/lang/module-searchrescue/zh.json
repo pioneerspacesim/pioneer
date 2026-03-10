@@ -97,7 +97,7 @@
   },
   "ENTITY_GENERAL_4": {
     "description": "",
-    "message": " {locality}采矿权办公室"
+    "message": "{locality}采矿权办公室"
   },
   "ENTITY_GENERAL_5": {
     "description": "",
@@ -129,7 +129,7 @@
   },
   "ENTITY_RESEARCH_2": {
     "description": "",
-    "message": " {locality} 微生物协会"
+    "message": "{locality} 微生物协会"
   },
   "ENTITY_RESEARCH_3": {
     "description": "",
@@ -165,7 +165,7 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Local STC reports ship crash landed on {planet}. Assistance required."
+    "message": "当地STC报告飞船坠毁降落在{planet}上。需要协助。"
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
@@ -180,8 +180,8 @@
     "message": "要获得全额报销费用，您必须在{due}之前返回。"
   },
   "FLAVOUR_1_INTROTEXT": {
-    "description": "",
-    "message": "{starport}空中交通管制需要您立即帮助响应{planet}类型星舰在{planet}上的坠落着陆。 生命支持系统的状况未知。 该船已通过{starport} 星际站保险投保，并在紧急响应报销中享受{cash}保障。"
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{starport} air traffic control needs your IMMEDIATE help responding to the crash landing of {ship_indef} on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
@@ -201,7 +201,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "{starport} STC received low fuel message from incoming ship. Refueling services requested."
+    "message": "{starport}STC收到来自进港飞船的低燃料信息。要求提供加油服务。"
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Ship close to {starport} signalled medical emergency. Urgent hospital transport required."
+    "message": "靠近{starport}的飞船发出医疗紧急情况信号。需要紧急医院运输。"
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
@@ -273,7 +273,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Distress signal received: ship is stranded and out of fuel on {planet}."
+    "message": "收到求救信号：飞船搁浅并在{planet}上耗尽燃料。"
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
@@ -305,11 +305,11 @@
   },
   "FLAVOUR_4_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "飞行员要求提供{unit}吨{cargo}。"
+    "message": "飞行员需要 {unit} 吨的 {cargo}. {high_gravity}"
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Stranded ship is requesting refuelling operation close to {starport}."
+    "message": "搁浅的飞船正在请求在{starport}附近加油。"
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
@@ -345,7 +345,7 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "Emergency: corporate vessel unresponsive in the {system} system."
+    "message": "紧急情况：公司飞船在{system}星系中失联。"
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
@@ -360,12 +360,12 @@
     "message": "你必须在{due}之前回来。"
   },
   "FLAVOUR_6_INTROTEXT": {
-    "description": "",
-    "message": "我是{entity}的{name}。 我们在{problem}后失去了与{ship} {shiplabel}的联系。 我们愿意支付{cash}以获得即时帮助。"
+    "description": "{ship_base} is translated in /data/lang/ships/",
+    "message": "My name is {name} of {entity}. We lost contact with our {ship_base} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
-    "message": "最后的已知位置是{system} [{sector}，{secretary}，{sector}]系统中{planet}的附近，距离这里{dist}光年。"
+    "message": "最后的已知位置是{planet} [{system}，{sectorx}，{sectory}]系统中{sectorz}的附近，距离这里{dist}光年。"
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
@@ -396,12 +396,12 @@
     "message": "替换船员必须在 {due}之前到达船上。"
   },
   "FLAVOUR_7_INTROTEXT": {
-    "description": "",
-    "message": "我是{entity}的{name}。 在{problem}之后，我们唯一的船{ship} {shiplabel}正在与{crew}船员一起漂流。 我愿意立即支付{cash}换取救援。"
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "My name is {name} of {entity}. Our only ship, {ship_indef} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
-    "message": "您将在{system} 星系[{sector}，{secretary}，{sector}]中找到该船，距离这里{dist}光年。 它停靠在{planet}的轨道上。"
+    "message": "您将在{system} 星系[{sectorx}，{sectory}，{sectorz}]中找到该船，距离这里{dist}光年。 它停靠在{planet}的轨道上。"
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
@@ -426,6 +426,22 @@
   "FULL_PASSENGERS": {
     "description": "",
     "message": "所有船舱都满了。没有空间容纳更多的乘客。"
+  },
+  "HIGHGRAVITY_0": {
+    "description": "",
+    "message": "{planet} 的地表重力达到了 {gravity} g. 请慎重考虑这个信息."
+  },
+  "HIGHGRAVITY_1": {
+    "description": "",
+    "message": "你应该清楚 {planet} 的重力达到了 {gravity} g."
+  },
+  "HIGHGRAVITY_2": {
+    "description": "",
+    "message": "你将在 {gravity} g (重力)的环境中降落和起飞."
+  },
+  "HIGHGRAVITY_3": {
+    "description": "",
+    "message": "{planet} 的重力是 {gravity} g."
   },
   "HOW_FAR": {
     "description": "",
@@ -457,7 +473,7 @@
   },
   "LAT": {
     "description": "",
-    "message": "拉丁："
+    "message": "纬度："
   },
   "LON": {
     "description": "",
@@ -469,15 +485,15 @@
   },
   "MISSING_CREW": {
     "description": "",
-    "message": "机组人员失踪，无法完成传输。"
+    "message": "船员缺失，无法完成转移。 "
   },
   "MISSING_PASS": {
     "description": "",
-    "message": "乘客失踪，无法完成运输。"
+    "message": "乘客们缺失，无法完成运输。"
   },
   "MISSING_PASSENGER": {
     "description": "",
-    "message": "乘客失踪，无法完成运输。"
+    "message": "乘客缺失，无法完成运输。"
   },
   "OK_AGREED": {
     "description": "",
@@ -509,7 +525,7 @@
   },
   "PLAYER_DESTROYED_TARGET": {
     "description": "",
-    "message": "我们听说过你的行为，船长！请放心，我们会向地方当局举报你摧毁了等你去救助的那艘船。随后会对你提起刑事诉讼。"
+    "message": "我们听说了您的事迹，船长！请放心，我们将把您摧毁本应协助的那艘船的行为报告给当地当局，并将提起刑事诉讼。"
   },
   "PLEASE_LAND": {
     "description": "",
@@ -549,11 +565,11 @@
   },
   "PROBLEM_CREW_8": {
     "description": "",
-    "message": "导致其他人被扔到入太空的可怕事故"
+    "message": "一次可怕的事故，导致其他人被抛入太空。"
   },
   "PROBLEM_CREW_9": {
     "description": "",
-    "message": "我不能公开评论的情况"
+    "message": "一个我无法公开评论的情况。"
   },
   "PROBLEM_GENERAL_1": {
     "description": "",
@@ -573,7 +589,7 @@
   },
   "PROBLEM_GENERAL_4": {
     "description": "",
-    "message": "船上所有人员都发生严重的食物中毒。"
+    "message": "一种严重的食物中毒，波及了船上所有人员。"
   },
   "PROBLEM_GENERAL_5": {
     "description": "",

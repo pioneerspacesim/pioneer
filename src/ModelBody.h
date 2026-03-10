@@ -1,10 +1,11 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _MODELBODY_H
 #define _MODELBODY_H
 
 #include "Body.h"
+#include "Color.h"
 #include "CollMesh.h"
 #include "FrameId.h"
 
@@ -30,7 +31,7 @@ public:
 	virtual ~ModelBody();
 	void SetPosition(const vector3d &p) override;
 	void SetOrient(const matrix3x3d &r) override;
-	virtual void SetFrame(FrameId fId) override;
+	void SetFrame(FrameId fId) override;
 	// Colliding: geoms are checked against collision space
 	void SetColliding(bool colliding);
 	bool IsColliding() const { return m_colliding; }
@@ -44,17 +45,12 @@ public:
 
 	void SetModel(const char *modelName);
 
-	void RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform, const bool setLighting = true);
+	void RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
-	virtual void TimeStepUpdate(const float timeStep) override;
+	void TimeStepUpdate(const float timeStep) override;
 
 protected:
-	virtual void SaveToJson(Json &jsonObj, Space *space) override;
-
-	void SetLighting(Graphics::Renderer *r, const Camera *camera, std::vector<float> &oldIntensity, Color &oldAmbient);
-	void ResetLighting(Graphics::Renderer *r, const std::vector<float> &oldIntensity, const Color &oldAmbient);
-
-	Shields *GetShields() const { return m_shields.get(); }
+	void SaveToJson(Json &jsonObj, Space *space) override;
 
 private:
 	void RebuildCollisionMesh();
@@ -62,8 +58,6 @@ private:
 	void AddGeomsToFrame(Frame *);
 	void RemoveGeomsFromFrame(Frame *);
 	void MoveGeoms(const matrix4x4d &, const vector3d &);
-
-	void CalcLighting(double &ambient, double &direct, const Camera *camera);
 
 	bool m_isStatic;
 	bool m_colliding;
@@ -73,7 +67,6 @@ private:
 	SceneGraph::Model *m_model;
 	std::vector<Geom *> m_dynGeoms;
 	SceneGraph::Animation *m_idleAnimation;
-	std::unique_ptr<Shields> m_shields;
 };
 
 #endif /* _MODELBODY_H */

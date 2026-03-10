@@ -1,9 +1,10 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Frame.h"
 
 #include "GameSaveError.h"
+#include "Json.h"
 #include "JsonUtils.h"
 #include "Sfx.h"
 #include "Space.h"
@@ -11,15 +12,15 @@
 #include "utils.h"
 
 std::vector<Frame> Frame::s_frames;
-std::vector<CollisionSpace> Frame::s_collisionSpaces;
+std::vector<CollisionSpace *> Frame::s_collisionSpaces;
 
 Frame::Frame(const Dummy &d, FrameId parent, const char *label, unsigned int flags, double radius) :
 	m_parent(parent),
 	m_sbody(nullptr),
 	m_astroBody(nullptr),
 	m_pos(vector3d(0.0)),
-	m_initialOrient(matrix3x3d::Identity()),
-	m_orient(matrix3x3d::Identity()),
+	m_initialOrient(matrix3x3d::Identity),
+	m_orient(matrix3x3d::Identity),
 	m_vel(vector3d(0.0)),
 	m_angSpeed(0.0),
 	m_radius(radius),
@@ -32,8 +33,8 @@ Frame::Frame(const Dummy &d, FrameId parent, const char *label, unsigned int fla
 
 	ClearMovement();
 
-	s_collisionSpaces.emplace_back();
-	m_collisionSpace = s_collisionSpaces.size() - 1;
+	m_collisionSpace.reset(new CollisionSpace());
+	s_collisionSpaces.emplace_back(m_collisionSpace.get());
 	// TODO: this hacks around TraceRay being called on an uninitialized collision space and crashing
 	// Need to further evaluate the impact of this and whether it should be called in the CollisionSpace constructor instead
 	// FIXME: this causes a crash when resizing the collisionSpace array because a collision space double-frees when move constructing
@@ -50,14 +51,14 @@ Frame::Frame(const Dummy &d, FrameId parent) :
 	m_sbody(nullptr),
 	m_astroBody(nullptr),
 	m_pos(vector3d(0.0)),
-	m_initialOrient(matrix3x3d::Identity()),
-	m_orient(matrix3x3d::Identity()),
+	m_initialOrient(matrix3x3d::Identity),
+	m_orient(matrix3x3d::Identity),
 	m_vel(vector3d(0.0)),
 	m_angSpeed(0.0),
 	m_label("camera"),
 	m_radius(0.0),
 	m_flags(FLAG_ROTATING),
-	m_collisionSpace(-1)
+	m_collisionSpace(nullptr)
 {
 	if (!d.madeWithFactory)
 		Error("Frame ctor called directly!\n");
@@ -87,7 +88,7 @@ Frame::Frame(Frame &&other) noexcept :
 	m_label(std::move(other.m_label)),
 	m_radius(other.m_radius),
 	m_flags(other.m_flags),
-	m_collisionSpace(other.m_collisionSpace),
+	m_collisionSpace(other.m_collisionSpace.release()),
 	m_rootVel(other.m_rootVel),
 	m_rootPos(other.m_rootPos),
 	m_rootOrient(other.m_rootOrient),
@@ -118,7 +119,7 @@ Frame &Frame::operator=(Frame &&other)
 	m_label = std::move(other.m_label);
 	m_radius = other.m_radius;
 	m_flags = other.m_flags;
-	m_collisionSpace = other.m_collisionSpace;
+	m_collisionSpace.reset(other.m_collisionSpace.release());
 	m_rootVel = other.m_rootVel;
 	m_rootPos = other.m_rootPos;
 	m_rootOrient = other.m_rootOrient;
@@ -300,9 +301,14 @@ void Frame::CollideFrames(void (*callback)(CollisionContact *))
 {
 	PROFILE_SCOPED()
 
-	std::for_each(begin(s_collisionSpaces), end(s_collisionSpaces), [&](CollisionSpace &cs) {
-		cs.Collide(callback);
-	});
+	for (auto &frame : s_frames) {
+		if (!frame.m_collisionSpace)
+			continue;
+
+		// Used to be frame.m_label.c_str() however the preprocessor is evaluated at compile time this fails on MSVC
+		PROFILE_SCOPED_DESC("Loop frame")
+		frame.m_collisionSpace->Collide(callback);
+	}
 }
 
 void Frame::RemoveChild(FrameId fId)
@@ -316,27 +322,24 @@ void Frame::RemoveChild(FrameId fId)
 		m_children.erase(it);
 }
 
-void Frame::AddGeom(Geom *g) { s_collisionSpaces.at(m_collisionSpace).AddGeom(g); }
-void Frame::RemoveGeom(Geom *g) { s_collisionSpaces.at(m_collisionSpace).RemoveGeom(g); }
-void Frame::AddStaticGeom(Geom *g) { s_collisionSpaces.at(m_collisionSpace).AddStaticGeom(g); }
-void Frame::RemoveStaticGeom(Geom *g) { s_collisionSpaces.at(m_collisionSpace).RemoveStaticGeom(g); }
+void Frame::AddGeom(Geom *g) { m_collisionSpace->AddGeom(g); }
+void Frame::RemoveGeom(Geom *g) { m_collisionSpace->RemoveGeom(g); }
+void Frame::AddStaticGeom(Geom *g) { m_collisionSpace->AddStaticGeom(g); }
+void Frame::RemoveStaticGeom(Geom *g) { m_collisionSpace->RemoveStaticGeom(g); }
 void Frame::SetPlanetGeom(double radius, Body *obj)
 {
-	s_collisionSpaces.at(m_collisionSpace).SetSphere(vector3d(0, 0, 0), radius, static_cast<void *>(obj));
+	m_collisionSpace->SetSphere(vector3d::Zero, radius, static_cast<void *>(obj));
 }
 
 CollisionSpace *Frame::GetCollisionSpace() const
 {
-	if (m_collisionSpace >= 0)
-		return &s_collisionSpaces[m_collisionSpace];
-	else
-		return nullptr;
+	return m_collisionSpace.get();
 }
 
 // doesn't consider stasis velocity
 vector3d Frame::GetVelocityRelTo(FrameId relToId) const
 {
-	if (m_thisId == relToId) return vector3d(0, 0, 0); // early-out to avoid unnecessary computation
+	if (m_thisId == relToId) return vector3d::Zero; // early-out to avoid unnecessary computation
 
 	const Frame *relTo = Frame::GetFrame(relToId);
 	vector3d diff = m_rootVel - relTo->m_rootVel;
@@ -349,7 +352,7 @@ vector3d Frame::GetVelocityRelTo(FrameId relToId) const
 vector3d Frame::GetPositionRelTo(FrameId relToId) const
 {
 	// early-outs for simple cases, required for accuracy in large systems
-	if (m_thisId == relToId) return vector3d(0, 0, 0);
+	if (m_thisId == relToId) return vector3d::Zero;
 
 	const Frame *relTo = Frame::GetFrame(relToId);
 
@@ -380,7 +383,7 @@ vector3d Frame::GetInterpPositionRelTo(FrameId relToId) const
 	const Frame *relTo = Frame::GetFrame(relToId);
 
 	// early-outs for simple cases, required for accuracy in large systems
-	if (m_thisId == relToId) return vector3d(0, 0, 0);
+	if (m_thisId == relToId) return vector3d::Zero;
 	if (GetParent() == relTo->GetId()) return m_interpPos; // relative to parent
 	if (relTo->GetParent() == m_thisId) {				   // relative to child
 		if (!relTo->IsRotFrame())
@@ -404,20 +407,20 @@ vector3d Frame::GetInterpPositionRelTo(FrameId relToId) const
 
 matrix3x3d Frame::GetOrientRelTo(FrameId relToId) const
 {
-	if (m_thisId == relToId) return matrix3x3d::Identity();
+	if (m_thisId == relToId) return matrix3x3d::Identity;
 	return Frame::GetFrame(relToId)->m_rootOrient.Transpose() * m_rootOrient;
 }
 
 matrix3x3d Frame::GetInterpOrientRelTo(FrameId relToId) const
 {
-	if (m_thisId == relToId) return matrix3x3d::Identity();
+	if (m_thisId == relToId) return matrix3x3d::Identity;
 	return Frame::GetFrame(relToId)->m_rootInterpOrient.Transpose() * m_rootInterpOrient;
 	/*	if (IsRotFrame()) {
 		if (relTo->IsRotFrame()) return m_interpOrient * relTo->m_interpOrient.Transpose();
 		else return m_interpOrient;
 	}
 	if (relTo->IsRotFrame()) return relTo->m_interpOrient.Transpose();
-	else return matrix3x3d::Identity();
+	else return matrix3x3d::Identity;
 */
 }
 
@@ -537,8 +540,8 @@ void Frame::UpdateRootRelativeVars()
 	// update pos & vel relative to parent frame
 	Frame *parent = Frame::GetFrame(m_parent);
 	if (!parent) {
-		m_rootPos = m_rootVel = vector3d(0, 0, 0);
-		m_rootOrient = matrix3x3d::Identity();
+		m_rootPos = m_rootVel = vector3d::Zero;
+		m_rootOrient = matrix3x3d::Identity;
 	} else {
 		m_rootPos = parent->m_rootOrient * m_pos + parent->m_rootPos;
 		m_rootVel = parent->m_rootOrient * m_vel + parent->m_rootVel;

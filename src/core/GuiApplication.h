@@ -1,52 +1,64 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
 
 #include "Application.h"
-#include "Input.h"
 #include "RefCounted.h"
-#include "SDL_events.h"
-#include "pigui/PiGui.h"
+#include <SDL_events.h>
 
-#include "graphics/RenderState.h"
-#include "graphics/RenderTarget.h"
-#include "graphics/Renderer.h"
+#include "graphics/Graphics.h"
 
 class IniConfig;
 
+namespace Input {
+	class Manager;
+}
+
+namespace PiGui {
+	class Instance;
+}
+
+namespace Graphics {
+	class Renderer;
+	class RenderTarget;
+}
+
 class GuiApplication : public Application {
 public:
-	GuiApplication(std::string title) :
-		Application(), m_applicationTitle(title)
-	{}
+	GuiApplication(const std::string &title);
+	~GuiApplication();
 
 	Graphics::Renderer *GetRenderer() { return m_renderer.get(); }
 	Input::Manager *GetInput() { return m_input.get(); }
 	PiGui::Instance *GetPiGui() { return m_pigui.Get(); }
 
+	Graphics::RenderTarget *GetRenderTarget() { return m_renderTarget.get(); }
+
+	const Graphics::Settings &GetGraphicsSettings() { return m_settings; }
+
 protected:
-	// Called at the end of the frame automatically, blits the RT onto the application
-	// framebuffer
-	void DrawRenderTarget();
+
+	// Call this from your OnStartup() method
+	void SetupProfiler(IniConfig *config);
 
 	// TODO: unify config handling, possibly make the config an Application member
-	// Call this from your Startup() method
-	Graphics::Renderer *StartupRenderer(IniConfig *config, bool hidden = false);
+	// Call this from your OnStartup() method
+	Graphics::Renderer *StartupRenderer(IniConfig *config, bool hidden = false, bool resizable = false);
 
-	// Call this from your Startup() method
+	// Call this from your OnStartup() method
 	Input::Manager *StartupInput(IniConfig *config);
 
-	// Call this from your Startup() method
+	// Call this from your OnStartup() method
 	PiGui::Instance *StartupPiGui();
 
-	// Call this from your Shutdown() method
+	// Call this from your OnShutdown() method
 	void ShutdownRenderer();
 
-	// Call this from your Shutdown() method
+	// Call this from your OnShutdown() method
 	void ShutdownInput();
 
-	// Call this from your shutdown() method
+	// Call this from your OnShutdown() method
 	void ShutdownPiGui();
 
 	// Hook to bind the RT and clear the screen.
@@ -66,8 +78,13 @@ protected:
 	// Override point to handle an application quit notification
 	virtual void HandleQuit(SDL_QuitEvent &ev) { RequestQuit(); }
 
+	// Override to handle the game window gaining or losing keyboard focus
+	// newFocus: true - window has keyboard focus, false - window does not have keyboard focus
+	virtual void OnWindowKeyboardFocusChanged(bool newFocus) {}
+
 private:
 	Graphics::RenderTarget *CreateRenderTarget(const Graphics::Settings &settings);
+	void OnWindowResized();
 
 	RefCountedPtr<PiGui::Instance> m_pigui;
 	std::unique_ptr<Input::Manager> m_input;
@@ -76,4 +93,5 @@ private:
 
 	std::unique_ptr<Graphics::Renderer> m_renderer;
 	std::unique_ptr<Graphics::RenderTarget> m_renderTarget;
+	Graphics::Settings m_settings;
 };

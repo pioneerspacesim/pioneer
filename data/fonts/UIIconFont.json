@@ -1,0 +1,15 @@
+{
+	"name": "icons",
+	"loadDefaultRange": false,
+	"faces": [
+		{
+			"fontFile": "PionilliumText22L-Medium.ttf",
+			"scale": 1.0
+		},
+		{
+			"svgFile": "icons/icons.svg",
+			"rangeBase": "0xF000",
+			"grid": [ 16, 21 ]
+		}
+	]
+}

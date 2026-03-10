@@ -9,7 +9,7 @@
   },
   "BOARDED_PASSENGER": {
     "description": "",
-    "message": "{name} ha imbarcato la nave."
+    "message": "{name} è salito a bordo della nave."
   },
   "COMMODITIES": {
     "description": "",
@@ -180,8 +180,8 @@
     "message": "Per il rimborso completo delle spese dovrà tornare entro il {due}."
   },
   "FLAVOUR_1_INTROTEXT": {
-    "description": "",
-    "message": "Il controllo traffico aereo di {starport} richiede il suo aiuto IMMEDIATO in risposta allo schianto di un'astronave di tipo {ship} sul pianeta {planet}. Lo stato dei sistemi di supporto vitale è sconosciuto. L'astronave era stata assicurata con la polizza dell'astroporto {starport} ed è coperta da una franchigia di {cash} in caso di richieste di soccorso."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "Il controllo traffico aereo di {starport} richiede il suo aiuto IMMEDIATO in risposta allo schianto di  {ship_indef} sul pianeta {planet}. Lo stato dei sistemi di supporto vitale è sconosciuto. L'astronave era stata assicurata con la polizza dell'astroporto {starport} ed è coperta da una franchigia di {cash} in caso di richieste di soccorso."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
@@ -273,7 +273,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Ricevuto segnale di emergenza: nave alla deriva e priva di cabrante sul pianeta {planet}."
+    "message": "Ricevuto segnale di emergenza: nave alla deriva e priva di carburante sul pianeta {planet}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
@@ -297,7 +297,7 @@
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "Molto bene. La raccomanderemo per i futuri incarichi."
+    "message": "Molto bene. La raccomanderemo per futuri incarichi."
   },
   "FLAVOUR_4_TRANSFERMSG": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "FLAVOUR_4_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Il pilota sta chiedendo {unit} ton. di {cargo}."
+    "message": "Il pilota sta chiedendo {unit} ton. di {cargo}. {high_gravity}"
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -360,8 +360,8 @@
     "message": "Deve tornare entro il {due}."
   },
   "FLAVOUR_6_INTROTEXT": {
-    "description": "",
-    "message": "Il mio nome è {name} {entity}. Abbiamo perso i contatti con la nostra {ship} {shiplabel} per {problem}. Siamo disposti a pagare {cash} per un aiuto immediato."
+    "description": "{ship_base} is translated in /data/lang/ships/",
+    "message": "Il mio nome è {name} {entity}. Abbiamo perso i contatti con la nostra {ship_base} {shiplabel} per {problem}. Siamo disposti a pagare {cash} per un aiuto immediato."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
@@ -396,8 +396,8 @@
     "message": "L'equipaggio sostitutivo deve raggiungere la nave entro il {due}."
   },
   "FLAVOUR_7_INTROTEXT": {
-    "description": "",
-    "message": "Il mio nome è {name} {entity}. La nostra astronave {ship} {shiplabel} con un equipaggio di {crew} persone è alla deriva per {problem}. Siamo disposti a pagare {cash} per un aiuto immediato."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "Il mio nome è {name} {entity}. La nostra astronave, {ship_indef} {shiplabel} con un equipaggio di {crew} persone è alla deriva per {problem}. Siamo disposti a pagare {cash} per un aiuto immediato."
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
@@ -426,6 +426,22 @@
   "FULL_PASSENGERS": {
     "description": "",
     "message": "Tutti gli alloggi sono occupati. Non c'è posto per altri passeggeri."
+  },
+  "HIGHGRAVITY_0": {
+    "description": "",
+    "message": "La gravità sulla superficie di {planet} è di {gravity} G. SI prega di tenerlo in considerazione."
+  },
+  "HIGHGRAVITY_1": {
+    "description": "",
+    "message": "Meglio che tu sappia che la gravità su {planet} è di {gravity} G."
+  },
+  "HIGHGRAVITY_2": {
+    "description": "",
+    "message": "Atterraggio e decollo saranno a {gravity} G."
+  },
+  "HIGHGRAVITY_3": {
+    "description": "",
+    "message": "{planet} ha {gravity} G."
   },
   "HOW_FAR": {
     "description": "",
@@ -489,7 +505,7 @@
   },
   "PARTIAL": {
     "description": "",
-    "message": "La ringrazio per le sue fatiche. Spero che tornerà per completare la missione!"
+    "message": "La ringrazio per i suoi sforzi. Spero che tornerà per completare la missione!"
   },
   "PASSENGERS": {
     "description": "",
@@ -497,7 +513,7 @@
   },
   "PAYMENT_LOCATION": {
     "description": "",
-    "message": "Luogo di pagamento:"
+    "message": "Luogo del pagamento:"
   },
   "PICKUP": {
     "description": "",
@@ -525,7 +541,7 @@
   },
   "PROBLEM_CREW_2": {
     "description": "",
-    "message": "l'inseguimento di un mortale serpente di {locality} trovato in libertà sulla nave"
+    "message": "l'inseguimento di un pericoloso serpente di {locality} trovato in libertà sulla nave"
   },
   "PROBLEM_CREW_3": {
     "description": "",
@@ -545,7 +561,7 @@
   },
   "PROBLEM_CREW_7": {
     "description": "",
-    "message": "una grave forma di avvelenamento alimentare sulla nave"
+    "message": "una grave forma di intossicazione alimentare sulla nave"
   },
   "PROBLEM_CREW_8": {
     "description": "",

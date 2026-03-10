@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- THIS FILE IS AUTO-GENERATED, CHANGES WILL BE OVERWRITTEN
@@ -8,165 +8,444 @@
 
 -- ============================================================================
 
--- Document lua Constants as typed subclasses of string for API visibility sake
-
--- A <Constants.PhysicsObjectType> string
----@class PhysicsObjectType: string
-
--- A <Constants.ShipAIError> string
----@class ShipAIError: string
-
--- A <Constants.ShipFlightState> string
----@class ShipFlightState: string
-
--- A <Constants.ShipJumpStatus> string
----@class ShipJumpStatus: string
-
--- A <Constants.ShipAlertStatus> string
----@class ShipAlertStatus: string
-
--- A <Constants.ShipAICmdName> string
----@class ShipAICmdName: string
-
--- A <Constants.DualLaserOrientation> string
----@class DualLaserOrientation: string
-
--- A <Constants.ShipTypeTag> string
----@class ShipTypeTag: string
-
--- A <Constants.DockingRefusedReason> string
----@class DockingRefusedReason: string
-
--- A <Constants.ProjectableTypes> string
----@class ProjectableTypes: string
-
--- A <Constants.ProjectableBases> string
----@class ProjectableBases: string
-
--- A <Constants.SystemViewMode> string
----@class SystemViewMode: string
-
--- A <Constants.SystemViewColorIndex> string
----@class SystemViewColorIndex: string
-
--- A <Constants.PolitEcon> string
----@class PolitEcon: string
-
--- A <Constants.PolitGovType> string
----@class PolitGovType: string
-
--- A <Constants.BodyType> string
----@class BodyType: string
-
--- A <Constants.BodySuperType> string
----@class BodySuperType: string
-
--- A <Constants.DetailLevel> string
----@class DetailLevel: string
-
--- A <Constants.FileSystemRoot> string
----@class FileSystemRoot: string
-
--- A <Constants.PiGuiFaceFlags> string
----@class PiGuiFaceFlags: string
-
--- A <Constants.ModelDebugFlags> string
----@class ModelDebugFlags: string
-
--- A <Constants.CruiseDirection> string
----@class CruiseDirection: string
-
--- A <Constants.FollowMode> string
----@class FollowMode: string
-
--- A <Constants.ShipTypeThruster> string
----@class ShipTypeThruster: string
-
--- A <Constants.PropulsionFuelStatus> string
----@class PropulsionFuelStatus: string
-
--- A <Constants.ShipControllerFlightControlState> string
----@class ShipControllerFlightControlState: string
-
--- ============================================================================
-
 -- Global Constants namespace
 Constants = {}
+
+-- Document lua string Constants as enum tables for autocomplete support
+
+-- Use a literal string value when passing an enum constant rather than
+-- retrieving a value from these tables
+
+-- A <Constants.PhysicsObjectType> string
+---@enum (key) PhysicsObjectType
+local PhysicsObjectType = {
+	BODY = 1,
+	MODELBODY = 2,
+	SHIP = 3,
+	PLAYER = 4,
+	SPACESTATION = 5,
+	PLANET = 6,
+	STAR = 7,
+	CARGOBODY = 8,
+	MISSILE = 9,
+}
 
 ---@type PhysicsObjectType[]
 Constants.PhysicsObjectType = {}
 
+-- A <Constants.AltitudeType> string
+---@enum (key) AltitudeType
+local AltitudeType = {
+	DEFAULT = 1,
+	SEA_LEVEL = 2,
+	ABOVE_TERRAIN = 3,
+}
+
+---@type AltitudeType[]
+Constants.AltitudeType = {}
+
+-- A <Constants.ShipAIError> string
+---@enum (key) ShipAIError
+local ShipAIError = {
+	NONE = 1,
+	GRAV_TOO_HIGH = 2,
+	REFUSED_PERM = 3,
+	PRESS_TOO_HIGH = 4,
+	ORBIT_IMPOSSIBLE = 5,
+}
+
 ---@type ShipAIError[]
 Constants.ShipAIError = {}
+
+-- A <Constants.ShipFlightState> string
+---@enum (key) ShipFlightState
+local ShipFlightState = {
+	FLYING = 1,
+	DOCKING = 2,
+	UNDOCKING = 3,
+	DOCKED = 4,
+	LANDED = 5,
+	JUMPING = 6,
+	HYPERSPACE = 7,
+}
 
 ---@type ShipFlightState[]
 Constants.ShipFlightState = {}
 
+-- A <Constants.ShipJumpStatus> string
+---@enum (key) ShipJumpStatus
+local ShipJumpStatus = {
+	OK = 1,
+	CURRENT_SYSTEM = 2,
+	NO_DRIVE = 3,
+	INITIATED = 4,
+	DRIVE_ACTIVE = 5,
+	OUT_OF_RANGE = 6,
+	INSUFFICIENT_FUEL = 7,
+	SAFETY_LOCKOUT = 8,
+}
+
 ---@type ShipJumpStatus[]
 Constants.ShipJumpStatus = {}
+
+-- A <Constants.ShipAlertStatus> string
+---@enum (key) ShipAlertStatus
+local ShipAlertStatus = {
+	NONE = 1,
+	SHIP_NEARBY = 2,
+	SHIP_FIRING = 3,
+	MISSILE_DETECTED = 4,
+}
 
 ---@type ShipAlertStatus[]
 Constants.ShipAlertStatus = {}
 
+-- A <Constants.ShipAICmdName> string
+---@enum (key) ShipAICmdName
+local ShipAICmdName = {
+	CMD_NONE = 1,
+	CMD_DOCK = 2,
+	CMD_FLYTO = 3,
+	CMD_FLYAROUND = 4,
+	CMD_KILL = 5,
+	CMD_KAMIKAZE = 6,
+	CMD_HOLDPOSITION = 7,
+	CMD_FORMATION = 8,
+}
+
 ---@type ShipAICmdName[]
 Constants.ShipAICmdName = {}
+
+-- A <Constants.DualLaserOrientation> string
+---@enum (key) DualLaserOrientation
+local DualLaserOrientation = {
+	HORIZONTAL = 1,
+	VERTICAL = 2,
+}
 
 ---@type DualLaserOrientation[]
 Constants.DualLaserOrientation = {}
 
+-- A <Constants.ShipTypeTag> string
+---@enum (key) ShipTypeTag
+local ShipTypeTag = {
+	NONE = 1,
+	SHIP = 2,
+	STATIC_SHIP = 3,
+	MISSILE = 4,
+}
+
 ---@type ShipTypeTag[]
 Constants.ShipTypeTag = {}
+
+-- A <Constants.DockingRefusedReason> string
+---@enum (key) DockingRefusedReason
+local DockingRefusedReason = {
+	ClearanceAlreadyGranted = 1,
+	TooFarFromStation = 2,
+	NoBaysAvailable = 3,
+}
 
 ---@type DockingRefusedReason[]
 Constants.DockingRefusedReason = {}
 
+-- A <Constants.DockStage> string
+---@enum (key) DockStage
+local DockStage = {
+	NONE = 1,
+	MANUAL = 2,
+	DOCK_STAGES_BEGIN = 3,
+	CLEARANCE_GRANTED = 4,
+	DOCK_ANIMATION_NONE = 5,
+	DOCK_ANIMATION_1 = 6,
+	DOCK_ANIMATION_2 = 7,
+	DOCK_ANIMATION_3 = 8,
+	DOCK_ANIMATION_MAX = 9,
+	TOUCHDOWN = 10,
+	LEVELING = 11,
+	REPOSITION = 12,
+	JUST_DOCK = 13,
+	DOCK_STAGES_END = 14,
+	DOCKED = 15,
+	UNDOCK_STAGES_BEGIN = 16,
+	UNDOCK_BEGIN = 17,
+	UNDOCK_ANIMATION_NONE = 18,
+	UNDOCK_ANIMATION_1 = 19,
+	UNDOCK_ANIMATION_2 = 20,
+	UNDOCK_ANIMATION_3 = 21,
+	UNDOCK_ANIMATION_MAX = 22,
+	UNDOCK_END = 23,
+	LEAVE = 24,
+	UNDOCK_STAGES_END = 25,
+	APPROACH1 = 26,
+	APPROACH2 = 27,
+}
+
+---@type DockStage[]
+Constants.DockStage = {}
+
+-- A <Constants.ProjectableTypes> string
+---@enum (key) ProjectableTypes
+local ProjectableTypes = {
+	NONE = 1,
+	OBJECT = 2,
+	L4 = 3,
+	L5 = 4,
+	APOAPSIS = 5,
+	PERIAPSIS = 6,
+}
+
 ---@type ProjectableTypes[]
 Constants.ProjectableTypes = {}
+
+-- A <Constants.ProjectableBases> string
+---@enum (key) ProjectableBases
+local ProjectableBases = {
+	SYSTEMBODY = 1,
+	BODY = 2,
+	SHIP = 3,
+	PLAYER = 4,
+	PLANNER = 5,
+}
 
 ---@type ProjectableBases[]
 Constants.ProjectableBases = {}
 
+-- A <Constants.SystemViewMode> string
+---@enum (key) SystemViewMode
+local SystemViewMode = {
+	Orrery = 1,
+	Atlas = 2,
+}
+
 ---@type SystemViewMode[]
 Constants.SystemViewMode = {}
+
+-- A <Constants.SystemSelectionMode> string
+---@enum (key) SystemSelectionMode
+local SystemSelectionMode = {
+	CURRENT_SYSTEM = 1,
+	SELECTED_SYSTEM = 2,
+}
+
+---@type SystemSelectionMode[]
+Constants.SystemSelectionMode = {}
+
+-- A <Constants.SystemViewColorIndex> string
+---@enum (key) SystemViewColorIndex
+local SystemViewColorIndex = {
+	GRID = 1,
+	GRID_LEG = 2,
+	SYSTEMBODY = 3,
+	SYSTEMBODY_ORBIT = 4,
+	PLAYER_ORBIT = 5,
+	PLANNER_ORBIT = 6,
+	SELECTED_SHIP_ORBIT = 7,
+	SHIP_ORBIT = 8,
+}
 
 ---@type SystemViewColorIndex[]
 Constants.SystemViewColorIndex = {}
 
+-- A <Constants.PolitEcon> string
+---@enum (key) PolitEcon
+local PolitEcon = {
+	NONE = 1,
+	VERY_CAPITALIST = 2,
+	CAPITALIST = 3,
+	MIXED = 4,
+	PLANNED = 5,
+}
+
 ---@type PolitEcon[]
 Constants.PolitEcon = {}
+
+-- A <Constants.PolitGovType> string
+---@enum (key) PolitGovType
+local PolitGovType = {
+	NONE = 1,
+	EARTHCOLONIAL = 2,
+	EARTHDEMOC = 3,
+	EMPIRERULE = 4,
+	CISLIBDEM = 5,
+	CISSOCDEM = 6,
+	LIBDEM = 7,
+	CORPORATE = 8,
+	SOCDEM = 9,
+	EARTHMILDICT = 10,
+	MILDICT1 = 11,
+	MILDICT2 = 12,
+	EMPIREMILDICT = 13,
+	COMMUNIST = 14,
+	PLUTOCRATIC = 15,
+	DISORDER = 16,
+}
 
 ---@type PolitGovType[]
 Constants.PolitGovType = {}
 
+-- A <Constants.BodyType> string
+---@enum (key) BodyType
+local BodyType = {
+	GRAVPOINT = 1,
+	BROWN_DWARF = 2,
+	WHITE_DWARF = 3,
+	STAR_M = 4,
+	STAR_K = 5,
+	STAR_G = 6,
+	STAR_F = 7,
+	STAR_A = 8,
+	STAR_B = 9,
+	STAR_O = 10,
+	STAR_M_GIANT = 11,
+	STAR_K_GIANT = 12,
+	STAR_G_GIANT = 13,
+	STAR_F_GIANT = 14,
+	STAR_A_GIANT = 15,
+	STAR_B_GIANT = 16,
+	STAR_O_GIANT = 17,
+	STAR_M_SUPER_GIANT = 18,
+	STAR_K_SUPER_GIANT = 19,
+	STAR_G_SUPER_GIANT = 20,
+	STAR_F_SUPER_GIANT = 21,
+	STAR_A_SUPER_GIANT = 22,
+	STAR_B_SUPER_GIANT = 23,
+	STAR_O_SUPER_GIANT = 24,
+	STAR_M_HYPER_GIANT = 25,
+	STAR_K_HYPER_GIANT = 26,
+	STAR_G_HYPER_GIANT = 27,
+	STAR_F_HYPER_GIANT = 28,
+	STAR_A_HYPER_GIANT = 29,
+	STAR_B_HYPER_GIANT = 30,
+	STAR_O_HYPER_GIANT = 31,
+	STAR_M_WF = 32,
+	STAR_B_WF = 33,
+	STAR_O_WF = 34,
+	STAR_S_BH = 35,
+	STAR_IM_BH = 36,
+	STAR_SM_BH = 37,
+	PLANET_GAS_GIANT = 38,
+	PLANET_ASTEROID = 39,
+	PLANET_TERRESTRIAL = 40,
+	STARPORT_ORBITAL = 41,
+	STARPORT_SURFACE = 42,
+}
+
 ---@type BodyType[]
 Constants.BodyType = {}
+
+-- A <Constants.BodySuperType> string
+---@enum (key) BodySuperType
+local BodySuperType = {
+	NONE = 1,
+	STAR = 2,
+	ROCKY_PLANET = 3,
+	GAS_GIANT = 4,
+	STARPORT = 5,
+}
 
 ---@type BodySuperType[]
 Constants.BodySuperType = {}
 
+-- A <Constants.DetailLevel> string
+---@enum (key) DetailLevel
+local DetailLevel = {
+	VERY_LOW = 1,
+	LOW = 2,
+	MEDIUM = 3,
+	HIGH = 4,
+	VERY_HIGH = 5,
+}
+
 ---@type DetailLevel[]
 Constants.DetailLevel = {}
 
----@type FileSystemRoot[]
-Constants.FileSystemRoot = {}
+-- A <Constants.PiGuiFaceFlags> string
+---@enum (key) PiGuiFaceFlags
+local PiGuiFaceFlags = {
+	RAND = 1,
+	MALE = 2,
+	FEMALE = 3,
+	ARMOUR = 4,
+}
 
 ---@type PiGuiFaceFlags[]
 Constants.PiGuiFaceFlags = {}
 
+-- A <Constants.ModelDebugFlags> string
+---@enum (key) ModelDebugFlags
+local ModelDebugFlags = {
+	NONE = 1,
+	BBOX = 2,
+	COLLMESH = 3,
+	WIREFRAME = 4,
+	TAGS = 5,
+	DOCKING = 6,
+	GEOMBBOX = 7,
+}
+
 ---@type ModelDebugFlags[]
 Constants.ModelDebugFlags = {}
+
+-- A <Constants.CruiseDirection> string
+---@enum (key) CruiseDirection
+local CruiseDirection = {
+	CRUISE_FWD = 1,
+	CRUISE_UP = 2,
+}
 
 ---@type CruiseDirection[]
 Constants.CruiseDirection = {}
 
+-- A <Constants.FollowMode> string
+---@enum (key) FollowMode
+local FollowMode = {
+	FOLLOW_POS = 1,
+	FOLLOW_ORI = 2,
+}
+
 ---@type FollowMode[]
 Constants.FollowMode = {}
+
+-- A <Constants.ShipTypeThruster> string
+---@enum (key) ShipTypeThruster
+local ShipTypeThruster = {
+	REVERSE = 1,
+	FORWARD = 2,
+	UP = 3,
+	DOWN = 4,
+	LEFT = 5,
+	RIGHT = 6,
+}
 
 ---@type ShipTypeThruster[]
 Constants.ShipTypeThruster = {}
 
+-- A <Constants.PropulsionFuelStatus> string
+---@enum (key) PropulsionFuelStatus
+local PropulsionFuelStatus = {
+	OK = 1,
+	WARNING = 2,
+	EMPTY = 3,
+}
+
 ---@type PropulsionFuelStatus[]
 Constants.PropulsionFuelStatus = {}
+
+-- A <Constants.ShipControllerFlightControlState> string
+---@enum (key) ShipControllerFlightControlState
+local ShipControllerFlightControlState = {
+	CONTROL_MANUAL = 1,
+	CONTROL_FIXSPEED = 2,
+	CONTROL_FIXHEADING_FORWARD = 3,
+	CONTROL_FIXHEADING_BACKWARD = 4,
+	CONTROL_FIXHEADING_NORMAL = 5,
+	CONTROL_FIXHEADING_ANTINORMAL = 6,
+	CONTROL_FIXHEADING_RADIALLY_INWARD = 7,
+	CONTROL_FIXHEADING_RADIALLY_OUTWARD = 8,
+	CONTROL_FIXHEADING_KILLROT = 9,
+	CONTROL_AUTOPILOT = 10,
+}
 
 ---@type ShipControllerFlightControlState[]
 Constants.ShipControllerFlightControlState = {}

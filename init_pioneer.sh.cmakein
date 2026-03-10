@@ -1,0 +1,21 @@
+#! /bin/bash
+
+BIN_DIRECTORY=usr/bin
+OLD_DIR=$PWD
+if [ "$1" = editor ]
+then
+    shift
+    cd $APPDIR && $BIN_DIRECTORY/editor "$@"
+elif [ "$1" = modelcompiler ]
+then
+    shift
+    cd $APPDIR && $BIN_DIRECTORY/modelcompiler "$@"
+elif [ "$1" = savegamedump ]
+then
+    shift
+    cd $APPDIR && $BIN_DIRECTORY/savegamedump "$@"
+else
+    cd $APPDIR && $BIN_DIRECTORY/pioneer "$@"
+fi
+
+cd $OLD_DIR

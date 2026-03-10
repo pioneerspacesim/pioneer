@@ -1,4 +1,8 @@
 {
+  "ABOUT": {
+    "description": "main menu button (implied 'about' the game)",
+    "message": "Névjegy"
+  },
   "ABOVE_AVERAGE": {
     "description": "",
     "message": "Átlag feletti"
@@ -6,6 +10,10 @@
   "ACTIVE": {
     "description": "",
     "message": "Aktív"
+  },
+  "ADD_BOOKMARK": {
+    "description": "Button to add a singular bookmark",
+    "message": "Könyvjelző hozzáadása"
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
@@ -18,6 +26,10 @@
   "ALLEGIANCE": {
     "description": "",
     "message": "Szövetség:"
+  },
+  "ALL_PARAMETERS_WERE_RECOVERED_SUCCESSFULLY": {
+    "description": "Message when restoring savegame",
+    "message": "Minden paraméter sikeresen visszaállítva."
   },
   "ALL_UP_WEIGHT": {
     "description": "",
@@ -47,9 +59,17 @@
     "description": "Base external pressure limit of a ship (without atmo shield)",
     "message": "Légköri nyomás tűrés"
   },
+  "ATTEMPTING_TO_RECOVER_GAME_PROGRESS_FROM_SAVE_X": {
+    "description": "Message when restoring savegame",
+    "message": "Kísérlet a játék állapot visszaállítására ebből a mentésből: {save}"
+  },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
     "message": "Kíséreld meg a hajótest javítását"
+  },
+  "AUTOMATED_MESSAGE": {
+    "description": "For comm messages from bots",
+    "message": "AUTOMATIKUS ÜZENET"
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
@@ -59,6 +79,10 @@
     "description": "Market header when buying items",
     "message": "Megvásárolható"
   },
+  "AVAILABLE_STOCK": {
+    "description": "Market stat showing number of items in stock",
+    "message": "Elérhető készlet"
+  },
   "AVERAGE": {
     "description": "",
     "message": "Átlagos"
@@ -67,12 +91,32 @@
     "description": "",
     "message": "Gyorsulás hátra"
   },
+  "BODY_IN_ROUTE": {
+    "description": "Label indicating a star is part of a planned hyperjump route",
+    "message": "Tervezett útvonal része"
+  },
+  "BOOKMARK": {
+    "description": "Label introducing a bookmark",
+    "message": "Könyvjelző"
+  },
+  "BOOKMARKS": {
+    "description": "Label introducing a list of bookmarks",
+    "message": "Könyvjelzők"
+  },
   "BULLETIN_BOARD": {
     "description": "",
     "message": "Hirdetőtábla"
   },
   "BUY": {
     "description": "Commodities and equipment prices",
+    "message": "Vesz"
+  },
+  "BUY_EQUIP": {
+    "description": "Button text to buy selected equipment. May be used in a singular or plural context.",
+    "message": "{name} megvétele"
+  },
+  "BUY_PRICE": {
+    "description": "Title for buy-price column in commodity market",
     "message": "Vesz"
   },
   "BUY_SHIP": {
@@ -98,6 +142,18 @@
   "CANNOT_SELL_ITEM": {
     "description": "",
     "message": "Nem eladható"
+  },
+  "CANNOT_SELL_NONEMPTY_EQUIP": {
+    "description": "",
+    "message": "Csak üresen adható el"
+  },
+  "CANT_FIND_PATH": {
+    "description": "Message when restoring savegame, file path",
+    "message": "Elérési út nem található: %s"
+  },
+  "CANT_FIND_PLAYERS_SHIP_IN_SPACE": {
+    "description": "Message when restoring savegame",
+    "message": "Nem található a játékos hajójának térbeli pozíciója"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -131,6 +187,10 @@
     "description": "t for tonne",
     "message": "{amount}t foglalt"
   },
+  "CASE_SENSITIVE": {
+    "description": "",
+    "message": "Nagybetű-érzékeny"
+  },
   "CASH": {
     "description": "",
     "message": "Pénz"
@@ -138,6 +198,10 @@
   "CASH_N": {
     "description": "",
     "message": "Pénz: {money}"
+  },
+  "CENTER_ON_CURRENT_SYSTEM": {
+    "description": "Center on current star system",
+    "message": "Jelenlegi rendszert középre"
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
@@ -158,6 +222,14 @@
   "CHANGE_PATTERN": {
     "description": "Paintshop button",
     "message": "Minta kiválasztása"
+  },
+  "CHARACTER": {
+    "description": "",
+    "message": "Karakter"
+  },
+  "CHARISMA": {
+    "description": "Character parameter",
+    "message": "Karizma"
   },
   "CHIEF_MECHANIC": {
     "description": "",
@@ -191,6 +263,10 @@
     "description": "",
     "message": "Bezár"
   },
+  "COLLAPSE": {
+    "description": "Close / collapse an open folder or group",
+    "message": "Összecsukás"
+  },
   "COLOR": {
     "description": "",
     "message": "Szín"
@@ -203,6 +279,10 @@
     "description": "",
     "message": "Parancsnok"
   },
+  "COMMODITY": {
+    "description": "Title for commodity name column in commodity market",
+    "message": "Áru"
+  },
   "COMMODITY_MARKET": {
     "description": "",
     "message": "Árupiac"
@@ -210,6 +290,18 @@
   "COMMODITY_TRADE_ANALYSIS": {
     "description": "",
     "message": "Kereskedelmi elemzés: "
+  },
+  "COMMODITY_TRADE_ANALYSIS_SYSTEM": {
+    "description": "",
+    "message": "Rendszer szintű kereskedelmi elemzés: "
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_1": {
+    "description": "",
+    "message": "A rendszer átlagos csillagközi eladási és vásárlási volumene."
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_2": {
+    "description": "",
+    "message": "Nem feltétlen tükrözi az egyes kikötők piaci árait."
   },
   "COMPETENT": {
     "description": "Combat rating",
@@ -251,9 +343,33 @@
     "description": "",
     "message": "Vezérlés beállítása"
   },
-  "COULD_NOT_LOAD_GAME": {
+  "COPY": {
+    "description": "As for clipboard",
+    "message": "Másolás"
+  },
+  "COULD_NOT_DELETE_SAVE": {
     "description": "",
+    "message": "Mentés nem törölhető"
+  },
+  "COULD_NOT_FIND_SYSTEM_BODY_FOR_FRAME": {
+    "description": "Message when restoring savegame",
+    "message": "Az égitest vagy referencia pont nem található"
+  },
+  "COULD_NOT_LOAD_GAME": {
+    "description": "Label indicating a specific file could not be loaded",
     "message": "Mentés nem tölthető be:"
+  },
+  "COULD_NOT_LOAD_SAVE_FILES": {
+    "description": "Label indicating the list of save files could not be loaded",
+    "message": "Nem tölthető be a mentés"
+  },
+  "COULD_NOT_READ_THE_SAVE_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Nem olvasható a mentés verziója"
+  },
+  "COULD_NOT_SAVE_GAME": {
+    "description": "Label indicating a specific file could not be saved",
+    "message": "Mntés sikertelen:"
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -263,6 +379,10 @@
     "description": "in game currency",
     "message": "Készítők"
   },
+  "CREW": {
+    "description": "Tab item in the start game menu",
+    "message": "Legénység"
+  },
   "CREW_CABINS": {
     "description": "",
     "message": "Legénységi kabin"
@@ -271,21 +391,37 @@
     "description": "",
     "message": "Legénység:"
   },
+  "CRIME": {
+    "description": "Heading introducing a single crime name or list of crime names",
+    "message": "Bűn"
+  },
   "CRIMINAL": {
     "description": "Legal status of player",
     "message": "Bűnöző"
   },
   "CRIMINAL_RECORD": {
-    "description": "Past crimes / crime history of character",
-    "message": "Bűnügyi nyilvántartás"
+    "description": "Heading for past crimes / crime history of character, proper noun",
+    "message": "Bűnlajstrom"
   },
   "CURRENT_FUEL": {
-    "description": "For hyperjump planner",
-    "message": "Üzemanyag:"
+    "description": "Label indicating the current fuel state",
+    "message": "Üzemanyag"
+  },
+  "CURRENT_SAVEGAME_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Jelenlegi mentés verzió: %s"
+  },
+  "CURRENT_SHIP": {
+    "description": "For tooltip comparing current ship specs to one in the shipyard",
+    "message": "Jelenlegi hajó"
   },
   "CURRENT_SYSTEM": {
-    "description": "For hyperjump planner",
+    "description": "Label indicating the system the player currently occupies",
     "message": "Jelenlegi rendszer"
+  },
+  "CUT": {
+    "description": "As for clipboard",
+    "message": "Kivágás"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
@@ -302,6 +438,18 @@
   "DECREASE": {
     "description": "Decrease something.",
     "message": "Csökkent"
+  },
+  "DELETE": {
+    "description": "",
+    "message": "Törlés"
+  },
+  "DELETE_BOOKMARK": {
+    "description": "Button to remove a singular bookmark",
+    "message": "Könyvjelző törlése"
+  },
+  "DELETE_SAVE_CONFIRMATION": {
+    "description": "",
+    "message": "Biztosan törölni akarod ezt a mentést?"
   },
   "DELTA_V": {
     "description": "",
@@ -327,6 +475,10 @@
     "description": "Time of departure, used in flight log",
     "message": "Távozás dátuma"
   },
+  "DESCRIPTION": {
+    "description": "Start game parameter, e.g. 'This is an easy start from Cydonia'",
+    "message": "Leírás"
+  },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
     "message": "Lődd ki az ellenséges hajót."
@@ -344,7 +496,7 @@
     "message": "Kikapcsolt HUD-on megjelenő információk (rendszer neve és koordinátái)"
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Elbocsájt"
   },
   "DISPLAY_HUD_TRAILS": {
@@ -375,6 +527,10 @@
     "description": "",
     "message": "Dokkolva:"
   },
+  "DOCKED_TO_A_BODY_THAT_IS_NOT_A_STATION": {
+    "description": "Message when restoring savegame",
+    "message": "Nem állomás égitesthez dokkolva"
+  },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
     "message": "Dokkolj a célponttal."
@@ -393,7 +549,7 @@
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "%d nap maradt"
+    "message": "Hátralévő idő:"
   },
   "ECONOMY_TRADE": {
     "description": "",
@@ -402,6 +558,14 @@
   "EDIT": {
     "description": "Tooltip, to edit a flight log entry",
     "message": "Szerkesztés"
+  },
+  "EDIT_BOOKMARK": {
+    "description": "Button to edit a singular bookmark",
+    "message": "Könyvjelző szerkesztése"
+  },
+  "EDIT_NOTE": {
+    "description": "",
+    "message": "Jegyzet szerkesztése"
   },
   "EFFECTS": {
     "description": "",
@@ -445,7 +609,11 @@
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
-    "message": "Gépészet:"
+    "message": "Gépészet"
+  },
+  "ENTER_CUSTOM_NOTE": {
+    "description": "Label indicating a note should be entered here",
+    "message": "Jegyzet..."
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
@@ -454,6 +622,14 @@
   "EQUIPMENT": {
     "description": "",
     "message": "Felszerelés"
+  },
+  "EQUIPMENT_ALREADY_INSTALLED_HERE": {
+    "description": "Message indicating this equipment item is already installed.",
+    "message": "Ez az alkatrész már be van szerelve"
+  },
+  "EQUIPMENT_CAPACITY": {
+    "description": "The equipment capacity of a ship",
+    "message": "Felszerelési kapacitás"
   },
   "EQUIPMENT_MARKET": {
     "description": "",
@@ -467,6 +643,10 @@
     "description": "",
     "message": "Hiba"
   },
+  "ERROR_APPLYING_PATCH": {
+    "description": "Message when restoring savegame",
+    "message": "Hiba a patch alkalmazásakor"
+  },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
     "message": "Hiperűr-ugrás nem lehetséges kiengedett futóművel!"
@@ -479,13 +659,25 @@
     "description": "",
     "message": "Kilépés"
   },
+  "EXPAND": {
+    "description": "Open / expand a collapsed folder or group",
+    "message": "Kinyitás"
+  },
   "EXPERIENCED": {
     "description": "For player reputation",
     "message": "Tapasztalt"
   },
+  "EXPERIMENTAL": {
+    "description": "Indicates feature/option is experimental",
+    "message": "Kísérleti"
+  },
   "EXPERT": {
     "description": "For player reputation",
     "message": "Szakértő"
+  },
+  "FACTION": {
+    "description": "Label indicating the factional allegiance of an object",
+    "message": "Frakció"
   },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
@@ -494,6 +686,10 @@
   "FAILED": {
     "description": "When failed mission",
     "message": "Sikertelen"
+  },
+  "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
+    "description": "",
+    "message": "Nem sikerült minden felszerelést visszaállítani"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
@@ -543,17 +739,25 @@
     "description": "",
     "message": "Nő"
   },
+  "FILE_SAVEGAME_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "File mentés verziója: %s"
+  },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "Végső cél:"
+    "message": "Végső úticél"
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
     "message": "Pénzügy"
   },
+  "FINE": {
+    "description": "Cost of a criminal action",
+    "message": "Büntetés"
+  },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
-    "message": "Dokkolva: "
+    "message": "Dokkolva: {primary_info}"
   },
   "FLIGHTLOG_FLYING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the name of a space body",
@@ -635,6 +839,10 @@
     "description": "",
     "message": "Teljes képernyő"
   },
+  "GAME_OPTIONS": {
+    "description": "GameOptions - tooltip for the Game Options tab in the Settings Window",
+    "message": "Játék beállítások"
+  },
   "GAME_TIME": {
     "description": "",
     "message": "Játék ideje"
@@ -706,6 +914,10 @@
   "HUD_3D_RADAR": {
     "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
     "message": "3D sík projekció"
+  },
+  "HUD_ARRIVAL_DATE": {
+    "description": "Label for Hyperspace Cloud arrival date",
+    "message": "Érkezési dátum"
   },
   "HUD_ATMOSPHERIC_PRESSURE": {
     "description": "Tooltip: Atmospheric Pressure.",
@@ -855,6 +1067,10 @@
     "description": "Tooltip: Sidereal camera view",
     "message": "Sziderikus nézet"
   },
+  "HUD_BUTTON_SWITCH_TO_CURRENT_SYSTEM": {
+    "description": "Tooltip: Switch to current system",
+    "message": "Jelenlegi rendszerre ugrás"
+  },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
     "message": "Galaxis térkép"
@@ -862,6 +1078,10 @@
   "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
     "description": "Tooltip: Switch to sector map",
     "message": "Szektor térkép"
+  },
+  "HUD_BUTTON_SWITCH_TO_SELECTED_SYSTEM": {
+    "description": "Tooltip: Switch to selected system",
+    "message": "Kiválasztott rendszerre ugrás"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
     "description": "Tooltip: Switch to system map",
@@ -979,6 +1199,14 @@
     "description": "Tooltip: Hull Temperature.",
     "message": "Hajótest hőmérséklete"
   },
+  "HUD_HYPERSPACE_DESTINATION": {
+    "description": "HUD Label indicating the hyperspace destination system. Should just be Destination.",
+    "message": "Célállomás"
+  },
+  "HUD_HYPERSPACE_ORIGIN": {
+    "description": "HUD Label indicating the hyperspace origin system. Should just be Origin.",
+    "message": "Indulópont"
+  },
   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
     "description": "",
     "message": "Hiperűrugrás {destination} rendszerbe: {countdown}"
@@ -1031,9 +1259,21 @@
     "description": "Tooltip: Current distance of the radar.",
     "message": "Aktív radar hatótáv"
   },
+  "HUD_RADAR_TOGGLE_MODE": {
+    "description": "Tooltip: Toggle radar mode.",
+    "message": "2D és 3D radar mód váltás"
+  },
+  "HUD_RADAR_ZOOM_MODE_AUTOMATIC": {
+    "description": "Tooltip: Current radar zoom mode.",
+    "message": "Automata zoom"
+  },
+  "HUD_RADAR_ZOOM_MODE_MANUAL": {
+    "description": "Tooltip: Current radar zoom mode.",
+    "message": "Manuális zoom"
+  },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
-    "message": "Időgyorsítás"
+    "message": "Időgyorsítás: {time}"
   },
   "HUD_SHIELD_STRENGTH": {
     "description": "Tooltip: Shield Strength.",
@@ -1111,9 +1351,17 @@
     "description": "",
     "message": "Hiperűr útvonal"
   },
+  "HYPERJUMP_ROUTING": {
+    "description": "Label indicating a category division",
+    "message": "Hyperűr útvonal"
+  },
   "HYPERSPACE_RANGE": {
     "description": "",
     "message": "Hiperűr hatótáv"
+  },
+  "ILLEGAL_COMMODITIES": {
+    "description": "Commodities illegal in the current system or polity",
+    "message": "Illegális termékek"
   },
   "ILLEGAL_IN_SYSTEM": {
     "description": "An illegal action or commodity",
@@ -1147,6 +1395,14 @@
     "description": "Ship jump status",
     "message": "Elindítva"
   },
+  "INSTALL": {
+    "description": "Install something",
+    "message": "Installálás"
+  },
+  "INSTALLED": {
+    "description": "Label indicating something is installed",
+    "message": "Felszerelve"
+  },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
     "message": "Elégtelen üzemanyag"
@@ -1154,6 +1410,10 @@
   "INSUFFICIENT_FUNDS": {
     "description": "",
     "message": "Insufficient funds."
+  },
+  "INTELLIGENCE": {
+    "description": "Character parameter",
+    "message": "Intelligencia"
   },
   "INTERSTELLAR_TRADE_AVG": {
     "description": "Label displaying commodity flow at a per-system level",
@@ -1167,9 +1427,13 @@
     "description": "",
     "message": "Raktérben"
   },
+  "IN_HOLD": {
+    "description": "Column title of the Commodity Market screen",
+    "message": "Raktér"
+  },
   "IN_STOCK": {
-    "description": "",
-    "message": "Készlet"
+    "description": "Column title of Commodity and Ship Equipment markets showing current station stock level.",
+    "message": "Raktár"
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
@@ -1198,6 +1462,10 @@
   "KILLS": {
     "description": "",
     "message": "Győzelem:"
+  },
+  "KNOWN_AS": {
+    "description": "Indicates alternate names/aliases for an object",
+    "message": "úgy s mint"
   },
   "LANGUAGE": {
     "description": "",
@@ -1230,6 +1498,18 @@
   "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
     "description": "",
     "message": "Engedélyt megadom. Távozáskor figyeljen a forgalomra!"
+  },
+  "LAWFULNESS": {
+    "description": "Character parameter",
+    "message": "Törvénytisztelet"
+  },
+  "LEGAL_RULES": {
+    "description": "Refers to laws, rules and regulations",
+    "message": "Az állomás által ellenőrzött {distance} sugarú területen belül érvényes szabályok:"
+  },
+  "LEGAL_RULES_AND_REGULATIONS": {
+    "description": "Heading on a tab, keep it short",
+    "message": "Szabályok és törvények"
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1287,6 +1567,18 @@
     "description": "Label tab for showing custom logged events",
     "message": "Saját bejegyzés"
   },
+  "LOG_EARLIEST_FIRST": {
+    "description": "Show the log entries in chronological order, earliest first",
+    "message": "Időrendi sorrend"
+  },
+  "LOG_EXPORT": {
+    "description": "Export the log",
+    "message": "Exportálás"
+  },
+  "LOG_HTML": {
+    "description": "Export the log as HTML or not",
+    "message": "HTML"
+  },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
     "message": "Új bejegyzés"
@@ -1302,6 +1594,10 @@
   "LOW": {
     "description": "",
     "message": "Alacsony"
+  },
+  "LUCK": {
+    "description": "Character parameter",
+    "message": "Szerencse"
   },
   "LY": {
     "description": "Light year",
@@ -1415,9 +1711,21 @@
     "description": "",
     "message": "Küldetés részletei"
   },
+  "MODEL": {
+    "description": "3d model of the ship",
+    "message": "Modell"
+  },
+  "MONEY": {
+    "description": "",
+    "message": "Pénz"
+  },
   "MORE_INFO": {
     "description": "",
     "message": "Több info..."
+  },
+  "MORE_THAN_ONE_PLAYERS_SHIP_FOUND_IN_SPACE": {
+    "description": "Message when restoring savegame",
+    "message": "Több játékos hajó is található a térben"
   },
   "MOSTLY_HARMLESS": {
     "description": "",
@@ -1460,8 +1768,8 @@
     "message": "Név"
   },
   "NAVIGATION": {
-    "description": "",
-    "message": "Navigáció:"
+    "description": "Crew skill",
+    "message": "Navigáció"
   },
   "NAVIGATOR": {
     "description": "",
@@ -1470,6 +1778,10 @@
   "NEGOTIATE": {
     "description": "",
     "message": "Alku"
+  },
+  "NEW_GAME": {
+    "description": "Main menu item",
+    "message": "Új játék"
   },
   "NEW_PAINTJOB_APPLIED": {
     "description": "Paintshop popup",
@@ -1507,6 +1819,10 @@
     "description": "",
     "message": "Megjegyzés:"
   },
+  "NOTORIETY": {
+    "description": "Character parameter",
+    "message": "Hírhedtség"
+  },
   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
     "description": "",
     "message": "Nincs elegendő {alloy} a javításhoz."
@@ -1518,6 +1834,10 @@
   "NO_AVAILABLE_DATA": {
     "description": "Message displaying no stored data available",
     "message": "Nem áll rendelkezésre adat"
+  },
+  "NO_BOOKMARKS_FOUND": {
+    "description": "Label indicating a lack of bookmarks to display",
+    "message": "Nincs könyvjelző"
   },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
@@ -1601,11 +1921,15 @@
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
-    "message": "Kiszabott bírságok"
+    "message": "Kirótt büntetések"
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
     "message": "Hatótávon kívül"
+  },
+  "OUT_OF_STOCK": {
+    "description": "Equipment availability",
+    "message": "Nincs készlet"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
@@ -1647,6 +1971,14 @@
     "description": "Entry for ship info",
     "message": "Kabin kapacitás"
   },
+  "PASTE": {
+    "description": "As for clipboard",
+    "message": "Beillesztés"
+  },
+  "PATH_FOUND_BUT_VERIFICATION_FAILED": {
+    "description": "Message when restoring savegame",
+    "message": "Érvényes elérési út, de az ellenőrzés sikertelen: %s"
+  },
   "PATTERN": {
     "description": "Ship painting pattern.",
     "message": "Minta"
@@ -1658,6 +1990,10 @@
   "PAY_FINE_OF_N": {
     "description": "",
     "message": "{amount} büntetés befizetése"
+  },
+  "PENDING_RETURN": {
+    "description": "Status if the mission has not yet been fully completed",
+    "message": "Függőben, visszatérésre vár"
   },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1672,8 +2008,8 @@
     "message": "Pilóta"
   },
   "PILOTING": {
-    "description": "",
-    "message": "Kormányzás:"
+    "description": "Crew skill",
+    "message": "Repülés"
   },
   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
     "description": "",
@@ -1707,6 +2043,10 @@
     "description": "Player combat rating",
     "message": "Gyenge"
   },
+  "POSESSION_OF_COMMODITIES_ILLEGAL": {
+    "description": "",
+    "message": "A rendszer határain belül bizonyos dolgok birtoklása illegális."
+  },
   "POSITION": {
     "description": "The job title/position of crew memeber",
     "message": "Helyzet"
@@ -1735,6 +2075,22 @@
     "description": "Drain the fuel tank",
     "message": "Raktérbe szivatás"
   },
+  "PUMP_DOWN_FROM_CARGO_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "%t pumpálása a raktérből"
+  },
+  "PUMP_DOWN_FROM_HYPERDRIVE_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "%t pumpálása a hiperhajtómű tankjából az üzemanyagtartályba"
+  },
+  "PUMP_DOWN_TO_CARGO_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "%t pumpálása a raktérbe"
+  },
+  "PUMP_DOWN_TO_HYPERDRIVE_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "%t pumpálása az üzemanyagtartályból a hiperhajtómű tankjába"
+  },
   "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
     "message": "Színterv megvásárlása"
@@ -1751,6 +2107,10 @@
     "description": "For the checkbox in settings window",
     "message": "Kilépés megerősítése"
   },
+  "RANDOM_COLORS": {
+    "description": "Paint shop. Randomize colors",
+    "message": "Véletlenszerű színek"
+  },
   "RANDOM_FACE": {
     "description": "Generate random face",
     "message": "Véletlen"
@@ -1763,9 +2123,37 @@
     "description": "",
     "message": "Minősítés:"
   },
+  "RAYLEIGH_ACCURATE": {
+    "description": "",
+    "message": "Rayleigh/Mie (pontos, per pixel)"
+  },
+  "RAYLEIGH_FAST": {
+    "description": "",
+    "message": "Rayleigh/Mie (gyors, per vertex)"
+  },
+  "REALISTIC_SCATTERING": {
+    "description": "",
+    "message": "Atmo. szóródás"
+  },
+  "REALISTIC_SCATTERING_DESC": {
+    "description": "",
+    "message": "Légköri fényszóródás renderelésének módja (Rayleigh/Mie nem javasolt gyengébb gépeken)"
+  },
   "REAR_WEAPON": {
     "description": "",
     "message": "Hátsó fegyver"
+  },
+  "RECOVER": {
+    "description": "Saveload menu button",
+    "message": "Visszaállítás"
+  },
+  "RECOVERED_BUT_NOT_VALID": {
+    "description": "Message when restoring savegame",
+    "message": "Visszaállítva, de érvénytelen"
+  },
+  "RECOVER_SAVEGAME": {
+    "description": "",
+    "message": "Mentés visszaállítása"
   },
   "REFUEL": {
     "description": "",
@@ -1799,9 +2187,9 @@
     "description": "",
     "message": "{damage}% hajótest sérülés javíttatása {price} -ért"
   },
-  "REPLACE_EQUIPMENT_WITH": {
+  "REPLACE_EQUIPMENT": {
     "description": "Market header when replacing equipped items",
-    "message": "Alkatrész kicserélése erre: "
+    "message": "Felszerelés cseréje"
   },
   "REPUTATION": {
     "description": "",
@@ -1813,7 +2201,7 @@
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "Szükséges üzemanyag:"
+    "message": "Szükséges üzemanyag"
   },
   "RESET": {
     "description": "",
@@ -1826,6 +2214,14 @@
   "RESET_PREVIEW": {
     "description": "Paintshop button",
     "message": "Előnézet visszaállítása"
+  },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT": {
+    "description": "Reset View on Hyperspace Exit option",
+    "message": "Nézet visszaállítása hiperűrugrás után"
+  },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT_DESC": {
+    "description": "The tooltip of Reset View on Hyperspace Exit in the settings menu",
+    "message": "Nézet visszaállítása a fő képernyőre hiperűrugrás után"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1871,6 +2267,22 @@
     "description": "",
     "message": "Ment"
   },
+  "SAVED_GAMES": {
+    "description": "Header for save/load window",
+    "message": "Mentett játékok"
+  },
+  "SAVE_AS": {
+    "description": "",
+    "message": "Mentés másként"
+  },
+  "SAVE_DELETED_SUCCESSFULLY": {
+    "description": "",
+    "message": "Mentés törölve"
+  },
+  "SCATTERING_OLD": {
+    "description": "",
+    "message": "Eredeti"
+  },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
     "message": "Szívó felfüggesztés"
@@ -1882,6 +2294,18 @@
   "SELECT": {
     "description": "",
     "message": "Kiválaszt"
+  },
+  "SELECTED": {
+    "description": "Label indicating the following item is selected",
+    "message": "Kijelölt"
+  },
+  "SELECTED_SAVE_DOESNT_EXISTS": {
+    "description": "",
+    "message": "A kiválasztott mentés nem létezik"
+  },
+  "SELECTED_SAVE_IS_NOT_A_VALID_SAVE": {
+    "description": "",
+    "message": "A kiválasztott mentés érvénytelen"
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",
@@ -1895,17 +2319,29 @@
     "description": "",
     "message": "Válassz betöltendö mentést..."
   },
+  "SELECT_START_PROFILE": {
+    "description": "Combo box for selecting the starting position",
+    "message": "Válassz kezdő profilt:"
+  },
   "SELL": {
     "description": "Commodities and equipment prices",
     "message": "Elad"
+  },
+  "SELL_EQUIP": {
+    "description": "Button text to sell installed equipment. May be used in a singular or plural context.",
+    "message": "{name} eladása"
   },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
     "message": "Alkatrész eladása"
   },
+  "SELL_PRICE": {
+    "description": "Title for sell-price column in commodity market",
+    "message": "Elad"
+  },
   "SENSORS": {
-    "description": "",
-    "message": "Érzékelők:"
+    "description": "Crew skill",
+    "message": "Érzékelők"
   },
   "SENSORS_AND_DEFENCE": {
     "description": "",
@@ -1918,6 +2354,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Cél megjelőlése uticélnak."
+  },
+  "SET_JUMP_TARGET": {
+    "description": "Button tooltip which sets the jump route to the selected body",
+    "message": "Hiperűr célpont kiválasztása"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
@@ -1963,6 +2403,14 @@
     "description": "",
     "message": "Űrhajó-piac"
   },
+  "SHIP_NAME": {
+    "description": "",
+    "message": "Hajó neve"
+  },
+  "SHIP_PARAMETERS": {
+    "description": "",
+    "message": "Hajó paraméterei"
+  },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
     "message": "Hajó javító és festőműhely"
@@ -1971,13 +2419,41 @@
     "description": "",
     "message": "Hajó típus"
   },
+  "SHOW_AUTOSAVES": {
+    "description": "Button tooltip indicating whether to show autosave files",
+    "message": "Automata mentések mutatása"
+  },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
     "message": "Univerzum evolúciójának szimulálása: {age} milliárd év ;-)"
   },
+  "SOME_PARAMETERS_ARE_NOT_OK": {
+    "description": "Diagnostics at game start",
+    "message": "Néhány paraméter nem megfelelő:"
+  },
+  "SORT_COMMODITY": {
+    "description": "Indicates the list of objects should be sorted by commodity",
+    "message": "Áru"
+  },
+  "SORT_DISTANCE": {
+    "description": "Indicates the list of objects should be sorted by distance",
+    "message": "Távolság"
+  },
+  "SORT_MODE": {
+    "description": "Label indicating the current sorting mode of a list of objects",
+    "message": "Rendezési mód\n"
+  },
+  "SORT_NAME": {
+    "description": "Indicates the list of objects should be sorted by name",
+    "message": "Név"
+  },
   "SOUND": {
     "description": "",
     "message": "Hang"
+  },
+  "STANDARD_GAME_START_TIME": {
+    "description": "Standard game start time, current moment + 1200 years",
+    "message": "Alapértelmezett kezdési idő"
   },
   "START_AT_BARNARDS_STAR": {
     "description": "",
@@ -2002,6 +2478,10 @@
   "START_AT_NEW_HOPE_DESC": {
     "description": "",
     "message": "Közepes nehézségű kezdés, Iztalean-on, New Hope-on az Epsilon Eridani rendszerben."
+  },
+  "START_GAME": {
+    "description": "Button",
+    "message": "Játék intítása"
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
@@ -2055,6 +2535,50 @@
     "description": "",
     "message": "Státusz"
   },
+  "SUMMARY": {
+    "description": "Tab item in the start game menu",
+    "message": "Összefoglaló"
+  },
+  "SYSTEM_BODY_INDEX_IS_OUT_OF_RANGE": {
+    "description": "Message when restoring savegame",
+    "message": "Égitest index tarományon kívül"
+  },
+  "SYSTEM_FACTION": {
+    "description": "Tooltip indicating the faction controlling this system",
+    "message": "Frakció"
+  },
+  "SYSTEM_INFORMATION": {
+    "description": "Tooltip / label indicating information about a selected star system",
+    "message": "Rendszer információ"
+  },
+  "SYSTEM_NUM_STARS": {
+    "description": "Tooltip indicating the system stellar arrangement",
+    "message": "Rendszerben található csillagok száma"
+  },
+  "SYSTEM_SECURITY_1": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Biztonságos"
+  },
+  "SYSTEM_SECURITY_2": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Jobbára ártalmatlan"
+  },
+  "SYSTEM_SECURITY_3": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Veszélyes"
+  },
+  "SYSTEM_SECURITY_4": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Nagyon veszélyes"
+  },
+  "SYSTEM_SECURITY_5": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Halálos"
+  },
+  "SYSTEM_SECURITY_TOOLTIP": {
+    "description": "Tooltip introducing the system security rating",
+    "message": "Rendszer biztonsági besorolása"
+  },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
     "message": "Állomásunk technológiai engedélyének szintje: {tech_level}."
@@ -2078,6 +2602,14 @@
   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
     "description": "",
     "message": "Nincs más a fedélzeten, aki vezetni tudja a hajót."
+  },
+  "THERE_WERE_ERRORS_IN_RECOVERY": {
+    "description": "Message when restoring savegame",
+    "message": "Visszaállítási hibák:"
+  },
+  "THESE_ITEMS_ARE_PUNISHABLE_BY_FINE": {
+    "description": "",
+    "message": "Az alábbi dolgokkal való kereskedelem, és azok szállítása büntetés kirovását és elkobzást vonhat maga után"
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
@@ -2137,11 +2669,15 @@
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "Teljes utazási idő:"
+    "message": "Teljes utazási idő"
   },
   "TOTAL_MASS": {
     "description": "",
     "message": "Teljes tömeg"
+  },
+  "TO_PICK_UP": {
+    "description": "Mission status",
+    "message": "Begyűjteni"
   },
   "TRADING_AT": {
     "description": "Indicates the current system for inspecting commodities.",
@@ -2159,6 +2695,14 @@
     "description": "Indicates the destination system of a commodity trade.",
     "message": "{system} rendszerbe:"
   },
+  "TRANSFER_FUEL": {
+    "description": "Label indicating the ability to transfer fuel between equipment tanks",
+    "message": "Üzemanyag átemelése"
+  },
+  "TRANSLATE_VIEW": {
+    "description": "Indicates that the button must be kept pressed down, to translate the camera view with mouse",
+    "message": "Nézet mozgatása"
+  },
   "TRUSTWORTHY": {
     "description": "For player reputation",
     "message": "Felelős"
@@ -2170,6 +2714,30 @@
   "TYPE": {
     "description": "",
     "message": "Típus"
+  },
+  "UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Ismeretlen saját naplóbejegyzés formátum"
+  },
+  "UNKNOWN_FACTION": {
+    "description": "For entry in the flight log",
+    "message": "Ismeretlen frakció"
+  },
+  "UNKNOWN_LOCATION_IN_SECTOR_X": {
+    "description": "For entry in the flight log",
+    "message": "Ismeretlen pozíció {sector} szektorban"
+  },
+  "UNKNOWN_STATION_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Ismeretlen állomás-napló bejegyzés formátum"
+  },
+  "UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Ismeretlen rendszer-napló bejegyzés formátum"
+  },
+  "UNLAWFUL_ECM_DISCHARGE": {
+    "description": "",
+    "message": "Jogszerűtlen ECM aktiváció"
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
@@ -2186,6 +2754,10 @@
   "UNRELIABLE": {
     "description": "",
     "message": "Megbízhatatlan"
+  },
+  "UNSUCCESSFULLY_RECOVERED_PARAMETERS_ARE_NOW_UNLOCKED_PLEASE_SET_THEM_MANUALLY": {
+    "description": "Message when restoring savegame",
+    "message": "A vissza nem állítható paraméterek szabadon beállíthatóak."
   },
   "UP_ACCEL": {
     "description": "",
@@ -2223,6 +2795,10 @@
     "description": "Tooltip for video mode/resultion setting",
     "message": "Nagyobb felbontású képernyőkön több információ fér el, nagyobb erőforrásigénnyel."
   },
+  "VIEW_DESTINATION": {
+    "description": "Tooltip indicating the button will change the current view to the destination of a route.",
+    "message": "Úticél megjelenítése"
+  },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",
     "message": "Festőműhely meglátogatása"
@@ -2230,6 +2806,10 @@
   "VISIT_REPAIR_SERVICES": {
     "description": "Ship Repair tab button.",
     "message": "Javítóműhely meglátogatása"
+  },
+  "VOLUME": {
+    "description": "The volume property of some object",
+    "message": "Térfogat"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",

@@ -1,7 +1,7 @@
 {
   "FLAVOUR_0_BODY": {
-    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC",
-    "message": "只要打362436，我就一直在家。我经营：\n-混凝土鞋，\n-氰化物，\n-TNT，\n-领带，\n-合同，\n-高压，\n\n…或者只是打个电话。"
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC. It is formated as a list",
+    "message": "只要打362436，我就一直在家。我经营：\n-水泥鞋，\n-氰化物，\n-TNT，\n-领带，\n-合同，\n-高压，\n\n…或者只是打个电话。"
   },
   "FLAVOUR_0_DESC": {
     "description": "Second line for an easter-egg AC/DC song title reference.",
@@ -9,18 +9,30 @@
   },
   "FLAVOUR_0_TITLE": {
     "description": "The 'all caps' title should probably not be translated, as it's an AC/DC song title reference. Either way, it's a very rare 'Easter egg'",
-    "message": "卑鄙的行为做得非常廉价"
+    "message": "“脏事做得便宜”（AC/DC歌曲《Dirty Deeds Done Dirt Cheap》的引用）"
   },
   "FLAVOUR_1_BODY": {
     "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to https://en.wikipedia.org/wiki/867-5309/Jenny",
-    "message": "你不认识我，给我打电话；867-5309/珍妮"
+    "message": "你不认识我，但请给我打电话；867-5309 / Jenny\n（引用自《867-5309 / Jenny》这首歌）"
   },
   "FLAVOUR_1_DESC": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",
-    "message": "每个人都需要一个倾听的耳朵。"
+    "message": "偶尔每个人都需要一个倾听者。\n（引用自某著名歌曲中的歌词）"
   },
   "FLAVOUR_1_TITLE": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",
-    "message": "需要有人求助吗？"
+    "message": "“需要一个依靠的人吗？”（引用自某著名歌曲的歌词）"
+  },
+  "FLAVOUR_2_BODY": {
+    "description": "A very rare easter egg, referencing a online myth from 90s: https://en.wikipedia.org/wiki/John_Titor",
+    "message": "我是来自4036年的时间旅行研究所的约翰·蒂托。我正前往1975年，去取一台IBM 5100计算机，用来调试那些在我时代的计算机上无法正确移植的旧程序，但我顺便停在这里，收集有关你们时代的信息，因为这些信息将在大灾难中失传。\n\n我打算带回一份六部分的描述，讲述时间机器运行所需的条件。简而言之，我的时间机器是一个静止的质量时间位移装置，由两个自旋正负单极点提供动力，产生标准的偏移蒂普勒正弦波。该位移装置穿越的是时间，而非空间。\n\n如有需要，我会很高兴提供该装置的照片。"
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "Note: string has quotes",
+    "message": "“如果时间旅行是真的，那么所有的时间旅行者都在哪里？”"
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "A very rare Easter egg, referencing Internet myth of John Titor.",
+    "message": "过去的人，小心大灾难！"
   }
 }

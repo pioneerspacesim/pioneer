@@ -7,6 +7,38 @@
     "description": "",
     "message": "Αναγνωρίστε πότε έφτασε η κατάλληλη στιγμή να την σκαπουλάρετε"
   },
+  "ADVICE_11_BODYTEXT": {
+    "description": "",
+    "message": "Βεβαιωθείτε ότι γνωρίζετε την επιτάχυνση της βαρύτητας στην επιφάνεια ενός πλανήτη προτού διανοηθείτε να προσεδαφιστείτε σε αυτόν."
+  },
+  "ADVICE_11_HEADLINE": {
+    "description": "A reference to the song 'The Harder They Come', by Jimmy Cliff",
+    "message": "Όσο μεγαλύτερα τα g, τόσο σκληρότερη η πτώση."
+  },
+  "ADVICE_12_BODYTEXT": {
+    "description": "",
+    "message": "Αν βρεθείτε στις παρυφές ενός συστήματος και θέλετε να επιστρέψετε στους εσωτερικούς πλανήτες, ίσως ο πιο γρήγορος τρόπος είναι μια υπερδιαστημική παράκαμψη μέσω ενός κοντινού συστήματος."
+  },
+  "ADVICE_12_HEADLINE": {
+    "description": "",
+    "message": "Το μπαλάκι του πίνγκ-πόνγκ."
+  },
+  "ADVICE_13_BODYTEXT": {
+    "description": "",
+    "message": "Ελαφρύτερο σκάφος σημαίνει λιγότερη κατανάλωση καυσι´μου και ταχύτερη διαδρομή. Το καύσιμο έχει βάρος...Σε κάποιες περιπτώσεις, το ταξίδι με λιγότερο καύσιμο μπορεί να σας εξοικονομήσει χρόνο και χρήμα."
+  },
+  "ADVICE_13_HEADLINE": {
+    "description": "",
+    "message": "Βαδίζοντας πάνω σε ατμούς."
+  },
+  "ADVICE_14_BODYTEXT": {
+    "description": "",
+    "message": "Όταν ενορχηστρώνετε πολλαπλά υπεράλματα, η σειρά που θα τα τοποθετήσετε μπορεί να σας γλυτώσει από έναν πονοκέφαλο, μέχρι το πετσί σας."
+  },
+  "ADVICE_14_HEADLINE": {
+    "description": "",
+    "message": "Η ξεκάθαρη οδός."
+  },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
     "message": "Καθώς επιστρέφετε σε ένα σταθμό, να είστε προσεκτικοί με εκείνες τις εναλλακτικές αγορές που δεν αναγνωρίζετε και θα μείνετε έξω από προβλήματα με το νόμο."
@@ -17,7 +49,7 @@
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
-    "message": "Πολλές μικρές αποστάσεις διανύονται γρηγορότερα από το άθροισμα τους."
+    "message": "Πολλά μικρά άλματα οδηγούν σε μικρότερο χρόνος διαδρομής αλλά μεγαλύτερη κατανάλωση καυσίμου, έναντι ενός ισοδύναμου άλματος."
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",

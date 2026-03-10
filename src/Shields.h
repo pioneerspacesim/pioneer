@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SHIELDS_H_
@@ -7,13 +7,18 @@
 /*
  * Mesh shields for ships and other objects.
  */
+#include "Color.h"
 #include "JsonFwd.h"
-#include "libs.h"
+#include "RefCounted.h"
+#include "matrix4x4.h"
+#include "vector3.h"
+
 #include <deque>
 
 namespace Graphics {
 	class Renderer;
 	class Material;
+	struct VertexFormatDesc;
 }
 namespace SceneGraph {
 	class Model;
@@ -29,10 +34,13 @@ public:
 		RefCountedPtr<SceneGraph::StaticGeometry> m_mesh;
 	};
 
-	Shields(SceneGraph::Model *);
+	Shields();
 	virtual ~Shields();
 	virtual void SaveToJson(Json &jsonObj);
 	virtual void LoadFromJson(const Json &jsonObj);
+
+	void ApplyModel(SceneGraph::Model *model);
+	void ClearModel();
 
 	void SetEnabled(const bool on) { m_enabled = on; }
 	void Update(const float coolDown, const float shieldStrength);
@@ -40,7 +48,6 @@ public:
 	void AddHit(const vector3d &hitPos);
 
 	static void Init(Graphics::Renderer *);
-	static void ReparentShieldNodes(SceneGraph::Model *);
 	static void Uninit();
 
 	SceneGraph::StaticGeometry *GetFirstShieldMesh();
@@ -53,9 +60,12 @@ protected:
 		Uint32 end;
 	};
 
+	RefCountedPtr<Graphics::Material> FindOrCreateMaterial(Graphics::Renderer *r, const Graphics::VertexFormatDesc &vtxFormat);
+
 	std::deque<Hits> m_hits;
 	std::vector<Shield> m_shields;
-	RefCountedPtr<Graphics::Material> m_shieldMaterial;
+	// RefCountedPtr<Graphics::Material> m_shieldMaterial;
+	std::vector<std::pair<uint64_t, RefCountedPtr<Graphics::Material>>> m_shieldMaterials;
 
 	bool m_enabled;
 

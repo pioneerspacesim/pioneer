@@ -1,10 +1,11 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CollMesh.h"
 
 #include "scenegraph/Serializer.h"
 #include "collider/GeomTree.h"
+#include "profiler/Profiler.h"
 
 //This simply stores the collision GeomTrees
 //and AABB.

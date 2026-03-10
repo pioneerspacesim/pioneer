@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "MatrixTransform.h"
@@ -6,7 +6,9 @@
 #include "NodeCopyCache.h"
 #include "NodeVisitor.h"
 #include "Serializer.h"
+
 #include "graphics/Renderer.h"
+
 namespace SceneGraph {
 
 	MatrixTransform::MatrixTransform(Graphics::Renderer *r, const matrix4x4f &m) :
@@ -31,14 +33,19 @@ namespace SceneGraph {
 		nv.ApplyMatrixTransform(*this);
 	}
 
+	matrix4x4f MatrixTransform::CalcGlobalTransform() const
+	{
+		return GetParent() ? GetParent()->CalcGlobalTransform() * m_transform : m_transform;
+	}
+
 	void MatrixTransform::Render(const matrix4x4f &trans, const RenderData *rd)
 	{
 		const matrix4x4f t = trans * m_transform;
 		RenderChildren(t, rd);
 	}
 
-	static const matrix4x4f s_ident(matrix4x4f::Identity());
-	void MatrixTransform::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
+	static const matrix4x4f s_ident(matrix4x4f::Identity);
+	void MatrixTransform::RenderInstanced(const std::vector<matrix4x4f> &trans, const RenderData *rd)
 	{
 		if (0 == memcmp(&m_transform, &s_ident, sizeof(matrix4x4f))) {
 			// m_transform is identity so avoid performing all multiplications

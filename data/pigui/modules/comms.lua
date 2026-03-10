@@ -1,9 +1,8 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
 local utils = require 'utils'
-local Vector2 = _G.Vector2
 
 local Lang = require 'Lang'
 local lc = Lang.GetResource("core");

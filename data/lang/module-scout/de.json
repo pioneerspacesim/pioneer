@@ -101,7 +101,7 @@
   },
   "ADTEXT_5_INTRO": {
     "description": "",
-    "message": "Hello! \nMein Name ist {name}. Informationen sind mein Geschäft und ich zahle {cash} für die KArtografierung von {systembody} in {system}, das {dist} von uns entfernt ist."
+    "message": "Hello! \nMein Name ist {name}. Informationen sind mein Geschäft und ich zahle {cash} für die Kartografierung von {systembody} in {system}, das {dist} von uns entfernt ist."
   },
   "ADTEXT_5_SUCCESSMSG": {
     "description": "",
@@ -259,6 +259,10 @@
     "description": "",
     "message": "Gefahr:"
   },
+  "DATA_COLLECTED_PROGRESS": {
+    "description": "Label for scan card progress bar",
+    "message": "Daten gesammelt: {percent_completed}%"
+  },
   "DEADLINE": {
     "description": "",
     "message": "Termin:"
@@ -281,7 +285,7 @@
   },
   "DROP_OFF_DATA": {
     "description": "",
-    "message": "Drop off data at {location} before {date}"
+    "message": "Liefern Sie die Daten vor vor {date} nach {location}"
   },
   "EXCELLENT_I_AWAIT_YOUR_REPORT": {
     "description": "",
@@ -289,7 +293,7 @@
   },
   "HOW_DOES_IT_WORK": {
     "description": "",
-    "message": "How does it work?"
+    "message": "Wie geht das?"
   },
   "HUD_SCAN_PROGRESS": {
     "description": "",
@@ -418,6 +422,14 @@
   "SURFACE_SCAN": {
     "description": "",
     "message": "Oberflächenscan"
+  },
+  "SURFACE_SCAN_DETAILS": {
+    "description": "Additional warning information about a surface scan target",
+    "message": "Das Ziel hat an der Oberfläche einen Druck von {pressure} und eine Schwerkraft von {gravity}."
+  },
+  "SURFACE_SCAN_WARNING": {
+    "description": "Warning reminder to player",
+    "message": "Bitte stellen Sie sicher, dass Ihr Schiff für den Druck und die Schwerkraft an der Oberfläche des Zielkörpers ausgelegt ist, bevor Sie den Vertrag akzeptieren."
   },
   "SUSPENDED": {
     "description": "",

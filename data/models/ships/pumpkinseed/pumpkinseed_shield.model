@@ -1,0 +1,6 @@
+version 2
+
+lod 100 {
+	mesh "pumpkinseed_shield.dae"
+}
+

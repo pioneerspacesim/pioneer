@@ -1,0 +1,8 @@
+version 2
+
+lod 100 {
+	mesh "ac33_shield.dae"
+}
+
+
+

@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _FILESYSTEM_H
@@ -38,6 +38,7 @@ namespace FileSystem {
 
 	std::string GetUserDir();
 	std::string GetDataDir();
+	bool IsValidFilename(const std::string &fileName);
 
 	/// Makes a string safe for use as a file name
 	/// warning: this mapping is non-injective, that is,
@@ -72,7 +73,7 @@ namespace FileSystem {
 
 	/// Copy the contents of a directory from sourceFS into a directory in targetFS, according to copymode.
 	/// Returns false if sourceDir or targetDir are invalid
-	bool CopyDir(FileSource &sourceFS, std::string sourceDir, FileSourceFS &targetFS, std::string targetDir, CopyMode copymode = CopyMode::OVERWRITE);
+	bool CopyDir(FileSource &sourceFS, const std::string &sourceDir, FileSourceFS &targetFS, const std::string &targetDir, CopyMode copymode = CopyMode::OVERWRITE);
 
 	class FileInfo {
 		friend class FileSource;
@@ -194,6 +195,57 @@ namespace FileSystem {
 		virtual ~FileDataMalloc() { std::free(m_data); }
 	};
 
+	class FileEnumerator {
+	public:
+		enum Flags {
+			IncludeDirs = 1,
+			IncludeSpecials = 2,
+			ExcludeFiles = 4,
+			Recurse = 8
+		};
+
+		// Iterator interface for use with C++11 range-for only
+		struct iter {
+			FileEnumerator &m_enum;
+			bool m_atend = false;
+
+			using iterator_category = std::input_iterator_tag;
+			using reference = const FileInfo &;
+			using value_type = const FileInfo;
+
+			reference operator*() const { return m_enum.Current(); }
+			bool operator!=(const iter &rhs) { return m_enum.Finished() != rhs.m_atend; }
+
+			iter &operator++()
+			{
+				m_enum.Next();
+				return *this;
+			}
+		};
+
+		explicit FileEnumerator(FileSource &fs, int flags = 0);
+		explicit FileEnumerator(FileSource &fs, const std::string &path, int flags = 0);
+		~FileEnumerator();
+
+		void AddSearchRoot(const std::string &path);
+
+		bool Finished() const { return m_queue.empty(); }
+		void Next();
+		const FileInfo &Current() const { return m_queue.front(); }
+
+		iter begin() { return iter{ *this, false }; }
+		iter end() { return iter{ *this, true }; }
+
+	private:
+		void ExpandDirQueue();
+		void QueueDirectoryContents(const FileInfo &info);
+
+		FileSource *m_source;
+		std::deque<FileInfo> m_queue;
+		std::deque<FileInfo> m_dirQueue;
+		int m_flags;
+	};
+
 	class FileSource {
 	public:
 		explicit FileSource(const std::string &root, bool trusted = false) :
@@ -206,6 +258,21 @@ namespace FileSystem {
 		virtual FileInfo Lookup(const std::string &path) = 0;
 		virtual RefCountedPtr<FileData> ReadFile(const std::string &path) = 0;
 		virtual bool ReadDirectory(const std::string &path, std::vector<FileInfo> &output) = 0;
+
+		virtual FileEnumerator Enumerate(int enumeratorFlags)
+		{
+			return FileEnumerator(*this, enumeratorFlags);
+		}
+
+		virtual FileEnumerator Enumerate(const std::string &path, int enumeratorFlags)
+		{
+			return FileEnumerator(*this, path, enumeratorFlags);
+		}
+
+		virtual FileEnumerator Recurse(const std::string &path, int enumeratorFlags = 0)
+		{
+			return FileEnumerator(*this, path, FileEnumerator::Recurse | enumeratorFlags);
+		}
 
 		bool IsTrusted() const { return m_trusted; }
 
@@ -237,6 +304,8 @@ namespace FileSystem {
 		FILE *OpenReadStream(const std::string &path);
 		// similar to fopen(path, "wb")
 		FILE *OpenWriteStream(const std::string &path, int flags = 0);
+		bool RemoveFile(const std::string &relativePath);
+		bool IsChildOfRoot(const std::string &path);
 	};
 
 	class FileSourceUnion : public FileSource {
@@ -258,35 +327,6 @@ namespace FileSystem {
 
 	private:
 		std::vector<FileSource *> m_sources;
-	};
-
-	class FileEnumerator {
-	public:
-		enum Flags {
-			IncludeDirs = 1,
-			IncludeSpecials = 2,
-			ExcludeFiles = 4,
-			Recurse = 8
-		};
-
-		explicit FileEnumerator(FileSource &fs, int flags = 0);
-		explicit FileEnumerator(FileSource &fs, const std::string &path, int flags = 0);
-		~FileEnumerator();
-
-		void AddSearchRoot(const std::string &path);
-
-		bool Finished() const { return m_queue.empty(); }
-		void Next();
-		const FileInfo &Current() const { return m_queue.front(); }
-
-	private:
-		void ExpandDirQueue();
-		void QueueDirectoryContents(const FileInfo &info);
-
-		FileSource *m_source;
-		std::deque<FileInfo> m_queue;
-		std::deque<FileInfo> m_dirQueue;
-		int m_flags;
 	};
 
 } // namespace FileSystem

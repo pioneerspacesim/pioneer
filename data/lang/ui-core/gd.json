@@ -1,4 +1,8 @@
 {
+  "ABOUT": {
+    "description": "main menu button (implied 'about' the game)",
+    "message": "About"
+  },
   "ABOVE_AVERAGE": {
     "description": "",
     "message": "Cuibheasach ’s a chòrr"
@@ -6,6 +10,10 @@
   "ACTIVE": {
     "description": "",
     "message": "Gnìomhach"
+  },
+  "ADD_BOOKMARK": {
+    "description": "Button to add a singular bookmark",
+    "message": "Add Bookmark"
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
@@ -18,6 +26,10 @@
   "ALLEGIANCE": {
     "description": "",
     "message": "Dìlseachd:"
+  },
+  "ALL_PARAMETERS_WERE_RECOVERED_SUCCESSFULLY": {
+    "description": "Message when restoring savegame",
+    "message": "All parameters were recovered successfully."
   },
   "ALL_UP_WEIGHT": {
     "description": "",
@@ -47,9 +59,17 @@
     "description": "Base external pressure limit of a ship (without atmo shield)",
     "message": "Brùthadh-àile as àirde"
   },
+  "ATTEMPTING_TO_RECOVER_GAME_PROGRESS_FROM_SAVE_X": {
+    "description": "Message when restoring savegame",
+    "message": "Attempting to recover game progress from save: {save}"
+  },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
     "message": "Feuchaibh ris an t-slige a chàradh"
+  },
+  "AUTOMATED_MESSAGE": {
+    "description": "For comm messages from bots",
+    "message": "AUTOMATED MESSAGE"
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
@@ -59,6 +79,10 @@
     "description": "Market header when buying items",
     "message": "Available For Purchase"
   },
+  "AVAILABLE_STOCK": {
+    "description": "Market stat showing number of items in stock",
+    "message": "Available Stock"
+  },
   "AVERAGE": {
     "description": "",
     "message": "Cuibheasach"
@@ -67,12 +91,32 @@
     "description": "",
     "message": "Luathachadh air ais"
   },
+  "BODY_IN_ROUTE": {
+    "description": "Label indicating a star is part of a planned hyperjump route",
+    "message": "Body in planned HyperJump Route"
+  },
+  "BOOKMARK": {
+    "description": "Label introducing a bookmark",
+    "message": "Bookmark"
+  },
+  "BOOKMARKS": {
+    "description": "Label introducing a list of bookmarks",
+    "message": "Bookmarks"
+  },
   "BULLETIN_BOARD": {
     "description": "",
     "message": "Bòrd-brath"
   },
   "BUY": {
     "description": "Commodities and equipment prices",
+    "message": "Ceannaich"
+  },
+  "BUY_EQUIP": {
+    "description": "Button text to buy selected equipment. May be used in a singular or plural context.",
+    "message": "Buy {name}"
+  },
+  "BUY_PRICE": {
+    "description": "Title for buy-price column in commodity market",
     "message": "Ceannaich"
   },
   "BUY_SHIP": {
@@ -98,6 +142,18 @@
   "CANNOT_SELL_ITEM": {
     "description": "",
     "message": "Chan urrainn dhut an nì seo a reic"
+  },
+  "CANNOT_SELL_NONEMPTY_EQUIP": {
+    "description": "",
+    "message": "Cannot sell an equipment item unless it is empty."
+  },
+  "CANT_FIND_PATH": {
+    "description": "Message when restoring savegame, file path",
+    "message": "Can't find path: %s"
+  },
+  "CANT_FIND_PLAYERS_SHIP_IN_SPACE": {
+    "description": "Message when restoring savegame",
+    "message": "Can't find player's ship in space"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -131,6 +187,10 @@
     "description": "t for tonne",
     "message": "{amount}t ’ga chleachdadh"
   },
+  "CASE_SENSITIVE": {
+    "description": "",
+    "message": "Case-sensitive"
+  },
   "CASH": {
     "description": "",
     "message": "Airgead"
@@ -138,6 +198,10 @@
   "CASH_N": {
     "description": "",
     "message": "Airgead: {money}"
+  },
+  "CENTER_ON_CURRENT_SYSTEM": {
+    "description": "Center on current star system",
+    "message": "Center on Current System"
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
@@ -158,6 +222,14 @@
   "CHANGE_PATTERN": {
     "description": "Paintshop button",
     "message": "Change Pattern"
+  },
+  "CHARACTER": {
+    "description": "",
+    "message": "Character"
+  },
+  "CHARISMA": {
+    "description": "Character parameter",
+    "message": "Charisma"
   },
   "CHIEF_MECHANIC": {
     "description": "",
@@ -191,6 +263,10 @@
     "description": "",
     "message": "Dùin"
   },
+  "COLLAPSE": {
+    "description": "Close / collapse an open folder or group",
+    "message": "Collapse"
+  },
   "COLOR": {
     "description": "",
     "message": "Color"
@@ -203,6 +279,10 @@
     "description": "",
     "message": "Comandair"
   },
+  "COMMODITY": {
+    "description": "Title for commodity name column in commodity market",
+    "message": "Commodity"
+  },
   "COMMODITY_MARKET": {
     "description": "",
     "message": "Margadh bhatharan"
@@ -210,6 +290,18 @@
   "COMMODITY_TRADE_ANALYSIS": {
     "description": "",
     "message": "Sgrùdadh air malart bhatharan ann an:"
+  },
+  "COMMODITY_TRADE_ANALYSIS_SYSTEM": {
+    "description": "",
+    "message": "System-wide trade analysis of:"
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_1": {
+    "description": "",
+    "message": "Average interstellar trade flow for all commodities bought and sold in the system."
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_2": {
+    "description": "",
+    "message": "Data may not reflect individual market prices."
   },
   "COMPETENT": {
     "description": "Combat rating",
@@ -251,9 +343,33 @@
     "description": "",
     "message": "Roghainnean an stiùiridh"
   },
-  "COULD_NOT_LOAD_GAME": {
+  "COPY": {
+    "description": "As for clipboard",
+    "message": "Copy"
+  },
+  "COULD_NOT_DELETE_SAVE": {
     "description": "",
+    "message": "Could not delete save"
+  },
+  "COULD_NOT_FIND_SYSTEM_BODY_FOR_FRAME": {
+    "description": "Message when restoring savegame",
+    "message": "Could not find system body for frame"
+  },
+  "COULD_NOT_LOAD_GAME": {
+    "description": "Label indicating a specific file could not be loaded",
     "message": "Cha b’ urrainn dhuinn an geama a luchdadh: "
+  },
+  "COULD_NOT_LOAD_SAVE_FILES": {
+    "description": "Label indicating the list of save files could not be loaded",
+    "message": "Could not load save files"
+  },
+  "COULD_NOT_READ_THE_SAVE_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Could not read the save version"
+  },
+  "COULD_NOT_SAVE_GAME": {
+    "description": "Label indicating a specific file could not be saved",
+    "message": "Could not save game: "
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -263,6 +379,10 @@
     "description": "in game currency",
     "message": "Urram"
   },
+  "CREW": {
+    "description": "Tab item in the start game menu",
+    "message": "Criutha"
+  },
   "CREW_CABINS": {
     "description": "",
     "message": "Cèibinnean sgioba"
@@ -271,21 +391,37 @@
     "description": "",
     "message": "Clàr an sgioba"
   },
+  "CRIME": {
+    "description": "Heading introducing a single crime name or list of crime names",
+    "message": "Crime"
+  },
   "CRIMINAL": {
     "description": "Legal status of player",
     "message": "Eucoireach"
   },
   "CRIMINAL_RECORD": {
-    "description": "Past crimes / crime history of character",
-    "message": "Clàr nan eucoir"
+    "description": "Heading for past crimes / crime history of character, proper noun",
+    "message": "Criminal Record"
   },
   "CURRENT_FUEL": {
-    "description": "For hyperjump planner",
-    "message": "An connadh a th’ agad:"
+    "description": "Label indicating the current fuel state",
+    "message": "Current Fuel"
+  },
+  "CURRENT_SAVEGAME_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Current savegame version: %s"
+  },
+  "CURRENT_SHIP": {
+    "description": "For tooltip comparing current ship specs to one in the shipyard",
+    "message": "Current Ship"
   },
   "CURRENT_SYSTEM": {
-    "description": "For hyperjump planner",
-    "message": "An siostam làithreach"
+    "description": "Label indicating the system the player currently occupies",
+    "message": "Current System"
+  },
+  "CUT": {
+    "description": "As for clipboard",
+    "message": "Cut"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
@@ -302,6 +438,18 @@
   "DECREASE": {
     "description": "Decrease something.",
     "message": "Ìslich"
+  },
+  "DELETE": {
+    "description": "",
+    "message": "Delete"
+  },
+  "DELETE_BOOKMARK": {
+    "description": "Button to remove a singular bookmark",
+    "message": "Delete Bookmark"
+  },
+  "DELETE_SAVE_CONFIRMATION": {
+    "description": "",
+    "message": "Are you sure you want to delete this save?"
   },
   "DELTA_V": {
     "description": "",
@@ -327,6 +475,10 @@
     "description": "Time of departure, used in flight log",
     "message": "Ceann-là fhàgail"
   },
+  "DESCRIPTION": {
+    "description": "Start game parameter, e.g. 'This is an easy start from Cydonia'",
+    "message": "Description"
+  },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
     "message": "Millibh soitheach an nàmhaid"
@@ -344,7 +496,7 @@
     "message": "Falaich gach fiosrachadh a tha ’ga shealltainn, a’ gabhail a-staigh co-chomharran nan siostaman, nuair a bhios glacadh-sgrìn ’ga thogail (toglaich modh an t-seallaidh fiosrachaidh)."
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Leig seachad"
   },
   "DISPLAY_HUD_TRAILS": {
@@ -375,6 +527,10 @@
     "description": "",
     "message": "Docaichte aig"
   },
+  "DOCKED_TO_A_BODY_THAT_IS_NOT_A_STATION": {
+    "description": "Message when restoring savegame",
+    "message": "Docked to a body that is not a station"
+  },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
     "message": "Docaichibh aig an targaid làithreach"
@@ -393,7 +549,7 @@
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "Làithean air am fàgail: %d"
+    "message": "Time left:"
   },
   "ECONOMY_TRADE": {
     "description": "",
@@ -402,6 +558,14 @@
   "EDIT": {
     "description": "Tooltip, to edit a flight log entry",
     "message": "Deasaich"
+  },
+  "EDIT_BOOKMARK": {
+    "description": "Button to edit a singular bookmark",
+    "message": "Edit Bookmark"
+  },
+  "EDIT_NOTE": {
+    "description": "",
+    "message": "Edit Note"
   },
   "EFFECTS": {
     "description": "",
@@ -445,7 +609,11 @@
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
-    "message": "Innleadaireachd:"
+    "message": "Engineering"
+  },
+  "ENTER_CUSTOM_NOTE": {
+    "description": "Label indicating a note should be entered here",
+    "message": "Enter custom note..."
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
@@ -454,6 +622,14 @@
   "EQUIPMENT": {
     "description": "",
     "message": "Uidheamachd"
+  },
+  "EQUIPMENT_ALREADY_INSTALLED_HERE": {
+    "description": "Message indicating this equipment item is already installed.",
+    "message": "This equipment item is already installed here."
+  },
+  "EQUIPMENT_CAPACITY": {
+    "description": "The equipment capacity of a ship",
+    "message": "Equipment Capacity"
   },
   "EQUIPMENT_MARKET": {
     "description": "",
@@ -467,6 +643,10 @@
     "description": "",
     "message": "Mearachd"
   },
+  "ERROR_APPLYING_PATCH": {
+    "description": "Message when restoring savegame",
+    "message": "Error applying patch"
+  },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
     "message": "Cha ghabh leum os-fhànais a thòiseachadh; cha deach an uidheamachd landaidh a chur suas!"
@@ -479,13 +659,25 @@
     "description": "",
     "message": "Fàg an geama seo"
   },
+  "EXPAND": {
+    "description": "Open / expand a collapsed folder or group",
+    "message": "Expand"
+  },
   "EXPERIENCED": {
     "description": "For player reputation",
     "message": "Eòlach"
   },
+  "EXPERIMENTAL": {
+    "description": "Indicates feature/option is experimental",
+    "message": "Experimental"
+  },
   "EXPERT": {
     "description": "For player reputation",
     "message": "Fiosrachail"
+  },
+  "FACTION": {
+    "description": "Label indicating the factional allegiance of an object",
+    "message": "Faction"
   },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
@@ -494,6 +686,10 @@
   "FAILED": {
     "description": "When failed mission",
     "message": "Air fhàilligeadh"
+  },
+  "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
+    "description": "",
+    "message": "Failed to recover some equipment"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
@@ -543,13 +739,21 @@
     "description": "",
     "message": "Boireann"
   },
+  "FILE_SAVEGAME_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "File savegame version: %s"
+  },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "An ceann-uidhe:"
+    "message": "Final Target"
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
     "message": "Ionmhas"
+  },
+  "FINE": {
+    "description": "Cost of a criminal action",
+    "message": "Fine"
   },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
@@ -635,6 +839,10 @@
     "description": "",
     "message": "Làn-sgrìn"
   },
+  "GAME_OPTIONS": {
+    "description": "GameOptions - tooltip for the Game Options tab in the Settings Window",
+    "message": "Game Options"
+  },
   "GAME_TIME": {
     "description": "",
     "message": "Àm a’ gheama"
@@ -706,6 +914,10 @@
   "HUD_3D_RADAR": {
     "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
     "message": "Tilg-shealladh plèanach 3D"
+  },
+  "HUD_ARRIVAL_DATE": {
+    "description": "Label for Hyperspace Cloud arrival date",
+    "message": "Arrival Date"
   },
   "HUD_ATMOSPHERIC_PRESSURE": {
     "description": "Tooltip: Atmospheric Pressure.",
@@ -855,6 +1067,10 @@
     "description": "Tooltip: Sidereal camera view",
     "message": "Sealladh o ùine nan reul"
   },
+  "HUD_BUTTON_SWITCH_TO_CURRENT_SYSTEM": {
+    "description": "Tooltip: Switch to current system",
+    "message": "Switch to current system"
+  },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
     "message": "Mapa a’ reul-chriosa"
@@ -862,6 +1078,10 @@
   "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
     "description": "Tooltip: Switch to sector map",
     "message": "Mapa na roinne"
+  },
+  "HUD_BUTTON_SWITCH_TO_SELECTED_SYSTEM": {
+    "description": "Tooltip: Switch to selected system",
+    "message": "Switch to selected system"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
     "description": "Tooltip: Switch to system map",
@@ -979,6 +1199,14 @@
     "description": "Tooltip: Hull Temperature.",
     "message": "Teothachd na slige"
   },
+  "HUD_HYPERSPACE_DESTINATION": {
+    "description": "HUD Label indicating the hyperspace destination system. Should just be Destination.",
+    "message": "Ceann-uidhe"
+  },
+  "HUD_HYPERSPACE_ORIGIN": {
+    "description": "HUD Label indicating the hyperspace origin system. Should just be Origin.",
+    "message": "Tùs"
+  },
   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
     "description": "",
     "message": "Gu bhith dol dhan os-fhànais gu {destination} an ceann {countdown} diog(an)"
@@ -1030,6 +1258,18 @@
   "HUD_RADAR_DISTANCE": {
     "description": "Tooltip: Current distance of the radar.",
     "message": "Rainse ghnìomhach an rèideir"
+  },
+  "HUD_RADAR_TOGGLE_MODE": {
+    "description": "Tooltip: Toggle radar mode.",
+    "message": "Toggle radar between 2D and 3D modes"
+  },
+  "HUD_RADAR_ZOOM_MODE_AUTOMATIC": {
+    "description": "Tooltip: Current radar zoom mode.",
+    "message": "Automatic zoom"
+  },
+  "HUD_RADAR_ZOOM_MODE_MANUAL": {
+    "description": "Tooltip: Current radar zoom mode.",
+    "message": "Manual zoom"
   },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
@@ -1111,9 +1351,17 @@
     "description": "",
     "message": "Cùrsa os-leum"
   },
+  "HYPERJUMP_ROUTING": {
+    "description": "Label indicating a category division",
+    "message": "HyperJump Routing"
+  },
   "HYPERSPACE_RANGE": {
     "description": "",
     "message": "Rainse os-fhànais"
+  },
+  "ILLEGAL_COMMODITIES": {
+    "description": "Commodities illegal in the current system or polity",
+    "message": "Illegal Commodities"
   },
   "ILLEGAL_IN_SYSTEM": {
     "description": "An illegal action or commodity",
@@ -1147,6 +1395,14 @@
     "description": "Ship jump status",
     "message": "Air a thòiseachadh"
   },
+  "INSTALL": {
+    "description": "Install something",
+    "message": "Install"
+  },
+  "INSTALLED": {
+    "description": "Label indicating something is installed",
+    "message": "Installed"
+  },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
     "message": "Chan eil connadh gu leòr agad"
@@ -1154,6 +1410,10 @@
   "INSUFFICIENT_FUNDS": {
     "description": "",
     "message": "Chan eil airgead gu leòr agad."
+  },
+  "INTELLIGENCE": {
+    "description": "Character parameter",
+    "message": "Intelligence"
   },
   "INTERSTELLAR_TRADE_AVG": {
     "description": "Label displaying commodity flow at a per-system level",
@@ -1167,9 +1427,13 @@
     "description": "",
     "message": "San roinn carago"
   },
+  "IN_HOLD": {
+    "description": "Column title of the Commodity Market screen",
+    "message": "In hold"
+  },
   "IN_STOCK": {
-    "description": "",
-    "message": "San stoc"
+    "description": "Column title of Commodity and Ship Equipment markets showing current station stock level.",
+    "message": "Stock"
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
@@ -1198,6 +1462,10 @@
   "KILLS": {
     "description": "",
     "message": "Air a mhilleadh:"
+  },
+  "KNOWN_AS": {
+    "description": "Indicates alternate names/aliases for an object",
+    "message": "Known as"
   },
   "LANGUAGE": {
     "description": "",
@@ -1230,6 +1498,18 @@
   "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
     "description": "",
     "message": "Fhuair sibh cead. Thoiribh sùil a-mach air an trafaig nuair a dh’fhàgas sibh."
+  },
+  "LAWFULNESS": {
+    "description": "Character parameter",
+    "message": "Lawfulness"
+  },
+  "LEGAL_RULES": {
+    "description": "Refers to laws, rules and regulations",
+    "message": "Legal rules applicable in station controlled space. Laws are sensor enforced within a distance of: {distance}"
+  },
+  "LEGAL_RULES_AND_REGULATIONS": {
+    "description": "Heading on a tab, keep it short",
+    "message": "Rules and Regulations"
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1287,6 +1567,18 @@
     "description": "Label tab for showing custom logged events",
     "message": "Loga pearsanta"
   },
+  "LOG_EARLIEST_FIRST": {
+    "description": "Show the log entries in chronological order, earliest first",
+    "message": "Order earliest first"
+  },
+  "LOG_EXPORT": {
+    "description": "Export the log",
+    "message": "Export"
+  },
+  "LOG_HTML": {
+    "description": "Export the log as HTML or not",
+    "message": "HTML"
+  },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
     "message": "Nì ùr"
@@ -1302,6 +1594,10 @@
   "LOW": {
     "description": "",
     "message": "Ìseal"
+  },
+  "LUCK": {
+    "description": "Character parameter",
+    "message": "Luck"
   },
   "LY": {
     "description": "Light year",
@@ -1415,9 +1711,21 @@
     "description": "",
     "message": "Fiosrachadh a’ mhisein"
   },
+  "MODEL": {
+    "description": "3d model of the ship",
+    "message": "Model"
+  },
+  "MONEY": {
+    "description": "",
+    "message": "Money"
+  },
   "MORE_INFO": {
     "description": "",
     "message": "Barrachd fiosrachaidh…"
+  },
+  "MORE_THAN_ONE_PLAYERS_SHIP_FOUND_IN_SPACE": {
+    "description": "Message when restoring savegame",
+    "message": "More than one player's ship found in space"
   },
   "MOSTLY_HARMLESS": {
     "description": "",
@@ -1460,8 +1768,8 @@
     "message": "Ainm"
   },
   "NAVIGATION": {
-    "description": "",
-    "message": "Seòladaireachd:"
+    "description": "Crew skill",
+    "message": "Navigation"
   },
   "NAVIGATOR": {
     "description": "",
@@ -1470,6 +1778,10 @@
   "NEGOTIATE": {
     "description": "",
     "message": "Rèitich"
+  },
+  "NEW_GAME": {
+    "description": "Main menu item",
+    "message": "New game"
   },
   "NEW_PAINTJOB_APPLIED": {
     "description": "Paintshop popup",
@@ -1507,6 +1819,10 @@
     "description": "",
     "message": "Nòtaichean:"
   },
+  "NOTORIETY": {
+    "description": "Character parameter",
+    "message": "Notoriety"
+  },
   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
     "description": "",
     "message": "Chan eil {alloy} gu leòr agad gus feuchainn ris a chàradh"
@@ -1518,6 +1834,10 @@
   "NO_AVAILABLE_DATA": {
     "description": "Message displaying no stored data available",
     "message": "No data available"
+  },
+  "NO_BOOKMARKS_FOUND": {
+    "description": "Label indicating a lack of bookmarks to display",
+    "message": "No Bookmarks Found"
   },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
@@ -1601,11 +1921,15 @@
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
-    "message": "Càintean ri am pàigheadh"
+    "message": "Outstanding Fines"
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
     "message": "Ro fhad air falbh"
+  },
+  "OUT_OF_STOCK": {
+    "description": "Equipment availability",
+    "message": "Out of stock"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
@@ -1647,6 +1971,14 @@
     "description": "Entry for ship info",
     "message": "Passenger cabin capacity"
   },
+  "PASTE": {
+    "description": "As for clipboard",
+    "message": "Paste"
+  },
+  "PATH_FOUND_BUT_VERIFICATION_FAILED": {
+    "description": "Message when restoring savegame",
+    "message": "Path found but verification failed: %s"
+  },
   "PATTERN": {
     "description": "Ship painting pattern.",
     "message": "Pattern"
@@ -1658,6 +1990,10 @@
   "PAY_FINE_OF_N": {
     "description": "",
     "message": "Pàigh càin de {amount}"
+  },
+  "PENDING_RETURN": {
+    "description": "Status if the mission has not yet been fully completed",
+    "message": "Pending Return"
   },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1672,8 +2008,8 @@
     "message": "Paidhleat"
   },
   "PILOTING": {
-    "description": "",
-    "message": "Stiùireadh:"
+    "description": "Crew skill",
+    "message": "Piloting"
   },
   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
     "description": "",
@@ -1707,6 +2043,10 @@
     "description": "Player combat rating",
     "message": "Bochd"
   },
+  "POSESSION_OF_COMMODITIES_ILLEGAL": {
+    "description": "",
+    "message": "Possession of certain commodities is illegal in this system."
+  },
   "POSITION": {
     "description": "The job title/position of crew memeber",
     "message": "Dreuchd"
@@ -1735,6 +2075,22 @@
     "description": "Drain the fuel tank",
     "message": "Pùmp sìos"
   },
+  "PUMP_DOWN_FROM_CARGO_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pump %i t from cargo"
+  },
+  "PUMP_DOWN_FROM_HYPERDRIVE_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pump %i t from hyperdrive to fuel tanks"
+  },
+  "PUMP_DOWN_TO_CARGO_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pump %i t to cargo"
+  },
+  "PUMP_DOWN_TO_HYPERDRIVE_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pump %i t to hyperdrive from fuel tanks"
+  },
   "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
     "message": "Purchase Paintjob"
@@ -1751,6 +2107,10 @@
     "description": "For the checkbox in settings window",
     "message": "Dearbhadh an fhàgail"
   },
+  "RANDOM_COLORS": {
+    "description": "Paint shop. Randomize colors",
+    "message": "Random Colors"
+  },
   "RANDOM_FACE": {
     "description": "Generate random face",
     "message": "Air thuaiream"
@@ -1763,9 +2123,37 @@
     "description": "",
     "message": "Rangachadh:"
   },
+  "RAYLEIGH_ACCURATE": {
+    "description": "",
+    "message": "Rayleigh/Mie (accurate, per-pixel)"
+  },
+  "RAYLEIGH_FAST": {
+    "description": "",
+    "message": "Rayleigh/Mie (fast, per-vertex)"
+  },
+  "REALISTIC_SCATTERING": {
+    "description": "",
+    "message": "Scattering"
+  },
+  "REALISTIC_SCATTERING_DESC": {
+    "description": "",
+    "message": "Select scattering when rendering atmospheres. (Rayleigh/Mie is not recommended for low-end PCs)"
+  },
   "REAR_WEAPON": {
     "description": "",
     "message": "Arm cùlaibh"
+  },
+  "RECOVER": {
+    "description": "Saveload menu button",
+    "message": "Recover"
+  },
+  "RECOVERED_BUT_NOT_VALID": {
+    "description": "Message when restoring savegame",
+    "message": "Recovered but not valid"
+  },
+  "RECOVER_SAVEGAME": {
+    "description": "",
+    "message": "Recover savegame"
   },
   "REFUEL": {
     "description": "",
@@ -1799,9 +2187,9 @@
     "description": "",
     "message": "Càraich {damage}% dhen dochann air an t-slige le {price}"
   },
-  "REPLACE_EQUIPMENT_WITH": {
+  "REPLACE_EQUIPMENT": {
     "description": "Market header when replacing equipped items",
-    "message": "Replace Equipment With"
+    "message": "Replace Equipment"
   },
   "REPUTATION": {
     "description": "",
@@ -1813,7 +2201,7 @@
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "Connadh air a bheil feum:"
+    "message": "Required Fuel"
   },
   "RESET": {
     "description": "",
@@ -1826,6 +2214,14 @@
   "RESET_PREVIEW": {
     "description": "Paintshop button",
     "message": "Reset Preview"
+  },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT": {
+    "description": "Reset View on Hyperspace Exit option",
+    "message": "Reset View on Hyperspace Exit"
+  },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT_DESC": {
+    "description": "The tooltip of Reset View on Hyperspace Exit in the settings menu",
+    "message": "Reset view to main game view when exiting from hyperspace"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1871,6 +2267,22 @@
     "description": "",
     "message": "Sàbhail"
   },
+  "SAVED_GAMES": {
+    "description": "Header for save/load window",
+    "message": "Saved Games"
+  },
+  "SAVE_AS": {
+    "description": "",
+    "message": "Save As"
+  },
+  "SAVE_DELETED_SUCCESSFULLY": {
+    "description": "",
+    "message": "Save deleted successfully"
+  },
+  "SCATTERING_OLD": {
+    "description": "",
+    "message": "Legacy"
+  },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
     "message": "Tàthaidhean sgioba"
@@ -1882,6 +2294,18 @@
   "SELECT": {
     "description": "",
     "message": "Tagh"
+  },
+  "SELECTED": {
+    "description": "Label indicating the following item is selected",
+    "message": "Selected"
+  },
+  "SELECTED_SAVE_DOESNT_EXISTS": {
+    "description": "",
+    "message": "Selected save doesn't exist"
+  },
+  "SELECTED_SAVE_IS_NOT_A_VALID_SAVE": {
+    "description": "",
+    "message": "Selected save is not a valid save"
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",
@@ -1895,17 +2319,29 @@
     "description": "",
     "message": "Tagh geama gus a luchdadh…"
   },
+  "SELECT_START_PROFILE": {
+    "description": "Combo box for selecting the starting position",
+    "message": "Select start profile:"
+  },
   "SELL": {
     "description": "Commodities and equipment prices",
     "message": "Reic"
+  },
+  "SELL_EQUIP": {
+    "description": "Button text to sell installed equipment. May be used in a singular or plural context.",
+    "message": "Sell {name}"
   },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
     "message": "Sell Equipped"
   },
+  "SELL_PRICE": {
+    "description": "Title for sell-price column in commodity market",
+    "message": "Reic"
+  },
   "SENSORS": {
-    "description": "",
-    "message": "Mothaichearan:"
+    "description": "Crew skill",
+    "message": "Sensors"
   },
   "SENSORS_AND_DEFENCE": {
     "description": "",
@@ -1918,6 +2354,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Suidhich an ceann-uidhe mar cheann-uidhe na seòladaireachd."
+  },
+  "SET_JUMP_TARGET": {
+    "description": "Button tooltip which sets the jump route to the selected body",
+    "message": "Set Jump Target"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
@@ -1963,6 +2403,14 @@
     "description": "",
     "message": "Margadh shoithichean"
   },
+  "SHIP_NAME": {
+    "description": "",
+    "message": "Ship name"
+  },
+  "SHIP_PARAMETERS": {
+    "description": "",
+    "message": "Ship parameters"
+  },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
     "message": "Ship Repairs & Paintshop"
@@ -1971,13 +2419,41 @@
     "description": "",
     "message": "Seòrsa an t-soithich"
   },
+  "SHOW_AUTOSAVES": {
+    "description": "Button tooltip indicating whether to show autosave files",
+    "message": "Show Autosaves"
+  },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
     "message": "A’ cruthachadh gnè an domhain: {age} billean bliadhna ;-)"
   },
+  "SOME_PARAMETERS_ARE_NOT_OK": {
+    "description": "Diagnostics at game start",
+    "message": "Some parameters are not OK:"
+  },
+  "SORT_COMMODITY": {
+    "description": "Indicates the list of objects should be sorted by commodity",
+    "message": "Commodity"
+  },
+  "SORT_DISTANCE": {
+    "description": "Indicates the list of objects should be sorted by distance",
+    "message": "Distance"
+  },
+  "SORT_MODE": {
+    "description": "Label indicating the current sorting mode of a list of objects",
+    "message": "Sort Mode"
+  },
+  "SORT_NAME": {
+    "description": "Indicates the list of objects should be sorted by name",
+    "message": "Ainm"
+  },
   "SOUND": {
     "description": "",
     "message": "Fuaim"
+  },
+  "STANDARD_GAME_START_TIME": {
+    "description": "Standard game start time, current moment + 1200 years",
+    "message": "Standard game start time"
   },
   "START_AT_BARNARDS_STAR": {
     "description": "",
@@ -2002,6 +2478,10 @@
   "START_AT_NEW_HOPE_DESC": {
     "description": "",
     "message": "Seo toiseach le duilgheas meadhanach o Itzalean air Dòchas Ùr ann an siostam Epsilon."
+  },
+  "START_GAME": {
+    "description": "Button",
+    "message": "Start game"
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
@@ -2055,6 +2535,50 @@
     "description": "",
     "message": "Staid"
   },
+  "SUMMARY": {
+    "description": "Tab item in the start game menu",
+    "message": "Summary"
+  },
+  "SYSTEM_BODY_INDEX_IS_OUT_OF_RANGE": {
+    "description": "Message when restoring savegame",
+    "message": "System body index is out of range"
+  },
+  "SYSTEM_FACTION": {
+    "description": "Tooltip indicating the faction controlling this system",
+    "message": "Controlling faction jurisdiction"
+  },
+  "SYSTEM_INFORMATION": {
+    "description": "Tooltip / label indicating information about a selected star system",
+    "message": "System Information"
+  },
+  "SYSTEM_NUM_STARS": {
+    "description": "Tooltip indicating the system stellar arrangement",
+    "message": "Number of stars in system"
+  },
+  "SYSTEM_SECURITY_1": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Safe"
+  },
+  "SYSTEM_SECURITY_2": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Cha mhòr neo-chiontach"
+  },
+  "SYSTEM_SECURITY_3": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Cunnartach"
+  },
+  "SYSTEM_SECURITY_4": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Very Dangerous"
+  },
+  "SYSTEM_SECURITY_5": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Marbhtach"
+  },
+  "SYSTEM_SECURITY_TOOLTIP": {
+    "description": "Tooltip introducing the system security rating",
+    "message": "System safety rating"
+  },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
     "message": "Tha teisteanas teicneolais ìre {tech_level} aig an stèisean seo."
@@ -2065,7 +2589,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Tech level"
+    "message": "Tech Level"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -2078,6 +2602,14 @@
   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
     "description": "",
     "message": "Chan eil duine sam bith eile air bòrd air a bhiodh comas gus an soitheach seo a stiùireadh."
+  },
+  "THERE_WERE_ERRORS_IN_RECOVERY": {
+    "description": "Message when restoring savegame",
+    "message": "There were errors in recovery:"
+  },
+  "THESE_ITEMS_ARE_PUNISHABLE_BY_FINE": {
+    "description": "",
+    "message": "Purchase, sale, and transportation of these items is punishable by a fine and possible confiscation"
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
@@ -2133,15 +2665,19 @@
   },
   "TOTAL_DISTANCE": {
     "description": "Total distance of a (possibly series) of hyper jump(s)",
-    "message": "An t-astar iomlan:"
+    "message": "Total Distance"
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "Am fad iomlan:"
+    "message": "Total Duration"
   },
   "TOTAL_MASS": {
     "description": "",
     "message": "Tomad iomlan"
+  },
+  "TO_PICK_UP": {
+    "description": "Mission status",
+    "message": "To pick up"
   },
   "TRADING_AT": {
     "description": "Indicates the current system for inspecting commodities.",
@@ -2159,6 +2695,14 @@
     "description": "Indicates the destination system of a commodity trade.",
     "message": "Gu {system}:"
   },
+  "TRANSFER_FUEL": {
+    "description": "Label indicating the ability to transfer fuel between equipment tanks",
+    "message": "Transfer Fuel"
+  },
+  "TRANSLATE_VIEW": {
+    "description": "Indicates that the button must be kept pressed down, to translate the camera view with mouse",
+    "message": "Hold down to Translate view"
+  },
   "TRUSTWORTHY": {
     "description": "For player reputation",
     "message": "Urrasach"
@@ -2170,6 +2714,30 @@
   "TYPE": {
     "description": "",
     "message": "Seòrsa"
+  },
+  "UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Unknown custom log entry format"
+  },
+  "UNKNOWN_FACTION": {
+    "description": "For entry in the flight log",
+    "message": "Unknown faction"
+  },
+  "UNKNOWN_LOCATION_IN_SECTOR_X": {
+    "description": "For entry in the flight log",
+    "message": "Unknown location in sector {sector}"
+  },
+  "UNKNOWN_STATION_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Unknown station log entry format"
+  },
+  "UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Unknown system log entry format"
+  },
+  "UNLAWFUL_ECM_DISCHARGE": {
+    "description": "",
+    "message": "Unlawful ECM discharge"
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
@@ -2186,6 +2754,10 @@
   "UNRELIABLE": {
     "description": "",
     "message": "Neo-earbsach"
+  },
+  "UNSUCCESSFULLY_RECOVERED_PARAMETERS_ARE_NOW_UNLOCKED_PLEASE_SET_THEM_MANUALLY": {
+    "description": "Message when restoring savegame",
+    "message": "Unsuccessfully recovered parameters are now unlocked, please set them manually."
   },
   "UP_ACCEL": {
     "description": "",
@@ -2223,6 +2795,10 @@
     "description": "Tooltip for video mode/resultion setting",
     "message": "Seallaidh dùmhlachd-bhreacaidh nas àirde barrachd fiosrachaidh air meud nas lugha is dh’fhaoidte gum bi nithean nas slaodaiche."
   },
+  "VIEW_DESTINATION": {
+    "description": "Tooltip indicating the button will change the current view to the destination of a route.",
+    "message": "View Destination"
+  },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",
     "message": "Visit Paintshop"
@@ -2230,6 +2806,10 @@
   "VISIT_REPAIR_SERVICES": {
     "description": "Ship Repair tab button.",
     "message": "Visit Repair Services"
+  },
+  "VOLUME": {
+    "description": "The volume property of some object",
+    "message": "Volume"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",

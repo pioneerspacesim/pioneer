@@ -321,7 +321,7 @@
   },
   "DAY_LENGTH": {
     "description": "",
-    "message": "Длина дня"
+    "message": "Продолжительность суток"
   },
   "DECREASE_RADAR_RANGE": {
     "description": "",
@@ -411,6 +411,10 @@
     "description": "",
     "message": "Соотн. экваториального радиуса к полярному"
   },
+  "ESCAPE_VELOCITY": {
+    "description": "",
+    "message": "Вторая космическая скорость"
+  },
   "EXACT_MATCH_X": {
     "description": "",
     "message": "Точное соответствие: %system"
@@ -491,21 +495,41 @@
     "description": "",
     "message": "Этот сохраненный файл игры не может быть записан из-за системной ошибки."
   },
+  "GAME_SAVE_INVALID_NAME": {
+    "description": "",
+    "message": "Это сохранение игры не записано из-за неверного имени."
+  },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
     "message": "Управление камерой"
   },
   "GOVERNMENT_TYPE": {
     "description": "",
-    "message": "Политический строй:"
+    "message": "Тип правления"
   },
   "GRAIN": {
     "description": "like wheat or barley",
     "message": "Зерно"
   },
+  "GRID_DISPLAY_MODE": {
+    "description": "Label for grid display modes",
+    "message": "Отображение сетки"
+  },
+  "GRID_DISPLAY_MODE_GRID_AND_LEGS": {
+    "description": "Combobox option for Grid with Legs",
+    "message": "Сетка с индикаторами высоты"
+  },
+  "GRID_DISPLAY_MODE_GRID_ONLY": {
+    "description": "Combobox option for Grid Only",
+    "message": "Только сетка"
+  },
+  "GRID_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for Grid display off.",
+    "message": "Сетка выключена"
+  },
   "GRID_DISPLAY_MODE_TOGGLE": {
-    "description": "Switch show no grid",
-    "message": "Переключение между режимами отображения сетки."
+    "description": "Tooltip for toggle grid display button.",
+    "message": "Переключает видимость сетки."
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -582,6 +606,26 @@
   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
     "description": "",
     "message": "Остаток облака гипервыхода"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
+    "description": "Label for hyperspace cloud display modes.",
+    "message": "Гиперпространственные облака"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL": {
+    "description": "Combobox option for all hyperspace clouds.",
+    "message": "Все облака"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY": {
+    "description": "Combobox option for arrival hyperspace clouds.",
+    "message": "Облака прибытия"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY": {
+    "description": "Combobox option for departure hyperspace clouds.",
+    "message": "Облака отбытия"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE": {
+    "description": "Tooltip for the button which toggles the display mode of hyperspace clouds.",
+    "message": "Переключатель видимости облаков ухода и прихода из гиперпространства"
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
@@ -675,9 +719,25 @@
     "description": "",
     "message": "Настройки джойстика:"
   },
+  "L4L5_DISPLAY_MODE": {
+    "description": "Label for the lagrange point display modes.",
+    "message": "Отображение точек Лагранжа"
+  },
+  "L4L5_DISPLAY_MODE_ICONS_AND_TEXT": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Значки и подписи"
+  },
+  "L4L5_DISPLAY_MODE_ICONS_ONLY": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Только значки"
+  },
+  "L4L5_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for lagrange point display off.",
+    "message": "Выкл."
+  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
-    "description": "Either show L4/L5 points or don't",
-    "message": "Переключение между режимами отображения точек Лагранжа L4/L5."
+    "description": "Tooltip for the L4/L5 Lagrange points toggle button.",
+    "message": "Переключить отображения точек Лагранжа L4/L5."
   },
   "LANDED": {
     "description": "",
@@ -782,6 +842,10 @@
   "MASS_N_TONNES": {
     "description": "",
     "message": "Масса: %{mass}т"
+  },
+  "MEAN_DENSITY": {
+    "description": "",
+    "message": "Средняя плотность"
   },
   "MEDICINES": {
     "description": "",
@@ -1017,7 +1081,7 @@
   },
   "NUMBER_TONNES": {
     "description": "",
-    "message": "%{mass}т"
+    "message": "%{mass} т"
   },
   "N_ATMOSPHERE": {
     "description": "",
@@ -1280,7 +1344,7 @@
     "message": "Мусор"
   },
   "SCOOP": {
-    "description": "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+    "description": "Is followed by a number, representing scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
     "message": "Сборник"
   },
   "SCREENSHOT_FILENAME_TEMPLATE": {
@@ -1305,7 +1369,7 @@
   },
   "SECTOR_X_Y_Z": {
     "description": "",
-    "message": "Сектор: %x,%y,%z"
+    "message": "Сектор: {sectorX}, {sectorY}, {sectorZ}"
   },
   "SELECTED_SYSTEM": {
     "description": "",
@@ -1375,9 +1439,21 @@
     "description": "",
     "message": "Корабль"
   },
+  "SHIPS_DISPLAY_MODE": {
+    "description": "Label for ship display modes.",
+    "message": "Отображение кораблей"
+  },
+  "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
+    "description": "Combobox option for ships only.",
+    "message": "Только корабли"
+  },
+  "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
+    "description": "Combobox option for ships with orbits.",
+    "message": "Корабли и орбиты"
+  },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
-    "description": "Either show no ships, show ships, or show ships + their orbits",
-    "message": "Переключение между режимами отображения кораблей."
+    "description": "Tooltip for ship display toggle button.",
+    "message": "Переключение видимости кораблей"
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
@@ -1591,6 +1667,10 @@
     "description": "",
     "message": "Гравитация на поверхности"
   },
+  "SURFACE_PRESSURE": {
+    "description": "",
+    "message": "Давление на поверхности"
+  },
   "SURFACE_TEMPERATURE": {
     "description": "",
     "message": "Температура на поверхности"
@@ -1739,17 +1819,33 @@
     "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
     "message": "АЕ"
   },
+  "UNIT_CREDITS": {
+    "description": "Unit of money, used when $ isn't specific enough",
+    "message": "Cr"
+  },
+  "UNIT_CUBIC_METERS": {
+    "description": "Volume unit: cubic meter",
+    "message": "м³"
+  },
   "UNIT_DAYS": {
     "description": "Duration unit: one 24-hour day",
     "message": "дн"
   },
+  "UNIT_DENSITY": {
+    "description": "Density unit: kilos per cubic meter",
+    "message": "кг/м³"
+  },
   "UNIT_EARTH_GRAVITY": {
     "description": "Acceleration unit: one earth gravity (g)",
-    "message": "г"
+    "message": "g"
   },
   "UNIT_GIGATONNES": {
     "description": "Mass unit: one gigatonne",
     "message": "Гт"
+  },
+  "UNIT_HECTARES": {
+    "description": "Area unit: one hectare (ha) -10,000 m²",
+    "message": "га"
   },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
@@ -1810,6 +1906,30 @@
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",
     "message": "с"
+  },
+  "UNIT_SQUARE_KILOMETERS": {
+    "description": "Area unit: square kilometer (km²) - 1,000,000 m²",
+    "message": "км²"
+  },
+  "UNIT_SQUARE_MEGAMETERS": {
+    "description": "Area unit: square megameter (Mm²) - 10^12 m²",
+    "message": "Мм²"
+  },
+  "UNIT_SQUARE_METERS": {
+    "description": "Area unit: square meter (m²)",
+    "message": "м²"
+  },
+  "UNIT_TEMPERATURE_CELSIUS": {
+    "description": "Temperature unit: degrees Celsius (°C)",
+    "message": "°C"
+  },
+  "UNIT_TEMPERATURE_FAHRENHEIT": {
+    "description": "Temperature unit: Fahrenheit (°F)",
+    "message": "°F"
+  },
+  "UNIT_TEMPERATURE_KELVIN": {
+    "description": "Temperature unit: degrees Kelvin (K)",
+    "message": "K"
   },
   "UNIT_TERATONNES": {
     "description": "Mass unit: one teratonne",

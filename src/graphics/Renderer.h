@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _RENDERER_H
@@ -6,24 +6,25 @@
 
 #include "Graphics.h"
 #include "Light.h"
+#include "Span.h"
 #include "Stats.h"
 #include "Types.h"
 #include "core/StringHash.h"
 #include "graphics/BufferCommon.h"
-#include "libs.h"
 #include "matrix4x4.h"
 #include <map>
 #include <memory>
 
+struct SDL_Window;
+
 namespace Graphics {
 
 	/*
-	* Renderer base class. A Renderer draws points, lines, triangles.
-	* It is also used to create render states, materials and vertex/index buffers.
-	*/
+	 * Renderer base class. A Renderer draws points, lines, triangles.
+	 * It is also used to create render states, materials and vertex/index buffers.
+	 */
 
 	class IndexBuffer;
-	class InstanceBuffer;
 	class Material;
 	class MaterialDescriptor;
 	class MeshObject;
@@ -35,7 +36,8 @@ namespace Graphics {
 	class VertexArray;
 	class VertexBuffer;
 
-	struct VertexBufferDesc;
+	struct VertexFormatDesc;
+	struct VertexBindingDesc;
 	struct RenderStateDesc;
 	struct RenderTargetDesc;
 
@@ -62,10 +64,14 @@ namespace Graphics {
 		virtual bool SupportsInstancing() = 0;
 
 		SDL_Window *GetSDLWindow() const { return m_window; }
+		virtual void OnWindowResized() {};
+
 		float GetDisplayAspect() const { return static_cast<float>(m_width) / static_cast<float>(m_height); }
 		int GetWindowWidth() const { return m_width; }
 		int GetWindowHeight() const { return m_height; }
 		virtual int GetMaximumNumberAASamples() const = 0;
+
+		virtual void SetVSyncEnabled(bool enabled) = 0;
 
 		//get supported minimum for z near and maximum for z far values
 		virtual bool GetNearFarRange(float &near_, float &far_) const = 0;
@@ -75,18 +81,27 @@ namespace Graphics {
 		//traditionally gui happens between endframe and swapbuffers
 		virtual bool SwapBuffers() = 0;
 
+		// returns currently bound render target (if any)
+		virtual RenderTarget *GetRenderTarget() = 0;
 		//set 0 to render to screen
 		virtual bool SetRenderTarget(RenderTarget *) = 0;
+
+		// Copy a portion of one render target to another, optionally scaling the target
+		virtual void CopyRenderTarget(RenderTarget *src, RenderTarget *dst, ViewportExtents srcRect, ViewportExtents dstRect, bool linearFilter = true) = 0;
+
+		// Perform an MSAA resolve from a multisampled render target to regular render target
+		// No scaling can be performed.
+		virtual void ResolveRenderTarget(RenderTarget *src, RenderTarget *dst, ViewportExtents rect) = 0;
 
 		// Set the scissor extents. This has no effect if not drawing with a renderstate using scissorTest.
 		// In particular, the scissor state will not affect clearing the screen.
 		virtual bool SetScissor(ViewportExtents scissor) = 0;
 
 		//clear color and depth buffer
-		virtual bool ClearScreen() = 0;
+		virtual bool ClearScreen(const Color &c = Color::BLACK, bool depthBuffer = true) = 0;
+
 		//clear depth buffer
 		virtual bool ClearDepthBuffer() = 0;
-		virtual bool SetClearColor(const Color &c) = 0;
 
 		virtual bool SetViewport(ViewportExtents vp) = 0;
 		virtual ViewportExtents GetViewport() const = 0;
@@ -135,22 +150,24 @@ namespace Graphics {
 		virtual bool DrawBufferDynamic(VertexBuffer *v, uint32_t vtxOffset, IndexBuffer *i, uint32_t idxOffset, uint32_t numElems, Material *m) = 0;
 		// Draw a single mesh object (vertex+index buffer) using the given material.
 		virtual bool DrawMesh(MeshObject *, Material *) = 0;
-		// Draw multiple instances of a mesh object using the given material.
-		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) = 0;
+		// Draw the given vertex buffer(s) + index buffer with the given material, optionally instanced.
+		// The number of elements drawn must be manually specified. At least one vertex buffer must be present,
+		// but the index buffer is not required.
+		virtual void Draw(Span<VertexBuffer * const> vtxBuffers, IndexBuffer *idx, Material *m, uint32_t numElements, uint32_t numInstances = 1) = 0;
 
 		//creates a unique material based on the descriptor. It will not be deleted automatically.
-		virtual Material *CreateMaterial(const std::string &shader, const MaterialDescriptor &descriptor, const RenderStateDesc &stateDescriptor) = 0;
+		virtual Material *CreateMaterial(const std::string &shader, const MaterialDescriptor &desc, const RenderStateDesc &stateDesc, const VertexFormatDesc &vertexFormat) = 0;
 		// Make a copy of the given material with a possibly new descriptor or render state.
-		virtual Material *CloneMaterial(const Material *mat, const MaterialDescriptor &descriptor, const RenderStateDesc &stateDescriptor) = 0;
+		virtual Material *CloneMaterial(const Material *mat, const MaterialDescriptor &desc, const RenderStateDesc &stateDesc, const VertexFormatDesc &vertexFormat) = 0;
 		virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
 		virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) = 0; //returns nullptr if unsupported
-		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &) = 0;
+		// Create a buffer containing enough space for numVertices with a byte size per vertex equal to stride
+		virtual VertexBuffer *CreateVertexBuffer(BufferUsage, uint32_t numVertices, uint32_t stride) = 0;
 		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage, IndexBufferSize = INDEX_BUFFER_32BIT) = 0;
-		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) = 0;
 		virtual UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage) = 0;
 
 		// Create a new mesh object that wraps the given vertex and index buffers.
-		virtual MeshObject *CreateMeshObject(VertexBuffer *vertexBuffer, IndexBuffer *indexBuffer = nullptr) = 0;
+		virtual MeshObject *CreateMeshObject(const VertexFormatDesc &desc, VertexBuffer *vertexBuffer, IndexBuffer *indexBuffer = nullptr) = 0;
 
 		// Create a new mesh object and vertex buffer, and upload data from the given vertex array. Optionally associate the given index buffer.
 		// This is a convenience function to avoid boilerplate needed to set up a vertex buffer and mesh object from a vertex array.
@@ -181,11 +198,13 @@ namespace Graphics {
 				m_storedVP = m_renderer->GetViewport();
 				m_storedProj = m_renderer->GetProjection();
 				m_storedMV = m_renderer->GetTransform();
+				m_storedRT = m_renderer->GetRenderTarget();
 			}
 
 			virtual ~StateTicket()
 			{
 				m_renderer->PopState();
+				m_renderer->SetRenderTarget(m_storedRT);
 				m_renderer->SetViewport(m_storedVP);
 				m_renderer->SetTransform(m_storedMV);
 				m_renderer->SetProjection(m_storedProj);
@@ -196,6 +215,7 @@ namespace Graphics {
 
 		private:
 			Renderer *m_renderer;
+			RenderTarget *m_storedRT;
 			matrix4x4f m_storedProj;
 			matrix4x4f m_storedMV;
 			ViewportExtents m_storedVP;
@@ -206,7 +226,8 @@ namespace Graphics {
 		public:
 			MatrixTicket(Renderer *r) :
 				MatrixTicket(r, r->GetTransform())
-			{}
+			{
+			}
 
 			MatrixTicket(Renderer *r, const matrix4x4f &newMat) :
 				m_renderer(r)
@@ -229,7 +250,6 @@ namespace Graphics {
 		};
 
 		virtual bool Screendump(ScreendumpState &sd) { return false; }
-		virtual bool FrameGrab(ScreendumpState &sd) { return false; }
 
 		Stats &GetStats() { return m_stats; }
 

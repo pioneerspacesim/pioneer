@@ -1,6 +1,6 @@
 {
   "FLAVOUR_0_BODY": {
-    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC",
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC. It is formated as a list",
     "message": "Bara ring 36 24 36, jag är alltid hemma. Jag utför kontrakt:\n- betongskor\n- cyanid\n- Dynamit\n- Blodörn\n- Kontrakt\n- Högspänning\n... eller bara ring för ett trevligt samtal"
   },
   "FLAVOUR_0_DESC": {
@@ -22,5 +22,17 @@
   "FLAVOUR_1_TITLE": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",
     "message": "BEHÖVER DU NÅGON ATT VÄNDA DIG TILL?"
+  },
+  "FLAVOUR_2_BODY": {
+    "description": "A very rare easter egg, referencing a online myth from 90s: https://en.wikipedia.org/wiki/John_Titor",
+    "message": "Jag är John Titor från Time Travel Institute, från år 4036. Jag är på väg till 1975 för att hämta en IBM 5100-dator för att felsöka äldre datorprogram som inte har porterats ordentligt till min tids maskiner, men jag Jag stannar till här för att samla information om din tid innan den går förlorad i den stora olyckan.\n\nJag tänker återkomma med en beskrivning i sex delar om vad som behövs för att tidsmaskiner ska fungera. Kort sagt, min tidsmaskin är en stationär mass och tidsförskjutningsenhet, som drivs av två toppspin dubbel-positiva singulariteter som producerar en standardförskjuten tipler sinusoid. Förskjutningsenheten rör sig genom tiden, inte rummet.\n\nJag lägger gärna upp bilder på enheten på begäran."
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "Note: string has quotes",
+    "message": "'Om tidsresor är möjliga, var är alla tidsresenärer?'"
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "A very rare Easter egg, referencing Internet myth of John Titor.",
+    "message": "Folk från förr, akta er för den STORA UNDERGÅNGEN!"
   }
 }

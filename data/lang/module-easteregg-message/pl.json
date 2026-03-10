@@ -1,6 +1,6 @@
 {
   "FLAVOUR_0_BODY": {
-    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC",
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC. It is formated as a list",
     "message": "Zadzwoń pod 36 24 36, Jestem w zawsze w domu. Handluję:\n - Betonowymi butami,\n - Cyjankiem,\n - Dynamitem,\n - Krawatami,\n - Kontraktami,\n - Wysokim napięciem,\n\n ...albo po prostu pogadaj."
   },
   "FLAVOUR_0_DESC": {
@@ -22,5 +22,17 @@
   "FLAVOUR_1_TITLE": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",
     "message": "TRZEBA SIĘ ZA KOGOŚ ZABRAĆ?"
+  },
+  "FLAVOUR_2_BODY": {
+    "description": "A very rare easter egg, referencing a online myth from 90s: https://en.wikipedia.org/wiki/John_Titor",
+    "message": "Jestem John Titor z Time Travel Institute, z roku 4036. Wybieram się do 1975 roku, aby odebrać komputer IBM 5100, aby debugować starsze programy komputerowe, które nie zostały odpowiednio przeniesione do maszyn moich czasów, ale zatrzymuję się tutaj, aby zebrać informacje o twoim czasie, zanim zostanie utracony w wielkim nieszczęściu.\n\nZamierzam wrócić z sześcioczęściowym opisem na temat tego, co jest potrzebne do działania wehikułów czasu. Krótko mówiąc, mój wehikuł czasu jest stacjonarną, czasową jednostką przemieszczenia, zasilaną dwoma podwójnymi materiami białej energii, które wytwarzają standardowy sinusoid czasowy. Jednostka przemieszczenia porusza się w czasie, a nie przestrzeni.\n\nNa życzenie z przyjemnością opublikuję zdjęcia jednostki."
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "Note: string has quotes",
+    "message": "'Jeśli podróże w czasie są prawdziwe, to gdzie są wszyscy podróżnicy?'"
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "A very rare Easter egg, referencing Internet myth of John Titor.",
+    "message": "Ludzie przeszłości, przygotujcie się na WIELKIE NIESZCZĘŚCIA!"
   }
 }

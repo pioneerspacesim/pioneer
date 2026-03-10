@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 #include "BinaryConverter.h"
 #include "FileSystem.h"
@@ -7,10 +7,12 @@
 #include "Parser.h"
 #include "StringF.h"
 #include "core/LZ4Format.h"
+#include "graphics/Types.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/Label3D.h"
 #include "scenegraph/MatrixTransform.h"
 #include "scenegraph/Serializer.h"
+#include "scenegraph/Tag.h"
 #include "utils.h"
 
 extern "C" {
@@ -36,12 +38,12 @@ public:
 		db.model = m;
 	}
 
-	virtual void ApplyNode(Node &n) override
+	void ApplyNode(Node &n) override
 	{
 		n.Save(db);
 	}
 
-	virtual void ApplyGroup(Group &g) override
+	void ApplyGroup(Group &g) override
 	{
 		ApplyNode(static_cast<Node &>(g));
 		db.wr->Int32(g.GetNumChildren());
@@ -63,6 +65,7 @@ BinaryConverter::BinaryConverter(Graphics::Renderer *r) :
 	RegisterLoader("CollisionGeometry", &CollisionGeometry::Load);
 	RegisterLoader("Thruster", &Thruster::Load);
 	RegisterLoader("Label3D", &LoadLabel3D);
+	RegisterLoader("Tag", &Tag::Load);
 }
 
 void BinaryConverter::RegisterLoader(const std::string &typeName, std::function<Node *(NodeDatabase &)> func)
@@ -124,10 +127,21 @@ void BinaryConverter::Save(const std::string &filename, const std::string &savep
 
 	SaveAnimations(wr, m);
 
+	// save bounds
+	wr.Int32(m->m_bounds.size());
+	for(const RunTimeBoundDefinition& bdef : m->m_bounds) {
+		wr.Int16(bdef.boundDef.type);
+		wr.String(bdef.boundDef.forBound);
+		wr.String(bdef.boundDef.startTag);
+		wr.String(bdef.boundDef.endTag);
+		wr.Float(static_cast<float>(bdef.boundDef.radius));
+	}
+
 	//save tags
 	wr.Int32(m->GetNumTags());
 	for (unsigned int i = 0; i < m->GetNumTags(); i++)
 		wr.String(m->GetTagByIndex(i)->GetName().c_str());
+
 
 	// compress in memory, write to open file
 	size_t outSize = 0;
@@ -135,11 +149,11 @@ void BinaryConverter::Save(const std::string &filename, const std::string &savep
 	try {
 		std::string compressedData = lz4::CompressLZ4(data, 6);
 		outSize = compressedData.size();
-		Output("Compressed model (%s): %.2f KB -> %.2f KB\n", filename.c_str(), data.size() / 1024.f, outSize / 1024.f);
+		Output("Compressed model (%s): %.1f%% (%.2f KB -> %.2f KB)\n", filename.c_str(), outSize / float(data.size()) * 100.f, data.size() / 1024.f, outSize / 1024.f);
 		fwrite(compressedData.data(), outSize, 1, f);
 		fclose(f);
 	} catch (std::runtime_error &e) {
-		Warning("Error saving SGM model: %s\n", e.what());
+		Log::Error("Error saving SGM model: {}\n", e.what());
 		throw CouldNotWriteToFileException();
 	}
 }
@@ -162,7 +176,7 @@ Model *BinaryConverter::Load(const std::string &name, RefCountedPtr<FileSystem::
 			Serializer::Reader rd(ByteRange(decompressedData.data(), decompressedData.size()));
 			model = CreateModel(name, rd);
 		} catch (std::runtime_error &e) {
-			Warning("Error loading SGM model: %s\n", e.what());
+			Log::Error("Error loading SGM model: {}\n", e.what());
 		}
 	} else {
 		void *pDecompressedData;
@@ -178,7 +192,7 @@ Model *BinaryConverter::Load(const std::string &name, RefCountedPtr<FileSystem::
 			model = CreateModel(name, rd);
 			mz_free(pDecompressedData);
 		} else {
-			Error("BinaryConverter failed to load old-style SGM called: %s", name.c_str());
+			Log::Warning("BinaryConverter failed to load old-style SGM called: {}\n", name.c_str());
 		}
 	}
 
@@ -222,19 +236,21 @@ Model *BinaryConverter::CreateModel(const std::string &filename, Serializer::Rea
 	//verify signature
 	const Uint32 sig = rd.Int32();
 	if (sig != SGM_STRING_ID.value) { //'SGM#'
-		Warning("Error whilst loading %s\nSGM versioning (%u) did not match the supported SGM STRING ID (%u)\nSGM file will be ignored\n", filename.c_str(), sig, SGM_STRING_ID.value);
+		Log::Warning("Error whilst loading {}\nSGM versioning ({}) did not match the supported SGM STRING ID ({})\nSGM file will be ignored\n", filename.c_str(), sig, SGM_STRING_ID.value);
 		return nullptr;
 	}
 
 	const Uint32 version = rd.Int32();
 	if (version != SGM_VERSION) {
-		Warning("Error whilst loading %s\nSGM versioning (%u) did not match the supported SGM_VERSION (%u)\nSGM file will be ignored\n", filename.c_str(), version, SGM_VERSION);
+		Log::Warning("Error whilst loading {}\nSGM versioning ({}) did not match the supported SGM_VERSION ({})\nSGM file will be ignored\n", filename.c_str(), version, SGM_VERSION);
 		return nullptr;
 	}
 
 	const std::string modelName = rd.String();
 
 	m_model = new Model(m_renderer, modelName);
+
+	m_modelDef = new ModelDefinition();
 
 	m_patternsUsed = false;
 	LoadMaterials(rd);
@@ -250,9 +266,26 @@ Model *BinaryConverter::CreateModel(const std::string &filename, Serializer::Rea
 
 	LoadAnimations(rd);
 
+	// load bounds
+	const int num_bounds = rd.Int32();
+	for(int i = 0; i < num_bounds; i++) {
+		BoundDefinition bdef;
+		bdef.type = static_cast<BoundDefinition::Type>(rd.Int16());
+		bdef.forBound = rd.String();
+		bdef.startTag = rd.String();
+		bdef.endTag = rd.String();
+		bdef.radius = static_cast<double>(rd.Float());
+		m_model->m_bounds.push_back(RunTimeBoundDefinition(m_model, bdef));
+	}
+
+	// TODO: load tags? They are saved in BinaryConverter::Save, but
+	// should be loaded with the model itself...
+
 	m_model->InitAnimations();
 	//m_model->CreateCollisionMesh();
 	if (m_patternsUsed) SetUpPatterns();
+
+	m_model->UpdateTagTransforms();
 
 	return m_model;
 }
@@ -262,17 +295,18 @@ void BinaryConverter::SaveMaterials(Serializer::Writer &wr, Model *model)
 	PROFILE_SCOPED()
 	//Look for the .model definition and parse it
 	//for material definitions
-	const ModelDefinition &modelDef = FindModelDefinition(model->GetName());
+	std::unique_ptr<const ModelDefinition> modelDef(FindModelDefinition(model->GetName()));
 
-	wr.Int32(modelDef.matDefs.size());
+	wr.Int32(modelDef->matDefs.size());
 
-	for (const auto &m : modelDef.matDefs) {
+	for (const auto &m : modelDef->matDefs) {
 		wr.String(m.name);
-		wr.String(m.tex_diff);
-		wr.String(m.tex_spec);
-		wr.String(m.tex_glow);
-		wr.String(m.tex_ambi);
-		wr.String(m.tex_norm);
+		wr.String(m.shader);
+		wr.Int32(m.textureBinds.size());
+		for (const auto &bind : m.textureBinds) {
+			wr.String(bind.first);
+			wr.String(bind.second);
+		}
 		wr.Color4UB(m.diffuse);
 		wr.Color4UB(m.specular);
 		wr.Color4UB(m.ambient);
@@ -281,21 +315,33 @@ void BinaryConverter::SaveMaterials(Serializer::Writer &wr, Model *model)
 		wr.Int16(m.opacity);
 		wr.Bool(m.alpha_test);
 		wr.Bool(m.unlit);
-		wr.Bool(m.use_pattern);
+		wr.Bool(m.use_patterns);
+		wr.Int16(m.renderState.blendMode);
+		wr.Int16(m.renderState.cullMode);
+		wr.Bool(m.renderState.depthTest);
+		wr.Bool(m.renderState.depthWrite);
+		wr.Bool(m.renderState.scissorTest);
+		// PrimitiveType is always Triangles
 	}
+
 }
 
 void BinaryConverter::LoadMaterials(Serializer::Reader &rd)
 {
 	PROFILE_SCOPED()
 	for (Uint32 numMats = rd.Int32(); numMats > 0; numMats--) {
-		MaterialDefinition m("");
+		MaterialDefinition m = {};
+
 		m.name = rd.String();
-		m.tex_diff = rd.String();
-		m.tex_spec = rd.String();
-		m.tex_glow = rd.String();
-		m.tex_ambi = rd.String();
-		m.tex_norm = rd.String();
+		m.shader = rd.String();
+		uint32_t numTex = rd.Int32();
+
+		for (uint32_t i = 0; i < numTex; i++) {
+			std::string binding = rd.String();
+			std::string path = rd.String();
+			m.textureBinds.push_back({ binding, path });
+		}
+
 		m.diffuse = rd.Color4UB();
 		m.specular = rd.Color4UB();
 		m.ambient = rd.Color4UB();
@@ -304,11 +350,17 @@ void BinaryConverter::LoadMaterials(Serializer::Reader &rd)
 		m.opacity = rd.Int16();
 		m.alpha_test = rd.Bool();
 		m.unlit = rd.Bool();
-		m.use_pattern = rd.Bool();
+		m.use_patterns = rd.Bool();
 
-		if (m.use_pattern) m_patternsUsed = true;
+		m.renderState.blendMode = Graphics::BlendMode(rd.Int16());
+		m.renderState.cullMode = Graphics::FaceCullMode(rd.Int16());
+		m.renderState.depthTest = rd.Bool();
+		m.renderState.depthWrite = rd.Bool();
+		m.renderState.scissorTest = rd.Bool();
 
-		ConvertMaterialDefinition(m);
+		if (m.use_patterns) m_patternsUsed = true;
+
+		m_modelDef->matDefs.emplace_back(std::move(m));
 	}
 }
 
@@ -378,42 +430,25 @@ void BinaryConverter::LoadAnimations(Serializer::Reader &rd)
 	}
 }
 
-ModelDefinition BinaryConverter::FindModelDefinition(const std::string &shortname)
+ModelDefinition *BinaryConverter::FindModelDefinition(const std::string &shortname)
 {
 	PROFILE_SCOPED()
 	const std::string basepath = "models";
 
-	FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
-	for (FileSystem::FileEnumerator files(fileSource, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
-		const FileSystem::FileInfo &info = files.Current();
-		const std::string &fpath = info.GetPath();
+	for (const FileSystem::FileInfo &info : FileSystem::gameDataFiles.Recurse(basepath)) {
+		const std::string filename = shortname + ".model";
 
-		//check it's the expected type
-		if (info.IsFile() && ends_with_ci(fpath, ".model")) {
-			//check it's the wanted name & load it
-			const std::string name = info.GetName();
+		//check it's the wanted name & load it
+		if (info.IsFile() && info.GetName() == filename) {
+			ModelDefinition *model = LoadModelDefinition(info.GetPath());
 
-			if (shortname == name.substr(0, name.length() - 6)) {
-				ModelDefinition modelDefinition;
-				try {
-					//curPath is used to find textures, patterns,
-					//possibly other data files for this model.
-					//Strip trailing slash
-					m_curPath = info.GetDir();
-					assert(!m_curPath.empty());
-					if (m_curPath[m_curPath.length() - 1] == '/')
-						m_curPath = m_curPath.substr(0, m_curPath.length() - 1);
+			if (!model)
+				throw LoadingError(fmt::format("Could not load model file {}.", info.GetPath()));
 
-					Parser p(fileSource, fpath, m_curPath);
-					p.Parse(&modelDefinition);
-					return modelDefinition;
-				} catch (ParseError &err) {
-					Output("%s\n", err.what());
-					throw LoadingError(err.what());
-				}
-			}
+			return model;
 		}
 	}
+
 	throw(LoadingError("File not found"));
 }
 
@@ -442,7 +477,7 @@ Node *BinaryConverter::LoadNode(Serializer::Reader &rd)
 
 	//register tag nodes
 	if (nflags & NODE_TAG)
-		m_model->m_tags.push_back(static_cast<MatrixTransform *>(node));
+		m_model->m_tags.push_back(static_cast<Tag *>(node));
 
 	node->SetName(nname);
 	node->SetNodeMask(nmask);

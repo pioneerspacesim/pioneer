@@ -1,8 +1,10 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelNode.h"
 #include "Model.h"
+#include "graphics/Renderer.h"
+#include "profiler/Profiler.h"
 
 namespace SceneGraph {
 
@@ -32,13 +34,13 @@ namespace SceneGraph {
 		m_model->Render(trans, &newrd);
 	}
 
-	void ModelNode::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
+	void ModelNode::RenderInstanced(const std::vector<matrix4x4f> &trans, const RenderData *rd)
 	{
 		PROFILE_SCOPED()
 		//slight hack here
 		RenderData newrd = *rd;
 		newrd.nodemask |= MASK_IGNORE;
-		m_model->Render(trans, &newrd);
+		m_model->RenderInstanced(m_renderer->GetTransform(), trans, &newrd);
 	}
 
 } // namespace SceneGraph

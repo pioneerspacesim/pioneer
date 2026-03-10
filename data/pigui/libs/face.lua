@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -14,7 +14,8 @@ local colors = ui.theme.colors
 local icons = ui.theme.icons
 local orbiteer = ui.fonts.orbiteer
 local noSavedSettings = ui.WindowFlags {"NoSavedSettings"}
-local charInfoFlags = ui.WindowFlags {"AlwaysUseWindowPadding", "NoScrollbar", "NoSavedSettings"}
+local useWindowPadding = ui.ChildFlags { 'AlwaysUseWindowPadding' }
+local charInfoFlags = ui.WindowFlags { "NoScrollbar", "NoSavedSettings", "NoScrollWithMouse"}
 
 local ensureCharacter = function (character)
 	if not (character and (type(character)=='table') and getmetatable(character) and (getmetatable(character).class == 'Character'))
@@ -44,7 +45,7 @@ end
 
 local PiGuiFace = {}
 
-function PiGuiFace.New (character, style, allowModification)
+function PiGuiFace.New (character, style, drawButtons)
 	character = ensureCharacter(character)
 	style = style or {}
 	character.faceDescription = character.faceDescription or rerollFaceDesc {
@@ -56,7 +57,7 @@ function PiGuiFace.New (character, style, allowModification)
 	local piguiFace = {
 		faceGen = faceTexGen,
 		character = character,
-		allowModification = allowModification,
+		drawButtons = drawButtons,
 		style = {
 			size = style.size or nil,
 			itemSpacing = style.itemSpacing or ui.rescaleUI(Vector2(6, 12), Vector2(1600, 900)),
@@ -104,38 +105,62 @@ function PiGuiFace:changeFeature(featureId, amt, callback)
 	self.faceGen = FaceTextureGenerator.New(char.faceDescription, char.seed)
 end
 
-local pigui = Engine.pigui
-local buttonSize = ui.rescaleUI(Vector2(36, 36))
-local iconSize = ui.rescaleUI(Vector2(36, 36))
+local font = ui.fonts.pionillium.medium
+local iconSize = ui.theme.styles.MainButtonSize
+local buttonSize = iconSize
 
 local function faceGenButton(self, feature)
+	local bg_variant = ui.theme.buttonColors.transparent
+	local icon_size = ui.theme.styles.MainButtonSize
 
-	if ui.button('<##' .. feature.id, buttonSize) then
-		self:changeFeature(feature.id, -1, feature.callback)
-	end
-	ui.sameLine()
+	ui.withStyleColors({ Text = colors.fontDark }, function()
+		ui.withID(feature.id, function()
+			if ui.iconButton("<<", ui.theme.icons.decrease_1, nil, bg_variant, icon_size) then
+				self:changeFeature(feature.id, -1, feature.callback)
+			end
 
-	pigui.PushID(feature.id)
-	ui.icon(feature.icon, iconSize, colors.white)
-	pigui.PopID()
-	if pigui.IsItemHovered() then pigui.SetTooltip(feature.tooltip) end
+			ui.sameLine()
 
-	ui.sameLine()
-	if ui.button('>##' .. feature.id, buttonSize) then
-		self:changeFeature(feature.id, 1, feature.callback)
-	end
+			ui.icon(feature.icon, icon_size, colors.white)
 
+			ui.sameLine()
+
+			if ui.iconButton(">>", ui.theme.icons.increase_1, nil, bg_variant, icon_size) then
+				self:changeFeature(feature.id, 1, feature.callback)
+			end
+		end)
+	end)
 end
 
-local facegenSpacing = ui.rescaleUI(Vector2(18, 6))
-local facegenSize = Vector2(buttonSize.x * 2 + iconSize.x + facegenSpacing.x * 2, 0)
-local buttonSpaceSize = Vector2(facegenSpacing.x * 2 + buttonSize.x * 2 + iconSize.x, iconSize.y)
-local inputTextPadding = ui.rescaleUI(Vector2(12, 12))
+local facegenSpacing = Vector2(font.size * 0.3, font.size * 0.3)
+local facegenSize = Vector2(buttonSize.x * 2 + iconSize.x + facegenSpacing.x * 2, (buttonSize.y + facegenSpacing.y) * (#faceFeatures + 1) - facegenSpacing.y)
+local inputTextPadding = ui.rescaleUI(Vector2(18, 18))
+
+function PiGuiFace:renderFaceGenButtons(can_random)
+	local char = self.character
+	ui.withStyleVars({ItemSpacing = facegenSpacing}, function()
+		local numFeatures = #faceFeatures
+		if can_random then numFeatures = numFeatures + 1 end
+		facegenSize.y = (buttonSize.y + facegenSpacing.y) * numFeatures - facegenSpacing.y
+		ui.child("FaceGen", facegenSize, nil, {'AlwaysAutoResize','AutoResizeX','AutoResizeY'}, function()
+			for _, v in ipairs(faceFeatures) do
+				faceGenButton(self, v)
+			end
+
+			local icon_size = ui.theme.styles.MainButtonSize
+			local size = Vector2(icon_size.x * 3 + facegenSpacing.x * 2, icon_size.y)
+
+			if can_random and ui.iconButton("Randomize", icons.random, l.RANDOM_FACE, nil, size) then
+				char.faceDescription = rerollFaceDesc(char.faceDescription)
+				self.faceGen = FaceTextureGenerator.New(char.faceDescription, char.seed)
+			end
+		end)
+	end)
+end
 
 function PiGuiFace:render()
 	local char = self.character
-
-	if not self.allowModification then
+	if not self.drawButtons then
 		self:renderFaceDisplay()
 		return
 	end
@@ -145,7 +170,7 @@ function PiGuiFace:render()
 			ui.withStyleVars({FramePadding = inputTextPadding}, function()
 
 				ui.pushItemWidth(ui.getColumnWidth())
-				local text, entered = ui.inputText("", char.name, {})
+				local text, entered = ui.inputText("##name", char.name, {})
 
 				if entered then
 					char.name = text
@@ -157,30 +182,23 @@ function PiGuiFace:render()
 		local lastPos = ui.getCursorPos()
 		local itemSpacing = self.style.itemSpacing
 
-		ui.child("Face", Vector2(ui.getColumnWidth() - (facegenSize.x + itemSpacing.x), 0), {}, function()
+		ui.child("Face", Vector2(ui.getColumnWidth() - (facegenSize.x + itemSpacing.x), 0), function()
 			self:renderFaceDisplay()
 		end)
 
 		ui.setCursorPos(lastPos)
 		ui.sameLine(0, itemSpacing.x)
 
-		ui.withStyleVars({ItemSpacing = facegenSpacing}, function()
-			ui.child("FaceGen", facegenSize, {}, function()
-				for _, v in ipairs(faceFeatures) do
-					faceGenButton(self, v)
-				end
+		self:renderFaceGenButtons(true)
 
-				if (ui.iconButton(icons.random, buttonSpaceSize, l.RANDOM_FACE, nil, nil, 0, iconSize)) then
-					char.faceDescription = rerollFaceDesc(char.faceDescription)
-					self.faceGen = FaceTextureGenerator.New(char.faceDescription, char.seed)
-				end
-			end)
-		end)
 	end)
 end
 
-function PiGuiFace:renderFaceDisplay()
+function PiGuiFace.getFaceGenButtonsSize()
+	return facegenSize
+end
 
+function PiGuiFace:renderFaceDisplay ()
 	local lastPos = ui.getCursorPos()
 	local region = self.style.size or ui.getContentRegion()
 	local size = math.min(region.x, region.y)
@@ -194,7 +212,7 @@ function PiGuiFace:renderFaceDisplay()
 
 		ui.withStyleColorsAndVars({ChildBg = self.style.charInfoBgColor}, styles, function ()
 
-			ui.child("PlayerInfoDetails", Vector2(size, self.style.charInfoHeight), charInfoFlags, function ()
+			ui.child("PlayerInfoDetails", Vector2(size, self.style.charInfoHeight), charInfoFlags, useWindowPadding, function ()
 				ui.withFont(self.style.nameFont.name, self.style.nameFont.size, function()
 					ui.text(self.character.name)
 				end)

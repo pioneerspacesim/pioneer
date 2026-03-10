@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SECTOR_H
@@ -9,7 +9,8 @@
 #include "galaxy/CustomSystem.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/SystemPath.h"
-#include "libs.h"
+
+#include <sigc++/signal.h>
 #include <string>
 #include <vector>
 
@@ -89,13 +90,15 @@ public:
 		}
 		SystemPath GetPath() const { return SystemPath(sx, sy, sz, idx); }
 
-		const int sx, sy, sz;
-		const Uint32 idx;
+		// Don't modify these after Sector generation stage
+		int sx, sy, sz;
+		Uint32 idx;
 
 	private:
 		friend class Sector;
 		friend class SectorCustomSystemsGenerator;
 		friend class SectorRandomSystemsGenerator;
+		friend class SectorOverrideSystemsGenerator;
 		friend class SectorPersistenceGenerator;
 
 		void AssignFaction() const;

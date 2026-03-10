@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SCENEGRAPH_BINARYCONVERTER_H
@@ -38,7 +38,10 @@ namespace SceneGraph {
 	// 6:	32-bit indicies
 	// 6.1:	rewrote serialization, use lz4 compression instead of INFLATE/DEFLATE. Still compatible.
 	// 6.2: ignored StaticGeometry::m_blendMode in files. Still write blank value.
-	constexpr Uint32 SGM_VERSION = 6;
+	// 7:   Added discrete Tag node, tags are registered in the model hierarchy instead of at the root.
+	// 8:	Save model bound metadata
+	// 9:	Improved material handling
+	constexpr Uint32 SGM_VERSION = 9;
 
 	class BinaryConverter : public BaseLoader {
 	public:
@@ -59,7 +62,7 @@ namespace SceneGraph {
 		void LoadMaterials(Serializer::Reader &);
 		void SaveAnimations(Serializer::Writer &, Model *m);
 		void LoadAnimations(Serializer::Reader &);
-		ModelDefinition FindModelDefinition(const std::string &);
+		ModelDefinition *FindModelDefinition(const std::string &);
 
 		Node *LoadNode(Serializer::Reader &);
 		//this is a very simple loader so it's implemented here

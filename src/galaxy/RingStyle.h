@@ -1,8 +1,11 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _RINGSTYLE_H
 #define _RINGSTYLE_H
+
+#include "Color.h"
+#include "fixed.h"
 
 struct RingStyle {
 	// note: radius values are given as proportions of the planet radius

@@ -1,7 +1,7 @@
 {
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "ENGINE SERVICING"
+    "message": "Επιθεώρηση (σέρβις) κινητήρα."
   },
   "FLAVOUR_0_INTRO": {
     "description": "",
@@ -25,7 +25,7 @@
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "HYPERDRIVE MAINTENANCE"
+    "message": "Συντήρηση υπερκινητήρα"
   },
   "FLAVOUR_1_INTRO": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "SHIP HYPER-MECHANICS"
+    "message": "Μηχανικοί υπερκινητήρων"
   },
   "FLAVOUR_2_INTRO": {
     "description": "",
@@ -73,7 +73,7 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "HYPERDRIVE MAINTENANCE"
+    "message": "Συντήρηση υπερκινητήρα"
   },
   "FLAVOUR_3_INTRO": {
     "description": "",
@@ -97,7 +97,7 @@
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "ENGINE SERVICING"
+    "message": "Επιθεώρηση (σέρβις) κινητήρα."
   },
   "FLAVOUR_4_INTRO": {
     "description": "",
@@ -121,7 +121,7 @@
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "HYPERDRIVE SERVICE"
+    "message": "Επιθεώρηση υπερκινητήρα"
   },
   "FLAVOUR_5_INTRO": {
     "description": "",

@@ -1,20 +1,16 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "EnumStrings.h"
 #include "Frame.h"
-#include "Pi.h"
-#include "Planet.h"
-#include "Player.h"
 #include "Ship.h"
 #include "ShipAICmd.h"
 #include "Space.h"
 #include "SpaceStation.h"
-#include "libs.h"
-#include "lua/LuaConstants.h"
 #include "lua/LuaEvent.h"
-#include "perlin.h"
-#include "ship/Propulsion.h"
+#include "ship/GunManager.h"
+
+#include "profiler/Profiler.h"
 
 // returns true if command is complete
 bool Ship::AITimeStep(float timeStep)
@@ -25,12 +21,11 @@ bool Ship::AITimeStep(float timeStep)
 
 	m_decelerating = false;
 	if (!m_curAICmd) {
-		if (this == Pi::player) return true;
+		if (this->IsType(ObjectType::PLAYER)) return true;
 
 		// just in case the AI left it on
 		ClearThrusterState();
-		for (int i = 0; i < Guns::GUNMOUNT_MAX; i++)
-			SetGunState(i, 0);
+		m_gunManager->SetAllGroupsFiring(false);
 		return true;
 	}
 

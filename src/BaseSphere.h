@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _BASESPHERE_H
@@ -26,12 +26,12 @@ public:
 	virtual void Update() = 0;
 	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) = 0;
 
-	virtual double GetHeight(const vector3d &p) const { return 0.0; }
+	virtual double GetTerrainHeight(const vector3d &p) const = 0;
 
-	static void Init();
+	static void Init(Graphics::Renderer *renderer);
 	static void Uninit();
 	static void UpdateAllBaseSphereDerivatives();
-	static void OnChangeDetailLevel();
+	static void OnChangeDetailLevel(Graphics::Renderer *renderer);
 
 	void DrawAtmosphereSurface(Graphics::Renderer *renderer,
 		const matrix4x4d &modelView, const vector3d &campos, float rad,
@@ -48,21 +48,25 @@ public:
 	RefCountedPtr<Graphics::Material> GetSurfaceMaterial() const { return m_surfaceMaterial; }
 
 protected:
+	virtual void SetUpMaterials() = 0;
+
+	// set up shader data for this geosphere's atmosphere
+	void SetMaterialParameters(const matrix4x4d &t, const float r, const std::vector<Camera::Shadow> &s, const AtmosphereParameters &ap);
+
 	const SystemBody *m_sbody;
 
 	// all variables for GetHeight(), GetColor()
 	RefCountedPtr<Terrain> m_terrain;
 
-	virtual void SetUpMaterials() = 0;
-
 	RefCountedPtr<Graphics::Material> m_surfaceMaterial;
 	RefCountedPtr<Graphics::Material> m_atmosphereMaterial;
 
-	// set up shader data for this geosphere's atmosphere
-	void SetMaterialParameters(const matrix4x4d &t, const float r, const std::vector<Camera::Shadow> &s, const AtmosphereParameters &ap);
-
 	// atmosphere geometry
-	std::unique_ptr<Graphics::Drawables::Sphere3D> m_atmos;
+	static std::unique_ptr<Graphics::Drawables::Sphere3D> m_atmos; // always created with the same parameters so can be shared by all atmospheres
+	AtmosphereParameters m_atmosphereParameters;
+
+private:
+	static void ResetAtmosphereGeometry(Graphics::Renderer *renderer);
 };
 
 #endif /* _GEOSPHERE_H */

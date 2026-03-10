@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _REFCOUNTED_H
@@ -12,7 +12,7 @@ class RefCounted : public LuaWrappable {
 public:
 	RefCounted() :
 		m_refCount(0) {}
-	virtual ~RefCounted() {}
+	~RefCounted() override {}
 
 	inline void IncRefCount() const { ++m_refCount; }
 	inline void DecRefCount() const

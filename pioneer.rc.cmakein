@@ -4,13 +4,13 @@ AppIcon ICON DISCARDABLE "@CMAKE_SOURCE_DIR@/application-icon/pioneer.ico"
 LANGUAGE LANG_ENGLISH, SUBLANG_DEFAULT
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION @PROJECT_VERSION@
+FILEVERSION @BUILD_DATE@
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
         BLOCK "040904E4"
         BEGIN
-            VALUE "FileVersion",        "@PROJECT_VERSION@"
+            VALUE "FileVersion",        "@BUILD_DATE@"
             VALUE "CompanyName",        "Pioneer developers"
             VALUE "FileDescription",    "Pioneer Space Simulator"
             VALUE "InternalName",       "Pioneer"
@@ -18,7 +18,7 @@ BEGIN
             VALUE "LegalTrademarks",    "https://www.gnu.org/licenses/gpl-3.0.en.html"
             VALUE "OriginalFilename",   "pioneer.exe"
             VALUE "ProductName",        "Pioneer"
-            VALUE "ProductVersion",     "@PROJECT_VERSION@"
+            VALUE "ProductVersion",     "@PIONEER_VERSION@"
         END
     END
 

@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -13,17 +13,15 @@ local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
 local NameGen = require 'NameGen'
-local Equipment = require 'Equipment'
-local ShipDef = require 'ShipDef'
-local Ship = require 'Ship'
 local utils = require 'utils'
+local PlayerState = require 'PlayerState'
+
+local MissionUtils = require 'modules.MissionUtils'
+local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
 
 local l = Lang.GetResource("module-combat")
 local lc = Lang.GetResource 'core'
 
--- typical time for travel to a planet in a system 1ly away and back
-local typical_hyperspace_time = 2 * 24 * 60 * 60
-local typical_travel_time = 24 * 24 * 60 *60
 -- typical reward for a mission to a system 1ly away
 local typical_reward = 100
 
@@ -113,7 +111,7 @@ local onChat = function (form, ref, option)
 			sectorx = ad.location.sectorX,
 			sectory = ad.location.sectorY,
 			sectorz = ad.location.sectorZ,
-			mission = l["MISSION_TYPE_" .. math.ceil(ad.dedication * NUMSUBTYPES)],
+			mission = l["MISSION_TYPE_CONVO_" .. math.ceil(ad.dedication * NUMSUBTYPES)],
 			dist    = string.format("%.2f", ad.dist),
 		})
 		form:SetMessage(introtext)
@@ -135,7 +133,8 @@ local onChat = function (form, ref, option)
 		end
 
 	elseif option == 5 then
-		if not Game.player:GetEquip('radar', 1) then
+		local radar = Game.player:GetComponent("EquipSet"):GetInstalledOfType("sensor.radar")[1]
+		if not radar then
 			form:SetMessage(l.RADAR_NOT_INSTALLED)
 			form:RemoveNavButton()
 			return
@@ -146,8 +145,10 @@ local onChat = function (form, ref, option)
 			type        = "Combat",
 			client      = ad.client,
 			faction     = Game.system.faction.id,
+			factionName = Game.system.faction.name,
 			org         = ad.org,
 			location    = ad.location,
+			destination = ad.location,
 			rendezvous  = ad.rendezvous,
 			mercenaries = {},
 			introtext   = ad.introtext,
@@ -160,15 +161,21 @@ local onChat = function (form, ref, option)
 			bonus       = -(math.ceil(ad.dedication * 3) - 1),
 			due         = ad.due,
 		}
-		table.insert(missions,Mission.New(mission))
+		mission = Mission.New(mission)
+		table.insert(missions, mission)
+		MissionUtils.SetupOverdueTimer(mission)
 		form:SetMessage(l["ACCEPTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("ACCEPTED"))])
 		return
+
+	elseif option == 6 then
+		form:SetMessage(l.YOU_NEED_A_RADAR)
 	end
 
 	form:AddOption(l.WHAT_ARE_THE_MISSION_OBJECTIVES, 1)
 	form:AddOption(l.WILL_I_BE_IN_TROUBLE, 2)
 	form:AddOption(l.IS_THERE_A_TIME_LIMIT, 3)
 	form:AddOption(l.HOW_WILL_I_BE_PAID, 4)
+	form:AddOption(l.DO_I_NEED_SPECIAL_EQUIPMENT, 6)
 	form:AddOption(l.PLEASE_REPEAT_THE_MISSION_DETAILS, 0)
 	form:AddOption(l.OK_AGREED, 5)
 end
@@ -220,7 +227,7 @@ local placeAdvert = function (station, ad)
 end
 
 local makeAdvert = function (station)
-	local flavour, location, dist, reward, due, org
+	local flavour, location, dist, reward, due, org, time, timeout
 	local risk = Engine.rand:Number(0.2, 1)
 	local dedication = Engine.rand:Number(0.1, 1)
 	local urgency = Engine.rand:Number(1)
@@ -240,7 +247,10 @@ local makeAdvert = function (station)
 	dist = location:DistanceTo(Game.system)
 	reward = math.ceil(dist * typical_reward * (1 + dedication)^2 * (1 + risk) * (1 + urgency) * Engine.rand:Number(0.8, 1.2))
 	reward = utils.round(reward, 100)
-	due = Game.time + typical_travel_time * Engine.rand:Number(0.9, 1.1) + dist * typical_hyperspace_time * (1.5 - urgency) * Engine.rand:Number(0.9, 1.1)
+	time = Engine.rand:Number(21*24*60*60, 28*24*60*60)
+	due = time + MissionUtils.TravelTime(dist, location) * 2 * (1.5 - urgency)
+	timeout = due/2 + Game.time -- timeout after half of the travel time
+	due = utils.round(due + Game.time, 3600)
 
 	if Engine.rand:Number(1) > 0.5 then
 		local nearbysystems = location:GetStarSystem():GetNearbySystems(10)
@@ -267,6 +277,7 @@ local makeAdvert = function (station)
 		urgency     = urgency,
 		reward      = reward,
 		due         = due,
+		timeout     = timeout,
 	}
 
 	placeAdvert(station, ad)
@@ -281,13 +292,26 @@ end
 
 local onUpdateBB = function (station)
 	for ref, ad in pairs(ads) do
-		if ad.due < Game.time + 5*60*60*24 then -- five day timeout
+		if ad.timeout < Game.time then
 			ad.station:RemoveAdvert(ref)
 		end
 	end
 	if Engine.rand:Integer(4*24*60*60) < 60*60 then -- roughly once every four days
 		makeAdvert(station)
 	end
+end
+
+local setReturnLocation = function (mission)
+		if mission.rendezvous then
+			mission.destination = mission.rendezvous
+		else
+			if mission.flavour.is_multi then
+				mission.destination = mission.org .. "\n-"
+			else
+				mission.destination = mission.org .. "\n" .. mission.factionName
+			end
+		end
+		mission.status = "PENDING_RETURN"
 end
 
 local onShipDestroyed = function (ship, attacker)
@@ -299,7 +323,7 @@ local onShipDestroyed = function (ship, attacker)
 				table.remove(mission.mercenaries, i)
 				if not mission.complete and (#mission.mercenaries == 0 or mission.dedication <= ARMEDRECON) then
 					mission.complete = true
-					mission.status = "COMPLETED"
+					setReturnLocation(mission)
 					Comms.ImportantMessage(l.MISSION_COMPLETE)
 				end
 				if attacker and attacker:isa("Ship") and attacker:IsPlayer() then
@@ -316,7 +340,7 @@ local missionTimer = function (mission)
 		if mission.complete or Game.time > mission.due then return true end -- already complete or too late
 		if Game.player.frameBody and Game.player.frameBody.path == mission.location then
 			mission.complete = true
-			mission.status = "COMPLETED"
+			setReturnLocation(mission)
 			Comms.ImportantMessage(l.MISSION_COMPLETE)
 			return true
 		else
@@ -343,45 +367,26 @@ local onFrameChanged = function (player)
 
 			if ships < 1 and Engine.rand:Integer(math.ceil(1/mission.risk)) == 1 then ships = 1 end
 
-			local shipdefs = utils.build_array(utils.filter(
-				function (k,def)
-					return def.tag == "SHIP" and def.hyperdriveClass > 0 and def.equipSlotCapacity.laser_front > 0 and def.roles[mission.flavour.enemy]
-				end,
-				pairs(ShipDef)))
-			if #shipdefs == 0 then ships = 0 end
-
 			while ships > 0 do
 				ships = ships - 1
 
 				if Engine.rand:Number(1) <= mission.risk then
-					local shipdef = shipdefs[Engine.rand:Integer(1, #shipdefs)]
-					local default_drive = Equipment.hyperspace["hyperdrive_" .. tostring(shipdef.hyperdriveClass)]
 
-					local max_laser_size = shipdef.capacity - default_drive.capabilities.mass
-					local laserdefs = utils.build_array(utils.filter(
-						function (k,l)
-							return l:IsValidSlot("laser_front") and l.capabilities.mass <= max_laser_size and l.l10n_key:find("PULSECANNON")
-						end,
-						pairs(Equipment.laser)
-					))
-					local laserdef = laserdefs[Engine.rand:Integer(1, #laserdefs)]
+					local threat = 10 + mission.risk * 40.0
+
+					local template = MissionUtils.ShipTemplates.GenericMercenary:clone {
+						role = mission.flavour.enemy
+					}
 
 					local ship
 					if mission.location:GetSystemBody().type == "PLANET_GAS_GIANT" then
-						ship = Space.SpawnShipOrbit(shipdef.id, player.frameBody, 1.2 * planet_radius, 3.5 * planet_radius)
+						ship = ShipBuilder.MakeShipOrbit(player.frameBody, template, threat, 1.2 * planet_radius, 3.5 * planet_radius)
 					else
-						ship = Space.SpawnShipLanded(shipdef.id, player.frameBody, math.rad(Engine.rand:Number(360)), math.rad(Engine.rand:Number(360)))
+						ship = ShipBuilder.MakeShipLanded(player.frameBody, template, threat, math.rad(Engine.rand:Number(360)), math.rad(Engine.rand:Number(360)))
 					end
-					ship:SetLabel(Ship.MakeRandomLabel())
-					ship:AddEquip(default_drive)
-					ship:AddEquip(laserdef)
-					ship:AddEquip(Equipment.misc.shield_generator, math.ceil(mission.risk * 3))
-					if Engine.rand:Number(2) <= mission.risk then
-						ship:AddEquip(Equipment.misc.laser_cooling_booster)
-					end
-					if Engine.rand:Number(3) <= mission.risk then
-						ship:AddEquip(Equipment.misc.shield_energy_booster)
-					end
+
+					assert(ship)
+
 					table.insert(mission.mercenaries, ship)
 					ship:AIEnterLowOrbit(Space.GetBody(mission.location.bodyIndex))
 				end
@@ -404,9 +409,6 @@ local onFrameChanged = function (player)
 				Comms.ImportantMessage(l.TARGET_AREA_REACHED)
 			end
 		end
-		if mission.status == "ACTIVE" and Game.time > mission.due then
-			mission.status = "FAILED"
-		end
 	end
 end
 
@@ -418,12 +420,12 @@ local finishMission = function (ref, mission)
 	elseif mission.complete then
 		Comms.ImportantMessage(l["SUCCESSMSG_" .. Engine.rand:Integer(1, getNumberOfFlavours("SUCCESSMSG"))], mission.client.name)
 		delta_reputation = 2.5
-		Game.player:AddMoney(mission.reward)
+		PlayerState.AddMoney(mission.reward)
 		if mission.bonus > 0 then
 			local bonus = math.ceil(mission.reward/5 * mission.bonus)
 			local addition = string.interp(l["BONUS_" .. Engine.rand:Integer(1, getNumberOfFlavours("BONUS"))], { cash = Format.Money(bonus, false) })
 			Comms.ImportantMessage(addition, mission.client.name)
-			Game.player:AddMoney(bonus)
+			PlayerState.AddMoney(bonus)
 		end
 	end
 	if delta_reputation ~= 0 then
@@ -437,23 +439,21 @@ local finishMission = function (ref, mission)
 end
 
 local onEnterSystem = function (player)
-	if not player:IsPlayer() then return end
-
 	for ref, mission in pairs(missions) do
 		if mission.rendezvous and mission.rendezvous:IsSameSystem(Game.system.path) then
 			if mission.complete or Game.time > mission.due then
-				local shipdefs = utils.build_array(utils.filter(
-					function (k,def)
-						return def.tag == "SHIP" and def.hyperdriveClass > 0
-					end,
-					pairs(ShipDef)))
-				local shipdef = shipdefs[Engine.rand:Integer(1, #shipdefs)]
+				local template = ShipBuilder.Template:clone {
+					hyperclass = 1,
+					rules = {
+						ShipBuilder.OutfitRules.DefaultHyperdrive,
+						ShipBuilder.OutfitRules.DefaultAutopilot,
+					}
+				}
 
-				local ship = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
-				ship:SetLabel(Ship.MakeRandomLabel())
-				ship:AddEquip(Equipment.hyperspace["hyperdrive_" .. tostring(shipdef.hyperdriveClass)])
+				local ship = ShipBuilder.MakeShipNear(Game.player, template)
+				assert(ship)
 
-				local path = mission.location:GetStarSystem().path
+				local path = mission.location:SystemOnly()
 				finishMission(ref, mission)
 				ship:HyperjumpTo(path)
 			end
@@ -462,19 +462,15 @@ local onEnterSystem = function (player)
 end
 
 local onLeaveSystem = function (ship)
-	if ship:IsPlayer() then
-		for _, f in pairs(flavours) do
-			f.planets = nil
-		end
-		for ref, mission in pairs(missions) do
-			mission.mercenaries = {}
-		end
+	for _, f in pairs(flavours) do
+		f.planets = nil
+	end
+	for ref, mission in pairs(missions) do
+		mission.mercenaries = {}
 	end
 end
 
-local onShipDocked = function (player, station)
-	if not player:IsPlayer() then return end
-
+local onPlayerDocked = function (player, station)
 	for ref, mission in pairs(missions) do
 		if not mission.rendezvous and (mission.flavour.is_multi or mission.faction == Game.system.faction.id) then
 			finishMission(ref, mission)
@@ -505,6 +501,7 @@ local onGameStart = function ()
 		loaded_data = nil
 
 		for _, mission in pairs(missions) do
+			MissionUtils.SetupOverdueTimer(mission)
 			if mission.duration then
 				missionTimer(mission)
 			end
@@ -523,7 +520,9 @@ local buildMissionDescription = function(mission)
 
 	local desc = {}
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
-	local type = l["MISSION_TYPE_" .. math.ceil(mission.dedication * NUMSUBTYPES)]
+	local subtype = math.ceil(mission.dedication * NUMSUBTYPES)
+	local missiontype = l["MISSION_TYPE_" .. subtype]
+	local missiontypeconvo = l["MISSION_TYPE_CONVO_" .. subtype]
 
 	desc.description = mission.introtext:interp({
 		name    = mission.client.name,
@@ -534,18 +533,20 @@ local buildMissionDescription = function(mission)
 		sectorx = mission.location.sectorX,
 		sectory = mission.location.sectorY,
 		sectorz = mission.location.sectorZ,
-		mission = type,
+		mission = missiontypeconvo,
 		dist    = dist
 	})
 
 	desc.client = mission.client
+
 	desc.location = mission.location
+	desc.returnLocation = mission.rendezvous or nil
 
 	local paymentLoc = mission.rendezvous and ui.Format.SystemPath(mission.rendezvous)
 		or string.interp(l[mission.flavour.id .. "_LAND_THERE"], { org = mission.org })
 
 	desc.details = {
-		{ l.MISSION, type },
+		{ l.MISSION, missiontype },
 		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
 		{ l.AREA, mission.location:GetSystemBody().name },
 		{ l.DISTANCE, dist.." "..lc.UNIT_LY },
@@ -570,7 +571,7 @@ Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onFrameChanged", onFrameChanged)
 Event.Register("onLeaveSystem", onLeaveSystem)
-Event.Register("onShipDocked", onShipDocked)
+Event.Register("onPlayerDocked", onPlayerDocked)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)

@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- Create a news event on the BBS (to do: place it on
@@ -16,6 +16,9 @@ local copyTable = function(T)
 end
 
 local Comms = require 'Comms'
+local debugView = require 'pigui.views.debug'
+local ui = require 'pigui'
+local Economy = require 'Economy'
 local Engine = require 'Engine'
 local Lang = require 'Lang'
 local Game = require 'Game'
@@ -23,15 +26,17 @@ local Event = require 'Event'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Commodities = require 'Commodities'
-local Equipment = require 'Equipment'
 
 local l = Lang.GetResource("module-newseventcommodity")
 
-local maxDist = 50          -- for spawning news (ly)
+local maxDist = 50          -- max distance for spawning news (ly)
 local minTime = 15768000    -- no news the first 6 months of a new game (sec)
 
 -- to spawn a new event per hyperjump, provided no other news.
 local eventProbability = 1/20
+
+-- don't allow too many news at the same time:
+local maxNumberNews = 3
 
 -- max index of flavoured variants
 local maxIndexOfIndNewspapers = 10
@@ -42,76 +47,76 @@ local maxIndexOfGreetings = 5
 local flavours = {
 	{                                           -- flavour 0 in en.json
 		cargo = Commodities.medicines.name, -- which commodity is affected
-		demand = 4,                             -- change in price (and stock)
+		multiplier = 4,                             -- change in price (and stock)
 	}, {
 		cargo = Commodities.battle_weapons.name,       --1
-		demand = 4,
+		multiplier = 4,
 	}, {
 		cargo = Commodities.grain.name,                --2
-		demand = 10,
+		multiplier = 10,
 	}, {
 		cargo = Commodities.fruit_and_veg.name,        --3
-		demand = 6,
+		multiplier = 6,
 	}, {
 		cargo = Commodities.narcotics.name,            --4
-		demand = -4,
+		multiplier = -4,
 	}, {
 		cargo = Commodities.slaves.name,               --5
-		demand = 7,
+		multiplier = 7,
 	}, {
 		cargo = Commodities.liquor.name,               --6
-		demand = 3,
+		multiplier = 3,
 	}, {
 		cargo = Commodities.industrial_machinery.name, --7
-		demand = 6,
+		multiplier = 6,
 	}, {
 		cargo = Commodities.mining_machinery.name,     --8
-		demand = 6,
+		multiplier = 6,
 	}, {
 		cargo = Commodities.live_animals.name,         --9
-		demand = 3,
+		multiplier = 3,
 	}, {
 		cargo = Commodities.air_processors.name,       --10
-		demand = 5,
+		multiplier = 5,
 	}, {
 		cargo = Commodities.animal_meat.name,          --11
-		demand = 3,
+		multiplier = 3,
 	}, {
 		cargo = Commodities.computers.name,            --12
-		demand = 3,
+		multiplier = 3,
 	}, {
 		cargo = Commodities.robots.name,               --13
-		demand = -4,
+		multiplier = -4,
 	}, {
 		cargo = Commodities.plastics.name,             --14
-		demand = 3,
+		multiplier = 3,
 	}, {
 		cargo = Commodities.narcotics.name,            --15
-		demand = 4,
+		multiplier = 4,
 	}, {
 		cargo = Commodities.farm_machinery.name,       --16
-		demand = 5,
+		multiplier = 5,
 	}, {
 		cargo = Commodities.metal_ore.name,            --17
-		demand = -10,
+		multiplier = -10,
 	}, {
 		cargo = Commodities.consumer_goods.name,       --18
-		demand = 3,
+		multiplier = 3,
 	}, {
 		cargo = Commodities.precious_metals.name,      --19
-		demand = -3,
+		multiplier = -3,
 	}, {
 		cargo = Commodities.fertilizer.name,           --20
-		demand = -3,
+		multiplier = -3,
 	}, {
 		cargo = Commodities.nerve_gas.name,            --21
-		demand = -4,
+		multiplier = -4,
 	}, {
 		cargo = Commodities.hand_weapons.name,         --22
-		demand = 3,
+		multiplier = 3,
 	}, {
 		cargo = Commodities.metal_alloys.name,         --23
-		demand = 3,
+		multiplier = 3,
 	}
 }
 
@@ -229,7 +234,7 @@ local createNewsEvent = function (timeInHyper)
 		cargo   = cargo,    -- relevant cargo
 		expires = expires,  -- expiration date of NEWS in seconds
 		date    = date,     -- timestamp, i.e. "publication date"
-		demand  = flavours[flavour].demand,
+		multiplier  = flavours[flavour].multiplier,
 	}
 
 	-- add headline from flavour, and more info to be displayed
@@ -299,19 +304,14 @@ end
 local timeInHyperspace
 
 local onEnterSystem = function (player)
-	if (not player:IsPlayer()) then return end
-
 	-- remove old news before making new
 	checkOldNews()
-
-	-- don't allow too many news at the same time:
-	local maxNumberNews = 3
 
 	timeInHyperspace = Game.time - timeInHyperspace
 
 	-- create a news event with low probability
 	if Engine.rand:Number(0,1) < eventProbability and
-		#news <= maxNumberNews and Game.GetStartTime() > minTime then
+		#news < maxNumberNews and Game.GetStartTime() > minTime then
 		createNewsEvent(timeInHyperspace)
 	end
 
@@ -320,14 +320,13 @@ end
 
 
 local onLeaveSystem = function (ship)
-	if not ship:IsPlayer() then return end
 	nearbySystems = nil
 	timeInHyperspace = Game.time
 end
 
+local cache = nil
 
-local onShipDocked = function (ship, station)
-	if not ship:IsPlayer() then return end
+local onPlayerDocked = function (ship, station)
 
 	-- remove expired news from the news table
 	checkOldNews()
@@ -343,30 +342,70 @@ local onShipDocked = function (ship, station)
 		if currentSystem:IsSameSystem(n.syspath) then
 			-- send a grateful greeting from the station if the player cargo is right
 			local cargo_item = Commodities[n.cargo]
+			local id = cargo_item.name
 
-			if ship:GetComponent('CargoManager'):CountCommodity(cargo_item) > 0 and n.demand > 0 then
+			if ship:GetComponent('CargoManager'):CountCommodity(cargo_item) > 0 and n.multiplier > 0 then
 				local greeting = string.interp(l["GRATEFUL_GREETING_"..Engine.rand:Integer(0,maxIndexOfGreetings)],
 					{cargo = cargo_item:GetName()})
 				Comms.Message(greeting)
 			end
 
 			local price = station:GetCommodityPrice(cargo_item)
-			local stock = station:GetCommodityStock(cargo_item)
+			local market = station:GetCommodityMarket()
 
-			local newPrice, newStock
-			if n.demand > 0 then
-				newPrice = n.demand * price -- increase price
-				newStock = 0 -- remove all stock
-			elseif n.demand < 0 then
-				newPrice = math.ceil(price / (1 + math.abs(n.demand)))  -- dump price
-				newStock = math.ceil(math.abs(n.demand * stock))  -- spam stock
-			else
-				error("demand should probably not be 0.")
+			local supply, demand = market.supply[id], market.demand[id]
+			local stock = market.stock[id]
+
+			-- Store original stats for commodity, to reset to later
+			cache = {commodity = cargo_item, price = price, supply = supply, demand = demand, stock = stock }
+
+			-- How close to finish? Linear decrease from 1.0 at start -> 0 at end of event
+			local progress = (n.expires - Game.time) / (n.expires - n.date)
+
+			local newPrice, newSupply, newDemand
+			if n.multiplier > 0 then
+				newPrice = n.multiplier * price                             -- increase price
+				newSupply = 0                                               -- remove all production
+				newDemand = demand * math.ceil(1 + progress*n.multiplier)   -- increase demand
+			elseif n.multiplier < 0 then
+				newPrice = math.ceil(price / (1 + math.abs(n.multiplier)))  -- dump price
+				newSupply = math.ceil(math.abs(n.multiplier * supply))      -- spam supply
+				newDemand = 0                                               -- station does not buy/consume it
 			end
-			-- print("--- NewsEvent: cargo:", cargo_item:GetName(), "price:", newPrice, "stock:", newStock)
+
+			local newStock = Economy.GetCommodityStockTargetEquilibrium(station:GetSystemBody(), id, newSupply, newDemand)
+
+			-- Blend from absolutely no stock to normal stock levels for this demand as the event goes on
+			if newDemand > 0 then
+				newStock = newStock * (1.0 - progress)^2
+			end
+
+			-- print("--- NewsEvent old:", cargo_item:GetName(), "price:", price, "stock:", stock, "demand:", demand)
+			-- print("--- NewsEvent new:", cargo_item:GetName(), "price:", newPrice, "stock:", newStock, "demand", newDemand)
+
 			station:SetCommodityPrice(cargo_item, newPrice)
-			station:SetCommodityStock(cargo_item, newStock)
+			station:SetCommodityStock(cargo_item, newStock, newSupply, newDemand)
 		end
+	end
+end
+
+
+-- Reset when we leave the station. With current implementation of
+-- economy, it would gradually have returned to equilibrium in 12
+-- weeks time.
+local onPlayerUndocked = function (ship, station)
+	if cache then
+		station:SetCommodityPrice(cache.commodity, cache.price)
+		station:SetCommodityStock(cache.commodity, cache.stock, cache.supply, cache.demand)
+
+		-- print("Reset price, stock, demand: ")
+		-- local price = station:GetCommodityPrice(cache.commodity)
+		-- print("\tprice:", price)
+		-- local flow, affinity = Economy.GetStationFlowParams(station, cache.commodity)
+		-- local stock, demand = Economy.GetCommodityStockFromFlow(cache.commodity, flow, affinity)
+		-- print("\tstock", stock)
+		-- print("\tdemand", demand)
+		cache = nil
 	end
 end
 
@@ -415,8 +454,74 @@ end
 Event.Register("onCreateBB", onCreateBB)
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onLeaveSystem", onLeaveSystem)
-Event.Register("onShipDocked", onShipDocked)
+Event.Register("onPlayerDocked", onPlayerDocked)
+Event.Register("onPlayerUndocked", onPlayerUndocked)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 
 Serializer:Register("NewsEventCommodity", serialize, unserialize)
+
+
+debugView.registerTab("news", {
+	label = "News",
+	icon = ui.theme.icons.info,
+	show = function() return Game.player end,
+	draw = function ()
+		ui.textWrapped("Note: Display of News on the BBS will not update until docking at new station.")
+		if ui.button("Make News", Vector2(100, 0)) then
+			createNewsEvent(0)
+		end
+		ui.sameLine()
+		ui.text("Radius: " .. maxDist .. " ly.")
+
+		ui.textWrapped("There are usually no News before: " .. Format.DateOnly(minTime) .." and max simultaneous news events: " .. maxNumberNews)
+
+		for i ,n in pairs(news) do
+			local system_name = n.syspath:GetStarSystem().name
+			local commodity_name = Commodities[n.cargo]:GetName():scase()
+
+			local distance = 0
+			if Game.system then
+				distance = n.syspath:DistanceTo(Game.system)
+			end
+
+			local header = commodity_name .. "\t" .. system_name .. "\t" .. string.format("%.2f", distance) .. " ly"
+
+			if ui.collapsingHeader(header, {}) then
+				local headline = string.interp(
+					flavours[n.flavour].headline, {
+						system = system_name,
+						cargo = commodity_name,
+						date  = Format.DateOnly(n.date),
+				})
+				ui.textWrapped(headline)
+				ui.spacing()
+
+				local newsbody = string.interp(
+					flavours[n.flavour].newsbody,
+					{
+						system   = n.syspath:GetStarSystem().name,
+						sectorx  = n.syspath.sectorX,
+						sectory  = n.syspath.sectorY,
+						sectorz  = n.syspath.sectorZ,
+				})
+				ui.textWrapped(newsbody)
+
+				ui.text("Flavour idx: " .. n.flavour)
+				-- Be compatible with saves before 2024-07-10 version:
+				if n.multiplier then
+					ui.text("Price multiplier: " .. n.multiplier .. " on cargo: " .. n.cargo)
+				else
+					ui.text("Price demand: " .. n.demand .. " on cargo: " .. n.cargo)
+				end
+				ui.text("Start: " .. Format.DateOnly(n.date))
+				ui.text("End: " .. Format.DateOnly(n.expires))
+
+				if ui.button("Delete news", Vector2(100, 0)) then
+					table.remove(news, i)
+				end
+				ui.separator()
+			end
+		end
+	end
+})

@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -9,7 +9,6 @@
 #include "LuaUtils.h"
 #include "LuaWrappable.h"
 #include "PropertiedObject.h"
-#include "libs.h"
 #include "lua.h"
 
 #include <map>
@@ -50,14 +49,6 @@
  *
  * > if not ship:exists() then return
  *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
- *
  *
  * Method: isa
  *
@@ -83,14 +74,6 @@
  * > if body:isa("Ship") then
  * >     body:AIKill(Game.player)
  * > end
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 
 static std::map<std::string, std::map<std::string, PromotionTest>> promotions;
@@ -287,7 +270,7 @@ void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs,
 
 	// create a throwaway, non-inheriting metatype
 	LuaMetaTypeBase metaType("");
-	metaType.CreateMetaType(l);
+	metaType.CreateMetaType(l, true);
 
 	// add methods
 	if (methods) {
@@ -351,7 +334,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	LuaMetaTypeBase metaType(type);
 	if (parent)
 		metaType.SetParent(parent);
-	metaType.CreateMetaType(l);
+	metaType.CreateMetaType(l, true);
 
 	// add attributes
 	if (attrs) {
@@ -451,6 +434,7 @@ bool LuaObjectBase::PushRegistered(LuaWrappable *o)
 
 	if (!o) {
 		lua_pushnil(l);
+		LUA_DEBUG_END(l, 1);
 		return true;
 	}
 
@@ -759,6 +743,10 @@ bool LuaObjectBase::SerializeComponents(LuaWrappable *object, Json &out)
 	}
 
 	lua_pushnil(l);
+
+	// sort the components before serialization
+	std::vector<std::string> componentNames;
+
 	while (lua_next(l, -2) != 0) {
 		if (!lua_isstring(l, -2)) {
 			lua_pop(l, 1);
@@ -772,6 +760,14 @@ bool LuaObjectBase::SerializeComponents(LuaWrappable *object, Json &out)
 			continue;
 		}
 
+		componentNames.emplace_back(key);
+		lua_pop(l, 1);
+	}
+	std::sort(componentNames.begin(), componentNames.end(), std::less{});
+
+	for (const auto &key : componentNames) {
+		lua_pushstring(l, key.data());
+		lua_rawget(l, -2);
 		// Pickle the table to json
 		LuaSerializer::pickle_json(l, lua_gettop(l), out[key.data()], "BodyComponent");
 		lua_pop(l, 1);
@@ -809,7 +805,7 @@ bool LuaObjectBase::DeserializeComponents(LuaWrappable *object, const Json &obj)
 		return false;
 	}
 
-	// Deserialize all components
+	// Deserialize all components, in alphabetical order
 	for (const auto &pair : obj.items()) {
 		lua_pushstring(l, pair.key().c_str());
 		LuaSerializer::unpickle_json(l, pair.value());

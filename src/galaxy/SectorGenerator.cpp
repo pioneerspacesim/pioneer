@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SectorGenerator.h"
@@ -9,168 +9,10 @@
 #include "Galaxy.h"
 #include "GameSaveError.h"
 #include "Json.h"
+#include "NameGenerator.h"
 #include "utils.h"
 
 #define Square(x) ((x) * (x))
-
-namespace FrontierNames {
-	static const char *sys_names[] = {
-		"en", "la", "can", "be",
-		"and", "phi", "eth", "ol",
-		"ve", "ho", "a", "lia",
-		"an", "ar", "ur", "mi",
-		"in", "ti", "qu", "so",
-		"ed", "ess", "ex", "io",
-		"ce", "ze", "fa", "ay",
-		"wa", "de", "ack", "gre"
-	};
-	static const unsigned int SYS_NAME_FRAGS = ((unsigned int)(sizeof(sys_names) / sizeof(char *)));
-
-	void GetName(std::string &name, Random &rng)
-	{
-		// add fragments to build a name
-		int len = rng.Int32(2, 3);
-		for (int i = 0; i < len; i++) {
-			name += sys_names[rng.Int32(0, SYS_NAME_FRAGS - 1)];
-		}
-
-		name[0] = toupper(name[0]);
-	}
-} // namespace FrontierNames
-
-namespace HybridNames {
-	static const char *sys_names[] = {
-		"en", "la", "can", "be",
-		"and", "phi", "eth", "ol",
-		"ve", "ho", "a", "lia",
-		"an", "ar", "ur", "mi",
-		"in", "ti", "qu", "so",
-		"ed", "ess", "ex", "io",
-		"ce", "ze", "fa", "ay",
-		"wa", "de", "ack", "gre",
-
-		//Doomdark-esque additions
-		"img", "or", "ir", "dol",
-		"orth", "angr", "igr", "ash",
-		"el", "mor", "ul", "atr",
-		"orm", "udr", "is", "ildr",
-		"orn", "il", "iel", "im",
-		"uk", "ium", "ia", "eon",
-		"ob", "ak", "arg", "ber",
-		"ane", "esh", "ad", "un",
-
-		//WKFO
-		"ank", "bur", "ist", "iz",
-		"erz", "tra", "shir", "gu",
-		"ant", "kon", "ya", "us",
-		"esk", "ig", "kah", "zon",
-		"tay", "ash", "mar", "van",
-		"sus", "tar", "run", "isk",
-		"hir", "gaz", "sun", "gat",
-		"pi", "cis", "ele", "ova"
-	};
-	static const unsigned int SYS_NAME_FRAGS = ((unsigned int)(sizeof(sys_names) / sizeof(char *)));
-
-	void GetName(std::string &name, Random &rng)
-	{
-		// add fragments to build a name
-		int len = rng.Int32(2, 3);
-		for (int i = 0; i < len; i++) {
-			name += sys_names[rng.Int32(0, SYS_NAME_FRAGS - 1)];
-		}
-
-		name[0] = toupper(name[0]);
-	}
-} // namespace HybridNames
-
-namespace Doomdark {
-	static const char *Prefixes[] = {
-		"img", "dol", "lor", "ush", "mor", "tal", "car", "ulf", "as", "tor", "ob", "f", "gl",
-		"s", "th", "gan", "mal", "im", "var", "hag", "zar", "anv", "ber", "kah", "ash"
-	};
-	static const unsigned int PREFIX_FRAGS = ((unsigned int)(sizeof(Prefixes) / sizeof(char *)));
-
-	static const char *Midwords[] = {
-		"ar", "or", "ir", "en", "orth", "angr", "igr", "ash", "el", "in", "ul", "atr", "orm", "udr", "is", "ildr"
-	};
-	static const unsigned int MIDWORD_FRAGS = ((unsigned int)(sizeof(Midwords) / sizeof(char *)));
-
-	static const char *Suffixes[] = {
-		"orn", "il", "iel", "im", "uk", "ium", "ia", "eon", "ay", "ak", "arg", "and", "ane", "esh", "ad", "un"
-	};
-	static const unsigned int SUFFIX_FRAGS = ((unsigned int)(sizeof(Suffixes) / sizeof(char *)));
-
-	void GetName(std::string &name, Random &rng)
-	{
-		// Doodarken a name
-		name += Prefixes[rng.Int32(0, PREFIX_FRAGS - 1)];
-		name += Midwords[rng.Int32(0, MIDWORD_FRAGS - 1)];
-		name += Suffixes[rng.Int32(0, SUFFIX_FRAGS - 1)];
-
-		name[0] = toupper(name[0]);
-	}
-} // namespace Doomdark
-
-namespace Katakana {
-	// clang-format off
-	static const char *StartFragments[] = {
-		"kyo","gyo","shu","sho","chu","cho","hyu","myo",
-		"ryu","chi","tsu","shi","ka","ki","ku","ke",
-		"ko","ga","gi","gu","ge","go","sa","su",
-		"se","so","za","zu","ze","ta","te","to",
-		"da","na","ni","nu","ne","no","ha","hi",
-		"fu","he","ho","ba","bi","bu","be","ma",
-		"mi","mu","me","mo","ya","yu","yo","ri",
-		"ru","wa","jo","a","i","u","e","o",
-		
-	};
-	static const char *MiddleFragments[] = {
-		"sshi","ppo","tto","mbo","kka","kyu","sho","chu",
-		"chi","tsu","shi","ka","ki","ku","ke","ko",
-		"ga","gi","gu","ge","go","sa","su","se",
-		"so","za","ji","zu","ze","ta","te","to",
-		"da","de","do","na","ni","nu","ne","no",
-		"ha","hi","fu","ho","ba","bi","bu","be",
-		"bo","ma","mi","mu","me","mo","ya","yo",
-		"ra","ri","ru","re","ro","wa","ju","jo",
-		"a","i","u","e","o","n",
-	};
-	static const char *EndFragments[] = {
-		"ttsu","ppu","ssa","tto","tte","noh","mba","kko",
-		"kyo","shu","chu","nyu","nyo","ryu","chi","tsu",
-		"shi","ka","ki","ku","ke","ko","ga","gi",
-		"gu","go","sa","su","se","so","za","ji",
-		"zu","ze","zo","ta","te","to","da","de",
-		"do","na","ni","ne","no","ha","hi","fu",
-		"he","ho","ba","bi","bu","be","bo","ma",
-		"mi","mu","me","mo","ya","yo","ra","ri",
-		"ru","re","ro","wa","ja","jo","i","e",
-		"o","n",
-	};
-	// clang-format on
-
-	static const unsigned int NUM_START_FRAGS = COUNTOF(StartFragments);
-	static const unsigned int NUM_MIDDLE_FRAGS = COUNTOF(MiddleFragments);
-	static const unsigned int NUM_END_FRAGS = COUNTOF(EndFragments);
-
-	void GetName(std::string &name, Random &rng)
-	{
-		// beginning
-		name += StartFragments[rng.Int32(0, NUM_START_FRAGS - 1)];
-
-		// middle
-		size_t count = rng.Int32(0, 2);
-		for (size_t i = 0; i < count; i++) {
-			name += MiddleFragments[rng.Int32(0, NUM_MIDDLE_FRAGS - 1)];
-		}
-
-		// end
-		name += EndFragments[rng.Int32(0, NUM_END_FRAGS - 1)];
-
-		// Capitalisation
-		name[0] = toupper(name[0]);
-	}
-} // namespace Katakana
 
 bool SectorCustomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config)
 {
@@ -188,10 +30,12 @@ bool SectorCustomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 	if (systems.size() == 0) return true;
 
 	Uint32 sysIdx = 0;
-	for (std::vector<const CustomSystem *>::const_iterator it = systems.begin(); it != systems.end(); ++it, ++sysIdx) {
-		const CustomSystem *cs = *it;
-		Sector::System s(sector.Get(), sx, sy, sz, sysIdx);
-		s.m_pos = Sector::SIZE * cs->pos;
+	for (const CustomSystem *cs : systems) {
+		if (cs->override_random_system)
+			continue; // will be applied last
+
+		Sector::System s(sector.Get(), sx, sy, sz, sysIdx++);
+		s.m_pos = cs->pos;
 		s.m_name = cs->name;
 		s.m_other_names = cs->other_names;
 		for (s.m_numStars = 0; s.m_numStars < cs->numStars; s.m_numStars++) {
@@ -200,13 +44,15 @@ bool SectorCustomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 		}
 		s.m_customSys = cs;
 		s.m_seed = cs->seed;
+
 		if (cs->want_rand_explored) {
+
 			/*
 			 * 0 - ~500ly from sol: explored
 			 * ~500ly - ~700ly (65-90 sectors): gradual
 			 * ~700ly+: unexplored
 			 */
-			if (((dist <= Square(90)) && (dist <= Square(65) || rng.Int32(dist) <= Square(40))) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, sysIdx)))
+			if (((dist <= Square(m_GalaxyExploredMax)) && (dist <= Square(m_GalaxyExploredMin) || rng.Int32(dist) <= Square(m_GalaxyExploredMix))) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, sysIdx)))
 				s.m_explored = StarSystem::eEXPLORED_AT_START;
 			else
 				s.m_explored = StarSystem::eUNEXPLORED;
@@ -216,8 +62,12 @@ bool SectorCustomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 			else
 				s.m_explored = StarSystem::eUNEXPLORED;
 		}
+
 		sector->m_systems.push_back(s);
 	}
+
+	config->numCustomSystems = sector->m_systems.size();
+
 	return true;
 }
 
@@ -264,16 +114,7 @@ const std::string SectorRandomSystemsGenerator::GenName(RefCountedPtr<Galaxy> ga
 	Uint32 weight = rng.Int32(chance);
 	if (weight < 500 || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, si))) {
 		// well done. you get a "real" name
-		int nameGen = rng.Int32(0, 3);
-		switch (nameGen) {
-		case 0: FrontierNames::GetName(name, rng); break;
-		case 1: HybridNames::GetName(name, rng); break;
-		case 2: Doomdark::GetName(name, rng); break;
-		case 3: Katakana::GetName(name, rng); break;
-		default:
-			FrontierNames::GetName(name, rng);
-			break;
-		}
+		NameGenerator::GetSystemName(name, rng);
 		return name;
 	} else if (weight < 800) {
 		char buf[128];
@@ -337,7 +178,7 @@ bool SectorRandomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 		 * ~500ly - ~700ly (65-90 sectors): gradual
 		 * ~700ly+: unexplored
 		 */
-		if (((dist <= Square(90)) && (dist <= Square(65) || rng.Int32(dist) <= Square(40))) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, customCount + i)))
+		if (((dist <= Square(m_GalaxyExploredMax)) && (dist <= Square(m_GalaxyExploredMin) || rng.Int32(dist) <= Square(m_GalaxyExploredMix))) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, customCount + i)))
 			s.m_explored = StarSystem::eEXPLORED_AT_START;
 		else
 			s.m_explored = StarSystem::eUNEXPLORED;
@@ -488,7 +329,77 @@ bool SectorRandomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 		s.m_name = GenName(galaxy, *sector, s, customCount + i, rng);
 		//Output("%s: \n", s.m_name.c_str());
 
+		s.m_seed = rng.Int32();
+
 		sector->m_systems.push_back(s);
+	}
+	return true;
+}
+
+bool SectorOverrideSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config)
+{
+	const int sx = sector->sx;
+	const int sy = sector->sy;
+	const int sz = sector->sz;
+	const Sint64 dist = (1 + sx * sx + sy * sy + sz * sz);
+
+	const std::vector<const CustomSystem *> &systems = galaxy->GetCustomSystems()->GetCustomSystemsForSector(sx, sy, sz);
+	if (systems.size() == 0) return true;
+
+	for (const CustomSystem *cs : systems) {
+		if (!cs->override_random_system)
+			continue;
+
+		uint32_t sysIdx = cs->systemIndex;
+
+		if (sector->m_systems.size() <= cs->systemIndex || cs->systemIndex < config->numCustomSystems) {
+			Log::Warning("Custom system {} specifies it wants to override random system with index {} but no such random system exists.",
+				cs->name, cs->systemIndex);
+
+			sysIdx = sector->m_systems.size();
+		}
+
+		// XXX: lots of duplicated code with an algorithmic dependency on the definition of a randomly-explored system.
+		// This could be moved into a static function if it weren't for the GalaxyConfig infecting everything.
+		Sector::System s(sector.Get(), sx, sy, sz, sysIdx);
+		s.m_pos = cs->pos;
+		s.m_name = cs->name;
+		s.m_other_names = cs->other_names;
+		for (s.m_numStars = 0; s.m_numStars < cs->numStars; s.m_numStars++) {
+			if (cs->primaryType[s.m_numStars] == 0) break;
+			s.m_starType[s.m_numStars] = cs->primaryType[s.m_numStars];
+		}
+		s.m_customSys = cs;
+		s.m_seed = cs->seed;
+
+		if (cs->want_rand_explored) {
+
+			/*
+			 * 0 - ~500ly from sol: explored
+			 * ~500ly - ~700ly (65-90 sectors): gradual
+			 * ~700ly+: unexplored
+			 */
+			if (((dist <= Square(m_GalaxyExploredMax)) && (dist <= Square(m_GalaxyExploredMin) || rng.Int32(dist) <= Square(m_GalaxyExploredMix))) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, sysIdx)))
+				s.m_explored = StarSystem::eEXPLORED_AT_START;
+			else
+				s.m_explored = StarSystem::eUNEXPLORED;
+		} else {
+			if (cs->explored)
+				s.m_explored = StarSystem::eEXPLORED_AT_START;
+			else
+				s.m_explored = StarSystem::eUNEXPLORED;
+		}
+
+		if (sysIdx >= sector->m_systems.size()) {
+			sector->m_systems.push_back(s);
+		} else {
+			// Since copy-assignment is prohibited by a const data member, we're just going to destruct and construct the system.
+			// Yes, this is a hack. It's arguably not worse than trying to protect access to a non-const object by making all members const.
+			Sector::System &dst = sector->m_systems.at(sysIdx);
+
+			dst.~System();
+			new (&dst) Sector::System(s);
+		}
 	}
 	return true;
 }

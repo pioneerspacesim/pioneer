@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = require 'Lang'
@@ -20,7 +20,6 @@ local lui = Lang.GetResource("ui-core")
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local adTextColor = colors.white
 local widgetSizes = ui.rescaleUI({
 	chatButtonBase = Vector2(0, 24),
 	chatButtonSize = Vector2(0, 24),
@@ -55,8 +54,12 @@ local function refresh()
 	bulletinBoard.items = {}
 
 	for ref,ad in pairs(ads or {}) do
-		if searchText == ""
-			or searchText ~= "" and string.find(
+		if not searchText or searchText == ""
+			or string.find(
+				string.lower(ad.title),
+				string.lower(searchText),
+				1, true)
+			or string.find(
 				string.lower(ad.description),
 				string.lower(searchText),
 				1, true)
@@ -81,11 +84,9 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 			images[icon] = PiImage.New("icons/bbs/" .. icon .. ".png")
 		end
 
-		if (adActive(item.__ref, item)) then
-			adTextColor = colors.white
-		else
-			adTextColor = colors.grey
-		end
+		local active = adActive(item.__ref, item)
+
+		local adTextColor = active and colors.font or colors.fontDisabled
 
 		ui.withFont(pionillium.title, function()
 			images[icon]:Draw(Vector2(ui.getTextLineHeight()))
@@ -121,7 +122,7 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 						local alt = Game.player:GetAltitudeRelTo(item.location)
 						ui.text(ui.Format.Distance(alt))
 					elseif Game.system and item.location:IsSameSystem(Game.system.path) then
-						local alt = Game.player:GetAltitudeRelTo(Space.GetBody(item.location.bodyIndex))
+						local alt = item.dist or Game.player:GetAltitudeRelTo(Space.GetBody(item.location.bodyIndex))
 						ui.text(ui.Format.Distance(alt))
 					else
 						local playerSystem = Game.system or Game.player:GetHyperspaceTarget()
@@ -144,6 +145,26 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 			end)
 			ui.nextColumn()
 		end)
+
+		return active and colors.tableHighlight or colors.tableHighlightDisabled
+	end,
+	postRender = function()
+		local tl = ui.getWindowPos()
+		local size = ui.getWindowSize()
+
+		if Game.paused then
+			ui.addRectFilled(tl, tl + size, colors.uiBackground:opacity(0.4), 0, ui.RoundCornersNone)
+
+			ui.withFont(orbiteer.heading, function()
+				local textSize = ui.calcTextSize(l.PAUSED)
+				local textPos = tl + (size - textSize) * 0.5
+				local padding = ui.theme.styles.WindowPadding
+
+				ui.addRectFilled(textPos - padding, textPos + textSize + padding, colors.uiSurface, padding.x, ui.RoundCornersAll)
+
+				ui.addText(textPos, colors.font, l.PAUSED)
+			end)
+		end
 	end,
 	onClickItem = function(self, item, key)
 		local station = Game.player:GetDockedWith()
@@ -192,7 +213,7 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 		chatForm = ChatForm.New(chatFunc, removeFunc, closeFunc, resizeFunc, ref, StationView, {buttonSize = widgetSizes.chatButtonSize})
 
 		station:LockAdvert(ref)
-		chatWin.innerHandler = function() chatForm:render() end
+		chatWin.render = function() chatForm:render() end
 		chatForm.resizeFunc()
 		chatWin:open()
 	end,
@@ -214,7 +235,7 @@ local function renderBulletinBoard()
 				ui.text(l.SEARCH)
 			end)
 			ui.pushItemWidth(ui.getContentRegion().x)
-			searchText, searchTextEntered = ui.inputText("", searchText, {})
+			searchText, searchTextEntered = ui.inputText("##searchText", searchText, {})
 			if searchTextEntered then
 				refresh()
 			end

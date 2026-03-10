@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui'
@@ -35,7 +35,7 @@ ui.reticuleCircleThickness = reticuleCircleThickness
 local center = nil
 
 -- cache player each frame
-local player = nil
+local player = nil ---@type Player
 
 -- this should go into HUD settings
 local showNavigationalNumbers = true
@@ -43,7 +43,8 @@ local showNavigationalNumbers = true
 -- to interact with actions and axes in the input system
 local bindings = {
 	assistRadial = bindManager.registerAction('BindFlightAssistRadial'),
-	fixheadingRadial = bindManager.registerAction('BindFixheadingRadial')
+	fixheadingRadial = bindManager.registerAction('BindFixheadingRadial'),
+	targetRadial = bindManager.registerAction('BindTargetRadial'),
 }
 
 -- display the pitch indicator on the right inside of the reticule circle
@@ -321,8 +322,11 @@ local function displayDetailData(target, radius, colorLight, colorDark, tooltip,
 	local uiPos = ui.pointOnClock(center, radius, 2.46)
 	-- label of target
 	local nameSize = ui.addStyledText(uiPos, ui.anchor.left, ui.anchor.baseline, target.label, colorDark, pionillium.medium, tooltip, colors.lightBlackBackground)
-	if ui.isMouseHoveringRect(uiPos - Vector2(0, pionillium.medium.size), uiPos + nameSize - Vector2(0, pionillium.medium.size)) and ui.isMouseClicked(1) and ui.noModifierHeld() then
-		ui.openDefaultRadialMenu("game", target)
+	local isHovered = ui.isMouseHoveringRect(uiPos - Vector2(0, pionillium.medium.size), uiPos + nameSize - Vector2(0, pionillium.medium.size))
+	                  and ui.isMouseClicked(1) and ui.noModifierHeld()
+	if isHovered or bindings.targetRadial.action:IsJustActive() then
+		local action_binding = bindings.targetRadial.action:IsActive() and bindings.targetRadial.action
+		ui.openDefaultRadialMenu("game", target, uiPos, action_binding)
 	end
 	-- current distance, relative speed
 	uiPos = ui.pointOnClock(center, radius, 2.75)
@@ -462,24 +466,24 @@ local function displayManeuverData(radius)
 end
 
 local aicommand_info = {
-	["CMD_DOCK"] = { icon = icons.autopilot_dock, tooltip = lui.HUD_BUTTON_AUTOPILOT_DOCKING },
-	["CMD_FLYTO"] = { icon = icons.autopilot_fly_to, tooltip = lui.HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET },
-	["CMD_FORMATION"] = { icon = icons.autopilot_fly_to, tooltip = lui.HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET },
-	["CMD_FLYAROUND"] = { icon = icons.autopilot_medium_orbit, tooltip = lui.HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT },
+	CMD_DOCK = { icon = icons.autopilot_dock, tooltip = lui.HUD_BUTTON_AUTOPILOT_DOCKING },
+	CMD_FLYTO = { icon = icons.autopilot_fly_to, tooltip = lui.HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET },
+	CMD_FORMATION = { icon = icons.autopilot_fly_to, tooltip = lui.HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET },
+	CMD_FLYAROUND = { icon = icons.autopilot_medium_orbit, tooltip = lui.HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT },
 }
 
 local flightstate_info = {
-	["CONTROL_MANUAL"] = { icon = icons.empty, tooltip = lui.HUD_BUTTON_MANUAL_CONTROL },
+	CONTROL_MANUAL = { icon = icons.empty, tooltip = lui.HUD_BUTTON_MANUAL_CONTROL },
 	-- "CONTROL_AUTOPILOT" - depends on the current command
 	-- "CONTROL_FIXSPEED" - depends on the cruise mode
-	["CONTROL_FIXHEADING_FORWARD"] = { icon = icons.prograde_thin, tooltip = lui.HUD_BUTTON_FIX_PROGRADE },
-	["CONTROL_FIXHEADING_BACKWARD"] = { icon = icons.retrograde_thin , tooltip = lui.HUD_BUTTON_FIX_RETROGRADE },
-	["CONTROL_FIXHEADING_NORMAL"] = { icon = icons.normal_thin, tooltip = lui.HUD_BUTTON_FIX_NORMAL },
-	["CONTROL_FIXHEADING_ANTINORMAL"] = { icon = icons.antinormal_thin, tooltip = lui.HUD_BUTTON_FIX_ANTINORMAL },
-	["CONTROL_FIXHEADING_RADIALLY_INWARD"] = { icon = icons.radial_in_thin, tooltip = lui.HUD_BUTTON_FIX_RADIAL_IN },
-	["CONTROL_FIXHEADING_RADIALLY_OUTWARD"] = { icon = icons.radial_out_thin, tooltip = lui.HUD_BUTTON_FIX_RADIAL_OUT },
+	CONTROL_FIXHEADING_FORWARD = { icon = icons.prograde_thin, tooltip = lui.HUD_BUTTON_FIX_PROGRADE },
+	CONTROL_FIXHEADING_BACKWARD = { icon = icons.retrograde_thin , tooltip = lui.HUD_BUTTON_FIX_RETROGRADE },
+	CONTROL_FIXHEADING_NORMAL = { icon = icons.normal_thin, tooltip = lui.HUD_BUTTON_FIX_NORMAL },
+	CONTROL_FIXHEADING_ANTINORMAL = { icon = icons.antinormal_thin, tooltip = lui.HUD_BUTTON_FIX_ANTINORMAL },
+	CONTROL_FIXHEADING_RADIALLY_INWARD = { icon = icons.radial_in_thin, tooltip = lui.HUD_BUTTON_FIX_RADIAL_IN },
+	CONTROL_FIXHEADING_RADIALLY_OUTWARD = { icon = icons.radial_out_thin, tooltip = lui.HUD_BUTTON_FIX_RADIAL_OUT },
 	-- "CONTROL_FIXHEADING_KILLROT" uses the same icon as rotation damping on
-	["CONTROL_FIXHEADING_KILLROT"] = { icon = icons.rotation_damping_on , tooltip = lui.HUD_BUTTON_KILL_ROTATION }
+	CONTROL_FIXHEADING_KILLROT = { icon = icons.rotation_damping_on , tooltip = lui.HUD_BUTTON_KILL_ROTATION }
 }
 
 local radial_menu_actions_orbital = {
@@ -600,8 +604,6 @@ local function flightAssistButton(pos)
 		local icon_up = { icon = icons.backward, tooltip = "NO_ACTION", action = function(_) end, color = color_inactive }
 		local icon_down = { icon = icons.backward, tooltip = "NO_ACTION", action = function(_) end, color = color_inactive }
 
-		local MAX_FOLLOW_DISTANCE = 500000 -- meters
-
 		-- up/down icons
 		if flightcontrolstate == "CONTROL_MANUAL" or flightcontrolstate == "CONTROL_FIXSPEED" then
 			icon_up = flight_assist_buttons.cruise_forward
@@ -631,39 +633,50 @@ local function flightAssistButton(pos)
 
 		-- side icons
 		local settarget = followtarget
+
 		if not followtarget and reticuleTarget then
 			if     reticuleTarget == "frame"        then settarget = frmtarget
 			elseif reticuleTarget == "navTarget"    then settarget = navtarget
 			elseif reticuleTarget == "combatTarget" then settarget = cmbtarget
 			end
 		end
+
 		if settarget then
+
 			local settargetname = settarget:GetLabel()
 			-- ori / pos does only works for dynamic bodies and orbitals
 			local can_follow = not settarget.type or settarget.type == "STARPORT_ORBITAL"
-			if player:DistanceTo(settarget) < MAX_FOLLOW_DISTANCE and can_follow then
-				icon_left.icon = icons.follow_ori
-				icon_left.color = color_active
-				icon_left.tooltip = string.interp(lui.HUD_FOLLOW_ORIENTATION, { targetname = settargetname })
-				icon_left.action = function(_)
-					if flightcontrolstate ~= "CONTROL_MANUAL" then
-						player:SetFlightControlState("CONTROL_FIXSPEED")
-					end
-					player:SetFollowTarget(settarget)
-					player:SetFollowMode("FOLLOW_ORI")
-				end
 
-				if flightcontrolstate ~= "CONTROL_MANUAL" then
-					icon_right.icon = icons.follow_pos
-					icon_right.color = color_active
-					icon_right.tooltip = string.interp(lui.HUD_FOLLOW_POSITION, { targetname = settargetname })
-					icon_right.action = function(_)
-						player:SetFlightControlState("CONTROL_FIXSPEED")
-						player:SetFollowTarget(settarget)
-						player:SetFollowMode("FOLLOW_POS")
-					end
+			if can_follow then
+
+				local is_follow_pos = followtarget and followmode == "FOLLOW_POS"
+				local is_follow_ori = followtarget and followmode == "FOLLOW_ORI"
+				local distance = player:DistanceTo(settarget)
+
+				if is_follow_ori then
+					icon_left = flight_assist_buttons.disable_follow
+				elseif distance > player:GetMaxFollowDistance('FOLLOW_ORI') then
+					icon_left.icon = icons.follow_ori
+					icon_left.tooltip = string.interp(lui.HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR, { targetname = settargetname })
 				else
-					-- switch to cruise mode automatically if follow position was enabled from manual mode
+					icon_left.icon = icons.follow_ori
+					icon_left.color = color_active
+					icon_left.tooltip = string.interp(lui.HUD_FOLLOW_ORIENTATION, { targetname = settargetname })
+					icon_left.action = function(_)
+						if flightcontrolstate ~= "CONTROL_MANUAL" then
+							player:SetFlightControlState("CONTROL_FIXSPEED")
+						end
+						player:SetFollowTarget(settarget)
+						player:SetFollowMode("FOLLOW_ORI")
+					end
+				end
+
+				if is_follow_pos then
+					icon_right = flight_assist_buttons.disable_follow
+				elseif distance > player:GetMaxFollowDistance('FOLLOW_POS') then
+					icon_right.icon = icons.follow_pos
+					icon_right.tooltip = string.interp(lui.HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR, { targetname = settargetname })
+				else
 					icon_right.icon = icons.follow_pos
 					icon_right.color = color_active
 					icon_right.tooltip = string.interp(lui.HUD_FOLLOW_POSITION, { targetname = settargetname })
@@ -671,27 +684,15 @@ local function flightAssistButton(pos)
 						player:SetFlightControlState("CONTROL_FIXSPEED")
 						player:SetFollowTarget(settarget)
 						player:SetFollowMode("FOLLOW_POS")
-						player:SetCruiseDirection("CRUISE_FWD")
+						-- switch to cruise mode automatically if follow position was enabled from manual mode
+						if flightcontrolstate == "CONTROL_MANUAL" then
+							player:SetCruiseDirection("CRUISE_FWD")
+						end
 					end
 				end
-
-				if followtarget then
-					if followmode == "FOLLOW_POS" then
-						icon_right = flight_assist_buttons.disable_follow
-					else
-						icon_left = flight_assist_buttons.disable_follow
-					end
-				end
-
 			else
-				icon_left.icon = icons.follow_ori
-				icon_left.tooltip = string.interp(
-					can_follow and lui.HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR or lui.HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE,
-					{ targetname = settargetname })
-				icon_right.icon = icons.follow_pos
-				icon_right.tooltip = string.interp(
-					can_follow and lui.HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR or lui.HUD_FOLLOW_POSITION_NOT_AVAILABLE,
-					{ targetname = settargetname })
+				icon_left.tooltip = string.interp( lui.HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE, { targetname = settargetname })
+				icon_right.tooltip = string.interp( lui.HUD_FOLLOW_POSITION_NOT_AVAILABLE, { targetname = settargetname })
 			end
 		end
 

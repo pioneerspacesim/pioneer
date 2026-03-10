@@ -1,14 +1,14 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui'
 local StationView = require 'pigui.views.station-view'
 local AutoSave    = require 'modules.AutoSave.AutoSave'
+local PlayerState = require 'PlayerState'
 
 local Game = require 'Game'
 local Rand = require 'Rand'
 local Format = require 'Format'
-local Equipment = require 'Equipment'
 local ShipDef = require 'ShipDef'
 local Character = require 'Character'
 local Commodities = require 'Commodities'
@@ -42,10 +42,10 @@ widgetSizes.buttonLaunchSize = Vector2(widgetSizes.buttonSizeBase.x*5, widgetSiz
 widgetSizes.iconSize = Vector2(0, widgetSizes.buttonSizeBase.y)
 
 local face = nil
-local stationSeed = 0
+local stationSeed = false
 local shipDef
 
-local hyperdrive
+local hyperdrive ---@type Equipment.HyperdriveType?
 local hyperdrive_fuel
 local hydrogenIcon = PiImage.New("icons/goods/Hydrogen.png")
 local hyperdriveIcon = PiImage.New("icons/goods/Hydrogen.png")
@@ -61,7 +61,7 @@ local popup = ModalWindow.New('lobbyPopup', function(self)
 end)
 
 local requestLaunch = function (station)
-	local _, fine = Game.player:GetCrimeOutstanding()
+	local _, fine = PlayerState.GetCrimeOutstanding()
 	local nearbyTraffic = station:GetNearbyTraffic(50000) -- ships within 50km of station
 
 	if not Game.player:HasCorrectCrew() then
@@ -115,8 +115,8 @@ local refuelInternalTank = function (delta)
 	local mass = shipDef.fuelTankMass/100 * delta
 	local total = price * mass
 
-	if total > Game.player:GetMoney() then
-		total = Game.player:GetMoney()
+	if total > PlayerState.GetMoney() then
+		total = PlayerState.GetMoney()
 		mass = total / price
 		fuel = Game.player.fuel + mass * 100 / shipDef.fuelTankMass
 	end
@@ -127,18 +127,17 @@ local refuelInternalTank = function (delta)
 		fuel = Game.player.fuel + mass * 100 / shipDef.fuelTankMass
 	end
 
-	Game.player:AddMoney(-total)
-	station:AddCommodityStock(Commodities.hydrogen, -math.ceil(mass))
+	PlayerState.AddMoney(-total)
+	local commodityChangeAmount = mass < 0 and math.floor(mass) or math.ceil(mass)
+	station:AddCommodityStock(Commodities.hydrogen, -commodityChangeAmount)
 	Game.player:SetFuelPercent(fuel)
 end
 
 local refuelHyperdrive = function (mass)
-	local station = Game.player:GetDockedWith()
+	assert(hyperdrive)
+	local station = assert(Game.player:GetDockedWith())
 	local stock = station:GetCommodityStock(hyperdrive_fuel)
 	local price = station:GetCommodityPrice(hyperdrive_fuel)
-
-	---@type CargoManager
-	local cargoMgr = Game.player:GetComponent('CargoManager')
 
 	if mass > 0 then
 		if stock == 0 then
@@ -146,30 +145,16 @@ local refuelHyperdrive = function (mass)
 			popup:open()
 			return
 		end
-
-		mass = math.clamp(mass, 0, cargoMgr:GetFreeSpace())
-	else
-		mass = math.clamp(mass, -cargoMgr:CountCommodity(hyperdrive_fuel), 0)
 	end
 
-	local total = price * mass
-	if total > Game.player:GetMoney() then
-		mass = math.floor(Game.player:GetMoney() / price)
-		total = price * mass
-	end
+	mass = math.clamp(mass, -hyperdrive.storedFuel, hyperdrive:GetMaxFuel() - hyperdrive.storedFuel)
 
-	if stock < mass then
-		mass = stock
-		total = price * mass
-	end
+	-- Can't buy any more than the station has in stock or we have money for
+	mass = math.min(mass, math.min(stock, PlayerState.GetMoney() / price))
+	PlayerState.AddMoney(-price * mass)
 
-	Game.player:AddMoney(-total)
-	if mass < 0 then
-		cargoMgr:RemoveCommodity(hyperdrive_fuel, math.abs(mass))
-	else
-		cargoMgr:AddCommodity(hyperdrive_fuel, mass)
-	end
-	station:AddCommodityStock(hyperdrive_fuel, -mass)
+	hyperdrive:SetFuel(Game.player, hyperdrive.storedFuel + mass)
+	station:AddCommodityStock(hyperdrive_fuel, -math.round(mass))
 end
 
 local function lobbyMenu()
@@ -206,7 +191,7 @@ local function lobbyMenu()
 	local gaugeHeight = widgetSizes.buttonSizeBase.y
 	gaugePos.y = gaugePos.y + widgetSizes.buttonSizeBase.y/2
 	local gaugeWidth = ui.getContentRegion().x
-	ui.gauge(gaugePos, Game.player.fuel, '', string.format(l.FUEL .. ": %dt \t" .. l.DELTA_V .. ": %d km/s",
+	ui.gauge(gaugePos, Game.player.fuel, '', string.format(l.FUEL .. ": %d t \t" .. l.DELTA_V .. ": %d km/s",
 		shipDef.fuelTankMass/100 * Game.player.fuel, Game.player:GetRemainingDeltaV()/1000),
 		0, 100, icons.fuel,
 		colors.gaugeEquipmentMarket, '', gaugeWidth, gaugeHeight, pionillium.body)
@@ -214,12 +199,12 @@ local function lobbyMenu()
 	-- hyperspace fuel
 	ui.nextColumn()
 
+	if not hyperdrive then return end
+
 	hyperdriveIcon:Draw(widgetSizes.iconSize)
 	ui.nextColumn()
 
-	---@type CargoManager
-	local cargoMgr = Game.player:GetComponent('CargoManager')
-	local stored_hyperfuel = cargoMgr:CountCommodity(hyperdrive_fuel)
+	local stored_hyperfuel = hyperdrive.storedFuel
 
 	-- hyperspace fuel prices
 	ui.withFont(pionillium.body, function()
@@ -241,9 +226,9 @@ local function lobbyMenu()
 	-- hyperspace fuel gauge
 	gaugePos = ui.getCursorScreenPos()
 	gaugePos.y = gaugePos.y + widgetSizes.buttonSizeBase.y/2
-	ui.gauge(gaugePos, stored_hyperfuel, '', string.format(l.FUEL .. ": %dt \t" .. l.HYPERSPACE_RANGE .. ": %d " .. l.LY,
+	ui.gauge(gaugePos, stored_hyperfuel, '', string.format(l.FUEL .. ": %0.1f t \t" .. l.HYPERSPACE_RANGE .. ": %d " .. l.LY,
 		stored_hyperfuel, Game.player:GetHyperspaceRange()),
-		0, cargoMgr:GetFreeSpace() + stored_hyperfuel,
+		0, hyperdrive:GetMaxFuel(),
 		icons.hyperspace, colors.gaugeEquipmentMarket, '',
 		gaugeWidth, gaugeHeight, pionillium.body)
 
@@ -290,7 +275,7 @@ local function drawPlayerInfo()
 			local buttonSizeSpacing = widgetSizes.buttonLaunchSize.y + widgetSizes.itemSpacing.y
 			local lobbyMenuHeight = widgetSizes.buttonSizeBase.y*2 + widgetSizes.itemSpacing.y*3 -- use an extra itemSpacing to avoid scrollbar
 
-			ui.child("Wrapper", Vector2(0, -lobbyMenuHeight), {}, function()
+			ui.child("Wrapper", Vector2(0, -lobbyMenuHeight), function()
 				-- face display has 1:1 aspect ratio, and we need size for a launch button underneath
 				local infoColumnWidth = -math.min(ui.getContentRegion().y - buttonSizeSpacing, widgetSizes.faceSize.x) - widgetSizes.itemSpacing.x
 				ui.child("PlayerShipFuel", Vector2(infoColumnWidth, 0), function()
@@ -339,7 +324,7 @@ StationView:registerView({
 				face = PiGuiFace.New(Character.New({ title = l.STATION_MANAGER }, rand), {itemSpacing = widgetSizes.itemSpacing})
 			end
 
-			hyperdrive = table.unpack(Game.player:GetEquip("engine")) or nil
+			hyperdrive = Game.player:GetInstalledHyperdrive()
 			hyperdrive_fuel = hyperdrive and hyperdrive.fuel or Commodities.hydrogen
 			hyperdriveIcon = PiImage.New("icons/goods/" .. hyperdrive_fuel.icon_name .. ".png")
 		end

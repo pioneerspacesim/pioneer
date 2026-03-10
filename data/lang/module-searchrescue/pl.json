@@ -180,8 +180,8 @@
     "message": "Celem pełnej rekompensaty kosztów musisz wrócić do {due}."
   },
   "FLAVOUR_1_INTROTEXT": {
-    "description": "",
-    "message": "Kontrola ruchu {starport}  potrzebuje NATYCHMIASTOWEJ pomocy w odpowiedzi na awaryjne lądowanie statku typu {ship} na planecie {planet}. Status układów podrzymania życia jest nieznany. Statek był ubezpieczony w porcie {starport} i ubezpieczenie pokrywa {cash} zwrotu kostów w przypadku nagłego wezwania."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "Kontrola ruchu {starport}  potrzebuje NATYCHMIASTOWEJ pomocy w odpowiedzi na awaryjne lądowanie {ship_indef} na planecie {planet}. Status układów podrzymania życia jest nieznany. Statek był ubezpieczony w porcie {starport} i ubezpieczenie pokrywa {cash} zwrotu kostów w przypadku nagłego wezwania."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "FLAVOUR_4_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Pilot prosi o {unit} ton {cargo}."
+    "message": "Pilot prosi o {unit} ton {cargo}.{high_gravity}"
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -360,8 +360,8 @@
     "message": "Musisz być z powrotem do {due}."
   },
   "FLAVOUR_6_INTROTEXT": {
-    "description": "",
-    "message": "Nazywam się {name} z {entity}. Straciliśmy kontakt z naszym {ship} {shiplabel} w następstwie {problem}. Pragniemy zapłacić {cash} za natychmiastową pomoc."
+    "description": "{ship_base} is translated in /data/lang/ships/",
+    "message": "Nazywam się {name} z {entity}. Straciliśmy kontakt z naszym {ship_base} {shiplabel} w następstwie {problem}. Pragniemy zapłacić {cash} za natychmiastową pomoc."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
@@ -396,8 +396,8 @@
     "message": "Załoga zastępcza musi dotrzeć do statku do {due}."
   },
   "FLAVOUR_7_INTROTEXT": {
-    "description": "",
-    "message": "Nazywam się {name} z {entity}. Nasz jedyny statek, {ship} {shiplabel}, dryfuje z {crew} członkami załogi w następstwie {problem}. Zapłacę {cash} za natychmiastową pomoc."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "Nazywam się {name} z {entity}. Nasz jedyny statek, {ship_indef} {shiplabel}, dryfuje z {crew} członkami załogi w następstwie {problem}. Zapłacę {cash} za natychmiastową pomoc."
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
@@ -426,6 +426,22 @@
   "FULL_PASSENGERS": {
     "description": "",
     "message": "Wszystkie kabiny pełne. Brak miejsca dla kolejnych pasażerów."
+  },
+  "HIGHGRAVITY_0": {
+    "description": "",
+    "message": "Grawitacja na powierzchni {planet} wynosi {gravity} g. Weź to pod uwagę."
+  },
+  "HIGHGRAVITY_1": {
+    "description": "",
+    "message": "Powinieneś wiedzieć, że na {planet} grawitacja wynosi {gravity} g."
+  },
+  "HIGHGRAVITY_2": {
+    "description": "",
+    "message": "Będziesz lądować i startować przy {gravity} g."
+  },
+  "HIGHGRAVITY_3": {
+    "description": "",
+    "message": "Na {planet} jest {gravity} g."
   },
   "HOW_FAR": {
     "description": "",

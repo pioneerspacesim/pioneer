@@ -1,66 +1,66 @@
 {
   "CREDITS_PROMISE": {
     "description": "",
-    "message": "250,000 in cash. Right now. I would find that interesting."
+    "message": "250.000 u gotovini. Odmah. To bi mi bilo zanimljivo."
   },
   "DEFENSE_CRAFT_ELIMINATED": {
     "description": "",
-    "message": "System defense craft eliminated. Incident has been logged."
+    "message": "Obrambeni brod sustava eliminiran. Incident je zabilježen."
   },
   "HABER_DEFENSE_CRAFT": {
     "description": "",
-    "message": "Haber Defense Craft"
+    "message": "Haberov obrambeni brod"
   },
   "HEY_OVER_HERE": {
     "description": "",
-    "message": "Hey, over here."
+    "message": "Hej, ovamo."
   },
   "HOSTILE_ACTION_REPORTED": {
     "description": "",
-    "message": "Hostile action reported. Intercept and destroy!"
+    "message": "Prijavljena neprijateljska akcija. Presretnite i uništite!"
   },
   "INTERCEPTION_SUCCESSFUL": {
     "description": "",
-    "message": "Interception successful. Hostile craft destroyed."
+    "message": "Presretanje uspješno. Neprijateljska letjelica uništena."
   },
   "JETTISON_DEFENSIVE_PRECAUTION": {
     "description": "",
-    "message": "Jettison detected. Apply defensive precautions!"
+    "message": "Otkriveno izbacivanje. Primijenite obrambene mjere!"
   },
   "NOT_INTERESTED": {
     "description": "",
-    "message": "What if I'm not interested?"
+    "message": "Što ako nisam zainteresiran/a?"
   },
   "PERFECT": {
     "description": "",
-    "message": "Perfect. If anyone asks... Surely no one will ask, but if anyone asks, please remember that we were just haggling over a second hand shield generator."
+    "message": "Savršeno. Ako netko pita... Sigurno nitko neće pitati, ali ako netko pita, molim vas, sjetite se da smo se samo cjenkali oko rabljenog generatora štita."
   },
   "RONDEL_RESTRICTED_ZONE": {
     "description": "",
-    "message": "{playerShipLabel}, this star system is a restricted zone. You must leave within {seconds} seconds. Should you fail to comply, you will be assumed hostile and defensive precautions will be taken."
+    "message": "{playerShipLabel}, ovaj zvjezdani sustav je ograničena zona. Morate otići unutar {seconds} sekundi. Ako ne postupite, smatrat ćete se neprijateljski raspoloženim i poduzet će se obrambene mjere opreza."
   },
   "SOLFED_INTEL": {
     "description": "",
-    "message": "Solar Federation Intelligence"
+    "message": "Inteligencija Solarne Federacije"
   },
   "SOLFED_INTEL_INTRO": {
     "description": "",
-    "message": "Keep your voice down, pilot. I'm an undercover agent working for Solar Federation Intelligence. Your ship's computer memory has some data we are interested in."
+    "message": "Tiše, pilote. Ja sam tajni agent koji radi za Obavještajnu službu Solarne Federacije. Memorija vašeg brodskog računala sadrži neke podatke koji nas zanimaju."
   },
   "WEAPONS_EVASIVE_ACTION": {
     "description": "",
-    "message": "Weapons discharge detected. Take evasive action!"
+    "message": "Otkriveno je ispaljivanje oružja. Poduzmite mjere izbjegavanja!"
   },
   "WHAT_IS_THIS_ABOUT": {
     "description": "",
-    "message": "What data? What is this all about?"
+    "message": "Koji podaci? O čemu se radi?"
   },
   "YOU_SHALL_HAVE_THE_DATA": {
     "description": "",
-    "message": "You shall have the data."
+    "message": "Imat ćete podatke."
   },
   "YOU_VISITED_STAR_SYSTEM": {
     "description": "",
-    "message": "You may or may not have visited some star system we would like to know more about."
+    "message": "Možda ste posjetili neki zvjezdani sustav o kojem bismo željeli saznati više, a možda i niste."
   }
 }

@@ -7,6 +7,38 @@
     "description": "",
     "message": "Terk etmen gereken zamanı bil"
   },
+  "ADVICE_11_BODYTEXT": {
+    "description": "",
+    "message": "Bir gezegene iniş yapmayı düşünmeden önce yüzey kütleçekimini bildiğinden emin ol."
+  },
+  "ADVICE_11_HEADLINE": {
+    "description": "A reference to the song 'The Harder They Come', by Jimmy Cliff",
+    "message": "Ne kadar yüksek ise kütleçekimi, o kadar büyük düşenin elemi."
+  },
+  "ADVICE_12_BODYTEXT": {
+    "description": "",
+    "message": "Eğer kendinizi bir sistemin en dış taraflarında bulursanız ve iç gezegenlere dönmeniz gerekiyorsa, yakındaki başka bir sisteme sıçrayıp geri gelmek en hızlı yol olabilir."
+  },
+  "ADVICE_12_HEADLINE": {
+    "description": "",
+    "message": "Sıçramalı bir kısayol"
+  },
+  "ADVICE_13_BODYTEXT": {
+    "description": "",
+    "message": "Daha düşük kütle daha az yakıt harcaması ve daha hızlı bir gemi demektir. Yakıt, aynı zamanda kütledir. Bazı rotalar için tanklarınızda daha az yakıtla yola çıkmak hem zaman hem de para tasarrufu sağlayabilir."
+  },
+  "ADVICE_13_HEADLINE": {
+    "description": "",
+    "message": "Depoyu fulleme, patron!"
+  },
+  "ADVICE_14_BODYTEXT": {
+    "description": "",
+    "message": "Birden çok sıçramayı uç uca eklerken, limandan ayrılmadan önce işinizi hallederseniz hem sonraki baş ağrısından kurtulur hem de hayatınızı kurtarabilirsiniz. Rota üzerinde istenmeyen bir durumla karşılaşmayı göze almayın."
+  },
+  "ADVICE_14_HEADLINE": {
+    "description": "",
+    "message": "Temiz bir yol"
+  },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
     "message": "Bir istasyona geri döndüğünde tanımadığın alternatif market yerlerine dikkat et, böylece kanunla belaya girmekten kurtulursun."
@@ -17,7 +49,7 @@
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
-    "message": "Pek çok küçük yol, toplamlarından daha hızlı alınır."
+    "message": "Uzun mesafeler küçük parçalara bölünürse daha hızlı alınır, ancak karşılığında yakıt tüketimi artar."
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",

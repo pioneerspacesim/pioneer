@@ -1,4 +1,68 @@
 {
+  "FINES_ADMONISHING_1": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Veuillez visiter le bureau de plus proche de {policeforce} afin de payer vos amendes."
+  },
+  "FINES_ADMONISHING_2": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Visitez le plus proche bureau de {policeforce} et résolvez ce problème."
+  },
+  "FINES_ADMONISHING_3": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Vous devez résoudre votre problème ou il ne va faire qu'empirer."
+  },
+  "FINES_ADMONISHING_4": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Il y un bureau de {policeforce} sur chaque station de grande envergure. Payez vos amendes !"
+  },
+  "FINES_ADMONISHING_HARSH_1": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Ceci doit être résolu ou il va y avoir des conséquences."
+  },
+  "FINES_ADMONISHING_HARSH_2": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Les amendes non-payées seront poursuivies dans toute la mesure permise par la loi."
+  },
+  "FINES_ADMONISHING_HARSH_3": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Ceci est sérieux et vous devez le résoudre, plus cela sera fait tôt, mieux ce sera."
+  },
+  "FINES_ADMONISHING_HARSH_4": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Si vous ne payez pas vos amendes, vous deviendrez hors-la-loi. Payez vos amendes aujourd'hui !"
+  },
+  "FINES_INTRO_1": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Attendez, il y a encore autre chose."
+  },
+  "FINES_INTRO_2": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Il y a autre chose {ship_label}."
+  },
+  "FINES_INTRO_3": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Attendez !"
+  },
+  "FINES_INTRO_4": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "{ship_label}."
+  },
+  "FINES_MESSAGE_1": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Vous avez des amendes impayées."
+  },
+  "FINES_MESSAGE_2": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Vous êtes marqué comme ayant des amendes impayées."
+  },
+  "FINES_MESSAGE_3": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Nous voyons que vous avez des amendes à payer."
+  },
+  "FINES_MESSAGE_4": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Vous avez un total de {fine}$ d'amendes impayées."
+  },
   "ILLEGAL_GOODS_DETECTED": {
     "description": "",
     "message": "Marchandise illégale détectée."
@@ -37,7 +101,7 @@
   },
   "POLICE_TAUNT_2": {
     "description": "",
-    "message": "Sale trafiquant, vous allez manger l'herbe par la racine!"
+    "message": "Trafiquant, tu vas payer le prix ultime !"
   },
   "POLICE_TAUNT_3": {
     "description": "",
@@ -51,24 +115,40 @@
     "description": "",
     "message": "Vous avez pénétré dans le système {system}. Respectez la loi !"
   },
+  "RESTRICTIONS_ESTABLISHED_1": {
+    "description": "",
+    "message": "La menace a été éliminée. {ship_label}, l'usage des armes est à nouveau restreint."
+  },
+  "RESTRICTIONS_ESTABLISHED_2": {
+    "description": "",
+    "message": "{ship_label}, cessez le feu, cessez le feu !"
+  },
+  "RESTRICTIONS_WITHDRAWN_1": {
+    "description": "",
+    "message": "{ship_label}, vous êtes autorisé à ouvrir le feu."
+  },
+  "RESTRICTIONS_WITHDRAWN_2": {
+    "description": "",
+    "message": "{ship_label}, tirez à volonté !"
+  },
   "TAKE_A_HIKE": {
     "description": "",
     "message": "Ok, je vous laisse une seconde chance. Disparaissez !"
   },
   "TARGET_DESTROYED_1": {
     "description": "",
-    "message": "Cible détruite!"
+    "message": "Cible détruite !"
   },
   "TARGET_DESTROYED_2": {
     "description": "",
-    "message": "Ouais!"
+    "message": "Ouais !"
   },
   "TARGET_DESTROYED_3": {
     "description": "",
-    "message": "Repose en pièces! Haha."
+    "message": "Repose en pièces ! Haha."
   },
   "TARGET_DESTROYED_4": {
     "description": "",
-    "message": "Encore un qui mord la poussière!"
+    "message": "Encore un qui mord la poussière !"
   }
 }

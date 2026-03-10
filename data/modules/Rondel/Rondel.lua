@@ -1,24 +1,43 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
 local Lang = require 'Lang'
 local Game = require 'Game'
-local Space = require 'Space'
 local Comms = require 'Comms'
 local Event = require 'Event'
-local Legal = require 'Legal'
 local Serializer = require 'Serializer'
-local Equipment = require 'Equipment'
 local ShipDef = require 'ShipDef'
 local SystemPath = require 'SystemPath'
 local Timer = require 'Timer'
 local Commodities = require 'Commodities'
+local PlayerState = require 'PlayerState'
+
+local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
+local OutfitRules = ShipBuilder.OutfitRules
 
 --local Character = require 'Character'
 
 local l_rondel = Lang.GetResource("module-rondel")
-local l_ui_core = Lang.GetResource("ui-core")
+local lui = Lang.GetResource("ui-core")
+
+local HaberPatrolCraft = ShipBuilder.Template:clone {
+	label = l_rondel.HABER_DEFENSE_CRAFT,
+	role = "police", -- overridden by setting shipId
+	rules = {
+		{
+			slot = "weapon",
+			equip = "laser.pulsecannon_2mw",
+			limit = 1
+		},
+		OutfitRules.ModerateWeapon,
+		OutfitRules.EasyWeapon,
+		OutfitRules.ModerateShieldGen,
+		OutfitRules.EasyShieldGen,
+		OutfitRules.DefaultAtmoShield,
+		OutfitRules.DefaultAutopilot
+	}
+}
 
 local patrol = {}
 local shipFiring = false
@@ -48,7 +67,7 @@ local onChat = function (form, ref, option)
 		ads[ref] = nil
 		form:RemoveAdvertOnClose()
 		form:SetMessage(l_rondel.PERFECT)
-		Game.player:AddMoney(250000)
+		PlayerState.AddMoney(250000)
 		rondel_prize = true
 		return
 	elseif option == 2 then
@@ -136,23 +155,25 @@ local onJettison = function (ship, cargo)
 end
 
 local onEnterSystem = function (player)
-	if not player:IsPlayer() then return end
-
-	local system = Game.system
+	local system = assert(Game.system)
 	if not system.path:IsSameSystem(rondel_syspath) then return end
 
 	local tolerance = 1
-	local hyperdrive = Game.player:GetEquip('engine',1)
-	if hyperdrive.fuel == Commodities.military_fuel then
+	local hyperdrive = Game.player:GetInstalledHyperdrive()
+	if hyperdrive and hyperdrive.fuel == Commodities.military_fuel then
 		tolerance = 0.5
 	end
 
 	local ship
-	local shipdef = ShipDef[system.faction.policeShip]
+
+	local threat = 20.0 + Engine.rand:Number(10.0, 30.0)
+	local template = HaberPatrolCraft:clone {
+		shipId = system.faction.policeShip
+	}
+
 	for i = 1, 7 do
-		ship = Space.SpawnShipNear(shipdef.id, player, 50, 100)
-		ship:SetLabel(l_rondel.HABER_DEFENSE_CRAFT)
-		ship:AddEquip(Equipment.laser.pulsecannon_2mw)
+		ship = ShipBuilder.MakeShipNear(player, template, threat, 50, 100)
+		assert(ship)
 		table.insert(patrol, ship)
 	end
 
@@ -170,11 +191,9 @@ local onEnterSystem = function (player)
 end
 
 local onLeaveSystem = function (ship)
-	if ship:IsPlayer() then
-		shipFiring = false
-		jetissionedCargo = false
-		patrol = {}
-	end
+	shipFiring = false
+	jetissionedCargo = false
+	patrol = {}
 end
 
 local loaded_data

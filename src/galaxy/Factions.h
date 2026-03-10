@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _FACTIONS_H
@@ -64,18 +64,20 @@ public:
 
 	double Radius() const { return (FACTION_CURRENT_YEAR - foundingDate) * expansionRate; };
 	bool IsValid() const { return idx != BAD_FACTION_IDX; };
-	Color AdjustedColour(fixed population, bool inRange) const;
+	Color AdjustedColour(fixed population, bool shadow) const;
 	Polit::GovType PickGovType(Random &rand) const;
 
 	// set the homeworld to one near the supplied co-ordinates
 	void SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi, Sint32 axisChange);
 	RefCountedPtr<const Sector> GetHomeSector() const;
 
+	void GenerateHomeSector();
+
 private:
 	static const double FACTION_CURRENT_YEAR; // used to calculate faction radius
 
 	Galaxy *const m_galaxy;							  // galaxy we are part of
-	mutable RefCountedPtr<const Sector> m_homesector; // cache of home sector to use in distance calculations
+	RefCountedPtr<const Sector> m_homesector; // cache of home sector to use in distance calculations
 	bool IsCloserAndContains(double &closestFactionDist, const Sector::System *sys) const;
 };
 
@@ -100,6 +102,7 @@ public:
 	bool IsInitialized() const;
 	Galaxy *GetGalaxy() const { return m_galaxy; }
 	void RegisterCustomSystem(CustomSystem *cs, const std::string &factionName);
+	void UnregisterCustomSystem(const CustomSystem *cs, const std::string &factionName);
 	void AddFaction(Faction *faction);
 
 	const Faction *GetFaction(const Uint32 index) const;

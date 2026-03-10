@@ -180,8 +180,8 @@
     "message": "Caithfidh tú filleadh roimh {due} chun aisíocaíocht iomlán ar chostaisí a fháil."
   },
   "FLAVOUR_1_INTROTEXT": {
-    "description": "",
-    "message": "Tá lucht rialaithe aerthráchta {starport} ag lorg cúnaimh uait LÁITHREACH mar gheall ar spáslong de chineál {ship} a thuirling de thuairt ar {planet}. Níl a fhios againn an bhfuil an córas cothaithe beatha ag feidhmiú fós. Tá luach {cash} d'árachas ó spásphort {starport} ar an long chun costaisí práinnfhreagartha a chlúdach."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{starport} air traffic control needs your IMMEDIATE help responding to the crash landing of {ship_indef} on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "FLAVOUR_4_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Tá an píolóta ag iarraidh {unit} tona de {cargo}."
+    "message": "The pilot is asking for {unit} tons of {cargo}. {high_gravity}"
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -353,15 +353,15 @@
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
-    "message": "Is millteanach an tubaiste é! Seo é breithiúnas báis ar ár gcomhghleacaithe bochta!"
+    "message": "What a disaster! This is a death sentence for our poor colleagues!"
   },
   "FLAVOUR_6_HOWMUCHTIMETEXT": {
     "description": "",
     "message": "Ní mór duit filleadh roimh {due}."
   },
   "FLAVOUR_6_INTROTEXT": {
-    "description": "",
-    "message": "Is mise {name} ó {entity}. Chailleamar teagmháil lenár {ship} {shiplabel} tar éis {problem}. Bheimis sásta {cash} a íoc as cúnamh láithreach."
+    "description": "{ship_base} is translated in /data/lang/ships/",
+    "message": "My name is {name} of {entity}. We lost contact with our {ship_base} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
@@ -396,8 +396,8 @@
     "message": "Caithfear an fhoireann ionaid an long a bhaint amach ar {due} ar a dhéanaí."
   },
   "FLAVOUR_7_INTROTEXT": {
-    "description": "",
-    "message": "Is mise {name} ó {entity}. Tá an long amháin atá againn, {ship} {shiplabel}, ag snámh gan chumhacht gan stiúradh le {crew} ball foirne ar bord tar éis {problem}. Bheinn sásta {cash} a íoc as cúnamh láithreach."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "My name is {name} of {entity}. Our only ship, {ship_indef} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
@@ -426,6 +426,22 @@
   "FULL_PASSENGERS": {
     "description": "",
     "message": "Tá na cábáin go léir líonta. Níl aon spás do phaisinéirí breise ar an long."
+  },
+  "HIGHGRAVITY_0": {
+    "description": "",
+    "message": "The surface gravity on {planet} is {gravity} g. Please take this into consideration."
+  },
+  "HIGHGRAVITY_1": {
+    "description": "",
+    "message": "You should know that {planet} is {gravity} g."
+  },
+  "HIGHGRAVITY_2": {
+    "description": "",
+    "message": "You will land and take off in {gravity} g."
+  },
+  "HIGHGRAVITY_3": {
+    "description": "",
+    "message": "{planet} is {gravity} g."
   },
   "HOW_FAR": {
     "description": "",

@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -114,8 +114,10 @@ end
 
 -- Render a row for an entry in the system overview
 function SystemOverviewWidget:renderEntry(entry, indent)
-	local sbody = entry.systemBody
+	local sbody = entry.systemBody ---@type SystemBody
 	local label = entry.label or "UNKNOWN"
+	-- Handle the case where there is more than one body with the same name (e.g. New Hope in Epsilon Eridani)
+	local id = "##" .. label .. "#" .. sbody.path.bodyIndex
 
 	ui.dummy(Vector2(style.iconSize.x * indent / 2.0, style.iconSize.y))
 	ui.sameLine()
@@ -123,7 +125,7 @@ function SystemOverviewWidget:renderEntry(entry, indent)
 	ui.sameLine()
 
 	local pos = ui.getCursorPos()
-	if ui.selectable("##" .. label, entry.selected, {"SpanAllColumns"}, Vector2(0, style.iconSize.y)) then
+	if ui.selectable(id, entry.selected, {"SpanAllColumns"}, Vector2(0, style.iconSize.y)) then
 		self:onBodySelected(sbody, entry.body)
 	end
 	if ui.isItemHovered() and ui.isMouseDoubleClicked(0) then
@@ -182,23 +184,23 @@ function SystemOverviewWidget:drawControlButtons()
 	local buttonSize = self.buttonSize or styles.MainButtonSize
 
 	if self.shouldDisplayPlayerDistance then
-		if ui.mainMenuButton(icons.distance, lui.TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE, self.shouldSortByPlayerDistance, buttonSize) then
+		if ui.iconButton("sort_by_dist", icons.distance, lui.TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE, self.shouldSortByPlayerDistance, buttonSize) then
 			self.shouldSortByPlayerDistance = not self.shouldSortByPlayerDistance
 		end
 		ui.sameLine()
 	end
 
-	if ui.mainMenuButton(icons.moon, lui.TOGGLE_OVERVIEW_SHOW_MOONS, self.shouldShowMoons, buttonSize) then
+	if ui.iconButton("show_moons", icons.moon, lui.TOGGLE_OVERVIEW_SHOW_MOONS, self.shouldShowMoons, buttonSize) then
 		self.shouldShowMoons = not self.shouldShowMoons
 	end
 	ui.sameLine()
-	if ui.mainMenuButton(icons.filter_stations, lui.TOGGLE_OVERVIEW_SHOW_STATIONS, self.shouldShowStations, buttonSize) then
+	if ui.iconButton("show_stations", icons.filter_stations, lui.TOGGLE_OVERVIEW_SHOW_STATIONS, self.shouldShowStations, buttonSize) then
 		self.shouldShowStations = not self.shouldShowStations
 	end
 end
 
 function SystemOverviewWidget:displaySearch()
-	local filterText = ui.inputText("", self.filterText, {})
+	local filterText = ui.inputText("##FilterText", self.filterText, {})
 	self.filterText = filterText
 	self.focusSearchResults = filterText and filterText ~= ""
 
@@ -246,7 +248,7 @@ function SystemOverviewWidget:displaySidebarTitle(system)
 	local button_width = (ui.getLineHeight() + spacing.x) * numButtons - spacing.x
 
 	local pos = ui.getCursorPos() + Vector2(ui.getContentRegion().x - button_width, 0)
-	self.buttonSize = Vector2(ui.getLineHeight() - styles.MainButtonPadding * 2)
+	self.buttonSize = Vector2(ui.getLineHeight())
 
 	if system then
 		ui.text(system.name)

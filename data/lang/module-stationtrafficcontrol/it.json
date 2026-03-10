@@ -41,7 +41,7 @@
   },
   "YOU_ARE_ENTERING_STATION_SPACE_3": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, questa è {station} CTS. Sta entrando nel nostro spazio controllato."
+    "message": "{playerShipLabel}, questo è CTS di {station}. Sta entrando nel nostro spazio controllato."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_4": {
     "description": "",

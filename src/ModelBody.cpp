@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelBody.h"
@@ -6,7 +6,7 @@
 #include "Camera.h"
 #include "Frame.h"
 #include "GameSaveError.h"
-#include "Json.h"
+#include "JsonUtils.h"
 #include "Pi.h"
 #include "Planet.h"
 #include "Shields.h"
@@ -47,7 +47,7 @@ public:
 
 	virtual void ApplyMatrixTransform(SceneGraph::MatrixTransform &m)
 	{
-		matrix4x4f matrix = matrix4x4f::Identity();
+		matrix4x4f matrix = matrix4x4f::Identity;
 		if (!m_matrixStack.empty()) matrix = m_matrixStack.back();
 
 		m_matrixStack.push_back(matrix * m.GetTransform());
@@ -87,7 +87,6 @@ ModelBody::ModelBody(const Json &jsonObj, Space *space) :
 	}
 
 	m_model->LoadFromJson(modelBodyObj);
-	m_shields->LoadFromJson(modelBodyObj);
 }
 
 ModelBody::~ModelBody()
@@ -109,7 +108,6 @@ void ModelBody::SaveToJson(Json &jsonObj, Space *space)
 	modelBodyObj["is_colliding"] = m_colliding;
 	modelBodyObj["model_name"] = m_modelName;
 	m_model->SaveToJson(modelBodyObj);
-	m_shields->SaveToJson(modelBodyObj);
 
 	jsonObj["model_body"] = modelBodyObj; // Add model body object to supplied object.
 }
@@ -133,10 +131,17 @@ void ModelBody::SetStatic(bool isStatic)
 void ModelBody::SetColliding(bool colliding)
 {
 	m_colliding = colliding;
-	if (colliding)
+	if (colliding) {
 		m_geom->Enable();
-	else
+		for(auto &g : m_dynGeoms) {
+			g->Enable();
+		}
+	} else {
 		m_geom->Disable();
+		for(auto &g : m_dynGeoms) {
+			g->Disable();
+		}
+	}
 }
 
 void ModelBody::RebuildCollisionMesh()
@@ -152,6 +157,7 @@ void ModelBody::RebuildCollisionMesh()
 
 	//static geom
 	m_geom = new Geom(m_collMesh->GetGeomTree(), GetOrient(), GetPosition(), this);
+	if(!IsColliding()) m_geom->Disable();
 
 	SetPhysRadius(maxRadius);
 
@@ -162,10 +168,11 @@ void ModelBody::RebuildCollisionMesh()
 	//dynamic geoms
 	for (auto it = m_collMesh->GetDynGeomTrees().begin(); it != m_collMesh->GetDynGeomTrees().end(); ++it) {
 		Geom *dynG = new Geom(*it, GetOrient(), GetPosition(), this);
-		dynG->m_animTransform = matrix4x4d::Identity();
+		dynG->m_animTransform = matrix4x4d::Identity;
 		SceneGraph::CollisionGeometry *cg = dgf.GetCgForTree(*it);
 		if (cg)
 			cg->SetGeom(dynG);
+		if(!IsColliding()) dynG->Disable();
 		m_dynGeoms.push_back(dynG);
 	}
 
@@ -189,8 +196,6 @@ void ModelBody::SetModel(const char *modelName)
 		m_model->SetAnimationActive(m_model->FindAnimationIndex(m_idleAnimation), true);
 
 	SetClipRadius(m_model->GetDrawClipRadius());
-
-	m_shields.reset(new Shields(m_model));
 
 	RebuildCollisionMesh();
 }
@@ -288,159 +293,11 @@ void ModelBody::MoveGeoms(const matrix4x4d &m, const vector3d &p)
 	}
 }
 
-// Calculates the ambiently and directly lit portions of the lighting model taking into account the atmosphere and sun positions at a given location
-// 1. Calculates the amount of direct illumination available taking into account
-//    * multiple suns
-//    * sun positions relative to up direction i.e. light is dimmed as suns set
-//    * Thickness of the atmosphere overhead i.e. as atmospheres get thicker light starts dimming earlier as sun sets, without atmosphere the light switches off at point of sunset
-// 2. Calculates the split between ambient and directly lit portions taking into account
-//    * Atmosphere density (optical thickness) of the sky dome overhead
-//        as optical thickness increases the fraction of ambient light increases
-//        this takes altitude into account automatically
-//    * As suns set the split is biased towards ambient
-void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *camera)
+void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	const double minAmbient = 0.05;
-	ambient = minAmbient;
-	direct = 1.0;
-	Body *astro = Frame::GetFrame(GetFrame())->GetBody();
-	if (!(astro && astro->IsType(ObjectType::PLANET)))
-		return;
-
-	Planet *planet = static_cast<Planet *>(astro);
-
-	// position relative to the rotating frame of the planet
-	vector3d upDir = GetInterpPositionRelTo(planet->GetFrame());
-	const double planetRadius = planet->GetSystemBody()->GetRadius();
-	const double dist = std::max(planetRadius, upDir.Length());
-	upDir = upDir.Normalized();
-
-	double pressure, density;
-	planet->GetAtmosphericState(dist, &pressure, &density);
-	double surfaceDensity;
-	Color cl;
-	planet->GetSystemBody()->GetAtmosphereFlavor(&cl, &surfaceDensity);
-
-	// approximate optical thickness fraction as fraction of density remaining relative to earths
-	double opticalThicknessFraction = density / EARTH_ATMOSPHERE_SURFACE_DENSITY;
-
-	// tweak optical thickness curve - lower exponent ==> higher altitude before ambient level drops
-	// Commenting this out, since it leads to a sharp transition at
-	// atmosphereRadius, where density is suddenly 0
-	//opticalThicknessFraction = pow(std::max(0.00001,opticalThicknessFraction),0.15); //max needed to avoid 0^power
-
-	if (opticalThicknessFraction < 0.0001)
-		return;
-
-	//step through all the lights and calculate contributions taking into account sun position
-	double light = 0.0;
-	double light_clamped = 0.0;
-
-	const std::vector<Camera::LightSource> &lightSources = camera->GetLightSources();
-	for (std::vector<Camera::LightSource>::const_iterator l = lightSources.begin();
-		 l != lightSources.end(); ++l) {
-		double sunAngle;
-		// calculate the extent the sun is towards zenith
-		if (l->GetBody()) {
-			// relative to the rotating frame of the planet
-			const vector3d lightDir = (l->GetBody()->GetInterpPositionRelTo(planet->GetFrame()).Normalized());
-			sunAngle = lightDir.Dot(upDir);
-		} else {
-			// light is the default light for systems without lights
-			sunAngle = 1.0;
-		}
-
-		const double critAngle = -sqrt(dist * dist - planetRadius * planetRadius) / dist;
-
-		//0 to 1 as sunangle goes from critAngle to 1.0
-		double sunAngle2 = (Clamp(sunAngle, critAngle, 1.0) - critAngle) / (1.0 - critAngle);
-
-		// angle at which light begins to fade on Earth
-		const double surfaceStartAngle = 0.3;
-		// angle at which sun set completes, which should be after sun has dipped below the horizon on Earth
-		const double surfaceEndAngle = -0.18;
-
-		const double start = std::min((surfaceStartAngle * opticalThicknessFraction), 1.0);
-		const double end = std::max((surfaceEndAngle * opticalThicknessFraction), -0.2);
-
-		sunAngle = (Clamp(sunAngle - critAngle, end, start) - end) / (start - end);
-
-		light += sunAngle;
-		light_clamped += sunAngle2;
-	}
-
-	light_clamped /= lightSources.size();
-	light /= lightSources.size();
-
-	// brightness depends on optical depth and intensity of light from all the stars
-	direct = 1.0 - Clamp((1.0 - light), 0.0, 1.0) * Clamp(opticalThicknessFraction, 0.0, 1.0);
-
-	// ambient light fraction
-	// alter ratio between directly and ambiently lit portions towards ambiently lit as sun sets
-	const double fraction = (0.2 + 0.8 * (1.0 - light_clamped)) * Clamp(opticalThicknessFraction, 0.0, 1.0);
-
-	// fraction of light left over to be lit directly
-	direct = (1.0 - fraction) * direct;
-
-	// scale ambient by amount of light
-	ambient = fraction * (Clamp((light), 0.0, 1.0)) * 0.25;
-
-	ambient = std::max(minAmbient, ambient);
-}
-
-// setLighting: set renderer lights according to current position and sun
-// positions. Original lighting is passed back in oldLights, oldAmbient, and
-// should be reset after rendering with ModelBody::ResetLighting.
-void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::vector<float> &oldIntensity, Color &oldAmbient)
-{
-	double ambient, direct;
-	CalcLighting(ambient, direct, camera);
-
-	const std::vector<Camera::LightSource> &lightSources = camera->GetLightSources();
-	oldIntensity.resize(lightSources.size(), 0.0f);
-	std::vector<float> lightIntensity(lightSources.size(), 0.0f);
-	for (size_t i = 0; i < lightSources.size(); i++) {
-		oldIntensity[i] = r->GetLight(i).GetIntensity();
-		lightIntensity[i] = direct * camera->ShadowedIntensity(i, this);
-	}
-
-	oldAmbient = r->GetAmbientColor();
-	r->SetAmbientColor(Color(ambient * 255, ambient * 255, ambient * 255));
-	r->SetLightIntensity(lightSources.size(), lightIntensity.data());
-}
-
-void ModelBody::ResetLighting(Graphics::Renderer *r, const std::vector<float> &oldIntensity, const Color &oldAmbient)
-{
-	// restore old lights
-	if (!oldIntensity.empty())
-		r->SetLightIntensity(oldIntensity.size(), oldIntensity.data());
-	r->SetAmbientColor(oldAmbient);
-}
-
-void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform, const bool setLighting)
-{
-	std::vector<float> oldIntensity;
-	Color oldAmbient;
-	if (setLighting)
-		SetLighting(r, camera, oldIntensity, oldAmbient);
-
-	matrix4x4d m2 = GetInterpOrient();
-	m2.SetTranslate(GetInterpPosition());
-	matrix4x4d t = viewTransform * m2;
-
-	//double to float matrix
-	matrix4x4f trans;
-	for (int i = 0; i < 12; i++)
-		trans[i] = float(t[i]);
-	trans[12] = viewCoords.x;
-	trans[13] = viewCoords.y;
-	trans[14] = viewCoords.z;
-	trans[15] = 1.0f;
-
-	m_model->Render(trans);
-
-	if (setLighting)
-		ResetLighting(r, oldIntensity, oldAmbient);
+	// HACK: this uses the global application time as a "render clock". This should be accessible through the Camera instead.
+	m_model->SetRenderTime(Pi::GetApp()->GetTime());
+	m_model->Render(matrix4x4f(viewTransform * GetInterpMatrix()));
 }
 
 void ModelBody::TimeStepUpdate(const float timestep)

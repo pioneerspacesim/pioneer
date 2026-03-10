@@ -81,7 +81,7 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Wanted: Delivery of a package to the {system} system."
+    "message": "悬赏: 运送一个包裹到 {system} 星系."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "Urgent! Fast ship needed to deliver a package to the {system} system."
+    "message": "十万火急! 来艘快船把这个包裹送到 {system} 星系."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
@@ -129,7 +129,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Delivery of sensitive documents to the {system} system. {cash} to an experienced pilot."
+    "message": "运输机密文档前往 {system} 星系. 这位经验丰富的飞行员将获得 {cash} 酬劳."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
@@ -145,7 +145,7 @@
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "你及时和准确的运送让我十分欣赏. 已经把款打过去了."
+    "message": "你及时和准确的服务非常受赞赏。已全额支付。"
   },
   "FLAVOUR_3_WHYSOMUCHTEXT": {
     "description": "",
@@ -153,7 +153,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Interstellar Postal Services. We require a ship for the delivery run to {system} system."
+    "message": "星际速递服务. 我们需要一艘船把东西运去 {system} 星系."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
@@ -169,7 +169,7 @@
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "我很赞赏你及时和准确的运送. 全款支付."
+    "message": "你及时和准确的服务非常受赞赏。已全额支付。"
   },
   "FLAVOUR_4_WHYSOMUCHTEXT": {
     "description": "",
@@ -177,7 +177,7 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Transport belongings to {starport} from port storage facility."
+    "message": "将物品从港口储存设施运输到 {starport} 星港."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
@@ -201,7 +201,7 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "In-system courier services required. Delivery of a small package to {starport}."
+    "message": "星系内部运输单. 运送这个小快递到 {starport}."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
@@ -225,7 +225,7 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Standardized inter-planetary transport contract. Freight of local cargo to {starport}."
+    "message": "标准星间运输单. 将本地货物运输到 {starport}."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
@@ -249,7 +249,7 @@
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "Urgent personal delivery contract. Require quick delivery of an item to {starport}."
+    "message": "紧急个人运输合同. 尽快将物品送到 {starport}."
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
@@ -273,7 +273,7 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "Package drop-off required. Urgent dispatch of perishables to {starport}."
+    "message": "急速快递单. 快将易腐品送往 {starport}."
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",

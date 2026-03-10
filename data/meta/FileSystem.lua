@@ -1,0 +1,54 @@
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+-- This file implements type information about C++ classes for Lua static analysis
+-- This is used in FileSyestem.lua whcih then extends that.
+
+---@meta
+
+---@class FileSystem
+local FileSystem = {}
+
+---@class FileSystem.FileInfo
+---@field name string File name without directory component
+---@field path string File path including all directory components to the root of the FileSource.
+---@field mtime table DateTime table indicating the last modified time
+
+---@param path string The directory to read the contents of.
+---@return FileSystem.FileInfo[] files  A list of files as full paths from the root
+---@return FileSystem.FileInfo[] dirs   A list of dirs as full paths from the root
+---
+--- Example:
+---  > local files, dirs = FileSystem.ReadDirectory("user://savefiles")
+function FileSystem.ReadDirectory(path) end
+
+--- Join the passed arguments into a path, correctly handling separators and .
+--- and .. special dirs.
+---
+---@param ... string  A list of path elements to be joined
+---@return string path The joined path elements
+function FileSystem.JoinPath( ... ) end
+
+---@param dir_name string The name of the folder to create
+---@return boolean Success
+function FileSystem.MakeDirectory( dir_name ) end
+
+--- Wrapper for our patched io.open that ensures files are opened inside the sandbox.
+--- Prefer using this to io.open
+---
+--- Files in the user folder can be read or written to
+--- Files in the data folder are read only.
+---
+---
+---
+--- Example:
+--- > f = FileSystem.Open( "user://my_file.txt", "w" )
+--- > f:write( "file contents" )
+--- > f:close()
+---
+---@param filename string   The name of the file to open, must start either user:// or data://
+---@param mode string?      The mode to open the file in, defaults to read only. Only user location files can be written
+---@return file* file        A lua io file
+function FileSystem.Open( filename, mode ) end
+
+return FileSystem

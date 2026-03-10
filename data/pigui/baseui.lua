@@ -1,11 +1,18 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
 local pigui = Engine.pigui
 
+---@class ui
 local ui = require 'pigui.libs.forwarded'
+
 ui.rescaleUI = require 'pigui.libs.rescale-ui'
+
+---@type EventQueue
+ui.Events = pigui.event_queue
+
+ui.Style = require 'pigui.libs.style'
 
 --
 -- Function: ui.rescaleFraction

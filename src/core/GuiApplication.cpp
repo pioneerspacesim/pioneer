@@ -1,11 +1,13 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GuiApplication.h"
 #include "IniConfig.h"
+#include "Input.h"
 #include "OS.h"
 
-#include "SDL.h"
+#include <SDL.h>
+#include <SDL_video.h>
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/RenderState.h"
@@ -13,60 +15,32 @@
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
 #include "pigui/PiGui.h"
+#include "pigui/PiGuiRenderer.h"
 #include "profiler/Profiler.h"
-#include "utils.h"
 #include "versioningInfo.h"
 
-// FIXME: add support for offscreen rendertarget drawing and multisample RTs
-#define RTT 0
+GuiApplication::GuiApplication(const std::string &title) :
+	Application(), m_applicationTitle(title)
+{}
+
+GuiApplication::~GuiApplication()
+{ }
 
 void GuiApplication::BeginFrame()
 {
 	PROFILE_SCOPED()
-#if RTT
-	m_renderer->SetRenderTarget(m_renderTarget);
-#endif
-	// TODO: render target size
-	m_renderer->SetViewport({ 0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight() });
-	m_renderer->BeginFrame();
-}
 
-void GuiApplication::DrawRenderTarget()
-{
-#if RTT
-	m_renderer->SetRenderTarget(nullptr);
+	m_renderer->SetRenderTarget(m_renderTarget.get());
+	m_renderer->SetViewport({ 0, 0, m_renderer->GetWindowWidth(), m_renderer->GetWindowHeight() });
 	m_renderer->ClearScreen();
-	m_renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
-	m_renderer->SetTransform(matrix4x4f::Identity());
 
-	{
-		m_renderer->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
-		m_renderer->PushMatrix();
-		m_renderer->SetOrthographicProjection(0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), 0, -1, 1);
-		m_renderer->SetMatrixMode(Graphics::MatrixMode::MODELVIEW);
-		m_renderer->PushMatrix();
-		m_renderer->LoadIdentity();
-	}
-
-	m_renderQuad->Draw(m_renderer);
-
-	{
-		m_renderer->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
-		m_renderer->PopMatrix();
-		m_renderer->SetMatrixMode(Graphics::MatrixMode::MODELVIEW);
-		m_renderer->PopMatrix();
-	}
-
-	m_renderer->EndFrame();
-#endif
+	m_renderer->BeginFrame();
+	m_input->NewFrame();
 }
 
 void GuiApplication::EndFrame()
 {
 	PROFILE_SCOPED()
-#if RTT
-	DrawRenderTarget();
-#endif
 
 	m_renderer->FlushCommandBuffers();
 	m_renderer->EndFrame();
@@ -75,35 +49,42 @@ void GuiApplication::EndFrame()
 
 Graphics::RenderTarget *GuiApplication::CreateRenderTarget(const Graphics::Settings &settings)
 {
-	/*	@fluffyfreak here's a rendertarget implementation you can use for oculusing and other things. It's pretty simple:
-		 - fill out a RenderTargetDesc struct and call Renderer::CreateRenderTarget
-		 - pass target to Renderer::SetRenderTarget to start rendering to texture
-		 - set up viewport, clear etc, then draw as usual
-		 - SetRenderTarget(0) to resume render to screen
-		 - you can access the attached texture with GetColorTexture to use it with a material
-		You can reuse the same target with multiple textures.
-		In that case, leave the color format to NONE so the initial texture is not created, then use SetColorTexture to attach your own.
-	*/
-#if RTT
-	Graphics::RenderStateDesc rsd;
-	rsd.depthTest = false;
-	rsd.depthWrite = false;
-	rsd.blendMode = Graphics::BLEND_SOLID;
-	m_renderState.reset(m_renderer->CreateRenderState(rsd));
+	Graphics::RenderTargetDesc rtDesc = {
+		uint16_t(settings.width), uint16_t(settings.height),
+		Graphics::TEXTURE_RGBA_8888,
+		Graphics::TEXTURE_DEPTH, true,
+		uint16_t(settings.requestedSamples)
+	};
 
-	// Complete the RT description so we can request a buffer.
-	Graphics::RenderTargetDesc rtDesc(
-		width,
-		height,
-		Graphics::TEXTURE_RGB_888, // don't create a texture
-		Graphics::TEXTURE_DEPTH,
-		false, settings.requestedSamples);
-	m_renderTarget.reset(m_renderer->CreateRenderTarget(rtDesc));
+	return m_renderer->CreateRenderTarget(rtDesc);
+}
 
-	m_renderTarget->SetColorTexture(*m_renderTexture);
-#endif
+void GuiApplication::OnWindowResized()
+{
+	// Let the renderer determine the new size of the backbuffer
+	m_renderer->OnWindowResized();
 
-	return nullptr;
+	// Check to see if we need to resize the render target (events are flushed after BeginFrame)
+	Graphics::RenderTargetDesc rtDesc = m_renderTarget->GetDesc();
+	int width = m_renderer->GetWindowWidth();
+	int height = m_renderer->GetWindowHeight();
+
+	// To avoid a one-frame delay, we need to recreate the render target now, rather than next frame
+	if (width != m_renderTarget->GetDesc().width || height != m_renderTarget->GetDesc().height) {
+		// Flush all commands using the prior render target
+		m_renderer->FlushCommandBuffers();
+		m_renderer->SetRenderTarget(nullptr);
+
+		// Copy the existing render target settings (MSAA etc.) and resize
+		rtDesc.width = width;
+		rtDesc.height = height;
+		m_renderTarget.reset(m_renderer->CreateRenderTarget(rtDesc));
+
+		// Setup the new render target for rendering
+		m_renderer->SetRenderTarget(m_renderTarget.get());
+		m_renderer->SetViewport({ 0, 0, width, height });
+		m_renderer->ClearScreen();
+	}
 }
 
 void GuiApplication::PollEvents()
@@ -111,14 +92,42 @@ void GuiApplication::PollEvents()
 	PROFILE_SCOPED()
 	SDL_Event event;
 
-	// FIXME: input state is right before handling updates because
-	// legacy UI code needs to run before input does.
-	// When HandleEvents() is moved to BeginFrame / PreUpdate, this call should go with it
-	m_input->NewFrame();
-
 	while (SDL_PollEvent(&event)) {
+
 		if (event.type == SDL_QUIT) {
 			RequestQuit();
+		}
+
+		if (event.type == SDL_WINDOWEVENT ) {
+			switch (event.window.event) {
+			case SDL_WINDOWEVENT_RESIZED:
+				OnWindowResized();
+				break;
+			case SDL_WINDOWEVENT_ENTER:
+				// Triggered when mouse enters the application window. This occurs
+				// after the keyboard focus is gained as this does not trigger
+				// when the mouse is over the window decorations.
+				//printf("GuiApplication::PollEvents() - mouse entered\n");
+				break;
+			case SDL_WINDOWEVENT_LEAVE:
+				// Triggered when mouse leaves the application window. This occurs
+				// before the keyboard focus is lost as this already triggers
+				// when the mouse is over the window decorations.
+				//printf("GuiApplication::PollEvents() - mouse left\n");
+				break;
+			case SDL_WINDOWEVENT_FOCUS_GAINED:
+				// Triggered when the window gains keyboard focus
+				//printf("GuiApplication::PollEvents() - keyboard focus gained\n");
+				OnWindowKeyboardFocusChanged(true);
+				break;
+			case SDL_WINDOWEVENT_FOCUS_LOST:
+				// Triggered when the window loses keyboard focus
+				//printf("GuiApplication::PollEvents() - keyboard focus lost\n");
+				OnWindowKeyboardFocusChanged(false);
+				break;
+			default:
+				break;
+			}
 		}
 
 		m_pigui->ProcessEvent(&event);
@@ -161,7 +170,20 @@ void GuiApplication::HandleEvents()
 	DispatchEvents();
 }
 
-Graphics::Renderer *GuiApplication::StartupRenderer(IniConfig *config, bool hidden)
+void GuiApplication::SetupProfiler(IniConfig *config)
+{
+	// Setup common profiling parameters from the config file
+	bool profileSlow   = config->Int("ProfileSlowFrames", 0);
+	bool profileZones  = config->Int("ProfilerZoneOutput", 0);
+	bool profileTraces = config->Int("ProfilerTraceOutput", 0);
+
+	SetProfilerPath("profiler/");
+	SetProfileSlowFrames(profileSlow);
+	SetProfileZones(profileZones || profileTraces);
+	SetProfileTrace(profileTraces);
+}
+
+Graphics::Renderer *GuiApplication::StartupRenderer(IniConfig *config, bool hidden, bool resizable)
 {
 	PROFILE_SCOPED()
 
@@ -185,6 +207,7 @@ Graphics::Renderer *GuiApplication::StartupRenderer(IniConfig *config, bool hidd
 	videoSettings.width = config->Int("ScrWidth");
 	videoSettings.height = config->Int("ScrHeight");
 	videoSettings.fullscreen = (config->Int("StartFullscreen") != 0);
+	videoSettings.canBeResized = resizable;
 	videoSettings.hidden = hidden;
 	videoSettings.requestedSamples = config->Int("AntiAliasingMode");
 	videoSettings.vsync = (config->Int("VSync") != 0);
@@ -197,6 +220,8 @@ Graphics::Renderer *GuiApplication::StartupRenderer(IniConfig *config, bool hidd
 
 	m_renderer.reset(Graphics::Init(videoSettings));
 	m_renderTarget.reset(CreateRenderTarget(videoSettings));
+
+	m_settings = videoSettings;
 
 	return m_renderer.get();
 }
@@ -227,7 +252,7 @@ void GuiApplication::ShutdownInput()
 PiGui::Instance *GuiApplication::StartupPiGui()
 {
 	PROFILE_SCOPED()
-	m_pigui.Reset(new PiGui::Instance());
+	m_pigui.Reset(new PiGui::Instance(this));
 	m_pigui->Init(GetRenderer());
 	return m_pigui.Get();
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef CAMERACONTROLLER_H
@@ -150,10 +150,10 @@ public:
 	const char *GetName() const override { return Lang::EXTERNAL_VIEW; }
 	bool IsExternal() const override { return true; }
 
-	virtual void PitchCamera(float amount) override { m_rotX += amount; }
-	virtual void YawCamera(float amount) override { m_rotY += amount; }
+	void PitchCamera(float amount) override { m_rotX += amount; }
+	void YawCamera(float amount) override { m_rotY += amount; }
 
-	virtual void SetRotationAngles(vector3f rotation) override
+	void SetRotationAngles(vector3f rotation) override
 	{
 		m_rotX = rotation.x;
 		m_rotY = rotation.y;
@@ -206,7 +206,7 @@ public:
 	// Apply in YXZ order because euler angles are non-ideal.
 	void SetRotationAngles(vector3f rotation) override
 	{
-		m_sidOrient = matrix3x3d::Identity();
+		m_sidOrient = matrix3x3d::Identity;
 		YawCamera(rotation.y);
 		PitchCamera(rotation.x);
 		RollCamera(rotation.z);

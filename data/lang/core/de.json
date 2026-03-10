@@ -405,11 +405,15 @@
   },
   "ECONOMY_TYPE": {
     "description": "",
-    "message": "Wirtschaftstyp:"
+    "message": "Wirtschaftstyp"
   },
   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
     "description": "",
     "message": "Verhältnis Äquator zu Pol"
+  },
+  "ESCAPE_VELOCITY": {
+    "description": "",
+    "message": "Fluchtgeschwindigkeit"
   },
   "EXACT_MATCH_X": {
     "description": "",
@@ -491,21 +495,41 @@
     "description": "",
     "message": "Die Spieldatei konnte aufgrund eines Systemfehlers nicht geöffnet werden."
   },
+  "GAME_SAVE_INVALID_NAME": {
+    "description": "",
+    "message": "Die Spieldatei konnte aufgrund eines ungültigen Namens nicht geschrieben werden."
+  },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
     "message": "Allgemeine Ansichtssteuerung"
   },
   "GOVERNMENT_TYPE": {
     "description": "",
-    "message": "Regierungsform:"
+    "message": "Regierungstyp"
   },
   "GRAIN": {
     "description": "like wheat or barley",
     "message": "Getreide"
   },
+  "GRID_DISPLAY_MODE": {
+    "description": "Label for grid display modes",
+    "message": "Anzeigemodus für Gitter-Overlay"
+  },
+  "GRID_DISPLAY_MODE_GRID_AND_LEGS": {
+    "description": "Combobox option for Grid with Legs",
+    "message": "Gitter mit Projektionslinien"
+  },
+  "GRID_DISPLAY_MODE_GRID_ONLY": {
+    "description": "Combobox option for Grid Only",
+    "message": "Nur Gitter"
+  },
+  "GRID_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for Grid display off.",
+    "message": "Gitter aus"
+  },
   "GRID_DISPLAY_MODE_TOGGLE": {
-    "description": "Switch show no grid",
-    "message": "Zwischen Netz-Anzeige-Modi wechseln"
+    "description": "Tooltip for toggle grid display button.",
+    "message": "Sichtbarkeit desn Gitters umschalten"
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -577,15 +601,35 @@
   },
   "HYPERSPACE_ARRIVAL_CLOUD": {
     "description": "",
-    "message": "Hyperraumankunftswolke"
+    "message": "Hyperraum-Ankunftswolke"
   },
   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
     "description": "",
-    "message": "Hyperraumanflugswolkenrest"
+    "message": "Rest einer Hyperraum-Ankunftswolke"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
+    "description": "Label for hyperspace cloud display modes.",
+    "message": "Anzeigemodus für Hyperraum-Wolken"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL": {
+    "description": "Combobox option for all hyperspace clouds.",
+    "message": "Alle Hyperraumwolken"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY": {
+    "description": "Combobox option for arrival hyperspace clouds.",
+    "message": "Hyperraum-Ankunftswolke"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY": {
+    "description": "Combobox option for departure hyperspace clouds.",
+    "message": "Hyperraum-Abflugwolken"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE": {
+    "description": "Tooltip for the button which toggles the display mode of hyperspace clouds.",
+    "message": "Sichtbarkeit von Hyperraumwolken umschalten"
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
-    "message": "Hyperraumabflugswolke"
+    "message": "Hyperraum-Abflugswolke"
   },
   "HYPERSPACE_JUMP_ABORT": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
@@ -675,9 +719,25 @@
     "description": "",
     "message": "Joystickeingabe"
   },
+  "L4L5_DISPLAY_MODE": {
+    "description": "Label for the lagrange point display modes.",
+    "message": "Anzeigemodus für Lagrange-Punkte"
+  },
+  "L4L5_DISPLAY_MODE_ICONS_AND_TEXT": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Icons und Label"
+  },
+  "L4L5_DISPLAY_MODE_ICONS_ONLY": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Nur Icons"
+  },
+  "L4L5_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for lagrange point display off.",
+    "message": "Aus"
+  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
-    "description": "Either show L4/L5 points or don't",
-    "message": "Anzeigemodus zwischen den Lagrangepunkten L4 und L5 wechseln."
+    "description": "Tooltip for the L4/L5 Lagrange points toggle button.",
+    "message": "Sichtbarkeit von L4/L5-Lagrange-Punkten umschalten"
   },
   "LANDED": {
     "description": "",
@@ -782,6 +842,10 @@
   "MASS_N_TONNES": {
     "description": "",
     "message": "Masse: %{mass}t"
+  },
+  "MEAN_DENSITY": {
+    "description": "",
+    "message": "Durchschnittliche Dichte"
   },
   "MEDICINES": {
     "description": "",
@@ -1177,7 +1241,7 @@
   },
   "POPULATION": {
     "description": "",
-    "message": "Einwohnerzahl:"
+    "message": "Bevölkerung"
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -1280,7 +1344,7 @@
     "message": "Abfälle"
   },
   "SCOOP": {
-    "description": "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+    "description": "Is followed by a number, representing scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
     "message": "Schöpfer"
   },
   "SCREENSHOT_FILENAME_TEMPLATE": {
@@ -1305,7 +1369,7 @@
   },
   "SECTOR_X_Y_Z": {
     "description": "",
-    "message": "Sektor: %x,%y,%z"
+    "message": "Sektor: {sectorX}, {sectorY}, {sectorZ}"
   },
   "SELECTED_SYSTEM": {
     "description": "",
@@ -1375,9 +1439,21 @@
     "description": "",
     "message": "Schiff"
   },
+  "SHIPS_DISPLAY_MODE": {
+    "description": "Label for ship display modes.",
+    "message": "Anzeigemodus für Schiffe"
+  },
+  "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
+    "description": "Combobox option for ships only.",
+    "message": "Nur Schiffe"
+  },
+  "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
+    "description": "Combobox option for ships with orbits.",
+    "message": "Schiffe mit Umlaufbahnen"
+  },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
-    "description": "Either show no ships, show ships, or show ships + their orbits",
-    "message": "Zwischen Anzeigemodi des Schiffes umschalten."
+    "description": "Tooltip for ship display toggle button.",
+    "message": "Sichtbarkeit von Schiffen umschalten"
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
@@ -1591,6 +1667,10 @@
     "description": "",
     "message": "Schwerkraft an der Oberfläche"
   },
+  "SURFACE_PRESSURE": {
+    "description": "",
+    "message": "Oberflächendruck"
+  },
   "SURFACE_TEMPERATURE": {
     "description": "",
     "message": "Oberflächentemperatur"
@@ -1709,7 +1789,7 @@
   },
   "TOMBSTONE_EPITAPH": {
     "description": "shown on tombstone when player dies",
-    "message": "RUHE IN FRIEDEN"
+    "message": "RUHE IN\nFRIEDEN"
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
@@ -1739,9 +1819,21 @@
     "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
     "message": "AE"
   },
+  "UNIT_CREDITS": {
+    "description": "Unit of money, used when $ isn't specific enough",
+    "message": "Cr"
+  },
+  "UNIT_CUBIC_METERS": {
+    "description": "Volume unit: cubic meter",
+    "message": "m³"
+  },
   "UNIT_DAYS": {
     "description": "Duration unit: one 24-hour day",
     "message": "d"
+  },
+  "UNIT_DENSITY": {
+    "description": "Density unit: kilos per cubic meter",
+    "message": "kg/m³"
   },
   "UNIT_EARTH_GRAVITY": {
     "description": "Acceleration unit: one earth gravity (g)",
@@ -1750,6 +1842,10 @@
   "UNIT_GIGATONNES": {
     "description": "Mass unit: one gigatonne",
     "message": "Gt"
+  },
+  "UNIT_HECTARES": {
+    "description": "Area unit: one hectare (ha) -10,000 m²",
+    "message": "ha"
   },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
@@ -1810,6 +1906,30 @@
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",
     "message": "s"
+  },
+  "UNIT_SQUARE_KILOMETERS": {
+    "description": "Area unit: square kilometer (km²) - 1,000,000 m²",
+    "message": "km²"
+  },
+  "UNIT_SQUARE_MEGAMETERS": {
+    "description": "Area unit: square megameter (Mm²) - 10^12 m²",
+    "message": "Mm²"
+  },
+  "UNIT_SQUARE_METERS": {
+    "description": "Area unit: square meter (m²)",
+    "message": "m²"
+  },
+  "UNIT_TEMPERATURE_CELSIUS": {
+    "description": "Temperature unit: degrees Celsius (°C)",
+    "message": "°C"
+  },
+  "UNIT_TEMPERATURE_FAHRENHEIT": {
+    "description": "Temperature unit: Fahrenheit (°F)",
+    "message": "°F"
+  },
+  "UNIT_TEMPERATURE_KELVIN": {
+    "description": "Temperature unit: degrees Kelvin (K)",
+    "message": "K"
   },
   "UNIT_TERATONNES": {
     "description": "Mass unit: one teratonne",

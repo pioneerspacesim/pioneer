@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Terrain.h"
@@ -22,7 +22,7 @@ vector3d TerrainColorFractal<TerrainColorStarBrownDwarf>::GetColor(const vector3
 {
 	double n;
 	vector3d col;
-	n = voronoiscam_octavenoise(GetFracDef(0), 0.6, p) * 0.5;
+	n = voronoiscam_octavenoise(m_fracdef[0], 0.6, p) * 0.5;
 	if (n > 0.666) {
 		n -= 0.666;
 		n *= 3.0;

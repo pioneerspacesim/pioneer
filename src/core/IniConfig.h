@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _INICONFIG_H
@@ -60,6 +60,8 @@ public:
 	bool HasEntry(const std::string &key) const { return HasEntry("", key); }
 	SectionMapType &GetSections() { return m_map; }
 
+	bool HasUnsavedChanges() const { return m_unsaved; }
+
 protected:
 	void Read(const FileSystem::FileData &data);
 
@@ -67,6 +69,7 @@ protected:
 
 	FileSystem::FileSourceFS *m_fs = nullptr;
 	std::string m_path;
+	bool m_unsaved = false;
 };
 
 #endif /* _INICONFIG_H */

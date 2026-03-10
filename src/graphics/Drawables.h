@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _DRAWABLES_H
@@ -7,7 +7,12 @@
 #include "graphics/Material.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
-#include "libs.h"
+#include "text/DistanceFieldFont.h"
+
+#include <memory>
+#include <string>
+
+struct Aabb;
 
 namespace Graphics {
 	class Renderer;
@@ -43,6 +48,8 @@ namespace Graphics {
 		public:
 			Disk(Renderer *r, const int edges = 72, const float radius = 1.0f);
 			void Draw(Renderer *r, Material *mat);
+
+			Graphics::VertexFormatDesc GetVertexFormat() const;
 
 		private:
 			std::unique_ptr<MeshObject> m_diskMesh;
@@ -84,6 +91,8 @@ namespace Graphics {
 			void SetData(const Uint32 vertCount, const vector3f *vertices, const Color *colors);
 			void Draw(Renderer *, Material *);
 
+			Graphics::VertexFormatDesc GetVertexFormat() const;
+
 		private:
 			bool m_refreshVertexBuffer;
 			RefCountedPtr<MeshObject> m_lineMesh;
@@ -103,6 +112,8 @@ namespace Graphics {
 
 			void Draw(Renderer *, Material *);
 
+			Graphics::VertexFormatDesc GetVertexFormat() const;
+
 		private:
 			bool m_refreshVertexBuffer;
 			RefCountedPtr<Graphics::MeshObject> m_pointData;
@@ -118,9 +129,9 @@ namespace Graphics {
 			void SetData(Renderer *, const int count, const vector3f *positions, const Color *color, const matrix4x4f &trans, const float size);
 			void Draw(Renderer *, Material *);
 
-		private:
-			void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);
+			Graphics::VertexFormatDesc GetVertexFormat() const;
 
+		private:
 			bool m_refreshVertexBuffer;
 			RefCountedPtr<MeshObject> m_pointMesh;
 			std::unique_ptr<VertexArray> m_va;
@@ -147,15 +158,14 @@ namespace Graphics {
 		// and spherical texture coordinates.
 		class Sphere3D {
 		public:
-			//subdivisions must be 0-4
-			Sphere3D(Renderer *, RefCountedPtr<Material> material, int subdivisions = 0, float scale = 1.f, AttributeSet attribs = (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0));
-			void Draw(Renderer *r);
+			//subdivisions must be 0-10
+			Sphere3D(Renderer *, int subdivisions = 0, float scale = 1.f, AttributeSet attribs = (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0));
+			void Draw(Renderer *r, Material *m);
 
-			RefCountedPtr<Material> GetMaterial() const { return m_material; }
+			Graphics::VertexFormatDesc GetVertexFormat() const;
 
 		private:
 			std::unique_ptr<MeshObject> m_sphereMesh;
-			RefCountedPtr<Material> m_material;
 		};
 		//------------------------------------------------------------
 
@@ -249,7 +259,7 @@ namespace Graphics {
 		// The visual density of the grid can be controlled by the lineSpacing parameter
 		class GridSphere {
 		public:
-			GridSphere(Graphics::Renderer *r, uint32_t numSubdivs = 12);
+			GridSphere(Graphics::Renderer *r, uint32_t numSubdivs = 4);
 
 			void SetLineColors(Color minorLineColor, Color majorLineColor, float lineWidth = 2.0);
 
@@ -280,6 +290,32 @@ namespace Graphics {
 		};
 
 		Axes3D *GetAxes3DDrawable(Graphics::Renderer *r);
+
+		//------------------------------------------------------------
+
+		// axis-aligned bounding box visualizer
+
+		class AABB {
+		public:
+			static void DrawVertices(Graphics::VertexArray &va, const matrix4x4f &transform, const Aabb &aabb, Color color);
+		};
+
+		//------------------------------------------------------------
+
+		// Label3D
+		class Label3D {
+		public:
+			Label3D(Graphics::Renderer *r, const std::string &str);
+			void Draw(Graphics::Renderer *r, const matrix4x4f &trans);
+
+		private:
+			void SetText(Graphics::Renderer *r, const std::string &text);
+
+			RefCountedPtr<Graphics::Material> m_material;
+			std::unique_ptr<Graphics::VertexArray> m_geometry;
+			std::unique_ptr<Graphics::MeshObject> m_textMesh;
+			RefCountedPtr<Text::DistanceFieldFont> m_font;
+		};
 
 	} // namespace Drawables
 

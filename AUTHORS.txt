@@ -52,16 +52,20 @@ The Pioneer Developers are:
 * Gaz Davidson
 * Georgi Georgiev
 * Gernot
+* Gisteron
 * Gliese852
 * HeadHunter
+* hexagon-recursion (and his imaginary friend Alice Smith)
 * Jan Olsina
 * jmf
 * Jeremy List
 * John Bartholomew
 * John Jordan
+* Jon Booth
 * Jon Jenkins
 * Joshua Mathews
 * Jost Triller
+* K. Eugene Carlson
 * Karl Fogelmark
 * Kimmo Kotajärvi
 * Konrad Mruk
@@ -73,8 +77,12 @@ The Pioneer Developers are:
 * Leonardo Manna
 * Luca Ganzerla
 * Maksim Kulikov aka sapog662
+* Maksim "Maks2103" Romanov
 * Marcel Tulloh
 * Marcus de Roos
+* Maxim aka Max5377
+* McPain
+* Michael Werle
 * Michele Botticelli
 * Michele Fanti
 * Miha Vitorovič
@@ -98,6 +106,7 @@ The Pioneer Developers are:
 * Rob Williamson
 * Robert Norris
 * Robert Pallier
+* Ron O'Dell aka Keeper1st
 * Roland Mas
 * Sal Borrelli
 * Sean Bailey
@@ -108,6 +117,7 @@ The Pioneer Developers are:
 * Sukender (Benoit Neil)
 * Szilárd Bálint
 * Taiki Kim
+* Tatjam
 * Taylor Talkington
 * Thierry Dupré
 * Tim Jones
@@ -126,7 +136,7 @@ The Pioneer Developers are:
 Licensing
 =========
 
-Copyright © 2008-2023 Pioneer Developers
+Copyright © 2008-2026 Pioneer Developers
 Portions copyright © 2013-2014 Meteoric Games Ltd.
 
 Pioneer's core code and extension modules are licensed under the terms of the
@@ -148,18 +158,13 @@ Pioneer includes the following third-party software:
   Copyright (C) 2002, Lev Povalahev
   Licensed under the Modified BSD licence (see licenses/GLEW.txt)
 
-  atomic_queue - C++ lockless queue
+  atomic_queue v1.6.4 - C++ lockless queue
   Copyright (c) 2019 Maxim Egorushkin
   Licensed under the MIT license (see contrib/atomic_queue/LICENSE)
 
   argh
   Copyright (C) 2016, Adi Shavit
   Licensed under the BSD 3-clause license (see licenses/BSD-3-Clause.txt)
-
-  string-view lite, a C++17-like string_view for C++98 and later.
-  https://github.com/martinmoene/string-view-lite
-  Copyright 2017-2019 by Martin Moene
-  Distributed under the Boost Software License, Version 1.0. (see licenses/Boost-1.0.txt)
 
   miniz by Rich Geldreich, April 2012
   Public domain (see contrib/miniz/miniz.h)
@@ -184,7 +189,7 @@ Pioneer includes the following third-party software:
     (see contrib/PicoDDS/PicoDDS.h)
 
   JSON for Modern C++
-  Copyright © 2013-2018 Niels Lohmann.
+  Copyright © 2013-2025 Niels Lohmann.
   Licensed under the MIT License (see contrib/json/json.hpp)
 
   Base64 Encode / Decode
@@ -203,9 +208,27 @@ Pioneer includes the following third-party software:
   Copyright (c) 2019 Stanislav Denisov
   Licensed under the MIT license
 
+  Portable File Dialogs
+  Copyright © 2018–2022 Sam Hocevar
+  Licensed under the WTFPLv2 license (http://www.wtfpl.net/)
+
   High Performance C++ Profiler
   https://code.google.com/p/high-performance-cplusplus-profiler/
   Licensed under the MIT license
+
+  nanosvg
+  Copyright (c) 2013-14 Mikko Mononen memon@inside.org
+  Licensed under the zlib License
+  https://github.com/memononen/nanosvg
+
+  pcg-cpp
+  Copyright 2014 Melissa O'Neill <oneill@pcg-random.org>
+  Licensed under the Apache License, Version 2.0
+
+  fast_float
+  Copyright (c) 2021 The fast_float authors
+  Licensed under the MIT license. (See contrib/fast_float/fast_float.h)
+  https://github.com/fastfloat/fast_float
 
   Pionillium Text font
   Copyright (c) 2015, Pioneer Developers

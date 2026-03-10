@@ -13,19 +13,19 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Qualified pilot needed for clandestine assignment: Pay {cash}."
+    "message": "Ζητείται αναγνωρισμένος πιλότος για μυστική αποστολή. Αμοιβή (cash)."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "Ship and crew wanted for a combat mission in the {system} system."
+    "message": "Ζητείται σκάφος και πλήρωμα για μια αποστολή μάχης στο σύστημα (system)."
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "Need qualified mercenary with well-equipped ship. Mission details available on request."
+    "message": "Ζητείται  αναγνωρισμένος μισθοφόρος με καλά εξοπλισμένο σκάφος. Πληροφορίες για την αποστολή κατόπιν αιτήματος."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "{org} seeks fearless mercenary for a mission to the {system} system. Will pay {cash}."
+    "message": "Ο (org) ζητάει έναν ατρόμητο μισθοφόρο για αποστολή στο σύστημα (system). Αμοιβή (cash)."
   },
   "ADTEXT_5": {
     "description": "",
@@ -33,23 +33,23 @@
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "RELIABLE PILOT WANTED"
+    "message": "ΖΗΤΕΙΤΑΙ ΑΞΙΟΠΙΣΤΟΣ ΠΙΛΟΤΟΣ"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "CHALLENGE RESOLUTION"
+    "message": "ΕΠΙΛΥΣΗ ΔΙΑΦΟΡΩΝ"
   },
   "ADTITLE_3": {
     "description": "",
-    "message": "COMBAT FLIGHT"
+    "message": "ΑΠΟΣΤΟΛΗ ΜΑΧΗΣ"
   },
   "ADTITLE_4": {
     "description": "",
-    "message": "FEARLESS MERCENARY WANTED"
+    "message": "ΖΗΤΕΙΤΑΙ ΑΤΡΟΜΗΤΟΣ ΜΙΣΘΟΦΟΡΟΣ"
   },
   "ADTITLE_5": {
     "description": "",
-    "message": "AUTHORIZED COMBAT MISSION"
+    "message": "ΕΞΟΥΣΙΟΔΟΤΗΜΕΝΗ ΑΠΟΣΤΟΛΗ ΜΑΧΗΣ"
   },
   "AGENT": {
     "description": "Secret Service Agent",
@@ -131,6 +131,10 @@
     "description": "Distance in space, between two locations",
     "message": "Απόσταση:"
   },
+  "DO_I_NEED_SPECIAL_EQUIPMENT": {
+    "description": "",
+    "message": "Χρειάζομαι ειδικό εξοπλισμό;"
+  },
   "FAILUREMSG_1": {
     "description": "",
     "message": "Ντροπή σου. Χάσου από μπροστά μου."
@@ -185,7 +189,7 @@
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "Έχουμε έναν πωλητή σε κάθε κοντινό σύστημα αστέρων. Αυτό το άτομο θα έρθει σε επαφή μαζί σου όταν προσγειωθείς."
+    "message": "¨Εχουμε αντιπροσώπους σε όλα τα κοντινά συστήματα. Προσεδαφιστείτε σε ένα κοσμοδρόμιο εντός της προθεσμίας και το προσωπικό μας θα επικοινωνήσει μαζί σας για την πληρωμή."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -201,7 +205,7 @@
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "Συνάντησέ με στο {rendezvous} σύστημα για να ολοκληρώσεις τη δουλειά!"
+    "message": "Συναντησέ με στο σύστημα {rendezvous} εντός της προθεσμίας."
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
@@ -213,7 +217,7 @@
   },
   "MILITARY_3": {
     "description": "",
-    "message": "Το Σώμα Αντικατασκοπίας χρειάζεται έναν πολίτη πιλότο που δεν θέτει ερωτήσεις για {mission} αποστολή στο {system} ({sectorx}, {sectory}, {sectorz}) σύστημα, {dist} ly. Η αμοιβή είναι {cash}."
+    "message": "Το Σώμα Αντικατασκοπίας χρειάζεται έναν εχέμυθο πολίτη πιλότο για {mission} αποστολή στο {system} ({sectorx}, {sectory}, {sectorz}) σύστημα, {dist} ly. Η αμοιβή είναι {cash}.\n "
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -221,7 +225,7 @@
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "Επισκεφτείτε έναν σταθμό μέσα στην προστατευόμενη από την {org} περιοχή!"
+    "message": "Επισκεφθείτε ένα κοσμοδρόμιο εντός της δικαιοδοσίας του {org}! Αυτό προϋποθέτει ότι οι στόχοι της αποστολής έχουν επιτευχθεί εντός της προθεσμίας. "
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
@@ -233,7 +237,7 @@
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Εργάζομαι για την {org}. Μερικές από τις φορτηγίδες μας θα φτάσουν σύντομα στο {area} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος. Για να αυξήσουμε την ασφάλεια των υπαλλήλων μας και να προστατεύσουμε τον εξοπλισμό είμαστε πρόθυμοι να πληρώσουμε {cash} για μια {mission} αποστολή. Η απόσταση από την περιοχή {area} είναι {dist} ly."
+    "message": "Εργάζομαι για την {org}. Μερικές από τις φορτηγίδες μας θα φτάσουν σύντομα στο {area} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος. Για να αυξήσουμε την ασφάλεια των υπαλλήλων μας και να προστατεύσουμε τον εξοπλισμό είμαστε πρόθυμοι να πληρώσουμε {cash} για μια {mission} αποστολή. Η απόσταση από την περιοχή {area} είναι {dist} ly.\n "
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -241,7 +245,7 @@
   },
   "MINING_LAND_THERE": {
     "description": "",
-    "message": "Έχουμε υπαλλήλους σε κάθε κοντινό σύστημα αστέρων. Απλώς επισκεφτείτε τον πλησιέστερο σταθμό και επικοινωνήστε με το τοπικό γραφείο εκεί."
+    "message": "Έχουμε υπαλλήλους στα κοντινά συστήματα. Απλά επισκεφθείτε το κοντινότερο κοσμοδρόμιο εντός προθεσμίας και επικοινωνήστε με το τοπικό μας γραφείο εκεί."
   },
   "MISSION": {
     "description": "",
@@ -266,6 +270,18 @@
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
     "message": "Εκκαθαριστική περιοχής"
+  },
+  "MISSION_TYPE_CONVO_1": {
+    "description": "Name of mission type, used in conversation",
+    "message": "μια αναγνωριστική"
+  },
+  "MISSION_TYPE_CONVO_2": {
+    "description": "Name of mission type, used in conversation",
+    "message": "μια ένοπλη εκκαθαριστική"
+  },
+  "MISSION_TYPE_CONVO_3": {
+    "description": "Name of mission type, used in conversation. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
+    "message": "μια εκκαθαριστική"
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",
@@ -313,7 +329,7 @@
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "Απλώς προσγειωθείτε σε σταθμό με  {org} γραφείο."
+    "message": "Απλώς προσεδαφιστείτε σε ένα κοσμοδρόμιο που διαθέτει γραφείο {org}, εντός της προθεσμίας. Διαφορετικά θα υποσκάψετε την όλη αποστολή."
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",
@@ -361,7 +377,7 @@
   },
   "TARGET_AREA_REACHED": {
     "description": "",
-    "message": "Target area reached. Start data logging."
+    "message": "Άφιξη στη περιοχή-στόχος. Έναρξη καταγραφής δεδομένων."
   },
   "TIME_LIMIT": {
     "description": "",
@@ -374,5 +390,9 @@
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",
     "message": "Θα έχω πρόβλημα;"
+  },
+  "YOU_NEED_A_RADAR": {
+    "description": "",
+    "message": "Ναι, χρειάζεσαι ραντάρ! Αν συμφωνείς, θα προγραμματίσουμε τον υπολογιστή του σκάφους σου ώστε το ραντάρ να καταγράψει τα δεδομένα που χρειαζόμαστε. Θα μεταφερθούν σε εμένα όταν επιστρέψεις."
   }
 }

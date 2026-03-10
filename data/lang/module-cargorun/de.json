@@ -107,6 +107,18 @@
     "description": "custom cargo",
     "message": "Kunstobjekte"
   },
+  "ART_OBJECTS_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Nein, außer Sie halten Kunstkritiker für besonders gefährlich."
+  },
+  "ART_OBJECTS_RISK_MESSAGE_2": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Das bleibt unter uns, aber... Solange Sie sich das grässliche Kunstwerk nicht ansehen, sollten Sie es unbeschadet überstehen."
+  },
+  "ART_OBJECTS_RISK_MESSAGE_3": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Der einzige, der vom Impressionismus des 25. Jahrhunderts Schaden erlangt haben könnte, ist der Künstler selbst. Sie sollten sicher sein."
+  },
   "CARGO": {
     "description": "",
     "message": "Fracht:"
@@ -129,7 +141,7 @@
   },
   "CLUS": {
     "description": "custom cargo",
-    "message": "Containerisierte Lebensformen"
+    "message": "Container-Wohneinheiten"
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
@@ -221,7 +233,11 @@
   },
   "EXPLOSIVES": {
     "description": "custom cargo",
-    "message": "Sprengstoffe"
+    "message": "Sprengstoff"
+  },
+  "EXPLOSIVES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Nein. Naja, es ist halt Sprengstoff. Solange Sie ihn nicht fallen lassen..."
   },
   "FAILUREMSG_1": {
     "description": "",
@@ -263,33 +279,37 @@
     "description": "custom cargo",
     "message": "Gefahrstoffe"
   },
+  "HAZARDOUS_SUBSTANCES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Ich vermute, Sie sollten die Container besser nicht öffnen."
+  },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
     "message": "{amount} Tonnen."
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}t"
+    "message": "{amount} t"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Die Masse ist {amount}t."
+    "message": "Die Masse ist {amount} t."
   },
   "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "Dies sind {amount}t."
+    "message": "Da sind {amount}t."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "Es sind nur {amount}t."
+    "message": "Es sind nur {amount} t."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "Hier sind {amount}t von {cargoname}."
+    "message": "Es sind {amount} t von {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}t {cargoname}"
+    "message": "{amount} t {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
@@ -405,7 +425,7 @@
   },
   "NEGOTIABLE_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "Nein, ist sie nicht. Es ist nur {amount}t."
+    "message": "Nein, sind es nicht. Es sind nur {amount}t."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
@@ -413,7 +433,7 @@
   },
   "OFFER": {
     "description": "",
-    "message": "Transport von {amount}t für {reward}"
+    "message": "Transportiere {amount} t für {reward}"
   },
   "OK_AGREED": {
     "description": "",
@@ -473,7 +493,15 @@
   },
   "QUIBBLES": {
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-    "message": "Quibbles"
+    "message": "Haarspalter"
+  },
+  "QUIBBLES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Nein. Schützen Sie sie nur gut vor Feuchtigkeit und füttern Sie sie nicht nach Mitternacht."
+  },
+  "QUIBBLES_RISK_MESSAGE_2": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Natürlich nicht! Schauen Sie doch, sie sind so wuschelig!"
   },
   "RISK_1": {
     "description": "",
@@ -549,7 +577,7 @@
   },
   "STEM_BOLTS": {
     "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
-    "message": "Selbstversiegelnder Bolzen"
+    "message": "Selbstdichtende Schaftbolzen"
   },
   "SUCCESSMSG_1": {
     "description": "",
@@ -625,7 +653,11 @@
   },
   "WEDDING_DRESSES": {
     "description": "custom cargo",
-    "message": "Hochzeitkleider"
+    "message": "Hochzeitskleider"
+  },
+  "WEDDING_DRESSES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Wegen eines Hochzeitkleids?"
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",

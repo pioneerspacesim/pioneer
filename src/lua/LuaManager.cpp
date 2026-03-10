@@ -1,14 +1,16 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaManager.h"
 #include "FileSystem.h"
+#include "utils.h"
+
 #include <cstdlib>
 
 bool instantiated = false;
 
-LuaManager::LuaManager() :
-	m_lua(0)
+LuaManager::LuaManager(JobQueue *asyncJobQueue) :
+	m_lua(0), m_jobs(asyncJobQueue)
 {
 	if (instantiated) {
 		Output("Can't instantiate more than one LuaManager");
@@ -48,4 +50,11 @@ size_t LuaManager::GetMemoryUsage() const
 void LuaManager::CollectGarbage()
 {
 	lua_gc(m_lua, LUA_GCCOLLECT, 0);
+}
+
+void LuaManager::ScheduleJob(Job *job)
+{
+	if (job) {
+		m_jobs.Order(job);
+	}
 }

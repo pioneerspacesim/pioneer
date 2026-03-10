@@ -7,6 +7,38 @@
     "description": "",
     "message": "Уходи вовремя"
   },
+  "ADVICE_11_BODYTEXT": {
+    "description": "",
+    "message": "Убедитесь, что вы знаете поверхностную гравитацию планеты, прежде чем даже подумать о посадке на неё."
+  },
+  "ADVICE_11_HEADLINE": {
+    "description": "A reference to the song 'The Harder They Come', by Jimmy Cliff",
+    "message": "Чем больше гравитация, тем громче падать"
+  },
+  "ADVICE_12_BODYTEXT": {
+    "description": "",
+    "message": "Когда вы оказываетесь на окраине системы и вам нужно вернуться к внутренним планетам, объезд через достаточно близкую соседнюю систему может оказаться самым быстрым путём."
+  },
+  "ADVICE_12_HEADLINE": {
+    "description": "",
+    "message": "Манёвр \"Рикошет Билли\""
+  },
+  "ADVICE_13_BODYTEXT": {
+    "description": "",
+    "message": "Меньшая масса означает меньший расход топлива и более быстрый корабль. Топливо имеет массу. Для некоторых маршрутов полёт \"налегке\", с меньшим количеством топлива в баках, может сэкономить и время, и деньги."
+  },
+  "ADVICE_13_HEADLINE": {
+    "description": "",
+    "message": "Полет на последних каплях"
+  },
+  "ADVICE_14_BODYTEXT": {
+    "description": "",
+    "message": "При планировании серии прыжков, постановка их в очередь перед вылетом избавит вас от головной боли и, возможно, спасёт жизнь, в зависимости от того, насколько радушно вас встретят на маршруте."
+  },
+  "ADVICE_14_HEADLINE": {
+    "description": "",
+    "message": "Путь к отступлению"
+  },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
     "message": "Вернувшись на станцию, избегайте неизвестных вам нелегальных рынков, и тогда вы избежите проблем с законом."
@@ -17,7 +49,7 @@
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
-    "message": "Несколько коротких прыжков быстрее, чем один длинный."
+    "message": "Много малых расстояний преодолеваются быстрее, чем их сумма, но ценой большего расхода топлива."
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",

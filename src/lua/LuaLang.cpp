@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaLang.h"
@@ -66,7 +66,7 @@ static int l_lang_get_resource(lua_State *l)
 	lua_pop(l, 1);
 
 	lua_newtable(l);
-	Lang::Resource res = Lang::GetResource(resourceName, langCode);
+	Lang::Resource &res = Lang::GetResource(resourceName, langCode);
 	if (res.Load()) {
 		for (auto i : res.GetStrings()) {
 			const std::string token(i.first);
@@ -132,7 +132,6 @@ static int l_lang_set_current_language(lua_State *l)
 	if (std::find(langs.begin(), langs.end(), lang) == langs.end())
 		return luaL_error(l, "The language '%s' is not known.", lang.c_str());
 	Pi::config->SetString("Lang", lang);
-	Pi::config->Save();
 	// XXX change it!
 	return 0;
 }

@@ -14,7 +14,7 @@ static inline void spin_loop_pause() noexcept {
     _mm_pause();
 }
 } // namespace atomic_queue
-#elif defined(__arm__) || defined(__aarch64__)
+#elif defined(__arm__) || defined(__aarch64__) || defined(_M_ARM64)
 namespace atomic_queue {
 constexpr int CACHE_LINE_SIZE = 64;
 static inline void spin_loop_pause() noexcept {
@@ -30,6 +30,8 @@ static inline void spin_loop_pause() noexcept {
      defined(__ARM_ARCH_8A__) || \
      defined(__aarch64__))
     asm volatile ("yield" ::: "memory");
+#elif defined(_M_ARM64)
+    __yield();
 #else
     asm volatile ("nop" ::: "memory");
 #endif
@@ -51,11 +53,15 @@ static inline void spin_loop_pause() noexcept {} // TODO: Find the right instruc
 namespace atomic_queue {
 constexpr int CACHE_LINE_SIZE = 64;
 static inline void spin_loop_pause() noexcept {
-    asm volatile ("nop");
+    asm volatile (".insn i 0x0F, 0, x0, x0, 0x010");
 }
 } // namespace atomic_queue
 #else
+#ifdef _MSC_VER
+#pragma message("Unknown CPU architecture. Using L1 cache line size of 64 bytes and no spinloop pause instruction.")
+#else
 #warning "Unknown CPU architecture. Using L1 cache line size of 64 bytes and no spinloop pause instruction."
+#endif
 namespace atomic_queue {
 constexpr int CACHE_LINE_SIZE = 64; // TODO: Review that this is the correct value.
 static inline void spin_loop_pause() noexcept {}
@@ -82,6 +88,7 @@ auto constexpr A = std::memory_order_acquire;
 auto constexpr R = std::memory_order_release;
 auto constexpr X = std::memory_order_relaxed;
 auto constexpr C = std::memory_order_seq_cst;
+auto constexpr AR = std::memory_order_acq_rel;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

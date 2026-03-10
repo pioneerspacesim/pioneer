@@ -1,11 +1,13 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CoreFwdDecl.h"
 #include "FileSystem.h"
 #include "LuaUtils.h"
 #include "core/Log.h"
-#include "libs.h"
+#include "utils.h"
+#include "FileSystem.h"
+#include "LuaFileSystem.h"
 
 static int l_d_null_userdata(lua_State *L)
 {
@@ -112,6 +114,7 @@ static const luaL_Reg STANDARD_LIBS[] = {
 	{ LUA_BITLIBNAME, luaopen_bit32 },
 	{ LUA_MATHLIBNAME, luaopen_math },
 	{ LUA_DBLIBNAME, luaopen_debug },
+	{ LUA_IOLIBNAME, luaopen_io },
 	{ "util", luaopen_utils },
 	{ "package", luaopen_import },
 	{ 0, 0 }
@@ -143,6 +146,8 @@ static const luaL_Reg STANDARD_LIBS[] = {
 
 void pi_lua_open_standard_base(lua_State *L)
 {
+	LUA_DEBUG_START(L);
+
 	for (const luaL_Reg *lib = STANDARD_LIBS; lib->func; ++lib) {
 		luaL_requiref(L, lib->name, lib->func, 1);
 		lua_pop(L, 1);
@@ -164,6 +169,36 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_setglobal(L, "logWarning");
 	lua_pushcfunction(L, l_log_verbose);
 	lua_setglobal(L, "logVerbose");
+
+	// IO library adjustments
+	lua_getglobal(L, LUA_IOLIBNAME);
+
+	lua_getfield(L, -1, "open");
+	assert(lua_iscfunction(L, -1));
+	LuaFileSystem::register_raw_io_open_function(lua_tocfunction(L, -1));
+	lua_pop(L, 1); // pop the io.open function
+
+	// patch io.open so we can check the path
+	lua_pushcfunction(L, LuaFileSystem::l_patched_io_open);
+	lua_setfield(L, -2, "open");
+
+	// remove io.popen as we don't want people running apps
+	lua_pushnil(L);
+	lua_setfield(L, -2, "popen");
+	lua_pushnil(L);
+	// remove other fields that we don't allow as we only want
+	// specific file IO and no console IO (as it makes little sense)
+	lua_setfield(L, -2, "input");
+	lua_pushnil(L);
+	lua_setfield(L, -2, "output");
+	lua_pushnil(L);
+	lua_setfield(L, -2, "tmpfile");
+	lua_pushnil(L);
+	lua_setfield(L, -2, "stdout");
+	lua_pushnil(L);
+	lua_setfield(L, -2, "stderr");
+
+	lua_pop(L, 1); // pop the io table
 
 	// standard library adjustments (math library)
 	lua_getglobal(L, LUA_MATHLIBNAME);
@@ -210,6 +245,8 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_setfield(L, -2, "dumpstack");
 
 	lua_pop(L, 1); // pop the debug table
+
+	LUA_DEBUG_END(L, 0);
 }
 
 static int l_handle_error(lua_State *L)
@@ -323,7 +360,7 @@ void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nret)
 	LUA_DEBUG_END(l, nret);
 }
 
-void pi_lua_dofile(lua_State *l, const std::string &path)
+void pi_lua_dofile(lua_State *l, const std::string &path, int nret)
 {
 	assert(l);
 	LUA_DEBUG_START(l);
@@ -334,7 +371,7 @@ void pi_lua_dofile(lua_State *l, const std::string &path)
 		return;
 	}
 
-	pi_lua_dofile(l, *code);
+	pi_lua_dofile(l, *code, nret);
 
 	LUA_DEBUG_END(l, 0);
 }

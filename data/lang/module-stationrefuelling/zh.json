@@ -5,7 +5,7 @@
   },
   "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH_LANDING": {
     "description": "",
-    "message": "This is {station}. You do not have enough money for your landing fee of {fee}."
+    "message": "这里是 {station}. 你没有足够的钱支付着陆费用 {fee}."
   },
   "WELCOME_ABOARD_STATION_FEE_DEDUCTED": {
     "description": "Station welcome message, docking in orbit",

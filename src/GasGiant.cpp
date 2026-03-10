@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GasGiant.h"
@@ -8,6 +8,7 @@
 #include "GameConfig.h"
 #include "Pi.h"
 #include "galaxy/AtmosphereParameters.h"
+#include "graphics/Drawables.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
@@ -16,6 +17,7 @@
 #include "graphics/Texture.h"
 #include "graphics/Types.h"
 #include "graphics/VertexArray.h"
+#include "graphics/VertexBuffer.h"
 #include "perlin.h"
 #include "utils.h"
 #include "vcacheopt/vcacheopt.h"
@@ -135,7 +137,7 @@ public:
 
 		// add all of the middle indices
 		for (int i = 0; i < IDX_VBO_COUNT_ALL_IDX(); ++i) {
-			pl.push_back(indices[i]);
+			pl.emplace_back(indices[i]);
 		}
 
 		return tri_count;
@@ -230,13 +232,11 @@ public:
 	{
 		PROFILE_SCOPED()
 		//create buffer and upload data
-		auto vbd = Graphics::VertexBufferDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
-		vbd.numVertices = ctx->NUMVERTICES();
-		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-		Graphics::VertexBuffer *vtxBuffer = Pi::renderer->CreateVertexBuffer(vbd);
+		auto vbd = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
+		Graphics::VertexBuffer *vtxBuffer = Pi::renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_STATIC, ctx->NUMVERTICES(), vbd.bindings[0].stride);
 
 		GasPatchContext::VBOVertex *vtxPtr = vtxBuffer->Map<GasPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
-		assert(vtxBuffer->GetDesc().stride == sizeof(GasPatchContext::VBOVertex));
+		assert(vtxBuffer->GetStride() == sizeof(GasPatchContext::VBOVertex));
 
 		const Sint32 edgeLen = ctx->edgeLen;
 		const double frac = ctx->frac;
@@ -253,12 +253,12 @@ public:
 		}
 		vtxBuffer->Unmap();
 
-		m_patchMesh.reset(Pi::renderer->CreateMeshObject(vtxBuffer, ctx->indexBuffer.Get()));
+		m_patchMesh.reset(Pi::renderer->CreateMeshObject(vbd, vtxBuffer, ctx->indexBuffer.Get()));
 	}
 
 	void Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum)
 	{
-		if (!frustum.TestPoint(clipCentroid, clipRadius))
+		if (!frustum.TestSphere(clipCentroid, clipRadius))
 			return;
 
 		const vector3d relpos = clipCentroid - campos;
@@ -282,7 +282,7 @@ void GasGiant::UpdateAllGasGiants()
 }
 
 // static
-void GasGiant::OnChangeDetailLevel()
+void GasGiant::OnChangeGasGiantsDetailLevel()
 {
 	s_patchContext.Reset(new GasPatchContext(127));
 
@@ -303,7 +303,7 @@ GasGiant::GasGiant(const SystemBody *body) :
 	m_hasGpuJobRequest(false),
 	m_timeDelay(s_initialCPUDelayTime)
 {
-	s_allGasGiants.push_back(this);
+	s_allGasGiants.emplace_back(this);
 
 	for (int i = 0; i < NUM_PATCHES; i++) {
 		m_hasJobRequest[i] = false;
@@ -385,28 +385,6 @@ bool GasGiant::OnAddGPUGenResult(const SystemPath &path, GasGiantJobs::SGPUGenRe
 	return false;
 }
 
-#define DUMP_TO_TEXTURE 0
-
-#if DUMP_TO_TEXTURE
-#include "FileSystem.h"
-#include "PngWriter.h"
-#include "graphics/opengl/TextureGL.h"
-void textureDump(const char *destFile, const int width, const int height, const Color *buf)
-{
-	const std::string dir = "generated_textures";
-	FileSystem::userFiles.MakeDirectory(dir);
-	const std::string fname = FileSystem::JoinPathBelow(dir, destFile);
-
-	// pad rows to 4 bytes, which is the default row alignment for OpenGL
-	//const int stride = (3*width + 3) & ~3;
-	const int stride = width * 4;
-
-	write_png(FileSystem::userFiles, fname, &buf[0].r, width, height, stride, 4);
-
-	printf("texture %s saved\n", fname.c_str());
-}
-#endif
-
 bool GasGiant::AddTextureFaceResult(GasGiantJobs::STextureFaceResult *res)
 {
 	bool result = false;
@@ -445,14 +423,6 @@ bool GasGiant::AddTextureFaceResult(GasGiantJobs::STextureFaceResult *res)
 		tcd.negZ = m_jobColorBuffers[5].get();
 		m_surfaceTexture->Update(tcd, dataSize, Graphics::TEXTURE_RGBA_8888);
 
-#if DUMP_TO_TEXTURE
-		for (int iFace = 0; iFace < NUM_PATCHES; iFace++) {
-			char filename[1024];
-			snprintf(filename, 1024, "%s%d.png", GetSystemBody()->GetName().c_str(), iFace);
-			textureDump(filename, uvDims, uvDims, m_jobColorBuffers[iFace].get());
-		}
-#endif
-
 		// cleanup the temporary color buffer storage
 		for (int i = 0; i < NUM_PATCHES; i++) {
 			m_jobColorBuffers[i].reset();
@@ -478,21 +448,6 @@ bool GasGiant::AddGPUGenResult(GasGiantJobs::SGPUGenResult *res)
 #ifndef NDEBUG
 	const Sint32 uvDims = res->data().uvDims;
 	assert(uvDims > 0 && uvDims <= 4096);
-#endif
-
-#if DUMP_TO_TEXTURE
-	for (int iFace = 0; iFace < NUM_PATCHES; iFace++) {
-		std::unique_ptr<Color, FreeDeleter> buffer(static_cast<Color *>(malloc(uvDims * uvDims * 4)));
-		Graphics::Texture *pTex = res->data().texture.Get();
-		Graphics::TextureGL *pGLTex = static_cast<Graphics::TextureGL *>(pTex);
-		pGLTex->Bind();
-		glGetTexImage(GL_TEXTURE_CUBE_MAP_POSITIVE_X + iFace, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer.get());
-		pGLTex->Unbind();
-
-		char filename[1024];
-		snprintf(filename, 1024, "%s%d.png", GetSystemBody()->GetName().c_str(), iFace);
-		textureDump(filename, uvDims, uvDims, buffer.get());
-	}
 #endif
 
 	// tidyup
@@ -680,15 +635,13 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 		SetUpMaterials();
 
 	//Update material parameters
-	//XXX no need to calculate AP every frame
-	auto ap = GetSystemBody()->CalcAtmosphereParams();
-	SetMaterialParameters(trans, radius, shadows, ap);
-	if (ap.atmosDensity > 0.0) {
+	SetMaterialParameters(trans, radius, shadows, m_atmosphereParameters);
+	if (m_atmosphereParameters.atmosDensity > 0.0) {
 		// make atmosphere sphere slightly bigger than required so
 		// that the edges of the pixel shader atmosphere jizz doesn't
 		// show ugly polygonal angles
 		DrawAtmosphereSurface(renderer, trans, campos,
-			ap.atmosRadius * 1.01,
+			m_atmosphereParameters.atmosRadius * 1.01,
 			m_atmosphereMaterial);
 	}
 
@@ -723,7 +676,6 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 
 void GasGiant::SetUpMaterials()
 {
-
 	// Request material for this planet, with atmosphere.
 	// Separate materials for surface and sky.
 	Graphics::MaterialDescriptor surfDesc;
@@ -732,13 +684,16 @@ void GasGiant::SetUpMaterials()
 	surfDesc.textures = 1;
 
 	//planetoid with atmosphere
-	const AtmosphereParameters ap(GetSystemBody()->CalcAtmosphereParams());
-	assert(ap.atmosDensity > 0.0);
+	m_atmosphereParameters = GetSystemBody()->CalcAtmosphereParams();
+	assert(m_atmosphereParameters.atmosDensity > 0.0);
 	assert(m_surfaceTextureSmall.Valid() || m_surfaceTexture.Valid());
+
+	// XXX: should be the same as used to create the vertex buffer
+	auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
 
 	// surface material is solid
 	Graphics::RenderStateDesc rsd;
-	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial("gassphere_base", surfDesc, rsd));
+	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial("gassphere_base", surfDesc, rsd, vtxFormat));
 	m_surfaceMaterial->SetTexture("texture0"_hash,
 		m_surfaceTexture.Valid() ? m_surfaceTexture.Get() : m_surfaceTextureSmall.Get());
 
@@ -752,7 +707,21 @@ void GasGiant::SetUpMaterials()
 		rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
 		rsd.cullMode = Graphics::CULL_NONE;
 		rsd.depthWrite = false;
-		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("geosphere_sky", skyDesc, rsd));
+
+		Graphics::VertexFormatDesc atmosVtxFmt = m_atmos->GetVertexFormat();
+
+		const int scattering = Pi::config->Int("RealisticScattering");
+		switch (scattering) {
+		case 1:
+			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_fast", skyDesc, rsd, atmosVtxFmt));
+			break;
+		case 2:
+			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("rayleigh_accurate", skyDesc, rsd, atmosVtxFmt));
+			break;
+		default:
+			m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("geosphere_sky", skyDesc, rsd, atmosVtxFmt));
+			break;
+		}
 	}
 }
 
@@ -774,7 +743,7 @@ void GasGiant::BuildFirstPatches()
 	GenerateTexture();
 }
 
-void GasGiant::Init()
+void GasGiant::InitGasGiant()
 {
 	IniConfig cfg;
 	cfg.Read(FileSystem::gameDataFiles, "configs/GasGiants.ini");
@@ -797,7 +766,7 @@ void GasGiant::Init()
 	CreateRenderTarget(s_texture_size_gpu[Pi::detail.planets], s_texture_size_gpu[Pi::detail.planets]);
 }
 
-void GasGiant::Uninit()
+void GasGiant::UninitGasGiant()
 {
 	s_patchContext.Reset();
 }
@@ -832,14 +801,8 @@ void GasGiant::SetRenderTargetCubemap(const Uint32 face, Graphics::Texture *pTex
 	s_renderTarget->SetCubeFaceTexture(face, pTexture);
 }
 
-//static
-void GasGiant::BeginRenderTarget()
+// static
+Graphics::RenderTarget *GasGiant::GetRenderTarget()
 {
-	Pi::renderer->SetRenderTarget(s_renderTarget);
-}
-
-//static
-void GasGiant::EndRenderTarget()
-{
-	Pi::renderer->SetRenderTarget(nullptr);
+	return s_renderTarget;
 }

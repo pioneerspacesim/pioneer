@@ -5,23 +5,31 @@
   },
   "ADVANCED_TARGET_SCANNER_DESCRIPTION": {
     "description": "",
-    "message": "Целеви скенер с широк обхват и пълно системно покритие."
+    "message": "Целеви скенер с голям обхват и пълно системно покритие."
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "",
-    "message": "Атмосферно екраниране"
+    "message": "Атмосферна защита"
   },
   "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
     "description": "",
     "message": "Предпазва кораба от горещината при навлизане в атмосферата."
   },
+  "ATMOSPHERIC_SHIELDING_FLAVOURTEXT": {
+    "description": "",
+    "message": "Осигурява умерено ниво на защита срещу атмосферното триене и налягане, за сметка на минимално увеличаване на масата."
+  },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
-    "message": "Големи атмосферни щитове"
+    "message": "Подсилена атмосферна защита"
   },
   "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
     "description": "",
-    "message": "Подобрена версия на атмосферните щитове."
+    "message": "Подобрена версия на атмосферните щитове"
+  },
+  "ATMOSPHERIC_SHIELDING_HEAVY_FLAVOURTEXT": {
+    "description": "",
+    "message": "Специализирана за научни експедиции в плътни атмосфери, осигурява увеличено ниво на защита срещу атмосферното налягане, за сметка на теглото и ефективността си."
   },
   "AUTOPILOT": {
     "description": "",
@@ -43,6 +51,18 @@
     "description": "",
     "message": "2 МВ скорострелен лазер"
   },
+  "BY_ITEM": {
+    "description": "Button in the start menu when editing equipment",
+    "message": "Артикули"
+  },
+  "BY_SLOT": {
+    "description": "Button in the start menu when editing equipment",
+    "message": "Гнезда"
+  },
+  "CABINS": {
+    "description": "Category header for pressurized cabin slots",
+    "message": "Кабини"
+  },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
     "message": "Животоподдържаща система"
@@ -58,6 +78,10 @@
   "CARGO_SCOOP_DESCRIPTION": {
     "description": "",
     "message": "Позволява товаренето на стока от космоса."
+  },
+  "COMPUTER_MODULES": {
+    "description": "Category name of computer-related equipment",
+    "message": "Компютърни модули"
   },
   "DAMAGE_PER_SHOT": {
     "description": "Tooltip explaining weapon damage per shot",
@@ -141,7 +165,7 @@
   },
   "ECM_ADVANCED_DESCRIPTION": {
     "description": "",
-    "message": "Електронна противомярка за защита от ракети, способна да унищожава различни видове самонасочващи се ракети."
+    "message": "Електронно противодействие за защита от ракети, способно да унищожава различни видове самонасочващи се ракети."
   },
   "ECM_BASIC": {
     "description": "",
@@ -149,19 +173,35 @@
   },
   "ECM_BASIC_DESCRIPTION": {
     "description": "",
-    "message": "Електронна противомярка за защита от ракети, способна да унищожава някои видове самонасочващи се ракети."
+    "message": "Електронно противодействие за защита от ракети, способно да унищожава някои видове самонасочващи се ракети."
+  },
+  "ECM_HOVER_MESSAGE": {
+    "description": "",
+    "message": "Активиране на електронното противодействие"
+  },
+  "EDIT_EQUIPMENT": {
+    "description": "Dialog title",
+    "message": "Редактиране на оборудването"
+  },
+  "EMPTY_EQUIPMENT_PROVIDING_SLOTS": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "Оборудването не е подходящо за гнездата"
   },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
     "message": "ПРАЗНО"
   },
+  "EQUIPMENT_DOES_NOT_FIT_INTO_THE_SLOT": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "Оборудването не се побира в гнездото"
+  },
   "EQUIPMENT_INTEGRITY": {
     "description": "Tooltip explaining remaining equipment integrity",
-    "message": "Здравина"
+    "message": "Здравина на оборудването"
   },
   "EQUIPMENT_WEIGHT": {
     "description": "Tooltip explaining equipment weight",
-    "message": "Тегло"
+    "message": "Тегло на оборудването"
   },
   "FUEL_SCOOP": {
     "description": "",
@@ -171,6 +211,106 @@
     "description": "",
     "message": "Позволява товаренето на водородно гориво от планетите газови гиганти."
   },
+  "HARDPOINT_FUEL_SCOOP": {
+    "description": "Name for the 'Fuel Scoop' equipment hardpoint",
+    "message": "Товарач за гориво"
+  },
+  "HARDPOINT_MINING_LASER": {
+    "description": "Name for a mining laser mount.",
+    "message": "Минираща монтировка"
+  },
+  "HARDPOINT_MISSILE": {
+    "description": "Name for a generic missile mount",
+    "message": "Ракета"
+  },
+  "HARDPOINT_MISSILE_ARRAY": {
+    "description": "Name for the 'Missile Array' equipment hardpoint",
+    "message": "Ракетен масив"
+  },
+  "HARDPOINT_MISSILE_BAY": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "Ракетно отделение"
+  },
+  "HARDPOINT_MISSILE_BAY_LEFT": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "Ляво ракетно отделение"
+  },
+  "HARDPOINT_MISSILE_BAY_RIGHT": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "Дясно ракетно отделение"
+  },
+  "HARDPOINT_PYLON": {
+    "description": "Name for a generic missile pylon",
+    "message": "Пилон"
+  },
+  "HARDPOINT_PYLON_LEFT": {
+    "description": "Name for a generic missile pylon",
+    "message": "Ляв пилон"
+  },
+  "HARDPOINT_PYLON_LEFT_WING": {
+    "description": "Name for a generic missile pylon",
+    "message": "Пилон на лявото крило"
+  },
+  "HARDPOINT_PYLON_RIGHT": {
+    "description": "Name for a generic missile pylon",
+    "message": "Десен пилон"
+  },
+  "HARDPOINT_PYLON_RIGHT_WING": {
+    "description": "Name for a generic missile pylon",
+    "message": "Пилон на дясното крило"
+  },
+  "HARDPOINT_TURRET_BOTTOM": {
+    "description": "Slot name for a ventral-mounted turret",
+    "message": "Долен купол"
+  },
+  "HARDPOINT_TURRET_TOP": {
+    "description": "Slot name for a dorsal-mounted turret",
+    "message": "Горен купол"
+  },
+  "HARDPOINT_UTILITY": {
+    "description": "Name for a generic utility hardpoint",
+    "message": "Компоненти"
+  },
+  "HARDPOINT_WEAPON": {
+    "description": "Name for a generic weapon hardpoint",
+    "message": "Оръжие"
+  },
+  "HARDPOINT_WEAPON_CHIN": {
+    "description": "Name for the 'Chin Mount' equipment hardpoint",
+    "message": "Предно долно"
+  },
+  "HARDPOINT_WEAPON_FRONT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "Предно оръжие"
+  },
+  "HARDPOINT_WEAPON_FRONT_LEFT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "Предно ляво оръжие"
+  },
+  "HARDPOINT_WEAPON_FRONT_RIGHT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "Предно дясно оръжие"
+  },
+  "HARDPOINT_WEAPON_LEFT": {
+    "description": "Name for a generic weapon hardpoint",
+    "message": "Ляво оръжие"
+  },
+  "HARDPOINT_WEAPON_LEFT_NOSE": {
+    "description": "Name for the 'Left Nose' weapon hardpoint",
+    "message": "Ляво предно"
+  },
+  "HARDPOINT_WEAPON_REAR": {
+    "description": "Name for a generic rear-facing weapon hardpoint",
+    "message": "Задно оръжие"
+  },
+  "HARDPOINT_WEAPON_RIGHT": {
+    "description": "Name for a generic weapon hardpoint",
+    "message": "Дясно оръжие"
+  },
+  "HARDPOINT_WEAPON_RIGHT_NOSE": {
+    "description": "Name for the 'Right Nose' weapon hardpoint",
+    "message": "Дясно предно"
+  },
   "HULL_AUTOREPAIR": {
     "description": "",
     "message": "Система за автоматичен ремонт на корпуса"
@@ -179,6 +319,10 @@
     "description": "",
     "message": "Автоматично ремонтира корпуса на кораба в случай на получена щета."
   },
+  "HULL_MOUNTS": {
+    "description": "Category name for hull-mounted equipment",
+    "message": "Корпусни монтировки"
+  },
   "HYPERCLOUD_ANALYZER": {
     "description": "",
     "message": "Анализатор на хипероблаците"
@@ -186,6 +330,14 @@
   "HYPERCLOUD_ANALYZER_DESCRIPTION": {
     "description": "",
     "message": "Анализира облаците в хиперпространството за да определи дестинацията и времето на пристигане или тръгване."
+  },
+  "INVALID_SLOT": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "Неправилно гнездо"
+  },
+  "ITEM": {
+    "description": "A piece of equipment",
+    "message": "Артикул"
   },
   "LARGE_PLASMA_ACCEL": {
     "description": "",
@@ -215,6 +367,10 @@
     "description": "",
     "message": "Използва се за взривно миниране на астероиди, богати на минерали."
   },
+  "MISC_EQUIPMENT": {
+    "description": "Category header for miscellaneous equipment",
+    "message": "Разни"
+  },
   "MISSILES": {
     "description": "Category name of missile-related equipment",
     "message": "Ракети"
@@ -223,25 +379,221 @@
     "description": "",
     "message": "Управляема ракета"
   },
+  "MISSILE_GUIDED_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Стандартни управляеми ракети „стреляй и забрави“."
+  },
+  "MISSILE_GUIDED_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Масово произвеждана управляема ракета, която ще се насочи към избраната цел. В зависимост от точния модел, тази ракета може да използва различни технологии за насочване, включително радар, лазер или далекомер. Въпреки това, технологията в тези ракети не гарантира, че ще осигури попадение и повечето са доста уязвими на ЕПМ или други противодействия."
+  },
   "MISSILE_NAVAL": {
     "description": "",
     "message": "Военноморска ракета"
+  },
+  "MISSILE_NAVAL_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Самонасочваща се ракета „стреляй и забрави“, изключително устойчива на всички известни видове противодействия."
+  },
+  "MISSILE_NAVAL_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Тези ракети се произвеждат в високо специализирани и секретни военноморски фабрики в строго контролирани съоръжения и обикновено не са достъпни за невоенен персонал. Способни са да устоят на повечето известни видове противодействия, бързи са за размера си и обикновено имат екзотични бойни глави за изключителен разрушителен потенциал. Често се изисква специализирано оборудване в корабите, които ги превозват, за да бъдат правилно въоръжени и програмирани преди изстрелване."
+  },
+  "MISSILE_RACK_221": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
+    "message": "Ракетна стойка Водна змия LH-120"
+  },
+  "MISSILE_RACK_221_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Външна ракетна стойка за 2 малки ракети."
+  },
+  "MISSILE_RACK_221_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Тази качествена ракетна стойка, произведена от Отбранителна водна змия, никога не разочарова, когато е време да се справите с тези досадни пирати."
+  },
+  "MISSILE_RACK_322": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
+    "message": "Ракетна стойка Водна змия LH-220"
+  },
+  "MISSILE_RACK_322_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Външна ракетна стойка за 2 средни ракети."
+  },
+  "MISSILE_RACK_322_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Тази ракетна стойка е за по-взискателните клиенти на Отбранителна водна змия. По-големи взривове за вашите кредити!"
+  },
+  "MISSILE_RACK_341": {
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "Ракетна стойка Медуза LH-140"
+  },
+  "MISSILE_RACK_341_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Външна ракетна стойка за 4 малки ракети."
+  },
+  "MISSILE_RACK_341_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Това е истинска красота, идва направо от лабораториите за научноизследователска и развойна дейност в Отбранителна водна змия. Има още повече ракети в тази ракетна стойка, за създаване на още повече фойерверки!"
+  },
+  "MISSILE_RACK_423": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
+    "message": "Ракетна стойка Водна змия LH-320"
+  },
+  "MISSILE_RACK_423_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Външна ракетна стойка за 2 големи ракети."
+  },
+  "MISSILE_RACK_423_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Не забравяйте да спазвате дистанция след стрелба! От Отбранителна водна змия са побрали 2 големи ракети в тази ракетна стойка за някои наистина зрелищни взривове."
+  },
+  "MISSILE_RACK_442": {
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "Ракетна стойка Медуза LH-240"
+  },
+  "MISSILE_RACK_442_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Външна ракетна стойка за 4 средни ракети."
+  },
+  "MISSILE_RACK_442_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Готови ли сте за голямата лига? С тази голяма ракетна стойка, произведена от Отбранителна водна змия, винаги ще бъдете напълно заредени, за да отприщите огнено унищожение."
+  },
+  "MISSILE_RACK_524": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
+    "message": "Ракетна стойка Водна змия LH-420"
+  },
+  "MISSILE_RACK_524_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Външна ракетна стойка за 2 огромни ракети."
+  },
+  "MISSILE_RACK_524_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Място за 2 огромни ракети. Дори и на нас ни свършиха суперлативите за това, което може да направите с тях, надяваме се, че сте си взели слънчевите очила!"
+  },
+  "MISSILE_RACK_543": {
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "Ракетна стойка Водна змия LH-340"
+  },
+  "MISSILE_RACK_543_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Външна ракетна стойка за 4 големи ракети."
+  },
+  "MISSILE_RACK_543_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Първо, Отбранителна водна змия създаде страхотната LH-320, сега удвояваме нейния капацитет! Продължете напред и оставете своя отпечатък върху всяка система, която се осмели да се противопостави."
+  },
+  "MISSILE_RAIL_S1": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
+    "message": "Ракетна релса Книда-101"
+  },
+  "MISSILE_RAIL_S1_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Външна ракетна установка за една малка ракета."
+  },
+  "MISSILE_RAIL_S1_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Качествена ракетна релса, произведена от Отбранителна водна змия, за всички ракети от клас S1, които се придържат към стандартите на ISAAEEE."
+  },
+  "MISSILE_RAIL_S2": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
+    "message": "Ракетна релса Книда-102"
+  },
+  "MISSILE_RAIL_S2_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Външна ракетна установка за една средна ракета."
+  },
+  "MISSILE_RAIL_S2_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Качествена ракетна релса, произведена от Отбранителна водна змия, която осигурява точка за монтиране на ракети от клас S2."
+  },
+  "MISSILE_RAIL_S3": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
+    "message": "Ракетна релса Книда-103"
+  },
+  "MISSILE_RAIL_S3_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Външна ракетна установка за една голяма ракета."
+  },
+  "MISSILE_RAIL_S3_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Качествена ракетна релса, произведена от Отбранителна водна змия, която осигурява точка за монтиране на ракети от клас S3."
+  },
+  "MISSILE_RAIL_S4": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
+    "message": "Ракетна релса Книда-104"
+  },
+  "MISSILE_RAIL_S4_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Външна ракетна установка за една огромна ракета."
+  },
+  "MISSILE_RAIL_S4_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Качествена ракетна релса, произведена от Отбранителна водна змия, която осигурява точка за монтиране на ракети от клас S4."
   },
   "MISSILE_SMART": {
     "description": "",
     "message": "Умна ракета"
   },
+  "MISSILE_SMART_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Управляема ракета, до известна степен устойчива на ЕПМ."
+  },
+  "MISSILE_SMART_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Интелигентна ракета, способна да проследи целта с помощта на усъвършенстван набор от сензори с интегриран модул с изкуствен интелект. Само не го наричайте HAL и гарантираме, че няма да има проблеми ."
+  },
   "MISSILE_UNGUIDED": {
     "description": "",
-    "message": "Самостоятелна ракета ЕР40"
+    "message": "Самостоятелна ракета R40"
   },
-  "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
-    "message": "Комбиниран товарач"
+  "MISSILE_UNGUIDED_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Обикновена ракета „прицели се и стреляй“."
   },
-  "MULTI_SCOOP_DESCRIPTION": {
-    "description": "",
-    "message": "Позволява товаренето на стока и събирането на гориво, но е по-малко ефективен от товарача за гориво."
+  "MISSILE_UNGUIDED_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Масово произвеждани от местни производители в повечето светове. Те варират от ръчно изработени ракети от занаятчии в развиващите се светове до автоматизирана разработка на ракети  в огромните заводи на индустриализираните светове.\nНо независимо откъде произлизат, техните спецификации са строго контролирани от ISAEEE и трябва да работят с повечето съвместими корабни системи."
+  },
+  "NO_SUITABLE_EQUIPMENT": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "Няма подходящо оборудване"
+  },
+  "NO_SUITABLE_SLOTS": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "Няма подходящи гнезда"
+  },
+  "OCCUPIED_BERTHS": {
+    "description": "Label for the number of passenger berths currently occupied in a cabin equipment item",
+    "message": "Заети места"
+  },
+  "OKB_KALURI_BOWFIN_MISSILE_RACK": {
+    "description": "Equipment name for an OKB-Kaluri Bowfin internal missile launcher",
+    "message": "Ракетна установка Амия"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S2": {
+    "description": "Equipment name for an OPLI internal missile rack",
+    "message": "Вътрешна ракетна стойка OPLI"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S2_DESCRIPTION": {
+    "description": "Short description and tooltip.",
+    "message": "Вътрешно ракетно отделение за 5 средни ракети."
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S3": {
+    "description": "Equipment name for an OPLI internal missile rack",
+    "message": "Вътрешна ракетна стойка OPLI"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S3_DESCRIPTION": {
+    "description": "Short description and tooltip.",
+    "message": "Вътрешно ракетно отделение за 3 големи ракети."
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S4": {
+    "description": "Equipment name for an OPLI internal missile rack",
+    "message": "Вътрешна ракетна стойка OPLI"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S4_DESCRIPTION": {
+    "description": "Short description and tooltip.",
+    "message": "Вътрешно ракетно отделение за 5 големи ракети и 4 средни ракети."
   },
   "ORBIT_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
@@ -263,9 +615,17 @@
     "description": "",
     "message": "Максималният обхват на сканиране е превишен:"
   },
+  "PASSENGER_BERTHS": {
+    "description": "Label for the total number of passenger berths in a cabin equipment item",
+    "message": "Пасажерски места"
+  },
   "PASSENGER_CABIN": {
     "description": "",
     "message": "Пасажерска кабина"
+  },
+  "PROJECTILE_SPEED": {
+    "description": "Stat label for weapon projectile speeds",
+    "message": "Начална скорост"
   },
   "PROPULSION": {
     "description": "Category name of propulsion-related equipment",
@@ -307,6 +667,18 @@
     "description": "",
     "message": "Осигурява 3D карта на близките кораби."
   },
+  "REINFORCED_STRUCTURE": {
+    "description": "Name for an equipment item that reinforces the hull's superstructure",
+    "message": "Подсилена структура"
+  },
+  "REINFORCED_STRUCTURE_DESCRIPTION": {
+    "description": "Description of the Reinforced Structure equipment item",
+    "message": "Комплект за укрепване на кораба. Увеличава устойчивостта на високо атмосферно налягане."
+  },
+  "REQUIRED_SLOT_IS_EMPTY": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "Необходимото гнездо е празно"
+  },
   "SCAN_COMPLETED": {
     "description": "",
     "message": "Сканирането е завършено"
@@ -345,7 +717,7 @@
   },
   "SHIELD_GENERATOR": {
     "description": "",
-    "message": "Генератор на щитовете"
+    "message": "Генератор"
   },
   "SHIELD_GENERATOR_DESCRIPTION": {
     "description": "",
@@ -355,6 +727,70 @@
     "description": "Tooltip explaining weapon fire rate / RPM counter",
     "message": "Скорострелност"
   },
+  "SLOT": {
+    "description": "",
+    "message": "Гнездо"
+  },
+  "SLOTLESS": {
+    "description": "",
+    "message": "Без гнезда"
+  },
+  "SLOT_CABIN": {
+    "description": "Name for a generic room slot inside the pressurized living space",
+    "message": "Кабина"
+  },
+  "SLOT_CABIN_FORE": {
+    "description": "Name for a cabin slot towards the front of the ship",
+    "message": "Предна кабина"
+  },
+  "SLOT_CABIN_REAR": {
+    "description": "Name for a cabin slot towards the rear of the ship",
+    "message": "Задна кабина"
+  },
+  "SLOT_COMPUTER": {
+    "description": "Name for a generic computer equipment slot",
+    "message": "Компютър"
+  },
+  "SLOT_ENGINE": {
+    "description": "Name for the ship's primary travel engines",
+    "message": "Двигатели"
+  },
+  "SLOT_HULL": {
+    "description": "Name for an equipment slot that augments or modifies the ship hull",
+    "message": "Корпус"
+  },
+  "SLOT_HYPERDRIVE": {
+    "description": "Name for a ship's singular hyperdrive equipment slot",
+    "message": "Хипердвигател"
+  },
+  "SLOT_IS_NOT_EMPTY_REPLACE_THE_EQUIPMENT_QUESTION": {
+    "description": "",
+    "message": "Гнездото не е празно, замяна на оборудването?"
+  },
+  "SLOT_SENSOR": {
+    "description": "Name for a generic (flight/navigation) sensor slot",
+    "message": "Сензор"
+  },
+  "SLOT_SHIELD": {
+    "description": "Name for a generic shield slot",
+    "message": "Щит"
+  },
+  "SLOT_SHIELD_LEFT": {
+    "description": "Name for a left-side shield slot",
+    "message": "Ляв щит"
+  },
+  "SLOT_SHIELD_RIGHT": {
+    "description": "Name for a right-side shield equipment slot",
+    "message": "Десен щит"
+  },
+  "SLOT_STRUCTURE": {
+    "description": "Name for the ship's internal structure modification slot",
+    "message": "Структура"
+  },
+  "SLOT_THRUSTER": {
+    "description": "Generic name for secondary attitude or maneuvering thrusters",
+    "message": "Ускорители"
+  },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
     "message": "Малък плазмен ускорител"
@@ -363,9 +799,49 @@
     "description": "",
     "message": "Стартиране на сканирането, разстоянието до целта е"
   },
+  "STAT_ATMO_SHIELD": {
+    "description": "Stat name for atmospheric shielding. 'Atmospheric' is abbreviated.",
+    "message": "Устойчивост на атмосферното налягане"
+  },
+  "STAT_HYPERDRIVE_EFFICIENCY": {
+    "description": "",
+    "message": "Горивна ефективност"
+  },
+  "STAT_HYPERDRIVE_RESERVOIR": {
+    "description": "",
+    "message": "Размер на резервоара"
+  },
+  "STAT_MISSILE_RADIUS": {
+    "description": "",
+    "message": "Радиус на взрива"
+  },
+  "STAT_MISSILE_WARHEAD": {
+    "description": "",
+    "message": "Сила на взрива (еквивалент)"
+  },
+  "STAT_POWER_DRAW": {
+    "description": "Stat label for equipment power draw",
+    "message": "Захранване"
+  },
+  "STAT_SHIELD": {
+    "description": "Stat name for shield generator effectiveness.",
+    "message": "Ефективна здравина на щитовете"
+  },
+  "STAT_THRUSTER_POWER": {
+    "description": "Stat name for thruster upgrades",
+    "message": "Максимално увеличение на тягата"
+  },
+  "STAT_VOLUME": {
+    "description": "Stat label for equipment volume",
+    "message": "Обем"
+  },
+  "STAT_WEIGHT": {
+    "description": "Stat label for equipment weight",
+    "message": "Тегло"
+  },
   "SURFACE_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude. Model manufacturer name is meant to sound like a cheap brand.",
-    "message": "Повърхностен скенер Nadir-150"
+    "message": "Повърхностен скенер Надир-150"
   },
   "SURFACE_SCANNER_DESCRIPTION": {
     "description": "tooltip",
@@ -373,7 +849,7 @@
   },
   "SURFACE_SCANNER_GOOD": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types. Model manufacturer name is meant to be associated with high quality.",
-    "message": "Повърхностен скенер Xeiss-250"
+    "message": "Повърхностен скенер Цайс-250"
   },
   "SURFACE_SCANNER_GOOD_DESCRIPTION": {
     "description": "tooltip",
@@ -387,27 +863,39 @@
     "description": "",
     "message": "Използва се за отдалечено проучване на екипировката, товара и състоянието на другите кораби."
   },
-  "THRUSTERS_BASIC": {
-    "description": "",
-    "message": "Модифицирани ускорители"
+  "TARGET_SLOT_IS_NOT_EMPTY_PUT_THE_REPLACED_ONE_IN_THE_CLIPBOARD_QUESTION": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "Целевото гнездо не е празно, поставяне в буферната памет?"
   },
-  "THRUSTERS_BASIC_DESCRIPTION": {
-    "description": "",
-    "message": "Модифицирани ускорители, които са лицензирани за кораба."
+  "THE_SAME_EQUIPMENT_HAS_BEEN_ALREADY_INSTALLED": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "Същото оборудване вече е инсталирано."
   },
-  "THRUSTERS_BEST": {
-    "description": "",
-    "message": "Поръчкови ускорители"
+  "THRUSTERS_DEFAULT": {
+    "description": "Equipment name for default RCS thrusters",
+    "message": "Стандартни ускорители"
   },
-  "THRUSTERS_BEST_DESCRIPTION": {
+  "THRUSTERS_IMPROVED": {
     "description": "",
-    "message": "Персонализирани ускорители, които предоставят най-добрия резултат."
+    "message": "Подобрени ускорители"
   },
-  "THRUSTERS_MEDIUM": {
+  "THRUSTERS_IMPROVED_DESCRIPTION": {
+    "description": "",
+    "message": "Подобрени ускорители, лицензирани за вашия кораб."
+  },
+  "THRUSTERS_NAVAL": {
+    "description": "",
+    "message": "Военноморски ускорители"
+  },
+  "THRUSTERS_NAVAL_DESCRIPTION": {
+    "description": "",
+    "message": "Военноморски ускорители, специално пригодени за кораба, които предоставят най-добрия резултат."
+  },
+  "THRUSTERS_OPTIMISED": {
     "description": "",
     "message": "Оптимизирани ускорители"
   },
-  "THRUSTERS_MEDIUM_DESCRIPTION": {
+  "THRUSTERS_OPTIMISED_DESCRIPTION": {
     "description": "",
     "message": "Ускорители, които са оптимизирани чрез намаляне на неефективността и подобряване на мощността."
   },
@@ -427,13 +915,21 @@
     "description": "",
     "message": "Показва доходните стоки за търговия между избраната и текущата система."
   },
+  "UNIT_HYPERDRIVE_EFFICIENCY": {
+    "description": "Fictional unit abbreviation for hyperdrive efficiency",
+    "message": "кЕ"
+  },
+  "UNIT_WARHEAD_DAMAGE": {
+    "description": "Unit abbreviation for missile warhead damage.",
+    "message": "кг ТНТ"
+  },
   "UNOCCUPIED_CABIN": {
     "description": "",
     "message": "Допълнителна пасажерска кабина"
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",
-    "message": "Използва се за превоз на един пасажер."
+    "message": "Използва се за превоз на пасажери"
   },
   "UTILITY": {
     "description": "Category name of utility equipment",

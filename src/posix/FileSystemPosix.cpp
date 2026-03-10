@@ -1,9 +1,9 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "FileSystem.h"
+#include "core/OS.h"
 #include "buildopts.h"
-#include "libs.h"
 #include "utils.h"
 #include <dirent.h>
 #include <sys/stat.h>
@@ -24,12 +24,16 @@
 #endif
 
 namespace FileSystem {
+	const char FORBIDDEN_CHARACTERS[] = {
+		0, '/'
+	};
+
 	static FileInfo::FileType stat_path(const char *, Time::DateTime &);
 
-	static std::string absolute_path(const std::string &path)
+	static std::string absolute_path(std::string_view path)
 	{
 		if (!path.empty() && path[0] == '/') {
-			return path;
+			return std::string(path);
 		} else {
 			const size_t bufsize = 512;
 			std::unique_ptr<char, FreeDeleter> buf(static_cast<char *>(std::malloc(bufsize)));
@@ -58,8 +62,8 @@ namespace FileSystem {
 		path += "Library/Application Support/Pioneer";
 #else
 		struct stat info;
-		stat((path + ".pioneer").c_str(), &info);
-		if (S_ISDIR(info.st_mode)) {
+		int err = stat((path + ".pioneer").c_str(), &info);
+		if (err == 0 && S_ISDIR(info.st_mode)) {
 			// Check for legacy pioneer directory.
 			path += ".pioneer";
 		} else {
@@ -121,6 +125,15 @@ namespace FileSystem {
 	{
 		static const std::string data_path = FindDataDir();
 		return data_path;
+	}
+
+	bool IsValidFilename(const std::string &fileName)
+	{
+		for (const char c : FORBIDDEN_CHARACTERS) {
+			if (fileName.find(c) != std::string::npos)
+				return false;
+		}
+		return true;
 	}
 
 	FileSourceFS::FileSourceFS(const std::string &root, bool trusted) :
@@ -282,4 +295,71 @@ namespace FileSystem {
 		const std::string fullpath = JoinPathBelow(GetRoot(), path);
 		return fopen(fullpath.c_str(), (flags & WRITE_TEXT) ? "w" : "wb");
 	}
+
+	bool FileSourceFS::IsChildOfRoot(const std::string &path)
+	{
+		if (path.empty())
+			return false;
+		if (access(path.c_str(), F_OK))
+			return false;
+		char *fullPath = realpath(path.c_str(), NULL);
+		if (!fullPath)
+			return false;
+		const std::string root = GetRoot();
+		std::string pathCompareStr = fullPath;
+		free(fullPath);
+		const std::string rootInitFolder = root.substr(0, root.find_first_of('/'));
+		const std::string fullPathInitFolder = pathCompareStr.substr(0, pathCompareStr.find_first_of('/'));
+		if (rootInitFolder != fullPathInitFolder)
+			return false;
+		size_t elem = 0;
+		while ((elem = pathCompareStr.find_last_of('/')) != std::string::npos) {
+			if (pathCompareStr == root)
+				return true;
+			pathCompareStr.resize(elem);
+			if (pathCompareStr.size() < root.size())
+				return false;
+		}
+		return false;
+	}
+
+	bool FileSourceFS::RemoveFile(const std::string &relativePath)
+	{
+		if (relativePath.empty())
+			return false;
+		std::string combinedPath;
+		try {
+			combinedPath = JoinPathBelow(GetRoot(), relativePath);
+		} catch (const std::invalid_argument &) {
+			return false;
+		}
+		struct stat fileAttributes;
+		memset(&fileAttributes, 0, sizeof(fileAttributes));
+		if (stat(combinedPath.c_str(), &fileAttributes))
+			return false;
+		if (!S_ISREG(fileAttributes.st_mode))
+			return false;
+		if (!IsChildOfRoot(combinedPath))
+			return false;
+		return !unlink(combinedPath.c_str());
+	}
 } // namespace FileSystem
+
+namespace OS {
+
+	FILE *OpenReadStream(std::string_view path)
+	{
+		return fopen(std::string(path).c_str(), "rb");
+	}
+
+	FILE *OpenWriteStream(std::string_view path, FileStreamMode mode)
+	{
+		return fopen(std::string(path).c_str(), mode == FileStreamMode::FS_WRITE ? "wb" : "w");
+	}
+
+	std::string GetAbsolutePath(std::string_view relpath)
+	{
+		return FileSystem::absolute_path(relpath);
+	}
+
+} // namespace OS

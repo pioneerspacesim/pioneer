@@ -1,10 +1,12 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "BaseSphere.h"
 
 #include "GasGiant.h"
 #include "GeoSphere.h"
+
+#include "Pi.h"
 
 #include "galaxy/AtmosphereParameters.h"
 #include "galaxy/SystemBody.h"
@@ -19,6 +21,9 @@ struct BaseSphereDataBlock {
 	float geosphereAtmosFogDensity;
 	float geosphereAtmosInvScaleHeight;
 	Color4f atmosColor;
+	alignas(16) vector3f coefficientsR;
+	alignas(16) vector3f coefficientsM;
+	alignas(16) vector2f scaleHeight;
 
 	// Eclipse struct data
 	alignas(16) vector3f shadowCentreX;
@@ -28,7 +33,9 @@ struct BaseSphereDataBlock {
 	alignas(16) vector3f lrad;
 	alignas(16) vector3f sdivlrad;
 };
-static_assert(sizeof(BaseSphereDataBlock) == 144, "");
+static_assert(sizeof(BaseSphereDataBlock) == 192, "");
+
+std::unique_ptr<Graphics::Drawables::Sphere3D> BaseSphere::m_atmos;
 
 BaseSphere::BaseSphere(const SystemBody *body) :
 	m_sbody(body),
@@ -37,18 +44,19 @@ BaseSphere::BaseSphere(const SystemBody *body) :
 BaseSphere::~BaseSphere() {}
 
 //static
-void BaseSphere::Init()
+void BaseSphere::Init(Graphics::Renderer *renderer)
 {
 	PROFILE_SCOPED()
-	GeoSphere::Init();
-	GasGiant::Init();
+	GeoSphere::InitGeoSphere();
+	GasGiant::InitGasGiant();
+	ResetAtmosphereGeometry(renderer);
 }
 
 //static
 void BaseSphere::Uninit()
 {
-	GeoSphere::Uninit();
-	GasGiant::Uninit();
+	GeoSphere::UninitGeoSphere();
+	GasGiant::UninitGasGiant();
 }
 
 //static
@@ -59,9 +67,11 @@ void BaseSphere::UpdateAllBaseSphereDerivatives()
 }
 
 //static
-void BaseSphere::OnChangeDetailLevel()
+void BaseSphere::OnChangeDetailLevel(Graphics::Renderer *renderer)
 {
-	GeoSphere::OnChangeDetailLevel();
+	GeoSphere::OnChangeGeoSphereDetailLevel();
+	GasGiant::OnChangeGasGiantsDetailLevel();
+	ResetAtmosphereGeometry(renderer);
 }
 
 void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,
@@ -69,7 +79,7 @@ void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,
 	RefCountedPtr<Graphics::Material> mat)
 {
 	PROFILE_SCOPED()
-	using namespace Graphics;
+	assert(m_atmos != nullptr);
 	const vector3d yaxis = campos.Normalized();
 	const vector3d zaxis = vector3d(1.0, 0.0, 0.0).Cross(yaxis).Normalized();
 	const vector3d xaxis = yaxis.Cross(zaxis);
@@ -77,9 +87,7 @@ void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,
 
 	renderer->SetTransform(matrix4x4f(modelView * matrix4x4d::ScaleMatrix(rad) * invrot));
 
-	if (!m_atmos)
-		m_atmos.reset(new Drawables::Sphere3D(renderer, mat, 4, 1.0f, ATTRIB_POSITION));
-	m_atmos->Draw(renderer);
+	m_atmos->Draw(renderer, mat.Get());
 
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_ATMOSPHERES, 1);
 }
@@ -90,13 +98,16 @@ void BaseSphere::SetMaterialParameters(const matrix4x4d &trans, const float radi
 {
 	BaseSphereDataBlock matData{};
 
-	matData.geosphereCenter = vector3f(trans * vector3d(0.0));
-	matData.geosphereRadius = radius;
+	matData.geosphereCenter = vector3f(trans * vector3d(0.0)) / radius;
+	matData.geosphereRadius = ap.planetRadius;
 	matData.geosphereInvRadius = 1.0f / radius;
 	matData.geosphereAtmosTopRad = ap.atmosRadius;
 	matData.geosphereAtmosFogDensity = ap.atmosDensity;
 	matData.geosphereAtmosInvScaleHeight = ap.atmosInvScaleHeight;
 	matData.atmosColor = ap.atmosCol.ToColor4f();
+	matData.coefficientsR = ap.rayleighCoefficients;
+	matData.coefficientsM = ap.mieCoefficients;
+	matData.scaleHeight = ap.scaleHeight;
 
 	// we handle up to three shadows at a time
 	auto it = shadows.cbegin(), itEnd = shadows.cend();
@@ -115,8 +126,24 @@ void BaseSphere::SetMaterialParameters(const matrix4x4d &trans, const float radi
 	// FIXME: these two should share the same buffer data instead of making two separate allocs
 	m_surfaceMaterial->SetBufferDynamic(s_baseSphereData, &matData);
 	m_surfaceMaterial->SetPushConstant(s_numShadows, int(shadows.size()));
-	if (ap.atmosDensity > 0.0) {
+
+	if (m_atmosphereMaterial.Valid() && ap.atmosDensity > 0.0) {
 		m_atmosphereMaterial->SetBufferDynamic(s_baseSphereData, &matData);
 		m_atmosphereMaterial->SetPushConstant(s_numShadows, int(shadows.size()));
+	}
+}
+
+void BaseSphere::ResetAtmosphereGeometry(Graphics::Renderer *renderer)
+{
+	if (renderer) {
+		if (m_atmos) {
+			m_atmos.reset();
+		}
+
+		// 4 subdivision = 5112 verts, 15360 indices
+		// 5 subdivision = 20472 verts, 61440 indices
+		// Pi::detail.planets == 3 if High detail, 4 is Very high
+		int subdivisions = Pi::detail.planets >= 3 ? 5 : 4;
+		m_atmos.reset(new Graphics::Drawables::Sphere3D(renderer, subdivisions, 1.0f, Graphics::ATTRIB_POSITION));
 	}
 }

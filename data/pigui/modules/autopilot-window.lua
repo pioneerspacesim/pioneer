@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -19,7 +19,7 @@ local icons = ui.theme.icons
 
 local mainButtonSize = ui.theme.styles.MainButtonSize
 local smallButtonSize = ui.theme.styles.SmallButtonSize
-local mainButtonFramePadding = ui.theme.styles.MainButtonPadding
+local smallButtonPadding = ui.theme.styles.InlineIconPadding
 local semi_transp = ui.theme.buttonColors.transparent
 
 local bindings = {
@@ -133,7 +133,7 @@ local speed_limiter = (function()
 		-- don't show tooltip during animation
 		local tooltip = variant and bindings.limiter.tooltip or anim_active and "" or lui.TURN_OFF
 		if ui.mainMenuButton(icons.speed_limiter, tooltip .. "##speed_limiter_toggle", variant) then
-				bindings.limiter.action:OnPress()
+				bindings.limiter.action:SetPressed()
 		end
 
 		if toggle_limiter then
@@ -171,29 +171,25 @@ local speed_limiter = (function()
 		-- limiter display
 
 		local cp = ui.getCursorScreenPos() + Vector2(0 - ui.getItemSpacing().x, 0)
-		local full_height = mainButtonSize.y + 2 * mainButtonFramePadding
+		local full_height = mainButtonSize.y
 		local txt_shift = full_height / 2 - ui.getFrameHeight() / 2
-		ui.addRectFilled(cp, cp + Vector2(full_width, full_height), colors.Button, 0, 0)
+		ui.addRectFilled(cp, cp + Vector2(full_width, full_height), colors.Button, 0, ui.RoundCornersNone)
 		if anim_active then
-			ui.addRectFilled(cp + Vector2(0, txt_shift), cp + Vector2(full_width - ui.getItemSpacing().x, full_height - txt_shift), colors.lightBlackBackground, 0, 0)
+			ui.addRectFilled(cp + Vector2(0, txt_shift), cp + Vector2(full_width - ui.getItemSpacing().x, full_height - txt_shift), colors.lightBlackBackground, 0, ui.RoundCornersNone)
 			ui.addCursorPos(Vector2(full_width, 0))
 		else
 			-- because of this, the window became larger by <txt_shift> pixels from
 			-- the bottom (but this is invisible and it sticks out of the bottom edge
 			-- of the screen)
 			ui.addCursorPos(Vector2(-ui.getItemSpacing().x, txt_shift))
+
 			-- fixed width for drag
 			local drag_width = full_width - ui.getItemSpacing().x
 			ui.pushItemWidth(drag_width)
-			-- arrows
-			if not ui.wantTextInput() then
-				local size = ui.getFrameHeight()
-				ui.addIcon(ui.getCursorScreenPos(), icons.time_backward_1x, colors.white, Vector2(size, size), ui.anchor.left, ui.anchor.top)
-				ui.addIcon(ui.getCursorScreenPos() + Vector2(drag_width, 0), icons.time_forward_1x, colors.white, Vector2(size, size), ui.anchor.right, ui.anchor.top)
-			end
+
 			local step = math.max(0.01, speed_limit / 1000 / 500)
 			local value, changed
-			ui.withStyleColors( {["FrameBg"] = colors.lightBlackBackground}, function()
+			ui.withStyleColors( {FrameBg = colors.uiBackground}, function()
 				value, changed = ui.dragFloat("##speed_limiter_drag", speed_limit / 1000, step, 0.0, MAX_SPEED_LIMIT, "%.2f " .. lc.UNIT_KILOMETERS_PER_SECOND)
 			end)
 			if ui.isItemHovered() then
@@ -210,6 +206,14 @@ local speed_limiter = (function()
 			end
 			ui.popItemWidth()
 
+			-- arrows
+			if not ui.wantTextInput() then
+				local tl = ui.getItemRect()
+				local size = ui.getFrameHeight()
+				ui.addIcon(tl, icons.time_backward_1x, colors.white, Vector2(size, size), ui.anchor.left, ui.anchor.top)
+				ui.addIcon(tl + Vector2(drag_width, 0), icons.time_forward_1x, colors.white, Vector2(size, size), ui.anchor.right, ui.anchor.top)
+			end
+
 			-- apply value
 			if changed then
 				value = math.min(math.max(value, 0), MAX_SPEED_LIMIT) * 1000
@@ -218,20 +222,24 @@ local speed_limiter = (function()
 			end
 
 			-- aux buttons
-			ui.sameLine()
-			local buttonSize = smallButtonSize + Vector2(mainButtonFramePadding * 2, mainButtonFramePadding * 2)
-			ui.addCursorPos(-Vector2(buttonSize.x * 3, buttonSize.y + txt_shift))
-			if ui.mainMenuButton(icons.frame_away, lui.SET_TO_ZERO .. "##speed_limiter_set_zero", semi_transp, smallButtonSize) then
-				player:SetSpeedLimit(0)
-			end
-			ui.sameLine(0,0)
-			if ui.mainMenuButton(icons.manual_flight, lui.SET_TO_CURRENT_VELOCITY .. "##speed_limiter_set_current", semi_transp, smallButtonSize) then
-				player:SetSpeedLimit(player:GetVelocity():length())
-			end
-			ui.sameLine(0,0)
-			if ui.mainMenuButton(icons.deltav, lui.SET_TO_45PERCENT_OF_DELTAV .. "##speed_limiter_set_45dv", semi_transp, smallButtonSize) then
-				player:SetSpeedLimit(player:GetMaxDeltaV() * 0.45)
-			end
+			local buttonVOffset = ui.getCursorPos().y - full_height - smallButtonSize.y - txt_shift
+			ui.setCursorPos(Vector2(ui.getContentRegion().x - smallButtonSize.x * 3, buttonVOffset))
+
+			ui.group(function()
+				if ui.iconButton("##speed_limiter_set_zero", icons.frame_away, lui.SET_TO_ZERO, semi_transp, smallButtonSize, smallButtonPadding) then
+					player:SetSpeedLimit(0)
+				end
+				ui.sameLine(0, 0)
+				if ui.iconButton("##speed_limiter_set_current", icons.manual_flight, lui.SET_TO_CURRENT_VELOCITY, semi_transp, smallButtonSize, smallButtonPadding) then
+					player:SetSpeedLimit(player:GetVelocity():length())
+				end
+				ui.sameLine(0, 0)
+				if ui.iconButton("##speed_limiter_set_45dv", icons.deltav, lui.SET_TO_45PERCENT_OF_DELTAV, semi_transp, smallButtonSize, smallButtonPadding) then
+					player:SetSpeedLimit(player:GetMaxDeltaV() * 0.45)
+				end
+
+			end)
+
 		end
 	end
 	reset() -- reset vars on creation
@@ -242,23 +250,24 @@ local function displayAutoPilotWindow()
 	if ui.optionsWindow.isOpen then return end
 	player = Game.player
 	local current_view = Game.CurrentView()
-	local window_h = mainButtonSize.y + smallButtonSize.y + mainButtonFramePadding * 4 + ui.getWindowPadding().y * 2
-	local shift = smallButtonSize.y + mainButtonFramePadding * 2
-	local window_posx = ui.screenWidth/2 + ui.reticuleCircleRadius / 4 * 3
+	local window_h = mainButtonSize.y + smallButtonSize.y + ui.getWindowPadding().y * 2
+	local shift = smallButtonSize.y
+	-- X starting position is the edge of the scanner display.
+	local window_posx = ui.screenWidth/2 + ui.reticuleCircleRadius
 	local window_posy = ui.screenHeight - window_h
 	ui.setNextWindowPos(Vector2(window_posx, window_posy) , "Always")
 	ui.window("AutoPilot", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings", "AlwaysAutoResize"},
 		function()
-			if current_view == "world" then
+			if current_view == "WorldView" then
 				ui.addCursorPos(Vector2(0, shift))
 				if button_hyperspace() then ui.sameLine() end
 				if button_undock() then ui.sameLine() end
 				speed_limiter.show()
-			end -- current_view == "world"
+			end -- current_view == "WorldView"
 		end)
 end
 
-ui.registerModule("game", { id = "autopilot-window", draw = displayAutoPilotWindow })
+ui.registerModule("game", { id = "autopilot-window", draw = displayAutoPilotWindow, debugReload = function() package.reimport() end })
 Event.Register("onGameStart", speed_limiter.reset)
 
 return {}

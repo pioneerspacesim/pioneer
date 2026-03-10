@@ -1,26 +1,12 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SoundMusic.h"
 #include "Pi.h"
-#include "libs.h" //for clamp
+#include "utils.h"
 #include <map>
 
 namespace Sound {
-
-	MusicEvent::MusicEvent() :
-		Event() {}
-
-	MusicEvent::MusicEvent(Uint32 id) :
-		Event(id) {}
-
-	MusicEvent::~MusicEvent() {}
-
-	void MusicEvent::Play(const char *fx, const float volume_left, const float volume_right, Op op)
-	{
-		Stop();
-		eid = PlayMusic(fx, volume_left, volume_right, op);
-	}
 
 	MusicPlayer::MusicPlayer() :
 		m_volume(0.8f),
@@ -53,22 +39,18 @@ namespace Sound {
 	void MusicPlayer::Play(const std::string &name, const bool repeat /* = false */, const float fadeDelta /* = 1.f */)
 	{
 		if (!m_enabled) return;
-		Sound::Op op = 0;
-		if (repeat)
-			op |= Sound::OP_REPEAT;
+
+		Event *current, *next;
 		if (m_eventOnePlaying) {
-			m_eventOne.VolumeAnimate(0.f, 0.f, fadeDelta, fadeDelta);
-			m_eventOne.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
-			m_eventTwo.Play(name.c_str(), 0.f, 0.f, op);
-			m_eventTwo.VolumeAnimate(m_volume, m_volume, fadeDelta, fadeDelta);
 			m_eventOnePlaying = false;
+			current = &m_eventOne;
+			next = &m_eventTwo;
 		} else {
-			m_eventTwo.VolumeAnimate(0.f, 0.f, fadeDelta, fadeDelta);
-			m_eventTwo.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
-			m_eventOne.Play(name.c_str(), 0.f, 0.f, op);
-			m_eventOne.VolumeAnimate(m_volume, m_volume, fadeDelta, fadeDelta);
 			m_eventOnePlaying = true;
+			current = &m_eventTwo;
+			next = &m_eventOne;
 		}
+		next->PlayMusic(name.c_str(), m_volume, fadeDelta, repeat, current);
 		m_playing = true;
 		m_currentSongName = name;
 	}
@@ -83,11 +65,9 @@ namespace Sound {
 	void MusicPlayer::FadeOut(const float fadeDelta)
 	{
 		if (m_eventOnePlaying) { //2 might be already fading out
-			m_eventOne.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
-			m_eventOne.VolumeAnimate(0.f, 0.f, fadeDelta, fadeDelta);
+			m_eventOne.FadeOut(fadeDelta);
 		} else { // 1 might be already fading out
-			m_eventTwo.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
-			m_eventTwo.VolumeAnimate(0.f, 0.f, fadeDelta, fadeDelta);
+			m_eventTwo.FadeOut(fadeDelta);
 		}
 	}
 
@@ -102,24 +82,14 @@ namespace Sound {
 		}
 	}
 
-	const std::string MusicPlayer::GetCurrentSongName() const
+	const std::string& MusicPlayer::GetCurrentSongName() const
 	{
 		return m_currentSongName;
 	}
 
 	const std::vector<std::string> MusicPlayer::GetSongList() const
 	{
-		using std::pair;
-		using std::string;
-		std::vector<string> songs;
-		const std::map<string, Sample> samples = Sound::GetSamples();
-		for (std::map<string, Sample>::const_iterator it = samples.begin();
-			 it != samples.end(); ++it) {
-			if (it->second.isMusic)
-				songs.push_back(it->first.c_str());
-		}
-
-		return songs;
+		return GetMusicFiles();
 	}
 
 	bool MusicPlayer::IsPlaying() const

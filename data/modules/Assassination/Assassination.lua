@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -9,21 +9,26 @@ local Comms = require 'Comms'
 local Timer = require 'Timer'
 local Event = require 'Event'
 local Mission = require 'Mission'
+local MissionUtils = require 'modules.MissionUtils'
 local NameGen = require 'NameGen'
 local Character = require 'Character'
-local Commodities = require 'Commodities'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
-local Equipment = require 'Equipment'
 local ShipDef = require 'ShipDef'
 local Ship = require 'Ship'
+local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
+local HullConfig  = require 'HullConfig'
 local utils = require 'utils'
+local PlayerState = require 'PlayerState'
 
 local lc = Lang.GetResource 'core'
+local ls = Lang.GetResource 'ships'
 local l = Lang.GetResource("module-assassination")
 
 -- don't produce missions for further than this many light years away
 local max_ass_dist = 30
+
+local AssassinationTargetShip = MissionUtils.ShipTemplates.GenericMercenary
 
 local flavours = {}
 for i = 0,5 do
@@ -60,7 +65,10 @@ end
 
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
-
+	local target = ad.target
+	local gender = ad.target.female and "_FEMALE" or "_MALE"
+	local suffix = (Engine.rand:Integer(0,2) < 2) and gender or ""	-- Three way selector. Gender or
+																	-- a third option.
 	form:Clear()
 
 	if option == -1 then
@@ -86,7 +94,8 @@ local onChat = function (form, ref, option)
 		local introtext = string.interp(flavours[ad.flavour].introtext, {
 			name	= ad.client.name,
 			cash	= Format.Money(ad.reward,false),
-			target	= ad.target,
+			target	= target.name,
+			title	= target.title,
 			system	= sys.name,
 		})
 		form:SetMessage(introtext)
@@ -94,9 +103,11 @@ local onChat = function (form, ref, option)
 	elseif option == 1 then
 		local sys = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
+		local shipdef = ShipDef[ad.shipid]
+		local ship = shipdef.i18n_key
 
-		form:SetMessage(string.interp(l.X_WILL_BE_LEAVING, {
-		  target    = ad.target,
+		form:SetMessage(string.interp(l["X_WILL_BE_LEAVING" .. suffix ], {
+		  target    = target.surname,
 		  spaceport = sbody.name,
 		  system    = sys.name,
 		  sectorX   = ad.location.sectorX,
@@ -104,7 +115,7 @@ local onChat = function (form, ref, option)
 		  sectorZ   = ad.location.sectorZ,
 		  dist      = string.format("%.2f", ad.dist),
 		  date      = Format.Date(ad.due),
-		  shipname  = ad.shipname,
+		  ship_indef  = ls[ship .. "_INDEF"],
 		  shipregid = ad.shipregid,
 		  })
 		)
@@ -112,8 +123,8 @@ local onChat = function (form, ref, option)
 	elseif option == 2 then
 		local sbody = ad.location:GetSystemBody()
 
-		form:SetMessage(string.interp(l.IT_MUST_BE_DONE_AFTER, {
-		  target    = ad.target,
+		form:SetMessage(string.interp(l["IT_MUST_BE_DONE_AFTER" .. suffix], {
+		  target    = target.surname,
 		  spaceport = sbody.name,
 		}))
 
@@ -129,12 +140,13 @@ local onChat = function (form, ref, option)
 			backstation	= backstation,
 			client		= ad.client,
 			danger		= ad.danger,
-			due		= ad.due,
+			due			= ad.due,
 			flavour		= ad.flavour,
 			location	= ad.location,
+			destination	= ad.location,
 			reward		= ad.reward,
+			threat		= ad.threat,
 			shipid		= ad.shipid,
-			shipname	= ad.shipname,
 			shipregid	= ad.shipregid,
 			status		= 'ACTIVE',
 			target		= ad.target,
@@ -148,7 +160,7 @@ local onChat = function (form, ref, option)
 	elseif option == 4 then
 		form:SetMessage(l.RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID)
 	end
-	form:AddOption(string.interp(l.WHERE_CAN_I_FIND_X, {target = ad.target}), 1);
+	form:AddOption(string.interp(l.WHERE_CAN_I_FIND_X), 1);
 	form:AddOption(l.COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST, 0);
 	form:AddOption(l.HOW_SOON_MUST_IT_BE_DONE, 2);
 	form:AddOption(l.HOW_WILL_I_BE_PAID, 4);
@@ -157,7 +169,7 @@ end
 
 local placeAdvert = function(station, ad)
 	local desc = string.interp(flavours[ad.flavour].adtext, {
-		target	= ad.target,
+		target	= ad.target.title .. " " .. ad.target.name,
 		system	= ad.location:GetStarSystem().name,
 	})
 
@@ -177,44 +189,40 @@ end
 local nearbysystems
 local makeAdvert = function (station)
 	if nearbysystems == nil then
-		nearbysystems = Game.system:GetNearbySystems(max_ass_dist, function (s) return #s:GetStationPaths() > 0 end)
+		nearbysystems = MissionUtils.GetNearbyStationPaths(Game.system, max_ass_dist)
 	end
 	if #nearbysystems == 0 then return end
 	local client = Character.New()
-	local targetIsfemale = Engine.rand:Integer(1) == 1
-	local target = l["TITLE_"..Engine.rand:Integer(1, num_titles)-1] .. " " .. NameGen.FullName(targetIsfemale)
+	local target = Character.New({title = l["TITLE_"..Engine.rand:Integer(1, num_titles)-1]})
 	local flavour = Engine.rand:Integer(1, #flavours)
-	local nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
-	local nearbystations = nearbysystem:GetStationPaths()
-	local location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
+	local location = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 	local dist = location:DistanceTo(Game.system)
-	local time = Engine.rand:Number(1, 4)
-	local due = Game.time + dist / max_ass_dist * time * 22*60*60*24 + Engine.rand:Number(7*60*60*24, 31*60*60*24)
+	local time = Engine.rand:Number(7*60*60*24, 35*60*60*24)
+	local due = time + MissionUtils.TravelTime(dist, location) * Engine.rand:Number(0.5, 1.5)
+	local timeout = Game.time + due/2
 	local danger = Engine.rand:Integer(1,4)
 	local reward = Engine.rand:Number(2100, 7000) * danger
 	reward = utils.round(reward, 500)
+	due = utils.round(due + Game.time, 3600)
 
-	-- XXX hull mass is a bad way to determine suitability for role
-	--local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= (danger * 17) and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
-	local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hyperdriveClass > 0 and def.equipSlotCapacity.atmo_shield > 0 end, pairs(ShipDef)))
-	local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
-	local shipid = shipdef.id
-	local shipname = shipdef.name
+	local threat = (1.0 + danger) * 10.0
+	local hullConfig = ShipBuilder.SelectHull(AssassinationTargetShip, threat)
+	assert(hullConfig)
 
 	local ad = {
 		client = client,
+		target = target,
 		danger = danger,
 		due = due,
-		faceseed = Engine.rand:Integer(),
 		flavour = flavour,
 		location = location,
 		dist = dist,
 		reward = reward,
-		shipid = shipid,
-		shipname = shipname,
+		threat = threat,
+		shipid = hullConfig.id,
 		shipregid = Ship.MakeRandomLabel(),
 		station = station,
-		target = target,
+		timeout = timeout,
 	}
 
 	placeAdvert(station, ad)
@@ -251,7 +259,7 @@ local onShipDestroyed = function (ship, body)
 				mission.notplayer = 'TRUE'
 			else -- well done, comrade
 				mission.status = 'COMPLETED'
-				mission.location = mission.backstation
+				mission.destination = mission.backstation
 				mission.notplayer = 'FALSE'
 			end
 			mission.ship = nil
@@ -272,8 +280,6 @@ end
 
 local planets
 local onEnterSystem = function (ship)
-	if not ship:IsPlayer() then return end
-
 	local syspath = Game.system.path
 
 	for ref,mission in pairs(missions) do
@@ -282,35 +288,19 @@ local onEnterSystem = function (ship)
 				if mission.due > Game.time then
 					if mission.location:IsSameSystem(syspath) then -- spawn our target ship
 						local station = Space.GetBody(mission.location.bodyIndex)
-						local shiptype = ShipDef[mission.shipid]
-						local default_drive = shiptype.hyperdriveClass
-						local laserdefs = utils.build_array(pairs(Equipment.laser))
-						table.sort(laserdefs, function (l1, l2) return l1.price < l2.price end)
-						local laserdef = laserdefs[mission.danger]
-						local count = default_drive ^ 2
 
-						mission.ship = Space.SpawnShipDocked(mission.shipid, station)
-						if mission.ship == nil then
+						local plan = ShipBuilder.MakePlan(AssassinationTargetShip, HullConfig.GetHullConfig(mission.shipid), mission.threat)
+						assert(plan)
+
+						local target = Space.SpawnShipDocked(mission.shipid, station)
+
+						if not target then
 							return -- TODO
 						end
 
-						mission.ship:SetLabel(mission.shipregid)
-
-						mission.ship:AddEquip(Equipment.misc.atmospheric_shielding)
-						local engine = Equipment.hyperspace['hyperdrive_'..tostring(default_drive)]
-						mission.ship:AddEquip(engine)
-						mission.ship:AddEquip(laserdef)
-						mission.ship:AddEquip(Equipment.misc.shield_generator, mission.danger)
-
-						mission.ship:GetComponent('CargoManager'):AddCommodity(Commodities.hydrogen, count)
-
-						if mission.danger > 2 then
-							mission.ship:AddEquip(Equipment.misc.shield_energy_booster)
-						end
-
-						if mission.danger > 3 then
-							mission.ship:AddEquip(Equipment.misc.laser_cooling_booster)
-						end
+						ShipBuilder.ApplyPlan(target, plan)
+						target:SetLabel(mission.shipregid)
+						mission.ship = target
 
 						_setupHooksForMission(mission)
 						mission.shipstate = 'docked'
@@ -331,10 +321,8 @@ local onEnterSystem = function (ship)
 end
 
 local onLeaveSystem = function (ship)
-	if ship:IsPlayer() then
-		nearbysystems = nil
-		planets = nil
-	end
+	nearbysystems = nil
+	planets = nil
 end
 
 local onShipDocked = function (ship, station)
@@ -344,11 +332,11 @@ local onShipDocked = function (ship, station)
 			if mission.status == 'COMPLETED' and
 			   mission.backstation == station.path then
 				local text = string.interp(flavours[mission.flavour].successmsg, {
-					target	= mission.target,
+					target	= mission.target.name,
 					cash	= Format.Money(mission.reward,false),
 				})
 				Comms.ImportantMessage(text, mission.client.name)
-				ship:AddMoney(mission.reward)
+				PlayerState.AddMoney(mission.reward)
 				Character.persistent.player.reputation = Character.persistent.player.reputation + 8
 				mission:Remove()
 				missions[ref] = nil
@@ -356,11 +344,11 @@ local onShipDocked = function (ship, station)
 				local text
 				if mission.notplayer == 'TRUE' then
 					text = string.interp(flavours[mission.flavour].failuremsg2, {
-						target	= mission.target,
+						target	= mission.target.name,
 					})
 				else
 					text = string.interp(flavours[mission.flavour].failuremsg, {
-						target	= mission.target,
+						target	= mission.target.name,
 					})
 				end
 				Comms.ImportantMessage(text, mission.client.name)
@@ -388,7 +376,7 @@ local onShipUndocked = function (ship, station)
 	for ref,mission in pairs(missions) do
 		if mission.status == 'ACTIVE' and
 		   mission.ship == ship then
-			planets = Space.GetBodies(function (body) return body:isa("Planet") end)
+			planets = Space.GetBodies("Planet")
 			if #planets == 0 then
 				ship:AIFlyTo(station)
 				mission.shipstate = 'outbound'
@@ -420,7 +408,7 @@ local onAICompleted = function (ship, ai_error)
 			elseif ai_error == 'NONE' then
 				Timer:CallAt(Game.time + 60 * 60 * 8, function ()
 					if mission.ship:exists() then
-						local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
+						local stations = Space.GetBodies("SpaceStation")
 						if #stations == 0 then return end
 						local station = stations[Engine.rand:Integer(1,#stations)]
 
@@ -445,7 +433,7 @@ end
 
 local onUpdateBB = function (station)
 	for ref,ad in pairs(ads) do
-		if (ad.due < Game.time + 5*60*60*24) then
+		if ad.timeout < Game.time then
 			ad.station:RemoveAdvert(ref)
 		end
 	end
@@ -488,22 +476,23 @@ local function buildMissionDescription(mission)
 	local ui = require 'pigui'
 	local desc = {}
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
+	local shipdef = ShipDef[mission.shipid]
 
 	desc.description = flavours[mission.flavour].introtext:interp({
 		name   = mission.client.name,
-		target = mission.target,
+		target = mission.target.name,
 		system = mission.location:GetStarSystem().name,
 		cash   = ui.Format.Money(mission.reward,false),
 		dist  = dist
 	})
 
 	desc.details = {
-		{ l.TARGET_NAME, mission.target },
+		{ l.TARGET_NAME, mission.target.title .. " " .. mission.target.name },
 		{ l.SPACEPORT, mission.location:GetSystemBody().name },
 		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
 		{ l.DISTANCE, dist.." "..lc.UNIT_LY },
 		false,
-		{ l.SHIP, mission.shipname },
+		{ l.SHIP, ls[shipdef.i18n_key] },
 		{ l.SHIP_ID, mission.shipregid },
 		{ l.TARGET_WILL_BE_LEAVING_SPACEPORT_AT, ui.Format.Date(mission.due) }
 	}
@@ -525,8 +514,12 @@ local unserialize = function (data)
 		if mission.ship and
 		   mission.ship:exists() and
 		   mission.timer == 'SET' then
-			Timer:CallAt(mission.due, function () if mission.ship:exists() then mission.ship:Undock()
-				mission.timer = nil end end)
+			Timer:CallAt(mission.due, function ()
+				if mission.ship and mission.ship:exists() then
+					mission.ship:Undock()
+					mission.timer = nil
+				end
+			end)
 		end
 	end
 end
@@ -544,6 +537,6 @@ Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 
-Mission.RegisterType('Assassination',l.ASSASSINATION, buildMissionDescription)
+Mission.RegisterType('Assassination', l.ASSASSINATION, buildMissionDescription)
 
 Serializer:Register("Assassination", serialize, unserialize)

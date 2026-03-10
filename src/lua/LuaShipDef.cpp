@@ -1,9 +1,11 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaShipDef.h"
 #include "EnumStrings.h"
+#include "JsonUtils.h"
 #include "Lua.h"
+#include "LuaJson.h"
 #include "LuaUtils.h"
 #include "ShipType.h"
 
@@ -17,14 +19,29 @@
  * Attribute: name
  *
  * The name of the ship type
+ */
+
+/*
+ * Attribute: i18n
  *
- * Availability:
+ * The capitalized ship name that pairs with a suffix to address a ship in
+ * it's correct singular form in the translated names in /data/lang/ships.
  *
- *   alpha 10
+ * SHIP			- ship, base form.
+ * SHIP_DEF		- the ship, definitive form.
+ * SHIP_INDEF	- a ship, indefinite form.
  *
- * Status:
+ * Example:
  *
- *   stable
+ * > local ship = ShipDef[ad.shipid].i18n_key            -- 'NATRIX'
+ * >
+ * > local ship_def = ls[ship .. "_DEF"],                -- 'NATRIX_DEF' - 'the Natrix'
+ * > print("We're counting on " .. ship_def .. " to give us some resistance!")
+ * >
+ * > local ship_indef = ls[ship .. "_INDEF"],            -- 'NATRIX_INDEF' - 'a Natrix'
+ * > local body = ad.location:GetSystemBody()
+ * > print("There are rumours of an abandoned " .. ship_undef ..
+ * > ", drifting in a close orbit around " .. body .. ".")
  */
 
 /*
@@ -32,28 +49,12 @@
  *
  * The amount of angular thrust this ship can achieve. This is the value
  * responsible for the rate that the ship can turn at.
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: capacity
  *
  * The maximum space available for cargo and equipment, in tonnes
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 
 /*
@@ -62,14 +63,6 @@
  * The total mass of the ship's hull, independent of any equipment or cargo
  * inside it, in tonnes. This is the value used when calculating hyperjump
  * ranges and hull damage.
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 
 /*
@@ -77,42 +70,18 @@
  *
  * The base price of the ship. This typically receives some adjustment before
  * being used as a buy or sell price (eg based on supply or demand)
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: minCrew
  *
  * Minimum number of crew required to launch.
- *
- * Availability:
- *
- *   alpha 30
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: maxCrew
  *
  * Maximum number of crew the ship can carry.
- *
- * Availability:
- *
- *   alpha 30
- *
- * Status:
- *
- *   experimental
  */
 
 /*
@@ -121,14 +90,6 @@
  * An integer representing the power of the hyperdrive usually installed on
  * those ships. If zero, it means the ship usually isn't equipped with one,
  * although this does not necessarily mean one cannot be installed.
- *
- * Availability:
- *
- *   April 2014
- *
- * Status:
- *
- *   experimental
  */
 
 /*
@@ -136,14 +97,13 @@
  *
  * Table keyed on <Constants.ShipTypeThruster>, containing linear thrust of
  * that thruster in newtons
+ */
+
+/*
+ * Attribute: linAccelerationCap
  *
- * Availability:
- *
- *   alpha 32
- *
- * Status:
- *
- *   experimental
+ * Table keyed on <Constants.ShipTypeThruster>, containing acceleration cap of
+ * that thruster direction in m/s/s
  */
 
 /*
@@ -151,73 +111,36 @@
  *
  * Ship thruster efficiency as the effective exhaust velocity in m/s.
  * See http://en.wikipedia.org/wiki/Specific_impulse for an explanation of this value.
- *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: thrusterFuelUse
  *
  * Ship thruster efficiency as a percentage-of-tank-used per second of thrust.
- *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
- */
-
-/*
- * Attribute: equipSlotCapacity
- *
- * Table keyed on <Constants.EquipSlot>, containing maximum number of items
- * that can be held in that slot (ignoring mass)
- *
- * Availability:
- *
- *   alpha 32
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: shipClass
  *
  * Class of the ship (e.g. "medium_courier").
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: manufacturer
  *
  * Manufacturer of the ship (e.g. "kaluri").
- *
- * Status:
- *
- *   experimental
  */
 
 /*
  * Attribute: modelName
  *
  * Name for the model of this ship. Important for looking up the actual ship model (Engine.GetModel(ShipDef.modelName)).
+ */
+
+/*
+ * Attribute: shieldModelName
  *
- * Status:
- *
- *   experimental
+ * Name for the shield model of this ship. Can be useful for debug purposes to determine the shield model used by the ship.
  */
 
 void LuaShipDef::Register()
@@ -233,14 +156,18 @@ void LuaShipDef::Register()
 		lua_newtable(l);
 
 		pi_lua_settable(l, "id", iter.first.c_str());
+		pi_lua_settable(l, "path", st.definitionPath.c_str());
 		pi_lua_settable(l, "name", st.name.c_str());
+		pi_lua_settable(l, "i18n_key", st.i18n_key.c_str());
 		pi_lua_settable(l, "shipClass", st.shipClass.c_str());
 		pi_lua_settable(l, "manufacturer", st.manufacturer.c_str());
 		pi_lua_settable(l, "modelName", st.modelName.c_str());
+		pi_lua_settable(l, "shieldModelName", st.shieldName.c_str());
 		pi_lua_settable(l, "cockpitName", st.cockpitName.c_str());
 		pi_lua_settable(l, "tag", EnumStrings::GetString("ShipTypeTag", st.tag));
 		pi_lua_settable(l, "angularThrust", st.angThrust);
-		pi_lua_settable(l, "capacity", st.capacity);
+		pi_lua_settable(l, "equipCapacity", st.capacity);
+		pi_lua_settable(l, "cargo", st.cargo);
 		pi_lua_settable(l, "hullMass", st.hullMass);
 		pi_lua_settable(l, "fuelTankMass", st.fuelTankMass);
 		pi_lua_settable(l, "basePrice", st.baseprice);
@@ -262,23 +189,13 @@ void LuaShipDef::Register()
 		lua_pop(l, 1);
 
 		lua_newtable(l);
-		for (auto it = st.slots.cbegin(); it != st.slots.cend(); ++it) {
-			pi_lua_settable(l, it->first.c_str(), it->second);
-		}
+		for (int t = Thruster::THRUSTER_REVERSE; t < Thruster::THRUSTER_MAX; t++)
+			pi_lua_settable(l, EnumStrings::GetString("ShipTypeThruster", t), st.linAccelerationCap[t]);
 		pi_lua_readonly_table_proxy(l, -1);
-		luaL_getmetafield(l, -1, "__index");
-		if (!lua_getmetatable(l, -1)) {
-			lua_newtable(l);
-		}
-		pi_lua_import(l, "EquipSet");
-		luaL_getsubtable(l, -1, "default");
-		lua_setfield(l, -3, "__index");
-		lua_pop(l, 1);
-		lua_setmetatable(l, -2);
-		lua_pop(l, 1);
-		lua_setfield(l, -3, "equipSlotCapacity");
+		lua_setfield(l, -3, "linAccelerationCap");
 		lua_pop(l, 1);
 
+		// Set up roles table
 		lua_newtable(l);
 		for (auto it = st.roles.cbegin(); it != st.roles.cend(); ++it) {
 			pi_lua_settable(l, it->first.c_str(), it->second);
@@ -286,6 +203,10 @@ void LuaShipDef::Register()
 		pi_lua_readonly_table_proxy(l, -1);
 		lua_setfield(l, -3, "roles");
 		lua_pop(l, 1);
+
+		Json data = JsonUtils::LoadJsonDataFile(st.definitionPath);
+		LuaJson::PushToLua(l, data);
+		lua_setfield(l, -2, "raw");
 
 		pi_lua_readonly_table_proxy(l, -1);
 		lua_setfield(l, -3, iter.first.c_str());

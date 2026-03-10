@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _MATRIXTRANSFORM_H
@@ -26,18 +26,20 @@ namespace SceneGraph {
 		MatrixTransform(Graphics::Renderer *r, const matrix4x4f &m);
 		MatrixTransform(const MatrixTransform &, NodeCopyCache *cache = 0);
 
-		virtual Node *Clone(NodeCopyCache *cache = 0) override;
-		virtual const char *GetTypeName() const override { return "MatrixTransform"; }
-		virtual void Accept(NodeVisitor &v) override;
+		Node *Clone(NodeCopyCache *cache = 0) override;
+		const char *GetTypeName() const override { return "MatrixTransform"; }
+		void Accept(NodeVisitor &v) override;
 
-		virtual void Save(NodeDatabase &) override;
+		void Save(NodeDatabase &) override;
 		static MatrixTransform *Load(NodeDatabase &);
 
-		virtual void Render(const matrix4x4f &trans, const RenderData *rd) override;
-		virtual void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd) override;
+		void Render(const matrix4x4f &trans, const RenderData *rd) override;
+		void RenderInstanced(const std::vector<matrix4x4f> &trans, const RenderData *rd) override;
 
 		const matrix4x4f &GetTransform() const { return m_transform; }
 		void SetTransform(const matrix4x4f &m) { m_transform = m; }
+
+		matrix4x4f CalcGlobalTransform() const override;
 
 	protected:
 		virtual ~MatrixTransform() {}

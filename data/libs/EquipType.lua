@@ -1,13 +1,11 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local utils = require 'utils'
 local Serializer = require 'Serializer'
 local Lang = require 'Lang'
-local ShipDef = require 'ShipDef'
 
 local Game = package.core['Game']
-local Space = package.core['Space']
 
 local laser = {}
 local hyperspace = {}
@@ -23,7 +21,8 @@ local misc = {}
 --          the object in a language-agnostic way
 --  * l10n_resource: where to look up the aforementioned key. If not specified,
 --          the system assumes "equipment-core"
---  * capabilities: a table of string->int, having at least "mass" as a valid key
+--  * capabilities: a table of string->number properties to set on the ship object.
+--          All keys will be suffixed with _cap for namespacing/convience reasons.
 --
 -- All specs are copied directly within the object (even those I know nothing about),
 -- but it is a shallow copy. This is particularly important for the capabilities, as
@@ -32,26 +31,241 @@ local misc = {}
 -- author, but who knows ? Some people might find it useful.)
 --
 --
+---@class EquipType
+---@field id string
+---@field mass number
+---@field volume number
+---@field slot { type: string, size: integer, hardpoint: boolean } | nil
+---@field capabilities table<string, number>?
+---@field purchasable boolean
+---@field price number
+---@field icon_name string?
+---@field tech_level integer | "MILITARY"
+---@field transient table
+---@field slots table -- deprecated
+---@field count integer?
+---@field provides_slots table<string, HullConfig.Slot>?
+---@field inhibit_removal boolean?
+---@field __proto EquipType?
 local EquipType = utils.inherits(nil, "EquipType")
 
+---@return EquipType
 function EquipType.New (specs)
+	---@class EquipType
 	local obj = {}
 	for i,v in pairs(specs) do
 		obj[i] = v
 	end
+
 	if not obj.l10n_resource then
 		obj.l10n_resource = "equipment-core"
 	end
-	local l = Lang.GetResource(obj.l10n_resource)
-	obj.volatile = {
-		description = l:get(obj.l10n_key.."_DESCRIPTION") or "",
-		name = l[obj.l10n_key] or ""
-	}
+
 	setmetatable(obj, EquipType.meta)
+	-- Create the instance metatable for instances of this prototype
+	-- NOTE: intentionally duplicated in EquipType.NewType
+	obj.meta = utils.mixin(EquipType.meta, { __index = obj })
+
+	EquipType._createTransient(obj)
+
 	if type(obj.slots) ~= "table" then
 		obj.slots = {obj.slots}
 	end
+
+	if obj.slot and not obj.slot.hardpoint then
+		obj.slot.hardpoint = false
+	end
+
+	if not obj.tech_level then
+		obj.tech_level = 1
+	end
+
+	if not obj.icon_name then
+		obj.icon_name = "equip_generic"
+	end
+
+	if not obj.purchasable then
+		obj.price = obj.price or 0
+	end
+
 	return obj
+end
+
+-- Method: SpecializeForShip
+--
+-- Override this with a function customizing the equipment instance for the passed ship
+-- (E.g. for equipment with mass/volume/cost dependent on the specific ship hull).
+--
+-- Parameters:
+--
+--  ship - HullConfig, hull configuration this item is tailored for. Note that
+--         the config may not be associated with a concrete Ship object yet.
+--
+EquipType.SpecializeForShip = nil ---@type nil | fun(self: self, ship: HullConfig)
+
+function EquipType._createTransient(obj)
+	local l = Lang.GetResource(obj.l10n_resource)
+	obj.transient = {
+		description = l:get(obj.l10n_key .. "_DESCRIPTION") or "",
+		flavourtext = l:get(obj.l10n_key .. "_FLAVOURTEXT") or "",
+		name = l[obj.l10n_key] or ""
+	}
+end
+
+-- Method: OnInstall
+--
+-- Perform any setup associated with installing this item on a Ship.
+--
+-- If overriding this function in a subclass you should be careful to ensure
+-- the parent class's implementation is always called.
+--
+-- Parameters:
+--
+--  ship - Ship, the ship this equipment item is being installed in.
+--
+--  slot - optional HullConfig.Slot, the slot this item is being installed in
+--         if it is a slot-mounted equipment item.
+--
+---@param ship Ship
+---@param slot HullConfig.Slot?
+function EquipType:OnInstall(ship, slot)
+	-- Extend this for any custom installation logic needed
+	-- (e.g. mounting weapons)
+
+	-- Create unique instances of the slots provided by this equipment item
+	if self.provides_slots and not rawget(self, "provides_slots") then
+		self.provides_slots = utils.map_table(self.provides_slots, function(id, slot) return id, slot:clone() end)
+	end
+end
+
+-- Method: OnRemove
+--
+-- Perform any setup associated with uninstalling this item from a Ship.
+--
+-- If overriding this function in a subclass you should be careful to ensure
+-- the parent class's implementation is always called.
+--
+-- Parameters:
+--
+--  ship - Ship, the ship this equipment item is being removed from.
+--
+--  slot - optional HullConfig.Slot, the slot this item is being removed from
+--         if it is a slot-mounted equipment item.
+--
+---@param ship Ship
+---@param slot HullConfig.Slot?
+function EquipType:OnRemove(ship, slot)
+	-- Override this for any custom uninstallation logic needed
+end
+
+-- Method: CanBeSold
+--
+-- Returns whether the equipment item has some condition preventing its removal
+-- and sale from the craft. This should almost always be true, unless the item
+-- has been installed by some scripted event or otherwise cannot be sold (e.g.
+-- a passenger cabin with a passenger in it.)
+function EquipType:CanBeSold()
+	return not self.inhibit_removal
+end
+
+-- Method: isProto
+--
+-- Returns true if this object is an equipment item prototype, false if it is
+-- an instance.
+function EquipType:isProto()
+	return not rawget(self, "__proto")
+end
+
+-- Method: isInstance
+--
+-- Returns true if this object is an equipment item instance, false if it is
+-- n prototype.
+function EquipType:isInstance()
+	return rawget(self, "__proto") ~= nil
+end
+
+-- Method: GetPrototype
+--
+-- Return the prototype this equipment item instance is derived from, or the
+-- self argument if called on a prototype directly.
+---@return EquipType
+function EquipType:GetPrototype()
+	return rawget(self, "__proto") or self
+end
+
+-- Method: Instance
+--
+-- Create and return an instance of this equipment prototype.
+---@return EquipType
+function EquipType:Instance()
+	return setmetatable({ __proto = self }, self.meta)
+end
+
+-- Method: SetCount
+--
+-- Update this equipment instance's stats to represent a logical "stack" of the
+-- same item. This should never be called on an instance that is already
+-- installed in an EquipSet.
+--
+-- Some equipment slots represent multiple in-world items as a single logical
+-- "item" for the player to interact with. This function handles scaling
+-- equipment stats according to the number of "copies" of the item this
+-- instance represents.
+---@param count integer
+function EquipType:SetCount(count)
+	assert(self:isInstance())
+	local proto = self:GetPrototype()
+
+	self.mass = proto.mass * count
+	self.volume = proto.volume * count
+	self.price = proto.price * count
+	self.count = count
+end
+
+-- Function: NewType
+--
+-- Create a new type of equipment inheriting from the given base type
+-- (typically passed as the self argument)
+--
+-- This function is responsible for overriding the .New() function to create
+-- serializable equipment object prototypes. To set values at creation time
+-- on prototypes created from this type, you should override the Constructor()
+-- method.
+--
+-- --- Lua ---
+-- -- Create a new equipment type
+-- MyType = EquipType:NewType("Equipment.MyType")
+-- -- Create an equipment item prototype
+-- equipProto = MyType.New({ ... })
+-- -- Create a new equipment item instance from that prototype
+-- equipInst = equipProto:Instance()
+-- -----------
+function EquipType.NewType(baseType, name)
+	local newType = utils.class(name, baseType)
+
+	function newType.New(...)
+		-- Create a prototype object and set its metatable appropriately
+		local proto = setmetatable(baseType.New(...), newType.meta)
+		-- Create the instance metatable for instances of this prototype;
+		-- delegates serialization to the base class of the prototype
+		proto.meta = utils.mixin(newType.meta, { __index = proto })
+		-- Run the constructor for this type
+		newType.Constructor(proto, ...)
+
+		return proto
+	end
+
+	-- Override the unserializer to handle prototype metatables
+	-- If the new type defines an Unserialize method it must store this unserializer method and call it
+	function newType.Unserialize(data)
+		local inst = baseType.Unserialize(data)
+		local proto = rawget(inst, "__proto")
+		return setmetatable(inst, proto and proto.meta or newType.meta)
+	end
+
+	Serializer:RegisterClass(name, newType)
+
+	return newType
 end
 
 function EquipType:Serialize()
@@ -63,287 +277,52 @@ function EquipType:Serialize()
 		end
 	end
 
-	ret.volatile = nil
+	ret.transient = nil
 	return ret
 end
 
 function EquipType.Unserialize(data)
 	local obj = EquipType.Super().Unserialize(data)
 	setmetatable(obj, EquipType.meta)
-	if not obj.l10n_resource then
-		obj.l10n_resource = "equipment-core"
+
+	-- Only patch the common prototype with runtime transient data
+	if EquipType.isProto(obj) then
+		EquipType._createTransient(obj)
+	else
+		-- This equipment instance's prototype should be set as the metatable
+		setmetatable(obj, obj.__proto.meta)
 	end
-	local l = Lang.GetResource(obj.l10n_resource)
-	obj.volatile = {
-		description = l:get(obj.l10n_key.."_DESCRIPTION") or "",
-		name = l[obj.l10n_key] or ""
-	}
+
 	return obj
 end
 
+-- Method: GetName
 --
--- Group: Methods
---
-
---
--- Method: GetDefaultSlot
---
---  returns the default slot for this equipment
---
--- Parameters:
---
---  ship (optional) - if provided, tailors the answer for this specific ship
---
--- Return:
---
---  slot_name - A string identifying the slot.
---
-function EquipType:GetDefaultSlot(ship)
-	return self.slots[1]
-end
-
---
--- Method: IsValidSlot
---
---  tells whether the given slot is valid for this equipment
---
--- Parameters:
---
---  slot - a string identifying the slot in question
---
---  ship (optional) - if provided, tailors the answer for this specific ship
---
--- Return:
---
---  valid - a boolean qualifying the validity of the slot.
---
-function EquipType:IsValidSlot(slot, ship)
-	for _, s in ipairs(self.slots) do
-		if s == slot then
-			return true
-		end
-	end
-	return false
-end
-
+-- Returns the translated name of this equipment item suitable for display to
+-- the user.
+---@return string
 function EquipType:GetName()
-	return self.volatile.name
+	return self.transient.name
 end
 
+-- Method: GetDescription
+--
+-- Returns the translated description of this equipment item suitable for
+-- display to the user
+---@return string
 function EquipType:GetDescription()
-	return self.volatile.description
+	return self.transient.description
 end
 
-local function __ApplyMassLimit(ship, capabilities, num)
-	if num <= 0 then return 0 end
-	-- we need to use mass_cap directly (not, eg, ship.freeCapacity),
-	-- because ship.freeCapacity may not have been updated when Install is called
-	-- (see implementation of EquipSet:Set)
-	local avail_mass = ShipDef[ship.shipId].capacity - (ship.mass_cap or 0)
-	local item_mass = capabilities.mass or 0
-	if item_mass > 0 then
-		num = math.min(num, math.floor(avail_mass / item_mass))
-	end
-	return num
+-- Method: GetFlavourText
+--
+-- Returns the translated tooltip for this equipment item suitable for
+-- display to the user
+---@return string
+function EquipType:GetFlavourText()
+	return self.transient.flavourtext
 end
 
-local function __ApplyCapabilities(ship, capabilities, num, factor)
-	if num <= 0 then return 0 end
-	factor = factor or 1
-	for k,v in pairs(capabilities) do
-		local full_name = k.."_cap"
-		local prev = (ship:hasprop(full_name) and ship[full_name]) or 0
-		ship:setprop(full_name, (factor*v*num)+prev)
-	end
-	return num
-end
-
-function EquipType:Install(ship, num, slot)
-	local caps = self.capabilities
-	num = __ApplyMassLimit(ship, caps, num)
-	return __ApplyCapabilities(ship, caps, num, 1)
-end
-
-function EquipType:Uninstall(ship, num, slot)
-	return __ApplyCapabilities(ship, self.capabilities, num, -1)
-end
-
--- Base type for weapons
-local LaserType = utils.inherits(EquipType, "LaserType")
-function LaserType:Install(ship, num, slot)
-	if num > 1 then num = 1 end -- FIXME: support installing multiple lasers (e.g., in the "cargo" slot?)
-	if LaserType.Super().Install(self, ship, 1, slot) < 1 then return 0 end
-	local prefix = slot..'_'
-	for k,v in pairs(self.laser_stats) do
-		ship:setprop(prefix..k, v)
-	end
-	return 1
-end
-
-function LaserType:Uninstall(ship, num, slot)
-	if num > 1 then num = 1 end -- FIXME: support uninstalling multiple lasers (e.g., in the "cargo" slot?)
-	if LaserType.Super().Uninstall(self, ship, 1) < 1 then return 0 end
-	local prefix = (slot or "laser_front").."_"
-	for k,v in pairs(self.laser_stats) do
-		ship:unsetprop(prefix..k)
-	end
-	return 1
-end
-
--- Single drive type, no support for slave drives.
-local HyperdriveType = utils.inherits(EquipType, "HyperdriveType")
-
-function HyperdriveType:GetMaximumRange(ship)
-	return 625.0*(self.capabilities.hyperclass ^ 2) / (ship.staticMass + ship.fuelMassLeft)
-end
-
--- range_max is as usual optional
-function HyperdriveType:GetDuration(ship, distance, range_max)
-	range_max = range_max or self:GetMaximumRange(ship)
-	local hyperclass = self.capabilities.hyperclass
-	return 0.36*distance^2/(range_max*hyperclass) * (86400*math.sqrt(ship.staticMass + ship.fuelMassLeft))
-end
-
--- range_max is optional, distance defaults to the maximal range.
-function HyperdriveType:GetFuelUse(ship, distance, range_max)
-	range_max = range_max or self:GetMaximumRange(ship)
-	local distance = distance or range_max
-	local hyperclass_squared = self.capabilities.hyperclass^2
-	return math.clamp(math.ceil(hyperclass_squared*distance / range_max), 1, hyperclass_squared);
-end
-
--- if the destination is reachable, returns: distance, fuel, duration
--- if the destination is out of range, returns: distance
--- if the specified jump is invalid, returns nil
-function HyperdriveType:CheckJump(ship, source, destination)
-	if ship:GetEquip('engine', 1) ~= self or source:IsSameSystem(destination) then
-		return nil
-	end
-	local distance = source:DistanceTo(destination)
-	local max_range = self:GetMaximumRange(ship) -- takes fuel into account
-	if distance > max_range then
-		return distance
-	end
-	local fuel = self:GetFuelUse(ship, distance, max_range) -- specify range_max to avoid unnecessary recomputing.
-
-	local duration = self:GetDuration(ship, distance, max_range) -- same as above
-	return distance, fuel, duration
-end
-
--- like HyperdriveType.CheckJump, but uses Game.system as the source system
--- if the destination is reachable, returns: distance, fuel, duration
--- if the destination is out of range, returns: distance
--- if the specified jump is invalid, returns nil
-function HyperdriveType:CheckDestination(ship, destination)
-	if not Game.system then
-		return nil
-	end
-	return self:CheckJump(ship, Game.system.path, destination)
-end
-
--- Give the range for the given remaining fuel
--- If the fuel isn't specified, it takes the current value.
-function HyperdriveType:GetRange(ship, remaining_fuel)
-	local range_max = self:GetMaximumRange(ship)
-	local fuel_max = self:GetFuelUse(ship, range_max, range_max)
-
-	---@type CargoManager
-	local cargoMgr = ship:GetComponent('CargoManager')
-	remaining_fuel = remaining_fuel or cargoMgr:CountCommodity(self.fuel)
-
-	if fuel_max <= remaining_fuel then
-		return range_max, range_max
-	end
-	local range = range_max*remaining_fuel/fuel_max
-
-	while range > 0 and self:GetFuelUse(ship, range, range_max) > remaining_fuel do
-		range = range - 0.05
-	end
-
-	-- range is never negative
-	range = math.max(range, 0)
-	return range, range_max
-end
-
-local HYPERDRIVE_SOUNDS_NORMAL = {
-	warmup = "Hyperdrive_Charge",
-	abort = "Hyperdrive_Abort",
-	jump = "Hyperdrive_Jump",
-}
-
-local HYPERDRIVE_SOUNDS_MILITARY = {
-	warmup = "Hyperdrive_Charge_Military",
-	abort = "Hyperdrive_Abort_Military",
-	jump = "Hyperdrive_Jump_Military",
-}
-
-function HyperdriveType:HyperjumpTo(ship, destination)
-	-- First off, check that this is the primary engine.
-	local engines = ship:GetEquip('engine')
-	local primary_index = 0
-	for i,e in ipairs(engines) do
-		if e == self then
-			primary_index = i
-			break
-		end
-	end
-	if primary_index == 0 then
-		-- wrong ship
-		return "WRONG_SHIP"
-	end
-	local distance, fuel_use, duration = self:CheckDestination(ship, destination)
-	if not distance then
-		return "OUT_OF_RANGE"
-	end
-	if not fuel_use then
-		return "INSUFFICIENT_FUEL"
-	end
-	ship:setprop('nextJumpFuelUse', fuel_use)
-	local warmup_time = 5 + self.capabilities.hyperclass*1.5
-
-	local sounds
-	if self.fuel.name == 'military_fuel' then
-		sounds = HYPERDRIVE_SOUNDS_MILITARY
-	else
-		sounds = HYPERDRIVE_SOUNDS_NORMAL
-	end
-
-	return ship:InitiateHyperjumpTo(destination, warmup_time, duration, sounds), fuel_use, duration
-end
-
-function HyperdriveType:OnLeaveHyperspace(ship)
-	if ship:hasprop('nextJumpFuelUse') then
-		---@type CargoManager
-		local cargoMgr = ship:GetComponent('CargoManager')
-
-		local amount = ship.nextJumpFuelUse
-		cargoMgr:RemoveCommodity(self.fuel, amount)
-		if self.byproduct then
-			cargoMgr:AddCommodity(self.byproduct, amount)
-		end
-		ship:unsetprop('nextJumpFuelUse')
-	end
-end
-
--- NOTE: "sensors" have no general-purpose code associated with the equipment type
-local SensorType = utils.inherits(EquipType, "SensorType")
-
--- NOTE: all code related to managing a body scanner is implemented in the ScanManager component
-local BodyScannerType = utils.inherits(SensorType, "BodyScannerType")
-
-Serializer:RegisterClass("LaserType", LaserType)
 Serializer:RegisterClass("EquipType", EquipType)
-Serializer:RegisterClass("HyperdriveType", HyperdriveType)
-Serializer:RegisterClass("SensorType", SensorType)
-Serializer:RegisterClass("BodyScannerType", BodyScannerType)
 
-return {
-	laser			= laser,
-	hyperspace		= hyperspace,
-	misc			= misc,
-	EquipType		= EquipType,
-	LaserType		= LaserType,
-	HyperdriveType	= HyperdriveType,
-	SensorType		= SensorType,
-	BodyScannerType	= BodyScannerType
-}
+return EquipType

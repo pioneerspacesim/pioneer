@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelSkin.h"
@@ -35,18 +35,16 @@ namespace SceneGraph {
 			luaL_checktype(l, 2, LUA_TTABLE);
 
 			lua_getfield(l, 2, "primary");
-			if (lua_istable(l, -1))
-				skin->SetPrimaryColor(Color(Color4f::FromLuaTable(l, -1)));
+			if (!lua_isnil(l, -1))
+				skin->SetPrimaryColor(LuaPull<Color>(l, -1));
 
 			lua_getfield(l, 2, "secondary");
-			if (lua_istable(l, -1))
-				skin->SetSecondaryColor(Color(Color4f::FromLuaTable(l, -1)));
+			if (!lua_isnil(l, -1))
+				skin->SetSecondaryColor(LuaPull<Color>(l, -1));
 
 			lua_getfield(l, 2, "trim");
-			if (lua_istable(l, -1))
-				skin->SetTrimColor(Color(Color4f::FromLuaTable(l, -1)));
-
-			lua_pop(l, 3);
+			if (!lua_isnil(l, -1))
+				skin->SetTrimColor(LuaPull<Color>(l, -1));
 
 			lua_pushvalue(l, 1);
 			return 1;

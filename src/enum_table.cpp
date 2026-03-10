@@ -1,4 +1,4 @@
-/* Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details */
+/* Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details */
 /* Licensed under the terms of the GPL v3. See licenses/GPL-3.txt        */
 
 /* THIS FILE IS AUTO-GENERATED, CHANGES WILL BE OVERWRITTEN */
@@ -11,11 +11,11 @@
 #include "ShipAICmd.h"
 #include "ShipType.h"
 #include "SpaceStation.h"
+#include "SpaceStationType.h"
 #include "SystemView.h"
 #include "galaxy/Polit.h"
 #include "galaxy/SystemBody.h"
 #include "lua/LuaEngine.h"
-#include "lua/LuaFileSystem.h"
 #include "pigui/Face.h"
 #include "scenegraph/Model.h"
 #include "ship/PlayerShipController.h"
@@ -32,6 +32,13 @@ const struct EnumItem ENUM_PhysicsObjectType[] = {
 	{ "STAR", int(ObjectType::STAR) },
 	{ "CARGOBODY", int(ObjectType::CARGOBODY) },
 	{ "MISSILE", int(ObjectType::MISSILE) },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_AltitudeType[] = {
+	{ "DEFAULT", int(AltitudeType::DEFAULT) },
+	{ "SEA_LEVEL", int(AltitudeType::SEA_LEVEL) },
+	{ "ABOVE_TERRAIN", int(AltitudeType::ABOVE_TERRAIN) },
 	{ 0, 0 },
 };
 
@@ -108,6 +115,37 @@ const struct EnumItem ENUM_DockingRefusedReason[] = {
 	{ 0, 0 },
 };
 
+const struct EnumItem ENUM_DockStage[] = {
+	{ "NONE", int(DockStage::NONE) },
+	{ "MANUAL", int(DockStage::MANUAL) },
+	{ "DOCK_STAGES_BEGIN", int(DockStage::DOCK_STAGES_BEGIN) },
+	{ "CLEARANCE_GRANTED", int(DockStage::CLEARANCE_GRANTED) },
+	{ "DOCK_ANIMATION_NONE", int(DockStage::DOCK_ANIMATION_NONE) },
+	{ "DOCK_ANIMATION_1", int(DockStage::DOCK_ANIMATION_1) },
+	{ "DOCK_ANIMATION_2", int(DockStage::DOCK_ANIMATION_2) },
+	{ "DOCK_ANIMATION_3", int(DockStage::DOCK_ANIMATION_3) },
+	{ "DOCK_ANIMATION_MAX", int(DockStage::DOCK_ANIMATION_MAX) },
+	{ "TOUCHDOWN", int(DockStage::TOUCHDOWN) },
+	{ "LEVELING", int(DockStage::LEVELING) },
+	{ "REPOSITION", int(DockStage::REPOSITION) },
+	{ "JUST_DOCK", int(DockStage::JUST_DOCK) },
+	{ "DOCK_STAGES_END", int(DockStage::DOCK_STAGES_END) },
+	{ "DOCKED", int(DockStage::DOCKED) },
+	{ "UNDOCK_STAGES_BEGIN", int(DockStage::UNDOCK_STAGES_BEGIN) },
+	{ "UNDOCK_BEGIN", int(DockStage::UNDOCK_BEGIN) },
+	{ "UNDOCK_ANIMATION_NONE", int(DockStage::UNDOCK_ANIMATION_NONE) },
+	{ "UNDOCK_ANIMATION_1", int(DockStage::UNDOCK_ANIMATION_1) },
+	{ "UNDOCK_ANIMATION_2", int(DockStage::UNDOCK_ANIMATION_2) },
+	{ "UNDOCK_ANIMATION_3", int(DockStage::UNDOCK_ANIMATION_3) },
+	{ "UNDOCK_ANIMATION_MAX", int(DockStage::UNDOCK_ANIMATION_MAX) },
+	{ "UNDOCK_END", int(DockStage::UNDOCK_END) },
+	{ "LEAVE", int(DockStage::LEAVE) },
+	{ "UNDOCK_STAGES_END", int(DockStage::UNDOCK_STAGES_END) },
+	{ "APPROACH1", int(DockStage::APPROACH1) },
+	{ "APPROACH2", int(DockStage::APPROACH2) },
+	{ 0, 0 },
+};
+
 const struct EnumItem ENUM_ProjectableTypes[] = {
 	{ "NONE", int(Projectable::NONE) },
 	{ "OBJECT", int(Projectable::OBJECT) },
@@ -133,15 +171,21 @@ const struct EnumItem ENUM_SystemViewMode[] = {
 	{ 0, 0 },
 };
 
+const struct EnumItem ENUM_SystemSelectionMode[] = {
+	{ "CURRENT_SYSTEM", int(SystemView::SystemSelectionMode::CURRENT_SYSTEM) },
+	{ "SELECTED_SYSTEM", int(SystemView::SystemSelectionMode::SELECTED_SYSTEM) },
+	{ 0, 0 },
+};
+
 const struct EnumItem ENUM_SystemViewColorIndex[] = {
-	{ "GRID", int(SystemView::GRID) },
-	{ "GRID_LEG", int(SystemView::GRID_LEG) },
-	{ "SYSTEMBODY", int(SystemView::SYSTEMBODY) },
-	{ "SYSTEMBODY_ORBIT", int(SystemView::SYSTEMBODY_ORBIT) },
-	{ "PLAYER_ORBIT", int(SystemView::PLAYER_ORBIT) },
-	{ "PLANNER_ORBIT", int(SystemView::PLANNER_ORBIT) },
-	{ "SELECTED_SHIP_ORBIT", int(SystemView::SELECTED_SHIP_ORBIT) },
-	{ "SHIP_ORBIT", int(SystemView::SHIP_ORBIT) },
+	{ "GRID", int(SystemMapViewport::GRID) },
+	{ "GRID_LEG", int(SystemMapViewport::GRID_LEG) },
+	{ "SYSTEMBODY", int(SystemMapViewport::SYSTEMBODY) },
+	{ "SYSTEMBODY_ORBIT", int(SystemMapViewport::SYSTEMBODY_ORBIT) },
+	{ "PLAYER_ORBIT", int(SystemMapViewport::PLAYER_ORBIT) },
+	{ "PLANNER_ORBIT", int(SystemMapViewport::PLANNER_ORBIT) },
+	{ "SELECTED_SHIP_ORBIT", int(SystemMapViewport::SELECTED_SHIP_ORBIT) },
+	{ "SHIP_ORBIT", int(SystemMapViewport::SHIP_ORBIT) },
 	{ 0, 0 },
 };
 
@@ -175,57 +219,57 @@ const struct EnumItem ENUM_PolitGovType[] = {
 };
 
 const struct EnumItem ENUM_BodyType[] = {
-	{ "GRAVPOINT", int(SystemBody::TYPE_GRAVPOINT) },
-	{ "BROWN_DWARF", int(SystemBody::TYPE_BROWN_DWARF) },
-	{ "WHITE_DWARF", int(SystemBody::TYPE_WHITE_DWARF) },
-	{ "STAR_M", int(SystemBody::TYPE_STAR_M) },
-	{ "STAR_K", int(SystemBody::TYPE_STAR_K) },
-	{ "STAR_G", int(SystemBody::TYPE_STAR_G) },
-	{ "STAR_F", int(SystemBody::TYPE_STAR_F) },
-	{ "STAR_A", int(SystemBody::TYPE_STAR_A) },
-	{ "STAR_B", int(SystemBody::TYPE_STAR_B) },
-	{ "STAR_O", int(SystemBody::TYPE_STAR_O) },
-	{ "STAR_M_GIANT", int(SystemBody::TYPE_STAR_M_GIANT) },
-	{ "STAR_K_GIANT", int(SystemBody::TYPE_STAR_K_GIANT) },
-	{ "STAR_G_GIANT", int(SystemBody::TYPE_STAR_G_GIANT) },
-	{ "STAR_F_GIANT", int(SystemBody::TYPE_STAR_F_GIANT) },
-	{ "STAR_A_GIANT", int(SystemBody::TYPE_STAR_A_GIANT) },
-	{ "STAR_B_GIANT", int(SystemBody::TYPE_STAR_B_GIANT) },
-	{ "STAR_O_GIANT", int(SystemBody::TYPE_STAR_O_GIANT) },
-	{ "STAR_M_SUPER_GIANT", int(SystemBody::TYPE_STAR_M_SUPER_GIANT) },
-	{ "STAR_K_SUPER_GIANT", int(SystemBody::TYPE_STAR_K_SUPER_GIANT) },
-	{ "STAR_G_SUPER_GIANT", int(SystemBody::TYPE_STAR_G_SUPER_GIANT) },
-	{ "STAR_F_SUPER_GIANT", int(SystemBody::TYPE_STAR_F_SUPER_GIANT) },
-	{ "STAR_A_SUPER_GIANT", int(SystemBody::TYPE_STAR_A_SUPER_GIANT) },
-	{ "STAR_B_SUPER_GIANT", int(SystemBody::TYPE_STAR_B_SUPER_GIANT) },
-	{ "STAR_O_SUPER_GIANT", int(SystemBody::TYPE_STAR_O_SUPER_GIANT) },
-	{ "STAR_M_HYPER_GIANT", int(SystemBody::TYPE_STAR_M_HYPER_GIANT) },
-	{ "STAR_K_HYPER_GIANT", int(SystemBody::TYPE_STAR_K_HYPER_GIANT) },
-	{ "STAR_G_HYPER_GIANT", int(SystemBody::TYPE_STAR_G_HYPER_GIANT) },
-	{ "STAR_F_HYPER_GIANT", int(SystemBody::TYPE_STAR_F_HYPER_GIANT) },
-	{ "STAR_A_HYPER_GIANT", int(SystemBody::TYPE_STAR_A_HYPER_GIANT) },
-	{ "STAR_B_HYPER_GIANT", int(SystemBody::TYPE_STAR_B_HYPER_GIANT) },
-	{ "STAR_O_HYPER_GIANT", int(SystemBody::TYPE_STAR_O_HYPER_GIANT) },
-	{ "STAR_M_WF", int(SystemBody::TYPE_STAR_M_WF) },
-	{ "STAR_B_WF", int(SystemBody::TYPE_STAR_B_WF) },
-	{ "STAR_O_WF", int(SystemBody::TYPE_STAR_O_WF) },
-	{ "STAR_S_BH", int(SystemBody::TYPE_STAR_S_BH) },
-	{ "STAR_IM_BH", int(SystemBody::TYPE_STAR_IM_BH) },
-	{ "STAR_SM_BH", int(SystemBody::TYPE_STAR_SM_BH) },
-	{ "PLANET_GAS_GIANT", int(SystemBody::TYPE_PLANET_GAS_GIANT) },
-	{ "PLANET_ASTEROID", int(SystemBody::TYPE_PLANET_ASTEROID) },
-	{ "PLANET_TERRESTRIAL", int(SystemBody::TYPE_PLANET_TERRESTRIAL) },
-	{ "STARPORT_ORBITAL", int(SystemBody::TYPE_STARPORT_ORBITAL) },
-	{ "STARPORT_SURFACE", int(SystemBody::TYPE_STARPORT_SURFACE) },
+	{ "GRAVPOINT", int(SystemBodyType::TYPE_GRAVPOINT) },
+	{ "BROWN_DWARF", int(SystemBodyType::TYPE_BROWN_DWARF) },
+	{ "WHITE_DWARF", int(SystemBodyType::TYPE_WHITE_DWARF) },
+	{ "STAR_M", int(SystemBodyType::TYPE_STAR_M) },
+	{ "STAR_K", int(SystemBodyType::TYPE_STAR_K) },
+	{ "STAR_G", int(SystemBodyType::TYPE_STAR_G) },
+	{ "STAR_F", int(SystemBodyType::TYPE_STAR_F) },
+	{ "STAR_A", int(SystemBodyType::TYPE_STAR_A) },
+	{ "STAR_B", int(SystemBodyType::TYPE_STAR_B) },
+	{ "STAR_O", int(SystemBodyType::TYPE_STAR_O) },
+	{ "STAR_M_GIANT", int(SystemBodyType::TYPE_STAR_M_GIANT) },
+	{ "STAR_K_GIANT", int(SystemBodyType::TYPE_STAR_K_GIANT) },
+	{ "STAR_G_GIANT", int(SystemBodyType::TYPE_STAR_G_GIANT) },
+	{ "STAR_F_GIANT", int(SystemBodyType::TYPE_STAR_F_GIANT) },
+	{ "STAR_A_GIANT", int(SystemBodyType::TYPE_STAR_A_GIANT) },
+	{ "STAR_B_GIANT", int(SystemBodyType::TYPE_STAR_B_GIANT) },
+	{ "STAR_O_GIANT", int(SystemBodyType::TYPE_STAR_O_GIANT) },
+	{ "STAR_M_SUPER_GIANT", int(SystemBodyType::TYPE_STAR_M_SUPER_GIANT) },
+	{ "STAR_K_SUPER_GIANT", int(SystemBodyType::TYPE_STAR_K_SUPER_GIANT) },
+	{ "STAR_G_SUPER_GIANT", int(SystemBodyType::TYPE_STAR_G_SUPER_GIANT) },
+	{ "STAR_F_SUPER_GIANT", int(SystemBodyType::TYPE_STAR_F_SUPER_GIANT) },
+	{ "STAR_A_SUPER_GIANT", int(SystemBodyType::TYPE_STAR_A_SUPER_GIANT) },
+	{ "STAR_B_SUPER_GIANT", int(SystemBodyType::TYPE_STAR_B_SUPER_GIANT) },
+	{ "STAR_O_SUPER_GIANT", int(SystemBodyType::TYPE_STAR_O_SUPER_GIANT) },
+	{ "STAR_M_HYPER_GIANT", int(SystemBodyType::TYPE_STAR_M_HYPER_GIANT) },
+	{ "STAR_K_HYPER_GIANT", int(SystemBodyType::TYPE_STAR_K_HYPER_GIANT) },
+	{ "STAR_G_HYPER_GIANT", int(SystemBodyType::TYPE_STAR_G_HYPER_GIANT) },
+	{ "STAR_F_HYPER_GIANT", int(SystemBodyType::TYPE_STAR_F_HYPER_GIANT) },
+	{ "STAR_A_HYPER_GIANT", int(SystemBodyType::TYPE_STAR_A_HYPER_GIANT) },
+	{ "STAR_B_HYPER_GIANT", int(SystemBodyType::TYPE_STAR_B_HYPER_GIANT) },
+	{ "STAR_O_HYPER_GIANT", int(SystemBodyType::TYPE_STAR_O_HYPER_GIANT) },
+	{ "STAR_M_WF", int(SystemBodyType::TYPE_STAR_M_WF) },
+	{ "STAR_B_WF", int(SystemBodyType::TYPE_STAR_B_WF) },
+	{ "STAR_O_WF", int(SystemBodyType::TYPE_STAR_O_WF) },
+	{ "STAR_S_BH", int(SystemBodyType::TYPE_STAR_S_BH) },
+	{ "STAR_IM_BH", int(SystemBodyType::TYPE_STAR_IM_BH) },
+	{ "STAR_SM_BH", int(SystemBodyType::TYPE_STAR_SM_BH) },
+	{ "PLANET_GAS_GIANT", int(SystemBodyType::TYPE_PLANET_GAS_GIANT) },
+	{ "PLANET_ASTEROID", int(SystemBodyType::TYPE_PLANET_ASTEROID) },
+	{ "PLANET_TERRESTRIAL", int(SystemBodyType::TYPE_PLANET_TERRESTRIAL) },
+	{ "STARPORT_ORBITAL", int(SystemBodyType::TYPE_STARPORT_ORBITAL) },
+	{ "STARPORT_SURFACE", int(SystemBodyType::TYPE_STARPORT_SURFACE) },
 	{ 0, 0 },
 };
 
 const struct EnumItem ENUM_BodySuperType[] = {
-	{ "NONE", int(SystemBody::SUPERTYPE_NONE) },
-	{ "STAR", int(SystemBody::SUPERTYPE_STAR) },
-	{ "ROCKY_PLANET", int(SystemBody::SUPERTYPE_ROCKY_PLANET) },
-	{ "GAS_GIANT", int(SystemBody::SUPERTYPE_GAS_GIANT) },
-	{ "STARPORT", int(SystemBody::SUPERTYPE_STARPORT) },
+	{ "NONE", int(SystemBodyType::SUPERTYPE_NONE) },
+	{ "STAR", int(SystemBodyType::SUPERTYPE_STAR) },
+	{ "ROCKY_PLANET", int(SystemBodyType::SUPERTYPE_ROCKY_PLANET) },
+	{ "GAS_GIANT", int(SystemBodyType::SUPERTYPE_GAS_GIANT) },
+	{ "STARPORT", int(SystemBodyType::SUPERTYPE_STARPORT) },
 	{ 0, 0 },
 };
 
@@ -235,12 +279,6 @@ const struct EnumItem ENUM_DetailLevel[] = {
 	{ "MEDIUM", int(LuaEngine::DETAIL_MEDIUM) },
 	{ "HIGH", int(LuaEngine::DETAIL_HIGH) },
 	{ "VERY_HIGH", int(LuaEngine::DETAIL_VERY_HIGH) },
-	{ 0, 0 },
-};
-
-const struct EnumItem ENUM_FileSystemRoot[] = {
-	{ "USER", int(LuaFileSystem::ROOT_USER) },
-	{ "DATA", int(LuaFileSystem::ROOT_DATA) },
 	{ 0, 0 },
 };
 
@@ -308,6 +346,7 @@ const struct EnumItem ENUM_ShipControllerFlightControlState[] = {
 
 const struct EnumTable ENUM_TABLES[] = {
 	{ "PhysicsObjectType", ENUM_PhysicsObjectType },
+	{ "AltitudeType", ENUM_AltitudeType },
 	{ "ShipAIError", ENUM_ShipAIError },
 	{ "ShipFlightState", ENUM_ShipFlightState },
 	{ "ShipJumpStatus", ENUM_ShipJumpStatus },
@@ -316,16 +355,17 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "DualLaserOrientation", ENUM_DualLaserOrientation },
 	{ "ShipTypeTag", ENUM_ShipTypeTag },
 	{ "DockingRefusedReason", ENUM_DockingRefusedReason },
+	{ "DockStage", ENUM_DockStage },
 	{ "ProjectableTypes", ENUM_ProjectableTypes },
 	{ "ProjectableBases", ENUM_ProjectableBases },
 	{ "SystemViewMode", ENUM_SystemViewMode },
+	{ "SystemSelectionMode", ENUM_SystemSelectionMode },
 	{ "SystemViewColorIndex", ENUM_SystemViewColorIndex },
 	{ "PolitEcon", ENUM_PolitEcon },
 	{ "PolitGovType", ENUM_PolitGovType },
 	{ "BodyType", ENUM_BodyType },
 	{ "BodySuperType", ENUM_BodySuperType },
 	{ "DetailLevel", ENUM_DetailLevel },
-	{ "FileSystemRoot", ENUM_FileSystemRoot },
 	{ "PiGuiFaceFlags", ENUM_PiGuiFaceFlags },
 	{ "ModelDebugFlags", ENUM_ModelDebugFlags },
 	{ "CruiseDirection", ENUM_CruiseDirection },
@@ -338,6 +378,7 @@ const struct EnumTable ENUM_TABLES[] = {
 
 const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "PhysicsObjectType", ENUM_PhysicsObjectType },
+	{ "AltitudeType", ENUM_AltitudeType },
 	{ "ShipAIError", ENUM_ShipAIError },
 	{ "ShipFlightState", ENUM_ShipFlightState },
 	{ "ShipJumpStatus", ENUM_ShipJumpStatus },
@@ -346,16 +387,17 @@ const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "DualLaserOrientation", ENUM_DualLaserOrientation },
 	{ "ShipTypeTag", ENUM_ShipTypeTag },
 	{ "DockingRefusedReason", ENUM_DockingRefusedReason },
+	{ "DockStage", ENUM_DockStage },
 	{ "ProjectableTypes", ENUM_ProjectableTypes },
 	{ "ProjectableBases", ENUM_ProjectableBases },
 	{ "SystemViewMode", ENUM_SystemViewMode },
+	{ "SystemSelectionMode", ENUM_SystemSelectionMode },
 	{ "SystemViewColorIndex", ENUM_SystemViewColorIndex },
 	{ "PolitEcon", ENUM_PolitEcon },
 	{ "PolitGovType", ENUM_PolitGovType },
 	{ "BodyType", ENUM_BodyType },
 	{ "BodySuperType", ENUM_BodySuperType },
 	{ "DetailLevel", ENUM_DetailLevel },
-	{ "FileSystemRoot", ENUM_FileSystemRoot },
 	{ "PiGuiFaceFlags", ENUM_PiGuiFaceFlags },
 	{ "ModelDebugFlags", ENUM_ModelDebugFlags },
 	{ "CruiseDirection", ENUM_CruiseDirection },

@@ -1,24 +1,16 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _MUSIC_H
 #define _MUSIC_H
 
 #include "Sound.h"
-#include <SDL.h>
+
 #include <sigc++/sigc++.h>
 #include <string>
 #include <vector>
 
 namespace Sound {
-	class MusicEvent : public Event {
-	public:
-		MusicEvent();
-		MusicEvent(Uint32 id);
-		~MusicEvent();
-		virtual void Play(const char *fx, const float volume_left, const float volume_right, Op op);
-	};
-
 	class MusicPlayer {
 	public:
 		MusicPlayer();
@@ -29,7 +21,7 @@ namespace Sound {
 		void Stop();
 		void FadeOut(const float fadeDelta);
 		void Update();
-		const std::string GetCurrentSongName() const;
+		const std::string& GetCurrentSongName() const;
 		const std::vector<std::string> GetSongList() const;
 		bool IsPlaying() const;
 		void SetEnabled(bool);
@@ -39,8 +31,8 @@ namespace Sound {
 	private:
 		float m_volume;
 		//two streams for crossfade
-		MusicEvent m_eventOne;
-		MusicEvent m_eventTwo;
+		Event m_eventOne;
+		Event m_eventTwo;
 		bool m_playing;
 		bool m_eventOnePlaying;
 		std::string m_currentSongName;

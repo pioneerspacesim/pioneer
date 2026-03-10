@@ -1,22 +1,53 @@
-material Hull
-tex_diff hull_diff.dds
-tex_spec hull_spec.dds
-tex_glow emit.dds
-diffuse 1.0 1.0 1.0
-specular 1.0 1.0 1.0
-use_patterns
+version 2
 
-material Gear
-tex_diff gear_diff.dds
-diffuse 0.8 0.8 0.8
-specular 1.0 1.0 1.0
+material "Natrix-fuselage" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.4 0.4 0.4
+	shininess 40
+	texture diffuse  "natrix_diff.dds"
+	texture specular "natrix_spec.dds"
+	texture normal   "natrix_norm.png"
+	texture glow     "natrix_glow.dds"
+	use_patterns
+}
 
+material "Natrix-headlight" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.7 0.7 0.7
+	shininess 60
+	opacity 60
+	texture diffuse  "natrix_diff.dds"
+	texture specular "natrix_spec.dds"
+	texture normal   "natrix_norm.png"
+	texture glow     "natrix_glow.dds"
+}
 
-lod 100
-mesh natrix.dae
-mesh natrix_shield.dae
+material "Natrix-canopy" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.7 0.7 0.7
+	shininess 60
+	opacity 60
+	texture diffuse  "natrix_diff.dds"
+	texture specular "natrix_spec.dds"
+	texture normal   "natrix_norm.png"
+	texture glow     "natrix_glow.dds"
+}
 
-lod 10
-mesh natrix_low.dae
+lod 300 {
+	mesh "natrix_1_high.dae"
+}
 
-anim gear_down 1 20
+lod 150 {
+	mesh "natrix_2_mid.dae"
+}
+
+lod 50 {
+	mesh "natrix_3_low.dae"
+}
+
+collision "natrix_4_coll.dae"
+
+anim "gear_down" 0 100

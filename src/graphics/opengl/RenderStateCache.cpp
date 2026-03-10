@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "RenderStateCache.h"
@@ -17,6 +17,8 @@ extern "C" {
 
 using namespace Graphics::OGL;
 using RenderStateDesc = Graphics::RenderStateDesc;
+
+static const Graphics::VertexFormatDesc s_emptyVtxFormat = {};
 
 const RenderStateDesc &RenderStateCache::GetRenderState(size_t hash) const
 {
@@ -139,27 +141,22 @@ size_t RenderStateCache::InternRenderState(const RenderStateDesc &rsd)
 	return hash;
 }
 
-size_t RenderStateCache::CacheVertexDesc(const Graphics::VertexBufferDesc &desc)
+size_t RenderStateCache::CacheVertexDesc(const Graphics::VertexFormatDesc &desc)
 {
-	// Hash the attrib sets - they're tightly packed and zero-initialized, so
-	// we're guaranteed to get the correct hash result.
-	const uint32_t *ptr = reinterpret_cast<const uint32_t *>(&desc.attrib);
-	uint32_t a = 0, b = 0;
-	lookup3_hashword2(ptr, MAX_ATTRIBS, &a, &b); // size of a single attribute is == sizeof(uint32_t)
-	size_t hash = size_t(a) | (size_t(b) << 32);
+	size_t hash = desc.Hash();
 
 	for (auto &pair : m_vtxDescObjectCache)
 		if (pair.first == hash)
 			return hash;
 
 	GLuint vao = BuildVAOFromDesc(desc);
-	m_vtxDescObjectCache.emplace_back(hash, vao);
+	m_vtxDescObjectCache.emplace_back(hash, VtxFormatCache { desc, vao });
 	return hash;
 }
 
 size_t RenderStateCache::InternVertexAttribSet(Graphics::AttributeSet set)
 {
-	auto vbdesc = Graphics::VertexBufferDesc::FromAttribSet(set);
+	auto vbdesc = Graphics::VertexFormatDesc::FromAttribSet(set);
 	return CacheVertexDesc(vbdesc);
 }
 
@@ -167,10 +164,20 @@ GLuint RenderStateCache::GetVertexArrayObject(size_t hash)
 {
 	for (auto &pair : m_vtxDescObjectCache)
 		if (pair.first == hash)
-			return pair.second;
+			return pair.second.vao;
 
 	Log::Warning("Attempt to set VertexDescState for unknown hash {}!", hash);
 	return 0;
+}
+
+const Graphics::VertexFormatDesc &RenderStateCache::GetVertexFormatDesc(size_t hash)
+{
+	for (auto &pair : m_vtxDescObjectCache)
+		if (pair.first == hash)
+			return pair.second.format;
+
+	Log::Warning("Attempt to set VertexDescState for unknown hash {}!", hash);
+	return s_emptyVtxFormat;
 }
 
 void RenderStateCache::ResetFrame()
@@ -180,8 +187,12 @@ void RenderStateCache::ResetFrame()
 	for (uint32_t idx = 0; idx < m_textureCache.size(); idx++)
 		SetTexture(idx, nullptr);
 
+	if (m_activeRT)
+		m_activeRT->Unbind();
+
 	m_activeRenderStateHash = 0;
 	m_activeProgram = 0;
+	m_activeRT = nullptr;
 }
 
 void RenderStateCache::SetTexture(uint32_t index, TextureGL *texture)
@@ -237,6 +248,8 @@ void RenderStateCache::SetRenderTarget(RenderTarget *target)
 			m_activeRT->Unbind();
 		if (target)
 			target->Bind();
+
+		m_activeRT = target;
 	}
 }
 

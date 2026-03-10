@@ -1,8 +1,8 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaMetaType.h"
-#include "SDL_keycode.h"
+#include <SDL_keycode.h>
 #include "buildopts.h"
 
 #include "FileSystem.h"
@@ -69,7 +69,7 @@ REGISTER_INPUT_BINDING(LuaConsole)
 void LuaConsole::SetupBindings()
 {
 	toggleLuaConsole = m_inputFrame.AddAction("BindToggleLuaConsole");
-	toggleLuaConsole->onPressed.connect(sigc::mem_fun(this, &LuaConsole::Toggle));
+	toggleLuaConsole->onReleased.connect(sigc::mem_fun(this, &LuaConsole::Toggle));
 	Pi::input->AddInputFrame(&m_inputFrame);
 }
 
@@ -192,7 +192,7 @@ static int callback(ImGuiInputTextCallbackData *data)
 void LuaConsole::Draw()
 {
 	ImGui::SetNextWindowPos({ 0, 0 });
-	ImGui::SetNextWindowSize({ float(Graphics::GetScreenWidth()), float(Graphics::GetScreenHeight()) });
+	ImGui::SetNextWindowSize(ImGui::GetMainViewport()->Size);
 	if (ImGui::Begin("Lua Console", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoSavedSettings)) {
 		if (ImGui::BeginChild("##TextWindow", ImVec2(0.f, -ImGui::GetFrameHeightWithSpacing() - ImGui::GetStyle().ItemSpacing.y))) {
 			for (const auto &str : m_outputLines) {
@@ -205,7 +205,7 @@ void LuaConsole::Draw()
 		ImGui::EndChild();
 		ImGui::Separator();
 
-		if (ImGui::IsKeyPressed(SDL_GetScancodeFromKey(SDLK_ESCAPE)))
+		if (ImGui::IsKeyReleased(ImGuiKey_Escape))
 			Toggle();
 
 		ImGui::SetNextItemWidth(ImGui::GetColumnWidth());
@@ -516,14 +516,6 @@ bool LuaConsole::ExecOrContinue(const std::string &stmt, bool repeatStatement)
  * Parameters:
  *
  *   text - the line of text to add (without a terminating newline character)
- *
- * Availability:
- *
- *   alpha 15
- *
- * Status:
- *
- *   stable
  */
 static int l_console_addline(lua_State *L)
 {

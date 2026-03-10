@@ -1,0 +1,5 @@
+version 2
+
+lod 100 {
+	mesh "varada_shield.dae"
+}

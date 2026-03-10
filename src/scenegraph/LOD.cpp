@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LOD.h"
@@ -9,6 +9,7 @@
 #include "StringF.h"
 #include "graphics/Graphics.h"
 #include "graphics/VertexBuffer.h"
+#include "profiler/Profiler.h"
 
 namespace SceneGraph {
 
@@ -49,7 +50,8 @@ namespace SceneGraph {
 		//on screen and pick a child to render
 		const vector3f cameraPos(-trans[12], -trans[13], -trans[14]);
 		//fov is vertical, so using screen height
-		const float pixrad = Graphics::GetScreenHeight() * rd->boundingRadius / (cameraPos.Length() * Graphics::GetFovFactor());
+		// FIXME: this should reference a camera object instead of querying the render height
+		const float pixrad = m_renderer->GetWindowHeight() * rd->boundingRadius / (cameraPos.Length() * Graphics::GetFovFactor());
 		if (m_pixelSizes.empty()) return;
 		unsigned int lod = m_children.size() - 1;
 		for (unsigned int i = m_pixelSizes.size(); i > 0; i--) {
@@ -58,7 +60,7 @@ namespace SceneGraph {
 		m_children[lod]->Render(trans, rd);
 	}
 
-	void LOD::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
+	void LOD::RenderInstanced(const std::vector<matrix4x4f> &trans, const RenderData *rd)
 	{
 		// anything to draw?
 		if (m_pixelSizes.empty())
@@ -83,7 +85,8 @@ namespace SceneGraph {
 				//on screen and pick a child to render
 				const vector3f cameraPos(-mt[12], -mt[13], -mt[14]);
 				//fov is vertical, so using screen height
-				const float pixrad = Graphics::GetScreenHeight() * rd->boundingRadius / (cameraPos.Length() * Graphics::GetFovFactor());
+				// FIXME: this should reference a camera object instead of querying the window height
+				const float pixrad = m_renderer->GetWindowHeight() * rd->boundingRadius / (cameraPos.Length() * Graphics::GetFovFactor());
 				unsigned int lod = m_children.size() - 1;
 				for (unsigned int i = m_pixelSizes.size(); i > 0; i--) {
 					if (pixrad < m_pixelSizes[i - 1]) {
@@ -97,7 +100,7 @@ namespace SceneGraph {
 			// now render each of the buffers for each of the lods
 			for (Uint32 inst = 0; inst < transform.size(); inst++) {
 				if (!transform[inst].empty()) {
-					m_children[inst]->Render(transform[inst], rd);
+					m_children[inst]->RenderInstanced(transform[inst], rd);
 				}
 			}
 		}

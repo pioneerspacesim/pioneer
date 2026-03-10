@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaVector.h"
@@ -7,7 +7,6 @@
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "LuaVector2.h"
-#include "libs.h"
 
 void pi_lua_generic_pull(lua_State *l, int index, vector3d *&out)
 {

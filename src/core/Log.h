@@ -1,10 +1,11 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
 
 #include "DateTime.h"
-#include <fmt/format.h>
+#include <fmt/core.h>
+#include <fmt/printf.h>
 #include <sigc++/signal.h>
 #include <string_view>
 
@@ -27,7 +28,8 @@ namespace Log {
 		void LogLevel(Severity sv, std::string_view message);
 		void LogLevel(Severity sv, const char *message);
 
-		bool SetLogFile(std::string filename);
+		bool SetLogFile(const std::string &filename);
+		FILE *GetLogFileHandle() { return file; }
 
 		// Return the severity cutoff at which log messages will be printed to stderr.
 		Severity GetSeverity() { return m_maxSeverity; }
@@ -64,8 +66,8 @@ namespace Log {
 	inline Severity GetLogLevel() { return GetLog()->GetSeverity(); }
 	inline void SetLogLevel(Severity sv) { GetLog()->SetSeverity(sv); }
 
-	void LogOld(Severity sv, std::string message);
-	[[noreturn]] void LogFatalOld(std::string message);
+	void LogOld(Severity sv, const char *message, fmt::printf_args args);
+	[[noreturn]] void LogFatalOld(const char *message, fmt::printf_args args);
 
 	void LogInternal(Severity sv, const char *message, fmt::format_args args);
 	[[noreturn]] void LogFatalInternal(const char *message, fmt::format_args args);
@@ -86,15 +88,36 @@ namespace Log {
 	}
 
 	template <typename... Args>
+	inline void InfoCond(const bool condition, const char *message, Args... args)
+	{
+		if (!condition)
+			LogInternal(Severity::Info, message, fmt::make_format_args(args...));
+	}
+
+	template <typename... Args>
 	inline void Debug(const char *message, Args... args)
 	{
 		LogInternal(Severity::Debug, message, fmt::make_format_args(args...));
 	}
 
 	template <typename... Args>
+	inline void DebugCond(const bool condition, const char *message, Args... args)
+	{
+		if (!condition)
+			LogInternal(Severity::Debug, message, fmt::make_format_args(args...));
+	}
+
+	template <typename... Args>
 	inline void Warning(const char *message, Args... args)
 	{
 		LogInternal(Severity::Warning, message, fmt::make_format_args(args...));
+	}
+
+	template <typename... Args>
+	inline void WarningCond(const bool condition, const char *message, Args... args)
+	{
+		if (!condition)
+			LogInternal(Severity::Warning, message, fmt::make_format_args(args...));
 	}
 
 	template <typename... Args>
@@ -110,3 +133,28 @@ namespace Log {
 	}
 
 } // namespace Log
+
+// Compatibility functions for old printf-style formatting
+template <typename... Args>
+inline void Output(const char *message, Args... args)
+{
+	Log::LogOld(Log::Severity::Info, message, fmt::make_printf_args(args...));
+}
+
+template <typename... Args>
+inline void Warning(const char *message, Args... args)
+{
+	Log::LogOld(Log::Severity::Warning, message, fmt::make_printf_args(args...));
+}
+
+template <typename... Args>
+[[noreturn]] inline void Error(const char *message, Args... args)
+{
+	Log::LogFatalOld(message, fmt::make_printf_args(args...));
+}
+
+template <typename... Args>
+inline void DebugMsg(const char *message, Args... args)
+{
+	Log::LogOld(Log::Severity::Debug, message, fmt::make_printf_args(args...));
+}

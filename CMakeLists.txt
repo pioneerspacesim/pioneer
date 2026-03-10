@@ -2,6 +2,14 @@ cmake_minimum_required(VERSION 3.13)
 project(pioneer LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_CXX_STANDARD 17)
+
+# Version identifier for current compiled build
+# Do not cache this variable
+set(PIONEER_VERSION "20260203-dev")
+
+set(PROJECT_VERSION_INFO ""
+	CACHE STRING "Additional version information (optional)")
 
 # If both libGL.so and libOpenGL.so are found, default to the latter
 # (former is a legacy name).
@@ -10,17 +18,13 @@ if(POLICY CMP0072)
 	cmake_policy(SET CMP0072 NEW)
 endif()
 
-include(GNUInstallDirs)
+include(cmake/TargetArchitecture.cmake)
+include(cmake/InstallPioneer.cmake)
 
 if (MINGW)
 	# Fix build errors on AppVeyor with MinGW due to a broken GLEW config script
 	list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake/Modules)
 endif (MINGW)
-
-# We don't want a 'bin' folder on Windows
-if (WIN32)
-	set(CMAKE_INSTALL_BINDIR ${CMAKE_INSTALL_PREFIX})
-endif (WIN32)
 
 # Put the output into the root dir so it can be run from Visual Studio
 if (MSVC)
@@ -39,12 +43,40 @@ if (MSVC)
 
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP /wd4506")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP /wd4506")
+
+	# Disable warnings to avoid MSVC spam (moved from libs.h):
+	# #pragma warning(disable : 4244) // "conversion from x to x: possible loss of data"
+	# #pragma warning(disable : 4800) // int-to-bool "performance warning"
+	# #pragma warning(disable : 4355) // 'this' used in base member initializer list
+	# #pragma warning(disable : 4351) // new behavior [after vs2003!]: elements of array 'array' will be default initialized
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4244 /wd4800 /wd4355 /wd4351")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4244 /wd4800 /wd4355 /wd4351")
+
+	add_definitions(-DNOMINMAX)
 endif (MSVC)
 
 if (APPLE)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-gnu")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu")
 endif(APPLE)
+
+option(USE_SSE42 "Compile for SSE4.2 compatible microarchitectures (enables optimizations)" ${PIONEER_TARGET_INTEL})
+
+if (USE_SSE42)
+	if (NOT MSVC)
+		add_compile_options("-msse4.2" "-mpopcnt")
+	endif()
+endif (USE_SSE42)
+
+option(USE_AVX2 "Compile for AVX2 compatible microarchitectures (Haswell and newer)" OFF)
+
+if (USE_AVX2)
+	if (MSVC)
+		add_compile_options("/arch:AVX2")
+	else()
+		add_compile_options("-mavx2" "-mlzcnt")
+	endif()
+endif(USE_AVX2)
 
 option(USE_LLD_LINKER "Use the LLVM lld linker instead of gcc's linker" OFF)
 if (CMAKE_COMPILER_IS_GNUCXX)
@@ -62,6 +94,21 @@ if (CMAKE_COMPILER_IS_GNUCXX)
 	endif(USE_LLD_LINKER)
 	set(CMAKE_CXX_FLAGS_DEBUG "-g -Og")
 endif (CMAKE_COMPILER_IS_GNUCXX)
+
+option(USE_TIME_TRACE "Use -ftime-trace to profile compile times (requires Clang)" OFF)
+if (USE_TIME_TRACE)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftime-trace")
+endif()
+
+option(USE_ASAN "Use -fsanitize=address when compiling (requires Clang)" OFF)
+if (USE_ASAN)
+	add_compile_options(
+		-g
+		-fsanitize=address
+		-fno-omit-frame-pointer)
+	add_link_options(
+		-fsanitize=address)
+endif()
 
 include(CheckSymbolExists)
 check_symbol_exists(feclearexcept "fenv.h" HAS_FECLEAREXCEPT)
@@ -89,14 +136,9 @@ if (GIT_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.git)
 	)
 endif()
 
-string(TIMESTAMP PROJECT_VERSION "%Y%m%d")
-
-if (NOT PIONEER_DATA_DIR)
-	set(PIONEER_DATA_DIR ${CMAKE_INSTALL_FULL_DATADIR}/pioneer/data CACHE PATH
-		"Path where game data will be installed" FORCE)
-endif (NOT PIONEER_DATA_DIR)
-
-file(TO_NATIVE_PATH ${PIONEER_DATA_DIR} _PIONEER_DATA_DIR)
+if(DEFINED PROJECT_VERSION_GIT)
+	string(JOIN " " PROJECT_VERSION_INFO ${PROJECT_VERSION_GIT} ${PROJECT_VERSION_INFO})
+endif()
 
 if (MINGW)
 	# Enable PRIxYY macros on MinGW
@@ -121,7 +163,7 @@ list(APPEND SRC_FOLDERS
 	src/graphics
 	src/graphics/dummy
 	src/graphics/opengl
-	src/gui
+	src/math
 	src/pigui
 	src/scenegraph
 	src/ship
@@ -226,7 +268,9 @@ endif (MSVC)
 
 find_package(Threads REQUIRED)
 find_package(Freetype REQUIRED)
-find_package(OpenGL REQUIRED)
+find_package(OpenGL REQUIRED COMPONENTS OpenGL)
+
+set(FMT_INSTALL OFF CACHE BOOL "Enable install of libfmt" FORCE)
 
 add_subdirectory(contrib/lz4)
 add_subdirectory(contrib/fmt)
@@ -264,7 +308,10 @@ if (NOT USE_SYSTEM_LIBGLEW)
 	# (required on Windows)
 	add_definitions(-DGLEW_STATIC)
 endif (NOT USE_SYSTEM_LIBGLEW)
+
 add_subdirectory(contrib/imgui)
+add_definitions(-DIMGUI_DEFINE_MATH_OPERATORS)
+
 add_subdirectory(contrib/jenkins)
 add_subdirectory(contrib/PicoDDS)
 add_subdirectory(contrib/profiler)
@@ -283,6 +330,7 @@ add_subdirectory(src/lua)
 
 if (WIN32)
 	string(TIMESTAMP BUILD_YEAR "%Y")
+	string(TIMESTAMP BUILD_DATE "%Y%m%d")
 	set(RESOURCES ${CMAKE_BINARY_DIR}/pioneer.rc)
 	configure_file(pioneer.rc.cmakein ${RESOURCES} @ONLY)
 endif()
@@ -306,7 +354,6 @@ add_executable(savegamedump
 	src/savegamedump.cpp
 	src/JsonUtils.cpp
 	src/FileSystem.cpp
-	src/utils.cpp
 	src/StringF.cpp
 	src/DateTime.cpp
 	src/Lang.cpp
@@ -317,15 +364,18 @@ find_program(NATURALDOCS NAMES naturaldocs)
 if (NATURALDOCS)
 	add_custom_target(codedoc
 		${CMAKE_COMMAND} -E make_directory codedoc
-		COMMAND naturaldocs -i src/ -i data/libs/ -xi src/data/ -o HTML codedoc/ -p nd/ -do -ro -s Default Local
+		COMMAND naturaldocs -p nd/ -s Default
 	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 endif()
 
-find_program(PYTHON NAMES python)
-if (PYTHON)
+find_package(Python3 COMPONENTS Interpreter)
+if (Python3_Interpreter_FOUND)
 	add_custom_target(enums
-		COMMAND scripts/scan_enums.py -o src/enum_table.cpp --pattern='*.h' -r src
-		WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+		COMMAND "${Python3_EXECUTABLE}" scripts/scan_enums.py -o src/enum_table.cpp --pattern='*.h' -r src
+		WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+	)
+else()
+	message(WARNING, "Python 3 not found; enums will not be scanned.")
 endif()
 
 target_link_libraries(pioneer-lib PUBLIC lz4 fmt::fmt)
@@ -336,7 +386,7 @@ list(APPEND pioneerLibs
 	pioneer-lua
 	${ASSIMP_LIBRARIES}
 	${FREETYPE_LIBRARIES}
-	${OPENGL_LIBRARIES}
+	OpenGL::GL
 	${SDL2_LIBRARIES}
 	${SDL2_IMAGE_LIBRARIES}
 	${SIGCPP_LIBRARIES}
@@ -353,6 +403,8 @@ list(APPEND pioneerLibs
 if (WIN32)
 	list(APPEND winLibs shlwapi psapi)
 endif (WIN32)
+
+add_subdirectory(src/editor)
 
 target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(unittest LINK_PRIVATE ${pioneerLibs} ${winLibs})
@@ -394,46 +446,24 @@ else (MODELCOMPILER)
 	message(WARNING "No modelcompiler provided, models won't be optimized!")
 endif(MODELCOMPILER)
 
-install(TARGETS ${PROJECT_NAME} modelcompiler savegamedump
-	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+install(TARGETS ${PROJECT_NAME} editor modelcompiler savegamedump
+	RUNTIME DESTINATION ${PIONEER_INSTALL_BINDIR}
 )
+
+if (MSVC)
+	file(GLOB win_libs ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/bin/${MSVC_ARCH}/vs2019/*.dll)
+	install(FILES ${win_libs} DESTINATION ${PIONEER_INSTALL_BINDIR})
+endif (MSVC)
+
 install(DIRECTORY data/
-	DESTINATION ${PIONEER_DATA_DIR}
+	DESTINATION ${PIONEER_INSTALL_DATADIR}/data
 	REGEX "/models" EXCLUDE
 	PATTERN ".gitignore" EXCLUDE
 	PATTERN "listdata.*" EXCLUDE
 	PATTERN "Makefile.am" EXCLUDE
 )
+
 install(DIRECTORY data/models/
-	DESTINATION ${PIONEER_DATA_DIR}/models
+	DESTINATION ${PIONEER_INSTALL_DATADIR}/data/models
 	FILES_MATCHING PATTERN "*.sgm" PATTERN "*.dds" PATTERN "*.png"
 )
-
-if (WIN32)
-	configure_file(pioneer.iss.cmakein pioneer.iss @ONLY)
-	configure_file(CI/appveyor/msvc/publish.cmd.cmakein publish.cmd @ONLY)
-	file(GLOB win_libs ../pioneer-thirdparty/win32/bin/${MSVC_ARCH}/vs2019/*.dll)
-	install(FILES ${win_libs} DESTINATION ${CMAKE_INSTALL_PREFIX})
-	if(NOT ISCC)
-		set(ISCC "C:/Program Files (x86)/Inno Setup 6/ISCC.exe")
-	endif(NOT ISCC)
-	add_custom_target(win-installer COMMAND ${ISCC} /Q pioneer.iss)
-endif (WIN32)
-
-if (UNIX)
-	set(PIONEER_DESKTOP_FILE ${CMAKE_BINARY_DIR}/metadata/net.pioneerspacesim.Pioneer.desktop)
-	configure_file(metadata/net.pioneerspacesim.Pioneer.desktop.cmakein ${PIONEER_DESKTOP_FILE} @ONLY)
-	install(FILES ${PIONEER_DESKTOP_FILE}
-		DESTINATION ${CMAKE_INSTALL_DATADIR}/applications
-	)
-	install(FILES metadata/net.pioneerspacesim.Pioneer.appdata.xml
-		DESTINATION ${CMAKE_INSTALL_DATADIR}/appdata
-	)
-
-	foreach(_i IN ITEMS 16 22 24 32 40 48 64 128 256)
-		install(FILES application-icon/pngs/pioneer-${_i}x${_i}.png
-			DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${_i}x${_i}/apps
-			RENAME net.pioneerspacesim.Pioneer.png
-		)
-	endforeach()
-endif (UNIX)

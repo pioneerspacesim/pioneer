@@ -1,13 +1,13 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TEXTUREBUILDER_H
 #define _TEXTUREBUILDER_H
 
 #include "Renderer.h"
-#include "SDLWrappers.h"
+#include <SDLWrappers.h>
+#include <SDL_mutex.h>
 #include "Texture.h"
-#include <SDL.h>
 #include <string>
 
 #include "PicoDDS/PicoDDS.h"
@@ -118,6 +118,7 @@ namespace Graphics {
 			UpdateTexture(t);
 			return t;
 		}
+
 		void UpdateTexture(Texture *texture); // XXX pass src/dest rectangles
 		void PrepareSurface();
 		bool m_prepared;

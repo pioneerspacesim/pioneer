@@ -1,0 +1,7 @@
+version 2
+
+lod 100 {
+	mesh "malabar_shield.dae"
+}
+
+

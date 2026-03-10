@@ -1,10 +1,11 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SHIP_H
 #define _SHIP_H
 
 #include <unordered_map>
+#include <deque>
 
 #include "DynamicBody.h"
 #include "ShipType.h"
@@ -13,7 +14,6 @@
 #include "scenegraph/ModelSkin.h"
 #include "sound/Sound.h"
 
-#include "FixedGuns.h"
 #include "ship/Propulsion.h"
 
 class AICommand;
@@ -22,11 +22,13 @@ class CargoBody;
 class SpaceStation;
 class HyperspaceCloud;
 class Missile;
+struct MissileDef;
 class NavLights;
 class Planet;
 class Sensors;
 class ShipController;
 class Space;
+class GunManager;
 
 struct CollisionContact;
 struct HeatGradientParameters_t;
@@ -36,10 +38,10 @@ namespace Graphics {
 }
 
 struct shipstats_t {
-	int used_capacity;
+	float loaded_mass;
+	float static_mass;	  // cargo, equipment + hull
+	int free_cargo;
 	int used_cargo;
-	int free_capacity;
-	int static_mass;	  // cargo, equipment + hull
 	float hull_mass_left; // effectively hitpoints
 	float hyperspace_range;
 	float hyperspace_range_max;
@@ -72,7 +74,7 @@ public:
 	Ship(const ShipType::Id &shipId);
 	virtual ~Ship();
 
-	virtual void SetFrame(FrameId fId) override;
+	void SetFrame(FrameId fId) override;
 
 	void SetController(ShipController *c); //deletes existing
 	ShipController *GetController() const { return m_controller; }
@@ -84,9 +86,14 @@ public:
 	bool IsDocked() const { return GetFlightState() == Ship::DOCKED; }
 	bool IsLanded() const { return GetFlightState() == Ship::LANDED; }
 
+	virtual void OnDocked(SpaceStation *, int port);
+	virtual void OnUndocked(SpaceStation *, int port);
+	virtual void OnLanded(Body *);
+	virtual void OnTakeoff(Body *);
+
 	virtual void SetLandedOn(Planet *p, float latitude, float longitude);
 
-	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
+	void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 
 	inline void ClearThrusterState()
 	{
@@ -96,26 +103,26 @@ public:
 	void UpdateLuaStats();
 	void UpdateEquipStats();
 	void UpdateFuelStats();
-	void UpdateGunsStats();
 	const shipstats_t &GetStats() const { return m_stats; }
 
 	void Explode();
 	virtual bool DoDamage(float kgDamage); // can be overloaded in Player to add audio
-	void SetGunState(int idx, int state);
+	[[deprecated]] void SetGunState(int idx, int state);
 	void UpdateMass();
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
+	virtual bool ManualDocking() const { return false; }
 	void Blastoff();
 	bool Undock();
-	virtual void TimeStepUpdate(const float timeStep) override;
-	virtual void StaticUpdate(const float timeStep) override;
+	void TimeStepUpdate(const float timeStep) override;
+	void StaticUpdate(const float timeStep) override;
 
 	void TimeAccelAdjust(const float timeStep);
 
 	bool IsDecelerating() const { return m_decelerating; }
 
-	virtual void NotifyRemoved(const Body *const removedBody) override;
-	virtual bool OnCollision(Body *o, Uint32 flags, double relVel) override;
-	virtual bool OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData) override;
+	void NotifyRemoved(const Body *const removedBody) override;
+	bool OnCollision(Body *o, Uint32 flags, double relVel) override;
+	bool OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData) override;
 
 	enum FlightState { // <enum scope='Ship' name=ShipFlightState public>
 		FLYING,		   // open flight (includes autopilot)
@@ -134,11 +141,10 @@ public:
 	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
 	int GetWheelTransition() const { return m_wheelTransition; }
-	bool SpawnCargo(CargoBody *c_body) const;
+	bool SpawnCargo(CargoBody *c_body);
+	void ProcessSpawnQueue();
 
-	LuaRef GetEquipSet() const { return m_equipSet; }
-
-	virtual bool IsInSpace() const override { return (m_flightState != HYPERSPACE); }
+	bool IsInSpace() const override { return (m_flightState != HYPERSPACE); }
 
 	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
 	const SystemPath &GetHyperspaceDest() const { return m_hyperspace.dest; }
@@ -173,7 +179,7 @@ public:
 
 	ECMResult UseECM();
 
-	virtual Missile *SpawnMissile(ShipType::Id missile_type, int power = -1);
+	virtual Missile *SpawnMissile(const MissileDef &missileStats, Body *target);
 
 	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_ public>
 		ALERT_NONE,
@@ -184,7 +190,7 @@ public:
 	AlertState GetAlertState() { return m_alertState; }
 
 	void AIClearInstructions(); // Note: defined in Ship-AI.cpp
-	bool AIIsActive() { return m_curAICmd ? true : false; }
+	bool AIIsActive() const { return m_curAICmd ? true : false; }
 	void AIGetStatusText(char *str); // Note: defined in Ship-AI.cpp
 
 	void AIKamikaze(Body *target); // Note: defined in Ship-AI.cpp
@@ -200,7 +206,7 @@ public:
 	const AICommand *GetAICommand() const { return m_curAICmd; }
 	bool IsAIAttacking(const Ship *target) const;
 
-	virtual void PostLoadFixup(Space *space) override;
+	void PostLoadFixup(Space *space) override;
 
 	const ShipType *GetShipType() const { return m_type; }
 	virtual void SetShipType(const ShipType::Id &shipId);
@@ -212,6 +218,8 @@ public:
 
 	void SetLabel(const std::string &label) override;
 	void SetShipName(const std::string &shipName);
+
+	const std::string &GetShipName() const { return m_shipName; }
 
 	float GetAtmosphericPressureLimit() const;
 	float GetPercentShields() const;
@@ -245,12 +253,13 @@ public:
 protected:
 	vector3d CalcAtmosphericForce() const override;
 
-	virtual void SaveToJson(Json &jsonObj, Space *space) override;
+	void SaveToJson(Json &jsonObj, Space *space) override;
 
 	bool AITimeStep(float timeStep); // Called by controller. Returns true if complete
 
 	virtual void SetAlertState(AlertState as);
 
+	virtual void OnBeforeEnterHyperspace();
 	virtual void OnEnterHyperspace();
 	virtual void OnEnterSystem();
 
@@ -271,10 +280,9 @@ protected:
 		HyperdriveSoundsTable sounds;
 	} m_hyperspace;
 
-	LuaRef m_equipSet;
-
 	Propulsion *m_propulsion;
-	FixedGuns *m_fixedGuns;
+	GunManager *m_gunManager;
+	Shields *m_shields;
 
 private:
 	float GetECMRechargeTime();
@@ -284,9 +292,9 @@ private:
 	void UpdateAlertState();
 	void UpdateFuel(float timeStep);
 	void SetShipId(const ShipType::Id &shipId);
+	void SetupShields();
 	void EnterHyperspace();
 	void InitMaterials();
-	void InitEquipSet();
 
 	bool m_invulnerable;
 
@@ -297,6 +305,8 @@ private:
 	shipstats_t m_stats;
 	const ShipType *m_type;
 	SceneGraph::ModelSkin m_skin;
+
+	std::unique_ptr<SceneGraph::Model> m_shieldModel;
 
 	Sound::Event m_beamLaser[2];
 
@@ -329,6 +339,11 @@ private:
 	std::unordered_map<Body *, Uint8> m_relationsMap;
 
 	std::string m_shipName;
+
+	double m_hydrogenScoopedAccumulator = 0;
+
+	double m_latestSpawnTime = 0.0;
+	std::deque<CargoBody *> m_cargoSpawnQueue;
 
 public:
 	// FIXME: these methods are deprecated; all calls should use the propulsion object directly.

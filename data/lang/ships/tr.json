@@ -1,0 +1,350 @@
+{
+  "AC33": {
+    "description": "ship name - base form",
+    "message": "AC-33 Dropstar"
+  },
+  "AC33_DEF": {
+    "description": "ship - definite form",
+    "message": "AC-33 Dropstar"
+  },
+  "AC33_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir AC-33 Dropstar"
+  },
+  "BLUENOSE": {
+    "description": "ship name - base form",
+    "message": "Bluenose"
+  },
+  "BLUENOSE_DEF": {
+    "description": "ship - definite form",
+    "message": "Bluenose"
+  },
+  "BLUENOSE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Bluenose"
+  },
+  "BOWFIN": {
+    "description": "ship name - base form",
+    "message": "Bowfin"
+  },
+  "BOWFIN_DEF": {
+    "description": "ship - definite form",
+    "message": "Bowfin"
+  },
+  "BOWFIN_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Bowfin"
+  },
+  "CORONATRIX": {
+    "description": "ship name - base form",
+    "message": "Coronatrix"
+  },
+  "CORONATRIX_DEF": {
+    "description": "ship - definite form",
+    "message": "Coronatrix"
+  },
+  "CORONATRIX_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Coronatrix"
+  },
+  "CORONATRIX_POLICE": {
+    "description": "ship name - base form",
+    "message": "Coronatrix polis gemisi"
+  },
+  "CORONATRIX_POLICE_DEF": {
+    "description": "ship - definite form",
+    "message": "Coronatrix polis gemisi"
+  },
+  "CORONATRIX_POLICE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Coronatrix polis gemisi"
+  },
+  "DENEB": {
+    "description": "ship name - base form",
+    "message": "Deneb"
+  },
+  "DENEB_DEF": {
+    "description": "ship - definite form",
+    "message": "Deneb"
+  },
+  "DENEB_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Deneb"
+  },
+  "DSMINER": {
+    "description": "ship name - base form",
+    "message": "DU Madencisi"
+  },
+  "DSMINER_DEF": {
+    "description": "ship - definite form",
+    "message": "DU Madencisi"
+  },
+  "DSMINER_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir DU Madencisi"
+  },
+  "KANARA": {
+    "description": "ship name - base form",
+    "message": "Kanara"
+  },
+  "KANARA_CIV": {
+    "description": "ship name - base form",
+    "message": "Kanara Sivil"
+  },
+  "KANARA_CIV_DEF": {
+    "description": "ship - definite form",
+    "message": "Kanara Sivil"
+  },
+  "KANARA_CIV_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Kanara Sivil"
+  },
+  "KANARA_DEF": {
+    "description": "ship - definite form",
+    "message": "Kanara"
+  },
+  "KANARA_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Kanara"
+  },
+  "LODOS": {
+    "description": "ship name - base form",
+    "message": "Lodos"
+  },
+  "LODOS_DEF": {
+    "description": "ship - definite form",
+    "message": "Lodos"
+  },
+  "LODOS_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Lodos"
+  },
+  "LUNARSHUTTLE": {
+    "description": "ship name - base form",
+    "message": "Ay Mekiği"
+  },
+  "LUNARSHUTTLE_DEF": {
+    "description": "ship - definite form",
+    "message": "Ay Mekiği"
+  },
+  "LUNARSHUTTLE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Ay Mekiği"
+  },
+  "MALABAR": {
+    "description": "ship name - base form",
+    "message": "Malabar"
+  },
+  "MALABAR_DEF": {
+    "description": "ship - definite form",
+    "message": "Malabar"
+  },
+  "MALABAR_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Malabar"
+  },
+  "MOLAMOLA": {
+    "description": "ship name - base form",
+    "message": "Mola Mola"
+  },
+  "MOLAMOLA_DEF": {
+    "description": "ship - definite form",
+    "message": "Mola Mola"
+  },
+  "MOLAMOLA_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Mola Mola"
+  },
+  "MOLARAMSAYI": {
+    "description": "ship name - base form",
+    "message": "Mola Ramsayi"
+  },
+  "MOLARAMSAYI_DEF": {
+    "description": "ship - definite form",
+    "message": "Mola Ramsayi"
+  },
+  "MOLARAMSAYI_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Mola Ramsayi"
+  },
+  "NATRIX": {
+    "description": "ship name - base form",
+    "message": "Natrix"
+  },
+  "NATRIX_DEF": {
+    "description": "ship - definite form",
+    "message": "Natrix"
+  },
+  "NATRIX_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Natrix"
+  },
+  "NERODIA": {
+    "description": "ship name - base form",
+    "message": "Nerodia"
+  },
+  "NERODIA_DEF": {
+    "description": "ship - definite form",
+    "message": "Nerodia"
+  },
+  "NERODIA_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Nerodia"
+  },
+  "POLICE_SHIP": {
+    "description": "ship name - base form",
+    "message": "polis gemisi"
+  },
+  "POLICE_SHIP_DEF": {
+    "description": "ship - definite form",
+    "message": "polis gemisi"
+  },
+  "POLICE_SHIP_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir polis gemisi"
+  },
+  "PUMPKINSEED": {
+    "description": "ship name - base form",
+    "message": "Pumpkinseed"
+  },
+  "PUMPKINSEED_DEF": {
+    "description": "ship - definite form",
+    "message": "Pumpkinseed"
+  },
+  "PUMPKINSEED_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Pumpkinseed"
+  },
+  "PUMPKINSEED_POLICE": {
+    "description": "ship name - base form",
+    "message": "Pumpkinseed polis gemisi"
+  },
+  "PUMPKINSEED_POLICE_DEF": {
+    "description": "ship - definite form",
+    "message": "Pumpkinseed polis gemisi"
+  },
+  "PUMPKINSEED_POLICE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Pumpkinseed polsi gemisi"
+  },
+  "SHIP": {
+    "description": "ship name - base form",
+    "message": "gemi"
+  },
+  "SHIP_DEF": {
+    "description": "ship - definite form",
+    "message": "gemi"
+  },
+  "SHIP_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir gemi"
+  },
+  "SINONATRIX": {
+    "description": "ship name - base form",
+    "message": "Sinonatrix"
+  },
+  "SINONATRIX_DEF": {
+    "description": "ship - definite form",
+    "message": "Sinonatrix"
+  },
+  "SINONATRIX_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Sinonatrix"
+  },
+  "SINONATRIX_POLICE": {
+    "description": "ship name - base form",
+    "message": "Sinonatrix polis gemisi"
+  },
+  "SINONATRIX_POLICE_DEF": {
+    "description": "ship - definite form",
+    "message": "Sinonatrix polis gemisi"
+  },
+  "SINONATRIX_POLICE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Sinonatrix polis gemisi"
+  },
+  "SKIPJACK": {
+    "description": "ship name - base form",
+    "message": "Skipjack"
+  },
+  "SKIPJACK_DEF": {
+    "description": "ship - definite form",
+    "message": "Skipjack"
+  },
+  "SKIPJACK_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Skipjack"
+  },
+  "STORERIA": {
+    "description": "ship name - base form",
+    "message": "Storeria"
+  },
+  "STORERIA_DEF": {
+    "description": "ship - definite form",
+    "message": "Storeria"
+  },
+  "STORERIA_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Storeria"
+  },
+  "VARADA": {
+    "description": "ship name - base form",
+    "message": "Varada"
+  },
+  "VARADA_DEF": {
+    "description": "ship - definite form",
+    "message": "Varada"
+  },
+  "VARADA_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Varada"
+  },
+  "VATAKARA": {
+    "description": "ship name - base form",
+    "message": "Vatakara"
+  },
+  "VATAKARA_DEF": {
+    "description": "ship - definite form",
+    "message": "Vatakara"
+  },
+  "VATAKARA_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Vatakara"
+  },
+  "VENTURESTAR": {
+    "description": "ship name - base form",
+    "message": "Venturestar"
+  },
+  "VENTURESTAR_DEF": {
+    "description": "ship - definite form",
+    "message": "Venturestar"
+  },
+  "VENTURESTAR_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Venturestar"
+  },
+  "WAVE": {
+    "description": "ship name - base form",
+    "message": "Wave"
+  },
+  "WAVE_DEF": {
+    "description": "ship - definite form",
+    "message": "Wave"
+  },
+  "WAVE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Wave"
+  },
+  "XYLOPHIS": {
+    "description": "ship name - base form",
+    "message": "Xylophis"
+  },
+  "XYLOPHIS_DEF": {
+    "description": "ship - definite form",
+    "message": "Xylophis"
+  },
+  "XYLOPHIS_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "bir Xylophis"
+  }
+}

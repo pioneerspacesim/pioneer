@@ -131,6 +131,10 @@
     "description": "Distance in space, between two locations",
     "message": "Távolság:"
   },
+  "DO_I_NEED_SPECIAL_EQUIPMENT": {
+    "description": "",
+    "message": "Szükséges bármilyen különleges felszerelés?"
+  },
   "FAILUREMSG_1": {
     "description": "",
     "message": "Szégyelheti magát. Tűnjön a szemem elől."
@@ -169,7 +173,7 @@
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Az {org} {cash}-ben fizet egy {mission} küldetésért a {system} rendszerben ({sectorx}, {sectory}, {sectorz}). Jó okunk van feltételezni, hogy egy könyörtelen versenytárs a felelős a szállítóhajóink eltűnéséért az {area}-ban. Az úticél távolsága {dist} fényév."
+    "message": "Az {org} {cash}-creditet fizet egy {mission} küldetésért a {system} rendszerben ({sectorx}, {sectory}, {sectorz}). Jó okunk van feltételezni, hogy egy könyörtelen versenytárs a felelős a szállítóhajóink eltűnéséért {area} környékén. Az úticél távolsága {dist} fényév."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
@@ -185,7 +189,7 @@
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "Minden közeli csillagrendszerben van kereskedőnk. Landoláskor majd kapcsolatba lép Önnel."
+    "message": "Minden környékbeli rendszerben elérhetőek a kereskedőink. Landoljon bármelyik kikötőben a határidőn belül, és munkatársaing felveszik önnel a kapcsolatot a díjazással kapcsolatban."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -201,7 +205,7 @@
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "Találkozzunk a {rendezvous} rendszerben, és kifizetlek!"
+    "message": "{rendezvous} rendszerbenn találkozzunk a határidő előtt!"
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
@@ -213,7 +217,7 @@
   },
   "MILITARY_3": {
     "description": "",
-    "message": "A kémelhárítás pilótát keres,  {mission} feladat elvégzésére, aki nem kérdezősködik. Helyszín: [system] rendszer ({sectorx}, sectory}, {sectorz}), {dist} fényévre. Fizetség: {cash}."
+    "message": "A kémelhárítás civil pilótát keres,  {mission} feladat elvégzésére, aki nem kérdezősködik. Helyszín: [system] rendszer ({sectorx}, sectory}, {sectorz}), {dist} fényévre. Fizetség: {cash}."
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -221,7 +225,7 @@
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "Meg kell látogatnia egy {org} felségterületén lévő állomást."
+    "message": "Keressen fel egy {org} által felügyelt kikötőt! A megbízást határidőn belül szükséges teljesíteni!"
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
@@ -233,7 +237,7 @@
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "{org} alkalmazottja vagyok. Teherhajóink fognak hamarosan áthajózni {area} régiión a {system} rendszerben  ({sectorx}, {sectory}, {sectorz}, {dist} fé).  Alkalmazottjaink és felszerelésünk biztonságának szavatolása érdekében hajlandóak vagyunk {cash} ellentételezést felajánlani egy {mission} küldetés teljesítésére."
+    "message": "{org} alkalmazottja vagyok. Teherhajóink hamarosan megrkeznek {area} régiójába {system} rendszerben  ({sectorx}, {sectory}, {sectorz}, {dist} fé).  Alkalmazottjaink és felszerelésünk biztonságának szavatolása érdekében hajlandóak vagyunk {cash} ellentételezést felajánlani egy {mission} küldetés elvégzéséért."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -241,7 +245,7 @@
   },
   "MINING_LAND_THERE": {
     "description": "",
-    "message": "Az össze környékbeli rendszerben található irodánk. Bármelyik kikötőben fel tudja venni velünk a kapcsolatot."
+    "message": "Minden környékbeli rendszerben vannak alkalmazottaink. Bármelyik kikötőben fel tudja venni a kapcsolatot a hely irodánkkal. Határidőn belül érkezzen."
   },
   "MISSION": {
     "description": "",
@@ -266,6 +270,18 @@
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
     "message": "Terület megtisztítása"
+  },
+  "MISSION_TYPE_CONVO_1": {
+    "description": "Name of mission type, used in conversation",
+    "message": "felderítő"
+  },
+  "MISSION_TYPE_CONVO_2": {
+    "description": "Name of mission type, used in conversation",
+    "message": "fegyveres felderítő"
+  },
+  "MISSION_TYPE_CONVO_3": {
+    "description": "Name of mission type, used in conversation. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
+    "message": "terület-tisztító"
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",
@@ -313,7 +329,7 @@
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "Elég, ha egy olyan helyen landolsz, ahol van {org} iroda."
+    "message": "Csak száljon le bármelyik állomáson ahol van {org} iroda. A határidő tartása elengedhetetlen az egész művelet biztonsága szempontjából!"
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",
@@ -374,5 +390,9 @@
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",
     "message": "Számíthatok veszélyre?"
+  },
+  "YOU_NEED_A_RADAR": {
+    "description": "",
+    "message": "Igen, szükséged lesz radarra! Ha elfogadod a megbízást, beprogramozom a hajód számítógépét a szükséges adatok rögzítésére. Mikor visszaérkezel, letöltöm az adatokat."
   }
 }

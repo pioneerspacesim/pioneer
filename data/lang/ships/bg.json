@@ -1,0 +1,350 @@
+{
+  "AC33": {
+    "description": "ship name - base form",
+    "message": "Десантна звезда АС-33"
+  },
+  "AC33_DEF": {
+    "description": "ship - definite form",
+    "message": "Десантната звезда АС-33"
+  },
+  "AC33_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Десантна звезда АС-33"
+  },
+  "BLUENOSE": {
+    "description": "ship name - base form",
+    "message": "Синьонос"
+  },
+  "BLUENOSE_DEF": {
+    "description": "ship - definite form",
+    "message": "Синьоносът"
+  },
+  "BLUENOSE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Синьонос"
+  },
+  "BOWFIN": {
+    "description": "ship name - base form",
+    "message": "Амия"
+  },
+  "BOWFIN_DEF": {
+    "description": "ship - definite form",
+    "message": "Амията"
+  },
+  "BOWFIN_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Амия"
+  },
+  "CORONATRIX": {
+    "description": "ship name - base form",
+    "message": "Кралска водна змия"
+  },
+  "CORONATRIX_DEF": {
+    "description": "ship - definite form",
+    "message": "Кралската водна змия"
+  },
+  "CORONATRIX_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Кралска водна змия"
+  },
+  "CORONATRIX_POLICE": {
+    "description": "ship name - base form",
+    "message": "полицейски кораб Кралска водна змия"
+  },
+  "CORONATRIX_POLICE_DEF": {
+    "description": "ship - definite form",
+    "message": "полицейският кораб Кралска водна змия"
+  },
+  "CORONATRIX_POLICE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "полицейски кораб Кралска водна змия"
+  },
+  "DENEB": {
+    "description": "ship name - base form",
+    "message": "Денеб"
+  },
+  "DENEB_DEF": {
+    "description": "ship - definite form",
+    "message": "Денебът"
+  },
+  "DENEB_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Денеб"
+  },
+  "DSMINER": {
+    "description": "ship name - base form",
+    "message": "Миньор ДК"
+  },
+  "DSMINER_DEF": {
+    "description": "ship - definite form",
+    "message": "Миньорът ДК"
+  },
+  "DSMINER_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Миньор ДК"
+  },
+  "KANARA": {
+    "description": "ship name - base form",
+    "message": "Канара"
+  },
+  "KANARA_CIV": {
+    "description": "ship name - base form",
+    "message": "гражданска Канара"
+  },
+  "KANARA_CIV_DEF": {
+    "description": "ship - definite form",
+    "message": "гражданската Канара"
+  },
+  "KANARA_CIV_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "гражданска Канара"
+  },
+  "KANARA_DEF": {
+    "description": "ship - definite form",
+    "message": "Канарата"
+  },
+  "KANARA_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Канара"
+  },
+  "LODOS": {
+    "description": "ship name - base form",
+    "message": "Югозападен вятър"
+  },
+  "LODOS_DEF": {
+    "description": "ship - definite form",
+    "message": "Югозападният вятър"
+  },
+  "LODOS_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Югозападен вятър"
+  },
+  "LUNARSHUTTLE": {
+    "description": "ship name - base form",
+    "message": "Лунна совалка"
+  },
+  "LUNARSHUTTLE_DEF": {
+    "description": "ship - definite form",
+    "message": "Лунната совалка"
+  },
+  "LUNARSHUTTLE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Лунна совалка"
+  },
+  "MALABAR": {
+    "description": "ship name - base form",
+    "message": "Малабар"
+  },
+  "MALABAR_DEF": {
+    "description": "ship - definite form",
+    "message": "Малабарът"
+  },
+  "MALABAR_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Малабар"
+  },
+  "MOLAMOLA": {
+    "description": "ship name - base form",
+    "message": "Риба луна"
+  },
+  "MOLAMOLA_DEF": {
+    "description": "ship - definite form",
+    "message": "Рибата луна"
+  },
+  "MOLAMOLA_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Риба луна"
+  },
+  "MOLARAMSAYI": {
+    "description": "ship name - base form",
+    "message": "Слънчева риба на Рамзи"
+  },
+  "MOLARAMSAYI_DEF": {
+    "description": "ship - definite form",
+    "message": "Слънчевата риба на Рамзи"
+  },
+  "MOLARAMSAYI_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Слънчева риба на Рамзи"
+  },
+  "NATRIX": {
+    "description": "ship name - base form",
+    "message": "Водна змия"
+  },
+  "NATRIX_DEF": {
+    "description": "ship - definite form",
+    "message": "Водната змия"
+  },
+  "NATRIX_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Водна змия"
+  },
+  "NERODIA": {
+    "description": "ship name - base form",
+    "message": "Американска водна змия"
+  },
+  "NERODIA_DEF": {
+    "description": "ship - definite form",
+    "message": "Американската водна змия"
+  },
+  "NERODIA_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Американска водна змия"
+  },
+  "POLICE_SHIP": {
+    "description": "ship name - base form",
+    "message": "полицейски кораб"
+  },
+  "POLICE_SHIP_DEF": {
+    "description": "ship - definite form",
+    "message": "полицейският кораб"
+  },
+  "POLICE_SHIP_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "полицейски кораб"
+  },
+  "PUMPKINSEED": {
+    "description": "ship name - base form",
+    "message": "Слънчева риба"
+  },
+  "PUMPKINSEED_DEF": {
+    "description": "ship - definite form",
+    "message": "Слънчевата риба"
+  },
+  "PUMPKINSEED_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Слънчева риба"
+  },
+  "PUMPKINSEED_POLICE": {
+    "description": "ship name - base form",
+    "message": "полицейски кораб Слънчева риба"
+  },
+  "PUMPKINSEED_POLICE_DEF": {
+    "description": "ship - definite form",
+    "message": "полицейският кораб Слънчева риба"
+  },
+  "PUMPKINSEED_POLICE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "полицейски кораб Слънчева риба"
+  },
+  "SHIP": {
+    "description": "ship name - base form",
+    "message": "кораб"
+  },
+  "SHIP_DEF": {
+    "description": "ship - definite form",
+    "message": "корабът"
+  },
+  "SHIP_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "кораб"
+  },
+  "SINONATRIX": {
+    "description": "ship name - base form",
+    "message": "Азиатска водна змия"
+  },
+  "SINONATRIX_DEF": {
+    "description": "ship - definite form",
+    "message": "Азиатската водна змия"
+  },
+  "SINONATRIX_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Азиатска водна змия"
+  },
+  "SINONATRIX_POLICE": {
+    "description": "ship name - base form",
+    "message": "полицейски кораб Азиатска водна змия"
+  },
+  "SINONATRIX_POLICE_DEF": {
+    "description": "ship - definite form",
+    "message": "полицейският кораб Азиатска водна змия"
+  },
+  "SINONATRIX_POLICE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "полицейски кораб Азиатска водна змия"
+  },
+  "SKIPJACK": {
+    "description": "ship name - base form",
+    "message": "Ивичест"
+  },
+  "SKIPJACK_DEF": {
+    "description": "ship - definite form",
+    "message": "Ивичестият"
+  },
+  "SKIPJACK_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Ивичест"
+  },
+  "STORERIA": {
+    "description": "ship name - base form",
+    "message": "Кафявокоремна змия"
+  },
+  "STORERIA_DEF": {
+    "description": "ship - definite form",
+    "message": "Кафявокоремната змия"
+  },
+  "STORERIA_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Кафявокоремна змия"
+  },
+  "VARADA": {
+    "description": "ship name - base form",
+    "message": "Варада"
+  },
+  "VARADA_DEF": {
+    "description": "ship - definite form",
+    "message": "Варадата"
+  },
+  "VARADA_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Варада"
+  },
+  "VATAKARA": {
+    "description": "ship name - base form",
+    "message": "Ватакара"
+  },
+  "VATAKARA_DEF": {
+    "description": "ship - definite form",
+    "message": "Ватакарата"
+  },
+  "VATAKARA_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Ватакара"
+  },
+  "VENTURESTAR": {
+    "description": "ship name - base form",
+    "message": "Авантюрна звезда"
+  },
+  "VENTURESTAR_DEF": {
+    "description": "ship - definite form",
+    "message": "Авантюрната звезда"
+  },
+  "VENTURESTAR_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Авантюрна звезда"
+  },
+  "WAVE": {
+    "description": "ship name - base form",
+    "message": "Вълна"
+  },
+  "WAVE_DEF": {
+    "description": "ship - definite form",
+    "message": "Вълната"
+  },
+  "WAVE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Вълна"
+  },
+  "XYLOPHIS": {
+    "description": "ship name - base form",
+    "message": "Дървена змия"
+  },
+  "XYLOPHIS_DEF": {
+    "description": "ship - definite form",
+    "message": "Дървената змия"
+  },
+  "XYLOPHIS_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Дървена змия"
+  }
+}

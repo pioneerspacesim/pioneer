@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -11,19 +11,17 @@ local Mission = require 'Mission'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
-local Equipment = require 'Equipment'
-local ShipDef = require 'ShipDef'
-local Ship = require 'Ship'
 local utils = require 'utils'
+local PlayerState = require 'PlayerState'
+
+local MissionUtils = require 'modules.MissionUtils'
+local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
 
 local l = Lang.GetResource("module-deliverpackage")
 local lc = Lang.GetResource 'core'
 
 -- don't produce missions for further than this many light years away
 local max_delivery_dist = 30
--- typical time for travel to a system max_delivery_dist away
---	Irigi: ~ 4 days for in-system travel, the rest is FTL travel time
-local typical_travel_time = (1.6 * max_delivery_dist + 4) * 24 * 60 * 60
 -- typical reward for delivery to a system max_delivery_dist away
 local typical_reward = 25 * max_delivery_dist
 -- typical reward for delivery to a local port
@@ -188,13 +186,16 @@ local onChat = function (form, ref, option)
 			type	 = "Delivery",
 			client	 = ad.client,
 			location = ad.location,
+			destination = ad.location,
 			risk	 = ad.risk,
 			reward	 = ad.reward,
 			due	 = ad.due,
 			flavour	 = ad.flavour
 		}
 
-		table.insert(missions,Mission.New(mission))
+		mission = Mission.New(mission)
+		table.insert(missions, mission)
+		MissionUtils.SetupOverdueTimer(mission)
 
 		form:SetMessage(l.EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY)
 
@@ -251,10 +252,9 @@ local placeAdvert = function (station, ad)
 	ads[ref] = ad
 end
 
--- return statement is nil if no advert was created, else it is bool:
--- true if a localdelivery, false for non-local
+-- return statement is the created advert or nil
 local makeAdvert = function (station, manualFlavour, nearbystations)
-	local reward, due, location, nearbysystem, dist
+	local reward, due, location, dist, timeout
 	local client = Character.New()
 
 	-- set flavour manually if a second arg is given
@@ -264,7 +264,6 @@ local makeAdvert = function (station, manualFlavour, nearbystations)
 	local risk = flavours[flavour].risk
 
 	if flavours[flavour].localdelivery then
-		nearbysystem = Game.system
 		if nearbystations == nil then
 			-- discard stations closer than 1000m and further than 20AU
 			nearbystations = findNearbyStations(station, 1000, 1.4960e11 * 20)
@@ -272,20 +271,20 @@ local makeAdvert = function (station, manualFlavour, nearbystations)
 		if #nearbystations == 0 then return nil end
 		location, dist = table.unpack(nearbystations[Engine.rand:Integer(1,#nearbystations)])
 		reward = typical_reward_local + math.max(math.sqrt(dist) / 15000, min_local_dist_pay) * (1.5+urgency)
-		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(1.5,3.5) - urgency))
+		due =(60*60*18 + MissionUtils.TravelTimeLocal(dist)) * (1.5-urgency) * Engine.rand:Number(0.9,1.1)
 	else
 		if nearbysystems == nil then
-			nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
+			nearbysystems = MissionUtils.GetNearbyStationPaths(Game.system, max_delivery_dist)
 		end
 		if #nearbysystems == 0 then return nil end
-		nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
-		dist = nearbysystem:DistanceTo(Game.system)
-		local nearbystations = nearbysystem:GetStationPaths()
-		location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
+		location = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
+		dist = location:DistanceTo(Game.system)
 		reward = ((dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5+urgency) * Engine.rand:Number(0.8,1.2))
-		due = Game.time + ((dist / max_delivery_dist) * typical_travel_time * (1.5-urgency) * Engine.rand:Number(0.9,1.1))
+		due = MissionUtils.TravelTime(dist, location) * (1.5-urgency) * Engine.rand:Number(0.9,1.1)
 	end
 	reward = utils.round(reward, 5)
+	timeout = due/2 + Game.time -- timeout after half of the travel time
+	due = utils.round(due + Game.time, 900)
 
 	local ad = {
 		station		= station,
@@ -295,6 +294,7 @@ local makeAdvert = function (station, manualFlavour, nearbystations)
 		localdelivery = flavours[flavour].localdelivery,
 		dist        = dist,
 		due			= due,
+		timeout     = timeout,
 		risk		= risk,
 		urgency		= urgency,
 		reward		= reward,
@@ -309,7 +309,7 @@ end
 
 local onCreateBB = function (station)
 	if nearbysystems == nil then
-		nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
+		nearbysystems = MissionUtils.GetNearbyStationPaths(Game.system, max_delivery_dist)
 	end
 	local nearbystations = findNearbyStations(station, 1000, 1.4960e11 * 20)
 	local num = Engine.rand:Integer(0, math.ceil(Game.system.population))
@@ -341,14 +341,8 @@ end
 
 local onUpdateBB = function (station)
 	for ref,ad in pairs(ads) do
-		if flavours[ad.flavour].localdelivery then
-			if ad.due < Game.time + 2*60*60*24 then -- two day timeout for locals
-				ad.station:RemoveAdvert(ref)
-			end
-		else
-			if ad.due < Game.time + 5*60*60*24 then -- five day timeout for inter-system
-				ad.station:RemoveAdvert(ref)
-			end
+		if ad.timeout < Game.time then
+			ad.station:RemoveAdvert(ref)
 		end
 	end
 	if Engine.rand:Integer(12*60*60) < 60*60 then -- roughly once every twelve hours
@@ -357,8 +351,6 @@ local onUpdateBB = function (station)
 end
 
 local onEnterSystem = function (player)
-	if (not player:IsPlayer()) then return end
-
 	local syspath = Game.system.path
 
 	for ref,mission in pairs(missions) do
@@ -375,30 +367,16 @@ local onEnterSystem = function (player)
 			-- if there is some risk and still no ships, flip a tricoin
 			if ships < 1 and risk >= 0.2 and Engine.rand:Integer(2) == 1 then ships = 1 end
 
-			local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP'
-				and def.hyperdriveClass > 0 and (def.roles.pirate or def.roles.mercenary) end, pairs(ShipDef)))
-			if #shipdefs == 0 then return end
-
 			local ship
 
 			while ships > 0 do
 				ships = ships-1
 
 				if Engine.rand:Number(1) <= risk then
-					local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
-					local default_drive = Equipment.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
+					local threat = 10.0 + mission.risk * 25.0
+					ship = ShipBuilder.MakeShipNear(Game.player, MissionUtils.ShipTemplates.WeakPirate, threat, 50, 100)
+					assert(ship)
 
-					local max_laser_size = shipdef.capacity - default_drive.capabilities.mass
-					local laserdefs = utils.build_array(utils.filter(
-						function (k,l) return l:IsValidSlot('laser_front') and l.capabilities.mass <= max_laser_size and l.l10n_key:find("PULSECANNON") end,
-						pairs(Equipment.laser)
-					))
-					local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
-
-					ship = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
-					ship:SetLabel(Ship.MakeRandomLabel())
-					ship:AddEquip(default_drive)
-					ship:AddEquip(laserdef)
 					ship:AIKill(Game.player)
 				end
 			end
@@ -409,22 +387,14 @@ local onEnterSystem = function (player)
 				Comms.ImportantMessage(pirate_greeting, ship.label)
 			end
 		end
-
-		if mission.status == "ACTIVE" and Game.time > mission.due then
-			mission.status = 'FAILED'
-		end
 	end
 end
 
 local onLeaveSystem = function (ship)
-	if ship:IsPlayer() then
-		nearbysystems = nil
-	end
+	nearbysystems = nil
 end
 
-local onShipDocked = function (player, station)
-	if not player:IsPlayer() then return end
-
+local onPlayerDocked = function (player, station)
 	for ref,mission in pairs(missions) do
 
 		if mission.location == station.path then
@@ -441,7 +411,7 @@ local onShipDocked = function (player, station)
 				Character.persistent.player.reputation = Character.persistent.player.reputation - reward
 			else
 				Comms.ImportantMessage(flavours[mission.flavour].successmsg, mission.client.name)
-				player:AddMoney(mission.reward)
+				PlayerState.AddMoney(mission.reward)
 				Character.persistent.player.reputation = Character.persistent.player.reputation + reward
 			end
 			Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
@@ -449,11 +419,7 @@ local onShipDocked = function (player, station)
 
 			mission:Remove()
 			missions[ref] = nil
-
-		elseif mission.status == "ACTIVE" and Game.time > mission.due then
-			mission.status = 'FAILED'
 		end
-
 	end
 end
 
@@ -479,6 +445,10 @@ local onGameStart = function ()
 	end
 
 	missions = loaded_data.missions
+
+	for _, mission in pairs(missions) do
+		MissionUtils.SetupOverdueTimer(mission)
+	end
 
 	loaded_data = nil
 end
@@ -529,7 +499,7 @@ Event.Register("onCreateBB", onCreateBB)
 Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onLeaveSystem", onLeaveSystem)
-Event.Register("onShipDocked", onShipDocked)
+Event.Register("onPlayerDocked", onPlayerDocked)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)

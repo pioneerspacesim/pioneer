@@ -1,17 +1,18 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Comms		= require 'Comms'
 local Game		= require 'Game'
-local Equipment = require 'Equipment'
 local Lang		= require 'Lang'
 local ShipDef	= require 'ShipDef'
 local InfoView	= require 'pigui.views.info-view'
 local PiGuiFace = require 'pigui.libs.face'
 local Commodities = require 'Commodities'
+
 local StationView = require 'pigui.views.station-view'
 local Vector2 = _G.Vector2
 
+local PlayerState = require 'PlayerState'
 
 local ui = require 'pigui'
 local textTable = require 'pigui.libs.text-table'
@@ -21,7 +22,6 @@ local lcrew = Lang.GetResource("module-crewcontracts")
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local colors = ui.theme.colors
-local icons = ui.theme.icons
 
 local itemSpacing = ui.rescaleUI(Vector2(6, 12), Vector2(1600, 900))
 
@@ -94,6 +94,11 @@ local crewTasks = {
 	end,
 
 	DESTROY_ENEMY_SHIP = function ()
+		local crewMember = checkPilotLockout() and testCrewMember('piloting')
+		if not crewMember then
+			pilotLockout()
+			return (l.THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP)
+		end
 		if Game.player.flightState ~= 'FLYING'
 		then
 			return (({
@@ -107,18 +112,17 @@ local crewTasks = {
 		elseif not Game.player:GetCombatTarget() then
 			return (l.YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER)
 		else
-			local crewMember = checkPilotLockout() and testCrewMember('piloting')
-			if not crewMember then
-				pilotLockout()
-				return (l.THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP)
-			else
-				Game.player:AIKill(Game.player:GetCombatTarget())
-				return (l.PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME:interp({name = crewMember.name}))
-			end
+			Game.player:AIKill(Game.player:GetCombatTarget())
+			return (l.PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME:interp({name = crewMember.name}))
 		end
 	end,
 
 	DOCK_AT_CURRENT_TARGET = function ()
+		local crewMember = checkPilotLockout() and testCrewMember('piloting')
+		if not crewMember then
+			pilotLockout()
+			return (l.THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP)
+		end
 		local target = Game.player:GetNavTarget()
 		if Game.player.flightState ~= 'FLYING'
 		then
@@ -133,14 +137,8 @@ local crewTasks = {
 		elseif not (target and target:isa('SpaceStation')) then
 			return (l.YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER)
 		else
-			local crewMember = checkPilotLockout() and testCrewMember('piloting')
-			if not crewMember then
-				pilotLockout()
-				return (l.THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP)
-			else
-				Game.player:AIDockWith(target)
-				return (l.PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME:interp({name = crewMember.name}))
-			end
+			Game.player:AIDockWith(target)
+			return (l.PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME:interp({name = crewMember.name}))
 		end
 	end
 }
@@ -155,7 +153,7 @@ local dismissButton = function(crewMember)
 				crewMember.playerRelationship = crewMember.playerRelationship - 5 -- Hate!
 				if crewMember.contract.outstanding > 5e2 then
 					-- there are consequences for defaulting on a big enough payment!
-					Game.player:AddCrime("CONTRACT_FRAUD", crewMember.contract.outstanding * 1.1)
+					PlayerState.AddCrime("CONTRACT_FRAUD", crewMember.contract.outstanding * 1.1)
 				end
 			elseif crewMember:TestRoll('playerRelationship') then
 				Comms.Message(l.ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE,crewMember.name)

@@ -1,10 +1,10 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TaskGraph.h"
 
 #include "JobQueue.h"
-#include "SDL_timer.h"
+#include <SDL_timer.h>
 #include "core/StringName.h"
 #include "fmt/format.h"
 #include "profiler/Profiler.h"
@@ -28,9 +28,9 @@ public:
 	TaskGraphJobQueueImpl(TaskGraph *graph) :
 		m_graph(graph) {}
 
-	virtual Job::Handle Queue(Job *job, JobClient *client) override;
-	virtual void Cancel(Job *job) override;
-	virtual Uint32 FinishJobs() override;
+	Job::Handle Queue(Job *job, JobClient *client) override;
+	void Cancel(Job *job) override;
+	Uint32 FinishJobs() override;
 
 	TaskGraph *m_graph;
 };

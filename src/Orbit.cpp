@@ -1,9 +1,10 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Orbit.h"
+
+#include "MathUtil.h"
 #include "gameconsts.h"
-#include "libs.h"
 
 #ifdef _MSC_VER
 #include "win32/WinMath.h"
@@ -272,7 +273,7 @@ vector3d Orbit::Apogeum() const
 	if (m_eccentricity < 1) {
 		return m_semiMajorAxis * (1 + m_eccentricity) * (m_orient * vector3d(1, 0, 0));
 	} else {
-		return vector3d(0, 0, 0);
+		return vector3d::Zero;
 	}
 }
 

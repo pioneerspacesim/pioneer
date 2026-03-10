@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -23,12 +23,12 @@ struct BodyComponentDB::LuaInterface final : LuaInterfaceBase {
 	{}
 	Pool<T> *pool;
 
-	virtual void PushToLua(const Body *body) override
+	void PushToLua(const Body *body) override
 	{
 		LuaObject<T>::PushComponentToLua(pool->get(body));
 	}
 
-	virtual void DeregisterComponent(const Body *body) override
+	void DeregisterComponent(const Body *body) override
 	{
 		LuaObjectBase::DeregisterObject(pool->get(body));
 	}

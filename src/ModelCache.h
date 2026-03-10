@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _MODELCACHE_H
@@ -7,7 +7,8 @@
  * This class is a quick thoughtless hack
  * Also it only deals in New Models
  */
-#include "libs.h"
+
+#include <map>
 #include <stdexcept>
 
 namespace Graphics {

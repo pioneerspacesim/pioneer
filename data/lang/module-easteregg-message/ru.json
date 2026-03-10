@@ -1,6 +1,6 @@
 {
   "FLAVOUR_0_BODY": {
-    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC",
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC. It is formated as a list",
     "message": "Just ring 36 24 36, I'm always home. I deal in:\n- Concrete shoes,\n- Cyanide,\n- TNT,\n- Neck ties,\n- Contracts,\n- High voltage,\n\n...or just make a social call.\n\n(Отсылка к песне AC / DC)"
   },
   "FLAVOUR_0_DESC": {
@@ -22,5 +22,17 @@
   "FLAVOUR_1_TITLE": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",
     "message": "NEED SOMEONE TO TURN TO?\n(Отсылка к одной песне)"
+  },
+  "FLAVOUR_2_BODY": {
+    "description": "A very rare easter egg, referencing a online myth from 90s: https://en.wikipedia.org/wiki/John_Titor",
+    "message": "Я — Джон Титор из Института Путешествий во Времени, 4036 года. Я направляюсь в 1975-й, чтобы забрать компьютер IBM 5100 для отладки устаревших программ, которые некорректно перенесли на машины моего времени, но заглянул сюда, чтобы собрать информацию о вашей эпохе, прежде чем она будет утрачена при Великом бедствии.\n\nЯ намерен вернуться с описанием, состоящим из шести частей, о том, что необходимо для работы машины времени. Вкратце: моя машина времени — это стационарный массовый блок временного смещения, питаемый двумя двухположительными сингулярностями с обратным вращением, которые создают стандартную синусоиду Типлера со смещением. Блок смещается во времени, а не в пространстве.\n\nБуду рад выложить фотографии устройства по запросу."
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "Note: string has quotes",
+    "message": "'Если путешествия во времени реальны, где же все путешественники?'"
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "A very rare Easter egg, referencing Internet myth of John Titor.",
+    "message": "Люди прошлого, остерегайтесь ВЕЛИКОГО БЕДСТВИЯ!"
   }
 }

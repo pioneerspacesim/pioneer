@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SHIPTYPE_H
@@ -29,15 +29,20 @@ struct ShipType {
 	////////
 	Tag tag;
 	Id id;
+
 	std::string name;
+	std::string i18n_key;
 	std::string shipClass;
 	std::string manufacturer;
+
+	// Model information
 	std::string modelName;
 	std::string cockpitName;
+	std::string shieldName;
+
 	float linThrust[THRUSTER_MAX];
 	float angThrust;
 	float linAccelerationCap[THRUSTER_MAX];
-	std::map<std::string, int> slots;
 	std::map<std::string, bool> roles;
 	Color globalThrusterColor; // Override default color for thrusters
 	bool isGlobalColorDefined; // If globalThrusterColor is filled with... a color :)
@@ -45,7 +50,8 @@ struct ShipType {
 	bool isDirectionColorDefined[THRUSTER_MAX];
 	double thrusterUpgrades[4];
 	double atmosphericPressureLimit;
-	int capacity; // tonnes
+	float capacity; // m3
+	int cargo; // cargo units ~ m3
 	int hullMass;
 	float effectiveExhaustVelocity; // velocity at which the propellant escapes the engines
 	int fuelTankMass; //full fuel tank mass, on top of hullMass
@@ -67,16 +73,14 @@ struct ShipType {
 
 	int hyperdriveClass;
 	int minCrew, maxCrew; // XXX really only for Lua, but needs to be declared in the ship def
+
+	std::string definitionPath;
 	///////
 
 	// percentage (ie, 0--100) of tank used per second at full thrust
 	float GetFuelUseRate() const;
 
 	static const std::string POLICE;
-	static const std::string MISSILE_GUIDED;
-	static const std::string MISSILE_NAVAL;
-	static const std::string MISSILE_SMART;
-	static const std::string MISSILE_UNGUIDED;
 
 	static std::map<Id, const ShipType> types;
 	static std::vector<Id> player_ships;

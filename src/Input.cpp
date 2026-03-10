@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Input.h"
@@ -6,17 +6,22 @@
 #include "GameConfig.h"
 #include "InputBindings.h"
 #include "Pi.h"
-#include "SDL.h"
-#include "SDL_events.h"
-#include "SDL_joystick.h"
-#include "SDL_mouse.h"
+#include "utils.h"
 
+#include <SDL.h>
+#include <SDL_events.h>
+#include <SDL_joystick.h>
+#include <SDL_mouse.h>
+
+#include <algorithm>
 #include <array>
 #include <regex>
 #include <sstream>
 #include <type_traits>
 
 using namespace Input;
+
+static const char *s_InputIniSection = "Input";
 
 namespace Input {
 	std::vector<sigc::slot<void, Input::Manager *>> *m_registrations;
@@ -132,8 +137,8 @@ static JoystickInfo loadJoystick(SDL_Joystick *joystick, const IniConfig *config
 
 	std::array<char, 33> joystickGUIDName;
 	SDL_JoystickGetGUIDString(state.guid, joystickGUIDName.data(), joystickGUIDName.size());
-	Output("Found joystick '%s' (GUID: %s)\n", SDL_JoystickName(state.joystick), joystickGUIDName.data());
-	Output("  - %ld axes, %ld buttons, %ld hats\n", state.axes.size(), state.buttons.size(), state.hats.size());
+	Log::Info("Found joystick '{}' (GUID: {})\n", SDL_JoystickName(state.joystick), joystickGUIDName.data());
+	Log::Info("  - {} axes, {} buttons, {} hats\n", state.axes.size(), state.buttons.size(), state.hats.size());
 
 	std::string joystickName = "Joystick." + std::string(joystickGUIDName.data());
 
@@ -145,7 +150,7 @@ static JoystickInfo loadJoystick(SDL_Joystick *joystick, const IniConfig *config
 		}
 
 		loadAxisConfig(config->String(joystickName, axisName, ""), state.axes[i]);
-		Output("  - axis %ld: deadzone %.2f, curve: %.2f, half-axis mode: %b\n",
+		Log::Info("  - axis {}: deadzone {:.2f}, curve: {:.2f}, half-axis mode: {}\n",
 			i, state.axes[i].deadzone, state.axes[i].curve, state.axes[i].zeroToOne);
 	}
 	return state;
@@ -248,7 +253,8 @@ Manager::Manager(IniConfig *config, SDL_Window *window) :
 	m_capturingMouse(false),
 	joystickEnabled(true),
 	mouseYInvert(false),
-	m_enableBindings(true)
+	m_enableBindings(true),
+	m_frameListChanged(false)
 {
 	joystickEnabled = (m_config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (m_config->Int("InvertMouseY")) ? true : false;
@@ -281,7 +287,7 @@ void Manager::InitGame()
 
 */
 
-InputBindings::Action *InputFrame::AddAction(std::string id)
+InputBindings::Action *InputFrame::AddAction(const std::string &id)
 {
 	auto *action = manager->GetActionBinding(id);
 	if (!action)
@@ -291,12 +297,26 @@ InputBindings::Action *InputFrame::AddAction(std::string id)
 	return action;
 }
 
-InputBindings::Axis *InputFrame::AddAxis(std::string id)
+InputBindings::Axis *InputFrame::AddAxis(const std::string &id)
 {
 	auto *axis = manager->GetAxisBinding(id);
 	if (!axis)
 		throw std::runtime_error("Adding unknown axis binding to an InputFrame, id: " + id);
 
+	axes.push_back(axis);
+	return axis;
+}
+
+InputBindings::Action *InputFrame::AddAction(Action *action)
+{
+	assert(action && "Cannot register a null InputAction");
+	actions.push_back(action);
+	return action;
+}
+
+InputBindings::Axis *InputFrame::AddAxis(Axis *axis)
+{
+	assert(axis && "Cannot register a null InputAxis");
 	axes.push_back(axis);
 	return axis;
 }
@@ -310,7 +330,6 @@ bool Manager::AddInputFrame(InputFrame *frame)
 
 	m_inputFrames.push_back(frame);
 	frame->active = true;
-	frame->onFrameAdded.emit(frame);
 	m_frameListChanged = true;
 
 	return true;
@@ -346,6 +365,11 @@ void ClearInputFrameState(InputFrame *frame)
 	}
 }
 
+bool Manager::HasInputFrame(InputFrame *frame)
+{
+	return std::count(m_inputFrames.begin(), m_inputFrames.end(), frame) > 0;
+}
+
 void Manager::RemoveInputFrame(InputFrame *frame)
 {
 	auto it = std::find(m_inputFrames.begin(), m_inputFrames.end(), frame);
@@ -354,12 +378,11 @@ void Manager::RemoveInputFrame(InputFrame *frame)
 
 		ClearInputFrameState(frame);
 		frame->active = false;
-		frame->onFrameRemoved.emit(frame);
 		m_frameListChanged = true;
 	}
 }
 
-InputBindings::Action *Manager::AddActionBinding(std::string id, BindingGroup *group, InputBindings::Action &&binding)
+InputBindings::Action *Manager::AddActionBinding(const std::string &id, BindingGroup *group, InputBindings::Action &&binding)
 {
 	// throw an error if we attempt to bind an action onto an already-bound axis in the same group.
 	if (group->bindings.count(id) && group->bindings[id] != BindingGroup::ENTRY_ACTION)
@@ -368,7 +391,7 @@ InputBindings::Action *Manager::AddActionBinding(std::string id, BindingGroup *g
 	group->bindings[id] = BindingGroup::ENTRY_ACTION;
 
 	// Load from the config
-	std::string config_str = m_config->String(id.c_str());
+	std::string config_str = m_config->String(s_InputIniSection, id.c_str(), "");
 	if (!config_str.empty()) {
 		std::string_view str(config_str);
 		str >> binding;
@@ -377,7 +400,7 @@ InputBindings::Action *Manager::AddActionBinding(std::string id, BindingGroup *g
 	return &(actionBindings[id] = binding);
 }
 
-InputBindings::Axis *Manager::AddAxisBinding(std::string id, BindingGroup *group, InputBindings::Axis &&binding)
+InputBindings::Axis *Manager::AddAxisBinding(const std::string &id, BindingGroup *group, InputBindings::Axis &&binding)
 {
 	// throw an error if we attempt to bind an axis onto an already-bound action in the same group.
 	if (group->bindings.count(id) && group->bindings[id] != BindingGroup::ENTRY_AXIS)
@@ -386,7 +409,7 @@ InputBindings::Axis *Manager::AddAxisBinding(std::string id, BindingGroup *group
 	group->bindings[id] = BindingGroup::ENTRY_AXIS;
 
 	// Load from the config
-	std::string config_str = m_config->String(id.c_str());
+	std::string config_str = m_config->String(s_InputIniSection, id.c_str(), "");
 	if (!config_str.empty()) {
 		std::string_view str(config_str);
 		str >> binding;
@@ -395,14 +418,46 @@ InputBindings::Axis *Manager::AddAxisBinding(std::string id, BindingGroup *group
 	return &(axisBindings[id] = binding);
 }
 
-InputBindings::Action *Manager::GetActionBinding(std::string id)
+InputBindings::Action *Manager::GetActionBinding(const std::string &id)
 {
 	return actionBindings.count(id) ? &actionBindings[id] : &Input::nullAction;
 }
 
-InputBindings::Axis *Manager::GetAxisBinding(std::string id)
+InputBindings::Axis *Manager::GetAxisBinding(const std::string &id)
 {
 	return axisBindings.count(id) ? &axisBindings[id] : &Input::nullAxis;
+}
+
+bool Manager::HasActionBinding(const std::string &id) const
+{
+	return actionBindings.count(id) > 0;
+}
+
+bool Manager::HasAxisBinding(const std::string &id) const
+{
+	return axisBindings.count(id) > 0;
+}
+
+void Manager::SaveActionBinding(InputBindings::Action *action, const std::string &id)
+{
+	std::ostringstream buffer;
+	buffer << *action;
+
+	m_config->SetString(s_InputIniSection, id, buffer.str());
+
+	if (m_config->HasUnsavedChanges())
+		m_config->Save();
+}
+
+void Manager::SaveAxisBinding(InputBindings::Axis *axis, const std::string &id)
+{
+	std::ostringstream buffer;
+	buffer << *axis;
+
+	m_config->SetString(s_InputIniSection, id, buffer.str());
+
+	if (m_config->HasUnsavedChanges())
+		m_config->Save();
 }
 
 /*
@@ -485,19 +540,13 @@ float Manager::JoystickAxisState(int joystick, int axis)
 void Manager::SetJoystickEnabled(bool state)
 {
 	joystickEnabled = state;
-	if (m_enableConfigSaving) {
-		m_config->SetInt("EnableJoystick", joystickEnabled);
-		m_config->Save();
-	}
+	m_config->SetInt("EnableJoystick", joystickEnabled);
 }
 
 void Manager::SetMouseYInvert(bool state)
 {
 	mouseYInvert = state;
-	if (m_enableConfigSaving) {
-		m_config->SetInt("InvertMouseY", mouseYInvert);
-		m_config->Save();
-	}
+	m_config->SetInt("InvertMouseY", mouseYInvert);
 }
 
 void Manager::GetMousePosition(int position[2])
@@ -655,8 +704,10 @@ void Manager::HandleSDLEvent(SDL_Event &event)
 		}
 		break;
 	case SDL_MOUSEWHEEL:
-		mouseWheel = event.wheel.y;
-		onMouseWheel.emit(event.wheel.y > 0); // true = up
+		if (event.wheel.y != 0) {
+			mouseWheel = event.wheel.y;
+			onMouseWheel.emit(event.wheel.y > 0); // true = up
+		}
 		break;
 	case SDL_MOUSEMOTION:
 		mouseMotion[0] += event.motion.xrel;
@@ -842,4 +893,12 @@ void Manager::ClearMouse()
 {
 	mouseButton.fill(0);
 	mouseMotion.fill(0);
+}
+
+float Manager::GetMoveSpeedShiftModifier()
+{
+	// Suggestion: make x1000 speed on pressing both keys?
+	if (KeyState(SDLK_LSHIFT)) return 100.f;
+	if (KeyState(SDLK_RSHIFT)) return 10.f;
+	return 1;
 }

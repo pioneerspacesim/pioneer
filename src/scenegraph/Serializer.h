@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SERIALIZE_H
@@ -9,6 +9,7 @@
 #include "Color.h"
 #include "Quaternion.h"
 #include "vector3.h"
+#include <cstring>
 #include <stdexcept>
 #include <string>
 
@@ -77,6 +78,7 @@ namespace Serializer {
 			return *this;
 		}
 
+		void Raw(const uint8_t *data, size_t size) { m_str.append(reinterpret_cast<const char *>(data), size); }
 		void Blob(ByteRange range)
 		{
 			assert(range.Size() < SDL_MAX_UINT32);
@@ -95,10 +97,10 @@ namespace Serializer {
 		void String(const char *s) { *this << s; }
 		void String(const std::string &s) { *this << s; }
 
-		void Vector2f(vector2f vec) { *this << vec; }
-		void Vector2d(vector2d vec) { *this << vec; }
-		void Vector3f(vector3f vec) { *this << vec; }
-		void Vector3d(vector3d vec) { *this << vec; }
+		void Vector2f(const vector2f &vec) { *this << vec; }
+		void Vector2d(const vector2d &vec) { *this << vec; }
+		void Vector3f(const vector3f &vec) { *this << vec; }
+		void Vector3d(const vector3d &vec) { *this << vec; }
 		void WrQuaternionf(const Quaternionf &q) { *this << q; }
 		void Color4UB(const Color &c) { *this << c; }
 		void WrSection(const std::string &section_label, const std::string &section_data) { *this << section_label << section_data; }
@@ -119,12 +121,15 @@ namespace Serializer {
 	public:
 		Reader() :
 			m_at(nullptr),
-			m_streamVersion(-1) {}
+			m_streamVersion(-1)
+		{
+		}
 
 		explicit Reader(const ByteRange &data) :
 			m_data(data),
 			m_at(data.begin)
-		{}
+		{
+		}
 
 		bool AtEnd() { return m_at != m_data.end; }
 
@@ -144,12 +149,12 @@ namespace Serializer {
 		template <typename T>
 		void readObject(T &out)
 		{
-#ifdef DEBUG
+#ifndef NDEBUG
 			if (!Check(sizeof(T)))
 				throw std::out_of_range("Serializer::Reader encountered truncated stream.");
 #endif
 
-			out = *reinterpret_cast<const T *>(m_at);
+			std::memcpy(&out, m_at, sizeof(T)); // use memcpy to handle unaligned reads
 			m_at += sizeof(T);
 		}
 
@@ -175,6 +180,13 @@ namespace Serializer {
 		{
 			readObject(out);
 			return *this;
+		}
+
+		const uint8_t *Raw(size_t size)
+		{
+			auto *out = reinterpret_cast<const uint8_t *>(m_at);
+			m_at += size;
+			return out;
 		}
 
 		ByteRange Blob()

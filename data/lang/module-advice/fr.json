@@ -7,6 +7,38 @@
     "description": "",
     "message": "Sachez quand vous retirer"
   },
+  "ADVICE_11_BODYTEXT": {
+    "description": "",
+    "message": "Prenez soin de vérifier la gravité de surface d'une planète avant même de songer à y atterrir."
+  },
+  "ADVICE_11_HEADLINE": {
+    "description": "A reference to the song 'The Harder They Come', by Jimmy Cliff",
+    "message": "Plus forte sera la gravité, plus dure sera la chute"
+  },
+  "ADVICE_12_BODYTEXT": {
+    "description": "",
+    "message": "Quand vous vous retrouvez aux limites d'un système et avez besoin de revenir vers les planètes intérieures, un détour vers un système voisins proche peut s'avérer être le chemin le plus rapide."
+  },
+  "ADVICE_12_HEADLINE": {
+    "description": "",
+    "message": "Le détour Billie Bounce"
+  },
+  "ADVICE_13_BODYTEXT": {
+    "description": "",
+    "message": "Une plus faible masse signifie une plus faible consommation de fuel et un vaisseau plus rapide. Le carburant a une masse. Pour certaines routes, se déplacer avec moins de carburant dans le réservoir peut sauver du temps et de l'argent."
+  },
+  "ADVICE_13_HEADLINE": {
+    "description": "",
+    "message": "Se déplacer sur la réserve"
+  },
+  "ADVICE_14_BODYTEXT": {
+    "description": "",
+    "message": "Enchaîner plusieurs sauts, en les programmant avant le départ vous épargnera un mal de tête et peut-être votre vie, selon a quel point vous serez bienvenu le long de votre chemin."
+  },
+  "ADVICE_14_HEADLINE": {
+    "description": "",
+    "message": "Se frayer un chemin"
+  },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
     "message": "Lorsque vous revenez sur une station, faites attention à ces marchés alternatifs que vous ne reconnaissez pas et vous n'aurez pas d'ennuis avec la loi."
@@ -17,7 +49,7 @@
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
-    "message": "Plusieurs petites distances sont traversées plus rapidement que leur somme totale."
+    "message": "Le déplacement sur plusieurs petites distances est plus rapide, mais utilise plus de carburant"
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
@@ -33,7 +65,7 @@
   },
   "ADVICE_4_BODYTEXT": {
     "description": "",
-    "message": "Choisissez votre cadre de référence. Spécialement quand vous souhaitez adapter votre vitesse et direction à celle d'une cible mouvante."
+    "message": "Choisissez votre cadre de référence. Spécialement quand vous souhaitez adapter votre vitesse et votre direction à celle d'une cible mouvante."
   },
   "ADVICE_4_HEADLINE": {
     "description": "",
@@ -49,7 +81,7 @@
   },
   "ADVICE_6_BODYTEXT": {
     "description": "",
-    "message": "Faites attention à chaque nouvelle que vous recevez: l'actualité peut affecter les prix des marchés."
+    "message": "Faites attention à chaque nouvelle que vous recevez : l'actualité peut affecter les prix des marchés."
   },
   "ADVICE_6_HEADLINE": {
     "description": "",
@@ -73,7 +105,7 @@
   },
   "ADVICE_9_BODYTEXT": {
     "description": "",
-    "message": "Maintenez régulièrement votre moteur, mais souvenez-vous: la qualité dépendra du prix que vous y aurez mis."
+    "message": "Maintenez régulièrement votre moteur, mais souvenez-vous : la qualité dépendra du prix que vous y aurez mis."
   },
   "ADVICE_9_HEADLINE": {
     "description": "",
@@ -85,7 +117,7 @@
   },
   "RUMOUR_1_BODYTEXT": {
     "description": "",
-    "message": "Quelqu'un dans la marine fédérale m'a raconté qu'un jour une de leurs corvettes a sauté par accident vers un système éloigné de Haber, distant d'environ de 50 ly de Sol, appelé Rondel; causant ainsi quasiment un conflit ouvert. Peu de gens semble connaitre l'incident en dehors de la marine, mais quelques-uns disent que l'administration de Rondel a été depuis lors plus agressive envers les visiteurs et les pilotes de marchandises ont commencé à éviter le système."
+    "message": "Quelqu'un dans la marine fédérale m'a raconté qu'un jour, une de leurs corvettes a sauté par accident vers un système éloigné de Haber, distant d'environ de 50 ly de Sol, appelé Rondel ; causant ainsi quasiment un conflit ouvert. Peu de gens semble connaître l'incident en dehors de la marine, mais quelques-uns disent que l'administration de Rondel a été depuis lors plus agressive envers les visiteurs et les pilotes de marchandises ont commencé à éviter le système."
   },
   "RUMOUR_1_HEADLINE": {
     "description": "",
@@ -97,7 +129,7 @@
   },
   "TALE_1_HEADLINE": {
     "description": "Blade runner?",
-    "message": "\"J'ai vu des choses que vous autre ne croirez jamais\""
+    "message": "\"J'ai vu des choses que vous autres ne croirez jamais\""
   },
   "TRAVELLERS_ADVICE": {
     "description": "Headline starts with this pre-headline",

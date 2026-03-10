@@ -1,15 +1,17 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef INPUT_H
 #define INPUT_H
 
 #include "InputBindings.h"
-#include "SDL_joystick.h"
-#include "utils.h"
 
+#include <SDL_joystick.h>
 #include <algorithm>
 #include <array>
+#include <vector>
+#include <map>
+#include <string>
 
 class IniConfig;
 
@@ -38,7 +40,7 @@ namespace Input {
 	};
 
 	struct BindingPage {
-		BindingGroup *GetBindingGroup(std::string id) { return &groups[id]; }
+		BindingGroup *GetBindingGroup(const std::string &id) { return &groups[id]; }
 
 		std::map<std::string, BindingGroup> groups;
 	};
@@ -47,9 +49,10 @@ namespace Input {
 		using Axis = InputBindings::Axis;
 		using Action = InputBindings::Action;
 
-		InputFrame(Input::Manager *man, bool modal = false) :
+		InputFrame(Input::Manager *man, bool modal = false, std::string_view id = "") :
 			manager(man),
-			modal(modal)
+			modal(modal),
+			id(id)
 		{}
 
 		std::vector<Action *> actions;
@@ -59,18 +62,16 @@ namespace Input {
 		Manager *manager = nullptr;
 		bool active = false;
 		bool modal = false;
+		std::string id;
 
 		// Call this at startup to register all the bindings associated with the frame.
 		virtual void RegisterBindings(){};
 
-		// Called when the frame is added to the stack.
-		sigc::signal<void, InputFrame *> onFrameAdded;
+		Action *AddAction(const std::string &id);
+		Axis *AddAxis(const std::string &id);
 
-		// Called when the frame is removed from the stack.
-		sigc::signal<void, InputFrame *> onFrameRemoved;
-
-		Action *AddAction(std::string id);
-		Axis *AddAxis(std::string id);
+		Action *AddAction(Action *action);
+		Axis *AddAxis(Axis *axis);
 	};
 
 	struct JoystickInfo {
@@ -133,11 +134,8 @@ public:
 	// Call immediately after processing events, dispatches events to Action / Axis bindings.
 	void DispatchEvents();
 
-	// When enable is false, this prevents the input system from writing to the config file.
-	void EnableConfigSaving(bool enable) { m_enableConfigSaving = enable; }
-
-	BindingPage *GetBindingPage(std::string id) { return &bindingPages[id]; }
-	std::map<std::string, BindingPage> GetBindingPages() { return bindingPages; }
+	BindingPage *GetBindingPage(const std::string &id) { return &bindingPages[id]; }
+	const std::map<std::string, BindingPage>& GetBindingPages() const { return bindingPages; }
 
 	// Pushes an InputFrame onto the input stack.
 	bool AddInputFrame(InputFrame *frame);
@@ -146,10 +144,7 @@ public:
 	const std::vector<InputFrame *> &GetInputFrames() { return m_inputFrames; }
 
 	// Check if a specific input frame is currently on the stack.
-	bool HasInputFrame(InputFrame *frame)
-	{
-		return std::count(m_inputFrames.begin(), m_inputFrames.end(), frame) > 0;
-	}
+	bool HasInputFrame(InputFrame *frame);
 
 	// Remove an arbitrary input frame from the input stack.
 	void RemoveInputFrame(InputFrame *frame);
@@ -159,17 +154,23 @@ public:
 
 	// Creates a new action binding, copying the provided binding.
 	// The returned binding pointer points to the actual binding.
-	InputBindings::Action *AddActionBinding(std::string id, BindingGroup *group, InputBindings::Action &&binding);
-	InputBindings::Action *GetActionBinding(std::string id);
+	InputBindings::Action *AddActionBinding(const std::string &id, BindingGroup *group, InputBindings::Action &&binding);
+	InputBindings::Action *GetActionBinding(const std::string &id);
+	bool HasActionBinding(const std::string &id) const;
 
 	// Creates a new axis binding, copying the provided binding.
 	// The returned binding pointer points to the actual binding.
-	InputBindings::Axis *AddAxisBinding(std::string id, BindingGroup *group, InputBindings::Axis &&binding);
-	InputBindings::Axis *GetAxisBinding(std::string id);
+	InputBindings::Axis *AddAxisBinding(const std::string &id, BindingGroup *group, InputBindings::Axis &&binding);
+	InputBindings::Axis *GetAxisBinding(const std::string &id);
+	bool HasAxisBinding(const std::string &id) const;
 
 	// Call EnableBindings() to temporarily disable handling input bindings while
 	// you're recording a new input binding or are in a modal window.
 	void EnableBindings(bool enabled) { m_enableBindings = enabled; }
+
+	// Save the given action or axis bindings back to the config
+	void SaveActionBinding(InputBindings::Action *action, const std::string &id);
+	void SaveAxisBinding(InputBindings::Axis *axis, const std::string &id);
 
 	bool KeyState(SDL_Keycode k) { return IsKeyDown(k); }
 
@@ -220,6 +221,10 @@ public:
 	void SetCapturingMouse(bool enabled);
 	void ClearMouse();
 
+	// Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
+	// This is a default value only, centralized here to promote uniform user expericience.
+	float GetMoveSpeedShiftModifier();
+
 	sigc::signal<void, SDL_Keysym *> onKeyPress;
 	sigc::signal<void, SDL_Keysym *> onKeyRelease;
 	sigc::signal<void, int, int, int> onMouseButtonUp;
@@ -234,7 +239,6 @@ private:
 
 	SDL_Window *m_window;
 	IniConfig *m_config;
-	bool m_enableConfigSaving;
 
 	std::map<SDL_Keycode, uint8_t> keyState;
 	int keyModState;

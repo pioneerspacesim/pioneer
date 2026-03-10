@@ -53,7 +53,7 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "C'est maintenant l'homme contre la machine dans le système {systeme} ({sectorx}, {sectory}, {sectorz}), depuis que des \"malfonctions comportementales\" ont causé la perte de la confiance des consommateurs domestiques envers leur serviteur robotique."
+    "message": "C'est maintenant l'homme contre la machine dans le système {system} ({sectorx}, {sectory}, {sectorz}), depuis que des \"malfonctions comportementales\" ont causé la perte de la confiance des consommateurs domestiques envers leur serviteur robotique."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "La coupure de courant couvrant tout le système {system} ({sectorx}, {sectory}, {sectorz}) a causé des dommages majeurs. Afin de palier à leur frigo inopérant, les consommateurs forment des queues afin d'acheter les dernier stocks de récipient en plastique de type Trapperware, les producteur du secteur ayant épuisé leurs stocks de matières premières."
+    "message": "La panne de courant sur l'ensemble du système {system} ({sectorx}, {sectory}, {sectorz}) a causé des dégâts considérables. Les producteurs ayant épuisé leur stock de matières premières, les consommateurs font la queue pour acheter le dernier Trapperware dans le but de remplacer leur réfrigérateur."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "Les travailleurs du système {system} ({sectorx}, {sectory}, {sectorz}) se sont rebellés et ont retirés leurs chaines d'exploités en refusant de continuer à travailler les champs de Lotus. L'économie s'est arrêtée puisque aucun travailleur à bas coût ne peut plus être trouvé."
+    "message": "Les travailleurs du système {system} ({sectorx}, {sectory}, {sectorz}) se sont rebellés et ont retiré leurs chaînes d'exploités en refusant de continuer à travailler les champs de Lotus. L'économie s'est arrêtée puisque aucun travailleur à bas coût ne peut plus être trouvé."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
@@ -217,7 +217,7 @@
   },
   "GRATEFUL_GREETING_2": {
     "description": "",
-    "message": "Bien le bonjour et bienvenue! Vous ne devriez pas avoir de mal à écouler votre cargaison de [cargo] sur notre système."
+    "message": "Bien le bonjour et bienvenue! Vous ne devriez pas avoir de mal à écouler votre cargaison de {cargo} sur notre système."
   },
   "GRATEFUL_GREETING_3": {
     "description": "",

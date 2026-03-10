@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = require 'Lang'
@@ -67,9 +67,10 @@ function CommodityType:Constructor(name, data)
 	for k, v in pairs(data) do self[k] = v end
 
 	local l = Lang.GetResource(self.l10n_resource)
-	---@type { name: string, description: string }
+	---@type { name: string, proper_name: string, description: string }
 	self.lang = {
 		name = l[self.l10n_key],
+		proper_name = string.scase(l[self.l10n_key]),
 		description = l:get(self.l10n_key .. "_DESCRIPTION") or ""
 	}
 end
@@ -79,6 +80,16 @@ end
 -- Returns the translated name of this commodity
 function CommodityType:GetName()
 	return self.lang.name
+end
+
+-- Method: GetProperName()
+--
+-- Returns the translated name of this commodity, capitalized for use as a
+-- label or proper name according to the rules of English capitalization.
+-- TODO: this function does not work properly on Cyrillic or other non-Latin
+-- scripts.
+function CommodityType:GetProperName()
+	return self.lang.proper_name
 end
 
 -- Method: GetDescription()
@@ -100,8 +111,12 @@ CommodityType.registry = {}
 function CommodityType.RegisterCommodity(name, info)
 	assert(not CommodityType.registry[name])
 
-	CommodityType.registry[name] = CommodityType.New(name, info)
-	return CommodityType.registry[name]
+	local commodity = CommodityType.New(name, info)
+
+	CommodityType.registry[name] = commodity
+	Serializer:RegisterPersistent("CommodityType." .. name, commodity)
+
+	return commodity
 end
 
 -- Function: GetCommodity
@@ -122,14 +137,14 @@ end
 -- Ensure loaded commodity types always point at the 'canonical' instance of the commodity;
 -- commodity types not defined by the current version of the code will be loaded verbatim
 function CommodityType.Unserialize(data)
-	local ct = CommodityType.GetCommodity(data.name)
+	setmetatable(data, CommodityType.meta)
 
-	if not ct then
+	if not CommodityType.registry[data.name] then
 		logWarning('Commodity type ' .. data.name .. ' could not be found, are you loading an outdated save?')
-		ct = CommodityType.RegisterCommodity(data.name, data)
+		CommodityType.registry[data.name] = data
 	end
 
-	return ct
+	return data
 end
 
 Serializer:RegisterClass('CommodityType', CommodityType)

@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 //this file includes common headers
@@ -12,4 +12,5 @@
 #include "ModelNode.h"
 #include "StaticGeometry.h"
 #include "Thruster.h"
+#include "Tag.h"
 #endif

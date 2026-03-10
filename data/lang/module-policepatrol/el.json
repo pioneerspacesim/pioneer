@@ -1,4 +1,68 @@
 {
+  "FINES_ADMONISHING_1": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Παρακαλώ επισκεφθείτε το πλησιέστερο αστυνομικό σταθμό {policeforce} και πληρώστε τα πρόστιμά σας."
+  },
+  "FINES_ADMONISHING_2": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Επισκεφθείτε ένα αστυνομικό όργανο {policeforce} και επιλύστε το ζήτημα."
+  },
+  "FINES_ADMONISHING_3": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Θα πρέπει να επιλύσετε το ζήτημα, διαφορετικά θα γίνουν χειρότερα τα πράγματα."
+  },
+  "FINES_ADMONISHING_4": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_$(this)",
+    "message": "Σε κάθε κεντρικό κοσμοδρόμιο υπάρχει αστυνομικό τμήμα {policeforce}. Παρακαλώ πληρώστε τα πρόστιμά σας!"
+  },
+  "FINES_ADMONISHING_HARSH_1": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Αν δεν τακτοποιήσετε το ζήτημα αυτό, θα υπάρξουν συνέπειες."
+  },
+  "FINES_ADMONISHING_HARSH_2": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Η μη πληρωμή των επιβληθεισών προστίμων θα έχει νομικές συνέπειες."
+  },
+  "FINES_ADMONISHING_HARSH_3": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Αυτό είναι σοβαρό ζήτημα και θα πρέπει να το τακτοποιήσετε το συντομότερο."
+  },
+  "FINES_ADMONISHING_HARSH_4": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$ + FINES_ADMONISHING_HARSH_$(this)",
+    "message": "Αν δεν πληρώσετε τα πρόστιμά σας θα θεωρηθείτε ως παράνομος. Κάντε το σήμερα!"
+  },
+  "FINES_INTRO_1": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Περίμενε, δεν τελειώσαμε."
+  },
+  "FINES_INTRO_2": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Και κάτι ακόμα σκάφος {ship_label}"
+  },
+  "FINES_INTRO_3": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Περιμένετε!"
+  },
+  "FINES_INTRO_4": {
+    "description": "FINES_INTRO_$(this) + FINES_MESSAGE_$ + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "{ship_label}"
+  },
+  "FINES_MESSAGE_1": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Έχετε υπερβολικά πρόστιμα που εκκρεμούν εις βάρος σας."
+  },
+  "FINES_MESSAGE_2": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Έχετε επισημανθεί ως υπόχρεος καταβολής υπερβολικών προστίμων."
+  },
+  "FINES_MESSAGE_3": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Βλέπουμε ότι έχετε εκκρεμή πρόστιμα."
+  },
+  "FINES_MESSAGE_4": {
+    "description": "FINES_INTRO_$ + FINES_MESSAGE_$(this) + FINES_ADMONISHING_$/FINES_ADMONISHING_HARSH_$",
+    "message": "Έχετε εκκρεμή πρόστιμα συνολικά {fine}$."
+  },
   "ILLEGAL_GOODS_DETECTED": {
     "description": "",
     "message": "Εντοπίστηκαν παράνομα εμπορεύματα."
@@ -37,7 +101,7 @@
   },
   "POLICE_TAUNT_2": {
     "description": "",
-    "message": "Λαθρέμπορε, θα πληρώσεις το υπέρτατο τίμημα!"
+    "message": "Smuggler, you will pay the ultimate price!"
   },
   "POLICE_TAUNT_3": {
     "description": "",
@@ -50,6 +114,22 @@
   "RESPECT_THE_LAW_2": {
     "description": "",
     "message": "Έχετε εισέλθει στο σύστημα {system}. Σεβαστείτε το νόμο!"
+  },
+  "RESTRICTIONS_ESTABLISHED_1": {
+    "description": "",
+    "message": "Η απειλή εξουδετερώθηκε.  Προς {ship_label}, ισχύουν και πάλι οι περιρισμοί στη χρήση όπλων."
+  },
+  "RESTRICTIONS_ESTABLISHED_2": {
+    "description": "",
+    "message": "Προς {ship_label}: Παύσατε πυρ! Παύσατε πυρ!"
+  },
+  "RESTRICTIONS_WITHDRAWN_1": {
+    "description": "",
+    "message": "Προς {ship_label}: Έχετε άδεια να ανοίξετε πυρ."
+  },
+  "RESTRICTIONS_WITHDRAWN_2": {
+    "description": "",
+    "message": "{ship_label}, σας επιτρέπεται να ανοίξετε πυρ κατά βούληση!"
   },
   "TAKE_A_HIKE": {
     "description": "",

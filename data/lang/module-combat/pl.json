@@ -131,6 +131,10 @@
     "description": "Distance in space, between two locations",
     "message": "Dystans:"
   },
+  "DO_I_NEED_SPECIAL_EQUIPMENT": {
+    "description": "",
+    "message": "Czy potrzebuję specjalnego sprzętu?"
+  },
   "FAILUREMSG_1": {
     "description": "",
     "message": "Wstydź się. Zejdź mi z oczu."
@@ -185,7 +189,7 @@
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "Mamy sprzedawcę w każdym pobliskim systemie. Skontaktuje się on z tobą po wylądowaniu."
+    "message": "Posiadamy przedstawicieli handlowych w każdym pobliskim układzie gwiezdnym. Wyląduj na stacji zanim skończy Ci się czas, a nasi pracownicy skontaktują sie z Tobą w sprawie płatności."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -201,7 +205,7 @@
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "Spotkajmy się w {randezvous} systemie aby zakończyć zlecenie!"
+    "message": "Spotkajmy sie w {rendezvous} systemie zanim minie umówiona data!"
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
@@ -221,11 +225,11 @@
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "Odwiedź stację na terytorium chronionym przez {org}!"
+    "message": "Odwiedź stację na terytorium chronionym przez {org}. Zadanie wymaga żeby zakończyć te misję w określonym czasie."
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "{org} prowadzi spór z konkurencyjną firmą o obszar {area} w systemie {system} ({sectorx}, {sectory}, {sectorz}). Aby przeforsować nasze roszczenia, potrzebujemy niezawodnego i doświadczonego najemnika. Oferujemy {cash} na wydatki. Odległość do {systemu} to {dist} lś."
+    "message": "{org} prowadzi spór z konkurencyjną firmą o obszar {area} w systemie {system} ({sectorx}, {sectory}, {sectorz}). Aby przeforsować nasze roszczenia, potrzebujemy niezawodnego i doświadczonego najemnika. Oferujemy {cash} na wydatki. Odległość do {system} to {dist} lś."
   },
   "MINING_2": {
     "description": "{area} is an asteroid or planet",
@@ -237,11 +241,11 @@
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Konwój jest w drodze do {area}. Koniecznie należy ukończyć misję przed {date|}."
+    "message": "Konwój jest w drodze do {area}. Koniecznie należy ukończyć misję przed {date}."
   },
   "MINING_LAND_THERE": {
     "description": "",
-    "message": "Mamy pracowników w każdym systemie gwiezdnym. Wystarczy że odwiedzisz najbliższą stację i skontaktujesz się tam z lokalnym biurem."
+    "message": "Posiadamy pracowników w każdym pobliskim systemie. Odwiedź najbliższą stacje przed umówioną data i skontaktuj sie z miejscowym biurem."
   },
   "MISSION": {
     "description": "",
@@ -265,6 +269,18 @@
   },
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
+    "message": "Oczyszczenie Obszaru"
+  },
+  "MISSION_TYPE_CONVO_1": {
+    "description": "Name of mission type, used in conversation",
+    "message": "Zwiad"
+  },
+  "MISSION_TYPE_CONVO_2": {
+    "description": "Name of mission type, used in conversation",
+    "message": "Uzbrojony Zwiad"
+  },
+  "MISSION_TYPE_CONVO_3": {
+    "description": "Name of mission type, used in conversation. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
     "message": "Oczyszczenie Obszaru"
   },
   "MISSION_WARNING": {
@@ -313,7 +329,7 @@
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "Po prostu wyląduj na stacji z biurem {org}."
+    "message": "Wyląduj na stacji z firmą {org}. Musisz to zrobic przed umówioną datą, żeby nie zaprzepaścić całej misji."
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",
@@ -374,5 +390,9 @@
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",
     "message": "Czy spodziewać się kłopotów?"
+  },
+  "YOU_NEED_A_RADAR": {
+    "description": "",
+    "message": "Tak, potrzebny Ci radar! Jeśli się zgodzisz, zaprogramuje Twój komputer pokładowy, żeby zapisał potrzebne dane. Dane zostaną przekazane jak tylko wrócisz."
   }
 }

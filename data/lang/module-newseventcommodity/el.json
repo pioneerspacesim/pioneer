@@ -1,19 +1,19 @@
 {
   "ADTITLE_0": {
     "description": "",
-    "message": "FRESH REPORT"
+    "message": "ΕΚΤΑΚΤΑ ΝΕΑ"
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "NEWS BULLETIN"
+    "message": "ΤΙΤΛΟΙ ΕΙΔΗΣΕΩΝ"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "GALATIC REPORT"
+    "message": "GALACTIC REPORT"
   },
   "ADTITLE_3": {
     "description": "",
-    "message": "LOCAL GAZETTE"
+    "message": "ΤΟΠΙΚΗ ΕΦΗΜΕΡΙΔΑ"
   },
   "FLAVOUR_0_HEADLINE": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "Η διακοπή ρεύματος σε όλο το σύστημα προκαλεί καταστροφή στο {system} ({sectorx}, {sectory}, {sectorz}) σύστημα. Οι καταναλωτές σχηματίζουν ουρά για να αγοράσουν το τελευταίο πλαστικά σκεύος για να αντικαταστήσουν τα ψυγεία τους, καθώς ο παραγωγός έχει ξεμείνει από πρώτες ύλες."
+    "message": "The system wide power outage wreaks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as the producer has run out of raw material."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",

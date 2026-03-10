@@ -17,7 +17,7 @@
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
-    "message": "Pouvez-vous répéter la demande initiale?"
+    "message": "Pouvez-vous répéter la demande initiale ?"
   },
   "CREW": {
     "description": "",
@@ -89,7 +89,7 @@
   },
   "ENTITY_GENERAL_2": {
     "description": "",
-    "message": "la Société pour la Préservation Écologique"
+    "message": "la Société pour la Préservation Écologique de {locality}"
   },
   "ENTITY_GENERAL_3": {
     "description": "",
@@ -173,15 +173,15 @@
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "Je n'arrive pas à croire que tu viennes à peine de rentrer! Que de temps perdu!"
+    "message": "Je n'arrive pas à croire que vous veniez à peine de rentrer! Que de temps perdu!"
   },
   "FLAVOUR_1_HOWMUCHTIMETEXT": {
     "description": "",
     "message": "Pour un remboursement complet des dépenses vous devez être de retour pour {due}."
   },
   "FLAVOUR_1_INTROTEXT": {
-    "description": "",
-    "message": "Le contrôle aérien de {starport} requiert votre aide immédiate à la suite d'un atterrissage forcé d'un vaisseau stellaire de type {ship} sur {planet}. L'état des systèmes de survie est inconnue. Le vaisseau a été assuré par l'assurance du port stellaire {starport} et est couvert à hauteur de {cash} pour les remboursements d'opérations d'urgences."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "Les contrôleurs du trafic aérien ont besoin de votre aide IMMEDIATE en réponse à un atterrissage en catastrophe d'un vaisseau de type {ship_indef} sur la planète {planet}. L'état des systèmes de survie est inconnu. Le vaisseau a été assuré par le spatioport {starport} et est couvert pour un montant {cash} dans le cas d'une réponse d'urgence."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
@@ -197,7 +197,7 @@
   },
   "FLAVOUR_1_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Un équipage de {crew} et de passagers {pass} sont à bord du vaisseau. Nous avons besoin de quelqu'un pour localiser le vaisseau, récupérer les survivants et les ramener ici immédiatement. "
+    "message": "Un équipage de {crew} et {pass} passagers sont à bord du vaisseau. Nous avons besoin de quelqu'un pour localiser le vaisseau, récupérer les survivants et les ramener ici immédiatement. "
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "FLAVOUR_2_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "Afin de recevoir le paiement complet, nous vous demandons de livrer le carburant d'ici {due}."
+    "message": "Afin de recevoir le paiement complet, nous vous demandons de livrer le carburant avant {due}."
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "FLAVOUR_4_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Le pilote demande {unit} tonnes de {cargo}."
+    "message": "Le pilot demande {unit} tonnes de {cargo}. {high_gravity}"
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -353,15 +353,15 @@
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
-    "message": "Quel désastre! Vos pauvres collègues sont condamnés à une mort certaine!"
+    "message": "Quel désastre ! C'est une condamnation à mort pour nos pauvres collègues !"
   },
   "FLAVOUR_6_HOWMUCHTIMETEXT": {
     "description": "",
     "message": "Vous devez être revenu pour {due}."
   },
   "FLAVOUR_6_INTROTEXT": {
-    "description": "",
-    "message": "Mon nom est {name} de {entity}. Nous avons perdu le contact avec notre vaisseau {ship} {shiplabel} à la suite de {problem}. Nous sommes prêt à payer {cash} pour une aide immédiate."
+    "description": "{ship_base} is translated in /data/lang/ships/",
+    "message": "Mon nom est {name} de {entity}. Nous avons perdu le contact avec notre vaisseau {ship_base} {shiplabel} à la suite de {problem}. Nous sommes prêt à payer {cash} pour une aide immédiate."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
@@ -396,8 +396,8 @@
     "message": "L'équipage de remplacement doit atteindre le vaisseau pour {due}."
   },
   "FLAVOUR_7_INTROTEXT": {
-    "description": "",
-    "message": "Mon nom est {name} de {entity}. Notre unique vaisseau, {ship} {shiplabel}, dérive actuellement avec un équipage de {crew} à la suite d'une avarie ({problem}). Je suis prêt à payer {cash} pour une aide immédiate."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "Mon nom est {name} de {entity}. Notre unique vaisseau, {ship_indef} {shiplabel}, dérive actuellement avec un équipage de {crew} à la suite d'une avarie ({problem}). Je suis prêt à payer {cash} pour une aide immédiate."
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
@@ -426,6 +426,22 @@
   "FULL_PASSENGERS": {
     "description": "",
     "message": "Cabines remplies. Aucun passager supplémentaire possible."
+  },
+  "HIGHGRAVITY_0": {
+    "description": "",
+    "message": "La gravité de surface de {planet} est de {gravity} g. Prenez ça en considération."
+  },
+  "HIGHGRAVITY_1": {
+    "description": "",
+    "message": "Rappelez-vous que la gravité de {planet} est de {gravity} g."
+  },
+  "HIGHGRAVITY_2": {
+    "description": "",
+    "message": "Vous atterrirez et décollerez dans une gravité de {gravity} g."
+  },
+  "HIGHGRAVITY_3": {
+    "description": "",
+    "message": "la gravité de {planet} est de {gravity} g."
   },
   "HOW_FAR": {
     "description": "",

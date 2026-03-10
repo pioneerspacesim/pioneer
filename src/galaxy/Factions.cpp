@@ -1,7 +1,8 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Factions.h"
+#include "core/Log.h"
 #include "galaxy/CustomSystem.h"
 #include "galaxy/Economy.h"
 #include "galaxy/Galaxy.h"
@@ -19,6 +20,9 @@
 #include "lua/LuaFixed.h"
 #include "lua/LuaUtils.h"
 #include "lua/LuaVector.h"
+
+#include "profiler/Profiler.h"
+
 #include <algorithm>
 #include <list>
 #include <set>
@@ -447,6 +451,8 @@ static void RegisterFactionsAPI(lua_State *L)
 
 void FactionsDatabase::Init()
 {
+	PROFILE_SCOPED()
+
 	assert(!s_activeFactionsDatabase);
 	s_activeFactionsDatabase = this;
 
@@ -467,7 +473,7 @@ void FactionsDatabase::Init()
 	LUA_DEBUG_END(L, 0);
 	lua_close(L);
 
-	Output("Number of factions added: " SIZET_FMT "\n", m_factions.size());
+	Log::Info("Number of factions added: {}", m_factions.size());
 	ClearHomeSectors();
 	m_galaxy->FlushCaches(); // clear caches of anything we used for faction generation
 	while (!m_missingFactionsMap.empty()) {
@@ -487,6 +493,8 @@ void FactionsDatabase::Init()
 
 void FactionsDatabase::PostInit()
 {
+	PROFILE_SCOPED()
+
 	assert(m_initialized);
 	assert(m_galaxy->IsInitialized());
 	SetHomeSectors();
@@ -522,6 +530,18 @@ void FactionsDatabase::RegisterCustomSystem(CustomSystem *cs, const std::string 
 	m_missingFactionsMap[factionName].push_back(cs);
 }
 
+void FactionsDatabase::UnregisterCustomSystem(const CustomSystem *cs, const std::string &factionName)
+{
+	auto &list = m_missingFactionsMap[factionName];
+
+	for (auto iter = list.begin(); iter != list.end(); iter++) {
+		if (*iter == cs) {
+			list.erase(iter);
+			break;
+		}
+	}
+}
+
 void FactionsDatabase::AddFaction(Faction *faction)
 {
 	// add the faction to the various faction data structures
@@ -535,6 +555,8 @@ void FactionsDatabase::AddFaction(Faction *faction)
 		}
 		m_missingFactionsMap.erase(it);
 	}
+
+	faction->GenerateHomeSector();
 	m_spatial_index.Add(faction);
 
 	if (faction->hasHomeworld) m_homesystems.insert(faction->homeworld.SystemOnly());
@@ -659,14 +681,14 @@ bool Faction::IsCloserAndContains(double &closestFactionDist, const Sector::Syst
 	}
 }
 
-Color Faction::AdjustedColour(fixed population, bool inRange) const
+Color Faction::AdjustedColour(fixed population, bool shadow) const
 {
 	PROFILE_SCOPED()
 	Color result;
 	// Unexplored: population = -1, Uninhabited: population = 0.
 	result = population <= 0 ? BAD_FACTION_COLOUR : colour;
 	result.a = population > 0 ? (FACTION_BASE_ALPHA + (M_E + (logf(population.ToFloat() / 1.25))) / ((2 * M_E) + FACTION_BASE_ALPHA)) * 255 : FACTION_BASE_ALPHA * 255;
-	result.a = inRange ? 255 : result.a;
+	result.a = shadow ? result.a : 255;
 	return result;
 }
 
@@ -766,9 +788,16 @@ void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint3
 
 RefCountedPtr<const Sector> Faction::GetHomeSector() const
 {
-	if (!m_homesector) // This will later be replaced by a Sector from the cache
-		m_homesector = m_galaxy->GetSector(homeworld);
+	// It is a programming error to call GetHomeSector before having called Factions::PostInit()
+	// This is due to the function's previous semantics as a get-or-create function which initialized
+	// m_homesector.
+	assert(m_homesector);
 	return m_homesector;
+}
+
+void Faction::GenerateHomeSector()
+{
+	m_homesector = m_galaxy->GetSector(homeworld);
 }
 
 Faction::Faction(Galaxy *galaxy) :
@@ -788,7 +817,6 @@ Faction::Faction(Galaxy *galaxy) :
 
 void FactionsDatabase::Octsapling::Add(const Faction *faction)
 {
-	PROFILE_SCOPED()
 	/*  The general principle here is to put the faction in every octbox cell that a system
 	    that is a member of that faction could be in. This should let us cut the number
 		of factions that have to be checked by GetNearestFaction, by eliminating right off
@@ -870,7 +898,6 @@ void FactionsDatabase::Octsapling::PruneDuplicates(const int bx, const int by, c
 
 const std::vector<const Faction *> &FactionsDatabase::Octsapling::CandidateFactions(const Sector::System *sys) const
 {
-	PROFILE_SCOPED()
 	/* answer the factions that we've put in the same octobox cell as the one the
 	   system would go in. This part happens every time we do GetNearest faction
 	   so *is* performance criticale.e

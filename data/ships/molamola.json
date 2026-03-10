@@ -1,24 +1,83 @@
 {
 	"model": "molamola",
+	"i18n_key": "MOLAMOLA",
 	"name": "Mola Mola",
 	"cockpit": "",
+	"shield_model": "molamola_shield",
 	"manufacturer": "kaluri",
 	"ship_class": "light_freighter",
 	"min_crew": 1,
-	"max_crew": 3,
-	"price": 81062,
-	"hull_mass": 27,
+	"max_crew": 1,
+	"price": 60279,
+	"hull_mass": 23,
+	"structure_mass": 12.7,
+	"armor_mass": 7.1,
+	"volume": 378,
 	"atmospheric_pressure_limit": 5.1,
-	"capacity": 84,
-	"slots": {
-		"engine": 1,
-		"cabin": 8,
-		"laser_front": 1,
-		"missile": 2,
-		"cargo": 80
+	"capacity": 31,
+	"cargo": 72,
+
+	"equipment_slots": {
+		"weapon_left_nose": {
+			"type": "weapon",
+			"size": 1,
+			"i18n_key": "HARDPOINT_WEAPON_RIGHT_NOSE",
+			"tag": "tag_weapon_left_nose",
+			"hardpoint": true,
+			"gimbal": [0,0]
+		},
+		"computer_2": {
+			"type": "computer",
+			"size": 1
+		},
+		"fuel_scoop_s1": {
+			"type": "fuel_scoop",
+			"size": 1,
+			"tag": "tag_fuel_scoop_s1",
+			"hardpoint": true
+		},
+		"utility_s1_1": {
+			"type": "utility",
+			"size": 1,
+			"tag": "tag_utility_s1_1",
+			"hardpoint": true
+		},
+		"shield_s1_1": {
+			"type": "shield",
+			"size": 1
+		},
+		"weapon_right_nose": {
+			"type": "weapon",
+			"size": 1,
+			"i18n_key": "HARDPOINT_WEAPON_RIGHT_NOSE",
+			"tag": "tag_weapon_right_nose",
+			"hardpoint": true,
+			"gimbal": [0,0]
+		},
+		"hull_1": {
+			"type": "hull",
+			"size": 1
+		},
+		"structure_1": {
+			"type": "structure",
+			"size": 1
+		},
+		"hyperdrive": {
+			"type": "hyperdrive",
+			"default": "hyperspace.hyperdrive_2",
+			"size": 2,
+			"size_min": 2
+		},
+		"thruster": {
+			"type": "thruster",
+			"default": "thruster.default_s2",
+			"required": true,
+			"size": 2,
+			"count": 12
+		}
 	},
-	"roles": ["mercenary", "merchant", "pirate", "courier"],
-	
+
+	"roles": ["merchant"],
 	"effective_exhaust_velocity": 13000000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 40,
@@ -26,9 +85,9 @@
 
 	"forward_thrust": 3000000,
 	"forward_acceleration_cap": 26.487,
-	"reverse_thrust": 1800000,
+	"reverse_thrust": 2400000,
 	"reverse_acceleration_cap": 20.7972,
-	"up_thrust": 2100000,
+	"up_thrust": 2400000,
 	"up_acceleration_cap": 24.525,
 	"down_thrust": 1000000,
 	"down_acceleration_cap": 16.677,
@@ -37,7 +96,7 @@
 	"right_thrust": 1000000,
 	"right_acceleration_cap": 16.677,
 
-	"angular_thrust": 2714173.87069129,
+	"angular_thrust": 2714173.87,
 
 	"front_cross_section": 46,
 	"side_cross_section": 75,

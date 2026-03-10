@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _BODY_H
@@ -9,6 +9,7 @@
 #include "FrameId.h"
 #include "lua/PropertiedObject.h"
 #include "matrix3x3.h"
+#include "matrix4x4.h"
 #include "vector3.h"
 #include <string>
 
@@ -42,11 +43,18 @@ enum class ObjectType { // <enum name=PhysicsObjectType scope='ObjectType' publi
 	HYPERSPACECLOUD // <enum skip>
 };
 
+enum class AltitudeType { // <enum name=AltitudeType scope='AltitudeType' public>
+	//SEA_LEVEL if distant, ABOVE_TERRAIN otherwise
+	DEFAULT,
+	SEA_LEVEL,
+	ABOVE_TERRAIN
+};
+
 #define OBJDEF(__thisClass, __parentClass, __TYPE)                                  \
 	static constexpr ObjectType StaticType() { return ObjectType::__TYPE; }         \
 	static constexpr ObjectType SuperType() { return __parentClass::StaticType(); } \
-	virtual ObjectType GetType() const override { return ObjectType::__TYPE; }      \
-	virtual bool IsType(ObjectType c) const override                                \
+	ObjectType GetType() const override { return ObjectType::__TYPE; }              \
+	bool IsType(ObjectType c) const override                                        \
 	{                                                                               \
 		if (__thisClass::GetType() == (c))                                          \
 			return true;                                                            \
@@ -144,18 +152,32 @@ public:
 	T *GetComponent() const
 	{
 		auto *type = BodyComponentDB::GetComponentType<T>();
-		return m_components & (uint64_t(1) << uint8_t(type->componentIndex)) ? type->get(this) : nullptr;
+		return m_components & GetComponentBit(type->componentIndex) ? type->get(this) : nullptr;
 	}
 
+	// Add a component to this body if it is not already present.
+	// Returns a pointer to the existing component if a new one could not be added.
 	template <typename T>
 	T *AddComponent()
 	{
 		auto *type = BodyComponentDB::GetComponentType<T>();
-		if (m_components & (uint64_t(1) << uint8_t(type->componentIndex)))
+		if (m_components & GetComponentBit(type->componentIndex))
 			return type->get(this);
 
-		m_components |= (uint64_t(1) << uint8_t(type->componentIndex));
+		m_components |= GetComponentBit(type->componentIndex);
 		return type->newComponent(this);
+	}
+
+	// Remove a component from this body, destroying it.
+	template<typename T>
+	void RemoveComponent()
+	{
+		auto *type = BodyComponentDB::GetComponentType<T>();
+		if (!(m_components & GetComponentBit(type->componentIndex)))
+			return;
+
+		m_components ^= GetComponentBit(type->componentIndex);
+		type->deleteComponent(this);
 	}
 
 	// Returns the bitset of components attached to this body. Prefer using HasComponent<> or GetComponent<> instead.
@@ -171,9 +193,12 @@ public:
 	// Interpolated between physics ticks.
 	const matrix3x3d &GetInterpOrient() const { return m_interpOrient; }
 	vector3d GetInterpPosition() const { return m_interpPos; }
+	matrix4x4d GetInterpMatrix() const { return matrix4x4d(GetInterpOrient(), GetInterpPosition()); }
+
 	vector3d GetInterpPositionRelTo(FrameId relToId) const;
 	vector3d GetInterpPositionRelTo(const Body *relTo) const;
 	matrix3x3d GetInterpOrientRelTo(FrameId relToId) const;
+	double GetAltitudeRelTo(const Body* relTo, AltitudeType altType = AltitudeType::DEFAULT);
 
 	// should set m_interpolatedTransform to the smoothly interpolated value
 	// (interpolated by 0 <= alpha <=1) between the previous and current physics tick
@@ -185,7 +210,7 @@ public:
 
 	// TODO: abstract this functionality into a component of some fashion
 	// Return the position in body-local coordinates where the target indicator should be displayed.
-	// Usually equal to the center of the body == vector3d(0, 0, 0)
+	// Usually equal to the center of the body == vector3d::Zero
 	virtual vector3d GetTargetIndicatorPosition() const;
 
 	enum {
@@ -207,6 +232,8 @@ protected:
 	matrix3x3d m_interpOrient;
 
 private:
+	uint64_t GetComponentBit(uint8_t bit) const { return uint64_t(1) << bit; }
+
 	vector3d m_pos;
 	matrix3x3d m_orient;
 	FrameId m_frame; // frame of reference

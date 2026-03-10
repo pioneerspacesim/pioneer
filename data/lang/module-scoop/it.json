@@ -161,7 +161,7 @@
   },
   "SPOILED_FOOD": {
     "description": "cargo item",
-    "message": "Cibo scadutao"
+    "message": "Cibo avariato"
   },
   "SUCCESS_MSG_ARMS_DEALER": {
     "description": "",
@@ -185,7 +185,7 @@
   },
   "WHY_NOT_YOURSELF": {
     "description": "",
-    "message": "Perché non lo fai ti stesso?"
+    "message": "Perché non lo fai tu stesso?"
   },
   "WHY_NOT_YOURSELF_ARMS_DEALER": {
     "description": "",

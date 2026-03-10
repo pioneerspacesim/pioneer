@@ -1,55 +1,55 @@
 {
   "ACCEPTED_1": {
     "description": "",
-    "message": "Very well. Good luck!"
+    "message": "Vrlo dobro. Sretno!"
   },
   "ACCEPTED_2": {
     "description": "",
-    "message": "Excellent!"
+    "message": "Izvrsno!"
   },
   "ACCEPTED_3": {
     "description": "",
-    "message": "Good. We count on you!"
+    "message": "Dobro. Računamo na tebe!"
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Qualified pilot needed for clandestine assignment: Pay {cash}."
+    "message": "Potreban kvalificirani pilot za tajni zadatak: Plaćanje {cash}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "Ship and crew wanted for a combat mission in the {system} system."
+    "message": "Traži se brod i posada za borbenu misiju u sustavu {system}."
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "Need qualified mercenary with well-equipped ship. Mission details available on request."
+    "message": "Potreban kvalificirani plaćenik s dobro opremljenim brodom. Detalji misije dostupni su na zahtjev."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "{org} seeks fearless mercenary for a mission to the {system} system. Will pay {cash}."
+    "message": "{org} traži neustrašivog plaćenika za misiju u sustavu {system}. Plaćanje je {cash}."
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "{mission} Mission: Salary {cash}."
+    "message": "{mission} Misija: Plaća {cash}."
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "RELIABLE PILOT WANTED"
+    "message": "TRAŽI SE POUZDAN PILOT"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "CHALLENGE RESOLUTION"
+    "message": "RJEŠAVANJE IZAZOVA"
   },
   "ADTITLE_3": {
     "description": "",
-    "message": "COMBAT FLIGHT"
+    "message": "BORBENI LET"
   },
   "ADTITLE_4": {
     "description": "",
-    "message": "FEARLESS MERCENARY WANTED"
+    "message": "TRAŽI SE NEUSTRAŠIVI PLAĆENIK"
   },
   "ADTITLE_5": {
     "description": "",
-    "message": "AUTHORIZED COMBAT MISSION"
+    "message": "OVLAŠTENA BORBENA MISIJA"
   },
   "AGENT": {
     "description": "Secret Service Agent",
@@ -57,51 +57,51 @@
   },
   "AREA": {
     "description": "An allotted area for the mission",
-    "message": "Area:"
+    "message": "Područje:"
   },
   "BONUS_1": {
     "description": "",
-    "message": "My supervisor was impressed about your performance and has allotted a bonus of {cash} for this mission."
+    "message": "Moj nadređeni je bio impresioniran vašim radom i dodijelio je bonus od {cash} za ovu misiju."
   },
   "BONUS_2": {
     "description": "",
-    "message": "You have served us well! I pay you a bonus of {cash}."
+    "message": "Dobro ste nam služili! Isplaćujem vam bonus od {cash}."
   },
   "BONUS_3": {
     "description": "",
-    "message": "Very impressive! I'm authorized to pay you a bonus of {cash}."
+    "message": "Vrlo impresivno! Ovlašten sam isplatiti vam bonus od {cash}."
   },
   "BONUS_4": {
     "description": "",
-    "message": "I'm very pleased of your performance! I have transferred additional {cash} credits."
+    "message": "Vrlo sam zadovoljan vašim radom! Prebacio sam dodatne {cash} kredite."
   },
   "COMBAT": {
     "description": "Name of mission type",
-    "message": "Combat"
+    "message": "Borba"
   },
   "CORPORATION_1": {
     "description": "Name of a corporation",
-    "message": "Precious Goods Foundation"
+    "message": "Zaklada za dragocjena dobra"
   },
   "CORPORATION_2": {
     "description": "Name of a corporation",
-    "message": "Omega Mining Company"
+    "message": "Rudarska tvrtka Omega"
   },
   "CORPORATION_3": {
     "description": "Name of a corporation",
-    "message": "United Ore Mines Syndicate"
+    "message": "Sindikat rudnika United Ore"
   },
   "CORPORATION_4": {
     "description": "Name of a corporation",
-    "message": "Galactic Explorer Corporation"
+    "message": "Korporacija Galactic Explorer"
   },
   "CORPORATION_5": {
     "description": "Name of a corporation",
-    "message": "Haber Corporation"
+    "message": "Haber Korporacija"
   },
   "CORPORATION_6": {
     "description": "Name of a corporation",
-    "message": "Precious Metal Prospectors LLC"
+    "message": "Pronalazači plemenitih metala d.o.o."
   },
   "CORPORATION_7": {
     "description": "Name of a corporation",
@@ -109,270 +109,290 @@
   },
   "CORPORATION_8": {
     "description": "Name of a corporation",
-    "message": "{name} LLC"
+    "message": "{naziv} d.o.o."
   },
   "DANGER": {
     "description": "The risk level",
-    "message": "Danger:"
+    "message": "Opasnost:"
   },
   "DENY_1": {
     "description": "",
-    "message": "Sorry, I need a pilot who has more combat experience."
+    "message": "Žao mi je, treba mi pilot s više borbenog iskustva."
   },
   "DENY_2": {
     "description": "",
-    "message": "Excuse me sir. I need a real professional."
+    "message": "Oprostite, gospodine. Trebam pravog profesionalca."
   },
   "DETECTIVE": {
     "description": "Police Detective",
-    "message": "Detective"
+    "message": "Detektiv"
   },
   "DISTANCE": {
     "description": "Distance in space, between two locations",
-    "message": "Distance:"
+    "message": "Udaljenost:"
+  },
+  "DO_I_NEED_SPECIAL_EQUIPMENT": {
+    "description": "",
+    "message": "Trebam li neku posebnu opremu?"
   },
   "FAILUREMSG_1": {
     "description": "",
-    "message": "Shame on you. Get out of my sight."
+    "message": "Sram te bilo. Gubi mi se s očiju."
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "You are too late! You have caused great losses. You will not be paid!"
+    "message": "Prekasno! Prouzročili ste velike gubitke. Nećete biti plaćeni!"
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "You're a disgrace to all pilots. I cannot pay you!"
+    "message": "Sramota si za sve pilote. Ne mogu te platiti!"
   },
   "FAILUREMSG_4": {
     "description": "",
-    "message": "You failed! I will not pay you!"
+    "message": "Nisi uspio! Neću ti platiti!"
   },
   "GREETING_1": {
     "description": "",
-    "message": "Hi, I'm {name}."
+    "message": "Bok, ja sam {name}."
   },
   "GREETING_2": {
     "description": "",
-    "message": "Hello. My name is {name}."
+    "message": "Pozdrav. Moje ime je {name}."
   },
   "GREETING_3": {
     "description": "",
-    "message": "How are you. I'm {name}."
+    "message": "Kako si? Ja sam {name}."
   },
   "GREETING_4": {
     "description": "",
-    "message": "Greetings! Call me {name}."
+    "message": "Pozdrav! Zovite me {name}."
   },
   "GREETING_5": {
     "description": "",
-    "message": "Good day. My name is {name}."
+    "message": "Dobar dan. Moje ime je {name}."
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} will pay {cash} for a {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We have reason to believe that a ruthless market competitor is responsible for the disappearance of our freighters at {area}. Distance to the target area is {dist} ly."
+    "message": "{org} će platiti {cash} za misiju {mission} u sustavu {system} ({sectorx}, {sectory}, {sectorz}). Imamo razloga vjerovati da je nemilosrdni tržišni konkurent odgovoran za nestanak naših teretnih brodova u {area}. Udaljenost do ciljanog područja je {dist} ly."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "Our market competitor is seriously claiming he has ownership of {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The {org} totally disagree and is willing to pay {cash} for a combat mission at {area}. {area} is in a distance of {dist} ly."
+    "message": "Naš tržišni konkurent ozbiljno tvrdi da je vlasnik {area} u sustavu {system} ({sectorx}, {sectory}, {sectorz}). {org} se uopće ne slaže i spremna je platiti {cash} za borbenu misiju u {area}. {area} je na udaljenosti od {dist} ly."
   },
   "HARVESTING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Please help! We received a distress call from one of our freighters orbiting {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The call was interrupted, so we fear the worst. Distance to {system} is {dist} ly. The pay is {cash}."
+    "message": "Molim vas, pomozite! Primili smo poziv u pomoć s jednog od naših teretnjaka koji kruži oko {area} u sustavu {system} ({sectorx}, {sectory}, {sectorz}). Poziv je prekinut, pa se bojimo najgoreg. Udaljenost do {system} je {dist} ly. Plaćanje je {cash}."
   },
   "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}. Please keep quiet about this operation."
+    "message": "Važno je da se misija završi do {date}. Molimo vas da o ovoj operaciji šutite."
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "We have a salesperson in every nearby star system. This person will get in contact with you when landed."
+    "message": "Imamo prodavača u svakom obližnjem zvjezdanom sustavu. Sletite na stanicu prije roka i naši će vas djelatnici kontaktirati u vezi s plaćanjem."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
-    "message": "How will I be paid?"
+    "message": "Kako ću biti plaćen/a?"
   },
   "IS_THERE_A_TIME_LIMIT": {
     "description": "",
-    "message": "Is there a time limit?"
+    "message": "Postoji li vremensko ograničenje?"
   },
   "MANAGER": {
     "description": "",
-    "message": "Manager"
+    "message": "Menadžer"
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "Meet me in the {rendezvous} system to finish the job!"
+    "message": "Nađimo se u {rendezvous} sustavu prije isteka roka!"
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Military intelligence believe that a hostile faction has set up a secret listening outpost on {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The government can not tolerate this and have approved a series of operations to wipe out this facility. The enemy tries to disguise its origin by using only civilian spacecraft types. We do it like this too! So we are willing to hire a mercenary for {cash}. {area} is located {dist} ly from here."
+    "message": "Vojna obavještajna služba vjeruje da je neprijateljska frakcija postavila tajnu prislušnu postaju na području {area} u sustavu {system} ({sectorx}, {sectory}, {sectorz}). Vlada to ne može tolerirati i odobrila je niz operacija za uništenje ovog objekta. Neprijatelj pokušava prikriti svoje podrijetlo koristeći samo civilne tipove svemirskih letjelica. I mi to radimo ovako! Stoga smo spremni unajmiti plaćenika za {cash}. {area} se nalazi {dist} ly odavde."
   },
   "MILITARY_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "In response to a case of piracy in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly, the local authorities pay {cash} for a combat mission at {area}."
+    "message": "Kao odgovor na slučaj piratstva u sustavu {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly, lokalne vlasti plaćaju {cash} za borbenu misiju u {area}."
   },
   "MILITARY_3": {
     "description": "",
-    "message": "The counter intelligence corps needs a civil pilot who asks no questions for a {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pay is {cash}."
+    "message": "Kontraobavještajni korpus treba civilnog pilota koji ne postavlja pitanja za misiju {mission} u sustavu {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Plaća je {cash}."
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "A task force will be assembled to regain control of {area}. It's important that the mission is successfully completed by {date}."
+    "message": "Bit će okupljena radna skupina za ponovno preuzimanje kontrole nad {area}. Važno je da se misija uspješno završi do {date}."
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "Visit a station in the territory protected by the {org}!"
+    "message": "Posjetite stanicu na teritoriju koji štiti {org}! Operacija zahtijeva da se cilj misije ostvari na vrijeme."
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} is in a dispute with a rival company about {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To push through our claims we need a reliable and combat experienced mercenary. We offer {cash} for the expenses. Distance to {system} is {dist} ly."
+    "message": "{org} je u sporu s konkurentskom tvrtkom oko {area} u sustavu {system} ({sectorx}, {sectory}, {sectorz}). Kako bismo progurali naše zahtjeve, potreban nam je pouzdan i borbeno iskusan plaćenik. Nudimo {cash} za troškove. Udaljenost do {system} je {dist} ly."
   },
   "MINING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "I'm a manager of the {org}. We need additional help in a longtime legal dispute with a competitor about the mining rights in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. We lost patience and would like to speed things up outside of the courtroom. Your mission would be to jump to {area} for {cash}."
+    "message": "Ja sam menadžer tvrtke {org}. Trebamo dodatnu pomoć u dugogodišnjem pravnom sporu s konkurentom oko prava rudarenja u sustavu {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Izgubili smo strpljenje i željeli bismo ubrzati stvari izvan sudnice. Vaša misija bi bila skočiti u {area} po {cash}."
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "I work for the {org}. Some of our freighters will arrive shortly at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To increase the safety of our employees and to protect the equipment we are willing to pay {cash} for a {mission} mission. Distance to {area} is {dist} ly."
+    "message": "Radim za {org}. Neki od naših teretnih brodova uskoro će stići u {area} u sustavu {system} ({sectorx}, {sectory}, {sectorz}). Kako bismo povećali sigurnost naših zaposlenika i zaštitili opremu, spremni smo platiti {cash} za misiju {mission}. Udaljenost do {area} je {dist} ly."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "A convoy is enroute to {area}. It is essential that the mission is completed by {date}."
+    "message": "Konvoj je na putu prema {area}. Bitno je da se misija završi do {date}."
   },
   "MINING_LAND_THERE": {
     "description": "",
-    "message": "We have employees in every nearby star system. Just visit the nearest station and get in contact with the local office there."
+    "message": "Imamo zaposlenike u svakom obližnjem zvjezdanom sustavu. Samo posjetite najbližu stanicu prije roka i kontaktirajte lokalni ured tamo."
   },
   "MISSION": {
     "description": "",
-    "message": "Mission:"
+    "message": "Misija:"
   },
   "MISSION_COMPLETE": {
     "description": "Message from the ship computer",
-    "message": "Primary mission objective complete"
+    "message": "Glavni cilj misije ispunjen"
   },
   "MISSION_INFO": {
     "description": "Message from the ship computer",
-    "message": "Target area reached. Start data logging. Predicted maximum mission time {duration}."
+    "message": "Ciljano područje postignuto. Započnite bilježenje podataka. Predviđeno maksimalno vrijeme misije {duration}."
   },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
-    "message": "Reconnaissance"
+    "message": "Izviđanje"
   },
   "MISSION_TYPE_2": {
     "description": "Name of mission type",
-    "message": "Armed Reconnaissance"
+    "message": "Ratno izviđanje"
   },
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
-    "message": "Area Sweep"
+    "message": "Pregled područja"
+  },
+  "MISSION_TYPE_CONVO_1": {
+    "description": "Name of mission type, used in conversation",
+    "message": "izviđanje"
+  },
+  "MISSION_TYPE_CONVO_2": {
+    "description": "Name of mission type, used in conversation",
+    "message": "naoružano izviđanje"
+  },
+  "MISSION_TYPE_CONVO_3": {
+    "description": "Name of mission type, used in conversation. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
+    "message": "čišćenje područja"
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",
-    "message": "Target area too far away. Cannot complete data collection."
+    "message": "Ciljano područje je previše udaljeno. Nije moguće dovršiti prikupljanje podataka."
   },
   "OBJECTIVE_1": {
     "description": "",
-    "message": "It's not necessary to attack the enemy. We want data about the defence capability and response time."
+    "message": "Nije potrebno napasti neprijatelja. Želimo podatke o obrambenoj sposobnosti i vremenu odgovora."
   },
   "OBJECTIVE_2": {
     "description": "",
-    "message": "Weaken the enemy's strength as much as possible and then jump to safety."
+    "message": "Oslabi neprijateljevu snagu koliko god je to moguće, a zatim skoči na sigurno."
   },
   "OBJECTIVE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Clear the area around {area}. Break any resistance."
+    "message": "Očistite područje oko {area}. Slomite svaki otpor."
   },
   "OK_AGREED": {
     "description": "",
-    "message": "OK, agreed."
+    "message": "U redu, slažem se."
   },
   "PAYMENT_LOCATION": {
     "description": "",
-    "message": "Payment location:"
+    "message": "Mjesto plaćanja:"
   },
   "PLEASE_REPEAT_THE_MISSION_DETAILS": {
     "description": "",
-    "message": "Please repeat the mission details!"
+    "message": "Molim vas, ponovite detalje misije!"
   },
   "POLICE_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Police detectives have discovered that a group of pirates try to establish a stronghold on {area} in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. This must not happen. The local authorities pay {cash} for a mission to {area} as preparation of a police operation."
+    "message": "Policijski detektivi otkrili su da skupina pirata pokušava uspostaviti uporište na području {area} u sustavu {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. To se ne smije dogoditi. Lokalne vlasti plaćaju {cash} za misiju u {area} kao pripremu policijske operacije."
   },
   "POLICE_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} will pay {cash} for a combat mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We are short on pilots and ships. So this will be an opportunity for a loyal citizen to make money. The target is a small pirate base on {area}. You need hyperdrive propellant for {dist} ly and additional fuel for the return route."
+    "message": "{Org} će platiti {cash} za borbenu misiju u sustavu {system} ({sectorx}, {sectory}, {sectorz}). Nedostaju nam piloti i brodovi. Dakle, ovo će biti prilika za lojalnog građanina da zaradi novac. Cilj je mala gusarska baza na {area}. Trebate hiperpogonsko gorivo za {dist} i dodatno gorivo za povratnu rutu."
   },
   "POLICE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Our markets were flooded by contraband. The source has been traced back to a hidden base at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). Only a distance of {dist} ly. Because of the reduced police budget the local authorities would like to outsource this mission and have allotted {cash} credits for this operation."
+    "message": "Naša su tržišta bila preplavljena krijumčarenom robom. Izvor je pronađen u tajnoj bazi u {area} u sustavu {system} ({sectorx}, {sectory}, {sectorz}). Samo na udaljenosti od {dist} ly. Zbog smanjenog policijskog proračuna, lokalne vlasti žele prepustiti ovu misiju vanjskim suradnicima i dodijelile su {cash} kredita za ovu operaciju."
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}, because more hostile ships are on their way."
+    "message": "Važno je da se misija završi do {date}, jer dolaze novi neprijateljski brodovi."
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "Just land at a station with a {org} office."
+    "message": "Samo sletite na stanicu s uredom {org}. To se mora učiniti prije roka kako se ne bi ugrozila cijela misija!"
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",
-    "message": "Sorry, I don't think you can handle this without a radar."
+    "message": "Žao mi je, mislim da ovo ne možeš riješiti bez radara."
   },
   "RISK_1": {
     "description": "",
-    "message": "The competitor has only limited resources. Nothing you can't handle."
+    "message": "Natjecatelj ima samo ograničene resurse. Ništa što ne možete podnijeti."
   },
   "RISK_2": {
     "description": "",
-    "message": "The competitor has only minor resources. But he will defend his position if necessary."
+    "message": "Natjecatelj ima samo male resurse. Ali će braniti svoju poziciju ako bude potrebno."
   },
   "RISK_3": {
     "description": "",
-    "message": "The competitor is well equipped. Please keep your eyes open!"
+    "message": "Natjecatelj je dobro opremljen. Molimo vas da pazite!"
   },
   "RISK_4": {
     "description": "",
-    "message": "The enemy is very well equipped and has access to the latest technology. Be careful!"
+    "message": "Neprijatelj je vrlo dobro opremljen i ima pristup najnovijoj tehnologiji. Budite oprezni!"
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Postavi kao cilj navigacije"
   },
   "SUCCESSMSG_1": {
     "description": "",
-    "message": "I knew you were the right person for such a mission. Here is your payment."
+    "message": "Znao sam da si prava osoba za takvu misiju. Evo tvoje uplate."
   },
   "SUCCESSMSG_2": {
     "description": "",
-    "message": "Thank you for making it. I have transferred the money."
+    "message": "Hvala što ste to napravili. Prebacio sam novac."
   },
   "SUCCESSMSG_3": {
     "description": "",
-    "message": "I hope you had no big trouble. I just paid you."
+    "message": "Nadam se da nisi imao većih problema. Upravo sam ti platio."
   },
   "SUCCESSMSG_4": {
     "description": "",
-    "message": "Very well done. I have paid the bill."
+    "message": "Vrlo dobro urađeno. Platio sam račun."
   },
   "SYSTEM": {
     "description": "",
-    "message": "System:"
+    "message": "Sustav:"
   },
   "TARGET_AREA_REACHED": {
     "description": "",
-    "message": "Target area reached. Start data logging."
+    "message": "Ciljano područje postignuto. Započnite bilježenje podataka."
   },
   "TIME_LIMIT": {
     "description": "",
-    "message": "Time limit:"
+    "message": "Vremensko ograničenje:"
   },
   "WHAT_ARE_THE_MISSION_OBJECTIVES": {
     "description": "",
-    "message": "What are the mission objectives?"
+    "message": "Koji su ciljevi misije?"
   },
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",
-    "message": "Will I be in trouble?"
+    "message": "Hoću li biti u nevolji?"
+  },
+  "YOU_NEED_A_RADAR": {
+    "description": "",
+    "message": "Da, treba vam radar! Ako se slažete, programirat ću vaše brodsko računalo da snima podatke s radara koji su nam potrebni. Podaci će mi biti preneseni sljedeći put kada se vratite."
   }
 }

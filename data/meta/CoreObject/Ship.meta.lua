@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- This file implements type information about C++ classes for Lua static analysis
@@ -13,7 +13,6 @@
 ---
 ---@field shipId string
 ---@field shipName string
----@field equipSet EquipSet
 ---
 ---@field flightState ShipFlightState
 ---@field alertStatus ShipAlertStatus
@@ -29,14 +28,16 @@
 --- Remaining fuel mass in tons
 ---@field fuelMassLeft number
 ---
----@field usedCapacity number
----@field freeCapacity number
+--- Currently used equipment volume
+---@field equipVolume number
+--- Total equipment volume
+---@field totalVolume number
 ---
 ---@field usedCargo number
 ---@field totalCargo number
 ---
----@field staticMass number
----@field totalMass number
+---@field loadedMass number Mass of the equipment and cargo onboard the ship
+---@field staticMass number Hull mass + loaded mass
 ---
 ---@field hyperspaceRange number
 ---@field maxHyperspaceRange number
@@ -115,3 +116,24 @@ function Ship:GetShieldsPercent() end
 -- Sets the thruster fuel tank of the ship to the given percentage of its maximum.
 ---@param percent number
 function Ship:SetFuelPercent(percent) end
+
+-- Update ship properties after changing ship equipment or cargo
+function Ship:UpdateEquipStats() end
+
+-- Is this ship currently docked with anything?
+---@return boolean
+function Ship:IsDocked() end
+
+-- Is this ship currently landed on a planet?
+---@return boolean
+function Ship:IsLanded() end
+
+-- Get the starport this ship is docked with, if any
+---@return SpaceStation?
+function Ship:GetDockedWith() end
+
+-- Spawn a new missile from this ship
+---@param stats table Information about the missile to spawn. Must include a shipType: string field
+---@param target Body? Optional body to target with the missile
+---@return Body? missile The spawned missile if valid
+function Ship:SpawnMissile(stats, target) end

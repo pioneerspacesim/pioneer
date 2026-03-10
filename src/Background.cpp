@@ -1,9 +1,10 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Background.h"
 
 #include "FileSystem.h"
+#include "FloatComparison.h"
 #include "Game.h"
 #include "GameConfig.h"
 #include "MathUtil.h"
@@ -14,8 +15,8 @@
 
 #include "core/TaskGraph.h"
 
-#include "galaxy/StarSystem.h"
 #include "galaxy/GalaxyGenerator.h"
+#include "galaxy/StarSystem.h"
 
 #include "graphics/Graphics.h"
 #include "graphics/RenderState.h"
@@ -25,10 +26,12 @@
 #include "graphics/VertexBuffer.h"
 #include "perlin.h"
 #include "profiler/Profiler.h"
+#include "utils.h"
 
 #include <SDL_stdinc.h>
 #include <iostream>
 #include <sstream>
+#include <numeric>
 
 using namespace Graphics;
 
@@ -146,33 +149,24 @@ namespace Background {
 		box->Add(vector3f(-vp, -vp, vp), vector2f(0.0f, 1.0f));
 		box->Add(vector3f(-vp, -vp, -vp), vector2f(1.0f, 1.0f));
 
+		//create buffer and upload data
+		Graphics::VertexFormatDesc fmt = Graphics::VertexFormatDesc::FromAttribSet(box->GetAttributeSet());
+		Graphics::VertexBuffer *vertexBuf = m_renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_STATIC, box->GetNumVerts(), fmt.bindings[0].stride);
+
+		box->Populate(vertexBuf);
+
 		Graphics::MaterialDescriptor desc;
 		Graphics::RenderStateDesc stateDesc;
 		stateDesc.depthTest = false;
 		stateDesc.depthWrite = false;
 
-		m_material.Reset(m_renderer->CreateMaterial("skybox", desc, stateDesc));
+		m_material.Reset(m_renderer->CreateMaterial("skybox", desc, stateDesc, fmt));
 		m_material->diffuse = Color4f(0.8, 0.8, 0.8, 1.0);
 
-		//create buffer and upload data
-		Graphics::VertexBufferDesc vbd = Graphics::VertexBufferDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
-		vbd.numVertices = box->GetNumVerts();
-		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-
-		Graphics::VertexBuffer *vertexBuf = m_renderer->CreateVertexBuffer(vbd);
-
-		SkyboxVert *vtxPtr = vertexBuf->Map<SkyboxVert>(Graphics::BUFFER_MAP_WRITE);
-		assert(vertexBuf->GetDesc().stride == sizeof(SkyboxVert));
-		for (Uint32 i = 0; i < box->GetNumVerts(); i++) {
-			vtxPtr[i].pos = box->position[i];
-			vtxPtr[i].uv = box->uv0[i];
-		}
-		vertexBuf->Unmap();
+		m_universeBox.reset(m_renderer->CreateMeshObject(fmt, vertexBuf));
+		m_numCubemaps = GetNumSkyboxes();
 
 		SetIntensity(1.0f);
-
-		m_universeBox.reset(m_renderer->CreateMeshObject(vertexBuf));
-		m_numCubemaps = GetNumSkyboxes();
 	}
 
 	void UniverseBox::Draw()
@@ -199,16 +193,17 @@ namespace Background {
 		m_material->SetTexture("texture0"_hash, m_cubemap.Get());
 	}
 
-	Starfield::Starfield(Graphics::Renderer *renderer, Random &rand, const SystemPath *const systemPath, RefCountedPtr<Galaxy> galaxy)
+	Starfield::Starfield(Graphics::Renderer *renderer)
 	{
 		m_renderer = renderer;
 		Init();
-		Fill(rand, systemPath, galaxy);
 	}
 
 	void Starfield::Init()
 	{
 		PROFILE_SCOPED()
+
+		m_pointSprites.reset(new Graphics::Drawables::PointSprites);
 
 		// Create material to be used with starfield points
 		Graphics::MaterialDescriptor desc;
@@ -219,7 +214,7 @@ namespace Background {
 		stateDesc.blendMode = Graphics::BLEND_ALPHA;
 		stateDesc.primitiveType = Graphics::POINTS;
 
-		m_material.Reset(m_renderer->CreateMaterial("starfield", desc, stateDesc));
+		m_material.Reset(m_renderer->CreateMaterial("starfield", desc, stateDesc, m_pointSprites->GetVertexFormat()));
 		Graphics::Texture *texture = Graphics::TextureBuilder::Billboard("textures/star_point.png").GetOrCreateTexture(m_renderer, "billboard");
 		m_material->SetTexture("texture0"_hash, texture);
 		m_material->emissive = Color::WHITE;
@@ -227,8 +222,9 @@ namespace Background {
 		// Create material to be used with hyperjump 'star streaks'
 		Graphics::MaterialDescriptor descStreaks;
 		Graphics::RenderStateDesc stateDescStreaks = stateDesc;
+		Graphics::VertexFormatDesc vtxFormatStreaks = Graphics::VertexFormatDesc::FromAttribSet(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 		stateDescStreaks.primitiveType = Graphics::LINE_SINGLE;
-		m_materialStreaks.Reset(m_renderer->CreateMaterial("vtxColor", descStreaks, stateDescStreaks));
+		m_materialStreaks.Reset(m_renderer->CreateMaterial("vtxColor", descStreaks, stateDescStreaks, vtxFormatStreaks));
 		m_materialStreaks->emissive = Color::WHITE;
 
 		IniConfig cfg;
@@ -250,7 +246,6 @@ namespace Background {
 
 	struct StarQueryInfo {
 		const SystemPath *systemPath;
-		int32_t numStars;
 		int32_t sectorMin;
 		int32_t sectorMax;
 		int32_t visibleRadiusSqr;
@@ -259,23 +254,25 @@ namespace Background {
 		float brightnessFactor;
 	};
 
-	class SampleStarTask : public Task {
+	class SampleStarsTask : public Task {
 	public:
-		SampleStarTask( RefCountedPtr<Galaxy> galaxy, StarQueryInfo info, StarInfo* outStars, TaskRange range ) :
+		SampleStarsTask(RefCountedPtr<Galaxy> galaxy, const StarQueryInfo &info, int32_t starsLimit, StarInfo &stars, double &medianBrightness, TaskRange range) :
 			Task(range),
 			galaxy(galaxy),
 			info(info),
-			outStars(outStars)
+			starsLimit(starsLimit),
+			stars(stars),
+			medianBrightness(medianBrightness)
 		{
-			stars.pos.reserve(info.numStars);
-			stars.color.reserve(info.numStars);
-			stars.brightness.reserve(info.numStars);
+			stars.pos.reserve(starsLimit);
+			stars.color.reserve(starsLimit);
+			stars.brightness.reserve(starsLimit);
 		}
 
-		void SampleStars(TaskRange range)
+		void OnExecute(TaskRange range) override
 		{
 			PROFILE_SCOPED()
-			const SystemPath* systemPath = info.systemPath;
+			const SystemPath *systemPath = info.systemPath;
 
 			int32_t minZ = info.sectorMin + int32_t(range.begin);
 			int32_t maxZ = info.sectorMin + int32_t(range.end);
@@ -286,7 +283,7 @@ namespace Background {
 					for (Sint32 z = minZ; z <= maxZ; ++z) {
 						SystemPath sys(systemPath->sectorX + x, systemPath->sectorY + y, systemPath->sectorZ + z);
 
-						if (SystemPath::SectorDistanceSqr(sys, *systemPath) * Sector::SIZE >= info.visibleRadiusSqr)
+						if (SystemPath::SectorDistanceSqr(sys, *systemPath) * Sector::SIZE * Sector::SIZE >= info.visibleRadiusSqr)
 							continue; // early out
 
 						// TODO: we're generating these sectors manually and not caching for two reasons:
@@ -299,7 +296,7 @@ namespace Background {
 						RefCountedPtr<const Sector> sec = galaxy->GetGenerator()->Generate<Sector, SectorCache>(galaxy, sys, nullptr);
 
 						// add as many systems as we can
-						const size_t numSystems = std::min(info.numStars - stars.pos.size(), sec->m_systems.size());
+						const size_t numSystems = std::min(starsLimit - stars.pos.size(), sec->m_systems.size());
 						for (size_t systemIndex = 0; systemIndex < numSystems; systemIndex++) {
 							const Sector::System *ss = &(sec->m_systems[systemIndex]);
 
@@ -315,7 +312,9 @@ namespace Background {
 								Color col = StarSystem::starRealColors[ss->GetStarType(i)];
 								colorSystemSum += vector3f(col.r, col.g, col.b) * StarSystem::starLuminosities[ss->GetStarType(i)];
 							}
-							colorSystemSum /= luminositySystemSum;
+
+							if (!is_zero_exact(luminositySystemSum))
+								colorSystemSum /= luminositySystemSum;
 
 							Color col(colorSystemSum.x, colorSystemSum.y, colorSystemSum.z);
 							col.r = Clamp(col.r, info.colorMin.r, info.colorMax.r);
@@ -324,7 +323,10 @@ namespace Background {
 							//const Color col(Color::PINK); // debug pink
 
 							// use a logarithmic scala for brightness since this looks more natural to the human eye
-							float brightness = log( luminositySystemSum / (4 * M_PI * distance.Length() * distance.Length()) );
+							float brightness = log(luminositySystemSum / (4 * M_PI * distance.Length() * distance.Length()));
+
+							// handle zero-brightness systems (no stars)
+							brightness = is_zero_exact(luminositySystemSum) ? 0.0 : brightness;
 
 							stars.pos.push_back(distance.Normalized() * 1000.0f);
 							stars.color.push_back(col);
@@ -332,21 +334,14 @@ namespace Background {
 						}
 
 						// Don't process any more sectors if we've generated our quota of stars.
-						if (stars.pos.size() >= info.numStars)
+						if (stars.pos.size() >= starsLimit)
 							break;
 					}
 				}
 			}
-		}
-
-		// Do the brightness sort on worker threads using the worker's subset
-		// of stars rather than on the main thread with all stars.
-		void SortStars()
-		{
-			PROFILE_SCOPED()
-			const size_t numStars = stars.pos.size();
 
 			// find the median brightness of all visible stars
+			const size_t numStars = stars.pos.size();
 			std::vector<uint32_t> sortedBrightnessIndex;
 			sortedBrightnessIndex.reserve(numStars);
 
@@ -358,11 +353,33 @@ namespace Background {
 				return stars.brightness[a] > stars.brightness[b];
 			});
 
-			double medianBrightness = 0.0;
 			constexpr float medianPosition = 0.7;
 			if (numStars > 0) {
 				medianBrightness = stars.brightness[sortedBrightnessIndex[Clamp<uint32_t>(medianPosition * numStars, 0, numStars - 1)]];
 			}
+		}
+
+		RefCountedPtr<Galaxy> galaxy;
+		const StarQueryInfo info;
+		const size_t starsLimit;
+		StarInfo &stars;
+		double &medianBrightness;
+	};
+
+	class SortStarsTask : public Task {
+	public:
+		SortStarsTask(const StarQueryInfo &info, StarInfo &stars, double medianBrightness) :
+			info(info),
+			stars(stars),
+			medianBrightness(medianBrightness)
+		{}
+
+		// Do the brightness sort on worker threads using the worker's subset
+		// of stars rather than on the main thread with all stars.
+		void OnExecute(TaskRange) override
+		{
+			PROFILE_SCOPED()
+			const size_t numStars = stars.pos.size();
 
 			for (size_t i = 0; i < numStars; ++i) {
 				// dividing through the median helps bringing the logarithmic brightnesses to a scala that is easier to work with
@@ -390,47 +407,53 @@ namespace Background {
 			}
 		}
 
-		virtual void OnExecute(TaskRange range) override
-		{
-			SampleStars(range);
-			SortStars();
-		}
-
-		virtual void OnComplete() override
-		{
-			PROFILE_SCOPED();
-
-			outStars->pos.insert(outStars->pos.end(), stars.pos.begin(), stars.pos.end());
-			outStars->color.insert(outStars->color.end(), stars.color.begin(), stars.color.end());
-			outStars->brightness.insert(outStars->brightness.end(), stars.brightness.begin(), stars.brightness.end());
-		}
-
-		RefCountedPtr<Galaxy> galaxy;
 		const StarQueryInfo info;
-
-		StarInfo stars;
-		StarInfo *outStars;
+		StarInfo &stars;
+		const double medianBrightness;
 	};
+
+	// https://en.wikipedia.org/wiki/Spherical_segment
+	static double spherical_segment_volume(double h, double r1_sq, double r2_sq)
+	{
+		return M_PI * h / 6.0 * (3 * r1_sq + 3 * r2_sq + h * h);
+	}
+
+	static double spherical_circle_radius_sq(double h, double R)
+	{
+		// distance to sphere center
+		double l = std::abs(R - h);
+		return R * R - l * l;
+	}
+
+	static double task_spherical_segment_volume(uint32_t begin, uint32_t end, double r)
+	{
+		double h = end - begin;
+		double r1_sq = spherical_circle_radius_sq(begin, r);
+		double r2_sq = spherical_circle_radius_sq(end, r);
+		return spherical_segment_volume(h, r1_sq, r2_sq);
+	}
 
 	void Starfield::Fill(Random &rand, const SystemPath *const systemPath, RefCountedPtr<Galaxy> galaxy)
 	{
 		PROFILE_SCOPED()
+
 		const Uint32 NUM_BG_STARS = MathUtil::mix(BG_STAR_MIN, BG_STAR_MAX, Pi::GetAmountBackgroundStars());
+		m_animMesh.reset();
+
+		// user doesn't want to see stars
+		if (NUM_BG_STARS == BG_STAR_MIN) return;
+
 		const float brightnessApparentSizeFactor = Pi::GetStarFieldStarSizeFactor() / 7.0;
 		// dividing by 7 to make sure that 100% star size isn't too big to clash with UI elements
 
 		m_hyperVtx.reset(new vector3f[NUM_HYPERSPACE_STARS * 3]);
 		m_hyperCol.reset(new Color[NUM_HYPERSPACE_STARS * 3]);
 		{
-			Graphics::VertexBufferDesc vbd = VertexBufferDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
-			vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
-			vbd.numVertices = NUM_HYPERSPACE_STARS * 2;
+			Graphics::VertexFormatDesc fmt = VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
 			// this vertex buffer will be owned by the animMesh object
-			Graphics::VertexBuffer *vtxBuffer = m_renderer->CreateVertexBuffer(vbd);
-			m_animMesh.reset(m_renderer->CreateMeshObject(vtxBuffer));
+			Graphics::VertexBuffer *vtxBuffer = m_renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_DYNAMIC, NUM_HYPERSPACE_STARS * 2, fmt.bindings[0].stride);
+			m_animMesh.reset(m_renderer->CreateMeshObject(fmt, vtxBuffer));
 		}
-
-		m_pointSprites.reset(new Graphics::Drawables::PointSprites);
 
 		assert(sizeof(StarVert) == 16);
 
@@ -446,19 +469,16 @@ namespace Background {
 
 			TaskGraph *graph = Pi::GetApp()->GetTaskGraph();
 
-			// We want the main thread to participate in this work as well,
-			// but don't split the number of stars too much that we have visible brightness "patches"
-			const uint32_t numTasks = std::min(graph->GetNumWorkerThreads() + 1, 8U);
-
-			/* the number of visible systems is in a cubic relationship with the visible radius,
-			i.e. visibleRadius = x * numberSystems^(1/3)
-			I experimentally determined that x is approximately 3.89
-			and that stays probably the same as long as the galaxy has the same system density */
-			const Sint32 visibleRadius = std::min<Sint32>(BG_STAR_RADIUS_MAX, 3.89 * pow((float)NUM_BG_STARS, 1.0 / 3.0));
+			// judging by the current sector generator, maximum average number
+			// of stars in a sector is 6
+			// It’s easy to express what the radius of a ball should be so that
+			// at such a density it would contain approximately NUM_BG_STARS stars:
+			const double density = 6.0;
+			const double maxBall = pow(3.0 / 4.0 / M_PI * (double)NUM_BG_STARS / density, 1.0 / 3.0);
+			const int32_t visibleRadius = std::min<int32_t>(BG_STAR_RADIUS_MAX, maxBall * Sector::SIZE);
 
 			StarQueryInfo info;
 			info.systemPath = systemPath;
-			info.numStars = NUM_BG_STARS / numTasks;
 			info.sectorMin = -(visibleRadius / Sector::SIZE); // lyrs_radius / sector_size_in_lyrs
 			info.sectorMax = visibleRadius / Sector::SIZE;	  // lyrs_radius / sector_size_in_lyrs
 			info.visibleRadiusSqr = (visibleRadius * visibleRadius);
@@ -466,25 +486,61 @@ namespace Background {
 			info.colorMax = Color((Uint8)(m_rMax * 255), (Uint8)(m_gMax * 255), (Uint8)(m_rMax * 255));
 			info.brightnessFactor = brightnessApparentSizeFactor;
 
-			TaskSet *pickStarTaskSet = new TaskSet();
+			// We want the main thread to participate in this work as well,
+			// but don't split the number of stars too much that we have visible brightness "patches"
+			// also we want a piece of at least size 1
+			const uint32_t numTasks = std::min({ graph->GetNumWorkerThreads() + 1, 8U, uint32_t(info.sectorMax - info.sectorMin) });
+
+			TaskSet *sampleStarsTaskSet = new TaskSet();
+
+			int32_t starsLeft = NUM_BG_STARS;
+			const double realRadius = info.sectorMax;
+			const double realDensity = NUM_BG_STARS / (M_PI / 0.75 * realRadius * realRadius * realRadius);
+
+			std::vector<StarInfo> taskStars(numTasks);
+			std::vector<double> taskMedians(numTasks);
 
 			// Split the visible area of the galaxy up into separate tasks
 			uint32_t current = 0;
-			int32_t range_step = (info.sectorMax - info.sectorMin) / numTasks;
-			for (size_t i = 0; i < numTasks; i++) {
-				uint32_t end = current + range_step;
-				if (i + 1 == numTasks)
-					end = (info.sectorMax - info.sectorMin);
+			// divide the ball more evenly into tasks, when the number of tasks
+			// is comparable to the diameter of the ball (in sectors)
+			float range_step = (info.sectorMax - info.sectorMin) / (float)numTasks;
 
-				pickStarTaskSet->AddTask(new SampleStarTask(galaxy, info, &stars, { current, end }));
+			for (size_t i = 0; i < numTasks; i++) {
+				int32_t starsLimit;
+				uint32_t end = std::max(uint32_t(range_step * (i + 1)), current + 1);
+				if (i + 1 == numTasks) {
+					end = (info.sectorMax - info.sectorMin);
+					starsLimit = starsLeft;
+				} else {
+					starsLimit = realDensity * task_spherical_segment_volume(current, end, realRadius);
+					starsLeft -= starsLimit;
+				}
+
+				// in the task the loop runs from current to end inclusive
+				sampleStarsTaskSet->AddTask(new SampleStarsTask(galaxy, info, starsLimit, taskStars[i], taskMedians[i], { current, end - 1 }));
 				current = end;
 			}
 
 			// We can't make progress until all stars are gathered, so run the
 			// star collection on the 'main' thread as well.
-			auto handle = graph->QueueTaskSet(pickStarTaskSet);
-			graph->WaitForTaskSet(handle);
+			auto sampleHandle = graph->QueueTaskSet(sampleStarsTaskSet);
+			graph->WaitForTaskSet(sampleHandle);
 
+			double medianBrightness = std::reduce(taskMedians.begin(), taskMedians.end()) / taskMedians.size();
+
+			TaskSet *sortStarsTaskSet = new TaskSet();
+			for (size_t i = 0; i < numTasks; i++) {
+				sortStarsTaskSet->AddTask(new SortStarsTask(info, taskStars[i], medianBrightness));
+			}
+			auto sortHandle = graph->QueueTaskSet(sortStarsTaskSet);
+			graph->WaitForTaskSet(sortHandle);
+
+			for(auto &item : taskStars) {
+				stars.pos.insert(stars.pos.end(), item.pos.begin(), item.pos.end());
+				stars.color.insert(stars.color.end(), item.color.begin(), item.color.end());
+				stars.brightness.insert(stars.brightness.end(), item.brightness.begin(), item.brightness.end());
+			}
 		}
 		num = stars.pos.size();
 		Output("Stars picked from galaxy: %d\n", stars.pos.size());
@@ -511,7 +567,7 @@ namespace Background {
 			const float u = float(rand.Double(-1.0, 1.0));
 
 			// squeeze the starfield a bit to get more density near horizon using matrix3x3f::Scale
-			const auto star = matrix3x3f::Scale(1.0, 0.4, 1.0) * (vector3f(sqrt(1.0f - u * u) * cos(theta), u, sqrt(1.0f - u * u) * sin(theta)).Normalized() * 1000.0f);
+			const auto star = matrix3x3f::Scale(1.0, 1.0, 0.4) * (vector3f(sqrt(1.0f - u * u) * cos(theta), u, sqrt(1.0f - u * u) * sin(theta)).Normalized() * 1000.0f);
 
 			stars.pos[i] = star;
 			stars.color[i] = col;
@@ -546,9 +602,12 @@ namespace Background {
 		if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 			m_pointSprites->Draw(m_renderer, m_material.Get());
 		} else {
+			if (!m_animMesh) // user doesn't want to see stars
+				return;
+
 			Graphics::VertexBuffer *buffer = m_animMesh->GetVertexBuffer();
 			assert(sizeof(StarVert) == 16);
-			assert(buffer->GetDesc().stride == sizeof(StarVert));
+			assert(buffer->GetStride() == sizeof(StarVert));
 			auto vtxPtr = buffer->Map<StarVert>(Graphics::BUFFER_MAP_WRITE);
 
 			// roughly, the multiplier gets smaller as the duration gets larger.
@@ -558,9 +617,11 @@ namespace Background {
 
 			const double hyperspaceProgress = Pi::game->GetHyperspaceProgress();
 
-			const Sint32 numStars = buffer->GetDesc().numVertices / 2;
+			const Sint32 numStars = buffer->GetSize() / 2;
 
-			const vector3d pz = Pi::player->GetOrient().VectorZ(); //back vector
+			const vector3d oz = Pi::player->GetOrient().VectorZ(); //back vector in Y-up space
+			const vector3d pz = vector3d(oz.z, oz.x, oz.y); // back vector rotated into Z-up space
+
 			for (int i = 0; i < numStars; i++) {
 				vector3f v = m_hyperVtx[numStars * 2 + i] + vector3f(pz * hyperspaceProgress * mult);
 				const Color &c = m_hyperCol[numStars * 2 + i];
@@ -621,35 +682,29 @@ namespace Background {
 			vector3f(100.0f * sin(theta), float(40.0 + 30.0 * noise(vector3d(sin(theta), -1.0, cos(theta)))), 100.0f * cos(theta)),
 			dark);
 
+		Graphics::VertexFormatDesc fmt = VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
+		//two strips in one buffer, but seems to work ok without degenerate triangles
+		Graphics::VertexBuffer *vtxBuffer = renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_STATIC, bottom->GetNumVerts() + top->GetNumVerts(), fmt.bindings[0].stride);
+
+		uint8_t *vtxPtr = vtxBuffer->Map<uint8_t>(Graphics::BUFFER_MAP_WRITE);
+		size_t topSize = top->GetNumVerts() * fmt.bindings[0].stride;
+		size_t bottomSize = bottom->GetNumVerts() * fmt.bindings[0].stride;
+
+		top->PopulateRange(fmt, vtxPtr, topSize);
+		bottom->PopulateRange(fmt, vtxPtr + topSize, bottomSize);
+
+		vtxBuffer->Unmap();
+
 		Graphics::MaterialDescriptor desc;
 		Graphics::RenderStateDesc stateDesc;
 		stateDesc.depthTest = false;
 		stateDesc.depthWrite = false;
 		stateDesc.primitiveType = Graphics::TRIANGLE_STRIP;
-		m_material.Reset(m_renderer->CreateMaterial("starfield", desc, stateDesc));
+
+		m_material.Reset(m_renderer->CreateMaterial("starfield", desc, stateDesc, fmt));
 		m_material->emissive = Color::WHITE;
 
-		Graphics::VertexBufferDesc vbd = VertexBufferDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
-		vbd.numVertices = bottom->GetNumVerts() + top->GetNumVerts();
-		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-
-		//two strips in one buffer, but seems to work ok without degenerate triangles
-		Graphics::VertexBuffer *vtxBuffer = renderer->CreateVertexBuffer(vbd);
-		assert(vtxBuffer->GetDesc().stride == sizeof(MilkyWayVert));
-		auto vtxPtr = vtxBuffer->Map<MilkyWayVert>(Graphics::BUFFER_MAP_WRITE);
-		for (Uint32 i = 0; i < top->GetNumVerts(); i++) {
-			vtxPtr->pos = top->position[i];
-			vtxPtr->col = top->diffuse[i];
-			vtxPtr++;
-		}
-		for (Uint32 i = 0; i < bottom->GetNumVerts(); i++) {
-			vtxPtr->pos = bottom->position[i];
-			vtxPtr->col = bottom->diffuse[i];
-			vtxPtr++;
-		}
-		vtxBuffer->Unmap();
-
-		m_meshObject.reset(m_renderer->CreateMeshObject(vtxBuffer));
+		m_meshObject.reset(m_renderer->CreateMeshObject(fmt, vtxBuffer));
 	}
 
 	void MilkyWay::Draw()
@@ -659,10 +714,10 @@ namespace Background {
 		m_renderer->DrawMesh(m_meshObject.get(), m_material.Get());
 	}
 
-	Container::Container(Graphics::Renderer *renderer, Random &rand, const Space *space, RefCountedPtr<Galaxy> galaxy, const SystemPath *const systemPath) :
+	Container::Container(Graphics::Renderer *renderer, Random &rand) :
 		m_renderer(renderer),
 		m_milkyWay(renderer),
-		m_starField(renderer, rand, space && space->GetStarSystem() ? &space->GetStarSystem()->GetPath() : systemPath, galaxy),
+		m_starField(renderer),
 		m_universeBox(renderer),
 		m_drawFlags(DRAW_SKYBOX | DRAW_STARS)
 	{
@@ -680,7 +735,13 @@ namespace Background {
 			m_milkyWay.Draw();
 		}
 		if (DRAW_STARS & m_drawFlags) {
-			m_renderer->SetTransform(matrix4x4f(transform));
+			auto Zup_to_Yup = matrix4x4f::FromRowMajor({
+				0, 1, 0, 0,
+				0, 0, 1, 0,
+				1, 0, 0, 0,
+				0, 0, 0, 1
+			});
+			m_renderer->SetTransform(matrix4x4f(transform) * Zup_to_Yup);
 			m_starField.Draw();
 		}
 	}

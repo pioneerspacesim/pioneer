@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "MathUtil.h"
@@ -170,7 +170,7 @@ namespace MathUtil {
 		float det = cell[0] * inv[0] + cell[1] * inv[4] + cell[2] * inv[8] + cell[3] * inv[12];
 
 		if (is_equal_exact(det, 0.0f))
-			return matrix4x4f::Identity();
+			return matrix4x4f::Identity;
 
 		det = 1.0f / det;
 

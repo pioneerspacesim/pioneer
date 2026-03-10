@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GASGIANT_H
@@ -35,27 +35,26 @@ public:
 	GasGiant(const SystemBody *body);
 	virtual ~GasGiant();
 
-	virtual void Update() override;
-	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) override;
+	void Update() override;
+	void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) override;
 
-	virtual double GetHeight(const vector3d &p) const override final { return 0.0; }
+	double GetTerrainHeight(const vector3d &p) const final { return 0.0; }
 
 	// in sbody radii
-	virtual double GetMaxFeatureHeight() const override { return 0.0; }
+	double GetMaxFeatureHeight() const override { return 0.0; }
 
-	virtual void Reset() override;
+	void Reset() override;
 
 	static bool OnAddTextureFaceResult(const SystemPath &path, GasGiantJobs::STextureFaceResult *res);
 	static bool OnAddGPUGenResult(const SystemPath &path, GasGiantJobs::SGPUGenResult *res);
-	static void Init();
-	static void Uninit();
+	static void InitGasGiant();
+	static void UninitGasGiant();
 	static void UpdateAllGasGiants();
-	static void OnChangeDetailLevel();
+	static void OnChangeGasGiantsDetailLevel();
 
 	static void CreateRenderTarget(const Uint16 width, const Uint16 height);
 	static void SetRenderTargetCubemap(const Uint32, Graphics::Texture *, const bool unBind = true);
-	static void BeginRenderTarget();
-	static void EndRenderTarget();
+	static Graphics::RenderTarget *GetRenderTarget();
 
 private:
 	void BuildFirstPatches();
@@ -72,7 +71,7 @@ private:
 	bool m_hasTempCampos;
 	vector3d m_tempCampos;
 
-	virtual void SetUpMaterials() override;
+	void SetUpMaterials() override;
 	RefCountedPtr<Graphics::Texture> m_surfaceTextureSmall;
 	RefCountedPtr<Graphics::Texture> m_surfaceTexture;
 	RefCountedPtr<Graphics::Texture> m_builtTexture;

@@ -9,7 +9,7 @@
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "GALATIC REPORT"
+    "message": "GALACTIC REPORT"
   },
   "ADTITLE_3": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as the producer has run out of raw material."
+    "message": "The system wide power outage wreaks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as the producer has run out of raw material."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",

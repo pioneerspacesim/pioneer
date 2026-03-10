@@ -1,0 +1,130 @@
+{
+  "ABOUT": {
+    "description": "",
+    "message": "Acerca de"
+  },
+  "ACKNOWLEDGEMENTS": {
+    "description": "",
+    "message": "Agradecimientos"
+  },
+  "CONTENT": {
+    "description": "",
+    "message": "Contenido"
+  },
+  "CONTENT_CONTRIBUTION": {
+    "description": "",
+    "message": "Contribución de contenido"
+  },
+  "CONTRIBUTE": {
+    "description": "",
+    "message": "Contribuya"
+  },
+  "CONTRIBUTE_BODY": {
+    "description": "",
+    "message": "Pioneer es la suma de las numerosas contribuciones de sus jugadores y desarrolladores. ¿Ves algo que te gustaría cambiar, mejorar o ideas para añadir nuevo contenido? (Por ejemplo: traducciones, programación, arte, recursos 2D y 3D, música, diseño de sistemas estelares personalizados, mejorar nuestra documentación, wiki, etc.). ¡Sigue los enlaces para conocer los detalles sobre cómo puedes contribuir!"
+  },
+  "DEVELOPER_DOCUMENTATION": {
+    "description": "",
+    "message": "Documentacion del desarrollador"
+  },
+  "DOCUMENTATION": {
+    "description": "",
+    "message": "Documentación"
+  },
+  "DONATE_BODY": {
+    "description": "",
+    "message": "Si disfrutas jugando Pioneer y te gustaría apoyar su desarrollo continuo, por favor considera hacer una donación, ninguna donación es demasiado pequeña."
+  },
+  "DONATE_OPTIONS": {
+    "description": "Sentence continues in 'DONATE_OPTIONS_CONTINUED'",
+    "message": "Para opciones de donación adicionales, por favor consulta nuestra"
+  },
+  "DONATE_OPTIONS_CONTINUED": {
+    "description": "hyperlink, ending part of sentence in 'DONATE_OPTIONS'",
+    "message": "página de donaciones."
+  },
+  "DONATE_THANKS": {
+    "description": "",
+    "message": "¡Gracias a todos por su continuo apoyo a Pioneer!"
+  },
+  "GAME_RELEASE": {
+    "description": "",
+    "message": "Las versiones estables se publican anualmente el 3 de febrero, pero el desarrollo es continuo. Por ello, se anima a los pilotos valientes a jugar con la versión más reciente del código fuente y a reportar errores."
+  },
+  "INFO_BLURB": {
+    "description": "",
+    "message": "Pioneer es un juego de aventuras espaciales para un solo jugador ambientado en la galaxia de la Vía Láctea a comienzos del siglo 31."
+  },
+  "INFO_BODY": {
+    "description": "",
+    "message": "El juego es de mundo abierto, y eres libre de explorar los millones de sistemas estelares que existen en él. Puedes aterrizar en planetas, impulsarte con la gravedad de gigantes gaseosos y quemarte hasta quedar hecho cenizas al volar entre sistemas estelares binarios. Puedes probar suerte en la piratería, hacer fortuna comerciando entre sistemas o realizar misiones para las distintas facciones que luchan por el poder, la libertad o la autodeterminación."
+  },
+  "LICENSE": {
+    "description": "",
+    "message": "Licencia"
+  },
+  "LINK_BASIC_FLIGHT": {
+    "description": "",
+    "message": "Vuelo básico"
+  },
+  "LINK_BUG_TRACKER": {
+    "description": "",
+    "message": "Seguimiento de errores"
+  },
+  "LINK_COMMUNITY_CHAT": {
+    "description": "",
+    "message": "Chat de la comunidad (Discord)"
+  },
+  "LINK_COMMUNITY_FORUM": {
+    "description": "",
+    "message": "Foro de la comunidad"
+  },
+  "LINK_DEVELOPER_CHAT": {
+    "description": "",
+    "message": "Chat de desarrolladores (IRC)"
+  },
+  "LINK_DEVELOPER_FORUM": {
+    "description": "",
+    "message": "Foro de desarrolladores"
+  },
+  "LINK_FAQ": {
+    "description": "",
+    "message": "Preguntas frecuentes (FAQ)"
+  },
+  "LINK_HOMEPAGE": {
+    "description": "",
+    "message": "Página principal"
+  },
+  "LINK_MANUAL": {
+    "description": "",
+    "message": "Manual"
+  },
+  "SOFTWARE": {
+    "description": "",
+    "message": "Software"
+  },
+  "SOFTWARE_BODY": {
+    "description": "",
+    "message": "Pioneer incluye el siguiente software de terceros"
+  },
+  "SUPPORT_DEVELOPMENT": {
+    "description": "",
+    "message": "Soporte de desarollo"
+  },
+  "TRANSLATIONS": {
+    "description": "",
+    "message": "Traducciones"
+  },
+  "VERSION_CURRENT": {
+    "description": "",
+    "message": "Tu versión actual"
+  },
+  "VERSION_LATEST": {
+    "description": "This sentence continues into string VERSION_LATEST_CONTINUED, to read 'Latest version from source', referring to the source code",
+    "message": "Última versión de"
+  },
+  "VERSION_LATEST_CONTINUED": {
+    "description": "is continued from string VERSION_LATEST, to read 'Latest version from source'. Here, 'source' refers to the source code",
+    "message": "Código fuente"
+  }
+}

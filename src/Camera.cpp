@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Camera.h"
@@ -11,9 +11,15 @@
 #include "Player.h"
 #include "Sfx.h"
 #include "Space.h"
+#include "SpaceStation.h"
+
 #include "galaxy/StarSystem.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"
+#include "graphics/RenderState.h"
+#include "graphics/VertexBuffer.h"
+
+#include "profiler/Profiler.h"
 
 using namespace Graphics;
 
@@ -30,9 +36,10 @@ CameraContext::CameraContext(float width, float height, float fovAng, float zNea
 	m_zNear(zNear),
 	m_zFar(zFar),
 	m_frustum(m_width, m_height, m_fovAng, m_zNear, m_zFar),
+	m_projMatrix(matrix4x4f::InfinitePerspectiveMatrix(DEG2RAD(m_fovAng), m_width / m_height, m_zNear)),
 	m_frame(FrameId::Invalid),
 	m_pos(0.0),
-	m_orient(matrix3x3d::Identity()),
+	m_orient(matrix3x3d::Identity),
 	m_camFrame(FrameId::Invalid)
 {
 }
@@ -46,7 +53,9 @@ CameraContext::~CameraContext()
 void CameraContext::SetFovAng(float newAng)
 {
 	m_fovAng = newAng;
-	m_frustum = Frustum(m_width, m_height, m_fovAng, m_zNear, m_zFar);
+	const float fovAngRadians = DEG2RAD(m_fovAng);
+	m_frustum = Frustum(m_width, m_height, fovAngRadians, m_zNear, m_zFar);
+	m_projMatrix = matrix4x4f::InfinitePerspectiveMatrix(fovAngRadians, m_width / m_height, m_zNear);
 }
 
 void CameraContext::BeginFrame()
@@ -80,8 +89,8 @@ void CameraContext::EndFrame()
 void CameraContext::ApplyDrawTransforms(Graphics::Renderer *r)
 {
 	Graphics::SetFov(m_fovAng);
-	r->SetProjection(matrix4x4f::InfinitePerspectiveMatrix(DEG2RAD(m_fovAng), m_width / m_height, m_zNear));
-	r->SetTransform(matrix4x4f::Identity());
+	r->SetProjection(GetProjectionMatrix());
+	r->SetTransform(matrix4x4f::Identity);
 }
 
 bool Camera::BodyAttrs::sort_BodyAttrs(const BodyAttrs &a, const BodyAttrs &b)
@@ -114,7 +123,9 @@ Camera::Camera(RefCountedPtr<CameraContext> context, Graphics::Renderer *rendere
 	rsd.depthWrite = false;
 	rsd.primitiveType = Graphics::POINTS;
 
-	m_billboardMaterial.reset(m_renderer->CreateMaterial("billboards", desc, rsd));
+	Graphics::VertexFormatDesc vfmt = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
+
+	m_billboardMaterial.reset(m_renderer->CreateMaterial("billboards", desc, rsd, vfmt));
 	m_billboardMaterial->SetTexture("texture0"_hash,
 		Graphics::TextureBuilder::Billboard("textures/planet_billboard.dds").GetOrCreateTexture(m_renderer, "billboard"));
 }
@@ -128,10 +139,8 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 	// IsRotFrame check prevents double counting
 	if (body && !frame->IsRotFrame() && (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)) {
 		vector3d lpos = frame->GetPositionRelTo(camFrame->GetId());
-		const double dist = lpos.Length() / AU;
-		lpos *= 1.0 / dist; // normalize
 
-		const Color &col = StarSystem::starRealColors[body->GetType()];
+		const Color &col = body->GetStarColor();
 
 		const Color lightCol(col[0], col[1], col[2], 0);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
@@ -151,10 +160,13 @@ void Camera::Update()
 
 	// evaluate each body and determine if/where/how to draw it
 	m_sortedBodies.clear();
+	m_spaceStations.clear();
 	for (Body *b : Pi::game->GetSpace()->GetBodies()) {
 		BodyAttrs attrs;
 		attrs.body = b;
 		attrs.billboard = false; // false by default
+		attrs.calcAtmosphereLighting = false; // false by default
+		attrs.calcInteriorLighting = false;
 
 		// If the body wishes to be excluded from the draw, skip it.
 		if (b->GetFlags() & Body::FLAG_DRAW_EXCLUDE)
@@ -169,29 +181,32 @@ void Camera::Update()
 
 		// cull off-screen objects
 		double rad = b->GetClipRadius();
-		if (!m_context->GetFrustum().TestPointInfinite(attrs.viewCoords, rad))
+		if (!m_context->GetFrustum().TestSphereInfinite(attrs.viewCoords, rad))
 			continue;
 
 		attrs.camDist = attrs.viewCoords.Length();
 		attrs.bodyFlags = b->GetFlags();
 
 		// approximate pixel width (disc diameter) of body on screen
-		const float pixSize = Graphics::GetScreenHeight() * 2.0 * rad / (attrs.camDist * Graphics::GetFovFactor());
+		// FIXME: this should reference a property set on the camera instead of querying the window size
+		const float pixSize = m_renderer->GetWindowHeight() * 2.0 * rad / (attrs.camDist * Graphics::GetFovFactor());
 
 		// terrain objects are visible from distance but might not have any discernable features
 		if (b->IsType(ObjectType::TERRAINBODY)) {
 			if (pixSize < BILLBOARD_PIXEL_THRESHOLD) {
 				attrs.billboard = true;
 
-				// project the position
-				vector3d pos;
-				m_context->GetFrustum().TranslatePoint(attrs.viewCoords, pos);
-				attrs.billboardPos = vector3f(pos);
+				// scale the position of the terrain body until it fits within the far plane for its billboard to be rendered
+				// Note that with an infinite projection matrix there is no far plane and this is somewhat unnecessary
+				double zFar = m_context->GetZFar();
+				double scaleFactor = zFar / attrs.viewCoords.Length() - 0.000001; // tiny nudge closer from the far plane
+
+				attrs.billboardPos = vector3f(attrs.viewCoords * std::min(scaleFactor, 1.0));
 
 				// limit the minimum billboard size for planets so they're always a little visible
 				attrs.billboardSize = std::max(1.0f, pixSize);
 				if (b->IsType(ObjectType::STAR)) {
-					attrs.billboardColor = StarSystem::starRealColors[b->GetSystemBody()->GetType()];
+					attrs.billboardColor = b->GetSystemBody()->GetStarColor();
 				} else if (b->IsType(ObjectType::PLANET)) {
 					// XXX this should incorporate some lighting effect
 					// (ie, colour of the illuminating star(s))
@@ -212,7 +227,24 @@ void Camera::Update()
 			continue;
 		}
 
+		Body *parentBody = f->GetBody();
+		if (parentBody && parentBody->GetType() == ObjectType::PLANET) {
+			auto *planet = static_cast<Planet *>(parentBody);
+
+			double atmo_rad_sqr = planet->GetAtmosphereRadius() * planet->GetAtmosphereRadius();
+			if (b->IsType(ObjectType::MODELBODY) && b->GetPosition().LengthSqr() <= atmo_rad_sqr)
+				attrs.calcAtmosphereLighting = true;
+		}
+
+		if(b->IsType(ObjectType::SHIP)) {
+			attrs.calcInteriorLighting = true;
+		}
+
 		m_sortedBodies.push_back(attrs);
+
+		if(b->IsType(ObjectType::SPACESTATION)) {
+			m_spaceStations.push_back(b);
+		}
 	}
 
 	// depth sort
@@ -287,6 +319,14 @@ void Camera::Draw(const Body *excludeBody)
 		m_renderer->SetLights(rendererLights.size(), &rendererLights[0]);
 	}
 
+	// Save lights for later restoring
+	oldLightIntensities.clear();
+	std::vector<float> lightIntensities;
+	for (size_t i = 0; i < m_lightSources.size(); i++) {
+		oldLightIntensities.push_back(m_renderer->GetLight(i).GetIntensity());
+		lightIntensities.push_back(1.0f);
+	}
+
 	Graphics::VertexArray billboards(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
 
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
@@ -299,16 +339,123 @@ void Camera::Draw(const Body *excludeBody)
 		// draw something!
 		if (attrs->billboard) {
 			billboards.Add(attrs->billboardPos, vector3f(0.f, 0.f, attrs->billboardSize));
-		} else
-			attrs->body->Render(m_renderer, this, attrs->viewCoords, attrs->viewTransform);
+			continue;
+		}
+
+		PrepareLighting(attrs->body, attrs->calcAtmosphereLighting, attrs->calcInteriorLighting);
+		attrs->body->Render(m_renderer, this, attrs->viewCoords, attrs->viewTransform);
 	}
 
+	RestoreLighting();
+
 	if (!billboards.IsEmpty()) {
-		Graphics::Renderer::MatrixTicket mt(m_renderer, matrix4x4f::Identity());
+		Graphics::Renderer::MatrixTicket mt(m_renderer, matrix4x4f::Identity);
 		m_renderer->DrawBuffer(&billboards, m_billboardMaterial.get());
 	}
 
 	SfxManager::RenderAll(m_renderer, rootFrameId, camFrameId);
+}
+
+// Calculates the ambiently and directly lit portions of the lighting model taking into account the atmosphere and sun positions at a given location
+// 1. Calculates the amount of direct illumination available taking into account
+//    * multiple suns
+//    * sun positions relative to up direction i.e. light is dimmed as suns set
+//    * Thickness of the atmosphere overhead i.e. as atmospheres get thicker light starts dimming earlier as sun sets, without atmosphere the light switches off at point of sunset
+// 2. Calculates the split between ambient and directly lit portions taking into account
+//    * Atmosphere density (optical thickness) of the sky dome overhead
+//        as optical thickness increases the fraction of ambient light increases
+//        this takes altitude into account automatically
+//    * As suns set the split is biased towards ambient
+void Camera::CalcLighting(const Body *b, double &ambient, double &direct) const
+{
+	const double minAmbient = 0.05;
+	ambient = minAmbient;
+	direct = 1.0;
+
+	Body *astro = Frame::GetFrame(b->GetFrame())->GetBody();
+	if (!astro)
+		return;
+
+	Planet *planet = static_cast<Planet *>(astro);
+	FrameId rotFrame = planet->GetFrame();
+
+	// position relative to the rotating frame of the planet
+	vector3d upDir = b->GetInterpPositionRelTo(rotFrame);
+	const double planetRadius = planet->GetSystemBody()->GetRadius();
+	const double dist = std::max(planetRadius, upDir.Length());
+	upDir.Normalize();
+
+	double pressure, density;
+	planet->GetAtmosphericState(dist, &pressure, &density);
+	double surfaceDensity;
+	Color cl;
+	planet->GetSystemBody()->GetAtmosphereFlavor(&cl, &surfaceDensity);
+
+	// approximate optical thickness fraction as fraction of density remaining relative to earths
+	double opticalThicknessFraction = density / EARTH_ATMOSPHERE_SURFACE_DENSITY;
+
+	// tweak optical thickness curve - lower exponent ==> higher altitude before ambient level drops
+	// Commenting this out, since it leads to a sharp transition at
+	// atmosphereRadius, where density is suddenly 0
+	//opticalThicknessFraction = pow(std::max(0.00001,opticalThicknessFraction),0.15); //max needed to avoid 0^power
+
+	if (opticalThicknessFraction < 0.0001)
+		return;
+
+	//step through all the lights and calculate contributions taking into account sun position
+	double light = 0.0;
+	double light_clamped = 0.0;
+
+	const std::vector<Camera::LightSource> &lightSources = m_lightSources;
+	for (const LightSource &source : m_lightSources) {
+		double sunAngle;
+		// calculate the extent the sun is towards zenith
+		const Body *lightBody = source.GetBody();
+		if (lightBody) {
+			// relative to the rotating frame of the planet
+			const vector3d lightDir = (lightBody->GetInterpPositionRelTo(rotFrame).Normalized());
+			sunAngle = lightDir.Dot(upDir);
+		} else {
+			// light is the default light for systems without lights
+			sunAngle = 1.0;
+		}
+
+		const double critAngle = -sqrt(dist * dist - planetRadius * planetRadius) / dist;
+
+		//0 to 1 as sunangle goes from critAngle to 1.0
+		double sunAngle2 = (Clamp(sunAngle, critAngle, 1.0) - critAngle) / (1.0 - critAngle);
+
+		// angle at which light begins to fade on Earth
+		const double surfaceStartAngle = 0.3;
+		// angle at which sun set completes, which should be after sun has dipped below the horizon on Earth
+		const double surfaceEndAngle = -0.18;
+
+		const double start = std::min((surfaceStartAngle * opticalThicknessFraction), 1.0);
+		const double end = std::max((surfaceEndAngle * opticalThicknessFraction), -0.2);
+
+		sunAngle = (Clamp(sunAngle - critAngle, end, start) - end) / (start - end);
+
+		light += sunAngle;
+		light_clamped += sunAngle2;
+	}
+
+	light_clamped /= lightSources.size();
+	light /= lightSources.size();
+
+	// brightness depends on optical depth and intensity of light from all the stars
+	direct = 1.0 - Clamp((1.0 - light), 0.0, 1.0) * Clamp(opticalThicknessFraction, 0.0, 1.0);
+
+	// ambient light fraction
+	// alter ratio between directly and ambiently lit portions towards ambiently lit as sun sets
+	const double fraction = (0.2 + 0.8 * (1.0 - light_clamped)) * Clamp(opticalThicknessFraction, 0.0, 1.0);
+
+	// fraction of light left over to be lit directly
+	direct = (1.0 - fraction) * direct;
+
+	// scale ambient by amount of light
+	ambient = fraction * (Clamp((light), 0.0, 1.0)) * 0.25;
+
+	ambient = std::max(minAmbient, ambient);
 }
 
 void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const
@@ -418,4 +565,54 @@ void Camera::PrincipalShadows(const Body *b, const int n, std::vector<Shadow> &s
 		if (it == itREnd) break;
 		shadowsOut.push_back(*(it++));
 	}
+}
+void Camera::CalcInteriorLighting(const Body* b, Color4ub &sLight, double &sFac) const
+{
+	for(const auto& ss : m_spaceStations) {
+		const SpaceStation* as_ss = static_cast<SpaceStation *>(ss);
+		const double distance2 = as_ss->GetPositionRelTo(b).LengthSqr();
+		const double maxClip = b->GetClipRadius() + ss->GetClipRadius();
+
+		// This short-circuits for efficient checking. Only one station may actually set
+		// lighting values in CalcInteriorLighting, which is why we return as soon as that happens
+		if (distance2 < maxClip * maxClip && as_ss->CalcInteriorLighting(b, sLight, sFac))
+			return;
+	}
+}
+
+void Camera::PrepareLighting(const Body *b, bool doAtmosphere, bool doInteriors) const
+{
+	std::vector<float> lightIntensities;
+
+	double ambient = 0.05, direct = 1.0;
+	if (doAtmosphere)
+		CalcLighting(b, ambient, direct);
+
+	Color4ub ambientLightColor = Color::WHITE;
+	Color4ub stationLightColor = Color::WHITE;
+	double stationFactor = 0.0;
+
+	if (doInteriors)
+		CalcInteriorLighting(b, stationLightColor, stationFactor);
+
+	direct = direct * (1.0 - stationFactor);
+	ambient = ambient * (1.0 - stationFactor) + stationFactor;
+
+	for (size_t i = 0; i < m_lightSources.size(); i++)
+		lightIntensities.push_back(direct * ShadowedIntensity(i, b));
+
+	// Setup dynamic lighting parameters
+	Color4ub ambientMix = (ambientLightColor.Shade((float)stationFactor)
+						   + stationLightColor.Shade(1.0f - stationFactor)).Shade(1.0 - ambient);
+	ambientMix.a = 255;
+
+	m_renderer->SetAmbientColor(ambientMix);
+	m_renderer->SetLightIntensity(m_lightSources.size(), lightIntensities.data());
+
+}
+
+void Camera::RestoreLighting() const
+{
+	m_renderer->SetAmbientColor(Color::WHITE);
+	m_renderer->SetLightIntensity(m_lightSources.size(), oldLightIntensities.data());
 }

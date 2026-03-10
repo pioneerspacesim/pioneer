@@ -12,6 +12,7 @@ local utils = require 'utils'
 local Rand = require 'Rand'
 
 local rand = Rand.New()
+local PlayerState = require 'PlayerState'
 
 -- This module allows the player to hire crew members through BB adverts
 -- on stations
@@ -35,6 +36,111 @@ local wage_period = 604800 -- a week of seconds
 -- This determines how much the character enjoys being in busy systems with high
 -- population vs. the unexplored frontier
 local civaffinity = {"low", "medium", "high"}
+---------------------- Part 1 ----------------------
+-- Life aboard ship
+
+local boostCrewSkills = function (crewMember)
+	-- Each week, there's a small chance that a crew member gets better
+	-- at each skill, due to the experience of working on the ship.
+
+	-- If they fail their intelligence roll, they learn nothing.
+	if not crewMember:TestRoll('intelligence') then return end
+
+	-- The attributes to be tested and possibly enhanced. These will be sorted
+	-- by their current value, but appear first in arbitrary order.
+	local attribute = {
+		{'engineering',crewMember.engineering},
+		{'piloting',crewMember.piloting},
+		{'navigation',crewMember.navigation},
+		{'sensors',crewMember.sensors},
+	}
+	table.sort(attribute,function (a,b) return a[2] > b[2] end)
+	-- The sorted attributes mean that the highest scoring attribute gets the
+	-- first opportunity for improvement. The next loop actually makes it harder
+	-- for the highest scoring attributes to improve, so if they fail, the next
+	-- one is given an opportunity. At most one attribute will be improved, and
+	-- the distribution means that, for example, a pilot will improve in piloting
+	-- first, but once that starts to get very good, the other skills will start
+	-- to see an improvement.
+
+	for i = 1,#attribute do
+		-- A carefully weighted test here. Scores will creep up to the low 50s.
+		if not crewMember:TestRoll(attribute[i][1],math.floor(attribute[i][2] * 0.2 - 10)) then
+			-- They learned from their failure,
+			crewMember[attribute[i][1]] = crewMember[attribute[i][1]]+1
+			-- but only on this skill.
+			break
+		end
+	end
+end
+
+local scheduleWages = function (crewMember)
+	-- Must have a contract to be treated like crew
+	if not crewMember.contract then return end
+
+	local payWages
+	payWages = function ()
+		local contract = crewMember.contract
+		-- Check if crew member has been dismissed
+		if not contract then return end
+
+		if PlayerState.GetMoney() > contract.wage then
+			PlayerState.AddMoney(0 - contract.wage)
+			-- Being paid can make awkward crew like you more
+			if not crewMember:TestRoll('playerRelationship') then
+				crewMember.playerRelationship = crewMember.playerRelationship + 1
+			end
+		else
+			contract.outstanding = contract.outstanding + contract.wage
+			crewMember.playerRelationship = crewMember.playerRelationship - 1
+			Character.persistent.player.reputation = Character.persistent.player.reputation - 0.5
+		end
+
+		-- Attempt to pay off any arrears
+		local arrears = math.min(PlayerState.GetMoney(),contract.outstanding)
+		PlayerState.AddMoney(0 - arrears)
+		contract.outstanding = contract.outstanding - arrears
+
+		-- The crew gain experience each week, and might get better
+		boostCrewSkills(crewMember)
+
+		-- Schedule the next pay day, if there is one.
+		if contract.payday and not crewMember.dead then
+			contract.payday = contract.payday + wage_period
+			Timer:CallAt(math.max(Game.time + 5,contract.payday),payWages)
+		end
+	end
+
+	Timer:CallAt(math.max(Game.time + 1,crewMember.contract.payday),payWages)
+end
+
+-- This gets run just after crew are restored from a saved game
+Event.Register('crewAvailable',function()
+	-- scheduleWages() for everybody
+	for crewMember in Game.player:EachCrewMember() do
+		scheduleWages(crewMember)
+	end
+end)
+
+-- This gets run whenever a crew member joins a ship
+Event.Register('onJoinCrew',function(ship, crewMember)
+	if ship:IsPlayer() then
+		scheduleWages(crewMember)
+	end
+end)
+
+-- This gets run whenever a crew member leaves a ship
+Event.Register('onLeaveCrew',function(ship, crewMember)
+	if ship:IsPlayer() and crewMember.contract then
+		-- Prepare them for the job market
+		crewMember.estimatedWage = crewMember.contract.wage + 5
+		-- Terminate their contract
+		crewMember.contract = nil
+	end
+end)
+
+---------------------- Part 2 ----------------------
+-- The bulletin board
 
 local nonPersistentCharactersForCrew = {}
 local stationsWithAdverts = {}
@@ -325,6 +431,41 @@ local isEnabled = function (ref)
 	return numCrewmenAvailable > 0
 end
 
+local function N_equilibrium(station) -- This function is included unchanged from the Ship Market
+	local pop = station.path:GetSystemBody().parent.population -- E.g. Earth=7, Mars=0.3
+	local pop_bonus = 9 * math.log(pop * 0.45 + 1)       -- something that gives resonable result
+	if station.type == "STARPORT_SURFACE" then
+		pop_bonus = pop_bonus * 1.5
+	end
+
+	return 2 + pop_bonus
+end
+
+local newCrew = function()
+	local hopefulCrew = Character.New()
+	-- Roll new stats, with a 1/3 chance that they're utterly inexperienced
+	hopefulCrew:RollNew(Engine.rand:Integer(0, 2) > 0)
+	-- Make them a title if they're good at anything
+	local maxScore = math.max(hopefulCrew.engineering,
+								hopefulCrew.piloting,
+								hopefulCrew.navigation,
+								hopefulCrew.sensors)
+	if maxScore > 45 then
+		if hopefulCrew.engineering == maxScore then hopefulCrew.title = lui.SHIPS_ENGINEER end
+		if hopefulCrew.piloting == maxScore then hopefulCrew.title = lui.PILOT end
+		if hopefulCrew.navigation == maxScore then hopefulCrew.title = lui.NAVIGATOR end
+		if hopefulCrew.sensors == maxScore then hopefulCrew.title = lui.SENSORS_AND_DEFENCE end
+	end
+	return hopefulCrew
+end
+
+local function removeAd (station, num)
+	if not nonPersistentCharactersForCrew[station] then
+		nonPersistentCharactersForCrew[station] = {}
+	end
+	table.remove(nonPersistentCharactersForCrew[station], num)
+end
+
 local onCreateBB = function (station)
 	-- Create non-persistent Characters as available crew
 	nonPersistentCharactersForCrew[station] = {}
@@ -338,33 +479,37 @@ local onCreateBB = function (station)
 		isEnabled   = isEnabled})] = station
 
 	-- Number is based on population, nicked from Assassinations.lua and tweaked
-	for i = 1, Engine.rand:Integer(0, math.ceil(Game.system.population) * 2 + 1) do
-		local hopefulCrew = Character.New()
-		-- Roll new stats, with a 1/3 chance that they're utterly inexperienced
-		hopefulCrew:RollNew(Engine.rand:Integer(0, 2) > 0)
-		-- Make them a title if they're good at anything
-		local maxScore = math.max(hopefulCrew.engineering,
-									hopefulCrew.piloting,
-									hopefulCrew.navigation,
-									hopefulCrew.sensors)
-		if maxScore > 45 then
-			if hopefulCrew.engineering == maxScore then hopefulCrew.title = lui.SHIPS_ENGINEER end
-			if hopefulCrew.piloting == maxScore then hopefulCrew.title = lui.PILOT end
-			if hopefulCrew.navigation == maxScore then hopefulCrew.title = lui.NAVIGATOR end
-			if hopefulCrew.sensors == maxScore then hopefulCrew.title = lui.SENSORS_AND_DEFENCE end
-		end
-		table.insert(nonPersistentCharactersForCrew[station],hopefulCrew)
+	for i = 1, Engine.rand:Poisson(N_equilibrium(station)) do
+		table.insert(nonPersistentCharactersForCrew[station],newCrew())
 	end
 end
-
 Event.Register("onCreateBB", onCreateBB)
+
+local onUpdateBB = function (station)
+	local tau = 7*24                              -- half life of a crew advert in hours
+	local lambda = 0.693147 / tau                 -- removal probability= ln(2) / tau
+	local prod = N_equilibrium(station) * lambda  -- creation probability
+
+	-- remove with decay rate lambda. Call ONCE/hour for each crew advert in station
+	for k,v in pairs(nonPersistentCharactersForCrew[station]) do
+		if Engine.rand:Number(0,1) < lambda then  -- remove one random crew
+			table.remove(nonPersistentCharactersForCrew[station],k)
+		end
+	end
+
+	-- spawn a new crew advert, call for each station
+	if Engine.rand:Number(0,1) <= prod then
+		table.insert(nonPersistentCharactersForCrew[station], 1, newCrew())
+	end
+
+	if prod > 1 then print("Warning: crew market not in equilibrium") end
+end
+Event.Register("onUpdateBB", onUpdateBB)
 
 -- Wipe temporary crew out when hyperspacing
 Event.Register("onEnterSystem", function(ship)
-	if ship:IsPlayer() then
-		nonPersistentCharactersForCrew = {}
-		stationsWithAdverts = {}
-	end
+	nonPersistentCharactersForCrew = {}
+	stationsWithAdverts = {}
 end)
 
 -- Load temporary crew from saved data

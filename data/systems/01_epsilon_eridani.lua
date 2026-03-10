@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local s = CustomSystem:new('Epsilon Eridani', { 'STAR_K' })
@@ -74,6 +74,7 @@ local newhope = CustomSystemBody:new('New Hope', 'PLANET_TERRESTRIAL')
 
 	local newhope_starports = {
 	CustomSystemBody:new('Itzalean', 'STARPORT_SURFACE')
+		:seed(795500669)
 		:latitude(math.deg2rad(0.0))
 		:longitude(math.deg2rad(45.864)),
 	CustomSystemBody:new('New Hope', 'STARPORT_SURFACE')

@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _MATHUTIL_H
@@ -7,6 +7,67 @@
 #include "matrix3x3.h"
 #include "matrix4x4.h"
 #include "vector3.h"
+#include "fixed.h"
+
+#include <cmath>
+
+template <class T>
+inline const T &Clamp(const T &x, const T &min, const T &max) { return x > max ? max : (x < min ? min : x); }
+
+inline constexpr double DEG2RAD(double x) { return x * (M_PI / 180.); }
+inline constexpr float DEG2RAD(float x) { return x * (float(M_PI) / 180.f); }
+inline constexpr double RAD2DEG(double x) { return x * (180. / M_PI); }
+inline constexpr float RAD2DEG(float x) { return x * (180.f / float(M_PI)); }
+
+static inline Sint64 isqrt(Sint64 a)
+{
+	// replace with cast from sqrt below which is between x7.3 (win32, Debug) & x15 (x64, Release) times faster
+	return static_cast<int64_t>(sqrt(static_cast<double>(a)));
+}
+
+static inline Sint64 isqrt(fixed v)
+{
+	Sint64 ret = 0;
+	Sint64 s;
+	Sint64 ret_sq = -v.v - 1;
+	for (s = 62; s >= 0; s -= 2) {
+		Sint64 b;
+		ret += ret;
+		b = ret_sq + ((2 * ret + 1) << s);
+		if (b < 0) {
+			ret_sq = b;
+			ret++;
+		}
+	}
+	return ret;
+}
+
+// add a few things that MSVC is missing
+#if defined(_MSC_VER) && (_MSC_VER < 1800)
+
+// round & roundf. taken from http://cgit.freedesktop.org/mesa/mesa/tree/src/gallium/auxiliary/util/u_math.h
+static inline double round(double x)
+{
+	return x >= 0.0 ? floor(x + 0.5) : ceil(x - 0.5);
+}
+
+static inline float roundf(float x)
+{
+	return x >= 0.0f ? floorf(x + 0.5f) : ceilf(x - 0.5f);
+}
+#endif /* _MSC_VER < 1800 */
+
+static inline Uint32 ceil_pow2(Uint32 v)
+{
+	v--;
+	v |= v >> 1;
+	v |= v >> 2;
+	v |= v >> 4;
+	v |= v >> 8;
+	v |= v >> 16;
+	v++;
+	return v;
+}
 
 namespace MathUtil {
 
@@ -31,6 +92,22 @@ namespace MathUtil {
 	}
 
 	inline float Dot(const vector3f &a, const vector3f &b) { return a.x * b.x + a.y * b.y + a.z * b.z; }
+
+	// Remap the given value from the input range [min1, max1] to the output range [min2, max2]
+	// Values outside the input range will be proportionately outside the output range
+	template<typename T>
+	inline T Remap(const T &v, const T &min1, const T &max1, const T &min2, const T &max2)
+	{
+		return min2 + (v - min1) / (max1 - min1) * (max2 - min2);
+	}
+
+	// Remap the given value from the given input range to 0..1.
+	// Values outside the input range will be proportionately outside of the 0..1 range.
+	template<typename T>
+	inline T Remap01(const T &v, const T &min, const T &max)
+	{
+		return (v - min) / (max - min);
+	}
 
 	// unit vector orthogonal to given vector
 	template <typename T>

@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ShipDef = require 'ShipDef'
@@ -27,8 +27,14 @@ function CargoManager:Constructor(ship)
 	self.usedCargoMass = 0
 
 	-- Initialize property variables on owning ship for backwards compatibility
-	ship:setprop("totalCargo", self:GetTotalSpace())
-	ship:setprop("usedCargo", 0)
+	-- don't initialize them if they're already created after first save
+	if not self.ship:hasprop("totalCargo") then
+		ship:setprop("totalCargo", self:GetTotalSpace())
+	end
+
+	if not self.ship:hasprop("usedCargo") then
+		ship:setprop("usedCargo", 0)
+	end
 
 	-- TODO: stored commodities should be represented as array of { name, count, meta } entries
 	-- to allow for e.g. tracking stolen/scooped cargo, or special mission-related cargoes
@@ -57,14 +63,7 @@ end
 --
 -- Returns the available amount of cargo space currently present on the vessel.
 function CargoManager:GetFreeSpace()
-	local ship = self.ship
-
-	-- use mass_cap directly here instead of freeCapacity because this can be
-	-- called before ship:UpdateEquipStats() has been called
-	local avail_mass = ShipDef[ship.shipId].capacity - (ship.mass_cap or 0)
-	local cargo_space = ShipDef[ship.shipId].equipSlotCapacity.cargo or 0
-
-	return math.min(avail_mass, cargo_space - self.usedCargoSpace)
+	return self:GetTotalSpace() - self.usedCargoSpace
 end
 
 -- Method: GetUsedSpace
@@ -78,7 +77,7 @@ end
 --
 -- Returns the maximum amount of cargo that could be stored on the vessel.
 function CargoManager:GetTotalSpace()
-	return self:GetFreeSpace() + self.usedCargoSpace
+	return ShipDef[self.ship.shipId].cargo
 end
 
 -- Method: AddCommodity
@@ -97,7 +96,7 @@ end
 ---@param type CommodityType
 ---@param count integer
 function CargoManager:AddCommodity(type, count)
-	-- TODO: use a cargo volume metric with variable mass instead of fixed 1m^3 == 1t
+	-- TODO: use a cargo volume metric with variable mass instead of fixed 1t == 1m^3
 	local required_space = (type.mass or 1) * (count or 1)
 
 	if self:GetFreeSpace() < required_space then
@@ -245,6 +244,7 @@ end
 function CargoManager:Unserialize()
 	setmetatable(self, CargoManager.meta)
 	self.listeners = {}
+
 	return self
 end
 

@@ -97,7 +97,7 @@
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
-    "message": "Alüminyum tüp"
+    "message": "alüminyum tüpler"
   },
   "AMOUNT": {
     "description": "Shown in mission summary. The amount of cargo",
@@ -105,7 +105,19 @@
   },
   "ART_OBJECTS": {
     "description": "custom cargo",
-    "message": "Sanatsal eşyalar"
+    "message": "sanatsal ögeler"
+  },
+  "ART_OBJECTS_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Sanat eleştirmenlerini tehlike saymıyorsanız hayır."
+  },
+  "ART_OBJECTS_RISK_MESSAGE_2": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Aramızda kalsın... Sanat eserlerine bakmazsanız güvende olacaksınız."
+  },
+  "ART_OBJECTS_RISK_MESSAGE_3": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "25'inci yüzyıl empresyonizminin tehlikesi yalnızca orijinal sanatçıyı hedef aldı, siz güvendesiniz."
   },
   "CARGO": {
     "description": "",
@@ -129,7 +141,7 @@
   },
   "CLUS": {
     "description": "custom cargo",
-    "message": "Konteynırlanmış canlılar"
+    "message": "konteynır yaşam üniteleri"
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
@@ -185,11 +197,11 @@
   },
   "DIAMONDS": {
     "description": "custom cargo",
-    "message": "Elmas"
+    "message": "elmaslar"
   },
   "DIGESTERS": {
     "description": "custom cargo",
-    "message": "Öğütücü"
+    "message": "öğütücüler"
   },
   "DISTANCE": {
     "description": "distance in space, between two locations",
@@ -197,7 +209,7 @@
   },
   "ELECTRICAL_APPLIANCES": {
     "description": "custom cargo",
-    "message": "Elektrikli eşyalar"
+    "message": "elektrikli eşyalar"
   },
   "ESCORT_CHATTER_1": {
     "description": "",
@@ -221,7 +233,11 @@
   },
   "EXPLOSIVES": {
     "description": "custom cargo",
-    "message": "Patlayıcılar"
+    "message": "patlayıcılar"
+  },
+  "EXPLOSIVES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Hayır. Yani, elbette bunlar patlayıcı malzemeler, ama düşürmediğiniz sürece sorun yok."
   },
   "FAILUREMSG_1": {
     "description": "",
@@ -245,7 +261,7 @@
   },
   "FURNITURE": {
     "description": "custom cargo",
-    "message": "Ev eşyası"
+    "message": "mobilya"
   },
   "GO_BACK": {
     "description": "Shown on a button in a sub-menu, to move back, to previous menu",
@@ -253,7 +269,7 @@
   },
   "GREENHOUSES": {
     "description": "custom cargo",
-    "message": "Seralar"
+    "message": "seralar"
   },
   "GUNS_GUNS_GUNS": {
     "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
@@ -261,7 +277,11 @@
   },
   "HAZARDOUS_SUBSTANCES": {
     "description": "custom cargo",
-    "message": "Zararlı maddeler"
+    "message": "tehlikeli maddeler"
+  },
+  "HAZARDOUS_SUBSTANCES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Konteynırları açmamanız iyi olabilir."
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
@@ -269,27 +289,27 @@
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}t"
+    "message": "{amount} t"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Kütle: {amount}t."
+    "message": "Kütle {amount} t."
   },
   "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}t mal var."
+    "message": "{amount} t kadar var."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "Sadece {amount}t."
+    "message": "Yalnızca {amount} t."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "{amount}t kadar {cargoname}."
+    "message": "{amount} t {cargoname} var."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}t {cargoname}"
+    "message": "{amount} t {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
@@ -385,7 +405,7 @@
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
-    "message": "Makine"
+    "message": "makine parçaları"
   },
   "NEGOTIABLE_1": {
     "description": "regarding mass, always more than 1t",
@@ -393,7 +413,7 @@
   },
   "NEGOTIABLE_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}t {cargoname} şu şekilde ayrılabilir:"
+    "message": "{amount} t {cargoname} şu şekilde bölünebilir:"
   },
   "NEGOTIABLE_3": {
     "description": "regarding mass, always more than 1t",
@@ -405,15 +425,15 @@
   },
   "NEGOTIABLE_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "Hayır, bu mümkün değil. Kargo sadece {amount}t kadar."
+    "message": "Hayır. Yalnızca {amount} t var."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
-    "message": "Neptünyum"
+    "message": "neptünyum"
   },
   "OFFER": {
     "description": "",
-    "message": "{reward} için {amount}t taşı"
+    "message": "{reward} için {amount} t taşı."
   },
   "OK_AGREED": {
     "description": "",
@@ -421,7 +441,7 @@
   },
   "OK_WE_AGREE": {
     "description": "",
-    "message": "Tamam, {reward} için {amount} tonda anlaştık."
+    "message": "Tamam, {reward} için {amount} tona anlaştık."
   },
   "PICKUP_FROM": {
     "description": "from a location",
@@ -469,11 +489,19 @@
   },
   "PLUTONIUM": {
     "description": "custom cargo",
-    "message": "Plütonyum"
+    "message": "plütonyum"
   },
   "QUIBBLES": {
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-    "message": "Ivır-zıvır"
+    "message": "quibblelar"
+  },
+  "QUIBBLES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Hayır. Yalnızca onları ıslatmayın ve gece yarısından sonra beslemeyin."
+  },
+  "QUIBBLES_RISK_MESSAGE_2": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Tabiki hayır! Baksanıza, ne kadar tüylüler!"
   },
   "RISK_1": {
     "description": "",
@@ -529,7 +557,7 @@
   },
   "SEMI_FINISHED_PRODUCTS": {
     "description": "custom cargo",
-    "message": "Yarı bitirilmiş ürünler"
+    "message": "yarı-bitirilmiş ürünler"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -545,11 +573,11 @@
   },
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
-    "message": "Uzay aracı parçaları"
+    "message": "uzay gemisi parçaları"
   },
   "STEM_BOLTS": {
     "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
-    "message": "Öz-mühürlü gövde civataları"
+    "message": "kendini-mühürleyen gövde civataları"
   },
   "SUCCESSMSG_1": {
     "description": "",
@@ -581,7 +609,7 @@
   },
   "TITANIUM": {
     "description": "custom cargo",
-    "message": "Titanyum"
+    "message": "titanyum"
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
@@ -589,11 +617,11 @@
   },
   "TUNGSTEN": {
     "description": "custom cargo",
-    "message": "Tungsten"
+    "message": "tungsten"
   },
   "URANIUM": {
     "description": "custom cargo",
-    "message": "Uranyum"
+    "message": "uranyum"
   },
   "URGENCY_1": {
     "description": "",
@@ -625,7 +653,11 @@
   },
   "WEDDING_DRESSES": {
     "description": "custom cargo",
-    "message": "Evlilik giysileri"
+    "message": "düğün giysileri"
+  },
+  "WEDDING_DRESSES_RISK_MESSAGE_1": {
+    "description": "Answer to question: Will I be in any danger?",
+    "message": "Düğün giysilerinden mi?"
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",

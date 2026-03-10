@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "RenderTargetGL.h"
@@ -8,6 +8,17 @@
 
 namespace Graphics {
 	namespace OGL {
+
+		static GLuint get_binding(RenderTarget::Binding bind)
+		{
+			switch (bind) {
+				case RenderTarget::READ: return GL_READ_FRAMEBUFFER;
+				case RenderTarget::DRAW: return GL_DRAW_FRAMEBUFFER;
+				case RenderTarget::BOTH: return GL_FRAMEBUFFER;
+				// default value is never reached, calm down -Werror=return-type
+				default: return 42;
+			}
+		}
 
 		// RAII helper to push/pop a framebuffer for temporary modification
 		struct ScopedActive {
@@ -46,7 +57,6 @@ namespace Graphics {
 
 		Texture *RenderTarget::GetDepthTexture() const
 		{
-			assert(GetDesc().allowDepthTexture);
 			return m_depthTexture.Get();
 		}
 
@@ -83,15 +93,15 @@ namespace Graphics {
 			m_depthTexture.Reset(t);
 		}
 
-		void RenderTarget::Bind()
+		void RenderTarget::Bind(Binding bind)
 		{
-			glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+			glBindFramebuffer(get_binding(bind), m_fbo);
 			m_active = true;
 		}
 
-		void RenderTarget::Unbind()
+		void RenderTarget::Unbind(Binding bind)
 		{
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			glBindFramebuffer(get_binding(bind), 0);
 			m_active = false;
 		}
 

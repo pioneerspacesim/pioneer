@@ -1,0 +1,350 @@
+{
+  "AC33": {
+    "description": "ship name - base form",
+    "message": "AC-33 Dropstar"
+  },
+  "AC33_DEF": {
+    "description": "ship - definite form",
+    "message": "το AC-33 Dropstar"
+  },
+  "AC33_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα AC-33 Dropstar"
+  },
+  "BLUENOSE": {
+    "description": "ship name - base form",
+    "message": "Bluenose"
+  },
+  "BLUENOSE_DEF": {
+    "description": "ship - definite form",
+    "message": "το Bluenose"
+  },
+  "BLUENOSE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα Bluenose"
+  },
+  "BOWFIN": {
+    "description": "ship name - base form",
+    "message": "Bowfin"
+  },
+  "BOWFIN_DEF": {
+    "description": "ship - definite form",
+    "message": "το Bowfin"
+  },
+  "BOWFIN_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα Bowfin"
+  },
+  "CORONATRIX": {
+    "description": "ship name - base form",
+    "message": "Coronatrix"
+  },
+  "CORONATRIX_DEF": {
+    "description": "ship - definite form",
+    "message": "το Coronatrix"
+  },
+  "CORONATRIX_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα Coronatrix"
+  },
+  "CORONATRIX_POLICE": {
+    "description": "ship name - base form",
+    "message": "Αστυνομικό Coronatrix"
+  },
+  "CORONATRIX_POLICE_DEF": {
+    "description": "ship - definite form",
+    "message": "το αστυνομικό Coronatrix"
+  },
+  "CORONATRIX_POLICE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα αστυνομικό Coronatrix"
+  },
+  "DENEB": {
+    "description": "ship name - base form",
+    "message": "Deneb"
+  },
+  "DENEB_DEF": {
+    "description": "ship - definite form",
+    "message": "το Deneb"
+  },
+  "DENEB_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα Deneb"
+  },
+  "DSMINER": {
+    "description": "ship name - base form",
+    "message": "DS Μεταλλευτικό"
+  },
+  "DSMINER_DEF": {
+    "description": "ship - definite form",
+    "message": "το DS μεταλλευτικό"
+  },
+  "DSMINER_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα DS μεταλλευτικό"
+  },
+  "KANARA": {
+    "description": "ship name - base form",
+    "message": "Kanara"
+  },
+  "KANARA_CIV": {
+    "description": "ship name - base form",
+    "message": "Kanara πολιτικό"
+  },
+  "KANARA_CIV_DEF": {
+    "description": "ship - definite form",
+    "message": "το πολιτικό Kanara"
+  },
+  "KANARA_CIV_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα πολιτικό Kanara"
+  },
+  "KANARA_DEF": {
+    "description": "ship - definite form",
+    "message": "το Kanara"
+  },
+  "KANARA_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα Kanara"
+  },
+  "LODOS": {
+    "description": "ship name - base form",
+    "message": "Lodos"
+  },
+  "LODOS_DEF": {
+    "description": "ship - definite form",
+    "message": "το Lodos"
+  },
+  "LODOS_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Ένα Lodos"
+  },
+  "LUNARSHUTTLE": {
+    "description": "ship name - base form",
+    "message": "Λεωφορείο"
+  },
+  "LUNARSHUTTLE_DEF": {
+    "description": "ship - definite form",
+    "message": "το Λεωφορείο"
+  },
+  "LUNARSHUTTLE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "Ένα Λεωφορείο"
+  },
+  "MALABAR": {
+    "description": "ship name - base form",
+    "message": "Malabar"
+  },
+  "MALABAR_DEF": {
+    "description": "ship - definite form",
+    "message": "το Malabar"
+  },
+  "MALABAR_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα Malabar"
+  },
+  "MOLAMOLA": {
+    "description": "ship name - base form",
+    "message": "Mola Mola"
+  },
+  "MOLAMOLA_DEF": {
+    "description": "ship - definite form",
+    "message": "το Mola Mola"
+  },
+  "MOLAMOLA_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα Mola Mola"
+  },
+  "MOLARAMSAYI": {
+    "description": "ship name - base form",
+    "message": "Mola Ramsayi"
+  },
+  "MOLARAMSAYI_DEF": {
+    "description": "ship - definite form",
+    "message": "το Mola Ramsayi"
+  },
+  "MOLARAMSAYI_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα Mola Ramsayi"
+  },
+  "NATRIX": {
+    "description": "ship name - base form",
+    "message": "Natrix"
+  },
+  "NATRIX_DEF": {
+    "description": "ship - definite form",
+    "message": "το Natrix"
+  },
+  "NATRIX_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα Natrix"
+  },
+  "NERODIA": {
+    "description": "ship name - base form",
+    "message": "Nerodia"
+  },
+  "NERODIA_DEF": {
+    "description": "ship - definite form",
+    "message": "το Nerodia"
+  },
+  "NERODIA_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα Nerodia"
+  },
+  "POLICE_SHIP": {
+    "description": "ship name - base form",
+    "message": "αστυνομικό"
+  },
+  "POLICE_SHIP_DEF": {
+    "description": "ship - definite form",
+    "message": "το αστυνομικό"
+  },
+  "POLICE_SHIP_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα αστυνομικό"
+  },
+  "PUMPKINSEED": {
+    "description": "ship name - base form",
+    "message": "Pumkinseed"
+  },
+  "PUMPKINSEED_DEF": {
+    "description": "ship - definite form",
+    "message": "το Pumkinseed"
+  },
+  "PUMPKINSEED_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα Pumkinseed"
+  },
+  "PUMPKINSEED_POLICE": {
+    "description": "ship name - base form",
+    "message": "Αστυνομικό Pumkinseed"
+  },
+  "PUMPKINSEED_POLICE_DEF": {
+    "description": "ship - definite form",
+    "message": "το αστυνομικό Pumkinseed"
+  },
+  "PUMPKINSEED_POLICE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα αστυνομικό Pumkinseed"
+  },
+  "SHIP": {
+    "description": "ship name - base form",
+    "message": "σκάφος"
+  },
+  "SHIP_DEF": {
+    "description": "ship - definite form",
+    "message": "το σκάφος"
+  },
+  "SHIP_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα σκάφος"
+  },
+  "SINONATRIX": {
+    "description": "ship name - base form",
+    "message": "Sinonatrix"
+  },
+  "SINONATRIX_DEF": {
+    "description": "ship - definite form",
+    "message": "το Sinonatrix"
+  },
+  "SINONATRIX_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα Sinonatrix"
+  },
+  "SINONATRIX_POLICE": {
+    "description": "ship name - base form",
+    "message": "αστυνομικό Sinonatrix"
+  },
+  "SINONATRIX_POLICE_DEF": {
+    "description": "ship - definite form",
+    "message": "το αστυνομικό Sinonatrix"
+  },
+  "SINONATRIX_POLICE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα αστυνομικό Sinonatrix"
+  },
+  "SKIPJACK": {
+    "description": "ship name - base form",
+    "message": "Skipjack"
+  },
+  "SKIPJACK_DEF": {
+    "description": "ship - definite form",
+    "message": "το Skipjack"
+  },
+  "SKIPJACK_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα Skipjack"
+  },
+  "STORERIA": {
+    "description": "ship name - base form",
+    "message": "Storeria"
+  },
+  "STORERIA_DEF": {
+    "description": "ship - definite form",
+    "message": "η Storeria"
+  },
+  "STORERIA_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "μια Storeria"
+  },
+  "VARADA": {
+    "description": "ship name - base form",
+    "message": "Varada"
+  },
+  "VARADA_DEF": {
+    "description": "ship - definite form",
+    "message": "το Varada"
+  },
+  "VARADA_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα Varada"
+  },
+  "VATAKARA": {
+    "description": "ship name - base form",
+    "message": "Vatakara"
+  },
+  "VATAKARA_DEF": {
+    "description": "ship - definite form",
+    "message": "το Vatakara"
+  },
+  "VATAKARA_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα Vatakara"
+  },
+  "VENTURESTAR": {
+    "description": "ship name - base form",
+    "message": "Venturestar"
+  },
+  "VENTURESTAR_DEF": {
+    "description": "ship - definite form",
+    "message": "το Venturestar"
+  },
+  "VENTURESTAR_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα Venturestar"
+  },
+  "WAVE": {
+    "description": "ship name - base form",
+    "message": "Wave"
+  },
+  "WAVE_DEF": {
+    "description": "ship - definite form",
+    "message": "το Wave"
+  },
+  "WAVE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένα Wave"
+  },
+  "XYLOPHIS": {
+    "description": "ship name - base form",
+    "message": "Ξυλόφις"
+  },
+  "XYLOPHIS_DEF": {
+    "description": "ship - definite form",
+    "message": "ο Ξυλόφις"
+  },
+  "XYLOPHIS_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ένας Ξυλόφις"
+  }
+}

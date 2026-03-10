@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -22,6 +22,8 @@ local colors = ui.theme.colors
 
 local reticuleCircleRadius = math.min(ui.screenWidth, ui.screenHeight) / 8
 local reticuleCircleThickness = 2.0
+
+local lastTimeAcceleration
 
 -- for modules
 ui.reticuleCircleRadius = reticuleCircleRadius
@@ -160,7 +162,7 @@ local function displayOnScreenObjects()
 			end
 		end
 		-- popup content
-		ui.popup("navtarget" .. mainBody:GetLabel(), function()
+		ui.popup("navtarget" .. mainBody:GetLabel(), {"NoMove"}, function()
 			for _,b in pairs(group.bodies) do
 				ui.icon(getBodyIcon(b, true), small_iconsize, colors.frame)
 				ui.sameLine()
@@ -238,7 +240,7 @@ end
 
 local drawHUD = ui.makeFullScreenHandler("HUD", function()
 	if ui.shouldDrawUI() then
-		if Game.CurrentView() == "world" then
+		if Game.CurrentView() == "WorldView" then
 			gameView:draw()
 		else
 			gameView.shouldRefresh = true
@@ -246,7 +248,7 @@ local drawHUD = ui.makeFullScreenHandler("HUD", function()
 
 		ui.radialMenu("game")
 		callModules("game")
-	elseif Game.CurrentView() == "world" then
+	elseif Game.CurrentView() == "WorldView" then
 		displayScreenshotInfo()
 	end
 end)
@@ -263,6 +265,16 @@ Event.Register("onGameStart", function()
 	gameView.shouldRefresh = true
 	gameView.leftSidebar:Reset()
 	gameView.rightSidebar:Reset()
+end)
+
+Event.Register("onPauseMenuOpen", function()
+	lastTimeAcceleration = Game.GetTimeAcceleration() ~= Game.GetRequestedTimeAcceleration() and Game.GetRequestedTimeAcceleration() or Game.GetTimeAcceleration()
+	Game.SetTimeAcceleration("paused")
+end)
+
+Event.Register("onPauseMenuClosed", function()
+	Game.SetTimeAcceleration((lastTimeAcceleration == "paused") and "1x" or lastTimeAcceleration)
+	Input.EnableBindings()
 end)
 
 ui.registerHandler('game', function(delta_t)
@@ -283,21 +295,12 @@ ui.registerHandler('game', function(delta_t)
 		end)
 
 		-- TODO: dispatch escape key to views and let them handle it
-		if currentView == "world" and ui.escapeKeyReleased(true) then
-			if not ui.optionsWindow.isOpen then
-				Game.SetTimeAcceleration("paused")
-				ui.optionsWindow:open()
-				Input.EnableBindings(false)
-			else
-				ui.optionsWindow:close()
-				if not ui.optionsWindow.isOpen then
-					Game.SetTimeAcceleration("1x")
-					Input.EnableBindings()
-				end
-			end
+		if currentView == "WorldView" and ui.escapeKeyReleased(true) then
+			ui.optionsWindow:changeState()
 		end
 
 		callModules('modal')
+		callModules('ui-timer')
 
 		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
 			gameView.debugReload()

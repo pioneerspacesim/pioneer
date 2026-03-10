@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Body.h"
@@ -8,6 +8,7 @@
 #include "Frame.h"
 #include "GameSaveError.h"
 #include "HyperspaceCloud.h"
+#include "JsonUtils.h"
 #include "Missile.h"
 #include "Planet.h"
 #include "Player.h"
@@ -16,14 +17,17 @@
 #include "Space.h"
 #include "SpaceStation.h"
 #include "Star.h"
+#include "core/Log.h"
 #include "lua/LuaEvent.h"
+
+#include "profiler/Profiler.h"
 
 Body::Body() :
 	PropertiedObject(),
 	m_interpPos(0.0),
-	m_interpOrient(matrix3x3d::Identity()),
+	m_interpOrient(matrix3x3d::Identity),
 	m_pos(0.0),
-	m_orient(matrix3x3d::Identity()),
+	m_orient(matrix3x3d::Identity),
 	m_frame(FrameId::Invalid),
 	m_dead(false),
 	m_clipRadius(0.0),
@@ -35,7 +39,7 @@ Body::Body() :
 Body::Body(const Json &jsonObj, Space *space) :
 	PropertiedObject(),
 	m_interpPos(0.0),
-	m_interpOrient(matrix3x3d::Identity()),
+	m_interpOrient(matrix3x3d::Identity),
 	m_frame(FrameId::Invalid)
 {
 	try {
@@ -257,6 +261,35 @@ vector3d Body::GetVelocityRelTo(const Body *relTo) const
 	return GetVelocityRelTo(relTo->m_frame) - relTo->GetVelocityRelTo(relTo->m_frame);
 }
 
+double Body::GetAltitudeRelTo(const Body *relTo, AltitudeType altType)
+{
+	if (!relTo) {
+		return 0.0;
+	}
+	vector3d pos = GetPositionRelTo(relTo);
+	double center_dist = pos.Length();
+	if (relTo->IsType(ObjectType::TERRAINBODY)) {
+		const TerrainBody *terrain = static_cast<const TerrainBody *>(relTo);
+		vector3d surface_pos = pos.Normalized();
+		double radius;
+		if (altType != AltitudeType::DEFAULT) {
+			radius = altType == AltitudeType::SEA_LEVEL ? terrain->GetSystemBody()->GetRadius() :
+														  terrain->GetTerrainHeight(surface_pos);
+		} else {
+			radius = terrain->GetSystemBody()->GetRadius();
+			if (center_dist <= 3.0 * terrain->GetMaxFeatureRadius()) {
+				radius = terrain->GetTerrainHeight(surface_pos);
+			}
+		}
+		double altitude = center_dist - radius;
+		if (altitude < 0)
+			altitude = 0;
+		return altitude;
+	} else {
+		return center_dist;
+	}
+}
+
 void Body::OrientOnSurface(double radius, double latitude, double longitude)
 {
 	vector3d up = vector3d(cos(latitude) * cos(longitude), sin(latitude) * cos(longitude), sin(longitude));
@@ -312,7 +345,7 @@ void Body::UpdateFrame()
 
 vector3d Body::GetTargetIndicatorPosition() const
 {
-	return vector3d(0, 0, 0);
+	return vector3d::Zero;
 }
 
 void Body::SetLabel(const std::string &label)

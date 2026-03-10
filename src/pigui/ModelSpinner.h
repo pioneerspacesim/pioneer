@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -52,9 +52,9 @@ namespace PiGui {
 
 	private:
 		std::unique_ptr<Graphics::RenderTarget> m_renderTarget;
+		std::unique_ptr<Graphics::RenderTarget> m_resolveTarget;
 		std::unique_ptr<SceneGraph::Model> m_model;
 		SceneGraph::ModelSkin m_skin;
-		std::unique_ptr<Shields> m_shields;
 		Graphics::Light m_light;
 
 		void CreateRenderTarget();

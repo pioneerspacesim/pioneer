@@ -1,13 +1,19 @@
-// Copyright Â© 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright Â© 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _VERTEXARRAY_H
 #define _VERTEXARRAY_H
 
 #include "Types.h"
-#include "libs.h"
+#include "Color.h"
+#include "vector3.h"
+
+#include <vector>
 
 namespace Graphics {
+
+	struct VertexFormatDesc;
+	class VertexBuffer;
 
 	/*
  * VertexArray is a multi-purpose vertex container. Users specify
@@ -32,6 +38,20 @@ namespace Graphics {
 		//removes vertices, does not deallocate space
 		// if reserveSize != 0, ensures the array has enough space for at least that many elements
 		void Clear(uint32_t reserveSize = 0);
+
+		// Copy the vertices from this VertexArray into the given VertexBuffer.
+		// The VertexBuffer must have a compatible vertex format (i.e. stride).
+		// NOTE: only supports these formats:
+		//  - POSITION | [DIFFUSE/NORMAL/UV0]
+		//  - POSITION | DIFFUSE | [UV0]
+		//  - POSITION | NORMAL  | [UV0/DIFFUSE]
+		bool Populate(VertexBuffer *buffer) const;
+
+		// Copy the vertices from this VertexArray into the given buffer.
+		// Supports any combination of attributes, but is slightly slower than Populate().
+		// Returns false if the passed buffer cannot hold this VertexArray.
+		// Note that the passed fmt must have the same order of attributes as one created from VertexFormatDesc::FromAttribSet
+		bool PopulateRange(const VertexFormatDesc &fmt, uint8_t *buffer, size_t size) const;
 
 		// don't mix these
 		void Add(const vector3f &v);

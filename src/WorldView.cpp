@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "WorldView.h"
@@ -10,20 +10,19 @@
 #include "HudTrail.h"
 #include "HyperspaceCloud.h"
 #include "Input.h"
-#include "Lang.h"
+#include "Json.h"
 #include "Pi.h"
 #include "Player.h"
-#include "SDL_keycode.h"
+#include <SDL_keycode.h>
 #include "SectorView.h"
 #include "Sensors.h"
 #include "SpeedLines.h"
-#include "StringF.h"
-#include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
+#include "graphics/RenderState.h"
 #include "matrix4x4.h"
-#include "ship/PlayerShipController.h"
+#include "ship/GunManager.h"
 #include "ship/ShipViewController.h"
 #include "sound/Sound.h"
 
@@ -49,6 +48,7 @@ REGISTER_INPUT_BINDING(WorldView)
 	// radial menu activators
 	input->AddActionBinding("BindFlightAssistRadial", group, Action{});
 	input->AddActionBinding("BindFixheadingRadial", group, Action{});
+	input->AddActionBinding("BindTargetRadial", group, Action{});
 }
 
 void WorldView::InputBinding::RegisterBindings()
@@ -60,10 +60,11 @@ void WorldView::InputBinding::RegisterBindings()
 	AddAxis("BindRadialHorizontalSelection");
 	AddAction("BindFlightAssistRadial");
 	AddAction("BindFixheadingRadial");
+	AddAction("BindTargetRadial");
 }
 
 WorldView::WorldView(Game *game) :
-	PiGuiView("WorldView"),
+	View("WorldView"),
 	m_game(game),
 	InputBindings(Pi::input)
 {
@@ -71,7 +72,7 @@ WorldView::WorldView(Game *game) :
 }
 
 WorldView::WorldView(const Json &jsonObj, Game *game) :
-	PiGuiView("WorldView"),
+	View("WorldView"),
 	m_game(game),
 	InputBindings(Pi::input)
 {
@@ -94,7 +95,7 @@ void WorldView::InitObject()
 	rsd.depthWrite = false;
 	rsd.depthTest = false;
 	rsd.primitiveType = Graphics::LINE_SINGLE;
-	m_indicatorMat.reset(Pi::renderer->CreateMaterial("vtxColor", desc, rsd));
+	m_indicatorMat.reset(Pi::renderer->CreateMaterial("vtxColor", desc, rsd, m_indicator.GetVertexFormat()));
 
 	/*
 	  NEW UI
@@ -110,7 +111,7 @@ void WorldView::InitObject()
 
 	const float fovY = Pi::config->Float("FOVVertical");
 
-	m_cameraContext.Reset(new CameraContext(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
+	m_cameraContext.Reset(new CameraContext(Pi::renderer->GetWindowWidth(), Pi::renderer->GetWindowHeight(), fovY, znear, zfar));
 	m_camera.reset(new Camera(m_cameraContext, Pi::renderer));
 
 	InputBindings.RegisterBindings();
@@ -183,8 +184,8 @@ void WorldView::Draw3D()
 
 	// setup orthographic projection the indicator coordinate system expects
 	// (could also draw this using ImGui methods in DrawPiGui, but this is a quick patch for release)
-	m_renderer->SetProjection(matrix4x4f::OrthoFrustum(0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), 0, 0, 1));
-	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_renderer->SetProjection(matrix4x4f::OrthoFrustum(0, m_renderer->GetWindowWidth(), m_renderer->GetWindowHeight(), 0, 0, 1));
+	m_renderer->SetTransform(matrix4x4f::Identity);
 
 	// combat target indicator
 	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, red);
@@ -221,21 +222,15 @@ void WorldView::Update()
 	FrameId playerFrameId = Pi::player->GetFrame();
 	FrameId camFrameId = m_cameraContext->GetTempFrame();
 
-	//speedlines and contact trails need camFrame for transform, so they
-	//must be updated here
-	if (Pi::AreSpeedLinesDisplayed()) {
+	//speedlines and contact trails need camFrame for transform, so they must be updated here
+	if (m_speedLines.get() && Pi::AreSpeedLinesDisplayed()) {
 		m_speedLines->Update(m_game->GetTimeStep());
 
 		matrix4x4d trans;
 		Frame::GetFrameTransform(playerFrameId, camFrameId, trans);
-
-		if (m_speedLines.get() && Pi::AreSpeedLinesDisplayed()) {
-			m_speedLines->Update(m_game->GetTimeStep());
-
-			trans[12] = trans[13] = trans[14] = 0.0;
-			trans[15] = 1.0;
-			m_speedLines->SetTransform(trans);
-		}
+		trans[12] = trans[13] = trans[14] = 0.0;
+		trans[15] = 1.0;
+		m_speedLines->SetTransform(trans);
 	}
 
 	if (Pi::AreHudTrailsDisplayed()) {
@@ -264,33 +259,6 @@ void WorldView::OnSwitchFrom()
 	Pi::input->RemoveInputFrame(&InputBindings);
 	Pi::DrawGUI = true;
 }
-
-// XXX paying fine remotely can't really be done until crime and
-// worldview are in Lua. I'm leaving this code here so its not
-// forgotten
-/*
-static void PlayerPayFine()
-{
-	Sint64 crime, fine;
-	Polit::GetCrime(&crime, &fine);
-	if (Pi::player->GetMoney() == 0) {
-		m_game->log->Add(Lang::YOU_NO_MONEY);
-	} else if (fine > Pi::player->GetMoney()) {
-		Polit::AddCrime(0, -Pi::player->GetMoney());
-		Polit::GetCrime(&crime, &fine);
-		m_game->log->Add(stringf(
-			Lang::FINE_PAID_N_BUT_N_REMAINING,
-				formatarg("paid", format_money(Pi::player->GetMoney())),
-				formatarg("fine", format_money(fine))));
-		Pi::player->SetMoney(0);
-	} else {
-		Pi::player->SetMoney(Pi::player->GetMoney() - fine);
-		m_game->log->Add(stringf(Lang::FINE_PAID_N,
-				formatarg("fine", format_money(fine))));
-		Polit::AddCrime(0, -fine);
-	}
-}
-*/
 
 int WorldView::GetActiveWeapon() const
 {
@@ -332,11 +300,17 @@ void WorldView::UpdateProjectedObjects()
 			}
 		}
 
-		FixedGuns *gunManager = Pi::player->GetComponent<FixedGuns>();
-		if (laser >= 0 && gunManager->IsGunMounted(laser) && gunManager->IsFiringSolutionOk()) {
-			UpdateIndicator(m_targetLeadIndicator, cam_rot * gunManager->GetTargetLeadPos());
-			if ((m_targetLeadIndicator.side != INDICATOR_ONSCREEN) || (m_combatTargetIndicator.side != INDICATOR_ONSCREEN))
+		GunManager *gunManager = Pi::player->GetComponent<GunManager>();
+		if (laser >= 0 && laser < gunManager->GetWeaponGroups().size()) {
+			const auto &group = gunManager->GetWeaponGroups()[laser];
+
+			if (gunManager->GetGroupTarget(laser)) {
+				UpdateIndicator(m_targetLeadIndicator, cam_rot * gunManager->GetGroupLeadPos(laser));
+				if ((m_targetLeadIndicator.side != INDICATOR_ONSCREEN) || (m_combatTargetIndicator.side != INDICATOR_ONSCREEN))
+					HideIndicator(m_targetLeadIndicator);
+			} else {
 				HideIndicator(m_targetLeadIndicator);
+			}
 		} else {
 			HideIndicator(m_targetLeadIndicator);
 		}
@@ -348,14 +322,12 @@ void WorldView::UpdateProjectedObjects()
 
 void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpacePos)
 {
-	const Graphics::Frustum frustum = m_cameraContext->GetFrustum();
-
 	const float BORDER = 10.0;
 	const float BORDER_BOTTOM = 90.0;
 	// XXX BORDER_BOTTOM is 10+the control panel height and shouldn't be needed at all
 
-	const float w = Graphics::GetScreenWidth();
-	const float h = Graphics::GetScreenHeight();
+	const float w = m_cameraContext->GetWidth();
+	const float h = m_cameraContext->GetHeight();
 
 	if (cameraSpacePos.LengthSqr() < 1e-6) { // length < 1e-3
 		indicator.pos.x = w / 2.0f;
@@ -364,13 +336,8 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 		return;
 	}
 
-	vector3d proj;
-	if (frustum.ProjectPoint(cameraSpacePos, proj)) {
-		proj.x *= w;
-		proj.y = (1.0f - proj.y) * h;
-	} else {
-		proj = vector3d(w / 2.0, h / 2.0, 0.0);
-	}
+	vector3f screenPos = Graphics::ProjectToScreen(vector3f(cameraSpacePos), m_cameraContext->GetProjectionMatrix());
+	vector3f proj = vector3f(screenPos.x * w, h - screenPos.y * h, screenPos.z);
 
 	indicator.realpos.x = int(proj.x);
 	indicator.realpos.y = int(proj.y);
@@ -511,7 +478,7 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 
 void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 {
-	const vector2f screenCentre(Graphics::GetScreenWidth() / 2.0f, Graphics::GetScreenHeight() / 2.0f);
+	const vector2f screenCentre(m_renderer->GetWindowWidth() / 2.0f, m_renderer->GetWindowHeight() / 2.0f);
 	vector2f dir = screenCentre - marker.pos;
 	float len = dir.Length();
 	dir *= HUD_CROSSHAIR_SIZE / len;
@@ -577,29 +544,24 @@ std::tuple<double, double, double> WorldView::CalculateHeadingPitchRoll(PlaneTyp
 		std::isnan(roll) ? 0.0 : roll);
 }
 
+// Project a point in camera space to the screen
 static vector3d projectToScreenSpace(const vector3d &pos, RefCountedPtr<CameraContext> cameraContext, const bool adjustZ = true)
 {
-	const Graphics::Frustum &frustum = cameraContext->GetFrustum();
-	const float h = Graphics::GetScreenHeight();
-	const float w = Graphics::GetScreenWidth();
-	vector3d proj;
-	if (!frustum.ProjectPoint(pos, proj)) {
-		return vector3d(w / 2, h / 2, 0);
-	}
-	// convert NDC to top-left screen coordinates
-	proj.x *= w;
-	proj.y = h - proj.y * h;
+	const float h = cameraContext->GetHeight();
+	const float w = cameraContext->GetWidth();
+
+	vector3f screenPos = Graphics::ProjectToScreen(vector3f(pos), cameraContext->GetProjectionMatrix());
+	vector3d proj = vector3d(screenPos.x * w, h - screenPos.y * h, screenPos.z);
 
 	// linearize depth coordinate
 	// see https://thxforthefish.com/posts/reverse_z/
-	float znear;
-	float zfar;
-	Pi::renderer->GetNearFarRange(znear, zfar);
-	proj.z = -znear / proj.z;
+	// Note this is normally -znear / proj.z, but proj.z is already negated in ProjectToScreen
+	proj.z = cameraContext->GetZNear() / proj.z;
 
 	// set z to -1 if in front of camera, 1 else
 	if (adjustZ)
 		proj.z = pos.z < 0 ? -1 : 1;
+
 	return proj;
 }
 
@@ -607,7 +569,7 @@ static vector3d projectToScreenSpace(const vector3d &pos, RefCountedPtr<CameraCo
 vector3d WorldView::WorldSpaceToScreenSpace(const Body *body) const
 {
 	if (body->IsType(ObjectType::PLAYER) && !shipView->IsExteriorView())
-		return vector3d(0, 0, 0);
+		return vector3d::Zero;
 
 	vector3d pos = body->GetInterpPositionRelTo(m_cameraContext->GetCameraFrame());
 	return WorldSpaceToScreenSpace(pos);
@@ -636,7 +598,7 @@ vector3d WorldView::CameraSpaceToScreenSpace(const vector3d &pos) const
 vector3d WorldView::GetTargetIndicatorScreenPosition(const Body *body) const
 {
 	if (body->IsType(ObjectType::PLAYER) && !shipView->IsExteriorView())
-		return vector3d(0, 0, 0);
+		return vector3d::Zero;
 
 	// get the target indicator position in body-local coordinates
 	vector3d pos = body->GetInterpPositionRelTo(m_cameraContext->GetCameraFrame());

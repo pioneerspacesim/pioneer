@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GEOSPHERE_H
@@ -8,6 +8,7 @@
 
 #include "BaseSphere.h"
 #include "Camera.h"
+#include "core/Log.h"
 #include "vector3.h"
 
 #include <deque>
@@ -31,39 +32,50 @@ public:
 	GeoSphere(const SystemBody *body);
 	virtual ~GeoSphere();
 
-	virtual void Update() override;
-	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) override;
+	void Update() override;
+	void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) override;
 
-	virtual double GetHeight(const vector3d &p) const override final
+	double GetTerrainHeight(const vector3d &p) const final
 	{
-		const double h = m_terrain->GetHeight(p);
-#ifdef DEBUG
+		double h;
+		m_terrain->GetHeights(&p, &h, 1);
+#ifndef NDEBUG
 		// XXX don't remove this. Fix your fractals instead
 		// Fractals absolutely MUST return heights >= 0.0 (one planet radius)
 		// otherwise atmosphere and other things break.
 		if (h < 0.0) {
-			Output("GetHeight({ %f, %f, %f }) returned %f\n", p.x, p.y, p.z, h);
+			Output("GetTerrainHeight({ %f, %f, %f }) returned %f\n", p.x, p.y, p.z, h);
 			m_terrain->DebugDump();
 			assert(h >= 0.0);
 		}
-#endif /* DEBUG */
+#endif /* NDEBUG */
 		return h;
 	}
 
-	static void Init();
-	static void Uninit();
+	static void InitGeoSphere();
+	static void UninitGeoSphere();
 	static void UpdateAllGeoSpheres();
-	static void OnChangeDetailLevel();
+	static void OnChangeGeoSphereDetailLevel();
 	static bool OnAddQuadSplitResult(const SystemPath &path, SQuadSplitResult *res);
 	static bool OnAddSingleSplitResult(const SystemPath &path, SSingleSplitResult *res);
+
+	enum DebugFlags : uint32_t { // <enum scope='GeoSphere' name=GeoSphereDebugFlags prefix=DEBUG_ public>
+		DEBUG_NONE = 0x0,
+		DEBUG_SORTGEOPATCHES = 0x1,
+		DEBUG_WIREFRAME = 0x2,
+		DEBUG_FACELABELS = 0x4
+	};
+	static void SetDebugFlags(Uint32 flags);
+	static Uint32 GetDebugFlags();
+
 	// in sbody radii
-	virtual double GetMaxFeatureHeight() const override final { return m_terrain->GetMaxHeight(); }
+	double GetMaxFeatureHeight() const final { return m_terrain->GetMaxHeight(); }
 
 	bool AddQuadSplitResult(SQuadSplitResult *res);
 	bool AddSingleSplitResult(SSingleSplitResult *res);
 	void ProcessSplitResults();
 
-	virtual void Reset() override;
+	void Reset() override;
 
 	inline Sint32 GetMaxDepth() const { return m_maxDepth; }
 
@@ -79,6 +91,8 @@ private:
 	void ProcessQuadSplitRequests();
 
 	std::unique_ptr<GeoPatch> m_patches[6];
+	std::vector<std::pair<double, GeoPatch *>> m_visiblePatches;
+
 	struct TDistanceRequest {
 		TDistanceRequest(double dist, SQuadSplitRequest *pRequest, GeoPatch *pRequester) :
 			mDistance(dist),
@@ -100,7 +114,8 @@ private:
 
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
 
-	virtual void SetUpMaterials() override;
+	void SetUpMaterials() override;
+	void CreateAtmosphereMaterial();
 
 	RefCountedPtr<Graphics::Texture> m_texHi;
 	RefCountedPtr<Graphics::Texture> m_texLo;

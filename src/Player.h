@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _PLAYER_H
@@ -20,13 +20,18 @@ public:
 	Player(const Json &jsonObj, Space *space);
 	Player(const ShipType::Id &shipId);
 
-	virtual void SetDockedWith(SpaceStation *, int port) override;
+	void OnDocked(SpaceStation *, int) override;
+	void OnUndocked(SpaceStation *, int) override;
+
 	virtual bool DoDamage(float kgDamage) override final; // overloaded to add "crush" audio
 	virtual bool OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData) override;
 	virtual bool SetWheelState(bool down) override; // returns success of state change, NOT state itself
-	virtual Missile *SpawnMissile(ShipType::Id missile_type, int power = -1) override;
+	virtual Missile *SpawnMissile(const MissileDef &, Body *) override;
 	virtual void SetAlertState(Ship::AlertState as) override;
 	virtual void NotifyRemoved(const Body *const removedBody) override;
+	virtual bool ManualDocking() const override { return !AIIsActive(); }
+
+	void DoFixspeedTakeoff(SpaceStation *from = nullptr);
 
 	virtual void SetShipType(const ShipType::Id &shipId) override;
 
@@ -49,7 +54,6 @@ public:
 	void OnCockpitActivated();
 
 	virtual void StaticUpdate(const float timeStep) override;
-	sigc::signal<void> onChangeEquipment;
 	virtual vector3d GetManeuverVelocity() const;
 	virtual int GetManeuverTime() const;
 
@@ -57,13 +61,14 @@ protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
 
 	virtual void OnEnterSystem() override;
+	virtual void OnBeforeEnterHyperspace() override;
 	virtual void OnEnterHyperspace() override;
 
 private:
 	std::unique_ptr<ShipCockpit> m_cockpit;
 	Sound::Event m_creakSound;
-	vector3d m_accel;
-	vector3d m_jerk[20] = { vector3d(0.0, 0.0, 0.0) };
+	vector3d m_atmosAccel;
+	vector3d m_atmosJerk;
 };
 
 #endif /* _PLAYER_H */

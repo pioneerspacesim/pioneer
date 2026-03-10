@@ -1,61 +1,77 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local e = require 'Equipment'
+local Commodities = require 'Commodities'
 local Engine = require 'Engine'
 local Game = require 'Game'
+local HullConfig  = require 'HullConfig'
 local Ship = require 'Ship'
-local ShipDef = require 'ShipDef'
 local Space = require 'Space'
 local Timer = require 'Timer'
-local Commodities = require 'Commodities'
+
+local utils       = require 'utils'
+
+local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
+local OutfitRules = ShipBuilder.OutfitRules
 
 local Core = require 'modules.TradeShips.Core'
+
+local ECMRule = {
+	slot = "utility",
+	filter = "utility.ecm",
+	limit = 1,
+}
+
+local TraderTemplate = ShipBuilder.Template:clone {
+	rules = {
+		OutfitRules.DefaultHyperdrive,
+		OutfitRules.DefaultAtmoShield,
+		OutfitRules.DefaultAutopilot,
+		OutfitRules.DefaultRadar,
+		{ equip = "misc.cargo_life_support" },
+		-- Defensive equipment is applied based on system lawlessness and a little luck
+		utils.mixin(OutfitRules.EasyWeapon, { randomChance = 0.8 }),
+		utils.mixin(OutfitRules.DefaultShieldGen, { randomChance = 1.0 }),
+		utils.mixin(OutfitRules.DefaultShieldBooster, { randomChance = 0.4 }),
+		-- ECM can't be used by NPC ships... yet
+		utils.mixin(ECMRule, { maxSize = 2, randomChance = 0.3 }),
+		-- Basic ECM is more prevalent than advanced ECM
+		utils.mixin(ECMRule, { maxSize = 1, randomChance = 0.8 }),
+		-- Extremely rare to have one of these onboard
+		{
+			slot = "hull",
+			filter = "hull.autorepair",
+			limit = 1,
+			randomChance = 0.2
+		}
+	}
+}
 
 local Trader = {}
 -- this module contains functions that work for single traders
 
 Trader.addEquip = function (ship)
 	assert(ship.usedCargo == 0, "equipment is only installed on an empty ship")
-	local ship_type = ShipDef[ship.shipId]
+	local shipId = ship.shipId
 
-	-- add standard equipment
-	ship:AddEquip(e.hyperspace['hyperdrive_'..tostring(ship_type.hyperdriveClass)])
-	if ShipDef[ship.shipId].equipSlotCapacity.atmo_shield > 0 then
-		ship:AddEquip(e.misc.atmospheric_shielding)
-	end
-	ship:AddEquip(e.misc.radar)
-	ship:AddEquip(e.misc.autopilot)
-	ship:AddEquip(e.misc.cargo_life_support)
-
-	-- add defensive equipment based on lawlessness, luck and size
+	-- Compute a random modifier for more advanced equipment from lawlessness
 	local lawlessness = Game.system.lawlessness
-	local size_factor = ship.freeCapacity ^ 2 / 2000000
+	local randomMod = 0.1 + lawlessness * 0.9
 
-	if Engine.rand:Number(1) - 0.1 < lawlessness then
-		local num = math.floor(math.sqrt(ship.freeCapacity / 50)) -
-			ship:CountEquip(e.misc.shield_generator)
-		if num > 0 then ship:AddEquip(e.misc.shield_generator, num) end
-		if ship_type.equipSlotCapacity.energy_booster > 0 and
-			Engine.rand:Number(1) + 0.5 - size_factor < lawlessness then
-			ship:AddEquip(e.misc.shield_energy_booster)
-		end
-	end
+	local hullConfig = HullConfig.GetHullConfig(shipId)
+	assert(hullConfig, "Can't find hull config for shipId " .. shipId)
 
-	-- we can't use these yet
-	if ship_type.equipSlotCapacity.ecm > 0 then
-		if Engine.rand:Number(1) + 0.2 < lawlessness then
-			ship:AddEquip(e.misc.ecm_advanced)
-		elseif Engine.rand:Number(1) < lawlessness then
-			ship:AddEquip(e.misc.ecm_basic)
-		end
-	end
+	local template = TraderTemplate:clone {
+		randomModifier = randomMod
+	}
 
-	-- this should be rare
-	if ship_type.equipSlotCapacity.hull_autorepair > 0 and
-		Engine.rand:Number(1) + 0.75 - size_factor < lawlessness then
-		ship:AddEquip(e.misc.hull_autorepair)
-	end
+	local hullThreat = ShipBuilder.GetHullThreat(shipId).total
+
+	-- TODO: Dummy threat value since we're not using it to select hulls
+	local plan = ShipBuilder.MakePlan(template, hullConfig, hullThreat + 50 * randomMod)
+	assert(plan, "Couldn't make an equipment plan for trader " .. shipId)
+
+	ShipBuilder.ApplyPlan(ship, plan)
 end
 
 Trader.addCargo = function (ship, direction)
@@ -120,7 +136,7 @@ Trader.doOrbit = function (ship)
 end
 
 local getSystem = function (ship)
-	local max_range = ship:GetEquip('engine', 1):GetMaximumRange(ship)
+	local max_range = ship:GetInstalledHyperdrive():GetMaximumRange(ship)
 	max_range = math.min(max_range, 30)
 	local min_range = max_range / 2;
 	local systems_in_range = Game.system:GetNearbySystems(min_range)
@@ -200,10 +216,6 @@ Trader.getSystemAndJump = function (ship)
 	if Core.ships[ship].starport then
 		local body = Space.GetBody(Core.ships[ship].starport.path:GetSystemBody().parent.index)
 		local port = Core.ships[ship].starport
-		-- boost away from the starport before jumping if it is too close
-		if (ship:DistanceTo(port) < 20000) then
-			ship:AIEnterLowOrbit(body)
-		end
 		return jumpToSystem(ship, getSystem(ship))
 	end
 end
@@ -213,12 +225,17 @@ local function isAtmo(starport)
 end
 
 local function canAtmo(ship)
-	return ship:CountEquip(e.misc.atmospheric_shielding) ~= 0
+	return (ship["atmo_shield_cap"] or 0) > 0
 end
 
+local THRUSTER_UP = Engine.GetEnumValue('ShipTypeThruster', 'UP')
+
 Trader.isStarportAcceptableForShip = function(starport, ship)
-	return canAtmo(ship) or not isAtmo(starport)
-	-- TODO add a check to see if the ship has enough engine power to handle gravity
+	if not isAtmo(starport) then return true end
+	if not canAtmo(ship) then return false end
+	local bellyThrust = ship:GetThrusterAcceleration(THRUSTER_UP)
+	local portGravity = starport.path:GetSystemBody().parent.gravity
+	return bellyThrust > portGravity
 end
 
 Trader.getNearestStarport = function(ship, current)
@@ -240,8 +257,11 @@ Trader.getNearestStarport = function(ship, current)
 	return starport or current
 end
 
-Trader.addFuel = function (ship)
-	local drive = ship:GetEquip('engine', 1)
+-- Add fuel to the ship's hyperdrive
+---@param ship Ship
+---@param deducted number? Amount of fuel to leave empty in the drive
+Trader.addHyperdriveFuel = function (ship, deducted)
+	local drive = ship:GetInstalledHyperdrive()
 
 	-- a drive must be installed
 	if not drive then
@@ -249,30 +269,21 @@ Trader.addFuel = function (ship)
 		return nil
 	end
 
-	-- the last character of the fitted drive is the class
-	-- the fuel needed for max range is the square of the drive class
-	local count = drive.capabilities.hyperclass ^ 2
-
-	---@type CargoManager
-	local cargoMgr = ship:GetComponent('CargoManager')
-
-	-- account for fuel it already has
-	count = count - cargoMgr:CountCommodity(Commodities.hydrogen)
-
-	-- don't add more fuel than the ship can hold
-	count = math.min(count, cargoMgr:GetFreeSpace())
-	cargoMgr:AddCommodity(Commodities.hydrogen, count)
-
-	return count
+	-- fill the drive completely, less the amount that should be deducted
+	drive:SetFuel(ship, math.max(0, drive:GetMaxFuel() - (deducted or 0)))
 end
 
-Trader.removeFuel = function (ship, count)
-	---@type CargoManager
-	local cargoMgr = ship:GetComponent('CargoManager')
-
-	local removed = cargoMgr:RemoveCommodity(Commodities.hydrogen, count)
-
-	return removed
+Trader.checkDistBetweenStarport = function (ship)
+	local trader = Core.ships[ship]
+	if not trader then return nil end
+	local distance
+	if trader.starport.type == "STARPORT_ORBITAL" then
+		distance = ship:DistanceTo(trader.starport)
+	else
+		local stationsParent = trader.starport:GetSystemBody().parent.body
+		distance = ship:GetAltitudeRelTo(stationsParent)
+	end
+	return distance >= trader.hyperjumpDist
 end
 
 -- TRADER DEFERRED TASKS
@@ -293,6 +304,36 @@ local trader_task = {}
 -- the task function prototype should be:
 -- function(ship)
 
+trader_task.hyperjumpAtDistance = function(ship)
+	-- the player may have left the system
+	local trader = Core.ships[ship]
+	if not trader then return end
+	if trader.status == "outbound" and trader.ts_error ~= "HIT" then
+		-- if trader is not under attack and started to leave station
+		if trader.starport ~= nil then
+			-- if trader has not started to hyperjump
+			if trader.hyperjumpDist == nil then
+				trader.hyperjumpDist = Engine.rand:Integer(20000, 240000)
+			end
+			if Trader.checkDistBetweenStarport(ship) then
+				-- if distance is large enough attempt to hyperjump
+				local status = Trader.getSystemAndJump(ship)
+				if status ~= 'OK' then
+					ship:CancelAI()
+					ship:AIDockWith(trader.starport)
+					trader['status'] = 'inbound'
+					trader.ts_error = 'cnt_jump_aicomp'
+				end
+				trader.hyperjumpDist = nil
+			else
+				Trader.assignTask(ship, Game.time + 10, 'hyperjumpAtDistance')
+			end
+		end
+	else
+		trader.hyperjumpDist = nil
+	end
+end
+
 trader_task.doUndock = function(ship)
 	-- the player may have left the system or the ship may have already undocked
 	if ship:exists() and ship:GetDockedWith() then
@@ -311,9 +352,13 @@ trader_task.doRedock = function(ship)
 	if trader then
 		if ship:exists() and ship.flightState ~= 'HYPERSPACE' then
 			trader['starport'] = Trader.getNearestStarport(ship, trader.starport)
-			ship:AIDockWith(trader.starport)
-			trader['status'] = 'inbound'
-			trader.ts_error = "dock_aft_6h"
+
+			-- TODO: needs a proper failure state
+			if trader.starport then
+				ship:AIDockWith(trader.starport)
+				trader['status'] = 'inbound'
+				trader.ts_error = "dock_aft_6h"
+			end
 		end
 	end
 end
@@ -343,7 +388,7 @@ Trader.spawnInCloud = function(ship_name, cloud, route, dest_time)
 	local ship = Space.SpawnShip(ship_name, 0, 0, {cloud.from, route.from:GetSystemBody().path, dest_time})
 	ship:SetLabel(Ship.MakeRandomLabel())
 	Trader.addEquip(ship)
-	Trader.addFuel(ship)
+	Trader.addHyperdriveFuel(ship)
 	Trader.addCargo(ship, 'import')
 	Core.ships[ship] = {
 		status		= 'hyperspace',

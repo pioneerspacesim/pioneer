@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _CAMERA_H
@@ -6,10 +6,15 @@
 
 #include "Color.h"
 #include "FrameId.h"
+#include "RefCounted.h"
 #include "graphics/Frustum.h"
 #include "graphics/Light.h"
 #include "matrix4x4.h"
 #include "vector3.h"
+
+#include <list>
+#include <memory>
+#include <vector>
 
 class Body;
 class Frame;
@@ -52,6 +57,8 @@ public:
 	// get the frustum. use for projection
 	const Graphics::Frustum &GetFrustum() const { return m_frustum; }
 
+	const matrix4x4f &GetProjectionMatrix() const { return m_projMatrix; }
+
 	// generate and destroy the camere frame, used mostly to transform things to camera space
 	void BeginFrame();
 	void EndFrame();
@@ -69,6 +76,7 @@ private:
 	float m_zFar;
 
 	Graphics::Frustum m_frustum;
+	matrix4x4f m_projMatrix;
 
 	FrameId m_frame;
 	vector3d m_pos;
@@ -109,6 +117,8 @@ public:
 		bool operator<(const Shadow &other) const { return srad / lrad < other.srad / other.lrad; }
 	};
 
+	void CalcLighting(const Body *b, double &ambient, double &direct) const;
+	void CalcInteriorLighting(const Body* b, Color4ub &sLight, double &sFac) const;
 	void CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const;
 	float ShadowedIntensity(const int lightNum, const Body *b) const;
 	void PrincipalShadows(const Body *b, const int n, std::vector<Shadow> &shadowsOut) const;
@@ -116,8 +126,18 @@ public:
 	// lights with properties in camera space
 	const std::vector<LightSource> &GetLightSources() const { return m_lightSources; }
 	int GetNumLightSources() const { return static_cast<Uint32>(m_lightSources.size()); }
+	// Used for lighting the cockpit (and other bodies not directly rendered by the camera)
+	const std::vector<Body*> GetSpaceStations() const { return m_spaceStations; }
+
+	// Sets renderer lighting so that the body is renderer appropiately lit
+	void PrepareLighting(const Body* b, bool doAtmosphere, bool doInteriors) const;
+	// Restores default lights, use after rendering an object with custom lighting
+	// to avoid those bleeding into other objects
+	void RestoreLighting() const;
 
 private:
+	std::vector<float> oldLightIntensities;
+
 	RefCountedPtr<CameraContext> m_context;
 	Graphics::Renderer *m_renderer;
 
@@ -137,6 +157,11 @@ private:
 		// body flags. DRAW_LAST is the interesting one
 		Uint32 bodyFlags;
 
+		// if true, calculate atmosphere-attenuated light intensity for the body
+		bool calcAtmosphereLighting;
+		// if true, calculate interior light intensity for the body
+		bool calcInteriorLighting;
+
 		// if true, draw object as billboard of billboardSize at billboardPos
 		bool billboard;
 		vector3f billboardPos;
@@ -154,6 +179,8 @@ private:
 	};
 
 	std::list<BodyAttrs> m_sortedBodies;
+	// For interior check
+	std::vector<Body*> m_spaceStations;
 	std::vector<LightSource> m_lightSources;
 };
 

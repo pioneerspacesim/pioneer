@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _COLLISION_CONTACT_H
@@ -14,18 +14,18 @@ struct CollisionContact {
 	double distance; // distance travelled to hit point
 	double timestep;
 	int triIdx;
-	void *userData1, *userData2;
 	int geomFlag;
-	
+	void *userData1, *userData2;
+
 	// default ctor
 	CollisionContact() :
 		depth(0),
 		distance(0),
 		timestep(0),
 		triIdx(-1),
+		geomFlag(0),
 		userData1(nullptr),
-		userData2(nullptr),
-		geomFlag(0)
+		userData2(nullptr)
 	{}
 
 	// ctor for collision with terrain
@@ -36,9 +36,9 @@ struct CollisionContact {
 		distance(0),
 		timestep(dt),
 		triIdx(-1),
+		geomFlag(0),
 		userData1(u1),
-		userData2(u2),
-		geomFlag(0)
+		userData2(u2)
 	{}
 };
 

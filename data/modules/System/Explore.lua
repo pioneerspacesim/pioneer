@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -7,13 +7,14 @@ local Event = require 'Event'
 local Comms = require 'Comms'
 local Timer = require 'Timer'
 local Lang = require 'Lang'
+local utils = require 'utils'
 
 local l = Lang.GetResource("module-system")
 
 local exploreSystem = function (system)
 	Comms.Message(l.GETTING_SENSOR_DATA)
-	local starports = #Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
-	local major_bodies = #Space.GetBodies(function (body) return body.superType and body.superType ~= 'STARPORT' and body.superType ~= 'NONE' end)
+	local starports = #Space.GetBodies("SpaceStation")
+	local major_bodies = #Space.GetBodies("TerrainBody")
 	local bodies
 	if major_bodies == 1 then
 		bodies = l.BODY
@@ -38,11 +39,16 @@ local exploreSystem = function (system)
 end
 
 local onEnterSystem = function (player)
-	if not player:IsPlayer() then return end
-
 	if not Game.system.explored then
 		exploreSystem(Game.system)
 	end
 end
 
+local onGameStart = function ()
+    if not Game.system.explored then
+        exploreSystem(Game.system)
+    end
+end
+
 Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onGameStart", onGameStart)

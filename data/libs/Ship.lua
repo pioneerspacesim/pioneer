@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 ---@class Ship
@@ -15,6 +15,7 @@ local CargoManager = require 'CargoManager'
 local CommodityType = require 'CommodityType'
 local Character = require 'Character'
 local Comms = require 'Comms'
+local EquipSet = require 'EquipSet'
 
 local l = Lang.GetResource("ui-core")
 
@@ -26,6 +27,9 @@ local l = Lang.GetResource("ui-core")
 
 function Ship:Constructor()
 	self:SetComponent('CargoManager', CargoManager.New(self))
+	self:SetComponent('EquipSet', EquipSet.New(self))
+
+	self:UpdateWeaponSlots()
 
 	-- Timers cannot be started in ship constructors before Game is fully set,
 	-- so trigger a lazy event to setup gameplay timers.
@@ -33,6 +37,32 @@ function Ship:Constructor()
 	-- TODO: this feels a little bit hacky, but it's the best way to decouple
 	-- Ship itself and "game balance" code that drags in a bunch of dependencies
 	Event.Queue('onShipCreated', self)
+end
+
+function Ship:OnShipTypeChanged()
+	-- immediately update any needed components or properties
+	self:GetComponent('EquipSet'):OnShipTypeChanged()
+
+	self:UpdateWeaponSlots()
+end
+
+---@private
+function Ship:UpdateWeaponSlots()
+	local equipSet = self:GetComponent('EquipSet')
+	local gunManager = self:GetComponent('GunManager')
+
+	for _, slot in ipairs(equipSet:GetAllSlotsOfType("weapon", true)) do
+		if not slot.gimbal then
+			logWarning('Missing hardpoint gimbal on ship {} for slot {}' % { self.shipId, slot.id })
+		end
+
+		local gimbal = Vector2(table.unpack(slot.gimbal or { 1, 1 }))
+		local ok = gunManager:AddWeaponMount(slot.id, slot.tag, gimbal)
+
+		if not ok then
+			logWarning('Unable to add weapon mount slot {} on ship {}' % { slot.id, self.shipId })
+		end
+	end
 end
 
 -- class method
@@ -51,260 +81,19 @@ local CrewRoster = {}
 -- Group: Methods
 --
 
--- Method: GetEquipSlotCapacity
+-- Method: GetInstalledHyperdrive
 --
--- Get the maximum number of a particular type of equipment this ship can
--- hold. This is the number of items that can be held, not the mass.
--- <AddEquip> will take care of ensuring the hull capacity is not exceeded.
+-- Return the ship's installed hyperdrive equipment item if present.
 --
--- > capacity = shiptype:GetEquipSlotCapacity(slot)
+-- > if ship:GetInstalledHyperdrive() then HyperdriveOverloadAndExplode(ship) end
 --
--- Parameters:
---
---   slot - a <Constants.EquipSlot> string for the wanted equipment type
---
--- Returns:
---
---   capacity - the maximum capacity of the equipment slot
---
--- Availability:
---
---  alpha 10
---
--- Status:
---
---  experimental
---
-function Ship:GetEquipSlotCapacity(slot)
-	return self.equipSet:SlotSize(slot)
+---@return Equipment.HyperdriveType? hyperdrive
+function Ship:GetInstalledHyperdrive()
+	---@type Equipment.HyperdriveType[]
+	local drives = self:GetComponent("EquipSet"):GetInstalledOfType("hyperdrive")
+	return drives[1]
 end
 
--- Method: GetEquipCountOccupied
---
--- Return the number of item in a given slot
---
--- > if ship:GetEquipCountOccupied("engine") > 1 then HyperdriveOverLoadAndExplode(ship) end
---
--- Availability:
---
---  TBA
---
--- Status:
---
---  experimental
---
-function Ship:GetEquipCountOccupied(slot)
-	return self.equipSet:OccupiedSpace(slot)
-end
-
--- Method: CountEquip
---
--- Get the number of a given equipment item in a given equipment slot
---
--- > count = ship:CountEquip(item, slot)
---
--- Parameters:
---
---   item - an Equipment type object (e.g., require 'Equipment'.misc.radar)
---
---   slot - the slot name (e.g., "radar")
---
--- Return:
---
---   count - the number of the given item in the slot
---
--- Availability:
---
---  TBA
---
--- Status:
---
---  experimental
---
-function Ship:CountEquip(item, slot)
-	return self.equipSet:Count(item, slot)
-end
-
---
--- Method: AddEquip
---
--- Add an equipment item to its appropriate equipment slot
---
--- > num_added = ship:AddEquip(item, count, slot)
---
--- Parameters:
---
---   item  - an Equipment type object (e.g., require 'Equipment'.misc.radar)
---
---   count - optional. The number of this item to add. Defaults to 1.
---
---   slot - optional. The slot to mount the Equipment in, if other than default.
---
--- Return:
---
---   num_added - the number of items added. Can be less than count if there
---               was not enough room.
---
--- Example:
---
--- > ship:AddEquip(Equipment.misc.cabin, 10)
--- > ship:AddEquip(Equipment.laser.pulsecannon_dual_1mw, 1, "laser_rear")
---
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   experimental
---
-function Ship:AddEquip(item, count, slot)
-	local ret = self.equipSet:Add(self, item, count, slot)
-	if ret > 0 then
-		Event.Queue("onShipEquipmentChanged", self, item)
-	end
-	return ret
-end
-
---
--- Method: GetEquip
---
--- Get a list of equipment in a given equipment slot
---
--- > equip = ship:GetEquip(slot, index)
--- > equiplist = ship:GetEquip(slot)
---
--- Parameters:
---
---   slot  - a slot name string (e.g., "autopilot")
---
---   index - optional. The equipment position in the slot to fetch. If
---           specified the item at that position in the slot will be returned,
---           otherwise a table containing all items in the slot will be
---           returned instead.
---
--- Return:
---
---   equip - when index is specified, an equipment type object for the
---           item, or nil
---
---   equiplist - when index is not specified, a table which has slot indexes
---               as keys and equipment type objects as values.
---               WARNING: although slot indexes are integers, this table is
---               not guaranteed to contain a contiguous set of entries, so you
---               should iterate over it with pairs(), not ipairs().
---
--- Availability:
---
---  alpha 10
---
--- Status:
---
---  experimental
---
-Ship.GetEquip = function (self, slot, index)
-	return self.equipSet:Get(slot, index)
-end
-
---
--- Method: GetEquipFree
---
--- Get the amount of free space in a given equipment slot
---
--- > free = ship:GetEquipFree(slot)
---
--- Parameters:
---
---   slot - a slot name (e.g., "autopilot")
---
--- Return:
---
---   free - the number of item spaces left in this slot
---
--- Availability:
---
---  alpha 10
---
--- Status:
---
---  experimental
---
-Ship.GetEquipFree = function (self, slot)
-	return self.equipSet:FreeSpace(slot)
-end
-
---
--- Method: SetEquip
---
--- Overwrite a single item of equipment in a given equipment slot
---
--- > ship:SetEquip(slot, index, equip)
---
--- Parameters:
---
---   slot - a slot name (e.g., "laser_front")
---
---   index - the position to store the item in
---
---   item - an equipment type object (e.g., Equipment.laser.large_plasma_accelerator)
---
--- Example:
---
--- > -- add a laser to the rear laser mount
--- > ship:SetEquip("laser_rear", 1, Equipment.laser.pulsecannon_4mw)
---
--- Availability:
---
---  alpha 10
---
--- Status:
---
---  experimental
---
-Ship.SetEquip = function (self, slot, index, item)
-	self.equipSet:Set(self, slot, index, item)
-	Event.Queue("onShipEquipmentChanged", self)
-end
-
---
--- Method: RemoveEquip
---
--- Remove one or more of a given equipment type from its appropriate equipment slot
---
--- > num_removed = ship:RemoveEquip(item, count, slot)
---
--- Parameters:
---
---   item - an equipment type object (e.g., Equipment.misc.autopilot)
---
---   count - optional. The number of this item to remove. Defaults to 1.
---
---   slot - optional. The slot to remove the Equipment in, if other than default.
---
--- Return:
---
---   num_removed - the number of items removed
---
--- Example:
---
--- > ship:RemoveEquip(Equipment.hyperspace.hyperdrive_2)
---
--- Availability:
---
---  alpha 10
---
--- Status:
---
---  experimental
---
-
-Ship.RemoveEquip = function (self, item, count, slot)
-	local ret = self.equipSet:Remove(self, item, count, slot)
-	if ret > 0 then
-		Event.Queue("onShipEquipmentChanged", self, item)
-	end
-	return ret
-end
 
 --
 -- Method: IsHyperjumpAllowed
@@ -318,18 +107,10 @@ end
 -- Return:
 --
 --   is_allowed - Boolean. True if allowed at ships current position,
---                flase otherwise
+--                false otherwise
 --
 --   distance - The minimum allowed altitude from planetary body, or
---              distance from orbital space station, for a legal hyper juump.
---
--- Availability:
---
---  2016 August
---
--- Status:
---
---  experimental
+--              distance from orbital space station, for a legal hyper jump.
 --
 Ship.IsHyperjumpAllowed = function(self)
 
@@ -366,8 +147,8 @@ end
 --
 -- Method: HyperjumpTo
 --
--- Hyperjump ship to system. Makes sure the ship has a hyper drive,
--- that target is withn range, and ship has enough fuel, before
+-- Hyperjump ship to system. Makes sure the ship has a hyperdrive,
+-- that target is within range, and ship has enough fuel, before
 -- initiating the hyperjump countdown. In addition, through the
 -- optional argument, the ship can fly to a safe distance, compliant
 -- with local authorities' regulation, before initiating the jump.
@@ -380,24 +161,16 @@ end
 --   path - a <SystemPath> for the destination system
 --
 --   isLegal - an optional Boolean argument, defaults to false. If
---             true AI will fly the ship ship to legal distance
---             before jumping
+--             true AI will fly the ship to legal distance before
+--             jumping
 --
 -- Return:
 --
 --   status - a <Constants.ShipJumpStatus> string that tells if the ship can
 --            hyperspace and if not, describes the reason
 --
--- Availability:
---
---  2015
---
--- Status:
---
---  experimental
---
 Ship.HyperjumpTo = function (self, path, is_legal)
-	local engine = self:GetEquip("engine", 1)
+	local engine = self:GetInstalledHyperdrive()
 	local wheels = self:GetWheelState()
 	if not engine then
 		return "NO_DRIVE"
@@ -438,7 +211,7 @@ Ship.GetHyperspaceDetails = function (self, source, destination)
 		source = Game.system.path
 	end
 
-	local engine = self:GetEquip("engine", 1)
+	local engine = self:GetInstalledHyperdrive()
 	if not engine then
 		return "NO_DRIVE", 0, 0, 0
 	elseif source:IsSameSystem(destination) then
@@ -448,21 +221,18 @@ Ship.GetHyperspaceDetails = function (self, source, destination)
 	local distance, fuel, duration = engine:CheckJump(self, source, destination)
 	local status = "OK"
 
-	---@type CargoManager
-	local cargoMgr = self:GetComponent('CargoManager')
-
 	if not duration then
 		duration = 0
 		fuel = 0
 		status = "OUT_OF_RANGE"
-	elseif fuel > cargoMgr:CountCommodity(engine.fuel) then
+	elseif fuel > engine.storedFuel then
 		status = "INSUFFICIENT_FUEL"
 	end
 	return status, distance, fuel, duration
 end
 
 Ship.GetHyperspaceRange = function (self)
-	local engine = self:GetEquip("engine", 1)
+	local engine = self:GetInstalledHyperdrive()
 	if not engine then
 		return 0, 0
 	end
@@ -490,39 +260,26 @@ end
 --   missile_object - the fired missile (a <Missile> object),
 --                    or nil if no missile was fired
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   experimental
---
-function Ship:FireMissileAt(which_missile, target)
-	local missile_object = false
-	if type(which_missile) == "number" then
-		local missile_equip = self:GetEquip("missile", which_missile)
-		if missile_equip then
-			missile_object = self:SpawnMissile(missile_equip.missile_type)
-			if missile_object ~= nil then
-				self:SetEquip("missile", which_missile)
-			end
-		end
-	else
-		for i,m in pairs(self:GetEquip("missile")) do
-			if (which_missile == m) or (which_missile == "any") then
-				missile_object = self:SpawnMissile(m.missile_type)
-				if missile_object ~= nil then
-					self:SetEquip("missile", i)
-					break
-				end
-			end
-		end
+---@param missile EquipType
+function Ship:FireMissileAt(missile, target)
+	local equipSet = self:GetComponent("EquipSet")
+
+	if missile == "any" then
+		missile = equipSet:GetInstalledOfType("missile")[1]
 	end
+
+	-- No missile available to fire, likely this function was called from a C++ action binding
+	if not missile then
+		return nil
+	end
+
+	-- FIXME: handle multiple-count missile mounts
+	equipSet:Remove(missile)
+
+	local missile_object = self:SpawnMissile(missile.missile_stats, target)
 
 	if missile_object then
 		if target then
-			missile_object:AIKamikaze(target)
 			Event.Queue("onShipFiring", self)
 		end
 		-- Let's keep a safe distance before activating this device, shall we ?
@@ -559,14 +316,6 @@ end
 --
 --   used_units - how much fuel units have been used to fuel the tank.
 --
--- Availability:
---
---   alpha 26
---
--- Status:
---
---   experimental
---
 ---@param fuelType CommodityType
 ---@param amount integer
 function Ship:Refuel(fuelType, amount)
@@ -587,45 +336,48 @@ end
 --
 -- Method: Jettison
 --
--- Jettison one unit of the given cargo type.  The item must be present in
+-- Jettison units of the given cargo type.  The item(s) must be present in
 -- the ship's equipment/cargo set, and will be removed by this call.
 --
--- > success = ship:Jettison(item)
+-- > success = ship:Jettison(cargoType, quantity, lifetime)
 --
 -- On sucessful jettison, the <EventQueue.onJettison> event is triggered.
 --
 -- Parameters:
 --
---   item - a commodity type object (e.g., Commodity.radioactives)
+--   cargoType - a commodity type object (e.g., Commodity.radioactives)
 --          specifying the type of item to jettison.
+--
+--   quantity - how many of the item to jettison
+--
+--   lifetime - how long should the jettisoned item live before exploding
 --
 -- Result:
 --
 --   success - true if the item was jettisoned, false if the ship has no items
 --             of that type or the ship is not in open flight
 --
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   experimental
---
 ---@param cargoType CommodityType
-function Ship:Jettison(cargoType)
+---@param quantity integer
+---@param lifetime float
+function Ship:Jettison(cargoType, quantity, lifetime)
+	-- basic sanity checking
+	if cargoType == nil or quantity == nil or lifetime == nil then
+		return false
+	end
+	-- state checking
 	if self.flightState ~= "FLYING" and self.flightState ~= "DOCKED" and self.flightState ~= "LANDED" then
 		return false
 	end
 
 	---@type CargoManager
 	local cargoMgr = self:GetComponent('CargoManager')
-	if cargoMgr:RemoveCommodity(cargoType, 1) < 1 then
+	if cargoMgr:RemoveCommodity(cargoType, quantity) < quantity then
 		return false
 	end
 
 	if self.flightState == "FLYING" then
-		self:SpawnCargo(cargoType)
+		self:SpawnCargo(cargoType, lifetime, quantity)
 		Event.Queue("onJettison", self, cargoType)
 	elseif self.flightState == "DOCKED" then
 		Event.Queue("onCargoUnload", self:GetDockedWith(), cargoType)
@@ -644,7 +396,7 @@ end
 --
 -- Returns true if the body was successfully scooped.
 --
-function Ship:OnScoopCargo(cargoType)
+function Ship:OnScoopCargo(cargoType, quantity)
 	---@type CargoManager
 	local cargoMgr = self:GetComponent('CargoManager')
 
@@ -661,11 +413,38 @@ function Ship:OnScoopCargo(cargoType)
 		self:setprop('last_scoop_time', Game.time)
 	end
 
-	local success = cargoMgr:AddCommodity(cargoType, 1)
+	local success = cargoMgr:AddCommodity(cargoType, quantity)
 
 	Event.Queue('onShipScoopCargo', self, success, cargoType)
 
 	return success
+end
+
+
+--
+-- Method: GetGPS
+--
+-- Get altitude, speed, and position of a ship
+--
+-- > alt, vspd, lat, long = ship:GetGPS()
+--
+-- Returns:
+--
+--   alt - altitude
+--
+--   vspd - vertical speed
+--
+--   lat - latitude
+--
+--   lon - longitude
+--
+function Ship:GetGPS()
+   if not self.frameBody then return end
+   local lat, lon, altitude = self:GetGroundPosition()
+   local vspd = self:GetVelocityRelTo(self.frameBody):dot(self:GetPositionRelTo(self.frameBody):normalized())
+   lat = math.rad2deg(lat)
+   lon = math.rad2deg(lon)
+   return altitude, vspd, lat, lon
 end
 
 --
@@ -685,14 +464,6 @@ end
 --             that the Character did not become a member of the crew, either because there
 --             is no room for the Character on the crew roster, or because they are already
 --             enrolled as crew on another ship.
---
--- Availability:
---
---   alpha 31
---
--- Status:
---
---   experimental
 --
 local isNotAlreadyEnrolled = function (crewmember)
 	for ship,crew in pairs(CrewRoster) do
@@ -746,15 +517,6 @@ end
 --             special case. Currently the only special case is that the player's Character
 --             cannot be dismissed from a crew.
 --
--- Availability:
---
---   alpha 31
---
--- Status:
---
---   experimental
---
-
 Ship.Dismiss = function (self,crewMember)
 	if not CrewRoster[self] then return false end
 	if not (
@@ -785,14 +547,6 @@ end
 --
 -- > ship:GenerateCrew()
 --
--- Availability:
---
---   alpha 31
---
--- Status:
---
---   experimental
---
 Ship.GenerateCrew = function (self)
 	if CrewRoster[self] then return end -- Bottle out if there's ever been a crew
 	for i = 1, ShipDef[self.shipId].maxCrew do
@@ -809,14 +563,6 @@ end
 --
 -- > ship:CrewNumber()
 --
--- Availability:
---
---   20140404
---
--- Status:
---
---   experimental
---
 Ship.CrewNumber = function (self)
 	return CrewRoster[self] and #CrewRoster[self] or 0
 end
@@ -831,14 +577,6 @@ end
 -- Returns:
 --
 --   crew - A [Character], once per crew member per call
---
--- Availability:
---
---   alpha 31
---
--- Status:
---
---   experimental
 --
 Ship.EachCrewMember = function (self)
 	-- If there's no crew, magic one up.
@@ -861,14 +599,6 @@ end
 -- Returns:
 --
 --   canLaunch - Boolean, true if ship has minimum required crew for launch, otherwise false/nil
---
--- Availability:
---
---   alpha 31
---
--- Status:
---
---   experimental
 --
 Ship.HasCorrectCrew = function (self)
 	return (CrewRoster[self] and (
@@ -910,7 +640,7 @@ end
 
 -- Function to check whether ships exist after hyperspace, and if they do not,
 -- to remove their crew from the roster.
-local onEnterSystem = function (ship)
+local onShipEnterSystem = function (ship)
 	if ship:IsPlayer() then
 		for crewedShip,crew in pairs(CrewRoster) do
 			if not crewedShip:exists() then
@@ -918,7 +648,8 @@ local onEnterSystem = function (ship)
 			end
 		end
 	end
-	local engine = ship:GetEquip("engine", 1)
+
+	local engine = ship:GetInstalledHyperdrive()
 	if engine then
 		engine:OnLeaveHyperspace(ship)
 	end
@@ -936,11 +667,12 @@ local onShipDestroyed = function (ship, attacker)
 end
 
 -- Reinitialize cargo-related ship properties when changing ship type
+---@param ship Ship
 local onShipTypeChanged = function (ship)
 	ship:GetComponent('CargoManager'):OnShipTypeChanged()
 end
 
-Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onShipEnterSystem", onShipEnterSystem)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)

@@ -1,17 +1,16 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Application.h"
 #include "FileSystem.h"
 #include "JobQueue.h"
 #include "OS.h"
-#include "SDL.h"
+#include <SDL.h>
 #include "StringName.h"
 #include "TaskGraph.h"
 #include "profiler/Profiler.h"
-#include "utils.h"
 
-#include "SDL_timer.h"
+#include <SDL_timer.h>
 
 #include <stdexcept>
 
@@ -47,10 +46,14 @@ void Application::Startup()
 #endif
 
 	SDL_Init(SDL_INIT_EVENTS);
+
+	OnStartup();
 }
 
 void Application::Shutdown()
 {
+	OnShutdown();
+
 	m_taskGraph.reset();
 	m_syncJobQueue.reset();
 
@@ -157,18 +160,16 @@ void Application::HandleJobs()
 
 void Application::Run()
 {
-	Profiler::Clock m_runtime{};
-	m_runtime.Start();
-	m_applicationRunning = true;
-
-	Startup();
-
 	if (!m_queuedLifecycles.size())
 		throw std::runtime_error("Application::Run must have a queued lifecycle object (did you forget to queue one?)");
 
 	// SoftStop updates the elapsed time measured by the clock, and continues to run the clock.
+	Profiler::Clock m_runtime{};
+	m_runtime.Start();
 	m_runtime.SoftStop();
 	m_totalTime = m_runtime.seconds();
+
+	m_applicationRunning = true;
 	while (m_applicationRunning) {
 		m_runtime.SoftStop();
 		double thisTime = m_runtime.seconds();
@@ -198,7 +199,9 @@ void Application::Run()
 
 		EndFrame();
 
+#ifdef PIONEER_PROFILER
 		const bool profileReset = (m_activeLifecycle && !m_activeLifecycle->m_profilerAccumulate);
+#endif
 
 		if (m_activeLifecycle->m_endLifecycle || !m_applicationRunning) {
 			EndLifecycle();
@@ -231,6 +234,4 @@ void Application::Run()
 			Profiler::reset();
 #endif
 	}
-
-	Shutdown();
 }

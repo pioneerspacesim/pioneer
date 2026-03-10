@@ -45,7 +45,7 @@
   },
   "BIND_CONTROL_LANDING_GEAR": {
     "description": "Axis description",
-    "message": "Raise / Lower Landing Gear"
+    "message": "Ανέσυρε/Κατέβασε το σύστημα προσεδάφισης"
   },
   "BIND_CYCLE_CAMERA_MODE": {
     "description": "Descriptive name for the CycleCameraMode action.",
@@ -53,7 +53,7 @@
   },
   "BIND_CYCLE_HOSTILES": {
     "description": "Descriptive name for the CycleHostiles action.",
-    "message": "Cycle Hostiles"
+    "message": "Επόμενο εχθρικό σκάφος"
   },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
@@ -117,7 +117,7 @@
   },
   "BIND_MAP_VIEW_ZOOM": {
     "description": "Axis binding",
-    "message": "Map Zoom"
+    "message": "Μεγέθυνση χάρτη"
   },
   "BIND_MAP_WARP_TO_CURRENT_SYSTEM": {
     "description": "Descriptive name for the MapWarpToCurrentSystem action.",
@@ -130,6 +130,22 @@
   "BIND_PRIMARY_FIRE": {
     "description": "Descriptive name for the PrimaryFire action.",
     "message": "Πρωτεύον πυρ"
+  },
+  "BIND_RADAR_TOGGLE_MODE": {
+    "description": "Descriptive name for the RadarToggle action.",
+    "message": "Αλλαγή τρόπου απεικόνισης του ραντάρ"
+  },
+  "BIND_RADAR_ZOOM_IN": {
+    "description": "Descriptive name for the RadarZoomIn action.",
+    "message": "Χειροκίνητη εστίαση του ραντάρ"
+  },
+  "BIND_RADAR_ZOOM_OUT": {
+    "description": "Descriptive name for the RadarZoomOut action.",
+    "message": "Χειροκίνητη απο-εστίαση του ραντάρ"
+  },
+  "BIND_RADAR_ZOOM_RESET": {
+    "description": "Descriptive name for the RadarZoomReset action.",
+    "message": "Επαναφορά του ραντάρ"
   },
   "BIND_RADIAL_HORIZONTAL_SELECTION": {
     "description": "Input axis name to select in the radial menu.",
@@ -167,6 +183,10 @@
     "description": "Descriptive name for the TargetObject action.",
     "message": "Στόχευση Αντικειμένου"
   },
+  "BIND_TARGET_RADIAL": {
+    "description": "Descriptive name for opening the TargetRadial popup.",
+    "message": "Άνοιγμα ακτινικού μενού για το ραντάρ"
+  },
   "BIND_THRUST_LOW_POWER": {
     "description": "Descriptive name for the ThrustLowPower action.",
     "message": "Λειτουργία ώθησης χαμηλής ισχύος (κράτημα)"
@@ -181,7 +201,7 @@
   },
   "BIND_TOGGLE_LANDING_GEAR": {
     "description": "Action description",
-    "message": "Toggle Landing Gear"
+    "message": "Εναλλαγή στο σύστημα προσεδάφισης"
   },
   "BIND_TOGGLE_LUA_CONSOLE": {
     "description": "Descriptive name for the ToggleLuaConsole action.",
@@ -213,15 +233,15 @@
   },
   "CURRENT_VALUE": {
     "description": "",
-    "message": "Current value:"
+    "message": "Τωρινή τιμή:"
   },
   "CURVE": {
     "description": "",
-    "message": "Curve"
+    "message": "Καμπυλότητα"
   },
   "DEADZONE": {
     "description": "",
-    "message": "Deadzone"
+    "message": "Νεκρή ζώνη"
   },
   "DIRECTION": {
     "description": "Direction",
@@ -241,6 +261,10 @@
   },
   "GROUP_MISCELLANEOUS": {
     "message": "Διάφορα"
+  },
+  "GROUP_RADAR_CONTROL": {
+    "description": "Group label for radar-related inputs",
+    "message": "Έλεγχος ραντάρ"
   },
   "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
     "description": "Header for the SectorMapViewControls input group.",
@@ -296,7 +320,7 @@
   },
   "NUM_AXES": {
     "description": "",
-    "message": "Number of axes:"
+    "message": "Αριθμός αξόνων"
   },
   "NUM_BUTTONS": {
     "description": "",
@@ -317,6 +341,10 @@
   "PAGE_SHIP_CONTROLS": {
     "description": "Header for the ShipControls input page.",
     "message": "Χειρισμοί Σκάφους"
+  },
+  "PAGE_SHIP_HUD": {
+    "description": "Header for the ShipHUD input page.",
+    "message": "Σκάφος - HUD"
   },
   "PAGE_SHIP_VIEW": {
     "description": "Header for the ShipView input page.",

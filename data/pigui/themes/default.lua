@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local theme = {}
@@ -18,43 +18,76 @@ local Color = _G.Color
 -- Ideally we'd like to drop a few of these breakpoints and consolidate the
 -- main UI further, but the significant number of elements in need of color
 -- makes that somewhat difficult.
+--
+-- Most colors in this table are defined in terms of a palette containing up to
+-- nine luminance breakpoints from darkest (900) to lightest (100). These
+-- breakpoints are intended to ensure that UI styling is clear and accessible,
+-- regardless of colorblindness or other mitigating factors.
+--
+-- This system is based on the idea of a semantic colour system. For more
+-- details, see: https://dev.to/ynab/a-semantic-color-system-the-theory-hk7
 local styleColors = {
 	black			= Color "000000",
 	transparent		= Color "00000000",
 	white	 		= Color "FFFFFF",
 	unknown			= Color "FF00FF",
 
-	gray_100 		= Color "F4F4F5",
-	gray_200 		= Color "DEDEE0",
-	gray_300 		= Color "C8C8C8",
-	gray_400 		= Color "969696",
-	gray_500 		= Color "787878",
-	gray_600 		= Color "5A5B5D",
-	gray_700 		= Color "3A3C40",
-	gray_800 		= Color "24242B",
-	gray_900 		= Color "131315",
+	-- Grays are intended for foreground text and design elements over the game
+	-- directly or over a panel background color of equal or darker luminance
+	-- Generated with the Material Design 2 tool
 
-	primary_100		= Color "B5BCE3",
-	primary_200		= Color "9FA7DB",
-	primary_300		= Color "8990C8",
-	primary_400		= Color "777FBB",
-	primary_500		= Color "6771AD",
-	primary_600		= Color "4F5992",
-	primary_700		= Color "3D4471",
+	gray_100 		= Color "F4F4F5", --<-- Main color for the palette tool
+	gray_200 		= Color "ECECED",
+	gray_300 		= Color "DEDEDF",
+	gray_400 		= Color "BBBBBB",
+	gray_500 		= Color "9B9B9C",
+	gray_600 		= Color "727273",
+	gray_700 		= Color "5F5F5F",
 
-	background_500	= Color "41418B",
-	background_600	= Color "343474",
-	background_700	= Color "28285D",
-	background_800	= Color "1B1B46",
-	background_900	= Color "0F0F2E",
+	-- Panel colors are partially based on the Material Design system, but
+	-- shifted about half a shade darker to be a good background for the
+	-- primary color
 
-	accent_100		= Color "9DBEE7",
-	accent_200		= Color "6DA6EE",
-	accent_300		= Color "3C8CF1",
-	accent_400		= Color "2881F1",
-	accent_500		= Color "1770EE",
-	accent_600		= Color "0F4FC7",
-	accent_700		= Color "06318E",
+	panel_500 		= Color "73757D",
+	panel_600 		= Color "5C5F66",
+	panel_700 		= Color "40434A",
+	panel_800 		= Color "31333A",
+	panel_900 		= Color "181A20",
+
+	-- Primary color is used for all interactable elements and certain headers
+	-- and other dividing elements.
+	-- Generated with the Material Design 2 tool
+
+	primary_100		= Color "C7CCDE",
+	primary_200		= Color "A4ABC8",
+	primary_300		= Color "818BB1",
+	primary_400		= Color "6771A1",
+	primary_500		= Color "4F5992", --<-- Main color for the palette tool
+	primary_600		= Color "485189",
+	primary_700		= Color "40477D",
+	primary_800		= Color "383C71",
+	primary_900		= Color "2C2D58",
+
+	-- "Alternate" primary colors with significantly more saturation for use
+	-- as small foreground elements like checkmarks and grabs.
+
+	primary_300a	= Color "697ED3",
+	primary_500a	= Color "4C5AA4",
+	primary_700a	= Color "3A4688",
+
+	-- "Alternate" primary colors with high desaturation for thin outline elements
+
+	primary_500b	= Color "6E7080",
+
+	accent_100		= Color "BBDDFF",
+	accent_200		= Color "8FC8FF",
+	accent_300		= Color "62B2FF",
+	accent_400		= Color "40A1FF",
+	accent_500		= Color "2491FF",
+	accent_600		= Color "2882F1",
+	accent_700		= Color "2870DD",
+	accent_800		= Color "275FCB",
+	accent_900		= Color "253FAB",
 
 	success_100		= Color "CAF8A8",
 	success_300		= Color "77EE21",
@@ -68,11 +101,11 @@ local styleColors = {
 	warning_700		= Color "894400",
 	warning_900		= Color "401F00",
 
-	danger_100		= Color "EC6C6C",
-	danger_300		= Color "FF2A2A",
-	danger_500		= Color "C51010",
-	danger_700		= Color "8C0606",
-	danger_900		= Color "2C0505",
+	danger_300		= Color "EB3737",
+	danger_500		= Color "AD1F1F",
+	danger_700		= Color "8F1416",
+	danger_900		= Color "790606",
+
 }
 
 theme.styleColors = styleColors
@@ -80,13 +113,13 @@ theme.styleColors = styleColors
 theme.buttonColors = {
 	default = {
 		normal  = styleColors.primary_700,
-		hovered = styleColors.primary_600,
-		active  = styleColors.primary_500
+		hovered = styleColors.primary_500,
+		active  = styleColors.primary_400
 	},
 	deselected = {
-		normal  = styleColors.gray_800,
-		hovered = styleColors.gray_700,
-		active  = styleColors.gray_600
+		normal  = styleColors.panel_800,
+		hovered = styleColors.panel_700,
+		active  = styleColors.panel_600
 	},
 	selected = {
 		normal = styleColors.primary_500,
@@ -94,82 +127,137 @@ theme.buttonColors = {
 		active = styleColors.primary_300
 	},
 	disabled = {
-		normal = styleColors.gray_700,
-		hovered = styleColors.gray_700,
-		active = styleColors.gray_700
+		normal = styleColors.panel_800,
+		hovered = styleColors.panel_800,
+		active = styleColors.panel_800
 	},
-	semi_transparent = {
-		normal = styleColors.primary_600:opacity(0.6),
-		hovered = styleColors.primary_500:opacity(0.6),
-		active = styleColors.primary_400:opacity(0.6)
+	dark = {
+		normal = styleColors.primary_900,
+		hovered = styleColors.primary_700,
+		active = styleColors.primary_600,
 	},
 	transparent = {
 		normal = styleColors.transparent,
-		hovered = styleColors.primary_500:opacity(0.2),
-		active = styleColors.primary_400:opacity(0.3)
-	}
+		hovered = styleColors.panel_700,
+		active = styleColors.primary_600,
+	},
+	card = {
+		normal = styleColors.primary_900,
+		hovered = styleColors.primary_800,
+		active = styleColors.primary_700
+	},
+	card_selected = {
+		normal = styleColors.primary_800,
+		hovered = styleColors.primary_700,
+		active = styleColors.primary_600
+	},
 }
 
 theme.colors = {
 	reticuleCircle			= styleColors.gray_300,
 	reticuleCircleDark		= styleColors.gray_400,
 	frame					= styleColors.gray_300,
-	frameDark				= styleColors.gray_500,
+	frameDark				= styleColors.panel_500,
 	navTarget				= styleColors.warning_100,
 	navTargetDark			= styleColors.warning_300,
 	combatTarget			= styleColors.danger_300,
 	combatTargetDark		= styleColors.danger_500,
 
+	radarBackground			= styleColors.panel_900:opacity(0.60),
+	radarFrame				= styleColors.primary_500,
+
 	navigationalElements	= styleColors.gray_300,
 	deltaVCurrent			= styleColors.gray_400,
 	deltaVManeuver			= styleColors.primary_300,
 	deltaVRemaining			= styleColors.gray_100,
-	deltaVTotal				= styleColors.gray_600:opacity(0.75),
-	brakeBackground			= styleColors.gray_600:opacity(0.75),
+	deltaVTotal				= styleColors.panel_600:opacity(0.75),
+	brakeBackground			= styleColors.panel_600:opacity(0.75),
 	brakePrimary			= styleColors.gray_300,
-	brakeSecondary			= styleColors.gray_500,
+	brakeSecondary			= styleColors.panel_500,
 	brakeNow				= styleColors.success_500,
 	brakeOvershoot			= styleColors.danger_500,
 	maneuver				= styleColors.accent_300,
 	maneuverDark			= styleColors.accent_500,
 	mouseMovementDirection	= styleColors.accent_100,
 
-	overlayWindowBg         = styleColors.gray_900:opacity(0.90),
+	overlayWindowBg         = styleColors.panel_900:opacity(0.90),
 
-	-- FIXME: this color is primarily used to tint buttons by rendering over top of the frame color.
-	-- This is atrocious for obvious reasons. Refactor button / frame rendering to draw an independent frame border.
-	lightBlueBackground		= styleColors.background_700:opacity(0.10),
-	lightBlackBackground	= styleColors.black:opacity(0.40),
-	modalBackground			= styleColors.background_800:opacity(0.90),
-	blueBackground			= styleColors.background_900,
-	blueFrame				= styleColors.accent_100:shade(0.50),
-	tableBackground			= styleColors.background_800,
-	tableHighlight			= styleColors.background_700,
-	tableSelection			= styleColors.accent_300:shade(0.40),
-	commsWindowBackground	= styleColors.background_700:opacity(0.30),
-	buttonBlue				= theme.buttonColors.selected.normal,
-	buttonInk				= styleColors.white,
-
-	-- ImGui theme default colors
-	Button					= theme.buttonColors.default.normal,
-	ButtonHovered			= theme.buttonColors.default.hovered,
-	ButtonActive			= theme.buttonColors.default.active,
-	PopupBg					= styleColors.gray_900,
+	-- Foundational color styles. If an element doesn't have a specific
+	-- semantic color, it should use one of these.
+	uiPrimary				= styleColors.primary_700,
+	uiPrimaryDark			= styleColors.primary_900,
+	uiPrimaryLight			= styleColors.primary_500,
+	uiBackground			= styleColors.panel_900,
+	uiSurface				= styleColors.panel_800,
+	uiError					= styleColors.danger_900,
+	uiForeground			= styleColors.gray_500,
 
 	unknown					= styleColors.unknown, -- used as an invalid color
 	transparent				= styleColors.transparent,
-	font					= styleColors.white,
+
+	font					= styleColors.gray_100,
+	fontDim					= styleColors.gray_400,
+	fontDisabled			= styleColors.gray_500,
+	fontDark				= styleColors.gray_600,
+
+	-- FIXME: this color is primarily used to tint buttons by rendering over top of the frame color.
+	-- This is atrocious for obvious reasons. Refactor button / frame rendering to draw an independent frame border.
+	lightBlueBackground		= styleColors.primary_700:opacity(0.10),
+	lightBlackBackground	= styleColors.panel_900:opacity(0.80), --black:opacity(0.40),
+	windowBackground		= styleColors.panel_900,
+	windowFrame				= styleColors.panel_700,
+	notificationBackground	= styleColors.panel_800,
+	modalBackground			= styleColors.panel_900,
+	tableBackground			= styleColors.primary_900,
+	tableHighlight			= styleColors.primary_800,
+	tableSelection			= styleColors.primary_700,
+	tableHighlightDisabled  = styleColors.panel_800,
+	buttonBlue				= theme.buttonColors.selected.normal,
+	buttonInk				= styleColors.white,
+
+	-- ImGui theme default colors - these override the C++ definitions
+	Text					= styleColors.gray_100,
+	Button					= theme.buttonColors.default.normal,
+	ButtonHovered			= theme.buttonColors.default.hovered,
+	ButtonActive			= theme.buttonColors.default.active,
+	CheckMark				= styleColors.primary_300a,
+	PopupBg					= styleColors.panel_900,
+	ModalWindowDimBg		= styleColors.black:opacity(0.35),
+	FrameBg					= styleColors.panel_800,
+	FrameBgHovered			= styleColors.panel_700,
+	FrameBgActive			= styleColors.panel_700,
+
+	Border					= styleColors.primary_500b:opacity(0.5),
+	Separator				= styleColors.primary_500b:opacity(0.5),
+
+	Tab						= styleColors.primary_800,
+	TabSelected				= styleColors.primary_600,
+	TabHovered				= styleColors.primary_500,
+
+	Header					= styleColors.primary_800,
+	HeaderHovered			= styleColors.primary_600,
+	HeaderActive			= styleColors.primary_500,
+
+	SliderGrab				= styleColors.primary_500a,
+	SliderGrabActive		= styleColors.primary_300a,
+
+	TableHeaderBg			= styleColors.panel_800,
+
 	white					= styleColors.white,
 	lightGrey				= styleColors.gray_300,
 	grey					= styleColors.gray_500,
-	darkGrey				= styleColors.gray_800,
+	darkGrey				= styleColors.panel_900,
 	black					= styleColors.black,
-	primary					= styleColors.primary_500,
-	darkPrimary				= styleColors.primary_700,
+
+	-- Semantic color names for specific parts of the UI with defined meaning
 
 	alertYellow				= styleColors.warning_300,
 	alertRed				= styleColors.danger_500,
 	hyperspaceInfo			= styleColors.success_300,
+
+	notificationInfo		= styleColors.gray_500,
+	notificationGame		= styleColors.primary_500,
+	notificationError		= styleColors.danger_700,
 
 	econProfit				= styleColors.success_500,
 	econLoss				= styleColors.danger_300,
@@ -182,7 +270,7 @@ theme.colors = {
 	gaugeCargo              = styleColors.gray_300,
 	gaugeJettison           = styleColors.danger_500,
 
-	gaugeBackground			= styleColors.gray_800:opacity(0.85),
+	gaugeBackground			= styleColors.panel_900:opacity(0.85),
 	gaugePressure			= styleColors.primary_600,
 	gaugeScanner			= styleColors.primary_500,
 	gaugeTemperature		= styleColors.danger_500,
@@ -190,34 +278,35 @@ theme.colors = {
 	gaugeHull				= styleColors.gray_200,
 	gaugeWeapon				= styleColors.warning_300,
 	gaugeVelocityLight		= styleColors.gray_100,
-	gaugeVelocityDark		= styleColors.gray_800,
+	gaugeVelocityDark		= styleColors.panel_800,
 	gaugeThrustLight		= styleColors.gray_500,
-	gaugeThrustDark			= styleColors.gray_900,
+	gaugeThrustDark			= styleColors.panel_900,
 	gaugeEquipmentMarket	= styleColors.primary_600,
 
 	radarCargo				= styleColors.primary_200,
 	radarCloud				= styleColors.primary_200,
 	radarCombatTarget		= styleColors.danger_500,
 	radarMissile			= styleColors.danger_300,
-	radarPlayerMissile		= styleColors.accent_400,
+	radarPlayerMissile		= styleColors.accent_500,
 	radarNavTarget			= styleColors.success_500,
 	radarShip				= styleColors.warning_500,
 	radarStation			= styleColors.accent_300,
+	radarUnknown			= styleColors.gray_500,
 
-	systemMapGrid			= styleColors.gray_800,
-	systemMapGridLeg		= styleColors.gray_500,
+	systemMapGrid			= styleColors.panel_900,
+	systemMapGridLeg		= styleColors.gray_600,
 	systemMapObject			= styleColors.gray_300,
 	systemMapPlanner		= styleColors.primary_500,
 	systemMapPlannerOrbit	= styleColors.primary_500,
-	systemMapPlayer			= styleColors.accent_300,
-	systemMapPlayerOrbit	= styleColors.accent_300,
+	systemMapPlayer			= styleColors.accent_400,
+	systemMapPlayerOrbit	= styleColors.accent_400,
 	systemMapShip			= styleColors.gray_300,
 	systemMapShipOrbit		= styleColors.accent_700,
 	systemMapSelectedShipOrbit = styleColors.warning_500,
 	systemMapSystemBody		= styleColors.primary_100:shade(0.5),
 	systemMapSystemBodyIcon	= styleColors.gray_300,
 	systemMapSystemBodyOrbit = styleColors.success_500,
-	systemMapLagrangePoint	= styleColors.accent_200,
+	systemMapLagrangePoint	= styleColors.accent_300,
 
 	systemAtlasLabel        = styleColors.gray_300,
 	systemAtlasLabelActive  = styleColors.gray_200,
@@ -225,24 +314,34 @@ theme.colors = {
 	systemAtlasLineActive   = styleColors.primary_400,
 
 	sectorMapLabelHighlight = styleColors.white:opacity(0.5),
-	sectorMapLabelShade = styleColors.background_700:opacity(0.8),
+	sectorMapLabelShade = styleColors.panel_800:opacity(0.9),
 
 	equipScreenHighlight    = styleColors.gray_300,
 	equipScreenBgText       = styleColors.gray_400,
+
+	compareBetter = styleColors.accent_300,
+	compareWorse  = styleColors.warning_300,
 }
 
 -- ImGui global theming styles
 theme.styles = rescaleUI {
 	WindowBorderSize = 0.0,
 	WindowPadding = Vector2(8, 8),
+	FramePadding = Vector2(4, 3),
 	TabRounding = 0.0,
 	TabPadding = Vector2(8, 6),
 	ButtonPadding = Vector2(8, 6),
 	ItemSpacing = Vector2(8, 6),
 	ItemInnerSpacing = Vector2(4, 4),
-	MainButtonSize = Vector2(32, 32),
-	SmallButtonSize = Vector2(24, 24),
-	MainButtonPadding = 3
+	MainButtonSize = Vector2(38, 38),
+	SmallButtonSize = Vector2(30, 30),
+	SeparatorTextBorderSize = 1.0,
+	SeparatorTextPadding = Vector2(16, 3),
+	IconButtonPadding = Vector2(3, 3),
+	InlineIconPadding = Vector2(2, 2),
+	MainButtonPadding = 3,
+	ItemCardRounding = 4,
+	StyleRounding = 4,
 }
 
 theme.icons = {
@@ -271,6 +370,7 @@ theme.icons = {
 	antinormal_thin = 20,
 	normal_thin = 21,
 	frame_away = 22,
+	-- EMPTY = 23,
 	direction = 24,
 	direction_hollow = 25,
 	direction_frame = 26,
@@ -287,7 +387,7 @@ theme.icons = {
 	asteroid_hollow = 36,
 	current_height = 37,
 	current_periapsis = 38,
-	current_line = 39,
+	-- EMPTY = 39,
 	current_apoapsis = 40,
 	eta = 41,
 	altitude = 42,
@@ -311,6 +411,7 @@ theme.icons = {
 	hyperspace_off = 59,
 	scanner = 60,
 	message_bubble = 61,
+	-- UNUSED = 62,
 	fuel = 63,
 	-- fifth row
 	heavy_passenger_shuttle = 64,
@@ -360,7 +461,7 @@ theme.icons = {
 	time_forward_100x = 106,
 	filter_bodies = 107,
 	filter_stations = 108,
-	filter_ships = 109,
+	police_tab_alert = 109,
 	lagrange_marker = 110,
 	system_overview_vertical = 111,
 	-- eighth row
@@ -371,7 +472,7 @@ theme.icons = {
 	warning_1 = 116,
 	warning_2 = 117,
 	warning_3 = 118,
-	-- moon = 119, -- smaller duplicate of 67
+	reset = 119,
 	combattarget = 120,
 	navtarget = 121,
 	alert1 = 122,
@@ -393,7 +494,7 @@ theme.icons = {
 	personal_info = 137,
 	personal = 138,
 	roster = 139,
-	map = 140,
+	crowd = 140,
 	sector_map = 141,
 	system_map = 142,
 	system_overview = 143,
@@ -413,13 +514,13 @@ theme.icons = {
 	search_lens = 156,
 	message = 157,
 	message_open = 158,
-	search_binoculars = 159,
+	-- EMPTY = 159,
 	-- eleventh row
 	planet_grid = 160,
-	bookmarks = 161,
-	unlocked = 162,
-	locked = 163,
-	-- EMPTY = 164,
+	bookmark = 161,
+	-- EMPTY = 162,
+	-- EMPTY = 163,
+	legal = 164, -- UNUSED
 	label = 165,
 	broadcast = 166,
 	shield_other = 167,
@@ -434,21 +535,21 @@ theme.icons = {
 	-- twelfth row
 	-- BBS replacement icons
 	-- TODO: mission display needs to be converted to use these instead of loading individual icons from disk
-	-- mission_default = 176,
+	-- EMPTY = 176,
 	alert_generic = 177,
-	-- fuel_radioactive = 178,
-	-- assassination = 179,
+	fuel_radioactive = 178,
+	-- EMPTY = 179,
 	money = 180,
-	-- news = 181,
-	-- crew = 182, -- duplicate of 138
-	-- taxi = 183,
-	-- taxi_urgent = 184,
-	-- haul = 185,
-	-- haul_urgent = 186,
-	-- delivery = 187,
-	-- delivery_urgent = 188,
-	-- goodstrader = 189, -- duplicate of 132
-	-- servicing_repair = 190,
+	news = 181, -- UNUSED
+	-- EMPTY = 182,
+	mission_taxi = 183,
+	mission_taxi_urgent = 184,
+	mission_haul = 185,
+	mission_haul_urgent = 186,
+	mission_delivery = 187,
+	mission_delivery_urgent = 188,
+	-- EMPTY = 189,
+	wrench = 190, -- UNUSED
 	view_flyby = 191,
 	-- thirteenth row
 	cog = 192,
@@ -463,19 +564,23 @@ theme.icons = {
 	apoapsis = 201,
 	reset_view = 202,
 	toggle_grid = 203,
-	plus = 204,
+	-- EMPTY = 204,
 	-- EMPTY = 205
 	decrease = 206,
 	increase = 207,
-	-- fourteenth row, wide icons
-	missile_unguided = 208,
-	missile_guided = 210,
-	missile_smart = 212,
-	missile_naval = 214,
+	-- fourteenth row
+	-- EMPTY = 208,
+	-- EMPTY = 209,
+	-- EMPTY = 210,
+	-- EMPTY = 211,
+	-- EMPTY = 212,
+	-- EMPTY = 213,
+	-- EMPTY = 214,
+	-- EMPTY = 215,
 	find_person = 216,
 	cargo_manifest = 217,
 	trashcan = 218,
-	bookmark = 219,
+	bookmark_book = 219,
 	pencil = 220,
 	fountain_pen = 221,
 	cocktail_glass = 222,
@@ -483,8 +588,8 @@ theme.icons = {
 	-- fifteenth row
 	chart = 224,
 	binder = 225,
-	-- navtarget = 226,		-- duplicate of 121
-	ships_no_orbits = 227,	-- duplicate of 52
+	-- EMPTY = 226,
+	-- EMPTY = 227,
 	ships_with_orbits = 228,
 	lagrange_no_text = 229,
 	lagrange_with_text = 230,
@@ -519,7 +624,7 @@ theme.icons = {
 	follow_ori = 256,
 	follow_pos = 257,
 	follow_edge = 258,
-	follow_fill = 259,
+	-- EMPTY = 259,
 	manual_flight = 260,
 	cruise_fwd = 261,
 	cruise_up = 262,
@@ -529,12 +634,12 @@ theme.icons = {
 	circ_clear_flwtarget = 266,
 	speed_limiter = 267,
 	deltav = 268,
-	paintspray = 269,
-	-- EMPTY = 270,
-	-- EMPTY = 271,
+	filesystem = 269,
+	filesystem_save = 270,
+	filesystem_load = 271,
 	-- eighteenth row
 	equip_cargo_scoop = 272,
-	equip_fuel_scoop = 273,
+	-- EMPTY = 273,
 	equip_multi_scoop = 274,
 	equip_beamlaser = 275,
 	equip_plasma_accelerator = 276,
@@ -546,9 +651,9 @@ theme.icons = {
 	equip_dual_pulsecannon = 282,
 	equip_dual_pulsecannon_rapid = 283,
 	equip_dual_mining_laser = 284,
-	-- EMPTY = 285,
-	-- EMPTY = 286,
-	-- EMPTY = 287,
+	filesystem_delete = 285,
+	case_sensitive = 286,
+	delete_object = 287,
 	-- nineteenth row
 	equip_missile_unguided = 288,
 	equip_missile_guided = 289,
@@ -556,20 +661,75 @@ theme.icons = {
 	equip_missile_naval = 291,
 	equip_shield_generator = 292,
 	equip_atmo_shield_generator = 293,
-	equip_scanner = 294,
+	-- EMPTY = 294,
 	equip_radar = 295,
 	equip_orbit_scanner = 296,
-	equip_generic = 297,
+	-- EMPTY = 297,
 	equip_cabin_empty = 298,
 	equip_cabin_occupied = 299,
 	equip_thrusters = 300,
+	equip_trade_computer = 301,
+	equip_autopilot = 302,
+	equip_hyperdrive = 303,
+
+	-- twentieth row : icons 304 to 319
+	plus = 304,
+	minus = 305,
+	cross = 306,
+	decrease_max_thick = 307,
+	decrease_thick = 308,
+	increase_thick = 309,
+	increase_max_thick = 310,
+	decrease_min = 311,
+	decrease_2 = 312,
+	decrease_1 = 313,
+	stop = 314,
+	increase_1 = 315,
+	increase_2 = 316,
+	increase_max = 317,
+	radar_2d = 318,
+	radar_3d = 319,
+
+	-- twenty-first row : icons 320 to 335
+	radar_automatic = 320,
+	radar_manual = 321,
+	map_checkmark = 322,
+	about_questionmark = 323,
+	map_selectsystem = 324,
+	gavel = 325,
+	gavel_horizontal = 326, -- unused
+	towel = 327,
+	-- 328 - 335 : empty
+
+	shipmarket_compare_better = 38,
+	shipmarket_compare_worse = 40,
+
+	police_tab_normal = 167,
+	police_tab_fined  = 109,
+
+	circle_lg = 6,
+	circle_md = 51,
+	circle_sm = 110,
+
+	chevron_up = 38,
+	chevron_down = 40,
+
+	-- BBS Replacement icons
+	mission_generic = 51,
+	mission_assassination = 150,
+
+	-- TODO: these reuse icons and should have new icons
+	follow_fill = 6,
+	equip_fuel_scoop = 63,
+	ships_no_orbits = 52,
+	filter_ships = 120,
+	equip_scanner = 60,
+	equip_generic = 145,
+
 	-- TODO: distinct icons for these
 	equip_thrusters_basic = 300,
 	equip_thrusters_medium = 300,
 	equip_thrusters_best = 300,
-	equip_trade_computer = 301,
-	equip_autopilot = 302,
-	equip_hyperdrive = 303,
 
 	-- TODO: manual / autopilot
 	-- dummy, until actually defined correctly

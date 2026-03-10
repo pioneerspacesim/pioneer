@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -6,6 +6,9 @@
 #include "Input.h"
 #include "ShipController.h"
 #include "ConnectionTicket.h"
+
+#include "vector3.h"
+#include "matrix3x3.h"
 
 // autopilot AI + input
 class PlayerShipController : public ShipController {
@@ -40,8 +43,6 @@ public:
 	void SelectTarget();
 	void CycleHostiles();
 
-
-
 	//targeting
 	//XXX AI should utilize one or more of these
 	Body *GetCombatTarget() const;
@@ -63,6 +64,16 @@ public:
 	enum FollowMode { // <enum scope='PlayerShipController' name=FollowMode public>
 		FOLLOW_POS,
 		FOLLOW_ORI
+	};
+
+	static constexpr double maxFollowDistance[] = {
+		1000000.0, // FOLLOW_POS
+		10000.0    // FOLLOW_ORI
+	};
+
+	static constexpr double maxFollowDistanceSqr[] = {
+		maxFollowDistance[0] * maxFollowDistance[0],
+		maxFollowDistance[1] * maxFollowDistance[1]
 	};
 
 	void SetCruiseDirection(CruiseDirection mode);

@@ -281,10 +281,15 @@ class EnumData:
     def write_meta_decl(s, fl):
         id = s.ident()
         fl.write('-- A <Constants.' + id + '> string\n')
-        fl.write('---@class ' + id + ': string\n\n')
-
-    def write_meta_def(s, fl):
-        id = s.ident()
+        fl.write('---@enum (key) ' + id + '\n')
+        fl.write('local ' + id + ' = {\n')
+        index = 1
+        for item in s.items:
+            if item.skip: continue
+            item_id = item.name if item.name is not None else item.identifier
+            fl.write("\t" + item_id + " = " + str(index) + ",\n" )
+            index += 1
+        fl.write("}\n\n")
         fl.write('---@type ' + id + '[]\n')
         fl.write('Constants.' + id + ' = {}\n\n')
 
@@ -370,7 +375,7 @@ def parse_enum(toktype, toktext, tokens, preceding_comment=None):
         return None
 
 def write_license_header(fl):
-    fl.write('/* Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details */\n')
+    fl.write('/* Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details */\n')
     fl.write('/* Licensed under the terms of the GPL v3. See licenses/GPL-3.txt        */\n')
     fl.write('\n')
 
@@ -415,7 +420,7 @@ def write_tables(enums, headers, hpath, fl):
     fl.write('};\n')
 
 def write_meta(enums, fl):
-    fl.write('-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details\n')
+    fl.write('-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details\n')
     fl.write('-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt\n')
     fl.write('\n')
     fl.write('-- THIS FILE IS AUTO-GENERATED, CHANGES WILL BE OVERWRITTEN\n')
@@ -425,18 +430,15 @@ def write_meta(enums, fl):
 
     fl.write('-- ============================================================================\n\n')
 
-    fl.write('-- Document lua Constants as typed subclasses of string for API visibility sake\n\n')
-
-    for e in enums:
-        e.write_meta_decl(fl)
-
-    fl.write('-- ============================================================================\n\n')
-
     fl.write('-- Global Constants namespace\n')
     fl.write('Constants = {}\n\n')
 
+    fl.write('-- Document lua string Constants as enum tables for autocomplete support\n\n')
+    fl.write('-- Use a literal string value when passing an enum constant rather than\n')
+    fl.write('-- retrieving a value from these tables\n\n')
+
     for e in enums:
-        e.write_meta_def(fl)
+        e.write_meta_decl(fl)
 
 def extract_enums(lines):
     lines = splice_lines(lines)
@@ -511,7 +513,7 @@ def main():
             if path == '-':
                 es = list(extract_enums(sys.stdin))
             else:
-                with open(path, 'rU') as fl:
+                with open(path, 'r') as fl:
                     # skip an optional UTF-8 Byte Order Mark
                     if sys.version_info[0] >= 3:
                         hasbom = (fl.read(1) == '\uFEFF')

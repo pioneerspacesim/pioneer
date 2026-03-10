@@ -7,6 +7,38 @@
     "description": "",
     "message": "Man sollte wissen, wann es Zeit ist weiterzuziehen"
   },
+  "ADVICE_11_BODYTEXT": {
+    "description": "",
+    "message": "Stellen Sie sicher, dass Sie die Schwerkraft an der Planetenoberfläche kennen, bevor Sie überhaupt daran denken dort zu landen."
+  },
+  "ADVICE_11_HEADLINE": {
+    "description": "A reference to the song 'The Harder They Come', by Jimmy Cliff",
+    "message": "The harder the g, the harder the fall"
+  },
+  "ADVICE_12_BODYTEXT": {
+    "description": "",
+    "message": "Wenn Sie am Rand des Systems sind und zurück zu den inneren Planeten müssen ist es manchmal schneller, zu einem nahen benachbarten System und dann direkt wieder zurück zu springen."
+  },
+  "ADVICE_12_HEADLINE": {
+    "description": "",
+    "message": "Spiel mir Billie's Bounce"
+  },
+  "ADVICE_13_BODYTEXT": {
+    "description": "",
+    "message": "Weniger Masse bedeutet weniger Kraftstoffverbrauch und ein schnelleres Schiff. Treibstoff hat Masse. Für einige Routen kann es sich deshalb lohnen, mit möglichst wenig Treibstoff im Tank zu fliegen um Zeit und Geld zu sparen."
+  },
+  "ADVICE_13_HEADLINE": {
+    "description": "",
+    "message": "Nur noch Dämpfe im Tank"
+  },
+  "ADVICE_14_BODYTEXT": {
+    "description": "",
+    "message": "Wenn mehrere Sprünge hintereinander geplant sind ist es am besten, sie alle schon vor dem ersten Sprung einzugeben. Das ist nicht nur entspannter, sondern kann auch mal ein Leben retten, wenn man direkt nach einem Sprung plötzlich auf weniger gastfreundliche Kollegen trifft."
+  },
+  "ADVICE_14_HEADLINE": {
+    "description": "",
+    "message": "Ein klarer Weg vor Augen"
+  },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
     "message": "Wenn du auf einer Station ankommst, sei vorsichtig bei alternativen Marktplätzen, die du nicht kennst. So vermeidest du Ärger mit der Polizei."
@@ -17,7 +49,7 @@
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
-    "message": "Viele kurze Strecken sind schneller überwunden als ihre Summe."
+    "message": "Viele kleine Sprünge sind schneller als ein großer Sprung über die selbe Distanz, brauchen aber mehr Treibstoff."
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",

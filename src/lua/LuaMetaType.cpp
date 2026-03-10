@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaMetaType.h"
@@ -6,6 +6,8 @@
 #include "LuaObject.h"
 #include "LuaPropertyMap.h"
 #include "core/Property.h"
+
+#include "utils.h"
 
 // if found, returns true, leaves item to return to lua on top of stack
 // if not found, returns false
@@ -420,7 +422,7 @@ void *LuaMetaTypeBase::CheckUserdata(lua_State *l, int index, const char *type)
 	return p;
 }
 
-void LuaMetaTypeBase::CreateMetaType(lua_State *l)
+void LuaMetaTypeBase::CreateMetaType(lua_State *l, bool pushToStack)
 {
 	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaMetaTypes");
 	m_lua = l;
@@ -474,4 +476,9 @@ void LuaMetaTypeBase::CreateMetaType(lua_State *l)
 
 	// replace the LuaMetaTypes registry table, leaving the created metatype on the stack
 	lua_replace(l, -2);
+
+	// clean up the stack if required
+	if (!pushToStack) {
+		lua_pop(l, 1);
+	}
 }

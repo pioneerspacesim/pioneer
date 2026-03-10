@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -18,7 +18,7 @@ local height = math.max(iconSize.y, font.size) * 2 + ui.getItemSpacing().y + ui.
 local function displayPlanetaryInfo()
 	local player = Game.player
 	local current_view = Game.CurrentView()
-	if current_view == "world" then
+	if current_view == "WorldView" then
 		local alt, vspd, latitude, longitude = player:GetGPS()
 		if latitude and longitude and alt and vspd then
 			ui.setNextWindowSize(Vector2(width, height), "Always")

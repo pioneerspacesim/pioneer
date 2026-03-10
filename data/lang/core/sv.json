@@ -189,7 +189,7 @@
   },
   "CARGO_N": {
     "description": "",
-    "message": "Last: %{mass}t"
+    "message": "Last: %{mass} t"
   },
   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
     "description": "",
@@ -325,7 +325,7 @@
   },
   "DECREASE_RADAR_RANGE": {
     "description": "",
-    "message": "Minska radar-avstånd"
+    "message": "Minska radaravstånd"
   },
   "DECREASE_SET_SPEED": {
     "description": "",
@@ -405,11 +405,15 @@
   },
   "ECONOMY_TYPE": {
     "description": "",
-    "message": "Ekonomityp:"
+    "message": "Ekonomiskt system"
   },
   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
     "description": "",
     "message": "Ekvatorial till polarradie förhållande"
+  },
+  "ESCAPE_VELOCITY": {
+    "description": "",
+    "message": "Flykthastighet"
   },
   "EXACT_MATCH_X": {
     "description": "",
@@ -445,7 +449,7 @@
   },
   "FLYBY_VIEW": {
     "description": "camera view setting",
-    "message": "Flyby view"
+    "message": "Förbiflygning vy"
   },
   "FOLLOWING_SELECTION": {
     "description": "",
@@ -491,21 +495,41 @@
     "description": "",
     "message": "Den sparade spelfilen kunde inte skrivas på grund av ett systemfel."
   },
+  "GAME_SAVE_INVALID_NAME": {
+    "description": "",
+    "message": "This saved game file could not be written because of a invalid name."
+  },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
     "message": "Generella vykontroller"
   },
   "GOVERNMENT_TYPE": {
     "description": "",
-    "message": "Regeringsform:"
+    "message": "Styrelseskick"
   },
   "GRAIN": {
     "description": "like wheat or barley",
     "message": "Säd"
   },
+  "GRID_DISPLAY_MODE": {
+    "description": "Label for grid display modes",
+    "message": "Grid Display Mode"
+  },
+  "GRID_DISPLAY_MODE_GRID_AND_LEGS": {
+    "description": "Combobox option for Grid with Legs",
+    "message": "Grid with Legs"
+  },
+  "GRID_DISPLAY_MODE_GRID_ONLY": {
+    "description": "Combobox option for Grid Only",
+    "message": "Grid Only"
+  },
+  "GRID_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for Grid display off.",
+    "message": "Grid Off"
+  },
   "GRID_DISPLAY_MODE_TOGGLE": {
-    "description": "Switch show no grid",
-    "message": "Byt mellan rutvisningslägen"
+    "description": "Tooltip for toggle grid display button.",
+    "message": "Toggle visibility of the grid."
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -517,15 +541,15 @@
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
-    "message": "Hold {target} anti-normal"
+    "message": "Håll {target} antinormal"
   },
   "HEADING_LOCK_BACKWARD": {
     "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-    "message": "Hold {target} retrograde"
+    "message": "Håll {target} retrograd"
   },
   "HEADING_LOCK_FORWARD": {
     "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-    "message": "Hold {target} prograde"
+    "message": "Håll {target} prograd"
   },
   "HEADING_LOCK_KILLROT": {
     "description": "",
@@ -533,15 +557,15 @@
   },
   "HEADING_LOCK_NORMAL": {
     "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-    "message": "Hold {target} normal"
+    "message": "Håll {target} normal"
   },
   "HEADING_LOCK_RADIALLY_INWARD": {
     "description": "Autopilot direction, relative to orbit (face towards planet)",
-    "message": "Hold {target} radially in"
+    "message": "Håll {target} radiellt"
   },
   "HEADING_LOCK_RADIALLY_OUTWARD": {
     "description": "Autopilot direction, relative to orbit (face away from palent)",
-    "message": "Hold {target} radially out"
+    "message": "Håll {target} antiradiellt"
   },
   "HEAVY_INDUSTRY": {
     "description": "",
@@ -582,6 +606,26 @@
   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
     "description": "",
     "message": "Kvarleva av ankomstmoln från hyperrymd"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
+    "description": "Label for hyperspace cloud display modes.",
+    "message": "Hyperspace Cloud Display Mode"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL": {
+    "description": "Combobox option for all hyperspace clouds.",
+    "message": "All Hyperspace Clouds"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY": {
+    "description": "Combobox option for arrival hyperspace clouds.",
+    "message": "Arrival Hyperspace Clouds"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY": {
+    "description": "Combobox option for departure hyperspace clouds.",
+    "message": "Departure Hyperspace Clouds"
+  },
+  "HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE": {
+    "description": "Tooltip for the button which toggles the display mode of hyperspace clouds.",
+    "message": "Toggle visibility of Hyperspace Clouds."
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
@@ -641,7 +685,7 @@
   },
   "INCREASE_RADAR_RANGE": {
     "description": "",
-    "message": "Öka radar-avstånd"
+    "message": "Öka radaravstånd"
   },
   "INCREASE_SET_SPEED": {
     "description": "",
@@ -675,9 +719,25 @@
     "description": "",
     "message": "Joystickinmatning"
   },
+  "L4L5_DISPLAY_MODE": {
+    "description": "Label for the lagrange point display modes.",
+    "message": "Lagrange Point Display Mode"
+  },
+  "L4L5_DISPLAY_MODE_ICONS_AND_TEXT": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Icons and Labels"
+  },
+  "L4L5_DISPLAY_MODE_ICONS_ONLY": {
+    "description": "Combobox option for lagrange point display as icons only.",
+    "message": "Icons Only"
+  },
+  "L4L5_DISPLAY_MODE_OFF": {
+    "description": "Combobox option for lagrange point display off.",
+    "message": "Av"
+  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
-    "description": "Either show L4/L5 points or don't",
-    "message": "Byt visningstyp mellan L4/L5 Lagrange punkter"
+    "description": "Tooltip for the L4/L5 Lagrange points toggle button.",
+    "message": "Toggle visibility of the L4/L5 lagrange points."
   },
   "LANDED": {
     "description": "",
@@ -781,7 +841,11 @@
   },
   "MASS_N_TONNES": {
     "description": "",
-    "message": "Massa: %{mass}t"
+    "message": "Massa: %{mass} t"
+  },
+  "MEAN_DENSITY": {
+    "description": "",
+    "message": "Medeldensitet"
   },
   "MEDICINES": {
     "description": "",
@@ -1017,7 +1081,7 @@
   },
   "NUMBER_TONNES": {
     "description": "",
-    "message": "%{mass}t"
+    "message": "%{mass} t"
   },
   "N_ATMOSPHERE": {
     "description": "",
@@ -1177,7 +1241,7 @@
   },
   "POPULATION": {
     "description": "",
-    "message": "Befolkning:"
+    "message": "Befolkning"
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -1185,7 +1249,7 @@
   },
   "PRESSURE_N_ATMOSPHERES": {
     "description": "",
-    "message": "P: %pressure{f-2} atm"
+    "message": "P: %pressure{f.2} atm"
   },
   "QUADRUPLE_SYSTEM": {
     "description": "",
@@ -1280,7 +1344,7 @@
     "message": "Skräp"
   },
   "SCOOP": {
-    "description": "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+    "description": "Is followed by a number, representing scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
     "message": "Skopa"
   },
   "SCREENSHOT_FILENAME_TEMPLATE": {
@@ -1305,7 +1369,7 @@
   },
   "SECTOR_X_Y_Z": {
     "description": "",
-    "message": "Sektor: %x,%y,%z"
+    "message": "Sektor: {sectorX}, {sectorY}, {sectorZ}"
   },
   "SELECTED_SYSTEM": {
     "description": "",
@@ -1321,7 +1385,7 @@
   },
   "SEMI_MAJOR_AXIS": {
     "description": "",
-    "message": "Semi-stor axel"
+    "message": "Halv storaxel"
   },
   "SET_AS_COMBAT_TARGET": {
     "description": "",
@@ -1375,9 +1439,21 @@
     "description": "",
     "message": "Skepp"
   },
+  "SHIPS_DISPLAY_MODE": {
+    "description": "Label for ship display modes.",
+    "message": "Ship Display Mode"
+  },
+  "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
+    "description": "Combobox option for ships only.",
+    "message": "Ships Only"
+  },
+  "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
+    "description": "Combobox option for ships with orbits.",
+    "message": "Ships with Orbits"
+  },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
-    "description": "Either show no ships, show ships, or show ships + their orbits",
-    "message": "Växla mellan skeppets visningslägen."
+    "description": "Tooltip for ship display toggle button.",
+    "message": "Toggle visibility of ships."
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
@@ -1389,7 +1465,7 @@
   },
   "SHIP_MASS_N_TONNES": {
     "description": "",
-    "message": "Skeppsmassa: %{mass}t"
+    "message": "Skeppsmassa: %{mass} t"
   },
   "SHIP_NEARBY": {
     "description": "",
@@ -1489,7 +1565,7 @@
   },
   "STAR_B_WF": {
     "description": "",
-    "message": "Wolf-Rayet - Riskerar kollaps"
+    "message": "Wolf-Rayet-stjärna - Riskerar kollaps"
   },
   "STAR_F": {
     "description": "",
@@ -1549,7 +1625,7 @@
   },
   "STAR_M_WF": {
     "description": "",
-    "message": "Wolf-Rayet - Ostabil"
+    "message": "Wolf-Rayet-stjärna - Ostabil"
   },
   "STAR_O": {
     "description": "",
@@ -1569,7 +1645,7 @@
   },
   "STAR_O_WF": {
     "description": "",
-    "message": "Wolf-Rayet - Nära förestående kollaps"
+    "message": "Wolf-Rayet-stjärna - Nära förestående kollaps"
   },
   "STAR_SM_BH": {
     "description": "",
@@ -1591,13 +1667,17 @@
     "description": "",
     "message": "Ytgravitation"
   },
+  "SURFACE_PRESSURE": {
+    "description": "",
+    "message": "Yttryck"
+  },
   "SURFACE_TEMPERATURE": {
     "description": "",
     "message": "Yttemperatur"
   },
   "SWAP_SELECTED_HYPERSPACE_TARGET": {
     "description": "",
-    "message": "Byt markerad och hyper-mål"
+    "message": "Byt markerad och hypermål"
   },
   "SWITCHED_TO_PARENT": {
     "description": "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
@@ -1697,7 +1777,7 @@
   },
   "TOGGLE_RADAR_MODE": {
     "description": "",
-    "message": "Växla radar-läge"
+    "message": "Växla radarläge"
   },
   "TOGGLE_RADAR_VIEW": {
     "description": "Tooltip for the Radar View button",
@@ -1739,9 +1819,21 @@
     "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
     "message": "AE"
   },
+  "UNIT_CREDITS": {
+    "description": "Unit of money, used when $ isn't specific enough",
+    "message": "Cr"
+  },
+  "UNIT_CUBIC_METERS": {
+    "description": "Volume unit: cubic meter",
+    "message": "m³"
+  },
   "UNIT_DAYS": {
     "description": "Duration unit: one 24-hour day",
     "message": "d"
+  },
+  "UNIT_DENSITY": {
+    "description": "Density unit: kilos per cubic meter",
+    "message": "kg/m³"
   },
   "UNIT_EARTH_GRAVITY": {
     "description": "Acceleration unit: one earth gravity (g)",
@@ -1750,6 +1842,10 @@
   "UNIT_GIGATONNES": {
     "description": "Mass unit: one gigatonne",
     "message": "Gt"
+  },
+  "UNIT_HECTARES": {
+    "description": "Area unit: one hectare (ha) -10,000 m²",
+    "message": "ha"
   },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
@@ -1810,6 +1906,30 @@
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",
     "message": "s"
+  },
+  "UNIT_SQUARE_KILOMETERS": {
+    "description": "Area unit: square kilometer (km²) - 1,000,000 m²",
+    "message": "km²"
+  },
+  "UNIT_SQUARE_MEGAMETERS": {
+    "description": "Area unit: square megameter (Mm²) - 10^12 m²",
+    "message": "Mm²"
+  },
+  "UNIT_SQUARE_METERS": {
+    "description": "Area unit: square meter (m²)",
+    "message": "m²"
+  },
+  "UNIT_TEMPERATURE_CELSIUS": {
+    "description": "Temperature unit: degrees Celsius (°C)",
+    "message": "°C"
+  },
+  "UNIT_TEMPERATURE_FAHRENHEIT": {
+    "description": "Temperature unit: Fahrenheit (°F)",
+    "message": "°F"
+  },
+  "UNIT_TEMPERATURE_KELVIN": {
+    "description": "Temperature unit: degrees Kelvin (K)",
+    "message": "K"
   },
   "UNIT_TERATONNES": {
     "description": "Mass unit: one teratonne",

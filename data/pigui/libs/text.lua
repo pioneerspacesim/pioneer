@@ -1,15 +1,18 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 local Engine = require 'Engine'
 local Format = require 'Format'
 local Input = require 'Input'
 local Lang = require 'Lang'
 local Game = require 'Game'
-local ui = require 'pigui.baseui'
 local pigui = Engine.pigui
 local Vector2 = _G.Vector2
 
-local lc = Lang.GetResource("core");
+---@class ui
+local ui = require 'pigui.baseui'
+
+local lc = Lang.GetResource("core")
+local lui = Lang.GetResource("ui-core")
 
 -- get a fractional font factor
 local font_factor = ui.rescaleFraction(1, Vector2(1920, 1080))
@@ -76,15 +79,10 @@ ui.fonts = {
 -- Returns:
 --   size - Vector2, the size of the text when rendered
 --
-function ui.calcTextSize(text, font, size)
-	if size == nil and type(font) == "table" then
-		size = font.size
-		font = font.name
-	end
-
+function ui.calcTextSize(text, font, wrapWidth)
 	local pushed = false
-	if font then pushed = pigui:PushFont(font, size) end
-	local ret = pigui.CalcTextSize(text)
+	if font then pushed = pigui:PushFont(font.name, font.size) end
+	local ret = pigui.CalcTextSize(text, wrapWidth)
 	if pushed then pigui:PopFont() end
 
 	return ret
@@ -101,12 +99,34 @@ end
 --   alignment - number, controls alignment of the text. 0.5 is centered,
 --               1.0 is right aligned.
 --
+---@param text string
+---@param alignment number
 function ui.textAligned(text, alignment)
 	local size = pigui.CalcTextSize(text).x
 	local cw = ui.getContentRegion().x
 
 	ui.addCursorPos(Vector2((cw - size) * alignment, 0))
 	ui.text(text)
+end
+
+--
+-- Function: ui.textAlignedColored
+--
+-- Draw the given text aligned to the specific proportion of the available
+-- content region.
+--
+-- Parameters:
+--   text      - string, the text to draw
+--   alignment - number, controls alignment of the text. 0.5 is centered,
+--               1.0 is right aligned.
+--	 color     - An ImColor each element between 0-255
+--
+function ui.textAlignedColored(text, alignment, color)
+	local size = pigui.CalcTextSize(text).x
+	local cw = ui.getContentRegion().x
+
+	ui.addCursorPos(Vector2((cw - size) * alignment, 0))
+	ui.textColored(color,text)
 end
 
 local EARTH_MASS = 5.9742e24
@@ -245,7 +265,7 @@ ui.Format = {
 	end,
 	Speed = function(distance, fractional)
 		local s, u = ui.Format.SpeedUnit(distance, fractional)
-		return s .. u
+		return s .. " " .. u
 	end,
 	MassUnit = function(mass, digits)
 		local m = math.abs(mass)
@@ -271,7 +291,7 @@ ui.Format = {
 	end,
 	Mass = function(mass, digits)
 		local m, u = ui.Format.MassUnit(mass, digits)
-		return m .. u
+		return m .. " " .. u
 	end,
 	Money = Format.Money,
 	Date = Format.Date,
@@ -280,10 +300,23 @@ ui.Format = {
 		return string.format("%4i-%02i-%02i %02i:%02i:%02i", year, month, day, hour, minute, second)
 	end,
 	Gravity = function(grav)
-		return string.format("%0.2f", grav) .. lc.UNIT_EARTH_GRAVITY
+		return string.format("%0.2f", grav) .. " " .. lc.UNIT_EARTH_GRAVITY
 	end,
 	Pressure = function(pres)
-		return string.format("%0.2f", pres) .. lc.UNIT_PRESSURE_ATMOSPHERES
+		return string.format("%0.2f ", pres) .. lc.UNIT_PRESSURE_ATMOSPHERES
+	end,
+	TemperatureCelsius = function(tempInKelvin)
+		return string.format("%0.2f", tempInKelvin - 273.15) .. lc.UNIT_TEMPERATURE_CELSIUS
+	end,
+	TemperatureFahrenheit = function(tempInKelvin)
+		return string.format("%0.2f", (tempInKelvin - 273.15) * 9/5 + 32) .. lc.UNIT_TEMPERATURE_FAHRENHEIT
+	end,
+	TemperatureKelvin = function(tempInKelvin)
+		return string.format("%0.2f ", tempInKelvin) .. lc.UNIT_TEMPERATURE_KELVIN
+	end,
+	Temperature = function(tempInKelvin)
+		-- TODO: use user preference
+		return ui.Format.TemperatureCelsius(tempInKelvin)
 	end,
 	-- produce number..denominator format
 	NumberAbbv = function(number, places)
@@ -291,9 +324,9 @@ ui.Format = {
 		number = math.abs(number)
 		local fmt = "%." .. (places or '2') .. "f%s"
 		if number < 1e3 then return s .. fmt:format(number, "")
-		elseif number < 1e6 then return s .. fmt:format(number / 1e3, "k")
-		elseif number < 1e9 then return s .. fmt:format(number / 1e6, "mil")
-		elseif number < 1e12 then return s .. fmt:format(number / 1e9, "bil")
+		elseif number < 1e6 then return s .. fmt:format(number / 1e3, " k")
+		elseif number < 1e9 then return s .. fmt:format(number / 1e6, " mil")
+		elseif number < 1e12 then return s .. fmt:format(number / 1e9, " bil")
 		else return s .. fmt:format(number / 1e12, "trn") end
 	end,
 	-- write the entire number using thousands-place grouping
@@ -312,11 +345,55 @@ ui.Format = {
 				res = string.format(",%03d%s", number % 1e3, res)
 				number = number / 1e3
 			end
-			return string.format("%d%s%s", number, res, deci)
+			return string.format("%s%d%s%s", s, number, res, deci)
 		end
 	end,
+	-- Format a volume quantity in cubic meters
+	Volume = function(number, places)
+		return ui.Format.Number(number, places or 1) .. " " .. lc.UNIT_CUBIC_METERS
+	end,
+	-- Format an Area quantity, scaling from square meters to square megameters
+	-- Returns the formatted value, the units, and the number of digits following the decimal point
+	AreaUnit= function(area, digits)
+		local a = math.abs(area)
+		local d = 0
+		local u = lc.UNIT_SQUARE_METERS
+		local div = 1
+		if a < 1e2 then
+			d = 2
+			u = lc.UNIT_SQUARE_METERS
+		elseif a < 1e4 then
+			d = 0
+			u = lc.UNIT_SQUARE_METERS
+		elseif a < 1e8 then
+			d = 2
+			u = lc.UNIT_SQUARE_KILOMETERS
+			div = 1e6
+		elseif a < 1e10 then
+			d = 0
+			u = lc.UNIT_SQUARE_KILOMETERS
+			div = 1e6
+		elseif a < 1e14 then
+			d = 2
+			u = lc.UNIT_SQUARE_MEGAMETERS
+			div = 1e12
+		else
+			d = 0
+			u = lc.UNIT_SQUARE_MEGAMETERS
+			div = 1e12
+		end
+		return ui.Format.Number(area / div, digits or d), u
+	end,
+	Area = function(area, digits)
+		local a, u = ui.Format.AreaUnit(area, digits)
+		return a .. ' ' .. u
+	end,
 	SystemPath = function(path)
-		return path:GetStarSystem().name.." ("..path.sectorX..", "..path.sectorY..", "..path.sectorZ..")"
+		local sectorString = "("..path.sectorX..", "..path.sectorY..", "..path.sectorZ..")"
+		if path:IsSectorPath() then
+			return lui.UNKNOWN_LOCATION_IN_SECTOR_X:interp{ sector = sectorString }
+		end
+		return path:GetStarSystem().name.." "..sectorString
 	end
 }
 
@@ -367,7 +444,7 @@ ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, b
 	if bg_color then
 		pigui.AddRectFilled(position - Vector2(textBackgroundMarginPixels, max_offset + textBackgroundMarginPixels),
 			position + Vector2(size.x + textBackgroundMarginPixels, size.y - max_offset + textBackgroundMarginPixels),
-			bg_color, 0, 0)
+			bg_color, 0, ui.RoundCornersNone)
 	end
 
 	for i=1,#data do
@@ -394,14 +471,14 @@ ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, 
 		if bg_color then
 			pigui.AddRectFilled(Vector2(position.x - textBackgroundMarginPixels, position.y - textBackgroundMarginPixels),
 				Vector2(position.x + size.x + textBackgroundMarginPixels, position.y + size.y + textBackgroundMarginPixels),
-				bg_color, 0, 0)
+				bg_color, 0, ui.RoundCornersNone)
 		end
 		pigui.AddText(position, color, text)
 	end)
 
 	if tooltip and (ui.isMouseHoveringWindow() or not ui.isAnyWindowHovered()) and tooltip ~= "" then
 		if pigui.IsMouseHoveringRect(position, position + size, true) then
-			ui.maybeSetTooltip(tooltip)
+			ui.setTooltip(tooltip)
 		end
 	end
 
@@ -418,7 +495,7 @@ end
 --   tooltip - string, tooltip text to display to the user
 --   font    - optional font table, used to display the given tooltip
 --
-function ui.maybeSetTooltip(tooltip, font)
+function ui.setTooltip(tooltip, font)
 	if not Input.GetMouseCaptured() then
 		ui.withFont(font or ui.fonts.pionillium.details, function()
 			pigui.SetTooltip(tooltip)
@@ -426,4 +503,20 @@ function ui.maybeSetTooltip(tooltip, font)
 	end
 end
 
-ui.setTooltip = ui.maybeSetTooltip
+--
+-- Function: setItemTooltip
+--
+-- Displays a tooltip in the UI if the last submitted "item" is hovered with a short delay.
+-- The function does not display a tooltip if the mouse is currently captured by the game.
+--
+-- Parameters:
+--   tooltip - string, tooltip text to display to the user
+--   font    - optional font table, used to display the given tooltip
+--
+function ui.setItemTooltip(tooltip, font)
+	if not Input.GetMouseCaptured() then
+		ui.withFont(font or ui.fonts.pionillium.details, function()
+			pigui.SetItemTooltip(tooltip)
+		end)
+	end
+end

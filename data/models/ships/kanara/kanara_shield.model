@@ -1,0 +1,7 @@
+version 2
+
+lod 100 {
+	mesh "kanara_shield.dae"
+}
+
+

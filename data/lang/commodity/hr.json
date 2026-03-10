@@ -5,55 +5,63 @@
   },
   "AIR_PROCESSORS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Clean air is only taken for granted when already abundant. The technique behind air purification is rumoured to come from alien artifacts found on Mars. Many companies produce various types of air processors, capable of turning even the most hostile atmospheres into a workable environment, and governments do not tolerate monopoly on air production."
+    "message": "Čist zrak se uzima zdravo za gotovo samo kada ga već ima u izobilju. Priča se da tehnika pročišćavanja zraka potječe od izvanzemaljskih artefakata pronađenih na Marsu. Mnoge tvrtke proizvode razne vrste procesora za zrak, sposobnih pretvoriti čak i najnegostoljubivije atmosfere u radno okruženje, a vlade ne toleriraju monopol na proizvodnju zraka."
   },
   "ANIMAL_MEAT": {
     "description": "",
-    "message": "Animal meat"
+    "message": "Životinjsko meso"
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "A major point of controversy, meat is the flesh of animals. With synthetic protein readily available, most people believe that animals should not be killed. While meats are illegal in most core systems, live animals and their meat is an important part of the lives of people on more traditional worlds."
+    "message": "Glavna kontroverzna točka jest to što je meso životinjsko meso. S obzirom na lako dostupne sintetičke proteine, većina ljudi vjeruje da životinje ne treba ubijati. Iako je meso ilegalno u većini temeljnih sustava, žive životinje i njihovo meso važan su dio života ljudi u tradicionalnijim svjetovima."
   },
   "BATTLE_WEAPONS": {
     "description": "",
-    "message": "Teško oružje"
+    "message": "Bojno oružje"
   },
   "BATTLE_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Heavy military-grade weapons, like armoured hover tanks, and surface-to-space missiles. Trading in them is usually a governmental monopoly. On the black market, however, these can often fetch a hefty sum of money."
+    "message": "Teško oružje vojne klase, poput oklopnih lebdećih tenkova i projektila zemlja-svemir. Trgovina njima obično je vladin monopol. Međutim, na crnom tržištu često može donijeti veliku svotu novca."
   },
   "CARBON_ORE": {
     "description": "",
-    "message": "Ugljikova rudača"
+    "message": "Ugljikova Ruda"
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Carbon is one of the most diverse elements we know of. Used in almost everything from plastics to alloys and sometimes even power production, carbon is an inexpensive, but important commodity. As such, almost all industrial settlements import carbon ore."
+    "message": "Ugljik je jedan od najraznolikijih elemenata koje poznajemo. Koristi se u gotovo svemu, od plastike do legura, pa čak i u proizvodnji energije, te je jeftina, ali važna roba. Kao takva, gotovo sva industrijska naselja uvoze ugljikovu rudu."
+  },
+  "CHEMICALS": {
+    "description": "",
+    "message": "Kemikalije"
+  },
+  "CHEMICALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Industrijski prekursori, kaustična sredstva za čišćenje i biokemijske sirovine, kemikalije se koriste i u potrošačkim i u industrijskim okruženjima. Kemikalije se prevoze u industrijskim spremnicima kako bi se spriječila korozija teretnog prostora broda."
   },
   "COMPUTERS": {
     "description": "",
-    "message": "Računala"
+    "message": "Kompjuteri"
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "From over a thousand years ago, with the Abacus, PDP-11, and Motorola 68k chip, down to our modern HAL 9001 and Multivac line, computers marked the dawn of the information age. Equally essential for entering hyperspace as for sharing videos of cute quibbles over the UniNet."
+    "message": "Od prije više od tisuću godina, s Abacusom, PDP-11 i Motorola 68k čipom, pa sve do naše moderne HAL 9001 i Multivac linije, računala su označila zoru informacijskog doba. Podjednako bitna za ulazak u hiperprostor kao i za dijeljenje videa slatkih dosjetki putem UniNeta."
   },
   "CONSUMER_GOODS": {
     "description": "",
-    "message": "Potrošačka roba"
+    "message": "Potrošačka dobra"
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The end products ready for the general consumer public, without need for further processing. Everything from toothbrushes, kitchen appliances to hover cars."
+    "message": "Krajnji proizvodi spremni za širu potrošačku javnost, bez potrebe za daljnjom obradom. Sve od četkica za zube, kuhinjskih aparata do lebdećih automobila."
   },
   "FARM_MACHINERY": {
     "description": "",
-    "message": "Poljoprivredna mehanizacija"
+    "message": "Poljoprivredni strojevi"
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Although rare, it is still possible to catch the occasional farmer with an ox-driven plow. But in almost any place where there is agriculture, machines are used in the cultivation of the land, be it the hydroponics of an underground habitat or the endless fields of a garden world."
+    "message": "Iako rijetko, još uvijek je moguće uhvatiti ponekog poljoprivrednika s plugom koji vuku volovi. Ali gotovo na svakom mjestu gdje postoji poljoprivreda, strojevi se koriste u obradi zemlje, bilo da se radi o hidroponici podzemnog staništa ili beskrajnim poljima vrtnog svijeta."
   },
   "FERTILIZER": {
     "description": "",
@@ -61,31 +69,31 @@
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Fertilizers are crucial for growing crops at an industrial scale, allowing mono-cultures, and yielding higher dividends than possible using plain dirt. This often comes with an ecological cost, not evident at the onset."
+    "message": "Gnojiva su ključna za uzgoj usjeva u industrijskim razmjerima, omogućujući monokulture i donoseći veće dividende nego što je to moguće korištenjem obične zemlje. To često dolazi s ekološkim troškovima, koji nisu vidljivi na početku."
   },
   "FRUIT_AND_VEG": {
     "description": "",
-    "message": "Fruit & vegetables"
+    "message": "Voće i povrće"
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "While there are lots of synthetic alternatives, real fruits and vegetables are still an important part of our cuisine and nutrition. Grown on agricultural worlds or as part of the life support of habitats, and exported to systems in which growing plants is not feasible."
+    "message": "Iako postoji mnogo sintetičkih alternativa, pravo voće i povrće i dalje je važan dio naše kuhinje i prehrane. Uzgaja se na poljoprivrednim planetima ili kao dio životne podrške staništa, a izvozi se u sustave u kojima uzgoj biljaka nije izvediv."
   },
   "GRAIN": {
     "description": "",
-    "message": "Žito"
+    "message": "Žitarice"
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The backbone of many peoples' diets. It is used in farming, to feed animals, and as a supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal and baked goods. Most star faring cultures grow and consume at least some grains, that have been adopted to the climate of their habitat."
+    "message": "Okosnica prehrane mnogih ljudi. Koristi se u poljoprivredi, za ishranu životinja i kao dodatak sintetičkoj hrani. Žitarice se također koriste u mnogim drugim namirnicama, poput zobenih pahuljica i pekarskih proizvoda. Većina kultura koje putuju na zvjezdane putnike uzgaja i konzumira barem neke žitarice koje su prilagođene klimi njihovog staništa."
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Small arms"
+    "message": "Malokalibarsko oružje"
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Providing insurance beyond the long arm of the law, hand weapons are essential for space traders in far-out systems. However, many governments see them as a threat to their own control over their population and strictly control their trade and possession."
+    "message": "Pružajući osiguranje izvan okvira zakona, ručno oružje je ključno za svemirske trgovce u dalekim sustavima. Međutim, mnoge vlade ga vide kao prijetnju vlastitoj kontroli nad svojim stanovništvom i strogo kontroliraju njihovu trgovinu i posjedovanje."
   },
   "HYDROGEN": {
     "description": "",
@@ -93,7 +101,7 @@
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Used as fuel for hyperdrives and propellant for starships, hydrogen is an extremely important element. Fortunately it is also the most common element in the universe, although storing it isn't trivial. It is usually among the cheapest commodities on the stock market. Starports are well supplied at any given time."
+    "message": "Vodik, koji se koristi kao gorivo za hiperpogone i pogonsko gorivo za svemirske brodove, izuzetno je važan element. Srećom, ujedno je i najčešći element u svemiru, iako njegovo skladištenje nije jednostavno. Obično je među najjeftinijom robom na burzi. Zvjezdane luke su dobro opskrbljene u svakom trenutku."
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
@@ -101,15 +109,15 @@
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Needed for assembly lines, refineries, smelters, and production of machinery that will in turn produce other goods. High competence is needed to produce these advanced machines."
+    "message": "Potrebno za montažne trake, rafinerije, topionice i proizvodnju strojeva koji će zauzvrat proizvoditi drugu robu. Za proizvodnju ovih naprednih strojeva potrebna je visoka kompetencija."
   },
   "LIQUID_OXYGEN": {
     "description": "",
-    "message": "Liquid oxygen"
+    "message": "Tekući kisik"
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Liquid oxygen has many purposes, most commonly in medical and industrial applications and sometimes also used in waste treatment. It is very affordable, as oxygen is easy to obtain from water."
+    "message": "Tekući kisik ima mnogo namjena, najčešće u medicinskim i industrijskim primjenama, a ponekad se koristi i u obradi otpada. Vrlo je pristupačan jer se kisik lako dobiva iz vode."
   },
   "LIQUOR": {
     "description": "",
@@ -117,15 +125,15 @@
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Most outposts have a local brew that outsiders find hard to stomach. Alcohol can be banned in some systems as it is deemed to cloud the mind. Regardless of the law, a shot of scotch is almost always available on the black market, for a price."
+    "message": "Većina ispostava ima lokalno pivo koje stranci teško podnose. Alkohol može biti zabranjen u nekim sustavima jer se smatra da pomućuje um. Bez obzira na zakon, čašica škotskog viskija gotovo je uvijek dostupna na crnom tržištu, uz određenu cijenu."
   },
   "LIVE_ANIMALS": {
     "description": "",
-    "message": "Live animals"
+    "message": "Životinje"
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Partly due to humanistic, economic and ecological reasons, animal rearing and trade is strictly regulated, or even illegal in many core systems. Going outward, livestock becomes a more important part of the livelihood of the people, both as a source of nutrition and a beast of burden. Exotic zoos and wildlife reserves contribute to the trade of animals around the galaxy, usually under strict state regulations, to combat illegal hunting grounds."
+    "message": "Djelomično zbog humanističkih, ekonomskih i ekoloških razloga, uzgoj i trgovina životinjama strogo su regulirani ili čak ilegalni u mnogim ključnim sustavima. Šireći prema van, stoka postaje važniji dio egzistencije ljudi, i kao izvor prehrane i kao tegleća životinja. Egzotični zoološki vrtovi i rezervati za divlje životinje doprinose trgovini životinjama diljem galaksije, obično pod strogim državnim propisima, kako bi se borili protiv ilegalnih lovišta."
   },
   "MEDICINES": {
     "description": "",
@@ -133,7 +141,7 @@
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Derived from natural sources, or synthesized artificially, medicines are needed everywhere humans go. From curing the common cold to combat the adverse effects of prolonged space travel, medicines are essential to the prosperity of an interstellar humanity. Carefully watched by customs agents, as it is not uncommon to disguise narcotics as medical drugs."
+    "message": "Lijekovi, dobiveni iz prirodnih izvora ili sintetizirani umjetno, potrebni su svugdje kamo ljudi idu. Od liječenja prehlade do borbe protiv štetnih učinaka dugotrajnih svemirskih putovanja, lijekovi su ključni za prosperitet međuzvjezdanog čovječanstva. Carinski agenti ih pažljivo nadziru, jer nije neuobičajeno prikrivati ​​narkotike kao medicinske lijekove."
   },
   "METAL_ALLOYS": {
     "description": "",
@@ -141,15 +149,15 @@
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "After metal ore is extracted and refined, it is processed and ends up as various alloys. An alloy is an amalgamation of metals, rather than a single pure element, combined in exact proportions to gain specific desirable traits. Therefore, most consumer metals are alloys."
+    "message": "Nakon što se metalna ruda izvadi i rafinira, ona se obrađuje i završava kao razne legure. Legura je spoj metala, a ne jedan čisti element, kombiniranih u točnim omjerima kako bi se dobile specifične poželjne osobine. Stoga su većina potrošačkih metala legure."
   },
   "METAL_ORE": {
     "description": "",
-    "message": "Željezna rudača"
+    "message": "Željezna ruda"
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Many colonies mine metal ores for export, to be refined and used in industrial manufacturing. Used in everything from small toys to spaceships, metal in all its forms is essential to modern civilization."
+    "message": "Mnoge kolonije kopaju metalne rude za izvoz, zatim se rafiniraju i koriste u industrijskoj proizvodnji. Metal se koristi u svemu, od malih igračaka do svemirskih brodova, a u svim svojim oblicima ključan je za modernu civilizaciju."
   },
   "MILITARY_FUEL": {
     "description": "",
@@ -157,7 +165,7 @@
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Used as fuel in the more advanced military drives. These drives produce radioactive waste during operation, which must be disposed of. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
+    "message": "Koristi se kao gorivo u naprednijim vojnim pogonima. Ovi pogoni tijekom rada proizvode radioaktivni otpad koji se mora zbrinuti. Zbog svoje sintetičke prirode, vojno gorivo je skuplje i rjeđe od vodika te se ne može naći u prirodi."
   },
   "MINING_MACHINERY": {
     "description": "",
@@ -165,23 +173,23 @@
   },
   "MINING_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The traditionally back breaking work of mining is alleviated by the use of machines that help miners in locating and retrieving various ores, and transporting them to the closest processing facilities."
+    "message": "Tradicionalno mukotrpan posao rudarstva ublažen je korištenjem strojeva koji pomažu rudarima u lociranju i vađenju raznih ruda te njihovom transportu do najbližih pogona za preradu."
   },
   "NARCOTICS": {
     "description": "",
-    "message": "Opojne droge"
+    "message": "Narkotici"
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Natural or synthetic substances that alter the state of mind and body. Although the use of narcotics, both for recreational and medical purposes, is as old as humanity itself, shipping and trading is commonly outlawed."
+    "message": "Prirodne ili sintetičke tvari koje mijenjaju stanje uma i tijela. Iako je upotreba narkotika, kako u rekreativne tako i u medicinske svrhe, stara kao i samo čovječanstvo, brodarstvo i trgovina su često zabranjeni."
   },
   "NERVE_GAS": {
     "description": "",
-    "message": "Nerve gas"
+    "message": "Nervni plin"
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "It is generally accepted to be a weapon of mass destruction, shunned even by the military in most systems, and thus illegal in most systems."
+    "message": "Općenito je prihvaćeno da je to oružje za masovno uništenje, koje u većini sustava izbjegava čak i vojska, te je stoga u većini sustava ilegalno."
   },
   "PLASTICS": {
     "description": "",
@@ -189,15 +197,15 @@
   },
   "PLASTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Synthetical and semi-synthetical materials used in everything from everyday items to spaceship construction. They are relatively easy to use in manufacture, versatile and cheap to make, thus an important part of human civilization."
+    "message": "Sintetički i polusintetički materijali koji se koriste u svemu, od predmeta za svakodnevnu upotrebu do izgradnje svemirskih brodova. Relativno ih je lako koristiti u proizvodnji, svestrani su i jeftini za izradu, te su stoga važan dio ljudske civilizacije."
   },
   "PRECIOUS_METALS": {
     "description": "",
-    "message": "Precizni metali"
+    "message": "Plemeniti metali"
   },
   "PRECIOUS_METALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Precious metals are, generally, less reactive, more difficult to mine, and more scarce, resulting in a considerable economic value. This often includes gold, silver, platinum, and rare earths. Certain elements such as gold and silicon, or rare earths, are crucial for the construction of computers and other electronics."
+    "message": "Plemeniti metali su, općenito, manje reaktivni, teže ih je iskopati i rjeđi su, što rezultira znatnom ekonomskom vrijednošću. To često uključuje zlato, srebro, platinu i rijetke zemlje. Određeni elementi poput zlata i silicija ili rijetkih zemalja ključni su za izgradnju računala i druge elektronike."
   },
   "RADIOACTIVES": {
     "description": "",
@@ -205,7 +213,7 @@
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Created by nuclear reactors, and military hyperdrives, radioactive waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping radioactive waste is a severe offence."
+    "message": "Radioaktivni otpad, stvoren nuklearnim reaktorima i vojnim hiperpogonima, najteža je i najopasnija roba za transport i odlaganje. Zbog toga će većina zvjezdanih luka platiti da se riješe viška zaliha. Odlaganje radioaktivnog otpada ozbiljan je prekršaj."
   },
   "ROBOTS": {
     "description": "",
@@ -213,7 +221,7 @@
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Robots are often imported into industrial and mining systems, due to their ability to easily perform tasks that would be too difficult, tedious, or unsafe for human workers. They can also serve as politicians and lawyers."
+    "message": "Roboti se često uvoze u industrijske i rudarske sustave zbog svoje sposobnosti da lako obavljaju zadatke koji bi bili preteški, zamorni ili nesigurni za ljudske radnike. Također mogu služiti kao političari i odvjetnici."
   },
   "RUBBISH": {
     "description": "",
@@ -221,7 +229,7 @@
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The byproduct of civilization, consisting of industrial waste, household garbage, and worn down equipment. Most waste is reprocessed, recycled or sent to starports for transport off-world. Dumping garbage in inhabited systems is almost always illegal. Starports usually charge a fee for waste disposal, but will also pay you to take it away."
+    "message": "Nusprodukt civilizacije, koji se sastoji od industrijskog otpada, kućnog smeća i istrošene opreme. Većina otpada se prerađuje, reciklira ili šalje u zvjezdane luke za prijevoz izvan svijeta. Odlaganje smeća u naseljenim sustavima gotovo je uvijek ilegalno. Zvjezdane luke obično naplaćuju naknadu za odlaganje otpada, ali će vam platiti i da ga odvezete."
   },
   "SLAVES": {
     "description": "",
@@ -229,7 +237,7 @@
   },
   "SLAVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "As machines have replaced slaves as the engine that powers civilization, slavery is now almost universally seen as immoral, and transgression against a ban draws the strictest punishment. However, despite the best efforts of humanitarians, slavery is still prevalent, even in developed worlds."
+    "message": "Kako su strojevi zamijenili robove kao motor koji pokreće civilizaciju, ropstvo se sada gotovo univerzalno smatra nemoralnim, a kršenje zabrane povlači najstrožu kaznu. Međutim, unatoč najboljim naporima humanitaraca, ropstvo je i dalje rašireno, čak i u razvijenim zemljama."
   },
   "TEXTILES": {
     "description": "",
@@ -237,7 +245,7 @@
   },
   "TEXTILES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Textiles are simple fabric, woven from either synthetic, plant or animal derived yarn. Usually produced by robots in large factories, it is still possible to find the occasional weaver who makes their own textiles."
+    "message": "Tekstil je jednostavna tkanina, tkana od sintetičke, biljne ili životinjske pređe. Obično ga proizvode roboti u velikim tvornicama, no još uvijek je moguće pronaći ponekog tkalca koji sam izrađuje tekstil."
   },
   "WATER": {
     "description": "",
@@ -245,6 +253,6 @@
   },
   "WATER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Essential for life as we know it, an often overlooked commodity, water is needed wherever humanity roams. As such, the vast majority of off-world colonies import water from comets or planets like Earth. Water is used on a massive scale for hydrogen and oxygen production."
+    "message": "Voda, koja je bitna za život kakav poznajemo, često zanemarena roba, potrebna je gdje god čovječanstvo luta. Kao takva, velika većina kolonija izvan planeta uvozi vodu s kometa ili planeta poput Zemlje. Voda se u velikim razmjerima koristi za proizvodnju vodika i kisika."
   }
 }

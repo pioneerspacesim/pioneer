@@ -1,9 +1,10 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef SECTORGENERATOR_H
 #define SECTORGENERATOR_H
 
+#include "GalaxyConfig.h"
 #include "GalaxyGenerator.h"
 #include "Random.h"
 #include "RefCounted.h"
@@ -13,19 +14,59 @@
 class SectorCustomSystemsGenerator : public SectorGeneratorStage {
 public:
 	SectorCustomSystemsGenerator(int customOnlyRadius) :
-		m_customOnlyRadius(customOnlyRadius) {}
+		m_customOnlyRadius(customOnlyRadius) {
+		m_galaxyConfig = GalaxyConfig();
+
+		m_GalaxyExploredMax = m_galaxyConfig.Int("GalaxyExploredMax");
+		m_GalaxyExploredMin = m_galaxyConfig.Int("GalaxyExploredMin");
+		m_GalaxyExploredMix = m_galaxyConfig.Int("GalaxyExploredMix");
+	}
 	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config);
 
 private:
+	int m_GalaxyExploredMax;
+	int m_GalaxyExploredMin;
+	int m_GalaxyExploredMix;
+
 	int m_customOnlyRadius;
+	GalaxyConfig m_galaxyConfig;
 };
 
 class SectorRandomSystemsGenerator : public SectorGeneratorStage {
 public:
+	SectorRandomSystemsGenerator(){
+		m_galaxyConfig = GalaxyConfig();
+
+		m_GalaxyExploredMax = m_galaxyConfig.Int("GalaxyExploredMax");
+		m_GalaxyExploredMin = m_galaxyConfig.Int("GalaxyExploredMin");
+		m_GalaxyExploredMix = m_galaxyConfig.Int("GalaxyExploredMix");
+	}
 	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config);
 
 private:
+	int m_GalaxyExploredMax;
+	int m_GalaxyExploredMin;
+	int m_GalaxyExploredMix;
+
 	const std::string GenName(RefCountedPtr<Galaxy> galaxy, const Sector &sec, Sector::System &sys, int si, Random &rand);
+	GalaxyConfig m_galaxyConfig;
+};
+
+class SectorOverrideSystemsGenerator : public SectorGeneratorStage {
+public:
+	SectorOverrideSystemsGenerator() {
+		GalaxyConfig cfg = GalaxyConfig();
+
+		m_GalaxyExploredMax = cfg.Int("GalaxyExploredMax");
+		m_GalaxyExploredMin = cfg.Int("GalaxyExploredMin");
+		m_GalaxyExploredMix = cfg.Int("GalaxyExploredMix");
+	}
+	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config);
+
+private:
+	int m_GalaxyExploredMax;
+	int m_GalaxyExploredMin;
+	int m_GalaxyExploredMix;
 };
 
 class SectorPersistenceGenerator : public SectorGeneratorStage {

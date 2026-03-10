@@ -1,17 +1,18 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "MaterialGL.h"
 #include "Program.h"
 #include "RendererGL.h"
 #include "Shader.h"
+
 #include "core/Log.h"
 #include "graphics/Material.h"
-
-#include "StringF.h"
 #include "graphics/Types.h"
 #include "graphics/opengl/TextureGL.h"
 #include "graphics/opengl/UniformBuffer.h"
+
+#include "profiler/Profiler.h"
 
 namespace Graphics {
 	namespace OGL {
@@ -97,8 +98,8 @@ namespace Graphics {
 			PROFILE_SCOPED()
 
 			if (m_descriptor.lighting) {
-				UniformBuffer *lightBuffer = m_renderer->GetLightUniformBuffer();
-				SetBuffer(s_lightDataName, { lightBuffer, 0, lightBuffer->GetSize() });
+				assert(m_renderer->GetLightUniformBuffer().buffer != nullptr);
+				SetBuffer(s_lightDataName, m_renderer->GetLightUniformBuffer());
 
 				float intensity[4] = { 0.f, 0.f, 0.f, 0.f };
 				for (uint32_t i = 0; i < m_renderer->GetNumLights(); i++)
@@ -110,7 +111,7 @@ namespace Graphics {
 			// this should always be present, but just in case...
 			if (m_perDrawBinding != Shader::InvalidBinding) {
 				auto buffer = m_renderer->GetDrawUniformBuffer(sizeof(DrawDataBlock));
-				BufferBinding<UniformBuffer> binding;
+				BufferBinding<Graphics::UniformBuffer> binding;
 
 				auto dataBlock = buffer->Allocate<DrawDataBlock>(binding);
 				dataBlock->diffuse = this->diffuse.ToColor4f();
@@ -126,7 +127,7 @@ namespace Graphics {
 				dataBlock->uViewMatrixInverse = mv.Inverse();
 				dataBlock->uViewProjectionMatrix = proj * mv;
 
-				SetBuffer(s_drawDataName, { binding.buffer, binding.offset, binding.size });
+				SetBuffer(s_drawDataName, binding);
 			}
 		}
 

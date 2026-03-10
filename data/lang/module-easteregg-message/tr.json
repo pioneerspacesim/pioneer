@@ -1,6 +1,6 @@
 {
   "FLAVOUR_0_BODY": {
-    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC",
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC. It is formated as a list",
     "message": "Sadece 36 24 36'yı çaldır, hep evdeyim.\n - Beton ayakkabılar,\n - Siyanür, \n - TNT,\n - Kravatlar,\n - Sözleşmeler,\n - Yüksek gerilim ilgimi çeker.\n\n... ya da sadece bir sosyal arama yapabilirsin."
   },
   "FLAVOUR_0_DESC": {
@@ -22,5 +22,17 @@
   "FLAVOUR_1_TITLE": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",
     "message": "KONUŞACAK BİRİNE Mİ İHTİYACINIZ VAR?"
+  },
+  "FLAVOUR_2_BODY": {
+    "description": "A very rare easter egg, referencing a online myth from 90s: https://en.wikipedia.org/wiki/John_Titor",
+    "message": "Ben Zaman Yolculuğu Enstitüsünden John Titor, 4036 yılından geliyorum. Şu an 1975 yılına bir IBM 5100 bilgisayarı almak ve benim zamanımın makinelerine uygun şekilde portlanmamış eski bilgisayar programlarını düzeltmek için gidiyorum, ancak büyük afetten önceki zamanlara dair kaybolan bilgileri toplamak için burada durdum.\n\nZaman makinelerinin nasıl çalıştığına dair altı parçalı bir açıklama ile geri dönmeyi planlıyorum. Kısaca, zaman makinem durağan bir kütleden ve standart bir kaymalı tipler sinüsoidi üretebilen iki adet üst-spin çift-pozitif tekillikten güç alan bir zamansal deplasman biriminden oluşuyor. Deplasman birimi uzamsal değil zamansal olarak hareket ediyor.\n\nİstek üzerine birimin fotoğraflarını göndermekten mutluluk duyarım."
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "Note: string has quotes",
+    "message": "\"Eğer zaman yolculuğu gerçekse, bütün zaman yolcuları nerede?\""
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "A very rare Easter egg, referencing Internet myth of John Titor.",
+    "message": "Geçmişin insanları, BÜYÜK AFETTEN SAKININ!"
   }
 }

@@ -1,8 +1,10 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CoreFwdDecl.h"
 #include "FileSystem.h"
+#include "utils.h"
+
 #include <algorithm>
 #include <deque>
 #include <string>
@@ -22,42 +24,42 @@
 #endif
 
 /**
-*	We use Lua's require() functionality, but with a twist.
-*
-*	When specifying a module name to `require()`, beginning the module name
-*	with a separator (`.`) is syntactic sugar for prepending the source
-*	directory of the calling file to the module name, forming a system of
-*	relative name lookup.
-*
-*	Relative name lookup cannot ascend levels in the filesystem, nor can it be
-*	used to exit the virtual filesystem. It's merely a shorthand to implicitly
-*	specify the module name of the calling file as a prefix to the module name
-*	passed to `require()`. This is done as follows:
-*
-*		-- when called from myname/modname/mod-load.lua
-*		require '.module-A'
-*		-- this call is transformed into:
-*		require 'myname.modname.module-A'
-*
-*	Once the full module name has been established, it is run through several
-*	levels of lookup. First, the module name is tested against the import
-*	cache, then against the list of modules registered by C++ code. Finally,
-*	it is converted into a file path and tested against the filesystem to
-*	load a lua file from disk.
-*
-*	Filesystem lookup follows the usual rules; a file in a mod overrides files
-*	earlier in the mod load order, and the overriden files cannot be loaded
-*	from disk. If there is a C++ module with a specific name, it overrides all
-*	Lua files with that name.
-*
-*	The `package.core` object stores C++ modules for convenience. Access
-*	is by standard Lua notation - `package.core.PiGui.Modules.ModelSpinner`
-*	works just fine, as does `require 'PiGui.Modules.ModelSpinner'`.
-*
-*	The `package.reimport(name)` function purges the cache for a specific
-*	module name and repeats the loading process - useful for when a file
-*	changes on disk as part of development.
-*/
+ *	We use Lua's require() functionality, but with a twist.
+ *
+ *	When specifying a module name to `require()`, beginning the module name
+ *	with a separator (`.`) is syntactic sugar for prepending the source
+ *	directory of the calling file to the module name, forming a system of
+ *	relative name lookup.
+ *
+ *	Relative name lookup cannot ascend levels in the filesystem, nor can it be
+ *	used to exit the virtual filesystem. It's merely a shorthand to implicitly
+ *	specify the module name of the calling file as a prefix to the module name
+ *	passed to `require()`. This is done as follows:
+ *
+ *		-- when called from myname/modname/mod-load.lua
+ *		require '.module-A'
+ *		-- this call is transformed into:
+ *		require 'myname.modname.module-A'
+ *
+ *	Once the full module name has been established, it is run through several
+ *	levels of lookup. First, the module name is tested against the import
+ *	cache, then against the list of modules registered by C++ code. Finally,
+ *	it is converted into a file path and tested against the filesystem to
+ *	load a lua file from disk.
+ *
+ *	Filesystem lookup follows the usual rules; a file in a mod overrides files
+ *	earlier in the mod load order, and the overriden files cannot be loaded
+ *	from disk. If there is a C++ module with a specific name, it overrides all
+ *	Lua files with that name.
+ *
+ *	The `package.core` object stores C++ modules for convenience. Access
+ *	is by standard Lua notation - `package.core.PiGui.Modules.ModelSpinner`
+ *	works just fine, as does `require 'PiGui.Modules.ModelSpinner'`.
+ *
+ *	The `package.reimport(name)` function purges the cache for a specific
+ *	module name and repeats the loading process - useful for when a file
+ *	changes on disk as part of development.
+ */
 
 // The cache table that stores file path -> module return value mappings
 static const char *IMPORT_CACHE_NAME = "Imports";
@@ -74,9 +76,9 @@ struct ImportInfo {
 };
 
 /**
-* Returns path of last element in the lua stack
-*/
-static std::string get_caller(lua_State *L)
+ * Returns path of last element in the lua stack
+ */
+static std::string get_caller(lua_State *L, int depth = 1)
 {
 	// XXX: Extraneous copy
 	assert(L);
@@ -86,7 +88,7 @@ static std::string get_caller(lua_State *L)
 	lua_Debug ar;
 
 	// if have stack and caller in the stack
-	if (lua_getstack(L, 1, &ar) && lua_getinfo(L, "S", &ar) && ar.source) {
+	if (lua_getstack(L, depth, &ar) && lua_getinfo(L, "S", &ar) && ar.source) {
 		int start = 0;
 		int end = strlen(ar.source);
 
@@ -112,14 +114,14 @@ static std::string get_caller(lua_State *L)
 }
 
 /**
-* Generate a lua module name from a given input path.
-* If the path contains a directory component containing a separator (period)
-* this function will return an empty string, as lua module names cannot contain
-* a non-separating period.
-* This function discards the trailing component of the directory path. If you
-* wish to retain it, ensure the path string ends with '/'.
-*/
-static std::string path_to_module(std::string path)
+ * Generate a lua module name from a given input path.
+ * If the path contains a directory component containing a separator (period)
+ * this function will return an empty string, as lua module names cannot contain
+ * a non-separating period.
+ * This function discards the trailing component of the directory path. If you
+ * wish to retain it, ensure the path string ends with '/'.
+ */
+static std::string path_to_module(const std::string &path)
 {
 	std::string module_name;
 
@@ -144,7 +146,7 @@ static std::string path_to_module(std::string path)
 		end = path.find_first_of('/', start);
 	}
 
-	if (module_name.back() == '.')
+	if (!module_name.empty() && module_name.back() == '.')
 		module_name.pop_back();
 
 	return module_name;
@@ -348,7 +350,7 @@ static bool lua_import_module(lua_State *L, const std::string &moduleName)
 	lua_pop(L, 1);
 
 	// Load the module from the Core c++ module cache
-	if (load_from_core(L, moduleName.c_str())) {
+	if (load_from_core(L, moduleName)) {
 		DEBUG_INDENTED_PRINTF("-> loaded module %s from C++ core modules\n", moduleName.c_str());
 		DEBUG_INDENT_DECREASE();
 		LUA_DEBUG_END(L, 1);
@@ -359,7 +361,7 @@ static bool lua_import_module(lua_State *L, const std::string &moduleName)
 	std::string errorMsg = "could not load module '" + moduleName + "'";
 	errorMsg += "\n\tno entry Imports[\"" + moduleName + "\"]";
 	errorMsg += "\n\tno field package.core." + moduleName;
-	for (auto path : triedPaths) {
+	for (const auto &path : triedPaths) {
 		errorMsg += "\n\tno file '" + path + "'";
 	}
 	lua_pushstring(L, errorMsg.c_str());
@@ -444,9 +446,9 @@ static std::string make_module_name(lua_State *L, int idx)
 	return name;
 }
 
-static std::string get_caller_module_name(lua_State *L)
+std::string pi_lua_get_caller_module(lua_State *L, int depth)
 {
-	std::string caller = get_caller(L);
+	std::string caller = get_caller(L, depth);
 	std::string_view sv(caller);
 	if (ends_with(sv, ".lua"))
 		sv.remove_suffix(4);
@@ -456,7 +458,7 @@ static std::string get_caller_module_name(lua_State *L)
 
 static int l_reimport_package(lua_State *L)
 {
-	std::string name = lua_gettop(L) ? make_module_name(L, 1) : get_caller_module_name(L);
+	std::string name = lua_gettop(L) ? make_module_name(L, 1) : pi_lua_get_caller_module(L);
 
 	// Get the module name -> file path mapping
 	std::string path = get_path_cache(L, name);
@@ -480,7 +482,8 @@ static int l_reimport_package(lua_State *L)
 
 static int l_get_module_name(lua_State *L)
 {
-	lua_pushstring(L, get_caller_module_name(L).c_str());
+	int depth = luaL_optinteger(L, 1, 1);
+	lua_pushstring(L, pi_lua_get_caller_module(L, depth > 1 ? depth : 1).c_str());
 	return 1;
 }
 
@@ -555,6 +558,9 @@ int luaopen_import(lua_State *L)
 
 	lua_pushcfunction(L, l_get_module_name);
 	lua_setfield(L, package_table, "thisModule");
+
+	lua_pushcfunction(L, l_get_module_name);
+	lua_setfield(L, package_table, "modulename");
 
 	LUA_DEBUG_END(L, 1);
 	return 1;

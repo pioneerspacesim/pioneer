@@ -317,7 +317,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Ship required for high-risk passage to {system} system. Will pay {cash}."
+    "message": "飞船需通过高风险航线前往 {system} 星系. 将支付 {cash}."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
@@ -353,7 +353,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Ship wanted for business-class passage to {system} system. Will pay {cash}."
+    "message": "需要飞船通过商业航线抵达 {system} 星系. 将支付 {cash}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
@@ -385,7 +385,7 @@
   },
   "FLAVOUR_4_WHYSOMUCH": {
     "description": "",
-    "message": "我是旅行商人."
+    "message": "我是一个旅行的销售员。"
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -457,11 +457,11 @@
   },
   "FLAVOUR_6_WHYSOMUCH": {
     "description": "",
-    "message": "我是自由职业记者."
+    "message": "我是一名自由记者。"
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Ship wanted for safe passage to {system} system. Secure transport required. Will pay {cash}."
+    "message": "需要飞船通过安全航线去往 {system} 星系. 安全运输是强制要求. 将支付 {cash}."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
@@ -497,7 +497,7 @@
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "Urgent personal passage to {system} system required. Surcharge included in payment."
+    "message": "需要前往 {system} 星系的紧急个人航线. 附加费包含在付款中."
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
@@ -533,7 +533,7 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "Require urgent transport for honest citizen. Fast passage needed to {system} system."
+    "message": "需要为诚实的公民提供紧急交通服务. 快速前往 {system} 星系."
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",

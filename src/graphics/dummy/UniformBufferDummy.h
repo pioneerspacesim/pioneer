@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -17,13 +17,13 @@ namespace Graphics {
 				Graphics::UniformBuffer(size, usage),
 				m_data(new uint8_t[size])
 			{}
-			virtual ~UniformBuffer() override {}
+			~UniformBuffer() override {}
 
-			virtual void Unmap() override {}
-			virtual void BufferData(const size_t, void *) override {}
+			void Unmap() override {}
+			void BufferData(const size_t, void *) override {}
 
 		private:
-			virtual void *MapInternal(BufferMapMode) override { return m_data.get(); }
+			void *MapInternal(BufferMapMode) override { return m_data.get(); }
 			std::unique_ptr<uint8_t[]> m_data;
 		};
 

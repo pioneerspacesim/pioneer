@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LOD_H
@@ -14,13 +14,13 @@ namespace SceneGraph {
 	public:
 		LOD(Graphics::Renderer *r);
 		LOD(const LOD &, NodeCopyCache *cache = 0);
-		virtual Node *Clone(NodeCopyCache *cache = 0) override;
-		virtual const char *GetTypeName() const override { return "LOD"; }
-		virtual void Accept(NodeVisitor &v) override;
-		virtual void Render(const matrix4x4f &trans, const RenderData *rd) override;
-		virtual void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd) override;
+		Node *Clone(NodeCopyCache *cache = 0) override;
+		const char *GetTypeName() const override { return "LOD"; }
+		void Accept(NodeVisitor &v) override;
+		void Render(const matrix4x4f &trans, const RenderData *rd) override;
+		void RenderInstanced(const std::vector<matrix4x4f> &trans, const RenderData *rd) override;
 		void AddLevel(float pixelRadius, Node *child);
-		virtual void Save(NodeDatabase &) override;
+		void Save(NodeDatabase &) override;
 		static LOD *Load(NodeDatabase &);
 
 	protected:

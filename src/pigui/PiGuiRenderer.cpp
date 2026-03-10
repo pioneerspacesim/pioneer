@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "PiGuiRenderer.h"
@@ -9,9 +9,9 @@
 #include "graphics/Texture.h"
 #include "graphics/Types.h"
 #include "graphics/VertexBuffer.h"
+#include "profiler/Profiler.h"
 
 #include "imgui/imgui.h"
-#define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui/imgui_internal.h"
 
 using namespace PiGui;
@@ -29,15 +29,14 @@ void InstanceRenderer::Initialize()
 	io.BackendRendererName = "Pioneer Renderer";
 	io.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset;
 
-	Graphics::VertexBufferDesc vbd;
-	vbd.attrib[0] = { Graphics::ATTRIB_POSITION2D, Graphics::ATTRIB_FORMAT_FLOAT2, offsetof(ImDrawVert, pos) };
-	vbd.attrib[1] = { Graphics::ATTRIB_UV0, Graphics::ATTRIB_FORMAT_FLOAT2, offsetof(ImDrawVert, uv) };
-	vbd.attrib[2] = { Graphics::ATTRIB_DIFFUSE, Graphics::ATTRIB_FORMAT_UBYTE4, offsetof(ImDrawVert, col) };
-	vbd.numVertices = 0;
-	vbd.stride = sizeof(ImDrawVert);
-	vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
+	Graphics::VertexFormatDesc vfmt = {};
+	vfmt.attribs[0] = { Graphics::ATTRIB_FORMAT_FLOAT2, 0, 0, offsetof(ImDrawVert, pos) };
+	vfmt.attribs[1] = { Graphics::ATTRIB_FORMAT_FLOAT2, 3, 0, offsetof(ImDrawVert, uv)  };
+	vfmt.attribs[2] = { Graphics::ATTRIB_FORMAT_UBYTE4, 2, 0, offsetof(ImDrawVert, col) };
 
-	m_vtxBuffer.reset(m_renderer->CreateVertexBuffer(vbd));
+	vfmt.bindings[0] = { sizeof(ImDrawVert), true, Graphics::ATTRIB_RATE_NORMAL };
+
+	m_vtxBuffer.reset(m_renderer->CreateVertexBuffer(Graphics::BUFFER_USAGE_DYNAMIC, 0, vfmt.bindings[0].stride));
 	m_idxBuffer.reset(m_renderer->CreateIndexBuffer(0, Graphics::BUFFER_USAGE_DYNAMIC, Graphics::INDEX_BUFFER_16BIT));
 
 	Graphics::RenderStateDesc rsd;
@@ -51,7 +50,7 @@ void InstanceRenderer::Initialize()
 	mDesc.textures = 1;
 	mDesc.alphaTest = 1;
 
-	m_material.reset(m_renderer->CreateMaterial("ui", mDesc, rsd));
+	m_material.reset(m_renderer->CreateMaterial("ui", mDesc, rsd, vfmt));
 
 	CreateFontsTexture();
 }
@@ -68,22 +67,29 @@ void InstanceRenderer::Shutdown()
 
 void InstanceRenderer::RenderDrawData(ImDrawData *draw_data)
 {
-	Graphics::Renderer::StateTicket st(m_renderer);
-
-	ImGuiIO &io = ImGui::GetIO();
-	int fb_width = (int)(draw_data->DisplaySize.x * io.DisplayFramebufferScale.x);
-	int fb_height = (int)(draw_data->DisplaySize.y * io.DisplayFramebufferScale.y);
-	if (fb_width <= 0 || fb_height <= 0)
-		return;
-
-	draw_data->ScaleClipRects(io.DisplayFramebufferScale);
-
 	float L = draw_data->DisplayPos.x;
 	float R = draw_data->DisplayPos.x + draw_data->DisplaySize.x;
 	float T = draw_data->DisplayPos.y;
 	float B = draw_data->DisplayPos.y + draw_data->DisplaySize.y;
-	m_renderer->SetTransform(matrix4x4f::Identity());
+
+	m_renderer->SetTransform(matrix4x4f::Identity);
 	m_renderer->SetProjection(matrix4x4f::OrthoFrustum(L, R, B, T, -1.0, 0.0));
+
+	RenderDrawData(draw_data, m_material.get());
+}
+
+void InstanceRenderer::RenderDrawData(ImDrawData *draw_data, Graphics::Material* material)
+{
+	PROFILE_SCOPED()
+	Graphics::Renderer::StateTicket st(m_renderer);
+
+	ImGuiIO &io = ImGui::GetIO();
+	int fb_width = (int)(fabs(draw_data->DisplaySize.x) * io.DisplayFramebufferScale.x);
+	int fb_height = (int)(fabs(draw_data->DisplaySize.y) * io.DisplayFramebufferScale.y);
+	if (fb_width <= 0 || fb_height <= 0)
+		return;
+
+	draw_data->ScaleClipRects(io.DisplayFramebufferScale);
 
 	// we're going to throw all of the vertex and index data straight to the GPU
 	// in a single buffer for each, right before we begin executing commands.
@@ -123,9 +129,9 @@ void InstanceRenderer::RenderDrawData(ImDrawData *draw_data)
 					Graphics::ViewportExtents vp(clip_rect.x, (fb_height - clip_rect.w), (clip_rect.z - clip_rect.x), (clip_rect.w - clip_rect.y));
 					m_renderer->SetScissor(vp);
 
-					m_material->SetTexture(s_textureName, reinterpret_cast<Graphics::Texture *>(pcmd->GetTexID()));
-					m_material->SetPushConstant(s_vertexDepthName, pcmd->PrimDepth);
-					m_renderer->DrawBufferDynamic(m_vtxBuffer.get(), vtxOffset + pcmd->VtxOffset, m_idxBuffer.get(), idxOffset + pcmd->IdxOffset, pcmd->ElemCount, m_material.get());
+					material->SetTexture(s_textureName, reinterpret_cast<Graphics::Texture *>(pcmd->GetTexID()));
+					material->SetPushConstant(s_vertexDepthName, pcmd->PrimDepth);
+					m_renderer->DrawBufferDynamic(m_vtxBuffer.get(), vtxOffset + pcmd->VtxOffset, m_idxBuffer.get(), idxOffset + pcmd->IdxOffset, pcmd->ElemCount, material);
 				}
 			}
 		}
@@ -140,6 +146,8 @@ void InstanceRenderer::RenderDrawData(ImDrawData *draw_data)
 
 void InstanceRenderer::CreateFontsTexture()
 {
+	PROFILE_SCOPED()
+
 	ImGuiIO &io = ImGui::GetIO();
 	unsigned char *pixels;
 	int width, height;

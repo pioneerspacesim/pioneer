@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SCENEGRAPH_MODEL_H
@@ -24,9 +24,8 @@
  *            StaticGeometry_hi
  *
  * It's not supposed to be too complex. For example there are no "Material" nodes.
- * Geometry nodes can contain multiple separate meshes. One node can be attached to
- * multiple parents to achieve a simple form of instancing, although the support for
- * this is dependanant on tools.
+ * Geometry nodes can contain multiple separate meshes. Nodes should only be attached
+ * to a single parent for consistency.
  *
  * Models are defined in a simple .model text file, which describes materials,
  * detail levels, meshes to import to each detail level and animations.
@@ -67,6 +66,7 @@
 #include "Pattern.h"
 #include "graphics/Drawables.h"
 #include "graphics/Material.h"
+#include "LoaderDefinitions.h"
 #include <stdexcept>
 
 namespace SceneGraph {
@@ -75,15 +75,27 @@ namespace SceneGraph {
 	class BinaryConverter;
 	class MatrixTransform;
 	class ModelBinarizer;
+	class Tag;
 
 	struct LoadingError : public std::runtime_error {
 		LoadingError(const std::string &str) :
 			std::runtime_error(str.c_str()) {}
 	};
 
+	struct RunTimeBoundDefinition {
+		BoundDefinition boundDef;
+		// Resolved tags to avoid looking up each frame
+		Tag* startTag;
+		Tag* endTag;
+		// Construct from a scene graph bound definition and a model
+		// Note: The constructor doesn't add ourselves to the model, simply resolves the tags!
+		explicit RunTimeBoundDefinition(Model* in_model, const BoundDefinition& bdef);
+		// Copy a RunTimeBoundDefinition from another model, updating tags
+		explicit RunTimeBoundDefinition(const RunTimeBoundDefinition& copied, Model* new_model);
+	};
+
 	typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material>>> MaterialContainer;
 	typedef std::vector<Animation *> AnimationContainer;
-	typedef std::vector<MatrixTransform *> TagContainer;
 
 	class Model : public DeleteEmitter {
 	public:
@@ -102,7 +114,7 @@ namespace SceneGraph {
 		void SetDrawClipRadius(float clipRadius) { m_boundingRadius = clipRadius; }
 
 		void Render(const matrix4x4f &trans, const RenderData *rd = 0);				 //ModelNode can override RD
-		void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd = 0); //ModelNode can override RD
+		void RenderInstanced(const matrix4x4f &trans, const std::vector<matrix4x4f> &instTrans, const RenderData *rd = 0); //ModelNode can override RD
 
 		RefCountedPtr<CollMesh> CreateCollisionMesh();
 		RefCountedPtr<CollMesh> GetCollisionMesh() const { return m_collMesh; }
@@ -111,16 +123,22 @@ namespace SceneGraph {
 		RefCountedPtr<Group> GetRoot() { return m_root; }
 
 		//materials used in the nodes should be accessible from here for convenience
-		RefCountedPtr<Graphics::Material> GetMaterialByName(const std::string &name) const;
 		RefCountedPtr<Graphics::Material> GetMaterialByIndex(const int) const;
 		unsigned int GetNumMaterials() const { return static_cast<Uint32>(m_materials.size()); }
 
-		unsigned int GetNumTags() const { return static_cast<Uint32>(m_tags.size()); }
-		MatrixTransform *GetTagByIndex(unsigned int index) const;
-		MatrixTransform *FindTagByName(const std::string &name) const;
-		typedef std::vector<MatrixTransform *> TVecMT;
-		void FindTagsByStartOfName(const std::string &name, TVecMT &outNameMTs) const;
-		void AddTag(const std::string &name, MatrixTransform *node);
+		// Utilities for iterating the array of model tags
+		// Tag indicies should not be considered stable
+		size_t GetNumTags() const { return m_tags.size(); }
+		Tag *GetTagByIndex(size_t index) const;
+
+		// Find the given tag in the model
+		Tag *FindTagByName(std::string_view name) const;
+		void FindTagsByStartOfName(std::string_view name, std::vector<Tag *> &outTags) const;
+
+		// Add a tag to this model in the given parent
+		void AddTag(std::string_view name, Group *parent, Tag *node);
+		// Recalculate tag global transforms after e.g. animation changes
+		void UpdateTagTransforms();
 
 		const PatternContainer &GetPatterns() const { return m_patterns; }
 		unsigned int GetNumPatterns() const { return static_cast<Uint32>(m_patterns.size()); }
@@ -143,7 +161,7 @@ namespace SceneGraph {
 		// Get the index of an animation in this container. If there is no such animation, returns UINT32_MAX.
 		uint32_t FindAnimationIndex(Animation *) const;
 		// Return a reference to all animations defined on this model.
-		const std::vector<Animation *> GetAnimations() const { return m_animations; }
+		const AnimationContainer& GetAnimations() const { return m_animations; }
 		// Mark an animation as actively updating. A maximum of 64 active animations are supported.
 		void SetAnimationActive(uint32_t index, bool active);
 		bool GetAnimationActive(uint32_t index) const;
@@ -153,6 +171,7 @@ namespace SceneGraph {
 		Graphics::Renderer *GetRenderer() const { return m_renderer; }
 
 		//special for ship model use
+		void SetRenderTime(const double newRenderTime) { m_renderData.renderTime = newRenderTime; }
 		void SetThrust(const vector3f &linear, const vector3f &angular);
 
 		void SetThrusterColor(const vector3f &dir, const Color &color);
@@ -176,6 +195,9 @@ namespace SceneGraph {
 		};
 		void SetDebugFlags(Uint32 flags);
 
+		// If distance > 0 it means you are outside bound, otherwise you are inside
+		float DistanceFromPointToBound(const std::string& name, vector3f point);
+
 	private:
 		Model(const Model &);
 
@@ -189,9 +211,12 @@ namespace SceneGraph {
 		RefCountedPtr<Group> m_root;
 		Graphics::Renderer *m_renderer;
 		std::string m_name;
-		std::vector<Animation *> m_animations;
+
+		AnimationContainer m_animations;
 		uint64_t m_activeAnimations; // bitmask of actively ticking animations
-		TagContainer m_tags;		 //named attachment points
+
+		std::vector<Tag *> m_tags;		 //named attachment points
+
 		RenderData m_renderData;
 
 		//per-instance flavour data
@@ -200,9 +225,12 @@ namespace SceneGraph {
 		Graphics::Texture *m_curDecals[MAX_DECAL_MATERIALS];
 
 		Uint32 m_debugFlags;
+		bool m_tagsDirty;
 
 		std::unique_ptr<Graphics::MeshObject> m_debugMesh;
 		std::unique_ptr<Graphics::Material> m_debugLineMat;
+
+		std::vector<RunTimeBoundDefinition> m_bounds;
 	};
 
 } // namespace SceneGraph

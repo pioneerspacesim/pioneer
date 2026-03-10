@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- This file implements type information about C++ classes for Lua static analysis
@@ -10,6 +10,7 @@
 ---@field name string
 ---@field other_names string[]
 ---@field path SystemPath
+---@field seed integer
 ---
 --- The lawlessness value for the system, 0 for peaceful, 1 for raging hordes of pirates
 ---@field lawlessness number
@@ -29,7 +30,9 @@
 ---
 --- Translated description for the system
 ---@field shortDescription string
---- Translated description of the system's government type
+--- Translated (short) custom description of the system
+---@field longDescription string
+--- Translated (long) custom description of the system
 ---@field govDescription string
 --- Translated description of the system's economic type
 ---@field econDescription string
@@ -46,7 +49,7 @@ function StarSystem:GetBodyPaths() end
 ---@return SystemBody[]
 function StarSystem:GetStars() end
 
----@return boolean[]
+---@return SystemBody[]
 function StarSystem:GetJumpable() end
 
 ---@param name string Commodity identifier

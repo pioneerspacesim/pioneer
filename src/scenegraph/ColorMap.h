@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SCENEGRAPH_COLORMAP_H
@@ -6,9 +6,8 @@
 /*
  * Color look-up texture generator for newmodel pattern system
  */
+#include "Color.h"
 #include "graphics/Texture.h"
-#include "libs.h"
-#include <SDL_stdinc.h>
 
 namespace Graphics {
 	class Renderer;

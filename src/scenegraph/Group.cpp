@@ -1,10 +1,11 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Group.h"
 #include "BaseLoader.h"
 #include "NodeCopyCache.h"
 #include "NodeVisitor.h"
+#include "matrix4x4.h"
 #include "utils.h"
 
 namespace SceneGraph {
@@ -52,6 +53,7 @@ namespace SceneGraph {
 	void Group::AddChild(Node *child)
 	{
 		child->IncRefCount();
+		child->SetParent(this);
 		m_children.push_back(child);
 	}
 
@@ -63,6 +65,7 @@ namespace SceneGraph {
 			 ++itr) {
 			if ((*itr) == node) {
 				itr = m_children.erase(itr);
+				node->SetParent(nullptr);
 				node->DecRefCount();
 				return true;
 			}
@@ -74,6 +77,7 @@ namespace SceneGraph {
 	{
 		if (m_children.empty() || idx > m_children.size() - 1) return false;
 		Node *node = m_children.at(idx);
+		node->SetParent(nullptr);
 		node->DecRefCount();
 		m_children.erase(m_children.begin() + idx);
 		return true;
@@ -96,6 +100,11 @@ namespace SceneGraph {
 		}
 
 		return result;
+	}
+
+	matrix4x4f Group::CalcGlobalTransform() const
+	{
+		return GetParent() ? GetParent()->CalcGlobalTransform() : matrix4x4f::Identity;
 	}
 
 	void Group::Accept(NodeVisitor &nv)
@@ -124,7 +133,7 @@ namespace SceneGraph {
 		}
 	}
 
-	void Group::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
+	void Group::RenderInstanced(const std::vector<matrix4x4f> &trans, const RenderData *rd)
 	{
 		RenderChildren(trans, rd);
 	}
@@ -134,7 +143,7 @@ namespace SceneGraph {
 		PROFILE_SCOPED()
 		for (std::vector<Node *>::iterator itr = m_children.begin(), itEnd = m_children.end(); itr != itEnd; ++itr) {
 			if ((*itr)->GetNodeMask() & rd->nodemask)
-				(*itr)->Render(trans, rd);
+				(*itr)->RenderInstanced(trans, rd);
 		}
 	}
 

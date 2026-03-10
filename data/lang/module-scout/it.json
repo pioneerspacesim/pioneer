@@ -9,7 +9,7 @@
   },
   "ADDITIONAL_INFORMATION_SURFACE": {
     "description": "Note. 'surface scanner' is the name of an equipment, that should be translated the same as the equipment",
-    "message": "Avrai bisogno di equipaggiare uno scanner orbitale. Una volta arrivato al corpo celeste, attiva lo scanner e vola a bassa altitudine finché la scansione non sarà completata. Quindi, consegnami i dati."
+    "message": "Avrai bisogno di equipaggiare uno scanner di superficie. Una volta arrivato al corpo celeste, attiva lo scanner e vola a bassa altitudine finché la scansione non sarà completata. Quindi, consegnami i dati."
   },
   "ADTEXT_1": {
     "description": "The Galactic Geographical Society is comparable to National Geographical society. But in space!",
@@ -105,7 +105,7 @@
   },
   "ADTEXT_5_SUCCESSMSG": {
     "description": "",
-    "message": "Grazie per il lavoro. Ti è stata elargito il pagamento pieno."
+    "message": "Grazie per il tuo impegno. Ti è stato elargito l'intero pagamento"
   },
   "ADTEXT_5_WHYSOMUCH": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "ADTEXT_9_INTRO": {
     "description": "",
-    "message": "Salve!\nSono {name}. Io e la mia famiglia abbiamo bisogno di un prosetto di {systembody} in {system}, prima che qualcun altro lo rivendichi. Pagheremo {cache} per un pilota molto veloce. Le manderemo un messaggio con il luogo di consegna, una volta ottenuti i dati."
+    "message": "Salve!\nSono {name}. Io e la mia famiglia abbiamo bisogno di un prosetto di {systembody} in {system}, prima che qualcun altro lo rivendichi. Pagheremo {cash} per un pilota molto veloce. Le manderemo un messaggio con il luogo di consegna, una volta ottenuti i dati."
   },
   "ADTEXT_9_SUCCESSMSG": {
     "description": "",
@@ -258,6 +258,10 @@
   "DANGER": {
     "description": "",
     "message": "Pericolo:"
+  },
+  "DATA_COLLECTED_PROGRESS": {
+    "description": "Label for scan card progress bar",
+    "message": "Dati Raccolti: {percent_completed}%"
   },
   "DEADLINE": {
     "description": "",
@@ -418,6 +422,14 @@
   "SURFACE_SCAN": {
     "description": "",
     "message": "Scansione superficie"
+  },
+  "SURFACE_SCAN_DETAILS": {
+    "description": "Additional warning information about a surface scan target",
+    "message": "L'obiettivo ha una pressione sulla superfice di {pressure} con gravità {gravity}."
+  },
+  "SURFACE_SCAN_WARNING": {
+    "description": "Warning reminder to player",
+    "message": "Si prega di verificare che la propria nave sia in grado di operare sulla superficie del corpo celeste di destinazione, prima di accettare il contratto."
   },
   "SUSPENDED": {
     "description": "",

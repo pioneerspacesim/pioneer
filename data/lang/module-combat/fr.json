@@ -21,11 +21,11 @@
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "Besoin de mercenaire qualifiés avec vaisseau bien équipé. Détails de la mission disponibles sur demande."
+    "message": "Besoin d'un mercenaire qualifié avec vaisseau bien équipé. Détails de la mission disponibles sur demande."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "{org} recherche des mercenaire pour une mission dans le système {system}. Rémunération de {cash}."
+    "message": "{org} recherche un mercenaire sans peur pour une mission dans le système {system}. Rémunération de {cash}."
   },
   "ADTEXT_5": {
     "description": "",
@@ -131,6 +131,10 @@
     "description": "Distance in space, between two locations",
     "message": "Distance:"
   },
+  "DO_I_NEED_SPECIAL_EQUIPMENT": {
+    "description": "",
+    "message": "Ai-je besoin d'un équipement particulier ?"
+  },
   "FAILUREMSG_1": {
     "description": "",
     "message": "Honte sur vous. Disparaissez de ma vue."
@@ -169,7 +173,7 @@
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "{org} paiera {cash} pour une mission de {mission} dans le système {system} ({sectorx}, {sectory}, {sectorz}). Nous avons des raisons de croire qu'un concurrent sans scrupules est responsable de la disparition de nos transporteur à {area}, situé à une distance de {dist} al."
+    "message": "{org} paiera {cash} pour une mission de {mission} dans le système {system} ({sectorx}, {sectory}, {sectorz}). Nous avons des raisons de croire qu'un concurrent sans scrupules est responsable de la disparition de nos transporteurs à {area}. La zone cible est distante de {dist} al."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
@@ -177,7 +181,7 @@
   },
   "HARVESTING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "A l'aide ! Nous avons reçu un appel de détresse d'un de nos transporteur en orbite autour de {area} dans le système {system} ({sectorx}, {sectory}, {sectorz}). L'appel a été interrompu, donc nous craignons le pire. La distance jusqu'à {système} est de {dist} al. La paie est de {cash}."
+    "message": "A l'aide ! Nous avons reçu un appel de détresse d'un de nos transporteur en orbite autour de {area} dans le système {system} ({sectorx}, {sectory}, {sectorz}). L'appel a été interrompu, donc nous craignons le pire. La distance jusqu'à {system} est de {dist} al. La paie est de {cash}."
   },
   "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -185,7 +189,7 @@
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "Nous avons un vendeur dans chaque système solaire environnant. Cette personne entrera en contact avec vous une fois que vous aurez atterri."
+    "message": "Nous avons un commercial dans chacun des systèmes stellaires environnant. Atterrissez sur une station avant la date limite et nos agents vous contacterons pour le paiement."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -201,7 +205,7 @@
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "Retrouvez-moi dans le système {rendezvous} pour finir le travail !"
+    "message": "Retrouvez-moi dans le système {rendezvous} avant l'échéance !"
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
@@ -213,7 +217,7 @@
   },
   "MILITARY_3": {
     "description": "",
-    "message": "La cellule de contre-espionnage recherche un pilote civil qui ne posera pas trop de questions pour une mission de {mission} dans le système {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Le salaire est de {cash}."
+    "message": "La corporation de contre-intelligence recherche un pilote civil qui ne pose pas de questions pour une mission de {mission} dans le système {system} ({sectorx}, {sectory}, {sectorz}), {dist} al. La récompense est de {cash}."
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -221,7 +225,7 @@
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "Visitez une station dans le territoire protégé par {org} !"
+    "message": "Visitez une station dans le territoire protégé par {org} ! L'opération nécessite que les objectifs soient remplis à temps."
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
@@ -233,7 +237,7 @@
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Je travaille pour {org}. Quelque uns de nos transporteurs arriverons sous peu à {area} dans le système {system} ({sectorx}, {sectory}, {sectorz}). Afin d'augmenter la sécurité de nos employés et de protéger nos équipements, nous somme prêt à payer {cash} pour une mission de type {mission}. La distance jusqu'à {area} est de {dist} al."
+    "message": "Je travaille pour {org}. Quelque uns de nos transporteurs arriverons sous peu à {area} dans le système {system} ({sectorx}, {sectory}, {sectorz}). Afin d'augmenter la sécurité de nos employés et de protéger nos équipements, nous somme prêt à payer {cash} pour une mission de {mission}. La distance jusqu'à {area} est de {dist} al."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -241,7 +245,7 @@
   },
   "MINING_LAND_THERE": {
     "description": "",
-    "message": "Nous avons des employés dans chaque système solaire alentours. Visitez simplement la station la plus proche et contactez-y le bureau local."
+    "message": "Nous avons des employés dans chaque système solaire environnant. Visitez simplement la station la plus proche avant l'échéance et, sur place, entrez en contact avec le bureau local."
   },
   "MISSION": {
     "description": "",
@@ -267,6 +271,18 @@
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
     "message": "Patrouille"
   },
+  "MISSION_TYPE_CONVO_1": {
+    "description": "Name of mission type, used in conversation",
+    "message": "une reconnaissance"
+  },
+  "MISSION_TYPE_CONVO_2": {
+    "description": "Name of mission type, used in conversation",
+    "message": "une reconnaissance armée"
+  },
+  "MISSION_TYPE_CONVO_3": {
+    "description": "Name of mission type, used in conversation. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
+    "message": "une patrouille"
+  },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",
     "message": "Destination trop éloignée. Impossible de terminer la collecte de données."
@@ -277,7 +293,7 @@
   },
   "OBJECTIVE_2": {
     "description": "",
-    "message": "Affaiblissez l'ennemi au maximum, puis allez vous réfugier."
+    "message": "Affaiblissez l'ennemi au maximum, puis revenez en sécurité."
   },
   "OBJECTIVE_3": {
     "description": "{area} is an asteroid or planet",
@@ -309,11 +325,11 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Il est important que la mission soit complétée pour le {date}, car d'autres vaisseaux hostiles sont en chemin."
+    "message": "Il est important que la mission soit complétée pour le {date}, car d'autres vaisseaux hostiles sont en route."
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "Atterrissez simplement sur une station possédant un bureau de {org}."
+    "message": "Rendez-vous simplement sur une station avec un bureau de {org}. Cela doit être fait avant l'échéance afin de ne pas compromettre la mission !"
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",
@@ -374,5 +390,9 @@
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",
     "message": "Faut-il s'attendre à des ennuis ?"
+  },
+  "YOU_NEED_A_RADAR": {
+    "description": "",
+    "message": "Oui, il vous faut un radar! Si vous êtes d'accord, je programmerai l'ordinateur de votre vaisseau afin d'enregistrer les données radar dont nous avons besoin. Ces données me seront transférées la prochaine fois que vous reviendrez."
   }
 }

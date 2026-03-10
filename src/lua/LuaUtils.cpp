@@ -1,9 +1,12 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaUtils.h"
+#include "DateTime.h"
 #include "FileSystem.h"
-#include "libs.h"
+#include "LuaPushPull.h"
+
+#include "FloatComparison.h"
 
 extern "C" {
 #include "jenkins/lookup3.h"
@@ -30,14 +33,6 @@ extern "C" {
  *   m, n - optional. If called as hash_random(seed), the result is in the range 0 <= x < 1.
  *          If called as hash_random(seed, m, n), the result is an integer in the range m <= x <= n.
  *          m must be less than n. (n - m) must be less than 2^32.
- *
- * Availability:
- *
- *   alpha 24
- *
- * Status:
- *
- *   experimental
  */
 static int l_hash_random(lua_State *L)
 {
@@ -131,14 +126,6 @@ static int l_hash_random(lua_State *L)
  * Parameters:
  *
  *   str - A string.
- *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
  */
 static int l_trim(lua_State *l)
 {
@@ -166,9 +153,79 @@ static int l_trim(lua_State *l)
 	}
 }
 
+/*
+ * Function: timePartsToGameTime
+ *
+ * > gameTime = util.timePartsToGameTime(year, month, day, hour, minute, second)
+ *
+ * Parameters:
+ *
+ *   year, month, day, hour, minute, second - numbers
+ *
+ * Return:
+ *
+ *   gameTime - number, 0 means 3200-01-01 00:00:00
+ */
+static int l_time_parts_to_game_time(lua_State *L)
+{
+	Time::DateTime t{
+		LuaPull<int>(L, 1), LuaPull<int>(L, 2), LuaPull<int>(L, 3),
+		LuaPull<int>(L, 4), LuaPull<int>(L, 5), LuaPull<int>(L, 6)
+	};
+	LuaPush(L, t.ToGameTime());
+	return 1;
+}
+
+/*
+ * Function: gameTimeToTimeParts
+ *
+ * > gameTime = util.gameTimeToTimeParts(gameTime)
+ *
+ * Parameters:
+ *
+ *   gameTime - number, 0 means 3200-01-01 00:00:00
+ *
+ * Return:
+ *
+ *   year, month, day, hour, minute, second - numbers
+ */
+static int l_game_time_to_time_parts(lua_State *L)
+{
+	Time::DateTime t{ LuaPull<double>(L, 1) };
+	int year, month, day, hour, minute, second;
+	t.GetDateParts(&year, &month, &day);
+	t.GetTimeParts(&hour, &minute, &second);
+	LuaPush(L, year); LuaPush(L, month);  LuaPush(L, day);
+	LuaPush(L, hour); LuaPush(L, minute); LuaPush(L, second);
+	return 6;
+}
+
+/*
+ * Function: standardGameStartTime
+ *
+ * > gameTime = util.standardGameStartTime()
+ *
+ * Returns the time, offset from the current system time by 1200 years.
+ *
+ * Return:
+ *
+ *   gameTime - number, 0 means 3200-01-01 00:00:00
+ */
+static int l_standard_game_start_time(lua_State *L)
+{
+	time_t now;
+	time(&now);
+	double start_time = difftime(now, 946684799); // <--- Friday, 31 December 1999 23:59:59 GMT+00:00 as UNIX epoch time in seconds
+	LuaPush(L, start_time);
+	return 1;
+}
+
 static const luaL_Reg UTIL_FUNCTIONS[] = {
 	{ "trim", l_trim },
 	{ "hash_random", l_hash_random },
+	{ "timePartsToGameTime", l_time_parts_to_game_time },
+	{ "gameTimeToTimeParts", l_game_time_to_time_parts },
+	{ "standardGameStartTime", l_standard_game_start_time },
 	{ 0, 0 }
 };
 
@@ -204,6 +261,22 @@ static int l_readonly_table_ipairs(lua_State *l)
 	lua_getuservalue(l, 1);
 	lua_call(l, 1, 3);
 	return 3;
+}
+
+void pi_lua_push_date_time(lua_State *l, const Time::DateTime &dt)
+{
+	int year, month, day, hour, minute, second;
+	dt.GetDateParts(&year, &month, &day);
+	dt.GetTimeParts(&hour, &minute, &second);
+
+	lua_newtable(l);
+	pi_lua_settable(l, "year", year);
+	pi_lua_settable(l, "month", month);
+	pi_lua_settable(l, "day", day);
+	pi_lua_settable(l, "hour", hour);
+	pi_lua_settable(l, "minute", minute);
+	pi_lua_settable(l, "second", second);
+	pi_lua_settable(l, "timestamp", dt.ToGameTime());
 }
 
 void pi_lua_readonly_table_proxy(lua_State *l, int table_idx)

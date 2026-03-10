@@ -1,1 +1,0 @@
-appveyor PushArtifact ..\pioneer-@PROJECT_VERSION@-win.exe

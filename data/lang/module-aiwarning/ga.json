@@ -1,7 +1,7 @@
 {
   "ATMO_PRESSURE_OVER_LIMIT": {
     "description": "",
-    "message": "Atmospheric pressure above ship limits"
+    "message": "Brú atmaisféarach níos airde na teorainn na spásloinge"
   },
   "AUTOPILOT": {
     "description": "",

@@ -2,6 +2,7 @@ Table of Contents
 =================
 1 How to compile Pioneer
   1.1 Linux - CMake
+  1.1a Linux - VSCode + CMake
   1.2 Windows - MSVC
   1.3 Windows - CMake and MSYS2 (and MinGW-w64)
   1.4 Windows - CMake and MSVC
@@ -18,6 +19,8 @@ Table of Contents
 4 Faster startup
   4.1 precompile models
 5 Installing Pioneer
+6 For Packagers
+7 Build Flags
 
 
 1 How to compile Pioneer
@@ -25,7 +28,7 @@ Table of Contents
 
 Pioneer is known to build on the following platforms and build systems:
 
-Linux: CMake with GCC 4.9+ or Clang 6+
+Linux: CMake with GCC 9+ or Clang 7+
 Windows: Microsoft Visual C++ 2019 (Community or Pro)
          CMake with MSYS2 (and MinGW-w64)
 OS X: XCode 4 or Homebrew or CMake
@@ -73,6 +76,43 @@ questions are welcome anytime.
 
 4. Run `./pioneer` to start the game!
 
+1.1a Linux - VSCode + CMake
+---------
+
+1. Install the required libraries as for '1.1 Linux - CMake'.
+
+   You'll also need to install the Ninja build generator. This is usually
+   available as ninja or ninja-build in most distributions' package archives.
+
+   You'll want to install several VSCode extensions for best results:
+
+    CMake Tools  (ms-vscode.cmake-tools)
+    C/C++        (ms-vscode.cpptools)
+    clangd       (llvm-vs-code-extensions.vscode-clangd)
+    Code LLDB    (vadimcn.vscode-lldb)
+    Lua          (sumneko.lua)
+    Git Graph    (mhutchie.git-graph)
+
+   Of these extensions, only CMake Tools is required to compile the game from
+   within VSCode. All other extensions help to improve the development process
+   if you intend on making changes to the game's files.
+
+2. Copy ./pioneer-default.code-workspace to ./pioneer.code-workspace and
+   open it. This provides a quick-start workspace setup with useful workflow
+   defaults pre-configured. This file is ignored by Git and you can configure
+   the workspace to your liking from there.
+
+3. From the bottom bar, select a configure preset for your platform. 'Release'
+   is recommended unless you're in the process of debugging a specific issue.
+   This will generate CMake files in the 'build/' folder.
+
+4. Click the build button on the bottom toolbar, or execute the Run Build Task
+   command from the command pallette (Ctrl+Shift+P), selecting 'Build Pioneer'.
+   If all goes well, Pioneer should successfully compile.
+
+5. Click the triangle ("launch") button in the bottom toolbar and select
+   'pioneer' as the active launch target.
+
 
 1.2 Windows - MSVC
 ------------------
@@ -81,7 +121,8 @@ questions are welcome anytime.
    in a directory side by side. Don't rename pioneer-thirdparty because the
    relative path to it is included in the project files.
 
-2. Open the pioneer solution from /win32/vc2019/pioneer.sln.
+2. Open the pioneer folder which should open as a CMake project
+   see https://learn.microsoft.com/en-us/cpp/build/cmake-projects-in-visual-studio?view=msvc-160
 
 3. Build and run the project or solution. Note: the default is to build debug
    version, which is what you want if developing, but release gives an executable
@@ -232,7 +273,7 @@ modules such as missions and BBS interaction. See the pioneer wiki for further
 details. For up-to-date documentation one can build it locally from the
 pioneer source
 
-0. Install dependencies: naturaldocs (v 1.x)
+0. Install dependencies: naturaldocs (v 2.x)
 
 1. Run make -C build codedoc
 
@@ -283,3 +324,56 @@ If you are creating an installed version of Pioneer, you will need to
 ensure that you precompile the model files as described in 4.1 before
 running the install step, as installed versions do not package the model
 source files and depend on the *.sgm files for efficient loading of assets.
+
+
+
+6 For Packagers
+===============
+
+Pioneer provides a set of CMake Presets for use when packaging the game for
+distribution by third party packagers. These presets are found in
+scripts/CMakeBuildPresetsCI.json, and when used should be copied to
+./CMakeUserPresets.json (which is not tracked by Git) so they can be found by
+CMake's --preset command-line option.
+
+Distribution packagers that build Pioneer without Git repository information
+available (or apply patches in a way that changes the git commit hash) are
+encouraged to set the PROJECT_VERSION_INFO CMake variable to a value that
+clearly identifies the source version the package is built from. This helps
+when triaging issue reports from unstable / Git builds specifically, but also
+to identify any third-party changes or patches which might contribute to a bug
+report.
+
+
+7 Build Flags
+=============
+
+This section attempts to non-exhaustively cover some of the important levers
+that can be tweaked when building Pioneer by passing various CMake arguments.
+
+- PROFILER_ENABLED=1 (default 0): Include profiling facilities for taking
+  detailed measurements of the game's performance. If enabled, will write
+  profile traces to the user://profiler/ folder on each run.
+
+- USE_SSE42=1 (default 1): Enable optimizations targeting the SSE4.2
+  instruction set extension (widely available since 2013).
+  The compiled executable will require a CPU that supports the instruction set
+  to run - Pioneer does not officially target pre-SSE4 CPUs as part of the
+  minimum spec, but you may try turning this option off if desired.
+
+- USE_AVX2=1 (default 0): Enable optimizations targeting the AVX2
+  instruction set extension (widely available since 2015).
+  The compiled executable will require a CPU that supports the AVX2 instruction
+  set to run. Pioneer does not target AVX2 as a minimum requirement, but
+  optimizations may be introduced which take advantage of this build
+  configuration to improve the game's performance on newer CPUs which support
+  this instruction set.
+
+- USE_TIME_TRACE=1 (default 0): Requires the Clang compiler. Dumps information
+  about compilation times (using -ftime-trace) to profile and optimize the
+  compile time of the codebase.
+
+- REMOTE_LUA_REPL=1 (default 0): Enable a remote TCP-based REPL
+  (read-evaluate-print-loop) endpoint to interactively run external Lua
+  commands. This option is primarily intended for developers and should not
+  be enabled in shipping builds.

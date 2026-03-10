@@ -1,7 +1,7 @@
 {
   "AIR_PROCESSORS": {
     "description": "",
-    "message": "Luchtverwerkinginstallaties"
+    "message": "air processors"
   },
   "AIR_PROCESSORS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -9,7 +9,7 @@
   },
   "ANIMAL_MEAT": {
     "description": "",
-    "message": "Dierenvlees"
+    "message": "animal meat"
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -17,7 +17,7 @@
   },
   "BATTLE_WEAPONS": {
     "description": "",
-    "message": "Strijdwapens"
+    "message": "battle weapons"
   },
   "BATTLE_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -25,15 +25,23 @@
   },
   "CARBON_ORE": {
     "description": "",
-    "message": "Koolstof"
+    "message": "carbon ore"
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
     "message": "Koolstof is een van de meest diverse elementen die we kennen. Het wordt toegepast in vrijwel alles, van plastic to metaallegeringen en soms zelfs energieopwekking. Koolstof is goedkoop maar belangrijk. Daarom importeren bijna alle industriële vestigingen koolstoferts."
   },
+  "CHEMICALS": {
+    "description": "",
+    "message": "chemicals"
+  },
+  "CHEMICALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Industrial precursors, caustic cleaning agents, and biochemical feedstock, chemicals are used in both consumer and industrial settings. Chemicals are shipped in industrial-strength containers to prevent corrosion of a ship's cargo hold."
+  },
   "COMPUTERS": {
     "description": "",
-    "message": "Computers"
+    "message": "computers"
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -41,7 +49,7 @@
   },
   "CONSUMER_GOODS": {
     "description": "",
-    "message": "Consumptiegoederen"
+    "message": "consumer goods"
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -49,7 +57,7 @@
   },
   "FARM_MACHINERY": {
     "description": "",
-    "message": "Landbouw-apparatuur"
+    "message": "farm machinery"
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -57,7 +65,7 @@
   },
   "FERTILIZER": {
     "description": "",
-    "message": "Kunstmest"
+    "message": "fertilizer"
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -65,7 +73,7 @@
   },
   "FRUIT_AND_VEG": {
     "description": "",
-    "message": "Fruit & groenten"
+    "message": "fruit & vegetables"
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -73,7 +81,7 @@
   },
   "GRAIN": {
     "description": "",
-    "message": "Graan"
+    "message": "grain"
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -81,7 +89,7 @@
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Kleine wapens"
+    "message": "small arms"
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -89,7 +97,7 @@
   },
   "HYDROGEN": {
     "description": "",
-    "message": "Waterstof"
+    "message": "hydrogen"
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -97,7 +105,7 @@
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
-    "message": "Industriële apparatuur"
+    "message": "industrial machinery"
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -105,7 +113,7 @@
   },
   "LIQUID_OXYGEN": {
     "description": "",
-    "message": "Vloeibare Zuurstof"
+    "message": "liquid oxygen"
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -113,7 +121,7 @@
   },
   "LIQUOR": {
     "description": "",
-    "message": "Drank"
+    "message": "liquor"
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -121,7 +129,7 @@
   },
   "LIVE_ANIMALS": {
     "description": "",
-    "message": "Levende Dieren"
+    "message": "live animals"
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -129,7 +137,7 @@
   },
   "MEDICINES": {
     "description": "",
-    "message": "Medicijnen"
+    "message": "medicines"
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -137,7 +145,7 @@
   },
   "METAL_ALLOYS": {
     "description": "",
-    "message": "Legeringen"
+    "message": "metal alloys"
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -145,7 +153,7 @@
   },
   "METAL_ORE": {
     "description": "",
-    "message": "Erts"
+    "message": "metal ore"
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -153,15 +161,15 @@
   },
   "MILITARY_FUEL": {
     "description": "",
-    "message": "Militaire brandstof"
+    "message": "military fuel"
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Used as fuel in the more advanced military drives. These drives produce radioactive waste during operation, which must be disposed of. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
+    "message": "Wordt gebruikt als brandstof voor geavanceerdere militaire hyperruimte-aandrijvingen. Deze aandrijvingen produceren terwijl ze werken kernafval, die moet worden verwijderd. Door zijn kunstmatige aard is militaire brandstof duurder en minder beschikbaar dan waterstof en kan niet in de natuur worden gevonden."
   },
   "MINING_MACHINERY": {
     "description": "",
-    "message": "Mijnbouw apparatuur"
+    "message": "mining machinery"
   },
   "MINING_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -169,7 +177,7 @@
   },
   "NARCOTICS": {
     "description": "",
-    "message": "Narcotica"
+    "message": "narcotics"
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -177,7 +185,7 @@
   },
   "NERVE_GAS": {
     "description": "",
-    "message": "Zenuwgas"
+    "message": "nerve gas"
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -185,7 +193,7 @@
   },
   "PLASTICS": {
     "description": "",
-    "message": "Kunststoffen"
+    "message": "plastics"
   },
   "PLASTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -193,7 +201,7 @@
   },
   "PRECIOUS_METALS": {
     "description": "",
-    "message": "Edelmetalen"
+    "message": "precious metals"
   },
   "PRECIOUS_METALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -201,15 +209,15 @@
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Radioactief afval"
+    "message": "radioactive waste"
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Created by nuclear reactors, and military hyperdrives, radioactive waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping radioactive waste is a severe offence."
+    "message": "Kernafval wordt geproduceerd door kernreactors en militaire hyperruimte-aandrijvingen en is de moeilijkste en gevaarlijkste vorm van afval om te vervoeren of te verwerken. Hierom betalen de meeste ruimtehavens om van hun overschot af te komen. Kernafvaldumping is een zwaar misdrijf."
   },
   "ROBOTS": {
     "description": "",
-    "message": "Robots"
+    "message": "robots"
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -217,7 +225,7 @@
   },
   "RUBBISH": {
     "description": "",
-    "message": "Afval"
+    "message": "rubbish"
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -225,7 +233,7 @@
   },
   "SLAVES": {
     "description": "",
-    "message": "Slaven"
+    "message": "slaves"
   },
   "SLAVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -233,7 +241,7 @@
   },
   "TEXTILES": {
     "description": "",
-    "message": "Textiel"
+    "message": "textiles"
   },
   "TEXTILES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -241,7 +249,7 @@
   },
   "WATER": {
     "description": "",
-    "message": "Water"
+    "message": "water"
   },
   "WATER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",

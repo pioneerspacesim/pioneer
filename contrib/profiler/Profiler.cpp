@@ -25,7 +25,6 @@
 #include "Profiler.h"
 
 #if defined(USE_CHRONO)
-#undef __PROFILER_SMP__
 #include <atomic>
 #endif
 
@@ -115,7 +114,7 @@ namespace Profiler {
 			#if !defined(USE_CHRONO)
 			volatile u32 mLock;
 			#else
-			std::atomic_uint32_t mLock;
+			std::atomic_uint32_t mLock = { 0 };
 			#endif
 		};
 	#else
@@ -341,8 +340,11 @@ namespace Profiler {
 	template <typename Value>
 	struct HashTable {
 	public:
-		HashTable() {
-			mNumChildren = 0;
+		HashTable() :
+			mBucketCount(0),
+			mNumChildren(0),
+			mBuckets(nullptr)
+		{
 			Resize(2);
 		}
 
@@ -915,7 +917,7 @@ namespace Profiler {
 
 
 #if defined(__PROFILER_ENABLED__)
-	threadlocal Caller::ThreadState Caller::thisThread = { {0}, 0, 0, 0, 0 };
+	threadlocal Caller::ThreadState Caller::thisThread = { {}, 0, 0, 0, 0 };
 	f64 Caller::mTimerOverhead = 0, Caller::mRdtscOverhead = 0;
 	u64 Caller::mGlobalDuration = 0;
 	Caller::Max Caller::maxStats;
@@ -999,7 +1001,7 @@ namespace Profiler {
 
 	u64 globalStart = Timer::getticks();
 	u64 globalClockStart = Clock::getticks();
-	GlobalThreadList threads = { NULL, {0} };
+	GlobalThreadList threads = { NULL, {} };
 	threadlocal Caller *root = NULL;
 
 
@@ -1051,6 +1053,8 @@ namespace Profiler {
 		};
 
 		void Init(const char *dir) {
+			frameTable = new HashTable<Entry>();
+
 			firstThreadDump = true;
 			time_t now;
 			time( &now );
@@ -1068,7 +1072,7 @@ namespace Profiler {
 
 		void PrintThread( Caller *r ) {
 			root = r;
-			SharedPrinter printer(&frameTable, f, r);
+			SharedPrinter printer(frameTable, f, r);
 		}
 
 		void PrintAccumulated( Caller * ) {
@@ -1077,7 +1081,7 @@ namespace Profiler {
 
 		void PrintZone( const Zone *z, f64 cyclesToTime, bool isLast ) {
 			u64 at = z->time * cyclesToTime;
-			Entry *ent = frameTable.Find(z->str());
+			Entry *ent = frameTable->Find(z->str());
 			fprintf( f, "{\"type\":\"%c\",\"frame\":%d,\"at\":%lld}%c", (z->type == ZoneType::ZoneEnter ? 'O' : 'C'),
 				(ent ? ent->index : 0), at, (isLast ? ' ' : ','));
 		}
@@ -1113,11 +1117,14 @@ namespace Profiler {
 			fprintf( f, "]}\n");
 			fflush( f );
 			fclose( f );
+
+			delete frameTable;
+			frameTable = 0;
 		}
 
 	protected:
 		FILE *f;
-		HashTable<Entry> frameTable;
+		HashTable<Entry> *frameTable;
 		char timeFormat[256], fileFormat[4096];
 		bool firstThreadDump;
 	};

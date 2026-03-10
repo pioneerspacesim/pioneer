@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local s = CustomSystem:new('Sol', { 'STAR_G' })
@@ -159,12 +159,15 @@ local mars = CustomSystemBody:new('Mars', 'PLANET_TERRESTRIAL')
 
 local mars_starports = {
 	CustomSystemBody:new('Bradbury Landing', 'STARPORT_SURFACE')
+		:seed(201299135)
 		:latitude(math.deg2rad(-4.5895))
 		:longitude(math.deg2rad(-137.4417)),
 	CustomSystemBody:new('Cydonia', 'STARPORT_SURFACE')
+		:seed(2874781459)
 		:latitude(math.deg2rad(-29))
 		:longitude(math.deg2rad(124)),
 	CustomSystemBody:new('Olympus Mons', 'STARPORT_SURFACE')
+		:seed(3046926584)
 		:latitude(math.deg2rad(25.60955))
 		:longitude(math.deg2rad(-41.35269)),
 	CustomSystemBody:new('Mars High', 'STARPORT_ORBITAL')

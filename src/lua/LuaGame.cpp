@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaGame.h"
@@ -6,13 +6,17 @@
 #include "DeathView.h"
 #include "FileSystem.h"
 #include "Game.h"
+#include "GameConfig.h"
 #include "GameSaveError.h"
+#include "Json.h"
 #include "Lang.h"
+#include "LuaEvent.h"
 #include "LuaObject.h"
 #include "LuaTable.h"
 #include "LuaUtils.h"
 #include "Pi.h"
 #include "Player.h"
+#include "SaveGameManager.h"
 #include "SectorView.h"
 #include "Space.h"
 #include "StringF.h"
@@ -35,7 +39,7 @@
  *
  * Start a new game.
  *
- * > Game.StartGame(system_path, start_time)
+ * > Game.StartGame(system_path, start_time, ship_type)
  *
  * Parameters:
  *
@@ -43,43 +47,85 @@
  *                 will begin docked here; otherwise the player will begin in
  *                 orbit around the specified body.
  *
- *   start_time - optional, default 0. Time to start at in seconds from the
- *                Pioneer epoch (i.e. from 3200-01-01 00:00 UTC).
+ *   start_time - Time to start at in seconds from the Pioneer epoch
+ *                (i.e. from 3200-01-01 00:00 UTC).
  *
- * Availability:
+ *   ship_type - string, ship id, i.e. 'sinonatrix'
  *
- *   alpha 28
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_start_game(lua_State *l)
 {
 	if (Pi::game) {
-		luaL_error(l, "can't start a new game while a game is already running");
-		return 0;
+		return luaL_error(l, "can't start a new game while a game is already running");
 	}
 
-	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
-	double start_time = luaL_optnumber(l, 2, 0.0);
-	try {
-		if (start_time == 0.0f) {
-			time_t now;
-			time(&now);
-			start_time = difftime(now, 946684799); // <--- Friday, 31 December 1999 23:59:59 GMT+00:00 as UNIX epoch time in seconds
-		}
-		Pi::StartGame(new Game(*path, start_time));
-	} catch (InvalidGameStartLocation &e) {
-		luaL_error(l, "invalid starting location for game: %s", e.error.c_str());
-	}
+	const auto path = LuaPull<SystemPath>(l, 1);
+	const auto time = LuaPull<double>(l, 2);
+	const auto shipType = LuaPull<const char *>(l, 3);
+
+	Pi::StartGame(new Game(path, time, shipType));
 	return 0;
+}
+
+/* Marshall the game info into a LuaTable and send it as an event to Lua.
+ * Callback from the savegame_stats job when the job is finished. This function
+ * will run in the main thread. */
+static void onSaveGameStatsJobFinished(std::string_view filename, const Json &rootNode)
+{
+	PROFILE_SCOPED()
+	auto ls = Lua::manager->GetLuaState();
+	ScopedTable t(ls);
+	t.Set("filename", filename);
+
+	try {
+		t.Set("time", rootNode["time"].get<double>());
+
+		// if this is a newer saved game, show the embedded info
+		if (rootNode["game_info"].is_object()) {
+			const Json &gameInfo = rootNode["game_info"];
+			t.Set("system", gameInfo["system"].get<std::string>());
+			t.Set("ship", gameInfo["ship"].get<std::string>());
+			t.Set("credits", gameInfo["credits"].get<float>());
+			t.Set("flight_state", gameInfo["flight_state"].get<std::string>());
+			if (gameInfo.count("docked_at")) {
+				t.Set("docked_at", gameInfo["docked_at"].get<std::string>());
+			}
+			if (gameInfo.count("shipHull")) {
+				t.Set("shipHull", gameInfo["shipHull"].get<std::string>());
+			}
+			if (gameInfo.count("shipName")) {
+				t.Set("shipName", gameInfo["shipName"].get<std::string>());
+			}
+			if (gameInfo.count("duration")) {
+				t.Set("duration", gameInfo["duration"].get<double>());
+			}
+			if (gameInfo.count("character")) {
+				t.Set("character", gameInfo["character"].get<std::string>());
+			}
+		} else {
+			// this is an older saved game...try to show something useful
+			const Json &shipNode = rootNode["space"]["bodies"][rootNode["player"].get<int>() - 1];
+			t.Set("frame", rootNode["space"]["bodies"][shipNode["body"]["index_for_frame"].get<int>() - 1]["body"]["label"].get<std::string>());
+			t.Set("ship", shipNode["model_body"]["model_name"].get<std::string>());
+		}
+
+		int saveVersion = rootNode["version"].get<int>();
+		t.Set("compatible", saveVersion == SaveGameManager::CurrentSaveVersion());
+
+	} catch (const Json::type_error &) {
+		t.Set("compatible", false);
+	} catch (const Json::out_of_range &) {
+		t.Set("compatible", false);
+	}
+
+	LuaEvent::Queue("onSaveGameStats", LuaTable(t));
+	LuaEvent::Emit();
 }
 
 /*
  * Function: SaveGameStats
  *
- * Return stats about a game.
+ * Start a Job to read the SaveGameStats for a particular save game
  *
  * > Game.SaveGameStats(filename)
  *
@@ -88,55 +134,36 @@ static int l_game_start_game(lua_State *l)
  *   filename - The filename of the save game to retrieve stats for.
  *              Stats will be loaded from the 'savefiles' directory in the user's game directory.
  *
- * Availability:
+ * Modified:
  *
- *   2018-02-10
- *
- * Status:
- *
- *   experimental
+ *   2024-10-11 - the function no longer returns the Stats directly, but starts
+ *                a Job. The Lua caller is responsible for registering an
+ *                "onSaveGameStats" event handler to process the data.
  */
 static int l_game_savegame_stats(lua_State *l)
 {
-	std::string filename = LuaPull<std::string>(l, 1);
+	const std::string filename = LuaPull<std::string>(l, 1);
+	Lua::manager->ScheduleJob(SaveGameManager::LoadGameToJsonAsync(filename, onSaveGameStatsJobFinished));
+	return 0;
+}
 
-	try {
-		Json rootNode = Game::LoadGameToJson(filename);
 
-		LuaTable t(l, 0, 3);
-
-		t.Set("time", rootNode["time"].get<double>());
-
-		// if this is a newer saved game, show the embedded info
-		if (rootNode["game_info"].is_object()) {
-			Json gameInfo = rootNode["game_info"];
-			t.Set("system", gameInfo["system"].get<std::string>());
-			t.Set("ship", gameInfo["ship"].get<std::string>());
-			t.Set("credits", gameInfo["credits"].get<float>());
-			t.Set("flight_state", gameInfo["flight_state"].get<std::string>());
-			if (gameInfo["docked_at"].is_string())
-				t.Set("docked_at", gameInfo["docked_at"].get<std::string>());
-		} else {
-			// this is an older saved game...try to show something useful
-			Json shipNode = rootNode["space"]["bodies"][rootNode["player"].get<int>() - 1];
-			t.Set("frame", rootNode["space"]["bodies"][shipNode["body"]["index_for_frame"].get<int>() - 1]["body"]["label"].get<std::string>());
-			t.Set("ship", shipNode["model_body"]["model_name"].get<std::string>());
-		}
-
-		return 1;
-	} catch (CouldNotOpenFileException &e) {
-		const std::string message = stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", filename));
-		lua_pushlstring(l, message.c_str(), message.size());
-		return lua_error(l);
-	} catch (const Json::type_error &) {
-		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
-		return 0;
-	} catch (const Json::out_of_range &) {
-		return luaL_error(l, Lang::GAME_LOAD_CORRUPT);
-	} catch (SavedGameCorruptException) {
-		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
-		return 0;
-	}
+/*
+ * Function: CurrentSaveVersion
+ *
+ * Returns the current version of the game save file format.
+ *
+ * > Game.CurrentSaveVersion()
+ *
+ * Return:
+ *
+ *   number
+ *
+ */
+static int l_game_current_save_version(lua_State *l)
+{
+	LuaPush(l, SaveGameManager::CurrentSaveVersion());
+	return 1;
 }
 
 /*
@@ -150,33 +177,24 @@ static int l_game_savegame_stats(lua_State *l)
  *
  *   filename - Filename to load. It will be loaded from the 'savefiles'
  *              directory in the user's game directory.
- *
- * Availability:
- *
- *   alpha 28
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_load_game(lua_State *l)
 {
 	if (Pi::game) {
-		luaL_error(l, "can't load a game while a game is already running");
-		return 0;
+		return luaL_error(l, "can't load a game while a game is already running");
 	}
 
 	const std::string filename(luaL_checkstring(l, 1));
 
 	try {
-		Pi::StartGame(Game::LoadGame(filename));
-	} catch (SavedGameCorruptException) {
-		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
-	} catch (SavedGameWrongVersionException) {
-		luaL_error(l, Lang::GAME_LOAD_WRONG_VERSION);
-	} catch (CouldNotOpenFileException) {
+		Pi::StartGame(SaveGameManager::LoadGame(filename));
+	} catch (const SavedGameCorruptException &) {
+		return luaL_error(l, Lang::GAME_LOAD_CORRUPT);
+	} catch (const SavedGameWrongVersionException &) {
+		return luaL_error(l, Lang::GAME_LOAD_WRONG_VERSION);
+	} catch (const CouldNotOpenFileException &) {
 		const std::string msg = stringf(Lang::GAME_LOAD_CANNOT_OPEN, formatarg("filename", filename));
-		luaL_error(l, msg.c_str());
+		return luaL_error(l, msg.c_str());
 	}
 
 	return 0;
@@ -196,21 +214,12 @@ static int l_game_load_game(lua_State *l)
  * Return:
  *
  *   bool - can the filename be found to load
- *
- * Availability:
- *
- *   YYYY - MM - DD
- *   2016 - 06 - 25
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_can_load_game(lua_State *l)
 {
 	const std::string filename(luaL_checkstring(l, 1));
 
-	bool success = Game::CanLoadGame(filename);
+	const bool success = SaveGameManager::CanLoadGame(filename);
 	lua_pushboolean(l, success);
 
 	return 1;
@@ -231,14 +240,6 @@ static int l_game_can_load_game(lua_State *l)
  * Return:
  *
  *   path - the full path to the saved file (so it can be displayed)
- *
- * Availability:
- *
- *   June 2013
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_save_game(lua_State *l)
 {
@@ -247,23 +248,81 @@ static int l_game_save_game(lua_State *l)
 	}
 
 	const std::string filename(luaL_checkstring(l, 1));
-	const std::string path = FileSystem::JoinPathBelow(Pi::GetSaveDir(), filename);
+	std::string path;
 
 	try {
-		Game::SaveGame(filename, Pi::game);
+		path = FileSystem::JoinPathBelow(SaveGameManager::GetSaveGameDirectory(), filename);
+		SaveGameManager::SaveGame(filename, Pi::game);
 		lua_pushlstring(l, path.c_str(), path.size());
 		return 1;
-	} catch (CannotSaveInHyperspace) {
+	} catch (const CannotSaveInHyperspace &) {
 		return luaL_error(l, "%s", Lang::CANT_SAVE_IN_HYPERSPACE);
-	} catch (CannotSaveDeadPlayer) {
+	} catch (const CannotSaveDeadPlayer &) {
 		return luaL_error(l, "%s", Lang::CANT_SAVE_DEAD_PLAYER);
-	} catch (CouldNotOpenFileException) {
+	} catch (const CouldNotOpenFileException &) {
 		const std::string message = stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path));
 		lua_pushlstring(l, message.c_str(), message.size());
 		return lua_error(l);
-	} catch (CouldNotWriteToFileException) {
+	} catch (const CouldNotWriteToFileException &) {
 		return luaL_error(l, "%s", Lang::GAME_SAVE_CANNOT_WRITE);
+	} catch (const std::invalid_argument &) {
+		return luaL_error(l, "%s", Lang::GAME_SAVE_INVALID_NAME);
 	}
+}
+
+/*
+ * Function: DeleteSave
+ *
+ * Deletes save with specified file name.
+ *
+ * > Game.DeleteSave(filename)
+ *
+ * Parameters:
+ *
+ *   filename - Filename to delete. The file will be checked at 'savefiles'
+ *              directory in the user's game directory.
+ * Return:
+ *
+ *   bool - is save deleted successfully
+ */
+static int l_game_delete_save(lua_State *l)
+{
+	const std::string filename(luaL_checkstring(l, 1));
+	lua_pushboolean(l, SaveGameManager::DeleteSave(filename));
+	return 1;
+}
+
+/*
+ * Function: ListSaves
+ *
+ * Retrieves a list of all game saves along with their last-modified time.
+ *
+ * > Game.ListSaves()
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ *   saves - a list of save-games as names and modification-date
+ */
+static int l_game_list_saves(lua_State *l)
+{
+	auto saves = SaveGameManager::ListSaves();
+
+	lua_newtable(l);
+	int savesTable = lua_gettop(l);
+	int saves_len = 0;
+
+	for (const auto &save : saves)
+	{
+		LuaTable saveTable(l);
+		saveTable.Set("name", save.GetName());
+		saveTable.Set("mtime", save.GetModificationTime());
+
+		lua_rawseti(l, savesTable, ++saves_len);
+	}
+
+	return 1;
 }
 
 /*
@@ -272,14 +331,6 @@ static int l_game_save_game(lua_State *l)
  * End the current game and return to the main menu.
  *
  * > Game.EndGame(filename)
- *
- * Availability:
- *
- *   June 2013
- *
- * Status:
- *
- *   experimental
  */
 static int l_game_end_game(lua_State *l)
 {
@@ -295,14 +346,6 @@ static int l_game_end_game(lua_State *l)
  * Attribute: player
  *
  * The <Player> object for the current player.
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_game_attr_player(lua_State *l)
 {
@@ -317,14 +360,6 @@ static int l_game_attr_player(lua_State *l)
  * Attribute: system
  *
  * The <StarSystem> object for the system the player is currently in.
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_game_attr_system(lua_State *l)
 {
@@ -339,14 +374,6 @@ static int l_game_attr_system(lua_State *l)
  * Attribute: systemView
  *
  * The <SystemView> object for the system map view class
- *
- * Availability:
- *
- *  February 2020
- *
- * Status:
- *
- *  experiment
  */
 static int l_game_attr_systemview(lua_State *l)
 {
@@ -361,14 +388,6 @@ static int l_game_attr_systemview(lua_State *l)
  * Attribute: sectorView
  *
  * The <SectorView> object for the sector map view class
- *
- * Availability:
- *
- *  April 2020
- *
- * Status:
- *
- *  experiment
  */
 static int l_game_attr_sectorview(lua_State *l)
 {
@@ -383,14 +402,6 @@ static int l_game_attr_sectorview(lua_State *l)
  * Attribute: time
  *
  * The current game time, in seconds since 12:00 01-01-3200
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_game_attr_time(lua_State *l)
 {
@@ -405,21 +416,13 @@ static int l_game_attr_time(lua_State *l)
  * Attribute: paused
  *
  * True if the game is paused.
- *
- * Availability:
- *
- *  September 2014
- *
- * Status:
- *
- *  experimental
  */
 static int l_game_attr_paused(lua_State *l)
 {
 	if (!Pi::game)
 		lua_pushboolean(l, 1);
 	else
-		lua_pushboolean(l, Pi::game->IsPaused() ? 1 : 0);
+		lua_pushboolean(l, Pi::game->IsPaused());
 	return 1;
 }
 
@@ -433,14 +436,6 @@ static int l_game_attr_paused(lua_State *l)
  * Return:
  *
  *   hyperspace - true if the game is currently in hyperspace
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 
 static int l_game_in_hyperspace(lua_State *l)
@@ -458,34 +453,17 @@ static int l_game_in_hyperspace(lua_State *l)
  *
  * Return:
  *
- *   view - a string describing the game view: "world", "space_station", "info", "sector", "system", "death", "settings"
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
+ *   view - a string describing the game view: "WorldView", "StationView", "InfoView", "SectorView", "SystemView", "DeathView"
  */
 
 static int l_game_current_view(lua_State *l)
 {
 	const View *view = Pi::GetView();
-	if (view == Pi::game->GetWorldView())
-		LuaPush(l, "world");
-	else if (view == Pi::game->GetSpaceStationView())
-		LuaPush(l, "space_station");
-	else if (view == Pi::game->GetInfoView())
-		LuaPush(l, "info");
-	else if (view == Pi::game->GetSectorView())
-		LuaPush(l, "sector");
-	else if (view == Pi::game->GetSystemView())
-		LuaPush(l, "system");
-	else if (view == Pi::game->GetDeathView())
-		LuaPush(l, "death");
-	else
+	if( view != nullptr) {
+		LuaPush(l, view->GetViewName());
+	} else {
 		lua_pushnil(l);
+	}
 	return 1;
 }
 
@@ -502,7 +480,7 @@ static int l_game_switch_view(lua_State *l)
 	return 0;
 }
 
-static void pushTimeAccel(lua_State *l, Game::TimeAccel accel)
+static int pushTimeAccel(lua_State *l, const Game::TimeAccel accel)
 {
 	switch (accel) {
 	case Game::TIMEACCEL_PAUSED: lua_pushstring(l, "paused"); break;
@@ -512,28 +490,28 @@ static void pushTimeAccel(lua_State *l, Game::TimeAccel accel)
 	case Game::TIMEACCEL_1000X: lua_pushstring(l, "1000x"); break;
 	case Game::TIMEACCEL_10000X: lua_pushstring(l, "10000x"); break;
 	case Game::TIMEACCEL_HYPERSPACE: lua_pushstring(l, "hyperspace"); break;
-	default: break; // TODO error
+	default:
+		return luaL_error(l, "TimeAccel value of \"%d\" is outside of Game::TimeAccel enum", accel);
 	}
+	return 1;
 }
 
 static int l_game_get_time_acceleration(lua_State *l)
 {
-	Game::TimeAccel accel = Pi::game->GetTimeAccel();
-	pushTimeAccel(l, accel);
-	return 1;
+	const Game::TimeAccel accel = Pi::game->GetTimeAccel();
+	return pushTimeAccel(l, accel);
 }
 
 static int l_game_get_requested_time_acceleration(lua_State *l)
 {
-	Game::TimeAccel accel = Pi::game->GetRequestedTimeAccel();
-	pushTimeAccel(l, accel);
-	return 1;
+	const Game::TimeAccel accel = Pi::game->GetRequestedTimeAccel();
+	return pushTimeAccel(l, accel);
 }
 
 static int l_game_set_time_acceleration(lua_State *l)
 {
-	std::string accel = LuaPull<std::string>(l, 1);
-	bool force = LuaPull<bool>(l, 2);
+	const std::string accel = LuaPull<std::string>(l, 1);
+	const bool force = LuaPull<bool>(l, 2);
 	Game::TimeAccel a = Game::TIMEACCEL_PAUSED;
 	if (!accel.compare("paused"))
 		a = Game::TIMEACCEL_PAUSED;
@@ -549,14 +527,15 @@ static int l_game_set_time_acceleration(lua_State *l)
 		a = Game::TIMEACCEL_10000X;
 	else if (!accel.compare("hyperspace"))
 		a = Game::TIMEACCEL_HYPERSPACE;
-	// else TODO error
+	else
+		return luaL_error(l, "Unknown time acceleration %s", accel.c_str());
 	Pi::game->RequestTimeAccel(a, force);
 	return 0;
 }
 
 static int l_game_get_date_time(lua_State *l)
 {
-	Time::DateTime t(Pi::game->GetTime());
+	const Time::DateTime t(Pi::game->GetTime());
 	int year, month, day, hour, minute, second;
 	t.GetDateParts(&year, &month, &day);
 	t.GetTimeParts(&hour, &minute, &second);
@@ -571,23 +550,12 @@ static int l_game_get_date_time(lua_State *l)
 
 static int l_game_set_view(lua_State *l)
 {
-	if (!Pi::game)
+	if (!Pi::game) {
 		return luaL_error(l, "can't set view when no game is running");
-	std::string target = luaL_checkstring(l, 1);
-	if (!target.compare("world")) {
-		Pi::SetView(Pi::game->GetWorldView());
-	} else if (!target.compare("space_station")) {
-		Pi::SetView(Pi::game->GetSpaceStationView());
-	} else if (!target.compare("info")) {
-		Pi::SetView(Pi::game->GetInfoView());
-	} else if (!target.compare("death")) {
-		Pi::SetView(Pi::game->GetDeathView());
-	} else if (!target.compare("sector")) {
-		Pi::SetView(Pi::game->GetSectorView());
-	} else if (!target.compare("system")) {
-		Pi::SetView(Pi::game->GetSystemView());
-	} else {
-		// TODO else error
+	}
+	const std::string target = luaL_checkstring(l, 1);
+	if (!Pi::SetView(target)) {
+		return luaL_error(l, "Unknown view %s", target.c_str());
 	}
 	return 0;
 }
@@ -606,7 +574,7 @@ static int l_game_get_world_cam_type(lua_State *l)
 
 static int l_game_set_world_cam_type(lua_State *l)
 {
-	std::string cam = luaL_checkstring(l, 1);
+	const std::string cam = luaL_checkstring(l, 1);
 	if (!cam.compare("internal"))
 		Pi::game->GetWorldView()->shipView->SetCamType(ShipViewController::CAM_INTERNAL);
 	else if (!cam.compare("external"))
@@ -615,9 +583,8 @@ static int l_game_set_world_cam_type(lua_State *l)
 		Pi::game->GetWorldView()->shipView->SetCamType(ShipViewController::CAM_SIDEREAL);
 	else if (!cam.compare("flyby"))
 		Pi::game->GetWorldView()->shipView->SetCamType(ShipViewController::CAM_FLYBY);
-	else {
-		// TODO else error
-	}
+	else
+		return luaL_error(l, "Unknown world cam type %s", cam.c_str());
 	return 0;
 }
 
@@ -629,8 +596,8 @@ static int l_game_get_hyperspace_travelled_percentage(lua_State *l)
 
 static int l_game_get_parts_from_date_time(lua_State *l)
 {
-	double time = LuaPull<double>(l, 1);
-	Time::DateTime t(time);
+	const double time = LuaPull<double>(l, 1);
+	const Time::DateTime t(time);
 	int year, month, day, hour, minute, second;
 	t.GetDateParts(&year, &month, &day);
 	t.GetTimeParts(&hour, &minute, &second);
@@ -641,6 +608,75 @@ static int l_game_get_parts_from_date_time(lua_State *l)
 	LuaPush(l, month);
 	LuaPush(l, year);
 	return 6;
+}
+
+template<typename T>
+static int l_game_get_config(lua_State *l)
+{
+	// Restrict the template function to only a few types
+	static_assert(
+		std::is_same_v<T, bool> ||
+		std::is_same_v<T, int> ||
+		std::is_same_v<T, float> ||
+		std::is_same_v<T, std::string>
+	);
+
+	if (lua_isnone(l, 1)) {
+		return luaL_error(l, "GetConfig takes at least a key argument");
+	}
+	int arg = 1;
+	std::string section = std::string();
+	if (!lua_isnone(l, 2)) {
+		section = LuaPull<std::string>(l, arg++);
+	}
+	const std::string key = LuaPull<std::string>(l, arg++);
+	T value;
+	if constexpr (std::is_same_v<std::decay_t<T>,bool>) {
+		value = Pi::config->Int(section, key, 0) == 0? false : true;
+	} else if constexpr (std::is_same_v<std::decay_t<T>,int>) {
+		value = Pi::config->Int(section, key, 0);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,float>) {
+		value = Pi::config->Float(section, 0.0f);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,std::string>) {
+		value = Pi::config->String(section, "");
+	} else {
+		return luaL_error(l, "GetConfig was invoked with an unsupported type.");
+	}
+	LuaPush(l, value);
+	return 1;
+}
+template<typename T>
+static int l_game_set_config(lua_State *l)
+{
+	// Restrict the template function to only a few types
+	static_assert(
+		std::is_same_v<T, bool> ||
+		std::is_same_v<T, int> ||
+		std::is_same_v<T, float> ||
+		std::is_same_v<T, std::string>
+	);
+
+	if (lua_isnone(l, 1) || lua_isnone(l, 2))
+		return luaL_error(l, "SetConfig takes at least a key and a value argument");
+	int arg = 1;
+	std::string section = std::string();
+	if (!lua_isnone(l, 3)) {
+		section = LuaPull<std::string>(l, arg++);
+	}
+	const std::string key = LuaPull<std::string>(l, arg++);
+	const T value = LuaPull<T>(l, arg++);
+	if constexpr (std::is_same_v<std::decay_t<T>,bool>) {
+		Pi::config->SetInt(section, key, value == 0? 0 : 1);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,int>) {
+		Pi::config->SetInt(section, key, value);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,float>) {
+		Pi::config->SetFloat(section, key, value);
+	} else if constexpr (std::is_same_v<std::decay_t<T>,std::string>) {
+		Pi::config->SetString(section, key, value);
+	} else {
+		return luaL_error(l, "GetConfig was invoked with an unsupported type.");
+	}
+	return 0;
 }
 
 void LuaGame::Register()
@@ -654,9 +690,12 @@ void LuaGame::Register()
 		{ "LoadGame", l_game_load_game },
 		{ "CanLoadGame", l_game_can_load_game },
 		{ "SaveGame", l_game_save_game },
+		{ "DeleteSave", l_game_delete_save },
+		{ "ListSaves", l_game_list_saves },
 		{ "EndGame", l_game_end_game },
 		{ "InHyperspace", l_game_in_hyperspace },
 		{ "SaveGameStats", l_game_savegame_stats },
+		{ "CurrentSaveVersion", l_game_current_save_version },
 
 		{ "SwitchView", l_game_switch_view },
 		{ "CurrentView", l_game_current_view },
@@ -670,6 +709,15 @@ void LuaGame::Register()
 
 		{ "SetWorldCamType", l_game_set_world_cam_type },
 		{ "GetWorldCamType", l_game_get_world_cam_type },
+
+		{ "GetConfigBool", l_game_get_config<bool> },
+		{ "SetConfigBool", l_game_set_config<bool> },
+		{ "GetConfigInt", l_game_get_config<int> },
+		{ "SetConfigInt", l_game_set_config<int> },
+		{ "GetConfigFloat", l_game_get_config<float> },
+		{ "SetConfigFloat", l_game_set_config<float> },
+		{ "GetConfigString", l_game_get_config<std::string> },
+		{ "SetConfigString", l_game_set_config<std::string> },
 
 		{ 0, 0 }
 	};

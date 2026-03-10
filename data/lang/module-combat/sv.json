@@ -131,6 +131,10 @@
     "description": "Distance in space, between two locations",
     "message": "Avstånd:"
   },
+  "DO_I_NEED_SPECIAL_EQUIPMENT": {
+    "description": "",
+    "message": "Behöver jag någon särskild utrustning?"
+  },
   "FAILUREMSG_1": {
     "description": "",
     "message": "Du borde skämmas. Försvinn ur min åsyn!"
@@ -169,11 +173,11 @@
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "{org} betalar {cash} för ett {mission}-uppdrag i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Vi har anledning att tro att en hänsynslös konkurrent är ansvarig för försvinnandet av våra fraktfartyg vid {area}. Avståndet till målområdet är {dist} ly."
+    "message": "{org} betalar {cash} för ett {mission} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Vi har anledning att tro att en hänsynslös konkurrent är ansvarig för försvinnandet av våra fraktfartyg vid {area}. Avståndet till målområdet är {dist} ly."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "Vår konkurrent hävdar på fullaste allvar att han äger {area} i {system}-systemet ({sectorx}, {sector}, {sectorz}). {org} håller helt enkelt inte med och är villiga att betala {cash} för ett stridsuppdrag vid {area}. {area} ligger på ett avstånd av {dist} ly."
+    "message": "Vår konkurrent hävdar på fullaste allvar att han äger {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). {org} håller helt enkelt inte med och är villiga att betala {cash} för ett stridsuppdrag vid {area}. {area} ligger på ett avstånd av {dist} ly."
   },
   "HARVESTING_3": {
     "description": "{area} is an asteroid or planet",
@@ -185,7 +189,7 @@
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "Vi har en säljansvarig i alla närliggande stjärnsystem. Den här personen kommer att kontakta dig när du är på marken."
+    "message": "Vi har en säljansvarig i alla närliggande stjärnsystem. Landa på en station innan deadline så kommer vår personal kontakta dig angående betalningen."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -201,7 +205,7 @@
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "Möt mig i {rendezvous}-systemet för att avsluta jobbet!"
+    "message": "Möt mig i {rendezvous}-systemet innan förfallodagen!"
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
@@ -213,7 +217,7 @@
   },
   "MILITARY_3": {
     "description": "",
-    "message": "Militärens kontraspionage behöver en civil pilot som inte ställer några frågor för ett {mission}-uppdrag i {system}-systemet ({sectorx}, {sectory}, {sectorz}), {dist} ly. Lönen är {cash}."
+    "message": "Militärens kontraspionage behöver en civil pilot som inte ställer några frågor för ett {mission} i {system}-systemet ({sectorx}, {sectory}, {sectorz}), {dist} ly. Lönen är {cash}."
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -221,7 +225,7 @@
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "Besök en station i området som står under beskydd av {org}!"
+    "message": "Besök en station i området som står under beskydd av {org}! Operationen kräver att målet för uppdraget uppnås i tid."
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
@@ -233,7 +237,7 @@
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Jag arbetar för {org}. Några av våra fraktfartyg kommer inom kort att anlända till {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). För att öka säkerheten för våra anställda och för att skydda utrustningen är vi villiga att betala {cash} för ett {mission} uppdrag. Avståndet till {area} är {dist}."
+    "message": "Jag arbetar för {org}. Några av våra fraktfartyg kommer inom kort att anlända till {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). För att öka säkerheten för våra anställda och för att skydda utrustningen är vi villiga att betala {cash} för ett {mission}. Avståndet till {area} är {dist}."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -241,7 +245,7 @@
   },
   "MINING_LAND_THERE": {
     "description": "",
-    "message": "Vi har anställda i alla närliggande stjärnsystem. Besök bara närmaste station och ta kontakt med det lokala kontoret där."
+    "message": "Vi har anställda i alla närliggande stjärnsystem. Besök bara närmaste station  innan förfallodagen och kontakta det lokala kontoret där."
   },
   "MISSION": {
     "description": "",
@@ -266,6 +270,18 @@
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
     "message": "Stridsuppdrag jaktsvep"
+  },
+  "MISSION_TYPE_CONVO_1": {
+    "description": "Name of mission type, used in conversation",
+    "message": "spaningsuppdrag"
+  },
+  "MISSION_TYPE_CONVO_2": {
+    "description": "Name of mission type, used in conversation",
+    "message": "väpnat spaningsuppdrag"
+  },
+  "MISSION_TYPE_CONVO_3": {
+    "description": "Name of mission type, used in conversation. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
+    "message": "stridsuppdrag jaktsvep"
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",
@@ -305,7 +321,7 @@
   },
   "POLICE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Våra marknader översvämmades av smuggelgods. Källan har spårats tillbaka till en dold bas vid {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Ett avstånd av endast {distans} ly. På grund av den minskade polisbudgeten skulle de lokala myndigheterna vilja lägga ut uppdraget på entreprenad och har tilldelat {cash} krediter för denna operation."
+    "message": "Våra marknader översvämmades av smuggelgods. Källan har spårats tillbaka till en dold bas vid {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Ett avstånd av endast {dist} ly. På grund av den minskade polisbudgeten skulle de lokala myndigheterna vilja lägga ut uppdraget på entreprenad och har tilldelat {cash} krediter för denna operation."
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -313,7 +329,7 @@
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "Bara landa vid en station med ett {org} kontor."
+    "message": "Bara landa vid en station med ett {org} kontor. Det måste göras innan tidsfristen löpt ut för att inte hela uppdraget ska äventyras!"
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",
@@ -374,5 +390,9 @@
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",
     "message": "Kommer jag att stöta på problem?"
+  },
+  "YOU_NEED_A_RADAR": {
+    "description": "",
+    "message": "Ja, du behöver en radar! Om du samtycker kommer jag att programmera din skeppsdator att registrera radarutslagen vi behöver. Uppgifterna kommer att överföras till mig när du kommer tillbaka."
   }
 }

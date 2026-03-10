@@ -1,18 +1,16 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui'
 local InfoView = require 'pigui.views.info-view'
 local Lang = require 'Lang'
-local Engine = require 'Engine'
 local Character = require 'Character'
 local PiGuiFace = require 'pigui.libs.face'
 local Event = require 'Event'
-local Game  = require 'Game'
+local PlayerState = require 'PlayerState'
 
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
-local colors = ui.theme.colors
 local icons = ui.theme.icons
 
 local textTable = require 'pigui.libs.text-table'
@@ -40,7 +38,7 @@ local function drawPlayerInfo()
 	ui.newLine()
 
 	textTable.withHeading(l.FINANCE, orbiteer.heading, {
-		{ l.CASH .. ":", ui.Format.Money(Game.player:GetMoney()) }
+		{ l.CASH .. ":", ui.Format.Money(PlayerState.GetMoney()) }
 	})
 end
 
@@ -58,10 +56,12 @@ InfoView:registerView({
 
                 ui.child("PlayerInfoDetails", Vector2(info_column_width, 0), drawPlayerInfo)
 
-                ui.sameLine(0, spacing)
+				ui.sameLine(0, spacing)
+				ui.dummy(Vector2(info_column_width * 0.15), 0)
+				ui.sameLine(0, 0)
 
-				ui.child("PlayerView", Vector2(info_column_width, 0), function()
-					face = face or PiGuiFace.New(Character.persistent.player, nil, true)
+				ui.child("PlayerView", Vector2(info_column_width * 0.7, 0), function()
+					face = face or PiGuiFace.New(Character.persistent.player, nil, false)
 					face:render()
 				end)
 

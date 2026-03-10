@@ -1,10 +1,9 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Character	= require 'Character'
 local Game		= require 'Game'
 local Lang		= require 'Lang'
-local Mission	= require 'Mission'
 local Space		= require 'Space'
 
 local ui		= require 'pigui'
@@ -33,7 +32,7 @@ local function setLocationAsTarget(location)
 		end
 	elseif not Game.InHyperspace() then
 		-- if a specific systembody is given, set the sector map to the correct star (if the system is multiple)
-		Game.sectorView:SwitchToPath(location:IsBodyPath() and location:GetSystemBody().nearestJumpable.path or location:GetStarSystem().path)
+		Game.sectorView:SwitchToPath(location:IsBodyPath() and location:GetSystemBody().nearestJumpable.path or location:SystemOnly())
 		ui.playBoinkNoise()
 	end
 end
@@ -96,20 +95,40 @@ local function makeMissionRows()
 	}
 
 	for _, mission in pairs(Character.persistent.player.missions) do
-		local locationName = mission.location:GetStarSystem().name -- ui.Format.SystemPath(mission.location)
-		if mission.location.bodyIndex then
-			locationName = mission.location:GetSystemBody().name .. ", " .. locationName
-		end
+		local locationName, dist_display
 
-		local playerSystem = Game.system or Game.player:GetHyperspaceTarget()
-		local dist = playerSystem:DistanceTo(mission.location)
-		local days = math.max(0, (mission.due - Game.time) / (24*60*60))
+		if type(mission.destination) == "string" then
+			locationName = mission.destination
+			dist_display = ""
+		else
+			locationName = mission.destination:GetStarSystem().name -- ui.Format.SystemPath(mission.destination)
+			if mission.destination.bodyIndex then
+				locationName = mission.destination:GetSystemBody().name .. ", " .. locationName
+			end
+
+			local playerSystem = Game.system or Game.player:GetHyperspaceTarget():GetStarSystem()
+
+			-- Use AU for interplanetary, LY for interstellar distances
+			local dist
+			if mission.destination:IsSameSystem(playerSystem.path) and not Game.InHyperspace() then
+				if mission.destination:IsBodyPath() then
+					local body = mission.destination:GetSystemBody().body
+					dist = Game.player:GetPositionRelTo(body):length()
+					dist_display = "\n" .. ui.Format.Distance(dist)
+				else
+					dist_display = "\n-"
+				end
+			else
+				dist = playerSystem:DistanceTo(mission.destination)
+				dist_display = string.format("\n%.2f %s", dist, l.LY)
+			end
+		end
 
 		local row = {
 			mission:GetTypeDescription(),
 			mission.client.name,
-			locationName .. string.format("\n%.2f %s", dist, l.LY),
-			ui.Format.Date(mission.due) .."\n".. string.format(l.D_DAYS_LEFT, days),
+			locationName .. dist_display,
+			ui.Format.Date(mission.due) .."\n".. l.D_DAYS_LEFT .." ".. ui.Format.Duration(mission.due - Game.time, 2),
 			ui.Format.Money(mission.reward),
 		}
 

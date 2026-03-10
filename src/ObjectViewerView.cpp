@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ObjectViewerView.h"
@@ -18,6 +18,7 @@
 #include "graphics/Renderer.h"
 #include "imgui/imgui.h"
 #include "pigui/LuaPiGui.h"
+#include "profiler/Profiler.h"
 #include "terrain/Terrain.h"
 #include "utils.h"
 
@@ -26,25 +27,24 @@
 #if WITH_OBJECTVIEWER
 
 ObjectViewerView::ObjectViewerView() :
-	PiGuiView("ObjectViewerView"),
+	View("ObjectViewerView"),
 	m_targetBody(nullptr),
 	m_systemBody(nullptr),
-	m_state{}
+	m_state{},
+	viewingDist(1000.0f),
+	m_camRot(matrix4x4d::Identity)
 {
-	viewingDist = 1000.0f;
-	m_camRot = matrix4x4d::Identity();
-
 	float znear;
 	float zfar;
 	Pi::renderer->GetNearFarRange(znear, zfar);
 
 	const float fovY = Pi::config->Float("FOVVertical");
-	m_cameraContext.Reset(new CameraContext(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
+	m_cameraContext.Reset(new CameraContext(Pi::renderer->GetWindowWidth(), Pi::renderer->GetWindowHeight(), fovY, znear, zfar));
 	m_camera.reset(new Camera(m_cameraContext, Pi::renderer));
 
 	m_cameraContext->SetCameraFrame(Pi::player->GetFrame());
 	m_cameraContext->SetCameraPosition(Pi::player->GetInterpPosition() + vector3d(0, 0, viewingDist));
-	m_cameraContext->SetCameraOrient(matrix3x3d::Identity());
+	m_cameraContext->SetCameraOrient(matrix3x3d::Identity);
 }
 
 void ObjectViewerView::Draw3D()
@@ -54,7 +54,7 @@ void ObjectViewerView::Draw3D()
 	float znear, zfar;
 	m_renderer->GetNearFarRange(znear, zfar);
 	m_renderer->SetPerspectiveProjection(75.f, m_renderer->GetDisplayAspect(), znear, zfar);
-	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_renderer->SetTransform(matrix4x4f::Identity);
 
 	Graphics::Light light;
 	light.SetType(Graphics::Light::LIGHT_DIRECTIONAL);
@@ -123,8 +123,9 @@ void ObjectViewerView::ReloadState()
 
 void ObjectViewerView::Update()
 {
-	if (Pi::input->KeyState(SDLK_EQUALS)) viewingDist *= 0.99f;
-	if (Pi::input->KeyState(SDLK_MINUS)) viewingDist *= 1.01f;
+	const float zoomScaler = (Pi::input->KeyState(SDLK_LSHIFT) || Pi::input->KeyState(SDLK_RSHIFT)) ? 0.001f : 0.01f;
+	if (Pi::input->KeyState(SDLK_EQUALS)) viewingDist *= (1.0f - zoomScaler);
+	if (Pi::input->KeyState(SDLK_MINUS)) viewingDist *= (1.0f + zoomScaler);
 	viewingDist = Clamp(viewingDist, 10.0f, 1e12f);
 
 	Body *body = Pi::player->GetNavTarget();
@@ -147,11 +148,13 @@ void ObjectViewerView::DrawInfoWindow()
 	std::string infoLabel = fmt::format("View dist: {} Object: {}",
 		format_distance(viewingDist), m_targetBody->GetLabel());
 
+	ImVec2 vpSize = ImGui::GetMainViewport()->Size;
+
 	float xpos = ImGui::GetStyle().WindowPadding.x * 2;
-	float ypos = Graphics::GetScreenHeight() - (ImGui::GetTextLineHeightWithSpacing() * 5 + ImGui::GetFrameHeightWithSpacing());
+	float ypos = vpSize.y - (ImGui::GetTextLineHeightWithSpacing() * 5 + ImGui::GetFrameHeightWithSpacing());
 
 	ImGui::SetNextWindowPos({ xpos, ypos });
-	ImGui::SetNextWindowSize({ Graphics::GetScreenWidth() - xpos, Graphics::GetScreenHeight() - ypos });
+	ImGui::SetNextWindowSize({ vpSize.x - xpos, vpSize.y - ypos });
 	ImGui::Begin("ObjectViewerView#Info", nullptr, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDecoration);
 
 	ImGui::TextUnformatted(infoLabel.c_str());
@@ -173,16 +176,29 @@ namespace ImGui {
 
 void ObjectViewerView::DrawControlsWindow()
 {
-	float xpos = Graphics::GetScreenWidth() - Graphics::GetScreenWidth() / 5.0;
+	ImVec2 vpSize = ImGui::GetMainViewport()->Size;
+
+	float xpos = vpSize.x - vpSize.x / 5.0;
 	float ypos = ImGui::GetStyle().WindowPadding.y;
 
 	ImGui::SetNextWindowPos({ xpos, ypos });
-	ImGui::SetNextWindowSize({ Graphics::GetScreenWidth() - xpos, Graphics::GetScreenHeight() - ypos });
+	ImGui::SetNextWindowSize({ vpSize.x - xpos, vpSize.y - ypos });
 	ImGui::Begin("ObjectViewerView#Controls", nullptr, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDecoration);
 
 	if (m_isTerrainBody) {
 		bool didChange = false;
 		uint32_t prevSeed = m_state.seed;
+
+		// if we can get the TerrainBody display the height and color fractal names, very useful for dev and debugging
+		if (const TerrainBody *terrainBody = static_cast<const TerrainBody *>(m_targetBody)) {
+			const char *heightFractalName = terrainBody->GetHeightFractalName();
+			const char *colorFractalName = terrainBody->GetColorFractalName();
+			if (heightFractalName) ImGui::Text("Height fractal: %s", heightFractalName);
+			if (colorFractalName) ImGui::Text("Color fractal: %s", colorFractalName);
+			ImGui::Spacing();
+			ImGui::Separator();
+			ImGui::Spacing();
+		}
 
 		ImGui::TextUnformatted("Seed");
 		int *seed = reinterpret_cast<int32_t *>(&m_state.seed);
@@ -249,7 +265,7 @@ void ObjectViewerView::DrawPiGui()
 		DrawControlsWindow();
 	}
 
-	PiGuiView::DrawPiGui();
+	View::DrawPiGui();
 }
 
 static constexpr fixed dtofixed(double val, uint32_t denom = 1 << 16)
@@ -284,7 +300,7 @@ void ObjectViewerView::OnChangeTerrain()
 	Pi::renderer->FlushCommandBuffers();
 
 	// force reload
-	TerrainBody::OnChangeDetailLevel();
+	TerrainBody::OnChangeDetailLevel(Pi::renderer);
 	ReloadState();
 }
 

@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "PlayerShipController.h"
@@ -7,15 +7,16 @@
 #include "GameConfig.h"
 #include "GameSaveError.h"
 #include "Input.h"
+#include "Json.h"
 #include "Pi.h"
 #include "Player.h"
-#include "SDL_keycode.h"
+#include <SDL_keycode.h>
 #include "Ship.h"
 #include "Space.h"
 #include "SystemView.h"
 #include "WorldView.h"
-#include "core/OS.h"
 #include "lua/LuaObject.h"
+#include "ship/GunManager.h"
 #include "ship/ShipController.h"
 #include "Sensors.h"
 
@@ -105,7 +106,9 @@ struct PlayerShipController::Util {
 			auto good_speed = sqrt(2 * max_accel * want_rot) * 0.95;
 			auto frame_speed = want_rot / timeStep;
 			auto tot_speed = std::min(good_speed, frame_speed / 2);
-			rot_vel = (ship_dir.Cross(dir) * c.m_ship->GetOrient()).Normalized() * tot_speed;
+			// this cross product often becomes all-zeros (ship_dir coincides with requested dir)
+			// NormalizedSafe is crucial there to avoid NaN poisoning
+			rot_vel = (ship_dir.Cross(dir) * c.m_ship->GetOrient()).NormalizedSafe() * tot_speed;
 		}
 		return rot_vel;
 	};
@@ -147,7 +150,7 @@ REGISTER_INPUT_BINDING(PlayerShipController)
 	input->AddAxisBinding("BindAxisYaw", flightGroup, Axis({}, { SDLK_j }, { SDLK_l }));
 	input->AddAxisBinding("BindAxisRoll", flightGroup, Axis({}, { SDLK_q }, { SDLK_e }));
 	input->AddActionBinding("BindKillRot", flightGroup, Action({ SDLK_p }, { SDLK_x }));
-	input->AddActionBinding("BindToggleRotationDamping", flightGroup, Action({ SDLK_v }));
+	input->AddActionBinding("BindToggleRotationDamping", flightGroup, Action({ SDLK_c }));
 
 	auto thrustGroup = controlsPage->GetBindingGroup("ManualControl");
 	input->AddAxisBinding("BindAxisThrustForward", thrustGroup, Axis({}, { SDLK_w }, { SDLK_s }));
@@ -202,7 +205,7 @@ PlayerShipController::PlayerShipController() :
 
 	m_toggleSpeedLimiter = InputBindings.toggleSpeedLimiter->onPressed.connect(
 		[this]() {
-			this->SetSpeedLimiterActive(not this->IsSpeedLimiterActive());
+			this->SetSpeedLimiterActive(!this->IsSpeedLimiterActive());
 		});
 
 	m_selectTarget = InputBindings.targetObject->onPressed.connect (
@@ -494,9 +497,7 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 {
 	// call autopilot AI, if active
 	if (m_ship->AIIsActive()) {
-		OS::EnableFPE();
 		m_ship->AITimeStep(timeStep);
-		OS::DisableFPE();
 		// the speed limiter should not work when the autopilot is working
 		if (IsSpeedLimiterActive()) SetSpeedLimiterActive(false);
 		return;
@@ -513,6 +514,15 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 	UpdateLandingGear();
 
 	if (m_ship->GetFlightState() == Ship::FLYING) {
+
+		if (m_followTarget) {
+			double distSqr = m_followTarget->GetPositionRelTo(m_ship).LengthSqr();
+			if ((m_followMode == FOLLOW_ORI && distSqr > maxFollowDistanceSqr[FOLLOW_ORI]) ||
+				(m_followMode == FOLLOW_POS && distSqr > maxFollowDistanceSqr[FOLLOW_POS])) {
+				SetFollowTarget(nullptr);
+			}
+		}
+
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
 			PollControls(timeStep, mouseMotion, act);
@@ -637,8 +647,8 @@ void PlayerShipController::PollControls(const float timeStep, int *mouseMotion, 
 	// only linear thrust ^ is allowed in the system map
 	if (Pi::GetView() == Pi::game->GetSystemView()) return;
 
-	m_ship->SetGunState(0, 0);
-	m_ship->SetGunState(1, 0);
+	auto gunManager = m_ship->GetComponent<GunManager>();
+	if (gunManager) gunManager->SetAllGroupsFiring(false);
 
 	if (Pi::input->MouseButtonState(SDL_BUTTON_RIGHT)) {
 		// use ship rotation relative to system, unchanged by frame transitions
@@ -686,9 +696,9 @@ void PlayerShipController::PollControls(const float timeStep, int *mouseMotion, 
 		m_mouseActive = false;
 	}
 
-	if (InputBindings.primaryFire->IsActive() || (Pi::input->MouseButtonState(SDL_BUTTON_LEFT) && Pi::input->MouseButtonState(SDL_BUTTON_RIGHT))) {
-		//XXX worldview? madness, ask from ship instead
-		m_ship->SetGunState(Pi::game->GetWorldView()->GetActiveWeapon(), 1);
+	if (gunManager &&
+		(InputBindings.primaryFire->IsActive() || (Pi::input->MouseButtonState(SDL_BUTTON_LEFT) && Pi::input->MouseButtonState(SDL_BUTTON_RIGHT)))) {
+		gunManager->SetGroupFiring(Pi::game->GetWorldView()->GetActiveWeapon(), true);
 	}
 
 	vector3d wantAngVel = vector3d(
@@ -707,7 +717,8 @@ void PlayerShipController::PollControls(const float timeStep, int *mouseMotion, 
 		wantAngVel += Util::NeededAngVelocityToFaceDirection(*this, timeStep, GetMouseDir(), outParams.angPower);
 	}
 
-	if (InputBindings.killRot->IsActive()) SetFlightControlState(CONTROL_FIXHEADING_KILLROT);
+	if (InputBindings.killRot->IsActive() && GetFlightControlState() != CONTROL_FIXSPEED)
+		SetFlightControlState(CONTROL_FIXHEADING_KILLROT);
 
 	outParams.desiredAngular = wantAngVel;
 
@@ -967,6 +978,7 @@ void PlayerShipController::SetCombatTarget(Body *const target, bool setFollowTo)
 		SetFollowTarget(target);
 
 	m_combatTarget = target;
+	m_ship->GetComponent<GunManager>()->SetTrackingTarget(target);
 	onChangeTarget.emit();
 }
 

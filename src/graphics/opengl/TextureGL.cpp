@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TextureGL.h"
@@ -15,11 +15,11 @@ namespace Graphics {
 			switch (format) {
 			case TEXTURE_RGB_888: return GL_RGB;
 			case TEXTURE_RGBA_8888: return GL_RGBA;
-			case TEXTURE_LUMINANCE_ALPHA_88: return GL_RG;
-			case TEXTURE_INTENSITY_8: return GL_RED;
+			case TEXTURE_RG_88: return GL_RG;
+			case TEXTURE_R8: return GL_RED;
 			case TEXTURE_DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
 			case TEXTURE_DXT1: return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
-			case TEXTURE_DEPTH: return GL_DEPTH_COMPONENT;
+			case TEXTURE_DEPTH: return GL_DEPTH_COMPONENT32F;
 			default: assert(0); return 0;
 			}
 		}
@@ -31,8 +31,8 @@ namespace Graphics {
 			switch (format) {
 			case TEXTURE_RGBA_8888: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
 			case TEXTURE_RGB_888: return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
-			case TEXTURE_LUMINANCE_ALPHA_88: return GL_RG;
-			case TEXTURE_INTENSITY_8: return GL_RED;
+			case TEXTURE_RG_88: return GL_RG;
+			case TEXTURE_R8: return GL_RED;
 			case TEXTURE_DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
 			case TEXTURE_DXT1: return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
 			default: assert(0); return 0;
@@ -44,8 +44,8 @@ namespace Graphics {
 			switch (format) {
 			case TEXTURE_RGBA_8888: return GL_RGBA;
 			case TEXTURE_RGB_888: return GL_RGB;
-			case TEXTURE_LUMINANCE_ALPHA_88: return GL_RG;
-			case TEXTURE_INTENSITY_8: return GL_RED;
+			case TEXTURE_RG_88: return GL_RG;
+			case TEXTURE_R8: return GL_RED;
 			case TEXTURE_DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
 			case TEXTURE_DXT1: return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
 			case TEXTURE_DEPTH: return GL_DEPTH_COMPONENT;

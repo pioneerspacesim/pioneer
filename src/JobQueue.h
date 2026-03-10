@@ -1,10 +1,10 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef JOBQUEUE_H
 #define JOBQUEUE_H
 
-#include "SDL_thread.h"
+#include <SDL_thread.h>
 #include "core/TaskGraph.h"
 #include <atomic>
 #include <cassert>
@@ -133,9 +133,9 @@ public:
 	SyncJobQueue() = default;
 	virtual ~SyncJobQueue();
 
-	virtual Job::Handle Queue(Job *job, JobClient *client = nullptr) override;
-	virtual void Cancel(Job *job) override;
-	virtual Uint32 FinishJobs() override;
+	Job::Handle Queue(Job *job, JobClient *client = nullptr) override;
+	void Cancel(Job *job) override;
+	Uint32 FinishJobs() override;
 
 	Uint32 RunJobs(Uint32 count = 1);
 

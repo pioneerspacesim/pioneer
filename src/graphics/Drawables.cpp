@@ -1,14 +1,19 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Drawables.h"
 
+#include "Aabb.h"
+#include "MathUtil.h"
 #include "Texture.h"
 #include "TextureBuilder.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
 #include "graphics/Types.h"
 #include "graphics/VertexBuffer.h"
+#include "profiler/Profiler.h"
+
+#include <sstream>
 
 namespace Graphics {
 
@@ -63,7 +68,7 @@ namespace Graphics {
 			m_material.Reset(r->CreateMaterial(desc));
 
 			//Create vtx & index buffers and copy data
-			VertexBufferDesc vbd;
+			VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = ATTRIB_POSITION;
 			vbd.attrib[0].format = ATTRIB_FORMAT_FLOAT3;
 			vbd.numVertices = vertices.GetNumVerts();
@@ -98,6 +103,11 @@ namespace Graphics {
 		{
 			PROFILE_SCOPED()
 			r->DrawMesh(m_diskMesh.get(), mat);
+		}
+
+		Graphics::VertexFormatDesc Disk::GetVertexFormat() const
+		{
+			return m_diskMesh->GetFormat();
 		}
 
 		//------------------------------------------------------------
@@ -182,7 +192,7 @@ namespace Graphics {
 			desc.vertexColors = true;
 			m_material.Reset(r->CreateMaterial(desc));
 
-			Graphics::VertexBufferDesc vbd;
+			Graphics::VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
 			vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
 			vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
@@ -259,7 +269,7 @@ namespace Graphics {
 
 			/*
 			if (!m_lineMesh.Valid()) {
-				Graphics::VertexBufferDesc vbd = VertexBufferDesc::FromAttribSet(m_va->GetAttributeSet());
+				Graphics::VertexFormatDesc vbd = VertexFormatDesc::FromAttribSet(m_va->GetAttributeSet());
 				vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
 				vbd.numVertices = m_va->GetNumVerts() * 2; // ask for twice as many as we need to reduce buffer thrashing
 				m_lineMesh.Reset(r->CreateMeshObject(r->CreateVertexBuffer(vbd)));
@@ -278,6 +288,11 @@ namespace Graphics {
 			// r->DrawMesh(m_lineMesh.Get(), mat);
 			r->DrawBuffer(m_va.get(), mat);
 			// glLineWidth(1.f);
+		}
+
+		Graphics::VertexFormatDesc Lines::GetVertexFormat() const
+		{
+			return Graphics::VertexFormatDesc::FromAttribSet(m_va->GetAttributeSet());
 		}
 
 		//------------------------------------------------------------
@@ -317,8 +332,7 @@ namespace Graphics {
 
 			m_va->normal.reserve(count);
 			for (int i = 0; i < count; i++) {
-				vector3f vSize(sizes[i]);
-				m_va->normal.push_back(vSize);
+				m_va->normal.emplace_back(sizes[i]);
 			}
 		}
 
@@ -337,10 +351,15 @@ namespace Graphics {
 
 			if (m_refreshVertexBuffer) {
 				m_refreshVertexBuffer = false;
-				m_pointData->GetVertexBuffer()->Populate(*m_va);
+				m_va->Populate(m_pointData->GetVertexBuffer());
 			}
 
 			r->DrawMesh(m_pointData.Get(), mat);
+		}
+
+		Graphics::VertexFormatDesc PointSprites::GetVertexFormat() const
+		{
+			return Graphics::VertexFormatDesc::FromAttribSet(m_va->GetAttributeSet());
 		}
 
 		//------------------------------------------------------------
@@ -454,10 +473,15 @@ namespace Graphics {
 
 			if (m_refreshVertexBuffer) {
 				m_refreshVertexBuffer = false;
-				m_pointMesh->GetVertexBuffer()->Populate(*m_va);
+				m_va->Populate(m_pointMesh->GetVertexBuffer());
 			}
 
 			r->DrawMesh(m_pointMesh.Get(), mat);
+		}
+
+		Graphics::VertexFormatDesc Points::GetVertexFormat() const
+		{
+			return Graphics::VertexFormatDesc::FromAttribSet(m_va->GetAttributeSet());
 		}
 
 		//------------------------------------------------------------
@@ -478,16 +502,36 @@ namespace Graphics {
 			{ 6, 1, 10 }, { 9, 0, 11 }, { 9, 11, 2 }, { 9, 2, 5 }, { 7, 2, 11 }
 		};
 
+		// NB: { num vertices, num indices }
+		// num indices == (num_vertices + 8) * 3
+		// The original formula used to reserve space was WILDLY wrong "(subdivs * subdivs) * 20 * 3"
+		// I bet there's a really clever way to calculate the vertices and indices, a smart person could do it
+		// ...but this is me, and here's a table that I generated through brute force - AndyC
+		static const size_t icosahedron_counts[11][2] = {
+			{ 12, 60 }, // subdivs 0
+			{ 72, 240 },
+			{ 312, 960 },
+			{ 1272, 3840 },
+			{ 5112, 15360 }, // subdivs 4 (old default planet atmospheres)
+			{ 20472, 61440 }, // subdivs 5 (current default planet atmospheres)
+			{ 81912, 245760 },
+			{ 327672, 983040 },
+			{ 1310712, 3932160 },
+			{ 5242872, 15728640 },
+			{ 20971512, 62914560 } // subdivs 10
+		};
+
 		Graphics::MeshObject *Icosphere::Generate(Graphics::Renderer *r, int subdivs, float scale, AttributeSet attribs)
 		{
-			subdivs = Clamp(subdivs, 0, 4);
+			subdivs = Clamp(subdivs, 0, 10);
 			scale = fabs(scale);
-			matrix4x4f trans = matrix4x4f::Identity();
+			matrix4x4f trans = matrix4x4f::Identity;
 			trans.Scale(scale, scale, scale);
 
-			//reserve some data - ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0
-			VertexArray vts(attribs, (subdivs * subdivs) * 20 * 3);
+			// Reserve space for vertices and indices
+			VertexArray vts(attribs, icosahedron_counts[subdivs][0]);
 			std::vector<Uint32> indices;
+			indices.reserve(icosahedron_counts[subdivs][1]);
 
 			//initial vertices
 			int vi[12];
@@ -507,7 +551,7 @@ namespace Graphics {
 					subdivs);
 			}
 
-			//Create vtx & index buffers and copy data
+			// Create index buffer
 			Graphics::IndexBuffer *indexBuffer = r->CreateIndexBuffer(indices.size(), BUFFER_USAGE_STATIC);
 			Uint32 *idxPtr = indexBuffer->Map(Graphics::BUFFER_MAP_WRITE);
 			for (auto it : indices) {
@@ -516,19 +560,20 @@ namespace Graphics {
 			}
 			indexBuffer->Unmap();
 
+			// Generate mesh from vtx and indexBuffer
 			return r->CreateMeshObjectFromArray(&vts, indexBuffer);
 		}
 
 		int Icosphere::AddVertex(VertexArray &vts, const vector3f &v, const vector3f &n)
 		{
 			PROFILE_SCOPED()
-			vts.position.push_back(v);
+			vts.position.emplace_back(v);
 			if (vts.HasAttrib(ATTRIB_NORMAL)) {
-				vts.normal.push_back(n);
+				vts.normal.emplace_back(n);
 			}
 			if (vts.HasAttrib(ATTRIB_UV0)) {
 				//http://www.mvps.org/directx/articles/spheremap.htm
-				vts.uv0.push_back(vector2f(asinf(n.x) / M_PI + 0.5f, asinf(n.y) / M_PI + 0.5f));
+				vts.uv0.emplace_back(asinf(n.x) / M_PI + 0.5f, asinf(n.y) / M_PI + 0.5f);
 			}
 			return vts.GetNumVerts() - 1;
 		}
@@ -536,9 +581,9 @@ namespace Graphics {
 		void Icosphere::AddTriangle(std::vector<Uint32> &indices, int i1, int i2, int i3)
 		{
 			PROFILE_SCOPED()
-			indices.push_back(i1);
-			indices.push_back(i2);
-			indices.push_back(i3);
+			indices.emplace_back(i1);
+			indices.emplace_back(i2);
+			indices.emplace_back(i3);
 		}
 
 		void Icosphere::Subdivide(VertexArray &vts, std::vector<Uint32> &indices,
@@ -565,19 +610,23 @@ namespace Graphics {
 
 		//------------------------------------------------------------
 
-		Sphere3D::Sphere3D(Renderer *renderer, RefCountedPtr<Material> mat, int subdivs, float scale, AttributeSet attribs)
+		Sphere3D::Sphere3D(Renderer *renderer, int subdivs, float scale, AttributeSet attribs)
 		{
 			PROFILE_SCOPED()
 			assert(attribs.HasAttrib(ATTRIB_POSITION));
 
-			m_material = mat;
 			m_sphereMesh.reset(Icosphere::Generate(renderer, subdivs, scale, attribs));
 		}
 
-		void Sphere3D::Draw(Renderer *r)
+		void Sphere3D::Draw(Renderer *r, Material *mat)
 		{
 			PROFILE_SCOPED()
-			r->DrawMesh(m_sphereMesh.get(), m_material.Get());
+			r->DrawMesh(m_sphereMesh.get(), mat);
+		}
+
+		Graphics::VertexFormatDesc Sphere3D::GetVertexFormat() const
+		{
+			return m_sphereMesh->GetFormat();
 		}
 
 		//------------------------------------------------------------
@@ -614,7 +663,7 @@ namespace Graphics {
 			vertices.Add(vector3f(halfsz.x, halfsz.y, 0.0f), vector2f(texSize.x, 0.0f));
 
 			//Create vtx & index buffers and copy data
-			VertexBufferDesc vbd;
+			VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = ATTRIB_POSITION;
 			vbd.attrib[0].format = ATTRIB_FORMAT_FLOAT3;
 			vbd.attrib[1].semantic = ATTRIB_UV0;
@@ -649,7 +698,7 @@ namespace Graphics {
 			vertices.Add(vector3f(pos.x + size.x, pos.y + size.y, 0.0f), vector2f(texPos.x + texSize.x, texPos.y));
 
 			//Create vtx & index buffers and copy data
-			VertexBufferDesc vbd;
+			VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = ATTRIB_POSITION;
 			vbd.attrib[0].format = ATTRIB_FORMAT_FLOAT3;
 			vbd.attrib[1].semantic = ATTRIB_UV0;
@@ -668,7 +717,7 @@ namespace Graphics {
 			m_renderState = state;
 
 			//Create vtx & index buffers and copy data
-			VertexBufferDesc vbd;
+			VertexFormatDesc vbd;
 
 			Uint32 attribIdx = 0;
 			assert(va.HasAttrib(ATTRIB_POSITION));
@@ -737,7 +786,7 @@ namespace Graphics {
 			bgArr.Add(vector3f(size.x, pos.y, 0), c);
 			bgArr.Add(vector3f(pos.x, pos.y, 0), c);
 
-			VertexBufferDesc vbd;
+			VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = ATTRIB_POSITION;
 			vbd.attrib[0].format = ATTRIB_FORMAT_FLOAT3;
 			vbd.attrib[1].semantic = ATTRIB_DIFFUSE;
@@ -783,7 +832,7 @@ namespace Graphics {
 			desc.vertexColors = true;
 			m_material.Reset(r->CreateMaterial(desc));
 
-			VertexBufferDesc vbd;
+			VertexFormatDesc vbd;
 			vbd.attrib[0].semantic = ATTRIB_POSITION;
 			vbd.attrib[0].format = ATTRIB_FORMAT_FLOAT3;
 			vbd.attrib[1].semantic = ATTRIB_DIFFUSE;
@@ -858,7 +907,9 @@ namespace Graphics {
 			rsd.cullMode = Graphics::CULL_NONE;
 			rsd.depthWrite = false;
 
-			m_gridMat.reset(r->CreateMaterial("grid", {}, rsd));
+			Graphics::VertexFormatDesc vfmt = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+
+			m_gridMat.reset(r->CreateMaterial("grid", {}, rsd, vfmt));
 		}
 
 		void GridLines::SetLineColors(Color minorLineColor, Color majorLineColor, float lineWidth)
@@ -873,12 +924,12 @@ namespace Graphics {
 			Graphics::VertexArray va = Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
 			// Generate two triangles for the grid plane
-			va.Add(vector3f( grid_size.x, 0, -grid_size.y), vector2f( grid_size.x, -grid_size.y));
-			va.Add(vector3f(-grid_size.x, 0,  grid_size.y), vector2f(-grid_size.x,  grid_size.y));
+			va.Add(vector3f(grid_size.x, 0, -grid_size.y), vector2f(grid_size.x, -grid_size.y));
+			va.Add(vector3f(-grid_size.x, 0, grid_size.y), vector2f(-grid_size.x, grid_size.y));
 			va.Add(vector3f(-grid_size.x, 0, -grid_size.y), vector2f(-grid_size.x, -grid_size.y));
-			va.Add(vector3f( grid_size.x, 0, -grid_size.y), vector2f( grid_size.x, -grid_size.y));
-			va.Add(vector3f( grid_size.x, 0,  grid_size.y), vector2f( grid_size.x,  grid_size.y));
-			va.Add(vector3f(-grid_size.x, 0,  grid_size.y), vector2f(-grid_size.x,  grid_size.y));
+			va.Add(vector3f(grid_size.x, 0, -grid_size.y), vector2f(grid_size.x, -grid_size.y));
+			va.Add(vector3f(grid_size.x, 0, grid_size.y), vector2f(grid_size.x, grid_size.y));
+			va.Add(vector3f(-grid_size.x, 0, grid_size.y), vector2f(-grid_size.x, grid_size.y));
 
 			GridData data = {};
 			data.thin_color = m_minorColor.ToColor4f();
@@ -902,6 +953,7 @@ namespace Graphics {
 		};
 
 		GridSphere::GridSphere(Graphics::Renderer *r, uint32_t num_subdivs) :
+			m_sphereMesh(Icosphere::Generate(r, num_subdivs, 1.f, Graphics::ATTRIB_POSITION)),
 			m_minorColor(Color(160, 160, 160)),
 			m_majorColor(Color(255, 255, 255)),
 			m_lineWidth(2.0f),
@@ -912,7 +964,7 @@ namespace Graphics {
 			rsd.cullMode = Graphics::CULL_NONE;
 			rsd.depthWrite = false;
 
-			m_gridMat.reset(r->CreateMaterial("gridsphere", {}, rsd));
+			m_gridMat.reset(r->CreateMaterial("gridsphere", {}, rsd, m_sphereMesh->GetFormat()));
 		}
 
 		void GridSphere::SetLineColors(Color minorLineColor, Color majorLineColor, float lineWidth)
@@ -924,10 +976,6 @@ namespace Graphics {
 
 		void GridSphere::Draw(Graphics::Renderer *r, float lineSpacing)
 		{
-			if (!m_sphereMesh) {
-				m_sphereMesh.reset(Icosphere::Generate(r, m_numSubdivs, 1.f, Graphics::ATTRIB_POSITION));
-			}
-
 			GridData data = {};
 			data.thin_color = m_minorColor.ToColor4f();
 			data.thick_color = m_majorColor.ToColor4f();
@@ -942,14 +990,6 @@ namespace Graphics {
 		Axes3D::Axes3D(Graphics::Renderer *r)
 		{
 			PROFILE_SCOPED()
-
-			Graphics::MaterialDescriptor desc;
-
-			Graphics::RenderStateDesc rsd;
-			rsd.cullMode = Graphics::CULL_NONE;
-			rsd.depthWrite = false;
-			rsd.primitiveType = Graphics::LINE_SINGLE;
-			m_axesMat.Reset(r->CreateMaterial("vtxColor", desc, rsd));
 
 			VertexArray vertices(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 
@@ -977,6 +1017,14 @@ namespace Graphics {
 
 			//Create vtx buffer and copy data
 			m_axesMesh.Reset(r->CreateMeshObjectFromArray(&vertices));
+
+			Graphics::MaterialDescriptor desc;
+
+			Graphics::RenderStateDesc rsd;
+			rsd.cullMode = Graphics::CULL_NONE;
+			rsd.depthWrite = false;
+			rsd.primitiveType = Graphics::LINE_SINGLE;
+			m_axesMat.Reset(r->CreateMaterial("vtxColor", desc, rsd, m_axesMesh->GetFormat()));
 		}
 
 		void Axes3D::Draw(Graphics::Renderer *r)
@@ -992,6 +1040,96 @@ namespace Graphics {
 				s_axes = new Axes3D(r);
 			}
 			return s_axes;
+		}
+
+		void AABB::DrawVertices(Graphics::VertexArray &va, const matrix4x4f &transform, const Aabb &aabb, Color color)
+		{
+			const vector3f verts[16] = {
+				transform * vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
+				transform * vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
+				transform * vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
+				transform * vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
+				transform * vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
+				transform * vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
+				transform * vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
+				transform * vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
+
+				transform * vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
+				transform * vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
+				transform * vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
+				transform * vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
+				transform * vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
+				transform * vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
+				transform * vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
+				transform * vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
+			};
+
+			for (unsigned int i = 0; i < 7; i++) {
+				va.Add(verts[i], color);
+				va.Add(verts[i + 1], color);
+			}
+
+			for (unsigned int i = 8; i < 15; i++) {
+				va.Add(verts[i], color);
+				va.Add(verts[i + 1], color);
+			}
+		}
+
+		//------------------------------------------------------------
+		Label3D::Label3D(Graphics::Renderer *r, const std::string &str)
+		{
+			Graphics::Texture *sdfTex = Graphics::TextureBuilder("fonts/label3d.dds", Graphics::LINEAR_CLAMP, true, true, true).GetOrCreateTexture(r, "model");
+			m_font.Reset(new Text::DistanceFieldFont("fonts/sdf_definition.txt", sdfTex));
+
+			Graphics::MaterialDescriptor matdesc;
+			matdesc.textures = 1;
+			matdesc.alphaTest = true;
+			matdesc.lighting = true;
+
+			Graphics::RenderStateDesc rsd;
+			rsd.depthWrite = false;
+			rsd.blendMode = Graphics::BLEND_ALPHA;
+
+			m_geometry.reset(m_font->CreateVertexArray());
+
+			auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(m_geometry->GetAttributeSet());
+
+			m_material.Reset(r->CreateMaterial("label", matdesc, rsd, vtxFormat));
+			m_material->SetTexture("texture0"_hash, m_font->GetTexture());
+			m_material->diffuse = Color::WHITE;
+			m_material->emissive = Color(38, 38, 38);
+			m_material->specular = Color::WHITE;
+
+			SetText(r, str);
+		}
+
+		void Label3D::SetText(Graphics::Renderer *r, const std::string &text)
+		{
+			//regenerate geometry
+			m_geometry->Clear();
+			m_textMesh.reset();
+
+			if (!text.empty()) {
+				m_font->GetGeometry(*m_geometry, text, vector2f(0.f));
+
+				// Happens if none of the characters in the string have glyphs in the SDF font.
+				// Most noticeably, this means text consisting of entirely Cyrillic
+				// or Chinese characters will vanish when rendered on a Label3D.
+				if (m_geometry->IsEmpty()) {
+					return;
+				}
+
+				//create buffer and upload data
+				m_textMesh.reset(r->CreateMeshObjectFromArray(m_geometry.get()));
+			}
+		}
+
+		void Label3D::Draw(Graphics::Renderer *r, const matrix4x4f &trans)
+		{
+			if (r!=nullptr && m_textMesh.get()) {
+				r->SetTransform(trans);
+				r->DrawMesh(m_textMesh.get(), m_material.Get());
+			}
 		}
 
 	} // namespace Drawables

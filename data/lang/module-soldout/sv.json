@@ -5,7 +5,7 @@
   },
   "AMOUNT": {
     "description": "The amount (for now in tonne) of goods person wants to buy",
-    "message": "Jag köper gärna vadhelst du har, upp till {amount}t som jag behöver."
+    "message": "Jag köper gärna vadhelst du har, upp till {amount} t som jag behöver."
   },
   "MESSAGE": {
     "description": "",

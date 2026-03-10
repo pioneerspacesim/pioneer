@@ -1,0 +1,64 @@
+version 2
+
+material "Xylophis_cockpit" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.7 0.7 0.7
+	shininess 69
+	
+	texture diffuse "xylophis_cockpit_diff.dds"
+	texture specular "xylophis_cockpit_spec.dds"
+	texture normal "xylophis_cockpit_norm.png"
+	texture glow "xylophis_cockpit_glow.dds"
+}
+
+material "Xylophis_cockpit_transparent" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.7 0.7 0.7
+	shininess 69
+	opacity 30
+
+	texture diffuse "xylophis_cockpit_diff.dds"
+	texture specular "xylophis_cockpit_spec.dds"
+	texture normal "xylophis_cockpit_norm.png"
+	texture glow "xylophis_cockpit_glow.dds"
+}
+
+material "Xylophis_cockpit_screen" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.7 0.7 0.7
+	shininess 69
+
+	texture diffuse "xylophis_cockpit_screen_diff.dds"
+	texture specular "xylophis_cockpit_screen_spec.dds"
+	texture glow "xylophis_cockpit_screen_glow.dds"
+}
+
+material "Natrix-fuselage" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.4 0.4 0.4
+	shininess 40
+
+	texture diffuse "../../ships/natrix/natrix_diff.dds"
+	texture specular "../../ships/natrix/natrix_spec.dds"
+	texture normal "../../ships/natrix/natrix_norm.png"
+	texture glow "../../ships/natrix/natrix_glow.dds"
+}
+
+material "Natrix-cockpit" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.4 0.4 0.4
+	shininess 40
+
+	texture diffuse "natrix_cockpit_diff.dds"
+	texture specular "natrix_cockpit_spec.dds"
+	texture normal "natrix_cockpit_norm.png"
+}
+
+lod 100 {
+	mesh "natrix_cockpit.dae"
+}

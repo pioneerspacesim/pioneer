@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Event = require 'Event'
@@ -99,8 +99,12 @@ end
 --=============================================================================
 
 -- Update different scan types at different rates
+-- TODO: these update rates cause excessive updates at high timewarp factors.
+--       This especially impacts the Orbial Scans. It is proposed to replace
+--       this mechanism with a timewarp-invariant timer instead.
+--       See : https://github.com/pioneerspacesim/pioneer/pull/5932#discussion_r1800544550
 local SURFACE_SCAN_UPDATE_RATE = 1
-local ORBITAL_SCAN_UPDATE_RATE = 60
+local ORBITAL_SCAN_UPDATE_RATE = 1
 
 -- Square meters to square kilometers
 local SQUARE_KILOMETERS = 10^6
@@ -143,8 +147,8 @@ function ScanManager:Constructor(ship)
 	---@type ScanManager.SensorData[]
 	self.sensors = {}
 	-- The currently activated sensor that will be used for this scan
-	---@type ScanManager.SensorData
-	self.activeSensor = {}
+	---@type ScanManager.SensorData?
+	self.activeSensor = nil
 
 	-- is the ship's current position within viable scan parameters?
 	self.withinParameters = false
@@ -162,8 +166,8 @@ end
 ---@package
 -- Register an equipment listener on the player's ship
 function ScanManager:SetupShipEquipListener()
-	self.ship.equipSet:AddListener(function(slot)
-		if slot == "sensor" then
+	self.ship:GetComponent("EquipSet"):AddListener(function(_, equip, slot)
+		if equip.slot and equip.slot.type:match("utility.scanner.planet") then
 			self:UpdateSensorEquipInfo()
 		end
 	end)
@@ -175,11 +179,12 @@ end
 -- Scan the ship's equipment and determine its sensor capabilities
 -- Note: this function completely rebuilds the list of sensors when a sensor equipment item is changed on the ship
 function ScanManager:UpdateSensorEquipInfo()
-	local equip = self.ship.equipSet
+	local equip = self.ship:GetComponent("EquipSet")
 
 	self.sensors = {}
 
-	local sensors = equip:Get("sensor")
+	local sensors = equip:GetInstalledOfType("utility.scanner.planet")
+
 	if #sensors == 0 then
 		self.activeSensor = nil
 		self:ClearActiveScan()
@@ -221,17 +226,29 @@ function ScanManager:UpdateSensorEquipInfo()
 
 end
 
+---@param scan ScanData?
+---@return Body?
+function ScanManager:GetScanBodyByType(scan)
+	scan = scan or self.activeScan
+	assert(scan, "ScanManager:GetScanBodyByType: Error: scan was nil")
+	assert(self.scanMap[scan.id], "ScanManager:GetScanBodyByType: Error: scan doesn't belong to current ScanManager")
+	return scan.orbital and scan.bodyPath:GetSystemBody().body or self.ship.frameBody
+end
+
 ---@param body Body
+---@param scan ScanData?
 ---@return number altitude
 ---@return number resolution
-function ScanManager:GetBodyState(body)
-	assert(self.activeScan)
+function ScanManager:GetBodyState(body, scan)
+	scan = scan or self.activeScan
+	assert(scan, "ScanManager:GetBodyState: Error: scan was nil")
+	assert(self.scanMap[scan.id], "ScanManager:GetBodyState: Error: scan doesn't belong to current ScanManager")
+	assert(self.activeSensor, "ScanManager:GetBodyState(): have an active scan without an onboard sensor")
 
 	local altitude
 	local radius = body:GetSystemBody().radius
-	local sensor = self.activeSensor
 
-	if self.activeScan.orbital then
+	if scan.orbital then
 		-- altitude above sea-level
 		altitude = self.ship:GetPositionRelTo(body):length() - radius
 	else
@@ -240,7 +257,7 @@ function ScanManager:GetBodyState(body)
 	end
 
 	-- calculate effective resolution in meters/sample at this altitude
-	local resolution = sensor.resolutionMs * altitude
+	local resolution = self.activeSensor.resolutionMs * altitude
 	return altitude, resolution
 end
 
@@ -261,7 +278,10 @@ function ScanManager:GetState()
 	end
 
 	if self.activeScan then
-		local altitude, resolution = self:GetBodyState(self.ship.frameBody)
+		local body = self:GetScanBodyByType()
+		assert(body)
+
+		local altitude, resolution = self:GetBodyState(body)
 		local isInRange = resolution <= self.activeScan.minResolution
 
 		if altitude > self.activeSensor.minAltitude then
@@ -425,11 +445,18 @@ function ScanManager:CanScanBeActivated(id)
 
 	if scan.complete then return false end
 
-	local frameBody = self.ship.frameBody
-	if not frameBody then return false end
+	local body = self:GetScanBodyByType(scan)
+	if not body then return false end
 
-	if frameBody.path ~= scan.bodyPath then
+	if body.path ~= scan.bodyPath then
 		return false
+	end
+
+	if scan.orbital then
+		local altitude, resolution = self:GetBodyState(body, scan)
+		if(resolution > (scan.minResolution * 1.10)) then
+			return false
+		end
 	end
 
 	if scan.orbital ~= self.activeSensor.orbital then
@@ -490,7 +517,9 @@ end
 ---@package
 function ScanManager:OnEnteredFrame(body)
 	if self.activeScan then
-
+		if self.activeScan.orbital then
+			return
+		end
 		local frameBody = body.frameBody
 
 		if not frameBody or frameBody.path ~= self.activeScan.bodyPath then
@@ -501,22 +530,24 @@ function ScanManager:OnEnteredFrame(body)
 end
 
 -- Start the scanner callback
+---@param force boolean?
 ---@package
-function ScanManager:StartScanCallback()
+function ScanManager:StartScanCallback(force)
 	local updateRate = self.activeScan.orbital and ORBITAL_SCAN_UPDATE_RATE or SURFACE_SCAN_UPDATE_RATE
 
 	-- Immediately trigger a scan update for responsiveness
 	self:OnUpdateScan(self.activeScan)
 
 	-- Don't queue a new scan callback if we're already running one at the right frequency
-	if updateRate == self.activeCallback then
+	-- Force this check if this function was called from ScanManager:Unserialize() because
+	-- callback is not yet setted up
+	if updateRate == self.activeCallback and not force then
 		return
 	end
 
 	self.activeCallback = updateRate
 
 	Timer:CallEvery(updateRate, function()
-
 		-- cancel this callback if the parameters have changed (it's been orphaned)
 		if not self.activeScan or not self.activeSensor or self.activeCallback ~= updateRate then
 			return true
@@ -532,11 +563,11 @@ end
 ---@return boolean cancel
 ---@package
 function ScanManager:OnUpdateScan(scan)
-	local body = self.ship.frameBody
+	local body = self:GetScanBodyByType(scan)
 
 	-- Somehow we don't have a valid body to be scanning
 	if not body then
-		logWarning("ScanManager: owning ship does not have a frameBody to scan!")
+		logWarning("ScanManager: owning ship does not have a system body to scan!")
 		self:ClearActiveScan()
 		return true
 	end
@@ -545,8 +576,17 @@ function ScanManager:OnUpdateScan(scan)
 	local altitude, resolution = self:GetBodyState(body)
 	local currentScanPos = self.ship:GetPositionRelTo(body):normalized()
 
+	if scan.orbital then
+		if(resolution > (scan.minResolution * 1.10)) then
+			self:ClearActiveScan()
+			return true
+		end
+	end
+
 	-- Determine if we're currently in range to record scan data
 	local withinParams = resolution <= scan.minResolution and altitude > self.activeSensor.minAltitude
+
+
 
 	-- Use great-arc distance to calculate the amount of scan coverage in square meters
 	-- distance = Δσ * radius = arctan( |n1 ⨯ n2| / n1 · n2 ) * radius
@@ -560,17 +600,9 @@ function ScanManager:OnUpdateScan(scan)
 		local coverage
 		local beamWidth = self.activeSensor.apertureWidth * altitude
 
-		if scan.orbital then
-			-- percent of total coverage gained per orbit, calculated at the widest point of the body
-			local covPctPerOrbit = beamWidth / (radius * math.pi)
-			local orbitPercent = dS / (math.pi * 2)
-
-			coverage = covPctPerOrbit * orbitPercent
-		else
-			local distance = dS * radius
-			-- total coverage gain in square kilometers
-			coverage = beamWidth * distance / SQUARE_KILOMETERS
-		end
+		local distance = dS * radius
+		-- total coverage gain in square kilometers
+		coverage = beamWidth * distance / SQUARE_KILOMETERS
 
 		scan.coverage = scan.coverage + coverage
 
@@ -610,7 +642,7 @@ function ScanManager:Unserialize()
 
 	-- Restore the scanning callback on loading a saved game
 	if self.activeCallback then
-		self:StartScanCallback()
+		self:StartScanCallback(true)
 	end
 
 	return self

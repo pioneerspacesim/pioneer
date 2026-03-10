@@ -1,0 +1,130 @@
+{
+  "ABOUT": {
+    "description": "",
+    "message": "Névjegy"
+  },
+  "ACKNOWLEDGEMENTS": {
+    "description": "",
+    "message": "Elismerések"
+  },
+  "CONTENT": {
+    "description": "",
+    "message": "Tartalom"
+  },
+  "CONTENT_CONTRIBUTION": {
+    "description": "",
+    "message": "Tartalmi közreműködés"
+  },
+  "CONTRIBUTE": {
+    "description": "",
+    "message": "Hogyan segíthetek?"
+  },
+  "CONTRIBUTE_BODY": {
+    "description": "",
+    "message": "Pioneer a játékosaink és fejlesztőink közreműködésének gyümölcse. Megváltoztatnál, javítanál, valamit? Ötleteid vannak?Részt vennél a fejlesztésben? (például fordítással, kódolással, 3D modellek, 2D-s tartalmak, zene, egyedi naprendszerek készítésével? Netán a dokumentáció csiszolásával?) Az alábbi linkeken megtalálod a részleteket arról, hogyan járulhatsz hozzá a játék fejlődéséhez!"
+  },
+  "DEVELOPER_DOCUMENTATION": {
+    "description": "",
+    "message": "Fejlesztői dokumentáció"
+  },
+  "DOCUMENTATION": {
+    "description": "",
+    "message": "umentáció"
+  },
+  "DONATE_BODY": {
+    "description": "",
+    "message": "Ha tetszik a játékunk, és szeretnéd támogatni a fejlesztők munkáját, kérjük fontold meg, hogy anyagilag támogatsz minket. Nincs túl kicsi adomány."
+  },
+  "DONATE_OPTIONS": {
+    "description": "Sentence continues in 'DONATE_OPTIONS_CONTINUED'",
+    "message": "További támogatási lehetőségekkel kapcsolatban a "
+  },
+  "DONATE_OPTIONS_CONTINUED": {
+    "description": "hyperlink, ending part of sentence in 'DONATE_OPTIONS'",
+    "message": "támogatási oldalunkon"
+  },
+  "DONATE_THANKS": {
+    "description": "",
+    "message": "találhatsz információt. Köszönjük mindenkinek a támogatást!"
+  },
+  "GAME_RELEASE": {
+    "description": "",
+    "message": "Évente, február 3.-án adunk közre stabil verziót, de a fejlesztési munkák folyamatosan folynak. Bátorítjuk pilótáinkat, hogy a legfrissebb build-ekkel való játékra, és a talált hibák jelentésére."
+  },
+  "INFO_BLURB": {
+    "description": "",
+    "message": "Pioneer egy a 31. században a Tejút-rendszerben játszódó egyjátékos űr-kalandjáték."
+  },
+  "INFO_BODY": {
+    "description": "",
+    "message": "A játék nyitott végű, milliónyi naprendszer várja a felfedezőket. Leszálhatsz bolygókon, parittya-manőverel suhanhatsz el gázóriások mellett, vagy ropogósra sülhetsz egy kettős csillagrendszerben. Felcsaphatsz kalóznak, vagy csillagközi kereskedőként gyűjthetsz vagyont, netán a külöböző egymással a hatalomért, szabadságért, önös érdekekért küzdő frakciók küldetéseit végrehajtva juthatsz előre."
+  },
+  "LICENSE": {
+    "description": "",
+    "message": "Licensz"
+  },
+  "LINK_BASIC_FLIGHT": {
+    "description": "",
+    "message": "Repülési alapok"
+  },
+  "LINK_BUG_TRACKER": {
+    "description": "",
+    "message": "Bug és hiba követő"
+  },
+  "LINK_COMMUNITY_CHAT": {
+    "description": "",
+    "message": "Közösségi chat (Discord)"
+  },
+  "LINK_COMMUNITY_FORUM": {
+    "description": "",
+    "message": "Közösségi fórum"
+  },
+  "LINK_DEVELOPER_CHAT": {
+    "description": "",
+    "message": "Fejlesztői chat (IRC)"
+  },
+  "LINK_DEVELOPER_FORUM": {
+    "description": "",
+    "message": "Fejlesztői fórum"
+  },
+  "LINK_FAQ": {
+    "description": "",
+    "message": "GYIK"
+  },
+  "LINK_HOMEPAGE": {
+    "description": "",
+    "message": "Honlap"
+  },
+  "LINK_MANUAL": {
+    "description": "",
+    "message": "Kézikönyv"
+  },
+  "SOFTWARE": {
+    "description": "",
+    "message": "Software"
+  },
+  "SOFTWARE_BODY": {
+    "description": "",
+    "message": "Pioneer az alábbi harmadik fél álltal fejlesztett szoftverek és tartalmak felhasználásával készül"
+  },
+  "SUPPORT_DEVELOPMENT": {
+    "description": "",
+    "message": "Támogasd a fejlesztést"
+  },
+  "TRANSLATIONS": {
+    "description": "",
+    "message": "Fordítások"
+  },
+  "VERSION_CURRENT": {
+    "description": "",
+    "message": "Jelenlegi verzió:"
+  },
+  "VERSION_LATEST": {
+    "description": "This sentence continues into string VERSION_LATEST_CONTINUED, to read 'Latest version from source', referring to the source code",
+    "message": "Legfrissebb verzió a"
+  },
+  "VERSION_LATEST_CONTINUED": {
+    "description": "is continued from string VERSION_LATEST, to read 'Latest version from source'. Here, 'source' refers to the source code",
+    "message": "forráskódból"
+  }
+}

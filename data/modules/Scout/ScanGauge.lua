@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game   = require 'Game'
@@ -15,7 +15,6 @@ local ls = Lang.GetResource('module-scout')
 gauges.registerGauge(10, {
 	value = function()
 		local scanMgr = Game.player:GetComponent("ScanManager")
-
 		local scan = scanMgr and scanMgr:GetActiveScan()
 		if not scan then return nil end
 
@@ -24,5 +23,8 @@ gauges.registerGauge(10, {
 	end,
 	unit = '%', format = '%.2f', min = 0, max = 100,
 	icon = icons.scanner, color = colors.gaugeScanner,
-	tooltip = ls.HUD_SCAN_PROGRESS
+	tooltip = ls.HUD_SCAN_PROGRESS,
+	debugReload = function()
+		package.reimport()
+	end
 })

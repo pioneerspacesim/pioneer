@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui'
@@ -70,7 +70,8 @@ function TableWidget.New(id, title, config)
             onMouseOverItem = config.onMouseOverItem or defaultFuncs.onMouseOverItem,
             onClickItem = config.onClickItem or defaultFuncs.onClickItem,
             sortingFunction = config.sortingFunction or defaultFuncs.sortingFunction,
-			iterator = config.iterator or defaultFuncs.iterator
+			iterator = config.iterator or defaultFuncs.iterator,
+			postRender = config.postRender,
         },
     }
 
@@ -99,8 +100,8 @@ function TableWidget:render()
 			if not self.selectedItem then self.selectionStart = nil end
 
             -- If highlightStart is set, the mouse hovered over an item in the previous frame, so draw a rectangle underneath for highlighting
-            if self.highlightStart then ui.addRectFilled(self.highlightStart, self.highlightEnd, self.style.highlightColor, 0, 0) end
-            if self.selectionStart then ui.addRectFilled(self.selectionStart, self.selectionEnd, self.style.selectionColor, 0, 0) end
+            if self.highlightStart then ui.addRectFilled(self.highlightStart, self.highlightEnd, self.highlightColor, 0, ui.RoundCornersNone) end
+            if self.selectionStart then ui.addRectFilled(self.selectionStart, self.selectionEnd, self.style.selectionColor, 0, ui.RoundCornersNone) end
 
             -- We're using self.columnCount+1 to help with calculating the bounds of the highling rect
             -- ui.getCursorPos() always returns the top-left corner of a column, so to get the max x-coordninate of
@@ -121,11 +122,14 @@ function TableWidget:render()
 
             self.highlightStart = nil
             self.highlightEnd = nil
+			self.highlightColor = nil
 
             for key, item in self.funcs.iterator(self.items) do
 				startPos = ui.getCursorScreenPos() - Vector2(4, selOffset)
 
-				self.funcs.renderItem(self, item, key)
+				local highlightColor = self.funcs.renderItem(self, item, key)
+
+				highlightColor = highlightColor or self.style.highlightColor
 
                 endPos = ui.getCursorScreenPos()
 
@@ -143,6 +147,7 @@ function TableWidget:render()
 
                     self.highlightStart = startPos
                     self.highlightEnd = endPos
+					self.highlightColor = highlightColor
 				end
 
 				if self.selectedItem == item then
@@ -152,6 +157,10 @@ function TableWidget:render()
             end
 
             ui.columns(1, "", false)
+
+			if self.funcs.postRender then
+				self.funcs.postRender(self)
+			end
         end)
     end)
 end

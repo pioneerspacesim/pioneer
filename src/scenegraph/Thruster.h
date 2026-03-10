@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SCENEGRAPH_THRUSTER_H
@@ -6,8 +6,8 @@
 /*
  * Spaceship thruster
  */
+
 #include "Node.h"
-#include "libs.h"
 
 namespace Graphics {
 	class Renderer;
@@ -23,10 +23,10 @@ namespace SceneGraph {
 		Thruster(Graphics::Renderer *, bool linear, const vector3f &pos, const vector3f &dir);
 		Thruster(const Thruster &, NodeCopyCache *cache = 0);
 		Node *Clone(NodeCopyCache *cache = 0) override;
-		virtual void Accept(NodeVisitor &v) override;
-		virtual const char *GetTypeName() const override { return "Thruster"; }
-		virtual void Render(const matrix4x4f &trans, const RenderData *rd) override;
-		virtual void Save(NodeDatabase &) override;
+		void Accept(NodeVisitor &v) override;
+		const char *GetTypeName() const override { return "Thruster"; }
+		void Render(const matrix4x4f &trans, const RenderData *rd) override;
+		void Save(NodeDatabase &) override;
 		static Thruster *Load(NodeDatabase &);
 		void SetColor(const Color c) { currentColor = c; }
 		const vector3f &GetDirection() { return dir; }
@@ -44,6 +44,7 @@ namespace SceneGraph {
 		vector3f dir;
 		vector3f pos;
 		Color currentColor;
+		float displayedPower; // used to fade in/out to power (size) of thruster shown
 	};
 
 } // namespace SceneGraph

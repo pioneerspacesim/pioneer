@@ -26,7 +26,7 @@ void RadarWidget::DrawPiGui()
 	ImDrawList *drawList = ImGui::GetWindowDrawList();
 	ImVec2 pos = ImGui::GetCursorScreenPos();
 	m_center = ImVec2(pos.x + m_size.x / 2.f, pos.y + m_size.y / 2.f);
-	ImVec2 zoomPos = ImVec2(m_center.x, m_center.y + (m_size.y / 2.f - 4.f) - m_radius.y);
+	ImVec2 zoomPos = ImVec2(m_center.x, m_center.y + (m_size.y / 2.6f) - m_radius.y);
 
 	static const float circle = float(2 * M_PI);
 	static const float step = circle / RADAR_STEPS;
@@ -66,7 +66,7 @@ void RadarWidget::DrawPiGui()
 	for (float ang = 0; ang < circle; ang += step) {
 		drawList->PathLineTo(circlePos(ang, m_center, m_radius));
 	}
-	drawList->PathStroke(ImGui::GetColorU32(ImGuiCol_FrameBgActive), true);
+	drawList->PathStroke(ImGui::GetColorU32(ImGuiCol_FrameBgActive), true, 2.0);
 
 	// inner ring
 	for (float ang = 0; ang < circle; ang += circle / 20.f) {

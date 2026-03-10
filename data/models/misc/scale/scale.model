@@ -1,20 +1,32 @@
-material Scale
-tex_diff scale.dds
-diffuse 1.0 1.0 1.0
-unlit
+version 2
 
-material Misc
-diffuse 1.0 0.0 0.0
-specular 0.0 0.0 0.0
+material "Scale" {
+	shader "multi"
+	texture diffuse  "scale.dds"
+	diffuse 1.0 1.0 1.0
+	unlit
+}
 
-material Shuttle
-tex_diff shuttle.dds
-alpha_test
-unlit
+material "Misc" {
+	shader "multi"
+	diffuse 1.0 0.0 0.0
+	specular 0.0 0.0 0.0
+}
 
-material Shuttle_top
-tex_diff shuttle_top.dds
-alpha_test
-unlit
+material "Shuttle" {
+	shader "multi"
+	texture diffuse  "shuttle.dds"
+	alpha_test
+	unlit
+}
 
-mesh scale.dae
+material "Shuttle_top" {
+	shader "multi"
+	texture diffuse  "shuttle_top.dds"
+	alpha_test
+	unlit
+}
+
+lod 100 {
+	mesh "scale.dae"
+}

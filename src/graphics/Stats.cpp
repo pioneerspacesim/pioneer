@@ -1,8 +1,9 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "MathUtil.h"
 #include "Stats.h"
-#include "libs.h"
+
 #include <cassert>
 
 namespace Graphics {
@@ -15,6 +16,8 @@ namespace Graphics {
 
 		m_counterRefs = {
 			GetOrCreateCounter("DrawMesh Calls"),
+			GetOrCreateCounter("DrawMesh Instance Calls"),
+			GetOrCreateCounter("DrawMesh Instanced Calls"),
 			GetOrCreateCounter("Num Points Drawn"),
 			GetOrCreateCounter("Num Lines Drawn"),
 			GetOrCreateCounter("Num Tris Drawn"),

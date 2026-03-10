@@ -1,16 +1,14 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _PI_H
 #define _PI_H
 
 #include "Random.h"
+#include "MathUtil.h"
 #include "core/GuiApplication.h"
 #include "gameconsts.h"
-#include "libs.h"
 
-#include "SDL_keyboard.h"
-#include <sigc++/sigc++.h>
 #include <map>
 #include <string>
 #include <vector>
@@ -97,8 +95,8 @@ public:
 		App() :
 			GuiApplication("Pioneer") {}
 
-		void Startup() override;
-		void Shutdown() override;
+		void OnStartup() override;
+		void OnShutdown() override;
 
 		void PreUpdate() override;
 		void PostUpdate() override;
@@ -106,6 +104,8 @@ public:
 		void RunJobs();
 
 		void HandleRequests();
+
+		void OnWindowKeyboardFocusChanged(bool newFocus) override;
 
 	private:
 		// msgs/requests that can be posted which the game processes at the end of a game loop in HandleRequests
@@ -126,6 +126,7 @@ public:
 
 public:
 	static void Init(const std::map<std::string, std::string> &options, bool no_gui = false);
+	static void Uninit();
 
 	static void StartGame(Game *game);
 
@@ -144,21 +145,12 @@ public:
 	// FIXME: hacked-in singleton pattern, find a better way to locate the application
 	static App *GetApp() { return m_instance; }
 
-	static bool IsNavTunnelDisplayed() { return navTunnelDisplayed; }
-	static void SetNavTunnelDisplayed(bool state) { navTunnelDisplayed = state; }
 	static bool AreSpeedLinesDisplayed() { return speedLinesDisplayed; }
 	static void SetSpeedLinesDisplayed(bool state) { speedLinesDisplayed = state; }
 	static bool AreHudTrailsDisplayed() { return hudTrailsDisplayed; }
 	static void SetHudTrailsDisplayed(bool state) { hudTrailsDisplayed = state; }
 
-	// Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
-	// This is a default value only, centralized here to promote uniform user expericience.
-	static float GetMoveSpeedShiftModifier();
-
-	static std::string GetSaveDir();
 	static SceneGraph::Model *FindModel(const std::string &, bool allowPlaceholder = true);
-
-	static const char SAVE_DIR_NAME[];
 
 	static LuaSerializer *luaSerializer;
 	static LuaTimer *luaTimer;
@@ -176,6 +168,7 @@ public:
 	static int statNumPatches;
 
 	static void SetView(View *v);
+	static bool SetView(const std::string& view_name);
 	static View *GetView() { return currentView; }
 
 	static void SetAmountBackgroundStars(const float pc)
@@ -238,14 +231,11 @@ private:
 
 	static Sound::MusicPlayer musicPlayer;
 
-	static bool navTunnelDisplayed;
 	static bool speedLinesDisplayed;
 	static bool hudTrailsDisplayed;
 	static bool bRefreshBackgroundStars;
 	static float amountOfBackgroundStarsDisplayed;
 	static float starFieldStarSizeFactor;
-
-	static bool doingMouseGrab;
 
 	static bool isRecordingVideo;
 	static FILE *ffmpegFile;

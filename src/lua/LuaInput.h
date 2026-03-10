@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef LUAINPUT_H
@@ -13,6 +13,8 @@ namespace InputBindings {
 
 namespace LuaInput {
 	void Register();
+
+	void Uninit();
 }
 
 void pi_lua_generic_pull(lua_State *l, int index, InputBindings::KeyChord &out);

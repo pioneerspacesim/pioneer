@@ -1,18 +1,25 @@
-material DefaultMaterial
-tex_diff Mall_D.dds
-tex_glow Mall_G.dds
-tex_spec Mall_S.dds
-diffuse 1.0 1.0 1.0
-specular 0.8 0.8 0.8
-shininess 90
+version 2
 
-lod 50
-mesh MallLQ.obj
+material "DefaultMaterial" {
+	shader "multi"
+	texture diffuse  "Mall_D.dds"
+	texture glow     "Mall_G.dds"
+	texture specular "Mall_S.dds"
+	diffuse 1.0 1.0 1.0
+	specular 0.8 0.8 0.8
+	shininess 90
+}
 
-lod 70
-mesh MallMQ.obj
+lod 50 {
+	mesh "MallLQ.obj"
+}
 
-lod 100
-mesh MallHQ.obj
+lod 70 {
+	mesh "MallMQ.obj"
+}
 
-collision MallLQ.obj
+lod 100 {
+	mesh "MallHQ.obj"
+}
+
+collision "MallLQ.obj"

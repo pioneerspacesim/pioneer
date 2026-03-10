@@ -1,7 +1,11 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "NodeVisitor.h"
+
+#include <string>
+#include <vector>
+
 /*
  * Print the graph structure to console
  * Collect statistics

@@ -137,7 +137,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "{target} uzay tozuna indirgenmeli. Bunu yapman için seni {cash} ile ödüllendireceğim."
+    "message": "{target} uzay tozu olmalı. Bunun için size {cash} vereceğim."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -202,6 +202,14 @@
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
     "message": "{target} {spaceport}ndan ayrıldıktan sonra yapılmalı. Bu fırsatı kaçırma"
+  },
+  "IT_MUST_BE_DONE_AFTER_FEMALE": {
+    "description": "",
+    "message": "Hedef {spaceport} limanından ayrılınca olay gerçekleşmeli. Bu şansı kaçırma."
+  },
+  "IT_MUST_BE_DONE_AFTER_MALE": {
+    "description": "",
+    "message": "Hedef {spaceport} limanından ayrılınca olay gerçekleşmeli. Bu şansı kaçırma."
   },
   "OK_AGREED": {
     "description": "",
@@ -345,10 +353,18 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "{target} nerede bulunabilir?"
+    "message": "Hedefi nerede bulabilirim?"
   },
   "X_WILL_BE_LEAVING": {
-    "description": "",
-    "message": "{dist} Iy uzaklıktaki {system} system ({sectorX}, {sectorY}, {sectorZ}) sistemindeki {spaceport} limanından {date} tarihinde ayrılıyor olacak. Gemi {shipname} ve kayıt numarası {shipregid}."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target}, {dist} ıy uzaklıktaki {system} sistemindeki ({sectorX}, {sectorY}, {sectorZ}) {spaceport} limanını {date} tarihinde terk edecek. Gemi {ship_indef} ve kayıt kimliği {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_FEMALE": {
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target}, {dist} ıy uzaklıktaki {system} sistemindeki ({sectorX}, {sectorY}, {sectorZ}) {spaceport} limanını {date} tarihinde terk edecek. Gemi {ship_indef} ve kayıt kimliği {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_MALE": {
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target}, {dist} ıy uzaklıktaki {system} sistemindeki ({sectorX}, {sectorY}, {sectorZ}) {spaceport} limanını {date} tarihinde terk edecek. Gemi {ship_indef} ve kayıt kimliği {shipregid}."
   }
 }

@@ -1,11 +1,12 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _STRINGF_H
 #define _STRINGF_H
 
-#include "libs.h"
-#include <SDL_stdinc.h>
+#include "fixed.h"
+#include "core/macros.h"
+
 #include <string>
 
 //   provides (for integer types, floating point types, const char* and std::string):

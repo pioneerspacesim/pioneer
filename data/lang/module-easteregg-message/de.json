@@ -1,6 +1,6 @@
 {
   "FLAVOUR_0_BODY": {
-    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC",
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC. It is formated as a list",
     "message": "Ruf einfach 36 24 36 an, ich bin immer zu Hause. Ich handle mit:\n- Betonschuhen,\n- Zyanit,\n- TNT,\n- Krawatten,\n- Verträgen\n- Hochspannung,\n\n… oder besuch mich einfach privat."
   },
   "FLAVOUR_0_DESC": {
@@ -22,5 +22,17 @@
   "FLAVOUR_1_TITLE": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",
     "message": "BRAUCHST DU JEMANDEN, AN DEN DU DICH WENDEN KANNST?"
+  },
+  "FLAVOUR_2_BODY": {
+    "description": "A very rare easter egg, referencing a online myth from 90s: https://en.wikipedia.org/wiki/John_Titor",
+    "message": "Ich bin John Titor vom Time Travel Institut und komme aus dem Jahr 4036. Ich bin auf dem Weg zurück ins Jahr 1975 um einen IBM 5100 Computer abzuholen, mit dem ich Computerprogramme debuggen kann, die nicht fehlerfrei auf die Computer in meiner Zeit portiert worden sind. Aber bevor ich weiterreise möchte ich Informationen über eure Zeit sammeln, bevor sie in der großen Katastrophe verloren gehen.\n\nIch werde bald mit einer sechteiligen Beschreibung für den Bau und Betrieb einer Zeitmaschine zurückzukehren. Kurzgesagt, meine Zeitmaschine ist eine temporale Verdrängungsmaschine mit stationärer Masse, die von zwei doppelt positiven Topspin-Singularitäten angetrieben wird, die einen Tipler-Sinusoid mit Standard-Offset erzeugen. Die Einheit bewegt sich also durch die Zeit und bleibt im Raum stationär.\n\nAuf Wunsch werde ich gerne Bilder davon posten."
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "Note: string has quotes",
+    "message": "\"Wenn Zeitreisen möglich sind, wo sind dann all die Zeitreisenden?\""
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "A very rare Easter egg, referencing Internet myth of John Titor.",
+    "message": "Menschen der Vergangenheit, hütet euch vor der GROẞEN KATASTROPHE!"
   }
 }

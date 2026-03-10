@@ -1,4 +1,8 @@
 {
+  "ABOUT": {
+    "description": "main menu button (implied 'about' the game)",
+    "message": "Om Pioneer"
+  },
   "ABOVE_AVERAGE": {
     "description": "",
     "message": "Över medel"
@@ -6,6 +10,10 @@
   "ACTIVE": {
     "description": "",
     "message": "Aktiv"
+  },
+  "ADD_BOOKMARK": {
+    "description": "Button to add a singular bookmark",
+    "message": "Lägg till bokmärke"
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
@@ -19,6 +27,10 @@
     "description": "",
     "message": "Tillhörighet:"
   },
+  "ALL_PARAMETERS_WERE_RECOVERED_SUCCESSFULLY": {
+    "description": "Message when restoring savegame",
+    "message": "Alla parametrar återställdes framgångsrikt."
+  },
   "ALL_UP_WEIGHT": {
     "description": "",
     "message": "Totalvikt"
@@ -29,7 +41,7 @@
   },
   "ANISOTROPIC_FILTERING_DESC": {
     "description": "",
-    "message": "Samplar texturen över flera mip-nivåer för att producera en mycket tydligare textur när den ses i ytliga vinklar. Förhindrar att texturerna blir lika suddiga; prestandan kan dock bli lidande."
+    "message": "Samplar texturen över flera mipnivåer för att producera en mycket tydligare textur när den ses i ytliga vinklar. Förhindrar att texturerna blir suddiga; prestandan kan dock bli lidande."
   },
   "AN_ERROR_HAS_OCCURRED": {
     "description": "",
@@ -47,9 +59,17 @@
     "description": "Base external pressure limit of a ship (without atmo shield)",
     "message": "Atmosfäriskt tryck max"
   },
+  "ATTEMPTING_TO_RECOVER_GAME_PROGRESS_FROM_SAVE_X": {
+    "description": "Message when restoring savegame",
+    "message": "Attempting to recover game progress from save: {save}"
+  },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
     "message": "Försök att reparera skrov"
+  },
+  "AUTOMATED_MESSAGE": {
+    "description": "For comm messages from bots",
+    "message": "AUTOMATISKT MEDDELANDE"
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
@@ -59,6 +79,10 @@
     "description": "Market header when buying items",
     "message": "Till salu"
   },
+  "AVAILABLE_STOCK": {
+    "description": "Market stat showing number of items in stock",
+    "message": "Tillgängligt lager"
+  },
   "AVERAGE": {
     "description": "",
     "message": "Medel"
@@ -67,12 +91,32 @@
     "description": "",
     "message": "Accelerera bakåt"
   },
+  "BODY_IN_ROUTE": {
+    "description": "Label indicating a star is part of a planned hyperjump route",
+    "message": "Kropp i planerad hyperrymdsrutt"
+  },
+  "BOOKMARK": {
+    "description": "Label introducing a bookmark",
+    "message": "Bokmärke"
+  },
+  "BOOKMARKS": {
+    "description": "Label introducing a list of bookmarks",
+    "message": "Bokmärken"
+  },
   "BULLETIN_BOARD": {
     "description": "",
     "message": "Anslagstavla"
   },
   "BUY": {
     "description": "Commodities and equipment prices",
+    "message": "Köpa"
+  },
+  "BUY_EQUIP": {
+    "description": "Button text to buy selected equipment. May be used in a singular or plural context.",
+    "message": "Köp {name}"
+  },
+  "BUY_PRICE": {
+    "description": "Title for buy-price column in commodity market",
     "message": "Köpa"
   },
   "BUY_SHIP": {
@@ -98,6 +142,18 @@
   "CANNOT_SELL_ITEM": {
     "description": "",
     "message": "Denna kan ej säljas"
+  },
+  "CANNOT_SELL_NONEMPTY_EQUIP": {
+    "description": "",
+    "message": "Kan inte sälja en utrustningsdel om den inte är tom."
+  },
+  "CANT_FIND_PATH": {
+    "description": "Message when restoring savegame, file path",
+    "message": "Can't find path: %s"
+  },
+  "CANT_FIND_PLAYERS_SHIP_IN_SPACE": {
+    "description": "Message when restoring savegame",
+    "message": "Kan inte hitta spelarens skepp i rymden"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -125,11 +181,15 @@
   },
   "CARGO_T_FREE": {
     "description": "t for tonne",
-    "message": "{amount}t ledigt"
+    "message": "{amount} t ledigt"
   },
   "CARGO_T_USED": {
     "description": "t for tonne",
-    "message": "{amount}t använt"
+    "message": "{amount} t använt"
+  },
+  "CASE_SENSITIVE": {
+    "description": "",
+    "message": "Skiftlägeskänslig"
   },
   "CASH": {
     "description": "",
@@ -138,6 +198,10 @@
   "CASH_N": {
     "description": "",
     "message": "Pengar: {money}"
+  },
+  "CENTER_ON_CURRENT_SYSTEM": {
+    "description": "Center on current star system",
+    "message": "Centrera till nuvarande system"
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
@@ -159,6 +223,14 @@
     "description": "Paintshop button",
     "message": "Byt Mönster"
   },
+  "CHARACTER": {
+    "description": "",
+    "message": "Karaktär"
+  },
+  "CHARISMA": {
+    "description": "Character parameter",
+    "message": "Karisma"
+  },
   "CHIEF_MECHANIC": {
     "description": "",
     "message": "Chefsmekaniker"
@@ -173,7 +245,7 @@
   },
   "CLEAN": {
     "description": "Legal status of player",
-    "message": "Rensa"
+    "message": "Ren"
   },
   "CLEAR": {
     "description": "Clear an option in game settings/options menu",
@@ -191,6 +263,10 @@
     "description": "",
     "message": "Stäng"
   },
+  "COLLAPSE": {
+    "description": "Close / collapse an open folder or group",
+    "message": "Stäng"
+  },
   "COLOR": {
     "description": "",
     "message": "Färg"
@@ -203,6 +279,10 @@
     "description": "",
     "message": "Kapten"
   },
+  "COMMODITY": {
+    "description": "Title for commodity name column in commodity market",
+    "message": "Vara"
+  },
   "COMMODITY_MARKET": {
     "description": "",
     "message": "Råvarumarknad"
@@ -210,6 +290,18 @@
   "COMMODITY_TRADE_ANALYSIS": {
     "description": "",
     "message": "Råvaruhandel analys av:"
+  },
+  "COMMODITY_TRADE_ANALYSIS_SYSTEM": {
+    "description": "",
+    "message": "Systemomfattande handelsanalys av:"
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_1": {
+    "description": "",
+    "message": "Genomsnittligt interstellärt handelsflöde för alla varor som köps och säljs i systemet."
+  },
+  "COMMODITY_TRADE_ANALYSIS_TOOLTIP_2": {
+    "description": "",
+    "message": "Data kanske inte speglar individuella marknadspriser."
   },
   "COMPETENT": {
     "description": "Combat rating",
@@ -251,9 +343,33 @@
     "description": "",
     "message": "Kontrollalternativ"
   },
-  "COULD_NOT_LOAD_GAME": {
+  "COPY": {
+    "description": "As for clipboard",
+    "message": "Kopiera"
+  },
+  "COULD_NOT_DELETE_SAVE": {
     "description": "",
+    "message": "Could not delete save"
+  },
+  "COULD_NOT_FIND_SYSTEM_BODY_FOR_FRAME": {
+    "description": "Message when restoring savegame",
+    "message": "Could not find system body for frame"
+  },
+  "COULD_NOT_LOAD_GAME": {
+    "description": "Label indicating a specific file could not be loaded",
     "message": "Kunde inte ladda spel:"
+  },
+  "COULD_NOT_LOAD_SAVE_FILES": {
+    "description": "Label indicating the list of save files could not be loaded",
+    "message": "Det gick inte att ladda sparade filer"
+  },
+  "COULD_NOT_READ_THE_SAVE_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Could not read the save version"
+  },
+  "COULD_NOT_SAVE_GAME": {
+    "description": "Label indicating a specific file could not be saved",
+    "message": "Det gick inte att spara: "
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -263,6 +379,10 @@
     "description": "in game currency",
     "message": "Krediter"
   },
+  "CREW": {
+    "description": "Tab item in the start game menu",
+    "message": "Besättning"
+  },
   "CREW_CABINS": {
     "description": "",
     "message": "Besättningshytter"
@@ -271,21 +391,37 @@
     "description": "",
     "message": "Besättningslista"
   },
+  "CRIME": {
+    "description": "Heading introducing a single crime name or list of crime names",
+    "message": "Brott"
+  },
   "CRIMINAL": {
     "description": "Legal status of player",
     "message": "Brottsling"
   },
   "CRIMINAL_RECORD": {
-    "description": "Past crimes / crime history of character",
-    "message": "Kriminalregister"
+    "description": "Heading for past crimes / crime history of character, proper noun",
+    "message": "Brottsregister"
   },
   "CURRENT_FUEL": {
-    "description": "For hyperjump planner",
-    "message": "Nuvarande bränsle"
+    "description": "Label indicating the current fuel state",
+    "message": "Nuvarande Bränsle"
+  },
+  "CURRENT_SAVEGAME_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "Current savegame version: %s"
+  },
+  "CURRENT_SHIP": {
+    "description": "For tooltip comparing current ship specs to one in the shipyard",
+    "message": "Nuvarande skepp"
   },
   "CURRENT_SYSTEM": {
-    "description": "For hyperjump planner",
+    "description": "Label indicating the system the player currently occupies",
     "message": "Nuvarande system"
+  },
+  "CUT": {
+    "description": "As for clipboard",
+    "message": "Klipp ut"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
@@ -302,6 +438,18 @@
   "DECREASE": {
     "description": "Decrease something.",
     "message": "Minska"
+  },
+  "DELETE": {
+    "description": "",
+    "message": "Radera"
+  },
+  "DELETE_BOOKMARK": {
+    "description": "Button to remove a singular bookmark",
+    "message": "Avlägsna bokmärke"
+  },
+  "DELETE_SAVE_CONFIRMATION": {
+    "description": "",
+    "message": "Are you sure you want to delete this save?"
   },
   "DELTA_V": {
     "description": "",
@@ -321,11 +469,15 @@
   },
   "DEMAND": {
     "description": "Column label for commodity demand at a market.",
-    "message": "Efterfrågan"
+    "message": "Behov"
   },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "Avresedatum"
+  },
+  "DESCRIPTION": {
+    "description": "Start game parameter, e.g. 'This is an easy start from Cydonia'",
+    "message": "Beskrivning"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -344,7 +496,7 @@
     "message": "Dölj all visad information, inklusive systemkoordinater, i skärmbildsläge (växla HUD-läge)."
   },
   "DISMISS": {
-    "description": "Terminate crew memeber's contract",
+    "description": "Terminate crew member's contract",
     "message": "Avskeda"
   },
   "DISPLAY_HUD_TRAILS": {
@@ -375,6 +527,10 @@
     "description": "",
     "message": "Dockad vid"
   },
+  "DOCKED_TO_A_BODY_THAT_IS_NOT_A_STATION": {
+    "description": "Message when restoring savegame",
+    "message": "Dockad vid en kropp som inte är en station"
+  },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
     "message": "Docka vid nuvarande mål"
@@ -393,7 +549,7 @@
   },
   "D_DAYS_LEFT": {
     "description": "",
-    "message": "Dagar kvar: %d"
+    "message": "Återstående tid:"
   },
   "ECONOMY_TRADE": {
     "description": "",
@@ -402,6 +558,14 @@
   "EDIT": {
     "description": "Tooltip, to edit a flight log entry",
     "message": "Redigera"
+  },
+  "EDIT_BOOKMARK": {
+    "description": "Button to edit a singular bookmark",
+    "message": "Redigera bokmärke"
+  },
+  "EDIT_NOTE": {
+    "description": "",
+    "message": "Redigera anteckning"
   },
   "EFFECTS": {
     "description": "",
@@ -425,7 +589,7 @@
   },
   "ENABLE_AUTOSAVE_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "spara tillstånd vid dockning, kan orsaka viss fördröjning beroende på diskåtkomsttid"
+    "message": "Spara tillstånd vid dockning. Kan orsaka viss fördröjning beroende på diskåtkomsttid"
   },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
@@ -445,7 +609,11 @@
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
-    "message": "Ingenjör:"
+    "message": "Engineering"
+  },
+  "ENTER_CUSTOM_NOTE": {
+    "description": "Label indicating a note should be entered here",
+    "message": "Lägg till anteckning"
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
@@ -454,6 +622,14 @@
   "EQUIPMENT": {
     "description": "",
     "message": "Utrustning"
+  },
+  "EQUIPMENT_ALREADY_INSTALLED_HERE": {
+    "description": "Message indicating this equipment item is already installed.",
+    "message": "This equipment item is already installed here."
+  },
+  "EQUIPMENT_CAPACITY": {
+    "description": "The equipment capacity of a ship",
+    "message": "Utrustning, max vikt"
   },
   "EQUIPMENT_MARKET": {
     "description": "",
@@ -467,6 +643,10 @@
     "description": "",
     "message": "Fel"
   },
+  "ERROR_APPLYING_PATCH": {
+    "description": "Message when restoring savegame",
+    "message": "Error applying patch"
+  },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
     "message": "Kan inte påbörja hopp; landningsställ är inte uppfällt!"
@@ -479,13 +659,25 @@
     "description": "",
     "message": "Avsluta detta spel"
   },
+  "EXPAND": {
+    "description": "Open / expand a collapsed folder or group",
+    "message": "Öppna"
+  },
   "EXPERIENCED": {
     "description": "For player reputation",
     "message": "Erfaren"
   },
+  "EXPERIMENTAL": {
+    "description": "Indicates feature/option is experimental",
+    "message": "Experimentell"
+  },
   "EXPERT": {
     "description": "For player reputation",
     "message": "Expert"
+  },
+  "FACTION": {
+    "description": "Label indicating the factional allegiance of an object",
+    "message": "Fraktion"
   },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
@@ -494,6 +686,10 @@
   "FAILED": {
     "description": "When failed mission",
     "message": "Misslyckades"
+  },
+  "FAILED_TO_RECOVER_SOME_EQUIPMENT": {
+    "description": "",
+    "message": "Det gick inte att återställa viss utrustning"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
@@ -543,13 +739,21 @@
     "description": "",
     "message": "Kvinna"
   },
+  "FILE_SAVEGAME_VERSION": {
+    "description": "Message when restoring savegame",
+    "message": "File savegame version: %s"
+  },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "Slutligt mål"
+    "message": "Destination"
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
     "message": "Finans"
+  },
+  "FINE": {
+    "description": "Cost of a criminal action",
+    "message": "Böter"
   },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
@@ -565,7 +769,7 @@
   },
   "FLIGHTLOG_JUMPING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
-    "message": "Hyper jumping towards {primary_info}"
+    "message": "I hyperrymden på färd mot {primary_info}"
   },
   "FLIGHTLOG_LANDED": {
     "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
@@ -634,6 +838,10 @@
   "FULL_SCREEN": {
     "description": "",
     "message": "Helskärm"
+  },
+  "GAME_OPTIONS": {
+    "description": "GameOptions - tooltip for the Game Options tab in the Settings Window",
+    "message": "Spelalternativ"
   },
   "GAME_TIME": {
     "description": "",
@@ -707,6 +915,10 @@
     "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
     "message": "3D planprojektion"
   },
+  "HUD_ARRIVAL_DATE": {
+    "description": "Label for Hyperspace Cloud arrival date",
+    "message": "Ankomst"
+  },
   "HUD_ATMOSPHERIC_PRESSURE": {
     "description": "Tooltip: Atmospheric Pressure.",
     "message": "Atmosfäriskt tryck"
@@ -753,11 +965,11 @@
   },
   "HUD_BUTTON_DISABLE_FIXHEADING": {
     "description": "Tooltip for button",
-    "message": "Disable fixheading mode"
+    "message": "Inaktivera kurshållning"
   },
   "HUD_BUTTON_DISABLE_FOLLOW_MODE": {
     "description": "Tooltip for button",
-    "message": "Disable follow mode"
+    "message": "Inaktivera följningsläge"
   },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
@@ -769,31 +981,31 @@
   },
   "HUD_BUTTON_FIX_ANTINORMAL": {
     "description": "Tooltip: fix heading antinormal",
-    "message": "Fix heading antinormal"
+    "message": "Sätt kurs antinormal"
   },
   "HUD_BUTTON_FIX_NORMAL": {
     "description": "Tooltip: fix heading normal",
-    "message": "Fix heading normal"
+    "message": "Sätt kurs normal"
   },
   "HUD_BUTTON_FIX_PROGRADE": {
     "description": "Tooltip: fix heading prograde",
-    "message": "Fix heading prograde"
+    "message": "Sätt kurs prograd"
   },
   "HUD_BUTTON_FIX_RADIAL_IN": {
     "description": "Tooltip: fix heading radially inward",
-    "message": "Fix heading radially inward"
+    "message": "Sätt kurs radiellt (in)"
   },
   "HUD_BUTTON_FIX_RADIAL_OUT": {
     "description": "Tooltip: fix heading radially outward",
-    "message": "Fix heading radially outward"
+    "message": "Sätt kurs antiradiellt (ut)"
   },
   "HUD_BUTTON_FIX_RETROGRADE": {
     "description": "Tooltip: fix heading retrograde",
-    "message": "Fix heading retrograde"
+    "message": "Sätt kurs retrograd"
   },
   "HUD_BUTTON_FLYBY_VIEW": {
     "description": "Tooltip: Flyby camera view",
-    "message": "Flyby view"
+    "message": "Förbiflygning vy"
   },
   "HUD_BUTTON_HYPERDRIVE_DISABLED": {
     "description": "Tooltip: Hyperdrive disabled (docked or landed)",
@@ -849,27 +1061,35 @@
   },
   "HUD_BUTTON_SHOW_PERSONAL_INFO": {
     "description": "Tooltip: Show personal info",
-    "message": "Visa person-information"
+    "message": "Visa personinformation"
   },
   "HUD_BUTTON_SIDEREAL_VIEW": {
     "description": "Tooltip: Sidereal camera view",
     "message": "Siderisk vy"
   },
+  "HUD_BUTTON_SWITCH_TO_CURRENT_SYSTEM": {
+    "description": "Tooltip: Switch to current system",
+    "message": "Byt till nuvarande system"
+  },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
-    "message": "Byt till galax-karta"
+    "message": "Byt till galaxkarta"
   },
   "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
     "description": "Tooltip: Switch to sector map",
-    "message": "Byt till sektor-karta"
+    "message": "Byt till sektorkarta"
+  },
+  "HUD_BUTTON_SWITCH_TO_SELECTED_SYSTEM": {
+    "description": "Tooltip: Switch to selected system",
+    "message": "Byt till valt system "
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
     "description": "Tooltip: Switch to system map",
-    "message": "Byt till system-karta"
+    "message": "Byt till systemkarta"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW": {
     "description": "Tooltip: Switch to system overview",
-    "message": "Byt till system-översikt"
+    "message": "Byt till systemöversikt"
   },
   "HUD_BUTTON_SWITCH_TO_WORLD_VIEW": {
     "description": "Tooltip: Switch to world view",
@@ -979,6 +1199,14 @@
     "description": "Tooltip: Hull Temperature.",
     "message": "Skrovtemperatur"
   },
+  "HUD_HYPERSPACE_DESTINATION": {
+    "description": "HUD Label indicating the hyperspace destination system. Should just be Destination.",
+    "message": "Destination"
+  },
+  "HUD_HYPERSPACE_ORIGIN": {
+    "description": "HUD Label indicating the hyperspace origin system. Should just be Origin.",
+    "message": "Ursprung"
+  },
   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
     "description": "",
     "message": "Hopp till {destination} om {countdown} sekunder "
@@ -989,31 +1217,31 @@
   },
   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current combat target.",
-    "message": "Prograde relative to current combat target"
+    "message": "Prograd relativt nuvarande stridsmål"
   },
   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current combat target.",
-    "message": "Retrograde relative to current combat target"
+    "message": "Retrograd relativt nuvarande stridsmål"
   },
   "HUD_INDICATOR_FRAME_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current frame.",
-    "message": "Prograde relative to current frame of reference"
+    "message": "Prograd relativt referensram"
   },
   "HUD_INDICATOR_FRAME_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current frame.",
-    "message": "Retrograde relative to current frame of reference"
+    "message": "Retrograd reltivt referensram"
   },
   "HUD_INDICATOR_MANEUVER_PROGRADE": {
     "description": "Indicator: The prograde direction for the maneuver burn.",
-    "message": "Prograde for maneuver burn"
+    "message": "Progradera för manöverbränning"
   },
   "HUD_INDICATOR_NAV_TARGET_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current navigational target.",
-    "message": "Prograde relative to current navigational target"
+    "message": "Prograd relativt navigationsmål"
   },
   "HUD_INDICATOR_NAV_TARGET_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current navigational target.",
-    "message": "Retrograde relative to current navigational target"
+    "message": "Retrograd relativt navigationsmål"
   },
   "HUD_IN_TRANSIT_TO_N_X_X_X": {
     "description": "",
@@ -1031,13 +1259,25 @@
     "description": "Tooltip: Current distance of the radar.",
     "message": "Aktivt radaravstånd"
   },
+  "HUD_RADAR_TOGGLE_MODE": {
+    "description": "Tooltip: Toggle radar mode.",
+    "message": "Växla radar mellan 2D- och 3D-läge"
+  },
+  "HUD_RADAR_ZOOM_MODE_AUTOMATIC": {
+    "description": "Tooltip: Current radar zoom mode.",
+    "message": "Automatisk zoom"
+  },
+  "HUD_RADAR_ZOOM_MODE_MANUAL": {
+    "description": "Tooltip: Current radar zoom mode.",
+    "message": "Manuell zoom"
+  },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
     "message": "Begär tidsacceleration: {time}"
   },
   "HUD_SHIELD_STRENGTH": {
     "description": "Tooltip: Shield Strength.",
-    "message": "Sköld-styrka"
+    "message": "Sköldstyrka"
   },
   "HUD_SHOW_COMBAT_TARGET": {
     "description": "Tooltip: Show the current combat target.",
@@ -1061,7 +1301,7 @@
   },
   "HUD_SPEED_OF_APPROACH_TO_TARGET": {
     "description": "Tooltip: The speed of approach relative to target.",
-    "message": "The speed of approach relative to target"
+    "message": "Inflygningshastighet i förhållande till målet"
   },
   "HUD_SPEED_RELATIVE_TO_TARGET": {
     "description": "Tooltip: The speed relative to the target.",
@@ -1109,11 +1349,19 @@
   },
   "HYPERJUMP_ROUTE": {
     "description": "",
-    "message": "HyperJump Route"
+    "message": "Hyperrymdsrutt"
+  },
+  "HYPERJUMP_ROUTING": {
+    "description": "Label indicating a category division",
+    "message": "Hyperrymdsrutt"
   },
   "HYPERSPACE_RANGE": {
     "description": "",
     "message": "Hyperrymdsräckvidd"
+  },
+  "ILLEGAL_COMMODITIES": {
+    "description": "Commodities illegal in the current system or polity",
+    "message": "Illegala varor"
   },
   "ILLEGAL_IN_SYSTEM": {
     "description": "An illegal action or commodity",
@@ -1147,6 +1395,14 @@
     "description": "Ship jump status",
     "message": "påbörjat"
   },
+  "INSTALL": {
+    "description": "Install something",
+    "message": "Installera"
+  },
+  "INSTALLED": {
+    "description": "Label indicating something is installed",
+    "message": "Installerad"
+  },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
     "message": "Otillräckligt bränsle"
@@ -1154,6 +1410,10 @@
   "INSUFFICIENT_FUNDS": {
     "description": "",
     "message": "Otillräckliga medel"
+  },
+  "INTELLIGENCE": {
+    "description": "Character parameter",
+    "message": "Intelligens"
   },
   "INTERSTELLAR_TRADE_AVG": {
     "description": "Label displaying commodity flow at a per-system level",
@@ -1167,9 +1427,13 @@
     "description": "",
     "message": "I lastutrymme"
   },
+  "IN_HOLD": {
+    "description": "Column title of the Commodity Market screen",
+    "message": "Innehav"
+  },
   "IN_STOCK": {
-    "description": "",
-    "message": "I lager"
+    "description": "Column title of Commodity and Ship Equipment markets showing current station stock level.",
+    "message": "Lager"
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
@@ -1189,7 +1453,7 @@
   },
   "JETTISON_MODE": {
     "description": "",
-    "message": "Jettison Mode"
+    "message": "Kasta överbord"
   },
   "JUMPING": {
     "description": "Flight State",
@@ -1198,6 +1462,10 @@
   "KILLS": {
     "description": "",
     "message": "Dödade:"
+  },
+  "KNOWN_AS": {
+    "description": "Indicates alternate names/aliases for an object",
+    "message": "Andra beteckningar"
   },
   "LANGUAGE": {
     "description": "",
@@ -1230,6 +1498,18 @@
   "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
     "description": "",
     "message": "Tillstånd beviljat. Se upp för annan trafik på vägen ut."
+  },
+  "LAWFULNESS": {
+    "description": "Character parameter",
+    "message": "Laglydighet"
+  },
+  "LEGAL_RULES": {
+    "description": "Refers to laws, rules and regulations",
+    "message": "Rättsregler som gäller i stationskontrollerat utrymme. Lagar upprätthålls av sensorer inom ett avstånd av: {distance}"
+  },
+  "LEGAL_RULES_AND_REGULATIONS": {
+    "description": "Heading on a tab, keep it short",
+    "message": "Regler och förordningar "
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1287,6 +1567,18 @@
     "description": "Label tab for showing custom logged events",
     "message": "Anpassad log"
   },
+  "LOG_EARLIEST_FIRST": {
+    "description": "Show the log entries in chronological order, earliest first",
+    "message": "Visa äldst inlägg först"
+  },
+  "LOG_EXPORT": {
+    "description": "Export the log",
+    "message": "Exportera"
+  },
+  "LOG_HTML": {
+    "description": "Export the log as HTML or not",
+    "message": "HTML"
+  },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
     "message": "Ny notering"
@@ -1302,6 +1594,10 @@
   "LOW": {
     "description": "",
     "message": "Låg"
+  },
+  "LUCK": {
+    "description": "Character parameter",
+    "message": "Tur"
   },
   "LY": {
     "description": "Light year",
@@ -1415,9 +1711,21 @@
     "description": "",
     "message": "Uppdragsdetaljer"
   },
+  "MODEL": {
+    "description": "3d model of the ship",
+    "message": "Modell"
+  },
+  "MONEY": {
+    "description": "",
+    "message": "Money"
+  },
   "MORE_INFO": {
     "description": "",
     "message": "Mer info..."
+  },
+  "MORE_THAN_ONE_PLAYERS_SHIP_FOUND_IN_SPACE": {
+    "description": "Message when restoring savegame",
+    "message": "Mer än en spelares skepp hittades i rymden "
   },
   "MOSTLY_HARMLESS": {
     "description": "",
@@ -1460,8 +1768,8 @@
     "message": "Namn"
   },
   "NAVIGATION": {
-    "description": "",
-    "message": "Navigation:"
+    "description": "Crew skill",
+    "message": "Navigation"
   },
   "NAVIGATOR": {
     "description": "",
@@ -1470,6 +1778,10 @@
   "NEGOTIATE": {
     "description": "",
     "message": "Förhandla"
+  },
+  "NEW_GAME": {
+    "description": "Main menu item",
+    "message": "Nytt spel"
   },
   "NEW_PAINTJOB_APPLIED": {
     "description": "Paintshop popup",
@@ -1507,6 +1819,10 @@
     "description": "",
     "message": "Anteckningar:"
   },
+  "NOTORIETY": {
+    "description": "Character parameter",
+    "message": "Rykte"
+  },
   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
     "description": "",
     "message": "Inte tillräckligt med {alloy} för att försöka reparera"
@@ -1518,6 +1834,10 @@
   "NO_AVAILABLE_DATA": {
     "description": "Message displaying no stored data available",
     "message": "Inga uppgifter tillgängliga"
+  },
+  "NO_BOOKMARKS_FOUND": {
+    "description": "Label indicating a lack of bookmarks to display",
+    "message": "Inga bokmärken funna"
   },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
@@ -1601,11 +1921,15 @@
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
-    "message": "Obetalda böter"
+    "message": "Utestående böter"
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
     "message": "Utom räckhåll"
+  },
+  "OUT_OF_STOCK": {
+    "description": "Equipment availability",
+    "message": "Slut i lager"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
@@ -1647,6 +1971,14 @@
     "description": "Entry for ship info",
     "message": "Passagerarkapacitet"
   },
+  "PASTE": {
+    "description": "As for clipboard",
+    "message": "Klistra in"
+  },
+  "PATH_FOUND_BUT_VERIFICATION_FAILED": {
+    "description": "Message when restoring savegame",
+    "message": "Path found but verification failed: %s"
+  },
   "PATTERN": {
     "description": "Ship painting pattern.",
     "message": "Mönster"
@@ -1658,6 +1990,10 @@
   "PAY_FINE_OF_N": {
     "description": "",
     "message": "Betala böter på {amount}"
+  },
+  "PENDING_RETURN": {
+    "description": "Status if the mission has not yet been fully completed",
+    "message": "Väntar på retur"
   },
   "PERSEUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1672,8 +2008,8 @@
     "message": "Pilot"
   },
   "PILOTING": {
-    "description": "",
-    "message": "Pilot:"
+    "description": "Crew skill",
+    "message": "Piloting"
   },
   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
     "description": "",
@@ -1697,7 +2033,7 @@
   },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
-    "message": "Oj, något gick fel här! Vänligen rapportera stegen för att återskapa felet, utdataloggen och din sparade fil till Pioneers problemlösare på GitHub.\n Du hittar din utdatalogg på: {path}/output.txt\n\n\nOops, something went wrong here! Please report the steps to reproduce this error, the output log, and your save file to the Pioneer issue tracker on GitHub.\nYou can find your output log at: {path}/output.txt"
+    "message": "Oj, något gick fel här! Vänligen rapportera stegen för att återskapa felet, utdataloggen och din sparade fil till Pioneers problemlösare på GitHub.\n Du hittar din utdatalogg på: {path}/output.txt"
   },
   "POLICE": {
     "description": "",
@@ -1706,6 +2042,10 @@
   "POOR": {
     "description": "Player combat rating",
     "message": "Dålig"
+  },
+  "POSESSION_OF_COMMODITIES_ILLEGAL": {
+    "description": "",
+    "message": "Innehav av vissa varor är olagligt i detta system."
   },
   "POSITION": {
     "description": "The job title/position of crew memeber",
@@ -1735,6 +2075,22 @@
     "description": "Drain the fuel tank",
     "message": "Pumpa tillbaka"
   },
+  "PUMP_DOWN_FROM_CARGO_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pumpa %i ton från lastrum"
+  },
+  "PUMP_DOWN_FROM_HYPERDRIVE_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pumpa %i ton från hypermotor till bränsletank"
+  },
+  "PUMP_DOWN_TO_CARGO_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pumpa %i ton till lastrum"
+  },
+  "PUMP_DOWN_TO_HYPERDRIVE_TOOLTIP": {
+    "description": "Tooltip for Info screen",
+    "message": "Pumpa %i ton till hypermotor från bränsletank"
+  },
   "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
     "message": "Köp omlackering"
@@ -1751,6 +2107,10 @@
     "description": "For the checkbox in settings window",
     "message": "Bekräfta avslut"
   },
+  "RANDOM_COLORS": {
+    "description": "Paint shop. Randomize colors",
+    "message": "Slumpa färger"
+  },
   "RANDOM_FACE": {
     "description": "Generate random face",
     "message": "Random"
@@ -1763,9 +2123,37 @@
     "description": "",
     "message": "Betyg:"
   },
+  "RAYLEIGH_ACCURATE": {
+    "description": "",
+    "message": "Rayleigh/Mie (exakt, per pixel)"
+  },
+  "RAYLEIGH_FAST": {
+    "description": "",
+    "message": "Rayleigh/Mie (snabb, per vertex)"
+  },
+  "REALISTIC_SCATTERING": {
+    "description": "",
+    "message": "Spridning"
+  },
+  "REALISTIC_SCATTERING_DESC": {
+    "description": "",
+    "message": "Välj spridning vid rendering av atmosfärer. (Rayleigh/Mie rekommenderas inte utan en kraftigare dator)"
+  },
   "REAR_WEAPON": {
     "description": "",
     "message": "Bakre vapen"
+  },
+  "RECOVER": {
+    "description": "Saveload menu button",
+    "message": "Återställ"
+  },
+  "RECOVERED_BUT_NOT_VALID": {
+    "description": "Message when restoring savegame",
+    "message": "Recovered but not valid"
+  },
+  "RECOVER_SAVEGAME": {
+    "description": "",
+    "message": "Recover savegame"
   },
   "REFUEL": {
     "description": "",
@@ -1777,7 +2165,7 @@
   },
   "REGISTRATION_NUMBER": {
     "description": "",
-    "message": "Registretingsnummer"
+    "message": "Registreringsnummer"
   },
   "RELIABLE": {
     "description": "For player reputation",
@@ -1799,9 +2187,9 @@
     "description": "",
     "message": "Reparera {damage}% skrov för {price}"
   },
-  "REPLACE_EQUIPMENT_WITH": {
+  "REPLACE_EQUIPMENT": {
     "description": "Market header when replacing equipped items",
-    "message": "Ersätt Utrustning Med"
+    "message": "Byt ut utrustning"
   },
   "REPUTATION": {
     "description": "",
@@ -1813,7 +2201,7 @@
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "Nödvändigt bränsle"
+    "message": "Nödvändigt Bränsle"
   },
   "RESET": {
     "description": "",
@@ -1825,7 +2213,15 @@
   },
   "RESET_PREVIEW": {
     "description": "Paintshop button",
-    "message": "Återställ förhandsvisning"
+    "message": "Återställ vy"
+  },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT": {
+    "description": "Reset View on Hyperspace Exit option",
+    "message": "Återställ vy vid utträde ur hyperrymden"
+  },
+  "RESET_VIEW_ON_HYPERSPACE_EXIT_DESC": {
+    "description": "The tooltip of Reset View on Hyperspace Exit in the settings menu",
+    "message": "Återställ vyn till huvudspelvyn vid utträde ur hyperrymden"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1871,6 +2267,22 @@
     "description": "",
     "message": "Spara"
   },
+  "SAVED_GAMES": {
+    "description": "Header for save/load window",
+    "message": "Sparade Spel"
+  },
+  "SAVE_AS": {
+    "description": "",
+    "message": "Spara Som"
+  },
+  "SAVE_DELETED_SUCCESSFULLY": {
+    "description": "",
+    "message": "Save deleted successfully"
+  },
+  "SCATTERING_OLD": {
+    "description": "",
+    "message": "Legacy"
+  },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
     "message": "Skopfästen"
@@ -1882,6 +2294,18 @@
   "SELECT": {
     "description": "",
     "message": "Välj"
+  },
+  "SELECTED": {
+    "description": "Label indicating the following item is selected",
+    "message": "Vald"
+  },
+  "SELECTED_SAVE_DOESNT_EXISTS": {
+    "description": "",
+    "message": "Selected save doesn't exist"
+  },
+  "SELECTED_SAVE_IS_NOT_A_VALID_SAVE": {
+    "description": "",
+    "message": "Selected save is not a valid save"
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",
@@ -1895,17 +2319,29 @@
     "description": "",
     "message": "Välj spel att ladda..."
   },
+  "SELECT_START_PROFILE": {
+    "description": "Combo box for selecting the starting position",
+    "message": "Välj startprofil:"
+  },
   "SELL": {
     "description": "Commodities and equipment prices",
     "message": "Sälja"
+  },
+  "SELL_EQUIP": {
+    "description": "Button text to sell installed equipment. May be used in a singular or plural context.",
+    "message": "Sälj {name}"
   },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
     "message": "Sälj utrustad"
   },
+  "SELL_PRICE": {
+    "description": "Title for sell-price column in commodity market",
+    "message": "Sälja"
+  },
   "SENSORS": {
-    "description": "",
-    "message": "Sensorer:"
+    "description": "Crew skill",
+    "message": "Sensorer"
   },
   "SENSORS_AND_DEFENCE": {
     "description": "",
@@ -1918,6 +2354,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Använd destination som navigationsmål."
+  },
+  "SET_JUMP_TARGET": {
+    "description": "Button tooltip which sets the jump route to the selected body",
+    "message": "Ställ in mål"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
@@ -1963,6 +2403,14 @@
     "description": "",
     "message": "Skeppsmarknad"
   },
+  "SHIP_NAME": {
+    "description": "",
+    "message": "Skeppsnamn"
+  },
+  "SHIP_PARAMETERS": {
+    "description": "",
+    "message": "Skeppsparametrar"
+  },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
     "message": "Reparation och Lackering"
@@ -1971,13 +2419,41 @@
     "description": "",
     "message": "Fartygstyp"
   },
+  "SHOW_AUTOSAVES": {
+    "description": "Button tooltip indicating whether to show autosave files",
+    "message": "Visa autosparade filer"
+  },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
     "message": "Simulerar universums evolution: {age} miljarder år ;-)"
   },
+  "SOME_PARAMETERS_ARE_NOT_OK": {
+    "description": "Diagnostics at game start",
+    "message": "Some parameters are not OK:"
+  },
+  "SORT_COMMODITY": {
+    "description": "Indicates the list of objects should be sorted by commodity",
+    "message": "Vara"
+  },
+  "SORT_DISTANCE": {
+    "description": "Indicates the list of objects should be sorted by distance",
+    "message": "Avstånd"
+  },
+  "SORT_MODE": {
+    "description": "Label indicating the current sorting mode of a list of objects",
+    "message": "Sortera efter"
+  },
+  "SORT_NAME": {
+    "description": "Indicates the list of objects should be sorted by name",
+    "message": "Namn"
+  },
   "SOUND": {
     "description": "",
     "message": "Ljud"
+  },
+  "STANDARD_GAME_START_TIME": {
+    "description": "Standard game start time, current moment + 1200 years",
+    "message": "Standard game start time"
   },
   "START_AT_BARNARDS_STAR": {
     "description": "",
@@ -2003,17 +2479,21 @@
     "description": "",
     "message": "Detta är en måttligt svår start från Itzalean på New Hope i Epsilon Eridani-systemet."
   },
+  "START_GAME": {
+    "description": "Button",
+    "message": "Starta spel"
+  },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
-    "message": "Unfortunately, uncle never showed me how to operate this old barge when he was alive, but I think I'm making an entry in the ship's log now. It's strange, I can still feel him, as if he's in the very walls of this ship. Maybe he can be my co-pilot, and together we will manifest our destiny in the great void. But first, I just need to buy some hydrogen for the jump drive, plot a course to lucrative trading opportunities, and pray to the heavens that traffic control will allow an inexperienced pilot like me to take off, then we'll see what this baby can do. Time to make a reputation for myself!"
+    "message": "Tyvärr visade farbror mig aldrig hur man sköter den här gamla pråmen när han levde, men jag tror att jag skriver in i fartygets logg nu. Det är konstigt, jag kan fortfarande känna honom, som om han är i själva väggarna på det här skeppet. Kanske kan han bli min andrapilot, och tillsammans kommer vi att manifestera vårt öde i det stora tomrummet. Men först behöver jag köpa lite vätgas till hypermotorn, planera en kurs mot lukrativa handelsmöjligheter och be till himlen att trafikkontrollen ska tillåta en oerfaren pilot som jag att lyfta, sedan får vi se vad den här bebisen kan göra. Dags att skapa ett rykte för mig själv!"
   },
   "START_LOG_ENTRY_2": {
     "description": "First custom log message when starting a new game, giving backstory to the character, here going for a Blade Runner feeling",
-    "message": "My boots are still wet from the heavy rainfall last night, back home. The pavement got so wet it - seemingly, in an act of revenge - drenched the night sky with the reflected glow from the neon signs that looked down on the wet street. But I made it, through the rain, to my connecting flight to the starport where my new ship was waiting for me. The starport security officer gave me a funny look when I told him I'm here to pick up a ship. I guess I didn't look like the typical spacer, having sold everything I had to invest in this rusty old bucket, as I was standing in front of him, wet boots and all. But I truly feel, that from now on, my future will be written in the stars. Now, I just need to find the start-key."
+    "message": "Mina stövlar är fortfarande blöta efter det kraftiga regnet i natt därhemma. Trottoaren blev så blöt att den - till synes i en hämndaktion - dränkte natthimlen med det reflekterade skenet från neonskyltarna som såg ned på den våta gatan. Men jag tog mig, genom regnet, till mitt anslutningsflyg till stationen där mitt nya skepp väntade på mig. Rymdstationens säkerhetschef gav mig en utforskande blick när jag sa till honom att jag är här för att hämta ett skepp. Jag antar att jag inte såg ut som den typiska spacern, efter att ha sålt allt jag behövde investera i den rostiga gamla skorven, då jag nu stod framför honom, blöta stövlar och allt. Men jag känner verkligen att från och med nu kommer min framtid att skrivas i stjärnorna. Nu behöver jag bara hitta startnyckeln."
   },
   "START_LOG_ENTRY_3": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Here explaining why there's no hyperdrive in the ship, and what to do about it.",
-    "message": "After a long bureaucratic process, I finally got my ship back from the impound, but they had stripped her down to the bare metal, to pay 'the debt' they claimed I had. Not only did they take my favourite coffee brewer, but those bastards also ripped out the hyper drive, so I'm stuck for now in this system, unless I sell whatever is left in the ship, to finance a new drive. But as they say: when life gives you lemons - make lemonade; so even if I'm back at square one, I will think of this as an opportunity instead of as a setback, a second chance. Without coffee. By letting go of what I am, I will become what I might be. The world will turn aside, and let me pass, as it does for those who know where they are going, and I am heading to the stars."
+    "message": "Efter en lång byråkratisk process fick jag äntligen tillbaka mitt skepp från förvaret, men de hade klätt av henne till den rena metallen för att betala \"skulden\" som de påstod att jag hade. De tog inte bara min favoritkaffebryggare, utan de där jävlarna slet också ur hypermotorn, så jag har fastnat i det här systemet för tillfället. Om jag inte säljer det som finns kvar i skeppet för att finansiera en ny enhet. Men som man säger: när livet ger dig citroner – gör lemonad; så även om jag är tillbaka på ruta ett kommer jag att se det här som en möjlighet istället för som ett bakslag, en andra chans. Utan kaffe. Genom att släppa taget om det jag är kommer jag att bli den jag kan vara. Världen kommer att vända sig åt sidan och låta mig passera, som den gör för dem som vet vart de är på väg, och jag är på väg till stjärnorna."
   },
   "STAR_FIELD_DENSITY": {
     "description": "",
@@ -2021,7 +2501,7 @@
   },
   "STAR_FIELD_STAR_SIZE_FACTOR": {
     "description": "",
-    "message": "Size of stars in star field"
+    "message": "Storlek på bakgrundsstjärnor"
   },
   "STATION": {
     "description": "Flight log info, will refer to a station by name",
@@ -2055,9 +2535,53 @@
     "description": "",
     "message": "Status"
   },
+  "SUMMARY": {
+    "description": "Tab item in the start game menu",
+    "message": "Översikt"
+  },
+  "SYSTEM_BODY_INDEX_IS_OUT_OF_RANGE": {
+    "description": "Message when restoring savegame",
+    "message": "System body index is out of range"
+  },
+  "SYSTEM_FACTION": {
+    "description": "Tooltip indicating the faction controlling this system",
+    "message": "Controlling faction jurisdiction"
+  },
+  "SYSTEM_INFORMATION": {
+    "description": "Tooltip / label indicating information about a selected star system",
+    "message": "Systeminformation"
+  },
+  "SYSTEM_NUM_STARS": {
+    "description": "Tooltip indicating the system stellar arrangement",
+    "message": "Number of stars in system"
+  },
+  "SYSTEM_SECURITY_1": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Safe"
+  },
+  "SYSTEM_SECURITY_2": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Till största delen ofarlig"
+  },
+  "SYSTEM_SECURITY_3": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Farlig"
+  },
+  "SYSTEM_SECURITY_4": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Very Dangerous"
+  },
+  "SYSTEM_SECURITY_5": {
+    "description": "Security category for systems with low lawlessness. A nod to Elite's pilot ratings.",
+    "message": "Dödlig"
+  },
+  "SYSTEM_SECURITY_TOOLTIP": {
+    "description": "Tooltip introducing the system security rating",
+    "message": "System safety rating"
+  },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
-    "message": "Den här stationen innehar nivå {tech_level} teknologi-certifikat."
+    "message": "Den här stationen innehar nivå {tech_level} teknologicertifikat."
   },
   "TECH_CERTIFIED_MILITARY": {
     "description": "Lobby screen shows the tech level of the station",
@@ -2065,7 +2589,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Tech nivå"
+    "message": "Teknologinivå"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -2078,6 +2602,14 @@
   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
     "description": "",
     "message": "Det finns ingen annan ombord som kan flyga skeppet."
+  },
+  "THERE_WERE_ERRORS_IN_RECOVERY": {
+    "description": "Message when restoring savegame",
+    "message": "There were errors in recovery:"
+  },
+  "THESE_ITEMS_ARE_PUNISHABLE_BY_FINE": {
+    "description": "",
+    "message": "Köp, försäljning och transport av dessa föremål är straffbart med böter och eventuellt förverkande "
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
@@ -2093,11 +2625,11 @@
   },
   "TOGGLE_CARGO_WINDOW": {
     "description": "Label for a button toggling the cargo display window.",
-    "message": "Lastfönster"
+    "message": "Last"
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
-    "message": "Toggle full comms window"
+    "message": "Meddelanden"
   },
   "TOGGLE_MALE_FEMALE": {
     "description": "player gender",
@@ -2105,11 +2637,11 @@
   },
   "TOGGLE_OVERVIEW_SHOW_MOONS": {
     "description": "toggle whether the overview window shows moons or not",
-    "message": "Toggle showing moons in the overview"
+    "message": "Visa månar i översikten"
   },
   "TOGGLE_OVERVIEW_SHOW_STATIONS": {
     "description": "toggle whether the overview window shows stations or not",
-    "message": "Toggle showing stations in the overview"
+    "message": "Visa rymdstationer i översikten"
   },
   "TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE": {
     "description": "toggle whether the overview window sorts by distance from the player or from the system center",
@@ -2117,7 +2649,7 @@
   },
   "TOGGLE_OVERVIEW_WINDOW": {
     "description": "show/hide the overview window / navigation window",
-    "message": "Toggle the overview window"
+    "message": "Översikt"
   },
   "TOO_SMALL_FOR_CURRENT_CREW": {
     "description": "",
@@ -2133,15 +2665,19 @@
   },
   "TOTAL_DISTANCE": {
     "description": "Total distance of a (possibly series) of hyper jump(s)",
-    "message": "Totalt Avstånd:"
+    "message": "Totalt Avstånd"
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "Total Varaktighet:"
+    "message": "Total Varaktighet"
   },
   "TOTAL_MASS": {
     "description": "",
     "message": "Total massa"
+  },
+  "TO_PICK_UP": {
+    "description": "Mission status",
+    "message": "Att hämta"
   },
   "TRADING_AT": {
     "description": "Indicates the current system for inspecting commodities.",
@@ -2159,6 +2695,14 @@
     "description": "Indicates the destination system of a commodity trade.",
     "message": "Till {system}:"
   },
+  "TRANSFER_FUEL": {
+    "description": "Label indicating the ability to transfer fuel between equipment tanks",
+    "message": "Överför bränsle"
+  },
+  "TRANSLATE_VIEW": {
+    "description": "Indicates that the button must be kept pressed down, to translate the camera view with mouse",
+    "message": "Hold down to Translate view"
+  },
   "TRUSTWORTHY": {
     "description": "For player reputation",
     "message": "Tillförlitlig"
@@ -2170,6 +2714,30 @@
   "TYPE": {
     "description": "",
     "message": "Typ"
+  },
+  "UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Unknown custom log entry format"
+  },
+  "UNKNOWN_FACTION": {
+    "description": "For entry in the flight log",
+    "message": "Okänd fraktion"
+  },
+  "UNKNOWN_LOCATION_IN_SECTOR_X": {
+    "description": "For entry in the flight log",
+    "message": "Okänd plats i sektor {sector}"
+  },
+  "UNKNOWN_STATION_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Unknown station log entry format"
+  },
+  "UNKNOWN_SYSTEM_LOG_ENTRY_FORMAT": {
+    "description": "Message when restoring savegame",
+    "message": "Unknown system log entry format"
+  },
+  "UNLAWFUL_ECM_DISCHARGE": {
+    "description": "",
+    "message": "Olaglig ECM användning"
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
@@ -2186,6 +2754,10 @@
   "UNRELIABLE": {
     "description": "",
     "message": "Opålitlig"
+  },
+  "UNSUCCESSFULLY_RECOVERED_PARAMETERS_ARE_NOW_UNLOCKED_PLEASE_SET_THEM_MANUALLY": {
+    "description": "Message when restoring savegame",
+    "message": "Unsuccessfully recovered parameters are now unlocked, please set them manually."
   },
   "UP_ACCEL": {
     "description": "",
@@ -2223,6 +2795,10 @@
     "description": "Tooltip for video mode/resultion setting",
     "message": "Högre upplösningar visar mer information i en mindre storlek och kan minska prestandan."
   },
+  "VIEW_DESTINATION": {
+    "description": "Tooltip indicating the button will change the current view to the destination of a route.",
+    "message": "View Destination"
+  },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",
     "message": "Besök Lackverkstad"
@@ -2230,6 +2806,10 @@
   "VISIT_REPAIR_SERVICES": {
     "description": "Ship Repair tab button.",
     "message": "Besök Verkstad"
+  },
+  "VOLUME": {
+    "description": "The volume property of some object",
+    "message": "Volym"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",

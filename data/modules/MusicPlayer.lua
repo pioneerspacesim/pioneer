@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -147,7 +147,7 @@ Event.Register("onSongFinished", function ()
 		else
 			playAmbient()
 		end
-	elseif Game.CurrentView() == "sector" or Game.CurrentView() == "system_info" or Game.CurrentView() == "system" then
+	elseif Game.CurrentView() == "SectorView" or Game.CurrentView() == "SystemView" then
 		if Game.system and Game.system:DistanceTo(SystemPath.New(0, 0, 0, 0, 0)) < 1000 then -- farther than where ambient music switches
 			if music["map-core"] then
 				MusicPlayer.playRandomSongFromCategory("map-core")
@@ -202,14 +202,12 @@ Event.Register("onShipDestroyed", function (ship, attacker)
 end)
 
 -- player docked
-Event.Register("onShipDocked", function (ship, station)
-	if not ship:IsPlayer() then return end
+Event.Register("onPlayerDocked", function (ship, station)
 	MusicPlayer.playRandomSongFromCategory("docked")
 end)
 
 -- player undocked
-Event.Register("onShipUndocked", function (ship, station)
-	if not ship:IsPlayer() then return end
+Event.Register("onPlayerUndocked", function (ship, station)
 	MusicPlayer.playRandomSongFromCategory("undocked")
 end)
 
@@ -238,7 +236,7 @@ end)
 
 -- view has changed, so player might have left the map view
 Event.Register("onViewChanged", function()
-	if inMapView and Game.CurrentView() == "world" then
+	if inMapView and Game.CurrentView() == "WorldView" then
 		playAmbient()
 		inMapView = false
 	end

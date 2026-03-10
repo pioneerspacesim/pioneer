@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -111,10 +111,21 @@ gauges.registerGauge(5, {
 	icon = icons.hull, color = colors.gaugeHull, tooltip = lui.HUD_HULL_STRENGTH
 })
 
+local function onDebugReload()
+	package.reimport()
+
+	-- invoke debugReload for all gauages; required for gauges not defined in this file
+	for i,v in ipairs(gauges) do
+		if v.debugReload then
+			v.debugReload()
+		end
+	end
+end
+
 gameView.registerHudModule("gauges", {
 	side = "left",
 	showInHyperspace = false,
-	debugReload = function() package.reimport() end,
+	debugReload = onDebugReload,
 	draw = function(_, min, max)
 		colors = ui.theme.colors
 		icons = ui.theme.icons

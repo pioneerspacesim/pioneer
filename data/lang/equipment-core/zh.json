@@ -5,7 +5,7 @@
   },
   "ADVANCED_TARGET_SCANNER_DESCRIPTION": {
     "description": "",
-    "message": "可以覆盖星系大部分区域的长程扫描器. "
+    "message": "具备全系统覆盖能力的远程目标扫描器。"
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "",
@@ -13,7 +13,11 @@
   },
   "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
     "description": "",
-    "message": "保护你的飞船不受再入热的影响."
+    "message": "保护飞船免受大气层重返时产生的高温影响。"
+  },
+  "ATMOSPHERIC_SHIELDING_FLAVOURTEXT": {
+    "description": "",
+    "message": "在最小化质量成本的情况下，提供了一个适中的保护水平，以抵御大气摩擦和压力。"
   },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
@@ -22,6 +26,10 @@
   "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
     "description": "",
     "message": "更强大的大气防护罩"
+  },
+  "ATMOSPHERIC_SHIELDING_HEAVY_FLAVOURTEXT": {
+    "description": "",
+    "message": "这种防护罩专为在浓密大气环境中的科学探险而设计，它以牺牲重量和效率为代价，换取了能够承受显著增加的大气压力的能力。"
   },
   "AUTOPILOT": {
     "description": "",
@@ -43,6 +51,18 @@
     "description": "",
     "message": "2兆瓦快速激光束"
   },
+  "BY_ITEM": {
+    "description": "Button in the start menu when editing equipment",
+    "message": "按装备类别"
+  },
+  "BY_SLOT": {
+    "description": "Button in the start menu when editing equipment",
+    "message": "按槽位"
+  },
+  "CABINS": {
+    "description": "Category header for pressurized cabin slots",
+    "message": "客舱"
+  },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
     "message": "货仓生命维持系统"
@@ -58,6 +78,10 @@
   "CARGO_SCOOP_DESCRIPTION": {
     "description": "",
     "message": "允许飞船从太空中打捞货柜."
+  },
+  "COMPUTER_MODULES": {
+    "description": "Category name of computer-related equipment",
+    "message": "计算机模块"
   },
   "DAMAGE_PER_SHOT": {
     "description": "Tooltip explaining weapon damage per shot",
@@ -151,9 +175,25 @@
     "description": "",
     "message": "一套电子反导防御系统,有能力摧毁一些制导导弹."
   },
+  "ECM_HOVER_MESSAGE": {
+    "description": "",
+    "message": "启动电子对抗"
+  },
+  "EDIT_EQUIPMENT": {
+    "description": "Dialog title",
+    "message": "编辑装备"
+  },
+  "EMPTY_EQUIPMENT_PROVIDING_SLOTS": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "提供空槽位的装备"
+  },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
     "message": "空的"
+  },
+  "EQUIPMENT_DOES_NOT_FIT_INTO_THE_SLOT": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "装备无法放入槽位"
   },
   "EQUIPMENT_INTEGRITY": {
     "description": "Tooltip explaining remaining equipment integrity",
@@ -171,6 +211,106 @@
     "description": "",
     "message": "允许从气体巨行星上采集氢燃料."
   },
+  "HARDPOINT_FUEL_SCOOP": {
+    "description": "Name for the 'Fuel Scoop' equipment hardpoint",
+    "message": "燃料收集器"
+  },
+  "HARDPOINT_MINING_LASER": {
+    "description": "Name for a mining laser mount.",
+    "message": "采矿挂载点"
+  },
+  "HARDPOINT_MISSILE": {
+    "description": "Name for a generic missile mount",
+    "message": "导弹"
+  },
+  "HARDPOINT_MISSILE_ARRAY": {
+    "description": "Name for the 'Missile Array' equipment hardpoint",
+    "message": "导弹阵列"
+  },
+  "HARDPOINT_MISSILE_BAY": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "导弹舱"
+  },
+  "HARDPOINT_MISSILE_BAY_LEFT": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "左导弹舱"
+  },
+  "HARDPOINT_MISSILE_BAY_RIGHT": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "右导弹舱"
+  },
+  "HARDPOINT_PYLON": {
+    "description": "Name for a generic missile pylon",
+    "message": "导弹挂架"
+  },
+  "HARDPOINT_PYLON_LEFT": {
+    "description": "Name for a generic missile pylon",
+    "message": "左挂架"
+  },
+  "HARDPOINT_PYLON_LEFT_WING": {
+    "description": "Name for a generic missile pylon",
+    "message": "左翼挂架"
+  },
+  "HARDPOINT_PYLON_RIGHT": {
+    "description": "Name for a generic missile pylon",
+    "message": "右挂架"
+  },
+  "HARDPOINT_PYLON_RIGHT_WING": {
+    "description": "Name for a generic missile pylon",
+    "message": "右翼挂架"
+  },
+  "HARDPOINT_TURRET_BOTTOM": {
+    "description": "Slot name for a ventral-mounted turret",
+    "message": "底部炮塔"
+  },
+  "HARDPOINT_TURRET_TOP": {
+    "description": "Slot name for a dorsal-mounted turret",
+    "message": "顶部炮塔"
+  },
+  "HARDPOINT_UTILITY": {
+    "description": "Name for a generic utility hardpoint",
+    "message": "公用事业"
+  },
+  "HARDPOINT_WEAPON": {
+    "description": "Name for a generic weapon hardpoint",
+    "message": "武器"
+  },
+  "HARDPOINT_WEAPON_CHIN": {
+    "description": "Name for the 'Chin Mount' equipment hardpoint",
+    "message": "下颌挂载"
+  },
+  "HARDPOINT_WEAPON_FRONT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "前置武器"
+  },
+  "HARDPOINT_WEAPON_FRONT_LEFT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "左前武器"
+  },
+  "HARDPOINT_WEAPON_FRONT_RIGHT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "右前武器"
+  },
+  "HARDPOINT_WEAPON_LEFT": {
+    "description": "Name for a generic weapon hardpoint",
+    "message": "左武器"
+  },
+  "HARDPOINT_WEAPON_LEFT_NOSE": {
+    "description": "Name for the 'Left Nose' weapon hardpoint",
+    "message": "左侧机鼻"
+  },
+  "HARDPOINT_WEAPON_REAR": {
+    "description": "Name for a generic rear-facing weapon hardpoint",
+    "message": "后向武器"
+  },
+  "HARDPOINT_WEAPON_RIGHT": {
+    "description": "Name for a generic weapon hardpoint",
+    "message": "右武器"
+  },
+  "HARDPOINT_WEAPON_RIGHT_NOSE": {
+    "description": "Name for the 'Right Nose' weapon hardpoint",
+    "message": "右侧机鼻"
+  },
   "HULL_AUTOREPAIR": {
     "description": "",
     "message": "船体自动修理系统"
@@ -179,6 +319,10 @@
     "description": "",
     "message": "自动地修理船体所受到的损伤."
   },
+  "HULL_MOUNTS": {
+    "description": "Category name for hull-mounted equipment",
+    "message": "船体挂载"
+  },
   "HYPERCLOUD_ANALYZER": {
     "description": "",
     "message": "超空间云分析器"
@@ -186,6 +330,14 @@
   "HYPERCLOUD_ANALYZER_DESCRIPTION": {
     "description": "",
     "message": "分析超空间云并得出超空间跳跃的目的地与出发和到达时间."
+  },
+  "INVALID_SLOT": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "无效槽位"
+  },
+  "ITEM": {
+    "description": "A piece of equipment",
+    "message": "装备"
   },
   "LARGE_PLASMA_ACCEL": {
     "description": "",
@@ -215,6 +367,10 @@
     "description": "",
     "message": "用爆破地雷对富矿小行星采矿."
   },
+  "MISC_EQUIPMENT": {
+    "description": "Category header for miscellaneous equipment",
+    "message": "杂项"
+  },
   "MISSILES": {
     "description": "Category name of missile-related equipment",
     "message": "导弹"
@@ -223,49 +379,253 @@
     "description": "",
     "message": "制导导弹"
   },
+  "MISSILE_GUIDED_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "标准的发射后不管制导导弹。"
+  },
+  "MISSILE_GUIDED_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "大规模生产的制导导弹，会尝试锁定选定目标。根据具体型号，这种导弹可能会使用雷达、激光或激光雷达等多种制导技术中的一种或多种。然而，这些导弹的技术并不能保证命中，大多数对电子对抗措施（ECM）或其他反制措施相当脆弱。"
+  },
   "MISSILE_NAVAL": {
     "description": "",
     "message": "远程导弹"
+  },
+  "MISSILE_NAVAL_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "发射后不管的制导导弹，对所有已知类型的反制措施具有很高的抗性。"
+  },
+  "MISSILE_NAVAL_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "这些导弹是在高度专业化的秘密海军工厂中生产的，生产设施受到严格控制，通常不向非军事人员提供。它们能够抵抗大多数已知类型的反制措施，速度与其大小相比相当快，并且通常配备具有极端破坏潜力的特殊弹头。携带这些导弹的舰船通常需要配备专门的设备，以便在发射前正确地武装和编程导弹。"
+  },
+  "MISSILE_RACK_221": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
+    "message": "海德拉 LH-120 导弹架"
+  },
+  "MISSILE_RACK_221_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "外部导弹架，可容纳 2 枚小型导弹。"
+  },
+  "MISSILE_RACK_221_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "这款来自海德里防御公司的优质导弹架，让您在每个硬点上携带更多的火力，是应对那些讨厌的海盗的必备装备。"
+  },
+  "MISSILE_RACK_322": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
+    "message": "海德拉 LH-220 导弹架"
+  },
+  "MISSILE_RACK_322_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "外部导弹架，可容纳 2 枚中型导弹。"
+  },
+  "MISSILE_RACK_322_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "为更挑剔的海德里防御公司客户设计的导弹架。性价比超高！"
+  },
+  "MISSILE_RACK_341": {
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "美杜莎 LH-140 导弹架"
+  },
+  "MISSILE_RACK_341_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "外部导弹架，可容纳 4 枚小型导弹。"
+  },
+  "MISSILE_RACK_341_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "这款导弹架直接来自海德里防御公司的研发实验室。我们进一步压缩了导弹架的体积，让您能够制造出真正的烟花效果！"
+  },
+  "MISSILE_RACK_423": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
+    "message": "海德拉 LH-320 导弹架"
+  },
+  "MISSILE_RACK_423_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "外部导弹架，可容纳 2 枚大型导弹。"
+  },
+  "MISSILE_RACK_423_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "发射后请保持距离！海德里防御公司在这个导弹架中装入了 2 枚大型导弹，为您带来真正的震撼效果。"
+  },
+  "MISSILE_RACK_442": {
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "美杜莎 LH-240 导弹架"
+  },
+  "MISSILE_RACK_442_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "外部导弹架，可容纳 4 枚中型导弹。"
+  },
+  "MISSILE_RACK_442_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "准备好进入大联盟了吗？这款来自海德里防御公司的大型导弹架，能让您随时释放毁灭性的火力。"
+  },
+  "MISSILE_RACK_524": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
+    "message": "海德拉 LH-420 导弹架"
+  },
+  "MISSILE_RACK_524_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "外部导弹架，可容纳 2 枚巨型导弹。"
+  },
+  "MISSILE_RACK_524_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "可容纳 2 枚巨型导弹。即使是我们也对这种装备的效果感到词穷……希望您戴上了墨镜！"
+  },
+  "MISSILE_RACK_543": {
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "美杜莎 LH-340 导弹架"
+  },
+  "MISSILE_RACK_543_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "外部导弹架，可容纳 4 枚大型导弹。"
+  },
+  "MISSILE_RACK_543_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "海德里防御公司首次推出了令人惊叹的 LH-320，现在我们将其容量翻倍！大胆地在任何敢于挑战你力量的星系中留下你的印记吧。"
+  },
+  "MISSILE_RAIL_S1": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
+    "message": "Cnida-101 导弹导轨"
+  },
+  "MISSILE_RAIL_S1_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "单枚小型导弹的外部发射器。"
+  },
+  "MISSILE_RAIL_S1_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "海德里防御公司的入门级导轨，这是符合 ISAEEE 标准的所有 S1 导弹的优质装备。"
+  },
+  "MISSILE_RAIL_S2": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
+    "message": "Cnida-102 导弹导轨"
+  },
+  "MISSILE_RAIL_S2_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "单枚中型导弹的外部发射器。"
+  },
+  "MISSILE_RAIL_S2_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "海德里防御公司生产的优质导弹导轨，为 S2 级导弹提供稳固的安装点。"
+  },
+  "MISSILE_RAIL_S3": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
+    "message": "Cnida-103 导弹导轨"
+  },
+  "MISSILE_RAIL_S3_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "单枚大型导弹的外部发射器。"
+  },
+  "MISSILE_RAIL_S3_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "海德里防御公司生产的优质导弹导轨，为 S3 级导弹提供稳固的安装点。"
+  },
+  "MISSILE_RAIL_S4": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
+    "message": "Cnida-104 导弹导轨"
+  },
+  "MISSILE_RAIL_S4_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "单枚巨型导弹的外部发射器。"
+  },
+  "MISSILE_RAIL_S4_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "海德里防御公司生产的优质导弹导轨，为 S4 级导弹提供稳固的安装点。"
   },
   "MISSILE_SMART": {
     "description": "",
     "message": "智能导弹"
   },
+  "MISSILE_SMART_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "一种对电子对抗措施（ECM）有一定抗性的制导导弹。"
+  },
+  "MISSILE_SMART_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "一种智能火箭，能够通过先进的传感器套件和集成人工智能模块追踪目标。请确保不要叫它 HAL，我们相信它会锁定你指定的目标，而不是你。"
+  },
   "MISSILE_UNGUIDED": {
     "description": "",
     "message": "R40 非制导火箭弹"
   },
-  "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
-    "message": "联合收集器"
+  "MISSILE_UNGUIDED_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "一种简单的瞄准发射导弹。"
   },
-  "MULTI_SCOOP_DESCRIPTION": {
-    "description": "",
-    "message": "虽然收集效率不及燃料收集器, 但它却可以同时收集燃料和货物"
+  "MISSILE_UNGUIDED_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "由大多数星球上的本地制造商大规模生产。这些导弹从在发展中的星球上由手工艺人精心手工制作，到在超级工业化的星球上由自动化大型工厂批量生产。\n但无论来源如何，其规格都受到 ISAEEE 的严格控制，应该能在大多数兼容的舰船系统中使用。"
+  },
+  "NO_SUITABLE_EQUIPMENT": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "没有合适的装备"
+  },
+  "NO_SUITABLE_SLOTS": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "没有合适的槽位"
+  },
+  "OCCUPIED_BERTHS": {
+    "description": "Label for the number of passenger berths currently occupied in a cabin equipment item",
+    "message": "占用卧铺"
+  },
+  "OKB_KALURI_BOWFIN_MISSILE_RACK": {
+    "description": "Equipment name for an OKB-Kaluri Bowfin internal missile launcher",
+    "message": "Bowfin 导弹发射器"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S2": {
+    "description": "Equipment name for an OPLI internal missile rack",
+    "message": "OPLI 内置导弹架"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S2_DESCRIPTION": {
+    "description": "Short description and tooltip.",
+    "message": "内部导弹舱，可容纳 5 枚中型导弹。"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S3": {
+    "description": "Equipment name for an OPLI internal missile rack",
+    "message": "OPLI 内置导弹架"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S3_DESCRIPTION": {
+    "description": "Short description and tooltip.",
+    "message": "Internal missile bay for 3x large missiles."
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S4": {
+    "description": "Equipment name for an OPLI internal missile rack",
+    "message": "OPLI 内置导弹架"
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S4_DESCRIPTION": {
+    "description": "Short description and tooltip.",
+    "message": "Internal missile bay mounting 5x large missiles and 4x medium missiles."
   },
   "ORBIT_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
-    "message": "Orbital scanner XKM-650"
+    "message": "XKM-650 轨道扫描器"
   },
   "ORBIT_SCANNER_DESCRIPTION": {
     "description": "tooltip",
-    "message": "Scans planet from orbit, for scientific data"
+    "message": "从轨道扫描行星，以获取科学数据"
   },
   "ORBIT_SCANNER_GOOD": {
     "description": "A sensor used to scan planets from high altitude / orbit + model number (that's minimum km altitude)",
-    "message": "Orbital scanner XKM-1750"
+    "message": "XKM-1750 轨道扫描器"
   },
   "ORBIT_SCANNER_GOOD_DESCRIPTION": {
     "description": "tooltip",
-    "message": "Scans planet from orbit, for scientific data, with high resolution and wide aperture lens"
+    "message": "使用高分辨率和宽光圈镜头从轨道扫描行星，以获取科学数据"
   },
   "OUT_OF_SCANRANGE": {
     "description": "",
     "message": "已超出扫描范围: "
   },
+  "PASSENGER_BERTHS": {
+    "description": "Label for the total number of passenger berths in a cabin equipment item",
+    "message": "乘客卧铺"
+  },
   "PASSENGER_CABIN": {
     "description": "",
     "message": "客舱"
+  },
+  "PROJECTILE_SPEED": {
+    "description": "Stat label for weapon projectile speeds",
+    "message": "射击速度"
   },
   "PROPULSION": {
     "description": "Category name of propulsion-related equipment",
@@ -307,6 +667,18 @@
     "description": "",
     "message": "提供附近飞船的3D地图"
   },
+  "REINFORCED_STRUCTURE": {
+    "description": "Name for an equipment item that reinforces the hull's superstructure",
+    "message": "加固结构"
+  },
+  "REINFORCED_STRUCTURE_DESCRIPTION": {
+    "description": "Description of the Reinforced Structure equipment item",
+    "message": "用于加强舰船框架的售后强化套件。可提高对高大气压力的抗性。"
+  },
+  "REQUIRED_SLOT_IS_EMPTY": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "所需槽位为空"
+  },
   "SCAN_COMPLETED": {
     "description": "",
     "message": "扫描完成"
@@ -325,11 +697,11 @@
   },
   "SENSOR_MIN_ALTITUDE": {
     "description": "",
-    "message": "Sensor min altitude"
+    "message": "传感器最低海拔"
   },
   "SENSOR_RESOLUTION": {
     "description": "Resolution of e.g. optical sensor",
-    "message": "Sensor resolution"
+    "message": "传感器分辨率"
   },
   "SHIELDS": {
     "description": "Category name of shield-related equipment",
@@ -355,6 +727,70 @@
     "description": "Tooltip explaining weapon fire rate / RPM counter",
     "message": "射速/分钟"
   },
+  "SLOT": {
+    "description": "",
+    "message": "槽位"
+  },
+  "SLOTLESS": {
+    "description": "",
+    "message": "无槽位"
+  },
+  "SLOT_CABIN": {
+    "description": "Name for a generic room slot inside the pressurized living space",
+    "message": "客舱"
+  },
+  "SLOT_CABIN_FORE": {
+    "description": "Name for a cabin slot towards the front of the ship",
+    "message": "前舱"
+  },
+  "SLOT_CABIN_REAR": {
+    "description": "Name for a cabin slot towards the rear of the ship",
+    "message": "后舱"
+  },
+  "SLOT_COMPUTER": {
+    "description": "Name for a generic computer equipment slot",
+    "message": "计算机"
+  },
+  "SLOT_ENGINE": {
+    "description": "Name for the ship's primary travel engines",
+    "message": "引擎"
+  },
+  "SLOT_HULL": {
+    "description": "Name for an equipment slot that augments or modifies the ship hull",
+    "message": "船体"
+  },
+  "SLOT_HYPERDRIVE": {
+    "description": "Name for a ship's singular hyperdrive equipment slot",
+    "message": "超空间引擎"
+  },
+  "SLOT_IS_NOT_EMPTY_REPLACE_THE_EQUIPMENT_QUESTION": {
+    "description": "",
+    "message": "槽位不为空，是否更换装备？"
+  },
+  "SLOT_SENSOR": {
+    "description": "Name for a generic (flight/navigation) sensor slot",
+    "message": "传感器"
+  },
+  "SLOT_SHIELD": {
+    "description": "Name for a generic shield slot",
+    "message": "护盾"
+  },
+  "SLOT_SHIELD_LEFT": {
+    "description": "Name for a left-side shield slot",
+    "message": "护盾 L"
+  },
+  "SLOT_SHIELD_RIGHT": {
+    "description": "Name for a right-side shield equipment slot",
+    "message": "护盾 R"
+  },
+  "SLOT_STRUCTURE": {
+    "description": "Name for the ship's internal structure modification slot",
+    "message": "结构"
+  },
+  "SLOT_THRUSTER": {
+    "description": "Generic name for secondary attitude or maneuvering thrusters",
+    "message": "推进器"
+  },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
     "message": "小型等离子体加速器"
@@ -363,21 +799,61 @@
     "description": "",
     "message": "开始扫描, 目标距离为"
   },
+  "STAT_ATMO_SHIELD": {
+    "description": "Stat name for atmospheric shielding. 'Atmospheric' is abbreviated.",
+    "message": "大气压力抗性"
+  },
+  "STAT_HYPERDRIVE_EFFICIENCY": {
+    "description": "",
+    "message": "燃料效率等级"
+  },
+  "STAT_HYPERDRIVE_RESERVOIR": {
+    "description": "",
+    "message": "燃料箱容量"
+  },
+  "STAT_MISSILE_RADIUS": {
+    "description": "",
+    "message": "引信作用半径"
+  },
+  "STAT_MISSILE_WARHEAD": {
+    "description": "",
+    "message": "爆炸威力（等效）"
+  },
+  "STAT_POWER_DRAW": {
+    "description": "Stat label for equipment power draw",
+    "message": "功率消耗"
+  },
+  "STAT_SHIELD": {
+    "description": "Stat name for shield generator effectiveness.",
+    "message": "有效护盾强度"
+  },
+  "STAT_THRUSTER_POWER": {
+    "description": "Stat name for thruster upgrades",
+    "message": "最大推力提升"
+  },
+  "STAT_VOLUME": {
+    "description": "Stat label for equipment volume",
+    "message": "音量"
+  },
+  "STAT_WEIGHT": {
+    "description": "Stat label for equipment weight",
+    "message": "重量"
+  },
   "SURFACE_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude. Model manufacturer name is meant to sound like a cheap brand.",
-    "message": "Surface scanner Nadir-150"
+    "message": "地面扫描器 Nadir-150"
   },
   "SURFACE_SCANNER_DESCRIPTION": {
     "description": "tooltip",
-    "message": "Cartography mapping and geological survey recorder"
+    "message": "制图和地质调查记录器"
   },
   "SURFACE_SCANNER_GOOD": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types. Model manufacturer name is meant to be associated with high quality.",
-    "message": "Surface scanner Xeiss-250"
+    "message": "地面扫描器 Xeiss-250"
   },
   "SURFACE_SCANNER_GOOD_DESCRIPTION": {
     "description": "tooltip",
-    "message": "High resolution cartography mapping and geological survey recorder"
+    "message": "高分辨率制图和地质调查记录器"
   },
   "TARGET_SCANNER": {
     "description": "ship equipment showing target information/stats",
@@ -387,27 +863,39 @@
     "description": "",
     "message": "用于远距离探测其他飞船的装备,货仓和状态信息."
   },
-  "THRUSTERS_BASIC": {
-    "description": "",
-    "message": "改良推进器"
+  "TARGET_SLOT_IS_NOT_EMPTY_PUT_THE_REPLACED_ONE_IN_THE_CLIPBOARD_QUESTION": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "目标槽位不为空，是否将替换的装备放入剪贴板？"
   },
-  "THRUSTERS_BASIC_DESCRIPTION": {
-    "description": "",
-    "message": "一种适用于你的船的改良推进器. "
+  "THE_SAME_EQUIPMENT_HAS_BEEN_ALREADY_INSTALLED": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "相同的装备已经安装。"
   },
-  "THRUSTERS_BEST": {
-    "description": "",
-    "message": "订制推进器"
+  "THRUSTERS_DEFAULT": {
+    "description": "Equipment name for default RCS thrusters",
+    "message": "默认推进器"
   },
-  "THRUSTERS_BEST_DESCRIPTION": {
+  "THRUSTERS_IMPROVED": {
     "description": "",
-    "message": "订制的推进器, 可提供最大的输出. "
+    "message": "改进型推进器"
   },
-  "THRUSTERS_MEDIUM": {
+  "THRUSTERS_IMPROVED_DESCRIPTION": {
+    "description": "",
+    "message": "已获批准用于您舰船的改进型推进器。"
+  },
+  "THRUSTERS_NAVAL": {
+    "description": "",
+    "message": "海军推进器"
+  },
+  "THRUSTERS_NAVAL_DESCRIPTION": {
+    "description": "",
+    "message": "为您的舰船量身定制的海军推进器，提供最佳输出。"
+  },
+  "THRUSTERS_OPTIMISED": {
     "description": "",
     "message": "优化推进器"
   },
-  "THRUSTERS_MEDIUM_DESCRIPTION": {
+  "THRUSTERS_OPTIMISED_DESCRIPTION": {
     "description": "",
     "message": "经过优化以增加效率并增加输出功率的推进器. "
   },
@@ -427,13 +915,21 @@
     "description": "",
     "message": "显示当前星系与已选星系间有贸易价值的商品"
   },
+  "UNIT_HYPERDRIVE_EFFICIENCY": {
+    "description": "Fictional unit abbreviation for hyperdrive efficiency",
+    "message": "千弗（kF，单位：千牛顿）"
+  },
+  "UNIT_WARHEAD_DAMAGE": {
+    "description": "Unit abbreviation for missile warhead damage.",
+    "message": "千克 TNT"
+  },
   "UNOCCUPIED_CABIN": {
     "description": "",
     "message": "额外客舱"
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",
-    "message": "需要单人客运船"
+    "message": "用于运输乘客"
   },
   "UTILITY": {
     "description": "Category name of utility equipment",

@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -20,13 +20,15 @@ local mainButtonFramePadding = ui.theme.styles.MainButtonPadding
 
 local show_thrust_slider = false
 
-local gauge_bg = colors.grey
-local gauge_fg = colors.lightGrey
+local gauge_bg = colors.gaugeThrustDark
+local gauge_fg = colors.gaugeThrustLight
 local function button_lowThrustPower()
 	local thrust = player:GetLowThrustPower()
 	local winpos = ui.getWindowPos()
 	local pos = ui.getCursorPos()
-	if ui.lowThrustButton("lowthrust", mainButtonSize, thrust * 100, colors.transparent, mainButtonFramePadding, gauge_fg, gauge_bg)  then
+	-- This widget still takes icon_size + padding as two separate arguments
+	local low_thrust_size = mainButtonSize - Vector2(mainButtonFramePadding * 2)
+	if ui.lowThrustButton("lowthrust", low_thrust_size, thrust * 100, colors.transparent, mainButtonFramePadding, gauge_fg, gauge_bg)  then
 		show_thrust_slider = not show_thrust_slider
 	end
 
@@ -36,10 +38,8 @@ local function button_lowThrustPower()
 
 		ui.window("ThrustSliderWindow", {"NoTitleBar", "NoResize"},
 			function()
-				ui.withStyleColors({["SliderGrab"] =colors.white, ["SliderGrabActive"]=colors.buttonBlue},function()
-					local new_thrust = ui.vSliderInt('###ThrustLowPowerSlider',Vector2(mainButtonSize.x + 1 + 2 * mainButtonFramePadding,100), thrust*100,0,100)
-					player:SetLowThrustPower(new_thrust/100)
-				end)
+				local new_thrust = ui.vSliderInt('###ThrustLowPowerSlider', Vector2(mainButtonSize.x, 100), thrust*100, 0, 100)
+				player:SetLowThrustPower(new_thrust/100)
 			end)
 	end
 	if ui.isItemHovered() then
@@ -58,6 +58,7 @@ local function button_thrustIndicator(thrust_widget_size)
 	local vel = Engine.WorldSpaceToShipSpace(player:GetVelocity())
 	vel = vel / math.max(vel:length(), 10) -- minimum of 10m/s
 	local thrust = player:GetThrusterState()
+	thrust_widget_size = thrust_widget_size - Vector2(mainButtonFramePadding * 2)
 	ui.thrustIndicator("foo", thrust_widget_size, thrust, vel, colors.transparent, mainButtonFramePadding, colors.gaugeVelocityLight, colors.gaugeVelocityDark, colors.gaugeThrustLight, colors.gaugeThrustDark)
 	if ui.isItemHovered() then
 		ui.setTooltip(lui.HUD_THRUST_INDICATOR)
@@ -103,13 +104,13 @@ local function displayShipFunctionWindow()
 	local buttons = 3
 	local thrust_widget_size = Vector2(mainButtonSize.x * 3, mainButtonSize.y * 2)
 	assert(thrust_widget_size.y >= mainButtonSize.y)
-	local window_width = ui.getWindowPadding().x * 2 + (mainButtonSize.x + 2 * mainButtonFramePadding + ui.getItemSpacing().x) * buttons + thrust_widget_size.x + mainButtonFramePadding * 2
-	local window_height = thrust_widget_size.y + mainButtonFramePadding * 2 + ui.getWindowPadding().y * 2
-	local window_posx = ui.screenWidth/2 - ui.reticuleCircleRadius - window_width + 12 -- manual move a little closer to the center
+	local window_width = ui.getWindowPadding().x * 2 + (mainButtonSize.x + ui.getItemSpacing().x) * buttons + thrust_widget_size.x
+	local window_height = thrust_widget_size.y + ui.getWindowPadding().y * 2
+	local window_posx = ui.screenWidth/2 - ui.reticuleCircleRadius - window_width
 	local window_posy = ui.screenHeight - window_height
 	ui.setNextWindowPos(Vector2(window_posx, window_posy), "Always")
 	ui.window("ShipFunctions", windowFlags, function()
-		if current_view == "world" then
+		if current_view == "WorldView" then
 			local shift = Vector2(0.0, thrust_widget_size.y - mainButtonSize.y)
 			ui.addCursorPos(shift)
 			button_wheelstate()
@@ -123,10 +124,16 @@ local function displayShipFunctionWindow()
 			if ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f8) then
 				show_thrust_slider = not show_thrust_slider
 			end
-		end -- current_view == "world"
+		end -- current_view == "WorldView"
 	end)
 end
 
-ui.registerModule("game", { id = "ship-internals-window", draw = displayShipFunctionWindow })
+ui.registerModule("game", {
+	id = "ship-internals-window",
+	draw = displayShipFunctionWindow,
+	debugReload = function()
+		package.reimport()
+	end,
+})
 
 return {}

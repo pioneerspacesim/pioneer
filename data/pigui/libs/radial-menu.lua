@@ -1,4 +1,4 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 local Lang = require 'Lang'
 local Engine = require 'Engine'
@@ -68,18 +68,52 @@ function ui.openRadialMenu(id, target, mouse_button, size, actions, padding, pos
 	end
 end
 
--- TODO: add cloud Lang::SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
+local hasAutopilotLevel = function(level)
+	return (Game.player["autopilot_cap"] or 0) >= level
+end
+
+local radial_menu_actions_hyperspace_cloud = {
+	{
+		icon = ui.theme.icons.hyperspace,
+		tooltip = lc.SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE,
+		action = function(target)
+			local hypercloud_level = (Game.player["hypercloud_analyzer_cap"] or 0)
+			local ship = not target:IsArrival() and target:GetShip()
+			if hypercloud_level > 0 then
+				-- implicitly drops second return value of GetHyperspaceDestination() when using this "and" construct
+				local destPath = ship and ship:GetHyperspaceDestination()
+				if destPath then
+					local target = destPath:IsBodyPath() and destPath:GetSystemBody().nearestJumpable.path or destPath:SystemOnly()
+					Game.player:SetHyperspaceTarget(target)
+					Game.sectorView:ClearRoute()
+					Game.sectorView:AddToRoute(target)
+					-- FIXME: lazy-require here due to insufficient event handling around hyperjump route management.
+					require 'pigui.modules.hyperjump-planner'.updateRouteList()
+					Game.sectorView:SwitchToPath(target)
+					ui.playSfx("OK")
+				end
+			else
+				Game.AddCommsLogLine(lc.NO_HYPERCLOUD_SCANNER_INSTALLED)
+			end
+		end
+
+	}
+}
+
 local radial_menu_actions_station = {
-	{icon=ui.theme.icons.comms, tooltip=lc.REQUEST_DOCKING_CLEARANCE,
+	{
+		icon=ui.theme.icons.comms, tooltip=lc.REQUEST_DOCKING_CLEARANCE,
 		action=function(target)
 			target:RequestDockingClearance(Game.player)
 			-- TODO: play a negative sound if clearance is refused
 			Game.player:SetNavTarget(target)
 			ui.playSfx("OK")
-		end},
-	{icon=ui.theme.icons.autopilot_dock, tooltip=lc.AUTOPILOT_DOCK_WITH_STATION,
+		end
+	},
+	{
+		icon=ui.theme.icons.autopilot_dock, tooltip=lc.AUTOPILOT_DOCK_WITH_STATION,
 		action=function(target)
-	 		if next(Game.player:GetEquip('autopilot')) ~= nil then
+	 		if hasAutopilotLevel(1) then
 		 		Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 		Game.player:AIDockWith(target)
 		 		Game.player:SetNavTarget(target)
@@ -87,13 +121,15 @@ local radial_menu_actions_station = {
 			else
 				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
-		end},
+		end
+	},
 }
 
 local radial_menu_actions_all_bodies = {
-	{icon=ui.theme.icons.autopilot_fly_to, tooltip=lc.AUTOPILOT_FLY_TO_VICINITY_OF,
+	{
+		icon=ui.theme.icons.autopilot_fly_to, tooltip=lc.AUTOPILOT_FLY_TO_VICINITY_OF,
 		action=function(target)
-			if next(Game.player:GetEquip('autopilot')) ~= nil then
+			if hasAutopilotLevel(1) then
 		 		Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 		Game.player:AIFlyTo(target)
 		 		Game.player:SetNavTarget(target)
@@ -101,13 +137,15 @@ local radial_menu_actions_all_bodies = {
 			else
 				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
-		end},
+		end
+	},
 }
 
 local radial_menu_actions_systembody = {
-	{icon=ui.theme.icons.autopilot_low_orbit, tooltip=lc.AUTOPILOT_ENTER_LOW_ORBIT_AROUND,
+	{
+		icon=ui.theme.icons.autopilot_low_orbit, tooltip=lc.AUTOPILOT_ENTER_LOW_ORBIT_AROUND,
 		action=function(target)
-	 		if next(Game.player:GetEquip('autopilot')) ~= nil then
+	 		if hasAutopilotLevel(1) then
 		 		Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 		Game.player:AIEnterLowOrbit(target)
 		 		Game.player:SetNavTarget(target)
@@ -115,10 +153,12 @@ local radial_menu_actions_systembody = {
 			else
 				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
-		end},
-	{icon=ui.theme.icons.autopilot_medium_orbit, tooltip=lc.AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND,
+		end
+	},
+	{
+		icon=ui.theme.icons.autopilot_medium_orbit, tooltip=lc.AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND,
 		action=function(target)
-	 		if next(Game.player:GetEquip('autopilot')) ~= nil then
+	 		if hasAutopilotLevel(1) then
 		 		Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 		Game.player:AIEnterMediumOrbit(target)
 		 		Game.player:SetNavTarget(target)
@@ -126,10 +166,12 @@ local radial_menu_actions_systembody = {
 			else
 				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
-		end},
-	{icon=ui.theme.icons.autopilot_high_orbit, tooltip=lc.AUTOPILOT_ENTER_HIGH_ORBIT_AROUND,
+		end
+	},
+	{
+		icon=ui.theme.icons.autopilot_high_orbit, tooltip=lc.AUTOPILOT_ENTER_HIGH_ORBIT_AROUND,
 		action=function(target)
-	 		if next(Game.player:GetEquip('autopilot')) ~= nil then
+	 		if hasAutopilotLevel(1) then
 		 		Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 		Game.player:AIEnterHighOrbit(target)
 		 		Game.player:SetNavTarget(target)
@@ -137,25 +179,22 @@ local radial_menu_actions_systembody = {
 			else
 				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
-		end},
+		end
+	},
 }
 
-function ui.openDefaultRadialMenu(id, body)
+function ui.openDefaultRadialMenu(id, body, pos, action_binding)
 	if body then
 		local actions = {}
-		for _,v in pairs(radial_menu_actions_all_bodies) do
-			table.insert(actions, v)
-		end
+		table.append(actions, radial_menu_actions_all_bodies)
 		if body:IsStation() then
-			for _,v in pairs(radial_menu_actions_station) do
-				table.insert(actions, v)
-			end
+			table.append(actions, radial_menu_actions_station)
+		elseif body:IsHyperspaceCloud() then
+			table.append(actions, radial_menu_actions_hyperspace_cloud)
 		elseif body:GetSystemBody() then
-			for _,v in pairs(radial_menu_actions_systembody) do
-				table.insert(actions, v)
-			end
+			table.append(actions, radial_menu_actions_systembody)
 		end
-		ui.openRadialMenu(id, body, 1, defaultRadialMenuIconSize, actions, defaultRadialMenuPadding)
+		ui.openRadialMenu(id, body, 1, defaultRadialMenuIconSize, actions, defaultRadialMenuPadding, pos, action_binding)
 	end
 end
 

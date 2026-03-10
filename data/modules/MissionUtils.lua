@@ -1,19 +1,26 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game   = require "Game"
 local Engine = require "Engine"
+local Timer  = require "Timer"
 local utils  = require "utils"
 
 local AU = 149598000000
 local AU_sqrt = math.sqrt(AU)
 
-local Days = 24*60*60
+local Hours = 60*60
+local Days = 24*Hours
+local Weeks = 7*Days
 
 local MissionUtils = {
 	AU = AU,
-	Days = Days
+	Days = Days,
+	Hours = Hours,
+	Weeks = Weeks,
 }
+
+MissionUtils.ShipTemplates = require 'modules.MissionUtils.ShipTemplates'
 
 ---@class MissionUtils.Calculator
 ---@field New fun(): MissionUtils.Calculator
@@ -173,5 +180,69 @@ function MissionUtils.GetNearbyStationPaths(system, range_ly, system_filter, sta
 	return nearby_stations
 end
 
+-- Function: TravelTimeLocal
+--
+-- Returns a standardized travel time to a local target
+--
+-- Example:
+--
+-- > travel_time = MissionUtils.TravelTimeLocal(distance)
+--
+-- Parameters:
+--
+--   distance - the distance to the target in meters
+--
+-- Returns:
+--
+--   the travel time in seconds
+--
+function MissionUtils.TravelTimeLocal(distance)
+	return distance/AU * 2*Days
+end
+
+--
+-- Function: TravelTime
+--
+-- Returns a standardized hyperspace travel time
+--
+-- Example:
+--
+-- > travel_time = MissionUtils.TravelTime(distance, location)
+--
+-- Parameters:
+--
+--   distance - the distance to the target system in light years
+--
+--   location - optional, the location in the target system
+--              must be a station or planet
+--
+-- Returns:
+--
+--   the travel time in seconds
+--
+function MissionUtils.TravelTime(distance, location)
+	local ltt
+
+	if location then
+		local sbody = location:GetSystemBody()
+		-- find the primary planet orbiting the star or gravpoint to calculate the local travel time
+		while sbody.parent and sbody.parent.superType ~= 'STAR' do sbody = sbody.parent end
+		ltt = MissionUtils.TravelTimeLocal((sbody.periapsis+sbody.apoapsis)/2)
+	else
+		ltt = MissionUtils.TravelTimeLocal(AU)
+	end
+
+	return distance * 1.75*Days + ltt
+end
+
+function MissionUtils.SetupOverdueTimer(mission)
+	if Game.time < mission.due then
+		Timer:CallAt(mission.due, function ()
+			if mission and mission.status then
+				mission.status = 'FAILED'
+			end
+		end)
+	end
+end
 
 return MissionUtils

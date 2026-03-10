@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TEXTURE_H
@@ -16,11 +16,8 @@ namespace Graphics {
 
 		TEXTURE_RGBA_8888,
 		TEXTURE_RGB_888,
-
-		//luminance/intensity formats are deprecated in opengl 3+
-		//so we might remove them someday
-		TEXTURE_LUMINANCE_ALPHA_88, //luminance value put into R,G,B components; separate alpha value
-		TEXTURE_INTENSITY_8,		//intensity value put into RGBA components
+		TEXTURE_RG_88,
+		TEXTURE_R8,
 
 		TEXTURE_DXT1, // data is expected to be pre-compressed
 		TEXTURE_DXT5,

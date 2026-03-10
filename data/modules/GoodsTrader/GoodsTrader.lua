@@ -1,8 +1,9 @@
--- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = require 'Lang'
 local Engine = require 'Engine'
+local Economy = require 'Economy'
 local Game = require 'Game'
 local Event = require 'Event'
 local NameGen = require 'NameGen'
@@ -10,6 +11,7 @@ local Rand = require 'Rand'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
 local Commodities = require 'Commodities'
+local PlayerState = require 'PlayerState'
 
 local l = Lang.GetResource("module-goodstrader")
 
@@ -22,6 +24,9 @@ local ads = {}
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
+	---@type SpaceStation
+	local station = assert(Game.player:GetDockedWith())
+
 	if option == -1 then
 		form:Close()
 		return
@@ -32,74 +37,69 @@ local onChat = function (form, ref, option)
 	form:SetFace(ad.trader)
 	form:SetMessage(l.WELCOME_TO..ad.flavour..".\n"..ad.slogan)
 
-	local onClick = function (ref)
-		if not ads[ref].ispolice then
+	local onClick = function (ad)
+		if not ad.ispolice then
 			return true
 		end
 
 		local lawlessness = Game.system.lawlessness
-		Game.player:AddCrime("TRADING_ILLEGAL_GOODS", 400*(2-lawlessness))
+		PlayerState.AddCrime("TRADING_ILLEGAL_GOODS", 400*(2-lawlessness))
 		form:GotoPolice()
 		return false
 	end
 
 	form:AddGoodsTrader({
 		-- can I trade this commodity?
-		canTrade = function (ref, commodity)
-			if ads[ref].stock[commodity] then
+		canTrade = function (self, commodity)
+			if ad.stock[commodity] then
 				return true
 			end
 		end,
 
-		canDisplayItem = function (ref, commodity)
-			if ads[ref].stock[commodity] then
+		canDisplayItem = function (self, commodity)
+			if ad.stock[commodity] then
 				return true
 			end
 		end,
 
 		-- how much of this commodity do we have in stock?
-		getStock = function (ref, commodity)
-			return ads[ref].stock[commodity]
+		getStock = function (self, commodity)
+			return ad.stock[commodity]
 		end,
 
 		-- what do we charge for this commodity?
-		getBuyPrice = function (ref, commodity)
-			return ads[ref].price[commodity]
+		getBuyPrice = function (self, commodity)
+			return ad.price[commodity] * (1.0 + Economy.TradeFeeSplit * 0.01)
 		end,
 
 		-- what do we return
-		getSellPrice = function (ref, commodity)
-			return ads[ref].price[commodity]
+		getSellPrice = function (self, commodity)
+			return ad.price[commodity] * (1.0 - Economy.TradeFeeSplit * 0.01)
 		end,
 
 		-- do something when a "buy" button is clicked
-		onClickBuy = function (ref, commodity)
-			return onClick(ref)
+		onClickBuy = function (self, commodity)
+			return onClick(ad)
 		end,
 
 		-- do something when a "sell" button is clicked
-		onClickSell = function (ref, commodity)
-			return onClick(ref)
+		onClickSell = function (self, commodity)
+			return onClick(ad)
 		end,
 
 		-- do something when we buy this commodity
-		bought = function (ref, commodity, market)
-			local count = 1
-			if market.tradeAmount ~= nil then
-				count = market.tradeAmount
-			end
-
-			ads[ref].stock[commodity] = ads[ref].stock[commodity] - count
+		bought = function (self, commodity, amount)
+			local count = amount or 1
+			ad.stock[commodity] = ad.stock[commodity] - count
 		end,
 
 		-- do something when we sell this commodity
-		sold = function (ref, commodity, market)
-			local count = 1
-			if market.tradeAmount ~= nil then
-				count = market.tradeAmount
-			end
+		sold = function (self, commodity, amount)
+			local count = amount or 1
 
-			ads[ref].stock[commodity] = ads[ref].stock[commodity] + count
+			ad.stock[commodity] = ad.stock[commodity] + count
+			-- Update commodity demand at station; only legit GoodsTraders will reach this code
+			station:AddCommodityStock(commodity, count)
 		end,
 	})
 
@@ -143,7 +143,7 @@ local onCreateBB = function (station)
 			local slogan = l["SLOGAN_"..r:Integer(num_slogans - 1)]
 
 			local ad = {
-				station  = station,
+				station  = station, ---@type SpaceStation
 				flavour  = flavour,
 				slogan   = slogan,
 				ispolice = ispolice,

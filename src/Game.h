@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GAME_H
@@ -37,16 +37,8 @@ class ObjectViewerView;
 
 class Game {
 public:
-	static Json LoadGameToJson(const std::string &filename);
-	// LoadGame and SaveGame throw exceptions on failure
-	static Game *LoadGame(const std::string &filename);
-	static bool CanLoadGame(const std::string &filename);
-	// XXX game arg should be const, and this should probably be a member function
-	// (or LoadGame/SaveGame should be somewhere else entirely)
-	static void SaveGame(const std::string &filename, Game *game);
-
 	// start docked in station referenced by path or nearby to body if it is no station
-	Game(const SystemPath &path, const double startDateTime = 0.0);
+	Game(const SystemPath &path, const double startDateTime, const char *shipType = "kanara");
 
 	// load game
 	Game(const Json &jsonObj);
@@ -135,15 +127,15 @@ private:
 
 		void SetRenderer(Graphics::Renderer *r);
 
-		SectorView *m_sectorView;
-		SystemView *m_systemView;
-		WorldView *m_worldView;
-		DeathView *m_deathView;
-		View *m_spaceStationView;
-		View *m_infoView;
+		SectorView *m_sectorView = nullptr;
+		SystemView *m_systemView = nullptr;
+		WorldView *m_worldView = nullptr;
+		DeathView *m_deathView = nullptr;
+		View *m_spaceStationView = nullptr;
+		View *m_infoView = nullptr;
 
 		/* Only use #if WITH_OBJECTVIEWER */
-		ObjectViewerView *m_objectViewerView;
+		ObjectViewerView *m_objectViewerView = nullptr;
 	};
 
 	void CreateViews();
@@ -155,12 +147,15 @@ private:
 	void SwitchToHyperspace();
 	void SwitchToNormalSpace();
 
+	std::unique_ptr<Player> m_player;
+
 	RefCountedPtr<Galaxy> m_galaxy;
 	std::unique_ptr<Views> m_gameViews;
 	std::unique_ptr<Space> m_space;
 	double m_time;
 
-	std::unique_ptr<Player> m_player;
+	int64_t m_sessionStartTimestamp;
+	double m_playedDuration;
 
 	enum class State {
 		NORMAL,

@@ -1,11 +1,11 @@
 {
   "FLAVOUR_0_BODY": {
-    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC",
+    "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC. It is formated as a list",
     "message": "Appelle le 36 24 36, je serais toujours là. Je fais du commerce de:\n - chaussures en béton,\n - cyanure,\n - TNT,\n - cravates,\n - contrats,\n - haute-tension,\n\n... ou simplement pour discuter."
   },
   "FLAVOUR_0_DESC": {
     "description": "Second line for an easter-egg AC/DC song title reference.",
-    "message": "Si tu as des soucis, appeles-moi quand tu veux."
+    "message": "Si tu as des soucis, appelles-moi quand tu veux."
   },
   "FLAVOUR_0_TITLE": {
     "description": "The 'all caps' title should probably not be translated, as it's an AC/DC song title reference. Either way, it's a very rare 'Easter egg'",
@@ -13,7 +13,7 @@
   },
   "FLAVOUR_1_BODY": {
     "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to https://en.wikipedia.org/wiki/867-5309/Jenny",
-    "message": "Tu ne me connais pas, mais appelle moi au 867-5309/Jenny"
+    "message": "Tu ne me connais pas, mais appelles-moi au 867-5309/Jenny"
   },
   "FLAVOUR_1_DESC": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",
@@ -22,5 +22,17 @@
   "FLAVOUR_1_TITLE": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",
     "message": "BESOIN DE QUELQU'UN VERS QUI VOUS TOURNER (NEED SOMEONE TO TURN TO) ?"
+  },
+  "FLAVOUR_2_BODY": {
+    "description": "A very rare easter egg, referencing a online myth from 90s: https://en.wikipedia.org/wiki/John_Titor",
+    "message": "Je suis John Titor de l'Institut des Voyages Temporels, venant de l'année 4036. Je me dirige vers l'an 1975 afin de récupérer un ordinateur IBM 5100 dans le but de débugger des programmes obsolètes qui n'ont pas été correctement portés vers les machines de mon temps. Entre temps, je m'arrête dans votre ère afin de collecter des informations sur votre temps avant qu'elles soient perdues dans la grande calamité.\n\nJ'ai l'intention de revenir avec une description en six parties décrivant ce qui est nécessaire pour faire fonctionner une machine temporelle. Pour faire court, une machine temporelle est une masse stationnaire, une unité de déplacement temporel alimenté par deux singularités spin-haut doublement positives produisant une sinusoïde standard de Tipler déphasée. L'unité de déplacement se déplace dans le temps, pas dans l'espace.\n\nJe serai heureux de publier des images de l'unité sur requête. "
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "Note: string has quotes",
+    "message": "'Si le voyage temporel était possible, où sont tous les voyageurs temporels ?'"
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "A very rare Easter egg, referencing Internet myth of John Titor.",
+    "message": "Peuple du passé, méfiez-vous de la GRANDE CALAMITÉ!"
   }
 }

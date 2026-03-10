@@ -1,0 +1,102 @@
+{
+	"version": 2,
+	"configurePresets": [
+		{
+			"name": "linux-x64-release",
+			"displayName": "Linux x64 Release",
+			"description": "in-place installation target; Opt=yes; Profiler=no",
+			"binaryDir": "${sourceDir}/build/",
+			"generator": "Unix Makefiles",
+			"cacheVariables": {
+				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/pioneer-${presetName}",
+				"PIONEER_INSTALL_INPLACE": "1",
+				"CMAKE_BUILD_TYPE": "RelWithDebInfo"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Linux"
+					]
+				}
+			}
+		},
+        {
+			"name": "linux-x64-release-appimage",
+			"displayName": "Linux x64 Release appimage",
+			"description": "appimage installation target; Opt=yes; Profiler=no",
+			"binaryDir": "${sourceDir}/build/",
+			"generator": "Unix Makefiles",
+			"cacheVariables": {
+                "CMAKE_INSTALL_PREFIX":"${sourceDir}/out/install/pioneer-${presetName}/usr",
+                "PIONEER_DATA_DIR": "usr/share/data",
+                "PIONEER_INSTALL_DATADIR":"share",
+                "APPIMAGE_BUILD": "1",
+				"CMAKE_BUILD_TYPE": "RelWithDebInfo"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Linux"
+					]
+				}
+			}
+		},
+		{
+			"name": "linux-x64-release-global",
+			"displayName": "Linux x64 Release",
+			"description": "global installation target; Opt=yes; Profiler=no",
+			"binaryDir": "${sourceDir}/build/",
+			"generator": "Unix Makefiles",
+			"cacheVariables": {
+				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/pioneer-${presetName}",
+				"CMAKE_BUILD_TYPE": "RelWithDebInfo"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Linux"
+					]
+				}
+			}
+		},
+		{
+			"name": "linux-x64-release-avx",
+			"displayName": "Linux x64 Release",
+			"description": "in-place installation target; Opt=yes; Profiler=no",
+			"binaryDir": "${sourceDir}/build/",
+			"generator": "Unix Makefiles",
+			"cacheVariables": {
+				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/pioneer-${presetName}",
+				"PIONEER_INSTALL_INPLACE": "1",
+				"CMAKE_BUILD_TYPE": "RelWithDebInfo",
+				"USE_AVX2": true
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Linux"
+					]
+				}
+			}
+		},
+		{
+			"name": "linux-x64-release-global-avx",
+			"displayName": "Linux x64 Release",
+			"description": "global installation target; Opt=yes; Profiler=no",
+			"binaryDir": "${sourceDir}/build/",
+			"generator": "Unix Makefiles",
+			"cacheVariables": {
+				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/pioneer-${presetName}",
+				"CMAKE_BUILD_TYPE": "RelWithDebInfo",
+				"USE_AVX2": true
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Linux"
+					]
+				}
+			}
+		}
+	]
+}

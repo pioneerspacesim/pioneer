@@ -15,6 +15,10 @@
     "description": "",
     "message": "Προστατεύει το διαστημόπλοιό σας από τη ζέστη επανεισόδου στην ατμόσφαιρα."
   },
+  "ATMOSPHERIC_SHIELDING_FLAVOURTEXT": {
+    "description": "",
+    "message": "Ελαφριά θωράκιση που παρέχει μέτρια προστασία έναντι της ατμοσφαιρικής τριβής και πίεσης."
+  },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
     "message": "Υπέρ-ανθεκτική ατμοσφαιρική προστασία"
@@ -22,6 +26,10 @@
   "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
     "description": "",
     "message": "Μια πιο αποδοτική έκδοση των Ατμοσφαιρικές Ασπίδων"
+  },
+  "ATMOSPHERIC_SHIELDING_HEAVY_FLAVOURTEXT": {
+    "description": "",
+    "message": "Σχεδιασμένη για επιστημονικές αποστολές σε πυκνές ατμόσφαιρες, αυτή η θωράκιση αν και πιο βαριά, αυξάνει σημαντικά το όριο ατμοσφαιρικής πίεσης έναντι της οποίας προστατεύει."
   },
   "AUTOPILOT": {
     "description": "",
@@ -43,6 +51,18 @@
     "description": "",
     "message": "2MW ταχυβόλο λέιζερ δέσμης"
   },
+  "BY_ITEM": {
+    "description": "Button in the start menu when editing equipment",
+    "message": "Ανά αντικείμενο."
+  },
+  "BY_SLOT": {
+    "description": "Button in the start menu when editing equipment",
+    "message": "Ανα υποδοχή."
+  },
+  "CABINS": {
+    "description": "Category header for pressurized cabin slots",
+    "message": "Καμπίνες"
+  },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
     "message": "Χώρος φορτίου για υποστήριξη ζωής"
@@ -59,9 +79,13 @@
     "description": "",
     "message": "Επιτρέπει τη λήψη λοβών φορτίου από το διάστημα."
   },
+  "COMPUTER_MODULES": {
+    "description": "Category name of computer-related equipment",
+    "message": "Ηλεκτρονικά εξαρτήματα."
+  },
   "DAMAGE_PER_SHOT": {
     "description": "Tooltip explaining weapon damage per shot",
-    "message": "Damage Per Shot"
+    "message": "Ποσό ζημιάς ανά βολή"
   },
   "DRIVE_CLASS1": {
     "description": "",
@@ -151,17 +175,33 @@
     "description": "",
     "message": "Ένα ηλεκτρονικό σύστημα αντιπυραυλικής άμυνας, ικανό να καταστρέψει ορισμένους πυραύλους."
   },
+  "ECM_HOVER_MESSAGE": {
+    "description": "",
+    "message": "Ενεργοποίηση ηλεκτρονικών αντίμετρων"
+  },
+  "EDIT_EQUIPMENT": {
+    "description": "Dialog title",
+    "message": "Επεξεργασία αντικειμένου."
+  },
+  "EMPTY_EQUIPMENT_PROVIDING_SLOTS": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "Κενή υποδοχή που παρέχει νέες υποδοχές για εξοπλισμό"
+  },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
-    "message": "EMPTY"
+    "message": "ΚΕΝΟ"
+  },
+  "EQUIPMENT_DOES_NOT_FIT_INTO_THE_SLOT": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "Το συγκεκριμένο υλικό δεν ταιριάζει σε αυτή την υποδοχή"
   },
   "EQUIPMENT_INTEGRITY": {
     "description": "Tooltip explaining remaining equipment integrity",
-    "message": "Equipment Integrity"
+    "message": "Κατάσταση εξοπλισμού"
   },
   "EQUIPMENT_WEIGHT": {
     "description": "Tooltip explaining equipment weight",
-    "message": "Equipment Weight"
+    "message": "Βάρος εξοπλισμού"
   },
   "FUEL_SCOOP": {
     "description": "",
@@ -171,6 +211,106 @@
     "description": "",
     "message": "Επιτρέπει τη λήψη καυσίμων υδρογόνου από γιγαντιαίους πλανήτες αερίου."
   },
+  "HARDPOINT_FUEL_SCOOP": {
+    "description": "Name for the 'Fuel Scoop' equipment hardpoint",
+    "message": "Συλλέκτης καυσίμων"
+  },
+  "HARDPOINT_MINING_LASER": {
+    "description": "Name for a mining laser mount.",
+    "message": "Σημείο εγκατάστασης μεταλλευτικού εξοπλισμού."
+  },
+  "HARDPOINT_MISSILE": {
+    "description": "Name for a generic missile mount",
+    "message": "Πύραυλος."
+  },
+  "HARDPOINT_MISSILE_ARRAY": {
+    "description": "Name for the 'Missile Array' equipment hardpoint",
+    "message": "Υποδοχή πυραύλου."
+  },
+  "HARDPOINT_MISSILE_BAY": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "Χώρος υποδοχής πυραύλων."
+  },
+  "HARDPOINT_MISSILE_BAY_LEFT": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "Αριστερός χώρος υποδοχής πυραύλων"
+  },
+  "HARDPOINT_MISSILE_BAY_RIGHT": {
+    "description": "Name for the 'Missile Bay' equipment hardpoint",
+    "message": "Δεξιός χώρος υποδοχής πυραύλων"
+  },
+  "HARDPOINT_PYLON": {
+    "description": "Name for a generic missile pylon",
+    "message": "Πυλώνας πυραύλου"
+  },
+  "HARDPOINT_PYLON_LEFT": {
+    "description": "Name for a generic missile pylon",
+    "message": "Αριστερός πυλώνας πυραύλου"
+  },
+  "HARDPOINT_PYLON_LEFT_WING": {
+    "description": "Name for a generic missile pylon",
+    "message": "Πυλώνας πυραύλου αριστερής πτέρυγας"
+  },
+  "HARDPOINT_PYLON_RIGHT": {
+    "description": "Name for a generic missile pylon",
+    "message": "Δεξιός πυλώνας πυραύλου"
+  },
+  "HARDPOINT_PYLON_RIGHT_WING": {
+    "description": "Name for a generic missile pylon",
+    "message": "Πυλώνας πυραύλου δεξιάς πτέρυγας"
+  },
+  "HARDPOINT_TURRET_BOTTOM": {
+    "description": "Slot name for a ventral-mounted turret",
+    "message": "Κάτω πυργίσκος"
+  },
+  "HARDPOINT_TURRET_TOP": {
+    "description": "Slot name for a dorsal-mounted turret",
+    "message": "Άνω πυργίσκος"
+  },
+  "HARDPOINT_UTILITY": {
+    "description": "Name for a generic utility hardpoint",
+    "message": "Utility"
+  },
+  "HARDPOINT_WEAPON": {
+    "description": "Name for a generic weapon hardpoint",
+    "message": "Όπλο"
+  },
+  "HARDPOINT_WEAPON_CHIN": {
+    "description": "Name for the 'Chin Mount' equipment hardpoint",
+    "message": "Πρωραία υποδοχή"
+  },
+  "HARDPOINT_WEAPON_FRONT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "Εμπρόσθιο όπλο"
+  },
+  "HARDPOINT_WEAPON_FRONT_LEFT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "Εμπρόσθιο αριστερό όπλο"
+  },
+  "HARDPOINT_WEAPON_FRONT_RIGHT": {
+    "description": "Name for a generic front-facing weapon hardpoint",
+    "message": "Εμπρόσθιο δεξί όπλο"
+  },
+  "HARDPOINT_WEAPON_LEFT": {
+    "description": "Name for a generic weapon hardpoint",
+    "message": "Αριστερό όπλο"
+  },
+  "HARDPOINT_WEAPON_LEFT_NOSE": {
+    "description": "Name for the 'Left Nose' weapon hardpoint",
+    "message": "Αριστερό πρωραίο"
+  },
+  "HARDPOINT_WEAPON_REAR": {
+    "description": "Name for a generic rear-facing weapon hardpoint",
+    "message": "Πρυμναίο όπλο"
+  },
+  "HARDPOINT_WEAPON_RIGHT": {
+    "description": "Name for a generic weapon hardpoint",
+    "message": "Δεξί όπλο"
+  },
+  "HARDPOINT_WEAPON_RIGHT_NOSE": {
+    "description": "Name for the 'Right Nose' weapon hardpoint",
+    "message": "Δεξί πρωραίο"
+  },
   "HULL_AUTOREPAIR": {
     "description": "",
     "message": "Σύστημα αυτόματης επισκευής κύτους"
@@ -179,6 +319,10 @@
     "description": "",
     "message": "Επισκευάζει αυτόματα το κύτος του σκάφους σε περίπτωση ζημιάς."
   },
+  "HULL_MOUNTS": {
+    "description": "Category name for hull-mounted equipment",
+    "message": "Υποδοχές κήτους"
+  },
   "HYPERCLOUD_ANALYZER": {
     "description": "",
     "message": "Αναλυτής Υπερνέφους"
@@ -186,6 +330,14 @@
   "HYPERCLOUD_ANALYZER_DESCRIPTION": {
     "description": "",
     "message": "Αναλύει νέφη υπερδιαστήματος για να προσδιορίσει τον προορισμό και την ώρα άφιξης ή αναχώρησης."
+  },
+  "INVALID_SLOT": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "Μη διαθέσιμη υποδοχή"
+  },
+  "ITEM": {
+    "description": "A piece of equipment",
+    "message": "Αντικείμενο"
   },
   "LARGE_PLASMA_ACCEL": {
     "description": "",
@@ -215,45 +367,245 @@
     "description": "",
     "message": "Χρησιμοποιείται για εξορύξεις από αστεροειδείς πλούσιους σε ορυκτά."
   },
+  "MISC_EQUIPMENT": {
+    "description": "Category header for miscellaneous equipment",
+    "message": "Γενικής χρήσης"
+  },
   "MISSILES": {
     "description": "Category name of missile-related equipment",
-    "message": "Missiles"
+    "message": "Πύραυλοι"
   },
   "MISSILE_GUIDED": {
     "description": "",
     "message": "Καθοδηγούμενος Πύραυλος"
   },
+  "MISSILE_GUIDED_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Γενικής χρήσης αυτοκαθοδηγούμενος πύραυλος"
+  },
+  "MISSILE_GUIDED_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Καθοδηγούμενος πύραυλος που παράγεται μαζικά. Θα προσπαθήσει να πετύχει τον επιλεγμένο στόχο. Ανάλογα το μοντέλο, ο πύραυλος χρησιμοποιεί μια πληθώρα τεχνολογιών καθοδήγησης όπως καθοδήγηση από ραντάρ, λέιζερ ή LIDAR. Τα παραπάνω συστήματα δεν θεωρούνται πολύ μεγάλης ακρίβειας, συνεπώς η επιτυχής προσβολή του στόχου δεν είναι εγγυημένη. Επίσης, οι εν λόγω πύραυλοι είναι αρκετά ευπαθείς σε ηλεκτρονικά αντίμετρα."
+  },
   "MISSILE_NAVAL": {
     "description": "",
     "message": "Πύραυλος αεροναυτικών στρατευμάτων"
+  },
+  "MISSILE_NAVAL_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Πύραυλος τύπου \"Fire and Forget\" ο οποίος αντιστέκεται σε όλα τα γνωστά αντιπυραυλικά μέσα."
+  },
+  "MISSILE_NAVAL_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Οι πύραυλοι αυτοί κατασκευάζονται σε εξειδικευμένα και μυστικά στρατιωτικά εργοστάσια, σε εγκαταστάσεις που περιορισμένης πρόσβασης. Συνεπώς, συνήθως δεν είναι διαθέσιμοι παρά μόνο για τον στρατό. Είναι ανθεκτικοί σε όλα τα γνωστά αντιπυραυλικά μέσα, έχουν μεγάλη ταχύτητα σε σχέση με το μέγεθός τους και συνήθως φέρουν πολύ ισχυρές πολεμικές κεφαλές. Τα σκάφη που φέρουν τέτοιους πυραύλους χρησιμοποιούν ειδικό εξοπλισμό, ο οποίος εξασφαλίζει σωστή στόχευση και προγραμματισμό των πυραύλων, πριν την εκτόξευση."
+  },
+  "MISSILE_RACK_221": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
+    "message": "Βάση υποδοχής πυραύλων Υδρα LH-120"
+  },
+  "MISSILE_RACK_221_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Εξωτερική βάση υποδοχής, χωρητικότητας 2 πυραύλων μικρού μεγέθους."
+  },
+  "MISSILE_RACK_221_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Αυτή η ποιοτική βάση υποδοχής πυραύλων από την Υδρα Τεχνολογίες Άμυνας, επιτρέπει τη μεταφορά περισσότερων πυραύλων ανά υποδοχή του σκάφους σας, κάτι απαραίτητο για την αντιμετώπιση των ενοχλητικών πειρατών."
+  },
+  "MISSILE_RACK_322": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
+    "message": "Βάση υποδοχής πυραύλων Υδρα LH-220"
+  },
+  "MISSILE_RACK_322_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Εξωτερική βάση υποδοχής, χωρητικότητας 2 πυραύλων μεσαίου μεγέθους."
+  },
+  "MISSILE_RACK_322_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Βάση υποδοχής πυραύλων για τους πιο απαιτητικούς πελάτες της Υδρα Τεχνολογίες Άμυνας. Τα λεφτά σας προκαλούν τώρα ακόμα μεγαλύτερα \"μπαμ\"."
+  },
+  "MISSILE_RACK_341": {
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "Βάση υποδοχής πυραύλων Μέδουσα LH-140"
+  },
+  "MISSILE_RACK_341_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Εξωτερική βάση υποδοχής, χωρητικότητας 4 πυραύλων μικρού μεγέθους."
+  },
+  "MISSILE_RACK_341_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Ιδού και το \"βαρύ πυροβολικό\". Κατευθείαν από τα εργαστήρια έρευνας και ανάπτυξης της Υδρα Τεχνολογίες Άμυνας. Χωρέσαμε ακόμα περισσότερους πυραύλους σε αυτή τη βάση υποδοχής, για να μπορείτε να γεμίσετε τον ουρανό πυροτεχνήματα!"
+  },
+  "MISSILE_RACK_423": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
+    "message": "Βάση υποδοχής πυραύλου Ύδρα LH-320"
+  },
+  "MISSILE_RACK_423_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Εξωτερική βάση υποδοχής, χωρητικότητας 2 πυραύλων μεγάλου μεγέθους."
+  },
+  "MISSILE_RACK_423_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Προσέξτε να απομακρυνθείτε μετά την πυροδότηση! Η Hydri Defense έχει τοποθετήσει 2 πυραύλους μεγάλου μεγέθους σε αυτή τη βάση υποδοχής, ώστε να κάνετε στα αλήθεια φαντασμαγορικές εκρήξεις..."
+  },
+  "MISSILE_RACK_442": {
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "Βάση υποδοχής πυραύλου Μέδουσα LH-240"
+  },
+  "MISSILE_RACK_442_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Εξωτερική βάση χωρητικότητας 4 πυραύλων μεσαίου μεγέθους."
+  },
+  "MISSILE_RACK_442_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Είστε έτοιμοι να σοβαρευτούμε λίγο; Με αυτή τη τεράστια βάση υποδοχής πυραύλων της Υδρα Τεχνολογίες Άμυνας, θα είστε πάντα έτοιμοι να εξαπολύσετε την καταστροφή."
+  },
+  "MISSILE_RACK_524": {
+    "description": "Name for a multiple-missile external missile rack. 'Hydra' is the model name.",
+    "message": "Βάση υποδοχής πυραύλων Υδρα LH-420"
+  },
+  "MISSILE_RACK_524_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Εξωτερική βάση υποδοχής χωρητικότητας 2 πυραύλων πολύ μεγάλου μεγέθους."
+  },
+  "MISSILE_RACK_524_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Χώρος για 2 πολύ μεγάλους πυραύλους. Ειλικρινά, ούτε εμείς δε ξέρουμε τι μπορείς να κάνεις με τόση ισχύ. Ελπίζουμε να πήρατε μαζί σας την ηλιοπροστασία σας."
+  },
+  "MISSILE_RACK_543": {
+    "description": "Name for a multiple-missile external missile rack. 'Medusa' is a model name.",
+    "message": "Βάση υποδοχής πυραύλων Μέδουσα LH-340"
+  },
+  "MISSILE_RACK_543_DESCRIPTION": {
+    "description": "Equipment tooltip",
+    "message": "Εξωτερική βάση υποδοχής χωρητικότητας 4 πυραύλων μεγάλου μεγέθους."
+  },
+  "MISSILE_RACK_543_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Πρώτα, η Υδρα Τεχνολογίες Άμυνας ανέπτυξε την υπέρτατη βάση υποδοχής LH-320. Τώρα, δυπλασιάσαμε τη χωρητικότητά της. Εμπρός λοιπον, αφήστε το στίγμα σας οπουδήποτε τολμήσανε να σας αμφισβητήσουν."
+  },
+  "MISSILE_RAIL_S1": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
+    "message": "Ράγα εκτόξευσης πυραύλου Κνίδα-101"
+  },
+  "MISSILE_RAIL_S1_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Εξωτερικός εκτοξευτής για έναν μικρό πύραυλο."
+  },
+  "MISSILE_RAIL_S1_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Βασική ράγα εκτόξευσης πυραύλου από την Υδρα Τεχνολογίες Άμυνας. Ένα ποιοτικό εξάρτημα για όλους τους πυραύλους τύπου S1, σύμφωνα με τα πρότυπα της ISAAEEE."
+  },
+  "MISSILE_RAIL_S2": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
+    "message": "Ράγα εκτόξευσης πυραύλου Κνίδα-102."
+  },
+  "MISSILE_RAIL_S2_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Εξωτερικός εκτοξευτής για έναν πύραυλο μεσαίου μεγέθους."
+  },
+  "MISSILE_RAIL_S2_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Μια ποιτική ράγα εκτόξευσης πυραύλου από την Ύδρα Τεχνολογίες Άμυνας. Παρέχει ένα ασφαλές σημείο πρόσδεσης για πυραύλους κλάσης S2."
+  },
+  "MISSILE_RAIL_S3": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
+    "message": "Ράγα εκτόξευσης πυραύλου Κνίδα-103."
+  },
+  "MISSILE_RAIL_S3_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Εξωτερικός εκτοξευτής για έναν πύραυλο μεγάλου μεγέθους."
+  },
+  "MISSILE_RAIL_S3_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Μια ποιοτική ράγα υποδοχής πυραύλου από την Ύδρα Τεχνολογίες Άμυνας. Παρέχει ένα ασφαλές σημείο πρόσδεσης για έναν πύραυλο κλάσης S3."
+  },
+  "MISSILE_RAIL_S4": {
+    "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
+    "message": "Ράγα εκτόξευσης πυραύλου Κνίδα-104."
+  },
+  "MISSILE_RAIL_S4_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Εξωτερικός εκτοξευτής για έναν πύραυλο πολύ μεγάλου μεγέθους."
+  },
+  "MISSILE_RAIL_S4_FLAVOURTEXT": {
+    "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
+    "message": "Μια ποιοτική ράγα υποδοχής πυραύλου από την Ύδρα Τεχνολογίες Άμυνας. Παρέχει ένα ασφαλές σημείο πρόσδεσης για έναν πύραυλο κλάσης S4."
   },
   "MISSILE_SMART": {
     "description": "",
     "message": "Έξυπνος πύραυλος"
   },
+  "MISSILE_SMART_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Ένας καθοδηγούμενος πύραυλος με μέτρια ανθεκτικότητα σε ηλεκτρονικά αντίμετρα."
+  },
+  "MISSILE_SMART_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Ένας πύραυλος μικρού μεγέθους ικανός να κατευθύνεται προς τον στόχο χρησιμοποιώντας έναν εξελιγμένο αισθητήρα με ενσωματομένη τεχνολογία τεχνητής νοημοσύνης (ΑΙ).  Απλώς αν θέλετε οπωσδήποτε να πάει προς τον στόχο και όχι προς εσάς, μη τον αποκαλέσετε ποτέ \"HAL\"."
+  },
   "MISSILE_UNGUIDED": {
     "description": "",
     "message": "R40 μη καθοδηγούμενη ρουκέτα"
   },
-  "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
-    "message": "Πολυσυλλέκτης"
+  "MISSILE_UNGUIDED_DESCRIPTION": {
+    "description": "Equipment description",
+    "message": "Μη κατευθυνόμενος πύραυλος τύπου \"στοχεύστε και πυροδοτήστε\"."
   },
-  "MULTI_SCOOP_DESCRIPTION": {
-    "description": "",
-    "message": "Παρόλο που είναι λιγότερο αποτελεσματικός από έναν συλλέκτη καυσίμου, επιτρέπει την συλλογή τόσο φορτίου όσο και καυσίμου"
+  "MISSILE_UNGUIDED_FLAVOURTEXT": {
+    "description": "Equipment description",
+    "message": "Παράγονται  σχεδόν σε κάθε κόσμο, από χεροποίητοι, κατασκευασμένοι από εξειδικευμένους τεχνίτες σε υποανάπτυκτους κόσμους, μέχρι μαζικά σε αυτοματοποιημένα εργοστάσια, όπου βγαίνουν κατά εκατομμύρια, σε υπερ-βιομηχανοποιημένες αποικίες. Άσχετα τον τρόπο παραγωγής, τα χαρακτηριστικά τους καθορίζονται αυστηρά από την ISAEEE και κατά συνέπεια μπορούν να τοποθετηθούν στα περισσότερα συμβατά σκάφη."
+  },
+  "NO_SUITABLE_EQUIPMENT": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "Όχι σχετικό εξάρτημα."
+  },
+  "NO_SUITABLE_SLOTS": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "Όχι κατάλληλες υποδοχές."
+  },
+  "OCCUPIED_BERTHS": {
+    "description": "Label for the number of passenger berths currently occupied in a cabin equipment item",
+    "message": "Κατειλημμένες καμπίνες."
+  },
+  "OKB_KALURI_BOWFIN_MISSILE_RACK": {
+    "description": "Equipment name for an OKB-Kaluri Bowfin internal missile launcher",
+    "message": "Εκτοξευτής πυραύλων για Bowfin."
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S2": {
+    "description": "Equipment name for an OPLI internal missile rack",
+    "message": "Εσωτερική βάση υποδοχής πυραύλου της OPLI."
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S2_DESCRIPTION": {
+    "description": "Short description and tooltip.",
+    "message": "Εσωτερικό διαμέρισμα χωρητικότητας 5 πυραύλων μέσου μεγέθους."
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S3": {
+    "description": "Equipment name for an OPLI internal missile rack",
+    "message": "Εσωτερική βάση υποδοχής πυραύλου της OPLI."
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S3_DESCRIPTION": {
+    "description": "Short description and tooltip.",
+    "message": "Εσωτερικό διαμέρισμα χωρητικότητας 3 μεγάλων πυραύλων."
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S4": {
+    "description": "Equipment name for an OPLI internal missile rack",
+    "message": "Εσωτερική βάση υποδοχής πυραύλου της OPLI."
+  },
+  "OPLI_INTERNAL_MISSILE_RACK_S4_DESCRIPTION": {
+    "description": "Short description and tooltip.",
+    "message": "Εσωτερικό διαμέρισμα χωρητικότητας 5 μεγάλων και 4 μεσαίων πυραύλων."
   },
   "ORBIT_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
-    "message": "Orbital scanner XKM-650"
+    "message": "Από-τροχιάς σαρωτής XKM-650"
   },
   "ORBIT_SCANNER_DESCRIPTION": {
     "description": "tooltip",
-    "message": "Scans planet from orbit, for scientific data"
+    "message": "Σαρώνει την επιφάνεια ενός πλανήτη με σκοπό τη συλλογή επιστημονικών δεδομένων."
   },
   "ORBIT_SCANNER_GOOD": {
     "description": "A sensor used to scan planets from high altitude / orbit + model number (that's minimum km altitude)",
-    "message": "Orbital scanner XKM-1750"
+    "message": "Από-τροχιάς σαρωτής XKM-1750"
   },
   "ORBIT_SCANNER_GOOD_DESCRIPTION": {
     "description": "tooltip",
@@ -263,13 +615,21 @@
     "description": "",
     "message": "Υπέρβαση της μέγιστης εμβέλειας σάρωσης:"
   },
+  "PASSENGER_BERTHS": {
+    "description": "Label for the total number of passenger berths in a cabin equipment item",
+    "message": "Καμπίνες επιβατών"
+  },
   "PASSENGER_CABIN": {
     "description": "",
     "message": "Καμπίνα επιβάτη"
   },
+  "PROJECTILE_SPEED": {
+    "description": "Stat label for weapon projectile speeds",
+    "message": "Ταχύτητα βλήματος"
+  },
   "PROPULSION": {
     "description": "Category name of propulsion-related equipment",
-    "message": "Propulsion"
+    "message": "Προώθηση"
   },
   "PULSECANNON_10MW": {
     "description": "",
@@ -307,6 +667,18 @@
     "description": "",
     "message": "Εμφανίζει τα κοντινά σκάφη σε 3Δ χάρτη."
   },
+  "REINFORCED_STRUCTURE": {
+    "description": "Name for an equipment item that reinforces the hull's superstructure",
+    "message": "Ενισχυμένη γάστρα"
+  },
+  "REINFORCED_STRUCTURE_DESCRIPTION": {
+    "description": "Description of the Reinforced Structure equipment item",
+    "message": "Κιτ ενίσχυσης του κήτους του σκάφους τρίτου κατασκευαστή. Αυξάνει την αντίσταση του σκάφους στις υψηλές ατμοσφαιρικές πιέσεις."
+  },
+  "REQUIRED_SLOT_IS_EMPTY": {
+    "description": "Tooltip for wrong equipment item",
+    "message": "Η απαιτούμενη υποδοχή είναι κενή."
+  },
   "SCAN_COMPLETED": {
     "description": "",
     "message": "Η σάρωση ολοκληρώθηκε"
@@ -317,23 +689,23 @@
   },
   "SCOOPS": {
     "description": "Category name of scoop-related equipment",
-    "message": "Scoops"
+    "message": "Συλλέκτες"
   },
   "SENSORS": {
     "description": "Category name of sensor-related equipment",
-    "message": "Sensors"
+    "message": "Αισθητήρες"
   },
   "SENSOR_MIN_ALTITUDE": {
     "description": "",
-    "message": "Sensor min altitude"
+    "message": "Ελάχιστο ύψος λειτουργίας αισθητήρα."
   },
   "SENSOR_RESOLUTION": {
     "description": "Resolution of e.g. optical sensor",
-    "message": "Sensor resolution"
+    "message": "Διακριτική ικανότητα αισθητήρα"
   },
   "SHIELDS": {
     "description": "Category name of shield-related equipment",
-    "message": "Shields"
+    "message": "Ασπίδες"
   },
   "SHIELD_ENERGY_BOOSTER": {
     "description": "",
@@ -353,7 +725,71 @@
   },
   "SHOTS_PER_MINUTE": {
     "description": "Tooltip explaining weapon fire rate / RPM counter",
-    "message": "Firing Rate / Minute"
+    "message": "Αριθμός βολών / λεπτό"
+  },
+  "SLOT": {
+    "description": "",
+    "message": "Υποδοχή"
+  },
+  "SLOTLESS": {
+    "description": "",
+    "message": "Άνευ υποδοχών"
+  },
+  "SLOT_CABIN": {
+    "description": "Name for a generic room slot inside the pressurized living space",
+    "message": "Καμπίνα"
+  },
+  "SLOT_CABIN_FORE": {
+    "description": "Name for a cabin slot towards the front of the ship",
+    "message": "Πρωραία καμπίνα"
+  },
+  "SLOT_CABIN_REAR": {
+    "description": "Name for a cabin slot towards the rear of the ship",
+    "message": "Πρυμναία καμπίνα"
+  },
+  "SLOT_COMPUTER": {
+    "description": "Name for a generic computer equipment slot",
+    "message": "Υπολογιστής"
+  },
+  "SLOT_ENGINE": {
+    "description": "Name for the ship's primary travel engines",
+    "message": "Κινητήρες"
+  },
+  "SLOT_HULL": {
+    "description": "Name for an equipment slot that augments or modifies the ship hull",
+    "message": "Κήτος"
+  },
+  "SLOT_HYPERDRIVE": {
+    "description": "Name for a ship's singular hyperdrive equipment slot",
+    "message": "Υπερκινητήρας"
+  },
+  "SLOT_IS_NOT_EMPTY_REPLACE_THE_EQUIPMENT_QUESTION": {
+    "description": "",
+    "message": "Η υποδοχή δεν είναι κενή. Να αντικατασταθεί το εξάρτημα;"
+  },
+  "SLOT_SENSOR": {
+    "description": "Name for a generic (flight/navigation) sensor slot",
+    "message": "Αισθητήρας"
+  },
+  "SLOT_SHIELD": {
+    "description": "Name for a generic shield slot",
+    "message": "Ασπίδα "
+  },
+  "SLOT_SHIELD_LEFT": {
+    "description": "Name for a left-side shield slot",
+    "message": "Ασπίδα Αρ"
+  },
+  "SLOT_SHIELD_RIGHT": {
+    "description": "Name for a right-side shield equipment slot",
+    "message": "Ασπίδα δεξ"
+  },
+  "SLOT_STRUCTURE": {
+    "description": "Name for the ship's internal structure modification slot",
+    "message": "Υποδομή"
+  },
+  "SLOT_THRUSTER": {
+    "description": "Generic name for secondary attitude or maneuvering thrusters",
+    "message": "Προωθητήρες"
   },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
@@ -363,21 +799,61 @@
     "description": "",
     "message": "Εκκίνηση σάρωσης, η απόσταση στόχου είναι"
   },
+  "STAT_ATMO_SHIELD": {
+    "description": "Stat name for atmospheric shielding. 'Atmospheric' is abbreviated.",
+    "message": "Μέγιστη ατμοσφαιρική πίεση που αντέχει"
+  },
+  "STAT_HYPERDRIVE_EFFICIENCY": {
+    "description": "",
+    "message": "Αποδοτικότητα καυσίμου"
+  },
+  "STAT_HYPERDRIVE_RESERVOIR": {
+    "description": "",
+    "message": "Μέγεθος δεξαμενής καυσίμου"
+  },
+  "STAT_MISSILE_RADIUS": {
+    "description": "",
+    "message": "Ακτίνα πυροκρότησης"
+  },
+  "STAT_MISSILE_WARHEAD": {
+    "description": "",
+    "message": "Ένταση έκρηξης (ισοδύναμα)"
+  },
+  "STAT_POWER_DRAW": {
+    "description": "Stat label for equipment power draw",
+    "message": "Κατανάλωση ενέργειας"
+  },
+  "STAT_SHIELD": {
+    "description": "Stat name for shield generator effectiveness.",
+    "message": "Αποτελεσματική ισχύς ασπίδας"
+  },
+  "STAT_THRUSTER_POWER": {
+    "description": "Stat name for thruster upgrades",
+    "message": "Αύξηση της μέγιστης προώθησης"
+  },
+  "STAT_VOLUME": {
+    "description": "Stat label for equipment volume",
+    "message": "Όγκος"
+  },
+  "STAT_WEIGHT": {
+    "description": "Stat label for equipment weight",
+    "message": "Βάρος"
+  },
   "SURFACE_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude. Model manufacturer name is meant to sound like a cheap brand.",
-    "message": "Surface scanner Nadir-150"
+    "message": "Σαρωτής επιφανείας Nadir-150"
   },
   "SURFACE_SCANNER_DESCRIPTION": {
     "description": "tooltip",
-    "message": "Cartography mapping and geological survey recorder"
+    "message": "Καταγραφέας για χαρτογραφικές και γεωλογικές έρευνες."
   },
   "SURFACE_SCANNER_GOOD": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types. Model manufacturer name is meant to be associated with high quality.",
-    "message": "Surface scanner Xeiss-250"
+    "message": "Σαρωτής επιφανείας Xeiss-250"
   },
   "SURFACE_SCANNER_GOOD_DESCRIPTION": {
     "description": "tooltip",
-    "message": "High resolution cartography mapping and geological survey recorder"
+    "message": "Καταγραφέας υψηλής διακριτικής ικανότητας, για χαρτογραφικές και γεωλογικές έρευνες."
   },
   "TARGET_SCANNER": {
     "description": "ship equipment showing target information/stats",
@@ -387,37 +863,49 @@
     "description": "",
     "message": "Χρησιμοποιείται για την τηλεπιθεώρηση του εξοπλισμού, του φορτίου και της κατάστασης άλλων σκαφών."
   },
-  "THRUSTERS_BASIC": {
-    "description": "",
-    "message": "Τροποποιημένοι προωθητήρες"
+  "TARGET_SLOT_IS_NOT_EMPTY_PUT_THE_REPLACED_ONE_IN_THE_CLIPBOARD_QUESTION": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "Η επιλεγμένη υποδοχή δεν είναι κενή. Να τοποθετηθεί η προς αντικατάσταση στο clipboard;"
   },
-  "THRUSTERS_BASIC_DESCRIPTION": {
-    "description": "",
-    "message": "Ένας τροποποιημένος, εγκεκριμένος για το σκάφος σας, τύπος προωθητήρων "
+  "THE_SAME_EQUIPMENT_HAS_BEEN_ALREADY_INSTALLED": {
+    "description": "Message in the start menu when editing equipment",
+    "message": "Το εν λόγω εξάρτημα είναι ήδη εγκατεστημένο."
   },
-  "THRUSTERS_BEST": {
-    "description": "",
-    "message": "Κατά παραγγελία προωθητήρες"
+  "THRUSTERS_DEFAULT": {
+    "description": "Equipment name for default RCS thrusters",
+    "message": "Εργοστασιακοί προωθητήρες"
   },
-  "THRUSTERS_BEST_DESCRIPTION": {
+  "THRUSTERS_IMPROVED": {
     "description": "",
-    "message": "Προσαρμοσμένοι προωθητήρες που παρέχουν την καλύτερη δυνατή απόδοση."
+    "message": "Βελτιωμένοι προωθητήρες"
   },
-  "THRUSTERS_MEDIUM": {
+  "THRUSTERS_IMPROVED_DESCRIPTION": {
+    "description": "",
+    "message": "Μια βελτιωμένη κλάση προωθητήρων, ειδικοί για το σκάφος σας."
+  },
+  "THRUSTERS_NAVAL": {
+    "description": "",
+    "message": "Στρατιωτικού τύπου προωθητήρες"
+  },
+  "THRUSTERS_NAVAL_DESCRIPTION": {
+    "description": "",
+    "message": "Στρατιωτικής κλάσης προωθητήρες ειδικά για το σκάφος σας, παρέχουν τη μέγιστη δυνατή προώθηση"
+  },
+  "THRUSTERS_OPTIMISED": {
     "description": "",
     "message": "Βελτιστοποιημένοι προωθητήρες"
   },
-  "THRUSTERS_MEDIUM_DESCRIPTION": {
+  "THRUSTERS_OPTIMISED_DESCRIPTION": {
     "description": "",
     "message": "Προωθητήρες που έχουν βελτιστοποιηθεί για να μειώσουν τις ανεπάρκειες και να βελτιώσουν την απόδοση ισχύος"
   },
   "TOTAL_MODULE_CAPACITY": {
     "description": "Tooltip explaining module capacity of specific slot",
-    "message": "Total Capacity"
+    "message": "Ολική χωρητικότητα"
   },
   "TOTAL_MODULE_WEIGHT": {
     "description": "Tooltip explaining total equipped weight of specific slot",
-    "message": "Total Weight"
+    "message": "Ολικό βάρος"
   },
   "TRADE_COMPUTER": {
     "description": "Ship equipment computing profitable commodities to trade between two systems",
@@ -427,13 +915,21 @@
     "description": "",
     "message": "Δείχνει κερδοφόρα εμπορεύματα για συναλλαγές μεταξύ του επιλεγμένου και του τρέχοντος συστήματος"
   },
+  "UNIT_HYPERDRIVE_EFFICIENCY": {
+    "description": "Fictional unit abbreviation for hyperdrive efficiency",
+    "message": "kF"
+  },
+  "UNIT_WARHEAD_DAMAGE": {
+    "description": "Unit abbreviation for missile warhead damage.",
+    "message": "κιλά TNT"
+  },
   "UNOCCUPIED_CABIN": {
     "description": "",
     "message": "Επιπλέον καμπίνα επιβάτη"
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",
-    "message": "Απαιτείται για τη μεταφορά ενός μόνο επιβάτη"
+    "message": "Χρησιμεύει για τη μεταφορά επιβατών"
   },
   "UTILITY": {
     "description": "Category name of utility equipment",

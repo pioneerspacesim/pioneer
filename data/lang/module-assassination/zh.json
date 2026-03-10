@@ -73,7 +73,7 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Wanted: Someone to kill {target} from the {system} system."
+    "message": "悬赏: 请干掉在 {system} 星系的 {target}."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
@@ -97,7 +97,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "{target} is tragically no longer wanted in the {system} system. Removal specialist needed."
+    "message": "不幸的是, {target} 的存在污染了 {system} 星系的空气. 这里需要一位清洁专家."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
@@ -121,7 +121,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Contract killer needed to eliminate {target}."
+    "message": "受雇的杀手需要处理掉 {target}."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
@@ -137,7 +137,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "{target} 一定要被轰杀至渣渣. 我给你 {cash} 去做."
+    "message": "{target} must be reduced to space dust. I'll award you {cash} to do this."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -145,7 +145,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Discreet operator needed to ensure fatal retirement of {target}."
+    "message": "沉稳的执行人一定得让 {target} 彻底退休."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
@@ -169,7 +169,7 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Some admirers wish {target} dead. Qualified termination experts apply within."
+    "message": "一些狂热崇拜者希望听到 {target} 的死讯. 欢迎合格的终结者来申请这份工作."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
@@ -202,6 +202,14 @@
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
     "message": "在 {target} 离开 {spaceport} 的时候就动手. 别错过了这机会."
+  },
+  "IT_MUST_BE_DONE_AFTER_FEMALE": {
+    "description": "",
+    "message": "It must be done after she leaves {spaceport}. Do not miss this opportunity."
+  },
+  "IT_MUST_BE_DONE_AFTER_MALE": {
+    "description": "",
+    "message": "It must be done after he leaves {spaceport}. Do not miss this opportunity."
   },
   "OK_AGREED": {
     "description": "",
@@ -345,10 +353,18 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "我在哪能找到 {target} ?"
+    "message": "Where can I find the target?"
   },
   "X_WILL_BE_LEAVING": {
-    "description": "",
-    "message": "{target} 会在 {date} 离开 {system} 星系 ({sectorX}, {sectorY}, {sectorZ}) 的 {spaceport}. 他的飞船名称是 {shipname}, 飞船ID {shipregid}."
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {ship_indef} and has registration id {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_FEMALE": {
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. Her ship is {ship_indef} and has registration id {shipregid}."
+  },
+  "X_WILL_BE_LEAVING_MALE": {
+    "description": "{ship_indef} is translated in /data/lang/ships/",
+    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. His ship is {ship_indef} and has registration id {shipregid}."
   }
 }

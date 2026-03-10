@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Node.h"
@@ -13,7 +13,8 @@ namespace SceneGraph {
 		m_name(""),
 		m_nodeMask(NODE_SOLID),
 		m_nodeFlags(0),
-		m_renderer(r)
+		m_renderer(r),
+		m_parent(nullptr)
 	{
 	}
 
@@ -21,7 +22,8 @@ namespace SceneGraph {
 		m_name(""),
 		m_nodeMask(nodemask),
 		m_nodeFlags(0),
-		m_renderer(r)
+		m_renderer(r),
+		m_parent(nullptr)
 	{
 	}
 
@@ -29,7 +31,8 @@ namespace SceneGraph {
 		m_name(node.m_name),
 		m_nodeMask(node.m_nodeMask),
 		m_nodeFlags(node.m_nodeFlags),
-		m_renderer(node.m_renderer)
+		m_renderer(node.m_renderer),
+		m_parent(nullptr)
 	{
 	}
 

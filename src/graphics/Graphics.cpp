@@ -1,15 +1,18 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Graphics.h"
 #include "FileSystem.h"
 #include "Material.h"
+#include "MathUtil.h"
 #include "Renderer.h"
 #include "StringF.h"
 #include "graphics/RenderState.h"
 #include "utils.h"
 #include <iterator>
 #include <sstream>
+
+#include <SDL.h>
 
 namespace Graphics {
 
@@ -32,20 +35,8 @@ namespace Graphics {
 	}
 
 	static bool initted = false;
-	Material *vtxColorMaterial;
-	static int width, height;
 	static float g_fov = 85.f;
 	static float g_fovFactor = 1.f;
-
-	int GetScreenWidth()
-	{
-		return width;
-	}
-
-	int GetScreenHeight()
-	{
-		return height;
-	}
 
 	float GetFov()
 	{
@@ -65,12 +56,26 @@ namespace Graphics {
 
 	vector3f ProjectToScreen(const Renderer *r, const vector3f &in)
 	{
-		return ProjectToScreen(r->GetTransform() * in, r->GetProjection(), r->GetViewport());
+		const Graphics::ViewportExtents &vp = r->GetViewport();
+		vector3f vVP = ProjectToScreen(r->GetTransform() * in, r->GetProjection());
+
+		// viewport coord * size + position
+		return vector3f(
+			vVP.x * vp.w + vp.x,
+			vVP.y * vp.h + vp.y,
+			vVP.z);
 	}
 
 	vector3d ProjectToScreen(const Renderer *r, const vector3d &in)
 	{
-		return ProjectToScreen(matrix4x4d(r->GetTransform()) * in, matrix4x4d(r->GetProjection()), r->GetViewport());
+		const Graphics::ViewportExtents &vp = r->GetViewport();
+		vector3d vVP = ProjectToScreen(matrix4x4d(r->GetTransform()) * in, matrix4x4d(r->GetProjection()));
+
+		// viewport coord * size + position
+		return vector3d(
+			vVP.x * vp.w + vp.x,
+			vVP.y * vp.h + vp.y,
+			vVP.z);
 	}
 
 	Renderer *Init(Settings vs)
@@ -101,14 +106,6 @@ namespace Graphics {
 			return nullptr;
 		}
 
-		if (vs.rendererType == Graphics::RENDERER_DUMMY) {
-			width = vs.width;
-			height = vs.height;
-		} else {
-			width = renderer->GetWindowWidth();
-			height = renderer->GetWindowHeight();
-		}
-
 		Output("Initialized %s\n", renderer->GetName());
 
 		{
@@ -127,15 +124,11 @@ namespace Graphics {
 
 		initted = true;
 
-		vtxColorMaterial = renderer->CreateMaterial("vtxColor", MaterialDescriptor(), RenderStateDesc());
-		vtxColorMaterial->IncRefCount();
-
 		return renderer;
 	}
 
 	void Uninit()
 	{
-		delete vtxColorMaterial;
 	}
 
 	static bool operator==(const VideoMode &a, const VideoMode &b)

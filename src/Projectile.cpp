@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Projectile.h"
@@ -7,7 +7,7 @@
 #include "Frame.h"
 #include "Game.h"
 #include "GameSaveError.h"
-#include "Json.h"
+#include "JsonUtils.h"
 #include "Pi.h"
 #include "Planet.h"
 #include "Player.h"
@@ -22,9 +22,13 @@
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/Types.h"
 #include "graphics/VertexArray.h"
+#include "graphics/VertexBuffer.h"
 #include "lua/LuaEvent.h"
 #include "lua/LuaUtils.h"
+
+#include "profiler/Profiler.h"
 
 std::unique_ptr<Graphics::MeshObject> Projectile::s_sideMesh;
 std::unique_ptr<Graphics::MeshObject> Projectile::s_glowMesh;
@@ -33,6 +37,9 @@ std::unique_ptr<Graphics::Material> Projectile::s_glowMat;
 
 void Projectile::BuildModel()
 {
+	Graphics::AttributeSet vtxAttribs = Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0;
+	auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(vtxAttribs);
+
 	//set up materials
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 1;
@@ -42,10 +49,10 @@ void Projectile::BuildModel()
 	rsd.depthWrite = false;
 	rsd.cullMode = Graphics::CULL_NONE;
 
-	s_sideMat.reset(Pi::renderer->CreateMaterial("unlit", desc, rsd));
+	s_sideMat.reset(Pi::renderer->CreateMaterial("unlit", desc, rsd, vtxFormat));
 	s_sideMat->SetTexture("texture0"_hash,
 		Graphics::TextureBuilder::Billboard("textures/projectile_l.dds").GetOrCreateTexture(Pi::renderer, "billboard"));
-	s_glowMat.reset(Pi::renderer->CreateMaterial("unlit", desc, rsd));
+	s_glowMat.reset(Pi::renderer->CreateMaterial("unlit", desc, rsd, vtxFormat));
 	s_glowMat->SetTexture("texture0"_hash,
 		Graphics::TextureBuilder::Billboard("textures/projectile_w.dds").GetOrCreateTexture(Pi::renderer, "billboard"));
 
@@ -66,8 +73,8 @@ void Projectile::BuildModel()
 	const vector2f botLeft(0.f, 0.f);
 	const vector2f botRight(1.f, 0.f);
 
-	Graphics::VertexArray sideVerts(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
-	Graphics::VertexArray glowVerts(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+	Graphics::VertexArray sideVerts(vtxAttribs);
+	Graphics::VertexArray glowVerts(vtxAttribs);
 
 	//add four intersecting planes to create a volumetric effect
 	for (int i = 0; i < 4; i++) {
@@ -306,7 +313,7 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	vector3f dir = vector3f(_dir).Normalized();
 
 	vector3f v1, v2;
-	matrix4x4f m = matrix4x4f::Identity();
+	matrix4x4f m = matrix4x4f::Identity;
 	v1.x = dir.y;
 	v1.y = dir.z;
 	v1.z = dir.x;

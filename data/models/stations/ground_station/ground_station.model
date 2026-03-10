@@ -1,36 +1,47 @@
-material Starport
-diffuse 1.0 1.0 1.0
-specular 0.3 0.3 0.3
-shininess 40
-use_patterns
-tex_diff station_diff.dds
-tex_glow station_glow.dds
-tex_spec station_spec.dds
+version 2
 
-material Pipes
-diffuse 0.7 0.7 0.7
-specular 0.0 0.0 0.0
-shininess 10
-tex_diff station_diff.dds
-tex_glow station_glow.dds
-tex_spec station_spec.dds
+material "Starport" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.3 0.3 0.3
+	shininess 40
+	use_patterns
+	texture diffuse  "station_diff.dds"
+	texture glow     "station_glow.dds"
+	texture specular "station_spec.dds"
+}
 
-material Tanks
-diffuse 1.0 1.0 1.0
-specular 0.1 0.1 0.1
-shininess 40
-tex_diff station_diff.dds
-tex_glow station_glow.dds
-tex_spec station_spec.dds
+material "Pipes" {
+	shader "multi"
+	diffuse 0.7 0.7 0.7
+	specular 0.0 0.0 0.0
+	shininess 10
+	texture diffuse  "station_diff.dds"
+	texture glow     "station_glow.dds"
+	texture specular "station_spec.dds"
+}
 
-lod 1000
-mesh starport_docking.dae
-mesh starport.dae
+material "Tanks" {
+	shader "multi"
+	diffuse 1.0 1.0 1.0
+	specular 0.1 0.1 0.1
+	shininess 40
+	texture diffuse  "station_diff.dds"
+	texture glow     "station_glow.dds"
+	texture specular "station_spec.dds"
+}
 
-lod 300
-mesh starport_med.dae
+lod 1000 {
+	mesh "starport_docking.dae"
+	mesh "starport.dae"
+}
 
-lod 100
-mesh starport_lo.dae
+lod 300 {
+	mesh "starport_med.dae"
+}
 
-collision starport_col.dae
+lod 100 {
+	mesh "starport_lo.dae"
+}
+
+collision "starport_col.dae"

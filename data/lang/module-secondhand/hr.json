@@ -3,96 +3,140 @@
     "description": "Buy a piece of ship equipment",
     "message": "Kupi"
   },
+  "EQUIPMENT_NO_COMPATIBLE_SLOT": {
+    "description": "Message given when the second-hand equipment is not compatible with the ship slots.",
+    "message": "Ova oprema nije kompatibilna s vašim brodom."
+  },
+  "EQUIPMENT_NO_FREE_SLOT": {
+    "description": "Message shown by second-hand market if the ship does not have a free slot for the equipment.",
+    "message": "Vaš brod nema slobodnog mjesta za ovu opremu."
+  },
+  "EQUIPMENT_NO_SPACE": {
+    "description": "Message shown by second-hand market if the equipment requires a free slot or free capacity to fit",
+    "message": "Vaš brod nema dovoljno slobodnog prostora za ovu opremu."
+  },
+  "EQUIPMENT_SLOT_NO_SPACE": {
+    "description": "Message given when the ship has a compatible slot, but not enough space left to fit the equipment item.",
+    "message": "Vaš brod ima kompatibilno mjesto, ali nema dovoljno prostora za instalaciju ove opreme."
+  },
   "FITTING_IS_INCLUDED_IN_THE_PRICE": {
     "description": "Regarding installing a component on the ship",
-    "message": "Fitting is included in the price."
+    "message": "Montaža je uključena u cijenu."
   },
   "FLAVOUR_0_BODY": {
     "description": "",
-    "message": "Hi! My name is {name} and I'm selling off my {equipment} from my old rusty bucket. I want {price} for it."
+    "message": "Bok! Zovem se {name} i prodajem svoju {equipment} iz svoje stare zahrđale kante. Želim {price} za nju."
   },
   "FLAVOUR_0_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Special offer, selling one {equipment}."
+    "message": "Posebna ponuda, prodajem jednu {opremu}."
   },
   "FLAVOUR_0_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE"
+    "message": "NA PRODAJU"
   },
   "FLAVOUR_1_BODY": {
     "description": "",
-    "message": "Hi! My name is {name}. I have an almost brand new {equipment} which I'm selling for just {price}."
+    "message": "Bok! Zovem se {name}. Imam gotovo novu {equipment} koju prodajem za samo {price}."
   },
   "FLAVOUR_1_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Practically unused {equipment}, at an affordable price!"
+    "message": "Praktički nekorištena {oprema}, po pristupačnoj cijeni!"
   },
   "FLAVOUR_1_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING EQUIPMENT"
+    "message": "PRODAJA OPREME"
   },
   "FLAVOUR_2_BODY": {
     "description": "",
-    "message": "Greetings! I'm {name} and I have a very fine {equipment} which could be yours for just {price}."
+    "message": "Pozdrav! Ja sam {name} i imam vrlo dobru {opremu} koja bi mogla biti vaša za samo {price}."
   },
   "FLAVOUR_2_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Selling one {equipment}, for a reasonable price!"
+    "message": "Prodajem jednu {opremu}, po povoljnoj cijeni!"
   },
   "FLAVOUR_2_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING EQUIPMENT"
+    "message": "PRODAJA OPREME"
   },
   "FLAVOUR_3_BODY": {
     "description": "",
-    "message": "Hello! I have an extra {equipment} which I need to get off my hands, my asking price is {price}."
+    "message": "Pozdrav! Imam dodatnu {opremu} koje se moram riješiti, moja tražena cijena je {price}."
   },
   "FLAVOUR_3_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Offering one {equipment}, in good condition."
+    "message": "Nudim jednu {opremu}, u dobrom stanju."
   },
   "FLAVOUR_3_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE"
+    "message": "NA PRODAJU"
   },
   "FLAVOUR_4_BODY": {
     "description": "",
-    "message": "Hi! We have an extra {equipment} which could be yours for {price}."
+    "message": "Pozdrav! Imamo dodatnu {opremu} koja bi mogla biti vaša za {cijena}."
   },
   "FLAVOUR_4_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "For sale: leftover {equipment}, in fine condition."
+    "message": "Prodaje se: preostala {oprema}, u dobrom stanju."
   },
   "FLAVOUR_4_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE"
+    "message": "NA PRODAJU"
   },
   "FLAVOUR_5_BODY": {
     "description": "",
-    "message": "Greetings! Do you want to buy my old {equipment}? It has served me well, but I have now upgraded and don't need it. The price is {price}."
+    "message": "Pozdrav! Želite li kupiti moju staru {opremu}? Dobro mi je služila, ali sada sam je nadogradio i ne treba mi. Cijena je {price}."
   },
   "FLAVOUR_5_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "On offer: old {equipment}, in working condition."
+    "message": "U ponudi: stara {oprema}, u ispravnom stanju."
   },
   "FLAVOUR_5_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING EQUIPMENT"
+    "message": "PRODAJA OPREME"
   },
   "HAS_BEEN_FITTED_TO_YOUR_SHIP": {
     "description": "",
-    "message": "The {equipment} has been fitted to your ship."
+    "message": " {equipment} je ugrađena na vaš brod."
   },
   "HOW_DO_I_FITT_IT": {
     "description": "Regarding installing a component on the ship",
-    "message": "How do I fit it?"
+    "message": "Kako da to uklopim?"
+  },
+  "NOT_ENOUGH_MONEY_0": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Nemaš dovoljno novca da si ovo priuštiš."
+  },
+  "NOT_ENOUGH_MONEY_1": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Vrati se kad budeš imao dovoljno novca."
+  },
+  "NOT_ENOUGH_MONEY_2": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Nisam dobrotvorna organizacija, vratite se kad si ovo budete mogli priuštiti."
+  },
+  "NOT_ENOUGH_MONEY_3": {
+    "description": "When the player doesn't have enough money to afford the item.",
+    "message": "Može se koristiti, ali cijena nije predmet pregovora."
+  },
+  "NO_LONGER_AVAILABLE_0": {
+    "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
+    "message": "Žao mi je, upravo je prodano!"
+  },
+  "NO_LONGER_AVAILABLE_1": {
+    "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
+    "message": "Čini se da ga je moj kolega upravo prodao drugom kupcu. Žao mi je!"
+  },
+  "NO_LONGER_AVAILABLE_2": {
+    "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
+    "message": "Predomislio sam se, više nije na prodaju."
   },
   "REPEAT_OFFER": {
     "description": "",
-    "message": "Repeat offer"
+    "message": "Ponovi ponudu"
   },
   "YOU_DONT_HAVE_ENOUGH_MONEY": {
     "description": "",
-    "message": "You don't have enough money."
+    "message": "Nemaš dovoljno novca."
   }
 }

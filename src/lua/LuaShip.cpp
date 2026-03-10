@@ -1,4 +1,4 @@
-// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CargoBody.h"
@@ -17,6 +17,7 @@
 #include "ShipType.h"
 #include "Space.h"
 #include "SpaceStation.h"
+#include "ship/GunManager.h"
 #include "ship/PlayerShipController.h"
 #include "ship/PrecalcPath.h"
 #include "lua.h"
@@ -47,14 +48,6 @@
  * > if Game.player:IsPlayer() then
  * >     print("this is the player")
  * > end
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_ship_is_player(lua_State *l)
 {
@@ -75,14 +68,6 @@ static int l_ship_is_player(lua_State *l)
  * Example:
  *
  * > ship:SetShipType('sirius_interdictor')
- *
- * Availability:
- *
- *   alpha 15
- *
- * Status:
- *
- *   experimental
  */
 static int l_ship_set_type(lua_State *l)
 {
@@ -107,14 +92,6 @@ static int l_ship_set_type(lua_State *l)
  * Returns a string describing the ship type
  *
  * > local shiptype = ship:GetShipType()
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 static int l_ship_get_ship_type(lua_State *l)
 {
@@ -128,14 +105,6 @@ static int l_ship_get_ship_type(lua_State *l)
  * Returns a string describing the ship class
  *
  * > local shipclass = ship:GetShipClass()
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
  */
 static int l_ship_get_ship_class(lua_State *l)
 {
@@ -162,16 +131,7 @@ static int l_ship_get_ship_class(lua_State *l)
  * Example:
  *
  * > ship:SetHullPercent(3.14)
- *
- * Availability:
- *
- *  alpha 15
- *
- * Status:
- *
- *  experimental
  */
-
 static int l_ship_set_hull_percent(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -210,14 +170,6 @@ static int l_ship_set_hull_percent(lua_State *l)
  * Example:
  *
  * > ship:SetFuelPercent(50)
- *
- * Availability:
- *
- *  alpha 20
- *
- * Status:
- *
- *  experimental
  */
 static int l_ship_set_fuel_percent(lua_State *l)
 {
@@ -253,16 +205,7 @@ static int l_ship_set_fuel_percent(lua_State *l)
  * Destroys the ship in an explosion
  *
  * > ship:Explode()
- *
- * Availability:
- *
- * 	alpha 20
- *
- * Status:
- *
- * 	experimental
  */
-
 static int l_ship_explode(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -378,14 +321,6 @@ static int l_ship_set_pattern(lua_State *l)
  * Example:
  *
  * > ship:SetLabel("AB-1234")
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_ship_set_label(lua_State *l)
 {
@@ -410,14 +345,6 @@ static int l_ship_set_label(lua_State *l)
  * Example:
  *
  * > ship:SetShipName("Boris")
- *
- * Availability:
- *
- *  September 2014
- *
- * Status:
- *
- *  stable
  */
 static int l_ship_set_ship_name(lua_State *l)
 {
@@ -449,14 +376,6 @@ static int l_ship_set_ship_name(lua_State *l)
  *
  * > Game.player:SpawnCargo(Commodities.hydrogen, 0)
  * > Game.player:SpawnCargo(Commodities.hydrogen)
- *
- * Availability:
- *
- *   alpha 26
- *
- * Status:
- *
- *   experimental
  */
 static int l_ship_spawn_cargo(lua_State *l)
 {
@@ -474,12 +393,11 @@ static int l_ship_spawn_cargo(lua_State *l)
 	else
 		model = "cargo";
 
-	if (lua_gettop(l) >= 3) {
-		float lifeTime = lua_tonumber(l, 3);
-		c_body = new CargoBody(model, LuaRef(l, 2), lifeTime);
-	} else
-		c_body = new CargoBody(model, LuaRef(l, 2));
+	float lifeTime = LuaPull<float>(l, 3, 86400); // default time of 1 day in seconds
+	uint32_t quantity = LuaPull<uint32_t>(l, 4, 1); // default quantity of 1
+	c_body = new CargoBody(model, LuaRef(l, 2), lifeTime, quantity);
 
+	// ownership of c_body passes to SpawnCargo
 	lua_pushboolean(l, s->SpawnCargo(c_body));
 
 	return 1;
@@ -496,14 +414,6 @@ static int l_ship_spawn_cargo(lua_State *l)
  *
  *   station - a <SpaceStation> object for the station, or nil if the ship is
  *             not docked
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
  */
 static int l_ship_get_docked_with(lua_State *l)
 {
@@ -527,14 +437,6 @@ static int l_ship_get_docked_with(lua_State *l)
  * Return:
  *
  *   success - a boolean indicating whether the current ship was able to be docked at the station
- *
- * Availability:
- *
- *   2022-11
- *
- * Status:
- *
- *   experimental
  */
 static int l_ship_set_docked_with(lua_State *l)
 {
@@ -566,14 +468,6 @@ static int l_ship_set_docked_with(lua_State *l)
  *
  *   success - true if ship is undocking, false if the ship is unable to undock,
  *             probably because another ship is currently undocking
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  stable
  */
 static int l_ship_undock(lua_State *l)
 {
@@ -603,44 +497,46 @@ static int l_ship_blast_off(lua_State *l)
  *
  * Spawn a missile near the ship.
  *
- * > missile = ship:SpawnMissile(type, target, power)
+ * > missile = ship:SpawnMissile(stats, target)
  *
  * Parameters:
  *
- *   shiptype - a string for the missile type. specifying an
- *          ship that is not a missile will result in a Lua error
+ *   shiptype - A table containing information about the missile type.
+ *              The table must contain a ship type identifier and information about the missile warhead.
  *
- *   target - the <Ship> to fire the missile at
- *
- *   power - the power of the missile. If unspecified, the default power for the
+ *   target - an optional <Body> to fire the missile at
  *
  * Return:
  *
  *   missile - The missile spawned, or nil if it was unsuccessful.
- *
- * Availability:
- *
- *   alpha 26
- *
- * Status:
- *
- *   experimental
  */
 static int l_ship_spawn_missile(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaTable stats = LuaTable(l, 2);
+	Body *target = LuaPull<Body *>(l, 3, nullptr);
+
 	if (s->GetFlightState() == Ship::HYPERSPACE)
 		return luaL_error(l, "Ship:SpawnMissile() cannot be called on a ship in hyperspace");
-	ShipType::Id missile_type(luaL_checkstring(l, 2));
 
-	if (missile_type != ShipType::MISSILE_UNGUIDED &&
-		missile_type != ShipType::MISSILE_GUIDED &&
-		missile_type != ShipType::MISSILE_SMART &&
-		missile_type != ShipType::MISSILE_NAVAL)
-		luaL_error(l, "Ship type '%s' is not a valid missile type", lua_tostring(l, 2));
-	int power = (lua_isnone(l, 3)) ? -1 : lua_tointeger(l, 3);
+	if (stats.Get<std::string_view>("shipType", {}).empty())
+		return luaL_error(l, "Ship:SpawnMissile() is missing a shipType value in the passed missile table!");
 
-	Missile *missile = s->SpawnMissile(missile_type, power);
+	MissileDef def = {};
+
+	def.shipType = stats.Get<StringName>("shipType");
+	def.fuzeRadius = stats.Get("fuzeRadius", def.fuzeRadius);
+	def.warheadSize = stats.Get("warheadSize", def.warheadSize);
+	def.effectiveRadius = stats.Get("effectiveRadius", def.effectiveRadius);
+	def.chargeEffectiveness = stats.Get("chargeEffectiveness", def.chargeEffectiveness);
+	def.ecmResist = stats.Get("ecmResist", def.ecmResist);
+
+	const ShipType *type = ShipType::Get(def.shipType.c_str());
+	if (!type || type->tag != ShipType::TAG_MISSILE) {
+		return luaL_error(l, "Ship type '%s' is not a valid missile type", def.shipType.c_str());
+	}
+
+	Missile *missile = s->SpawnMissile(def, target);
 	if (missile)
 		LuaObject<Missile>::PushToLua(missile);
 	else
@@ -662,14 +558,6 @@ static int l_ship_spawn_missile(lua_State *l)
  *             recharged, or there is no ECM to activate.
  *
  *   recharge_wait - time left to recharge.
- *
- * Availability:
- *
- *   2014 July
- *
- * Status:
- *
- *   experimental
  */
 static int l_ship_use_ecm(lua_State *l)
 {
@@ -774,14 +662,6 @@ static int l_ship_get_duration_for_distance(lua_State *l)
  *
  *   status - a <Constants.ShipJumpStatus> string that tells if the ship can
  *            hyperspace and if not, describes the reason
- *
- * Availability:
- *
- *   February 2014
- *
- * Status:
- *
- *   experimental
  */
 static int l_ship_initiate_hyperjump_to(lua_State *l)
 {
@@ -816,14 +696,6 @@ static int l_ship_initiate_hyperjump_to(lua_State *l)
  *   Abort the upcoming hyperjump
  *
  * > ship:AbortHyperjump()
- *
- * Availability:
- *
- *   February 2014
- *
- * Status:
- *
- *   experimental
  */
 static int l_ship_abort_hyperjump(lua_State *l)
 {
@@ -865,14 +737,6 @@ static int l_ship_create(lua_State *l)
  * Return:
  *
  *   is_invulnerable - boolean; true if the ship is invulnerable to damage
- *
- * Availability:
- *
- *  November 2013
- *
- * Status:
- *
- *  experimental
  */
 static int l_ship_get_invulnerable(lua_State *l)
 {
@@ -888,14 +752,6 @@ static int l_ship_get_invulnerable(lua_State *l)
  * Note: Invulnerability is not currently stored in the save game.
  *
  * > ship:SetInvulnerable(true)
- *
- * Availability:
- *
- *  November 2013
- *
- * Status:
- *
- *  experimental
  */
 static int l_ship_set_invulnerable(lua_State *l)
 {
@@ -1073,14 +929,6 @@ static int l_ship_toggle_wheel_state(lua_State *l)
  * Get the ships velocity
  *
  * > ship:GetVelocity()
- *
- * Availability:
- *
- *  April 2016
- *
- * Status:
- *
- *  experimental
  */
 static int l_ship_get_velocity(lua_State *l)
 {
@@ -1090,57 +938,12 @@ static int l_ship_get_velocity(lua_State *l)
 	return 1;
 }
 
-/* Method: GetStats
- *
- * Return some ship stats.
- *
- * Returns:
- *
- *    Return a table containing:
- *          - usedCapacity
- *          - usedCargo
- *          - freeCapacity
- *          - staticMass
- *          - hullMassLeft
- *          - hyperspaceRange
- *          - hyperspaceRangeMax
- *          - shieldMass
- *          - shieldMassLeft
- *          - fuelTankMassLeft
- *
- */
-static int l_ship_get_stats(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	LuaTable t(l, 0, 10);
-	const shipstats_t &stats = s->GetStats();
-	t.Set("usedCapacity", stats.used_capacity);
-	t.Set("usedCargo", stats.used_cargo);
-	t.Set("freeCapacity", stats.free_capacity);
-	t.Set("staticMass", stats.static_mass);
-	t.Set("hullMassLeft", stats.hull_mass_left);
-	t.Set("hyperspaceRange", stats.hyperspace_range);
-	t.Set("hyperspaceRangeMax", stats.hyperspace_range_max);
-	t.Set("shieldMass", stats.shield_mass);
-	t.Set("shieldMassLeft", stats.shield_mass_left);
-	t.Set("fuelTankMassLeft", stats.fuel_tank_mass_left);
-	return 1;
-}
-
 /*
  * Method: GetPosition
  *
  * Get the ship's position
  *
  * > ship:GetPosition()
- *
- * Availability:
- *
- *  April 2016
- *
- * Status:
- *
- *  experimental
  */
 static int l_ship_get_position(lua_State *l)
 {
@@ -1186,7 +989,7 @@ static int l_ship_get_gun_temperature(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	int gun = luaL_checkinteger(l, 2);
-	LuaPush(l, s->GetComponent<FixedGuns>()->GetGunTemperature(gun));
+	LuaPush(l, s->GetComponent<GunManager>()->GetGroupTemperatureState(gun));
 	return 1;
 }
 
@@ -1327,6 +1130,28 @@ static int l_ship_get_thruster_state(lua_State *l)
 	return 1;
 }
 
+/* Method: GetThrusterAcceleration
+ *
+ * Returns maximum acceleration in one of 6 directions
+ *
+ * Parameters:
+ *
+ *   direction - number, the <ShipTypeThruster> enum value
+ *
+ * Returns:
+ *
+ *   acceleration - number, m/s/s
+ *
+ */
+static int l_ship_get_thruster_acceleration(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	auto direction = Thruster(LuaPull<int>(l, 2));
+	double acc = s->GetComponent<Propulsion>()->GetAccel(direction);
+	LuaPush(l, acc);
+	return 1;
+}
+
 /*
  * Group: AI methods
  *
@@ -1360,14 +1185,6 @@ static int l_ship_get_thruster_state(lua_State *l)
  *
  * Returns:
  *   true if the command could be enacted, false otherwise
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
  */
 static int l_ship_ai_kill(lua_State *l)
 {
@@ -1397,14 +1214,6 @@ static int l_ship_ai_kill(lua_State *l)
  *
  * Returns:
  *   true if the command could be enacted, false otherwise
- *
- * Availability:
- *
- *  alpha 26
- *
- * Status:
- *
- *  experimental
  */
 static int l_ship_ai_kamikaze(lua_State *l)
 {
@@ -1431,14 +1240,6 @@ static int l_ship_ai_kamikaze(lua_State *l)
  * Parameters:
  *
  *   target - the <Body> to fly to
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
  */
 static int l_ship_ai_fly_to(lua_State *l)
 {
@@ -1460,14 +1261,6 @@ static int l_ship_ai_fly_to(lua_State *l)
  * Parameters:
  *
  *   target - the <SpaceStation> to dock with
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
  */
 static int l_ship_ai_dock_with(lua_State *l)
 {
@@ -1489,14 +1282,6 @@ static int l_ship_ai_dock_with(lua_State *l)
  * Parameters:
  *
  *   target - the <Star> or <Planet> to orbit
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
  */
 static int l_ship_ai_enter_low_orbit(lua_State *l)
 {
@@ -1520,14 +1305,6 @@ static int l_ship_ai_enter_low_orbit(lua_State *l)
  * Parameters:
  *
  *   target - the <Star> or <Planet> to orbit
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
  */
 static int l_ship_ai_enter_medium_orbit(lua_State *l)
 {
@@ -1551,14 +1328,6 @@ static int l_ship_ai_enter_medium_orbit(lua_State *l)
  * Parameters:
  *
  *   target - the <Star> or <Planet> to orbit
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
  */
 static int l_ship_ai_enter_high_orbit(lua_State *l)
 {
@@ -1601,14 +1370,6 @@ static int l_ship_get_current_ai_command(lua_State *l)
  * You do not need to call this if you intend to immediately invoke another AI
  * method. Calling an AI method will replace the previous command if one
  * exists.
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
  */
 static int l_ship_cancel_ai(lua_State *l)
 {
@@ -1623,27 +1384,12 @@ static int l_ship_cancel_ai(lua_State *l)
  * Update the ship's statistics with regards to equipment changes
  *
  * > ship:UpdateEquipStats()
- *
- * Availability:
- *
- *  June 2014
- *
- * Status:
- *
- *  experimental
  */
 static int l_ship_update_equip_stats(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	s->UpdateLuaStats();
 	return 0;
-}
-
-static int l_ship_attr_equipset(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	s->GetEquipSet().PushCopyToStack();
-	return 1;
 }
 
 template <>
@@ -1708,6 +1454,7 @@ void LuaObject<Ship>::RegisterClass()
 		{ "GetVelocity", l_ship_get_velocity },
 		{ "GetPosition", l_ship_get_position },
 		{ "GetThrusterState", l_ship_get_thruster_state },
+		{ "GetThrusterAcceleration", l_ship_get_thruster_acceleration },
 
 		{ "IsDocked", l_ship_is_docked },
 		{ "IsLanded", l_ship_is_landed },
@@ -1717,7 +1464,6 @@ void LuaObject<Ship>::RegisterClass()
 		{ "GetFlightState", l_ship_get_flight_state },
 		{ "GetCruiseSpeed", l_ship_get_cruise_speed },
 		{ "GetFollowTarget", l_ship_get_follow_target },
-		{ "GetStats", l_ship_get_stats },
 
 		{ "GetHyperspaceCountdown", l_ship_get_hyperspace_countdown },
 		{ "IsHyperspaceActive", l_ship_is_hyperspace_active },
@@ -1735,7 +1481,6 @@ void LuaObject<Ship>::RegisterClass()
 	};
 
 	const luaL_Reg l_attrs[] = {
-		{ "equipSet", l_ship_attr_equipset },
 		{ 0, 0 }
 	};
 
@@ -1751,26 +1496,10 @@ void LuaObject<Ship>::RegisterClass()
  *
  * The current alert status of the ship. A <Constants.ShipAlertStatus> string.
  *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
- *
  *
  * Attribute: flightState
  *
  * The current flight state of the ship. A <Constants.ShipFlightState> string.
- *
- * Availability:
- *
- *  alpha 25
- *
- * Status:
- *
- *  experimental
  *
  *
  * Attribute: shipId
@@ -1778,53 +1507,21 @@ void LuaObject<Ship>::RegisterClass()
  * The internal id of the ship type. This value can be passed to
  * <ShipType.GetShipType> to retrieve information about this ship type.
  *
- * Availability:
- *
- *  alpha 28
- *
- * Status:
- *
- *  stable
- *
  *
  * Attribute: fuel
  *
  * The current amount of fuel, as a percentage of full
- *
- * Availability:
- *
- *   alpha 20
- *
- * Status:
- *
- *   experimental
  *
  *
  * Attribute: fuelMassLeft
  *
  * Remaining thruster fuel mass in tonnes.
  *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
- *
  *
  * Attribute: hullMassLeft
  *
  * Remaining hull integrity in tonnes. Ship damage reduces hull integrity.
  * When this reaches 0, the ship is destroyed.
- *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
  *
  *
  * Attribute: shieldMassLeft
@@ -1833,26 +1530,10 @@ void LuaObject<Ship>::RegisterClass()
  * shield strength decreases. When this reaches 0, the shields are
  * fully depleted and the hull is exposed to damage.
  *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
- *
  *
  * Attribute: shieldMass
  *
  * Maximum shield strength for installed shields. Measured in tonnes.
- *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
  *
  *
  * Attribute: hyperspaceRange
@@ -1860,27 +1541,17 @@ void LuaObject<Ship>::RegisterClass()
  * Furthest possible hyperjump given current hyperspace fuel available.
  * Measured in light-years.
  *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
- *
  *
  * Attribute: maxHyperspaceRange
  *
  * Furthest possible hyperjump assuming no limits to available hyperspace fuel.
  * Measured in light-years.
  *
- * Availability:
  *
- *   November 2013
+ * Attribute: loadedMass
  *
- * Status:
- *
- *   experimental
+ * Mass of all contents of the ship, including equipment and cargo, but
+ * excluding hull and thruster fuel mass.
  *
  *
  * Attribute: staticMass
@@ -1888,51 +1559,13 @@ void LuaObject<Ship>::RegisterClass()
  * Mass of the ship including hull, equipment and cargo, but excluding
  * thruster fuel mass. Measured in tonnes.
  *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
- *
- *
- * Attribute: usedCapacity
- *
- * Hull capacity used by equipment and cargo. Measured in tonnes.
- *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
- *
  *
  * Attribute: usedCargo
  *
- * Hull capacity used by cargo only (not equipment). Measured in tonnes.
- *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
+ * Hull capacity used by cargo only (not equipment). Measured in cargo units.
  *
  *
- * Attribute: freeCapacity
+ * Attribute: totalCargo
  *
- * Total space remaining. Measured in tonnes.
- *
- * Availability:
- *
- *   November 2013
- *
- * Status:
- *
- *   experimental
- *
+ * Hull capacity available for cargo (not equipment). Measured in cargo units.
  */
