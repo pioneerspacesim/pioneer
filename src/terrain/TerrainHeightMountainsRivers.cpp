@@ -33,8 +33,10 @@ void TerrainHeightFractal<TerrainHeightMountainsRivers>::GetHeights(const vector
 	for (size_t i = 0; i < count; i++) {
 		const vector3d &p = vP[i];
 		double continents = octavenoise(m_fracdef[0], 0.7 * ridged_octavenoise(m_fracdef[8], 0.58, p), p) - m_sealevel * 0.65;
-		if (continents < 0.0)
+		if (continents < 0.0) {
 			heightsOut[i] = 0.0;
+			continue;
+		}
 
 		double n = (river_function(m_fracdef[9], p) *
 					river_function(m_fracdef[7], p) *

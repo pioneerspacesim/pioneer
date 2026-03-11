@@ -36,8 +36,10 @@ void TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeights(const vector
 		// continents depending on the ridged noise value, we subtract sealevel so that sea level will have an effect on the continents size
 		double continents = octavenoise(m_fracdef[0], 0.7 * ridged_octavenoise(m_fracdef[8], 0.58, p), p) - m_sealevel * 0.65;
 		// if there are no continents on an area, we want it to be sea level
-		if (continents < 0.0)
+		if (continents < 0.0) {
 			heightsOut[i] = 0.0;
+			continue;
+		}
 		double n = continents - (m_fracdef[0].amplitude * m_sealevel * 0.5);
 
 		// we save the height n now as a constant h
