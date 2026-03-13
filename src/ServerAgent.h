@@ -7,9 +7,14 @@
 
 #include "libs.h"
 #include <curl/curl.h>
-#include <json/json.h>
+#include "json.h"
 #include <map>
 #include <queue>
+
+// fwd decl
+struct SDL_Thread;
+struct SDL_mutex;
+struct SDL_cond;
 
 class ServerAgent {
 public:
