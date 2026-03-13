@@ -195,6 +195,9 @@ public:
 	bool IsMouseYInvert() { return mouseYInvert; }
 	void SetMouseYInvert(bool state);
 
+	bool EmulateMiddleMouseButton() { return noMiddleMouseButton; }
+	void SetMiddleMouseButton(bool state);
+
 	bool IsMouseButtonPressed(int button) { return mouseButton[button] == 1; }
 	bool IsMouseButtonReleased(int button) { return mouseButton[button] == 4; }
 
@@ -210,6 +213,11 @@ public:
 
 	int GetMouseWheel() { return mouseWheel; }
 
+	// Here for unified UI experience.
+	// Returns true if the mouse button(s)/modifier(s) required to enable
+	// rotation are currently pressed.
+	bool IsMouseRotatePressed();
+
 	// Capturing the mouse hides the cursor, puts the mouse into relative mode,
 	// and passes all mouse inputs to the input system, regardless of whether
 	// ImGui is using them or not.
@@ -224,6 +232,10 @@ public:
 	// Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
 	// This is a default value only, centralized here to promote uniform user expericience.
 	float GetMoveSpeedShiftModifier();
+
+	// Get the default speed modifier to apply to rotation depending on the "shift" keys.
+	// This is a default value only, centralized here to promote uniform user expericience.
+	float GetRotateSpeedShiftModifier();
 
 	sigc::signal<void, SDL_Keysym *> onKeyPress;
 	sigc::signal<void, SDL_Keysym *> onKeyRelease;
@@ -249,6 +261,7 @@ private:
 
 	bool joystickEnabled;
 	bool mouseYInvert;
+	bool noMiddleMouseButton;
 
 	std::map<std::string, BindingPage> bindingPages;
 	std::map<std::string, InputBindings::Action> actionBindings;

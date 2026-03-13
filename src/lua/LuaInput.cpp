@@ -873,6 +873,24 @@ static int l_input_set_mouse_y_inverted(lua_State *l)
 	return 0;
 }
 
+
+static int l_input_emulate_middle_mouse_button(lua_State *l)
+{
+	lua_pushboolean(l, Pi::input->EmulateMiddleMouseButton());
+	return 1;
+}
+
+static int l_input_set_middle_mouse_button(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SetMiddleMouseButton takes one boolean argument");
+	const bool mousebutton = lua_toboolean(l, 1);
+	Pi::config->SetInt("noMiddleMouseButton", (mousebutton ? 1 : 0));
+	Pi::config->Save();
+	Pi::input->SetMiddleMouseButton(mousebutton);
+	return 0;
+}
+
 static int l_input_get_mouse_captured(lua_State *l)
 {
 	LuaPush<bool>(l, Pi::input->IsCapturingMouse());
@@ -1103,6 +1121,8 @@ void LuaInput::Register()
 		{ "SaveBinding", l_input_save_binding },
 		{ "GetMouseYInverted", l_input_get_mouse_y_inverted },
 		{ "SetMouseYInverted", l_input_set_mouse_y_inverted },
+		{ "EmulateMiddleMouseButton", l_input_emulate_middle_mouse_button },
+		{ "SetMiddleMouseButton", l_input_set_middle_mouse_button },
 		{ "GetJoystickEnabled", l_input_get_joystick_enabled },
 		{ "SetJoystickEnabled", l_input_set_joystick_enabled },
 

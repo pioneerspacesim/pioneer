@@ -253,11 +253,13 @@ Manager::Manager(IniConfig *config, SDL_Window *window) :
 	m_capturingMouse(false),
 	joystickEnabled(true),
 	mouseYInvert(false),
+	noMiddleMouseButton(false), // Which means a middle mouse button is expected by default
 	m_enableBindings(true),
 	m_frameListChanged(false)
 {
 	joystickEnabled = (m_config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (m_config->Int("InvertMouseY")) ? true : false;
+	noMiddleMouseButton = (m_config->Int("noMiddleMouseButton")) ? true : false;
 
 	Input::InitJoysticks(m_config);
 }
@@ -547,6 +549,15 @@ void Manager::SetMouseYInvert(bool state)
 {
 	mouseYInvert = state;
 	m_config->SetInt("InvertMouseY", mouseYInvert);
+}
+
+void Manager::SetMiddleMouseButton(bool state)
+{
+	noMiddleMouseButton = state;
+	if (m_enableConfigSaving) {
+		m_config->SetInt("noMiddleMouseButton", noMiddleMouseButton);
+		m_config->Save();
+	}
 }
 
 void Manager::GetMousePosition(int position[2])
@@ -878,6 +889,18 @@ void Manager::DispatchEvents()
 
 */
 
+// Mouse rotation is enabled if:
+// MMB is pressed, or Ctrl+LMB is pressed, AND no other mouse buttons are pressed
+bool Manager::IsMouseRotatePressed()
+{
+	int state = keyModState & KMOD_LCTRL ? 0x01 : 0x00;
+	state |= MouseButtonState(SDL_BUTTON_LEFT) ? 0x02 : 0x00;
+	state |= MouseButtonState(SDL_BUTTON_MIDDLE) ? 0x04 : 0x00;
+	state |= MouseButtonState(SDL_BUTTON_RIGHT) ? 0x08 : 0x00;
+
+	return state == 0x03 || state == 0x04;
+}
+
 void Manager::SetCapturingMouse(bool grabbed)
 {
 	// early-out to avoid changing (possibly) expensive WM state
@@ -899,6 +922,13 @@ float Manager::GetMoveSpeedShiftModifier()
 {
 	// Suggestion: make x1000 speed on pressing both keys?
 	if (KeyState(SDLK_LSHIFT)) return 100.f;
-	if (KeyState(SDLK_RSHIFT)) return 10.f;
+	if (KeyState(SDLK_LALT)) return 10.f;
+	return 1;
+}
+
+float Manager::GetRotateSpeedShiftModifier()
+{
+	if (KeyState(SDLK_LSHIFT)) return 10.f;
+	if (KeyState(SDLK_LALT)) return 0.1f;
 	return 1;
 }
