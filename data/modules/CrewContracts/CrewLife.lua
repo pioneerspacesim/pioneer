@@ -11,7 +11,7 @@ local Timer     = require 'Timer'
 local Character = require 'Character'
 local Lang      = require 'Lang'
 local Rand      = require 'Rand'
-local FlightLog = require 'FlightLog'
+-- local FlightLog = require 'FlightLog'
 
 local rand      = Rand.New()
 local l         = Lang.GetResource("module-crewcontracts")
@@ -49,7 +49,13 @@ local mean = function (x)
 end
 
 
-local thoughts = {
+-- global containers and variables
+local crewlife = {
+   thoughts = {}     -- available crew member thoughts
+}
+
+
+crewlife.thoughts = {
 	employment           = {text = l.THOUGHT_EMPLOYMENT,             adjustment = 10, time = 0},
 	happy_home           = {text = l.THOUGHT_HAPPY_HOME,             adjustment = 1,  time = 0},
 	illegal_trading_bad  = {text = l.THOUGHT_ILLEGAL_TRADING_BAD,    adjustment = -1, time = 0},
@@ -61,7 +67,7 @@ local thoughts = {
 	outlaw_bad           = {text = l.THOUGHT_OUTLAW,                 adjustment = -3, time = 0},
 	outlaw_good          = {text = l.THOUGHT_OUTLAW,                 adjustment = 3,  time = 0},
 	fugitive_bad         = {text = l.THOUGHT_FUGITIVE,               adjustment = -4, time = 0},
-	fugitve_good         = {text = l.THOUGHT_FUGITIVE,               adjustment = 4,  time = 0},
+	fugitive_good        = {text = l.THOUGHT_FUGITIVE,               adjustment = 4,  time = 0},
 	high_civ_good        = {text = l.THOUGHT_WELL_DEVELOPED_SYSTEMS, adjustment = 1,  time = 0},
 	high_civ_bad         = {text = l.THOUGHT_TOO_MANY_BUSY_SYSTEMS,  adjustment = -1, time = 0},
 	low_civ_good         = {text = l.THOUGHT_QUIET_SYSTEMS,          adjustment = 1,  time = 0},
@@ -150,7 +156,7 @@ end
 
 -- Applies the supplied thought to the supplied crew member. This will commit the thought to their memory
 -- (if the memory is not full) and make appropriate adjustments to the playerRelationship variable.
-local applyThought = function (crewMember, thought)
+function crewlife.applyThought (crewMember, thought)
 
 	-- apply only to non-player crew members
 	if crewMember.player then return end
@@ -230,9 +236,9 @@ local onPlayerCargoChanged = function (comm, amount)
 
 				-- crew happy or upset about illegal goods (depending on lawfulness)
 				if crewMember.lawfulness > law_upper_threshold and crewMember:TestRoll('lawfulness') then
-					applyThought(crewMember, thoughts['illegal_trading_bad'])
+					crewlife.applyThought(crewMember, crewlife.thoughts['illegal_trading_bad'])
 				elseif crewMember.lawfulness < law_lower_threshold and not crewMember:TestRoll('lawfulness') then
-					applyThought(crewMember, thoughts['illegal_trading_good'])
+					crewlife.applyThought(crewMember, crewlife.thoughts['illegal_trading_good'])
 				end
 			end
 		end
@@ -249,7 +255,7 @@ local onJoinCrew = function (ship, crewMember)
 	   crewMember.memories = {}
 
 	   -- happy because of employment
-	   applyThought(crewMember, thoughts['employment'])
+	   crewlife.applyThought(crewMember, crewlife.thoughts['employment'])
 
 	   -- start tracking visits to home
 	   crewMember.homeStation = ship:GetDockedWith().path
@@ -292,7 +298,7 @@ local onShipDocked = function (ship, station)
 			if station.path == crewMember.homeStation then
 				-- only triggers if last visit is more than a month ago
 				if Game.time - month_in_secs > crewMember.lastHomeVisit then
-					applyThought(crewMember, thoughts["happy_home"])
+					crewlife.applyThought(crewMember, crewlife.thoughts["happy_home"])
 				end
 				crewMember.lastHomeVisit = Game.time
 			end
@@ -324,16 +330,16 @@ local onEnterSystem = function (ship)
 			if randint == 1 then
 				local status = Game.player:GetLegalStatus()
 				if crewMember.lawfulness > law_upper_threshold and crewMember:TestRoll('lawfulness') then
-					if status == 'OFFENDER' then applyThought(crewMember, thoughts['offender_bad'])
-					elseif status == 'CRIMINAL' then applyThought(crewMember, thoughts['criminal_bad'])
-					elseif status == 'OUTLAW' then applyThought(crewMember, thoughts['outlaw_bad'])
-					elseif status == 'FUGITIVE' then applyThought(crewMember, thoughts['fugitive_bad'])
+					if status == 'OFFENDER' then crewlife.applyThought(crewMember, crewlife.thoughts['offender_bad'])
+					elseif status == 'CRIMINAL' then crewlife.applyThought(crewMember, crewlife.thoughts['criminal_bad'])
+					elseif status == 'OUTLAW' then crewlife.applyThought(crewMember, crewlife.thoughts['outlaw_bad'])
+					elseif status == 'FUGITIVE' then crewlife.applyThought(crewMember, crewlife.thoughts['fugitive_bad'])
 					end
 				elseif crewMember.lawfulness < law_lower_threshold and not crewMember:TestRoll('lawfulness') then
-					if status == 'OFFENDER' then applyThought(crewMember, thoughts['offender_good'])
-					elseif status == 'CRIMINAL' then applyThought(crewMember, thoughts['criminal_good'])
-					elseif status == 'OUTLAW' then applyThought(crewMember, thoughts['outlaw_good'])
-					elseif status == 'FUGITIVE' then applyThought(crewMember, thoughts['fugitive_good'])
+					if status == 'OFFENDER' then crewlife.applyThought(crewMember, crewlife.thoughts['offender_good'])
+					elseif status == 'CRIMINAL' then crewlife.applyThought(crewMember, crewlife.thoughts['criminal_good'])
+					elseif status == 'OUTLAW' then crewlife.applyThought(crewMember, crewlife.thoughts['outlaw_good'])
+					elseif status == 'FUGITIVE' then crewlife.applyThought(crewMember, crewlife.thoughts['fugitive_good'])
 					end
 				end
 
@@ -341,12 +347,12 @@ local onEnterSystem = function (ship)
 				elseif randint == 2 then
 				local mean_pops = mean(pops)
 				if crewMember.civaffinity == 'high' then
-					if mean_pops > civ_high_threshold then applyThought(crewMember, thoughts['high_civ_good'])
-					elseif mean_pops < civ_low_threshold then applyThought(crewMember, thoughts['low_civ_bad'])
+					if mean_pops > civ_high_threshold then crewlife.applyThought(crewMember, crewlife.thoughts['high_civ_good'])
+					elseif mean_pops < civ_low_threshold then crewlife.applyThought(crewMember, crewlife.thoughts['low_civ_bad'])
 					end
 				elseif crewMember.civaffinity == 'low' then
-					if mean_pops > civ_high_threshold then applyThought(crewMember, thoughts['high_civ_bad'])
-					elseif mean_pops < civ_low_threshold then applyThought(crewMember, thoughts['low_civ_good'])
+					if mean_pops > civ_high_threshold then crewlife.applyThought(crewMember, crewlife.thoughts['high_civ_bad'])
+					elseif mean_pops < civ_low_threshold then crewlife.applyThought(crewMember, crewlife.thoughts['low_civ_good'])
 					end
 				end
 
@@ -357,9 +363,9 @@ local onEnterSystem = function (ship)
 					num_explored = num_explored + value
 				end
 				if crewMember.cifaffinity == 'high' and num_explored > explored_threshold then
-					applyThought(crewMember, thoughts['frontier_bad'])
+					crewlife.applyThought(crewMember, crewlife.thoughts['frontier_bad'])
 				elseif crewMember.civaffinity == 'low' and num_explored > explored_threshold then
-					applyThought(crewMember, thoughts['frontier_good'])
+					crewlife.applyThought(crewMember, crewlife.thoughts['frontier_good'])
 				end
 			end
 		end
@@ -380,22 +386,22 @@ local thoughtGenerator = function()
 			-- print("Thoughttest")
 			-- print(randint)
 			-- local thought_keys = {}
-			-- for key,_ in pairs(thoughts) do
+			-- for key,_ in pairs(crewlife.thoughts) do
 			-- 	table.insert(thought_keys, key)
 			-- end
-			-- local thought = thoughts[thought_keys[randint]]
+			-- local thought = crewlife.thoughts[thought_keys[randint]]
 			-- print(thought.text)
-			-- applyThought(crewMember, thought)
+			-- crewlife.applyThought(crewMember, thought)
 
-			-- applyThought(crewMember, thoughts['negative'])
+			-- crewlife.applyThought(crewMember, crewlife.thoughts['negative'])
 			-- local randint = rand:Integer(0, 1)
 			-- local thought = {}
 			-- if randint == 1 then
-			-- 	thought = thoughts['positive']
+			-- 	thought = crewlife.thoughts['positive']
 			-- else
-			-- 	thought = thoughts['negative']
+			-- 	thought = crewlife.thoughts['negative']
 			-- end
-			-- applyThought(crewMember, thought)
+			-- crewlife.applyThought(crewMember, thought)
 			
 			-- Comms.ImportantMessage("another thought")
 		end
@@ -424,3 +430,5 @@ Event.Register("onEnterSystem", onEnterSystem)
 
 
 -- Serializer:Register('CrewLife',serialize,unserialize)
+
+return crewlife
