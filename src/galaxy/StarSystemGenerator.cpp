@@ -429,7 +429,9 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 
 		if (kid->GetType() != SystemBody::TYPE_STARPORT_SURFACE) {
 			if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
-				fixed lowestOrbit = fixed().FromDouble(parent->CalcAtmosphereParams().atmosRadius + 500000.0 / EARTH_RADIUS);
+				const double parentAtmosRadius = 1.0 + parent->GetAtmRadius() / parent->GetRadius();
+
+				fixed lowestOrbit = fixed().FromDouble(parentAtmosRadius + 500000.0 / EARTH_RADIUS);
 				if (kid->GetOrbit().GetSemiMajorAxis() < lowestOrbit.ToDouble()) {
 					Error("%s's orbit is too close to its parent (%.2f/%.2f)", kid->m_name.c_str(), kid->GetOrbit().GetSemiMajorAxis(), lowestOrbit.ToFloat());
 				}
@@ -1661,7 +1663,9 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 
 	if (sbody->GetPopulationAsFixed() < fixed(1, 1000)) return;
 	fixed orbMaxS = fixed(1, 4) * fixed(CalcHillRadius(sbody));
-	fixed orbMinS = fixed().FromDouble((sbody->CalcAtmosphereParams().atmosRadius + +500000.0 / EARTH_RADIUS)) * AU_EARTH_RADIUS;
+
+	const double sbodyAtmosRadius = 1.0 + sbody->GetAtmRadius() / sbody->GetRadius();
+	fixed orbMinS = fixed().FromDouble((sbodyAtmosRadius + +500000.0 / EARTH_RADIUS)) * AU_EARTH_RADIUS;
 	if (sbody->GetNumChildren() > 0)
 		orbMaxS = std::min(orbMaxS, fixed(1, 2) * sbody->GetChildren()[0]->GetOrbMinAsFixed());
 

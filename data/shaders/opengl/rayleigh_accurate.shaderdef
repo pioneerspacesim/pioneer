@@ -3,6 +3,10 @@
 
 Shader rayleigh_accurate
 
+Texture sampler2D scatterLUT
+Texture sampler2D rayleighLUT
+Texture sampler2D mieLUT
+
 Buffer LightData binding=0
 Buffer DrawData binding=1
 Buffer BaseSphereData binding=2

@@ -4,12 +4,14 @@
 #include "attributes.glsl"
 #include "lib.glsl"
 #include "basesphere_uniforms.glsl"
+#include "rayleigh.glsl"
 
 #define WATER_SHINE 16.0
 
 uniform sampler2D texture0;
 uniform sampler2D texture1;
 in vec2 texCoord0;
+uniform sampler2D scatterLUT;
 
 uniform int NumShadows;
 
@@ -40,6 +42,9 @@ void main(void)
 	vec3 tnorm = normalize(varyingNormal);
 	vec4 diff = vec4(0.0);
 
+	vec2 planetDist = raySphereIntersect(geosphereCenter, eyenorm, geosphereRadius);
+	vec3 planetIntersect = geosphereCenter + (eyenorm * planetDist.x);
+
 	float surfaceDist = dist * geosphereInvRadius;
 
 	// calculate the detail texture contribution from hi and lo textures
@@ -49,11 +54,19 @@ void main(void)
 	vec4 detailMul = mix(vec4(1.0), detailVal, detailMix);
 
 #ifdef TERRAIN_WITH_WATER
-	float specularReflection=0.0;
+	vec4 waterSpecular = vec4(0.0);
 #endif
 
 #if (NUM_LIGHTS > 0)
 	vec3 V = normalize(eyeposScaled - geosphereCenter);
+	vec3 I = normalize(eyeposScaled - planetIntersect);
+
+	float AU = 149598000000.0;
+	frag_color = vec4(0.f);
+
+	// coordinates, in planet radius
+	vec4 planet = vec4(geosphereCenter, geosphereRadius);
+	vec4 atmosphere = vec4(geosphereCenter, geosphereAtmosTopRad);
 
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		vec3 L = normalize(uLight[i].position.xyz);
@@ -63,7 +76,11 @@ void main(void)
 #ifdef TERRAIN_WITH_WATER
 		//water only for specular
 	    if (vertexColor.b > 0.05 && vertexColor.r < 0.05) {
-			CalcPlanetSpec(specularReflection, uLight[i], L, tnorm, eyenorm, WATER_SHINE);
+			vec3 lightPosAU = uLight[i].position.xyz / AU;
+			float intensity = 1.f / dot(lightPosAU, lightPosAU); // magic to avoid calculating length and then squaring it
+
+			waterSpecular.xyz += calculateAtmosphereColor(planet, atmosphere, toLinear(uLight[i].diffuse), reflect(L, I), (I - geosphereCenter) * geosphereRadius, eyenorm, uneclipsed, scatterLUT) * intensity;
+			//waterSpecular.xyz += computeIncidentLight(reflect(L, I), eyenorm, I * geosphereRadius, toLinear(uLight[i].diffuse), uneclipsed) * intensity;
 		}
 #endif
 	}
@@ -72,16 +89,12 @@ void main(void)
 	vec4 ambient = scene.ambient * vertexColor;
 	vec4 final = vertexColor * detailMul * diff;
 
+#ifdef TERRAIN_WITH_WATER
+	vec4 waterColor = waterSpecular * 20.f;
+#endif
+
 #ifdef ATMOSPHERE
-	float ldprod=0.0;
-	float fogFactor=0.0;
-	CalcPlanetFogFactor(ldprod, fogFactor, eyenorm, eyeposScaled - geosphereCenter, surfaceDist);
-
-	//calculate sunset tone red when passing through more atmosphere, clamp everything.
-	float atmpower = (diff.r+diff.g+diff.b)/3.0;
-	vec4 sunset = vec4(0.8,clamp(pow(atmpower,0.8),0.0,1.0),clamp(pow(atmpower,1.2),0.0,1.0),1.0);
-
-	final = fogFactor * (ambient + final);
+	final = ambient + final;
 #else
 	// add extra brightness to atmosphere-less planetoids and dim stars
 	final = ambient + final * 2.0;
@@ -95,13 +108,10 @@ void main(void)
 		final;
 
 #ifdef ATMOSPHERE
-	frag_color +=
-		(1.0-fogFactor) * (diff*atmosColor) +
+	frag_color += diff * atmosColor;
 #ifdef TERRAIN_WITH_WATER
-		  diff * specularReflection * sunset +
+	frag_color += diff * waterColor;
 #endif
-		  (0.02-clamp(fogFactor,0.0,0.01))*diff*ldprod*sunset +	      //increase fog scatter
-		  (pow((1.0-pow(fogFactor,0.75)),256.0)*0.4*diff*atmosColor)*sunset;  //distant fog.
 #endif //ATMOSPHERE
 
 #else // NUM_LIGHTS > 0 -- unlit rendering - stars

@@ -345,7 +345,7 @@ void SystemBody::SetAtmFromParameters()
 		// want height for pressure 0.001 atm:
 		// h = (1 - exp(RL/gM * log(P/p0))) * T0 / l
 		double RLdivgM = (GAS_CONSTANT_R * lapseRate_L) / (surfaceGravity_g * GetMolarMass(GetSuperType()));
-		m_atmosRadius = (1.0 - exp(RLdivgM * log(0.001 / m_atmosPressure))) * surfaceTemperature_T0 / lapseRate_L;
+		m_atmosRadius = (1.0 - exp(RLdivgM * log(1e-15 / m_atmosPressure))) * surfaceTemperature_T0 / lapseRate_L;
 	}
 }
 
@@ -413,6 +413,33 @@ vector3f SystemBody::GetCoefficients(const double radius, const double atmHeight
 	return vector3f(k, b, c);
 }
 
+/*
+ * given ray and a circle, calculate points where ray intersects a circle
+ * r - radius of a circle
+ * v - ray start, given circle center is at origin
+ * dir - ray direction, pre-normalized
+ * x1, x2 - solutions
+ *
+ * returns false if circle is not intersected
+ */
+bool rayCircleIntersection(double *x1, double *x2, const vector2d v, const double radius, const vector2d dir)
+{
+	double b = -(v.x * dir.x + v.y * dir.y);
+	double det = (b * b) - v.LengthSqr() + (radius * radius);
+	//Output("DEBUG: v = [%lf, %lf], radius = %lf, dir = [%lf, %lf], b = %lf, det = %lf\n", v.x, v.y, radius, dir.x, dir.y, b, det);
+
+	if (det >= 0) {
+		double sdet = sqrt(det);
+
+		*x1 = b - sdet;
+		*x2 = b + sdet;
+
+		return true;
+	} else {
+		return false;
+	}
+}
+
 // Calculate parameters used in the atmospheric model for shaders
 AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 {
@@ -465,9 +492,8 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 
 	// min of 2.0 corresponds to a scale height of 1/20 of the planet's radius,
 	params.atmosInvScaleHeight = std::max(20.0f, static_cast<float>(GetRadius() / atmosScaleHeight));
-	// integrate atmospheric density between surface and this radius. this is 10x the scale
-	// height, which should be a height at which the atmospheric density is negligible
-	params.atmosRadius = 1.0f + static_cast<float>(10.0f * atmosScaleHeight) / GetRadius();
+
+	params.atmosRadius = 1.0f + static_cast<float>(m_atmosRadius) / GetRadius();
 
 	params.planetRadius = static_cast<float>(radiusPlanet_in_m);
 
@@ -476,6 +502,89 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 	params.rayleighCoefficients = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, atmosScaleHeight);
 	params.mieCoefficients = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, atmosScaleHeight / 6.66); // 7994 / 1200 = 6.61
 	params.scaleHeight = vector2f(atmosScaleHeight, atmosScaleHeight / 6.66);
+
+	float atmosHeight = radiusPlanet_in_m * (params.atmosRadius - 1);;
+	for (int i = 0; i <= DENSITY_STEPS; i++) {
+		float height = i * atmosHeight / DENSITY_STEPS;
+
+		// mie decays ~6.66 times faster
+		float rLogDensity, mLogDensity;
+
+		rLogDensity = log(GetAtmDensity(height, GetAtmPressure(height)));
+
+		// ugly fallback, will be fixed with new atmosphere model
+		mLogDensity = log(GetAtmDensity(6.66 * height, GetAtmPressure(6.66 * height)));
+		if (std::isnan(mLogDensity))
+			mLogDensity = -128.0;
+
+		params.logDensityMap[i] = vector2f(rLogDensity, mLogDensity);
+	}
+
+	// tests
+	double tx1, tx2;
+	if (GetName() == "Mars") {
+		rayCircleIntersection(&tx1, &tx2, vector2d(0.0, 4.0), 5.0, vector2d(0.0, 1.0));
+		//Output("%s: test intersections %lf, %lf\n", GetName().c_str(), tx1, tx2);
+		rayCircleIntersection(&tx1, &tx2, vector2d(0.0, 4.0), 5.0, vector2d(1.0, 0.0));
+		//Output("%s: test intersections %lf, %lf\n", GetName().c_str(), tx1, tx2);
+	}
+
+	Output("%s: generating density model\n", GetName());
+
+	// pre-calculate density LUT based on current height and angle to horizon
+	for (int i = 0; i <= DENSITY_STEPS; ++i) {
+		double startHeight = i * atmosHeight / DENSITY_STEPS;
+
+		for (int j = 0; j <= DENSITY_STEPS; ++j) {
+			// pitch in radians
+			double pitch = M_PI * ((1.0 * j / DENSITY_STEPS) - 0.5);
+			vector2d direction = vector2d(1.0, 0.0).Rotate(pitch); // calculate in 2d space
+			vector2d tCurrent = vector2d(0.0, startHeight + radiusPlanet_in_m);
+
+			double atm1 = 0.0, atm2 = 0.0;
+			bool atmIntersection = rayCircleIntersection(&atm1, &atm2, tCurrent, radiusPlanet_in_m * params.atmosRadius, direction);
+
+			if (!atmIntersection)
+				continue;
+
+			double planet1 = 0.0, planet2 = 0.0;
+			bool planetIntersection = rayCircleIntersection(&planet1, &planet2, tCurrent, radiusPlanet_in_m - 0.01, direction);
+
+			double startRay = 0.0, finishRay = atm2;
+			if (planetIntersection) {
+				if (planet1 >= 0) finishRay = planet1; // we hit the planet
+
+				// otherwise we would hit the planet while tracing *backwards*
+			}
+
+			int numSamples = 16;
+			double segment = (finishRay - startRay) / numSamples;
+			double rDensity = 0.0, mDensity = 0.0;
+			for (int k = 0; k < numSamples; ++k) {
+				vector2d samplePosition = tCurrent + (segment * 0.5) * direction;
+				double sampleHeight = samplePosition.Length() - radiusPlanet_in_m;
+
+				double sampleDensityR = GetAtmDensity(sampleHeight, GetAtmPressure(sampleHeight));
+				double sampleDensityM = GetAtmDensity(6.66 * sampleHeight, GetAtmPressure(6.66 * sampleHeight));
+				if (std::isnan(sampleDensityM))
+					sampleDensityM = 0.0;
+
+				rDensity += segment * sampleDensityR;
+				mDensity += segment * sampleDensityM;
+
+				tCurrent += direction * segment;
+			}
+
+			double rLogDensity, mLogDensity;
+
+			rLogDensity = rDensity > 0.0 ? log(rDensity) : -128.0;
+			mLogDensity = mDensity > 0.0 ? log(mDensity) : -128.0;
+
+			if (GetName() == "Mars") {
+				//Output("%s: calculated density for ray (height = %lf, pitch = %lf): log(r) = %lf, log(m) = %lf\n\n", GetName().c_str(), startHeight, pitch, rLogDensity, mLogDensity);
+			}
+		}
+	}
 
 	return params;
 }

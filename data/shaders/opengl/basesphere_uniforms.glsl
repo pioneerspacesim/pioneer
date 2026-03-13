@@ -26,7 +26,7 @@ layout(std140) uniform BaseSphereData {
 	vec4 atmosColor;
 	vec3 coefficientsR;			// coefficients for approximating the Rayleigh contribution
 	vec3 coefficientsM;			// coefficients for approximating the Mie contribution
-	vec2 scaleHeight;			// height for (R, M) in km, at which density will be reduced by e
+	vec2 scaleHeight;			// height for (R, M) in m, at which density will be reduced by e
 
 	// Eclipse data
 	Eclipse eclipse;
