@@ -58,16 +58,18 @@ local crewlife = {
 crewlife.thoughts = {
 	employment           = {text = l.THOUGHT_EMPLOYMENT,             adjustment = 10, time = 0},
 	happy_home           = {text = l.THOUGHT_HAPPY_HOME,             adjustment = 1,  time = 0},
+	not_paid             = {text = l.THOUGHT_NOT_PAID,               adjustment = -4, time = 0},
+	paid                 = {text = l.THOUGHT_PAID,                   adjustment = 1,  time = 0},
 	illegal_trading_bad  = {text = l.THOUGHT_ILLEGAL_TRADING_BAD,    adjustment = -1, time = 0},
 	illegal_trading_good = {text = l.THOUGHT_ILLEGAL_TRADING_GOOD,   adjustment = 1,  time = 0},
 	offender_bad         = {text = l.THOUGHT_OFFENDER,               adjustment = -1, time = 0},
 	offender_good        = {text = l.THOUGHT_OFFENDER,               adjustment = 1,  time = 0},
 	criminal_bad         = {text = l.THOUGHT_CRIMINAL,               adjustment = -2, time = 0},
-	ciminal_good         = {text = l.THOUGHT_CRIMINAL,               adjustment = 2,  time = 0},
+	criminal_good        = {text = l.THOUGHT_CRIMINAL,               adjustment = 1,  time = 0},
 	outlaw_bad           = {text = l.THOUGHT_OUTLAW,                 adjustment = -3, time = 0},
-	outlaw_good          = {text = l.THOUGHT_OUTLAW,                 adjustment = 3,  time = 0},
+	outlaw_good          = {text = l.THOUGHT_OUTLAW,                 adjustment = 2,  time = 0},
 	fugitive_bad         = {text = l.THOUGHT_FUGITIVE,               adjustment = -4, time = 0},
-	fugitive_good        = {text = l.THOUGHT_FUGITIVE,               adjustment = 4,  time = 0},
+	fugitive_good        = {text = l.THOUGHT_FUGITIVE,               adjustment = 3,  time = 0},
 	high_civ_good        = {text = l.THOUGHT_WELL_DEVELOPED_SYSTEMS, adjustment = 1,  time = 0},
 	high_civ_bad         = {text = l.THOUGHT_TOO_MANY_BUSY_SYSTEMS,  adjustment = -1, time = 0},
 	low_civ_good         = {text = l.THOUGHT_QUIET_SYSTEMS,          adjustment = 1,  time = 0},
@@ -124,15 +126,18 @@ local scheduleWages = function (crewMember)
 		if not contract then return end
 
 		if Game.player:GetMoney() > contract.wage then
-			Game.player:AddMoney(0 - contract.wage)
-			-- Being paid can make awkward crew like you more
-			if not crewMember:TestRoll('playerRelationship') then
-				crewMember.playerRelationship = crewMember.playerRelationship + 1
-			end
+		   Game.player:AddMoney(0 - contract.wage)
+		   
+		   -- Being paid can make awkward crew like you more
+		   if not crewMember:TestRoll('playerRelationship') then
+		      crewlife.applyThought(crewMember, crewlife.thoughts['paid'])
+		   end
 		else
-			contract.outstanding = contract.outstanding + contract.wage
-			crewMember.playerRelationship = crewMember.playerRelationship - 1
-			Character.persistent.player.reputation = Character.persistent.player.reputation - 0.5
+		   contract.outstanding = contract.outstanding + contract.wage
+		   crewlife.applyThought(crewMember, crewlife.thoughts['not_paid'])
+
+		   -- TODO: is this still necessary?
+		   Character.persistent.player.reputation = Character.persistent.player.reputation - 0.5
 		end
 
 		-- Attempt to pay off any arrears

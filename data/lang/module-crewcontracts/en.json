@@ -139,6 +139,14 @@
     "description": "",
     "message": "happy to be home again"
   },
+  "THOUGHT_NOT_PAID": {
+    "description": "",
+    "message": "did not get paid"
+  },
+   "THOUGHT_PAID": {
+    "description": "",
+    "message": "got paid"
+  },
   "THOUGHT_ILLEGAL_TRADING_BAD": {
     "description": "",
     "message": "complicit in illegal trade"
