@@ -8,12 +8,14 @@ local Engine = require 'Engine'
 local Game = require 'Game'
 local Character = require 'Character'
 local Format = require 'Format'
-local Timer = require 'Timer'
 local utils = require 'utils'
+local Rand = require 'Rand'
+
+local rand = Rand.New()
 local PlayerState = require 'PlayerState'
 
 -- This module allows the player to hire crew members through BB adverts
--- on stations, and handles periodic events such as their wages.
+-- on stations
 
 local l = Lang.GetResource("module-crewcontracts")
 local lui = Lang.GetResource("ui-core")
@@ -30,6 +32,10 @@ local wage_period = 604800 -- a week of seconds
 --   outstanding = 0,
 -- }
 
+-- New Character attribute: affinity for civilization
+-- This determines how much the character enjoys being in busy systems with high
+-- population vs. the unexplored frontier
+local civaffinity = {"low", "medium", "high"}
 ---------------------- Part 1 ----------------------
 -- Life aboard ship
 
@@ -183,6 +189,8 @@ local onChat = function (form,ref,option)
 			-- Base wage on experience
 			c.estimatedWage = c.estimatedWage or wageFromScore(c.experience)
 			c.estimatedWage = utils.round(c.estimatedWage, 1)
+			-- pick affinity for civilization
+			c.civaffinity = civaffinity[rand:Integer(1, 3)]
 		end
 
 		-- Now look for any persistent characters that are available in this station
@@ -209,6 +217,10 @@ local onChat = function (form,ref,option)
 			-- (which should only happen if this candidate was dismissed with wages owing)
 			c.estimatedWage = math.max(c.contract and (c.contract.wage + 5) or 0, c.estimatedWage or wageFromScore(c.experience))
 			c.estimatedWage = utils.round(c.estimatedWage, 1)
+			-- pick affinity for civilization if it doesn't exist
+			if not c.civaffinity then
+				c.civaffinity = civaffinity[rand:Integer(1, 3)]
+			end
 		end
 
 		form:ClearFace()
@@ -229,33 +241,40 @@ local onChat = function (form,ref,option)
 	end
 
 	local showCandidateDetails = function (response)
-		local experience =
-			candidate.experience > 160 and l.VETERAN_TIME_SERVED_CREW_MEMBER or
-			candidate.experience > 140 and l.TIME_SERVED_CREW_MEMBER or
-			candidate.experience > 100 and l.MINIMAL_TIME_SERVED_ABOARD_SHIP or
-			candidate.experience >  60 and l.SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS or
-			candidate.experience >  10 and l.SIMULATOR_TRAINING_ONLY or
-			l.NO_EXPERIENCE
 		form:SetFace(candidate)
 		form:Clear()
 		form:SetTitle(candidate.name)
-		candidate:PrintStats()
-		print("Attitude: ",candidate.playerRelationship)
-		print("Aspiration: ",candidate.estimatedWage)
-		if response == "" then response = "\r" end
-		form:SetMessage(l.CREWDETAILSHEETBB:interp({
-			name = candidate.name,
-			experience = experience,
-			wage = Format.Money(offer),
-			response = response,
-		}))
-		form:AddOption(l.MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT,1)
-		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer+10))}),2)
-		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer+5))}),3)
-		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer-5))}),4)
-		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer-10))}),5)
-		form:AddOption(l.ASK_CANDIDATE_TO_SIT_A_TEST,6)
-		form:AddOption(l.GO_BACK, 0)
+
+		-- if playerRelationship is terrible then don't even interact with player
+		if candidate.playerRelationship < 15 then
+			form:SetMessage(l.I_WOULD_NEVER_CONSIDER_WORKING_FOR_YOU)
+			form:AddOption(l.GO_BACK, 0)
+		else
+			local experience =
+				candidate.experience > 160 and l.VETERAN_TIME_SERVED_CREW_MEMBER or
+				candidate.experience > 140 and l.TIME_SERVED_CREW_MEMBER or
+				candidate.experience > 100 and l.MINIMAL_TIME_SERVED_ABOARD_SHIP or
+				candidate.experience >  60 and l.SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS or
+				candidate.experience >  10 and l.SIMULATOR_TRAINING_ONLY or
+				l.NO_EXPERIENCE
+			candidate:PrintStats()
+			print("Attitude: ",candidate.playerRelationship)
+			print("Aspiration: ",candidate.estimatedWage)
+			if response == "" then response = "\r" end
+			form:SetMessage(l.CREWDETAILSHEETBB:interp({
+									name = candidate.name,
+									experience = experience,
+									wage = Format.Money(offer),
+									response = response,
+			}))
+			form:AddOption(l.MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT,1)
+			form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer+10))}),2)
+			form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer+5))}),3)
+			form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer-5))}),4)
+			form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer-10))}),5)
+			form:AddOption(l.ASK_CANDIDATE_FOR_INTERVIEW_AND_TEST,6)
+			form:AddOption(l.GO_BACK, 0)
+		end
 	end
 
 	if option > 0 then
@@ -273,6 +292,7 @@ local onChat = function (form,ref,option)
 			-- Offer of employment
 			form:Clear()
 			form:SetTitle(candidate.name)
+
 			if candidate:TestRoll('playerRelationship',15) then
 				-- Boosting roll by 15, because they want to work
 				if Game.player:Enroll(candidate) then
@@ -304,7 +324,12 @@ local onChat = function (form,ref,option)
 			candidate.playerRelationship = candidate.playerRelationship + 2
 			offer = checkOffer(offer + 10)
 			candidate.estimatedWage = offer -- They'll now re-evaluate themself
-			showCandidateDetails(l.THATS_EXTREMELY_GENEROUS_OF_YOU)
+
+			if candidate.playerRelationship < 15 then
+				showCandidateDetails(l.I_WOULD_NEVER_CONSIDER_WORKING_FOR_YOU)
+			else
+				showCandidateDetails(l.THATS_EXTREMELY_GENEROUS_OF_YOU)
+			end
 		end
 
 		if option == 3 then
@@ -312,7 +337,11 @@ local onChat = function (form,ref,option)
 			candidate.playerRelationship = candidate.playerRelationship + 1
 			offer = checkOffer(offer + 5)
 			candidate.estimatedWage = offer -- They'll now re-evaluate themself
-			showCandidateDetails(l.THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER)
+			if candidate.playerRelationship < 15 then
+				showCandidateDetails(l.I_WOULD_NEVER_CONSIDER_WORKING_FOR_YOU)
+			else
+				showCandidateDetails(l.THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER)
+			end
 		end
 
 		if option == 4 then
@@ -329,6 +358,11 @@ local onChat = function (form,ref,option)
 		if option == 5 then
 			-- Player suggested lowering the offer with $10
 			candidate.playerRelationship = candidate.playerRelationship - 2
+			if candidate.playerRelationship < 15 then
+				showCandidateDetails(l.I_WOULD_NEVER_CONSIDER_WORKING_FOR_YOU)
+			else
+				showCandidateDetails(l.THATS_EXTREMELY_GENEROUS_OF_YOU)
+			end
 			if candidate:TestRoll('playerRelationship') then
 				offer = checkOffer(offer - 10)
 				showCandidateDetails(l.OK_I_SUPPOSE_THATS_ALL_RIGHT)
@@ -341,24 +375,41 @@ local onChat = function (form,ref,option)
 			-- Player asks candidate to perform a test
 			form:Clear()
 			form:SetTitle(candidate.name)
-			local general,engineering,piloting,navigation,sensors = 0,0,0,0,0
+			local general,engineering,piloting,navigation,sensors,lawfulness = 0,0,0,0,0,0
 			for i = 1,10 do
 				if candidate:TestRoll('intelligence') then general = general + 10 end
 				if candidate:TestRoll('engineering') then engineering = engineering + 10 end
 				if candidate:TestRoll('piloting') then piloting = piloting + 10 end
 				if candidate:TestRoll('navigation') then navigation = navigation + 10 end
 				if candidate:TestRoll('sensors') then sensors = sensors + 10 end
+				if candidate:TestRoll('lawfulness') then lawfulness = lawfulness + 10 end
 			end
 			-- Candidates hate being tested.
 			candidate.playerRelationship = candidate.playerRelationship - 1
 			-- Show results
+
+			local lawfulness_impression = ""
+			if lawfulness > 90 then lawfulness_impression = l.FOLLOWS_LAW_TO_THE_LETTER
+			elseif lawfulness > 70 then lawfulness_impression = l.LAW_ABIDING_CITIZEN
+			elseif lawfulness > 40 then lawfulness_impression = l.NOT_PRO_OR_CONTRA_LAW
+			elseif lawfulness > 10 then lawfulness_impression = l.WILL_DO_WHAT_THEY_WANT
+			else lawfulness_impression = l.LAWS_ARE_FOR_OTHERS end
+
+			local civaffinity_impression = ""
+			if candidate.civaffinity == "high" then civaffinity_impression = l.LOVES_CULTURE
+			elseif candidate.civaffinity == "medium" then civaffinity_impression = l.DOESNT_NEED_FREQUENT_CULTURE
+			elseif candidate.civaffinity == "low" then civaffinity_impression = l.WANTS_TO_GET_AWAY_FROM_CIVILIZATION
+			end
+
 			form:SetMessage(l.CREWTESTRESULTSBB:interp{
-				general = general,
-				engineering = engineering,
-				piloting = piloting,
-				navigation = navigation,
-				sensors = sensors,
-				overall = math.ceil((general+general+engineering+piloting+navigation+sensors)/6),
+								lawfulness_impression = lawfulness_impression,
+								civaffinity_impression = civaffinity_impression,
+								general = general,
+								engineering = engineering,
+								piloting = piloting,
+								navigation = navigation,
+								sensors = sensors,
+								overall = math.ceil((general+general+engineering+piloting+navigation+sensors)/6),
 			})
 			form:AddOption(l.GO_BACK, 7)
 		end

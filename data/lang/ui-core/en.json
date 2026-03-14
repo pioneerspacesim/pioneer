@@ -875,6 +875,10 @@
     "description": "",
     "message": "Hang up."
   },
+  "HAPPINESS": {
+    "description": "",
+    "message": "Happiness"
+  },
   "HARMLESS": {
     "description": "Player combat rating",
     "message": "Harmless"
@@ -2167,6 +2171,10 @@
     "description": "",
     "message": "Registration number"
   },
+  "RELATIONSHIP_WITH_CAPTAIN": {
+    "description": "",
+    "message": "Relationship with Captain"
+  },
   "RELIABLE": {
     "description": "For player reputation",
     "message": "Reliable"
@@ -2530,6 +2538,10 @@
   "STATION_TECH_TOO_LOW": {
     "description": "",
     "message": "Station tech level too low to sell this item"
+  },
+  "STATS": {
+    "description": "",
+    "message": "Stats"
   },
   "STATUS": {
     "description": "",
