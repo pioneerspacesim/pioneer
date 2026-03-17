@@ -1,7 +1,7 @@
 {
   "AC33": {
     "description": "ship name - base form",
-    "message": "AC-33 Dropstar"
+    "message": "AC-33 坠星级"
   },
   "AC33_DEF": {
     "description": "ship - definite form",
@@ -13,7 +13,7 @@
   },
   "BLUENOSE": {
     "description": "ship name - base form",
-    "message": "Bluenose"
+    "message": "蓝鼻子"
   },
   "BLUENOSE_DEF": {
     "description": "ship - definite form",
@@ -25,7 +25,7 @@
   },
   "BOWFIN": {
     "description": "ship name - base form",
-    "message": "Bowfin"
+    "message": "弓鳍鱼"
   },
   "BOWFIN_DEF": {
     "description": "ship - definite form",
@@ -37,7 +37,7 @@
   },
   "CORONATRIX": {
     "description": "ship name - base form",
-    "message": "Coronatrix"
+    "message": "冠蛇"
   },
   "CORONATRIX_DEF": {
     "description": "ship - definite form",
@@ -61,7 +61,7 @@
   },
   "DENEB": {
     "description": "ship name - base form",
-    "message": "Deneb"
+    "message": "天津四"
   },
   "DENEB_DEF": {
     "description": "ship - definite form",
@@ -73,7 +73,7 @@
   },
   "DSMINER": {
     "description": "ship name - base form",
-    "message": "DS Miner"
+    "message": "深空矿工"
   },
   "DSMINER_DEF": {
     "description": "ship - definite form",
@@ -85,7 +85,7 @@
   },
   "KANARA": {
     "description": "ship name - base form",
-    "message": "Kanara"
+    "message": "卡纳拉级"
   },
   "KANARA_CIV": {
     "description": "ship name - base form",
@@ -109,7 +109,7 @@
   },
   "LODOS": {
     "description": "ship name - base form",
-    "message": "Lodos"
+    "message": "淤泥"
   },
   "LODOS_DEF": {
     "description": "ship - definite form",
@@ -121,7 +121,7 @@
   },
   "LUNARSHUTTLE": {
     "description": "ship name - base form",
-    "message": "Lunar Shuttle"
+    "message": "月兔"
   },
   "LUNARSHUTTLE_DEF": {
     "description": "ship - definite form",
@@ -133,7 +133,7 @@
   },
   "MALABAR": {
     "description": "ship name - base form",
-    "message": "Malabar"
+    "message": "马拉巴尔级"
   },
   "MALABAR_DEF": {
     "description": "ship - definite form",
@@ -145,7 +145,7 @@
   },
   "MOLAMOLA": {
     "description": "ship name - base form",
-    "message": "Mola Mola"
+    "message": "翻车鱼"
   },
   "MOLAMOLA_DEF": {
     "description": "ship - definite form",
@@ -157,7 +157,7 @@
   },
   "MOLARAMSAYI": {
     "description": "ship name - base form",
-    "message": "Mola Ramsayi"
+    "message": "巨型翻车鱼"
   },
   "MOLARAMSAYI_DEF": {
     "description": "ship - definite form",
@@ -169,7 +169,7 @@
   },
   "NATRIX": {
     "description": "ship name - base form",
-    "message": "Natrix"
+    "message": "星际游蛇"
   },
   "NATRIX_DEF": {
     "description": "ship - definite form",
@@ -181,7 +181,7 @@
   },
   "NERODIA": {
     "description": "ship name - base form",
-    "message": "Nerodia"
+    "message": "尼罗巨蟒"
   },
   "NERODIA_DEF": {
     "description": "ship - definite form",
@@ -205,7 +205,7 @@
   },
   "PUMPKINSEED": {
     "description": "ship name - base form",
-    "message": "Pumpkinseed"
+    "message": "太阳鱼"
   },
   "PUMPKINSEED_DEF": {
     "description": "ship - definite form",
@@ -241,7 +241,7 @@
   },
   "SINONATRIX": {
     "description": "ship name - base form",
-    "message": "Sinonatrix"
+    "message": "游蛇"
   },
   "SINONATRIX_DEF": {
     "description": "ship - definite form",
@@ -265,7 +265,7 @@
   },
   "SKIPJACK": {
     "description": "ship name - base form",
-    "message": "Skipjack"
+    "message": "飞鱼"
   },
   "SKIPJACK_DEF": {
     "description": "ship - definite form",
@@ -289,7 +289,7 @@
   },
   "VARADA": {
     "description": "ship name - base form",
-    "message": "Varada"
+    "message": "搁浅"
   },
   "VARADA_DEF": {
     "description": "ship - definite form",
@@ -301,7 +301,7 @@
   },
   "VATAKARA": {
     "description": "ship name - base form",
-    "message": "Vatakara"
+    "message": "瓦达卡拉级"
   },
   "VATAKARA_DEF": {
     "description": "ship - definite form",
@@ -313,7 +313,7 @@
   },
   "VENTURESTAR": {
     "description": "ship name - base form",
-    "message": "Venturestar"
+    "message": "冒险之星"
   },
   "VENTURESTAR_DEF": {
     "description": "ship - definite form",
@@ -325,7 +325,7 @@
   },
   "WAVE": {
     "description": "ship name - base form",
-    "message": "Wave"
+    "message": "蝶浪"
   },
   "WAVE_DEF": {
     "description": "ship - definite form",
