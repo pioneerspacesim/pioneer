@@ -2325,7 +2325,7 @@
   },
   "SELL": {
     "description": "Commodities and equipment prices",
-    "message": "价格"
+    "message": "出售"
   },
   "SELL_EQUIP": {
     "description": "Button text to sell installed equipment. May be used in a singular or plural context.",
@@ -2337,7 +2337,7 @@
   },
   "SELL_PRICE": {
     "description": "Title for sell-price column in commodity market",
-    "message": "价格"
+    "message": "出售"
   },
   "SENSORS": {
     "description": "Crew skill",
