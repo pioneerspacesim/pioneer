@@ -487,7 +487,7 @@ debugView.registerTab("news", {
 
 			local header = commodity_name .. "\t" .. system_name .. "\t" .. string.format("%.2f", distance) .. " ly"
 
-			if ui.collapsingHeader(header, {}) then
+			if ui.collapsingHeader(header .. "##" .. i, {}) then
 				local headline = string.interp(
 					flavours[n.flavour].headline, {
 						system = system_name,
@@ -517,7 +517,7 @@ debugView.registerTab("news", {
 				ui.text("Start: " .. Format.DateOnly(n.date))
 				ui.text("End: " .. Format.DateOnly(n.expires))
 
-				if ui.button("Delete news", Vector2(100, 0)) then
+				if ui.button("Delete news" .. "##" .. i, Vector2(100, 0)) then
 					table.remove(news, i)
 				end
 				ui.separator()
