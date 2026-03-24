@@ -1,3 +1,21 @@
+March
+  * New Features
+    * Show the status of the wanted person (#6298)
+
+  * Fixes
+    * Fix flight log recovery (#6301)
+    * Start-At fix and log conditional (#6299)
+    * Fix overlapping craters, and early out of `GetHeights` (#6292)
+    * Fix News debug window supporting multiple 'delete' advert buttons (#6308)
+
+  * Internal
+    * Remove obsolete navtunnel code (#6297)
+    * .desktop: Prefer Wayland over X11 (#6287)
+
+February
+  * Fixes
+    *  Fix error shown in the Language selection list (#6290)
+
 Pioneer 2026-02-03 Release
   * Fixes
     * Changing seed for Impression to avoid station being partially underground (#6283)
@@ -31,7 +49,7 @@ January 2026
     * Happy new year (#6264)
     * Alias Vector3 ZERO (#6259)
     * Minor fixes and additions (#6266)
-    * Update to Assimp 6.0.2 lib name (PR #6267)
+    * Update to Assimp 6.0.2 lib name (#6267)
     * Dump all current faction home systems to JSON (#6271)
     * Fix GCC warnings (#6280)
 
