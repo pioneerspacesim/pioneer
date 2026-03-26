@@ -19,7 +19,6 @@ local PlayerState = require 'PlayerState'
 -- local iconSize = Vector2(0, ui.getLineHeight())
 
 
--- local crewcontracts = require 'modules.CrewContracts.CrewContracts'
 local crewlife = require 'modules.CrewContracts.CrewLife'
 
 local thought_selected = 0

@@ -1679,6 +1679,10 @@
     "description": "",
     "message": "Medium passenger transport"
   },
+  "MEMORIES": {
+    "description": "",
+    "message": "Memories"
+  },
   "METAL_ALLOYS": {
     "description": "",
     "message": "Metal alloys"

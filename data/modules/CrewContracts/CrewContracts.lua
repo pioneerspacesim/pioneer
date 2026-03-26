@@ -12,7 +12,6 @@ local utils = require 'utils'
 local Rand = require 'Rand'
 
 local rand = Rand.New()
-local PlayerState = require 'PlayerState'
 
 -- This module allows the player to hire crew members through BB adverts
 -- on stations
@@ -35,111 +34,9 @@ local wage_period = 604800 -- a week of seconds
 -- New Character attribute: affinity for civilization
 -- This determines how much the character enjoys being in busy systems with high
 -- population vs. the unexplored frontier
-local civaffinity = {"low", "medium", "high"}
----------------------- Part 1 ----------------------
--- Life aboard ship
+-- low = 1, medium = 2, high = 3
+-- civaffinity = {1, 2, 3}
 
-local boostCrewSkills = function (crewMember)
-	-- Each week, there's a small chance that a crew member gets better
-	-- at each skill, due to the experience of working on the ship.
-
-	-- If they fail their intelligence roll, they learn nothing.
-	if not crewMember:TestRoll('intelligence') then return end
-
-	-- The attributes to be tested and possibly enhanced. These will be sorted
-	-- by their current value, but appear first in arbitrary order.
-	local attribute = {
-		{'engineering',crewMember.engineering},
-		{'piloting',crewMember.piloting},
-		{'navigation',crewMember.navigation},
-		{'sensors',crewMember.sensors},
-	}
-	table.sort(attribute,function (a,b) return a[2] > b[2] end)
-	-- The sorted attributes mean that the highest scoring attribute gets the
-	-- first opportunity for improvement. The next loop actually makes it harder
-	-- for the highest scoring attributes to improve, so if they fail, the next
-	-- one is given an opportunity. At most one attribute will be improved, and
-	-- the distribution means that, for example, a pilot will improve in piloting
-	-- first, but once that starts to get very good, the other skills will start
-	-- to see an improvement.
-
-	for i = 1,#attribute do
-		-- A carefully weighted test here. Scores will creep up to the low 50s.
-		if not crewMember:TestRoll(attribute[i][1],math.floor(attribute[i][2] * 0.2 - 10)) then
-			-- They learned from their failure,
-			crewMember[attribute[i][1]] = crewMember[attribute[i][1]]+1
-			-- but only on this skill.
-			break
-		end
-	end
-end
-
-local scheduleWages = function (crewMember)
-	-- Must have a contract to be treated like crew
-	if not crewMember.contract then return end
-
-	local payWages
-	payWages = function ()
-		local contract = crewMember.contract
-		-- Check if crew member has been dismissed
-		if not contract then return end
-
-		if PlayerState.GetMoney() > contract.wage then
-			PlayerState.AddMoney(0 - contract.wage)
-			-- Being paid can make awkward crew like you more
-			if not crewMember:TestRoll('playerRelationship') then
-				crewMember.playerRelationship = crewMember.playerRelationship + 1
-			end
-		else
-			contract.outstanding = contract.outstanding + contract.wage
-			crewMember.playerRelationship = crewMember.playerRelationship - 1
-			Character.persistent.player.reputation = Character.persistent.player.reputation - 0.5
-		end
-
-		-- Attempt to pay off any arrears
-		local arrears = math.min(PlayerState.GetMoney(),contract.outstanding)
-		PlayerState.AddMoney(0 - arrears)
-		contract.outstanding = contract.outstanding - arrears
-
-		-- The crew gain experience each week, and might get better
-		boostCrewSkills(crewMember)
-
-		-- Schedule the next pay day, if there is one.
-		if contract.payday and not crewMember.dead then
-			contract.payday = contract.payday + wage_period
-			Timer:CallAt(math.max(Game.time + 5,contract.payday),payWages)
-		end
-	end
-
-	Timer:CallAt(math.max(Game.time + 1,crewMember.contract.payday),payWages)
-end
-
--- This gets run just after crew are restored from a saved game
-Event.Register('crewAvailable',function()
-	-- scheduleWages() for everybody
-	for crewMember in Game.player:EachCrewMember() do
-		scheduleWages(crewMember)
-	end
-end)
-
--- This gets run whenever a crew member joins a ship
-Event.Register('onJoinCrew',function(ship, crewMember)
-	if ship:IsPlayer() then
-		scheduleWages(crewMember)
-	end
-end)
-
--- This gets run whenever a crew member leaves a ship
-Event.Register('onLeaveCrew',function(ship, crewMember)
-	if ship:IsPlayer() and crewMember.contract then
-		-- Prepare them for the job market
-		crewMember.estimatedWage = crewMember.contract.wage + 5
-		-- Terminate their contract
-		crewMember.contract = nil
-	end
-end)
-
----------------------- Part 2 ----------------------
 -- The bulletin board
 
 local nonPersistentCharactersForCrew = {}
@@ -190,7 +87,7 @@ local onChat = function (form,ref,option)
 			c.estimatedWage = c.estimatedWage or wageFromScore(c.experience)
 			c.estimatedWage = utils.round(c.estimatedWage, 1)
 			-- pick affinity for civilization
-			c.civaffinity = civaffinity[rand:Integer(1, 3)]
+			c.civaffinity = rand:Integer(1, 3)
 		end
 
 		-- Now look for any persistent characters that are available in this station
@@ -219,7 +116,7 @@ local onChat = function (form,ref,option)
 			c.estimatedWage = utils.round(c.estimatedWage, 1)
 			-- pick affinity for civilization if it doesn't exist
 			if not c.civaffinity then
-				c.civaffinity = civaffinity[rand:Integer(1, 3)]
+				c.civaffinity = rand:Integer(1, 3)
 			end
 		end
 
@@ -396,9 +293,9 @@ local onChat = function (form,ref,option)
 			else lawfulness_impression = l.LAWS_ARE_FOR_OTHERS end
 
 			local civaffinity_impression = ""
-			if candidate.civaffinity == "high" then civaffinity_impression = l.LOVES_CULTURE
-			elseif candidate.civaffinity == "medium" then civaffinity_impression = l.DOESNT_NEED_FREQUENT_CULTURE
-			elseif candidate.civaffinity == "low" then civaffinity_impression = l.WANTS_TO_GET_AWAY_FROM_CIVILIZATION
+			if candidate.civaffinity == 3 then civaffinity_impression = l.LOVES_CULTURE
+			elseif candidate.civaffinity == 2 then civaffinity_impression = l.DOESNT_NEED_FREQUENT_CULTURE
+			elseif candidate.civaffinity == 1 then civaffinity_impression = l.WANTS_TO_GET_AWAY_FROM_CIVILIZATION
 			end
 
 			form:SetMessage(l.CREWTESTRESULTSBB:interp{
