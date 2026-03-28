@@ -351,7 +351,7 @@ local function drawCrewInfo(crewMember)
 	      end)
 	      ui.newLine()
 
-	      ui.child("reputation", Vector2(region_column_width / 2, 0), function()
+	      ui.child("reputation_player", Vector2(region_column_width / 2, 0), function()
 		 drawReputation(crewMember)
 	      end)
 
@@ -363,7 +363,7 @@ local function drawCrewInfo(crewMember)
 	   end)
 
 	else
-	   ui.child("PlayerInfoDetails", Vector2(info_column_width, 0), function()
+	   ui.child("CrewInfoDetails", Vector2(info_column_width, 0), function()
 	      ui.withFont(orbiteer.heading, function() ui.text(crewMember.name)
 	      end)
 	      ui.newLine()
@@ -388,7 +388,7 @@ local function drawCrewInfo(crewMember)
 		 drawHappiness(crewMember)
 	      end)
 
-	      ui.child("PlayerInfoActions", Vector2(region_column_width, 0), function()
+	      ui.child("CrewInfoActions", Vector2(region_column_width, 0), function()
 		 drawActions(crewMember)
 	      end)
 
