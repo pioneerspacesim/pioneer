@@ -26,6 +26,7 @@ local max_memory = 4                  -- maximum number of thoughts retained
 local max_relationship = 65           -- maximum playerRelationship score
 local min_relationship = 4            -- minimum playerRelationship score
 local desert_threshold = 15           -- playerRelationship threshold at which crew members start deserting the ship
+local desert_pop_threshold = 0.4      -- only desert ship if at busy station
 local law_upper_threshold = 45        -- lawfulness threshold at which lawfull crew can be unhappy with illegal trading
 local law_lower_threshold = 25        -- lawfulness threshold at which lawless crew can be happy with illegal trading
 local civ_high_threshold = 0.4        -- rolling mean visited system population threshold (high) for crew civ affinity happiness testing
@@ -274,16 +275,23 @@ end
 -- Parameters:
 --
 --   crewMember - a crewMember object
-local desertCrew = function(crewMember)
+--   station - a station object
+local desertCrew = function(crewMember, station)
    if crewMember.playerRelationship < desert_threshold then
-      if not crewMember:TestRoll('playerRelationship') then
-	if Game.player:Dismiss(crewMember) then
-		crewMember:Save() -- Save to persistent characters list
-		Comms.Message(l.SICK_OF_WORKING_FOR_YOU, crewMember.name)
-		if crewMember.contract.outstanding > 0 then
-			Comms.Message(l.I_WILL_SEND_SOMEONE_AFTER_YOU, crewMember.name)
-		end
-	end
+
+      -- only desert ship if at relatively populated station
+      -- role play: only leave if there is reasonable expectation of new job
+      -- game play: don't leave the player stranded without chance for new crew
+      if station.path:GetSystemBody().parent.population > desert_pop_threshold then
+	 if not crewMember:TestRoll('playerRelationship') then
+	    if Game.player:Dismiss(crewMember) then
+	       crewMember:Save() -- Save to persistent characters list
+	       Comms.Message(l.SICK_OF_WORKING_FOR_YOU, crewMember.name)
+	       if crewMember.contract.outstanding > 0 then
+		  Comms.Message(l.I_WILL_SEND_SOMEONE_AFTER_YOU, crewMember.name)
+	       end
+	    end
+	 end
       end
    end
 end
@@ -405,7 +413,7 @@ local onPlayerDocked = function(ship, station)
     for crewMember in Game.player:EachCrewMember() do
         if not crewMember.player then
             -- check for deserting crew members at each station dock
-            desertCrew(crewMember)
+            desertCrew(crewMember, station)
 
             -- good thought if visiting home system of the crew member
             -- assumes that the last saved location for this character
