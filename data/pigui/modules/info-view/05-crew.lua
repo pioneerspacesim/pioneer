@@ -204,7 +204,7 @@ local function makeCrewList()
 
 	table.insert(t, {
 		false,
-		{ l.TOTAL,						color = colors.alertYellow },
+		{ l.TOTAL,			color = colors.alertYellow },
 		{ ui.Format.Money(wageTotal),	color = colors.econProfit },
 		{ ui.Format.Money(owedTotal),	color = colors.econLoss },
 		false,
@@ -247,36 +247,40 @@ end
 
 local function drawQualifications(crewMember)
 	ui.withFont(orbiteer.body, function() ui.text(l.QUALIFICATION_SCORES) end)
-	gauge_bar(crewMember.engineering, l.ENGINEERING,  4, 65, icons.personal)
-	gauge_bar(crewMember.piloting, l.PILOTING, 4, 65, icons.personal)
-	gauge_bar(crewMember.navigation, l.NAVIGATION, 4, 65, icons.personal)
-	gauge_bar(crewMember.sensors, l.SENSORS, 4, 65, icons.personal)
+	gauge_bar(crewMember.engineering, l.ENGINEERING,  4, 65, ui.theme.icons.personal)
+	gauge_bar(crewMember.piloting, l.PILOTING, 4, 65, ui.theme.icons.personal)
+	gauge_bar(crewMember.navigation, l.NAVIGATION, 4, 65, ui.theme.icons.personal)
+	gauge_bar(crewMember.sensors, l.SENSORS, 4, 65, ui.theme.icons.personal)
 end
 
 
 local function drawStats(crewMember)
 	ui.withFont(orbiteer.body, function() ui.text(l.STATS) end)
-	gauge_bar(crewMember.luck, l.LUCK, 4, 65, icons.personal)
-	gauge_bar(crewMember.intelligence, l.INTELLIGENCE, 4, 65, icons.personal)
-	gauge_bar(crewMember.charisma, l.CHARISMA, 4, 65, icons.personal)
-	gauge_bar(crewMember.lawfulness, l.LAWFULNESS, 4, 65, icons.personal)
+	gauge_bar(crewMember.luck, l.LUCK, 4, 65, ui.theme.icons.personal)
+	gauge_bar(crewMember.intelligence, l.INTELLIGENCE, 4, 65, ui.theme.icons.personal)
+	gauge_bar(crewMember.charisma, l.CHARISMA, 4, 65, ui.theme.icons.personal)
+	gauge_bar(crewMember.lawfulness, l.LAWFULNESS, 4, 65, ui.theme.icons.personal)
 end
 
 
 local function drawReputation(crewMember)
-	ui.withFont(orbiteer.body, function() ui.text(l.REPUTATION) end)
-	gauge_bar(crewMember.notoriety, l.NOTORIETY, 4, 65, icons.personal)
-	textTable.draw({
-			{ l.RATING,			l[crewMember:GetCombatRating()] },
-			{ l.KILLS,			ui.Format.Number(crewMember.killcount) },
-			{ l.REPUTATION..":",l[crewMember:GetReputationRating()] },
-	})
+   ui.withFont(orbiteer.body, function() ui.text(l.REPUTATION) end)
+
+   if not crewMember.player then
+      gauge_bar(crewMember.notoriety, l.NOTORIETY, 4, 65, ui.theme.icons.personal)
+   end
+   
+   textTable.draw({
+      { l.RATING,			l[crewMember:GetCombatRating()] },
+      { l.KILLS,			ui.Format.Number(crewMember.killcount) },
+      { l.REPUTATION..":",l[crewMember:GetReputationRating()] },
+   })
 end
 
 
 local function drawHappiness(crewMember)
 	ui.withFont(orbiteer.body, function() ui.text(l.HAPPINESS) end)
-	gauge_bar(crewMember.playerRelationship, l.RELATIONSHIP_WITH_CAPTAIN, 4, 65, icons.personal)
+	gauge_bar(crewMember.playerRelationship, l.RELATIONSHIP_WITH_CAPTAIN, 4, 65, ui.theme.icons.personal)
 
 	-- TODO: move the following to top of script
 	local PiImage = require 'pigui.libs.image'
@@ -286,11 +290,12 @@ local function drawHappiness(crewMember)
 	--
 
 	-- TODO: don't hardcode (also place spacing/info_column_width somewhere else?)
-	local child_height = 120
+	local child_height = 180
 	-- local spacing = InfoView.windowPadding.x * 2.0
 	-- local info_column_width = (ui.getColumnWidth() - spacing) / 2
 
 	ui.child("thoughts", Vector2(ui.getColumnWidth(), child_height), function()
+	   	ui.withFont(orbiteer.body, function() ui.text(l.MEMORIES) end)
 		ui.columns(2, 'memories', false)
 		ui.setColumnWidth(0, 50)
 		-- TODO: avoid hard-coding this width
@@ -337,41 +342,59 @@ local function drawCrewInfo(crewMember)
 
 	local spacing = InfoView.windowPadding.x * 2.0
 	local info_column_width = (ui.getColumnWidth() - spacing) / 2
+	local region = ui.getContentRegion()
+	local region_column_width = region.x / 2 - spacing
 
-	ui.child("PlayerInfoDetails", Vector2(info_column_width, 0), function()
-		ui.withFont(orbiteer.heading, function() ui.text(crewMember.name) end)
-		ui.newLine()
+	if crewMember.player then
+	   ui.child("PlayerInfoDetails", Vector2(info_column_width, 0), function()
+	      ui.withFont(orbiteer.heading, function() ui.text(crewMember.name)
+	      end)
+	      ui.newLine()
 
-		-- local child_height = ui.getContentRegion().y - StationView.style.height
-		-- TODO: don't hardcode
-		local child_height = 200
+	      ui.child("reputation", Vector2(region_column_width / 2, 0), function()
+		 drawReputation(crewMember)
+	      end)
 
-		ui.child("qualifications", Vector2(info_column_width/2, child_height), function()
-			drawQualifications(crewMember)
-		end)
+	      ui.child("PlayerInfoActions", Vector2(region_column_width, 0), function()
+		 drawActions(crewMember)
+	      end)
 
-		ui.sameLine(0, spacing)
+	      if ui.button(lcrew.GO_BACK, Vector2(0, 0)) then inspectingCrewMember = nil end
+	   end)
 
-		ui.child("stats", Vector2(info_column_width/2, child_height), function()
-			drawStats(crewMember)
-		end)
+	else
+	   ui.child("PlayerInfoDetails", Vector2(info_column_width, 0), function()
+	      ui.withFont(orbiteer.heading, function() ui.text(crewMember.name)
+	      end)
+	      ui.newLine()
 
-		ui.child("reputation", Vector2(info_column_width/2, child_height), function()
-			drawReputation(crewMember)
-		end)
+	      ui.child("qualifications", Vector2(region_column_width / 2, 0), function()
+		 drawQualifications(crewMember)
+	      end)
 
-		ui.sameLine(0, spacing)
+	      ui.sameLine(0, spacing)
 
-		ui.child("happiness", Vector2(info_column_width/2, child_height), function()
-			drawHappiness(crewMember)
-		end)
+	      ui.child("stats", Vector2(region_column_width / 2, 0), function()
+		 drawStats(crewMember)
+	      end)
 
-		ui.child("PlayerInfoActions", Vector2(info_column_width, child_height), function()
-			drawActions(crewMember)
-		end)
+	      ui.child("reputation", Vector2(region_column_width / 2, 0), function()
+		 drawReputation(crewMember)
+	      end)
 
-		if ui.button(lcrew.GO_BACK, Vector2(0, 0)) then inspectingCrewMember = nil end
-	end)
+	      ui.sameLine(0, spacing)
+
+	      ui.child("happiness", Vector2(region_column_width / 2, 0), function()
+		 drawHappiness(crewMember)
+	      end)
+
+	      ui.child("PlayerInfoActions", Vector2(region_column_width, 0), function()
+		 drawActions(crewMember)
+	      end)
+
+	      if ui.button(lcrew.GO_BACK, Vector2(0, 0)) then inspectingCrewMember = nil end
+	   end)
+	end
 
 	ui.sameLine(0, spacing)
 
