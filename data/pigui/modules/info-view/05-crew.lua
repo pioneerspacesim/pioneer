@@ -25,6 +25,8 @@ local colors = ui.theme.colors
 
 local itemSpacing = ui.rescaleUI(Vector2(6, 12), Vector2(1600, 900))
 
+local crewFace = nil
+
 -- Anti-abuse feature - this locks out the piloting commands based on a timer.
 -- It knows when the crew were last checked for a piloting skill, and prevents
 -- the player drumming the button until it works.
@@ -269,7 +271,7 @@ local function drawReputation(crewMember)
    if not crewMember.player then
       gauge_bar(crewMember.notoriety, l.NOTORIETY, 4, 65, ui.theme.icons.personal)
    end
-   
+
    textTable.draw({
       { l.RATING,			l[crewMember:GetCombatRating()] },
       { l.KILLS,			ui.Format.Number(crewMember.killcount) },
@@ -333,74 +335,41 @@ local function drawActions(crewMember)
 	end
 end
 
+local flags = { "ResizeY" }
 
-local crewFace = nil
 local function drawCrewInfo(crewMember)
-	if not crewFace or crewFace.character ~= crewMember then
-		crewFace = PiGuiFace.New(crewMember)
-	end
-
 	local spacing = InfoView.windowPadding.x * 2.0
-	local info_column_width = (ui.getColumnWidth() - spacing) / 2
-	local region = ui.getContentRegion()
-	local region_column_width = region.x / 2 - spacing
+	local region_column_width = ui.getContentRegion().x / 2 - spacing
 
 	if crewMember.player then
-	   ui.child("PlayerInfoDetails", Vector2(info_column_width, 0), function()
-	      ui.withFont(orbiteer.heading, function() ui.text(crewMember.name)
-	      end)
-	      ui.newLine()
+		ui.withFont(orbiteer.heading, function() ui.text(crewMember.name) end)
+		ui.newLine()
 
-	      ui.child("reputation_player", Vector2(region_column_width / 2, 0), function()
-		 drawReputation(crewMember)
-	      end)
+		drawReputation(crewMember)
 
-	      ui.child("PlayerInfoActions", Vector2(region_column_width, 0), function()
-		 drawActions(crewMember)
-	      end)
-
-	      if ui.button(lcrew.GO_BACK, Vector2(0, 0)) then inspectingCrewMember = nil end
-	   end)
-
+		drawActions(crewMember)
 	else
-	   ui.child("CrewInfoDetails", Vector2(info_column_width, 0), function()
-	      ui.withFont(orbiteer.heading, function() ui.text(crewMember.name)
-	      end)
-	      ui.newLine()
+		ui.withFont(orbiteer.heading, function() ui.text(crewMember.name) end)
+	    ui.newLine()
 
-	      ui.child("qualifications", Vector2(region_column_width / 2, 0), function()
-		 drawQualifications(crewMember)
-	      end)
+		ui.child("column1", Vector2(region_column_width, 0), flags, function()
+			drawQualifications(crewMember)
 
-	      ui.sameLine(0, spacing)
+			drawReputation(crewMember)
+		end)
 
-	      ui.child("stats", Vector2(region_column_width / 2, 0), function()
-		 drawStats(crewMember)
-	      end)
+		ui.sameLine(0, spacing)
 
-	      ui.child("reputation", Vector2(region_column_width / 2, 0), function()
-		 drawReputation(crewMember)
-	      end)
+		ui.child("column2", Vector2(region_column_width, 0), flags, function()
+			drawStats(crewMember)
 
-	      ui.sameLine(0, spacing)
+			drawHappiness(crewMember)
+		end)
 
-	      ui.child("happiness", Vector2(region_column_width / 2, 0), function()
-		 drawHappiness(crewMember)
-	      end)
-
-	      ui.child("CrewInfoActions", Vector2(region_column_width, 0), function()
-		 drawActions(crewMember)
-	      end)
-
-	      if ui.button(lcrew.GO_BACK, Vector2(0, 0)) then inspectingCrewMember = nil end
-	   end)
+		drawActions(crewMember)
 	end
 
-	ui.sameLine(0, spacing)
-
-	ui.child("PlayerView", Vector2(info_column_width, 0), function()
-		crewFace:render()
-	end)
+	if ui.button(lcrew.GO_BACK, Vector2(0, 0)) then inspectingCrewMember = nil end
 end
 
 require 'Event'.Register('onGameEnd', function()
@@ -418,7 +387,22 @@ InfoView:registerView({
 		ui.withStyleVars({ItemSpacing = itemSpacing}, function()
 			ui.withFont(pionillium.body, function()
 				if inspectingCrewMember then
-					drawCrewInfo(inspectingCrewMember)
+
+					local spacing = InfoView.windowPadding.x
+					local width = ui.getContentRegion().x / 2 - spacing
+					ui.child("PlayerInfoDetails", Vector2(width, 0), function()
+						drawCrewInfo(inspectingCrewMember)
+					end)
+
+					ui.sameLine(0, spacing * 2)
+
+					ui.child("PlayerView", Vector2(width, 0), function()
+						if not crewFace or crewFace.character ~= inspectingCrewMember then
+							crewFace = PiGuiFace.New(inspectingCrewMember)
+						end
+
+						crewFace:render()
+					end)
 				else
 					cachedCrewList = cachedCrewList or makeCrewList()
 					drawCrewList(cachedCrewList)
