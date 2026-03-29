@@ -496,7 +496,7 @@ local placeAdvert = function (station, ad)
 				isEnabled   = isEnabled
 			})
 		else
-			local p = Game.player.frameBody
+			local p = station.path:GetSystemBody().parent.path
 			ref = station:AddAdvert({
 				title       = l["ADTITLE_" .. ad.id],
 				description = ad.desc,
