@@ -22,6 +22,8 @@ local lcrew = Lang.GetResource("module-crewcontracts")
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local colors = ui.theme.colors
+local icons = ui.theme.icons
+
 
 local itemSpacing = ui.rescaleUI(Vector2(6, 12), Vector2(1600, 900))
 
@@ -284,41 +286,22 @@ local function drawHappiness(crewMember)
 	ui.withFont(orbiteer.body, function() ui.text(l.HAPPINESS) end)
 	gauge_bar(crewMember.playerRelationship, l.RELATIONSHIP_WITH_CAPTAIN, 4, 65, ui.theme.icons.personal)
 
-	-- TODO: move the following to top of script
-	local PiImage = require 'pigui.libs.image'
-	local upIcon = PiImage.New("icons/market/export-major.png")
-	local downIcon = PiImage.New("icons/market/import-major.png")
-	local iconSize = Vector2(0, ui.getLineHeight())
-	--
+	ui.withFont(orbiteer.body, function() ui.text(l.MEMORIES) end)
 
-	-- TODO: don't hardcode (also place spacing/info_column_width somewhere else?)
-	local child_height = 180
-	-- local spacing = InfoView.windowPadding.x * 2.0
-	-- local info_column_width = (ui.getColumnWidth() - spacing) / 2
+	-- TODO: place this check upstream (crew creation, loading?)
+	if not crewMember.memories then crewMember.memories = {} end
 
-	ui.child("thoughts", Vector2(ui.getColumnWidth(), child_height), function()
-	   	ui.withFont(orbiteer.body, function() ui.text(l.MEMORIES) end)
-		ui.columns(2, 'memories', false)
-		ui.setColumnWidth(0, 50)
-		-- TODO: avoid hard-coding this width
-		ui.setColumnWidth(1, 500)
-
-		-- TODO: place this check upstream (crew creation, loading?)
-		if not crewMember.memories then crewMember.memories = {} end
-
-		for i, thought in pairs(crewMember.memories) do
-			if thought.adjustment < 0 then
-				downIcon:Draw(iconSize)
-				ui.nextColumn()
-				ui.textColored(colors.econLoss, thought.text)
-			else
-				upIcon:Draw(iconSize)
-				ui.nextColumn()
-				ui.textColored(colors.econProfit, thought.text)
-			end
-			ui.nextColumn()
+	for i, thought in pairs(crewMember.memories) do
+		if thought.adjustment < 0 then
+			ui.icon(icons.up, Vector2(ui.getTextLineHeight()), colors.econLoss)
+			ui.sameLine()
+			ui.textColored(colors.econLoss, thought.text)
+		else
+			ui.icon(icons.down, Vector2(ui.getTextLineHeight()), colors.econProfit)
+			ui.sameLine()
+			ui.textColored(colors.econProfit, thought.text)
 		end
-	end)
+	end
 end
 
 
@@ -335,7 +318,7 @@ local function drawActions(crewMember)
 	end
 end
 
-local flags = { "ResizeY" }
+local childFlags = { "ResizeY" }
 
 local function drawCrewInfo(crewMember)
 	local spacing = InfoView.windowPadding.x * 2.0
@@ -352,17 +335,15 @@ local function drawCrewInfo(crewMember)
 		ui.withFont(orbiteer.heading, function() ui.text(crewMember.name) end)
 	    ui.newLine()
 
-		ui.child("column1", Vector2(region_column_width, 0), flags, function()
+		ui.child("column1", Vector2(region_column_width, 0), nil, childFlags, function()
 			drawQualifications(crewMember)
-
 			drawReputation(crewMember)
 		end)
 
 		ui.sameLine(0, spacing)
 
-		ui.child("column2", Vector2(region_column_width, 0), flags, function()
+		ui.child("column2", Vector2(region_column_width, 0), nil, childFlags, function()
 			drawStats(crewMember)
-
 			drawHappiness(crewMember)
 		end)
 

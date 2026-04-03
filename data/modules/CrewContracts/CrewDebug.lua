@@ -134,7 +134,7 @@ debugView.registerTab("debug-crew", {
 		     ui.sameLine()
 		     ui.textColored(colors.econLoss, thought.text)
 		  else
-		     ui.icon(icons.down, Vector2(ui.getTextLineHeight()), colors.econProfit, "")
+		     ui.icon(icons.down, Vector2(ui.getTextLineHeight()), colors.econProfit)
 		     ui.sameLine()
 		     ui.textColored(colors.econProfit, thought.text)
 		  end
