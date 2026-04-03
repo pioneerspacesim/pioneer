@@ -318,7 +318,7 @@ local function drawActions(crewMember)
 	end
 end
 
-local childFlags = { "ResizeY" }
+local childFlags = { "AutoResizeY" }
 
 local function drawCrewInfo(crewMember)
 	local spacing = InfoView.windowPadding.x * 2.0
@@ -326,30 +326,33 @@ local function drawCrewInfo(crewMember)
 
 	if crewMember.player then
 		ui.withFont(orbiteer.heading, function() ui.text(crewMember.name) end)
-		ui.newLine()
-
-		drawReputation(crewMember)
-
-		drawActions(crewMember)
+        ui.newLine()
+		ui.child("captain_column1", Vector2(region_column_width, 0), nil, childFlags, function()
+			drawReputation(crewMember)
+		end)
 	else
 		ui.withFont(orbiteer.heading, function() ui.text(crewMember.name) end)
 	    ui.newLine()
-
-		ui.child("column1", Vector2(region_column_width, 0), nil, childFlags, function()
-			drawQualifications(crewMember)
+		ui.child("crew_column1", Vector2(region_column_width, 0), nil, childFlags, function()
+            drawQualifications(crewMember)
+			ui.newLine()
 			drawReputation(crewMember)
 		end)
 
 		ui.sameLine(0, spacing)
 
-		ui.child("column2", Vector2(region_column_width, 0), nil, childFlags, function()
-			drawStats(crewMember)
+		ui.child("crew_column2", Vector2(region_column_width, 0), nil, childFlags, function()
+            drawStats(crewMember)
+			ui.newLine()
 			drawHappiness(crewMember)
-		end)
+        end)
 
+		ui.newLine()
 		drawActions(crewMember)
 	end
 
+    ui.newLine()
+    ui.newLine()
 	if ui.button(lcrew.GO_BACK, Vector2(0, 0)) then inspectingCrewMember = nil end
 end
 
