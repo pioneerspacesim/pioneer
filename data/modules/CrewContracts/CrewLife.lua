@@ -187,7 +187,7 @@ local scheduleContract = function(crewMember)
    if not crewMember.contract then return end
 
    local contractRunner
-   contractRunnter = function ()
+   contractRunner = function ()
       -- check for valid contract again each time this is run
       -- in case crewMember was dismissed
       if not crewMember.contract then return end
