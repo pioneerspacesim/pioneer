@@ -268,17 +268,17 @@ end
 
 
 local function drawReputation(crewMember)
-   ui.withFont(orbiteer.body, function() ui.text(l.REPUTATION) end)
+	ui.withFont(orbiteer.body, function() ui.text(l.REPUTATION) end)
 
-   if not crewMember.player then
-      gauge_bar(crewMember.notoriety, l.NOTORIETY, 4, 65, ui.theme.icons.personal)
-   end
+	if not crewMember.player then
+		gauge_bar(crewMember.notoriety, l.NOTORIETY, 4, 65, ui.theme.icons.personal)
+	end
 
-   textTable.draw({
-      { l.RATING,			l[crewMember:GetCombatRating()] },
-      { l.KILLS,			ui.Format.Number(crewMember.killcount) },
-      { l.REPUTATION..":",l[crewMember:GetReputationRating()] },
-   })
+	textTable.draw({
+		{ l.RATING,			l[crewMember:GetCombatRating()] },
+		{ l.KILLS,			ui.Format.Number(crewMember.killcount) },
+		{ l.REPUTATION..":",l[crewMember:GetReputationRating()] },
+	})
 end
 
 

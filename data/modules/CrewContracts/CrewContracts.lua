@@ -80,9 +80,9 @@ local onChat = function (form,ref,option)
 		for k,c in ipairs(nonPersistentCharactersForCrew[station]) do
 			table.insert(crewInThisStation,c)
 			c.experience = c.engineering
-							+c.piloting
-							+c.navigation
-							+c.sensors
+				+c.piloting
+				+c.navigation
+				+c.sensors
 			-- Base wage on experience
 			c.estimatedWage = c.estimatedWage or wageFromScore(c.experience)
 			c.estimatedWage = utils.round(c.estimatedWage, 1)
@@ -94,22 +94,22 @@ local onChat = function (form,ref,option)
 		-- and have some sort of crew experience (however minor)
 		-- and were last seen less than a month ago
 		for c in Character.Find(function (c)
-									return true
-										and c.lastSavedSystemPath == station.path
-										and c.available
-										and (
-											c.engineering > 16
-											or c.piloting > 16
-											or c.navigation > 16
-											or c.sensors > 16
-										)
-										and Game.time - c.lastSavedTime < 2419200 -- (28 days)
-								end) do
+			return true
+				and c.lastSavedSystemPath == station.path
+				and c.available
+				and (
+					c.engineering > 16
+					or c.piloting > 16
+					or c.navigation > 16
+					or c.sensors > 16
+				)
+				and Game.time - c.lastSavedTime < 2419200 -- (28 days)
+		end) do
 			table.insert(crewInThisStation,c)
 			c.experience = c.engineering
-											+c.piloting
-											+c.navigation
-											+c.sensors
+				+c.piloting
+				+c.navigation
+				+c.sensors
 			-- Either base wage on experience, or as a slight increase on their previous wage
 			-- (which should only happen if this candidate was dismissed with wages owing)
 			c.estimatedWage = math.max(c.contract and (c.contract.wage + 5) or 0, c.estimatedWage or wageFromScore(c.experience))
@@ -159,10 +159,10 @@ local onChat = function (form,ref,option)
 			print("Aspiration: ",candidate.estimatedWage)
 			if response == "" then response = "\r" end
 			form:SetMessage(l.CREWDETAILSHEETBB:interp({
-									name = candidate.name,
-									experience = experience,
-									wage = Format.Money(offer),
-									response = response,
+				name = candidate.name,
+				experience = experience,
+				wage = Format.Money(offer),
+				response = response,
 			}))
 			form:AddOption(l.MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT,1)
 			form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer+10))}),2)
@@ -299,14 +299,14 @@ local onChat = function (form,ref,option)
 			end
 
 			form:SetMessage(l.CREWTESTRESULTSBB:interp{
-								lawfulness_impression = lawfulness_impression,
-								civaffinity_impression = civaffinity_impression,
-								general = general,
-								engineering = engineering,
-								piloting = piloting,
-								navigation = navigation,
-								sensors = sensors,
-								overall = math.ceil((general+general+engineering+piloting+navigation+sensors)/6),
+				lawfulness_impression = lawfulness_impression,
+				civaffinity_impression = civaffinity_impression,
+				general = general,
+				engineering = engineering,
+				piloting = piloting,
+				navigation = navigation,
+				sensors = sensors,
+				overall = math.ceil((general+general+engineering+piloting+navigation+sensors)/6),
 			})
 			form:AddOption(l.GO_BACK, 7)
 		end
@@ -344,9 +344,9 @@ local newCrew = function()
 	hopefulCrew:RollNew(Engine.rand:Integer(0, 2) > 0)
 	-- Make them a title if they're good at anything
 	local maxScore = math.max(hopefulCrew.engineering,
-								hopefulCrew.piloting,
-								hopefulCrew.navigation,
-								hopefulCrew.sensors)
+		hopefulCrew.piloting,
+		hopefulCrew.navigation,
+		hopefulCrew.sensors)
 	if maxScore > 45 then
 		if hopefulCrew.engineering == maxScore then hopefulCrew.title = lui.SHIPS_ENGINEER end
 		if hopefulCrew.piloting == maxScore then hopefulCrew.title = lui.PILOT end
@@ -418,12 +418,12 @@ Event.Register("onGameStart", function()
 	if loaded_data and loaded_data.stationsWithAdverts then
 		nonPersistentCharactersForCrew = loaded_data.nonPersistentCharactersForCrew
 		for k,station in pairs(loaded_data.stationsWithAdverts) do
-		stationsWithAdverts[station:AddAdvert({
-			title       = l.CREW_FOR_HIRE_TITLE,
-			description = l.CREW_FOR_HIRE_DESC,
-			icon        = "crew_contracts",
-			onChat      = onChat,
-			isEnabled   = isEnabled})] = station
+			stationsWithAdverts[station:AddAdvert({
+				title       = l.CREW_FOR_HIRE_TITLE,
+				description = l.CREW_FOR_HIRE_DESC,
+				icon        = "crew_contracts",
+				onChat      = onChat,
+				isEnabled   = isEnabled})] = station
 		end
 		loaded_data = nil
 	end

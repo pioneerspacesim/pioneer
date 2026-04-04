@@ -38,7 +38,7 @@ local max_repeat_memory = 2           -- maximum time the same thought can exist
 
 -- global containers and variables
 local crewlife = {
-   thoughts = {}     -- available crew member thoughts
+	thoughts = {}     -- available crew member thoughts
 }
 
 
@@ -86,16 +86,16 @@ crewlife.thoughts = {
 --
 --  Returns the numeric result of a mathematical function, run on the numerical values of the provided table.
 local tablemath = function(x, fun)
-   local sum = 0
-   for _, value in pairs(x) do
-      sum = sum + value
-   end
+	local sum = 0
+	for _, value in pairs(x) do
+		sum = sum + value
+	end
 
-   if (fun == "sum") then
-      return sum
-   elseif (fun == "mean") then
-      return sum / #x
-   end
+	if (fun == "sum") then
+		return sum
+	elseif (fun == "mean") then
+		return sum / #x
+	end
 end
 
 
@@ -158,14 +158,14 @@ local payWages = function(crewMember)
 
         -- Being paid can make unhappy crew like you more
         if not crewMember:TestRoll('playerRelationship') then
-	   crewlife.applyThought(crewMember, crewlife.thoughts['paid'])
+			crewlife.applyThought(crewMember, crewlife.thoughts['paid'])
         end
     else
-       contract.outstanding = contract.outstanding + contract.wage
-       crewlife.applyThought(crewMember, crewlife.thoughts['not_paid'])
+		contract.outstanding = contract.outstanding + contract.wage
+		crewlife.applyThought(crewMember, crewlife.thoughts['not_paid'])
 
-       -- TODO: is this still necessary?
-       Character.persistent.player.reputation = Character.persistent.player.reputation - 0.5
+		-- TODO: is this still necessary?
+		Character.persistent.player.reputation = Character.persistent.player.reputation - 0.5
     end
 
     -- Attempt to pay off any arrears
@@ -184,25 +184,25 @@ end
 --
 --   crewMember - a crewMember object
 local scheduleContract = function(crewMember)
-   if not crewMember.contract then return end
+	if not crewMember.contract then return end
 
-   local contractRunner
-   contractRunner = function ()
-      -- check for valid contract again each time this is run
-      -- in case crewMember was dismissed
-      if not crewMember.contract then return end
-      payWages(crewMember)
-      boostCrewSkills(crewMember)
+	local contractRunner
+	contractRunner = function ()
+		-- check for valid contract again each time this is run
+		-- in case crewMember was dismissed
+		if not crewMember.contract then return end
+		payWages(crewMember)
+		boostCrewSkills(crewMember)
 
-      -- schedule next run
-      if contract.payday and not crewMember.dead then
-	 contract.payday = contract.payday + week_in_secs
-	 Timer:CallAt(math.max(Game.time + 5, contract.payday), payWages)
-      end
+		-- schedule next run
+		if contract.payday and not crewMember.dead then
+			contract.payday = contract.payday + week_in_secs
+			Timer:CallAt(math.max(Game.time + 5, contract.payday), payWages)
+		end
 
-   end
-   
-   Timer:CallAt(math.max(Game.time + 1, crewMember.contract.payday), contractRunner)
+	end
+	
+	Timer:CallAt(math.max(Game.time + 1, crewMember.contract.payday), contractRunner)
 end
 
 
@@ -218,33 +218,33 @@ end
 --   thought - a thought (as defined above)
 function crewlife.applyThought (crewMember, thought)
 
-   -- apply only to non-player crew members
-   if crewMember.player then return end
+	-- apply only to non-player crew members
+	if crewMember.player then return end
 
-   -- check for probability that this thought is applied
-   if thought.chance >= rand:Number() then
+	-- check for probability that this thought is applied
+	if thought.chance >= rand:Number() then
 
-      -- avoid same-memory spamming
-      local same_memories = 0
-      for _, memory in pairs(crewMember.memories) do
-	 if memory.text == thought.text then
-	    same_memories = same_memories + 1
-	 end
-      end
-      if same_memories >= max_repeat_memory then return end
-      
-      -- adjust relationship with player
-      crewMember.playerRelationship = crewMember.playerRelationship + thought.adjustment
-      if crewMember.playerRelationship > max_relationship then crewMember.playerRelationship = max_relationship end
-      if crewMember.playerRelationship < min_relationship then crewMember.playerRelationship = min_relationship end
+		-- avoid same-memory spamming
+		local same_memories = 0
+		for _, memory in pairs(crewMember.memories) do
+			if memory.text == thought.text then
+				same_memories = same_memories + 1
+			end
+		end
+		if same_memories >= max_repeat_memory then return end
+		
+		-- adjust relationship with player
+		crewMember.playerRelationship = crewMember.playerRelationship + thought.adjustment
+		if crewMember.playerRelationship > max_relationship then crewMember.playerRelationship = max_relationship end
+		if crewMember.playerRelationship < min_relationship then crewMember.playerRelationship = min_relationship end
 
-      -- add thought to thought stack, respecting thought memory max
-      if not crewMember.memories then crewMember.memories = {} end
-      local memory = table.copy(thought)
-      memory.time = Game.time
-      if #crewMember.memories == max_memory then table.remove(crewMember.memories, 1) end
-      table.insert(crewMember.memories, memory)
-   end
+		-- add thought to thought stack, respecting thought memory max
+		if not crewMember.memories then crewMember.memories = {} end
+		local memory = table.copy(thought)
+		memory.time = Game.time
+		if #crewMember.memories == max_memory then table.remove(crewMember.memories, 1) end
+		table.insert(crewMember.memories, memory)
+	end
 end
 
 
@@ -254,15 +254,15 @@ end
 -- Drop thoughts from memory if they are older than the decay threshold.
 -- Gets run every week.
 local decayThoughts = function ()
-   for crewMember in Game.player:EachCrewMember() do
-      if not crewMember.player then
-	 for i, thought in pairs(crewMember.memories) do
-	    if thought.time < Game.time - decay_threshold then
-	       table.remove(crewMember.memories, i)
-	    end
-	 end
-      end
-   end
+	for crewMember in Game.player:EachCrewMember() do
+		if not crewMember.player then
+			for i, thought in pairs(crewMember.memories) do
+				if thought.time < Game.time - decay_threshold then
+					table.remove(crewMember.memories, i)
+				end
+			end
+		end
+	end
 end
 
 
@@ -277,23 +277,23 @@ end
 --   crewMember - a crewMember object
 --   station - a station object
 local desertCrew = function(crewMember, station)
-   if crewMember.playerRelationship < desert_threshold then
+	if crewMember.playerRelationship < desert_threshold then
 
-      -- only desert ship if at relatively populated station
-      -- role play: only leave if there is reasonable expectation of new job
-      -- game play: don't leave the player stranded without chance for new crew
-      if station.path:GetSystemBody().parent.population > desert_pop_threshold then
-	 if not crewMember:TestRoll('playerRelationship') then
-	    if Game.player:Dismiss(crewMember) then
-	       crewMember:Save() -- Save to persistent characters list
-	       Comms.Message(l.SICK_OF_WORKING_FOR_YOU, crewMember.name)
-	       if crewMember.contract.outstanding > 0 then
-		  Comms.Message(l.I_WILL_SEND_SOMEONE_AFTER_YOU, crewMember.name)
-	       end
-	    end
-	 end
-      end
-   end
+		-- only desert ship if at relatively populated station
+		-- role play: only leave if there is reasonable expectation of new job
+		-- game play: don't leave the player stranded without chance for new crew
+		if station.path:GetSystemBody().parent.population > desert_pop_threshold then
+			if not crewMember:TestRoll('playerRelationship') then
+				if Game.player:Dismiss(crewMember) then
+					crewMember:Save() -- Save to persistent characters list
+					Comms.Message(l.SICK_OF_WORKING_FOR_YOU, crewMember.name)
+					if crewMember.contract.outstanding > 0 then
+						Comms.Message(l.I_WILL_SEND_SOMEONE_AFTER_YOU, crewMember.name)
+					end
+				end
+			end
+		end
+	end
 end
 
 
@@ -302,17 +302,17 @@ end
 --
 -- Triggered by event that restores crew from a saved game. Re-starts contract timers, etc.
 local crewAvailable = function ()
-   -- re-start contract schedule for everyone
-   for crewMember in Game.player:EachCrewMember() do
-      if not crewMember.player then
-	 scheduleContract(crewMember)
+	-- re-start contract schedule for everyone
+	for crewMember in Game.player:EachCrewMember() do
+		if not crewMember.player then
+			scheduleContract(crewMember)
 
-	 -- for old saves compatibility, add empty crew memory bank if none exists
-	 if not crewMember.memories then
-	    crewMember.memories = {}
-	 end
-      end
-   end
+			-- for old saves compatibility, add empty crew memory bank if none exists
+			if not crewMember.memories then
+				crewMember.memories = {}
+			end
+		end
+	end
 end
 Event.Register("crewAvailable", crewAvailable)
 
@@ -329,19 +329,19 @@ Event.Register("crewAvailable", crewAvailable)
 --   comm - commodity type added/removed
 --   amount - number of items added/removed
 local onPlayerCargoChanged = function(comm, amount)
-   if not Game.system:IsCommodityLegal(comm.name) then
-      for crewMember in Game.player:EachCrewMember() do
-	 if not crewMember.player then
+	if not Game.system:IsCommodityLegal(comm.name) then
+		for crewMember in Game.player:EachCrewMember() do
+			if not crewMember.player then
 
-	    -- crew happy or upset about illegal goods (depending on lawfulness)
-	    if crewMember.lawfulness > law_upper_threshold and crewMember:TestRoll('lawfulness') then
-	       crewlife.applyThought(crewMember, crewlife.thoughts['illegal_trading_bad'])
-	    elseif crewMember.lawfulness < law_lower_threshold and not crewMember:TestRoll('lawfulness') then
-	       crewlife.applyThought(crewMember, crewlife.thoughts['illegal_trading_good'])
-	    end
-	 end
-      end
-   end
+				-- crew happy or upset about illegal goods (depending on lawfulness)
+				if crewMember.lawfulness > law_upper_threshold and crewMember:TestRoll('lawfulness') then
+					crewlife.applyThought(crewMember, crewlife.thoughts['illegal_trading_bad'])
+				elseif crewMember.lawfulness < law_lower_threshold and not crewMember:TestRoll('lawfulness') then
+					crewlife.applyThought(crewMember, crewlife.thoughts['illegal_trading_good'])
+				end
+			end
+		end
+	end
 end
 
 
@@ -366,7 +366,7 @@ crewlife.onJoinCrew = function(ship, crewMember)
 
         -- start tracking visits to home
         -- TODO: add home station when creating character, not here
-	-- home station should not necessarily be where they hired from
+		-- home station should not necessarily be where they hired from
         crewMember.homeStation = ship:GetDockedWith().path
         crewMember.lastHomeVisit = Game.time
     end
@@ -440,32 +440,32 @@ Event.Register("onPlayerDocked", onPlayerDocked)
 --
 --   Returns a table with multiple average stats about the last visited systems. 
 crewlife.recentSystems = function ()
-   local hist = 5    -- how many historical systems to consider
-   local count = 0
-   local visited = {}
-   local pops = {}
-   local explored = {}
-   local stats = {}
-   for entry in FlightLog:GetLogEntries({ System = true }, nil) do
-      if entry.arrtime and count < hist then
-	 table.insert(visited, entry.systemp:GetStarSystem())
-	 count = count + 1
-      end
-   end
+	local hist = 5    -- how many historical systems to consider
+	local count = 0
+	local visited = {}
+	local pops = {}
+	local explored = {}
+	local stats = {}
+	for entry in FlightLog:GetLogEntries({ System = true }, nil) do
+		if entry.arrtime and count < hist then
+			table.insert(visited, entry.systemp:GetStarSystem())
+			count = count + 1
+		end
+	end
 
-   for _, system in pairs(visited) do
-      table.insert(pops, system.population)
-      if system.explored then
-	 table.insert(explored, 1)
-      else
-	 table.insert(explored, 0)
-      end
-   end
+	for _, system in pairs(visited) do
+		table.insert(pops, system.population)
+		if system.explored then
+			table.insert(explored, 1)
+		else
+			table.insert(explored, 0)
+		end
+	end
 
-   stats.mean_pop = tablemath(pops, "mean")
-   stats.explored = tablemath(explored, "sum")
-   stats.n = utils.count(visited)
-   return(stats)
+	stats.mean_pop = tablemath(pops, "mean")
+	stats.explored = tablemath(explored, "sum")
+	stats.n = utils.count(visited)
+	return(stats)
 end
 
 
@@ -483,60 +483,60 @@ function crewlife.onEnterSystem(ship)
     local stats = crewlife.recentSystems()
 
     for crewMember in Game.player:EachCrewMember() do
-       if not crewMember.player then
-	  
-	  -- check for player legal status effect on crew happiness
-	  local status = PlayerState:GetLegalStatus()
-	  if crewMember.lawfulness > law_upper_threshold and crewMember:TestRoll('lawfulness') then
-	     if status == 'OFFENDER' then
-		crewlife.applyThought(crewMember, crewlife.thoughts['offender_bad'])
-	     elseif status == 'CRIMINAL' then
-		crewlife.applyThought(crewMember, crewlife.thoughts['criminal_bad'])
-	     elseif status == 'OUTLAW' then
-		crewlife.applyThought(crewMember, crewlife.thoughts['outlaw_bad'])
-	     elseif status == 'FUGITIVE' then
-		crewlife.applyThought(crewMember, crewlife.thoughts['fugitive_bad'])
-	     end
-	  elseif crewMember.lawfulness < law_lower_threshold and not crewMember:TestRoll('lawfulness') then
-	     if status == 'OFFENDER' then
-		crewlife.applyThought(crewMember, crewlife.thoughts['offender_good'])
-	     elseif status == 'CRIMINAL' then
-		crewlife.applyThought(crewMember, crewlife.thoughts['criminal_good'])
-	     elseif status == 'OUTLAW' then
-		crewlife.applyThought(crewMember, crewlife.thoughts['outlaw_good'])
-	     elseif status == 'FUGITIVE' then
-		crewlife.applyThought(crewMember, crewlife.thoughts['fugitive_good'])
-	     end
-	  end
+		if not crewMember.player then
+			
+			-- check for player legal status effect on crew happiness
+			local status = PlayerState:GetLegalStatus()
+			if crewMember.lawfulness > law_upper_threshold and crewMember:TestRoll('lawfulness') then
+				if status == 'OFFENDER' then
+					crewlife.applyThought(crewMember, crewlife.thoughts['offender_bad'])
+				elseif status == 'CRIMINAL' then
+					crewlife.applyThought(crewMember, crewlife.thoughts['criminal_bad'])
+				elseif status == 'OUTLAW' then
+					crewlife.applyThought(crewMember, crewlife.thoughts['outlaw_bad'])
+				elseif status == 'FUGITIVE' then
+					crewlife.applyThought(crewMember, crewlife.thoughts['fugitive_bad'])
+				end
+			elseif crewMember.lawfulness < law_lower_threshold and not crewMember:TestRoll('lawfulness') then
+				if status == 'OFFENDER' then
+					crewlife.applyThought(crewMember, crewlife.thoughts['offender_good'])
+				elseif status == 'CRIMINAL' then
+					crewlife.applyThought(crewMember, crewlife.thoughts['criminal_good'])
+				elseif status == 'OUTLAW' then
+					crewlife.applyThought(crewMember, crewlife.thoughts['outlaw_good'])
+				elseif status == 'FUGITIVE' then
+					crewlife.applyThought(crewMember, crewlife.thoughts['fugitive_good'])
+				end
+			end
 
-	  -- check for system population effect on crew happiness
-	  -- based on average of recently visited systems
-	  -- if their civaffinity is high they get good thoughts for visiting busy systems and bad
-	  -- thoughts for visiting (nearly) empty systems, and vice versa if the civaffinity is low
-	  if crewMember.civaffinity == 3 then
-	     if stats.mean_pop > civ_high_threshold then
-		crewlife.applyThought(crewMember, crewlife.thoughts['high_civ_good'])
-	     elseif stats.mean_pop < civ_low_threshold then
-		crewlife.applyThought(crewMember, crewlife.thoughts['low_civ_bad'])
-	     end
-	  elseif crewMember.civaffinity == 1 then
-	     if stats.mean_pop > civ_high_threshold then
-		crewlife.applyThought(crewMember, crewlife.thoughts['high_civ_bad'])
-	     elseif stats.mean_pop < civ_low_threshold then
-		crewlife.applyThought(crewMember, crewlife.thoughts['low_civ_good'])
-	     end
-	  end
+			-- check for system population effect on crew happiness
+			-- based on average of recently visited systems
+			-- if their civaffinity is high they get good thoughts for visiting busy systems and bad
+			-- thoughts for visiting (nearly) empty systems, and vice versa if the civaffinity is low
+			if crewMember.civaffinity == 3 then
+				if stats.mean_pop > civ_high_threshold then
+					crewlife.applyThought(crewMember, crewlife.thoughts['high_civ_good'])
+				elseif stats.mean_pop < civ_low_threshold then
+					crewlife.applyThought(crewMember, crewlife.thoughts['low_civ_bad'])
+				end
+			elseif crewMember.civaffinity == 1 then
+				if stats.mean_pop > civ_high_threshold then
+					crewlife.applyThought(crewMember, crewlife.thoughts['high_civ_bad'])
+				elseif stats.mean_pop < civ_low_threshold then
+					crewlife.applyThought(crewMember, crewlife.thoughts['low_civ_good'])
+				end
+			end
 
-	  -- check for system exploration status on crew happiness
-	  -- based on average of recently visited systems
-	  -- if their civaffinity is high they get bad thoughts if visiting unexplored systems
-	  -- and vice versa if civaffinity is low
-	  if crewMember.civaffinity == 3 and stats.explored < explored_threshold then
-	     crewlife.applyThought(crewMember, crewlife.thoughts['frontier_bad'])
-	  elseif crewMember.civaffinity == 1 and stats.explored < explored_threshold then
-	     crewlife.applyThought(crewMember, crewlife.thoughts['frontier_good'])
-	  end
-       end
+			-- check for system exploration status on crew happiness
+			-- based on average of recently visited systems
+			-- if their civaffinity is high they get bad thoughts if visiting unexplored systems
+			-- and vice versa if civaffinity is low
+			if crewMember.civaffinity == 3 and stats.explored < explored_threshold then
+				crewlife.applyThought(crewMember, crewlife.thoughts['frontier_bad'])
+			elseif crewMember.civaffinity == 1 and stats.explored < explored_threshold then
+				crewlife.applyThought(crewMember, crewlife.thoughts['frontier_good'])
+			end
+		end
     end
 end
 Event.Register("onEnterSystem", crewlife.onEnterSystem)
