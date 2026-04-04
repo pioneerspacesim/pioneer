@@ -346,7 +346,7 @@ end
 
 
 --
--- Function: onJoinCrew
+-- Method: onJoinCrew
 --
 -- Triggered by event whenever a crew member joins the player ship.
 --
@@ -354,7 +354,7 @@ end
 --
 --   ship - a ship object
 --   crewMember - a crewMember object
-local onJoinCrew = function(ship, crewMember)
+crewlife.onJoinCrew = function(ship, crewMember)
     if ship:IsPlayer() then
         scheduleContract(crewMember)
 
@@ -371,7 +371,7 @@ local onJoinCrew = function(ship, crewMember)
         crewMember.lastHomeVisit = Game.time
     end
 end
-Event.Register("onJoinCrew", onJoinCrew)
+Event.Register("onJoinCrew", crewlife.onJoinCrew)
 
 
 --

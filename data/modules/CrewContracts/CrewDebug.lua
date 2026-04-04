@@ -55,9 +55,11 @@ debugView.registerTab("debug-crew", {
       ui.dummy(Vector2(0, 5))
 
       if ui.button("Hire Crew", Vector2(100, 0)) then
-	 if Game.player:CrewNumber() < ShipDef[Game.player.shipId].maxCrew then
-            Game.player:Enroll(Character.New())
-	 end
+		  if Game.player:CrewNumber() < ShipDef[Game.player.shipId].maxCrew then
+			  local newCrewMember = Character.New()
+			  Game.player:Enroll(newCrewMember)
+			  crewlife.onJoinCrew(Game.player, newCrewMember)
+		  end
       end
       ui.sameLine()
       ui.text(Game.player:CrewNumber() .. " of " .. ShipDef[Game.player.shipId].maxCrew .. " hired")
