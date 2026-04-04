@@ -288,9 +288,6 @@ local function drawHappiness(crewMember)
 
 	ui.withFont(orbiteer.body, function() ui.text(l.MEMORIES) end)
 
-	-- TODO: place this check upstream (crew creation, loading?)
-	if not crewMember.memories then crewMember.memories = {} end
-
 	for i, thought in pairs(crewMember.memories) do
 		if thought.adjustment < 0 then
 			ui.icon(icons.up, Vector2(ui.getTextLineHeight()), colors.econLoss)
