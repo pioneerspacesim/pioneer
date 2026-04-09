@@ -929,7 +929,6 @@ void Ship::SetLandedOn(Planet *p, float latitude, float longitude)
 void Ship::SetFrame(FrameId fId)
 {
 	DynamicBody::SetFrame(fId);
-	m_sensors->ResetTrails();
 }
 
 void Ship::TimeStepUpdate(const float timeStep)
