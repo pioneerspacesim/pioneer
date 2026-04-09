@@ -307,8 +307,13 @@ void Body::SwitchToFrame(FrameId newFrameId)
 	const vector3d vel = GetVelocityRelTo(newFrameId); // do this first because it uses position
 	const vector3d fpos = frame->GetPositionRelTo(newFrameId);
 	const matrix3x3d forient = frame->GetOrientRelTo(newFrameId);
+	const vector3d ifpos = frame->GetInterpPositionRelTo(newFrameId);
+	const matrix3x3d iforient = frame->GetInterpOrientRelTo(newFrameId);
+
 	SetPosition(forient * GetPosition() + fpos);
 	SetOrient(forient * GetOrient());
+	m_interpPos = iforient * GetInterpPosition() + ifpos;
+	m_interpOrient = iforient * GetInterpOrient();
 	SetVelocity(vel + newFrame->GetStasisVelocity(GetPosition()));
 	SetFrame(newFrameId);
 
