@@ -577,6 +577,14 @@ void PerfInfo::DrawWorldViewStats()
 	}
 
 	DrawTerrainDebug();
+
+	if (ImGui::Button("ObjectViewer"))
+	{
+		if (Pi::game)
+		{
+			Pi::ToggleObjectViewer();
+		}
+	}
 }
 
 void PerfInfo::DrawInputDebug()
