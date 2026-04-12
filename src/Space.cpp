@@ -1068,8 +1068,10 @@ void Space::TimeStep(float step)
 
 	Frame::CollideFrames(&hitCallback);
 
-	for (Body *b : m_bodies)
+	for (size_t i = 0; i < m_bodies.size(); ++i) {
+		auto b = m_bodies[i];
 		CollideWithTerrain(b, step);
+	}
 
 	// update frames of reference
 	for (Body *b : m_bodies)
@@ -1090,7 +1092,8 @@ void Space::TimeStep(float step)
 	}
 	Frame::UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
-	for (Body *b : m_bodies) {
+	for (size_t i = 0; i < m_bodies.size(); ++i) {
+		auto b = m_bodies[i];
 		b->TimeStepUpdate(step);
 	}
 
