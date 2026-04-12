@@ -969,6 +969,17 @@ double SystemBody::CalcSurfaceGravity() const
 	}
 }
 
+fixed SystemBody::CalcSurfaceGravityAsFixed() const
+{
+	if (m_radius <= fixed(0, 1))
+		return fixed(0, 1);
+	// m_radius and m_mass are already in native body units
+	// (Earth radius/mass for planets, Sol radius/mass for stars)
+	// so we don't need big G here - just multiply by the relevant value of g.
+	const fixed unitG = (GetSuperType() == SUPERTYPE_STAR) ? G_SOL : G_EARTH;
+	return unitG * ((m_mass / m_radius) / m_radius);
+}
+
 double SystemBody::CalcEscapeVelocity() const
 {
 	double r = GetRadius();

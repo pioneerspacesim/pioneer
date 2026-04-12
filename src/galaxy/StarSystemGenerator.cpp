@@ -37,7 +37,8 @@ static const fixedf<48> EARTH_MASS_TO_VOL_MM3 = fixedf<48>(25946, 100); // 259.4
 // Convert a distance in megameters to earth radii
 static const fixedf<48> MM_TO_EARTH_RAD = fixedf<48>(15678, 100000);
 
-// max surface gravity for a permanent human settlement
+// min and max surface gravity for a permanent human settlement
+static const double MIN_SETTLEMENT_SURFACE_GRAVITY = 1; // m/s2 .. roughly 0.1 g - can't settle a planet if nothing sticks to the surface.
 static const double MAX_SETTLEMENT_SURFACE_GRAVITY = 50; // m/s2 .. roughly 5 g
 
 static const Uint32 POLIT_SEED = 0x1234abcd;
@@ -1454,6 +1455,82 @@ void PopulateStarSystemGenerator::PositionSettlementOnPlanet(SystemBody *sbody, 
 	sbody->SetOrbitFromParameters();
 }
 
+static fixed FalloffFunction(const fixed x, const fixed mean, const fixed standard_dev)
+{
+	// Doing an actual normalized gaussian function (normal distribution curve) in
+	// fixed point is rather a pain, so instead this sort of approximates a normal
+	// distribution, if you squint.
+
+	fixed z = (x - mean) / (fixed(4, 1) * standard_dev);
+	fixed lorentz = fixed(1, 1) / (fixed(1, 1) + (z * z));
+	return lorentz * lorentz * lorentz * lorentz * lorentz * lorentz * lorentz * lorentz * lorentz;
+}
+
+static fixed CalculateHabitability(SystemBody *sbody)
+{
+	PROFILE_SCOPED()
+
+	// The habitability score is 1.0 for something exactly like Earth, and 0 for completely uninhabitable.
+
+	// Assume everything is like Earth to start with. We then calculate normal distribution-like curves so that
+	// the further conditions deviate from Earth-like, the worse the habitability gets. However, we have to be a
+	// little lenient - if we model things too closely to reality then nobody wants to live anywhere except on
+	// M-class planets, and that isn't so fun.
+	fixed habitability = fixed(1, 1);
+
+	// Surface gravity - mean at 7.5 with standard deviation of 7.5, so slightly less than Earth gravity is a
+	// pleasure to work in, zero gravity is still habitable, but has a penalty, while heavier than Earth gravity
+	// gets progressively worse. Multiply the result a small amount so that Earth itself is back up to 1.0
+	const fixed gravity = sbody->CalcSurfaceGravityAsFixed();
+	habitability *= FalloffFunction(gravity, fixed(15, 2), fixed(15, 2)) * fixed(106, 100);
+
+	// If the entire planet is covered in ice (ice coverage = 1) then that's hugely inconvenient for industry and
+	// for living, while zero ice wouldn't cause any problems at all. So set mean to 0 and have a rapid fall off towards 1.
+	const fixed ice_coverage = sbody->GetVolatileIcesAsFixed();
+	habitability *= FalloffFunction(ice_coverage, fixed(0, 1), fixed(4, 10));
+
+	// On the other hand, having a mostly oceanic planet would be great for temperature regulation, Earth-like clouds, etc.
+	// So set mean to 0.7. However, no water at all would be a huge problem. So we still want a rapid fall-off.
+	const fixed water_coverage = sbody->GetVolatileLiquidAsFixed();
+	habitability *= FalloffFunction(water_coverage, fixed(7, 10), fixed(3, 10));
+
+	// Generally humans do not want to play a live action game of "the floor is lava". Treat volcanicity like ice, but worse.
+	const fixed volcanoes = sbody->GetVolcanicityAsFixed();
+	habitability *= FalloffFunction(volcanoes, fixed(0, 1), fixed(3, 10));
+
+	// We don't treat air pressure, temperature, and atmospheric composition as independent, to avoid penalising moons
+	// too heavily. Fundamentally, if there is very low air pressure, then the temperature and composition don't matter.
+	// So first check air pressure, and if it's below a threshold then skip over the other two.
+
+	// For atmospheric pressure, we'll use the gas density, since it's already in fixed point and is good enough for this
+	// rough habitability calculation. 1.225 is Earth atmosphere density, so that's our baseline, with medium fall-off.
+	const fixed density = sbody->GetVolatileGasAsFixed();
+	habitability *= FalloffFunction(density, fixed(1225, 1000), fixed(11, 10));
+
+	if (density > fixed(6, 10)) {
+		// Temperature is in Kelvin. Average temperature on Earth's service is 15 Celsius, so 273+15 is our mean.
+		// Humans live at extremes on Earth, plus we're dealing with the future, so 50 for a standard deviation seems
+		// reasonable, though narrow in astrophysical terms
+		const fixed temperature = fixed(sbody->GetAverageTemp(), 1);
+		habitability *= FalloffFunction(temperature, fixed(288, 1), fixed(50, 1));
+
+		// Breathable air is super convenient, while air that actively kills you is even worse than a vacuum. So let's heavily
+		// favour oxidising atmospheres over reducing onces.
+		const fixed air_type = sbody->GetAtmosOxidizingAsFixed();
+		habitability *= FalloffFunction(air_type, fixed(1, 1), fixed(3, 10));
+	}
+
+	// In practice a system body that doesn't have a regular day/night cycle would presumably be roasting hot on one side and
+	// freezing on the other. Not impossible to live on, but if the boundary is slowly shifting that would be pretty annoying.
+	// On the other hand, an extremely rapid day/night cycle would be very disorientating, assuming that everything isn't
+	// flung off from the planet's surface anyway. EXCEPT - if the planet has a higher gravity, then these two things could
+	// cancel out to "feels like 1g" at the equator. Since the game doesn't currently do that with rotational speed, let's
+	// not complicate it here either for now.
+
+	return habitability;
+}
+
+
 /*
  * Set natural resources, tech level, industry strengths and population levels
  */
@@ -1487,8 +1564,16 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 
 	sbody->m_population = fixed();
 
+	// See if there are any surface starports already created. If yes then it's a bit late to say there is no population.
+	fixed surfaceStarportPop = fixed();
+	for (const auto &child : sbody->m_children) {
+		if (child->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
+			surfaceStarportPop += child->GetPopulationAsFixed();
+	}
+
 	/* Bad type of planet for settlement */
-	if ((sbody->GetAverageTemp() > CELSIUS + 100) || (sbody->GetAverageTemp() < 100) || (sbody->CalcSurfaceGravity() > MAX_SETTLEMENT_SURFACE_GRAVITY) ||
+	if ((sbody->GetAverageTemp() > CELSIUS + 100) || (sbody->GetAverageTemp() < 100) ||
+		(sbody->CalcSurfaceGravity() < MIN_SETTLEMENT_SURFACE_GRAVITY) || (sbody->CalcSurfaceGravity() > MAX_SETTLEMENT_SURFACE_GRAVITY) ||
 		(sbody->GetType() != SystemBody::TYPE_PLANET_TERRESTRIAL && sbody->GetType() != SystemBody::TYPE_PLANET_ASTEROID)) {
 		Random starportPopRand;
 		starportPopRand.seed(_init, 6);
@@ -1509,7 +1594,8 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 			}
 		}
 
-		return;
+		if (surfaceStarportPop == 0)
+			return;
 	}
 
 	sbody->m_agricultural = fixed();
@@ -1523,8 +1609,14 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 	} else {
 		// don't bother populating crap planets
 		if (sbody->GetMetallicityAsFixed() < fixed(5, 10) &&
-			sbody->GetMetallicityAsFixed() < (fixed(1, 1) - system->GetHumanProx())) return;
+			sbody->GetMetallicityAsFixed() < (fixed(1, 1) - system->GetHumanProx()) &&
+			(surfaceStarportPop == 0)) return;
 	}
+
+	// Work out the general habitability of the system body, so we can scale the economy according to that.
+	// In general, Earth-like places will have a habitability of 1, and tiny rocky moons will tend towards 0.
+	// This ensures we don't get tiny rocky moons with absurdly high populations and industrial output.
+	const fixed habitability = CalculateHabitability(sbody);
 
 	/* Commodities we produce (mining and agriculture) */
 
@@ -1553,6 +1645,8 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 			affinity /= numFactors;
 		else
 			affinity = fixed(1, 1);
+
+		affinity *= habitability;
 
 		affinity *= rand.Fixed();
 
@@ -1586,7 +1680,14 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 		}
 	}
 
+	// At this point we have the workforce, and m_population is still zero. Now calculate what the population would be.
+
+	// The population is at least as large as the workforce.
 	sbody->m_population += workforce;
+
+	// The more prosperous an economy is, the more non-working people there will be, e.g. children, retirees.
+	// We don't really have a good proxy for that at the moment, so use distance-from-Sol instead.
+	sbody->m_population += sbody->m_population * system->GetHumanProx();
 
 	if (!system->HasCustomBodies() && sbody->GetPopulationAsFixed() > 0)
 		sbody->m_name = Pi::luaNameGen->BodyName(sbody, namerand);
@@ -1610,6 +1711,9 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 
 	// well, outdoor worlds should have way more people
 	sbody->m_population = fixed(1, 10) * sbody->m_population + sbody->m_population * sbody->GetAgriculturalAsFixed();
+
+	// Add in any surface starport populations x2. This ensures that the planet pop is always larger.
+	sbody->m_population += surfaceStarportPop * fixed(2, 1);
 
 	//	Output("%s: pop %.3f billion\n", name.c_str(), sbody->m_population.ToFloat());
 
