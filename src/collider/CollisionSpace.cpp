@@ -121,11 +121,11 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double
 	std::vector<uint32_t> isect_result;
 	isect_result.reserve(8);
 
-	if (m_enabledStaticGeoms > 0) {
+	if (m_enabledStaticGeoms > 0 && !m_needStaticGeomRebuild) {
 		m_staticObjectTree->TraceRay(start, invDir, len, isect_result);
 
 		for (uint32_t &idx : isect_result) {
-			assert(idx <= m_staticGeoms.size());
+			assert(idx < m_staticGeoms.size());
 			Geom *g = m_staticGeoms[idx];
 
 			if (g != ignore)
