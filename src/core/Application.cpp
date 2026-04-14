@@ -138,6 +138,7 @@ void Application::EndLifecycle()
 	// wait until we've finished the control flow for the lifecycle;
 	// the lifecycle may decide to set the next lifecycle in End()
 	m_priorityLifecycle = m_activeLifecycle->m_nextLifecycle;
+	m_activeLifecycle->m_nextLifecycle.Reset();
 	m_activeLifecycle.Reset();
 }
 
