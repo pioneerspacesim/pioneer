@@ -355,6 +355,74 @@ vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 rayDirection
 	return ret;
 }
 
+vec2 calculateDensityBetweenPoints(const in vec3 a, const in vec3 b, const in sampler2D texture_LUT)
+{
+	// get mean density between A and B and multiply by length
+	// assume density scales linearly between A and B on short distances
+	vec3 c = mix(a, b, 0.5);
+	vec2 density = getDensityAtPoint(c, texture_LUT);
+
+	return density * length(b - a);
+}
+
+/*
+ * Given:
+ * - Planet parameters
+ * - Atmosphere parameters
+ * - Point A
+ * - Point B
+ * Calculate:
+ * - How much light did not scattered along AB section
+ */
+vec3 calculateAtmosphereAttenuation(const in vec3 a, const in vec3 b, const in sampler2D texture_LUT)
+{
+	vec2 opticalDepth = calculateDensityBetweenPoints(a, b, texture_LUT);
+
+	// what does it mean?
+	// is it multiplied by density and value of 1 means light dims by a factor of e?
+	vec3 betaR = vec3(3.8e-6f, 13.5e-6f, 33.1e-6f);
+	vec3 betaM = vec3(21e-6f);
+
+	vec3 beta = betaR * opticalDepth.x + betaM * opticalDepth.y;
+	return exp(-beta);
+}
+
+vec3 calculateDirectLight(const in vec3 sunDirection, const in vec3 rayDirection, const in vec3 camera, const in sampler2D texture_LUT)
+{
+	// get terrain intersection
+	vec2 sectTerrain = raySphereIntersect(camera, rayDirection, geosphereRadius);
+	vec3 rayStart = rayDirection * sectTerrain.x + camera;
+
+	vec2 sectAtm = raySphereIntersect(rayStart, sunDirection, geosphereRadius * geosphereAtmosTopRad);
+	vec3 rayFinish = sunDirection * sectAtm.y + rayStart;
+
+	float rayLength = length(rayFinish - rayStart);
+
+	int numSamples = 256;
+	float segmentLength = rayLength / numSamples;
+
+	vec3 lightMultiplier = vec3(1.f);
+
+	for (int i = 0; i < numSamples; ++i) {
+		vec3 segmentStart  = ((i + 0) * segmentLength) * sunDirection + rayStart;
+		vec3 segmentFinish = ((i + 1) * segmentLength) * sunDirection + rayStart;
+
+		lightMultiplier *= calculateAtmosphereAttenuation(segmentStart, segmentFinish, texture_LUT);
+	}
+
+	return lightMultiplier;
+}
+
+vec3 calculateTerrainColor(const in vec4 planet, const in vec4 atmosphere, const in vec4 lightColor, const in vec3 lightDir, const in vec3 rayStart, const in vec3 rayDir, const in float uneclipsed, const in sampler2D texture_LUT)
+{
+	// rayStart is already multiplied by planet radius
+	vec3 planetPosition = planet.xyz * planet.w + rayStart;
+
+	vec3 atmospherePosition = atmosphere.xyz * atmosphere.w;
+
+	return calculateDirectLight(lightDir, rayDir, planetPosition, texture_LUT);
+}
+
 vec3 calculateAtmosphereColor(const in vec4 planet, const in vec4 atmosphere, const in vec4 lightColor, const in vec3 lightDir, const in vec3 rayStart, const in vec3 rayDir, const in float uneclipsed, const in sampler2D texture_LUT)
 {
     // rayStart is already multiplied by planet radius
