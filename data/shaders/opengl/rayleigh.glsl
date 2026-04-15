@@ -355,6 +355,212 @@ vec3 computeIncidentLight(const in vec3 sunDirection, const in vec3 rayDirection
 	return ret;
 }
 
+vec2 calculateDensityBetweenPoints(const in vec3 a, const in vec3 b, const in sampler2D texture_LUT)
+{
+	// get mean density between A and B and multiply by length
+	// assume density scales linearly between A and B on short distances
+	vec3 c = mix(a, b, 0.5);
+	vec2 density = getDensityAtPoint(c, texture_LUT);
+
+	return density * length(b - a);
+}
+
+/*
+ * Given:
+ * - Planet parameters
+ * - Atmosphere parameters
+ * - Point A
+ * - Point B
+ * Calculate:
+ * - How much light did not scattered A -> B
+ */
+vec3 calculateAtmosphereAttenuation(const in vec3 a, const in vec3 b, const in sampler2D texture_LUT)
+{
+	vec2 opticalDepth = calculateDensityBetweenPoints(a, b, texture_LUT);
+
+	// what does it mean?
+	// is it multiplied by density and value of 1 means light dims by a factor of e?
+	vec3 betaR = vec3(3.8e-6f, 13.5e-6f, 33.1e-6f);
+	vec3 betaM = vec3(21e-6f);
+
+	vec3 beta = betaR * opticalDepth.x + betaM * opticalDepth.y;
+	return exp(-beta);
+}
+
+vec3 calculateDirectLight(const in vec3 sunDirection, const in vec3 a, const in vec3 b, const in sampler2D texture_LUT, const int samples)
+{
+	float rayLength = length(b - a);
+
+	float segmentLength = rayLength / samples;
+
+	vec3 lightMultiplier = vec3(1.f);
+
+	for (int i = 0; i < samples; ++i) {
+		vec3 segmentStart  = b - ((i + 0) * segmentLength) * sunDirection;
+		vec3 segmentFinish = b - ((i + 1) * segmentLength) * sunDirection;
+
+		lightMultiplier *= calculateAtmosphereAttenuation(segmentStart, segmentFinish, texture_LUT);
+	}
+
+	return lightMultiplier;
+}
+
+vec3 calculateIncidentLight2(const in vec3 sunDirection, const in vec3 rayDirection, const in vec3 rayStart, const in vec4 diffuse, const in float uneclipsed, const in sampler2D texture_LUT)
+{
+	vec4 segment = getRaySegment(sunDirection, rayDirection, rayStart);
+
+	/*
+	 * rayStart -> enterAtm -> enterShadow -> exitShadow -> exitAtm -> rayFinish
+	 */
+	float enterAtm    = segment.x;
+	float enterShadow = segment.y;
+	float exitShadow  = segment.z;
+	float exitAtm     = segment.w;
+
+	int numSamples = 16;
+	int numSamplesLight = 8;
+	vec3 lightR = vec3(0.0f);
+	vec3 lightM = vec3(0.0f);
+
+	float mu = dot(rayDirection, sunDirection);
+	float phaseR = rayleighPhaseFunction(mu);
+	float phaseM = miePhaseFunction(0.76f, mu);
+
+	float segmentStart = exitShadow;
+	float segmentFinish = exitAtm;
+	if (segmentStart != segmentFinish) {
+		float segmentLength = (segmentStart - segmentFinish) / numSamples;
+		for (int i = 0; i < numSamples; ++i) {
+			vec3 a = rayStart + ((i + 0.f) * segmentLength + segmentFinish) * rayDirection;
+			vec3 b = rayStart + ((i + 1.f) * segmentLength + segmentFinish) * rayDirection;
+
+			vec3 c = mix(a, b, 0.5f);
+			vec3 d = c + sunDirection * raySphereIntersect(-c, sunDirection, geosphereRadius * geosphereAtmosTopRad).y;
+
+			vec4 atmosDiffuse = vec4(0.f);
+			CalcPlanetDiffuse(atmosDiffuse, diffuse, sunDirection, normalize(c), uneclipsed);
+			vec2 density = calculateDensityBetweenPoints(a, b, texture_LUT);
+
+			vec3 attenuationAC = calculateAtmosphereAttenuation(a, c, texture_LUT);
+			vec3 attenuationCB = calculateAtmosphereAttenuation(c, b, texture_LUT);
+
+			// indirect: input and output
+			vec3 scattered = calculateDirectLight(sunDirection, c, d, texture_LUT, numSamplesLight);
+			vec3 scatteredOutR = scattered * density.x * atmosDiffuse.xyz;
+			vec3 scatteredOutM = scattered * density.y * atmosDiffuse.xyz;
+
+			// direct: input and output
+			lightR *= attenuationAC;
+			lightR += scatteredOutR;
+			lightR *= attenuationCB;
+
+			lightM *= attenuationAC;
+			lightM += scatteredOutM;
+			lightM *= attenuationCB;
+		}
+	}
+
+	segmentStart = enterShadow;
+	segmentFinish = exitShadow;
+	if (segmentStart != segmentFinish) {
+		float segmentLength = (segmentStart - segmentFinish) / numSamples;
+		for (int i = 0; i < numSamples; ++i) {
+			vec3 a = rayStart + ((i + 0.f) * segmentLength + segmentFinish) * rayDirection;
+			vec3 b = rayStart + ((i + 1.f) * segmentLength + segmentFinish) * rayDirection;
+
+			vec3 c = mix(a, b, 0.5f);
+			vec3 d = c + sunDirection * raySphereIntersect(-c, sunDirection, geosphereRadius * geosphereAtmosTopRad).y;
+
+			vec4 atmosDiffuse = vec4(0.f);
+			CalcPlanetDiffuse(atmosDiffuse, diffuse, sunDirection, normalize(c), uneclipsed);
+			vec2 density = calculateDensityBetweenPoints(a, b, texture_LUT);
+
+			vec3 attenuationAC = calculateAtmosphereAttenuation(a, c, texture_LUT);
+			vec3 attenuationCB = calculateAtmosphereAttenuation(c, b, texture_LUT);
+
+			// indirect: input and output
+			vec3 scattered = calculateDirectLight(sunDirection, c, d, texture_LUT, numSamplesLight);
+			vec3 scatteredOutR = scattered * density.x * atmosDiffuse.xyz;
+			vec3 scatteredOutM = scattered * density.y * atmosDiffuse.xyz;
+
+			// direct: input and output
+			lightR *= attenuationAC;
+			//lightR += scatteredOutR;
+			lightR *= attenuationCB;
+
+			lightM *= attenuationAC;
+			//lightM += scatteredOutM;
+			lightM *= attenuationCB;
+		}
+	}
+
+	segmentStart = enterAtm;
+	segmentFinish = enterShadow;
+	if (segmentStart != segmentFinish) {
+		float segmentLength = (segmentStart - segmentFinish) / numSamples;
+		for (int i = 0; i < numSamples; ++i) {
+			vec3 a = rayStart + ((i + 0.f) * segmentLength + segmentFinish) * rayDirection;
+			vec3 b = rayStart + ((i + 1.f) * segmentLength + segmentFinish) * rayDirection;
+
+			vec3 c = mix(a, b, 0.5f);
+			vec3 d = c + sunDirection * raySphereIntersect(c, sunDirection, geosphereRadius * geosphereAtmosTopRad).y;
+
+			vec4 atmosDiffuse = vec4(0.f);
+			CalcPlanetDiffuse(atmosDiffuse, diffuse, sunDirection, normalize(c), uneclipsed);
+			vec2 density = calculateDensityBetweenPoints(a, b, texture_LUT);
+
+			vec3 attenuationAC = calculateAtmosphereAttenuation(a, c, texture_LUT);
+			vec3 attenuationCB = calculateAtmosphereAttenuation(c, b, texture_LUT);
+
+			// indirect: input and output
+			vec3 scattered = calculateDirectLight(sunDirection, c, d, texture_LUT, numSamplesLight);
+			vec3 scatteredOutR = scattered * density.x * atmosDiffuse.xyz;
+			vec3 scatteredOutM = scattered * density.y * atmosDiffuse.xyz;
+
+			// direct: input and output
+			lightR *= attenuationAC;
+			lightR += scatteredOutR;
+			lightR *= attenuationCB;
+
+			lightM *= attenuationAC;
+			lightM += scatteredOutM;
+			lightM *= attenuationCB;
+		}
+	}
+
+	vec3 betaR = vec3(3.8e-6f, 13.5e-6f, 33.1e-6f);
+	vec3 betaM = vec3(21e-6f);
+
+	vec3 totalR = lightR * betaR * phaseR;
+	vec3 totalM = lightM * betaM * phaseM;
+	vec3 total = vec3(0.f);
+	total += totalR;
+	total += totalM;
+	return total;
+}
+
+vec3 calculateTerrainLight(const in vec3 sunDirection, const in vec3 rayDirection, const in vec3 camera, const in sampler2D texture_LUT, const int samples)
+{
+	// get terrain intersection
+	vec2 sectTerrain = raySphereIntersect(camera, rayDirection, geosphereRadius);
+	vec3 rayStart = rayDirection * sectTerrain.x + camera;
+
+	vec2 sectAtm = raySphereIntersect(rayStart, sunDirection, geosphereRadius * geosphereAtmosTopRad);
+	vec3 rayFinish = sunDirection * sectAtm.y + rayStart;
+
+	return calculateDirectLight(sunDirection, rayStart, rayFinish, texture_LUT, samples);
+}
+
+vec3 calculateTerrainColor(const in vec4 planet, const in vec4 atmosphere, const in vec4 lightColor, const in vec3 lightDir, const in vec3 rayStart, const in vec3 rayDir, const in float uneclipsed, const in sampler2D texture_LUT)
+{
+	// rayStart is already multiplied by planet radius
+	vec3 planetPosition = planet.xyz * planet.w + rayStart;
+
+	vec3 atmospherePosition = atmosphere.xyz * atmosphere.w;
+
+	return calculateTerrainLight(lightDir, rayDir, planetPosition, texture_LUT, 16);
+}
+
 vec3 calculateAtmosphereColor(const in vec4 planet, const in vec4 atmosphere, const in vec4 lightColor, const in vec3 lightDir, const in vec3 rayStart, const in vec3 rayDir, const in float uneclipsed, const in sampler2D texture_LUT)
 {
     // rayStart is already multiplied by planet radius
@@ -362,5 +568,9 @@ vec3 calculateAtmosphereColor(const in vec4 planet, const in vec4 atmosphere, co
 
     vec3 atmospherePosition = atmosphere.xyz * atmosphere.w;
 
-    return computeIncidentLight(lightDir, rayDir, -planetPosition, lightColor, uneclipsed, texture_LUT);
+    vec3 lightOld = computeIncidentLight(lightDir, rayDir, -planetPosition, lightColor, uneclipsed, texture_LUT);
+    vec3 lightNew = calculateIncidentLight2(lightDir, rayDir, -planetPosition, lightColor, uneclipsed, texture_LUT);
+
+    //return lightOld;
+    return lightNew;
 }
