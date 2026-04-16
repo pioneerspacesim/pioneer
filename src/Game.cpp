@@ -721,11 +721,14 @@ void Game::SetTimeAccel(TimeAccel t)
 		m_player->SetAngThrusterState(vector3d(0.0));
 	}
 
-	// Give all ships a half-step acceleration to stop autopilot overshoot
+	// Give all currently flying ships a half-step acceleration to stop autopilot overshoot
 	if (t < m_timeAccel)
 		for (Body *b : m_space->GetBodies())
-			if (b->IsType(ObjectType::SHIP))
-				(static_cast<Ship *>(b))->TimeAccelAdjust(0.5f * GetTimeStep());
+			if (b->IsType(ObjectType::SHIP)) {
+				Ship *ship = static_cast<Ship *>(b);
+				if (ship->GetFlightState() == Ship::FLYING)
+					ship->TimeAccelAdjust(0.5f * GetTimeStep());
+			}
 
 	bool emitPaused = (t == TIMEACCEL_PAUSED && t != m_timeAccel);
 	bool emitResumed = (m_timeAccel == TIMEACCEL_PAUSED && t != TIMEACCEL_PAUSED);
