@@ -1035,6 +1035,10 @@
     "description": "",
     "message": "No established order"
   },
+  "NO_HYPERCLOUD_ANALYZER_INSTALLED": {
+    "description": "",
+    "message": "No hypercloud analyzer installed"
+  },
   "NO_HYPERDRIVE": {
     "description": "",
     "message": "No hyperdrive"
