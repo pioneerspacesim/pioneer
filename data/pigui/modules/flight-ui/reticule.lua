@@ -279,7 +279,7 @@ local function updateReticuleTarget(frame, navTarget, combatTarget)
 	end
 
 	if reticuleTarget == "frame" then
-		if not frame then
+		if not frame and not player.frameLabel then
 			reticuleTarget = nil
 		end
 	end
@@ -389,8 +389,24 @@ local function displayDetailData(target, radius, colorLight, colorDark, tooltip,
 
 end
 
+-- display only frame name in the right-side "detail" HUD section
+local function displayDetailFrameLabel(label, radius, colorLight, colorDark, tooltip)
+	local uiPos = ui.pointOnClock(center, radius, 2.46)
+	-- frame label
+	ui.addStyledText(uiPos, ui.anchor.left, ui.anchor.baseline, label, colorDark, pionillium.medium, tooltip, colors.lightBlackBackground)
+end
+
 -- display data relative to frame left of the reticule circle
-local function displayFrameData(frame, radius)
+local function displayFrameData(frame, frameLabel, radius)
+	local uiPos = ui.pointOnClock(center, radius, -2.46)
+	-- label of frame
+	local label = frameLabel
+	if frame then label = frame.label end
+	if not label then return end
+	-- if we're not in a framebody then just display the label
+	ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.baseline, label, colors.frame, pionillium.medium, lui.HUD_CURRENT_FRAME, colors.lightBlackBackground)
+	if not frame then return end
+
 	local velocity = player:GetVelocityRelTo(frame)
 	local position = player:GetPositionRelTo(frame)
 	local altitude = player:GetAltitudeRelTo(frame)
@@ -398,9 +414,6 @@ local function displayFrameData(frame, radius)
 	local altitude_txt, altitude_unit = ui.Format.DistanceUnit(altitude)
 	local approach_speed = position:dot(velocity) / position:length()
 	local speed, speed_unit = ui.Format.SpeedUnit(approach_speed)
-	local uiPos = ui.pointOnClock(center, radius, -2.46)
-	-- label of frame
-	ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.baseline, frame.label, colors.frame, pionillium.medium, lui.HUD_CURRENT_FRAME, colors.lightBlackBackground)
 	-- speed of approach of frame
 	uiPos = ui.pointOnClock(center, radius, -2.75)
 	ui.addFancyText(uiPos, ui.anchor.right, ui.anchor.baseline, {
@@ -806,6 +819,7 @@ local function displayReticule()
 	ui.addCircle(center, reticuleCircleRadius, colors.reticuleCircle, ui.circleSegments(reticuleCircleRadius), reticuleCircleThickness)
 
 	local frame = player.frameBody
+	local frameLabel = player.frameLabel
 	local navTarget = player:GetNavTarget()
 	local combatTarget = player:GetCombatTarget()
 	local radius = reticuleCircleRadius * 1.2
@@ -813,7 +827,11 @@ local function displayReticule()
 	updateReticuleTarget(frame, navTarget, combatTarget)
 
 	if reticuleTarget == "frame" then
-		displayDetailData(frame, radius, colors.frame, colors.frameDark, lui.HUD_CURRENT_FRAME, true)
+		if frame then
+			displayDetailData(frame, radius, colors.frame, colors.frameDark, lui.HUD_CURRENT_FRAME, true)
+		elseif frameLabel then
+			displayDetailFrameLabel(frameLabel, radius, colors.frame, colors.frameDark, lui.HUD_CURRENT_FRAME)
+		end
 	elseif reticuleTarget == "navTarget" then
 		displayDetailData(navTarget, radius, colors.navTarget, colors.navTargetDark, lui.HUD_CURRENT_NAV_TARGET)
 	elseif reticuleTarget == "combatTarget" then
@@ -827,8 +845,8 @@ local function displayReticule()
 	displayReticuleDeltaV()
 	displayAlertMarker()
 
-	if frame and reticuleTarget ~= "frame" then
-		displayFrameData(frame, radius)
+	if (frame or frameLabel) and (reticuleTarget ~= "frame") then
+		displayFrameData(frame, frameLabel, radius)
 	end
 end
 
