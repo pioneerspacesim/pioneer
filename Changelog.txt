@@ -1,3 +1,16 @@
+April
+  * New Features
+    * Approximate ring shadow penumbra (#6309)
+    * Add ObjectViewer button to perfinfo debug view (#6316)
+
+  * Fixes
+    * Scoop mission fix: Game.player.frameBody being nil (#6313)
+    * Don't mess with velocity if the ship just docked (#6327)
+    * Fix stale docking clearance timeout & position (centre of planet) (#6325)
+    * Fix refuel mission crash: TraceRay using stale static geometry (#6321)
+    * Fix quitting showing death animation: Clear the next lifecycle variable after using it (#6323)
+    * Reduce the occurrence of random crashes (#6319)
+
 March
   * New Features
     * Show the status of the wanted person (#6298)
