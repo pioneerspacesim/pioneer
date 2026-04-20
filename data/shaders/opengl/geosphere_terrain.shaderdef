@@ -5,6 +5,7 @@ Shader geosphere_terrain
 
 Texture sampler2D texture0
 Texture sampler2D texture1
+Texture sampler2D scatterLUT
 
 Buffer LightData binding=0
 Buffer DrawData binding=1

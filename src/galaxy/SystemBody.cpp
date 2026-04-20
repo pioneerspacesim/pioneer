@@ -345,7 +345,7 @@ void SystemBody::SetAtmFromParameters()
 		// want height for pressure 0.001 atm:
 		// h = (1 - exp(RL/gM * log(P/p0))) * T0 / l
 		double RLdivgM = (GAS_CONSTANT_R * lapseRate_L) / (surfaceGravity_g * GetMolarMass(GetSuperType()));
-		m_atmosRadius = (1.0 - exp(RLdivgM * log(0.001 / m_atmosPressure))) * surfaceTemperature_T0 / lapseRate_L;
+		m_atmosRadius = (1.0 - exp(RLdivgM * log(1e-15 / m_atmosPressure))) * surfaceTemperature_T0 / lapseRate_L;
 	}
 }
 
@@ -465,9 +465,8 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 
 	// min of 2.0 corresponds to a scale height of 1/20 of the planet's radius,
 	params.atmosInvScaleHeight = std::max(20.0f, static_cast<float>(GetRadius() / atmosScaleHeight));
-	// integrate atmospheric density between surface and this radius. this is 10x the scale
-	// height, which should be a height at which the atmospheric density is negligible
-	params.atmosRadius = 1.0f + static_cast<float>(10.0f * atmosScaleHeight) / GetRadius();
+
+	params.atmosRadius = 1.0f + static_cast<float>(m_atmosRadius) / GetRadius();
 
 	params.planetRadius = static_cast<float>(radiusPlanet_in_m);
 
@@ -476,6 +475,23 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 	params.rayleighCoefficients = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, atmosScaleHeight);
 	params.mieCoefficients = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, atmosScaleHeight / 6.66); // 7994 / 1200 = 6.61
 	params.scaleHeight = vector2f(atmosScaleHeight, atmosScaleHeight / 6.66);
+
+	float atmosHeight = radiusPlanet_in_m * (params.atmosRadius - 1);;
+	for (int i = 0; i <= DENSITY_STEPS; i++) {
+		float height = i * atmosHeight / DENSITY_STEPS;
+
+		// mie decays ~6.66 times faster
+		float rLogDensity, mLogDensity;
+
+		rLogDensity = log(GetAtmDensity(height, GetAtmPressure(height)));
+
+		// ugly fallback, will be fixed with new atmosphere model
+		mLogDensity = log(GetAtmDensity(6.66 * height, GetAtmPressure(6.66 * height)));
+		if (std::isnan(mLogDensity))
+			mLogDensity = -128.0;
+
+		params.logDensityMap[i] = vector2f(rLogDensity, mLogDensity);
+	}
 
 	return params;
 }
