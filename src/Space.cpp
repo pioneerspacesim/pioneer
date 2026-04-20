@@ -824,11 +824,12 @@ static FrameId MakeFramesFor(const double at_time, SystemBody *sbody, Body *b, F
 		Frame *orbFrame = Frame::GetFrame(orbFrameId);
 		orbFrame->SetBodies(sbody, b);
 		const double bodyRadius = sbody->GetEquatorialRadius();
-		double frameRadius = std::max(10.0 * bodyRadius, sbody->GetMaxChildOrbitalDistance() * 1.1);
+		double frameRadius = 10.0 * bodyRadius;
 		// Respect the frame of other stars in the multi-star system. We still make sure that the frame ends outside
 		// the body. For a minimum separation of 1.236 radii, nothing will overlap (see StarSystem::StarSystem()).
 		if (sbody->GetParent() && frameRadius > AU * 0.11 * sbody->GetOrbMin())
 			frameRadius = std::max(1.1 * bodyRadius, AU * 0.11 * sbody->GetOrbMin());
+		frameRadius = std::max(frameRadius, sbody->GetMaxChildOrbitalDistance() * 1.1);
 		orbFrame->SetRadius(frameRadius);
 		b->SetFrame(orbFrameId);
 		return orbFrameId;
