@@ -1106,7 +1106,30 @@ void CustomSystemsDatabase::RunLuaSystemSanityChecks(CustomSystem *csys)
 			body->bodyData.m_volatileGas = rand.NormFixed(fixed(1050, 1000), fixed(8000, 1000)).Abs();
 			body->bodyData.m_atmosOxidizing = rand.NormFixed(fixed(0, 1), fixed(300, 1000)).Abs();
 		}
+	}
 
+	// This loop runs after the one above, to ensure that system bodies are all set up first.
+	// Now we ensure that any binary star systems have orbits set correctly.
+	for (CustomSystemBody *body : csys->bodies) {
+
+		if ((body->bodyData.m_type == SystemBody::TYPE_GRAVPOINT) && (body->children.size() == 2)) {
+			SystemBodyData *star_A = &body->children[0]->bodyData;
+			SystemBodyData *star_B = &body->children[1]->bodyData;
+
+			if ((star_A->m_type >= SystemBodyType::TYPE_STAR_MIN) && (star_A->m_type <= SystemBodyType::TYPE_STAR_MAX) &&
+				(star_B->m_type >= SystemBodyType::TYPE_STAR_MIN) && (star_B->m_type <= SystemBodyType::TYPE_STAR_MAX)) {
+
+				// This is a binary star system. Ensure that the stars are opposite each other in their orbits
+
+				star_B->m_orbitalOffset = star_A->m_orbitalOffset;
+				star_B->m_inclination = star_A->m_inclination;
+				star_B->m_argOfPeriapsis = star_A->m_argOfPeriapsis;
+
+				star_B->m_orbitalPhaseAtStart = star_A->m_orbitalPhaseAtStart + FIXED_PI;
+				if (star_B->m_orbitalPhaseAtStart > fixed(2, 1) * FIXED_PI)
+					star_B->m_orbitalPhaseAtStart -= fixed(2, 1) * FIXED_PI;
+			}
+		}
 	}
 }
 
