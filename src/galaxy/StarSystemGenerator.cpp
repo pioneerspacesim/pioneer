@@ -385,8 +385,9 @@ fixedf<48> StarSystemLegacyGeneratorBase::CalcHillRadius(SystemBody *sbody) cons
 		fixedp a = sbody->GetSemiMajorAxisAsFixed();
 		fixedp e = sbody->GetEccentricityAsFixed();
 		fixedp pe = a * (fixedp(1, 1) - e); // periapsis in higher precision
+		fixedp mass_ratio = sbody->GetMassAsFixed() / (fixed(3, 1) * mprimary);
 
-		return pe * fixedp::CubeRootOf(sbody->GetMassAsFixed() / (fixed(3, 1) * mprimary));
+		return pe * fixedp::CubeRootOf(mass_ratio);
 
 		//fixed hr = semiMajorAxis*(fixed(1,1) - eccentricity) *
 		//  fixedcuberoot(mass / (3*mprimary));
@@ -976,7 +977,6 @@ fixed StarSystemRandomGenerator::CalcBodySatelliteShellDensity(Random &rand, Sys
 		// gameplay purposes instead of fully representing reality
 		fixedf<48> hillSphereRad = CalcHillRadius(primary) * fixedf<48>(1, 4);
 		discMax = std::min(discMax, fixed(hillSphereRad));
-
 		return get_disc_density(primary, discMin, discMax, fixed(1, 500));
 	}
 }
