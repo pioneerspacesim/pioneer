@@ -328,6 +328,7 @@ local infoView = {
 		}
 
 		local securityIdx = math.ceil(system.lawlessness * 5)
+		securityIdx = math.max(1, securityIdx)
 
 		ui.textWrapped(system.shortDescription)
 

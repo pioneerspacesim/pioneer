@@ -292,6 +292,8 @@ double GetMolarMass(SystemBody::BodySuperType superType)
 {
 	if (superType == SystemBody::SUPERTYPE_GAS_GIANT)
 		return 0.0023139903; // molar mass, for a combination of hydrogen and helium
+	else if (superType == SystemBody::SUPERTYPE_STAR)
+		return 0.00125;	// approximation of the sun's molar mass (in kg/mol) - mostly hydrogen
 	else
 		// XXX using earth's molar mass of air...
 		return 0.02897;
@@ -327,6 +329,25 @@ double SystemBody::GetAtmAverageTemp(double altitude) const
 void SystemBody::SetAtmFromParameters()
 {
 	double gasMolarMass = GetMolarMass(GetSuperType());
+	double surfaceGravity_g = CalcSurfaceGravity();
+
+	if ((GetSuperType() == SUPERTYPE_STAR) && (m_volatileGas == 0))
+	{
+		// This is a star, and there is no value for the gas density specified.
+		// Calculate one now based on the star's data so we can display something sensible.
+
+		double temperature = m_averageTemp;
+		if (temperature < 250) temperature = 250;
+
+		// We don't have a good way of determining a star's surface pressure, but the surface
+		// pressure for our Sun is about 0.01 atm, so divide that by its surface gravity value
+		// (274) to get a number that we can use to scale target pressure by star's gravity.
+		// This gives us the result that more dense or bigger stars have higher surface pressure.
+		double target_pressure = (0.01 / 274.0) * surfaceGravity_g;
+
+		double density = target_pressure * gasMolarMass / (GAS_CONSTANT_R * PA_2_ATMOS * temperature);
+		m_volatileGas = fixed::FromDouble(density);
+	}
 
 	double surfaceDensity = GetAtmSurfaceDensity() / gasMolarMass; // kg / m^3, convert to moles/m^3
 	double surfaceTemperature_T0 = GetAverageTemp(); //K
@@ -335,7 +356,6 @@ void SystemBody::SetAtmFromParameters()
 	//P = density*R*T=(n/V)*R*T
 	m_atmosPressure = PA_2_ATMOS * ((surfaceDensity) * GAS_CONSTANT_R * surfaceTemperature_T0); // in atmospheres
 
-	double surfaceGravity_g = CalcSurfaceGravity();
 	const double lapseRate_L = surfaceGravity_g / GetSpecificHeat(GetSuperType()); // deg/m
 
 	if (m_atmosPressure < 0.002)
@@ -344,7 +364,7 @@ void SystemBody::SetAtmFromParameters()
 		//*outPressure = p0*(1-l*h/T0)^(g*M/(R*L);
 		// want height for pressure 0.001 atm:
 		// h = (1 - exp(RL/gM * log(P/p0))) * T0 / l
-		double RLdivgM = (GAS_CONSTANT_R * lapseRate_L) / (surfaceGravity_g * GetMolarMass(GetSuperType()));
+		double RLdivgM = (GAS_CONSTANT_R * lapseRate_L) / (surfaceGravity_g * gasMolarMass);
 		m_atmosRadius = (1.0 - exp(RLdivgM * log(0.001 / m_atmosPressure))) * surfaceTemperature_T0 / lapseRate_L;
 	}
 }
