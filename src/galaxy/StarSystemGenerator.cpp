@@ -1129,6 +1129,9 @@ SystemBody *StarSystemRandomGenerator::MakeBodyInOrbitSlice(Random &rand, StarSy
 
 	mass *= discDensity;
 
+	if (mass == fixed(0, 1))
+		return nullptr;	// We used our best math, but this body just turned out too small, sorry.
+
 	if (mass.v < 0) { // hack around overflow
 		Output("WARNING: planetary mass has overflowed! (child %d of %s)\n", primary->GetNumChildren(), primary->GetName().c_str());
 		mass = fixed(Sint64(0x7fFFffFFffFFffFFull));
