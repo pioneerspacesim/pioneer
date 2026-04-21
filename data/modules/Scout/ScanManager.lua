@@ -669,4 +669,13 @@ Event.Register("onShipTypeChanged", function(ship)
 	end
 end)
 
+---@param ship Ship
+Event.Register("onLeaveSystem", function(ship)
+	local scanMgr = ship:GetComponent("ScanManager")
+
+	if scanMgr and scanMgr:GetActiveScan() then
+		scanMgr:ClearActiveScan()
+	end
+end)
+
 return ScanManager
