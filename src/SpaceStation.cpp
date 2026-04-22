@@ -49,8 +49,6 @@ SpaceStation::SpaceStation(const Json &jsonObj, Space *space) :
 	ModelBody(jsonObj, space),
 	m_type(nullptr)
 {
-	GetModel()->SetLabel(GetLabel());
-
 	try {
 		Json spaceStationObj = jsonObj["space_station"];
 
@@ -93,6 +91,8 @@ SpaceStation::SpaceStation(const Json &jsonObj, Space *space) :
 		m_doorAnimationState = spaceStationObj["door_animation_state"];
 
 		InitStation();
+
+		GetModel()->SetLabel(GetLabel());
 
 		m_navLights->LoadFromJson(spaceStationObj);
 	} catch (Json::type_error &) {
