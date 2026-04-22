@@ -13,6 +13,7 @@ class fixedf {
 public:
 	static const int FRAC = FRAC_BITS;
 	static const Uint64 MASK = (Uint64(1UL) << FRAC_BITS) - 1;
+	static const fixedf PI;
 
 	fixedf() :
 		v(0) {}
@@ -250,5 +251,11 @@ public:
 };
 
 typedef fixedf<32> fixed;
+
+template<>
+constexpr fixed fixed::PI = fixed(13493037705LL);
+
+template<>
+constexpr fixedf<48> fixedf<48>::PI = fixedf<48>(884279719003555LL);
 
 #endif /* _FIXED_H */

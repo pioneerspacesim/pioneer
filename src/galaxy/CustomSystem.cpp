@@ -1125,9 +1125,9 @@ void CustomSystemsDatabase::RunLuaSystemSanityChecks(CustomSystem *csys)
 				star_B->m_inclination = star_A->m_inclination;
 				star_B->m_argOfPeriapsis = star_A->m_argOfPeriapsis;
 
-				star_B->m_orbitalPhaseAtStart = star_A->m_orbitalPhaseAtStart + FIXED_PI;
-				if (star_B->m_orbitalPhaseAtStart > fixed(2, 1) * FIXED_PI)
-					star_B->m_orbitalPhaseAtStart -= fixed(2, 1) * FIXED_PI;
+				star_B->m_orbitalPhaseAtStart = star_A->m_orbitalPhaseAtStart + fixed::PI;
+				if (star_B->m_orbitalPhaseAtStart > fixed(2, 1) * fixed::PI)
+					star_B->m_orbitalPhaseAtStart -= fixed(2, 1) * fixed::PI;
 			}
 		}
 	}
