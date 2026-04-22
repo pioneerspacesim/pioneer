@@ -13,11 +13,6 @@ local colors = ui.theme.colors
 local Character = require 'Character'
 local PlayerState = require 'PlayerState'
 
--- local PiImage = require 'pigui.libs.image'
--- local upIcon = PiImage.New("icons/market/export-major.png")
--- local downIcon = PiImage.New("icons/market/import-major.png")
--- local iconSize = Vector2(0, ui.getLineHeight())
-
 
 local crewlife = require 'modules.CrewContracts.CrewLife'
 
@@ -30,7 +25,7 @@ end
 
 debugView.registerTab("debug-crew", {
 	label = "Crew Debug",
-	icon = icons.taxi,
+    icon = icons.crew,
 	show = function() return Game.system and not Game:InHyperspace() end,
 	draw = function()
 
@@ -108,8 +103,6 @@ debugView.registerTab("debug-crew", {
 					crew.notoriety = ui.sliderInt("Notoriety" .. "##" .. crewid, crew.notoriety, 4, 65)
 					ui.nextColumn()
 
-					-- TODO put somewhere upstream
-					if not crew.civaffinity then crew.civaffinity = 1 end
 					crew.civaffinity = ui.sliderInt("Civ Affinity" .. "##" .. crewid, crew.civaffinity, 1, 3)
 					ui.nextColumn()
 					
@@ -131,14 +124,14 @@ debugView.registerTab("debug-crew", {
 					ui.text("")
 					ui.nextColumn()
 					for i, thought in pairs(crew.memories) do
-						if thought.adjustment < 0 then
-							ui.icon(icons.up, Vector2(ui.getTextLineHeight()), colors.econLoss)
+                        if thought.adjustment < 0 then
+							ui.icon(icons.storm_cloud, Vector2(ui.getTextLineHeight()), colors.compareWorse)
 							ui.sameLine()
-							ui.textColored(colors.econLoss, thought.text)
-						else
-							ui.icon(icons.down, Vector2(ui.getTextLineHeight()), colors.econProfit)
+							ui.textColored(colors.compareWorse, thought.text)
+                        else
+							ui.icon(icons.sun_high, Vector2(ui.getTextLineHeight()), colors.compareBetter)
 							ui.sameLine()
-							ui.textColored(colors.econProfit, thought.text)
+							ui.textColored(colors.compareBetter, thought.text)
 						end
 					end
 

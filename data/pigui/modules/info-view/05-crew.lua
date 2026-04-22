@@ -251,19 +251,19 @@ end
 
 local function drawQualifications(crewMember)
 	ui.withFont(orbiteer.body, function() ui.text(l.QUALIFICATION_SCORES) end)
-	gauge_bar(crewMember.engineering, l.ENGINEERING,  4, 65, ui.theme.icons.personal)
-	gauge_bar(crewMember.piloting, l.PILOTING, 4, 65, ui.theme.icons.personal)
-	gauge_bar(crewMember.navigation, l.NAVIGATION, 4, 65, ui.theme.icons.personal)
-	gauge_bar(crewMember.sensors, l.SENSORS, 4, 65, ui.theme.icons.personal)
+	gauge_bar(crewMember.engineering, l.ENGINEERING,  4, 65, icons.personal)
+	gauge_bar(crewMember.piloting, l.PILOTING, 4, 65, icons.personal)
+	gauge_bar(crewMember.navigation, l.NAVIGATION, 4, 65, icons.personal)
+	gauge_bar(crewMember.sensors, l.SENSORS, 4, 65, icons.personal)
 end
 
 
 local function drawStats(crewMember)
 	ui.withFont(orbiteer.body, function() ui.text(l.STATS) end)
-	gauge_bar(crewMember.luck, l.LUCK, 4, 65, ui.theme.icons.personal)
-	gauge_bar(crewMember.intelligence, l.INTELLIGENCE, 4, 65, ui.theme.icons.personal)
-	gauge_bar(crewMember.charisma, l.CHARISMA, 4, 65, ui.theme.icons.personal)
-	gauge_bar(crewMember.lawfulness, l.LAWFULNESS, 4, 65, ui.theme.icons.personal)
+	gauge_bar(crewMember.luck, l.LUCK, 4, 65, icons.personal)
+	gauge_bar(crewMember.intelligence, l.INTELLIGENCE, 4, 65, icons.personal)
+	gauge_bar(crewMember.charisma, l.CHARISMA, 4, 65, icons.personal)
+	gauge_bar(crewMember.lawfulness, l.LAWFULNESS, 4, 65, icons.personal)
 end
 
 
@@ -271,7 +271,7 @@ local function drawReputation(crewMember)
 	ui.withFont(orbiteer.body, function() ui.text(l.REPUTATION) end)
 
 	if not crewMember.player then
-		gauge_bar(crewMember.notoriety, l.NOTORIETY, 4, 65, ui.theme.icons.personal)
+		gauge_bar(crewMember.notoriety, l.NOTORIETY, 4, 65, icons.personal)
 	end
 
 	textTable.draw({
@@ -284,19 +284,19 @@ end
 
 local function drawHappiness(crewMember)
 	ui.withFont(orbiteer.body, function() ui.text(l.HAPPINESS) end)
-	gauge_bar(crewMember.playerRelationship, l.RELATIONSHIP_WITH_CAPTAIN, 4, 65, ui.theme.icons.personal)
+	gauge_bar(crewMember.playerRelationship, l.RELATIONSHIP_WITH_CAPTAIN, 4, 65, icons.personal)
 
 	ui.withFont(orbiteer.body, function() ui.text(l.MEMORIES) end)
 
 	for i, thought in pairs(crewMember.memories) do
-		if thought.adjustment < 0 then
-			ui.icon(icons.up, Vector2(ui.getTextLineHeight()), colors.econLoss)
+        if thought.adjustment < 0 then
+			ui.icon(icons.storm_cloud, Vector2(ui.getTextLineHeight()), colors.compareWorse)
 			ui.sameLine()
-			ui.textColored(colors.econLoss, thought.text)
-		else
-			ui.icon(icons.down, Vector2(ui.getTextLineHeight()), colors.econProfit)
+			ui.textColored(colors.compareWorse, thought.text)
+        else
+			ui.icon(icons.sun_high, Vector2(ui.getTextLineHeight()), colors.compareBetter)
 			ui.sameLine()
-			ui.textColored(colors.econProfit, thought.text)
+			ui.textColored(colors.compareBetter, thought.text)
 		end
 	end
 end
@@ -362,7 +362,7 @@ end)
 InfoView:registerView({
     id = "crew",
     name = l.CREW_ROSTER,
-    icon = ui.theme.icons.roster,
+    icon = icons.roster,
     showView = true,
 	draw = function()
 		ui.withStyleVars({ItemSpacing = itemSpacing}, function()

@@ -163,8 +163,6 @@ local payWages = function(crewMember)
     else
 		contract.outstanding = contract.outstanding + contract.wage
 		crewlife.applyThought(crewMember, crewlife.thoughts['not_paid'])
-
-		-- TODO: is this still necessary?
 		Character.persistent.player.reputation = Character.persistent.player.reputation - 0.5
     end
 
@@ -307,10 +305,13 @@ local crewAvailable = function ()
 		if not crewMember.player then
 			scheduleContract(crewMember)
 
-			-- for old saves compatibility, add empty crew memory bank if none exists
-			if not crewMember.memories then
-				crewMember.memories = {}
-			end
+			-- for old saves compatibility
+            if not crewMember.memories then
+                crewMember.memories = {}
+            end
+			if not crew.civaffinity then
+                crewMember.civaffinity = 1
+            end
 		end
 	end
 end
@@ -552,7 +553,5 @@ local onGameStart = function ()
 end
 Event.Register("onGameStart", onGameStart)
 
-
--- Serializer:Register('CrewLife',serialize,unserialize)
 
 return crewlife
