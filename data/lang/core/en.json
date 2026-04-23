@@ -601,11 +601,11 @@
   },
   "HYPERSPACE_ARRIVAL_CLOUD": {
     "description": "",
-    "message": "Hyperspace arrival cloud"
+    "message": "Arrival"
   },
   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
     "description": "",
-    "message": "Hyperspace arrival cloud remnant"
+    "message": "Arrival (Remnant)"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
     "description": "Label for hyperspace cloud display modes.",
@@ -629,7 +629,7 @@
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
-    "message": "Hyperspace departure cloud"
+    "message": "Departure"
   },
   "HYPERSPACE_JUMP_ABORT": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
