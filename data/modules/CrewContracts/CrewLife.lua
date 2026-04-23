@@ -309,7 +309,7 @@ local crewAvailable = function ()
             if not crewMember.memories then
                 crewMember.memories = {}
             end
-			if not crew.civaffinity then
+			if not crewMember.civaffinity then
                 crewMember.civaffinity = 1
             end
 		end
