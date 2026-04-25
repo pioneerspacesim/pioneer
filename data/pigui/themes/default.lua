@@ -271,6 +271,7 @@ theme.colors = {
 	gaugeJettison           = styleColors.danger_500,
 
 	gaugeBackground			= styleColors.panel_900:opacity(0.85),
+	gaugeBarBackground		= styleColors.primary_900,
 	gaugePressure			= styleColors.primary_600,
 	gaugeScanner			= styleColors.primary_500,
 	gaugeTemperature		= styleColors.danger_500,

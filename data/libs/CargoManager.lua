@@ -63,7 +63,7 @@ end
 --
 -- Returns the available amount of cargo space currently present on the vessel.
 function CargoManager:GetFreeSpace()
-	return self:GetTotalSpace() - self.usedCargoSpace
+	return self.ship:GetPayloadFree()
 end
 
 -- Method: GetUsedSpace
@@ -99,7 +99,7 @@ function CargoManager:AddCommodity(type, count)
 	-- TODO: use a cargo volume metric with variable mass instead of fixed 1t == 1m^3
 	local required_space = (type.mass or 1) * (count or 1)
 
-	if self:GetFreeSpace() < required_space then
+	if self.ship:GetPayloadFree() < required_space then
 		return false
 	end
 

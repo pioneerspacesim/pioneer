@@ -421,10 +421,15 @@ end
 function EquipSet:CanInstallInSlot(slotHandle, equipment)
 	local equipped = self:GetItemInSlot(slotHandle)
 	local freeVolume = self:GetFreeVolume() + (equipped and equipped.volume or 0)
+	local freeMass = self.ship:GetPayloadFree()
+	local newMass = self:GetEquipPayloadMass(equipment)
+	local oldMass = equipped and self:GetEquipPayloadMass(equipped) or 0.0
+	local massDelta = newMass - oldMass
 
 	return (equipment.slot or false)
 		and EquipSet.CompatibleWithSlot(equipment, slotHandle)
 		and (freeVolume >= equipment.volume)
+		and (freeMass >= massDelta)
 end
 
 -- Method: CanInstallLoose
@@ -435,6 +440,7 @@ end
 function EquipSet:CanInstallLoose(equipment)
 	return not equipment.slot
 		and self:GetFreeVolume() >= equipment.volume
+		and self.ship:GetPayloadFree() >= self:GetEquipPayloadMass(equipment)
 end
 
 -- Method: AddListener
@@ -632,6 +638,19 @@ function EquipSet:_RemoveInternal(equipment)
 	end
 
 	self.ship:UpdateEquipStats()
+end
+
+-- Payload mass for an equipment item.
+-- Hyperdrives are counted at full reservoir equivalent.
+---@param equip EquipType
+---@return number
+function EquipSet:GetEquipPayloadMass(equip)
+	local mass = equip.mass or 0.0
+	-- Hyperdrive instances expose both GetMaxFuel() and storedFuel
+	if equip.GetMaxFuel and equip.storedFuel then
+		mass = mass + (equip:GetMaxFuel() - equip.storedFuel)
+	end
+	return mass
 end
 
 -- Populate the slot cache

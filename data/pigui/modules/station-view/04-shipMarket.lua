@@ -13,6 +13,7 @@ local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
 local EquipSet = require 'EquipSet'
 local HullConfig = require 'HullConfig'
 local PlayerState= require 'PlayerState'
+local Passengers = require 'Passengers'
 
 local ui = require 'pigui'
 
@@ -183,7 +184,7 @@ local function buyShip (mkt, sos)
 	end
 
 	-- Not enough room to put all of the player's current cargo
-	if def.cargo < player.usedCargo then
+	if player:GetPayloadUsed() > def.cargo then
 		mkt.popup.msg = l.TOO_SMALL_TO_TRANSSHIP
 		mkt.popup:open()
 		return
@@ -328,6 +329,10 @@ function FormatAndCompareShips:draw_tonnage_cell(desc, key)
 	self:compare_and_draw_column( desc, self:get_value(key), self.b:get_value(key), Format.MassTonnes )
 end
 
+function FormatAndCompareShips:draw_volume_cell(desc, key)
+	self:compare_and_draw_column( desc, self:get_value(key), self.b:get_value(key), ui.Format.Volume )
+end
+
 function FormatAndCompareShips:draw_accel_cell(desc, thrustKey, massKey )
 	local accelA = self.def.linearThrust[thrustKey] / (9.8106*1000*(self:get_value(massKey)))
 	local accelB = self.b.def.linearThrust[thrustKey] / (9.8106*1000*(self.b:get_value(massKey)))
@@ -375,6 +380,12 @@ function FormatAndCompareShips:draw_equip_slot_cell(desc, key)
 	self:compare_and_draw_column( desc, getNumSlotsCompatibleWithType(self.def, key), getNumSlotsCompatibleWithType(self.b.def, key) )
 end
 
+function FormatAndCompareShips:draw_berths_slot_cell(desc)
+	local a_hull = HullConfig.GetHullConfig(self.def.id)
+	local b_hull = (self.b and self.b.def) and HullConfig.GetHullConfig(self.b.def.id) or nil
+	self:compare_and_draw_column( desc, Passengers.GetMaxPassengersForHull(a_hull), Passengers.GetMaxPassengersForHull(b_hull) )
+end
+
 function FormatAndCompareShips:draw_yes_no_equip_slot_cell(desc, key)
 
 	local function fmt( v ) return v==1 and l.YES or l.NO end
@@ -418,9 +429,9 @@ end
 function FormatAndCompareShips:Constructor(def, b)
 	self.column = 0
 	self.emptyMass = def.hullMass + def.fuelTankMass
-	self.fullMass = def.hullMass + def.equipCapacity + def.fuelTankMass
-	self.massAtCapacity = def.hullMass + def.equipCapacity
-	self.cargoCapacity = def.cargo
+	self.fullMass = def.hullMass + def.fuelTankMass + def.cargo
+	self.massAtCapacity = def.hullMass + def.cargo
+	self.maxPayload = def.cargo
 	self.def = def
 	self.b = b
 end
@@ -479,15 +490,15 @@ local tradeMenu = function()
 						if not shipFormatAndCompare:beginTable() then return end
 
 						shipFormatAndCompare:draw_hyperdrive_cell( l.HYPERDRIVE_FITTED )
-						shipFormatAndCompare:draw_tonnage_cell( l.CARGO_SPACE, "cargoCapacity" )
-						shipFormatAndCompare:draw_accel_cell( l.FORWARD_ACCEL_FULL, "FORWARD", "fullMass" )
-						shipFormatAndCompare:draw_tonnage_cell( l.WEIGHT_FULLY_LOADED, "fullMass" )
-						shipFormatAndCompare:draw_accel_cell( l.FORWARD_ACCEL_EMPTY, "FORWARD", "emptyMass" )
 						shipFormatAndCompare:draw_tonnage_cell( l.WEIGHT_EMPTY, "hullMass" )
-						shipFormatAndCompare:draw_accel_cell( l.REVERSE_ACCEL_EMPTY, "REVERSE", "emptyMass" )
-						shipFormatAndCompare:draw_tonnage_cell( l.EQUIPMENT_CAPACITY, "equipCapacity" )
-						shipFormatAndCompare:draw_accel_cell( l.REVERSE_ACCEL_FULL, "REVERSE", "fullMass" )
+						shipFormatAndCompare:draw_accel_cell( l.FORWARD_ACCEL_FULL, "FORWARD", "fullMass" )
 						shipFormatAndCompare:draw_tonnage_cell( l.FUEL_WEIGHT, "fuelTankMass" )
+						shipFormatAndCompare:draw_accel_cell( l.FORWARD_ACCEL_EMPTY, "FORWARD", "emptyMass" )
+						shipFormatAndCompare:draw_tonnage_cell( l.PAYLOAD_WEIGHT, "maxPayload" )
+						shipFormatAndCompare:draw_accel_cell( l.REVERSE_ACCEL_EMPTY, "REVERSE", "emptyMass" )
+						shipFormatAndCompare:draw_tonnage_cell( l.WEIGHT_FULLY_LOADED, "fullMass" )
+						shipFormatAndCompare:draw_accel_cell( l.REVERSE_ACCEL_FULL, "REVERSE", "fullMass" )
+						shipFormatAndCompare:draw_volume_cell( l.EQUIPMENT_CAPACITY, "equipCapacity" )
 						shipFormatAndCompare:draw_deltav_cell( l.DELTA_V_EMPTY, "emptyMass", "hullMass")
 						shipFormatAndCompare:draw_unformated_cell( l.MINIMUM_CREW, "minCrew" )
 						shipFormatAndCompare:draw_deltav_cell( l.DELTA_V_FULL, "fullMass", "massAtCapacity")
@@ -497,7 +508,7 @@ local tradeMenu = function()
 						shipFormatAndCompare:draw_yes_no_equip_slot_cell( l.ATMOSPHERIC_SHIELDING, "hull.atmo_shield" )
 						shipFormatAndCompare:draw_atmos_pressure_limit_cell( l.ATMO_PRESS_LIMIT )
 						shipFormatAndCompare:draw_equip_slot_cell( l.SCOOP_MOUNTS, "scoop" )
-						shipFormatAndCompare:draw_equip_slot_cell( l.PASSENGER_CABIN_CAPACITY, "cabin" )
+						shipFormatAndCompare:draw_berths_slot_cell( l.PASSENGER_CABIN_CAPACITY )
 
 						ui.endTable()
 
@@ -527,7 +538,7 @@ shipMarket = Table.New("shipMarketWidget", false, {
 			ui.nextColumn()
 			ui.text(l.PRICE)
 			ui.nextColumn()
-			ui.text(l.CAPACITY)
+			ui.text(l.PAYLOAD)
 			ui.nextColumn()
 		end)
 	end,
@@ -556,7 +567,7 @@ shipMarket = Table.New("shipMarketWidget", false, {
 			ui.text(Format.Money(advertDataCache[item].price, false))
 			ui.nextColumn()
 			ui.dummy(widgetSizes.rowVerticalSpacing)
-			ui.text(item.def.equipCapacity.." t")
+			ui.text(item.def.cargo.." t")
 			ui.nextColumn()
 		end)
 	end,

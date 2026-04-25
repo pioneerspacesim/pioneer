@@ -29,10 +29,15 @@ function EquipType:GetDetailedStats()
 	local equipHealth = 1
 	local powerDraw = 0
 
+	-- If this is a hyperdrive the mass should not include the fuel tank, because fuel reservoir
+	-- size is listed separately later, but the mass property includes stored fuel already, so
+	-- we have to subtract it out before displaying the mass
+	local bare_mass = self.mass - (self.storedFuel or 0)
+
 	local stats = {
 		{ le.EQUIPMENT_INTEGRITY, icons.repairs, equipHealth, format_integrity },
 		{ le.STAT_VOLUME, icons.square, self.volume, ui.Format.Volume, true },
-		{ le.STAT_WEIGHT, icons.hull, self.mass, format_mass, true },
+		{ le.STAT_WEIGHT, icons.hull, bare_mass, format_mass, true },
 		{ le.STAT_POWER_DRAW, icons.ecm, powerDraw, format_power, true }
 	}
 

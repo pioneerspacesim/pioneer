@@ -467,7 +467,7 @@ Equipment.Register("misc.cabin_s1", CabinType.New {
 	l10n_key="UNOCCUPIED_CABIN",
 	price=1350, purchasable=true, tech_level=1,
 	slot = { type="cabin.passenger.basic", size=1 },
-	mass=1, volume=0, capabilities={ cabin=1 },
+	mass=4, volume=0, capabilities={ cabin=1 },
 	icon_name="equip_cabin_empty"
 })
 
@@ -475,7 +475,7 @@ Equipment.Register("misc.cabin_s2", CabinType.New {
 	l10n_key="UNOCCUPIED_CABIN",
 	price=3550, purchasable=true, tech_level=1,
 	slot = { type="cabin.passenger.basic", size=2 },
-	mass=4, volume=0, capabilities={ cabin=3 },
+	mass=11, volume=0, capabilities={ cabin=3 },
 	icon_name="equip_cabin_empty"
 })
 
@@ -483,7 +483,7 @@ Equipment.Register("misc.cabin_s3", CabinType.New {
 	l10n_key="UNOCCUPIED_CABIN",
 	price=6550, purchasable=true, tech_level=1,
 	slot = { type="cabin.passenger.basic", size=3 },
-	mass=8, volume=0, capabilities={ cabin=8 },
+	mass=24, volume=0, capabilities={ cabin=8 },
 	icon_name="equip_cabin_empty"
 })
 
@@ -491,15 +491,7 @@ Equipment.Register("misc.cabin_s4", CabinType.New {
 	l10n_key="UNOCCUPIED_CABIN",
 	price=13550, purchasable=true, tech_level=1,
 	slot = { type="cabin.passenger.basic", size=4 },
-	mass=16, volume=0, capabilities={ cabin=22 },
-	icon_name="equip_cabin_empty"
-})
-
-Equipment.Register("misc.cabin_s5", CabinType.New {
-	l10n_key="UNOCCUPIED_CABIN",
-	price=35150, purchasable=true, tech_level=1,
-	slot = { type="cabin.passenger.basic", size=5 },
-	mass=36, volume=0, capabilities={ cabin=60 },
+	mass=56, volume=0, capabilities={ cabin=22 },
 	icon_name="equip_cabin_empty"
 })
 

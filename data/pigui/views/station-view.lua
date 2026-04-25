@@ -47,37 +47,56 @@ if not stationView then
 					local legalText = l.LEGAL_STATUS .. ': ' .. l[PlayerState.GetLegalStatus()]
 					local moneySize = ui.calcTextSize(moneyText) + self.style.inventoryPadding + self.style.itemSpacing
 					local legalSize = ui.calcTextSize(legalText) + self.style.inventoryPadding + self.style.itemSpacing
-					local gaugeSize = (ui.getContentRegion().x - moneySize.x - legalSize.x) / 2
-					ui.columns(4, 'shipInventory', false)
+					local gaugeSize = (ui.getContentRegion().x - moneySize.x - legalSize.x) / 4
+					ui.columns(5, 'shipInventory', false)
 					ui.setColumnWidth(0, moneySize.x)
-					ui.setColumnWidth(1, gaugeSize)
-					ui.setColumnWidth(2, gaugeSize)
-					ui.setColumnWidth(3, legalSize.x)
+					ui.setColumnWidth(1, gaugeSize * 1.5)
+					ui.setColumnWidth(2, gaugeSize * 1.5)
+					ui.setColumnWidth(3, gaugeSize * 1.0)
+					ui.setColumnWidth(4, legalSize.x)
 					ui.text(moneyText)
+
 					ui.nextColumn()
-					ui.text(l.CAPACITY .. ': ')
+					ui.text('    ' .. l.PAYLOAD .. ': ')
 					ui.sameLine()
-					local gaugePos = ui.getWindowPos() + ui.getCursorPos() + Vector2(0, ui.getTextLineHeight() / 2)
+					local gaugePos = ui.getWindowPos() + ui.getCursorPos() + Vector2(0, ui.getTextLineHeight() / 2.2)
+					local gaugeWidth = ui.getContentRegion().x - self.style.inventoryPadding.x - self.style.itemSpacing.x
+
+					local fmt = "{} {} / {} {}" % {
+						ui.Format.Mass(player:GetPayloadUsed() * 1000, 1), l.USED,
+						ui.Format.Mass(player:GetPayloadFree() * 1000, 1), l.FREE
+					}
+					ui.gauge(gaugePos, player:GetPayloadUsed(), '', fmt, 0, player:GetPayloadMax(), nil, false, colors.gaugeEquipmentMarket, '', gaugeWidth, ui.getTextLineHeight())
+
+					ui.nextColumn()
+					ui.text('   ' .. l.EQUIPMENT .. ': ')
+					ui.sameLine()
+					local gaugePos = ui.getWindowPos() + ui.getCursorPos() + Vector2(0, ui.getTextLineHeight() / 2.2)
 					local gaugeWidth = ui.getContentRegion().x - self.style.inventoryPadding.x - self.style.itemSpacing.x
 
 					local fmt = "{} {} / {} {}" % {
 						ui.Format.Volume(player.equipVolume), l.USED,
 						ui.Format.Volume(player.totalVolume - player.equipVolume), l.FREE
 					}
-					ui.gauge(gaugePos, player.equipVolume, '', fmt, 0, player.totalVolume, icons.market, colors.gaugeEquipmentMarket, '', gaugeWidth, ui.getTextLineHeight())
-					ui.nextColumn()
-					ui.text(l.CABINS .. ': ')
-					ui.sameLine()
+					ui.gauge(gaugePos, player.equipVolume, '', fmt, 0, player.totalVolume, nil, false, colors.gaugeEquipmentMarket, '', gaugeWidth, ui.getTextLineHeight())
 
+					ui.nextColumn()
+					ui.text('   ' .. l.CABINS .. ': ')
+					ui.sameLine()
 					local berths_free = Passengers.CountFreeBerths(player)
 					local berths_used = Passengers.CountOccupiedBerths(player)
 					local berths_total = berths_used + berths_free
 
-					gaugePos = ui.getWindowPos() + ui.getCursorPos() + Vector2(0, ui.getTextLineHeight() / 2)
-					gaugeWidth = ui.getContentRegion().x - self.style.inventoryPadding.x - self.style.itemSpacing.x
-					ui.gauge(gaugePos, berths_used, '', string.format('%%i %s / %i %s', l.USED, berths_free, l.FREE), 0, berths_total, icons.personal, colors.gaugeEquipmentMarket, '', gaugeWidth, ui.getTextLineHeight())
+					if berths_total == 0 then
+						ui.text(l.NONE)
+					else
+						gaugePos = ui.getWindowPos() + ui.getCursorPos() + Vector2(0, ui.getTextLineHeight() / 2.2)
+						gaugeWidth = ui.getContentRegion().x - self.style.inventoryPadding.x - self.style.itemSpacing.x
+						ui.gauge(gaugePos, berths_used, '', string.format('%%i %s / %i %s', l.USED, berths_free, l.FREE), 0, berths_total, nil, false, colors.gaugeEquipmentMarket, '', gaugeWidth, ui.getTextLineHeight())
+					end
+
 					ui.nextColumn()
-					ui.text(legalText)
+					ui.text('   ' .. legalText)
 					ui.columns(1, '', false)
 				end)
 			end)
