@@ -496,13 +496,15 @@ local placeAdvert = function (station, ad)
 				isEnabled   = isEnabled
 			})
 		else
-			local p = station.path:GetSystemBody().parent.path
+			local body = station.path and station.path:GetSystemBody()
+			local parent = body and body.parent
+			local p = parent and parent.path
 			ref = station:AddAdvert({
 				title       = l["ADTITLE_" .. ad.id],
 				description = ad.desc,
 				icon        = ad.id == "RESCUE" and "searchrescue" or "haul",
 				due         = ad.due,
-				dist        = p.path == ad.planet and p:GetPhysicalRadius() * 3 or nil,
+				dist        = (p and p.path == ad.planet) and parent:GetPhysicalRadius() * 3 or nil,
 				reward      = ad.reward,
 				location    = ad.location,
 				onChat      = onChat,
