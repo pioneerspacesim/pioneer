@@ -15,7 +15,7 @@
 	"volume": 576,
 	"atmospheric_pressure_limit": 3.2,
 	"capacity": 59,
-	"cargo": 24,
+	"cargo": 36,
 
 	"equipment_slots": {
 		"weapon_s2_1": {

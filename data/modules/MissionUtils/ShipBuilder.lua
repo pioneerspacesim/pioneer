@@ -139,6 +139,7 @@ ShipPlan.config = nil
 ShipPlan.shipId = ""
 ShipPlan.label = ""
 ShipPlan.freeVolume = 0
+ShipPlan.freeMass = 0
 ShipPlan.equipMass = 0
 ShipPlan.threat = 0
 ShipPlan.freeThreat = 0
@@ -166,6 +167,7 @@ function ShipPlan:SetConfig(shipConfig)
 	self.config = shipConfig
 	self.shipId = shipConfig.id
 	self.freeVolume = shipConfig.equipCapacity
+	self.freeMass = shipConfig.maxPayload
 
 	for _, slot in pairs(shipConfig.slots) do
 		table.insert(self.slots, slot)
@@ -182,6 +184,12 @@ function ShipPlan:AddSlots(baseId, slots)
 	end
 
 	self:SortSlots()
+end
+
+-- Can we fit this piece of equipment into the free volume and mass of the ship?
+function ShipPlan:CanFitEquip(equip)
+	return self.freeVolume >= (equip.volume or 0)
+		and self.freeMass >= (equip.mass or 0)
 end
 
 -- Add the given equipment object to the plan, making an instance as needed
@@ -201,6 +209,7 @@ function ShipPlan:AddEquipToPlan(equip, slot, threat)
 	end
 
 	self.freeVolume = self.freeVolume - equip.volume
+	self.freeMass = self.freeMass - equip.mass
 	self.equipMass = self.equipMass + equip.mass
 	self.threat = self.threat + (threat or 0)
 	self.freeThreat = self.freeThreat - (threat or 0)
@@ -365,8 +374,8 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, rule, rand, hullThreat)
 					rule.apply(inst)
 				end
 
-				if shipPlan.freeVolume >= inst.volume then
-					shipPlan:AddEquipToPlan(equip, slot, threat)
+				if shipPlan:CanFitEquip(inst) then
+					shipPlan:AddEquipToPlan(inst, slot, threat)
 				end
 
 				numInstalled = numInstalled + 1
@@ -447,7 +456,7 @@ function ShipBuilder.ApplyEquipmentRule(shipPlan, rule, rand, hullThreat)
 				rule.apply(inst)
 			end
 
-			return shipPlan.freeVolume >= inst.volume and inst or nil
+			return shipPlan:CanFitEquip(inst) and inst or nil
 		end)
 
 		-- print("Slot " .. slot.id .. " - compatible: " .. #compatible)
@@ -672,7 +681,7 @@ function ShipBuilder.MakePlan(template, shipConfig, threat)
 
 				local equipThreat = ShipBuilder.ComputeEquipThreatFactor(inst, hullThreat)
 
-				if shipPlan.freeVolume >= inst.volume and shipPlan.freeThreat >= equipThreat then
+				if shipPlan:CanFitEquip(inst) and shipPlan.freeThreat >= equipThreat then
 					shipPlan:AddEquipToPlan(inst)
 				end
 			end

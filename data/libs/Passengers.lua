@@ -162,25 +162,33 @@ end
 ---@return integer
 function Passengers.GetMaxPassengersForHull(hull, maxMass)
 	local numPassengers = 0
-	local availMass = maxMass or math.huge
+	local availMass = maxMass or hull.maxPayload or math.huge
 
 	---@type Equipment.CabinType
 	local cabins = utils.to_array(Equipment.new, function(equip)
 		return equip:IsA('Equipment.CabinType')
 	end)
 
+	-- Get a list of the cabin slots available to this hull type
+	local cabinSlots = utils.to_array(hull.slots, function(slot)
+		return EquipSet.SlotTypeMatches(slot.type, "cabin") and slot or nil
+	end)
+
+	-- Sort the cabin slots in order of largest size to smallest
+	table.sort(cabinSlots, function(a, b)
+		return (a.size or 0) > (b.size or 0)
+	end)
+
 	-- Compute the theoretical maximum number of passengers
-	for _, slot in pairs(hull.slots) do
-		if EquipSet.SlotTypeMatches(slot.type, "cabin") then
-			local cabin, passengers = utils.best_score(cabins, function(_, equip)
-				return EquipSet.CompatibleWithSlot(equip, slot)
-					and (availMass - equip.mass > 0)
-					and equip.capabilities.cabin or nil
-			end)
-			if cabin then
-				numPassengers = numPassengers + passengers
-				availMass = availMass - cabin.mass
-			end
+	for _, slot in ipairs(cabinSlots) do
+		local cabin, passengers = utils.best_score(cabins, function(_, equip)
+			return EquipSet.CompatibleWithSlot(equip, slot)
+				and (availMass - equip.mass >= 0)
+				and equip.capabilities.cabin or nil
+		end)
+		if cabin then
+			numPassengers = numPassengers + passengers
+			availMass = availMass - cabin.mass
 		end
 	end
 

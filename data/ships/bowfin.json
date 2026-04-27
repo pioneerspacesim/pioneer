@@ -15,7 +15,7 @@
 	"volume": 135,
 	"atmospheric_pressure_limit": 6.5,
 	"capacity": 15,
-	"cargo": 4,
+	"cargo": 10,
 
 	"equipment_slots": {
 		"missile_bay_1": {

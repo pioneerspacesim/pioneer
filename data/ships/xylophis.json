@@ -15,7 +15,7 @@
 	"volume": 48,
 	"atmospheric_pressure_limit": 3,
 	"capacity": 5.5,
-	"cargo": 8,
+	"cargo": 7,
 
 	"equipment_slots": {
 		"utility_s1": {
