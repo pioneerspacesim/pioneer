@@ -929,10 +929,12 @@ void Game::EmitPauseState(bool paused)
 		// Notify UI that time is paused.
 		LuaEvent::Queue("onGamePaused");
 		LuaEvent::Queue(PiGui::GetEventQueue(), "onGamePaused");
+		Sound::Pause(1);
 	} else {
 		// Notify the UI that time is running again.
 		LuaEvent::Queue("onGameResumed");
 		LuaEvent::Queue(PiGui::GetEventQueue(), "onGameResumed");
+		Sound::Pause(0);
 	}
 	LuaEvent::Emit();
 }

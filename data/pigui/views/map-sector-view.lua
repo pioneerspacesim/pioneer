@@ -830,12 +830,29 @@ local function drawEdgeButtons()
 
 end
 
+local function hasActiveExclusiveLeftModule()
+	for _, module in ipairs(leftSidebar.modules) do
+		if module.exclusive and module.active and not module.closing then
+			return true
+		end
+	end
+	return false
+end
+
 ui.registerModule("game", { id = 'map-sector-view', draw = function()
 	player = Game.player
 	if Game.CurrentView() == "SectorView" then
 
 		if shouldRefresh then
 			shouldRefresh = false
+
+			-- Always show system info when entering SectorView, if we can. This helps the player find the hyperspace routing.
+			if not hasActiveExclusiveLeftModule() then
+				infoView.active = true
+				infoView.closing = false
+				infoView.alpha = nil
+			end
+
 			leftSidebar:Refresh()
 			rightSidebar:Refresh()
 			hyperJumpPlanner.updateRouteList()
