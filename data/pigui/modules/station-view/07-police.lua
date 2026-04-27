@@ -232,6 +232,13 @@ local policeTabs = {
 }
 
 local function drawPolice()
+	if Game.system.lawlessness >= 1 then
+		ui.withFont(pionillium.heading, function ()
+				ui.text(l.OUT_OF_SERVICE)
+			end)
+		return
+	end
+
 	local intro_txt = string.interp(l.THIS_IS_FACTION_POLICE,
 		{ faction_police = Game.system.faction.policeName, faction = Game.system.faction.name})
 

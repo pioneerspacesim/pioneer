@@ -20,7 +20,7 @@ local advice_probability = .2
 -- There are three different versions of flavours "Rumours",
 -- "Traveller's tale", and "Traveller's advice", which have fake /
 -- arbitrary indices, for inflated feeling of rich universe and lore.
-local rumours_num = 1
+local rumours_num = 2
 local travellers_tale_num = 1
 local travellers_advice_indices = {481, -- tame black market
 								   16,  -- road faster taken
@@ -36,6 +36,7 @@ local travellers_advice_indices = {481, -- tame black market
 								   203, -- the billie bounce
 								   194, -- running on fumes
 								   49,	-- a clear way out
+								   420,  -- pirate system hint
 }
 
 -- Hold all different types of advice/rumours available:
