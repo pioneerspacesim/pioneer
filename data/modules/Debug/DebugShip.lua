@@ -331,7 +331,7 @@ function DebugShipTool:drawShipDefInfo(shipDef)
 		drawKeyValue("Max. Crew", shipDef.maxCrew)
 
 		drawKeyValue("Angular Thrust", shipDef.angularThrust)
-		drawKeyValue("Foward Thrust", shipDef.linearThrust.FORWARD)
+		drawKeyValue("Forward Thrust", shipDef.linearThrust.FORWARD)
 		drawKeyValue("Reverse Thrust", shipDef.linearThrust.REVERSE)
 		drawKeyValue("Up Thrust", shipDef.linearThrust.UP)
 		drawKeyValue("Down Thrust", shipDef.linearThrust.DOWN)
