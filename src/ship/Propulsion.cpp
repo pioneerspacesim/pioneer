@@ -334,15 +334,35 @@ bool Propulsion::AIChangeVelBy(const vector3d &diffvel, const vector3d &powerLim
 	vector3d extf = m_dBody->GetExternalForce() * (Pi::game->GetTimeStep() / m_dBody->GetMass());
 	vector3d diffvel2 = diffvel - extf * m_dBody->GetOrient();
 
-	vector3d maxThrust = GetThrust(diffvel2);
-	vector3d maxFrameAccel = maxThrust * (Pi::game->GetTimeStep() / m_dBody->GetMass());
-	vector3d thrust(
-		Clamp(diffvel2.x / maxFrameAccel.x, -powerLimit.x, powerLimit.x),
-		Clamp(diffvel2.y / maxFrameAccel.y, -powerLimit.y, powerLimit.y),
-		Clamp(diffvel2.z / maxFrameAccel.z, -powerLimit.z, powerLimit.z));
-	SetLinThrusterState(thrust); // use clamping
-	if (thrust.x * thrust.x > 1.0 || thrust.y * thrust.y > 1.0 || thrust.z * thrust.z > 1.0) return false;
-	return true;
+	double diffSpeedSqr = diffvel2.LengthSqr();
+	if (diffSpeedSqr == 0.0) {
+		SetLinThrusterState({ 0.0, 0.0, 0.0 });
+		return true;
+	}
+
+	vector3d thrustDir = diffvel2 / sqrt(diffSpeedSqr);
+	vector3d allThrust = GetThrust(diffvel2);
+	vector3d ltdThrust{ allThrust.x * powerLimit.x, allThrust.y * powerLimit.y, allThrust.z * powerLimit.z };
+
+	assert(ltdThrust.x != 0.0 && ltdThrust.y != 0.0 && ltdThrust.z != 0.0);
+
+	vector3d invScales{ thrustDir.x / ltdThrust.x, thrustDir.y / ltdThrust.y, thrustDir.z / ltdThrust.z };
+	double invScale = std::max(abs(invScales.x), std::max(abs(invScales.y), abs(invScales.z)));
+
+	// maximum thrust levels for acceleration in exactly the right direction
+	vector3d maxDirLevels = invScales / invScale;
+
+	vector3d maxDirThrust{ maxDirLevels.x * ltdThrust.x, maxDirLevels.y * ltdThrust.y, maxDirLevels.z * ltdThrust.z };
+	double maxDirFrameAccelSqr = (maxDirThrust * (Pi::game->GetTimeStep() / m_dBody->GetMass())).LengthSqr();
+
+	if (diffSpeedSqr >= maxDirFrameAccelSqr) {
+		SetLinThrusterState(maxDirLevels);
+		return false;
+	} else {
+		double amount = sqrt(diffSpeedSqr / maxDirFrameAccelSqr);
+		SetLinThrusterState(maxDirLevels * amount);
+		return true;
+	}
 }
 
 // Change object-space velocity in direction of param
