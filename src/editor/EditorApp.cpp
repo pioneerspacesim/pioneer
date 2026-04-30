@@ -162,7 +162,7 @@ void EditorApp::OnStartup()
 	if (!m_headless) {
 		Graphics::RendererOGL::RegisterRenderer();
 
-		m_renderer = StartupRenderer(m_editorCfg.get(), false, true);
+		m_renderer = StartupRenderer(m_editorCfg.get(), Graphics::RendererType::RENDERER_OPENGL_3x, false, true);
 		StartupInput(m_editorCfg.get());
 
 		StartupPiGui();
