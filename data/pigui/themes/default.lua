@@ -713,6 +713,8 @@ theme.icons = {
 
 	chevron_up = 38,
 	chevron_down = 40,
+	chevron_left = 23,
+	chevron_right = 39,	
 
 	-- BBS Replacement icons
 	mission_generic = 51,

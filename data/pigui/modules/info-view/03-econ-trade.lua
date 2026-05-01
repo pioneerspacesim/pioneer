@@ -226,7 +226,7 @@ local function fuelTransferButton(drive, amt)
 	end
 
 	local color = driveEnabled and ui.theme.buttonColors.disabled or ui.theme.buttonColors.default
-	local icon = amt < 0 and icons.chevron_down or icons.chevron_up
+	local icon = amt < 0 and icons.chevron_up or icons.chevron_down
 	local tooltip = amt < 0 and l.PUMP_DOWN_FROM_HYPERDRIVE_TOOLTIP or l.PUMP_DOWN_TO_HYPERDRIVE_TOOLTIP
 
 	if ui.button(ui.get_icon_glyph(icon) .. tostring(math.abs(amt)), Vector2(100, 0), color, string.format(tooltip, math.abs(amt))) then
@@ -285,7 +285,7 @@ local function drawPumpDialog()
 	ui.sameLine(width)
 	local options = {1, 10, 100}
 	for _, k in ipairs(options) do
-		if ui.button(tostring(k)  .. "##fuel", Vector2(100, 0), nil, string.format(l.PUMP_DOWN_FROM_CARGO_TOOLTIP, k)) then
+		if ui.button(ui.get_icon_glyph(icons.chevron_left) .. tostring(k)  .. "##fuel", Vector2(100, 0), nil, string.format(l.PUMP_DOWN_FROM_CARGO_TOOLTIP, k)) then
 			-- Refuel k tonnes from cargo hold
 			Game.player:Refuel(Commodities.hydrogen, k)
 		end
@@ -300,7 +300,7 @@ local function drawPumpDialog()
 	ui.sameLine(width)
 	for _, v in ipairs(options) do
 		local fuel = -1*v
-		if ui.button(fuel .. "##pump", Vector2(100, 0), nil, string.format(l.PUMP_DOWN_TO_CARGO_TOOLTIP, v)) then
+		if ui.button(ui.get_icon_glyph(icons.chevron_right) .. fuel .. "##pump", Vector2(100, 0), nil, string.format(l.PUMP_DOWN_TO_CARGO_TOOLTIP, v)) then
 			pumpDown(fuel)
 		end
 		ui.sameLine()
@@ -323,8 +323,8 @@ local function drawEconTrade()
 	if drive then
 		ui.withFont(orbiteer.heading, function() ui.text(l.HYPERDRIVE) end)
 
-		gauge_hyperdrive(drive)
 		drawFuelTransfer(drive)
+		gauge_hyperdrive(drive)
 	end
 
 	ui.newLine()
