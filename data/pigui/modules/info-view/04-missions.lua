@@ -21,6 +21,8 @@ local detailsSpacing = ui.rescaleUI(Vector2(6, 10), Vector2(1600, 900))
 local framePadding = ui.rescaleUI(Vector2(8, 4), Vector2(1600, 900))
 local face = nil
 
+local activeMission = nil
+
 local function setLocationAsTarget(location)
 	if location:isa("Body") and location:IsDynamic() then
 		Game.player:SetNavTarget(location)
@@ -37,7 +39,16 @@ local function setLocationAsTarget(location)
 	end
 end
 
-local activeMission = nil
+local function shouldShowCustomAction(action)
+	if action.enabled == nil then
+		return true
+	end
+	if type(action.enabled) == "function" then
+		return action.enabled()
+	end
+	return action.enabled
+end
+
 local function drawMissionDescription(missionDesc)
 	local contentRegion = ui.getContentRegion()
 	local leftColWidth = contentRegion.x / 1.618 - columnPadding.x / 2
@@ -72,6 +83,26 @@ local function drawMissionDescription(missionDesc)
 		if missionDesc.returnLocation then
 			ui.sameLine()
 			if ui.button(l.SET_RETURN_ROUTE, Vector2(0, 0)) then setLocationAsTarget(missionDesc.returnLocation) end
+		end
+
+		-- Optional per-mission buttons
+		if missionDesc.customActions then
+			for i, action in ipairs(missionDesc.customActions) do
+				ui.sameLine()
+				local show = shouldShowCustomAction(action)
+				if ui.button(action.label, Vector2(0, 0), not show and ui.theme.buttonColors.disabled) then
+					if show and type(action.onClick) == "function" then
+						local needRefresh = action.onClick()
+						local mission = activeMission._mission
+						if needRefresh and mission then
+							local makeForm = mission:GetClick()
+							activeMission = makeForm(mission)
+							activeMission._mission = mission
+							rowCache = nil
+						end
+					end
+				end
+			end
 		end
 	end)
 
@@ -139,6 +170,7 @@ local function makeMissionRows()
 				ui.sameLine(ui.getColumnWidth() - (framePadding.x * 2) - ui.calcTextSize(l.MORE_INFO).x)
 				if ui.button(l.MORE_INFO.."##"..tostring(mission), Vector2(0, 0)) then
 					activeMission = makeForm(mission)
+					activeMission._mission = mission
 				end
 			end
 		end
