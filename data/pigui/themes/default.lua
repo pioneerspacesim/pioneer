@@ -698,8 +698,11 @@ theme.icons = {
 	map_selectsystem = 324,
 	gavel = 325,
 	gavel_horizontal = 326, -- unused
-	towel = 327,
-	-- 328 - 335 : empty
+    towel = 327,
+    storm_cloud = 328,
+    sun_high = 329,
+	crew = 330,
+	-- 331 - 335 : empty
 
 	shipmarket_compare_better = 38,
 	shipmarket_compare_worse = 40,

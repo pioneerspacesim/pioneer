@@ -8,6 +8,10 @@ local ShipDef	= require 'ShipDef'
 local InfoView	= require 'pigui.views.info-view'
 local PiGuiFace = require 'pigui.libs.face'
 local Commodities = require 'Commodities'
+
+local StationView = require 'pigui.views.station-view'
+local Vector2 = _G.Vector2
+
 local PlayerState = require 'PlayerState'
 
 local ui = require 'pigui'
@@ -18,8 +22,12 @@ local lcrew = Lang.GetResource("module-crewcontracts")
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local colors = ui.theme.colors
+local icons = ui.theme.icons
+
 
 local itemSpacing = ui.rescaleUI(Vector2(6, 12), Vector2(1600, 900))
+
+local crewFace = nil
 
 -- Anti-abuse feature - this locks out the piloting commands based on a timer.
 -- It knows when the crew were last checked for a piloting skill, and prevents
@@ -200,7 +208,7 @@ local function makeCrewList()
 
 	table.insert(t, {
 		false,
-		{ l.TOTAL,						color = colors.alertYellow },
+		{ l.TOTAL,			color = colors.alertYellow },
 		{ ui.Format.Money(wageTotal),	color = colors.econProfit },
 		{ ui.Format.Money(owedTotal),	color = colors.econLoss },
 		false,
@@ -223,54 +231,126 @@ local function drawCrewList(crewList)
 	ui.text(lastTaskResult)
 end
 
-local crewFace = nil
-local function drawCrewInfo(crew)
-	if not crewFace or crewFace.character ~= crew then
-		crewFace = PiGuiFace.New(crew)
+
+-- wrapper around gaugees, for consistent size, and vertical spacing
+-- (taken from 03-econ-trade.lua)
+local function gauge_bar(x, text, min, max, icon)
+	local height = ui.getTextLineHeightWithSpacing()
+	local cursorPos = ui.getCursorScreenPos()
+	local fudge_factor = 1.0
+	local gaugeWidth = ui.getContentRegion().x * fudge_factor
+	local gaugePos = Vector2(cursorPos.x, cursorPos.y + height * 0.5)
+
+	ui.gauge(gaugePos, x, '', text, min, max, icon,
+		colors.gaugeEquipmentMarket, '', gaugeWidth, height)
+
+	-- ui.addRect(cursorPos, cursorPos + Vector2(gaugeWidth, height), colors.gaugeCargo, 0, 0, 1)
+	ui.dummy(Vector2(gaugeWidth, height))
+end
+
+
+local function drawQualifications(crewMember)
+	ui.withFont(orbiteer.body, function() ui.text(l.QUALIFICATION_SCORES) end)
+	gauge_bar(crewMember.engineering, l.ENGINEERING,  4, 65, icons.personal)
+	gauge_bar(crewMember.piloting, l.PILOTING, 4, 65, icons.personal)
+	gauge_bar(crewMember.navigation, l.NAVIGATION, 4, 65, icons.personal)
+	gauge_bar(crewMember.sensors, l.SENSORS, 4, 65, icons.personal)
+end
+
+
+local function drawStats(crewMember)
+	ui.withFont(orbiteer.body, function() ui.text(l.STATS) end)
+	gauge_bar(crewMember.luck, l.LUCK, 4, 65, icons.personal)
+	gauge_bar(crewMember.intelligence, l.INTELLIGENCE, 4, 65, icons.personal)
+	gauge_bar(crewMember.charisma, l.CHARISMA, 4, 65, icons.personal)
+	gauge_bar(crewMember.lawfulness, l.LAWFULNESS, 4, 65, icons.personal)
+end
+
+
+local function drawReputation(crewMember)
+	ui.withFont(orbiteer.body, function() ui.text(l.REPUTATION) end)
+
+	if not crewMember.player then
+		gauge_bar(crewMember.notoriety, l.NOTORIETY, 4, 65, icons.personal)
 	end
 
-	local spacing = InfoView.windowPadding.x * 2.0
-	local info_column_width = (ui.getColumnWidth() - spacing) / 2
-	ui.child("PlayerInfoDetails", Vector2(info_column_width, 0), function()
-		ui.withFont(orbiteer.heading, function() ui.text(crew.name) end)
-		ui.newLine()
+	textTable.draw({
+		{ l.RATING,			l[crewMember:GetCombatRating()] },
+		{ l.KILLS,			ui.Format.Number(crewMember.killcount) },
+		{ l.REPUTATION..":",l[crewMember:GetReputationRating()] },
+	})
+end
 
-		textTable.withHeading(l.QUALIFICATION_SCORES, orbiteer.body, {
-			{ l.ENGINEERING,	crew.engineering },
-			{ l.PILOTING,		crew.piloting },
-			{ l.NAVIGATION,		crew.navigation },
-			{ l.SENSORS,		crew.sensors },
-		})
-		ui.newLine()
-		textTable.withHeading(l.REPUTATION, orbiteer.body, {
-			{ l.RATING,			l[crew:GetCombatRating()] },
-			{ l.KILLS,			ui.Format.Number(crew.killcount) },
-			{ l.REPUTATION..":",l[crew:GetReputationRating()] },
-		})
 
-		if not crew.player then
-			ui.newLine()
-			ui.withFont(orbiteer.body, function() ui.text(l.EMPLOYMENT) end)
+local function drawHappiness(crewMember)
+	ui.withFont(orbiteer.body, function() ui.text(l.HAPPINESS) end)
+	gauge_bar(crewMember.playerRelationship, l.RELATIONSHIP_WITH_CAPTAIN, 4, 65, icons.personal)
 
-			if Game.player.flightState == 'DOCKED' then
-				if ui.button(l.DISMISS, Vector2(0, 0)) then dismissButton(crew) end
-			end
+	ui.withFont(orbiteer.body, function() ui.text(l.MEMORIES) end)
 
-			if false then -- TODO: implement me!
-				ui.sameLine()
-				if ui.button(l.NEGOTIATE, Vector2(0, 0)) then openNegotiateWindow() end
-			end
+	for i, thought in pairs(crewMember.memories) do
+        if thought.adjustment < 0 then
+			ui.icon(icons.storm_cloud, Vector2(ui.getTextLineHeight()), colors.compareWorse)
+			ui.sameLine()
+			ui.textColored(colors.compareWorse, thought.text)
+        else
+			ui.icon(icons.sun_high, Vector2(ui.getTextLineHeight()), colors.compareBetter)
+			ui.sameLine()
+			ui.textColored(colors.compareBetter, thought.text)
 		end
+	end
+end
+
+
+local function drawActions(crewMember)
+	ui.withFont(orbiteer.body, function() ui.text(l.EMPLOYMENT) end)
+
+	if Game.player.flightState == 'DOCKED' then
+		if ui.button(l.DISMISS, Vector2(0, 0)) then dismissButton(crewMember) end
+	end
+
+	if false then -- TODO: implement me!
+		ui.sameLine()
+		if ui.button(l.NEGOTIATE, Vector2(0, 0)) then openNegotiateWindow() end
+	end
+end
+
+local childFlags = { "AutoResizeY" }
+
+local function drawCrewInfo(crewMember)
+	local spacing = InfoView.windowPadding.x * 2.0
+	local region_column_width = ui.getContentRegion().x / 2 - spacing
+
+	if crewMember.player then
+		ui.withFont(orbiteer.heading, function() ui.text(crewMember.name) end)
+        ui.newLine()
+		ui.child("captain_column1", Vector2(region_column_width, 0), nil, childFlags, function()
+			drawReputation(crewMember)
+		end)
+	else
+		ui.withFont(orbiteer.heading, function() ui.text(crewMember.name) end)
+	    ui.newLine()
+		ui.child("crew_column1", Vector2(region_column_width, 0), nil, childFlags, function()
+            drawQualifications(crewMember)
+			ui.newLine()
+			drawReputation(crewMember)
+		end)
+
+		ui.sameLine(0, spacing)
+
+		ui.child("crew_column2", Vector2(region_column_width, 0), nil, childFlags, function()
+            drawStats(crewMember)
+			ui.newLine()
+			drawHappiness(crewMember)
+        end)
 
 		ui.newLine()
-		if ui.button(lcrew.GO_BACK, Vector2(0, 0)) then inspectingCrewMember = nil end
-	end)
+		drawActions(crewMember)
+	end
 
-	ui.sameLine(0, spacing)
-
-	ui.child("PlayerView", Vector2(info_column_width, 0), function()
-		crewFace:render()
-	end)
+    ui.newLine()
+    ui.newLine()
+	if ui.button(lcrew.GO_BACK, Vector2(0, 0)) then inspectingCrewMember = nil end
 end
 
 require 'Event'.Register('onGameEnd', function()
@@ -282,13 +362,28 @@ end)
 InfoView:registerView({
     id = "crew",
     name = l.CREW_ROSTER,
-    icon = ui.theme.icons.roster,
+    icon = icons.roster,
     showView = true,
 	draw = function()
 		ui.withStyleVars({ItemSpacing = itemSpacing}, function()
 			ui.withFont(pionillium.body, function()
 				if inspectingCrewMember then
-					drawCrewInfo(inspectingCrewMember)
+
+					local spacing = InfoView.windowPadding.x
+					local width = ui.getContentRegion().x / 2 - spacing
+					ui.child("PlayerInfoDetails", Vector2(width, 0), function()
+						drawCrewInfo(inspectingCrewMember)
+					end)
+
+					ui.sameLine(0, spacing * 2)
+
+					ui.child("PlayerView", Vector2(width, 0), function()
+						if not crewFace or crewFace.character ~= inspectingCrewMember then
+							crewFace = PiGuiFace.New(inspectingCrewMember)
+						end
+
+						crewFace:render()
+					end)
 				else
 					cachedCrewList = cachedCrewList or makeCrewList()
 					drawCrewList(cachedCrewList)
