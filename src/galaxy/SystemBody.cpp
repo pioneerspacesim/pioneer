@@ -781,13 +781,38 @@ const char *SystemBody::GetIcon() const
 	switch (m_type) {
 	case TYPE_BROWN_DWARF: return "icons/object_brown_dwarf.png";
 	case TYPE_WHITE_DWARF: return "icons/object_white_dwarf.png";
+	case TYPE_STAR_M_GIANT:
+	case TYPE_STAR_M_SUPER_GIANT:
+	case TYPE_STAR_M_HYPER_GIANT:
 	case TYPE_STAR_M: return "icons/object_star_m.png";
+	case TYPE_STAR_K_GIANT:
+	case TYPE_STAR_K_SUPER_GIANT:
+	case TYPE_STAR_K_HYPER_GIANT:
 	case TYPE_STAR_K: return "icons/object_star_k.png";
+	case TYPE_STAR_G_GIANT:
+	case TYPE_STAR_G_SUPER_GIANT:
+	case TYPE_STAR_G_HYPER_GIANT:
 	case TYPE_STAR_G: return "icons/object_star_g.png";
+	case TYPE_STAR_F_GIANT:
+	case TYPE_STAR_F_SUPER_GIANT:
+	case TYPE_STAR_F_HYPER_GIANT:
 	case TYPE_STAR_F: return "icons/object_star_f.png";
+	case TYPE_STAR_A_GIANT:
+	case TYPE_STAR_A_SUPER_GIANT:
+	case TYPE_STAR_A_HYPER_GIANT:
 	case TYPE_STAR_A: return "icons/object_star_a.png";
+	case TYPE_STAR_B_GIANT:
+	case TYPE_STAR_B_SUPER_GIANT:
+	case TYPE_STAR_B_HYPER_GIANT:
 	case TYPE_STAR_B: return "icons/object_star_b.png";
+	case TYPE_STAR_O_GIANT:
+	case TYPE_STAR_O_SUPER_GIANT:
+	case TYPE_STAR_O_HYPER_GIANT:
 	case TYPE_STAR_O: return "icons/object_star_b.png"; //shares B graphic for now
+
+/*
+	TODO: If we ever get circular icons for giant type stars, replace the above giant cases with the ones below
+
 	case TYPE_STAR_M_GIANT: return "icons/object_star_m_giant.png";
 	case TYPE_STAR_K_GIANT: return "icons/object_star_k_giant.png";
 	case TYPE_STAR_G_GIANT: return "icons/object_star_g_giant.png";
@@ -809,6 +834,8 @@ const char *SystemBody::GetIcon() const
 	case TYPE_STAR_A_HYPER_GIANT: return "icons/object_star_a_hyper_giant.png";
 	case TYPE_STAR_B_HYPER_GIANT: return "icons/object_star_b_hyper_giant.png";
 	case TYPE_STAR_O_HYPER_GIANT: return "icons/object_star_b_hyper_giant.png"; // uses B type graphic for now
+*/
+
 	case TYPE_STAR_M_WF: return "icons/object_star_m_wf.png";
 	case TYPE_STAR_B_WF: return "icons/object_star_b_wf.png";
 	case TYPE_STAR_O_WF: return "icons/object_star_o_wf.png";
