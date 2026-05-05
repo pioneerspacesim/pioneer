@@ -130,7 +130,7 @@ namespace SceneGraph {
 		// generated once per frame, not for every vertex
 		float hash = pos.x + pos.y + pos.z;
 		hash = (uint16_t(hash32(*reinterpret_cast<uint32_t *>(&hash)) & 0xFFFF)) / 65535.f;
-		const float x = static_cast<float>(rd->renderTime) * 35.f * (0.75f + hash * 0.5f);
+		const double x = rd->renderTime * 35.0 * (0.75 + hash * 0.5);
 		const float flicker = abs(sin(x) * sin(pow(x, 1.1)));
 
 		// pass the power setting and flicker value using the material emissive
