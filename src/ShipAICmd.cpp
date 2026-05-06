@@ -3,6 +3,8 @@
 
 #include "ShipAICmd.h"
 
+#include "core/Log.h"
+
 #include "Frame.h"
 #include "Game.h"
 #include "JsonUtils.h"
@@ -1012,8 +1014,154 @@ void AICmdFlyTo::SaveToJson(Json &jsonObj)
 	jsonObj["ai_command"] = aiCommandObj; // Add ai command object to supplied object.
 }
 
+bool AICmdFlyTo::TimeStepUpdatePlayer()
+{
+	// No need to check if we are not `Ship`
+	// we always are because we are `Player`
+	Ship *ship = static_cast<Ship *>(m_dBody);
+
+	// initiated hyperdrive, do nothing
+	if (ship->GetFlightState() == Ship::JUMPING) return false;
+
+	// undocked, forgot to retract landing gear
+	if (ship->GetFlightState() == Ship::FLYING) {
+		ship->SetWheelState(false);
+	} else {
+		LaunchShip(ship); // docked or landed
+		return false;
+	}
+
+	double timestep = Pi::game->GetTimeStep();
+
+	// ========== boolean switchers ==========
+
+	// are we there yet?
+	FrameId destFrameID = m_target ? m_target->GetFrame() : m_targframeId;
+	FrameId playerFrameID = m_dBody->GetFrame();
+	bool nearDestPlanet = (destFrameID == playerFrameID);
+
+	// we don't want to scratch our paint against terrain or landing pad
+	SystemBody* planet = Frame::GetFrame(playerFrameID)->GetSystemBody();
+	vector3d planetPosition = m_dBody->GetPosition();
+	double planetDist = planetPosition.Length();
+	bool onPlanet = planetDist < (planet->GetRadius() + std::max(planet->GetAtmRadius(), 5000.0));
+
+	vector3d destPosition = GetPosInFrame(m_dBody->GetFrame(), destFrameID, m_posoff);
+	bool destVisible = (planetPosition.Dot(destPosition) > 0);
+
+	// not even close, push as hard as we can
+	// TODO make it slowly approach target direction if it's visible
+	if (!nearDestPlanet && onPlanet) {
+		m_prop->AIFaceDirection(planetPosition);
+		m_prop->AIDirThrust(planetPosition.Normalized() * m_dBody->GetOrient());
+		return false;
+	}
+
+	// climb into orbit
+	if (!nearDestPlanet && !onPlanet && !destVisible) {
+		vector3d shipCurrentVelocity = m_dBody->GetVelocity();
+		vector3d radCurrentVelocity = planetPosition.Normalized() * planetPosition.Normalized().Dot(shipCurrentVelocity);
+		vector3d tangCurrentVelocity = shipCurrentVelocity - radCurrentVelocity;
+
+		double localGravity = GetGravityAtPos(m_dBody->GetFrame(), m_dBody->GetPosition());
+
+		double orbitHeight = (planet->GetRadius() + planet->GetAtmRadius()) * 1.05;
+		double dh = orbitHeight - m_dBody->GetPosition().Length();
+
+		double tgAccel = tangCurrentVelocity.LengthSqr() / planetDist;
+
+		double escapeVelocity = sqrt(localGravity * planetDist);
+
+		vector3d upDir = m_dBody->GetPosition().Normalized();
+		vector3d tgDir = vector3d(1.0, 0.0, 0.0);
+		if ((destPosition - planetPosition).LengthSqr() < 1e-6) {
+			tgDir = (destPosition - planetPosition.Normalized() * planetPosition.Normalized().Dot(destPosition)).NormalizedSafe();
+		} else {
+			tgDir = tangCurrentVelocity.NormalizedSafe();
+		}
+
+		// avoid stopping ship at the orbit
+		if (tangCurrentVelocity.Dot(tgDir) < 0.0) {
+			tgDir = -tgDir;
+		}
+
+		double orbitGravity = localGravity - tgAccel;
+
+		double climbVelocity = 0.0;
+		if (0.01 > abs(dh)
+		 && 0.01 > radCurrentVelocity.LengthSqr()
+		 && 0.01 > abs(tangCurrentVelocity.Length() - escapeVelocity)) {
+			// do nothing, we're already at orbit
+			m_prop->AIFaceDirection(shipCurrentVelocity.Normalized());
+			m_prop->AIFaceUpdir(upDir);
+
+			m_prop->SetLinThrusterState(vector3d(0.0));
+		} else if (100.0 > abs(dh)
+				&& 100.0 > radCurrentVelocity.LengthSqr()) {
+			// fine tuning
+			double minThrust = m_prop->GetAccelMin();
+
+			if (dh > 0) {
+				climbVelocity = (minThrust - orbitGravity) * sqrt(2 * dh / (minThrust - orbitGravity));
+			} else {
+				climbVelocity = -(minThrust + orbitGravity) * sqrt(-2 * dh / (minThrust + orbitGravity));
+			}
+
+			vector3d v = upDir * climbVelocity + tgDir * escapeVelocity;
+			m_prop->AIMatchVel(v);
+
+			m_prop->AIFaceDirection(shipCurrentVelocity.Normalized());
+			m_prop->AIFaceUpdir(upDir);
+		} else {
+			// ascend/descend rate should be enough to stop exactly at orbit
+			double maxThrust = m_prop->GetAccelFwd();
+			if (dh > 0) {
+				climbVelocity = (maxThrust - orbitGravity) * sqrt(2 * dh / (maxThrust - orbitGravity));
+			} else {
+				climbVelocity = -(maxThrust + orbitGravity) * sqrt(-2 * dh / (maxThrust + orbitGravity));
+			}
+
+			vector3d v = (upDir * climbVelocity + tgDir * escapeVelocity);
+			m_prop->AIMatchVel(v);
+
+			// are we gaining speed or slowing down?
+			if (radCurrentVelocity.Length() < abs(climbVelocity)) {
+				// gaining speed, check if thrusters for VTOL are too weak for local gravity
+				// face upwards if they are
+				if (m_prop->GetAccelUp() < orbitGravity) {
+					m_prop->AIFaceDirection(planetPosition.Normalized());
+					m_prop->AIFaceUpdir(tgDir);
+				} else {
+					m_prop->AIFaceDirection(shipCurrentVelocity.Normalized());
+					m_prop->AIFaceUpdir(upDir);
+				}
+			} else {
+				m_prop->AIFaceDirection(radCurrentVelocity.Dot(planetPosition.Normalized()) < climbVelocity ? planetPosition.Normalized() : -planetPosition.Normalized());
+				m_prop->AIFaceUpdir(tgDir);
+			}
+
+		Output("DEBUG: dh = %5.2lf m, [vv = %5.2lf m/s, cv = %5.2lf m/s], [tv = %5.2lf m/s, ev = %5.2lf m/s], gravity = %1.4lf m/s^2, atg = %1.4lf m/s^2\n",
+				dh,
+				radCurrentVelocity.Dot(planetPosition.Normalized()), climbVelocity,
+				tangCurrentVelocity.Length()                       , escapeVelocity,
+				localGravity, tgAccel);
+		}
+
+		return false;
+	}
+
+	// fallback: stop all motion
+	m_prop->SetLinThrusterState(vector3d(0.0));
+	m_prop->SetAngThrusterState(vector3d(0.0));
+	return false;
+}
+
 bool AICmdFlyTo::TimeStepUpdate()
 {
+	if (m_dBody->IsType(ObjectType::PLAYER)) {
+		return TimeStepUpdatePlayer();
+	}
+
 	/* TODO: ship is used ONLY to calls
 	 * wheels, launch and flightstate, so
 	 * it is better to split them in a module
