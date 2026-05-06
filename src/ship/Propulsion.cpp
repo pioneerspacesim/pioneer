@@ -10,6 +10,8 @@
 #include "Player.h"
 #include "PlayerShipController.h"
 
+#include <core/Log.h>
+
 // #include "lua/LuaBodyComponent.h"
 
 REGISTER_COMPONENT_TYPE(Propulsion) {
@@ -326,6 +328,17 @@ bool Propulsion::AIMatchVel(const vector3d &vel, const vector3d &powerLimit)
 	return AIChangeVelBy(diffvel, powerLimit);
 }
 
+// directional thrust with unlimited velocity in object space
+bool Propulsion::AIDirThrust(const vector3d &direction, const vector3d &powerLimit) {
+	vector3d thrust(
+		Clamp(direction.x, -powerLimit.x, powerLimit.x),
+		Clamp(direction.y, -powerLimit.y, powerLimit.y),
+		Clamp(direction.z, -powerLimit.z, powerLimit.z));
+	SetLinThrusterState(thrust); // use clamping
+	if (thrust.x * thrust.x > 1.0 || thrust.y * thrust.y > 1.0 || thrust.z * thrust.z > 1.0) return false;
+	return true;
+}
+
 // diffvel is required change in velocity in object space
 // returns true if this can be done in a single timestep
 bool Propulsion::AIChangeVelBy(const vector3d &diffvel, const vector3d &powerLimit)
@@ -333,6 +346,7 @@ bool Propulsion::AIChangeVelBy(const vector3d &diffvel, const vector3d &powerLim
 	// counter external forces
 	vector3d extf = m_dBody->GetExternalForce() * (Pi::game->GetTimeStep() / m_dBody->GetMass());
 	vector3d diffvel2 = diffvel - extf * m_dBody->GetOrient();
+	// return AIDirThrust(diffvel2);
 
 	double diffSpeedSqr = diffvel2.LengthSqr();
 	if (diffSpeedSqr == 0.0) {
