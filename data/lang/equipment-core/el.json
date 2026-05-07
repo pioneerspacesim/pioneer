@@ -397,7 +397,7 @@
   },
   "MISSILE_NAVAL_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "Οι πύραυλοι αυτοί κατασκευάζονται σε εξειδικευμένα και μυστικά στρατιωτικά εργοστάσια, σε εγκαταστάσεις που περιορισμένης πρόσβασης. Συνεπώς, συνήθως δεν είναι διαθέσιμοι παρά μόνο για τον στρατό. Είναι ανθεκτικοί σε όλα τα γνωστά αντιπυραυλικά μέσα, έχουν μεγάλη ταχύτητα σε σχέση με το μέγεθός τους και συνήθως φέρουν πολύ ισχυρές πολεμικές κεφαλές. Τα σκάφη που φέρουν τέτοιους πυραύλους χρησιμοποιούν ειδικό εξοπλισμό, ο οποίος εξασφαλίζει σωστή στόχευση και προγραμματισμό των πυραύλων, πριν την εκτόξευση."
+    "message": "These missiles are produced in highly specialised and secretive naval factories in tightly controlled facilities and generally not available to non-military personnel. Able to resist most known types of countermeasures, these missiles are fast for their size and usually pack exotic warheads for extreme destructive potential. Often specialised equipment is required in the ships carrying these in order to correctly arm and program the missiles prior to launch."
   },
   "MISSILE_RACK_221": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",

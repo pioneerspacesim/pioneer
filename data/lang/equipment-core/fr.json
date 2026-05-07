@@ -397,7 +397,7 @@
   },
   "MISSILE_NAVAL_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "Ces missiles sont produits dans des usines navales secrètes et spécialisées dont l'accès est généralement restraint au personnel militaire. Capable de résister à presque toutes les contre-mesures connues, ces missiles sont rapides pour leur taille et embarquent des charges ayant un pouvoir de destruction potentiellement extrème. Des équipements spécialisés sont souvent requis sur les vaisseaux les utilisant afin d'armer et de programmer correctement ces missiles avant leur lancement."
+    "message": "These missiles are produced in highly specialised and secretive naval factories in tightly controlled facilities and generally not available to non-military personnel. Able to resist most known types of countermeasures, these missiles are fast for their size and usually pack exotic warheads for extreme destructive potential. Often specialised equipment is required in the ships carrying these in order to correctly arm and program the missiles prior to launch."
   },
   "MISSILE_RACK_221": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",

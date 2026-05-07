@@ -397,7 +397,7 @@
   },
   "MISSILE_NAVAL_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "These missiles are produced in highly specialised and secretive naval factories in tightly controlled facilities and generally not available to non-military personel. Able to resist most known types of countermeasures, these missiles are fast for their size and usually pack exotic warheads for extreme destructive potential. Often specialised equipment is required in the ships carrying these in order to correctly arm and program the missiles prior to launch."
+    "message": "These missiles are produced in highly specialised and secretive naval factories in tightly controlled facilities and generally not available to non-military personnel. Able to resist most known types of countermeasures, these missiles are fast for their size and usually pack exotic warheads for extreme destructive potential. Often specialised equipment is required in the ships carrying these in order to correctly arm and program the missiles prior to launch."
   },
   "MISSILE_RACK_221": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",

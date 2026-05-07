@@ -397,7 +397,7 @@
   },
   "MISSILE_NAVAL_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "Diese Raketen werden in hochspezialisierten und abgeschirmten Fabriken in streng kontrollierten Anlagen produziert und sind normalerweise nur für Militärkunden erhältlich. Sie sind gegen fast alle bekannten Gegenmaßnahmen immun, sind für ihre Größe sehr schnell, und sind oft mit exotischen Sprengköpfen mit extremem Zerstörungspotential ausgestattet. Oft ist spezielle Ausrüstung auf dem Schiff notwendig, um die Raketen vor dem Start auf ihr Ziel zu programmieren und scharfzumachen."
+    "message": "These missiles are produced in highly specialised and secretive naval factories in tightly controlled facilities and generally not available to non-military personnel. Able to resist most known types of countermeasures, these missiles are fast for their size and usually pack exotic warheads for extreme destructive potential. Often specialised equipment is required in the ships carrying these in order to correctly arm and program the missiles prior to launch."
   },
   "MISSILE_RACK_221": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
