@@ -12,6 +12,7 @@
 #include "JsonUtils.h"
 #include "ModelBody.h"
 #include "Pi.h"
+#include "Space.h"
 #include "matrix4x4.h"
 
 #include "core/IniConfig.h"
@@ -26,9 +27,30 @@
 
 #include "profiler/Profiler.h"
 
+#include <algorithm>
+#include <vector>
+
 using namespace Graphics;
 
 namespace {
+	constexpr uint64_t EXHAUST_EMITTER_PTR_SORT_TAG = UINT64_C(0x8000000000000000);
+
+	inline uint64_t ExhaustStreamEmitterSortKey(const Sfx &s)
+	{
+		if (s.m_exhaustEmitter)
+			return EXHAUST_EMITTER_PTR_SORT_TAG | static_cast<uint64_t>(reinterpret_cast<uintptr_t>(s.m_exhaustEmitter));
+		return static_cast<uint64_t>(s.m_exhaustSavedEmitterBodyIdx);
+	}
+
+	inline bool SameExhaustJetStream(const Sfx &a, const Sfx &b)
+	{
+		if (a.m_exhaustJetIndex != b.m_exhaustJetIndex)
+			return false;
+		if (a.m_exhaustEmitter || b.m_exhaustEmitter)
+			return a.m_exhaustEmitter == b.m_exhaustEmitter;
+		return a.m_exhaustSavedEmitterBodyIdx == b.m_exhaustSavedEmitterBodyIdx;
+	}
+
 	float SizeToPixels(int screenHeight, const vector3f &trans, const float size)
 	{
 		//some hand-tweaked scaling, to make the lights seem larger from distance (final size is in pixels)
@@ -49,7 +71,7 @@ namespace {
 		case TYPE_SMOKE:
 			return Clamp(SizeToPixels(screenHeight, pos, (inst.m_speed * inst.m_age)), 0.1f, 50.0f);
 		case TYPE_EXHAUST:
-			// Calculated by the particle code
+			return 0.f; // billboards use explicit vertex quads in RenderAll
 		default:
 			return 0.f;
 		}
@@ -78,7 +100,12 @@ Sfx::Sfx(const vector3d &pos, const vector3d &vel, const float speed, const SFX_
 	m_dragScale(1.0f),
 	m_opacityScale(1.0f),
 	m_windVel(vector3d::Zero),
-	m_type(type)
+	m_type(type),
+	m_exhaustEmitter(nullptr),
+	m_exhaustSavedEmitterBodyIdx(Sfx::INVALID_EXHAUST_SAVED_BODY_IDX),
+	m_exhaustJetIndex(0),
+	m_exhaustBirthSeq(0),
+	m_exhaustSuppressStreakElongation(false)
 {
 	if (type == TYPE_EXHAUST)
 		m_lifetime = SfxParams::EXHAUST_LIFETIME * float(Pi::rng.Double(0.6, 1.0));
@@ -103,12 +130,17 @@ Sfx::Sfx(const Json &jsonObj)
 		m_opacityScale = sfxObj.value("opacityScale", 1.0f);
 		m_windVel = sfxObj.value("windVel", vector3d::Zero);
 		m_type = sfxObj["type"];
+		m_exhaustEmitter = nullptr;
+		m_exhaustSavedEmitterBodyIdx = sfxObj.value("exhaustEmitterBodyIdx", Sfx::INVALID_EXHAUST_SAVED_BODY_IDX);
+		m_exhaustJetIndex = Uint16(sfxObj.value("exhaustJetIndex", 0));
+		m_exhaustBirthSeq = sfxObj.value("exhaustBirthSeq", Uint32(0));
+		m_exhaustSuppressStreakElongation = sfxObj.value("exhaustSuppressStreakElongation", false);
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }
 
-void Sfx::SaveToJson(Json &jsonObj)
+void Sfx::SaveToJson(Json &jsonObj, const Space *space)
 {
 	Json sfxObj({}); // Create JSON object to contain sfx data.
 
@@ -124,6 +156,13 @@ void Sfx::SaveToJson(Json &jsonObj)
 		sfxObj["dragScale"] = m_dragScale;
 		sfxObj["opacityScale"] = m_opacityScale;
 		sfxObj["windVel"] = m_windVel;
+		Uint32 bodyIdxForSave = m_exhaustSavedEmitterBodyIdx;
+		if (m_exhaustEmitter && space && space->IsBodyIndexValid())
+			bodyIdxForSave = space->GetIndexForBody(m_exhaustEmitter);
+		sfxObj["exhaustEmitterBodyIdx"] = bodyIdxForSave;
+		sfxObj["exhaustJetIndex"] = m_exhaustJetIndex;
+		sfxObj["exhaustBirthSeq"] = m_exhaustBirthSeq;
+		sfxObj["exhaustSuppressStreakElongation"] = m_exhaustSuppressStreakElongation;
 	}
 	sfxObj["age"] = m_age;
 	sfxObj["seed"] = m_seed;
@@ -186,14 +225,15 @@ float Sfx::AgeBlend() const
 	return 0.0f;
 }
 
-SfxManager::SfxManager()
+SfxManager::SfxManager() :
+	m_nextExhaustBirthSeq(1)
 {
 	for (size_t t = 0; t < TYPE_NONE; t++) {
 		m_instances[t].clear();
 	}
 }
 
-void SfxManager::ToJson(Json &jsonObj, const FrameId fId)
+void SfxManager::ToJson(Json &jsonObj, const FrameId fId, const Space *space)
 {
 	Frame *f = Frame::GetFrame(fId);
 	Json sfxArray = Json::array(); // Create JSON array to contain sfx data.
@@ -204,7 +244,7 @@ void SfxManager::ToJson(Json &jsonObj, const FrameId fId)
 				Sfx &inst(f->m_sfx->GetInstanceByIndex(SFX_TYPE(t), i));
 				if (inst.m_type != TYPE_NONE) {
 					Json sfxArrayEl({}); // Create JSON object to contain sfx element.
-					inst.SaveToJson(sfxArrayEl);
+					inst.SaveToJson(sfxArrayEl, space);
 					sfxArray.push_back(sfxArrayEl); // Append sfx object to array.
 				}
 			}
@@ -273,7 +313,7 @@ void SfxManager::AddThrustSmoke(const Body *b, const float speed, const vector3d
 	sfxman->AddInstance(sfx);
 }
 
-void SfxManager::AddExhaust(const Body *b, const vector3d &startPos, const vector3d &backboneVel, const vector3d &plumeOffset, const vector3d &plumeOffsetVel, const float intensity, const float dragScale, const float opacityScale, const vector3d &windVel)
+void SfxManager::AddExhaust(const Body *b, const Uint16 exhaustJetIndex, const bool exhaustSuppressStreakElongation, const vector3d &startPos, const vector3d &backboneVel, const vector3d &plumeOffset, const vector3d &plumeOffsetVel, const float intensity, const float dragScale, const float opacityScale, const vector3d &windVel)
 {
 	SfxManager *sfxman = AllocSfxInFrame(b->GetFrame());
 	if (!sfxman) return;
@@ -289,6 +329,11 @@ void SfxManager::AddExhaust(const Body *b, const vector3d &startPos, const vecto
 	sfx.m_opacityScale = opacityScale;
 	sfx.m_windVel = windVel;
 	sfx.m_backboneAtStepStart = sfx.m_backbonePos;
+	sfx.m_exhaustJetIndex = exhaustJetIndex;
+	sfx.m_exhaustEmitter = b;
+	sfx.m_exhaustSavedEmitterBodyIdx = Sfx::INVALID_EXHAUST_SAVED_BODY_IDX;
+	sfx.m_exhaustSuppressStreakElongation = exhaustSuppressStreakElongation;
+	sfx.m_exhaustBirthSeq = sfxman->m_nextExhaustBirthSeq++;
 	sfxman->AddInstance(sfx);
 }
 
@@ -365,48 +410,59 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId)
 				break;
 			}
 
-			// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
-			Graphics::VertexArray pointArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, numInstances);
-			Graphics::VertexArray exhaustArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0 | Graphics::ATTRIB_NORMAL, numInstances * 6);
+			const double timeStep = Pi::game ? double(Pi::game->GetTimeStep()) : 0.0;
+			const double alpha = Pi::game ? Pi::GetGameTickAlpha() : 1.0;
 
-			vector3d prevInterpBackboneCam = vector3d::Zero;
-			bool hasPrevInterpBackboneCam = false;
+			if (t == TYPE_EXHAUST) {
+				Graphics::VertexArray exhaustArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0 | Graphics::ATTRIB_NORMAL, numInstances * 6);
+				std::vector<size_t> exhaustOrder(numInstances);
+				for (size_t i = 0; i < numInstances; ++i)
+					exhaustOrder[i] = i;
+				std::sort(exhaustOrder.begin(), exhaustOrder.end(), [&](size_t ia, size_t ib) {
+					const Sfx &a = f->m_sfx->GetInstanceByIndex(TYPE_EXHAUST, ia);
+					const Sfx &b = f->m_sfx->GetInstanceByIndex(TYPE_EXHAUST, ib);
+					const uint64_t keyA = ExhaustStreamEmitterSortKey(a);
+					const uint64_t keyB = ExhaustStreamEmitterSortKey(b);
+					if (keyA != keyB)
+						return keyA < keyB;
+					if (a.m_exhaustJetIndex != b.m_exhaustJetIndex)
+						return a.m_exhaustJetIndex < b.m_exhaustJetIndex;
+					if (a.m_exhaustBirthSeq != b.m_exhaustBirthSeq)
+						return a.m_exhaustBirthSeq < b.m_exhaustBirthSeq;
+					return ia < ib;
+				});
 
-			for (size_t i = 0; i < numInstances; i++) {
-				Sfx &inst(f->m_sfx->GetInstanceByIndex(SFX_TYPE(t), i));
+				const Sfx *prevStreakParticle = nullptr;
+				vector3d prevInterpBackboneCam = vector3d::Zero;
 
-				assert(inst.m_type == t);
+				for (const size_t i : exhaustOrder) {
+					Sfx &inst(f->m_sfx->GetInstanceByIndex(TYPE_EXHAUST, i));
 
-				// Interpolate particle position within the current physics tick so SFX
-				// motion matches interpolated ship/body rendering (see DynamicBody::UpdateInterpTransform).
-				const double interpDt = Pi::game ? (Pi::GetGameTickAlpha() * double(Pi::game->GetTimeStep())) : 0.0;
-				vector3d interpPos = inst.m_pos + inst.m_vel * interpDt;
-				vector3d interpBackbone{};
-				vector3d interpOffset{};
-				if (t == TYPE_EXHAUST) {
+					assert(inst.m_type == t);
+
 					// Backbone stores explicit start/end for this physics step.
-					const double alpha = Pi::game ? Pi::GetGameTickAlpha() : 1.0;
-					const double physicsStep = Pi::game ? double(Pi::game->GetTimeStep()) : 0.0;
-					interpBackbone = inst.m_backboneAtStepStart * (1.0 - alpha) + inst.m_backbonePos * alpha;
+					vector3d interpBackbone = inst.m_backboneAtStepStart * (1.0 - alpha) + inst.m_backbonePos * alpha;
+
 					// Plume offset is a small local perturbation; derive its start-of-step estimate
 					// from end-of-step offset and current plume offset velocity.
-					interpOffset = inst.m_plumeOffset - inst.m_plumeOffsetVel * ((1.0 - alpha) * physicsStep);
-					interpPos = interpBackbone + interpOffset;
-				}
-				// make the particle position relative to the camera frame
-				const vector3f pos(ftran * interpPos);
+					const vector3d interpOffset = inst.m_plumeOffset - inst.m_plumeOffsetVel * ((1.0 - alpha) * timeStep);
+					const vector3d interpPos = interpBackbone + interpOffset;
+					const vector3f pos(ftran * interpPos);
 
-				if (t == TYPE_EXHAUST) {
 					const float ageNorm = Clamp(inst.m_age / std::max(inst.m_lifetime, 0.001f), 0.0f, 1.0f);
 					const vector3d interpBackboneCam = ftran * interpBackbone;
-					vector3d backboneDirCamD;
-					if (hasPrevInterpBackboneCam) {
-						backboneDirCamD = interpBackboneCam - prevInterpBackboneCam;
-					} else {
-						backboneDirCamD = ftran.ApplyRotationOnly(inst.m_backboneVel);
-					}
+
+					const bool sameJetStream = prevStreakParticle && SameExhaustJetStream(*prevStreakParticle, inst);
+					const bool elongateTowardPrev = sameJetStream && !inst.m_exhaustSuppressStreakElongation;
+
+					vector3d backboneDirCamD = interpBackboneCam - prevInterpBackboneCam;
+					if ((backboneDirCamD.LengthSqr() < 1e-5) || !elongateTowardPrev)
+						backboneDirCamD = ftran.ApplyRotationOnly(-inst.m_backboneVel / SfxParams::EXHAUST_PARTICLES_PER_SEC);
+
 					prevInterpBackboneCam = interpBackboneCam;
-					hasPrevInterpBackboneCam = true;
+					prevStreakParticle = &inst;
+					if (!elongateTowardPrev) continue;
+
 					vector3f jetAxis = vector3f(backboneDirCamD).NormalizedSafe();
 					if (jetAxis.LengthSqr() < 1e-6f) jetAxis = vector3f(0.f, 0.f, 1.f);
 
@@ -429,7 +485,7 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId)
 					const float baseStretch = Clamp(speedMag * 20.0f, 0.0f, 100.0f);
 					const float apparentStretch = baseStretch * sideOn;
 
-					float size = std::max(0.01f, float(inst.m_plumeOffset.Length()) * 2.0f);
+					float size = std::max(0.01f, float(inst.m_plumeOffset.Length()));
 
 					// Two UV triangles, the V-axis is aligned to the jet backbone axis.
 					const vector3f u = axisU * size;
@@ -448,19 +504,34 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId)
 					exhaustArray.Add(p2, packed, vector2f(1.f, 1.f));
 					exhaustArray.Add(p3, packed, vector2f(0.f, 1.f));
 					exhaustArray.Add(p0, packed, vector2f(0.f, 0.f));
-				} else {
+				}
+
+				renderer->SetTransform(matrix4x4f::Identity);
+				renderer->DrawBuffer(&exhaustArray, material);
+
+			} else {
+				const double interpDt = alpha * timeStep;
+				// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
+				Graphics::VertexArray pointArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, numInstances);
+
+				for (size_t i = 0; i < numInstances; i++) {
+					Sfx &inst(f->m_sfx->GetInstanceByIndex(SFX_TYPE(t), i));
+
+					assert(inst.m_type == t);
+
+					vector3d interpPos = inst.m_pos + inst.m_vel * interpDt;
+
+					const vector3f pos(ftran * interpPos);
+
 					// pack UV offset and particle size in normal attribute
 					const vector2f offset = CalculateOffset(SFX_TYPE(t), inst);
 					const float size = GetParticleSize(screenHeight, SFX_TYPE(t), pos, inst);
 					pointArray.Add(pos, vector3f(offset, Clamp(size, 0.1f, FLT_MAX)));
 				}
-			}
 
-			renderer->SetTransform(matrix4x4f::Identity);
-			if (t == TYPE_EXHAUST)
-				renderer->DrawBuffer(&exhaustArray, material);
-			else
+				renderer->SetTransform(matrix4x4f::Identity);
 				renderer->DrawBuffer(&pointArray, material);
+			}
 		}
 	}
 

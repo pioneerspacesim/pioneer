@@ -29,7 +29,9 @@ namespace SceneGraph {
 		void Save(NodeDatabase &) override;
 		static Thruster *Load(NodeDatabase &);
 		void SetColor(const Color c) { currentColor = c; }
-		const vector3f &GetDirection() { return dir; }
+		const vector3f &GetDirection() const { return dir; }
+		bool IsLinearOnly() const { return linearOnly; }
+		float ComputeReactionPower(const vector3f &linThrust, const vector3f &angThrust) const;
 
 	private:
 		// thruster geometry is shared between all instances of Thruster

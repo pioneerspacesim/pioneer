@@ -36,6 +36,7 @@ public:
 	// if called while invalid
 	Body *GetBodyByIndex(Uint32 idx) const;
 	SystemBody *GetSystemBodyByIndex(Uint32 idx) const;
+	bool IsBodyIndexValid() const { return m_bodyIndexValid; }
 	Uint32 GetIndexForBody(const Body *body) const;
 	Uint32 GetIndexForSystemBody(const SystemBody *sbody) const;
 

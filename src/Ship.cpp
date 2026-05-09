@@ -28,12 +28,17 @@
 #include "lua/LuaEvent.h"
 #include "lua/LuaObject.h"
 #include "scenegraph/Animation.h"
+#include "scenegraph/MatrixTransform.h"
+#include "scenegraph/Model.h"
 #include "scenegraph/Tag.h"
+#include "scenegraph/Thruster.h"
 #include "scenegraph/CollisionGeometry.h"
 #include "ship/GunManager.h"
 #include "ship/PlayerShipController.h"
 
+#include <algorithm>
 #include <cmath>
+#include <vector>
 
 static const float TONS_HULL_PER_SHIELD = 10.f;
 const float Ship::DEFAULT_SHIELD_COOLDOWN_TIME = 1.0f;
@@ -210,6 +215,23 @@ Ship::~Ship()
 	delete m_controller;
 }
 
+void Ship::RefreshThrusterExhaustMounts()
+{
+	m_thrusterExhaustMounts.clear();
+	m_thrusterExhaustThrusters.clear();
+	if (!GetModel()) return;
+
+	std::vector<std::pair<SceneGraph::MatrixTransform *, SceneGraph::Thruster *>> tmp;
+	GetModel()->GatherThrusterMounts(tmp);
+	m_thrusterExhaustMounts.reserve(tmp.size());
+	m_thrusterExhaustThrusters.reserve(tmp.size());
+	for (const auto &pr : tmp) {
+		m_thrusterExhaustMounts.push_back(pr.first);
+		m_thrusterExhaustThrusters.push_back(pr.second);
+	}
+	m_exhaustThrusterChannels.assign(tmp.size(), ExhaustThrusterChannel{});
+}
+
 void Ship::Init()
 {
 	m_invulnerable = false;
@@ -254,6 +276,8 @@ void Ship::Init()
 	}
 
 	InitMaterials();
+
+	RefreshThrusterExhaustMounts();
 }
 
 void Ship::PostLoadFixup(Space *space)
@@ -930,8 +954,12 @@ void Ship::SetLandedOn(Planet *p, float latitude, float longitude)
 
 void Ship::SetFrame(FrameId fId)
 {
-	if (fId != GetFrame())
-		m_hasLastExhaustNozzleWorld = false;
+	if (fId != GetFrame()) {
+		for (auto &ch : m_exhaustThrusterChannels) {
+			ch.hasAnchor = false;
+			ch.wasThrusterFiring = false;
+		}
+	}
 	DynamicBody::SetFrame(fId);
 }
 
@@ -1202,72 +1230,14 @@ void Ship::StaticUpdate(const float timeStep)
 			const bool spawnExhaustForShip = !Pi::player || this == Pi::player ||
 				(GetPositionRelTo(Pi::player).LengthSqr() <= EXHAUST_MAX_PLAYER_DISTANCE_SQR);
 			if (!spawnExhaustForShip) {
-				m_hasLastExhaustNozzleWorld = false;
-			}
-
-			// Atmospheric exhaust plume - high spawn count procedural particles with low alpha
-			const vector3d linThrust = m_propulsion->GetLinThrusterState();
-			const double thrustMag = Clamp(linThrust.Length(), 0.0, 1.0);
-
-			// Exhaust goes opposite commanded thrust.
-			vector3d localExhaustDir = (linThrust.LengthSqr() > 1e-8) ? (-linThrust).Normalized() : vector3d(0.0, 0.0, 1.0);
-			const vector3d relAir = -GetVelocity();
-			// Simple ambient wind model: fixed-speed direction tangent to local surface.
-			const vector3d localUp = GetPosition().NormalizedSafe();
-			vector3d windDir = vector3d(0.0, 1.0, 0.0).Cross(localUp);
-			if (windDir.LengthSqr() < 1e-8) windDir = vector3d(1.0, 0.0, 0.0).Cross(localUp);
-			windDir = windDir.NormalizedSafe();
-			const vector3d windVel = windDir * double(SfxParams::EXHAUST_WIND_SPEED) * Clamp(density, 0.0, 1.0);
-			const vector3d currentNozzleWorld = GetPosition();
-
-			if (!m_hasLastExhaustNozzleWorld)
-				m_lastExhaustNozzleWorld = currentNozzleWorld;
-
-			// Sfx::TimeStep runs after spawning in the same tick, advancing each backbone by vel*step.
-			// Next tick, Lerp from the raw stored anchor leaves a gap of ~ vel*step to the continuum;
-			// advect m_last forward by last tick's backbone vel before distributing new spawns.
-			const double stepD = double(timeStep);
-			const vector3d lastBackbonePosWorld = m_lastExhaustNozzleWorld + m_lastExhaustBackboneVel * stepD;
-
-			if (spawnExhaustForShip && thrustMag > 0.02) {
-				const double jetSpeed = 200.0 + 150.0 * thrustMag;
-				const vector3d backboneWorldVel = GetVelocity() + (GetOrient() * localExhaustDir).NormalizedSafe() * jetSpeed;
-				const float intensity = float(1.4 + 2.8 * Clamp(density, 0.0, 2.0));
-				const float dragScale = float(Clamp(density / 1.225, 0.0, 2.0));
-				const float opacityScale = float(Clamp((density / 1.225) * thrustMag, 0.0, 1.0));
-
-				// Keep particle count independent of thrust / density so the stream remains full.
-				// If time is accelerated then timeStep could be huge - limit the number of particles in that case
-				// If timeStep is tiny then ensure we have at least one particle.
-				const float emitCount = SfxParams::EXHAUST_PARTICLES_PER_SEC * Clamp(timeStep, 0.0f, 0.2f);
-				int count = int(emitCount + 1.0f);
-
-				for (int i = 0; i < count; i++) {
-					// Evenly distribute new particles along the nozzle motion segment for this render frame
-					const double segT = (double(i) + 0.5) / double(std::max(count, 1));
-					const vector3d nozzleBaseWorld = lastBackbonePosWorld.Lerp(currentNozzleWorld, segT);
-
-					const double nozzleJitterRadius = SfxParams::EXHAUST_INITIAL_SPREAD * thrustMag;
-					const double jitterR = Pi::rng.Double(nozzleJitterRadius);
-					const double jitterTheta = Pi::rng.Double(2.0 * M_PI);
-					const vector3d nozzleJitterLocal(jitterR * std::cos(jitterTheta), jitterR * std::sin(jitterTheta), 0.0);
-					const vector3d plumeOffset = GetOrient() * nozzleJitterLocal;
-
-					// Widen gently as air thins
-					const double maxVel = SfxParams::EXHAUST_MAX_SPREAD / (nozzleJitterRadius * SfxParams::EXHAUST_LIFETIME);
-					const double spreadAmp = Clamp(maxVel / std::max(density, 1e-5), 0.05, maxVel * 10.0f);
-					const vector3d plumeOffsetVel = nozzleJitterLocal * spreadAmp;
-
-					SfxManager::AddExhaust(this, nozzleBaseWorld, backboneWorldVel, plumeOffset, plumeOffsetVel, intensity, dragScale, opacityScale, windVel);
+				for (auto &ch : m_exhaustThrusterChannels) {
+					ch.hasAnchor = false;
+					ch.wasThrusterFiring = false;
 				}
-				m_lastExhaustBackboneVel = backboneWorldVel;
-			} else if (spawnExhaustForShip) {
-				// Idle: don't advect using last jet — only ship motion carries the nozzle anchor next tick.
-				m_lastExhaustBackboneVel = GetVelocity();
+			} else {
+				// The ship is in range for exhaust plumes - if any thrusters are firing then show those plumes
+				SpawnThrusterPlumeParticles(timeStep, density);
 			}
-
-			m_lastExhaustNozzleWorld = currentNozzleWorld;
-			m_hasLastExhaustNozzleWorld = true;
 
 			int atmo_shield_cap = std::max(m_stats.atmo_shield_cap, 1); // needs to have some shielding by default
 			if (pressure > (m_type->atmosphericPressureLimit * atmo_shield_cap)) {
@@ -1434,6 +1404,117 @@ void Ship::StaticUpdate(const float timeStep)
 				Sound::BodyMakeNoise(this, "Missile_Inbound", 1.0f);
 			}
 		}
+	}
+}
+
+void Ship::SpawnThrusterPlumeParticles(float timeStep, double density)
+{
+	const vector3d linThrustState = m_propulsion->GetLinThrusterState();
+	const double thrustMag = Clamp(linThrustState.Length(), 0.0, 1.0);
+	const vector3f linT = vector3f(linThrustState);
+	const vector3f angT = -vector3f(m_propulsion->GetAngThrusterState());
+
+	// Simple ambient wind model: fixed-speed direction tangent to local surface.
+	const vector3d localUp = GetPosition().NormalizedSafe();
+	vector3d windDir = vector3d(0.0, 1.0, 0.0).Cross(localUp);
+	if (windDir.LengthSqr() < 1e-8) windDir = vector3d(1.0, 0.0, 0.0).Cross(localUp);
+	windDir = windDir.NormalizedSafe();
+	const vector3d windVel = windDir * double(SfxParams::EXHAUST_WIND_SPEED) * Clamp(density, 0.0, 1.0);
+
+	if (m_thrusterExhaustMounts.size() != m_thrusterExhaustThrusters.size())
+		RefreshThrusterExhaustMounts();
+	if (m_exhaustThrusterChannels.size() != m_thrusterExhaustMounts.size())
+		m_exhaustThrusterChannels.assign(m_thrusterExhaustMounts.size(), ExhaustThrusterChannel{});
+
+	float totalPower = 0.f;
+	std::vector<float> reactionPowers;
+	reactionPowers.reserve(m_thrusterExhaustThrusters.size());
+	for (SceneGraph::Thruster *th : m_thrusterExhaustThrusters) {
+		const float p = th->ComputeReactionPower(linT, angT);
+		const float pClamped = Clamp(p, 0.f, 1.f);
+		reactionPowers.push_back(pClamped);
+		if (pClamped >= SfxParams::EXHAUST_MIN_REACTION_POWER)
+			totalPower += pClamped;
+	}
+
+	const float intensity = float(1.4 + 2.8 * Clamp(density, 0.0, 2.0));
+	const float dragScale = float(Clamp(density / 1.225, 0.0, 2.0));
+	const float opacityDrive = float(std::max(thrustMag, std::min(double(totalPower), 1.0)));
+	const float opacityScale = float(Clamp((density / 1.225) * opacityDrive, 0.0, 1.0));
+
+	const matrix3x3d &bodyOrient = GetOrient();
+
+	for (size_t ti = 0; ti < m_thrusterExhaustMounts.size(); ++ti) {
+		SceneGraph::MatrixTransform *mt = m_thrusterExhaustMounts[ti];
+		SceneGraph::Thruster *thr = m_thrusterExhaustThrusters[ti];
+		ExhaustThrusterChannel &ch = m_exhaustThrusterChannels[ti];
+
+		const matrix4x4f M = mt->CalcGlobalTransform();
+		const vector3d nozzleLocal = vector3d(M.GetTranslate());
+		const vector3d exhaustDirModel = vector3d(thr->GetDirection()).NormalizedSafe();
+		const vector3d currentNozzleWorld = GetPosition() + bodyOrient * nozzleLocal;
+
+		if (!ch.hasAnchor) {
+			ch.lastNozzleWorld = currentNozzleWorld;
+			ch.hasAnchor = true;
+		}
+
+		const float pClamped = reactionPowers[ti];
+		const bool firing = pClamped >= SfxParams::EXHAUST_MIN_REACTION_POWER;
+		const bool newPulseLeadingEdge = firing && !ch.wasThrusterFiring;
+
+		vector3d exhaustDirWorld = bodyOrient * exhaustDirModel;
+		if (exhaustDirWorld.LengthSqr() < 1e-12)
+			exhaustDirWorld = bodyOrient.VectorZ();
+		exhaustDirWorld = exhaustDirWorld.Normalized();
+		const vector3d backboneWorldVel = GetVelocity() + exhaustDirWorld * double(SfxParams::EXHAUST_INITIAL_VELOCITY);
+
+		const vector3d lastBackbonePosWorld = ch.lastNozzleWorld + ch.lastBackboneVel * (double)timeStep;
+		ch.lastBackboneVel = backboneWorldVel;
+
+		if (firing) {
+
+			// Keep particle count independent of thrust / density so the stream remains full.
+			// If time is accelerated then timeStep could be huge - limit the number of particles in that case
+			// If timeStep is tiny then ensure we have at least one particle.
+			const float thrusterEmit = SfxParams::EXHAUST_PARTICLES_PER_SEC * Clamp(timeStep, 0.0f, 0.2f);
+			int count = 1 + int(thrusterEmit);
+
+			// If this is the first tick where the thruster is firing, then only add one particle
+			// at the current nozzle position as the leading edge. It won't be drawn but will be
+			// used as the starting elongation target on the next tick
+			if (newPulseLeadingEdge)
+				count = 1;
+
+			for (int i = 0; i < count; i++) {
+				const double segT = double(i + 1) / double(count);
+				const vector3d nozzleBaseWorld = lastBackbonePosWorld.Lerp(currentNozzleWorld, segT);
+
+				const double nozzleJitterRadius = SfxParams::EXHAUST_INITIAL_SPREAD * double(std::max(pClamped, SfxParams::EXHAUST_MIN_REACTION_POWER));
+				const double jitterR = Pi::rng.Double(nozzleJitterRadius);
+				const double jitterTheta = Pi::rng.Double(2.0 * M_PI);
+
+				const vector3d shipY = bodyOrient.VectorY();
+				const vector3d refAxis = (std::abs(exhaustDirWorld.Dot(shipY)) < 0.85) ? shipY : bodyOrient.VectorZ();
+				vector3d uAxis = refAxis.Cross(exhaustDirWorld).Normalized();
+				if (uAxis.LengthSqr() < 1e-12)
+					uAxis = bodyOrient.VectorX();
+				const vector3d vAxis = exhaustDirWorld.Cross(uAxis).Normalized();
+
+				const vector3d jitterDirW = (uAxis * std::cos(jitterTheta) + vAxis * std::sin(jitterTheta)).Normalized();
+				const vector3d plumeOffset = jitterDirW * jitterR;
+
+				const double maxVel = SfxParams::EXHAUST_MAX_SPREAD / (nozzleJitterRadius * double(SfxParams::EXHAUST_LIFETIME));
+				const double spreadAmp = Clamp(maxVel / std::max(density, 1e-5), 0.05, maxVel * 10.0);
+				const vector3d plumeOffsetVel = jitterDirW * (jitterR * spreadAmp);
+
+				const bool suppressStreak = newPulseLeadingEdge && (i == 0);
+				SfxManager::AddExhaust(this, Uint16(ti), suppressStreak, nozzleBaseWorld, backboneWorldVel, plumeOffset, plumeOffsetVel, intensity, dragScale, opacityScale, windVel);
+			}
+		}
+
+		ch.wasThrusterFiring = firing;
+		ch.lastNozzleWorld = currentNozzleWorld;
 	}
 }
 

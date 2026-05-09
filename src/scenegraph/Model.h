@@ -67,7 +67,9 @@
 #include "graphics/Drawables.h"
 #include "graphics/Material.h"
 #include "LoaderDefinitions.h"
+#include <utility>
 #include <stdexcept>
+#include <vector>
 
 namespace SceneGraph {
 	class Animation;
@@ -75,6 +77,7 @@ namespace SceneGraph {
 	class BinaryConverter;
 	class MatrixTransform;
 	class ModelBinarizer;
+	class Thruster;
 	class Tag;
 
 	struct LoadingError : public std::runtime_error {
@@ -177,6 +180,8 @@ namespace SceneGraph {
 		void SetThrusterColor(const vector3f &dir, const Color &color);
 		void SetThrusterColor(const std::string &name, const Color &color);
 		void SetThrusterColor(const Color &color);
+
+		void GatherThrusterMounts(std::vector<std::pair<MatrixTransform *, Thruster *>> &outMounts) const;
 
 		void SaveToJson(Json &jsonObj) const;
 		void LoadFromJson(const Json &jsonObj);

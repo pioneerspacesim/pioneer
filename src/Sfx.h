@@ -8,10 +8,13 @@
 #include "JsonFwd.h"
 #include "graphics/Material.h"
 
+#include <SDL_stdinc.h>
+
 #include <deque>
 
 class Body;
 class Frame;
+class Space;
 
 namespace Graphics {
 	class Renderer;
@@ -27,11 +30,14 @@ enum SFX_TYPE {
 
 namespace SfxParams {
 	inline constexpr float EXHAUST_MAX_PLAYER_DISTANCE = 5000.0f;
+	inline constexpr float EXHAUST_INITIAL_VELOCITY = 320.0f;
 	inline constexpr float EXHAUST_INITIAL_SPREAD = 0.1f;
 	inline constexpr float EXHAUST_MAX_SPREAD = 100.0f;
-	inline constexpr float EXHAUST_LIFETIME = 20.0f;
+	inline constexpr float EXHAUST_LIFETIME = 10.0f;
 	inline constexpr float EXHAUST_WIND_SPEED = 32.0f;
-	inline constexpr float EXHAUST_PARTICLES_PER_SEC = 300.0f;
+	inline constexpr float EXHAUST_PARTICLES_PER_SEC = 120.0f;
+	// Normalized reaction power ([0,1] from joystick / autopilot) needed before spawning plume
+	inline constexpr float EXHAUST_MIN_REACTION_POWER = 0.06f;
 }
 
 struct Sfx {
@@ -45,7 +51,7 @@ struct Sfx {
 	void SetPosition(const vector3d &p);
 
 	void TimeStepUpdate(const float timeStep);
-	void SaveToJson(Json &jsonObj);
+	void SaveToJson(Json &jsonObj, const Space *space);
 
 	vector3d m_pos;
 	vector3d m_vel;
@@ -63,6 +69,17 @@ struct Sfx {
 	float m_opacityScale;
 	vector3d m_windVel;
 	enum SFX_TYPE m_type;
+
+	// Atmospheric exhaust: streak direction chains consecutive spawns per thruster only.
+	// Runtime grouping uses emitting Body pointer (stable for object lifetime); savegames store
+	// Space body index separately because pointers are not serialized.
+	const Body *m_exhaustEmitter;
+	Uint32 m_exhaustSavedEmitterBodyIdx;
+	Uint16 m_exhaustJetIndex;
+	Uint32 m_exhaustBirthSeq; // monotonic per-frame SfxManager for sort order within a stream
+	// If true, billboard streak does not use backbone delta vs previous particle (new thrust pulse opener).
+	bool m_exhaustSuppressStreakElongation;
+	static constexpr Uint32 INVALID_EXHAUST_SAVED_BODY_IDX = Uint32(0xffffffffu);
 };
 
 class SfxManager {
@@ -72,10 +89,10 @@ public:
 	static void Add(const Body *, SFX_TYPE);
 	static void AddExplosion(Body *);
 	static void AddThrustSmoke(const Body *b, float speed, const vector3d &adjustpos);
-	static void AddExhaust(const Body *b, const vector3d &backboneAdjustPos, const vector3d &backboneVel, const vector3d &plumeOffset, const vector3d &plumeOffsetVel, float intensity, float dragScale, float opacityScale, const vector3d &windVel);
+	static void AddExhaust(const Body *b, Uint16 exhaustJetIndex, bool exhaustSuppressStreakElongation, const vector3d &backboneAdjustPos, const vector3d &backboneVel, const vector3d &plumeOffset, const vector3d &plumeOffsetVel, float intensity, float dragScale, float opacityScale, const vector3d &windVel);
 	static void TimeStepAll(const float timeStep, FrameId f);
 	static void RenderAll(Graphics::Renderer *r, FrameId f, const FrameId camFrame);
-	static void ToJson(Json &jsonObj, const FrameId f);
+	static void ToJson(Json &jsonObj, const FrameId f, const Space *space);
 	static void FromJson(const Json &jsonObj, FrameId f);
 
 	//create shared models
@@ -107,7 +124,7 @@ private:
 	};
 
 	Sfx &GetInstanceByIndex(const SFX_TYPE t, const size_t i) { return m_instances[t][i]; }
-	void AddInstance(Sfx &inst) { return m_instances[inst.m_type].push_back(inst); }
+	void AddInstance(Sfx &inst) { m_instances[inst.m_type].push_back(inst); }
 
 	// methods
 	static SfxManager *AllocSfxInFrame(FrameId f);
@@ -120,6 +137,7 @@ private:
 	// members
 	// per-frame
 	std::deque<Sfx> m_instances[TYPE_NONE];
+	Uint32 m_nextExhaustBirthSeq = 1;
 };
 
 #endif /* _SFX_H */

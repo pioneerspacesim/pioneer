@@ -429,17 +429,12 @@ namespace SceneGraph {
 	{
 		assert(m_root != nullptr);
 
-		FindNodeVisitor thrusterFinder(FindNodeVisitor::MATCH_NAME_FULL, "thrusters");
-		m_root->Accept(thrusterFinder);
-		const std::vector<Node *> &results = thrusterFinder.GetResults();
-		Group *thrusters = static_cast<Group *>(results.at(0));
-
-		for (unsigned int i = 0; i < thrusters->GetNumChildren(); i++) {
-			MatrixTransform *mt = static_cast<MatrixTransform *>(thrusters->GetChildAt(i));
-			Thruster *my_thruster = static_cast<Thruster *>(mt->GetChildAt(0));
-			if (my_thruster == nullptr) continue;
-			float dot = my_thruster->GetDirection().Dot(dir);
-			if (dot > 0.99) my_thruster->SetColor(color);
+		std::vector<std::pair<MatrixTransform *, Thruster *>> mounts;
+		GatherThrusterMounts(mounts);
+		for (const auto &pr : mounts) {
+			Thruster *const my_thruster = pr.second;
+			const float dot = my_thruster->GetDirection().Dot(dir);
+			if (dot > 0.99f) my_thruster->SetColor(color);
 		}
 	}
 
@@ -460,16 +455,31 @@ namespace SceneGraph {
 	{
 		assert(m_root != nullptr);
 
+		std::vector<std::pair<MatrixTransform *, Thruster *>> mounts;
+		GatherThrusterMounts(mounts);
+		for (const auto &pr : mounts)
+			pr.second->SetColor(color);
+	}
+
+	void Model::GatherThrusterMounts(std::vector<std::pair<MatrixTransform *, Thruster *>> &outMounts) const
+	{
+		outMounts.clear();
+		if (!m_root) return;
+
 		FindNodeVisitor thrusterFinder(FindNodeVisitor::MATCH_NAME_FULL, "thrusters");
 		m_root->Accept(thrusterFinder);
 		const std::vector<Node *> &results = thrusterFinder.GetResults();
-		Group *thrusters = static_cast<Group *>(results.at(0));
+		if (results.empty()) return;
 
-		for (unsigned int i = 0; i < thrusters->GetNumChildren(); i++) {
-			MatrixTransform *mt = static_cast<MatrixTransform *>(thrusters->GetChildAt(i));
-			Thruster *my_thruster = static_cast<Thruster *>(mt->GetChildAt(0));
-			assert(my_thruster != nullptr);
-			my_thruster->SetColor(color);
+		Group *thrusters = dynamic_cast<Group *>(results.at(0));
+		if (!thrusters) return;
+
+		for (unsigned int i = 0; i < thrusters->GetNumChildren(); ++i) {
+			MatrixTransform *mt = dynamic_cast<MatrixTransform *>(thrusters->GetChildAt(i));
+			if (!mt || mt->GetNumChildren() < 1u) continue;
+			Thruster *th = dynamic_cast<Thruster *>(mt->GetChildAt(0));
+			if (!th) continue;
+			outMounts.emplace_back(mt, th);
 		}
 	}
 

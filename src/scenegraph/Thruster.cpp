@@ -88,17 +88,16 @@ namespace SceneGraph {
 		nv.ApplyThruster(*this);
 	}
 
-	void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
+	float Thruster::ComputeReactionPower(const vector3f &linThrust, const vector3f &angThrust) const
 	{
-		PROFILE_SCOPED()
-		float power = -dir.Dot(vector3f(rd->linthrust));
+		float power = -dir.Dot(linThrust);
 
 		if (!linearOnly) {
 			// pitch X
 			// yaw   Y
 			// roll  Z
 			//model center is at 0,0,0, no need for invSubModelMat stuff
-			const vector3f at = vector3f(rd->angthrust);
+			const vector3f at = angThrust;
 			const vector3f angdir = pos.Cross(dir);
 
 			const float xp = angdir.x * at.x;
@@ -114,6 +113,14 @@ namespace SceneGraph {
 					power = fabs(at.z);
 			}
 		}
+
+		return power;
+	}
+
+	void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
+	{
+		PROFILE_SCOPED()
+		const float power = ComputeReactionPower(vector3f(rd->linthrust), vector3f(rd->angthrust));
 
 		// fade in/out the amount of thruster power shown
 		displayedPower = MathUtil::Lerp(displayedPower, power, 0.2f);

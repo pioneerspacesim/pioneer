@@ -16,6 +16,11 @@
 
 #include "ship/Propulsion.h"
 
+namespace SceneGraph {
+	class MatrixTransform;
+	class Thruster;
+}
+
 class AICommand;
 class Camera;
 class CargoBody;
@@ -115,6 +120,7 @@ public:
 	bool Undock();
 	void TimeStepUpdate(const float timeStep) override;
 	void StaticUpdate(const float timeStep) override;
+	void SpawnThrusterPlumeParticles(float timeStep, double density);
 
 	void TimeAccelAdjust(const float timeStep);
 
@@ -343,9 +349,19 @@ private:
 	double m_hydrogenScoopedAccumulator = 0;
 
 	double m_latestSpawnTime = 0.0;
-	bool m_hasLastExhaustNozzleWorld = false;
-	vector3d m_lastExhaustNozzleWorld = vector3d::Zero;
-	vector3d m_lastExhaustBackboneVel = vector3d::Zero;
+
+	// Per-thruster atmospheric exhaust (nozzle anchor + jet backbone)
+	struct ExhaustThrusterChannel {
+		bool hasAnchor = false;
+		vector3d lastNozzleWorld = vector3d::Zero;
+		vector3d lastBackboneVel = vector3d::Zero;
+		bool wasThrusterFiring = false;
+	};
+	std::vector<SceneGraph::MatrixTransform *> m_thrusterExhaustMounts;
+	std::vector<SceneGraph::Thruster *> m_thrusterExhaustThrusters;
+	std::vector<ExhaustThrusterChannel> m_exhaustThrusterChannels;
+	void RefreshThrusterExhaustMounts();
+
 	std::deque<CargoBody *> m_cargoSpawnQueue;
 
 public:
