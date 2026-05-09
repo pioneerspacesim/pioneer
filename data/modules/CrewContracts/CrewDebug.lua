@@ -43,7 +43,6 @@ debugView.registerTab("debug-crew", {
 		ui.nextColumn()
 		ui.text("n: "..stats.n.." / Mean Pop: "..utils.round(stats.mean_pop, 2).." / Explored: "..stats.explored.." / Legal Status: "..PlayerState:GetLegalStatus())
 
-
 		ui.columns(1)
 		ui.dummy(Vector2(0, 5))
 		ui.separator()
@@ -57,7 +56,7 @@ debugView.registerTab("debug-crew", {
 			end
 		end
 		ui.sameLine()
-		ui.text(Game.player:CrewNumber() .. " of " .. ShipDef[Game.player.shipId].maxCrew .. " hired")
+		ui.text(Game.player:CrewNumber() .. " of " .. ShipDef[Game.player.shipId].maxCrew - 1 .. " hired")
 
 		ui.dummy(Vector2(0, 5))
 
@@ -148,7 +147,19 @@ debugView.registerTab("debug-crew", {
 					ui.dummy(Vector2(0, 40))
 					ui.separator()
 					ui.dummy(Vector2(0, 5))
-					ui.columns(1)
+                    ui.columns(1)
+
+                    ui.text("Home")
+                    local body = crew.homeStation:GetSystemBody()
+                    local system = crew.homeStation:GetStarSystem()
+					local x = crewMember.homeStation.sectorX
+					local y = crewMember.homeStation.sectorY
+					local z = crewMember.homeStation.sectorZ
+					ui.text(body.name .. " (" .. system.name .. " <" .. x .. "," .. y .. "," .. z .. ">)")
+
+					ui.dummy(Vector2(0, 40))
+					ui.separator()
+					ui.dummy(Vector2(0, 5))
 
 					if ui.button("Remove CrewMember" .. "##" .. crewid, Vector2(200, 0)) then
 						Game.player:Dismiss(crew)

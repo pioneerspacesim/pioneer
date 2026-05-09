@@ -911,6 +911,10 @@
     "description": "Game settings option: for graphics resolution",
     "message": "High"
   },
+  "HOME": {
+    "description": "",
+    "message": "Home"
+  },
   "HUD_2D_RADAR": {
     "description": "Popup text: the name of the azimuthal equidistant projection radar",
     "message": "2D azimuthal equidistant projection"

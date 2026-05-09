@@ -303,17 +303,29 @@ end
 
 
 local function drawActions(crewMember)
-	ui.withFont(orbiteer.body, function() ui.text(l.EMPLOYMENT) end)
+    ui.withFont(orbiteer.body, function() ui.text(l.EMPLOYMENT) end)
 
-	if Game.player.flightState == 'DOCKED' then
-		if ui.button(l.DISMISS, Vector2(0, 0)) then dismissButton(crewMember) end
-	end
+    if Game.player.flightState == 'DOCKED' then
+        if ui.button(l.DISMISS, Vector2(0, 0)) then dismissButton(crewMember) end
+    end
 
-	if false then -- TODO: implement me!
-		ui.sameLine()
-		if ui.button(l.NEGOTIATE, Vector2(0, 0)) then openNegotiateWindow() end
-	end
+    if false then -- TODO: implement me!
+        ui.sameLine()
+        if ui.button(l.NEGOTIATE, Vector2(0, 0)) then openNegotiateWindow() end
+    end
 end
+
+
+local function drawHome(crewMember)
+	ui.withFont(orbiteer.body, function() ui.text(l.HOME) end)
+	local body = crewMember.homeStation:GetSystemBody()
+    local system = crewMember.homeStation:GetStarSystem()
+    local x = crewMember.homeStation.sectorX
+    local y = crewMember.homeStation.sectorY
+	local z = crewMember.homeStation.sectorZ
+	ui.text(body.name .. " (" .. system.name .. " <" .. x .. "," .. y .. "," .. z .. ">)")
+end
+
 
 local childFlags = { "AutoResizeY" }
 
@@ -343,6 +355,9 @@ local function drawCrewInfo(crewMember)
 			ui.newLine()
 			drawHappiness(crewMember)
         end)
+
+        ui.newLine()
+		drawHome(crewMember)
 
 		ui.newLine()
 		drawActions(crewMember)

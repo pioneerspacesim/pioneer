@@ -309,9 +309,14 @@ local crewAvailable = function ()
             if not crewMember.memories then
                 crewMember.memories = {}
             end
-			if not crewMember.civaffinity then
+            if not crewMember.civaffinity then
                 crewMember.civaffinity = 1
             end
+			if not crewMember.homeStation then
+				local stations = Game.system:GetStationPaths()
+				local index = rand:Integer(1, #stations)
+				crewMember.homeStation = stations[index]
+			end
 		end
 	end
 end
