@@ -343,6 +343,9 @@ private:
 	double m_hydrogenScoopedAccumulator = 0;
 
 	double m_latestSpawnTime = 0.0;
+	bool m_hasLastExhaustNozzleWorld = false;
+	vector3d m_lastExhaustNozzleWorld = vector3d::Zero;
+	vector3d m_lastExhaustBackboneVel = vector3d::Zero;
 	std::deque<CargoBody *> m_cargoSpawnQueue;
 
 public:

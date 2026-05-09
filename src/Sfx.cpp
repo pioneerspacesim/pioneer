@@ -6,6 +6,7 @@
 #include "Body.h"
 #include "FileSystem.h"
 #include "Frame.h"
+#include "Game.h"
 #include "GameSaveError.h"
 #include "Json.h"
 #include "JsonUtils.h"
@@ -37,7 +38,7 @@ namespace {
 		return (size * Graphics::GetFovFactor()) * pixrad;
 	}
 
-	float GetParticleSpeed(int screenHeight, SFX_TYPE t, const vector3f &pos, const Sfx &inst)
+	float GetParticleSize(int screenHeight, SFX_TYPE t, const vector3f &pos, const Sfx &inst)
 	{
 		switch (t) {
 		case TYPE_NONE: assert(false);
@@ -47,6 +48,8 @@ namespace {
 			return SizeToPixels(screenHeight, pos, 20.f);
 		case TYPE_SMOKE:
 			return Clamp(SizeToPixels(screenHeight, pos, (inst.m_speed * inst.m_age)), 0.1f, 50.0f);
+		case TYPE_EXHAUST:
+			// Calculated by the particle code
 		default:
 			return 0.f;
 		}
@@ -56,16 +59,29 @@ namespace {
 std::unique_ptr<Graphics::Material> SfxManager::damageParticle;
 std::unique_ptr<Graphics::Material> SfxManager::ecmParticle;
 std::unique_ptr<Graphics::Material> SfxManager::smokeParticle;
+std::unique_ptr<Graphics::Material> SfxManager::exhaustParticle;
 std::unique_ptr<Graphics::Material> SfxManager::explosionParticle;
 SfxManager::MaterialData SfxManager::m_materialData[TYPE_NONE];
 
 Sfx::Sfx(const vector3d &pos, const vector3d &vel, const float speed, const SFX_TYPE type) :
 	m_pos(pos),
 	m_vel(vel),
+	m_backbonePos(pos),
+	m_backboneVel(vel),
+	m_backboneAtStepStart(pos),
+	m_plumeOffset(vector3d::Zero),
+	m_plumeOffsetVel(vector3d::Zero),
 	m_age(0.0f),
 	m_speed(speed),
+	m_seed(float(Pi::rng.Double())),
+	m_lifetime(SfxParams::EXHAUST_LIFETIME),
+	m_dragScale(1.0f),
+	m_opacityScale(1.0f),
+	m_windVel(vector3d::Zero),
 	m_type(type)
 {
+	if (type == TYPE_EXHAUST)
+		m_lifetime = SfxParams::EXHAUST_LIFETIME * float(Pi::rng.Double(0.6, 1.0));
 }
 
 Sfx::Sfx(const Json &jsonObj)
@@ -75,7 +91,17 @@ Sfx::Sfx(const Json &jsonObj)
 
 		m_pos = sfxObj["pos"];
 		m_vel = sfxObj["vel"];
+		m_backbonePos = sfxObj.value("backbonePos", m_pos);
+		m_backboneVel = sfxObj.value("backboneVel", m_vel);
+		m_backboneAtStepStart = sfxObj.value("backboneAtStepStart", m_backbonePos);
+		m_plumeOffset = sfxObj.value("plumeOffset", vector3d::Zero);
+		m_plumeOffsetVel = sfxObj.value("plumeOffsetVel", vector3d::Zero);
 		m_age = sfxObj["age"];
+		m_seed = sfxObj.value("seed", float(Pi::rng.Double()));
+		m_lifetime = sfxObj.value("lifetime", SfxParams::EXHAUST_LIFETIME);
+		m_dragScale = sfxObj.value("dragScale", 1.0f);
+		m_opacityScale = sfxObj.value("opacityScale", 1.0f);
+		m_windVel = sfxObj.value("windVel", vector3d::Zero);
 		m_type = sfxObj["type"];
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
@@ -88,7 +114,19 @@ void Sfx::SaveToJson(Json &jsonObj)
 
 	sfxObj["pos"] = m_pos;
 	sfxObj["vel"] = m_vel;
+	if (m_type == TYPE_EXHAUST) {
+		sfxObj["backbonePos"] = m_backbonePos;
+		sfxObj["backboneVel"] = m_backboneVel;
+		sfxObj["backboneAtStepStart"] = m_backboneAtStepStart;
+		sfxObj["plumeOffset"] = m_plumeOffset;
+		sfxObj["plumeOffsetVel"] = m_plumeOffsetVel;
+		sfxObj["lifetime"] = m_lifetime;
+		sfxObj["dragScale"] = m_dragScale;
+		sfxObj["opacityScale"] = m_opacityScale;
+		sfxObj["windVel"] = m_windVel;
+	}
 	sfxObj["age"] = m_age;
+	sfxObj["seed"] = m_seed;
 	sfxObj["type"] = m_type;
 
 	jsonObj["sfx"] = sfxObj; // Add sfx object to supplied object.
@@ -115,6 +153,23 @@ void Sfx::TimeStepUpdate(const float timeStep)
 	case TYPE_SMOKE:
 		if (m_age > 8.0) m_type = TYPE_NONE;
 		break;
+	case TYPE_EXHAUST:
+		{
+			m_backboneAtStepStart = m_backbonePos;
+
+			const double drag = Clamp(0.9 * double(m_dragScale) * double(timeStep), 0.0, 0.85);
+			// Backbone follows the coherent central jet flow.
+			m_backboneVel += (m_windVel - m_backboneVel) * drag;
+
+			m_backbonePos += m_backboneVel * double(timeStep);
+			m_plumeOffset += m_plumeOffsetVel * double(timeStep);
+
+			// Keep legacy fields coherent for non-exhaust code paths.
+			m_pos = m_backbonePos + m_plumeOffset;
+			m_vel = m_backboneVel + m_plumeOffsetVel;
+		}
+		if (m_age > m_lifetime) m_type = TYPE_NONE;
+		break;
 	case TYPE_NONE: break;
 	}
 }
@@ -125,6 +180,7 @@ float Sfx::AgeBlend() const
 	case TYPE_EXPLOSION: return (3.2 - m_age) / 3.2;
 	case TYPE_DAMAGE: return (2.0 - m_age) / 2.0;
 	case TYPE_SMOKE: return (8.0 - m_age) / 8.0;
+	case TYPE_EXHAUST: return (m_lifetime - m_age) / std::max(m_lifetime, 0.001f);
 	case TYPE_NONE: return 0.0f;
 	}
 	return 0.0f;
@@ -217,6 +273,25 @@ void SfxManager::AddThrustSmoke(const Body *b, const float speed, const vector3d
 	sfxman->AddInstance(sfx);
 }
 
+void SfxManager::AddExhaust(const Body *b, const vector3d &startPos, const vector3d &backboneVel, const vector3d &plumeOffset, const vector3d &plumeOffsetVel, const float intensity, const float dragScale, const float opacityScale, const vector3d &windVel)
+{
+	SfxManager *sfxman = AllocSfxInFrame(b->GetFrame());
+	if (!sfxman) return;
+
+	const vector3d pos = startPos + plumeOffset;
+	Sfx sfx(pos, backboneVel, intensity, TYPE_EXHAUST);
+	sfx.m_backbonePos = startPos;
+	sfx.m_backboneVel = backboneVel;
+	sfx.m_plumeOffset = plumeOffset;
+	sfx.m_plumeOffsetVel = plumeOffsetVel;
+	sfx.m_vel = sfx.m_backboneVel + sfx.m_plumeOffsetVel;
+	sfx.m_dragScale = dragScale;
+	sfx.m_opacityScale = opacityScale;
+	sfx.m_windVel = windVel;
+	sfx.m_backboneAtStepStart = sfx.m_backbonePos;
+	sfxman->AddInstance(sfx);
+}
+
 void SfxManager::TimeStepAll(const float timeStep, FrameId fId)
 {
 	PROFILE_SCOPED()
@@ -262,7 +337,11 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId)
 	PROFILE_SCOPED()
 	if (f->m_sfx) {
 		matrix4x4d ftran;
-		Frame::GetFrameTransform(fId, camFrameId, ftran);
+		// Use interpolated frame transform so SFX aligns with interpolated body rendering.
+		const matrix3x3d forient = f->GetInterpOrientRelTo(camFrameId);
+		const vector3d fpos = f->GetInterpPositionRelTo(camFrameId);
+		ftran = forient;
+		ftran.SetTranslate(fpos);
 
 		for (size_t t = TYPE_EXPLOSION; t < TYPE_NONE; t++) {
 			const size_t numInstances = f->m_sfx->GetNumberInstances(SFX_TYPE(t));
@@ -281,27 +360,107 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId)
 			case TYPE_SMOKE:
 				material = smokeParticle.get();
 				break;
+			case TYPE_EXHAUST:
+				material = exhaustParticle.get();
+				break;
 			}
 
 			// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
 			Graphics::VertexArray pointArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, numInstances);
+			Graphics::VertexArray exhaustArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0 | Graphics::ATTRIB_NORMAL, numInstances * 6);
+
+			vector3d prevInterpBackboneCam = vector3d::Zero;
+			bool hasPrevInterpBackboneCam = false;
 
 			for (size_t i = 0; i < numInstances; i++) {
 				Sfx &inst(f->m_sfx->GetInstanceByIndex(SFX_TYPE(t), i));
 
 				assert(inst.m_type == t);
 
+				// Interpolate particle position within the current physics tick so SFX
+				// motion matches interpolated ship/body rendering (see DynamicBody::UpdateInterpTransform).
+				const double interpDt = Pi::game ? (Pi::GetGameTickAlpha() * double(Pi::game->GetTimeStep())) : 0.0;
+				vector3d interpPos = inst.m_pos + inst.m_vel * interpDt;
+				vector3d interpBackbone{};
+				vector3d interpOffset{};
+				if (t == TYPE_EXHAUST) {
+					// Backbone stores explicit start/end for this physics step.
+					const double alpha = Pi::game ? Pi::GetGameTickAlpha() : 1.0;
+					const double physicsStep = Pi::game ? double(Pi::game->GetTimeStep()) : 0.0;
+					interpBackbone = inst.m_backboneAtStepStart * (1.0 - alpha) + inst.m_backbonePos * alpha;
+					// Plume offset is a small local perturbation; derive its start-of-step estimate
+					// from end-of-step offset and current plume offset velocity.
+					interpOffset = inst.m_plumeOffset - inst.m_plumeOffsetVel * ((1.0 - alpha) * physicsStep);
+					interpPos = interpBackbone + interpOffset;
+				}
 				// make the particle position relative to the camera frame
-				const vector3f pos(ftran * inst.m_pos);
-				// pack UV offset and particle size in normal attribute
-				const vector2f offset = CalculateOffset(SFX_TYPE(t), inst);
-				const float speed = GetParticleSpeed(screenHeight, SFX_TYPE(t), pos, inst);
+				const vector3f pos(ftran * interpPos);
 
-				pointArray.Add(pos, vector3f(offset, Clamp(speed, 0.1f, FLT_MAX)));
+				if (t == TYPE_EXHAUST) {
+					const float ageNorm = Clamp(inst.m_age / std::max(inst.m_lifetime, 0.001f), 0.0f, 1.0f);
+					const vector3d interpBackboneCam = ftran * interpBackbone;
+					vector3d backboneDirCamD;
+					if (hasPrevInterpBackboneCam) {
+						backboneDirCamD = interpBackboneCam - prevInterpBackboneCam;
+					} else {
+						backboneDirCamD = ftran.ApplyRotationOnly(inst.m_backboneVel);
+					}
+					prevInterpBackboneCam = interpBackboneCam;
+					hasPrevInterpBackboneCam = true;
+					vector3f jetAxis = vector3f(backboneDirCamD).NormalizedSafe();
+					if (jetAxis.LengthSqr() < 1e-6f) jetAxis = vector3f(0.f, 0.f, 1.f);
+
+					// Camera-space view direction from particle to camera origin.
+					vector3f viewDir = (-pos).NormalizedSafe();
+
+					// Billboard plane basis: V aligns with jet axis projection onto the view plane.
+					// This approximates an ellipsoid projection:
+					// - looking down axis => round
+					// - side-on => elongated.
+					float axisViewDot = Clamp(fabs(jetAxis.Dot(viewDir)), 0.f, 1.f);
+					float sideOn = sqrtf(std::max(0.f, 1.f - axisViewDot * axisViewDot));
+					vector3f vProj = jetAxis - viewDir * jetAxis.Dot(viewDir);
+					vector3f axisV = (vProj.LengthSqr() > 1e-8f) ? vProj.Normalized() : vector3f(0.f, 1.f, 0.f);
+					vector3f axisU = viewDir.Cross(axisV).NormalizedSafe();
+
+					// Elongation proportional to current velocity magnitude.
+					// As drag slows particles down, they naturally become rounder.
+					const float speedMag = float(backboneDirCamD.Length());
+					const float baseStretch = Clamp(speedMag * 20.0f, 0.0f, 100.0f);
+					const float apparentStretch = baseStretch * sideOn;
+
+					float size = std::max(0.01f, float(inst.m_plumeOffset.Length()) * 2.0f);
+
+					// Two UV triangles, the V-axis is aligned to the jet backbone axis.
+					const vector3f u = axisU * size;
+					const vector3f v = axisV * size;
+					const vector3f v_add = axisV * apparentStretch;
+
+					const vector3f p0 = pos - u - v - v_add;
+					const vector3f p1 = pos + u - v - v_add;
+					const vector3f p2 = pos + u + v;
+					const vector3f p3 = pos - u + v;
+					const vector3f packed(ageNorm, inst.m_opacityScale, 0.f);
+
+					exhaustArray.Add(p0, packed, vector2f(0.f, 0.f));
+					exhaustArray.Add(p1, packed, vector2f(1.f, 0.f));
+					exhaustArray.Add(p2, packed, vector2f(1.f, 1.f));
+					exhaustArray.Add(p2, packed, vector2f(1.f, 1.f));
+					exhaustArray.Add(p3, packed, vector2f(0.f, 1.f));
+					exhaustArray.Add(p0, packed, vector2f(0.f, 0.f));
+				} else {
+					// pack UV offset and particle size in normal attribute
+					const vector2f offset = CalculateOffset(SFX_TYPE(t), inst);
+					const float size = GetParticleSize(screenHeight, SFX_TYPE(t), pos, inst);
+					pointArray.Add(pos, vector3f(offset, Clamp(size, 0.1f, FLT_MAX)));
+				}
 			}
 
 			renderer->SetTransform(matrix4x4f::Identity);
-			renderer->DrawBuffer(&pointArray, material);
+			if (t == TYPE_EXHAUST)
+				renderer->DrawBuffer(&exhaustArray, material);
+			else
+				renderer->DrawBuffer(&pointArray, material);
 		}
 	}
 
@@ -397,6 +556,10 @@ void SfxManager::Init(Graphics::Renderer *r)
 	additiveAlphaState.depthWrite = false;
 	additiveAlphaState.primitiveType = Graphics::POINTS;
 
+	Graphics::RenderStateDesc exhaustAlphaState = alphaState;
+	exhaustAlphaState.primitiveType = Graphics::TRIANGLES;
+	exhaustAlphaState.cullMode = Graphics::CULL_NONE;
+
 	Graphics::VertexFormatDesc vfmt = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
 
 	// materials
@@ -413,6 +576,7 @@ void SfxManager::Init(Graphics::Renderer *r)
 	SplitMaterialData(cfg.String("explosionPacking"), m_materialData[TYPE_EXPLOSION]);
 	SplitMaterialData(cfg.String("damagePacking"), m_materialData[TYPE_DAMAGE]);
 	SplitMaterialData(cfg.String("smokePacking"), m_materialData[TYPE_SMOKE]);
+	m_materialData[TYPE_EXHAUST].effect = Graphics::EFFECT_BILLBOARD;
 
 	desc.effect = m_materialData[TYPE_DAMAGE].effect;
 	damageParticle.reset(r->CreateMaterial("billboards", desc, additiveAlphaState, vfmt));
@@ -430,6 +594,13 @@ void SfxManager::Init(Graphics::Renderer *r)
 		smokeParticle->SetPushConstant("coordDownScale"_hash,
 			m_materialData[TYPE_SMOKE].coord_downscale);
 
+	Graphics::MaterialDescriptor exhaustDesc;
+	exhaustDesc.textures = 0;
+	exhaustDesc.effect = Graphics::EFFECT_BILLBOARD;
+	const auto exhaustVfmt = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0 | Graphics::ATTRIB_NORMAL);
+	exhaustParticle.reset(r->CreateMaterial("exhaust", exhaustDesc, exhaustAlphaState, exhaustVfmt));
+	exhaustParticle->diffuse = Color(220, 220, 220, 48);
+
 	desc.effect = m_materialData[TYPE_EXPLOSION].effect;
 	explosionParticle.reset(r->CreateMaterial("billboards", desc, alphaState, vfmt));
 	explosionParticle->SetTexture("texture0"_hash,
@@ -444,5 +615,6 @@ void SfxManager::Uninit()
 	damageParticle.reset();
 	ecmParticle.reset();
 	smokeParticle.reset();
+	exhaustParticle.reset();
 	explosionParticle.reset();
 }

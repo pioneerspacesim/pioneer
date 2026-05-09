@@ -21,8 +21,18 @@ enum SFX_TYPE {
 	TYPE_EXPLOSION = 1,
 	TYPE_DAMAGE,
 	TYPE_SMOKE,
+	TYPE_EXHAUST,
 	TYPE_NONE
 };
+
+namespace SfxParams {
+	inline constexpr float EXHAUST_MAX_PLAYER_DISTANCE = 5000.0f;
+	inline constexpr float EXHAUST_INITIAL_SPREAD = 0.1f;
+	inline constexpr float EXHAUST_MAX_SPREAD = 100.0f;
+	inline constexpr float EXHAUST_LIFETIME = 20.0f;
+	inline constexpr float EXHAUST_WIND_SPEED = 32.0f;
+	inline constexpr float EXHAUST_PARTICLES_PER_SEC = 300.0f;
+}
 
 struct Sfx {
 	Sfx() = delete;
@@ -39,8 +49,19 @@ struct Sfx {
 
 	vector3d m_pos;
 	vector3d m_vel;
+	vector3d m_backbonePos;
+	vector3d m_backboneVel;
+	// Start-of-current-physics-tick backbone (TYPE_EXHAUST); used for render interp like DynamicBody::m_oldPos.
+	vector3d m_backboneAtStepStart;
+	vector3d m_plumeOffset;
+	vector3d m_plumeOffsetVel;
 	float m_age;
 	float m_speed;
+	float m_seed;
+	float m_lifetime;
+	float m_dragScale;
+	float m_opacityScale;
+	vector3d m_windVel;
 	enum SFX_TYPE m_type;
 };
 
@@ -51,6 +72,7 @@ public:
 	static void Add(const Body *, SFX_TYPE);
 	static void AddExplosion(Body *);
 	static void AddThrustSmoke(const Body *b, float speed, const vector3d &adjustpos);
+	static void AddExhaust(const Body *b, const vector3d &backboneAdjustPos, const vector3d &backboneVel, const vector3d &plumeOffset, const vector3d &plumeOffsetVel, float intensity, float dragScale, float opacityScale, const vector3d &windVel);
 	static void TimeStepAll(const float timeStep, FrameId f);
 	static void RenderAll(Graphics::Renderer *r, FrameId f, const FrameId camFrame);
 	static void ToJson(Json &jsonObj, const FrameId f);
@@ -62,6 +84,7 @@ public:
 	static std::unique_ptr<Graphics::Material> damageParticle;
 	static std::unique_ptr<Graphics::Material> ecmParticle;
 	static std::unique_ptr<Graphics::Material> smokeParticle;
+	static std::unique_ptr<Graphics::Material> exhaustParticle;
 	static std::unique_ptr<Graphics::Material> explosionParticle;
 
 	SfxManager();
