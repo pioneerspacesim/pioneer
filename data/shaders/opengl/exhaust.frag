@@ -5,8 +5,8 @@
 #include "lib.glsl"
 
 in vec2 v_uv;
-in float v_ageNorm;
-in float v_opacityScale;
+in vec4 v_color;
+in float v_isDust;
 
 out vec4 frag_color;
 
@@ -18,10 +18,15 @@ void main(void)
 
 	float edge = smoothstep(1.0, 0.12, r);
 	float inner = smoothstep(0.75, 0.0, r);
-	// Nonlinear fade: keep strong near birth, then decay faster through mid/late life.
-	float ageFade = pow(1.0 - clamp(v_ageNorm, 0.0, 1.0), 2.8);
 
-	float alpha = material.diffuse.a * edge * ageFade * clamp(v_opacityScale, 0.0, 1.0);
-	vec3 color = material.diffuse.rgb + vec3(0.12, 0.14, 0.18) * inner;
+	// C++ supplies age fade in v_color: exhaust uses rgb as a uniform scale (ageFade);
+	// dust uses rgb as final tint * ageFade. v_color.a holds opacityScale * ageFade.
+	vec3 color;
+	if (v_isDust > 0.5)
+		color = v_color.rgb;
+	else
+		color = material.diffuse.rgb * v_color.rgb + vec3(0.12, 0.14, 0.18) * inner;
+
+	float alpha = material.diffuse.a * v_color.a * edge;
 	frag_color = vec4(color, alpha);
 }

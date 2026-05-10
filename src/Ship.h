@@ -120,7 +120,6 @@ public:
 	bool Undock();
 	void TimeStepUpdate(const float timeStep) override;
 	void StaticUpdate(const float timeStep) override;
-	void SpawnThrusterPlumeParticles(float timeStep, double density);
 
 	void TimeAccelAdjust(const float timeStep);
 
@@ -352,7 +351,7 @@ private:
 
 	// Per-thruster atmospheric exhaust (nozzle anchor + jet backbone)
 	struct ExhaustThrusterChannel {
-		bool hasAnchor = false;
+		bool hasLastNozzle = false;
 		vector3d lastNozzleWorld = vector3d::Zero;
 		vector3d lastBackboneVel = vector3d::Zero;
 		bool wasThrusterFiring = false;
@@ -361,6 +360,7 @@ private:
 	std::vector<SceneGraph::Thruster *> m_thrusterExhaustThrusters;
 	std::vector<ExhaustThrusterChannel> m_exhaustThrusterChannels;
 	void RefreshThrusterExhaustMounts();
+	void SpawnThrusterExhaustParticles(float timeStep);
 
 	std::deque<CargoBody *> m_cargoSpawnQueue;
 

@@ -90,6 +90,9 @@ namespace SceneGraph {
 
 	float Thruster::ComputeReactionPower(const vector3f &linThrust, const vector3f &angThrust) const
 	{
+		// Given the total linear and angular thrust of the ship, work out how much this thruster can
+		// contribute to it.
+
 		float power = -dir.Dot(linThrust);
 
 		if (!linearOnly) {

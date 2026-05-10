@@ -5,13 +5,14 @@
 #include "lib.glsl"
 
 out vec2 v_uv;
-out float v_ageNorm;
-out float v_opacityScale;
+out vec4 v_color;
+// 1.0 when particle is dust kick (no material / inner lift); 0.0 for exhaust plume.
+out float v_isDust;
 
 void main(void)
 {
 	gl_Position = matrixTransform();
 	v_uv = a_uv0.xy;
-	v_ageNorm = a_normal.x;
-	v_opacityScale = a_normal.y;
+	v_color = vec4(a_color);
+	v_isDust = a_normal.x;
 }

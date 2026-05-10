@@ -353,7 +353,7 @@ void Camera::Draw(const Body *excludeBody)
 		m_renderer->DrawBuffer(&billboards, m_billboardMaterial.get());
 	}
 
-	SfxManager::RenderAll(m_renderer, rootFrameId, camFrameId);
+	SfxManager::RenderAll(m_renderer, rootFrameId, camFrameId, this);
 }
 
 // Calculates the ambiently and directly lit portions of the lighting model taking into account the atmosphere and sun positions at a given location

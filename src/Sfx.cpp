@@ -4,14 +4,17 @@
 #include "Sfx.h"
 
 #include "Body.h"
+#include "Camera.h"
 #include "FileSystem.h"
 #include "Frame.h"
 #include "Game.h"
 #include "GameSaveError.h"
 #include "Json.h"
 #include "JsonUtils.h"
+#include "MathUtil.h"
 #include "ModelBody.h"
 #include "Pi.h"
+#include "Player.h"
 #include "Space.h"
 #include "matrix4x4.h"
 
@@ -28,6 +31,7 @@
 #include "profiler/Profiler.h"
 
 #include <algorithm>
+#include <cmath>
 #include <vector>
 
 using namespace Graphics;
@@ -76,6 +80,49 @@ namespace {
 			return 0.f;
 		}
 	}
+
+	void ApplyExhaustGroundThreshold(Sfx &s)
+	{
+		if (!(s.m_exhaustGroundRadius > 1.0))
+			return;
+
+		if (s.m_exhaustDustKick)
+			return;	// Already hit the ground
+
+		const vector3d particlePos = s.m_backbonePos + s.m_plumeOffset;
+		const double radialDistSqr = particlePos.LengthSqr();
+		const double groundRadius = s.m_exhaustGroundRadius;
+		if (radialDistSqr > groundRadius * groundRadius)
+			return;
+
+		// Randomly cull some particles right at exhaust->dust transition, because the
+		// dust clouds are large and diffuse and don't need nearly as many particles
+		if (Pi::rng.Double() < double(SfxParams::EXHAUST_DUST_TRANSITION_CULL_PROB)) {
+			s.m_type = TYPE_NONE;
+			return;
+		}
+
+		const double rl = std::sqrt(std::max(radialDistSqr, 1e-24));
+		const vector3d rad = particlePos / rl;
+		const vector3d surface = rad * groundRadius;
+
+		const vector3d ref(std::abs(rad.y) < 0.92 ? vector3d(0., 1., 0.) : vector3d(1., 0., 0.));
+		vector3d east = rad.Cross(ref).NormalizedSafe();
+		vector3d north = east.Cross(rad).NormalizedSafe();
+		const double ang = Pi::rng.Double(0., 2.0 * M_PI);
+		const vector3d tang = (east * std::cos(ang) + north * std::sin(ang)).NormalizedSafe();
+		const double tanJ = Pi::rng.Double(0.35, 1.0);
+		const double radJ = Pi::rng.Double(0.55, 1.0);
+
+		s.m_backbonePos = surface;
+		s.m_plumeOffset = vector3d(0.);
+		s.m_backboneVel = vector3d(0.);
+		s.m_plumeOffsetVel =
+			rad * double(SfxParams::EXHAUST_DUST_RADIAL_KICK_SPEED * float(radJ)) +
+			tang * double(SfxParams::EXHAUST_DUST_TANGENT_KICK_SPEED * float(tanJ));
+
+		s.m_exhaustDustKick = true;
+	}
 } // namespace
 
 std::unique_ptr<Graphics::Material> SfxManager::damageParticle;
@@ -105,10 +152,13 @@ Sfx::Sfx(const vector3d &pos, const vector3d &vel, const float speed, const SFX_
 	m_exhaustSavedEmitterBodyIdx(Sfx::INVALID_EXHAUST_SAVED_BODY_IDX),
 	m_exhaustJetIndex(0),
 	m_exhaustBirthSeq(0),
-	m_exhaustSuppressStreakElongation(false)
+	m_exhaustSuppressStreakElongation(false),
+	m_exhaustGroundRadius(0.0),
+	m_exhaustDustKick(false),
+	m_exhaustDustTint(0, 0, 0, 0)
 {
 	if (type == TYPE_EXHAUST)
-		m_lifetime = SfxParams::EXHAUST_LIFETIME * float(Pi::rng.Double(0.6, 1.0));
+		m_lifetime = SfxParams::EXHAUST_LIFETIME * float(std::pow(Pi::rng.Double(0.5, 1.0), 2.0));
 }
 
 Sfx::Sfx(const Json &jsonObj)
@@ -135,6 +185,9 @@ Sfx::Sfx(const Json &jsonObj)
 		m_exhaustJetIndex = Uint16(sfxObj.value("exhaustJetIndex", 0));
 		m_exhaustBirthSeq = sfxObj.value("exhaustBirthSeq", Uint32(0));
 		m_exhaustSuppressStreakElongation = sfxObj.value("exhaustSuppressStreakElongation", false);
+		m_exhaustGroundRadius = sfxObj.value("exhaustGroundRadius", 0.0);
+		m_exhaustDustKick = sfxObj.value("exhaustDustKick", false);
+		m_exhaustDustTint = sfxObj.value("exhaustDustTint", Color(0, 0, 0, 0));
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
@@ -163,6 +216,9 @@ void Sfx::SaveToJson(Json &jsonObj, const Space *space)
 		sfxObj["exhaustJetIndex"] = m_exhaustJetIndex;
 		sfxObj["exhaustBirthSeq"] = m_exhaustBirthSeq;
 		sfxObj["exhaustSuppressStreakElongation"] = m_exhaustSuppressStreakElongation;
+		sfxObj["exhaustGroundRadius"] = m_exhaustGroundRadius;
+		sfxObj["exhaustDustKick"] = m_exhaustDustKick;
+		sfxObj["exhaustDustTint"] = m_exhaustDustTint;
 	}
 	sfxObj["age"] = m_age;
 	sfxObj["seed"] = m_seed;
@@ -202,6 +258,7 @@ void Sfx::TimeStepUpdate(const float timeStep)
 
 			m_backbonePos += m_backboneVel * double(timeStep);
 			m_plumeOffset += m_plumeOffsetVel * double(timeStep);
+			ApplyExhaustGroundThreshold(*this);
 
 			// Keep legacy fields coherent for non-exhaust code paths.
 			m_pos = m_backbonePos + m_plumeOffset;
@@ -313,7 +370,7 @@ void SfxManager::AddThrustSmoke(const Body *b, const float speed, const vector3d
 	sfxman->AddInstance(sfx);
 }
 
-void SfxManager::AddExhaust(const Body *b, const Uint16 exhaustJetIndex, const bool exhaustSuppressStreakElongation, const vector3d &startPos, const vector3d &backboneVel, const vector3d &plumeOffset, const vector3d &plumeOffsetVel, const float intensity, const float dragScale, const float opacityScale, const vector3d &windVel)
+void SfxManager::AddExhaust(const Body *b, const Uint16 exhaustJetIndex, const bool exhaustSuppressStreakElongation, const vector3d &startPos, const vector3d &backboneVel, const vector3d &plumeOffset, const vector3d &plumeOffsetVel, const float intensity, const float dragScale, const float opacityScale, const vector3d &windVel, const double groundRadius, const Color &dustTint)
 {
 	SfxManager *sfxman = AllocSfxInFrame(b->GetFrame());
 	if (!sfxman) return;
@@ -334,6 +391,9 @@ void SfxManager::AddExhaust(const Body *b, const Uint16 exhaustJetIndex, const b
 	sfx.m_exhaustSavedEmitterBodyIdx = Sfx::INVALID_EXHAUST_SAVED_BODY_IDX;
 	sfx.m_exhaustSuppressStreakElongation = exhaustSuppressStreakElongation;
 	sfx.m_exhaustBirthSeq = sfxman->m_nextExhaustBirthSeq++;
+	sfx.m_exhaustGroundRadius = groundRadius;
+	sfx.m_exhaustDustKick = false;
+	sfx.m_exhaustDustTint = dustTint;
 	sfxman->AddInstance(sfx);
 }
 
@@ -374,12 +434,18 @@ void SfxManager::Cleanup()
 	}
 }
 
-void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId)
+void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId, const Camera *camera, float exhaustIllumMul)
 {
+	PROFILE_SCOPED()
+
 	Frame *f = Frame::GetFrame(fId);
 	int screenHeight = renderer->GetWindowHeight();
 
-	PROFILE_SCOPED()
+	if (camera && Pi::game && Pi::player && !Pi::player->IsDead() && fId == Pi::game->GetSpace()->GetRootFrame()) {
+		double amb = 0.0, direct = 1.0;
+		camera->CalcLighting(Pi::player, amb, direct);
+		exhaustIllumMul = Clamp(float(amb + direct), 0.08f, 1.0f);
+	}
 	if (f->m_sfx) {
 		matrix4x4d ftran;
 		// Use interpolated frame transform so SFX aligns with interpolated body rendering.
@@ -414,7 +480,9 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId)
 			const double alpha = Pi::game ? Pi::GetGameTickAlpha() : 1.0;
 
 			if (t == TYPE_EXHAUST) {
-				Graphics::VertexArray exhaustArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0 | Graphics::ATTRIB_NORMAL, numInstances * 6);
+				Graphics::VertexArray exhaustArray(
+					Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0,
+					numInstances * 6);
 				std::vector<size_t> exhaustOrder(numInstances);
 				for (size_t i = 0; i < numInstances; ++i)
 					exhaustOrder[i] = i;
@@ -452,19 +520,17 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId)
 					const float ageNorm = Clamp(inst.m_age / std::max(inst.m_lifetime, 0.001f), 0.0f, 1.0f);
 					const vector3d interpBackboneCam = ftran * interpBackbone;
 
+					const bool prevWasDust = prevStreakParticle && prevStreakParticle->m_exhaustDustKick;
 					const bool sameJetStream = prevStreakParticle && SameExhaustJetStream(*prevStreakParticle, inst);
 					const bool elongateTowardPrev = sameJetStream && !inst.m_exhaustSuppressStreakElongation;
 
 					vector3d backboneDirCamD = interpBackboneCam - prevInterpBackboneCam;
-					if ((backboneDirCamD.LengthSqr() < 1e-5) || !elongateTowardPrev)
-						backboneDirCamD = ftran.ApplyRotationOnly(-inst.m_backboneVel / SfxParams::EXHAUST_PARTICLES_PER_SEC);
 
 					prevInterpBackboneCam = interpBackboneCam;
 					prevStreakParticle = &inst;
 					if (!elongateTowardPrev) continue;
 
 					vector3f jetAxis = vector3f(backboneDirCamD).NormalizedSafe();
-					if (jetAxis.LengthSqr() < 1e-6f) jetAxis = vector3f(0.f, 0.f, 1.f);
 
 					// Camera-space view direction from particle to camera origin.
 					vector3f viewDir = (-pos).NormalizedSafe();
@@ -473,8 +539,8 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId)
 					// This approximates an ellipsoid projection:
 					// - looking down axis => round
 					// - side-on => elongated.
-					float axisViewDot = Clamp(fabs(jetAxis.Dot(viewDir)), 0.f, 1.f);
-					float sideOn = sqrtf(std::max(0.f, 1.f - axisViewDot * axisViewDot));
+					const float axisViewDot = Clamp(fabs(jetAxis.Dot(viewDir)), 0.f, 1.f);
+					const float sideOn = 1.0f - axisViewDot * axisViewDot;
 					vector3f vProj = jetAxis - viewDir * jetAxis.Dot(viewDir);
 					vector3f axisV = (vProj.LengthSqr() > 1e-8f) ? vProj.Normalized() : vector3f(0.f, 1.f, 0.f);
 					vector3f axisU = viewDir.Cross(axisV).NormalizedSafe();
@@ -482,10 +548,12 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId)
 					// Elongation proportional to current velocity magnitude.
 					// As drag slows particles down, they naturally become rounder.
 					const float speedMag = float(backboneDirCamD.Length());
-					const float baseStretch = Clamp(speedMag * 20.0f, 0.0f, 100.0f);
-					const float apparentStretch = baseStretch * sideOn;
+					const float baseStretch = Clamp(speedMag * 10.0f, 0.0f, 100.0f);
+					const float apparentStretch = (prevWasDust || inst.m_exhaustDustKick ? 0.0 : baseStretch * sideOn);
 
 					float size = std::max(0.01f, float(inst.m_plumeOffset.Length()));
+					if (inst.m_exhaustDustKick)
+						size = SfxParams::EXHAUST_MAX_SPREAD * ageNorm;
 
 					// Two UV triangles, the V-axis is aligned to the jet backbone axis.
 					const vector3f u = axisU * size;
@@ -496,14 +564,35 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId)
 					const vector3f p1 = pos + u - v - v_add;
 					const vector3f p2 = pos + u + v;
 					const vector3f p3 = pos - u + v;
-					const vector3f packed(ageNorm, inst.m_opacityScale, 0.f);
 
-					exhaustArray.Add(p0, packed, vector2f(0.f, 0.f));
-					exhaustArray.Add(p1, packed, vector2f(1.f, 0.f));
-					exhaustArray.Add(p2, packed, vector2f(1.f, 1.f));
-					exhaustArray.Add(p2, packed, vector2f(1.f, 1.f));
-					exhaustArray.Add(p3, packed, vector2f(0.f, 1.f));
-					exhaustArray.Add(p0, packed, vector2f(0.f, 0.f));
+					const float ageFade = powf(1.0f - ageNorm, 2.8f);
+
+					Color particleColor;
+					vector3f normalFlag;
+					if (inst.m_exhaustDustKick) {
+						// This is a dust cloud particle
+						particleColor = inst.m_exhaustDustTint;
+						const Uint8 opacityA = Uint8((float)particleColor.a * ageFade);
+						particleColor.a = opacityA;
+						normalFlag = vector3f(1.f, 0.f, 0.f);
+					} else {
+						// This is an exhaust plume particle
+						const float opacityTimesAge = Clamp(inst.m_opacityScale * ageFade, 0.f, 1.f);
+						const Uint8 opacityA = Uint8(opacityTimesAge * 255.f);
+						particleColor = Color(255, 255, 255, opacityA);
+						normalFlag = vector3f(0.f, 0.f, 0.f);
+					}
+
+					particleColor.r = Uint8(Clamp(int(float(particleColor.r) * exhaustIllumMul), 0, 255));
+					particleColor.g = Uint8(Clamp(int(float(particleColor.g) * exhaustIllumMul), 0, 255));
+					particleColor.b = Uint8(Clamp(int(float(particleColor.b) * exhaustIllumMul), 0, 255));
+
+					exhaustArray.Add(p0, normalFlag, particleColor, vector2f(0.f, 0.f));
+					exhaustArray.Add(p1, normalFlag, particleColor, vector2f(1.f, 0.f));
+					exhaustArray.Add(p2, normalFlag, particleColor, vector2f(1.f, 1.f));
+					exhaustArray.Add(p2, normalFlag, particleColor, vector2f(1.f, 1.f));
+					exhaustArray.Add(p3, normalFlag, particleColor, vector2f(0.f, 1.f));
+					exhaustArray.Add(p0, normalFlag, particleColor, vector2f(0.f, 0.f));
 				}
 
 				renderer->SetTransform(matrix4x4f::Identity);
@@ -536,7 +625,7 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId)
 	}
 
 	for (FrameId kid : f->GetChildren()) {
-		RenderAll(renderer, kid, camFrameId);
+		RenderAll(renderer, kid, camFrameId, camera, exhaustIllumMul);
 	}
 }
 
@@ -668,9 +757,10 @@ void SfxManager::Init(Graphics::Renderer *r)
 	Graphics::MaterialDescriptor exhaustDesc;
 	exhaustDesc.textures = 0;
 	exhaustDesc.effect = Graphics::EFFECT_BILLBOARD;
-	const auto exhaustVfmt = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0 | Graphics::ATTRIB_NORMAL);
+	const auto exhaustVfmt = Graphics::VertexFormatDesc::FromAttribSet(
+		Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 	exhaustParticle.reset(r->CreateMaterial("exhaust", exhaustDesc, exhaustAlphaState, exhaustVfmt));
-	exhaustParticle->diffuse = Color(220, 220, 220, 48);
+	exhaustParticle->diffuse = Color(255, 255, 255, 255);
 
 	desc.effect = m_materialData[TYPE_EXPLOSION].effect;
 	explosionParticle.reset(r->CreateMaterial("billboards", desc, alphaState, vfmt));

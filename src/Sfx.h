@@ -4,6 +4,7 @@
 #ifndef _SFX_H
 #define _SFX_H
 
+#include "Color.h"
 #include "FrameId.h"
 #include "JsonFwd.h"
 #include "graphics/Material.h"
@@ -13,6 +14,7 @@
 #include <deque>
 
 class Body;
+class Camera;
 class Frame;
 class Space;
 
@@ -35,9 +37,12 @@ namespace SfxParams {
 	inline constexpr float EXHAUST_MAX_SPREAD = 100.0f;
 	inline constexpr float EXHAUST_LIFETIME = 10.0f;
 	inline constexpr float EXHAUST_WIND_SPEED = 32.0f;
-	inline constexpr float EXHAUST_PARTICLES_PER_SEC = 120.0f;
-	// Normalized reaction power ([0,1] from joystick / autopilot) needed before spawning plume
+	inline constexpr float EXHAUST_PARTICLES_PER_SHIP_PER_SEC = 1800.0f;
 	inline constexpr float EXHAUST_MIN_REACTION_POWER = 0.06f;
+	inline constexpr float EXHAUST_STREAM_TIMESTEP_CAP = 0.03f;
+	inline constexpr float EXHAUST_DUST_RADIAL_KICK_SPEED = 24.0f;
+	inline constexpr float EXHAUST_DUST_TANGENT_KICK_SPEED = 38.0f;
+	inline constexpr float EXHAUST_DUST_TRANSITION_CULL_PROB = 0.80f;
 }
 
 struct Sfx {
@@ -79,6 +84,11 @@ struct Sfx {
 	Uint32 m_exhaustBirthSeq; // monotonic per-frame SfxManager for sort order within a stream
 	// If true, billboard streak does not use backbone delta vs previous particle (new thrust pulse opener).
 	bool m_exhaustSuppressStreakElongation;
+	// Exhaust hit cached terrain radius threshold sampled at spawn-time.
+	double m_exhaustGroundRadius;
+	bool m_exhaustDustKick;
+	// Dust tint (rgb) and mix amount in a (0..255), sampled at spawn-time.
+	Color m_exhaustDustTint;
 	static constexpr Uint32 INVALID_EXHAUST_SAVED_BODY_IDX = Uint32(0xffffffffu);
 };
 
@@ -89,9 +99,9 @@ public:
 	static void Add(const Body *, SFX_TYPE);
 	static void AddExplosion(Body *);
 	static void AddThrustSmoke(const Body *b, float speed, const vector3d &adjustpos);
-	static void AddExhaust(const Body *b, Uint16 exhaustJetIndex, bool exhaustSuppressStreakElongation, const vector3d &backboneAdjustPos, const vector3d &backboneVel, const vector3d &plumeOffset, const vector3d &plumeOffsetVel, float intensity, float dragScale, float opacityScale, const vector3d &windVel);
+	static void AddExhaust(const Body *b, Uint16 exhaustJetIndex, bool exhaustSuppressStreakElongation, const vector3d &backboneAdjustPos, const vector3d &backboneVel, const vector3d &plumeOffset, const vector3d &plumeOffsetVel, float intensity, float dragScale, float opacityScale, const vector3d &windVel, double groundRadius, const Color &dustTint);
 	static void TimeStepAll(const float timeStep, FrameId f);
-	static void RenderAll(Graphics::Renderer *r, FrameId f, const FrameId camFrame);
+	static void RenderAll(Graphics::Renderer *r, FrameId f, FrameId camFrame, const Camera *camera = nullptr, float exhaustIllumMul = 1.f);
 	static void ToJson(Json &jsonObj, const FrameId f, const Space *space);
 	static void FromJson(const Json &jsonObj, FrameId f);
 
