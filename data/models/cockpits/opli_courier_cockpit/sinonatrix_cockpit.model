@@ -21,6 +21,11 @@ material "Sinonatrix.Transp" {
 	texture specular "sinonatrix_cockpit_spec.dds"
 	texture normal "sinonatrix_cockpit_norm.png"
 	texture glow "sinonatrix_cockpit_glow.dds"
+	
+			render_state {
+		blend alpha
+		depth_write off
+	}
 }
 
 material "Sinonatrix.Screens" {

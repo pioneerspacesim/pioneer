@@ -38,6 +38,11 @@ material "Glass" {
 	texture specular "building_spec.dds"
 	texture glow     "building_glow.dds"
 	texture normal   "building_norm.dds"
+	
+			render_state {
+		blend alpha
+		depth_write off
+	}
 }
 
 lod 500 {

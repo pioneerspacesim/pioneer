@@ -22,6 +22,11 @@ material "Transparent" {
 	texture specular "xylophis_spec.dds"
 	texture normal   "xylophis_norm.png"
 	texture glow     "xylophis_glow.dds"
+	
+		render_state {
+		blend alpha
+		depth_write off
+	}
 }
 
 material "int" {

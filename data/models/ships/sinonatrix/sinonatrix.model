@@ -17,11 +17,16 @@ material "Canopy" {
 	diffuse 1.0 1.0 1.0
 	specular 0.8 0.8 0.8
 	shininess 120
-	opacity 30
+	opacity 90
 	texture diffuse  "fuselage_diff.dds"
 	texture specular "fuselage_spec.dds"
 	texture normal   "fuselage_norm.png"
 	texture glow     "fuselage_glow.dds"
+	
+		render_state {
+		blend alpha
+		depth_write off
+	}
 }
 
 material "Engine" {
