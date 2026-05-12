@@ -300,14 +300,6 @@ namespace Graphics {
 		uv0.emplace_back(uv);
 	}
 
-	void VertexArray::Add(const vector3f &v, const vector3f &n, const Color &c, const vector2f &uv)
-	{
-		position.emplace_back(v);
-		normal.emplace_back(n);
-		diffuse.emplace_back(c);
-		uv0.emplace_back(uv);
-	}
-
 	void VertexArray::Add(const vector3f &v, const vector3f &n, const vector2f &uv, const vector3f &tang)
 	{
 		position.emplace_back(v);

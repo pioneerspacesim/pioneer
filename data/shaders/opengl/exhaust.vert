@@ -6,13 +6,10 @@
 
 out vec2 v_uv;
 out vec4 v_color;
-// 1.0 when particle is dust kick (no material / inner lift); 0.0 for exhaust plume.
-out float v_isDust;
 
 void main(void)
 {
 	gl_Position = matrixTransform();
 	v_uv = a_uv0.xy;
 	v_color = vec4(a_color);
-	v_isDust = a_normal.x;
 }

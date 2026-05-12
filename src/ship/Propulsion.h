@@ -47,6 +47,7 @@ public:
 	inline double GetThrustRev() const { return GetThrust(THRUSTER_REVERSE); }
 	inline double GetThrustUp() const { return GetThrust(THRUSTER_UP); }
 	double GetThrustMin() const;
+	inline float GetAngThrustCap() const { return m_angThrust; }
 
 	vector3d GetThrustUncapped(const vector3d &dir) const;
 

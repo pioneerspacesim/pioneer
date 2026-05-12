@@ -56,7 +56,7 @@ namespace {
 		Space *space = Pi::game->GetSpace();
 		if (!space) return false;
 
-		// Keep this local query cheap; we only need stations close enough to plausibly be beneath the ship.
+		// Keep this local query cheap - we only need stations close enough to plausibly be beneath the ship.
 		constexpr double PAD_QUERY_RADIUS = 2000.0;
 		constexpr double PAD_MAX_VERTICAL_ABOVE_M = 350.0;
 		constexpr double PAD_MIN_VERTICAL_BELOW_M = -20.0;
@@ -285,11 +285,28 @@ void Ship::RefreshThrusterExhaustMounts()
 
 	std::vector<std::pair<SceneGraph::MatrixTransform *, SceneGraph::Thruster *>> tmp;
 	GetModel()->GatherThrusterMounts(tmp);
+
+	std::vector<float> thrusterScaleAvg;
+	thrusterScaleAvg.reserve(tmp.size());
+	float maxThrusterScale = 0.0f;
+	for (const auto &pr : tmp) {
+		const matrix4x4f M = pr.first->CalcGlobalTransform();
+		const float sx = vector3f(M[0], M[1], M[2]).Length();
+		const float sy = vector3f(M[4], M[5], M[6]).Length();
+		const float sz = vector3f(M[8], M[9], M[10]).Length();
+		const float scaleAvg = (sx + sy + sz) / 3.0f;
+		thrusterScaleAvg.push_back(scaleAvg);
+		maxThrusterScale = std::max(maxThrusterScale, scaleAvg);
+	}
 	m_thrusterExhaustMounts.reserve(tmp.size());
 	m_thrusterExhaustThrusters.reserve(tmp.size());
-	for (const auto &pr : tmp) {
+	for (size_t i = 0; i < tmp.size(); ++i) {
+		const auto &pr = tmp[i];
 		m_thrusterExhaustMounts.push_back(pr.first);
 		m_thrusterExhaustThrusters.push_back(pr.second);
+		const float scaleAvg = thrusterScaleAvg[i];
+		const float scaleProportional = (maxThrusterScale > 1e-6f) ? (scaleAvg / maxThrusterScale) : 1.0f;
+		pr.second->SetVisualSizeInfo(scaleAvg, scaleProportional);
 	}
 	m_exhaustThrusterChannels.assign(tmp.size(), ExhaustThrusterChannel{});
 }
@@ -1506,6 +1523,13 @@ void Ship::SpawnThrusterExhaustParticles(float timeStep)
 	const vector3f linT = vector3f(m_propulsion->GetLinThrusterState());
 	const vector3f angT = -vector3f(m_propulsion->GetAngThrusterState());
 
+	// How hard linear thrusters are firing vs a ship-wide reference (larger of up / forward max thrust).
+	const double maxRefThrust = std::max(m_propulsion->GetThrust(THRUSTER_UP), m_propulsion->GetThrust(THRUSTER_FORWARD));
+	const vector3d actualLinThrust = m_propulsion->GetActualLinThrust();
+	const vector3d actualAngThrust = m_propulsion->GetActualAngThrust();
+	const float linThrustEffortScalar = actualLinThrust.Length() / maxRefThrust;
+	const float angThrustEffortScalar = actualAngThrust.Length() * SfxParams::EXHAUST_ANGULAR_FACTOR / m_propulsion->GetAngThrustCap();
+
 	// Simple ambient wind model: fixed-speed direction tangent to local surface.
 	const vector3d localUp = GetPosition().NormalizedSafe();
 	vector3d windDir = vector3d(0.0, 1.0, 0.0).Cross(localUp);
@@ -1518,14 +1542,6 @@ void Ship::SpawnThrusterExhaustParticles(float timeStep)
 	if (m_exhaustThrusterChannels.size() != m_thrusterExhaustMounts.size())
 		m_exhaustThrusterChannels.assign(m_thrusterExhaustMounts.size(), ExhaustThrusterChannel{});
 
-	// Get the amount that each thruster is firing this tick
-	std::vector<float> reactionPowers;
-	reactionPowers.reserve(m_thrusterExhaustThrusters.size());
-	for (SceneGraph::Thruster *th : m_thrusterExhaustThrusters) {
-		reactionPowers.push_back(Clamp(th->ComputeReactionPower(linT, angT), 0.f, 1.f));
-	}
-
-	const float intensity = float(1.4 + 2.8 * Clamp(density, 0.0, 2.0));
 	const float dragScale = float(Clamp(density / 1.225, 0.0, 2.0));
 
 	const matrix3x3d &bodyOrient = GetOrient();
@@ -1551,8 +1567,20 @@ void Ship::SpawnThrusterExhaustParticles(float timeStep)
 			ch.hasLastNozzle = true;
 		}
 
-		const float thrusterPower = reactionPowers[ti];
-		const bool firing = thrusterPower >= SfxParams::EXHAUST_MIN_REACTION_POWER;
+		// Get the amount that each thruster is firing this tick.
+		// Scale by thruster visual size and overall thrust demand
+		SceneGraph::Thruster *th = m_thrusterExhaustThrusters[ti];
+		const float visualScaled = th->GetVisualSizeProportional();
+		// Same combined reaction as model thruster flames 
+		const float reactionPower = th->ComputeReactionPower(linT, angT);
+		const float linOnly = th->ComputeReactionPower(linT, vector3f(0.f));
+		const float angOnly = th->ComputeReactionPower(vector3f(0.f), angT);
+		const float effortScalar = (angOnly >= linOnly) ? angThrustEffortScalar : linThrustEffortScalar;
+		const float unscaledPower = reactionPower * visualScaled * effortScalar;
+		// Use a log scale on the final thruster power so that tiny maneouvering thrusters are still visible compared to huge delta-V ones
+		const float finalThrusterPower = std::log(1.0f + SfxParams::EXHAUST_LOG_SCALE * unscaledPower) / std::log(1.0f + SfxParams::EXHAUST_LOG_SCALE);
+
+		const bool firing = finalThrusterPower >= SfxParams::EXHAUST_MIN_REACTION_POWER;
 		const bool newPulseLeadingEdge = firing && !ch.wasThrusterFiring;
 
 		vector3d exhaustDirWorld = bodyOrient * exhaustDirModel;
@@ -1565,14 +1593,15 @@ void Ship::SpawnThrusterExhaustParticles(float timeStep)
 		ch.lastBackboneVel = backboneWorldVel;
 
 		if (firing) {
-			const float opacityScale = float(Clamp((density / 1.225) * double(thrusterPower), 0.0, 1.0));
+			// Reduce the alpha for weaker thrusters, so that the exhaust is less pronounced
+			const float opacityScale = Clamp((density / 1.225) * double(finalThrusterPower), 0.0, 1.0);
 
-			// Keep particle count independent of thrust / density so the stream remains full.
+			// Keep particle count mostly independent of thrust / density so the stream remains full.
 			// If time is accelerated then timeStep could be huge - limit the number of particles in that case
 			// If timeStep is tiny then ensure we have at least one particle.
 			const float timeStepCapped = std::min(timeStep, SfxParams::EXHAUST_STREAM_TIMESTEP_CAP);
-			const float thrusterEmit = particlesPerSecPerThruster * timeStepCapped;
-			int count = 1 + int(thrusterEmit);
+			const float thrusterEmit = particlesPerSecPerThruster * timeStepCapped * finalThrusterPower;
+			int count = std::max(1, int(thrusterEmit));
 
 			// If this is the first tick where the thruster is firing, then only add one particle
 			// at the current nozzle position as the leading edge. It won't be drawn but will be
@@ -1584,8 +1613,7 @@ void Ship::SpawnThrusterExhaustParticles(float timeStep)
 				const double segT = double(i + 1) / double(count);
 				const vector3d nozzleBaseWorld = lastBackbonePosWorld.Lerp(currentNozzleWorld, segT);
 
-				const double nozzleJitterRadius = SfxParams::EXHAUST_INITIAL_SPREAD * double(std::max(thrusterPower, SfxParams::EXHAUST_MIN_REACTION_POWER));
-				const double jitterR = Pi::rng.Double(nozzleJitterRadius);
+				const double jitterRadius = Pi::rng.Double(1.0);
 				const double jitterTheta = Pi::rng.Double(2.0 * M_PI);
 
 				const vector3d shipY = bodyOrient.VectorY();
@@ -1596,14 +1624,14 @@ void Ship::SpawnThrusterExhaustParticles(float timeStep)
 				const vector3d vAxis = exhaustDirWorld.Cross(uAxis).Normalized();
 
 				const vector3d jitterDirW = (uAxis * std::cos(jitterTheta) + vAxis * std::sin(jitterTheta)).Normalized();
-				const vector3d plumeOffset = jitterDirW * jitterR;
+				const vector3d plumeOffset = jitterDirW * (jitterRadius * th->GetVisualSize() * SfxParams::EXHAUST_INITIAL_SPREAD);
 
-				const double maxVel = SfxParams::EXHAUST_MAX_SPREAD / (nozzleJitterRadius * double(SfxParams::EXHAUST_LIFETIME));
-				const double spreadAmp = Clamp(maxVel / std::max(density, 1e-5), 0.05, maxVel * 10.0);
-				const vector3d plumeOffsetVel = jitterDirW * (jitterR * spreadAmp);
+				const double jitterVel = (SfxParams::EXHAUST_MAX_SPREAD * jitterRadius) / SfxParams::EXHAUST_LIFETIME;
+				const double spreadAmp = Clamp(1.0 / std::max(density, 1e-5), 0.05, 8.0);
+				const vector3d plumeOffsetVel = jitterDirW * (jitterVel * spreadAmp);
 
 				const bool suppressStreak = newPulseLeadingEdge && (i == 0);
-				SfxManager::AddExhaust(this, Uint16(ti), suppressStreak, nozzleBaseWorld, backboneWorldVel, plumeOffset, plumeOffsetVel, intensity, dragScale, opacityScale, windVel, groundRadiusAtShip, dustTint);
+				SfxManager::AddExhaust(this, Uint16(ti), suppressStreak, nozzleBaseWorld, backboneWorldVel, plumeOffset, plumeOffsetVel, finalThrusterPower, dragScale, opacityScale, windVel, groundRadiusAtShip, dustTint);
 			}
 		}
 

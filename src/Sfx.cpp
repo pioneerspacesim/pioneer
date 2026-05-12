@@ -96,8 +96,9 @@ namespace {
 			return;
 
 		// Randomly cull some particles right at exhaust->dust transition, because the
-		// dust clouds are large and diffuse and don't need nearly as many particles
-		if (Pi::rng.Double() < double(SfxParams::EXHAUST_DUST_TRANSITION_CULL_PROB)) {
+		// dust clouds are large and diffuse and don't need nearly as many particles.
+		// The number of particles to cull depends on the thruster power (stored in m_speed).
+		if (Pi::rng.Double() > std::max(s.m_speed, SfxParams::EXHAUST_DUST_LOWEST_NON_CULL_PROB)) {
 			s.m_type = TYPE_NONE;
 			return;
 		}
@@ -118,12 +119,12 @@ namespace {
 		s.m_plumeOffset = vector3d(0.);
 		s.m_backboneVel = vector3d(0.);
 		s.m_plumeOffsetVel =
-			rad * double(SfxParams::EXHAUST_DUST_RADIAL_KICK_SPEED * float(radJ)) +
-			tang * double(SfxParams::EXHAUST_DUST_TANGENT_KICK_SPEED * float(tanJ));
+			rad * double(SfxParams::EXHAUST_DUST_RADIAL_KICK_SPEED * s.m_speed * float(radJ)) +
+			tang * double(SfxParams::EXHAUST_DUST_TANGENT_KICK_SPEED * s.m_speed * float(tanJ));
 
 		s.m_exhaustDustKick = true;
 	}
-} // namespace
+}
 
 std::unique_ptr<Graphics::Material> SfxManager::damageParticle;
 std::unique_ptr<Graphics::Material> SfxManager::ecmParticle;
@@ -257,7 +258,8 @@ void Sfx::TimeStepUpdate(const float timeStep)
 			m_backboneVel += (m_windVel - m_backboneVel) * drag;
 
 			m_backbonePos += m_backboneVel * double(timeStep);
-			m_plumeOffset += m_plumeOffsetVel * double(timeStep);
+			if (m_age > SfxParams::EXHAUST_TIME_BEFORE_SPREAD)
+				m_plumeOffset += m_plumeOffsetVel * double(timeStep);
 			ApplyExhaustGroundThreshold(*this);
 
 			// Keep legacy fields coherent for non-exhaust code paths.
@@ -481,7 +483,7 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId, 
 
 			if (t == TYPE_EXHAUST) {
 				Graphics::VertexArray exhaustArray(
-					Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0,
+					Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0,
 					numInstances * 6);
 				std::vector<size_t> exhaustOrder(numInstances);
 				for (size_t i = 0; i < numInstances; ++i)
@@ -524,36 +526,42 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId, 
 					const bool sameJetStream = prevStreakParticle && SameExhaustJetStream(*prevStreakParticle, inst);
 					const bool elongateTowardPrev = sameJetStream && !inst.m_exhaustSuppressStreakElongation;
 
-					vector3d backboneDirCamD = interpBackboneCam - prevInterpBackboneCam;
+					// The elongation effectively draws particles stretched from their current location back towards
+					// the previous particle in the stream. But since the particles are soft ellipses we need to 
+					// lengthen the jet vector first, to get a nice unbroken streaky stream.
+					const vector3f jetVectorCam = vector3f((interpBackboneCam - prevInterpBackboneCam) * 4.0);
 
 					prevInterpBackboneCam = interpBackboneCam;
 					prevStreakParticle = &inst;
-					if (!elongateTowardPrev) continue;
 
-					vector3f jetAxis = vector3f(backboneDirCamD).NormalizedSafe();
+					if (!elongateTowardPrev && !inst.m_exhaustDustKick) continue;
+					if (!sameJetStream && !inst.m_exhaustDustKick) continue;
+					if (prevWasDust && !inst.m_exhaustDustKick) continue;
 
 					// Camera-space view direction from particle to camera origin.
-					vector3f viewDir = (-pos).NormalizedSafe();
+					const vector3f viewDir = (-pos).NormalizedSafe();
+
+					// Attenuate elongation when difference in Z values is relatively large
+					float attenuation = 1.0;
+					const float prevZ = std::abs(interpBackboneCam.z - jetVectorCam.z);
+					const float curZ = std::abs(interpBackboneCam.z);
+					if ((prevZ > 0.1f) && (curZ > 0.1f))
+						attenuation = std::min(1.0f, curZ / prevZ);
 
 					// Billboard plane basis: V aligns with jet axis projection onto the view plane.
 					// This approximates an ellipsoid projection:
 					// - looking down axis => round
 					// - side-on => elongated.
-					const float axisViewDot = Clamp(fabs(jetAxis.Dot(viewDir)), 0.f, 1.f);
-					const float sideOn = 1.0f - axisViewDot * axisViewDot;
-					vector3f vProj = jetAxis - viewDir * jetAxis.Dot(viewDir);
-					vector3f axisV = (vProj.LengthSqr() > 1e-8f) ? vProj.Normalized() : vector3f(0.f, 1.f, 0.f);
-					vector3f axisU = viewDir.Cross(axisV).NormalizedSafe();
+					const vector3f vProj = jetVectorCam - viewDir * jetVectorCam.Dot(viewDir);
+					const vector3f axisV = vProj.NormalizedSafe();
+					const vector3f axisU = viewDir.Cross(axisV).NormalizedSafe();
 
-					// Elongation proportional to current velocity magnitude.
-					// As drag slows particles down, they naturally become rounder.
-					const float speedMag = float(backboneDirCamD.Length());
-					const float baseStretch = Clamp(speedMag * 10.0f, 0.0f, 100.0f);
-					const float apparentStretch = (prevWasDust || inst.m_exhaustDustKick ? 0.0 : baseStretch * sideOn);
+					const float speedMag = jetVectorCam.Dot(axisV);
+					const float apparentStretch = (prevWasDust || inst.m_exhaustDustKick ? 0.0 : speedMag * attenuation);
 
 					float size = std::max(0.01f, float(inst.m_plumeOffset.Length()));
 					if (inst.m_exhaustDustKick)
-						size = SfxParams::EXHAUST_MAX_SPREAD * ageNorm;
+						size = SfxParams::EXHAUST_DUST_SIZE * ageNorm * std::max(inst.m_speed, 0.2f);
 
 					// Two UV triangles, the V-axis is aligned to the jet backbone axis.
 					const vector3f u = axisU * size;
@@ -568,31 +576,28 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId, 
 					const float ageFade = powf(1.0f - ageNorm, 2.8f);
 
 					Color particleColor;
-					vector3f normalFlag;
 					if (inst.m_exhaustDustKick) {
 						// This is a dust cloud particle
 						particleColor = inst.m_exhaustDustTint;
 						const Uint8 opacityA = Uint8((float)particleColor.a * ageFade);
 						particleColor.a = opacityA;
-						normalFlag = vector3f(1.f, 0.f, 0.f);
 					} else {
 						// This is an exhaust plume particle
 						const float opacityTimesAge = Clamp(inst.m_opacityScale * ageFade, 0.f, 1.f);
 						const Uint8 opacityA = Uint8(opacityTimesAge * 255.f);
 						particleColor = Color(255, 255, 255, opacityA);
-						normalFlag = vector3f(0.f, 0.f, 0.f);
 					}
 
 					particleColor.r = Uint8(Clamp(int(float(particleColor.r) * exhaustIllumMul), 0, 255));
 					particleColor.g = Uint8(Clamp(int(float(particleColor.g) * exhaustIllumMul), 0, 255));
 					particleColor.b = Uint8(Clamp(int(float(particleColor.b) * exhaustIllumMul), 0, 255));
 
-					exhaustArray.Add(p0, normalFlag, particleColor, vector2f(0.f, 0.f));
-					exhaustArray.Add(p1, normalFlag, particleColor, vector2f(1.f, 0.f));
-					exhaustArray.Add(p2, normalFlag, particleColor, vector2f(1.f, 1.f));
-					exhaustArray.Add(p2, normalFlag, particleColor, vector2f(1.f, 1.f));
-					exhaustArray.Add(p3, normalFlag, particleColor, vector2f(0.f, 1.f));
-					exhaustArray.Add(p0, normalFlag, particleColor, vector2f(0.f, 0.f));
+					exhaustArray.Add(p0, particleColor, vector2f(0.f, 0.f));
+					exhaustArray.Add(p1, particleColor, vector2f(1.f, 0.f));
+					exhaustArray.Add(p2, particleColor, vector2f(1.f, 1.f));
+					exhaustArray.Add(p2, particleColor, vector2f(1.f, 1.f));
+					exhaustArray.Add(p3, particleColor, vector2f(0.f, 1.f));
+					exhaustArray.Add(p0, particleColor, vector2f(0.f, 0.f));
 				}
 
 				renderer->SetTransform(matrix4x4f::Identity);
@@ -758,7 +763,7 @@ void SfxManager::Init(Graphics::Renderer *r)
 	exhaustDesc.textures = 0;
 	exhaustDesc.effect = Graphics::EFFECT_BILLBOARD;
 	const auto exhaustVfmt = Graphics::VertexFormatDesc::FromAttribSet(
-		Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
+		Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 	exhaustParticle.reset(r->CreateMaterial("exhaust", exhaustDesc, exhaustAlphaState, exhaustVfmt));
 	exhaustParticle->diffuse = Color(255, 255, 255, 255);
 

@@ -34,15 +34,19 @@ namespace SfxParams {
 	inline constexpr float EXHAUST_MAX_PLAYER_DISTANCE = 5000.0f;
 	inline constexpr float EXHAUST_INITIAL_VELOCITY = 320.0f;
 	inline constexpr float EXHAUST_INITIAL_SPREAD = 0.1f;
+	inline constexpr float EXHAUST_TIME_BEFORE_SPREAD = 0.1f;
 	inline constexpr float EXHAUST_MAX_SPREAD = 100.0f;
+	inline constexpr float EXHAUST_DUST_SIZE = 200.0f;
 	inline constexpr float EXHAUST_LIFETIME = 10.0f;
 	inline constexpr float EXHAUST_WIND_SPEED = 32.0f;
 	inline constexpr float EXHAUST_PARTICLES_PER_SHIP_PER_SEC = 1800.0f;
-	inline constexpr float EXHAUST_MIN_REACTION_POWER = 0.06f;
+	inline constexpr float EXHAUST_MIN_REACTION_POWER = 0.02f;
 	inline constexpr float EXHAUST_STREAM_TIMESTEP_CAP = 0.03f;
 	inline constexpr float EXHAUST_DUST_RADIAL_KICK_SPEED = 24.0f;
 	inline constexpr float EXHAUST_DUST_TANGENT_KICK_SPEED = 38.0f;
-	inline constexpr float EXHAUST_DUST_TRANSITION_CULL_PROB = 0.80f;
+	inline constexpr float EXHAUST_DUST_LOWEST_NON_CULL_PROB = 0.05f;	// Keep at least one in 20 particles
+	inline constexpr float EXHAUST_LOG_SCALE = 40.0f;
+	inline constexpr float EXHAUST_ANGULAR_FACTOR = 0.2f;
 }
 
 struct Sfx {
@@ -60,10 +64,13 @@ struct Sfx {
 
 	vector3d m_pos;
 	vector3d m_vel;
+	// Thruster exhaust jets have a "backbone" which is the centre of the stream. This is used
+	// to track how stretched out each particle should be, and in which direction.
 	vector3d m_backbonePos;
 	vector3d m_backboneVel;
-	// Start-of-current-physics-tick backbone (TYPE_EXHAUST); used for render interp like DynamicBody::m_oldPos.
 	vector3d m_backboneAtStepStart;
+	// Each particle then has a perpendicular offset from the backbone, which grows over time
+	// and gives the exhaust plume its conical shape
 	vector3d m_plumeOffset;
 	vector3d m_plumeOffsetVel;
 	float m_age;
@@ -81,14 +88,12 @@ struct Sfx {
 	const Body *m_exhaustEmitter;
 	Uint32 m_exhaustSavedEmitterBodyIdx;
 	Uint16 m_exhaustJetIndex;
-	Uint32 m_exhaustBirthSeq; // monotonic per-frame SfxManager for sort order within a stream
-	// If true, billboard streak does not use backbone delta vs previous particle (new thrust pulse opener).
+	Uint32 m_exhaustBirthSeq; // For sort order within a stream
+	// If true this particle should not streak towards the previous one, usually this is because it's the first particle in a new thruster pulse
 	bool m_exhaustSuppressStreakElongation;
-	// Exhaust hit cached terrain radius threshold sampled at spawn-time.
-	double m_exhaustGroundRadius;
-	bool m_exhaustDustKick;
-	// Dust tint (rgb) and mix amount in a (0..255), sampled at spawn-time.
-	Color m_exhaustDustTint;
+	double m_exhaustGroundRadius; // The height of the ground below this exhaust, calculated from the ground below the ship at spawn time
+	bool m_exhaustDustKick; // After the exhaust hits the ground, it can turn into a dust cloud particle
+	Color m_exhaustDustTint; // Dust tint and mix amount, calculated from the ground below the ship at spawn time.
 	static constexpr Uint32 INVALID_EXHAUST_SAVED_BODY_IDX = Uint32(0xffffffffu);
 };
 
