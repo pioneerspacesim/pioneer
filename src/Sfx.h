@@ -99,4 +99,9 @@ private:
 	std::deque<Sfx> m_instances[TYPE_NONE];
 };
 
+namespace SfxParams {
+	inline constexpr float REENTRY_GLOW_MIN_SPEED = 100.0f;
+	inline constexpr float REENTRY_GLOW_MAX_SPEED = 200.0f;
+}
+
 #endif /* _SFX_H */

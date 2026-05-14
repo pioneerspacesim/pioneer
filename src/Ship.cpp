@@ -22,14 +22,21 @@
 #include "Space.h"
 #include "SpaceStation.h"
 #include "WorldView.h"
+#include <algorithm>
+#include <cmath>
 #include "collider/CollisionContact.h"
+#include "graphics/RenderState.h"
+#include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"
+#include "graphics/VertexBuffer.h"
 #include "lua/LuaEvent.h"
 #include "lua/LuaObject.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/Tag.h"
 #include "scenegraph/CollisionGeometry.h"
+#include "scenegraph/NodeVisitor.h"
+#include "scenegraph/StaticGeometry.h"
 #include "ship/GunManager.h"
 #include "ship/PlayerShipController.h"
 
@@ -40,7 +47,44 @@ const double Ship::DEFAULT_LIFT_TO_DRAG_RATIO = 0.001;
 namespace {
 	static constexpr size_t s_heatingNormalParam = "heatingNormal"_hash;
 	static constexpr size_t s_heatGradientTexParam = "heatGradient"_hash;
+	static constexpr size_t s_reentryFlightParam = "ReentryFlight"_hash;
+	static constexpr size_t s_reentryTimeParam = "ReentryTime"_hash;
+
+	static RefCountedPtr<Graphics::Material> s_reentryGlowTemplate;
+
+	void EnsureReentryGlowTemplate(Graphics::Renderer *r)
+	{
+		if (s_reentryGlowTemplate.Valid())
+			return;
+		Graphics::MaterialDescriptor desc;
+		desc.textures = 0;
+		desc.lighting = false;
+		Graphics::RenderStateDesc rsd;
+		rsd.blendMode = Graphics::BLEND_ALPHA;
+		rsd.depthWrite = false;
+		rsd.depthTest = true;
+		rsd.cullMode = Graphics::CULL_BACK;
+		const auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(
+			Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0 | Graphics::ATTRIB_TANGENT);
+		s_reentryGlowTemplate.Reset(r->CreateMaterial("reentry_glow", desc, rsd, vtxFormat));
+	}
 } // namespace
+
+struct ReentryGlowSetupVisitor : SceneGraph::NodeVisitor {
+	Ship *ship;
+	Graphics::Renderer *renderer;
+	ReentryGlowSetupVisitor(Ship *s, Graphics::Renderer *r) :
+		ship(s), renderer(r) {}
+	void ApplyStaticGeometry(SceneGraph::StaticGeometry &sg) override
+	{
+		ship->m_reentryGlowGeoms.push_back(&sg);
+		sg.SetNodeMask(SceneGraph::NODE_TRANSPARENT);
+		for (Uint32 i = 0; i < sg.GetNumMeshes(); ++i) {
+			SceneGraph::StaticGeometry::Mesh &mesh = sg.GetMeshAt(i);
+			mesh.material = ship->FindOrCreateReentryGlowMats(renderer, mesh.meshObject->GetFormat())->frontShellPass;
+		}
+	}
+};
 
 Ship::Ship(const ShipType::Id &shipId) :
 	DynamicBody(),
@@ -1454,6 +1498,36 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	if (m_shieldModel && shieldsVisible)
 		m_shieldModel->Render(matrix4x4f(viewTransform * GetInterpMatrix()));
 
+	// Atmospheric reentry / high-speed glow (shield ellipsoid, alpha-blended; two-pass sort)
+	vector3d vel = GetVelocity();
+	if (m_reentryGlowModel && (m_flightState == FLYING) && (vel.LengthSqr() > 1.0)) {
+		const float glow = CalcReentryGlowIntensity();
+		const Uint32 glowMask = (glow > 0.02f) ? SceneGraph::NODE_TRANSPARENT : 0u;
+		for (SceneGraph::StaticGeometry *geom : m_reentryGlowGeoms)
+			geom->SetNodeMask(glowMask);
+		if (glow > 0.02f) {
+			vector3f flight = matrix3x3f(viewTransform.GetOrient()).Inverse().Transpose() * vector3f(vel);
+			flight = flight.Normalized();
+			// Game::GetTime() is sim time (same seconds idea as app time but huge absolute value).
+			// Casting it to float strips small deltas, so streaks appear frozen - use a wrapped range.
+			const double simT = Pi::game->GetTime();
+			const float reentryPhaseT = Pi::game->IsPaused() ? -1.f	: float(std::fmod(simT, 2048.0));
+			for (ReentryGlowMatPair &mats : m_reentryGlowMaterials) {
+				mats.backShellPass->SetPushConstant(s_reentryFlightParam, flight, glow);
+				mats.backShellPass->SetPushConstant(s_reentryTimeParam, reentryPhaseT);
+				mats.frontShellPass->SetPushConstant(s_reentryFlightParam, flight, glow);
+				mats.frontShellPass->SetPushConstant(s_reentryTimeParam, reentryPhaseT);
+			}
+			m_reentryGlowModel->SetRenderTime(simT);
+			const matrix4x4f glowMtx(matrix4x4f(viewTransform * GetInterpMatrix()));
+			// Convex translucent shell: draw back faces first, then front
+			BindReentryGlowMaterials(true);
+			m_reentryGlowModel->Render(glowMtx);
+			BindReentryGlowMaterials(false);
+			m_reentryGlowModel->Render(glowMtx);
+		}
+	}
+
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_SHIPS, 1);
 
 	if (m_ecmRecharge > 0.0f) {
@@ -1582,6 +1656,77 @@ void Ship::OnEnterSystem()
 	m_hyperspaceCloud = 0;
 }
 
+void Ship::BindReentryGlowMaterials(bool backShellPass)
+{
+	for (SceneGraph::StaticGeometry *geom : m_reentryGlowGeoms) {
+		for (Uint32 i = 0; i < geom->GetNumMeshes(); ++i) {
+			SceneGraph::StaticGeometry::Mesh &mesh = geom->GetMeshAt(i);
+			const uint64_t h = mesh.meshObject->GetFormat().Hash();
+			for (ReentryGlowMatPair &mats : m_reentryGlowMaterials) {
+				if (mats.formatHash != h)
+					continue;
+				mesh.material = backShellPass ? mats.backShellPass : mats.frontShellPass;
+				break;
+			}
+		}
+	}
+}
+
+Ship::ReentryGlowMatPair *Ship::FindOrCreateReentryGlowMats(Graphics::Renderer *r, const Graphics::VertexFormatDesc &vfmt)
+{
+	EnsureReentryGlowTemplate(r);
+	const uint64_t h = vfmt.Hash();
+	for (ReentryGlowMatPair &mats : m_reentryGlowMaterials) {
+		if (mats.formatHash == h)
+			return &mats;
+	}
+	Graphics::Material *tpl = s_reentryGlowTemplate.Get();
+	const Graphics::RenderStateDesc rsdBase = r->GetMaterialRenderState(tpl);
+
+	Graphics::RenderStateDesc rsdBack = rsdBase;
+	rsdBack.cullMode = Graphics::CULL_FRONT;
+	RefCountedPtr<Graphics::Material> backMat(r->CloneMaterial(tpl, tpl->GetDescriptor(), rsdBack, vfmt));
+
+	Graphics::RenderStateDesc rsdFront = rsdBase;
+	rsdFront.cullMode = Graphics::CULL_BACK;
+	RefCountedPtr<Graphics::Material> frontMat(r->CloneMaterial(tpl, tpl->GetDescriptor(), rsdFront, vfmt));
+
+	ReentryGlowMatPair pair;
+	pair.formatHash = h;
+	pair.backShellPass = backMat;
+	pair.frontShellPass = frontMat;
+	m_reentryGlowMaterials.push_back(std::move(pair));
+	return &m_reentryGlowMaterials.back();
+}
+
+void Ship::SetupReentryGlowModel()
+{
+	m_reentryGlowMaterials.clear();
+	m_reentryGlowGeoms.clear();
+	if (!m_reentryGlowModel)
+		return;
+	ReentryGlowSetupVisitor visitor(this, m_reentryGlowModel->GetRenderer());
+	m_reentryGlowModel->GetRoot()->Accept(visitor);
+}
+
+float Ship::CalcReentryGlowIntensity() const
+{
+	if (m_flightState != FLYING)
+		return 0.0f;
+	double pressure, density;
+	GetCurrentAtmosphericState(pressure, density);
+	if (density <= 0.01)
+		return 0.0f;
+
+	// Thinner atmosphere translates to a higher required speed before re-entry glow is seen
+	const double vel = GetVelocity().Length();
+	const double vel_adj = vel * std::pow(density, 0.5);
+
+	if (vel_adj < SfxParams::REENTRY_GLOW_MIN_SPEED) return 0.0f;
+	if (vel_adj > SfxParams::REENTRY_GLOW_MAX_SPEED) return 1.0f;
+	return (vel_adj - SfxParams::REENTRY_GLOW_MIN_SPEED) / (SfxParams::REENTRY_GLOW_MAX_SPEED - SfxParams::REENTRY_GLOW_MIN_SPEED);
+}
+
 void Ship::SetupShields()
 {
 	SceneGraph::Model *sm = Pi::FindModel(m_type->shieldName, false);
@@ -1589,9 +1734,14 @@ void Ship::SetupShields()
 	if (sm) {
 		m_shieldModel.reset(sm->MakeInstance());
 		m_shields->ApplyModel(m_shieldModel.get());
+		m_reentryGlowModel.reset(sm->MakeInstance());
+		SetupReentryGlowModel();
 	} else {
 		m_shieldModel.reset();
 		m_shields->ClearModel();
+		m_reentryGlowModel.reset();
+		m_reentryGlowMaterials.clear();
+		m_reentryGlowGeoms.clear();
 	}
 }
 
