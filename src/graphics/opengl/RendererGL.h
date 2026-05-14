@@ -94,10 +94,9 @@ namespace Graphics {
 		bool FlushCommandBuffers() final;
 
 		bool DrawBuffer(const VertexArray *v, Material *m) final;
-		bool DrawBufferDynamic(VertexBuffer *v, uint32_t vtxOffset, IndexBuffer *i, uint32_t idxOffset, uint32_t numElems, Material *m) final;
 		bool DrawMesh(MeshObject *, Material *) final;
 
-		void Draw(Span<VertexBuffer *const>, IndexBuffer *, Material *m, uint32_t, uint32_t) final;
+		void Draw(Span<const BufferBinding<VertexBuffer>>, BufferBinding<IndexBuffer>, Material *m, uint32_t, uint32_t) final;
 
 		Material *CreateMaterial(const std::string &, const MaterialDescriptor &, const RenderStateDesc &, const VertexFormatDesc &) final;
 		Material *CloneMaterial(const Material *, const MaterialDescriptor &, const RenderStateDesc &, const VertexFormatDesc &) final;
@@ -108,6 +107,8 @@ namespace Graphics {
 		UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage) final;
 		MeshObject *CreateMeshObject(const VertexFormatDesc &desc, VertexBuffer *v, IndexBuffer *i) final;
 		MeshObject *CreateMeshObjectFromArray(const VertexArray *v, IndexBuffer *i = nullptr, BufferUsage u = BUFFER_USAGE_STATIC) final;
+
+		BufferBinding<VertexBuffer> CreateTempVertexBuffer(uint32_t, uint32_t) final;
 
 		const RenderStateDesc &GetMaterialRenderState(const Graphics::Material *m) final;
 
