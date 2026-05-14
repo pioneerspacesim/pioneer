@@ -120,9 +120,7 @@ namespace Graphics {
 
 		bool Screendump(ScreendumpState &sd) final;
 
-		bool DrawMeshInternal(OGL::MeshObject *, PrimitiveType type);
-		bool DrawMesh2Internal(Span<OGL::VertexBuffer *> vtx, OGL::IndexBuffer *idx, uint32_t elements, uint32_t instances, GLuint vtxState, PrimitiveType type);
-		bool DrawMeshDynamicInternal(BufferBinding<OGL::VertexBuffer> vtxBind, BufferBinding<OGL::IndexBuffer> idxBind, GLuint vtxState, PrimitiveType type);
+		void RecordDrawStats(PrimitiveType pt, uint32_t numElements, uint32_t numInstances);
 
 	protected:
 		void PushState() final{};
@@ -169,6 +167,17 @@ namespace Graphics {
 
 		using DynamicBufferMap = std::vector<DynamicBufferData>;
 		DynamicBufferMap m_dynamicDrawBufferMap;
+
+		template <typename T>
+		struct TempBuffer {
+			std::unique_ptr<T> buffer;
+			uint32_t flushed = 0;
+		};
+
+		template<typename T>
+		using TempBufferPool = std::vector<TempBuffer<T>>;
+
+		TempBufferPool<VertexBuffer> m_tempVtxBuffers;
 
 		SDL_GLContext m_glContext;
 	};
