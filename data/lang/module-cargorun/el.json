@@ -403,6 +403,10 @@
     "description": "",
     "message": "Δέχομαι πυρά. Χρειάζομαι βοήθεια."
   },
+  "LOAD_CARGO": {
+    "description": "UI button label",
+    "message": "Load cargo"
+  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "εργαλεία για μηχανές"
@@ -661,7 +665,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Φορτώσαμε το φορτίο στο σκάφος."
+    "message": "We have loaded the cargo onto your ship."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -749,6 +753,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Παρακαλώ ξαναέλα όταν θα έχεις αρκετό χώρο φορτίου."
+    "message": "Please contact me when you have sufficient cargo space."
   }
 }

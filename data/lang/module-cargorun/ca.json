@@ -403,6 +403,10 @@
     "description": "",
     "message": "Estic rebent danys. Demano auxili."
   },
+  "LOAD_CARGO": {
+    "description": "UI button label",
+    "message": "Load cargo"
+  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "machine tools"
@@ -661,7 +665,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Hem carregat la mercaderia a la vostra nau."
+    "message": "We have loaded the cargo onto your ship."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -749,6 +753,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Si us plau, torneu quan teniu suficient espai de càrrega."
+    "message": "Please contact me when you have sufficient cargo space."
   }
 }

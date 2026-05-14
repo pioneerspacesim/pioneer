@@ -403,6 +403,10 @@
     "description": "",
     "message": "Estoy sufriendo daños. Necesito ayuda."
   },
+  "LOAD_CARGO": {
+    "description": "UI button label",
+    "message": "Load cargo"
+  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "machine tools"
@@ -661,7 +665,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Hemos cargado la mercancía en su nave."
+    "message": "We have loaded the cargo onto your ship."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -749,6 +753,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Por favor, vuelva cuando disponga de espacio suficiente en su nave."
+    "message": "Please contact me when you have sufficient cargo space."
   }
 }

@@ -2353,7 +2353,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Задаване на дестинацията като навигационна цел."
+    "message": "Set destination as navigation target"
   },
   "SET_JUMP_TARGET": {
     "description": "Button tooltip which sets the jump route to the selected body",

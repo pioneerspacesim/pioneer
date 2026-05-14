@@ -403,6 +403,10 @@
     "description": "",
     "message": "Tá damáiste á dhéanamh dom. Tá cabhair uaim."
   },
+  "LOAD_CARGO": {
+    "description": "UI button label",
+    "message": "Load cargo"
+  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "machine tools"
@@ -661,7 +665,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Táimid tar éis an lasta a luchtú ar do long."
+    "message": "We have loaded the cargo onto your ship."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -749,6 +753,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Tar ar ais nuair a bheidh go leor spáis agat sa mbolg lasta."
+    "message": "Please contact me when you have sufficient cargo space."
   }
 }

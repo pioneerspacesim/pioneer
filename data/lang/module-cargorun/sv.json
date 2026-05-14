@@ -403,6 +403,10 @@
     "description": "",
     "message": "Jag är skadad. Jag behöver hjälp."
   },
+  "LOAD_CARGO": {
+    "description": "UI button label",
+    "message": "Load cargo"
+  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "maskinverktyg"
@@ -661,7 +665,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Vi har lastat ditt skepp."
+    "message": "We have loaded the cargo onto your ship."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -749,6 +753,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Kom tillbaka när du har tillräckligt med lastutrymme."
+    "message": "Please contact me when you have sufficient cargo space."
   }
 }
