@@ -50,13 +50,13 @@ debugView.registerTab("debug-crew", {
 
 		if ui.button("Hire Crew", Vector2(100, 0)) then
 			if Game.player:CrewNumber() < ShipDef[Game.player.shipId].maxCrew then
-				local newCrewMember = Character.New()
+				local newCrewMember = crewlife.newCrew()
 				Game.player:Enroll(newCrewMember)
 				crewlife.onJoinCrew(Game.player, newCrewMember)
 			end
 		end
 		ui.sameLine()
-		ui.text(Game.player:CrewNumber() .. " of " .. ShipDef[Game.player.shipId].maxCrew - 1 .. " hired")
+		ui.text(Game.player:CrewNumber() - 1 .. " of " .. ShipDef[Game.player.shipId].maxCrew - 1 .. " hired")
 
 		ui.dummy(Vector2(0, 5))
 
@@ -152,9 +152,9 @@ debugView.registerTab("debug-crew", {
                     ui.text("Home")
                     local body = crew.homeStation:GetSystemBody()
                     local system = crew.homeStation:GetStarSystem()
-					local x = crewMember.homeStation.sectorX
-					local y = crewMember.homeStation.sectorY
-					local z = crewMember.homeStation.sectorZ
+					local x = crew.homeStation.sectorX
+					local y = crew.homeStation.sectorY
+					local z = crew.homeStation.sectorZ
 					ui.text(body.name .. " (" .. system.name .. " <" .. x .. "," .. y .. "," .. z .. ">)")
 
 					ui.dummy(Vector2(0, 40))

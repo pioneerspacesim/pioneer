@@ -19,6 +19,8 @@ local rand = Rand.New()
 local l = Lang.GetResource("module-crewcontracts")
 local lui = Lang.GetResource("ui-core")
 
+local crewlife = require 'modules.CrewContracts.CrewLife'
+
 local wage_period = 604800 -- a week of seconds
 
 -- The contract for a crew member is a table containing their weekly wage,
@@ -332,101 +334,6 @@ local function N_equilibrium(station)                       -- This function is 
     return 2 + pop_bonus
 end
 
-local findHome = function()
-	local home_system
-    local home_station
-	
-    -- 1. Pick system the person is from, weighted towards picking current or close system
-	-- get nearby inhabited systems
-    local systemoptions_raw
-	local max_dist = 30  -- maximum of 30 ly away
-	systemoptions_raw = Game.system:GetNearbySystems(max_dist, function (s) return #s:GetStationPaths() > 0 end)
-	
-	-- determine distance to player system
-	local systemoptions_dist = {}
-	for _,system in pairs(systemoptions_raw) do
-		local dist = Game.system:DistanceTo(system)
-		table.insert(systemoptions_dist, {system, dist})
-	end
-
-	-- sort systems by distance to player system (ascending)
-	local systemoptions = {Game.system.path}
-	table.sort(systemoptions_dist, function (a,b) return a[2] < b[2] end)
-    for _, data in ipairs(systemoptions_dist) do
-        table.insert(systemoptions, data[1].path)
-    end
-    
-    -- pick system
-    while home_system == nil do
-        local index = rand:Poisson(0.8) + 1
-        if index >= 1 and index <= #systemoptions then
-            home_system = systemoptions[index]
-        end
-    end
-
-    -- 2. Pick station the person is from, weighted towards picking current or close station if in the current system
-	-- 2a. Home system is the current system
-    if home_system == Game.system then
-        -- get station bodies within current system
-        local stationoptions_raw = Space.GetBodies("SpaceStation")
-
-        -- determine distance to current station
-        local current_station = ship:GetDockedWith().path
-        local stationoptions_dist = {}
-        for _, station in pairs(stationoptions_raw) do
-            if station ~= current_station then
-                local dist = current_station:DistanceTo(station)
-                table.insert(stationoptions_dist, {station, dist})
-            end
-        end
-
-        -- sort stations by distance to body (ascending)
-        local stationoptions = {current_station.path}
-        table.sort(stationoptions_dist, function(a, b) return a[2] < b[2] end)
-        for _, data in ipairs(stationoptions_dist) do
-            table.insert(stationoptions, data[1].path)
-        end
-
-        -- pick station
-        while home_station == nil do
-            local index = rand:Poisson(0.8) + 1
-            if index >= 1 and index <= #stationoptions then
-                home_station = stationoptions[index]
-            end
-        end
-    else   -- 2b. Home system is not the current system
-        local stations = home_system:GetStationPaths()
-        local index = rand:Integer(1, #stations)
-        home_station = stations[index]
-    end
-	return(home_station)
-end
-
-local newCrew = function()
-	local hopefulCrew = Character.New()
-	-- Roll new stats, with a 1/3 chance that they're utterly inexperienced
-	hopefulCrew:RollNew(Engine.rand:Integer(0, 2) > 0)
-	-- Make them a title if they're good at anything
-	local maxScore = math.max(hopefulCrew.engineering,
-		hopefulCrew.piloting,
-		hopefulCrew.navigation,
-		hopefulCrew.sensors)
-    if maxScore > 45 then
-        if hopefulCrew.engineering == maxScore then hopefulCrew.title = lui.SHIPS_ENGINEER end
-        if hopefulCrew.piloting == maxScore then hopefulCrew.title = lui.PILOT end
-        if hopefulCrew.navigation == maxScore then hopefulCrew.title = lui.NAVIGATOR end
-        if hopefulCrew.sensors == maxScore then hopefulCrew.title = lui.SENSORS_AND_DEFENCE end
-    end
-
-	-- pick affinity for civilization
-    hopefulCrew.civaffinity = rand:Integer(1, 3)
-
-    -- pick home
-	hopefulCrew.homeStation = findHome()
-	
-	return hopefulCrew
-end
-
 local function removeAd (station, num)
 	if not nonPersistentCharactersForCrew[station] then
 		nonPersistentCharactersForCrew[station] = {}
@@ -448,7 +355,7 @@ local onCreateBB = function (station)
 
 	-- Number is based on population, nicked from Assassinations.lua and tweaked
 	for i = 1, Engine.rand:Poisson(N_equilibrium(station)) do
-		table.insert(nonPersistentCharactersForCrew[station],newCrew())
+		table.insert(nonPersistentCharactersForCrew[station], crewlife.newCrew())
 	end
 end
 Event.Register("onCreateBB", onCreateBB)
@@ -467,7 +374,7 @@ local onUpdateBB = function (station)
 
 	-- spawn a new crew advert, call for each station
 	if Engine.rand:Number(0,1) <= prod then
-		table.insert(nonPersistentCharactersForCrew[station], 1, newCrew())
+		table.insert(nonPersistentCharactersForCrew[station], 1, crewlife.newCrew())
 	end
 
 	if prod > 1 then print("Warning: crew market not in equilibrium") end

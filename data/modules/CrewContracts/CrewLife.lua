@@ -7,6 +7,7 @@
 local Event       = require 'Event'
 local Comms       = require 'Comms'
 local Game        = require 'Game'
+local Space       = require 'Space'
 local Timer       = require 'Timer'
 local Character   = require 'Character'
 local Lang        = require 'Lang'
@@ -17,6 +18,7 @@ local utils       = require 'utils'
 
 local rand      = Rand.New()
 local l         = Lang.GetResource("module-crewcontracts")
+local lui       = Lang.GetResource("ui-core")
 
 local week_in_secs = 604800 -- a week of seconds
 local month_in_secs = 2629800 -- month in seconds
@@ -274,7 +276,7 @@ end
 --
 --   crewMember - a crewMember object
 --   station - a station object
-local desertCrew = function(crewMember, station)
+local desertCrew = function (crewMember, station)
 	if crewMember.playerRelationship < desert_threshold then
 
 		-- only desert ship if at relatively populated station
@@ -334,20 +336,140 @@ Event.Register("crewAvailable", crewAvailable)
 --
 --   comm - commodity type added/removed
 --   amount - number of items added/removed
-local onPlayerCargoChanged = function(comm, amount)
-	if not Game.system:IsCommodityLegal(comm.name) then
-		for crewMember in Game.player:EachCrewMember() do
-			if not crewMember.player then
+local onPlayerCargoChanged = function (comm, amount)
+    if not Game.system:IsCommodityLegal(comm.name) then
+        for crewMember in Game.player:EachCrewMember() do
+            if not crewMember.player then
+                -- crew happy or upset about illegal goods (depending on lawfulness)
+                if crewMember.lawfulness > law_upper_threshold and crewMember:TestRoll('lawfulness') then
+                    crewlife.applyThought(crewMember, crewlife.thoughts['illegal_trading_bad'])
+                elseif crewMember.lawfulness < law_lower_threshold and not crewMember:TestRoll('lawfulness') then
+                    crewlife.applyThought(crewMember, crewlife.thoughts['illegal_trading_good'])
+                end
+            end
+        end
+    end
+end
 
-				-- crew happy or upset about illegal goods (depending on lawfulness)
-				if crewMember.lawfulness > law_upper_threshold and crewMember:TestRoll('lawfulness') then
-					crewlife.applyThought(crewMember, crewlife.thoughts['illegal_trading_bad'])
-				elseif crewMember.lawfulness < law_lower_threshold and not crewMember:TestRoll('lawfulness') then
-					crewlife.applyThought(crewMember, crewlife.thoughts['illegal_trading_good'])
+
+--
+-- Method: findHome
+--
+-- Finds a home system and station for a crew member. Weighted towards:
+-- current station > local system stations (by distance) > random station in nearby systems (by distance)
+--
+function crewlife.findHome ()
+	local home_system_path
+    local home_station_path
+	
+    -- 1. Pick system the person is from, weighted towards picking current or close system
+	-- get nearby inhabited systems
+    local systemoptions_raw
+	local max_dist = 30  -- maximum of 30 ly away
+	systemoptions_raw = Game.system:GetNearbySystems(max_dist, function (s) return #s:GetStationPaths() > 0 end)
+	
+	-- determine distance to player system and sort
+	local systemoptions_dist = {}
+	for _,system in pairs(systemoptions_raw) do
+		local dist = Game.system:DistanceTo(system)
+        table.insert(systemoptions_dist, {system, dist})
+	end
+
+	local systemoptions = {Game.system.path}
+	table.sort(systemoptions_dist, function (a,b) return a[2] < b[2] end)
+    for _, data in ipairs(systemoptions_dist) do
+        table.insert(systemoptions, data[1].path)
+    end
+    
+    -- pick system
+    while home_system_path == nil do
+        local index = rand:Poisson(0.5) + 1
+        if index >= 1 and index <= #systemoptions then
+            home_system_path = systemoptions[index]
+        end
+    end
+
+    -- 2. Pick station the person is from, weighted towards picking current or close station
+	-- 2a. Home system is the current system and the player is docked
+    if home_system_path:GetStarSystem() == Game.system and Game.player:IsDocked() then
+        local stationoptions_raw = Space.GetBodies("SpaceStation")
+
+        -- determine distance to current station
+			local current_station = Game.player:GetDockedWith()
+			local stationoptions_dist = {}
+			for _, station in pairs(stationoptions_raw) do
+				if station ~= current_station then
+					-- round distance by 0.5 AU or small differences lead to large preference biases
+					local dist = utils.round(current_station:DistanceTo(station), 74798935346)
+					table.insert(stationoptions_dist, {station, dist})
 				end
 			end
-		end
-	end
+
+			-- create distance bins and sort
+			local binned_stations = {}
+			local bin_distances = {}
+
+			for _, data in ipairs(stationoptions_dist) do
+				local dist = data[2]
+				if not binned_stations[dist] then
+					binned_stations[dist] = {}
+					table.insert(bin_distances, dist)
+				end
+				table.insert(binned_stations[dist], data[1])
+			end
+			table.sort(bin_distances)
+
+			-- add current station as first bin
+			table.insert(bin_distances, 1, 0)
+			binned_stations[0] = {current_station}
+
+			-- pick station using Poisson distribution on bins, then random within bin
+			while home_station_path == nil do
+				local bin_index = rand:Poisson(1) + 1
+				if bin_index >= 1 and bin_index <= #bin_distances then
+					local dist = bin_distances[bin_index]
+					local stations_in_bin = binned_stations[dist]
+					local station_index = rand:Integer(1, #stations_in_bin)
+					home_station_path = stations_in_bin[station_index].path
+				end
+			end
+
+    else -- 2b. Home system is not the current system OR fallback if player is not docked
+		local home_system = home_system_path:GetStarSystem()
+        local stations = home_system:GetStationPaths()
+        local index = rand:Integer(1, #stations)
+        home_station_path = stations[index]
+    end
+	return(home_station_path)
+end
+
+
+--
+-- Method: newCrew
+--
+-- Creates a new (potential) crew member with all needed stats.
+crewlife.newCrew = function()
+    local hopefulCrew = Character.New()
+    -- Roll new stats, with a 1/3 chance that they're utterly inexperienced
+    hopefulCrew:RollNew(rand:Integer(0, 2) > 0)
+    -- Make them a title if they're good at anything
+    local maxScore = math.max(hopefulCrew.engineering,
+        hopefulCrew.piloting,
+        hopefulCrew.navigation,
+        hopefulCrew.sensors)
+    if maxScore > 45 then
+        if hopefulCrew.engineering == maxScore then hopefulCrew.title = lui.SHIPS_ENGINEER end
+        if hopefulCrew.piloting == maxScore then hopefulCrew.title = lui.PILOT end
+        if hopefulCrew.navigation == maxScore then hopefulCrew.title = lui.NAVIGATOR end
+        if hopefulCrew.sensors == maxScore then hopefulCrew.title = lui.SENSORS_AND_DEFENCE end
+    end
+
+    -- pick affinity for civilization
+    hopefulCrew.civaffinity = rand:Integer(1, 3)
+
+    -- pick home
+    hopefulCrew.homeStation = crewlife.findHome()
+    return hopefulCrew
 end
 
 
@@ -371,10 +493,8 @@ crewlife.onJoinCrew = function(ship, crewMember)
         crewlife.applyThought(crewMember, crewlife.thoughts['employment'])
 
         -- start tracking visits to home
-        -- TODO: add home station when creating character, not here
-		-- home station should not necessarily be where they hired from
-        crewMember.homeStation = ship:GetDockedWith().path
-        crewMember.lastHomeVisit = Game.time
+        -- TODO: add correct lastHomeVisit
+		crewMember.lastHomeVisit = Game.time
     end
 end
 Event.Register("onJoinCrew", crewlife.onJoinCrew)
