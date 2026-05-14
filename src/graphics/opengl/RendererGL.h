@@ -9,11 +9,6 @@
 #include "graphics/VertexBuffer.h"
 #include "graphics/UniformBuffer.h"
 
-#include "OpenGLLibs.h"
-#include "RefCounted.h"
-#include <stack>
-#include <unordered_map>
-
 typedef void *SDL_GLContext;
 
 namespace Graphics {
@@ -150,23 +145,6 @@ namespace Graphics {
 
 	private:
 		static bool initted;
-
-		struct DynamicBufferData {
-			DynamicBufferData(AttributeSet a, const VertexFormatDesc &d, size_t s, VertexBuffer *b) :
-				attrs(a),
-				desc(d),
-				start(s),
-				vtxBuffer(b)
-			{}
-
-			AttributeSet attrs;
-			VertexFormatDesc desc;
-			size_t start;
-			std::unique_ptr<VertexBuffer> vtxBuffer;
-		};
-
-		using DynamicBufferMap = std::vector<DynamicBufferData>;
-		DynamicBufferMap m_dynamicDrawBufferMap;
 
 		template <typename T>
 		struct TempBuffer {

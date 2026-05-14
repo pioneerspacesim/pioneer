@@ -38,6 +38,7 @@
 #include <ostream>
 #include <sstream>
 
+// legacy migration check
 #define CHECK_VERTEX_FORMAT_MATCH 0
 
 using RenderPassCmd = Graphics::OGL::CommandList::RenderPassCmd;
@@ -303,7 +304,6 @@ namespace Graphics {
 
 		m_lightUniformBuffer = {};
 
-		m_dynamicDrawBufferMap.clear();
 		m_tempVtxBuffers.clear();
 
 		// HACK ANDYC - this crashes when shutting down? They'll be released anyway right?
@@ -563,19 +563,13 @@ namespace Graphics {
 			buffer->Reset();
 		}
 
-		for (auto &buffer : m_dynamicDrawBufferMap) {
-			buffer.vtxBuffer->Reset();
-			buffer.vtxBuffer->SetVertexCount(0);
-			buffer.start = 0;
-		}
-
 		for (auto &tmp : m_tempVtxBuffers) {
 			tmp.buffer->Reset();
 			tmp.buffer->SetVertexCount(0);
 			tmp.flushed = 0;
 		}
 
-		stat.SetStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_INUSE, m_dynamicDrawBufferMap.size() + m_tempVtxBuffers.size());
+		stat.SetStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_INUSE, m_tempVtxBuffers.size());
 		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_INUSE, uint32_t(m_drawUniformBuffers.size()));
 		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_ALLOCS, numAllocs);
 
@@ -838,60 +832,33 @@ namespace Graphics {
 
 		if (v->IsEmpty()) return false;
 
-		const AttributeSet attrs = v->GetAttributeSet();
-
-		// Find a buffer matching our attributes with enough free space
-		auto iter = std::find_if(m_dynamicDrawBufferMap.begin(), m_dynamicDrawBufferMap.end(), [&](DynamicBufferData &a) {
-			uint32_t freeSize = a.vtxBuffer->GetCapacity() - a.vtxBuffer->GetSize();
-			return a.attrs == attrs && freeSize >= v->GetNumVerts();
-		});
-
-		// If we don't have one, make one
-		if (iter == m_dynamicDrawBufferMap.end()) {
-			const VertexFormatDesc desc = VertexFormatDesc::FromAttribSet(attrs);
-
-			uint32_t numVertices = std::max(v->GetNumVerts(), DYNAMIC_DRAW_BUFFER_SIZE / desc.bindings[0].stride);
-			m_renderStateCache->CacheVertexDesc(desc);
-
-			VertexBuffer *vb = CreateVertexBuffer(BUFFER_USAGE_DYNAMIC, numVertices, desc.bindings[0].stride);
-			CheckRenderErrors(__FUNCTION__, __LINE__);
-
-			vb->SetVertexCount(0);
-			m_dynamicDrawBufferMap.emplace_back(attrs, desc, 0U, vb);
-
-			GetStats().AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
-			GetStats().AddToStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_CREATED, 1);
-			iter = m_dynamicDrawBufferMap.end() - 1;
-		}
+		const VertexFormatDesc desc = VertexFormatDesc::FromAttribSet(v->GetAttributeSet());
 
 		#if CHECK_VERTEX_FORMAT_MATCH
 
 		OGL::Material *mat = static_cast<OGL::Material *>(m);
 		assert(mat->m_vertexState != 0);
-
-		const VertexFormatDesc &mat_vfmt = m_renderStateCache->GetVertexFormatDesc(mat->m_vertexFormatHash);
-		auto vfmt = VertexFormatDesc::FromAttribSet(attrs);
-
-		assert(vfmt.Hash() == mat->m_vertexFormatHash);
+		assert(desc.Hash() == mat->m_vertexFormatHash);
 
 		#endif
 
-		uint32_t stride = iter->vtxBuffer->GetStride();
-		uint32_t offset = iter->vtxBuffer->GetSize() * stride;
-		size_t range = v->GetNumVerts() * stride;
+		const uint32_t stride = desc.bindings[0].stride;
+		auto binding = CreateTempVertexBuffer(v->GetNumVerts(), stride);
+		assert(binding.buffer);
 
-		// Write our data into the buffer
-		uint8_t *buffer = iter->vtxBuffer->MapRange<uint8_t>(offset, range, BUFFER_MAP_WRITE);
-		v->PopulateRange(iter->desc, buffer, range);
+		uint8_t *buffer = binding.buffer->MapRange<uint8_t>(binding.offset * stride, binding.size * stride, BUFFER_MAP_WRITE);
 
-		// Don't flush the data to the GPU just yet.
-		iter->vtxBuffer->UnmapRange(false);
-		iter->vtxBuffer->SetVertexCount(iter->vtxBuffer->GetSize() + v->GetNumVerts());
+		if (buffer) {
+			v->PopulateRange(desc, buffer, binding.size * stride);
+
+			// Don't flush the data to the GPU just yet.
+			binding.buffer->UnmapRange(false);
+		}
 
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		// Append a command to the command list
-		m_drawCommandList->AddDrawBuffersCmd({ { iter->vtxBuffer.get(), offset } }, {}, m, v->GetNumVerts(), 0);
+		m_drawCommandList->AddDrawBuffersCmd({ binding }, {}, m, v->GetNumVerts(), 0);
 
 		return true;
 	}
@@ -927,16 +894,6 @@ namespace Graphics {
 
 		for (auto &buffer : m_drawUniformBuffers)
 			buffer->Flush();
-
-		for (auto &buffer : m_dynamicDrawBufferMap) {
-			size_t size = buffer.vtxBuffer->GetSize() * buffer.vtxBuffer->GetStride();
-
-			// Upload whatever portion of this buffer hasn't yet been sent to the GPU.
-			if (size - buffer.start > 0) {
-				buffer.vtxBuffer->FlushRange(buffer.start, size - buffer.start);
-				buffer.start = size;
-			}
-		}
 
 		// Upload all not-yet-flushed scratch buffers.
 		for (auto &tmp : m_tempVtxBuffers) {
