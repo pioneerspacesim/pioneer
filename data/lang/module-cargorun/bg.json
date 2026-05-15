@@ -1,7 +1,7 @@
 {
   "ACCEPTED_1": {
     "description": "",
-    "message": "Отлично. Ще натоваря стоката на Вашия кораб."
+    "message": "Отлично. Ще заредя стоката на Вашия кораб."
   },
   "ACCEPTED_2": {
     "description": "",
@@ -129,11 +129,11 @@
   },
   "CARGO_IS_LOADED": {
     "description": "",
-    "message": "натоварено"
+    "message": "заредено"
   },
   "CARGO_IS_NOT_LOADED": {
     "description": "",
-    "message": "не е натоварено"
+    "message": "не е заредено"
   },
   "CEASE_FIRE": {
     "description": "",
@@ -405,7 +405,7 @@
   },
   "LOAD_CARGO": {
     "description": "UI button label",
-    "message": "Load cargo"
+    "message": "Зареждане на товара"
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
@@ -665,7 +665,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "We have loaded the cargo onto your ship."
+    "message": "Заредихме товара на Вашия кораб."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -753,6 +753,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Please contact me when you have sufficient cargo space."
+    "message": "Моля, свържете се с мен, когато имате достатъчно товарно място."
   }
 }

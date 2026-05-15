@@ -405,7 +405,7 @@
   },
   "LOAD_CARGO": {
     "description": "UI button label",
-    "message": "Load cargo"
+    "message": "Charger la cargaison"
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
@@ -665,7 +665,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "We have loaded the cargo onto your ship."
+    "message": "Nous avons chargé la cargaison dans votre vaisseau."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -753,6 +753,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Please contact me when you have sufficient cargo space."
+    "message": "Veuillez me re-contacter lorsque vous aurez suffisamment de place dans la soute."
   }
 }
