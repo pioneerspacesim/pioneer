@@ -64,6 +64,28 @@ Propulsion::Propulsion()
 	m_angThrusters = vector3d::Zero;
 	m_smodel = nullptr;
 	m_dBody = nullptr;
+	m_aiSequentialThrusters = false;
+	m_aiPitchActive = false;
+	m_aiYawActive = false;
+	m_aiRollActive = false;
+}
+
+void Propulsion::BeginAISequentialThrusters()
+{
+	m_aiSequentialThrusters = Pi::game->GetTimeAccel() == Game::TIMEACCEL_1X;
+	m_aiPitchActive = false;
+	m_aiYawActive = false;
+	m_aiRollActive = false;
+	if (m_aiSequentialThrusters)
+		ClearLinThrusterState();
+}
+
+void Propulsion::EndAISequentialThrusters()
+{
+	m_aiSequentialThrusters = false;
+	m_aiPitchActive = false;
+	m_aiYawActive = false;
+	m_aiRollActive = false;
 }
 
 void Propulsion::Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass, const double effExVel, const float lin_Thrust[], const float ang_Thrust)
@@ -149,12 +171,16 @@ vector3d Propulsion::ClampLinThrusterState(const vector3d &levels) const
 
 void Propulsion::SetLinThrusterState(int axis, double level)
 {
+	if (AICurrentlyTurning())
+		return;
 	if (m_thrusterFuel <= 0.f) level = 0.0;
 	m_linThrusters[axis] = ClampLinThrusterState(axis, level);
 }
 
 void Propulsion::SetLinThrusterState(const vector3d &levels)
 {
+	if (AICurrentlyTurning())
+		return;
 	if (m_thrusterFuel <= 0.f) {
 		m_linThrusters = vector3d(0.0);
 	} else {
@@ -330,6 +356,9 @@ bool Propulsion::AIMatchVel(const vector3d &vel, const vector3d &powerLimit)
 // returns true if this can be done in a single timestep
 bool Propulsion::AIChangeVelBy(const vector3d &diffvel, const vector3d &powerLimit)
 {
+	if (AICurrentlyTurning())
+		return false;
+
 	// counter external forces
 	vector3d extf = m_dBody->GetExternalForce() * (Pi::game->GetTimeStep() / m_dBody->GetMass());
 	vector3d diffvel2 = diffvel - extf * m_dBody->GetOrient();
@@ -409,6 +438,15 @@ double Propulsion::AIFaceUpdir(const vector3d &updir, double av)
 	double cav = (m_dBody->GetAngVelocity() * m_dBody->GetOrient()).z; // current obj-rel angvel
 	double diff = (dav - cav) / frameAccel;							   // find diff between current & desired angvel
 
+	if (m_aiSequentialThrusters) {
+		if (m_aiPitchActive || m_aiYawActive) {
+			m_aiRollActive = false;
+			m_angThrusters.z = 0.0;
+			return ang;
+		}
+		m_aiRollActive = ang > AI_MAJOR_TURN_ANGLE;
+	}
+
 	SetAngThrusterState(2, diff);
 	return ang;
 }
@@ -450,6 +488,31 @@ double Propulsion::AIFaceDirection(const vector3d &dir, double av)
 		auto *playerController = static_cast<const Player *>(m_dBody)->GetPlayerController();
 		if (playerController->InputBindings.roll->IsActive())
 			diff.z = GetAngThrusterState().z;
+	}
+
+	if (m_aiSequentialThrusters) {
+		// We're doing pitch and yaw, so zero out the rollLevel unless the player is explicitly setting it
+		const double rollLevel = (m_dBody->IsType(ObjectType::PLAYER) ? diff.z : 0.0);
+		double pitchAng = 0.0;
+		double yawAng = 0.0;
+		if (head.z > -0.99999999) {
+			pitchAng = std::abs(atan2(head.y, -head.z));
+			yawAng = std::abs(atan2(head.x, -head.z));
+		}
+		const bool majorPitchTurn = pitchAng > AI_MAJOR_TURN_ANGLE;
+		const bool majorYawTurn = yawAng > AI_MAJOR_TURN_ANGLE;
+		m_aiPitchActive = majorPitchTurn;
+		m_aiYawActive = majorYawTurn;
+		m_aiRollActive = false;
+
+		if (majorPitchTurn)
+			SetAngThrusterState(vector3d(diff.x, 0.0, rollLevel));
+		else if (majorYawTurn)
+			SetAngThrusterState(vector3d(0.0, diff.y, rollLevel));
+		else
+			SetAngThrusterState(diff);
+
+		return ang;
 	}
 
 	SetAngThrusterState(diff);

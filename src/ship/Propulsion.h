@@ -123,7 +123,18 @@ public:
 	double AIFaceDirection(const vector3d &dir, double av = 0);
 	vector3d AIGetLeadDir(const Body *target, const vector3d &targaccel, double projspeed);
 
+	void BeginAISequentialThrusters();
+	void EndAISequentialThrusters();
+
 private:
+	// Ship turn angle above which linear thrust is blocked. For angles above this the ship will finish rotating first before firing main thrusters.
+	static constexpr double AI_MAJOR_TURN_ANGLE = 8.0 * DEG2RAD(1.0);
+	bool m_aiSequentialThrusters;
+	bool m_aiPitchActive;
+	bool m_aiYawActive;
+	bool m_aiRollActive;
+	bool AICurrentlyTurning() const { return m_aiSequentialThrusters && (m_aiPitchActive || m_aiYawActive || m_aiRollActive); }
+
 	// Thrust and thrusters
 	float m_linThrust[THRUSTER_MAX];
 	float m_angThrust;

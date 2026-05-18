@@ -5,6 +5,7 @@
 #include "Frame.h"
 #include "Ship.h"
 #include "ShipAICmd.h"
+#include "ship/Propulsion.h"
 #include "Space.h"
 #include "SpaceStation.h"
 #include "lua/LuaEvent.h"
@@ -29,7 +30,10 @@ bool Ship::AITimeStep(float timeStep)
 		return true;
 	}
 
-	if (m_curAICmd->TimeStepUpdate()) {
+	m_propulsion->BeginAISequentialThrusters();
+	const bool aiComplete = m_curAICmd->TimeStepUpdate();
+	m_propulsion->EndAISequentialThrusters();
+	if (aiComplete) {
 		AIClearInstructions();
 		//		ClearThrusterState();		// otherwise it does one timestep at 10k and gravity is fatal
 		LuaEvent::Queue("onAICompleted", this, EnumStrings::GetString("ShipAIError", AIMessage()));
