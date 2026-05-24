@@ -2353,7 +2353,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set destination as navigation target"
+    "message": "Ustaw kierunek jako cel nawigacji"
   },
   "SET_JUMP_TARGET": {
     "description": "Button tooltip which sets the jump route to the selected body",
