@@ -11,7 +11,6 @@ local ui = require 'pigui'
 local utils = require 'utils'
 local icons = ui.theme.icons
 local colors = ui.theme.colors
-local Character = require 'Character'
 local PlayerState = require 'PlayerState'
 
 

@@ -45,10 +45,15 @@ local crewlife = {
 }
 
 
--- thought = {text       = "short thought description",
---	      adjustment = signed integer that adjusts the playerRelationship,
---            time       = Game.time when thought was applied,
---            chance     = probability that the thought actually gets applied}
+-- New Crew attributes:
+-- civaffinity = {1, 2, 3}    This determines how much the character enjoys being in busy systems with high population vs. the unexplored frontier (low = 1, high = 3)
+-- contract                   See CrewContract file
+-- homeStation                SystemPath to the station the crew member is originally from (NOT necessarily where they were hired)
+-- lastHomeVisit              The date/time when the crew member was last at their home station
+-- thought = {text,           short thought description
+--	          adjustment,     signed integer that adjusts the playerRelationship
+--            time,           Game.time when thought was applied
+--            chance}         probability that the thought actually gets applied
 
 crewlife.thoughts = {
 	employment           = {text = l.THOUGHT_EMPLOYMENT,             adjustment = 10, time = 0, chance = 1   },
@@ -87,7 +92,7 @@ crewlife.thoughts = {
 --
 -- Returns:
 --
---  Returns the numeric result of a mathematical function, run on the numerical values of the provided table.
+-- Returns the numeric result of a mathematical function, run on the numerical values of the provided table.
 local tablemath = function(x, fun)
 	local sum = 0
 	for _, value in pairs(x) do

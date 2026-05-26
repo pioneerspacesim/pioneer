@@ -9,16 +9,12 @@ local Game = require 'Game'
 local Character = require 'Character'
 local Format = require 'Format'
 local utils = require 'utils'
-local Rand = require 'Rand'
 
-local rand = Rand.New()
 
 -- This module allows the player to hire crew members through BB adverts
 -- on stations
 
 local l = Lang.GetResource("module-crewcontracts")
-local lui = Lang.GetResource("ui-core")
-
 local crewlife = require 'modules.CrewContracts.CrewLife'
 
 local wage_period = 604800 -- a week of seconds
@@ -33,33 +29,63 @@ local wage_period = 604800 -- a week of seconds
 --   outstanding = 0,
 -- }
 
--- New Character attribute: affinity for civilization
--- This determines how much the character enjoys being in busy systems with high
--- population vs. the unexplored frontier
--- low = 1, medium = 2, high = 3
--- civaffinity = {1, 2, 3}
-
 -- The bulletin board
 
 local nonPersistentCharactersForCrew = {}
 local stationsWithAdverts = {}
+local crewInThisStation -- Table of available folk available for hire here
+local candidate -- Run-time "static" variable for onChat
+local offer
 
+
+-- Function: wageFromScore
+--
+-- Calculate a crew member's wage requirement based on their score.
+--
+-- Parameters:
+--
+-- score - an integer of combined attribute scores. Default score is
+-- four 15s (=60). Anybody with that or less gets minimum wage offered.
+--
+-- Returns:
+--
+-- Returns an integer with the wage.
 local wageFromScore = function(score)
-	-- Default score is four 15s (=60). Anybody with that or less
-	-- gets minimum wage offered.
 	score = math.max(0,score-60)
 	return math.floor(score * score / 100) + 10
 end
 
+
+-- Function: checkOffer
+--
+-- Clamp a wage offer to a valid minimum value.
+--
+-- Parameters:
+--
+-- offer - a numeric wage offer to validate.
+--
+-- Returns:
+--
+-- Returns the offer unchanged, or 1 if the offer is less than 1.
 local checkOffer = function(offer)
 	-- Force wage offers to be in correct range
 	return math.max(1,offer)
 end
 
-local crewInThisStation -- Table of available folk available for hire here
-local candidate -- Run-time "static" variable for onChat
-local offer
 
+-- Function: onChat
+--
+-- Handle bulletin board chat interactions for crew hiring.
+-- Displays available crew, candidate details, wage negotiation,
+-- and candidate test results depending on the selected option.
+--
+-- Parameters:
+--
+-- form   - the bulletin board form object used to render UI elements.
+-- ref    - the advert reference used to look up the owning station.
+-- option - integer selected by the player. -1 = hang up, 0 = list
+--          available crew, positive values select or interact with a
+--          candidate (negotiate wage, request a test, etc.).
 local onChat = function (form,ref,option)
 
 	local station = stationsWithAdverts[ref]
@@ -133,6 +159,16 @@ local onChat = function (form,ref,option)
 		end
 	end
 
+	-- Function: showCandidateDetails
+	--
+	-- Render the detail view for the currently selected crew candidate,
+	-- including their experience summary, current wage offer, and
+	-- negotiation options.
+	--
+	-- Parameters:
+	--
+	-- response - a string shown as the candidate's reaction to the
+	--            player's last action. Pass "" for a neutral display.
 	local showCandidateDetails = function (response)
 		form:SetFace(candidate)
 		form:Clear()
@@ -315,6 +351,20 @@ local onChat = function (form,ref,option)
 	end
 end
 
+
+-- Function: isEnabled
+--
+-- Determine whether the crew-for-hire advert should be shown as
+-- active on the bulletin board.
+--
+-- Parameters:
+--
+-- ref - the advert reference used to look up the owning station.
+--
+-- Returns:
+--
+-- Returns true if at least one crew member is available at the
+-- station, false otherwise.
 local isEnabled = function (ref)
 	local station = stationsWithAdverts[ref]
 	local numCrewmenAvailable = 0
@@ -324,9 +374,24 @@ local isEnabled = function (ref)
 	return numCrewmenAvailable > 0
 end
 
-local function N_equilibrium(station)                       -- This function is included unchanged from the Ship Market
+
+-- Function: N_equilibrium
+--
+-- Calculate the equilibrium number of crew adverts expected at a
+-- station, based on the population of its parent body. Included
+-- unchanged from the Ship Market module.
+--
+-- Parameters:
+--
+-- station - a station object whose path is used to retrieve the
+--           population of the parent body.
+--
+-- Returns:
+--
+-- Returns a number representing the target crew-advert count.
+local function N_equilibrium(station)
     local pop = station.path:GetSystemBody().parent.population -- E.g. Earth=7, Mars=0.3
-    local pop_bonus = 9 * math.log(pop * 0.45 + 1)          -- something that gives resonable result
+    local pop_bonus = 9 * math.log(pop * 0.45 + 1)             -- something that gives resonable result
     if station.type == "STARPORT_SURFACE" then
         pop_bonus = pop_bonus * 1.5
     end
@@ -334,13 +399,16 @@ local function N_equilibrium(station)                       -- This function is 
     return 2 + pop_bonus
 end
 
-local function removeAd (station, num)
-	if not nonPersistentCharactersForCrew[station] then
-		nonPersistentCharactersForCrew[station] = {}
-	end
-	table.remove(nonPersistentCharactersForCrew[station], num)
-end
 
+-- Function: onCreateBB
+--
+-- Initialise the crew-for-hire bulletin board advert for a station
+-- and populate it with a Poisson-distributed number of crew candidates.
+-- Registered as a handler for the "onCreateBB" event.
+--
+-- Parameters:
+--
+-- station - the station for which the bulletin board is being created.
 local onCreateBB = function (station)
 	-- Create non-persistent Characters as available crew
 	nonPersistentCharactersForCrew[station] = {}
@@ -360,6 +428,17 @@ local onCreateBB = function (station)
 end
 Event.Register("onCreateBB", onCreateBB)
 
+
+-- Function: onUpdateBB
+--
+-- Update crew adverts for a station each in-game hour: existing
+-- adverts decay with probability lambda and new ones may spawn with
+-- probability prod, keeping the list near equilibrium.
+-- Registered as a handler for the "onUpdateBB" event.
+--
+-- Parameters:
+--
+-- station - the station whose crew advert list is being updated.
 local onUpdateBB = function (station)
 	local tau = 7*24                              -- half life of a crew advert in hours
 	local lambda = 0.693147 / tau                 -- removal probability= ln(2) / tau
@@ -381,11 +460,13 @@ local onUpdateBB = function (station)
 end
 Event.Register("onUpdateBB", onUpdateBB)
 
+
 -- Wipe temporary crew out when hyperspacing
 Event.Register("onEnterSystem", function(ship)
 	nonPersistentCharactersForCrew = {}
 	stationsWithAdverts = {}
 end)
+
 
 -- Load temporary crew from saved data
 local loaded_data
@@ -407,6 +488,15 @@ Event.Register("onGameStart", function()
 	end
 end)
 
+
+-- Function: serialize
+--
+-- Collect the module's persistent state into a table for saving.
+--
+-- Returns:
+--
+-- Returns a table containing nonPersistentCharactersForCrew and
+-- stationsWithAdverts, to be stored by the Serializer.
 local serialize = function ()
 	return {
 		nonPersistentCharactersForCrew = nonPersistentCharactersForCrew,
@@ -414,6 +504,19 @@ local serialize = function ()
 	}
 end
 
+
+-- Function: unserialize
+--
+-- Store loaded save data so it can be applied when the onGameStart
+-- event fires.
+--
+-- Parameters:
+--
+-- data - a table previously returned by serialize.
+--
+-- Returns:
+--
+-- Nothing.
 local unserialize = function (data)
 	loaded_data = data
 end
