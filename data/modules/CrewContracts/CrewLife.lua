@@ -196,9 +196,9 @@ local scheduleContract = function(crewMember)
 		boostCrewSkills(crewMember)
 
 		-- schedule next run
-		if contract.payday and not crewMember.dead then
-			contract.payday = contract.payday + week_in_secs
-			Timer:CallAt(math.max(Game.time + 5, contract.payday), payWages)
+		if crewMember.contract.payday and not crewMember.dead then
+			crewMember.contract.payday = crewMember.contract.payday + week_in_secs
+			Timer:CallAt(math.max(Game.time + 5, crewMember.contract.payday), payWages)
 		end
 
 	end
