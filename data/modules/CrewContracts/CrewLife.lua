@@ -20,7 +20,8 @@ local rand      = Rand.New()
 local l         = Lang.GetResource("module-crewcontracts")
 local lui       = Lang.GetResource("ui-core")
 
-local week_in_secs = 604800 -- a week of seconds
+local day_in_secs = 86400 -- a day in seconds
+local week_in_secs = 604800 -- a week in seconds
 local month_in_secs = 2629800 -- month in seconds
 
 
@@ -358,29 +359,29 @@ end
 -- Finds a home system and station for a crew member. Weighted towards:
 -- current station > local system stations (by distance) > random station in nearby systems (by distance)
 --
-function crewlife.findHome ()
-	local home_system_path
+function crewlife.findHome()
+    local home_system_path
     local home_station_path
-	
-    -- 1. Pick system the person is from, weighted towards picking current or close system
-	-- get nearby inhabited systems
-    local systemoptions_raw
-	local max_dist = 30  -- maximum of 30 ly away
-	systemoptions_raw = Game.system:GetNearbySystems(max_dist, function (s) return #s:GetStationPaths() > 0 end)
-	
-	-- determine distance to player system and sort
-	local systemoptions_dist = {}
-	for _,system in pairs(systemoptions_raw) do
-		local dist = Game.system:DistanceTo(system)
-        table.insert(systemoptions_dist, {system, dist})
-	end
 
-	local systemoptions = {Game.system.path}
-	table.sort(systemoptions_dist, function (a,b) return a[2] < b[2] end)
+    -- 1. Pick system the person is from, weighted towards picking current or close system
+    -- get nearby inhabited systems
+    local systemoptions_raw
+    local max_dist = 30 -- maximum of 30 ly away
+    systemoptions_raw = Game.system:GetNearbySystems(max_dist, function(s) return #s:GetStationPaths() > 0 end)
+
+    -- determine distance to player system and sort
+    local systemoptions_dist = {}
+    for _, system in pairs(systemoptions_raw) do
+        local dist = Game.system:DistanceTo(system)
+        table.insert(systemoptions_dist, {system, dist})
+    end
+
+    local systemoptions = {Game.system.path}
+    table.sort(systemoptions_dist, function(a, b) return a[2] < b[2] end)
     for _, data in ipairs(systemoptions_dist) do
         table.insert(systemoptions, data[1].path)
     end
-    
+
     -- pick system
     while home_system_path == nil do
         local index = rand:Poisson(0.5) + 1
@@ -390,57 +391,88 @@ function crewlife.findHome ()
     end
 
     -- 2. Pick station the person is from, weighted towards picking current or close station
-	-- 2a. Home system is the current system and the player is docked
-    if home_system_path:GetStarSystem() == Game.system and Game.player:IsDocked() then
+    -- 2a. Home system is the current system and the player is docked
+    if home_system_path:IsSameSystem(Game.system.path) and Game.player:IsDocked() then
         local stationoptions_raw = Space.GetBodies("SpaceStation")
 
         -- determine distance to current station
-			local current_station = Game.player:GetDockedWith()
-			local stationoptions_dist = {}
-			for _, station in pairs(stationoptions_raw) do
-				if station ~= current_station then
-					-- round distance by 0.5 AU or small differences lead to large preference biases
-					local dist = utils.round(current_station:DistanceTo(station), 74798935346)
-					table.insert(stationoptions_dist, {station, dist})
-				end
-			end
+        local current_station = Game.player:GetDockedWith()
+        local stationoptions_dist = {}
+        for _, station in pairs(stationoptions_raw) do
+            if station ~= current_station then
+                -- round distance by 0.5 AU or small differences lead to large preference biases
+                local dist = utils.round(current_station:DistanceTo(station), 74798935346)
+                table.insert(stationoptions_dist, {station, dist})
+            end
+        end
 
-			-- create distance bins and sort
-			local binned_stations = {}
-			local bin_distances = {}
+        -- create distance bins and sort
+        local binned_stations = {}
+        local bin_distances = {}
 
-			for _, data in ipairs(stationoptions_dist) do
-				local dist = data[2]
-				if not binned_stations[dist] then
-					binned_stations[dist] = {}
-					table.insert(bin_distances, dist)
-				end
-				table.insert(binned_stations[dist], data[1])
-			end
-			table.sort(bin_distances)
+        for _, data in ipairs(stationoptions_dist) do
+            local dist = data[2]
+            if not binned_stations[dist] then
+                binned_stations[dist] = {}
+                table.insert(bin_distances, dist)
+            end
+            table.insert(binned_stations[dist], data[1])
+        end
+        table.sort(bin_distances)
 
-			-- add current station as first bin
-			table.insert(bin_distances, 1, 0)
-			binned_stations[0] = {current_station}
+        -- add current station as first bin
+        table.insert(bin_distances, 1, 0)
+        binned_stations[0] = {current_station}
 
-			-- pick station using Poisson distribution on bins, then random within bin
-			while home_station_path == nil do
-				local bin_index = rand:Poisson(1) + 1
-				if bin_index >= 1 and bin_index <= #bin_distances then
-					local dist = bin_distances[bin_index]
-					local stations_in_bin = binned_stations[dist]
-					local station_index = rand:Integer(1, #stations_in_bin)
-					home_station_path = stations_in_bin[station_index].path
-				end
-			end
-
+        -- pick station using Poisson distribution on bins, then random within bin
+        while home_station_path == nil do
+            local bin_index = rand:Poisson(1) + 1
+            if bin_index >= 1 and bin_index <= #bin_distances then
+                local dist = bin_distances[bin_index]
+                local stations_in_bin = binned_stations[dist]
+                local station_index = rand:Integer(1, #stations_in_bin)
+                home_station_path = stations_in_bin[station_index].path
+            end
+        end
     else -- 2b. Home system is not the current system OR fallback if player is not docked
-		local home_system = home_system_path:GetStarSystem()
+        local home_system = home_system_path:GetStarSystem()
         local stations = home_system:GetStationPaths()
         local index = rand:Integer(1, #stations)
         home_station_path = stations[index]
     end
-	return(home_station_path)
+    return (home_station_path)
+end
+
+
+--
+-- Method: initialHomeVisit
+--
+-- Sets the date/time of the initial last home visit of the crew member, depending on distance.
+--
+-- Parameters:
+--
+-- crew
+crewlife.initialHomeVisit = function(crew)
+    local visit_date
+	local dist
+    if crew.homeStation:IsSameSystem(Game.system.path) then
+        if Game.player:IsDocked() then
+            if crew.homeStation == Game.player:GetDockedWith().path then
+                visit_date = Game.time
+            end
+        else
+            -- round distance by 0.5 AU
+            dist = utils.round(Game.player:DistanceTo(Space.GetBody(crew.homeStation:GetSystemBody().index)),
+                74798935346)
+            -- roughly 1-10 days per AU distance to current location
+            visit_date = utils.round(rand:Integer(1, 10) * dist, 1) * day_in_secs + Game.time
+        end
+    else
+        dist = Game.system:DistanceTo(crew.homeStation)
+        -- roughly 1-2 weeks per ly distance to current system
+		visit_date = utils.round(rand:Integer(7, 14) * dist, 1) * day_in_secs + Game.time
+    end
+	return (visit_date)
 end
 
 
@@ -469,6 +501,7 @@ crewlife.newCrew = function()
 
     -- pick home
     hopefulCrew.homeStation = crewlife.findHome()
+	hopefulCrew.lastHomeVisit = crewlife.initialHomeVisit(hopefulCrew)
     return hopefulCrew
 end
 
@@ -491,10 +524,6 @@ crewlife.onJoinCrew = function(ship, crewMember)
 
         -- happy because of employment
         crewlife.applyThought(crewMember, crewlife.thoughts['employment'])
-
-        -- start tracking visits to home
-        -- TODO: add correct lastHomeVisit
-		crewMember.lastHomeVisit = Game.time
     end
 end
 Event.Register("onJoinCrew", crewlife.onJoinCrew)

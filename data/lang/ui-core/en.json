@@ -1487,6 +1487,10 @@
     "description": "",
     "message": "Permission to launch denied: docking bay busy."
   },
+  "LAST_HOME_VISIT": {
+    "description": "",
+    "message": "Last home visit"
+  },
   "LAUNCH_PERMISSION_DENIED_CREW": {
     "description": "",
     "message": "Permission to launch denied: not enough crew to handle this ship."

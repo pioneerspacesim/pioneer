@@ -6,6 +6,7 @@
 local debugView = require 'pigui.views.debug'
 local Game = require 'Game'
 local ShipDef = require 'ShipDef'
+local Format = require 'Format'
 local ui = require 'pigui'
 local utils = require 'utils'
 local icons = ui.theme.icons
@@ -155,7 +156,10 @@ debugView.registerTab("debug-crew", {
 					local x = crew.homeStation.sectorX
 					local y = crew.homeStation.sectorY
 					local z = crew.homeStation.sectorZ
-					ui.text(body.name .. " (" .. system.name .. " <" .. x .. "," .. y .. "," .. z .. ">)")
+                    ui.text(body.name .. " (" .. system.name .. " <" .. x .. "," .. y .. "," .. z .. ">)")
+
+                    ui.text("Last visit")
+					ui.text(Format.Date(crew.lastHomeVisit))
 
 					ui.dummy(Vector2(0, 40))
 					ui.separator()
