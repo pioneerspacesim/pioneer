@@ -314,18 +314,8 @@ local crewAvailable = function ()
 		if not crewMember.player then
 			scheduleContract(crewMember)
 
-			-- for old saves compatibility
-            if not crewMember.memories then
-                crewMember.memories = {}
-            end
-            if not crewMember.civaffinity then
-                crewMember.civaffinity = 1
-            end
-			if not crewMember.homeStation then
-				local stations = Game.system:GetStationPaths()
-				local index = rand:Integer(1, #stations)
-				crewMember.homeStation = stations[index]
-			end
+            -- for old saves compatibility
+			crewMember = crewlife.newCrew(crewMember)
 		end
 	end
 end
@@ -413,29 +403,45 @@ end
 -- Method: newCrew
 --
 -- Creates a new (potential) crew member with all needed stats.
-crewlife.newCrew = function()
-    local hopefulCrew = Character.New()
-    -- Roll new stats, with a 1/3 chance that they're utterly inexperienced
-    hopefulCrew:RollNew(rand:Integer(0, 2) > 0)
-    -- Make them a title if they're good at anything
-    local maxScore = math.max(hopefulCrew.engineering,
-        hopefulCrew.piloting,
-        hopefulCrew.navigation,
-        hopefulCrew.sensors)
-    if maxScore > 45 then
-        if hopefulCrew.engineering == maxScore then hopefulCrew.title = lui.SHIPS_ENGINEER end
-        if hopefulCrew.piloting == maxScore then hopefulCrew.title = lui.PILOT end
-        if hopefulCrew.navigation == maxScore then hopefulCrew.title = lui.NAVIGATOR end
-        if hopefulCrew.sensors == maxScore then hopefulCrew.title = lui.SENSORS_AND_DEFENCE end
+--
+-- Parameters:
+--   oldformatCrew - previously existing crew member that needs format updates for save compatibility
+--
+-- Returns:
+--   crew - a crew member object
+crewlife.newCrew = function(oldformatCrew)
+	local crewMember
+	if not oldformatCrew then
+		crewMember = Character.New()
+		-- Roll new stats, with a 1/3 chance that they're utterly inexperienced
+		crewMember:RollNew(rand:Integer(0, 2) > 0)
+		-- Make them a title if they're good at anything
+		local maxScore = math.max(crewMember.engineering,
+			crewMember.piloting,
+			crewMember.navigation,
+			crewMember.sensors)
+		if maxScore > 45 then
+			if crewMember.engineering == maxScore then crewMember.title = lui.SHIPS_ENGINEER end
+			if crewMember.piloting == maxScore then crewMember.title = lui.PILOT end
+			if crewMember.navigation == maxScore then crewMember.title = lui.NAVIGATOR end
+			if crewMember.sensors == maxScore then crewMember.title = lui.SENSORS_AND_DEFENCE end
+		end
+	else
+		crewMember = oldformatCrew
+	end
+		
+    -- pick affinity for civilization and home and setup memories
+    if not crewMember.civaffinity then
+        crewMember.civaffinity = rand:Integer(1, 3)
     end
-
-    -- pick affinity for civilization
-    hopefulCrew.civaffinity = rand:Integer(1, 3)
-
-    -- pick home
-    hopefulCrew.homeStation, hopefulCrew.lastHomeVisit = crewlife.findHome()
-	-- hopefulCrew.lastHomeVisit = crewlife.initialHomeVisit(hopefulCrew)
-    return hopefulCrew
+    if not crewMember.homeStation then
+        crewMember.homeStation, crewMember.lastHomeVisit = crewlife.findHome()
+    end
+	if not crewMember.memories then
+		crewMember.memories = {}
+	end
+	
+    return crewMember
 end
 
 
@@ -477,10 +483,6 @@ local onLeaveCrew = function(ship, crewMember)
         crewMember.estimatedWage = crewMember.contract.wage + 5
         -- Terminate their contract
         crewMember.contract = nil
-
-        -- clean up custom variables
-        crewMember.homeStation = nil
-        crewMember.lastHomeVisit = nil
     end
 end
 Event.Register("onLeaveCrew", onLeaveCrew)

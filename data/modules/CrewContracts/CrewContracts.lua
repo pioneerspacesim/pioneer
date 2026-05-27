@@ -86,8 +86,7 @@ end
 -- option - integer selected by the player. -1 = hang up, 0 = list
 --          available crew, positive values select or interact with a
 --          candidate (negotiate wage, request a test, etc.).
-local onChat = function (form,ref,option)
-
+local onChat = function(form, ref, option)
 	local station = stationsWithAdverts[ref]
 
 	if option == -1 then
@@ -106,7 +105,7 @@ local onChat = function (form,ref,option)
 		-- Add any non-persistent characters (which are persistent only in the sense
 		-- that this BB ad is storing them)
 		for k,c in ipairs(nonPersistentCharactersForCrew[station]) do
-			table.insert(crewInThisStation,c)
+            table.insert(crewInThisStation, c)
 			c.experience = c.engineering
 				+c.piloting
 				+c.navigation
@@ -131,7 +130,7 @@ local onChat = function (form,ref,option)
 				)
 				and Game.time - c.lastSavedTime < 2419200 -- (28 days)
 		end) do
-			table.insert(crewInThisStation,c)
+            table.insert(crewInThisStation, c)
 			c.experience = c.engineering
 				+c.piloting
 				+c.navigation
@@ -471,18 +470,27 @@ end)
 -- Load temporary crew from saved data
 local loaded_data
 Event.Register("onGameStart", function()
-	-- XXX Need to re-initialise these until Lua is re-initialised with a new game
+    -- XXX Need to re-initialise these until Lua is re-initialised with a new game
 	nonPersistentCharactersForCrew = {}
 	stationsWithAdverts = {}
-	if loaded_data and loaded_data.stationsWithAdverts then
-		nonPersistentCharactersForCrew = loaded_data.nonPersistentCharactersForCrew
+    if loaded_data and loaded_data.stationsWithAdverts then
+        nonPersistentCharactersForCrew = loaded_data.nonPersistentCharactersForCrew
+
+        -- for old saves compatibility
+        for station, crewdata in pairs(nonPersistentCharactersForCrew) do
+            for i, crewMember in pairs(crewdata) do
+                crewdata[i] = crewlife.newCrew(crewMember)
+            end
+			nonPersistentCharactersForCrew[station] = crewdata
+		end
+
 		for k,station in pairs(loaded_data.stationsWithAdverts) do
 			stationsWithAdverts[station:AddAdvert({
 				title       = l.CREW_FOR_HIRE_TITLE,
 				description = l.CREW_FOR_HIRE_DESC,
 				icon        = "crew_contracts",
 				onChat      = onChat,
-				isEnabled   = isEnabled})] = station
+                isEnabled   = isEnabled })] = station
 		end
 		loaded_data = nil
 	end
