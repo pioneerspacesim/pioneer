@@ -492,9 +492,6 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 
 	const float radiusPlanet_in_km = radiusPlanet_in_m / 1000;
 	const float atmosHeight_in_km = radiusPlanet_in_km * (params.atmosRadius - 1);
-	params.rayleighCoefficients = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, atmosScaleHeight);
-	params.mieCoefficients = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, atmosScaleHeight / 6.66); // 7994 / 1200 = 6.61
-	params.scaleHeight = vector2f(atmosScaleHeight, atmosScaleHeight / 6.66);
 
 	float atmosHeight = radiusPlanet_in_m * (params.atmosRadius - 1);;
 	for (int i = 0; i <= DENSITY_STEPS; i++) {
