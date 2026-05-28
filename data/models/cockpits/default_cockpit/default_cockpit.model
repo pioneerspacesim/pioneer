@@ -5,7 +5,7 @@ material "default_cockpit" {
 	diffuse 0.9 0.9 0.9
 	specular 0.3 0.3 0.3
 	shininess 43
-	
+
 	texture diffuse "default_cockpit_diff.dds"
 	texture specular "default_cockpit_spec.dds"
 	texture glow "default_cockpit_glow.dds"
@@ -21,6 +21,11 @@ material "default_cockpit_transp" {
 	texture diffuse "default_cockpit_diff.dds"
 	texture specular "default_cockpit_spec.dds"
 	texture glow "default_cockpit_glow.dds"
+
+	render_state {
+		blend alpha
+		depth_write off
+	}
 }
 
 material "default_cockpit_screen" {

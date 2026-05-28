@@ -23,6 +23,11 @@ material "Coronatrix-canopy" {
 	texture specular "coronatrix_spec.dds"
 	texture normal "coronatrix_norm.png"
 	texture glow "coronatrix_glow.dds"
+	
+		render_state {
+		blend alpha
+		depth_write off
+	}
 }
 
 material "Coronatrix-parts" {
