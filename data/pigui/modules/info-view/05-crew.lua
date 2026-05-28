@@ -8,7 +8,8 @@ local ShipDef	= require 'ShipDef'
 local InfoView	= require 'pigui.views.info-view'
 local PiGuiFace = require 'pigui.libs.face'
 local Commodities = require 'Commodities'
-local Format    = require 'Format'
+local Format      = require 'Format'
+local utils     = require 'utils'
 
 local StationView = require 'pigui.views.station-view'
 local Vector2 = _G.Vector2
@@ -326,8 +327,9 @@ local function drawHome(crewMember)
 	local z = crewMember.homeStation.sectorZ
     ui.text(body.name .. " (" .. system.name .. " <" .. x .. "," .. y .. "," .. z .. ">)")
 
+	local time_delta = utils.round((Game.time - crewMember.lastHomeVisit) / 86400, 1)
     ui.withFont(orbiteer.body, function() ui.text(l.LAST_HOME_VISIT) end)
-	ui.text(Format.DateOnly(crewMember.lastHomeVisit))
+	ui.text(Format.DateOnly(crewMember.lastHomeVisit) .. " (" .. time_delta .. " " .. l.DAYS .. ")")
 end
 
 

@@ -157,8 +157,9 @@ debugView.registerTab("debug-crew", {
 					local z = crew.homeStation.sectorZ
                     ui.text(body.name .. " (" .. system.name .. " <" .. x .. "," .. y .. "," .. z .. ">)")
 
+					local time_delta = utils.round((Game.time - crew.lastHomeVisit) / 86400, 1)
                     ui.text("Last visit")
-					ui.text(Format.Date(crew.lastHomeVisit))
+					ui.text(Format.Date(crew.lastHomeVisit) .. " (" .. time_delta .. " days)")
 
 					ui.dummy(Vector2(0, 40))
 					ui.separator()

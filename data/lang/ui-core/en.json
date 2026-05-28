@@ -431,6 +431,10 @@
     "description": "Date of an event, used in flight log",
     "message": "Date"
   },
+  "DAYS": {
+    "description": "",
+    "message": "Days"
+  },
   "DEADLY": {
     "description": "Player combat rating",
     "message": "Deadly"
