@@ -17,13 +17,19 @@
 
 using namespace Graphics::OGL;
 
-void CommandList::AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *material)
+static GLuint get_element_size(IndexBuffer *idx)
+{
+	return idx->GetElementSize() == Graphics::INDEX_BUFFER_16BIT ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT;
+}
+
+void CommandList::AddDrawMeshCmd(Graphics::MeshObject *mesh, Graphics::Material *material)
 {
 	assert(!m_executing && "Attempt to append to a command list while it's being executed!");
 	OGL::Material *mat = static_cast<OGL::Material *>(material);
 
-	DrawCmd cmd{};
+	DrawMeshCmd cmd{};
 	cmd.mesh = static_cast<OGL::MeshObject *>(mesh);
+	cmd.elementCount = cmd.mesh->m_idxBuffer ? cmd.mesh->m_idxBuffer->GetIndexCount() : cmd.mesh->m_vtxBuffer->GetSize();
 
 	cmd.program = mat->EvaluateVariant();
 	cmd.renderStateHash = mat->m_renderStateHash;
@@ -33,7 +39,7 @@ void CommandList::AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *mat
 	m_drawCmds.emplace_back(std::move(cmd));
 }
 
-void CommandList::AddDrawCmd2(Span<Graphics::VertexBuffer *const> vtxBuffers, Graphics::IndexBuffer *idxBuffer, Graphics::Material *material, uint32_t elementCount, uint32_t instanceCount)
+void CommandList::AddDrawBuffersCmd(Span<const BufferBinding<Graphics::VertexBuffer>> vtxBuffers, BufferBinding<Graphics::IndexBuffer> idxBuffer, Graphics::Material *material, uint32_t elementCount, uint32_t instanceCount)
 {
 	assert(!m_executing && "Attempt to append to a command list while it's being executed!");
 	assert(vtxBuffers.size() <= 4 && "At most 4 vertex buffers may be bound to a draw command.");
@@ -42,46 +48,32 @@ void CommandList::AddDrawCmd2(Span<Graphics::VertexBuffer *const> vtxBuffers, Gr
 
 	uint32_t numVtxBuffers = std::min<uint32_t>(vtxBuffers.size(), 4);
 
-	DrawCmd2 cmd{};
+	DrawBuffersCmd cmd{};
 	cmd.numVtxBuffers = numVtxBuffers - 1;
-	cmd.idxBuffer = idxBuffer ? 1 : 0;
+	cmd.idxBuffer = idxBuffer.buffer ? 1 : 0;
 	cmd.instanceCount = instanceCount;
 	cmd.elementCount = elementCount;
 	cmd.drawData = SetupMaterialData(mat, numVtxBuffers + cmd.idxBuffer);
 
+	uint32_t *offsetPtr = cmd.getBufferOffsetsPtr();
+
+	// Store vertex/index buffer bindings to the draw stream and record offsets into those buffers
+	// in "basic machine units" (bytes) for OpenGL to consume.
+
 	for (size_t idx = 0; idx < vtxBuffers.size(); idx++) {
-		reinterpret_cast<OGL::VertexBuffer **>(cmd.drawData)[idx] = static_cast<OGL::VertexBuffer *>(vtxBuffers[idx]);
+		reinterpret_cast<OGL::VertexBuffer **>(cmd.drawData)[idx] = static_cast<OGL::VertexBuffer *>(vtxBuffers[idx].buffer);
+		offsetPtr[idx] = vtxBuffers[idx].offset * vtxBuffers[idx].buffer->GetStride();
 	}
 
-	if (idxBuffer) {
-		reinterpret_cast<OGL::IndexBuffer **>(cmd.drawData)[numVtxBuffers] = static_cast<OGL::IndexBuffer *>(idxBuffer);
+	if (cmd.idxBuffer) {
+		uint32_t indexSize = idxBuffer.buffer->GetElementSize() == INDEX_BUFFER_16BIT ? sizeof(uint16_t) : sizeof(uint32_t);
+		reinterpret_cast<OGL::IndexBuffer **>(cmd.drawData)[numVtxBuffers] = static_cast<OGL::IndexBuffer *>(idxBuffer.buffer);
+		offsetPtr[numVtxBuffers] = idxBuffer.offset * indexSize;
 	}
 
 	cmd.program = mat->EvaluateVariant();
 	cmd.renderStateHash = mat->m_renderStateHash;
 	cmd.vertexState = mat->m_vertexState;
-
-	m_drawCmds.emplace_back(std::move(cmd));
-}
-
-void CommandList::AddDynamicDrawCmd(BufferBinding<Graphics::VertexBuffer> vtxBind, BufferBinding<Graphics::IndexBuffer> idxBind, Graphics::Material *material)
-{
-	assert(!m_executing && "Attempt to append to a command list while it's being executed!");
-	OGL::Material *mat = static_cast<OGL::Material *>(material);
-
-	DynamicDrawCmd cmd{};
-	cmd.vtxBind.buffer = static_cast<OGL::VertexBuffer *>(vtxBind.buffer);
-	cmd.vtxBind.offset = vtxBind.offset;
-	cmd.vtxBind.size = vtxBind.size;
-
-	cmd.idxBind.buffer = static_cast<OGL::IndexBuffer *>(idxBind.buffer);
-	cmd.idxBind.offset = idxBind.offset;
-	cmd.idxBind.size = idxBind.size;
-
-	cmd.program = mat->EvaluateVariant();
-	cmd.renderStateHash = mat->m_renderStateHash;
-	cmd.vertexState = mat->m_vertexState;
-	cmd.drawData = SetupMaterialData(mat);
 
 	m_drawCmds.emplace_back(std::move(cmd));
 }
@@ -204,7 +196,8 @@ char *CommandList::AllocDrawData(const Shader *shader, uint32_t numBuffers)
 	size_t constantSize = align<8>(shader->GetConstantStorageSize());
 	size_t bufferSize = align<8>(shader->GetNumBufferBindings() * sizeof(BufferBinding<UniformBuffer>));
 	size_t textureSize = align<8>(shader->GetNumTextureBindings() * sizeof(Texture *));
-	size_t totalSize = constantSize + bufferSize + textureSize + numBuffers * sizeof(VertexBuffer *);
+	size_t bindingSize = align<8>(numBuffers * (sizeof(VertexBuffer *) + sizeof(uint32_t)));
+	size_t totalSize = constantSize + bufferSize + textureSize + bindingSize;
 
 	char *alloc = nullptr;
 	for (auto &bucket : m_dataBuckets) {
@@ -244,7 +237,7 @@ char *CommandList::SetupMaterialData(OGL::Material *mat, uint32_t numBuffers)
 	const Shader *s = mat->GetShader();
 
 	char *alloc = AllocDrawData(s, numBuffers);
-	char *dataStart = alloc + numBuffers * sizeof(OGL::VertexBuffer *);
+	char *dataStart = alloc + align<8>(numBuffers * (sizeof(VertexBuffer *) + sizeof(uint32_t)));
 	if (mat->m_pushConstants) {
 		memcpy(dataStart, mat->m_pushConstants.get(), s->GetConstantStorageSize());
 	}
@@ -310,7 +303,7 @@ void CommandList::ApplyDrawData(Program *program, char *drawData) const
 	}
 }
 
-void CommandList::ExecuteDrawCmd(const DrawCmd &cmd)
+void CommandList::ExecuteDrawMeshCmd(const DrawMeshCmd &cmd)
 {
 	RenderStateCache *stateCache = m_renderer->GetStateCache();
 	stateCache->SetRenderState(cmd.renderStateHash);
@@ -320,42 +313,60 @@ void CommandList::ExecuteDrawCmd(const DrawCmd &cmd)
 	CHECKERRORS();
 
 	PrimitiveType pt = stateCache->GetActiveRenderState().primitiveType;
-	m_renderer->DrawMeshInternal(cmd.mesh, pt);
 
+	glBindVertexArray(cmd.mesh->GetVertexArrayObject());
+	OGL::IndexBuffer *idxBuffer = cmd.mesh->m_idxBuffer.Get();
+
+	if (idxBuffer) {
+		glDrawElements(pt, cmd.elementCount, get_element_size(idxBuffer), nullptr);
+	} else
+		glDrawArrays(pt, 0, cmd.elementCount);
+
+	m_renderer->RecordDrawStats(pt, cmd.elementCount, 1);
 	CHECKERRORS();
 }
 
-void CommandList::ExecuteDrawCmd2(const DrawCmd2 &cmd)
+void CommandList::ExecuteDrawBuffersCmd(const DrawBuffersCmd &cmd)
 {
 	RenderStateCache *stateCache = m_renderer->GetStateCache();
 	stateCache->SetRenderState(cmd.renderStateHash);
 	CHECKERRORS();
 
 	uint32_t numVtxBuffers = 1 + cmd.numVtxBuffers;
-	size_t drawDataOffset = sizeof(VertexBuffer *) * (numVtxBuffers + cmd.idxBuffer);
+	size_t drawDataOffset = align<8>((sizeof(VertexBuffer *) + sizeof(uint32_t)) * (numVtxBuffers + cmd.idxBuffer));
 	ApplyDrawData(cmd.program, cmd.drawData + drawDataOffset);
 	CHECKERRORS();
 
+	uint32_t *offsets = cmd.getBufferOffsetsPtr();
 	Span<VertexBuffer *> vtxBuffers = { reinterpret_cast<VertexBuffer **>(cmd.drawData), numVtxBuffers };
 	IndexBuffer *idxBuffer = cmd.idxBuffer ? reinterpret_cast<IndexBuffer **>(cmd.drawData)[numVtxBuffers] : nullptr;
 
 	PrimitiveType pt = stateCache->GetActiveRenderState().primitiveType;
-	m_renderer->DrawMesh2Internal(vtxBuffers, idxBuffer, cmd.elementCount, cmd.instanceCount, cmd.vertexState, pt);
 
-	CHECKERRORS();
-}
+	// Bind the VAO containing all vertex attribute assignments
+	glBindVertexArray(cmd.vertexState);
+	// Bind (or unbind) the element array buffer
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBuffer ? idxBuffer->GetBuffer() : 0);
 
-void CommandList::ExecuteDynamicDrawCmd(const DynamicDrawCmd &cmd)
-{
-	RenderStateCache *stateCache = m_renderer->GetStateCache();
-	stateCache->SetRenderState(cmd.renderStateHash);
-	CHECKERRORS();
+	// Bind all vertex buffers with specified offsets
+	for (size_t idx = 0; idx < vtxBuffers.size(); idx++) {
+		glBindVertexBuffer(idx, vtxBuffers[idx]->GetBuffer(), offsets[idx], vtxBuffers[idx]->GetStride());
+	}
 
-	ApplyDrawData(cmd.program, cmd.drawData);
-	CHECKERRORS();
+	if (idxBuffer) {
+		const void *idxOffset = reinterpret_cast<void *>(offsets[numVtxBuffers]);
+		if (cmd.instanceCount > 1)
+			glDrawElementsInstanced(pt, cmd.elementCount, get_element_size(idxBuffer), idxOffset, cmd.instanceCount);
+		else
+			glDrawElements(pt, cmd.elementCount, get_element_size(idxBuffer), idxOffset);
+	} else {
+		if (cmd.instanceCount > 1)
+			glDrawArraysInstanced(pt, 0, cmd.elementCount, cmd.instanceCount);
+		else
+			glDrawArrays(pt, 0, cmd.elementCount);
+	}
 
-	PrimitiveType pt = stateCache->GetActiveRenderState().primitiveType;
-	m_renderer->DrawMeshDynamicInternal(cmd.vtxBind, cmd.idxBind, cmd.vertexState, pt);
+	m_renderer->RecordDrawStats(pt, cmd.elementCount, cmd.instanceCount);
 
 	CHECKERRORS();
 }

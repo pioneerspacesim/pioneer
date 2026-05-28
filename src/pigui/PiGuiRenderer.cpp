@@ -131,7 +131,10 @@ void InstanceRenderer::RenderDrawData(ImDrawData *draw_data, Graphics::Material*
 
 					material->SetTexture(s_textureName, reinterpret_cast<Graphics::Texture *>(pcmd->GetTexID()));
 					material->SetPushConstant(s_vertexDepthName, pcmd->PrimDepth);
-					m_renderer->DrawBufferDynamic(m_vtxBuffer.get(), vtxOffset + pcmd->VtxOffset, m_idxBuffer.get(), idxOffset + pcmd->IdxOffset, pcmd->ElemCount, material);
+
+					uint32_t startVtx = vtxOffset + pcmd->VtxOffset;
+					uint32_t startIdx = idxOffset + pcmd->IdxOffset;
+					m_renderer->Draw({ { m_vtxBuffer.get(), startVtx } }, { m_idxBuffer.get(), startIdx }, material, pcmd->ElemCount);
 				}
 			}
 		}

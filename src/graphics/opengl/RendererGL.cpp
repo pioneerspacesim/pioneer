@@ -38,9 +38,13 @@
 #include <ostream>
 #include <sstream>
 
+// legacy migration check
 #define CHECK_VERTEX_FORMAT_MATCH 0
 
 using RenderPassCmd = Graphics::OGL::CommandList::RenderPassCmd;
+
+// 1MB vertex draw buffer should be enough for most cases, right?
+static constexpr uint32_t DYNAMIC_DRAW_BUFFER_SIZE = 1 << 20;
 
 namespace Graphics {
 
@@ -300,7 +304,7 @@ namespace Graphics {
 
 		m_lightUniformBuffer = {};
 
-		m_dynamicDrawBufferMap.clear();
+		m_tempVtxBuffers.clear();
 
 		// HACK ANDYC - this crashes when shutting down? They'll be released anyway right?
 		while (!m_shaders.empty()) {
@@ -559,13 +563,13 @@ namespace Graphics {
 			buffer->Reset();
 		}
 
-		for (auto &buffer : m_dynamicDrawBufferMap) {
-			buffer.vtxBuffer->Reset();
-			buffer.vtxBuffer->SetVertexCount(0);
-			buffer.start = 0;
+		for (auto &tmp : m_tempVtxBuffers) {
+			tmp.buffer->Reset();
+			tmp.buffer->SetVertexCount(0);
+			tmp.flushed = 0;
 		}
 
-		stat.SetStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_INUSE, m_dynamicDrawBufferMap.size());
+		stat.SetStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_INUSE, m_tempVtxBuffers.size());
 		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_INUSE, uint32_t(m_drawUniformBuffers.size()));
 		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_ALLOCS, numAllocs);
 
@@ -822,82 +826,39 @@ namespace Graphics {
 		return true;
 	}
 
-	// 1MB vertex draw buffer should be enough for most cases, right?
-	static constexpr uint32_t DYNAMIC_DRAW_BUFFER_SIZE = 1 << 20;
 	bool RendererOGL::DrawBuffer(const VertexArray *v, Material *m)
 	{
 		PROFILE_SCOPED()
 
 		if (v->IsEmpty()) return false;
 
-		const AttributeSet attrs = v->GetAttributeSet();
-
-		// Find a buffer matching our attributes with enough free space
-		auto iter = std::find_if(m_dynamicDrawBufferMap.begin(), m_dynamicDrawBufferMap.end(), [&](DynamicBufferData &a) {
-			uint32_t freeSize = a.vtxBuffer->GetCapacity() - a.vtxBuffer->GetSize();
-			return a.attrs == attrs && freeSize >= v->GetNumVerts();
-		});
-
-		// If we don't have one, make one
-		if (iter == m_dynamicDrawBufferMap.end()) {
-			const VertexFormatDesc desc = VertexFormatDesc::FromAttribSet(attrs);
-
-			uint32_t numVertices = std::max(v->GetNumVerts(), DYNAMIC_DRAW_BUFFER_SIZE / desc.bindings[0].stride);
-			m_renderStateCache->CacheVertexDesc(desc);
-
-			VertexBuffer *vb = CreateVertexBuffer(BUFFER_USAGE_DYNAMIC, numVertices, desc.bindings[0].stride);
-			CheckRenderErrors(__FUNCTION__, __LINE__);
-
-			vb->SetVertexCount(0);
-			m_dynamicDrawBufferMap.emplace_back(attrs, desc, 0U, vb);
-
-			GetStats().AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
-			GetStats().AddToStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_CREATED, 1);
-			iter = m_dynamicDrawBufferMap.end() - 1;
-		}
+		const VertexFormatDesc desc = VertexFormatDesc::FromAttribSet(v->GetAttributeSet());
 
 		#if CHECK_VERTEX_FORMAT_MATCH
 
 		OGL::Material *mat = static_cast<OGL::Material *>(m);
 		assert(mat->m_vertexState != 0);
-
-		const VertexFormatDesc &mat_vfmt = m_renderStateCache->GetVertexFormatDesc(mat->m_vertexFormatHash);
-		auto vfmt = VertexFormatDesc::FromAttribSet(attrs);
-
-		assert(vfmt.Hash() == mat->m_vertexFormatHash);
+		assert(desc.Hash() == mat->m_vertexFormatHash);
 
 		#endif
 
-		uint32_t stride = iter->vtxBuffer->GetStride();
-		uint32_t offset = iter->vtxBuffer->GetSize() * stride;
-		size_t range = v->GetNumVerts() * stride;
+		const uint32_t stride = desc.bindings[0].stride;
+		auto binding = CreateTempVertexBuffer(v->GetNumVerts(), stride);
+		assert(binding.buffer);
 
-		// Write our data into the buffer
-		uint8_t *buffer = iter->vtxBuffer->MapRange<uint8_t>(offset, range, BUFFER_MAP_WRITE);
-		v->PopulateRange(iter->desc, buffer, range);
+		uint8_t *buffer = binding.buffer->MapRange<uint8_t>(binding.offset * stride, binding.size * stride, BUFFER_MAP_WRITE);
 
-		// Don't flush the data to the GPU just yet.
-		iter->vtxBuffer->UnmapRange(false);
-		iter->vtxBuffer->SetVertexCount(iter->vtxBuffer->GetSize() + v->GetNumVerts());
+		if (buffer) {
+			v->PopulateRange(desc, buffer, binding.size * stride);
+
+			// Don't flush the data to the GPU just yet.
+			binding.buffer->UnmapRange(false);
+		}
 
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		// Append a command to the command list
-		m_drawCommandList->AddDynamicDrawCmd({ iter->vtxBuffer.get(), offset, v->GetNumVerts() }, {}, m);
-
-		return true;
-	}
-
-	bool RendererOGL::DrawBufferDynamic(VertexBuffer *v, uint32_t vtxOffset, IndexBuffer *i, uint32_t idxOffset, uint32_t numElems, Material *mat)
-	{
-		if (!numElems)
-			return false;
-
-		uint32_t indexSize = i && i->GetElementSize() == INDEX_BUFFER_16BIT ? sizeof(uint16_t) : sizeof(uint32_t);
-		m_drawCommandList->AddDynamicDrawCmd(
-			{ v, vtxOffset * v->GetStride(), numElems },
-			{ i, i == nullptr ? 0 : idxOffset * indexSize, numElems },
-			mat);
+		m_drawCommandList->AddDrawBuffersCmd({ binding }, {}, m, v->GetNumVerts(), 0);
 
 		return true;
 	}
@@ -916,13 +877,13 @@ namespace Graphics {
 
 		#endif
 
-		m_drawCommandList->AddDrawCmd(mesh, material);
+		m_drawCommandList->AddDrawMeshCmd(mesh, material);
 		return true;
 	}
 
-	void RendererOGL::Draw(Span<VertexBuffer *const> vtxBuffers, IndexBuffer *idx, Material *material, uint32_t numElements, uint32_t instanceCount)
+	void RendererOGL::Draw(Span<const BufferBinding<VertexBuffer>> vtxBuffers, BufferBinding<IndexBuffer> idx, Material *material, uint32_t numElements, uint32_t instanceCount)
 	{
-		m_drawCommandList->AddDrawCmd2(vtxBuffers, idx, material, numElements, instanceCount);
+		m_drawCommandList->AddDrawBuffersCmd(vtxBuffers, idx, material, numElements, instanceCount);
 	}
 
 	bool RendererOGL::FlushCommandBuffers()
@@ -934,25 +895,23 @@ namespace Graphics {
 		for (auto &buffer : m_drawUniformBuffers)
 			buffer->Flush();
 
-		for (auto &buffer : m_dynamicDrawBufferMap) {
-			size_t size = buffer.vtxBuffer->GetSize() * buffer.vtxBuffer->GetStride();
+		// Upload all not-yet-flushed scratch buffers.
+		for (auto &tmp : m_tempVtxBuffers) {
+			size_t size = tmp.buffer->GetSize() * tmp.buffer->GetStride();
 
-			// Upload whatever portion of this buffer hasn't yet been sent to the GPU.
-			if (size - buffer.start > 0) {
-				buffer.vtxBuffer->FlushRange(buffer.start, size - buffer.start);
-				buffer.start = size;
+			if (size - tmp.flushed > 0) {
+				tmp.buffer->FlushRange(tmp.flushed, size - tmp.flushed);
+				tmp.flushed = size;
 			}
 		}
 
 		m_drawCommandList->m_executing = true;
 
 		for (const auto &cmd : m_drawCommandList->GetDrawCmds()) {
-			if (auto *drawCmd = std::get_if<OGL::CommandList::DrawCmd>(&cmd))
-				m_drawCommandList->ExecuteDrawCmd(*drawCmd);
-			else if (auto *drawCmd = std::get_if<OGL::CommandList::DrawCmd2>(&cmd))
-				m_drawCommandList->ExecuteDrawCmd2(*drawCmd);
-			else if (auto *dynDrawCmd = std::get_if<OGL::CommandList::DynamicDrawCmd>(&cmd))
-				m_drawCommandList->ExecuteDynamicDrawCmd(*dynDrawCmd);
+			if (auto *drawCmd = std::get_if<OGL::CommandList::DrawMeshCmd>(&cmd))
+				m_drawCommandList->ExecuteDrawMeshCmd(*drawCmd);
+			else if (auto *drawCmd = std::get_if<OGL::CommandList::DrawBuffersCmd>(&cmd))
+				m_drawCommandList->ExecuteDrawBuffersCmd(*drawCmd);
 			else if (auto *renderPassCmd = std::get_if<OGL::CommandList::RenderPassCmd>(&cmd))
 				m_drawCommandList->ExecuteRenderPassCmd(*renderPassCmd);
 			else if (auto *blitRenderTargetCmd = std::get_if<OGL::CommandList::BlitRenderTargetCmd>(&cmd))
@@ -994,86 +953,16 @@ namespace Graphics {
 		}
 	}
 
-	static GLuint get_element_size(OGL::IndexBuffer *idx)
+	void RendererOGL::RecordDrawStats(PrimitiveType pt, uint32_t numElements, uint32_t numInstances)
 	{
-		return idx->GetElementSize() == INDEX_BUFFER_16BIT ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT;
-	}
+		stat_primitives(m_stats, pt, numElements * numInstances);
 
-	bool RendererOGL::DrawMeshInternal(OGL::MeshObject *mesh, PrimitiveType type)
-	{
-		PROFILE_SCOPED()
-
-		glBindVertexArray(mesh->GetVertexArrayObject());
-		uint32_t numElems = mesh->m_idxBuffer.Valid() ? mesh->m_idxBuffer->GetIndexCount() : mesh->m_vtxBuffer->GetSize();
-
-		if (mesh->m_idxBuffer.Valid()) {
-			glDrawElements(type, numElems, get_element_size(mesh->m_idxBuffer.Get()), nullptr);
-		} else
-			glDrawArrays(type, 0, numElems);
-
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
-		stat_primitives(m_stats, type, numElems);
-		return true;
-	}
-
-	bool RendererOGL::DrawMesh2Internal(Span<OGL::VertexBuffer *> vtxBuffers, OGL::IndexBuffer *idxBuffer, uint32_t elementCount, uint32_t instanceCount, GLuint vtxState, PrimitiveType type)
-	{
-		PROFILE_SCOPED()
-
-		glBindVertexArray(vtxState);
-		// Bind (or unbind) the element array buffer
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBuffer ? idxBuffer->GetBuffer() : 0);
-
-		// Bind all vertex buffers
-		for (size_t idx = 0; idx < vtxBuffers.size(); idx++) {
-			glBindVertexBuffer(idx, vtxBuffers[idx]->GetBuffer(), 0, vtxBuffers[idx]->GetStride());
-		}
-
-		if (idxBuffer) {
-			if (instanceCount > 1)
-				glDrawElementsInstanced(type, elementCount, get_element_size(idxBuffer), nullptr, instanceCount);
-			else
-				glDrawElements(type, elementCount, get_element_size(idxBuffer), nullptr);
-		} else {
-			if (instanceCount > 1)
-				glDrawArraysInstanced(type, 0, elementCount, instanceCount);
-			else
-				glDrawArrays(type, 0, elementCount);
-		}
-
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
-		stat_primitives(m_stats, type, elementCount * instanceCount);
-		if (instanceCount > 1) {
+		if (numInstances > 1) {
 			m_stats.AddToStatCount(Stats::STAT_DRAWCALLINSTANCES, 1);
-			m_stats.AddToStatCount(Stats::STAT_DRAWCALLSINSTANCED, instanceCount);
+			m_stats.AddToStatCount(Stats::STAT_DRAWCALLSINSTANCED, numInstances);
 		} else {
 			m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 		}
-
-		return true;
-	}
-
-	bool RendererOGL::DrawMeshDynamicInternal(BufferBinding<OGL::VertexBuffer> vtxBind, BufferBinding<OGL::IndexBuffer> idxBind, GLuint vtxState, PrimitiveType type)
-	{
-		PROFILE_SCOPED()
-
-		glBindVertexArray(vtxState);
-		// glBindVertexArray(m_renderStateCache->GetVertexArrayObject(vtxBind.buffer->GetVertexFormatHash()));
-		glBindVertexBuffer(0, vtxBind.buffer->GetBuffer(), vtxBind.offset, vtxBind.buffer->GetStride());
-
-		if (idxBind.buffer) {
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBind.buffer->GetBuffer());
-			glDrawElements(type, idxBind.size, get_element_size(idxBind.buffer), (void *)(uintptr_t)(idxBind.offset));
-		} else {
-			glDrawArrays(type, 0, vtxBind.size);
-		}
-
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
-		stat_primitives(m_stats, type, idxBind.buffer ? idxBind.size : vtxBind.size);
-		return true;
 	}
 
 	Material *RendererOGL::CreateMaterial(const std::string &shader, const MaterialDescriptor &d, const RenderStateDesc &stateDescriptor, const VertexFormatDesc &vfmt)
@@ -1260,6 +1149,36 @@ namespace Graphics {
 		vertexArray->Populate(vertexBuffer);
 
 		return CreateMeshObject(desc, vertexBuffer, indexBuffer);
+	}
+
+	BufferBinding<VertexBuffer> RendererOGL::CreateTempVertexBuffer(uint32_t size, uint32_t stride)
+	{
+		PROFILE_SCOPED()
+
+		// Find a buffer matching our stride with enough free space
+		auto iter = std::find_if(m_tempVtxBuffers.begin(), m_tempVtxBuffers.end(), [&](TempBuffer<VertexBuffer> &a) {
+			uint32_t freeSize = a.buffer->GetCapacity() - a.buffer->GetSize();
+			return a.buffer->GetStride() == stride && freeSize >= size;
+		});
+
+		// If we don't have one, make one
+		if (iter == m_tempVtxBuffers.end()) {
+			uint32_t numVertices = std::max(size, DYNAMIC_DRAW_BUFFER_SIZE / stride);
+			VertexBuffer *vb = CreateVertexBuffer(BUFFER_USAGE_DYNAMIC, numVertices, stride);
+			CheckRenderErrors(__FUNCTION__, __LINE__);
+
+			vb->SetVertexCount(0);
+			m_tempVtxBuffers.emplace_back(TempBuffer<VertexBuffer>{ std::unique_ptr<VertexBuffer>(vb), 0U });
+
+			GetStats().AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
+			GetStats().AddToStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_CREATED, 1);
+			iter = m_tempVtxBuffers.end() - 1;
+		}
+
+		uint32_t start = iter->buffer->GetSize();
+		iter->buffer->SetVertexCount(start + size);
+
+		return BufferBinding<VertexBuffer> { iter->buffer.get(), start, size };
 	}
 
 	const BufferBinding<UniformBuffer> &RendererOGL::GetLightUniformBuffer()
