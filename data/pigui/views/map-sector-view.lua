@@ -846,7 +846,7 @@ ui.registerModule("game", { id = 'map-sector-view', draw = function()
 			shouldRefresh = false
 
 			-- Always show system info when entering SectorView, if we can. This helps the player find the hyperspace routing.
-			if not hasActiveExclusiveLeftModule() then
+			if not hasActiveExclusiveLeftModule() and not infoView.active then
 				infoView.active = true
 				infoView.closing = false
 				infoView.alpha = nil
