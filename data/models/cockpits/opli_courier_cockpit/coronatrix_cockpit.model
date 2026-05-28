@@ -5,7 +5,7 @@ material "Sinonatrix.Cockpit" {
 	diffuse 0.9 0.9 0.9
 	specular 0.3 0.3 0.3
 	shininess 23
-	
+
 	texture diffuse "sinonatrix_cockpit_diff.dds"
 	texture specular "sinonatrix_cockpit_spec.dds"
 	texture normal "sinonatrix_cockpit_norm.png"
@@ -18,13 +18,13 @@ material "Sinonatrix.Transp" {
 	specular 0.3 0.3 0.3
 	shininess 23
 	opacity 30
-	
+
 	texture diffuse "sinonatrix_cockpit_diff.dds"
 	texture specular "sinonatrix_cockpit_spec.dds"
 	texture normal "sinonatrix_cockpit_norm.png"
 	texture glow "sinonatrix_cockpit_glow.dds"
-	
-			render_state {
+
+	render_state {
 		blend alpha
 		depth_write off
 	}
@@ -56,4 +56,3 @@ material "Coronatrix-fuselage" {
 lod 100 {
 	mesh "coronatrix_cockpit.dae"
 }
-

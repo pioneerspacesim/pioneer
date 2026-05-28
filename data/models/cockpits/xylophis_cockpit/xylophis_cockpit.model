@@ -5,7 +5,7 @@ material "Xylophis_cockpit" {
 	diffuse 1.0 1.0 1.0
 	specular 0.7 0.7 0.7
 	shininess 69
-	
+
 	texture diffuse "xylophis_cockpit_diff.dds"
 	texture specular "xylophis_cockpit_spec.dds"
 	texture normal "xylophis_cockpit_norm.png"
@@ -18,13 +18,13 @@ material "Xylophis_cockpit_transparent" {
 	specular 0.7 0.7 0.7
 	shininess 69
 	opacity 30
-	
+
 	texture diffuse "xylophis_cockpit_diff.dds"
 	texture specular "xylophis_cockpit_spec.dds"
 	texture normal "xylophis_cockpit_norm.png"
 	texture glow "xylophis_cockpit_glow.dds"
-	
-			render_state {
+
+	render_state {
 		blend alpha
 		depth_write off
 	}
@@ -35,7 +35,7 @@ material "Xylophis_cockpit_screen" {
 	diffuse 1.0 1.0 1.0
 	specular 0.7 0.7 0.7
 	shininess 69
-	
+
 	texture diffuse "xylophis_cockpit_screen_diff.dds"
 	texture specular "xylophis_cockpit_screen_spec.dds"
 	texture glow "xylophis_cockpit_screen_glow.dds"
