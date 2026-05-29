@@ -601,11 +601,11 @@
   },
   "HYPERSPACE_ARRIVAL_CLOUD": {
     "description": "",
-    "message": "Nor de sosire din hiperspațiu"
+    "message": "Arrival"
   },
   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
     "description": "",
-    "message": "Rămășița unui nor de sosire din hiperspațiu"
+    "message": "Arrival (Remnant)"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
     "description": "Label for hyperspace cloud display modes.",
@@ -629,7 +629,7 @@
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
-    "message": "Nor de plecare în hiperspațiu"
+    "message": "Departure"
   },
   "HYPERSPACE_JUMP_ABORT": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
@@ -1035,6 +1035,10 @@
     "description": "",
     "message": "Nicio formă de guvenare stabilită"
   },
+  "NO_HYPERCLOUD_ANALYZER_INSTALLED": {
+    "description": "",
+    "message": "No hypercloud analyzer installed"
+  },
   "NO_HYPERDRIVE": {
     "description": "",
     "message": "Niciun motor superluminic"
@@ -1401,7 +1405,7 @@
   },
   "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
     "description": "",
-    "message": "Analizator hipernor: Setează ținta hiperspaţiului să urmărească plecarea aceasta"
+    "message": "Hypercloud analyzer: Set hyperspace target to follow this departure"
   },
   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
     "description": "",
