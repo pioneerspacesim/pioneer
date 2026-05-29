@@ -359,7 +359,7 @@ end
 --   home_station_path = the SystemPath to the home station
 --   last_home_visit   = the date the home station was last visited
 crewlife.findHome = function()
-	local lambda = 100   -- higher number = flatter curve = more distant stations selected
+	local lambda = 60   -- higher number = flatter curve = more distant stations selected
     local home_station_path
 	local last_home_visit
 	local current_station
@@ -392,7 +392,11 @@ crewlife.findHome = function()
         local i = math.abs(rand:Poisson(lambda) - lambda)
         if i >= 1 and i <= #stations_tt then
             home_station_path = stations_tt[i][1]
-			last_home_visit = Game.time + stations_tt[i][2] + rand:Integer(1, 30) * day_in_secs
+			if home_station_path == current_station.path then
+				last_home_visit = Game.time
+			else
+				last_home_visit = Game.time - stations_tt[i][2] - rand:Integer(1, 30) * day_in_secs
+			end
         end
     end
 	return home_station_path, last_home_visit
