@@ -601,11 +601,11 @@
   },
   "HYPERSPACE_ARRIVAL_CLOUD": {
     "description": "",
-    "message": "Arrival"
+    "message": "Arrivée"
   },
   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
     "description": "",
-    "message": "Arrival (Remnant)"
+    "message": "Arrivée (résidus)"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
     "description": "Label for hyperspace cloud display modes.",
@@ -629,7 +629,7 @@
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
-    "message": "Departure"
+    "message": "Départ"
   },
   "HYPERSPACE_JUMP_ABORT": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
@@ -1037,7 +1037,7 @@
   },
   "NO_HYPERCLOUD_ANALYZER_INSTALLED": {
     "description": "",
-    "message": "No hypercloud analyzer installed"
+    "message": "Aucun analyseur de nuage hyperspatial installé "
   },
   "NO_HYPERDRIVE": {
     "description": "",
@@ -1405,7 +1405,7 @@
   },
   "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
     "description": "",
-    "message": "Hypercloud analyzer: Set hyperspace target to follow this departure"
+    "message": "Analyseur de nuage hyperspatial : définir la destination hyperspatiale pour suivre ce départ"
   },
   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
     "description": "",
