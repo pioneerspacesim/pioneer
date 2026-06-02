@@ -5,7 +5,6 @@
 local ui = require 'pigui.baseui'
 local Vector2 = _G.Vector2
 
-local gauge_show_percent = true
 ui.gauge_height = ui.rescaleUI(25, Vector2(1600, 900))
 ui.gauge_width = ui.rescaleUI(275, Vector2(1600, 900))
 
@@ -40,35 +39,38 @@ ui.gauge_width = ui.rescaleUI(275, Vector2(1600, 900))
 --   width       - number, width of the gauge
 --   height      - number, height of the gauge
 --   formatFont  -
---   percentFont -
 --
 -- Returns:
 --
 --   nil
 --
-ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color, tooltip, width, height, formatFont, percentFont)
+ui.gauge = function(position, value, unit, format, minimum, maximum, icon, showPercent, color, tooltip, width, height, formatFont)
 	local percent = math.clamp((value - minimum) / (maximum - minimum), 0, 1)
 	local uiPos = Vector2(position.x, position.y)
 	local gauge_width = width or ui.gauge_width
 	local gauge_height = height or ui.gauge_height
 	ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
 		ui.addLine(uiPos, Vector2(uiPos.x + gauge_width, uiPos.y), ui.theme.colors.gaugeBackground, gauge_height, false)
-		if gauge_show_percent then
+		if showPercent then
 			local one_hundred = ui.calcTextSize("100%")
 			uiPos.x = uiPos.x + one_hundred.x * 1.2 -- 1.2 for a bit of slack
-			ui.addStyledText(Vector2(uiPos.x, uiPos.y + gauge_height / 12), ui.anchor.right, ui.anchor.center, string.format("%i%%", percent * 100), ui.theme.colors.reticuleCircle, percentFont or ui.fonts.pionillium.medium, tooltip)
+			ui.addStyledText(Vector2(uiPos.x, uiPos.y + gauge_height / 14), ui.anchor.right, ui.anchor.center, string.format("%i%%", percent * 100), ui.theme.colors.reticuleCircle, ui.fonts.pionillium.medium, tooltip)
 		end
-		uiPos.x = uiPos.x + gauge_height * 1.2
-		ui.addIcon(Vector2(uiPos.x - gauge_height / 2, uiPos.y), icon, ui.theme.colors.reticuleCircle, Vector2(gauge_height * 0.9, gauge_height * 0.9), ui.anchor.center, ui.anchor.center, tooltip)
+		if icon then
+			uiPos.x = uiPos.x + gauge_height * 1.2
+			ui.addIcon(Vector2(uiPos.x - gauge_height / 2, uiPos.y), icon, ui.theme.colors.reticuleCircle, Vector2(gauge_height * 0.9, gauge_height * 0.9), ui.anchor.center, ui.anchor.center, tooltip)
+		end
 		local w = (position.x + gauge_width) - uiPos.x
-		ui.addLine(uiPos, Vector2(uiPos.x + w * percent, uiPos.y), color, gauge_height, false)
+		local bar_length = w * percent
+		ui.addLine(uiPos, Vector2(uiPos.x + bar_length, uiPos.y), color, gauge_height, false)
+		ui.addLine(Vector2(uiPos.x + bar_length, uiPos.y), Vector2(uiPos.x + w, uiPos.y), ui.theme.colors.gaugeBarBackground, gauge_height, false)
 
-		formatFont = formatFont or ui.fonts.pionillium.small
+		formatFont = formatFont or ui.fonts.pionillium.medium
 		if value and format then
-			ui.addFancyText(Vector2(uiPos.x + gauge_height/2, uiPos.y), ui.anchor.left, ui.anchor.center, {
+			ui.addFancyText(Vector2(uiPos.x + gauge_height/2, uiPos.y + gauge_height / 14), ui.anchor.left, ui.anchor.center, {
 				{ text=string.format(format, value), color=ui.theme.colors.reticuleCircle,     font=formatFont, tooltip=tooltip },
 				{ text=unit,                         color=ui.theme.colors.reticuleCircleDark, font=formatFont, tooltip=tooltip }},
-				ui.theme.colors.gaugeBackground)
+				ui.theme.colors.transparent)
 		end
 	end)
 end

@@ -268,7 +268,7 @@ function CommodityMarketWidget:ChangeTradeAmount(delta)
 	self.tradeText = ''
 	if self.tradeModeBuy then
 		-- TODO: use a volume-based metric rather than a mass-based metric
-		local playerfreecargo = self.cargoMgr:GetFreeSpace()
+		local playerfreecargo = math.floor(self.cargoMgr:GetFreeSpace())
 
 		if tradecost > playerCash then
 			wantamount =  math.min(wantamount, math.floor(playerCash / price))
@@ -305,7 +305,7 @@ end
 function CommodityMarketWidget:DoBuy()
 	local price = self.funcs.getBuyPrice(self, self.selectedItem)
 	local stock = self.funcs.getStock(self, self.selectedItem)
-	local playerfreecargo = self.cargoMgr:GetFreeSpace()
+	local playerfreecargo = math.floor(self.cargoMgr:GetFreeSpace())
 	local orderAmount = price * self.tradeAmount
 
 	--check cash (should never happen since trade amount buttons wont let it happen)

@@ -109,7 +109,9 @@ local pumpDown = function (fuel)
 	-- Convert fuel to positive number, don't take more fuel than is in the tank
 	local drainedFuel = math.min(math.abs(fuel), availableFuel)
 	-- Don't pump down more fuel than we can fit in the cargo space available
-	drainedFuel = math.min(drainedFuel, cargoMgr:GetFreeSpace())
+	-- Cargo transfer UI should stay in whole-ton units
+	local freeCargoInt = math.floor(cargoMgr:GetFreeSpace())
+	drainedFuel = math.min(drainedFuel, freeCargoInt)
 
 	-- Military fuel is only used for the hyperdrive
 	local ok = cargoMgr:AddCommodity(Commodities.hydrogen, drainedFuel)
@@ -131,7 +133,7 @@ local function gauge_bar(x, text, min, max, icon)
 	local gaugeWidth = ui.getContentRegion().x * fudge_factor
 	local gaugePos = Vector2(cursorPos.x, cursorPos.y + height * 0.5)
 
-	ui.gauge(gaugePos, x, '', text, min, max, icon,
+	ui.gauge(gaugePos, x, '', text, min, max, icon, true,
 		colors.gaugeEquipmentMarket, '', gaugeWidth, height)
 
 	-- ui.addRect(cursorPos, cursorPos + Vector2(gaugeWidth, height), colors.gaugeCargo, 0, ui.RoundCornersNone, 1)
@@ -142,7 +144,7 @@ end
 local function gauge_fuel()
 	local player = Game.player
 	local tankSize = ShipDef[player.shipId].fuelTankMass
-	local text = string.format(l.FUEL .. ": %d t \t" .. l.DELTA_V .. ": %d km/s",
+	local text = string.format(l.FUEL .. ": %0.1f t \t" .. l.DELTA_V .. ": %d km/s",
 		tankSize/100 * player.fuel, player:GetRemainingDeltaV()/1000)
 
 	gauge_bar(player.fuel, text, 0, 100, icons.fuel)
@@ -159,9 +161,10 @@ end
 local function gauge_cargo()
 	---@type CargoManager
 	local cargoMgr = Game.player:GetComponent('CargoManager')
+	local freeCargoDisplay = math.floor(cargoMgr:GetFreeSpace())
 
-	local fmtString = string.format('%%i t %s / %i t %s', l.USED, cargoMgr:GetFreeSpace(), l.FREE)
-	gauge_bar(cargoMgr:GetUsedSpace(), fmtString, 0, cargoMgr:GetFreeSpace() + cargoMgr:GetUsedSpace(), icons.market)
+	local fmtString = string.format('%%i t %s / %i t %s', l.USED, freeCargoDisplay, l.FREE)
+	gauge_bar(cargoMgr:GetUsedSpace(), fmtString, 0, freeCargoDisplay + cargoMgr:GetUsedSpace(), icons.market)
 end
 
 -- Gauge bar for used/free cabins
@@ -171,8 +174,12 @@ local function gauge_cabins()
 	local berths_used = Passengers.CountOccupiedBerths(player)
 	local berths_total = berths_used + berths_free
 
-	gauge_bar(berths_used, string.format('%%i %s / %i %s', l.USED, berths_free, l.FREE),
-		0, berths_total, icons.personal)
+	if berths_total == 0 then
+		ui.text(l.NONE)
+	else
+		gauge_bar(berths_used, string.format('%%i %s / %i %s', l.USED, berths_free, l.FREE),
+			0, berths_total, icons.personal)
+	end
 end
 
 ---@param hyperdrive Equipment.HyperdriveType

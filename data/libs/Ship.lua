@@ -94,6 +94,57 @@ function Ship:GetInstalledHyperdrive()
 	return drives[1]
 end
 
+-- Method: GetPayloadMax
+--
+-- Returns the ship's maximum payload capacity in tons.
+-- Currently this maps directly to ShipDef.cargo, since that's the only mass limit for ships.
+-- It is presented to the player as "this is the max equipment and cargo mass you can add to a ship.
+--
+---@return number
+function Ship:GetPayloadMax()
+	local def = ShipDef[self.shipId]
+	return (def and def.cargo) or 0
+end
+
+-- Method: GetEquipmentMass
+--
+-- Returns installed equipment mass in tons, assuming hyperdrives are always full 
+--
+---@return number
+function Ship:GetEquipmentMass()
+	local equipSet = self:GetComponent("EquipSet")
+	local total = 0.0
+	for _, equip in pairs(equipSet:GetInstalledEquipment()) do
+		local mass = equip.mass or 0.0
+		-- Hyperdrive mass is dynamic (includes storedFuel).
+		-- For payload calculation we use "full reservoir" mass.
+		if equip.GetMaxFuel and equip.storedFuel then
+			mass = mass + (equip:GetMaxFuel() - equip.storedFuel)
+		end
+		total = total + mass
+	end
+	return total
+end
+
+-- Method: GetPayloadUsed
+--
+-- Returns total payload currently used (cargo + equipment), in tons.
+--
+---@return number
+function Ship:GetPayloadUsed()
+	local cargoMgr = self:GetComponent("CargoManager")
+	local cargoMass = cargoMgr:GetUsedSpace() -- currently 1 unit == 1 ton gameplay-wise
+	return cargoMass + self:GetEquipmentMass()
+end
+
+-- Method: GetPayloadFree
+--
+-- Returns remaining payload capacity in tons.
+--
+---@return number
+function Ship:GetPayloadFree()
+	return math.max(0, self:GetPayloadMax() - self:GetPayloadUsed())
+end
 
 --
 -- Method: IsHyperjumpAllowed

@@ -15,7 +15,7 @@
 	"volume": 87,
 	"atmospheric_pressure_limit": 4,
 	"capacity": 21,
-	"cargo": 0,
+	"cargo": 12,
 
 	"equipment_slots": {
 		"laser_front_s1": {

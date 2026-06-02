@@ -255,8 +255,6 @@ function module:drawBody()
 	local totalSpace = cargoMgr:GetTotalSpace()
 
 	ui.alignTextToButtonPadding()
-	ui.text(lui.CARGO_CAPACITY .. ": " .. totalSpace .. "t")
-	ui.sameLine()
 
 	self:drawModeButtons()
 
@@ -291,7 +289,7 @@ function module:drawBody()
 	ui.text("{} {}t {} / {}t {}" % {
 		lui.TOTAL,
 		cargoMgr:GetUsedSpace(), lui.USED,
-		cargoMgr:GetFreeSpace(), lui.FREE
+		math.floor(cargoMgr:GetFreeSpace()), lui.FREE
 	})
 
 	if self.transferMode then

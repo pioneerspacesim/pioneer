@@ -15,7 +15,7 @@
 	"volume": 87,
 	"atmospheric_pressure_limit": 4,
 	"capacity": 14.5,
-	"cargo": 4,
+	"cargo": 16,
 
 	"equipment_slots": {
 		"missile_s1_1": {
@@ -69,10 +69,6 @@
 			"size": 1,
 			"tag": "tag_utility_s1_1",
 			"hardpoint": true
-		},
-		"cabin_s1_2": {
-			"type": "cabin",
-			"size": 1
 		},
 		"computer_1": {
 			"type": "computer",

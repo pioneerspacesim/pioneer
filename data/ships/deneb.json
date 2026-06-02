@@ -15,7 +15,7 @@
 	"volume": 1342,
 	"atmospheric_pressure_limit": 7.2,
 	"capacity": 125,
-	"cargo": 198,
+	"cargo": 248,
 
 	"equipment_slots": {
 		"shield_s3": {

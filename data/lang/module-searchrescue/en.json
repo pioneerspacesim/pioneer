@@ -737,7 +737,7 @@
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "unoccupied passenger cabins"
+    "message": "unoccupied passenger berths"
   },
   "WHERE_IS_THE_TARGET": {
     "description": "",

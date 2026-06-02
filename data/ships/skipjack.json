@@ -15,7 +15,7 @@
 	"volume": 831,
 	"atmospheric_pressure_limit": 4.8,
 	"capacity": 75,
-	"cargo": 78,
+	"cargo": 84,
 
 	"equipment_slots": {
 		"cabin_s1_1": {
