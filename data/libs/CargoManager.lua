@@ -192,6 +192,18 @@ function CargoManager:CountCommodity(type)
 	return self.commodities[type.name].count
 end
 
+-- Method: Commodities
+--
+-- Return an iterator over { name, count } pairs of commodity cargo in this ship.
+function CargoManager:Commodities()
+	---@type fun(s: table, k: string): string, integer
+	return function(s, k)
+		k = next(s, k)
+		if not k then return end
+		return k, s[k].count
+	end, self.commodities, nil
+end
+
 -- Method: DoLifeSupportChecks
 --
 -- Check for commodities on this vessel which would perish under the given
