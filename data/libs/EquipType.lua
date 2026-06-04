@@ -164,7 +164,11 @@ end
 -- and sale from the craft. This should almost always be true, unless the item
 -- has been installed by some scripted event or otherwise cannot be sold (e.g.
 -- a passenger cabin with a passenger in it.)
-function EquipType:CanBeSold()
+--
+-- Parameters:
+--
+--  ship - Ship, the ship this equipment item is attached to.
+function EquipType:CanBeSold(ship)
 	return not self.inhibit_removal
 end
 
