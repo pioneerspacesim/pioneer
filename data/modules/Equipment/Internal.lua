@@ -512,7 +512,7 @@ Equipment.Register("misc.cabin_hold_s1", CargoHoldType.New {
 	l10n_key="AUXILIARY_CARGO_RACK",
 	price=750, purchasable=true, tech_level=1,
 	slot = { type="cabin.passenger.basic", size=1 },
-	mass=1, volume=0, capabilities={ cargo=8 },
+	mass=0.5, volume=0, capabilities={ cargo=8 },
 	icon_name="equip_cabin_empty"
 })
 
@@ -520,7 +520,7 @@ Equipment.Register("misc.cabin_hold_s2", CargoHoldType.New {
 	l10n_key="AUXILIARY_CARGO_RACK",
 	price=1970, purchasable=true, tech_level=1,
 	slot = { type="cabin.passenger.basic", size=2 },
-	mass=4, volume=0, capabilities={ cargo=20 },
+	mass=1.5, volume=0, capabilities={ cargo=24 },
 	icon_name="equip_cabin_empty"
 })
 
@@ -528,7 +528,7 @@ Equipment.Register("misc.cabin_hold_s3", CargoHoldType.New {
 	l10n_key="AUXILIARY_CARGO_RACK",
 	price=3640, purchasable=true, tech_level=1,
 	slot = { type="cabin.passenger.basic", size=3 },
-	mass=8, volume=0, capabilities={ cargo=48 },
+	mass=4, volume=0, capabilities={ cargo=72 },
 	icon_name="equip_cabin_empty"
 })
 
@@ -536,7 +536,7 @@ Equipment.Register("misc.cabin_hold_s4", CargoHoldType.New {
 	l10n_key="AUXILIARY_CARGO_RACK",
 	price=7530, purchasable=true, tech_level=1,
 	slot = { type="cabin.passenger.basic", size=4 },
-	mass=16, volume=0, capabilities={ cargo=120 },
+	mass=10, volume=0, capabilities={ cargo=210 },
 	icon_name="equip_cabin_empty"
 })
 
@@ -544,7 +544,7 @@ Equipment.Register("misc.cabin_hold_s5", CargoHoldType.New {
 	l10n_key="AUXILIARY_CARGO_RACK",
 	price=19530, purchasable=true, tech_level=1,
 	slot = { type="cabin.passenger.basic", size=5 },
-	mass=36, volume=0, capabilities={ cargo=272 },
+	mass=25, volume=0, capabilities={ cargo=640 },
 	icon_name="equip_cabin_empty"
 })
 
@@ -556,7 +556,7 @@ Equipment.Register("misc.cabin_smuggler_hold_s1", CargoHoldType.New {
 	l10n_key="CONCEALED_CARGO_RACK",
 	price=1620, purchasable=true, tech_level=4, lawlessness=0.5,
 	slot = { type="cabin.passenger.basic", size=1 },
-	mass=1, volume=0, capabilities={ cargo=6, cargo_shield=6 },
+	mass=0.8, volume=0, capabilities={ cargo=6, cargo_shield=6 },
 	icon_name="equip_cabin_empty"
 })
 
@@ -564,7 +564,15 @@ Equipment.Register("misc.cabin_smuggler_hold_s2", CargoHoldType.New {
 	l10n_key="CONCEALED_CARGO_RACK",
 	price=4260, purchasable=true, tech_level=4, lawlessness=0.5,
 	slot = { type="cabin.passenger.basic", size=2 },
-	mass=4, volume=0, capabilities={ cargo=16, cargo_shield=16 },
+	mass=2, volume=0, capabilities={ cargo=20, cargo_shield=20 },
+	icon_name="equip_cabin_empty"
+})
+
+Equipment.Register("misc.cabin_smuggler_hold_s3", CargoHoldType.New {
+	l10n_key="CONCEALED_CARGO_RACK",
+	price=7880, purchasable=true, tech_level=4, lawlessness=0.5,
+	slot = { type="cabin.passenger.basic", size=3 },
+	mass=6, volume=0, capabilities={ cargo=60, cargo_shield=60 },
 	icon_name="equip_cabin_empty"
 })
 
