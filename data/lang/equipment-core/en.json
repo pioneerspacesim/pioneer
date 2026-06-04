@@ -63,6 +63,10 @@
     "description": "Category header for pressurized cabin slots",
     "message": "Cabins"
   },
+  "HABITAT": {
+    "description": "Category header for pressurized habitat slots",
+    "message": "Habitat"
+  },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
     "message": "Cargo Bay Life Support"
