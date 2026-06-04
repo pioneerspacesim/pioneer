@@ -554,7 +554,7 @@ Equipment.Register("misc.cabin_hold_s5", CargoHoldType.New {
 
 Equipment.Register("misc.cabin_smuggler_hold_s1", CargoHoldType.New {
 	l10n_key="CONCEALED_CARGO_RACK",
-	price=1620, purchasable=true, tech_level=4,
+	price=1620, purchasable=true, tech_level=4, lawlessness=0.5,
 	slot = { type="cabin.passenger.basic", size=1 },
 	mass=1, volume=0, capabilities={ cargo=6, cargo_shield=6 },
 	icon_name="equip_cabin_empty"
@@ -562,7 +562,7 @@ Equipment.Register("misc.cabin_smuggler_hold_s1", CargoHoldType.New {
 
 Equipment.Register("misc.cabin_smuggler_hold_s2", CargoHoldType.New {
 	l10n_key="CONCEALED_CARGO_RACK",
-	price=4260, purchasable=true, tech_level=4,
+	price=4260, purchasable=true, tech_level=4, lawlessness=0.5,
 	slot = { type="cabin.passenger.basic", size=2 },
 	mass=4, volume=0, capabilities={ cargo=16, cargo_shield=16 },
 	icon_name="equip_cabin_empty"

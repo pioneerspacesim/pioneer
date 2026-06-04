@@ -203,18 +203,18 @@ local CargoHoldType = EquipTypes.CargoHoldType
 function CargoHoldType:GetDetailedStats()
 	local out = self:Super().GetDetailedStats(self)
 
+	table.insert(out, {
+		le.CARGO_CAPACITY,
+		icons.cargo_crate,
+		self.capabilities.cargo,
+		tostring
+	})
+
 	if self.capabilities.cargo_shield then
 		table.insert(out, {
 			le.SHIELDED_CARGO_CAPACITY,
 			icons.cargo_crate,
 			self.capabilities.cargo_shield,
-			tostring
-		})
-	elseif self.capabilities.cargo then
-		table.insert(out, {
-			le.CARGO_CAPACITY,
-			icons.cargo_crate,
-			self.capabilities.cargo,
 			tostring
 		})
 	end

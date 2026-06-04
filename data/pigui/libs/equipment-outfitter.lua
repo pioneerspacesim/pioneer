@@ -227,7 +227,7 @@ function Outfitter:getAvailableEquipment()
 
 	return utils.map_table(Equipment.new, function(id, equip)
 
-		if not equip.purchasable or not self:stationHasTech(equip.tech_level) then
+		if not equip.purchasable or not self.station:GetEquipmentStock(equip) then
 			return id, nil
 		end
 
@@ -284,7 +284,7 @@ local function fmt_number(val) return ui.Format.Number(val, 0) end
 -- Prepend information about the current station's stocking information to an equipment item's detailed stats
 ---@param data UI.EquipCard.Data
 function Outfitter:modifyEquipmentStats(data)
-	local stock = self:getStock(data.equip)
+	local stock = self:getStock(data.equip) or 0
 
 	table.insert(data.stats, 1, { l.AVAILABLE_STOCK, icons.cargo_crate, stock, fmt_number })
 	table.insert(data.stats, 2, { l.TECH_LEVEL, icons.station_orbital_large, data.equip.tech_level, fmt_number })
@@ -514,41 +514,42 @@ function Outfitter:renderCompareRow(label, stat_a, stat_b)
 	ui.text(label)
 
 	local icon_size = Vector2(ui.getTextLineHeight())
-	local cmp_a, cmp_b = "", ""
+	local default = type((stat_a or stat_b)[3]) == "number" and 0 or ""
+	local cmp_a, cmp_b = default, default
+
 	if stat_a then
 		cmp_a = stat_a[3] == "MILITARY" and 11 or stat_a[3]
 	end
 	if stat_b then
 		cmp_b = stat_b[3] == "MILITARY" and 11 or stat_b[3]
 	end
-	local color = stat_a and stat_b
-		and compare(cmp_a, cmp_b, stat_a[5])
+	local color = compare(cmp_a, cmp_b, (stat_a or stat_b)[5])
 		or colors.font
 
-	ui.tableNextColumn()
-	if stat_a then
-		ui.icon(stat_a[2], icon_size, colors.font)
-		ui.sameLine()
+	local icon = (stat_a or stat_b)[2]
+	local format = (stat_a or stat_b)[4]
 
-		local val, format = stat_a[3], stat_a[4]
-		if val ~= "MILITARY" then
-			ui.textColored(color, format(val))
-		else
-			ui.icon(icons.shield_other, icon_size, color)
-		end
+	local val_a = stat_a and format(stat_a[3]) or format(default)
+	local val_b = stat_b and format(stat_b[3]) or format(default)
+
+	ui.tableNextColumn()
+	ui.icon(icon, icon_size, colors.font)
+	ui.sameLine()
+
+	if stat_a and stat_a[3] == "MILITARY" then
+		ui.icon(icons.shield_other, icon_size, color)
+	else
+		ui.textColored(color, val_a)
 	end
 
 	ui.tableNextColumn()
-	if stat_b then
-		ui.icon(stat_b[2], icon_size, colors.font)
-		ui.sameLine()
+	ui.icon(icon, icon_size, colors.font)
+	ui.sameLine()
 
-		local val, format = stat_b[3], stat_b[4]
-		if val ~= "MILITARY" then
-			ui.textColored(color, format(val))
-		else
-			ui.icon(icons.shield_other, icon_size, color)
-		end
+	if stat_b and stat_b[3] == "MILITARY" then
+		ui.icon(icons.shield_other, icon_size, color)
+	else
+		ui.textColored(color, val_b)
 	end
 end
 

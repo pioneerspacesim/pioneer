@@ -41,6 +41,8 @@ local misc = {}
 ---@field price number
 ---@field icon_name string?
 ---@field tech_level integer | "MILITARY"
+---@field lawlessness number? -- minimum lawlessness required for a station to stock this item
+---@field min_security number? -- minimum security (1-lawlessness) required for a station to stock this item
 ---@field transient table
 ---@field slots table -- deprecated
 ---@field count integer?
