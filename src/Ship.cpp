@@ -210,7 +210,7 @@ Ship::~Ship()
 
 void Ship::Init()
 {
-	m_invulnerable = false;
+	m_invulnerable = true;
 
 	m_sensors.reset(new Sensors(this));
 
