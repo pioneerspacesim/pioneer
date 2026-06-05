@@ -283,6 +283,12 @@ local function displayReticuleSpeedScaleGauge(speed)
 			ui.addStyledText(a, ui.anchor.right, ui.anchor.center, i_speed .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
 		end
 	end
+
+	-- draw indicator
+	ui.lineOnClock(center, 9, tick_length, thickness / 2 + radius + offset, colors.navigationalElements, 2)
+	local a = ui.pointOnClock(center, thickness / 2 + radius + offset - 3 * tick_length, 9)
+	i_speed, i_unit = ui.Format.SpeedUnit(speed)
+	ui.addStyledText(a, ui.anchor.left, ui.anchor.center, i_speed .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
 end
 
 local function displayReticuleDistanceScaleGauge(distance)
@@ -328,6 +334,12 @@ local function displayReticuleDistanceScaleGauge(distance)
 			ui.addStyledText(a, ui.anchor.left, ui.anchor.center, i_distance .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
 		end
 	end
+
+	-- draw indicator
+	ui.lineOnClock(center, 3, tick_length, thickness / 2 + radius + offset, colors.navigationalElements, 2)
+	local a = ui.pointOnClock(center, thickness / 2 + radius + offset - 3 * tick_length, 3)
+	i_distance, i_unit = ui.Format.DistanceUnit(distance)
+	ui.addStyledText(a, ui.anchor.right, ui.anchor.center, i_distance .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
 end
 
 -- display heading, pitch and roll around the reticule circle
