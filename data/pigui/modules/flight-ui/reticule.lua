@@ -342,6 +342,92 @@ local function displayReticuleDistanceScaleGauge(distance)
 	ui.addStyledText(a, ui.anchor.right, ui.anchor.center, i_distance .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
 end
 
+local function displayFuelGauge()
+	local thickness = 4
+	local offset = 0
+	local radius = 4 * reticuleCircleRadius - thickness
+
+	local deltav_max = player:GetMaxDeltaV()
+	local deltav_remaining = player:GetRemainingDeltaV()
+	local dvr = deltav_remaining / deltav_max
+	local deltav_maneuver = player:GetManeuverVelocity():length()
+	local dvm = deltav_maneuver / deltav_max
+	local deltav_current = player:GetCurrentDeltaV()
+	local dvc = deltav_current / deltav_max
+
+	local angle_low = -ui.pi / 6 + ui.pi
+	local angle_high = ui.pi / 6 + ui.pi
+
+	-- background
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle_high, 64)
+	ui.pathStroke(colors.deltaVTotal, false, thickness)
+
+	-- current deltaV
+	local angle = angle_high * dvr + angle_low * (1 - dvr)
+	if angle < angle_low then angle = angle_low end
+	if angle > angle_high then angle = angle_high end
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle, 64)
+	if dvr < dvc then
+		ui.pathStroke(colors.deltaVRemainingLow, false, thickness)
+	else
+		ui.pathStroke(colors.deltaVRemaining, false, thickness)
+	end
+
+	-- planned maneuvers
+	local angle = angle_high * dvm + angle_low * (1 - dvm)
+	if angle < angle_low then angle = angle_low end
+	if angle > angle_high then angle = angle_high end
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle, 64)
+	if dvr < dvm then
+		ui.pathStroke(colors.deltaVManeuverLow, false, thickness)
+	else
+		ui.pathStroke(colors.deltaVManeuver, false, thickness)
+	end
+end
+
+local function displayBrakeGauge(target)
+	local thickness = 4
+	local offset = 0
+	local radius = 4 * reticuleCircleRadius - thickness
+
+	local angle_low = -ui.pi / 6
+	local angle_high = ui.pi / 6
+
+	-- background
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle_high, 64)
+	ui.pathStroke(colors.brakeBackground, false, thickness)
+
+	local velocity = player:GetVelocityRelTo(target)
+	local position = player:GetPositionRelTo(target)
+	local vertical_speed = position:dot(velocity) / position:length()
+
+	local fwd_accel = player:GetAcceleration("forward")
+	local rev_accel = player:GetAcceleration("reverse")
+	local altitude = player:GetAltitudeRelTo(target)
+
+	-- Torricelli's formula
+	-- for given height and acceleration, we are able to find at which velocity we end up
+	-- if we are at given height and descending faster than found velocity, we're gonna crash
+	local fwd_bonk_vel = math.sqrt(2 * fwd_accel * altitude)
+	local rev_bonk_vel = math.sqrt(2 * rev_accel * altitude)
+
+	local fwd_bonk_ratio = -vertical_speed / fwd_bonk_vel
+	local rev_bonk_ratio = -vertical_speed / rev_bonk_vel
+	local angle = fwd_bonk_ratio * angle_high / 2
+	if angle > angle_high then angle = angle_high end
+	if angle < angle_low  then angle = angle_low  end
+
+	if fwd_bonk_ratio < 0 then
+		-- climbing
+		ui.pathArcTo(center, radius + offset + thickness / 2, 0, angle, 64)
+		ui.pathStroke(colors.brakeNotNeeded, false, thickness)
+	else
+		-- descending
+		ui.pathArcTo(center, radius + offset + thickness / 2, angle, 0, 64)
+		ui.pathStroke(colors.brakeOvershoot, false, thickness)
+	end
+end
+
 -- display heading, pitch and roll around the reticule circle
 local function displayReticulePitchHorizonCompass()
 	local heading, pitch, roll = Game.player:GetHeadingPitchRoll("planet")
@@ -508,6 +594,8 @@ local function displayDetailData(target, radius, colorLight, colorDark, tooltip,
 
 	displayReticuleDistanceScaleGauge(altitude)
 	displayReticuleSpeedScaleGauge(ship_speed)
+	displayFuelGauge()
+	displayBrakeGauge(target)
 end
 
 -- display data relative to frame left of the reticule circle
