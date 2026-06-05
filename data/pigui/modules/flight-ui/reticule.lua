@@ -6,6 +6,7 @@ local Engine = require 'Engine'
 local Game = require 'Game'
 local Vector2 = _G.Vector2
 local bindManager = require 'bind-manager'
+local utils = require 'utils'
 
 -- cache ui
 local pionillium = ui.fonts.pionillium
@@ -223,6 +224,112 @@ local function displayReticuleBrakeGauge(ratio_primary, ratio_secondary)
 	end
 end
 
+local function getScaleStep(range)
+	local magnitude = 1
+	local steps = {1, 2, 5}
+
+	while true
+	do
+		for _, step in ipairs(steps) do
+			local magstep = step * magnitude
+			if range / magstep <= 5 then
+				return magstep
+			end
+		end
+		magnitude = magnitude * 10
+	end
+end
+
+local function displayReticuleSpeedScaleGauge(speed)
+	local thickness = 4
+	local offset = 0
+	local radius = 4 * reticuleCircleRadius
+
+	local angle_low = -ui.pi / 6 + ui.pi
+	local angle_high = ui.pi / 6 + ui.pi
+
+	-- background
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle_high, 64)
+	ui.pathStroke(colors.reticuleCircle, false, thickness)
+
+	-- get scale range
+	local scale_min = speed * 0.8
+	local scale_max = speed * 1.2
+	if speed < 100 then
+		scale_min = speed - 20
+		scale_max = speed + 20
+	end
+
+	local scale_range = scale_max - scale_min
+
+	-- pick scale step
+	local scale_step = getScaleStep(scale_range)
+
+	-- draw scales
+	local tick_length = 8
+	for i=-utils.round(-scale_min, scale_step), utils.round(scale_max, scale_step), scale_step do
+		if i >= 0 then
+			local p = 0.5 + (i - speed) / scale_range -- [scale_min, scale_max] -> [0, 1]
+			if p > 1 then
+				p = 1
+			end
+			if p < 0 then
+				p = 0
+			end
+			p = (p * angle_high + (1 - p) * angle_low) / (ui.pi / 6)
+			ui.lineOnClock(center, 3 + p, tick_length, tick_length + radius + offset + thickness / 2, colors.navigationalElements, 2)
+			i_speed, i_unit = ui.Format.SpeedUnit(i)
+			local a = ui.pointOnClock(center, 3 * tick_length + radius + offset + thickness / 2, 3 + p)
+			ui.addStyledText(a, ui.anchor.right, ui.anchor.center, i_speed .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
+		end
+	end
+end
+
+local function displayReticuleDistanceScaleGauge(distance)
+	local thickness = 4
+	local offset = 0
+	local radius = 4 * reticuleCircleRadius
+
+	local angle_low = -ui.pi / 6
+	local angle_high = ui.pi / 6
+
+	-- background
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle_high, 64)
+	ui.pathStroke(colors.reticuleCircle, false, thickness)
+
+	-- get scale range
+	local scale_min = distance * 0.8
+	local scale_max = distance * 1.2
+	if distance < 1000 then
+		scale_min = distance - 200
+		scale_max = distance + 200
+	end
+
+	local scale_range = scale_max - scale_min
+
+	-- pick scale step
+	local scale_step = getScaleStep(scale_range)
+
+	-- draw scales
+	local tick_length = 8
+	for i=-utils.round(-scale_min, scale_step), utils.round(scale_max, scale_step), scale_step do
+		if i >= 0 then
+			local p = 0.5 + (i - distance) / scale_range -- [scale_min, scale_max] -> [0, 1]
+			if p > 1 then
+				p = 1
+			end
+			if p < 0 then
+				p = 0
+			end
+			p = (p * angle_high + (1 - p) * angle_low) / (ui.pi / 6)
+			ui.lineOnClock(center, 3 - p, tick_length, tick_length + radius + offset + thickness / 2, colors.navigationalElements, 2)
+			i_distance, i_unit = ui.Format.DistanceUnit(i)
+			local a = ui.pointOnClock(center, 3 * tick_length + radius + offset + thickness / 2, 3 - p)
+			ui.addStyledText(a, ui.anchor.left, ui.anchor.center, i_distance .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
+		end
+	end
+end
+
 -- display heading, pitch and roll around the reticule circle
 local function displayReticulePitchHorizonCompass()
 	local heading, pitch, roll = Game.player:GetHeadingPitchRoll("planet")
@@ -387,6 +494,8 @@ local function displayDetailData(target, radius, colorLight, colorDark, tooltip,
 		displayReticuleBrakeGauge(ratio, ratio_retro)
 	end
 
+	displayReticuleDistanceScaleGauge(altitude)
+	displayReticuleSpeedScaleGauge(ship_speed)
 end
 
 -- display data relative to frame left of the reticule circle
