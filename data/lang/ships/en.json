@@ -84,28 +84,28 @@
     "message": "a DS Miner"
   },
   "KANARA": {
-    "description": "ship name - base form",
+    "description": "ship name - base form, Kanara civilian",
     "message": "Kanara"
   },
-  "KANARA_CIV": {
-    "description": "ship name - base form",
-    "message": "Kanara Civ"
-  },
-  "KANARA_CIV_DEF": {
-    "description": "ship - definite form",
-    "message": "the Kanara Civ"
-  },
-  "KANARA_CIV_INDEF": {
-    "description": "ship name - indefinite form",
-    "message": "a Kanara Civ"
-  },
   "KANARA_DEF": {
-    "description": "ship - definite form",
+    "description": "ship - definite form, Kanara civilian",
     "message": "the Kanara"
   },
   "KANARA_INDEF": {
-    "description": "ship name - indefinite form",
+    "description": "ship name - indefinite form, Kanara civilian",
     "message": "a Kanara"
+  },
+  "KANARA_POLICE": {
+    "description": "ship name - base form",
+    "message": "Kanara police ship"
+  },
+  "KANARA_POLICE_DEF": {
+    "description": "ship - definite form",
+    "message": "the Kanara police ship"
+  },
+  "KANARA_POLICE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "a Kanara police ship"
   },
   "LODOS": {
     "description": "ship name - base form",
