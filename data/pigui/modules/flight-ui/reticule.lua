@@ -428,18 +428,43 @@ local function displayBrakeGauge(target)
 
 	local fwd_bonk_ratio = -vertical_speed / fwd_bonk_vel
 	local rev_bonk_ratio = -vertical_speed / rev_bonk_vel
-	local angle = fwd_bonk_ratio * angle_high / 2
-	if angle > angle_high then angle = angle_high end
-	if angle < angle_low  then angle = angle_low  end
+	local angle_primary = fwd_bonk_ratio * angle_high / 2
+	if angle_primary > angle_high then angle_primary = angle_high end
+	if angle_primary < angle_low  then angle_primary = angle_low  end
 
 	if fwd_bonk_ratio < 0 then
 		-- climbing
-		ui.pathArcTo(center, radius + offset + thickness / 2, 0, angle, 64)
+		ui.pathArcTo(center, radius + offset + thickness / 2, 0, angle_primary, 64)
 		ui.pathStroke(colors.brakeNotNeeded, false, thickness)
 	else
 		-- descending
-		ui.pathArcTo(center, radius + offset + thickness / 2, angle, 0, 64)
-		ui.pathStroke(colors.brakeOvershoot, false, thickness)
+		local angle_zero = 0
+		local angle_one = angle_high / 2
+		local angle_secondary = angle_primary / rev_bonk_ratio
+
+		if rev_bonk_ratio < 1.0 then
+			ui.pathArcTo(center, radius + offset + thickness / 2, angle_zero, angle_primary, 64)
+			ui.pathStroke(colors.brakePrimary, false, thickness)
+		elseif fwd_bonk_ratio < 1.0 then
+			ui.pathArcTo(center, radius + offset + thickness / 2, angle_zero, angle_secondary, 64)
+			if fwd_bonk_ratio > brakeNowRatio then
+				ui.pathStroke(colors.brakeNow, false, thickness)
+			else
+				ui.pathStroke(colors.brakePrimary, false, thickness)
+			end
+
+			ui.pathArcTo(center, radius + offset + thickness / 2, angle_secondary, angle_primary, 64)
+			ui.pathStroke(colors.brakeSecondary, false, thickness)
+		else
+			ui.pathArcTo(center, radius + offset + thickness / 2, angle_zero, angle_secondary, 64)
+			ui.pathStroke(colors.brakePrimary, false, thickness)
+
+			ui.pathArcTo(center, radius + offset + thickness / 2, angle_secondary, angle_one, 64)
+			ui.pathStroke(colors.brakeSecondary, false, thickness)
+
+			ui.pathArcTo(center, radius + offset + thickness / 2, angle_one, angle_primary, 64)
+			ui.pathStroke(colors.brakeOvershoot, false, thickness)
+		end
 	end
 end
 
