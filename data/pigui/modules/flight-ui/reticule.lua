@@ -288,7 +288,11 @@ local function displayReticuleSpeedScaleGauge(speed)
 	ui.lineOnClock(center, 9, tick_length, thickness / 2 + radius + offset, colors.navigationalElements, 2)
 	local a = ui.pointOnClock(center, thickness / 2 + radius + offset - 3 * tick_length, 9)
 	i_speed, i_unit = ui.Format.SpeedUnit(speed)
-	ui.addStyledText(a, ui.anchor.left, ui.anchor.center, i_speed .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
+	ui.addStyledText(a, ui.anchor.left, ui.anchor.bottom, i_speed .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
+
+	local a = ui.pointOnClock(center, thickness / 2 + radius + offset - 3 * tick_length, 8)
+	i_speed, i_unit = ui.Format.SpeedUnit(player:GetRemainingDeltaV())
+	ui.addStyledText(a, ui.anchor.left, ui.anchor.top, i_speed .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
 end
 
 local function displayReticuleDistanceScaleGauge(distance)
@@ -339,7 +343,18 @@ local function displayReticuleDistanceScaleGauge(distance)
 	ui.lineOnClock(center, 3, tick_length, thickness / 2 + radius + offset, colors.navigationalElements, 2)
 	local a = ui.pointOnClock(center, thickness / 2 + radius + offset - 3 * tick_length, 3)
 	i_distance, i_unit = ui.Format.DistanceUnit(distance)
-	ui.addStyledText(a, ui.anchor.right, ui.anchor.center, i_distance .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
+	ui.addStyledText(a, ui.anchor.right, ui.anchor.bottom, i_distance .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
+
+	local target = player.frameBody
+	local velocity = player:GetVelocityRelTo(target)
+	local position = player:GetPositionRelTo(target)
+	local vertical_speed = position:dot(velocity) / position:length()
+
+	local altitude = player:GetAltitudeRelTo(target)
+
+	local a = ui.pointOnClock(center, thickness / 2 + radius + offset - 3 * tick_length, 4)
+	i_distance, i_unit = ui.Format.DistanceUnit(player:GetDistanceToZeroV(vertical_speed, "forward"))
+	ui.addStyledText(a, ui.anchor.right, ui.anchor.top, i_distance .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
 end
 
 local function displayFuelGauge()
