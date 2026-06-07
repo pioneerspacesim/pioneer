@@ -192,7 +192,7 @@ private:
 		Labels(SectorMap &map);
 		// settings and globals for labels
 		// this is not hardcode, these are the defaults
-		std::string fontName = "orbiteer";
+		std::string fontName = "sector-map";
 		int fontSize = 15;
 		float gap = 2.f;
 		ImFont *starLabelFont = nullptr;

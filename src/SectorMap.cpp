@@ -7,6 +7,7 @@
 #include "Input.h"
 #include "Json.h"
 #include "MathUtil.h"
+#include "core/Log.h"
 #include "core/StringUtils.h"
 #include "pigui/PiGuiRenderer.h"
 #include "galaxy/Sector.h"
@@ -19,6 +20,7 @@
 #include "matrix4x4.h"
 #include "vector3.h"
 #include "pigui/PiGui.h"
+#include "profiler/Profiler.h"
 
 #include <float.h>
 #include <array>
@@ -105,8 +107,8 @@ public:
 		const float mid = -0.03;
 		const float near = -0.08;
 		// the font may not exist in the very first frame
-		const float fsize = font ? font->FontSize / fontScale : 15.f;
-		textHeight = fsize / mid * pos.z;
+		const float fsize = host.fontSize;
+		textHeight = std::min(fsize / mid * pos.z, 72.f);
 		scaledGap = host.gap / mid * pos.z;
 		const int alpha = pos.z > near ? 255 : std::max(int(near / pos.z * 255), 0);
 		const float shad = pos.z < mid ? 1.0f : std::max((far - pos.z) / (far - mid), .0f);
@@ -120,10 +122,7 @@ public:
 		if (p.x < pos.x - radius) return false;
 		if (p.y < std::min(pos.y - radius, namePos.y)) return false;
 		if (p.y > std::max(pos.y + radius, namePos.y + textHeight)) return false;
-		ImFont *font = host.starLabelFont;
-		ImGui::PushFont(font);
-		ImVec2 ts = ImGui::CalcTextSize(name.c_str());
-		ImGui::PopFont();
+		ImVec2 ts = host.starLabelFont->CalcTextSizeA(host.fontSize, FLT_MAX, -1, name.c_str(), name.c_str() + name.size());
 		// scale the size
 		ts.x = textHeight / ts.y * ts.x;
 		ts.y = textHeight;
@@ -131,7 +130,7 @@ public:
 		if (p.x > namePos.x + ts.x + scaledGap) return false;
 		// so, the cursor is somewhere in the dimensions of this label
 		if (incircle(ImVec2(pos.x, pos.y), radius, p) ||
-			inbox(ImRect(namePos.x - scaledGap, namePos.y - scaledGap, namePos.x + ts.x + scaledGap, namePos.y + font->FontSize + scaledGap), p)) {
+			inbox(ImRect(namePos.x - scaledGap, namePos.y - scaledGap, namePos.x + ts.x + scaledGap, namePos.y + host.fontSize + scaledGap), p)) {
 			// so the cursor really covers this label
 			// save the boxes for further highlighting the label
 			host.starLabelHoverArea = ImRect(namePos.x - scaledGap, namePos.y - scaledGap, namePos.x + ts.x + scaledGap, namePos.y + ts.y + scaledGap);
@@ -148,9 +147,7 @@ public:
 			dl.AddRectFilled(box.Min, box.Max, host.shadeColor, scaledGap);
 		}
 		ImFont *font = host.starLabelFont;
-		ImGui::PushFont(font);
 		dl.AddText(font, textHeight, namePos, color, name.c_str());
-		ImGui::PopFont();
 	}
 
 	void OnClick() override
@@ -161,9 +158,8 @@ public:
 	static void InitFonts(Labels &host, ImDrawList &dl)
 	{
 		ImFont *&font = host.starLabelFont;
-		font = host.map.GetContext().pigui->GetFont(host.fontName, host.fontSize * fontScale);
+		font = host.map.GetContext().pigui->GetFont(host.fontName);
 		if (!font) font = ImGui::GetFont();
-		dl.PushTextureID(font->ContainerAtlas->TexID);
 	}
 };
 
@@ -195,14 +191,10 @@ public:
 		auto &gap = host.gap;
 		if (p.x < pos.x - radius) return false;
 		if (p.y < std::min(pos.y - radius, homePos.y - gap)) return false;
-		if (p.y > std::max(pos.y + radius, namePos.y + host.factionNameFont->FontSize * nameScale + gap)) return false;
+		if (p.y > std::max(pos.y + radius, namePos.y + host.fontSize * nameScale + gap)) return false;
 
-		ImGui::PushFont(host.factionHomeFont);
-		ImVec2 ts1 = ImGui::CalcTextSize(home.c_str());
-		ImGui::PopFont();
-		ImGui::PushFont(host.factionNameFont);
-		ImVec2 ts2 = ImGui::CalcTextSize(name.c_str());
-		ImGui::PopFont();
+		ImVec2 ts1 = host.factionHomeFont->CalcTextSizeA(host.fontSize, FLT_MAX, -1, home.c_str());
+		ImVec2 ts2 = host.factionNameFont->CalcTextSizeA(host.fontSize * nameScale, FLT_MAX, -1, name.c_str());
 		// sift out by last dimension
 		if (p.x > std::max(homePos.x + ts1.x + gap, namePos.x + ts2.x + gap)) return false;
 		// so, the cursor is somewhere in the dimensions of this label
@@ -243,12 +235,8 @@ public:
 			};
 			dl.AddConvexPolyFilled(pointsWithGap, 5, hcolor);
 		}
-		ImGui::PushFont(host.factionHomeFont);
-		dl.AddText(homePos, color, home.c_str());
-		ImGui::PopFont();
-		ImGui::PushFont(host.factionNameFont);
-		dl.AddText(namePos, color, name.c_str());
-		ImGui::PopFont();
+		dl.AddText(host.factionHomeFont, host.fontSize, homePos, color, home.c_str());
+		dl.AddText(host.factionNameFont, host.fontSize * nameScale, namePos, color, name.c_str());
 	}
 
 	void OnClick() override
@@ -262,12 +250,10 @@ public:
 		auto *&factionNameFont = host.factionNameFont;
 		auto &fontName = host.fontName;
 		auto &fontSize = host.fontSize;
-		factionHomeFont = host.map.GetContext().pigui->GetFont(fontName, fontSize);
+		factionHomeFont = host.map.GetContext().pigui->GetFont(fontName);
 		if (!factionHomeFont) factionHomeFont = ImGui::GetFont();
-		factionNameFont = host.map.GetContext().pigui->GetFont(fontName, int(fontSize * nameScale));
+		factionNameFont = host.map.GetContext().pigui->GetFont(fontName);
 		if (!factionNameFont) factionNameFont = ImGui::GetFont();
-		dl.PushTextureID(factionHomeFont->ContainerAtlas->TexID);
-		dl.PushTextureID(factionNameFont->ContainerAtlas->TexID);
 	}
 };
 
@@ -745,6 +731,7 @@ void SectorMap::DrawLabelsInternal(bool interactive, const ImVec2 &imagePos)
 	StarLabel::InitFonts(m_labels, *m_drawList);
 	FactionLabel::InitFonts(m_labels, *m_drawList);
 	m_drawList->PushClipRect({ 0.f, 0.f }, m_size);
+	m_drawList->PushTexture(ImGui::GetFont()->OwnerAtlas->TexRef);
 
 	// iterate over the labels starting with the closest one until we find the one over which the cursor is hanging
 	if (interactive) {
@@ -793,6 +780,8 @@ void SectorMap::DrawLabelsInternal(bool interactive, const ImVec2 &imagePos)
 	drawData.DisplayPos = ImVec2(0.0f, 0.0f);
 	drawData.DisplaySize = ImVec2(m_size.x, m_size.y);
 	drawData.FramebufferScale = ImVec2(1.0f, 1.0f);
+	// Have to get the TexList here because we're midframe and PlatformIO hasn't been updated yet
+    drawData.Textures = &ImGui::GetIO().Fonts->TexList;
 
 	m_context.pigui->GetRenderer()->RenderDrawData(&drawData);
 }
