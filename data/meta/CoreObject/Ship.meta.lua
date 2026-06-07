@@ -34,7 +34,7 @@
 ---@field totalVolume number
 ---
 ---@field usedCargo number
----@field totalCargo number
+---@field cargo_cap number
 ---
 ---@field loadedMass number Mass of the equipment and cargo onboard the ship
 ---@field staticMass number Hull mass + loaded mass

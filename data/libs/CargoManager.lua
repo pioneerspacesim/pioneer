@@ -28,11 +28,11 @@ function CargoManager:Constructor(ship)
 
 	-- Initialize property variables on owning ship for backwards compatibility
 	-- don't initialize them if they're already created after first save
-	if not self.ship:hasprop("totalCargo") then
-		ship:setprop("totalCargo", self:GetTotalSpace())
+	if not ship:hasprop("cargo_cap") then
+		ship:setprop("cargo_cap", ShipDef[ship.shipId].cargo)
 	end
 
-	if not self.ship:hasprop("usedCargo") then
+	if not ship:hasprop("usedCargo") then
 		ship:setprop("usedCargo", 0)
 	end
 
@@ -53,7 +53,7 @@ end
 -- Reinitialize ship properties after changing the type of the ship
 -- Note: cargo mass is not removed from ship.mass_cap when changing ship types
 function CargoManager:OnShipTypeChanged()
-	self.ship:setprop("totalCargo", self:GetTotalSpace())
+	self.ship:setprop("cargo_cap", ShipDef[self.ship.shipId].cargo)
 	self.ship:setprop("usedCargo", self.usedCargoSpace)
 
 	self.ship:UpdateEquipStats()
@@ -77,7 +77,7 @@ end
 --
 -- Returns the maximum amount of cargo that could be stored on the vessel.
 function CargoManager:GetTotalSpace()
-	return ShipDef[self.ship.shipId].cargo
+	return self.ship["cargo_cap"]
 end
 
 -- Method: AddCommodity
@@ -190,6 +190,18 @@ function CargoManager:CountCommodity(type)
 	end
 
 	return self.commodities[type.name].count
+end
+
+-- Method: Commodities
+--
+-- Return an iterator over { name, count } pairs of commodity cargo in this ship.
+function CargoManager:Commodities()
+	---@type fun(s: table, k: string): string, integer
+	return function(s, k)
+		k = next(s, k)
+		if not k then return end
+		return k, s[k].count
+	end, self.commodities, nil
 end
 
 -- Method: DoLifeSupportChecks

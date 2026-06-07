@@ -194,6 +194,44 @@ function CabinType:GetItemCardStats()
 	}
 end
 
+
+--==============================================================================
+
+---@class Equipment.CargoHoldType
+local CargoHoldType = EquipTypes.CargoHoldType
+
+function CargoHoldType:GetDetailedStats()
+	local out = self:Super().GetDetailedStats(self)
+
+	table.insert(out, {
+		le.CARGO_CAPACITY,
+		icons.cargo_crate,
+		self.capabilities.cargo,
+		tostring
+	})
+
+	if self.capabilities.cargo_shield then
+		table.insert(out, {
+			le.SHIELDED_CARGO_CAPACITY,
+			icons.cargo_crate,
+			self.capabilities.cargo_shield,
+			tostring
+		})
+	end
+
+	return out
+end
+
+---@return table[]
+function CargoHoldType:GetItemCardStats()
+	return {
+		{ icons.cargo_crate, "{}" % { self.capabilities.cargo } },
+		{ icons.hull, format_mass(self.mass) },
+		{ icons.ecm, format_power(0) },
+		{ icons.repairs, format_integrity(1) }
+	}
+end
+
 --==============================================================================
 
 ---@class Equipment.ThrusterType

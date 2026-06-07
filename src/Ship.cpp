@@ -617,7 +617,7 @@ void Ship::UpdateEquipStats()
 	m_stats.static_mass = m_stats.loaded_mass + m_type->hullMass;
 
 	m_stats.used_cargo = p.Get("usedCargo").get_integer();
-	m_stats.free_cargo = p.Get("totalCargo").get_integer() - m_stats.used_cargo;
+	m_stats.free_cargo = p.Get("cargo_cap").get_integer() - m_stats.used_cargo;
 
 	p.Set("loadedMass", m_stats.loaded_mass);
 	p.Set("staticMass", m_stats.static_mass);

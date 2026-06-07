@@ -41,6 +41,8 @@ local misc = {}
 ---@field price number
 ---@field icon_name string?
 ---@field tech_level integer | "MILITARY"
+---@field lawlessness number? -- minimum lawlessness required for a station to stock this item
+---@field min_security number? -- minimum security (1-lawlessness) required for a station to stock this item
 ---@field transient table
 ---@field slots table -- deprecated
 ---@field count integer?
@@ -164,7 +166,11 @@ end
 -- and sale from the craft. This should almost always be true, unless the item
 -- has been installed by some scripted event or otherwise cannot be sold (e.g.
 -- a passenger cabin with a passenger in it.)
-function EquipType:CanBeSold()
+--
+-- Parameters:
+--
+--  ship - Ship, the ship this equipment item is attached to.
+function EquipType:CanBeSold(ship)
 	return not self.inhibit_removal
 end
 

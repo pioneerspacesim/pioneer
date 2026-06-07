@@ -344,8 +344,18 @@ function CabinType:OnRemove(ship, slot)
 	end
 end
 
-function CabinType:CanBeSold()
+function CabinType:CanBeSold(ship)
 	return (not self.passengers or #self.passengers == 0) and EquipType.CanBeSold(self)
+end
+
+--==============================================================================
+
+---@class Equipment.CargoHoldType : EquipType
+local CargoHoldType = EquipType:NewType("Equipment.CargoHoldType")
+
+---@param ship Ship
+function CargoHoldType:CanBeSold(ship)
+	return (ship.cargo_cap - ship.usedCargo) >= self.capabilities.cargo
 end
 
 --==============================================================================
@@ -404,6 +414,7 @@ end
 return {
 	EquipType		= EquipType,
 	CargoScoopType	= CargoScoopType,
+	CargoHoldType	= CargoHoldType,
 	LaserType		= LaserType,
 	HyperdriveType	= HyperdriveType,
 	SensorType		= SensorType,
