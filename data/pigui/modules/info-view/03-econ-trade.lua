@@ -79,7 +79,7 @@ local function cargolist ()
 		-- name
 		ui.tableNextColumn()
 		ui.alignTextToButtonPadding()
-		ui.text(entry.commodity:GetName())
+		ui.text(entry.commodity:GetProperName())
 
 		-- jettison button
 		ui.tableNextColumn()
