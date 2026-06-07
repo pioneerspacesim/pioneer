@@ -445,10 +445,12 @@ void Pi::App::OnShutdown()
 	Graphics::Uninit();
 
 	PiGui::Lua::Uninit();
-	ShutdownPiGui();
-	Pi::pigui = nullptr;
 	Lua::UninitModules();
 	Lua::Uninit();
+
+	// Lua can keep PiGui objects alive, need to wait until it's uninited to tear down PiGui
+	Pi::pigui = nullptr;
+	ShutdownPiGui();
 
 	delete Pi::modelCache;
 

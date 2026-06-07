@@ -8,6 +8,7 @@
 
 #include <SDL.h>
 #include <SDL_video.h>
+#include "core/Log.h"
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/RenderState.h"

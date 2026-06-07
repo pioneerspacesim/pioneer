@@ -5,6 +5,8 @@
 
 #include "Input.h"
 #include "Shields.h"
+#include "core/Log.h"
+#include "DateTime.h"
 #include "core/GuiApplication.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
