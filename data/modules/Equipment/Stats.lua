@@ -58,7 +58,7 @@ end
 ---@class Equipment.LaserType
 local LaserType = EquipTypes.LaserType
 
-local format_rpm = function(v) return string.format("%d RPM", 60 / v) end
+local format_rpm = function(v) return string.format("%d RPM", v == 0 and 0 or 60 / v) end
 local format_speed = function(v) return string.format("%.1f%s", v, lc.UNIT_METERS_PER_SECOND) end
 
 function LaserType:GetDetailedStats()
