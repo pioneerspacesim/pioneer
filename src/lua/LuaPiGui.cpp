@@ -272,6 +272,7 @@ static LuaFlags<ImGuiCol_> imgui_col_enums = {
 	{ "ScrollbarGrabHovered", ImGuiCol_ScrollbarGrabHovered },
 	{ "ScrollbarGrabActive", ImGuiCol_ScrollbarGrabActive },
 	{ "CheckMark", ImGuiCol_CheckMark },
+	{ "CheckboxSelectedBg", ImGuiCol_CheckboxSelectedBg },
 	{ "SliderGrab", ImGuiCol_SliderGrab },
 	{ "SliderGrabActive", ImGuiCol_SliderGrabActive },
 	{ "Button", ImGuiCol_Button },
