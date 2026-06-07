@@ -34,12 +34,12 @@ runs:
         tar -czf "pioneer-$BUILD_SLUG-$(date +%Y%m%d).tar.gz" "pioneer-$BUILD_SLUG"
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: ${{ inputs.artifact_name }}
         path: ${{ format('out/install/pioneer-{0}-*.tar.gz', inputs.build_slug) }}
         retention-days: 14
-        compression-level: 0 # contains a pre-compressed .tar.gz archive...
+        archive: false
 
     - name: Build Release
       shell: bash
@@ -48,7 +48,7 @@ runs:
       run: ./scripts/package-release.sh
 
     - name: Upload Release Files
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v3
       if: ${{ (github.event_name == 'release' || github.event_name == 'workflow_dispatch') && inputs.upload_release }}
       with:
         files: release/pioneer-linux-x64-*.tar.gz
