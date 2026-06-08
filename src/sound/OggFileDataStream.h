@@ -33,7 +33,7 @@ namespace Sound {
 		const char *m_cursor;
 
 	public:
-		static inline ov_callbacks CALLBACKS{
+		static inline ov_callbacks CALLBACKS {
 			&OggFileDataStream::ov_callback_read,
 			&OggFileDataStream::ov_callback_seek,
 			&OggFileDataStream::ov_callback_close,

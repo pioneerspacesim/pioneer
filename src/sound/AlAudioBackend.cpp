@@ -297,8 +297,7 @@ Sound::AlAudioBackend::SoundEvent::SoundEvent(const Sample &sample) :
 		FillBuffer(1);
 		CHECK_OPENAL_ERROR(alSourceQueueBuffers, source, 2, &buffers[0]);
 	}
-	if (is_music)
-	{
+	if (is_music) {
 		CHECK_OPENAL_ERROR(alSourcei, source, AL_DIRECT_CHANNELS_SOFT, AL_TRUE);
 	}
 }
@@ -368,8 +367,8 @@ bool Sound::AlAudioBackend::SoundEvent::IsDone() const
 void Sound::AlAudioBackend::SoundEvent::FillBuffer(int idx)
 {
 	constexpr int buffer_bytes = 44100 * 2;
-	char data[buffer_bytes]{};
-	int bitstream{};
+	char data[buffer_bytes] {};
+	int bitstream {};
 	int remaining_bytes = buffer_bytes;
 	while (remaining_bytes > 0) {
 		const int bytes_read = ov_read(oggv.get(), &data[0] + buffer_bytes - remaining_bytes,

@@ -58,16 +58,13 @@ namespace Sound {
 
 	void MusicPlayer::PlayAgain()
 	{
-		if (m_eventOne.IsPlaying())
-		{
+		if (m_eventOne.IsPlaying()) {
 			m_eventOne.Stop();
 		}
-		if (m_eventTwo.IsPlaying())
-		{
+		if (m_eventTwo.IsPlaying()) {
 			m_eventTwo.Stop();
 		}
-		if (m_playing)
-		{
+		if (m_playing) {
 			Play(m_currentSongName, m_repeating);
 		}
 	}
@@ -99,7 +96,7 @@ namespace Sound {
 		}
 	}
 
-	const std::string& MusicPlayer::GetCurrentSongName() const
+	const std::string &MusicPlayer::GetCurrentSongName() const
 	{
 		return m_currentSongName;
 	}

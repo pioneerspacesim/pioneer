@@ -70,7 +70,7 @@ namespace Sound {
 		SDL_AudioDeviceID m_audioDevice;
 		uint32_t identifier;
 		int nextMusicStream = 0;
-		SoundEvent wavstream[MAX_WAVSTREAMS]{};
+		SoundEvent wavstream[MAX_WAVSTREAMS] {};
 		std::map<std::string, Sample> m_samples;
 	};
 

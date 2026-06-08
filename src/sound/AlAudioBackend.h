@@ -74,9 +74,9 @@ namespace Sound {
 		private:
 			void FillBuffer(int idx);
 
-			ALuint buffers[2]{};
-			ALuint source{};
-			int playing_buffer_idx{};
+			ALuint buffers[2] {};
+			ALuint source {};
+			int playing_buffer_idx {};
 			int channels;
 			int samplerate;
 			float target_gain;

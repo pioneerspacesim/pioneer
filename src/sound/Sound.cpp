@@ -7,8 +7,8 @@
 
 #include "buildopts.h"
 
-#include "Sound.h"
 #include "GameConfig.h"
+#include "Sound.h"
 #if BUILD_WITH_OPENAL
 #include "AlAudioBackend.h"
 #endif
@@ -202,7 +202,7 @@ namespace Sound {
 
 	std::vector<std::string_view> GetAvailableBackends()
 	{
-		std::vector<std::string_view> backends{ SDLBackendName };
+		std::vector<std::string_view> backends { SDLBackendName };
 #if BUILD_WITH_OPENAL
 		backends.push_back(OpenALBackendName);
 #endif
