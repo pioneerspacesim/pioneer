@@ -627,8 +627,6 @@ static int l_engine_get_sound_backend(lua_State *l)
 	return 1;
 }
 
-static void set_music_volume(const bool muted, const float volume);
-
 static int l_engine_set_sound_backend(lua_State *l)
 {
 	const std::string backend = luaL_checkstring(l, 1);
