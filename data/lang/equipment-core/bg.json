@@ -39,6 +39,18 @@
     "description": "",
     "message": "Летателен бордови компютър."
   },
+  "AUXILIARY_CARGO_RACK": {
+    "description": "Equipment name for a cargo-carrying rack installed as a cabin module",
+    "message": "Auxiliary Cargo Rack"
+  },
+  "AUXILIARY_CARGO_RACK_DESCRIPTION": {
+    "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
+    "message": "Additional cargo space mounted inside the ship's pressurized habitat."
+  },
+  "AUXILIARY_CARGO_RACK_FLAVOURTEXT": {
+    "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
+    "message": "Put your unneeded habitat space to work for you! This conversion kit fits a wide variety of ship hulls. Manufactured by Seversk a.k."
+  },
   "BEAMLASER_1MW": {
     "description": "",
     "message": "1 МВ лазер"
@@ -63,6 +75,10 @@
     "description": "Category header for pressurized cabin slots",
     "message": "Кабини"
   },
+  "CARGO_CAPACITY": {
+    "description": "Statistic name for an equipment that provides cargo capacity",
+    "message": "Допълнителен товарен капацитет"
+  },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
     "message": "Животоподдържаща система"
@@ -82,6 +98,18 @@
   "COMPUTER_MODULES": {
     "description": "Category name of computer-related equipment",
     "message": "Компютърни модули"
+  },
+  "CONCEALED_CARGO_RACK": {
+    "description": "Equipment name for a cargo-carrying smuggler's hold installed as a cabin module",
+    "message": "Concealed Cargo Rack"
+  },
+  "CONCEALED_CARGO_RACK_DESCRIPTION": {
+    "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
+    "message": "Shielded cargo space disguised as an innocuous habitat wall. Hides the contents from police scans."
+  },
+  "CONCEALED_CARGO_RACK_FLAVOURTEXT": {
+    "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
+    "message": "This cargo rack from Seversk a.k. has been crudely concealed by welding interior hull panels to it. A handwritten sticker bears the text \"Guaranteed to pass cursory inspection, or your money back.\""
   },
   "DAMAGE_PER_SHOT": {
     "description": "Tooltip explaining weapon damage per shot",
@@ -210,6 +238,10 @@
   "FUEL_SCOOP_DESCRIPTION": {
     "description": "",
     "message": "Позволява товаренето на водородно гориво от планетите газови гиганти."
+  },
+  "HABITAT": {
+    "description": "Category header for pressurized habitat slots",
+    "message": "Хабитат"
   },
   "HARDPOINT_FUEL_SCOOP": {
     "description": "Name for the 'Fuel Scoop' equipment hardpoint",
@@ -702,6 +734,10 @@
   "SENSOR_RESOLUTION": {
     "description": "Resolution of e.g. optical sensor",
     "message": "Резолюция"
+  },
+  "SHIELDED_CARGO_CAPACITY": {
+    "description": "Statistic name for an equipment that provides cargo scan resistance",
+    "message": "Скрит товарен капацитет"
   },
   "SHIELDS": {
     "description": "Category name of shield-related equipment",

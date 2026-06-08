@@ -39,6 +39,18 @@
     "description": "",
     "message": "An on-board flight computer."
   },
+  "AUXILIARY_CARGO_RACK": {
+    "description": "Equipment name for a cargo-carrying rack installed as a cabin module",
+    "message": "Auxiliary Cargo Rack"
+  },
+  "AUXILIARY_CARGO_RACK_DESCRIPTION": {
+    "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
+    "message": "Additional cargo space mounted inside the ship's pressurized habitat."
+  },
+  "AUXILIARY_CARGO_RACK_FLAVOURTEXT": {
+    "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
+    "message": "Put your unneeded habitat space to work for you! This conversion kit fits a wide variety of ship hulls. Manufactured by Seversk a.k."
+  },
   "BEAMLASER_1MW": {
     "description": "",
     "message": "1MW beam laser"
@@ -63,9 +75,9 @@
     "description": "Category header for pressurized cabin slots",
     "message": "Cabins"
   },
-  "HABITAT": {
-    "description": "Category header for pressurized habitat slots",
-    "message": "Habitat"
+  "CARGO_CAPACITY": {
+    "description": "Statistic name for an equipment that provides cargo capacity",
+    "message": "Additional Cargo Capacity"
   },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
@@ -86,6 +98,18 @@
   "COMPUTER_MODULES": {
     "description": "Category name of computer-related equipment",
     "message": "Computer Modules"
+  },
+  "CONCEALED_CARGO_RACK": {
+    "description": "Equipment name for a cargo-carrying smuggler's hold installed as a cabin module",
+    "message": "Concealed Cargo Rack"
+  },
+  "CONCEALED_CARGO_RACK_DESCRIPTION": {
+    "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
+    "message": "Shielded cargo space disguised as an innocuous habitat wall. Hides the contents from police scans."
+  },
+  "CONCEALED_CARGO_RACK_FLAVOURTEXT": {
+    "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
+    "message": "This cargo rack from Seversk a.k. has been crudely concealed by welding interior hull panels to it. A handwritten sticker bears the text \"Guaranteed to pass cursory inspection, or your money back.\""
   },
   "DAMAGE_PER_SHOT": {
     "description": "Tooltip explaining weapon damage per shot",
@@ -214,6 +238,10 @@
   "FUEL_SCOOP_DESCRIPTION": {
     "description": "",
     "message": "Permits scooping hydrogen fuel from gas giant planets."
+  },
+  "HABITAT": {
+    "description": "Category header for pressurized habitat slots",
+    "message": "Habitat"
   },
   "HARDPOINT_FUEL_SCOOP": {
     "description": "Name for the 'Fuel Scoop' equipment hardpoint",
@@ -707,6 +735,10 @@
     "description": "Resolution of e.g. optical sensor",
     "message": "Sensor resolution"
   },
+  "SHIELDED_CARGO_CAPACITY": {
+    "description": "Statistic name for an equipment that provides cargo scan resistance",
+    "message": "Shielded Cargo Capacity"
+  },
   "SHIELDS": {
     "description": "Category name of shield-related equipment",
     "message": "Shields"
@@ -942,37 +974,5 @@
   "WEAPONS": {
     "description": "Category name of weapon-related equipment",
     "message": "Weapons"
-  },
-  "AUXILIARY_CARGO_RACK": {
-    "description": "Equipment name for a cargo-carrying rack installed as a cabin module",
-    "message": "Auxiliary Cargo Rack"
-  },
-  "AUXILIARY_CARGO_RACK_DESCRIPTION": {
-    "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
-    "message": "Additional cargo space mounted inside the ship's pressurized habitat."
-  },
-  "AUXILIARY_CARGO_RACK_FLAVOURTEXT": {
-    "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
-    "message": "Put your unneeded habitat space to work for you! This conversion kit fits a wide variety of ship hulls. Manufactured by Seversk a.k."
-  },
-  "CONCEALED_CARGO_RACK": {
-    "description": "Equipment name for a cargo-carrying smuggler's hold installed as a cabin module",
-    "message": "Concealed Cargo Rack"
-  },
-  "CONCEALED_CARGO_RACK_DESCRIPTION": {
-    "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
-    "message": "Shielded cargo space disguised as an innocuous habitat wall. Hides the contents from police scans."
-  },
-  "CONCEALED_CARGO_RACK_FLAVOURTEXT": {
-    "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
-    "message": "This cargo rack from Seversk a.k. has been crudely concealed by welding interior hull panels to it. A handwritten sticker bears the text \"Guaranteed to pass cursory inspection, or your money back.\""
-  },
-  "CARGO_CAPACITY": {
-    "description": "Statistic name for an equipment that provides cargo capacity",
-    "message": "Additional Cargo Capacity"
-  },
-  "SHIELDED_CARGO_CAPACITY": {
-    "description": "Statistic name for an equipment that provides cargo scan resistance",
-    "message": "Shielded Cargo Capacity"
   }
 }

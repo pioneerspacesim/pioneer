@@ -39,6 +39,18 @@
     "description": "",
     "message": "Sistema avanzato di navigazione stellare automatica."
   },
+  "AUXILIARY_CARGO_RACK": {
+    "description": "Equipment name for a cargo-carrying rack installed as a cabin module",
+    "message": "Stiva di carico ausiliaria"
+  },
+  "AUXILIARY_CARGO_RACK_DESCRIPTION": {
+    "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
+    "message": "Spazio di carico aggiuntivo installato nella zona di habitat pressurizzata"
+  },
+  "AUXILIARY_CARGO_RACK_FLAVOURTEXT": {
+    "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
+    "message": "Sfutta meglio lo spazio di habitat inutilizzato! Questo kit di conversione si adatta ad una grande gamma di navi. Fabbricato dalla Seversk a.k."
+  },
   "BEAMLASER_1MW": {
     "description": "",
     "message": "Laser da 1MW"
@@ -63,6 +75,10 @@
     "description": "Category header for pressurized cabin slots",
     "message": "Alloggi"
   },
+  "CARGO_CAPACITY": {
+    "description": "Statistic name for an equipment that provides cargo capacity",
+    "message": "Spazio di carico aggiuntivo"
+  },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
     "message": "Supporti vitali per la stiva"
@@ -82,6 +98,18 @@
   "COMPUTER_MODULES": {
     "description": "Category name of computer-related equipment",
     "message": "Moduli del computer"
+  },
+  "CONCEALED_CARGO_RACK": {
+    "description": "Equipment name for a cargo-carrying smuggler's hold installed as a cabin module",
+    "message": "Stiva di carico segreta"
+  },
+  "CONCEALED_CARGO_RACK_DESCRIPTION": {
+    "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
+    "message": "Spazio di carico schermato. Appare come una normale parete della cabina. Può nascondere la merce agli scanner della polizia."
+  },
+  "CONCEALED_CARGO_RACK_FLAVOURTEXT": {
+    "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
+    "message": "Questa stiva di carico della Seversk a.k. è stata rozzamente camuffata saldando dei pannelli. Un adesivo scritto a mano dice: “Può superare un’ispezione sommaria. Soddisfatti o rimborsati!”"
   },
   "DAMAGE_PER_SHOT": {
     "description": "Tooltip explaining weapon damage per shot",
@@ -210,6 +238,10 @@
   "FUEL_SCOOP_DESCRIPTION": {
     "description": "",
     "message": "Permette la raccolta e lo stoccaggio di idrogeno dall'atmosfera dei giganti gassosi."
+  },
+  "HABITAT": {
+    "description": "Category header for pressurized habitat slots",
+    "message": "Habitat"
   },
   "HARDPOINT_FUEL_SCOOP": {
     "description": "Name for the 'Fuel Scoop' equipment hardpoint",
@@ -702,6 +734,10 @@
   "SENSOR_RESOLUTION": {
     "description": "Resolution of e.g. optical sensor",
     "message": "Risoluzione sensore"
+  },
+  "SHIELDED_CARGO_CAPACITY": {
+    "description": "Statistic name for an equipment that provides cargo scan resistance",
+    "message": "Spazio di carico schermato"
   },
   "SHIELDS": {
     "description": "Category name of shield-related equipment",

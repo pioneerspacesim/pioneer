@@ -405,7 +405,7 @@
   },
   "LOAD_CARGO": {
     "description": "UI button label",
-    "message": "Load cargo"
+    "message": "Lasta ombord"
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
@@ -665,7 +665,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "We have loaded the cargo onto your ship."
+    "message": "Lasten är ombord."
   },
   "WHAT_IS_THIS": {
     "description": "",

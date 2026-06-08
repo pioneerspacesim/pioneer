@@ -39,6 +39,18 @@
     "description": "",
     "message": "Ordinateur de bord."
   },
+  "AUXILIARY_CARGO_RACK": {
+    "description": "Equipment name for a cargo-carrying rack installed as a cabin module",
+    "message": "Baie de cargaison auxiliaire"
+  },
+  "AUXILIARY_CARGO_RACK_DESCRIPTION": {
+    "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
+    "message": "Espace de cargaison supplémentaire situé à l'intérieur de l'habitat pressurisé du vaisseau."
+  },
+  "AUXILIARY_CARGO_RACK_FLAVOURTEXT": {
+    "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
+    "message": "Votre espace d'habitation inutile peut travailler pour vous ! Ce kit de conversion s'adapte à une large variété de fuselages de vaisseau. Fabriqué par Seversk a.k."
+  },
   "BEAMLASER_1MW": {
     "description": "",
     "message": "Laser 1MV"
@@ -63,6 +75,10 @@
     "description": "Category header for pressurized cabin slots",
     "message": "Cabines"
   },
+  "CARGO_CAPACITY": {
+    "description": "Statistic name for an equipment that provides cargo capacity",
+    "message": "Capacité de cargaison additionnelle"
+  },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
     "message": "Soute préssurisée pour animaux"
@@ -82,6 +98,18 @@
   "COMPUTER_MODULES": {
     "description": "Category name of computer-related equipment",
     "message": "Ordinateurs (Unités centrales)"
+  },
+  "CONCEALED_CARGO_RACK": {
+    "description": "Equipment name for a cargo-carrying smuggler's hold installed as a cabin module",
+    "message": "Baie de cargaison dissimulée"
+  },
+  "CONCEALED_CARGO_RACK_DESCRIPTION": {
+    "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
+    "message": "Espace de cargaison blindé déguisé en un mur d'habitat anodin. Cache son contenu des scanners de la police."
+  },
+  "CONCEALED_CARGO_RACK_FLAVOURTEXT": {
+    "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
+    "message": "Cette baie de cargaison de Seversk a.k. a été grossièrement dissimulée en y soudant des panneaux de murs intérieurs. Un autocollant porte une note manuscrite déclarant: \"Guarantie de passer une inspection superficielle, ou nous vous remboursons.\""
   },
   "DAMAGE_PER_SHOT": {
     "description": "Tooltip explaining weapon damage per shot",
@@ -210,6 +238,10 @@
   "FUEL_SCOOP_DESCRIPTION": {
     "description": "",
     "message": "Permet de récupérer de l'hydrogène sur les planètes géantes gazeuses."
+  },
+  "HABITAT": {
+    "description": "Category header for pressurized habitat slots",
+    "message": "Habitat"
   },
   "HARDPOINT_FUEL_SCOOP": {
     "description": "Name for the 'Fuel Scoop' equipment hardpoint",
@@ -702,6 +734,10 @@
   "SENSOR_RESOLUTION": {
     "description": "Resolution of e.g. optical sensor",
     "message": "Résolution du capteur"
+  },
+  "SHIELDED_CARGO_CAPACITY": {
+    "description": "Statistic name for an equipment that provides cargo scan resistance",
+    "message": "Capacité de cargaison blindée"
   },
   "SHIELDS": {
     "description": "Category name of shield-related equipment",
