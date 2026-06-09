@@ -57,7 +57,7 @@
   },
   "CORONATRIX_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a police model Coronatrix"
+    "message": "un modèle de police Coronatrix"
   },
   "DENEB": {
     "description": "ship name - base form",
@@ -97,15 +97,15 @@
   },
   "KANARA_POLICE": {
     "description": "ship name - base form",
-    "message": "Kanara police ship"
+    "message": "vaisseau de police Kanara"
   },
   "KANARA_POLICE_DEF": {
     "description": "ship - definite form",
-    "message": "the Kanara police ship"
+    "message": "le vaisseau de police Kanara"
   },
   "KANARA_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a police model Kanara"
+    "message": "un vaisseau de police Kanara"
   },
   "LODOS": {
     "description": "ship name - base form",
@@ -225,7 +225,7 @@
   },
   "PUMPKINSEED_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a police model Pumpkinseed"
+    "message": "un vaisseau de police Pumpkinseed"
   },
   "SHIP": {
     "description": "ship name - base form",
@@ -261,7 +261,7 @@
   },
   "SINONATRIX_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a police model Sinonatrix"
+    "message": "un modèle de police Sinoatrix"
   },
   "SKIPJACK": {
     "description": "ship name - base form",
