@@ -9,7 +9,7 @@ Game.AddCommsLogLine = function(text, sender, priority)
 	table.insert(Game.comms_log_lines, { text=text, time=Game.time, sender=sender, priority = priority or 'normal'})
 	if type(priority) == "number" and priority > 0 then
 		Game.SetTimeAcceleration("1x")
-	end 
+	end
 end
 
 Game.GetCommsLines = function()
@@ -28,20 +28,22 @@ function Game.GetStartTime()
 end
 
 Event.Register('onGameStart', function()
-	Game.comms_log_lines = {}
 	gameStartTime = Game.time
 end)
 
 Event.Register('onGameEnd', function()
 	gameStartTime = 0
+	Game.comms_log_lines = {}
 end)
 
 local function _serialize()
-	return { startTime = gameStartTime }
+	return { startTime = gameStartTime,
+			comms_log_lines = Game.comms_log_lines }
 end
 
 local function _deserialize(data)
 	gameStartTime = data.startTime or 0
+	Game.comms_log_lines = data.comms_log_lines or {}
 end
 
 require 'Serializer':Register('Game', _serialize, _deserialize)
