@@ -1385,7 +1385,7 @@
   },
   "SELECT_LOW_THRUST_POWER_LEVEL": {
     "description": "",
-    "message": "Изберете ниво на ниска тягата"
+    "message": "Изберете ниво на ниска тяга"
   },
   "SEMI_MAJOR_AXIS": {
     "description": "",
@@ -1481,7 +1481,7 @@
   },
   "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
     "description": "",
-    "message": "Скорост на кораба, спрямо отправния обект"
+    "message": "Скорост на кораба спрямо отправния обект"
   },
   "SIDEREAL_VIEW": {
     "description": "camera view setting",
@@ -1681,7 +1681,7 @@
   },
   "SWAP_SELECTED_HYPERSPACE_TARGET": {
     "description": "",
-    "message": "Размяна на целта за хисперскок и избраната цел"
+    "message": "Размяна на целта за хиперскок и избраната цел"
   },
   "SWITCHED_TO_PARENT": {
     "description": "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
@@ -1953,7 +1953,7 @@
   },
   "UNSET_NAVTARGET": {
     "description": "",
-    "message": "Премахване навигационната цел."
+    "message": "Премахване на навигационната цел."
   },
   "USE_LOW_THRUST": {
     "description": "",

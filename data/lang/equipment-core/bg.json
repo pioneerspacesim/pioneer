@@ -41,15 +41,15 @@
   },
   "AUXILIARY_CARGO_RACK": {
     "description": "Equipment name for a cargo-carrying rack installed as a cabin module",
-    "message": "Auxiliary Cargo Rack"
+    "message": "Спомагателно товарно отделение"
   },
   "AUXILIARY_CARGO_RACK_DESCRIPTION": {
     "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
-    "message": "Additional cargo space mounted inside the ship's pressurized habitat."
+    "message": "Допълнително товарно място, монтирано в херметизираната обитаема част на кораба."
   },
   "AUXILIARY_CARGO_RACK_FLAVOURTEXT": {
     "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
-    "message": "Put your unneeded habitat space to work for you! This conversion kit fits a wide variety of ship hulls. Manufactured by Seversk a.k."
+    "message": "Превърнете неизползваното пространство в обитаемата част на кораба си в допълнително товарно отделение! Този комплект е съвместим с голямо разнообразие от корабни корпуси. Произведен е от Сиверск A.K."
   },
   "BEAMLASER_1MW": {
     "description": "",
@@ -101,15 +101,15 @@
   },
   "CONCEALED_CARGO_RACK": {
     "description": "Equipment name for a cargo-carrying smuggler's hold installed as a cabin module",
-    "message": "Concealed Cargo Rack"
+    "message": "Скрито товарно отделение"
   },
   "CONCEALED_CARGO_RACK_DESCRIPTION": {
     "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
-    "message": "Shielded cargo space disguised as an innocuous habitat wall. Hides the contents from police scans."
+    "message": "Скрито товарно място, приличащо на безобидна стена в обитаемата част на кораба. Съдържанието му не се засича от полицейските сканирания."
   },
   "CONCEALED_CARGO_RACK_FLAVOURTEXT": {
     "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
-    "message": "This cargo rack from Seversk a.k. has been crudely concealed by welding interior hull panels to it. A handwritten sticker bears the text \"Guaranteed to pass cursory inspection, or your money back.\""
+    "message": "Това товарно отделение на Сиверск А.К. е скрито доста грубовато със заварени вътрешни корпусни панели. На ръчно написан стикер пише „Гарантирано минава повърхностна проверка, доверете ми се.“"
   },
   "DAMAGE_PER_SHOT": {
     "description": "Tooltip explaining weapon damage per shot",
@@ -241,7 +241,7 @@
   },
   "HABITAT": {
     "description": "Category header for pressurized habitat slots",
-    "message": "Хабитат"
+    "message": "Обитаема част"
   },
   "HARDPOINT_FUEL_SCOOP": {
     "description": "Name for the 'Fuel Scoop' equipment hardpoint",

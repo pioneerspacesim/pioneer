@@ -593,7 +593,7 @@
   },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
-    "message": "Тризимерна кабина (ЕКСПЕРИМЕНТАЛНО)"
+    "message": "Триизмерна кабина (ЕКСПЕРИМЕНТАЛНО)"
   },
   "ENABLE_COCKPIT_DESC": {
     "description": "tooltip description in settings menu",
@@ -2473,11 +2473,11 @@
   },
   "START_AT_NEW_HOPE": {
     "description": "New Hope is an in game location",
-    "message": "Нова надежда"
+    "message": "Нова Надежда"
   },
   "START_AT_NEW_HOPE_DESC": {
     "description": "",
-    "message": "Това е умерен старт от Ицалиян – Нова надежда в системата Епсилон Еридани."
+    "message": "Това е умерен старт от Ицалиян – Нова Надежда в системата Епсилон от Еридан."
   },
   "START_GAME": {
     "description": "Button",

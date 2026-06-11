@@ -57,7 +57,7 @@
   },
   "CORONATRIX_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a police model Coronatrix"
+    "message": "полицейска Кралска водна змия"
   },
   "DENEB": {
     "description": "ship name - base form",
@@ -97,15 +97,15 @@
   },
   "KANARA_POLICE": {
     "description": "ship name - base form",
-    "message": "Kanara police ship"
+    "message": "полицейски кораб Канара"
   },
   "KANARA_POLICE_DEF": {
     "description": "ship - definite form",
-    "message": "the Kanara police ship"
+    "message": "полицейският кораб Канара"
   },
   "KANARA_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a police model Kanara"
+    "message": "полицейска Канара"
   },
   "LODOS": {
     "description": "ship name - base form",
@@ -225,7 +225,7 @@
   },
   "PUMPKINSEED_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a police model Pumpkinseed"
+    "message": "полицейска Слънчева риба"
   },
   "SHIP": {
     "description": "ship name - base form",
@@ -261,7 +261,7 @@
   },
   "SINONATRIX_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a police model Sinonatrix"
+    "message": "полицейска Азиатска водна змия"
   },
   "SKIPJACK": {
     "description": "ship name - base form",
