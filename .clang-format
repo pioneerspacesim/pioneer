@@ -110,6 +110,7 @@ PointerAlignment: Right
 #SpacesInCStyleCastParentheses: false
 #SpacesInParentheses: false
 #SpacesInSquareBrackets: false
+SpaceBeforeCpp11BracedList: true
 SpacesInLineCommentPrefix:
   Maximum: -1
   Minimum: 0
