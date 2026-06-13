@@ -925,51 +925,51 @@
   },
   "MONTH_APR": {
     "description": "",
-    "message": "Апр"
+    "message": "апр"
   },
   "MONTH_AUG": {
     "description": "",
-    "message": "Авг"
+    "message": "авг"
   },
   "MONTH_DEC": {
     "description": "",
-    "message": "Дек"
+    "message": "дек"
   },
   "MONTH_FEB": {
     "description": "",
-    "message": "Фев"
+    "message": "февр"
   },
   "MONTH_JAN": {
     "description": "",
-    "message": "Яну"
+    "message": "ян"
   },
   "MONTH_JUL": {
     "description": "",
-    "message": "Юли"
+    "message": "юли"
   },
   "MONTH_JUN": {
     "description": "",
-    "message": "Юни"
+    "message": "юни"
   },
   "MONTH_MAR": {
     "description": "",
-    "message": "Мар"
+    "message": "март"
   },
   "MONTH_MAY": {
     "description": "",
-    "message": "Май"
+    "message": "май"
   },
   "MONTH_NOV": {
     "description": "",
-    "message": "Ное"
+    "message": "ноем"
   },
   "MONTH_OCT": {
     "description": "",
-    "message": "Окт"
+    "message": "окт"
   },
   "MONTH_SEP": {
     "description": "",
-    "message": "Сеп"
+    "message": "септ"
   },
   "MOON_CONTAINING_LIQUID_WATER": {
     "description": "",
@@ -1093,7 +1093,7 @@
   },
   "N_CELSIUS": {
     "description": "",
-    "message": "%temperature ° C"
+    "message": "%temperature °C"
   },
   "N_DAYS": {
     "description": "",
@@ -1833,7 +1833,7 @@
   },
   "UNIT_DAYS": {
     "description": "Duration unit: one 24-hour day",
-    "message": "д"
+    "message": "дн"
   },
   "UNIT_DENSITY": {
     "description": "Density unit: kilos per cubic meter",
@@ -1897,7 +1897,7 @@
   },
   "UNIT_MINUTES": {
     "description": "Duration unit: one 60-second minute",
-    "message": "м"
+    "message": "мин"
   },
   "UNIT_PETATONNES": {
     "description": "Mass unit: one petatonne",
@@ -1909,7 +1909,7 @@
   },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",
-    "message": "с"
+    "message": "сек"
   },
   "UNIT_SQUARE_KILOMETERS": {
     "description": "Area unit: square kilometer (km²) - 1,000,000 m²",
@@ -1945,7 +1945,7 @@
   },
   "UNIT_WEEKS": {
     "description": "Duration unit: one 7-day week",
-    "message": "с"
+    "message": "седм"
   },
   "UNKNOWN": {
     "description": "",
