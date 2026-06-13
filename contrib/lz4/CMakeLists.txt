@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.13)
 project(lz4 LANGUAGES C)
 
 list(APPEND LZ4_SOURCES

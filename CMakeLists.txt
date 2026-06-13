@@ -11,13 +11,6 @@ set(PIONEER_VERSION "20260203-dev")
 set(PROJECT_VERSION_INFO ""
 	CACHE STRING "Additional version information (optional)")
 
-# If both libGL.so and libOpenGL.so are found, default to the latter
-# (former is a legacy name).
-# Set OpenGL_GL_PREFERENCE=LEGACY to force it to use the former.
-if(POLICY CMP0072)
-	cmake_policy(SET CMP0072 NEW)
-endif()
-
 include(cmake/TargetArchitecture.cmake)
 include(cmake/InstallPioneer.cmake)
 
@@ -380,13 +373,22 @@ endif()
 
 target_link_libraries(pioneer-lib PUBLIC lz4 fmt::fmt)
 
+# Fallback available on most legacy systems
+set(PIONEER_GL_LINK_TARGET OpenGL::GL)
+
+# If GLVND is available, the OpenGL::OpenGL target will be registered and we should prefer that
+# (it may be the only OpenGL target available on certain systems)
+if (TARGET OpenGL::OpenGL)
+	set(PIONEER_GL_LINK_TARGET OpenGL::OpenGL)
+endif()
+
 list(APPEND pioneerLibs
 	pioneer-core
 	pioneer-lib
 	pioneer-lua
 	${ASSIMP_LIBRARIES}
 	${FREETYPE_LIBRARIES}
-	OpenGL::GL
+	${PIONEER_GL_LINK_TARGET}
 	${SDL2_LIBRARIES}
 	${SDL2_IMAGE_LIBRARIES}
 	${SIGCPP_LIBRARIES}

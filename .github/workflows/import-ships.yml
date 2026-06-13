@@ -21,7 +21,7 @@ jobs:
 
     steps:
     # Setup the runtime environment
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: Setup dependencies
       working-directory: scripts/notion-import
       run: |
