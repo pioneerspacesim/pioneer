@@ -201,7 +201,7 @@
   },
   "DIGESTERS": {
     "description": "custom cargo",
-    "message": "дигестори"
+    "message": "ферментатори"
   },
   "DISTANCE": {
     "description": "distance in space, between two locations",
@@ -265,7 +265,7 @@
   },
   "GO_BACK": {
     "description": "Shown on a button in a sub-menu, to move back, to previous menu",
-    "message": "Добре, разбрах."
+    "message": "Назад."
   },
   "GREENHOUSES": {
     "description": "custom cargo",
@@ -381,7 +381,7 @@
   },
   "INTROTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Здравейте, името ми е {name}, аз съм търговец на едро в системата {system}. Ще Ви платя {cash} за разнос до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
+    "message": "Здравейте, името ми е {name}, аз съм търговец на едро в системата {system}. Ще платя {cash} за разнос до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
   },
   "INTROTEXT_WHOLESALER_2": {
     "description": "",
@@ -585,7 +585,7 @@
   },
   "SUCCESSMSG_1": {
     "description": "",
-    "message": "Благодаря за доставката. Получихте възнаграждението си."
+    "message": "Благодаря за доставката. Получихте договорената сума."
   },
   "SUCCESSMSG_2": {
     "description": "",
@@ -593,15 +593,15 @@
   },
   "SUCCESSMSG_3": {
     "description": "",
-    "message": "Отлично, за мен беше удоволствие да работя с Вас. Разходите са за моя сметка."
+    "message": "Отлично, за мен беше удоволствие да работим заедно. Разходите са за моя сметка."
   },
   "SUCCESSMSG_4": {
     "description": "",
-    "message": "Благодаря! Ще Ви препоръчам. Преведох кредитите по Вашата сметка."
+    "message": "Благодаря! Ще Ви препоръчам. Кредитите са преведени по Вашата сметка."
   },
   "SUCCESSMSG_FLUFFY_1": {
     "description": "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",
-    "message": "Ох, какво да правя с толкова много пухкави същества. Така или иначе, кредитите са Ви изплатени."
+    "message": "Ох, какво да правя с толкова много пухкави същества. Така или иначе, кредитите са изплатени."
   },
   "SYSTEM": {
     "description": "",
