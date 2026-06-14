@@ -1,13 +1,40 @@
+June
+  * New Features
+    * Avast! Be ye knowin' of the Smuggler's Hold? (#6353)
+    * Save and recover Comms log (#6361)
+
+  * Fixes
+    * Advice module rewording (#6351)
+    * Font padding for umlaut in (#6358)
+    * Fix Kanara translation tokens (#6355)
+    * Make Cargo names upper case (#6357)
+    * Limit the number of messages on the saved Comms log (#6364)
+    * Round off new commodity stock on news event (#6365)
+
+  * Internal
+    * Update CMake and CI build files (#6359)
+    * Remove unused "set as target" strings (#6363)
+    * clang-format: Add SpaceBeforeCpp11BracedList: true (#6362)
+
 May
   * New Features
     * Clarifying fuel pump directions (#6339)
     * Add custom "Load cargo" button to cargo pickup missions (#6340)
+    * Render instanced models using per-frame scratch buffer (#6348)
+    * UI / HUD tweak: Shorten Hyercloud text (#6333)
+    * UI: Info box in sector map auto-opens (#6333)
+    * Pause sound when game is paused (#6333)
 
   * Fixes
     * Fix placeAdvert error in Scoop.lua (#6335)
     * Make thruster visual more consistent (#6342)
     * Fix typo in MISSILE_NAVAL_FLAVOURTEXT: personel -> personnel (#6337)
     * Make giant stars circular in system overview (#6341)
+    * Add string for missing hypercloud analyzer message (#6328)
+    * Balance number of combat and scout missions (#6310)
+    * Fixing missing material transparencies (#6347)
+    * Fix no frame of reference in binary star systems (#6329)
+    * Fix buildings rendered incorrectly / in the sky, and/or crash to desktop (#6348)
 
 April
   * New Features
