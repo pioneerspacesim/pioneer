@@ -37,8 +37,18 @@ Event.Register('onGameEnd', function()
 end)
 
 local function _serialize()
+	local length_comms_log = 200	-- Max number of Comms log messages saved
+	local comms_log_lines = {}
+	if #Game.comms_log_lines > length_comms_log then
+		for i = 1, length_comms_log do
+			comms_log_lines[i] = Game.comms_log_lines[#Game.comms_log_lines - length_comms_log + i]
+		end
+	else
+		comms_log_lines = Game.comms_log_lines
+	end
+
 	return { startTime = gameStartTime,
-			comms_log_lines = Game.comms_log_lines }
+			comms_log_lines = comms_log_lines }
 end
 
 local function _deserialize(data)
