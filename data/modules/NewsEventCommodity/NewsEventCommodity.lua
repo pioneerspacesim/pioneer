@@ -377,7 +377,7 @@ local onPlayerDocked = function (ship, station)
 
 			-- Blend from absolutely no stock to normal stock levels for this demand as the event goes on
 			if newDemand > 0 then
-				newStock = newStock * (1.0 - progress)^2
+				newStock = math.ceil(newStock * (1.0 - progress)^2)
 			end
 
 			-- print("--- NewsEvent old:", cargo_item:GetName(), "price:", price, "stock:", stock, "demand:", demand)
