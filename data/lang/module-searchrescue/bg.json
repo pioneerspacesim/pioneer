@@ -81,7 +81,7 @@
   },
   "ENTITY_GENERAL_1": {
     "description": "",
-    "message": "Златотърсачи {locality} АД"
+    "message": "Златотърсачите от {locality} АД"
   },
   "ENTITY_GENERAL_10": {
     "description": "",
@@ -89,7 +89,7 @@
   },
   "ENTITY_GENERAL_2": {
     "description": "",
-    "message": " Общество за екологично опазване {locality}"
+    "message": " Общество за екологично опазване от {locality}"
   },
   "ENTITY_GENERAL_3": {
     "description": "",
@@ -97,15 +97,15 @@
   },
   "ENTITY_GENERAL_4": {
     "description": "",
-    "message": "Служба за правата на минното дело {locality}"
+    "message": "Служба за правата на минното дело от {locality}"
   },
   "ENTITY_GENERAL_5": {
     "description": "",
-    "message": "Земевладелска асоциация {locality}"
+    "message": "Земевладелска асоциация от {locality}"
   },
   "ENTITY_GENERAL_6": {
     "description": "",
-    "message": "Статистически институт {locality}"
+    "message": "Статистически институт от {locality}"
   },
   "ENTITY_GENERAL_7": {
     "description": "",
@@ -121,7 +121,7 @@
   },
   "ENTITY_RESEARCH_1": {
     "description": "",
-    "message": "Общество на биолозите {locality}"
+    "message": "Общество на биолозите от {locality}"
   },
   "ENTITY_RESEARCH_10": {
     "description": "",
@@ -129,31 +129,31 @@
   },
   "ENTITY_RESEARCH_2": {
     "description": "",
-    "message": "Общество на микробиолозите {locality}"
+    "message": "Общество на микробиолозите от {locality}"
   },
   "ENTITY_RESEARCH_3": {
     "description": "",
-    "message": "Общество на химиците {locality}"
+    "message": "Общество на химиците от {locality}"
   },
   "ENTITY_RESEARCH_4": {
     "description": "",
-    "message": "Общество на астробиолозите {locality}"
+    "message": "Общество на астробиолозите от {locality}"
   },
   "ENTITY_RESEARCH_5": {
     "description": "",
-    "message": "Общество на геолозите {locality}"
+    "message": "Общество на геолозите от {locality}"
   },
   "ENTITY_RESEARCH_6": {
     "description": "",
-    "message": "Общество на астропланетолозите {locality}"
+    "message": "Общество на астропланетолозите от {locality}"
   },
   "ENTITY_RESEARCH_7": {
     "description": "",
-    "message": "Изследователски център на астрофизиците {locality}"
+    "message": "Изследователски център на астрофизиците от {locality}"
   },
   "ENTITY_RESEARCH_8": {
     "description": "",
-    "message": "Изследователски център на астрохимиците {locality}"
+    "message": "Изследователски център на астрохимиците от {locality}"
   },
   "ENTITY_RESEARCH_9": {
     "description": "",
@@ -177,11 +177,11 @@
   },
   "FLAVOUR_1_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "За пълно възстановяване на сумата, трябва да се върнете преди {due}."
+    "message": "За пълно възстановяване на сумата трябва да се върнете преди {due}."
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "{ship_indef} is translated in /data/lang/ships/",
-    "message": "Диспечерите от {starport} се нуждаят от спешна помощ, във връзка с {ship_indef}, който се е разбил на {planet}. Не е ясно дали има оцелели от катастрофата. Корабът е застрахован от космодрума {starport} за сумата от {cash} при спешни ситуации."
+    "message": "Диспечерите от {starport} се нуждаят от спешна помощ във връзка с {ship_indef}, който се е разбил на {planet}. Не е ясно дали има оцелели от катастрофата. Корабът е застрахован от космодрума {starport} за сумата от {cash} при спешни ситуации."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
@@ -225,7 +225,7 @@
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
-    "message": "Много благодаря! Преведох пълното възнаграждение по Вашата сметка."
+    "message": "Много благодаря! Преведох пълното възнаграждение във Вашата сметка."
   },
   "FLAVOUR_2_TRANSFERMSG": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Необходима е спешна медицинска помощ на кораб, в близост до {starport}."
+    "message": "Необходима е спешна медицинска помощ на кораб в близост до {starport}."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
@@ -297,7 +297,7 @@
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "Много добре. Ще Ви препоръчаме за бъдещите задачи."
+    "message": "Много добре. Ще Ви препоръчаме за в бъдеще."
   },
   "FLAVOUR_4_TRANSFERMSG": {
     "description": "",
@@ -309,7 +309,7 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Кораб е останал без гориво, в близост до {starport}."
+    "message": "Кораб е останал без гориво в близост до {starport}."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
@@ -325,11 +325,11 @@
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "Диспечерите от {starport} идентифицираха кораб без гориво с номер {shiplabel}, в близост до {starport}. Ще бъдат изплатени {cash} на всеки, който може да презареди кораба."
+    "message": "Диспечерите от {starport} идентифицираха кораб без гориво с номер {shiplabel} в близост до {starport}. Ще бъдат изплатени {cash} на всеки, който може да презареди кораба."
   },
   "FLAVOUR_5_LOCATIONTEXT": {
     "description": "",
-    "message": "В момента, целевият кораб, е на {dist} км. от тук. Трябва да откриете точното му местоположение."
+    "message": "В момента, целевият кораб е на {dist} км. оттук. Трябва да откриете точното му местоположение."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
@@ -369,7 +369,7 @@
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
-    "message": "Благодарим! Не можете да си представите какво облекчение изпитваме."
+    "message": "Благодарим! Не може да си представите какво облекчение изпитваме."
   },
   "FLAVOUR_6_TRANSFERMSG": {
     "description": "",
@@ -541,19 +541,19 @@
   },
   "PROBLEM_CREW_2": {
     "description": "",
-    "message": "членовете на екипажа е трябвало да изгонят смъртоносна {locality} змия от кораба си"
+    "message": "членовете на екипажа е трябвало да изгонят смъртоносна змия от {locality} от кораба си"
   },
   "PROBLEM_CREW_3": {
     "description": "",
-    "message": "{locality} паяк е убил всички останали"
+    "message": "паяк от {locality} е убил всички останали"
   },
   "PROBLEM_CREW_4": {
     "description": "",
-    "message": "някакъв {locality} скорпион е влязъл в жилищната част на екипажа през нощта"
+    "message": "някакъв скорпион от {locality} е влязъл в жилищната част на екипажа през нощта"
   },
   "PROBLEM_CREW_5": {
     "description": "",
-    "message": "тежка форма на {locality} треска е убила останалите"
+    "message": "тежка форма на треска от {locality} е убила останалите"
   },
   "PROBLEM_CREW_6": {
     "description": "",

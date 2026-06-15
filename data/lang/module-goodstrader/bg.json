@@ -17,15 +17,15 @@
   },
   "GOODS_TRADER_0": {
     "description": "",
-    "message": "Търговски център {name}"
+    "message": "Търговски център на {name}"
   },
   "GOODS_TRADER_1": {
     "description": "",
-    "message": "Търговска кантора {name}"
+    "message": "Търговска кантора на {name}"
   },
   "GOODS_TRADER_2": {
     "description": "",
-    "message": "Склад {name}"
+    "message": "Склад на {name}"
   },
   "GOODS_TRADER_3": {
     "description": "",

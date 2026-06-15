@@ -589,7 +589,7 @@
   },
   "SUCCESSMSG_2": {
     "description": "",
-    "message": "Благодаря за бързата доставка. Кредитите са преведени по Вашата сметка."
+    "message": "Благодаря за бързата доставка. Кредитите са преведени във Вашата сметка."
   },
   "SUCCESSMSG_3": {
     "description": "",
@@ -597,7 +597,7 @@
   },
   "SUCCESSMSG_4": {
     "description": "",
-    "message": "Благодаря! Ще Ви препоръчам. Кредитите са преведени по Вашата сметка."
+    "message": "Благодаря! Ще Ви препоръчам. Кредитите са преведени във Вашата сметка."
   },
   "SUCCESSMSG_FLUFFY_1": {
     "description": "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",

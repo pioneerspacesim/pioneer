@@ -81,7 +81,7 @@
   },
   "FAILURE_MSG_RESCUE": {
     "description": "",
-    "message": "Вашата ненадеждност причини големи вреди. Изчезвайте от тук!"
+    "message": "Вашата ненадеждност причини големи вреди. Изчезвайте оттук!"
   },
   "HOW_MUCH_TIME": {
     "description": "",
@@ -97,7 +97,7 @@
   },
   "HOW_MUCH_TIME_LEGAL_GOODS": {
     "description": "",
-    "message": "Не знам. Ако бях на Вашето място, няма да се бавя!"
+    "message": "Не знам. Ако бях на Ваше място, няма да се бавя!"
   },
   "HOW_MUCH_TIME_RESCUE": {
     "description": "",
@@ -165,7 +165,7 @@
   },
   "SUCCESS_MSG_ARMS_DEALER": {
     "description": "",
-    "message": "Ето това е пилот! Кредитите са преведени по Вашата сметка."
+    "message": "Ето това е пилот! Кредитите са преведени във Вашата сметка."
   },
   "SUCCESS_MSG_RESCUE": {
     "description": "",

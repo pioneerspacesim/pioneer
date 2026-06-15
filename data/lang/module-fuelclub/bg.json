@@ -5,7 +5,7 @@
   },
   "BEGIN_TRADE": {
     "description": "",
-    "message": "Започване търговия"
+    "message": "Започване на търговия"
   },
   "FLAVOUR_0_CLUBNAME": {
     "description": "",
@@ -41,7 +41,7 @@
   },
   "FLAVOUR_1_NONMEMBER_INTRO": {
     "description": "For the Solar Federation faction",
-    "message": "{clubname} е лидер в осигуряването на евтино гориво за нейните членове в Слънчевата федерация. Членството Ви дава право на:"
+    "message": "{clubname} е лидер в осигуряването на евтино гориво за нейните членове в Слънчевата федерация. Членството дава право на:"
   },
   "FLAVOUR_1_TITLE": {
     "description": "Title of the BBS advertisement",
@@ -89,7 +89,7 @@
   },
   "FUEL_LEVEL": {
     "description": "",
-    "message": "Резервоарът на Вашия кораб е пълен на {level} %."
+    "message": "Резервоарът на Вашия кораб е пълен на {level}%."
   },
   "LIST_BENEFITS_DISPOSAL": {
     "description": "",

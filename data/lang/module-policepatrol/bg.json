@@ -69,7 +69,7 @@
   },
   "INITIATE_CARGO_SCAN_1": {
     "description": "",
-    "message": "Започнато сканиране на товара."
+    "message": "Започване на сканиране на товара."
   },
   "INITIATE_CARGO_SCAN_2": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "INITIATE_CARGO_SCAN_3": {
     "description": "",
-    "message": "Започнато претърсване за контрабанда."
+    "message": "Започване на претърсване за контрабанда."
   },
   "NOTHING_DETECTED": {
     "description": "",

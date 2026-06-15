@@ -21,7 +21,7 @@
   },
   "FLAVOUR_0_NEWSBODY": {
     "description": "Imply high demand for MEDICINE commodity.",
-    "message": "Епидемията отнема животи в системата {system} ({sectorx}, {sectory}, {sectorz}). Властите настояват за медицинска помощ."
+    "message": "Епидемия отнема животи в системата {system} ({sectorx}, {sectory}, {sectorz}). Властите настояват за медицинска помощ."
   },
   "FLAVOUR_10_HEADLINE": {
     "description": "",
