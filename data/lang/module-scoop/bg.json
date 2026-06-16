@@ -143,10 +143,6 @@
     "description": "Name of mission type",
     "message": "Товарач"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Задаване за навигационна цел"
-  },
   "SHIP": {
     "description": "",
     "message": "Кораб:"

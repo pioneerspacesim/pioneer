@@ -359,10 +359,6 @@
     "description": "",
     "message": "Você pagará por aquela carga com a sua vida."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Definir como destino de navegação"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Base de Lançamento:"

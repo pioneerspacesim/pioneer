@@ -687,14 +687,6 @@
     "description": "",
     "message": "Busca & Resgate"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Definir como destino de navegação"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Definir rota de retorno"
-  },
   "SHIP_UNRESPONSIVE": {
     "description": "",
     "message": "Nave alvo não responde."

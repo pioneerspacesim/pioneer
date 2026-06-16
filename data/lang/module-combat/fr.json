@@ -351,10 +351,6 @@
     "description": "",
     "message": "L'ennemi est très bien équipé et a accès aux dernières technologies. Soyez prudent!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Définir comme cible de navigation"
-  },
   "SUCCESSMSG_1": {
     "description": "",
     "message": "Je savais que vous étiez la bonne personne pour cette mission. Voici votre paiement."

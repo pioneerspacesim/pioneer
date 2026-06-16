@@ -359,10 +359,6 @@
     "description": "",
     "message": "Du kommer att få betala för den lasten med ditt liv."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Använd destination som navigationsmål"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Rymdstation:"

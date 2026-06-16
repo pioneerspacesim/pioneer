@@ -443,14 +443,6 @@
     "description": "",
     "message": "О, да, наистина. {wanted} е маниак. Трябва да сте подготвени за всичко!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Задаване за навигационна цел"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Задаване на маршрут за връщане"
-  },
   "SHIP": {
     "description": "",
     "message": "Кораб:"

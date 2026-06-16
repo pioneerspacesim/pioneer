@@ -443,14 +443,6 @@
     "description": "",
     "message": "Sicuaramente. {wanted} è un pazzo. Meglio preparasi a tutto!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Imposta come destinazione di navigazione"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Imposta rotta di ritorno"
-  },
   "SHIP": {
     "description": "",
     "message": "Astronave:"

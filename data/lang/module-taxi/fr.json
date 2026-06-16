@@ -611,10 +611,6 @@
     "description": "",
     "message": "Vous n'êtes pas prêt de vous arrimer aujourd'hui!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Définir comme cible de navigation."
-  },
   "TAXI": {
     "description": "",
     "message": "Taxi"

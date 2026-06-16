@@ -351,10 +351,6 @@
     "description": "",
     "message": "The enemy is very well equipped and has access to the latest technology. Be careful!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Socraigh mar sprioc loingseoireachta"
-  },
   "SUCCESSMSG_1": {
     "description": "",
     "message": "I knew you were the right person for such a mission. Here is your payment."

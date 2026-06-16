@@ -1169,7 +1169,7 @@
   },
   "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR": {
     "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object, because it's too far.",
-    "message": "{targetname}: Следването на ориентацията не е възможно – целта е твърде далече."
+    "message": "{targetname}: Следването на ориентацията не е възможно – целта е твърде далеч."
   },
   "HUD_FOLLOW_POSITION": {
     "description": "Tooltip for follow mode 'position' button",
@@ -1181,7 +1181,7 @@
   },
   "HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR": {
     "description": "Tooltip for follow mode 'position' button, when it's not available for the current object, because it's too far.",
-    "message": "{targetname}: Следването на позицията не е възможно – целта е твърде далече."
+    "message": "{targetname}: Следването на позицията не е възможно – целта е твърде далеч."
   },
   "HUD_FOLLOW_TARGET": {
     "description": "Tooltip for followed target's name in reticule",
@@ -1297,15 +1297,15 @@
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
-    "message": "Скоростта на приближаване към отправната система"
+    "message": "Скорост на приближаване към отправната система"
   },
   "HUD_SPEED_OF_APPROACH_TO_TARGET": {
     "description": "Tooltip: The speed of approach relative to target.",
-    "message": "Скорост на приближаване, спрямо целта"
+    "message": "Скорост на приближаване спрямо целта"
   },
   "HUD_SPEED_RELATIVE_TO_TARGET": {
     "description": "Tooltip: The speed relative to the target.",
-    "message": "Скорост, спрямо целта"
+    "message": "Скорост спрямо целта"
   },
   "HUD_THRUST_INDICATOR": {
     "description": "Tooltip: describe what the thrust/velocity indicator shows",
@@ -1957,7 +1957,7 @@
   },
   "PAINTSHOP_WELCOME_2": {
     "description": "Welcome message to the paintshop.",
-    "message": "При нас, Вашият кораб няма да стане по-бърз, но ще стане по-красив!"
+    "message": "При нас Вашият кораб няма да стане по-бърз, но ще стане по-красив!"
   },
   "PAINTSHOP_WELCOME_3": {
     "description": "Welcome message to the paintshop.",
@@ -2181,7 +2181,7 @@
   },
   "REMOVE_WHEN_COMPLETED": {
     "description": "For UI hyperjump planner, referring to jump target system",
-    "message": "Премахване на хиперскока, след завършването му"
+    "message": "Премахване на хиперскока след завършването му"
   },
   "REPAIR_X_HULL_DAMAGE_FOR_X": {
     "description": "",
@@ -2861,7 +2861,7 @@
   },
   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD": {
     "description": "",
-    "message": "Имате {units} единици във Вашето товарно отделение"
+    "message": "Имате {units} единици в товарното отделение"
   },
   "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER": {
     "description": "",

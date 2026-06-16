@@ -611,10 +611,6 @@
     "description": "",
     "message": "Je gaat vandaag niet vastleggen!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Stel in als navigatiedoel"
-  },
   "TAXI": {
     "description": "",
     "message": "Taxi"

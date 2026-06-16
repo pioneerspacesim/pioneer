@@ -443,14 +443,6 @@
     "description": "",
     "message": "Ah, tabiki. {wanted} manyaktır. Her şey için hazırlıklı olmalısınız."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Navigasyon hedefi olarak seç"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Dönüş rotasını seç"
-  },
   "SHIP": {
     "description": "",
     "message": "Gemi:"

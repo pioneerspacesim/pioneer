@@ -219,14 +219,6 @@
     "description": "",
     "message": "Vratite se ovdje nakon završetka ugovora i bit ćete plaćeni."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Postavi kao cilj navigacije"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Postavi povratnu rutu"
-  },
   "SHIP": {
     "description": "",
     "message": "Brod:"

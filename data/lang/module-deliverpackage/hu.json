@@ -359,10 +359,6 @@
     "description": "",
     "message": "Ezért a csomagért megfizetsz, méghozzá az életeddel."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Navigációs célnak beállít."
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Kikötő:"

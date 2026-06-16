@@ -563,14 +563,6 @@
     "description": "custom cargo",
     "message": "semi-finished products"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Socraigh mar sprioc loingseoireachta"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Socraigh an turas fillte"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Spásphort:"

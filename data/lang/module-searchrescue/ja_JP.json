@@ -687,14 +687,6 @@
     "description": "",
     "message": "Search & Rescue"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "ナビゲーションターゲットとして設定"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "帰路を設定"
-  },
   "SHIP_UNRESPONSIVE": {
     "description": "",
     "message": "Target ship unresponsive."

@@ -687,14 +687,6 @@
     "description": "",
     "message": "Поиск и Спасение"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Установить как цель для навигации"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Задать маршрут возвращения"
-  },
   "SHIP_UNRESPONSIVE": {
     "description": "",
     "message": "Целевой корабль не отвечает."

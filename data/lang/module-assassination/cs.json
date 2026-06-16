@@ -219,14 +219,6 @@
     "description": "",
     "message": "Po splnění úkolu se sem vrať a dostaneš zaplaceno."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Nastavit jako cíl navigace"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Nastavit zpáteční trasu"
-  },
   "SHIP": {
     "description": "",
     "message": "Loď:"

@@ -443,14 +443,6 @@
     "description": "",
     "message": "O tak, w istocie. {wanted} to maniak. Bądź gotów na wszystko!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Ustaw jako cel nawigacyjny."
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Ustaw trasę powrotną"
-  },
   "SHIP": {
     "description": "",
     "message": "Statek:"

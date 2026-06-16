@@ -563,14 +563,6 @@
     "description": "custom cargo",
     "message": "semi-finished products"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "设置为导航目标"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "设置返程航线"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "星港:"

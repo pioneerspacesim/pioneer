@@ -687,14 +687,6 @@
     "description": "",
     "message": "搜救任务"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "设置为导航目标"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "设置返程航线"
-  },
   "SHIP_UNRESPONSIVE": {
     "description": "",
     "message": "目标船没有反应。"

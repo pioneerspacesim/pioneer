@@ -611,10 +611,6 @@
     "description": "",
     "message": "Δεν πρόκειται να πλευρίσεις σήμερα!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Θέσε ως στόχο πλοήγησης."
-  },
   "TAXI": {
     "description": "",
     "message": "Ταξί"

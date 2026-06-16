@@ -143,10 +143,6 @@
     "description": "Name of mission type",
     "message": "مغرفة بضائع"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "ضعها كوجهة للملاحة"
-  },
   "SHIP": {
     "description": "",
     "message": "Ship:"

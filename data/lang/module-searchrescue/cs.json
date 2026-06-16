@@ -687,14 +687,6 @@
     "description": "",
     "message": "Najít a zachránit"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Nastavit jako cíl navigace"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Nastavit zpáteční trasu"
-  },
   "SHIP_UNRESPONSIVE": {
     "description": "",
     "message": "Cílová loď nereaguje."

@@ -359,10 +359,6 @@
     "description": "",
     "message": "Ще платите за този товар с живота си."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Задаване за навигационна цел"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Космодрум:"

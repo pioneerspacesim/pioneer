@@ -351,10 +351,6 @@
     "description": "",
     "message": "Neprijatelj je vrlo dobro opremljen i ima pristup najnovijoj tehnologiji. Budite oprezni!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Postavi kao cilj navigacije"
-  },
   "SUCCESSMSG_1": {
     "description": "",
     "message": "Znao sam da si prava osoba za takvu misiju. Evo tvoje uplate."

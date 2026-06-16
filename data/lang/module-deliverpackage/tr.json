@@ -359,10 +359,6 @@
     "description": "",
     "message": "O kargo için ödeme yapacaksın, hayatınla!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Navigasyon hedefi olarak seç"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Yıldız Limanı:"

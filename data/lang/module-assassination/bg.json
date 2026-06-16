@@ -219,14 +219,6 @@
     "description": "",
     "message": "Върнете се тук след приключването на мисията и ще Ви бъде платено."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Задаване за навигационна цел"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Задаване на маршрут за връщане"
-  },
   "SHIP": {
     "description": "",
     "message": "Кораб:"

@@ -359,10 +359,6 @@
     "description": "",
     "message": "跟那货物一起去死吧."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "设置为导航目标"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "星港:"

@@ -359,10 +359,6 @@
     "description": "",
     "message": "Za ten náklad zaplatíš, svým životem!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Nastavit jako cíl navigace"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Stanice:"

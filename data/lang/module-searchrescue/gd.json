@@ -687,14 +687,6 @@
     "description": "",
     "message": "Lorg ⁊ teasairginn"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Cuir ceann-uidhe na seòladaireachd air"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Suidhich cùrsa tillidh"
-  },
   "SHIP_UNRESPONSIVE": {
     "description": "",
     "message": "Chan eil an soitheach-amais a’ freagairt."

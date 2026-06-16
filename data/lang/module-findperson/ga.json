@@ -443,14 +443,6 @@
     "description": "",
     "message": "Oh yes indeed. {wanted} is a maniac. You should be prepared for everything!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Socraigh mar sprioc loingseoireachta"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Set return route"
-  },
   "SHIP": {
     "description": "",
     "message": "Long:"

@@ -687,14 +687,6 @@
     "description": "",
     "message": "Zoeken & Redden"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Stel in als navigatiedoel"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Stel route terugweg in"
-  },
   "SHIP_UNRESPONSIVE": {
     "description": "",
     "message": "Schip in kwestie reageert niet"

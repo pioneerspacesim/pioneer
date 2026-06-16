@@ -611,10 +611,6 @@
     "description": "",
     "message": "Ma már nem fogsz sehol dokkolni!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Navigációs célnak beállít."
-  },
   "TAXI": {
     "description": "",
     "message": "Taxi"

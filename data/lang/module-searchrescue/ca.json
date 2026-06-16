@@ -687,14 +687,6 @@
     "description": "",
     "message": "Search & Rescue"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Establir com objectiu de navegació"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Establir ruta de retorn"
-  },
   "SHIP_UNRESPONSIVE": {
     "description": "",
     "message": "Target ship unresponsive."

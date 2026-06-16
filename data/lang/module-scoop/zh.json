@@ -143,10 +143,6 @@
     "description": "Name of mission type",
     "message": "收集器槽位数"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "设置为导航目标"
-  },
   "SHIP": {
     "description": "",
     "message": "飞船:"

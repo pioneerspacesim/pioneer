@@ -351,10 +351,6 @@
     "description": "",
     "message": "敌人装备精良，掌握了最新的技术。小心！"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "设置为导航目标"
-  },
   "SUCCESSMSG_1": {
     "description": "",
     "message": "我知道你是完成这项任务的合适人选。这是您的报酬。"

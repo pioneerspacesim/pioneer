@@ -563,14 +563,6 @@
     "description": "custom cargo",
     "message": "półprodukty"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Ustaw jako cel nawigacyjny."
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Ustaw drogę powrotną."
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Port kosmiczny:"

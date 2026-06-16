@@ -351,10 +351,6 @@
     "description": "",
     "message": "El enemigo está muy bien equipado y tiene acceso a la última tecnología. ¡Vaya con cuidado!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Establecer como objetivo de navegación"
-  },
   "SUCCESSMSG_1": {
     "description": "",
     "message": "Sabía que eras la persona correcta para esta misión. Aquí está tu paga."

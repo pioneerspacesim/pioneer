@@ -143,10 +143,6 @@
     "description": "Name of mission type",
     "message": "Colector"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Selectați ca țintă navigare"
-  },
   "SHIP": {
     "description": "",
     "message": "Navă:"

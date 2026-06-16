@@ -443,14 +443,6 @@
     "description": "",
     "message": "Ja, verkligen. {wanted} är en galning. Förvänta dig vad som helst!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Använd destination som navigationsmål"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Ställ in returmål"
-  },
   "SHIP": {
     "description": "",
     "message": "Skepp:"

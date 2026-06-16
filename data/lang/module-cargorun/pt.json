@@ -563,14 +563,6 @@
     "description": "custom cargo",
     "message": "semi-finished products"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Definir como destino de navegação"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Definir rota de retorno"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Porto espacial:"

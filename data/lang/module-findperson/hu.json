@@ -443,14 +443,6 @@
     "description": "",
     "message": "Ó, valóban. {wanted} mániákus. Készüljön, hogy bármi megtörténhet!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Navigációs célnak beállít."
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Visszatérő útvonal beállítása"
-  },
   "SHIP": {
     "description": "",
     "message": "Hajó:"

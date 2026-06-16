@@ -143,10 +143,6 @@
     "description": "Name of mission type",
     "message": "Scoop"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Set as navigation target"
-  },
   "SHIP": {
     "description": "",
     "message": "Skib:"

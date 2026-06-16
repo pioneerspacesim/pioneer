@@ -611,10 +611,6 @@
     "description": "",
     "message": "你今天到不了!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "设置为导航目标"
-  },
   "TAXI": {
     "description": "",
     "message": "的士"

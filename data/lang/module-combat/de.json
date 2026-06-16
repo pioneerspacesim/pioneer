@@ -351,10 +351,6 @@
     "description": "",
     "message": "Der Feind ist sehr gut ausgerüstet und hat Zugang zur neuesten Technologie. Vorsicht ist geboten!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Als Navigationsziel setzen"
-  },
   "SUCCESSMSG_1": {
     "description": "",
     "message": "Ich wusste, dass Sie die richtige Person für solch eine Mission sind. Hier ist Ihre Bezahlung."

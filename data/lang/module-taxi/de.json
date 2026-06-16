@@ -611,10 +611,6 @@
     "description": "",
     "message": "Du wirst heute nicht mehr andocken!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Als Navigationsziel setzen"
-  },
   "TAXI": {
     "description": "",
     "message": "Taxi"

@@ -351,10 +351,6 @@
     "description": "",
     "message": "Il nemico è molto ben equipaggiato ed ha accesso alle ultime tecnologie. Sii prudente!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Imposta come destinazione di navigazione"
-  },
   "SUCCESSMSG_1": {
     "description": "",
     "message": "Sapevo che eri la persona giusta per una missione simile. Ecco la tua paga."

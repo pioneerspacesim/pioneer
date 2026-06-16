@@ -219,14 +219,6 @@
     "description": "",
     "message": "Fill anseo tar éis duit an conradh a chomhlíonadh agus íocfar thú."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Socraigh mar sprioc loingseoireachta"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Socraigh an turas fillte"
-  },
   "SHIP": {
     "description": "",
     "message": "Long:"

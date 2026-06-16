@@ -219,14 +219,6 @@
     "description": "",
     "message": "Вы сможете получить деньги на этой станции после выполнения контракта."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Установить как цель для навигации"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Задать маршрут возвращения"
-  },
   "SHIP": {
     "description": "",
     "message": "Тип корабля:"

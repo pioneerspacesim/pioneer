@@ -563,14 +563,6 @@
     "description": "custom cargo",
     "message": "полуготови продукти"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Задаване за навигационна цел"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Задаване на маршрут за връщане"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Космодрум:"

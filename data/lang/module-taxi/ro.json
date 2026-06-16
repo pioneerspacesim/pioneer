@@ -611,10 +611,6 @@
     "description": "",
     "message": "Nu vei andoca azi!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Selectați ca țintă navigare"
-  },
   "TAXI": {
     "description": "",
     "message": "Taxi"

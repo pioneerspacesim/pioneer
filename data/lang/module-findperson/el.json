@@ -443,14 +443,6 @@
     "description": "",
     "message": "Πράγματι, ο (wanted) είναι ένας μανιακός. Θα πρέπει να είσαι προετοιμασμένος για όλα."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Ορισμός ως προορισμός πλοήγησης."
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Ορισμός διαδρομής επιστροφής."
-  },
   "SHIP": {
     "description": "",
     "message": "Σκάφος:"

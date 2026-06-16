@@ -611,10 +611,6 @@
     "description": "",
     "message": "Oggi non attraccherai!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Imposta come destinazione di navigazione"
-  },
   "TAXI": {
     "description": "",
     "message": "Taxi"

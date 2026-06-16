@@ -143,10 +143,6 @@
     "description": "Name of mission type",
     "message": "Mocowania czerpaków"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Ustaw jako cel nawigacyjny."
-  },
   "SHIP": {
     "description": "",
     "message": "Statek:"

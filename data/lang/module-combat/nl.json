@@ -351,10 +351,6 @@
     "description": "",
     "message": "The enemy is very well equipped and has access to the latest technology. Be careful!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Stel in als navigatiedoel"
-  },
   "SUCCESSMSG_1": {
     "description": "",
     "message": "Ik wist wel dat u de juiste persoon voor zo'n missie zou zijn. Hier is het geld."

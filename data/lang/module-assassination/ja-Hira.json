@@ -219,14 +219,6 @@
     "description": "",
     "message": "契約を完了し、ここに戻って来た時に支払われる。"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "ナビゲーションターゲットとして設定"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "帰路を設定"
-  },
   "SHIP": {
     "description": "",
     "message": "Ship:"

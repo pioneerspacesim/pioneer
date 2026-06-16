@@ -563,14 +563,6 @@
     "description": "custom cargo",
     "message": "félkész termékek"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Navigációs célnak beállít."
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Visszaút"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Kikötő:"

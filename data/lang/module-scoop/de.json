@@ -143,10 +143,6 @@
     "description": "Name of mission type",
     "message": "Schöpfer"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Als Navigationsziel setzen"
-  },
   "SHIP": {
     "description": "",
     "message": "Schiff:"

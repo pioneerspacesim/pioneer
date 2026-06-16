@@ -563,14 +563,6 @@
     "description": "custom cargo",
     "message": "Halbfertige Produkte"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Als Navigationsziel setzen"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Rückkehrroute setzen"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Raumhafen:"
