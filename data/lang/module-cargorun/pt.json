@@ -197,7 +197,7 @@
   },
   "DIAMONDS": {
     "description": "custom cargo",
-    "message": "diamonds"
+    "message": "diamantes"
   },
   "DIGESTERS": {
     "description": "custom cargo",
@@ -233,7 +233,7 @@
   },
   "EXPLOSIVES": {
     "description": "custom cargo",
-    "message": "explosives"
+    "message": "explosivos"
   },
   "EXPLOSIVES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",

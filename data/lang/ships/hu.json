@@ -57,7 +57,7 @@
   },
   "CORONATRIX_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a police model Coronatrix"
+    "message": "egy rendőrségi Coronatrix"
   },
   "DENEB": {
     "description": "ship name - base form",
@@ -97,15 +97,15 @@
   },
   "KANARA_POLICE": {
     "description": "ship name - base form",
-    "message": "Kanara police ship"
+    "message": "Renvédelmi Kanara"
   },
   "KANARA_POLICE_DEF": {
     "description": "ship - definite form",
-    "message": "the Kanara police ship"
+    "message": "A rendvédelmi Kanara"
   },
   "KANARA_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a police model Kanara"
+    "message": "egy rendvédelmi Kanara"
   },
   "LODOS": {
     "description": "ship name - base form",
@@ -217,15 +217,15 @@
   },
   "PUMPKINSEED_POLICE": {
     "description": "ship name - base form",
-    "message": "Rendőrségi Pumpkinseed"
+    "message": "rendőrségi Pumpkinseed"
   },
   "PUMPKINSEED_POLICE_DEF": {
     "description": "ship - definite form",
-    "message": "a Rendőrségi Pumpkinseed"
+    "message": "a rendőrségi Pumpkinseed"
   },
   "PUMPKINSEED_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a police model Pumpkinseed"
+    "message": "rendőrségi Pumpkinseed model"
   },
   "SHIP": {
     "description": "ship name - base form",
@@ -253,15 +253,15 @@
   },
   "SINONATRIX_POLICE": {
     "description": "ship name - base form",
-    "message": "Rendfenntartó Sinonatrix"
+    "message": "rendvédelmi Sinonatrix"
   },
   "SINONATRIX_POLICE_DEF": {
     "description": "ship - definite form",
-    "message": "a Rendfenntartó Sinonatrix"
+    "message": "a rendvédelmi Sinonatrix"
   },
   "SINONATRIX_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "a police model Sinonatrix"
+    "message": "egy rendvédelmi Sinonatrix"
   },
   "SKIPJACK": {
     "description": "ship name - base form",
