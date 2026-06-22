@@ -365,6 +365,32 @@ end
 local function showLanguageOptions()
 	local langs = Lang.GetAvailableLanguages("core")
 
+	local filtered = {}
+	for _, lang in ipairs(langs) do
+		if lang == "en" or lang == Lang.currentLanguage or Lang.GetLanguageCompletionPercent(lang) > 0 then
+			table.insert(filtered, lang)
+		end
+	end
+	langs = filtered
+
+	table.sort(langs, function(a, b)
+		if a == "en" then return true end
+		if b == "en" then return false end
+		return a < b
+	end)
+
+	local function languageLabel(lang)
+		local name = Lang.GetResource("core", lang).LANG_NAME
+		if lang == "en" then
+			return name
+		end
+		local pct = Lang.GetLanguageCompletionPercent(lang)
+		if pct >= 90 then
+			return name
+		end
+		return string.format("%s (%d%%)", name, pct)
+	end
+
 	ui.withFont(pionillium.heading, function()
 		ui.text(lui.LANGUAGE_RESTART_GAME_TO_APPLY .. ":")
 	end)
@@ -372,7 +398,7 @@ local function showLanguageOptions()
 	ui.withFont(pionillium.body, function()
 		ui.child("##LanguageList", Vector2(0, 0), function()
 			for _, lang in ipairs(langs) do
-				if ui.selectable(Lang.GetResource("core",lang).LANG_NAME .. "##" .. lang, Lang.currentLanguage==lang, {}) then
+				if ui.selectable(languageLabel(lang) .. "##" .. lang, Lang.currentLanguage==lang, {}) then
 					Lang.SetCurrentLanguage(lang)
 				end
 			end

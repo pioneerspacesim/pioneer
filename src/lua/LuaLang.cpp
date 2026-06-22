@@ -124,6 +124,15 @@ static int l_lang_get_available_languages(lua_State *l)
 	return 1;
 }
 
+static int l_lang_get_language_completion_percent(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+	const std::string langCode(luaL_checkstring(l, 1));
+	lua_pushinteger(l, Lang::GetLanguageCompletionPercent(langCode));
+	LUA_DEBUG_END(l, 1);
+	return 1;
+}
+
 static int l_lang_set_current_language(lua_State *l)
 {
 	const std::vector<std::string> langs = Lang::Resource::GetAvailableLanguages("core");
@@ -158,6 +167,7 @@ void LuaLang::Register()
 	static const luaL_Reg l_methods[] = {
 		{ "GetResource", l_lang_get_resource },
 		{ "GetAvailableLanguages", l_lang_get_available_languages },
+		{ "GetLanguageCompletionPercent", l_lang_get_language_completion_percent },
 		{ "SetCurrentLanguage", l_lang_set_current_language },
 		{ 0, 0 }
 	};
