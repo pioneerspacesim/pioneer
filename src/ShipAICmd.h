@@ -118,6 +118,7 @@ private:
 class AICmdFlyTo : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
+	virtual bool TimeStepUpdatePlayer();
 	AICmdFlyTo(DynamicBody *dBody, FrameId targframeId, const vector3d &posoff, double endvel, bool tangent);
 	AICmdFlyTo(DynamicBody *dBody, Body *target);
 
