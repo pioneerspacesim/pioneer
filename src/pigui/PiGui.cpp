@@ -396,15 +396,8 @@ void Instance::Init(Graphics::Renderer *renderer)
 	// unused, but that is slated to change very soon.
 	// We will need to fill this with a valid pointer to the OpenGL context.
 	ImGui_ImplSDL2_InitForOpenGL(m_renderer->GetSDLWindow(), NULL);
-	switch (m_renderer->GetRendererType()) {
-	default:
-	case Graphics::RENDERER_DUMMY:
-		Error("RENDERER_DUMMY is not a valid renderer, aborting.");
-		return;
-	case Graphics::RENDERER_OPENGL_3x:
-		m_instanceRenderer->Initialize();
-		break;
-	}
+
+	m_instanceRenderer->Initialize();
 
 	ImGuiIO &io = ImGui::GetIO();
 	// Apply the base style

@@ -183,7 +183,7 @@ void GuiApplication::SetupProfiler(IniConfig *config)
 	SetProfileTrace(profileTraces);
 }
 
-Graphics::Renderer *GuiApplication::StartupRenderer(IniConfig *config, bool hidden, bool resizable)
+Graphics::Renderer *GuiApplication::StartupRenderer(IniConfig *config, Graphics::RendererType rendererType, bool hidden, bool resizable)
 {
 	PROFILE_SCOPED()
 
@@ -198,12 +198,10 @@ Graphics::Renderer *GuiApplication::StartupRenderer(IniConfig *config, bool hidd
 	OutputVersioningInfo();
 
 	// determine what renderer we should use, default to Opengl 3.x
-	const std::string rendererName = config->String("RendererName", Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x));
-	// if we add new renderer types, make sure to update this logic
-	Graphics::RendererType rType = Graphics::RENDERER_OPENGL_3x;
+	const std::string rendererName = config->String("RendererName", Graphics::RendererNameFromType(rendererType));
 
 	Graphics::Settings videoSettings = {};
-	videoSettings.rendererType = rType;
+	videoSettings.rendererType = rendererType;
 	videoSettings.width = config->Int("ScrWidth");
 	videoSettings.height = config->Int("ScrHeight");
 	videoSettings.fullscreen = (config->Int("StartFullscreen") != 0);
