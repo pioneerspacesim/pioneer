@@ -21,6 +21,7 @@ GameConfig::GameConfig(const map_string &override_)
 	map["SfxVolume"] = "0.8";
 	map["EnableJoystick"] = "1";
 	map["InvertMouseY"] = "0";
+	map["noMiddleMouseButton"] = "0";
 	map["FOVVertical"] = "65";
 	map["DisplayNavTunnel"] = "0";
 	map["CompactRadar"] = "1";
