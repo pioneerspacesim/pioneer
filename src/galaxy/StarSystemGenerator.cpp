@@ -26,7 +26,6 @@ static const fixed SAFE_DIST_FROM_BINARY = fixed(5, 1);
 // very crudely
 static const fixed AU_SOL_RADIUS = fixed(305, 65536);
 static const fixed AU_EARTH_RADIUS = fixed(3, 65536); // XXX Duplication from StarSystem.cpp
-static const fixed FIXED_PI = fixed(103993, 33102);	  // XXX Duplication from StarSystem.cpp
 static const double CELSIUS = 273.15;
 static const fixed ONEEUMASS = fixed::FromDouble(1);
 static const fixed TWOHUNDREDEUMASSES = fixed::FromDouble(200.0);
@@ -385,8 +384,9 @@ fixedf<48> StarSystemLegacyGeneratorBase::CalcHillRadius(SystemBody *sbody) cons
 		fixedp a = sbody->GetSemiMajorAxisAsFixed();
 		fixedp e = sbody->GetEccentricityAsFixed();
 		fixedp pe = a * (fixedp(1, 1) - e); // periapsis in higher precision
+		fixedp mass_ratio = sbody->GetMassAsFixed() / (fixed(3, 1) * mprimary);
 
-		return pe * fixedp::CubeRootOf(sbody->GetMassAsFixed() / (fixed(3, 1) * mprimary));
+		return pe * fixedp::CubeRootOf(mass_ratio);
 
 		//fixed hr = semiMajorAxis*(fixed(1,1) - eccentricity) *
 		//  fixedcuberoot(mass / (3*mprimary));
@@ -977,7 +977,6 @@ fixed StarSystemRandomGenerator::CalcBodySatelliteShellDensity(Random &rand, Sys
 		// gameplay purposes instead of fully representing reality
 		fixedf<48> hillSphereRad = CalcHillRadius(primary) * fixedf<48>(1, 4);
 		discMax = std::min(discMax, fixed(hillSphereRad));
-
 		return get_disc_density(primary, discMin, discMax, fixed(1, 500));
 	}
 }
@@ -1130,6 +1129,9 @@ SystemBody *StarSystemRandomGenerator::MakeBodyInOrbitSlice(Random &rand, StarSy
 
 	mass *= discDensity;
 
+	if (mass == fixed(0, 1))
+		return nullptr;	// We used our best math, but this body just turned out too small, sorry.
+
 	if (mass.v < 0) { // hack around overflow
 		Output("WARNING: planetary mass has overflowed! (child %d of %s)\n", primary->GetNumChildren(), primary->GetName().c_str());
 		mass = fixed(Sint64(0x7fFFffFFffFFffFFull));
@@ -1146,19 +1148,19 @@ SystemBody *StarSystemRandomGenerator::MakeBodyInOrbitSlice(Random &rand, StarSy
 	planet->m_rotationPeriod = fixed(rand.Int32(1, 200), 24);
 
 	// longitude of ascending node
-	planet->m_orbitalOffset = rand.Fixed() * 2 * FIXED_PI;
+	planet->m_orbitalOffset = rand.Fixed() * 2 * fixed::PI;
 	// inclination in the hemisphere above the equator, low probability of high-inclination orbits
 	fixed incl_scale = rand.Fixed() * fixed(666, 1000);
-	planet->m_inclination = rand.NormFixed().Abs() * incl_scale * FIXED_PI * fixed(1, 2);
+	planet->m_inclination = rand.NormFixed().Abs() * incl_scale * fixed::PI * fixed(1, 2);
 	// argument of periapsis, interval -PI .. PI
-	planet->m_argOfPeriapsis = rand.NormFixed() * FIXED_PI;
+	planet->m_argOfPeriapsis = rand.NormFixed() * fixed::PI;
 
 	// rare chance of reversed orbit
 	if (rand.Fixed() < fixed(1, 20))
-		planet->m_inclination = FIXED_PI - planet->m_inclination;
+		planet->m_inclination = fixed::PI - planet->m_inclination;
 
 	// true anomaly as rotation beyond periapsis
-	planet->m_orbitalPhaseAtStart = rand.Fixed() * 2 * FIXED_PI;
+	planet->m_orbitalPhaseAtStart = rand.Fixed() * 2 * fixed::PI;
 
 	planet->SetOrbitFromParameters();
 	planet->SetAtmFromParameters();
@@ -1271,10 +1273,10 @@ void StarSystemRandomGenerator::MakeBinaryPair(SystemBody *a, SystemBody *b, fix
 	b->m_orbit.SetPlane(matrix3x3d::RotateY(rotY - M_PI) * matrix3x3d::RotateX(rotX));
 
 	// store orbit parameters for later use to be accessible in other way than by rotMatrix
-	b->m_orbitalPhaseAtStart = b->m_orbitalPhaseAtStart + FIXED_PI;
-	b->m_orbitalPhaseAtStart = b->m_orbitalPhaseAtStart > 2 * FIXED_PI ? b->m_orbitalPhaseAtStart - 2 * FIXED_PI : b->m_orbitalPhaseAtStart;
-	a->m_orbitalPhaseAtStart = a->m_orbitalPhaseAtStart > 2 * FIXED_PI ? a->m_orbitalPhaseAtStart - 2 * FIXED_PI : a->m_orbitalPhaseAtStart;
-	a->m_orbitalPhaseAtStart = a->m_orbitalPhaseAtStart < 0 ? a->m_orbitalPhaseAtStart + 2 * FIXED_PI : a->m_orbitalPhaseAtStart;
+	b->m_orbitalPhaseAtStart = b->m_orbitalPhaseAtStart + fixed::PI;
+	b->m_orbitalPhaseAtStart = b->m_orbitalPhaseAtStart > 2 * fixed::PI ? b->m_orbitalPhaseAtStart - 2 * fixed::PI : b->m_orbitalPhaseAtStart;
+	a->m_orbitalPhaseAtStart = a->m_orbitalPhaseAtStart > 2 * fixed::PI ? a->m_orbitalPhaseAtStart - 2 * fixed::PI : a->m_orbitalPhaseAtStart;
+	a->m_orbitalPhaseAtStart = a->m_orbitalPhaseAtStart < 0 ? a->m_orbitalPhaseAtStart + 2 * fixed::PI : a->m_orbitalPhaseAtStart;
 	b->m_orbitalOffset = fixed(int(round(rotY * 10000)), 10000);
 	a->m_orbitalOffset = fixed(int(round(rotY * 10000)), 10000);
 
@@ -1450,8 +1452,8 @@ void PopulateStarSystemGenerator::PositionSettlementOnPlanet(SystemBody *sbody, 
 
 	// store latitude and longitude to equivalent orbital parameters to
 	// be accessible easier
-	sbody->m_inclination = latitude * FIXED_PI * fixed(1, 2);
-	sbody->m_orbitalOffset = longitude * FIXED_PI * 2;
+	sbody->m_inclination = latitude * fixed::PI * fixed(1, 2);
+	sbody->m_orbitalOffset = longitude * fixed::PI * 2;
 
 	sbody->SetOrbitFromParameters();
 }
@@ -1714,12 +1716,12 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 				shells[1] = innerOrbit + ((orbMaxS - innerOrbit) * fixed(1, 2)); // med
 				shells[2] = orbMaxS;											 // high
 
-				shellIncl[0] = rand.NormFixed() * FIXED_PI;
-				shellIncl[1] = rand.NormFixed() * FIXED_PI;
-				shellIncl[2] = rand.NormFixed() * FIXED_PI;
+				shellIncl[0] = rand.NormFixed() * fixed::PI;
+				shellIncl[1] = rand.NormFixed() * fixed::PI;
+				shellIncl[2] = rand.NormFixed() * fixed::PI;
 			} else {
 				shells[0] = shells[1] = shells[2] = innerOrbit;
-				shellIncl[0] = shellIncl[1] = shellIncl[2] = rand.NormFixed() * FIXED_PI;
+				shellIncl[0] = shellIncl[1] = shellIncl[2] = rand.NormFixed() * fixed::PI;
 			}
 
 			Uint32 orbitIdx = 0;
@@ -1751,9 +1753,9 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 				// slightly random min/max orbital distance
 				sp->m_eccentricity = rand.NormFixed().Abs() * fixed(1, 8);
 				// perturb the orbital plane to avoid all stations falling in line with each other
-				sp->m_inclination = currOrbitIncl + rand.NormFixed() * fixed(1, 4) * FIXED_PI;
+				sp->m_inclination = currOrbitIncl + rand.NormFixed() * fixed(1, 4) * fixed::PI;
 				// station spacing around the primary body
-				sp->m_argOfPeriapsis = rand.Fixed() * FIXED_PI * 2;
+				sp->m_argOfPeriapsis = rand.Fixed() * fixed::PI * 2;
 				// TODO: no axial tilt for stations / axial tilt in general is strangely modeled
 				sp->m_axialTilt = fixed();
 
