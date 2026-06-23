@@ -745,6 +745,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Please contact me when you have sufficient cargo space."
+    "message": "Kom tillbaka när du har tillräckligt med lastutrymme."
   }
 }

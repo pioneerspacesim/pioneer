@@ -41,7 +41,7 @@
   },
   "AUXILIARY_CARGO_RACK": {
     "description": "Equipment name for a cargo-carrying rack installed as a cabin module",
-    "message": "Auxiliary Cargo Rack"
+    "message": "Extra lastställ"
   },
   "AUXILIARY_CARGO_RACK_DESCRIPTION": {
     "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
@@ -101,7 +101,7 @@
   },
   "CONCEALED_CARGO_RACK": {
     "description": "Equipment name for a cargo-carrying smuggler's hold installed as a cabin module",
-    "message": "Concealed Cargo Rack"
+    "message": "Dolt lastställ"
   },
   "CONCEALED_CARGO_RACK_DESCRIPTION": {
     "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
