@@ -40,6 +40,7 @@ public:
 	void SetPhase(double orbitalPhaseAtStart) { m_orbitalPhaseAtStart = orbitalPhaseAtStart; }
 
 	vector3d OrbitalPosAtTime(double t) const;
+	vector3d OrbitalDisplacementAtTime(double t, double dt) const;
 	double OrbitalTimeAtPos(const vector3d &pos, double centralMass) const;
 	vector3d OrbitalVelocityAtTime(double totalMass, double t) const;
 
@@ -60,6 +61,7 @@ private:
 	double TrueAnomalyFromMeanAnomaly(double MeanAnomaly) const;
 	double MeanAnomalyFromTrueAnomaly(double trueAnomaly) const;
 	double MeanAnomalyAtTime(double time) const;
+	double MeanAnomalyDiff(double M, double dt) const;
 
 	vector3d m_positionForStaticBody;
 	double m_eccentricity;
