@@ -136,6 +136,9 @@ inline std::string to_string(uint8_t value, const FormatSpec &fmt) { return to_s
 inline std::string to_string(uint16_t value, const FormatSpec &fmt) { return to_string(uint64_t(value), fmt); }
 inline std::string to_string(uint32_t value, const FormatSpec &fmt) { return to_string(uint64_t(value), fmt); }
 
+inline std::string to_string(long value, const FormatSpec &fmt) { return to_string(int64_t(value), fmt); }
+inline std::string to_string(unsigned long value, const FormatSpec &fmt) { return to_string(uint64_t(value), fmt); }
+
 inline std::string to_string(float value, const FormatSpec &fmt) { return to_string(double(value), fmt); }
 
 inline std::string to_string(fixed value, const FormatSpec &fmt)
