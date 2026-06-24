@@ -6,6 +6,7 @@ local Engine = require 'Engine'
 local Game = require 'Game'
 local Vector2 = _G.Vector2
 local bindManager = require 'bind-manager'
+local utils = require 'utils'
 
 -- cache ui
 local pionillium = ui.fonts.pionillium
@@ -223,6 +224,250 @@ local function displayReticuleBrakeGauge(ratio_primary, ratio_secondary)
 	end
 end
 
+local function getScaleStep(range)
+	local magnitude = 1
+	local steps = {1, 2, 5}
+
+	while true
+	do
+		for _, step in ipairs(steps) do
+			local magstep = step * magnitude
+			if range / magstep <= 5 then
+				return magstep
+			end
+		end
+		magnitude = magnitude * 10
+	end
+end
+
+local function displayReticuleSpeedScaleGauge(speed)
+	local thickness = 4
+	local offset = 0
+	local radius = 4 * reticuleCircleRadius
+
+	local angle_low = -ui.pi / 6 + ui.pi
+	local angle_high = ui.pi / 6 + ui.pi
+
+	-- background
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle_high, 64)
+	ui.pathStroke(colors.reticuleCircle, false, thickness)
+
+	-- get scale range
+	local scale_min = speed * 0.8
+	local scale_max = speed * 1.2
+	if speed < 100 then
+		scale_min = speed - 20
+		scale_max = speed + 20
+	end
+
+	local scale_range = scale_max - scale_min
+
+	-- pick scale step
+	local scale_step = getScaleStep(scale_range)
+
+	-- draw scales
+	local tick_length = 8
+	for i=-utils.round(-scale_min, scale_step), utils.round(scale_max, scale_step), scale_step do
+		if i >= 0 then
+			local p = 0.5 + (i - speed) / scale_range -- [scale_min, scale_max] -> [0, 1]
+			if p > 1 then
+				p = 1
+			end
+			if p < 0 then
+				p = 0
+			end
+			p = (p * angle_high + (1 - p) * angle_low) / (ui.pi / 6)
+			ui.lineOnClock(center, 3 + p, tick_length, tick_length + radius + offset + thickness / 2, colors.navigationalElements, 2)
+			i_speed, i_unit = ui.Format.SpeedUnit(i)
+			local a = ui.pointOnClock(center, 3 * tick_length + radius + offset + thickness / 2, 3 + p)
+			ui.addStyledText(a, ui.anchor.right, ui.anchor.center, i_speed .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
+		end
+	end
+
+	-- draw indicator
+	ui.lineOnClock(center, 9, tick_length, thickness / 2 + radius + offset, colors.navigationalElements, 2)
+	local a = ui.pointOnClock(center, thickness / 2 + radius + offset - 3 * tick_length, 9)
+	i_speed, i_unit = ui.Format.SpeedUnit(speed)
+	ui.addStyledText(a, ui.anchor.left, ui.anchor.bottom, i_speed .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
+
+	local a = ui.pointOnClock(center, thickness / 2 + radius + offset - 3 * tick_length, 8)
+	i_speed, i_unit = ui.Format.SpeedUnit(player:GetRemainingDeltaV())
+	ui.addStyledText(a, ui.anchor.left, ui.anchor.top, i_speed .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
+end
+
+local function displayReticuleDistanceScaleGauge(distance)
+	local thickness = 4
+	local offset = 0
+	local radius = 4 * reticuleCircleRadius
+
+	local angle_low = -ui.pi / 6
+	local angle_high = ui.pi / 6
+
+	-- background
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle_high, 64)
+	ui.pathStroke(colors.reticuleCircle, false, thickness)
+
+	-- get scale range
+	local scale_min = distance * 0.8
+	local scale_max = distance * 1.2
+	if distance < 1000 then
+		scale_min = distance - 200
+		scale_max = distance + 200
+	end
+
+	local scale_range = scale_max - scale_min
+
+	-- pick scale step
+	local scale_step = getScaleStep(scale_range)
+
+	-- draw scales
+	local tick_length = 8
+	for i=-utils.round(-scale_min, scale_step), utils.round(scale_max, scale_step), scale_step do
+		if i >= 0 then
+			local p = 0.5 + (i - distance) / scale_range -- [scale_min, scale_max] -> [0, 1]
+			if p > 1 then
+				p = 1
+			end
+			if p < 0 then
+				p = 0
+			end
+			p = (p * angle_high + (1 - p) * angle_low) / (ui.pi / 6)
+			ui.lineOnClock(center, 3 - p, tick_length, tick_length + radius + offset + thickness / 2, colors.navigationalElements, 2)
+			i_distance, i_unit = ui.Format.DistanceUnit(i)
+			local a = ui.pointOnClock(center, 3 * tick_length + radius + offset + thickness / 2, 3 - p)
+			ui.addStyledText(a, ui.anchor.left, ui.anchor.center, i_distance .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
+		end
+	end
+
+	-- draw indicator
+	ui.lineOnClock(center, 3, tick_length, thickness / 2 + radius + offset, colors.navigationalElements, 2)
+	local a = ui.pointOnClock(center, thickness / 2 + radius + offset - 3 * tick_length, 3)
+	i_distance, i_unit = ui.Format.DistanceUnit(distance)
+	ui.addStyledText(a, ui.anchor.right, ui.anchor.bottom, i_distance .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
+
+	local target = player.frameBody
+	local velocity = player:GetVelocityRelTo(target)
+	local position = player:GetPositionRelTo(target)
+	local vertical_speed = position:dot(velocity) / position:length()
+
+	local altitude = player:GetAltitudeRelTo(target)
+
+	local a = ui.pointOnClock(center, thickness / 2 + radius + offset - 3 * tick_length, 4)
+	i_distance, i_unit = ui.Format.DistanceUnit(player:GetDistanceToZeroV(vertical_speed, "forward"))
+	ui.addStyledText(a, ui.anchor.right, ui.anchor.top, i_distance .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
+end
+
+local function displayFuelGauge()
+	local thickness = 4
+	local offset = 0
+	local radius = 4 * reticuleCircleRadius - thickness
+
+	local deltav_max = player:GetMaxDeltaV()
+	local deltav_remaining = player:GetRemainingDeltaV()
+	local dvr = deltav_remaining / deltav_max
+	local deltav_maneuver = player:GetManeuverVelocity():length()
+	local dvm = deltav_maneuver / deltav_max
+	local deltav_current = player:GetCurrentDeltaV()
+	local dvc = deltav_current / deltav_max
+
+	local angle_low = -ui.pi / 6 + ui.pi
+	local angle_high = ui.pi / 6 + ui.pi
+
+	-- background
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle_high, 64)
+	ui.pathStroke(colors.deltaVTotal, false, thickness)
+
+	-- current deltaV
+	local angle = angle_high * dvr + angle_low * (1 - dvr)
+	if angle < angle_low then angle = angle_low end
+	if angle > angle_high then angle = angle_high end
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle, 64)
+	if dvr < dvc then
+		ui.pathStroke(colors.deltaVRemainingLow, false, thickness)
+	else
+		ui.pathStroke(colors.deltaVRemaining, false, thickness)
+	end
+
+	-- planned maneuvers
+	local angle = angle_high * dvm + angle_low * (1 - dvm)
+	if angle < angle_low then angle = angle_low end
+	if angle > angle_high then angle = angle_high end
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle, 64)
+	if dvr < dvm then
+		ui.pathStroke(colors.deltaVManeuverLow, false, thickness)
+	else
+		ui.pathStroke(colors.deltaVManeuver, false, thickness)
+	end
+end
+
+local function displayBrakeGauge(target)
+	local thickness = 4
+	local offset = 0
+	local radius = 4 * reticuleCircleRadius - thickness
+
+	local angle_low = -ui.pi / 6
+	local angle_high = ui.pi / 6
+
+	-- background
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle_high, 64)
+	ui.pathStroke(colors.brakeBackground, false, thickness)
+
+	local velocity = player:GetVelocityRelTo(target)
+	local position = player:GetPositionRelTo(target)
+	local vertical_speed = position:dot(velocity) / position:length()
+
+	local fwd_accel = player:GetAcceleration("forward")
+	local rev_accel = player:GetAcceleration("reverse")
+	local altitude = player:GetAltitudeRelTo(target)
+
+	-- Torricelli's formula
+	-- for given height and acceleration, we are able to find at which velocity we end up
+	-- if we are at given height and descending faster than found velocity, we're gonna crash
+	local fwd_bonk_vel = math.sqrt(2 * fwd_accel * altitude)
+	local rev_bonk_vel = math.sqrt(2 * rev_accel * altitude)
+
+	local fwd_bonk_ratio = -vertical_speed / fwd_bonk_vel
+	local rev_bonk_ratio = -vertical_speed / rev_bonk_vel
+	local angle_primary = fwd_bonk_ratio * angle_high / 2
+	if angle_primary > angle_high then angle_primary = angle_high end
+	if angle_primary < angle_low  then angle_primary = angle_low  end
+
+	if fwd_bonk_ratio < 0 then
+		-- climbing
+		ui.pathArcTo(center, radius + offset + thickness / 2, 0, angle_primary, 64)
+		ui.pathStroke(colors.brakeNotNeeded, false, thickness)
+	else
+		-- descending
+		local angle_zero = 0
+		local angle_one = angle_high / 2
+		local angle_secondary = angle_primary / rev_bonk_ratio
+
+		if rev_bonk_ratio < 1.0 then
+			ui.pathArcTo(center, radius + offset + thickness / 2, angle_zero, angle_primary, 64)
+			ui.pathStroke(colors.brakePrimary, false, thickness)
+		elseif fwd_bonk_ratio < 1.0 then
+			ui.pathArcTo(center, radius + offset + thickness / 2, angle_zero, angle_secondary, 64)
+			if fwd_bonk_ratio > brakeNowRatio then
+				ui.pathStroke(colors.brakeNow, false, thickness)
+			else
+				ui.pathStroke(colors.brakePrimary, false, thickness)
+			end
+
+			ui.pathArcTo(center, radius + offset + thickness / 2, angle_secondary, angle_primary, 64)
+			ui.pathStroke(colors.brakeSecondary, false, thickness)
+		else
+			ui.pathArcTo(center, radius + offset + thickness / 2, angle_zero, angle_secondary, 64)
+			ui.pathStroke(colors.brakePrimary, false, thickness)
+
+			ui.pathArcTo(center, radius + offset + thickness / 2, angle_secondary, angle_one, 64)
+			ui.pathStroke(colors.brakeSecondary, false, thickness)
+
+			ui.pathArcTo(center, radius + offset + thickness / 2, angle_one, angle_primary, 64)
+			ui.pathStroke(colors.brakeOvershoot, false, thickness)
+		end
+	end
+end
+
 -- display heading, pitch and roll around the reticule circle
 local function displayReticulePitchHorizonCompass()
 	local heading, pitch, roll = Game.player:GetHeadingPitchRoll("planet")
@@ -387,6 +632,10 @@ local function displayDetailData(target, radius, colorLight, colorDark, tooltip,
 		displayReticuleBrakeGauge(ratio, ratio_retro)
 	end
 
+	displayReticuleDistanceScaleGauge(altitude)
+	displayReticuleSpeedScaleGauge(ship_speed)
+	displayFuelGauge()
+	displayBrakeGauge(target)
 end
 
 -- display only frame name in the right-side "detail" HUD section
