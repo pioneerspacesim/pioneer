@@ -33,19 +33,13 @@ namespace Lang {
 		return true;
 	}
 
-	bool Resource::Load()
+	static bool load_messages_from_file(const std::string &filename, Resource::StringMap &strings)
 	{
-		if (m_loaded)
-			return true;
-
-		std::string filename = "lang/" + m_name + "/" + m_langCode + ".json";
 		Json data = JsonUtils::LoadJsonDataFile(filename);
-		if (data.is_null()) {
-			Log::Warning("couldn't read language file '{}'\n", filename.c_str());
+		if (data.is_null())
 			return false;
-		}
 
-		for (Json::iterator i = data.begin(); i != data.end(); ++i) {
+		for (Json::const_iterator i = data.begin(); i != data.end(); ++i) {
 			const std::string token = i.key();
 			if (token.empty()) {
 				Log::Info("{}: found empty token, skipping it\n", filename.c_str());
@@ -97,7 +91,20 @@ namespace Lang {
 				text = adjustedText;
 			}
 
-			m_strings[token] = text;
+			strings[token] = text;
+		}
+		return true;
+	}
+
+	bool Resource::Load()
+	{
+		if (m_loaded)
+			return true;
+
+		std::string filename = "lang/" + m_name + "/" + m_langCode + ".json";
+		if (!load_messages_from_file(filename, m_strings)) {
+			Log::Warning("couldn't read language file '{}'\n", filename.c_str());
+			return false;
 		}
 
 		m_loaded = true;
@@ -230,6 +237,75 @@ namespace Lang {
 		m_cachedResources.insert(std::make_pair(key, std::move(res)));
 
 		return m_cachedResources.at(key);
+	}
+
+	static std::map<std::string, int> s_languageCompletion;
+	static bool s_languageCompletionScanned = false;
+
+	void ScanLanguageCompletion()
+	{
+		if (s_languageCompletionScanned)
+			return;
+		s_languageCompletionScanned = true;
+
+		struct Stats {
+			int translated = 0;
+			int total = 0;
+		};
+		std::map<std::string, Stats> stats;
+
+		const int dirFlags = FileSystem::FileEnumerator::IncludeDirs | FileSystem::FileEnumerator::ExcludeFiles;
+		for (FileSystem::FileEnumerator resources(FileSystem::gameDataFiles, "lang", dirFlags); !resources.Finished(); resources.Next()) {
+			const std::string resourcePath = resources.Current().GetPath();
+
+			Resource::StringMap english;
+			if (!load_messages_from_file(FileSystem::JoinPath(resourcePath, "en.json"), english) || english.empty())
+				continue;
+
+			for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, resourcePath); !files.Finished(); files.Next()) {
+				if (!files.Current().IsFile())
+					continue;
+
+				const std::string &name = files.Current().GetName();
+				if (!ends_with_ci(name, ".json"))
+					continue;
+
+				const std::string langCode = name.substr(0, name.size() - 5);
+				if (langCode == "en")
+					continue;
+
+				Resource::StringMap translated;
+				load_messages_from_file(files.Current().GetPath(), translated);
+
+				for (const auto &entry : english) {
+					const std::string &token = entry.first;
+					const std::string &enText = entry.second;
+					stats[langCode].total++;
+					const auto it = translated.find(token);
+					if (it != translated.end() && it->second != enText)
+						stats[langCode].translated++;
+				}
+			}
+		}
+
+		for (const auto &entry : stats) {
+			const Stats &s = entry.second;
+			s_languageCompletion[entry.first] = s.total > 0 ? (s.translated * 100) / s.total : 0;
+		}
+	}
+
+	int GetLanguageCompletionPercent(std::string_view langCode)
+	{
+		if (langCode == "en")
+			return 100;
+
+		if (!s_languageCompletionScanned)
+			ScanLanguageCompletion();
+
+		const auto it = s_languageCompletion.find(std::string(langCode));
+		if (it == s_languageCompletion.end())
+			return 0;
+		return it->second;
 	}
 
 } // namespace Lang

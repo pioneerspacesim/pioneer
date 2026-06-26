@@ -26,4 +26,10 @@ function Lang.GetResource(name, langCode) return Resource end
 ---@return string[]
 function Lang.GetAvailableLanguages(resource) end
 
+--- Return the percentage of translated strings for a language code (0-100).
+--- English always returns 100.
+---@param langCode string
+---@return integer
+function Lang.GetLanguageCompletionPercent(langCode) end
+
 return Lang

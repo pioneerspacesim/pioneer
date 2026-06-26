@@ -55,6 +55,14 @@ namespace Lang {
 
 	Resource &GetResource(std::string_view name, std::string_view langCode);
 
+	// Scan all language files under lang/ and compute the percentage of strings
+	// that differ from the English version for each language code.
+	void ScanLanguageCompletion();
+
+	// Return the completion percentage (0-100) for a language code.
+	// Returns 100 for English. Computes completion on first call if needed.
+	int GetLanguageCompletionPercent(std::string_view langCode);
+
 } // namespace Lang
 
 #endif
