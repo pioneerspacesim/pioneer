@@ -5,10 +5,12 @@
 #include "AnimationCurves.h"
 #include "Pi.h"
 #include "PiGui.h"
+#include "core/Log.h"
 #include "graphics/Graphics.h"
 #include "graphics/RenderTarget.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
+#include "profiler/Profiler.h"
 #include "scenegraph/Tag.h"
 
 #include <algorithm>

@@ -123,11 +123,11 @@ void ViewportWindow::Update(float deltaTime)
 				OnHandleInput(clicked, wasPressed && !m_viewportActive, mousePos);
 			}
 
-			ImGui::BeginChild("##ViewportContainer", ImVec2(0, 0), false,
+			ImGui::BeginChild("##ViewportContainer", ImVec2(0, 0),
+				ImGuiChildFlags_AlwaysUseWindowPadding,
 				ImGuiWindowFlags_NoBackground |
 				ImGuiWindowFlags_NoScrollbar |
-				ImGuiWindowFlags_NoScrollWithMouse |
-				ImGuiWindowFlags_AlwaysUseWindowPadding);
+				ImGuiWindowFlags_NoScrollWithMouse);
 
 			// set Horizontal layout type since we're using this window effectively as a toolbar
 			ImGui::GetCurrentWindow()->DC.LayoutType = ImGuiLayoutType_Horizontal;

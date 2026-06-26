@@ -3,14 +3,13 @@
 
 #pragma once
 
-#include "FileSystem.h"
 #include "RefCounted.h"
 #include "imgui/imgui.h"
 
-#include "utils.h"
-
+#include <memory>
 #include <map>
-#include <unordered_set>
+#include <string>
+#include <vector>
 
 union SDL_Event;
 
@@ -23,116 +22,14 @@ class GuiApplication;
 
 namespace PiGui {
 
+	struct PiSVGLoader;
+	struct SVGFontFile;
+	struct SVGFontBaked;
+
 	class RasterizeSVGTask;
+	struct RasterizeSVGResult;
 
-	struct RasterizeSVGResult {
-		RasterizeSVGResult(uint8_t *data, int width, int height) :
-			data(data),
-			width(width),
-			height(height)
-		{
-		}
-
-		std::unique_ptr<uint8_t[]> data;
-		int width;
-		int height;
-	};
-
-	class PiFace {
-	public:
-		using UsedRange = std::pair<uint16_t, uint16_t>;
-
-		PiFace(const std::string &ttfname, float sizefactor) :
-			m_ttfname(ttfname),
-			m_sizefactor(sizefactor) {}
-
-		PiFace(const std::string &svgname, uint16_t startGlyph, int columns, int rows) :
-			m_svgname(svgname),
-			m_svgrows(rows),
-			m_svgcolumns(columns),
-			m_loadrange({ startGlyph, startGlyph + (rows * columns) })
-		{
-		}
-
-		const std::string &ttfname() const { return m_ttfname; }
-		float sizefactor() const { return m_sizefactor; }
-
-		const std::string &svgname() const { return m_svgname; }
-		bool isSvgFont() const { return !m_svgname.empty(); }
-
-		int svgRows() const { return m_svgrows; }
-		int svgCols() const { return m_svgcolumns; }
-
-		// Add this fontface at the specified size to the global font atlas
-		ImFont *addTTFFaceToAtlas(int pixelSize, ImFontConfig *config, ImVector<ImWchar> *ranges);
-
-		// Add this SVG fontface at the specified size to the global font atlas
-		ImFont *addSVGFaceToAtlas(int pixelSize, ImFontConfig *config, ImVector<ImWchar> *ranges, RasterizeSVGResult *svgData, ImVector<int> *outGlyphRects);
-		// Copy the pixel data for this fontface into the global font atlas
-		void finishSVGFaceData(ImFont *font, int pixelSize, RasterizeSVGResult *svgData, ImVector<int> *glyphRects);
-
-	private:
-		friend class Instance; // need access to some private data
-
-		std::string m_ttfname; // only the ttf name, it is automatically sought in data/fonts/
-		float m_sizefactor;	   // the requested pixelsize is multiplied by this factor
-
-		std::string m_svgname; // path to svg file for font-face
-		int m_svgrows;		   // number of character rows
-		int m_svgcolumns;	   // number of character columns
-		UsedRange m_loadrange; // start and end of font glyphs to load
-	};
-
-	struct PiFontDefinition {
-	public:
-		PiFontDefinition(const std::string &name) :
-			name(name) {}
-		PiFontDefinition(const std::string &name, const std::vector<PiFace> &faces) :
-			name(name),
-			faces(faces) {}
-		PiFontDefinition() :
-			name("unknown") {}
-
-		std::string name;
-		std::vector<PiFace> faces;
-		bool loadDefaultRange = true;
-	};
-
-	class PiFont {
-	public:
-		using UsedRange = std::pair<uint16_t, uint16_t>;
-
-		struct CustomGlyphData {
-			ImFont *font;
-			PiFace *face;
-			std::unique_ptr<ImVector<int>> glyphRects;
-			RasterizeSVGResult *svgData;
-		};
-
-		PiFont(PiFontDefinition &fontDef, int pixelSize) :
-			m_fontDef(fontDef),
-			m_pixelsize(pixelSize)
-		{
-		}
-
-		const std::string &name() const { return m_fontDef.name; }
-		std::vector<PiFace> &faces() const { return m_fontDef.faces; }
-		const std::vector<UsedRange> &used_ranges() const { return m_used_ranges; }
-		int pixelsize() const { return m_pixelsize; }
-		const PiFontDefinition &definition() const { return m_fontDef; }
-
-		std::vector<CustomGlyphData> &custom_glyphs() { return m_custom_glyphs; }
-
-		void describe(bool withFaces = false) const;
-
-		bool addGlyph(unsigned short glyph);
-
-	private:
-		PiFontDefinition &m_fontDef;
-		int m_pixelsize;
-		std::vector<UsedRange> m_used_ranges;
-		std::vector<CustomGlyphData> m_custom_glyphs;
-	};
+	using FontPair = std::pair<ImFontConfig *, ImGuiID>;
 
 	class InstanceRenderer;
 
@@ -161,14 +58,18 @@ namespace PiGui {
 		// Sets the ImGui Style object to use the game UI style object as modified by Lua
 		void SetNormalStyle();
 
-		ImFont *AddFont(const std::string &name, int size);
-		ImFont *GetFont(const std::string &name, int size);
-
-		void AddGlyph(ImFont *font, unsigned short glyph);
+		ImFont *GetFont(const std::string &name);
 
 		bool ProcessEvent(SDL_Event *event);
 
 	private:
+		friend struct PiSVGLoader;
+		struct SVGFontRasterized {
+			uint32_t width;
+			uint32_t height;
+			std::unique_ptr<uint8_t[]> data;
+		};
+
 		GuiApplication *m_app;
 		Graphics::Renderer *m_renderer;
 		std::unique_ptr<InstanceRenderer> m_instanceRenderer;
@@ -177,32 +78,20 @@ namespace PiGui {
 		// so we can delete[] the memory again when uninitializing.
 		char *m_ioIniFilename;
 
-		std::map<std::pair<std::string, int>, ImFont *> m_fonts;
-		std::map<ImFont *, std::pair<std::string, int>> m_im_fonts;
-		std::map<std::pair<std::string, int>, PiFont> m_pi_fonts;
-		bool m_should_bake_fonts;
+		std::map<std::string, ImFont *> m_fontMap;
+		std::map<std::string, SVGFontFile> m_svgSources;
 
-		std::map<std::string, PiFontDefinition> m_font_definitions;
-
-		std::vector<ImVector<ImWchar> *> m_glyphRanges;
 		std::vector<RasterizeSVGTask *> m_svgFontTasks;
-		std::map<std::string, std::vector<RasterizeSVGResult>> m_svgFontRasterData;
+		std::map<std::string, std::vector<SVGFontRasterized>> m_svgRasterData;
+		std::map<FontPair, SVGFontBaked *> m_pendingUploads;
 
 		ImGuiStyle m_debugStyle;
 		bool m_debugStyleActive;
 
-		void AddFontDefinition(const PiFontDefinition &font)
-		{
-			m_font_definitions[font.name] = font;
-		}
-
 		void LoadFontDefinitionFromFile(const std::string &filePath);
 
-		void BakeFonts();
-		void BakeFont(PiFont &font);
-		void ClearFonts();
-
-		RasterizeSVGResult *RequestSVGFaceData(PiFace *face, int pixelsize);
+		void RequestSVGFaceData(FontPair for_font, SVGFontBaked *request);
+		void CancelSVGFaceData(FontPair for_font);
 	};
 
 	inline bool WantCaptureMouse()

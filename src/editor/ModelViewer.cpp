@@ -13,7 +13,9 @@
 #include "collider/BVHTree.h"
 #include "collider/GeomTree.h"
 #include "core/Log.h"
+#include "core/macros.h"
 
+#include "core/StringUtils.h"
 #include "editor/EditorApp.h"
 #include "editor/ModelViewerWidget.h"
 #include "editor/EditorDraw.h"
@@ -489,7 +491,7 @@ void ModelViewer::OnPostRender()
 void ModelViewer::DrawModelSelector()
 {
 	if (!m_modelName.empty()) {
-		ImGui::PushFont(m_pigui->GetFont("pionillium", 14));
+		ImGui::PushFont(m_pigui->GetFont("pionillium"), 14);
 		ImGui::AlignTextToFramePadding();
 		ImGui::Text("Model: %s", m_modelName.c_str());
 		ImGui::PopFont();
@@ -833,7 +835,7 @@ void ModelViewer::DrawPiGui()
 		return;
 	}
 
-	ImGui::PushFont(m_pigui->GetFont("pionillium", 13));
+	ImGui::PushFont(m_pigui->GetFont("pionillium"), 13);
 
 	if (ImGui::Begin(SELECTOR_WND_NAME))
 		DrawModelSelector();

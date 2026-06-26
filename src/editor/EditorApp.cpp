@@ -167,8 +167,6 @@ void EditorApp::OnStartup()
 
 		StartupPiGui();
 
-		// precache the editor font
-		GetPiGui()->GetFont("pionillium", 13);
 		GetPiGui()->SetDebugStyle();
 
 		RefCountedPtr<LoadingPhase> loader (new LoadingPhase(this));
@@ -306,13 +304,13 @@ bool DrawEditorModeButton(const char *label, const char *icon, float iconSize, P
 
 	ImColor regular = style.Colors[ImGuiCol_Text];
 	ImColor active = style.Colors[ImGuiCol_ButtonHovered];
-	ImColor col = hovered ? ImColor(ImLerp<ImVec4>(regular, active, std::min(1.f, timer * 8.f))) : regular;
+	ImColor col = hovered ? ImColor(MathUtil::Lerp<ImVec4>(regular, active, std::min(1.f, timer * 8.f))) : regular;
 
 	ImDrawList *dl = ImGui::GetWindowDrawList();
 
 	dl->AddRect(pos, pos + size, ImColor(style.Colors[ImGuiCol_FrameBg]), style.FrameRounding, 0, 2.f);
 
-	ImGui::PushFont(pigui->GetFont("icons", iconSize));
+	ImGui::PushFont(pigui->GetFont("icons"), iconSize);
 	dl->AddText(pos + padding, col, icon);
 	ImGui::PopFont();
 

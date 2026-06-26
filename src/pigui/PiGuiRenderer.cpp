@@ -3,6 +3,7 @@
 
 #include "PiGuiRenderer.h"
 
+#include "core/Log.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
@@ -12,15 +13,28 @@
 #include "profiler/Profiler.h"
 
 #include "imgui/imgui.h"
-#include "imgui/imgui_internal.h"
+
+#include <cstring>
 
 using namespace PiGui;
 
 static constexpr size_t s_textureName = "texture0"_hash;
 static constexpr size_t s_vertexDepthName = "vertexDepth"_hash;
 
+Graphics::TextureFormat GetTextureFormat(ImTextureFormat fmt)
+{
+	switch(fmt) {
+		case ImTextureFormat_RGBA32: return Graphics::TEXTURE_RGBA_8888;
+		case ImTextureFormat_Alpha8: return Graphics::TEXTURE_R8;
+		default: assert(0);
+	}
+}
+
 InstanceRenderer::InstanceRenderer(Graphics::Renderer *r) :
 	m_renderer(r)
+{}
+
+InstanceRenderer::~InstanceRenderer()
 {}
 
 void InstanceRenderer::Initialize()
@@ -28,6 +42,7 @@ void InstanceRenderer::Initialize()
 	ImGuiIO &io = ImGui::GetIO();
 	io.BackendRendererName = "Pioneer Renderer";
 	io.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset;
+	io.BackendFlags |= ImGuiBackendFlags_RendererHasTextures;
 
 	Graphics::VertexFormatDesc vfmt = {};
 	vfmt.attribs[0] = { Graphics::ATTRIB_FORMAT_FLOAT2, 0, 0, offsetof(ImDrawVert, pos) };
@@ -51,14 +66,19 @@ void InstanceRenderer::Initialize()
 	mDesc.alphaTest = 1;
 
 	m_material.reset(m_renderer->CreateMaterial("ui", mDesc, rsd, vfmt));
-
-	CreateFontsTexture();
 }
 
 void InstanceRenderer::Shutdown()
 {
-	if (m_fontsTexture)
-		DestroyFontsTexture();
+	for (auto *tex : ImGui::GetPlatformIO().Textures)
+	{
+		if (tex->RefCount == 1 && tex->TexID != ImTextureID_Invalid) {
+			delete reinterpret_cast<Graphics::Texture *>(tex->TexID);
+
+			tex->SetTexID(ImTextureID_Invalid);
+			tex->SetStatus(ImTextureStatus_Destroyed);
+		}
+	}
 
 	m_vtxBuffer.reset();
 	m_idxBuffer.reset();
@@ -67,6 +87,11 @@ void InstanceRenderer::Shutdown()
 
 void InstanceRenderer::RenderDrawData(ImDrawData *draw_data)
 {
+	for (auto *tex : *draw_data->Textures) {
+		if (tex->Status != ImTextureStatus_OK)
+			UpdateFontTexture(tex);
+	}
+
 	float L = draw_data->DisplayPos.x;
 	float R = draw_data->DisplayPos.x + draw_data->DisplaySize.x;
 	float T = draw_data->DisplayPos.y;
@@ -147,33 +172,61 @@ void InstanceRenderer::RenderDrawData(ImDrawData *draw_data, Graphics::Material*
 	m_renderer->FlushCommandBuffers();
 }
 
-void InstanceRenderer::CreateFontsTexture()
+void InstanceRenderer::UpdateFontTexture(ImTextureData *tex)
 {
-	PROFILE_SCOPED()
+	PROFILE_SCOPED();
 
-	ImGuiIO &io = ImGui::GetIO();
-	unsigned char *pixels;
-	int width, height;
-	io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
+	if (tex->Status == ImTextureStatus_WantCreate) {
+		// Create a new texture (pointer is owned by ImGui)
 
-	vector3f dataSize = { (float)width, (float)height, 0 };
-	if (!m_fontsTexture || !(dataSize == m_fontsTexture->GetDescriptor().dataSize)) {
-		Graphics::TextureDescriptor desc(
-			Graphics::TEXTURE_RGBA_8888,
-			dataSize,
+		Graphics::TextureDescriptor texDesc(
+			GetTextureFormat(tex->Format),
+			vector3f(tex->Width, tex->Height, 0),
 			Graphics::LINEAR_REPEAT,
 			false, false, false, 0,
 			Graphics::TEXTURE_2D);
 
-		m_fontsTexture.reset(m_renderer->CreateTexture(desc));
+		Graphics::Texture *ptr = m_renderer->CreateTexture(texDesc);
+		assert(ptr);
+
+		ptr->Update(tex->GetPixels(), texDesc.dataSize, texDesc.format);
+
+		tex->SetTexID(ImTextureID(ptr));
+		tex->SetStatus(ImTextureStatus_OK);
 	}
 
-	m_fontsTexture->Update(pixels, dataSize, Graphics::TEXTURE_RGBA_8888);
-	io.Fonts->TexID = ImTextureID(m_fontsTexture.get());
-}
+	if (tex->Status == ImTextureStatus_WantUpdates) {
+		// Upload data to an existing texture
+		Log::Info("Updating font texture {},{},{},{}", tex->UpdateRect.x, tex->UpdateRect.y, tex->UpdateRect.w, tex->UpdateRect.h);
 
-void InstanceRenderer::DestroyFontsTexture()
-{
-	m_fontsTexture.reset();
-	ImGui::GetIO().Fonts->TexID = 0;
+		auto *ptr = reinterpret_cast<Graphics::Texture *>(tex->TexID);
+
+		// Texture::Update expects the source region to be fully contiguous
+		uint8_t *texel_data = new uint8_t[tex->UpdateRect.w * tex->UpdateRect.h * tex->BytesPerPixel];
+
+		uint8_t *blit_ptr = texel_data;
+		for (int y = 0; y < tex->UpdateRect.h; y++) {
+			size_t width = tex->UpdateRect.w * tex->BytesPerPixel;
+			std::memcpy(blit_ptr, tex->GetPixelsAt(tex->UpdateRect.x, tex->UpdateRect.y + y), width);
+			blit_ptr += width;
+		}
+
+		ptr->Update(texel_data,
+			vector2f(tex->UpdateRect.x, tex->UpdateRect.y),
+			vector3f(tex->UpdateRect.w, tex->UpdateRect.h, 0),
+			GetTextureFormat(tex->Format));
+
+		delete[] texel_data;
+
+		tex->SetStatus(ImTextureStatus_OK);
+	}
+
+	if (tex->Status == ImTextureStatus_WantDestroy && tex->UnusedFrames > 0)
+	{
+		// Release the texture
+		delete reinterpret_cast<Graphics::Texture *>(tex->TexID);
+
+		tex->SetTexID(ImTextureID_Invalid);
+		tex->SetStatus(ImTextureStatus_Destroyed);
+	}
 }

@@ -131,7 +131,7 @@ local onGameStart = function ()
 	sectorView:SetDrawOutRangeLabels(settings.draw_out_range_labels)
 	sectorView:GetMap():SetDrawUninhabitedLabels(settings.draw_uninhabited_labels)
 	sectorView:GetMap():SetDrawVerticalLines(settings.draw_vertical_lines)
-	sectorView:GetMap():SetLabelParams("orbiteer", font.size, 2.0, svColor.LABEL_HIGHLIGHT, svColor.LABEL_SHADE)
+	sectorView:GetMap():SetLabelParams("sector-map", font.size, 2.0, svColor.LABEL_HIGHLIGHT, svColor.LABEL_SHADE)
 
 	-- allow hyperjump planner to register its events:
 	hyperJumpPlanner.onGameStart()

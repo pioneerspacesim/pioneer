@@ -1,5 +1,6 @@
 {
 	"name": "pionillium",
+	"sizePixels": 13,
 	"loadDefaultRange": true,
 	"faces": [
 		{
@@ -15,9 +16,7 @@
 			"scale": 1.0
 		},
 		{
-			"svgFile": "icons/icons.svg",
-			"rangeBase": "0xF000",
-			"grid": [ 16, 21 ]
+			"iconFile": "icons/icons.icondef"
 		}
 	]
 }
