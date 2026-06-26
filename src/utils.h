@@ -39,4 +39,10 @@ private:
 template <typename T>
 reverse_container_t<T> reverse_container(T &ref) { return reverse_container_t<T>(ref); }
 
+template <typename T, typename V = typename T::mapped_type>
+void erase_mapped_val(T &container, const V &value)
+{
+	for (auto iter = container.cbegin(); iter != container.cend(); iter = iter->second == value ? container.erase(iter) : ++iter);
+}
+
 #endif /* _UTILS_H */

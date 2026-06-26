@@ -3,7 +3,6 @@
 
 #include "PiGui.h"
 #include "FileSystem.h"
-#include "Input.h"
 #include "JsonUtils.h"
 #include "Pi.h"
 #include "PiGuiRenderer.h"
@@ -14,13 +13,13 @@
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Texture.h"
-#include "graphics/VertexBuffer.h"
 
 #include "imgui/backends/imgui_impl_sdl2.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 
 #include "profiler/Profiler.h"
+#include "utils.h"
 
 #include <float.h>
 #include <stdio.h>
@@ -58,7 +57,9 @@ struct PiGui::SVGFontBaked {
 	uint32_t px_h; // pixel height to rasterize the file at
 	uint32_t icon_w; // pitch between icon row starts, in pixels
 	uint32_t icon_h; // pitch between icon row starts, in pixels
+	uint32_t raster_idx; // index of the SVGFontRasterized in the appropriate array
 	uint8_t *data = nullptr; // pointer to the rasterized data for this font
+	std::vector<ImWchar> pendingGlyphs; // glyphs that need to be uploaded to the font atlas
 };
 
 struct RasterizeSVGResult : SVGFontBaked {};
@@ -240,6 +241,12 @@ void StyleColorsDarkPlus(ImGuiStyle &style)
 	style.Colors[ImGuiCol_TabHovered] = ImColor(66, 150, 250);
 }
 
+ImFontBaked *GetFontBakedFromID(ImGuiID id, ImFontAtlas *atlas)
+{
+	ImFontAtlasBuilder *builder = atlas->Builder;
+	return *reinterpret_cast<ImFontBaked **>(builder->BakedMap.GetVoidPtrRef(id));
+}
+
 struct PiGui::PiSVGLoader {
 
 	static bool FontSrcContainsGlyph(ImFontAtlas *atlas, ImFontConfig *src, ImWchar codepoint)
@@ -264,14 +271,14 @@ struct PiGui::PiSVGLoader {
 		raster->px_w = raster->icon_w * ff->grid_w;
 		raster->px_h = raster->icon_h * ff->grid_h;
 
-		ff->inst->RequestSVGFaceData(raster);
+		ff->inst->RequestSVGFaceData({ src, baked->BakedId }, raster);
 		return true;
 	}
 
     static void FontBakedDestroy(ImFontAtlas* atlas, ImFontConfig* src, ImFontBaked* baked, void* loader_data_for_baked_src)
 	{
 		auto *ff = reinterpret_cast<SVGFontFile *>(src->FontData);
-		ff->inst->CancelSVGFaceData({ src, baked });
+		ff->inst->CancelSVGFaceData({ src, baked->BakedId });
 	}
 
 	static void FontUploadGlyph(ImFontAtlas *atlas, ImFontConfig *src, ImFontBaked *baked, ImFontGlyph *glyph, SVGFontBaked *svg)
@@ -315,6 +322,8 @@ struct PiGui::PiSVGLoader {
 			return false;
 		}
 
+		ImTextureRect *r = ImFontAtlasPackGetRect(atlas, pack_id);
+
 		out_glyph->X0 = 0;
 		out_glyph->Y0 = 0;
 		out_glyph->X1 = baked->Size;
@@ -326,7 +335,7 @@ struct PiGui::PiSVGLoader {
 			FontUploadGlyph(atlas, src, baked, out_glyph, raster);
 		} else {
 			// defer uploading the glyph pixels until they've been rasterized at the size we need
-			ff->inst->m_pendingGlyphs[{ src, baked }].push_back(codepoint);
+			raster->pendingGlyphs.push_back(codepoint);
 		}
 
 		return true;
@@ -338,6 +347,7 @@ struct PiGui::PiSVGLoader {
 		svgLoader.Name = "PiSVGLoader";
 		svgLoader.FontSrcContainsGlyph = &FontSrcContainsGlyph;
 		svgLoader.FontBakedInit = &FontBakedInit;
+		svgLoader.FontBakedDestroy = &FontBakedDestroy;
 		svgLoader.FontBakedLoadGlyph = &FontBakedLoadGlyph;
 		svgLoader.FontBakedSrcLoaderDataSize = sizeof(SVGFontBaked);
 		return &svgLoader;
@@ -551,12 +561,13 @@ void Instance::NewFrame()
 
 	// Process all completed rasterization tasks and store their image data in the pending request
 	for (auto &task : m_svgFontTasks) {
-		if (task->IsComplete()) {
-			m_svgRasterData.emplace_back(task->GetImageData());
 
-			for (SVGFontBaked &baked : m_bakedSvgFonts[task->filename]) {
-				if (baked.px_w == task->width && baked.px_h == task->height) {
-					baked.data = task->GetImageData();
+		if (task->IsComplete()) {
+
+			for (SVGFontRasterized &raster : m_svgRasterData[task->filename]) {
+				if (raster.width == task->width && raster.height == task->height) {
+					raster.data.reset(task->GetImageData());
+					break;
 				}
 			}
 
@@ -568,33 +579,30 @@ void Instance::NewFrame()
 	// Sort all erased tasks to the end of the list and erase them
 	m_svgFontTasks.erase(std::remove(m_svgFontTasks.begin(), m_svgFontTasks.end(), nullptr), m_svgFontTasks.end());
 
-	std::vector<FontPair> finished_uploads = {};
+	// Check all pending uploads to see if they have data yet...
+	for (auto &[font_pair, font_data] : m_pendingUploads) {
+		SVGFontRasterized &raster = m_svgRasterData[font_data->file->filename][font_data->raster_idx];
 
-	// Upload all rasterized glyphs to the font atlas
-	for (auto &[pair, codepoints] : m_pendingGlyphs) {
-		auto &[src, baked] = pair;
+		if (raster.data) {
+			assert(font_data->data == nullptr);
+			font_data->data = raster.data.get();
 
-		const uint32_t pixel_size = baked->Size * src->RasterizerDensity * baked->RasterizerDensity;
-		const std::string &filename = reinterpret_cast<SVGFontFile *>(src->FontData)->filename;
+			ImFontBaked *baked = GetFontBakedFromID(font_pair.second, io.Fonts);
 
-		SVGFontBaked *font_data = GetBakedFont(filename, pixel_size);
-
-		if (font_data && font_data->data) {
-			for (ImWchar codepoint : codepoints) {
+			for (ImWchar codepoint : font_data->pendingGlyphs) {
 				ImFontGlyph *glyph = baked->FindGlyph(codepoint);
 				ImTextureRect *r = ImFontAtlasPackGetRect(io.Fonts, glyph->PackId);
 
-				PiSVGLoader::FontUploadGlyph(io.Fonts, src, baked, glyph, font_data);
+				PiSVGLoader::FontUploadGlyph(io.Fonts, font_pair.first, baked, glyph, font_data);
 			}
 
-			codepoints.clear();
-			finished_uploads.push_back(pair);
+			font_data->pendingGlyphs.clear();
+			font_data = nullptr;
 		}
 	}
 
-	for (auto &pair : finished_uploads) {
-		m_pendingGlyphs.erase(pair);
-	}
+	// Erase all nullptr values in m_pendingUploads (data is present and glyphs will be uploaded directly)
+	erase_mapped_val(m_pendingUploads, nullptr);
 
 	switch (m_renderer->GetRendererType()) {
 	default:
@@ -641,19 +649,31 @@ void Instance::Render()
 	}
 }
 
-void Instance::RequestSVGFaceData(SVGFontBaked *font_data)
+void Instance::RequestSVGFaceData(FontPair pair, SVGFontBaked *font_data)
 {
 	const std::string &filename = font_data->file->filename;
 
-	for (auto &result : m_bakedSvgFonts[filename]) {
-		if (result.px_w == font_data->px_w && result.px_h == font_data->px_h) {
-			font_data->data = result.data;
+	for (auto &result : m_svgRasterData[filename]) {
+		if (result.width == font_data->px_w && result.height == font_data->px_h) {
+			font_data->data = result.data.get();
+			// If the data is already available, no pending uploads will accumulate.
+			// Don't register this font for a pending upload or set its raster_idx.
 			return;
 		}
 	}
 
-	m_bakedSvgFonts[filename].emplace_back(*font_data);
+	SVGFontRasterized raster = {};
+	raster.width = font_data->px_w;
+	raster.height = font_data->px_h;
+	raster.data = nullptr;
+
+	font_data->raster_idx = m_svgRasterData[filename].size();
+	m_svgRasterData[filename].emplace_back(std::move(raster));
+
+	Log::Info("Queuing rasterization of font {}@{}", filename, font_data->px_w);
 	RasterizeSVGTask *rasterTask = new RasterizeSVGTask(filename, font_data->px_w, font_data->px_h);
+	// This font may accumulate pending glyph uploads while the SVG data is being rasterized.
+	m_pendingUploads[pair] = font_data;
 
 	m_app->GetTaskGraph()->QueueTask(rasterTask);
 	m_svgFontTasks.push_back(rasterTask);
@@ -662,23 +682,12 @@ void Instance::RequestSVGFaceData(SVGFontBaked *font_data)
 void Instance::CancelSVGFaceData(FontPair for_font)
 {
 	// The underlying baked font is being discarded, so we erase any pending glyph uploads
-	m_pendingGlyphs.erase(for_font);
-}
-
-SVGFontBaked *Instance::GetBakedFont(const std::string &filename, uint32_t pixel_size)
-{
-	for (auto &baked : m_bakedSvgFonts[filename]) {
-		if (baked.pixel_sz == pixel_size)
-			return &baked;
-	}
-
-	return nullptr;
+	m_pendingUploads.erase(for_font);
 }
 
 void Instance::Uninit()
 {
 	PROFILE_SCOPED()
-	ImGui::PopFont();
 
 	for (auto tex : m_svg_textures) {
 		delete tex;

@@ -14,6 +14,7 @@ namespace PiGui {
 	class InstanceRenderer {
 	public:
 		InstanceRenderer(Graphics::Renderer *r);
+		~InstanceRenderer();
 
 		void Initialize();
 		void Shutdown();

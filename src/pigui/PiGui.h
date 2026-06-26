@@ -31,7 +31,7 @@ namespace PiGui {
 	class RasterizeSVGTask;
 	struct RasterizeSVGResult;
 
-	using FontPair = std::pair<ImFontConfig *, ImFontBaked *>;
+	using FontPair = std::pair<ImFontConfig *, ImGuiID>;
 
 	class InstanceRenderer;
 
@@ -66,6 +66,11 @@ namespace PiGui {
 
 	private:
 		friend struct PiSVGLoader;
+		struct SVGFontRasterized {
+			uint32_t width;
+			uint32_t height;
+			std::unique_ptr<uint8_t[]> data;
+		};
 
 		GuiApplication *m_app;
 		Graphics::Renderer *m_renderer;
@@ -75,25 +80,20 @@ namespace PiGui {
 		// so we can delete[] the memory again when uninitializing.
 		char *m_ioIniFilename;
 
+		std::map<std::string, ImFont *> m_fontMap;
 		std::map<std::string, SVGFontFile> m_svgSources;
 
-		std::map<FontPair, std::vector<ImWchar>> m_pendingGlyphs;
-		std::map<std::string, std::vector<SVGFontBaked>> m_bakedSvgFonts;
-
-		std::map<std::string, ImFont *> m_fontMap;
-
 		std::vector<RasterizeSVGTask *> m_svgFontTasks;
-		std::vector<std::unique_ptr<uint8_t[]>> m_svgRasterData;
+		std::map<std::string, std::vector<SVGFontRasterized>> m_svgRasterData;
+		std::map<FontPair, SVGFontBaked *> m_pendingUploads;
 
 		ImGuiStyle m_debugStyle;
 		bool m_debugStyleActive;
 
 		void LoadFontDefinitionFromFile(const std::string &filePath);
 
-		void RequestSVGFaceData(SVGFontBaked *request);
+		void RequestSVGFaceData(FontPair for_font, SVGFontBaked *request);
 		void CancelSVGFaceData(FontPair for_font);
-
-		SVGFontBaked *GetBakedFont(const std::string &filename, uint32_t pixel_size);
 	};
 
 	inline bool WantCaptureMouse()
