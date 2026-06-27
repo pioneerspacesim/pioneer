@@ -52,6 +52,8 @@ namespace {
 
 	bool TryGetLandingPadDustOverride(const Ship *ship, double *outGroundRadius, Color *outDustTint)
 	{
+		PROFILE_SCOPED()
+
 		if (!ship || !outGroundRadius || !outDustTint || !Pi::game) return false;
 		Space *space = Pi::game->GetSpace();
 		if (!space) return false;
@@ -1531,18 +1533,18 @@ void Ship::SpawnThrusterExhaustParticles(float timeStep)
 	const float angThrustEffortScalar = actualAngThrust.Length() * SfxParams::EXHAUST_ANGULAR_FACTOR / m_propulsion->GetAngThrustCap();
 
 	// Simple ambient wind model: fixed-speed direction tangent to local surface.
-	const vector3d localUp = GetPosition().NormalizedSafe();
-	vector3d windDir = vector3d(0.0, 1.0, 0.0).Cross(localUp);
-	if (windDir.LengthSqr() < 1e-8) windDir = vector3d(1.0, 0.0, 0.0).Cross(localUp);
+	const vector3f localUp = vector3f(GetPosition().NormalizedSafe());
+	vector3f windDir = vector3f(0.f, 1.f, 0.f).Cross(localUp);
+	if (windDir.LengthSqr() < 1e-8f) windDir = vector3f(1.f, 0.f, 0.f).Cross(localUp);
 	windDir = windDir.NormalizedSafe();
-	const vector3d windVel = windDir * double(SfxParams::EXHAUST_WIND_SPEED) * Clamp(density, 0.0, 1.0);
+	const vector3f windVel = windDir * (SfxParams::EXHAUST_WIND_SPEED * float(Clamp(density, 0.0, 1.0)));
 
 	if (m_thrusterExhaustMounts.size() != m_thrusterExhaustThrusters.size())
 		RefreshThrusterExhaustMounts();
 	if (m_exhaustThrusterChannels.size() != m_thrusterExhaustMounts.size())
 		m_exhaustThrusterChannels.assign(m_thrusterExhaustMounts.size(), ExhaustThrusterChannel{});
 
-	const float dragScale = float(Clamp(density / 1.225, 0.0, 2.0));
+	const float atmosDragScale = float(Clamp(density / 1.225, 0.0, 2.0));
 
 	const matrix3x3d &bodyOrient = GetOrient();
 
@@ -1596,6 +1598,9 @@ void Ship::SpawnThrusterExhaustParticles(float timeStep)
 			// Reduce the alpha for weaker thrusters, so that the exhaust is less pronounced
 			const float opacityScale = Clamp((density / 1.225) * double(finalThrusterPower), 0.0, 1.0);
 
+			// Increase drag for weaker thrusters, so that they slow down more quickly (less volume of exhaust)
+			const float dragScale = atmosDragScale * SfxParams::EXHAUST_DRAG_FACTOR / std::max(visualScaled, 0.2f);
+
 			// Keep particle count mostly independent of thrust / density so the stream remains full.
 			// If time is accelerated then timeStep could be huge - limit the number of particles in that case
 			// If timeStep is tiny then ensure we have at least one particle.
@@ -1609,26 +1614,27 @@ void Ship::SpawnThrusterExhaustParticles(float timeStep)
 			if (newPulseLeadingEdge)
 				count = 1;
 
+			const vector3f exhaustDirF = vector3f(exhaustDirWorld);
+			const vector3f shipY = vector3f(bodyOrient.VectorY());
+			const vector3f refAxis = (std::abs(exhaustDirF.Dot(shipY)) < 0.85f) ? shipY : vector3f(bodyOrient.VectorZ());
+			vector3f uAxis = refAxis.Cross(exhaustDirF).Normalized();
+			if (uAxis.LengthSqr() < 1e-12f)
+				uAxis = vector3f(bodyOrient.VectorX());
+			const vector3f vAxis = exhaustDirF.Cross(uAxis).Normalized();
+
 			for (int i = 0; i < count; i++) {
 				const double segT = double(i + 1) / double(count);
 				const vector3d nozzleBaseWorld = lastBackbonePosWorld.Lerp(currentNozzleWorld, segT);
 
-				const double jitterRadius = Pi::rng.Double(1.0);
-				const double jitterTheta = Pi::rng.Double(2.0 * M_PI);
+				const float jitterRadius = float(Pi::rng.Double(1.0));
+				const float jitterTheta = float(Pi::rng.Double(2.0 * M_PI));
 
-				const vector3d shipY = bodyOrient.VectorY();
-				const vector3d refAxis = (std::abs(exhaustDirWorld.Dot(shipY)) < 0.85) ? shipY : bodyOrient.VectorZ();
-				vector3d uAxis = refAxis.Cross(exhaustDirWorld).Normalized();
-				if (uAxis.LengthSqr() < 1e-12)
-					uAxis = bodyOrient.VectorX();
-				const vector3d vAxis = exhaustDirWorld.Cross(uAxis).Normalized();
+				const vector3f jitterDirW = (uAxis * std::cos(jitterTheta) + vAxis * std::sin(jitterTheta)).Normalized();
+				const vector3f plumeOffset = jitterDirW * (jitterRadius * SfxParams::EXHAUST_INITIAL_SPREAD);
 
-				const vector3d jitterDirW = (uAxis * std::cos(jitterTheta) + vAxis * std::sin(jitterTheta)).Normalized();
-				const vector3d plumeOffset = jitterDirW * (jitterRadius * th->GetVisualSize() * SfxParams::EXHAUST_INITIAL_SPREAD);
-
-				const double jitterVel = (SfxParams::EXHAUST_MAX_SPREAD * jitterRadius) / SfxParams::EXHAUST_LIFETIME;
-				const double spreadAmp = Clamp(1.0 / std::max(density, 1e-5), 0.05, 8.0);
-				const vector3d plumeOffsetVel = jitterDirW * (jitterVel * spreadAmp);
+				const float jitterVel = (SfxParams::EXHAUST_MAX_SPREAD * jitterRadius) / SfxParams::EXHAUST_LIFETIME;
+				const float spreadAmp = float(Clamp(1.0 / std::max(density, 1e-5), 0.05, 8.0));
+				const vector3f plumeOffsetVel = jitterDirW * (jitterVel * spreadAmp);
 
 				const bool suppressStreak = newPulseLeadingEdge && (i == 0);
 				SfxManager::AddExhaust(this, Uint16(ti), suppressStreak, nozzleBaseWorld, backboneWorldVel, plumeOffset, plumeOffsetVel, finalThrusterPower, dragScale, opacityScale, windVel, groundRadiusAtShip, dustTint);

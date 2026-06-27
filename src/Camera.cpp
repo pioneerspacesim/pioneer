@@ -353,7 +353,14 @@ void Camera::Draw(const Body *excludeBody)
 		m_renderer->DrawBuffer(&billboards, m_billboardMaterial.get());
 	}
 
-	SfxManager::RenderAll(m_renderer, rootFrameId, camFrameId, this);
+	float illuminationFactor = 1.f;
+	if (Pi::game && Pi::player && !Pi::player->IsDead()) {
+		double amb = 0.0, direct = 1.0;
+		CalcLighting(Pi::player, amb, direct);
+		illuminationFactor = Clamp(float(amb + direct), 0.08f, 1.0f);
+		illuminationFactor = std::pow(illuminationFactor, 1.5);
+	}
+	SfxManager::RenderAll(m_renderer, rootFrameId, camFrameId, illuminationFactor);
 }
 
 // Calculates the ambiently and directly lit portions of the lighting model taking into account the atmosphere and sun positions at a given location
