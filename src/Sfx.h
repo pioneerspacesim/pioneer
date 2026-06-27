@@ -34,19 +34,20 @@ namespace SfxParams {
 	inline constexpr float EXHAUST_MAX_PLAYER_DISTANCE = 5000.0f;
 	inline constexpr float EXHAUST_INITIAL_VELOCITY = 320.0f;
 	inline constexpr float EXHAUST_INITIAL_SPREAD = 0.1f;
-	inline constexpr float EXHAUST_TIME_BEFORE_SPREAD = 0.1f;
-	inline constexpr float EXHAUST_MAX_SPREAD = 100.0f;
+	inline constexpr float EXHAUST_TIME_BEFORE_SPREAD = 0.05f;
+	inline constexpr float EXHAUST_MAX_SPREAD = 50.0f;
 	inline constexpr float EXHAUST_DUST_SIZE = 200.0f;
 	inline constexpr float EXHAUST_LIFETIME = 10.0f;
 	inline constexpr float EXHAUST_WIND_SPEED = 32.0f;
 	inline constexpr float EXHAUST_PARTICLES_PER_SHIP_PER_SEC = 1800.0f;
 	inline constexpr float EXHAUST_MIN_REACTION_POWER = 0.02f;
-	inline constexpr float EXHAUST_STREAM_TIMESTEP_CAP = 0.03f;
+	inline constexpr float EXHAUST_STREAM_TIMESTEP_CAP = 0.1f;
 	inline constexpr float EXHAUST_DUST_RADIAL_KICK_SPEED = 24.0f;
 	inline constexpr float EXHAUST_DUST_TANGENT_KICK_SPEED = 38.0f;
 	inline constexpr float EXHAUST_DUST_LOWEST_NON_CULL_PROB = 0.05f;	// Keep at least one in 20 particles
-	inline constexpr float EXHAUST_LOG_SCALE = 40.0f;
-	inline constexpr float EXHAUST_ANGULAR_FACTOR = 0.2f;
+	inline constexpr float EXHAUST_LOG_SCALE = 20.0f;
+	inline constexpr float EXHAUST_ANGULAR_FACTOR = 0.2f;	// Rotational thruster exhaust is reduced by this factor, otherwise it looks far too strong
+	inline constexpr float EXHAUST_DRAG_FACTOR = 0.5f;	// Increase to have more atmospheric drag, so the jets shoot out less far before becoming cloud-like
 }
 
 struct Sfx {
@@ -62,38 +63,48 @@ struct Sfx {
 	void TimeStepUpdate(const float timeStep);
 	void SaveToJson(Json &jsonObj, const Space *space);
 
+	// --- Shared by all SFX types ---
+	// For TYPE_EXHAUST these hold backbone (jet centreline) position and velocity.
 	vector3d m_pos;
 	vector3d m_vel;
-	// Thruster exhaust jets have a "backbone" which is the centre of the stream. This is used
-	// to track how stretched out each particle should be, and in which direction.
-	vector3d m_backbonePos;
-	vector3d m_backboneVel;
-	vector3d m_backboneAtStepStart;
-	// Each particle then has a perpendicular offset from the backbone, which grows over time
-	// and gives the exhaust plume its conical shape
-	vector3d m_plumeOffset;
-	vector3d m_plumeOffsetVel;
+	// Start-of-step position for render interpolation between physics ticks.
+	vector3d m_posAtStepStart;
 	float m_age;
-	float m_speed;
-	float m_seed;
-	float m_lifetime;
-	float m_dragScale;
-	float m_opacityScale;
-	vector3d m_windVel;
+	float m_speed; // For TYPE_EXHAUST this is used for thruster intensity at spawn, which is per jet - could be moved to an auxilliary table
 	enum SFX_TYPE m_type;
 
-	// Atmospheric exhaust: streak direction chains consecutive spawns per thruster only.
-	// Runtime grouping uses emitting Body pointer (stable for object lifetime); savegames store
-	// Space body index separately because pointers are not serialized.
-	const Body *m_exhaustEmitter;
-	Uint32 m_exhaustSavedEmitterBodyIdx;
-	Uint16 m_exhaustJetIndex;
-	Uint32 m_exhaustBirthSeq; // For sort order within a stream
+	float m_seed;
+	float m_lifetime;
+
 	// If true this particle should not streak towards the previous one, usually this is because it's the first particle in a new thruster pulse
 	bool m_exhaustSuppressStreakElongation;
-	double m_exhaustGroundRadius; // The height of the ground below this exhaust, calculated from the ground below the ship at spawn time
+
 	bool m_exhaustDustKick; // After the exhaust hits the ground, it can turn into a dust cloud particle
+
+	Uint16 m_exhaustJetIndex; // The jet index to the emitter that created this particle
+
+	// --- TYPE_EXHAUST stream kinematics (per particle) ---
+	// Each particle has a perpendicular offset from the backbone (m_pos), which grows over time
+	// and gives the exhaust plume its conical shape
+	vector3f m_plumeOffset;
+	vector3f m_plumeOffsetVel;
+
+	// --- TYPE_EXHAUST spawn context, can be the same for several particles in a tick ---
+	// Future work: move per-emitter (ship) and per-jet (thruster) fields to a side table keyed by
+	// (m_exhaustEmitter, m_exhaustJetIndex) to shrink the Sfx footprint.
+
+	// Emitter identity (for stream grouping)
+	const Body *m_exhaustEmitter;
+	Uint32 m_exhaustSavedEmitterBodyIdx;
+
+	float m_opacityScale; // How visible the exhaust should be - thinner atmosphere and weaker thrust levels reduce this
 	Color m_exhaustDustTint; // Dust tint and mix amount, calculated from the ground below the ship at spawn time.
+	double m_exhaustGroundRadius; // The height of the ground below this exhaust, calculated from the ground below the ship at spawn time
+
+	// Atmospheric behaviour - if planet wind is implemented then this would be the hook for making thruster plumes blow about
+	float m_dragScale;   // per emitter (ship), constant for all jets on a spawn tick
+	vector3f m_windVel;  // per emitter, constant for all jets on a spawn tick
+
 	static constexpr Uint32 INVALID_EXHAUST_SAVED_BODY_IDX = Uint32(0xffffffffu);
 };
 
@@ -104,7 +115,7 @@ public:
 	static void Add(const Body *, SFX_TYPE);
 	static void AddExplosion(Body *);
 	static void AddThrustSmoke(const Body *b, float speed, const vector3d &adjustpos);
-	static void AddExhaust(const Body *b, Uint16 exhaustJetIndex, bool exhaustSuppressStreakElongation, const vector3d &backboneAdjustPos, const vector3d &backboneVel, const vector3d &plumeOffset, const vector3d &plumeOffsetVel, float intensity, float dragScale, float opacityScale, const vector3d &windVel, double groundRadius, const Color &dustTint);
+	static void AddExhaust(const Body *b, Uint16 exhaustJetIndex, bool exhaustSuppressStreakElongation, const vector3d &backboneAdjustPos, const vector3d &backboneVel, const vector3f &plumeOffset, const vector3f &plumeOffsetVel, float intensity, float dragScale, float opacityScale, const vector3f &windVel, double groundRadius, const Color &dustTint);
 	static void TimeStepAll(const float timeStep, FrameId f);
 	static void RenderAll(Graphics::Renderer *r, FrameId f, FrameId camFrame, const Camera *camera = nullptr, float exhaustIllumMul = 1.f);
 	static void ToJson(Json &jsonObj, const FrameId f, const Space *space);
@@ -152,7 +163,6 @@ private:
 	// members
 	// per-frame
 	std::deque<Sfx> m_instances[TYPE_NONE];
-	Uint32 m_nextExhaustBirthSeq = 1;
 };
 
 #endif /* _SFX_H */

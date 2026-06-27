@@ -16,6 +16,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "Space.h"
+#include "matrix3x3.h"
 #include "matrix4x4.h"
 
 #include "core/IniConfig.h"
@@ -27,11 +28,14 @@
 #include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"
 #include "graphics/VertexArray.h"
+#include "graphics/VertexBuffer.h"
 
 #include "profiler/Profiler.h"
 
 #include <algorithm>
 #include <cmath>
+#include <cstring>
+#include <map>
 #include <vector>
 
 using namespace Graphics;
@@ -46,13 +50,43 @@ namespace {
 		return static_cast<uint64_t>(s.m_exhaustSavedEmitterBodyIdx);
 	}
 
-	inline bool SameExhaustJetStream(const Sfx &a, const Sfx &b)
+	struct ExhaustJetStreamKey {
+		uint64_t emitterKey;
+		Uint16 jetIndex;
+
+		bool operator<(const ExhaustJetStreamKey &other) const
+		{
+			if (emitterKey != other.emitterKey)
+				return emitterKey < other.emitterKey;
+			return jetIndex < other.jetIndex;
+		}
+	};
+
+	// Reused each exhaust draw, cleared at the start of every pass.
+	std::map<ExhaustJetStreamKey, std::vector<Sfx *>> s_exhaustByJet;
+
+	// GPU instance record for instanced exhaust quads (40-byte stride, binding 1).
+	struct ExhaustInstanceData {
+		vector3f center;
+		float size;
+		vector3f jetVectorCam;
+		float backboneCamZ;
+		float stretchScale;
+		Color color;
+	};
+	static_assert(sizeof(ExhaustInstanceData) == 40);
+
+	Graphics::VertexFormatDesc BuildExhaustInstancedVertexFormat()
 	{
-		if (a.m_exhaustJetIndex != b.m_exhaustJetIndex)
-			return false;
-		if (a.m_exhaustEmitter || b.m_exhaustEmitter)
-			return a.m_exhaustEmitter == b.m_exhaustEmitter;
-		return a.m_exhaustSavedEmitterBodyIdx == b.m_exhaustSavedEmitterBodyIdx;
+		// Instance-only format, quad corners come from gl_VertexID in the shader.
+		Graphics::VertexFormatDesc vtxFormat = {};
+		vtxFormat.attribs[0] = { Graphics::ATTRIB_FORMAT_FLOAT4, 6, 0, 0 };
+		vtxFormat.attribs[1] = { Graphics::ATTRIB_FORMAT_FLOAT4, 7, 0, 16 };
+		vtxFormat.attribs[2] = { Graphics::ATTRIB_FORMAT_FLOAT, 8, 0, 32 };
+		vtxFormat.attribs[3] = { Graphics::ATTRIB_FORMAT_UBYTE4, 9, 0, 36 };
+		vtxFormat.bindings[0] = { sizeof(ExhaustInstanceData), true, Graphics::ATTRIB_RATE_INSTANCE };
+		assert(vtxFormat.ValidateDesc() == Graphics::InvalidVertexFormatReason::OK);
+		return vtxFormat;
 	}
 
 	float SizeToPixels(int screenHeight, const vector3f &trans, const float size)
@@ -89,7 +123,7 @@ namespace {
 		if (s.m_exhaustDustKick)
 			return;	// Already hit the ground
 
-		const vector3d particlePos = s.m_backbonePos + s.m_plumeOffset;
+		const vector3d particlePos = s.m_pos + vector3d(s.m_plumeOffset);
 		const double radialDistSqr = particlePos.LengthSqr();
 		const double groundRadius = s.m_exhaustGroundRadius;
 		if (radialDistSqr > groundRadius * groundRadius)
@@ -115,12 +149,12 @@ namespace {
 		const double tanJ = Pi::rng.Double(0.35, 1.0);
 		const double radJ = Pi::rng.Double(0.55, 1.0);
 
-		s.m_backbonePos = surface;
-		s.m_plumeOffset = vector3d(0.);
-		s.m_backboneVel = vector3d(0.);
+		s.m_pos = surface;
+		s.m_plumeOffset = vector3f(0.f);
+		s.m_vel = vector3d(0.);
 		s.m_plumeOffsetVel =
-			rad * double(SfxParams::EXHAUST_DUST_RADIAL_KICK_SPEED * s.m_speed * float(radJ)) +
-			tang * double(SfxParams::EXHAUST_DUST_TANGENT_KICK_SPEED * s.m_speed * float(tanJ));
+			vector3f(rad) * (SfxParams::EXHAUST_DUST_RADIAL_KICK_SPEED * s.m_speed * float(radJ)) +
+			vector3f(tang) * (SfxParams::EXHAUST_DUST_TANGENT_KICK_SPEED * s.m_speed * float(tanJ));
 
 		s.m_exhaustDustKick = true;
 	}
@@ -136,30 +170,25 @@ SfxManager::MaterialData SfxManager::m_materialData[TYPE_NONE];
 Sfx::Sfx(const vector3d &pos, const vector3d &vel, const float speed, const SFX_TYPE type) :
 	m_pos(pos),
 	m_vel(vel),
-	m_backbonePos(pos),
-	m_backboneVel(vel),
-	m_backboneAtStepStart(pos),
-	m_plumeOffset(vector3d::Zero),
-	m_plumeOffsetVel(vector3d::Zero),
+	m_posAtStepStart(pos),
 	m_age(0.0f),
 	m_speed(speed),
+	m_type(type),
 	m_seed(float(Pi::rng.Double())),
 	m_lifetime(SfxParams::EXHAUST_LIFETIME),
-	m_dragScale(1.0f),
-	m_opacityScale(1.0f),
-	m_windVel(vector3d::Zero),
-	m_type(type),
+	m_exhaustSuppressStreakElongation(false),
+	m_exhaustDustKick(false),
+	m_exhaustJetIndex(0),
+	m_plumeOffset(0.f),
+	m_plumeOffsetVel(0.f),
 	m_exhaustEmitter(nullptr),
 	m_exhaustSavedEmitterBodyIdx(Sfx::INVALID_EXHAUST_SAVED_BODY_IDX),
-	m_exhaustJetIndex(0),
-	m_exhaustBirthSeq(0),
-	m_exhaustSuppressStreakElongation(false),
+	m_opacityScale(1.0f),
+	m_exhaustDustTint(0, 0, 0, 0),
 	m_exhaustGroundRadius(0.0),
-	m_exhaustDustKick(false),
-	m_exhaustDustTint(0, 0, 0, 0)
+	m_dragScale(1.0f),
+	m_windVel(vector3f::Zero)
 {
-	if (type == TYPE_EXHAUST)
-		m_lifetime = SfxParams::EXHAUST_LIFETIME * float(std::pow(Pi::rng.Double(0.5, 1.0), 2.0));
 }
 
 Sfx::Sfx(const Json &jsonObj)
@@ -169,22 +198,19 @@ Sfx::Sfx(const Json &jsonObj)
 
 		m_pos = sfxObj["pos"];
 		m_vel = sfxObj["vel"];
-		m_backbonePos = sfxObj.value("backbonePos", m_pos);
-		m_backboneVel = sfxObj.value("backboneVel", m_vel);
-		m_backboneAtStepStart = sfxObj.value("backboneAtStepStart", m_backbonePos);
-		m_plumeOffset = sfxObj.value("plumeOffset", vector3d::Zero);
-		m_plumeOffsetVel = sfxObj.value("plumeOffsetVel", vector3d::Zero);
+		m_posAtStepStart = sfxObj.value("posAtStepStart", m_pos);
+		m_plumeOffset = vector3f(sfxObj.value("plumeOffset", vector3d::Zero));
+		m_plumeOffsetVel = vector3f(sfxObj.value("plumeOffsetVel", vector3d::Zero));
 		m_age = sfxObj["age"];
 		m_seed = sfxObj.value("seed", float(Pi::rng.Double()));
 		m_lifetime = sfxObj.value("lifetime", SfxParams::EXHAUST_LIFETIME);
 		m_dragScale = sfxObj.value("dragScale", 1.0f);
 		m_opacityScale = sfxObj.value("opacityScale", 1.0f);
-		m_windVel = sfxObj.value("windVel", vector3d::Zero);
+		m_windVel = vector3f(sfxObj.value("windVel", vector3d::Zero));
 		m_type = sfxObj["type"];
 		m_exhaustEmitter = nullptr;
 		m_exhaustSavedEmitterBodyIdx = sfxObj.value("exhaustEmitterBodyIdx", Sfx::INVALID_EXHAUST_SAVED_BODY_IDX);
 		m_exhaustJetIndex = Uint16(sfxObj.value("exhaustJetIndex", 0));
-		m_exhaustBirthSeq = sfxObj.value("exhaustBirthSeq", Uint32(0));
 		m_exhaustSuppressStreakElongation = sfxObj.value("exhaustSuppressStreakElongation", false);
 		m_exhaustGroundRadius = sfxObj.value("exhaustGroundRadius", 0.0);
 		m_exhaustDustKick = sfxObj.value("exhaustDustKick", false);
@@ -201,21 +227,18 @@ void Sfx::SaveToJson(Json &jsonObj, const Space *space)
 	sfxObj["pos"] = m_pos;
 	sfxObj["vel"] = m_vel;
 	if (m_type == TYPE_EXHAUST) {
-		sfxObj["backbonePos"] = m_backbonePos;
-		sfxObj["backboneVel"] = m_backboneVel;
-		sfxObj["backboneAtStepStart"] = m_backboneAtStepStart;
-		sfxObj["plumeOffset"] = m_plumeOffset;
-		sfxObj["plumeOffsetVel"] = m_plumeOffsetVel;
+		sfxObj["posAtStepStart"] = m_posAtStepStart;
+		sfxObj["plumeOffset"] = vector3d(m_plumeOffset);
+		sfxObj["plumeOffsetVel"] = vector3d(m_plumeOffsetVel);
 		sfxObj["lifetime"] = m_lifetime;
 		sfxObj["dragScale"] = m_dragScale;
 		sfxObj["opacityScale"] = m_opacityScale;
-		sfxObj["windVel"] = m_windVel;
+		sfxObj["windVel"] = vector3d(m_windVel);
 		Uint32 bodyIdxForSave = m_exhaustSavedEmitterBodyIdx;
 		if (m_exhaustEmitter && space && space->IsBodyIndexValid())
 			bodyIdxForSave = space->GetIndexForBody(m_exhaustEmitter);
 		sfxObj["exhaustEmitterBodyIdx"] = bodyIdxForSave;
 		sfxObj["exhaustJetIndex"] = m_exhaustJetIndex;
-		sfxObj["exhaustBirthSeq"] = m_exhaustBirthSeq;
 		sfxObj["exhaustSuppressStreakElongation"] = m_exhaustSuppressStreakElongation;
 		sfxObj["exhaustGroundRadius"] = m_exhaustGroundRadius;
 		sfxObj["exhaustDustKick"] = m_exhaustDustKick;
@@ -237,7 +260,8 @@ void Sfx::TimeStepUpdate(const float timeStep)
 {
 	PROFILE_SCOPED()
 	m_age += timeStep;
-	m_pos += m_vel * double(timeStep);
+	if (m_type != TYPE_EXHAUST)
+		m_pos += m_vel * double(timeStep);
 
 	switch (m_type) {
 	case TYPE_EXPLOSION:
@@ -251,20 +275,17 @@ void Sfx::TimeStepUpdate(const float timeStep)
 		break;
 	case TYPE_EXHAUST:
 		{
-			m_backboneAtStepStart = m_backbonePos;
+			m_posAtStepStart = m_pos;
 
 			const double drag = Clamp(0.9 * double(m_dragScale) * double(timeStep), 0.0, 0.85);
-			// Backbone follows the coherent central jet flow.
-			m_backboneVel += (m_windVel - m_backboneVel) * drag;
+			// Backbone is influenced by wind, the plume offset isn't, so we're not applying the wind twice.
+			m_vel += (vector3d(m_windVel) - m_vel) * drag;
+			m_plumeOffsetVel -= m_plumeOffsetVel * drag * 0.5;
 
-			m_backbonePos += m_backboneVel * double(timeStep);
+			m_pos += m_vel * double(timeStep);
 			if (m_age > SfxParams::EXHAUST_TIME_BEFORE_SPREAD)
-				m_plumeOffset += m_plumeOffsetVel * double(timeStep);
+				m_plumeOffset += m_plumeOffsetVel * timeStep;
 			ApplyExhaustGroundThreshold(*this);
-
-			// Keep legacy fields coherent for non-exhaust code paths.
-			m_pos = m_backbonePos + m_plumeOffset;
-			m_vel = m_backboneVel + m_plumeOffsetVel;
 		}
 		if (m_age > m_lifetime) m_type = TYPE_NONE;
 		break;
@@ -284,8 +305,7 @@ float Sfx::AgeBlend() const
 	return 0.0f;
 }
 
-SfxManager::SfxManager() :
-	m_nextExhaustBirthSeq(1)
+SfxManager::SfxManager()
 {
 	for (size_t t = 0; t < TYPE_NONE; t++) {
 		m_instances[t].clear();
@@ -372,27 +392,32 @@ void SfxManager::AddThrustSmoke(const Body *b, const float speed, const vector3d
 	sfxman->AddInstance(sfx);
 }
 
-void SfxManager::AddExhaust(const Body *b, const Uint16 exhaustJetIndex, const bool exhaustSuppressStreakElongation, const vector3d &startPos, const vector3d &backboneVel, const vector3d &plumeOffset, const vector3d &plumeOffsetVel, const float intensity, const float dragScale, const float opacityScale, const vector3d &windVel, const double groundRadius, const Color &dustTint)
+void SfxManager::AddExhaust(const Body *b, const Uint16 exhaustJetIndex, const bool exhaustSuppressStreakElongation, const vector3d &startPos, const vector3d &backboneVel, const vector3f &plumeOffset, const vector3f &plumeOffsetVel, const float intensity, const float dragScale, const float opacityScale, const vector3f &windVel, const double groundRadius, const Color &dustTint)
 {
+	PROFILE_SCOPED()
+
 	SfxManager *sfxman = AllocSfxInFrame(b->GetFrame());
 	if (!sfxman) return;
 
-	const vector3d pos = startPos + plumeOffset;
-	Sfx sfx(pos, backboneVel, intensity, TYPE_EXHAUST);
-	sfx.m_backbonePos = startPos;
-	sfx.m_backboneVel = backboneVel;
+	Sfx sfx(startPos, backboneVel, intensity, TYPE_EXHAUST);
 	sfx.m_plumeOffset = plumeOffset;
 	sfx.m_plumeOffsetVel = plumeOffsetVel;
-	sfx.m_vel = sfx.m_backboneVel + sfx.m_plumeOffsetVel;
 	sfx.m_dragScale = dragScale;
 	sfx.m_opacityScale = opacityScale;
 	sfx.m_windVel = windVel;
-	sfx.m_backboneAtStepStart = sfx.m_backbonePos;
+	sfx.m_posAtStepStart = startPos;
 	sfx.m_exhaustJetIndex = exhaustJetIndex;
 	sfx.m_exhaustEmitter = b;
 	sfx.m_exhaustSavedEmitterBodyIdx = Sfx::INVALID_EXHAUST_SAVED_BODY_IDX;
 	sfx.m_exhaustSuppressStreakElongation = exhaustSuppressStreakElongation;
-	sfx.m_exhaustBirthSeq = sfxman->m_nextExhaustBirthSeq++;
+
+	// Give each exhaust particle a random lifetime, except for the "marker" particles which only exist to pinpoint
+	// the start of an exhaust pulse. Those stay alive as long as possible because if they disappear early then the
+	// next particle may try to streak back to an earlier one instead of stopping where it should.
+	sfx.m_lifetime = SfxParams::EXHAUST_LIFETIME + 0.5f;
+	if (!exhaustSuppressStreakElongation)
+		sfx.m_lifetime = SfxParams::EXHAUST_LIFETIME * float(std::pow(Pi::rng.Double(0.5, 1.0), 2.0));
+
 	sfx.m_exhaustGroundRadius = groundRadius;
 	sfx.m_exhaustDustKick = false;
 	sfx.m_exhaustDustTint = dustTint;
@@ -482,126 +507,128 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId, 
 			const double alpha = Pi::game ? Pi::GetGameTickAlpha() : 1.0;
 
 			if (t == TYPE_EXHAUST) {
-				Graphics::VertexArray exhaustArray(
-					Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0,
-					numInstances * 6);
-				std::vector<size_t> exhaustOrder(numInstances);
-				for (size_t i = 0; i < numInstances; ++i)
-					exhaustOrder[i] = i;
-				std::sort(exhaustOrder.begin(), exhaustOrder.end(), [&](size_t ia, size_t ib) {
-					const Sfx &a = f->m_sfx->GetInstanceByIndex(TYPE_EXHAUST, ia);
-					const Sfx &b = f->m_sfx->GetInstanceByIndex(TYPE_EXHAUST, ib);
-					const uint64_t keyA = ExhaustStreamEmitterSortKey(a);
-					const uint64_t keyB = ExhaustStreamEmitterSortKey(b);
-					if (keyA != keyB)
-						return keyA < keyB;
-					if (a.m_exhaustJetIndex != b.m_exhaustJetIndex)
-						return a.m_exhaustJetIndex < b.m_exhaustJetIndex;
-					if (a.m_exhaustBirthSeq != b.m_exhaustBirthSeq)
-						return a.m_exhaustBirthSeq < b.m_exhaustBirthSeq;
-					return ia < ib;
-				});
+				const matrix3x3f frameRot(forient);
 
-				const Sfx *prevStreakParticle = nullptr;
-				vector3d prevInterpBackboneCam = vector3d::Zero;
+				// We need to draw the particles in order, so that we can have streaks in the exhaust jet - each particle
+				// elongates back to the previous particle's position. So the particles need to be in "jet stream order".
+				// However, they are already in order, because new particles are always added at the end, and existing
+				// particles may disappear but never swap places. Except - if there is more than one jet (quite likely
+				// given many ships have multiple thrusters grouped together) then the particles are all mixed up per jet.
+				// So we now separate them into jet stream buckets by walking through the list.
 
-				for (const size_t i : exhaustOrder) {
+				for (auto &bucket : s_exhaustByJet)
+					bucket.second.clear();
+
+				for (size_t i = 0; i < numInstances; ++i) {
 					Sfx &inst(f->m_sfx->GetInstanceByIndex(TYPE_EXHAUST, i));
-
 					assert(inst.m_type == t);
-
-					// Backbone stores explicit start/end for this physics step.
-					vector3d interpBackbone = inst.m_backboneAtStepStart * (1.0 - alpha) + inst.m_backbonePos * alpha;
-
-					// Plume offset is a small local perturbation; derive its start-of-step estimate
-					// from end-of-step offset and current plume offset velocity.
-					const vector3d interpOffset = inst.m_plumeOffset - inst.m_plumeOffsetVel * ((1.0 - alpha) * timeStep);
-					const vector3d interpPos = interpBackbone + interpOffset;
-					const vector3f pos(ftran * interpPos);
-
-					const float ageNorm = Clamp(inst.m_age / std::max(inst.m_lifetime, 0.001f), 0.0f, 1.0f);
-					const vector3d interpBackboneCam = ftran * interpBackbone;
-
-					const bool prevWasDust = prevStreakParticle && prevStreakParticle->m_exhaustDustKick;
-					const bool sameJetStream = prevStreakParticle && SameExhaustJetStream(*prevStreakParticle, inst);
-					const bool elongateTowardPrev = sameJetStream && !inst.m_exhaustSuppressStreakElongation;
-
-					// The elongation effectively draws particles stretched from their current location back towards
-					// the previous particle in the stream. But since the particles are soft ellipses we need to 
-					// lengthen the jet vector first, to get a nice unbroken streaky stream.
-					const vector3f jetVectorCam = vector3f((interpBackboneCam - prevInterpBackboneCam) * 4.0);
-
-					prevInterpBackboneCam = interpBackboneCam;
-					prevStreakParticle = &inst;
-
-					if (!elongateTowardPrev && !inst.m_exhaustDustKick) continue;
-					if (!sameJetStream && !inst.m_exhaustDustKick) continue;
-					if (prevWasDust && !inst.m_exhaustDustKick) continue;
-
-					// Camera-space view direction from particle to camera origin.
-					const vector3f viewDir = (-pos).NormalizedSafe();
-
-					// Attenuate elongation when difference in Z values is relatively large
-					float attenuation = 1.0;
-					const float prevZ = std::abs(interpBackboneCam.z - jetVectorCam.z);
-					const float curZ = std::abs(interpBackboneCam.z);
-					if ((prevZ > 0.1f) && (curZ > 0.1f))
-						attenuation = std::min(1.0f, curZ / prevZ);
-
-					// Billboard plane basis: V aligns with jet axis projection onto the view plane.
-					// This approximates an ellipsoid projection:
-					// - looking down axis => round
-					// - side-on => elongated.
-					const vector3f vProj = jetVectorCam - viewDir * jetVectorCam.Dot(viewDir);
-					const vector3f axisV = vProj.NormalizedSafe();
-					const vector3f axisU = viewDir.Cross(axisV).NormalizedSafe();
-
-					const float speedMag = jetVectorCam.Dot(axisV);
-					const float apparentStretch = (prevWasDust || inst.m_exhaustDustKick ? 0.0 : speedMag * attenuation);
-
-					float size = std::max(0.01f, float(inst.m_plumeOffset.Length()));
-					if (inst.m_exhaustDustKick)
-						size = SfxParams::EXHAUST_DUST_SIZE * ageNorm * std::max(inst.m_speed, 0.2f);
-
-					// Two UV triangles, the V-axis is aligned to the jet backbone axis.
-					const vector3f u = axisU * size;
-					const vector3f v = axisV * size;
-					const vector3f v_add = axisV * apparentStretch;
-
-					const vector3f p0 = pos - u - v - v_add;
-					const vector3f p1 = pos + u - v - v_add;
-					const vector3f p2 = pos + u + v;
-					const vector3f p3 = pos - u + v;
-
-					const float ageFade = powf(1.0f - ageNorm, 2.8f);
-
-					Color particleColor;
-					if (inst.m_exhaustDustKick) {
-						// This is a dust cloud particle
-						particleColor = inst.m_exhaustDustTint;
-						const Uint8 opacityA = Uint8((float)particleColor.a * ageFade);
-						particleColor.a = opacityA;
-					} else {
-						// This is an exhaust plume particle
-						const float opacityTimesAge = Clamp(inst.m_opacityScale * ageFade, 0.f, 1.f);
-						const Uint8 opacityA = Uint8(opacityTimesAge * 255.f);
-						particleColor = Color(255, 255, 255, opacityA);
-					}
-
-					particleColor.r = Uint8(Clamp(int(float(particleColor.r) * exhaustIllumMul), 0, 255));
-					particleColor.g = Uint8(Clamp(int(float(particleColor.g) * exhaustIllumMul), 0, 255));
-					particleColor.b = Uint8(Clamp(int(float(particleColor.b) * exhaustIllumMul), 0, 255));
-
-					exhaustArray.Add(p0, particleColor, vector2f(0.f, 0.f));
-					exhaustArray.Add(p1, particleColor, vector2f(1.f, 0.f));
-					exhaustArray.Add(p2, particleColor, vector2f(1.f, 1.f));
-					exhaustArray.Add(p2, particleColor, vector2f(1.f, 1.f));
-					exhaustArray.Add(p3, particleColor, vector2f(0.f, 1.f));
-					exhaustArray.Add(p0, particleColor, vector2f(0.f, 0.f));
+					const ExhaustJetStreamKey key{
+						ExhaustStreamEmitterSortKey(inst),
+						inst.m_exhaustJetIndex,
+					};
+					s_exhaustByJet[key].push_back(&inst);
 				}
 
-				renderer->SetTransform(matrix4x4f::Identity);
-				renderer->DrawBuffer(&exhaustArray, material);
+				for (auto it = s_exhaustByJet.begin(); it != s_exhaustByJet.end(); ) {
+					if (it->second.empty())
+						it = s_exhaustByJet.erase(it);
+					else
+						++it;
+				}
+
+				std::vector<ExhaustInstanceData> exhaustInstances;
+				exhaustInstances.reserve(numInstances);
+
+				for (const auto &jetBucket : s_exhaustByJet) {
+					const Sfx *prevStreakParticle = nullptr;
+					vector3f prevInterpBackboneCam = vector3f(0.f);
+
+					for (Sfx *instPtr : jetBucket.second) {
+						Sfx &inst(*instPtr);
+
+						// Backbone stores explicit start/end for this physics step.
+						vector3d interpBackbone = inst.m_posAtStepStart * (1.0 - alpha) + inst.m_pos * alpha;
+
+						// Plume offset is a small local perturbation, composite in camera space after backbone transform.
+						const vector3f interpOffset = inst.m_plumeOffset - inst.m_plumeOffsetVel * float((1.0 - alpha) * timeStep);
+						const vector3f backboneCam(ftran * interpBackbone);
+						const vector3f pos = backboneCam + frameRot * interpOffset;
+
+						const float ageNorm = Clamp(inst.m_age / std::max(inst.m_lifetime, 0.001f), 0.0f, 1.0f);
+						const vector3f interpBackboneCam = backboneCam;
+
+						// The first particle in a jet does not get drawn - it is there to allow the next particle to stretch back
+						// towards it. This also applies to the first particle in a thruster pulse - if the user repeatedly presses
+						// and lets go of a thruster key, then we don't want each burst's initial particle to streak towards the end
+						// of the previous burst, so we deliberately suppress those.
+						// However - none of this applies to dust particles, which have no streaking.
+						const bool prevWasDust = prevStreakParticle && prevStreakParticle->m_exhaustDustKick;
+						const bool elongateTowardPrev = prevStreakParticle && !inst.m_exhaustSuppressStreakElongation;
+
+						// The elongation effectively draws particles stretched from their current location back towards
+						// the previous particle in the stream. But since the particles are soft ellipses we need to
+						// lengthen the jet vector to make them overlap and get a nice unbroken streaky stream.
+						const vector3f jetVectorCam = (interpBackboneCam - prevInterpBackboneCam) * 4.0;
+
+						prevInterpBackboneCam = interpBackboneCam;
+						prevStreakParticle = &inst;
+
+						if (!elongateTowardPrev && !inst.m_exhaustDustKick) continue;
+						if (prevWasDust && !inst.m_exhaustDustKick) continue;
+
+						// Don't start drawing particles until they have started spreading. This ensures we don't have
+						// any thin lines coming from the thruster nozzle, preferring a later "emerging contrail" effect.
+						if (inst.m_age < SfxParams::EXHAUST_TIME_BEFORE_SPREAD) continue;
+
+						float size = std::max(0.01f, float(inst.m_plumeOffset.Length()));
+						if (inst.m_exhaustDustKick)
+							size = SfxParams::EXHAUST_DUST_SIZE * ageNorm * std::max(inst.m_speed, 0.2f);
+
+						const float ageFade = powf(1.0f - ageNorm, 2.8f);
+
+						Color particleColor;
+						if (inst.m_exhaustDustKick) {
+							particleColor = inst.m_exhaustDustTint;
+							const Uint8 opacityA = Uint8((float)particleColor.a * ageFade);
+							particleColor.a = opacityA;
+						} else {
+							const float opacityTimesAge = Clamp(inst.m_opacityScale * ageFade, 0.f, 1.f);
+							const Uint8 opacityA = Uint8(opacityTimesAge * 255.f);
+							particleColor = Color(255, 255, 255, opacityA);
+						}
+
+						particleColor.r = Uint8(Clamp(int(float(particleColor.r) * exhaustIllumMul), 0, 255));
+						particleColor.g = Uint8(Clamp(int(float(particleColor.g) * exhaustIllumMul), 0, 255));
+						particleColor.b = Uint8(Clamp(int(float(particleColor.b) * exhaustIllumMul), 0, 255));
+
+						const float stretchScale = (prevWasDust || inst.m_exhaustDustKick) ? 0.f : 1.f;
+
+						exhaustInstances.push_back({
+							pos,
+							size,
+							jetVectorCam,
+							interpBackboneCam.z,
+							stretchScale,
+							particleColor,
+						});
+					}
+				}
+
+				if (!exhaustInstances.empty()) {
+					const uint32_t numDrawn = uint32_t(exhaustInstances.size());
+					Graphics::BufferBinding<Graphics::VertexBuffer> instanceBinding =
+						renderer->CreateTempVertexBuffer(numDrawn, sizeof(ExhaustInstanceData));
+
+					ExhaustInstanceData *instanceData =
+						instanceBinding.buffer->MapRange<ExhaustInstanceData>(instanceBinding, Graphics::BUFFER_MAP_WRITE);
+					if (instanceData) {
+						std::memcpy(instanceData, exhaustInstances.data(), numDrawn * sizeof(ExhaustInstanceData));
+						instanceBinding.buffer->UnmapRange(false);
+					}
+
+					renderer->SetTransform(matrix4x4f::Identity);
+					renderer->Draw({ instanceBinding }, {}, material, 4, numDrawn);
+				}
 
 			} else {
 				const double interpDt = alpha * timeStep;
@@ -722,7 +749,7 @@ void SfxManager::Init(Graphics::Renderer *r)
 	additiveAlphaState.primitiveType = Graphics::POINTS;
 
 	Graphics::RenderStateDesc exhaustAlphaState = alphaState;
-	exhaustAlphaState.primitiveType = Graphics::TRIANGLES;
+	exhaustAlphaState.primitiveType = Graphics::TRIANGLE_STRIP;
 	exhaustAlphaState.cullMode = Graphics::CULL_NONE;
 
 	Graphics::VertexFormatDesc vfmt = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
@@ -762,8 +789,7 @@ void SfxManager::Init(Graphics::Renderer *r)
 	Graphics::MaterialDescriptor exhaustDesc;
 	exhaustDesc.textures = 0;
 	exhaustDesc.effect = Graphics::EFFECT_BILLBOARD;
-	const auto exhaustVfmt = Graphics::VertexFormatDesc::FromAttribSet(
-		Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
+	const Graphics::VertexFormatDesc exhaustVfmt = BuildExhaustInstancedVertexFormat();
 	exhaustParticle.reset(r->CreateMaterial("exhaust", exhaustDesc, exhaustAlphaState, exhaustVfmt));
 	exhaustParticle->diffuse = Color(255, 255, 255, 255);
 
