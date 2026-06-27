@@ -21,9 +21,6 @@ struct BaseSphereDataBlock {
 	float geosphereAtmosFogDensity;
 	float geosphereAtmosInvScaleHeight;
 	Color4f atmosColor;
-	alignas(16) vector3f coefficientsR;
-	alignas(16) vector3f coefficientsM;
-	alignas(16) vector2f scaleHeight;
 
 	// Eclipse struct data
 	alignas(16) vector3f shadowCentreX;
@@ -33,7 +30,7 @@ struct BaseSphereDataBlock {
 	alignas(16) vector3f lrad;
 	alignas(16) vector3f sdivlrad;
 };
-static_assert(sizeof(BaseSphereDataBlock) == 192, "");
+static_assert(sizeof(BaseSphereDataBlock) == 144, "");
 
 std::unique_ptr<Graphics::Drawables::Sphere3D> BaseSphere::m_atmos;
 
@@ -105,9 +102,6 @@ void BaseSphere::SetMaterialParameters(const matrix4x4d &trans, const float radi
 	matData.geosphereAtmosFogDensity = ap.atmosDensity;
 	matData.geosphereAtmosInvScaleHeight = ap.atmosInvScaleHeight;
 	matData.atmosColor = ap.atmosCol.ToColor4f();
-	matData.coefficientsR = ap.rayleighCoefficients;
-	matData.coefficientsM = ap.mieCoefficients;
-	matData.scaleHeight = ap.scaleHeight;
 
 	// we handle up to three shadows at a time
 	auto it = shadows.cbegin(), itEnd = shadows.cend();
@@ -123,13 +117,56 @@ void BaseSphere::SetMaterialParameters(const matrix4x4d &trans, const float radi
 		++j;
 	}
 
+	std::unique_ptr<vector2f, FreeDeleter> buf(static_cast<vector2f *>(malloc((DENSITY_STEPS + 1) * sizeof(vector2f))));
+	std::unique_ptr<float, FreeDeleter> bufR(static_cast<float *>(malloc((DENSITY_STEPS + 1) * (DENSITY_STEPS + 1) * sizeof(float))));
+	std::unique_ptr<float, FreeDeleter> bufM(static_cast<float *>(malloc((DENSITY_STEPS + 1) * (DENSITY_STEPS + 1) * sizeof(float))));
+
+	for (int i = 0; i <= DENSITY_STEPS; ++i) {
+		vector2f *row = buf.get() + i;
+
+		// map [-128; 128) to [0; 1)
+		row->x = 0.5 + (ap.logDensityMap[i].x / 256);
+		row->y = 0.5 + (ap.logDensityMap[i].y / 256);
+	}
+
+	for (int i = 0; i <= DENSITY_STEPS; ++i) {
+		for (int j = 0; j <= DENSITY_STEPS; ++j) {
+			int index = i * (DENSITY_STEPS + 1) + j;
+
+			bufR.get()[index] = 0.5 + (ap.logDensityMapR[index] / 256);
+			bufM.get()[index] = 0.5 + (ap.logDensityMapM[index] / 256);
+		}
+	}
+
+	const vector3f texSize(2, DENSITY_STEPS + 1, 0.f);
+	const vector3f texSizeR(DENSITY_STEPS + 1, DENSITY_STEPS + 1, 0.f);
+	const vector3f texSizeM(DENSITY_STEPS + 1, DENSITY_STEPS + 1, 0.f);
+
+	const Graphics::TextureDescriptor texDesc(Graphics::TEXTURE_R32, texSize, Graphics::LINEAR_CLAMP, false, true, true, 0, Graphics::TEXTURE_2D);
+	const Graphics::TextureDescriptor texDescR(Graphics::TEXTURE_R32, texSizeR, Graphics::LINEAR_CLAMP, false, true, true, 0, Graphics::TEXTURE_2D);
+	const Graphics::TextureDescriptor texDescM(Graphics::TEXTURE_R32, texSizeM, Graphics::LINEAR_CLAMP, false, true, true, 0, Graphics::TEXTURE_2D);
+
+	m_scatteringTexture.Reset(Pi::renderer->CreateTexture(texDesc));
+	m_scatteringTextureR.Reset(Pi::renderer->CreateTexture(texDescR));
+	m_scatteringTextureM.Reset(Pi::renderer->CreateTexture(texDescM));
+
+	m_scatteringTexture->Update(static_cast<void *>(buf.get()), texSize, Graphics::TEXTURE_R32);
+	m_scatteringTextureR->Update(static_cast<void *>(bufR.get()), texSizeR, Graphics::TEXTURE_R32);
+	m_scatteringTextureM->Update(static_cast<void *>(bufM.get()), texSizeM, Graphics::TEXTURE_R32);
+
 	// FIXME: these two should share the same buffer data instead of making two separate allocs
 	m_surfaceMaterial->SetBufferDynamic(s_baseSphereData, &matData);
 	m_surfaceMaterial->SetPushConstant(s_numShadows, int(shadows.size()));
+	m_surfaceMaterial->SetTexture("scatterLUT"_hash, m_scatteringTexture.Get());
+	m_surfaceMaterial->SetTexture("rayleighLUT"_hash, m_scatteringTextureR.Get());
+	m_surfaceMaterial->SetTexture("mieLUT"_hash, m_scatteringTextureM.Get());
 
 	if (m_atmosphereMaterial.Valid() && ap.atmosDensity > 0.0) {
 		m_atmosphereMaterial->SetBufferDynamic(s_baseSphereData, &matData);
 		m_atmosphereMaterial->SetPushConstant(s_numShadows, int(shadows.size()));
+		m_atmosphereMaterial->SetTexture("scatterLUT"_hash, m_scatteringTexture.Get());
+		m_atmosphereMaterial->SetTexture("rayleighLUT"_hash, m_scatteringTextureR.Get());
+		m_atmosphereMaterial->SetTexture("mieLUT"_hash, m_scatteringTextureM.Get());
 	}
 }
 
