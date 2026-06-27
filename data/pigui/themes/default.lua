@@ -203,7 +203,7 @@ theme.colors = {
 	-- FIXME: this color is primarily used to tint buttons by rendering over top of the frame color.
 	-- This is atrocious for obvious reasons. Refactor button / frame rendering to draw an independent frame border.
 	lightBlueBackground		= styleColors.primary_700:opacity(0.10),
-	lightBlackBackground	= styleColors.panel_900:opacity(0.80), --black:opacity(0.40),
+	lightBlackBackground	= styleColors.panel_900:opacity(0.40), --black:opacity(0.40),
 	windowBackground		= styleColors.panel_900,
 	windowFrame				= styleColors.panel_700,
 	notificationBackground	= styleColors.panel_800,
