@@ -4,6 +4,7 @@
 local Engine = require 'Engine'
 local Lang = require 'Lang'
 local Game = require 'Game'
+local Rand = require 'Rand'
 local Space = require 'Space'
 local Comms = require 'Comms'
 local Event = require 'Event'
@@ -13,6 +14,7 @@ local Passengers = require 'Passengers'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
+local Culture = require 'culture/culture'
 local NameGen = require 'NameGen'
 local Ship = require 'Ship'
 local utils = require 'utils'
@@ -23,6 +25,7 @@ local ShipBuilder = require 'modules.MissionUtils.ShipBuilder'
 
 local l = Lang.GetResource 'module-findperson'
 local lc = Lang.GetResource 'core'
+local lp = Lang.GetResource 'persons'
 
 local PirateTemplate = MissionUtils.ShipTemplates.GenericPirate
 local MercenaryTemplate = MissionUtils.ShipTemplates.GenericMercenary
@@ -38,6 +41,17 @@ local flavours = {
 	{ id = "DELIVER_DOCUMENT", ship = true, taxi = false, company = true, max_risk = 1 },
 	{ id = "TAXI", ship = false, taxi = true, company = false, max_risk = 0.1 },
 	{ id = "EVACUATION", ship = false, taxi = true, company = true, max_risk = 1 },
+}
+
+-- Strings where 'wanted' is a relative (true). Needed for the possibility
+-- to sync cultures/culture names of client/wanted.
+local isfamily = {
+	{true, false, false, true, false,},					-- Deliver message
+	{false, false, false,},								-- Traitor
+	{false, false, false,},								-- Privateer
+	{false, false, false, false,},						-- Deliver document
+	{true, false, true,},								-- Taxi
+	{false, false, false, true,},						-- Evacuation
 }
 
 local ads = {}
@@ -56,6 +70,16 @@ local getNumberOfFlavours = function (str)
 	local num = 1
 
 	while l:get(str .. "_" .. num) do
+		num = num + 1
+	end
+	return num - 1
+end
+
+-- Returns the number of person roles of the given area (family/colleagues etc.).
+local getNumberOfRoles = function (str)
+	local num = 1
+
+	while lp:get(str .. "_" .. num) do
 		num = num + 1
 	end
 	return num - 1
@@ -88,10 +112,15 @@ local onChat = function (form, ref, option)
 
 	form:AddNavButton(ad.location)
 
+	local gender = ad.wanted.female and "_FEMALE" or "_MALE"
+
 	if option == 0 then
 		local introtext = string.interp(ad.introtext, {
 			client   = ad.client.name,
 			wanted   = ad.wanted.name,
+			employee = lp["RELATION_EMPLOYEE" .. gender .. "_" .. ad.employee],
+			friend   = lp["RELATION_FRIEND" .. gender .. "_" .. ad.friend],
+			relative = lp["RELATION_RELATIVE" .. gender .. "_" .. ad.relative],
 			company  = ad.company,
 			cash     = Format.Money(ad.reward, false),
 			system   = ad.location:GetStarSystem().name,
@@ -102,14 +131,13 @@ local onChat = function (form, ref, option)
 			domicile = ad.domicile:GetSystemBody().name,
 			dist     = string.format("%.2f", ad.dist),
 		})
-		form:SetMessage(introtext)
+		form:SetMessage(introtext:scase())
 
 	elseif option == 1 then
-		local gender = ad.wanted.female and "_FEMALE" or "_MALE"
 		form:SetMessage(l["HOW_TO_" .. ad.flavour.id .. gender])
 
 	elseif option == 2 then
-		form:SetMessage(string.interp(getRiskMsg(ad), { wanted = ad.wanted.name }))
+		form:SetMessage(string.interp(getRiskMsg(ad), { wanted = ad.wanted.surname }))
 
 	elseif option == 3 then
 		form:SetMessage(string.interp(l["HOW_MUCH_TIME_" .. ad.flavour.id], { date = Format.Date(ad.due) }))
@@ -126,6 +154,9 @@ local onChat = function (form, ref, option)
 			type        = "FindPerson",
 			client      = ad.client,
 			wanted      = ad.wanted,
+			employee    = ad.employee,
+			friend      = ad.friend,
+			relative    = ad.relative,
 			company     = ad.company,
 			location    = ad.location,
 			destination = ad.location:SystemOnly(),
@@ -191,23 +222,34 @@ local makeAdvert = function (station)
 	local location = nearbysystems[Engine.rand:Integer(1, #nearbysystems)]
 	local dist = location:DistanceTo(Game.system)
 
-	local flavour = flavours[Engine.rand:Integer(1, #flavours)]
+	local female = Engine.rand:Integer(1) == 1
+	local gender = female and "_FEMALE" or "_MALE"
+
+	local flavour_number = Engine.rand:Integer(1, #flavours)
+	local flavour = flavours[flavour_number]
+	local employee = Engine.rand:Integer(1, getNumberOfRoles("RELATION_EMPLOYEE" .. gender))
+	local friend = Engine.rand:Integer(1, getNumberOfRoles("RELATION_FRIEND" .. gender))
+	local relative = Engine.rand:Integer(1, getNumberOfRoles("RELATION_RELATIVE" .. gender))
 	local risk = Engine.rand:Number(0.01, flavour.max_risk)
 	local urgency = Engine.rand:Number(1)
 	local ns = location:GetStarSystem().numberOfStations
 	local reward = math.ceil(dist * (typical_reward + ns) * (1 + risk) * (1.5 + urgency) * Engine.rand:Number(0.8, 1.2))
 	local due = Game.time + ns * 86400 + MissionUtils.TravelTime(dist) * 1.75 * (1.5 - urgency) * Engine.rand:Number(0.9, 1.1)
 
-	local female = Engine.rand:Integer(1) == 1
-	local introtext = "INTROTEXT_" .. flavour.id .. (female and "_FEMALE" or "_MALE")
+	local introtext = "INTROTEXT_" .. flavour.id .. gender
+	local intro_number = Engine.rand:Integer(1, getNumberOfFlavours(introtext))
+	local isfamily = isfamily[flavour_number][intro_number]
 
 	local ad = {
 		station   = station,
 		domicile  = station.path,
-		introtext = l[introtext .. "_" .. Engine.rand:Integer(1, getNumberOfFlavours(introtext))],
+		introtext = l[introtext .. "_" .. intro_number],
 		flavour   = flavour,
 		client    = Character.New(),
 		wanted    = Character.New({ female = female }),
+		employee  = employee,
+		friend    = friend,
+		relative  = relative,
 		company   = flavour.company and string.interp(l["COMPANY_" .. Engine.rand:Integer(1, getNumberOfFlavours("COMPANY"))], { name = NameGen.Surname() }) or nil,
 		location  = location,
 		shipid    = flavour.ship and Ship.MakeRandomLabel() or nil,
@@ -218,6 +260,19 @@ local makeAdvert = function (station)
 		reward    = utils.round(reward, 100),
 	}
 
+	-- 'wanted' is likely to have the same surname as 'client' if they are related.
+	if isfamily and Engine.rand:Number() < 0.7 then
+		-- 'wanted' - surname is same culture as 'client'
+		ad.wanted.culture = ad.client.culture
+		ad.wanted.surname = ad.client.surname
+		ad.wanted.name = ad.wanted.firstname .. " " .. ad.client.surname
+		if Engine.rand:Number() < 0.7 then
+			-- 'wanted' - both first name and surname is same culture as 'client'
+			local rand = Rand.New(station.seed)
+			ad.wanted.firstname = Culture:FirstName(ad.wanted.female,rand,ad.client.culture)
+			ad.wanted.name = ad.wanted.firstname .. " " .. ad.client.surname
+		end
+	end
 	placeAdvert(station, ad)
 end
 
@@ -423,7 +478,8 @@ local onPlayerDocked = function (player, station)
 					if #mission.visited > Engine.rand:Number(4) then
 						local tipster = Character.New()
 						local tip = "TIP_" .. (mission.wanted.female and "FEMALE" or "MALE")
-						msg = string.interp(l[tip .. "_" .. Engine.rand:Integer(1, getNumberOfFlavours(tip))], { wanted = mission.wanted.name, station = mission.location:GetSystemBody().name })
+						local name = Engine.rand:Integer(0, 1) < 1 and mission.wanted.name or mission.wanted.firstname
+						msg = string.interp(l[tip .. "_" .. Engine.rand:Integer(1, getNumberOfFlavours(tip))], { wanted = name, station = mission.location:GetSystemBody().name })
 						Comms.ImportantMessage(msg, tipster.name)
 						mission.tipster = true
 					end
@@ -483,10 +539,14 @@ local buildMissionDescription = function (mission)
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location:SystemOnly())) or "???"
 	local domicileDist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.domicile)) or "???"
 	local danger = getRiskMsg(mission)
+	local gender = (mission.wanted.female and "_FEMALE" or "_MALE")
 
 	desc.description = mission.introtext:interp({
 		client = mission.client.name,
 		wanted = mission.wanted.name,
+		employee = lp["RELATION_EMPLOYEE" .. gender .. "_" .. mission.employee],
+		friend   = lp["RELATION_FRIEND" .. gender .. "_" .. mission.friend],
+		relative = lp["RELATION_RELATIVE" .. gender .. "_" .. mission.relative],
 		company = mission.company,
 		system = mission.location:GetStarSystem().name,
 		sectorx = mission.location.sectorX,
@@ -496,7 +556,7 @@ local buildMissionDescription = function (mission)
 		domicile = mission.domicile:GetSystemBody().name,
 		cash = ui.Format.Money(mission.reward, false),
 		dist = dist
-	})
+	}):scase()
 
 	desc.location = mission.location:SystemOnly()
 	desc.client = mission.client
