@@ -85,6 +85,7 @@ public:
 	int GetDockingPort() const { return m_dockedWithPort; }
 	bool IsDocked() const { return GetFlightState() == Ship::DOCKED; }
 	bool IsLanded() const { return GetFlightState() == Ship::LANDED; }
+	vector3d GetDockingOrientation() const { return CanTailSit() ? -(GetOrient().VectorZ()) : GetOrient().VectorY(); }
 
 	virtual void OnDocked(SpaceStation *, int port);
 	virtual void OnUndocked(SpaceStation *, int port);
@@ -145,6 +146,9 @@ public:
 	void ProcessSpawnQueue();
 
 	bool IsInSpace() const override { return (m_flightState != HYPERSPACE); }
+
+	bool AreWheelsRetracted() const { return is_equal_exact(m_wheelState, 0.0f); }
+	bool AreWheelsDeployed() const { return is_equal_exact(m_wheelState, 1.0f); }
 
 	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
 	const SystemPath &GetHyperspaceDest() const { return m_hyperspace.dest; }
@@ -247,8 +251,11 @@ public:
 	void SetRelations(Body *other, Uint8 percent);
 
 	double GetLandingPosOffset() const { return m_landingMinOffset; }
+	double GetTailLandingPosOffset() const { return m_tailLandingMinOffset; }
 
-	Propulsion *GetPropulsion() { return m_propulsion; }
+	inline bool CanTailSit() const { return m_type->CanTailSit(); }
+
+	Propulsion *GetPropulsion() const { return m_propulsion; }
 
 protected:
 	vector3d CalcAtmosphericForce() const override;
@@ -329,6 +336,7 @@ private:
 	AICommand *m_curAICmd;
 
 	double m_landingMinOffset; // offset from the centre of the ship used during docking
+	double m_tailLandingMinOffset; // offset from the centre of the ship used during docking
 
 	int m_dockedWithIndex; // deserialisation
 
