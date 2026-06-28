@@ -52,7 +52,21 @@ namespace Sound {
 		}
 		next->PlayMusic(name.c_str(), m_volume, fadeDelta, repeat, current);
 		m_playing = true;
+		m_repeating = repeat;
 		m_currentSongName = name;
+	}
+
+	void MusicPlayer::PlayAgain()
+	{
+		if (m_eventOne.IsPlaying()) {
+			m_eventOne.Stop();
+		}
+		if (m_eventTwo.IsPlaying()) {
+			m_eventTwo.Stop();
+		}
+		if (m_playing) {
+			Play(m_currentSongName, m_repeating);
+		}
 	}
 
 	void MusicPlayer::Stop()
@@ -82,7 +96,7 @@ namespace Sound {
 		}
 	}
 
-	const std::string& MusicPlayer::GetCurrentSongName() const
+	const std::string &MusicPlayer::GetCurrentSongName() const
 	{
 		return m_currentSongName;
 	}
