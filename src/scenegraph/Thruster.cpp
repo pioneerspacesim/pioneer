@@ -41,6 +41,8 @@ namespace SceneGraph {
 		dir(_dir),
 		pos(_pos),
 		currentColor(baseColor),
+		visualSize(1.f),
+		visualSizeScaled(1.f),
 		displayedPower(0.f)
 	{
 		//set up materials
@@ -74,6 +76,8 @@ namespace SceneGraph {
 		dir(thruster.dir),
 		pos(thruster.pos),
 		currentColor(thruster.currentColor),
+		visualSize(thruster.visualSize),
+		visualSizeScaled(thruster.visualSizeScaled),
 		displayedPower(thruster.displayedPower)
 	{
 	}
@@ -88,32 +92,28 @@ namespace SceneGraph {
 		nv.ApplyThruster(*this);
 	}
 
+	float Thruster::ComputeReactionPower(const vector3f &linThrust, const vector3f &angThrust) const
+	{
+		// Given the total linear and angular thrust of the ship, work out how much this thruster can
+		// contribute to it.
+
+		float power = -dir.Dot(linThrust);
+
+		if (!linearOnly) {
+			// pitch X, yaw Y, roll Z - angdir is torque direction per unit thrust (|pos x dir| = lever arm).
+			const vector3f angdir = pos.Cross(dir);
+			const float align = angdir.Dot(angThrust);
+			if (align > 0.f)
+				power = std::max(power, align);
+		}
+
+		return power;
+	}
+
 	void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
 	{
 		PROFILE_SCOPED()
-		float power = -dir.Dot(vector3f(rd->linthrust));
-
-		if (!linearOnly) {
-			// pitch X
-			// yaw   Y
-			// roll  Z
-			//model center is at 0,0,0, no need for invSubModelMat stuff
-			const vector3f at = vector3f(rd->angthrust);
-			const vector3f angdir = pos.Cross(dir);
-
-			const float xp = angdir.x * at.x;
-			const float yp = angdir.y * at.y;
-			const float zp = angdir.z * at.z;
-
-			if (xp + yp + zp > 0) {
-				if (xp > yp && xp > zp && fabs(at.x) > power)
-					power = fabs(at.x);
-				else if (yp > xp && yp > zp && fabs(at.y) > power)
-					power = fabs(at.y);
-				else if (zp > xp && zp > yp && fabs(at.z) > power)
-					power = fabs(at.z);
-			}
-		}
+		const float power = ComputeReactionPower(vector3f(rd->linthrust), vector3f(rd->angthrust));
 
 		// fade in/out the amount of thruster power shown
 		displayedPower = MathUtil::Lerp(displayedPower, power, 0.2f);

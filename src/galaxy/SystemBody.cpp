@@ -8,6 +8,7 @@
 #include "Game.h"
 #include "JsonUtils.h"
 #include "Lang.h"
+#include "MathUtil.h"
 #include "utils.h"
 
 SystemBodyData::SystemBodyData() :
@@ -384,6 +385,26 @@ bool SystemBody::IsScoopable() const
 		m_atmosOxidizing <= fixed(55, 100))
 		return true;
 	return false;
+}
+
+Color SystemBody::CalcSurfaceDustColor() const
+{
+	// Terrain texture sampling is not available from SystemBody; approximate from generated composition.
+	Color atmos(200, 200, 200, 255);
+	double density = 0.0;
+	GetAtmosphereFlavor(&atmos, &density);
+
+	const float metal = float(GetMetallicity());
+	const float ice = float(GetVolatileIces());
+
+	float rf = (atmos.r / 255.f) * 0.45f + 0.20f + metal * 0.12f;
+	float gf = (atmos.g / 255.f) * 0.40f + 0.16f + metal * 0.05f;
+	float bf = (atmos.b / 255.f) * 0.30f + 0.10f + ice * 0.10f;
+
+	rf = Clamp(rf, 0.f, 1.f);
+	gf = Clamp(gf, 0.f, 1.f);
+	bf = Clamp(bf, 0.f, 1.f);
+	return Color(Uint8(rf * 255.f), Uint8(gf * 255.f), Uint8(bf * 255.f), 255);
 }
 
 // this is a reduced version of original Rayleigh scattering function used to compute density once per planet

@@ -14,6 +14,7 @@
 #include "NavLights.h"
 #include "Pi.h"
 #include "Planet.h"
+#include "galaxy/SystemBody.h"
 #include "Player.h" // <-- Here only for 1 occurrence of "Pi::player" in Ship::Explode
 #include "Sensors.h"
 #include "Sfx.h"
@@ -28,10 +29,18 @@
 #include "lua/LuaEvent.h"
 #include "lua/LuaObject.h"
 #include "scenegraph/Animation.h"
+#include "scenegraph/MatrixTransform.h"
+#include "scenegraph/Model.h"
 #include "scenegraph/Tag.h"
+#include "scenegraph/Thruster.h"
 #include "scenegraph/CollisionGeometry.h"
 #include "ship/GunManager.h"
 #include "ship/PlayerShipController.h"
+
+#include <algorithm>
+#include <cmath>
+#include <limits>
+#include <vector>
 
 static const float TONS_HULL_PER_SHIELD = 10.f;
 const float Ship::DEFAULT_SHIELD_COOLDOWN_TIME = 1.0f;
@@ -40,6 +49,68 @@ const double Ship::DEFAULT_LIFT_TO_DRAG_RATIO = 0.001;
 namespace {
 	static constexpr size_t s_heatingNormalParam = "heatingNormal"_hash;
 	static constexpr size_t s_heatGradientTexParam = "heatGradient"_hash;
+
+	bool TryGetLandingPadDustOverride(const Ship *ship, double *outGroundRadius, Color *outDustTint)
+	{
+		PROFILE_SCOPED()
+
+		if (!ship || !outGroundRadius || !outDustTint || !Pi::game) return false;
+		Space *space = Pi::game->GetSpace();
+		if (!space) return false;
+
+		// Keep this local query cheap - we only need stations close enough to plausibly be beneath the ship.
+		constexpr double PAD_QUERY_RADIUS = 2000.0;
+		constexpr double PAD_MAX_VERTICAL_ABOVE_M = 350.0;
+		constexpr double PAD_MIN_VERTICAL_BELOW_M = -20.0;
+		constexpr double PAD_BASE_LATERAL_RADIUS_M = 120.0;
+
+		const Space::BodyNearList nearby = space->GetBodiesMaybeNear(ship, PAD_QUERY_RADIUS);
+		bool foundPad = false;
+		double bestPadDistSq = std::numeric_limits<double>::max();
+		double bestPadRadius = 0.0;
+		for (Body *body : nearby) {
+			if (!body || !body->IsType(ObjectType::SPACESTATION)) continue;
+			SpaceStation *station = static_cast<SpaceStation *>(body);
+			if (!station->IsGroundStation()) continue;
+			if (station->GetFrame() != ship->GetFrame()) continue;
+
+			const SpaceStationType *stationType = station->GetStationType();
+			if (!stationType) continue;
+
+			for (Uint32 bay = 0; bay < stationType->NumDockingPorts(); ++bay) {
+				const matrix4x4f bayDocked = stationType->GetStageTransform(int(bay), DockStage::DOCKED);
+				const vector3d bayLocal = vector3d(bayDocked.GetTranslate());
+				const vector3d bayWorld = station->GetPosition() + station->GetOrient() * bayLocal;
+				const vector3d padUp = bayWorld.NormalizedSafe();
+
+				const vector3d shipRel = ship->GetPosition() - bayWorld;
+				const double vertical = shipRel.Dot(padUp);
+				if (vertical < PAD_MIN_VERTICAL_BELOW_M || vertical > PAD_MAX_VERTICAL_ABOVE_M)
+					continue;
+
+				const vector3d lateralVec = shipRel - padUp * vertical;
+				double padLateralRadius = PAD_BASE_LATERAL_RADIUS_M;
+				if (const SpaceStationType::SPort *port = stationType->FindPortByBay(int(bay)))
+					padLateralRadius = std::max(padLateralRadius, 0.5 * double(port->maxShipSize));
+
+				const double lateralDistSq = lateralVec.LengthSqr();
+				if (lateralDistSq > padLateralRadius * padLateralRadius)
+					continue;
+
+				if (lateralDistSq < bestPadDistSq) {
+					bestPadDistSq = lateralDistSq;
+					bestPadRadius = bayWorld.Length();
+					foundPad = true;
+				}
+			}
+		}
+		if (!foundPad) return false;
+
+		*outGroundRadius = bestPadRadius;
+		// Concrete or landing pad dust colour. We make this lower alpha because it's less intense than a dusty planet surface.
+		*outDustTint = Color(128, 128, 128, 63);
+		return true;
+	}
 } // namespace
 
 Ship::Ship(const ShipType::Id &shipId) :
@@ -208,6 +279,40 @@ Ship::~Ship()
 	delete m_controller;
 }
 
+void Ship::RefreshThrusterExhaustMounts()
+{
+	m_thrusterExhaustMounts.clear();
+	m_thrusterExhaustThrusters.clear();
+	if (!GetModel()) return;
+
+	std::vector<std::pair<SceneGraph::MatrixTransform *, SceneGraph::Thruster *>> tmp;
+	GetModel()->GatherThrusterMounts(tmp);
+
+	std::vector<float> thrusterScaleAvg;
+	thrusterScaleAvg.reserve(tmp.size());
+	float maxThrusterScale = 0.0f;
+	for (const auto &pr : tmp) {
+		const matrix4x4f M = pr.first->CalcGlobalTransform();
+		const float sx = vector3f(M[0], M[1], M[2]).Length();
+		const float sy = vector3f(M[4], M[5], M[6]).Length();
+		const float sz = vector3f(M[8], M[9], M[10]).Length();
+		const float scaleAvg = (sx + sy + sz) / 3.0f;
+		thrusterScaleAvg.push_back(scaleAvg);
+		maxThrusterScale = std::max(maxThrusterScale, scaleAvg);
+	}
+	m_thrusterExhaustMounts.reserve(tmp.size());
+	m_thrusterExhaustThrusters.reserve(tmp.size());
+	for (size_t i = 0; i < tmp.size(); ++i) {
+		const auto &pr = tmp[i];
+		m_thrusterExhaustMounts.push_back(pr.first);
+		m_thrusterExhaustThrusters.push_back(pr.second);
+		const float scaleAvg = thrusterScaleAvg[i];
+		const float scaleProportional = (maxThrusterScale > 1e-6f) ? (scaleAvg / maxThrusterScale) : 1.0f;
+		pr.second->SetVisualSizeInfo(scaleAvg, scaleProportional);
+	}
+	m_exhaustThrusterChannels.assign(tmp.size(), ExhaustThrusterChannel{});
+}
+
 void Ship::Init()
 {
 	m_invulnerable = false;
@@ -252,6 +357,8 @@ void Ship::Init()
 	}
 
 	InitMaterials();
+
+	RefreshThrusterExhaustMounts();
 }
 
 void Ship::PostLoadFixup(Space *space)
@@ -928,6 +1035,12 @@ void Ship::SetLandedOn(Planet *p, float latitude, float longitude)
 
 void Ship::SetFrame(FrameId fId)
 {
+	if (fId != GetFrame()) {
+		for (auto &ch : m_exhaustThrusterChannels) {
+			ch.hasLastNozzle = false;
+			ch.wasThrusterFiring = false;
+		}
+	}
 	DynamicBody::SetFrame(fId);
 }
 
@@ -1198,6 +1311,8 @@ void Ship::StaticUpdate(const float timeStep)
 				float damage = float(pressure - m_type->atmosphericPressureLimit);
 				DoDamage(damage);
 			}
+
+			SpawnThrusterExhaustParticles(timeStep);
 		}
 	}
 
@@ -1358,6 +1473,176 @@ void Ship::StaticUpdate(const float timeStep)
 				Sound::BodyMakeNoise(this, "Missile_Inbound", 1.0f);
 			}
 		}
+	}
+}
+
+void Ship::SpawnThrusterExhaustParticles(float timeStep)
+{
+	if (IsDead()) return;
+	if (m_flightState != FLYING) return;
+
+	Frame *frame = Frame::GetFrame(GetFrame());
+	Body *astro = frame->GetBody();
+	if (!astro || !astro->IsType(ObjectType::PLANET)) return;
+
+	Planet *p = static_cast<Planet *>(astro);
+	const double dist = GetPosition().Length();
+	double pressureAtDist, density;
+	p->GetAtmosphericState(dist, &pressureAtDist, &density);
+	(void)pressureAtDist;
+
+	const SystemBody *sbody = p->GetSystemBody();
+	// Terrestrial worlds / asteroids / moons with terrain (exclude gas giants and non-planet types).
+	const bool landableNaturalWorld = sbody && (sbody->GetSuperType() == SystemBodyType::SUPERTYPE_ROCKY_PLANET);
+	const double altitudeM = sbody ? (dist - sbody->GetRadius()) : 0.0;
+	const double plumeAltitudeCapM = sbody ? std::max(sbody->GetAtmRadius(), 1000.0) : 0.0;
+	double groundRadiusAtShip = landableNaturalWorld ? p->GetTerrainHeight(GetPosition().NormalizedSafe()) : 0.0;
+	Color dustTint = landableNaturalWorld ? sbody->CalcSurfaceDustColor() : Color(128, 128, 128, 255);
+	(void)TryGetLandingPadDustOverride(this, &groundRadiusAtShip, &dustTint);
+
+	// Slight per-spawn dust colour variation so dust clouds are less uniform.
+	const float shade = float(Pi::rng.Double(0.95, 1.05));
+	dustTint.r = Uint8(Clamp(int(dustTint.r * shade), 0, 255));
+	dustTint.g = Uint8(Clamp(int(dustTint.g * shade), 0, 255));
+	dustTint.b = Uint8(Clamp(int(dustTint.b * shade), 0, 255));
+
+	// Exhaust plumes shown if the ship is within the atmosphere height, or within 1 km of the surface for ground-hugging / surface dust.
+	const bool lowAltitudePlumes = landableNaturalWorld && ((altitudeM <= plumeAltitudeCapM) || (dist <= groundRadiusAtShip + 1000.0));
+
+	// Atmospheric exhaust plume - spawn only for ships close enough to the player.
+	constexpr double EXHAUST_MAX_PLAYER_DISTANCE_SQR = SfxParams::EXHAUST_MAX_PLAYER_DISTANCE * SfxParams::EXHAUST_MAX_PLAYER_DISTANCE;
+	const bool spawnExhaustForShip = !Pi::player || this == Pi::player || (GetPositionRelTo(Pi::player).LengthSqr() <= EXHAUST_MAX_PLAYER_DISTANCE_SQR);
+
+	if (!spawnExhaustForShip || !lowAltitudePlumes) {
+		// We're not adding any exhaust this tick. Clear the thruster exhaust channels so there is no stale state.
+		for (auto &ch : m_exhaustThrusterChannels) {
+			ch.hasLastNozzle = false;
+			ch.wasThrusterFiring = false;
+		}
+		return;
+	}
+
+	const vector3f linT = vector3f(m_propulsion->GetLinThrusterState());
+	const vector3f angT = -vector3f(m_propulsion->GetAngThrusterState());
+
+	// How hard linear thrusters are firing vs a ship-wide reference (larger of up / forward max thrust).
+	const double maxRefThrust = std::max(m_propulsion->GetThrust(THRUSTER_UP), m_propulsion->GetThrust(THRUSTER_FORWARD));
+	const vector3d actualLinThrust = m_propulsion->GetActualLinThrust();
+	const vector3d actualAngThrust = m_propulsion->GetActualAngThrust();
+	const float linThrustEffortScalar = actualLinThrust.Length() / maxRefThrust;
+	const float angThrustEffortScalar = actualAngThrust.Length() * SfxParams::EXHAUST_ANGULAR_FACTOR / m_propulsion->GetAngThrustCap();
+
+	// Simple ambient wind model: fixed-speed direction tangent to local surface.
+	const vector3f localUp = vector3f(GetPosition().NormalizedSafe());
+	vector3f windDir = vector3f(0.f, 1.f, 0.f).Cross(localUp);
+	if (windDir.LengthSqr() < 1e-8f) windDir = vector3f(1.f, 0.f, 0.f).Cross(localUp);
+	windDir = windDir.NormalizedSafe();
+	const vector3f windVel = windDir * (SfxParams::EXHAUST_WIND_SPEED * float(Clamp(density, 0.0, 1.0)));
+
+	if (m_thrusterExhaustMounts.size() != m_thrusterExhaustThrusters.size())
+		RefreshThrusterExhaustMounts();
+	if (m_exhaustThrusterChannels.size() != m_thrusterExhaustMounts.size())
+		m_exhaustThrusterChannels.assign(m_thrusterExhaustMounts.size(), ExhaustThrusterChannel{});
+
+	const float atmosDragScale = float(Clamp(density / 1.225, 0.0, 2.0));
+
+	const matrix3x3d &bodyOrient = GetOrient();
+
+	// Some ships have lots of small thrusters next to each other. Others have one big one.
+	// We use the same number of particles per ship, since small adjacent streams will merge
+	// visually anyway, and we this way we don't end up with too many particles on some ships
+	// and not enough on others.
+	const float particlesPerSecPerThruster = SfxParams::EXHAUST_PARTICLES_PER_SHIP_PER_SEC / m_thrusterExhaustMounts.size();
+
+	for (size_t ti = 0; ti < m_thrusterExhaustMounts.size(); ++ti) {
+		SceneGraph::MatrixTransform *mt = m_thrusterExhaustMounts[ti];
+		SceneGraph::Thruster *thr = m_thrusterExhaustThrusters[ti];
+		ExhaustThrusterChannel &ch = m_exhaustThrusterChannels[ti];
+
+		const matrix4x4f M = mt->CalcGlobalTransform();
+		const vector3d nozzleLocal = vector3d(M.GetTranslate());
+		const vector3d exhaustDirModel = vector3d(thr->GetDirection()).NormalizedSafe();
+		const vector3d currentNozzleWorld = GetPosition() + bodyOrient * nozzleLocal;
+
+		if (!ch.hasLastNozzle) {
+			ch.lastNozzleWorld = currentNozzleWorld;
+			ch.hasLastNozzle = true;
+		}
+
+		// Get the amount that each thruster is firing this tick.
+		// Scale by thruster visual size and overall thrust demand
+		SceneGraph::Thruster *th = m_thrusterExhaustThrusters[ti];
+		const float visualScaled = th->GetVisualSizeProportional();
+		// Same combined reaction as model thruster flames 
+		const float reactionPower = th->ComputeReactionPower(linT, angT);
+		const float linOnly = th->ComputeReactionPower(linT, vector3f(0.f));
+		const float angOnly = th->ComputeReactionPower(vector3f(0.f), angT);
+		const float effortScalar = (angOnly >= linOnly) ? angThrustEffortScalar : linThrustEffortScalar;
+		const float unscaledPower = reactionPower * visualScaled * effortScalar;
+		// Use a log scale on the final thruster power so that tiny maneouvering thrusters are still visible compared to huge delta-V ones
+		const float finalThrusterPower = std::log(1.0f + SfxParams::EXHAUST_LOG_SCALE * unscaledPower) / std::log(1.0f + SfxParams::EXHAUST_LOG_SCALE);
+
+		const bool firing = finalThrusterPower >= SfxParams::EXHAUST_MIN_REACTION_POWER;
+		const bool newPulseLeadingEdge = firing && !ch.wasThrusterFiring;
+
+		vector3d exhaustDirWorld = bodyOrient * exhaustDirModel;
+		if (exhaustDirWorld.LengthSqr() < 1e-12)
+			exhaustDirWorld = bodyOrient.VectorZ();
+		exhaustDirWorld = exhaustDirWorld.Normalized();
+		const vector3d backboneWorldVel = GetVelocity() + exhaustDirWorld * double(SfxParams::EXHAUST_INITIAL_VELOCITY);
+
+		const vector3d lastBackbonePosWorld = ch.lastNozzleWorld + ch.lastBackboneVel * double(timeStep);
+		ch.lastBackboneVel = backboneWorldVel;
+
+		if (firing) {
+			// Reduce the alpha for weaker thrusters, so that the exhaust is less pronounced
+			const float opacityScale = Clamp((density / 1.225) * double(finalThrusterPower), 0.0, 1.0);
+
+			// Increase drag for weaker thrusters, so that they slow down more quickly (less volume of exhaust)
+			const float dragScale = atmosDragScale * SfxParams::EXHAUST_DRAG_FACTOR / std::max(visualScaled, 0.2f);
+
+			// Keep particle count mostly independent of thrust / density so the stream remains full.
+			// If time is accelerated then timeStep could be huge - limit the number of particles in that case
+			// If timeStep is tiny then ensure we have at least one particle.
+			const float timeStepCapped = std::min(timeStep, SfxParams::EXHAUST_STREAM_TIMESTEP_CAP);
+			const float thrusterEmit = particlesPerSecPerThruster * timeStepCapped * finalThrusterPower;
+			int count = std::max(1, int(thrusterEmit));
+
+			// If this is the first tick where the thruster is firing, then only add one particle
+			// at the current nozzle position as the leading edge. It won't be drawn but will be
+			// used as the starting elongation target on the next tick
+			if (newPulseLeadingEdge)
+				count = 1;
+
+			const vector3f exhaustDirF = vector3f(exhaustDirWorld);
+			const vector3f shipY = vector3f(bodyOrient.VectorY());
+			const vector3f refAxis = (std::abs(exhaustDirF.Dot(shipY)) < 0.85f) ? shipY : vector3f(bodyOrient.VectorZ());
+			vector3f uAxis = refAxis.Cross(exhaustDirF).Normalized();
+			if (uAxis.LengthSqr() < 1e-12f)
+				uAxis = vector3f(bodyOrient.VectorX());
+			const vector3f vAxis = exhaustDirF.Cross(uAxis).Normalized();
+
+			for (int i = 0; i < count; i++) {
+				const double segT = double(i + 1) / double(count);
+				const vector3d nozzleBaseWorld = lastBackbonePosWorld.Lerp(currentNozzleWorld, segT);
+
+				const float jitterRadius = float(Pi::rng.Double(1.0));
+				const float jitterTheta = float(Pi::rng.Double(2.0 * M_PI));
+
+				const vector3f jitterDirW = (uAxis * std::cos(jitterTheta) + vAxis * std::sin(jitterTheta)).Normalized();
+				const vector3f plumeOffset = jitterDirW * (jitterRadius * SfxParams::EXHAUST_INITIAL_SPREAD);
+
+				const float jitterVel = (SfxParams::EXHAUST_MAX_SPREAD * jitterRadius) / SfxParams::EXHAUST_LIFETIME;
+				const float spreadAmp = float(Clamp(1.0 / std::max(density, 1e-5), 0.05, 8.0));
+				const vector3f plumeOffsetVel = jitterDirW * (jitterVel * spreadAmp);
+
+				const bool suppressStreak = newPulseLeadingEdge && (i == 0);
+				SfxManager::AddExhaust(this, Uint16(ti), suppressStreak, nozzleBaseWorld, backboneWorldVel, plumeOffset, plumeOffsetVel, finalThrusterPower, dragScale, opacityScale, windVel, groundRadiusAtShip, dustTint);
+			}
+		}
+
+		ch.wasThrusterFiring = firing;
+		ch.lastNozzleWorld = currentNozzleWorld;
 	}
 }
 
