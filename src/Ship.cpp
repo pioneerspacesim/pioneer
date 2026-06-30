@@ -111,6 +111,26 @@ namespace {
 		*outDustTint = Color(128, 128, 128, 63);
 		return true;
 	}
+
+	static matrix3x3d OrientWithSurfaceUp(const vector3d &up, const vector3d &forwardHint)
+	{
+		// Match legacy landing: right = up x forward, Z = right x up preserves heading on the surface.
+		vector3d right = up.Cross(forwardHint).NormalizedSafe();
+		if (right.LengthSqr() < 1e-12) {
+			right = up.Cross(vector3d(0, 0, 1)).NormalizedSafe();
+			if (right.LengthSqr() < 1e-12)
+				right = up.Cross(vector3d(1, 0, 0)).Normalized();
+		}
+		return matrix3x3d::FromVectors(right, up);
+	}
+
+	static void SnapLandedShipToSurface(Ship *ship, const TerrainBody *body, const vector3d &radial, const vector3d &forwardHint)
+	{
+		const vector3d up = body->GetTerrainSurfaceNormal(radial, ship->GetRoughFootprintDiameter());
+		const vector3d surfacePoint = body->GetTerrainSurfacePoint(radial);
+		ship->SetPosition(surfacePoint - up * ship->GetAabb().min.y);
+		ship->SetOrient(OrientWithSurfaceUp(up, forwardHint));
+	}
 } // namespace
 
 Ship::Ship(const ShipType::Id &shipId) :
@@ -950,8 +970,6 @@ void Ship::Blastoff()
 {
 	if (m_flightState != LANDED) return;
 
-	vector3d up = GetPosition().Normalized();
-
 	Frame *f = Frame::GetFrame(GetFrame());
 
 	assert(f->GetBody()->IsType(ObjectType::PLANET));
@@ -964,12 +982,15 @@ void Ship::Blastoff()
 		auto p = static_cast<Player*>(this);
 		p->DoFixspeedTakeoff();
 	} else {
-		const double planetRadius = 2.0 + static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
+		const auto *planet = static_cast<const Planet *>(f->GetBody());
+		const vector3d radial = GetPosition().NormalizedSafe();
+		const vector3d up = planet->GetTerrainSurfaceNormal(radial, GetRoughFootprintDiameter());
+		const vector3d surfacePoint = planet->GetTerrainSurfacePoint(radial);
 		SetVelocity(vector3d::Zero);
 		SetAngVelocity(vector3d::Zero);
 		SetFlightState(FLYING);
 
-		SetPosition(up * planetRadius - GetAabb().min.y * up);
+		SetPosition(surfacePoint - up * GetAabb().min.y + up * 2.0);
 		SetThrusterState(1, 1.0); // thrust upwards
 	}
 
@@ -987,18 +1008,14 @@ void Ship::TestLanded()
 
 	if (f->GetBody()->IsType(ObjectType::PLANET)) {
 		double speed = GetVelocity().Length();
-		vector3d up = GetPosition().Normalized();
-		const double planetRadius = static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
+		const auto *planet = static_cast<const Planet *>(f->GetBody());
+		const vector3d radial = GetPosition().NormalizedSafe();
+		const vector3d surfaceNormal = planet->GetTerrainSurfaceNormal(radial, GetRoughFootprintDiameter());
 
 		if (speed < MAX_LANDING_SPEED) {
 			// check player is sortof sensibly oriented for landing
-			if (GetOrient().VectorY().Dot(up) > 0.99) {
-				// position at zero altitude
-				SetPosition(up * (planetRadius - GetAabb().min.y));
-
-				// position facing in roughly the same direction
-				vector3d right = up.Cross(GetOrient().VectorZ()).Normalized();
-				SetOrient(matrix3x3d::FromVectors(right, up));
+			if (GetOrient().VectorY().Dot(surfaceNormal) > 0.95) {
+				SnapLandedShipToSurface(this, planet, radial, GetOrient().VectorZ());
 
 				SetVelocity(vector3d::Zero);
 				SetAngVelocity(vector3d::Zero);
@@ -1020,11 +1037,8 @@ void Ship::SetLandedOn(Planet *p, float latitude, float longitude)
 	Frame *f_non_rot = Frame::GetFrame(p->GetFrame());
 	SetFrame(f_non_rot->GetRotFrame());
 
-	vector3d up = vector3d(cos(latitude) * sin(longitude), sin(latitude), cos(latitude) * cos(longitude));
-	const double planetRadius = p->GetTerrainHeight(up);
-	SetPosition(up * (planetRadius - GetAabb().min.y));
-	vector3d right = up.Cross(vector3d(0, 0, 1)).Normalized();
-	SetOrient(matrix3x3d::FromVectors(right, up));
+	const vector3d radial = vector3d(cos(latitude) * sin(longitude), sin(latitude), cos(latitude) * cos(longitude));
+	SnapLandedShipToSurface(this, p, radial, vector3d(0, 0, 1));
 	SetVelocity(vector3d::Zero);
 	SetAngVelocity(vector3d::Zero);
 	ClearThrusterState();
