@@ -3,6 +3,8 @@
 
 #include "ModelBody.h"
 
+#include <algorithm>
+
 #include "Camera.h"
 #include "Frame.h"
 #include "Game.h"
@@ -127,6 +129,13 @@ void ModelBody::SetStatic(bool isStatic)
 		f->RemoveStaticGeom(m_geom);
 		f->AddGeom(m_geom);
 	}
+}
+
+double ModelBody::GetRoughFootprintDiameter() const
+{
+	const Aabb &aabb = GetAabb();
+	const double horizontalExtent = 0.5 * ((aabb.max.x - aabb.min.x) + (aabb.max.z - aabb.min.z));
+	return std::max(horizontalExtent, 1.0);
 }
 
 void ModelBody::SetColliding(bool colliding)

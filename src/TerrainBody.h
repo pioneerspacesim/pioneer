@@ -28,6 +28,10 @@ public:
 	virtual bool OnCollision(Body *b, Uint32 flags, double relVel) override { return true; }
 	double GetMass() const override { return m_mass; }
 	double GetTerrainHeight(const vector3d &pos) const;
+	// pos is a direction from the planet centre (need not be unit length).
+	vector3d GetTerrainSurfacePoint(const vector3d &pos) const;
+	// sampleSizeMeters is the approximate diameter of the area to sample (e.g. ship footprint).
+	vector3d GetTerrainSurfaceNormal(const vector3d &pos, double sampleSizeMeters) const;
 	const SystemBody *GetSystemBody() const override { return m_sbody; }
 
 	// returns value in metres
