@@ -10,6 +10,8 @@
 #include "Planet.h"
 #include "Player.h"
 #include "Sfx.h"
+#include "Ship.h"
+#include "ShipGroundShadow.h"
 #include "Space.h"
 #include "SpaceStation.h"
 
@@ -86,7 +88,7 @@ void CameraContext::EndFrame()
 	m_camFrame = FrameId::Invalid;
 }
 
-void CameraContext::ApplyDrawTransforms(Graphics::Renderer *r)
+void CameraContext::ApplyDrawTransforms(Graphics::Renderer *r) const
 {
 	Graphics::SetFov(m_fovAng);
 	r->SetProjection(GetProjectionMatrix());
@@ -167,6 +169,7 @@ void Camera::Update()
 		attrs.billboard = false; // false by default
 		attrs.calcAtmosphereLighting = false; // false by default
 		attrs.calcInteriorLighting = false;
+		attrs.castsGroundShadow = false;
 
 		// If the body wishes to be excluded from the draw, skip it.
 		if (b->GetFlags() & Body::FLAG_DRAW_EXCLUDE)
@@ -238,6 +241,10 @@ void Camera::Update()
 
 		if(b->IsType(ObjectType::SHIP)) {
 			attrs.calcInteriorLighting = true;
+			if (parentBody && parentBody->IsType(ObjectType::PLANET)) {
+				auto *planet = static_cast<Planet *>(parentBody);
+				attrs.castsGroundShadow = ShipGroundShadow::ShouldCastGroundShadow(static_cast<const Ship *>(b), planet);
+			}
 		}
 
 		m_sortedBodies.push_back(attrs);
@@ -329,6 +336,9 @@ void Camera::Draw(const Body *excludeBody)
 
 	Graphics::VertexArray billboards(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
 
+	std::vector<const Ship *> shadowShips;
+	shadowShips.reserve(m_sortedBodies.size());
+
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
 		BodyAttrs *attrs = &(*i);
 
@@ -342,11 +352,19 @@ void Camera::Draw(const Body *excludeBody)
 			continue;
 		}
 
+		if (attrs->castsGroundShadow)
+			shadowShips.push_back(static_cast<const Ship *>(attrs->body));
+
 		PrepareLighting(attrs->body, attrs->calcAtmosphereLighting, attrs->calcInteriorLighting);
 		attrs->body->Render(m_renderer, this, attrs->viewCoords, attrs->viewTransform);
 	}
 
 	RestoreLighting();
+
+	if (!shadowShips.empty()) {
+		Graphics::RenderTarget *mainRT = m_renderer->GetRenderTarget();
+		ShipGroundShadow::RenderPass(m_renderer, this, mainRT, shadowShips);
+	}
 
 	if (!billboards.IsEmpty()) {
 		Graphics::Renderer::MatrixTicket mt(m_renderer, matrix4x4f::Identity);
