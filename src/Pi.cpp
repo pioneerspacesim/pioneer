@@ -34,6 +34,7 @@
 #include "SectorView.h"
 #include "Sfx.h"
 #include "Shields.h"
+#include "ShipGroundShadow.h"
 #include "ShipType.h"
 #include "Space.h"
 #include "SpaceStation.h"
@@ -444,6 +445,7 @@ void Pi::App::OnShutdown()
 	NavLights::Uninit();
 	Shields::Uninit();
 	SfxManager::Uninit();
+	ShipGroundShadow::Uninit();
 	Sound::Uninit();
 	CityOnPlanet::Uninit();
 	BaseSphere::Uninit();
