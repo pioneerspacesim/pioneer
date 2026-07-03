@@ -180,6 +180,9 @@ theme.colors = {
 	maneuver				= styleColors.accent_300,
 	maneuverDark			= styleColors.accent_500,
 	mouseMovementDirection	= styleColors.accent_100,
+	landingAsstNormal       = styleColors.success_500,
+	landingAsstInverted     = styleColors.danger_500,
+	landingAsstYawTick      = styleColors.gray_300,
 
 	overlayWindowBg         = styleColors.panel_900:opacity(0.90),
 
