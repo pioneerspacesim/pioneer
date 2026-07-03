@@ -170,10 +170,7 @@ void Camera::Update()
 		attrs.calcAtmosphereLighting = false; // false by default
 		attrs.calcInteriorLighting = false;
 		attrs.castsGroundShadow = false;
-
-		// If the body wishes to be excluded from the draw, skip it.
-		if (b->GetFlags() & Body::FLAG_DRAW_EXCLUDE)
-			continue;
+		attrs.drawExcluded = (b->GetFlags() & Body::FLAG_DRAW_EXCLUDE) != 0;
 
 		// determine position and transform for draw
 		//		Frame::GetFrameTransform(b->GetFrame(), camFrame, attrs.viewTransform);		// doesn't use interp coords, so breaks in some cases
@@ -342,8 +339,17 @@ void Camera::Draw(const Body *excludeBody)
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
 		BodyAttrs *attrs = &(*i);
 
+		// always cast shadows, even if drawExcluded is true - this allows the player
+		// to see their own ship's shadow from the internal view
+		if (attrs->castsGroundShadow)
+			shadowShips.push_back(static_cast<const Ship *>(attrs->body));
+
 		// explicitly exclude a single body if specified (eg player)
 		if (attrs->body == excludeBody)
+			continue;
+
+		// don't draw specific draw-excluded bodies (e.g. player ship in internal view)
+		if (attrs->drawExcluded)
 			continue;
 
 		// draw something!
@@ -351,9 +357,6 @@ void Camera::Draw(const Body *excludeBody)
 			billboards.Add(attrs->billboardPos, vector3f(0.f, 0.f, attrs->billboardSize));
 			continue;
 		}
-
-		if (attrs->castsGroundShadow)
-			shadowShips.push_back(static_cast<const Ship *>(attrs->body));
 
 		PrepareLighting(attrs->body, attrs->calcAtmosphereLighting, attrs->calcInteriorLighting);
 		attrs->body->Render(m_renderer, this, attrs->viewCoords, attrs->viewTransform);
