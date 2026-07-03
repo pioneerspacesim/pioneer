@@ -4,30 +4,26 @@
 #include "attributes.glsl"
 #include "lib.glsl"
 #include "basesphere_uniforms.glsl"
-#include "rayleigh.glsl"
+#include "rayleigh-lib.glsl"
 
 uniform int NumShadows;
 uniform sampler2D scatterLUT;
 uniform sampler2D rayleighLUT;
 uniform sampler2D mieLUT;
 
-in vec4 varyingEyepos;
-in vec4 vertexColor;
-
-out vec4 frag_color;
+out vec4 varyingEyepos;
+out vec4 vertexColor;
 
 void main(void)
 {
+	gl_Position = matrixTransform();
+	varyingEyepos = uViewMatrix * a_vertex;
+
+    // compute incident light from each light source
 	vec3 eyenorm = normalize(varyingEyepos.xyz);
 	vec3 specularHighlight = vec3(0.0);
 
-    vec2 atmosDist  = raySphereIntersect(geosphereCenter, eyenorm, geosphereAtmosTopRad);
-	// Invalid ray, skip shading this pixel
-	// (can improve performance when spatially coherent)
-	if (atmosDist.x == 0.0 && atmosDist.y == 0.0) {
-		frag_color = vec4(0.0);
-		return;
-	}
+	vec2 atmosDist = raySphereIntersect(geosphereCenter, eyenorm, geosphereAtmosTopRad);
 
 	// a&b scaled so length of 1.0 means planet surface.
 	vec3 a = atmosDist.x * eyenorm - geosphereCenter;
@@ -49,10 +45,9 @@ void main(void)
 		float intensity = 1.f / dot(lightPosAU, lightPosAU); // magic to avoid calculating length and then squaring it
 
 		specularHighlight += calculateAtmosphereColor(planet, atmosphere, toLinear(uLight[i].diffuse), lightDir, vec3(0.0), eyenorm, uneclipsed, scatterLUT, rayleighLUT, mieLUT) * intensity;
+
 	}
 #endif
 
-	vec4 color = vec4(specularHighlight.rgb, 1.0) * 20;
-
-	frag_color = toSRGB(1 - exp(-color));
+	vertexColor.rgb = specularHighlight;
 }
