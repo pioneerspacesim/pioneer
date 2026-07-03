@@ -482,10 +482,9 @@ bool rayCircleIntersection(double *x1, double *x2, const vector2d v, const doubl
 }
 
 // Calculate parameters used in the atmospheric model for shaders
-AtmosphereParameters SystemBody::CalcAtmosphereParams() const
+void SystemBody::CalcAtmosphereParams(AtmosphereParameters &params) const
 {
 	PROFILE_SCOPED()
-	AtmosphereParameters params;
 
 	double atmosDensity;
 
@@ -627,8 +626,6 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 			params.logDensityMapM[index] = mLogDensity;
 		}
 	}
-
-	return params;
 }
 
 SystemBody::BodySuperType SystemBody::GetSuperType() const

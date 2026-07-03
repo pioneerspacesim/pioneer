@@ -505,7 +505,7 @@ void GeoSphere::SetUpMaterials()
 	// XXX: this has to be synced with the vertex format used in GeoPatch
 	auto vtxFormat = Graphics::VertexFormatDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 
-	m_atmosphereParameters = GetSystemBody()->CalcAtmosphereParams();
+	GetSystemBody()->CalcAtmosphereParams(m_atmosphereParameters);
 	// normal star has a different setup path than geosphere terrain does
 	if (GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 		Graphics::MaterialDescriptor surfDesc;
