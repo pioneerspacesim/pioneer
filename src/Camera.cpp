@@ -23,6 +23,88 @@
 
 using namespace Graphics;
 
+namespace {
+	struct LocationSunLight {
+		double light = 0.0;
+		double light_clamped = 0.0;
+		double opticalThicknessFraction = 0.0;
+		bool valid = false;
+	};
+
+	static LocationSunLight CalcLocationSunLight(
+		const Planet *planet,
+		const vector3d &posRelToRotFrame,
+		const std::vector<Camera::LightSource> &lightSources)
+	{
+		LocationSunLight result;
+		if (!planet || lightSources.empty())
+			return result;
+
+		const FrameId rotFrame = planet->GetFrame();
+
+		vector3d upDir = posRelToRotFrame;
+		const double planetRadius = planet->GetSystemBody()->GetRadius();
+		const double dist = std::max(planetRadius, upDir.Length());
+		if (dist < 1.0)
+			return result;
+		upDir.Normalize();
+
+		double pressure, density;
+		planet->GetAtmosphericState(dist, &pressure, &density);
+
+		// approximate optical thickness fraction as fraction of density remaining relative to earths
+		result.opticalThicknessFraction = density / EARTH_ATMOSPHERE_SURFACE_DENSITY;
+
+		// tweak optical thickness curve - lower exponent ==> higher altitude before ambient level drops
+		// Commenting this out, since it leads to a sharp transition at
+		// atmosphereRadius, where density is suddenly 0
+		//result.opticalThicknessFraction = pow(std::max(0.00001, result.opticalThicknessFraction), 0.15); //max needed to avoid 0^power
+
+		// step through all the lights and calculate contributions taking into account sun position
+		for (const Camera::LightSource &source : lightSources) {
+			double sunAngle;
+			// calculate the extent the sun is towards zenith
+			const Body *lightBody = source.GetBody();
+			if (lightBody) {
+				// relative to the rotating frame of the planet
+				const vector3d lightDir = (lightBody->GetInterpPositionRelTo(rotFrame).Normalized());
+				sunAngle = lightDir.Dot(upDir);
+			} else {
+				// light is the default light for systems without lights
+				sunAngle = 1.0;
+			}
+
+			const double critAngle = -sqrt(dist * dist - planetRadius * planetRadius) / dist;
+
+			//0 to 1 as sunangle goes from critAngle to 1.0
+			double sunAngle2 = (Clamp(sunAngle, critAngle, 1.0) - critAngle) / (1.0 - critAngle);
+
+			// angle at which light begins to fade on Earth
+			const double surfaceStartAngle = 0.3;
+			// angle at which sun set completes, which should be after sun has dipped below the horizon on Earth
+			const double surfaceEndAngle = -0.18;
+
+			const double start = std::min((surfaceStartAngle * result.opticalThicknessFraction), 1.0);
+			const double end = std::max((surfaceEndAngle * result.opticalThicknessFraction), -0.2);
+
+			const double span = start - end;
+			if (span < 1e-6)
+				// No atmosphere: sharp day/night at the geometric horizon.
+				sunAngle = sunAngle2;
+			else
+				sunAngle = (Clamp(sunAngle - critAngle, end, start) - end) / span;
+
+			result.light += sunAngle;
+			result.light_clamped += sunAngle2;
+		}
+
+		result.light_clamped /= lightSources.size();
+		result.light /= lightSources.size();
+		result.valid = true;
+		return result;
+	}
+} // namespace
+
 // if a body would render smaller than this many pixels, just ignore it
 static const float OBJECT_HIDDEN_PIXEL_THRESHOLD = 2.0f;
 
@@ -375,79 +457,32 @@ void Camera::Draw(const Body *excludeBody)
 //    * As suns set the split is biased towards ambient
 void Camera::CalcLighting(const Body *b, double &ambient, double &direct) const
 {
+	Body *astro = Frame::GetFrame(b->GetFrame())->GetBody();
+	if (!astro) {
+		ambient = 0.05;
+		direct = 1.0;
+		return;
+	}
+
+	CalcLightingForLocation(static_cast<Planet *>(astro), b->GetInterpPositionRelTo(static_cast<Planet *>(astro)->GetFrame()), ambient, direct);
+}
+
+void Camera::CalcLightingForLocation(const Planet *planet, const vector3d &posRelToRotFrame, double &ambient, double &direct) const
+{
 	const double minAmbient = 0.05;
 	ambient = minAmbient;
 	direct = 1.0;
 
-	Body *astro = Frame::GetFrame(b->GetFrame())->GetBody();
-	if (!astro)
+	if (!planet)
 		return;
 
-	Planet *planet = static_cast<Planet *>(astro);
-	FrameId rotFrame = planet->GetFrame();
-
-	// position relative to the rotating frame of the planet
-	vector3d upDir = b->GetInterpPositionRelTo(rotFrame);
-	const double planetRadius = planet->GetSystemBody()->GetRadius();
-	const double dist = std::max(planetRadius, upDir.Length());
-	upDir.Normalize();
-
-	double pressure, density;
-	planet->GetAtmosphericState(dist, &pressure, &density);
-	double surfaceDensity;
-	Color cl;
-	planet->GetSystemBody()->GetAtmosphereFlavor(&cl, &surfaceDensity);
-
-	// approximate optical thickness fraction as fraction of density remaining relative to earths
-	double opticalThicknessFraction = density / EARTH_ATMOSPHERE_SURFACE_DENSITY;
-
-	// tweak optical thickness curve - lower exponent ==> higher altitude before ambient level drops
-	// Commenting this out, since it leads to a sharp transition at
-	// atmosphereRadius, where density is suddenly 0
-	//opticalThicknessFraction = pow(std::max(0.00001,opticalThicknessFraction),0.15); //max needed to avoid 0^power
-
-	if (opticalThicknessFraction < 0.0001)
+	const LocationSunLight sun = CalcLocationSunLight(planet, posRelToRotFrame, m_lightSources);
+	if (!sun.valid || sun.opticalThicknessFraction < 0.0001)
 		return;
 
-	//step through all the lights and calculate contributions taking into account sun position
-	double light = 0.0;
-	double light_clamped = 0.0;
-
-	const std::vector<Camera::LightSource> &lightSources = m_lightSources;
-	for (const LightSource &source : m_lightSources) {
-		double sunAngle;
-		// calculate the extent the sun is towards zenith
-		const Body *lightBody = source.GetBody();
-		if (lightBody) {
-			// relative to the rotating frame of the planet
-			const vector3d lightDir = (lightBody->GetInterpPositionRelTo(rotFrame).Normalized());
-			sunAngle = lightDir.Dot(upDir);
-		} else {
-			// light is the default light for systems without lights
-			sunAngle = 1.0;
-		}
-
-		const double critAngle = -sqrt(dist * dist - planetRadius * planetRadius) / dist;
-
-		//0 to 1 as sunangle goes from critAngle to 1.0
-		double sunAngle2 = (Clamp(sunAngle, critAngle, 1.0) - critAngle) / (1.0 - critAngle);
-
-		// angle at which light begins to fade on Earth
-		const double surfaceStartAngle = 0.3;
-		// angle at which sun set completes, which should be after sun has dipped below the horizon on Earth
-		const double surfaceEndAngle = -0.18;
-
-		const double start = std::min((surfaceStartAngle * opticalThicknessFraction), 1.0);
-		const double end = std::max((surfaceEndAngle * opticalThicknessFraction), -0.2);
-
-		sunAngle = (Clamp(sunAngle - critAngle, end, start) - end) / (start - end);
-
-		light += sunAngle;
-		light_clamped += sunAngle2;
-	}
-
-	light_clamped /= lightSources.size();
-	light /= lightSources.size();
+	const double light = sun.light;
+	const double light_clamped = sun.light_clamped;
+	const double opticalThicknessFraction = sun.opticalThicknessFraction;
 
 	// brightness depends on optical depth and intensity of light from all the stars
 	direct = 1.0 - Clamp((1.0 - light), 0.0, 1.0) * Clamp(opticalThicknessFraction, 0.0, 1.0);
@@ -463,6 +498,14 @@ void Camera::CalcLighting(const Body *b, double &ambient, double &direct) const
 	ambient = fraction * (Clamp((light), 0.0, 1.0)) * 0.25;
 
 	ambient = std::max(minAmbient, ambient);
+}
+
+double Camera::CalcSunVisibilityForLocation(const Planet *planet, const vector3d &posRelToRotFrame) const
+{
+	const LocationSunLight sun = CalcLocationSunLight(planet, posRelToRotFrame, m_lightSources);
+	if (!sun.valid)
+		return 1.0;
+	return sun.light;
 }
 
 void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const

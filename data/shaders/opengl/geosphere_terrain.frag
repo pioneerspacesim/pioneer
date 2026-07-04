@@ -4,6 +4,7 @@
 #include "attributes.glsl"
 #include "lib.glsl"
 #include "basesphere_uniforms.glsl"
+#include "terrain_local_lights.glsl"
 
 #define WATER_SHINE 16.0
 
@@ -68,9 +69,13 @@ void main(void)
 #endif
 	}
 
-	// Use the detail value to multiply the final colour before lighting
+	// Local lighting from nearby ships and starports.
+	vec4 localMultiply;
+	vec4 localAdd;
+	CalcTerrainLocalDiffuse(localMultiply, localAdd, varyingEyepos, tnorm);
+
 	vec4 ambient = scene.ambient * vertexColor;
-	vec4 final = vertexColor * detailMul * diff;
+	vec4 final = vertexColor * detailMul * (diff + localMultiply) + localAdd * detailMul;
 
 #ifdef ATMOSPHERE
 	float ldprod=0.0;

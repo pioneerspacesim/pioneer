@@ -33,7 +33,7 @@ public:
 	virtual ~GeoSphere();
 
 	void Update() override;
-	void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) override;
+	void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows, const Camera *camera = nullptr, const Planet *planet = nullptr) override;
 
 	double GetTerrainHeight(const vector3d &p) const final
 	{
