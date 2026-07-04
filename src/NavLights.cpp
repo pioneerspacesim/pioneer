@@ -237,3 +237,51 @@ void NavLights::SetMask(unsigned int group, uint8_t mask)
 		light.mask = mask;
 	}
 }
+
+namespace {
+Color4f GetLightColorRGB(NavLights::LightColor c)
+{
+	switch (c) {
+	case NavLights::NAVLIGHT_RED:
+		return Color4f(1.f, 0.15f, 0.05f, 1.f);
+	case NavLights::NAVLIGHT_GREEN:
+		return Color4f(0.05f, 1.f, 0.15f, 1.f);
+	case NavLights::NAVLIGHT_BLUE:
+		return Color4f(0.2f, 0.4f, 1.f, 1.f);
+	case NavLights::NAVLIGHT_YELLOW:
+		return Color4f(1.f, 0.85f, 0.1f, 1.f);
+	default:
+		return Color4f(0.f, 0.f, 0.f, 0.f);
+	}
+}
+} // namespace
+
+Color4f NavLights::GetActiveLightColor() const
+{
+	if (!m_enabled)
+		return Color4f(0.f, 0.f, 0.f, 0.f);
+
+	const int phase((fmod(m_time, m_period) / m_period) * 8);
+	const Uint8 mask = 1 << phase;
+
+	Color4f sum(0.f, 0.f, 0.f, 0.f);
+	for (const auto &group : m_groupLights) {
+		for (const LightBulb &light : group.second) {
+			if (light.color == LightColor::NAVLIGHT_OFF)
+				continue;
+			if (!(light.mask & mask))
+				continue;
+			const Color4f c = GetLightColorRGB(LightColor(light.color));
+			sum.r += c.r;
+			sum.g += c.g;
+			sum.b += c.b;
+		}
+	}
+
+	if (sum.r + sum.g + sum.b <= 0.f)
+		return Color4f(0.f, 0.f, 0.f, 0.f);
+
+	const float brightest = std::max(sum.r, std::max(sum.g, sum.b));
+
+	return Color4f(sum.r / brightest, sum.g / brightest, sum.b / brightest);
+}
