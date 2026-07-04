@@ -1378,6 +1378,7 @@ local missionStatusReset = function (mission)
 	for commodity,_ in pairs(mission.deliver_comm_check) do
 		if mission.deliver_comm_check[commodity] == "PARTIAL" then mission.deliver_comm_check[commodity] = "NOT" end
 	end
+	if mission.deliver_comm_msg_shown then mission.deliver_comm_msg_shown = nil end
 end
 
 local closeMission = function (mission)
@@ -1666,16 +1667,25 @@ local deliverCommodity = function (mission, commodity)
 	-- Called during timer loop within "interactWithTarget".
 	local todo = mission.deliver_comm_orig[commodity]
 	local commodity_name = commodity:GetName()
+	local max_progress_messages = 10
 
 	-- error messages if parameters not met
 	if not cargoPresent(Game.player, commodity) then
-		local missingtxt = string.interp(l.MISSING_COMM, {cargotype = commodity_name})
-		Comms.ImportantMessage(missingtxt)
 		mission.deliver_comm_check[commodity] = "PARTIAL"
+		mission.deliver_comm_msg_shown = mission.deliver_comm_msg_shown or {}
+		if not mission.deliver_comm_msg_shown[commodity] then
+			local missingtxt = string.interp(l.MISSING_COMM, {cargotype = commodity_name})
+			Comms.ImportantMessage(missingtxt)
+			mission.deliver_comm_msg_shown[commodity] = true
+		end
 		return
 	elseif not cargoSpace(mission.target) then
-		Comms.ImportantMessage(l.FULL_CARGO)
 		mission.deliver_comm_check[commodity] = "PARTIAL"
+		mission.deliver_comm_msg_shown = mission.deliver_comm_msg_shown or {}
+		if not mission.deliver_comm_msg_shown[commodity] then
+			Comms.ImportantMessage(l.FULL_CARGO)
+			mission.deliver_comm_msg_shown[commodity] = true
+		end
 		return
 
 	-- transfer 1 ton of commodity
@@ -1691,14 +1701,23 @@ local deliverCommodity = function (mission, commodity)
 			end
 		end
 
-		-- show result message if done delivering this commodity
 		mission.deliver_comm[commodity] = mission.deliver_comm[commodity] - 1
 		mission.deliver_comm_check[commodity] = nil -- clear PARTIAL flag if present
+		if mission.deliver_comm_msg_shown then
+			mission.deliver_comm_msg_shown[commodity] = nil
+		end
 
 		local done = mission.deliver_comm_orig[commodity] - mission.deliver_comm[commodity]
-		if todo == done then
+		local show_progress = true
+		if todo > max_progress_messages then
+			local interval = math.ceil((todo - 2) / (max_progress_messages - 2))
+			show_progress = done == 1 or done == todo or (done > 1 and done < todo and ((done - 1) % interval == 0))
+		end
+		if show_progress then
 			local resulttxt = string.interp(l.RESULT_DELIVERY_COMM, {done = done, todo = todo, cargotype = commodity_name})
-			Comms.ImportantMessage(resulttxt)
+			Comms.Message(resulttxt)
+		end
+		if todo == done then
 			mission.deliver_comm_check[commodity] = "COMPLETE"
 		end
 	end
@@ -1709,10 +1728,9 @@ local interactionCounter = function (counter)
 	-- Called during timer loop inside "interactWithTarget".
 	counter = counter + 1
 	if counter >= target_interaction_time then
-		return true, counter
-	else
-		return false, counter
+		return true, 0
 	end
+	return false, counter
 end
 
 local searchForTarget  -- need to initialize function variable for use in interactWithTarget function
@@ -1721,20 +1739,6 @@ local interactWithTarget = function (mission)
 	if Game.time > mission.due then
 		Comms.ImportantMessage(l.SHIP_UNRESPONSIVE)
 		return
-	else
-		-- calculate and display total interaction time
-		local packages
-		packages = mission.pickup_crew + mission.pickup_pass +
-			mission.deliver_crew + mission.deliver_pass
-		for _,num in pairs(mission.pickup_comm) do
-			packages = packages + num
-		end
-		for _,num in pairs(mission.deliver_comm) do
-			packages = packages + num
-		end
-		local total_interaction_time = target_interaction_time * packages
-		local distance_reached_txt = string.interp(l.INTERACTION_DISTANCE_REACHED, {minutes = total_interaction_time/60})
-		Comms.ImportantMessage(distance_reached_txt)
 	end
 
 	local counter = 0
@@ -1787,9 +1791,7 @@ local interactWithTarget = function (mission)
 				for commodity, _ in pairs(mission.pickup_comm) do
 					if mission.pickup_comm[commodity] > 0 then
 						pickupCommodity(mission, commodity)
-						if mission.pickup_comm_check[commodity] == "PARTIAL" then
-							done = false
-						end
+						done = false
 					end
 				end
 
@@ -1797,9 +1799,7 @@ local interactWithTarget = function (mission)
 				for commodity, _ in pairs(mission.deliver_comm) do
 					if mission.deliver_comm[commodity] > 0 then
 						deliverCommodity(mission, commodity)
-						if mission.deliver_comm_check[commodity] ~= "PARTIAL" then
-							done = false
-						end
+						done = false
 					end
 				end
 			end
