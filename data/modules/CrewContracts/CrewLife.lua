@@ -162,8 +162,8 @@ end
 local payWages = function(crewMember)
     local contract = crewMember.contract
 
-    if Game.player:GetMoney() > contract.wage then
-        Game.player:AddMoney(0 - contract.wage)
+    if PlayerState.GetMoney() > contract.wage then
+        PlayerState.AddMoney(0 - contract.wage)
 
         -- Being paid can make unhappy crew like you more
         if not crewMember:TestRoll('playerRelationship') then
@@ -176,8 +176,8 @@ local payWages = function(crewMember)
     end
 
     -- Attempt to pay off any arrears
-    local arrears = math.min(Game.player:GetMoney(), contract.outstanding)
-    Game.player:AddMoney(0 - arrears)
+    local arrears = math.min(PlayerState.GetMoney(), contract.outstanding)
+    PlayerState.AddMoney(0 - arrears)
     contract.outstanding = contract.outstanding - arrears
 end
 
