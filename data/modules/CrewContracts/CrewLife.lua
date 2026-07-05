@@ -367,13 +367,6 @@ crewlife.findHome = function(current_station)
 	local stations_tt = {}
 
 	local nearby_stations = MissionUtils.GetNearbyStationPaths(Game.system, 30, nil, nil, true)
-
-	-- if Game.player:IsDocked() then
-	-- 	current_station = Game.player:GetDockedWith()
-	-- else
-	-- 	-- fallback if adding crew while not docked (during debugging)
-	-- 	current_station = nearby_stations[1]
-	-- end
 	
     for _, station in pairs(nearby_stations) do
 		local travel_time
