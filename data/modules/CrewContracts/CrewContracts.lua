@@ -422,7 +422,7 @@ local onCreateBB = function (station)
 
 	-- Number is based on population, nicked from Assassinations.lua and tweaked
 	for i = 1, Engine.rand:Poisson(N_equilibrium(station)) do
-		table.insert(nonPersistentCharactersForCrew[station], crewlife.newCrew())
+		table.insert(nonPersistentCharactersForCrew[station], crewlife.newCrew(station, nil))
 	end
 end
 Event.Register("onCreateBB", onCreateBB)
@@ -452,7 +452,7 @@ local onUpdateBB = function (station)
 
 	-- spawn a new crew advert, call for each station
 	if Engine.rand:Number(0,1) <= prod then
-		table.insert(nonPersistentCharactersForCrew[station], 1, crewlife.newCrew())
+		table.insert(nonPersistentCharactersForCrew[station], 1, crewlife.newCrew(station, nil))
 	end
 
 	if prod > 1 then print("Warning: crew market not in equilibrium") end
@@ -479,7 +479,7 @@ Event.Register("onGameStart", function()
         -- for old saves compatibility
         for station, crewdata in pairs(nonPersistentCharactersForCrew) do
             for i, crewMember in pairs(crewdata) do
-                crewdata[i] = crewlife.newCrew(crewMember)
+                crewdata[i] = crewlife.newCrew(station, crewMember)
             end
 			nonPersistentCharactersForCrew[station] = crewdata
 		end

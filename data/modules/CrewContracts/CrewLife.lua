@@ -315,7 +315,7 @@ local crewAvailable = function ()
 			scheduleContract(crewMember)
 
             -- for old saves compatibility
-			crewMember = crewlife.newCrew(crewMember)
+			crewMember = crewlife.newCrew(nil, crewMember)
 		end
 	end
 end
@@ -355,24 +355,25 @@ end
 -- Finds a home system and station for a crew member and determines the last time they visited home.
 -- Weighted by distance to current station.
 --
+-- Parameters:
+--   current_station = the SpaceStation that initiated the crew creation (possibly for an ad)
 -- Returns:
 --   home_station_path = the SystemPath to the home station
 --   last_home_visit   = the date the home station was last visited
-crewlife.findHome = function()
+crewlife.findHome = function(current_station)
 	local lambda = 60   -- higher number = flatter curve = more distant stations selected
     local home_station_path
 	local last_home_visit
-	local current_station
 	local stations_tt = {}
 
-	nearby_stations = MissionUtils.GetNearbyStationPaths(Game.system, 30, nil, nil, true)
+	local nearby_stations = MissionUtils.GetNearbyStationPaths(Game.system, 30, nil, nil, true)
 
-	if Game.player:IsDocked() then
-		current_station = Game.player:GetDockedWith()
-	else
-		-- fallback if adding crew while not docked (during debugging)
-		current_station = nearby_stations[1]
-	end
+	-- if Game.player:IsDocked() then
+	-- 	current_station = Game.player:GetDockedWith()
+	-- else
+	-- 	-- fallback if adding crew while not docked (during debugging)
+	-- 	current_station = nearby_stations[1]
+	-- end
 	
     for _, station in pairs(nearby_stations) do
 		local travel_time
@@ -409,12 +410,20 @@ end
 -- Creates a new (potential) crew member with all needed stats.
 --
 -- Parameters:
+--   station - the SpaceStation that initiated the crew creation (for example for an ad, not necessarily their home)
 --   oldformatCrew - previously existing crew member that needs format updates for save compatibility
 --
 -- Returns:
 --   crew - a crew member object
-crewlife.newCrew = function(oldformatCrew)
-	local crewMember
+crewlife.newCrew = function(station, oldformatCrew)
+    local crewMember
+
+    -- Fallback if initiating station can't be provided is the closest station within 30 ly
+	if not station then
+        local nearby_stations = MissionUtils.GetNearbyStationPaths(Game.system, 30, nil, nil, true)
+        station = nearby_stations[1]
+    end
+	
 	if not oldformatCrew then
 		crewMember = Character.New()
 		-- Roll new stats, with a 1/3 chance that they're utterly inexperienced
@@ -439,7 +448,7 @@ crewlife.newCrew = function(oldformatCrew)
         crewMember.civaffinity = rand:Integer(1, 3)
     end
     if not crewMember.homeStation then
-        crewMember.homeStation, crewMember.lastHomeVisit = crewlife.findHome()
+        crewMember.homeStation, crewMember.lastHomeVisit = crewlife.findHome(station)
     end
 	if not crewMember.memories then
 		crewMember.memories = {}
