@@ -1386,6 +1386,17 @@ void Ship::OnTakeoff(Body *b)
 	LuaEvent::Queue("onShipTakeOff", this, b);
 }
 
+bool Ship::IsOnSurface() const
+{
+	if (IsLanded())
+		return true;
+	if (IsDocked()) {
+		const SpaceStation *station = GetDockedWith();
+		return station && station->IsGroundStation();
+	}
+	return false;
+}
+
 bool Ship::Undock()
 {
 	return (m_dockedWith && m_dockedWith->LaunchShip(this, m_dockedWithPort));
