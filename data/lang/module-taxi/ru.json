@@ -611,10 +611,6 @@
     "description": "",
     "message": "В этот раз ты не долетишь до станции!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Установить как цель для навигации"
-  },
   "TAXI": {
     "description": "",
     "message": "Пассажиры"

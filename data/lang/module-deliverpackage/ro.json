@@ -359,10 +359,6 @@
     "description": "",
     "message": "O să plătești pentru acea marfă cu viața ta."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Selectați ca țintă navigare"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Port spațial:"

@@ -93,7 +93,7 @@ local radial_menu_actions_hyperspace_cloud = {
 					ui.playSfx("OK")
 				end
 			else
-				Game.AddCommsLogLine(lc.NO_HYPERCLOUD_SCANNER_INSTALLED)
+				Game.AddCommsLogLine(lc.NO_HYPERCLOUD_ANALYZER_INSTALLED)
 			end
 		end
 

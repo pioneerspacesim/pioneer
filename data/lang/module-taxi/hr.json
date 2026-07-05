@@ -611,10 +611,6 @@
     "description": "",
     "message": "Danas nećeš pristati!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Postavi kao cilj navigacije"
-  },
   "TAXI": {
     "description": "",
     "message": "Taksi"

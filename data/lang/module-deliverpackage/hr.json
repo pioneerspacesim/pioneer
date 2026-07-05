@@ -359,10 +359,6 @@
     "description": "",
     "message": "Platit ćeš za taj teret, svojim životom."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Postavi kao cilj navigacije"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Svemirska luka:"

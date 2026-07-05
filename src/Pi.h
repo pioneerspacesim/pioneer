@@ -190,6 +190,8 @@ public:
 		return bRet;
 	}
 
+	static void ToggleObjectViewer();
+
 	/* Only use #if WITH_DEVKEYS */
 	static bool showDebugInfo;
 

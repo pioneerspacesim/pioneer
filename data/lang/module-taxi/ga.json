@@ -611,10 +611,6 @@
     "description": "",
     "message": "Ní bheidh tú ag teacht chun glais inniu!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Socraigh mar sprioc loingseoireachta"
-  },
   "TAXI": {
     "description": "",
     "message": "Tacsaí"

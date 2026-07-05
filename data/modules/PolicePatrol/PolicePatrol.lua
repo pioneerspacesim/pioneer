@@ -47,7 +47,6 @@ local hasIllegalGoods = function (cargo)
 	return illegal
 end
 
-
 local patrol = {}
 local showMercy = true
 local piracy = false
@@ -125,11 +124,36 @@ local onJettison = function (ship, cargo)
 	end
 end
 
+---@param player Player
 local onEnterSystem = function (player)
 	if not hasIllegalGoods(Commodities) then return end
 
 	local system = assert(Game.system)
-	if (1 - system.lawlessness) < Engine.rand:Number(4) then return end
+
+	local cargoMgr = player:GetComponent('CargoManager')
+
+	local illegalCount = 0
+	local illegalValue = 0
+
+	local totalCargo = player.usedCargo
+
+	for name, count in cargoMgr:Commodities() do
+		if not Game.system:IsCommodityLegal(name) then
+			illegalCount = illegalCount + count
+			illegalValue = illegalValue + Commodities[name].price * count
+		end
+	end
+
+	local scanChance = Engine.rand:Number(4)
+
+	if illegalCount > 0 then
+		-- 25% chance of a scan in 1.0-sec worlds... let's bump that number up a bit
+		-- Narratively, it's more interesting to be scanned when carrying illegal goods
+		-- than when not...
+		scanChance = scanChance * 0.75
+	end
+
+	if (1 - system.lawlessness) < scanChance then return end
 
 	local crimes, fine = PlayerState.GetCrimeOutstanding()
 	local ship
@@ -163,33 +187,59 @@ local onEnterSystem = function (player)
 					Comms.ImportantMessage(string.interp(l["OUTLAW_DETECTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("OUTLAW_DETECTED"))], { ship_label = player.label }), ship.label)
 					showMercy = false
 					attackShip(player)
-				else
-					Comms.ImportantMessage(l["INITIATE_CARGO_SCAN_" .. Engine.rand:Integer(1, getNumberOfFlavours("INITIATE_CARGO_SCAN"))], ship.label)
-					Timer:CallAt(Game.time + Engine.rand:Integer(3, 9), function ()
-						if not Game.system or Game.system.path ~= system.path then return end -- Shut up when the player is already in hyperspace
 
-						local manifest = player:GetComponent('CargoManager').commodities
-						if hasIllegalGoods(manifest) then
-							Comms.ImportantMessage(l.ILLEGAL_GOODS_DETECTED, ship.label)
+					return
+				end
+
+				Comms.ImportantMessage(l["INITIATE_CARGO_SCAN_" .. Engine.rand:Integer(1, getNumberOfFlavours("INITIATE_CARGO_SCAN"))], ship.label)
+
+				Timer:CallAt(Game.time + Engine.rand:Integer(3, 9), function ()
+
+					if not Game.system or Game.system.path ~= system.path then return end -- Shut up when the player is already in hyperspace
+
+					if player:hasprop("cargo_shield_cap") then
+						local hiddenGoods = math.min(illegalCount, player["cargo_shield_cap"])
+						illegalCount = illegalCount - hiddenGoods
+						totalCargo = totalCargo - hiddenGoods
+					end
+
+					local proportion = illegalCount / math.max(totalCargo, 1)
+					local detection_chance = math.min(0.45 + proportion, 1.0)
+
+					if illegalCount > 0 and Engine.rand:Number() < detection_chance then
+						Comms.ImportantMessage(l.ILLEGAL_GOODS_DETECTED, ship.label)
+
+						-- $5000 in fines for every $5000 in goods in a high-sec system
+						-- This includes goods in shielded holds for simplicity (they look closer after finding evidence of wrongdoing...)
+						local newfine = Legal:fine("TRADING_ILLEGAL_GOODS", Game.system.lawlessness)
+						newfine = (newfine * illegalValue / 5000) * Engine.rand:Normal(1.0, 0.2)
+
+						PlayerState.AddCrime("TRADING_ILLEGAL_GOODS", newfine)
+
+						if fine + newfine > maxFineTolerated then
 							attackShip(player)
 							Comms.ImportantMessage(l["POLICE_TAUNT_" .. Engine.rand:Integer(1, getNumberOfFlavours("POLICE_TAUNT"))], ship.label)
-						else
-							Comms.ImportantMessage(l.NOTHING_DETECTED, ship.label)
-							if fine > 100 then
-								local message = l["FINES_INTRO_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_INTRO"))]
-								message = message .. " " .. l["FINES_MESSAGE_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_MESSAGE"))]
-								if fine > 1000 then
-									message = message .. " " .. l["FINES_ADMONISHING_HARSH_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_ADMONISHING_HARSH"))]
-								else
-									message = message .. " " .. l["FINES_ADMONISHING_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_ADMONISHING"))]
-								end
-								local policeforce = Game.system.faction.policeName
-								local ship_label = player.label
-								Comms.ImportantMessage(string.interp(message, {policeforce = policeforce, ship_label = ship_label, fine = ui.Format.Money(fine)}), ship.label)
-							end
+
+							return
 						end
-					end)
-				end
+					else
+						-- Got away clean... this time.
+						Comms.ImportantMessage(l.NOTHING_DETECTED, ship.label)
+					end
+
+					if fine > 100 then
+						local message = l["FINES_INTRO_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_INTRO"))]
+						message = message .. " " .. l["FINES_MESSAGE_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_MESSAGE"))]
+						if fine > 1000 then
+							message = message .. " " .. l["FINES_ADMONISHING_HARSH_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_ADMONISHING_HARSH"))]
+						else
+							message = message .. " " .. l["FINES_ADMONISHING_" .. Engine.rand:Integer(1, getNumberOfFlavours("FINES_ADMONISHING"))]
+						end
+						local policeforce = Game.system.faction.policeName
+						local ship_label = player.label
+						Comms.ImportantMessage(string.interp(message, {policeforce = policeforce, ship_label = ship_label, fine = ui.Format.Money(fine)}), ship.label)
+					end
+				end)
 			end
 		end)
 	end)

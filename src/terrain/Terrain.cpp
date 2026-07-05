@@ -686,6 +686,7 @@ double Terrain::BiCubicInterpolation(const vector3d &p) const
 Terrain::MinBodyData::MinBodyData(const SystemBody *body)
 {
 	m_radius = body->GetRadius();
+	m_radiusEarthRatio = body->GetRadiusAsFixed().ToDouble();
 	m_aspectRatio = body->GetAspectRatio();
 	m_path = body->GetPath();
 	m_name = body->GetName();

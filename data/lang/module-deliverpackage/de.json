@@ -359,10 +359,6 @@
     "description": "",
     "message": "Du wirst für diese Fracht mit deinem Leben bezahlen."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Als Navigationsziel setzen"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Raumhafen:"

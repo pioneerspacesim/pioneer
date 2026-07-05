@@ -143,10 +143,6 @@
     "description": "Name of mission type",
     "message": "Col·lector"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Establir com a objectiu de navegació"
-  },
   "SHIP": {
     "description": "",
     "message": "Nau:"

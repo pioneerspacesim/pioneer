@@ -23,12 +23,7 @@ public:
 	// from angle and axis
 	Quaternion(T ang, const vector3<T> &axis)
 	{
-		const T halfAng = ang * T(0.5);
-		const T sinHalfAng = sin(halfAng);
-		w = cos(halfAng);
-		x = axis.x * sinHalfAng;
-		y = axis.y * sinHalfAng;
-		z = axis.z * sinHalfAng;
+		SetAxisAngle(ang, axis);
 	}
 	// Create quaternion from normalized direction vectors.
 	// This creates a quaternion representing the rotation from the second
@@ -82,6 +77,18 @@ public:
 			axis.z = z / s;
 		}
 	}
+
+	// ang in radians
+	inline void SetAxisAngle(const T ang, const vector3<T> &axis)
+	{
+		const T halfAng = ang * T(0.5);
+		const T sinHalfAng = sin(halfAng);
+		w = cos(halfAng);
+		x = axis.x * sinHalfAng;
+		y = axis.y * sinHalfAng;
+		z = axis.z * sinHalfAng;
+	}
+
 	bool operator==(const Quaternion &a) const
 	{
 		return is_equal_exact(a.w, w) && is_equal_exact(a.x, x) && is_equal_exact(a.y, y) && is_equal_exact(a.z, z);

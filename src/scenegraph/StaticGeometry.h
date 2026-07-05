@@ -50,7 +50,6 @@ namespace SceneGraph {
 		~StaticGeometry();
 		std::vector<Mesh> m_meshes;
 		std::vector<RefCountedPtr<Graphics::Material>> m_instanceMaterials;
-		RefCountedPtr<Graphics::VertexBuffer> m_instBuffer;
 	};
 
 } // namespace SceneGraph

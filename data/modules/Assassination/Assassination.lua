@@ -229,8 +229,8 @@ local makeAdvert = function (station)
 end
 
 local onCreateBB = function (station)
-	local num = Engine.rand:Integer(0, math.ceil(Game.system.population) / 2 + 1)
-	for i = 1,num do
+	local num = Engine.rand:Integer(math.ceil(Game.system.population * Game.system.lawlessness))
+	for _ = 1,num do
 		makeAdvert(station)
 	end
 end

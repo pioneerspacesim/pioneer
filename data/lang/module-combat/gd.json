@@ -351,10 +351,6 @@
     "description": "",
     "message": "Tha an nàmhaid glè uidheamaichte agus an teicneolas as ùire aige. Thoiribh an aire!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Cuir ceann-uidhe na seòladaireachd air"
-  },
   "SUCCESSMSG_1": {
     "description": "",
     "message": "Bha mi cinnteach gur sibhse an neach ceart airson misean mar sin. Seo ur pàigheadh."

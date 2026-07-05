@@ -403,6 +403,10 @@
     "description": "",
     "message": "Sto subendo danni. Ho bisogno di aiuto."
   },
+  "LOAD_CARGO": {
+    "description": "UI button label",
+    "message": "Carica merci"
+  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "macchine utensili"
@@ -559,14 +563,6 @@
     "description": "custom cargo",
     "message": "prodotti semilavorati"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Imposta come destinazione di navigazione"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Imposta rotta di ritorno"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Astroporto:"
@@ -661,7 +657,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Abbiamo caricato la sua astronave con la merce."
+    "message": "Abbiamo caricato le merci sulla nave."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -749,6 +745,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Prego, ritorni quando avrà sufficiente spazio per il cargo."
+    "message": "Mi contatti quando avrà sufficiente spazio di carico."
   }
 }

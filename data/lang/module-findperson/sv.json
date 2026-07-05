@@ -345,7 +345,7 @@
   },
   "ON_BOARD": {
     "description": "Status indicator showing if a passenger is currently onboard the player's ship.",
-    "message": "On board"
+    "message": "Ombord"
   },
   "PIRATE_ANSWER_1": {
     "description": "",
@@ -442,14 +442,6 @@
   "RISK_MALE_5": {
     "description": "",
     "message": "Ja, verkligen. {wanted} är en galning. Förvänta dig vad som helst!"
-  },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Använd destination som navigationsmål"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Ställ in returmål"
   },
   "SHIP": {
     "description": "",

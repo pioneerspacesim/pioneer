@@ -611,10 +611,6 @@
     "description": "",
     "message": "Ty už dnes do cíle nedorazíš!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Nastavit jako cíl navigace"
-  },
   "TAXI": {
     "description": "",
     "message": "Taxi"

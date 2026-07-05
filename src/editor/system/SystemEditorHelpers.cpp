@@ -113,7 +113,7 @@ namespace ImGui {
 void Draw::SubtractItemWidth()
 {
 	ImGuiWindow *window = ImGui::GetCurrentWindow();
-	float used_width = window->DC.CursorPos.x - IM_FLOOR(window->Pos.x + window->DC.Indent.x + window->DC.ColumnsOffset.x);
+	float used_width = window->DC.CursorPos.x - floor(window->Pos.x + window->DC.Indent.x + window->DC.ColumnsOffset.x);
 	ImGui::SetNextItemWidth(ImGui::CalcItemWidth() - used_width);
 }
 

@@ -687,14 +687,6 @@
     "description": "",
     "message": "Cuardach ⁊ Tarrtháil"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Socraigh mar sprioc loingseoireachta"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Socraigh an turas fillte"
-  },
   "SHIP_UNRESPONSIVE": {
     "description": "",
     "message": "Gan freagra ón long sprice."

@@ -143,10 +143,6 @@
     "description": "Name of mission type",
     "message": "Сборник"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Установить как цель для навигации"
-  },
   "SHIP": {
     "description": "",
     "message": "Тип корабля:"

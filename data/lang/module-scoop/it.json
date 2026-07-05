@@ -143,10 +143,6 @@
     "description": "Name of mission type",
     "message": "Raccogli"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Imposta come destinazione di navigazione"
-  },
   "SHIP": {
     "description": "",
     "message": "Astronave:"

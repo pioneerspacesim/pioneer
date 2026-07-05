@@ -49,8 +49,6 @@ SpaceStation::SpaceStation(const Json &jsonObj, Space *space) :
 	ModelBody(jsonObj, space),
 	m_type(nullptr)
 {
-	GetModel()->SetLabel(GetLabel());
-
 	try {
 		Json spaceStationObj = jsonObj["space_station"];
 
@@ -93,6 +91,8 @@ SpaceStation::SpaceStation(const Json &jsonObj, Space *space) :
 		m_doorAnimationState = spaceStationObj["door_animation_state"];
 
 		InitStation();
+
+		GetModel()->SetLabel(GetLabel());
 
 		m_navLights->LoadFromJson(spaceStationObj);
 	} catch (Json::type_error &) {
@@ -592,6 +592,7 @@ void SpaceStation::DockingUpdate(const double timeStep)
 				m_doorAnimationStep = -0.3; // close door
 				SwitchToStage(i, DockStage::NONE);
 			}
+			dt.stagePos += timeStep / DOCKING_CLEARANCE_TIMEOUT;
 			continue;
 
 		default:
@@ -750,7 +751,7 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 			m_navLights->SetColor(i + 1, NavLights::NAVLIGHT_BLUE);
 			m_navLights->SetMask(i + 1, 0xf6); // 11110110
 		}
-		if (dt.ship->GetFlightState() == Ship::DOCKED) { //docked
+		if ((dt.ship->GetFlightState() == Ship::DOCKED) && (dt.stage == DockStage::DOCKED)) { //docked
 			PositionDockedShip(dt.ship, i);
 		} else if (dt.ship->GetFlightState() == Ship::DOCKING || dt.ship->GetFlightState() == Ship::UNDOCKING) {
 			PositionDockingShip(dt.ship, i);

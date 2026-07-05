@@ -42,7 +42,7 @@ jobs:
 
     # Checkout the repository as $GITHUB_WORKSPACE
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Install Dependencies
       run: |
@@ -60,20 +60,21 @@ jobs:
           mono Natural\ Docs/NaturalDocs.exe -p nd
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: "Lua API documentation"
         path: docs
 
     - name: Setup Pages
-      uses: actions/configure-pages@v3
+      uses: actions/configure-pages@v6
 
     - name: Upload pages
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@v5
       with:
         # only upload docs/ folder
         path: 'docs'
+        include-hidden-files: true # restore legacy v3 behavior
 
     - name: Deploy to GitHub Pages
       id: deployment
-      uses: actions/deploy-pages@v4
+      uses: actions/deploy-pages@v5

@@ -443,14 +443,6 @@
     "description": "",
     "message": "Oh, oui, en effet. {wanted} est un maniaque. Vous devriez vous préparer à tout !"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Définir comme cible de navigation"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Définir le trajet de retour"
-  },
   "SHIP": {
     "description": "",
     "message": "Vaisseau:"

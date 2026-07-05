@@ -1,7 +1,7 @@
 {
   "ACCEPTED_1": {
     "description": "",
-    "message": "Отлично. Ще натоваря стоката на Вашия кораб."
+    "message": "Отлично. Ще заредя стоката на Вашия кораб."
   },
   "ACCEPTED_2": {
     "description": "",
@@ -129,11 +129,11 @@
   },
   "CARGO_IS_LOADED": {
     "description": "",
-    "message": "натоварено"
+    "message": "заредено"
   },
   "CARGO_IS_NOT_LOADED": {
     "description": "",
-    "message": "не е натоварено"
+    "message": "не е заредено"
   },
   "CEASE_FIRE": {
     "description": "",
@@ -201,7 +201,7 @@
   },
   "DIGESTERS": {
     "description": "custom cargo",
-    "message": "дигестори"
+    "message": "ферментатори"
   },
   "DISTANCE": {
     "description": "distance in space, between two locations",
@@ -265,7 +265,7 @@
   },
   "GO_BACK": {
     "description": "Shown on a button in a sub-menu, to move back, to previous menu",
-    "message": "Добре, разбрах."
+    "message": "Назад."
   },
   "GREENHOUSES": {
     "description": "custom cargo",
@@ -381,7 +381,7 @@
   },
   "INTROTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Здравейте, името ми е {name}, аз съм търговец на едро в системата {system}. Ще Ви платя {cash} за разнос до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
+    "message": "Здравейте, името ми е {name}, аз съм търговец на едро в системата {system}. Ще платя {cash} за разнос до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
   },
   "INTROTEXT_WHOLESALER_2": {
     "description": "",
@@ -402,6 +402,10 @@
   "I_NEED_HELP": {
     "description": "",
     "message": "Напълниха ме с олово. Нуждая се от помощ."
+  },
+  "LOAD_CARGO": {
+    "description": "UI button label",
+    "message": "Зареждане на товара"
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
@@ -559,14 +563,6 @@
     "description": "custom cargo",
     "message": "полуготови продукти"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Задаване за навигационна цел"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Задаване на маршрут за връщане"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Космодрум:"
@@ -581,23 +577,23 @@
   },
   "SUCCESSMSG_1": {
     "description": "",
-    "message": "Благодаря за доставката. Получихте възнаграждението си."
+    "message": "Благодаря за доставката. Получихте договорената сума."
   },
   "SUCCESSMSG_2": {
     "description": "",
-    "message": "Благодаря за бързата доставка. Кредитите са преведени по Вашата сметка."
+    "message": "Благодаря за бързата доставка. Кредитите са преведени във Вашата сметка."
   },
   "SUCCESSMSG_3": {
     "description": "",
-    "message": "Отлично, за мен беше удоволствие да работя с Вас. Разходите са за моя сметка."
+    "message": "Отлично, за мен беше удоволствие да работим заедно. Разходите са за моя сметка."
   },
   "SUCCESSMSG_4": {
     "description": "",
-    "message": "Благодаря! Ще Ви препоръчам. Преведох кредитите по Вашата сметка."
+    "message": "Благодаря! Ще Ви препоръчам. Кредитите са преведени във Вашата сметка."
   },
   "SUCCESSMSG_FLUFFY_1": {
     "description": "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",
-    "message": "Ох, какво да правя с толкова много пухкави същества. Така или иначе, кредитите са Ви изплатени."
+    "message": "Ох, какво да правя с толкова много пухкави същества. Така или иначе, кредитите са изплатени."
   },
   "SYSTEM": {
     "description": "",
@@ -661,7 +657,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Заредихме товара."
+    "message": "Заредихме товара на Вашия кораб."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -749,6 +745,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Моля, върнете се, когато имате достатъчно товарно място."
+    "message": "Моля, свържете се с мен, когато имате достатъчно товарно място."
   }
 }

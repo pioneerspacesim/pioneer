@@ -403,6 +403,10 @@
     "description": "",
     "message": "我受伤了，我需要帮助。"
   },
+  "LOAD_CARGO": {
+    "description": "UI button label",
+    "message": "Load cargo"
+  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "machine tools"
@@ -559,14 +563,6 @@
     "description": "custom cargo",
     "message": "semi-finished products"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "设置为导航目标"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "设置返程航线"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "星港:"
@@ -661,7 +657,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "我们已经把货物装到你船上了。"
+    "message": "We have loaded the cargo onto your ship."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -749,6 +745,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "当您有足够的货物空间时请回来。"
+    "message": "Please contact me when you have sufficient cargo space."
   }
 }

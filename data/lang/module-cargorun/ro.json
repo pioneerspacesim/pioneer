@@ -403,6 +403,10 @@
     "description": "",
     "message": "Sunt atacat! Am nevoie de ajutor!"
   },
+  "LOAD_CARGO": {
+    "description": "UI button label",
+    "message": "Load cargo"
+  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "machine tools"
@@ -559,14 +563,6 @@
     "description": "custom cargo",
     "message": "semi-finished products"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Selectați ca țintă navigare"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Setați ruta de retur"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Port spațial:"
@@ -661,7 +657,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Am încărcat marfa pe nava dvs."
+    "message": "We have loaded the cargo onto your ship."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -749,6 +745,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Vă rog să vă întoarceți când aveți suficient spațiu în hală."
+    "message": "Please contact me when you have sufficient cargo space."
   }
 }

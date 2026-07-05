@@ -197,7 +197,7 @@
   },
   "DIAMONDS": {
     "description": "custom cargo",
-    "message": "diamonds"
+    "message": "diamantes"
   },
   "DIGESTERS": {
     "description": "custom cargo",
@@ -233,7 +233,7 @@
   },
   "EXPLOSIVES": {
     "description": "custom cargo",
-    "message": "explosives"
+    "message": "explosivos"
   },
   "EXPLOSIVES_RISK_MESSAGE_1": {
     "description": "Answer to question: Will I be in any danger?",
@@ -403,6 +403,10 @@
     "description": "",
     "message": "Estou sofrendo danos. Preciso de ajuda."
   },
+  "LOAD_CARGO": {
+    "description": "UI button label",
+    "message": "Load cargo"
+  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "machine tools"
@@ -559,14 +563,6 @@
     "description": "custom cargo",
     "message": "semi-finished products"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Definir como destino de navegação"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Definir rota de retorno"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Porto espacial:"
@@ -661,7 +657,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Nós carregamos a carga à sua nave."
+    "message": "We have loaded the cargo onto your ship."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -749,6 +745,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Por favor volte quando tiver espaço de carga suficiente."
+    "message": "Please contact me when you have sufficient cargo space."
   }
 }

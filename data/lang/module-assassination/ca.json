@@ -219,14 +219,6 @@
     "description": "",
     "message": "Torneu aquí en completar el contracte i se us pagarà."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Establir com a objectiu de navegació"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Establir ruta de retorn"
-  },
   "SHIP": {
     "description": "",
     "message": "Nau:"

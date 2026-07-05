@@ -687,14 +687,6 @@
     "description": "",
     "message": "Arama & Kurtarma"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Navigasyon hedefi olarak seç"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Dönüş yolunu seç"
-  },
   "SHIP_UNRESPONSIVE": {
     "description": "",
     "message": "Hedef gemi yanıt vermiyor."

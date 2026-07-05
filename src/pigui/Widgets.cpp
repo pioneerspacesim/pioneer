@@ -60,7 +60,7 @@ int Draw::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int m
 		ImDrawList *draw_list = ImGui::GetWindowDrawList();
 		draw_list->PushClipRectFullScreen();
 		draw_list->PathArcTo(center, (RADIUS_MIN + RADIUS_MAX) * 0.5f, 0.0f, IM_PI * 2.0f * 0.99f); // FIXME: 0.99f look like full arc with closed thick stroke has a bug now
-		draw_list->PathStroke(bgCol, true, RADIUS_MAX - RADIUS_MIN);
+		draw_list->PathStroke(bgCol, RADIUS_MAX - RADIUS_MIN, ImDrawFlags_Closed);
 
 		const float item_arc_span = 2 * IM_PI / ImMax<int>(ITEMS_MIN, tex_ids.size());
 		float drag_angle = atan2f(drag_delta.y, drag_delta.x);
@@ -91,9 +91,9 @@ int Draw::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int m
 			if (hovered) {
 				// draw outer / inner extra segments
 				draw_list->PathArcTo(center, RADIUS_MAX - border_thickness, item_outer_ang_min, item_outer_ang_max, arc_segments);
-				draw_list->PathStroke(itemHoveredCol, false, border_thickness);
+				draw_list->PathStroke(itemHoveredCol, border_thickness);
 				draw_list->PathArcTo(center, RADIUS_MIN + border_thickness, item_outer_ang_min, item_outer_ang_max, arc_segments);
-				draw_list->PathStroke(itemHoveredCol, false, border_thickness);
+				draw_list->PathStroke(itemHoveredCol, border_thickness);
 			}
 			ImVec2 text_size = ImVec2(size, size);
 			ImVec2 text_pos = ImVec2(
@@ -136,7 +136,7 @@ bool Draw::CircularSlider(const ImVec2 &center, float *v, float v_min, float v_m
 	const ImGuiID id = window->GetID("circularslider");
 	draw_list->AddCircle(center, 17, ImColor(100, 100, 100), 128, 12.0);
 	draw_list->PathArcTo(center, 17, 0, M_PI * 2.0 * (*v - v_min) / (v_max - v_min));
-	draw_list->PathStroke(ImColor(200, 200, 200), false, 12.0);
+	draw_list->PathStroke(ImColor(200, 200, 200), 12.0);
 	ImRect grab_bb;
 	return ImGui::SliderBehavior(ImRect(center.x - 17, center.y - 17, center.x + 17, center.y + 17),
 		id, ImGuiDataType_Float, v, &v_min, &v_max, "%.4f", ImGuiSliderFlags_None, &grab_bb);
@@ -270,10 +270,10 @@ bool Draw::LowThrustButton(const char *id_string, const ImVec2 &size_arg, int th
 		draw_list->AddRectFilled(inner_bb.Min, inner_bb.Max, ImGui::GetColorU32(bg_col));
 
 	draw_list->PathArcTo(center, radius, 0, IM_PI * 2);
-	draw_list->PathStroke(gauge_bg, false, thickness);
+	draw_list->PathStroke(gauge_bg, thickness);
 
 	draw_list->PathArcTo(center, radius, IM_PI, IM_PI + IM_PI * 2 * (thrust_level / 100.0));
-	draw_list->PathStroke(gauge_fg, false, thickness);
+	draw_list->PathStroke(gauge_fg, thickness);
 	ImGui::RenderTextClipped(bb.Min + style.FramePadding, bb.Max - style.FramePadding, label.c_str(), NULL, &label_size, style.ButtonTextAlign, &bb);
 
 	// Automatically close popups

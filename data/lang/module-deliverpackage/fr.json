@@ -359,10 +359,6 @@
     "description": "",
     "message": "Tu vas payer de ta vie pour ce transport."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Définir comme cible de navigation."
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Astroport:"

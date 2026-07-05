@@ -1,6 +1,7 @@
 // Copyright © 2008-2026 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "FileSystem.h"
 #include "Input.h"
 #include "InputBindings.h"
 #include "LuaPiGuiInternal.h"
@@ -85,8 +86,8 @@ namespace ImGui {
 
 		// Move the cursor to match the new work rect areas
 		// NOTE: this will reset the horizontal position of the cursor!
-		window->DC.CursorPos.x = IM_FLOOR(window->Pos.x + window->DC.Indent.x + window->DC.ColumnsOffset.x);
-		window->DC.CursorPos.y = IM_FLOOR(ImMax(window->DC.CursorPos.y, window->ContentRegionRect.Min.y));
+		window->DC.CursorPos.x = floor(window->Pos.x + window->DC.Indent.x + window->DC.ColumnsOffset.x);
+		window->DC.CursorPos.y = floor(ImMax(window->DC.CursorPos.y, window->ContentRegionRect.Min.y));
 	}
 
 	float GetLineHeight()
@@ -195,7 +196,7 @@ static LuaFlags<ImGuiSelectableFlags_> selectable_flags = {
 	{ "DontClosePopups", ImGuiSelectableFlags_DontClosePopups },
 	{ "SpanAllColumns", ImGuiSelectableFlags_SpanAllColumns },
 	{ "AllowDoubleClick", ImGuiSelectableFlags_AllowDoubleClick },
-	{ "AllowItemOverlap", ImGuiSelectableFlags_AllowItemOverlap }
+	{ "AllowOverlap", ImGuiSelectableFlags_AllowOverlap }
 };
 
 // Can't use ImGuiButtonFlags_ here, as PressedOnClick etc. are in the ImGuiButtonFlagsPrivate_ enum instead
@@ -271,6 +272,7 @@ static LuaFlags<ImGuiCol_> imgui_col_enums = {
 	{ "ScrollbarGrabHovered", ImGuiCol_ScrollbarGrabHovered },
 	{ "ScrollbarGrabActive", ImGuiCol_ScrollbarGrabActive },
 	{ "CheckMark", ImGuiCol_CheckMark },
+	{ "CheckboxSelectedBg", ImGuiCol_CheckboxSelectedBg },
 	{ "SliderGrab", ImGuiCol_SliderGrab },
 	{ "SliderGrabActive", ImGuiCol_SliderGrabActive },
 	{ "Button", ImGuiCol_Button },
@@ -1133,7 +1135,7 @@ static int l_pigui_path_stroke(lua_State *l)
 	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 1).Value);
 	bool closed = LuaPull<bool>(l, 2);
 	double thickness = LuaPull<double>(l, 3);
-	draw_list->PathStroke(color, closed, thickness);
+	draw_list->PathStroke(color, thickness, closed ? ImDrawFlags_Closed : ImDrawFlags_None);
 	return 0;
 }
 
@@ -1411,8 +1413,7 @@ static int l_pigui_text_ellipsis(lua_State *l)
     ImGui::ItemAdd(bb, 0);
 
 	ImGui::RenderTextEllipsis(ImGui::GetWindowDrawList(),
-		textPos, textPos + size,
-		clip_max_x, clip_max_x,
+		textPos, textPos + size, clip_max_x,
 		text.c_str(), text.c_str() + text.size(),
 		&text_size);
 
@@ -2114,12 +2115,12 @@ static int l_pigui_push_font(lua_State *l)
 	PiGui::Instance *pigui = LuaObject<PiGui::Instance>::CheckFromLua(1);
 	std::string fontname = LuaPull<std::string>(l, 2);
 	int size = LuaPull<int>(l, 3);
-	ImFont *font = pigui->GetFont(fontname, size);
+	ImFont *font = pigui->GetFont(fontname);
 	if (!font) {
 		LuaPush(l, false);
 	} else {
 		LuaPush(l, true);
-		ImGui::PushFont(font);
+		ImGui::PushFont(font, size);
 	}
 	return 1;
 }
@@ -3339,8 +3340,7 @@ static int l_pigui_calc_text_alignment(lua_State *l)
 	} else if (anchor_v == 3) {
 		pos.y -= size.y / 2;
 	} else if (anchor_v == 6) {
-		ImFont *font = ImGui::GetFont();
-		pos.y -= font->Ascent;
+		pos.y -= ImGui::GetFontBaked()->Ascent;
 	} else
 		luaL_error(l, "CalcTextAlignment: incorrect vertical anchor %d", anchor_v);
 	LuaPush<vector2d>(l, pos);

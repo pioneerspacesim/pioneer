@@ -1565,7 +1565,7 @@ void LuaObject<Ship>::RegisterClass()
  * Hull capacity used by cargo only (not equipment). Measured in cargo units.
  *
  *
- * Attribute: totalCargo
+ * Attribute: cargo_cap
  *
  * Hull capacity available for cargo (not equipment). Measured in cargo units.
  */

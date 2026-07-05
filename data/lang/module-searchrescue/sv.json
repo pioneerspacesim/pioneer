@@ -687,14 +687,6 @@
     "description": "",
     "message": "Sök och rädda insats"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Använd destination som navigationsmål"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Sätt som returmål"
-  },
   "SHIP_UNRESPONSIVE": {
     "description": "",
     "message": "Målskeppet svarar inte"

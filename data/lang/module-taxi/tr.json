@@ -611,10 +611,6 @@
     "description": "",
     "message": "Bugün kenetlenemeyeceksin!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Navigasyon hedefi olarak seç"
-  },
   "TAXI": {
     "description": "",
     "message": "Taksi"

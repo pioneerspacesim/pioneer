@@ -29,7 +29,12 @@ material "facade_window" {
 	texture diffuse  "facades_diff.dds"
 	texture glow     "facades_diff.dds"
 	specular 0.6 0.6 0.6
-	opacity 13
+	opacity 40
+	
+		render_state {
+		blend alpha
+		depth_write off
+	}
 }
 
 material "ring" {
@@ -43,7 +48,12 @@ material "ring_glass" {
 	shader "multi"
 	texture diffuse  "ring_diff.dds"
 	specular 0.7 0.7 0.7
-	opacity 20
+	opacity 40
+	
+		render_state {
+		blend alpha
+		depth_write off
+	}
 }
 
 material "strut" {

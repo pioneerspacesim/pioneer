@@ -143,10 +143,6 @@
     "description": "Name of mission type",
     "message": "Szívó"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Navigációs célnak beállít."
-  },
   "SHIP": {
     "description": "",
     "message": "Hajó:"

@@ -57,7 +57,7 @@
   },
   "CORONATRIX_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "un vaisseau de police Coronatrix"
+    "message": "un modèle de police Coronatrix"
   },
   "DENEB": {
     "description": "ship name - base form",
@@ -84,28 +84,28 @@
     "message": "un DS mineur"
   },
   "KANARA": {
-    "description": "ship name - base form",
+    "description": "ship name - base form, Kanara civilian",
     "message": "Kanara"
   },
-  "KANARA_CIV": {
-    "description": "ship name - base form",
-    "message": "Kanara Civ"
-  },
-  "KANARA_CIV_DEF": {
-    "description": "ship - definite form",
-    "message": "le Kanara Civ"
-  },
-  "KANARA_CIV_INDEF": {
-    "description": "ship name - indefinite form",
-    "message": "un Kanara Civ"
-  },
   "KANARA_DEF": {
-    "description": "ship - definite form",
+    "description": "ship - definite form, Kanara civilian",
     "message": "le Kanara"
   },
   "KANARA_INDEF": {
-    "description": "ship name - indefinite form",
+    "description": "ship name - indefinite form, Kanara civilian",
     "message": "un Kanara"
+  },
+  "KANARA_POLICE": {
+    "description": "ship name - base form",
+    "message": "vaisseau de police Kanara"
+  },
+  "KANARA_POLICE_DEF": {
+    "description": "ship - definite form",
+    "message": "le vaisseau de police Kanara"
+  },
+  "KANARA_POLICE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "un vaisseau de police Kanara"
   },
   "LODOS": {
     "description": "ship name - base form",
@@ -261,7 +261,7 @@
   },
   "SINONATRIX_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "un vaisseau de police Sinonatrix"
+    "message": "un modèle de police Sinoatrix"
   },
   "SKIPJACK": {
     "description": "ship name - base form",

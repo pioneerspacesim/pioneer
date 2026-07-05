@@ -65,14 +65,11 @@ namespace SceneGraph {
 		Graphics::Renderer *r = GetRenderer();
 
 		const size_t numTrans = trans.size();
-		if (!m_instBuffer.Valid() || (numTrans > m_instBuffer->GetSize())) {
-			// create the instance buffer with the maximum number of transformations we might use within it.
-			m_instBuffer.Reset(r->CreateVertexBuffer(Graphics::BUFFER_USAGE_DYNAMIC, numTrans, sizeof(matrix4x4f)));
-		}
+
+		Graphics::BufferBinding<Graphics::VertexBuffer> ib = m_renderer->CreateTempVertexBuffer(trans.size(), sizeof(matrix4x4f));
+		matrix4x4f *pBuffer = ib.buffer->MapRange<matrix4x4f>(ib, Graphics::BUFFER_MAP_WRITE);
 
 		// Update the InstanceBuffer data
-		Graphics::VertexBuffer *ib = m_instBuffer.Get();
-		matrix4x4f *pBuffer = ib->Map<matrix4x4f>(Graphics::BUFFER_MAP_WRITE);
 		if (pBuffer) {
 			PROFILE_SCOPED_DESC("Copy Instance Data")
 
@@ -81,7 +78,8 @@ namespace SceneGraph {
 				(*pBuffer) = mt;
 				++pBuffer;
 			}
-			ib->Unmap();
+
+			ib.buffer->UnmapRange(false); // will be flushed at end-of-frame
 		}
 
 		if (m_instanceMaterials.empty()) {
@@ -111,7 +109,7 @@ namespace SceneGraph {
 			// finally render using the instance material
 			uint32_t numElems = it.meshObject->GetIndexBuffer()->GetIndexCount();
 			r->Draw(
-				{ it.meshObject->GetVertexBuffer(), m_instBuffer.Get() },
+				{ it.meshObject->GetVertexBuffer(), ib },
 				it.meshObject->GetIndexBuffer(),
 				m_instanceMaterials[i].Get(),
 				numElems, numTrans

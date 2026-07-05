@@ -58,7 +58,7 @@ end
 ---@class Equipment.LaserType
 local LaserType = EquipTypes.LaserType
 
-local format_rpm = function(v) return string.format("%d RPM", 60 / v) end
+local format_rpm = function(v) return string.format("%d RPM", v == 0 and 0 or 60 / v) end
 local format_speed = function(v) return string.format("%.1f%s", v, lc.UNIT_METERS_PER_SECOND) end
 
 function LaserType:GetDetailedStats()
@@ -188,6 +188,44 @@ end
 function CabinType:GetItemCardStats()
 	return {
 		{ icons.personal, "{}/{}" % { self:GetNumPassengers(), self:GetMaxPassengers() } },
+		{ icons.hull, format_mass(self.mass) },
+		{ icons.ecm, format_power(0) },
+		{ icons.repairs, format_integrity(1) }
+	}
+end
+
+
+--==============================================================================
+
+---@class Equipment.CargoHoldType
+local CargoHoldType = EquipTypes.CargoHoldType
+
+function CargoHoldType:GetDetailedStats()
+	local out = self:Super().GetDetailedStats(self)
+
+	table.insert(out, {
+		le.CARGO_CAPACITY,
+		icons.cargo_crate,
+		self.capabilities.cargo,
+		tostring
+	})
+
+	if self.capabilities.cargo_shield then
+		table.insert(out, {
+			le.SHIELDED_CARGO_CAPACITY,
+			icons.cargo_crate,
+			self.capabilities.cargo_shield,
+			tostring
+		})
+	end
+
+	return out
+end
+
+---@return table[]
+function CargoHoldType:GetItemCardStats()
+	return {
+		{ icons.cargo_crate, "{}" % { self.capabilities.cargo } },
 		{ icons.hull, format_mass(self.mass) },
 		{ icons.ecm, format_power(0) },
 		{ icons.repairs, format_integrity(1) }

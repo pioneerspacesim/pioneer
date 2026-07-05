@@ -481,6 +481,7 @@ bool StarSystemCustomGenerator::ApplyToSystem(Random &rng, RefCountedPtr<StarSys
 	*rootBody = csbody->bodyData;
 	rootBody->m_parent = 0;
 	rootBody->m_isCustomBody = true;
+	rootBody->SetAtmFromParameters();
 
 	system->SetRootBody(rootBody);
 
@@ -1213,6 +1214,7 @@ void StarSystemRandomGenerator::MakeStarOfType(SystemBody *sbody, SystemBody::Bo
 	sbody->m_mass = fixed(rand.Int32(starTypeInfo[type].mass[0], starTypeInfo[type].mass[1]), 100);
 	sbody->m_averageTemp = rand.Int32(starTypeInfo[type].tempMin, starTypeInfo[type].tempMax);
 	sbody->GenerateStarColor();
+	sbody->SetAtmFromParameters();
 }
 
 void StarSystemRandomGenerator::MakeRandomStar(SystemBody *sbody, Random &rand)

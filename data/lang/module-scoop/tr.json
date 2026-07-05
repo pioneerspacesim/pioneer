@@ -143,10 +143,6 @@
     "description": "Name of mission type",
     "message": "Toplayıcı"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Navigasyon hedefi olarak seç"
-  },
   "SHIP": {
     "description": "",
     "message": "Gemi:"

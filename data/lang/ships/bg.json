@@ -57,7 +57,7 @@
   },
   "CORONATRIX_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "полицейски кораб Кралска водна змия"
+    "message": "полицейска Кралска водна змия"
   },
   "DENEB": {
     "description": "ship name - base form",
@@ -84,28 +84,28 @@
     "message": "Миньор ДК"
   },
   "KANARA": {
-    "description": "ship name - base form",
+    "description": "ship name - base form, Kanara civilian",
     "message": "Канара"
   },
-  "KANARA_CIV": {
-    "description": "ship name - base form",
-    "message": "гражданска Канара"
-  },
-  "KANARA_CIV_DEF": {
-    "description": "ship - definite form",
-    "message": "гражданската Канара"
-  },
-  "KANARA_CIV_INDEF": {
-    "description": "ship name - indefinite form",
-    "message": "гражданска Канара"
-  },
   "KANARA_DEF": {
-    "description": "ship - definite form",
+    "description": "ship - definite form, Kanara civilian",
     "message": "Канарата"
   },
   "KANARA_INDEF": {
-    "description": "ship name - indefinite form",
+    "description": "ship name - indefinite form, Kanara civilian",
     "message": "Канара"
+  },
+  "KANARA_POLICE": {
+    "description": "ship name - base form",
+    "message": "полицейски кораб Канара"
+  },
+  "KANARA_POLICE_DEF": {
+    "description": "ship - definite form",
+    "message": "полицейският кораб Канара"
+  },
+  "KANARA_POLICE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "полицейска Канара"
   },
   "LODOS": {
     "description": "ship name - base form",
@@ -225,7 +225,7 @@
   },
   "PUMPKINSEED_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "полицейски кораб Слънчева риба"
+    "message": "полицейска Слънчева риба"
   },
   "SHIP": {
     "description": "ship name - base form",
@@ -261,7 +261,7 @@
   },
   "SINONATRIX_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "полицейски кораб Азиатска водна змия"
+    "message": "полицейска Азиатска водна змия"
   },
   "SKIPJACK": {
     "description": "ship name - base form",

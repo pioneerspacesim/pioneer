@@ -611,10 +611,6 @@
     "description": "",
     "message": "Você não vai à doca hoje!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Definir como destino de navegação"
-  },
   "TAXI": {
     "description": "",
     "message": "Táxi"

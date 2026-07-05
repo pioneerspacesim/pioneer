@@ -2353,7 +2353,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Suidhich an ceann-uidhe mar cheann-uidhe na seòladaireachd."
+    "message": "Set destination as navigation target"
   },
   "SET_JUMP_TARGET": {
     "description": "Button tooltip which sets the jump route to the selected body",

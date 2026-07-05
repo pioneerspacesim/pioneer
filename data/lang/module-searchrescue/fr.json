@@ -687,14 +687,6 @@
     "description": "",
     "message": "Recherche et sauvetage"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Définir comme cible de navigation."
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Définir le trajet de retour."
-  },
   "SHIP_UNRESPONSIVE": {
     "description": "",
     "message": "Le vaisseau cible ne répond pas."

@@ -43,7 +43,7 @@ EquipmentWidget.Sections = {
 	{ name = le.SHIELDS, type = "shield" },
 	{ name = le.SENSORS, type = "sensor", },
 	{ name = le.COMPUTER_MODULES, type = "computer", },
-	{ name = le.CABINS, types = { "cabin" } },
+	{ name = le.HABITAT, types = { "cabin" } },
 	{ name = le.HULL_MOUNTS, types = { "hull", "utility", "fuel_scoop", "structure" } },
 }
 
@@ -195,7 +195,7 @@ function EquipmentWidget:onSelectSlot(slotData, children)
 		self.market.filterSlot = self.selectedSlot
 		self.market.replaceEquip = self.selectedEquip
 
-		local canBeSold = not self.selectedEquip or self.selectedEquip:CanBeSold()
+		local canBeSold = not self.selectedEquip or self.selectedEquip:CanBeSold(self.ship)
 
 		self.market.canReplaceEquip = not hasChildren and canBeSold
 		self.market.canSellEquip = not (self.selectedSlot and self.selectedSlot.required or hasChildren) and canBeSold

@@ -403,6 +403,10 @@
     "description": "",
     "message": "Меня подбили. Нужна помощь."
   },
+  "LOAD_CARGO": {
+    "description": "UI button label",
+    "message": "Load cargo"
+  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "станки"
@@ -559,14 +563,6 @@
     "description": "custom cargo",
     "message": "полуфабрикаты"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Установить как цель для навигации"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Задать маршрут возвращения"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Космопорт получателя:"
@@ -661,7 +657,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Мы погрузили товары на ваш корабль."
+    "message": "We have loaded the cargo onto your ship."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -749,6 +745,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Возвращайтесь, когда у вас будет достаточно свободного места."
+    "message": "Please contact me when you have sufficient cargo space."
   }
 }

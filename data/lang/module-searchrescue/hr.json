@@ -687,14 +687,6 @@
     "description": "",
     "message": "Potraga i spašavanje"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Postavi kao cilj navigacije"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Postavi povratnu rutu"
-  },
   "SHIP_UNRESPONSIVE": {
     "description": "",
     "message": "Ciljani brod ne reagira."

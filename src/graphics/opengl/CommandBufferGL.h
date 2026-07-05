@@ -34,32 +34,28 @@ namespace Graphics {
 
 		class CommandList {
 		public:
-			struct DrawCmd {
+			struct DrawMeshCmd {
 				MeshObject *mesh;
+				uint32_t elementCount = 0;
 				Program *program = nullptr;
 				size_t renderStateHash = 0;
 				GLuint vertexState = 0;
 				char *drawData;
 			};
 
-			struct DrawCmd2 {
+			struct DrawBuffersCmd {
 				uint32_t idxBuffer : 1;
-				uint32_t numVtxBuffers : 2;
+				uint32_t numVtxBuffers : 2; // WARNING: this value is represented with an implicit +1 when read...
 				uint32_t instanceCount : 29;
 				uint32_t elementCount = 0;
 				GLuint vertexState = 0;
 				size_t renderStateHash = 0;
 				Program *program = nullptr;
 				char *drawData;
-			};
 
-			struct DynamicDrawCmd {
-				BufferBinding<VertexBuffer> vtxBind;
-				BufferBinding<IndexBuffer> idxBind;
-				Program *program = nullptr;
-				size_t renderStateHash = 0;
-				GLuint vertexState = 0;
-				char *drawData;
+				// drawData is arranged as { vtxBuffers }, [idxBuffer], { vtxOffsets }, [idxOffset], bindings...
+				// the first vertex buffer offset is stored at the address directly after the last buffer pointer
+				uint32_t *getBufferOffsetsPtr() const { return reinterpret_cast<uint32_t *>(reinterpret_cast<OGL::VertexBuffer **>(drawData) + 1 + numVtxBuffers + idxBuffer); }
 			};
 
 			struct RenderPassCmd {
@@ -85,13 +81,13 @@ namespace Graphics {
 
 			// development asserts to ensure sizes are kept reasonable.
 			// if you need to go beyond these sizes, add a new command instead.
-			static_assert(sizeof(DrawCmd) <= 64);
-			static_assert(sizeof(DynamicDrawCmd) <= 64);
+			static_assert(sizeof(DrawMeshCmd) <= 64);
+			static_assert(sizeof(DrawBuffersCmd) <= 64);
 			static_assert(sizeof(RenderPassCmd) <= 64);
+			static_assert(sizeof(BlitRenderTargetCmd) <= 64);
 
-			void AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *mat);
-			void AddDrawCmd2(const Span<Graphics::VertexBuffer *const> vtxBuffer, Graphics::IndexBuffer *buffer, Graphics::Material *mat, uint32_t numElements, uint32_t numInstances);
-			void AddDynamicDrawCmd(BufferBinding<Graphics::VertexBuffer> vtx, BufferBinding<Graphics::IndexBuffer> idx, Graphics::Material *mat);
+			void AddDrawMeshCmd(Graphics::MeshObject *mesh, Graphics::Material *mat);
+			void AddDrawBuffersCmd(const Span<const BufferBinding<Graphics::VertexBuffer>> vtxBuffer, BufferBinding<Graphics::IndexBuffer> idxBuffer, Graphics::Material *mat, uint32_t numElements, uint32_t numInstances);
 
 			void AddRenderPassCmd(RenderTarget *renderTarget, ViewportExtents extents);
 			void AddScissorCmd(ViewportExtents extents);
@@ -106,7 +102,7 @@ namespace Graphics {
 				bool resolveMSAA = false, bool blitDepthBuffer = false, bool linearFilter = true);
 
 		protected:
-			using Cmd = std::variant<DrawCmd, DrawCmd2, DynamicDrawCmd, RenderPassCmd, BlitRenderTargetCmd>;
+			using Cmd = std::variant<DrawMeshCmd, DrawBuffersCmd, RenderPassCmd, BlitRenderTargetCmd>;
 			const std::vector<Cmd> &GetDrawCmds() const { return m_drawCmds; }
 
 			bool IsEmpty() const { return m_drawCmds.empty(); }
@@ -128,9 +124,8 @@ namespace Graphics {
 			// These functions are called before and after a command is executed
 			void ApplyDrawData(Program *program, char *drawData) const;
 
-			void ExecuteDrawCmd(const DrawCmd &);
-			void ExecuteDrawCmd2(const DrawCmd2 &);
-			void ExecuteDynamicDrawCmd(const DynamicDrawCmd &);
+			void ExecuteDrawMeshCmd(const DrawMeshCmd &);
+			void ExecuteDrawBuffersCmd(const DrawBuffersCmd &);
 			void ExecuteRenderPassCmd(const RenderPassCmd &);
 			void ExecuteBlitRenderTargetCmd(const BlitRenderTargetCmd &);
 

@@ -668,6 +668,21 @@ local onLeaveSystem = function (ship)
 	escort_ships = {}
 end
 
+local tryLoadPickupCargo = function(mission, player)
+	local cargoMgr = player:GetComponent('CargoManager')
+
+	if cargoMgr:GetFreeSpace() < mission.amount then
+		Comms.ImportantMessage(l.YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE, mission.client.name)
+	else
+		cargoMgr:AddCommodity(mission.cargotype, mission.amount);
+		mission.cargo_picked_up = true
+		Comms.ImportantMessage(l.WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP, mission.client.name)
+		mission.status = "ACTIVE"
+		mission.destination = mission.domicile
+		return true
+	end
+end
+
 local onPlayerDocked = function (player, station)
 
 	-- First drop off cargo (if any such missions)
@@ -726,18 +741,7 @@ local onPlayerDocked = function (player, station)
 		if readyToPickup then
 			if Game.time < mission.due then
 
-				---@type CargoManager
-				local cargoMgr = player:GetComponent('CargoManager')
-
-				if cargoMgr:GetFreeSpace() < mission.amount then
-					Comms.ImportantMessage(l.YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE, mission.client.name)
-				else
-					cargoMgr:AddCommodity(mission.cargotype, mission.amount);
-					mission.cargo_picked_up = true
-					Comms.ImportantMessage(l.WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP, mission.client.name)
-					mission.status = "ACTIVE"
-					mission.destination = mission.domicile
-				end
+				tryLoadPickupCargo(mission, player)
 
 			else
 
@@ -861,6 +865,22 @@ local buildMissionDescription = function(mission)
 		}
 
 		desc.returnLocation = mission.domicile
+
+		desc.customActions = {{
+			id = "cargorun_load_cargo",
+			label = l.LOAD_CARGO,
+			enabled = function()
+				local station = Game.player:GetDockedWith()
+				return station
+					and mission.pickup
+					and not mission.cargo_picked_up
+					and Game.time < mission.due
+					and station.path == mission.location
+			end,
+			onClick = function()
+				return tryLoadPickupCargo(mission, Game.player)
+			end,
+		}}
 	end
 
 	return desc

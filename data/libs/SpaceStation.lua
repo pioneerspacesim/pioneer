@@ -80,7 +80,20 @@ local function createEquipmentStock (station)
 		-- Stations stock everything at least three tech levels below them,
 		-- with an increasing chance of being out-of-stock as the item's tech
 		-- approaches that of the station
-		stock[id] = math.max(0, Engine.rand:Integer(-30, 100) + techLevelDiff(e.tech_level, station.techLevel) * 10)
+		local tlDelta = techLevelDiff(e.tech_level, station.techLevel)
+
+		if tlDelta >= 0 then
+			stock[id] = math.max(0, Engine.rand:Integer(-30, 100) + tlDelta * 10)
+
+			if e.lawlessness and Game.system.lawlessness < e.lawlessness then
+				stock[id] = nil -- not even advertised here
+			end
+
+			if e.min_security and Game.system.lawlessness >= (1 - e.min_security) then
+				stock[id] = nil -- not even advertised here
+			end
+		end
+
 	end
 
 	equipmentStock[station] = stock
@@ -155,11 +168,11 @@ end
 --
 -- Returns:
 --
---   stock - the amount available for trade
+--   stock? - the amount available for trade, or nil if the item is not possible to be stocked
 --
 function SpaceStation:GetEquipmentStock (e)
 	assert(self:exists())
-	return equipmentStock[self] and equipmentStock[self][e.id] or 0
+	return equipmentStock[self] and equipmentStock[self][e.id]
 end
 
 --
