@@ -351,10 +351,6 @@
     "description": "",
     "message": "Fienden är mycket välutrustad och har tillgång till den senaste tekniken. Var försiktig!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Använd destination som navigationsmål"
-  },
   "SUCCESSMSG_1": {
     "description": "",
     "message": "Jag visste att du var rätt person för ett sådant uppdrag. Här är din betalning."

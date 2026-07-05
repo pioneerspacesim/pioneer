@@ -6,6 +6,7 @@
 #include "Body.h"
 #include "Frame.h"
 #include "Pi.h"
+#include "Player.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
@@ -18,7 +19,6 @@ const Uint16 MAX_POINTS = 100;
 
 HudTrail::HudTrail(Body *b, const Color &c) :
 	m_body(b),
-	m_currentFrame(b->GetFrame()),
 	m_updateTime(0.f),
 	m_color(c)
 {
@@ -34,19 +34,13 @@ HudTrail::HudTrail(Body *b, const Color &c) :
 void HudTrail::Update(float time)
 {
 	PROFILE_SCOPED();
-	//record position
+	//record the position relative to the player, the HUD trail then displays the history of this object's trajectory around the player
 	m_updateTime += time;
 	if (m_updateTime > UPDATE_INTERVAL) {
 		m_updateTime = 0.f;
-		FrameId bodyFrameId = m_body->GetFrame();
-
-		if (!m_currentFrame) {
-			m_currentFrame = bodyFrameId;
-			m_trailPoints.clear();
-		}
-
-		if (bodyFrameId == m_currentFrame)
-			m_trailPoints.emplace_back(m_body->GetInterpPosition());
+		// Always use a non-rotating frame, so that the relative positions are un-rotated
+		FrameId nrf = Frame::GetFrame(Pi::player->GetFrame())->GetNonRotFrame();
+		m_trailPoints.emplace_back(m_body->GetInterpPositionRelTo(nrf) - Pi::player->GetInterpPositionRelTo(nrf));
 	}
 
 	while (m_trailPoints.size() > MAX_POINTS)
@@ -56,9 +50,12 @@ void HudTrail::Update(float time)
 void HudTrail::Render(Graphics::Renderer *r)
 {
 	PROFILE_SCOPED();
-	//render trail
+	//render trail relative to the player's current position, this ensures that relative motion is displayed
 	if (m_trailPoints.size() > 1) {
-		const vector3d vpos = m_transform * m_body->GetInterpPosition();
+		// Set up a transform that includes the player's current position, so that everything we draw is relative to that
+		// Always use a non-rotating frame, so that the relative positions are un-rotated
+		FrameId nrf = Frame::GetFrame(Pi::player->GetFrame())->GetNonRotFrame();
+		const vector3d vpos = m_transform * Pi::player->GetInterpPositionRelTo(nrf);
 		m_transform[12] = vpos.x;
 		m_transform[13] = vpos.y;
 		m_transform[14] = vpos.z;
@@ -68,17 +65,18 @@ void HudTrail::Render(Graphics::Renderer *r)
 		static std::vector<Color> colors;
 		tvts.clear();
 		colors.clear();
-		const vector3d curpos = m_body->GetInterpPosition();
 		tvts.reserve(MAX_POINTS);
 		colors.reserve(MAX_POINTS);
 
-		tvts.emplace_back(vector3f(0.f));
-		colors.emplace_back(Color::BLANK);
+		// Start with the object's current position relative to the player (so when we apply the above transform this
+		// works out to the object's current position). Then draw a line along the trail history, gradually fading out.
+		tvts.emplace_back(m_body->GetInterpPositionRelTo(nrf) - Pi::player->GetInterpPositionRelTo(nrf));
+		colors.emplace_back(m_color);
 		float alpha = 1.f;
 		const float decrement = 1.f / m_trailPoints.size();
 		const Color tcolor = m_color;
 		for (size_t i = m_trailPoints.size() - 1; i > 0; i--) {
-			tvts.emplace_back(-vector3f(curpos - m_trailPoints[i]));
+			tvts.emplace_back(vector3f(m_trailPoints[i]));
 			alpha -= decrement;
 			colors.emplace_back(tcolor);
 			colors.back().a = Uint8(alpha * 255);
@@ -92,6 +90,5 @@ void HudTrail::Render(Graphics::Renderer *r)
 
 void HudTrail::Reset(FrameId newFrame)
 {
-	m_currentFrame = newFrame;
 	m_trailPoints.clear();
 }

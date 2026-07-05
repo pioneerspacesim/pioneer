@@ -219,14 +219,6 @@
     "description": "",
     "message": "Επιστρέψτε εδώ μετά την ολοκλήρωση του συμβολαίου και θα πληρωθείτε."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Θέσε ως στόχο πλοήγησης."
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Θέσε διαδρομή επιστροφής"
-  },
   "SHIP": {
     "description": "",
     "message": "Σκάφος:"

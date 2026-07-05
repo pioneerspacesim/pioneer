@@ -431,6 +431,39 @@ static int l_body_attr_frame_body(lua_State *l)
 }
 
 /*
+ * Attribute: frameLabel
+ *
+ * The label of the frame that this dynamic body is in.
+ *
+ * Most frames will have a <frameBody> that can be read instead, so this is
+ * for frames that don't have one of those, e.g. gravpoints and hyperspace
+ */
+static int l_body_attr_frame_label(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	if (!b->IsType(ObjectType::DYNAMICBODY)) {
+		lua_pushnil(l);
+		return 1;
+	}
+
+	Frame *f = Frame::GetFrame(b->GetFrame());
+
+	if (!f) {
+		lua_pushnil(l);
+		return 1;
+	}
+
+	// If we're in the root "System" frame of a binary star system, then use
+	// the root SystemBody name for the frame label, e.g. "55 Cancri A,B".
+	const SystemBody *sb = f->GetSystemBody();
+	if (sb && !sb->GetParent() && sb->GetType() == SystemBody::TYPE_GRAVPOINT)
+		LuaPush(l, sb->GetName());
+	else
+		LuaPush(l, f->GetLabel());
+	return 1;
+}
+
+/*
  * Attribute: frameRotating
  *
  * Whether the frame this dynamic body is in is a rotating frame.
@@ -780,6 +813,7 @@ void LuaObject<Body>::RegisterClass()
 		{ "type", l_body_attr_type },
 		{ "superType", l_body_attr_super_type },
 		{ "frameBody", l_body_attr_frame_body },
+		{ "frameLabel", l_body_attr_frame_label },
 		{ "frameRotating", l_body_attr_frame_rotating },
 		{ 0, 0 }
 	};

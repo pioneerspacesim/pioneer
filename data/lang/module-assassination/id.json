@@ -219,14 +219,6 @@
     "description": "",
     "message": "Return here on the completion of the contract and you will be paid."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Tetapkan sebagai target navigasi"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Set return route"
-  },
   "SHIP": {
     "description": "",
     "message": "Ship:"

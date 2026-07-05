@@ -32,6 +32,7 @@
 #include "imgui/imgui.h"
 
 #include "portable-file-dialogs/pfd.h"
+#include "utils.h"
 // PFD pulls in windows headers sadly
 #undef RegisterClass
 #undef min
@@ -492,7 +493,7 @@ void SystemEditor::RegisterMenuActions()
 	m_menuBinder->BeginMenu("File");
 
 	m_menuBinder->AddAction("New", {
-		"New System", ImGuiKey_N | ImGuiKey_ModCtrl,
+		"New System", ImGuiKey_N | ImGuiMod_Ctrl,
 		[&]() {
 			if (HasUnsavedChanges()) {
 				m_unsavedFileModal = m_app->PushModal<UnsavedFileModal>();
@@ -505,7 +506,7 @@ void SystemEditor::RegisterMenuActions()
 	});
 
 	m_menuBinder->AddAction("Open", {
-		"Open File", ImGuiKey_O | ImGuiKey_ModCtrl,
+		"Open File", ImGuiKey_O | ImGuiMod_Ctrl,
 		[&]() {
 			if (HasUnsavedChanges()) {
 				m_unsavedFileModal = m_app->PushModal<UnsavedFileModal>();
@@ -518,19 +519,19 @@ void SystemEditor::RegisterMenuActions()
 	});
 
 	m_menuBinder->AddAction("Save", {
-		"Save", ImGuiKey_S | ImGuiKey_ModCtrl,
+		"Save", ImGuiKey_S | ImGuiMod_Ctrl,
 		[&]() { return m_system.Valid(); },
 		sigc::mem_fun(this, &SystemEditor::SaveCurrentFile)
 	});
 
 	m_menuBinder->AddAction("SaveAs", {
-		"Save As", ImGuiKey_S | ImGuiKey_ModCtrl | ImGuiKey_ModShift,
+		"Save As", ImGuiKey_S | ImGuiMod_Ctrl | ImGuiMod_Shift,
 		[&]() { return m_system.Valid(); },
 		sigc::mem_fun(this, &SystemEditor::ActivateSaveDialog)
 	});
 
 	m_menuBinder->AddAction("Quit", {
-		"Quit", ImGuiKey_Q | ImGuiKey_ModCtrl,
+		"Quit", ImGuiKey_Q | ImGuiMod_Ctrl,
 		[this]() {
 			if (HasUnsavedChanges()) {
 				m_unsavedFileModal = m_app->PushModal<UnsavedFileModal>();
@@ -560,7 +561,7 @@ void SystemEditor::RegisterMenuActions()
 	});
 
 	m_menuBinder->AddAction("RegenerateNewSeed", {
-		"Generate from new Seed", ImGuiKey_ModCtrl | ImGuiKey_ModShift | ImGuiKey_R, hasNonCustomSystem,
+		"Generate from new Seed", ImGuiMod_Ctrl | ImGuiMod_Shift | ImGuiKey_R, hasNonCustomSystem,
 		[&]() {
 			uint32_t seed = Random(m_system->GetSeed()).Int32();
 
@@ -589,7 +590,7 @@ void SystemEditor::RegisterMenuActions()
 	});
 
 	m_menuBinder->AddAction("AddChild", {
-		"Add Child", ImGuiKey_A | ImGuiKey_ModCtrl, hasSelectedBody,
+		"Add Child", ImGuiKey_A | ImGuiMod_Ctrl, hasSelectedBody,
 		[&]() {
 			m_pendingOp.type = BodyRequest::TYPE_Add;
 			m_pendingOp.parent = m_contextBody ? m_contextBody : m_system->GetRootBody().Get();
@@ -598,7 +599,7 @@ void SystemEditor::RegisterMenuActions()
 	});
 
 	m_menuBinder->AddAction("AddSibling", {
-		"Add Sibling", ImGuiKey_A | ImGuiKey_ModCtrl | ImGuiKey_ModShift, hasParentBody,
+		"Add Sibling", ImGuiKey_A | ImGuiMod_Ctrl | ImGuiMod_Shift, hasParentBody,
 		[&]() {
 			m_pendingOp.type = BodyRequest::TYPE_Add;
 			m_pendingOp.parent = m_contextBody->GetParent();
@@ -608,7 +609,7 @@ void SystemEditor::RegisterMenuActions()
 	});
 
 	m_menuBinder->AddAction("Delete", {
-		"Delete Body", ImGuiKey_W | ImGuiKey_ModCtrl, hasParentBody,
+		"Delete Body", ImGuiKey_W | ImGuiMod_Ctrl, hasParentBody,
 		[&]() {
 			m_pendingOp.type = BodyRequest::TYPE_Delete;
 			m_pendingOp.body = m_contextBody;
@@ -949,7 +950,7 @@ void SystemEditor::DrawInterface()
 	m_viewport->Update(m_app->DeltaTime());
 
 	if (ImGui::Begin(OUTLINE_WND_ID)) {
-		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 14));
+		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium"), 14);
 
 		DrawOutliner();
 
@@ -960,7 +961,7 @@ void SystemEditor::DrawInterface()
 	if (ImGui::Begin(PROPERTIES_WND_ID)) {
 		// Adjust default item label position
 		ImGui::PushItemWidth(ImFloor(ImGui::GetWindowSize().x * 0.6f));
-		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 13));
+		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium"), 13);
 
 		if (m_selectedBody)
 			DrawBodyProperties();
@@ -1020,7 +1021,7 @@ void SystemEditor::DrawMenuBar()
 
 void SystemEditor::DrawOutliner()
 {
-	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 16));
+	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium"), 16);
 
 	std::string name = m_system.Valid() ? m_system->GetName() : "<None>";
 	std::string label = fmt::format("System: {}", name);
@@ -1129,7 +1130,7 @@ bool SystemEditor::DrawBodyNode(SystemBody *body, bool isRoot)
 
 void SystemEditor::DrawBodyProperties()
 {
-	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 16));
+	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium"), 16);
 	ImGui::Text("Body: %s (%d)", m_selectedBody->GetName().c_str(), m_selectedBody->GetPath().bodyIndex);
 	ImGui::PopFont();
 
@@ -1153,7 +1154,7 @@ void SystemEditor::DrawSystemProperties()
 
 	SystemPath path = m_system->GetPath();
 
-	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 16));
+	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium"), 16);
 	ImGui::Text("%s (%d, %d, %d : %d)",
 		m_system->GetName().c_str(),
 		path.sectorX, path.sectorY, path.sectorZ, path.systemIndex);
@@ -1170,7 +1171,7 @@ void SystemEditor::DrawSystemProperties()
 void SystemEditor::DrawBodyContextMenu(SystemBody *body)
 {
 	if (ImGui::BeginPopupContextItem()) {
-		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 15));
+		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium"), 15);
 
 		m_contextBody = body;
 		m_menuBinder->DrawGroup("Edit.Body");

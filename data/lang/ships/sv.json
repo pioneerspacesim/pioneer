@@ -53,7 +53,7 @@
   },
   "CORONATRIX_POLICE_DEF": {
     "description": "ship - definite form",
-    "message": "the Coronatrix police ship"
+    "message": "Coronatrix polisskeppet"
   },
   "CORONATRIX_POLICE_INDEF": {
     "description": "ship name - indefinite form",
@@ -84,28 +84,28 @@
     "message": "en DS Miner"
   },
   "KANARA": {
-    "description": "ship name - base form",
+    "description": "ship name - base form, Kanara civilian",
     "message": "Kanara"
   },
-  "KANARA_CIV": {
-    "description": "ship name - base form",
-    "message": "Kanara Civ"
-  },
-  "KANARA_CIV_DEF": {
-    "description": "ship - definite form",
-    "message": "the Kanara Civ"
-  },
-  "KANARA_CIV_INDEF": {
-    "description": "ship name - indefinite form",
-    "message": "en Kanara Civ"
-  },
   "KANARA_DEF": {
-    "description": "ship - definite form",
+    "description": "ship - definite form, Kanara civilian",
     "message": "Kanaran"
   },
   "KANARA_INDEF": {
-    "description": "ship name - indefinite form",
+    "description": "ship name - indefinite form, Kanara civilian",
     "message": "en Kanara"
+  },
+  "KANARA_POLICE": {
+    "description": "ship name - base form",
+    "message": "Kanara polisskepp"
+  },
+  "KANARA_POLICE_DEF": {
+    "description": "ship - definite form",
+    "message": "Kanara polisskeppet"
+  },
+  "KANARA_POLICE_INDEF": {
+    "description": "ship name - indefinite form",
+    "message": "ett Kanara polisskepp"
   },
   "LODOS": {
     "description": "ship name - base form",
@@ -221,11 +221,11 @@
   },
   "PUMPKINSEED_POLICE_DEF": {
     "description": "ship - definite form",
-    "message": "the Pumpkinseed police ship"
+    "message": "Pumkinseed polisskeppet"
   },
   "PUMPKINSEED_POLICE_INDEF": {
     "description": "ship name - indefinite form",
-    "message": "ett Pumpkinseed polisskepp"
+    "message": "ett Pumkinseed polisskepp"
   },
   "SHIP": {
     "description": "ship name - base form",
@@ -257,7 +257,7 @@
   },
   "SINONATRIX_POLICE_DEF": {
     "description": "ship - definite form",
-    "message": "the Sinonatrix police ship"
+    "message": "Sinonatrix polisskeppet"
   },
   "SINONATRIX_POLICE_INDEF": {
     "description": "ship name - indefinite form",

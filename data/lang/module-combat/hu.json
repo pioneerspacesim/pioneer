@@ -351,10 +351,6 @@
     "description": "",
     "message": "Az ellenfél jól felszerelt, a legkorszerűbb eszközökkel rendelkezik. Legyen óvatos! "
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Navigációs célnak beállít."
-  },
   "SUCCESSMSG_1": {
     "description": "",
     "message": "Tudtam, hogy ön a megfelelő ember egy ilyen feladatra. Átutalom a fizetségét."

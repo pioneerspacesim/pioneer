@@ -219,14 +219,6 @@
     "description": "",
     "message": "Kom hier terug wanneer het contract is voldaan en je krijgt je geld."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Stel in als navigatiedoel"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Stel route terugweg in"
-  },
   "SHIP": {
     "description": "",
     "message": "Schip:"

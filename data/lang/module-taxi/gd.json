@@ -611,10 +611,6 @@
     "description": "",
     "message": "Cha dèan thu docadh an-diugh!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Cuir ceann-uidhe na seòladaireachd air"
-  },
   "TAXI": {
     "description": "",
     "message": "Tagsaidh"

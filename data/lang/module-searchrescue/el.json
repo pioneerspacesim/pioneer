@@ -687,14 +687,6 @@
     "description": "",
     "message": "Έρευνα & Διάσωση"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Ορισμός ως προορισμός πλοήγησης"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Ορισμός διαδρομής επιστροφής"
-  },
   "SHIP_UNRESPONSIVE": {
     "description": "",
     "message": "Το σκάφος προορισμού δεν ανταποκρίνεται."

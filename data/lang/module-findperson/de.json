@@ -443,14 +443,6 @@
     "description": "",
     "message": "Oh ja, tatsächlich. {wanted} ist ein Wahnsinniger. Man sollte auf alles vorbereitet sein! "
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Als Navigationsziel setzen"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Rückkehrroute setzen"
-  },
   "SHIP": {
     "description": "",
     "message": "Schiff:"

@@ -33,7 +33,7 @@ local travellers_advice_indices = {481, -- tame black market
 								   52,  -- service ship
 								   248, -- change faction
 								   171, -- the harder the g
-								   203, -- the billie bounce
+								   203, -- bounce in
 								   194, -- running on fumes
 								   49,	-- a clear way out
 }

@@ -351,10 +351,6 @@
     "description": "",
     "message": "Nepřítel je velmi dobře vybaven a má přístup k nejnovějším technologiím. Buď opatrný!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Nastavit jako cíl navigace"
-  },
   "SUCCESSMSG_1": {
     "description": "",
     "message": "Věděl jsem, že jsi ten pravý pro takovou misi. Tady jsou tvoje peníze."

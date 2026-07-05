@@ -77,6 +77,9 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 		ui.setColumnWidth(0, self.style.size.x)
 	end,
 	renderItem = function(self, item, key)
+		if key == 1 then	-- Insert padding or Orbiteer gets cut off on the first bbs item.
+			ui.dummy(Vector2(0, 0))
+		end
 		local icon = item.icon or "default"
 		local region = ui.getContentRegion()
 

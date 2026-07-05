@@ -443,14 +443,6 @@
     "description": "",
     "message": "О да, несомненно. {wanted} — маньяк. Вы должны быть готовы ко всему!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Установить как цель для навигации"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Задать обратный маршрут"
-  },
   "SHIP": {
     "description": "",
     "message": "Тип корабля:"

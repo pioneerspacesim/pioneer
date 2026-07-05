@@ -143,10 +143,6 @@
     "description": "Name of mission type",
     "message": "Συλλέκτης"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Θέσε ως στόχο πλοήγησης."
-  },
   "SHIP": {
     "description": "",
     "message": "Σκάφος:"

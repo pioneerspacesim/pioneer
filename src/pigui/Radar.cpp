@@ -59,26 +59,26 @@ void RadarWidget::DrawPiGui()
 		for (float ang = 0; ang < circle; ang += step) {
 			drawList->PathLineTo(circlePos(ang, m_center, m_radius, dist));
 		}
-		drawList->PathStroke(ImGui::GetColorU32(ImGuiCol_FrameBgActive), true);
+		drawList->PathStroke(ImGui::GetColorU32(ImGuiCol_FrameBgActive), 1.0, ImDrawFlags_Closed);
 	}
 
 	// outer ring
 	for (float ang = 0; ang < circle; ang += step) {
 		drawList->PathLineTo(circlePos(ang, m_center, m_radius));
 	}
-	drawList->PathStroke(ImGui::GetColorU32(ImGuiCol_FrameBgActive), true, 2.0);
+	drawList->PathStroke(ImGui::GetColorU32(ImGuiCol_FrameBgActive), 2.0, ImDrawFlags_Closed);
 
 	// inner ring
 	for (float ang = 0; ang < circle; ang += circle / 20.f) {
 		drawList->PathLineTo(circlePos(ang, m_center, m_radius, 0.1f));
 	}
-	drawList->PathStroke(ImGui::GetColorU32(ImGuiCol_FrameBgActive), true);
+	drawList->PathStroke(ImGui::GetColorU32(ImGuiCol_FrameBgActive), 1.0, ImDrawFlags_Closed);
 
 	// spokes
 	for (float ang = 0; ang < circle; ang += circle / 8.f) {
 		drawList->PathLineTo(circlePos(ang, m_center, m_radius, 0.1f));
 		drawList->PathLineTo(circlePos(ang, m_center, m_radius));
-		drawList->PathStroke(ImGui::GetColorU32(ImGuiCol_FrameBgActive), false);
+		drawList->PathStroke(ImGui::GetColorU32(ImGuiCol_FrameBgActive), 1.0);
 	}
 
 	// total zoom bar
@@ -86,12 +86,12 @@ void RadarWidget::DrawPiGui()
 	for (float ang = 0; ang < zoomArc; ang += step) {
 		drawList->PathLineTo(circlePos(ang - zoomArc / 2.f, zoomPos, m_radius));
 	}
-	drawList->PathStroke(ImGui::GetColorU32(ImGuiCol_FrameBg), false, 6.0f);
+	drawList->PathStroke(ImGui::GetColorU32(ImGuiCol_FrameBg), 6.0f);
 
 	// current zoom bar
 	const float zoomRingPct = zoomArc * (log10(m_currentZoom / m_minZoom) / log10(m_maxZoom / m_minZoom));
 	for (float ang = 0; ang < zoomRingPct; ang += step / 8.f) {
 		drawList->PathLineTo(circlePos(ang - zoomArc / 2.f, zoomPos, m_radius));
 	}
-	drawList->PathStroke(ImGui::GetColorU32(ImGuiCol_FrameBgActive), false, 6.0f);
+	drawList->PathStroke(ImGui::GetColorU32(ImGuiCol_FrameBgActive), 6.0f);
 }

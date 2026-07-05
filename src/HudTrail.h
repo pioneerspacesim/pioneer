@@ -31,7 +31,6 @@ public:
 
 private:
 	Body *m_body;
-	FrameId m_currentFrame;
 	float m_updateTime;
 	Color m_color;
 	matrix4x4d m_transform;

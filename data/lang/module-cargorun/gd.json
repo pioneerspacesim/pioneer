@@ -403,6 +403,10 @@
     "description": "",
     "message": "Tha mi a’ fulang dochann. Feumaidh mi cobhair."
   },
+  "LOAD_CARGO": {
+    "description": "UI button label",
+    "message": "Load cargo"
+  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "machine tools"
@@ -559,14 +563,6 @@
     "description": "custom cargo",
     "message": "semi-finished products"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Cuir ceann-uidhe na seòladaireachd air"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Suidhich cùrsa tillidh"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Port-fhànais:"
@@ -661,7 +657,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Tha sinn air an carago a luchdadh dhan t-soitheach agad."
+    "message": "We have loaded the cargo onto your ship."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -749,6 +745,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Till nuair a bhios rùm carago gu leòr agad."
+    "message": "Please contact me when you have sufficient cargo space."
   }
 }

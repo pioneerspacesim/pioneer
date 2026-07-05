@@ -601,11 +601,11 @@
   },
   "HYPERSPACE_ARRIVAL_CLOUD": {
     "description": "",
-    "message": "Хиперпространствен облак от пристигане"
+    "message": "Пристигане"
   },
   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
     "description": "",
-    "message": "Останки на хиперпространствен облак от пристигане"
+    "message": "Пристигане (останки)"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
     "description": "Label for hyperspace cloud display modes.",
@@ -629,7 +629,7 @@
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
-    "message": "Хиперпространствен облак от тръгване"
+    "message": "Тръгване"
   },
   "HYPERSPACE_JUMP_ABORT": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
@@ -925,51 +925,51 @@
   },
   "MONTH_APR": {
     "description": "",
-    "message": "Апр"
+    "message": "апр"
   },
   "MONTH_AUG": {
     "description": "",
-    "message": "Авг"
+    "message": "авг"
   },
   "MONTH_DEC": {
     "description": "",
-    "message": "Дек"
+    "message": "дек"
   },
   "MONTH_FEB": {
     "description": "",
-    "message": "Фев"
+    "message": "февр"
   },
   "MONTH_JAN": {
     "description": "",
-    "message": "Яну"
+    "message": "ян"
   },
   "MONTH_JUL": {
     "description": "",
-    "message": "Юли"
+    "message": "юли"
   },
   "MONTH_JUN": {
     "description": "",
-    "message": "Юни"
+    "message": "юни"
   },
   "MONTH_MAR": {
     "description": "",
-    "message": "Мар"
+    "message": "март"
   },
   "MONTH_MAY": {
     "description": "",
-    "message": "Май"
+    "message": "май"
   },
   "MONTH_NOV": {
     "description": "",
-    "message": "Ное"
+    "message": "ноем"
   },
   "MONTH_OCT": {
     "description": "",
-    "message": "Окт"
+    "message": "окт"
   },
   "MONTH_SEP": {
     "description": "",
-    "message": "Сеп"
+    "message": "септ"
   },
   "MOON_CONTAINING_LIQUID_WATER": {
     "description": "",
@@ -1035,6 +1035,10 @@
     "description": "",
     "message": "Няма установен ред"
   },
+  "NO_HYPERCLOUD_ANALYZER_INSTALLED": {
+    "description": "",
+    "message": "Няма инсталиран анализатор на хипероблаци"
+  },
   "NO_HYPERDRIVE": {
     "description": "",
     "message": "Няма хипердвигател"
@@ -1089,7 +1093,7 @@
   },
   "N_CELSIUS": {
     "description": "",
-    "message": "%temperature ° C"
+    "message": "%temperature °C"
   },
   "N_DAYS": {
     "description": "",
@@ -1381,7 +1385,7 @@
   },
   "SELECT_LOW_THRUST_POWER_LEVEL": {
     "description": "",
-    "message": "Изберете ниво на ниска тягата"
+    "message": "Изберете ниво на ниска тяга"
   },
   "SEMI_MAJOR_AXIS": {
     "description": "",
@@ -1401,7 +1405,7 @@
   },
   "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
     "description": "",
-    "message": "Анализатор на хиперпространствените облаци: Задайте хиперпространствената цел за да проследите пътуването"
+    "message": "Анализатор на хипероблаци: Задайте хиперпространствената цел за да проследите пътуването"
   },
   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
     "description": "",
@@ -1477,7 +1481,7 @@
   },
   "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
     "description": "",
-    "message": "Скорост на кораба, спрямо отправния обект"
+    "message": "Скорост на кораба спрямо отправния обект"
   },
   "SIDEREAL_VIEW": {
     "description": "camera view setting",
@@ -1677,7 +1681,7 @@
   },
   "SWAP_SELECTED_HYPERSPACE_TARGET": {
     "description": "",
-    "message": "Размяна на целта за хисперскок и избраната цел"
+    "message": "Размяна на целта за хиперскок и избраната цел"
   },
   "SWITCHED_TO_PARENT": {
     "description": "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
@@ -1829,7 +1833,7 @@
   },
   "UNIT_DAYS": {
     "description": "Duration unit: one 24-hour day",
-    "message": "д"
+    "message": "дн"
   },
   "UNIT_DENSITY": {
     "description": "Density unit: kilos per cubic meter",
@@ -1893,7 +1897,7 @@
   },
   "UNIT_MINUTES": {
     "description": "Duration unit: one 60-second minute",
-    "message": "м"
+    "message": "мин"
   },
   "UNIT_PETATONNES": {
     "description": "Mass unit: one petatonne",
@@ -1905,7 +1909,7 @@
   },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",
-    "message": "с"
+    "message": "сек"
   },
   "UNIT_SQUARE_KILOMETERS": {
     "description": "Area unit: square kilometer (km²) - 1,000,000 m²",
@@ -1941,7 +1945,7 @@
   },
   "UNIT_WEEKS": {
     "description": "Duration unit: one 7-day week",
-    "message": "с"
+    "message": "седм"
   },
   "UNKNOWN": {
     "description": "",
@@ -1949,7 +1953,7 @@
   },
   "UNSET_NAVTARGET": {
     "description": "",
-    "message": "Премахване навигационната цел."
+    "message": "Премахване на навигационната цел."
   },
   "USE_LOW_THRUST": {
     "description": "",

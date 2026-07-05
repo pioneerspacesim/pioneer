@@ -39,6 +39,18 @@
     "description": "",
     "message": "Летателен бордови компютър."
   },
+  "AUXILIARY_CARGO_RACK": {
+    "description": "Equipment name for a cargo-carrying rack installed as a cabin module",
+    "message": "Спомагателно товарно отделение"
+  },
+  "AUXILIARY_CARGO_RACK_DESCRIPTION": {
+    "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
+    "message": "Допълнително товарно място, монтирано в херметизираната обитаема част на кораба."
+  },
+  "AUXILIARY_CARGO_RACK_FLAVOURTEXT": {
+    "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
+    "message": "Превърнете неизползваното пространство в обитаемата част на кораба си в допълнително товарно отделение! Този комплект е съвместим с голямо разнообразие от корабни корпуси. Произведен е от Сиверск A.K."
+  },
   "BEAMLASER_1MW": {
     "description": "",
     "message": "1 МВ лазер"
@@ -63,6 +75,10 @@
     "description": "Category header for pressurized cabin slots",
     "message": "Кабини"
   },
+  "CARGO_CAPACITY": {
+    "description": "Statistic name for an equipment that provides cargo capacity",
+    "message": "Допълнителен товарен капацитет"
+  },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
     "message": "Животоподдържаща система"
@@ -82,6 +98,18 @@
   "COMPUTER_MODULES": {
     "description": "Category name of computer-related equipment",
     "message": "Компютърни модули"
+  },
+  "CONCEALED_CARGO_RACK": {
+    "description": "Equipment name for a cargo-carrying smuggler's hold installed as a cabin module",
+    "message": "Скрито товарно отделение"
+  },
+  "CONCEALED_CARGO_RACK_DESCRIPTION": {
+    "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
+    "message": "Скрито товарно място, приличащо на безобидна стена в обитаемата част на кораба. Съдържанието му не се засича от полицейските сканирания."
+  },
+  "CONCEALED_CARGO_RACK_FLAVOURTEXT": {
+    "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
+    "message": "Това товарно отделение на Сиверск А.К. е скрито доста грубовато със заварени вътрешни корпусни панели. На ръчно написан стикер пише „Гарантирано минава повърхностна проверка, доверете ми се.“"
   },
   "DAMAGE_PER_SHOT": {
     "description": "Tooltip explaining weapon damage per shot",
@@ -211,6 +239,10 @@
     "description": "",
     "message": "Позволява товаренето на водородно гориво от планетите газови гиганти."
   },
+  "HABITAT": {
+    "description": "Category header for pressurized habitat slots",
+    "message": "Обитаема част"
+  },
   "HARDPOINT_FUEL_SCOOP": {
     "description": "Name for the 'Fuel Scoop' equipment hardpoint",
     "message": "Товарач за гориво"
@@ -325,7 +357,7 @@
   },
   "HYPERCLOUD_ANALYZER": {
     "description": "",
-    "message": "Анализатор на хипероблаците"
+    "message": "Анализатор на хипероблаци"
   },
   "HYPERCLOUD_ANALYZER_DESCRIPTION": {
     "description": "",
@@ -397,7 +429,7 @@
   },
   "MISSILE_NAVAL_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "Тези ракети се произвеждат в високо специализирани и секретни военноморски фабрики в строго контролирани съоръжения и обикновено не са достъпни за невоенен персонал. Способни са да устоят на повечето известни видове противодействия, бързи са за размера си и обикновено имат екзотични бойни глави за изключителен разрушителен потенциал. Често се изисква специализирано оборудване в корабите, които ги превозват, за да бъдат правилно въоръжени и програмирани преди изстрелване."
+    "message": "Тези ракети се произвеждат във високо специализирани и секретни военноморски фабрики в строго контролирани съоръжения и обикновено не са достъпни за невоенен персонал. Способни са да устоят на повечето известни видове противодействия, бързи са за размера си и обикновено имат екзотични бойни глави за изключителен разрушителен потенциал. Често се изисква специализирано оборудване в корабите, които ги превозват, за да бъдат правилно въоръжени и програмирани преди изстрелване."
   },
   "MISSILE_RACK_221": {
     "description": "Name for a multiple-missile external missile rack. 'Hydra' is a model name.",
@@ -481,7 +513,7 @@
   },
   "MISSILE_RACK_543_FLAVOURTEXT": {
     "description": "Equipment description; 'Hydri Defense' is a manufacturer name.",
-    "message": "Първо, Отбранителна водна змия създаде страхотната LH-320, сега удвояваме нейния капацитет! Продължете напред и оставете своя отпечатък върху всяка система, която се осмели да се противопостави."
+    "message": "Първо, от Отбранителна водна змия създадохме страхотната LH-320, сега удвояваме нейния капацитет! Продължете напред и оставете своя отпечатък върху всяка система, която се осмели да се противопостави."
   },
   "MISSILE_RAIL_S1": {
     "description": "Name for a single-missile external launcher. 'Cnida' is a model name.",
@@ -541,7 +573,7 @@
   },
   "MISSILE_SMART_FLAVOURTEXT": {
     "description": "Equipment description",
-    "message": "Интелигентна ракета, способна да проследи целта с помощта на усъвършенстван набор от сензори с интегриран модул с изкуствен интелект. Само не го наричайте HAL и гарантираме, че няма да има проблеми ."
+    "message": "Интелигентна ракета, способна да проследи целта с помощта на усъвършенстван набор от сензори с интегриран модул, с изкуствен интелект. Само не го наричайте HAL и гарантираме, че няма да има проблеми ."
   },
   "MISSILE_UNGUIDED": {
     "description": "",
@@ -703,6 +735,10 @@
     "description": "Resolution of e.g. optical sensor",
     "message": "Резолюция"
   },
+  "SHIELDED_CARGO_CAPACITY": {
+    "description": "Statistic name for an equipment that provides cargo scan resistance",
+    "message": "Скрит товарен капацитет"
+  },
   "SHIELDS": {
     "description": "Category name of shield-related equipment",
     "message": "Щитове"
@@ -861,7 +897,7 @@
   },
   "TARGET_SCANNER_DESCRIPTION": {
     "description": "",
-    "message": "Използва се за отдалечено проучване на екипировката, товара и състоянието на другите кораби."
+    "message": "Използва се за отдалечено проучване на оборудването, товара и състоянието на другите кораби."
   },
   "TARGET_SLOT_IS_NOT_EMPTY_PUT_THE_REPLACED_ONE_IN_THE_CLIPBOARD_QUESTION": {
     "description": "Message in the start menu when editing equipment",
@@ -881,7 +917,7 @@
   },
   "THRUSTERS_IMPROVED_DESCRIPTION": {
     "description": "",
-    "message": "Подобрени ускорители, лицензирани за вашия кораб."
+    "message": "Подобрени ускорители, лицензирани за кораба."
   },
   "THRUSTERS_NAVAL": {
     "description": "",

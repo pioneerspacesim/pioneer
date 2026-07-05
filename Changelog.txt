@@ -1,3 +1,76 @@
+June
+  * New Features
+    * Avast! Be ye knowin' of the Smuggler's Hold? (#6353)
+    * Save and recover Comms log (#6361)
+
+  * Fixes
+    * Advice module rewording (#6351)
+    * Font padding for umlaut in (#6358)
+    * Fix Kanara translation tokens (#6355)
+    * Make Cargo names upper case (#6357)
+    * Limit the number of messages on the saved Comms log (#6364)
+    * Round off new commodity stock on news event (#6365)
+
+  * Internal
+    * Update CMake and CI build files (#6359)
+    * Remove unused "set as target" strings (#6363)
+    * clang-format: Add SpaceBeforeCpp11BracedList: true (#6362)
+
+May
+  * New Features
+    * Clarifying fuel pump directions (#6339)
+    * Add custom "Load cargo" button to cargo pickup missions (#6340)
+    * Render instanced models using per-frame scratch buffer (#6348)
+    * UI / HUD tweak: Shorten Hyercloud text (#6333)
+    * UI: Info box in sector map auto-opens (#6333)
+    * Pause sound when game is paused (#6333)
+
+  * Fixes
+    * Fix placeAdvert error in Scoop.lua (#6335)
+    * Make thruster visual more consistent (#6342)
+    * Fix typo in MISSILE_NAVAL_FLAVOURTEXT: personel -> personnel (#6337)
+    * Make giant stars circular in system overview (#6341)
+    * Add string for missing hypercloud analyzer message (#6328)
+    * Balance number of combat and scout missions (#6310)
+    * Fixing missing material transparencies (#6347)
+    * Fix no frame of reference in binary star systems (#6329)
+    * Fix buildings rendered incorrectly / in the sky, and/or crash to desktop (#6348)
+
+April
+  * New Features
+    * Approximate ring shadow penumbra (#6309)
+    * Add ObjectViewer button to perfinfo debug view (#6316)
+
+  * Fixes
+    * Scoop mission fix: Game.player.frameBody being nil (#6313)
+    * Don't mess with velocity if the ship just docked (#6327)
+    * Fix stale docking clearance timeout & position (centre of planet) (#6325)
+    * Fix refuel mission crash: TraceRay using stale static geometry (#6321)
+    * Fix quitting showing death animation: Clear the next lifecycle variable after using it (#6323)
+    * Reduce the occurrence of random crashes (#6319)
+    * Make scanning missions survive hyperspace jumps (#6331)
+    * Fix for Barnard's Star display issues (#6318)
+    * Fix for station names disappearing (#6332)
+    * Fix enemies target velocity vector. Draw HUD trails relative to the player (#6315)
+
+March
+  * New Features
+    * Show the status of the wanted person (#6298)
+
+  * Fixes
+    * Fix flight log recovery (#6301)
+    * Start-At fix and log conditional (#6299)
+    * Fix overlapping craters, and early out of `GetHeights` (#6292)
+    * Fix News debug window supporting multiple 'delete' advert buttons (#6308)
+
+  * Internal
+    * Remove obsolete navtunnel code (#6297)
+    * .desktop: Prefer Wayland over X11 (#6287)
+
+February
+  * Fixes
+    *  Fix error shown in the Language selection list (#6290)
+
 Pioneer 2026-02-03 Release
   * Fixes
     * Changing seed for Impression to avoid station being partially underground (#6283)
@@ -31,7 +104,7 @@ January 2026
     * Happy new year (#6264)
     * Alias Vector3 ZERO (#6259)
     * Minor fixes and additions (#6266)
-    * Update to Assimp 6.0.2 lib name (PR #6267)
+    * Update to Assimp 6.0.2 lib name (#6267)
     * Dump all current faction home systems to JSON (#6271)
     * Fix GCC warnings (#6280)
 

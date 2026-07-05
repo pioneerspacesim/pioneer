@@ -130,7 +130,7 @@ namespace SceneGraph {
 		// generated once per frame, not for every vertex
 		float hash = pos.x + pos.y + pos.z;
 		hash = (uint16_t(hash32(*reinterpret_cast<uint32_t *>(&hash)) & 0xFFFF)) / 65535.f;
-		const float x = static_cast<float>(rd->renderTime) * 35.f * (0.75f + hash * 0.5f);
+		const double x = rd->renderTime * 35.0 * (0.75 + hash * 0.5);
 		const float flicker = abs(sin(x) * sin(pow(x, 1.1)));
 
 		// pass the power setting and flicker value using the material emissive
@@ -143,10 +143,13 @@ namespace SceneGraph {
 		m_tMat->diffuse = m_glowMat->diffuse = currentColor;
 
 		//directional fade
-		vector3f cdir = vector3f(trans * -dir).Normalized();
-		vector3f vdir = vector3f(trans[2], trans[6], -trans[10]).Normalized();
+		// In view space, camera is at origin, so view direction is from thruster position to origin.
+		vector3f flameDir = trans.ApplyRotationOnly(vector3f(0.f, 0.f, 1.f)).Normalized();
+		vector3f thrusterPos = trans.GetTranslate();
+		vector3f vdir = (thrusterPos.LengthSqr() > 1e-8f) ? (-thrusterPos).Normalized() : flameDir;
+		float facing = Clamp(std::abs(vdir.Dot(flameDir)), 0.f, 1.f);
 		// XXX check this for transition to new colors.
-		m_glowMat->diffuse.a = Easing::Circ::EaseIn(Clamp(vdir.Dot(cdir), 0.f, 1.f), 0.f, 1.f, 1.f) * 255;
+		m_glowMat->diffuse.a = Easing::Circ::EaseIn(facing, 0.f, 1.f, 1.f) * 255;
 		m_tMat->diffuse.a = 255 - m_glowMat->diffuse.a;
 
 		Graphics::Renderer *r = GetRenderer();

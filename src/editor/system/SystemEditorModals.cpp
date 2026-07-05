@@ -9,6 +9,7 @@
 #include "editor/EditorIcons.h"
 #include "editor/Modal.h"
 
+#include "fmt/format.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
@@ -152,7 +153,7 @@ void NewSystemModal::DrawInternal()
 	if (m_path->systemIndex < sec->m_systems.size()) {
 		const Sector::System &system = sec->m_systems[m_path->systemIndex];
 
-		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 16));
+		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium"), 16);
 
 		ImGui::AlignTextToFramePadding();
 		ImGui::TextUnformatted(system.GetName().c_str());

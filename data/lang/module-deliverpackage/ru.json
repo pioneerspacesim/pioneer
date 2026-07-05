@@ -359,10 +359,6 @@
     "description": "",
     "message": "Ты заплатишь за эту посылку - своей жизнью!"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Установить как цель для навигации"
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Космопорт получателя:"

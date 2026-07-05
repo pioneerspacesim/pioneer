@@ -42,6 +42,8 @@ end
 function Ship:OnShipTypeChanged()
 	-- immediately update any needed components or properties
 	self:GetComponent('EquipSet'):OnShipTypeChanged()
+	-- Reinitialize cargo-related ship properties when changing ship type
+	self:GetComponent('CargoManager'):OnShipTypeChanged()
 
 	self:UpdateWeaponSlots()
 end
@@ -666,17 +668,10 @@ local onShipDestroyed = function (ship, attacker)
 	end
 end
 
--- Reinitialize cargo-related ship properties when changing ship type
----@param ship Ship
-local onShipTypeChanged = function (ship)
-	ship:GetComponent('CargoManager'):OnShipTypeChanged()
-end
-
 Event.Register("onShipEnterSystem", onShipEnterSystem)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
-Event.Register("onShipTypeChanged", onShipTypeChanged)
 Serializer:Register("ShipClass", serialize, unserialize)
 
 return Ship

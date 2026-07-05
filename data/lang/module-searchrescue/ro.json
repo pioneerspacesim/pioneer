@@ -687,14 +687,6 @@
     "description": "",
     "message": "Căutare & Salvare"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Selectați ca țintă navigare"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Setați ruta de retur"
-  },
   "SHIP_UNRESPONSIVE": {
     "description": "",
     "message": "Target ship unresponsive."

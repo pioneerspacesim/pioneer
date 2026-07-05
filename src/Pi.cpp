@@ -445,10 +445,12 @@ void Pi::App::OnShutdown()
 	Graphics::Uninit();
 
 	PiGui::Lua::Uninit();
-	ShutdownPiGui();
-	Pi::pigui = nullptr;
 	Lua::UninitModules();
 	Lua::Uninit();
+
+	// Lua can keep PiGui objects alive, need to wait until it's uninited to tear down PiGui
+	Pi::pigui = nullptr;
+	ShutdownPiGui();
 
 	delete Pi::modelCache;
 
@@ -802,13 +804,7 @@ void Pi::HandleKeyDown(SDL_Keysym *key)
 
 #if WITH_OBJECTVIEWER
 	case SDLK_F10: {
-		if (!Pi::game)
-			break;
-
-		if (Pi::GetView() == Pi::game->GetObjectViewerView())
-			Pi::SetView(Pi::game->GetWorldView());
-		else if (Pi::player->GetNavTarget())
-			Pi::SetView(Pi::game->GetObjectViewerView());
+		ToggleObjectViewer();
 		break;
 	}
 #endif
@@ -1281,6 +1277,17 @@ static void OnPlayerDockOrUndock()
 {
 	Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
 	Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
+}
+
+void Pi::ToggleObjectViewer()
+{
+	if (!Pi::game)
+		return;
+
+	if (Pi::GetView() == Pi::game->GetObjectViewerView())
+		Pi::SetView(Pi::game->GetWorldView());
+	else if (Pi::player->GetNavTarget())
+		Pi::SetView(Pi::game->GetObjectViewerView());
 }
 
 // This absolutely ought not to be part of the Pi class

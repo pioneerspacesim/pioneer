@@ -351,10 +351,6 @@
     "description": "",
     "message": "Düşman iyi donanımlı ve en son teknolojiye sahip. Dikkatli ol! "
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Navigasyon hedefi olarak seç"
-  },
   "SUCCESSMSG_1": {
     "description": "",
     "message": "Bu görev için doğru kişi olduğunuzu biliyordum. İşte ödemeniz."

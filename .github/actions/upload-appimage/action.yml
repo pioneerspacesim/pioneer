@@ -36,15 +36,15 @@ runs:
         ARCH=x86_64 ./linuxdeploy-x86_64.AppImage --appdir "out/install/pioneer-$BUILD_SLUG" --output appimage
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: ${{ inputs.artifact_name }}
         path: ${{ format('Pioneer*.AppImage', inputs.build_slug) }}
         retention-days: 14
-        compression-level: 0 # Contains a pre-compressed AppImage file...
+        archive: false
 
     - name: Upload Release Files
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v3
       if: ${{ (github.event_name == 'release' || github.event_name == 'workflow_dispatch') && inputs.upload_release }}
       with:
         files: Pioneer*.AppImage

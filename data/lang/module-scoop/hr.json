@@ -143,10 +143,6 @@
     "description": "Name of mission type",
     "message": "Hvataljka"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Postavi kao cilj navigacije"
-  },
   "SHIP": {
     "description": "",
     "message": "Brod:"

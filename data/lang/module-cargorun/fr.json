@@ -403,6 +403,10 @@
     "description": "",
     "message": "Je suis attaqué et subis des dégâts. J'ai besoin d'aide."
   },
+  "LOAD_CARGO": {
+    "description": "UI button label",
+    "message": "Charger la cargaison"
+  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "machine-outils"
@@ -559,14 +563,6 @@
     "description": "custom cargo",
     "message": "produits semi-finis"
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Définir comme cible de navigation."
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Définir le trajet de retour."
-  },
   "SPACEPORT": {
     "description": "",
     "message": "Astroport:"
@@ -661,7 +657,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Nous avons chargé la cargaison sur votre vaisseau."
+    "message": "Nous avons chargé la cargaison dans votre vaisseau."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -749,6 +745,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Revenez quand vous aurez suffisamment d'espace pour la cargaison, s'il vous plait."
+    "message": "Veuillez me re-contacter lorsque vous aurez suffisamment de place dans la soute."
   }
 }

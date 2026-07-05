@@ -213,7 +213,7 @@
   },
   "FLAVOUR_12_ADTITLE": {
     "description": "",
-    "message": "需要船吗"
+    "message": "需要飞船"
   },
   "FLAVOUR_12_DANGER": {
     "description": "",
@@ -321,7 +321,7 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "需要船吗"
+    "message": "需要飞船"
   },
   "FLAVOUR_3_DANGER": {
     "description": "",
@@ -429,7 +429,7 @@
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "需要船吗"
+    "message": "需要飞船"
   },
   "FLAVOUR_6_DANGER": {
     "description": "",
@@ -610,10 +610,6 @@
   "PIRATE_TAUNTS_3": {
     "description": "",
     "message": "你今天到不了!"
-  },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "设置为导航目标"
   },
   "TAXI": {
     "description": "",

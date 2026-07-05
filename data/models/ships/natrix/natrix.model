@@ -17,11 +17,16 @@ material "Natrix-headlight" {
 	diffuse 1.0 1.0 1.0
 	specular 0.7 0.7 0.7
 	shininess 60
-	opacity 60
+	opacity 90
 	texture diffuse  "natrix_diff.dds"
 	texture specular "natrix_spec.dds"
 	texture normal   "natrix_norm.png"
 	texture glow     "natrix_glow.dds"
+	
+		render_state {
+		blend alpha
+		depth_write off
+	}
 }
 
 material "Natrix-canopy" {
@@ -29,11 +34,16 @@ material "Natrix-canopy" {
 	diffuse 1.0 1.0 1.0
 	specular 0.7 0.7 0.7
 	shininess 60
-	opacity 60
+	opacity 90
 	texture diffuse  "natrix_diff.dds"
 	texture specular "natrix_spec.dds"
 	texture normal   "natrix_norm.png"
 	texture glow     "natrix_glow.dds"
+	
+		render_state {
+		blend alpha
+		depth_write off
+	}
 }
 
 lod 300 {

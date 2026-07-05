@@ -219,14 +219,6 @@
     "description": "",
     "message": "Volte aqui na conclusão do contrato e você será pago."
   },
-  "SET_AS_TARGET": {
-    "description": "",
-    "message": "Definir como destino de navegação"
-  },
-  "SET_RETURN_ROUTE": {
-    "description": "",
-    "message": "Definir rota de retorno"
-  },
   "SHIP": {
     "description": "",
     "message": "Nave:"

@@ -196,7 +196,7 @@ function module:drawCargoRow(v, rowWidth, totalSpace)
 
 	-- Draw name
 	ui.tableNextColumn()
-	ui.text(commodity:GetName())
+	ui.text(commodity:GetProperName())
 
 	-- Draw contained amount or transferred amount
 	ui.tableNextColumn()

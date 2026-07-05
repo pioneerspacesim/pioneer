@@ -7,12 +7,14 @@
 #include <memory>
 
 struct ImDrawData;
+struct ImTextureData;
 
 namespace PiGui {
 
 	class InstanceRenderer {
 	public:
 		InstanceRenderer(Graphics::Renderer *r);
+		~InstanceRenderer();
 
 		void Initialize();
 		void Shutdown();
@@ -29,8 +31,7 @@ namespace PiGui {
 		//  - vertexDepth:  float
 		void RenderDrawData(ImDrawData *draw_data, Graphics::Material* material);
 
-		void CreateFontsTexture();
-		void DestroyFontsTexture();
+		void UpdateFontTexture(ImTextureData *tex);
 
 	private:
 		Graphics::Renderer *m_renderer;
@@ -38,6 +39,5 @@ namespace PiGui {
 		std::unique_ptr<Graphics::Material> m_material;
 		std::unique_ptr<Graphics::VertexBuffer> m_vtxBuffer;
 		std::unique_ptr<Graphics::IndexBuffer> m_idxBuffer;
-		std::unique_ptr<Graphics::Texture> m_fontsTexture;
 	};
 } // namespace PiGui

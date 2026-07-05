@@ -10,9 +10,8 @@
 #include <memory>
 
 namespace Graphics {
-	class RendererOGL;
-
 	namespace OGL {
+		class CommandList;
 
 		class VertexBuffer : public Graphics::VertexBuffer, public GLBufferBase {
 		public:
@@ -76,7 +75,7 @@ namespace Graphics {
 			const Graphics::VertexFormatDesc &GetFormat() const override { return m_format; }
 
 		protected:
-			friend class Graphics::RendererOGL;
+			friend class Graphics::OGL::CommandList;
 
 			GLuint GetVertexArrayObject() const { return m_vao; }
 			RefCountedPtr<VertexBuffer> m_vtxBuffer;

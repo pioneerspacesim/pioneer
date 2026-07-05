@@ -253,7 +253,7 @@ void PerfInfo::Draw()
 		ImGui::ShowMetricsWindow(&m_state->metricsWindowOpen);
 
 	if (m_state->stackToolOpen)
-		ImGui::ShowStackToolWindow(&m_state->stackToolOpen);
+		ImGui::ShowIDStackToolWindow(&m_state->stackToolOpen);
 }
 
 // Icons are found in the file /data/icons/icons.svg
@@ -577,6 +577,14 @@ void PerfInfo::DrawWorldViewStats()
 	}
 
 	DrawTerrainDebug();
+
+	if (ImGui::Button("ObjectViewer"))
+	{
+		if (Pi::game)
+		{
+			Pi::ToggleObjectViewer();
+		}
+	}
 }
 
 void PerfInfo::DrawInputDebug()
