@@ -52,7 +52,7 @@ function gauges.displayGauges(min, max)
 		local uiPos = ui.getCursorScreenPos() + Vector2(0, ui.gauge_height * 0.5)
 		for i, t in ipairs(drawGauges) do
 			local value, g = t[1], t[2]
-			ui.gauge(uiPos, value, g.unit, g.format, g.min, g.max, g.icon, g.color, g.tooltip)
+			ui.gauge(uiPos, value, g.unit, g.format, g.min, g.max, g.icon, true, g.color, g.tooltip)
 			uiPos = uiPos + Vector2(0, spacing)
 		end
 	end)

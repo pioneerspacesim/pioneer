@@ -1828,7 +1828,7 @@ function ShipSummary:prepareAndValidateParamList()
 	local eq_n_cargo = { valid = true }
 	freeCargo = math.max(freeCargo, 0)
 	local paramList = {
-		rowWithAlert(self.equip, lui.CAPACITY, ShipEquip.volume, def.equipCapacity, greater, lc.UNIT_CUBIC_METERS, "%.1f"),
+		rowWithAlert(self.equip, lui.EQUIPMENT, ShipEquip.volume, def.equipCapacity, greater, lc.UNIT_CUBIC_METERS, "%.1f"),
 		rowWithAlert(self.cargo, lui.CARGO_SPACE, ShipCargo.mass, freeCargo, greater, 't'),
 		rowWithAlert(self.equip, lui.CREW_CABINS, #Crew.value + 1, def.maxCrew, greater),
 	}
