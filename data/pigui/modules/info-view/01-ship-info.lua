@@ -8,6 +8,7 @@ local ShipDef = require 'ShipDef'
 local HullConfig = require 'HullConfig'
 local InfoView = require 'pigui.views.info-view'
 local Passengers = require 'Passengers'
+local Gravity = require 'Gravity'
 local Vector2 = Vector2
 
 local ui = require 'pigui'
@@ -70,6 +71,7 @@ local function shipStats()
 		{ l.FORWARD_ACCEL..":",  string.format("%.2f m/s² (%.1f g)", fwd_acc, fwd_acc / 9.81) },
 		{ l.BACKWARD_ACCEL..":", string.format("%.2f m/s² (%.1f g)", bwd_acc, bwd_acc / 9.81) },
 		{ l.UP_ACCEL..":",       string.format("%.2f m/s² (%.1f g)", up_acc, up_acc / 9.81) },
+		{ l.TWR_CURRENT..":",    Gravity.FormatTWR(up_acc, Gravity.GetSurfaceGravity(player.frameBody)) },
 		false,
 		{ l.MINIMUM_CREW..":",                shipDef.minCrew },
 		{ l.CREW_CABINS..":",                 shipDef.maxCrew },

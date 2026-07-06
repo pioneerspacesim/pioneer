@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
+local Gravity = require 'Gravity'
 local gameView = require 'pigui.views.game'
 
 local ui = require 'pigui'
@@ -19,7 +20,11 @@ local alreadyAlertedPres = false
 local alreadyAlertedDescent = false
 local alreadyAlertedImpact = false
 
+local TWR_BLINK_PERIOD = 2.0
+
 local function alarm ()
+	local showingHudWarning = false
+
 	--check hull temperature
 	local t = Game.player:GetHullTemperature()
 	if t and t > 0.8 and not alreadyAlertedTemp then
@@ -99,6 +104,7 @@ local function alarm ()
 		if approach_speed < -25 and periapsis_radius < body_radius and (altitude - recover_distance) / ((approach_speed^2 + 2*surface_gravity*recover_distance)^(1/2)) < response_time_factor and body_radius/altitude > evasion_factor and Game.player:GetCurrentAICommand() ~= "CMD_DOCK" then
 			alreadyAlertedImpact = false
 			if Game.CurrentView() == "WorldView" then
+				showingHudWarning = true
 				ui.addStyledText(uiTextPos, ui.anchor.center, ui.anchor.top, lui.HUD_WARNING_DESCENT_RATE, colors.alertRed, pionillium.large, nil, colors.lightBlackBackground)
 			end
 			if not alreadyAlertedDescent then
@@ -113,6 +119,7 @@ local function alarm ()
 		elseif approach_speed < -25 and recover_distance > altitude and periapsis_radius < body_radius and body_radius/altitude <= evasion_factor and (periapsis_radius + (1/2)*max_accel*(altitude / -approach_speed)^2) >= body_radius then
 			alreadyAlertedDescent = false
 			if Game.CurrentView() == "WorldView" then
+				showingHudWarning = true
 				ui.addIcon(uiPos, icons.impact_warning, colors.alertYellow, iconSize, ui.anchor.center, ui.anchor.center, lui.HUD_WARNING_IMPACT)
 			end
 			if not alreadyAlertedImpact then
@@ -124,10 +131,32 @@ local function alarm ()
 		--player ship's acceleration rate would not allow them to avoid a collision by simply accelerating sideways
 		--exact calculations require complex integrals, this alert is accurate enough but just a tiny bit on the pessimistic side for extra safety measures
 		elseif approach_speed < -25 and recover_distance > altitude and periapsis_radius < body_radius and body_radius/altitude <= evasion_factor and (periapsis_radius + (1/2)*max_accel*(altitude / -approach_speed)^2) < body_radius and Game.CurrentView() == "WorldView" then
+			showingHudWarning = true
 			ui.addIcon(uiPos, icons.impact_warning, colors.alertRed, iconSize, ui.anchor.center, ui.anchor.center, lui.HUD_WARNING_IMPACT_IMMINENT)
 		else -- clean up warning status so we can warn the player the next time they are in danger
 			alreadyAlertedImpact = false
 			alreadyAlertedDescent = false
+		end
+	end
+
+	-- TWR destination warning
+	if not showingHudWarning and Game.CurrentView() == "WorldView" and not ui.optionsWindow.isOpen then
+		local upAccel = Game.player:GetAcceleration("up")
+		local uiTextPos = Vector2(ui.screenWidth / 2, ui.screenHeight / 3 - 10)
+
+		local navTarget = Game.player:GetNavTarget()
+		if navTarget and Gravity.IsNavTargetOnSurface(navTarget) then
+			local targetGravity = Gravity.GetSurfaceGravity(navTarget)
+			local targetTwr = Gravity.CalcTWR(upAccel, targetGravity)
+			if targetTwr and targetTwr < Gravity.TWR_HUD_WARNING_THRESHOLD then
+				showingHudWarning = true
+				local twrBlink = math.fmod(ui.getTime(), TWR_BLINK_PERIOD) < TWR_BLINK_PERIOD / 2
+				local textColor = twrBlink and colors.alertBrightRed or colors.alertRed
+				local text = string.interp(lui.HUD_WARNING_TWR_DESTINATION, {
+					value = Gravity.FormatTWR(upAccel, targetGravity),
+				})
+				ui.addStyledText(uiTextPos, ui.anchor.center, ui.anchor.top, text, textColor, pionillium.large, nil, colors.lightBlackBackground)
+			end
 		end
 	end
 

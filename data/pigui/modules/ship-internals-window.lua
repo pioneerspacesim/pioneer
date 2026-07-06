@@ -3,6 +3,8 @@
 
 local Engine = require 'Engine'
 local Game = require 'Game'
+local Gravity = require 'Gravity'
+local TwrGauge = require 'pigui.libs.twr-gauge'
 
 local Lang = require 'Lang'
 local lc = Lang.GetResource("core");
@@ -14,6 +16,7 @@ local Vector2 = _G.Vector2
 local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
+local pionillium = ui.fonts.pionillium
 
 local mainButtonSize = ui.theme.styles.MainButtonSize
 local mainButtonFramePadding = ui.theme.styles.MainButtonPadding
@@ -83,6 +86,42 @@ local function button_wheelstate()
 	end
 end
 
+-- Draw the current-TWR gauge into the rectangle [pos, pos + size] (screen
+-- coords), sitting in the gap above the three buttons. Only shown when the ship
+-- is inside a meaningful gravity field, where the current TWR actually matters.
+local function drawTwrGauge(pos, size)
+	local localGravity = Gravity.GetGravityAtBody(player)
+	local upAccel = player:GetAcceleration("up")
+	local twr = Gravity.CalcTWR(upAccel, localGravity)
+	-- Only show when TWR is finite, i.e. we're deep enough in a gravity field for
+	-- it to matter. Far from any body the gravity is negligible and TWR is huge,
+	-- so CalcTWR returns nil and we hide the gauge.
+	if not twr then return end
+
+	local valueText = Gravity.FormatTWR(upAccel, localGravity)
+
+	local font = pionillium.medium
+	local barVPad = 2
+	local textPadding = 6
+
+	-- Match the bar height to the TWR widget: line height plus a little padding
+	local lineHeight
+	ui.withFont(font.name, font.size, function()
+		lineHeight = ui.getTextLineHeight()
+	end)
+	local barHeight = lineHeight + barVPad * 2
+
+	-- Sit the bar above the buttons, with the same gap as between the buttons
+	local gap = ui.getItemSpacing().x
+	local barTop = pos.y + size.y - gap - barHeight
+	TwrGauge.DrawBar(Vector2(pos.x, barTop), Vector2(size.x, barHeight), twr)
+
+	-- Label and value overlaid on top of the bar, vertically centred
+	local centerY = barTop + (barHeight / 2) + 1
+	ui.addStyledText(Vector2(pos.x + textPadding, centerY), ui.anchor.left, ui.anchor.center, lui.TWR, colors.font, font, lui.TWR_CURRENT_TOOLTIP)
+	ui.addStyledText(Vector2(pos.x + size.x - textPadding, centerY), ui.anchor.right, ui.anchor.center, valueText, TwrGauge.GetTextColor(twr), font)
+end
+
 local function button_rotation_damping()
 	local rotation_damping = player:GetRotationDamping()
 	if rotation_damping then
@@ -111,6 +150,11 @@ local function displayShipFunctionWindow()
 	ui.setNextWindowPos(Vector2(window_posx, window_posy), "Always")
 	ui.window("ShipFunctions", windowFlags, function()
 		if current_view == "WorldView" then
+			-- The three buttons sit on the bottom row, leaving a gap across the
+			-- top-left (three buttons wide) for the TWR gauge.
+			local gaugeWidth = (mainButtonSize.x + ui.getItemSpacing().x) * buttons - ui.getItemSpacing().x
+			drawTwrGauge(ui.getCursorScreenPos(), Vector2(gaugeWidth, mainButtonSize.y))
+
 			local shift = Vector2(0.0, thrust_widget_size.y - mainButtonSize.y)
 			ui.addCursorPos(shift)
 			button_wheelstate()

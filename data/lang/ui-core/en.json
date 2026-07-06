@@ -1327,6 +1327,10 @@
     "description": "Alert tooltip",
     "message": "Impact imminent"
   },
+  "HUD_WARNING_TWR_DESTINATION": {
+    "description": "TWR (Thrust to Weight Ratio) HUD warning",
+    "message": "TWR at destination is {value}"
+  },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
     "message": "Hull does not require repair."
@@ -1558,6 +1562,10 @@
   "LOCAL_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Local arm"
+  },
+  "LOCAL_GRAVITY": {
+    "description": "Gravity at the ship's current location, shown in the mass/TWR widget",
+    "message": "Local gravity"
   },
   "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
     "description": "",
@@ -2714,6 +2722,30 @@
   "TYPE": {
     "description": "",
     "message": "Type"
+  },
+  "TWR_AT_SURFACE": {
+    "description": "TWR (Thrust to Weight Ratio) at planet surface",
+    "message": "TWR at surface"
+  },
+  "TWR": {
+    "description": "Short label for the current thrust-to-weight ratio readout on the flight HUD",
+    "message": "TWR"
+  },
+  "TWR_CURRENT": {
+    "description": "TWR (Thrust to Weight Ratio) at current location",
+    "message": "TWR (current)"
+  },
+  "TWR_CURRENT_TOOLTIP": {
+    "description": "",
+    "message": "Thrust to Weight Ratio (TWR) of the ship in its current location.\nIf the TWR is below 1.0, the ship will not be able to take off."
+  },
+  "TWR_TARGET": {
+    "description": "TWR (Thrust to Weight Ratio) at target nav location",
+    "message": "TWR (target)"
+  },
+  "TWR_TARGET_TOOLTIP": {
+    "description": "",
+    "message": "Thrust to Weight Ratio (TWR) of the ship at the target location.\nIf the TWR is below 1.0, the ship will not be able to take off."
   },
   "UNKNOWN_CUSTOM_LOG_ENTRY_FORMAT": {
     "description": "Message when restoring savegame",

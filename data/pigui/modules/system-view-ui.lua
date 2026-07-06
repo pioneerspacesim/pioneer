@@ -7,6 +7,7 @@ local Event = require 'Event'
 local Lang = require 'Lang'
 local ui = require 'pigui'
 local Format = require 'Format'
+local Gravity = require 'Gravity'
 local SpaceStation = require 'SpaceStation'
 local ShipDef = require 'ShipDef'
 local Constants = _G.Constants
@@ -350,6 +351,24 @@ local data_cache = {
 	body = {},
 	prev_body = nil
 }
+
+local function appendPlayerTWR(data, systemBody)
+	if not player then return data end
+
+	local out = {}
+	for _, row in ipairs(data) do
+		table.insert(out, row)
+		if row.name == lc.SURFACE_GRAVITY then
+			table.insert(out, {
+				name = luc.TWR_AT_SURFACE,
+				icon = icons.body_radius,
+				value = Gravity.FormatTWR(player:GetAcceleration("up"), Gravity.GetSurfaceGravity(systemBody)),
+			})
+		end
+	end
+	return out
+end
+
 -- populate a data structure with information about the currently selected body
 local function getObjectData(obj)
 	local isSystemBody = obj.base == Projectable.SYSTEMBODY
@@ -453,6 +472,10 @@ local function getObjectData(obj)
 		else
 			data = {}
 		end
+	end
+
+	if isSystemBody then
+		return appendPlayerTWR(data, body)
 	end
 	return data
 end
