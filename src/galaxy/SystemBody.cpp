@@ -552,9 +552,13 @@ void SystemBody::CalcAtmosphereParams(AtmosphereParameters &params) const
 		double startHeight = i * atmosHeight / DENSITY_STEPS;
 
 		for (int j = 0; j <= DENSITY_STEPS; ++j) {
-			// pitch in radians
-			double pitch = M_PI * ((1.0 * j / DENSITY_STEPS) - 0.5);
-			vector2d direction = vector2d(1.0, 0.0).Rotate(pitch); // calculate in 2d space
+			int index = i * (DENSITY_STEPS + 1) + j;
+
+			// dot(a, b) = a1*b1 + a2*b2 = b2
+			vector2d a = vector2d(0.0, 1.0); // vertical
+			float dot = ((1.0 * j / DENSITY_STEPS) - 0.5) * 2.0;
+			vector2d direction = vector2d(1 - dot * dot, dot);
+
 			vector2d tCurrent = vector2d(0.0, startHeight + radiusPlanet_in_m);
 
 			double atm1 = 0.0, atm2 = 0.0;
@@ -600,7 +604,6 @@ void SystemBody::CalcAtmosphereParams(AtmosphereParameters &params) const
 				//Output("%s: calculated density for ray (height = %lf, pitch = %lf): log(r) = %lf, log(m) = %lf\n\n", GetName().c_str(), startHeight, pitch, rLogDensity, mLogDensity);
 			}
 
-			int index = i * (DENSITY_STEPS + 1) + j;
 			params.logDensityMapR[index] = rLogDensity;
 			params.logDensityMapM[index] = mLogDensity;
 		}
