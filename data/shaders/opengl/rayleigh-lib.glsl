@@ -105,14 +105,11 @@ vec3 directLight2dLUT(const in vec3 a, const in vec3 b, const in sampler2D rayle
 
 	float height_scaled = height / maxHeight;
 
-	float cos_phi = dot(normalize(b - a), normalize(a));
-
-	// acos() returns [0; PI], we need [0; 1]
-	float rad_phi = acos(-cos_phi) / PI;
+	float cos_phi = dot(normalize(b - a), normalize(a)) * 0.5 + 0.5;
 
 	vec2 density = vec2(0.f);
-	density.x = texture(rayleigh_LUT, vec2(rad_phi, height_scaled)).x;
-	density.y = texture(mie_LUT,      vec2(rad_phi, height_scaled)).x;
+	density.x = texture(rayleigh_LUT, vec2(cos_phi, height_scaled)).x;
+	density.y = texture(mie_LUT,      vec2(cos_phi, height_scaled)).x;
 
 	density = exp(density * 256 - 128);
 
