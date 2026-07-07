@@ -85,7 +85,7 @@ void main(void)
 		// add lava glow
 #ifdef TERRAIN_WITH_LAVA
 		if ( vertexColor.r > 0.4 && vertexColor.g < 0.2 && vertexColor.b < 0.4 ) {
-			terrain += 3.0 * vertexColor * (vertexColor.r + vertexColor.g + vertexColor.b);
+			terrain += 3.0 * vertexColor.xyz * (vertexColor.r + vertexColor.g + vertexColor.b);
 		} else {
 			terrain += material.emission.xyz;
 		}
