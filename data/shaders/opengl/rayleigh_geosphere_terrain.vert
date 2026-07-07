@@ -75,12 +75,12 @@ void main(void)
 		}
 #endif
 		// start with diffuse terrain color
-		vec3 terrain = vertexColor.xyz;
+		vec3 terrain = vertexColor.xyz * intensity;
 		terrain *= terrainDiffIn;
 		terrain *= max(0.f, dot(L, I));
 
 		// add water reflections
-		terrain += waterSpecular * 20;
+		terrain += waterSpecular * intensity * 20;
 
 		// add lava glow
 #ifdef TERRAIN_WITH_LAVA
@@ -98,9 +98,7 @@ void main(void)
 
 		atmosphereDiff = calculateAtmosphereColor(planet, atmosphere, lightColor, L, vec3(0.0), eyenorm, uneclipsed, scatterLUT, rayleighLUT, mieLUT);
 
-		terrain += atmosphereDiff * 20;
-
-		terrain *= intensity;
+		terrain += atmosphereDiff * intensity * 20;
 
 		terrainColor.xyz += terrain;
 	}
