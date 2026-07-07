@@ -47,6 +47,9 @@ void main(void)
 #endif
 
 	frag_color = final;
+#ifdef TERRAIN_WITH_LAVA
+	frag_color += vertexColor;
+#endif
 
 	frag_color = toSRGB(1 - exp(-frag_color));
 }
