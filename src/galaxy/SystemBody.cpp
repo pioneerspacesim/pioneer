@@ -571,10 +571,10 @@ void SystemBody::CalcAtmosphereParams(AtmosphereParameters &params) const
 			bool planetIntersection = rayCircleIntersection(&planet1, &planet2, tCurrent, radiusPlanet_in_m - 0.01, direction);
 
 			double startRay = 0.0, finishRay = atm2;
-			if (planetIntersection) {
-				if (planet1 >= 0) finishRay = planet1; // we hit the planet
-
-				// otherwise we would hit the planet while tracing *backwards*
+			if (planetIntersection && planet1 >= 0) { // we hit the planet
+				params.logDensityMapR[index] = 128;
+				params.logDensityMapM[index] = 128;
+				continue;
 			}
 
 			int numSamples = 16;
