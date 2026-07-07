@@ -60,3 +60,9 @@ have 3 hairstyles for gender 0 and 7 hairstyles for gender 1.
 For the eyes, hair, head, mouth and nose, it is possible to create non-gendered
 parts by naming them e.g., eyes_$N.png (ie, just put one number in the file name
 rather than two). Parts named like that will be assumed to work for any gender.
+
+Portrait noise overlays
+-----------------------
+
+Optional grain/artifact textures for NPC portraits live in facegen/noise/.
+See facegen/noise/readme.txt for details.

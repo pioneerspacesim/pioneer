@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
+local Game = require 'Game'
 local FaceTextureGenerator = require 'PiGui.Modules.Face'
 local Character = require 'Character'
 
@@ -16,6 +17,60 @@ local orbiteer = ui.fonts.orbiteer
 local noSavedSettings = ui.WindowFlags {"NoSavedSettings"}
 local useWindowPadding = ui.ChildFlags { 'AlwaysUseWindowPadding' }
 local charInfoFlags = ui.WindowFlags { "NoScrollbar", "NoSavedSettings", "NoScrollWithMouse"}
+
+local function hashString(value)
+	local hash = 146959810
+	local text = tostring(value or "")
+	for i = 1, #text do
+		hash = (hash * 131 + string.byte(text, i)) % 2147483647
+	end
+	return hash
+end
+
+local function hashFaceDescription(faceDescription)
+	if type(faceDescription) ~= "table" then
+		return 0
+	end
+
+	local hash = 0
+	local keys = {}
+	for key in pairs(faceDescription) do table.insert(keys, key) end
+	table.sort(keys)
+	for _, key in ipairs(keys) do
+		local value = tonumber(faceDescription[key]) or 0
+		hash = (hash * 1103515245 + hashString(key) + value) % 2147483647
+	end
+	return hash
+end
+
+-- NPC portraits only: stable seed used to pick a noise PNG at texture build time.
+local function isShipCrewMember(character)
+	if not character or not Game.player then
+		return false
+	end
+	for crewMember in Game.player:EachCrewMember() do
+		if crewMember == character then
+			return true
+		end
+	end
+	return false
+end
+
+local function getPortraitNoiseSeed(character, drawButtons)
+	if drawButtons or not character or character.player or isShipCrewMember(character) then
+		return nil
+	end
+
+	return (hashString(character.seed) + hashFaceDescription(character.faceDescription)) % 2147483647
+end
+
+local function newFaceTexture(character, drawButtons)
+	return FaceTextureGenerator.New(
+		character.faceDescription,
+		character.seed,
+		getPortraitNoiseSeed(character, drawButtons)
+	)
+end
 
 local ensureCharacter = function (character)
 	if not (character and (type(character)=='table') and getmetatable(character) and (getmetatable(character).class == 'Character'))
@@ -53,7 +108,7 @@ function PiGuiFace.New (character, style, drawButtons)
 		FEATURE_ARMOUR = character.armour and 1 or 0,
 	}
 
-	local faceTexGen = FaceTextureGenerator.New(character.faceDescription, character.seed)
+	local faceTexGen = newFaceTexture(character, drawButtons)
 	local piguiFace = {
 		faceGen = faceTexGen,
 		character = character,
@@ -102,7 +157,7 @@ function PiGuiFace:changeFeature(featureId, amt, callback)
 
 	char.faceDescription[featureId] = (char.faceDescription[featureId] + amt) % 2^31
 	if callback then callback(char, char.faceDescription[featureId]) end
-	self.faceGen = FaceTextureGenerator.New(char.faceDescription, char.seed)
+	self.faceGen = newFaceTexture(char, self.drawButtons)
 end
 
 local font = ui.fonts.pionillium.medium
@@ -152,7 +207,7 @@ function PiGuiFace:renderFaceGenButtons(can_random)
 
 			if can_random and ui.iconButton("Randomize", icons.random, l.RANDOM_FACE, nil, size) then
 				char.faceDescription = rerollFaceDesc(char.faceDescription)
-				self.faceGen = FaceTextureGenerator.New(char.faceDescription, char.seed)
+				self.faceGen = newFaceTexture(char, self.drawButtons)
 			end
 		end)
 	end)
@@ -201,18 +256,25 @@ end
 function PiGuiFace:renderFaceDisplay ()
 	local lastPos = ui.getCursorPos()
 	local region = self.style.size or ui.getContentRegion()
-	local size = math.min(region.x, region.y)
+	local texSize = self.faceGen.textureSize
+	local texAspect = (texSize.x > 0 and texSize.y > 0) and (texSize.y / texSize.x) or 1.0
+	local drawWidth = region.x
+	local drawHeight = drawWidth * texAspect
+	if region.y > 0 and drawHeight > region.y then
+		drawHeight = region.y
+		drawWidth = drawHeight / texAspect
+	end
 
-	ui.image(self.faceGen.textureId, Vector2(size), Vector2(0.0, 0.0), self.faceGen.textureSize, colors.white)
+	ui.image(self.faceGen.textureId, Vector2(drawWidth, drawHeight), Vector2(0.0, 0.0), texSize, colors.white)
 
 	if(self.style.showCharInfo) then
 
-		ui.setCursorPos(lastPos + Vector2(0.0, size - self.style.charInfoHeight))
+		ui.setCursorPos(lastPos + Vector2(0.0, drawHeight - self.style.charInfoHeight))
 		local styles = {WindowPadding = self.style.charInfoPadding, ItemSpacing = self.style.itemSpacing}
 
 		ui.withStyleColorsAndVars({ChildBg = self.style.charInfoBgColor}, styles, function ()
 
-			ui.child("PlayerInfoDetails", Vector2(size, self.style.charInfoHeight), charInfoFlags, useWindowPadding, function ()
+			ui.child("PlayerInfoDetails", Vector2(drawWidth, self.style.charInfoHeight), charInfoFlags, useWindowPadding, function ()
 				ui.withFont(self.style.nameFont.name, self.style.nameFont.size, function()
 					ui.text(self.character.name)
 				end)

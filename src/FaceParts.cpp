@@ -6,7 +6,11 @@
 #include "JobQueue.h"
 #include "Pi.h"
 #include "SDLWrappers.h"
+#include "core/StringUtils.h"
 #include "utils.h"
+
+#include <algorithm>
+#include <utility>
 
 namespace {
 	static const int MAX_GENDERS = 6;
@@ -90,9 +94,11 @@ namespace {
 		std::vector<Part> armour;
 
 		SDLSurfacePtr background_general;
+		std::vector<SDLSurfacePtr> portrait_noise;
 
 		void Clear();
 		void Scan();
+		void ScanPortraitNoise();
 
 	private:
 		void ScanSpecies(const std::string &dir, int species_idx);
@@ -166,6 +172,41 @@ namespace {
 		SDL_BlitSurface(source, 0, target, &destrec);
 	}
 
+	static Uint8 _mul_noise_channel(Uint8 portrait, Uint8 noise)
+	{
+		const int result = (int(portrait) * int(noise) * 2) / 255;
+		return Uint8(std::min(255, result));
+	}
+
+	static void _apply_noise_multiply(SDL_Surface *faceIm, SDL_Surface *noiseSrc)
+	{
+		if (!faceIm || !noiseSrc) return;
+
+		SDLSurfacePtr noiseIm = SDLSurfacePtr::WrapNew(SDL_ConvertSurface(noiseSrc, faceIm->format, 0));
+		if (!noiseIm) return;
+
+		SDL_LockSurface(faceIm);
+		SDL_LockSurface(noiseIm.Get());
+
+		const int bpp = faceIm->format->BytesPerPixel;
+		for (int y = 0; y < faceIm->h; ++y) {
+			Uint8 *faceRow = static_cast<Uint8 *>(faceIm->pixels) + y * faceIm->pitch;
+			const int ny = y % noiseIm->h;
+			Uint8 *noiseRow = static_cast<Uint8 *>(noiseIm->pixels) + ny * noiseIm->pitch;
+			for (int x = 0; x < faceIm->w; ++x) {
+				const int nx = x % noiseIm->w;
+				Uint8 *facePx = faceRow + x * bpp;
+				Uint8 *noisePx = noiseRow + nx * bpp;
+				facePx[0] = _mul_noise_channel(facePx[0], noisePx[0]);
+				facePx[1] = _mul_noise_channel(facePx[1], noisePx[1]);
+				facePx[2] = _mul_noise_channel(facePx[2], noisePx[2]);
+			}
+		}
+
+		SDL_UnlockSurface(noiseIm.Get());
+		SDL_UnlockSurface(faceIm);
+	}
+
 	static PartDb *s_partdb;
 } // anonymous namespace
 
@@ -182,9 +223,38 @@ void PartDb::Clear()
 	accessories.clear();
 	clothes.clear();
 	armour.clear();
+	portrait_noise.clear();
 }
 
 static const char BACKGROUND_GENERAL_PATH[] = "facegen/backgrounds/general.png";
+static const char PORTRAIT_NOISE_DIR[] = "facegen/noise";
+
+void PartDb::ScanPortraitNoise()
+{
+	PROFILE_SCOPED()
+	portrait_noise.clear();
+
+	std::vector<std::string> paths;
+	for (fs::FileEnumerator files(fs::gameDataFiles, PORTRAIT_NOISE_DIR); !files.Finished(); files.Next()) {
+		const std::string &name = files.Current().GetName();
+		if (ends_with(name, ".png"))
+			paths.push_back(files.Current().GetPath());
+	}
+
+	std::sort(paths.begin(), paths.end());
+
+	for (const std::string &path : paths) {
+		SDLSurfacePtr im = LoadSurfaceFromFile(path);
+		if (im) {
+			portrait_noise.push_back(im);
+		} else {
+			Output("Failed to load portrait noise image %s\n", path.c_str());
+		}
+	}
+
+	if (!portrait_noise.empty())
+		Output("Loaded %u portrait noise image(s).\n", unsigned(portrait_noise.size()));
+}
 
 void PartDb::Scan()
 {
@@ -208,6 +278,8 @@ void PartDb::Scan()
 		ScanSpecies(dirs.Current().GetPath(), species_count);
 		++species_count;
 	}
+
+	ScanPortraitNoise();
 }
 
 void PartDb::ScanSpecies(const std::string &basedir, const int species_idx)
@@ -427,4 +499,19 @@ void FaceParts::BuildFaceImage(SDL_Surface *faceIm, const FaceDescriptor &face)
 	} else {
 		_blit_image(faceIm, _get_part(s_partdb->armour, selector, face.armour), 0, 0);
 	}
+}
+
+void FaceParts::ApplyPortraitNoise(SDL_Surface *faceIm, Uint32 selectionSeed)
+{
+	PROFILE_SCOPED()
+	if (!s_partdb || s_partdb->portrait_noise.empty() || !faceIm)
+		return;
+
+	const size_t idx = selectionSeed % s_partdb->portrait_noise.size();
+	_apply_noise_multiply(faceIm, s_partdb->portrait_noise[idx].Get());
+}
+
+int FaceParts::NumPortraitNoiseTextures()
+{
+	return s_partdb ? int(s_partdb->portrait_noise.size()) : 0;
 }
