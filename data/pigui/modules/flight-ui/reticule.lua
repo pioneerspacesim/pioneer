@@ -105,28 +105,30 @@ local function displayReticuleCompass(heading)
 			return x
 		end
 	end
-	local left = math.floor(heading - 45)
-	local right = left + 90
 
-	ui.lineOnClock(center, 0, 3, reticuleCircleRadius, colors.reticuleCircle, 1)
+	local verticalOffset = 2 * reticuleCircleRadius
 
-	local function stroke(d, p, multiple, height, thickness)
-		if d % multiple == 0 then
-			ui.lineOnClock(nil, 2.8 * p - 1.4, -height, reticuleCircleRadius, colors.reticuleCircle, thickness)
+	-- thick line
+	local pointL = center - Vector2(0.0, verticalOffset) - Vector2(2 * reticuleCircleRadius, 0.0)
+	local pointR = center - Vector2(0.0, verticalOffset) + Vector2(2 * reticuleCircleRadius, 0.0)
+	ui.addLine(pointL, pointR, colors.reticuleCircle, 1)
+
+	local scale_step = 10
+	local scale_range = 60
+	local left = heading - scale_range / 2
+	local right = heading + scale_range / 2
+	for i = -utils.round(-left, scale_step), utils.round(right, scale_step), scale_step do
+		local p = 0.5 + (i - heading) / scale_range -- [left, right] -> [0, 1]
+		if p > 1 then
+			p = 1
 		end
-	end
-
-	for d=left,right do
-		local p = (d - left) / 90
-		stroke(d, p, 15, 3, 1)
-		stroke(d, p, 45, 4, 1)
-		stroke(d, p, 90, 4, 2)
-		for k,v in pairs(directions) do
-			if clamp(k) == clamp(d) then
-				local a = ui.pointOnClock(nil, reticuleCircleRadius + 8, 3 * p - 1.5)
-				ui.addStyledText(a, ui.anchor.center, ui.anchor.bottom, v, colors.navigationalElements, pionillium.tiny, "")
-			end
+		if p < 0 then
+			p = 0
 		end
+
+		local point = pointL * (1 - p) + pointR * p
+		ui.addLine(point, point - Vector2(0.0, 2.0), colors.navigationalElements, 2)
+		ui.addStyledText(point - Vector2(0.0, 4.0), ui.anchor.center, ui.anchor.bottom, clamp(i) .. "°", colors.reticuleCircle, pionillium.medlarge, "")
 	end
 end
 
