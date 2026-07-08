@@ -64,6 +64,11 @@ void main(void)
 
 		vec4 lightColor = toLinear(uLight[i].diffuse);
 
+		// start with diffuse terrain color
+		vec3 terrain = vertexColor.xyz * intensity;
+		terrain *= max(0.f, dot(L, I));
+
+#ifdef ATMOSPHERE
 		// Color loss through atmosphere from sun to terrain
 		terrainDiffIn = calculateTerrainColor(planet, atmosphere, lightColor, L, (I - geosphereCenter) * geosphereRadius, eyenorm, uneclipsed, scatterLUT, rayleighLUT, mieLUT);
 #ifdef TERRAIN_WITH_WATER
@@ -73,14 +78,12 @@ void main(void)
 
 			terrainDiffIn = vec3(0.f);
 		}
-#endif
-		// start with diffuse terrain color
-		vec3 terrain = vertexColor.xyz * intensity;
+#endif // TERRAIN_WITH_WATER
 		terrain *= terrainDiffIn;
-		terrain *= max(0.f, dot(L, I));
 
 		// add water reflections
 		terrain += waterSpecular * intensity * 20;
+#endif // ATMOSPHERE
 
 		// add lava glow
 #ifdef TERRAIN_WITH_LAVA
@@ -89,8 +92,9 @@ void main(void)
 		} else {
 			terrain += material.emission.xyz;
 		}
-#endif
+#endif // TERRAIN_WITH_LAVA
 
+#ifdef ATMOSPHERE
 		terrainDiffOut = calculateTerrainColor(planet, atmosphere, lightColor, I, (I - geosphereCenter) * geosphereRadius, eyenorm, uneclipsed, scatterLUT, rayleighLUT, mieLUT);
 
 		// some light is again lost in atmosphere
@@ -99,10 +103,11 @@ void main(void)
 		atmosphereDiff = calculateAtmosphereColor(planet, atmosphere, lightColor, L, vec3(0.0), eyenorm, uneclipsed, scatterLUT, rayleighLUT, mieLUT);
 
 		terrain += atmosphereDiff * intensity * 20;
+#endif // ATMOSPHERE
 
 		terrainColor.xyz += terrain;
 	}
 
 	vertexColor = terrainColor;
-#endif
+#endif // (NUM_LIGHTS > 0)
 }
