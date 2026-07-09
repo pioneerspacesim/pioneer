@@ -531,17 +531,6 @@ local function displayReticulePitchHorizonCompass()
 	local heading_degrees = (heading / ui.twoPi * 360)
 	local roll_degrees = (roll / ui.twoPi * 360);
 
-	if showNavigationalNumbers then
-		local uiPos = ui.pointOnClock(center, reticuleCircleRadius + 5, 4.7)
-		ui.addStyledText(uiPos, ui.anchor.left, ui.anchor.top, math.floor(pitch_degrees + 0.5) .. "°", colors.reticuleCircle, pionillium.small, lui.HUD_CURRENT_PITCH)
-
-		uiPos = ui.pointOnClock(center, reticuleCircleRadius + 15, 1.3)
-		ui.addStyledText(uiPos, ui.anchor.left, ui.anchor.bottom, math.floor(heading_degrees + 0.5) .. "°", colors.reticuleCircle, pionillium.small, lui.HUD_CURRENT_HEADING)
-
-		uiPos = ui.pointOnClock(center, reticuleCircleRadius + 5, 6)
-		ui.addStyledText(uiPos, ui.anchor.center, ui.anchor.top, math.floor(roll_degrees + 0.5) .. "°", colors.reticuleCircle, pionillium.small, lui.HUD_CURRENT_ROLL)
-	end
-
 	displayReticuleHorizon(roll_degrees, pitch_degrees)
 	displayReticuleCompass(heading_degrees)
 end
@@ -681,11 +670,6 @@ local function displayDetailData(target, radius, colorLight, colorDark, tooltip,
 		end
 	end
 	ui.addFancyText(uiPos, ui.anchor.left, ui.anchor.baseline, all_txt, colors.lightBlackBackground)
-
-	-- current speed of approach
-	if approach_speed < 0 then
-		displayReticuleBrakeGauge(ratio, ratio_retro)
-	end
 
 	displayReticuleDistanceScaleGauge(altitude)
 	displayReticuleSpeedScaleGauge(ship_speed)
@@ -1107,8 +1091,6 @@ end
 
 local function displayReticule()
 	-- reticule circle
-	ui.addCircle(center, reticuleCircleRadius, colors.reticuleCircle, ui.circleSegments(reticuleCircleRadius), reticuleCircleThickness)
-
 	local frame = player.frameBody
 	local navTarget = player:GetNavTarget()
 	local combatTarget = player:GetCombatTarget()
@@ -1128,7 +1110,6 @@ local function displayReticule()
 	displayFlightAssist(radius)
 	displayManeuverData(radius)
 	displayReticulePitchHorizonCompass()
-	displayReticuleDeltaV()
 	displayAlertMarker()
 
 	if frame and reticuleTarget ~= "frame" then
