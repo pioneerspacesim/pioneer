@@ -64,9 +64,9 @@ local function displayReticulePitch(pitch_degrees)
 end
 
 -- display the horizon inside the reticule circle
-local function displayReticuleHorizon(roll_degrees)
+local function displayReticuleHorizon(roll_degrees, pitch_degrees)
 	-- offset inside the circle (px)
-	local offset = 30
+	local offset = 15
 	-- width of the horizontal bar (px)
 	local width = 10
 	-- height of the horizontal bar (clock hours)
@@ -74,19 +74,73 @@ local function displayReticuleHorizon(roll_degrees)
 
 	local hrs = roll_degrees / 360 * 12 + 3
 
-	local radius = reticuleCircleRadius - offset
+	-- draw horizon
+	local radius = 2 * reticuleCircleRadius - 30
 	-- left hook
-	ui.lineOnClock(center, hrs, width, radius, colors.navigationalElements, 1)
-	ui.addLine(ui.pointOnClock(nil, radius, hrs),
-		ui.pointOnClock(nil, radius, hrs + height_hrs),
-		colors.navigationalElements, 1)
-	ui.lineOnClock(nil, -3, -width/2, radius, colors.navigationalElements, 1)
+	local lHookBase = ui.pointOnClock(nil, radius, hrs)
+	local lHookEnd = ui.pointOnClock(nil, radius, hrs + height_hrs)
+	ui.lineOnClock(center, hrs - 6, width, radius, colors.navigationalElements, 1)
+	ui.addLine(lHookBase, lHookEnd, colors.navigationalElements, 1)
+
 	-- right hook
-	ui.lineOnClock(nil, hrs + 6, width, radius, colors.navigationalElements, 1)
-	ui.addLine(ui.pointOnClock(nil, radius, hrs + 6),
-		ui.pointOnClock(nil, radius, hrs + 6 - height_hrs),
-		colors.navigationalElements, 1)
-	ui.lineOnClock(nil, 3, -width/2, radius, colors.navigationalElements, 1)
+	local rHookBase = ui.pointOnClock(nil, radius, hrs + 6)
+	local rHookEnd = ui.pointOnClock(nil, radius, hrs + 6 - height_hrs)
+	ui.lineOnClock(nil, hrs, width, radius, colors.navigationalElements, 1)
+	ui.addLine(rHookBase, rHookEnd, colors.navigationalElements, 1)
+
+	local hlAnchor = ui.anchor.center
+	local vlAnchor = ui.anchor.center
+	local hrAnchor = ui.anchor.center
+	local vrAnchor = ui.anchor.center
+	if math.abs(roll_degrees) < 45 then
+		hlAnchor = ui.anchor.left
+		hrAnchor = ui.anchor.right
+
+		vlAnchor = ui.anchor.bottom
+		vrAnchor = ui.anchor.bottom
+	elseif math.abs(roll_degrees) < 135 then
+		if roll_degrees > 0 then
+			hlAnchor = ui.anchor.left
+			hrAnchor = ui.anchor.left
+		else
+			hlAnchor = ui.anchor.right
+			hrAnchor = ui.anchor.right
+		end
+		vlAnchor = ui.anchor.center
+		vrAnchor = ui.anchor.center
+	else
+		hlAnchor = ui.anchor.right
+		hrAnchor = ui.anchor.left
+
+		vlAnchor = ui.anchor.top
+		vrAnchor = ui.anchor.top
+	end
+	ui.addStyledText(lHookBase, hlAnchor, vlAnchor, math.floor(pitch_degrees + 0.5) .. "°", colors.reticuleCircle, pionillium.small, lui.HUD_CURRENT_ROLL)
+	ui.addStyledText(rHookBase, hrAnchor, vrAnchor, math.floor(pitch_degrees + 0.5) .. "°", colors.reticuleCircle, pionillium.small, lui.HUD_CURRENT_ROLL)
+
+	-- draw pitch ladder
+	for p = -75, 75, 1 do
+		local ladder_height = reticuleCircleRadius * 1.2
+
+		r = (p - pitch_degrees) * ladder_height / 11
+		if math.abs(r) <= ladder_height then
+			local stepCenter = ui.pointOnClock(center, r, hrs - 3)
+			--local stepLeft = ui.pointOnClock(stepCenter, 2 * reticuleCircleRadius, hrs - 3)
+			--local stepRight = ui.pointOnClock(stepCenter, 2 * reticuleCircleRadius, hrs + 3)
+
+			local tick_length = 4
+			if p % 5 == 0 then
+				tick_length = 10
+			end
+
+			if p == 0 then
+				tick_length = 30
+			end
+
+			ui.lineOnClock(stepCenter, hrs - 0, tick_length, 2 * reticuleCircleRadius, colors.navigationalElements, 1)
+			ui.lineOnClock(stepCenter, hrs + 6, tick_length, 2 * reticuleCircleRadius, colors.navigationalElements, 1)
+		end
+	end
 end
 
 -- display the compass at the top of the reticule circle
@@ -488,8 +542,7 @@ local function displayReticulePitchHorizonCompass()
 		ui.addStyledText(uiPos, ui.anchor.center, ui.anchor.top, math.floor(roll_degrees + 0.5) .. "°", colors.reticuleCircle, pionillium.small, lui.HUD_CURRENT_ROLL)
 	end
 
-	displayReticulePitch(pitch_degrees)
-	displayReticuleHorizon(roll_degrees)
+	displayReticuleHorizon(roll_degrees, pitch_degrees)
 	displayReticuleCompass(heading_degrees)
 end
 
