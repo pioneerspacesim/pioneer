@@ -1080,7 +1080,11 @@ local discardShip = function (ship)
 	if #nearbysystems > 0 and status == "OK" then
 		Timer:CallAt(Game.time + Engine.rand:Integer(5,10), function ()
 			ship:AIEnterLowOrbit(ship:FindNearestTo("PLANET") or ship:FindNearestTo("STAR"))
-			Timer:CallAt(Game.time + 30, function () ship:HyperjumpTo(nearbysystems[1]) end)
+			Timer:CallAt(Game.time + 30, function ()
+				if ship and ship:exists() then
+					ship:HyperjumpTo(nearbysystems[1])
+				end
+			end)
 		end)
 	else
 		with_stations = false
@@ -1089,7 +1093,11 @@ local discardShip = function (ship)
 		if #nearbysystems > 0 and status == "OK" then
 			Timer:CallAt(Game.time + Engine.rand:Integer(5,10), function ()
 				ship:AIEnterLowOrbit(ship:FindNearestTo("PLANET") or ship:FindNearestTo("STAR"))
-				Timer:CallAt(Game.time + 30, function () ship:HyperjumpTo(nearbysystems[1]) end)
+				Timer:CallAt(Game.time + 30, function ()
+					if ship and ship:exists() then
+						ship:HyperjumpTo(nearbysystems[1])
+					end
+				end)
 			end)
 		else
 			Timer:CallAt(Game.time + Engine.rand:Integer(5,10), function ()

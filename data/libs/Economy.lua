@@ -620,7 +620,7 @@ function Economy.UpdateStationMarket(sbody, market)
 
 	if not market then return end
 
-	local lastStockUpdate = market.updated
+	local lastStockUpdate = market.updated or Game.time -- #6378/#6350: market.updated = nil if not yet initialized / tgu
 	local timeSinceUpdate = Game.time - lastStockUpdate
 	if timeSinceUpdate <= kMarketUpdateTick then return end
 
