@@ -521,6 +521,8 @@ local function displayBrakeGauge(target)
 			ui.pathArcTo(center, radius + offset + thickness / 2, angle_one, angle_primary, 64)
 			ui.pathStroke(colors.brakeOvershoot, false, thickness)
 		end
+
+		ui.lineOnClock(center, 3 + (angle_one / (ui.pi / 6)), thickness, radius + offset + thickness, colors.brakeOvershoot, 2)
 	end
 end
 
