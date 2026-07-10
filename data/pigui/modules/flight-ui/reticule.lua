@@ -125,8 +125,6 @@ local function displayReticuleHorizon(roll_degrees, pitch_degrees)
 		r = (p - pitch_degrees) * ladder_height / 11
 		if math.abs(r) <= ladder_height then
 			local stepCenter = ui.pointOnClock(center, r, hrs - 3)
-			--local stepLeft = ui.pointOnClock(stepCenter, 2 * reticuleCircleRadius, hrs - 3)
-			--local stepRight = ui.pointOnClock(stepCenter, 2 * reticuleCircleRadius, hrs + 3)
 
 			local tick_length = 4
 			if p % 5 == 0 then
@@ -144,7 +142,7 @@ local function displayReticuleHorizon(roll_degrees, pitch_degrees)
 end
 
 -- display the compass at the top of the reticule circle
-local function displayReticuleCompass(heading)
+local function displayReticuleCompass(roll_degrees, heading)
 	-- labelled points on the compass
 	local directions = {
 		[0] = lc.COMPASS_N, [45] = lc.COMPASS_NE, [90] = lc.COMPASS_E, [135] = lc.COMPASS_SE,
@@ -160,12 +158,31 @@ local function displayReticuleCompass(heading)
 		end
 	end
 
-	local verticalOffset = 2 * reticuleCircleRadius
+	local hAnchor = ui.anchor.center
+	local vAnchor = ui.anchor.center
+	if math.abs(roll_degrees) < 45 then
+		hAnchor = ui.anchor.center
+
+		vAnchor = ui.anchor.bottom
+	elseif math.abs(roll_degrees) < 135 then
+		if roll_degrees > 0 then
+			hAnchor = ui.anchor.left
+		else
+			hAnchor = ui.anchor.right
+		end
+		vAnchor = ui.anchor.center
+	else
+		hAnchor = ui.anchor.center
+
+		vAnchor = ui.anchor.top
+	end
 
 	-- thick line
-	local pointL = center - Vector2(0.0, verticalOffset) - Vector2(2 * reticuleCircleRadius, 0.0)
-	local pointR = center - Vector2(0.0, verticalOffset) + Vector2(2 * reticuleCircleRadius, 0.0)
-	ui.addLine(pointL, pointR, colors.reticuleCircle, 1)
+	local hrs = roll_degrees / 360 * 12 + 3
+	local compassCenter = ui.pointOnClock(center, 2 * reticuleCircleRadius, hrs - 3)
+	local compassLeft = ui.pointOnClock(compassCenter, 2 * reticuleCircleRadius, hrs - 6)
+	local compassRight = ui.pointOnClock(compassCenter, 2 * reticuleCircleRadius, hrs)
+	ui.addLine(compassLeft, compassRight, colors.reticuleCircle, 1)
 
 	local scale_step = 10
 	local scale_range = 60
@@ -180,9 +197,11 @@ local function displayReticuleCompass(heading)
 			p = 0
 		end
 
-		local point = pointL * (1 - p) + pointR * p
-		ui.addLine(point, point - Vector2(0.0, 2.0), colors.navigationalElements, 2)
-		ui.addStyledText(point - Vector2(0.0, 4.0), ui.anchor.center, ui.anchor.bottom, clamp(i) .. "°", colors.reticuleCircle, pionillium.medlarge, "")
+		local point = compassLeft * (1 - p) + compassRight * p
+		ui.lineOnClock(point, hrs - 3, 2.0, 2.0, colors.navigationalElements, 1)
+
+		local textPosition = ui.pointOnClock(point, 4.0, hrs - 3)
+		ui.addStyledText(textPosition, hAnchor, vAnchor, clamp(i) .. "°", colors.reticuleCircle, pionillium.medlarge, "")
 	end
 end
 
@@ -534,7 +553,7 @@ local function displayReticulePitchHorizonCompass()
 	local roll_degrees = (roll / ui.twoPi * 360);
 
 	displayReticuleHorizon(roll_degrees, pitch_degrees)
-	displayReticuleCompass(heading_degrees)
+	displayReticuleCompass(roll_degrees, heading_degrees)
 end
 
 local reticuleTarget = "frame"
