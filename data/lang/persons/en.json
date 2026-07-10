@@ -165,7 +165,7 @@
   },
   "RELATION_FRIEND_MALE_5": {
     "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
-    "message": "a school friend"
+    "message": "a friend from school"
   },
   "RELATION_FRIEND_MALE_6": {
     "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
@@ -196,7 +196,11 @@
     "message": "my relative"
   },
   "RELATION_RELATIVE_FEMALE_12": {
-    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "description": "Sisters daughter. In some languages different from brothers daughter. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "my niece"
+  },
+  "RELATION_RELATIVE_FEMALE_13": {
+    "description": "Brothers daughter. In some languages different from sisters daughter. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
     "message": "my niece"
   },
   "RELATION_RELATIVE_FEMALE_2": {
@@ -244,7 +248,11 @@
     "message": "my relative"
   },
   "RELATION_RELATIVE_MALE_12": {
-    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "description": "Sisters son. In some languages different from brothers son.Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "my nephew"
+  },
+  "RELATION_RELATIVE_MALE_13": {
+    "description": "Brothers son. In some languages different from sisters son. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
     "message": "my nephew"
   },
   "RELATION_RELATIVE_MALE_2": {
