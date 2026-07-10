@@ -414,8 +414,8 @@ local function displayReticuleDistanceScaleGauge(distance)
 end
 
 local function displayFuelGauge()
-	local thickness = 4
-	local offset = 0
+	local thickness = 6
+	local offset = -2
 	local radius = 4 * reticuleCircleRadius - thickness
 
 	local deltav_max = player:GetMaxDeltaV()
@@ -457,8 +457,8 @@ local function displayFuelGauge()
 end
 
 local function displayBrakeGauge(target)
-	local thickness = 4
-	local offset = 0
+	local thickness = 6
+	local offset = -2
 	local radius = 4 * reticuleCircleRadius - thickness
 
 	local angle_low = -ui.pi / 6
