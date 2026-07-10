@@ -106,6 +106,46 @@ namespace ImGui {
 	}
 } // namespace ImGui
 
+struct DrawListState {
+	DrawListState(ImDrawList *dl) :
+		startVtxCount(dl->VtxBuffer.size()),
+		startIdxCount(dl->IdxBuffer.size())
+	{}
+
+	int startVtxCount;
+	int startIdxCount;
+};
+
+void CreateDuplicateVerts(ImDrawList *dl, const DrawListState &state, ImU32 col_override, const ImVec2 &offset)
+{
+	int numVtxs = dl->VtxBuffer.size() - state.startVtxCount;
+	int numIdxs = dl->IdxBuffer.size() - state.startIdxCount;
+
+	// To achieve text shadows, we're not going to lay out new text or anything like that.
+	// Instead, we're just going to make a copy, then recolor the original black and offset its position slightly.
+	if (numVtxs > 0) {
+		dl->PrimReserve(numIdxs, numVtxs);
+
+		memcpy(dl->_VtxWritePtr, dl->VtxBuffer.Data + state.startVtxCount, sizeof(ImDrawVert) * numVtxs);
+		memcpy(dl->_IdxWritePtr, dl->IdxBuffer.Data + state.startIdxCount, sizeof(ImDrawIdx) * numIdxs);
+
+		// Update position and color of the shadow vertices
+		for (ImDrawVert *vtx = dl->VtxBuffer.Data + state.startVtxCount; vtx < dl->_VtxWritePtr; vtx++) {
+			vtx->col = col_override;
+			vtx->pos += offset;
+		}
+
+		// Update the indices of the copied text to point at the copied vertices.
+		ImDrawIdx idx_offset = numVtxs;
+
+		for (ImDrawIdx *idx = dl->_IdxWritePtr; idx < dl->IdxBuffer.Data + dl->IdxBuffer.size(); idx++) {
+			*idx += idx_offset;
+		}
+
+		dl->_VtxCurrentIdx = dl->_VtxCurrentIdx + numVtxs;
+	}
+}
+
 template <typename Type>
 static Type parse_imgui_flags(lua_State *l, int index, LuaFlags<Type> &lookupTable)
 {
@@ -1198,6 +1238,36 @@ static int l_pigui_text(lua_State *l)
 }
 
 /*
+ * Function: textShadowed
+ *
+ * Draw text to screen
+ *
+ * > ui.textShadowed(text, offset, color)
+ *
+ * Parameters:
+ *
+ *   text - string, text to print
+ *
+ */
+static int l_pigui_text_shadowed(lua_State *l)
+{
+	PROFILE_SCOPED()
+	std::string text = LuaPull<std::string>(l, 1);
+	ImVec2 offset = LuaPull<ImVec2>(l, 2, ImVec2(3, 3));
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 3, ImColor(0, 0, 0)).Value);
+
+	ImDrawList *dl = ImGui::GetWindowDrawList();
+
+	DrawListState dl_state(dl);
+
+	ImGui::Text("%s", text.c_str());
+
+	CreateDuplicateVerts(dl, dl_state, color, offset);
+
+	return 0;
+}
+
+/*
  * Function: button
  *
  * Create a button
@@ -1683,6 +1753,24 @@ static int l_pigui_add_text(lua_State *l)
 	std::string text = LuaPull<std::string>(l, 3);
 	double wrapWidth = LuaPull<double>(l, 4, 0.0);
 	draw_list->AddText(nullptr, 0.0f, center, color, text.c_str(), nullptr, wrapWidth);
+	return 0;
+}
+
+static int l_pigui_add_text_shadowed(lua_State *l)
+{
+	PROFILE_SCOPED()
+	ImDrawList *draw_list = ImGui::GetWindowDrawList();
+	ImVec2 center = LuaPull<ImVec2>(l, 1);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 2).Value);
+	std::string text = LuaPull<std::string>(l, 3);
+	ImU32 shadow = ImGui::GetColorU32(LuaPull<ImColor>(l, 4, ImColor(0, 0, 0)).Value);
+	ImVec2 offset = LuaPull<ImVec2>(l, 5, ImVec2(3, 3));
+	double wrapWidth = LuaPull<double>(l, 6, 0.0);
+
+	DrawListState dl_state(draw_list);
+	draw_list->AddText(nullptr, 0.0f, center, color, text.c_str(), nullptr, wrapWidth);
+	CreateDuplicateVerts(draw_list, dl_state, shadow, offset);
+
 	return 0;
 }
 
@@ -3662,6 +3750,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "AddCircleFilled", l_pigui_add_circle_filled },
 		{ "AddLine", l_pigui_add_line },
 		{ "AddText", l_pigui_add_text },
+		{ "AddTextShadowed", l_pigui_add_text_shadowed },
 		{ "AddTriangle", l_pigui_add_triangle },
 		{ "AddTriangleFilled", l_pigui_add_triangle_filled },
 		{ "AddQuad", l_pigui_add_quad },
@@ -3696,6 +3785,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "GetScrollY", l_pigui_get_scroll_y },
 		{ "BulletText", l_pigui_bullet_text },
 		{ "Text", l_pigui_text },
+		{ "TextShadowed", l_pigui_text_shadowed },
 		{ "TextWrapped", l_pigui_text_wrapped },
 		{ "TextEllipsis", l_pigui_text_ellipsis },
 		{ "TextColored", l_pigui_text_colored },
