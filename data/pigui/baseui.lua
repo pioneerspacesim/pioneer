@@ -140,6 +140,13 @@ function ui.registerModule(mode, fun)
 	if type(fun) == 'function' then fun = { draw = fun } end
 	fun.enabled = true
 
+	if fun.debugReload == true then
+		local modname = package.modulename(2)
+		fun.debugReload = function()
+			package.reimport(modname)
+		end
+	end
+
 	if fun.id and modules[mode][fun.id] then
 		local idx = modules[mode][fun.id]
 		modules[mode][idx] = fun
