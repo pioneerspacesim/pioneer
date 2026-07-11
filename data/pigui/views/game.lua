@@ -133,14 +133,14 @@ local function displayOnScreenObjects()
 		local mp = ui.getMousePos()
 		-- mouse release handler for radial menu
 		if (mp - mainCoords):length() < click_radius then
-			if ui.canClickOnScreenObjectHere() and ui.isMouseClicked(1) then
+			if ui.isMouseClicked(1) and ui.isWindowHovered() then
 				local body = mainBody
 				ui.openDefaultRadialMenu("game", body)
 			end
 		end
 		-- mouse release handler
 		if (mp - mainCoords):length() < click_radius then
-			if ui.canClickOnScreenObjectHere() and ui.isMouseReleased(0) then
+			if ui.isMouseReleased(0) and ui.isWindowHovered() then
 				if group.hasNavTarget or combatTarget == mainBody then
 					-- if clicked and is target, unset target
 					if group.hasNavTarget then
@@ -239,6 +239,8 @@ local function callModules(mode)
 end
 
 local drawHUD = ui.makeFullScreenHandler("HUD", function()
+	ui.bringWindowToDisplayBack()
+
 	if ui.shouldDrawUI() then
 		if Game.CurrentView() == "WorldView" then
 			gameView:draw()

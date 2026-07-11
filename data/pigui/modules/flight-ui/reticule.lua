@@ -573,7 +573,7 @@ local function flightAssistButton(pos)
 	ui.addIcon(pos, main_icon, colors.white, Vector2(icon_size, icon_size), ui.anchor.center, ui.anchor.center, tooltip)
 
 	-- radial menu
-	if ui.isMouseClicked(0) and ui.canClickOnScreenObjectHere() and (ui.getMousePos() - pos):length() < button_size / 2.0
+	if ui.isMouseClicked(0) and ui.isWindowHovered() and (ui.getMousePos() - pos):length() < button_size / 2.0
 		or bindings.assistRadial.action:IsJustActive() then
 
 		local icon_left = { icon = icons.backward, tooltip = "NO_ACTION", action = function(_) end, color = color_inactive }
@@ -679,7 +679,7 @@ local function flightAssistButton(pos)
 		-- create quad menu
 		local my_quad_menu = { icon_right, icon_down, icon_left, icon_up }
 		ui.openRadialMenu("game", nil, 0, button_size, my_quad_menu, 0, pos, action_binding)
-	elseif ui.isMouseClicked(1) and ui.canClickOnScreenObjectHere() and (ui.getMousePos() - pos):length() < button_size / 2.0
+	elseif ui.isMouseClicked(1) and ui.isWindowHovered() and (ui.getMousePos() - pos):length() < button_size / 2.0
 		or bindings.fixheadingRadial.action:IsJustActive() then
 		local frame = player.frameBody
 		if frame then

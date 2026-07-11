@@ -405,6 +405,7 @@ static LuaFlags<ImGuiWindowFlags_> window_flags = {
 	{ "AlwaysHorizontalScrollbar", ImGuiWindowFlags_AlwaysHorizontalScrollbar },
 	{ "NoDecoration", ImGuiWindowFlags_NoDecoration },
 	{ "NoInputs", ImGuiWindowFlags_NoInputs },
+	{ "NoCaptureMouse", ImGuiWindowFlags_NoCaptureMouse },
 };
 
 static LuaFlags<ImGuiChildFlags_> child_window_flags = {
@@ -3558,6 +3559,26 @@ static int l_pigui_push_text_wrap_pos(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_bring_window_to_front(lua_State *l)
+{
+	ImGuiWindow *w = ImGui::GetCurrentWindow();
+	if (w) {
+		ImGui::BringWindowToDisplayFront(w);
+	}
+
+	return 0;
+}
+
+static int l_pigui_bring_window_to_back(lua_State *l)
+{
+	ImGuiWindow *w = ImGui::GetCurrentWindow();
+	if (w) {
+		ImGui::BringWindowToDisplayBack(w);
+	}
+
+	return 0;
+}
+
 static int l_pigui_begin_table(lua_State *l)
 {
 	const char *str_id = luaL_checkstring(l, 1);
@@ -3916,6 +3937,8 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "PlaySfx", l_pigui_play_sfx },
 		{ "DisableMouseFacing", l_pigui_disable_mouse_facing },
 		{ "SetMouseButtonState", l_pigui_set_mouse_button_state },
+		{ "BringWindowToDisplayFront", l_pigui_bring_window_to_front },
+		{ "BringWindowToDisplayBack", l_pigui_bring_window_to_back },
 
 		// Flags Builders
 		{ "SelectableFlags", l_pigui_check_selectable_flags },
