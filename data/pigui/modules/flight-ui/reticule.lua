@@ -37,6 +37,9 @@ local center = nil
 -- cache player each frame
 local player = nil ---@type Player
 
+-- active target information to display on the flight reticle
+local reticuleTarget = "frame"
+
 -- this should go into HUD settings
 local showNavigationalNumbers = true
 
@@ -244,45 +247,6 @@ local function displayReticulePitchHorizonCompass()
 	displayReticulePitch(pitch_degrees)
 	displayReticuleHorizon(roll_degrees)
 	displayReticuleCompass(heading_degrees)
-end
-
-local reticuleTarget = "frame"
-
-local lastNavTarget = nil
-local lastCombatTarget = nil
-
-local function updateReticuleTarget(frame, navTarget, combatTarget)
-	if lastNavTarget ~= navTarget then
-		reticuleTarget = "navTarget"
-	end
-	lastNavTarget = navTarget
-
-	if lastCombatTarget ~= combatTarget then
-		reticuleTarget = "combatTarget"
-	end
-	lastCombatTarget = combatTarget
-
-	if reticuleTarget == "navTarget" then
-		if not navTarget then
-			reticuleTarget = combatTarget and "combatTarget" or "frame"
-		end
-	end
-
-	if reticuleTarget == "combatTarget" then
-		if not combatTarget then
-			reticuleTarget = navTarget and "navTarget" or "frame"
-		end
-	end
-
-	if not reticuleTarget then
-		reticuleTarget = "frame"
-	end
-
-	if reticuleTarget == "frame" then
-		if not frame and not player.frameLabel then
-			reticuleTarget = nil
-		end
-	end
 end
 
 -- show frame / target switch buttons if anything is targetted
@@ -824,8 +788,6 @@ local function displayReticule()
 	local combatTarget = player:GetCombatTarget()
 	local radius = reticuleCircleRadius * 1.2
 
-	updateReticuleTarget(frame, navTarget, combatTarget)
-
 	if reticuleTarget == "frame" then
 		if frame then
 			displayDetailData(frame, radius, colors.frame, colors.frameDark, lui.HUD_CURRENT_FRAME, true)
@@ -857,5 +819,22 @@ gameView.registerModule("reticule", {
 		center = gameView.center
 		colors = ui.theme.colors
 		displayReticule()
+	end,
+	debugReload = function()
+		package.reimport()
 	end
 })
+
+ui.Events.Register("onPlayerTargetChanged", function(target)
+	if target then
+		reticuleTarget =
+			(target == player:GetCombatTarget() and "combatTarget") or
+			(target == player:GetNavTarget() and "navTarget") or
+			"frame"
+	else
+		reticuleTarget =
+			(player:GetCombatTarget() and "combatTarget") or
+			(player:GetNavTarget() and "navTarget") or
+			"frame"
+	end
+end)

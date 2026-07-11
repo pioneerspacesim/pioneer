@@ -53,7 +53,7 @@ public:
 	void SetFollowTarget(Body *const target);
 
 	sigc::signal<void> onRotationDampingChanged;
-	sigc::signal<void> onChangeTarget;
+	sigc::signal<void, Body *> onChangeTarget;
 	sigc::signal<void> onChangeFlightControlState;
 
 	enum CruiseDirection { // <enum scope='PlayerShipController' name=CruiseDirection public>

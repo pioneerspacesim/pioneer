@@ -979,13 +979,13 @@ void PlayerShipController::SetCombatTarget(Body *const target, bool setFollowTo)
 
 	m_combatTarget = target;
 	m_ship->GetComponent<GunManager>()->SetTrackingTarget(target);
-	onChangeTarget.emit();
+	onChangeTarget.emit(target);
 }
 
 void PlayerShipController::SetNavTarget(Body *const target)
 {
 	m_navTarget = target;
-	onChangeTarget.emit();
+	onChangeTarget.emit(target);
 }
 
 void PlayerShipController::SetFollowTarget(Body *const target)
@@ -997,9 +997,6 @@ void PlayerShipController::SetFollowTarget(Body *const target)
 		m_followTargetPrevVel = m_followTarget->GetVelocityRelTo(m_ship->GetFrame());
 	else
 		m_followTargetPrevVel = vector3d();
-
-	// TODO: not sure, do we actually need this? we are only changing the follow target
-	onChangeTarget.emit();
 }
 
 void PlayerShipController::SetCruiseDirection(CruiseDirection dir)
