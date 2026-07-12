@@ -3,6 +3,7 @@
 
 local ui = require 'pigui'
 local Engine = require 'Engine'
+local Event = require 'Event'
 local Game = require 'Game'
 local Vector2 = _G.Vector2
 local bindManager = require 'bind-manager'
@@ -25,6 +26,23 @@ local flightAssistIconSize = ui.theme.styles.SmallButtonSize.x
 local flightAssistButtonPadding = math.ceil((32 / 18 * flightAssistIconSize - flightAssistIconSize) / 2)
 local flightAssistButtonSize = flightAssistIconSize + flightAssistButtonPadding * 2
 
+local frameSwitchStyle = ui.Style:clone({
+	colors = {},
+	vars = {
+		ItemSpacing = Vector2(0, 0),
+		FrameRounding = ui.rescaleUI(6)
+	}
+})
+
+local frameDetailStyle = ui.Style:clone({
+	colors = {
+		Text = colors.frame
+	},
+	vars = {
+		ItemSpacing = ui.rescaleUI(Vector2(8, 3))
+	}
+})
+
 local gameView = require 'pigui.views.game'
 
 -- for modules
@@ -35,7 +53,7 @@ ui.reticuleCircleThickness = reticuleCircleThickness
 local center = nil
 
 -- cache player each frame
-local player = nil ---@type Player
+local player = Game.player ---@type Player
 
 -- active target information to display on the flight reticle
 local reticuleTarget = "frame"
@@ -49,6 +67,11 @@ local bindings = {
 	fixheadingRadial = bindManager.registerAction('BindFixheadingRadial'),
 	targetRadial = bindManager.registerAction('BindTargetRadial'),
 }
+
+local function textShadowedRight(label)
+	ui.addCursorPos(Vector2(-ui.calcTextSize(label).x, 0))
+	ui.textShadowed(label)
+end
 
 -- display the pitch indicator on the right inside of the reticule circle
 local function displayReticulePitch(pitch_degrees)
@@ -176,14 +199,25 @@ local function displayReticuleDeltaV()
 	  gauge(dvc, reticuleCircleRadius + offset + thickness, colors.deltaVCurrent, thickness)
 	end
 
-	local dvr_text, dvr_unit = ui.Format.SpeedUnit(deltav_remaining)
-	local uiPos = ui.pointOnClock(center, reticuleCircleRadius + 5, 7)
-	ui.addFancyText(uiPos, ui.anchor.right, ui.anchor.top, {
-		{ text=math.floor(dvr*100), color=colors.reticuleCircle,     font=pionillium.small, tooltip=lui.HUD_DELTA_V_PERCENT },
-		{ text='% ',                color=colors.reticuleCircleDark, font=pionillium.tiny,  tooltip=lui.HUD_DELTA_V_PERCENT },
-		{ text=dvr_text,            color=colors.reticuleCircle,     font=pionillium.small, tooltip=lui.HUD_DELTA_V },
-		{ text=dvr_unit,            color=colors.reticuleCircleDark, font=pionillium.tiny,  tooltip=lui.HUD_DELTA_V }
-	}, colors.lightBlackBackground)
+	ui.withFont(pionillium.reticle_sm, function()
+		local uiPos = ui.pointOnClock(center, reticuleCircleRadius + thickness * 2 + ui.getTextLineHeight(), 7.5)
+
+		local iconSize = pionillium.reticle_md.size + ui.theme.styles.FramePadding.y * 2
+
+		ui.setCursorPos(uiPos - Vector2(iconSize, ui.getTextLineHeight() * 0.5))
+		textShadowedRight(ui.Format.Speed(deltav_remaining))
+
+		ui.withFont(pionicons.medium.name, iconSize, function()
+			ui.addTextShadowed(uiPos - Vector2(iconSize, iconSize * 0.5), colors.font, ui.get_icon_glyph(icons.deltav))
+			ui.setItemTooltip(lui.HUD_DELTA_V)
+		end)
+
+		uiPos = ui.pointOnClock(center, reticuleCircleRadius + thickness * 2, 10.5)
+		ui.setCursorPos(uiPos - Vector2(ui.getTextLineHeight() * 0.5))
+
+		textShadowedRight(ui.Format.Number(dvr * 100, 2) .. "%")
+		ui.setItemTooltip(lui.HUD_DELTA_V_PERCENT)
+	end)
 end
 
 -- if the ratio of current distance to brake distance is greater than this,
@@ -249,175 +283,179 @@ local function displayReticulePitchHorizonCompass()
 	displayReticuleCompass(heading_degrees)
 end
 
--- show frame / target switch buttons if anything is targetted
-local function displayDetailButtons(radius, navTarget, combatTarget)
-	local uiPos = ui.pointOnClock(center, radius, 3.6)
-	local mouse_position = ui.getMousePos()
-	local size = 20
-	if combatTarget or navTarget then
-		local color = reticuleTarget == "frame" and colors.reticuleCircle or colors.reticuleCircleDark
-		ui.addIcon(uiPos, icons.moon, color, Vector2(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_FRAME)
-		if ui.isMouseClicked(0) and (mouse_position - (uiPos + Vector2(size/2, -size/2))):length() < size/2 then
-			reticuleTarget = "frame"
-		end
-		uiPos.x = uiPos.x + size
-	end
-	if navTarget then
-		local color = reticuleTarget == "navTarget" and colors.reticuleCircle or colors.reticuleCircleDark
-		ui.addIcon(uiPos, icons.navtarget, color, Vector2(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_NAV_TARGET)
-		if ui.isMouseClicked(0) and (mouse_position - (uiPos + Vector2(size/2, -size/2))):length() < size/2 then
-			reticuleTarget = "navTarget"
-		end
-		uiPos.x = uiPos.x + size
-	end
-	if combatTarget then
-		local color = reticuleTarget == "combatTarget" and colors.reticuleCircle or colors.reticuleCircleDark
-		ui.addIcon(uiPos, icons.combattarget, color, Vector2(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_COMBAT_TARGET)
-		if ui.isMouseClicked(0) and (mouse_position - (uiPos + Vector2(size/2, -size/2))):length() < size/2 then
-			reticuleTarget = "combatTarget"
-		end
-	end
-end
-
-local function displayDetailData(target, radius, colorLight, colorDark, tooltip, displaySpeedLimiter)
+local function makeTargetData(target, inv_approach)
 	local velocity = player:GetVelocityRelTo(target)
 	local position = player:GetPositionRelTo(target)
 
-	local uiPos = ui.pointOnClock(center, radius, 2.46)
-	-- label of target
-	local nameSize = ui.addStyledText(uiPos, ui.anchor.left, ui.anchor.baseline, target.label, colorDark, pionillium.medium, tooltip, colors.lightBlackBackground)
-	local isHovered = ui.isMouseHoveringRect(uiPos - Vector2(0, pionillium.medium.size), uiPos + nameSize - Vector2(0, pionillium.medium.size))
-	                  and ui.isMouseClicked(1) and ui.noModifierHeld()
-	if isHovered or bindings.targetRadial.action:IsJustActive() then
-		local action_binding = bindings.targetRadial.action:IsActive() and bindings.targetRadial.action
-		ui.openDefaultRadialMenu("game", target, uiPos, action_binding)
-	end
-	-- current distance, relative speed
-	uiPos = ui.pointOnClock(center, radius, 2.75)
-	-- currently unused: local distance, distance_unit = ui.Format.DistanceUnit(player:DistanceTo(target))
-	local approach_speed = position:dot(velocity) / position:length()
+	local approach_speed = math.trunc(position:normalized():dot(inv_approach and velocity or -velocity))
 
-	local speed, speed_unit = ui.Format.SpeedUnit(approach_speed)
-
-	ui.addFancyText(uiPos, ui.anchor.left, ui.anchor.baseline, {
-		{ text=speed,      color=colorLight, font=pionillium.medium, tooltip=lui.HUD_SPEED_OF_APPROACH_TO_TARGET },
-		{ text=speed_unit, color=colorDark,  font=pionillium.small,  tooltip=lui.HUD_SPEED_OF_APPROACH_TO_TARGET }
-	}, colors.lightBlackBackground)
-
-	-- current brake distance
-	local brake_distance = player:GetDistanceToZeroV(velocity:length(),"forward")
-	local brake_distance_retro = player:GetDistanceToZeroV(velocity:length(),"reverse")
-	local altitude = player:GetAltitudeRelTo(target)
-	local ratio = brake_distance / altitude
-	local ratio_retro = brake_distance_retro / altitude
-	local ship_speed = velocity:length()
-
-	speed, speed_unit = ui.Format.SpeedUnit(ship_speed)
-
-	uiPos = ui.pointOnClock(center, radius, 3)
-	local distance,unit = ui.Format.DistanceUnit(brake_distance)
-	ui.addFancyText(uiPos, ui.anchor.left, ui.anchor.baseline, {
-		{ text="~" .. distance, color=colorDark, font=pionillium.medium, tooltip=lui.HUD_BRAKE_DISTANCE_MAIN_THRUSTERS },
-		{ text=unit,            color=colorDark, font=pionillium.small,  tooltip=lui.HUD_BRAKE_DISTANCE_MAIN_THRUSTERS }
-	}, colors.lightBlackBackground)
-
-	-- current altitude
-	uiPos = ui.pointOnClock(center, radius, 3.25)
-	local altitude_txt, altitude_unit = ui.Format.DistanceUnit(altitude)
-	local all_txt = {
-		{ text=altitude_txt,  color=colorLight, font=pionillium.medium, tooltip=lui.HUD_DISTANCE_TO_SURFACE_OF_TARGET },
-		{ text=altitude_unit, color=colorDark,  font=pionillium.small,  tooltip=lui.HUD_DISTANCE_TO_SURFACE_OF_TARGET },
-		{ text=" " .. speed,  color=colorLight, font=pionillium.medium, tooltip=lui.HUD_SPEED_RELATIVE_TO_TARGET },
-		{ text=speed_unit,    color=colorDark,  font=pionillium.small,  tooltip=lui.HUD_SPEED_RELATIVE_TO_TARGET }
+	return {
+		ship_speed = velocity:length(),
+		-- positive values indicate closure unless inv_approach is true
+		-- flush negative zero to positive zero
+		approach_speed = approach_speed == -0.0 and 0 or approach_speed,
+		brake_distance = player:GetDistanceToZeroV(velocity:length(), "forward"),
+		brake_distance_retro = player:GetDistanceToZeroV(velocity:length(), "reverse"),
+		distance = player:GetAltitudeRelTo(target)
 	}
+end
 
-	-- speed limiter icon
-	if player:GetFlightControlState() ~= "CONTROL_FIXSPEED" and displaySpeedLimiter then
-		local speed_limit = player:GetSpeedLimit()
-		if speed_limit then
-			local hit_speed_limit = math.abs(speed_limit - ship_speed) < 0.001
-			table.insert(all_txt, {
-				text = icons.speed_limiter,
-				color = hit_speed_limit and colors.frame or colors.frameDark,
-				font = pionicons.medium,
-				tooltip = lui.HUD_SPEED_LIMITER_ACTIVE
-			})
+local function displayFrameData(frame, radius, tooltip)
+
+	local is_station = frame:isa("SpaceStation")
+
+	local data = makeTargetData(frame, not is_station)
+	local uiPos = ui.pointOnClock(center, radius, 9)
+
+	local show_orbit = not is_station and not player.frameRotating
+
+	ui.setCursorPos(uiPos - Vector2(0, pionillium.heading.size * (show_orbit and 4 or 3)))
+
+	-- NOTE: because this is a right-to-left group, hover tests etc. will not work on it!
+	ui.group(function()
+		ui.withFont(pionillium.heading, function()
+			textShadowedRight(frame.label)
+		end)
+
+		if ui.isItemClicked(1) then
+			ui.openDefaultRadialMenu("game", frame, ui.getMousePos())
 		end
-	end
-	ui.addFancyText(uiPos, ui.anchor.left, ui.anchor.baseline, all_txt, colors.lightBlackBackground)
 
-	-- current speed of approach
-	if approach_speed < 0 then
-		displayReticuleBrakeGauge(ratio, ratio_retro)
-	end
+		ui.setItemTooltip(tooltip)
+
+		frameDetailStyle:withStyle(function()
+			ui.withFont(pionillium.reticle_md, function()
+
+				textShadowedRight(ui.Format.Speed(data.ship_speed) .. " " .. ui.get_icon_glyph(icons.prograde_thin))
+				ui.setItemTooltip(lui.HUD_SPEED_RELATIVE_TO_TARGET)
+
+				textShadowedRight(ui.Format.Speed(data.approach_speed) .. " " .. ui.get_icon_glyph(icons.normal_thin))
+				ui.setItemTooltip(lui.HUD_SPEED_OF_APPROACH_TO_FRAME)
+
+				ui.spacing()
+				local dist_icon = is_station and icons.radial_out_thin or icons.altitude
+
+				textShadowedRight(ui.Format.Distance(data.distance) .. " ".. ui.get_icon_glyph(dist_icon))
+				ui.setItemTooltip(lui.HUD_DISTANCE_TO_SURFACE_OF_TARGET)
+
+				textShadowedRight("~" .. ui.Format.Distance(data.brake_distance) .. " " .. ui.get_icon_glyph(icons.radial_in_thin))
+				ui.setItemTooltip(lui.HUD_BRAKE_DISTANCE_MAIN_THRUSTERS)
+
+				if show_orbit then
+
+					local orbit = player:GetOrbit()
+
+					ui.spacing()
+
+					textShadowedRight(ui.Format.Distance(orbit.apogee) .. " " .. ui.get_icon_glyph(icons.apoapsis))
+					ui.setItemTooltip(lui.HUD_ORBIT_APOAPSIS)
+
+					textShadowedRight(ui.Format.Distance(orbit.perigee) .. " " .. ui.get_icon_glyph(icons.periapsis))
+					ui.setItemTooltip(lui.HUD_ORBIT_PERIAPSIS)
+
+				end
+
+			end)
+		end)
+	end)
 
 end
 
--- display only frame name in the right-side "detail" HUD section
-local function displayDetailFrameLabel(label, radius, colorLight, colorDark, tooltip)
-	local uiPos = ui.pointOnClock(center, radius, 2.46)
-	-- frame label
-	ui.addStyledText(uiPos, ui.anchor.left, ui.anchor.baseline, label, colorDark, pionillium.medium, tooltip, colors.lightBlackBackground)
+local function displayFrameLabel(label, radius, tooltip)
+	local uiPos = ui.pointOnClock(center, radius, 9)
+
+	ui.withFont(pionillium.heading, function()
+		local sz = ui.calcTextSize(label)
+
+		ui.setCursorPos(uiPos - Vector2(sz.x, sz.y * 0.5))
+		ui.textShadowed(label)
+	end)
+
+	ui.setItemTooltip(tooltip)
 end
 
--- display data relative to frame left of the reticule circle
-local function displayFrameData(frame, frameLabel, radius)
-	local uiPos = ui.pointOnClock(center, radius, -2.46)
-	-- label of frame
-	local label = frameLabel
-	if frame then label = frame.label end
-	if not label then return end
-	-- if we're not in a framebody then just display the label
-	ui.addStyledText(uiPos, ui.anchor.right, ui.anchor.baseline, label, colors.frame, pionillium.medium, lui.HUD_CURRENT_FRAME, colors.lightBlackBackground)
-	if not frame then return end
+local function displayTargetSwitcher(targets)
+	local size = Vector2(22)
+	local padding = Vector2(0)
 
-	local velocity = player:GetVelocityRelTo(frame)
-	local position = player:GetPositionRelTo(frame)
-	local altitude = player:GetAltitudeRelTo(frame)
-	local brake_distance = player:GetDistanceToZeroV(velocity:length(),"forward")
-	local altitude_txt, altitude_unit = ui.Format.DistanceUnit(altitude)
-	local approach_speed = position:dot(velocity) / position:length()
-	local speed, speed_unit = ui.Format.SpeedUnit(approach_speed)
-	-- speed of approach of frame
-	uiPos = ui.pointOnClock(center, radius, -2.75)
-	ui.addFancyText(uiPos, ui.anchor.right, ui.anchor.baseline, {
-		{ text=speed,      color=colors.frame,     font=pionillium.medium, tooltip=lui.HUD_SPEED_OF_APPROACH_TO_FRAME },
-		{ text=speed_unit, color=colors.frameDark, font=pionillium.small,  tooltip=lui.HUD_SPEED_OF_APPROACH_TO_FRAME }
-	}, colors.lightBlackBackground)
-	-- brake distance
-	uiPos = ui.pointOnClock(center, radius, -3)
-	local distance,unit = ui.Format.DistanceUnit(brake_distance)
-	ui.addFancyText(uiPos, ui.anchor.right, ui.anchor.baseline, {
-		{ text="~" .. distance, color=colors.frame,     font=pionillium.medium, tooltip=lui.HUD_BRAKE_DISTANCE_MAIN_THRUSTERS },
-		{ text=unit,            color=colors.frameDark, font=pionillium.small,  tooltip=lui.HUD_BRAKE_DISTANCE_MAIN_THRUSTERS }
-	}, colors.lightBlackBackground)
+	frameSwitchStyle:withStyle(function()
+		if targets.navTarget and targets.combatTarget then
+			ui.addCursorPos(Vector2(-ui.getTextLineHeight() * 0.25, 0))
 
+			ui.withStyleColors({ Text = reticuleTarget == "navTarget" and colors.font or colors.reticuleCircleDark }, function()
+				if ui.iconButton("navTarget", icons.navtarget, lui.HUD_SHOW_NAV_TARGET, ui.theme.buttonColors.transparent, size, padding) then
+					reticuleTarget = "navTarget"
+				end
+			end)
 
-	-- altitude above frame
-	local ship_speed = velocity:length()
-	speed, speed_unit = ui.Format.SpeedUnit(ship_speed)
-	uiPos = ui.pointOnClock(center, radius, -3.25)
-	local all_txt = {
-		{ text=speed,               color=colors.frame,     font=pionillium.medium, tooltip=lui.HUD_SPEED_RELATIVE_TO_TARGET },
-		{ text=speed_unit,          color=colors.frameDark, font=pionillium.small,  tooltip=lui.HUD_SPEED_RELATIVE_TO_TARGET },
-		{ text=' ' .. altitude_txt, color=colors.frame,     font=pionillium.medium, tooltip=lui.HUD_DISTANCE_TO_SURFACE_OF_FRAME },
-		{ text=altitude_unit,       color=colors.frameDark, font=pionillium.small,  tooltip=lui.HUD_DISTANCE_TO_SURFACE_OF_FRAME }
+			ui.sameLine(0, 0)
+
+			ui.withStyleColors({ Text = reticuleTarget == "combatTarget" and colors.font or colors.reticuleCircleDark }, function()
+				if ui.iconButton("combatTarget", icons.combattarget, lui.HUD_SHOW_COMBAT_TARGET, ui.theme.buttonColors.transparent, size, padding) then
+					reticuleTarget = "combatTarget"
+				end
+			end)
+		end
+	end)
+end
+
+local function displayDetailData(target, data, radius, tooltip)
+	local targets = {
+		combatTarget = player:GetCombatTarget(),
+		navTarget = player:GetNavTarget(),
 	}
 
-	-- speed limiter icon
-	if player:GetFlightControlState() ~= "CONTROL_FIXSPEED" then
-		local speed_limit = player:GetSpeedLimit()
-		if speed_limit then
-			local hit_speed_limit = math.abs(speed_limit - ship_speed) < 0.001
-			table.insert(all_txt, 1, {
-				text = icons.speed_limiter,
-				color = hit_speed_limit and colors.frame or colors.frameDark,
-				font = pionicons.medium,
-				tooltip = lui.HUD_SPEED_LIMITER_ACTIVE
-			})
+	local is_planet = not (target:isa("Ship") or target:isa("SpaceStation"))
+
+	local uiPos = ui.pointOnClock(center, radius, 3)
+	ui.setCursorPos(uiPos - Vector2(0, pionillium.heading.size * 3))
+
+	ui.group(function()
+		ui.withFont(pionillium.heading, function()
+			local color = target == targets.combatTarget and colors.combatTarget
+				or target == targets.navTarget and colors.navTarget
+				or colors.font
+
+			ui.withStyleColors({ Text = color }, function()
+				ui.textShadowed(target.label)
+			end)
+		end)
+
+		if ui.isItemClicked(1) or bindings.targetRadial.action:IsJustActive() then
+			local action_binding = bindings.targetRadial.action:IsActive() and bindings.targetRadial.action
+			ui.openDefaultRadialMenu("game", target, ui.getMousePos(), action_binding)
 		end
-	end
-	ui.addFancyText(uiPos, ui.anchor.right, ui.anchor.baseline, all_txt, colors.lightBlackBackground)
+
+		ui.setItemTooltip(tooltip)
+
+		frameDetailStyle:withStyle(function()
+
+			ui.withFont(pionillium.reticle_md, function()
+				ui.textShadowed(ui.get_icon_glyph(icons.prograde_thin) .. " " .. ui.Format.Speed(data.ship_speed))
+				ui.setItemTooltip(lui.HUD_SPEED_RELATIVE_TO_TARGET)
+
+				ui.textShadowed(ui.get_icon_glyph(icons.antinormal_thin) .. " " .. ui.Format.Speed(data.approach_speed))
+				ui.setItemTooltip(lui.HUD_SPEED_OF_APPROACH_TO_FRAME)
+
+				ui.spacing()
+
+				local dist_icon = is_planet and icons.altitude or icons.radial_out_thin
+
+				ui.textShadowed(ui.get_icon_glyph(dist_icon) .. " " .. ui.Format.Distance(data.distance))
+				ui.setItemTooltip(lui.HUD_DISTANCE_TO_SURFACE_OF_TARGET)
+
+				ui.textShadowed(ui.get_icon_glyph(icons.radial_in_thin) .. " ~" .. ui.Format.Distance(data.brake_distance))
+				ui.setItemTooltip(lui.HUD_BRAKE_DISTANCE_MAIN_THRUSTERS)
+			end)
+
+		end)
+
+		ui.spacing()
+
+		displayTargetSwitcher(targets)
+
+	end)
+
 end
 
 -- display current maneuver data below the reticule circle
@@ -526,6 +564,7 @@ local flight_assist_buttons = {
 
 }
 
+-- pos is the center of the flight assist button
 local function flightAssistButton(pos)
 	local icon_size = flightAssistIconSize
 	local icon_padding = flightAssistButtonPadding
@@ -713,55 +752,72 @@ end
 
 local function displayFlightAssist(radius)
 	local follow_target = player:GetFollowTarget()
-	local color = colors.reticuleCircle
-	local colorDark = colors.reticuleCircleDark
-	local speedColor = color
-	local speedUnitsColor = colorDark
 	local assist_button_radius = flightAssistButtonSize / 2
-	local uiPos = ui.pointOnClock(center, radius + assist_button_radius, 3.9)
+	local uiPos = ui.pointOnClock(center, radius + assist_button_radius * 2, 4.1)
 	local padding = 3.0
+	local speed_limit_size = assist_button_radius
+
 	flightAssistButton(Vector2(uiPos.x, uiPos.y))
-	uiPos.x = uiPos.x + assist_button_radius + padding
 
 	local cruise_speed = player:GetCruiseSpeed()
-	if cruise_speed then
-		local distance, unit = ui.Format.SpeedUnit(cruise_speed)
+	local speed_limit = player:GetSpeedLimit()
 
-		-- flash it too big difference
-		if player:IsShipDrifting() and math.fmod(Game.time, 0.5) > 0.25 then
-			speedColor = speedColor:opacity(0.7)
-			speedUnitsColor = speedUnitsColor:opacity(0.7)
-		end
+	if speed_limit then
+		local cur_speed = player:GetVelocity():length()
+		local hit_speed_limit = math.abs(speed_limit) - math.abs(cruise_speed or cur_speed) < 0.001
 
-		local speed_text = {
-			{ text=distance, color=speedColor,      font=pionillium.medium, tooltip=lui.HUD_CRUISE_SPEED },
-			{ text=unit,     color=speedUnitsColor, font=pionillium.small,  tooltip=lui.HUD_CRUISE_SPEED }}
+		ui.setCursorPos(uiPos - Vector2(assist_button_radius + speed_limit_size + padding, speed_limit_size * 0.5))
 
-		-- speed limiter icon
-		local speed_limit = player:GetSpeedLimit()
-		if speed_limit then
-			local hit_speed_limit = math.abs(speed_limit - cruise_speed) < 0.001
-			table.insert(speed_text, {
-				text = icons.speed_limiter,
-				color = hit_speed_limit and speedColor or speedUnitsColor,
-				font = pionicons.medium,
-				tooltip = lui.HUD_SPEED_LIMITER_ACTIVE })
-		end
-
-		ui.addFancyText(uiPos, ui.anchor.left, ui.anchor.center, speed_text, colors.lightBlackBackground)
+		ui.withStyleColors({ Text = hit_speed_limit and colors.reticuleCircle or colors.reticuleCircleDark }, function()
+			ui.withFont(pionicons.large.name, speed_limit_size, function()
+				ui.textShadowed(ui.get_icon_glyph(icons.speed_limiter))
+			end)
+		end)
+		ui.setItemTooltip(lui.HUD_SPEED_LIMITER_ACTIVE)
 
 	end
 
-	if follow_target then
-		uiPos.y = uiPos.y + assist_button_radius + padding
-		uiPos.x = uiPos.x - assist_button_radius * 2 - padding
-		ui.addFancyText(uiPos, ui.anchor.left, ui.anchor.top, {{
-				text = ' ' .. follow_target.label,
-				color = color,
-				font = pionillium.medium,
-				tooltip = lui.HUD_FOLLOW_TARGET
-			}}, colors.lightBlackBackground)
-	end
+	uiPos.x = uiPos.x + assist_button_radius + padding + ui.getItemSpacing().x * 0.5
+
+	local cruise_speed_lbl = cruise_speed and ui.Format.Speed(cruise_speed)
+
+	ui.withFont(pionillium.reticle_md, function()
+		if cruise_speed then
+
+			local sz = ui.calcTextSize(cruise_speed_lbl, pionillium.body)
+			local follow_sz = follow_target and ui.calcTextSize(follow_target.label)
+			local spacing = ui.getItemSpacing().y
+
+			if follow_target then
+
+				ui.withStyleColors({ Text = colors.fontDim }, function()
+					ui.setCursorPos(uiPos - Vector2(math.min(0, -0.5 * (sz.x - follow_sz.x)), follow_sz.y + spacing * 0.5))
+
+					ui.textShadowed(follow_target.label)
+					ui.setItemTooltip(lui.HUD_FOLLOW_TARGET)
+				end)
+
+			end
+
+			ui.withFont(pionillium.body, function()
+				ui.setCursorPos(uiPos + Vector2(0, follow_target and spacing * 0.5 or sz.y * -0.5))
+
+				ui.textShadowed(cruise_speed_lbl)
+				ui.setItemTooltip(lui.HUD_CRUISE_SPEED)
+			end)
+
+
+		elseif follow_target then
+
+			ui.withStyleColors({ Text = colors.fontDim }, function()
+				ui.setCursorPos(uiPos - Vector2(0, ui.calcTextSize(follow_target.label).y * 0.5))
+
+				ui.textShadowed(follow_target.label)
+				ui.setItemTooltip(lui.HUD_FOLLOW_TARGET)
+			end)
+
+		end
+	end)
 end
 
 local function displayAlertMarker()
@@ -788,42 +844,60 @@ local function displayReticule()
 	local combatTarget = player:GetCombatTarget()
 	local radius = reticuleCircleRadius * 1.2
 
-	if reticuleTarget == "frame" then
-		if frame then
-			displayDetailData(frame, radius, colors.frame, colors.frameDark, lui.HUD_CURRENT_FRAME, true)
-		elseif frameLabel then
-			displayDetailFrameLabel(frameLabel, radius, colors.frame, colors.frameDark, lui.HUD_CURRENT_FRAME)
-		end
-	elseif reticuleTarget == "navTarget" then
-		displayDetailData(navTarget, radius, colors.navTarget, colors.navTargetDark, lui.HUD_CURRENT_NAV_TARGET)
-	elseif reticuleTarget == "combatTarget" then
-		displayDetailData(combatTarget, radius, colors.combatTarget, colors.combatTargetDark, lui.HUD_CURRENT_COMBAT_TARGET)
+	if reticuleTarget == "frame" and (navTarget or combatTarget) then
+		reticuleTarget = (combatTarget and "combatTarget") or (navTarget and "navTarget") --[[@as string]]
 	end
-	displayDetailButtons(radius, navTarget, combatTarget)
+
+	if frame then
+		displayFrameData(frame, radius, lui.HUD_CURRENT_FRAME)
+	else
+		displayFrameLabel(frameLabel, radius, lui.HUD_CURRENT_FRAME)
+	end
+
+	local targetData = nil
+
+	if reticuleTarget == "navTarget" and navTarget then
+		targetData = makeTargetData(navTarget)
+		displayDetailData(navTarget, targetData, radius, lui.HUD_CURRENT_NAV_TARGET)
+	elseif reticuleTarget == "combatTarget" and combatTarget then
+		targetData = makeTargetData(combatTarget)
+		displayDetailData(combatTarget, targetData, radius, lui.HUD_CURRENT_COMBAT_TARGET)
+	end
+
+	if not targetData and frame then
+		targetData = makeTargetData(frame)
+	end
+
+	-- current speed of approach
+	if targetData and targetData.approach_speed > 0 and player:GetFlightState() == "FLYING" then
+		displayReticuleBrakeGauge(
+			targetData.brake_distance / targetData.distance,
+			targetData.brake_distance_retro / targetData.distance)
+	end
 
 	displayFlightAssist(radius)
 	displayManeuverData(radius)
 	displayReticulePitchHorizonCompass()
 	displayReticuleDeltaV()
 	displayAlertMarker()
-
-	if (frame or frameLabel) and (reticuleTarget ~= "frame") then
-		displayFrameData(frame, frameLabel, radius)
-	end
 end
 
 gameView.registerModule("reticule", {
 	showInHyperspace = false,
 	draw = function(_)
-		player = gameView.player
 		center = gameView.center
 		colors = ui.theme.colors
 		displayReticule()
 	end,
 	debugReload = function()
 		package.reimport()
+		package.reimport('pigui.modules.flight-ui.body-icons')
 	end
 })
+
+Event.Register("onGameStart", function()
+	player = Game.player
+end)
 
 ui.Events.Register("onPlayerTargetChanged", function(target)
 	if target then

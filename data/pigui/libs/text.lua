@@ -45,6 +45,10 @@ ui.fonts = {
 		heading  = { name = "pionillium", size = fontScale(22) },
 		body     = { name = "pionillium", size = fontScale(19) },
 		details  = { name = "pionillium", size = fontScale(16) },
+
+		-- application-specific fonts
+		reticle_md  = { name = "pionillium", size = fontScale(17) },
+		reticle_sm  = { name = "pionillium", size = fontScale(14) },
 	},
 	orbiteer = {
 		xlarge	= { name = "orbiteer", size = fontScale(36) },
