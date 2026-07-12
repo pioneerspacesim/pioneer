@@ -132,6 +132,10 @@ function Ship:IsLanded() end
 ---@return SpaceStation?
 function Ship:GetDockedWith() end
 
+-- Get the orbital parameters of the current ship
+---@return { apogee: number, perigee: number, inclination: number, eccentricity: number, period: number }
+function Ship:GetOrbit() end
+
 -- Spawn a new missile from this ship
 ---@param stats table Information about the missile to spawn. Must include a shipType: string field
 ---@param target Body? Optional body to target with the missile

@@ -1152,6 +1152,46 @@ static int l_ship_get_thruster_acceleration(lua_State *l)
 	return 1;
 }
 
+/* Method: GetOrbit
+ *
+ * Returns current orbital parameters in a table
+ *
+ *
+ * Returns:
+ *
+ *   orbit - table, containing apogee, perigee, inclination, eccentricity,
+ *           and period fields
+ *
+ */
+static int l_ship_get_orbit(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	Orbit orbit = s->ComputeOrbit();
+
+	LuaTable out(l);
+
+	const vector3d orbit_pole = orbit.GetPlane().VectorY();
+	const double inclination = acos(orbit_pole.Dot(vector3d(0, 1, 0)));
+
+	double radius = 0.0;
+
+	Frame *f = Frame::GetFrame(s->GetFrame());
+	if (f && f->GetSystemBody()) {
+		radius = f->GetSystemBody()->GetRadius();
+	}
+
+	const double eccentricity = orbit.GetEccentricity();
+	const bool isHyperbola = eccentricity < 0.f || eccentricity >= 1.f;
+
+	out.Set("apogee", orbit.Apogeum().Length() - radius);
+	out.Set("perigee", orbit.Perigeum().Length() - radius);
+	out.Set("inclination", inclination);
+	out.Set("eccentricity", eccentricity);
+	out.Set("period", isHyperbola ? 0.0 : orbit.Period());
+
+	return 1;
+}
+
 /*
  * Group: AI methods
  *
@@ -1455,6 +1495,7 @@ void LuaObject<Ship>::RegisterClass()
 		{ "GetPosition", l_ship_get_position },
 		{ "GetThrusterState", l_ship_get_thruster_state },
 		{ "GetThrusterAcceleration", l_ship_get_thruster_acceleration },
+		{ "GetOrbit", l_ship_get_orbit },
 
 		{ "IsDocked", l_ship_is_docked },
 		{ "IsLanded", l_ship_is_landed },
