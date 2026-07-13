@@ -26,6 +26,7 @@ public:
 
 	void GetAtmosphericState(double dist, double *outPressure, double *outDensity) const;
 	double GetAtmosphereRadius() const { return m_atmosphereRadius; }
+	void GetTemperature(double dist, double *outTemperature) const;
 
 	friend class ObjectViewerView;
 

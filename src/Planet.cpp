@@ -97,6 +97,30 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	*outDensity = sbody->GetAtmDensity(height_h, *outPressure);
 }
 
+void Planet::GetTemperature(double dist, double *outTemperature) const
+{
+{
+	PROFILE_SCOPED()
+
+	// This model has no atmosphere beyond the adiabatic limit
+	if (dist >= m_atmosphereRadius) {
+		*outTemperature = 0.0;
+		return;
+	}
+
+	const SystemBody *sbody = GetSystemBody();
+	const double height_h = (dist - sbody->GetRadius()); // height in m
+
+	// height below zero should not occur
+	if (height_h < 0.0) {
+		*outTemperature = sbody->GetAverageTemp();
+		return;
+	}
+
+	*outTemperature = sbody->GetAtmAverageTemp(height_h);
+}
+}
+
 void Planet::GenerateRings(Graphics::Renderer *renderer)
 {
 	const SystemBody *sbody = GetSystemBody();

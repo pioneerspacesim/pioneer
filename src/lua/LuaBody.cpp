@@ -643,6 +643,23 @@ static int l_body_get_atmospheric_state(lua_State *l)
 	}
 }
 
+static int l_body_get_temperature(lua_State *l)
+{
+	Body *planetBody = LuaObject<Body>::CheckFromLua(1);
+	Body *b = LuaObject<Body>::CheckFromLua(2);
+	//	const SystemBody *sb = b->GetSystemBody();
+	vector3d pos = b->GetPositionRelTo(planetBody);
+	double center_dist = pos.Length();
+	if (planetBody->IsType(ObjectType::PLANET)) {
+		double temperature;
+		static_cast<Planet *>(planetBody)->GetTemperature(center_dist, &temperature);
+		lua_pushnumber(l, temperature);
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
 static int l_body_get_label(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
@@ -756,6 +773,7 @@ void LuaObject<Body>::RegisterClass()
 		{ "GetAltitudeRelTo", l_body_get_altitude_rel_to },
 		{ "GetPhysicalRadius", l_body_get_phys_radius },
 		{ "GetAtmosphericState", l_body_get_atmospheric_state },
+		{ "GetTemperature", l_body_get_temperature },
 		{ "GetLabel", l_body_get_label },
 		{ "IsMoreImportantThan", l_body_is_more_important_than },
 		{ "IsMoon", l_body_is_moon },

@@ -1225,6 +1225,34 @@ local function displayAtmosPressure(pressure)
 end
 
 
+local function displayAtmosTemperature(temperature)
+	local thickness = 6
+	local offset = -24
+	local radius = 4 * reticuleCircleRadius
+
+	local angle_low = ui.pi / 6
+	local angle_high = 0
+
+	-- background
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle_high, 64)
+	ui.pathStroke(colors.brakeBackground, false, thickness)
+
+	local tempLimit = 1000 -- so far 1000K, has no gameplay effect
+
+	local tempRatio = math.clamp(temperature / (tempLimit * 1.2), 0.0, 1.0)
+	local pointTemp = tempRatio * angle_high + (1 - tempRatio) * angle_low
+
+	local tempCriticalRatio = tempLimit / (tempLimit * 1.2)
+	local pointCriticaltemp = tempCriticalRatio * angle_high + (1 - tempCriticalRatio) * angle_low
+
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, pointTemp, 64)
+	ui.pathStroke(colors.gaugePressure, false, thickness)
+
+	ui.pathArcTo(center, radius + offset + thickness / 2, pointCriticaltemp, angle_high, 64)
+	ui.pathStroke(colors.gaugeTemperature:opacity(0.25), false, thickness)
+end
+
+
 local function displayAuxiliaryGauges()
 	-- INTERNAL GAUGES --
 
@@ -1252,6 +1280,10 @@ local function displayAuxiliaryGauges()
 
 		if pressure and pressure > 0 then
 			displayAtmosPressure(pressure)
+		end
+
+		if temperature and temperature > 0 then
+			displayAtmosTemperature(temperature)
 		end
 	end
 end
