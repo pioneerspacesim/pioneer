@@ -1253,6 +1253,49 @@ local function displayAtmosTemperature(temperature)
 end
 
 
+local function displayGravity()
+	local thickness = 6
+	local offset = -16
+	local radius = 4 * reticuleCircleRadius
+
+	local angle_low = ui.pi / 6
+	local angle_high = 0
+
+	-- background
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle_high, 64)
+	ui.pathStroke(colors.brakeBackground, false, thickness)
+
+	local gravFwdLimit = player:GetAcceleration("forward")
+	local gravBwdLimit = player:GetAcceleration("reverse")
+
+	local gravFwdRatio = math.clamp(gravFwdLimit / (gravFwdLimit * 1.2), 0, 1)
+	local gravBwdRatio = math.clamp(gravBwdLimit / (gravFwdLimit * 1.2), 0, 1)
+
+	local pointFwd = gravFwdRatio * angle_high + (1 - gravFwdRatio) * angle_low
+	local pointBwd = gravBwdRatio * angle_high + (1 - gravBwdRatio) * angle_low
+
+	local surfaceGravity = Game.player.frameBody:GetSystemBody().gravity
+	local gravRatio = math.clamp(surfaceGravity / (gravFwdLimit * 1.2), 0, 1)
+	local pointGrav = gravRatio * angle_high + (1 - gravRatio) * angle_low
+
+	local localGravity = surfaceGravity * math.pow(Game.player.frameBody:GetSystemBody().radius / (Game.player.frameBody:GetSystemBody().radius + Game.player:GetAltitudeRelTo(Game.player.frameBody)), 2)
+	local gravLocalRatio = math.clamp(localGravity / (gravFwdLimit * 1.2), 0, 1)
+	local pointLocalGrav = gravLocalRatio * angle_high + (1 - gravLocalRatio) * angle_low
+
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, pointLocalGrav, 64)
+	ui.pathStroke(colors.lightGrey, false, thickness)
+
+	ui.pathArcTo(center, radius + offset + thickness * (5 / 6), angle_low, pointGrav, 64)
+	ui.pathStroke(colors.radarShip, false, thickness / 3)
+
+	ui.pathArcTo(center, radius + offset + thickness / 2, pointFwd, angle_high, 64)
+	ui.pathStroke(colors.gaugeTemperature:opacity(0.25), false, thickness)
+
+	ui.pathArcTo(center, radius + offset + thickness / 2, pointBwd, pointFwd, 64)
+	ui.pathStroke(colors.gaugeWeapon:opacity(0.25), false, thickness)
+end
+
+
 local function displayAuxiliaryGauges()
 	-- INTERNAL GAUGES --
 
@@ -1285,6 +1328,8 @@ local function displayAuxiliaryGauges()
 		if temperature and temperature > 0 then
 			displayAtmosTemperature(temperature)
 		end
+
+		displayGravity()
 	end
 end
 
