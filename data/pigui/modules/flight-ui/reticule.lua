@@ -1154,7 +1154,52 @@ local function displayHealth(hull, shield)
 	ui.pathStroke(colors.gaugeShield, false, thickness / 2)
 end
 
+
+local function displayTemp(temp)
+	local thickness = 6
+	local offset = -28
+	local radius = 4 * reticuleCircleRadius
+
+	local angle_low = ui.pi - ui.pi / 6
+	local angle_high = ui.pi
+
+	-- background
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle_high, 64)
+	ui.pathStroke(colors.brakeBackground, false, thickness)
+
+	local pointTemperature = temp * angle_high + (1 - temp) * angle_low
+
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, pointTemperature, 64)
+	ui.pathStroke(colors.gaugeTemperature, false, thickness)
+end
+
+
+local function displayWeaponTemp(fwd, bwd)
+	local thickness = 10
+	local offset = -40
+	local radius = 4 * reticuleCircleRadius
+
+	local angle_low = ui.pi - ui.pi / 6
+	local angle_high = ui.pi
+
+	-- background
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle_high, 64)
+	ui.pathStroke(colors.brakeBackground, false, thickness)
+
+	local pointFwd = fwd * angle_high + (1 - fwd) * angle_low
+	local pointBwd = bwd * angle_high + (1 - bwd) * angle_low
+
+	ui.pathArcTo(center, radius + offset + thickness / 4, angle_low, pointFwd, 64)
+	ui.pathStroke(colors.gaugeWeapon, false, thickness / 2)
+
+	ui.pathArcTo(center, radius + offset + (3 * thickness / 4), angle_low, pointBwd, 64)
+	ui.pathStroke(colors.gaugeWeapon, false, thickness / 2)
+end
+
+
 local function displayAuxiliaryGauges()
+	-- INTERNAL GAUGES --
+
 	-- map to [0; 1]
 	local hull = Game.player:GetHullPercent() / 100
 	local shield = Game.player:GetShieldsPercent() / 100
@@ -1164,6 +1209,12 @@ local function displayAuxiliaryGauges()
 	local gunTempBwd = Game.player:GetGunTemperature(1)
 
 	displayHealth(hull, shield)
+	if hullTemp and hullTemp > 0 then
+		displayTemp(hullTemp)
+	end
+	if gunTempFwd and gunTempFwd > 0 or gunTempBwd and gunTempBwd > 0 then
+		displayWeaponTemp(gunTempFwd, gunTempBwd)
+	end
 end
 
 
