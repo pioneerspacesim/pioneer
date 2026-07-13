@@ -122,6 +122,7 @@ local function displayReticuleHorizon(roll_degrees, pitch_degrees)
 	for p = -75, 75, 1 do
 		local ladder_height = reticuleCircleRadius * 1.2
 
+		-- range picked to match actual perspective on 1280x720
 		r = (p - pitch_degrees) * ladder_height / 11
 		if math.abs(r) <= ladder_height then
 			local stepCenter = ui.pointOnClock(center, r, hrs - 3)
@@ -158,23 +159,24 @@ local function displayReticuleCompass(roll_degrees, heading)
 		end
 	end
 
-	local hAnchor = ui.anchor.center
-	local vAnchor = ui.anchor.center
+	local hScaleAnchor = ui.anchor.center
+	local vScaleAnchor = ui.anchor.center
+	local hValueAnchor = ui.anchor.center
+	local vValueAnchor = ui.anchor.center
 	if math.abs(roll_degrees) < 45 then
-		hAnchor = ui.anchor.center
-
-		vAnchor = ui.anchor.bottom
+		vScaleAnchor = ui.anchor.bottom
+		vValueAnchor = ui.anchor.top
 	elseif math.abs(roll_degrees) < 135 then
 		if roll_degrees > 0 then
-			hAnchor = ui.anchor.left
+			hScaleAnchor = ui.anchor.left
+			hValueAnchor = ui.anchor.right
 		else
-			hAnchor = ui.anchor.right
+			hScaleAnchor = ui.anchor.right
+			hValueAnchor = ui.anchor.left
 		end
-		vAnchor = ui.anchor.center
 	else
-		hAnchor = ui.anchor.center
-
-		vAnchor = ui.anchor.top
+		vScaleAnchor = ui.anchor.top
+		vValueAnchor = ui.anchor.bottom
 	end
 
 	-- thick line
@@ -182,10 +184,10 @@ local function displayReticuleCompass(roll_degrees, heading)
 	local compassCenter = ui.pointOnClock(center, 2 * reticuleCircleRadius, hrs - 3)
 	local compassLeft = ui.pointOnClock(compassCenter, 2 * reticuleCircleRadius, hrs - 6)
 	local compassRight = ui.pointOnClock(compassCenter, 2 * reticuleCircleRadius, hrs)
-	ui.addLine(compassLeft, compassRight, colors.reticuleCircle, 1)
 
-	local scale_step = 10
-	local scale_range = 60
+	-- range picked to match actual perspective on 1280x720
+	local scale_step = 1
+	local scale_range = 35
 	local left = heading - scale_range / 2
 	local right = heading + scale_range / 2
 	for i = -utils.round(-left, scale_step), utils.round(right, scale_step), scale_step do
@@ -198,11 +200,31 @@ local function displayReticuleCompass(roll_degrees, heading)
 		end
 
 		local point = compassLeft * (1 - p) + compassRight * p
-		ui.lineOnClock(point, hrs - 3, 2.0, 2.0, colors.navigationalElements, 1)
+		local tick_length = 2
 
-		local textPosition = ui.pointOnClock(point, 4.0, hrs - 3)
-		ui.addStyledText(textPosition, hAnchor, vAnchor, clamp(i) .. "°", colors.reticuleCircle, pionillium.medlarge, "")
+		if i % 5 == 0 then
+			local textPosition = ui.pointOnClock(point, 4.0, hrs - 3)
+			local text = clamp(i)
+			local font = pionillium.small
+			for k,v in pairs(directions) do
+				if clamp(k) == clamp(i) then
+					text = v
+					font = pionillium.medlarge
+				end
+			end
+			ui.addStyledText(textPosition, hScaleAnchor, vScaleAnchor, text, colors.reticuleCircle, font, "")
+
+			tick_length = 5
+		end
+		ui.lineOnClock(point, hrs - 3, tick_length, 2.0, colors.navigationalElements, 1)
 	end
+
+	-- draw chevron
+	ui.lineOnClock(compassCenter, (hrs - 3) - 5, 10.0, 10.0, colors.navigationalElements, 1)
+	ui.lineOnClock(compassCenter, (hrs - 3) + 5, 10.0, 10.0, colors.navigationalElements, 1)
+
+	local headingPosition = ui.pointOnClock(point, 10.0, hrs + 3)
+	ui.addStyledText(headingPosition, hValueAnchor, vValueAnchor, clamp(math.floor(heading + 0.5)) .. "°", colors.reticuleCircle, pionillium.medlarge, "")
 end
 
 -- display the delta-v gauges on the left side of the reticule circle
