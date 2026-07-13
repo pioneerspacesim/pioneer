@@ -1197,6 +1197,34 @@ local function displayWeaponTemp(fwd, bwd)
 end
 
 
+local function displayAtmosPressure(pressure)
+	local thickness = 6
+	local offset = -32
+	local radius = 4 * reticuleCircleRadius
+
+	local angle_low = ui.pi / 6
+	local angle_high = 0
+
+	-- background
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle_high, 64)
+	ui.pathStroke(colors.brakeBackground, false, thickness)
+
+	local pressureLimit = Game.player:GetAtmosphericPressureLimit()
+
+	local pressureRatio = math.clamp(pressure / (pressureLimit * 1.2), 0.0, 1.0)
+	local pointPressure = pressureRatio * angle_high + (1 - pressureRatio) * angle_low
+
+	local pressureCriticalRatio = pressureLimit / (pressureLimit * 1.2)
+	local pointCriticalPressure = pressureCriticalRatio * angle_high + (1 - pressureCriticalRatio) * angle_low
+
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, pointPressure, 64)
+	ui.pathStroke(colors.gaugePressure, false, thickness)
+
+	ui.pathArcTo(center, radius + offset + thickness / 2, pointCriticalPressure, angle_high, 64)
+	ui.pathStroke(colors.gaugeTemperature:opacity(0.25), false, thickness)
+end
+
+
 local function displayAuxiliaryGauges()
 	-- INTERNAL GAUGES --
 
@@ -1214,6 +1242,17 @@ local function displayAuxiliaryGauges()
 	end
 	if gunTempFwd and gunTempFwd > 0 or gunTempBwd and gunTempBwd > 0 then
 		displayWeaponTemp(gunTempFwd, gunTempBwd)
+	end
+
+	-- EXTERNAL GAUGES --
+	local frame = Game.player.frameBody
+	if frame then
+		local pressure, _ = frame:GetAtmosphericState(Game.player)
+		local temperature = frame:GetTemperature(Game.player)
+
+		if pressure and pressure > 0 then
+			displayAtmosPressure(pressure)
+		end
 	end
 end
 

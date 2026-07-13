@@ -1029,6 +1029,23 @@ static int l_ship_get_shields_percent(lua_State *l)
 	return 1;
 }
 
+/* Method: GetAtmosphericPressureLimit
+ *
+ * Return the maximum pressure ship can handle
+ *
+ * Returns:
+ *
+ *    the pressure limit in atm
+ *
+ */
+static int l_ship_get_atmospheric_pressure_limit(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	double limit = s->GetAtmosphericPressureLimit();
+	lua_pushnumber(l, limit);
+	return 1;
+}
+
 /* Method: IsDocked
  *
  * Return true if the ship is docked.
@@ -1472,6 +1489,7 @@ void LuaObject<Ship>::RegisterClass()
 		{ "GetGunTemperature", l_ship_get_gun_temperature },
 		{ "GetHullPercent", l_ship_get_hull_percent },
 		{ "GetShieldsPercent", l_ship_get_shields_percent },
+		{ "GetAtmosphericPressureLimit", l_ship_get_atmospheric_pressure_limit },
 
 		{ "GetFlightControlState", l_ship_get_flight_control_state },
 		{ "SetFlightControlState", l_ship_set_flight_control_state },
