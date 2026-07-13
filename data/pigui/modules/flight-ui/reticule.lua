@@ -1132,6 +1132,41 @@ local function displayAlertMarker()
 end
 
 
+local function displayHealth(hull, shield)
+	local thickness = 10
+	local offset = -20
+	local radius = 4 * reticuleCircleRadius
+
+	local angle_low = ui.pi - ui.pi / 6
+	local angle_high = ui.pi
+
+	-- background
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle_high, 64)
+	ui.pathStroke(colors.brakeBackground, false, thickness)
+
+	local pointHull = hull * angle_high + (1 - hull) * angle_low
+	local pointShield = shield * angle_high + (1 - shield) * angle_low
+
+	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, pointHull, 64)
+	ui.pathStroke(colors.gaugeHull, false, thickness)
+
+	ui.pathArcTo(center, radius + offset + (thickness / 4), angle_low, pointShield, 64)
+	ui.pathStroke(colors.gaugeShield, false, thickness / 2)
+end
+
+local function displayAuxiliaryGauges()
+	-- map to [0; 1]
+	local hull = Game.player:GetHullPercent() / 100
+	local shield = Game.player:GetShieldsPercent() / 100
+
+	local hullTemp = Game.player:GetHullTemperature()
+	local gunTempFwd = Game.player:GetGunTemperature(0)
+	local gunTempBwd = Game.player:GetGunTemperature(1)
+
+	displayHealth(hull, shield)
+end
+
+
 local function displayReticule()
 	-- reticule circle
 	local frame = player.frameBody
@@ -1153,6 +1188,7 @@ local function displayReticule()
 	displayFlightAssist(radius)
 	displayManeuverData(radius)
 	displayReticulePitchHorizonCompass()
+	displayAuxiliaryGauges()
 	displayAlertMarker()
 
 	if frame and reticuleTarget ~= "frame" then
