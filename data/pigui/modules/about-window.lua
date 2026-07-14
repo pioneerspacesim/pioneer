@@ -323,6 +323,15 @@ local function showSoftwareUsed()
 			ui.textLinkOpenURL("https://github.com/fastfloat/fast_float")
 			ui.treePop()
 		end
+
+		if ui.treeNode("OpenAL Soft") then
+			ui.textWrapped("Copyright (c) 2015, Archontis Politis")
+			ui.textWrapped("Copyright (c) 2019, Anis A. Hireche")
+			ui.textWrapped("Copyright (c) 2019, Christopher Robinson")
+			ui.text("Licensed under the GNU Library General Public License version 2")
+			ui.textLinkOpenURL("https://openal-soft.org/")
+			ui.treePop()
+		end
 	end
 
 	if ui.collapsingHeader(l.CONTENT) then
@@ -424,6 +433,10 @@ local function showSoftwareUsed()
 		ui.bulletText("MXE")
 		ui.sameLine()
 		ui.textLinkOpenURL("http://mxe.cc/")
+
+		ui.bulletText("OpenAL Soft")
+		ui.sameLine()
+		ui.textLinkOpenURL("https://openal-soft.org/")
 
 		ui.separator()
 
