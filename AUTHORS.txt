@@ -280,6 +280,14 @@ Pioneer includes the following third-party software:
     Ian Jones (ADNET): Technical Support
   Public domain: https://svs.gsfc.nasa.gov/help/ under "Copyright and Credit Information"
 
+  OpenAL Soft
+  https://openal-soft.org/
+  Copyright (c) 2015, Archontis Politis
+  Copyright (c) 2019, Anis A. Hireche
+  Copyright (c) 2019, Christopher Robinson
+  Licensed under the GNU Library General Public License version 2
+    License (see licenses/LGPL-2.0-only.txt)
+
 Acknowledgements
 ================
 
@@ -292,6 +300,7 @@ and services, without which Pioneer would not be possible:
   libsigc++     http://libsigc.sourceforge.net/
   assimp        http://assimp.sourceforge.net/
   MXE           http://mxe.cc/
+  OpenAL Soft   https://openal-soft.org/
 
   GitHub                        https://github.com/
   SourceForge                   https://sourceforge.net/
