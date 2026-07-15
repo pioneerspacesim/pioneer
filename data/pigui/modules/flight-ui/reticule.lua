@@ -387,7 +387,7 @@ local function displayReticuleSpeedScaleGauge(speed)
 	i_speed, i_unit = ui.Format.SpeedUnit(speed)
 	ui.addStyledText(a, ui.anchor.left, ui.anchor.bottom, i_speed .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
 
-	local a = ui.pointOnClock(center, thickness / 2 + radius + offset - 3 * tick_length, 8)
+	local a = ui.pointOnClock(center, thickness / 2 + radius + offset - 3 * tick_length, 7.9)
 	i_speed, i_unit = ui.Format.SpeedUnit(player:GetRemainingDeltaV())
 	ui.addStyledText(a, ui.anchor.left, ui.anchor.top, i_speed .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
 end
@@ -449,7 +449,7 @@ local function displayReticuleDistanceScaleGauge(distance)
 
 	local altitude = player:GetAltitudeRelTo(target)
 
-	local a = ui.pointOnClock(center, thickness / 2 + radius + offset - 3 * tick_length, 4)
+	local a = ui.pointOnClock(center, thickness / 2 + radius + offset - 3 * tick_length, 4.1)
 	i_distance, i_unit = ui.Format.DistanceUnit(player:GetDistanceToZeroV(vertical_speed, "forward"))
 	ui.addStyledText(a, ui.anchor.right, ui.anchor.top, i_distance .. "" .. i_unit, colors.navigationalElements, pionillium.medlarge, "")
 end
@@ -1140,18 +1140,35 @@ local function displayHealth(hull, shield)
 	local angle_low = ui.pi - ui.pi / 6
 	local angle_high = ui.pi
 
+	-- map to [0; 1]
+	hull = hull / 100
+
 	-- background
 	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, angle_high, 64)
 	ui.pathStroke(colors.brakeBackground, false, thickness)
 
 	local pointHull = hull * angle_high + (1 - hull) * angle_low
-	local pointShield = shield * angle_high + (1 - shield) * angle_low
 
 	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, pointHull, 64)
 	ui.pathStroke(colors.gaugeHull, false, thickness)
 
-	ui.pathArcTo(center, radius + offset + (thickness / 4), angle_low, pointShield, 64)
-	ui.pathStroke(colors.gaugeShield, false, thickness / 2)
+	local iconPos = ui.pointOnClock(center, radius + offset + thickness / 2, 8)
+	local iconsize = Vector2(thickness, thickness) * 2
+	if shield ~= nil then
+		shield = shield / 100
+		local pointShield = shield * angle_high + (1 - shield) * angle_low
+
+		ui.pathArcTo(center, radius + offset + (thickness / 4), angle_low, pointShield, 64)
+		ui.pathStroke(colors.gaugeShield, false, thickness / 2)
+
+		if shield > 0.1 then
+			ui.addIcon(iconPos, icons.shield, colors.gaugeShield, iconsize, ui.anchor.left, ui.anchor.top, lui.HUD_SHIELD_STRENGTH)
+		else
+			ui.addIcon(iconPos, icons.police_tab_alert, colors.alertRed, iconsize, ui.anchor.left, ui.anchor.top, lui.HUD_SHIELD_STRENGTH)
+		end
+	else
+		ui.addIcon(iconPos, icons.hull, colors.gaugeHull, iconsize, ui.anchor.left, ui.anchor.top, lui.HUD_HULL_STRENGTH)
+	end
 end
 
 
@@ -1171,6 +1188,10 @@ local function displayTemp(temp)
 
 	ui.pathArcTo(center, radius + offset + thickness / 2, angle_low, pointTemperature, 64)
 	ui.pathStroke(colors.gaugeTemperature, false, thickness)
+
+	local iconPos = ui.pointOnClock(center, radius + offset + thickness / 2, 8)
+	local iconsize = Vector2(thickness, thickness) * 2
+	ui.addIcon(iconPos, icons.temperature, colors.gaugeTemperature, iconsize, ui.anchor.left, ui.anchor.top, lui.HUD_HULL_TEMPERATURE)
 end
 
 
@@ -1194,6 +1215,11 @@ local function displayWeaponTemp(fwd, bwd)
 
 	ui.pathArcTo(center, radius + offset + (3 * thickness / 4), angle_low, pointBwd, 64)
 	ui.pathStroke(colors.gaugeWeapon, false, thickness / 2)
+
+	local iconPos = ui.pointOnClock(center, radius + offset + thickness / 2, 8)
+	local iconsize = Vector2(thickness, thickness) * 2
+	ui.addIcon(iconPos, icons.forward, colors.gaugeWeapon, iconsize, ui.anchor.left, ui.anchor.top, lui.HUD_FORWARD_GUN_TEMPERATURE)
+	ui.addIcon(iconPos, icons.backward, colors.gaugeWeapon, iconsize, ui.anchor.left, ui.anchor.top, lui.HUD_BACKWARD_GUN_TEMPERATURE)
 end
 
 
@@ -1222,6 +1248,10 @@ local function displayAtmosPressure(pressure)
 
 	ui.pathArcTo(center, radius + offset + thickness / 2, pointCriticalPressure, angle_high, 64)
 	ui.pathStroke(colors.gaugeTemperature:opacity(0.25), false, thickness)
+
+	local iconPos = ui.pointOnClock(center, radius + offset + thickness / 2, 4)
+	local iconsize = Vector2(thickness, thickness) * 2
+	ui.addIcon(iconPos, icons.pressure, colors.gaugePressure, iconsize, ui.anchor.right, ui.anchor.top, lui.HUD_ATMOSPHERIC_PRESSURE)
 end
 
 
@@ -1250,6 +1280,10 @@ local function displayAtmosTemperature(temperature)
 
 	ui.pathArcTo(center, radius + offset + thickness / 2, pointCriticaltemp, angle_high, 64)
 	ui.pathStroke(colors.gaugeTemperature:opacity(0.25), false, thickness)
+
+	local iconPos = ui.pointOnClock(center, radius + offset + thickness / 2, 4)
+	local iconsize = Vector2(thickness, thickness) * 2
+	ui.addIcon(iconPos, icons.temperature, colors.gaugeTemperature, iconsize, ui.anchor.right, ui.anchor.top, '')
 end
 
 
@@ -1293,15 +1327,18 @@ local function displayGravity()
 
 	ui.pathArcTo(center, radius + offset + thickness / 2, pointBwd, pointFwd, 64)
 	ui.pathStroke(colors.gaugeWeapon:opacity(0.25), false, thickness)
+
+	local iconPos = ui.pointOnClock(center, radius + offset + thickness / 2, 4)
+	local iconsize = Vector2(thickness, thickness) * 2
+	ui.addIcon(iconPos, icons.gravity, colors.gaugeTemperature, iconsize, ui.anchor.right, ui.anchor.top, '')
 end
 
 
 local function displayAuxiliaryGauges()
 	-- INTERNAL GAUGES --
 
-	-- map to [0; 1]
-	local hull = Game.player:GetHullPercent() / 100
-	local shield = Game.player:GetShieldsPercent() / 100
+	local hull = Game.player:GetHullPercent()
+	local shield = Game.player:GetShieldsPercent()
 
 	local hullTemp = Game.player:GetHullTemperature()
 	local gunTempFwd = Game.player:GetGunTemperature(0)
