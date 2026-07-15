@@ -636,6 +636,8 @@ void SystemMapViewport::DrawOrreryView()
 	trans2bg.RotateX(DEG2RAD(-m_rot_x));
 	trans2bg.RotateY(DEG2RAD(-m_rot_y));
 
+	trans2bg.Scale(.5);
+
 	m_background->SetIntensity(0.6);
 	m_background->Draw(trans2bg);
 
@@ -853,6 +855,8 @@ void SystemMapViewport::DrawAtlasView()
 	trans2bg.RotateZ(DEG2RAD(35.f));
 	trans2bg.RotateX(DEG2RAD(-5.f));
 	trans2bg.RotateY(DEG2RAD(-45.f));
+
+	trans2bg.Scale(.5);
 
 	m_background->SetIntensity(0.6);
 	m_background->Draw(trans2bg);
