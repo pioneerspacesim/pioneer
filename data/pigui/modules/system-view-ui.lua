@@ -1031,7 +1031,7 @@ local function displayOnScreenObjects()
 
 		local mp = ui.getMousePos()
 		local label = getLabel(mainObject)
-		local mouseover = not ui.isAnyWindowHovered() and
+		local mouseover = ui.isWindowHovered() and
 			(mp - mainCoords):length() < (isOrrery and click_radius or math.max(click_radius, hoverSize))
 
 		if #label > 0 and (should_show_label or mouseover or should_show_ports) then
@@ -1072,7 +1072,7 @@ local function displayOnScreenObjects()
 		if mainObject.type == Projectable.OBJECT and (mainObject.base == Projectable.SYSTEMBODY or mainObject.base == Projectable.SHIP or mainObject.base == Projectable.PLAYER or mainObject.base == Projectable.OBJECT) then
 			-- mouse release handler for right button
 			if mouseover then
-				if not ui.isAnyWindowHovered() and ui.isMouseReleased(1) then
+				if ui.isWindowHovered() and ui.isMouseReleased(1) then
 					popup_object = mainObject
 					ui.openPopup("system-view-ui-popup")
 				end
@@ -1094,7 +1094,7 @@ local function displayOnScreenObjects()
 
 	-- click once: select or deselect a body
 	-- double click: zoom to body or reset viewpoint
-	local clicked = not ui.isAnyWindowHovered() and (ui.isMouseClicked(0) or ui.isMouseDoubleClicked(0))
+	local clicked = ui.isWindowHovered() and (ui.isMouseClicked(0) or ui.isMouseDoubleClicked(0))
 	if clicked then
 		if hoveredObject then
 			selectedObject = hoveredObject.ref
@@ -1124,6 +1124,8 @@ function systemViewLayout:onUpdateWindowConstraints(w)
 	w.edgeButtons.size.x = 0 -- adaptive width
 end
 
+local systemViewContents = ui.makeFullScreenHandler("SystemView", displayOnScreenObjects)
+
 local function displaySystemViewUI()
 	if not systemView then onGameStart() end
 
@@ -1146,7 +1148,7 @@ local function displaySystemViewUI()
 			end)
 		end
 
-		displayOnScreenObjects()
+		systemViewContents()
 
 		if ui.escapeKeyReleased() then
 			Game.SetView("SectorView")
@@ -1163,6 +1165,6 @@ end
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onEnterSystem", onEnterSystem)
-ui.registerHandler("SystemView", ui.makeFullScreenHandler("SystemView", displaySystemViewUI))
+ui.registerHandler("SystemView", displaySystemViewUI)
 
 return {}

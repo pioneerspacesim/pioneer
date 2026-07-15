@@ -20,6 +20,7 @@
 #include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
+#include "imgui/imgui.h"
 #include "lua/LuaObject.h"
 #include "lua/LuaRef.h"
 #include "lua/LuaTable.h"
@@ -278,7 +279,23 @@ void SectorView::Draw3D()
 
 void SectorView::DrawPiGui()
 {
-	m_map->DrawLabels(!ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow) && !ImGui::IsAnyItemHovered());
+	ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration
+		| ImGuiWindowFlags_NoBackground
+		| ImGuiWindowFlags_NoNav
+		| ImGuiWindowFlags_NoBringToFrontOnFocus
+		| ImGuiWindowFlags_NoFocusOnAppearing
+		| ImGuiWindowFlags_NoSavedSettings
+		| ImGuiWindowFlags_NoCaptureMouse;
+
+	ImGui::SetNextWindowPos(ImVec2(0, 0));
+	ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+	bool open = ImGui::Begin("##SectorMap", nullptr, flags);
+
+	if (open) {
+		m_map->DrawLabels(ImGui::IsWindowHovered());
+	}
+
+	ImGui::End();
 }
 
 void SectorView::SetHyperspaceTarget(const SystemPath &path)
