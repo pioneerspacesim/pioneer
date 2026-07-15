@@ -7,7 +7,7 @@ local Event = require 'Event'
 local Lang = require 'Lang'
 local ui = require 'pigui'
 local Format = require 'Format'
-local Gravity = require 'Gravity'
+local Gravity = require 'pigui.libs.gravity'
 local SpaceStation = require 'SpaceStation'
 local ShipDef = require 'ShipDef'
 local Constants = _G.Constants
@@ -362,7 +362,7 @@ local function appendPlayerTWR(data, systemBody)
 			table.insert(out, {
 				name = luc.TWR_AT_SURFACE,
 				icon = icons.body_radius,
-				value = Gravity.FormatTWR(player:GetAcceleration("up"), Gravity.GetSurfaceGravity(systemBody)),
+				value = ui.Format.TWR(player:GetAcceleration("up") / (Gravity.GetSurfaceGravity(systemBody) or math.huge), 2),
 			})
 		end
 	end

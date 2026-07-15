@@ -3,7 +3,7 @@
 
 local Engine = require 'Engine'
 local Game = require 'Game'
-local Gravity = require 'Gravity'
+local Gravity = require 'pigui.libs.gravity'
 local TwrGauge = require 'pigui.libs.twr-gauge'
 
 local Lang = require 'Lang'
@@ -16,7 +16,6 @@ local Vector2 = _G.Vector2
 local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
-local pionillium = ui.fonts.pionillium
 
 local mainButtonSize = ui.theme.styles.MainButtonSize
 local mainButtonFramePadding = ui.theme.styles.MainButtonPadding
@@ -82,23 +81,8 @@ local function button_thrustIndicator()
 end
 
 local function gravity_indicator(diameter)
-
-	local parentBody = Game.player.frameBody
-	local gravity = 0.0
-	local maxG = Game.player:GetAcceleration("up")
-
-	if parentBody then
-		local sbody = assert(parentBody:GetSystemBody())
-
-		while sbody.superType == "STARPORT" and sbody.parent do
-			sbody = sbody.parent
-			parentBody = assert(sbody).body
-		end
-	end
-
-	if parentBody then
-		gravity = 6.67428e-11 * (parentBody:GetSystemBody().mass / Game.player:GetPositionRelTo(parentBody):lengthSqr())
-	end
+	local gravity = Gravity.GetGravityAtBody(player) or 0.0
+	local maxG = player:GetAcceleration("up")
 
 	thrustStyle:withStyle(function()
 		local gEarth = gravity / 9.8066
@@ -125,6 +109,34 @@ local function gravity_indicator(diameter)
 	end
 end
 
+local function twr_indicator(diameter)
+	local localGravity = Gravity.GetGravityAtBody(player)
+	local upAccel = player:GetAcceleration("up")
+	local twr = localGravity and (upAccel / localGravity) or math.huge
+
+	local places = twr >= 10 and 1 or 2
+	local label = ui.Format.TWR(twr, places)
+	local innerBg = ui.theme.styleColors.primary_700:opacity(0.75)
+	local arcColor = TwrGauge.GetHudArcColor(twr)
+
+	thrustStyle:withStyle(function()
+		ui.withStyleColors({
+			FrameBg = innerBg,
+			FrameBgHovered = innerBg,
+			SliderGrab = arcColor,
+			Text = TwrGauge.GetTextColor(twr),
+		}, function()
+			local frac = TwrGauge.GetHudCircleFraction(twr)
+			-- Offset phase so the arc grows symmetrically about HUD_ARC_PHASE (6 o'clock).
+			ui.circleIndicator("twr", diameter, frac, 0, TwrGauge.HUD_ARC_PHASE + math.pi * frac, label, lui.TWR)
+		end)
+	end)
+
+	if ui.isItemHovered() then
+		ui.setTooltip(lui.TWR_CURRENT_TOOLTIP)
+	end
+end
+
 local function button_wheelstate()
 	local wheelstate = player:GetWheelState() -- 0.0 is up, 1.0 is down
 	local locked = player:GetFlightControlState() == "CONTROL_AUTOPILOT"
@@ -141,42 +153,6 @@ local function button_wheelstate()
 	else
 		ui.mainMenuButton(icons.landing_gear_up, lui.HUD_BUTTON_LANDING_GEAR_IS_MOVING, ui.theme.buttonColors.disabled)
 	end
-end
-
--- Draw the current-TWR gauge into the rectangle [pos, pos + size] (screen
--- coords), sitting in the gap above the three buttons. Only shown when the ship
--- is inside a meaningful gravity field, where the current TWR actually matters.
-local function drawTwrGauge(pos, size)
-	local localGravity = Gravity.GetGravityAtBody(player)
-	local upAccel = player:GetAcceleration("up")
-	local twr = Gravity.CalcTWR(upAccel, localGravity)
-	-- Only show when TWR is finite, i.e. we're deep enough in a gravity field for
-	-- it to matter. Far from any body the gravity is negligible and TWR is huge,
-	-- so CalcTWR returns nil and we hide the gauge.
-	if not twr then return end
-
-	local valueText = Gravity.FormatTWR(upAccel, localGravity)
-
-	local font = pionillium.medium
-	local barVPad = 2
-	local textPadding = 6
-
-	-- Match the bar height to the TWR widget: line height plus a little padding
-	local lineHeight
-	ui.withFont(font.name, font.size, function()
-		lineHeight = ui.getTextLineHeight()
-	end)
-	local barHeight = lineHeight + barVPad * 2
-
-	-- Sit the bar above the buttons, with the same gap as between the buttons
-	local gap = ui.getItemSpacing().x
-	local barTop = pos.y + size.y - gap - barHeight
-	TwrGauge.DrawBar(Vector2(pos.x, barTop), Vector2(size.x, barHeight), twr)
-
-	-- Label and value overlaid on top of the bar, vertically centred
-	local centerY = barTop + (barHeight / 2) + 1
-	ui.addStyledText(Vector2(pos.x + textPadding, centerY), ui.anchor.left, ui.anchor.center, lui.TWR, colors.font, font, lui.TWR_CURRENT_TOOLTIP)
-	ui.addStyledText(Vector2(pos.x + size.x - textPadding, centerY), ui.anchor.right, ui.anchor.center, valueText, TwrGauge.GetTextColor(twr), font)
 end
 
 local function button_rotation_damping()
@@ -198,7 +174,9 @@ local function displayShipFunctionWindow()
 	player = Game.player
 	local current_view = Game.CurrentView()
 	local buttons = 3
-	local thrust_widget_size = Vector2(thrustWidgetDiameter * 1.2 + thrustWidgetDiameter, thrustWidgetDiameter)
+	local circleCount = 3 -- thrust, TWR, gravity
+	local itemSpacing = ui.getItemSpacing().x
+	local thrust_widget_size = Vector2(thrustWidgetDiameter * circleCount + itemSpacing * (circleCount - 1), thrustWidgetDiameter)
 	assert(thrust_widget_size.y >= mainButtonSize.y)
 	local window_width = ui.getWindowPadding().x * 2 + (mainButtonSize.x + ui.getItemSpacing().x) * buttons + thrust_widget_size.x
 	local window_height = thrust_widget_size.y + ui.getWindowPadding().y * 2
@@ -207,14 +185,7 @@ local function displayShipFunctionWindow()
 	ui.setNextWindowPos(Vector2(window_posx, window_posy), "Always")
 	ui.window("ShipFunctions", windowFlags, function()
 		if current_view == "WorldView" then
-			-- The three buttons sit on the bottom row, leaving a gap across the
-			-- top-left (three buttons wide) for the TWR gauge.
-			local gaugeWidth = (mainButtonSize.x + ui.getItemSpacing().x) * buttons - ui.getItemSpacing().x
-			drawTwrGauge(ui.getCursorScreenPos(), Vector2(gaugeWidth, mainButtonSize.y))
-
---			local shift = Vector2(0.0, thrust_widget_size.y - mainButtonSize.y)
-
-			local shift = Vector2(thrustWidgetDiameter * 2 - thrust_widget_size.x, thrust_widget_size.y - mainButtonSize.y)
+			local shift = Vector2(0, thrust_widget_size.y - mainButtonSize.y)
 			ui.addCursorPos(shift)
 			button_wheelstate()
 			ui.sameLine()
@@ -225,7 +196,10 @@ local function displayShipFunctionWindow()
 			ui.addCursorPos(-shift)
 			button_thrustIndicator()
 			ui.sameLine()
-			ui.addCursorPos(Vector2(0, mainButtonSize.y - thrustWidgetDiameter))
+			ui.addCursorPos(-shift)
+			twr_indicator(thrustWidgetDiameter)
+			ui.sameLine()
+			ui.addCursorPos(-shift)
 			gravity_indicator(thrustWidgetDiameter)
 			if ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f8) then
 				show_thrust_slider = not show_thrust_slider

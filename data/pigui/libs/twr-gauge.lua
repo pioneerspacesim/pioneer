@@ -19,17 +19,19 @@ TwrGauge.WARNING_LEVEL = 1.5
 -- Below this (i.e. can't lift off) the fill turns to the "danger" colour
 TwrGauge.DANGER_LEVEL = 1.0
 -- A TWR at or below this blinks
-TwrGauge.BLINK_LEVEL = 1.0
+TwrGauge.BLINK_LEVEL = 0.95
 TwrGauge.BLINK_PERIOD = 0.8
+-- Phase angle for the HUD circular indicator arc centre (6 o'clock).
+TwrGauge.HUD_ARC_PHASE = math.pi / 2
 
--- Text colour for a TWR value. A nil twr means infinite (ample) thrust.
+-- Text colour for a TWR value. math.huge means infinite (ample) thrust.
 function TwrGauge.GetTextColor(twr)
-	if not twr then
+	if twr == nil or twr == math.huge then
 		return colors.font
 	end
 	if twr > TwrGauge.WARNING_LEVEL then
 		return colors.font
-	elseif twr >= 1.1 then
+	elseif twr >= TwrGauge.DANGER_LEVEL then
 		return colors.alertYellow
 	elseif twr > TwrGauge.BLINK_LEVEL then
 		return colors.alertBrightRed
@@ -37,6 +39,24 @@ function TwrGauge.GetTextColor(twr)
 		return colors.alertBrightRed
 	end
 	return colors.darkGrey
+end
+
+-- Arc fill fraction (0..1) for the circular HUD indicator; maxes at MAX_LEVEL.
+function TwrGauge.GetHudCircleFraction(twr)
+	if twr == nil or twr == math.huge then
+		return 1
+	end
+	return math.clamp(twr / TwrGauge.MAX_LEVEL, 0, 1)
+end
+
+-- Outer-ring arc colour for the circular HUD indicator.
+function TwrGauge.GetHudArcColor(twr)
+	if twr == nil or twr == math.huge or twr > TwrGauge.WARNING_LEVEL then
+		return colors.gaugeShield
+	elseif twr > TwrGauge.DANGER_LEVEL then
+		return colors.alertYellow
+	end
+	return colors.alertRed
 end
 
 -- Draw the sectioned TWR bar (background + coloured fill) into the rectangle
@@ -50,8 +70,8 @@ function TwrGauge.DrawBar(pos, size, twr)
 	local danger_width = bar_width * TwrGauge.DANGER_LEVEL / TwrGauge.MAX_LEVEL
 	local warning_width = bar_width * TwrGauge.WARNING_LEVEL / TwrGauge.MAX_LEVEL
 
-	-- A nil TWR is infinite, so the bar maxes out
-	local fraction = twr and math.clamp(twr, 0, TwrGauge.MAX_LEVEL) or TwrGauge.MAX_LEVEL
+	-- A TWR of math.huge is infinite, so the bar maxes out
+	local fraction = (twr == nil or twr == math.huge) and TwrGauge.MAX_LEVEL or math.clamp(twr, 0, TwrGauge.MAX_LEVEL)
 	local readout_width = bar_width * fraction / TwrGauge.MAX_LEVEL
 
 	-- Draw the background

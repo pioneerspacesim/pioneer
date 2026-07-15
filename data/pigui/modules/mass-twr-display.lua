@@ -4,7 +4,7 @@
 local Game = require 'Game'
 local Lang = require 'Lang'
 local Format = require 'Format'
-local Gravity = require 'Gravity'
+local Gravity = require 'pigui.libs.gravity'
 local TwrGauge = require 'pigui.libs.twr-gauge'
 local lui = Lang.GetResource("ui-core")
 local ui = require 'pigui'
@@ -87,7 +87,7 @@ local function displayMassTwrDisplay()
 	local targetBody = getTwrTargetBody(player)
 
 	local localGravity = Gravity.GetGravityAtBody(player)
-	local twrCurrent = Gravity.CalcTWR(upAccel, localGravity)
+	local twrCurrent = localGravity and (upAccel / localGravity) or math.huge
 
 	local rows = {
 		{ label = lui.TOTAL_MASS, value = Format.MassTonnes(totalMass) },
@@ -96,7 +96,7 @@ local function displayMassTwrDisplay()
 	if showCurrentTwr then
 		table.insert(rows, {
 			label = lui.TWR_CURRENT,
-			value = Gravity.FormatTWR(upAccel, localGravity),
+			value = ui.Format.TWR(twrCurrent, 2),
 			twr = twrCurrent,
 			tooltip = lui.TWR_CURRENT_TOOLTIP,
 			bar = true,
@@ -104,10 +104,10 @@ local function displayMassTwrDisplay()
 	end
 	if targetBody then
 		local targetGravity = Gravity.GetSurfaceGravity(targetBody)
-		local twrTarget = Gravity.CalcTWR(upAccel, targetGravity)
+		local twrTarget = targetGravity and (upAccel / targetGravity) or math.huge
 		table.insert(rows, {
 			label = lui.TWR_TARGET,
-			value = Gravity.FormatTWR(upAccel, targetGravity),
+			value = ui.Format.TWR(twrTarget, 2),
 			twr = twrTarget,
 			tooltip = lui.TWR_TARGET_TOOLTIP,
 			bar = true,

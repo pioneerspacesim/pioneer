@@ -18,6 +18,7 @@
 #include "galaxy/SystemBody.h"
 
 #include "CargoBody.h"
+#include "DynamicBody.h"
 #include "HyperspaceCloud.h"
 #include "Missile.h"
 #include "ModelBody.h"
@@ -738,6 +739,44 @@ static bool pi_lua_body_deserializer(lua_State *l, const Json &obj)
 	return push_body_to_lua(body);
 }
 
+/*
+ * Method: GetGravityForce
+ *
+ * Get the gravitational force currently applied to this body by the physics simulation. 
+ *
+ * Returns:
+ *
+ *   force - gravitational force vector in Newtons
+ */
+static int l_body_get_gravity_force(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	if (!b->IsType(ObjectType::DYNAMICBODY))
+		return luaL_error(l, "Body:GetGravityForce() is only valid for dynamic bodies");
+	DynamicBody *db = static_cast<DynamicBody *>(b);
+	db->CalcExternalForce();
+	LuaPush<vector3d>(l, db->GetGravityForce());
+	return 1;
+}
+
+/*
+ * Method: GetMass
+ *
+ * Get the current mass of a dynamic body.
+ *
+ * Returns:
+ *
+ *   mass - the body's mass in kg
+ */
+static int l_body_get_mass(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	if (!b->IsType(ObjectType::DYNAMICBODY))
+		return luaL_error(l, "Body:GetMass() is only valid for dynamic bodies");
+	LuaPush(l, static_cast<DynamicBody *>(b)->GetMass());
+	return 1;
+}
+
 static int l_body_get_velocity(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
@@ -801,6 +840,8 @@ void LuaObject<Body>::RegisterClass()
 		{ "IsGroundStation", l_body_is_ground_station },
 		{ "IsCargoContainer", l_body_is_cargo_container },
 		{ "GetSystemBody", l_body_get_system_body },
+		{ "GetGravityForce", l_body_get_gravity_force },
+		{ "GetMass", l_body_get_mass },
 		{ "GetVelocity", l_body_get_velocity },
 		{ "SetVelocity", l_body_set_velocity },
 		{ "SetAngVelocity", l_body_set_ang_velocity },

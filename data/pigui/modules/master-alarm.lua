@@ -2,7 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
-local Gravity = require 'Gravity'
+local Gravity = require 'pigui.libs.gravity'
 local gameView = require 'pigui.views.game'
 
 local ui = require 'pigui'
@@ -21,6 +21,28 @@ local alreadyAlertedDescent = false
 local alreadyAlertedImpact = false
 
 local TWR_BLINK_PERIOD = 2.0
+local TWR_HUD_WARNING_THRESHOLD = 1.1
+
+-- Whether the nav target is on a planetary surface (ground starport or landed ship).
+local function isNavTargetOnSurface(navTarget)
+	if not navTarget then return false end
+
+	if navTarget.type == "STARPORT_SURFACE" then
+		return true
+	end
+
+	if navTarget:IsShip() then
+		if navTarget:IsLanded() then
+			return true
+		end
+		if navTarget:IsDocked() then
+			local station = navTarget:GetDockedWith()
+			return station and station.type == "STARPORT_SURFACE"
+		end
+	end
+
+	return false
+end
 
 local function alarm ()
 	local showingHudWarning = false
@@ -145,17 +167,19 @@ local function alarm ()
 		local uiTextPos = Vector2(ui.screenWidth / 2, ui.screenHeight / 3 - 10)
 
 		local navTarget = Game.player:GetNavTarget()
-		if navTarget and Gravity.IsNavTargetOnSurface(navTarget) then
+		if navTarget and isNavTargetOnSurface(navTarget) then
 			local targetGravity = Gravity.GetSurfaceGravity(navTarget)
-			local targetTwr = Gravity.CalcTWR(upAccel, targetGravity)
-			if targetTwr and targetTwr < Gravity.TWR_HUD_WARNING_THRESHOLD then
-				showingHudWarning = true
-				local twrBlink = math.fmod(ui.getTime(), TWR_BLINK_PERIOD) < TWR_BLINK_PERIOD / 2
-				local textColor = twrBlink and colors.alertBrightRed or colors.alertRed
-				local text = string.interp(lui.HUD_WARNING_TWR_DESTINATION, {
-					value = Gravity.FormatTWR(upAccel, targetGravity),
-				})
-				ui.addStyledText(uiTextPos, ui.anchor.center, ui.anchor.top, text, textColor, pionillium.large, nil, colors.lightBlackBackground)
+			if targetGravity then
+				local targetTwr = upAccel / targetGravity
+				if targetTwr < TWR_HUD_WARNING_THRESHOLD then
+					showingHudWarning = true
+					local twrBlink = math.fmod(ui.getTime(), TWR_BLINK_PERIOD) < TWR_BLINK_PERIOD / 2
+					local textColor = twrBlink and colors.alertBrightRed or colors.alertRed
+					local text = string.interp(lui.HUD_WARNING_TWR_DESTINATION, {
+						value = ui.Format.TWR(targetTwr, 2),
+					})
+					ui.addStyledText(uiTextPos, ui.anchor.center, ui.anchor.top, text, textColor, pionillium.large, nil, colors.lightBlackBackground)
+				end
 			end
 		end
 	end
