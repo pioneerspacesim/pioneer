@@ -66,16 +66,16 @@ end
 -- display the horizon inside the reticule circle
 local function displayReticuleHorizon(roll_degrees, pitch_degrees)
 	-- offset inside the circle (px)
-	local offset = 15
+	local offset = 15 * (4 * reticuleCircleRadius) / 360
 	-- width of the horizontal bar (px)
-	local width = 10
+	local width = 10 * (4 * reticuleCircleRadius) / 360
 	-- height of the horizontal bar (clock hours)
 	local height_hrs = 0.1
 
 	local hrs = roll_degrees / 360 * 12 + 3
 
 	-- draw horizon
-	local radius = 2 * reticuleCircleRadius - 30
+	local radius = 2 * reticuleCircleRadius - 30 * (4 * reticuleCircleRadius) / 360
 	-- left hook
 	local lHookBase = ui.pointOnClock(nil, radius, hrs)
 	local lHookEnd = ui.pointOnClock(nil, radius, hrs + height_hrs)
@@ -127,13 +127,13 @@ local function displayReticuleHorizon(roll_degrees, pitch_degrees)
 		if math.abs(r) <= ladder_height then
 			local stepCenter = ui.pointOnClock(center, r, hrs - 3)
 
-			local tick_length = 4
+			local tick_length = 4 * (4 * reticuleCircleRadius) / 360
 			if p % 5 == 0 then
-				tick_length = 10
+				tick_length = 10 * (4 * reticuleCircleRadius) / 360
 			end
 
 			if p == 0 then
-				tick_length = 30
+				tick_length = 30 * (4 * reticuleCircleRadius) / 360
 			end
 
 			ui.lineOnClock(stepCenter, hrs - 0, tick_length, 2 * reticuleCircleRadius, colors.navigationalElements, 1)
@@ -200,7 +200,7 @@ local function displayReticuleCompass(roll_degrees, heading)
 		end
 
 		local point = compassLeft * (1 - p) + compassRight * p
-		local tick_length = 2
+		local tick_length = 2 * (4 * reticuleCircleRadius) / 360
 
 		if i % 5 == 0 then
 			local textPosition = ui.pointOnClock(point, 4.0, hrs - 3)
@@ -214,7 +214,7 @@ local function displayReticuleCompass(roll_degrees, heading)
 			end
 			ui.addStyledText(textPosition, hScaleAnchor, vScaleAnchor, text, colors.reticuleCircle, font, "")
 
-			tick_length = 5
+			tick_length = 5 * (4 * reticuleCircleRadius) / 360
 		end
 		ui.lineOnClock(point, hrs - 3, tick_length, 2.0, colors.navigationalElements, 1)
 	end
@@ -223,7 +223,7 @@ local function displayReticuleCompass(roll_degrees, heading)
 	ui.lineOnClock(compassCenter, (hrs - 3) - 5, 10.0, 10.0, colors.navigationalElements, 1)
 	ui.lineOnClock(compassCenter, (hrs - 3) + 5, 10.0, 10.0, colors.navigationalElements, 1)
 
-	local headingPosition = ui.pointOnClock(point, 10.0, hrs + 3)
+	local headingPosition = ui.pointOnClock(point, 10.0 * (4 * reticuleCircleRadius) / 360, hrs + 3)
 	ui.addStyledText(headingPosition, hValueAnchor, vValueAnchor, clamp(math.floor(heading + 0.5)) .. "°", colors.reticuleCircle, pionillium.medlarge, "")
 end
 
@@ -338,8 +338,8 @@ local function getScaleStep(range)
 end
 
 local function displayReticuleSpeedScaleGauge(speed)
-	local thickness = 4
-	local offset = 0
+	local thickness = 4 * (4 * reticuleCircleRadius) / 360
+	local offset = 0 * (4 * reticuleCircleRadius) / 360
 	local radius = 4 * reticuleCircleRadius
 
 	local angle_low = -ui.pi / 6 + ui.pi
@@ -393,8 +393,8 @@ local function displayReticuleSpeedScaleGauge(speed)
 end
 
 local function displayReticuleDistanceScaleGauge(distance)
-	local thickness = 4
-	local offset = 0
+	local thickness = 4 * (4 * reticuleCircleRadius) / 360
+	local offset = 0 * (4 * reticuleCircleRadius) / 360
 	local radius = 4 * reticuleCircleRadius
 
 	local angle_low = -ui.pi / 6
@@ -455,8 +455,8 @@ local function displayReticuleDistanceScaleGauge(distance)
 end
 
 local function displayFuelGauge()
-	local thickness = 6
-	local offset = -2
+	local thickness = 6 * (4 * reticuleCircleRadius) / 360
+	local offset = -2 * (4 * reticuleCircleRadius) / 360
 	local radius = 4 * reticuleCircleRadius - thickness
 
 	local deltav_max = player:GetMaxDeltaV()
@@ -498,8 +498,8 @@ local function displayFuelGauge()
 end
 
 local function displayBrakeGauge(target)
-	local thickness = 6
-	local offset = -2
+	local thickness = 6 * (4 * reticuleCircleRadius) / 360
+	local offset = -2 * (4 * reticuleCircleRadius) / 360
 	local radius = 4 * reticuleCircleRadius - thickness
 
 	local angle_low = -ui.pi / 6
@@ -1133,8 +1133,8 @@ end
 
 
 local function displayHealth(hull, shield)
-	local thickness = 10
-	local offset = -20
+	local thickness = 10 * (4 * reticuleCircleRadius) / 360
+	local offset = -20 * (4 * reticuleCircleRadius) / 360
 	local radius = 4 * reticuleCircleRadius
 
 	local angle_low = ui.pi - ui.pi / 6
@@ -1173,8 +1173,8 @@ end
 
 
 local function displayTemp(temp)
-	local thickness = 6
-	local offset = -28
+	local thickness = 6 * (4 * reticuleCircleRadius) / 360
+	local offset = -28 * (4 * reticuleCircleRadius) / 360
 	local radius = 4 * reticuleCircleRadius
 
 	local angle_low = ui.pi - ui.pi / 6
@@ -1196,8 +1196,8 @@ end
 
 
 local function displayWeaponTemp(fwd, bwd)
-	local thickness = 10
-	local offset = -40
+	local thickness = 10 * (4 * reticuleCircleRadius) / 360
+	local offset = -40 * (4 * reticuleCircleRadius) / 360
 	local radius = 4 * reticuleCircleRadius
 
 	local angle_low = ui.pi - ui.pi / 6
@@ -1224,8 +1224,8 @@ end
 
 
 local function displayAtmosPressure(pressure)
-	local thickness = 6
-	local offset = -32
+	local thickness = 6 * (4 * reticuleCircleRadius) / 360
+	local offset = -32 * (4 * reticuleCircleRadius) / 360
 	local radius = 4 * reticuleCircleRadius
 
 	local angle_low = ui.pi / 6
@@ -1256,8 +1256,8 @@ end
 
 
 local function displayAtmosTemperature(temperature)
-	local thickness = 6
-	local offset = -24
+	local thickness = 6 * (4 * reticuleCircleRadius) / 360
+	local offset = -24 * (4 * reticuleCircleRadius) / 360
 	local radius = 4 * reticuleCircleRadius
 
 	local angle_low = ui.pi / 6
@@ -1288,8 +1288,8 @@ end
 
 
 local function displayGravity()
-	local thickness = 6
-	local offset = -16
+	local thickness = 6 * (4 * reticuleCircleRadius) / 360
+	local offset = -16 * (4 * reticuleCircleRadius) / 360
 	local radius = 4 * reticuleCircleRadius
 
 	local angle_low = ui.pi / 6
