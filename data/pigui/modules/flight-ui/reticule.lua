@@ -307,9 +307,7 @@ local function displayFrameData(frame, radius, tooltip)
 	local data = makeTargetData(frame, not is_station)
 	local uiPos = ui.pointOnClock(center, radius, 9)
 
-	local show_orbit = not is_station and not player.frameRotating
-
-	ui.setCursorPos(uiPos - Vector2(0, pionillium.heading.size * (show_orbit and 4 or 3)))
+	ui.setCursorPos(uiPos - Vector2(0, pionillium.heading.size * 3))
 
 	-- NOTE: because this is a right-to-left group, hover tests etc. will not work on it!
 	ui.group(function()
@@ -340,20 +338,6 @@ local function displayFrameData(frame, radius, tooltip)
 
 				textShadowedRight("~" .. ui.Format.Distance(data.brake_distance) .. " " .. ui.get_icon_glyph(icons.radial_in_thin))
 				ui.setItemTooltip(lui.HUD_BRAKE_DISTANCE_MAIN_THRUSTERS)
-
-				if show_orbit then
-
-					local orbit = player:GetOrbit()
-
-					ui.spacing()
-
-					textShadowedRight(ui.Format.Distance(orbit.apogee) .. " " .. ui.get_icon_glyph(icons.apoapsis))
-					ui.setItemTooltip(lui.HUD_ORBIT_APOAPSIS)
-
-					textShadowedRight(ui.Format.Distance(orbit.perigee) .. " " .. ui.get_icon_glyph(icons.periapsis))
-					ui.setItemTooltip(lui.HUD_ORBIT_PERIAPSIS)
-
-				end
 
 			end)
 		end)

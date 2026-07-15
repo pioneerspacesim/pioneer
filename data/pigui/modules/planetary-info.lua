@@ -54,10 +54,17 @@ local function displayPlanetaryInfo()
 
 			local fmt = "%s %s"
 
-			ui.textShadowed(fmt:format(ui.get_icon_glyph(icons.altitude), ui.Format.Distance(alt)))
-			ui.setItemTooltip(lui.HUD_DISTANCE_TO_SURFACE_OF_TARGET)
-			ui.textShadowed(fmt:format(ui.get_icon_glyph(icons.normal), ui.Format.Speed(vspd)))
-			ui.setItemTooltip(lui.HUD_SPEED_OF_APPROACH_TO_TARGET)
+			local orbit = player:GetOrbit()
+
+			-- NOTE: these use em-dashes
+			local ap = player.frameRotating and "—" or ui.Format.Distance(orbit.apogee)
+			local pe = player.frameRotating and "—" or ui.Format.Distance(orbit.perigee)
+
+			ui.textShadowed(fmt:format(ui.get_icon_glyph(icons.apoapsis), ap))
+			ui.setItemTooltip(lui.HUD_ORBIT_APOAPSIS)
+
+			ui.textShadowed(fmt:format(ui.get_icon_glyph(icons.periapsis), pe))
+			ui.setItemTooltip(lui.HUD_ORBIT_PERIAPSIS)
 
 			ui.nextColumn()
 
