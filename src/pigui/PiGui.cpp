@@ -670,7 +670,7 @@ void Instance::RequestSVGFaceData(FontPair pair, SVGFontBaked *font_data)
 	font_data->raster_idx = m_svgRasterData[filename].size();
 	m_svgRasterData[filename].emplace_back(std::move(raster));
 
-	Log::Info("Queuing rasterization of font {}@{}", filename, font_data->px_w);
+	// Log::Info("Queuing rasterization of font {}@{}", filename, font_data->px_w);
 	RasterizeSVGTask *rasterTask = new RasterizeSVGTask(filename, font_data->px_w, font_data->px_h);
 	// This font may accumulate pending glyph uploads while the SVG data is being rasterized.
 	m_pendingUploads[pair] = font_data;

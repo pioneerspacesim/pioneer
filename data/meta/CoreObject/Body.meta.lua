@@ -25,6 +25,11 @@
 --- Only available for dynamic bodies.
 ---@field frameBody? Body
 ---
+--- The display label of the current frame of reference. Only available for
+--- dynamic bodies. This is valid even when there is no Body as the current
+--- frame root.
+---@field frameLabel? string
+---
 --- Whether the frame this body is in is a rotating frame.
 --- Only available for dynamic bodies.
 ---@field frameRotating? boolean

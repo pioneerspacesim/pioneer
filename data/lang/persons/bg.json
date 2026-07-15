@@ -1,0 +1,290 @@
+{
+  "RELATION_EMPLOYEE_FEMALE_1": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "инженерка"
+  },
+  "RELATION_EMPLOYEE_FEMALE_10": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "счетоводителка"
+  },
+  "RELATION_EMPLOYEE_FEMALE_11": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "адвокатка"
+  },
+  "RELATION_EMPLOYEE_FEMALE_12": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "изследователка"
+  },
+  "RELATION_EMPLOYEE_FEMALE_13": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "администраторка"
+  },
+  "RELATION_EMPLOYEE_FEMALE_2": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "учен"
+  },
+  "RELATION_EMPLOYEE_FEMALE_3": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "техничка"
+  },
+  "RELATION_EMPLOYEE_FEMALE_4": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "изобретателка"
+  },
+  "RELATION_EMPLOYEE_FEMALE_5": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "изпълнителка"
+  },
+  "RELATION_EMPLOYEE_FEMALE_6": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "главен механик"
+  },
+  "RELATION_EMPLOYEE_FEMALE_7": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "управителка"
+  },
+  "RELATION_EMPLOYEE_FEMALE_8": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "разработчик"
+  },
+  "RELATION_EMPLOYEE_FEMALE_9": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "колежка"
+  },
+  "RELATION_EMPLOYEE_MALE_1": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "инженер"
+  },
+  "RELATION_EMPLOYEE_MALE_10": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "счетоводител"
+  },
+  "RELATION_EMPLOYEE_MALE_11": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "адвокат"
+  },
+  "RELATION_EMPLOYEE_MALE_12": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "изследовател"
+  },
+  "RELATION_EMPLOYEE_MALE_13": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "администратор"
+  },
+  "RELATION_EMPLOYEE_MALE_2": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "учен"
+  },
+  "RELATION_EMPLOYEE_MALE_3": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "техник"
+  },
+  "RELATION_EMPLOYEE_MALE_4": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "изобретател"
+  },
+  "RELATION_EMPLOYEE_MALE_5": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "изпълнител"
+  },
+  "RELATION_EMPLOYEE_MALE_6": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "главен механик"
+  },
+  "RELATION_EMPLOYEE_MALE_7": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "управител"
+  },
+  "RELATION_EMPLOYEE_MALE_8": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "разработчик"
+  },
+  "RELATION_EMPLOYEE_MALE_9": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "колега"
+  },
+  "RELATION_FRIEND_FEMALE_1": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моята приятелка"
+  },
+  "RELATION_FRIEND_FEMALE_10": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моята бивша партньорка от кораба ми"
+  },
+  "RELATION_FRIEND_FEMALE_2": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моята стара приятелка"
+  },
+  "RELATION_FRIEND_FEMALE_3": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моята стара съседка"
+  },
+  "RELATION_FRIEND_FEMALE_4": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моята партньорка от групата"
+  },
+  "RELATION_FRIEND_FEMALE_5": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моята приятелка от училище"
+  },
+  "RELATION_FRIEND_FEMALE_6": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моята приятелка от университета"
+  },
+  "RELATION_FRIEND_FEMALE_7": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моята приятелка от армията"
+  },
+  "RELATION_FRIEND_FEMALE_8": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моята колежка"
+  },
+  "RELATION_FRIEND_FEMALE_9": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моята стара партньорка от екипажа ми"
+  },
+  "RELATION_FRIEND_MALE_1": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моя приятел"
+  },
+  "RELATION_FRIEND_MALE_10": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моя бивш партньор от кораба ми"
+  },
+  "RELATION_FRIEND_MALE_2": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моя стар приятел"
+  },
+  "RELATION_FRIEND_MALE_3": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моя стар съсед"
+  },
+  "RELATION_FRIEND_MALE_4": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моя партньор от групата"
+  },
+  "RELATION_FRIEND_MALE_5": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моя приятел от училище"
+  },
+  "RELATION_FRIEND_MALE_6": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моя приятел от университета"
+  },
+  "RELATION_FRIEND_MALE_7": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моя приятел от армията"
+  },
+  "RELATION_FRIEND_MALE_8": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моя колега"
+  },
+  "RELATION_FRIEND_MALE_9": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "моя стар партньор от екипажа ми"
+  },
+  "RELATION_RELATIVE_FEMALE_1": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "моята майка"
+  },
+  "RELATION_RELATIVE_FEMALE_10": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "моята доведена майка"
+  },
+  "RELATION_RELATIVE_FEMALE_11": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "моята роднина"
+  },
+  "RELATION_RELATIVE_FEMALE_12": {
+    "description": "Sisters daughter. In some languages different from brothers daughter. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "моята племенница"
+  },
+  "RELATION_RELATIVE_FEMALE_13": {
+    "description": "Brothers daughter. In some languages different from sisters daughter. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "моята племенница"
+  },
+  "RELATION_RELATIVE_FEMALE_2": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "моята сестра"
+  },
+  "RELATION_RELATIVE_FEMALE_3": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "моята дъщеря"
+  },
+  "RELATION_RELATIVE_FEMALE_4": {
+    "description": "Mothers sister. In some languages different from 'fathers sister'. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "моята леля"
+  },
+  "RELATION_RELATIVE_FEMALE_5": {
+    "description": "Fathers sister. In some languages different from 'mothers sister'. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "моята леля"
+  },
+  "RELATION_RELATIVE_FEMALE_6": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "моя братовчед"
+  },
+  "RELATION_RELATIVE_FEMALE_7": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "жената на моя брат"
+  },
+  "RELATION_RELATIVE_FEMALE_8": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "майката на моята пловинка"
+  },
+  "RELATION_RELATIVE_FEMALE_9": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "моята доведена сестра"
+  },
+  "RELATION_RELATIVE_MALE_1": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "моя баща"
+  },
+  "RELATION_RELATIVE_MALE_10": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "моя доведен баща"
+  },
+  "RELATION_RELATIVE_MALE_11": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "моя роднина"
+  },
+  "RELATION_RELATIVE_MALE_12": {
+    "description": "Sisters son. In some languages different from brothers son.Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "моя племенник"
+  },
+  "RELATION_RELATIVE_MALE_13": {
+    "description": "Brothers son. In some languages different from sisters son. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "моя племенник"
+  },
+  "RELATION_RELATIVE_MALE_2": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "моя брат"
+  },
+  "RELATION_RELATIVE_MALE_3": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "моя син"
+  },
+  "RELATION_RELATIVE_MALE_4": {
+    "description": "Mothers brother. In some languages different from 'fathers brother'. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "моя вуйчо"
+  },
+  "RELATION_RELATIVE_MALE_5": {
+    "description": "Fathers brother. In some languages different from 'mothers brother'. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "моя чичо"
+  },
+  "RELATION_RELATIVE_MALE_6": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "моя братовчед"
+  },
+  "RELATION_RELATIVE_MALE_7": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "мъжа на моята сестра"
+  },
+  "RELATION_RELATIVE_MALE_8": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "бащата на моята половинка"
+  },
+  "RELATION_RELATIVE_MALE_9": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "моя доведен брат"
+  }
+}

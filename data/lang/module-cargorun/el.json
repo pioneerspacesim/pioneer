@@ -405,7 +405,7 @@
   },
   "LOAD_CARGO": {
     "description": "UI button label",
-    "message": "Load cargo"
+    "message": "Φόρτωση."
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
@@ -657,7 +657,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "We have loaded the cargo onto your ship."
+    "message": "Φορτώσαμε το σκάφος σας."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -745,6 +745,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Please contact me when you have sufficient cargo space."
+    "message": "Παρακαλώ επικοινωνήστε μαζί μας όταν θα έχετε επαρκή ελεύθερο χώρο φορτίου στο σκάφος σας."
   }
 }

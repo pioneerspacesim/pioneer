@@ -67,6 +67,10 @@
     "description": "",
     "message": "Поправете корпуса"
   },
+  "AUDIO_BACKEND": {
+    "description": "Audio backend label in settings menu",
+    "message": "Аудио бекенд"
+  },
   "AUTOMATED_MESSAGE": {
     "description": "For comm messages from bots",
     "message": "АВТОМАТИЧНО СЪОБЩЕНИЕ"
@@ -90,6 +94,14 @@
   "BACKWARD_ACCEL": {
     "description": "",
     "message": "Ускорение назад"
+  },
+  "BINAURAL_RENDERING": {
+    "description": "Label of the binaural rendering checkbox in the audio settings menu",
+    "message": "Бинаурално генериране"
+  },
+  "BINAURAL_RENDERING_DESC": {
+    "description": "Tooltip of the binaural rendering checkbox in the audio settings menu",
+    "message": "Прилага HRTF филтри към аудио изхода. Препоръчва се използването на слушалки."
   },
   "BODY_IN_ROUTE": {
     "description": "Label indicating a star is part of a planned hyperjump route",
@@ -1191,6 +1203,10 @@
     "description": "Tooltip: Forward Gun Temperature.",
     "message": "Температура на предното оръжие"
   },
+  "HUD_GRAVITY_INDICATOR": {
+    "description": "Tooltip: describe what the gravity indicator shows",
+    "message": "Местно гравитационно ускорение (мащаб: максимално ускорение на кораба)"
+  },
   "HUD_HULL_STRENGTH": {
     "description": "Tooltip: Hull Strength.",
     "message": "Здравина на корпуса"
@@ -1308,8 +1324,8 @@
     "message": "Скорост спрямо целта"
   },
   "HUD_THRUST_INDICATOR": {
-    "description": "Tooltip: describe what the thrust/velocity indicator shows",
-    "message": "Текуща скорост за всяка посока (като тънки линии) и ускорението (като дебел фон)"
+    "description": "Tooltip: describe what the thrust indicator shows",
+    "message": "Текущи нива на тягата за маневриране (външен пръстен) и основни или ретро двигатели (централен кръг)"
   },
   "HUD_WARNING_DESCENT_RATE": {
     "description": "Shown on HUD as a warning flasher",
@@ -2137,7 +2153,7 @@
   },
   "REALISTIC_SCATTERING_DESC": {
     "description": "",
-    "message": "Изберете разсейването при визуализиране на атмосферата. (Рейли/Мие понижава производителността)"
+    "message": "Изберете разсейването при генериране на атмосферата. (Рейли/Мие понижава производителността)"
   },
   "REAR_WEAPON": {
     "description": "",
@@ -2305,7 +2321,7 @@
   },
   "SELECTED_SAVE_IS_NOT_A_VALID_SAVE": {
     "description": "",
-    "message": "Избраният запис е невалиден"
+    "message": "Избраният запис не е валиден"
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",

@@ -325,11 +325,11 @@
   },
   "INTROTEXT_2": {
     "description": "{name} is the full name of a person",
-    "message": "Var hälsad! {name} transportservice behöver {cargoname} till {starport} i {system} ({sectorx},{sectory},{sectorz}) systemet, {dist} lå fjärran. Vi betalar {cash} för pålitlig leverans."
+    "message": "Var hälsad! {name} transportservice behöver {cargoname} till {starport} i {system} ({sectorx},{sectory},{sectorz}) systemet, {dist} ly bort. Vi betalar {cash} för pålitlig leverans."
   },
   "INTROTEXT_3": {
     "description": "",
-    "message": "God dag. Jag är {name}, grundare av {name} Ltd. Jag behöver någon pålitlig som levererar {cargoname} till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}). Jag betalar {cash} för det {dist} ly långa flygningen."
+    "message": "God dag. Jag är {name}, grundare av {name} Ltd. Jag behöver någon pålitlig för att leverera {cargoname} till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}). Jag betalar {cash} för den {dist} ly långa flygningen."
   },
   "INTROTEXT_EXPENSIVE_1": {
     "description": "",
@@ -365,7 +365,7 @@
   },
   "INTROTEXT_PICKUP_2": {
     "description": "",
-    "message": "Hur är det med dig? Mitt namn är {name}. En av mina klienter vill importera {cargoname} från {starport} i {system} ({sectorx}, {sectory}, {sectorz}) systemet, {dist} härifrån. Han betalar {cash} för denna transport. Återvänd hit till {dom_starport} i {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) systemet för att lasta av."
+    "message": "Hur är det med dig? Mitt namn är {name}. En av mina klienter vill importera {cargoname} från {starport} i {system} ({sectorx}, {sectory}, {sectorz}) systemet, {dist} ly härifrån. Han betalar {cash} för denna transport. Återvänd hit till {dom_starport} i {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) systemet för att lasta av."
   },
   "INTROTEXT_PICKUP_LOCAL_1": {
     "description": "",

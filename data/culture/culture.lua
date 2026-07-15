@@ -158,7 +158,7 @@ end
 -- one is randomly selected according to pre-set weights. Valid input
 -- is the same as Culture:Surname.
 --
--- > name1, name2 = Culture:Names(isfemale, rand, culture)
+-- > first_name, surname, culture = Culture:Names(isfemale, rand, culture)
 --
 -- Parameters:
 --
@@ -167,21 +167,22 @@ end
 --
 --   rand - the <Rand> object to use to generate the name
 --
---   culture - optional string
+--   culture - optional string. Equivalent to the language files parameter 'name'
 --
 -- Return:
 --
---   name1 - a string containing the first name
+--   first_name - a string containing the first name
 --
---   name2 - a string containing the surname
+--   surname - a string containing the surname
+--
+--   culture - a string containing the language/culture name
 --
 --
--- Return full name from the same culture/language
-
+-- Return full name, and language/culture name, as separate strings
 function Culture:Names (isFemale, rand, culture)
 	-- if 'culture' given as a string, e.g. "Russian" use that
 	local c = self.lookup[culture] or utils.chooseNormalized(self.weights, rand).lang
-	return c:FirstName(isFemale), c:Surname(isFemale)
+	return c:FirstName(isFemale), c:Surname(isFemale), c.name
 end
 
 return Culture

@@ -1,3 +1,17 @@
+July
+  * New Features
+    * Autopilot can now fly to the vicinity of a landed ship (#6379)
+    * OpenAL audio backend, allowing 3D audio (#6188)
+    * Findperson - New scenarios and greater linguistic variation in flavor strings (#6251)
+
+  * Fixes
+    * Fix for HUD trails not displaying in rotating frames (#6384)
+    * Fix ImGui error message of extending parent boundaries with `SetCursorPos` (#6380)
+    * BulkShips fix for running out of parking slots (#6385)
+
+  * Internal
+    * Fix return-value warning in PiGuiRenderer.cpp (#6374)
+
 June
   * New Features
     * Avast! Be ye knowin' of the Smuggler's Hold? (#6353)
@@ -15,6 +29,7 @@ June
     * Update CMake and CI build files (#6359)
     * Remove unused "set as target" strings (#6363)
     * clang-format: Add SpaceBeforeCpp11BracedList: true (#6362)
+    * Remove debian/ directory - maintained outside source tree (#6367)
 
 May
   * New Features

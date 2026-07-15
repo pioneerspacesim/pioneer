@@ -4,8 +4,8 @@
 #pragma once
 
 #include <imgui/imgui.h>
+#include "vector3.h"
 
-#include <string>
 #include <vector>
 
 namespace PiGui::Draw {
@@ -16,7 +16,11 @@ namespace PiGui::Draw {
 	bool LowThrustButton(const char *label, const ImVec2 &size_arg, int thrust_level, const ImVec4 &bg_col, int frame_padding, ImColor gauge_fg, ImColor gauge_bg);
 	bool ButtonImageSized(ImTextureID user_texture_id, const ImVec2 &size, const ImVec2 &imgSize, const ImVec2 &uv0, const ImVec2 &uv1, int frame_padding, const ImVec4 &bg_col, const ImVec4 &tint_col);
 
-	void ThrustIndicator(const std::string &id_string, const ImVec2 &size, const ImVec4 &thrust, const ImVec4 &velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg);
+	void ThrustIndicator(ImGuiID id, float diameter, const vector3d &thrust);
+
+	// Draw a generic counter-clockwise circular indicator with a value dial going from 0..1 and a limit dial going from 1..0.
+	// The phase parameter controls where on the circle value and value_inv start at.
+	void CircleIndicator(ImGuiID id, float diameter, const char *label, const char *unit, float value, float value_inv, float phase);
 
 	bool GlyphButton(const char *id_str, const char *glyph, const ImVec2 &size, ImGuiButtonFlags flags);
 

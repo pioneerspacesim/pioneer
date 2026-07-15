@@ -13,9 +13,12 @@ template <>
 TerrainColorFractal<TerrainColorVolcanic>::TerrainColorFractal(const SystemBody *body) :
 	Terrain(body)
 {
-	// 50 percent chance of there being exposed lava
-	if (m_rand.Int32(100) > 50)
+	// percent chance of there being exposed lava based on planets volcanicity
+	if (m_rand.Double(1.0) > (1.0 - m_volcanic)) {
 		m_surfaceEffects |= Terrain::EFFECT_LAVA;
+	}
+
+	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6, 1e7));
 }
 
 template <>
@@ -24,8 +27,7 @@ vector3d TerrainColorFractal<TerrainColorVolcanic>::GetColor(const vector3d &p, 
 	double n = m_invMaxHeight * height;
 	const double flatness = pow(p.Dot(norm), 6.0);
 	const vector3d color_cliffs = m_rockColor[2];
-	double equatorial_desert = (-1.0 + 2.0 * octavenoise(12, 0.5, 2.0, (n * 2.0) * p)) *
-		1.0 * (1.0 - p.y * p.y);
+	double equatorial_desert = (-1.0 + 2.0 * octavenoise(m_fracdef[0], 0.5, (n * 2.0) * p)) * 1.0 * (1.0 - p.y * p.y);
 
 	vector3d col;
 

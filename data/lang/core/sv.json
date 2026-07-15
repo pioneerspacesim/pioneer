@@ -529,7 +529,7 @@
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for toggle grid display button.",
-    "message": "Toggle visibility of the grid."
+    "message": "Visa rutnät"
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -601,35 +601,35 @@
   },
   "HYPERSPACE_ARRIVAL_CLOUD": {
     "description": "",
-    "message": "Arrival"
+    "message": "Ankomst"
   },
   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
     "description": "",
-    "message": "Arrival (Remnant)"
+    "message": "Ankomst (Rest)"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE": {
     "description": "Label for hyperspace cloud display modes.",
-    "message": "Hyperspace Cloud Display Mode"
+    "message": "Hypermoln"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_ALL": {
     "description": "Combobox option for all hyperspace clouds.",
-    "message": "All Hyperspace Clouds"
+    "message": "Alla hypermoln"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_ARRIVAL_ONLY": {
     "description": "Combobox option for arrival hyperspace clouds.",
-    "message": "Arrival Hyperspace Clouds"
+    "message": "Ankomstmoln"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_DEPARTURE_ONLY": {
     "description": "Combobox option for departure hyperspace clouds.",
-    "message": "Departure Hyperspace Clouds"
+    "message": "Avgångsmoln"
   },
   "HYPERSPACE_CLOUDS_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for the button which toggles the display mode of hyperspace clouds.",
-    "message": "Toggle visibility of Hyperspace Clouds."
+    "message": "Visa hypermoln"
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
-    "message": "Departure"
+    "message": "Avresa"
   },
   "HYPERSPACE_JUMP_ABORT": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
@@ -721,7 +721,7 @@
   },
   "L4L5_DISPLAY_MODE": {
     "description": "Label for the lagrange point display modes.",
-    "message": "Lagrange Point Display Mode"
+    "message": "Visningsläge för Lagrangepunker"
   },
   "L4L5_DISPLAY_MODE_ICONS_AND_TEXT": {
     "description": "Combobox option for lagrange point display as icons only.",
@@ -737,7 +737,7 @@
   },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for the L4/L5 Lagrange points toggle button.",
-    "message": "Toggle visibility of the L4/L5 lagrange points."
+    "message": "Växla visning av Lagrangepunkterna L4 och L5."
   },
   "LANDED": {
     "description": "",
@@ -1037,7 +1037,7 @@
   },
   "NO_HYPERCLOUD_ANALYZER_INSTALLED": {
     "description": "",
-    "message": "No hypercloud analyzer installed"
+    "message": "Ingen hypermolnsanalysator installerad"
   },
   "NO_HYPERDRIVE": {
     "description": "",
@@ -1405,7 +1405,7 @@
   },
   "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
     "description": "",
-    "message": "Hypercloud analyzer: Set hyperspace target to follow this departure"
+    "message": "Hypermolnsanalysator: Sätt hyperrymdsmål att följa denna avgång"
   },
   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
     "description": "",
@@ -1449,15 +1449,15 @@
   },
   "SHIPS_DISPLAY_MODE_SHIPS_ONLY": {
     "description": "Combobox option for ships only.",
-    "message": "Ships Only"
+    "message": "Endast skepp"
   },
   "SHIPS_DISPLAY_MODE_SHIPS_ORBITS": {
     "description": "Combobox option for ships with orbits.",
-    "message": "Ships with Orbits"
+    "message": "Skepp med omloppsbanor"
   },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
     "description": "Tooltip for ship display toggle button.",
-    "message": "Toggle visibility of ships."
+    "message": "Visa skepp"
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",

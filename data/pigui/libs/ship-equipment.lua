@@ -440,6 +440,10 @@ function EquipmentWidget:drawSectionHeader(section, fun)
 
 	ui.setCursorPos(contentsPos)
 
+	-- setCursorPos must be followed by a dummy if used for resizing
+	-- See ImGui::ErrorCheckUsingSetCursorPosToExtendParentBoundaries
+	ui.dummy(Vector2(0, 0))
+
 	if sectionOpen then
 		fun()
 		ui.treePop()

@@ -223,6 +223,14 @@
     "description": "",
     "message": "Приятно ми е да се запознаем. Казвам се {client}. Търсим една стара бизнес партньорка, която все още ни е длъжница. Казва се {wanted}. Тя се крие в системата {system} ({sectorx}, {sectory}, {sectorz}). Ако може да я намерите, предайте нашия криптиран документ и след това го върнете в офиса на {company} тук в {domicile}. Ако всичко мине успешно, ще платим {cash}. {system} е на разстояние от {dist} сг."
   },
+  "INTROTEXT_DELIVER_DOCUMENT_FEMALE_3": {
+    "description": "",
+    "message": "Добър ден! Аз съм {client}. Представлявам {company} и се нуждаем от помощ, за да открием един човек в {system}. Купихме нейната компания миналата година, но тя все още притежава някои важни документи и оттогава се е преместила. Моля, намерете този човек и го помолете да предаде документите. Нейното име е {wanted} и е някъде в системата {system} ({sectorx}, {sectory}, {sectorz})."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_FEMALE_4": {
+    "description": "",
+    "message": "Добър ден! Аз съм {client} и представлявам {company}. {wanted} трябва да получи документ в {system}. Тя трябва да го подпише и документът да бъде върнат при нас. Не знаем нейното точно местоположение, но е някъде в системата {system} ({sectorx}, {sectory}, {sectorz})."
+  },
   "INTROTEXT_DELIVER_DOCUMENT_MALE_1": {
     "description": "",
     "message": "Поздрави! Аз съм {client} и говоря от името на {company}. Един от нашите кораби се сблъска с друг само няколко секунди преди да навлезе в хиперпространството. Нямаше достатъчно време да спрем хиперскока. Нуждаем се от някой, който може да намери кораба {shipid} в системата {system} ({sectorx}, {sectory}, {sectorz}) и да предаде предложение за извънсъдебно споразумение на командир {wanted}. Моля, върнете се в {domicile} за заплащането от {cash}. Ще трябва да пътувате {dist} сг."
@@ -231,37 +239,85 @@
     "description": "",
     "message": "Приятно ми е да се запознаем. Казвам се {client}. Търсим един стар бизнес партньор, който все още ни е длъжник. Казва се {wanted}. Той се крие в системата {system} ({sectorx}, {sectory}, {sectorz}). Ако може да го намерите, предайте нашия криптиран документ и след това го върнете в офиса на {company} тук в {domicile}. Ако всичко мине успешно, ще платим {cash}. {system} е на разстояние от {dist} сг."
   },
+  "INTROTEXT_DELIVER_DOCUMENT_MALE_3": {
+    "description": "",
+    "message": "Добър ден! Аз съм {client}. Представлявам {company} и се нуждаем от помощ, за да открием един човек в {system}. Купихме неговата компания миналата година, но той все още притежава някои важни документи и оттогава се е преместил. Моля, намерете този човек и го помолете да предаде документите. Неговото име е {wanted} и е някъде в системата {system} ({sectorx}, {sectory}, {sectorz})."
+  },
+  "INTROTEXT_DELIVER_DOCUMENT_MALE_4": {
+    "description": "",
+    "message": "Добър ден! Аз съм {client} и представлявам {company}. {wanted} трябва да получи документ в {system}. Той трябва да го подпише и документът да бъде върнат при нас. Не знаем неговото точно местоположение, но е някъде в системата {system} ({sectorx}, {sectory}, {sectorz})."
+  },
   "INTROTEXT_DELIVER_MESSAGE_FEMALE_1": {
     "description": "",
-    "message": "Здравейте, казвам се {client}. Търся доведената си сестра {wanted}. Тя напусна семейството ни ядосана преди няколко години. Един мой приятел я видя наскоро в системата {system} ({sectorx}, {sectory}, {sectorz}). Искам да видя дали е готова за помирение. Ще платя {cash}, ако може да предадете моето съобщение и да се върнете в {domicile} с отговор. Моля, направете го! Ще го направите ли?"
+    "message": "Здравейте, казвам се {client}. Търся {relative}, {wanted}. Тя напусна семейството ни ядосана преди няколко години. Един приятел я видя наскоро в системата {system} ({sectorx}, {sectory}, {sectorz}). Искам да видя дали е готова за помирение. Ще платя {cash}, ако може да предадете моето съобщение и да се върнете в {domicile} с отговор. Моля, направете го! Ще го направите ли?"
   },
   "INTROTEXT_DELIVER_MESSAGE_FEMALE_2": {
     "description": "",
-    "message": "Здравейте. Аз съм {client}. Търся една стара приятелка. Казва се {wanted}. Знам, че живее в системата {system} ({sectorx}, {sectory}, {sectorz}), но не знам точното местоположение. Ще платя {cash}, ако може да предадете моето съобщение."
+    "message": "Здравейте. Аз съм {client}. Търся {friend}. Казва се {wanted}. Знам, че живее в системата {system} ({sectorx}, {sectory}, {sectorz}), но не знам точното местоположение. Ще платя {cash}, ако може да предадете моето съобщение."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_3": {
+    "description": "",
+    "message": "Здравейте. Казвам се {client}. Трябва да се свържа с {friend}, {wanted}. Тя живее в системата {system} ({sectorx}, {sectory}, {sectorz}), но не знам точно къде. Ще платя {cash}, ако може да предадете моето съобщение."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_4": {
+    "description": "",
+    "message": "Здравейте. Казвам се {client}. {wanted}, {relative}, прие позиция в системата {system} ({sectorx}, {sectory}, {sectorz}) преди няколко години. След година спряхме да получаваме вести от нея и писмата ни се връщат, така че нещо сигурно се е случило. Семейството ми ще плати {cash}, ако може да я намерите и да предадете нашето съобщение."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_FEMALE_5": {
+    "description": "",
+    "message": "Добър ден, аз съм {client}! Трябва да изпратя съобщение на моята професорка, {wanted}, която прави изследване в системата {system} ({sectorx}, {sectory}, {sectorz}). Не сме се чували с нея от шест месеца и нейната информация за контакт вече не е валидна. Мога да платя {cash} за услугата."
   },
   "INTROTEXT_DELIVER_MESSAGE_MALE_1": {
     "description": "",
-    "message": "Здравейте, казвам се {client}. Търся доведения си брат {wanted}. Той напусна семейството ни ядосан преди няколко години. Един мой приятел го видя наскоро в системата {system} ({sectorx}, {sectory}, {sectorz}). Искам да видя дали е готов за помирение. Ще платя {cash}, ако може да предадете моето съобщение и да се върнете в {domicile} с отговор. Моля, направете го! Ще го направите ли?"
+    "message": "Здравейте, казвам се {client}. Търся {relative}, {wanted}. Той напусна семейството ни ядосан преди няколко години. Един приятел го видя наскоро в системата {system} ({sectorx}, {sectory}, {sectorz}). Искам да видя дали е готов за помирение. Ще платя {cash}, ако може да предадете моето съобщение и да се върнете в {domicile} с отговор. Моля, направете го! Ще го направите ли?"
   },
   "INTROTEXT_DELIVER_MESSAGE_MALE_2": {
     "description": "",
-    "message": "Здравейте. Аз съм {client}. Търся един стар приятел. Казва се {wanted}. Знам, че живее в системата {system} ({sectorx}, {sectory}, {sectorz}), но не знам точното местоположение. Ще платя {cash}, ако може да предадете моето съобщение."
+    "message": "Здравейте. Аз съм {client}. Търся {friend}. Казва се {wanted}. Знам, че живее в системата {system} ({sectorx}, {sectory}, {sectorz}), но не знам точното местоположение. Ще платя {cash}, ако може да предадете моето съобщение."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_3": {
+    "description": "",
+    "message": "Здравейте. Казвам се {client}. Трябва да се свържа с {friend}, {wanted}. Той живее в системата {system} ({sectorx}, {sectory}, {sectorz}), но не знам точно къде. Ще платя {cash}, ако може да предадете моето съобщение."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_4": {
+    "description": "",
+    "message": "Здравейте. Казвам се {client}. {wanted}, {relative}, прие позиция в системата {system} ({sectorx}, {sectory}, {sectorz}) преди няколко години. След година спряхме да получаваме вести от него и писмата ни се връщат, така че нещо сигурно се е случило. Семейството ми ще плати {cash}, ако може да го намерите и да предадете нашето съобщение."
+  },
+  "INTROTEXT_DELIVER_MESSAGE_MALE_5": {
+    "description": "",
+    "message": "Добър ден, аз съм {client}! Трябва да изпратя съобщение на моя професор, {wanted}, който прави изследване в системата {system} ({sectorx}, {sectory}, {sectorz}). Не сме се чували с него от шест месеца и неговата информация за контакт вече не е валидна. Мога да платя {cash} за услугата."
   },
   "INTROTEXT_EVACUATION_FEMALE_1": {
     "description": "",
-    "message": "Здрасти. {company} е в големи неприятности. Преговорите с агресивната ни конкуренция в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг, преминаха много зле. Нашата пратеничка {wanted} трябва да бъде евакуирана. Комуникацията с нея е много ограничена, затова не знаем точното местоположение. Ще платим {cash} за това пътуване."
+    "message": "Здрасти. {company} е в големи неприятности. Преговорите с агресивната ни конкуренция в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг, преминаха много зле. Нашата пратеничка, {wanted}, трябва да бъде евакуирана. Комуникацията с нея е много ограничена, затова не знаем точното местоположение. Ще платим {cash} за това пътуване."
   },
   "INTROTEXT_EVACUATION_FEMALE_2": {
     "description": "",
-    "message": "Здравейте. Наричайте ме {client}. Работя в {company}. Нашата търговска представителка {wanted}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние {dist} сг, е влязла в конфликт с опасни мошеници. Тя не вярва на местните власти, затова се е скрила. Ще платим {cash}, ако може да я намерите и да я върнете безопасно в {domicile}."
+    "message": "Здравейте. Наричайте ме {client}. Работя в {company}. Нашата търговска представителка, {wanted}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние {dist} сг, е влязла в конфликт с опасни мошеници. Тя не вярва на местните власти, затова се е скрила. Ще платим {cash}, ако може да я намерите и да я върнете безопасно в {domicile}."
+  },
+  "INTROTEXT_EVACUATION_FEMALE_3": {
+    "description": "",
+    "message": "Здравейте, аз съм {client}. Представлявам {company}. Трябва веднага да изведем една наша служтелка от системата {system}. Не мога да влизам в повече подробности поради съображения за сигурност, но има реална заплаха за нейната безопасност. Тя се е скрила на някой от космодрумите в системата, но не успя да ни каже кой. Нейното име е {wanted} и тя се намира някъде в системата {system} ({sectorx}, {sectory}, {sectorz})."
+  },
+  "INTROTEXT_EVACUATION_FEMALE_4": {
+    "description": "",
+    "message": "Hello! My name is {client}. I have been reached by the news that {relative}, {wanted}, have been targeted by criminals and had to leave her home in a hurry. She is hiding somewhere in the {system} ({sectorx}, {sectory}, {sectorz}) system, distance {dist} ly. The family wants to solve this discretely. We will pay {cash} if you can find her and bring her back to {domicile}."
   },
   "INTROTEXT_EVACUATION_MALE_1": {
     "description": "",
-    "message": "Здрасти. {company} е в големи неприятности. Преговорите с агресивната ни конкуренция в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг, преминаха много зле. Нашият пратеник {wanted} трябва да бъде евакуиран. Комуникацията с него е много ограничена, затова не знаем точното местоположение. Ще платим {cash} за това пътуване."
+    "message": "Здрасти. {company} е в големи неприятности. Преговорите с агресивната ни конкуренция в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг, преминаха много зле. Нашият пратеник, {wanted}, трябва да бъде евакуиран. Комуникацията с него е много ограничена, затова не знаем точното местоположение. Ще платим {cash} за това пътуване."
   },
   "INTROTEXT_EVACUATION_MALE_2": {
     "description": "",
-    "message": "Здравейте. Наричайте ме {client}. Работя в {company}. Нашият търговски представител {wanted}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние {dist} сг, е влязъл в конфликт с опасни мошеници. Той не вярва на местните власти, затова се е скрил. Ще платим {cash}, ако може да го намерите и да го върнете безопасно в {domicile}."
+    "message": "Здравейте. Наричайте ме {client}. Работя в {company}. Нашият търговски представител, {wanted}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние {dist} сг, е влязъл в конфликт с опасни мошеници. Той не вярва на местните власти, затова се е скрил. Ще платим {cash}, ако може да го намерите и да го върнете безопасно в {domicile}."
+  },
+  "INTROTEXT_EVACUATION_MALE_3": {
+    "description": "",
+    "message": "Здравейте, аз съм {client}. Представлявам {company}. Трябва веднага да изведем един наш служител от системата {system}. Не мога да влизам в повече подробности поради съображения за сигурност, но има реална заплаха за неговата безопасност. Той се е скрил на някой от космодрумите в системата, но не успя да ни каже кой. Неговото име е {wanted} и той се намира някъде в системата {system} ({sectorx}, {sectory}, {sectorz})."
+  },
+  "INTROTEXT_EVACUATION_MALE_4": {
+    "description": "",
+    "message": "Hello! My name is {client}. I have been reached by the news that {relative}, {wanted}, have been targeted by criminals and had to leave his home in a hurry. He is hiding somewhere in the {system} ({sectorx}, {sectory}, {sectorz}) system, distance {dist} ly. The family wants to solve this discretely. We will pay {cash} if you can find him and bring him back to {domicile}."
   },
   "INTROTEXT_PRIVATEER_FEMALE_1": {
     "description": "",
@@ -271,6 +327,10 @@
     "description": "",
     "message": "Как сте? Аз съм частен детектив {client}. Трябва да намеря капер {wanted} в системата {system} ({sectorx}, {sectory}, {sectorz}) и да я питам за някои неща. Корабът е с регистрационен номер {shipid}. Не мога да напусна {domicile} в момента заради друго наказателно дело. Затова искам да възложа тази задача на външен изпълнител. Ще платя {cash} за тази мисия."
   },
+  "INTROTEXT_PRIVATEER_FEMALE_3": {
+    "description": "",
+    "message": "Здравейте! Казвам се {client} и имам нужда от помощ, за да изпратя съобщение до {wanted} в системата {system} ({sectorx}, {sectory}, {sectorz}). Тя изпълнява мисии там и нейният кораб е регистриран като {shipid}. Ще платя {cash} след като се върнете в {domicile} с нейния отговор."
+  },
   "INTROTEXT_PRIVATEER_MALE_1": {
     "description": "",
     "message": "Здравейте! Казвам се {client}. Търся {wanted}. Той ми дължи много кредити. Според последната информация, той изпълнява мисии в системата {system} ({sectorx}, {sectory}, {sectorz}). Моля, уведомете го, че търпението ми е на изчерпване. Върнете се в {domicile} за заплащането от {cash}."
@@ -278,6 +338,10 @@
   "INTROTEXT_PRIVATEER_MALE_2": {
     "description": "",
     "message": "Как сте? Аз съм частен детектив {client}. Трябва да намеря капер {wanted} в системата {system} ({sectorx}, {sectory}, {sectorz}) и да го питам за някои неща. Корабът е с регистрационен номер {shipid}. Не мога да напусна {domicile} в момента заради друго наказателно дело. Затова искам да възложа тази задача на външен изпълнител. Ще платя {cash} за тази мисия."
+  },
+  "INTROTEXT_PRIVATEER_MALE_3": {
+    "description": "",
+    "message": "Здравейте! Казвам се {client} и имам нужда от помощ, за да изпратя съобщение до {wanted} в системата {system} ({sectorx}, {sectory}, {sectorz}). Той изпълнява мисии там и неговият кораб е регистриран като {shipid}. Ще платя {cash} след като се върнете в {domicile} с неговия отговор."
   },
   "INTROTEXT_TAXI_FEMALE_1": {
     "description": "",
@@ -287,6 +351,10 @@
     "description": "",
     "message": "Добър ден. Аз съм застрахователен оценител {client}. Дрон за доставка не успя да зададе правилния курс и с висока скорост счупи прозорец и сериозно повреди антични дървени мебели в апартамент. За щастие никой не е пострадал. Но така и не успяхме да открием собственичката на апартамента в системата {system} ({sectorx}, {sectory}, {sectorz}). Затова ще платя {кеш}, ако може да я намерите. Нейното лично присъствие е необходимо за изясняване на застрахователното събитие."
   },
+  "INTROTEXT_TAXI_FEMALE_3": {
+    "description": "",
+    "message": "Hi. I'm {client}. I need help finding {relative}, {wanted}. I need you to bring her here as she's needed in the family company. We will pay you {cash} for the service. She's somewhere in the {system} ({sectorx}, {sectory}, {sectorz}) system. Thank you!"
+  },
   "INTROTEXT_TAXI_MALE_1": {
     "description": "",
     "message": "Здрасти. Аз съм {client}. Търся един роднина в системата {system} ({sectorx}, {sectory}, {sectorz}). Казва се {wanted}. Времето е от съществено значение поради спешен медицински случай в семейството ни. Моля, намерете го и го върнете в {domicile}. Ще платя {cash}."
@@ -294,6 +362,10 @@
   "INTROTEXT_TAXI_MALE_2": {
     "description": "",
     "message": "Добър ден. Аз съм застрахователен оценител {client}. Дрон за доставка не успя да зададе правилния курс и с висока скорост счупи прозорец и сериозно повреди антични дървени мебели в апартамент. За щастие никой не е пострадал. Но така и не успяхме да открием собственика на апартамента в системата {system} ({sectorx}, {sectory}, {sectorz}). Затова ще платя {кеш}, ако може да го намерите. Неговото лично присъствие е необходимо за изясняване на застрахователното събитие."
+  },
+  "INTROTEXT_TAXI_MALE_3": {
+    "description": "",
+    "message": "Hi. I'm {client}. I need help finding {relative}, {wanted}. I need you to bring him here as he's needed in the family company. We will pay you {cash} for the service. He's somewhere in the {system} ({sectorx}, {sectory}, {sectorz}) system. Thank you!"
   },
   "INTROTEXT_TRAITOR_FEMALE_1": {
     "description": "",
@@ -303,6 +375,10 @@
     "description": "",
     "message": "Добър ден. {company} издирва служителка, която е откраднала класифицирани документи. Казва се {wanted}. Ръководството я нарича предателка, но все пак иска да даде възможност тя да преосмисли решението си и да се покае. Ще платим {cash}, ако може да я намерите в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг и да предадете нашето съобщение."
   },
+  "INTROTEXT_TRAITOR_FEMALE_3": {
+    "description": "",
+    "message": "Good day. I'm {client} of {company}. We're trying to find a former employee, {employee}, who worked on one of our latest projects. Her name is {wanted}. We pay {cash} if you can find her in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distance, and deliver a message. Please be aware that she will not like this message."
+  },
   "INTROTEXT_TRAITOR_MALE_1": {
     "description": "",
     "message": "Здравейте, казвам се {client}. {wanted} не се завърна от ваканционно пътуване до работното си място в {company}. За последно е бил видян в системата {system} ({sectorx}, {sectory}, {sectorz}). {wanted} знае някои важни фирмени тайни. Затова се нуждаем от някой, който може да получи няколко отговора от него относно неговото продължаващо отсъствие. Ще платим {cash} за тази мисия. {system} е на разстояние от {dist} сг."
@@ -310,6 +386,10 @@
   "INTROTEXT_TRAITOR_MALE_2": {
     "description": "",
     "message": "Добър ден. {company} издирва служител, който е откраднал класифицирани документи. Казва се {wanted}. Ръководството го нарича предател, но все пак иска да даде възможност той да преосмисли решението си и да се покае. Ще платим {cash}, ако може да го намерите в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг и да предадете нашето съобщение."
+  },
+  "INTROTEXT_TRAITOR_MALE_3": {
+    "description": "",
+    "message": "Good day. I'm {client} of {company}. We're trying to find a former employee, {employee}, who worked on one of our latest projects. His name is {wanted}. We pay {cash} if you can find him in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distance, and deliver a message. Please be aware that he will not like this message."
   },
   "IS_THERE_A_RISK": {
     "description": "",

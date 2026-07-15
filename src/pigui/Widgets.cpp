@@ -142,91 +142,151 @@ bool Draw::CircularSlider(const ImVec2 &center, float *v, float v_min, float v_m
 		id, ImGuiDataType_Float, v, &v_min, &v_max, "%.4f", ImGuiSliderFlags_None, &grab_bb);
 }
 
-static void drawThrust(ImDrawList *draw_list, const ImVec2 &center, const ImVec2 &up, float value, const ImColor &fg, const ImColor &bg)
+void Draw::ThrustIndicator(ImGuiID id, float diameter, const vector3d &thrust)
 {
-	PROFILE_SCOPED()
-	float factor = 0.1; // how much to offset from center
-	const ImVec2 step(up.x * 0.5, up.y * 0.5);
-	const ImVec2 left(-step.y * (1.0 - factor), step.x * (1.0 - factor));
-	const ImVec2 u(up.x * (1.0 - factor), up.y * (1.0 - factor));
-	const ImVec2 c(center + ImVec2(u.x * factor, u.y * factor));
-	const ImVec2 right(-left.x, -left.y);
-	const ImVec2 leftmiddle = c + step + left;
-	const ImVec2 rightmiddle = c + step + right;
-	const ImVec2 bb_lowerright = c + right;
-	const ImVec2 bb_upperleft = c + left + ImVec2(u.x * value, u.y * value);
-	const ImVec2 lefttop = c + u + left;
-	const ImVec2 righttop = c + u + right;
-	const ImVec2 minimum(fmin(bb_upperleft.x, bb_lowerright.x), fmin(bb_upperleft.y, bb_lowerright.y));
-	const ImVec2 maximum(fmax(bb_upperleft.x, bb_lowerright.x), fmax(bb_upperleft.y, bb_lowerright.y));
-	ImVec2 points[] = { c, leftmiddle, lefttop, righttop, rightmiddle };
-	draw_list->AddConvexPolyFilled(points, 5, bg);
-	draw_list->PushClipRect(minimum - ImVec2(1, 1), maximum + ImVec2(1, 1));
-	draw_list->AddConvexPolyFilled(points, 5, fg);
-	draw_list->PopClipRect();
-}
-
-void Draw::ThrustIndicator(const std::string &id_string, const ImVec2 &size_arg, const ImVec4 &thrust, const ImVec4 &velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg)
-{
-	PROFILE_SCOPED()
 	ImGuiWindow *window = ImGui::GetCurrentWindow();
 	if (window->SkipItems)
 		return;
 
-	ImGuiContext &g = *GImGui;
-	const ImGuiStyle &style = g.Style;
-	const ImGuiID id = window->GetID(id_string.c_str());
+	const ImGuiStyle &style = ImGui::GetStyle();
 
-	ImVec2 pos = window->DC.CursorPos;
-	// if ((flags & ImGuiButtonFlags_AlignTextBaseLine) && style.FramePadding.y < window->DC.CurrentLineTextBaseOffset) // Try to vertically align buttons that are smaller/have no padding so that text baseline matches (bit hacky, since it shouldn't be a flag)
-	//     pos.y += window->DC.CurrentLineTextBaseOffset - style.FramePadding.y;
-	ImVec2 size = ImGui::CalcItemSize(size_arg, style.FramePadding.x * 2.0f, style.FramePadding.y * 2.0f);
+	const float radius = diameter * 0.5f;
+	const float thickness = style.FrameBorderSize;
+	const float offset = 0.5f * thickness;
+	// radius of elements in the inner circle, leaving a small gap between their edge and the outer ring.
+	const float inner_radius = radius - thickness * 2.f;
 
-	const ImVec2 padding = (frame_padding >= 0) ? ImVec2(static_cast<float>(frame_padding), static_cast<float>(frame_padding)) : style.FramePadding;
-	const ImRect bb(pos, pos + size + padding * 2);
-	const ImRect inner_bb(pos + padding, pos + padding + size);
+	const ImVec2 pos = ImGui::GetCursorScreenPos();
+	const ImVec2 center = pos + ImVec2(diameter * 0.5f, diameter * 0.5f);
+	const ImRect bb (pos, pos + ImVec2(diameter, diameter));
 
-	ImGui::ItemSize(bb, style.FramePadding.y);
+	ImGui::ItemSize(bb, 0.f);
 	if (!ImGui::ItemAdd(bb, id))
 		return;
 
-	// Render
-	const ImU32 col = ImGui::GetColorU32(static_cast<ImGuiCol>(ImGuiCol_Button));
-	ImGui::RenderFrame(bb.Min, bb.Max, col, true, style.FrameRounding);
-	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	if (bg_col.w > 0.0f)
-		draw_list->AddRectFilled(inner_bb.Min, inner_bb.Max, ImGui::GetColorU32(bg_col));
-	const ImVec2 leftupper = inner_bb.Min;
-	const ImVec2 rightlower = inner_bb.Max;
-	const ImVec2 rightcenter((rightlower.x - leftupper.x) * 0.8 + leftupper.x, (rightlower.y + leftupper.y) / 2);
-	const ImVec2 leftcenter((rightlower.x - leftupper.x) * 0.35 + leftupper.x, (rightlower.y + leftupper.y) / 2);
-	const ImVec2 up(0, -std::abs(leftupper.y - rightlower.y) * 0.4);
-	const ImVec2 left(-up.y, up.x);
-	float thrust_fwd = fmax(thrust.z, 0);
-	float thrust_bwd = fmax(-thrust.z, 0);
-	float thrust_left = fmax(-thrust.x, 0);
-	float thrust_right = fmax(thrust.x, 0);
-	float thrust_up = fmax(-thrust.y, 0);
-	float thrust_down = fmax(thrust.y, 0);
-	// actual thrust
-	drawThrust(draw_list, rightcenter, up, thrust_fwd, thrust_fg, thrust_bg);
-	drawThrust(draw_list, rightcenter, ImVec2(-up.x, -up.y), thrust_bwd, thrust_fg, thrust_bg);
-	drawThrust(draw_list, leftcenter, up, thrust_up, thrust_fg, thrust_bg);
-	drawThrust(draw_list, leftcenter, ImVec2(-up.x, -up.y), thrust_down, thrust_fg, thrust_bg);
-	drawThrust(draw_list, leftcenter, left, thrust_left, thrust_fg, thrust_bg);
-	drawThrust(draw_list, leftcenter, ImVec2(-left.x, -left.y), thrust_right, thrust_fg, thrust_bg);
-	// forward/back velocity
-	draw_list->AddLine(rightcenter + up, rightcenter - up, vel_bg, 3);
-	draw_list->AddLine(rightcenter, rightcenter - up * velocity.z, vel_fg, 3);
-	// left/right velocity
-	draw_list->AddLine(leftcenter + left, leftcenter - left, vel_bg, 3);
-	draw_list->AddLine(leftcenter, leftcenter + left * velocity.x, vel_fg, 3);
-	// up/down velocity
-	draw_list->AddLine(leftcenter + up, leftcenter - up, vel_bg, 3);
-	draw_list->AddLine(leftcenter, leftcenter + up * velocity.y, vel_fg, 3);
-	// Automatically close popups
-	//if (pressed && !(flags & ImGuiButtonFlags_DontClosePopups) && (window->Flags & ImGuiWindowFlags_Popup))
-	//    CloseCurrentPopup();
+	bool hovered = ImGui::IsItemHovered() && ImLengthSqr(ImGui::GetIO().MousePos - center) <= radius * radius;
+	if (!hovered) {
+		ImGui::GetCurrentContext()->LastItemData.StatusFlags &= ~ImGuiItemStatusFlags_HoveredRect;
+	}
+
+	const ImU32 col_bg = ImGui::GetColorU32(hovered ? ImGuiCol_FrameBgHovered : ImGuiCol_FrameBg);
+	const ImU32 col_ring = ImGui::GetColorU32(ImGuiCol_FrameBgActive);
+	const ImU32 col_thr = ImGui::GetColorU32(ImGuiCol_SliderGrab);
+
+	ImDrawList *dl = ImGui::GetWindowDrawList();
+
+	const auto drawThrustRing = [&](const ImVec2 &offset, float base_angle, float thrust) {
+		if (thrust > 0.01) {
+			// offset already carries the 0.5*thickness term, so just subtract thickess from radius
+			dl->PathArcTo(center + offset, radius - thickness, base_angle - M_PI_4 * thrust, base_angle + M_PI_4 * thrust);
+			dl->PathStroke(col_thr, thickness);
+		}
+	};
+
+	dl->AddCircleFilled(center, radius - offset, col_bg);
+	dl->AddCircle(center, radius - offset, col_ring, 0.f, thickness);
+
+	// vertical thrust options
+	drawThrustRing(ImVec2(0,  offset),  M_PI_2, fmax(0.f,  thrust.y));
+	drawThrustRing(ImVec2(0, -offset), -M_PI_2, fmax(0.f, -thrust.y));
+
+	// horizontal thrust options
+	drawThrustRing(ImVec2( offset, 0), 0,    fmax(0.f,  thrust.x));
+	drawThrustRing(ImVec2(-offset, 0), M_PI, fmax(0.f, -thrust.x));
+
+	if (thrust.z > 0.01) {
+		float circle_thickness = thrust.z * inner_radius * 0.75f;
+		float circle_radius = inner_radius - circle_thickness * 0.5f;
+		// add 0.5f to match the smooth antialiasing of AddCircleFilled
+		dl->AddCircle(center, circle_radius + 0.5f, col_thr, 32, circle_thickness);
+	}
+
+	if (thrust.z < -0.01) {
+		dl->AddCircleFilled(center, inner_radius * -thrust.z, col_thr, 32);
+	}
+
+}
+
+void Draw::CircleIndicator(ImGuiID id, float diameter, const char *label, const char *unit, float value, float value_inv, float phase)
+{
+	constexpr float M_TAU = 2.0 * M_PI;
+
+	ImGuiWindow *window = ImGui::GetCurrentWindow();
+	if (window->SkipItems)
+		return;
+
+	const ImGuiStyle &style = ImGui::GetStyle();
+
+	const float radius = diameter * 0.5f;
+	const float thickness = style.FrameBorderSize;
+	const float offset = 0.5f * thickness;
+	const float outer_radius = radius - offset;
+	const float inner_radius = radius - thickness * 1.5;
+
+	const ImVec2 pos = ImGui::GetCursorScreenPos();
+	const ImVec2 center = pos + ImVec2(radius, radius);
+	const ImRect bb (pos, pos + ImVec2(diameter, diameter));
+
+	ImGui::ItemSize(bb, 0.f);
+	if (!ImGui::ItemAdd(bb, id))
+		return;
+
+	bool hovered = ImGui::IsItemHovered() && ImLengthSqr(ImGui::GetIO().MousePos - center) <= radius * radius;
+	if (!hovered) {
+		ImGui::GetCurrentContext()->LastItemData.StatusFlags &= ~ImGuiItemStatusFlags_HoveredRect;
+	}
+
+	ImFont *font = ImGui::GetFont();
+
+	const ImU32 col_text = ImGui::GetColorU32(ImGuiCol_Text);
+	const ImU32 col_bg = ImGui::GetColorU32(hovered ? ImGuiCol_FrameBgHovered : ImGuiCol_FrameBg);
+	const ImU32 col_ring = ImGui::GetColorU32(ImGuiCol_FrameBgActive);
+	const ImU32 col_val1 = ImGui::GetColorU32(ImGuiCol_SliderGrab);
+	const ImU32 col_val2 = ImGui::GetColorU32(ImGuiCol_SliderGrabActive);
+
+	ImDrawList *dl = ImGui::GetWindowDrawList();
+
+	// Draw the center circle and outer ring
+	dl->AddCircleFilled(center, outer_radius, col_bg);
+	dl->AddCircle(center, outer_radius, col_ring, 0.f, thickness);
+
+	if (value_inv >= 0.01) {
+		// Draw the "limiter" dial under the "active" dial
+		dl->PathArcTo(center, outer_radius, phase, phase + value_inv * M_TAU, 32);
+		dl->PathStroke(col_val2, thickness);
+	}
+
+	if (value >= 0.01) {
+		// Draw the "active" dial
+		dl->PathArcTo(center, outer_radius, phase - value * M_TAU, phase, 32);
+		dl->PathStroke(col_val1, thickness);
+	}
+
+	const auto computeTextScaleFactor = [&](ImVec2 size, float rad) -> float {
+		return sqrt(size.x * size.x + size.y * size.y) / rad;
+	};
+
+	ImVec2 label_size = ImGui::CalcTextSize(label);
+	float descent = ImGui::GetFontBaked()->Descent; // descent is negative
+
+	if (unit) {
+		// Draw the value and unit text, sizing both to fit within the upper and lower halves of the circle
+		float scale_factor_inv = computeTextScaleFactor(ImVec2(label_size.x * 0.5f, label_size.y + descent), inner_radius);
+		label_size /= scale_factor_inv;
+		descent /= scale_factor_inv;
+		dl->AddText(font, label_size.y, center - ImVec2(label_size.x * 0.5f, label_size.y + descent), col_text, label);
+
+		float unit_voffset = descent - 2.f;
+
+		ImVec2 unit_size = ImGui::CalcTextSize(unit);
+		unit_size /= computeTextScaleFactor(ImVec2(unit_size.x * 0.5f, unit_size.y), fmin(inner_radius * 0.8, inner_radius + unit_voffset));
+		dl->AddText(font, unit_size.y, center - ImVec2(unit_size.x * 0.5f, unit_voffset), col_text, unit);
+	} else {
+		// Draw only the value text centered in the indicator
+		label_size /= computeTextScaleFactor(label_size * 0.5f, inner_radius);
+		dl->AddText(font, label_size.y, center - label_size * 0.5f, col_text, label);
+	}
+
 }
 
 bool Draw::LowThrustButton(const char *id_string, const ImVec2 &size_arg, int thrust_level, const ImVec4 &bg_col, int frame_padding, ImColor gauge_fg, ImColor gauge_bg)

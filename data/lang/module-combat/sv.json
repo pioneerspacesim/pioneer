@@ -237,7 +237,7 @@
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Jag arbetar för {org}. Några av våra fraktfartyg kommer inom kort att anlända till {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). För att öka säkerheten för våra anställda och för att skydda utrustningen är vi villiga att betala {cash} för ett {mission}. Avståndet till {area} är {dist}."
+    "message": "Jag arbetar för {org}. Några av våra fraktfartyg kommer inom kort att anlända till {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). För att öka säkerheten för våra anställda och för att skydda utrustningen är vi villiga att betala {cash} för ett {mission}. Avståndet till {area} är {dist} ly."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",

@@ -67,6 +67,7 @@ local styleColors = {
 	primary_700		= Color "40477D",
 	primary_800		= Color "383C71",
 	primary_900		= Color "2C2D58",
+	primary_1000	= Color "1C1C35",
 
 	-- "Alternate" primary colors with significantly more saturation for use
 	-- as small foreground elements like checkmarks and grabs.

@@ -20,6 +20,20 @@ local pionillium = ui.fonts.pionillium
 
 local mainButtonSize = ui.theme.styles.MainButtonSize
 local mainButtonFramePadding = ui.theme.styles.MainButtonPadding
+local thrustWidgetDiameter = mainButtonSize.y * 1.2
+
+local thrustStyle = ui.Style:clone({
+	colors = {
+		FrameBg          = ui.theme.styleColors.primary_1000:opacity(0.6),
+		FrameBgHovered   = ui.theme.styleColors.primary_1000:opacity(0.6),
+		FrameBgActive    = ui.theme.styleColors.primary_700,
+		SliderGrab       = ui.theme.styleColors.primary_300,
+		SliderGrabActive = ui.theme.styleColors.primary_900,
+	},
+	vars = {
+		FrameBorderSize = ui.rescaleUI(4)
+	}
+})
 
 local show_thrust_slider = false
 
@@ -57,14 +71,57 @@ local function button_lowThrustPower()
 	end
 end
 
-local function button_thrustIndicator(thrust_widget_size)
-	local vel = Engine.WorldSpaceToShipSpace(player:GetVelocity())
-	vel = vel / math.max(vel:length(), 10) -- minimum of 10m/s
+local function button_thrustIndicator()
 	local thrust = player:GetThrusterState()
-	thrust_widget_size = thrust_widget_size - Vector2(mainButtonFramePadding * 2)
-	ui.thrustIndicator("foo", thrust_widget_size, thrust, vel, colors.transparent, mainButtonFramePadding, colors.gaugeVelocityLight, colors.gaugeVelocityDark, colors.gaugeThrustLight, colors.gaugeThrustDark)
+	thrustStyle:withStyle(function()
+		ui.thrustIndicator("thrustIndicator", thrustWidgetDiameter, thrust)
+	end)
 	if ui.isItemHovered() then
 		ui.setTooltip(lui.HUD_THRUST_INDICATOR)
+	end
+end
+
+local function gravity_indicator(diameter)
+
+	local parentBody = Game.player.frameBody
+	local gravity = 0.0
+	local maxG = Game.player:GetAcceleration("up")
+
+	if parentBody then
+		local sbody = assert(parentBody:GetSystemBody())
+
+		while sbody.superType == "STARPORT" and sbody.parent do
+			sbody = sbody.parent
+			parentBody = assert(sbody).body
+		end
+	end
+
+	if parentBody then
+		gravity = 6.67428e-11 * (parentBody:GetSystemBody().mass / Game.player:GetPositionRelTo(parentBody):lengthSqr())
+	end
+
+	thrustStyle:withStyle(function()
+		local gEarth = gravity / 9.8066
+		local label = ui.Format.Number(gEarth, gEarth < 1 and 2 or 1)
+		local unit = lc.UNIT_EARTH_GRAVITY:upper()
+
+		if gravity > maxG then
+			-- Cannot take off!
+			ui.withStyleColors({ SliderGrabActive = ui.theme.styleColors.danger_700 }, function()
+				local g1 = maxG / gravity
+				local g2 = (gravity - maxG) / gravity
+				ui.circleIndicator("gravity", diameter, g1, g2, math.pi * 0.667, label, unit)
+			end)
+		else
+			-- TWR > 1
+			local g1 = gravity / maxG
+			ui.circleIndicator("gravity", diameter, g1, 0, math.pi * 0.667, label, unit)
+
+		end
+	end)
+
+	if ui.isItemHovered() then
+		ui.setTooltip(lui.HUD_GRAVITY_INDICATOR)
 	end
 end
 
@@ -141,7 +198,7 @@ local function displayShipFunctionWindow()
 	player = Game.player
 	local current_view = Game.CurrentView()
 	local buttons = 3
-	local thrust_widget_size = Vector2(mainButtonSize.x * 3, mainButtonSize.y * 2)
+	local thrust_widget_size = Vector2(thrustWidgetDiameter * 1.2 + thrustWidgetDiameter, thrustWidgetDiameter)
 	assert(thrust_widget_size.y >= mainButtonSize.y)
 	local window_width = ui.getWindowPadding().x * 2 + (mainButtonSize.x + ui.getItemSpacing().x) * buttons + thrust_widget_size.x
 	local window_height = thrust_widget_size.y + ui.getWindowPadding().y * 2
@@ -155,7 +212,9 @@ local function displayShipFunctionWindow()
 			local gaugeWidth = (mainButtonSize.x + ui.getItemSpacing().x) * buttons - ui.getItemSpacing().x
 			drawTwrGauge(ui.getCursorScreenPos(), Vector2(gaugeWidth, mainButtonSize.y))
 
-			local shift = Vector2(0.0, thrust_widget_size.y - mainButtonSize.y)
+--			local shift = Vector2(0.0, thrust_widget_size.y - mainButtonSize.y)
+
+			local shift = Vector2(thrustWidgetDiameter * 2 - thrust_widget_size.x, thrust_widget_size.y - mainButtonSize.y)
 			ui.addCursorPos(shift)
 			button_wheelstate()
 			ui.sameLine()
@@ -164,7 +223,10 @@ local function displayShipFunctionWindow()
 			button_lowThrustPower()
 			ui.sameLine()
 			ui.addCursorPos(-shift)
-			button_thrustIndicator(thrust_widget_size)
+			button_thrustIndicator()
+			ui.sameLine()
+			ui.addCursorPos(Vector2(0, mainButtonSize.y - thrustWidgetDiameter))
+			gravity_indicator(thrustWidgetDiameter)
 			if ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f8) then
 				show_thrust_slider = not show_thrust_slider
 			end

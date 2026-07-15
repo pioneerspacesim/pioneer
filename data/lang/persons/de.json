@@ -1,0 +1,290 @@
+{
+  "RELATION_EMPLOYEE_FEMALE_1": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "eine Ingenieurin"
+  },
+  "RELATION_EMPLOYEE_FEMALE_10": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "eine Buchhalterin"
+  },
+  "RELATION_EMPLOYEE_FEMALE_11": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "eine Anwältin"
+  },
+  "RELATION_EMPLOYEE_FEMALE_12": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "eine Forscherin"
+  },
+  "RELATION_EMPLOYEE_FEMALE_13": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "eine Administratorin"
+  },
+  "RELATION_EMPLOYEE_FEMALE_2": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "eine Wissenschaftlerin"
+  },
+  "RELATION_EMPLOYEE_FEMALE_3": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "eine Technikerin"
+  },
+  "RELATION_EMPLOYEE_FEMALE_4": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "eine Erfinderin"
+  },
+  "RELATION_EMPLOYEE_FEMALE_5": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "eine Auftragnehmerin"
+  },
+  "RELATION_EMPLOYEE_FEMALE_6": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "eine Mechanikermeisterin"
+  },
+  "RELATION_EMPLOYEE_FEMALE_7": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "eine Managerin"
+  },
+  "RELATION_EMPLOYEE_FEMALE_8": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "eine Entwicklerin"
+  },
+  "RELATION_EMPLOYEE_FEMALE_9": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "eine Kollegin"
+  },
+  "RELATION_EMPLOYEE_MALE_1": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "ein Ingenieur"
+  },
+  "RELATION_EMPLOYEE_MALE_10": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "ein Buchhalter"
+  },
+  "RELATION_EMPLOYEE_MALE_11": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "ein Anwalt"
+  },
+  "RELATION_EMPLOYEE_MALE_12": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "ein Forscher"
+  },
+  "RELATION_EMPLOYEE_MALE_13": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "ein Administrator"
+  },
+  "RELATION_EMPLOYEE_MALE_2": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "ein Wissenschaftler"
+  },
+  "RELATION_EMPLOYEE_MALE_3": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "ein Techniker"
+  },
+  "RELATION_EMPLOYEE_MALE_4": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "ein Erfinder"
+  },
+  "RELATION_EMPLOYEE_MALE_5": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "ein Auftragnehmer"
+  },
+  "RELATION_EMPLOYEE_MALE_6": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "ein Mechanikermeister"
+  },
+  "RELATION_EMPLOYEE_MALE_7": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "ein Manager"
+  },
+  "RELATION_EMPLOYEE_MALE_8": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "ein Entwickler"
+  },
+  "RELATION_EMPLOYEE_MALE_9": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "ein Kollege"
+  },
+  "RELATION_FRIEND_FEMALE_1": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "eine Freundin"
+  },
+  "RELATION_FRIEND_FEMALE_10": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "eine frühere Schiffskameradin"
+  },
+  "RELATION_FRIEND_FEMALE_2": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "eine alte Feundin"
+  },
+  "RELATION_FRIEND_FEMALE_3": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "eine ehemalige Nachbarin"
+  },
+  "RELATION_FRIEND_FEMALE_4": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "eine Bandkollegin"
+  },
+  "RELATION_FRIEND_FEMALE_5": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "eine Schulfreundin"
+  },
+  "RELATION_FRIEND_FEMALE_6": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "eine Freundin aus Uni-Zeiten"
+  },
+  "RELATION_FRIEND_FEMALE_7": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "eine Kameradin aus der Armee"
+  },
+  "RELATION_FRIEND_FEMALE_8": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "eine Kollegin"
+  },
+  "RELATION_FRIEND_FEMALE_9": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "ein altes Crewmidglied"
+  },
+  "RELATION_FRIEND_MALE_1": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "ein Freund"
+  },
+  "RELATION_FRIEND_MALE_10": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "ein früherer Schiffskamerad"
+  },
+  "RELATION_FRIEND_MALE_2": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "ein alter Freund"
+  },
+  "RELATION_FRIEND_MALE_3": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "ein ehemaliger Nachbar"
+  },
+  "RELATION_FRIEND_MALE_4": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "ein Bandkollege"
+  },
+  "RELATION_FRIEND_MALE_5": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "eine Schulfreundin"
+  },
+  "RELATION_FRIEND_MALE_6": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "ein Freund aus Uni-Zeiten"
+  },
+  "RELATION_FRIEND_MALE_7": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "ein Kamerad aus der Armee"
+  },
+  "RELATION_FRIEND_MALE_8": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "ein Kollege"
+  },
+  "RELATION_FRIEND_MALE_9": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "ein altes Crewmidglied"
+  },
+  "RELATION_RELATIVE_FEMALE_1": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "meine Mutter"
+  },
+  "RELATION_RELATIVE_FEMALE_10": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "meine Stiefmutter"
+  },
+  "RELATION_RELATIVE_FEMALE_11": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "meine Verwandte"
+  },
+  "RELATION_RELATIVE_FEMALE_12": {
+    "description": "Sisters daughter. In some languages different from brothers daughter. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "meine Nichte"
+  },
+  "RELATION_RELATIVE_FEMALE_13": {
+    "description": "Brothers daughter. In some languages different from sisters daughter. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "meine Nichte"
+  },
+  "RELATION_RELATIVE_FEMALE_2": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "meine Schwester"
+  },
+  "RELATION_RELATIVE_FEMALE_3": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "meine Tochter"
+  },
+  "RELATION_RELATIVE_FEMALE_4": {
+    "description": "Mothers sister. In some languages different from 'fathers sister'. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "meine Tante"
+  },
+  "RELATION_RELATIVE_FEMALE_5": {
+    "description": "Fathers sister. In some languages different from 'mothers sister'. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "meine Tante"
+  },
+  "RELATION_RELATIVE_FEMALE_6": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "meine Cousine"
+  },
+  "RELATION_RELATIVE_FEMALE_7": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "meine Schwägerin"
+  },
+  "RELATION_RELATIVE_FEMALE_8": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "meine Schwiegermutter"
+  },
+  "RELATION_RELATIVE_FEMALE_9": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "meine Stiefschwester"
+  },
+  "RELATION_RELATIVE_MALE_1": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mein Vater"
+  },
+  "RELATION_RELATIVE_MALE_10": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mein Stiefvater"
+  },
+  "RELATION_RELATIVE_MALE_11": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mein Verwandter"
+  },
+  "RELATION_RELATIVE_MALE_12": {
+    "description": "Sisters son. In some languages different from brothers son.Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mein Neffe"
+  },
+  "RELATION_RELATIVE_MALE_13": {
+    "description": "Brothers son. In some languages different from sisters son. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mein Neffe"
+  },
+  "RELATION_RELATIVE_MALE_2": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mein Bruder"
+  },
+  "RELATION_RELATIVE_MALE_3": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mein Sohn"
+  },
+  "RELATION_RELATIVE_MALE_4": {
+    "description": "Mothers brother. In some languages different from 'fathers brother'. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mein Onkel"
+  },
+  "RELATION_RELATIVE_MALE_5": {
+    "description": "Fathers brother. In some languages different from 'mothers brother'. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mein Onkel"
+  },
+  "RELATION_RELATIVE_MALE_6": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mein Cousin"
+  },
+  "RELATION_RELATIVE_MALE_7": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mein Schwager"
+  },
+  "RELATION_RELATIVE_MALE_8": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mein Schwiegervater"
+  },
+  "RELATION_RELATIVE_MALE_9": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mein Stiefbruder"
+  }
+}

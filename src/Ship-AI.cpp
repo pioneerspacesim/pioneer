@@ -90,9 +90,14 @@ void Ship::AIFlyTo(Body *target)
 	AIClearInstructions();
 	SetFuelReserve((GetFuel() < 0.5) ? GetFuel() / 2 : 0.25);
 
-	if (target->IsType(ObjectType::SHIP)) { // test code
-		vector3d posoff(-1000.0, 0.0, 1000.0);
-		m_curAICmd = new AICmdFormation(this, static_cast<Ship *>(target), posoff);
+	if (target->IsType(ObjectType::SHIP)) {
+		Ship *targetShip = static_cast<Ship *>(target);
+		if (targetShip->IsOnSurface())
+			m_curAICmd = new AICmdFlyTo(this, target);
+		else {
+			vector3d posoff(-1000.0, 0.0, 1000.0);
+			m_curAICmd = new AICmdFormation(this, targetShip, posoff);
+		}
 	} else
 		m_curAICmd = new AICmdFlyTo(this, target);
 }

@@ -149,11 +149,11 @@
   },
   "BIND_RADIAL_HORIZONTAL_SELECTION": {
     "description": "Input axis name to select in the radial menu.",
-    "message": "Radial Menu Left/Right"
+    "message": "Radiell meny vänster/höger"
   },
   "BIND_RADIAL_VERTICAL_SELECTION": {
     "description": "Input axis name to select in the radial menu.",
-    "message": "Radial Menu Up/Down"
+    "message": "Radiell meny upp/ner"
   },
   "BIND_REAR_CAMERA": {
     "description": "Descriptive name for the RearCamera action.",
@@ -185,7 +185,7 @@
   },
   "BIND_TARGET_RADIAL": {
     "description": "Descriptive name for opening the TargetRadial popup.",
-    "message": "Open Target Radial Menu"
+    "message": "Målradialmeny"
   },
   "BIND_THRUST_LOW_POWER": {
     "description": "Descriptive name for the ThrustLowPower action.",

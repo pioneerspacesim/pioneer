@@ -49,7 +49,7 @@
   },
   "AUXILIARY_CARGO_RACK_FLAVOURTEXT": {
     "description": "Equipment description for a cargo-carrying rack installed as a cabin module",
-    "message": "Put your unneeded habitat space to work for you! This conversion kit fits a wide variety of ship hulls. Manufactured by Seversk a.k."
+    "message": "Utnyttja din oanvända boyta! Denna ombyggnadssats passar en mängd olika fartygsskrov. Tillverkad av Seversk a.k."
   },
   "BEAMLASER_1MW": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "CARGO_CAPACITY": {
     "description": "Statistic name for an equipment that provides cargo capacity",
-    "message": "Additional Cargo Capacity"
+    "message": "Ytterligare lastkapacitet"
   },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "CONCEALED_CARGO_RACK_DESCRIPTION": {
     "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
-    "message": "Shielded cargo space disguised as an innocuous habitat wall. Hides the contents from police scans."
+    "message": "Avskärmat lastutrymme förklätt som en oskyldig vägg. Döljer innehållet från polisskannern."
   },
   "CONCEALED_CARGO_RACK_FLAVOURTEXT": {
     "description": "Equipment description for a cargo-carrying smuggler's hold installed as a cabin module",
@@ -593,7 +593,7 @@
   },
   "NO_SUITABLE_SLOTS": {
     "description": "Message in the start menu when editing equipment",
-    "message": "No suitable slots"
+    "message": "Inga lämpliga platser"
   },
   "OCCUPIED_BERTHS": {
     "description": "Label for the number of passenger berths currently occupied in a cabin equipment item",

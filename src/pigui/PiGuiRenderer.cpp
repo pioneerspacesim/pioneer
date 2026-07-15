@@ -3,7 +3,6 @@
 
 #include "PiGuiRenderer.h"
 
-#include "core/Log.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
@@ -26,7 +25,10 @@ Graphics::TextureFormat GetTextureFormat(ImTextureFormat fmt)
 	switch(fmt) {
 		case ImTextureFormat_RGBA32: return Graphics::TEXTURE_RGBA_8888;
 		case ImTextureFormat_Alpha8: return Graphics::TEXTURE_R8;
-		default: assert(0);
+		default: {
+			assert(0);
+			return Graphics::TEXTURE_NONE;
+		}
 	}
 }
 
@@ -197,7 +199,6 @@ void InstanceRenderer::UpdateFontTexture(ImTextureData *tex)
 
 	if (tex->Status == ImTextureStatus_WantUpdates) {
 		// Upload data to an existing texture
-		Log::Info("Updating font texture {},{},{},{}", tex->UpdateRect.x, tex->UpdateRect.y, tex->UpdateRect.w, tex->UpdateRect.h);
 
 		auto *ptr = reinterpret_cast<Graphics::Texture *>(tex->TexID);
 

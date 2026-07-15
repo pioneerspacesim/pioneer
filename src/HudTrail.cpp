@@ -34,6 +34,12 @@ HudTrail::HudTrail(Body *b, const Color &c) :
 void HudTrail::Update(float time)
 {
 	PROFILE_SCOPED();
+	// Body may already be marked dead (and soon deleted), so do not try to draw a HUD trail
+	if (!m_body || m_body->IsDead() || !m_body->GetFrame().valid()) {
+		m_trailPoints.clear();
+		return;
+	}
+
 	//record the position relative to the player, the HUD trail then displays the history of this object's trajectory around the player
 	m_updateTime += time;
 	if (m_updateTime > UPDATE_INTERVAL) {
@@ -50,6 +56,12 @@ void HudTrail::Update(float time)
 void HudTrail::Render(Graphics::Renderer *r)
 {
 	PROFILE_SCOPED();
+	// Body may already be marked dead (and soon deleted), so do not try to draw a HUD trail
+	if (!m_body || m_body->IsDead() || !m_body->GetFrame().valid()) {
+		m_trailPoints.clear();
+		return;
+	}
+
 	//render trail relative to the player's current position, this ensures that relative motion is displayed
 	if (m_trailPoints.size() > 1) {
 		// Set up a transform that includes the player's current position, so that everything we draw is relative to that

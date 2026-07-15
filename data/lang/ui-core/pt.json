@@ -67,6 +67,10 @@
     "description": "",
     "message": "Attempt to repair hull"
   },
+  "AUDIO_BACKEND": {
+    "description": "Audio backend label in settings menu",
+    "message": "Audio Backend"
+  },
   "AUTOMATED_MESSAGE": {
     "description": "For comm messages from bots",
     "message": "AUTOMATED MESSAGE"
@@ -90,6 +94,14 @@
   "BACKWARD_ACCEL": {
     "description": "",
     "message": "Backward acceleration"
+  },
+  "BINAURAL_RENDERING": {
+    "description": "Label of the binaural rendering checkbox in the audio settings menu",
+    "message": "Binaural Rendering"
+  },
+  "BINAURAL_RENDERING_DESC": {
+    "description": "Tooltip of the binaural rendering checkbox in the audio settings menu",
+    "message": "When enabled, HRTF filters are applied to the audio output. Works best with headphones."
   },
   "BODY_IN_ROUTE": {
     "description": "Label indicating a star is part of a planned hyperjump route",
@@ -1191,6 +1203,10 @@
     "description": "Tooltip: Forward Gun Temperature.",
     "message": "Temperatura da arma dianteira"
   },
+  "HUD_GRAVITY_INDICATOR": {
+    "description": "Tooltip: describe what the gravity indicator shows",
+    "message": "Local gravity acceleration (scale: ship maximum acceleration)"
+  },
   "HUD_HULL_STRENGTH": {
     "description": "Tooltip: Hull Strength.",
     "message": "Força do casco"
@@ -1308,8 +1324,8 @@
     "message": "Velocidade relativa ao alvo."
   },
   "HUD_THRUST_INDICATOR": {
-    "description": "Tooltip: describe what the thrust/velocity indicator shows",
-    "message": "Mostra velocidade atual para cada direção (linhas finas) e propulsão (fundo grosso)."
+    "description": "Tooltip: describe what the thrust indicator shows",
+    "message": "Show current thrust levels for maneuvering (outer ring) and primary or retro engines (center circle)"
   },
   "HUD_WARNING_DESCENT_RATE": {
     "description": "Shown on HUD as a warning flasher",

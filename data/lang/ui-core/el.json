@@ -67,6 +67,10 @@
     "description": "",
     "message": "Απόπειρα επισκευής του κύτους"
   },
+  "AUDIO_BACKEND": {
+    "description": "Audio backend label in settings menu",
+    "message": "Διακομιστής ήχου"
+  },
   "AUTOMATED_MESSAGE": {
     "description": "For comm messages from bots",
     "message": "Αυτοματοποιημένο μήνυμα"
@@ -90,6 +94,14 @@
   "BACKWARD_ACCEL": {
     "description": "",
     "message": "Επιτάχυνση προς τα πίσω"
+  },
+  "BINAURAL_RENDERING": {
+    "description": "Label of the binaural rendering checkbox in the audio settings menu",
+    "message": "Χωρικός ήχος"
+  },
+  "BINAURAL_RENDERING_DESC": {
+    "description": "Tooltip of the binaural rendering checkbox in the audio settings menu",
+    "message": "Όταν είναι ενεργοποιημενο, χρησιμοποιούνται φίλτρα HRTF στον ήχο. Λειτουργεί καλύτερα με ακουστικά."
   },
   "BODY_IN_ROUTE": {
     "description": "Label indicating a star is part of a planned hyperjump route",
@@ -1191,6 +1203,10 @@
     "description": "Tooltip: Forward Gun Temperature.",
     "message": "Θερμοκρασία εμπρόσθιου όπλου"
   },
+  "HUD_GRAVITY_INDICATOR": {
+    "description": "Tooltip: describe what the gravity indicator shows",
+    "message": "Τοπική επιτάχυνση βαρύτητας (σε κλίμακα: μέγιστη επιτάχυνση σκάφους)"
+  },
   "HUD_HULL_STRENGTH": {
     "description": "Tooltip: Hull Strength.",
     "message": "Αντοχή κύτους"
@@ -1308,8 +1324,8 @@
     "message": "Η ταχύτητα σε σχέση με το στόχο"
   },
   "HUD_THRUST_INDICATOR": {
-    "description": "Tooltip: describe what the thrust/velocity indicator shows",
-    "message": "Εμφάνιση της τρέχουσας ταχύτητας σε κάθε κατεύθυνση (λεπτές γραμμές) και της ώθησης (παχύ φόντο)"
+    "description": "Tooltip: describe what the thrust indicator shows",
+    "message": "Τρέχον επίπεδο ισχύος για μανούβρες (εξωτερικός δακτύλιος) και πρόσω ή ανάποδα προωθητήρες (κεντρικός κύκλος)"
   },
   "HUD_WARNING_DESCENT_RATE": {
     "description": "Shown on HUD as a warning flasher",
@@ -2353,7 +2369,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set destination as navigation target"
+    "message": "Ορίστε τον προορισμό ως στόχο πλοήγησης."
   },
   "SET_JUMP_TARGET": {
     "description": "Button tooltip which sets the jump route to the selected body",

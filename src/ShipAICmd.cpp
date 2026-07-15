@@ -945,7 +945,11 @@ AICmdFlyTo::AICmdFlyTo(DynamicBody *dBody, Body *target) :
 	else
 		m_dist = VICINITY_MUL * MaxEffectRad(target, m_prop);
 
-	if (target->IsType(ObjectType::SPACESTATION) && static_cast<SpaceStation *>(target)->IsGroundStation()) {
+	const bool useSurfaceVicinity =
+		(target->IsType(ObjectType::SPACESTATION) && static_cast<SpaceStation *>(target)->IsGroundStation())
+		|| (target->IsType(ObjectType::SHIP) && static_cast<Ship *>(target)->IsOnSurface());
+
+	if (useSurfaceVicinity) {
 		m_posoff = target->GetPosition() + VICINITY_MIN * target->GetOrient().VectorY();
 		//		m_posoff += 500.0 * target->GetOrient().VectorX();
 		m_targframeId = target->GetFrame();

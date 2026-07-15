@@ -1,0 +1,290 @@
+{
+  "RELATION_EMPLOYEE_FEMALE_1": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "una ingegnere"
+  },
+  "RELATION_EMPLOYEE_FEMALE_10": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "una contabile"
+  },
+  "RELATION_EMPLOYEE_FEMALE_11": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "un'avvocata"
+  },
+  "RELATION_EMPLOYEE_FEMALE_12": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "una ricercatrice"
+  },
+  "RELATION_EMPLOYEE_FEMALE_13": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "un'amministratrice"
+  },
+  "RELATION_EMPLOYEE_FEMALE_2": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "una scienziata"
+  },
+  "RELATION_EMPLOYEE_FEMALE_3": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "una tecnica"
+  },
+  "RELATION_EMPLOYEE_FEMALE_4": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "una inventore"
+  },
+  "RELATION_EMPLOYEE_FEMALE_5": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "un'appaltatrice"
+  },
+  "RELATION_EMPLOYEE_FEMALE_6": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "una capo meccanica"
+  },
+  "RELATION_EMPLOYEE_FEMALE_7": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "una manager"
+  },
+  "RELATION_EMPLOYEE_FEMALE_8": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "una sviluppatrice"
+  },
+  "RELATION_EMPLOYEE_FEMALE_9": {
+    "description": "Female professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "una collaboratrice"
+  },
+  "RELATION_EMPLOYEE_MALE_1": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "un ingegnere"
+  },
+  "RELATION_EMPLOYEE_MALE_10": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "un contabile"
+  },
+  "RELATION_EMPLOYEE_MALE_11": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "un avvocato"
+  },
+  "RELATION_EMPLOYEE_MALE_12": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "un ricercatore"
+  },
+  "RELATION_EMPLOYEE_MALE_13": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "un amministratore"
+  },
+  "RELATION_EMPLOYEE_MALE_2": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "uno scienziato"
+  },
+  "RELATION_EMPLOYEE_MALE_3": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "un tecnico"
+  },
+  "RELATION_EMPLOYEE_MALE_4": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "un inventore"
+  },
+  "RELATION_EMPLOYEE_MALE_5": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "un appaltatore"
+  },
+  "RELATION_EMPLOYEE_MALE_6": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "un capo meccanico"
+  },
+  "RELATION_EMPLOYEE_MALE_7": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "un manager"
+  },
+  "RELATION_EMPLOYEE_MALE_8": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "uno sviluppatore"
+  },
+  "RELATION_EMPLOYEE_MALE_9": {
+    "description": "Male professional or work-related contact. Substitutes {employee}. Indefinite form (a/an + noun).",
+    "message": "un collaboratore"
+  },
+  "RELATION_FRIEND_FEMALE_1": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "un'amica"
+  },
+  "RELATION_FRIEND_FEMALE_10": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "una ex compagna di bordo"
+  },
+  "RELATION_FRIEND_FEMALE_2": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "una vecchia amica"
+  },
+  "RELATION_FRIEND_FEMALE_3": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "una vecchia vicina"
+  },
+  "RELATION_FRIEND_FEMALE_4": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "una compagna di gruppo"
+  },
+  "RELATION_FRIEND_FEMALE_5": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "un'amica di scuola"
+  },
+  "RELATION_FRIEND_FEMALE_6": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "un'amica dell'università"
+  },
+  "RELATION_FRIEND_FEMALE_7": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "una compagna d'armi"
+  },
+  "RELATION_FRIEND_FEMALE_8": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "una collega"
+  },
+  "RELATION_FRIEND_FEMALE_9": {
+    "description": "Female friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "una vecchia compagna d'equipaggio"
+  },
+  "RELATION_FRIEND_MALE_1": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "un amico"
+  },
+  "RELATION_FRIEND_MALE_10": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "un ex compagno di bordo"
+  },
+  "RELATION_FRIEND_MALE_2": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "un vecchio amico"
+  },
+  "RELATION_FRIEND_MALE_3": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "un vecchio vicino"
+  },
+  "RELATION_FRIEND_MALE_4": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "un compagno di gruppo"
+  },
+  "RELATION_FRIEND_MALE_5": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "un'amica di scuola"
+  },
+  "RELATION_FRIEND_MALE_6": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "un amico dell'università"
+  },
+  "RELATION_FRIEND_MALE_7": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "un compagno d'armi"
+  },
+  "RELATION_FRIEND_MALE_8": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "un collega"
+  },
+  "RELATION_FRIEND_MALE_9": {
+    "description": "Male friend or acquaintance. Substitutes {friend}. Indefinite form (a/an + noun).",
+    "message": "un vecchio compagno d'equipaggio"
+  },
+  "RELATION_RELATIVE_FEMALE_1": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "mia madre"
+  },
+  "RELATION_RELATIVE_FEMALE_10": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "mia madre adottiva"
+  },
+  "RELATION_RELATIVE_FEMALE_11": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "mia parente"
+  },
+  "RELATION_RELATIVE_FEMALE_12": {
+    "description": "Sisters daughter. In some languages different from brothers daughter. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "mia nipote"
+  },
+  "RELATION_RELATIVE_FEMALE_13": {
+    "description": "Brothers daughter. In some languages different from sisters daughter. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "mia nipote"
+  },
+  "RELATION_RELATIVE_FEMALE_2": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "mia sorella"
+  },
+  "RELATION_RELATIVE_FEMALE_3": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "mia figlia"
+  },
+  "RELATION_RELATIVE_FEMALE_4": {
+    "description": "Mothers sister. In some languages different from 'fathers sister'. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "mia zia"
+  },
+  "RELATION_RELATIVE_FEMALE_5": {
+    "description": "Fathers sister. In some languages different from 'mothers sister'. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "mia zia"
+  },
+  "RELATION_RELATIVE_FEMALE_6": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "mia cugina"
+  },
+  "RELATION_RELATIVE_FEMALE_7": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "mia cognata"
+  },
+  "RELATION_RELATIVE_FEMALE_8": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "mia suocera"
+  },
+  "RELATION_RELATIVE_FEMALE_9": {
+    "description": "Female family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my aunt', 'my cousin').",
+    "message": "mia sorella adottiva"
+  },
+  "RELATION_RELATIVE_MALE_1": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mio padre"
+  },
+  "RELATION_RELATIVE_MALE_10": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mio padre adottivo"
+  },
+  "RELATION_RELATIVE_MALE_11": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mio parente"
+  },
+  "RELATION_RELATIVE_MALE_12": {
+    "description": "Sisters son. In some languages different from brothers son.Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mio nipote"
+  },
+  "RELATION_RELATIVE_MALE_13": {
+    "description": "Brothers son. In some languages different from sisters son. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mio nipote"
+  },
+  "RELATION_RELATIVE_MALE_2": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mio fratello"
+  },
+  "RELATION_RELATIVE_MALE_3": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mio figlio"
+  },
+  "RELATION_RELATIVE_MALE_4": {
+    "description": "Mothers brother. In some languages different from 'fathers brother'. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mio zio"
+  },
+  "RELATION_RELATIVE_MALE_5": {
+    "description": "Fathers brother. In some languages different from 'mothers brother'. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mio zio"
+  },
+  "RELATION_RELATIVE_MALE_6": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mio cugino"
+  },
+  "RELATION_RELATIVE_MALE_7": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mio cognato"
+  },
+  "RELATION_RELATIVE_MALE_8": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mio suocero"
+  },
+  "RELATION_RELATIVE_MALE_9": {
+    "description": "Male family member / relative. Substitutes {relative}. Always starts with 'my' (e.g. 'my uncle', 'my cousin').",
+    "message": "mio fratello adottivo"
+  }
+}

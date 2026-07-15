@@ -31,6 +31,11 @@ file_filter = data/lang/commodity/<lang>.json
 source_file = data/lang/commodity/en.json
 source_lang = en
 
+[o:pioneer:p:pioneer:r:persons]
+file_filter = data/lang/persons/<lang>.json
+source_file = data/lang/persons/en.json
+source_lang = en
+
 [o:pioneer:p:pioneer:r:quitconfirmation-core]
 file_filter = data/lang/quitconfirmation-core/<lang>.json
 source_file = data/lang/quitconfirmation-core/en.json

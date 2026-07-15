@@ -85,6 +85,7 @@ public:
 	int GetDockingPort() const { return m_dockedWithPort; }
 	bool IsDocked() const { return GetFlightState() == Ship::DOCKED; }
 	bool IsLanded() const { return GetFlightState() == Ship::LANDED; }
+	bool IsOnSurface() const;
 
 	virtual void OnDocked(SpaceStation *, int port);
 	virtual void OnUndocked(SpaceStation *, int port);

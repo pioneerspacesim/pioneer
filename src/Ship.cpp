@@ -974,7 +974,7 @@ void Ship::DoThrusterSounds() const
 
 	// XXX sound logic could be part of a bigger class (ship internal sounds)
 	/* Ship engine noise. less loud inside */
-	float v_env = (Pi::game->GetWorldView()->shipView->IsExteriorView() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
+	float v_env = (Pi::game->GetWorldView()->shipView->IsExteriorView() ? 1.0f : 0.5f);
 	static Sound::Event sndev;
 	float volBoth = 0.0f;
 	volBoth += 0.5f * fabs(m_propulsion->GetLinThrusterState().y);
@@ -1384,6 +1384,17 @@ void Ship::OnLanded(Body *b)
 void Ship::OnTakeoff(Body *b)
 {
 	LuaEvent::Queue("onShipTakeOff", this, b);
+}
+
+bool Ship::IsOnSurface() const
+{
+	if (IsLanded())
+		return true;
+	if (IsDocked()) {
+		const SpaceStation *station = GetDockedWith();
+		return station && station->IsGroundStation();
+	}
+	return false;
 }
 
 bool Ship::Undock()
