@@ -1173,8 +1173,8 @@ end
 
 
 local function displayTemp(temp)
-	local thickness = 6 * (4 * reticuleCircleRadius) / 360
-	local offset = -28 * (4 * reticuleCircleRadius) / 360
+	local thickness = 10 * (4 * reticuleCircleRadius) / 360
+	local offset = -32 * (4 * reticuleCircleRadius) / 360
 	local radius = 4 * reticuleCircleRadius
 
 	local angle_low = ui.pi - ui.pi / 6
@@ -1197,7 +1197,7 @@ end
 
 local function displayWeaponTemp(fwd, bwd)
 	local thickness = 10 * (4 * reticuleCircleRadius) / 360
-	local offset = -40 * (4 * reticuleCircleRadius) / 360
+	local offset = -44 * (4 * reticuleCircleRadius) / 360
 	local radius = 4 * reticuleCircleRadius
 
 	local angle_low = ui.pi - ui.pi / 6
@@ -1224,8 +1224,8 @@ end
 
 
 local function displayAtmosPressure(pressure)
-	local thickness = 6 * (4 * reticuleCircleRadius) / 360
-	local offset = -32 * (4 * reticuleCircleRadius) / 360
+	local thickness = 10 * (4 * reticuleCircleRadius) / 360
+	local offset = -44 * (4 * reticuleCircleRadius) / 360
 	local radius = 4 * reticuleCircleRadius
 
 	local angle_low = ui.pi / 6
@@ -1256,8 +1256,8 @@ end
 
 
 local function displayAtmosTemperature(temperature)
-	local thickness = 6 * (4 * reticuleCircleRadius) / 360
-	local offset = -24 * (4 * reticuleCircleRadius) / 360
+	local thickness = 10 * (4 * reticuleCircleRadius) / 360
+	local offset = -32 * (4 * reticuleCircleRadius) / 360
 	local radius = 4 * reticuleCircleRadius
 
 	local angle_low = ui.pi / 6
@@ -1288,8 +1288,8 @@ end
 
 
 local function displayGravity()
-	local thickness = 6 * (4 * reticuleCircleRadius) / 360
-	local offset = -16 * (4 * reticuleCircleRadius) / 360
+	local thickness = 10 * (4 * reticuleCircleRadius) / 360
+	local offset = -20 * (4 * reticuleCircleRadius) / 360
 	local radius = 4 * reticuleCircleRadius
 
 	local angle_low = ui.pi / 6
