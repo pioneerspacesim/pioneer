@@ -71,7 +71,7 @@ local function showInfo()
 
 		ui.bulletText(l.LINK_COMMUNITY_FORUM)
 		ui.sameLine()
-		ui.textLinkOpenURL("http://spacesimcentral.com/community/pioneer/")
+		ui.textLinkOpenURL("https://spacesimcentral.com/viewforum.php?f=49")
 
 		ui.bulletText(l.LINK_DEVELOPER_FORUM)
 		ui.sameLine()
