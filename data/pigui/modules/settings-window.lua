@@ -411,19 +411,16 @@ local function showLanguageOptions()
 		return string.format("%s (%d%%)", name, pct)
 	end
 
-	ui.withFont(pionillium.heading, function()
-		ui.text(lui.LANGUAGE_RESTART_GAME_TO_APPLY .. ":")
+	ui.text(lui.LANGUAGE_RESTART_GAME_TO_APPLY .. ":")
+
+	ui.child("##LanguageList", Vector2(0, 0), function()
+		for _, lang in ipairs(langs) do
+			if ui.selectable(languageLabel(lang) .. "##" .. lang, Lang.currentLanguage==lang, {}) then
+				Lang.SetCurrentLanguage(lang)
+			end
+		end
 	end)
 
-	ui.withFont(pionillium.body, function()
-		ui.child("##LanguageList", Vector2(0, 0), function()
-			for _, lang in ipairs(langs) do
-				if ui.selectable(languageLabel(lang) .. "##" .. lang, Lang.currentLanguage==lang, {}) then
-					Lang.SetCurrentLanguage(lang)
-				end
-			end
-		end)
-	end)
 end
 
 local function actionBinding(info)
