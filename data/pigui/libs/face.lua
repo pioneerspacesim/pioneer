@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
+local Rand = require 'Rand'
 local FaceTextureGenerator = require 'PiGui.Modules.Face'
 local Character = require 'Character'
 
@@ -26,19 +27,20 @@ local ensureCharacter = function (character)
 	return character
 end
 
-local function rerollFaceDesc(oldDesc)
+local function rerollFaceDesc(oldDesc, rand)
+	rand = rand or Engine.rand
 	return {
 		--Fit Integer by 2 into an signed int
-		FEATURE_SPECIES = Engine.rand:Integer() % 2^31,
-		FEATURE_RACE = Engine.rand:Integer() % 2^31,
+		FEATURE_SPECIES = rand:Integer() % 2^31,
+		FEATURE_RACE = rand:Integer() % 2^31,
 		FEATURE_GENDER = oldDesc.FEATURE_GENDER or 0,
-		FEATURE_HEAD = Engine.rand:Integer() % 2^31,
-		FEATURE_EYES = Engine.rand:Integer() % 2^31,
-		FEATURE_NOSE = Engine.rand:Integer() % 2^31,
-		FEATURE_MOUTH = Engine.rand:Integer() % 2^31,
-		FEATURE_HAIRSTYLE = Engine.rand:Integer() % 2^31,
-		FEATURE_ACCESSORIES = Engine.rand:Integer() % 4 == 0 and Engine.rand:Integer() % 2^31 or 0, -- accessory on one out of four faces
-		FEATURE_CLOTHES = Engine.rand:Integer() % 2^31,
+		FEATURE_HEAD = rand:Integer() % 2^31,
+		FEATURE_EYES = rand:Integer() % 2^31,
+		FEATURE_NOSE = rand:Integer() % 2^31,
+		FEATURE_MOUTH = rand:Integer() % 2^31,
+		FEATURE_HAIRSTYLE = rand:Integer() % 2^31,
+		FEATURE_ACCESSORIES = rand:Integer() % 4 == 0 and rand:Integer() % 2^31 or 0, -- accessory on one out of four faces
+		FEATURE_CLOTHES = rand:Integer() % 2^31,
 		FEATURE_ARMOUR = oldDesc.FEATURE_ARMOUR or 0,
 	}
 end
@@ -48,10 +50,11 @@ local PiGuiFace = {}
 function PiGuiFace.New (character, style, drawButtons)
 	character = ensureCharacter(character)
 	style = style or {}
-	character.faceDescription = character.faceDescription or rerollFaceDesc {
+	-- Derive face features from character.seed so the same NPC always looks the same.
+	character.faceDescription = character.faceDescription or rerollFaceDesc({
 		FEATURE_GENDER = character.female and 1 or 0,
 		FEATURE_ARMOUR = character.armour and 1 or 0,
-	}
+	}, Rand.New(tostring(character.seed) .. "-face"))
 
 	local faceTexGen = FaceTextureGenerator.New(character.faceDescription, character.seed)
 	local piguiFace = {

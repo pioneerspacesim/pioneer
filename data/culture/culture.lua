@@ -92,7 +92,7 @@ end
 --
 function Culture:FirstName (isFemale, rand, culture)
 	local c = self.lookup[culture] or utils.chooseNormalized(self.weights, rand).lang
-	return c:FirstName(isFemale)
+	return c:FirstName(isFemale, rand)
 end
 
 --
@@ -147,7 +147,7 @@ function Culture:FullName (isFemale, rand, culture)
 
 	-- local debug_code = "(".. c.code .. ") "
 	-- return debug_code .. c:FullName(isFemale, rand)
-	return c:FullName(isFemale)
+	return c:FullName(isFemale, rand)
 end
 
 --
@@ -182,7 +182,7 @@ end
 function Culture:Names (isFemale, rand, culture)
 	-- if 'culture' given as a string, e.g. "Russian" use that
 	local c = self.lookup[culture] or utils.chooseNormalized(self.weights, rand).lang
-	return c:FirstName(isFemale), c:Surname(isFemale), c.name
+	return c:FirstName(isFemale, rand), c:Surname(isFemale, rand), c.name
 end
 
 return Culture
