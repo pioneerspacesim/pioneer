@@ -55,6 +55,12 @@ namespace FaceParts {
 
 	void PickFaceParts(FaceDescriptor &inout_face, const Uint32 seed);
 	void BuildFaceImage(SDL_Surface *faceIm, const FaceDescriptor &face);
+
+	// Multiply-blend a noise texture onto a built face image (see facegen/noise/).
+	// selectionSeed picks which loaded noise PNG to use. No effect if none are available.
+	void ApplyPortraitNoise(SDL_Surface *faceIm, Uint32 selectionSeed);
+
+	int NumPortraitNoiseTextures();
 } // namespace FaceParts
 
 #endif

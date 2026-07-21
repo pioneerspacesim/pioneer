@@ -14,7 +14,7 @@ namespace PiGui {
 
 	class Face : public RefCounted {
 	public:
-		Face(FaceParts::FaceDescriptor &face, Uint32 seed = 0);
+		Face(FaceParts::FaceDescriptor &face, Uint32 seed = 0, Uint32 noiseSeed = 0);
 
 		void *GetImTextureID();
 		vector2f GetTextureSize();

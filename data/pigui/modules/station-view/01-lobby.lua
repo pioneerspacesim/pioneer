@@ -24,6 +24,7 @@ local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local colors = ui.theme.colors
 local icons = ui.theme.icons
+local gaugeSpacing = ui.getTextLineHeight() * 0.8
 
 local Lang = require 'Lang'
 local l = Lang.GetResource("ui-core")
@@ -32,7 +33,7 @@ local Vector2 = _G.Vector2
 local rescaleVector = ui.rescaleUI(Vector2(1, 1), Vector2(1600, 900), true)
 local widgetSizes = ui.rescaleUI({
 	itemSpacing = Vector2(4, 9),
-	faceSize = Vector2(586,565),
+	faceSize = Vector2(220,220),
 	buttonSizeBase = Vector2(72, 48),
 }, Vector2(1600, 900))
 
@@ -189,11 +190,12 @@ local function lobbyMenu()
 	-- internal tank fuel gauge
 	local gaugePos = ui.getCursorScreenPos()
 	local gaugeHeight = widgetSizes.buttonSizeBase.y
+	gaugePos.x = gaugePos.x + gaugeSpacing;
 	gaugePos.y = gaugePos.y + widgetSizes.buttonSizeBase.y/2
 	local gaugeWidth = ui.getContentRegion().x
-	ui.gauge(gaugePos, Game.player.fuel, '', string.format(l.FUEL .. ": %d t \t" .. l.DELTA_V .. ": %d km/s",
+	ui.gauge(gaugePos, Game.player.fuel, '', string.format(l.FUEL .. ": %0.1f t \t" .. l.DELTA_V .. ": %d km/s",
 		shipDef.fuelTankMass/100 * Game.player.fuel, Game.player:GetRemainingDeltaV()/1000),
-		0, 100, icons.fuel,
+		0, 100, icons.fuel, true,
 		colors.gaugeEquipmentMarket, '', gaugeWidth, gaugeHeight, pionillium.body)
 
 	-- hyperspace fuel
@@ -225,11 +227,12 @@ local function lobbyMenu()
 
 	-- hyperspace fuel gauge
 	gaugePos = ui.getCursorScreenPos()
+	gaugePos.x = gaugePos.x + gaugeSpacing;
 	gaugePos.y = gaugePos.y + widgetSizes.buttonSizeBase.y/2
 	ui.gauge(gaugePos, stored_hyperfuel, '', string.format(l.FUEL .. ": %0.1f t \t" .. l.HYPERSPACE_RANGE .. ": %d " .. l.LY,
 		stored_hyperfuel, Game.player:GetHyperspaceRange()),
 		0, hyperdrive:GetMaxFuel(),
-		icons.hyperspace, colors.gaugeEquipmentMarket, '',
+		icons.hyperspace, true, colors.gaugeEquipmentMarket, '',
 		gaugeWidth, gaugeHeight, pionillium.body)
 
 	ui.columns(1, '', false)
@@ -272,12 +275,19 @@ local function drawPlayerInfo()
 
 	ui.withFont(pionillium.heading, function()
 		ui.withStyleVars({ItemSpacing = widgetSizes.itemSpacing}, function()
+			-- The width of the right hand column will be the larger of the face image width and the launch button width
+			local launchButtonBaseSize = ui.calcButtonSize(l.REQUEST_LAUNCH, orbiteer.title)
+			local rightColumnWidth = math.max(widgetSizes.faceSize.x, launchButtonBaseSize.x)
 			local buttonSizeSpacing = widgetSizes.buttonLaunchSize.y + widgetSizes.itemSpacing.y
 			local lobbyMenuHeight = widgetSizes.buttonSizeBase.y*2 + widgetSizes.itemSpacing.y*3 -- use an extra itemSpacing to avoid scrollbar
 
 			ui.child("Wrapper", Vector2(0, -lobbyMenuHeight), function()
-				-- face display has 1:1 aspect ratio, and we need size for a launch button underneath
-				local infoColumnWidth = -math.min(ui.getContentRegion().y - buttonSizeSpacing, widgetSizes.faceSize.x) - widgetSizes.itemSpacing.x
+				-- Explicitly right-anchor the portrait/button column to avoid drift.
+				local topStart = ui.getCursorPos()
+				local topWidth = ui.getContentRegion().x
+				local rightColumnX = math.max(0, topWidth - rightColumnWidth - 5)
+				local infoColumnWidth = math.max(0, rightColumnX - widgetSizes.itemSpacing.x)
+
 				ui.child("PlayerShipFuel", Vector2(infoColumnWidth, 0), function()
 					ui.spacing()  -- Extra padding for umlaut and other signs on top of the station label.
 					textTable.withHeading(station.label, orbiteer.title, {
@@ -288,13 +298,22 @@ local function drawPlayerInfo()
 					})
 				end)
 
-				ui.sameLine()
-
-				ui.group(function()
-					if(face ~= nil) then face:render() end
+				ui.setCursorPos(topStart + Vector2(rightColumnX, 0))
+				ui.child("RightColumn", Vector2(rightColumnWidth, 0), function()
+					if face ~= nil then
+						face.style.size = Vector2(rightColumnWidth, 0)
+						face:render()
+						ui.withFont(orbiteer.body, function()
+							ui.textAligned(face.character.name, 0.5)
+							if face.character.title then
+								ui.textAligned(face.character.title, 0.5)
+							end
+						end)
+					end
+					ui.dummy(Vector2(0, ui.getTextLineHeightWithSpacing() / 2))
 
 					ui.withFont(orbiteer.title, function()
-						local size = Vector2(ui.getContentRegion().x, widgetSizes.buttonLaunchSize.y)
+						local size = Vector2(rightColumnWidth, widgetSizes.buttonLaunchSize.y)
 						if ui.button(l.REQUEST_LAUNCH, size) then
 							requestLaunch(station)
 						end
@@ -322,7 +341,11 @@ StationView:registerView({
 			if (stationSeed ~= station.seed) then
 				stationSeed = station.seed
 				local rand = Rand.New(station.seed)
-				face = PiGuiFace.New(Character.New({ title = l.STATION_MANAGER }, rand), {itemSpacing = widgetSizes.itemSpacing})
+				face = PiGuiFace.New(Character.New({ title = l.STATION_MANAGER }, rand), {
+					itemSpacing = widgetSizes.itemSpacing,
+					size = widgetSizes.faceSize
+				})
+				face.style.showCharInfo = false
 			end
 
 			hyperdrive = Game.player:GetInstalledHyperdrive()

@@ -9,7 +9,7 @@
 
 namespace PiGui {
 
-	Face::Face(FaceParts::FaceDescriptor &face, Uint32 seed)
+	Face::Face(FaceParts::FaceDescriptor &face, Uint32 seed, Uint32 noiseSeed)
 	{
 		PROFILE_SCOPED()
 		if (!seed) seed = time(0);
@@ -20,6 +20,9 @@ namespace PiGui {
 
 		FaceParts::PickFaceParts(face, m_seed);
 		FaceParts::BuildFaceImage(faceim.Get(), face);
+
+		if (noiseSeed != 0)
+			FaceParts::ApplyPortraitNoise(faceim.Get(), noiseSeed);
 
 		m_texture.Reset(Graphics::TextureBuilder(faceim, Graphics::LINEAR_CLAMP, true, true).GetOrCreateTexture(Pi::renderer, std::string("face")));
 	}

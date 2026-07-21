@@ -23,6 +23,7 @@ local colors = ui.theme.colors
 local icons = ui.theme.icons
 
 local pionillium = ui.fonts.pionillium
+local orbiteer = ui.fonts.orbiteer
 
 local face = nil
 local stationSeed = false
@@ -45,7 +46,7 @@ local activeTab = 0
 
 local widgetSizes = ui.rescaleUI({
 	itemSpacing = Vector2(4, 9),
-	faceSize = Vector2(586,565),
+	faceSize = Vector2(220,220),
 	buttonSize = Vector2(100, 0),
 	verticalDummy = Vector2(0, 50),
 	gaugeWidth = 600,
@@ -227,7 +228,7 @@ local function drawShipRepair()
 			gaugePos.y = gaugePos.y + ui.getTextLineHeightWithSpacing() * 0.5
 			ui.dummy(Vector2(widgetSizes.gaugeWidth, ui.getTextLineHeightWithSpacing()))
 
-			ui.gauge(gaugePos, hullPercent, '', l.HULL_INTEGRITY, 0, 100, icons.hull, colors.gaugeEquipmentMarket, l.HUD_HULL_STRENGTH, widgetSizes.gaugeWidth, ui.getTextLineHeightWithSpacing())
+			ui.gauge(gaugePos, hullPercent, '', l.HULL_INTEGRITY, 0, 100, icons.hull, true, colors.gaugeEquipmentMarket, l.HUD_HULL_STRENGTH, widgetSizes.gaugeWidth, ui.getTextLineHeightWithSpacing())
 
 			ui.newLine()
 
@@ -246,8 +247,16 @@ local function drawShipRepair()
 
 		ui.sameLine()
 
-		if(face ~= nil) then
-			face:render()
+		if face ~= nil then
+			ui.child("PortraitColumn", Vector2(widgetSizes.faceSize.x, 0), function()
+				face:render()
+				ui.withFont(orbiteer.body, function()
+					ui.textAligned(face.character.name, 0.5)
+					if face.character.title then
+						ui.textAligned(face.character.title, 0.5)
+					end
+				end)
+			end)
 		end
 	end)
 end
@@ -395,7 +404,11 @@ StationView:registerView({
 				stationSeed = station.seed
 				local rand = Rand.New(station.seed .. '-repair-guy')
 				face = PiGuiFace.New(Character.New({ title = l.CHIEF_MECHANIC }, rand),
-							{itemSpacing = widgetSizes.itemSpacing})
+							{
+								itemSpacing = widgetSizes.itemSpacing,
+								size = widgetSizes.faceSize
+							})
+				face.style.showCharInfo = false
 			end
 		end
 		resetPreview()

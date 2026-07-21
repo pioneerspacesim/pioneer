@@ -33,7 +33,7 @@
   },
   "ALL_UP_WEIGHT": {
     "description": "",
-    "message": "All-up weight"
+    "message": "Current total weight"
   },
   "AMOUNT": {
     "description": "",
@@ -137,7 +137,7 @@
   },
   "CABINS": {
     "description": "For passengers",
-    "message": "Cabins"
+    "message": "Berths"
   },
   "CABIN_FREE": {
     "description": "Free capacity for passengers",
@@ -641,11 +641,15 @@
   },
   "EQUIPMENT_CAPACITY": {
     "description": "The equipment capacity of a ship",
-    "message": "Equipment Capacity"
+    "message": "Equipment capacity"
   },
   "EQUIPMENT_MARKET": {
     "description": "",
     "message": "Equipment Market"
+  },
+  "EQUIPMENT_USED": {
+    "description": "",
+    "message": "Equipment space used"
   },
   "EQUIPPED": {
     "description": "",
@@ -1835,6 +1839,10 @@
     "description": "",
     "message": "Notes:"
   },
+  "NOT_ENOUGH_SPACE_FOR_EQUIPMENT": {
+    "description": "",
+    "message": "Not enough space to install this equipment"
+  },
   "NOTORIETY": {
     "description": "Character parameter",
     "message": "Notoriety"
@@ -1879,21 +1887,13 @@
     "description": "",
     "message": "{range} light years ({maxRange} max)"
   },
-  "N_OCCUPIED_PASSENGER_CABINS": {
-    "description": "",
-    "message": "{quantity} Occupied Passenger Cabins"
-  },
   "N_SHIELD_GENERATORS": {
     "description": "",
     "message": "{quantity} Shield Generators"
   },
-  "N_UNOCCUPIED_PASSENGER_CABINS": {
-    "description": "",
-    "message": "{quantity} Unoccupied Passenger Cabins"
-  },
   "OCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Occupied Passenger Cabins"
+    "message": "Occupied passenger berths"
   },
   "OFF": {
     "description": "",
@@ -1985,7 +1985,7 @@
   },
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
-    "message": "Passenger cabin capacity"
+    "message": "Max passenger capacity"
   },
   "PASTE": {
     "description": "As for clipboard",
@@ -2761,7 +2761,7 @@
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Unoccupied Passenger Cabins"
+    "message": "Unoccupied passenger berths"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",
@@ -2779,9 +2779,13 @@
     "description": "",
     "message": "Up acceleration"
   },
-  "USED": {
+  "UP_ACCEL_EMPTY": {
     "description": "",
-    "message": "Used"
+    "message": "Up accel (empty)"
+  },
+  "USED": {
+    "description": "Usually shown with FREE as a pair, e.g. 4t used / 7t free",
+    "message": "used"
   },
   "VERY_HIGH": {
     "description": "Game settings option: graphic resolution",
