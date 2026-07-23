@@ -17,9 +17,9 @@ f:govtype_weight('EARTHCOLONIAL',		40)
 
 f:illegal_goods_probability('animal_meat',		75)
 f:illegal_goods_probability('live_animals',		75)
-f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('slaves',		    100)
 f:illegal_goods_probability('hand_weapons',		100)
-f:illegal_goods_probability('battle_weapons',		50)
+f:illegal_goods_probability('battle_weapons',	50)
 f:illegal_goods_probability('nerve_gas',		100)
 f:illegal_goods_probability('narcotics',		100)
 
