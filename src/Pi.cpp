@@ -70,6 +70,10 @@
 #include "pigui/PerfInfo.h"
 #include "pigui/PiGui.h"
 
+#ifdef ENABLE_SERVER_AGENT
+#include "ServerAgent.h"
+#endif // ENABLE_SERVER_AGENT
+
 #include "sound/AmbientSounds.h"
 #include "sound/Sound.h"
 #include "sound/SoundMusic.h"
