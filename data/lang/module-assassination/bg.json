@@ -349,14 +349,14 @@
   },
   "X_WILL_BE_LEAVING": {
     "description": "{ship_indef} is translated in /data/lang/ships/",
-    "message": "{target} ще напусне {spaceport} в системата {system} ({sectorX}, {sectorY}, {sectorZ}), на разстояние от {dist} сг, на {date}. Корабът е {ship_indef} с регистрационен номер {shipregid}."
+    "message": "{target} ще напусне {spaceport} в системата {system} ({sectorX}, {sectorY}, {sectorZ}), на разстояние от {dist} св. г., на {date}. Корабът е {ship_indef} с регистрационен номер {shipregid}."
   },
   "X_WILL_BE_LEAVING_FEMALE": {
     "description": "{ship_indef} is translated in /data/lang/ships/",
-    "message": "{target} ще напусне {spaceport} в системата {system} ({sectorX}, {sectorY}, {sectorZ}), на разстояние от {dist} сг, на {date}. Нейният кораб е {ship_indef} с регистрационен номер {shipregid}."
+    "message": "{target} ще напусне {spaceport} в системата {system} ({sectorX}, {sectorY}, {sectorZ}), на разстояние от {dist} св. г., на {date}. Нейният кораб е {ship_indef} с регистрационен номер {shipregid}."
   },
   "X_WILL_BE_LEAVING_MALE": {
     "description": "{ship_indef} is translated in /data/lang/ships/",
-    "message": "{target} ще напусне {spaceport} в системата {system} ({sectorX}, {sectorY}, {sectorZ}), на разстояние от {dist} сг, на {date}. Неговият кораб е {ship_indef} с регистрационен номер {shipregid}."
+    "message": "{target} ще напусне {spaceport} в системата {system} ({sectorX}, {sectorY}, {sectorZ}), на разстояние от {dist} св. г., на {date}. Неговият кораб е {ship_indef} с регистрационен номер {shipregid}."
   }
 }

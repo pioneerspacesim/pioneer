@@ -365,7 +365,7 @@
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
-    "message": "Последните получени данни са от {planet} в системата {system} [{sectorx},{sectory},{sectorz}], на разстояние от {dist} сг."
+    "message": "Последните получени данни са от {planet} в системата {system} [{sectorx},{sectory},{sectorz}], на разстояние от {dist} св. г."
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
@@ -401,7 +401,7 @@
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
-    "message": "Ще намерите кораба в системата {system} [{sectorx},{sectory},{sectorz}], на разстояние от {dist} сг. Той е в орбита около {planet}."
+    "message": "Ще намерите кораба в системата {system} [{sectorx},{sectory},{sectorz}], на разстояние от {dist} св. г. Той е в орбита около {planet}."
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",

@@ -345,7 +345,7 @@
   },
   "DISTANCE_LY": {
     "description": "",
-    "message": "Разстояние: %distance{f.2} сг"
+    "message": "Разстояние: %distance{f.2} св. г."
   },
   "DOCKED": {
     "description": "",
@@ -1081,7 +1081,7 @@
   },
   "NUMBER_LY": {
     "description": "",
-    "message": "%distance{f.2} сг"
+    "message": "%distance{f.2} св. г."
   },
   "NUMBER_TONNES": {
     "description": "",
@@ -1873,7 +1873,7 @@
   },
   "UNIT_LY": {
     "description": "Distance unit: a light year",
-    "message": "сг"
+    "message": "св. г."
   },
   "UNIT_MEGATONNES": {
     "description": "Mass unit: one megatonne",

@@ -1617,7 +1617,7 @@
   },
   "LY": {
     "description": "Light year",
-    "message": "сг"
+    "message": "св. г."
   },
   "MAJOR_EXPORT": {
     "description": "For displaying commodity information",

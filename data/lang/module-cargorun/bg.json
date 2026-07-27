@@ -321,27 +321,27 @@
   },
   "INTROTEXT_1": {
     "description": "",
-    "message": "Здрасти, аз съм {name}. Ще платя {cash}, ако доставите {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
+    "message": "Здрасти, аз съм {name}. Ще платя {cash}, ако доставите {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} св. г."
   },
   "INTROTEXT_2": {
     "description": "{name} is the full name of a person",
-    "message": "Поздрави! Транспортни Услуги {name} искат да доставите {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще получите {cash} при безопасна и безаварийна доставка."
+    "message": "Поздрави! Транспортни Услуги {name} искат да доставите {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} св. г. Ще получите {cash} при безопасна и безаварийна доставка."
   },
   "INTROTEXT_3": {
     "description": "",
-    "message": "Добър ден. Аз съм {name} и управлявам {name} ООД. Нуждая се от надежден пилот за доставка на {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}). Ще платя {cash} за разстоянието от {dist} сг."
+    "message": "Добър ден. Аз съм {name} и управлявам {name} ООД. Нуждая се от надежден пилот за доставка на {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}). Ще платя {cash} за разстоянието от {dist} св. г."
   },
   "INTROTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "Здравейте. Нуждаем се от опитен пилот за потенциално опасна мисия до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}). Ще платим {cash}. Разстоянието е {dist} сг."
+    "message": "Здравейте. Нуждаем се от опитен пилот за потенциално опасна мисия до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}). Ще платим {cash}. Разстоянието е {dist} св. г."
   },
   "INTROTEXT_FLUFFY_1": {
     "description": "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
-    "message": "Здрасти, името ми е {name}. Имам пухкава пратка от {cargoname} за доставка в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}). Разстоянието е {dist} сг. За доставката ще платя {cash}."
+    "message": "Здрасти, името ми е {name}. Имам пухкава пратка от {cargoname} за доставка в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}). Разстоянието е {dist} св. г. За доставката ще платя {cash}."
   },
   "INTROTEXT_INFRASTRUCTURE_1": {
     "description": "",
-    "message": "Поздрави! Аз съм {name}. Правителството на {system}  трябва да достави {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}). Заплащането е {cash}. {system} се на намира на разстояние от {dist} сг."
+    "message": "Поздрави! Аз съм {name}. Правителството на {system}  трябва да достави {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}). Заплащането е {cash}. {system} се на намира на разстояние от {dist} св. г."
   },
   "INTROTEXT_LOCAL_1": {
     "description": "",
@@ -357,15 +357,15 @@
   },
   "INTROTEXT_MINING_1": {
     "description": "{name} is the full name of a person",
-    "message": "Здравейте. Минната Компания {name} трябва да достави {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг, за да построи нова мина. Заплащането е {cash}."
+    "message": "Здравейте. Минната Компания {name} трябва да достави {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} св. г., за да построи нова мина. Заплащането е {cash}."
   },
   "INTROTEXT_PICKUP_1": {
     "description": "",
-    "message": "Как е? Името ми е {name}, нуждая се от кораб, който да отиде до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), да превози {cargoname} и да се върне в {dom_starport}, в системата {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) за {cash}. Разстоянието до {system} е {dist} сг."
+    "message": "Как е? Името ми е {name}, нуждая се от кораб, който да отиде до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), да превози {cargoname} и да се върне в {dom_starport}, в системата {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) за {cash}. Разстоянието до {system} е {dist} св. г."
   },
   "INTROTEXT_PICKUP_2": {
     "description": "",
-    "message": "Как сте? Аз съм {name}. Един от моите клиенти трябва да внесе {cargoname} от {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще плати {cash} за разноса. Върнете се в {dom_starport}, в системата {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) за да разтоварите товара."
+    "message": "Как сте? Аз съм {name}. Един от моите клиенти трябва да внесе {cargoname} от {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} св. г. Ще плати {cash} за разноса. Върнете се в {dom_starport}, в системата {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) за да разтоварите товара."
   },
   "INTROTEXT_PICKUP_LOCAL_1": {
     "description": "",
@@ -377,15 +377,15 @@
   },
   "INTROTEXT_WEDDING_1": {
     "description": "",
-    "message": "Поздрави. Знаете ли за брачния сезон в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz})? Трябва да транспортираме {cargoname} дотам. Разстоянието е {dist} сг. Ще платим {cash}. Какво ще кажете?"
+    "message": "Поздрави. Знаете ли за брачния сезон в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz})? Трябва да транспортираме {cargoname} дотам. Разстоянието е {dist} св. г. Ще платим {cash}. Какво ще кажете?"
   },
   "INTROTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Здравейте, името ми е {name}, аз съм търговец на едро в системата {system}. Ще платя {cash} за разнос до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
+    "message": "Здравейте, името ми е {name}, аз съм търговец на едро в системата {system}. Ще платя {cash} за разнос до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} св. г."
   },
   "INTROTEXT_WHOLESALER_2": {
     "description": "",
-    "message": "Поздрави, името ми е {name} и работя за Хаберската Корпорация. Ще платя {cash} за разнос до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
+    "message": "Поздрави, името ми е {name} и работя за Хаберската Корпорация. Ще платя {cash} за разнос до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} св. г."
   },
   "IS_IT_NEGOTIABLE": {
     "description": "",
