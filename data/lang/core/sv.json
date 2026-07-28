@@ -1793,7 +1793,7 @@
   },
   "TOMBSTONE_EPITAPH": {
     "description": "shown on tombstone when player dies",
-    "message": "RIP GAMLA BÖNA"
+    "message": "RIP OLD BEAN"
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
