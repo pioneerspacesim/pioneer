@@ -6,6 +6,7 @@ July
     * Make probability of lava depend on volcanicity (#6390)
     * Implement Circular Thrust Indicator (#6387)
     * Show percent translation complete for language options (#6370)
+    * Add URL to translation wiki from language option menu (#6399)
 
   * Fixes
     * Fix for HUD trails not displaying in rotating frames (#6384)
@@ -14,11 +15,13 @@ July
     * Fix for HudTrail and missile targetting crashes (#6394)
     * Search & Rescue mission checks cargo hold for additional fuel (#6377)
     * Fix skybox background glitch - Scale down the skybox in SystemMap (#6398)
+    * Fix bug that made persistent NPC names (lobby, police, etc.) non-persistent (#6401)
 
   * Internal
     * Fix return-value warning in PiGuiRenderer.cpp (#6374)
     * Add text shadow capability (#6388)
     * OpenAL Soft contribution added in Authors and About dialog (#6396)
+    * Remove redundant japanese languages ja-Hira and ja_JP (#6405)
 
 June
   * New Features
@@ -34,6 +37,7 @@ June
     * Round off new commodity stock on news event (#6365)
 
   * Internal
+    * Upgrade Dear Imgui to 1.92.8 (#6356)
     * Update CMake and CI build files (#6359)
     * Remove unused "set as target" strings (#6363)
     * clang-format: Add SpaceBeforeCpp11BracedList: true (#6362)
