@@ -2093,19 +2093,19 @@
   },
   "PUMP_DOWN_FROM_CARGO_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "%t pumpálása a raktérből"
+    "message": "%i t pumpálása a raktérből"
   },
   "PUMP_DOWN_FROM_HYPERDRIVE_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "%t pumpálása a hiperhajtómű tankjából az üzemanyagtartályba"
+    "message": "%i t pumpálása a hiperhajtómű tankjából az üzemanyagtartályba"
   },
   "PUMP_DOWN_TO_CARGO_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "%t pumpálása a raktérbe"
+    "message": "%i t pumpálása a raktérbe"
   },
   "PUMP_DOWN_TO_HYPERDRIVE_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "%t pumpálása az üzemanyagtartályból a hiperhajtómű tankjába"
+    "message": "%i t pumpálása az üzemanyagtartályból a hiperhajtómű tankjába"
   },
   "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
