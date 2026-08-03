@@ -2093,15 +2093,15 @@
   },
   "PUMP_DOWN_FROM_CARGO_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Μεταφορά &i τόνων από το αμπάρι"
+    "message": "Μεταφορά %i τόνων από το αμπάρι"
   },
   "PUMP_DOWN_FROM_HYPERDRIVE_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Μεταφορά &i τόνων από τον υπερκινητήρα στις εσωτερικές δεξαμενές"
+    "message": "Μεταφορά %i τόνων από τον υπερκινητήρα στις εσωτερικές δεξαμενές"
   },
   "PUMP_DOWN_TO_CARGO_TOOLTIP": {
     "description": "Tooltip for Info screen",
-    "message": "Μεταφορά &i τόνων στο αμπάρι"
+    "message": "Μεταφορά %i τόνων στο αμπάρι"
   },
   "PUMP_DOWN_TO_HYPERDRIVE_TOOLTIP": {
     "description": "Tooltip for Info screen",
