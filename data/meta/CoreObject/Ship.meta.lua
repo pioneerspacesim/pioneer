@@ -113,6 +113,8 @@ function Ship:SetHullPercent(percent) end
 ---@return number
 function Ship:GetShieldsPercent() end
 
+function Ship:GetAtmosphericPressureLimit() end
+
 -- Sets the thruster fuel tank of the ship to the given percentage of its maximum.
 ---@param percent number
 function Ship:SetFuelPercent(percent) end

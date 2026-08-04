@@ -130,6 +130,11 @@ function Body:GetPhysicalRadius() end
 ---@return number? density
 function Body:GetAtmosphericState(forBody) end
 
+--- Return the temperature of the given body in this body's atmosphere
+---@param forBody Body
+---@return number? temperature
+function Body:GetTemperature(forBody) end
+
 ---@return string label
 function Body:GetLabel() end
 
