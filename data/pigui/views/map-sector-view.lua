@@ -841,54 +841,51 @@ end
 
 ui.registerHandler("SectorView", function()
 	player = Game.player
-	if Game.CurrentView() == "SectorView" then
 
-		if shouldRefresh then
-			shouldRefresh = false
+	if shouldRefresh then
+		shouldRefresh = false
 
-			-- Always show system info when entering SectorView, if we can. This helps the player find the hyperspace routing.
-			if not hasActiveExclusiveLeftModule() and not infoView.active then
-				infoView.active = true
-				infoView.closing = false
-				infoView.alpha = nil
-			end
-
-			leftSidebar:Refresh()
-			rightSidebar:Refresh()
-			hyperJumpPlanner.updateRouteList()
+		-- Always show system info when entering SectorView, if we can. This helps the player find the hyperspace routing.
+		if not hasActiveExclusiveLeftModule() and not infoView.active then
+			infoView.active = true
+			infoView.closing = false
+			infoView.alpha = nil
 		end
 
-		drawCurrentSystemName()
+		leftSidebar:Refresh()
+		rightSidebar:Refresh()
+		hyperJumpPlanner.updateRouteList()
+	end
 
-		ui.withFont(pionillium.body, function()
-			leftSidebar:Draw()
-			rightSidebar:Draw()
+	drawCurrentSystemName()
 
-			ui.withStyleColors({
-				WindowBg = colors.lightBlackBackground
-			}, function()
-				drawEdgeButtons()
-			end)
+	ui.withFont(pionillium.body, function()
+		leftSidebar:Draw()
+		rightSidebar:Draw()
+
+		ui.withStyleColors({
+			WindowBg = colors.lightBlackBackground
+		}, function()
+			drawEdgeButtons()
 		end)
+	end)
 
 
-		if ui.isKeyReleased(ui.keys.tab) then
-			ui_visible = not ui_visible
-			-- FIXME: label visibility is logically inverted from the parameter
-			sectorView:GetMap():SetLabelsVisibility(not ui_visible)
-		end
+	if ui.isKeyReleased(ui.keys.tab) then
+		ui_visible = not ui_visible
+		-- FIXME: label visibility is logically inverted from the parameter
+		sectorView:GetMap():SetLabelsVisibility(not ui_visible)
+	end
 
-		if ui.escapeKeyReleased() then
-			Game.SetView("WorldView")
-		end
+	if ui.escapeKeyReleased() then
+		Game.SetView("WorldView")
+	end
 
-		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
-			package.reimport('pigui.modules.system-econ-view')
-			bookmarkView:debugReload()
-			package.reimport('pigui.modules.hyperjump-planner')
-			package.reimport()
-		end
-
+	if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
+		package.reimport('pigui.modules.system-econ-view')
+		bookmarkView:debugReload()
+		package.reimport('pigui.modules.hyperjump-planner')
+		package.reimport()
 	end
 end)
 
