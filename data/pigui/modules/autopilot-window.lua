@@ -267,7 +267,7 @@ local function displayAutoPilotWindow()
 		end)
 end
 
-ui.registerModule("game", { id = "autopilot-window", draw = displayAutoPilotWindow, debugReload = function() package.reimport() end })
+ui.registerModule("world-view", { id = "autopilot-window", draw = displayAutoPilotWindow, debugReload = function() package.reimport() end })
 Event.Register("onGameStart", speed_limiter.reset)
 
 return {}

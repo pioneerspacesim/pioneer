@@ -160,6 +160,14 @@ function ui.getModules(mode)
 	return modules[mode] or {}
 end
 
+function ui.callModules(mode)
+	for k, v in ipairs(ui.getModules(mode)) do
+		if not v.disabled then
+			v.disabled = not ui.pcall(v.draw, v)
+		end
+	end
+end
+
 function ui.registerHandler(name, fun)
 	pigui.handlers[name] = fun
 end

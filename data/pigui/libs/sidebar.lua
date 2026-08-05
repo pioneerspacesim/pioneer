@@ -16,7 +16,7 @@ local styles = ui.theme.styles
 local colors = ui.theme.colors
 local pionillum = ui.fonts.pionillium
 
-local windowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoScrollbar"}
+local windowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoScrollbar", "NoBackground" }
 local displayFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "AlwaysAutoResize", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoScrollbar"}
 
 local animUp = 6

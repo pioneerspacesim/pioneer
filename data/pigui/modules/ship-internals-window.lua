@@ -188,7 +188,7 @@ local function displayShipFunctionWindow()
 	end)
 end
 
-ui.registerModule("game", {
+ui.registerModule("world-view", {
 	id = "ship-internals-window",
 	draw = displayShipFunctionWindow,
 	debugReload = function()

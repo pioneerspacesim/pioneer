@@ -277,25 +277,9 @@ void SectorView::Draw3D()
 	m_map->Draw3D();
 }
 
-void SectorView::DrawPiGui()
+void SectorView::DrawUIContents()
 {
-	ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration
-		| ImGuiWindowFlags_NoBackground
-		| ImGuiWindowFlags_NoNav
-		| ImGuiWindowFlags_NoBringToFrontOnFocus
-		| ImGuiWindowFlags_NoFocusOnAppearing
-		| ImGuiWindowFlags_NoSavedSettings
-		| ImGuiWindowFlags_NoCaptureMouse;
-
-	ImGui::SetNextWindowPos(ImVec2(0, 0));
-	ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
-	bool open = ImGui::Begin("##SectorMap", nullptr, flags);
-
-	if (open) {
-		m_map->DrawLabels(ImGui::IsWindowHovered());
-	}
-
-	ImGui::End();
+	m_map->DrawLabels(ImGui::IsWindowHovered());
 }
 
 void SectorView::SetHyperspaceTarget(const SystemPath &path)

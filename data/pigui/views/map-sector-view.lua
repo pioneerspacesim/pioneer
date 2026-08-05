@@ -776,7 +776,7 @@ local function drawCurrentSystemName()
 	local window_offset_y = ui.theme.styles.MainButtonSize.y + ui.getWindowPadding().y * 2 + ui.theme.styles.ItemSpacing.y
 	ui.setNextWindowPos(Vector2(ui.screenWidth / 2, window_offset_y), "Always", Vector2(0.5, 0))
 
-	ui.window("##CurrentSystem", { "NoDecoration", "NoMove", "AlwaysAutoResize" }, function()
+	ui.window("##CurrentSystem", { "NoDecoration", "NoMove", "NoBackground", "AlwaysAutoResize" }, function()
 		local path = sectorView:GetCurrentSystemPath()
 		ui.withFont(orbiteer.body, function()
 			bannerText(ui.getCursorScreenPos(), ui.get_icon_glyph(icons.navtarget) .. " " .. ui.Format.SystemPath(path), colors.lightBlackBackground)
@@ -839,7 +839,7 @@ local function hasActiveExclusiveLeftModule()
 	return false
 end
 
-ui.registerModule("game", { id = 'map-sector-view', draw = function()
+ui.registerHandler("SectorView", function()
 	player = Game.player
 	if Game.CurrentView() == "SectorView" then
 
@@ -888,10 +888,15 @@ ui.registerModule("game", { id = 'map-sector-view', draw = function()
 			package.reimport('pigui.modules.hyperjump-planner')
 			package.reimport()
 		end
-	else
+
+	end
+end)
+
+ui.registerModule('game', function()
+	if Game.CurrentView() ~= "SectorView" then
 		shouldRefresh = true
 	end
-end})
+end)
 
 Event.Register("onGameStart", onGameStart)
 Event.Register("onEnterSystem", function(ship)

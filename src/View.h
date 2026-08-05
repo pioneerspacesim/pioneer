@@ -21,12 +21,11 @@ class View {
 public:
 	View(const std::string &name);
 	virtual ~View();
-	virtual void Draw() {};
-	// called before Gui::Draw will call widget ::Draw methods.
-	virtual void Draw3D() {};
 	// for checking key states, mouse crud
 	virtual void Update() {};
-	// Called during the pigui frame to draw UI
+	// called before DrawPiGui, do all 3d rendering to the framebuffer.
+	virtual void Draw3D() {};
+	// Called during the pigui frame to submit UI widgets
 	virtual void DrawPiGui();
 	virtual void SaveToJson(Json &jsonObj) {}
 	virtual void LoadFromJson(const Json &jsonObj) {}
@@ -38,8 +37,11 @@ public:
 
 	const std::string &GetViewName() const { return m_handlerName; }
 protected:
-	virtual void OnSwitchTo() {};
+	virtual void OnSwitchTo() {}
 	virtual void OnSwitchFrom() {}
+	// Submit all C++-side UI contents before Lua UI submission is kicked
+	virtual void DrawUIContents() {}
+
 	Graphics::Renderer *m_renderer;
 	std::string m_handlerName;
 };

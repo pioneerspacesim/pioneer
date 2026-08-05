@@ -822,6 +822,7 @@ void Game::Views::SetRenderer(Graphics::Renderer *r)
 	m_infoView->SetRenderer(r);
 	m_sectorView->SetRenderer(r);
 	m_systemView->SetRenderer(r);
+	m_spaceStationView->SetRenderer(r);
 	m_worldView->SetRenderer(r);
 	m_deathView->SetRenderer(r);
 

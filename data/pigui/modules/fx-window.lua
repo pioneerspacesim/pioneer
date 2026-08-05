@@ -99,7 +99,7 @@ local function button_comms(current_view)
 	end
 end
 
-local windowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoScrollbar"}
+local windowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoScrollbar", "NoBackground"}
 
 local function displayFxWindow()
 	if ui.optionsWindow.isOpen then return end

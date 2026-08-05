@@ -409,19 +409,6 @@ void WorldView::HideIndicator(Indicator &indicator)
 	indicator.pos = vector2f(0.0f, 0.0f);
 }
 
-void WorldView::Draw()
-{
-	assert(m_game);
-	assert(Pi::player);
-
-	m_renderer->ClearDepthBuffer();
-
-	View::Draw();
-
-	// glLineWidth(1.0f);
-	m_renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
-}
-
 void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c)
 {
 	if (target.side == INDICATOR_HIDDEN) return;

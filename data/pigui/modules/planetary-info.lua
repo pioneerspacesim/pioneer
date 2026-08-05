@@ -76,6 +76,6 @@ local function displayPlanetaryInfo()
 	end)
 end
 
-ui.registerModule("game", { id = "planetary-info", draw = displayPlanetaryInfo, debugReload = true })
+ui.registerModule("world-view", { id = "planetary-info", draw = displayPlanetaryInfo, debugReload = true })
 
 return {}

@@ -230,30 +230,16 @@ local function displayScreenshotInfo()
 	end
 end
 
-local function callModules(mode)
-	for k,v in ipairs(ui.getModules(mode)) do
-		if not v.disabled then
-			v.disabled = not ui.pcall(v.draw)
-		end
-	end
-end
-
-local drawHUD = ui.makeFullScreenHandler("HUD", function()
-	ui.bringWindowToDisplayBack()
-
+local drawHUD = function()
 	if ui.shouldDrawUI() then
-		if Game.CurrentView() == "WorldView" then
-			gameView:draw()
-		else
-			gameView.shouldRefresh = true
-		end
+		gameView:draw()
 
+		ui.callModules("world-view")
 		ui.radialMenu("game")
-		callModules("game")
-	elseif Game.CurrentView() == "WorldView" then
+	else
 		displayScreenshotInfo()
 	end
-end)
+end
 
 local debugReload = function(t)
 	for i, v in ipairs(t) do
@@ -279,39 +265,47 @@ Event.Register("onPauseMenuClosed", function()
 	Input.EnableBindings()
 end)
 
+ui.registerHandler('WorldView', function()
+	-- delta_t is ignored for now
+	gameView.player = Game.player
+	gameView.center = Vector2(ui.screenWidth / 2, ui.screenHeight / 2)
+
+	-- Ensure we're wrapping the whole UI in a font that scales with the rest of the game
+	ui.withFont(pionillium.medium, function()
+		ui.withStyleColors({ WindowBg = colors.transparent }, drawHUD)
+	end)
+
+	-- TODO: dispatch escape key to views and let them handle it
+	if ui.escapeKeyReleased(true) then
+		ui.optionsWindow:changeState()
+	end
+
+	if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
+		gameView.debugReload()
+
+		debugReload(ui.getModules("game"))
+		debugReload(gameView.modules)
+		debugReload(gameView.hudModules)
+		debugReload(gameView.sidebarModules)
+	end
+end)
+
 ui.registerHandler('game', function(delta_t)
-		-- delta_t is ignored for now
-		gameView.player = Game.player
-		gameView.center = Vector2(ui.screenWidth / 2, ui.screenHeight / 2)
 
 		-- TODO: add a handler mechanism for theme changes
 		-- colors = ui.theme.colors -- if the theme changes
 		-- icons = ui.theme.icons -- if the theme changes
 		-- keep a copy of the current view so modules can react to the escape key and change the view
 		-- without triggering the options dialog
-		local currentView = Game.CurrentView()
 
-		-- Ensure we're wrapping the whole UI in a font that scales with the rest of the game
-		ui.withFont(pionillium.medium, function()
-			ui.withStyleColors({ WindowBg = colors.transparent }, drawHUD)
-		end)
-
-		-- TODO: dispatch escape key to views and let them handle it
-		if currentView == "WorldView" and ui.escapeKeyReleased(true) then
-			ui.optionsWindow:changeState()
+		if Game.CurrentView() ~= "WorldView" then
+			gameView.shouldRefresh = true
 		end
 
-		callModules('modal')
-		callModules('ui-timer')
+		ui.callModules('game')
+		ui.callModules('modal')
+		ui.callModules('ui-timer')
 
-		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
-			gameView.debugReload()
-
-			debugReload(ui.getModules("game"))
-			debugReload(gameView.modules)
-			debugReload(gameView.hudModules)
-			debugReload(gameView.sidebarModules)
-		end
 end)
 
 return gameView

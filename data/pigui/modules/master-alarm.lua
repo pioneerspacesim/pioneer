@@ -133,6 +133,6 @@ local function alarm ()
 
 end
 
-ui.registerModule("game", alarm)
+ui.registerModule("world-view", alarm)
 
 return {}

@@ -30,8 +30,6 @@ public:
 	// void ShowAll() override;
 	void Draw3D() override;
 
-	void DrawPiGui() override;
-
 	SystemPath GetCurrent() const { return m_current; }
 	SystemPath GetHyperspaceTarget() const { return m_hyperspaceTarget; }
 	SystemPath GetSelected() const { return m_selected; }
@@ -66,6 +64,7 @@ public:
 protected:
 	void OnSwitchTo() override;
 	void OnSwitchFrom() override;
+	void DrawUIContents() override;
 
 	struct InputBinding : public Input::InputFrame {
 		using InputFrame::InputFrame;
