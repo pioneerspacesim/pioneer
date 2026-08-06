@@ -30,6 +30,7 @@ namespace SceneGraph {
 		static Thruster *Load(NodeDatabase &);
 		void SetColor(const Color c) { currentColor = c; }
 		const vector3f &GetDirection() { return dir; }
+		float GetDisplayedPower() const { return displayedPower; }
 
 	private:
 		// thruster geometry is shared between all instances of Thruster

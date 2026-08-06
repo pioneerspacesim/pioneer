@@ -6,6 +6,7 @@
 /*
  * Blinking navigation lights for ships and stations
  */
+#include "Color.h"
 #include "JsonFwd.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
@@ -46,6 +47,8 @@ public:
 	void Render(Graphics::Renderer *renderer);
 	void SetColor(unsigned int group, LightColor);
 	void SetMask(unsigned int group, uint8_t mask);
+
+	Color4f GetActiveLightColor() const;
 
 	static void Init(Graphics::Renderer *);
 	static void Uninit();
