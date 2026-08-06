@@ -140,6 +140,11 @@ namespace SceneGraph {
 		// emissive.r is the thruster power setting which effects flame length and brightness
 		m_tMat->emissive.r = m_glowMat->emissive.r = 255.0f * displayedPower;
 
+		// emulate thruster temperature
+		double temperature = MathUtil::Lerp(0.0, 30000.0, power);
+		vector3d thrustColor = PhysicsUtil::GenerateTemperatureColor(temperature);
+		SetColor(Color(thrustColor.x, thrustColor.y, thrustColor.z, 255));
+
 		m_tMat->diffuse = m_glowMat->diffuse = currentColor;
 
 		//directional fade
