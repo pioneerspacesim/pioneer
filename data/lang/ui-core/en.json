@@ -443,6 +443,10 @@
     "description": "Date of an event, used in flight log",
     "message": "Date"
   },
+  "DAYS": {
+    "description": "",
+    "message": "Days"
+  },
   "DEADLY": {
     "description": "Player combat rating",
     "message": "Deadly"
@@ -887,6 +891,10 @@
     "description": "",
     "message": "Hang up."
   },
+  "HAPPINESS": {
+    "description": "",
+    "message": "Happiness"
+  },
   "HARMLESS": {
     "description": "Player combat rating",
     "message": "Harmless"
@@ -918,6 +926,10 @@
   "HIGH": {
     "description": "Game settings option: for graphics resolution",
     "message": "High"
+  },
+  "HOME": {
+    "description": "",
+    "message": "Home"
   },
   "HUD_2D_RADAR": {
     "description": "Popup text: the name of the azimuthal equidistant projection radar",
@@ -1495,6 +1507,10 @@
     "description": "",
     "message": "Permission to launch denied: docking bay busy."
   },
+  "LAST_HOME_VISIT": {
+    "description": "",
+    "message": "Last home visit"
+  },
   "LAUNCH_PERMISSION_DENIED_CREW": {
     "description": "",
     "message": "Permission to launch denied: not enough crew to handle this ship."
@@ -1690,6 +1706,10 @@
   "MEDIUM_PASSENGER_TRANSPORT": {
     "description": "",
     "message": "Medium passenger transport"
+  },
+  "MEMORIES": {
+    "description": "",
+    "message": "Memories"
   },
   "METAL_ALLOYS": {
     "description": "",
@@ -2183,6 +2203,10 @@
     "description": "",
     "message": "Registration number"
   },
+  "RELATIONSHIP_WITH_CAPTAIN": {
+    "description": "",
+    "message": "Relationship with Captain"
+  },
   "RELIABLE": {
     "description": "For player reputation",
     "message": "Reliable"
@@ -2546,6 +2570,10 @@
   "STATION_TECH_TOO_LOW": {
     "description": "",
     "message": "Station tech level too low to sell this item"
+  },
+  "STATS": {
+    "description": "",
+    "message": "Stats"
   },
   "STATUS": {
     "description": "",
