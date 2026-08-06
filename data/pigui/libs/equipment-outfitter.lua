@@ -135,8 +135,10 @@ function EquipCardUnavailable:tooltipContents(data, isSelected)
 	ui.withStyleColors({ Text = self.textColor }, function()
 		ui.withFont(pionillium.details, function()
 
-			if not data.canInstall then
+			if not data.isCompatible then
 				ui.textWrapped(l.NOT_SUPPORTED_ON_THIS_SHIP % { equipment = data.name } .. ".")
+			elseif not data.canInstall then
+				ui.textWrapped(l.NOT_ENOUGH_SPACE_FOR_EQUIPMENT)
 			elseif not data.canReplace then
 				ui.textWrapped(l.CANNOT_SELL_NONEMPTY_EQUIP)
 			elseif data.outOfStock then
@@ -320,8 +322,11 @@ function Outfitter:buildEquipmentList()
 		self:modifyEquipmentStats(data)
 
 		if self.filterSlot then
-			data.canInstall = equipSet:CanInstallInSlot(self.filterSlot, equip)
+			data.isCompatible = EquipSet.CompatibleWithSlot(equip, self.filterSlot)
+			data.canInstall = data.isCompatible and equipSet:CanInstallInSlot(self.filterSlot, equip)
 		else
+			-- For loose install, "compatibility" means "is slotless equipment"
+			data.isCompatible = not equip.slot
 			data.canInstall = equipSet:CanInstallLoose(equip)
 		end
 
