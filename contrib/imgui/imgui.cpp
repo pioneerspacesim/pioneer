@@ -5664,7 +5664,9 @@ void ImGui::UpdateHoveredWindowAndCaptureFlags(const ImVec2& mouse_pos)
     }
     else
     {
-        io.WantCaptureMouse = (mouse_avail && (g.HoveredWindow != NULL || mouse_any_down)) || has_open_popup;
+        const bool hovered_skip_capture = (g.HoveredWindow != NULL && (g.HoveredWindow->Flags & ImGuiWindowFlags_NoCaptureMouse));
+        const bool hovered_skip_clicked = hovered_skip_capture && (g.ActiveId == 0 || g.ActiveId == g.HoveredWindow->MoveId);
+        io.WantCaptureMouse = (mouse_avail && (g.HoveredWindow != NULL && !hovered_skip_capture || mouse_any_down && !hovered_skip_clicked)) || has_open_popup;
         io.WantCaptureMouseUnlessPopupClose = (mouse_avail_unless_popup_close && (g.HoveredWindow != NULL || mouse_any_down)) || has_open_modal;
     }
 
@@ -8664,7 +8666,7 @@ bool ImGui::Begin(const char* name, bool* p_open, ImGuiWindowFlags flags)
         // Set default BgClickFlags
         // This is set at the end of this function, so UpdateWindowManualResize()/ClampWindowPos() may use last-frame value if overridden by user code.
         // FIXME: The general intent is that we will later expose config options to default to enable scrolling + select scrolling mouse button.
-        window->BgClickFlags = (flags & ImGuiWindowFlags_ChildWindow) ? parent_window->BgClickFlags : (g.IO.ConfigWindowsMoveFromTitleBarOnly ? ImGuiWindowBgClickFlags_None : ImGuiWindowBgClickFlags_Move);
+        window->BgClickFlags = (flags & ImGuiWindowFlags_ChildWindow) ? parent_window->BgClickFlags : (g.IO.ConfigWindowsMoveFromTitleBarOnly || flags & ImGuiWindowFlags_NoCaptureMouse ? ImGuiWindowBgClickFlags_None : ImGuiWindowBgClickFlags_Move);
 
         // We fill last item data based on Title Bar/Tab, in order for IsItemHovered() and IsItemActive() to be usable after Begin().
         // This is useful to allow creating context menus on title bar only, etc.
