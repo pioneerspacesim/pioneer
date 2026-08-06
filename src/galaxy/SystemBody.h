@@ -318,6 +318,7 @@ public:
 	AtmosphereParameters CalcAtmosphereParams() const;
 
 	bool IsScoopable() const;
+	Color CalcSurfaceDustColor() const;
 
 	void Dump(FILE *file, const char *indent = "") const;
 

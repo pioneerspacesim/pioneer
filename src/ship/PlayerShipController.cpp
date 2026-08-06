@@ -488,6 +488,8 @@ void PlayerShipController::ApplyTotalAction(const TotalDesiredAction &params)
 	} else if (params.desiredLinear.LengthSqr() > 0) {
 		// unlock launchlock in case of activation of linear thrust
 		m_ship->m_launchLockTimeout = 0;
+	} else if (!params.desireLinVel) {
+		m_ship->ClearLinThrusterState();
 	}
 
 	m_ship->AIMatchAngVelObjSpace(params.desiredAngular, params.angPower, !params.desireAngVelFull);

@@ -29,7 +29,16 @@ namespace SceneGraph {
 		void Save(NodeDatabase &) override;
 		static Thruster *Load(NodeDatabase &);
 		void SetColor(const Color c) { currentColor = c; }
-		const vector3f &GetDirection() { return dir; }
+		const vector3f &GetDirection() const { return dir; }
+		bool IsLinearOnly() const { return linearOnly; }
+		float ComputeReactionPower(const vector3f &linThrust, const vector3f &angThrust) const;
+		void SetVisualSizeInfo(float size, float sizeProportional)
+		{
+			visualSize = size;
+			visualSizeScaled = sizeProportional;
+		}
+		float GetVisualSize() const { return visualSize; }
+		float GetVisualSizeProportional() const { return visualSizeScaled; }
 
 	private:
 		// thruster geometry is shared between all instances of Thruster
@@ -44,6 +53,8 @@ namespace SceneGraph {
 		vector3f dir;
 		vector3f pos;
 		Color currentColor;
+		float visualSize; // The size that the thruster appears on the 3D model at full power
+		float visualSizeScaled; // visualSize scaled by the largest thruster on the 3D model (i.e. the largest thruster has visualSizeScaled = 1.0)
 		float displayedPower; // used to fade in/out to power (size) of thruster shown
 	};
 

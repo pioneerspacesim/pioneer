@@ -156,7 +156,7 @@ void Frame::ToJson(Json &frameObj, FrameId fId, Space *space)
 		frameObj["child_frames"] = childFrameArray; // Add child frame array to frame object.
 
 	// Add sfx array to supplied object.
-	SfxManager::ToJson(frameObj, f->m_thisId);
+	SfxManager::ToJson(frameObj, f->m_thisId, space);
 }
 
 Frame::~Frame()
