@@ -236,6 +236,7 @@ void LuaVector2::Register(lua_State *L)
 			LuaVector2::PushToLua(L, vector2d(v->y, -v->x));
 			return 1;
 		})
+		.AddFunction("dot", &vector2d::Dot)
 		.StopRecording();
 
 	metaType.GetMetatable();

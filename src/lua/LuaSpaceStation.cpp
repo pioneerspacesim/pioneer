@@ -4,8 +4,10 @@
 #include "LuaConstants.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
+#include "LuaVector.h"
 #include "Ship.h"
 #include "SpaceStation.h"
+#include "SpaceStationType.h"
 
 /*
  * Class: SpaceStation
@@ -99,6 +101,43 @@ static int l_spacestation_get_assigned_bay_number(lua_State *l)
 }
 
 /*
+ * Method: GetAssignedBayNavError
+ *
+ * Get the position and orientation error relative to the defined docking
+ * transform for the assigned bay, if any.
+ *
+ * > pos, rot = station:GetAssignedBayNavError(ship)
+ *
+ * Returns:
+ *   pos - Vector3, the ship-space position component of the navigation error
+ *   dev - Vector3, the heading, pitch, and roll deviation in degrees between the ship's orientation
+ *         and the orientation of the docking bay.
+ */
+static int l_spacestation_get_assigned_bay_nav_error(lua_State *l)
+{
+	SpaceStation *ss = static_cast<SpaceStation *>(LuaObject<Body>::CheckFromLua(1));
+	Ship *s = LuaObject<Ship>::CheckFromLua(2);
+	int number = ss->GetMyDockingPort(s);
+	if (number < 0) {
+		lua_pushnil(l);
+		return 1;
+	}
+
+	matrix4x4f dockedTransform = ss->GetStationType()->GetStageTransform(number, DockStage::DOCKED);
+
+	const matrix3x3d &orient = ss->GetInterpOrient();
+	const matrix3x3d ship_orient = s->GetInterpOrientRelTo(ss->GetFrame());
+	LuaPush(l, orient * vector3d(dockedTransform.GetTranslate()) * ship_orient);
+
+	const matrix3x3d bay_orient = orient * matrix3x3d(dockedTransform.GetOrient());
+
+	vector3d deviation = ship_orient.DeviationAngles(bay_orient);
+	LuaPush(l, deviation);
+
+	return 2;
+}
+
+/*
  * Method: GetNearbyTraffic
  *
  * Gets the number of ships within a specified radius in meters of this station.
@@ -165,6 +204,7 @@ void LuaObject<SpaceStation>::RegisterClass()
 		{ "GetGroundPosition", l_spacestation_get_ground_position },
 		{ "RequestDockingClearance", l_spacestation_request_docking_clearance },
 		{ "GetAssignedBayNumber", l_spacestation_get_assigned_bay_number },
+		{ "GetAssignedBayNavError", l_spacestation_get_assigned_bay_nav_error },
 		{ "GetNearbyTraffic", l_spacestation_get_nearby_traffic },
 
 		{ 0, 0 }

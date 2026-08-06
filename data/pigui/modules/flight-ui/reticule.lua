@@ -246,6 +246,56 @@ local function displayReticulePitchHorizonCompass()
 	displayReticuleCompass(heading_degrees)
 end
 
+local function displayReticuleLandingAssist()
+	local target = Game.player:GetNavTarget()
+
+	if target and target:IsStation() and target:GetAssignedBayNumber(Game.player) >= 0 then
+		-- position and { heading, pitch, roll } deviation from the target
+		local _, dev = target:GetAssignedBayNavError(Game.player)
+		assert(dev)
+
+		local roll = dev.z
+
+		-- Render a line inside the reticle indicating the plane of the landing pad relative to the ship's orientation.
+		-- Use the line-circle intersection quadratic algorithm to compute the endpoints of the line segment
+		local line_origin = Vector2(0, reticuleCircleRadius * math.sin(dev.y)):rotate(roll)
+		local center_sqr = line_origin:lengthSqr()
+		local orient = Vector2(math.cos(roll), math.sin(roll))
+
+		local b = orient:dot(-line_origin)
+		-- because the origin point of the line is always inside the circle, the determinant
+		-- (b^2 - c^2 + r^2) will always be >= 0
+		local d = math.sqrt(b * b - center_sqr + (reticuleCircleRadius - 2)^2)
+
+		local proj_center = center + line_origin + orient * b
+		local extent = orient * d
+
+		local pos_a = proj_center - extent
+		local pos_b = proj_center + extent
+
+		ui.addLine(pos_a, pos_b, math.abs(roll) > ui.pi_2 and colors.landingAsstInverted or colors.landingAsstNormal, 1)
+
+		-- Render the yaw error tick below (forwards) or above (rear) the line.
+		-- This tick does not indicate direction to the pad, but rather the ship's
+		-- rotation error relative to the pad's orientation.
+		local heading_line_pos = proj_center - extent * (dev.x / ui.pi_2)
+		local heading_line_dir = orient:left()
+
+		local heading = dev.x
+		if math.abs(heading) > ui.pi_2 then
+			local inv = (math.pi - math.abs(heading)) * math.sign(heading)
+			heading_line_pos = proj_center + extent * (inv / ui.pi_2)
+			heading_line_dir = orient:right()
+		end
+
+		ui.addLine(heading_line_pos, heading_line_pos + heading_line_dir * 6, colors.landingAsstYawTick, 1)
+
+		-- TODO: render artificial-horizon shaded area helper by deriving angle-on-circle of line end positions
+		-- and manually submitting points on the circle edge between the two angles.
+
+	end
+end
+
 local reticuleTarget = "frame"
 
 local lastNavTarget = nil
@@ -842,6 +892,7 @@ local function displayReticule()
 	displayFlightAssist(radius)
 	displayManeuverData(radius)
 	displayReticulePitchHorizonCompass()
+	displayReticuleLandingAssist()
 	displayReticuleDeltaV()
 	displayAlertMarker()
 

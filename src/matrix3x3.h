@@ -225,6 +225,41 @@ public:
 		*this = Normalized();
 	}
 
+	// Return a vector containing the Euler angles of the deviation between the orientation
+	// encoded in this matrix and a reference orientation passed to this function.
+	vector3<T> DeviationAngles(const matrix3x3 &rel_to) const
+	{
+		const vector3<T> up = rel_to.VectorY();
+
+		const vector3<T> t_forward = -VectorZ();
+		const vector3<T> t_right = VectorX();
+
+		// project the forward vector onto the up plane
+		vector3<T> projected_heading = t_forward.ProjectPlane(up);
+		// find the perpendicular vector to the up direction and the target forward
+		vector3<T> projected_perpendicular = up.Cross(t_forward).Normalized();
+
+		const T lenSqr = projected_heading.LengthSqr();
+		if (lenSqr > 1e-18) {
+			projected_heading = projected_heading / sqrt(lenSqr);
+		} else {
+			projected_heading = VectorY().ProjectPlane(up).Normalized();
+		}
+
+		const T ax = projected_heading.Dot(-rel_to.VectorZ());
+		const T ay = projected_heading.Dot(rel_to.VectorX());
+
+		const T heading = atan2(ay, ax);
+		const T pitch = asin(up.Dot(t_forward));
+		const T roll = (acos(t_right.Dot(projected_perpendicular)) - M_PI) * (t_right.Dot(up) < 0 ? 1 : -1);
+
+		return vector3<T>(
+			std::isnan(heading) ? 0.0 : heading,
+			std::isnan(pitch) ? 0.0 : pitch,
+			std::isnan(roll) ? 0.0 : roll
+		);
+	}
+
 	static matrix3x3 IdentityFunc()
 	{
 		constexpr T IDENTITY3x3[] = { 1, 0, 0, 0, 1, 0, 0, 0, 1 };
