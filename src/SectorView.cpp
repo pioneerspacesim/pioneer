@@ -20,6 +20,7 @@
 #include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
+#include "imgui/imgui.h"
 #include "lua/LuaObject.h"
 #include "lua/LuaRef.h"
 #include "lua/LuaTable.h"
@@ -276,9 +277,9 @@ void SectorView::Draw3D()
 	m_map->Draw3D();
 }
 
-void SectorView::DrawPiGui()
+void SectorView::DrawUIContents()
 {
-	m_map->DrawLabels(!ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow) && !ImGui::IsAnyItemHovered());
+	m_map->DrawLabels(ImGui::IsWindowHovered());
 }
 
 void SectorView::SetHyperspaceTarget(const SystemPath &path)

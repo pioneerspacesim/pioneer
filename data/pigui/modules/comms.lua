@@ -90,7 +90,7 @@ gameView.registerSidebarModule("comms", {
 	end
 })
 
-local windowFlags = {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings", "NoScrollbar"}
+local windowFlags = {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings", "NoScrollbar", "NoInputs"}
 
 gameView.registerHudModule("comms", {
 	side = "left",

@@ -32,7 +32,7 @@ namespace PiGui {
 	void EmitEvents();
 
 	// Run a lua PiGui handler.
-	void RunHandler(double delta, const std::string &handler = "GAME");
+	void RunHandler(double delta, const std::string &handler = "GAME", bool just_activated = false);
 
 	// Load a pigui theme into the specified ImGui style.
 	void LoadTheme(ImGuiStyle &style, const std::string &theme);

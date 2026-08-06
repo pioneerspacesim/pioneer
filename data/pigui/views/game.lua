@@ -36,7 +36,6 @@ local IN_SPACE_INDICATOR_SHIP_MAX_DISTANCE = 1000000 -- ships farther away than 
 local gameView = {
 	center  = nil,
 	player  = nil,
-	shouldRefresh = false,
 
 	leftSidebar = Sidebar.New("##SidebarL", "left"),
 	rightSidebar = Sidebar.New("##SidebarR", "right"),
@@ -133,14 +132,14 @@ local function displayOnScreenObjects()
 		local mp = ui.getMousePos()
 		-- mouse release handler for radial menu
 		if (mp - mainCoords):length() < click_radius then
-			if ui.canClickOnScreenObjectHere() and ui.isMouseClicked(1) then
+			if ui.isMouseClicked(1) and ui.isWindowHovered() then
 				local body = mainBody
 				ui.openDefaultRadialMenu("game", body)
 			end
 		end
 		-- mouse release handler
 		if (mp - mainCoords):length() < click_radius then
-			if ui.canClickOnScreenObjectHere() and ui.isMouseReleased(0) then
+			if ui.isMouseReleased(0) and ui.isWindowHovered() then
 				if group.hasNavTarget or combatTarget == mainBody then
 					-- if clicked and is target, unset target
 					if group.hasNavTarget then
@@ -191,14 +190,12 @@ gameView.registerModule("onscreen-objects", {
 	end
 })
 
+function gameView:refresh()
+	self.leftSidebar:Refresh()
+	self.rightSidebar:Refresh()
+end
+
 function gameView:draw()
-	if self.shouldRefresh then
-		self.leftSidebar:Refresh()
-		self.rightSidebar:Refresh()
-
-		self.shouldRefresh = false
-	end
-
 	self:updateModules()
 
 	for i, module in ipairs(gameView.modules) do
@@ -230,28 +227,16 @@ local function displayScreenshotInfo()
 	end
 end
 
-local function callModules(mode)
-	for k,v in ipairs(ui.getModules(mode)) do
-		if not v.disabled then
-			v.disabled = not ui.pcall(v.draw)
-		end
-	end
-end
-
-local drawHUD = ui.makeFullScreenHandler("HUD", function()
+local drawHUD = function()
 	if ui.shouldDrawUI() then
-		if Game.CurrentView() == "WorldView" then
-			gameView:draw()
-		else
-			gameView.shouldRefresh = true
-		end
+		gameView:draw()
 
+		ui.callModules("world-view")
 		ui.radialMenu("game")
-		callModules("game")
-	elseif Game.CurrentView() == "WorldView" then
+	else
 		displayScreenshotInfo()
 	end
-end)
+end
 
 local debugReload = function(t)
 	for i, v in ipairs(t) do
@@ -262,7 +247,7 @@ local debugReload = function(t)
 end
 
 Event.Register("onGameStart", function()
-	gameView.shouldRefresh = true
+	-- Game view will be refreshed on first appearing
 	gameView.leftSidebar:Reset()
 	gameView.rightSidebar:Reset()
 end)
@@ -277,39 +262,48 @@ Event.Register("onPauseMenuClosed", function()
 	Input.EnableBindings()
 end)
 
+ui.registerHandler('WorldView', function(delta_t, refresh)
+	-- delta_t is ignored for now
+	gameView.player = Game.player
+	gameView.center = Vector2(ui.screenWidth / 2, ui.screenHeight / 2)
+
+	if refresh then
+		gameView:refresh()
+	end
+
+	-- Ensure we're wrapping the whole UI in a font that scales with the rest of the game
+	ui.withFont(pionillium.medium, function()
+		ui.withStyleColors({ WindowBg = colors.transparent }, drawHUD)
+	end)
+
+	-- TODO: dispatch escape key to views and let them handle it
+	if ui.escapeKeyReleased(true) then
+		ui.optionsWindow:changeState()
+	end
+
+	if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
+		gameView.debugReload()
+
+		debugReload(ui.getModules("game"))
+		debugReload(ui.getModules("world-view"))
+		debugReload(gameView.modules)
+		debugReload(gameView.hudModules)
+		debugReload(gameView.sidebarModules)
+	end
+end)
+
 ui.registerHandler('game', function(delta_t)
-		-- delta_t is ignored for now
-		gameView.player = Game.player
-		gameView.center = Vector2(ui.screenWidth / 2, ui.screenHeight / 2)
 
 		-- TODO: add a handler mechanism for theme changes
 		-- colors = ui.theme.colors -- if the theme changes
 		-- icons = ui.theme.icons -- if the theme changes
 		-- keep a copy of the current view so modules can react to the escape key and change the view
 		-- without triggering the options dialog
-		local currentView = Game.CurrentView()
 
-		-- Ensure we're wrapping the whole UI in a font that scales with the rest of the game
-		ui.withFont(pionillium.medium, function()
-			ui.withStyleColors({ WindowBg = colors.transparent }, drawHUD)
-		end)
+		ui.callModules('game')
+		ui.callModules('modal')
+		ui.callModules('ui-timer')
 
-		-- TODO: dispatch escape key to views and let them handle it
-		if currentView == "WorldView" and ui.escapeKeyReleased(true) then
-			ui.optionsWindow:changeState()
-		end
-
-		callModules('modal')
-		callModules('ui-timer')
-
-		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
-			gameView.debugReload()
-
-			debugReload(ui.getModules("game"))
-			debugReload(gameView.modules)
-			debugReload(gameView.hudModules)
-			debugReload(gameView.sidebarModules)
-		end
 end)
 
 return gameView

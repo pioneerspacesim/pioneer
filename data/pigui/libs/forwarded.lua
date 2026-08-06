@@ -159,6 +159,8 @@ ui.beginTabBar = pigui.BeginTabBar
 ui.beginTabItem = pigui.BeginTabItem
 ui.endTabItem = pigui.EndTabItem
 ui.endTabBar = pigui.EndTabBar
+ui.bringWindowToDisplayFront = pigui.BringWindowToDisplayFront
+ui.bringWindowToDisplayBack = pigui.BringWindowToDisplayBack
 
 ui.beginTable = pigui.BeginTable ---@type fun(id: string, columns: integer, flags: any)
 ui.endTable = pigui.EndTable

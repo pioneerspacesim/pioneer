@@ -143,6 +143,8 @@ void CreateDuplicateVerts(ImDrawList *dl, const DrawListState &state, ImU32 col_
 		}
 
 		dl->_VtxCurrentIdx = dl->_VtxCurrentIdx + numVtxs;
+		dl->_VtxWritePtr += numVtxs;
+		dl->_IdxWritePtr += numIdxs;
 	}
 }
 
@@ -403,6 +405,7 @@ static LuaFlags<ImGuiWindowFlags_> window_flags = {
 	{ "AlwaysHorizontalScrollbar", ImGuiWindowFlags_AlwaysHorizontalScrollbar },
 	{ "NoDecoration", ImGuiWindowFlags_NoDecoration },
 	{ "NoInputs", ImGuiWindowFlags_NoInputs },
+	{ "NoCaptureMouse", ImGuiWindowFlags_NoCaptureMouse },
 };
 
 static LuaFlags<ImGuiChildFlags_> child_window_flags = {
@@ -1253,7 +1256,8 @@ static int l_pigui_text_shadowed(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string text = LuaPull<std::string>(l, 1);
-	ImVec2 offset = LuaPull<ImVec2>(l, 2, ImVec2(3, 3));
+	// Default offset of {2, 1.5} creates soft vertical edges
+	ImVec2 offset = LuaPull<ImVec2>(l, 2, ImVec2(2, 1.5));
 	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 3, ImColor(0, 0, 0)).Value);
 
 	ImDrawList *dl = ImGui::GetWindowDrawList();
@@ -1768,7 +1772,7 @@ static int l_pigui_add_text_shadowed(lua_State *l)
 	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 2).Value);
 	std::string text = LuaPull<std::string>(l, 3);
 	ImU32 shadow = ImGui::GetColorU32(LuaPull<ImColor>(l, 4, ImColor(0, 0, 0)).Value);
-	ImVec2 offset = LuaPull<ImVec2>(l, 5, ImVec2(3, 3));
+	ImVec2 offset = LuaPull<ImVec2>(l, 5, ImVec2(2, 1.5));
 	double wrapWidth = LuaPull<double>(l, 6, 0.0);
 
 	DrawListState dl_state(draw_list);
@@ -3555,6 +3559,26 @@ static int l_pigui_push_text_wrap_pos(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_bring_window_to_front(lua_State *l)
+{
+	ImGuiWindow *w = ImGui::GetCurrentWindow();
+	if (w) {
+		ImGui::BringWindowToDisplayFront(w);
+	}
+
+	return 0;
+}
+
+static int l_pigui_bring_window_to_back(lua_State *l)
+{
+	ImGuiWindow *w = ImGui::GetCurrentWindow();
+	if (w) {
+		ImGui::BringWindowToDisplayBack(w);
+	}
+
+	return 0;
+}
+
 static int l_pigui_begin_table(lua_State *l)
 {
 	const char *str_id = luaL_checkstring(l, 1);
@@ -3913,6 +3937,8 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "PlaySfx", l_pigui_play_sfx },
 		{ "DisableMouseFacing", l_pigui_disable_mouse_facing },
 		{ "SetMouseButtonState", l_pigui_set_mouse_button_state },
+		{ "BringWindowToDisplayFront", l_pigui_bring_window_to_front },
+		{ "BringWindowToDisplayBack", l_pigui_bring_window_to_back },
 
 		// Flags Builders
 		{ "SelectableFlags", l_pigui_check_selectable_flags },

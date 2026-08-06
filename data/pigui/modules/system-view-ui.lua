@@ -1031,7 +1031,7 @@ local function displayOnScreenObjects()
 
 		local mp = ui.getMousePos()
 		local label = getLabel(mainObject)
-		local mouseover = not ui.isAnyWindowHovered() and
+		local mouseover = ui.isWindowHovered() and
 			(mp - mainCoords):length() < (isOrrery and click_radius or math.max(click_radius, hoverSize))
 
 		if #label > 0 and (should_show_label or mouseover or should_show_ports) then
@@ -1072,7 +1072,7 @@ local function displayOnScreenObjects()
 		if mainObject.type == Projectable.OBJECT and (mainObject.base == Projectable.SYSTEMBODY or mainObject.base == Projectable.SHIP or mainObject.base == Projectable.PLAYER or mainObject.base == Projectable.OBJECT) then
 			-- mouse release handler for right button
 			if mouseover then
-				if not ui.isAnyWindowHovered() and ui.isMouseReleased(1) then
+				if ui.isWindowHovered() and ui.isMouseReleased(1) then
 					popup_object = mainObject
 					ui.openPopup("system-view-ui-popup")
 				end
@@ -1094,7 +1094,7 @@ local function displayOnScreenObjects()
 
 	-- click once: select or deselect a body
 	-- double click: zoom to body or reset viewpoint
-	local clicked = not ui.isAnyWindowHovered() and (ui.isMouseClicked(0) or ui.isMouseDoubleClicked(0))
+	local clicked = ui.isWindowHovered() and (ui.isMouseClicked(0) or ui.isMouseDoubleClicked(0))
 	if clicked then
 		if hoveredObject then
 			selectedObject = hoveredObject.ref
@@ -1124,45 +1124,51 @@ function systemViewLayout:onUpdateWindowConstraints(w)
 	w.edgeButtons.size.x = 0 -- adaptive width
 end
 
-local function displaySystemViewUI()
+local systemViewContents = ui.makeFullScreenHandler("SystemView", displayOnScreenObjects)
+
+local function displaySystemViewUI(delta_t, refresh)
 	if not systemView then onGameStart() end
+
+	if refresh then
+		leftSidebar:Refresh()
+		rightSidebar:Refresh()
+	end
 
 	if not ui.shouldDrawUI() then return end
 
 	player = Game.player
-	if Game.CurrentView() == "SystemView" then
-		if ui.isKeyReleased(ui.keys.tab) then
-			systemViewLayout.enabled = not systemViewLayout.enabled
-		end
 
-		plannerView.disabled = systemView:GetDisplayMode() ~= "Orrery"
-		plannerView.icon = plannerView.disabled and icons.square_dashed or icons.semi_major_axis
+	if ui.isKeyReleased(ui.keys.tab) then
+		systemViewLayout.enabled = not systemViewLayout.enabled
+	end
 
-		systemViewLayout:display()
-		if systemViewLayout.enabled then
-			ui.withStyleColors({ WindowBg = colors.transparent }, function()
-				leftSidebar:Draw()
-				rightSidebar:Draw()
-			end)
-		end
+	plannerView.disabled = systemView:GetDisplayMode() ~= "Orrery"
+	plannerView.icon = plannerView.disabled and icons.square_dashed or icons.semi_major_axis
 
-		displayOnScreenObjects()
+	systemViewLayout:display()
+	if systemViewLayout.enabled then
+		ui.withStyleColors({ WindowBg = colors.transparent }, function()
+			leftSidebar:Draw()
+			rightSidebar:Draw()
+		end)
+	end
 
-		if ui.escapeKeyReleased() then
-			Game.SetView("SectorView")
-		end
+	systemViewContents()
 
-		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
-			package.reimport 'pigui.modules.system-overview-window'
-			systemEconView = package.reimport('pigui.modules.system-econ-view').New()
-			package.reimport()
-		end
+	if ui.escapeKeyReleased() then
+		Game.SetView("SectorView")
+	end
+
+	if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
+		package.reimport 'pigui.modules.system-overview-window'
+		systemEconView = package.reimport('pigui.modules.system-econ-view').New()
+		package.reimport()
 	end
 end
 
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onEnterSystem", onEnterSystem)
-ui.registerHandler("SystemView", ui.makeFullScreenHandler("SystemView", displaySystemViewUI))
+ui.registerHandler("SystemView", displaySystemViewUI)
 
 return {}

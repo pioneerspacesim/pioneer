@@ -15,6 +15,8 @@ local months = {"MONTH_JAN", "MONTH_FEB", "MONTH_MAR", "MONTH_APR", "MONTH_MAY",
 
 local window_height = timefont.size + button_size.y + ui.getItemSpacing().y + ui.getWindowPadding().y * 2
 
+local windowFlags = ui.WindowFlags {"NoDecoration", "NoMove", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoBackground"}
+
 local function displayTimeWindow()
 	-- HACK: Don't display the time window if we're in a bespoke view
 	if Game.CurrentView() == nil then return end
@@ -58,9 +60,9 @@ local function displayTimeWindow()
 	ui.setNextWindowSize(window_size, "Always")
 	local window_pos = Vector2(0, ui.screenHeight - window_size.y)
 	ui.setNextWindowPos(window_pos, "Always")
-	ui.window("Time", {"NoTitleBar", "NoResize", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoScrollbar"}, function()
+	ui.window("Time", windowFlags, function()
 		ui.withFont(timefont.name, timefont.size, function()
-			ui.text(date)
+			ui.textShadowed(date)
 		end)
 		accelButton("paused", ui.keys.escape)
 		accelButton("1x", ui.keys.f1)

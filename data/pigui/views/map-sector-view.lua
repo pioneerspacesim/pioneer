@@ -769,14 +769,12 @@ table.insert(rightSidebar.modules, routeView)
 table.insert(rightSidebar.modules, searchBar)
 table.insert(rightSidebar.modules, bookmarkView)
 
-local shouldRefresh = true
-
 -- Renders the current system banner
 local function drawCurrentSystemName()
 	local window_offset_y = ui.theme.styles.MainButtonSize.y + ui.getWindowPadding().y * 2 + ui.theme.styles.ItemSpacing.y
 	ui.setNextWindowPos(Vector2(ui.screenWidth / 2, window_offset_y), "Always", Vector2(0.5, 0))
 
-	ui.window("##CurrentSystem", { "NoDecoration", "NoMove", "AlwaysAutoResize" }, function()
+	ui.window("##CurrentSystem", { "NoDecoration", "NoMove", "NoBackground", "AlwaysAutoResize" }, function()
 		local path = sectorView:GetCurrentSystemPath()
 		ui.withFont(orbiteer.body, function()
 			bannerText(ui.getCursorScreenPos(), ui.get_icon_glyph(icons.navtarget) .. " " .. ui.Format.SystemPath(path), colors.lightBlackBackground)
@@ -839,65 +837,65 @@ local function hasActiveExclusiveLeftModule()
 	return false
 end
 
-ui.registerModule("game", { id = 'map-sector-view', draw = function()
+local function refreshData()
+	leftSidebar:Refresh()
+	rightSidebar:Refresh()
+	hyperJumpPlanner.updateRouteList()
+end
+
+ui.registerHandler("SectorView", function(delta_t, refresh)
 	player = Game.player
-	if Game.CurrentView() == "SectorView" then
 
-		if shouldRefresh then
-			shouldRefresh = false
-
-			-- Always show system info when entering SectorView, if we can. This helps the player find the hyperspace routing.
-			if not hasActiveExclusiveLeftModule() and not infoView.active then
-				infoView.active = true
-				infoView.closing = false
-				infoView.alpha = nil
-			end
-
-			leftSidebar:Refresh()
-			rightSidebar:Refresh()
-			hyperJumpPlanner.updateRouteList()
+	if refresh then
+		-- Always show system info when entering SectorView, if we can. This helps the player find the hyperspace routing.
+		if not hasActiveExclusiveLeftModule() and not infoView.active then
+			infoView.active = true
+			infoView.closing = false
+			infoView.alpha = nil
 		end
 
-		drawCurrentSystemName()
-
-		ui.withFont(pionillium.body, function()
-			leftSidebar:Draw()
-			rightSidebar:Draw()
-
-			ui.withStyleColors({
-				WindowBg = colors.lightBlackBackground
-			}, function()
-				drawEdgeButtons()
-			end)
-		end)
-
-
-		if ui.isKeyReleased(ui.keys.tab) then
-			ui_visible = not ui_visible
-			-- FIXME: label visibility is logically inverted from the parameter
-			sectorView:GetMap():SetLabelsVisibility(not ui_visible)
-		end
-
-		if ui.escapeKeyReleased() then
-			Game.SetView("WorldView")
-		end
-
-		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
-			package.reimport('pigui.modules.system-econ-view')
-			bookmarkView:debugReload()
-			package.reimport('pigui.modules.hyperjump-planner')
-			package.reimport()
-		end
-	else
-		shouldRefresh = true
+		refreshData()
 	end
-end})
+
+	drawCurrentSystemName()
+
+	ui.withFont(pionillium.body, function()
+		leftSidebar:Draw()
+		rightSidebar:Draw()
+
+		ui.withStyleColors({
+			WindowBg = colors.lightBlackBackground
+		}, function()
+			drawEdgeButtons()
+		end)
+	end)
+
+
+	if ui.isKeyReleased(ui.keys.tab) then
+		ui_visible = not ui_visible
+		-- FIXME: label visibility is logically inverted from the parameter
+		sectorView:GetMap():SetLabelsVisibility(not ui_visible)
+	end
+
+	if ui.escapeKeyReleased() then
+		Game.SetView("WorldView")
+	end
+
+	if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
+		package.reimport('pigui.modules.system-econ-view')
+		bookmarkView:debugReload()
+		package.reimport('pigui.modules.hyperjump-planner')
+		package.reimport()
+	end
+end)
 
 Event.Register("onGameStart", onGameStart)
 Event.Register("onEnterSystem", function(ship)
 	hyperJumpPlanner.onEnterSystem(ship)
 	hyperspaceDetailsCache = {}
-	shouldRefresh = true
+	-- We don't need to reset UI state after a jump, but we do need to reload
+	-- data about the new system we just entered.
+	refreshData()
 end)
 
 -- reset cached data

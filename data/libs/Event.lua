@@ -538,6 +538,22 @@ end
 --
 
 --
+-- Event: onPlayerTargetChanged
+--
+-- This event fires when a body is (de)selected as a nav or combat target.
+--
+-- > local onPlayerTargetChanged = function (target) ... end
+-- > Event.Register("onPlayerTargetChanged", onPlayerTargetChanged)
+--
+-- Parameters:
+--
+--   target - the <Body> that has been selected as a new target.
+--            Will be nil if a target has been deselected.
+--            The event handler is responsible for determining whether the
+--            navtarget or combat target has been changed.
+--
+
+--
 -- Event: onShipAlertChanged
 --
 -- Triggered when a ship's alert status changes.

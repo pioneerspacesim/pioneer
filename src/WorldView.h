@@ -35,7 +35,6 @@ public:
 
 	void Update() override;
 	void Draw3D() override;
-	void Draw() override;
 	void SaveToJson(Json &jsonObj) override;
 
 	RefCountedPtr<CameraContext> GetCameraContext() const { return m_cameraContext; }

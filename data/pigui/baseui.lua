@@ -44,7 +44,7 @@ ui.pi_4 = pi_4
 ui.pi = pi
 
 ui.anchor = { left = 1, right = 2, center = 3, top = 4, bottom = 5, baseline = 6 }
-ui.fullScreenWindowFlags = ui.WindowFlags { "NoTitleBar", "NoResize", "NoMove", "NoInputs", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoBackground" }
+ui.fullScreenWindowFlags = ui.WindowFlags { "NoTitleBar", "NoResize", "NoMove", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoBackground", "NoCaptureMouse" }
 
 -- make all the necessary preparations for displaying the full-screen UI, launch the drawing function
 function ui.makeFullScreenHandler(window_name, window_fnc)
@@ -140,6 +140,13 @@ function ui.registerModule(mode, fun)
 	if type(fun) == 'function' then fun = { draw = fun } end
 	fun.enabled = true
 
+	if fun.debugReload == true then
+		local modname = package.modulename(2)
+		fun.debugReload = function()
+			package.reimport(modname)
+		end
+	end
+
 	if fun.id and modules[mode][fun.id] then
 		local idx = modules[mode][fun.id]
 		modules[mode][idx] = fun
@@ -151,6 +158,14 @@ end
 
 function ui.getModules(mode)
 	return modules[mode] or {}
+end
+
+function ui.callModules(mode)
+	for k, v in ipairs(ui.getModules(mode)) do
+		if not v.disabled then
+			v.disabled = not ui.pcall(v.draw, v)
+		end
+	end
 end
 
 function ui.registerHandler(name, fun)

@@ -18,7 +18,7 @@
 #include "WorldView.h"
 #include "lua/LuaEvent.h"
 #include "lua/LuaObject.h"
-#include "lua/LuaTable.h"
+#include "pigui/LuaPiGui.h"
 #include "ship/PlayerShipController.h"
 #include "ship/ShipController.h"
 #include "sound/Sound.h"
@@ -33,12 +33,20 @@ Player::Player(const ShipType::Id &shipId) :
 	SetController(new PlayerShipController());
 	InitCockpit();
 	m_atmosAccel = vector3d(0.0f, 0.0f, 0.0f);
+
+	static_cast<PlayerShipController *>(m_controller)->onChangeTarget.connect([=](Body *target) {
+		LuaEvent::Queue(PiGui::GetEventQueue(), "onPlayerTargetChanged", target);
+	});
 }
 
 Player::Player(const Json &jsonObj, Space *space) :
 	Ship(jsonObj, space)
 {
 	InitCockpit();
+
+	static_cast<PlayerShipController *>(m_controller)->onChangeTarget.connect([=](Body *target) {
+		LuaEvent::Queue(PiGui::GetEventQueue(), "onPlayerTargetChanged", target);
+	});
 }
 
 void Player::SetShipType(const ShipType::Id &shipId)

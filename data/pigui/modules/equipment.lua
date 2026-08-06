@@ -128,6 +128,6 @@ local function displayEquipment()
 	uiPos = displayECM(uiPos + Vector2(0, 10))
 end
 
-ui.registerModule("game", displayEquipment)
+ui.registerModule("world-view", displayEquipment)
 
 return {}
