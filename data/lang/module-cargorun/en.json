@@ -403,6 +403,10 @@
     "description": "",
     "message": "I'm taking damage. I need help."
   },
+  "LIQUOR_RISK_MESSAGE_1": {
+    "description": "",
+    "message": "Keep your hands off the booze."
+  },
   "LOAD_CARGO": {
     "description": "UI button label",
     "message": "Load cargo"
