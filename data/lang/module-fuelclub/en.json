@@ -87,6 +87,26 @@
     "description": "Title of the BBS advertisement",
     "message": "HABER PROPELLANT"
   },
+  "FLAVOUR_4_CLUBNAME" : {
+    "description" : "This is a version of the pilots fuel club shown, for pirates",
+    "message" : "The Gathering of Gas Guzzlers"
+  },
+  "FLAVOUR_4_MEMBER_INTRO" : {
+    "description" : "",
+    "message" : "We provide fuel for the gas guzzler of the brave and the bold."
+  },
+  "FLAVOUR_4_DESC": {
+    "description": "",
+    "message": "Guaranteed tax free high octane fuel"
+  },
+  "FLAVOUR_4_NONMEMBER_INTRO": {
+    "description": "For pirate controlled space, lawless space",
+    "message": "Greetings fellow corsair! We provide tax-free fuel to those poor honest buccaneers, who have been banned from stations by the oppressive law enforcement."
+  },
+  "FLAVOUR_4_TITLE" : {
+    "description" : "Title of the BBS advertisement",
+    "message" : "GAS GUZZLESR'S GATHERING"
+  },
   "FUEL_LEVEL": {
     "description": "",
     "message": "Your current fuel level is {level}%."
